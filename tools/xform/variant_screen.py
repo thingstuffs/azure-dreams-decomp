@@ -30,18 +30,36 @@ from common import rows, clean_path                                     # noqa: 
 from pin_census import sites_of                                        # noqa: E402
 from pin_sites import erase_many                                       # noqa: E402
 import screen                                                          # noqa: E402
+from slus_module_context import compilation_source, fingerprint, require_individual_recipe  # noqa: E402
 
 
 class Screen:
     def __init__(self, row, target_text=None, cfg=None):
+        if cfg and cfg != row["cfg"]:
+            require_individual_recipe(row)
         self.row = dict(row, cfg=cfg) if cfg else dict(row)
         self.pinned = target_text if target_text is not None else clean_path(row).read_text(errors="replace")
-        self.target = screen.compile_s(self.row, self.pinned)
+        self.context_fingerprint = fingerprint(self.row) if self.row.get("kind") == "slus" else None
+        self.target = self._listing(self.pinned)
         self.n = 0
+
+    def _listing(self, text):
+        if self.context_fingerprint is None:
+            return screen.compile_s(self.row, text)
+        if fingerprint(self.row) != self.context_fingerprint:
+            raise RuntimeError("module context changed during listing screen; rebuild the target")
+        with tempfile.TemporaryDirectory(prefix="module_screen_") as td:
+            candidate = Path(td) / Path(self.row["c_path"]).name
+            candidate.write_text(text)
+            source = compilation_source(self.row, candidate, td)
+            listing = screen.compile_s(self.row, source.read_text())
+            if fingerprint(self.row) != self.context_fingerprint:
+                raise RuntimeError("module context changed during listing screen; rebuild the target")
+            return listing
 
     def listing(self, text):
         self.n += 1
-        return screen.compile_s(self.row, text)
+        return self._listing(text)
 
     def diff(self, text, context=0):
         l = self.listing(text)
@@ -55,10 +73,15 @@ class Screen:
 
     def exact(self, text):
         from verify import verify
+        if self.context_fingerprint is not None and fingerprint(self.row) != self.context_fingerprint:
+            raise RuntimeError("module context changed during listing screen; remeasure before scoring")
         with tempfile.TemporaryDirectory() as td:
             p = Path(td) / Path(self.row["c_path"]).name
             p.write_text(text)
-            return verify(self.row, p, include_root=ROOT / "include")
+            result = verify(self.row, p, include_root=ROOT / "include")
+            if self.context_fingerprint is not None and fingerprint(self.row) != self.context_fingerprint:
+                raise RuntimeError("module context changed during listing screen; remeasure before scoring")
+            return result
 
 
 def apply(base, reps):

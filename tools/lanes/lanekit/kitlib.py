@@ -150,6 +150,15 @@ def screen_for(row, pinned):
     return Screen(row, pinned)
 
 
+def module_fingerprint(row):
+    """Current module inputs, or None for an ordinary row."""
+    if row.get("kind") != "slus":
+        return None
+    add_paths()
+    from slus_module_context import fingerprint                         # noqa: E402
+    return fingerprint(row)
+
+
 # ------------------------------------------------------------------- substitution helper (item 6)
 
 def rep(text, old, new, label=""):
@@ -244,17 +253,29 @@ def dumps(row, text, want=None, timeout=None):
     to = float(timeout or os.environ.get("PIN_CC_TIMEOUT", "60"))
     with tempfile.TemporaryDirectory(prefix="lanekit_") as td:
         d = Path(td)
-        (d / "f.c").write_text(text)
+        candidate = d / "f.c"
+        candidate.write_text(text)
+        source = candidate
+        context_fp = module_fingerprint(row)
+        if context_fp is not None:
+            from slus_module_context import compilation_source          # noqa: E402
+            source = compilation_source(row, candidate, d)
+        def stale_context():
+            return context_fp is not None and module_fingerprint(row) != context_fp
         env = dict(os.environ, TMPDIR=str(d), PYTHONDONTWRITEBYTECODE="1")
         try:
             r = subprocess.run(NICE + [str(D / "gcc"), "-B" + str(D) + "/", "-E", "-O2", *flags,
-                                       "-I" + str(ROOT / "include"), "-w", "f.c", "-o", "f.i"],
+                                       "-I" + str(ROOT / "include"), "-w", source.name, "-o", "f.i"],
                                cwd=d, capture_output=True, text=True, env=env, timeout=to)
+            if stale_context():
+                return {"error": "module context changed during diagnostic compile; re-run"}
             if r.returncode:
                 return {"error": (r.stderr or r.stdout)[-800:]}
             r = subprocess.run(NICE + [str(D / "cc1"), "f.i", "-quiet", "-O2", *flags, "-w", "-da",
                                        "-o", "f.s"], cwd=d, capture_output=True, text=True,
                                env=env, timeout=to)
+            if stale_context():
+                return {"error": "module context changed during diagnostic compile; re-run"}
             if r.returncode:
                 return {"error": (r.stderr or r.stdout)[-800:]}
         except subprocess.TimeoutExpired:
@@ -277,6 +298,9 @@ def row_at_cfg(row, cfg):
     if not cfg:
         return row
     add_paths()
+    if cfg != row["cfg"] and module_fingerprint(row) is not None:
+        from slus_module_context import require_individual_recipe       # noqa: E402
+        require_individual_recipe(row)
     from common import parse_cfg                                         # noqa: E402
     cell, flags = parse_cfg(cfg)
     return dict(row, cfg=cfg, cell=cell, flags=" ".join(flags))

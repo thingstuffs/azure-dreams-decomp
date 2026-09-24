@@ -1,9 +1,4 @@
-#include "common.h"
-
-#include "common.h"
-
-extern s32 D_80080A6C;
-extern s32 D_8006B200[];
+#include "slus/runtime_directory.h"
 
 /* Return the index of a matching table key, or -1 if absent. */
 s32 func_8003C634(s32 key)
@@ -17,7 +12,7 @@ s32 func_8003C634(s32 key)
         s32 *entry_key;
 
         entry_count = D_80080A6C;
-        entry_key = D_8006B200;
+        entry_key = (s32 *)&D_8006B200;
         do {
             if (key == *entry_key) {
                 result = entry_index;
@@ -32,3 +27,4 @@ s32 func_8003C634(s32 key)
 done:
     return result;
 }
+

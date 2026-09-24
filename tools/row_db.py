@@ -102,7 +102,10 @@ def cmd_check(a):
                     print(f"slus: missing module input {path.relative_to(ROOT)}"); bad += 1
             for member in module["members"]:
                 row = by_id.get(member["id"])
-                if row is None or sorted(row["defs"]) != sorted(member["functions"]):
+                from verify import DEF_SYM
+                raw = RAW / "slus" / Path(member["source"]).name
+                definitions = sorted(set(DEF_SYM.findall(raw.read_text()))) if raw.is_file() else []
+                if row is None or definitions != sorted(member["functions"]):
                     print(f"slus: module member definitions differ for {member['id']}"); bad += 1
     except (OSError, ValueError) as exc:
         print(f"slus: {exc}"); bad += 1

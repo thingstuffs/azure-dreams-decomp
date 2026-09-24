@@ -7,9 +7,9 @@
   "ninja_tail": [
     "[1/8] MODULE-SYMS build/slus_006.14.undefined_syms.modules.txt",
     "[2/8] MODULE-ASSETS build/module_assets/54240_000000_00002C.bin build/module_assets/54240_000030_02BDC0.bin",
-    "[3/8] BIN build/module_assets/54240_000000_00002C.bin",
-    "[4/8] BIN build/module_assets/54240_000030_02BDC0.bin",
-    "[5/8] LD-SCRIPT build/slus_006.14_ordered.ld",
+    "[3/8] LD-SCRIPT build/slus_006.14_ordered.ld",
+    "[4/8] BIN build/module_assets/54240_000000_00002C.bin",
+    "[5/8] BIN build/module_assets/54240_000030_02BDC0.bin",
     "[6/8] CC src/konami_runtime_directory.c (gcc 2.7.2-cdk  )",
     "[7/8] LINK build/slus_006.14.elf",
     "[8/8] OBJCOPY build/slus_006.14"

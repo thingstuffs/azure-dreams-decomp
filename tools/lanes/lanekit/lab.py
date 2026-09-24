@@ -72,7 +72,10 @@ class Lab:
     def __init__(self, row_id, lane=None, stage=True, cfg=None):
         self.lane = kitlib.bootstrap(lane)
         self.row = kitlib.row_of(row_id)
+        if cfg and cfg != self.row["cfg"]:
+            kitlib.row_at_cfg(self.row, cfg)   # grouped SLUS rows require a full-cohort recipe trial
         self.id = self.row["id"]
+        self.context_fingerprint = kitlib.module_fingerprint(self.row)
         self.base_path = kitlib.base_path(self.row, self.lane)
         self.base = self.base_path.read_text(errors="replace")
         self.sites = kitlib.sites(self.base)
@@ -94,6 +97,8 @@ class Lab:
 
     def log(self, rec):
         rec = dict(rec, row=self.id)
+        if getattr(self, "context_fingerprint", None) is not None:
+            rec["module_fingerprint"] = self.context_fingerprint
         kitlib.log_append(self.lane, rec)
         return rec
 
@@ -180,6 +185,9 @@ class Lab:
 
     def publish(self, name, text):
         """Copy an exact, admissible candidate to `out/<container>/<file>.c` with its base sha."""
+        expected = getattr(self, "context_fingerprint", None)
+        if expected is not None and kitlib.module_fingerprint(self.row) != expected:
+            raise RuntimeError("module context changed during the lane; remeasure before publication")
         bad = kitlib.admissible(self.base, text)
         if bad:
             print("  NOT staged (%s)" % "; ".join(bad))
@@ -251,6 +259,7 @@ def cellscore(row, cand, cfg, lane, name="candidate", base=None, verify=None, ru
         raise SystemExit("lab: cellscore needs --cfg CFG")
     if cfg == row["cfg"]:
         raise SystemExit("lab: %s is the row's registered cfg - use `lab.py %s cand.c --score`" % (cfg, row["id"]))
+    kitlib.row_at_cfg(row, cfg)  # reject per-row recipe trials for grouped SLUS members
     lane = Path(lane)
     v = kitlib.score_at(row, cand, cfg, verify=verify)
     sc = kitlib.score_fields(v)

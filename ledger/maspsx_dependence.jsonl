@@ -115,10 +115,7 @@
 {"id": "slus/konami_runtime_w_80035888", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/konami_runtime_w_80038A10", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/konami_runtime_w_8003B7C8", "kinds": ["maspsx_pass"], "cause": "_fold_selfinc_la", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/konami_runtime_w_8003C634", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/konami_runtime_w_8003C6F8", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/konami_runtime_w_8003C758", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/konami_runtime_w_8003C920", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_8003CB08", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_8003CCB0", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_8003D92C", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}

@@ -1,9 +1,42 @@
 # SLUS small-data repair: isolated measurements, 2026-09-24
 
-Progress on `docs/GOAL_TOOLCHAIN_AND_MODULES.md`. No production assembler, source,
-recipe, counter, or gate has changed. The primary agent performed the assembler
-experiments; Sol inventoried ownership and prepared module candidates; Luna audited
+Progress on `docs/GOAL_TOOLCHAIN_AND_MODULES.md`. The initial isolated measurements
+below precede the production activation recorded in the next section. The primary
+agent performed the assembler experiments; Sol inventoried ownership and prepared module candidates; Luna audited
 the separate MAIN coverage gaps.
+
+## Production module checkpoint
+
+The three-function `runtime_directory` pilot is active with a shared header,
+canonical per-row C fragments, a single ordinary C aggregator and a real signed
+word definition for `D_80080A6C`. The complete image matches retail with 882
+physical compiler inputs and unchanged 884 logical rows. See
+[rationale and type review](runtime_directory_module.md),
+[workflow](../SLUS_MODULES.md) and `ledger/modules/runtime_directory.json`.
+The fresh certificate records genuine ASPSX 2.79 and retail equality for all
+104 function words, zero masked relocations, and no compatibility passes fired.
+Dependency entries fall from 226 to 223, with 56 of the original 59 GP rows
+remaining. The earlier inventories below describe the initial 59-row state.
+The unchanged ladder reports C634/C920 at L5 and C758 at L4; its existing
+fidelity-site residue is retained. The global maspsx correction is still
+experimental; no pass has been retired.
+
+Lane diagnostics now compile candidates in their actual module context, reject
+individual recipe changes and refuse results when sibling/header inputs change.
+Module placement is certified against current sources, headers, review, pinned
+recipe and verifier inputs; existing L4/L5 criteria still apply independently.
+The old row inventory's C758 prototype-count artifact does not expand the pilot:
+module validation checks actual bodies and genuine comparison uses the declared
+member function, so external C6F8 remains outside its proof.
+
+Remaining GP triage identifies 24 connected cohorts over 68 symbols. Eighteen
+cohorts (21 rows) have a single exact recipe; six (35 rows) mix recipes. The next
+clean complete-row trials are `w_800508F0` and `konami_runtime_w_80035888`, each
+with two contiguous nonzero `s32` values and no other recorded users. The third
+candidate `w_8004D614` is partial because two of four words are zero. The measured
+shared-user graph and exact asset bytes are retained in
+`work/native_lane/gp_next_cohorts/{REPORT.md,cohorts.json}`; graph components are
+still investigation groups, not original translation-unit claims.
 
 ## Data ownership is the implementation problem
 

@@ -1,12 +1,4 @@
-#include "common.h"
-
-#include "common.h"
-
-extern u8 D_80082E6A[];
-extern s32 D_80080A6C;
-
-extern s32 func_8003C634(s32 key);
-extern void func_8003C6F8(s32 key, s32 index);
+#include "slus/runtime_directory.h"
 
 /* Returns the key's index, assigning the last index if lookup fails or is bypassed. */
 s32 func_8003C758(s32 key)
@@ -26,3 +18,4 @@ s32 func_8003C758(s32 key)
 
     return index;
 }
+

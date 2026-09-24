@@ -29,6 +29,22 @@ is active yet: lane diagnostics, status/L4 evidence and the coordinated source/
 manifest/pinned-build activation are the next work. The old private verifier
 draft has been superseded by the current tools.
 
+Third checkpoint: the inferred `runtime_directory` module is now active in the
+production build. Its three canonical row fragments share a typed header and one
+real `D_80080A6C = 4` definition. The full image remains retail-exact, with 882
+physical compilation units and the same 884 logical rows. Fresh genuine ASPSX
+2.79 proofs cover all three functions (104 words, zero masked relocations; no
+compatibility passes fired). Certificate: `ledger/modules/runtime_directory.json`.
+The unchanged ladder now reports C634/C920 at L5 and C758 at L4 with its
+existing fidelity site retained. Only these three dependency entries were removed: 226 -> 223 total, 59 -> 56 GP
+rows. No global assembler switch or pass removal has been made. See
+[repeatable workflow](SLUS_MODULES.md) and [membership review](evidence/runtime_directory_module.md).
+The next bounded data-ownership trials are `slus/w_800508F0` and
+`slus/konami_runtime_w_80035888`: each has two contiguous nonzero signed words
+and no other recorded users. Detailed ranking:
+`work/native_lane/gp_next_cohorts/{REPORT.md,cohorts.json}`. Cross-recipe shared
+users remain explicit; do not claim all users of the pilot's global repaired.
+
 # Handover (2026-09-24, H28 recovery)
 
 Picked up the interrupted 67-row H28 wave from `r77_opus_h1..h16` after the

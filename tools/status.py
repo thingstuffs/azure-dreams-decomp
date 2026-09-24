@@ -21,7 +21,16 @@ def main():
         nb = [r for r in st if r["id"] not in base]
         out.append(f"| {c} | {len(sel)} | {sum(r['size'] for r in sel):,} | {len(st)} | {sum(r['size'] for r in st):,} | {len(ex)} | {sum(r['size'] for r in ex):,} | {len(nb)} |")
     bad = [r for r in rs if r["stock"] and r["id"] in base and base[r["id"]].get("exact") is False]
-    out.append(f"\novmovie is parked by the owner (listed, excluded from ALL). SLUS rows are verified by object identity with the pinned TU (SLUS is byte-exact by its SHA-1 gate, tools/build/build_slus.sh); overlay rows by retail-slice comparison through the per-row scorer, with the window gate as the fallback of record. Non-stock rows (bridge cells, per-row assembler dials, platform asm) would be excluded; there are none at the pin.\n\nBaseline NOT exact: {len(bad)} rows" + (": " + ", ".join(r["id"] for r in bad[:20]) if bad else "") + "\n")
+    out.append(f"\novmovie is parked by the owner (listed, excluded from ALL). Ordinary SLUS rows use pinned-TU object verification; grouped module candidates use the full SLUS image gate, including sibling functions and owned data. Historical raw baselines stay per row. Overlay rows use retail-slice comparison through the per-row scorer, with the window gate as the fallback of record. Non-stock rows (bridge cells, per-row assembler dials, platform asm) would be excluded; there are none at the pin.\n\nBaseline NOT exact: {len(bad)} rows" + (": " + ", ".join(r["id"] for r in bad[:20]) if bad else "") + "\n")
+    from slus_module_evidence import module_status
+    module_records = module_status()
+    if module_records:
+        out.append("## SLUS modules\n\n| module | logical rows | placement evidence | shared headers |\n|---|---:|---|---|")
+        for entry in module_records:
+            module = entry["module"]
+            proof = "current: retail + genuine ASPSX 2.79" if entry["valid"] else "unproved: " + entry["reason"]
+            out.append(f"| {module['name']} | {len(module['members'])} | {proof} | " + ", ".join(module["headers"]) + " |")
+        out.append("\nModule placement preserves logical row IDs. The existing L4/L5 pin, tail-jump and fidelity requirements still apply; changed shared inputs invalidate placement evidence.\n")
     out.append("## Shape census: pinned raw text vs current clean tree (files / bytes carrying each defect)\n\n| defect | files (pin) | bytes (pin) | % bytes | files (clean) | bytes (clean) | % bytes |\n|---|---:|---:|---:|---:|---:|---:|")
     tot = sum(r["size"] for r in rs)
     import re as _re

@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-09-24T13:17:07Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-09-24T14:59:45Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -13,9 +13,17 @@ Generated 2026-09-24T13:17:07Z. Pin `82f20568` (82f20568997a, raw/ frozen at 202
 | ovmovie | 22 | 2,852 | 22 | 2,852 | 22 | 2,852 | 0 |
 | ALL | 6745 | 2,555,272 | 6745 | 2,555,272 | 6745 | 2,555,272 | 0 |
 
-ovmovie is parked by the owner (listed, excluded from ALL). SLUS rows are verified by object identity with the pinned TU (SLUS is byte-exact by its SHA-1 gate, tools/build/build_slus.sh); overlay rows by retail-slice comparison through the per-row scorer, with the window gate as the fallback of record. Non-stock rows (bridge cells, per-row assembler dials, platform asm) would be excluded; there are none at the pin.
+ovmovie is parked by the owner (listed, excluded from ALL). Ordinary SLUS rows use pinned-TU object verification; grouped module candidates use the full SLUS image gate, including sibling functions and owned data. Historical raw baselines stay per row. Overlay rows use retail-slice comparison through the per-row scorer, with the window gate as the fallback of record. Non-stock rows (bridge cells, per-row assembler dials, platform asm) would be excluded; there are none at the pin.
 
 Baseline NOT exact: 0 rows
+
+## SLUS modules
+
+| module | logical rows | placement evidence | shared headers |
+|---|---:|---|---|
+| runtime_directory | 3 | current: retail + genuine ASPSX 2.79 | include/common.h, include/slus/runtime_directory.h |
+
+Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump and fidelity requirements still apply; changed shared inputs invalidate placement evidence.
 
 ## Shape census: pinned raw text vs current clean tree (files / bytes carrying each defect)
 
@@ -57,12 +65,12 @@ Void callees (`config/void_callees.txt`, tiers read from its section-header comm
 | L1 | 2,558,124 | 100.0% |
 | L2 | 2,558,124 | 100.0% |
 | L3 | 2,558,124 | 100.0% |
-| L4 | 0 | 0.0% |
-| L5 | 0 | 0.0% |
+| L4 | 584 | 0.0% |
+| L5 | 288 | 0.0% |
 
 On shared record headers (T7, `include/records/`): 1163 rows, 658,372 bytes (25.7%); records used: 102.
 
-L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 768 rows (754,988 B), tail_jump 8 rows (2,392 B), not_in_module 6,745 rows (2,555,272 B).
+L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 768 rows (754,988 B), tail_jump 8 rows (2,392 B), not_in_module 6,742 rows (2,554,688 B).
 
 ## Naming and module evidence carried per row (docs/EVIDENCE.md, ledger/evidence/rows.jsonl)
 

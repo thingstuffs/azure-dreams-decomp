@@ -91,6 +91,7 @@ def tool_fingerprint() -> str:
              ROOT / "tools/maspsx/maspsx.py", ROOT / "tools/maspsx/maspsx/__init__.py",
              ROOT / "tools/verify.py", ROOT / "tools/build/ccproc.py", ROOT / "config/names.tsv",
              ROOT / "tools/slus_module_context.py", ROOT / "tools/build/slus_modules.py",
+             ROOT / "tools/slus_module_evidence.py", HERE / "certify_slus_module.py",
              ROOT / "tools/build/configure.py", ROOT / "config/slus_modules.json",
              BROOT / "tools/match.py", BROOT / "work/g3/overlay_func_compare.py",
              BROOT / "tools/overlay_as_flags.py", BROOT / "tools/overlay_evidence.py",
@@ -823,7 +824,8 @@ def process_row(row, cfile=None, cfg=None, asflags=None, keep=False):
         if ctx["kind"] == "slus":
             from slus_module_context import membership, fingerprint
             module = membership(row)
-            scope = sorted(row["defs"]) if module else sorted(mv.funcs)
+            scope = (sorted(next(m["functions"] for m in module["members"] if m["id"] == row["id"]))
+                     if module else sorted(mv.funcs))
             if module:
                 rec["module"] = module["name"]
                 rec["module_fingerprint"] = module_before
