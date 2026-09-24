@@ -175,3 +175,11 @@ owners through real code/code2 measurements. Complete selected TUs are genuine
 and retail exact; unrelated collector debt stays explicit. Portable tests pass
 187/187 together with no skips. Full overlay gating and a private whole-tree
 dependency census are the next transition gates; production remains unchanged.
+
+The exact guarded assembler now also passes the complete forced overlay gate:
+**2,175/2,175 windows MATCH**, with candidate and production-input hashes unchanged.
+The [overlay evidence](evidence/gp_partition_only/overlay_gate/REPORT.md) is archived.
+The complete private transition patch reproduces the ready29 Ninja graph; its
+updated assembler tests pass 418/418. The six-version whole-tree census and normal
+33-owner/two-certificate rehearsal remain in flight. No production assembler
+change or compatibility-pass retirement is claimed.
