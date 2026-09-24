@@ -75,6 +75,7 @@ void func_800BB55C(void *effect, S_800BB55C_2 *position, s32 restore_link) {
     s16 arc_length;
     register s32 slot_or_angle ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 base_angle;
+    s32 start_angle = -0x400;
     s32 radius_decay;
     register s32 packet_or_angle;
     s32 packet_or_angle_2;
@@ -84,7 +85,7 @@ void func_800BB55C(void *effect, S_800BB55C_2 *position, s32 restore_link) {
     u16 rotation;
     u16 phase_ticks;
     u16 next_phase;
-    register u16 fade_ticks ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u16 fade_ticks;
     u8 red;
     u8 green;
     u8 blue;
@@ -100,10 +101,10 @@ void func_800BB55C(void *effect, S_800BB55C_2 *position, s32 restore_link) {
     saved_link = restore_link;
     ((S_800BB55C_0_pre *)effect)[-1].unk_00 = packet_or_angle_2;
     func_800BB2E4(NULL, NULL, draw_params, 0, effect);
-    base_angle = -0x400;
+    base_angle = start_angle;
     point_index = 0;
     slot_or_angle = (s32) effect;
-    loop_0: {
+    do {
         packet_or_angle = base_angle << 0x10;
         packet_or_angle >>= 0x10;
         start_xy[0] = (func_80064584(packet_or_angle) >> 7) + 0x362;
@@ -120,9 +121,8 @@ void func_800BB55C(void *effect, S_800BB55C_2 *position, s32 restore_link) {
         func_800BB2E4(start_xy, end_xy, draw_params, 0, NULL);
         point_index += 1;
         slot_or_angle += 2;
-    } if (point_index < 5) goto loop_0;
-    base_angle = -0x400;
-    ASM_KEEP_NV(base_angle);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    } while (point_index < 5);
+    base_angle = start_angle;
     arc_or_count = effect;
     packet_or_angle = base_angle << 0x10;
     do {
@@ -195,9 +195,9 @@ void func_800BB55C(void *effect, S_800BB55C_2 *position, s32 restore_link) {
             blue = color->unk_02;
             color->unk_02 = (u8) (blue - ((s32) blue / (s16) ((S_800BB55C_0 *)effect)->unk_64));
             radius_decay = (s16) ((S_800BB55C_0 *)effect)->unk_50 / (s16) ((S_800BB55C_0 *)effect)->unk_64;
+            ((S_800BB55C_0 *)effect)->unk_50 = (s16) ((u16) ((S_800BB55C_0 *)effect)->unk_50 - radius_decay);
             fade_ticks = ((S_800BB55C_0 *)effect)->unk_64 - 1;
             ((S_800BB55C_0 *)effect)->unk_64 = fade_ticks;
-            ((S_800BB55C_0 *)effect)->unk_50 = (s16) ((u16) ((S_800BB55C_0 *)effect)->unk_50 - radius_decay);
             if ((fade_ticks << 0x10) <= 0) {
                 effect_globals = (u8 *)D_80083460;
                 ((S_800BB55C_4 *)effect_globals)->unk_0A = (u16) (((S_800BB55C_4 *)effect_globals)->unk_0A - 1);

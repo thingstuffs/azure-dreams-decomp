@@ -123,7 +123,8 @@ state_zero:
         counter_value--;
         ((S_801730B4_3 *)counter_base)->unk_0A = counter_value;
     }
-    goto increment_state;
+    ((S_801730B4_0 *)actor_in)->unk_9B++;
+    goto done;
 
 state_one:
     if ((func_80042900(entity_in, 1) << 16) != 0) {
@@ -136,10 +137,17 @@ state_one:
         0);
     ((S_801730B4_2 *)entity_in)->unk_1C.s |= 0x40000;
     if (!(((S_801730B4_1 *)sprite_in)->unk_14 & 0x8000)) {
-        goto increment_counter;
+        u8 *counter_base = (u8 *)&D_80083460;
+
+        state = ((S_801730B4_3 *)counter_base)->unk_0A;
+        state++;
+        ((S_801730B4_3 *)counter_base)->unk_0A = state;
+        ((S_801730B4_0 *)actor_in)->unk_9B++;
+        goto done;
     }
     ((S_801730B4_2 *)entity_in)->unk_1C.s &= ~0x200;
-    goto assign_callback;
+    ((S_801730B4_0 *)actor_in)->unk_8C = D_80171058;
+    goto done;
 
 state_one_active:
     global_base = (u8 *)&D_80083460;
@@ -170,7 +178,6 @@ state_one_active:
         if (status_flags & 0x80000) {
 
             func_800AA888(actor_in, context, sprite_in, entity_in);
-            ASM_KEEP(actor_in);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             current_value = ((S_801730B4_5 *)actor_in)->unk_92;
             value_adjustment = ((S_801730B4_5 *)actor_in)->unk_A6;
             ((S_801730B4_5 *)actor_in)->unk_A6 = 0;
@@ -220,10 +227,10 @@ state_one_active:
     }
     if (((S_801730B4_1 *)sprite_in)->unk_14 & 0x8000) {
         ((S_801730B4_2 *)entity_in)->unk_1C.u &= ~0x200;
-        goto assign_callback;
+        ((S_801730B4_0 *)actor_in)->unk_8C = D_80171058;
+        goto done;
     }
 
-increment_counter:
     {
         u8 *counter_base = (u8 *)&D_80083460;
 
@@ -232,7 +239,6 @@ increment_counter:
         ((S_801730B4_3 *)counter_base)->unk_0A = state;
     }
 
-increment_state:
     ((S_801730B4_0 *)actor_in)->unk_9B++;
     goto done;
 
@@ -249,7 +255,6 @@ state_two:
 clear_callback:
     ((S_801730B4_2 *)entity_in)->unk_1C.u &= ~0x200;
 
-assign_callback:
     ((S_801730B4_0 *)actor_in)->unk_8C = D_80171058;
 
 done:

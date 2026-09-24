@@ -97,28 +97,22 @@ s32 func_800246D8(void *line)
     PackedDelta delta;
 #endif
 #ifdef __mips__
-    register s32 mask_or_phase ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 mask_or_phase;
 #else
     s32 mask_or_phase;
 #endif
     s32 phase_or_depth;
 #ifdef __mips__
-    register s32 x ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 multiplier;
     u8 *line_bytes = line;
 #else
-    s32 x;
     s32 multiplier;
     u8 *line_bytes = line;
 #endif
 #ifdef __mips__
-    register s32 y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 increment ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 end_coord;
+    s32 y;
 #else
     s32 y;
-    s32 increment;
-    s32 end_coord;
 #endif
     s32 first_z;
     s32 second_z;
@@ -174,58 +168,59 @@ s32 func_800246D8(void *line)
     }
 
 case_early:
-    end_coord = first_delta_s32_s32(((S_800246D8_0 *)scratch)->unk_6C,
-                                      (x = ((S_800246D8_0 *)scratch)->unk_64));
-    delta.word = end_coord << 16;
-    delta.word >>= 3;
-    delta.word *= ((S_800246D8_3 *)line_or_red)->unk_10 + 1;
+    {
+        s32 x0;
+        s32 mask;
+        s32 y0;
+        s32 z0;
+        s32 step_x;
+        s32 step_y;
+        s32 end_z;
 
-    y = ((S_800246D8_0 *)scratch)->unk_66;
-    mask_or_phase = 0xFFFF0000;
-    increment = delta.half.high;
-    delta.half.high = ((S_800246D8_0 *)scratch)->unk_6E - y;
-    delta.word &= mask_or_phase;
-    ((S_800246D8_0 *)scratch)->unk_6C = x + increment;
-    delta.word >>= 3;
-    delta.word *= ((S_800246D8_3 *)line_or_red)->unk_10 + 1;
+        delta.word = first_delta_s32_s32(((S_800246D8_0 *)scratch)->unk_6C, (x0 = ((S_800246D8_0 *)scratch)->unk_64)) << 16;
+        delta.word >>= 3;
+        delta.word *= ((S_800246D8_3 *)line_or_red)->unk_10 + 1;
 
-    end_coord = ((S_800246D8_0 *)scratch)->unk_70;
-    x = ((S_800246D8_0 *)scratch)->unk_68;
-    increment = delta.half.high;
-    delta.half.high = end_coord - x;
-    delta.word &= mask_or_phase;
-#ifdef __mips__
-#endif
-    ((S_800246D8_0 *)scratch)->unk_6E = y + increment;
-#ifdef __mips__
-#endif
-    delta.word >>= 3;
-    delta.word *= ((S_800246D8_3 *)line_or_red)->unk_10 + 1;
-    x += delta.half.high;
-    ((S_800246D8_0 *)scratch)->unk_70 = x;
-#ifdef __mips__
-#endif
+        y0 = ((S_800246D8_0 *)scratch)->unk_66;
+        mask = 0xFFFF0000;
+        step_x = (delta.word & mask) >> 16;
+        delta.half.high = ((S_800246D8_0 *)scratch)->unk_6E - y0;
+        delta.word &= mask;
+        ((S_800246D8_0 *)scratch)->unk_6C = x0 + step_x;
+        delta.word >>= 3;
+        delta.word *= ((S_800246D8_3 *)line_or_red)->unk_10 + 1;
 
-    mask_or_phase = ((S_800246D8_3 *)line_or_red)->unk_10;
-    multiplier = 15;
-    x = mask_or_phase + 1;
-#ifdef __mips__
-#endif
-    line_or_red = (u8 *)(x * multiplier);
-    multiplier = 23;
-#ifdef __mips__
-#endif
-    y = x * multiplier;
-    x = 0x40;
-    ((S_800246D8_2 *)packet)->unk_04 = x;
-    ((S_800246D8_2 *)packet)->unk_05 = x;
-    ((S_800246D8_2 *)packet)->unk_06 = x;
-    x -= (7 - mask_or_phase) * 8;
-    multiplier = (s32)line_or_red + 0x40;
-    ((S_800246D8_2 *)packet)->unk_0D = x;
-    ((S_800246D8_2 *)packet)->unk_0C = multiplier;
-    multiplier = y + 0x40;
-    ((S_800246D8_2 *)packet)->unk_0E = multiplier;
+        end_z = ((S_800246D8_0 *)scratch)->unk_70;
+        z0 = ((S_800246D8_0 *)scratch)->unk_68;
+        step_y = delta.half.high;
+        delta.half.high = end_z - z0;
+        delta.word &= mask;
+        ((S_800246D8_0 *)scratch)->unk_6E = y0 + step_y;
+        delta.word >>= 3;
+        delta.word *= ((S_800246D8_3 *)line_or_red)->unk_10 + 1;
+        z0 += delta.half.high;
+        ((S_800246D8_0 *)scratch)->unk_70 = z0;
+    }
+    {
+        s32 level;
+
+        mask_or_phase = ((S_800246D8_3 *)line_or_red)->unk_10;
+        multiplier = 15;
+        level = mask_or_phase + 1;
+        line_or_red = (u8 *)(level * multiplier);
+        multiplier = 23;
+        y = level * multiplier;
+        level = 0x40;
+        ((S_800246D8_2 *)packet)->unk_04 = level;
+        ((S_800246D8_2 *)packet)->unk_05 = level;
+        ((S_800246D8_2 *)packet)->unk_06 = level;
+        level -= (7 - mask_or_phase) * 8;
+        multiplier = (s32)line_or_red + 0x40;
+        ((S_800246D8_2 *)packet)->unk_0D = level;
+        ((S_800246D8_2 *)packet)->unk_0C = multiplier;
+        multiplier = y + 0x40;
+        ((S_800246D8_2 *)packet)->unk_0E = multiplier;
+    }
     goto shared;
 
 case_middle:
@@ -238,62 +233,60 @@ case_middle:
     goto shared;
 
 case_late:
-    end_coord = first_delta_s32_s32(((S_800246D8_0 *)scratch)->unk_6C,
-                                      (x = ((S_800246D8_0 *)scratch)->unk_64));
-    delta.word = end_coord << 16;
-    delta.word >>= 3;
-    delta.word *= ((S_800246D8_3 *)line_or_red)->unk_10 - 7;
+    {
+        s32 x0;
+        s32 mask;
+        s32 y0;
+        s32 z0;
+        s32 step_x;
+        s32 step_y;
+        s32 end_z;
 
-    y = ((S_800246D8_0 *)scratch)->unk_66;
-    mask_or_phase = 0xFFFF0000;
-    increment = delta.half.high;
-    delta.half.high = ((S_800246D8_0 *)scratch)->unk_6E - y;
-    delta.word &= mask_or_phase;
-    ((S_800246D8_0 *)scratch)->unk_64 = x + increment;
-    delta.word >>= 3;
-    delta.word *= ((S_800246D8_3 *)line_or_red)->unk_10 - 7;
+        delta.word = first_delta_s32_s32(((S_800246D8_0 *)scratch)->unk_6C, (x0 = ((S_800246D8_0 *)scratch)->unk_64)) << 16;
+        delta.word >>= 3;
+        delta.word *= ((S_800246D8_3 *)line_or_red)->unk_10 - 7;
 
-    end_coord = ((S_800246D8_0 *)scratch)->unk_70;
-    x = ((S_800246D8_0 *)scratch)->unk_68;
-    increment = delta.half.high;
-    delta.half.high = end_coord - x;
-    delta.word &= mask_or_phase;
-#ifdef __mips__
-#endif
-    ((S_800246D8_0 *)scratch)->unk_66 = y + increment;
-#ifdef __mips__
-#endif
-    delta.word >>= 3;
-    delta.word *= ((S_800246D8_3 *)line_or_red)->unk_10 - 7;
-    x += delta.half.high;
-    ((S_800246D8_0 *)scratch)->unk_68 = x;
-#ifdef __mips__
-#endif
+        y0 = ((S_800246D8_0 *)scratch)->unk_66;
+        mask = 0xFFFF0000;
+        step_x = (delta.word & mask) >> 16;
+        delta.half.high = ((S_800246D8_0 *)scratch)->unk_6E - y0;
+        delta.word &= mask;
+        ((S_800246D8_0 *)scratch)->unk_64 = x0 + step_x;
+        delta.word >>= 3;
+        delta.word *= ((S_800246D8_3 *)line_or_red)->unk_10 - 7;
 
-    y = ((S_800246D8_3 *)line_or_red)->unk_10;
-    x = 15;
-    mask_or_phase = y - 7;
-#ifdef __mips__
-#endif
-    line_or_red = (u8 *)(mask_or_phase * x);
-    multiplier = 23;
-#ifdef __mips__
-#endif
-    mask_or_phase *= multiplier;
-    ((S_800246D8_2 *)packet)->unk_0D = 0;
-#ifdef __mips__
-#endif
-    ((S_800246D8_2 *)packet)->unk_05 = (x - y) * 8;
-#ifdef __mips__
-#endif
-    multiplier = 0x7F;
-    ((S_800246D8_2 *)packet)->unk_0C = multiplier;
-    multiplier = 0xFF;
-    ((S_800246D8_2 *)packet)->unk_0E = multiplier;
-    multiplier = (s32)line_or_red + 0x40;
-    ((S_800246D8_2 *)packet)->unk_04 = multiplier;
-    multiplier = mask_or_phase + 0x40;
-    ((S_800246D8_2 *)packet)->unk_06 = multiplier;
+        end_z = ((S_800246D8_0 *)scratch)->unk_70;
+        z0 = ((S_800246D8_0 *)scratch)->unk_68;
+        step_y = delta.half.high;
+        delta.half.high = end_z - z0;
+        delta.word &= mask;
+        ((S_800246D8_0 *)scratch)->unk_66 = y0 + step_y;
+        delta.word >>= 3;
+        delta.word *= ((S_800246D8_3 *)line_or_red)->unk_10 - 7;
+        z0 += delta.half.high;
+        ((S_800246D8_0 *)scratch)->unk_68 = z0;
+    }
+    {
+        s32 k;
+        s32 k23;
+
+        y = ((S_800246D8_3 *)line_or_red)->unk_10;
+        k = 15;
+        mask_or_phase = y - 7;
+        line_or_red = (u8 *)(mask_or_phase * k);
+        k23 = 23;
+        mask_or_phase *= k23;
+        ((S_800246D8_2 *)packet)->unk_0D = 0;
+        ((S_800246D8_2 *)packet)->unk_05 = (k - y) * 8;
+        multiplier = 0x7F;
+        ((S_800246D8_2 *)packet)->unk_0C = multiplier;
+        multiplier = 0xFF;
+        ((S_800246D8_2 *)packet)->unk_0E = multiplier;
+        multiplier = (s32)line_or_red + 0x40;
+        ((S_800246D8_2 *)packet)->unk_04 = multiplier;
+        multiplier = mask_or_phase + 0x40;
+        ((S_800246D8_2 *)packet)->unk_06 = multiplier;
+    }
 
 shared:
     projection_out_a = scratch + 0x84;
@@ -323,13 +316,11 @@ shared:
         u32 entry_addr;
 #endif
         u32 *ot_base;
-        mask_or_phase = 0x00FFFFFF;
+        s32 low_mask;
+        low_mask = 0x00FFFFFF;
 #ifdef __mips__
 #endif
         entry_addr = depth_or_tag << 2;
-#ifdef __mips__
-   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-#endif
         ot_base = ((S_800246D8_0 *)scratch)->unk_18;
 #ifdef __mips__
 #endif
@@ -341,13 +332,13 @@ shared:
 #endif
         ((S_800246D8_2 *)packet)->unk_00.at00.v =
             (((S_800246D8_2 *)packet)->unk_00.at00.v & depth_or_tag) |
-            (*(u32 *)entry_addr & mask_or_phase);
+            (*(u32 *)entry_addr & low_mask);
 
         phase_or_depth = ((S_800246D8_0 *)scratch)->unk_B4;
         ordering_table = ((S_800246D8_0 *)scratch)->unk_18;
         ordering_table[phase_or_depth] =
             (ordering_table[phase_or_depth] & depth_or_tag) |
-            ((u32)packet & mask_or_phase);
+            ((u32)packet & low_mask);
     }
 
 #ifdef __mips__
@@ -356,5 +347,6 @@ shared:
 }
 
 /* MECHANISM: The 0x28 frame holds s3=scratchpad, s2=packet, and s1/s0 call bases.
-   Guarded temporary pins reproduce the packed-delta, color, and return lifetimes.
-   Residue is the pooled D_80024008 switch base plus late mflo/OT coloring. */
+   Each interpolation arm keeps its coordinates, steps and mask in arm-local variables
+   (single-lifetime quantities for local-alloc), while delta and line_or_red stay function-wide;
+   the masked step_x read gives the mask the extra reference that orders it ahead of y0. */

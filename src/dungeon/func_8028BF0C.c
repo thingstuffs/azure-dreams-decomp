@@ -92,6 +92,7 @@ void func_8001EF0C(void) {
     s16 floor_height;
     u32 initial_value;
     s32 flag_bits;
+    u32 shifted_flag_bits;
     u16 flags;
     u8 trap_type;
     u8 existing_type;
@@ -136,12 +137,7 @@ void func_8001EF0C(void) {
         slot++;
     } while (slot < 0x20);
 
-    {
-        u8 *config_page;
-        config_page = PAGE_8008;
-        ASM_KEEP_NV(config_page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        floor_config = config_page + 0x1468;
-    }
+    floor_config = (u8 *)D_80081468;
     if (((S_8001EF0C_1 *)floor_config)->unk_06 == 1) {
         spawn_limit = (func_800A6D30() & 3) + 4;
     } else {
@@ -183,13 +179,9 @@ void func_8001EF0C(void) {
             trap_type = store_type;
             flags = *(u16 *)(D_800735C4[0] + (trap_type * 0xC));
             flag_bits = flags & 0x3000;
+            shifted_flag_bits = flag_bits << 16;
             if (flag_bits != 0x3000) {
-                register u32 shifted_flag_bits ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                register u8 *lookup_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                flag_bits <<= 16;
-                shifted_flag_bits = flag_bits;
-                lookup_base = (u8 *)(shifted_flag_bits >> 26);
-                trap_cost = (u32)lookup_base + 4;
+                trap_cost = (shifted_flag_bits >> 26) + 4;
                 if (trap_budget >= trap_cost) {
                     trap_budget -= trap_cost;
                     if ((D_800E296C[0] & 0x20000000) ||
@@ -215,9 +207,12 @@ void func_8001EF0C(void) {
                         position[slot].flags = 0;
                         func_8009A21C(x, y, 0x20);
                         {
-                            flag_bits = trap_type;
+                            u8 *lookup_base = 0;
+                            s32 table_index;
+
+                            table_index = trap_type;
                             lookup_base = D_800DF258;
-                            value = *(s32 *)(lookup_base + (flag_bits << 2));
+                            value = *(s32 *)(lookup_base + (table_index << 2));
                         }
                         if (value < 0) {
                             func_8003DB94(&position[slot], value, 0);
