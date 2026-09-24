@@ -20,7 +20,7 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / 'tools'))
 from common import clean_path, rows
 from slus_module_context import modules, fingerprint
-from slus_module_evidence import verifier_fingerprint, physical_descriptor, check_physical_record
+from slus_module_evidence import verifier_fingerprint, physical_descriptor, check_physical_record, check_data_piece_record
 from slus_modules import data_sections
 from fidelity.slus_iso import SlusView
 from fidelity import aspsx_diff as A
@@ -246,6 +246,9 @@ def prove(names, compiler_model_rows=()):
             # so an absent section cannot pass as a zero-length binary dump.
             parsed = A.read_elf(obj.read_bytes())
             data[module['name']] = prove_data(module, parsed, linked, image)
+            if module.get('data_pieces'):
+                from slus_data_pieces import verify_data_pieces
+                data[module['name']]['transformation'] = verify_data_pieces(obj, module)
     old_versions = A.VERSIONS
     A.VERSIONS = ['2.79']
     try:
@@ -255,6 +258,7 @@ def prove(names, compiler_model_rows=()):
             for member in module['members']:
                 rid = member['id']
                 record = A.process_row(by_id[rid])
+                check_data_piece_record(module, record, physical.get(module['name']))
                 if module['name'] in physical:
                     check_physical_record(record, member, physical[module['name']], initial[rid])
                 else:

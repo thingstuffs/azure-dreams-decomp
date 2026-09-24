@@ -326,12 +326,21 @@ def compile_slus(row, cfile, outdir, include_root=None):
     # as given, and the object hash must not depend on where the candidate lives
     from slus_module_context import compilation_source, membership
     try:
+        historical = Path(cfile).resolve() == raw_path(row).resolve()
+        module = None if historical else membership(row)
         if include_root is None and Path(cfile).resolve() != raw_path(row).resolve() and membership(row):
             inc = ROOT / "include"
         cfile = compilation_source(row, cfile, outdir)
     except (OSError, ValueError) as exc:
         return None, "module context: " + str(exc)
-    return _compile_slus_source(row, cfile, outdir, inc)
+    obj, error = _compile_slus_source(row, cfile, outdir, inc)
+    if not error and module and module.get("data_pieces"):
+        from slus_data_pieces import apply_data_pieces
+        try:
+            apply_data_pieces(obj, module)
+        except (OSError, ValueError) as exc:
+            return None, "data pieces: " + str(exc)
+    return obj, error
 
 
 def _compile_slus_source(row, cfile, outdir, inc, root=ROOT):
@@ -368,7 +377,7 @@ def compile_slus_units(row, cfile, outdir, include_root=None, root=ROOT):
     establishes emitted ownership only; genuine-ASPSX and linked retail gates
     remain separate requirements. No caller may infer byte equality from this.
     """
-    from slus_module_context import compilation_sources, fingerprint
+    from slus_module_context import compilation_sources, fingerprint, modules
     from slus_partitions import check_emitted, read_aliases
     from fidelity.objread import read_elf
     root = Path(root).resolve()
@@ -385,12 +394,18 @@ def compile_slus_units(row, cfile, outdir, include_root=None, root=ROOT):
         inc = Path(include_root).resolve() if include_root else root / ("include" if context else "raw/include")
         aliases = read_aliases(root / "config/names.tsv") if context else {}
         results, expected, emitted = [], {}, {}
+        owners = {owner["source"]: owner for owner in modules(root)} if not historical else {}
         for i, unit in enumerate(units):
             recipe = unit["recipe"]
             physical_row = dict(row, cell=recipe["ccver"], flags=recipe["ccflags"], row_asflags=recipe["asflags"])
             obj, error = _compile_slus_source(physical_row, unit["cfile"], outdir / str(i), inc, root)
             if error:
                 return None, unit["source"] + ": " + error
+            owner = owners.get(unit["source"])
+            if owner and owner.get("data_pieces"):
+                from slus_data_pieces import apply_data_pieces
+                apply_data_pieces(obj, owner)
+                unit = dict(unit, data_piece_module=owner)
             if unit["expected_functions"] is not None:
                 parsed = read_elf(obj.read_bytes())
                 expected[unit["source"]] = unit["expected_functions"]

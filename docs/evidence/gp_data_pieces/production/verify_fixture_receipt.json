@@ -1,0 +1,38 @@
+{
+  "module": "cd_e758_pieces",
+  "module_fingerprint": "5396644717bb510f38d862358e148564f6525db259ced459fa4d041c3f17a8c5",
+  "compile_units": 1,
+  "transform_pre_sha256": "126d94b2f15fec4f22f32c20811216ae72ac04c21b0e99dff830d742bd637316",
+  "transform_post_sha256": "a788cd9dd33747d28e0d1390485543c89879d656f5ec5aabb0d801d4caa88b06",
+  "record_sha256": "94f2b47a631ffa4711100ced8a048fbe9173d5bb35e4841e06e59d902976dbad",
+  "pipeline_selfcheck": true,
+  "retail": {
+    "diff": 0,
+    "masked": 0,
+    "checked": 1
+  },
+  "genuine": {
+    "exact": true,
+    "diff": 0,
+    "len": 698,
+    "mode": "",
+    "retail": [
+      0,
+      0
+    ],
+    "retail_checked": 1,
+    "physical": {
+      "exact": true,
+      "diff": 0,
+      "len_m": 698,
+      "len_g": 698,
+      "missing": [],
+      "retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      }
+    }
+  },
+  "goal_scope": "private data-piece pipeline proof; shared CD contracts not repaired"
+}

@@ -100,6 +100,62 @@ def digest(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
+def check_data_piece_record(module, record, descriptor=None):
+    """A split owner needs a bound transform and complete unmasked TU proof."""
+    if not module.get("data_pieces"):
+        return
+    import slus_data_pieces
+    from slus_modules import data_piece_plan
+    expected_functions = (descriptor["functions"] if descriptor else
+                          sorted(f for m in module["members"] for f in m["functions"]))
+    if not isinstance(record, dict):
+        raise ValueError("data-piece record is not an object")
+    units = record.get("physical_units", [])
+    if descriptor and (not isinstance(units, list) or any(not isinstance(u, dict) for u in units)):
+        raise ValueError("data-piece physical records are malformed")
+    candidates = ([u for u in units
+                   if u.get("source") == module["source"]] if descriptor else [record])
+    if len(candidates) != 1:
+        raise ValueError("data-piece owner has ambiguous physical proof")
+    unit = candidates[0]
+    receipt = unit.get("data_piece_transform")
+    if (not isinstance(receipt, dict) or receipt.get("schema") != 1
+            or receipt.get("module") != module["name"]
+            or receipt.get("plan") != data_piece_plan(module)
+            or receipt.get("core_sha256") != digest(slus_data_pieces.__file__)
+            or unit.get("data_piece_functions") != expected_functions):
+        raise ValueError("data-piece transformation is missing, stale or incorrectly scoped")
+    inner = receipt.get("split_elf", {})
+    if not isinstance(inner, dict):
+        raise ValueError("data-piece split proof is not an object")
+    for outer, nested in (("pre_object_sha256", "input_sha256"), ("post_object_sha256", "output_sha256")):
+        value = receipt.get(outer)
+        if (not isinstance(value, str) or len(value) != 64
+                or any(c not in "0123456789abcdef" for c in value) or inner.get(nested) != value):
+            raise ValueError("data-piece object hashes are not bound to transformation")
+    if (inner.get("relocation_entries_unchanged") is not True
+            or inner.get("original_nondata_payloads_unchanged") is not True
+            or inner.get("symbol_indices_and_order_unchanged") is not True):
+        raise ValueError("data-piece transformation does not preserve code and relocations")
+    expected = {"diff": 0, "masked": 0, "checked": len(expected_functions)}
+    versions = unit.get("genuine", {})
+    if not isinstance(versions, dict):
+        raise ValueError("data-piece genuine versions are malformed")
+    genuine = versions.get("2.79", {})
+    if not isinstance(genuine, dict):
+        raise ValueError("data-piece genuine result is malformed")
+    physical = genuine.get("physical", {})
+    if not isinstance(physical, dict):
+        raise ValueError("data-piece physical genuine result is malformed")
+    if (unit.get("maspsx_physical_retail") != expected
+            or genuine.get("lnk_unknown") or genuine.get("missing") or genuine.get("err")
+            or physical.get("exact") is not True or physical.get("diff") != 0
+            or physical.get("missing") != [] or physical.get("retail") != expected
+            or not isinstance(physical.get("len_m"), int) or physical["len_m"] <= 0
+            or physical.get("len_m") != physical.get("len_g")):
+        raise ValueError("data-piece owner lacks complete unmasked genuine/retail proof")
+
+
 def verifier_fingerprint():
     from fidelity.aspsx_diff import tool_fingerprint
     return tool_fingerprint()
@@ -139,6 +195,10 @@ def certificate_reason(module, cert, root=ROOT, tool_fp=None):
         rec = rows[member["id"]]
         if not isinstance(rec, dict) or not isinstance(rec.get("genuine"), dict):
             return "invalid member verification: " + member["id"]
+        try:
+            check_data_piece_record(module, rec, descriptor)
+        except (ValueError, TypeError, KeyError) as exc:
+            return "invalid data-piece verification: " + str(exc)
         if descriptor:
             try:
                 check_physical_record(rec, member, descriptor, cert["module_fingerprint"])

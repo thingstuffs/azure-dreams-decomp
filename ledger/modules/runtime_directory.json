@@ -6,9 +6,9 @@
     "slus/konami_runtime_w_8003C758",
     "slus/konami_runtime_w_8003C920"
   ],
-  "at": "2026-09-24T20:09:34Z",
+  "at": "2026-09-24T21:33:02Z",
   "module_fingerprint": "743ef88dc04b857707a304059179af9a99c3591026cc79a8083860bef4d8785c",
-  "tool_fingerprint": "a12768efc172db7b5a5a",
+  "tool_fingerprint": "1d7f0e6ef7127d9fe3d5",
   "review": {
     "path": "docs/evidence/runtime_directory_module.md",
     "sha256": "551c75bd2044ab3703d0e153194963edbe5921cec3687b01ebc3ab2878d02771",
@@ -103,7 +103,7 @@
       ],
       "best": "2.79",
       "status": "ok",
-      "secs": 2.2
+      "secs": 2.3
     },
     "slus/konami_runtime_w_8003C920": {
       "row": "slus/konami_runtime_w_8003C920",
@@ -145,7 +145,7 @@
       ],
       "best": "2.79",
       "status": "ok",
-      "secs": 2.2
+      "secs": 2.3
     }
   }
 }
