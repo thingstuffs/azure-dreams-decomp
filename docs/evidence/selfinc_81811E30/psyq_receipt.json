@@ -1,0 +1,206 @@
+{
+  "purpose": "raw genuine SN CC1PSX -S, three fixed sources by three fixed binaries",
+  "wibo_sha256": "b9ab9f2c5eb014bc79a97f1a2bee9a7ab177d905a7d2f637da5735820021c40c",
+  "wrapper_template_sha256": "a438aeb4b96caba526974df036eb0d8cab1bfbf663ba870ba4fa861b79d915fc",
+  "script_sha256": "3584f9b322008fec6e0e3bb68918f8fb541d7d887aa1e032190c1524a0fef816",
+  "results": [
+    {
+      "source": "canonical",
+      "source_path": "src/dungeon/func_81811E30.c",
+      "source_sha256": "e23597d61acf8aa535812871108ac889171d116ec65072ad92ef4cf1a61e259c",
+      "compiler": "psyq4.0",
+      "driver_cell": "2.7.2",
+      "cc1_path": "toolchain/genuine/psyq/psyq4.0/CC1PSX.EXE",
+      "cc1_sha256": "ddaa03030d1b012716cccce5a88b8a9484378c915529c5f1458e261c6b928220",
+      "driver_sha256": "c85c2a18e0ebab8639f29fce427242dfc1419285e220a7d277c656cf70e3c016",
+      "cpp_sha256": "e3e1e53a9c19a6c1defa76da40cb50b922d5c4711e41b637211fbaf3fae60df4",
+      "flags": [
+        "-S",
+        "-O2",
+        "-w",
+        "-G0"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "asm_path": "work/wall_81811E30/psyq_probe/canonical.psyq4.0.raw.s",
+      "asm_sha256": "c58b31a26ed6da5c46be3c28c9d7a60c3a5b2c786c6d6132954408bd9ab16067",
+      "asm_bytes": 910
+    },
+    {
+      "source": "candidate",
+      "source_path": "work/wall_81811E30/candidate.c",
+      "source_sha256": "4d7860a08a795cddcfb33c50392ff89c91460c4154b968ab417fe2dcfd5ff47a",
+      "compiler": "psyq4.0",
+      "driver_cell": "2.7.2",
+      "cc1_path": "toolchain/genuine/psyq/psyq4.0/CC1PSX.EXE",
+      "cc1_sha256": "ddaa03030d1b012716cccce5a88b8a9484378c915529c5f1458e261c6b928220",
+      "driver_sha256": "c85c2a18e0ebab8639f29fce427242dfc1419285e220a7d277c656cf70e3c016",
+      "cpp_sha256": "e3e1e53a9c19a6c1defa76da40cb50b922d5c4711e41b637211fbaf3fae60df4",
+      "flags": [
+        "-S",
+        "-O2",
+        "-w",
+        "-G0"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "asm_path": "work/wall_81811E30/psyq_probe/candidate.psyq4.0.raw.s",
+      "asm_sha256": "5bc61af279e175c32ab78978ecdf9ec5d7d755a895ee4b9185db5cab0f5cb403",
+      "asm_bytes": 885
+    },
+    {
+      "source": "loop",
+      "source_path": "work/wall_81811E30/loop.c",
+      "source_sha256": "532c20a25a4ed1407ed79a3c247be546aa5459e5a3db26fbd87cf074aa808502",
+      "compiler": "psyq4.0",
+      "driver_cell": "2.7.2",
+      "cc1_path": "toolchain/genuine/psyq/psyq4.0/CC1PSX.EXE",
+      "cc1_sha256": "ddaa03030d1b012716cccce5a88b8a9484378c915529c5f1458e261c6b928220",
+      "driver_sha256": "c85c2a18e0ebab8639f29fce427242dfc1419285e220a7d277c656cf70e3c016",
+      "cpp_sha256": "e3e1e53a9c19a6c1defa76da40cb50b922d5c4711e41b637211fbaf3fae60df4",
+      "flags": [
+        "-S",
+        "-O2",
+        "-w",
+        "-G0"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "asm_path": "work/wall_81811E30/psyq_probe/loop.psyq4.0.raw.s",
+      "asm_sha256": "432634873fec2c036514687229222b3b4c3706dc4c35be6c49867d8ef07bd025",
+      "asm_bytes": 1028
+    },
+    {
+      "source": "canonical",
+      "source_path": "src/dungeon/func_81811E30.c",
+      "source_sha256": "e23597d61acf8aa535812871108ac889171d116ec65072ad92ef4cf1a61e259c",
+      "compiler": "psyq4.1",
+      "driver_cell": "2.7.2",
+      "cc1_path": "toolchain/genuine/psyq/psyq4.1/CC1PSX.EXE",
+      "cc1_sha256": "17b0d9dc6a80b2aaec90f912bb442321ec8bc5cecaf7071f5bd187e1d6525d49",
+      "driver_sha256": "c85c2a18e0ebab8639f29fce427242dfc1419285e220a7d277c656cf70e3c016",
+      "cpp_sha256": "e3e1e53a9c19a6c1defa76da40cb50b922d5c4711e41b637211fbaf3fae60df4",
+      "flags": [
+        "-S",
+        "-O2",
+        "-w",
+        "-G0"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "asm_path": "work/wall_81811E30/psyq_probe/canonical.psyq4.1.raw.s",
+      "asm_sha256": "81c6d3c835756b35b557d5ebd8b98228af589e7d428e4fe489e82f98d669dd5a",
+      "asm_bytes": 1309
+    },
+    {
+      "source": "candidate",
+      "source_path": "work/wall_81811E30/candidate.c",
+      "source_sha256": "4d7860a08a795cddcfb33c50392ff89c91460c4154b968ab417fe2dcfd5ff47a",
+      "compiler": "psyq4.1",
+      "driver_cell": "2.7.2",
+      "cc1_path": "toolchain/genuine/psyq/psyq4.1/CC1PSX.EXE",
+      "cc1_sha256": "17b0d9dc6a80b2aaec90f912bb442321ec8bc5cecaf7071f5bd187e1d6525d49",
+      "driver_sha256": "c85c2a18e0ebab8639f29fce427242dfc1419285e220a7d277c656cf70e3c016",
+      "cpp_sha256": "e3e1e53a9c19a6c1defa76da40cb50b922d5c4711e41b637211fbaf3fae60df4",
+      "flags": [
+        "-S",
+        "-O2",
+        "-w",
+        "-G0"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "asm_path": "work/wall_81811E30/psyq_probe/candidate.psyq4.1.raw.s",
+      "asm_sha256": "e9c4da60f140c834672f6304a8364aad5769c6bdc1e6498d9b88ede6c7926f16",
+      "asm_bytes": 1404
+    },
+    {
+      "source": "loop",
+      "source_path": "work/wall_81811E30/loop.c",
+      "source_sha256": "532c20a25a4ed1407ed79a3c247be546aa5459e5a3db26fbd87cf074aa808502",
+      "compiler": "psyq4.1",
+      "driver_cell": "2.7.2",
+      "cc1_path": "toolchain/genuine/psyq/psyq4.1/CC1PSX.EXE",
+      "cc1_sha256": "17b0d9dc6a80b2aaec90f912bb442321ec8bc5cecaf7071f5bd187e1d6525d49",
+      "driver_sha256": "c85c2a18e0ebab8639f29fce427242dfc1419285e220a7d277c656cf70e3c016",
+      "cpp_sha256": "e3e1e53a9c19a6c1defa76da40cb50b922d5c4711e41b637211fbaf3fae60df4",
+      "flags": [
+        "-S",
+        "-O2",
+        "-w",
+        "-G0"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "asm_path": "work/wall_81811E30/psyq_probe/loop.psyq4.1.raw.s",
+      "asm_sha256": "301dbdaf55a04ddf122531e899f097c466762f3477f9a9fd3beb6faeb8391e8c",
+      "asm_bytes": 1441
+    },
+    {
+      "source": "canonical",
+      "source_path": "src/dungeon/func_81811E30.c",
+      "source_sha256": "e23597d61acf8aa535812871108ac889171d116ec65072ad92ef4cf1a61e259c",
+      "compiler": "psyq4.4",
+      "driver_cell": "2.8.1",
+      "cc1_path": "toolchain/genuine/psyq/psyq4.4/CC1PSX.EXE",
+      "cc1_sha256": "26eb8259fa3e077d1980eb1e0c942006752135953dd03173200bf99ef6f5b6c9",
+      "driver_sha256": "451e6521d860fc6ff49000567d94d983125263bb0ae2149f89d95eaed34b3a02",
+      "cpp_sha256": "8d7f4e90f995089a6c2d62214b607fc77acf43b61f60a871d130d713d9ac96bb",
+      "flags": [
+        "-S",
+        "-O2",
+        "-w",
+        "-G0"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "asm_path": "work/wall_81811E30/psyq_probe/canonical.psyq4.4.raw.s",
+      "asm_sha256": "f0a3bceab7b267d4aa97029257a0e32b13a5b37cbc7d078187f442f9a6674e57",
+      "asm_bytes": 742
+    },
+    {
+      "source": "candidate",
+      "source_path": "work/wall_81811E30/candidate.c",
+      "source_sha256": "4d7860a08a795cddcfb33c50392ff89c91460c4154b968ab417fe2dcfd5ff47a",
+      "compiler": "psyq4.4",
+      "driver_cell": "2.8.1",
+      "cc1_path": "toolchain/genuine/psyq/psyq4.4/CC1PSX.EXE",
+      "cc1_sha256": "26eb8259fa3e077d1980eb1e0c942006752135953dd03173200bf99ef6f5b6c9",
+      "driver_sha256": "451e6521d860fc6ff49000567d94d983125263bb0ae2149f89d95eaed34b3a02",
+      "cpp_sha256": "8d7f4e90f995089a6c2d62214b607fc77acf43b61f60a871d130d713d9ac96bb",
+      "flags": [
+        "-S",
+        "-O2",
+        "-w",
+        "-G0"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "asm_path": "work/wall_81811E30/psyq_probe/candidate.psyq4.4.raw.s",
+      "asm_sha256": "86ee201c801a0f29453f7dab6d553591251656af0df5af2eb3dc0a6c22541b5b",
+      "asm_bytes": 837
+    },
+    {
+      "source": "loop",
+      "source_path": "work/wall_81811E30/loop.c",
+      "source_sha256": "532c20a25a4ed1407ed79a3c247be546aa5459e5a3db26fbd87cf074aa808502",
+      "compiler": "psyq4.4",
+      "driver_cell": "2.8.1",
+      "cc1_path": "toolchain/genuine/psyq/psyq4.4/CC1PSX.EXE",
+      "cc1_sha256": "26eb8259fa3e077d1980eb1e0c942006752135953dd03173200bf99ef6f5b6c9",
+      "driver_sha256": "451e6521d860fc6ff49000567d94d983125263bb0ae2149f89d95eaed34b3a02",
+      "cpp_sha256": "8d7f4e90f995089a6c2d62214b607fc77acf43b61f60a871d130d713d9ac96bb",
+      "flags": [
+        "-S",
+        "-O2",
+        "-w",
+        "-G0"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "asm_path": "work/wall_81811E30/psyq_probe/loop.psyq4.4.raw.s",
+      "asm_sha256": "ef7782b0904228b1723d97ff7dd33f97670feec631e49d3b04a27e09e59f388f",
+      "asm_bytes": 956
+    }
+  ]
+}

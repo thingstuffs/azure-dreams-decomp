@@ -1,0 +1,11 @@
+== lineage fingerprint: func_81811E30 (overlay dungeon, 16 words) ==
+$at macro stores             0
+compiler-split stores        0
+held-page bases (s-reg)      0
+store in jal/j slot          0
+two-reg split la             0
+zero-equiv copies            1   [1] move $a1, $a2 ($a2 known zero)
+return-copy after call       0
+$gp refs                     0
+VERDICT: insufficient store-emission evidence (few globals?)
+claimed '2.8.0' cannot be tested from family-neutral/insufficient evidence

@@ -1,0 +1,284 @@
+{
+  "baseline": {
+    "source": {
+      "path": "src/slus/w_8004437C.c",
+      "sha256": "4c5295998419e52082e17b3dccd35b5826206aa04544163b3e6c5dd1598e5819"
+    },
+    "frozen_raw": {
+      "path": "raw/slus/w_8004437C.c",
+      "sha256": "a1d9f6295533619e8d07deedcc81e73397ed1ccff2a36d36976b37bfc8a66e44"
+    },
+    "manifest": {
+      "path": "config/slus_modules.json",
+      "sha256": "e9838878711d50575118b5993f5cbb9fb1facf193b3b63d338b6bca2fabf6370"
+    },
+    "recipe": {
+      "path": "ledger/splits/slus.jsonl",
+      "sha256": "5815a015e7785df97cbfa7ac7263db9f9156bc6a527842eae00872929eff15ee"
+    },
+    "configure": {
+      "path": "tools/build/configure.py",
+      "sha256": "8e6d2bd3d4957a2ad1bd6cf3152f45b2ff364f17394e8c16add78f1079e34367"
+    },
+    "assembler": {
+      "path": "toolchain/maspsx/maspsx.py",
+      "sha256": "3bbb64075ab6384f6b670a495cce152acb50f3318cf714c6ab9a082b7adaf086"
+    },
+    "retail": {
+      "path": "baserom/slus_006.14",
+      "sha256": "ae19d8d4bdd2db9a933b1e44d70dd61be670781e441d7cb37da85250a7aed31f"
+    },
+    "production_image": {
+      "path": "build_slus/build/slus_006.14",
+      "sha256": "ae19d8d4bdd2db9a933b1e44d70dd61be670781e441d7cb37da85250a7aed31f"
+    },
+    "production_elf": {
+      "path": "build_slus/build/slus_006.14.elf",
+      "sha256": "eb14c9cde1141e8912db1d0ba51afd5150c72c30f2b378be23f8185cf1d03a05"
+    }
+  },
+  "production_modules": 17,
+  "row": "slus/w_8004437C",
+  "source_sha256": "4c5295998419e52082e17b3dccd35b5826206aa04544163b3e6c5dd1598e5819",
+  "frozen_raw_sha256": "a1d9f6295533619e8d07deedcc81e73397ed1ccff2a36d36976b37bfc8a66e44",
+  "registered_recipe": {
+    "cell": "2.7.2-cdk",
+    "flags": "",
+    "asflags": ""
+  },
+  "trial_recipe": {
+    "cell": "2.7.2",
+    "flags": "",
+    "asflags": ""
+  },
+  "calibration": {
+    "result": "MATCH",
+    "words_diff": 0
+  },
+  "full_gate": {
+    "result": "NO MATCH",
+    "words_diff": 81,
+    "residue": 41,
+    "per_fn": {
+      "func_8004437C": 41
+    },
+    "fn_size_drift": {},
+    "detail": "41 differing words in the swapped TUs' functions (aligned against retail); 81 image words differ"
+  },
+  "aligned_function": {
+    "built": {
+      "address": 2147763068,
+      "size": 400
+    },
+    "retail": {
+      "address": 2147763068,
+      "size": 400
+    },
+    "aligned_distance": 41,
+    "regions": [
+      {
+        "op": "replace",
+        "built_word_offset": 0,
+        "retail_word_offset": 0,
+        "built": [
+          "27bdffc8",
+          "afb10024"
+        ],
+        "retail": [
+          "27bdffd8",
+          "afb10014"
+        ]
+      },
+      {
+        "op": "replace",
+        "built_word_offset": 3,
+        "retail_word_offset": 3,
+        "built": [
+          "afb20028"
+        ],
+        "retail": [
+          "afb20018"
+        ]
+      },
+      {
+        "op": "replace",
+        "built_word_offset": 5,
+        "retail_word_offset": 5,
+        "built": [
+          "afb3002c"
+        ],
+        "retail": [
+          "afb3001c"
+        ]
+      },
+      {
+        "op": "replace",
+        "built_word_offset": 7,
+        "retail_word_offset": 7,
+        "built": [
+          "3c038007",
+          "2463e704"
+        ],
+        "retail": [
+          "3c028007",
+          "2442e704",
+          "00042383",
+          "afb00010",
+          "00828021"
+        ]
+      },
+      {
+        "op": "delete",
+        "built_word_offset": 10,
+        "retail_word_offset": 13,
+        "built": [
+          "00042383",
+          "afb00020",
+          "00838021",
+          "afbf0030",
+          "8e030000",
+          "00402021",
+          "00021080",
+          "3c018008",
+          "00220821",
+          "8c220af4"
+        ],
+        "retail": []
+      },
+      {
+        "op": "insert",
+        "built_word_offset": 22,
+        "retail_word_offset": 15,
+        "built": [],
+        "retail": [
+          "afbf0020",
+          "8e030000",
+          "00021080",
+          "00451021",
+          "8c420000",
+          "97840168"
+        ]
+      },
+      {
+        "op": "replace",
+        "built_word_offset": 33,
+        "retail_word_offset": 32,
+        "built": [
+          "10620030"
+        ],
+        "retail": [
+          "10620031"
+        ]
+      },
+      {
+        "op": "insert",
+        "built_word_offset": 55,
+        "retail_word_offset": 54,
+        "built": [],
+        "retail": [
+          "3463ffff"
+        ]
+      },
+      {
+        "op": "insert",
+        "built_word_offset": 56,
+        "retail_word_offset": 56,
+        "built": [],
+        "retail": [
+          "0801111c"
+        ]
+      },
+      {
+        "op": "delete",
+        "built_word_offset": 57,
+        "retail_word_offset": 58,
+        "built": [
+          "0801111d",
+          "3463ffff"
+        ],
+        "retail": []
+      },
+      {
+        "op": "insert",
+        "built_word_offset": 74,
+        "retail_word_offset": 73,
+        "built": [],
+        "retail": [
+          "3c048008",
+          "24840af4"
+        ]
+      },
+      {
+        "op": "replace",
+        "built_word_offset": 77,
+        "retail_word_offset": 78,
+        "built": [
+          "005c0821",
+          "ac230160"
+        ],
+        "retail": [
+          "00441021"
+        ]
+      },
+      {
+        "op": "replace",
+        "built_word_offset": 80,
+        "retail_word_offset": 80,
+        "built": [
+          "00000000"
+        ],
+        "retail": [
+          "ac430000"
+        ]
+      },
+      {
+        "op": "replace",
+        "built_word_offset": 92,
+        "retail_word_offset": 92,
+        "built": [
+          "8fbf0030",
+          "8fb3002c",
+          "8fb20028",
+          "8fb10024",
+          "8fb00020",
+          "27bd0038"
+        ],
+        "retail": [
+          "8fbf0020",
+          "8fb3001c",
+          "8fb20018",
+          "8fb10014",
+          "8fb00010",
+          "27bd0028"
+        ]
+      }
+    ]
+  },
+  "image": {
+    "match_retail": false,
+    "sha1": "241e943578ae630f9170f2a0f0cbba9b4e9def07"
+  },
+  "logical_recipe": {
+    "physical": 874,
+    "logical": 884,
+    "changes": [
+      [
+        {
+          "src": "src/w_8004437C.c",
+          "out": "build/src/w_8004437C.o",
+          "ccver": "2.7.2-cdk",
+          "ccflags": "",
+          "asflags": ""
+        },
+        {
+          "src": "src/w_8004437C.c",
+          "out": "build/src/w_8004437C.o",
+          "ccver": "2.7.2",
+          "ccflags": "",
+          "asflags": ""
+        }
+      ]
+    ]
+  },
+  "production_inputs_unchanged": true
+}

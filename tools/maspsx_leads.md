@@ -20,8 +20,13 @@ Solved-source reproducer: `work/native_lane/gp_order_bytes/guard_verify.py`.
 The diagnostic selects the private generic assembler in a copied trace harness;
 the production assembler is unchanged.
 
-Route: refresh this pass's full consumer census, repair dependent C/recipes,
-then prepare pass retirement with genuine and complete-image gates. Regression
+Updated route: the [local-data guard](../docs/evidence/selfinc_local_guard.md)
+now makes the same owner exact with every pass enabled. The private package
+checks existing `.sdata`/`.sbss` metadata before folding, extending the existing
+small-extern guard. Its full owner link is retail-exact, all 13 checked consumer
+objects/traces are unchanged, and all 70 prior small-data probes stay exact.
+Prepare this generic guard with the coordinated GP transition. Consumer repairs
+and eventual pass retirement remain a separate queue. Regression
 risk: existing sources may rely on the folded address and changed loop offsets;
 the new local-data case alone does not establish that the pass is globally
 unused. Preserve the goal's existing final sign-off for shared assembler changes.
@@ -32,3 +37,14 @@ Every direct consumer still fails retail with this pass removed; all disabled
 outputs match genuine ASPSX 2.79. Removing only `-mno-split-addresses` from the
 three flagged 81811E* rows does not repair them. This is a concrete consumer
 queue, not permission to retire the pass or a complete whole-tree fired census.
+
+## Repeated high-only base in 81811E30 (2026-09-24)
+
+The [scoped compiler investigation](../docs/evidence/selfinc_81811E30.md)
+retains this consumer and its current recipe. Measured index/goto and structured
+loop forms, plus nine raw PsyQ compiler runs, do not reproduce retail's repeated
+high-only base. The loop RTL creates a full-pointer induction variable; CSE2,
+combine and allocation retain it. The tracked route is address-GIV analysis in
+`loop.c` and actual record-layout evidence before another source trial. This
+narrows the pass's inherited compiler claim; it does not prove a compiler-wide
+impossibility or justify disabling the pass.

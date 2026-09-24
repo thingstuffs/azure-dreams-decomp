@@ -1,0 +1,205 @@
+[
+  {
+    "case": "2.7.2",
+    "words": 21,
+    "retail_words": 16,
+    "masked": 0,
+    "aligned_distance": 15,
+    "regions": [
+      {
+        "op": "replace",
+        "candidate_index": 0,
+        "retail_index": 0,
+        "candidate_words": 9,
+        "retail_words": 4
+      },
+      {
+        "op": "insert",
+        "candidate_index": 14,
+        "retail_index": 9,
+        "candidate_words": 0,
+        "retail_words": 1
+      },
+      {
+        "op": "replace",
+        "candidate_index": 15,
+        "retail_index": 11,
+        "candidate_words": 4,
+        "retail_words": 3
+      },
+      {
+        "op": "replace",
+        "candidate_index": 20,
+        "retail_index": 15,
+        "candidate_words": 1,
+        "retail_words": 1
+      }
+    ]
+  },
+  {
+    "case": "2.7.2-cdk",
+    "words": 22,
+    "retail_words": 16,
+    "masked": 0,
+    "aligned_distance": 9,
+    "regions": [
+      {
+        "op": "replace",
+        "candidate_index": 3,
+        "retail_index": 3,
+        "candidate_words": 7,
+        "retail_words": 1
+      },
+      {
+        "op": "replace",
+        "candidate_index": 18,
+        "retail_index": 12,
+        "candidate_words": 2,
+        "retail_words": 2
+      }
+    ]
+  },
+  {
+    "case": "2.8.0",
+    "words": 22,
+    "retail_words": 16,
+    "masked": 0,
+    "aligned_distance": 9,
+    "regions": [
+      {
+        "op": "replace",
+        "candidate_index": 3,
+        "retail_index": 3,
+        "candidate_words": 7,
+        "retail_words": 1
+      },
+      {
+        "op": "replace",
+        "candidate_index": 18,
+        "retail_index": 12,
+        "candidate_words": 2,
+        "retail_words": 2
+      }
+    ]
+  },
+  {
+    "case": "2.8.1",
+    "words": 22,
+    "retail_words": 16,
+    "masked": 0,
+    "aligned_distance": 9,
+    "regions": [
+      {
+        "op": "replace",
+        "candidate_index": 3,
+        "retail_index": 3,
+        "candidate_words": 7,
+        "retail_words": 1
+      },
+      {
+        "op": "replace",
+        "candidate_index": 18,
+        "retail_index": 12,
+        "candidate_words": 2,
+        "retail_words": 2
+      }
+    ]
+  },
+  {
+    "case": "2.95.2",
+    "words": 22,
+    "retail_words": 16,
+    "masked": 0,
+    "aligned_distance": 11,
+    "regions": [
+      {
+        "op": "replace",
+        "candidate_index": 1,
+        "retail_index": 1,
+        "candidate_words": 9,
+        "retail_words": 3
+      },
+      {
+        "op": "replace",
+        "candidate_index": 18,
+        "retail_index": 12,
+        "candidate_words": 2,
+        "retail_words": 2
+      }
+    ]
+  },
+  {
+    "case": "index_loop_2.8.0",
+    "words": 21,
+    "retail_words": 16,
+    "masked": 0,
+    "aligned_distance": 10,
+    "regions": [
+      {
+        "op": "insert",
+        "candidate_index": 1,
+        "retail_index": 1,
+        "candidate_words": 0,
+        "retail_words": 1
+      },
+      {
+        "op": "replace",
+        "candidate_index": 4,
+        "retail_index": 5,
+        "candidate_words": 4,
+        "retail_words": 2
+      },
+      {
+        "op": "replace",
+        "candidate_index": 13,
+        "retail_index": 12,
+        "candidate_words": 1,
+        "retail_words": 1
+      },
+      {
+        "op": "delete",
+        "candidate_index": 15,
+        "retail_index": 14,
+        "candidate_words": 4,
+        "retail_words": 0
+      }
+    ]
+  },
+  {
+    "case": "two_exits_2.8.0",
+    "words": 21,
+    "retail_words": 16,
+    "masked": 0,
+    "aligned_distance": 10,
+    "regions": [
+      {
+        "op": "insert",
+        "candidate_index": 1,
+        "retail_index": 1,
+        "candidate_words": 0,
+        "retail_words": 1
+      },
+      {
+        "op": "replace",
+        "candidate_index": 4,
+        "retail_index": 5,
+        "candidate_words": 4,
+        "retail_words": 2
+      },
+      {
+        "op": "replace",
+        "candidate_index": 13,
+        "retail_index": 12,
+        "candidate_words": 1,
+        "retail_words": 1
+      },
+      {
+        "op": "delete",
+        "candidate_index": 15,
+        "retail_index": 14,
+        "candidate_words": 4,
+        "retail_words": 0
+      }
+    ]
+  }
+]
