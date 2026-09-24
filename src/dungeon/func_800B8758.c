@@ -56,26 +56,22 @@ typedef struct S_800BDEB8_1 {
 } S_800BDEB8_1;   /* ((S_800BDEB8_0_pre *)var_s2)[-1].unk_00 in func_800BDEB8 */
 
 /* Applies an interaction to an entity and displays the outcome. */
-s32 func_800BDEB8(void *target, s32 action, s16 mode) {
+s32 func_800BDEB8(void *entity, s32 action_id, s16 mode) {
     void *current_entity = D_800E3D7C;
-    void *entity = target;
-    s32 action_id = action;
+    void *target = entity;
     s32 special_case = 0;
     register s32 original_id;
-    register s32 message_handle ASM_REG("$17"); /* MATCH: Keep the shared-tail value in s1 after merging the two call paths. */
+    s32 message_handle;
     s32 saved_id;
     s32 saved_id_2;
-    register void *return_address ASM_REG("$31");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     u32 entity_id;
     s32 result;
     u32 flag_mask;
 
-    ASM_KEEP4_NV(entity, action_id, special_case, return_address);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP4_NV(entity, action_id, special_case, original_id);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     if (entity == current_entity) {
         ((S_800BDEB8_0 *)entity)->unk_110 = action_id;
         func_8008D330(target, D_80083780, D_80082E80, target);
-        return 0;
+        goto return_zero;
     }
 
     if ((u32)entity <= 0x9FFFFFFF) {
@@ -127,14 +123,15 @@ s32 func_800BDEB8(void *target, s32 action, s16 mode) {
     func_80099290(result);
     func_800A5720(message_handle);
     func_800D5460((u8 *)entity - 0x20, 0x20A0A0, 0x613);
-    result = special_case;
     goto check_special;
+
+return_zero:
+    return 0;
 
 set_special:
     special_case = 1;
-    ASM_KEEP(special_case);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    result = special_case;
 check_special:
+    result = special_case;
     if (result == 0) {
         goto finish;
     }

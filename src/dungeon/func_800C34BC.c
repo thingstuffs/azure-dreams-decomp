@@ -12,7 +12,6 @@ extern s32 func_800C838C(State *);
 #ifdef NON_MATCHING
 static volatile s32 dispatch_v1;
 #else
-register s32 dispatch_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 #endif
 
 s32 func_800C8C1C(State *arg0, s16 arg1, s8 arg2_in) {
@@ -21,26 +20,21 @@ s32 func_800C8C1C(State *arg0, s16 arg1, s8 arg2_in) {
     s8 arg2 = arg2_in;
     s32 result;
     s32 dividend;
+    s32 dispatch_v1;
 
     if (func_800C838C(state) != 0) {
         result = 0;
         return result;
     }
     dividend = func_800A6D30() & 0xFFFF;
-    dispatch_v1 = state->divisor;
+    if (state->divisor != 0) {
+        dispatch_v1 = dividend % state->divisor;
+    } else {
+        dispatch_v1 = 0;
+    }
     {
         s32 signed_value;
 
-        if (dispatch_v1 != 0) {
-            s32 divreg;
-
-            divreg = dispatch_v1;
-            ASM_KEEP(divreg);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            dispatch_v1 = dividend % divreg;
-            goto join;
-        }
-        dispatch_v1 = 0;
-join:
         result = (s32)value << 16;
         signed_value = result >> 16;
         result = dispatch_v1 < signed_value;
