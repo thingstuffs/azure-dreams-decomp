@@ -57,8 +57,6 @@ BODY_STORAGE s32 BODY_NAME(void *origin, void *actor) {
     s32 direction_offset;
     s16 ground_slot;
     void *target;
-    s32 item_offset;
-    u8 *inventory_base;
     u8 *item_ptr;
 
     direction_offset = (*(u16 *)(actor_bytes + 0x2A) >> 8) & 0xE;
@@ -91,53 +89,48 @@ BODY_STORAGE s32 BODY_NAME(void *origin, void *actor) {
             return 0;
         }
         {
-#ifdef __mips__
-            register s32 slot_index ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            s16 occupied_count;
-            register s32 *inventory_scan ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-#else
             s32 slot_index;
             s16 occupied_count;
             s32 *inventory_scan;
-#endif
+            s32 count;
             slot_index = 0;
-            occupied_count = slot_index;
+            count = 0;
             inventory_scan = (s32 *)0x80010000;
-            do {
+            for (;;) {
                 if (inventory_scan[167] != 0) {
-                    occupied_count++;
+                    count++;
                 }
                 inventory_scan++;
-            } while (++slot_index < 20);
+                if (++slot_index >= 20) {
+                    break;
+                }
+            }
+            occupied_count = count;
             if (occupied_count == 0) {
                 return 0;
             }
-            item_offset = (s32)((((func_800A6D30() & 0xFFFF) % occupied_count) << 16) >> 14);
-            inventory_base = (u8 *)(item_offset + 0x80010000);
-            if (*(u8 *)(inventory_base + 0x249) == 0) {
+            count = (s32)((((func_800A6D30() & 0xFFFF) % occupied_count) << 16) >> 14);
+            slot_index = count + 0x80010000;
+            if (*(u8 *)(slot_index + 0x249) == 0) {
                 goto return_zero;
             }
-            if (*(u8 *)(inventory_base + 0x249) == 0x13) {
+            if (*(u8 *)(slot_index + 0x249) == 0x13) {
                 return 0;
             }
-            if (*(u8 *)(inventory_base + 0x24B) & 0x20) {
+            if (*(u8 *)(slot_index + 0x24B) & 0x20) {
                 goto entry_zero;
             }
             {
                 s32 item_data;
                 s32 *item_dest;
-#ifdef __mips__
-                s16 item_slot_addr;
-#else
-                s32 item_slot_addr;
-#endif
-                item_ptr = (u8 *)(item_offset + 0x80010248);
+
+                item_ptr = (u8 *)(count + 0x80010248);
                 item_data = *(s32 *)item_ptr;
                 item_dest = D_8015CFE4;
                 item_dest[0] = item_data;
 
 
-                func_80098B38(item_ptr, inventory_base);
+                func_80098B38(item_ptr, (void *)slot_index);
                 return (s32)item_dest;
             }
         }

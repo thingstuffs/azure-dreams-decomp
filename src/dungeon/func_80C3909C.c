@@ -51,7 +51,7 @@ typedef struct S_8014C89C_4 {
 typedef struct S_8014C89C_5 {
     u8 pad_00[0xA4];
     void * unk_A4;
-} S_8014C89C_5;   /* outer in func_8014C89C */
+} S_8014C89C_5;   /* child_slot in func_8014C89C */
 
 typedef struct S_8014C89C_6 {
     u8 pad_00[0x2];
@@ -73,12 +73,12 @@ typedef struct S_8014C89C_7 {
 typedef struct S_8014C89C_8 {
     u8 pad_00[0xA4];
     void * unk_A4;
-} S_8014C89C_8;   /* outer_base in func_8014C89C */
+} S_8014C89C_8;   /* slot_base in func_8014C89C */
 
 typedef struct S_8014C89C_9 {
     u8 pad_00[0x10];
     void * unk_10;
-} S_8014C89C_9;   /* outer_child in func_8014C89C */
+} S_8014C89C_9;   /* child_root in func_8014C89C */
 
 
 extern void *func_8003FD64(s32, void *);
@@ -100,25 +100,22 @@ extern u8 D_8014D3A8[];
 extern u8 D_80150494[];
 extern u8 D_801504FC[];
 
-/* Allocate and initialize an object and its linked child entries. */
+/* Allocates and initializes an object and its child display items. */
 void *func_8014C89C(s32 kind, s32 part_byte_24, s32 part_byte_25, s32 copy_halfword)
 {
-    struct {
-        void *root;
-        void *copy;
-        s32 outer_index;
-    } stack;
+    void *root;
+    void *copy;
+    s32 outer_index;
     s32 saved_kind;
     s32 saved_halfword;
     s16 saved_byte_25;
     u16 saved_part_byte_24;
     void *object;
-    register void *child_slot ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    void *child_slot;
     void *stable_object;
     s32 kind_copy;
-    register void *part ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    void *part;
     void *allocated;
-    register uptr ptr_or_count ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 allocation_size;
     void *allocation_pool;
 
@@ -127,12 +124,11 @@ void *func_8014C89C(s32 kind, s32 part_byte_24, s32 part_byte_25, s32 copy_halfw
     allocation_size = 0x112;
     saved_part_byte_24 = part_byte_24;
     allocation_pool = D_80083498;
-   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     saved_halfword = copy_halfword;
     saved_byte_25 = part_byte_25;
     allocated = func_8003FD64(allocation_size, allocation_pool);
     kind_copy = saved_kind;
-    stack.root = allocated;
+    root = allocated;
     if (allocated == 0) {
         goto done;
     }
@@ -152,14 +148,11 @@ void *func_8014C89C(s32 kind, s32 part_byte_24, s32 part_byte_25, s32 copy_halfw
     {
         void *part_callback;
 
-        ptr_or_count = (uptr)stack.root;
         part_callback = D_80150494;
-        ptr_or_count = (uptr)((S_8014C89C_2 *)((void *)ptr_or_count))->unk_08.at00.v;
-        stack.copy = (void *)ptr_or_count;
-        ((S_8014C89C_2 *)((void *)ptr_or_count))->unk_08.at02.v = saved_halfword;
-        ptr_or_count = (uptr)stack.root;
+        copy = ((S_8014C89C_2 *)root)->unk_08.at00.v;
+        ((S_8014C89C_2 *)copy)->unk_08.at02.v = saved_halfword;
         stable_object = object;
-        part = ((S_8014C89C_2 *)((void *)ptr_or_count))->unk_0C;
+        part = ((S_8014C89C_2 *)root)->unk_0C;
         ((S_8014C89C_3 *)part)->unk_2C = part_callback;
     }
     ((S_8014C89C_3 *)part)->unk_24 = saved_part_byte_24;
@@ -203,10 +196,10 @@ flags_done:
         ;
     }
 
-    func_800A9C18(stack.root, stack.copy, part, (s16)kind_copy);
+    func_800A9C18(root, copy, part, (s16)kind_copy);
 
     child_slot = stable_object;
-    stack.outer_index = 0;
+    outer_index = 0;
     ((S_8014C89C_4 *)stable_object)->unk_9A = 0xFF;
     ((S_8014C89C_4 *)stable_object)->unk_9C = -1;
     ((S_8014C89C_4 *)stable_object)->unk_8C = D_8014D3A8;
@@ -217,7 +210,6 @@ flags_done:
     ((S_8014C89C_4 *)stable_object)->unk_98 |= 0x4000;
 
     do {
-        register void *root_link ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
         saved_halfword = (s32)func_8003FD64(0x112, D_80083498);
         allocated = (void *)saved_halfword;
@@ -230,8 +222,7 @@ flags_done:
             s32 more_items;
 
             saved_kind = (s32)((u8 *)allocated + 0x20);
-            ptr_or_count = 1;
-            ((S_8014C89C_6 *)(void *)saved_kind)->unk_02 = (s16)ptr_or_count;
+            ((S_8014C89C_6 *)(void *)saved_kind)->unk_02 = 1;
             item_index = 0;
             slot_base = child_slot;
             direction_table = D_80150494 + 0x50;
@@ -250,52 +241,34 @@ flags_done:
                 ((S_8014C89C_7 *)item)->unk_0C = 0x00808080;
                 ((S_8014C89C_7 *)item)->unk_28 = part_value;
                 child_root = ((S_8014C89C_8 *)slot_base)->unk_A4;
-                ASM_KEEP(child_root);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 call_zero = 0;
-                ASM_KEEP(call_zero);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                ptr_or_count = (uptr)D_800D78C0;
-                ((S_8014C89C_9 *)child_root)->unk_10 = (void *)ptr_or_count;
+                ((S_8014C89C_9 *)child_root)->unk_10 = D_800D78C0;
                 (*(void * *)((u8 *)item + 0x2C)) = direction_table;
                 direction_index = ((D_80083228 +
                     ((S_8014C89C_1 *)object)->unk_2A + 0x100) >> 9) & 7;
-                item_offset += 0x30;
                 func_80047784(item,
                     *(u8 *)((uptr)direction_index + (uptr)direction_table), call_zero);
+                item_offset += 0x30;
                 item_index++;
-                {
-                    register void *call_part ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                    register void *call_data ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-
-                    call_part = part;
-                    call_data = D_800D71A8;
-                    call_zero = 1;
-                    ASM_KEEP(call_zero);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-                    ptr_or_count = (uptr)call_zero;
-                    ((S_8014C89C_6 *)(void *)saved_kind)->unk_06 = (s16)ptr_or_count;
-                    func_800478E8(call_part, call_data, call_zero);
-                }
-                ptr_or_count = (uptr)stack.root;
-                root_link = (u8 *)ptr_or_count + 0x1E;
+                ((S_8014C89C_6 *)(void *)saved_kind)->unk_06 = 1;
+                func_800478E8(part, D_800D71A8, 1);
                 more_items = item_index < ((S_8014C89C_6 *)(void *)saved_kind)->unk_02;
-                ((S_8014C89C_6 *)(void *)saved_kind)->unk_98 = root_link;
+                ((S_8014C89C_6 *)(void *)saved_kind)->unk_98 = (u8 *)root + 0x1E;
             } while (more_items);
         }
         child_slot = (u8 *)child_slot + 4;
         {
             s32 child_count;
 
-            ptr_or_count = (uptr)stack.outer_index;
             child_count = ((S_8014C89C_4 *)stable_object)->unk_9E;
-            ptr_or_count++;
-            stack.outer_index = (s32)ptr_or_count;
-            root_link = (void *)((s32)ptr_or_count < child_count);
-            if (!(s32)root_link) {
+            outer_index++;
+            if (outer_index >= child_count) {
                 break;
             }
         }
     } while (1);
 
-    func_800AA36C(stable_object, stack.copy, part, object);
+    func_800AA36C(stable_object, copy, part, object);
 
 done:
     return object;

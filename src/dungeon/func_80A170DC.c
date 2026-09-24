@@ -104,36 +104,33 @@ extern u8 D_80151188[];
 /* Allocate and initialize an object and its child render entries. */
 void *func_8014C8DC(s32 kind, s32 part_x, s32 part_y, s32 init_value)
 {
-    struct {
-        void *root;
-        void *copy;
-        s32 outer_index;
-    } stack;
+    void *root;
+    void *copy;
+    s32 outer_index;
     s32 saved_kind;
     s32 saved_init_value;
     s16 saved_part_y;
+    u16 saved_part_x;
     void *object;
-    register void *outer ASM_REG("$20");
+    void *outer;
     void *stable_object;
     s32 kind_copy;
-    register void *part ASM_REG("$23");
+    void *part;
     void *allocated;
-    register uptr address_or_count ASM_REG("$8");
     s32 allocation_size;
     void *allocation_pool;
 
     saved_kind = kind;
     object = 0;
     allocation_size = 0x112;
-    ASM_KEEP_NV(allocation_size);
-    outer = (void *)(s32)part_x;
+    saved_part_x = part_x;
     allocation_pool = D_80083498;
 
     saved_init_value = init_value;
     saved_part_y = part_y;
     allocated = func_8003FD64(allocation_size, allocation_pool);
     kind_copy = saved_kind;
-    stack.root = allocated;
+    root = allocated;
     if (allocated == 0) {
         goto done;
     }
@@ -153,17 +150,14 @@ void *func_8014C8DC(s32 kind, s32 part_x, s32 part_y, s32 init_value)
     {
         void *part_callback;
 
-        address_or_count = (uptr)stack.root;
         part_callback = D_80151140;
-        address_or_count = (uptr)((S_8014C8DC_2 *)((void *)address_or_count))->unk_08.at00.v;
-        stack.copy = (void *)address_or_count;
-        ((S_8014C8DC_2 *)((void *)address_or_count))->unk_08.at02.v = saved_init_value;
-        address_or_count = (uptr)stack.root;
+        copy = ((S_8014C8DC_2 *)root)->unk_08.at00.v;
+        ((S_8014C8DC_2 *)copy)->unk_08.at02.v = saved_init_value;
         stable_object = object;
-        part = ((S_8014C8DC_2 *)((void *)address_or_count))->unk_0C;
+        part = ((S_8014C8DC_2 *)root)->unk_0C;
         ((S_8014C8DC_3 *)part)->unk_2C = part_callback;
     }
-    ((S_8014C8DC_3 *)part)->unk_24 = (s8)(s32)outer;
+    ((S_8014C8DC_3 *)part)->unk_24 = saved_part_x;
     ((S_8014C8DC_3 *)part)->unk_25 = saved_part_y;
 
     {
@@ -204,10 +198,10 @@ flags_done:
         ;
     }
 
-    func_800A9C18(stack.root, stack.copy, part, (s16)kind_copy);
+    func_800A9C18(root, copy, part, (s16)kind_copy);
 
     outer = stable_object;
-    stack.outer_index = 0;
+    outer_index = 0;
     ((S_8014C8DC_4 *)stable_object)->unk_9A = 0xFF;
     ((S_8014C8DC_4 *)stable_object)->unk_9C = -1;
     ((S_8014C8DC_4 *)stable_object)->unk_8C = D_8014D400;
@@ -218,7 +212,6 @@ flags_done:
     ((S_8014C8DC_4 *)stable_object)->unk_98 |= 0x4000;
 
     do {
-        register u8 *table_page ASM_REG("$2");
 
         saved_init_value = (s32)func_8003FD64(0x112, D_80083498);
         allocated = (void *)saved_init_value;
@@ -231,14 +224,10 @@ flags_done:
             s32 more_items;
 
             saved_kind = (s32)((u8 *)allocated + 0x20);
-            address_or_count = 1;
-            ((S_8014C8DC_6 *)(void *)saved_kind)->unk_02 = (s16)address_or_count;
+            ((S_8014C8DC_6 *)(void *)saved_kind)->unk_02 = 1;
             item_index = 0;
             outer_base = outer;
-            {
-
-                table = D_80151168;
-            }
+            table = D_80151168;
             item_offset = 8;
             do {
                 void *item;
@@ -254,52 +243,34 @@ flags_done:
                 ((S_8014C8DC_7 *)item)->unk_0C = 0x00808080;
                 ((S_8014C8DC_7 *)item)->unk_28 = part_value;
                 outer_child = ((S_8014C8DC_8 *)outer_base)->unk_A4;
-                ASM_KEEP(outer_child);
                 call_zero = 0;
-                ASM_KEEP(call_zero);
-                address_or_count = (uptr)D_800D78C0;
-                ((S_8014C8DC_9 *)outer_child)->unk_10 = (void *)address_or_count;
+                ((S_8014C8DC_9 *)outer_child)->unk_10 = D_800D78C0;
                 (*(void * *)((u8 *)item + 0x2C)) = table;
                 direction_index = ((D_80083228 +
                     ((S_8014C8DC_1 *)object)->unk_2A + 0x100) >> 9) & 7;
-                item_offset += 0x30;
                 func_80047784(item,
                     *(u8 *)((uptr)direction_index + (uptr)table), call_zero);
+                item_offset += 0x30;
                 item_index++;
-                {
-                    register void *call_part ASM_REG("$4");
-                    register void *call_data ASM_REG("$5");
-
-                    call_part = part;
-                    call_data = D_800D71A8;
-                    call_zero = 1;
-                    ASM_KEEP(call_zero);
-                    address_or_count = (uptr)call_zero;
-                    ((S_8014C8DC_6 *)(void *)saved_kind)->unk_06 = (s16)address_or_count;
-                    func_800478E8(call_part, call_data, call_zero);
-                }
-                address_or_count = (uptr)stack.root;
-                table_page = (u8 *)((u8 *)address_or_count + 0x1E);
+                ((S_8014C8DC_6 *)(void *)saved_kind)->unk_06 = 1;
+                func_800478E8(part, D_800D71A8, 1);
                 more_items = item_index < ((S_8014C8DC_6 *)(void *)saved_kind)->unk_02;
-                ((S_8014C8DC_6 *)(void *)saved_kind)->unk_98 = (void *)table_page;
+                ((S_8014C8DC_6 *)(void *)saved_kind)->unk_98 = (u8 *)root + 0x1E;
             } while (more_items);
         }
         outer = (u8 *)outer + 4;
         {
             s32 child_count;
 
-            address_or_count = (uptr)stack.outer_index;
             child_count = ((S_8014C8DC_4 *)stable_object)->unk_9E;
-            address_or_count++;
-            stack.outer_index = (s32)address_or_count;
-            table_page = (u8 *)((void *)((s32)address_or_count < child_count));
-            if (!(s32)(void *)table_page) {
+            outer_index++;
+            if (outer_index >= child_count) {
                 break;
             }
         }
     } while (1);
 
-    func_800AA36C(stable_object, stack.copy, part, object);
+    func_800AA36C(stable_object, copy, part, object);
 
 done:
     return object;

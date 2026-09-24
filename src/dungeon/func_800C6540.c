@@ -29,7 +29,7 @@ s32 func_800CBCA0(void *entity, s32 input_a, s32 input_b, s32 input_c)
     S_800CBCA0_1 *parent;
     s32 action_result;
     s32 roll;
-    register s32 divisor ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 divisor;
     s32 random_value;
     void *rng_entity = entity;
 
@@ -46,16 +46,15 @@ s32 func_800CBCA0(void *entity, s32 input_a, s32 input_b, s32 input_c)
 check_global:
     if (D_800E3D40 == 0) {
         random_value = (u16)func_800A6D30(rng_entity, input_a, input_b, input_c);
-        divisor = ((Rec_D_800E3D7C *)entity)->unk_00.at03_u8.v;
-        if (divisor != 0) {
-            roll = divisor;
-            ASM_KEEP(roll);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            divisor = random_value % roll;
-            roll = divisor;
-            goto value_ready;
+        if (((Rec_D_800E3D7C *)entity)->unk_00.at03_u8.v != 0) {
+            divisor = random_value % ((Rec_D_800E3D7C *)entity)->unk_00.at03_u8.v;
+            goto value_ready2;
         }
     }
     roll = 0;
+    goto value_ready;
+value_ready2:
+    roll = divisor;
 value_ready:
 
     if (roll < 0x30) {
