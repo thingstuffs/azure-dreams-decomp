@@ -42,7 +42,7 @@ void *func_800242D8(u8 *packet, u32 x, u32 y) {
     dark_color = 0x8C9C9C;
     half_x = (s32) ((x >> 0x1F) + x) >> 1;
     x = (s32) ((y >> 0x1F) + y) >> 1;
-    __asm__("lui $2, %%hi(D_80027FD0)\n\taddiu %0, $2, %%lo(D_80027FD0)" : "=r"(packet_tags));
+    packet_tags = D_80027FD0;
     field_cursor = packet + 0xB;
     do {
         table_entry = (u8 *) (packet_index + (s32) packet_tags);

@@ -21,9 +21,7 @@ s32 func_80016F64(void *object, s32 check_mode, s32 context) {
     data_table = (s32 *)0x80020000;
     if (status_or_base != 0) {
         if (func_8001A510(*(s16 *)((s8 *)object + 0x18)) == 0) {
-            status_or_base = 0x80020000;
-            ASM_KEEP(status_or_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            return status_or_base - 0x4930;
+            return &D_8001B6D0;
         }
     }
 
@@ -33,13 +31,9 @@ s32 func_80016F64(void *object, s32 check_mode, s32 context) {
         status_or_base = func_8001A510(*(s16 *)((s8 *)object + 0x18));
         if (status_or_base == 0) {
             ASM_CLOBBER("$2");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-            status_or_base = 0x80020000;
-            ASM_KEEP(status_or_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            result = status_or_base - 0x970;
+            result = &D_8001F690;
         } else {
-            status_or_base = 0x80020000;
-            ASM_KEEP(status_or_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            result = status_or_base - 0x481;
+            result = &D_8001FB7F;
         }
     }
     return result;
