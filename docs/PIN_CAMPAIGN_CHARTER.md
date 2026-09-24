@@ -104,6 +104,18 @@ retrospective: mine the session logs, fix the tooling or the brief, A/B on the n
 kit took astra from ~2 rows per 5-row pack to 38 of 40. See docs/PIN_RESEARCH_ROUND62.md (rounds 68-72) and
 docs/LANE_KIT.md.
 
+## Rulings 2026-09-24 — owner sign-off for rule 5 (NON_MATCHING arm retirement)
+
+Owner, verbatim, asked "When a pin-free rewrite leaves a NON_MATCHING arm with nothing to do, may the arm be deleted?":
+"yes, it may".
+
+**Rule (`tools/pin_census.landing_refusal`, `_arm_retirement`):** a candidate may delete WHOLE `NON_MATCHING` blocks.
+Every port block it keeps must be verbatim one of the current text's (none edited, none added), at least one must be
+gone, `#if 0` text must be unchanged, and the -DNON_MATCHING port front end must still accept the candidate (a
+deleted block the code still uses is refused there). Editing a kept arm still needs the textual or port-codegen
+identity as before. First use: town/func_80953900 (lane r77_opus_m3, 3 -> 0 pins; the port arm assigned a page
+variable the pin-free text no longer has), 3,210 -> 3,207.
+
 ## Rulings 2026-09-23 — owner sign-off for rule 5 (pin inside a local macro)
 
 Owner, verbatim: "3706 seems like the more accurate count so we should probably do that".
