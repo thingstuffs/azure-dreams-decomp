@@ -1,6 +1,10 @@
 # Toolchain fidelity plan (owner-approved direction, 2026-09-24)
 
-Status: **Compiler investigation complete; H28 source/recipe cleanup in progress.**
+Status: **Compiler investigation complete; SLUS small-data repair and module pilots in progress.**
+Current goal: `docs/GOAL_TOOLCHAIN_AND_MODULES.md`. The first isolated measurements
+are in `docs/evidence/fidelity_gp_repair_progress.md`: a generic assembler candidate,
+59 affected TUs, 69 globals requiring data-ownership recovery, and five independently
+verified natural-C candidates. Production toolchain defaults remain unchanged.
 The interrupted wave has now landed 11 CDK moves (74 pins removed; 9 newly
 pin-free), all genuine-ASPSX exact. See `docs/evidence/r77_h28_recovery.md` for the
 recovery receipt and remaining work. The dated log below retains the investigation
