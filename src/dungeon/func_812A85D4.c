@@ -87,10 +87,11 @@ state_zero:
 
 state_one:
 {
-    register u8 *direction_base ASM_REG("$2");
+    u8 *direction_base;
+    u8 *direction_base_2;
     s32 motion_x;
-    s32 signed_tick;
-    s32 direction_y;
+    s32 motion_y;
+    s32 signed_value;
 
     anim_table = U16(action, 0x96);
     direction_base = (u8 *)&D_8006CCD8;
@@ -100,27 +101,25 @@ state_one:
     direction_off = (U16(actor, 0x2A) >> 8) & 0xE;
     anim_table = (u32)anim_table < 8U;
     direction_base = (u8 *)(direction_off + (s32)direction_base);
-    ASM_KEEP_NV(direction_base);
     delta_x = *(s16 *)direction_base;
-    direction_base = (u8 *)&D_8006CCE8;
-    direction_off = direction_off + (s32)direction_base;
-    direction_y = *(s16 *)direction_off;
+    direction_base_2 = (u8 *)&D_8006CCE8;
+    signed_value = *(s16 *)((s32)(direction_off + (s32)direction_base_2));
     delta_x = -delta_x;
     delta_x <<= 16;
-    direction_y = -direction_y;
-    delta_y = direction_y << 16;
+    signed_value = -signed_value;
+    delta_y = signed_value << 16;
     if (anim_table) {
         motion_x = S32(motion, 0xC) - delta_x;
-        direction_off = S32(motion, 0x10) - delta_y;
+        motion_y = S32(motion, 0x10) - delta_y;
         goto store_movement;
     }
-    signed_tick = (s16)next_tick;
-    if (signed_tick < 0x12) {
+    signed_value = (s16)next_tick;
+    if (signed_value < 0x12) {
         motion_x = S32(motion, 0xC) + delta_x;
-        direction_off = S32(motion, 0x10) + delta_y;
+        motion_y = S32(motion, 0x10) + delta_y;
 store_movement:
         S32(motion, 0xC) = motion_x;
-        S32(motion, 0x10) = direction_off;
+        S32(motion, 0x10) = motion_y;
     } else {
         S32(motion, 0x14) = 0;
         S32(motion, 0x10) = 0;

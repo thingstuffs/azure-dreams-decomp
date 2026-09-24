@@ -287,16 +287,15 @@ direct_move:
                   (u8 *)move_state_arg + 0x98);
 
 init_loop:
-    turn_index = 0;
-    turn_table = D_8006BDD0;
+    turn_index = -1;
 
-    do {
+    while (++turn_index < 8) {
         turn_flags = ((S_8127C3E0_5 *)move_state_arg)->unk_98;
         current_angle = ((S_8127C3E0_1 *)actor_arg)->unk_2A.s;
         if (turn_flags & 2) {
-            trial_angle = current_angle - turn_table[turn_index];
+            trial_angle = current_angle - D_8006BDD0[turn_index];
         } else {
-            trial_angle = current_angle + turn_table[turn_index];
+            trial_angle = current_angle + D_8006BDD0[turn_index];
         }
 
         if (func_800996B0(trial_angle, position_arg, actor_arg, 0x20) > 0) {
@@ -319,16 +318,13 @@ init_loop:
                 (((S_8127C3E0_1 *)actor_arg)->unk_1C & 0x2000) ? 0x300 : 0x3000);
 
             {
-                register u8 old_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-                u8 old_y;
+                u8 *x_step;
 
-                old_x = ((S_8127C3E0_2 *)position_arg)->unk_24.at00.v;
+                x_step = (u8 *)&D_8006BDA8;
                 step_offset = (((S_8127C3E0_1 *)actor_arg)->unk_2A.u >> 8) & 0xE;
-                ((S_8127C3E0_2 *)position_arg)->unk_24.at00.v = old_x +
-                    *((u8 *)&D_8006BDA8 + step_offset);
-                old_y = ((S_8127C3E0_2 *)position_arg)->unk_24.at01.v;
-                ((S_8127C3E0_2 *)position_arg)->unk_24.at01.v = old_y +
-                    *((u8 *)&D_8006BDB8 + step_offset);
+                x_step += step_offset;
+                ((S_8127C3E0_2 *)position_arg)->unk_24.at00.v += *x_step;
+                ((S_8127C3E0_2 *)position_arg)->unk_24.at01.v += *((u8 *)&D_8006BDB8 + step_offset);
             }
 
             func_8009900C(
@@ -339,18 +335,13 @@ init_loop:
 
         if (turn_index == 0 &&
             *(u16 *)&D_800814B4 != ((S_8127C3E0_2 *)position_arg)->unk_24.at00u.v) {
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             if (func_80098F70(actor_arg,
                     (u8 *)((S_8127C3E0_4 *)D_800803DC)->unk_58 + 0x20) != 0) {
                 return;
             }
         }
 
-        turn_index++;
-        if (turn_index >= 8) {
-            break;
-        }
-    } while (1);
+    }
 
 loop_test:
     if (turn_index >= 8) {

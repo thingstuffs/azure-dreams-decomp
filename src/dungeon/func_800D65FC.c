@@ -27,28 +27,29 @@ void func_800DBD5C(s32 first_number, s32 second_number, u16 width, s16 y, u16 x,
         fill_mode = mode;
         do {
             s32 glyph_coord;
+            u8 character;
 
             if (fill_mode != 0) {
-                u8 character;
 
                 character = *char_ptr;
                 if ((*((u8 *)((u32)character + (u32)D_800808ED)) & 4) == 0) {
                     glyph_coord = 0x1C0;
+                    record.first = glyph_coord;
                 } else {
-                    glyph_coord = (character << 2) + 0x100;
+                    goto plus;
                 }
             } else {
-                u8 character;
 
                 character = *char_ptr;
                 if ((*((u8 *)((u32)character + (u32)D_800808ED)) & 4) != 0) {
+plus:
                     glyph_coord = (character << 2) + 0x100;
+                    record.first = glyph_coord;
                 } else {
                     glyph_coord = 0x1EC;
+                    record.first = glyph_coord;
                 }
             }
-            record.first = glyph_coord;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             record.second = 0x1B0;
             record.third = 4;
             record.fourth = 16;

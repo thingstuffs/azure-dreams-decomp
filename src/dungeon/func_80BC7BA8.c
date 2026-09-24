@@ -47,13 +47,11 @@ typedef struct S_8016B3A8_2 {
 /* Runs actor callbacks and updates animation, movement, and ground height. */
 void func_8016B3A8(void *self, S_8016B3A8_0 *motion, void *sprite)
 {
-    register void *actor_base ASM_REG("$19") = self;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    void *actor_base = self;
     s16 old_state;
     u8 old_state_byte;
-    void *call_self;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    void *call_motion;
-    void *call_sprite;
-    s16 height_offset;
+    s32 height_offset;
+    s16 height_offset_2;
     u16 height_bits;
     s16 direction;
     s16 floor_height;
@@ -70,21 +68,16 @@ void func_8016B3A8(void *self, S_8016B3A8_0 *motion, void *sprite)
 
         special_callback = (*(Callback *)((u8 *)self + 0x8C));
         if (special_callback == (Callback)&D_8016B9DC) {
-            actor_base = (void *)special_callback;
-            ((Callback)actor_base)(callback_self, motion, sprite, callback_self);
+            special_callback(callback_self, motion, sprite, callback_self);
             return;
         }
         (*(u8 *)((u8 *)self + 0x71)) &= 0x7F;
         return;
     }
 
-    call_self = self;
-    call_motion = motion;
-    call_sprite = sprite;
-    ASM_KEEP4(call_self, call_motion, call_sprite, actor_base);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     old_state_byte = (*(u8 *)((u8 *)self + 0x6D));
     old_state = (s8)old_state_byte;
-    if (func_800A9E70(call_self, call_motion, call_sprite, self) != 0) {
+    if (func_800A9E70(self, motion, sprite, self) != 0) {
         return;
     }
 
@@ -206,21 +199,11 @@ airborne_motion:
         (*(s32 *)((u8 *)self + 0xA4)) = 0;
         height_sum += adjustment;
         (*(s32 *)((u8 *)self + 0x90)) = height_sum;
-        call_self = (void *)(u32)(motion_flags & 8);
-        if (call_self == 0) {
-            floor_height = func_800BCB04(motion->unk_00.at02.v,
-                                  motion->unk_04.at02.v,
-                                  (s16)(((S_8016B3A8_2 *)actor_base)->unk_88 - 0x20)) -
-                    ((S_8016B3A8_2 *)actor_base)->unk_88;
-            if (floor_height < (*(s16 *)((u8 *)self + 0x92))) {
-                (*(s16 *)((u8 *)self + 0x92)) = floor_height;
-                (*(u8 *)((u8 *)self + 0x9D)) = 0;
-                motion->unk_14 = 0;
-                ((S_8016B3A8_2 *)actor_base)->unk_1C |= 0x08000000;
-                goto finish_motion;
-            }
+        height_offset = motion_flags & 8;
+        if (height_offset != 0) {
+            goto finish_motion;
         }
-        goto finish_motion;
+        goto ground_call;
     }
 
     if (initial_sprite_flags & 0x800) {
@@ -239,8 +222,9 @@ airborne_motion:
         (*(s32 *)((u8 *)self + 0xA4)) = 0;
         height_sum -= adjustment;
         (*(s32 *)((u8 *)self + 0x90)) = height_sum;
-        call_self = (void *)(u32)(motion_flags & 8);
-        if (call_self == 0) {
+        height_offset = motion_flags & 8;
+        if (height_offset == 0) {
+ground_call:
             floor_height = func_800BCB04(motion->unk_00.at02.v,
                                   motion->unk_04.at02.v,
                                   (s16)(((S_8016B3A8_2 *)actor_base)->unk_88 - 0x20)) -
@@ -279,14 +263,14 @@ clear_height:
 grounded_motion:
     adjustment = (*(u16 *)((u8 *)self + 0x98)) & 8;
     if (adjustment == 0) {
-        height_offset = (*(s16 *)((u8 *)self + 0x92));
+        height_offset_2 = (*(s16 *)((u8 *)self + 0x92));
         height_bits = (*(u16 *)((u8 *)self + 0x92));
-        if (adjustment < height_offset) {
+        if (adjustment < height_offset_2) {
             adjustment = height_bits - 8;
             (*(s16 *)((u8 *)self + 0x92)) = adjustment;
             goto finish_motion;
         }
-        adjustment = height_offset < -8;
+        adjustment = height_offset_2 < -8;
         if (adjustment != 0) {
             adjustment = height_bits + 8;
             (*(s16 *)((u8 *)self + 0x92)) = adjustment;
