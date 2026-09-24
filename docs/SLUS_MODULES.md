@@ -83,14 +83,16 @@ functions, and data symbols, unsupported paths or sections, and malformed data
 records (`tools/build/slus_modules.py:load_manifest`). The reviewed evidence
 document must be under `docs/evidence/`.
 
-## Initialized data and link placement
+## Data storage and link placement
 
 Put data in the manifest only when its exact owner, bytes, extent, address, and
 section are established. For each definition record the source asset, offset,
-size, VMA, initializer bytes, and section. The current support handles `.sdata`
-definitions and checks the bytes against the asset, checks the VMA against the
-PS-X EXE mapping, and requires multiple definitions within a module to be
-contiguous and ordered. It replaces only the registered asset interval with the
+size, VMA, storage bytes, and section. Support covers initialized `.sdata` and
+zero-only `.sbss`. It checks the bytes against the asset and the VMA against the
+PS-X EXE mapping. Definitions within each input section must form one contiguous,
+ordered interval in one asset. Distinct sections may occupy separate intervals.
+The record size is the carved span, including ordinary alignment before the next
+symbol; it does not redefine the C type's size. The helper replaces only each registered asset interval with the
 module object's section; untouched prefixes and suffixes remain asset chunks.
 The ordered linker script must contain one unambiguous slot for the original
 asset, and owned absolute symbol assignments must have the declared address.
@@ -100,6 +102,12 @@ padding between exact byte chunks. Word-aligned carves preserve the directive.
 Unsupported, overlapping, changed, or ambiguous ownership is a build error,
 not permission to widen a carve (`tools/build/slus_modules.py:plan_asset_carves`,
 `rewrite_ordered_linker_script`, `filter_owned_symbols`).
+
+`tools/fidelity/prove_slus_ownership.py` checks actual object section identity,
+length and bytes, symbol offsets/bindings, linked addresses and final image bytes.
+For NOBITS `.sbss`, the ELF section size supplies zero storage; an absent section
+cannot pass as an empty binary dump. COMMON and absolute symbols cannot stand
+in for allocated storage. Schema-2 ownership receipts group data proofs by section.
 
 ## Recipes and row accounting
 

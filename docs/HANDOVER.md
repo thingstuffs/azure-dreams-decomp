@@ -6,7 +6,14 @@ accounting for the three unregistered MAIN routines. The primary agent handles
 hard analysis and orchestration; the owner authorizes Sol and Luna delegates for
 bounded grunt work. Claude's reset in about three days is a handoff checkpoint.
 
-Latest checkpoint: [runtime count and shared display slots](evidence/gp_count_and_slots.md)
+Latest checkpoint: [split small-data storage](evidence/gp_split_storage.md)
+lands 48660 with real `.sdata` and `.sbss` ownership. Production counts are now
+201 dependency records and 34 remaining GP rows; 875 physical / 884 logical
+rows. Full image, 53 words of genuine proof, 87 focused tests and the pilot's
+negative candidate checks pass. The runtime pilot is recertified. Address-taking
+owners remain private pending the coordinated assembler change.
+
+Previous checkpoint: [runtime count and shared display slots](evidence/gp_count_and_slots.md)
 recover seven C-owned globals for three more GP rows. Full SLUS retail image and
 402 words of genuine ASPSX 2.79 proof pass with zero masks. Current totals:
 202 dependency records, 35 remaining GP rows, 875 physical C inputs / 884 logical
@@ -18,7 +25,7 @@ counts and intermediate findings.
 [Next private ownership proofs](evidence/gp_next_ownership.md) establish two
 address-taking owners under the experimental generic correction, including a
 53CFC C declaration repair, and stock-assembler exact split `.sdata`/`.sbss`
-storage for 48660. The next concrete build task is per-section carve/proof support;
+storage for 48660 (now integrated with per-section carve/proof support);
 the global assembler switch still needs the remaining coordinated repairs.
 
 First execution checkpoint: [SLUS small-data measurements](evidence/fidelity_gp_repair_progress.md).

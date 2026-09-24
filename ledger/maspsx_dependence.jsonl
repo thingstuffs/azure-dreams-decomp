@@ -135,7 +135,6 @@
 {"id": "slus/w_80047E30", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_80047E78", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_80048224", "kinds": ["maspsx_pass"], "cause": "_prefer_lui_over_sll_branch_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_80048660", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_80049F68", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_8004A6C0", "kinds": ["maspsx_pass"], "cause": "_fold_selfinc_la", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_8004A700", "kinds": ["maspsx_pass"], "cause": "_fold_lo_into_accesses", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
