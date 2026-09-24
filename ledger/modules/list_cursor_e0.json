@@ -4,9 +4,9 @@
   "members": [
     "slus/w_80041134"
   ],
-  "at": "2026-09-24T18:51:42Z",
-  "module_fingerprint": "ee077b75eef5ef142afc43a6bfbe1e6dff01ab3fb9f6351b21c7db21390dd949",
-  "tool_fingerprint": "90c797eb875b396199e5",
+  "at": "2026-09-24T19:08:08Z",
+  "module_fingerprint": "26ed186f0d425b1dd4d26150f355ca78e058ba35b15ddd4d453785e64438b439",
+  "tool_fingerprint": "006c935f5f6611ff9b20",
   "review": {
     "path": "docs/evidence/list_cursor_e0.md",
     "sha256": "0295150c1c38923748913a8ae6020c3103b4dd2fdc8a3e69d2f1d0425c8801b7",
@@ -15,7 +15,7 @@
   "gate": {
     "result": "MATCH",
     "words_diff": 0,
-    "recipe_sha256": "377c6eb619cb54e56eca34bca220d4bea171573dd8c07ab91a2e575ab2e4272e"
+    "recipe_sha256": "3938380214d95a5b9bf826ab96ff1a4605e5224444faecaa753a62a707fce61c"
   },
   "image_sha1": "e6bfbb95ff6676899e077481221d73ddd4d3bf52",
   "rows": {
@@ -25,12 +25,12 @@
       "kind": "slus",
       "cfg": "2.8.1",
       "pins": 0,
-      "module_fingerprint": "ee077b75eef5ef142afc43a6bfbe1e6dff01ab3fb9f6351b21c7db21390dd949",
+      "module_fingerprint": "26ed186f0d425b1dd4d26150f355ca78e058ba35b15ddd4d453785e64438b439",
       "partition_gate": {
         "status": "ok",
         "exact": true,
         "proof": "whole SLUS image, partition context",
-        "module_fingerprint": "ee077b75eef5ef142afc43a6bfbe1e6dff01ab3fb9f6351b21c7db21390dd949",
+        "module_fingerprint": "26ed186f0d425b1dd4d26150f355ca78e058ba35b15ddd4d453785e64438b439",
         "physical_units": [
           {
             "source": "src/w_80041134_owned.c",
@@ -48,7 +48,7 @@
         ],
         "total": 0,
         "err": null,
-        "secs": 1.94
+        "secs": 1.95
       },
       "physical_units": [
         {
@@ -77,7 +77,7 @@
           "maspsx_exact": true,
           "proof": "whole SLUS image, partition context",
           "fired": [],
-          "module_fingerprint": "ee077b75eef5ef142afc43a6bfbe1e6dff01ab3fb9f6351b21c7db21390dd949",
+          "module_fingerprint": "26ed186f0d425b1dd4d26150f355ca78e058ba35b15ddd4d453785e64438b439",
           "trace_scope": "whole-physical-unit",
           "selfcheck": true,
           "funcs": 1,
