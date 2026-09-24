@@ -1,0 +1,192 @@
+{
+  "direct_receipt": {
+    "full_image_tested_by_this_review": false,
+    "generic_exact": true,
+    "generic_genuine_tokens_equal": true,
+    "genuine_exact": true,
+    "path": "work/native_lane/gp_cd_contract/combined8/receipt.json",
+    "retail_words": 1041,
+    "stock_exact": false,
+    "stock_short_functions": {
+      "func_8003E758": {
+        "actual": 667,
+        "retail": 698
+      },
+      "func_8003F368": {
+        "actual": 109,
+        "retail": 113
+      }
+    }
+  },
+  "findings": [
+    {
+      "evidence": [
+        "cd_command_state_owned.c:2-14",
+        "members/w_8003E758.c:37-51",
+        "members/w_8003F368.c:4-5",
+        "members/w_8003F624.c:17"
+      ],
+      "finding": "Owner defines each of 11 data objects once; one D_800814D3[2] base declaration is shared. E758 named assembler aliases remain declarations, not additional storage.",
+      "id": "resolved_duplicate_storage_and_d3",
+      "severity": "resolved"
+    },
+    {
+      "evidence": [
+        "members/w_8003E758.c:322-330"
+      ],
+      "finding": "Explicit offset computes ((head_index*2)+head_index)*8 = 24*head_index for nonnegative byte-derived index; selects the same queue entry while changing temporary lifetime.",
+      "id": "e758_completion_offset",
+      "severity": "semantic_equivalence"
+    },
+    {
+      "evidence": [
+        "members/w_8003E758.c:5-7",
+        "members/w_8003E758.c:22",
+        "include/slus/cd_cohort_types.h:5-14"
+      ],
+      "finding": "S_80083164 view now declares only observed u16 at element zero; shared driver declares only observed 12-byte prefix. No enclosing allocation extent is asserted.",
+      "id": "e758_observed_prefix",
+      "severity": "positive"
+    },
+    {
+      "evidence": [
+        "members/w_8003F368.c:4-5",
+        "members/w_8003F368.c:36-67",
+        "members/w_8003F368.c:71-83"
+      ],
+      "finding": "Byte views [2] and [1] replace old padded structs. Integer-address subtraction reaches D_80081450 and previous status byte on 32-bit target; nonportable integer-pointer round-trip remains.",
+      "id": "f368_bounded_address_views",
+      "severity": "target_specific"
+    },
+    {
+      "evidence": [
+        "members/w_8003F2A4.c:17-28",
+        "include/slus/cd_cohort_types.h:16-22",
+        "src/slus/w_8003F2A4.c:25-40"
+      ],
+      "finding": "Shared queue pointer removes incompatible local entry type. u32 offset-4 word accurately models target payload bits and measured two loads/one store, but drops old C volatile access guarantee; historical intent is unresolved.",
+      "id": "f2a4_queue_word",
+      "severity": "qualified_semantics"
+    },
+    {
+      "evidence": [
+        "members/w_8003E758.c:37-51",
+        "members/w_8003E758.c:435-439",
+        "members/w_8003F368.c:79"
+      ],
+      "finding": "Earlier named assembler-symbol aliases and register/keep pins remain. No new padding, pins, inline assembly, or assembler exceptions found in final delta.",
+      "id": "existing_codegen_constructs",
+      "severity": "retained"
+    },
+    {
+      "evidence": [
+        "receipt.json"
+      ],
+      "finding": "Generic and genuine direct projected retail comparison is exact for eight complete functions/1041 words with zero masks. Stock differs for E758 and F368; this review does not establish full-image placement or outside-object protection.",
+      "id": "proof_limit",
+      "severity": "validation_limit"
+    },
+    {
+      "evidence": [
+        "REPORT.md",
+        "members/w_8003E758.c:322-330",
+        "members/w_8003F368.c:4-5"
+      ],
+      "finding": "REPORT.md body preservation refers to frozen cohort inputs; final E758 and F368 do differ from production source. Clarifying that referent would avoid ambiguity.",
+      "id": "report_scope",
+      "severity": "documentation_clarity"
+    }
+  ],
+  "input_sha256": {
+    "work/native_lane/gp_cd_contract/combined8/cd_command_state_owned.c": "3a1a47fdaca76973cef226a7fb9acdc5d7cfe46cdb2cb62eee65da28aa716f6b",
+    "work/native_lane/gp_cd_contract/combined8/code2__cd_command_state.c": "1a29119de5c8fc22122be81c0a307f993a7ef17cf8e324afab1c11a091b731ee",
+    "work/native_lane/gp_cd_contract/combined8/members/w_8003E34C.c": "5bca8c77dbcb20c9e648fd3d9b7f578497d9daaded7c44f95983e0aad1073955",
+    "work/native_lane/gp_cd_contract/combined8/members/w_8003E4FC.c": "41db07c2944560af8d0f6fcc59c7e54a277315e2e2d5f80680050ddabdb90409",
+    "work/native_lane/gp_cd_contract/combined8/members/w_8003E758.c": "30f57595570cab4726a5db69be227dfac637243621a542b9888af9ead95c6ffc",
+    "work/native_lane/gp_cd_contract/combined8/members/w_8003F2A4.c": "102426b3f2dd15f8a2e2f103ec24977958945b48c1085e1b764dc765755952e9",
+    "work/native_lane/gp_cd_contract/combined8/members/w_8003F368.c": "060cef847bf5f71619a4763b8fbcfbe5be7ec62bfb799613078d34d3edeeacb1",
+    "work/native_lane/gp_cd_contract/combined8/members/w_8003F5AC.c": "a28ececbbc96b7641c9f6c407418586255f9e2f76a4ab3063ef50156ee8d4db3",
+    "work/native_lane/gp_cd_contract/combined8/members/w_8003F624.c": "f6b2f1617c08693562bb4e681056da8e8349058f0f1645dc86db02e5ae9178b5",
+    "work/native_lane/gp_cd_contract/combined8/module.json": "ab3901f5cb82692d19bd98921f58268085b2aa0344d067dbc1933df31e7ba0a4",
+    "work/native_lane/gp_cd_contract/combined8/receipt.json": "8a73188903710248f24f42f99f111dac9eebda48ccde716ab133119806f021cf",
+    "work/native_lane/gp_cd_contract/include/slus/cd_cohort_types.h": "4a972fa5eb6a6175a8f7578fd1b29111655666b2d7f674e94049d1b9268c02f4"
+  },
+  "owned_data": {
+    "asset": "build_slus/assets/54240.bin",
+    "definitions_in_aggregator": 11,
+    "duplicate_definitions_in_members": false,
+    "module_data_pieces": 11,
+    "module_data_records": 11,
+    "records": [
+      {
+        "asset_slice_exact": true,
+        "size": 1,
+        "symbol": "D_800814D0",
+        "vram": "0x800814d0"
+      },
+      {
+        "asset_slice_exact": true,
+        "size": 1,
+        "symbol": "D_800814D4",
+        "vram": "0x800814d4"
+      },
+      {
+        "asset_slice_exact": true,
+        "size": 4,
+        "symbol": "D_800814CC",
+        "vram": "0x800814cc"
+      },
+      {
+        "asset_slice_exact": true,
+        "size": 8,
+        "symbol": "D_80081450",
+        "vram": "0x80081450"
+      },
+      {
+        "asset_slice_exact": true,
+        "size": 1,
+        "symbol": "D_80080AD0",
+        "vram": "0x80080ad0"
+      },
+      {
+        "asset_slice_exact": true,
+        "size": 2,
+        "symbol": "D_80080AD2",
+        "vram": "0x80080ad2"
+      },
+      {
+        "asset_slice_exact": true,
+        "size": 2,
+        "symbol": "D_80080AD4",
+        "vram": "0x80080ad4"
+      },
+      {
+        "asset_slice_exact": true,
+        "size": 4,
+        "symbol": "D_80080AD8",
+        "vram": "0x80080ad8"
+      },
+      {
+        "asset_slice_exact": true,
+        "size": 4,
+        "symbol": "D_80080ADC",
+        "vram": "0x80080adc"
+      },
+      {
+        "asset_slice_exact": true,
+        "size": 4,
+        "symbol": "D_800814B0",
+        "vram": "0x800814b0"
+      },
+      {
+        "asset_slice_exact": true,
+        "size": 4,
+        "symbol": "D_800814B4",
+        "vram": "0x800814b4"
+      }
+    ],
+    "total_bytes": 35
+  },
+  "schema": 1,
+  "scope": "read-only final combined8 source review; no build or measured input edits"
+}

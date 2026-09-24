@@ -1,0 +1,282 @@
+{
+  "source_sha256": "5895816a752092e590e939803e08d5f60b47902bf4e73922277a76b1e0c30ec3",
+  "recipe": {
+    "src": "src/w_8003F2A4.c",
+    "out": "build/src/w_8003F2A4.o",
+    "ccver": "2.7.2-cdk",
+    "ccflags": "-G32",
+    "asflags": ""
+  },
+  "functions": [
+    "func_8003F2A4"
+  ],
+  "hashes": {
+    "stock": "df20ec2e02cfa5d9bd64ff14a61ada9db5ed257dda91221249f2b366e8b063c0",
+    "generic": "6d664aa06579107a4c93f7696301369ea00323bda0bdd9e1732ac37c1f0ec90e",
+    "genuine": "c3a97972389320de525f775cc472d4bb381740dba08c129a4b3ad34b578d2aca"
+  },
+  "retail": {
+    "stock": {
+      "func_8003F2A4": {
+        "present": true,
+        "address": "0x8003f2a4",
+        "actual_words": 31,
+        "retail_words": 31,
+        "length_equal": true,
+        "masked_indices": [
+          4,
+          20,
+          25
+        ],
+        "masked_relocations": [
+          {
+            "index": 4,
+            "word": "93820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 20,
+            "word": "af820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              32
+            ]
+          },
+          {
+            "index": 25,
+            "word": "af820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              36
+            ]
+          }
+        ],
+        "exact_unmasked": false,
+        "unmasked_mismatch_sites": [],
+        "masked_disagreement_sites": [
+          {
+            "index": 4,
+            "address": "0x8003f2b4",
+            "actual": "93820000",
+            "retail": "93820b3c"
+          },
+          {
+            "index": 20,
+            "address": "0x8003f2f4",
+            "actual": "af820000",
+            "retail": "af820b1c"
+          },
+          {
+            "index": 25,
+            "address": "0x8003f308",
+            "actual": "af820000",
+            "retail": "af820b20"
+          }
+        ]
+      }
+    },
+    "generic": {
+      "func_8003F2A4": {
+        "present": true,
+        "address": "0x8003f2a4",
+        "actual_words": 31,
+        "retail_words": 31,
+        "length_equal": true,
+        "masked_indices": [
+          4,
+          20,
+          25
+        ],
+        "masked_relocations": [
+          {
+            "index": 4,
+            "word": "93820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 20,
+            "word": "af820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              32
+            ]
+          },
+          {
+            "index": 25,
+            "word": "af820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              36
+            ]
+          }
+        ],
+        "exact_unmasked": false,
+        "unmasked_mismatch_sites": [],
+        "masked_disagreement_sites": [
+          {
+            "index": 4,
+            "address": "0x8003f2b4",
+            "actual": "93820000",
+            "retail": "93820b3c"
+          },
+          {
+            "index": 20,
+            "address": "0x8003f2f4",
+            "actual": "af820000",
+            "retail": "af820b1c"
+          },
+          {
+            "index": 25,
+            "address": "0x8003f308",
+            "actual": "af820000",
+            "retail": "af820b20"
+          }
+        ]
+      }
+    },
+    "genuine": {
+      "func_8003F2A4": {
+        "present": true,
+        "address": "0x8003f2a4",
+        "actual_words": 31,
+        "retail_words": 31,
+        "length_equal": true,
+        "masked_indices": [
+          4,
+          20,
+          25
+        ],
+        "masked_relocations": [
+          {
+            "index": 4,
+            "word": "93820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 20,
+            "word": "af820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              32
+            ]
+          },
+          {
+            "index": 25,
+            "word": "af820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              36
+            ]
+          }
+        ],
+        "exact_unmasked": false,
+        "unmasked_mismatch_sites": [],
+        "masked_disagreement_sites": [
+          {
+            "index": 4,
+            "address": "0x8003f2b4",
+            "actual": "93820000",
+            "retail": "93820b3c"
+          },
+          {
+            "index": 20,
+            "address": "0x8003f2f4",
+            "actual": "af820000",
+            "retail": "af820b1c"
+          },
+          {
+            "index": 25,
+            "address": "0x8003f308",
+            "actual": "af820000",
+            "retail": "af820b20"
+          }
+        ]
+      }
+    }
+  },
+  "generic_vs_genuine": {
+    "exact": true,
+    "pair_token_diff_diagnostic": 0,
+    "left_words": 31,
+    "right_words": 31,
+    "missing_right": [],
+    "delay_only": [],
+    "classes": {},
+    "regions": []
+  },
+  "projected_retail": {
+    "stock": {
+      "present": true,
+      "address": "0x8003f2a4",
+      "actual_words": 31,
+      "retail_words": 31,
+      "length_equal": true,
+      "masked_indices": [],
+      "masked_relocations": [],
+      "exact_unmasked": true,
+      "unmasked_mismatch_sites": [],
+      "masked_disagreement_sites": []
+    },
+    "generic": {
+      "present": true,
+      "address": "0x8003f2a4",
+      "actual_words": 31,
+      "retail_words": 31,
+      "length_equal": true,
+      "masked_indices": [],
+      "masked_relocations": [],
+      "exact_unmasked": true,
+      "unmasked_mismatch_sites": [],
+      "masked_disagreement_sites": []
+    },
+    "genuine": {
+      "present": true,
+      "address": "0x8003f2a4",
+      "actual_words": 31,
+      "retail_words": 31,
+      "length_equal": true,
+      "masked_indices": [],
+      "masked_relocations": [],
+      "exact_unmasked": true,
+      "unmasked_mismatch_sites": [],
+      "masked_disagreement_sites": []
+    }
+  },
+  "projected_generic_vs_genuine": {
+    "exact": true,
+    "pair_token_diff_diagnostic": 0,
+    "left_words": 31,
+    "right_words": 31,
+    "missing_right": [],
+    "delay_only": [],
+    "classes": {},
+    "regions": []
+  }
+}

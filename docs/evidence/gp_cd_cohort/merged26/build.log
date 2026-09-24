@@ -1,0 +1,66 @@
+[1/65] DATA-PIECE-VERIFY build/src/cd_command_state_owned.o
+{"applied": true, "module": "cd_command_state", "post_object_sha256": "84b03e9d27636a7eb2804e666989bdc1dbf0532e37e060fea78ddc3ad25743da", "verified": true}
+[2/65] CC build/partition_sources/code2.c (gcc 2.8.1  )
+[3/65] CC src/gp_shared_slots.c (gcc 2.7.2-cdk  )
+[4/65] CC src/gp_shared_81510.c (gcc 2.7.2-cdk  )
+[5/65] CC src/gp_split_storage.c (gcc 2.7.2-cdk  )
+[6/65] CC src/gp_state_defaults.c (gcc 2.7.2-cdk  )
+[7/65] CC src/konami_runtime_gp_count.c (gcc 2.7.2-cdk  )
+[8/65] CC src/konami_runtime_directory.c (gcc 2.7.2-cdk  )
+[9/65] CC src/konami_runtime_w_80035484_owned.c (gcc 2.7.2-cdk  )
+[10/65] CC src/konami_runtime_gp_shared_8099c.c (gcc 2.8.1  )
+[11/65] CC src/konami_runtime_w_80038A10_owned.c (gcc 2.7.2-cdk  )
+[12/65] CC src/konami_runtime_w_80035888_owned.c (gcc 2.7.2-cdk  )
+[13/65] CC src/slot_transition.c (gcc 2.7.2-cdk -G16 )
+[14/65] CC src/slot_transition_secondary.c (gcc 2.7.2-cdk -G16 )
+[15/65] CC src/w_80041134_owned.c (gcc 2.8.1  )
+[16/65] CC src/sort_rank_81540_owned.c (gcc 2.7.2-cdk  )
+[17/65] CC src/w_80044618_owned.c (gcc 2.7.2  )
+[18/65] CC src/w_80044698_owned.c (gcc 2.7.2  )
+[19/65] CC src/w_800448BC_owned.c (gcc 2.7.2  )
+[20/65] CC src/w_8004713C_owned.c (gcc 2.7.2  )
+[21/65] CC src/w_80047338_owned.c (gcc 2.7.2-cdk  )
+[22/65] CC src/w_80047468_owned.c (gcc 2.7.2-cdk  )
+[23/65] CC src/w_800508F0_owned.c (gcc 2.7.2  )
+[24/65] CC src/w_8004DCA8_owned.c (gcc 2.7.2-cdk  )
+[25/65] MODULE-SYMS build/slus_006.14.undefined_syms.modules.txt
+[26/65] MODULE-ASSETS build/module_assets/3E018_000000_016184.bin build/module_assets/3E018_016188_0161A0.bin build/module_assets/3E018_0161A8_0161B8.bin build/module_assets/54240_000000_00002C.bin build/module_assets/54240_000030_000064.bin build/module_assets/54240_000074_00007C.bin build/module_assets/54240_000080_000090.bin build/module_assets/54240_000091_000092.bin build/module_assets/54240_000096_000098.bin build/module_assets/54240_0000A0_0000B3.bin build/module_assets/54240_0000B4_0000BC.bin build/module_assets/54240_0000C2_0000C8.bin build/module_assets/54240_0000CC_0000D0.bin build/module_assets/54240_0000D6_0000F0.bin build/module_assets/54240_0000F4_000118.bin build/module_assets/54240_000128_000140.bin build/module_assets/54240_000148_000154.bin build/module_assets/54240_00015C_000A00.bin build/module_assets/54240_000A04_000A08.bin build/module_assets/54240_000A0C_000A10.bin build/module_assets/54240_000A18_000A20.bin build/module_assets/54240_000A24_000A70.bin build/module_assets/54240_000A78_000A8C.bin build/module_assets/54240_000A91_000A94.bin build/module_assets/54240_000A95_000AA0.bin build/module_assets/54240_000AA4_000AA8.bin build/module_assets/54240_000AAA_000AC0.bin build/module_assets/54240_000AC2_000AC8.bin build/module_assets/54240_000ACC_000AD0.bin build/module_assets/54240_000AD4_000AD8.bin build/module_assets/54240_000AF2_000B00.bin build/module_assets/54240_000B04_000B0C.bin build/module_assets/54240_000B1C_000B28.bin build/module_assets/54240_000B30_02BDC0.bin
+[27/65] LD-SCRIPT build/slus_006.14_ordered.ld
+[28/65] BIN build/module_assets/3E018_016188_0161A0.bin
+[29/65] BIN build/module_assets/3E018_000000_016184.bin
+[30/65] CC src/w_80050DA8_owned.c (gcc 2.7.2-cdk  )
+[31/65] BIN build/module_assets/3E018_0161A8_0161B8.bin
+[32/65] BIN build/module_assets/54240_000000_00002C.bin
+[33/65] BIN build/module_assets/54240_000030_000064.bin
+[34/65] BIN build/module_assets/54240_000074_00007C.bin
+[35/65] BIN build/module_assets/54240_000080_000090.bin
+[36/65] BIN build/module_assets/54240_000091_000092.bin
+[37/65] BIN build/module_assets/54240_000096_000098.bin
+[38/65] BIN build/module_assets/54240_0000A0_0000B3.bin
+[39/65] BIN build/module_assets/54240_0000B4_0000BC.bin
+[40/65] BIN build/module_assets/54240_0000C2_0000C8.bin
+[41/65] BIN build/module_assets/54240_0000CC_0000D0.bin
+[42/65] BIN build/module_assets/54240_0000D6_0000F0.bin
+[43/65] BIN build/module_assets/54240_0000F4_000118.bin
+[44/65] BIN build/module_assets/54240_000128_000140.bin
+[45/65] BIN build/module_assets/54240_000148_000154.bin
+[46/65] BIN build/module_assets/54240_00015C_000A00.bin
+[47/65] BIN build/module_assets/54240_000A04_000A08.bin
+[48/65] BIN build/module_assets/54240_000A0C_000A10.bin
+[49/65] BIN build/module_assets/54240_000A18_000A20.bin
+[50/65] BIN build/module_assets/54240_000A24_000A70.bin
+[51/65] BIN build/module_assets/54240_000A78_000A8C.bin
+[52/65] BIN build/module_assets/54240_000A91_000A94.bin
+[53/65] BIN build/module_assets/54240_000A95_000AA0.bin
+[54/65] BIN build/module_assets/54240_000AA4_000AA8.bin
+[55/65] BIN build/module_assets/54240_000AAA_000AC0.bin
+[56/65] BIN build/module_assets/54240_000AC2_000AC8.bin
+[57/65] BIN build/module_assets/54240_000ACC_000AD0.bin
+[58/65] BIN build/module_assets/54240_000AD4_000AD8.bin
+[59/65] BIN build/module_assets/54240_000AF2_000B00.bin
+[60/65] BIN build/module_assets/54240_000B04_000B0C.bin
+[61/65] BIN build/module_assets/54240_000B1C_000B28.bin
+[62/65] BIN build/module_assets/54240_000B30_02BDC0.bin
+[63/65] PARTITION-COVERAGE build/partition_sources/coverage.ok
+[64/65] LINK build/slus_006.14.elf
+[65/65] OBJCOPY build/slus_006.14

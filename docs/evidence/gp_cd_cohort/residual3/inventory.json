@@ -1,0 +1,150 @@
+{
+  "schema": 1,
+  "title": "Bounded residual collector GP inventory",
+  "scope": {
+    "phase": "post-ready26 residuals named by primary",
+    "collectors": [
+      {"local_source": "src/slus/code.c", "logical_row": "slus/code", "functions": ["func_8003F5D4", "func_8003F5E0"]},
+      {"local_source": "src/slus/code2.c", "logical_row": "slus/code2", "functions": ["func_80048DA0"]}
+    ],
+    "caller_sources_inspected": [
+      "src/slus/w_8004425C.c",
+      "src/slus/w_8004450C.c",
+      "src/slus/w_800558FC.c"
+    ],
+    "historical_context": "docs/evidence/gp_component20_bridges documents historical gp_01 collector-row connectivity. It is not used as a current module-membership assertion.",
+    "nonclaims": [
+      "No whole-source or complete emitted-function count claim.",
+      "No historical retail TU or data-allocation extent claim.",
+      "No ELF section, symbol-binding, or relocation audit.",
+      "No ownership or architecture decision."
+    ]
+  },
+  "inputs": [
+    {"path": "src/slus/code.c", "sha256": "1c1afc31d56af7f3505ad1a9e54c4c21023aac81b2314ad3581dbeadf1e28b16"},
+    {"path": "src/slus/code2.c", "sha256": "443e6c482c7a5fe6fcf53c5381384618acac6adb06cff6d287aea2386f65c2bb"},
+    {"path": "src/slus/w_8004425C.c", "sha256": "7591eb6fd7d7645b29df583e30d0696e8f444337dd8824c5ee3df71de4ac04e7"},
+    {"path": "src/slus/w_8004450C.c", "sha256": "c2f99b3c4d77da268daf069e0f45ceafd1722b89e0cacb668a29b2e8fbe6c3f4"},
+    {"path": "src/slus/w_800558FC.c", "sha256": "cf81c9ac0a0c35b59e8d6e9cdc5d7601480922eb098aa316da30e5d1ad34d206"},
+    {"path": "include/globals.h", "sha256": "07c676c2a6108bcb94ff04c92b9de539bf872a85f0c5b1ae18ce71de3a93e189"},
+    {"path": "config/slus_modules.json", "sha256": "8fbae5f5809f285594a1d9f09685b12297840921dd960bfa6be00b4e2decd9c8"},
+    {"path": "ledger/splits/slus.jsonl", "sha256": "1ba46ed2ffaec2afaa0ad23103288eb2613269275504d1a93528bd1a00a441eb"},
+    {"path": "ledger/rows.jsonl", "sha256": "c2d6352a1440e2f67981aba0a4122d8809ddeb4ebe401a9252f7eac68057ed07"},
+    {"path": "build_slus/assets/54240.bin", "sha256": "c4e7faf5c7f42838e9fb2e9238af76ed6972cdc8ef055fa2b02a18d9360f76da"},
+    {"path": "docs/evidence/gp_component20_bridges/REPORT.md", "sha256": "1d047ed8dff82c272cb075f641dac5472a8c1c2e436d2ed13467d76359f4c2c7"},
+    {"path": "docs/evidence/gp_component20_bridges/inventory.json", "sha256": "db38b1e53e64271984680c6ea90e067ead680b85887e18deafc4365150e01b5b"},
+    {"path": "docs/SLUS_MODULES.md", "sha256": "4249582681e912a3a598dc4640c9559f7b1e5cb7181c6c0709308a1408cab4d3"},
+    {"path": "tools/build/slus_modules.py", "sha256": "69b68d32d0d2aef22f947bb985b067234c382d33a218d5517e21c496effc1b80"},
+    {"path": "tools/build/slus_partitions.py", "sha256": "28004bb63ec42f23c1b3835098dc2f725d7d0b6affaf60b487fefdee675cb897"}
+  ],
+  "asset_54240_observations": {
+    "path": "build_slus/assets/54240.bin",
+    "size_bytes": 179648,
+    "symbols": [
+      {
+        "symbol": "D_800814C8",
+        "vma": "0x800814C8",
+        "asset_interval_start": "0xA88",
+        "asset_interval_end_exclusive": "0xA8C",
+        "read_bytes": "00000000",
+        "source_view": "extern int D_800814C8 in include/globals.h:9; 4-byte target-int view observed in selected target source"
+      },
+      {
+        "symbol": "D_80080B18",
+        "vma": "0x80080B18",
+        "asset_interval_start": "0xD8",
+        "asset_interval_end_exclusive": "0xE8",
+        "read_bytes": "00020500000000000001030302020202",
+        "source_view": "extern u8 D_80080B18[16] in code2.c:262"
+      },
+      {
+        "symbol": "D_80080B1B",
+        "vma": "0x80080B1B",
+        "asset_interval_start": "0xDB",
+        "asset_interval_end_exclusive": "0xDC",
+        "read_bytes": "00",
+        "source_view": "extern u8 in code2.c:263; address is D_80080B18 + 3"
+      },
+      {
+        "symbol": "D_80080B1C",
+        "vma": "0x80080B1C",
+        "asset_interval_start": "0xDC",
+        "asset_interval_end_exclusive": "0xDD",
+        "read_bytes": "00",
+        "source_view": "extern u8 in code2.c:264; address is D_80080B18 + 4"
+      }
+    ],
+    "overlap_limit": "The scalar names at B1B/B1C overlap the declared D_80080B18[16] address span; this is not evidence for separate allocation extents."
+  },
+  "function_accesses": [
+    {
+      "function": "func_8003F5D4",
+      "source": "src/slus/code.c:92-95",
+      "logical_row": "slus/code",
+      "recipe": {"ccver": "2.7.2", "ccflags": "", "asflags": ""},
+      "global_access": {"symbol": "D_800814C8", "action": "read and return"},
+      "direct_callers_observed": [
+        {"function": "func_800558FC", "source": "src/slus/w_800558FC.c:5,12,16", "row": "slus/w_800558FC", "recipe": {"ccver": "2.7.2-cdk", "ccflags": "-G0", "asflags": ""}}
+      ]
+    },
+    {
+      "function": "func_8003F5E0",
+      "source": "src/slus/code.c:98-100",
+      "logical_row": "slus/code",
+      "recipe": {"ccver": "2.7.2", "ccflags": "", "asflags": ""},
+      "global_access": {"symbol": "D_800814C8", "action": "store argument"},
+      "direct_callers_observed": [
+        {"function": "func_8004425C", "source": "src/slus/w_8004425C.c:45-46,87", "row": "slus/w_8004425C", "recipe": {"ccver": "2.7.2", "ccflags": "", "asflags": ""}, "argument": "((s32 *)&D_80081480)[3]"},
+        {"function": "func_8004450C", "source": "src/slus/w_8004450C.c:25-27,47", "row": "slus/w_8004450C", "recipe": {"ccver": "2.7.2", "ccflags": "", "asflags": ""}, "argument": "D_8008148C_alias2.field_0"}
+      ]
+    },
+    {
+      "function": "func_80048DA0",
+      "source": "src/slus/code2.c:262-275",
+      "logical_row": "slus/code2",
+      "recipe": {"ccver": "2.8.1", "ccflags": "", "asflags": ""},
+      "global_accesses": [
+        {"symbol": "D_80080B1B", "action": "store count + 5"},
+        {"symbol": "D_80080B18", "action": "return table[index] from u8 pointer"},
+        {"symbol": "D_80080B1C", "action": "store count * 2 + 5"}
+      ],
+      "bounds": "No local table-index bounds check; valid index range is not established.",
+      "direct_call_scan": "Exact function-name search in src/slus found the definition only; no textual direct caller identified."
+    }
+  ],
+  "current_registry_rows": [
+    {"id": "slus/code", "logical_source": "src/code.c", "local_source": "src/slus/code.c", "registered_defs_count": 221, "recipe": {"ccver": "2.7.2", "ccflags": "", "asflags": ""}, "registry_src_sha256": "b2c7805e009a7ae79b7cdbd95f4c7d246f4491dd1d4367ac12e101564b302c9c", "local_source_sha256": "1c1afc31d56af7f3505ad1a9e54c4c21023aac81b2314ad3581dbeadf1e28b16"},
+    {"id": "slus/code2", "logical_source": "src/code2.c", "local_source": "src/slus/code2.c", "registered_defs_count": 32, "recipe": {"ccver": "2.8.1", "ccflags": "", "asflags": ""}, "registry_src_sha256": "6e3cdb453228a565637cab754f42e70df8647c75bbf38fbf30dc16116029d69d", "local_source_sha256": "443e6c482c7a5fe6fcf53c5381384618acac6adb06cff6d287aea2386f65c2bb"},
+    {"id": "slus/w_8004425C", "logical_source": "src/w_8004425C.c", "registered_defs_count": 7, "recipe": {"ccver": "2.7.2", "ccflags": "", "asflags": ""}, "registry_src_sha256": "a85ed886a5cb6222fc3dffe9a414c315c7f3f09384fdc2a6b707ebf915e21943", "local_source_sha256": "7591eb6fd7d7645b29df583e30d0696e8f444337dd8824c5ee3df71de4ac04e7"},
+    {"id": "slus/w_8004450C", "logical_source": "src/w_8004450C.c", "registered_defs_count": 7, "recipe": {"ccver": "2.7.2", "ccflags": "", "asflags": ""}, "registry_src_sha256": "6488994281b429f5135479f7d49026ce6157de33913d3c94c92a513adf14568c", "local_source_sha256": "c2f99b3c4d77da268daf069e0f45ceafd1722b89e0cacb668a29b2e8fbe6c3f4"},
+    {"id": "slus/w_800558FC", "logical_source": "src/w_800558FC.c", "registered_defs_count": 2, "recipe": {"ccver": "2.7.2-cdk", "ccflags": "-G0", "asflags": ""}, "registry_src_sha256": "e9e1f1f39467f54930af381e24a81e3a15c16c5e4be41b08c2f3360204b76543", "local_source_sha256": "cf81c9ac0a0c35b59e8d6e9cdc5d7601480922eb098aa316da30e5d1ad34d206"}
+  ],
+  "module_manifest_check": {
+    "path": "config/slus_modules.json",
+    "sha256": "8fbae5f5809f285594a1d9f09685b12297840921dd960bfa6be00b4e2decd9c8",
+    "module_count_current": 23,
+    "target_functions_or_symbols_found": false,
+    "bridge_inventory_module_count": 19,
+    "note": "The bridge companion's earlier config_check count differs from the current exact config read."
+  },
+  "workflow_observations": {
+    "module_manifest": [
+      "tools/build/slus_modules.py load_manifest requires a nonempty module members list.",
+      "Member row ID must match source stem; row IDs, member sources/object stems, functions and data symbols are unique across modules.",
+      "logical_edges maps one physical module edge back to its original per-row logical edges using the module recipe."
+    ],
+    "function_partition": [
+      "tools/build/slus_partitions.py plan parents preserve the canonical row ID/source, current recipe, frozen raw-source SHA-256 and complete parent function list.",
+      "Partition parts assign disjoint canonical functions to named destination modules; the parent remainder must remain nonempty.",
+      "The validator rejects a parent that is itself a module aggregator or whole-row module member, and rejects duplicate function ownership.",
+      "Rendering emits a parent remainder plus function-only part fragments; emitted function coverage is checked, and projected edges retain the original parent row identity."
+    ],
+    "pure_collector_owner_constraint": "The function partition helper requires a destination module; the current module manifest requires that module to contain at least one whole-row member. No direct whole-row caller was found for func_80048DA0."
+  },
+  "targeted_next_actions": [
+    "Primary review can assess whether w_8004425C and w_8004450C are justified whole-row context for the code.c setter partition; both match its current 2.7.2 recipe, but only call it and do not directly touch D_800814C8.",
+    "Keep w_800558FC's getter call as an external call candidate unless its distinct 2.7.2-cdk -G0 recipe is handled explicitly.",
+    "For func_80048DA0, establish a source-supported module anchor or adjust the pure-partition ownership mechanism; do not add unrelated rows solely for the current nonempty-member requirement.",
+    "Before any ownership claim, audit actual object sections, bindings, relocations and complete function coverage; these were outside this read-only inventory."
+  ]
+}

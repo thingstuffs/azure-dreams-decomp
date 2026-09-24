@@ -1,0 +1,535 @@
+{
+  "source": "work/native_lane/gp_cd_contract/cohort/f240_owned.c",
+  "source_sha256": "fd2520894739effd99a2ae2ca6299bb9681902bab774d8713c6852f779e17cdf",
+  "private_header_sha256": {
+    "cd_cohort_types.h": "4a972fa5eb6a6175a8f7578fd1b29111655666b2d7f674e94049d1b9268c02f4",
+    "cd_state.h": "993ba6df16dd90218f278f09a180a1db6a8f8a3bfa3a03c41c0df73e684e3614"
+  },
+  "arms": {
+    "A_cdk_noexp": {
+      "compiler": "2.7.2-cdk",
+      "flags": [
+        "-G32",
+        "-fno-expensive-optimizations"
+      ],
+      "source_sha256": "fd2520894739effd99a2ae2ca6299bb9681902bab774d8713c6852f779e17cdf",
+      "gcc_sha256": "7a571911a97cef0c6b7b5d4174e89ac54f9806ce3d4b233c0f8620e3503c672b",
+      "assembly_sha256": "22dd082d82ff709bf7d9f57a1cb969345a6da3359d4243cb4c90108f3634321c",
+      "rtl_key_order": {
+        "rtl": [
+          "queue_hi",
+          "queue_lo",
+          "head_load",
+          "add_31",
+          "mask_31",
+          "stride_shift_1",
+          "stride_add",
+          "stride_shift_3",
+          "entry_address",
+          "return_load"
+        ],
+        "flow": [
+          "queue_hi",
+          "queue_lo",
+          "head_load",
+          "add_31",
+          "mask_31",
+          "stride_shift_1",
+          "stride_add",
+          "stride_shift_3",
+          "entry_address",
+          "return_load"
+        ],
+        "combine": [
+          "queue_hi",
+          "queue_lo",
+          "head_load",
+          "add_31",
+          "mask_31",
+          "stride_shift_1",
+          "stride_add",
+          "stride_shift_3",
+          "entry_address",
+          "return_load"
+        ],
+        "sched": [
+          "head_load",
+          "add_31",
+          "mask_31",
+          "stride_shift_1",
+          "stride_add",
+          "queue_hi",
+          "queue_lo",
+          "stride_shift_3",
+          "entry_address",
+          "return_load"
+        ],
+        "sched2": [
+          "head_load",
+          "add_31",
+          "mask_31",
+          "stride_shift_1",
+          "stride_add",
+          "queue_hi",
+          "queue_lo",
+          "stride_shift_3",
+          "entry_address",
+          "return_load"
+        ],
+        "regmove": [
+          "queue_hi",
+          "queue_lo",
+          "head_load",
+          "add_31",
+          "mask_31",
+          "stride_shift_1",
+          "stride_add",
+          "stride_shift_3",
+          "entry_address",
+          "return_load"
+        ]
+      },
+      "assembly_ops": [
+        "lbu",
+        "addu",
+        "andi",
+        "sll",
+        "addu",
+        "lui",
+        "addiu",
+        "sll",
+        "addu",
+        "lbu",
+        "j"
+      ],
+      "assembly_load_delay_nop_marker": 1,
+      "first_scheduler_cycles": 12,
+      "dump_files": [
+        {
+          "name": "f240_owned.c.bp",
+          "sha256": "a71f8e586433a03f92847b32cb1366c418be5766ae9174f0dd82c905a01eadcb",
+          "bytes": 2171
+        },
+        {
+          "name": "f240_owned.c.combine",
+          "sha256": "0a4ee28dc139ae650b36db3033d4c730627fb4e24a07083dfc3583e497243cb1",
+          "bytes": 2614
+        },
+        {
+          "name": "f240_owned.c.cse",
+          "sha256": "b679d6b61d11ea893165f16f60169a2b2b245ed47bcbaa0484eee2cf306d4ffb",
+          "bytes": 1979
+        },
+        {
+          "name": "f240_owned.c.cse2",
+          "sha256": "346b88cc0b8541b73769599750a973cffa7ed205d9c8f3eb0171fbbc8dcec653",
+          "bytes": 1979
+        },
+        {
+          "name": "f240_owned.c.dbr",
+          "sha256": "550b2b969954ec63230efe5a4f1725475f80b582a9b3c777116f37b312b7ea8d",
+          "bytes": 3215
+        },
+        {
+          "name": "f240_owned.c.flow",
+          "sha256": "ac8633f8eebf1bb0debb7331596076116a355e449a9e6ea4d2a351553262abb7",
+          "bytes": 3165
+        },
+        {
+          "name": "f240_owned.c.greg",
+          "sha256": "8f312cbf8aed76c4483ad46205cde5820906204aedd83679f5bc0f9d9be5fde5",
+          "bytes": 2703
+        },
+        {
+          "name": "f240_owned.c.jump",
+          "sha256": "19da0b3e925888542cbeafcbf87225ce0c2ec671b1c41a489286fb07d824268b",
+          "bytes": 1784
+        },
+        {
+          "name": "f240_owned.c.jump2",
+          "sha256": "bfcc94a58a537d016c405f5dc62d5cdbb57341fc045c82cc1a3c1f28eb780715",
+          "bytes": 2908
+        },
+        {
+          "name": "f240_owned.c.loop",
+          "sha256": "38198046019de6a09be2f47bba74400a24a3d47422ca2258cf02b722a65cadbc",
+          "bytes": 1937
+        },
+        {
+          "name": "f240_owned.c.lreg",
+          "sha256": "a729587d6acf0c3e117ef66bb8e1b8f1ed47ba5435ddc3d25674151c12d73aab",
+          "bytes": 3338
+        },
+        {
+          "name": "f240_owned.c.regmove",
+          "sha256": "c8f174f38d8f7195734adda750800744e1859faf201c2b00ef4b6116399b966f",
+          "bytes": 2426
+        },
+        {
+          "name": "f240_owned.c.rtl",
+          "sha256": "d83135cc9645ea6a7b5f56af045a4e54b77cd0c6fcba7314084b670cb657587e",
+          "bytes": 1950
+        },
+        {
+          "name": "f240_owned.c.sched",
+          "sha256": "0792d395ce9543a97b45854a8e633ec79713f1abcf2cc1a2928dcbb61a3fb0b9",
+          "bytes": 3937
+        },
+        {
+          "name": "f240_owned.c.sched2",
+          "sha256": "9db4e99765eed8d1337966b561f095a186be328e99b8b6ce25e801893e351f1a",
+          "bytes": 3934
+        },
+        {
+          "name": "f240_owned.c.shorten",
+          "sha256": "70a6702067f3eb78295c4633b11a771a9d3c088af285120783947940c07fbf55",
+          "bytes": 3034
+        }
+      ]
+    },
+    "B_281_noexp": {
+      "compiler": "2.8.1",
+      "flags": [
+        "-G32",
+        "-fno-expensive-optimizations"
+      ],
+      "source_sha256": "fd2520894739effd99a2ae2ca6299bb9681902bab774d8713c6852f779e17cdf",
+      "gcc_sha256": "451e6521d860fc6ff49000567d94d983125263bb0ae2149f89d95eaed34b3a02",
+      "assembly_sha256": "d8c818ed23a80aa379400e21cb30e3a17c7aecaa8b7af34ca8d9f4010b1c8736",
+      "rtl_key_order": {
+        "rtl": [
+          "queue_hi",
+          "queue_lo",
+          "head_load",
+          "add_31",
+          "mask_31",
+          "stride_shift_1",
+          "stride_add",
+          "stride_shift_3",
+          "entry_address",
+          "return_load"
+        ],
+        "flow": [
+          "queue_hi",
+          "queue_lo",
+          "head_load",
+          "add_31",
+          "mask_31",
+          "stride_shift_1",
+          "stride_add",
+          "stride_shift_3",
+          "entry_address",
+          "return_load"
+        ],
+        "combine": [
+          "queue_hi",
+          "queue_lo",
+          "head_load",
+          "add_31",
+          "mask_31",
+          "stride_shift_1",
+          "stride_add",
+          "stride_shift_3",
+          "entry_address",
+          "return_load"
+        ],
+        "sched": [
+          "head_load",
+          "add_31",
+          "mask_31",
+          "stride_shift_1",
+          "stride_add",
+          "queue_hi",
+          "queue_lo",
+          "stride_shift_3",
+          "entry_address",
+          "return_load"
+        ],
+        "sched2": [
+          "head_load",
+          "add_31",
+          "mask_31",
+          "stride_shift_1",
+          "stride_add",
+          "queue_hi",
+          "queue_lo",
+          "stride_shift_3",
+          "entry_address",
+          "return_load"
+        ]
+      },
+      "assembly_ops": [
+        "lbu",
+        "addu",
+        "andi",
+        "sll",
+        "addu",
+        "lui",
+        "addiu",
+        "sll",
+        "addu",
+        "lbu",
+        "j"
+      ],
+      "assembly_load_delay_nop_marker": 1,
+      "first_scheduler_cycles": 12,
+      "dump_files": [
+        {
+          "name": "f240_owned.c.addressof",
+          "sha256": "cdd27e18db435d99719e514b47717598d1c497558db1fb1d3b41b540e9038122",
+          "bytes": 1937
+        },
+        {
+          "name": "f240_owned.c.bp",
+          "sha256": "ca778a1ee61587c461cd21e178965bb74fca75ec520d84b1012dd76b0c6d832e",
+          "bytes": 2171
+        },
+        {
+          "name": "f240_owned.c.combine",
+          "sha256": "43d03343e512fb49da00cc0ef0fd5a8cd3e6b12355141b7c61266e2447261475",
+          "bytes": 2706
+        },
+        {
+          "name": "f240_owned.c.cse",
+          "sha256": "5fde0cc6ed0dc08b3500c0726b6df6d2aa7891789a7701abbb40340a2e60a1b5",
+          "bytes": 1979
+        },
+        {
+          "name": "f240_owned.c.cse2",
+          "sha256": "ec94ad7ca2444e5c48de2967300436517244ed92a2114513025220fc528a4af5",
+          "bytes": 1979
+        },
+        {
+          "name": "f240_owned.c.dbr",
+          "sha256": "0e8140124df4014e291cf05f98cc22de2a2049894b1f52e23fa662417b8019b3",
+          "bytes": 3240
+        },
+        {
+          "name": "f240_owned.c.flow",
+          "sha256": "10d21239e01f9325ae7382e8203ac1bc953c316337036089956a1a3c1c02d732",
+          "bytes": 3257
+        },
+        {
+          "name": "f240_owned.c.greg",
+          "sha256": "80fec2437971ed16087b2a2eace3e6df08999197182c519879c1ca06beadf72b",
+          "bytes": 2786
+        },
+        {
+          "name": "f240_owned.c.jump",
+          "sha256": "19da0b3e925888542cbeafcbf87225ce0c2ec671b1c41a489286fb07d824268b",
+          "bytes": 1784
+        },
+        {
+          "name": "f240_owned.c.jump2",
+          "sha256": "a52c79c1fb79eb6ae8f6329391e1a8effe9de4e7180ddc18e8e67f806f435a9e",
+          "bytes": 2954
+        },
+        {
+          "name": "f240_owned.c.loop",
+          "sha256": "cdd27e18db435d99719e514b47717598d1c497558db1fb1d3b41b540e9038122",
+          "bytes": 1937
+        },
+        {
+          "name": "f240_owned.c.lreg",
+          "sha256": "38213ca89c45098a44c71d39f73dfc9e84f2d4f23a1a539200c0076f59cef15d",
+          "bytes": 3430
+        },
+        {
+          "name": "f240_owned.c.rtl",
+          "sha256": "d83135cc9645ea6a7b5f56af045a4e54b77cd0c6fcba7314084b670cb657587e",
+          "bytes": 1950
+        },
+        {
+          "name": "f240_owned.c.sched",
+          "sha256": "4e162aea0921ff3e2fac5023598e4a7ea3038a4e32fb3b391b7f5d48b9a8c274",
+          "bytes": 4029
+        },
+        {
+          "name": "f240_owned.c.sched2",
+          "sha256": "4033775ed034c6e7f4491c292ec7d441cc8d4d1441bcf398af9f1d7ff4d500d0",
+          "bytes": 4216
+        }
+      ]
+    },
+    "C_cdk_exp": {
+      "compiler": "2.7.2-cdk",
+      "flags": [
+        "-G32"
+      ],
+      "source_sha256": "fd2520894739effd99a2ae2ca6299bb9681902bab774d8713c6852f779e17cdf",
+      "gcc_sha256": "7a571911a97cef0c6b7b5d4174e89ac54f9806ce3d4b233c0f8620e3503c672b",
+      "assembly_sha256": "c6f8c87a2e9c252240aaf83a9e68e53493323f362b3067aeab735a50ad8217b6",
+      "rtl_key_order": {
+        "rtl": [
+          "queue_hi",
+          "queue_lo",
+          "head_load",
+          "add_31",
+          "mask_31",
+          "stride_shift_1",
+          "stride_add",
+          "stride_shift_3",
+          "entry_address",
+          "return_load"
+        ],
+        "flow": [
+          "queue_hi",
+          "queue_lo",
+          "head_load",
+          "add_31",
+          "mask_31",
+          "stride_shift_1",
+          "stride_add",
+          "stride_shift_3",
+          "entry_address",
+          "return_load"
+        ],
+        "combine": [
+          "queue_hi",
+          "queue_lo",
+          "head_load",
+          "add_31",
+          "mask_31",
+          "stride_shift_1",
+          "stride_add",
+          "stride_shift_3",
+          "entry_address",
+          "return_load"
+        ],
+        "sched": [
+          "queue_hi",
+          "head_load",
+          "queue_lo",
+          "add_31",
+          "mask_31",
+          "stride_shift_1",
+          "stride_add",
+          "stride_shift_3",
+          "entry_address",
+          "return_load"
+        ],
+        "sched2": [
+          "queue_hi",
+          "head_load",
+          "queue_lo",
+          "add_31",
+          "mask_31",
+          "stride_shift_1",
+          "stride_add",
+          "stride_shift_3",
+          "entry_address",
+          "return_load"
+        ],
+        "regmove": [
+          "queue_hi",
+          "queue_lo",
+          "head_load",
+          "add_31",
+          "mask_31",
+          "stride_shift_1",
+          "stride_add",
+          "stride_shift_3",
+          "entry_address",
+          "return_load"
+        ]
+      },
+      "assembly_ops": [
+        "lui",
+        "lbu",
+        "addiu",
+        "addu",
+        "andi",
+        "sll",
+        "addu",
+        "sll",
+        "addu",
+        "lbu",
+        "j"
+      ],
+      "assembly_load_delay_nop_marker": 0,
+      "first_scheduler_cycles": 11,
+      "dump_files": [
+        {
+          "name": "f240_owned.c.bp",
+          "sha256": "3e8f724eba5ebe30dd9a8065c8f02fff1bf12977f26c6b0c8bbdd38f5b0634ea",
+          "bytes": 2171
+        },
+        {
+          "name": "f240_owned.c.combine",
+          "sha256": "2cb84b097337631bce2e41fb0e69ded9301c90cdbf1f6eb8b9da61787cde2cce",
+          "bytes": 2667
+        },
+        {
+          "name": "f240_owned.c.cse",
+          "sha256": "d8f134df796b8afa7dde8f60976c7a631716a8e88bfec29dd6cf0a570b2df082",
+          "bytes": 1979
+        },
+        {
+          "name": "f240_owned.c.cse2",
+          "sha256": "6afa2fb87584bf32ed7a1b1a6df92df8229249d20ecaaca759fb3bb5a0394ef0",
+          "bytes": 1979
+        },
+        {
+          "name": "f240_owned.c.dbr",
+          "sha256": "416f58670b18bc5f50fa8cc25ecf9342c6105bd95418e1f75291a05973a1631b",
+          "bytes": 3159
+        },
+        {
+          "name": "f240_owned.c.flow",
+          "sha256": "43fb105ef5e8b379b8968bce0ebba3e58ea29afd3cd9250d775793a13678ec65",
+          "bytes": 3271
+        },
+        {
+          "name": "f240_owned.c.greg",
+          "sha256": "a33ff1bb2e89965a0b251d9066b22192565fedd96e4759a07b235c292611ba42",
+          "bytes": 2769
+        },
+        {
+          "name": "f240_owned.c.jump",
+          "sha256": "1ad087600c65efdc728e40dc2b539fa5114d4df36943af670caf32a5243f7639",
+          "bytes": 1784
+        },
+        {
+          "name": "f240_owned.c.jump2",
+          "sha256": "cdf82328c08d6e5a54e8085de0abf419cb37dfc87df7194943ea980cede2dd7a",
+          "bytes": 2852
+        },
+        {
+          "name": "f240_owned.c.loop",
+          "sha256": "400b4f929018e7e1017e2e28623007c25674df81d8d22a2b5f83964f97c7cc68",
+          "bytes": 1937
+        },
+        {
+          "name": "f240_owned.c.lreg",
+          "sha256": "c8f641fe99c479a6988a8d0e997caaa57d96a6f1176cf79b8849a667e3d807c4",
+          "bytes": 3483
+        },
+        {
+          "name": "f240_owned.c.regmove",
+          "sha256": "8be3e0e657fcd15c6eb91f7f2e05510f4890a3f033677aa88b50d0ad9b8305b4",
+          "bytes": 2479
+        },
+        {
+          "name": "f240_owned.c.rtl",
+          "sha256": "4676df428090cfd793e4d6242928ff2cd30f9bb957b7321025df01c36456fabf",
+          "bytes": 1950
+        },
+        {
+          "name": "f240_owned.c.sched",
+          "sha256": "0a08210d163695e9b06e05768f501ac5d763077c7c36a78b723ab18c3d2ef6eb",
+          "bytes": 4100
+        },
+        {
+          "name": "f240_owned.c.sched2",
+          "sha256": "b05ae2d5b243a73d6be173cf2553a766e3a17cce1c8a5d52bf7c3bb691d5dd2b",
+          "bytes": 3918
+        },
+        {
+          "name": "f240_owned.c.shorten",
+          "sha256": "a2101d4475ecc36cae9eb8c9a38820313be9876a44a684fff5db41b16c354929",
+          "bytes": 3140
+        }
+      ]
+    }
+  }
+}

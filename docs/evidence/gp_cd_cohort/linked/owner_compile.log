@@ -1,0 +1,3 @@
+ninja: Entering directory `<repo>/work/native_lane/gp_cd_cohort_link/stage'
+[1/1] CC src/cd_command_state_owned.c (gcc 2.7.2-cdk -G32 )
+{"applied": true, "module": "cd_command_state", "post_object_sha256": "84b03e9d27636a7eb2804e666989bdc1dbf0532e37e060fea78ddc3ad25743da", "verified": false}

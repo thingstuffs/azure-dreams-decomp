@@ -1,0 +1,19 @@
+{
+  "adapter": "Exact SLUS retail slice to unchanged scan/classify API; CLI is overlay-only",
+  "evidence": {
+    "at_macro": [],
+    "split_store": [],
+    "held_page": [],
+    "slot_store": [],
+    "split_la": [],
+    "zero_copy": [],
+    "ret_copy": []
+  },
+  "classification": {
+    "verdict": "insufficient store-emission evidence (few globals?)",
+    "family": null,
+    "notes": []
+  },
+  "held_pages": [],
+  "gp_refs": 1
+}

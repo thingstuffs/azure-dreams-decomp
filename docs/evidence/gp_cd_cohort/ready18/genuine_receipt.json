@@ -1,0 +1,535 @@
+[
+  {
+    "physical": "w_80047E78_owned",
+    "functions": [
+      "func_80047E78"
+    ],
+    "recipe": {
+      "ccver": "2.7.2",
+      "ccflags": "",
+      "asflags": ""
+    },
+    "generic_vs_built": {
+      "exact": true,
+      "diff": 0,
+      "len_m": 29,
+      "len_g": 29,
+      "missing": []
+    },
+    "generic_vs_genuine": {
+      "exact": true,
+      "diff": 0,
+      "len_m": 29,
+      "len_g": 29,
+      "missing": []
+    },
+    "retail": {
+      "generic": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      },
+      "genuine": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      }
+    },
+    "assembly_sha256": "3dacebfe27ad72275ab43c3d7b12edd3c1a9a3f27a490998c08fc40320cfcb2a",
+    "generic_obj_sha256": "b17e9b02dbbb5f6bfd73ecfd8c78349761a756cd38576583a2417931b1cfc862",
+    "genuine_lnk_sha256": "2d615a6f213883a33545fd1cef2af72c886dcefa1e9128e7befca9b5a9247384",
+    "genuine_mode": [
+      "-q",
+      "-0"
+    ]
+  },
+  {
+    "physical": "w_80053CFC_owned",
+    "functions": [
+      "func_80053CFC"
+    ],
+    "recipe": {
+      "ccver": "2.7.2",
+      "ccflags": "",
+      "asflags": ""
+    },
+    "generic_vs_built": {
+      "exact": true,
+      "diff": 0,
+      "len_m": 26,
+      "len_g": 26,
+      "missing": []
+    },
+    "generic_vs_genuine": {
+      "exact": true,
+      "diff": 0,
+      "len_m": 26,
+      "len_g": 26,
+      "missing": []
+    },
+    "retail": {
+      "generic": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      },
+      "genuine": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      }
+    },
+    "assembly_sha256": "76fae36d982bf603d401b48e1d3982d2fc0362d3f6bc5ade7c145dc1ef70fef0",
+    "generic_obj_sha256": "128c1e965d2fe61d0ffe64d19bada03566e4e52c0715db0d43aac314b10f5efe",
+    "genuine_lnk_sha256": "a93cef0f5412a2b7b6b280b2b0b3b453c5e1d6c692c82b8d06362081f3b3503b",
+    "genuine_mode": [
+      "-q",
+      "-0"
+    ]
+  },
+  {
+    "physical": "gp_shared_8152c",
+    "functions": [
+      "func_80047D44",
+      "func_80047DF0",
+      "func_80047E30"
+    ],
+    "recipe": {
+      "ccver": "2.7.2",
+      "ccflags": "",
+      "asflags": ""
+    },
+    "generic_vs_built": {
+      "exact": true,
+      "diff": 0,
+      "len_m": 63,
+      "len_g": 63,
+      "missing": []
+    },
+    "generic_vs_genuine": {
+      "exact": true,
+      "diff": 0,
+      "len_m": 63,
+      "len_g": 63,
+      "missing": []
+    },
+    "retail": {
+      "generic": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 3
+      },
+      "genuine": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 3
+      }
+    },
+    "assembly_sha256": "9485d7eafe524bfba6ee01bac956a5520835c3a488ecc64166456896a0e524f9",
+    "generic_obj_sha256": "c111fc5af1e0620b1323e38738099405c37772106765f6fb7ce4d73a8661abc5",
+    "genuine_lnk_sha256": "36af0ab4dfa4276334d00596c1174203c21657049525820a7b17c2231efe27b7",
+    "genuine_mode": [
+      "-q",
+      "-0"
+    ]
+  },
+  {
+    "physical": "gp_d92c_owned",
+    "functions": [
+      "func_8003D92C"
+    ],
+    "recipe": {
+      "ccver": "2.7.2-cdk",
+      "ccflags": "",
+      "asflags": ""
+    },
+    "generic_vs_built": {
+      "exact": true,
+      "diff": 0,
+      "len_m": 136,
+      "len_g": 136,
+      "missing": []
+    },
+    "generic_vs_genuine": {
+      "exact": true,
+      "diff": 0,
+      "len_m": 136,
+      "len_g": 136,
+      "missing": []
+    },
+    "retail": {
+      "generic": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      },
+      "genuine": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      }
+    },
+    "assembly_sha256": "377eeb0d2b3e5152312b151267153de99ffbdaacb53e3994ec0787ce48bceda7",
+    "generic_obj_sha256": "07d2cccb53b100a174eded98455556d8213020f129c8daff6a0b4a3dcd9c695a",
+    "genuine_lnk_sha256": "11d417440821c2ff40b8ff65c066670f8906575a8a6e98005a339f86b428f1a8",
+    "genuine_mode": [
+      "-q",
+      "-0"
+    ]
+  },
+  {
+    "physical": "gp_order_bytes_owner",
+    "functions": [
+      "func_80049F68"
+    ],
+    "recipe": {
+      "ccver": "2.7.2-cdk",
+      "ccflags": "-fno-strength-reduce",
+      "asflags": ""
+    },
+    "generic_vs_built": {
+      "exact": true,
+      "diff": 0,
+      "len_m": 50,
+      "len_g": 50,
+      "missing": []
+    },
+    "generic_vs_genuine": {
+      "exact": true,
+      "diff": 0,
+      "len_m": 50,
+      "len_g": 50,
+      "missing": []
+    },
+    "retail": {
+      "generic": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      },
+      "genuine": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      }
+    },
+    "assembly_sha256": "5ba1208422d22f69711166fd3b8ecafba29870799b45ff2256d74c0295379d88",
+    "generic_obj_sha256": "647446b3ea690ce44cc415c18b0f0c2db2771388b36e65cefdc5bfdbe9907b00",
+    "genuine_lnk_sha256": "8a6c65e3a724f9ae5d66c61a1ea04a9ee821b88d37ab2157dd0c51a172debba2",
+    "genuine_mode": [
+      "-q",
+      "-0"
+    ]
+  },
+  {
+    "physical": "w_8004437C_pair",
+    "functions": [
+      "func_8004437C",
+      "func_8004450C"
+    ],
+    "recipe": {
+      "ccver": "2.7.2-cdk",
+      "ccflags": "",
+      "asflags": ""
+    },
+    "generic_vs_built": {
+      "exact": true,
+      "diff": 0,
+      "len_m": 153,
+      "len_g": 153,
+      "missing": []
+    },
+    "generic_vs_genuine": {
+      "exact": true,
+      "diff": 0,
+      "len_m": 153,
+      "len_g": 153,
+      "missing": []
+    },
+    "retail": {
+      "generic": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 2
+      },
+      "genuine": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 2
+      }
+    },
+    "assembly_sha256": "9fb657d29d24286cdb4ca8eabe113d0bcb9faa927a69b5ad5c46cd16654965fc",
+    "generic_obj_sha256": "7a827b126d2c9b649b008039e0ca101c5982d1b11884f819ff4ea6661c5ffc42",
+    "genuine_lnk_sha256": "ad9f64c4b6581c93bc892ff7cfdcb7c664d3896f67d304589e97a05575935bcb",
+    "genuine_mode": [
+      "-q",
+      "-0"
+    ]
+  },
+  {
+    "physical": "w_8004DCEC_owned",
+    "functions": [
+      "func_8004DCE0",
+      "func_8004DCEC",
+      "func_8004DE88",
+      "func_8004DF8C"
+    ],
+    "recipe": {
+      "ccver": "2.7.2-cdk",
+      "ccflags": "",
+      "asflags": ""
+    },
+    "generic_vs_built": {
+      "exact": true,
+      "diff": 0,
+      "len_m": 156,
+      "len_g": 156,
+      "missing": []
+    },
+    "generic_vs_genuine": {
+      "exact": true,
+      "diff": 0,
+      "len_m": 156,
+      "len_g": 156,
+      "missing": []
+    },
+    "retail": {
+      "generic": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 4
+      },
+      "genuine": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 4
+      }
+    },
+    "assembly_sha256": "56bc025dbd6d0682be776a1f339b8ac85cd7c0c9bfef0dacd6032f90ccc8e6ee",
+    "generic_obj_sha256": "c0b1c1d4a80e826146b0d257491f8f71111aeeac889bab7989436d0be38e0816",
+    "genuine_lnk_sha256": "cf380dd0b60201f2fc966c2fa9371f98b8b606f5712b0ae46882be93ff460e65",
+    "genuine_mode": [
+      "-q"
+    ]
+  },
+  {
+    "physical": "w_8003FAD4",
+    "functions": [
+      "func_8003FAD4"
+    ],
+    "recipe": {
+      "ccver": "2.7.2-cdk",
+      "ccflags": "",
+      "asflags": ""
+    },
+    "generic_vs_built": {
+      "exact": true,
+      "diff": 0,
+      "len_m": 49,
+      "len_g": 49,
+      "missing": []
+    },
+    "generic_vs_genuine": {
+      "exact": true,
+      "diff": 0,
+      "len_m": 49,
+      "len_g": 49,
+      "missing": []
+    },
+    "retail": {
+      "generic": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      },
+      "genuine": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      }
+    },
+    "assembly_sha256": "7b43550e2b31e24bb0834f198ddfda3b8dd8f207716aa7205d74d34d6671fbb3",
+    "generic_obj_sha256": "8ce6f55e2be0f24519cfcbd1994b152fcf9a1d6c1d7545e0cc6c2dd46b2d80c6",
+    "genuine_lnk_sha256": "632c19745acd87532975214cc84e60bd50ddeb11f8250abbfaf5ab733ccd0ed7",
+    "genuine_mode": [
+      "-q",
+      "-0"
+    ]
+  },
+  {
+    "physical": "w_80041588",
+    "functions": [
+      "func_80041588"
+    ],
+    "recipe": {
+      "ccver": "2.7.2-cdk",
+      "ccflags": "",
+      "asflags": ""
+    },
+    "generic_vs_built": {
+      "exact": true,
+      "diff": 0,
+      "len_m": 164,
+      "len_g": 164,
+      "missing": []
+    },
+    "generic_vs_genuine": {
+      "exact": true,
+      "diff": 0,
+      "len_m": 164,
+      "len_g": 164,
+      "missing": []
+    },
+    "retail": {
+      "generic": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      },
+      "genuine": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      }
+    },
+    "assembly_sha256": "8f87f07a12b34ac7b1ad09ef28d409a87c0c72a618b4d24545b91525c2fc075b",
+    "generic_obj_sha256": "cd0449b96e5ca4f15f4802bdcf0ef787afbcdb64c30ae3b7904aa5e9968e2378",
+    "genuine_lnk_sha256": "c7cb939f76c7047374d894b90d16f4aa54170296cfc04cc0cb9373b51641ea47",
+    "genuine_mode": [
+      "-q",
+      "-0"
+    ]
+  },
+  {
+    "physical": "w_80041AB0",
+    "functions": [
+      "func_80041AB0"
+    ],
+    "recipe": {
+      "ccver": "2.7.2-cdk",
+      "ccflags": "",
+      "asflags": ""
+    },
+    "generic_vs_built": {
+      "exact": true,
+      "diff": 0,
+      "len_m": 13,
+      "len_g": 13,
+      "missing": []
+    },
+    "generic_vs_genuine": {
+      "exact": true,
+      "diff": 0,
+      "len_m": 13,
+      "len_g": 13,
+      "missing": []
+    },
+    "retail": {
+      "generic": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      },
+      "genuine": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      }
+    },
+    "assembly_sha256": "607af3d7e0bc516f6573247945f8ecdda5f9bf32b13a2a0716d481b68b140446",
+    "generic_obj_sha256": "37b0df01461875b8867b6f5f92cbbfef1a84bc8c001a5d41cd9afc0e3472f03d",
+    "genuine_lnk_sha256": "636e6887a301ae56b8c976986e83a9e224828bdc9fb86b8d6c97d4c78243d9bf",
+    "genuine_mode": [
+      "-q",
+      "-0"
+    ]
+  },
+  {
+    "physical": "w_80043CD0",
+    "functions": [
+      "func_80043CD0"
+    ],
+    "recipe": {
+      "ccver": "2.7.2-cdk",
+      "ccflags": "",
+      "asflags": ""
+    },
+    "generic_vs_built": {
+      "exact": true,
+      "diff": 0,
+      "len_m": 13,
+      "len_g": 13,
+      "missing": []
+    },
+    "generic_vs_genuine": {
+      "exact": true,
+      "diff": 0,
+      "len_m": 13,
+      "len_g": 13,
+      "missing": []
+    },
+    "retail": {
+      "generic": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      },
+      "genuine": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      }
+    },
+    "assembly_sha256": "4f32217139f89c2182a7b5ced19f3ebae6db00fe58ea0f35d43c8915a3d6cf5c",
+    "generic_obj_sha256": "973250ec48cd42c73ea452893817fe61583c91ab973bfc55125a9e813ffddf88",
+    "genuine_lnk_sha256": "7d7bea1cd9d205ee4d7f76a477ff92514b52614acba77d5a7a140c55b8445123",
+    "genuine_mode": [
+      "-q",
+      "-0"
+    ]
+  },
+  {
+    "physical": "w_8004AB7C",
+    "functions": [
+      "func_8004AB7C"
+    ],
+    "recipe": {
+      "ccver": "2.7.2-cdk",
+      "ccflags": "",
+      "asflags": ""
+    },
+    "generic_vs_built": {
+      "exact": true,
+      "diff": 0,
+      "len_m": 39,
+      "len_g": 39,
+      "missing": []
+    },
+    "generic_vs_genuine": {
+      "exact": true,
+      "diff": 0,
+      "len_m": 39,
+      "len_g": 39,
+      "missing": []
+    },
+    "retail": {
+      "generic": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      },
+      "genuine": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      }
+    },
+    "assembly_sha256": "92fd5d51847861f216898f0002c93f1a54d0674d0ce0e870fc9fdd2e96c03acb",
+    "generic_obj_sha256": "928f358bf2906ad722bec358f6f02d9978a268a2e0db899973b632711cc947cd",
+    "genuine_lnk_sha256": "fa110f70f68488bff353443ee1e3844e4bd521d22b7c17c6cacae3e326fc2e92",
+    "genuine_mode": [
+      "-q",
+      "-0"
+    ]
+  }
+]

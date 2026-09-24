@@ -1,0 +1,180 @@
+{
+  "source_sha256": "fd2520894739effd99a2ae2ca6299bb9681902bab774d8713c6852f779e17cdf",
+  "recipe": {
+    "src": "src/w_8003F240.c",
+    "out": "build/src/w_8003F240.o",
+    "ccver": "2.7.2-cdk",
+    "ccflags": "-G32",
+    "asflags": ""
+  },
+  "functions": [
+    "func_8003F240"
+  ],
+  "hashes": {
+    "stock": "85fc5feaf35c4026d7bf8ea3c068f7f79e928f41ed25fdcc095c649fe22fdbe4",
+    "generic": "85fc5feaf35c4026d7bf8ea3c068f7f79e928f41ed25fdcc095c649fe22fdbe4",
+    "genuine": "49b2ede7785a1a7eb97a476d4ebca22e312f31185e8a1eef6c5501061811af01"
+  },
+  "retail": {
+    "stock": {
+      "func_8003F240": {
+        "present": true,
+        "address": "0x8003f240",
+        "actual_words": 12,
+        "retail_words": 12,
+        "length_equal": true,
+        "masked_indices": [
+          1
+        ],
+        "masked_relocations": [
+          {
+            "index": 1,
+            "word": "93830000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          }
+        ],
+        "exact_unmasked": false,
+        "unmasked_mismatch_sites": [],
+        "masked_disagreement_sites": [
+          {
+            "index": 1,
+            "address": "0x8003f244",
+            "actual": "93830000",
+            "retail": "93830b3c"
+          }
+        ]
+      }
+    },
+    "generic": {
+      "func_8003F240": {
+        "present": true,
+        "address": "0x8003f240",
+        "actual_words": 12,
+        "retail_words": 12,
+        "length_equal": true,
+        "masked_indices": [
+          1
+        ],
+        "masked_relocations": [
+          {
+            "index": 1,
+            "word": "93830000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          }
+        ],
+        "exact_unmasked": false,
+        "unmasked_mismatch_sites": [],
+        "masked_disagreement_sites": [
+          {
+            "index": 1,
+            "address": "0x8003f244",
+            "actual": "93830000",
+            "retail": "93830b3c"
+          }
+        ]
+      }
+    },
+    "genuine": {
+      "func_8003F240": {
+        "present": true,
+        "address": "0x8003f240",
+        "actual_words": 12,
+        "retail_words": 12,
+        "length_equal": true,
+        "masked_indices": [
+          1
+        ],
+        "masked_relocations": [
+          {
+            "index": 1,
+            "word": "93830000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          }
+        ],
+        "exact_unmasked": false,
+        "unmasked_mismatch_sites": [],
+        "masked_disagreement_sites": [
+          {
+            "index": 1,
+            "address": "0x8003f244",
+            "actual": "93830000",
+            "retail": "93830b3c"
+          }
+        ]
+      }
+    }
+  },
+  "generic_vs_genuine": {
+    "exact": true,
+    "pair_token_diff_diagnostic": 0,
+    "left_words": 12,
+    "right_words": 12,
+    "missing_right": [],
+    "delay_only": [],
+    "classes": {},
+    "regions": []
+  },
+  "projected_retail": {
+    "stock": {
+      "present": true,
+      "address": "0x8003f240",
+      "actual_words": 12,
+      "retail_words": 12,
+      "length_equal": true,
+      "masked_indices": [],
+      "masked_relocations": [],
+      "exact_unmasked": true,
+      "unmasked_mismatch_sites": [],
+      "masked_disagreement_sites": []
+    },
+    "generic": {
+      "present": true,
+      "address": "0x8003f240",
+      "actual_words": 12,
+      "retail_words": 12,
+      "length_equal": true,
+      "masked_indices": [],
+      "masked_relocations": [],
+      "exact_unmasked": true,
+      "unmasked_mismatch_sites": [],
+      "masked_disagreement_sites": []
+    },
+    "genuine": {
+      "present": true,
+      "address": "0x8003f240",
+      "actual_words": 12,
+      "retail_words": 12,
+      "length_equal": true,
+      "masked_indices": [],
+      "masked_relocations": [],
+      "exact_unmasked": true,
+      "unmasked_mismatch_sites": [],
+      "masked_disagreement_sites": []
+    }
+  },
+  "projected_generic_vs_genuine": {
+    "exact": true,
+    "pair_token_diff_diagnostic": 0,
+    "left_words": 12,
+    "right_words": 12,
+    "missing_right": [],
+    "delay_only": [],
+    "classes": {},
+    "regions": []
+  }
+}

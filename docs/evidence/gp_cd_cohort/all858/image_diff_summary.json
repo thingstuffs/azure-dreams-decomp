@@ -1,0 +1,11 @@
+{
+  "method": "direct byte comparison before accounting for shifted downstream layout",
+  "first_different_offset": 29936,
+  "first_different_offset_hex": "0x74F0",
+  "trial_bytes": 524304,
+  "retail_bytes": 524288,
+  "trial_minus_retail_bytes": 16,
+  "trial_sha256": "f1691307695c15e480c1796e897fc66241ff0fcd816c9ff5494abdc808b6b365",
+  "retail_sha256": "ae19d8d4bdd2db9a933b1e44d70dd61be670781e441d7cb37da85250a7aed31f",
+  "note": "The +16-byte code growth shifts subsequent linked content; raw byte mismatch count is not an independent function-difference count."
+}
