@@ -1031,6 +1031,40 @@
         }
       ],
       "evidence": "docs/evidence/gp_b98_partition.md"
+    },
+    {
+      "name": "sort_rank_81540",
+      "source": "src/sort_rank_81540_owned.c",
+      "members": [
+        {
+          "id": "slus/w_8004B08C",
+          "source": "src/w_8004B08C.c",
+          "functions": [
+            "func_8004B08C"
+          ]
+        }
+      ],
+      "headers": [
+        "include/common.h",
+        "include/slus/sort_rank_81540.h"
+      ],
+      "recipe": {
+        "ccver": "2.7.2-cdk",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "data": [
+        {
+          "symbol": "D_80081540",
+          "asset": "assets/54240.bin",
+          "offset": 2816,
+          "size": 4,
+          "vram": 2148013376,
+          "bytes": "00000000",
+          "section": ".sdata"
+        }
+      ],
+      "evidence": "docs/evidence/gp_b98_partition.md"
     }
   ]
 }

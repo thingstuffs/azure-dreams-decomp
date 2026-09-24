@@ -1,10 +1,10 @@
 # SLUS function partitions and owner certificates
 
-Status: **E0 and B94/B98 are active with full retail, genuine-ASPSX and ownership proof**.
-`config/slus_partitions.json` moves three named functions into the list-cursor
-and saved-value owners while preserving both collector IDs, complete canonical C
-and original recipe provenance. E0 has placement certification; B94/B98 currently
-has data-ownership proof only. The sections below retain the earlier implementation proofs;
+Status: **E0, B94/B98 and 81540 are active with full retail, genuine-ASPSX and ownership proof**.
+`config/slus_partitions.json` moves four named functions into the list-cursor,
+saved-value and discovery-rank owners while preserving both collector IDs, complete canonical C
+and original recipe provenance. E0 has placement certification; B94/B98 and 81540 currently
+have data-ownership proof only. The sections below retain the earlier implementation proofs;
 the production activation checkpoint is recorded near the end.
 
 ## Purpose and identity
@@ -300,6 +300,24 @@ this activation does not grant L4/L5 placement. E0 and runtime-directory placeme
 certificates remain current. See the [activation review](evidence/gp_b98_partition/activation_review.json)
 for source hashes, 135 passing tests, current counts and ladder results.
 
+## Production 81540 activation
+
+The [discovery-rank pointer owner](evidence/gp_81540_partition.md) groups the
+4AE98 comparator from `code` with the whole 4B08C sorting routine. Its genuine
+four-byte pointer definition replaces exactly the zeroed 81540 slot. The shared
+comparator prototype now agrees with its canonical definition. All 81 owner
+words match genuine ASPSX 2.79 and retail with zero masks; all 870 surrounding
+objects remain unchanged in the private full-link comparison.
+
+The connected group contains 184 functions exactly once. Four negative candidate
+checks exercise each of the three owners and the collector remainder, rejecting
+all edits and restoring canonical sources and retail images. Production ownership
+evidence is fresh for all three owners, and E0/runtime placement certificates
+remain valid. Only 4B08C's dependency entry is removed. This is data ownership,
+not a placement grant for 4B08C or the collector. The
+[activation review](evidence/gp_81540_partition/activation_review.json) records
+current hashes, counts, ladder results and 135 passing tests.
+
 ## Integration and next groups
 
 1. **Implemented:** plural physical contexts, connected fingerprints and candidate
@@ -314,12 +332,13 @@ for source hashes, 135 passing tests, current counts and ladder results.
 4. **Implemented:** ownership/certificate evidence includes incoming function
    parts and fresh connected fingerprints. A subset proof cannot grant placement
    to a whole collector; existing L4/L5 requirements are preserved.
-5. **E0 and B94/B98 activated:** retail/genuine/data gates and runtime-pilot
+5. **E0, B94/B98 and 81540 activated:** retail/genuine/data gates and runtime-pilot
    recertification pass. Apply the same explicit function grouping to remaining
-   components, next the bounded 81540 group or the CD driver groups. Review source/declaration
+   components, next the 81550 group and its differing compiler settings, or the
+   CD driver groups. Review source/declaration
    evidence independently for each; do not merge the whole historical 20-row graph.
 
 The [consumer inventory](evidence/slus_partitions/consumers.md) identifies exact
-callsites. Production now has **194 dependencies, 26 GP rows, 21 ownership
+callsites. Production now has **193 dependencies, 25 GP rows, 22 ownership
 units, 872 physical / 884 logical rows**. The separate generic assembler
 correction and pass retirement are still pending; this layer changes neither.

@@ -1,0 +1,54 @@
+{
+  "generic": {
+    "comparison": {
+      "exact": true,
+      "diff": 0,
+      "len_m": 81,
+      "len_g": 81,
+      "missing": []
+    },
+    "retail": {
+      "diff": 0,
+      "masked": 0,
+      "checked": 2
+    },
+    "cli_sha256": "d3e6ec7d120abe00f963c82258dfdeb0e228774adce646177525f1dbed925caf",
+    "package_sha256": "28e45bbcf00fc90dc0645250f233b73f96ad11d06a2f8230ce533fc2fafbbfbe"
+  },
+  "stock_retail": {
+    "diff": 0,
+    "masked": 0,
+    "checked": 2
+  },
+  "genuine": [
+    {
+      "mode": [
+        "-q"
+      ],
+      "equ": false,
+      "comparison": {
+        "exact": true,
+        "diff": 0,
+        "len_m": 81,
+        "len_g": 81,
+        "missing": []
+      },
+      "retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 2
+      }
+    }
+  ],
+  "stock_functions": [
+    "func_8004AE98",
+    "func_8004B08C"
+  ],
+  "source_sha256": "03d301e46ff4d7976a72d30125d3270e45906e7ecde2ead34f5efc1a03e152f2",
+  "input_sha256": {
+    "standalone.c": "03d301e46ff4d7976a72d30125d3270e45906e7ecde2ead34f5efc1a03e152f2",
+    "code_part.c": "6c800c1a0fa53bf9bd3ec9f98e00e9aba945b9bf341107330dd19fc52ed1ef26",
+    "w_8004B08C.c": "770f1d22b5076f6d7909e70499f5b7caa80d407fbd46f2665e23e48eddd4b7cd",
+    "include/slus/sort_rank_81540.h": "0ec3ed0482e9cbee04af9a05087d48ae13897087384f17acfaf91f2f1c2ef30e"
+  }
+}
