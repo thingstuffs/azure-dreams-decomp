@@ -1,5 +1,4 @@
 #include "common.h"
-extern u8 D_80080000[];
 
 typedef struct {
     s32 seed;
@@ -11,15 +10,6 @@ typedef struct {
     s8 field10;
     s8 field11;
 } State13710;
-
-typedef struct {
-    u8 pad0000[0x1468];
-    s32 seed;
-    u16 level;
-    s16 ready;
-    u8 pad1470[0x2E76 - 0x1470];
-    u16 field2E76;
-} Page8008;
 
 typedef struct {
     u8 pad0000[0x234];
@@ -67,9 +57,6 @@ extern void file_load_com();
 
 extern u8 D_80083160[];
 extern u8 D_80083780[];
-extern u8 D_80080004[];
-extern Page8001 D_80010000[];
-extern Page800E D_800E0000[];
 extern u16 D_80082E76;
 extern s32 D_800E3D6C;
 extern s16 D_800E3CD8[8];
@@ -79,126 +66,80 @@ extern u8 D_8001F584;
 extern s16 D_8001F586;
 extern s32 D_8001F594[];
 extern u8 D_800F0000[];
-extern u8 D_80081468[];
+typedef struct {
+    s32 seed;
+    u16 level;
+    s16 ready;
+} SaveHead;
+extern SaveHead D_80081468;
+typedef struct {
+    u8 pad0000[0x234];
+    u16 level;
+} LevelPage;
 
 /* Sets up the run's save state and RNG (new game or continue), then loads the selected dungeon track and waits for it to finish loading. */
 void func_80018A70(void) {
-    u8 *page8_common;
     State13710 *state;
-    u8 *common_arg;
     Page8001 *page1;
     TrackRecord *track;
     s16 *clearp;
-    s32 random_lo;
     s32 value;
     s32 track_no;
-    s32 remainder;
     s32 action;
     s32 i;
     {
         u8 *xor_base;
         u16 entry_flags;
-        s32 a1role;
 
         state = (State13710 *)0x80013710;
         entry_flags = state->flags;
         xor_base = D_80083160;
 
         if (entry_flags & 2) {
-            u32 v0role;
-            s32 sum;
+            u32 r;
+            u16 fl;
 
             func_800A6D98(state->seed);
-            v0role = func_800A6D30();
-            common_arg = D_80083780;
-            ASM_KEEP_NV(common_arg);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            sum = state->seed;
-            v0role &= 0xFFFF;
+            r = func_800A6D30();
             state->field8 = 0;
             state->fieldA = 0;
             state->field6 = 0;
-            sum += v0role;
-            v0role = 0x80080000;
-            ASM_KEEP_NV(v0role);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            state->seed = sum;
-            *(s32 *)(v0role + 0x1468) = sum;
-            v0role += 0x1468;
-            ASM_KEEP_NV(v0role);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            sum = state->flags;
-            a1role = 0x80010000;
-            a1role = *(u16 *)(a1role + 0x234);
-            sum &= 0xFFFC;
-            *(u16 *)(v0role + 4) = a1role;
-            state->flags = sum;
-            goto call_common_setup;
-        }
-
-        if (entry_flags & 1) {
-            u32 v0role;
-            u32 v1role;
-
-            common_arg = D_80083780;
-            ASM_KEEP_NV(common_arg);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            v1role = state->seed;
-            do {
-                v0role = 0x80080000;
-            } while (0);
-            ASM_KEEP_NV(v0role);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+            state->seed += r & 0xFFFF;
+            D_80081468.seed = state->seed;
+            fl = state->flags;
+            D_80081468.level = ((LevelPage *)0x80010000)->level;
+            fl &= 0xFFFC;
+            state->flags = fl;
+            func_8004D0C8(D_80083780);
+            bzero((void *)0x80013720, 0x2000);
+        } else if (entry_flags & 1) {
             state->field8 = 0;
             state->fieldA = 0;
-            *(s32 *)(v0role + 0x1468) = v1role;
-            v1role = 0x80010000;
-            v1role = *(volatile u16 *)(v1role + 0x234);
-            do {
-                v0role += 0x1468;
-            } while (0);
-            ASM_KEEP_NV(v0role);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            *(u16 *)(v0role + 4) = v1role;
-            func_8004D0C8(common_arg);
-            goto after_optional_setup;
-        }
+            D_80081468.seed = state->seed;
+            D_80081468.level = ((LevelPage *)0x80010000)->level;
+            func_8004D0C8(D_80083780);
+        } else {
+            u32 hi;
 
-        state->flags = 0;
-        {
-            u32 v0role;
-            u32 v1role;
-
-        value = rand();
-        v0role = rand();
-        common_arg = D_80083780;
-        ASM_KEEP_NV(common_arg);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        a1role = (u32)((u8 *)0x80080000);
-        ASM_KEEP_NV(a1role);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        v0role <<= 16;
-        state->field8 = 0;
-        state->field6 = 0;
-        state->field11 = 0;
-        state->field10 = 0;
-        v1role = ((State13710 *)xor_base)->flags;
-        value |= v0role;
-        value ^= v1role;
-        *(s32 *)((u8 *)a1role + 0x1468) = value;
-        state->seed = value;
+            state->flags = 0;
+            value = rand();
+            hi = rand();
+            state->field8 = 0;
+            state->field6 = 0;
+            state->field11 = 0;
+            state->field10 = 0;
+            state->seed = D_80081468.seed = (value | (hi << 16)) ^ ((State13710 *)xor_base)->flags;
+            func_8004D0C8(D_80083780);
+            bzero((void *)0x80013720, 0x2000);
         }
     }
 
-call_common_setup:
-    func_8004D0C8(common_arg);
-    bzero((void *)0x80013720, 0x2000);
-
-after_optional_setup:
-    page8_common = (u8 *)0x80080000;
-    srand(*(s32 *)(page8_common + 0x1468));
-    func_800A6D98(*(s32 *)(page8_common + 0x1468));
+    srand(D_80081468.seed);
+    func_800A6D98(D_80081468.seed);
     func_800A0E44();
-    {
-        u8 *v0base;
-        v0base = (u8 *)D_80080000;
-        *(u16 *)(v0base + 0x2E76) = 0;
-        v0base = (u8 *)D_800E0000;
-        *(s32 *)(v0base + 0x3D6C) = 0;
-        func_8001F32C();
-    }
+    D_80082E76 = 0;
+    D_800E3D6C = 0;
+    func_8001F32C();
     func_8001E96C();
 
     i = 3;
@@ -210,25 +151,19 @@ after_optional_setup:
         clearp -= 4;
     } if (i >= 0) goto loop_0;
 
-    state = (State13710 *)0x80010000;
-    page1 = (Page8001 *)state;
+    page1 = (Page8001 *)0x80010000;
     if ((u32)page1->level >= 100U) {
         page1->level = 99;
     }
 
     track_no = func_80018E80();
     if (track_no != 0) {
-        u32 v0index;
-        u32 v1base;
+        TrackRecord *tracks;
 
         track_no--;
         func_80017560();
-        v1base = (u32)D_8001F62C;
-        do {
-            v0index = (u32)track_no << 2;
-        } while (0);
-        v0index += track_no;
-        track = (TrackRecord *)(v0index + v1base);
+        tracks = D_8001F62C;
+        track = &tracks[track_no];
         func_800B0544(track->track);
         file_load_com(D_8001F588[track->table_index]);
         func_80046E38(track->kind, D_800F0000);
@@ -237,90 +172,39 @@ after_optional_setup:
         if (track->arg != 0) {
             func_80018464(track->arg);
         }
-        {
-            u32 mask;
-            Page800E *pageE;
-            u32 flags;
-
-            mask = 0xDFFF0000;
-            if (track->special != 0) {
-                func_800C7D54(((volatile TrackRecord *)track)->special - 1);
-                mask = 0xDFFF0000;
-            }
-            pageE = (Page800E *)0x800E0000;
-            flags = pageE->flags;
-            mask |= 0xFFFF;
-            flags &= mask;
-            pageE->flags = flags;
+        if (track->special != 0) {
+            func_800C7D54(((volatile TrackRecord *)track)->special - 1);
         }
+        ((Page800E *)0x800E0000)->flags &= ~0x20000000;
         goto final_cleanup;
     }
 
     if (page1->mode != 2) {
-        {
-            u32 first_remainder;
-            first_remainder = D_8001F584 % 24;
-            func_800B0544(first_remainder + 3);
-        }
-        {
-            u32 second_remainder;
-            s32 *table;
-            second_remainder = D_8001F584 % 24;
-            table = D_8001F594;
-            action = table[second_remainder];
-        }
-        goto do_action;
+        func_800B0544(D_8001F584 % 24 + 3);
+        action = D_8001F594[D_8001F584 % 24];
     } else {
         s32 random_remainder;
-        s32 *table;
-        s32 random_result;
 
-        random_result = func_800A6D30();
-        i = 0x2AAAAAAB;
-        random_remainder = random_result & 0xFFFF;
-        random_remainder -= (random_remainder / 24) * 24;
+        random_remainder = func_800A6D30() & 0xFFFF;
+        random_remainder %= 24;
         func_800B0544((s16)(random_remainder + 3));
-        table = D_8001F594;
-        action = table[random_remainder];
+        action = D_8001F594[random_remainder];
     }
 
-do_action:
     file_load_com(action);
-    {
-        s32 call_arg0;
-        u8 *call_arg1;
-        Page800E *pageE;
-
-        call_arg0 = 0x29;
-        call_arg1 = (u8 *)D_800E0000 + 0x10000;
-        pageE = (Page800E *)0x800E0000;
-        pageE->flags |= 0x20000000;
-        func_80046E38(call_arg0, call_arg1, pageE);
-    }
+    ((Page800E *)0x800E0000)->flags |= 0x20000000;
+    func_80046E38(0x29, D_800F0000, (Page800E *)0x800E0000);
     func_800BC228(2);
 
-    {
-        page8_common = D_80081468;
-    }
-poll_ready:
+    do {
         func_8001744C();
         func_800177A8();
-        if ((func_80019AF8() << 16) != 0) {
-            goto poll_ready;
-        }
-        if (*(s16 *)(page8_common + 6) == 0) {
-            goto poll_ready;
-        }
+    } while ((func_80019AF8() << 16) != 0 || D_80081468.ready == 0);
 
 final_cleanup:
     func_80016E6C();
-    {
-        u32 cleanup_flag;
-        cleanup_flag = 0x80020000;
-        cleanup_flag = *(s16 *)(cleanup_flag - 0xA7A);
-        if (cleanup_flag == 0) {
-            func_8001784C();
-        }
+    if (D_8001F586 == 0) {
+        func_8001784C();
     }
     func_80017A9C();
 }

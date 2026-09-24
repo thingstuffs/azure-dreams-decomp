@@ -384,11 +384,9 @@ aim_at_endpoint:
     ((S_80025954_5 *)motion)->unk_0C = motion_value;
     motion_value = ((S_80025954_8 *)destination)->unk_04.at00.v - source_coord;
     motion_value /= ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16;
-    motion_out = motion;
-    ((S_80025954_11 *)motion_out)->unk_14 = 0;
-    ((S_80025954_11 *)motion_out)->unk_10 = motion_value;
-    ASM_JALDELAY_PIN(motion_value);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    func_80024170(state, motion_out);
+    ((S_80025954_11 *)motion)->unk_14 = 0;
+    ((S_80025954_11 *)motion)->unk_10 = motion_value;
+    func_80024170(state, motion);
     motion_value = 6;
     goto set_phase;
 jt_c2:
