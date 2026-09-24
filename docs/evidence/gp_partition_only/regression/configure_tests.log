@@ -1,0 +1,13 @@
+test_legacy_module_keeps_original_cc_rule_and_edges (test_configure_slus_data_pieces.ConfigureSlusDataPiecesTest.test_legacy_module_keeps_original_cc_rule_and_edges) ... ok
+test_named_carve_slots_preserve_every_gap (test_configure_slus_data_pieces.ConfigureSlusDataPiecesTest.test_named_carve_slots_preserve_every_gap) ... ok
+test_opted_edge_transforms_and_missing_sidecar_fails_verification (test_configure_slus_data_pieces.ConfigureSlusDataPiecesTest.test_opted_edge_transforms_and_missing_sidecar_fails_verification) ... ok
+test_active_generated_assets_and_scripts_run_without_compiling (test_configure_slus_modules.ConfigureSlusModulesTest.test_active_generated_assets_and_scripts_run_without_compiling) ... ok
+test_active_manifest_emits_physical_edges_and_private_link_inputs (test_configure_slus_modules.ConfigureSlusModulesTest.test_active_manifest_emits_physical_edges_and_private_link_inputs) ... ok
+test_current_manifest_matches_pinned_ninja_byte_for_byte (test_configure_slus_modules.ConfigureSlusModulesTest.test_current_manifest_matches_pinned_ninja_byte_for_byte) ... ok
+test_missing_aggregator_member_or_header_is_refused (test_configure_slus_modules.ConfigureSlusModulesTest.test_missing_aggregator_member_or_header_is_refused) ... ok
+test_recipe_mismatch_and_nm_are_refused (test_configure_slus_modules.ConfigureSlusModulesTest.test_recipe_mismatch_and_nm_are_refused) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 1.576s
+
+OK

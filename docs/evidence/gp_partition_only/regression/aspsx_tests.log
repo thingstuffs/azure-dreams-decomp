@@ -1,0 +1,19 @@
+test_a_different_relocation_target_is_a_difference (test_aspsx_diff.Comparator.test_a_different_relocation_target_is_a_difference) ... ok
+test_composite_prefix_section_is_part_of_the_unit (test_aspsx_diff.Comparator.test_composite_prefix_section_is_part_of_the_unit) ... ok
+test_conflicting_or_missing_data_anchors_stay_masked (test_aspsx_diff.Comparator.test_conflicting_or_missing_data_anchors_stay_masked) ... ok
+test_gp_relative_extern_versus_absolute_is_classified (test_aspsx_diff.Comparator.test_gp_relative_extern_versus_absolute_is_classified) ... ok
+test_identical_is_exact (test_aspsx_diff.Comparator.test_identical_is_exact) ... ok
+test_length_mismatch_is_never_exact (test_aspsx_diff.Comparator.test_length_mismatch_is_never_exact) ... ok
+test_local_jump_targets_compare_function_relative (test_aspsx_diff.Comparator.test_local_jump_targets_compare_function_relative) ... ok
+test_missing_function_counts_all_its_words (test_aspsx_diff.Comparator.test_missing_function_counts_all_its_words) ... ok
+test_nested_symbol_is_not_a_boundary_in_lnk (test_aspsx_diff.Comparator.test_nested_symbol_is_not_a_boundary_in_lnk) ... ok
+test_owned_data_relocation_resolves_from_linked_symbol (test_aspsx_diff.Comparator.test_owned_data_relocation_resolves_from_linked_symbol) ... ok
+test_relocation_fields_are_masked_and_compared_symbolically (test_aspsx_diff.Comparator.test_relocation_fields_are_masked_and_compared_symbolically) ... ok
+test_return_delay_unfill_is_classified_as_delay_slot (test_aspsx_diff.Comparator.test_return_delay_unfill_is_classified_as_delay_slot) ... ok
+test_add_of_section_and_constant (test_aspsx_diff.LnkExpressions.test_add_of_section_and_constant) ... ok
+test_sub_is_second_minus_first_and_patches_are_chunk_relative (test_aspsx_diff.LnkExpressions.test_sub_is_second_minus_first_and_patches_are_chunk_relative) ... ok
+
+----------------------------------------------------------------------
+Ran 14 tests in 0.003s
+
+OK

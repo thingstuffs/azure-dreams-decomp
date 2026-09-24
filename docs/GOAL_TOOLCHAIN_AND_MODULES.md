@@ -155,3 +155,17 @@ Next: add strict support for owners consisting entirely of collector fragments,
 integrate these two small owners, then repeat the complete generic build/gate.
 The [closure evidence](evidence/gp_cd_cohort.md#whole-slus-generic-audit-and-the-final-three-functions)
 retains both the passing selective rehearsal and the failed unrestricted trial.
+
+## Resumption checkpoint: all-active SLUS generic build matches
+
+The [collector-only tooling and ready29 rehearsal](evidence/gp_partition_only.md)
+now close the last three SLUS instruction differences in isolation. All 860 active
+C objects rebuild with the corrected generic assembler; the generated image and
+SHA-1 gate match retail. Fresh genuine/retail checks cover 29 repaired functions /
+1,949 words with zero masks and 70 exact data records. The private graph has 33
+owners and preserves all 884 logical rows. Tooling regression: 182 tests, zero
+skips, plus five focused build-schema checks. Production remains unchanged.
+Next: normal ownership-prover integration, complete overlay gate, refreshed
+candidate dependency census, and final transition review/sign-off. The previously
+failed all-858 trial remains preserved as the diagnosis, superseded for the
+repaired private candidate by this passing full-SLUS gate.
