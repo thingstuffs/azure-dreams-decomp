@@ -243,11 +243,14 @@ void func_801719DC(void *motion_in, void *context_in, void *entity_in, void *act
         }
 
         action_state = ((S_801719DC_1 *)actor_in)->unk_46 & 0x3FFF;
-        if ((u32)(action_state - 1) >= 12) {
+        {
+            u32 idx = action_state - 1;
+            if (idx >= 12) {
             goto generic;
         }
-        (void)action_labels;
-        goto *D_80170808[(u32)(action_state - 1)];
+            (void)action_labels;
+            goto *D_80170808[idx];
+        }
 
 jt_c8:
 jt_c9:

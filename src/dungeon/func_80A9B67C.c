@@ -234,11 +234,14 @@ void func_80170E7C(void *actor, void *position, void *object, void *actor_data)
         }
 
         action_state = ((Rec_D_800E3D7C *)actor_data)->unk_44.at02_u16.v & 0x3FFF;
-        if ((u32)(action_state - 1) >= 12) {
-            goto generic;
+        {
+            u32 idx = action_state - 1;
+            if (idx >= 12) {
+                goto generic;
+            }
+            (void)case_labels;
+            goto *D_80170808[idx];
         }
-        (void)case_labels;
-        goto *D_80170808[(u32)(action_state - 1)];
 
 jt_c8:
 jt_c9:

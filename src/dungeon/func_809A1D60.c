@@ -3,7 +3,8 @@
 
 
 extern s32 D_8006CD58[];
-extern u8 D_8006DE24[];
+typedef struct { u8 pad[0x12]; u8 kind; u8 pad2; } ItemDef20;
+extern ItemDef20 D_8006DE24[];
 extern u8 D_80080A84;
 extern void *D_800814A8;
 extern s16 D_80083228;
@@ -159,7 +160,7 @@ item_ready:
     }
 
     item_index = *(u8 *)item_addr;
-    item_type = D_8006DE24[item_index * 20 + 0x12];
+    item_type = D_8006DE24[item_index].kind;
     if (item_type == 2) {
         target = ((S_80173560_1 *)actor)->unk_60;
         if (target != 0) {

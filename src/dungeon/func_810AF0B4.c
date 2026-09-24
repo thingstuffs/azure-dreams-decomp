@@ -93,7 +93,8 @@ M2C_UNK func_800A4ACC();
 M2C_UNK func_800A56E0();
 s32 func_800A94A0(void *, u8 *, s32, void *);
 extern M2C_UNK D_80045340;
-extern u8 D_8006DE24[];
+typedef struct { u8 pad[0x12]; u8 kind; u8 pad2; } ItemDef20;
+extern ItemDef20 D_8006DE24[];
 extern void *D_800814A8;
 extern s16 D_80083228;
 extern u8 D_80083460[];
@@ -143,10 +144,14 @@ block_6:
         goto block_12;
     }
     action_id = ((Rec_D_800E3D7C *)action)->unk_44.at02_u16.v & 0x3FFF;
-    if ((u32) (action_id - 1) >= 7U) {
+    {
+        u32 idx = action_id - 1;
+        if (idx >= 7U) {
         goto block_20;
     }
-    (void)action_labels; goto *D_80170838[(u32)((action_id) - 1)];
+        (void)action_labels;
+        goto *D_80170838[idx];
+    }
 jt_c7:
     use_player = 1;
     goto block_17;
@@ -205,7 +210,7 @@ block_21:
     ((Rec_D_800E3D7C *)action)->unk_60.as_pv = target;
     goto block_26;
 block_24:
-    if (D_8006DE24[(*slot_or_effect * 0x14) + 0x12] != 2) {
+    if (D_8006DE24[*slot_or_effect].kind != 2) {
         goto block_27;
     }
     target = ((Rec_D_800E3D7C *)action)->unk_60.as_pv;

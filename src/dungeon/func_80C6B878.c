@@ -14,7 +14,8 @@ extern s32 func_800A94A0(void *, u8 *, s32, void *);
 extern void func_80170D28(void *, s32, s32, s32, s32, s32, s32);
 extern void func_80170F2C(void *, s32, s32, s32, s32, s32, s32);
 
-extern u8 D_8006DE24[];
+typedef struct { u8 pad[0x12]; u8 kind; u8 pad2; } ItemDef20;
+extern ItemDef20 D_8006DE24[];
 extern void *D_800814A8;
 extern s16 D_80083228;
 extern s32 D_80083460;
@@ -149,7 +150,7 @@ selection_ready:
         u8 *item_id;
 
         item_id = (u8 *)(*item_slot);
-        if (D_8006DE24[((u8)item_id) * 20 + 0x12] == 2) {
+        if (D_8006DE24[((u8)item_id)].kind == 2) {
             target = (*(void * *)((u8 *)actor + 0x60));
             if (target != 0) {
 

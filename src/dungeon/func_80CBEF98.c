@@ -12,7 +12,8 @@ extern void func_800A56E0(s32);
 extern s32 func_800A94A0(void *, u8 *, s32, void *);
 extern void func_800BB044(void *);
 
-extern u8 D_8006DE24[];
+typedef struct { u8 pad[0x12]; u8 kind; u8 pad2; } ItemDef20;
+extern ItemDef20 D_8006DE24[];
 extern void *D_800814A8;
 extern s16 D_80083228;
 extern s32 D_80083460;
@@ -148,7 +149,7 @@ selection_ready:
         u8 item_id;
 
         item_id = *selection;
-        if (D_8006DE24[item_id * 20 + 0x12] == 2) {
+        if (D_8006DE24[item_id].kind == 2) {
             active = (*(void * *)((u8 *)actor + 0x60));
             if (active != 0) {
 copy_active_coords:

@@ -66,7 +66,8 @@ extern void func_800A4ACC(void *);
 extern void func_800A56E0(s32);
 extern s32 func_800A94A0(void *, u8 *, s32, u16 *);
 
-extern u8 D_8006DE24[];
+typedef struct { u8 pad[0x12]; u8 kind; u8 pad2; } ItemDef20;
+extern ItemDef20 D_8006DE24[];
 extern void *D_800814A8;
 extern s16 D_80083228;
 extern s32 D_80083460;
@@ -166,7 +167,7 @@ have_choice:
             goto copy_existing;
         }
 
-        if (D_8006DE24[(*move_data * 20) + 0x12] == 2) {
+        if (D_8006DE24[*move_data].kind == 2) {
             target = ((S_80172970_1 *)actor)->unk_60;
             if (target == 0) {
                 goto move_setup;

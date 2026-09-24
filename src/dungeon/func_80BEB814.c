@@ -214,11 +214,14 @@ void func_80171014(void *actor, void *actor_context, void *map_object, void *cre
         }
 
         action_state = ((Rec_D_800E3D7C *)creature)->unk_44.at02_u16.v & 0x3FFF;
-        if ((u32)(action_state - 1) >= 12) {
+        {
+            u32 idx = action_state - 1;
+            if (idx >= 12) {
             goto generic;
         }
-        (void)action_labels;
-        goto *D_80170808[(u32)(action_state - 1)];
+            (void)action_labels;
+            goto *D_80170808[idx];
+        }
 
 jt_c8:
 jt_c9:

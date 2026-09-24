@@ -225,10 +225,14 @@ block_33:
     }
 block_35:
     action_id = ((Rec_D_800E3D7C *)status)->unk_44.at02_u16.v & 0x3FFF;
-    if ((u32) (action_id - 1) >= 0xCU) {
+    {
+        u32 idx = action_id - 1;
+        if (idx >= 0xCU) {
         goto block_46;
     }
-    (void)action_labels; goto *D_80170808[(u32)((action_id) - 1)];
+        (void)action_labels;
+        goto *D_80170808[idx];
+    }
 jt_c8:
 jt_c9:
     if ((func_80171FCC(actor, context, sprite, status) << 0x10) != 0) {
