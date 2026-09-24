@@ -31,7 +31,6 @@ s32 func_80171F9C(Rec_func_800A9E70_arg0 *action_state, s32 action_param, void *
     s32 target_delta;
     s16 action_mode;
     u16 pending_amount;
-    register u16 action_flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 status;
     u16 stored_amount;
 
@@ -84,22 +83,25 @@ check_ready:
         }
 
         {
+            u8 new_action;
             s32 selected_mode = action_mode;
             action_state->unk_9B.as_s8 = 0;
             if (selected_mode == 1) {
                 action_state->unk_8C = 0;
                 ((S_80171F9C_0 *)(visual_data))->unk_2C = D_80175E50;
-                action_flags = action_state->unk_98;
-                action_state->unk_9A.as_s8 = 0x11;
-                goto set_flag;
+                new_action = 0x11;
+                action_state->unk_98 |= 8;
+                action_state->unk_9A.as_s8 = new_action;
+                ((Rec_D_800E3D7C *)actor)->unk_84.as_s8 = 0x7C;
+                ((Rec_D_800E3D7C *)actor)->unk_85.as_s8 = 0;
+                goto common;
             }
             if (selected_mode == 2) {
                 action_state->unk_8C = 0;
                 ((S_80171F9C_0 *)(visual_data))->unk_2C = D_80175E70;
-                action_flags = action_state->unk_98;
-                action_state->unk_9A.as_s8 = 0x17;
-set_flag:
-                action_state->unk_98 = action_flags | 8;
+                new_action = 0x17;
+                action_state->unk_98 |= 8;
+                action_state->unk_9A.as_s8 = new_action;
                 ((Rec_D_800E3D7C *)actor)->unk_84.as_s8 = 0x7C;
                 ((Rec_D_800E3D7C *)actor)->unk_85.as_s8 = 0;
                 goto common;
