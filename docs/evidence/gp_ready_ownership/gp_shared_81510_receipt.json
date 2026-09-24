@@ -1,0 +1,616 @@
+{
+  "baseline": {
+    "manifest": {
+      "path": "config/slus_modules.json",
+      "sha256": "b6a10d4ebcfc5bcb0fc181031d80c8363235c11454508dd6a87710cd6cf76496"
+    },
+    "retail": {
+      "path": "baserom/slus_006.14",
+      "sha256": "ae19d8d4bdd2db9a933b1e44d70dd61be670781e441d7cb37da85250a7aed31f"
+    },
+    "built_image": {
+      "path": "build_slus/build/slus_006.14",
+      "sha256": "ae19d8d4bdd2db9a933b1e44d70dd61be670781e441d7cb37da85250a7aed31f"
+    },
+    "retail_exact_elf": {
+      "path": "build_slus/build/slus_006.14.elf",
+      "sha256": "9e10a595bae8d677d1041c5cc0acc58149ada9dd4c89fce3485ec47cc614e5a5"
+    },
+    "recipe": {
+      "path": "ledger/splits/slus.jsonl",
+      "sha256": "0b39aec19b4df8f53599f4d2a3bd73bef2adcbadfae9f4c90a63be935c19160d"
+    },
+    "row_registry": {
+      "path": "ledger/rows.jsonl",
+      "sha256": "857148ec1cc3f193a71595ab65d65574e823b4a093351828e1f378fb70d4f0e9"
+    },
+    "production_configure": {
+      "path": "tools/build/configure.py",
+      "sha256": "c0eecebc7a22a4592f8788ac8eb20b4eb7d375156e82f129bbf44aa2e7cd35fd"
+    },
+    "stock_assembler": {
+      "path": "toolchain/maspsx/maspsx.py",
+      "sha256": "3bbb64075ab6384f6b670a495cce152acb50f3318cf714c6ab9a082b7adaf086"
+    },
+    "source_w_80045340": {
+      "path": "src/slus/w_80045340.c",
+      "sha256": "5662d5480d59d6b60f4597ad31dedc0088911c5f77e5878a3a841f3c773ee7eb"
+    },
+    "raw_w_80045340": {
+      "path": "raw/slus/w_80045340.c",
+      "sha256": "9113c9bef7ea4c22b704e7a9a76377376656e6f9c4d1eacbd2de31c634131ae4"
+    },
+    "source_w_800453E0": {
+      "path": "src/slus/w_800453E0.c",
+      "sha256": "0412fa9f8e93ee08575de51f3477a1bf9607735a395130202f9855385a713338"
+    },
+    "raw_w_800453E0": {
+      "path": "raw/slus/w_800453E0.c",
+      "sha256": "d73d1ccfdeabd4df83d2045076370290c38868ce24f84a7d9d0565257963896b"
+    }
+  },
+  "assembler": "stock",
+  "standalone_recipe": {
+    "baseline": {
+      "result": "MATCH",
+      "words_diff": 0
+    },
+    "cdk_trial": {
+      "result": "MATCH",
+      "words_diff": 0,
+      "residue": 0,
+      "fn_size_drift": {},
+      "detail": ""
+    },
+    "restored": {
+      "result": "MATCH",
+      "words_diff": 0
+    }
+  },
+  "calibration": {
+    "result": "MATCH",
+    "words_diff": 0
+  },
+  "genuine": {
+    "version": "2.79",
+    "flags": [
+      "-q",
+      "-0"
+    ],
+    "retail_anchor_elf_sha256": "9e10a595bae8d677d1041c5cc0acc58149ada9dd4c89fce3485ec47cc614e5a5",
+    "functions": {
+      "func_80045340": {
+        "maspsx_words": 40,
+        "genuine_words": 40,
+        "comparison": {
+          "exact": true,
+          "diff": 0,
+          "len_m": 40,
+          "len_g": 40,
+          "missing": []
+        },
+        "regions": [],
+        "maspsx_retail": {
+          "diff": 0,
+          "masked": 0,
+          "checked": 1
+        },
+        "genuine_retail": {
+          "diff": 0,
+          "masked": 0,
+          "checked": 1
+        }
+      },
+      "func_800453E0": {
+        "maspsx_words": 533,
+        "genuine_words": 533,
+        "comparison": {
+          "exact": true,
+          "diff": 0,
+          "len_m": 533,
+          "len_g": 533,
+          "missing": []
+        },
+        "regions": [],
+        "maspsx_retail": {
+          "diff": 0,
+          "masked": 0,
+          "checked": 1
+        },
+        "genuine_retail": {
+          "diff": 0,
+          "masked": 0,
+          "checked": 1
+        }
+      }
+    }
+  },
+  "full_build": {
+    "configure": "wrote build.ninja (1138 objects)",
+    "build_tail": [
+      "[34/41] BIN build/module_assets/54240_000ACC_000AD0.bin",
+      "[35/41] BIN build/module_assets/54240_000AD4_000AD8.bin",
+      "[36/41] BIN build/module_assets/54240_000AE8_000AF0.bin",
+      "[37/41] BIN build/module_assets/54240_000AF2_02BDC0.bin",
+      "[38/41] MODULE-SYMS build/slus_006.14.undefined_syms.modules.txt",
+      "[39/41] LD-SCRIPT build/slus_006.14_ordered.ld",
+      "[40/41] LINK build/slus_006.14.elf",
+      "[41/41] OBJCOPY build/slus_006.14"
+    ],
+    "edges": {
+      "physical": 874,
+      "logical": 884,
+      "trial_recipe_difference": [
+        [
+          {
+            "src": "src/w_80045340.c",
+            "out": "build/src/w_80045340.o",
+            "ccver": "2.7.2-cdk",
+            "ccflags": "",
+            "asflags": ""
+          },
+          {
+            "src": "src/w_80045340.c",
+            "out": "build/src/w_80045340.o",
+            "ccver": "2.8.1",
+            "ccflags": "",
+            "asflags": ""
+          }
+        ]
+      ]
+    },
+    "image": {
+      "match_retail": true,
+      "first_diff_offset": null,
+      "sha1": "e6bfbb95ff6676899e077481221d73ddd4d3bf52",
+      "size": 524288
+    },
+    "functions": {
+      "pristine": {
+        "func_80045340": [
+          {
+            "address": 2147767104,
+            "size": 160,
+            "section": "2",
+            "line": "3450: 80045340   160 FUNC    GLOBAL DEFAULT    2 func_80045340"
+          }
+        ],
+        "func_800453E0": [
+          {
+            "address": 2147767264,
+            "size": 2132,
+            "section": "2",
+            "line": "4748: 800453e0  2132 FUNC    GLOBAL DEFAULT    2 func_800453E0"
+          }
+        ]
+      },
+      "linked": {
+        "func_80045340": [
+          {
+            "address": 2147767104,
+            "size": 160,
+            "section": "2",
+            "line": "3841: 80045340   160 FUNC    GLOBAL DEFAULT    2 func_80045340"
+          }
+        ],
+        "func_800453E0": [
+          {
+            "address": 2147767264,
+            "size": 2132,
+            "section": "2",
+            "line": "3155: 800453e0  2132 FUNC    GLOBAL DEFAULT    2 func_800453E0"
+          }
+        ]
+      },
+      "layout_exact": true
+    },
+    "data": {
+      "object_section": "00000000",
+      "object_symbol": [
+        ".sdata",
+        0,
+        "global",
+        0
+      ],
+      "asset_bytes": "00000000",
+      "linked_symbol": [
+        {
+          "address": 2148013328,
+          "size": 0,
+          "section": "2",
+          "line": "3838: 80081510     0 NOTYPE  GLOBAL DEFAULT    2 D_80081510"
+        }
+      ],
+      "exact": true
+    },
+    "asset_plans": [
+      {
+        "asset": "assets/3E018.bin",
+        "asset_object": "build/assets/3E018.o",
+        "asset_size": 90552,
+        "asset_sha256": "52eba1fb68e50a6356f7d5cc7abfb07902868c94cac43b5a5712354140004f32",
+        "slots": [
+          {
+            "kind": "chunk",
+            "start": 0,
+            "end": 90528,
+            "input": "build/module_assets/3E018_000000_0161A0.bin",
+            "object": "build/module_assets/3E018_000000_0161A0.o",
+            "section": ".data"
+          },
+          {
+            "kind": "module_data",
+            "start": 90528,
+            "end": 90536,
+            "module": "render_words",
+            "object": "build/src/konami_runtime_w_80035888_owned.o",
+            "section": ".sdata",
+            "symbols": [
+              "D_800809B8",
+              "D_800809BC"
+            ]
+          },
+          {
+            "kind": "chunk",
+            "start": 90536,
+            "end": 90552,
+            "input": "build/module_assets/3E018_0161A8_0161B8.bin",
+            "object": "build/module_assets/3E018_0161A8_0161B8.o",
+            "section": ".data"
+          }
+        ]
+      },
+      {
+        "asset": "assets/54240.bin",
+        "asset_object": "build/assets/54240.o",
+        "asset_size": 179648,
+        "asset_sha256": "c4e7faf5c7f42838e9fb2e9238af76ed6972cdc8ef055fa2b02a18d9360f76da",
+        "slots": [
+          {
+            "kind": "chunk",
+            "start": 0,
+            "end": 44,
+            "input": "build/module_assets/54240_000000_00002C.bin",
+            "object": "build/module_assets/54240_000000_00002C.o",
+            "section": ".data"
+          },
+          {
+            "kind": "module_data",
+            "start": 44,
+            "end": 48,
+            "module": "runtime_directory",
+            "object": "build/src/konami_runtime_directory.o",
+            "section": ".sdata",
+            "symbols": [
+              "D_80080A6C"
+            ]
+          },
+          {
+            "kind": "chunk",
+            "start": 48,
+            "end": 100,
+            "input": "build/module_assets/54240_000030_000064.bin",
+            "object": "build/module_assets/54240_000030_000064.o",
+            "section": ".data"
+          },
+          {
+            "kind": "module_data",
+            "start": 100,
+            "end": 116,
+            "module": "gp_shared_slots",
+            "object": "build/src/gp_shared_slots.o",
+            "section": ".sdata",
+            "symbols": [
+              "D_80080AA4",
+              "D_80080AA6",
+              "D_80080AA8",
+              "D_80080AAA",
+              "D_80080AAC",
+              "D_80080AB0"
+            ]
+          },
+          {
+            "kind": "chunk",
+            "start": 116,
+            "end": 192,
+            "input": "build/module_assets/54240_000074_0000C0.bin",
+            "object": "build/module_assets/54240_000074_0000C0.o",
+            "section": ".data"
+          },
+          {
+            "kind": "module_data",
+            "start": 192,
+            "end": 194,
+            "module": "owned_80044698",
+            "object": "build/src/w_80044698_owned.o",
+            "section": ".sdata",
+            "symbols": [
+              "D_80080B00"
+            ]
+          },
+          {
+            "kind": "chunk",
+            "start": 194,
+            "end": 200,
+            "input": "build/module_assets/54240_0000C2_0000C8.bin",
+            "object": "build/module_assets/54240_0000C2_0000C8.o",
+            "section": ".data"
+          },
+          {
+            "kind": "module_data",
+            "start": 200,
+            "end": 204,
+            "module": "owned_8004713C",
+            "object": "build/src/w_8004713C_owned.o",
+            "section": ".sdata",
+            "symbols": [
+              "D_80080B08",
+              "D_80080B0A"
+            ]
+          },
+          {
+            "kind": "chunk",
+            "start": 204,
+            "end": 208,
+            "input": "build/module_assets/54240_0000CC_0000D0.bin",
+            "object": "build/module_assets/54240_0000CC_0000D0.o",
+            "section": ".data"
+          },
+          {
+            "kind": "module_data",
+            "start": 208,
+            "end": 214,
+            "module": "gp_split_storage",
+            "object": "build/src/gp_split_storage.o",
+            "section": ".sdata",
+            "symbols": [
+              "D_80080B10",
+              "D_80080B12",
+              "D_80080B14"
+            ]
+          },
+          {
+            "kind": "chunk",
+            "start": 214,
+            "end": 280,
+            "input": "build/module_assets/54240_0000D6_000118.bin",
+            "object": "build/module_assets/54240_0000D6_000118.o",
+            "section": ".data"
+          },
+          {
+            "kind": "module_data",
+            "start": 280,
+            "end": 296,
+            "module": "state_defaults",
+            "object": "build/src/gp_state_defaults.o",
+            "section": ".sdata",
+            "symbols": [
+              "D_80080B58",
+              "D_80080B5C",
+              "D_80080B60",
+              "D_80080B64"
+            ]
+          },
+          {
+            "kind": "chunk",
+            "start": 296,
+            "end": 320,
+            "input": "build/module_assets/54240_000128_000140.bin",
+            "object": "build/module_assets/54240_000128_000140.o",
+            "section": ".data"
+          },
+          {
+            "kind": "module_data",
+            "start": 320,
+            "end": 328,
+            "module": "entry_words",
+            "object": "build/src/w_800508F0_owned.o",
+            "section": ".sdata",
+            "symbols": [
+              "D_80080B80",
+              "D_80080B84"
+            ]
+          },
+          {
+            "kind": "chunk",
+            "start": 328,
+            "end": 2560,
+            "input": "build/module_assets/54240_000148_000A00.bin",
+            "object": "build/module_assets/54240_000148_000A00.o",
+            "section": ".data"
+          },
+          {
+            "kind": "module_data",
+            "start": 2560,
+            "end": 2564,
+            "module": "owned_80035484",
+            "object": "build/src/konami_runtime_w_80035484_owned.o",
+            "section": ".sdata",
+            "symbols": [
+              "D_80081440"
+            ]
+          },
+          {
+            "kind": "chunk",
+            "start": 2564,
+            "end": 2568,
+            "input": "build/module_assets/54240_000A04_000A08.bin",
+            "object": "build/module_assets/54240_000A04_000A08.o",
+            "section": ".data"
+          },
+          {
+            "kind": "module_data",
+            "start": 2568,
+            "end": 2572,
+            "module": "owned_80038A10",
+            "object": "build/src/konami_runtime_w_80038A10_owned.o",
+            "section": ".sdata",
+            "symbols": [
+              "D_80081448"
+            ]
+          },
+          {
+            "kind": "chunk",
+            "start": 2572,
+            "end": 2592,
+            "input": "build/module_assets/54240_000A0C_000A20.bin",
+            "object": "build/module_assets/54240_000A0C_000A20.o",
+            "section": ".data"
+          },
+          {
+            "kind": "module_data",
+            "start": 2592,
+            "end": 2596,
+            "module": "konami_runtime_gp_count",
+            "object": "build/src/konami_runtime_gp_count.o",
+            "section": ".sdata",
+            "symbols": [
+              "D_80081460"
+            ]
+          },
+          {
+            "kind": "chunk",
+            "start": 2596,
+            "end": 2728,
+            "input": "build/module_assets/54240_000A24_000AA8.bin",
+            "object": "build/module_assets/54240_000A24_000AA8.o",
+            "section": ".data"
+          },
+          {
+            "kind": "module_data",
+            "start": 2728,
+            "end": 2730,
+            "module": "slot_transition",
+            "object": "build/src/slot_transition.o",
+            "section": ".sdata",
+            "symbols": [
+              "D_800814E8"
+            ]
+          },
+          {
+            "kind": "chunk",
+            "start": 2730,
+            "end": 2752,
+            "input": "build/module_assets/54240_000AAA_000AC0.bin",
+            "object": "build/module_assets/54240_000AAA_000AC0.o",
+            "section": ".data"
+          },
+          {
+            "kind": "module_data",
+            "start": 2752,
+            "end": 2754,
+            "module": "slot_transition_secondary",
+            "object": "build/src/slot_transition_secondary.o",
+            "section": ".sdata",
+            "symbols": [
+              "D_80081500"
+            ]
+          },
+          {
+            "kind": "chunk",
+            "start": 2754,
+            "end": 2760,
+            "input": "build/module_assets/54240_000AC2_000AC8.bin",
+            "object": "build/module_assets/54240_000AC2_000AC8.o",
+            "section": ".data"
+          },
+          {
+            "kind": "module_data",
+            "start": 2760,
+            "end": 2764,
+            "module": "owned_800448BC",
+            "object": "build/src/w_800448BC_owned.o",
+            "section": ".sdata",
+            "symbols": [
+              "D_80081508"
+            ]
+          },
+          {
+            "kind": "chunk",
+            "start": 2764,
+            "end": 2768,
+            "input": "build/module_assets/54240_000ACC_000AD0.bin",
+            "object": "build/module_assets/54240_000ACC_000AD0.o",
+            "section": ".data"
+          },
+          {
+            "kind": "module_data",
+            "start": 2768,
+            "end": 2772,
+            "module": "gp_shared_81510",
+            "object": "build/src/gp_shared_81510.o",
+            "section": ".sdata",
+            "symbols": [
+              "D_80081510"
+            ]
+          },
+          {
+            "kind": "chunk",
+            "start": 2772,
+            "end": 2776,
+            "input": "build/module_assets/54240_000AD4_000AD8.bin",
+            "object": "build/module_assets/54240_000AD4_000AD8.o",
+            "section": ".data"
+          },
+          {
+            "kind": "module_data",
+            "start": 2776,
+            "end": 2784,
+            "module": "owned_80047338",
+            "object": "build/src/w_80047338_owned.o",
+            "section": ".sdata",
+            "symbols": [
+              "D_80081518",
+              "D_8008151A",
+              "D_8008151C",
+              "D_8008151E"
+            ]
+          },
+          {
+            "kind": "module_data",
+            "start": 2784,
+            "end": 2792,
+            "module": "owned_80047468",
+            "object": "build/src/w_80047468_owned.o",
+            "section": ".sdata",
+            "symbols": [
+              "D_80081520",
+              "D_80081522",
+              "D_80081524",
+              "D_80081526"
+            ]
+          },
+          {
+            "kind": "chunk",
+            "start": 2792,
+            "end": 2800,
+            "input": "build/module_assets/54240_000AE8_000AF0.bin",
+            "object": "build/module_assets/54240_000AE8_000AF0.o",
+            "section": ".data"
+          },
+          {
+            "kind": "module_data",
+            "start": 2800,
+            "end": 2802,
+            "module": "gp_split_storage",
+            "object": "build/src/gp_split_storage.o",
+            "section": ".sbss",
+            "symbols": [
+              "D_80081530"
+            ]
+          },
+          {
+            "kind": "chunk",
+            "start": 2802,
+            "end": 179648,
+            "input": "build/module_assets/54240_000AF2_02BDC0.bin",
+            "object": "build/module_assets/54240_000AF2_02BDC0.o",
+            "section": ".data"
+          }
+        ]
+      }
+    ]
+  },
+  "manifest_modules": 17,
+  "production_inputs_unchanged": true
+}

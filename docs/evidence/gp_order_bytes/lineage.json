@@ -1,0 +1,229 @@
+{
+  "scope": "SLUS function bytes; CLI resolver currently overlay-only",
+  "vram": "80049F68",
+  "words": 50,
+  "instructions": [
+    [
+      "move",
+      "$a3, $zero"
+    ],
+    [
+      "lui",
+      "$t1, 0x8003"
+    ],
+    [
+      "addiu",
+      "$t0, $t1, -0x1a28"
+    ],
+    [
+      "lui",
+      "$v0, 0x8003"
+    ],
+    [
+      "addiu",
+      "$t2, $a0, 0xa0"
+    ],
+    [
+      "lw",
+      "$v1, -0x1a18($v0)"
+    ],
+    [
+      "addiu",
+      "$v0, $v0, -0x1a18"
+    ],
+    [
+      "sw",
+      "$v1, 0xa0($a0)"
+    ],
+    [
+      "lw",
+      "$v1, 4($v0)"
+    ],
+    [
+      "addiu",
+      "$a2, $zero, 0x20"
+    ],
+    [
+      "sw",
+      "$v1, 0xa4($a0)"
+    ],
+    [
+      "lw",
+      "$v0, 8($v0)"
+    ],
+    [
+      "move",
+      "$a1, $a0"
+    ],
+    [
+      "sw",
+      "$v0, 0xa8($a0)"
+    ],
+    [
+      "lw",
+      "$v0, -0x1a28($t1)"
+    ],
+    [
+      "nop",
+      ""
+    ],
+    [
+      "sw",
+      "$v0, 0x20($a1)"
+    ],
+    [
+      "lw",
+      "$v0, 4($t0)"
+    ],
+    [
+      "addu",
+      "$v1, $a0, $a2"
+    ],
+    [
+      "sw",
+      "$v0, 0x24($a1)"
+    ],
+    [
+      "lw",
+      "$v0, 8($t0)"
+    ],
+    [
+      "addiu",
+      "$a2, $a2, 0x20"
+    ],
+    [
+      "sw",
+      "$v0, 0x28($a1)"
+    ],
+    [
+      "lw",
+      "$v0, 0xc($t0)"
+    ],
+    [
+      "addiu",
+      "$a3, $a3, 1"
+    ],
+    [
+      "sw",
+      "$v1, 0x34($a1)"
+    ],
+    [
+      "sw",
+      "$t2, 0x38($a1)"
+    ],
+    [
+      "sw",
+      "$v0, 0x2c($a1)"
+    ],
+    [
+      "slti",
+      "$v0, $a3, 4"
+    ],
+    [
+      "bnez",
+      "$v0, 0x38"
+    ],
+    [
+      "addiu",
+      "$a1, $a1, 0x20"
+    ],
+    [
+      "lbu",
+      "$v1, 0x19c($gp)"
+    ],
+    [
+      "addiu",
+      "$v0, $zero, 4"
+    ],
+    [
+      "beq",
+      "$v1, $v0, 0xc0"
+    ],
+    [
+      "addiu",
+      "$a2, $a0, 0x30"
+    ],
+    [
+      "move",
+      "$a3, $v0"
+    ],
+    [
+      "lui",
+      "$a1, 0x8008"
+    ],
+    [
+      "addiu",
+      "$a1, $a1, 0xb30"
+    ],
+    [
+      "lbu",
+      "$v0, ($a1)"
+    ],
+    [
+      "addiu",
+      "$a1, $a1, 1"
+    ],
+    [
+      "sll",
+      "$v0, $v0, 5"
+    ],
+    [
+      "addu",
+      "$v0, $v0, $a0"
+    ],
+    [
+      "addiu",
+      "$v0, $v0, 0x30"
+    ],
+    [
+      "sw",
+      "$v0, 0xc($a2)"
+    ],
+    [
+      "lbu",
+      "$v1, ($a1)"
+    ],
+    [
+      "nop",
+      ""
+    ],
+    [
+      "bne",
+      "$v1, $a3, 0x98"
+    ],
+    [
+      "move",
+      "$a2, $v0"
+    ],
+    [
+      "jr",
+      "$ra"
+    ],
+    [
+      "sw",
+      "$zero, 0xc($a2)"
+    ]
+  ],
+  "evidence": {
+    "at_macro": [],
+    "split_store": [],
+    "held_page": [],
+    "slot_store": [],
+    "split_la": [
+      "[1] lui $t1, 0x8003 + [2] addiu $t0, $t1, -0x1a28"
+    ],
+    "zero_copy": [],
+    "ret_copy": []
+  },
+  "held": [],
+  "gp_refs": 1,
+  "decision": {
+    "verdict": "insufficient store-emission evidence (few globals?)",
+    "family": null,
+    "notes": [
+      "SPLIT_ADDRESSES two-reg la (cdk/4.1-lineage)"
+    ]
+  },
+  "claimed": "2.7.2-cdk -fno-strength-reduce",
+  "claim_conflict": false
+}

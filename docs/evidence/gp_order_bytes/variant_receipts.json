@@ -1,0 +1,70 @@
+{
+  "commuted": {
+    "words": 50,
+    "retail_words": 50,
+    "masked": 0,
+    "aligned_distance": 4,
+    "regions": [
+      {
+        "op": "replace",
+        "candidate_offset": 31,
+        "retail_offset": 31,
+        "candidate": [
+          "9382019c",
+          "24030004",
+          "1043000e"
+        ],
+        "retail": [
+          "9383019c",
+          "24020004",
+          "1062000e"
+        ]
+      },
+      {
+        "op": "replace",
+        "candidate_offset": 35,
+        "retail_offset": 35,
+        "candidate": [
+          "00603821"
+        ],
+        "retail": [
+          "00403821"
+        ]
+      }
+    ]
+  },
+  "one_read": {
+    "words": 50,
+    "retail_words": 50,
+    "masked": 0,
+    "aligned_distance": 4,
+    "regions": [
+      {
+        "op": "replace",
+        "candidate_offset": 31,
+        "retail_offset": 31,
+        "candidate": [
+          "9382019c",
+          "24030004",
+          "1043000e"
+        ],
+        "retail": [
+          "9383019c",
+          "24020004",
+          "1062000e"
+        ]
+      },
+      {
+        "op": "replace",
+        "candidate_offset": 35,
+        "retail_offset": 35,
+        "candidate": [
+          "00603821"
+        ],
+        "retail": [
+          "00403821"
+        ]
+      }
+    ]
+  }
+}

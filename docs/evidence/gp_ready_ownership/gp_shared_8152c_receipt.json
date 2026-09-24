@@ -1,0 +1,342 @@
+{
+  "control": {
+    "result": "MATCH",
+    "words_diff": 0
+  },
+  "stock": {
+    "label": "stock",
+    "gate": {
+      "result": "NO MATCH",
+      "words_diff": 100789,
+      "image_sha1": "e299b0c59f62635a31124581c31dac0a66c4614d"
+    },
+    "sdata_hex": "00000000",
+    "sdata_exact": true,
+    "definition": [
+      ".sdata",
+      0,
+      "global",
+      0
+    ],
+    "linked": [
+      "80081528 T D_8008152C"
+    ],
+    "gp_relocations": [
+      [
+        ".text.func_80047D44",
+        80,
+        "GPREL16"
+      ],
+      [
+        ".text.func_80047D44",
+        84,
+        "GPREL16"
+      ],
+      [
+        ".text.func_80047DF0",
+        44,
+        "GPREL16"
+      ],
+      [
+        ".text.func_80047E30",
+        48,
+        "GPREL16"
+      ]
+    ],
+    "genuine": {
+      "compiled_vs_linked": {
+        "diff": 0,
+        "exact": true,
+        "len_m": 62,
+        "len_g": 62,
+        "missing": [],
+        "regions": [],
+        "delay_only": []
+      },
+      "error": null,
+      "maspsx_vs_genuine": {
+        "diff": 2,
+        "exact": false,
+        "len_m": 62,
+        "len_g": 63,
+        "missing": [],
+        "regions": [
+          [
+            "func_80047D44",
+            "replace",
+            [
+              [
+                662831104,
+                "GPREL16",
+                [
+                  "sec",
+                  ".sdata",
+                  0
+                ]
+              ]
+            ],
+            [
+              [
+                1006764032,
+                "HI16",
+                [
+                  "sec",
+                  ".sdata",
+                  0
+                ]
+              ],
+              [
+                608305152,
+                "LO16",
+                [
+                  "sec",
+                  ".sdata",
+                  0
+                ]
+              ]
+            ],
+            21
+          ]
+        ],
+        "delay_only": []
+      },
+      "genuine_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 3
+      }
+    },
+    "code7": {
+      "object_unchanged": true,
+      "symbol": null,
+      "relocations": [
+        [
+          ".text.func_80047DB8",
+          32,
+          "HI16"
+        ],
+        [
+          ".text.func_80047DB8",
+          36,
+          "LO16"
+        ]
+      ]
+    }
+  },
+  "generic": {
+    "label": "generic",
+    "gate": {
+      "result": "MATCH",
+      "words_diff": 0,
+      "image_sha1": "e6bfbb95ff6676899e077481221d73ddd4d3bf52"
+    },
+    "sdata_hex": "00000000",
+    "sdata_exact": true,
+    "definition": [
+      ".sdata",
+      0,
+      "global",
+      0
+    ],
+    "linked": [
+      "8008152c T D_8008152C"
+    ],
+    "gp_relocations": [
+      [
+        ".text.func_80047D44",
+        80,
+        "GPREL16"
+      ],
+      [
+        ".text.func_80047DF0",
+        44,
+        "GPREL16"
+      ],
+      [
+        ".text.func_80047E30",
+        48,
+        "GPREL16"
+      ]
+    ],
+    "genuine": {
+      "compiled_vs_linked": {
+        "diff": 2,
+        "exact": false,
+        "len_m": 62,
+        "len_g": 63,
+        "missing": [],
+        "regions": [
+          [
+            "func_80047D44",
+            "replace",
+            [
+              [
+                662831104,
+                "GPREL16",
+                [
+                  "sec",
+                  ".sdata",
+                  0
+                ]
+              ]
+            ],
+            [
+              [
+                1006764032,
+                "HI16",
+                [
+                  "sec",
+                  ".sdata",
+                  0
+                ]
+              ],
+              [
+                608305152,
+                "LO16",
+                [
+                  "sec",
+                  ".sdata",
+                  0
+                ]
+              ]
+            ],
+            21
+          ]
+        ],
+        "delay_only": []
+      },
+      "error": null,
+      "maspsx_vs_genuine": {
+        "diff": 2,
+        "exact": false,
+        "len_m": 62,
+        "len_g": 63,
+        "missing": [],
+        "regions": [
+          [
+            "func_80047D44",
+            "replace",
+            [
+              [
+                662831104,
+                "GPREL16",
+                [
+                  "sec",
+                  ".sdata",
+                  0
+                ]
+              ]
+            ],
+            [
+              [
+                1006764032,
+                "HI16",
+                [
+                  "sec",
+                  ".sdata",
+                  0
+                ]
+              ],
+              [
+                608305152,
+                "LO16",
+                [
+                  "sec",
+                  ".sdata",
+                  0
+                ]
+              ]
+            ],
+            21
+          ]
+        ],
+        "delay_only": []
+      },
+      "genuine_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 3
+      },
+      "generic_vs_linked": {
+        "diff": 0,
+        "exact": true,
+        "len_m": 63,
+        "len_g": 63,
+        "missing": [],
+        "regions": [],
+        "delay_only": []
+      },
+      "generic_vs_genuine": {
+        "diff": 0,
+        "exact": true,
+        "len_m": 63,
+        "len_g": 63,
+        "missing": [],
+        "regions": [],
+        "delay_only": []
+      }
+    },
+    "code7": {
+      "object_unchanged": true,
+      "symbol": null,
+      "relocations": [
+        [
+          ".text.func_80047DB8",
+          32,
+          "HI16"
+        ],
+        [
+          ".text.func_80047DB8",
+          36,
+          "LO16"
+        ]
+      ]
+    },
+    "stock_vs_this": {
+      "diff": 2,
+      "exact": false,
+      "len_m": 62,
+      "len_g": 63,
+      "missing": [],
+      "regions": [
+        [
+          "func_80047D44",
+          "replace",
+          [
+            [
+              662831104,
+              "GPREL16",
+              [
+                "sec",
+                ".sdata",
+                0
+              ]
+            ]
+          ],
+          [
+            [
+              1006764032,
+              "HI16",
+              [
+                "sec",
+                ".sdata",
+                0
+              ]
+            ],
+            [
+              608305152,
+              "LO16",
+              [
+                "sec",
+                ".sdata",
+                0
+              ]
+            ]
+          ],
+          21
+        ]
+      ],
+      "delay_only": []
+    }
+  }
+}
