@@ -98,7 +98,7 @@ void func_80024AE4(Controller *ctrl, Motion *motion, void *render_data)
     u16 final_x;
     u16 final_y;
     s32 step;
-    register s32 diff ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 diff;
     s32 start_coord;
     s32 floor_height;
     s32 cell_x;
@@ -152,34 +152,16 @@ void func_80024AE4(Controller *ctrl, Motion *motion, void *render_data)
         ctrl->saved = *motion;
         linked_root = *(u8 **)(root + 0x60);
         if (linked_root != 0) {
-            s32 div_magic = (s32)0x88880000;
-            WideProduct product;
-
-            ASM_KEEP_NV(div_magic);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             prefix = (RootPrefix *)*(Motion **)(linked_root - 0x18);
 
             start_coord = motion->x.h.hi;
-            diff = ((Motion *)prefix)->x.h.hi - start_coord;
-            if (diff < 0) {
-                diff = -diff;
-            }
-            delta[0] = diff;
+            delta[0] = __builtin_abs(((Motion *)prefix)->x.h.hi - start_coord);
 
-            diff = ((Motion *)prefix)->y.h.hi;
-            diff -= motion->y.h.hi;
-            if (diff < 0) {
-                diff = -diff;
-            }
-            delta[1] = diff;
+            delta[1] = __builtin_abs(((Motion *)prefix)->y.h.hi - motion->y.h.hi);
 
             linked_root = *(u8 **)(root + 0x60);
             start_coord = motion->z.h.hi;
-            diff = *(s16 *)(linked_root + 0x88);
-            diff -= start_coord;
-            if (diff < 0) {
-                diff = -diff;
-            }
-            delta[2] = diff;
+            delta[2] = __builtin_abs(*(s16 *)(linked_root + 0x88) - start_coord);
 
             linked_root = *(u8 **)(root + 0x60);
             lookup = *(Lookup **)(linked_root - 0x14);
@@ -188,32 +170,18 @@ void func_80024AE4(Controller *ctrl, Motion *motion, void *render_data)
 
             ctrl->target[0].val = ((Motion *)prefix)->x.val;
             ctrl->target[1].val = ((Motion *)prefix)->y.val;
-            diff = *(volatile u16 *)(*(u8 **)(root + 0x60) + 0x88);
-            *(volatile u16 *)&ctrl->target[2].h.lo = 0;
-            *(volatile u16 *)&ctrl->target[2].h.hi = diff;
+            diff = *(u16 *)(*(u8 **)(root + 0x60) + 0x88);
+            ctrl->target[2].h.lo = 0;
+            ctrl->target[2].h.hi = diff;
 
-            div_magic |= 0x8889;
-            diff = *(volatile s32 *)&ctrl->target[0].val;
-            diff -= motion->x.val;
-            product.value = (long long)diff * div_magic;
-            motion->dx.val = ((s32)((u32)product.word.upper -
-                                  (0U - (u32)diff)) >> 3) - (diff >> 31);
-            diff = *(volatile s32 *)&ctrl->target[1].val;
-            diff -= motion->y.val;
-            product.value = (long long)diff * div_magic;
-            motion->dy.val = ((s32)((u32)product.word.upper -
-                                  (0U - (u32)diff)) >> 3) - (diff >> 31);
-            diff = *(volatile s32 *)&ctrl->target[2].val;
-            diff -= motion->z.val;
-            product.value = (long long)diff * div_magic;
-            motion->dz.val = ((s32)((u32)product.word.upper -
-                                  (0U - (u32)diff)) >> 3) - (diff >> 31);
+            motion->dx.val = (ctrl->target[0].val - motion->x.val) / 15;
+            motion->dy.val = (ctrl->target[1].val - motion->y.val) / 15;
+            motion->dz.val = (ctrl->target[2].val - motion->z.val) / 15;
             goto advance;
         }
 
         step = 0;
         lookup_2 = prefix->lookup;
-        diff = (s32)0x80070000;
         cell_y = lookup_2->cell_y;
         cell_x = lookup_2->cell_x;
         final_x = cell_x;
