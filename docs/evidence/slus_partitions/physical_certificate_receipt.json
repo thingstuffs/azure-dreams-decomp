@@ -1,0 +1,108 @@
+{
+  "tools": {
+    "slus_module_evidence.py": "38a699f315e082f16c9e7ead3c414f37a1ef71b18d75e15e2699c5720b80b32a",
+    "prove_slus_ownership.py": "6eb7656ea1118212c32b848e22f6d58fb43e1a348ea5f932efb828936e684320",
+    "certify_slus_module.py": "0628cfa11b93d1e86b2f9c276f4f82d2f8dd7234ea7f0449dfc50c8017296cf4"
+  },
+  "full_image_sha1": "e6bfbb95ff6676899e077481221d73ddd4d3bf52",
+  "ownership_schema": 4,
+  "placement_schema": 2,
+  "physical_descriptor": {
+    "source": "src/w_80041134_owned.c",
+    "module": "list_cursor_e0",
+    "recipe": {
+      "ccver": "2.8.1",
+      "ccflags": "",
+      "asflags": ""
+    },
+    "functions": [
+      "func_800410FC",
+      "func_80041110",
+      "func_80041134"
+    ],
+    "contributors": [
+      {
+        "row": "slus/w_80041134",
+        "source": "src/w_80041134.c",
+        "kind": "member",
+        "functions": [
+          "func_80041134"
+        ]
+      },
+      {
+        "row": "slus/code",
+        "source": "src/code.c",
+        "kind": "part",
+        "functions": [
+          "func_80041110"
+        ]
+      },
+      {
+        "row": "slus/code2",
+        "source": "src/code2.c",
+        "kind": "part",
+        "functions": [
+          "func_800410FC"
+        ]
+      }
+    ]
+  },
+  "placement_rows": [
+    "slus/w_80041134"
+  ],
+  "physical_genuine": {
+    "exact": true,
+    "diff": 0,
+    "len": 30,
+    "mode": "",
+    "retail": [
+      0,
+      0
+    ],
+    "retail_checked": 1,
+    "physical": {
+      "exact": true,
+      "diff": 0,
+      "len_m": 44,
+      "len_g": 44,
+      "missing": [],
+      "retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 3
+      }
+    }
+  },
+  "data": {
+    "list_cursor_e0": {
+      "sections": {
+        ".sdata": {
+          "size": 4,
+          "bytes": "00000000",
+          "symbols": [
+            {
+              "symbol": "D_800814E0",
+              "asset": "assets/54240.bin",
+              "offset": 2720,
+              "size": 4,
+              "vram": 2148013280,
+              "bytes": "00000000",
+              "section": ".sdata",
+              "object_offset": 0,
+              "object_binding": "global",
+              "linked_kind": "T"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "negative_checks": {
+    "missing incoming function": "certificate physical contributors or destination changed",
+    "subset exact full physical mismatch": "invalid connected member verification: destination lacks coherent full-TU direct genuine proof: src/w_80041134_owned.c",
+    "masked full physical proof": "invalid connected member verification: destination lacks coherent full-TU direct genuine proof: src/w_80041134_owned.c",
+    "whole collector grant": "certificate does not describe this module and its members",
+    "implicit connected compiler model": "connected physical owner requires direct genuine proof; an individual compiler-model row is insufficient: list_cursor_e0"
+  },
+  "production_plan_active": false
+}

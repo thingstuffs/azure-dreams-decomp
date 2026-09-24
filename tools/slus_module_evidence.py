@@ -10,7 +10,90 @@ import json
 from pathlib import Path
 
 from common import ROOT
-from slus_module_context import fingerprint, modules
+from slus_module_context import fingerprint, modules, partition_context
+
+
+def physical_descriptor(module, root=ROOT):
+    """Declare a connected destination's complete TU, including incoming parts.
+
+    Contributor IDs document function provenance; they are not placement grants.
+    The manifest's whole-member list remains the only placement candidate list.
+    """
+    row = {"kind": "slus", "id": module["members"][0]["id"]}
+    parents, owners, _ = partition_context(row, root)
+    if not parents:
+        return None
+    if module not in owners:
+        raise ValueError("destination is absent from its connected context")
+    contributors = [{"row": member["id"], "source": member["source"], "kind": "member",
+                     "functions": list(member["functions"])} for member in module["members"]]
+    for parent in parents:
+        for part in parent["parts"]:
+            if part["module"] == module["name"]:
+                contributors.append({"row": parent["id"], "source": parent["source"], "kind": "part",
+                                     "functions": list(part["functions"])})
+    functions = [name for contributor in contributors for name in contributor["functions"]]
+    if not functions or len(set(functions)) != len(functions):
+        raise ValueError("destination has empty or duplicate contributor coverage")
+    return {"source": module["source"], "module": module["name"], "recipe": module["recipe"],
+            "functions": sorted(functions), "contributors": contributors}
+
+
+def check_physical_record(record, member, descriptor, expected_fingerprint):
+    """Require one coherent, unmasked genuine result for the complete owner.
+
+    A member-sized success cannot replace the physical comparison. Likewise a
+    collector record cannot replace a whole member and silently grant placement.
+    Return the measured physical unit after validating both scopes.
+    """
+    expected = {"diff": 0, "masked": 0, "checked": len(member["functions"])}
+    units = record.get("physical_units")
+    if (record.get("row") != member["id"] or record.get("status") != "ok"
+            or record.get("selfcheck") is not True or record.get("maspsx_exact") is not True
+            or record.get("functions") != member["functions"] or record.get("funcs") != len(member["functions"])
+            or record.get("maspsx_retail") != expected
+            or record.get("module_fingerprint") != expected_fingerprint
+            or not isinstance(units, list) or len(units) != 1):
+        raise ValueError("connected member lacks complete pipeline/retail proof: " + member["id"])
+    unit = units[0]
+    if not isinstance(unit, dict):
+        raise ValueError("destination physical record is not an object")
+    cfg = " ".join(filter(None, (descriptor["recipe"]["ccver"], descriptor["recipe"]["ccflags"])))
+    full = {"diff": 0, "masked": 0, "checked": len(descriptor["functions"])}
+    if (unit.get("source") != descriptor["source"] or unit.get("module") != descriptor["module"]
+            or unit.get("role") != "module" or unit.get("recipe") != descriptor["recipe"]
+            or unit.get("cfg") != cfg or record.get("cfg") != cfg
+            or unit.get("functions") != member["functions"]
+            or unit.get("expected_functions") != descriptor["functions"]
+            or unit.get("row") != member["id"] or unit.get("status") != "ok"
+            or unit.get("selfcheck") is not True or unit.get("maspsx_exact") is not True
+            or unit.get("module_fingerprint") != expected_fingerprint
+            or unit.get("maspsx_retail") != expected or unit.get("maspsx_physical_retail") != full
+            or unit.get("compiler_model") or unit.get("model") or record.get("compiler_model") or record.get("model")):
+        raise ValueError("destination physical context or pipeline proof differs: " + descriptor["source"])
+    if not isinstance(unit.get("genuine"), dict) or not isinstance(record.get("genuine"), dict):
+        raise ValueError("destination genuine results are not objects")
+    genuine = unit.get("genuine", {}).get("2.79", {})
+    if not isinstance(genuine, dict):
+        raise ValueError("destination genuine result is not an object")
+    physical = genuine.get("physical", {})
+    aggregate = record.get("genuine", {}).get("2.79", {})
+    if not isinstance(physical, dict) or not isinstance(aggregate, dict):
+        raise ValueError("destination physical or aggregate result is not an object")
+    if (genuine.get("exact") is not True or genuine.get("retail") != [0, 0]
+            or genuine.get("retail_checked") != len(member["functions"])
+            or "err" in genuine or genuine.get("missing") or genuine.get("lnk_unknown")
+            or not isinstance(genuine.get("mode"), str)
+            or aggregate.get("exact") is not True or aggregate.get("retail") != [0, 0]
+            or aggregate.get("retail_checked") != len(member["functions"])
+            or aggregate.get("modes") != {descriptor["source"]: genuine["mode"]}
+            or "err" in aggregate or aggregate.get("missing") or aggregate.get("lnk_unknown")
+            or physical.get("exact") is not True or physical.get("diff") != 0
+            or physical.get("missing") != [] or physical.get("retail") != full
+            or not isinstance(physical.get("len_m"), int) or physical["len_m"] <= 0
+            or physical.get("len_g") != physical["len_m"]):
+        raise ValueError("destination lacks coherent full-TU direct genuine proof: " + descriptor["source"])
+    return unit
 
 
 def digest(path):
@@ -28,8 +111,11 @@ def certificate_reason(module, cert, root=ROOT, tool_fp=None):
     ids = [m["id"] for m in module["members"]]
     if not isinstance(cert, dict):
         return "certificate is not an object"
-    if cert.get("schema") != 1 or cert.get("module") != module["name"] or cert.get("members") != ids:
+    descriptor = physical_descriptor(module, root)
+    if cert.get("schema") != (2 if descriptor else 1) or cert.get("module") != module["name"] or cert.get("members") != ids:
         return "certificate does not describe this module and its members"
+    if descriptor and cert.get("physical") != descriptor:
+        return "certificate physical contributors or destination changed"
     row = {"kind": "slus", "id": ids[0]}
     if cert.get("module_fingerprint") != fingerprint(row, root):
         return "module sources, headers or manifest changed"
@@ -53,6 +139,12 @@ def certificate_reason(module, cert, root=ROOT, tool_fp=None):
         rec = rows[member["id"]]
         if not isinstance(rec, dict) or not isinstance(rec.get("genuine"), dict):
             return "invalid member verification: " + member["id"]
+        if descriptor:
+            try:
+                check_physical_record(rec, member, descriptor, cert["module_fingerprint"])
+            except (ValueError, TypeError, KeyError) as exc:
+                return "invalid connected member verification: " + str(exc)
+            continue
         genuine = rec.get("genuine", {}).get("2.79", {})
         if not isinstance(genuine, dict):
             return "invalid genuine verification: " + member["id"]
