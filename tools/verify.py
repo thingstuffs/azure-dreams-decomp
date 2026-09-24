@@ -309,21 +309,44 @@ def gate_fallback(row, rec, raw: bool):
     return rec
 
 # ---------------------------------------------------------------- slus rows
+def postprocess_slus(assembly, names_only=False):
+    """Use the same canonical names as the exported production ccproc entry point."""
+    cmd = [sys.executable, str(CCPROC), "--names-tsv", str(ROOT / "config/names.tsv")]
+    if names_only:
+        cmd.append("--names-only")
+    r = subprocess.run(cmd, input=assembly, capture_output=True, text=True, env=_env())
+    if r.returncode:
+        raise ValueError("ccproc: " + (r.stderr or r.stdout)[-300:])
+    return r.stdout
+
+
 def compile_slus(row, cfile, outdir, include_root=None):
     inc = Path(include_root).resolve() if include_root else RAW / "include"
     cc_dir = COMPILERS / f"gcc-{row['cell']}"
     s_path = Path(outdir) / "a.s"; o_path = Path(outdir) / "a.o"
     # compile from the source's own directory by basename: the ELF FILE symbol records the path
     # as given, and the object hash must not depend on where the candidate lives
-    cfile = Path(cfile)
+    from slus_module_context import compilation_source, membership
+    try:
+        if include_root is None and membership(row) and Path(cfile).resolve() != raw_path(row).resolve():
+            inc = ROOT / "include"
+        cfile = compilation_source(row, cfile, outdir)
+    except (OSError, ValueError) as exc:
+        return None, "module context: " + str(exc)
     gcc = [str(cc_dir / "gcc"), f"-B{cc_dir}/", "-S", "-O2"] + row["flags"].split() + ["-I", str(inc), "-w", cfile.name, "-o", str(s_path)]
     r = subprocess.run(NICE + gcc, capture_output=True, text=True, cwd=cfile.parent, env=_env())
     if r.returncode != 0:
         return None, "gcc: " + (r.stderr or r.stdout)[-300:]
     asflags = (row.get("row_asflags") or "").split()
-    pipe = (f"python3 {CCPROC} < {s_path} | {VENV_PY} {MASPSX} --aspsx-version=2.79 --dont-force-G0 "
-            f"--run-assembler --gnu-as-path=mipsel-linux-gnu-as -I{RAW} -I{inc} -EL -march=r3000 -G8 {' '.join(asflags)} -o {o_path}")
-    r = subprocess.run(pipe, shell=True, capture_output=True, text=True, cwd=ROOT, env=_env())
+    try:
+        processed = postprocess_slus(s_path.read_text())
+    except ValueError as exc:
+        return None, str(exc)
+    (Path(outdir) / "a.proc.s").write_text(processed)
+    command = [str(VENV_PY), str(MASPSX), "--aspsx-version=2.79", "--dont-force-G0",
+               "--run-assembler", "--gnu-as-path=mipsel-linux-gnu-as", f"-I{RAW}", f"-I{inc}",
+               "-EL", "-march=r3000", "-G8", *asflags, "-o", str(o_path)]
+    r = subprocess.run(command, input=processed, capture_output=True, text=True, cwd=ROOT, env=_env())
     if r.returncode != 0 or not o_path.exists():
         return None, "as: " + (r.stderr or r.stdout)[-300:]
     return o_path, None
@@ -355,6 +378,11 @@ def slus_regions(got, tgt, mask):
 
 def verify_slus(row, cfile, include_root=None, regions=False, diff=False):
     t0 = time.time()
+    from slus_module_context import membership
+    if membership(row) and Path(cfile).resolve() != raw_path(row).resolve():
+        if include_root is not None and Path(include_root).resolve() != (ROOT / "include").resolve():
+            return {"status": "failed", "exact": False, "err": "module gate requires current shared headers"}
+        return verify_slus_module(row, cfile, regions=regions, diff=diff)
     ref = (read_baseline_slus() or {}).get(row["id"])
     with tempfile.TemporaryDirectory() as td:
         obj, err = compile_slus(row, cfile, td, include_root)
@@ -383,6 +411,34 @@ def verify_slus(row, cfile, include_root=None, regions=False, diff=False):
         ndiff = sum(1 for a, b in zip(got, tgt) if a.split(None, 2)[-1] != b.split(None, 2)[-1]) + abs(len(got) - len(tgt))
         return {"status": "ok", "exact": False, "obj_sha": h, "gen_words": len(got), "tgt_words": len(tgt),
                 "total": ndiff, "class": "length-drift" if len(got) != len(tgt) else "slus-diff", "secs": round(time.time() - t0, 2)}
+
+def verify_slus_module(row, cfile, regions=False, diff=False):
+    """A row edit must preserve the complete image, including its module siblings."""
+    from fidelity.slus_iso import SlusView
+    from slus_module_context import membership, fingerprint
+    t0 = time.time()
+    module = membership(row)
+    if (row.get("row_asflags") or "") != module["recipe"]["asflags"]:
+        return {"status": "failed", "exact": False, "err": "module gate does not support member assembler-flag trials"}
+    before = fingerprint(row)
+    with tempfile.TemporaryDirectory(prefix="slus_module_") as td:
+        view = SlusView(Path(td) / "build")
+        calibration = view.calibrate()
+        if calibration["result"] != "MATCH":
+            return {"status": "failed", "exact": False, "err": "module gate baseline: " + str(calibration)}
+        stem = Path(row["c_path"]).stem
+        result = view.gate({stem: (Path(cfile).read_text(), row["cell"], row["flags"])})
+    if fingerprint(row) != before:
+        return {"status": "failed", "exact": False, "err": "module inputs changed during verification"}
+    exact = result["result"] == "MATCH"
+    if regions or diff:
+        return {"status": "regions", "text": "*** MATCH *** (whole SLUS image, module context)" if exact else json.dumps(result, indent=2),
+                "secs": round(time.time() - t0, 2)}
+    return {"status": "failed" if result["result"] == "ERROR" else "ok", "exact": exact,
+            "proof": "whole SLUS image, module context", "module_fingerprint": before,
+            "total": result.get("residue", result.get("words_diff")),
+            "err": result.get("detail") or None, "secs": round(time.time() - t0, 2)}
+
 
 _slus_base = None
 def read_baseline_slus():
@@ -467,6 +523,9 @@ def rebaseline_slus(ids, dry_run=False, cache=None, build_root=None, gate_log=No
         row = by.get(rid)
         if row is None or row["kind"] != "slus":
             out.append({"id": rid, "outcome": "refused", "detail": "not a slus row"}); continue
+        from slus_module_context import membership
+        if membership(row):
+            out.append({"id": rid, "outcome": "refused", "detail": "grouped rows use the whole-image module gate; individual object rebaseline is unsupported"}); continue
         if not ok:
             out.append({"id": rid, "outcome": "refused", "detail": why}); continue
         if not pinned.exists() or recipe != pinned.read_text():

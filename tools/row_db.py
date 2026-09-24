@@ -48,6 +48,13 @@ def edges_of(ninja_text: str):
     return edges
 
 
+def slus_edges(ninja_text: str, root=ROOT):
+    """Registry edges retain logical row identities when a physical TU is grouped."""
+    from slus_module_context import modules
+    from slus_modules import logical_edges
+    return logical_edges(edges_of(ninja_text), modules(root))
+
+
 def cmd_import(a):
     mirror = Path(a.mirror) if a.mirror else ROOT / "upstream"
     SPLITS.mkdir(parents=True, exist_ok=True)
@@ -60,7 +67,7 @@ def cmd_import(a):
     pinned = mirror / "build.ninja.pinned"
     text = pinned.read_text()
     (SPLITS / "slus.build.ninja").write_text(text)
-    edges = edges_of(text)
+    edges = slus_edges(text, mirror)
     write_jsonl(SPLITS / "slus.jsonl", edges)
     print(f"{'slus':15} {len(edges):5} cc edges -> ledger/splits/slus.jsonl (+ slus.build.ninja, sha256 {sha_file(SPLITS / 'slus.build.ninja')[:12]})")
     for n in ("func_sizes.json", "decomp_audit_baseline.json"):
@@ -81,6 +88,24 @@ def cmd_export(a):
 
 def cmd_check(a):
     bad = 0
+    try:
+        expected = slus_edges((SPLITS / "slus.build.ninja").read_text())
+        actual = read_jsonl(SPLITS / "slus.jsonl")
+        if expected != actual:
+            print("slus: logical split rows differ from the pinned build recipe"); bad += 1
+        from slus_module_context import modules, input_paths
+        from registry import slus_rows
+        by_id = {r["id"]: r for r in slus_rows()}
+        for module in modules():
+            for path in input_paths(module):
+                if not path.is_file():
+                    print(f"slus: missing module input {path.relative_to(ROOT)}"); bad += 1
+            for member in module["members"]:
+                row = by_id.get(member["id"])
+                if row is None or sorted(row["defs"]) != sorted(member["functions"]):
+                    print(f"slus: module member definitions differ for {member['id']}"); bad += 1
+    except (OSError, ValueError) as exc:
+        print(f"slus: {exc}"); bad += 1
     wm = window_map()
     for ovl in CONTAINERS:
         rows = read_jsonl(SPLITS / f"{ovl}.jsonl")

@@ -61,7 +61,7 @@ Nine residual rows already have combined helper dependencies. The tenth,
 `slus/code`, has 30 normalized differing words including return/address scheduling.
 Eliminating `$gp` differences alone does not establish full assembler fidelity.
 
-Before refreshing the global dependency census, fix this measurement discrepancy:
+The measurement discrepancy found before refreshing the global dependency census was:
 `aspsx_diff.prepare_slus` invokes `tools/build/ccproc.py`, whose relative name-table
 lookup misses `config/names.tsv`. The real exported `build_slus/tools/ccproc.py`
 does load it. The new experiment applies that real canonical-name mapping to the
@@ -113,9 +113,9 @@ two empty former TUs are diagnostic staging, not a production module-registratio
 scheme. Original TU ownership remains an inference; exact reconstruction and
 current C data ownership are proved by the candidate and link.
 
-Next: integrate module build edges, row identities, data placement, and source
-metrics coherently, then extend the proven data-recovery approach. Repair the
-measurement-path discrepancy and finish the CD-control integration in parallel.
+Next: activate the validated module build/verification path after completing
+source-metric and lane integration, then extend the proven data-recovery approach.
+Finish the CD-control integration alongside it.
 Preserve production defaults until the coordinated repair passes required gates
 and any remaining owner sign-off.
 
@@ -124,7 +124,8 @@ and any remaining owner sign-off.
 `tools/build/slus_modules.py` now provides optional manifest validation, expansion
 of physical module edges into stable logical row records, verified raw-asset
 carving, ordered linker-slot replacement, and removal of the corresponding
-absolute symbol assignments. The helper is not wired into production yet; no
+absolute symbol assignments. Configure, row-database, candidate compilation,
+whole-image verification and recipe-lander consumers now support it; no production
 module manifest is active. All 13 contract tests in
 `tools/tests/test_slus_modules.py` pass, including negative cases for mismatched
 row IDs, ambiguous linker slots, changed assets and invalid ownership records.
@@ -132,16 +133,47 @@ A read-only check against the actual SLUS asset verifies the four-byte initializ
 EXE address mapping, prefix/data/suffix boundaries (0..44, 44..48, 48..179648),
 and removal of exactly one absolute assignment.
 
-The proposed integration keeps canonical per-row source fragments and stable row
+The integration keeps canonical per-row source fragments and stable row
 IDs; a standard C aggregator includes the members and shared header and owns the
 data definition. Only the aggregator is compiled. The three-row pilot therefore
-has 882 physical SLUS compilation edges but still 884 logical rows. These are
-integration targets, not current production counts.
+has 882 physical SLUS compilation edges but still 884 logical rows. These counts
+are now proved in the isolated build; production still has 884 physical TUs.
 
-Unfinished verifier/context edits are retained as an inactive draft under
-`work/native_lane/slus_module_integration/`; production verification remains
-unchanged. Before activation, finish configure/exported-config support, logical
-ledger expansion, recipe-lander safeguards, context-aware ASPSX measurement and
-receipt invalidation. Prove that edits rebuild the entire module, a sibling
-regression fails the full-image gate, and conflicting member recipes are refused.
-The consumer audit is recorded under `work/native_lane/slus_module_consumers/`.
+Reproduce the complete configured build and candidate checks with:
+
+```sh
+python3 tools/fidelity/probe_slus_module_build.py
+```
+
+The [build receipt](slus_module_build_receipt.json) proves retail equality with
+the **stock assembler and generated Ninja build**, real `.sdata` ownership at
+0x80080A6C, unchanged function addresses/sizes, and logical edges identical to the
+registered split table. Member/header edits rebuild the whole module; data edits
+rebuild carved inputs and the linker script. The candidate gate accepts unchanged
+text, rejects a one-word function change, rejects conflicting or partial-cohort
+recipe changes, and restores the exact image. It also rejects a candidate whose
+own function stays exact but whose macro changes a later sibling's compiled body.
+The same staged source through
+`compilation_source` and `compile_slus` matches genuine ASPSX 2.79 for all 104 words
+(18/32/54), with zero differing or masked retail relocations. Initialized-data
+relocations now resolve from agreeing named symbols in the gated linked ELF;
+missing or conflicting anchors remain masked.
+
+The name-table discrepancy is repaired: standalone compilation and both assembler
+legs now use production's canonical names. The fresh [stock 59-row measurement](slus_canonical_measure_receipt.json)
+has 59/59 selfchecks and direct maspsx-to-retail matches, no missing functions or
+errors, and 0/59 genuine matches, agreeing with the prior stock journal. This is
+the expected unrepaired external-data model; the earlier **49/59** result used
+the experimental corrected assembler and is a different treatment. The production
+SLUS SHA-1 gate also passes with all 884 TUs and the identical pinned recipe.
+
+All **64 focused tests** pass across module helpers, configuration, candidate
+context, canonical names, genuine comparison, recipe landing and rebaselining.
+The row database check passes. The old inactive verifier patch in
+`work/native_lane/slus_module_integration/` is superseded by the current tools.
+
+Before production activation, finish module-aware lane diagnostics and status/L4
+evidence, then install the reviewed manifest, shared header and sources together
+with the regenerated pinned physical build. Re-run whole-image and genuine gates
+and refresh only the dependency records justified by that activated source.
+No global assembler default, dependency-ledger entry or L4/L5 claim changed here.
