@@ -1,0 +1,494 @@
+{
+  "control": {
+    "result": "MATCH",
+    "words_diff": 0
+  },
+  "gate": {
+    "result": "MATCH",
+    "words_diff": 0
+  },
+  "generic_physical_tus": [
+    "w_80047E78_owned",
+    "w_80053CFC_owned",
+    "gp_shared_8152c",
+    "gp_d92c_owned",
+    "w_8003FAD4",
+    "w_80041588",
+    "w_80041AB0",
+    "w_80043CD0",
+    "w_8004AB7C"
+  ],
+  "logical": {
+    "row_ids_stable": true,
+    "count": 884,
+    "changed": [
+      [
+        {
+          "src": "src/w_8003D92C.c",
+          "out": "build/src/w_8003D92C.o",
+          "ccver": "2.7.2",
+          "ccflags": "",
+          "asflags": ""
+        },
+        {
+          "src": "src/w_8003D92C.c",
+          "out": "build/src/w_8003D92C.o",
+          "ccver": "2.7.2-cdk",
+          "ccflags": "",
+          "asflags": ""
+        }
+      ],
+      [
+        {
+          "src": "src/w_8003FAD4.c",
+          "out": "build/src/w_8003FAD4.o",
+          "ccver": "2.7.2",
+          "ccflags": "",
+          "asflags": ""
+        },
+        {
+          "src": "src/w_8003FAD4.c",
+          "out": "build/src/w_8003FAD4.o",
+          "ccver": "2.7.2-cdk",
+          "ccflags": "",
+          "asflags": ""
+        }
+      ],
+      [
+        {
+          "src": "src/w_80041588.c",
+          "out": "build/src/w_80041588.o",
+          "ccver": "2.7.2",
+          "ccflags": "",
+          "asflags": ""
+        },
+        {
+          "src": "src/w_80041588.c",
+          "out": "build/src/w_80041588.o",
+          "ccver": "2.7.2-cdk",
+          "ccflags": "",
+          "asflags": ""
+        }
+      ],
+      [
+        {
+          "src": "src/w_80041AB0.c",
+          "out": "build/src/w_80041AB0.o",
+          "ccver": "2.7.2",
+          "ccflags": "",
+          "asflags": ""
+        },
+        {
+          "src": "src/w_80041AB0.c",
+          "out": "build/src/w_80041AB0.o",
+          "ccver": "2.7.2-cdk",
+          "ccflags": "",
+          "asflags": ""
+        }
+      ],
+      [
+        {
+          "src": "src/w_80043CD0.c",
+          "out": "build/src/w_80043CD0.o",
+          "ccver": "2.7.2",
+          "ccflags": "",
+          "asflags": ""
+        },
+        {
+          "src": "src/w_80043CD0.c",
+          "out": "build/src/w_80043CD0.o",
+          "ccver": "2.7.2-cdk",
+          "ccflags": "",
+          "asflags": ""
+        }
+      ],
+      [
+        {
+          "src": "src/w_8004AB7C.c",
+          "out": "build/src/w_8004AB7C.o",
+          "ccver": "2.7.2",
+          "ccflags": "",
+          "asflags": ""
+        },
+        {
+          "src": "src/w_8004AB7C.c",
+          "out": "build/src/w_8004AB7C.o",
+          "ccver": "2.7.2-cdk",
+          "ccflags": "",
+          "asflags": ""
+        }
+      ]
+    ]
+  },
+  "data": [
+    {
+      "module": "address_slot",
+      "sdata_hex": "00000000",
+      "section_exact": true,
+      "symbols": [
+        {
+          "name": "D_80081528",
+          "owner": [
+            ".sdata",
+            0,
+            "global",
+            0
+          ],
+          "linked": [
+            2148013352,
+            "T"
+          ],
+          "expected_vram": 2148013352,
+          "expected_size": 4,
+          "object_offset_exact": true,
+          "linked_exact": true
+        }
+      ]
+    },
+    {
+      "module": "command_words",
+      "sdata_hex": "0000000000000000",
+      "section_exact": true,
+      "symbols": [
+        {
+          "name": "D_80081568",
+          "owner": [
+            ".sdata",
+            0,
+            "global",
+            0
+          ],
+          "linked": [
+            2148013416,
+            "T"
+          ],
+          "expected_vram": 2148013416,
+          "expected_size": 4,
+          "object_offset_exact": true,
+          "linked_exact": true
+        },
+        {
+          "name": "D_8008156C",
+          "owner": [
+            ".sdata",
+            4,
+            "global",
+            0
+          ],
+          "linked": [
+            2148013420,
+            "T"
+          ],
+          "expected_vram": 2148013420,
+          "expected_size": 4,
+          "object_offset_exact": true,
+          "linked_exact": true
+        }
+      ]
+    },
+    {
+      "module": "gp_shared_8152c",
+      "sdata_hex": "00000000",
+      "section_exact": true,
+      "symbols": [
+        {
+          "name": "D_8008152C",
+          "owner": [
+            ".sdata",
+            0,
+            "global",
+            0
+          ],
+          "linked": [
+            2148013356,
+            "T"
+          ],
+          "expected_vram": 2148013356,
+          "expected_size": 4,
+          "object_offset_exact": true,
+          "linked_exact": true
+        }
+      ]
+    },
+    {
+      "module": "gp_d92c_owned",
+      "sdata_hex": "00000000",
+      "section_exact": true,
+      "symbols": [
+        {
+          "name": "D_80080ABC",
+          "owner": [
+            ".sdata",
+            0,
+            "global",
+            0
+          ],
+          "linked": [
+            2148010684,
+            "T"
+          ],
+          "expected_vram": 2148010684,
+          "expected_size": 2,
+          "object_offset_exact": true,
+          "linked_exact": true
+        },
+        {
+          "name": "D_80080ABE",
+          "owner": [
+            ".sdata",
+            2,
+            "global",
+            0
+          ],
+          "linked": [
+            2148010686,
+            "T"
+          ],
+          "expected_vram": 2148010686,
+          "expected_size": 2,
+          "object_offset_exact": true,
+          "linked_exact": true
+        }
+      ]
+    }
+  ],
+  "genuine": [
+    {
+      "physical": "w_80047E78_owned",
+      "functions": [
+        "func_80047E78"
+      ],
+      "recipe": "2.7.2",
+      "standalone_vs_linked": {
+        "exact": true,
+        "diff": 0,
+        "len_m": 29,
+        "len_g": 29,
+        "missing": []
+      },
+      "generic_vs_genuine": {
+        "exact": true,
+        "diff": 0,
+        "len_m": 29,
+        "len_g": 29,
+        "missing": []
+      },
+      "genuine_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      }
+    },
+    {
+      "physical": "w_80053CFC_owned",
+      "functions": [
+        "func_80053CFC"
+      ],
+      "recipe": "2.7.2",
+      "standalone_vs_linked": {
+        "exact": true,
+        "diff": 0,
+        "len_m": 26,
+        "len_g": 26,
+        "missing": []
+      },
+      "generic_vs_genuine": {
+        "exact": true,
+        "diff": 0,
+        "len_m": 26,
+        "len_g": 26,
+        "missing": []
+      },
+      "genuine_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      }
+    },
+    {
+      "physical": "gp_shared_8152c",
+      "functions": [
+        "func_80047D44",
+        "func_80047DF0",
+        "func_80047E30"
+      ],
+      "recipe": "2.7.2",
+      "standalone_vs_linked": {
+        "exact": true,
+        "diff": 0,
+        "len_m": 63,
+        "len_g": 63,
+        "missing": []
+      },
+      "generic_vs_genuine": {
+        "exact": true,
+        "diff": 0,
+        "len_m": 63,
+        "len_g": 63,
+        "missing": []
+      },
+      "genuine_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 3
+      }
+    },
+    {
+      "physical": "gp_d92c_owned",
+      "functions": [
+        "func_8003D92C"
+      ],
+      "recipe": "2.7.2-cdk",
+      "standalone_vs_linked": {
+        "exact": true,
+        "diff": 0,
+        "len_m": 136,
+        "len_g": 136,
+        "missing": []
+      },
+      "generic_vs_genuine": {
+        "exact": true,
+        "diff": 0,
+        "len_m": 136,
+        "len_g": 136,
+        "missing": []
+      },
+      "genuine_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      }
+    },
+    {
+      "physical": "w_8003FAD4",
+      "functions": [
+        "func_8003FAD4"
+      ],
+      "recipe": "2.7.2-cdk",
+      "standalone_vs_linked": {
+        "exact": true,
+        "diff": 0,
+        "len_m": 49,
+        "len_g": 49,
+        "missing": []
+      },
+      "generic_vs_genuine": {
+        "exact": true,
+        "diff": 0,
+        "len_m": 49,
+        "len_g": 49,
+        "missing": []
+      },
+      "genuine_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      }
+    },
+    {
+      "physical": "w_80041588",
+      "functions": [
+        "func_80041588"
+      ],
+      "recipe": "2.7.2-cdk",
+      "standalone_vs_linked": {
+        "exact": true,
+        "diff": 0,
+        "len_m": 164,
+        "len_g": 164,
+        "missing": []
+      },
+      "generic_vs_genuine": {
+        "exact": true,
+        "diff": 0,
+        "len_m": 164,
+        "len_g": 164,
+        "missing": []
+      },
+      "genuine_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      }
+    },
+    {
+      "physical": "w_80041AB0",
+      "functions": [
+        "func_80041AB0"
+      ],
+      "recipe": "2.7.2-cdk",
+      "standalone_vs_linked": {
+        "exact": true,
+        "diff": 0,
+        "len_m": 13,
+        "len_g": 13,
+        "missing": []
+      },
+      "generic_vs_genuine": {
+        "exact": true,
+        "diff": 0,
+        "len_m": 13,
+        "len_g": 13,
+        "missing": []
+      },
+      "genuine_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      }
+    },
+    {
+      "physical": "w_80043CD0",
+      "functions": [
+        "func_80043CD0"
+      ],
+      "recipe": "2.7.2-cdk",
+      "standalone_vs_linked": {
+        "exact": true,
+        "diff": 0,
+        "len_m": 13,
+        "len_g": 13,
+        "missing": []
+      },
+      "generic_vs_genuine": {
+        "exact": true,
+        "diff": 0,
+        "len_m": 13,
+        "len_g": 13,
+        "missing": []
+      },
+      "genuine_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      }
+    },
+    {
+      "physical": "w_8004AB7C",
+      "functions": [
+        "func_8004AB7C"
+      ],
+      "recipe": "2.7.2-cdk",
+      "standalone_vs_linked": {
+        "exact": true,
+        "diff": 0,
+        "len_m": 39,
+        "len_g": 39,
+        "missing": []
+      },
+      "generic_vs_genuine": {
+        "exact": true,
+        "diff": 0,
+        "len_m": 39,
+        "len_g": 39,
+        "missing": []
+      },
+      "genuine_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      }
+    }
+  ],
+  "image_sha1": "e6bfbb95ff6676899e077481221d73ddd4d3bf52"
+}
