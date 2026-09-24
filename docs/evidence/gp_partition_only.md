@@ -141,3 +141,21 @@ This is a reviewable proposal, not an activation or approval. The
 [retirement inventory](gp_partition_only/transition/pass_retirement_inventory.md)
 identifies the next small pass cohorts without mistaking zero dependence for
 zero firing.
+
+## Final normal ownership and placement rehearsal
+
+The [final 57-file proposal now passes](gp_partition_only/full_ownership/report.md)
+the normal configured build, all **33 ownership proofs / 59 measured row records**,
+and both existing placement certifiers (`list_cursor_e0`, `runtime_directory`).
+All **860 object hashes** equal ready29, including the two reorganized owners,
+and the generated image matches retail byte for byte. All 70 declared data
+records are proven. The one accepted `t272` compiler-model row remains explicit;
+it is not claimed as direct genuine equality. Collector-only owners receive no
+whole-row placement grant.
+
+The [receipt](gp_partition_only/full_ownership/receipt.json) and
+[ownership proof](gp_partition_only/full_ownership/ownership_receipt.json) bind the
+final source/tool payload, genuine measurements, image gate and certificates.
+Candidate inputs and production files/objects remain unchanged before and after.
+The broad six-version census, its final-source repairs, and the existing owner
+sign-off remain outstanding before production activation.

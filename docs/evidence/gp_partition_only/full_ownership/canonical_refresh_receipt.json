@@ -1,0 +1,11 @@
+{
+  "canonical_receipt_sha256": "5e264a62919083e2ca16cc64b1dfef385e4166d8c7f8c3849529130406cfd82d",
+  "production_unchanged": true,
+  "sources": {
+    "src/slus/gp_d92c_owned.c": "377d7efd70a3fc2d13d98f28a79bbb1f6f6c537f5988bc782a8045190eee1d90",
+    "src/slus/gp_order_bytes_owner.c": "49505bcd6bba6220cb935fe4d5eb564441902d70dce55243f896d85a553f1c4d",
+    "src/slus/w_8003D92C.c": "e656a830bcfb99616c605560416cfa97a0de75f38966bbaaa8d87677c6210ff5",
+    "src/slus/w_80049F68.c": "e55283688e29200caac56d7fb76dd715bcb1da2f68159373b6e5741bbb051675"
+  },
+  "status": "REFRESHED"
+}

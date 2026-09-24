@@ -191,3 +191,10 @@ original row sources and include-based ownership, preserving every instruction
 and data directive (only source-file metadata changes). Full verification is
 being rerun on this corrected proposal. The frozen census and any resulting
 include-contract failures are retained as separate evidence.
+
+The corrected final proposal passes the normal build, all33 ownership proofs
+(59 measured rows / 70 data records), and both existing placement certificates.
+All860 object hashes match ready29 and the image matches retail. Candidate and
+production input hashes are unchanged. See the [final ownership rehearsal](evidence/gp_partition_only/full_ownership/report.md).
+The six-version census and final activation sign-off remain pending; production
+semantics and dependency counts have not yet changed.

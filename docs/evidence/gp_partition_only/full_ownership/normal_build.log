@@ -1,0 +1,5 @@
+ninja: Entering directory `<repo>/work/native_lane/gp_partition_only_tools/full_ownership/fixture/build_slus'
+[1/4] CC src/gp_order_bytes_owner.c (gcc 2.7.2-cdk -fno-strength-reduce )
+[2/4] CC src/gp_d92c_owned.c (gcc 2.7.2-cdk  )
+[3/4] LINK build/slus_006.14.elf
+[4/4] OBJCOPY build/slus_006.14

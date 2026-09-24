@@ -1,0 +1,149 @@
+{
+  "note": "Final57 private normal build, all33 ownership and two placement proofs. Restore runners to recorded original paths. Certificates are private evidence, not production grants. Source/tool/input and production snapshots unchanged.",
+  "files": [
+    {
+      "source": "work/native_lane/gp_partition_only_tools/full_ownership/report.md",
+      "archive": "report.md",
+      "source_sha256": "2aef4ea1d25b4d13387a7f6bc1aef8aac4f6d4bff57506d367e21e1c4de4510c",
+      "archive_sha256": "2aef4ea1d25b4d13387a7f6bc1aef8aac4f6d4bff57506d367e21e1c4de4510c",
+      "source_bytes": 3437,
+      "archive_bytes": 3437
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/full_ownership/receipt.json",
+      "archive": "receipt.json",
+      "source_sha256": "36fa912030b99f77f3548b4a2795f3f6cb0336481d7b17d2d374c140df4450bc",
+      "archive_sha256": "36fa912030b99f77f3548b4a2795f3f6cb0336481d7b17d2d374c140df4450bc",
+      "source_bytes": 3707,
+      "archive_bytes": 3707
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/full_ownership/ownership_receipt.json",
+      "archive": "ownership_receipt.json",
+      "source_sha256": "b34708ae47b03c1121810d55d4003bde895c444f909b5e9ca2f0bb6e181ec872",
+      "archive_sha256": "b34708ae47b03c1121810d55d4003bde895c444f909b5e9ca2f0bb6e181ec872",
+      "source_bytes": 441257,
+      "archive_bytes": 441257
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/full_ownership/run.py",
+      "archive": "run.py",
+      "source_sha256": "9ed2bb286590bf940e7015e68227dedde27613826d61a1172ef14dcf9a7739fe",
+      "archive_sha256": "9ed2bb286590bf940e7015e68227dedde27613826d61a1172ef14dcf9a7739fe",
+      "source_bytes": 28260,
+      "archive_bytes": 28260
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/full_ownership/prover_cli.py",
+      "archive": "prover_cli.py",
+      "source_sha256": "279f689f7e184eda867099810cde1b32ba8b98b95cb036fd986d8d16a52ad224",
+      "archive_sha256": "279f689f7e184eda867099810cde1b32ba8b98b95cb036fd986d8d16a52ad224",
+      "source_bytes": 909,
+      "archive_bytes": 909
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/full_ownership/input_pins.json",
+      "archive": "input_pins.json",
+      "source_sha256": "910104feb99211d3ffd66f5619f8757f0e106b59f0e52cb80db16d8ab7466bde",
+      "archive_sha256": "910104feb99211d3ffd66f5619f8757f0e106b59f0e52cb80db16d8ab7466bde",
+      "source_bytes": 200071,
+      "archive_bytes": 200071
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/full_ownership/input_pins_after.json",
+      "archive": "input_pins_after.json",
+      "source_sha256": "910104feb99211d3ffd66f5619f8757f0e106b59f0e52cb80db16d8ab7466bde",
+      "archive_sha256": "910104feb99211d3ffd66f5619f8757f0e106b59f0e52cb80db16d8ab7466bde",
+      "source_bytes": 200071,
+      "archive_bytes": 200071
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/full_ownership/production_before.json",
+      "archive": "production_before.json",
+      "source_sha256": "1d07b7d1ce20b769d24ab614ee1a4e25484d1b50158328473b0d5b338f086e9e",
+      "archive_sha256": "1d07b7d1ce20b769d24ab614ee1a4e25484d1b50158328473b0d5b338f086e9e",
+      "source_bytes": 104749,
+      "archive_bytes": 104749
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/full_ownership/production_after.json",
+      "archive": "production_after.json",
+      "source_sha256": "1d07b7d1ce20b769d24ab614ee1a4e25484d1b50158328473b0d5b338f086e9e",
+      "archive_sha256": "1d07b7d1ce20b769d24ab614ee1a4e25484d1b50158328473b0d5b338f086e9e",
+      "source_bytes": 104749,
+      "archive_bytes": 104749
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/full_ownership/configure.log",
+      "archive": "configure.log",
+      "source_sha256": "3e89ef5447f24139a035999709aa38b3bb097c02acd33248515ed8cf0cb18d88",
+      "archive_sha256": "3e89ef5447f24139a035999709aa38b3bb097c02acd33248515ed8cf0cb18d88",
+      "source_bytes": 33,
+      "archive_bytes": 33
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/full_ownership/normal_build.log",
+      "archive": "normal_build.log",
+      "source_sha256": "32481f7ec824fa61060a39e0767cb5d085a8a8da1f2812476a1006a9966a45a8",
+      "archive_sha256": "9c6d3f678acec019f2fe94cd48469539987ecc7b09a4cb9a395f699e4400fda8",
+      "source_bytes": 313,
+      "archive_bytes": 296
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/full_ownership/ownership.log",
+      "archive": "ownership.log",
+      "source_sha256": "a337cf8c9440acea866c5cc4c4380f4f5444b55a8fa78b3c83bada6c032b69bf",
+      "archive_sha256": "a337cf8c9440acea866c5cc4c4380f4f5444b55a8fa78b3c83bada6c032b69bf",
+      "source_bytes": 3238,
+      "archive_bytes": 3238
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/full_ownership/certify_list_cursor_e0.log",
+      "archive": "certify_list_cursor_e0.log",
+      "source_sha256": "a7118be067efb4a54409e1a3f2d5f3f7f09a8b05d440fe2086d0dfc681b99f8d",
+      "archive_sha256": "a7118be067efb4a54409e1a3f2d5f3f7f09a8b05d440fe2086d0dfc681b99f8d",
+      "source_bytes": 295,
+      "archive_bytes": 295
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/full_ownership/certify_runtime_directory.log",
+      "archive": "certify_runtime_directory.log",
+      "source_sha256": "9408618abb83142eabf770321fc178ff5b2762d732fffe6ba77063471762e41a",
+      "archive_sha256": "9408618abb83142eabf770321fc178ff5b2762d732fffe6ba77063471762e41a",
+      "source_bytes": 389,
+      "archive_bytes": 389
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/full_ownership/canonical_refresh_receipt.json",
+      "archive": "canonical_refresh_receipt.json",
+      "source_sha256": "1b86f5bb0a6556df725312d9bbcba3a4c7523df68d66bd25d36ca523946904f1",
+      "archive_sha256": "1b86f5bb0a6556df725312d9bbcba3a4c7523df68d66bd25d36ca523946904f1",
+      "source_bytes": 578,
+      "archive_bytes": 578
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/full_ownership/final_payload_rebind_receipt.json",
+      "archive": "final_payload_rebind_receipt.json",
+      "source_sha256": "6a9823b70bcf2aaef68e4de8e2d72c16602f2f267ce503c2335414076256b6d7",
+      "archive_sha256": "6a9823b70bcf2aaef68e4de8e2d72c16602f2f267ce503c2335414076256b6d7",
+      "source_bytes": 372,
+      "archive_bytes": 372
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/full_ownership/fixture/ledger/modules/list_cursor_e0.json",
+      "archive": "certificates/list_cursor_e0.json",
+      "source_sha256": "b7308414c4961a78fae157797781cd7635f345feda0b3ca4609b276131752b07",
+      "archive_sha256": "b7308414c4961a78fae157797781cd7635f345feda0b3ca4609b276131752b07",
+      "source_bytes": 5371,
+      "archive_bytes": 5371
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/full_ownership/fixture/ledger/modules/runtime_directory.json",
+      "archive": "certificates/runtime_directory.json",
+      "source_sha256": "7b0be4220427411894542304be0aed2e910fb173fcbfedc5de8ecf90ffdacc73",
+      "archive_sha256": "7b0be4220427411894542304be0aed2e910fb173fcbfedc5de8ecf90ffdacc73",
+      "source_bytes": 3770,
+      "archive_bytes": 3770
+    }
+  ]
+}
