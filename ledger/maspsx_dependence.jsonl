@@ -1,28 +1,17 @@
 {"id": "dungeon/func_7FFE7BE8", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_7FFEF6A8", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_80084084", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_800881EC", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_8008A31C", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_8008AAA0", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_8008B4B0", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_8008D990", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_8008EE88", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_8008F814", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_8009069C", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_80092518", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80092B48", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80093898", "kinds": ["maspsx_pass"], "cause": "_fold_selfinc_la", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_800938EC", "kinds": ["maspsx_pass"], "cause": "_fold_selfinc_la", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80094C70", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80094DE0", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_80095160", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_8009612C", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_800969CC", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_8009AE44", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_8009E0EC", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_8009F018", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_8009F190", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_800A133C", "kinds": ["maspsx_dependent"], "cause": "_unfill_via_load_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_800A172C", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_800A21EC", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_800A4C0C", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
@@ -30,34 +19,21 @@
 {"id": "dungeon/func_800A5DD8", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_800AC008", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_800AC3B0", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_800AC914", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_800ADD2C", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_800B5B84", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_800B6D74", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_800B968C", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_800BB144", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_800BB400", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_800BB728", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_800BFE94", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_800C23D8", "kinds": ["maspsx_dependent"], "cause": "_unfill_via_load_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_800C379C", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_800C3928", "kinds": ["maspsx_dependent", "maspsx_pass"], "cause": "several passes jointly: _rotate_marked_store_into_jal_delay+_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_800C81B0", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_800C9858", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_800CB068", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_800CFE34", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_800D1A48", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_800D2E30", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_800D3B60", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_800D53F0", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_800D6EF0", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_800D6FC4", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80284BEC", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80285A70", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_8028A328", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_8028A5D8", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_8028B824", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_8028BF0C", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_809755A8", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80975CD4", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80976218", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
@@ -91,14 +67,7 @@
 {"id": "dungeon/func_809A35A0", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_809A4014", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_809A457C", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_809B18EC", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_809B78EC", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_809C38EC", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_809C9228", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_809CB224", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80A1F0C4", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_80A35000", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_80A41000", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80A47C0C", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80A48C28", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80A48F8C", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
@@ -113,44 +82,27 @@
 {"id": "dungeon/func_80A4B678", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80A4B914", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80A71654", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_80A79A38", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_80A7FA38", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_80A85A38", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_80A8BA38", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_80A91A38", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_80A97A38", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80A9B67C", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80A9D030", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80A9D4E8", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80A9DA34", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80A9EB18", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80A9EBBC", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_80AA9A34", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_80ABBA34", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_80ABF07C", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_80AC1A34", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80AC5F28", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_80AC854C", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_80AC88DC", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80AEFFF4", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80B1AA58", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80B1AE20", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80B1B010", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_80B43670", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_80B452F8", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80B6D65C", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80B6EA90", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80B6EDD0", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80B6F204", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80B6F6F4", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80B6FA34", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_80B7F054", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80B9769C", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_80B97C10", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80B9913C", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80BA9094", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80BAF094", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_80BBB094", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80BC19D0", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80BC1BA8", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80BC21DC", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
@@ -162,12 +114,6 @@
 {"id": "dungeon/func_80BC4440", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80BC44D4", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80BC489C", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_80BC7BA8", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_80BCDBA8", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_80BD3BA8", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_80BD9BA8", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_80BDFBA8", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_80BE5BA8", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80BEB258", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80BEB814", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80BEC6CC", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
@@ -175,7 +121,6 @@
 {"id": "dungeon/func_80BECBF0", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80BEE104", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80BEE394", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_80BFD000", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80C412B4", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80C6B224", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80C6B604", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
@@ -197,11 +142,8 @@
 {"id": "dungeon/func_80CC2614", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80CC266C", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80CC2828", "kinds": ["maspsx_dependent", "maspsx_pass"], "cause": "several passes jointly: _rotate_marked_store_into_jal_delay+_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_80CE7A1C", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80CE83EC", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_80CE8564", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80CE8CBC", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_80CE9758", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80CEAF2C", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80CEBD74", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80D11F60", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
@@ -209,7 +151,6 @@
 {"id": "dungeon/func_80D3C280", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80D3CBF8", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80D3D3B0", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_80D40744", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80D65E5C", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80D65F80", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80D66164", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
@@ -232,13 +173,8 @@
 {"id": "dungeon/func_80D91070", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80D91524", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80D91E14", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_80DA7000", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_80DBC9D8", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80DE48EC", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_80DE9000", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_80DF5054", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80E0F7C0", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_80E376E4", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80E3B4CC", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80E61EF4", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80E65598", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
@@ -257,10 +193,6 @@
 {"id": "dungeon/func_80EB79FC", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80EB7D2C", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80EB886C", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_80EBB06C", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_80EC706C", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_80ECD06C", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_80ED906C", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80EE1FB0", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80F09054", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80F0928C", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
@@ -269,23 +201,10 @@
 {"id": "dungeon/func_80F0B2A8", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80F0B798", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80F0C3B8", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_80F0F054", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_80F45000", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80F5F040", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_80F6F070", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_80F75070", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_80F81070", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80F90E88", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80FA5000", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_80FD5000", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_80FDB000", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_80FDE420", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_80FE1000", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_80FE7000", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_80FED000", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_80FF3000", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_80FF9000", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_80FFF000", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_8100508C", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_81005278", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_81005858", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
@@ -296,15 +215,9 @@
 {"id": "dungeon/func_810078B4", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_81007CE0", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_81008208", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_8101D000", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_81031F30", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_810330FC", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_810592A4", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_8106B000", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_81071000", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_810830BC", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_810860B4", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_810ADDF4", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_810AEADC", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_810AEB74", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_810AEEC4", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
@@ -312,7 +225,6 @@
 {"id": "dungeon/func_810AF65C", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_81252D6C", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_81254460", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_8127C3E0", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_812A67A4", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_812A7C08", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_812A8130", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
@@ -324,72 +236,46 @@
 {"id": "dungeon/func_812C47A4", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_812CA7A4", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_813231FC", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_813236DC", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_81323F78", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_813274E4", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_813284E4", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_8133336C", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_81334230", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_81335190", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_81337998", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_81339534", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_8133C2A4", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_8180D680", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_8180DA84", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_8180DC88", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_8180F208", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_81811E30", "kinds": ["maspsx_pass"], "cause": "_fold_selfinc_la", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_81811E70", "kinds": ["maspsx_pass"], "cause": "_fold_selfinc_la", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_81811EC0", "kinds": ["maspsx_pass"], "cause": "_fold_selfinc_la", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_81811F54", "kinds": ["maspsx_pass"], "cause": "_fold_selfinc_la", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_81850800", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_81875B38", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_81876014", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_8187A9A8", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_81881F60", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_8189E820", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_818AA83C", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_818AABB8", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_818AAE60", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_818D4B94", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_818D4E68", "kinds": ["maspsx_pass"], "cause": "_split_funcaddr_la", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_818E6800", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_818FF5B8", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_819059A0", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_81910A9C", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_81911BF4", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_81912154", "kinds": ["maspsx_dependent", "maspsx_pass"], "cause": "several passes jointly: _rotate_marked_store_into_jal_delay+_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_81934928", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_81946800", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_8194C81C", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_8194C8F0", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_8194CC94", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_8194CD5C", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_8194D118", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_8194D1E4", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_819602D8", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_819611CC", "kinds": ["maspsx_dependent", "maspsx_pass"], "cause": "several passes jointly: _rotate_marked_store_into_jal_delay+_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_8196B2F8", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_81976850", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_8197C800", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_81983138", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_81984754", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_81988800", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_819AD81C", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_819ADDB8", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_819AE378", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "dungeon/func_819B3414", "kinds": ["maspsx_pass"], "cause": "_fold_selfinc_la", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "dungeon/func_819BF9F4", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "main/func_8000E68C", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "main/func_8000F524", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "main/func_8000FCD8", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "main/func_80011818", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "main/func_8001270C", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "main/func_80012848", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "main/func_80013128", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "main/func_800139B4", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "main/func_8001EB98", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "ovmovie/func_800400AC", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "ovmovie/func_80040360", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "ovmovie/func_800413C0", "kinds": ["maspsx_dependent", "maspsx_pass"], "cause": "several passes jointly: _unfill_via_load_delay+_rewrite_arg_sibcall_jal_to_j", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/code", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
@@ -399,14 +285,8 @@
 {"id": "slus/konami_runtime_w_80033D54", "kinds": ["maspsx_dependent"], "cause": "combined: extern-abs+no:all-fired", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/konami_runtime_w_80035484", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/konami_runtime_w_80035888", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/konami_runtime_w_80035DBC", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/konami_runtime_w_80037D9C", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/konami_runtime_w_80038240", "kinds": ["maspsx_dependent"], "cause": "_unfill_via_load_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/konami_runtime_w_80038A10", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/konami_runtime_w_8003ADB4", "kinds": ["maspsx_dependent"], "cause": "_unfill_via_load_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/konami_runtime_w_8003B7C8", "kinds": ["maspsx_pass"], "cause": "_fold_selfinc_la", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/konami_runtime_w_8003B92C", "kinds": ["maspsx_dependent"], "cause": "_unfill_via_load_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/konami_runtime_w_8003BAF8", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/konami_runtime_w_8003C634", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/konami_runtime_w_8003C6F8", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/konami_runtime_w_8003C758", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
@@ -415,78 +295,49 @@
 {"id": "slus/w_8003CCB0", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_8003D92C", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_8003E188", "kinds": ["maspsx_pass"], "cause": "_fold_lo_into_accesses", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_8003E1FC", "kinds": ["maspsx_dependent"], "cause": "_unfill_via_load_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_8003E2D8", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_8003E34C", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_8003E4FC", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_8003E70C", "kinds": ["maspsx_dependent"], "cause": "_unfill_via_load_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_8003E758", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_8003F2A4", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_8003F368", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_8003F5AC", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_8003F624", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_8003F80C", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_80041038", "kinds": ["maspsx_dependent"], "cause": "_unfill_via_load_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_80041094", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_80041134", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_800411AC", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_800411FC", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_80041344", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_80041818", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_80041AB0", "kinds": ["maspsx_pass"], "cause": "_split_funcaddr_la", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_80041AE4", "kinds": ["maspsx_dependent"], "cause": "combined: extern-abs+no:all-fired", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_80041B98", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_80041BE4", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_80041C64", "kinds": ["maspsx_dependent"], "cause": "combined: extern-abs+no:all-fired", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_80041CBC", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_80043CD0", "kinds": ["maspsx_pass"], "cause": "_split_funcaddr_la", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_80043D04", "kinds": ["maspsx_dependent"], "cause": "combined: extern-abs+no:all-fired", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_80043DB8", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_80043E04", "kinds": ["maspsx_dependent"], "cause": "combined: extern-abs+no:all-fired", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_80043E60", "kinds": ["maspsx_dependent"], "cause": "combined: extern-abs+no:all-fired", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_80043EB8", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_8004437C", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_8004450C", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_80044618", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_80044698", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_800448BC", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_80044AAC", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_80044B48", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_80045340", "kinds": ["maspsx_dependent"], "cause": "combined: extern-abs+no:all-fired", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_800453E0", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_800463EC", "kinds": ["maspsx_pass"], "cause": "_rotate_marked_store_into_jal_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_8004713C", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_80047338", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_80047468", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_80047C00", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_80047D44", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_80047DF0", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_80047E30", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_80047E78", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_80048190", "kinds": ["maspsx_dependent"], "cause": "_unfill_via_load_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_80048224", "kinds": ["maspsx_pass"], "cause": "_prefer_lui_over_sll_branch_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_80048500", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_80048660", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_80048998", "kinds": ["maspsx_dependent"], "cause": "_unfill_via_load_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_80048B28", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_80048EE4", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_80049004", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_800494B4", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_80049F68", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_8004A330", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_8004A6C0", "kinds": ["maspsx_pass"], "cause": "_fold_selfinc_la", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_8004A700", "kinds": ["maspsx_pass"], "cause": "_fold_lo_into_accesses", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_8004A7D8", "kinds": ["maspsx_pass"], "cause": "_fold_lo_into_accesses", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_8004AB7C", "kinds": ["maspsx_pass"], "cause": "_sink_call_separated_la", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_8004B08C", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_8004B42C", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_8004B854", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_8004CAA0", "kinds": ["maspsx_pass"], "cause": "_unfill_jal_sp_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_8004D4AC", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_8004D5D0", "kinds": ["maspsx_dependent"], "cause": "_unfill_via_load_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_8004D614", "kinds": ["maspsx_dependent"], "cause": "combined: extern-abs+no:all-fired", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_8004D7A8", "kinds": ["maspsx_dependent"], "cause": "_unfill_via_load_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_8004D7E8", "kinds": ["maspsx_dependent"], "cause": "_unfill_via_load_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_8004DCA8", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_8004DCEC", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_8004DD2C", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
@@ -494,59 +345,14 @@
 {"id": "slus/w_8004DE88", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_8004DF8C", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_8004E130", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_8004EA70", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_8004ED5C", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_8004EDA8", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_8004F418", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_8004F5F4", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_8004F95C", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_8004FA2C", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_80050308", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_800504B4", "kinds": ["maspsx_dependent"], "cause": "_unfill_via_load_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_80050640", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_800508F0", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_80050DA8", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_80050E20", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_80050EA8", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_80051164", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_80051708", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_80051BFC", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_80053428", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_80053CFC", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_80053F98", "kinds": ["maspsx_dependent"], "cause": "_unfill_via_load_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_8005440C", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_800544A4", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_800546B0", "kinds": ["maspsx_dependent"], "cause": "_unfill_via_load_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_800549FC", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_80054CD4", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_80054E00", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_800553D4", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_800559B4", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_80055B44", "kinds": ["maspsx_dependent"], "cause": "_unfill_via_load_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_800563B0", "kinds": ["maspsx_dependent"], "cause": "_unfill_via_load_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_80056408", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_800564A8", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_80056558", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_80056D44", "kinds": ["maspsx_dependent"], "cause": "_unfill_via_load_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_80058494", "kinds": ["maspsx_dependent"], "cause": "_unfill_via_load_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_800585A0", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_80058850", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_80058940", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_80058B70", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_8005914C", "kinds": ["maspsx_dependent"], "cause": "_unfill_via_load_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_80059BC4", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_80059E94", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_8005A2FC", "kinds": ["maspsx_dependent"], "cause": "_unfill_via_load_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_8005ACDC", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_8005B378", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_8005D7BC", "kinds": ["maspsx_pass"], "cause": "_hoist_zero_arg_before_global_clears", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "town/func_8009A0E4", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "town/func_800A1480", "kinds": ["maspsx_pass"], "cause": "_fold_selfinc_la", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "town/func_800A2244", "kinds": ["maspsx_pass"], "cause": "_fold_selfinc_la", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "town/func_800A7434", "kinds": ["maspsx_dependent"], "cause": "_unfill_via_load_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "town/func_800A8F24", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "town/func_800AC018", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "town/func_800B0BC4", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "town/func_800B7CEC", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "town/func_800B998C", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "town/func_800B9B58", "kinds": ["maspsx_dependent"], "cause": "_unfill_via_load_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
@@ -554,29 +360,12 @@
 {"id": "town/func_800BEB30", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "town/func_800C3800", "kinds": ["maspsx_pass"], "cause": "_fold_selfinc_la", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "town/func_800C738C", "kinds": ["maspsx_dependent"], "cause": "_unfill_via_load_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "town/func_800C8810", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "town/func_8032E2EC", "kinds": ["maspsx_dependent"], "cause": "_unfill_via_load_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "town/func_8032E44C", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "town/func_8032E514", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "town/func_8032EF6C", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "town/func_8032F060", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "town/func_8032F234", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "town/func_803308E8", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "town/func_803334D4", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "town/func_8035A5E4", "kinds": ["maspsx_dependent"], "cause": "_unfill_via_load_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "town/func_8046C188", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "town/func_8047E0D8", "kinds": ["maspsx_dependent", "maspsx_pass"], "cause": "several passes jointly: _unfill_via_load_delay+_rewrite_tail_call_jal_to_j", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "town/func_8047E1C0", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "town/func_8047E278", "kinds": ["maspsx_dependent"], "cause": "_unfill_via_load_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "town/func_8047E8B4", "kinds": ["maspsx_dependent"], "cause": "_unfill_via_load_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "town/func_804F027C", "kinds": ["maspsx_dependent"], "cause": "_unfill_via_load_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "town/func_80615500", "kinds": ["maspsx_dependent"], "cause": "_unfill_via_load_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "town/func_80647308", "kinds": ["maspsx_dependent"], "cause": "_unfill_via_load_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "town/func_806A9100", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "town/func_806CF118", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "town/func_806D4B9C", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "town/func_8077DC0C", "kinds": ["maspsx_dependent"], "cause": "_unfill_via_load_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "town/func_8079A1EC", "kinds": ["maspsx_dependent"], "cause": "_unfill_via_load_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "town/func_80813E14", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "town/func_8081822C", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "town/func_80819B14", "kinds": ["maspsx_dependent"], "cause": "_maybe_unfill_return_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
