@@ -16,6 +16,11 @@ now adds a two-row full-image proof: scalar external views replace artificial
 padding/aliasing, all 153 words are genuine-exact at default CDK, and actual
 AF3/AFC storage occupies its retail addresses. It remains pending that transition.
 
+The [combined 14-row rehearsal](gp_ready14.md) now validates those candidates
+together: 735 genuine/retail-exact words, nine actual data symbols, and a full
+image match while preserving all 19 production modules. Nine of the live 29 GP
+rows are privately prepared; the remaining 20 require further reconstruction.
+
 ## Latest ownership checkpoint
 
 [AFE cache ownership](gp_cache_afe.md) separates its actual two-byte storage from

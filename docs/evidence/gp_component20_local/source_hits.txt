@@ -1,0 +1,18 @@
+src/slus/w_8003E34C.c:13:extern s8 D_80080AD0;
+src/slus/w_8003E34C.c:14:extern s16 D_80080AD4;
+src/slus/w_8003E34C.c:15:extern s32 D_80080ADC;
+src/slus/w_8003E34C.c:28:    D_80080AD0 = 0;
+src/slus/w_8003E34C.c:29:    D_80080ADC = 0;
+src/slus/w_8003E34C.c:30:    D_80080AD4 = 0;
+src/slus/w_8003F5AC.c:5:extern u16 D_80080AD4;
+src/slus/w_8003F5AC.c:8:/* Returns the stored flags with bit 2 set when D_80080AD4 is nonzero. */
+src/slus/w_8003F5AC.c:12:    if (D_80080AD4 != 0) {
+src/slus/w_8003E758.c:46:extern u8  D_80080AD0;        /* $gp */
+src/slus/w_8003E758.c:48:extern u16 D_80080AD4;        /* $gp */
+src/slus/w_8003E758.c:384:                if (D_80080AD0 == 0) goto read_complete;
+src/slus/w_8003E758.c:470:                        D_80080AD4 = 1;
+src/slus/w_8003E4FC.c:12:extern s16 D_80080AD4;
+src/slus/w_8003E4FC.c:13:extern void *D_80080ADC;
+src/slus/w_8003E4FC.c:112:    D_80080ADC = ((EventSource_8003E4FC *)call_arg)->field4;
+src/slus/w_8003E4FC.c:123:    D_80080AD4 = 0;
+src/slus/w_8003E4FC.c:131:    D_80080ADC = event_data;

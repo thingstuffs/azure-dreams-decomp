@@ -1,0 +1,27 @@
+
+build_slus/build/slus_006.14.elf:     file format elf32-tradlittlemips
+
+
+Disassembly of section ._800:
+
+8003e34c <func_8003E34C>:
+8003e34c:	24020002 	li	v0,2
+8003e350:	3c018008 	lui	at,0x8008
+8003e354:	a02214d2 	sb	v0,5330(at)
+8003e358:	240200ff 	li	v0,255
+8003e35c:	3c018008 	lui	at,0x8008
+8003e360:	a02214d3 	sb	v0,5331(at)
+8003e364:	3c028008 	lui	v0,0x8008
+8003e368:	ac403958 	sw	zero,14680(v0)
+8003e36c:	24423958 	addiu	v0,v0,14680
+8003e370:	a3800b3c 	sb	zero,2876(gp)
+8003e374:	3c018008 	lui	at,0x8008
+8003e378:	a02014d1 	sb	zero,5329(at)
+8003e37c:	a0400004 	sb	zero,4(v0)
+8003e380:	a0400005 	sb	zero,5(v0)
+8003e384:	a380013c 	sb	zero,316(gp)
+8003e388:	af800148 	sw	zero,328(gp)
+8003e38c:	a7800140 	sh	zero,320(gp)
+8003e390:	a4400006 	sh	zero,6(v0)
+8003e394:	03e00008 	jr	ra
+8003e398:	a4400008 	sh	zero,8(v0)

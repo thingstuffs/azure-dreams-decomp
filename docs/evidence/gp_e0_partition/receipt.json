@@ -1,0 +1,112 @@
+{
+  "recipe": "2.8.1",
+  "source_sha256": "b98f0860ed4118129597659e283276613db80470fa66a6d1ca7fcda217976e47",
+  "results": {
+    "func_800410FC": {
+      "stock": {
+        "words": 5,
+        "masks": [],
+        "retail_exact": true,
+        "aligned_distance": 0,
+        "regions": []
+      },
+      "generic": {
+        "words": 5,
+        "masks": [],
+        "retail_exact": true,
+        "aligned_distance": 0,
+        "regions": []
+      },
+      "genuine": {
+        "words": 5,
+        "masks": [],
+        "retail_exact": true,
+        "aligned_distance": 0,
+        "regions": []
+      },
+      "comparison": {
+        "diff": 0,
+        "exact": true,
+        "len_m": 5,
+        "len_g": 5,
+        "missing": [],
+        "regions": [],
+        "delay_only": []
+      }
+    },
+    "func_80041110": {
+      "stock": {
+        "words": 9,
+        "masks": [],
+        "retail_exact": true,
+        "aligned_distance": 0,
+        "regions": []
+      },
+      "generic": {
+        "words": 9,
+        "masks": [],
+        "retail_exact": true,
+        "aligned_distance": 0,
+        "regions": []
+      },
+      "genuine": {
+        "words": 9,
+        "masks": [],
+        "retail_exact": true,
+        "aligned_distance": 0,
+        "regions": []
+      },
+      "comparison": {
+        "diff": 0,
+        "exact": true,
+        "len_m": 9,
+        "len_g": 9,
+        "missing": [],
+        "regions": [],
+        "delay_only": []
+      }
+    },
+    "func_80041134": {
+      "stock": {
+        "words": 30,
+        "masks": [],
+        "retail_exact": true,
+        "aligned_distance": 0,
+        "regions": []
+      },
+      "generic": {
+        "words": 30,
+        "masks": [],
+        "retail_exact": true,
+        "aligned_distance": 0,
+        "regions": []
+      },
+      "genuine": {
+        "words": 30,
+        "masks": [],
+        "retail_exact": true,
+        "aligned_distance": 0,
+        "regions": []
+      },
+      "comparison": {
+        "diff": 0,
+        "exact": true,
+        "len_m": 30,
+        "len_g": 30,
+        "missing": [],
+        "regions": [],
+        "delay_only": []
+      }
+    }
+  },
+  "data": {
+    ".sdata": "00000000"
+  },
+  "symbol": [
+    ".sdata",
+    0,
+    "global",
+    0
+  ],
+  "full_link_proof": false
+}

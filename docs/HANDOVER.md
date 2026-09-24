@@ -14,6 +14,18 @@ image equality. Normal Splat registration and real two-byte C storage pass;
 19 ownership units, 873 physical / 884 logical rows**. The runtime pilot is
 recertified; no production assembler default or pass changed.
 
+Current private rehearsal: [14 prepared rows](evidence/gp_ready14.md) coexist in
+one retail-exact image. All 735 words match fresh linked/generic/genuine objects
+with zero masks and nine correctly owned symbols. Nine of 29 GP rows are ready;
+the remaining 20 form the collector-linked component. Production counts and
+defaults remain unchanged by this selective rehearsal.
+
+Next architecture pilot: [E0 list-cursor partition](evidence/gp_e0_partition.md)
+extracts one function from each compiler collector and groups them with 41134.
+All 44 words and the whole stock-linked image pass with real storage. The current
+whole-row registry gate correctly rejects the prototype's moved-function claim;
+implement explicit provenance/partition verification before any production move.
+
 Previous checkpoint: [shared cancellation state at 8099C](evidence/gp_shared_8099c.md)
 lands 33D44/33D54 at 2.8.1 after an unchanged-source byte-neutral setter move.
 The full retail image and actual four-byte C storage pass. The setter is direct
