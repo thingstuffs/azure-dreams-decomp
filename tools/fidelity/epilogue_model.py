@@ -28,6 +28,14 @@ output (.mask, restores, block form), are recorded too.
     python3 tools/fidelity/epilogue_model.py [--workers 8] [--only ID,..|@file] [--cells 2.8.0,2.8.1,...] [--psyq]
     python3 tools/fidelity/epilogue_model.py --one dungeon/func_7FFE7BE8 [--psyq]
     python3 tools/fidelity/epilogue_model.py --report          # tables for the evidence doc
+
+Step 1c (work/fidelity/STEP1C_BRIEF.md) re-targets the `psyq` leg at any held cc1 through two environment variables
+read at import (the --worker subprocesses re-import this module, so command-line options would not reach them):
+
+  EPILOGUE_MODEL_OUT   output root (journal default <OUT>/epilogue_model.jsonl, scratch <OUT>/tmp); default step1b
+  EPILOGUE_MODEL_CC1   JSON {cell: [label, cc1 path (repo-relative or absolute), twin?, mode]} replacing PSYQ_CC1;
+                       mode = "wibo" (Windows PE, default), "native" (a host ELF cc1) or "dosemu" (DOS/go32 cc1 under
+                       dosemu2; every file next to the cc1, e.g. GO32.EXE, is copied into the run directory)
 """
 from __future__ import annotations
 
@@ -49,7 +57,9 @@ ROOT = HERE.parents[1]
 sys.path.insert(0, str(ROOT / "tools"))
 sys.path.insert(0, str(HERE))
 
-OUT = ROOT / "work/fidelity/step1b"
+OUT = Path(os.environ.get("EPILOGUE_MODEL_OUT") or ROOT / "work/fidelity/step1b")
+if not OUT.is_absolute():
+    OUT = ROOT / OUT
 # this tool's OWN scratch root: aspsx_diff's default (work/fidelity/tmp/rows) is shared with the other fidelity jobs,
 # and removing it at the end of a run destroys their in-flight temp dirs (it did, 2026-09-24: 10 asv_trial rows)
 TMP = OUT / "tmp"
@@ -66,6 +76,10 @@ PSYQ_CC1 = {"2.8.0": ("psyq4.4 (2.8.1 SN32 BUILD 4.0.0010)", "psyq/psyq4.4/CC1PS
             "2.8.1": ("psyq4.4 (2.8.1 SN32 BUILD 4.0.0010)", "psyq/psyq4.4/CC1PSX.EXE", True),
             "2.91.66": ("SN egcs-2.91.66 (PSX)", None, True),        # extracted from the 4.5 MFD archive, see --egcs
             "2.95.2": ("psyq4.6 (2.95.2)", "psyq/psyq4.6/CC1PSX.EXE", True)}
+_OVR = os.environ.get("EPILOGUE_MODEL_CC1")
+if _OVR:
+    PSYQ_CC1 = {c: (v[0], str(v[1] if Path(v[1]).is_absolute() else ROOT / v[1]), bool(v[2]),
+                    v[3] if len(v) > 3 else "wibo") for c, v in json.loads(_OVR).items()}
 VERS = ("2.79", "2.77")
 
 # a gcc noreorder return block (`%*j $31` with the teardown reorg put in its slot)
@@ -112,6 +126,28 @@ def census(src):
                     "restores": sum(1 for l in body.split("\n") if RESTORE.match(l)),
                     "nr_sp": len(blocks), "other_ret": plain, "blocks": blocks})
     return out
+
+
+TEXT_EPI = re.compile(r"^\taddu\t\$sp,\$sp,\d+\n\tj\t\$31\n", re.M)
+
+
+def epi_forms(src):
+    """Return forms of a cc1 listing (step 1c): in functions that save a register besides $31 (where gcc 2.7.2's
+    text epilogue can take no delay insn), `filled` = noreorder `j $31 / addu $sp` blocks (the RTL epilogue after
+    reorg), `text` = reorder-mode `addu $sp / j $31` (2.7.2's text epilogue); `ra_only_*` the same in $31-only
+    frames; `text_filled` = the teardown in the slot under a plain `.set noreorder` (an older text epilogue)."""
+    out = Counter()
+    for name, s, e in functions_s(src):
+        body = src[s:e]
+        mk = next((int(m.group(1), 16) for m in map(MASK.match, body.split("\n")) if m), 0)
+        fm = next((int(m.group(1), 16) for m in map(FMASK.match, body.split("\n")) if m), 0)
+        pre = "ra_only_" if (mk == RA_MASK and fm == 0) else ("" if mk else "leaf_")
+        out[pre + "filled"] += len(EPI.findall(body))
+        out[pre + "text"] += len(TEXT_EPI.findall(body))
+        # teardown in the return slot WITHOUT reorg's `.set nomacro` wrapper: an older text epilogue printed filled
+        # under `.set noreorder` (gcc 2.5.7)
+        out[pre + "text_filled"] += len(re.findall(r"^\tj\t\$31\n\taddu\t\$sp,\$sp,\d+\n", body, re.M)) - len(EPI.findall(body))
+    return {k: v for k, v in out.items() if v}
 
 
 def rewrite(src, rule):
@@ -185,13 +221,47 @@ finally:
 '''
 
 
+DOSWRAP = r'''#!/usr/bin/env python3
+# cc1 stand-in: a DOS/go32 cc1 under dosemu2, called by our gcc driver (tools/fidelity/epilogue_model.py, step 1c)
+import os, shutil, subprocess, sys, tempfile
+CC1, TMPROOT = %r, %r
+args = sys.argv[1:]; inp = out = None; rest = []; i = 0
+while i < len(args):
+    a = args[i]
+    if a == "-o": out = args[i + 1]; i += 2; continue
+    if a in ("-dumpbase", "-auxbase"): i += 2; continue
+    if not a.startswith("-") and inp is None: inp = a; i += 1; continue
+    rest.append(a); i += 1
+d = tempfile.mkdtemp(prefix="d", dir=TMPROOT)
+try:
+    src = os.path.dirname(CC1)
+    for n in os.listdir(src):
+        shutil.copyfile(os.path.join(src, n), os.path.join(d, n.upper()))
+    shutil.copyfile(inp, os.path.join(d, "IN.I"))
+    cmd = " ".join([os.path.basename(CC1).upper()] + rest + ["IN.I", "-o", "OUT.S"])
+    r = subprocess.run(["dosemu", "-dumb", "-quiet", "-K", d, "-E", cmd], cwd=d, stdin=subprocess.DEVNULL,
+                       capture_output=True, text=True, errors="replace", timeout=600)
+    got = [n for n in os.listdir(d) if n.lower() == "out.s"]
+    if not got:
+        sys.stderr.write("dosemu: no output for: " + cmd + "\n" + (r.stdout + r.stderr)[-2000:]); sys.exit(1)
+    shutil.copyfile(os.path.join(d, got[0]), out)
+    sys.exit(0)
+finally:
+    shutil.rmtree(d, ignore_errors=True)
+'''
+
+
 def psyq_root(tmp):
     """A compilers root whose gcc-<cell> dirs are our driver/cpp with the genuine CC1PSX as cc1."""
     A = _aspsx()
-    root = Path(tmp) / "psyqcc"
+    import hashlib
+    key = hashlib.sha1(json.dumps(sorted((c, list(v)) for c, v in PSYQ_CC1.items())).encode()).hexdigest()[:10]
+    root = Path(tmp) / ("psyqcc" if not _OVR else "psyqcc-" + key)     # one root per cc1 mapping (step 1c)
     if root.exists():
         return root
-    for cell, (_, rel, _) in PSYQ_CC1.items():
+    final, root = root, Path(tempfile.mkdtemp(prefix=root.name + ".", dir=tmp))   # built aside, renamed: workers race
+    for cell, spec in PSYQ_CC1.items():
+        rel, mode = spec[1], (spec[3] if len(spec) > 3 else "wibo")
         cc1 = (A.GENUINE / rel) if rel else EGCS_CC1
         if not cc1 or not Path(cc1).exists():
             continue
@@ -200,13 +270,22 @@ def psyq_root(tmp):
         for n in os.listdir(src):
             if n != "cc1":
                 os.symlink(src / n, d / n)
-        (d / "cc1").write_text(WRAP % (str(A.WIBO), str(cc1), str(A.TMP)))
+        if mode == "native":
+            os.symlink(cc1, d / "cc1"); continue
+        if mode == "dosemu":
+            (d / "cc1").write_text(DOSWRAP % (str(cc1), str(A.TMP)))
+        else:
+            (d / "cc1").write_text(WRAP % (str(A.WIBO), str(cc1), str(A.TMP)))
         os.chmod(d / "cc1", 0o755)
-    return root
+    try:
+        os.rename(root, final)
+    except OSError:                        # another worker won the race: use its root
+        shutil.rmtree(root, ignore_errors=True)
+    return final
 
 
 # the SN egcs-2.91.66 CC1PSX.EXE: psyq 4.5 MFD archive (toolchain/genuine/psyq/_archives/rar45) BIN/WIN/, copied here
-EGCS_CC1 = os.environ.get("STEP1B_EGCS_CC1") or str(OUT / "genuine_cc1/egcs-2.91.66-psx/CC1PSX.EXE")
+EGCS_CC1 = os.environ.get("STEP1B_EGCS_CC1") or str(ROOT / "work/fidelity/step1b/genuine_cc1/egcs-2.91.66-psx/CC1PSX.EXE")
 
 
 # -------------------------------------------------------------------------------------------- one row
@@ -291,6 +370,7 @@ def process_row(row, psyq=False):
                 rec["psyq_err"] = str(err)[:300]
             else:
                 ps = c3["g_src"]
+                rec["psyq_epi"] = epi_forms(ps)
                 rec["psyq_s_equal"] = strip_s(ps) == strip_s(base)
                 if not rec["psyq_s_equal"]:
                     import difflib
