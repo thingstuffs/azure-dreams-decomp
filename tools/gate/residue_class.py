@@ -137,7 +137,7 @@ def compile_words(overlay: str, row: dict[str, Any], c_file: str,
         _injected, unresolved = OFC.inject_name_encoded_symbols(
             cpath, gcc_ver, gcc_flags, func)
         got, err = M.build_text(
-            str(cpath), OFC.compiler_for(gcc_ver), "O2", "2.56",
+            str(cpath), OFC.compiler_for(gcc_ver), "O2", "2.79",
             gcc_flags, "", link_vram, target=target_symbol,
             retail_text=target)
     link_fail = bool(unresolved)

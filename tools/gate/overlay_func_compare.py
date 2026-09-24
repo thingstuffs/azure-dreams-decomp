@@ -594,7 +594,7 @@ def main() -> int:
         str(c_file),
         compiler_for(gcc_ver),
         "O2",
-        "2.56",
+        "2.79",
         gcc_flags,
         as_flags,
         link_vram,

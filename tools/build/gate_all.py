@@ -165,7 +165,7 @@ def run_window(yaml_path):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--container"); ap.add_argument("--workers", type=int, default=6); ap.add_argument("--limit", type=int); ap.add_argument("--retry", action="store_true")
+    ap.add_argument("--container"); ap.add_argument("--workers", type=int, default=6); ap.add_argument("--limit", type=int); ap.add_argument("--retry", action="store_true"); ap.add_argument("--all", action="store_true", help="gate every window regardless of its cached inputs_sha (after a pipeline/tool change, which inputs_sha does not cover)")
     a = ap.parse_args()
     yamls = sorted((B / "config/overlays").glob("*.overlay.yaml"))
     sup = superseded(yamls)
@@ -181,8 +181,8 @@ def main():
     todo = []
     for y in yamls:
         w = y.stem.replace(".overlay", ""); p = prior.get(w)
-        if p and p["result"] == "MATCH" and p.get("inputs_sha") == inputs_sha(y) and not a.retry: continue
-        if p and p["result"] != "MATCH" and not a.retry and p.get("inputs_sha") == inputs_sha(y): continue
+        if p and p["result"] == "MATCH" and p.get("inputs_sha") == inputs_sha(y) and not a.retry and not a.all: continue
+        if p and p["result"] != "MATCH" and not a.retry and not a.all and p.get("inputs_sha") == inputs_sha(y): continue
         todo.append(y)
     if a.limit: todo = todo[:a.limit]
     print(f"{len(todo)} windows to gate ({len(yamls) - len(todo)} up to date), {a.workers} workers", flush=True)
