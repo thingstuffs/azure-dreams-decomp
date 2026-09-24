@@ -1,0 +1,47 @@
+{
+  "status": "MATCH",
+  "production_modified": false,
+  "frozen_fixtures_modified": false,
+  "records": [
+    {
+      "source": "src/slus/w_80041AB0.c",
+      "before_sha256": "b053cad2605d612a1e6520eda8535c84ecec05fb7cdcc87ee1cf51e27553d20c",
+      "after_sha256": "38e6eba7ca19b4f91ecc63b6f2b0a74e966e268cc912ae3820588cdd83d68816",
+      "compiler": "<repo>/toolchain/compilers/gcc-2.7.2-cdk/gcc",
+      "flags": "-S -O2 -w",
+      "compiler_assembly_identical": true,
+      "before_assembly_sha256": "607af3d7e0bc516f6573247945f8ecdda5f9bf32b13a2a0716d481b68b140446",
+      "after_assembly_sha256": "607af3d7e0bc516f6573247945f8ecdda5f9bf32b13a2a0716d481b68b140446"
+    },
+    {
+      "source": "src/slus/w_8004AB7C.c",
+      "before_sha256": "76d2b9fd68b53381be6684ca94cddf9e50676b560d13efa297ba0783e8730aa1",
+      "after_sha256": "43b1cad48154576b7c58bc64245c55fe1372e454ff2f320965fef889797403ce",
+      "compiler": "<repo>/toolchain/compilers/gcc-2.7.2-cdk/gcc",
+      "flags": "-S -O2 -w",
+      "compiler_assembly_identical": true,
+      "before_assembly_sha256": "92fd5d51847861f216898f0002c93f1a54d0674d0ce0e870fc9fdd2e96c03acb",
+      "after_assembly_sha256": "92fd5d51847861f216898f0002c93f1a54d0674d0ce0e870fc9fdd2e96c03acb"
+    },
+    {
+      "source": "src/slus/gp_d92c_owned.c",
+      "before_sha256": "576ffc9abbd8310aec3ccae37c9948d95fdc8e2dc373e7e3e8df390d720056c8",
+      "after_sha256": "094846f0ceafe918e5bee6cddf2267f44e3dd27cd6ad4777855d91492e11f146",
+      "compiler": "<repo>/toolchain/compilers/gcc-2.7.2-cdk/gcc",
+      "flags": "-S -O2 -w",
+      "compiler_assembly_identical": true,
+      "before_assembly_sha256": "377eeb0d2b3e5152312b151267153de99ffbdaacb53e3994ec0787ce48bceda7",
+      "after_assembly_sha256": "377eeb0d2b3e5152312b151267153de99ffbdaacb53e3994ec0787ce48bceda7"
+    },
+    {
+      "source": "src/slus/w_8003FAD4.c",
+      "before_sha256": "0d86b916467b2838d4337813fe4fa344bac3cd99026566371b5db640138bf1e9",
+      "after_sha256": "fde9d352aec9cea95dc7c388355ec7dc6b1e659a2d604208e00c403a10586b67",
+      "compiler": "<repo>/toolchain/compilers/gcc-2.7.2-cdk/gcc",
+      "flags": "-S -O2 -w",
+      "compiler_assembly_identical": true,
+      "before_assembly_sha256": "7b43550e2b31e24bb0834f198ddfda3b8dd8f207716aa7205d74d34d6671fbb3",
+      "after_assembly_sha256": "7b43550e2b31e24bb0834f198ddfda3b8dd8f207716aa7205d74d34d6671fbb3"
+    }
+  ]
+}
