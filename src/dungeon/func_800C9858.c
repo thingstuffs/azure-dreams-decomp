@@ -174,7 +174,6 @@ void func_800CEFB8(void *unused, void *endpoints, void *sprite, s16 depth_bias, 
     register void *sprite_data ASM_REG("$21") = sprite;
     register s16 sort_bias ASM_REG("$17") = depth_bias;
     s16 bias_copy = depth_bias;
-    s32 mode = orient_mode;
     register u32 state_dep;
     u8 *scratch;
     scratch_base = (u8 *)0x1F800000;
@@ -183,7 +182,7 @@ void func_800CEFB8(void *unused, void *endpoints, void *sprite, s16 depth_bias, 
     depth_out = scratch_base;
     ASM_KEEP_MEM_NV(screen_out, *(u8 **)D_80083160);
     scratch = scratch_base;
-    ASM_KEEP_NV(mode);
+    ASM_KEEP_NV(orient_mode);
     global_base = *(void **)D_80083160;
     ASM_KEEP_DEP_NV(depth_out, global_base);
     depth_out = (u8 *)((u32)depth_out | 0x90);
@@ -257,7 +256,7 @@ void func_800CEFB8(void *unused, void *endpoints, void *sprite, s16 depth_bias, 
     sort_depth = mean_depth - depth_offset;
     SP32(0xC0) = sort_depth;
     if ((u32) sort_depth < 0x1E0U) {
-        draw_mode = mode;
+        draw_mode = orient_mode;
         ASM_KEEP(draw_mode);
         func_800649A0();
         {
@@ -284,8 +283,7 @@ void func_800CEFB8(void *unused, void *endpoints, void *sprite, s16 depth_bias, 
         SP32(0x38) = camera_rot_y;
         SP16(0x100) = (u16) ((S_800CEFB8_1 *)sprite_data)->unk_16;
         rotation_z = (((S_800CEFB8_1 *)sprite_data)->unk_1A - camera_rot_z) + ((S_800CEFB8_5 *)render_state)->unk_B8;
-        if (((u32)mode << 0x10) == 0) {
-            ASM_KEEP(mode);
+        if (((u32)orient_mode << 0x10) == 0) {
             segment_angle = SP16(0x10E);
             rotation_z += (s16)segment_angle;
         }

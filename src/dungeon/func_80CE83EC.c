@@ -59,10 +59,6 @@ typedef struct {
     u8 bytes[12];
 } Packed3;
 
-typedef struct {
-    u32 value;
-} __attribute__((packed)) PackedWord;
-
 extern s32 func_8003DE58(s32, void *, Offset3 *, s32);
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
@@ -78,11 +74,7 @@ void func_80171BEC(void *attachment, S_80171BEC_3 *base_position)
     Offset3 offset;
     void *object;
     S_80171BEC_1 *render;
-    register u32 copy_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register PackedWord *copy_source ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register u32 data_word_0 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register u32 data_word_1 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    u32 data_word_2;
+    void *owner;
     S_80171BEC_2 *position;
 
     object = func_8003FD64(0x212, &D_80083498);
@@ -101,32 +93,20 @@ void func_80171BEC(void *attachment, S_80171BEC_3 *base_position)
         position->unk_04.at00.v = base_position->unk_04;
         position->unk_08.at00.v = base_position->unk_08;
 
-        data_word_2 = (u32)(((S_80171BEC_4_pre *)attachment)[-1].unk_00);
-        if (func_8003DE58(((S_80171BEC_5 *)data_word_2)->unk_08, (S_80171BEC_5 *)data_word_2, &offset, 0) != 0) {
+        owner = ((S_80171BEC_4_pre *)attachment)[-1].unk_00;
+        if (func_8003DE58(((S_80171BEC_5 *)owner)->unk_08, owner, &offset, 0) != 0) {
             position->unk_00.at02.v += offset.x;
             position->unk_04.at02.v += offset.y;
             position->unk_08.at02.v += offset.z;
         }
 
         render = ((S_80171BEC_0 *)object)->unk_0C;
-        copy_page = 0x800;
-        render->unk_1E = copy_page;
-        render->unk_1C = copy_page;
-        copy_page = 0x80;
-        render->unk_0E = copy_page;
-        render->unk_0D = copy_page;
-        render->unk_0C = copy_page;
-
-        copy_page = 0x80170000;
-        ASM_KEEP(copy_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        copy_source = (PackedWord *)(copy_page + 0x5EE8);
-        data_word_0 = copy_source[0].value;
-        data_word_1 = copy_source[1].value;
-        data_word_2 = copy_source[2].value;
-        ((PackedWord *)((u8 *)object + 0x44))[0].value = data_word_0;
-        ((PackedWord *)((u8 *)object + 0x44))[1].value = data_word_1;
-        ((PackedWord *)((u8 *)object + 0x44))[2].value = data_word_2;
-        ASM_KEEP(data_word_2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        render->unk_1E = 0x800;
+        render->unk_1C = 0x800;
+        render->unk_0E = 0x80;
+        render->unk_0D = 0x80;
+        render->unk_0C = 0x80;
+        *(Packed3 *)((u8 *)object + 0x44) = D_80175EE8;
         render->unk_08 = (u8 *)object + 0x44;
     }
 }

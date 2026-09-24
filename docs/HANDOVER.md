@@ -1,3 +1,21 @@
+# Handover (2026-09-24, H28 recovery)
+
+Picked up the interrupted 67-row H28 wave from `r77_opus_h1..h16` after the
+compiler investigation. **11 functions moved to CDK, 74 pins removed, 9 newly
+pin-free and 2 partial improvements.** Ten candidates recovered from h1-h8;
+town/func_800B7CEC newly solved with a packed prefix copy and loop-counter
+initialization before the entry test. All affected windows MATCH, SLUS MATCH,
+row database OK, all eleven exact under genuine ASPSX with no compatibility
+passes firing. `maspsx_dependence` 237 -> 226.
+
+Start at `docs/evidence/r77_h28_recovery.md` and its receipt/queued-screen TSV.
+The 40 queued h9-h16 rows were calibrated and screened at CDK (erasure alone:
+0/40 exact); only the town prefix row received a completed reconstruction.
+Do not label these packs completed. The original cohort still has 58 pinned
+rows: two partially improved at CDK, 56 at their original proxy recipes.
+Continue the interrupted h1-h8 candidates/dumps and the 39 unsolved queued rows.
+The old h1 report predates its exact `C98cdk_p27` result and is superseded here.
+
 # Handover (2026-09-24 00:30Z, round 77 in flight) - fresh-eyes check, then an Opus wave
 
 **PAUSE PIN LANES -> `docs/TOOLCHAIN_FIDELITY_PLAN.md` (owner, 2026-09-24).** When the running r77 lanes finish and land, work that plan (steps 1-5) before any new pin lanes.

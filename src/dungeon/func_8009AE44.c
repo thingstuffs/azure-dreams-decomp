@@ -7,163 +7,53 @@ typedef struct S_800A05A4_1 {
     s16 unk_88;
 } S_800A05A4_1;   /* found in func_800A05A4 */
 
-extern s16 D_8006CCD8[];
-extern s16 D_8006CCE8[];
+extern u16 D_8006CCD8[];
+extern u16 D_8006CCE8[];
 
 extern void *func_8009B4B0(void *, u16, u16);
 extern s32 func_800A0548(s16, s16);
 extern s16 func_800A44E0(u16, u16, s16, u32);
 
 /* Scans along a heading for an object within the height range and records the stopping coordinates. */
-void *func_800A05A4(void *source, s32 start_x, s32 start_y, u32 heading, volatile s32 max_steps)
+void *func_800A05A4(Rec_D_800E3D7C *source, s32 start_x, s32 start_y, u16 heading, s16 max_steps)
 {
-    s32 direction;
-    volatile u8 frame_slots[16];
-    register s32 limit_or_y_step ASM_REG("$18");
-    register s16 height_range ASM_REG("$19");
-    register void *found ASM_REG("$20");
-    register s32 offset_or_x_step ASM_REG("$21");
-    u8 *x_step;
-    s32 y_step_or_count;
-    s32 initial_x;
-    register s32 initial_y ASM_REG("$5");
+    s32 dir;
     u16 x;
-    s32 y;
-    s32 signed_limit;
-    s16 blocked;
-    u8 *loop_y_table;
+    u16 y;
+    s16 height;
+    void *found;
+    s32 i;
 
     found = 0;
-    direction = (heading >> 9);
-    direction &= 7;
-    signed_limit = (u8 *)D_8006CCD8;
-    offset_or_x_step = direction * 2;
-    x_step = signed_limit + offset_or_x_step;
-    ASM_KEEP_NV(x_step);
-    height_range = 0x20;
-    {
-
-        loop_y_table = (u8 *)D_8006CCE8;
-        y_step_or_count = (s32)(loop_y_table + offset_or_x_step);
+    dir = heading = (heading >> 9) & 7;
+    height = 0x20;
+    x = D_8006CCD8[dir] + start_x;
+    y = D_8006CCE8[dir] + start_y;
+    if (func_800A0548(x, y) != 0) {
+        source->unk_72.as_s8 = D_8006CCD8[dir] - x;
+        source->unk_73.as_s8 = D_8006CCE8[dir] - y;
+        return 0;
     }
-
-    initial_x = *(u16 *)x_step + start_x;
-    limit_or_y_step = max_steps;
-    x = initial_x;
-    initial_y = *(u16 *)(u32)y_step_or_count + start_y;
-    y = initial_y;
-    ASM_KEEP_NV(initial_y);
-    *(volatile u16 *)&frame_slots[8] = limit_or_y_step;
-    *(volatile u16 *)&frame_slots[0] = direction;
-    if (func_800A0548(initial_x, initial_y) == 0) {
-        goto start;
+    for (i = 0; i < max_steps; i++) {
+        found = func_8009B4B0(source, x, y);
+        if (found != 0 && abs(((S_800A05A4_1 *)found)->unk_88 - source->unk_88.as_s16) <= height) {
+            break;
+        }
+        if (func_800A0548(x + D_8006CCD8[dir], y + D_8006CCE8[dir]) != 0) {
+            source->unk_72.as_s8 = D_8006CCD8[dir] - x;
+            source->unk_73.as_s8 = D_8006CCE8[dir] - y;
+            return 0;
+        }
+        if (func_800A44E0(x << 6, y << 6, source->unk_88.as_s16 - height, heading << 9) != 0) {
+            source->unk_72.as_s8 = -x;
+            source->unk_73.as_s8 = -y;
+            return 0;
+        }
+        height += 0x20;
+        x += D_8006CCD8[dir];
+        y += D_8006CCE8[dir];
     }
-
-    {
-        s32 y_result;
-
-        start_y = *(u8 *)x_step;
-        ((Rec_D_800E3D7C *)source)->unk_72.as_s8 = start_y - x;
-        y_result = *(u8 *)(u32)y_step_or_count;
-        start_y = 0;
-        y_result -= y;
-        goto shared_tail;
-
-collision_exit:
-        start_y = *(u8 *)(u32)offset_or_x_step;
-        ((Rec_D_800E3D7C *)source)->unk_72.as_s8 = start_y - x;
-        y_result = *(u8 *)(u32)limit_or_y_step;
-        start_y = 0;
-collision_tail:
-        y_result -= y;
-        shared_tail:
-        ((Rec_D_800E3D7C *)source)->unk_73.as_s8 = y_result;
-        return (void *)start_y;
-    }
-
-blocked_exit:
-    {
-        volatile s32 null_result;
-
-        ((Rec_D_800E3D7C *)source)->unk_72.as_s8 = -x;
-        ((Rec_D_800E3D7C *)source)->unk_73.as_s8 = -y;
-        return (void *)0;
-    }
-
-start:
-    signed_limit = (u32)limit_or_y_step << 16;
-    signed_limit >>= 16;
-    if ((s32)found < signed_limit) {
-        register u16 loop_limit ASM_REG("$8");
-
-        y_step_or_count = 0;
-        *(volatile s32 *)&frame_slots[16] = offset_or_x_step;
-        offset_or_x_step = (s32)x_step;
-        do {
-            found = func_8009B4B0(source, (u16)x, (u16)y);
-            if (found != 0) {
-                s32 height_delta;
-
-                height_delta = ((S_800A05A4_1 *)found)->unk_88 - ((Rec_D_800E3D7C *)source)->unk_88.as_s16;
-                height_delta = abs(height_delta);
-                if (!((s16)height_range < height_delta)) {
-                    break;
-                }
-            }
-
-            {
-                register s32 loop_offset ASM_REG("$8");
-                s32 next_x;
-                s32 next_x2;
-                s32 next_x3;
-
-                loop_y_table = (u8 *)D_8006CCE8;
-                next_x = *(u16 *)(u32)offset_or_x_step;
-                loop_offset = *(volatile s32 *)&frame_slots[16];
-                next_x2 = (u16)(x + next_x);
-                next_x3 = (s32)((u32)next_x2 << 16);
-                ASM_KEEP(next_x3);
-                limit_or_y_step = (s32)(loop_y_table + loop_offset);
-                initial_y = *(u16 *)(u32)limit_or_y_step;
-                initial_y = y + initial_y;
-                if (func_800A0548(next_x3 >> 16, (s16)initial_y) != 0) {
-                    goto collision_exit;
-                }
-            }
-
-            {
-
-                loop_limit = *(volatile u16 *)&frame_slots[0];
-                blocked = func_800A44E0((u16)(x << 6),
-                                      (u16)(y << 6),
-                                      (s16)(*(u16 *)((u8 *)source + 0x88) - height_range),
-                                      loop_limit << 9);
-            }
-            height_range += 0x20;
-            if (blocked != 0) {
-                goto blocked_exit;
-            } else {
-                y_step_or_count++;
-            }
-
-            {
-                s32 x_delta;
-                register u16 y_delta ASM_REG("$3");
-
-                x_delta = *(volatile u16 *)(u32)offset_or_x_step;
-                y_delta = *(volatile u16 *)(u32)limit_or_y_step;
-                loop_limit = *(volatile u16 *)&frame_slots[8];
-                ASM_KEEP_NV(x_delta);
-                ASM_KEEP_NV(loop_limit);
-                x += x_delta;
-                y += y_delta;
-            }
-            signed_limit = (u32)loop_limit << 16;
-            signed_limit >>= 16;
-        } while (y_step_or_count < signed_limit);
-    }
-
-    ((Rec_D_800E3D7C *)source)->unk_72.as_s8 = x;
-    ((Rec_D_800E3D7C *)source)->unk_73.as_s8 = y;
+    source->unk_72.as_s8 = x;
+    source->unk_73.as_s8 = y;
     return found;
 }

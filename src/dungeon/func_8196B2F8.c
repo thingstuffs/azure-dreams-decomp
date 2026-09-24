@@ -1,155 +1,106 @@
 #include "common.h"
-#include "m2c_compat.h"
 
-typedef struct S_8196B2F8_0 {
+typedef struct EffectState {
     u8 pad_00[0x2C];
-    s16 unk_2C;
-    s16 unk_2E;
+    s16 size_x;
+    s16 size_y;
     u8 pad_30[0x64];
-    s32 unk_94;
+    s32 seed;
     u8 pad_98[0x8];
-    s32 unk_A0;
-} S_8196B2F8_0;   /* temp_s1 in func_8196B2F8 */
+    s32 scale;
+} EffectState;
 
-typedef struct S_8196B2F8_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    M2C_UNK * unk_10;
-} S_8196B2F8_1;   /* temp_v0 in func_8196B2F8 */
-
-typedef struct S_8196B2F8_2 {
+typedef struct Vec3u16 {
     u8 pad_00[0x2];
-    u16 unk_02;
+    u16 x;
     u8 pad_04[0x2];
-    union { s16 s; u16 u; } unk_06;   /* accessed as both */
+    u16 y;
     u8 pad_08[0x2];
-    u16 unk_0A;
-    u8 pad_0C[0x4];
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-} S_8196B2F8_2;   /* temp_a0 in func_8196B2F8 */
+    u16 z;
+} Vec3u16;
 
-typedef struct S_8196B2F8_3 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_8196B2F8_3;   /* temp_s0 in func_8196B2F8 */
-
-typedef struct S_8196B2F8_4 {
-    u8 pad_00[0xC];
+typedef struct RenderState {
+    u8 pad_00[0x6];
+    s16 unk_06;
+    u8 pad_08[0x4];
     u8 unk_0C;
     u8 unk_0D;
     u8 unk_0E;
-    u8 pad_0F[0x3];
+    u8 pad_0F[0x1];
+    s16 unk_10;
     s16 unk_12;
-    u16 unk_14;
+    u16 flags;
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_8196B2F8_4;   /* temp_a0_2 in func_8196B2F8 */
+} RenderState;
 
+typedef struct Effect {
+    u8 pad_00[0x8];
+    Vec3u16 *position;
+    RenderState *render;
+    void *handler;
+    u8 pad_14[0xC];
+    EffectState state;
+} Effect;
 
-M2C_UNK func_8003DB94();  /* extern */
-void *func_8003FC64();                       /* extern */
-M2C_UNK func_8004491C();           /* extern */
-s32 rand();                       /* extern */
-extern M2C_UNK D_800244E4;
-extern M2C_UNK D_80045340;
-extern M2C_UNK D_80083780;
-extern M2C_UNK D_800DE870;
+extern void func_8003DB94(RenderState *, void *, s32);
+extern Effect *func_8003FC64(s32);
+extern void func_8004491C(Effect *, void *);
+extern s32 rand(void);
+extern u8 D_800244E4[];
+extern u8 D_80045340[];
+extern Vec3u16 D_80083780;
+extern u8 D_800DE870[];
 
 /* Creates an effect with randomized position offsets and initializes its rendering state. */
-void func_8196B2F8(s32 unused_0, s32 unused_1, s32 unused_2, s32 offset_x, s32 offset_y, s32 offset_z) {
+void func_8196B2F8(s32 unused_0, s32 unused_1, s32 unused_2, s16 x, s16 y, s16 z) {
+    Effect *effect;
+    EffectState *state;
+    RenderState *render;
+    Vec3u16 *position;
+    s16 size;
     s32 jitter;
-    s16 world_coord;
-    s32 jittered_coord;
-    s32 origin_coord;
-    s16 random_size;
-    register u16 render_value;
-    void *render_or_origin;
-    S_8196B2F8_4 *render_state;
-    S_8196B2F8_3 *position;
-    S_8196B2F8_0 *effect_state;
-    void *effect;
 
     effect = func_8003FC64(0x212);
-    if (effect != NULL) {
-        effect_state = effect + 0x20;
-        random_size = (rand() & 7) + 0x20;
-        effect_state->unk_2C = random_size;
-        effect_state->unk_2E = random_size;
-        ((S_8196B2F8_1 *)effect)->unk_10 = &D_800244E4;
-        func_8004491C(effect, &D_80045340);
-        render_or_origin = ((S_8196B2F8_1 *)effect)->unk_0C;
-        render_value = ((S_8196B2F8_2 *)render_or_origin)->unk_14 | 0xC;
-        ((S_8196B2F8_2 *)render_or_origin)->unk_06.s = 0;
-        ((S_8196B2F8_2 *)render_or_origin)->unk_14 = render_value;
-        ASM_CLOBBER("$3");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        origin_coord = render_value;
-        ASM_KEEP(origin_coord);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        jitter = 0x60;
-        origin_coord |= 2;
-        ((S_8196B2F8_2 *)render_or_origin)->unk_10 = jitter;
-        ((S_8196B2F8_2 *)render_or_origin)->unk_14 = origin_coord;
-        render_or_origin = (void *) 0x80080000;
-        ASM_KEEP(render_or_origin);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        position = ((S_8196B2F8_1 *)effect)->unk_08;
-        render_or_origin = (void *) ((u8 *) render_or_origin + 0x3780);
-        position->unk_02 = offset_x;
-        position->unk_06 = (u16) offset_y;
-        position->unk_0A = (u16) offset_z;
-        origin_coord = ((S_8196B2F8_2 *)render_or_origin)->unk_02;
-        ASM_KEEP(origin_coord);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        world_coord = offset_x;
-        ASM_KEEP(world_coord);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        world_coord += origin_coord;
-        position->unk_02 = (u16) world_coord;
-        origin_coord = ((S_8196B2F8_2 *)render_or_origin)->unk_06.u;
-        ASM_KEEP(origin_coord);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        world_coord = offset_y;
-        ASM_KEEP(world_coord);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        world_coord += origin_coord;
-        position->unk_06 = (u16) world_coord;
-        origin_coord = ((S_8196B2F8_2 *)render_or_origin)->unk_0A;
-        ASM_KEEP(origin_coord);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        world_coord = offset_z;
-        ASM_KEEP(world_coord);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        world_coord += origin_coord;
-        position->unk_0A = (u16) world_coord;
+    if (effect != 0) {
+        state = &effect->state;
+        size = (rand() & 7) + 0x20;
+        state->size_x = size;
+        state->size_y = size;
+        effect->handler = D_800244E4;
+        func_8004491C(effect, D_80045340);
+        render = effect->render;
+        render->flags |= 0xC;
+        render->unk_10 = 0x60;
+        render->flags |= 2;
+        render->unk_06 = 0;
+        position = effect->position;
+        position->x = x;
+        position->y = y;
+        position->z = z;
+        position->x += D_80083780.x;
+        position->y += D_80083780.y;
+        position->z += D_80083780.z;
         jitter = rand() & 0x1F;
-        jittered_coord = position->unk_02;
-        jittered_coord -= 0x10;
-        jittered_coord += jitter;
-        position->unk_02 = (u16) jittered_coord;
+        position->x -= 0x10;
+        position->x += jitter;
         jitter = rand() & 0x1F;
-        jittered_coord = position->unk_06;
-        jittered_coord -= 0x10;
-        jittered_coord += jitter;
-        position->unk_06 = (u16) jittered_coord;
+        position->y -= 0x10;
+        position->y += jitter;
         jitter = rand() & 0x1F;
-        jittered_coord = position->unk_0A;
-        jittered_coord -= 0x10;
-        jittered_coord += jitter;
-        position->unk_0A = (u16) jittered_coord;
-        effect_state->unk_94 = rand();
-        effect_state->unk_A0 = 0x1000;
-        render_state = ((S_8196B2F8_1 *)effect)->unk_0C;
-        render_state->unk_1C = 0xC00;
-        render_state->unk_1E = 0xC00;
-        render_state->unk_0E = 0x80;
-        render_state->unk_0D = 0x80;
-        render_state->unk_0C = 0x80;
-        render_state->unk_12 = 0x7DCF;
-        render_state->unk_14 = (u16) (render_state->unk_14 | 0x100);
-        func_8003DB94(render_state, &D_800DE870, 0);
+        position->z -= 0x10;
+        position->z += jitter;
+        state->seed = rand();
+        state->scale = 0x1000;
+        render = effect->render;
+        render->unk_1C = 0xC00;
+        render->unk_1E = 0xC00;
+        render->unk_0E = 0x80;
+        render->unk_0D = 0x80;
+        render->unk_0C = 0x80;
+        render->unk_12 = 0x7DCF;
+        render->flags |= 0x100;
+        func_8003DB94(render, D_800DE870, 0);
     }
 }
-
-/* MECHANISM: The s32 fourth-argument ABI and split RMW live ranges recover the seven-register 0x30 frame.
-   Guarded v0/v1 seams preserve the two flag updates and coordinate accumulation order.
-   A fenced 0x80080000 page base around the independent s0 load emits retail's lui/lw/addiu sequence. */

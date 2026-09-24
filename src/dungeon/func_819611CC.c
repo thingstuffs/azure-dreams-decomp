@@ -1,117 +1,134 @@
 #include "common.h"
 
-extern u8 D_80083160_addr[] asm("D_80083160");
+typedef struct QuadVertex {
+    u32 xy;
+    u16 z;
+    u16 pad;
+} QuadVertex;
+
+typedef struct Quad {
+    u8 pad_00[0x10];
+    QuadVertex v[4];
+} Quad;
+
+typedef struct QuadLink {
+    u8 pad_00[0xC];
+    struct Material *material;
+    u8 pad_10[0x10];
+    Quad quad;
+} QuadLink;
+
+typedef struct Scratch {
+    u8 pad_00[0x20];
+    u32 ot_base;
+    u8 pad_24[0x4C];
+    QuadVertex v[4];
+    s32 out_a;
+    s32 out_b;
+    u8 pad_98[0x28];
+    u32 depth;
+} Scratch;
+
+typedef struct PolyFT4 {
+    u32 tag;
+    u8 r0, g0, b0, code;
+    s16 x0, y0;
+    u8 u0, v0;
+    u16 clut;
+    s16 x1, y1;
+    u8 u1, v1;
+    u16 tpage;
+    s16 x2, y2;
+    u8 u2, v2;
+    u16 pad1;
+    s16 x3, y3;
+    u8 u3, v3;
+    u16 pad2;
+} PolyFT4;
+
+typedef struct Texture {
+    u8 pad_00[0x4];
+    u16 tpage;
+    u8 pad_06[0x2];
+    u8 u, v, w, h;
+} Texture;
+
+typedef struct Material {
+    u8 pad_00[0x8];
+    Texture *texture;
+    u32 color;
+} Material;
+
+typedef struct RenderState {
+    u8 pad_00[0x8D0];
+    u8 *packet;
+} RenderState;
+
+extern RenderState *D_80083160[];
 extern s32 func_800654B0();
 extern s32 func_8006658C();
 extern s32 func_800666F4();
 
-/* Project a textured quad and queue it with semitransparency when its depth is in range. */
-s32 func_819611CC(void *quad_data, s32 unused, void *material)
-{
-    u8 *scratch;
-    u8 *state_slot;
-    u32 state_snapshot;
-    u8 *render_state;
-    u8 *initial_state;
-    u8 *packet;
-    register u8 *quad_code ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register u8 *texture ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    u8 tex_u;
-    u8 tex_v;
-    u8 code;
-    u8 uv_size;
-    u16 vertex_z;
-    u16 vertex_z_2;
-    u16 last_z;
-    u32 depth_bucket;
-    u32 last_xy;
-    void *vertex0;
-    void *vertex1;
-    void *vertex2;
-    void *vertex3;
-    u8 *screen_xy0;
-    u8 *draw_packet;
-    void *vertex_or_link;
-    void *quad = quad_data;
-    void *quad_material = material;
-    register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+#define SCRATCH ((Scratch *)0x1F800000)
 
-    initial_state = *((u8 **) D_80083160_addr);
-    state_slot = D_80083160_addr;
-    packet = *((u8 **) (initial_state + 0x8D0));
-    scratch = (volatile u8 *) 0x1F800000;
-    *((u32 *) (scratch + 0x20)) = (u32) (initial_state + 0xB0);
-    ASM_KEEP_MEMDEP(scratch, state_snapshot, *((u8 **) D_80083160_addr));   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    quad_code = packet + 7;
-    ASM_KEEP(quad_code);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    *((u32 *) (scratch + 0x70)) = *((u32 *) (((u8 *) quad) + 0x10));
-    next_quad_done:
-    ;
-    *((u32 *) (scratch + 0x78)) = *((u32 *) (((u8 *) quad) + 0x18));
-    *((u32 *) (scratch + 0x80)) = *((u32 *) (((u8 *) quad) + 0x20));
-    vertex0 = scratch + 0x70;
-    vertex_z_2 = *((u16 *) (((u8 *) quad) + 0x14));
-    texture = *((u8 **) (((u8 *) quad_material) + 8));
-    last_xy = *((u32 *) (((u8 *) quad) + 0x28));
-    vertex1 = scratch + 0x78;
-    *((u16 *) (scratch + 0x74)) = vertex_z_2;
-    vertex_z = *((u16 *) (((u8 *) quad) + 0x1C));
-    vertex2 = scratch + 0x80;
-    *((u16 *) (scratch + 0x7C)) = vertex_z;
-    vertex_z = *((u16 *) (((u8 *) quad) + 0x24));
-    vertex3 = scratch + 0x88;
-    *((u32 *) (scratch + 0x88)) = last_xy;
-    *((u16 *) (scratch + 0x84)) = vertex_z;
-    last_z = *((u16 *) (((u8 *) quad) + 0x2C));
-    screen_xy0 = packet + 8;
-    *((u16 *) (scratch + 0x8C)) = last_z;
-    ASM_KEEP_NV(state_slot);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    ASM_JALDELAY_PIN(last_z);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    depth_bucket = func_800654B0(vertex0, vertex1, vertex2, vertex3, screen_xy0,
-                            packet + 0x10, packet + 0x18, packet + 0x20,
-                            (void *) (scratch + 0x90), (void *) (scratch + 0x94)) - 8;
-    *((u32 *) (scratch + 0xC0)) = depth_bucket;
-    if (depth_bucket < 480) {
-        tex_u = texture[8];
-        quad_code[0x15] = tex_u;
-        quad_code[5] = tex_u;
-        render_state = texture[8];
-        uv_size = texture[0xA];
-        render_state = render_state + uv_size;
-        quad_code[0x1D] = render_state;
-        quad_code[0xD] = render_state;
-        tex_v = texture[9];
-        quad_code[0xE] = tex_v;
-        quad_code[6] = tex_v;
-        render_state = texture[9];
-        uv_size = texture[0xB];
-        render_state = render_state + uv_size;
-        quad_code[0x1E] = render_state;
-        quad_code[0x16] = render_state;
-        *((u16 *) (quad_code + 0xF)) = *((u16 *) (texture + 4));
-        *((s32 *) (quad_code - 3)) = *((s32 *) (((u8 *) quad_material) + 0xC));
-        func_800666F4(packet);
-        draw_packet = packet;
-        code = quad_code[0];
-        packet += 0x28;
-        quad_code[0] = code | 2;
-        quad_code += 0x28;
-        func_8006658C((*((u32 *) (scratch + 0x20))) + ((*((u32 *) (scratch + 0xC0))) << 2), draw_packet);
+/* Project a textured quad and queue it with semitransparency when its depth is in range. */
+s32 func_819611CC(Quad *quad, s32 unused, Material *material)
+{
+    Scratch *scratch;
+    PolyFT4 *packet;
+    Texture *texture;
+    PolyFT4 *draw_packet;
+    QuadLink *link;
+    u32 depth;
+    RenderState **slot;
+    u32 xy3;
+    u16 z0;
+    u16 z;
+    u16 z3;
+
+    slot = D_80083160;
+    packet = (PolyFT4 *)(*slot)->packet;
+    scratch = SCRATCH;
+    scratch->ot_base = (u32)*slot + 0xB0;
+    for (;;) {
+        scratch->v[0].xy = quad->v[0].xy;
+        scratch->v[1].xy = quad->v[1].xy;
+        scratch->v[2].xy = quad->v[2].xy;
+        z0 = quad->v[0].z;
+        texture = material->texture;
+        xy3 = quad->v[3].xy;
+        scratch->v[0].z = z0;
+        z = quad->v[1].z;
+        scratch->v[1].z = z;
+        z = quad->v[2].z;
+        scratch->v[3].xy = xy3;
+        scratch->v[2].z = z;
+        z3 = quad->v[3].z;
+        scratch->v[3].z = z3;
+        depth = func_800654B0(&scratch->v[0], &scratch->v[1], &scratch->v[2], &scratch->v[3],
+                              &packet->x0, &packet->x1, &packet->x2, &packet->x3,
+                              &scratch->out_a, &scratch->out_b) - 8;
+        scratch->depth = depth;
+        if (depth < 480) {
+            packet->u0 = packet->u2 = texture->u;
+            packet->u1 = packet->u3 = texture->u + texture->w;
+            packet->v0 = packet->v1 = texture->v;
+            packet->v2 = packet->v3 = texture->v + texture->h;
+            packet->tpage = texture->tpage;
+            *(u32 *)&packet->r0 = material->color;
+            func_800666F4(packet);
+            draw_packet = packet;
+            packet->code |= 2;
+            packet++;
+            func_8006658C(scratch->ot_base + (scratch->depth << 2), draw_packet);
+        }
+        link = ((QuadLink **)quad)[-2];
+        if (link == 0) {
+            break;
+        }
+        quad = &link->quad;
+        material = link->material;
     }
-    vertex_or_link = ((void **) quad)[-2];
-    if (vertex_or_link != 0) {
-        quad = ((u8 *) vertex_or_link);
-        quad += 32;
-        quad_material = *((void **) (((u8 *) vertex_or_link) + 12));
-        ASM_KEEP(quad_material);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        *((u32 *) (scratch + 0x70)) = *((u32 *) (((u8 *) quad) + 0x10));
-        goto next_quad_done;
-    }
-    render_state = *((u8 **) state_slot);
-    result = zero;
-    do {
-        *((u32 *) (render_state + 0x8D0)) = (u32) packet;
-    } while (0);
-    return result;
+    (*slot)->packet = (u8 *)packet;
+    return 0;
 }
