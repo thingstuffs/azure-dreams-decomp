@@ -54,23 +54,17 @@ s32 func_80175E6C(void *action_state, void *unused, void *actor_pos_arg, void *a
     s32 result;
     void *neighbor;
     void *target_pos;
-    register void *target ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    void *target;
     u8 *global_state;
 
     target = NULL;
-    ASM_KEEP_NV(target);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     ((Rec_D_800E3D7C *)actor)->unk_71.as_u8 = (u8) (((Rec_D_800E3D7C *)actor)->unk_71.as_u8 & 0x7F);
-    if ((D_80083462 & 0x2008) ||
-        (reference_found = (s32) target, ((func_800A2C34(actor) << 0x10) != 0))) {
-        goto return_failure;
+    reference_found = (s32) target;
+    if ((D_80083462 & 0x2008) || ((func_800A2C34(actor) << 0x10) != 0)) {
+        result = -1;
+        goto done;
     }
     direction = 0;
-    goto scan_start;
-return_failure:
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
-    result = -1;
-    goto done;
-scan_start:
 scan_neighbors:
     neighbor = func_800A04F0(actor, ((S_80175E6C_1 *)actor_pos_arg)->unk_24, ((S_80175E6C_1 *)actor_pos_arg)->unk_25, (s16) (direction << 9));
     if (neighbor != NULL) {
@@ -91,7 +85,7 @@ next_direction:
     if (direction >= 8) {
         if ((target != NULL) && (reference_found & 0xFFFF)) {
             global_state = D_80083460;
-            reference_found = (u16) (((S_80175E6C_3 *)global_state)->unk_0A + 1);
+            reference_found = (s16) (((S_80175E6C_3 *)global_state)->unk_0A + 1);
             ((S_80175E6C_3 *)global_state)->unk_0A = reference_found;
             ((Rec_D_800E3D7C *)actor)->unk_60.as_pv = target;
             func_800A9A0C(target);
