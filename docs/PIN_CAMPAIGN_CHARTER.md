@@ -118,6 +118,12 @@ docs/LANE_KIT.md.
    (`tools/levels.py` WHOLE_ASM_FN_RE; slus/w_8005A1D0 L3 -> L0, the only such row). Planned after fidelity step 1:
    L4 residue kinds `cell_imitation` (unpinned page literals the fingerprint shows are split symbols) and
    `maspsx_dependent` (rows exact only through a maspsx pass genuine ASPSX lacks).
+   IMPLEMENTED 2026-09-24 after fidelity step 1 (tools/levels.py, fidelity_index): `cell_imitation` = retail strict
+   fingerprint (ledger/split_fingerprint_rows.jsonl) at a registered non-splitting cell, blocks L4, clears when the row
+   moves; `maspsx_pass` = exact only through a source-driven maspsx rewrite genuine ASPSX lacks (cdk-imitating `la`
+   passes, jal->j and marked-slot rewrites), blocks L4; `maspsx_dependent` = exact only through the toolchain MODEL
+   (the pre-July-1997 cc1 epilogue rules, the small-extern $gp model, the pre-2.56 ASPSX dials) - not the C's fault -
+   blocks L5 only (ledger/maspsx_dependence.jsonl from docs/evidence/fidelity_step1_maspsx_dependent.tsv).
 
 ## Rulings 2026-09-24 — owner sign-off for rule 5 (NON_MATCHING arm retirement)
 

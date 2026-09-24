@@ -246,6 +246,36 @@ def audit_gate(row_id, targets, split_idx):
     kinds = [split_idx.get((row_id, t), "missing") for t in targets]
     return kinds, all(k not in ("intra", "unresolved", "missing") for k in kinds)
 
+
+# ---- fidelity residue (owner rulings 2026-09-24; docs/TOOLCHAIN_FIDELITY_PLAN.md) -------------------------------
+# cell_imitation (blocks L4): the row's RETAIL shows compiler address splitting (ledger/split_fingerprint_rows.jsonl,
+#   tools/fidelity/split_fingerprint.py) but its registered cell cannot split - the recipe is wrong and the text
+#   imitates the right one.  Clears by itself when the row moves to a splitting cell.
+# maspsx_pass (blocks L4): the row is retail-exact only through a maspsx rewrite genuine ASPSX does not make, driven
+#   by the source (cdk-imitating la passes, jal->j and marked-slot rewrites) - ledger/maspsx_dependence.jsonl.
+# maspsx_dependent (blocks L5): exact only through the toolchain MODEL, not a fault of the row's C - the pre-July-1997
+#   cc1 epilogue rules, the small-extern $gp model, the pre-2.56 ASPSX dials (docs/evidence/fidelity_step1*_*.md).
+_FID = None
+SPLITTING_CELLS = ("2.7.2-cdk", "2.8.0", "2.8.1", "2.91.66", "2.95.2")   # = tools/fidelity/split_fingerprint.SPLIT_CELLS
+
+def fidelity_index():
+    global _FID
+    if _FID is None:
+        fp = {j["id"] for j in read_jsonl(LEDGER / "split_fingerprint_rows.jsonl")} if (LEDGER / "split_fingerprint_rows.jsonl").exists() else set()
+        dep = {j["id"]: set(j.get("kinds", [])) for j in read_jsonl(LEDGER / "maspsx_dependence.jsonl")} if (LEDGER / "maspsx_dependence.jsonl").exists() else {}
+        _FID = (fp, dep)
+    return _FID
+
+def _fid_cell(r):
+    return int(r["id"] in fidelity_index()[0] and not cfg_splits(r.get("cfg")))
+
+def _fid_has(r, kind):
+    return int(kind in fidelity_index()[1].get(r["id"], ()))
+
+def cfg_splits(cfg):
+    toks = (cfg or "").split()
+    return bool(toks) and toks[0].startswith(SPLITTING_CELLS) and "-mmips-as" not in toks and "-mno-split-addresses" not in toks
+
 WHOLE_ASM_FN_RE = re.compile(r'"\s*\.ent\s+[A-Za-z_]\w*')
 
 def evaluate_row(r, text, raw_text, promoted, sweeps, split_idx):
@@ -300,18 +330,23 @@ def evaluate_row(r, text, raw_text, promoted, sweeps, split_idx):
                 level = 3
                 # L4 = module placement AND pins == 0 (strict, not the t2_pins sweep loophole)
                 # AND zero tail-jump dependency of any kind, audited or not.
-                if in_module and pins == 0 and tail_jumps == 0:
+                fp_rows, dep = fidelity_index()
+                cell_imitation = int(r["id"] in fp_rows and not cfg_splits(r.get("cfg")))
+                maspsx_pass = int("maspsx_pass" in dep.get(r["id"], ()))
+                if in_module and pins == 0 and tail_jumps == 0 and not cell_imitation and not maspsx_pass:
                     level = 4
                     # L5 is strict on what is left once L4's pins/tail-jump gate has already run:
                     # no fidelity site of any audit class, no computed-goto table, no inline asm,
                     # no NON_MATCHING guard.  A row that cannot get there stays at L4 (T6 notes).
-                    if not any_site and computed_goto == 0 and inline_asm == 0 and "NON_MATCHING" not in text:
+                    if not any_site and computed_goto == 0 and inline_asm == 0 and "NON_MATCHING" not in text \
+                            and "maspsx_dependent" not in dep.get(r["id"], ()):
                         level = 5
     recs = sorted(set(re.findall(r'#include "records/(Rec_[A-Za-z0-9_]+)\.h"', text)))
     return {"level": level, "pins_left": pins, "m2c_field": len(re.findall(r"(?<![A-Za-z0-9_])(?:M2C_)?FIELD\(", "\n".join(l for l in text.splitlines() if not l.lstrip().startswith("#")))), "blocking": blocking, "records": recs,
             "tail_jumps": tail_jumps, "split_audit": tj_kinds,
-            "l5_residue": [k for k, v in (("pins", pins), ("tail_call", tail_idiom), ("fidelity_site", int(any_site)), ("computed_goto", computed_goto), ("inline_asm", inline_asm), ("non_matching", int("NON_MATCHING" in text))) if v],
-            "l4_residue": [k for k, v in (("pins", pins), ("tail_jump", tail_jumps), ("not_in_module", int(not in_module))) if v]}
+            "l5_residue": [k for k, v in (("pins", pins), ("tail_call", tail_idiom), ("fidelity_site", int(any_site)), ("computed_goto", computed_goto), ("inline_asm", inline_asm), ("non_matching", int("NON_MATCHING" in text)), ("maspsx_dependent", _fid_has(r, "maspsx_dependent"))) if v],
+            "l4_residue": [k for k, v in (("pins", pins), ("tail_jump", tail_jumps), ("not_in_module", int(not in_module)), ("cell_imitation", _fid_cell(r)), ("maspsx_pass", _fid_has(r, "maspsx_pass"))) if v],
+            "l5_fidelity": sorted(fidelity_index()[1].get(r["id"], ()))}
 
 def main():
     promoted = {j["id"] for j in read_jsonl(LEDGER / "promotions.jsonl") if j.get("outcome") == "landed"} if (LEDGER / "promotions.jsonl").exists() else set()

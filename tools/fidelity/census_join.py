@@ -23,7 +23,7 @@ ROOT = Path(__file__).resolve().parents[2]
 FP = ROOT / "work/fidelity/module_fingerprint.jsonl"
 CEN = ROOT / "ledger/module_recipe_census.jsonl"
 OUT = ROOT / "ledger/module_split_fingerprint.jsonl"
-SPLITTING = ("2.7.2-cdk", "2.8.0", "2.8.1")
+SPLITTING = ("2.7.2-cdk", "2.8.0", "2.8.1", "2.91.66", "2.95.2")
 
 
 def splits(recipe):
