@@ -1,5 +1,8 @@
 # Handover (2026-09-24 00:30Z, round 77 in flight) - fresh-eyes check, then an Opus wave
 
+**PAUSE PIN LANES -> `docs/TOOLCHAIN_FIDELITY_PLAN.md` (owner, 2026-09-24).** When the running r77 lanes finish and land, work that plan (steps 1-5) before any new pin lanes.
+
+
 **Fresh-eyes check of the round-76 plan (what changed it).**
 1. **slus was never offered to a strong lane.** `build_class_pack.py:78` and `ab_plan.py` skip `slus` like the parked
    `ovmovie`, with no recorded reason (round 60). slus rows land through the normal gate (`build_slus.sh` in every
