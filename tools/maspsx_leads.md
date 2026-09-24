@@ -9,12 +9,14 @@ four-byte table candidate and existing experimental generic small-data correctio
 The post-pass folds an absolute `la` followed by a self-incrementing cursor loop.
 Genuine ASPSX 2.79 retains the full base; the transformed output is one word
 shorter. Tracing names this as the only fired pass, and disabling it alone makes
-the 50-word object exactly equal to genuine ASPSX. The candidate still has four
-C-owned register substitutions against retail, so this is not a passing row.
+the 50-word object exactly equal to genuine ASPSX. The resumed RTL-guided source repair now reproduces all 50 retail words through
+genuine ASPSX 2.79; disabling this pass alone also makes the generic-corrected
+assembler exact on that source. Production integration remains pending.
 
 Evidence, complete site map and exact ablation:
 `docs/evidence/gp_order_bytes.md` and its adjacent receipt directory.
-Reproducer: `work/native_lane/gp_order_bytes/diagnose.py`, then `variants.py`.
+Original reproducer: `work/native_lane/gp_order_bytes/diagnose.py`, then `variants.py`.
+Solved-source reproducer: `work/native_lane/gp_order_bytes/guard_verify.py`.
 The diagnostic selects the private generic assembler in a copied trace harness;
 the production assembler is unchanged.
 

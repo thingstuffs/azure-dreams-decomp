@@ -1,0 +1,231 @@
+{
+  "baseline": {
+    "manifest": {
+      "path": "config/slus_modules.json",
+      "sha256": "e9838878711d50575118b5993f5cbb9fb1facf193b3b63d338b6bca2fabf6370"
+    },
+    "retail": {
+      "path": "baserom/slus_006.14",
+      "sha256": "ae19d8d4bdd2db9a933b1e44d70dd61be670781e441d7cb37da85250a7aed31f"
+    },
+    "built_image": {
+      "path": "build_slus/build/slus_006.14",
+      "sha256": "ae19d8d4bdd2db9a933b1e44d70dd61be670781e441d7cb37da85250a7aed31f"
+    },
+    "retail_exact_elf": {
+      "path": "build_slus/build/slus_006.14.elf",
+      "sha256": "eb14c9cde1141e8912db1d0ba51afd5150c72c30f2b378be23f8185cf1d03a05"
+    },
+    "recipe": {
+      "path": "ledger/splits/slus.jsonl",
+      "sha256": "5815a015e7785df97cbfa7ac7263db9f9156bc6a527842eae00872929eff15ee"
+    },
+    "row_registry": {
+      "path": "ledger/rows.jsonl",
+      "sha256": "b317a0d61c8f439507096b8b154d932ba19f9a74dd3067b2c69286eba513aa5b"
+    },
+    "production_configure": {
+      "path": "tools/build/configure.py",
+      "sha256": "8e6d2bd3d4957a2ad1bd6cf3152f45b2ff364f17394e8c16add78f1079e34367"
+    },
+    "stock_assembler": {
+      "path": "toolchain/maspsx/maspsx.py",
+      "sha256": "3bbb64075ab6384f6b670a495cce152acb50f3318cf714c6ab9a082b7adaf086"
+    },
+    "source_konami_runtime_w_80033D44": {
+      "path": "src/slus/konami_runtime_w_80033D44.c",
+      "sha256": "3d5eb2b347b57fb6404fd9cf01fc2e5e2d7fda7726517beb5b896a5857ff298f"
+    },
+    "raw_konami_runtime_w_80033D44": {
+      "path": "raw/slus/konami_runtime_w_80033D44.c",
+      "sha256": "b4657aca95098b3f795df8e4b1984a42ed4dc92afe95887f7ab8c0baa45a502a"
+    },
+    "source_konami_runtime_w_80033D54": {
+      "path": "src/slus/konami_runtime_w_80033D54.c",
+      "sha256": "97311e937dc1b1215d243bf265308ecbe24efbf88579f67e741fb203cd5970fd"
+    },
+    "raw_konami_runtime_w_80033D54": {
+      "path": "raw/slus/konami_runtime_w_80033D54.c",
+      "sha256": "9d2421aede331f40632ebd8639798fdcf485782406361c0176e1cfb94951b6cc"
+    },
+    "source_konami_runtime_w_8003C0C8": {
+      "path": "src/slus/konami_runtime_w_8003C0C8.c",
+      "sha256": "1cfa77eea889492fa272bd02a948d75890c127c92e3aa38887e29fb6a4ca7f8e"
+    },
+    "raw_konami_runtime_w_8003C0C8": {
+      "path": "raw/slus/konami_runtime_w_8003C0C8.c",
+      "sha256": "204f6efa9f5809fffc87888df5438e07c7ed45a846074240838689aa84cb45ac"
+    },
+    "outside_object": {
+      "path": "build_slus/build/src/konami_runtime_w_8003C0C8.o",
+      "sha256": "7d3dfd34ef91b31dfc975f6450a5f8c024a15e763df717736d01f9a39d79254a"
+    }
+  },
+  "production_inputs_unchanged": true,
+  "routing": {
+    "cause": "configure.py runtime slot selects konami_runtime*.o by basename",
+    "old_source": "src/gp_shared_8099c.c",
+    "new_source": "src/konami_runtime_gp_shared_8099c.c",
+    "runtime_slot_present": true
+  },
+  "manifest_modules": 18,
+  "edges": {
+    "physical": 873,
+    "logical": 884,
+    "trial_recipe_difference": [
+      [
+        {
+          "src": "src/konami_runtime_w_80033D44.c",
+          "out": "build/src/konami_runtime_w_80033D44.o",
+          "ccver": "2.8.1",
+          "ccflags": "",
+          "asflags": ""
+        },
+        {
+          "src": "src/konami_runtime_w_80033D44.c",
+          "out": "build/src/konami_runtime_w_80033D44.o",
+          "ccver": "2.7.2",
+          "ccflags": "",
+          "asflags": ""
+        }
+      ]
+    ]
+  },
+  "configure": "wrote build.ninja (1138 objects)",
+  "build_tail": [
+    "[38/43] BIN build/module_assets/54240_000AD4_000AD8.bin",
+    "[39/43] BIN build/module_assets/54240_000AE8_000AF0.bin",
+    "[40/43] LD-SCRIPT build/slus_006.14_ordered.ld",
+    "[41/43] BIN build/module_assets/54240_000AF2_02BDC0.bin",
+    "[42/43] LINK build/slus_006.14.elf",
+    "[43/43] OBJCOPY build/slus_006.14"
+  ],
+  "image": {
+    "match_retail": true,
+    "first_diff_offset": null,
+    "sha1": "e6bfbb95ff6676899e077481221d73ddd4d3bf52"
+  },
+  "functions": {
+    "pristine": {
+      "func_80033D54": [
+        {
+          "address": 2147695956,
+          "size": 2148,
+          "section": "2"
+        }
+      ],
+      "func_80033D44": [
+        {
+          "address": 2147695940,
+          "size": 16,
+          "section": "2"
+        }
+      ]
+    },
+    "linked": {
+      "func_80033D44": [
+        {
+          "address": 2147695940,
+          "size": 16,
+          "section": "2"
+        }
+      ],
+      "func_80033D54": [
+        {
+          "address": 2147695956,
+          "size": 2148,
+          "section": "2"
+        }
+      ]
+    },
+    "layout_exact": true
+  },
+  "data": {
+    "object_sdata": "00000000",
+    "object_symbol": [
+      ".sdata",
+      0,
+      "global",
+      0
+    ],
+    "asset_bytes": "00000000",
+    "image_bytes": "00000000",
+    "linked_symbol": [
+      {
+        "address": 2148010396,
+        "size": 0,
+        "section": "2"
+      }
+    ],
+    "slot": {
+      "kind": "module_data",
+      "start": 90500,
+      "end": 90504,
+      "module": "gp_shared_8099c",
+      "object": "build/src/konami_runtime_gp_shared_8099c.o",
+      "section": ".sdata",
+      "symbols": [
+        "D_8008099C"
+      ]
+    },
+    "exact": true
+  },
+  "outside": {
+    "object_unchanged": true,
+    "object_sha256": "7d3dfd34ef91b31dfc975f6450a5f8c024a15e763df717736d01f9a39d79254a",
+    "references_data": true
+  },
+  "genuine_direct": {
+    "assembly": "work/native_lane/gp_shared_8099c_routing/genuine/a.s",
+    "assembly_sha256": "00705a6733ffe693106178457bf4975812df10e8e408d3c53aa3a9a51dd416b3",
+    "version": "2.79",
+    "flags": [
+      "-q",
+      "-0"
+    ],
+    "functions": {
+      "func_80033D44": {
+        "maspsx_words": 4,
+        "genuine_words": 4,
+        "comparison": {
+          "exact": true,
+          "diff": 0,
+          "len_m": 4,
+          "len_g": 4,
+          "missing": []
+        },
+        "maspsx_retail": {
+          "diff": 0,
+          "masked": 0,
+          "checked": 1
+        },
+        "genuine_retail": {
+          "diff": 0,
+          "masked": 0,
+          "checked": 1
+        }
+      },
+      "func_80033D54": {
+        "maspsx_words": 537,
+        "genuine_words": 536,
+        "comparison": {
+          "exact": false,
+          "diff": 3,
+          "len_m": 537,
+          "len_g": 536,
+          "missing": []
+        },
+        "maspsx_retail": {
+          "diff": 0,
+          "masked": 0,
+          "checked": 1
+        },
+        "genuine_retail": {
+          "diff": 2,
+          "masked": 0,
+          "checked": 1
+        }
+      }
+    }
+  }
+}

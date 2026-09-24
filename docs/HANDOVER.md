@@ -38,9 +38,20 @@ the global assembler switch still needs the remaining coordinated repairs.
 [Further private groups](evidence/gp_ready_ownership.md) prove 8152C's three
 consumers and the prepared pin-free 3D92C under the generic correction. The
 45340/453E0 group has since landed with stock assembly. A separate
-[49F68 site map and near miss](evidence/gp_order_bytes.md) isolates four C-owned
-register substitutions and an independently ablated `_fold_selfinc_la` mismatch;
-its concrete C-rebuild and pass-fidelity routes are recorded.
+[49F68 RTL-guided repair](evidence/gp_order_bytes.md) now matches all 50 retail
+words through genuine ASPSX 2.79. Reading the first byte before assigning the
+sentinel fixes its register roles without added pins. Its private full image is
+exact with real four-byte storage and `_fold_selfinc_la` disabled only in the
+private owner input. That pass still has 12 measured consumers to repair before
+retirement; no production assembler or dependency change follows yet.
+
+[8099C private ownership](evidence/gp_shared_8099c.md) is also full-image exact
+after retaining the runtime source-name prefix required by the current linker.
+33D44 is direct genuine-exact; 33D54 retains the accepted compiler epilogue model.
+Applying that model to the fresh compiler stream lets genuine ASPSX reproduce
+all 541 words. Preserve that residual when integrating; the current strict
+ownership verifier requires direct genuine equality.
+
 
 First execution checkpoint: [SLUS small-data measurements](evidence/fidelity_gp_repair_progress.md).
 The isolated generic assembler correction passes 70/70 pinned-version probes and

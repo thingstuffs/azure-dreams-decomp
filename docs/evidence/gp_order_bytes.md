@@ -1,9 +1,11 @@
 # 49F68: real order bytes, C register roles and an assembler pass
 
-Status: **not integrated**. Route: **az-c-rebuild** for the four register-role
-substitutions, plus the `_fold_selfinc_la` fidelity lead in
-`tools/maspsx_leads.md`. This is a concrete near-miss handoff, not a compiler-wall
-or NON_MATCHING verdict. The production row and its six existing pins are unchanged.
+Status: **source repair privately genuine/retail-exact; not integrated**.
+The resumed az-c-rebuild investigation resolved the four register substitutions
+through RTL-guided source ordering. The remaining assembler issue is
+`_fold_selfinc_la`, tracked in `tools/maspsx_leads.md`. Production source and its
+six existing pins remain unchanged. The original near-miss below is retained as
+measurement history; the solved candidate and continuation follow it.
 
 ## Storage evidence
 
@@ -20,7 +22,7 @@ as `u8 D_80080B30[4] = {1, 3, 2, 4}`. Its initial test reads element zero and it
 cursor starts at the table. It removes this function's oversized overlapping
 color-array declaration. No padding data, additional pins, volatile qualifier or
 new assembler statement is introduced. The neighboring color storage remains
-outside this candidate. A full linked proof has **not** passed for this source.
+outside this candidate. This original source was a near miss; see the solved successor below.
 
 ## Retail site map and lineage
 
@@ -65,17 +67,63 @@ harness restores exact 50-word equality with genuine ASPSX, as the
 [ablation receipt](gp_order_bytes/ablation_receipt.json) proves. The four C-owned
 register substitutions against retail remain. No production pass is disabled.
 
+## RTL-guided source repair
+
+The [solved candidate](gp_order_bytes/solved_candidate.c) reads the first byte
+into `elem_index` **before** assigning `end_marker = 4`, then compares those
+locals. This is the only body change from the real-table candidate. Both reads
+remain after the initialization loop, and the new assignment crosses no call or
+memory write. The table stays exactly four bytes and all six existing pins remain.
+
+The [RTL receipt](gp_order_bytes/rtl_receipt.json) compares the original source,
+the near-miss table source, and this successor at the same CDK recipe. The original
+scalar guard expands directly to `mem:QI(symbol)`. The array guard first creates
+address pseudo 112; CSE folds the load back to the symbol but reuses that pseudo
+for the cursor beyond the branch. It therefore remains live during scheduling.
+In the near miss, scheduled instruction 118 sets sentinel pseudo 92 before
+instruction 122 loads byte pseudo 113; local allocation gives them v1 and v0.
+The address pseudo is then eliminated, leaving those reversed roles in the code.
+
+Moving the explicit byte read before the marker assignment changes this order:
+instruction 125 loads byte pseudo 113 before instruction 123 sets sentinel
+pseudo 92. Local allocation now gives the byte v1 and the marker v0, matching
+retail. The frame, complete 31-word initialization prefix, pointer loop and
+return are unchanged. A separate four-byte packed-word representation did not
+fix the near miss; its [control receipt](gp_order_bytes/packed_word_receipt.json)
+records the same four substitutions. No padding, volatile qualification or new
+pin was needed.
+
+The [independent verification](gp_order_bytes/solved_verification.json) compares
+all 50 words against the actual 200-byte retail extent, with zero relocation
+masks. Genuine ASPSX 2.67, 2.77, **2.79** and 2.81 reproduce retail exactly.
+With the generic small-data correction and only `_fold_selfinc_la` disabled in
+the private harness, maspsx also matches all 50 words and emits the exact
+`.sdata` bytes `01 03 02 04`, with the global symbol at section offset zero.
+ASPSX 2.86 is a measured version boundary: its GP-relative address load shortens
+the function to 49 words. It is not claimed exact or selected for production.
+
+Reproduce the compiler evidence with
+`python3 work/native_lane/gp_order_bytes/rtl_probe.py` and the genuine/retail
+comparison with `python3 work/native_lane/gp_order_bytes/guard_verify.py`.
+The [private full-link receipt](gp_order_bytes/link_receipt.json) also passes:
+the full image equals retail, SHA-1
+`e6bfbb95ff6676899e077481221d73ddd4d3bf52`, and the linked function is exactly
+200 bytes at `0x80049F68`. Object, genuine and retail comparisons cover all
+50 words. The real global is at `.sdata+0`, linked at `0x80080B30`, replacing
+asset 54240 bytes `0xF0..0xF3`. The adjacent four color bytes at B2C remain in the
+raw chunk. All 17 production modules, every logical recipe and the other 873 C
+objects are unchanged. Reproduce with
+`python3 work/native_lane/gp_order_bytes_link/probe.py`.
+
+Only the private owner input uses the generic correction plus the one-pass
+ablation. This routing is a measurement aid, not a source-specific production
+exception. The receipt's `stock_retail` field refers to that privately assembled
+linked object; it does **not** claim the untouched production assembler passes.
+
 ## Concrete continuation
 
-Use this site map, the real four-byte candidate, aligned register-role regions
-and lineage receipt as the az-c-rebuild handoff. Next compare same-recipe compiler
-RTL/live ranges for the original scalar/overlapping-address source and the real
-table source, focusing on why the guard's byte and sentinel receive opposite
-temporary roles. Preserve the already-correct 31-word initialization prefix and
-the natural pointer loop. Do not add a pin or fabricate a larger data owner to
-force the coloring. If attribution changes, update the owner table before a new
-source trial.
-
-The separate assembler lead requires a refreshed consumer census and full gates
-before removal or semantic changes. Neither an exact genuine/maspsx comparison
-nor a four-word near miss constitutes a completed row repair.
+Keep the solved source queued with its real storage and private full-image proof.
+Refresh `_fold_selfinc_la` consumers, repair their C/recipes, and prepare the
+assembler transition together with the other remaining GP changes. No production
+pass is disabled and no dependency record is removed by this evidence. Preserve
+the required genuine, cell-retail and full-link gates before integration.
