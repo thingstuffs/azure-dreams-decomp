@@ -617,7 +617,7 @@ CC_VER = {
     "src/w_80051228.c": ("2.7.2", ""),
     "src/w_800400B8.c": ("2.7.2-cdk", "-fno-cse-skip-blocks"),
     "src/w_80047054.c": ("2.8.1", ""),
-    "src/w_800423C0.c": ("2.7.2", ""),
+    "src/w_800423C0.c": ("2.7.2-cdk", ""),  # fidelity step 4 (step4): retail-proven splitting recipe
     "src/w_8004D294.c": ("2.7.2-cdk", ""),
     "src/w_80059814.c": ("2.7.2-cdk", ""),
     "src/w_80053604.c": ("2.7.2-cdk", ""),

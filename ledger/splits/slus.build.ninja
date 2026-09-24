@@ -2025,7 +2025,7 @@ build build/src/w_800422DC.o: cc src/w_800422DC.c | tools/cc.sh tools/ccproc.py
   asflags = 
 
 build build/src/w_800423C0.o: cc src/w_800423C0.c | tools/cc.sh tools/ccproc.py 
-  ccver = 2.7.2
+  ccver = 2.7.2-cdk
   ccflags = 
   asflags = 
 

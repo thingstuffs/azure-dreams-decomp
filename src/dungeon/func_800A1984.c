@@ -49,12 +49,8 @@ scan:
     x = (s16)held_x;
     y = held_y;
     z = (s16)held_z;
-    result = 0x800E0000;
-    ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    position = (PositionEntry *)(result + 0x36C8);
-    result = 0x800E0000;
-    ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    active_entry = (ActiveEntry *)(result + 0x3548);
+    position = (PositionEntry *)D_800E36C8;
+    active_entry = (ActiveEntry *)D_800E3548;
 do {
     if ((active_entry->active != 0) && (position->x == x) && (position->y == y)) {
         height_delta = z - position->value;

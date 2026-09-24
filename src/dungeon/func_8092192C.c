@@ -56,7 +56,7 @@ void func_8092192C(S_8092192C_2 *base_pos, s32 offset_x, s32 offset_y, s32 offse
     void *render_state;
     S_8092192C_4 *sprite;
     S_8092192C_0 *object;
-    register S_8092192C_3 *position ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    S_8092192C_3 *position;
     u32 sprite_data_addr;
     s32 base_x;
     s32 base_y;
@@ -81,9 +81,7 @@ void func_8092192C(S_8092192C_2 *base_pos, s32 offset_x, s32 offset_y, s32 offse
         sprite_data_addr = 0x800E0000;
         position->unk_00.at00.v = base_x;
         base_y = (s32) base_pos->unk_04;
-        ASM_KEEP_DEP_NV(sprite_data_addr, base_y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        sprite_data_addr -= 5008;
-        ASM_KEEP(sprite_data_addr);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        sprite_data_addr = (u32)D_800DEC70;
         position->unk_04.at00.v = base_y;
         base_z = (s32) base_pos->unk_08;
         position->unk_00.at02.v = (u16) (position->unk_00.at02.v + offset_x);
