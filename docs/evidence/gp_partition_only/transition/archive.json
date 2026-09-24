@@ -1,0 +1,53 @@
+{
+  "note": "Concrete reviewed private proposal, not applied or approved. Source refinements archived separately in ../source_review; source recipe/collector stages are referenced in prior archives. Full57 ownership and final census evidence remain pending. Restore scripts at original paths.",
+  "files": [
+    {
+      "source": "work/native_lane/gp_partition_only_tools/transition/transition.patch",
+      "archive": "transition.patch",
+      "source_sha256": "1edc3b64c5d0a359ecfa1774420f2a5585756c57bd467ab053c7c1d522554400",
+      "archive_sha256": "1edc3b64c5d0a359ecfa1774420f2a5585756c57bd467ab053c7c1d522554400",
+      "source_bytes": 243970,
+      "archive_bytes": 243970
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/transition/inventory.json",
+      "archive": "inventory.json",
+      "source_sha256": "e84ef4b1abd4c8c9f68930c991ef412e3ce5df553f7aff46fe6f5acb43d9aa0f",
+      "archive_sha256": "e84ef4b1abd4c8c9f68930c991ef412e3ce5df553f7aff46fe6f5acb43d9aa0f",
+      "source_bytes": 43903,
+      "archive_bytes": 43903
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/transition/README.md",
+      "archive": "README.md",
+      "source_sha256": "e2a91326f93a6516c416b05311d3fbc31405fb4b7016f4d636dc8091c38c593f",
+      "archive_sha256": "e2a91326f93a6516c416b05311d3fbc31405fb4b7016f4d636dc8091c38c593f",
+      "source_bytes": 6452,
+      "archive_bytes": 6452
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/transition/prepare.py",
+      "archive": "prepare.py",
+      "source_sha256": "2b911928ab2a0edb5123208345c6c826a78e2c71467cf5bf890fe04f0ab2b55a",
+      "archive_sha256": "2b911928ab2a0edb5123208345c6c826a78e2c71467cf5bf890fe04f0ab2b55a",
+      "source_bytes": 33172,
+      "archive_bytes": 33172
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/root_transition_review.json",
+      "archive": "root_review.json",
+      "source_sha256": "e7fe551df6e6e0b0884564a9e8b32ee72b206dec8184710506aabadc18b97f40",
+      "archive_sha256": "e7fe551df6e6e0b0884564a9e8b32ee72b206dec8184710506aabadc18b97f40",
+      "source_bytes": 1263,
+      "archive_bytes": 1263
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/pass_retirement_inventory.md",
+      "archive": "pass_retirement_inventory.md",
+      "source_sha256": "c970e3b2fd672dd1a598a788f1389c31b676adc2f7be0d2885c049a20c637426",
+      "archive_sha256": "c970e3b2fd672dd1a598a788f1389c31b676adc2f7be0d2885c049a20c637426",
+      "source_bytes": 3988,
+      "archive_bytes": 3988
+    }
+  ]
+}
