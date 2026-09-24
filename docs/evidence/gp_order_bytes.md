@@ -2,8 +2,10 @@
 
 Status: **source repair privately genuine/retail-exact; not integrated**.
 The resumed az-c-rebuild investigation resolved the four register substitutions
-through RTL-guided source ordering. The remaining assembler issue is
-`_fold_selfinc_la`, tracked in `tools/maspsx_leads.md`. Production source and its
+through RTL-guided source ordering. A private generic local-data guard now
+resolves the `_fold_selfinc_la` interference with every pass enabled; see
+[guard validation](selfinc_local_guard.md). The coordinated production
+assembler transition remains pending. Production source and its
 six existing pins remain unchanged. The original near-miss below is retained as
 measurement history; the solved candidate and continuation follow it.
 
@@ -120,10 +122,22 @@ ablation. This routing is a measurement aid, not a source-specific production
 exception. The receipt's `stock_retail` field refers to that privately assembled
 linked object; it does **not** claim the untouched production assembler passes.
 
-## Concrete continuation
+## Guarded continuation: every pass enabled
 
-Keep the solved source queued with its real storage and private full-image proof.
-Refresh `_fold_selfinc_la` consumers, repair their C/recipes, and prepare the
-assembler transition together with the other remaining GP changes. No production
-pass is disabled and no dependency record is removed by this evidence. Preserve
-the required genuine, cell-retail and full-link gates before integration.
+The [generic local-data guard](selfinc_local_guard.md) supersedes the need for
+this owner's diagnostic pass ablation. `_fold_selfinc_la` already skips small
+externs; the private correction also recognizes its existing local `.sdata` and
+`.sbss` metadata. It preserves the faithful later address expansion without a
+function whitelist or a disabled pass.
+
+The same solved source now passes the full retail image, all 50 genuine/retail
+words and real four-byte ownership checks with every pass enabled. All 873 other
+physical objects remain unchanged. Eighteen focused cases, 13 current consumers
+and the earlier 70 small-data probes bound the guard's regression evidence; see
+the linked report for the separate positive and unchanged controls.
+
+Keep this source and guard queued for the coordinated generic GP transition.
+Repairing the 12 existing pass consumers remains necessary for eventual pass
+retirement, but is no longer a prerequisite for this function's correction.
+Neither a production pass nor a dependency entry changes from this private proof.
+Preserve genuine, cell-retail and full-link gates before integration.

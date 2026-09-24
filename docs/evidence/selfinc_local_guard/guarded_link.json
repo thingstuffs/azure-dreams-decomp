@@ -1,0 +1,213 @@
+{
+  "_evidence_source": {
+    "path": "work/native_lane/gp_order_bytes_guard_link/receipt.json",
+    "sha256": "6fcb0e2c6b14addd7fc6821d1260890fc7b1f838ad88f7d2d94097d5a97b84e1"
+  },
+  "assembler": {
+    "direct_guard_candidate": true,
+    "disabled_passes": [],
+    "guard_cli_sha256": "d3e6ec7d120abe00f963c82258dfdeb0e228774adce646177525f1dbed925caf",
+    "guard_package_sha256": "28e45bbcf00fc90dc0645250f233b73f96ad11d06a2f8230ce533fc2fafbbfbe"
+  },
+  "baseline": {
+    "asset": {
+      "path": "build_slus/assets/54240.bin",
+      "sha256": "c4e7faf5c7f42838e9fb2e9238af76ed6972cdc8ef055fa2b02a18d9360f76da"
+    },
+    "built_elf": {
+      "path": "build_slus/build/slus_006.14.elf",
+      "sha256": "eb14c9cde1141e8912db1d0ba51afd5150c72c30f2b378be23f8185cf1d03a05"
+    },
+    "built_image": {
+      "path": "build_slus/build/slus_006.14",
+      "sha256": "ae19d8d4bdd2db9a933b1e44d70dd61be670781e441d7cb37da85250a7aed31f"
+    },
+    "candidate_source": {
+      "path": "work/native_lane/gp_order_bytes/guard_before_marker/candidate.c",
+      "sha256": "b6faa63327ca26472cda02992d722eee347d639c75daffe7b17f4a03368da388"
+    },
+    "cc": {
+      "path": "tools/build/cc.sh",
+      "sha256": "b58c05bc2dd1ad16dd4fb701df595d795b4f6e8aaca09de63db5f1916baf7638"
+    },
+    "configure": {
+      "path": "tools/build/configure.py",
+      "sha256": "8e6d2bd3d4957a2ad1bd6cf3152f45b2ff364f17394e8c16add78f1079e34367"
+    },
+    "guard_cli": {
+      "path": "work/native_lane/selfinc_local_guard/candidate/maspsx.py",
+      "sha256": "d3e6ec7d120abe00f963c82258dfdeb0e228774adce646177525f1dbed925caf"
+    },
+    "guard_package": {
+      "path": "work/native_lane/selfinc_local_guard/candidate/maspsx/__init__.py",
+      "sha256": "28e45bbcf00fc90dc0645250f233b73f96ad11d06a2f8230ce533fc2fafbbfbe"
+    },
+    "manifest": {
+      "path": "config/slus_modules.json",
+      "sha256": "e9838878711d50575118b5993f5cbb9fb1facf193b3b63d338b6bca2fabf6370"
+    },
+    "prior_owner_source": {
+      "path": "work/native_lane/gp_order_bytes_link/gp_order_bytes_owner.c",
+      "sha256": "b6faa63327ca26472cda02992d722eee347d639c75daffe7b17f4a03368da388"
+    },
+    "recipe": {
+      "path": "ledger/splits/slus.jsonl",
+      "sha256": "5815a015e7785df97cbfa7ac7263db9f9156bc6a527842eae00872929eff15ee"
+    },
+    "retail": {
+      "path": "baserom/slus_006.14",
+      "sha256": "ae19d8d4bdd2db9a933b1e44d70dd61be670781e441d7cb37da85250a7aed31f"
+    },
+    "row_source": {
+      "path": "src/slus/w_80049F68.c",
+      "sha256": "320c7d2a9d36142cf062cbdcb4a2746bb5c285c9fa7db964db700d3b51dfa4f0"
+    }
+  },
+  "build_tail": [
+    "[38/43] BIN build/module_assets/54240_000ACC_000AD0.bin",
+    "[39/43] MODULE-SYMS build/slus_006.14.undefined_syms.modules.txt",
+    "[40/43] BIN build/module_assets/54240_000AE8_000AF0.bin",
+    "[41/43] BIN build/module_assets/54240_000AF2_02BDC0.bin",
+    "[42/43] LINK build/slus_006.14.elf",
+    "[43/43] OBJCOPY build/slus_006.14"
+  ],
+  "configured": "wrote build.ninja (1139 objects)",
+  "control": {
+    "result": "MATCH",
+    "words_diff": 0
+  },
+  "data": {
+    "adjacent_chunk": {
+      "end": 240,
+      "input": "build/module_assets/54240_0000D6_0000F0.bin",
+      "kind": "chunk",
+      "object": "build/module_assets/54240_0000D6_0000F0.o",
+      "section": ".data",
+      "start": 214
+    },
+    "adjacent_raw_80080B2C": "bcbc9c00",
+    "asset_bytes": "01030204",
+    "asset_offset": 240,
+    "exact": true,
+    "image_bytes": "01030204",
+    "linked_symbol": [
+      {
+        "address": 2148010800,
+        "section": "2",
+        "size": 0
+      }
+    ],
+    "object_sdata": "01030204",
+    "object_symbol": [
+      ".sdata",
+      0,
+      "global",
+      0
+    ],
+    "owned_slot": {
+      "end": 244,
+      "kind": "module_data",
+      "module": "gp_order_bytes_owner",
+      "object": "build/src/gp_order_bytes_owner.o",
+      "section": ".sdata",
+      "start": 240,
+      "symbols": [
+        "D_80080B30"
+      ]
+    },
+    "retail_vram": 2148010800
+  },
+  "function": {
+    "layout_exact": true,
+    "linked_layout": [
+      {
+        "address": 2147786600,
+        "section": "2",
+        "size": 200
+      }
+    ],
+    "retail_layout": [
+      {
+        "address": 2147786600,
+        "section": "2",
+        "size": 200
+      }
+    ]
+  },
+  "genuine": {
+    "assembly_sha256": "5ba1208422d22f69711166fd3b8ecafba29870799b45ff2256d74c0295379d88",
+    "genuine_retail": {
+      "checked": 1,
+      "diff": 0,
+      "masked": 0
+    },
+    "linked_vs_genuine": {
+      "delay_only": [],
+      "diff": 0,
+      "exact": true,
+      "len_g": 50,
+      "len_m": 50,
+      "missing": [],
+      "regions": []
+    },
+    "standalone_vs_genuine": {
+      "delay_only": [],
+      "diff": 0,
+      "exact": true,
+      "len_g": 50,
+      "len_m": 50,
+      "missing": [],
+      "regions": []
+    },
+    "standalone_vs_linked": {
+      "delay_only": [],
+      "diff": 0,
+      "exact": true,
+      "len_g": 50,
+      "len_m": 50,
+      "missing": [],
+      "regions": []
+    },
+    "stock_retail": {
+      "checked": 1,
+      "diff": 0,
+      "masked": 0
+    },
+    "words": {
+      "genuine": 50,
+      "linked": 50,
+      "standalone": 50
+    }
+  },
+  "image": {
+    "first_diff_offset": null,
+    "match_retail": true,
+    "sha1": "e6bfbb95ff6676899e077481221d73ddd4d3bf52"
+  },
+  "outside_objects": {
+    "changed": [],
+    "checked": 873
+  },
+  "production_inputs_unchanged": true,
+  "production_modules": 17,
+  "routing": {
+    "assembler_command": "AZURE_MASPSX_COMPANION=work/native_lane/selfinc_local_guard/candidate/maspsx.py tools/cc.sh",
+    "logical_edges": 884,
+    "logical_recipes_identical": true,
+    "owner_edge": "src/gp_order_bytes_owner.c",
+    "owner_recipe": {
+      "asflags": "",
+      "ccflags": "-fno-strength-reduce",
+      "ccver": "2.7.2-cdk"
+    },
+    "physical_edges": 874,
+    "private_rule_count": 1
+  },
+  "source_equal": {
+    "all_equal": true,
+    "candidate_sha256": "b6faa63327ca26472cda02992d722eee347d639c75daffe7b17f4a03368da388",
+    "prior_owner_sha256": "b6faa63327ca26472cda02992d722eee347d639c75daffe7b17f4a03368da388",
+    "staged_owner_sha256": "b6faa63327ca26472cda02992d722eee347d639c75daffe7b17f4a03368da388"
+  },
+  "trial_modules": 18
+}

@@ -1,0 +1,35 @@
+{
+  "cse2": {
+    "path": "work/wall_81811E30/rtl/index_loop/input.c.cse2",
+    "sha256": "f7848802779c976082147b29f2350ae79c13023e05a314423661671770df7472",
+    "excerpts": {
+      "(insn 96 ": "(insn 96 95 102 (set (reg:SI 107)\n        (lo_sum:SI (reg:SI 96)\n            (symbol_ref:SI (\"D_800157D2\")))) 162 {low} (nil)\n    (expr_list:REG_EQUAL (symbol_ref:SI (\"D_800157D2\"))\n        (nil)))\n\n(insn 102 96 108 (set (reg/s:SI 84)\n        (reg:SI 107)) 172 {movsi_internal2} (nil)",
+      "(insn 99 ": "(insn 99 48 105 (set (reg:SI 107)\n        (plus:SI (reg:SI 107)\n            (const_int 19))) 3 {addsi3_internal} (nil)\n    (nil))\n\n(insn 105 99 111 (set (reg:SI 108)\n        (plus:SI (reg:SI 108)\n            (const_int 19))) 3 {addsi3_internal} (nil)",
+      "(insn 32 ": "(insn 32 23 34 (set (reg/v:QI 83)\n        (mem/s:QI (reg:SI 107))) 190 {movqi_internal2} (nil)\n    (nil))\n\n(insn 34 32 36 (set (reg/s:SI 92)\n        (zero_extend:SI (reg/v:QI 83))) 128 {zero_extendqisi2} (nil)\n    (nil))\n"
+    }
+  },
+  "combine": {
+    "path": "work/wall_81811E30/rtl/index_loop/input.c.combine",
+    "sha256": "9536f39c154f5e5e744c15409b72cf86c0acd2e6a5d21454cf291b985a5ffa91",
+    "excerpts": {
+      "(insn 96 ": "(insn 96 95 102 (set (reg:SI 107)\n        (lo_sum:SI (reg:SI 96)\n            (symbol_ref:SI (\"D_800157D2\")))) 162 {low} (nil)\n    (expr_list:REG_DEAD (reg:SI 96)\n        (expr_list:REG_EQUAL (symbol_ref:SI (\"D_800157D2\"))\n            (nil))))\n\n(note 102 96 108 \"\" NOTE_INSN_DELETED)",
+      "(insn 99 ": "(insn 99 48 105 (set (reg:SI 107)\n        (plus:SI (reg:SI 107)\n            (const_int 19))) 3 {addsi3_internal} (nil)\n    (nil))\n\n(note 105 99 111 \"\" NOTE_INSN_DELETED)\n\n(note 111 105 117 \"\" NOTE_INSN_DELETED)",
+      "(insn 32 ": "(insn 32 23 34 (set (reg/v:QI 83)\n        (mem/s:QI (reg:SI 107))) 190 {movqi_internal2} (nil)\n    (nil))\n\n(note 34 32 36 \"\" NOTE_INSN_DELETED)\n\n(jump_insn 36 34 66 (set (pc)\n        (if_then_else (ne:SI (subreg:SI (reg/v:QI 83) 0)"
+    }
+  },
+  "greg": {
+    "path": "work/wall_81811E30/rtl/index_loop/input.c.greg",
+    "sha256": "aad3e234870197bc11d314834e06b24981916b743980c0fc821413f7a3b1b408",
+    "excerpts": {
+      "(insn 96 ": "(insn 96 95 102 (set (reg:SI 3 v1)\n        (lo_sum:SI (reg:SI 3 v1)\n            (symbol_ref:SI (\"D_800157D2\")))) 162 {low} (nil)\n    (expr_list:REG_DEAD (reg:SI 3 v1)\n        (expr_list:REG_EQUAL (symbol_ref:SI (\"D_800157D2\"))\n            (nil))))\n\n(note 102 96 108 \"\" NOTE_INSN_DELETED)",
+      "(insn 99 ": "(insn 99 53 51 (set (reg:SI 3 v1)\n        (plus:SI (reg:SI 3 v1)\n            (const_int 19))) 3 {addsi3_internal} (nil)\n    (nil))\n\n(insn 51 99 56 (set (reg/v:SI 5 a1)\n        (plus:SI (reg/v:SI 5 a1)\n            (const_int 1))) 3 {addsi3_internal} (nil)",
+      "(insn 32 ": "(insn 32 34 36 (set (reg/v:QI 2 v0)\n        (mem/s:QI (reg:SI 3 v1))) 190 {movqi_internal2} (nil)\n    (nil))\n\n(jump_insn 36 32 66 (set (pc)\n        (if_then_else (ne:SI (subreg:SI (reg/v:QI 2 v0) 0)\n                (const_int 0))\n            (label_ref 40)"
+    }
+  },
+  "compiler_source": {
+    "path": "toolchain/gcc-src/2.8.0/combine.c",
+    "sha256": "0c967876c8e5aa48316fc74ffb667649c1e34c63575b66584c4173ea986cea74",
+    "lines": "23-49",
+    "mechanism": "LOG_LINKS connect same-basic-block definitions; local substitution is not a loop-wide change of induction-variable origin."
+  }
+}

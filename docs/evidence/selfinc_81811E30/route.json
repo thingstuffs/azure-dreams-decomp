@@ -1,0 +1,11 @@
+{
+  "row": "dungeon/func_81811E30",
+  "status": "unresolved_consumer",
+  "route": "compiler RTL/I2 address-GIV analysis; az-c-rebuild after attributed source lever",
+  "retail_words": 16,
+  "lineage": "fingerprint insufficient/family-neutral; retained 2.8.0 recipe is not independently attributed",
+  "next_action": "Inspect loop.c address-GIV formation/cost decisions and establish actual record layout before a typed-record trial. CSE2, combine and global allocation retain full-pointer pseudo107; combine initializer/load lie in different blocks with intervening stride update. No later register-allocation-only repair is evidenced.",
+  "evidence": "docs/evidence/selfinc_81811E30.md",
+  "impossibility_claim": false,
+  "post_loop_evidence": "docs/evidence/selfinc_81811E30/post_loop_receipt.json"
+}

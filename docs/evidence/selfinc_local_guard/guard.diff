@@ -1,0 +1,7 @@
+--- generic-before/maspsx/__init__.py
++++ generic-after/maspsx/__init__.py
+@@ -4970,0 +4971,4 @@
++            # Preserve local small-data address materialization too. This
++            # imitation pass must not preempt the later faithful LA expansion.
++            if base in self.sdata_entries or base in self.sbss_entries:
++                return True

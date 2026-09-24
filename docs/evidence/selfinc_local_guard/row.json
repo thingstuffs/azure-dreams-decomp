@@ -1,0 +1,23 @@
+{
+  "_evidence_source": {
+    "path": "work/native_lane/selfinc_local_guard/row/receipt.json",
+    "sha256": "946f548fc7c15502c77dacc9c4055dcf48010e66134096718fb3ee6274958181"
+  },
+  "comparison": {
+    "delay_only": [],
+    "diff": 0,
+    "exact": true,
+    "len_g": 50,
+    "len_m": 50,
+    "missing": [],
+    "regions": []
+  },
+  "guard_package_sha256": "28e45bbcf00fc90dc0645250f233b73f96ad11d06a2f8230ce533fc2fafbbfbe",
+  "retail": {
+    "checked": 1,
+    "diff": 0,
+    "masked": 0
+  },
+  "row": "slus/w_80049F68",
+  "source_sha256": "b6faa63327ca26472cda02992d722eee347d639c75daffe7b17f4a03368da388"
+}

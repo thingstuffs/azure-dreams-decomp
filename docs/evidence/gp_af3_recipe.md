@@ -1,0 +1,19 @@
+# AF3 shared-owner recipe evidence, 2026-09-24
+
+`D_80080AF3` is referenced by `w_8004437C` and `w_8004450C`, whose current retail-exact sources use different registered compiler recipes: CDK 2.7.2 and plain 2.7.2, respectively, both with empty flags. These isolated measurements ask whether the *unchanged* sources can share one of those recipes, or CDK with the single dialect flag `-mmips-as`. They do not change the sources, establish data ownership, or reconstruct an original translation unit.
+
+The durable receipts are [forward.json](gp_af3_recipe/forward.json), [reverse.json](gp_af3_recipe/reverse.json), and [dialect.json](gp_af3_recipe/dialect.json). Each private SLUS view first calibrated to the retail image. The recorded dynamic snapshots were unchanged across the runs. A live check after packaging found 17 production modules, 874 physical C edges, and 884 logical rows. The current source hashes remain `4c5295998419e52082e17b3dccd35b5826206aa04544163b3e6c5dd1598e5819` for `w_8004437C` and `c2f99b3c4d77da268daf069e0f45ceafd1722b89e0cacb668a29b2e8fbe6c3f4` for `w_8004450C`. The row registry's `src_sha` instead identifies each frozen `raw/slus/` copy; the trials compiled the current `src/slus/` files.
+
+| Unchanged row and trial recipe | Stock full image versus retail | Aligned function distance | Native genuine ASPSX 2.79 |
+| --- | --- | --- | --- |
+| `w_8004450C`: 2.7.2 → CDK, empty flags | `NO MATCH`, 7 image words | 14 words, no size drift | 55 words versus stock's 53; stock/genuine aligned difference 6; genuine is not retail-exact |
+| `w_8004437C`: CDK → 2.7.2, empty flags | `NO MATCH`, 81 image words | 41 words, no size drift | Not measured in the reverse trial |
+| `w_8004437C`: CDK → CDK `-mmips-as` | `NO MATCH`, 63 image words | 16 words, no size drift | 108 words versus stock's 100; stock/genuine aligned difference 20; genuine is not retail-exact |
+| `w_8004450C`: 2.7.2 → CDK `-mmips-as` | `MATCH`, zero image words | Exact 53-word function | 55 words versus stock's 53; stock/genuine aligned difference 6; genuine is not retail-exact |
+
+The aligned regions use `difflib.SequenceMatcher`, not a claimed optimal LCS
+edit distance. The full-image column is the stock build's linked comparison with retail. The genuine column separately compares standalone output assembled by native ASPSX 2.79, then checks that output against retail. The receipts also contain positional genuine-versus-retail counts; those counts are **not** aligned repair distances. In the forward CDK trial, the standalone stock object and private linked object were exact. The dialect trial confirms the flag is accepted and stock can emit all retail words for unchanged `4450C`, while the same flag does not preserve unchanged `4437C`. The combined recipe-only link was therefore not run.
+
+The `4437C` dialect residual has a concrete table-base signature. With `-mmips-as`, its C emits `lw $2,D_80080AF4($2)` and the assembler expands the indexed symbol access through `$at` (`lui`, address addition, load). Retail instead reuses the `D_80080AF4` base already materialized in `$5`: `addu $2,$2,$5; lw $2,0($2)`. Register choices and a later store/delay-slot arrangement also differ. The [dialect receipt](gp_af3_recipe/dialect.json) records exact aligned word regions, while the [forward](gp_af3_recipe/forward.json) and [reverse](gp_af3_recipe/reverse.json) receipts preserve the two existing-recipe residuals.
+
+The next bounded question is whether a localized C spelling in `w_8004437C` can make CDK `-mmips-as` reuse the existing table base for its indexed load and store while retaining its other retail words. That is a source-shape question for one function and one evidenced recipe, followed by the same genuine and full-link gates if a candidate emerges. The present measurements make no impossibility claim about that source shape, other evidenced compiler lineages, or the eventual shared ownership boundary.

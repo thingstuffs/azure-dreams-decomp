@@ -41,9 +41,15 @@ consumers and the prepared pin-free 3D92C under the generic correction. The
 [49F68 RTL-guided repair](evidence/gp_order_bytes.md) now matches all 50 retail
 words through genuine ASPSX 2.79. Reading the first byte before assigning the
 sentinel fixes its register roles without added pins. Its private full image is
-exact with real four-byte storage and `_fold_selfinc_la` disabled only in the
-private owner input. That pass still has [12 measured consumers](evidence/selfinc_consumers.md)
-to repair before retirement; no production assembler or dependency change follows yet.
+exact with real four-byte storage. The newer [local-data guard](evidence/selfinc_local_guard.md)
+proves the same full image with **every pass enabled**, six corrected local-data
+micro cases, 12 unchanged controls, 13 unchanged consumer objects/traces and 70
+unchanged genuine-exact small-data probes. This removes pass retirement as a
+prerequisite for 49F68's correction. The pass still has
+[12 measured consumers](evidence/selfinc_consumers.md) to repair before retirement;
+no production assembler or dependency change follows yet. The
+[81811E30 compiler investigation](evidence/selfinc_81811E30.md) records why later
+combine/allocation retain its full pointer and queues address-GIV analysis.
 
 [8099C private ownership](evidence/gp_shared_8099c.md) is also full-image exact
 after retaining the runtime source-name prefix required by the current linker.
@@ -58,6 +64,10 @@ rows share 22 symbol names across seven recipe variants. The recovered assertion
 map does not establish SLUS grouping here. Inventory distinguishes lexical source
 bodies from registry symbols; next establish per-access addressing and data
 extents for a local cluster before choosing any combined ownership.
+[AF3 recipe probes](evidence/gp_af3_recipe.md) reject both unchanged-source
+shared existing recipes. CDK `-mmips-as` preserves 4450C's retail words but
+4437C needs a held-table-base source reconstruction; genuine ownership proof
+remains separate from this stock-retail result.
 
 First execution checkpoint: [SLUS small-data measurements](evidence/fidelity_gp_repair_progress.md).
 The isolated generic assembler correction passes 70/70 pinned-version probes and

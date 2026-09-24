@@ -1,0 +1,884 @@
+{
+  "candidate_input_sha256": {
+    "work/fidelity/gp_probe279/candidate/maspsx.py": "d3e6ec7d120abe00f963c82258dfdeb0e228774adce646177525f1dbed925caf",
+    "work/fidelity/gp_probe279/candidate/maspsx/__init__.py": "f2c5472906bece3da0288974834c256e33a0dfc305e8c1159e9a7bb9194622c3",
+    "work/native_lane/selfinc_local_guard/candidate/maspsx.py": "d3e6ec7d120abe00f963c82258dfdeb0e228774adce646177525f1dbed925caf",
+    "work/native_lane/selfinc_local_guard/candidate/maspsx/__init__.py": "28e45bbcf00fc90dc0645250f233b73f96ad11d06a2f8230ce533fc2fafbbfbe"
+  },
+  "rows": [
+    {
+      "before_after": {
+        "aligned_diff": 0,
+        "code_exact": true,
+        "object_identical": true,
+        "words_a": 21,
+        "words_b": 21
+      },
+      "cfg": "2.7.2",
+      "compiler_stream_sha256": "722bb5111a9595adc35153b9964578d2e9ed7e56e43f584960c6208a13f82a2d",
+      "effective_asflags": "--fill-shadowed-return-delay",
+      "fired": {
+        "after": [
+          "_fold_selfinc_la"
+        ],
+        "before": [
+          "_fold_selfinc_la"
+        ],
+        "production": [
+          "_fold_selfinc_la"
+        ]
+      },
+      "id": "dungeon/func_80093898",
+      "maspsx_args": [
+        "--aspsx-version=2.79",
+        "--dont-force-G0",
+        "-I$REPO/build_ovl",
+        "-I$REPO/build_ovl/include",
+        "-EL",
+        "-march=r3000",
+        "-G8",
+        "--fill-shadowed-return-delay"
+      ],
+      "object_sha256": {
+        "after": "82b96c026d8945c01770448e6586f73aa80ec15d583ec4ccf92d1e717f5432e1",
+        "before": "82b96c026d8945c01770448e6586f73aa80ec15d583ec4ccf92d1e717f5432e1",
+        "production": "82b96c026d8945c01770448e6586f73aa80ec15d583ec4ccf92d1e717f5432e1"
+      },
+      "pins": 1,
+      "production_before": {
+        "aligned_diff": 0,
+        "code_exact": true,
+        "object_identical": true,
+        "words_a": 21,
+        "words_b": 21
+      },
+      "retail": {
+        "after": {
+          "checked": 1,
+          "diff": 0,
+          "masked": 0
+        },
+        "before": {
+          "checked": 1,
+          "diff": 0,
+          "masked": 0
+        },
+        "production": {
+          "checked": 1,
+          "diff": 0,
+          "masked": 0
+        }
+      },
+      "row_asflags": "",
+      "source": "src/dungeon/func_80093898.c",
+      "source_sha256": "ad10c2852f2f41ca643cf4d46a5f17e522929ef835ca3591db8785b93db764f3"
+    },
+    {
+      "before_after": {
+        "aligned_diff": 0,
+        "code_exact": true,
+        "object_identical": true,
+        "words_a": 17,
+        "words_b": 17
+      },
+      "cfg": "2.7.2-G0",
+      "compiler_stream_sha256": "d5ff456b8232b8139ab512f9f835cb7ff90bfe412d974d3be458a9bcdef9598d",
+      "effective_asflags": "--fill-shadowed-return-delay",
+      "fired": {
+        "after": [
+          "_fold_selfinc_la"
+        ],
+        "before": [
+          "_fold_selfinc_la"
+        ],
+        "production": [
+          "_fold_selfinc_la"
+        ]
+      },
+      "id": "dungeon/func_800938EC",
+      "maspsx_args": [
+        "--aspsx-version=2.79",
+        "--dont-force-G0",
+        "-I$REPO/build_ovl",
+        "-I$REPO/build_ovl/include",
+        "-EL",
+        "-march=r3000",
+        "-G8",
+        "--fill-shadowed-return-delay"
+      ],
+      "object_sha256": {
+        "after": "ed93ef01624efa53263bf4b3972737afbbd0b13e8dd13171aa79df611f32c5de",
+        "before": "ed93ef01624efa53263bf4b3972737afbbd0b13e8dd13171aa79df611f32c5de",
+        "production": "ed93ef01624efa53263bf4b3972737afbbd0b13e8dd13171aa79df611f32c5de"
+      },
+      "pins": 0,
+      "production_before": {
+        "aligned_diff": 0,
+        "code_exact": true,
+        "object_identical": true,
+        "words_a": 17,
+        "words_b": 17
+      },
+      "retail": {
+        "after": {
+          "checked": 1,
+          "diff": 0,
+          "masked": 0
+        },
+        "before": {
+          "checked": 1,
+          "diff": 0,
+          "masked": 0
+        },
+        "production": {
+          "checked": 1,
+          "diff": 0,
+          "masked": 0
+        }
+      },
+      "row_asflags": "",
+      "source": "src/dungeon/func_800938EC.c",
+      "source_sha256": "aa6f776ac5434b2acc743ec05a3d809e56f0ce7a44fb0f226f10fd67231f301d"
+    },
+    {
+      "before_after": {
+        "aligned_diff": 0,
+        "code_exact": true,
+        "object_identical": true,
+        "words_a": 16,
+        "words_b": 16
+      },
+      "cfg": "2.8.0-G0 -mno-split-addresses",
+      "compiler_stream_sha256": "61cf455d178397ad4f8278de6bba9d808065936037671feddbad47f7cd05c6d9",
+      "effective_asflags": "--fill-shadowed-return-delay",
+      "fired": {
+        "after": [
+          "_fold_selfinc_la"
+        ],
+        "before": [
+          "_fold_selfinc_la"
+        ],
+        "production": [
+          "_fold_selfinc_la"
+        ]
+      },
+      "id": "dungeon/func_81811E30",
+      "maspsx_args": [
+        "--aspsx-version=2.79",
+        "--dont-force-G0",
+        "-I$REPO/build_ovl",
+        "-I$REPO/build_ovl/include",
+        "-EL",
+        "-march=r3000",
+        "-G8",
+        "--fill-shadowed-return-delay"
+      ],
+      "object_sha256": {
+        "after": "eb64c7baf42bab035df09d6349cd366d9579b6b799383e600d24518a6702a960",
+        "before": "eb64c7baf42bab035df09d6349cd366d9579b6b799383e600d24518a6702a960",
+        "production": "eb64c7baf42bab035df09d6349cd366d9579b6b799383e600d24518a6702a960"
+      },
+      "pins": 0,
+      "production_before": {
+        "aligned_diff": 0,
+        "code_exact": true,
+        "object_identical": true,
+        "words_a": 16,
+        "words_b": 16
+      },
+      "retail": {
+        "after": {
+          "checked": 1,
+          "diff": 0,
+          "masked": 0
+        },
+        "before": {
+          "checked": 1,
+          "diff": 0,
+          "masked": 0
+        },
+        "production": {
+          "checked": 1,
+          "diff": 0,
+          "masked": 0
+        }
+      },
+      "row_asflags": "",
+      "source": "src/dungeon/func_81811E30.c",
+      "source_sha256": "e23597d61acf8aa535812871108ac889171d116ec65072ad92ef4cf1a61e259c"
+    },
+    {
+      "before_after": {
+        "aligned_diff": 0,
+        "code_exact": true,
+        "object_identical": true,
+        "words_a": 20,
+        "words_b": 20
+      },
+      "cfg": "2.8.0 -mno-split-addresses",
+      "compiler_stream_sha256": "f38e55e24a83b5ef4903e190804b6c3b66d6dc2573df0739fc4cb660ea5718b4",
+      "effective_asflags": "--fill-shadowed-return-delay",
+      "fired": {
+        "after": [
+          "_fold_selfinc_la"
+        ],
+        "before": [
+          "_fold_selfinc_la"
+        ],
+        "production": [
+          "_fold_selfinc_la"
+        ]
+      },
+      "id": "dungeon/func_81811E70",
+      "maspsx_args": [
+        "--aspsx-version=2.79",
+        "--dont-force-G0",
+        "-I$REPO/build_ovl",
+        "-I$REPO/build_ovl/include",
+        "-EL",
+        "-march=r3000",
+        "-G8",
+        "--fill-shadowed-return-delay"
+      ],
+      "object_sha256": {
+        "after": "8faef938ca7a36d43866737880c3988dacd8c84bcff3eef87f9d1bf82c9cbd97",
+        "before": "8faef938ca7a36d43866737880c3988dacd8c84bcff3eef87f9d1bf82c9cbd97",
+        "production": "8faef938ca7a36d43866737880c3988dacd8c84bcff3eef87f9d1bf82c9cbd97"
+      },
+      "pins": 0,
+      "production_before": {
+        "aligned_diff": 0,
+        "code_exact": true,
+        "object_identical": true,
+        "words_a": 20,
+        "words_b": 20
+      },
+      "retail": {
+        "after": {
+          "checked": 1,
+          "diff": 0,
+          "masked": 0
+        },
+        "before": {
+          "checked": 1,
+          "diff": 0,
+          "masked": 0
+        },
+        "production": {
+          "checked": 1,
+          "diff": 0,
+          "masked": 0
+        }
+      },
+      "row_asflags": "",
+      "source": "src/dungeon/func_81811E70.c",
+      "source_sha256": "ab62b8160195263f1aeda95e102168420a721acaeade1c83fb2b504106d5daaa"
+    },
+    {
+      "before_after": {
+        "aligned_diff": 0,
+        "code_exact": true,
+        "object_identical": true,
+        "words_a": 17,
+        "words_b": 17
+      },
+      "cfg": "2.8.1-G0 -mno-split-addresses",
+      "compiler_stream_sha256": "06d2aa1fbd1947b499e72aca0ead53182daa7079b4f1d7087d79deb51139d452",
+      "effective_asflags": "--fill-shadowed-return-delay",
+      "fired": {
+        "after": [
+          "_fold_selfinc_la"
+        ],
+        "before": [
+          "_fold_selfinc_la"
+        ],
+        "production": [
+          "_fold_selfinc_la"
+        ]
+      },
+      "id": "dungeon/func_81811EC0",
+      "maspsx_args": [
+        "--aspsx-version=2.79",
+        "--dont-force-G0",
+        "-I$REPO/build_ovl",
+        "-I$REPO/build_ovl/include",
+        "-EL",
+        "-march=r3000",
+        "-G8",
+        "--fill-shadowed-return-delay"
+      ],
+      "object_sha256": {
+        "after": "48c47ec456dfb9d9b18ffa9618992fdf0ecf2a89cf493b518923963bed6f6b8f",
+        "before": "48c47ec456dfb9d9b18ffa9618992fdf0ecf2a89cf493b518923963bed6f6b8f",
+        "production": "48c47ec456dfb9d9b18ffa9618992fdf0ecf2a89cf493b518923963bed6f6b8f"
+      },
+      "pins": 0,
+      "production_before": {
+        "aligned_diff": 0,
+        "code_exact": true,
+        "object_identical": true,
+        "words_a": 17,
+        "words_b": 17
+      },
+      "retail": {
+        "after": {
+          "checked": 1,
+          "diff": 0,
+          "masked": 0
+        },
+        "before": {
+          "checked": 1,
+          "diff": 0,
+          "masked": 0
+        },
+        "production": {
+          "checked": 1,
+          "diff": 0,
+          "masked": 0
+        }
+      },
+      "row_asflags": "",
+      "source": "src/dungeon/func_81811EC0.c",
+      "source_sha256": "0e2f9fbc74b39ea4d8f8eec6116fd5d70aba82c6718a2ef42432bd2316af8605"
+    },
+    {
+      "before_after": {
+        "aligned_diff": 0,
+        "code_exact": true,
+        "object_identical": true,
+        "words_a": 21,
+        "words_b": 21
+      },
+      "cfg": "2.7.2-G0",
+      "compiler_stream_sha256": "6108053ca73b5ae35fc1aba89ecadab30bd495b9781a061fd97c2cb1d3901b53",
+      "effective_asflags": "--fill-shadowed-return-delay",
+      "fired": {
+        "after": [
+          "_fold_selfinc_la"
+        ],
+        "before": [
+          "_fold_selfinc_la"
+        ],
+        "production": [
+          "_fold_selfinc_la"
+        ]
+      },
+      "id": "dungeon/func_81811F54",
+      "maspsx_args": [
+        "--aspsx-version=2.79",
+        "--dont-force-G0",
+        "-I$REPO/build_ovl",
+        "-I$REPO/build_ovl/include",
+        "-EL",
+        "-march=r3000",
+        "-G8",
+        "--fill-shadowed-return-delay"
+      ],
+      "object_sha256": {
+        "after": "ea86ae7c4b0b9ddd3f364ee6d3bf5f0dc6136e67603a6d2cd051878b448dbd86",
+        "before": "ea86ae7c4b0b9ddd3f364ee6d3bf5f0dc6136e67603a6d2cd051878b448dbd86",
+        "production": "ea86ae7c4b0b9ddd3f364ee6d3bf5f0dc6136e67603a6d2cd051878b448dbd86"
+      },
+      "pins": 2,
+      "production_before": {
+        "aligned_diff": 0,
+        "code_exact": true,
+        "object_identical": true,
+        "words_a": 21,
+        "words_b": 21
+      },
+      "retail": {
+        "after": {
+          "checked": 1,
+          "diff": 0,
+          "masked": 0
+        },
+        "before": {
+          "checked": 1,
+          "diff": 0,
+          "masked": 0
+        },
+        "production": {
+          "checked": 1,
+          "diff": 0,
+          "masked": 0
+        }
+      },
+      "row_asflags": "",
+      "source": "src/dungeon/func_81811F54.c",
+      "source_sha256": "30f11758beb4795215fa9780400967036c79e536911d5be507804c59e2eec1d8"
+    },
+    {
+      "before_after": {
+        "aligned_diff": 0,
+        "code_exact": true,
+        "object_identical": true,
+        "words_a": 266,
+        "words_b": 266
+      },
+      "cfg": "2.7.2-G0",
+      "compiler_stream_sha256": "48c4174988fe512d13705065d7f7cb3408a3676abd64ed0e344eef4bc2106dbf",
+      "effective_asflags": "--fill-shadowed-return-delay",
+      "fired": {
+        "after": [
+          "_fold_selfinc_la"
+        ],
+        "before": [
+          "_fold_selfinc_la"
+        ],
+        "production": [
+          "_fold_selfinc_la"
+        ]
+      },
+      "id": "dungeon/func_819B3414",
+      "maspsx_args": [
+        "--aspsx-version=2.79",
+        "--dont-force-G0",
+        "-I$REPO/build_ovl",
+        "-I$REPO/build_ovl/include",
+        "-EL",
+        "-march=r3000",
+        "-G8",
+        "--fill-shadowed-return-delay"
+      ],
+      "object_sha256": {
+        "after": "ee10c7d0aa63d9081def9d806bb87aafac2951c9353d2394dd6044fba04aee75",
+        "before": "ee10c7d0aa63d9081def9d806bb87aafac2951c9353d2394dd6044fba04aee75",
+        "production": "ddf5fbc66f99eed0ed347dbc7362881f46bed81f902ee2005c708d623e1f825d"
+      },
+      "pins": 35,
+      "production_before": {
+        "aligned_diff": 0,
+        "code_exact": true,
+        "object_identical": false,
+        "words_a": 266,
+        "words_b": 266
+      },
+      "retail": {
+        "after": {
+          "checked": 1,
+          "diff": 0,
+          "masked": 0
+        },
+        "before": {
+          "checked": 1,
+          "diff": 0,
+          "masked": 0
+        },
+        "production": {
+          "checked": 1,
+          "diff": 0,
+          "masked": 0
+        }
+      },
+      "row_asflags": "",
+      "source": "src/dungeon/func_819B3414.c",
+      "source_sha256": "0d66fe571f15d0de82d389547738fe0e50f383fbf830a79a971598216a5e7af3"
+    },
+    {
+      "before_after": {
+        "aligned_diff": 0,
+        "code_exact": true,
+        "object_identical": true,
+        "words_a": 22,
+        "words_b": 22
+      },
+      "cfg": "2.7.2",
+      "compiler_stream_sha256": "f3f88f52cd376c84a3e00b3b24fd2eed134c8c8fba648e82041b9679cf7b9970",
+      "effective_asflags": "",
+      "fired": {
+        "after": [
+          "_fold_selfinc_la"
+        ],
+        "before": [
+          "_fold_selfinc_la"
+        ],
+        "production": [
+          "_fold_selfinc_la"
+        ]
+      },
+      "id": "slus/konami_runtime_w_8003B7C8",
+      "maspsx_args": [
+        "--aspsx-version=2.79",
+        "--dont-force-G0",
+        "-I$REPO/raw",
+        "-I$REPO/include",
+        "-EL",
+        "-march=r3000",
+        "-G8"
+      ],
+      "object_sha256": {
+        "after": "d3c6efe3e69b1f38cbbc6ea23feba21a153daa9ca9922565c7ca33130bc7b836",
+        "before": "d3c6efe3e69b1f38cbbc6ea23feba21a153daa9ca9922565c7ca33130bc7b836",
+        "production": "45564893a19777933c159a1e225d56c750df8c2ece2407447d13e8f705b84ac7"
+      },
+      "pins": 0,
+      "production_before": {
+        "aligned_diff": 0,
+        "code_exact": true,
+        "object_identical": false,
+        "words_a": 22,
+        "words_b": 22
+      },
+      "retail": {
+        "after": {
+          "checked": 1,
+          "diff": 0,
+          "masked": 0
+        },
+        "before": {
+          "checked": 1,
+          "diff": 0,
+          "masked": 0
+        },
+        "production": {
+          "checked": 1,
+          "diff": 0,
+          "masked": 0
+        }
+      },
+      "row_asflags": "",
+      "source": "src/slus/konami_runtime_w_8003B7C8.c",
+      "source_sha256": "d0a8ba43114e05f07024375c7ac0b307198f58fe9a2446753420681e1beab33e"
+    },
+    {
+      "before_after": {
+        "aligned_diff": 0,
+        "code_exact": true,
+        "object_identical": true,
+        "words_a": 16,
+        "words_b": 16
+      },
+      "cfg": "2.7.2",
+      "compiler_stream_sha256": "23ce063ca8ed7d7e507265072f7bf27d74b3f673deea6fccabeea6d946d28277",
+      "effective_asflags": "",
+      "fired": {
+        "after": [
+          "_fold_selfinc_la"
+        ],
+        "before": [
+          "_fold_selfinc_la"
+        ],
+        "production": [
+          "_fold_selfinc_la"
+        ]
+      },
+      "id": "slus/w_8004A6C0",
+      "maspsx_args": [
+        "--aspsx-version=2.79",
+        "--dont-force-G0",
+        "-I$REPO/raw",
+        "-I$REPO/include",
+        "-EL",
+        "-march=r3000",
+        "-G8"
+      ],
+      "object_sha256": {
+        "after": "cd09a861bfcc9071d3da3830f049ef2dafd4a318db2fb1cbff8aa89adb9ec29b",
+        "before": "cd09a861bfcc9071d3da3830f049ef2dafd4a318db2fb1cbff8aa89adb9ec29b",
+        "production": "cd09a861bfcc9071d3da3830f049ef2dafd4a318db2fb1cbff8aa89adb9ec29b"
+      },
+      "pins": 0,
+      "production_before": {
+        "aligned_diff": 0,
+        "code_exact": true,
+        "object_identical": true,
+        "words_a": 16,
+        "words_b": 16
+      },
+      "retail": {
+        "after": {
+          "checked": 1,
+          "diff": 0,
+          "masked": 0
+        },
+        "before": {
+          "checked": 1,
+          "diff": 0,
+          "masked": 0
+        },
+        "production": {
+          "checked": 1,
+          "diff": 0,
+          "masked": 0
+        }
+      },
+      "row_asflags": "",
+      "source": "src/slus/w_8004A6C0.c",
+      "source_sha256": "b97d244e293538d233c12ee5cca9bfbefe8755860c4f9e9f9d4b7621b2312ea0"
+    },
+    {
+      "before_after": {
+        "aligned_diff": 0,
+        "code_exact": true,
+        "object_identical": true,
+        "words_a": 23,
+        "words_b": 23
+      },
+      "cfg": "2.7.2-G0",
+      "compiler_stream_sha256": "91dc94778e7643165d91cff3e582f3a8fc7caf291f60000a12196775655ad7cb",
+      "effective_asflags": "",
+      "fired": {
+        "after": [
+          "_fold_selfinc_la"
+        ],
+        "before": [
+          "_fold_selfinc_la"
+        ],
+        "production": [
+          "_fold_selfinc_la"
+        ]
+      },
+      "id": "town/func_800A1480",
+      "maspsx_args": [
+        "--aspsx-version=2.79",
+        "--dont-force-G0",
+        "-I$REPO/build_ovl",
+        "-I$REPO/build_ovl/include",
+        "-EL",
+        "-march=r3000",
+        "-G8"
+      ],
+      "object_sha256": {
+        "after": "3088ea48cb11a1bb857cda950c83196a8c2219bea08c30904ed5006785580f39",
+        "before": "3088ea48cb11a1bb857cda950c83196a8c2219bea08c30904ed5006785580f39",
+        "production": "3088ea48cb11a1bb857cda950c83196a8c2219bea08c30904ed5006785580f39"
+      },
+      "pins": 0,
+      "production_before": {
+        "aligned_diff": 0,
+        "code_exact": true,
+        "object_identical": true,
+        "words_a": 23,
+        "words_b": 23
+      },
+      "retail": {
+        "after": {
+          "checked": 1,
+          "diff": 0,
+          "masked": 0
+        },
+        "before": {
+          "checked": 1,
+          "diff": 0,
+          "masked": 0
+        },
+        "production": {
+          "checked": 1,
+          "diff": 0,
+          "masked": 0
+        }
+      },
+      "row_asflags": "",
+      "source": "src/town/func_800A1480.c",
+      "source_sha256": "3d9c6bbe78d9cb6fc9e68c6f7ffc7daa3921cb63d7bc5efaa3ab73b2cbe5437c"
+    },
+    {
+      "before_after": {
+        "aligned_diff": 0,
+        "code_exact": true,
+        "object_identical": true,
+        "words_a": 12,
+        "words_b": 12
+      },
+      "cfg": "2.7.2-G0",
+      "compiler_stream_sha256": "cdca538c7ab7836ee009ca22b32a26eaa4589010908a86f182cdb9a1fa2b0192",
+      "effective_asflags": "",
+      "fired": {
+        "after": [
+          "_fold_selfinc_la"
+        ],
+        "before": [
+          "_fold_selfinc_la"
+        ],
+        "production": [
+          "_fold_selfinc_la"
+        ]
+      },
+      "id": "town/func_800A2244",
+      "maspsx_args": [
+        "--aspsx-version=2.79",
+        "--dont-force-G0",
+        "-I$REPO/build_ovl",
+        "-I$REPO/build_ovl/include",
+        "-EL",
+        "-march=r3000",
+        "-G8"
+      ],
+      "object_sha256": {
+        "after": "a3b882dcde6cd9ba4a0313d8629d570e29c50ccb1f6de9b51e754cdf0d8ea3db",
+        "before": "a3b882dcde6cd9ba4a0313d8629d570e29c50ccb1f6de9b51e754cdf0d8ea3db",
+        "production": "a3b882dcde6cd9ba4a0313d8629d570e29c50ccb1f6de9b51e754cdf0d8ea3db"
+      },
+      "pins": 0,
+      "production_before": {
+        "aligned_diff": 0,
+        "code_exact": true,
+        "object_identical": true,
+        "words_a": 12,
+        "words_b": 12
+      },
+      "retail": {
+        "after": {
+          "checked": 1,
+          "diff": 0,
+          "masked": 0
+        },
+        "before": {
+          "checked": 1,
+          "diff": 0,
+          "masked": 0
+        },
+        "production": {
+          "checked": 1,
+          "diff": 0,
+          "masked": 0
+        }
+      },
+      "row_asflags": "",
+      "source": "src/town/func_800A2244.c",
+      "source_sha256": "a4ec027a606e55d23391c2e8715e8261bbdaba312f1380d0ca4bb00fbfa8d4ee"
+    },
+    {
+      "before_after": {
+        "aligned_diff": 0,
+        "code_exact": true,
+        "object_identical": true,
+        "words_a": 17,
+        "words_b": 17
+      },
+      "cfg": "2.6.3-G0",
+      "compiler_stream_sha256": "f2a9c4d995f6053fc25220b2909f9a14b2e14cc6cef0c328dc1028cd49dce97a",
+      "effective_asflags": "",
+      "fired": {
+        "after": [
+          "_fold_selfinc_la"
+        ],
+        "before": [
+          "_fold_selfinc_la"
+        ],
+        "production": [
+          "_fold_selfinc_la"
+        ]
+      },
+      "id": "town/func_800C3800",
+      "maspsx_args": [
+        "--aspsx-version=2.79",
+        "--dont-force-G0",
+        "-I$REPO/build_ovl",
+        "-I$REPO/build_ovl/include",
+        "-EL",
+        "-march=r3000",
+        "-G8"
+      ],
+      "object_sha256": {
+        "after": "f29aef591ee8655a8f835f8877509b7139422d25b8bc9f201149cd931404c1ac",
+        "before": "f29aef591ee8655a8f835f8877509b7139422d25b8bc9f201149cd931404c1ac",
+        "production": "f29aef591ee8655a8f835f8877509b7139422d25b8bc9f201149cd931404c1ac"
+      },
+      "pins": 1,
+      "production_before": {
+        "aligned_diff": 0,
+        "code_exact": true,
+        "object_identical": true,
+        "words_a": 17,
+        "words_b": 17
+      },
+      "retail": {
+        "after": {
+          "checked": 1,
+          "diff": 0,
+          "masked": 0
+        },
+        "before": {
+          "checked": 1,
+          "diff": 0,
+          "masked": 0
+        },
+        "production": {
+          "checked": 1,
+          "diff": 0,
+          "masked": 0
+        }
+      },
+      "row_asflags": "",
+      "source": "src/town/func_800C3800.c",
+      "source_sha256": "8d47ef8290816f24cc1b90deee78a9287c33b321bc0be98eb0f45b5af76d8698"
+    },
+    {
+      "before_after": {
+        "aligned_diff": 0,
+        "code_exact": true,
+        "object_identical": true,
+        "words_a": 63,
+        "words_b": 63
+      },
+      "cfg": "2.7.2-G0 -fno-strength-reduce -fno-schedule-insns -fno-rerun-cse-after-loop",
+      "compiler_stream_sha256": "742965ad01c4f334fc639490ec1f81bcfff747629baa560f5a10d5b5f420b839",
+      "effective_asflags": "--fill-shadowed-return-delay",
+      "fired": {
+        "after": [
+          "_fold_selfinc_la"
+        ],
+        "before": [
+          "_fold_selfinc_la"
+        ],
+        "production": [
+          "_fold_selfinc_la"
+        ]
+      },
+      "id": "dungeon/func_808CB16C",
+      "maspsx_args": [
+        "--aspsx-version=2.79",
+        "--dont-force-G0",
+        "-I$REPO/build_ovl",
+        "-I$REPO/build_ovl/include",
+        "-EL",
+        "-march=r3000",
+        "-G8",
+        "--fill-shadowed-return-delay"
+      ],
+      "object_sha256": {
+        "after": "1b4b9d5c0164d8a8432f3da1e5c24f049b44d9102ad864113c91d89275216b4c",
+        "before": "1b4b9d5c0164d8a8432f3da1e5c24f049b44d9102ad864113c91d89275216b4c",
+        "production": "c120232391affa80610b9967e35f668727e29e569f69a6c37da8ea1143720121"
+      },
+      "pins": 3,
+      "production_before": {
+        "aligned_diff": 0,
+        "code_exact": true,
+        "object_identical": false,
+        "words_a": 63,
+        "words_b": 63
+      },
+      "retail": {
+        "after": {
+          "checked": 1,
+          "diff": 0,
+          "masked": 0
+        },
+        "before": {
+          "checked": 1,
+          "diff": 0,
+          "masked": 0
+        },
+        "production": {
+          "checked": 1,
+          "diff": 0,
+          "masked": 0
+        }
+      },
+      "row_asflags": "",
+      "source": "src/dungeon/func_808CB16C.c",
+      "source_sha256": "9387a050b6063bc980a7bd89fef3510c8a56439437251464cee7bdd8bbc54c97"
+    }
+  ],
+  "source": {
+    "path": "work/native_lane/selfinc_local_guard/consumers/receipt.json",
+    "sha256": "24cd855c947e479df5ce8a8414eb72138235c4bfe29f270b0b56350d9a0265a1"
+  },
+  "validation": {
+    "issues": [],
+    "passed": true
+  }
+}
