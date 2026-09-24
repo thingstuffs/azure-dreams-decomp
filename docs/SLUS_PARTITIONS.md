@@ -334,11 +334,18 @@ current hashes, counts, ladder results and 135 passing tests.
    to a whole collector; existing L4/L5 requirements are preserved.
 5. **E0, B94/B98 and 81540 activated:** retail/genuine/data gates and runtime-pilot
    recertification pass. Apply the same explicit function grouping to remaining
-   components, next the 81550 group and its differing compiler settings, or the
-   CD driver groups. Review source/declaration
+   components: 81550 now has a [prepared declaration/data repair](evidence/gp_81550_partition.md)
+   at default CDK, pending the generic assembler transition. Next are 81554/58
+   and the CD driver groups. Review source/declaration
    evidence independently for each; do not merge the whole historical 20-row graph.
 
 The [consumer inventory](evidence/slus_partitions/consumers.md) identifies exact
 callsites. Production now has **193 dependencies, 25 GP rows, 22 ownership
 units, 872 physical / 884 logical rows**. The separate generic assembler
 correction and pass retirement are still pending; this layer changes neither.
+
+The [18-function private integration rehearsal](evidence/gp_ready18.md) preserves
+all active partitions and prepares 12 of the 25 GP rows for that coordinated
+transition. Its 891-word genuine proof includes only the moved 81550 setter from
+code, not the complete collector. No production dependency count changes from
+this selective private proof.

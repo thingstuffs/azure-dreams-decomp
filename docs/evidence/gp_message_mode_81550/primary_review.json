@@ -1,0 +1,26 @@
+{
+  "fresh_vs_linked": {
+    "exact": true,
+    "diff": 0,
+    "len_m": 156,
+    "len_g": 156,
+    "missing": []
+  },
+  "section_sdata": "0000000000000000",
+  "complete_function_sets_equal": true,
+  "retail_script_prefix": "23000000",
+  "opcode23_table_entry": "80039B84",
+  "installed_noop": "80038A08",
+  "noop_retail": "0800e00300000000",
+  "script_view_bytes": 2,
+  "historical_allocation_size_claimed": false,
+  "b6c_storage_owned": false,
+  "review_sources_sha256": {
+    "src/slus/konami_runtime_w_80034F88.c": "2204303dfc108b33db10dd86ff45149b644a902508a22860f4601dc35f994a1e",
+    "src/slus/konami_runtime_w_8003800C.c": "636227f718669459ed22c82b0db474b21aeb0e0a1d1fe5e4f891bf09863d65c2",
+    "src/slus/konami_runtime_w_80038A10.c": "69c18a887bb1e9c09a4c58c04a85aaa1ee81d86539384642032ba09701ab369c",
+    "src/slus/konami_runtime_w_80038AB8.c": "a293736b922b1e3ddcd76b15296fe35c869558ed9de9539131361340a2f0300b",
+    "src/slus/konami_runtime_w_80039B84.c": "d5581dcfa5e84e940658268a7e68298673589564c382750533bfcebf6e464a63",
+    "src/slus/konami_runtime.c": "91b5cf648c5d8302b287a20fe67660da9d37f5f9a42f5c53cddb4fd01a118e2f"
+  }
+}

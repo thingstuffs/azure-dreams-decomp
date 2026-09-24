@@ -48,3 +48,20 @@ combine and allocation retain it. The tracked route is address-GIV analysis in
 `loop.c` and actual record-layout evidence before another source trial. This
 narrows the pass's inherited compiler claim; it does not prove a compiler-wide
 impossibility or justify disabling the pass.
+
+## Local address versus GP store in DF8C (2026-09-24)
+
+The [81550 ownership/declaration proof](../docs/evidence/gp_81550_partition.md)
+adds a regression case for the already prepared generic correction. With actual
+local s32 storage at 8154C, genuine ASPSX 2.79 retains an absolute lui/addiu pair
+for its address but uses GP for its direct store. Stock shortens the address
+to addiu-from-GP and loses one instruction. The existing private guarded generic
+package reproduces all 72 DF8C words and the complete 156-word four-function owner
+with every pass enabled. No new pass, keyed exception or implementation is queued.
+
+Concrete route: retain this full-function and linked-image case in the coordinated
+generic transition gates, together with the existing local-data/self-increment
+regressions. The [combined rehearsal](../docs/evidence/gp_ready18.md) confirms
+coexistence with the other prepared sources. Production semantics and pass
+retirement remain unchanged until the global consumer gates and required final
+owner signoff are complete.

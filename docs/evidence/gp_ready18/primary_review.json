@@ -1,0 +1,53 @@
+{
+  "exact_full_physical_function_sets": {
+    "w_80047E78_owned": [
+      "func_80047E78"
+    ],
+    "w_80053CFC_owned": [
+      "func_80053CFC"
+    ],
+    "gp_shared_8152c": [
+      "func_80047D44",
+      "func_80047DF0",
+      "func_80047E30"
+    ],
+    "gp_d92c_owned": [
+      "func_8003D92C"
+    ],
+    "gp_order_bytes_owner": [
+      "func_80049F68"
+    ],
+    "w_8004437C_pair": [
+      "func_8004437C",
+      "func_8004450C"
+    ],
+    "w_8004DCEC_owned": [
+      "func_8004DCE0",
+      "func_8004DCEC",
+      "func_8004DE88",
+      "func_8004DF8C"
+    ],
+    "w_8003FAD4": [
+      "func_8003FAD4"
+    ],
+    "w_80041588": [
+      "func_80041588"
+    ],
+    "w_80041AB0": [
+      "func_80041AB0"
+    ],
+    "w_80043CD0": [
+      "func_80043CD0"
+    ],
+    "w_8004AB7C": [
+      "func_8004AB7C"
+    ]
+  },
+  "physical": 12,
+  "functions": 18,
+  "genuine_words": 891,
+  "production_and_trial_images_retail_exact": true,
+  "probe_sha256": "5d8b4fdbe6e92a9324bf9b125d92242ec0639a0069bd7de856f59e95a73888ab",
+  "receipt_sha256": "cf2db016f19eaf6038f7b573424b8e65f7002325eba7ba76bda8625998e00a67",
+  "review_scope": "complete 18-function streams only; not whole collectors or global assembler transition"
+}

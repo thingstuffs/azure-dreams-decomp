@@ -1,0 +1,14 @@
+{
+  "baseline_commit": "abc98f63",
+  "source_patch_only": true,
+  "requires_generic_assembler_transition": true,
+  "scope": "four functions incl one collector part; original logical identities preserved",
+  "reproducer_sha256": {
+    "work/native_lane/gp_81550_partition/direct_matrix.py": "c255f271f248b7a4e5574078d0e9b2d72fff47f6a4924c8864f273b833568231",
+    "work/native_lane/gp_81550_partition/direct_matrix_54c.py": "0bd38e4201b922398e915792d192b26cffb827f0bbf5393f80b41e8da01aad33",
+    "work/native_lane/gp_81550_partition/direct_matrix_decl.py": "b3aa0ffd2d405fbf0a36fefd776d9e1cf52ddd270955259df2f30e8414163a91",
+    "work/native_lane/gp_81550_partition/direct_matrix_small.py": "19c06856ac6a14be6cf17456d547290ce24d2b56764459e78d1603848b0fafb3",
+    "work/native_lane/gp_81550_partition/final_direct.py": "dab5abff7490f727a7d73449f23219c3c69672333f86995fa48e29cf41282d61",
+    "work/native_lane/gp_81550_partition/build_probe.py": "8005dc15558df2d1f04749bd9ecf8cb1ca3a043b9a8351063ac291bfa182968d"
+  }
+}

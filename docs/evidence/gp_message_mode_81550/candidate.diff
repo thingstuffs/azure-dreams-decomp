@@ -1,0 +1,170 @@
+--- a/src/slus/w_8004DCEC.c
++++ b/src/slus/w_8004DCEC.c
+@@ -1,9 +1,7 @@
+-#include "common.h"
++#include "slus/message_mode_81550.h"
+ 
+ typedef void (*FuncPtr_8004DCEC)(char *);
+-extern FuncPtr_8004DCEC D_800714A4[];
+-extern int D_80081550;
+-extern char D_80080B6C[16];
++extern char D_80080B6C[2];
+ 
+ /* Calls the selected mode handler with the shared work buffer. */
+ void func_8004DCEC(void)
+--- a/src/slus/w_8004DE88.c
++++ b/src/slus/w_8004DE88.c
+@@ -1,12 +1,6 @@
+-#include "common.h"
++#include "slus/message_mode_81550.h"
+ 
+-typedef void (*MessageHandler)(char *buffer);
+-
+-extern char *strcpy(char *dst, const char *src);
+-extern char *strrchr(const char *str, s32 ch);
+ extern u32 D_80083D88[0x24];
+-extern MessageHandler D_800714A4[];
+-extern s32 D_80081550;
+ 
+ /* Builds and dispatches a message with control codes and two embedded addresses. */
+ void func_8004DE88(char *message)
+--- a/src/slus/w_8004DF8C.c
++++ b/src/slus/w_8004DF8C.c
+@@ -1,16 +1,10 @@
+-#include "common.h"
+-
+-#include "common.h"
++#include "slus/message_mode_81550.h"
+ 
+ typedef void (*FuncPtr)(char *);
+ 
+-extern char *strcpy(char *dst, char *src);
+ extern char *strcat(char *dst, char *src);
+-extern char *strrchr(char *s, int c);
+ extern char D_80083E18[0x100];
+ extern char D_80071404[];
+-extern FuncPtr D_800714A4[];
+-extern s32 D_80081550;
+ extern s32 D_80081548;
+ extern s32 D_8008154C;
+ 
+--- /dev/null
++++ b/src/slus/w_8004DCEC_owned.c
+@@ -0,0 +1,9 @@
++#include "slus/message_mode_81550.h"
++
++s32 D_8008154C = 0;
++s32 D_80081550 = 0;
++
++#include "../build/partition_sources/code__message_mode_81550.c"
++#include "w_8004DCEC.c"
++#include "w_8004DE88.c"
++#include "w_8004DF8C.c"
+--- /dev/null
++++ b/include/slus/message_mode_81550.h
+@@ -0,0 +1,13 @@
++#ifndef SLUS_MESSAGE_MODE_81550_H
++#define SLUS_MESSAGE_MODE_81550_H
++
++#include "common.h"
++
++typedef void (*MessageModeHandler)(char *buffer);
++
++extern s32 D_80081550;
++extern MessageModeHandler D_800714A4[];
++extern char *strcpy(char *dst, const char *src);
++extern char *strrchr(const char *str, s32 ch);
++
++#endif
+--- a/config/slus_modules.json
++++ b/config/slus_modules.json
+@@ -1065,6 +1065,63 @@
+         }
+       ],
+       "evidence": "docs/evidence/gp_b98_partition.md"
++    },
++    {
++      "name": "message_mode_81550",
++      "source": "src/w_8004DCEC_owned.c",
++      "members": [
++        {
++          "id": "slus/w_8004DCEC",
++          "source": "src/w_8004DCEC.c",
++          "functions": [
++            "func_8004DCEC"
++          ]
++        },
++        {
++          "id": "slus/w_8004DE88",
++          "source": "src/w_8004DE88.c",
++          "functions": [
++            "func_8004DE88"
++          ]
++        },
++        {
++          "id": "slus/w_8004DF8C",
++          "source": "src/w_8004DF8C.c",
++          "functions": [
++            "func_8004DF8C"
++          ]
++        }
++      ],
++      "headers": [
++        "include/common.h",
++        "include/slus/message_mode_81550.h"
++      ],
++      "recipe": {
++        "ccver": "2.7.2-cdk",
++        "ccflags": "",
++        "asflags": ""
++      },
++      "data": [
++        {
++          "symbol": "D_8008154C",
++          "asset": "assets/54240.bin",
++          "offset": 2828,
++          "size": 4,
++          "vram": 2148013388,
++          "bytes": "00000000",
++          "section": ".sdata"
++        },
++        {
++          "symbol": "D_80081550",
++          "asset": "assets/54240.bin",
++          "offset": 2832,
++          "size": 4,
++          "vram": 2148013392,
++          "bytes": "00000000",
++          "section": ".sdata"
++        }
++      ],
++      "evidence": "docs/evidence/gp_81550_partition.md"
+     }
+   ]
+ }
+--- a/config/slus_partitions.json
++++ b/config/slus_partitions.json
+@@ -186,6 +186,12 @@
+           "functions": [
+             "func_8004AE98"
+           ]
++        },
++        {
++          "module": "message_mode_81550",
++          "functions": [
++            "func_8004DCE0"
++          ]
+         }
+       ]
+     },
+--- a/tools/build/configure.py
++++ b/tools/build/configure.py
+@@ -159,7 +159,7 @@
+     "src/w_8004A534.c": ("2.7.2-cdk", ""),
+     "src/w_8004AFE8.c": ("2.7.2", ""),
+     "src/w_8004B324.c": ("2.7.2", ""),
+-    "src/w_8004DCEC.c": ("2.7.2-cdk", "-fno-schedule-insns -fno-delayed-branch"),
++    "src/w_8004DCEC.c": ("2.7.2-cdk", ""),
+     "src/w_8004EEBC.c": ("2.7.2", ""),
+     "src/w_8004F3D8.c": ("2.7.2", ""),
+     "src/w_800541E8.c": ("2.7.2", ""),
