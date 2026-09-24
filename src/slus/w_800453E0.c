@@ -1,7 +1,7 @@
 #include "common.h"
+#include "slus/gp_shared_81510.h"
 
 typedef struct Command Command;
-typedef struct Entry Entry;
 typedef struct Packet Packet;
 
 struct Entry {

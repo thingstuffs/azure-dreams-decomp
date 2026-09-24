@@ -820,6 +820,50 @@
         }
       ],
       "evidence": "docs/evidence/gp_split_storage.md"
+    },
+    {
+      "name": "gp_shared_81510",
+      "source": "src/gp_shared_81510.c",
+      "members": [
+        {
+          "id": "slus/w_80045340",
+          "source": "src/w_80045340.c",
+          "functions": [
+            "func_80045340"
+          ]
+        },
+        {
+          "id": "slus/w_800453E0",
+          "source": "src/w_800453E0.c",
+          "functions": [
+            "func_800453E0"
+          ]
+        }
+      ],
+      "headers": [
+        "include/common.h",
+        "include/game.h",
+        "include/globals.h",
+        "include/include_asm.h",
+        "include/slus/gp_shared_81510.h"
+      ],
+      "recipe": {
+        "ccver": "2.7.2-cdk",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "data": [
+        {
+          "symbol": "D_80081510",
+          "asset": "assets/54240.bin",
+          "offset": 2768,
+          "size": 4,
+          "vram": 2148013328,
+          "bytes": "00000000",
+          "section": ".sdata"
+        }
+      ],
+      "evidence": "docs/evidence/gp_shared_state_81510.md"
     }
   ]
 }

@@ -5,6 +5,12 @@ units, 201 dependency records and 34 remaining GP rows. None of the groups below
 is integrated by this report. All three private images are exactly the 524,288
 retail bytes, SHA-1 `e6bfbb95ff6676899e077481221d73ddd4d3bf52`.
 
+Subsequent update: [45340/453E0 is now integrated](gp_shared_state_81510.md) with
+the recorded CDK recipe landing, full-image and fresh genuine proofs. Production
+now has 17 units, 199 dependency records and 32 remaining GP rows. The other
+groups and combined rehearsal below remain private; the original measurements
+retain their pre-landing counts.
+
 | Group | Genuine ASPSX 2.79 proof | Pipeline and remaining integration |
 |---|---|---|
 | 47D44 / 47DF0 / 47E30 | All three functions, 63 words combined, zero masks | Existing 2.7.2 recipe; generic correction only for the new owner object. Production global correction remains pending. |

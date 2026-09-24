@@ -6,7 +6,14 @@ accounting for the three unregistered MAIN routines. The primary agent handles
 hard analysis and orchestration; the owner authorizes Sol and Luna delegates for
 bounded grunt work. Claude's reset in about three days is a handoff checkpoint.
 
-Latest checkpoint: [split small-data storage](evidence/gp_split_storage.md)
+Latest checkpoint: [shared state at 81510](evidence/gp_shared_state_81510.md)
+lands 45340/453E0 after a byte-neutral 45340 CDK recipe move. All 573 words are
+genuine/retail exact without masks or compatibility passes, and the complete
+image matches retail. Production: 199 dependencies, 32 remaining GP rows,
+17 ownership units, 874 physical / 884 logical rows. Existing pins remain; the
+runtime pilot is recertified. The generic assembler correction remains private.
+
+Previous checkpoint: [split small-data storage](evidence/gp_split_storage.md)
 lands 48660 with real `.sdata` and `.sbss` ownership. Production counts are now
 201 dependency records and 34 remaining GP rows; 875 physical / 884 logical
 rows. Full image, 53 words of genuine proof, 87 focused tests and the pilot's
@@ -30,8 +37,7 @@ the global assembler switch still needs the remaining coordinated repairs.
 
 [Further private groups](evidence/gp_ready_ownership.md) prove 8152C's three
 consumers and the prepared pin-free 3D92C under the generic correction. The
-45340/453E0 group passes with stock assembly and is ready for a byte-neutral
-45340 CDK recipe landing plus ownership integration. A separate
+45340/453E0 group has since landed with stock assembly. A separate
 [49F68 site map and near miss](evidence/gp_order_bytes.md) isolates four C-owned
 register substitutions and an independently ablated `_fold_selfinc_la` mismatch;
 its concrete C-rebuild and pass-fidelity routes are recorded.

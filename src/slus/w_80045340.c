@@ -1,4 +1,5 @@
 #include "common.h"
+#include "slus/gp_shared_81510.h"
 
 /* set to 0 at entry and again on the "list exhausted" exit path */
 extern s32 D_80081510;
@@ -26,7 +27,6 @@ typedef struct S_80045340_Entry {
     u8 pad1C[4];
 } S_80045340_Entry; /* size >= 0x20 */
 
-extern void func_800453E0(void *a0, s32 a1, S_80045340_Entry *a2, s16 a3);
 extern s32 func_80045310(u32 a0);
 
 /* Scratchpad hardware-flag word at fixed address 0x1F80013C, reached by casting the
@@ -49,7 +49,7 @@ s32 func_80045340(void *group_data, s32 context, S_80045340_Entry *entry, s32 un
 
     for (;;) {
         if (!(current_entry->unk14 & 0x80)) {
-            func_800453E0(current_data, context, current_entry, current_entry->unk06);
+            func_800453E0(current_data, (void *)context, (Entry *)current_entry, current_entry->unk06);
             if (func_80045310(((S_80045340_Target *)D_80083160[0])->unk8D0)) {
                 return 0;
             }

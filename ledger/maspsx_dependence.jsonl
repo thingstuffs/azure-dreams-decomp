@@ -127,8 +127,6 @@
 {"id": "slus/w_8004437C", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_8004450C", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_80044618", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_80045340", "kinds": ["maspsx_dependent"], "cause": "combined: extern-abs+no:all-fired", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_800453E0", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_800463EC", "kinds": ["maspsx_pass"], "cause": "_rotate_marked_store_into_jal_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_80047D44", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_80047DF0", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
