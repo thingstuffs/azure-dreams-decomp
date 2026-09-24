@@ -10,8 +10,9 @@ The [ownership wave](evidence/gp_ownership_wave.md) repaired 18 more GP rows;
 three. [Split storage for 48660](evidence/gp_split_storage.md) repairs one more.
 The [81510 group](evidence/gp_shared_state_81510.md) repairs another two.
 The [8099C group](evidence/gp_shared_8099c.md) repairs two more GP rows while
-retaining the renderer's accepted epilogue-model dependency. Now 30 GP rows
-remain, with 198 total dependency records. The live build has 18 ownership units,
+retaining the renderer's accepted epilogue-model dependency. The
+[AFE cache](evidence/gp_cache_afe.md) repairs another with an unchanged recipe.
+Now 29 GP rows remain, with 197 total dependency records. The live build has 19 ownership units,
 873 physical C inputs and the same 884 logical rows; no compatibility pass has
 been removed.
 The interrupted wave has now landed 11 CDK moves (74 pins removed; 9 newly

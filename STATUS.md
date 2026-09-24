@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-09-24T17:04:39Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-09-24T17:20:45Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -39,6 +39,7 @@ Baseline NOT exact: 0 rows
 | gp_split_storage | 1 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/gp_split_storage.json' | include/common.h, include/game.h, include/globals.h, include/include_asm.h |
 | gp_shared_81510 | 2 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/gp_shared_81510.json' | include/common.h, include/game.h, include/globals.h, include/include_asm.h, include/slus/gp_shared_81510.h |
 | gp_shared_8099c | 2 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/gp_shared_8099c.json' | include/common.h, include/game.h, include/globals.h, include/include_asm.h, include/slus/gp_shared_8099c.h |
+| cache_afe | 1 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/cache_afe.json' | include/common.h, include/game.h, include/globals.h, include/include_asm.h |
 
 Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump and fidelity requirements still apply; changed shared inputs invalidate placement evidence.
 

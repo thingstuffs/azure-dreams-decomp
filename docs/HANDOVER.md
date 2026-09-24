@@ -6,7 +6,15 @@ accounting for the three unregistered MAIN routines. The primary agent handles
 hard analysis and orchestration; the owner authorizes Sol and Luna delegates for
 bounded grunt work. Claude's reset in about three days is a handoff checkpoint.
 
-Latest checkpoint: [shared cancellation state at 8099C](evidence/gp_shared_8099c.md)
+Latest checkpoint: [AFE cache ownership](evidence/gp_cache_afe.md) separates the
+cache halfword from adjacent AFC selector storage. Its existing plain 2.7.2
+recipe gives all 32 words through genuine ASPSX, with zero masks and full retail
+image equality. Normal Splat registration and real two-byte C storage pass;
+4437C's object stays unchanged. Production: **197 dependency records, 29 GP rows,
+19 ownership units, 873 physical / 884 logical rows**. The runtime pilot is
+recertified; no production assembler default or pass changed.
+
+Previous checkpoint: [shared cancellation state at 8099C](evidence/gp_shared_8099c.md)
 lands 33D44/33D54 at 2.8.1 after an unchanged-source byte-neutral setter move.
 The full retail image and actual four-byte C storage pass. The setter is direct
 genuine-exact; the renderer stays exact through the already accepted epilogue

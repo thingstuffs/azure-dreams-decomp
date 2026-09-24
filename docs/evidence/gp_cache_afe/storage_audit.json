@@ -1,0 +1,122 @@
+{
+  "scope": "read-only retail image, linked ELF, split asset, and source audit",
+  "inputs": {
+    "retail_sha256": "ae19d8d4bdd2db9a933b1e44d70dd61be670781e441d7cb37da85250a7aed31f",
+    "built_image_sha256": "ae19d8d4bdd2db9a933b1e44d70dd61be670781e441d7cb37da85250a7aed31f",
+    "elf_sha256": "d5a04727dcda2e5cfb8aefd25ee7ca273b40ecdcdcf104ce67aec1f956f8024f",
+    "split_asset_sha256": "fca1573644d00a18d425382162167648cf14ae35a31808d2af00583f8832669c",
+    "sources_sha256": {
+      "w_8004425C.c": "7591eb6fd7d7645b29df583e30d0696e8f444337dd8824c5ee3df71de4ac04e7",
+      "w_8004437C.c": "4c5295998419e52082e17b3dccd35b5826206aa04544163b3e6c5dd1598e5819",
+      "w_80044618.c": "67390771583e5e1d79d9ef2f6f2a7b606abe5e7c0e960259bd02972e3a4f9743"
+    }
+  },
+  "instruction_counts": {
+    "retail_44618_32.dis": 32,
+    "retail_4437c_100.dis": 100,
+    "retail_4425c_72.dis": 72
+  },
+  "verified_accesses": {
+    "AFC_4437C": [
+      {
+        "address": "800443AC",
+        "op": "lh"
+      },
+      {
+        "address": "800443CC",
+        "op": "lhu"
+      },
+      {
+        "address": "800443F8",
+        "op": "sh"
+      },
+      {
+        "address": "80044444",
+        "op": "lh"
+      },
+      {
+        "address": "800444A8",
+        "op": "lh"
+      },
+      {
+        "address": "800444CC",
+        "op": "lh"
+      }
+    ],
+    "AFE_44618": [
+      {
+        "address": "80044638",
+        "op": "lhu"
+      },
+      {
+        "address": "80044678",
+        "op": "sh"
+      }
+    ],
+    "AF0_indexed_4425C": [
+      {
+        "address": "800442B4",
+        "op": "lbu"
+      },
+      {
+        "address": "800442D8",
+        "op": "sb"
+      }
+    ]
+  },
+  "nearby_initial_bytes": [
+    {
+      "vram": "80080AF0",
+      "file_offset": "0542F0",
+      "retail_bytes": "00 00"
+    },
+    {
+      "vram": "80080AF2",
+      "file_offset": "0542F2",
+      "retail_bytes": "00 ff"
+    },
+    {
+      "vram": "80080AF3",
+      "file_offset": "0542F3",
+      "retail_bytes": "ff 00"
+    },
+    {
+      "vram": "80080AF4",
+      "file_offset": "0542F4",
+      "retail_bytes": "00 00"
+    },
+    {
+      "vram": "80080AFC",
+      "file_offset": "0542FC",
+      "retail_bytes": "00 00"
+    },
+    {
+      "vram": "80080AFE",
+      "file_offset": "0542FE",
+      "retail_bytes": "00 00"
+    },
+    {
+      "vram": "80080B00",
+      "file_offset": "054300",
+      "retail_bytes": "00 00"
+    }
+  ],
+  "split_asset": {
+    "file": "build_slus/build/module_assets/54240_000074_0000C0.bin",
+    "vram_start": "80080AB4",
+    "vram_end_exclusive": "80080B00",
+    "file_start": "0542B4",
+    "file_end_exclusive": "054300",
+    "retail_slice_exact": true
+  },
+  "nearby_elf_symbols": [
+    "80080af0 A D_80080AF0",
+    "80080af3 A D_80080AF3",
+    "80080af4 A D_80080AF4",
+    "80080afc A D_80080AFC",
+    "80080b00 T D_80080B00",
+    "80080b00 T _binary_build_module_assets_54240_000074_0000C0_bin_end"
+  ],
+  "afe_explicit_elf_symbol": false,
+  "source_hits_file": "source_hits.txt"
+}
