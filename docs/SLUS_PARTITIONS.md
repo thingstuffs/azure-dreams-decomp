@@ -1,9 +1,9 @@
 # SLUS function partitions and owner certificates
 
-Status: **E0, B94/B98 and 81540 are active with full retail, genuine-ASPSX and ownership proof**.
-`config/slus_partitions.json` moves four named functions into the list-cursor,
-saved-value and discovery-rank owners while preserving both collector IDs, complete canonical C
-and original recipe provenance. E0 has placement certification; B94/B98 and 81540 currently
+Status: **E0, B94/B98, 81540 and 81554/58 are active with full retail, genuine-ASPSX and ownership proof**.
+`config/slus_partitions.json` moves five named functions into the list-cursor,
+saved-value, discovery-rank and command-slot owners while preserving both collector IDs, complete canonical C
+and original recipe provenance. E0 has placement certification; B94/B98, 81540 and 81554/58 currently
 have data-ownership proof only. The sections below retain the earlier implementation proofs;
 the production activation checkpoint is recorded near the end.
 
@@ -318,6 +318,25 @@ not a placement grant for 4B08C or the collector. The
 [activation review](evidence/gp_81540_partition/activation_review.json) records
 current hashes, counts, ladder results and 135 passing tests.
 
+## Production 81554/58 activation
+
+The [command-slot owner](evidence/gp_81554_partition.md) groups the DDB4
+function from `code` with four whole routines DCA8, DD2C, DDE4 and E130.
+Two real zero-initialized `s32` words replace precisely B14 through B1B in the
+54240 asset. Its five functions match all 115 retail words, fresh stock and
+genuine ASPSX 2.79 with zero masks. The private full link is retail-exact and
+all 867 other active objects are unchanged.
+
+The connected closure has 188 functions exactly once. Five negative candidate
+checks reject edits and restore the canonical inputs and retail image. DCA8's
+registered recipe changes from 2.8.1 to default 2.7.2-cdk, and DDE4's
+`-fno-schedule-insns` flag is cleared; the logical split ledger and generated
+Ninja agree. The complete four-owner ownership receipt is fresh, while the
+E0 and runtime-directory placement certificates remain valid. Only the four
+whole member dependency entries are removed. This is data ownership, with no
+new placement grant. The [activation review](evidence/gp_81554_partition/activation_review.json)
+records the current hashes, counts and ladder results.
+
 ## Integration and next groups
 
 1. **Implemented:** plural physical contexts, connected fingerprints and candidate
@@ -332,20 +351,21 @@ current hashes, counts, ladder results and 135 passing tests.
 4. **Implemented:** ownership/certificate evidence includes incoming function
    parts and fresh connected fingerprints. A subset proof cannot grant placement
    to a whole collector; existing L4/L5 requirements are preserved.
-5. **E0, B94/B98 and 81540 activated:** retail/genuine/data gates and runtime-pilot
+5. **E0, B94/B98, 81540 and 81554/58 activated:** retail/genuine/data gates and runtime-pilot
    recertification pass. Apply the same explicit function grouping to remaining
-   components: 81550 now has a [prepared declaration/data repair](evidence/gp_81550_partition.md)
-   at default CDK, pending the generic assembler transition. Next are 81554/58
-   and the CD driver groups. Review source/declaration
+   components: 81550 has a [prepared declaration/data repair](evidence/gp_81550_partition.md)
+   at default CDK, pending the generic assembler transition. Next are the CD
+   driver groups. Review source/declaration
    evidence independently for each; do not merge the whole historical 20-row graph.
 
 The [consumer inventory](evidence/slus_partitions/consumers.md) identifies exact
-callsites. Production now has **193 dependencies, 25 GP rows, 22 ownership
-units, 872 physical / 884 logical rows**. The separate generic assembler
+callsites. Production now has **189 dependencies, 21 GP rows, 23 ownership
+units, 869 physical / 884 logical rows**. The separate generic assembler
 correction and pass retirement are still pending; this layer changes neither.
 
-The [18-function private integration rehearsal](evidence/gp_ready18.md) preserves
-all active partitions and prepares 12 of the 25 GP rows for that coordinated
-transition. Its 891-word genuine proof includes only the moved 81550 setter from
-code, not the complete collector. No production dependency count changes from
-this selective private proof.
+The [rebased 18-function private integration rehearsal](evidence/gp_ready18.md)
+preserves all 23 active owners, including the new command-slot owner, and
+prepares 12 of the current 21 GP rows. Nine GP rows remain beyond that prepared
+set: both collectors and seven CD-state rows. Its 891-word genuine proof includes
+only the moved 81550 setter from code, not the complete collector. No production
+dependency count changes from this selective private proof.

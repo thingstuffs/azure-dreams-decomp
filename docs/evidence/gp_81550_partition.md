@@ -78,10 +78,12 @@ exactly eight zero bytes with non-absolute linked symbols at 8154C/81550. Only
 this candidate object uses the private assembler in that experiment. Its earlier
 conservative B6C note is superseded by the later downstream review above.
 
-Production still has **193 dependencies and 25 GP rows**. The three whole members
+The original checkpoint had **193 dependencies and 25 GP rows**. The three whole members
 are prepared for the coordinated transition; the collector retains unrelated GP
 dependencies. The [combined 18-function rehearsal](gp_ready18.md) now includes this candidate.
-Continue the 81554/58 and CD-state groups, then run the generic correction across
+The 81554/58 group is now [activated independently](gp_81554_partition.md); the
+[current combined rebase](gp_ready18.md) preserves it. Continue the CD-state
+groups, then run the generic correction across
 all inputs and seek the existing required owner signoff on the complete patch.
 Selective private assembly never substitutes for that global gate.
 

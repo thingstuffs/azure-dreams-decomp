@@ -1,0 +1,261 @@
+{
+  "source_sha256": {
+    "config/slus_modules.json": "8fbae5f5809f285594a1d9f09685b12297840921dd960bfa6be00b4e2decd9c8",
+    "config/slus_partitions.json": "9aac94c3be0c71cb5a7cdccc6de135f0cd37100358db674870523e6aac5a9207",
+    "src/slus/code.c": "1c1afc31d56af7f3505ad1a9e54c4c21023aac81b2314ad3581dbeadf1e28b16",
+    "src/slus/code2.c": "443e6c482c7a5fe6fcf53c5381384618acac6adb06cff6d287aea2386f65c2bb",
+    "src/slus/w_80050DA8.c": "53a3b360e20f1d5c9c048498893f14ae4cfcff09d123b6e8f38f70183febc138",
+    "src/slus/w_80050E20.c": "d2ae10a5d322f55124265a3d89e0a0b52c71d3ab7af80ee9ba9e32a7053812f2",
+    "src/slus/w_80050DA8_owned.c": "97d54a74682f3ed719f76295d8e1eb0abd8b4f5983ce14b2ee63f4bd6b29c893",
+    "include/slus/saved_value_b98.h": "98e7c11a889f466e0757dbd6a769b4476fcc7bd34af80eb49cfe797c9ac6a404",
+    "src/slus/w_8004B08C.c": "770f1d22b5076f6d7909e70499f5b7caa80d407fbd46f2665e23e48eddd4b7cd",
+    "src/slus/sort_rank_81540_owned.c": "46009a2d6fb5dbe42a242b8e40d283ffe484a0f4f1ab99ffc1e6cdba3839cedc",
+    "include/slus/sort_rank_81540.h": "0ec3ed0482e9cbee04af9a05087d48ae13897087384f17acfaf91f2f1c2ef30e",
+    "docs/evidence/gp_81540_partition.md": "ce58f251ced53971c6bcaf79df83491b90ced29108897a6f1f64eb45698cc9fe",
+    "src/slus/w_8004DCA8.c": "f04c8bc67852e47b2126575e9c1f8066a26cebe8578f00bef85e91e25c849d78",
+    "src/slus/w_8004DD2C.c": "2bac4a38321df76075f28f134a9301ee21236896f200d4794c9fbf1989dab852",
+    "src/slus/w_8004DDE4.c": "6038510b377cf00d5cb18e884eee17f0ff242f5424659a58c4a1a6834a3bbdfe",
+    "src/slus/w_8004E130.c": "309e97392ed53e446ab97779001aabcccc5bde373a90910c3a044041e0423f6c",
+    "src/slus/w_8004DCA8_owned.c": "e2e635573210d575bed20c0bb4ff6f65715dc081f95c11a6ca4f4dfc94b64199",
+    "include/slus/command_slots_81554.h": "d57ebd7d7f406ed077fafe1320baa9736658bb06522d0534b132c169efaa3989",
+    "docs/evidence/gp_81554_partition.md": "df089afee2eb982788273c603e534929c12d6526e130ea606c52eb522b2dc42b"
+  },
+  "tool_sha256": {
+    "tools/build/slus_partitions.py": "28004bb63ec42f23c1b3835098dc2f725d7d0b6affaf60b487fefdee675cb897",
+    "tools/slus_module_context.py": "046194a17445c6c34d1ae87a7d8117401e3527a8f789db99c2035fbdb68fa870",
+    "tools/slus_module_evidence.py": "38a699f315e082f16c9e7ead3c414f37a1ef71b18d75e15e2699c5720b80b32a",
+    "tools/fidelity/prove_slus_ownership.py": "6eb7656ea1118212c32b848e22f6d58fb43e1a348ea5f932efb828936e684320",
+    "tools/fidelity/certify_slus_module.py": "0628cfa11b93d1e86b2f9c276f4f82d2f8dd7234ea7f0449dfc50c8017296cf4",
+    "tools/build/mk_slus_root.sh": "0c6441ffcb51d6c958b13a70d3cba98e44b3ff7425db00fdab213abc89dd351e"
+  },
+  "receipts_sha256": {
+    "direct_candidate.json": "b9972c2fea610caa485650d06fbba45bed4167df9094084a5a2b0a227df9c0c4",
+    "direct_candidate_byte.json": "6ec5f908e18db1f8df461433c1ec74deb919e27299a66bc46d355e6415c90d7f",
+    "direct_receipt.json": "c7f0b68bf0e1b4def576b87f1bd4c33742f31ed10074ceefe8be47580be1d834",
+    "gate_receipt.json": "69b3d66e3883a13f77dfd50136ea96d13c5c5771d71b0e9d2cee351caebccfe2",
+    "lineage.json": "d7f214b18ed173ff4e66ac71cd5d075cd2a47128368b10730a59ef763719e271",
+    "live_rows.json": "4cb06b7ea2c265575a285b0da2af41fdc38b54878b2305830845c05e59650a48",
+    "ownership_receipt.json": "45cb0e0cfc596e1dd2c4b5932a32793745fd9402c3ab67d508e74719dc03bdc9",
+    "primary_review.json": "ab53a363a60330e010097e7d21cd94345149c0ddf7cdc30b24db53062f4c05ca",
+    "private_genuine_receipt.json": "5d62f56fe9f92112fac7d7b5073e1bb22bf8822daee27b415fba5ad5769c52e2",
+    "private_link_receipt.json": "598fe12542675ff9c5cd63a980e4e736140d1d137b7f28824a9774aa2f4124ae"
+  },
+  "certificates": {
+    "list_cursor_e0": {
+      "valid": true,
+      "sha256": "54455a029a097189ae9c6274743d8508e6079594a7155485c7fc32dde5e54d7a"
+    },
+    "runtime_directory": {
+      "valid": true,
+      "sha256": "690701a470cf6773b6f274e8d5229fec6ea7bf7a958d9d33b98f44f07747c9fe"
+    }
+  },
+  "regression": {
+    "row_database": "OK",
+    "actual_mips_candidate_trials": 5,
+    "all_trial_restorations_retail_exact": true,
+    "slus_tests_passed": 130,
+    "configure_tests_passed": 5
+  },
+  "production_gate": {
+    "at": "2026-09-24T20:07:48Z",
+    "result": "MATCH",
+    "tus": 869,
+    "recipe_sha256": "c74e83b131ea6c04c2cc4f62dc042b45ebaf28dfc1d37350b8159a699a52d7f2",
+    "recipe_vs_pinned": "identical",
+    "secs": 1,
+    "gate": "sha1sum -c config/slus_006.14.sha1 (ninja)"
+  },
+  "production_image_sha1": "e6bfbb95ff6676899e077481221d73ddd4d3bf52",
+  "counts": {
+    "modules": 23,
+    "physical": 869,
+    "logical": 884,
+    "dependencies": 189,
+    "gp_rows": 21
+  },
+  "ladder": {
+    "slus/code": {
+      "level": 3,
+      "pins_left": 0,
+      "tail_jumps": 0,
+      "l4_residue": [
+        "not_in_module",
+        "cell_imitation"
+      ],
+      "l5_residue": [
+        "fidelity_site",
+        "maspsx_dependent"
+      ]
+    },
+    "slus/code2": {
+      "level": 3,
+      "pins_left": 0,
+      "tail_jumps": 0,
+      "l4_residue": [
+        "not_in_module"
+      ],
+      "l5_residue": [
+        "fidelity_site",
+        "maspsx_dependent"
+      ]
+    },
+    "slus/w_80050DA8": {
+      "level": 3,
+      "pins_left": 0,
+      "tail_jumps": 0,
+      "l4_residue": [
+        "not_in_module"
+      ],
+      "l5_residue": [
+        "inline_asm"
+      ]
+    },
+    "slus/w_80050E20": {
+      "level": 3,
+      "pins_left": 0,
+      "tail_jumps": 0,
+      "l4_residue": [
+        "not_in_module"
+      ],
+      "l5_residue": []
+    },
+    "slus/w_80041134": {
+      "level": 5,
+      "pins_left": 0,
+      "tail_jumps": 0,
+      "l4_residue": [],
+      "l5_residue": []
+    },
+    "slus/konami_runtime_w_8003C634": {
+      "level": 5,
+      "pins_left": 0,
+      "tail_jumps": 0,
+      "l4_residue": [],
+      "l5_residue": []
+    },
+    "slus/konami_runtime_w_8003C758": {
+      "level": 4,
+      "pins_left": 0,
+      "tail_jumps": 0,
+      "l4_residue": [],
+      "l5_residue": [
+        "fidelity_site"
+      ]
+    },
+    "slus/konami_runtime_w_8003C920": {
+      "level": 5,
+      "pins_left": 0,
+      "tail_jumps": 0,
+      "l4_residue": [],
+      "l5_residue": []
+    },
+    "slus/w_8004B08C": {
+      "level": 3,
+      "pins_left": 0,
+      "tail_jumps": 0,
+      "l4_residue": [
+        "not_in_module"
+      ],
+      "l5_residue": [
+        "fidelity_site"
+      ]
+    },
+    "slus/w_8004DCA8": {
+      "level": 3,
+      "pins_left": 0,
+      "tail_jumps": 0,
+      "l4_residue": [
+        "not_in_module"
+      ],
+      "l5_residue": []
+    },
+    "slus/w_8004DD2C": {
+      "level": 3,
+      "pins_left": 0,
+      "tail_jumps": 0,
+      "l4_residue": [
+        "not_in_module"
+      ],
+      "l5_residue": [
+        "fidelity_site"
+      ]
+    },
+    "slus/w_8004DDE4": {
+      "level": 3,
+      "pins_left": 0,
+      "tail_jumps": 0,
+      "l4_residue": [
+        "not_in_module"
+      ],
+      "l5_residue": [
+        "fidelity_site"
+      ]
+    },
+    "slus/w_8004E130": {
+      "level": 3,
+      "pins_left": 0,
+      "tail_jumps": 0,
+      "l4_residue": [
+        "not_in_module"
+      ],
+      "l5_residue": []
+    }
+  },
+  "recipe_changes": [
+    [
+      {
+        "src": "src/w_8004DCA8.c",
+        "out": "build/src/w_8004DCA8.o",
+        "ccver": "2.7.2-cdk",
+        "ccflags": "",
+        "asflags": ""
+      },
+      {
+        "src": "src/w_8004DCA8.c",
+        "out": "build/src/w_8004DCA8.o",
+        "ccver": "2.8.1",
+        "ccflags": "",
+        "asflags": ""
+      }
+    ],
+    [
+      {
+        "src": "src/w_8004DDE4.c",
+        "out": "build/src/w_8004DDE4.o",
+        "ccver": "2.7.2-cdk",
+        "ccflags": "",
+        "asflags": ""
+      },
+      {
+        "src": "src/w_8004DDE4.c",
+        "out": "build/src/w_8004DDE4.o",
+        "ccver": "2.7.2-cdk",
+        "ccflags": "-fno-schedule-insns",
+        "asflags": ""
+      }
+    ]
+  ],
+  "data_ownership_only": "command_slots_81554; no new placement certificate",
+  "canonical_collectors_unchanged": true,
+  "production_assembler_changed": false,
+  "registry_refresh": {
+    "rows": [
+      "slus/w_8004DCA8",
+      "slus/w_8004DDE4"
+    ],
+    "fields": [
+      "cfg",
+      "cell",
+      "flags"
+    ],
+    "matches_logical_split": true,
+    "strict_proof_rerun_after_refresh": true
+  },
+  "resumption_checkpoint": {
+    "next": "CD-state ownership/source attribution, then remaining collector symbols",
+    "prepared_generic_gp_rows": 12,
+    "remaining_gp_rows_beyond_prepared": 9,
+    "combined_receipt": "docs/evidence/gp_ready18_rebased_81554/receipt.json"
+  }
+}

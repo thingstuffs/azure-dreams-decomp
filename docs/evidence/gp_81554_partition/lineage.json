@@ -1,0 +1,106 @@
+{
+  "retail_sha256": "ae19d8d4bdd2db9a933b1e44d70dd61be670781e441d7cb37da85250a7aed31f",
+  "adapter": "CLI supports overlays only; exact SLUS retail slice passed to unchanged scan/classify API.",
+  "functions": {
+    "func_8004DCA8": {
+      "bytes": 56,
+      "words": 14,
+      "evidence": {
+        "at_macro": [],
+        "split_store": [],
+        "held_page": [],
+        "slot_store": [],
+        "split_la": [],
+        "zero_copy": [],
+        "ret_copy": []
+      },
+      "held_pages": [],
+      "gp_refs": 2,
+      "classification": {
+        "verdict": "insufficient store-emission evidence (few globals?)",
+        "family": null,
+        "notes": []
+      }
+    },
+    "func_8004DD2C": {
+      "bytes": 136,
+      "words": 34,
+      "evidence": {
+        "at_macro": [],
+        "split_store": [],
+        "held_page": [],
+        "slot_store": [],
+        "split_la": [],
+        "zero_copy": [],
+        "ret_copy": []
+      },
+      "held_pages": [],
+      "gp_refs": 7,
+      "classification": {
+        "verdict": "insufficient store-emission evidence (few globals?)",
+        "family": null,
+        "notes": []
+      }
+    },
+    "func_8004DDB4": {
+      "bytes": 16,
+      "words": 4,
+      "evidence": {
+        "at_macro": [],
+        "split_store": [],
+        "held_page": [],
+        "slot_store": [],
+        "split_la": [],
+        "zero_copy": [],
+        "ret_copy": []
+      },
+      "held_pages": [],
+      "gp_refs": 2,
+      "classification": {
+        "verdict": "insufficient store-emission evidence (few globals?)",
+        "family": null,
+        "notes": []
+      }
+    },
+    "func_8004DDE4": {
+      "bytes": 164,
+      "words": 41,
+      "evidence": {
+        "at_macro": [],
+        "split_store": [],
+        "held_page": [],
+        "slot_store": [],
+        "split_la": [],
+        "zero_copy": [],
+        "ret_copy": []
+      },
+      "held_pages": [],
+      "gp_refs": 8,
+      "classification": {
+        "verdict": "insufficient store-emission evidence (few globals?)",
+        "family": null,
+        "notes": []
+      }
+    },
+    "func_8004E130": {
+      "bytes": 88,
+      "words": 22,
+      "evidence": {
+        "at_macro": [],
+        "split_store": [],
+        "held_page": [],
+        "slot_store": [],
+        "split_la": [],
+        "zero_copy": [],
+        "ret_copy": []
+      },
+      "held_pages": [],
+      "gp_refs": 4,
+      "classification": {
+        "verdict": "insufficient store-emission evidence (few globals?)",
+        "family": null,
+        "notes": []
+      }
+    }
+  }
+}
