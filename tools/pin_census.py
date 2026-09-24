@@ -140,6 +140,43 @@ def port_asm(text, row):
         return "\n".join(l for l in s.read_text().splitlines() if not l.lstrip().startswith((".file", ".ident")))
 
 
+
+def _port_blocks(text):
+    """Verbatim (comment-free, whitespace-squeezed) text of each top-level preprocessor block that
+    carries a 'port' line, i.e. each `#ifdef NON_MATCHING`-style split, in order."""
+    if not HAS_PP_RE.search(text):
+        return []
+    lines, labs = text.splitlines(), arm_labels(text)
+    out, depth, start = [], 0, None
+    for i, ln in enumerate(lines):
+        m = PP_RE.match(ln)
+        if not m:
+            continue
+        d = m.group(1)
+        if d in ("ifdef", "ifndef", "if"):
+            if depth == 0:
+                start = i
+            depth += 1
+        elif d == "endif" and depth:
+            depth -= 1
+            if depth == 0 and start is not None:
+                if any(lab == "port" for lab in labs[start:i + 1]):
+                    out.append(" ".join(CMT_RE.sub(" ", "\n".join(lines[start:i + 1])).split()))
+                start = None
+    return out
+
+
+def _arm_retirement(new, cur):
+    """ARM RETIREMENT (owner ruling 2026-09-24): a candidate may delete WHOLE `NON_MATCHING` blocks
+    that its rewrite left with nothing to do (town/func_80953900: the port arm assigned a page
+    variable the pin-free text no longer has).  Allowed only when every port block the candidate
+    keeps is verbatim one of the current text's (none edited, none added), at least one is gone,
+    and no `#if 0` text changed; the port front end still has to accept the candidate below."""
+    from collections import Counter
+    nb, cb = Counter(_port_blocks(new)), Counter(_port_blocks(cur))
+    dead_same = _arm_view(new, ("dead",)).split() == _arm_view(cur, ("dead",)).split()
+    return dead_same and not (nb - cb) and sum(nb.values()) < sum(cb.values())
+
 def landing_refusal(new, cur, relpath, row=None, port_ref=None):
     """Why a byte-exact candidate must still not land, or None.
 
@@ -158,7 +195,8 @@ def landing_refusal(new, cur, relpath, row=None, port_ref=None):
     Given the `row`, a PORT CODEGEN IDENTITY stands in for the textual one (2026-09-13, t45: a pin
     removed with its port fallback, `zero | 9` under `#define zero 0` -> `9`): the port build of the
     candidate, compiled by the row's own compiler at its own cell with -DNON_MATCHING, generates
-    exactly the assembly the current text's port build does.  When the current port build does not
+    exactly the assembly the current text's port build does.  ARM RETIREMENT (owner 2026-09-24,
+    `_arm_retirement`): whole NON_MATCHING blocks may be deleted, none edited or added.  When the current port build does not
     compile at all (548963e9 left nameless `#define ({...})` arms behind), `port_ref` - the row's
     text at a named commit - stands in for it.  `#if 0` text must still be unchanged."""
     global _LINT
@@ -171,7 +209,7 @@ def landing_refusal(new, cur, relpath, row=None, port_ref=None):
                 if b is None and port_ref is not None:
                     b = port_asm(port_ref, row)
                 same = a is not None and a == b
-            if not same:
+            if not same and not _arm_retirement(new, cur):
                 return "edits a NON_MATCHING/#if 0 arm that no byte gate compiles"
     if _LINT is None:
         import importlib.util
