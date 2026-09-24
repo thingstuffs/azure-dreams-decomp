@@ -1,0 +1,22 @@
+{
+  "tool_sha256": "d6fdd141537aeebbae02596f6b1e99c5a0b46ea69a7892f3e8dd9ab100dffbd1",
+  "tests_sha256": "bab3146aa8c9273dda2ec91babfa4009841f84c9d6642575d395f37b174f53fa",
+  "test_command": "python3 -m unittest discover -s tools/tests -p test_slus_partitions.py -v",
+  "tests_passed": 12,
+  "normal_build_receipt_sha256": "a94d201fa644b728589413866bd26d9cbd5714eccb3b912259c1bd9d4b1e0e7b",
+  "configure_candidate_sha256": "2d1ac97f2848b58c5afffb693c34e51f63469fbe21715d19aa9c426d09df413e",
+  "probe_sha256": "0efa2e2270ac1bb0b3304022b9b2f90ac37224db2c6440686133ba7e6ca2b67f",
+  "owned_data": {
+    "symbol": "D_800814E0",
+    "section": ".sdata",
+    "bytes": "00000000",
+    "object_offset": 0,
+    "object_binding": "global",
+    "linked_vram": "800814e0",
+    "linked_section": "2",
+    "absolute_assignment_filtered": true
+  },
+  "canonical_collectors_unchanged": true,
+  "full_private_image_exact": true,
+  "production_partition_plan_active": false
+}
