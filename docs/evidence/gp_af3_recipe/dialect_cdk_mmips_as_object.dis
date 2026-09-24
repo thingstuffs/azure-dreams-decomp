@@ -1,0 +1,135 @@
+
+<repo>/work/native_lane/gp_af3_dialect/standalone/w_8004437C/build/src/w_8004437C.o:     file format elf32-tradlittlemips
+
+
+Disassembly of section .text.func_8004437C:
+
+00000000 <func_8004437C>:
+   0:	27bdffd8 	addiu	sp,sp,-40
+   4:	afb10014 	sw	s1,20(sp)
+   8:	00a08821 	move	s1,a1
+   c:	afb20018 	sw	s2,24(sp)
+  10:	00809021 	move	s2,a0
+  14:	afb3001c 	sw	s3,28(sp)
+  18:	00042400 	sll	a0,a0,0x10
+  1c:	3c030000 	lui	v1,0x0
+			1c: R_MIPS_HI16	D_8006E704
+  20:	24630000 	addiu	v1,v1,0
+			20: R_MIPS_LO16	D_8006E704
+  24:	00042383 	sra	a0,a0,0xe
+  28:	afb00010 	sw	s0,16(sp)
+  2c:	00838021 	addu	s0,a0,v1
+  30:	87820000 	lh	v0,0(gp)
+			30: R_MIPS_GPREL16	D_80080AFC
+  34:	3c050000 	lui	a1,0x0
+			34: R_MIPS_HI16	D_80080AF4
+  38:	24a50000 	addiu	a1,a1,0
+			38: R_MIPS_LO16	D_80080AF4
+  3c:	afbf0020 	sw	ra,32(sp)
+  40:	8e030000 	lw	v1,0(s0)
+  44:	00021080 	sll	v0,v0,0x2
+  48:	3c010000 	lui	at,0x0
+			48: R_MIPS_HI16	D_80080AF4
+  4c:	00220821 	addu	at,at,v0
+  50:	8c220000 	lw	v0,0(at)
+			50: R_MIPS_LO16	D_80080AF4
+  54:	97840000 	lhu	a0,0(gp)
+			54: R_MIPS_GPREL16	D_80080AFC
+  58:	14620003 	bne	v1,v0,68 <func_8004437C+0x68>
+  5c:	02209821 	move	s3,s1
+  60:	0800005c 	j	170 <func_8004437C+0x170>
+			60: R_MIPS_26	.text.func_8004437C
+  64:	24020001 	li	v0,1
+  68:	38840001 	xori	a0,a0,0x1
+  6c:	00041400 	sll	v0,a0,0x10
+  70:	00021383 	sra	v0,v0,0xe
+  74:	00451021 	addu	v0,v0,a1
+  78:	8e030000 	lw	v1,0(s0)
+  7c:	8c420000 	lw	v0,0(v0)
+  80:	a7840000 	sh	a0,0(gp)
+			80: R_MIPS_GPREL16	D_80080AFC
+  84:	10620030 	beq	v1,v0,148 <func_8004437C+0x148>
+  88:	00132400 	sll	a0,s3,0x10
+  8c:	0c000000 	jal	0 <func_8004437C>
+			8c: R_MIPS_26	func_800542BC
+  90:	00000000 	nop
+  94:	83830000 	lb	v1,0(gp)
+			94: R_MIPS_GPREL16	D_80080AF3
+  98:	00111400 	sll	v0,s1,0x10
+  9c:	00021403 	sra	v0,v0,0x10
+  a0:	10620003 	beq	v1,v0,b0 <func_8004437C+0xb0>
+  a4:	00000000 	nop
+  a8:	0c000000 	jal	0 <func_8004437C>
+			a8: R_MIPS_26	func_80044698
+  ac:	00000000 	nop
+  b0:	8e040000 	lw	a0,0(s0)
+  b4:	00000000 	nop
+  b8:	8c820000 	lw	v0,0(a0)
+  bc:	3c03ff80 	lui	v1,0xff80
+  c0:	00431024 	and	v0,v0,v1
+  c4:	ac820000 	sw	v0,0(a0)
+  c8:	8e050000 	lw	a1,0(s0)
+  cc:	87820000 	lh	v0,0(gp)
+			cc: R_MIPS_GPREL16	D_80080AFC
+  d0:	8ca40000 	lw	a0,0(a1)
+  d4:	10400005 	beqz	v0,ec <func_8004437C+0xec>
+  d8:	3c03007f 	lui	v1,0x7f
+  dc:	3c020000 	lui	v0,0x0
+			dc: R_MIPS_HI16	D_801C4640
+  e0:	24420000 	addiu	v0,v0,0
+			e0: R_MIPS_LO16	D_801C4640
+  e4:	0800003e 	j	f8 <func_8004437C+0xf8>
+			e4: R_MIPS_26	.text.func_8004437C
+  e8:	3463ffff 	ori	v1,v1,0xffff
+  ec:	3463ffff 	ori	v1,v1,0xffff
+  f0:	3c020000 	lui	v0,0x0
+			f0: R_MIPS_HI16	D_801BEE40
+  f4:	24420000 	addiu	v0,v0,0
+			f4: R_MIPS_LO16	D_801BEE40
+  f8:	00431024 	and	v0,v0,v1
+  fc:	00821025 	or	v0,a0,v0
+ 100:	24040006 	li	a0,6
+ 104:	00128400 	sll	s0,s2,0x10
+ 108:	aca20000 	sw	v0,0(a1)
+ 10c:	3c020000 	lui	v0,0x0
+			10c: R_MIPS_HI16	D_8006E704
+ 110:	24420000 	addiu	v0,v0,0
+			110: R_MIPS_LO16	D_8006E704
+ 114:	00108383 	sra	s0,s0,0xe
+ 118:	02028021 	addu	s0,s0,v0
+ 11c:	8e050000 	lw	a1,0(s0)
+ 120:	0c000000 	jal	0 <func_8004437C>
+			120: R_MIPS_26	func_8003E4FC
+ 124:	00003021 	move	a2,zero
+ 128:	87820000 	lh	v0,0(gp)
+			128: R_MIPS_GPREL16	D_80080AFC
+ 12c:	8e030000 	lw	v1,0(s0)
+ 130:	00021080 	sll	v0,v0,0x2
+ 134:	005c0821 	addu	at,v0,gp
+ 138:	ac230000 	sw	v1,0(at)
+			138: R_MIPS_GPREL16	D_80080AF4
+ 13c:	0c000000 	jal	0 <func_8004437C>
+			13c: R_MIPS_26	func_8003F320
+ 140:	00000000 	nop
+ 144:	00132400 	sll	a0,s3,0x10
+ 148:	0c000000 	jal	0 <func_8004437C>
+			148: R_MIPS_26	func_8004450C
+ 14c:	00042403 	sra	a0,a0,0x10
+ 150:	87820000 	lh	v0,0(gp)
+			150: R_MIPS_GPREL16	D_80080AFC
+ 154:	00000000 	nop
+ 158:	10400002 	beqz	v0,164 <func_8004437C+0x164>
+ 15c:	24040021 	li	a0,33
+ 160:	24040022 	li	a0,34
+ 164:	0c000000 	jal	0 <func_8004437C>
+			164: R_MIPS_26	func_80053DA8
+ 168:	00000000 	nop
+ 16c:	00001021 	move	v0,zero
+ 170:	8fbf0020 	lw	ra,32(sp)
+ 174:	8fb3001c 	lw	s3,28(sp)
+ 178:	8fb20018 	lw	s2,24(sp)
+ 17c:	8fb10014 	lw	s1,20(sp)
+ 180:	8fb00010 	lw	s0,16(sp)
+ 184:	27bd0028 	addiu	sp,sp,40
+ 188:	03e00008 	jr	ra
+ 18c:	00000000 	nop

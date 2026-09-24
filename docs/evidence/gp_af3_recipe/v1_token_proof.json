@@ -1,0 +1,25 @@
+{
+  "function": "func_8004437C",
+  "recipe": "2.7.2-cdk -mmips-as",
+  "v1_source": "work/native_lane/gp_af3_rebuild/v1.c",
+  "v1_source_sha256": "b14f3589027d2425e688b49aac5195c741bb99dd336444d519869fa041b8d9af",
+  "v1_object": "work/native_lane/gp_af3_rebuild/v1/a.o",
+  "v1_object_sha256": "c6c4945b0beff5574b5b43a2abd4c61a7894294a742980408318766ced7489b3",
+  "unchanged_object": "work/native_lane/gp_af3_dialect/standalone/w_8004437C/build/src/w_8004437C.o",
+  "unchanged_object_sha256": "1928aa71a8506665ebd33c0df1ef9a2d7ee1b5e206dea76f32185faf587e8da9",
+  "comparison": {
+    "exact": true,
+    "diff": 0,
+    "len_m": 100,
+    "len_g": 100,
+    "missing": [],
+    "regions": []
+  },
+  "raw_tokens_equal": true,
+  "token_count": 100,
+  "canonical_token_sha256": "5d14936d22129a545ef23f39aee867c9db90721d4818828799fa956292497e25",
+  "compiler_assembly_diff_only_file_directive": true,
+  "v1_assembly_sha256": "793303367fbf7e72529f524080bb8d47c723811345fe276861619df1c01272b4",
+  "unchanged_assembly_sha256": "6ac81d5f6ad4af44738258dc2f3537eae45530166541157e44bd23cbe8957a90",
+  "conclusion": "v1 explicit pointer locals do not change the emitted function tokens; object hashes differ because file metadata differs"
+}

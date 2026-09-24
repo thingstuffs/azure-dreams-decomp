@@ -1,0 +1,428 @@
+{
+  "scope": "raw SLUS retail function slice; direct scan/classify, no overlay resolver",
+  "vram": "8004437C",
+  "words": 100,
+  "retail_bytes_sha256": "906f0690f50532ce51ea6d90e0de4295f0752402d9bf3a9736c63d1b3fca0deb",
+  "instructions": [
+    [
+      "addiu",
+      "$sp, $sp, -0x28"
+    ],
+    [
+      "sw",
+      "$s1, 0x14($sp)"
+    ],
+    [
+      "move",
+      "$s1, $a1"
+    ],
+    [
+      "sw",
+      "$s2, 0x18($sp)"
+    ],
+    [
+      "move",
+      "$s2, $a0"
+    ],
+    [
+      "sw",
+      "$s3, 0x1c($sp)"
+    ],
+    [
+      "sll",
+      "$a0, $a0, 0x10"
+    ],
+    [
+      "lui",
+      "$v0, 0x8007"
+    ],
+    [
+      "addiu",
+      "$v0, $v0, -0x18fc"
+    ],
+    [
+      "sra",
+      "$a0, $a0, 0xe"
+    ],
+    [
+      "sw",
+      "$s0, 0x10($sp)"
+    ],
+    [
+      "addu",
+      "$s0, $a0, $v0"
+    ],
+    [
+      "lh",
+      "$v0, 0x168($gp)"
+    ],
+    [
+      "lui",
+      "$a1, 0x8008"
+    ],
+    [
+      "addiu",
+      "$a1, $a1, 0xaf4"
+    ],
+    [
+      "sw",
+      "$ra, 0x20($sp)"
+    ],
+    [
+      "lw",
+      "$v1, ($s0)"
+    ],
+    [
+      "sll",
+      "$v0, $v0, 2"
+    ],
+    [
+      "addu",
+      "$v0, $v0, $a1"
+    ],
+    [
+      "lw",
+      "$v0, ($v0)"
+    ],
+    [
+      "lhu",
+      "$a0, 0x168($gp)"
+    ],
+    [
+      "bne",
+      "$v1, $v0, 0x64"
+    ],
+    [
+      "move",
+      "$s3, $s1"
+    ],
+    [
+      "j",
+      "0x444ec"
+    ],
+    [
+      "addiu",
+      "$v0, $zero, 1"
+    ],
+    [
+      "xori",
+      "$a0, $a0, 1"
+    ],
+    [
+      "sll",
+      "$v0, $a0, 0x10"
+    ],
+    [
+      "sra",
+      "$v0, $v0, 0xe"
+    ],
+    [
+      "addu",
+      "$v0, $v0, $a1"
+    ],
+    [
+      "lw",
+      "$v1, ($s0)"
+    ],
+    [
+      "lw",
+      "$v0, ($v0)"
+    ],
+    [
+      "sh",
+      "$a0, 0x168($gp)"
+    ],
+    [
+      "beq",
+      "$v1, $v0, 0x148"
+    ],
+    [
+      "sll",
+      "$a0, $s3, 0x10"
+    ],
+    [
+      "jal",
+      "0x542bc"
+    ],
+    [
+      "nop",
+      ""
+    ],
+    [
+      "lb",
+      "$v1, 0x15f($gp)"
+    ],
+    [
+      "sll",
+      "$v0, $s1, 0x10"
+    ],
+    [
+      "sra",
+      "$v0, $v0, 0x10"
+    ],
+    [
+      "beq",
+      "$v1, $v0, 0xac"
+    ],
+    [
+      "nop",
+      ""
+    ],
+    [
+      "jal",
+      "0x44698"
+    ],
+    [
+      "nop",
+      ""
+    ],
+    [
+      "lw",
+      "$a0, ($s0)"
+    ],
+    [
+      "nop",
+      ""
+    ],
+    [
+      "lw",
+      "$v0, ($a0)"
+    ],
+    [
+      "lui",
+      "$v1, 0xff80"
+    ],
+    [
+      "and",
+      "$v0, $v0, $v1"
+    ],
+    [
+      "sw",
+      "$v0, ($a0)"
+    ],
+    [
+      "lw",
+      "$a1, ($s0)"
+    ],
+    [
+      "lh",
+      "$v0, 0x168($gp)"
+    ],
+    [
+      "lw",
+      "$a0, ($a1)"
+    ],
+    [
+      "beqz",
+      "$v0, 0xe8"
+    ],
+    [
+      "lui",
+      "$v1, 0x7f"
+    ],
+    [
+      "ori",
+      "$v1, $v1, 0xffff"
+    ],
+    [
+      "lui",
+      "$v0, 0x801c"
+    ],
+    [
+      "j",
+      "0x44470"
+    ],
+    [
+      "addiu",
+      "$v0, $v0, 0x4640"
+    ],
+    [
+      "ori",
+      "$v1, $v1, 0xffff"
+    ],
+    [
+      "lui",
+      "$v0, 0x801c"
+    ],
+    [
+      "addiu",
+      "$v0, $v0, -0x11c0"
+    ],
+    [
+      "and",
+      "$v0, $v0, $v1"
+    ],
+    [
+      "or",
+      "$v0, $a0, $v0"
+    ],
+    [
+      "addiu",
+      "$a0, $zero, 6"
+    ],
+    [
+      "sll",
+      "$s0, $s2, 0x10"
+    ],
+    [
+      "sw",
+      "$v0, ($a1)"
+    ],
+    [
+      "lui",
+      "$v0, 0x8007"
+    ],
+    [
+      "addiu",
+      "$v0, $v0, -0x18fc"
+    ],
+    [
+      "sra",
+      "$s0, $s0, 0xe"
+    ],
+    [
+      "addu",
+      "$s0, $s0, $v0"
+    ],
+    [
+      "lw",
+      "$a1, ($s0)"
+    ],
+    [
+      "jal",
+      "0x3e4fc"
+    ],
+    [
+      "move",
+      "$a2, $zero"
+    ],
+    [
+      "lui",
+      "$a0, 0x8008"
+    ],
+    [
+      "addiu",
+      "$a0, $a0, 0xaf4"
+    ],
+    [
+      "lh",
+      "$v0, 0x168($gp)"
+    ],
+    [
+      "lw",
+      "$v1, ($s0)"
+    ],
+    [
+      "sll",
+      "$v0, $v0, 2"
+    ],
+    [
+      "addu",
+      "$v0, $v0, $a0"
+    ],
+    [
+      "jal",
+      "0x3f320"
+    ],
+    [
+      "sw",
+      "$v1, ($v0)"
+    ],
+    [
+      "sll",
+      "$a0, $s3, 0x10"
+    ],
+    [
+      "jal",
+      "0x4450c"
+    ],
+    [
+      "sra",
+      "$a0, $a0, 0x10"
+    ],
+    [
+      "lh",
+      "$v0, 0x168($gp)"
+    ],
+    [
+      "nop",
+      ""
+    ],
+    [
+      "beqz",
+      "$v0, 0x164"
+    ],
+    [
+      "addiu",
+      "$a0, $zero, 0x21"
+    ],
+    [
+      "addiu",
+      "$a0, $zero, 0x22"
+    ],
+    [
+      "jal",
+      "0x53da8"
+    ],
+    [
+      "nop",
+      ""
+    ],
+    [
+      "move",
+      "$v0, $zero"
+    ],
+    [
+      "lw",
+      "$ra, 0x20($sp)"
+    ],
+    [
+      "lw",
+      "$s3, 0x1c($sp)"
+    ],
+    [
+      "lw",
+      "$s2, 0x18($sp)"
+    ],
+    [
+      "lw",
+      "$s1, 0x14($sp)"
+    ],
+    [
+      "lw",
+      "$s0, 0x10($sp)"
+    ],
+    [
+      "addiu",
+      "$sp, $sp, 0x28"
+    ],
+    [
+      "jr",
+      "$ra"
+    ],
+    [
+      "nop",
+      ""
+    ]
+  ],
+  "evidence": {
+    "at_macro": [],
+    "split_store": [],
+    "held_page": [],
+    "slot_store": [
+      "[79] jal 0x3f320 + [80] sw $v1, ($v0)"
+    ],
+    "split_la": [],
+    "zero_copy": [],
+    "ret_copy": []
+  },
+  "held": [],
+  "gp_refs": 7,
+  "decision": {
+    "verdict": "insufficient store-emission evidence (few globals?)",
+    "family": null,
+    "notes": [
+      "store-filled call/jump slots (observed scheduling; family-neutral)"
+    ]
+  }
+}

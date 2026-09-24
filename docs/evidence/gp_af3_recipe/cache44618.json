@@ -1,0 +1,311 @@
+{
+  "purpose": "one unchanged-source recipe trial for slus/w_80044618",
+  "method_script": {
+    "path": "work/native_lane/gp_af3_dialect/probe.py",
+    "sha256": "9645c5125ec57f48783c61ff83ff2b4d8b16bc1a8fc2183fed0c437f1f4869bb"
+  },
+  "probe_script_sha256": "fd124753934448552f6812c08a0afc82d48a84a1b07bdef8913379774fb0893a",
+  "baseline": {
+    "manifest": {
+      "path": "config/slus_modules.json",
+      "sha256": "e9838878711d50575118b5993f5cbb9fb1facf193b3b63d338b6bca2fabf6370"
+    },
+    "recipe": {
+      "path": "ledger/splits/slus.jsonl",
+      "sha256": "5815a015e7785df97cbfa7ac7263db9f9156bc6a527842eae00872929eff15ee"
+    },
+    "configure": {
+      "path": "tools/build/configure.py",
+      "sha256": "8e6d2bd3d4957a2ad1bd6cf3152f45b2ff364f17394e8c16add78f1079e34367"
+    },
+    "assembler": {
+      "path": "toolchain/maspsx/maspsx.py",
+      "sha256": "3bbb64075ab6384f6b670a495cce152acb50f3318cf714c6ab9a082b7adaf086"
+    },
+    "compiler": {
+      "path": "toolchain/compilers/gcc-2.7.2-cdk/gcc",
+      "sha256": "7a571911a97cef0c6b7b5d4174e89ac54f9806ce3d4b233c0f8620e3503c672b"
+    },
+    "retail": {
+      "path": "baserom/slus_006.14",
+      "sha256": "ae19d8d4bdd2db9a933b1e44d70dd61be670781e441d7cb37da85250a7aed31f"
+    },
+    "production_image": {
+      "path": "build_slus/build/slus_006.14",
+      "sha256": "ae19d8d4bdd2db9a933b1e44d70dd61be670781e441d7cb37da85250a7aed31f"
+    },
+    "production_elf": {
+      "path": "build_slus/build/slus_006.14.elf",
+      "sha256": "eb14c9cde1141e8912db1d0ba51afd5150c72c30f2b378be23f8185cf1d03a05"
+    },
+    "source_w_80044618": {
+      "path": "src/slus/w_80044618.c",
+      "sha256": "67390771583e5e1d79d9ef2f6f2a7b606abe5e7c0e960259bd02972e3a4f9743"
+    },
+    "raw_w_80044618": {
+      "path": "raw/slus/w_80044618.c",
+      "sha256": "d192049a73880f13dfdfa946dbe2beb9d0fe821083d3bee576ccb66236f2c925"
+    }
+  },
+  "production_modules": 17,
+  "row_id": "slus/w_80044618",
+  "registered_recipe": {
+    "cell": "2.7.2",
+    "flags": "",
+    "asflags": ""
+  },
+  "trial_recipe": {
+    "cell": "2.7.2-cdk",
+    "flags": "-mmips-as",
+    "asflags": ""
+  },
+  "standalone": {
+    "source_sha256": "67390771583e5e1d79d9ef2f6f2a7b606abe5e7c0e960259bd02972e3a4f9743",
+    "registered_recipe": {
+      "cell": "2.7.2",
+      "flags": "",
+      "asflags": ""
+    },
+    "trial_recipe": {
+      "cell": "2.7.2-cdk",
+      "flags": "-mmips-as",
+      "asflags": ""
+    },
+    "calibration": {
+      "result": "MATCH",
+      "words_diff": 0
+    },
+    "full_gate": {
+      "result": "MATCH",
+      "words_diff": 0,
+      "residue": 0,
+      "fn_size_drift": {},
+      "detail": ""
+    },
+    "image": {
+      "match_retail": true,
+      "sha1": "e6bfbb95ff6676899e077481221d73ddd4d3bf52"
+    },
+    "aligned_function": {
+      "built": {
+        "address": 2147763736,
+        "size": 128
+      },
+      "retail": {
+        "address": 2147763736,
+        "size": 128
+      },
+      "aligned_distance": 0,
+      "regions": []
+    },
+    "logical_recipe": {
+      "physical": 874,
+      "logical": 884,
+      "changes": [
+        [
+          {
+            "src": "src/w_80044618.c",
+            "out": "build/src/w_80044618.o",
+            "ccver": "2.7.2",
+            "ccflags": "",
+            "asflags": ""
+          },
+          {
+            "src": "src/w_80044618.c",
+            "out": "build/src/w_80044618.o",
+            "ccver": "2.7.2-cdk",
+            "ccflags": "-mmips-as",
+            "asflags": ""
+          }
+        ]
+      ]
+    },
+    "genuine_2_79": {
+      "status": "ok",
+      "source_sha256": "67390771583e5e1d79d9ef2f6f2a7b606abe5e7c0e960259bd02972e3a4f9743",
+      "assembly_sha256": "9dc5372491dbbdaf8ce12c20d457d1c1f9f166072778a139c59cfdee61ffe0c2",
+      "words": {
+        "standalone": 32,
+        "linked": 32,
+        "genuine": 34
+      },
+      "standalone_vs_linked": {
+        "diff": 0,
+        "exact": true,
+        "len_m": 32,
+        "len_g": 32,
+        "missing": [],
+        "regions": [],
+        "delay_only": []
+      },
+      "linked_vs_genuine": {
+        "diff": 7,
+        "exact": false,
+        "len_m": 32,
+        "len_g": 34,
+        "missing": [],
+        "regions": [
+          [
+            "func_80044618",
+            "replace",
+            [
+              [
+                2542010368,
+                "GPREL16",
+                [
+                  "addr",
+                  null,
+                  2814
+                ]
+              ]
+            ],
+            [
+              [
+                1006895104,
+                "HI16",
+                [
+                  "addr",
+                  null,
+                  2148010750
+                ]
+              ],
+              [
+                2491678720,
+                "LO16",
+                [
+                  "addr",
+                  null,
+                  2814
+                ]
+              ]
+            ],
+            8
+          ],
+          [
+            "func_80044618",
+            "replace",
+            [
+              [
+                134217728,
+                "26",
+                [
+                  "fn",
+                  "func_80044618",
+                  108
+                ]
+              ]
+            ],
+            [
+              [
+                134217728,
+                "26",
+                [
+                  "fn",
+                  "func_80044618",
+                  116
+                ]
+              ]
+            ],
+            14
+          ],
+          [
+            "func_80044618",
+            "replace",
+            [
+              [
+                272891913,
+                null,
+                null
+              ]
+            ],
+            [
+              [
+                272891914,
+                null,
+                null
+              ]
+            ],
+            17
+          ],
+          [
+            "func_80044618",
+            "replace",
+            [
+              [
+                134217728,
+                "26",
+                [
+                  "fn",
+                  "func_80044618",
+                  96
+                ]
+              ]
+            ],
+            [
+              [
+                134217728,
+                "26",
+                [
+                  "fn",
+                  "func_80044618",
+                  100
+                ]
+              ]
+            ],
+            21
+          ],
+          [
+            "func_80044618",
+            "replace",
+            [
+              [
+                2810314752,
+                "GPREL16",
+                [
+                  "addr",
+                  null,
+                  2814
+                ]
+              ]
+            ],
+            [
+              [
+                1006698496,
+                "HI16",
+                [
+                  "addr",
+                  null,
+                  2148010750
+                ]
+              ],
+              [
+                2753691648,
+                "LO16",
+                [
+                  "addr",
+                  null,
+                  2814
+                ]
+              ]
+            ],
+            24
+          ]
+        ],
+        "delay_only": []
+      },
+      "standalone_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      },
+      "genuine_retail": {
+        "diff": 26,
+        "masked": 0,
+        "checked": 1
+      }
+    },
+    "status": "match"
+  },
+  "production_inputs_unchanged": true,
+  "status": "match"
+}
