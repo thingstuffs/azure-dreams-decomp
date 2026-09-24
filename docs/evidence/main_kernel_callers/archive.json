@@ -1,0 +1,69 @@
+{
+  "note": "Read-only caller evidence for three still unimplemented MAIN routines. Restore scan.py at its original path. Raw hits, mapped calls and linked-vs-derived addresses remain distinct; no runtime-execution or exact SDK-release claim.",
+  "files": [
+    {
+      "source": "work/native_lane/main_kernel_callers/REPORT.md",
+      "archive": "REPORT.md",
+      "source_sha256": "25e58e3c8befe27158f3ecb52038c78343c91b77bb57d18149812e0edf4918e7",
+      "archive_sha256": "25e58e3c8befe27158f3ecb52038c78343c91b77bb57d18149812e0edf4918e7",
+      "source_bytes": 5351,
+      "archive_bytes": 5351
+    },
+    {
+      "source": "work/native_lane/main_kernel_callers/receipt.json",
+      "archive": "receipt.json",
+      "source_sha256": "190e5e3e7806c4077af1aec59a3d6cd259a414f5f6874faf62078868c12e238b",
+      "archive_sha256": "190e5e3e7806c4077af1aec59a3d6cd259a414f5f6874faf62078868c12e238b",
+      "source_bytes": 10865,
+      "archive_bytes": 10865
+    },
+    {
+      "source": "work/native_lane/main_kernel_callers/scan.py",
+      "archive": "scan.py",
+      "source_sha256": "0fa317c0dbb404a02aed94c9b4d7d62f046a7cf9b990961bb0d5aff0632f8fbe",
+      "archive_sha256": "0fa317c0dbb404a02aed94c9b4d7d62f046a7cf9b990961bb0d5aff0632f8fbe",
+      "source_bytes": 10637,
+      "archive_bytes": 10637
+    },
+    {
+      "source": "work/native_lane/main_kernel_callers/main_callsite_block.bin",
+      "archive": "main_callsite_block.bin",
+      "source_sha256": "fc9a0c189abd1f7e14b6bf0c4c5bef40e792a251c56fe45ab186a8e8009fbec6",
+      "archive_sha256": "fc9a0c189abd1f7e14b6bf0c4c5bef40e792a251c56fe45ab186a8e8009fbec6",
+      "source_bytes": 208,
+      "archive_bytes": 208
+    },
+    {
+      "source": "work/native_lane/main_kernel_callers/main_callsite_block.disasm.txt",
+      "archive": "main_callsite_block.disasm.txt",
+      "source_sha256": "25bda530739009fac3bb12a6d829f773702d7a3d6dadd195d74a6670b1c89511",
+      "archive_sha256": "1f341ff7fe397ff63b235c12aff3b57ae1b96dd6acce85c6cd7b9dfd0f4718fd",
+      "source_bytes": 1746,
+      "archive_bytes": 1729
+    },
+    {
+      "source": "work/native_lane/main_kernel_callers/town_callsite_block.bin",
+      "archive": "town_callsite_block.bin",
+      "source_sha256": "fc9a0c189abd1f7e14b6bf0c4c5bef40e792a251c56fe45ab186a8e8009fbec6",
+      "archive_sha256": "fc9a0c189abd1f7e14b6bf0c4c5bef40e792a251c56fe45ab186a8e8009fbec6",
+      "source_bytes": 208,
+      "archive_bytes": 208
+    },
+    {
+      "source": "work/native_lane/main_kernel_callers/town_callsite_block.disasm.txt",
+      "archive": "town_callsite_block.disasm.txt",
+      "source_sha256": "58b6a0b4f2afe4a8f8ec63795b9e314a970682ae21deb7d0bf1b401ffdfc22b6",
+      "archive_sha256": "c83c430dba7a4f826cb7c317d5a2830bb645e60299b2da495d995799862f0727",
+      "source_bytes": 1746,
+      "archive_bytes": 1729
+    },
+    {
+      "source": "work/native_lane/main_kernel_callers/town_pointer_block.bin",
+      "archive": "town_pointer_block.bin",
+      "source_sha256": "221d8e8c0dfa8c23a6ed3369c7105f39c71d0d0cb81d4f88a8865762aa1f43d6",
+      "archive_sha256": "221d8e8c0dfa8c23a6ed3369c7105f39c71d0d0cb81d4f88a8865762aa1f43d6",
+      "source_bytes": 32,
+      "archive_bytes": 32
+    }
+  ]
+}
