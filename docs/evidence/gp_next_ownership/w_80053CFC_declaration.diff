@@ -1,0 +1,37 @@
+--- src/slus/w_80053CFC.c
++++ private/w_80053CFC.c
+@@ -13,24 +13,17 @@
+     s32 field_4;
+ } S_80053CFC;
+ 
+-typedef struct {
+-    s32 field_0;
+-    s32 field_4;
+-    s32 field_8;
+-} S_80081568_Hi;
+-
+ extern void Control_CD(s32 arg0, void *arg1, s32 arg2);
+ extern void func_8003F320(void);
+ extern volatile s32 D_80081568;
+ extern s32 D_8008156C;
+-extern S_80081568_Hi D_80081568_hi asm("D_80081568");
+ 
+ /* Builds and submits a command from the source fields and packed value. */
+ void func_80053CFC(S_80053CFC *source, s32 packed_value)
+ {
+     s32 saved_value;
+     s32 low_bits;
+-    S_80081568_Hi *command;
++    void *command;
+ 
+     do {
+         saved_value = packed_value;
+@@ -39,7 +32,7 @@
+     D_8008156C = source->field_4;
+     __asm__ volatile("" : "=r"(saved_value) : "0"(saved_value), "m"(D_80081568) : "memory");
+     low_bits = saved_value & 0x7FFFFF;
+-    command = &D_80081568_hi;
++    command = (void *)&D_80081568;
+     D_80081568 = ((((u32)D_80081568 + 0x7FF) >> 11) << 23) | low_bits;
+     ASM_USE(command);
+     Control_CD(6, command, saved_value);
