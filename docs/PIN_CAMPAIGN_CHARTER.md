@@ -104,6 +104,21 @@ retrospective: mine the session logs, fix the tooling or the brief, A/B on the n
 kit took astra from ~2 rows per 5-row pack to 38 of 40. See docs/PIN_RESEARCH_ROUND62.md (rounds 68-72) and
 docs/LANE_KIT.md.
 
+## Rulings 2026-09-24 (later) — owner sign-off: recipe from retail evidence; hidden scaffolding on the ladder
+
+1. **Coherence toward the retail-proven recipe (amends clause 4b).** Owner: "Ok, it sounds like that needs to be
+   done." A coherence repair may move a row toward the recipe its RETAIL BYTES prove (the split-address fingerprint,
+   `tools/fidelity/split_fingerprint.py`, docs/evidence/fidelity_step2_split_fingerprint.md), not only toward its
+   module census recipe, provided the new text is byte-exact at the new recipe. Where the evidence cannot separate
+   two cells (slus: 2.7.2-cdk vs 2.8.1 both split), choose the cell at which the natural C is exact; if both, the
+   cell of the TU's neighbours; record the evidence in `ledger/recipe_trades.jsonl`.
+2. **Hidden scaffolding belongs on the L0-L5 ladder.** Owner: "a whole function as .word data is a missing function
+   right? We need to expose these and fix them through the L0-L5 pass, somewhere." Implemented: a function whose
+   body is emitted by top-level asm (`.ent` in an `__asm__` string) is a blocking fidelity site, so the row is L0
+   (`tools/levels.py` WHOLE_ASM_FN_RE; slus/w_8005A1D0 L3 -> L0, the only such row). Planned after fidelity step 1:
+   L4 residue kinds `cell_imitation` (unpinned page literals the fingerprint shows are split symbols) and
+   `maspsx_dependent` (rows exact only through a maspsx pass genuine ASPSX lacks).
+
 ## Rulings 2026-09-24 — owner sign-off for rule 5 (NON_MATCHING arm retirement)
 
 Owner, verbatim, asked "When a pin-free rewrite leaves a NON_MATCHING arm with nothing to do, may the arm be deleted?":

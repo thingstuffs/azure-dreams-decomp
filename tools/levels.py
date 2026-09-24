@@ -2,7 +2,7 @@
 """Derive each row's cleanliness level from the current clean tree -> ledger/levels.jsonl.
 
 L0 verified exact at the pin.  L1 no boilerplate, dead pins erased (t2 journalled), no blocking
-fidelity site and no pseudo-call to a label inside the row (whether or not the baseline audit
+fidelity site (a whole function emitted by top-level asm counts as one: owner ruling 2026-09-24) and no pseudo-call to a label inside the row (whether or not the baseline audit
 listed it) -- EXCEPT a LABEL_AS_CALL site, or an intra-tail-call hit, whose target carries a
 DECIDED `cross-segment`/`cross-image` `ledger/split_audit.jsonl` record for THIS row: that is a
 real inter-module jump, not scaffolding for this row (owner ruling 2026-09-22 afternoon, "im ok
@@ -246,6 +246,8 @@ def audit_gate(row_id, targets, split_idx):
     kinds = [split_idx.get((row_id, t), "missing") for t in targets]
     return kinds, all(k not in ("intra", "unresolved", "missing") for k in kinds)
 
+WHOLE_ASM_FN_RE = re.compile(r'"\s*\.ent\s+[A-Za-z_]\w*')
+
 def evaluate_row(r, text, raw_text, promoted, sweeps, split_idx):
     """Pure per-row ladder logic for one L0 row (main() only calls this once l0 is confirmed): `r`
     the row dict, `text`/`raw_text` the current and pinned source, `promoted` the set of ids
@@ -267,7 +269,11 @@ def evaluate_row(r, text, raw_text, promoted, sweeps, split_idx):
     passthru_blocking = any(s.startswith("PASSTHRU_NO_ARGS|") for s in live_sites_full)
     itc_targets = intra_tail_call_targets(r, text, nr_targets)
     itc_blocking = any(not _decided_cross(tgt) for tgt in itc_targets)
-    blocking = label_blocking or passthru_blocking or itc_blocking
+    # owner ruling 2026-09-24: a function whose body is emitted by top-level asm (`.ent <name>` in an
+    # `__asm__` string, e.g. slus/w_8005A1D0's 39 `.word` lines) is not decompiled - it is a missing
+    # function, so it is a blocking fidelity site and the row stays at L0 until it is written in C.
+    asm_function = bool(WHOLE_ASM_FN_RE.search(text))
+    blocking = label_blocking or passthru_blocking or itc_blocking or asm_function
     any_site = bool(live)
     # The charter's counter (docs/PIN_CAMPAIGN_CHARTER.md rule 5: status.py "Pin sites now" =
     # pin_census.sites_of), not a raw `ASM_X(` token count.  The token count also read macro
