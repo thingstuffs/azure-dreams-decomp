@@ -1,0 +1,150 @@
+{
+  "registration": {
+    "production_symbols_sha256": "f9ec567aed77d265833ba9f35bef7f0075d905b9073e2446c72f0f4c991942d0",
+    "private_symbols_sha256": "d5f87251891107de4a594f36900b8569523729bb037cb8da656b230ceae98ed1",
+    "generated_sha256": "11f94fcbe944f1412c0e606c75ca279e37b8cbf97813e55bc0caf3892d89aba2",
+    "generated_matches": [
+      "D_80080AFE = 0x80080AFE;"
+    ],
+    "splat_log": "work/native_lane/gp_cache_afe_link/splat.log",
+    "stage": "work/native_lane/gp_cache_afe_link/stage"
+  },
+  "inputs": {
+    "original_member_sha256": "67390771583e5e1d79d9ef2f6f2a7b606abe5e7c0e960259bd02972e3a4f9743",
+    "candidate_member_sha256": "93d5b346d8c3092175295fca8fdfbdca29473bac491a587222da6ac94795c478",
+    "aggregator_sha256": "2e1182c5853faa1b832c6eb2eaad2c46de4d51a2786572deafc032c76f1dfa17",
+    "production_manifest_sha256": "4f8af9bb65defc835e34e16f4a8a7a5769126b52117b8ca3c78a7d8f2833e222",
+    "private_manifest_sha256": "0491184ad5218761da87ed1fe295a7118b25f38b7bfe14b000578bdb6cdc3a91",
+    "asset_sha256": "c4e7faf5c7f42838e9fb2e9238af76ed6972cdc8ef055fa2b02a18d9360f76da"
+  },
+  "module": {
+    "name": "cache_afe",
+    "source": "src/w_80044618_owned.c",
+    "members": [
+      {
+        "id": "slus/w_80044618",
+        "source": "src/w_80044618.c",
+        "functions": [
+          "func_80044618"
+        ]
+      }
+    ],
+    "headers": [
+      "include/common.h"
+    ],
+    "recipe": {
+      "ccver": "2.7.2",
+      "ccflags": "",
+      "asflags": ""
+    },
+    "data": [
+      {
+        "symbol": "D_80080AFE",
+        "asset": "assets/54240.bin",
+        "offset": 190,
+        "size": 2,
+        "vram": 2148010750,
+        "bytes": "0000",
+        "section": ".sdata"
+      }
+    ],
+    "evidence": "docs/evidence/gp_ownership_wave.md"
+  },
+  "symbol_filter": {
+    "generated_afe": true,
+    "filtered_afe_absent": true,
+    "adjacent_afc_preserved": true,
+    "adjacent_b00_not_absolute": true
+  },
+  "asset_carve": {
+    "kind": "module_data",
+    "start": 190,
+    "end": 192,
+    "module": "cache_afe",
+    "object": "build/src/w_80044618_owned.o",
+    "section": ".sdata",
+    "symbols": [
+      "D_80080AFE"
+    ]
+  },
+  "configure": "wrote build.ninja (1138 objects)",
+  "edges": {
+    "physical": 873,
+    "logical": 884,
+    "differences": []
+  },
+  "build_tail": [
+    "[278/289] BIN build/module_assets/54240_000148_000A00.bin",
+    "[279/289] BIN build/module_assets/54240_000A04_000A08.bin",
+    "[280/289] BIN build/module_assets/54240_000A0C_000A20.bin",
+    "[281/289] BIN build/module_assets/54240_000A24_000AA8.bin",
+    "[282/289] BIN build/module_assets/54240_000AAA_000AC0.bin",
+    "[283/289] BIN build/module_assets/54240_000AC2_000AC8.bin",
+    "[284/289] BIN build/module_assets/54240_000ACC_000AD0.bin",
+    "[285/289] BIN build/module_assets/54240_000AD4_000AD8.bin",
+    "[286/289] BIN build/module_assets/54240_000AE8_000AF0.bin",
+    "[287/289] BIN build/module_assets/54240_000AF2_02BDC0.bin",
+    "[288/289] LINK build/slus_006.14.elf",
+    "[289/289] OBJCOPY build/slus_006.14"
+  ],
+  "image": {
+    "exact_retail": true,
+    "sha256": "ae19d8d4bdd2db9a933b1e44d70dd61be670781e441d7cb37da85250a7aed31f",
+    "retail_sha256": "ae19d8d4bdd2db9a933b1e44d70dd61be670781e441d7cb37da85250a7aed31f"
+  },
+  "owned_object": {
+    "sha256": "282518b043befa2eca25c67718956da994b85ab242d23e35350281394e290bf3",
+    "sdata": "0000",
+    "symbol": [
+      ".sdata",
+      0,
+      "global",
+      0
+    ]
+  },
+  "linked_symbol": [
+    {
+      "address": 2148010750,
+      "size": 0,
+      "section": "2"
+    }
+  ],
+  "outside_4437c": {
+    "unchanged": true,
+    "sha256": "c32f685d21d140718ab3979ec3673f6970faa95716769e5942b1f91adabc58da"
+  },
+  "fresh_code": {
+    "stock": {
+      "words": 32,
+      "masks": [],
+      "exact_32_retail": true,
+      "retail_checker": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      }
+    },
+    "genuine": {
+      "words": 32,
+      "masks": [],
+      "exact_32_retail": true,
+      "retail_checker": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      }
+    },
+    "stock_genuine": {
+      "exact": true,
+      "diff": 0,
+      "len_m": 32,
+      "len_g": 32,
+      "missing": []
+    },
+    "fresh_stock_obj_sha256": "7282e98b63bdba28656ead3bc9ab7ccc593def438faff02db7ce8cc83cce8350",
+    "fresh_assembly_sha256": "b66d3fe856ac1c0cf40442f543ab6059f19d70f747eff19ca5c3b786c149acdc",
+    "genuine_lnk_sha256": "82a75aba3a3e4d8eeafb1942121075c7b3b3a9e77edb306ac3fac96eccccdeec",
+    "linked_map_symbol": 2148010750
+  },
+  "full_link_exact": true
+}

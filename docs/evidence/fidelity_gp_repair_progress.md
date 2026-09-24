@@ -15,7 +15,13 @@ transition remains private.
 
 ## Latest ownership checkpoint
 
-[8099C](gp_shared_8099c.md) now owns the cancellation word in an active two-row
+[AFE cache ownership](gp_cache_afe.md) separates its actual two-byte storage from
+the adjacent selector. Existing plain 2.7.2 gives all 32 words genuine/retail
+exact, with a full-image match and unchanged outside 4437C object. Production:
+**197 dependency records, 29 GP rows, 19 ownership units, 873 physical / 884
+logical rows**. The runtime pilot is recertified; no assembler default changed.
+
+Previous checkpoint: [8099C](gp_shared_8099c.md) now owns the cancellation word in an active two-row
 module. Its full retail image passes. Direct genuine proof covers the setter;
 the renderer's separately recorded genuine proof uses the already accepted
 compiler epilogue model. Its remaining model dependency stays in the ledger.

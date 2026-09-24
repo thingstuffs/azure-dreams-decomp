@@ -1,0 +1,86 @@
+{
+  "schema": 2,
+  "at": "2026-09-24T17:19:13Z",
+  "purpose": "data ownership only; no L4/L5 placement certificate",
+  "modules": [
+    "cache_afe"
+  ],
+  "module_fingerprints": {
+    "slus/w_80044618": "2b6ad8a9e27be0a1dc4c8f2f09df8b8ad1576da0fbd367808897e4984446ff93"
+  },
+  "tool_fingerprint": "773ef76dae23c5d6c052",
+  "recipe_sha256": "cce6e9580c32bd7dd4c159fa58e4a5d89a6ba4944e9b125e6e1d5035fe305b46",
+  "image_sha1": "e6bfbb95ff6676899e077481221d73ddd4d3bf52",
+  "gate": {
+    "result": "MATCH",
+    "words_diff": 0
+  },
+  "data": {
+    "cache_afe": {
+      "sections": {
+        ".sdata": {
+          "size": 2,
+          "bytes": "0000",
+          "symbols": [
+            {
+              "symbol": "D_80080AFE",
+              "asset": "assets/54240.bin",
+              "offset": 190,
+              "size": 2,
+              "vram": 2148010750,
+              "bytes": "0000",
+              "section": ".sdata",
+              "object_offset": 0,
+              "object_binding": "global",
+              "linked_kind": "T"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "rows": {
+    "slus/w_80044618": {
+      "row": "slus/w_80044618",
+      "container": "slus",
+      "kind": "slus",
+      "cfg": "2.7.2",
+      "pins": 0,
+      "asflags": "",
+      "cell": "2.7.2",
+      "maspsx_exact": true,
+      "proof": "whole SLUS image, module context",
+      "fired": [],
+      "module": "cache_afe",
+      "module_fingerprint": "2b6ad8a9e27be0a1dc4c8f2f09df8b8ad1576da0fbd367808897e4984446ff93",
+      "trace_scope": "whole-module",
+      "selfcheck": true,
+      "funcs": 1,
+      "words": 32,
+      "maspsx_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      },
+      "has_div": false,
+      "genuine": {
+        "2.79": {
+          "exact": true,
+          "diff": 0,
+          "len": 32,
+          "mode": "",
+          "retail": [
+            0,
+            0
+          ]
+        }
+      },
+      "exact_versions": [
+        "2.79"
+      ],
+      "best": "2.79",
+      "status": "ok",
+      "secs": 2.0
+    }
+  }
+}

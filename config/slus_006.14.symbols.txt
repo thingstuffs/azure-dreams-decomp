@@ -1188,3 +1188,4 @@ _send_pad = 0x8006a724; // type:func size:0x98
 
 // psyq/libapi/CHCLRPAD  (file 0x3dfbc..0x3e018, vram 0x8006A7BC)  -- _remove_ChgclrPAD
 // _remove_ChgclrPAD    = 0x8006a7bc;  (already declared above)
+D_80080AFE = 0x80080afe; // size:0x2

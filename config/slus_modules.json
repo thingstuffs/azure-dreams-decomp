@@ -908,6 +908,42 @@
         }
       ],
       "evidence": "docs/evidence/gp_shared_8099c.md"
+    },
+    {
+      "name": "cache_afe",
+      "source": "src/w_80044618_owned.c",
+      "members": [
+        {
+          "id": "slus/w_80044618",
+          "source": "src/w_80044618.c",
+          "functions": [
+            "func_80044618"
+          ]
+        }
+      ],
+      "headers": [
+        "include/common.h",
+        "include/game.h",
+        "include/globals.h",
+        "include/include_asm.h"
+      ],
+      "recipe": {
+        "ccver": "2.7.2",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "data": [
+        {
+          "symbol": "D_80080AFE",
+          "asset": "assets/54240.bin",
+          "offset": 190,
+          "size": 2,
+          "vram": 2148010750,
+          "bytes": "0000",
+          "section": ".sdata"
+        }
+      ],
+      "evidence": "docs/evidence/gp_cache_afe.md"
     }
   ]
 }
