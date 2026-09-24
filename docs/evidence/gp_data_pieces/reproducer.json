@@ -1,0 +1,21 @@
+{
+  "work_directory": "work/native_lane/gp_data_pieces",
+  "scripts": {
+    "module_fixture.py": "0aa5d544b5a1923783e894b890796f61e54d08e8145f8e30abab21e5c804a6c1",
+    "verify_fixture.py": "995197794d96c1f8035af7dbc318585bbca2dc90ce346941e0bfcc7e4ee95f1f",
+    "candidate_gate.py": "da7d2e98e380289c887671c625b5bbbd384277f0761ec2df10763e234f783d5f",
+    "generic_module_gate.py": "d9921ad677a260c7b51dd9dd85a995ed83d5823a20f0df1b6e8a9e347fe7c020"
+  },
+  "private_tests": {
+    "tests/test_data_piece_configure.py": "d6f2f0913f61ee6575c392349492e443a0866dc0f2ad449d185ee7219b96a969",
+    "tests/test_data_piece_elf.py": "c02f76415d92c6ab1bcd9a70998caab98953421eaa6355b422d6287acdd7568f",
+    "tests/test_data_piece_evidence.py": "c531a4c66597bac6474a47c5b1e6b9cdae1d6912362bfc5bbca671d5219b85b1",
+    "tests/test_data_piece_fidelity.py": "d3664deb72a471850f52bbb63a10b7a6bff30e1b63123d5c408a32966c2564dc",
+    "tests/test_data_piece_manifest.py": "8c35aa1242ec4ee2c6dfea678fb37d3a6d2646f8132d788e241174a02e7f7415"
+  },
+  "portable_tests": {
+    "fixture/tools/tests/test_slus_data_pieces.py": "7b5d50161323115731e5132dc58302a8057486c365148b7cec953208c99a3513"
+  },
+  "scope": "Isolated 24th owner fixture; production unchanged",
+  "next_route": "Portable integration tests, production tooling transaction and recertification, then shared CD declaration/consumer repairs"
+}

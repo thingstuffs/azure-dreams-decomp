@@ -102,3 +102,10 @@ Production remains 189 dependencies / 21 GP rows; this private proof earns no
 removal. Next: integrate explicit data-piece plans into build/fidelity/ownership
 checks, reconcile the shared CD declarations, then measure the complete consumer
 group. The goal remains active with the same primary/Sol/Luna division of work.
+
+The [data-piece tooling candidate](evidence/gp_data_pieces.md) now also passes
+normal generated Ninja, fresh whole-owner genuine verification, the private
+generic assembler arm, and three candidate-rejection/restoration cases. The
+complete patch is recorded. Next is portable integration-test completion and a
+production tooling/recertification transaction, followed by the shared CD source
+repairs. No production dependency count has changed at this checkpoint.

@@ -1,0 +1,138 @@
+{
+  "name": "cd_e758_pieces",
+  "source": "src/w_8003E758_owned.c",
+  "members": [
+    {
+      "id": "slus/w_8003E758",
+      "source": "src/w_8003E758.c",
+      "functions": [
+        "func_8003E758"
+      ]
+    }
+  ],
+  "headers": [
+    "include/common.h"
+  ],
+  "recipe": {
+    "ccver": "2.7.2-cdk",
+    "ccflags": "-G32 -fno-expensive-optimizations",
+    "asflags": ""
+  },
+  "data": [
+    {
+      "symbol": "D_800814D0",
+      "asset": "assets/54240.bin",
+      "offset": 2704,
+      "size": 1,
+      "vram": 2148013264,
+      "bytes": "00",
+      "section": ".sdata.D_800814D0"
+    },
+    {
+      "symbol": "D_800814D4",
+      "asset": "assets/54240.bin",
+      "offset": 2708,
+      "size": 1,
+      "vram": 2148013268,
+      "bytes": "00",
+      "section": ".sdata.D_800814D4"
+    },
+    {
+      "symbol": "D_800814CC",
+      "asset": "assets/54240.bin",
+      "offset": 2700,
+      "size": 4,
+      "vram": 2148013260,
+      "bytes": "00000000",
+      "section": ".sdata.D_800814CC"
+    },
+    {
+      "symbol": "D_80081450",
+      "asset": "assets/54240.bin",
+      "offset": 2576,
+      "size": 8,
+      "vram": 2148013136,
+      "bytes": "0000000000000000",
+      "section": ".sdata.D_80081450"
+    },
+    {
+      "symbol": "D_80080AD0",
+      "asset": "assets/54240.bin",
+      "offset": 144,
+      "size": 1,
+      "vram": 2148010704,
+      "bytes": "00",
+      "section": ".sdata.D_80080AD0"
+    },
+    {
+      "symbol": "D_80080AD2",
+      "asset": "assets/54240.bin",
+      "offset": 146,
+      "size": 2,
+      "vram": 2148010706,
+      "bytes": "0000",
+      "section": ".sdata.D_80080AD2"
+    },
+    {
+      "symbol": "D_80080AD4",
+      "asset": "assets/54240.bin",
+      "offset": 148,
+      "size": 2,
+      "vram": 2148010708,
+      "bytes": "0000",
+      "section": ".sdata.D_80080AD4"
+    },
+    {
+      "symbol": "D_80080AD8",
+      "asset": "assets/54240.bin",
+      "offset": 152,
+      "size": 4,
+      "vram": 2148010712,
+      "bytes": "00000000",
+      "section": ".sdata.D_80080AD8"
+    }
+  ],
+  "data_pieces": [
+    {
+      "symbol": "D_800814D0",
+      "source_section": ".sdata",
+      "alignment": 1
+    },
+    {
+      "symbol": "D_800814D4",
+      "source_section": ".sdata",
+      "alignment": 1
+    },
+    {
+      "symbol": "D_800814CC",
+      "source_section": ".sdata",
+      "alignment": 4
+    },
+    {
+      "symbol": "D_80081450",
+      "source_section": ".sdata",
+      "alignment": 4
+    },
+    {
+      "symbol": "D_80080AD0",
+      "source_section": ".sdata",
+      "alignment": 1
+    },
+    {
+      "symbol": "D_80080AD2",
+      "source_section": ".sdata",
+      "alignment": 2
+    },
+    {
+      "symbol": "D_80080AD4",
+      "source_section": ".sdata",
+      "alignment": 2
+    },
+    {
+      "symbol": "D_80080AD8",
+      "source_section": ".sdata",
+      "alignment": 4
+    }
+  ],
+  "evidence": "docs/evidence/gp_ownership_wave.md"
+}

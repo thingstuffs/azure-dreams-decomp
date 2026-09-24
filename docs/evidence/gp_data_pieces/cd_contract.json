@@ -1,0 +1,237 @@
+{
+  "schema": 1,
+  "task": "read-only CD shared-declaration inventory",
+  "evidence_snapshot": {
+    "markdown": "docs/evidence/gp_cd_partition/state_inventory.md",
+    "json": "docs/evidence/gp_cd_partition/state_inventory.json",
+    "baseline_commit": "f02cb899",
+    "modules": 23,
+    "physical_objects": 869,
+    "gp_dependency_rows": 21,
+    "snapshot_semantics": "Observed access extents and mapped asset bytes; not historical allocation bounds or ownership claims.",
+    "listed_symbol_bytes_equal_retail": true
+  },
+  "inputs": [
+    {"path": "docs/evidence/gp_cd_partition/state_inventory.md", "sha256": "2c23bdeafb67a01107796234ee7be48d295fa1fb4d6e1f122b79adada117acf0"},
+    {"path": "docs/evidence/gp_cd_partition/state_inventory.json", "sha256": "09291f51e9015366ca227f57be197f88a45ef0929f07764fcd18492a4f4ae06e"},
+    {"path": "src/slus/w_8003E34C.c", "sha256": "e6307ec7fc8eeb69184641d6aed0c3d23b2a1f73f8fb94729214cf846335d34f"},
+    {"path": "src/slus/w_8003E4FC.c", "sha256": "0fcc2c6a3ec6c649ecab818dfc02823d021db0187589675c966abbc8f2646bfd"},
+    {"path": "src/slus/w_8003E758.c", "sha256": "5e0d0566707dba49b74641b49d4b1ec9e323fe8aef85825e07f01f3abf36ad60"},
+    {"path": "src/slus/w_8003F2A4.c", "sha256": "0f2acaea6f43061bc4fbaf9914d089c201da89c1abd4187c6109f32d36b36bfd"},
+    {"path": "src/slus/w_8003F368.c", "sha256": "e208cfee45b4081ed535c818c0ae9261be0e27c96e262643e7fcc13362d7419e"},
+    {"path": "src/slus/w_8003F5AC.c", "sha256": "76f5fe3a0bccb475fa3741fcef237095283bcc294342e8ffa1dfd15cc3ad8257"},
+    {"path": "src/slus/w_8003F624.c", "sha256": "7dd8102413e90570bbed6fcbda09d85f4f872d56a227d288c6a0baa176fd9ac4"},
+    {"path": "src/slus/code2.c", "sha256": "443e6c482c7a5fe6fcf53c5381384618acac6adb06cff6d287aea2386f65c2bb"}
+  ],
+  "symbols": [
+    {
+      "symbol": "D_80080AD0",
+      "observed_vma_interval": ["0x80080AD0", "0x80080AD1"],
+      "asset_offset": "0x90",
+      "initial_bytes": "00",
+      "snapshot_declarations": ["s8 in w_8003E34C.c", "u8 in w_8003E758.c"],
+      "declarations_and_accesses": [
+        {"source": "src/slus/w_8003E34C.c:13,28", "type": "s8", "action": "store zero"},
+        {"source": "src/slus/w_8003E758.c:46,384", "type": "u8", "action": "test against zero"}
+      ],
+      "conflicts": ["Same one-byte access width with signed/unsigned declarations."]
+    },
+    {
+      "symbol": "D_80080AD2",
+      "observed_vma_interval": ["0x80080AD2", "0x80080AD4"],
+      "asset_offset": "0x92",
+      "initial_bytes": "0000",
+      "snapshot_declarations": ["u16 in w_8003E758.c"],
+      "declarations_and_accesses": [
+        {"source": "src/slus/w_8003E758.c:47,388-389", "type": "u16", "action": "increment; test (value & 3) == 3"}
+      ],
+      "conflicts": []
+    },
+    {
+      "symbol": "D_80080AD4",
+      "observed_vma_interval": ["0x80080AD4", "0x80080AD6"],
+      "asset_offset": "0x94",
+      "initial_bytes": "0000",
+      "snapshot_declarations": ["s16 in w_8003E34C.c and w_8003E4FC.c", "u16 in w_8003E758.c and w_8003F5AC.c"],
+      "declarations_and_accesses": [
+        {"source": "src/slus/w_8003E34C.c:14,30", "type": "s16", "action": "store zero"},
+        {"source": "src/slus/w_8003E4FC.c:12,123", "type": "s16", "action": "store zero in case_13"},
+        {"source": "src/slus/w_8003E758.c:48,470", "type": "u16", "action": "store one"},
+        {"source": "src/slus/w_8003F5AC.c:5,12-16", "type": "u16", "action": "test nonzero to set returned flag bit"}
+      ],
+      "conflicts": ["Two-byte access width agrees; signed/unsigned declarations differ."]
+    },
+    {
+      "symbol": "D_80080AD8",
+      "observed_vma_interval": ["0x80080AD8", "0x80080ADC"],
+      "asset_offset": "0x98",
+      "initial_bytes": "00000000",
+      "snapshot_declarations": ["s32 in w_8003E758.c"],
+      "declarations_and_accesses": [
+        {"source": "src/slus/w_8003E758.c:49,381-383,407", "type": "s32", "action": "store CdReadSync result; test positive, zero and negative"}
+      ],
+      "conflicts": []
+    },
+    {
+      "symbol": "D_80080ADC",
+      "observed_vma_interval": ["0x80080ADC", "0x80080AE0"],
+      "asset_offset": "0x9C",
+      "initial_bytes": "00000000",
+      "snapshot_declarations": ["s32 in w_8003E34C.c", "void * in w_8003E4FC.c"],
+      "declarations_and_accesses": [
+        {"source": "src/slus/w_8003E34C.c:15,29", "type": "s32", "action": "store zero"},
+        {"source": "src/slus/w_8003E4FC.c:13,112,131", "type": "void *", "action": "store EventSource.field4 and event_data"}
+      ],
+      "conflicts": ["Four-byte integer and pointer declarations at the same address."]
+    },
+    {
+      "symbol": "D_800814CC",
+      "observed_vma_interval": ["0x800814CC", "0x800814D0"],
+      "asset_offset": "0xA8C",
+      "initial_bytes": "00000000",
+      "snapshot_declarations": ["u32 in w_8003E758.c"],
+      "declarations_and_accesses": [
+        {"source": "src/slus/w_8003E758.c:40,179", "type": "u32", "action": "store computed end address"},
+        {"source": "src/slus/w_8003E758.c:385", "type": "u32", "action": "cast stored value to u32 * and dereference"}
+      ],
+      "conflicts": []
+    },
+    {
+      "symbol": "D_800814D0",
+      "observed_vma_interval": ["0x800814D0", "0x800814D1"],
+      "asset_offset": "0xA90",
+      "initial_bytes": "00",
+      "snapshot_declarations": ["s8 in w_8003E34C.c", "u8 in E758, F2A4, F368 and code2.c"],
+      "declarations_and_accesses": [
+        {"source": "src/slus/w_8003E34C.c:16,24", "type": "s8", "action": "store zero"},
+        {"source": "src/slus/w_8003E758.c:36,101-149,230-267,353-354,438,487-500", "type": "u8", "action": "ring head comparisons, indexing, increments, decrement/wrap and mask"},
+        {"source": "src/slus/w_8003F2A4.c:10,37", "type": "u8", "action": "index history ring"},
+        {"source": "src/slus/w_8003F368.c:23,77,81", "type": "u8", "action": "decrement and mask to 0x1f"},
+        {"source": "src/slus/code2.c:297,301-302", "type": "u8", "action": "select previous history-ring entry"}
+      ],
+      "conflicts": ["One-byte access width with signed/unsigned declarations."]
+    },
+    {
+      "symbol": "D_800814D4",
+      "observed_vma_interval": ["0x800814D4", "0x800814D5"],
+      "asset_offset": "0xA94",
+      "initial_bytes": "00",
+      "snapshot_declarations": ["u8 in w_8003E758.c and w_8003F624.c"],
+      "declarations_and_accesses": [
+        {"source": "src/slus/w_8003E758.c:39,180", "type": "u8", "action": "store 0x80"},
+        {"source": "src/slus/w_8003F624.c:6,17", "type": "u8", "action": "store 0x84"}
+      ],
+      "conflicts": ["This scalar address also lies within the declared D_800814D2 and D_800814D3 array views."]
+    },
+    {
+      "symbol": "D_80081450",
+      "observed_vma_interval": ["0x80081450", "0x80081454"],
+      "asset_offset": "0xA10",
+      "initial_bytes": "00000000",
+      "snapshot_declarations": ["u8 in w_8003E758.c", "four-byte S_80081450 union in w_8003F368.c"],
+      "declarations_and_accesses": [
+        {"source": "src/slus/w_8003E758.c:42,435,455-456", "type": "u8", "action": "read status byte and test 0xfd/0x40/0x20/0x80 masks"},
+        {"source": "src/slus/w_8003F368.c:5-13,20,37,45-46,86,90,95", "type": "union of u32 raw and four u8 fields", "action": "save four bytes; clear raw word; restore; inspect mm byte"}
+      ],
+      "conflicts": ["Material declared-width conflict: one byte versus four bytes; overlapping byte-location views also occur at D_80081451 and D_80081452."]
+    },
+    {
+      "symbol": "D_800814D8",
+      "observed_vma_start": "0x800814D8",
+      "asset_offset": null,
+      "initial_bytes": null,
+      "snapshot_entry": false,
+      "declarations_and_accesses": [
+        {"source": "src/slus/w_8003E758.c:41,381", "type": "u8[16]", "declared_interval": ["0x800814D8", "0x800814E8"], "action": "passed as CdReadSync result buffer"}
+      ],
+      "conflicts": ["The declared span overlaps the D_800814D2 and D_800814D3 array views; source declaration does not establish allocated size or initial asset bytes."]
+    },
+    {
+      "symbol": "D_800814B0",
+      "observed_vma_interval": ["0x800814B0", "0x800814B4"],
+      "asset_offset": "0xA70",
+      "initial_bytes": "00000000",
+      "snapshot_declarations": ["s32 in w_8003F2A4.c"],
+      "declarations_and_accesses": [
+        {"source": "src/slus/w_8003F2A4.c:15,41", "type": "s32", "action": "store pair field f0"}
+      ],
+      "conflicts": ["Address also lies in the D_800814AC[12] declarator interval."]
+    },
+    {
+      "symbol": "D_800814B4",
+      "observed_vma_interval": ["0x800814B4", "0x800814B8"],
+      "asset_offset": "0xA74",
+      "initial_bytes": "00000000",
+      "snapshot_declarations": ["s32 in w_8003F2A4.c"],
+      "declarations_and_accesses": [
+        {"source": "src/slus/w_8003F2A4.c:16,42", "type": "s32", "action": "store pair field f4"}
+      ],
+      "conflicts": ["Address also lies in the D_800814AC[12] declarator interval."]
+    }
+  ],
+  "related_overlapping_declarators": [
+    {
+      "address_symbol": "D_80081438",
+      "source": "src/slus/w_8003E758.c:43,82",
+      "type": "u8[0x20]",
+      "declared_interval": ["0x80081438", "0x80081458"],
+      "access": "CDBUF is &D_80081438[0x18], documented equal to &D_80081450; passed to CD operations.",
+      "overlaps": ["D_80081450"]
+    },
+    {
+      "address_symbol": "D_800814D1",
+      "source": "src/slus/w_8003E758.c:37,101",
+      "type": "u8[16]",
+      "declared_interval": ["0x800814D1", "0x800814E1"],
+      "access": "Read element zero as queue tail."
+    },
+    {
+      "address_symbol": "D_800814D2",
+      "source": "src/slus/w_8003E34C.c:21; src/slus/w_8003E758.c:78-80,119,131,144,402,458-464",
+      "type": "u8[16] plus D_800814D2_P[16] and D_800814D2_R[16] asm aliases",
+      "declared_interval": ["0x800814D2", "0x800814E2"],
+      "access": "E34C writes absolute byte D2; E758 reads/writes index zero through D2/P/R names.",
+      "overlaps": ["D_800814D3", "D_800814D4", "D_800814D8"]
+    },
+    {
+      "address_symbol": "D_800814D3",
+      "source": "src/slus/w_8003E34C.c:22; src/slus/w_8003E758.c:65-77,174-181,364-475; src/slus/w_8003F368.c:24,67-79; src/slus/w_8003F624.c:7,17-19",
+      "type": "u8[16] in E758/F368; u8[8] in F624; E758 also declares D_800814D3_*[16] asm aliases",
+      "declared_intervals": [["0x800814D3", "0x800814E3"], ["0x800814D3", "0x800814DB"]],
+      "access": "E34C writes absolute byte D3. E758 reads/writes byte elements and passes D3+1 to CdControl. F368 sets recovery_state to D3, writes element zero and reads recovery_state[-3]. F624 passes D3+1 to CdControlB.",
+      "overlaps": ["D_800814D4", "D_800814D8"]
+    },
+    {
+      "address_symbol": "D_80081451 / D_80081452",
+      "source": "src/slus/w_8003F368.c:15-22,56,68,90-93,101-103",
+      "type": "S_80081451 {u8 val; u8 pad[15]} for each symbol (16-byte C extent)",
+      "declared_intervals": [["0x80081451", "0x80081461"], ["0x80081452", "0x80081462"]],
+      "access": "Read val fields; form CD parameter pointers from D_80081451-1; byte-pointer reads use D_80081452-1 and D_80081451+1.",
+      "overlaps": ["D_80081450"]
+    },
+    {
+      "address_symbol": "D_800814AC",
+      "source": "src/slus/w_8003F2A4.c:18-21,43",
+      "type": "u8[12]",
+      "declared_interval": ["0x800814AC", "0x800814B8"],
+      "access": "Address is cast to S_8003F2A4_pair * at element offset 4; the cast address is D_800814B0.",
+      "overlaps": ["D_800814B0", "D_800814B4"]
+    }
+  ],
+  "registered_recipes_from_snapshot": {
+    "slus/w_8003E34C": {"ccver": "2.7.2-cdk", "ccflags": "", "asflags": ""},
+    "slus/w_8003E4FC (Control_CD)": {"ccver": "2.7.2-cdk", "ccflags": "", "asflags": ""},
+    "slus/w_8003E758": {"ccver": "2.7.2-cdk", "ccflags": "-G32 -fno-expensive-optimizations", "asflags": ""},
+    "slus/w_8003F2A4": {"ccver": "2.6.3", "ccflags": "-fno-schedule-insns", "asflags": ""},
+    "slus/w_8003F368": {"ccver": "2.7.2", "ccflags": "", "asflags": ""},
+    "slus/w_8003F5AC": {"ccver": "2.7.2-cdk", "ccflags": "", "asflags": ""},
+    "slus/w_8003F624": {"ccver": "2.7.2", "ccflags": "", "asflags": ""},
+    "slus/code2 (func_8003F240 collector remainder)": {"ccver": "2.8.1", "ccflags": "", "asflags": ""}
+  },
+  "limits": [
+    "No compiler, build, or source edit was performed.",
+    "Declarator-bound intersections are address arithmetic over C declarations only, not proof that each declared span is a distinct or exact retail allocation.",
+    "No asset offset or initial-byte claim is made for D_800814D8 because it is absent from the supplied state_inventory symbol rows.",
+    "No historical TU ownership, preferred shared contract, architecture change, or compiler limitation is inferred."
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "changed_initializer": {
+    "rejection": {
+      "result": "NO MATCH",
+      "words_diff": 1,
+      "residue": 0,
+      "per_fn": {
+        "func_8003E758": 0
+      },
+      "fn_size_drift": {},
+      "detail": "0 differing words in the swapped TUs' functions (aligned against retail); 1 image words differ"
+    },
+    "source_object_image_restored": true,
+    "restored_object_sha256": "f3b11b01e6335dd1f0ba9b902ee7ef7738759f8cf0b716741891fcf84e08e08c"
+  },
+  "changed_instruction": {
+    "rejection": {
+      "result": "NO MATCH",
+      "words_diff": 1,
+      "residue": 1,
+      "per_fn": {
+        "func_8003E758": 1
+      },
+      "fn_size_drift": {},
+      "detail": "1 differing words in the swapped TUs' functions (aligned against retail); 1 image words differ"
+    },
+    "source_object_image_restored": true,
+    "restored_object_sha256": "f3b11b01e6335dd1f0ba9b902ee7ef7738759f8cf0b716741891fcf84e08e08c"
+  },
+  "unselected_global_storage": {
+    "rejection": {
+      "result": "ERROR",
+      "detail": "compile: ^^^^^^^^^^^^^^^^^^\n  File \"<repo>/work/native_lane/gp_data_pieces/candidate_gate_stage/tools/slus_data_pieces.py\", line 430, in _expected_receipt\n    transformed, proof = split_elf(original, plan)\n                         ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<repo>/work/native_lane/gp_data_pieces/candidate_gate_stage/tools/slus_data_pieces.py\", line 232, in split_elf\n    raise ValueError(f\"{source_name}: unselected or unnamed non-section defined symbol\")\nValueError: .sdata: unselected or unnamed non-section defined symbol\nninja: build stopped: subcommand failed.\n"
+    },
+    "source_object_image_restored": true,
+    "restored_object_sha256": "f3b11b01e6335dd1f0ba9b902ee7ef7738759f8cf0b716741891fcf84e08e08c"
+  }
+}
