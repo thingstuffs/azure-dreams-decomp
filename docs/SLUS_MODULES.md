@@ -94,6 +94,9 @@ contiguous and ordered. It replaces only the registered asset interval with the
 module object's section; untouched prefixes and suffixes remain asset chunks.
 The ordered linker script must contain one unambiguous slot for the original
 asset, and owned absolute symbol assignments must have the declared address.
+When a new internal carve boundary is not aligned to the containing output
+section's `SUBALIGN`, the rewrite uses `SUBALIGN(1)` there to prevent inserted
+padding between exact byte chunks. Word-aligned carves preserve the directive.
 Unsupported, overlapping, changed, or ambiguous ownership is a build error,
 not permission to widen a carve (`tools/build/slus_modules.py:plan_asset_carves`,
 `rewrite_ordered_linker_script`, `filter_owned_symbols`).
@@ -113,7 +116,8 @@ and re-run the full module proof; do not update one member in isolation.
 The SLUS registry and split ledger continue to represent **884 logical rows**.
 For a three-row module, configure compiles the aggregator once instead of three
 row files, reducing the physical C compile-edge count by two (884 logical rows,
-882 physical C edges for this grouping). `logical_edges` expands the physical
+882 physical C edges for this grouping alone; later groups reduce that count
+further). `logical_edges` expands the physical
 module edge back into the original per-row source, object name, and recipe
 records, and rejects missing, duplicate, overlapping, or recipe-mismatched
 edges (`tools/build/slus_modules.py:logical_edges`). Do not collapse or rename

@@ -1,0 +1,120 @@
+[
+  {
+    "order": "before",
+    "genuine_vs_maspsx": {
+      "diff": 2,
+      "exact": false,
+      "len_m": 28,
+      "len_g": 29,
+      "missing": [],
+      "regions": [
+        [
+          "func_80047E78",
+          "replace",
+          [
+            [
+              662831104,
+              "GPREL16",
+              [
+                "sec",
+                ".sdata",
+                0
+              ]
+            ]
+          ],
+          [
+            [
+              1006764032,
+              "HI16",
+              [
+                "sec",
+                ".sdata",
+                0
+              ]
+            ],
+            [
+              608305152,
+              "LO16",
+              [
+                "sec",
+                ".sdata",
+                0
+              ]
+            ]
+          ],
+          21
+        ]
+      ],
+      "delay_only": []
+    },
+    "maspsx_retail": {
+      "diff": 7,
+      "masked": 0,
+      "checked": 1
+    },
+    "genuine_retail": {
+      "diff": 0,
+      "masked": 0,
+      "checked": 1
+    }
+  },
+  {
+    "order": "after",
+    "genuine_vs_maspsx": {
+      "diff": 2,
+      "exact": false,
+      "len_m": 28,
+      "len_g": 29,
+      "missing": [],
+      "regions": [
+        [
+          "func_80047E78",
+          "replace",
+          [
+            [
+              662831104,
+              "GPREL16",
+              [
+                "sec",
+                ".sdata",
+                0
+              ]
+            ]
+          ],
+          [
+            [
+              1006764032,
+              "HI16",
+              [
+                "sec",
+                ".sdata",
+                0
+              ]
+            ],
+            [
+              608305152,
+              "LO16",
+              [
+                "sec",
+                ".sdata",
+                0
+              ]
+            ]
+          ],
+          21
+        ]
+      ],
+      "delay_only": []
+    },
+    "maspsx_retail": {
+      "diff": 7,
+      "masked": 0,
+      "checked": 1
+    },
+    "genuine_retail": {
+      "diff": 0,
+      "masked": 0,
+      "checked": 1
+    }
+  }
+]

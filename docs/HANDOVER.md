@@ -45,6 +45,28 @@ and no other recorded users. Detailed ranking:
 `work/native_lane/gp_next_cohorts/{REPORT.md,cohorts.json}`. Cross-recipe shared
 users remain explicit; do not claim all users of the pilot's global repaired.
 
+Fourth checkpoint: [the ownership wave](evidence/gp_ownership_wave.md) activates
+18 more rows and 24 ordinary initialized data definitions, including actual zero
+initializers. Nine recipe changes passed the existing lander. Two four-function
+slot groups share declarations and each use CDK -G16; all 884 logical rows remain
+and physical inputs are now 876. Fresh genuine/retail proof covers 781 words with
+zero masks or compatibility passes. Total dependencies 223 -> 205; GP rows
+56 -> 38. The twelve new ownership units make no L4 placement claim; the original
+pilot has a fresh certificate. Halfword carves now preserve exact layout despite
+the old output SUBALIGN(4); a real linker regression test covers the padding bug.
+No global assembler switch or pass deletion has been made.
+
+Next hard lead: `w_80047E78` with real storage is genuine-ASPSX/retail exact
+(29 words), but stock downstream GNU assembly shortens its address load. The
+existing generic GP correction fixes this object; it awaits a linked cohort
+proof and the global change. `w_80053CFC` needs the same retail-anchor diagnosis.
+Do not repeat the disproved forward-definition/C-shape hypothesis for 47E78.
+For later pass retirement, the current single-consumer queue is
+`_prefer_lui_over_sll_branch_delay` -> `w_80048224`,
+`_sink_call_separated_la` -> `w_8004AB7C`, and
+`_hoist_zero_arg_before_global_clears` -> `w_8005D7BC`.
+The accepted two missing-compiler rules remain excluded from that queue.
+
 # Handover (2026-09-24, H28 recovery)
 
 Picked up the interrupted 67-row H28 wave from `r77_opus_h1..h16` after the

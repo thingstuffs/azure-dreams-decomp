@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-09-24T14:59:45Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-09-24T15:21:25Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -22,6 +22,18 @@ Baseline NOT exact: 0 rows
 | module | logical rows | placement evidence | shared headers |
 |---|---:|---|---|
 | runtime_directory | 3 | current: retail + genuine ASPSX 2.79 | include/common.h, include/slus/runtime_directory.h |
+| entry_words | 1 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/entry_words.json' | include/common.h, include/game.h, include/globals.h, include/include_asm.h |
+| render_words | 1 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/render_words.json' | include/common.h, include/game.h, include/globals.h, include/include_asm.h, include/records/Rec_func_80034F58_arg0.h |
+| owned_80035484 | 1 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/owned_80035484.json' | include/common.h, include/game.h, include/globals.h, include/include_asm.h |
+| owned_80038A10 | 1 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/owned_80038A10.json' | include/common.h, include/game.h, include/globals.h, include/include_asm.h |
+| owned_80044698 | 1 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/owned_80044698.json' | include/common.h, include/game.h, include/globals.h, include/include_asm.h |
+| owned_800448BC | 1 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/owned_800448BC.json' | include/common.h, include/game.h, include/globals.h, include/include_asm.h |
+| owned_8004713C | 1 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/owned_8004713C.json' | include/common.h, include/game.h, include/globals.h, include/include_asm.h |
+| owned_80047338 | 1 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/owned_80047338.json' | include/common.h, include/game.h, include/globals.h, include/include_asm.h |
+| owned_80047468 | 1 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/owned_80047468.json' | include/common.h, include/game.h, include/globals.h, include/include_asm.h |
+| state_defaults | 1 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/state_defaults.json' | include/common.h, include/game.h, include/globals.h, include/include_asm.h |
+| slot_transition | 4 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/slot_transition.json' | include/common.h, include/game.h, include/globals.h, include/include_asm.h, include/slus/slot_transition.h |
+| slot_transition_secondary | 4 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/slot_transition_secondary.json' | include/common.h, include/game.h, include/globals.h, include/include_asm.h, include/slus/slot_transition.h |
 
 Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump and fidelity requirements still apply; changed shared inputs invalidate placement evidence.
 
@@ -42,7 +54,7 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | maspsx marker pins (scaffolding) | 393 | 351,556 | 13.7% | 3 | 3,176 | 0.1% |
 | do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,176 | 6.1% | 354 | 249,960 | 9.8% |
 | fake dependency x=(e)+a;x-=a / arg+v-v (scaffolding, pure C) | 1 | 408 | 0.0% | 2 | 820 | 0.0% |
-| local address-named struct | 633 | 346,988 | 13.6% | 3151 | 1,620,488 | 63.3% |
+| local address-named struct | 633 | 346,988 | 13.6% | 3144 | 1,615,304 | 63.1% |
 | clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,440 | 6.1% | 3090 | 552,084 | 21.6% |
 
 Pin sites now: 3,108 in 768 rows; REG 1,480, KEEP 693, KEEP_NV 427, SCHED_BARRIER 158, KEEP_DEP_NV 75, USE_NV 50, USE 42, CLOBBER 35.  At the pin: 25,759; REG 12,778, KEEP 6,854, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.

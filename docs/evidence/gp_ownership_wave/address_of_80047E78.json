@@ -1,0 +1,29 @@
+{
+  "components": [
+    19
+  ],
+  "gate": {
+    "result": "NO MATCH",
+    "words_diff": 100631
+  },
+  "image_sha1": "4aaa930e0ecfafc25440dccef0c33beca32a85f3",
+  "rows": [
+    {
+      "component": 19,
+      "row": "slus/w_80047E78",
+      "symbols": {
+        "D_80081528": {
+          "vram": 2148013352,
+          "size": 4,
+          "object_owned": true,
+          "linked_exact": false
+        }
+      },
+      "sdata_exact": true,
+      "standalone_object_diff": 0,
+      "genuine_maspsx_diff": 2,
+      "genuine_retail_diff": 2,
+      "genuine_error": null
+    }
+  ]
+}

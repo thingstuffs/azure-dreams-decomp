@@ -1,0 +1,80 @@
+[
+  {
+    "cfg": "2.8.1",
+    "genuine_vs_maspsx": {
+      "diff": 3,
+      "exact": false,
+      "len_m": 31,
+      "len_g": 30,
+      "missing": [],
+      "regions": [
+        [
+          "func_8004D614",
+          "insert",
+          [],
+          [
+            [
+              65011720,
+              null,
+              null
+            ]
+          ],
+          28
+        ],
+        [
+          "func_8004D614",
+          "delete",
+          [
+            [
+              65011720,
+              null,
+              null
+            ],
+            [
+              0,
+              null,
+              null
+            ]
+          ],
+          [],
+          29
+        ]
+      ],
+      "delay_only": [
+        "func_8004D614"
+      ]
+    },
+    "maspsx_retail": {
+      "diff": 0,
+      "masked": 0,
+      "checked": 1
+    },
+    "genuine_retail": {
+      "diff": 2,
+      "masked": 0,
+      "checked": 1
+    }
+  },
+  {
+    "cfg": "2.7.2-cdk",
+    "genuine_vs_maspsx": {
+      "diff": 0,
+      "exact": true,
+      "len_m": 31,
+      "len_g": 31,
+      "missing": [],
+      "regions": [],
+      "delay_only": []
+    },
+    "maspsx_retail": {
+      "diff": 0,
+      "masked": 0,
+      "checked": 1
+    },
+    "genuine_retail": {
+      "diff": 0,
+      "masked": 0,
+      "checked": 1
+    }
+  }
+]

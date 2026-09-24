@@ -111,9 +111,6 @@
 {"id": "slus/code7", "kinds": ["maspsx_dependent"], "cause": "_unfill_via_load_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/konami_runtime_w_80033D44", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/konami_runtime_w_80033D54", "kinds": ["maspsx_dependent"], "cause": "combined: extern-abs+no:all-fired", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/konami_runtime_w_80035484", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/konami_runtime_w_80035888", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/konami_runtime_w_80038A10", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/konami_runtime_w_8003B7C8", "kinds": ["maspsx_pass"], "cause": "_fold_selfinc_la", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/konami_runtime_w_8003C6F8", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_8003CB08", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
@@ -129,26 +126,13 @@
 {"id": "slus/w_8003F624", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_80041134", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_80041AB0", "kinds": ["maspsx_pass"], "cause": "_split_funcaddr_la", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_80041AE4", "kinds": ["maspsx_dependent"], "cause": "combined: extern-abs+no:all-fired", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_80041B98", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_80041BE4", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_80041C64", "kinds": ["maspsx_dependent"], "cause": "combined: extern-abs+no:all-fired", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_80043CD0", "kinds": ["maspsx_pass"], "cause": "_split_funcaddr_la", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_80043D04", "kinds": ["maspsx_dependent"], "cause": "combined: extern-abs+no:all-fired", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_80043DB8", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_80043E04", "kinds": ["maspsx_dependent"], "cause": "combined: extern-abs+no:all-fired", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_80043E60", "kinds": ["maspsx_dependent"], "cause": "combined: extern-abs+no:all-fired", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_8004437C", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_8004450C", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_80044618", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_80044698", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_800448BC", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_80045340", "kinds": ["maspsx_dependent"], "cause": "combined: extern-abs+no:all-fired", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_800453E0", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_800463EC", "kinds": ["maspsx_pass"], "cause": "_rotate_marked_store_into_jal_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_8004713C", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_80047338", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_80047468", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_80047D44", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_80047DF0", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_80047E30", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
@@ -162,7 +146,6 @@
 {"id": "slus/w_8004AB7C", "kinds": ["maspsx_pass"], "cause": "_sink_call_separated_la", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_8004B08C", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_8004CAA0", "kinds": ["maspsx_pass"], "cause": "_unfill_jal_sp_delay", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_8004D614", "kinds": ["maspsx_dependent"], "cause": "combined: extern-abs+no:all-fired", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_8004DCA8", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_8004DCEC", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_8004DD2C", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
@@ -170,7 +153,6 @@
 {"id": "slus/w_8004DE88", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_8004DF8C", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_8004E130", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
-{"id": "slus/w_800508F0", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_80050DA8", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_80050E20", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
 {"id": "slus/w_80053CFC", "kinds": ["maspsx_dependent"], "cause": "small-extern $gp model (.extern sizes)", "source": "docs/evidence/fidelity_step1_aspsx_diff.md"}
