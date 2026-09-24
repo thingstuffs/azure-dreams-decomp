@@ -1,0 +1,97 @@
+{
+  "source_sha256": "e64479aadf8f3544a97d00245d50d1c80494284da4773d2058b8b311050f49cd",
+  "genuine": {
+    "diff": 4,
+    "exact": false,
+    "len_m": 49,
+    "len_g": 50,
+    "missing": [],
+    "regions": [
+      [
+        "func_80049F68",
+        "replace",
+        [
+          [
+            272826381,
+            null,
+            null
+          ]
+        ],
+        [
+          [
+            272826382,
+            null,
+            null
+          ]
+        ],
+        33
+      ],
+      [
+        "func_80049F68",
+        "replace",
+        [
+          [
+            2426535936,
+            "LO16",
+            [
+              "sec",
+              ".sdata",
+              0
+            ]
+          ]
+        ],
+        [
+          [
+            614793216,
+            "LO16",
+            [
+              "sec",
+              ".sdata",
+              0
+            ]
+          ],
+          [
+            2426535936,
+            null,
+            null
+          ]
+        ],
+        37
+      ],
+      [
+        "func_80049F68",
+        "replace",
+        [
+          [
+            2426601472,
+            "LO16",
+            [
+              "sec",
+              ".sdata",
+              0
+            ]
+          ]
+        ],
+        [
+          [
+            2426601472,
+            null,
+            null
+          ]
+        ],
+        43
+      ]
+    ],
+    "delay_only": []
+  },
+  "corrected_retail": {
+    "diff": 16,
+    "masked": 0,
+    "checked": 1
+  },
+  "genuine_retail": {
+    "diff": 4,
+    "masked": 0,
+    "checked": 1
+  }
+}

@@ -28,6 +28,14 @@ address-taking owners under the experimental generic correction, including a
 storage for 48660 (now integrated with per-section carve/proof support);
 the global assembler switch still needs the remaining coordinated repairs.
 
+[Further private groups](evidence/gp_ready_ownership.md) prove 8152C's three
+consumers and the prepared pin-free 3D92C under the generic correction. The
+45340/453E0 group passes with stock assembly and is ready for a byte-neutral
+45340 CDK recipe landing plus ownership integration. A separate
+[49F68 site map and near miss](evidence/gp_order_bytes.md) isolates four C-owned
+register substitutions and an independently ablated `_fold_selfinc_la` mismatch;
+its concrete C-rebuild and pass-fidelity routes are recorded.
+
 First execution checkpoint: [SLUS small-data measurements](evidence/fidelity_gp_repair_progress.md).
 The isolated generic assembler correction passes 70/70 pinned-version probes and
 changes exactly 59/884 SLUS TUs; all 69 affected globals currently have raw-asset
