@@ -138,9 +138,11 @@ void func_80174910(S_80174910_2 *source, s32 effect_param) {
                 do {
                     entry_flags = *texture_entry;
                     texture_entry += 0xC;
-                } while (entry_flags & 0x20);
-                texture_entry -= 0xC;
-                ASM_KEEP(texture_entry);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+                    if (!(entry_flags & 0x20)) {
+                        texture_entry -= 0xC;
+                        break;
+                    }
+                } while (1);
                 clut_id = ((S_80174910_4 *)texture_entry)->unk_06;
                 palette_rect[3] = 1;
                 palette_rect[2] = 0x10;
