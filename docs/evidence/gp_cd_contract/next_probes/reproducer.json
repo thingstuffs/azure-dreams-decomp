@@ -1,0 +1,19 @@
+{
+  "purpose": "private next-source probes, not production activation or full-link proof",
+  "files": {
+    "receipt.json": "b7c55373c3c3504cf075abcc316e4e452526c6779b1e90b19b139254cf85468e",
+    "projected_receipt.json": "7416b79a60fa3b3e25a1352e7e3f68ad1657ea5de1e9408b87518aa0b80473aa",
+    "bounded_receipt.json": "bd229431ac61182e9d5eecc5e913340e97a6cf1a9adea27fef065f320d23d455",
+    "f368_incomplete.c": "40e10f4fa5b3a76e49729a51b6e3729537ab488c2ea73d3c8c96cbcc40a7b911",
+    "e758_owned_control.c": "33643e7942564bcfa507bf894737e94d175747dc9c4ce3553d494a866b975382",
+    "e758_owned_byte_views.c": "12c4bd6cc7c0eff70348d0f9cb260045d51710a0873d9e389dab68831977e651",
+    "e758_owned_bounded_views.c": "56e2ca2b440e6238a7a2662f845dfe45217a82a4dfdb1da4a3ecfce2a2f98b9c"
+  },
+  "scripts": {
+    "work/native_lane/gp_cd_contract/aliases/bounded_probe.py": "60ecd651c4ab1081ddfbfc4683c07b2c667b123fb00b612326eea69965204ba0",
+    "work/native_lane/gp_cd_contract/aliases/e758_probe.py": "556aeb021a89469eb8dbe1a1db5188bc6ba308ee24ce37603e8c5002e4e1b98b",
+    "work/native_lane/gp_cd_contract/aliases/probe.py": "4e83b7a3617dbf47264b67096910e07c15fca82c4579738981b55c6959ccb306",
+    "work/native_lane/gp_cd_contract/aliases/project.py": "fa5e4e7d46fcea64f5c69782044bc79b5da91592317c86e2bfcbe4a76b0259e8"
+  },
+  "data_piece_plan": "docs/evidence/gp_data_pieces/candidate_module.json"
+}

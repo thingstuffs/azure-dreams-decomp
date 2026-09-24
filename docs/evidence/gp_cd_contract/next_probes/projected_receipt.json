@@ -1,0 +1,5955 @@
+{
+  "owned_control": {
+    "retail": {
+      "stock": {
+        "present": true,
+        "address": "0x8003e758",
+        "actual_words": 698,
+        "retail_words": 698,
+        "length_equal": true,
+        "masked_indices": [],
+        "masked_relocations": [],
+        "exact_unmasked": true,
+        "unmasked_mismatch_sites": [],
+        "masked_disagreement_sites": []
+      },
+      "generic": {
+        "present": true,
+        "address": "0x8003e758",
+        "actual_words": 698,
+        "retail_words": 698,
+        "length_equal": true,
+        "masked_indices": [],
+        "masked_relocations": [],
+        "exact_unmasked": true,
+        "unmasked_mismatch_sites": [],
+        "masked_disagreement_sites": []
+      },
+      "genuine": {
+        "present": true,
+        "address": "0x8003e758",
+        "actual_words": 698,
+        "retail_words": 698,
+        "length_equal": true,
+        "masked_indices": [],
+        "masked_relocations": [],
+        "exact_unmasked": true,
+        "unmasked_mismatch_sites": [],
+        "masked_disagreement_sites": []
+      }
+    },
+    "generic_vs_genuine": {
+      "exact": true,
+      "pair_token_diff_diagnostic": 0,
+      "left_words": 698,
+      "right_words": 698,
+      "missing_right": [],
+      "delay_only": [],
+      "classes": {},
+      "regions": []
+    }
+  },
+  "owned_byte_views": {
+    "retail": {
+      "stock": {
+        "present": true,
+        "address": "0x8003e758",
+        "actual_words": 667,
+        "retail_words": 698,
+        "length_equal": false,
+        "masked_indices": [],
+        "masked_relocations": [],
+        "exact_unmasked": false,
+        "aligned_lcs": {
+          "substitutions": 87,
+          "indels": 41,
+          "total": 128,
+          "jump_targets_normalized": true,
+          "regions": [
+            {
+              "op": "replace",
+              "actual_index": 9,
+              "retail_index": 9,
+              "actual_length": 1,
+              "retail_length": 2,
+              "actual": [
+                "93830b3d"
+              ],
+              "retail": [
+                "3c038008",
+                "906314d1"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 11,
+              "retail_index": 12,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "10830263"
+              ],
+              "retail": [
+                "10830280"
+              ]
+            },
+            {
+              "op": "delete",
+              "actual_index": 13,
+              "retail_index": 14,
+              "actual_length": 1,
+              "retail_length": 0,
+              "actual": [
+                "93900b3f"
+              ],
+              "retail": []
+            },
+            {
+              "op": "insert",
+              "actual_index": 16,
+              "retail_index": 16,
+              "actual_length": 0,
+              "retail_length": 2,
+              "actual": [],
+              "retail": [
+                "3c108008",
+                "921014d3"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 17,
+              "retail_index": 19,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "1602018a"
+              ],
+              "retail": [
+                "16020199"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 31,
+              "retail_index": 33,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "10400269"
+              ],
+              "retail": [
+                "10400286"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 33,
+              "retail_index": 35,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "10620267"
+              ],
+              "retail": [
+                "10620284"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 37,
+              "retail_index": 39,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "1062003a"
+              ],
+              "retail": [
+                "1062003c"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 43,
+              "retail_index": 45,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "0800fc60"
+              ],
+              "retail": [
+                "0800fc7f"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 45,
+              "retail_index": 47,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "10620041"
+              ],
+              "retail": [
+                "10620044"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 47,
+              "retail_index": 49,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "0800fc60"
+              ],
+              "retail": [
+                "0800fc7f"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 50,
+              "retail_index": 52,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "10620256"
+              ],
+              "retail": [
+                "10620273"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 54,
+              "retail_index": 56,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "10620056"
+              ],
+              "retail": [
+                "1062005a"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 56,
+              "retail_index": 58,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "0800fc60"
+              ],
+              "retail": [
+                "0800fc7f"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 59,
+              "retail_index": 61,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "106200a7"
+              ],
+              "retail": [
+                "106200ad"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 61,
+              "retail_index": 63,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "10620145"
+              ],
+              "retail": [
+                "10620153"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 63,
+              "retail_index": 65,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "0800fc60"
+              ],
+              "retail": [
+                "0800fc7f"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 66,
+              "retail_index": 68,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "106200ec"
+              ],
+              "retail": [
+                "106200f7"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 70,
+              "retail_index": 72,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "106200cc"
+              ],
+              "retail": [
+                "106200d5"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 72,
+              "retail_index": 74,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "144000af"
+              ],
+              "retail": [
+                "144000b6"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 74,
+              "retail_index": 76,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "0800fc60"
+              ],
+              "retail": [
+                "0800fc7f"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 77,
+              "retail_index": 79,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "106200fc"
+              ],
+              "retail": [
+                "10620108"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 79,
+              "retail_index": 81,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "1440023a"
+              ],
+              "retail": [
+                "14400257"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 82,
+              "retail_index": 84,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "10620144"
+              ],
+              "retail": [
+                "10620153"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 84,
+              "retail_index": 86,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "10700139"
+              ],
+              "retail": [
+                "10700148"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 86,
+              "retail_index": 88,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "0800fc60"
+              ],
+              "retail": [
+                "0800fc7f"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 90,
+              "retail_index": 92,
+              "actual_length": 1,
+              "retail_length": 2,
+              "actual": [
+                "a3900b3f"
+              ],
+              "retail": [
+                "3c018008",
+                "a03014d3"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 92,
+              "retail_index": 95,
+              "actual_length": 1,
+              "retail_length": 2,
+              "actual": [
+                "a3800b3e"
+              ],
+              "retail": [
+                "3c018008",
+                "a02014d2"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 100,
+              "retail_index": 104,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "10600224"
+              ],
+              "retail": [
+                "1060023f"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 108,
+              "retail_index": 112,
+              "actual_length": 2,
+              "retail_length": 3,
+              "actual": [
+                "a3830b3e",
+                "0800fc04"
+              ],
+              "retail": [
+                "3c018008",
+                "a02314d2",
+                "0800fc1e"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 115,
+              "retail_index": 120,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "10600215"
+              ],
+              "retail": [
+                "1060022f"
+              ]
+            },
+            {
+              "op": "insert",
+              "actual_index": 122,
+              "retail_index": 127,
+              "actual_length": 0,
+              "retail_length": 2,
+              "actual": [],
+              "retail": [
+                "3c018008",
+                "a02014d2"
+              ]
+            },
+            {
+              "op": "delete",
+              "actual_index": 128,
+              "retail_index": 135,
+              "actual_length": 1,
+              "retail_length": 0,
+              "actual": [
+                "a3800b3e"
+              ],
+              "retail": []
+            },
+            {
+              "op": "replace",
+              "actual_index": 136,
+              "retail_index": 142,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "10400201"
+              ],
+              "retail": [
+                "1040021a"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 139,
+              "retail_index": 145,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "0800fc05"
+              ],
+              "retail": [
+                "0800fc1f"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 145,
+              "retail_index": 151,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "106001f7"
+              ],
+              "retail": [
+                "10600210"
+              ]
+            },
+            {
+              "op": "insert",
+              "actual_index": 152,
+              "retail_index": 158,
+              "actual_length": 0,
+              "retail_length": 2,
+              "actual": [],
+              "retail": [
+                "3c018008",
+                "a02014d2"
+              ]
+            },
+            {
+              "op": "delete",
+              "actual_index": 153,
+              "retail_index": 161,
+              "actual_length": 1,
+              "retail_length": 0,
+              "actual": [
+                "a3800b3e"
+              ],
+              "retail": []
+            },
+            {
+              "op": "replace",
+              "actual_index": 167,
+              "retail_index": 174,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "0800fa84"
+              ],
+              "retail": [
+                "0800fa8b"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 174,
+              "retail_index": 181,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "16400009"
+              ],
+              "retail": [
+                "1640000a"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 180,
+              "retail_index": 187,
+              "actual_length": 1,
+              "retail_length": 2,
+              "actual": [
+                "a3840b3f"
+              ],
+              "retail": [
+                "3c018008",
+                "a02414d3"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 182,
+              "retail_index": 190,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "0800fc5f"
+              ],
+              "retail": [
+                "0800fc7e"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 194,
+              "retail_index": 202,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "104001d1"
+              ],
+              "retail": [
+                "104001e8"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 201,
+              "retail_index": 209,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "106200a3"
+              ],
+              "retail": [
+                "106200aa"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 210,
+              "retail_index": 218,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "104001c1"
+              ],
+              "retail": [
+                "104001d8"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 217,
+              "retail_index": 225,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "10620093"
+              ],
+              "retail": [
+                "1062009a"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 223,
+              "retail_index": 231,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "104001b4"
+              ],
+              "retail": [
+                "104001cb"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 225,
+              "retail_index": 233,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "0800fb56"
+              ],
+              "retail": [
+                "0800fb65"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 231,
+              "retail_index": 239,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "106001a1"
+              ],
+              "retail": [
+                "106001b8"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 241,
+              "retail_index": 249,
+              "actual_length": 1,
+              "retail_length": 2,
+              "actual": [
+                "a3800b3e"
+              ],
+              "retail": [
+                "3c018008",
+                "a02014d2"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 244,
+              "retail_index": 253,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "10400194"
+              ],
+              "retail": [
+                "104001aa"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 246,
+              "retail_index": 255,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "0800fb56"
+              ],
+              "retail": [
+                "0800fb65"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 251,
+              "retail_index": 260,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "1060018d"
+              ],
+              "retail": [
+                "106001a3"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 261,
+              "retail_index": 270,
+              "actual_length": 1,
+              "retail_length": 2,
+              "actual": [
+                "a3800b3e"
+              ],
+              "retail": [
+                "3c018008",
+                "a02014d2"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 269,
+              "retail_index": 279,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "1040017c"
+              ],
+              "retail": [
+                "10400191"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 272,
+              "retail_index": 282,
+              "actual_length": 2,
+              "retail_length": 3,
+              "actual": [
+                "a3900b3f",
+                "0800fc05"
+              ],
+              "retail": [
+                "3c018008",
+                "a03014d3",
+                "0800fc1f"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 279,
+              "retail_index": 290,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "10600171"
+              ],
+              "retail": [
+                "10600185"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 289,
+              "retail_index": 300,
+              "actual_length": 1,
+              "retail_length": 2,
+              "actual": [
+                "a3800b3e"
+              ],
+              "retail": [
+                "3c018008",
+                "a02014d2"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 297,
+              "retail_index": 309,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "10400160"
+              ],
+              "retail": [
+                "10400173"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 300,
+              "retail_index": 312,
+              "actual_length": 2,
+              "retail_length": 3,
+              "actual": [
+                "a3900b3f",
+                "0800fc05"
+              ],
+              "retail": [
+                "3c018008",
+                "a03014d3",
+                "0800fc1f"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 307,
+              "retail_index": 320,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "10600155"
+              ],
+              "retail": [
+                "10600167"
+              ]
+            },
+            {
+              "op": "insert",
+              "actual_index": 314,
+              "retail_index": 327,
+              "actual_length": 0,
+              "retail_length": 2,
+              "actual": [],
+              "retail": [
+                "3c018008",
+                "a02014d2"
+              ]
+            },
+            {
+              "op": "delete",
+              "actual_index": 320,
+              "retail_index": 335,
+              "actual_length": 1,
+              "retail_length": 0,
+              "actual": [
+                "a3800b3e"
+              ],
+              "retail": []
+            },
+            {
+              "op": "replace",
+              "actual_index": 326,
+              "retail_index": 340,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "10400142"
+              ],
+              "retail": [
+                "10400153"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 328,
+              "retail_index": 342,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "0800fb56"
+              ],
+              "retail": [
+                "0800fb65"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 334,
+              "retail_index": 348,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "1060013a"
+              ],
+              "retail": [
+                "1060014b"
+              ]
+            },
+            {
+              "op": "insert",
+              "actual_index": 342,
+              "retail_index": 356,
+              "actual_length": 0,
+              "retail_length": 2,
+              "actual": [],
+              "retail": [
+                "3c018008",
+                "a02014d2"
+              ]
+            },
+            {
+              "op": "delete",
+              "actual_index": 348,
+              "retail_index": 364,
+              "actual_length": 1,
+              "retail_length": 0,
+              "actual": [
+                "a3800b3e"
+              ],
+              "retail": []
+            },
+            {
+              "op": "replace",
+              "actual_index": 355,
+              "retail_index": 370,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "10400130"
+              ],
+              "retail": [
+                "10400140"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 367,
+              "retail_index": 382,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "0800fc6a"
+              ],
+              "retail": [
+                "0800fc89"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 371,
+              "retail_index": 386,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "0800fb43"
+              ],
+              "retail": [
+                "0800fb52"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 379,
+              "retail_index": 394,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "0800fb4b"
+              ],
+              "retail": [
+                "0800fb5a"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 384,
+              "retail_index": 399,
+              "actual_length": 2,
+              "retail_length": 3,
+              "actual": [
+                "a3820b3f",
+                "0800fc60"
+              ],
+              "retail": [
+                "3c018008",
+                "a02214d3",
+                "0800fc7f"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 388,
+              "retail_index": 404,
+              "actual_length": 1,
+              "retail_length": 2,
+              "actual": [
+                "a3800b3e"
+              ],
+              "retail": [
+                "3c018008",
+                "a02014d2"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 392,
+              "retail_index": 409,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "144000a2"
+              ],
+              "retail": [
+                "144000aa"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 394,
+              "retail_index": 411,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "1200ffe2"
+              ],
+              "retail": [
+                "1200ffe0"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 396,
+              "retail_index": 413,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "0800fb5c"
+              ],
+              "retail": [
+                "0800fb6d"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 405,
+              "retail_index": 422,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "0800fc05"
+              ],
+              "retail": [
+                "0800fc1f"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 410,
+              "retail_index": 427,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "0800fc05"
+              ],
+              "retail": [
+                "0800fc1f"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 412,
+              "retail_index": 429,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "160200ed"
+              ],
+              "retail": [
+                "160200fb"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 424,
+              "retail_index": 441,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "104000e0"
+              ],
+              "retail": [
+                "104000ee"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 436,
+              "retail_index": 453,
+              "actual_length": 1,
+              "retail_length": 2,
+              "actual": [
+                "a3820b3f"
+              ],
+              "retail": [
+                "3c018008",
+                "a02214d3"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 440,
+              "retail_index": 458,
+              "actual_length": 1,
+              "retail_length": 2,
+              "actual": [
+                "a3800b3e"
+              ],
+              "retail": [
+                "3c018008",
+                "a02014d2"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 450,
+              "retail_index": 469,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "106000c6"
+              ],
+              "retail": [
+                "106000d2"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 452,
+              "retail_index": 471,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "1062004f"
+              ],
+              "retail": [
+                "10620053"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 459,
+              "retail_index": 478,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "1c4000bd"
+              ],
+              "retail": [
+                "1c4000c9"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 461,
+              "retail_index": 480,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "1440002f"
+              ],
+              "retail": [
+                "14400033"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 465,
+              "retail_index": 484,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "10400019"
+              ],
+              "retail": [
+                "1040001a"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 473,
+              "retail_index": 492,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "104300b0"
+              ],
+              "retail": [
+                "104300bc"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 479,
+              "retail_index": 498,
+              "actual_length": 1,
+              "retail_length": 2,
+              "actual": [
+                "a3800b3e"
+              ],
+              "retail": [
+                "3c018008",
+                "a02014d2"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 483,
+              "retail_index": 503,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "14430088"
+              ],
+              "retail": [
+                "14430091"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 489,
+              "retail_index": 509,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "0800fc42"
+              ],
+              "retail": [
+                "0800fc5f"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 496,
+              "retail_index": 516,
+              "actual_length": 1,
+              "retail_length": 2,
+              "actual": [
+                "a3820b3f"
+              ],
+              "retail": [
+                "3c018008",
+                "a02214d3"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 502,
+              "retail_index": 523,
+              "actual_length": 1,
+              "retail_length": 2,
+              "actual": [
+                "93820b3e"
+              ],
+              "retail": [
+                "3c028008",
+                "904214d2"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 506,
+              "retail_index": 528,
+              "actual_length": 2,
+              "retail_length": 3,
+              "actual": [
+                "a3820b3e",
+                "0800fc5f"
+              ],
+              "retail": [
+                "3c018008",
+                "a02214d2",
+                "0800fc7e"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 509,
+              "retail_index": 532,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "0441008c"
+              ],
+              "retail": [
+                "04410094"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 511,
+              "retail_index": 534,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "0800fbea"
+              ],
+              "retail": [
+                "0800fc01"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 518,
+              "retail_index": 541,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "10600082"
+              ],
+              "retail": [
+                "1060008a"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 522,
+              "retail_index": 545,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "0800fbf3"
+              ],
+              "retail": [
+                "0800fc0c"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 528,
+              "retail_index": 551,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "10600078"
+              ],
+              "retail": [
+                "10600080"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 530,
+              "retail_index": 553,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "1462000a"
+              ],
+              "retail": [
+                "1462000c"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 535,
+              "retail_index": 558,
+              "actual_length": 1,
+              "retail_length": 2,
+              "actual": [
+                "a3820b3f"
+              ],
+              "retail": [
+                "3c018008",
+                "a02214d3"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 538,
+              "retail_index": 562,
+              "actual_length": 2,
+              "retail_length": 3,
+              "actual": [
+                "a3800b3e",
+                "0800fc60"
+              ],
+              "retail": [
+                "3c018008",
+                "a02014d2",
+                "0800fc7f"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 545,
+              "retail_index": 570,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "10400068"
+              ],
+              "retail": [
+                "1040006e"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 550,
+              "retail_index": 575,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "14400063"
+              ],
+              "retail": [
+                "14400069"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 557,
+              "retail_index": 582,
+              "actual_length": 1,
+              "retail_length": 2,
+              "actual": [
+                "a3830b3f"
+              ],
+              "retail": [
+                "3c018008",
+                "a02314d3"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 560,
+              "retail_index": 586,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "0800fc60"
+              ],
+              "retail": [
+                "0800fc7f"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 567,
+              "retail_index": 593,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "10430033"
+              ],
+              "retail": [
+                "10430036"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 575,
+              "retail_index": 601,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "14400008"
+              ],
+              "retail": [
+                "14400009"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 581,
+              "retail_index": 607,
+              "actual_length": 2,
+              "retail_length": 3,
+              "actual": [
+                "a3910b3f",
+                "0800fc6a"
+              ],
+              "retail": [
+                "3c018008",
+                "a03114d3",
+                "0800fc89"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 587,
+              "retail_index": 614,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "1440003e"
+              ],
+              "retail": [
+                "14400042"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 590,
+              "retail_index": 617,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "10400019"
+              ],
+              "retail": [
+                "1040001b"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 595,
+              "retail_index": 622,
+              "actual_length": 2,
+              "retail_length": 4,
+              "actual": [
+                "a3800b3e",
+                "a3820b3f"
+              ],
+              "retail": [
+                "3c018008",
+                "a02014d2",
+                "3c018008",
+                "a02214d3"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 614,
+              "retail_index": 643,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "0800fc5f"
+              ],
+              "retail": [
+                "0800fc7e"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 617,
+              "retail_index": 646,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "10400020"
+              ],
+              "retail": [
+                "10400022"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 620,
+              "retail_index": 649,
+              "actual_length": 2,
+              "retail_length": 3,
+              "actual": [
+                "a3820b3f",
+                "0800fc60"
+              ],
+              "retail": [
+                "3c018008",
+                "a02214d3",
+                "0800fc7f"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 627,
+              "retail_index": 657,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "14430016"
+              ],
+              "retail": [
+                "14430017"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 633,
+              "retail_index": 663,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "1443000c"
+              ],
+              "retail": [
+                "1443000d"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 637,
+              "retail_index": 667,
+              "actual_length": 1,
+              "retail_length": 2,
+              "actual": [
+                "a3820b3f"
+              ],
+              "retail": [
+                "3c018008",
+                "a02214d3"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 644,
+              "retail_index": 675,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "0800fc60"
+              ],
+              "retail": [
+                "0800fc7f"
+              ]
+            }
+          ]
+        }
+      },
+      "generic": {
+        "present": true,
+        "address": "0x8003e758",
+        "actual_words": 698,
+        "retail_words": 698,
+        "length_equal": true,
+        "masked_indices": [],
+        "masked_relocations": [],
+        "exact_unmasked": false,
+        "unmasked_mismatch_sites": [
+          {
+            "index": 14,
+            "address": "0x8003e790",
+            "actual": "3c108008",
+            "retail": "34420001"
+          },
+          {
+            "index": 15,
+            "address": "0x8003e794",
+            "actual": "921014d3",
+            "retail": "a622000a"
+          },
+          {
+            "index": 16,
+            "address": "0x8003e798",
+            "actual": "34420001",
+            "retail": "3c108008"
+          },
+          {
+            "index": 17,
+            "address": "0x8003e79c",
+            "actual": "a622000a",
+            "retail": "921014d3"
+          },
+          {
+            "index": 127,
+            "address": "0x8003e954",
+            "actual": "a2200004",
+            "retail": "3c018008"
+          },
+          {
+            "index": 128,
+            "address": "0x8003e958",
+            "actual": "00031040",
+            "retail": "a02014d2"
+          },
+          {
+            "index": 129,
+            "address": "0x8003e95c",
+            "actual": "00431021",
+            "retail": "a2200004"
+          },
+          {
+            "index": 130,
+            "address": "0x8003e960",
+            "actual": "000210c0",
+            "retail": "00031040"
+          },
+          {
+            "index": 131,
+            "address": "0x8003e964",
+            "actual": "00521021",
+            "retail": "00431021"
+          },
+          {
+            "index": 132,
+            "address": "0x8003e968",
+            "actual": "8c440004",
+            "retail": "000210c0"
+          },
+          {
+            "index": 133,
+            "address": "0x8003e96c",
+            "actual": "3c018008",
+            "retail": "00521021"
+          },
+          {
+            "index": 134,
+            "address": "0x8003e970",
+            "actual": "a02014d2",
+            "retail": "8c440004"
+          },
+          {
+            "index": 158,
+            "address": "0x8003e9d0",
+            "actual": "a2200004",
+            "retail": "3c018008"
+          },
+          {
+            "index": 159,
+            "address": "0x8003e9d4",
+            "actual": "3c018008",
+            "retail": "a02014d2"
+          },
+          {
+            "index": 160,
+            "address": "0x8003e9d8",
+            "actual": "a02014d2",
+            "retail": "a2200004"
+          },
+          {
+            "index": 327,
+            "address": "0x8003ec74",
+            "actual": "a2200004",
+            "retail": "3c018008"
+          },
+          {
+            "index": 328,
+            "address": "0x8003ec78",
+            "actual": "00031040",
+            "retail": "a02014d2"
+          },
+          {
+            "index": 329,
+            "address": "0x8003ec7c",
+            "actual": "00431021",
+            "retail": "a2200004"
+          },
+          {
+            "index": 330,
+            "address": "0x8003ec80",
+            "actual": "000210c0",
+            "retail": "00031040"
+          },
+          {
+            "index": 331,
+            "address": "0x8003ec84",
+            "actual": "00521021",
+            "retail": "00431021"
+          },
+          {
+            "index": 332,
+            "address": "0x8003ec88",
+            "actual": "8c440004",
+            "retail": "000210c0"
+          },
+          {
+            "index": 333,
+            "address": "0x8003ec8c",
+            "actual": "3c018008",
+            "retail": "00521021"
+          },
+          {
+            "index": 334,
+            "address": "0x8003ec90",
+            "actual": "a02014d2",
+            "retail": "8c440004"
+          },
+          {
+            "index": 356,
+            "address": "0x8003ece8",
+            "actual": "a2200004",
+            "retail": "3c018008"
+          },
+          {
+            "index": 357,
+            "address": "0x8003ecec",
+            "actual": "00031040",
+            "retail": "a02014d2"
+          },
+          {
+            "index": 358,
+            "address": "0x8003ecf0",
+            "actual": "00431021",
+            "retail": "a2200004"
+          },
+          {
+            "index": 359,
+            "address": "0x8003ecf4",
+            "actual": "000210c0",
+            "retail": "00031040"
+          },
+          {
+            "index": 360,
+            "address": "0x8003ecf8",
+            "actual": "00521021",
+            "retail": "00431021"
+          },
+          {
+            "index": 361,
+            "address": "0x8003ecfc",
+            "actual": "8c440004",
+            "retail": "000210c0"
+          },
+          {
+            "index": 362,
+            "address": "0x8003ed00",
+            "actual": "3c018008",
+            "retail": "00521021"
+          },
+          {
+            "index": 363,
+            "address": "0x8003ed04",
+            "actual": "a02014d2",
+            "retail": "8c440004"
+          }
+        ],
+        "masked_disagreement_sites": []
+      },
+      "genuine": {
+        "present": true,
+        "address": "0x8003e758",
+        "actual_words": 698,
+        "retail_words": 698,
+        "length_equal": true,
+        "masked_indices": [],
+        "masked_relocations": [],
+        "exact_unmasked": false,
+        "unmasked_mismatch_sites": [
+          {
+            "index": 14,
+            "address": "0x8003e790",
+            "actual": "3c108008",
+            "retail": "34420001"
+          },
+          {
+            "index": 15,
+            "address": "0x8003e794",
+            "actual": "921014d3",
+            "retail": "a622000a"
+          },
+          {
+            "index": 16,
+            "address": "0x8003e798",
+            "actual": "34420001",
+            "retail": "3c108008"
+          },
+          {
+            "index": 17,
+            "address": "0x8003e79c",
+            "actual": "a622000a",
+            "retail": "921014d3"
+          },
+          {
+            "index": 127,
+            "address": "0x8003e954",
+            "actual": "a2200004",
+            "retail": "3c018008"
+          },
+          {
+            "index": 128,
+            "address": "0x8003e958",
+            "actual": "00031040",
+            "retail": "a02014d2"
+          },
+          {
+            "index": 129,
+            "address": "0x8003e95c",
+            "actual": "00431021",
+            "retail": "a2200004"
+          },
+          {
+            "index": 130,
+            "address": "0x8003e960",
+            "actual": "000210c0",
+            "retail": "00031040"
+          },
+          {
+            "index": 131,
+            "address": "0x8003e964",
+            "actual": "00521021",
+            "retail": "00431021"
+          },
+          {
+            "index": 132,
+            "address": "0x8003e968",
+            "actual": "8c440004",
+            "retail": "000210c0"
+          },
+          {
+            "index": 133,
+            "address": "0x8003e96c",
+            "actual": "3c018008",
+            "retail": "00521021"
+          },
+          {
+            "index": 134,
+            "address": "0x8003e970",
+            "actual": "a02014d2",
+            "retail": "8c440004"
+          },
+          {
+            "index": 158,
+            "address": "0x8003e9d0",
+            "actual": "a2200004",
+            "retail": "3c018008"
+          },
+          {
+            "index": 159,
+            "address": "0x8003e9d4",
+            "actual": "3c018008",
+            "retail": "a02014d2"
+          },
+          {
+            "index": 160,
+            "address": "0x8003e9d8",
+            "actual": "a02014d2",
+            "retail": "a2200004"
+          },
+          {
+            "index": 327,
+            "address": "0x8003ec74",
+            "actual": "a2200004",
+            "retail": "3c018008"
+          },
+          {
+            "index": 328,
+            "address": "0x8003ec78",
+            "actual": "00031040",
+            "retail": "a02014d2"
+          },
+          {
+            "index": 329,
+            "address": "0x8003ec7c",
+            "actual": "00431021",
+            "retail": "a2200004"
+          },
+          {
+            "index": 330,
+            "address": "0x8003ec80",
+            "actual": "000210c0",
+            "retail": "00031040"
+          },
+          {
+            "index": 331,
+            "address": "0x8003ec84",
+            "actual": "00521021",
+            "retail": "00431021"
+          },
+          {
+            "index": 332,
+            "address": "0x8003ec88",
+            "actual": "8c440004",
+            "retail": "000210c0"
+          },
+          {
+            "index": 333,
+            "address": "0x8003ec8c",
+            "actual": "3c018008",
+            "retail": "00521021"
+          },
+          {
+            "index": 334,
+            "address": "0x8003ec90",
+            "actual": "a02014d2",
+            "retail": "8c440004"
+          },
+          {
+            "index": 356,
+            "address": "0x8003ece8",
+            "actual": "a2200004",
+            "retail": "3c018008"
+          },
+          {
+            "index": 357,
+            "address": "0x8003ecec",
+            "actual": "00031040",
+            "retail": "a02014d2"
+          },
+          {
+            "index": 358,
+            "address": "0x8003ecf0",
+            "actual": "00431021",
+            "retail": "a2200004"
+          },
+          {
+            "index": 359,
+            "address": "0x8003ecf4",
+            "actual": "000210c0",
+            "retail": "00031040"
+          },
+          {
+            "index": 360,
+            "address": "0x8003ecf8",
+            "actual": "00521021",
+            "retail": "00431021"
+          },
+          {
+            "index": 361,
+            "address": "0x8003ecfc",
+            "actual": "8c440004",
+            "retail": "000210c0"
+          },
+          {
+            "index": 362,
+            "address": "0x8003ed00",
+            "actual": "3c018008",
+            "retail": "00521021"
+          },
+          {
+            "index": 363,
+            "address": "0x8003ed04",
+            "actual": "a02014d2",
+            "retail": "8c440004"
+          }
+        ],
+        "masked_disagreement_sites": []
+      }
+    },
+    "generic_vs_genuine": {
+      "exact": true,
+      "pair_token_diff_diagnostic": 0,
+      "left_words": 698,
+      "right_words": 698,
+      "missing_right": [],
+      "delay_only": [],
+      "classes": {},
+      "regions": []
+    }
+  },
+  "comparison": {
+    "stock": {
+      "exact": false,
+      "pair_token_diff_diagnostic": 160,
+      "left_words": 698,
+      "right_words": 667,
+      "missing_right": [],
+      "delay_only": [],
+      "classes": {
+        "gp-genuine-only": 25,
+        "other": 71,
+        "reloc": 24
+      },
+      "regions": [
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 9,
+          "left_length": 2,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "3c030000",
+              "relocation": "HI16",
+              "target": [
+                "addr",
+                null,
+                2148013265
+              ]
+            },
+            {
+              "word": "90630000",
+              "relocation": "LO16",
+              "target": [
+                "addr",
+                null,
+                5329
+              ]
+            }
+          ],
+          "right": [
+            {
+              "word": "93830000",
+              "relocation": "GPREL16",
+              "target": [
+                "addr",
+                null,
+                5329
+              ]
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 12,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "10830280",
+              "relocation": null,
+              "target": null
+            }
+          ],
+          "right": [
+            {
+              "word": "10830263",
+              "relocation": null,
+              "target": null
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "insert",
+          "left_index": 14,
+          "left_length": 0,
+          "right_length": 1,
+          "left": [],
+          "right": [
+            {
+              "word": "93900000",
+              "relocation": "GPREL16",
+              "target": [
+                "addr",
+                null,
+                5331
+              ]
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "delete",
+          "left_index": 16,
+          "left_length": 2,
+          "right_length": 0,
+          "left": [
+            {
+              "word": "3c100000",
+              "relocation": "HI16",
+              "target": [
+                "addr",
+                null,
+                2148013267
+              ]
+            },
+            {
+              "word": "92100000",
+              "relocation": "LO16",
+              "target": [
+                "addr",
+                null,
+                5331
+              ]
+            }
+          ],
+          "right": []
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 19,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "16020199",
+              "relocation": null,
+              "target": null
+            }
+          ],
+          "right": [
+            {
+              "word": "1602018a",
+              "relocation": null,
+              "target": null
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 33,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "10400286",
+              "relocation": null,
+              "target": null
+            }
+          ],
+          "right": [
+            {
+              "word": "10400269",
+              "relocation": null,
+              "target": null
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 35,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "10620284",
+              "relocation": null,
+              "target": null
+            }
+          ],
+          "right": [
+            {
+              "word": "10620267",
+              "relocation": null,
+              "target": null
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 39,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "1062003c",
+              "relocation": null,
+              "target": null
+            }
+          ],
+          "right": [
+            {
+              "word": "1062003a",
+              "relocation": null,
+              "target": null
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 45,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "08000000",
+              "relocation": "26",
+              "target": [
+                "fn",
+                "func_8003E758",
+                2724
+              ]
+            }
+          ],
+          "right": [
+            {
+              "word": "08000000",
+              "relocation": "26",
+              "target": [
+                "fn",
+                "func_8003E758",
+                2600
+              ]
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 47,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "10620044",
+              "relocation": null,
+              "target": null
+            }
+          ],
+          "right": [
+            {
+              "word": "10620041",
+              "relocation": null,
+              "target": null
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 49,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "08000000",
+              "relocation": "26",
+              "target": [
+                "fn",
+                "func_8003E758",
+                2724
+              ]
+            }
+          ],
+          "right": [
+            {
+              "word": "08000000",
+              "relocation": "26",
+              "target": [
+                "fn",
+                "func_8003E758",
+                2600
+              ]
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 52,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "10620273",
+              "relocation": null,
+              "target": null
+            }
+          ],
+          "right": [
+            {
+              "word": "10620256",
+              "relocation": null,
+              "target": null
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 56,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "1062005a",
+              "relocation": null,
+              "target": null
+            }
+          ],
+          "right": [
+            {
+              "word": "10620056",
+              "relocation": null,
+              "target": null
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 58,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "08000000",
+              "relocation": "26",
+              "target": [
+                "fn",
+                "func_8003E758",
+                2724
+              ]
+            }
+          ],
+          "right": [
+            {
+              "word": "08000000",
+              "relocation": "26",
+              "target": [
+                "fn",
+                "func_8003E758",
+                2600
+              ]
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 61,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "106200ad",
+              "relocation": null,
+              "target": null
+            }
+          ],
+          "right": [
+            {
+              "word": "106200a7",
+              "relocation": null,
+              "target": null
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 63,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "10620153",
+              "relocation": null,
+              "target": null
+            }
+          ],
+          "right": [
+            {
+              "word": "10620145",
+              "relocation": null,
+              "target": null
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 65,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "08000000",
+              "relocation": "26",
+              "target": [
+                "fn",
+                "func_8003E758",
+                2724
+              ]
+            }
+          ],
+          "right": [
+            {
+              "word": "08000000",
+              "relocation": "26",
+              "target": [
+                "fn",
+                "func_8003E758",
+                2600
+              ]
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 68,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "106200f7",
+              "relocation": null,
+              "target": null
+            }
+          ],
+          "right": [
+            {
+              "word": "106200ec",
+              "relocation": null,
+              "target": null
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 72,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "106200d5",
+              "relocation": null,
+              "target": null
+            }
+          ],
+          "right": [
+            {
+              "word": "106200cc",
+              "relocation": null,
+              "target": null
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 74,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "144000b6",
+              "relocation": null,
+              "target": null
+            }
+          ],
+          "right": [
+            {
+              "word": "144000af",
+              "relocation": null,
+              "target": null
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 76,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "08000000",
+              "relocation": "26",
+              "target": [
+                "fn",
+                "func_8003E758",
+                2724
+              ]
+            }
+          ],
+          "right": [
+            {
+              "word": "08000000",
+              "relocation": "26",
+              "target": [
+                "fn",
+                "func_8003E758",
+                2600
+              ]
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 79,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "10620108",
+              "relocation": null,
+              "target": null
+            }
+          ],
+          "right": [
+            {
+              "word": "106200fc",
+              "relocation": null,
+              "target": null
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 81,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "14400257",
+              "relocation": null,
+              "target": null
+            }
+          ],
+          "right": [
+            {
+              "word": "1440023a",
+              "relocation": null,
+              "target": null
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 84,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "10620153",
+              "relocation": null,
+              "target": null
+            }
+          ],
+          "right": [
+            {
+              "word": "10620144",
+              "relocation": null,
+              "target": null
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 86,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "10700148",
+              "relocation": null,
+              "target": null
+            }
+          ],
+          "right": [
+            {
+              "word": "10700139",
+              "relocation": null,
+              "target": null
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 88,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "08000000",
+              "relocation": "26",
+              "target": [
+                "fn",
+                "func_8003E758",
+                2724
+              ]
+            }
+          ],
+          "right": [
+            {
+              "word": "08000000",
+              "relocation": "26",
+              "target": [
+                "fn",
+                "func_8003E758",
+                2600
+              ]
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 92,
+          "left_length": 2,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "3c010000",
+              "relocation": "HI16",
+              "target": [
+                "addr",
+                null,
+                2148013267
+              ]
+            },
+            {
+              "word": "a0300000",
+              "relocation": "LO16",
+              "target": [
+                "addr",
+                null,
+                5331
+              ]
+            }
+          ],
+          "right": [
+            {
+              "word": "a3900000",
+              "relocation": "GPREL16",
+              "target": [
+                "addr",
+                null,
+                5331
+              ]
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 95,
+          "left_length": 2,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "3c010000",
+              "relocation": "HI16",
+              "target": [
+                "addr",
+                null,
+                2148013266
+              ]
+            },
+            {
+              "word": "a0200000",
+              "relocation": "LO16",
+              "target": [
+                "addr",
+                null,
+                5330
+              ]
+            }
+          ],
+          "right": [
+            {
+              "word": "a3800000",
+              "relocation": "GPREL16",
+              "target": [
+                "addr",
+                null,
+                5330
+              ]
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 104,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "1060023f",
+              "relocation": null,
+              "target": null
+            }
+          ],
+          "right": [
+            {
+              "word": "10600224",
+              "relocation": null,
+              "target": null
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 112,
+          "left_length": 3,
+          "right_length": 2,
+          "left": [
+            {
+              "word": "3c010000",
+              "relocation": "HI16",
+              "target": [
+                "addr",
+                null,
+                2148013266
+              ]
+            },
+            {
+              "word": "a0230000",
+              "relocation": "LO16",
+              "target": [
+                "addr",
+                null,
+                5330
+              ]
+            },
+            {
+              "word": "08000000",
+              "relocation": "26",
+              "target": [
+                "fn",
+                "func_8003E758",
+                2336
+              ]
+            }
+          ],
+          "right": [
+            {
+              "word": "a3830000",
+              "relocation": "GPREL16",
+              "target": [
+                "addr",
+                null,
+                5330
+              ]
+            },
+            {
+              "word": "08000000",
+              "relocation": "26",
+              "target": [
+                "fn",
+                "func_8003E758",
+                2232
+              ]
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 120,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "1060022f",
+              "relocation": null,
+              "target": null
+            }
+          ],
+          "right": [
+            {
+              "word": "10600215",
+              "relocation": null,
+              "target": null
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "delete",
+          "left_index": 127,
+          "left_length": 2,
+          "right_length": 0,
+          "left": [
+            {
+              "word": "3c010000",
+              "relocation": "HI16",
+              "target": [
+                "addr",
+                null,
+                2148013266
+              ]
+            },
+            {
+              "word": "a0200000",
+              "relocation": "LO16",
+              "target": [
+                "addr",
+                null,
+                5330
+              ]
+            }
+          ],
+          "right": []
+        },
+        {
+          "function": "func_8003E758",
+          "op": "insert",
+          "left_index": 135,
+          "left_length": 0,
+          "right_length": 1,
+          "left": [],
+          "right": [
+            {
+              "word": "a3800000",
+              "relocation": "GPREL16",
+              "target": [
+                "addr",
+                null,
+                5330
+              ]
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 142,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "1040021a",
+              "relocation": null,
+              "target": null
+            }
+          ],
+          "right": [
+            {
+              "word": "10400201",
+              "relocation": null,
+              "target": null
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 145,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "08000000",
+              "relocation": "26",
+              "target": [
+                "fn",
+                "func_8003E758",
+                2340
+              ]
+            }
+          ],
+          "right": [
+            {
+              "word": "08000000",
+              "relocation": "26",
+              "target": [
+                "fn",
+                "func_8003E758",
+                2236
+              ]
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 151,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "10600210",
+              "relocation": null,
+              "target": null
+            }
+          ],
+          "right": [
+            {
+              "word": "106001f7",
+              "relocation": null,
+              "target": null
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "delete",
+          "left_index": 158,
+          "left_length": 2,
+          "right_length": 0,
+          "left": [
+            {
+              "word": "3c010000",
+              "relocation": "HI16",
+              "target": [
+                "addr",
+                null,
+                2148013266
+              ]
+            },
+            {
+              "word": "a0200000",
+              "relocation": "LO16",
+              "target": [
+                "addr",
+                null,
+                5330
+              ]
+            }
+          ],
+          "right": []
+        },
+        {
+          "function": "func_8003E758",
+          "op": "insert",
+          "left_index": 161,
+          "left_length": 0,
+          "right_length": 1,
+          "left": [],
+          "right": [
+            {
+              "word": "a3800000",
+              "relocation": "GPREL16",
+              "target": [
+                "addr",
+                null,
+                5330
+              ]
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 174,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "08000000",
+              "relocation": "26",
+              "target": [
+                "fn",
+                "func_8003E758",
+                724
+              ]
+            }
+          ],
+          "right": [
+            {
+              "word": "08000000",
+              "relocation": "26",
+              "target": [
+                "fn",
+                "func_8003E758",
+                696
+              ]
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 181,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "1640000a",
+              "relocation": null,
+              "target": null
+            }
+          ],
+          "right": [
+            {
+              "word": "16400009",
+              "relocation": null,
+              "target": null
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 187,
+          "left_length": 2,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "3c010000",
+              "relocation": "HI16",
+              "target": [
+                "addr",
+                null,
+                2148013267
+              ]
+            },
+            {
+              "word": "a0240000",
+              "relocation": "LO16",
+              "target": [
+                "addr",
+                null,
+                5331
+              ]
+            }
+          ],
+          "right": [
+            {
+              "word": "a3840000",
+              "relocation": "GPREL16",
+              "target": [
+                "addr",
+                null,
+                5331
+              ]
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 190,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "08000000",
+              "relocation": "26",
+              "target": [
+                "fn",
+                "func_8003E758",
+                2720
+              ]
+            }
+          ],
+          "right": [
+            {
+              "word": "08000000",
+              "relocation": "26",
+              "target": [
+                "fn",
+                "func_8003E758",
+                2596
+              ]
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 202,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "104001e8",
+              "relocation": null,
+              "target": null
+            }
+          ],
+          "right": [
+            {
+              "word": "104001d1",
+              "relocation": null,
+              "target": null
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 209,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "106200aa",
+              "relocation": null,
+              "target": null
+            }
+          ],
+          "right": [
+            {
+              "word": "106200a3",
+              "relocation": null,
+              "target": null
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 218,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "104001d8",
+              "relocation": null,
+              "target": null
+            }
+          ],
+          "right": [
+            {
+              "word": "104001c1",
+              "relocation": null,
+              "target": null
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 225,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "1062009a",
+              "relocation": null,
+              "target": null
+            }
+          ],
+          "right": [
+            {
+              "word": "10620093",
+              "relocation": null,
+              "target": null
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 231,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "104001cb",
+              "relocation": null,
+              "target": null
+            }
+          ],
+          "right": [
+            {
+              "word": "104001b4",
+              "relocation": null,
+              "target": null
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 233,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "08000000",
+              "relocation": "26",
+              "target": [
+                "fn",
+                "func_8003E758",
+                1596
+              ]
+            }
+          ],
+          "right": [
+            {
+              "word": "08000000",
+              "relocation": "26",
+              "target": [
+                "fn",
+                "func_8003E758",
+                1536
+              ]
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 239,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "106001b8",
+              "relocation": null,
+              "target": null
+            }
+          ],
+          "right": [
+            {
+              "word": "106001a1",
+              "relocation": null,
+              "target": null
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 249,
+          "left_length": 2,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "3c010000",
+              "relocation": "HI16",
+              "target": [
+                "addr",
+                null,
+                2148013266
+              ]
+            },
+            {
+              "word": "a0200000",
+              "relocation": "LO16",
+              "target": [
+                "addr",
+                null,
+                5330
+              ]
+            }
+          ],
+          "right": [
+            {
+              "word": "a3800000",
+              "relocation": "GPREL16",
+              "target": [
+                "addr",
+                null,
+                5330
+              ]
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 253,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "104001aa",
+              "relocation": null,
+              "target": null
+            }
+          ],
+          "right": [
+            {
+              "word": "10400194",
+              "relocation": null,
+              "target": null
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 255,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "08000000",
+              "relocation": "26",
+              "target": [
+                "fn",
+                "func_8003E758",
+                1596
+              ]
+            }
+          ],
+          "right": [
+            {
+              "word": "08000000",
+              "relocation": "26",
+              "target": [
+                "fn",
+                "func_8003E758",
+                1536
+              ]
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 260,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "106001a3",
+              "relocation": null,
+              "target": null
+            }
+          ],
+          "right": [
+            {
+              "word": "1060018d",
+              "relocation": null,
+              "target": null
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 270,
+          "left_length": 2,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "3c010000",
+              "relocation": "HI16",
+              "target": [
+                "addr",
+                null,
+                2148013266
+              ]
+            },
+            {
+              "word": "a0200000",
+              "relocation": "LO16",
+              "target": [
+                "addr",
+                null,
+                5330
+              ]
+            }
+          ],
+          "right": [
+            {
+              "word": "a3800000",
+              "relocation": "GPREL16",
+              "target": [
+                "addr",
+                null,
+                5330
+              ]
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 279,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "10400191",
+              "relocation": null,
+              "target": null
+            }
+          ],
+          "right": [
+            {
+              "word": "1040017c",
+              "relocation": null,
+              "target": null
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 282,
+          "left_length": 3,
+          "right_length": 2,
+          "left": [
+            {
+              "word": "3c010000",
+              "relocation": "HI16",
+              "target": [
+                "addr",
+                null,
+                2148013267
+              ]
+            },
+            {
+              "word": "a0300000",
+              "relocation": "LO16",
+              "target": [
+                "addr",
+                null,
+                5331
+              ]
+            },
+            {
+              "word": "08000000",
+              "relocation": "26",
+              "target": [
+                "fn",
+                "func_8003E758",
+                2340
+              ]
+            }
+          ],
+          "right": [
+            {
+              "word": "a3900000",
+              "relocation": "GPREL16",
+              "target": [
+                "addr",
+                null,
+                5331
+              ]
+            },
+            {
+              "word": "08000000",
+              "relocation": "26",
+              "target": [
+                "fn",
+                "func_8003E758",
+                2236
+              ]
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 290,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "10600185",
+              "relocation": null,
+              "target": null
+            }
+          ],
+          "right": [
+            {
+              "word": "10600171",
+              "relocation": null,
+              "target": null
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 300,
+          "left_length": 2,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "3c010000",
+              "relocation": "HI16",
+              "target": [
+                "addr",
+                null,
+                2148013266
+              ]
+            },
+            {
+              "word": "a0200000",
+              "relocation": "LO16",
+              "target": [
+                "addr",
+                null,
+                5330
+              ]
+            }
+          ],
+          "right": [
+            {
+              "word": "a3800000",
+              "relocation": "GPREL16",
+              "target": [
+                "addr",
+                null,
+                5330
+              ]
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 309,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "10400173",
+              "relocation": null,
+              "target": null
+            }
+          ],
+          "right": [
+            {
+              "word": "10400160",
+              "relocation": null,
+              "target": null
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 312,
+          "left_length": 3,
+          "right_length": 2,
+          "left": [
+            {
+              "word": "3c010000",
+              "relocation": "HI16",
+              "target": [
+                "addr",
+                null,
+                2148013267
+              ]
+            },
+            {
+              "word": "a0300000",
+              "relocation": "LO16",
+              "target": [
+                "addr",
+                null,
+                5331
+              ]
+            },
+            {
+              "word": "08000000",
+              "relocation": "26",
+              "target": [
+                "fn",
+                "func_8003E758",
+                2340
+              ]
+            }
+          ],
+          "right": [
+            {
+              "word": "a3900000",
+              "relocation": "GPREL16",
+              "target": [
+                "addr",
+                null,
+                5331
+              ]
+            },
+            {
+              "word": "08000000",
+              "relocation": "26",
+              "target": [
+                "fn",
+                "func_8003E758",
+                2236
+              ]
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 320,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "10600167",
+              "relocation": null,
+              "target": null
+            }
+          ],
+          "right": [
+            {
+              "word": "10600155",
+              "relocation": null,
+              "target": null
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "delete",
+          "left_index": 327,
+          "left_length": 2,
+          "right_length": 0,
+          "left": [
+            {
+              "word": "3c010000",
+              "relocation": "HI16",
+              "target": [
+                "addr",
+                null,
+                2148013266
+              ]
+            },
+            {
+              "word": "a0200000",
+              "relocation": "LO16",
+              "target": [
+                "addr",
+                null,
+                5330
+              ]
+            }
+          ],
+          "right": []
+        },
+        {
+          "function": "func_8003E758",
+          "op": "insert",
+          "left_index": 335,
+          "left_length": 0,
+          "right_length": 1,
+          "left": [],
+          "right": [
+            {
+              "word": "a3800000",
+              "relocation": "GPREL16",
+              "target": [
+                "addr",
+                null,
+                5330
+              ]
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 340,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "10400153",
+              "relocation": null,
+              "target": null
+            }
+          ],
+          "right": [
+            {
+              "word": "10400142",
+              "relocation": null,
+              "target": null
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 342,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "08000000",
+              "relocation": "26",
+              "target": [
+                "fn",
+                "func_8003E758",
+                1596
+              ]
+            }
+          ],
+          "right": [
+            {
+              "word": "08000000",
+              "relocation": "26",
+              "target": [
+                "fn",
+                "func_8003E758",
+                1536
+              ]
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 348,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "1060014b",
+              "relocation": null,
+              "target": null
+            }
+          ],
+          "right": [
+            {
+              "word": "1060013a",
+              "relocation": null,
+              "target": null
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "delete",
+          "left_index": 356,
+          "left_length": 2,
+          "right_length": 0,
+          "left": [
+            {
+              "word": "3c010000",
+              "relocation": "HI16",
+              "target": [
+                "addr",
+                null,
+                2148013266
+              ]
+            },
+            {
+              "word": "a0200000",
+              "relocation": "LO16",
+              "target": [
+                "addr",
+                null,
+                5330
+              ]
+            }
+          ],
+          "right": []
+        },
+        {
+          "function": "func_8003E758",
+          "op": "insert",
+          "left_index": 364,
+          "left_length": 0,
+          "right_length": 1,
+          "left": [],
+          "right": [
+            {
+              "word": "a3800000",
+              "relocation": "GPREL16",
+              "target": [
+                "addr",
+                null,
+                5330
+              ]
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 370,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "10400140",
+              "relocation": null,
+              "target": null
+            }
+          ],
+          "right": [
+            {
+              "word": "10400130",
+              "relocation": null,
+              "target": null
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 382,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "08000000",
+              "relocation": "26",
+              "target": [
+                "fn",
+                "func_8003E758",
+                2764
+              ]
+            }
+          ],
+          "right": [
+            {
+              "word": "08000000",
+              "relocation": "26",
+              "target": [
+                "fn",
+                "func_8003E758",
+                2640
+              ]
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 386,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "08000000",
+              "relocation": "26",
+              "target": [
+                "fn",
+                "func_8003E758",
+                1520
+              ]
+            }
+          ],
+          "right": [
+            {
+              "word": "08000000",
+              "relocation": "26",
+              "target": [
+                "fn",
+                "func_8003E758",
+                1460
+              ]
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 394,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "08000000",
+              "relocation": "26",
+              "target": [
+                "fn",
+                "func_8003E758",
+                1552
+              ]
+            }
+          ],
+          "right": [
+            {
+              "word": "08000000",
+              "relocation": "26",
+              "target": [
+                "fn",
+                "func_8003E758",
+                1492
+              ]
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 399,
+          "left_length": 3,
+          "right_length": 2,
+          "left": [
+            {
+              "word": "3c010000",
+              "relocation": "HI16",
+              "target": [
+                "addr",
+                null,
+                2148013267
+              ]
+            },
+            {
+              "word": "a0220000",
+              "relocation": "LO16",
+              "target": [
+                "addr",
+                null,
+                5331
+              ]
+            },
+            {
+              "word": "08000000",
+              "relocation": "26",
+              "target": [
+                "fn",
+                "func_8003E758",
+                2724
+              ]
+            }
+          ],
+          "right": [
+            {
+              "word": "a3820000",
+              "relocation": "GPREL16",
+              "target": [
+                "addr",
+                null,
+                5331
+              ]
+            },
+            {
+              "word": "08000000",
+              "relocation": "26",
+              "target": [
+                "fn",
+                "func_8003E758",
+                2600
+              ]
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 404,
+          "left_length": 2,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "3c010000",
+              "relocation": "HI16",
+              "target": [
+                "addr",
+                null,
+                2148013266
+              ]
+            },
+            {
+              "word": "a0200000",
+              "relocation": "LO16",
+              "target": [
+                "addr",
+                null,
+                5330
+              ]
+            }
+          ],
+          "right": [
+            {
+              "word": "a3800000",
+              "relocation": "GPREL16",
+              "target": [
+                "addr",
+                null,
+                5330
+              ]
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 409,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "144000aa",
+              "relocation": null,
+              "target": null
+            }
+          ],
+          "right": [
+            {
+              "word": "144000a2",
+              "relocation": null,
+              "target": null
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 411,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "1200ffe0",
+              "relocation": null,
+              "target": null
+            }
+          ],
+          "right": [
+            {
+              "word": "1200ffe2",
+              "relocation": null,
+              "target": null
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 413,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "08000000",
+              "relocation": "26",
+              "target": [
+                "fn",
+                "func_8003E758",
+                1628
+              ]
+            }
+          ],
+          "right": [
+            {
+              "word": "08000000",
+              "relocation": "26",
+              "target": [
+                "fn",
+                "func_8003E758",
+                1560
+              ]
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 422,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "08000000",
+              "relocation": "26",
+              "target": [
+                "fn",
+                "func_8003E758",
+                2340
+              ]
+            }
+          ],
+          "right": [
+            {
+              "word": "08000000",
+              "relocation": "26",
+              "target": [
+                "fn",
+                "func_8003E758",
+                2236
+              ]
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 427,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "08000000",
+              "relocation": "26",
+              "target": [
+                "fn",
+                "func_8003E758",
+                2340
+              ]
+            }
+          ],
+          "right": [
+            {
+              "word": "08000000",
+              "relocation": "26",
+              "target": [
+                "fn",
+                "func_8003E758",
+                2236
+              ]
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 429,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "160200fb",
+              "relocation": null,
+              "target": null
+            }
+          ],
+          "right": [
+            {
+              "word": "160200ed",
+              "relocation": null,
+              "target": null
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 441,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "104000ee",
+              "relocation": null,
+              "target": null
+            }
+          ],
+          "right": [
+            {
+              "word": "104000e0",
+              "relocation": null,
+              "target": null
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 453,
+          "left_length": 2,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "3c010000",
+              "relocation": "HI16",
+              "target": [
+                "addr",
+                null,
+                2148013267
+              ]
+            },
+            {
+              "word": "a0220000",
+              "relocation": "LO16",
+              "target": [
+                "addr",
+                null,
+                5331
+              ]
+            }
+          ],
+          "right": [
+            {
+              "word": "a3820000",
+              "relocation": "GPREL16",
+              "target": [
+                "addr",
+                null,
+                5331
+              ]
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 458,
+          "left_length": 2,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "3c010000",
+              "relocation": "HI16",
+              "target": [
+                "addr",
+                null,
+                2148013266
+              ]
+            },
+            {
+              "word": "a0200000",
+              "relocation": "LO16",
+              "target": [
+                "addr",
+                null,
+                5330
+              ]
+            }
+          ],
+          "right": [
+            {
+              "word": "a3800000",
+              "relocation": "GPREL16",
+              "target": [
+                "addr",
+                null,
+                5330
+              ]
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 469,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "106000d2",
+              "relocation": null,
+              "target": null
+            }
+          ],
+          "right": [
+            {
+              "word": "106000c6",
+              "relocation": null,
+              "target": null
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 471,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "10620053",
+              "relocation": null,
+              "target": null
+            }
+          ],
+          "right": [
+            {
+              "word": "1062004f",
+              "relocation": null,
+              "target": null
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 478,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "1c4000c9",
+              "relocation": null,
+              "target": null
+            }
+          ],
+          "right": [
+            {
+              "word": "1c4000bd",
+              "relocation": null,
+              "target": null
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 480,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "14400033",
+              "relocation": null,
+              "target": null
+            }
+          ],
+          "right": [
+            {
+              "word": "1440002f",
+              "relocation": null,
+              "target": null
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 484,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "1040001a",
+              "relocation": null,
+              "target": null
+            }
+          ],
+          "right": [
+            {
+              "word": "10400019",
+              "relocation": null,
+              "target": null
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 492,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "104300bc",
+              "relocation": null,
+              "target": null
+            }
+          ],
+          "right": [
+            {
+              "word": "104300b0",
+              "relocation": null,
+              "target": null
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 498,
+          "left_length": 2,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "3c010000",
+              "relocation": "HI16",
+              "target": [
+                "addr",
+                null,
+                2148013266
+              ]
+            },
+            {
+              "word": "a0200000",
+              "relocation": "LO16",
+              "target": [
+                "addr",
+                null,
+                5330
+              ]
+            }
+          ],
+          "right": [
+            {
+              "word": "a3800000",
+              "relocation": "GPREL16",
+              "target": [
+                "addr",
+                null,
+                5330
+              ]
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 503,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "14430091",
+              "relocation": null,
+              "target": null
+            }
+          ],
+          "right": [
+            {
+              "word": "14430088",
+              "relocation": null,
+              "target": null
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 509,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "08000000",
+              "relocation": "26",
+              "target": [
+                "fn",
+                "func_8003E758",
+                2596
+              ]
+            }
+          ],
+          "right": [
+            {
+              "word": "08000000",
+              "relocation": "26",
+              "target": [
+                "fn",
+                "func_8003E758",
+                2480
+              ]
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 516,
+          "left_length": 2,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "3c010000",
+              "relocation": "HI16",
+              "target": [
+                "addr",
+                null,
+                2148013267
+              ]
+            },
+            {
+              "word": "a0220000",
+              "relocation": "LO16",
+              "target": [
+                "addr",
+                null,
+                5331
+              ]
+            }
+          ],
+          "right": [
+            {
+              "word": "a3820000",
+              "relocation": "GPREL16",
+              "target": [
+                "addr",
+                null,
+                5331
+              ]
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 523,
+          "left_length": 2,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "3c020000",
+              "relocation": "HI16",
+              "target": [
+                "addr",
+                null,
+                2148013266
+              ]
+            },
+            {
+              "word": "90420000",
+              "relocation": "LO16",
+              "target": [
+                "addr",
+                null,
+                5330
+              ]
+            }
+          ],
+          "right": [
+            {
+              "word": "93820000",
+              "relocation": "GPREL16",
+              "target": [
+                "addr",
+                null,
+                5330
+              ]
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 528,
+          "left_length": 3,
+          "right_length": 2,
+          "left": [
+            {
+              "word": "3c010000",
+              "relocation": "HI16",
+              "target": [
+                "addr",
+                null,
+                2148013266
+              ]
+            },
+            {
+              "word": "a0220000",
+              "relocation": "LO16",
+              "target": [
+                "addr",
+                null,
+                5330
+              ]
+            },
+            {
+              "word": "08000000",
+              "relocation": "26",
+              "target": [
+                "fn",
+                "func_8003E758",
+                2720
+              ]
+            }
+          ],
+          "right": [
+            {
+              "word": "a3820000",
+              "relocation": "GPREL16",
+              "target": [
+                "addr",
+                null,
+                5330
+              ]
+            },
+            {
+              "word": "08000000",
+              "relocation": "26",
+              "target": [
+                "fn",
+                "func_8003E758",
+                2596
+              ]
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 532,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "04410094",
+              "relocation": null,
+              "target": null
+            }
+          ],
+          "right": [
+            {
+              "word": "0441008c",
+              "relocation": null,
+              "target": null
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 534,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "08000000",
+              "relocation": "26",
+              "target": [
+                "fn",
+                "func_8003E758",
+                2220
+              ]
+            }
+          ],
+          "right": [
+            {
+              "word": "08000000",
+              "relocation": "26",
+              "target": [
+                "fn",
+                "func_8003E758",
+                2128
+              ]
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 541,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "1060008a",
+              "relocation": null,
+              "target": null
+            }
+          ],
+          "right": [
+            {
+              "word": "10600082",
+              "relocation": null,
+              "target": null
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 545,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "08000000",
+              "relocation": "26",
+              "target": [
+                "fn",
+                "func_8003E758",
+                2264
+              ]
+            }
+          ],
+          "right": [
+            {
+              "word": "08000000",
+              "relocation": "26",
+              "target": [
+                "fn",
+                "func_8003E758",
+                2164
+              ]
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 551,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "10600080",
+              "relocation": null,
+              "target": null
+            }
+          ],
+          "right": [
+            {
+              "word": "10600078",
+              "relocation": null,
+              "target": null
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 553,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "1462000c",
+              "relocation": null,
+              "target": null
+            }
+          ],
+          "right": [
+            {
+              "word": "1462000a",
+              "relocation": null,
+              "target": null
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 558,
+          "left_length": 2,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "3c010000",
+              "relocation": "HI16",
+              "target": [
+                "addr",
+                null,
+                2148013267
+              ]
+            },
+            {
+              "word": "a0220000",
+              "relocation": "LO16",
+              "target": [
+                "addr",
+                null,
+                5331
+              ]
+            }
+          ],
+          "right": [
+            {
+              "word": "a3820000",
+              "relocation": "GPREL16",
+              "target": [
+                "addr",
+                null,
+                5331
+              ]
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 562,
+          "left_length": 3,
+          "right_length": 2,
+          "left": [
+            {
+              "word": "3c010000",
+              "relocation": "HI16",
+              "target": [
+                "addr",
+                null,
+                2148013266
+              ]
+            },
+            {
+              "word": "a0200000",
+              "relocation": "LO16",
+              "target": [
+                "addr",
+                null,
+                5330
+              ]
+            },
+            {
+              "word": "08000000",
+              "relocation": "26",
+              "target": [
+                "fn",
+                "func_8003E758",
+                2724
+              ]
+            }
+          ],
+          "right": [
+            {
+              "word": "a3800000",
+              "relocation": "GPREL16",
+              "target": [
+                "addr",
+                null,
+                5330
+              ]
+            },
+            {
+              "word": "08000000",
+              "relocation": "26",
+              "target": [
+                "fn",
+                "func_8003E758",
+                2600
+              ]
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 570,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "1040006e",
+              "relocation": null,
+              "target": null
+            }
+          ],
+          "right": [
+            {
+              "word": "10400068",
+              "relocation": null,
+              "target": null
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 575,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "14400069",
+              "relocation": null,
+              "target": null
+            }
+          ],
+          "right": [
+            {
+              "word": "14400063",
+              "relocation": null,
+              "target": null
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 582,
+          "left_length": 2,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "3c010000",
+              "relocation": "HI16",
+              "target": [
+                "addr",
+                null,
+                2148013267
+              ]
+            },
+            {
+              "word": "a0230000",
+              "relocation": "LO16",
+              "target": [
+                "addr",
+                null,
+                5331
+              ]
+            }
+          ],
+          "right": [
+            {
+              "word": "a3830000",
+              "relocation": "GPREL16",
+              "target": [
+                "addr",
+                null,
+                5331
+              ]
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 586,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "08000000",
+              "relocation": "26",
+              "target": [
+                "fn",
+                "func_8003E758",
+                2724
+              ]
+            }
+          ],
+          "right": [
+            {
+              "word": "08000000",
+              "relocation": "26",
+              "target": [
+                "fn",
+                "func_8003E758",
+                2600
+              ]
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 593,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "10430036",
+              "relocation": null,
+              "target": null
+            }
+          ],
+          "right": [
+            {
+              "word": "10430033",
+              "relocation": null,
+              "target": null
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 601,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "14400009",
+              "relocation": null,
+              "target": null
+            }
+          ],
+          "right": [
+            {
+              "word": "14400008",
+              "relocation": null,
+              "target": null
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 607,
+          "left_length": 3,
+          "right_length": 2,
+          "left": [
+            {
+              "word": "3c010000",
+              "relocation": "HI16",
+              "target": [
+                "addr",
+                null,
+                2148013267
+              ]
+            },
+            {
+              "word": "a0310000",
+              "relocation": "LO16",
+              "target": [
+                "addr",
+                null,
+                5331
+              ]
+            },
+            {
+              "word": "08000000",
+              "relocation": "26",
+              "target": [
+                "fn",
+                "func_8003E758",
+                2764
+              ]
+            }
+          ],
+          "right": [
+            {
+              "word": "a3910000",
+              "relocation": "GPREL16",
+              "target": [
+                "addr",
+                null,
+                5331
+              ]
+            },
+            {
+              "word": "08000000",
+              "relocation": "26",
+              "target": [
+                "fn",
+                "func_8003E758",
+                2640
+              ]
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 614,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "14400042",
+              "relocation": null,
+              "target": null
+            }
+          ],
+          "right": [
+            {
+              "word": "1440003e",
+              "relocation": null,
+              "target": null
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 617,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "1040001b",
+              "relocation": null,
+              "target": null
+            }
+          ],
+          "right": [
+            {
+              "word": "10400019",
+              "relocation": null,
+              "target": null
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 622,
+          "left_length": 4,
+          "right_length": 2,
+          "left": [
+            {
+              "word": "3c010000",
+              "relocation": "HI16",
+              "target": [
+                "addr",
+                null,
+                2148013266
+              ]
+            },
+            {
+              "word": "a0200000",
+              "relocation": "LO16",
+              "target": [
+                "addr",
+                null,
+                5330
+              ]
+            },
+            {
+              "word": "3c010000",
+              "relocation": "HI16",
+              "target": [
+                "addr",
+                null,
+                2148013267
+              ]
+            },
+            {
+              "word": "a0220000",
+              "relocation": "LO16",
+              "target": [
+                "addr",
+                null,
+                5331
+              ]
+            }
+          ],
+          "right": [
+            {
+              "word": "a3800000",
+              "relocation": "GPREL16",
+              "target": [
+                "addr",
+                null,
+                5330
+              ]
+            },
+            {
+              "word": "a3820000",
+              "relocation": "GPREL16",
+              "target": [
+                "addr",
+                null,
+                5331
+              ]
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 643,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "08000000",
+              "relocation": "26",
+              "target": [
+                "fn",
+                "func_8003E758",
+                2720
+              ]
+            }
+          ],
+          "right": [
+            {
+              "word": "08000000",
+              "relocation": "26",
+              "target": [
+                "fn",
+                "func_8003E758",
+                2596
+              ]
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 646,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "10400022",
+              "relocation": null,
+              "target": null
+            }
+          ],
+          "right": [
+            {
+              "word": "10400020",
+              "relocation": null,
+              "target": null
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 649,
+          "left_length": 3,
+          "right_length": 2,
+          "left": [
+            {
+              "word": "3c010000",
+              "relocation": "HI16",
+              "target": [
+                "addr",
+                null,
+                2148013267
+              ]
+            },
+            {
+              "word": "a0220000",
+              "relocation": "LO16",
+              "target": [
+                "addr",
+                null,
+                5331
+              ]
+            },
+            {
+              "word": "08000000",
+              "relocation": "26",
+              "target": [
+                "fn",
+                "func_8003E758",
+                2724
+              ]
+            }
+          ],
+          "right": [
+            {
+              "word": "a3820000",
+              "relocation": "GPREL16",
+              "target": [
+                "addr",
+                null,
+                5331
+              ]
+            },
+            {
+              "word": "08000000",
+              "relocation": "26",
+              "target": [
+                "fn",
+                "func_8003E758",
+                2600
+              ]
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 657,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "14430017",
+              "relocation": null,
+              "target": null
+            }
+          ],
+          "right": [
+            {
+              "word": "14430016",
+              "relocation": null,
+              "target": null
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 663,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "1443000d",
+              "relocation": null,
+              "target": null
+            }
+          ],
+          "right": [
+            {
+              "word": "1443000c",
+              "relocation": null,
+              "target": null
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 667,
+          "left_length": 2,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "3c010000",
+              "relocation": "HI16",
+              "target": [
+                "addr",
+                null,
+                2148013267
+              ]
+            },
+            {
+              "word": "a0220000",
+              "relocation": "LO16",
+              "target": [
+                "addr",
+                null,
+                5331
+              ]
+            }
+          ],
+          "right": [
+            {
+              "word": "a3820000",
+              "relocation": "GPREL16",
+              "target": [
+                "addr",
+                null,
+                5331
+              ]
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "replace",
+          "left_index": 675,
+          "left_length": 1,
+          "right_length": 1,
+          "left": [
+            {
+              "word": "08000000",
+              "relocation": "26",
+              "target": [
+                "fn",
+                "func_8003E758",
+                2724
+              ]
+            }
+          ],
+          "right": [
+            {
+              "word": "08000000",
+              "relocation": "26",
+              "target": [
+                "fn",
+                "func_8003E758",
+                2600
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "generic": {
+      "exact": false,
+      "pair_token_diff_diagnostic": 18,
+      "left_words": 698,
+      "right_words": 698,
+      "missing_right": [],
+      "delay_only": [],
+      "classes": {
+        "other": 10
+      },
+      "regions": [
+        {
+          "function": "func_8003E758",
+          "op": "insert",
+          "left_index": 14,
+          "left_length": 0,
+          "right_length": 2,
+          "left": [],
+          "right": [
+            {
+              "word": "3c100000",
+              "relocation": "HI16",
+              "target": [
+                "addr",
+                null,
+                2148013267
+              ]
+            },
+            {
+              "word": "92100000",
+              "relocation": "LO16",
+              "target": [
+                "addr",
+                null,
+                5331
+              ]
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "delete",
+          "left_index": 16,
+          "left_length": 2,
+          "right_length": 0,
+          "left": [
+            {
+              "word": "3c100000",
+              "relocation": "HI16",
+              "target": [
+                "addr",
+                null,
+                2148013267
+              ]
+            },
+            {
+              "word": "92100000",
+              "relocation": "LO16",
+              "target": [
+                "addr",
+                null,
+                5331
+              ]
+            }
+          ],
+          "right": []
+        },
+        {
+          "function": "func_8003E758",
+          "op": "delete",
+          "left_index": 127,
+          "left_length": 2,
+          "right_length": 0,
+          "left": [
+            {
+              "word": "3c010000",
+              "relocation": "HI16",
+              "target": [
+                "addr",
+                null,
+                2148013266
+              ]
+            },
+            {
+              "word": "a0200000",
+              "relocation": "LO16",
+              "target": [
+                "addr",
+                null,
+                5330
+              ]
+            }
+          ],
+          "right": []
+        },
+        {
+          "function": "func_8003E758",
+          "op": "insert",
+          "left_index": 135,
+          "left_length": 0,
+          "right_length": 2,
+          "left": [],
+          "right": [
+            {
+              "word": "3c010000",
+              "relocation": "HI16",
+              "target": [
+                "addr",
+                null,
+                2148013266
+              ]
+            },
+            {
+              "word": "a0200000",
+              "relocation": "LO16",
+              "target": [
+                "addr",
+                null,
+                5330
+              ]
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "insert",
+          "left_index": 158,
+          "left_length": 0,
+          "right_length": 1,
+          "left": [],
+          "right": [
+            {
+              "word": "a2200004",
+              "relocation": null,
+              "target": null
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "delete",
+          "left_index": 160,
+          "left_length": 1,
+          "right_length": 0,
+          "left": [
+            {
+              "word": "a2200004",
+              "relocation": null,
+              "target": null
+            }
+          ],
+          "right": []
+        },
+        {
+          "function": "func_8003E758",
+          "op": "delete",
+          "left_index": 327,
+          "left_length": 2,
+          "right_length": 0,
+          "left": [
+            {
+              "word": "3c010000",
+              "relocation": "HI16",
+              "target": [
+                "addr",
+                null,
+                2148013266
+              ]
+            },
+            {
+              "word": "a0200000",
+              "relocation": "LO16",
+              "target": [
+                "addr",
+                null,
+                5330
+              ]
+            }
+          ],
+          "right": []
+        },
+        {
+          "function": "func_8003E758",
+          "op": "insert",
+          "left_index": 335,
+          "left_length": 0,
+          "right_length": 2,
+          "left": [],
+          "right": [
+            {
+              "word": "3c010000",
+              "relocation": "HI16",
+              "target": [
+                "addr",
+                null,
+                2148013266
+              ]
+            },
+            {
+              "word": "a0200000",
+              "relocation": "LO16",
+              "target": [
+                "addr",
+                null,
+                5330
+              ]
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "delete",
+          "left_index": 356,
+          "left_length": 2,
+          "right_length": 0,
+          "left": [
+            {
+              "word": "3c010000",
+              "relocation": "HI16",
+              "target": [
+                "addr",
+                null,
+                2148013266
+              ]
+            },
+            {
+              "word": "a0200000",
+              "relocation": "LO16",
+              "target": [
+                "addr",
+                null,
+                5330
+              ]
+            }
+          ],
+          "right": []
+        },
+        {
+          "function": "func_8003E758",
+          "op": "insert",
+          "left_index": 364,
+          "left_length": 0,
+          "right_length": 2,
+          "left": [],
+          "right": [
+            {
+              "word": "3c010000",
+              "relocation": "HI16",
+              "target": [
+                "addr",
+                null,
+                2148013266
+              ]
+            },
+            {
+              "word": "a0200000",
+              "relocation": "LO16",
+              "target": [
+                "addr",
+                null,
+                5330
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "genuine": {
+      "exact": false,
+      "pair_token_diff_diagnostic": 18,
+      "left_words": 698,
+      "right_words": 698,
+      "missing_right": [],
+      "delay_only": [],
+      "classes": {
+        "other": 10
+      },
+      "regions": [
+        {
+          "function": "func_8003E758",
+          "op": "insert",
+          "left_index": 14,
+          "left_length": 0,
+          "right_length": 2,
+          "left": [],
+          "right": [
+            {
+              "word": "3c100000",
+              "relocation": "HI16",
+              "target": [
+                "addr",
+                null,
+                2148013267
+              ]
+            },
+            {
+              "word": "92100000",
+              "relocation": "LO16",
+              "target": [
+                "addr",
+                null,
+                5331
+              ]
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "delete",
+          "left_index": 16,
+          "left_length": 2,
+          "right_length": 0,
+          "left": [
+            {
+              "word": "3c100000",
+              "relocation": "HI16",
+              "target": [
+                "addr",
+                null,
+                2148013267
+              ]
+            },
+            {
+              "word": "92100000",
+              "relocation": "LO16",
+              "target": [
+                "addr",
+                null,
+                5331
+              ]
+            }
+          ],
+          "right": []
+        },
+        {
+          "function": "func_8003E758",
+          "op": "delete",
+          "left_index": 127,
+          "left_length": 2,
+          "right_length": 0,
+          "left": [
+            {
+              "word": "3c010000",
+              "relocation": "HI16",
+              "target": [
+                "addr",
+                null,
+                2148013266
+              ]
+            },
+            {
+              "word": "a0200000",
+              "relocation": "LO16",
+              "target": [
+                "addr",
+                null,
+                5330
+              ]
+            }
+          ],
+          "right": []
+        },
+        {
+          "function": "func_8003E758",
+          "op": "insert",
+          "left_index": 135,
+          "left_length": 0,
+          "right_length": 2,
+          "left": [],
+          "right": [
+            {
+              "word": "3c010000",
+              "relocation": "HI16",
+              "target": [
+                "addr",
+                null,
+                2148013266
+              ]
+            },
+            {
+              "word": "a0200000",
+              "relocation": "LO16",
+              "target": [
+                "addr",
+                null,
+                5330
+              ]
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "insert",
+          "left_index": 158,
+          "left_length": 0,
+          "right_length": 1,
+          "left": [],
+          "right": [
+            {
+              "word": "a2200004",
+              "relocation": null,
+              "target": null
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "delete",
+          "left_index": 160,
+          "left_length": 1,
+          "right_length": 0,
+          "left": [
+            {
+              "word": "a2200004",
+              "relocation": null,
+              "target": null
+            }
+          ],
+          "right": []
+        },
+        {
+          "function": "func_8003E758",
+          "op": "delete",
+          "left_index": 327,
+          "left_length": 2,
+          "right_length": 0,
+          "left": [
+            {
+              "word": "3c010000",
+              "relocation": "HI16",
+              "target": [
+                "addr",
+                null,
+                2148013266
+              ]
+            },
+            {
+              "word": "a0200000",
+              "relocation": "LO16",
+              "target": [
+                "addr",
+                null,
+                5330
+              ]
+            }
+          ],
+          "right": []
+        },
+        {
+          "function": "func_8003E758",
+          "op": "insert",
+          "left_index": 335,
+          "left_length": 0,
+          "right_length": 2,
+          "left": [],
+          "right": [
+            {
+              "word": "3c010000",
+              "relocation": "HI16",
+              "target": [
+                "addr",
+                null,
+                2148013266
+              ]
+            },
+            {
+              "word": "a0200000",
+              "relocation": "LO16",
+              "target": [
+                "addr",
+                null,
+                5330
+              ]
+            }
+          ]
+        },
+        {
+          "function": "func_8003E758",
+          "op": "delete",
+          "left_index": 356,
+          "left_length": 2,
+          "right_length": 0,
+          "left": [
+            {
+              "word": "3c010000",
+              "relocation": "HI16",
+              "target": [
+                "addr",
+                null,
+                2148013266
+              ]
+            },
+            {
+              "word": "a0200000",
+              "relocation": "LO16",
+              "target": [
+                "addr",
+                null,
+                5330
+              ]
+            }
+          ],
+          "right": []
+        },
+        {
+          "function": "func_8003E758",
+          "op": "insert",
+          "left_index": 364,
+          "left_length": 0,
+          "right_length": 2,
+          "left": [],
+          "right": [
+            {
+              "word": "3c010000",
+              "relocation": "HI16",
+              "target": [
+                "addr",
+                null,
+                2148013266
+              ]
+            },
+            {
+              "word": "a0200000",
+              "relocation": "LO16",
+              "target": [
+                "addr",
+                null,
+                5330
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

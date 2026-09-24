@@ -1,0 +1,511 @@
+{
+  "source_sha256": "40e10f4fa5b3a76e49729a51b6e3729537ab488c2ea73d3c8c96cbcc40a7b911",
+  "recipe": {
+    "src": "src/w_8003F368.c",
+    "out": "build/src/w_8003F368.o",
+    "ccver": "2.7.2",
+    "ccflags": "",
+    "asflags": ""
+  },
+  "functions": [
+    "func_8003F368"
+  ],
+  "hashes": {
+    "stock": "4ccca4223bf89bd0cc0a3d71a934249de617d6fcf43bba72776b928399a2a3ad",
+    "generic": "8317eba3f43184c1c81a337e58deeeaa025f667b6b1e07eea77e4b2b22c0eb32",
+    "genuine": "a46ac4f1a026c6cbf242e312bb728fd90f36fc6cbc273f086d5fa114f4276828"
+  },
+  "retail": {
+    "stock": {
+      "func_8003F368": {
+        "present": true,
+        "address": "0x8003f368",
+        "actual_words": 113,
+        "retail_words": 113,
+        "length_equal": true,
+        "masked_indices": [],
+        "masked_relocations": [],
+        "exact_unmasked": true,
+        "unmasked_mismatch_sites": [],
+        "masked_disagreement_sites": []
+      }
+    },
+    "generic": {
+      "func_8003F368": {
+        "present": true,
+        "address": "0x8003f368",
+        "actual_words": 122,
+        "retail_words": 113,
+        "length_equal": false,
+        "masked_indices": [],
+        "masked_relocations": [],
+        "exact_unmasked": false,
+        "aligned_lcs": {
+          "substitutions": 13,
+          "indels": 9,
+          "total": 22,
+          "jump_targets_normalized": true,
+          "regions": [
+            {
+              "op": "replace",
+              "actual_index": 3,
+              "retail_index": 3,
+              "actual_length": 2,
+              "retail_length": 1,
+              "actual": [
+                "3c128008",
+                "8e521450"
+              ],
+              "retail": [
+                "8f920abc"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 8,
+              "retail_index": 7,
+              "actual_length": 2,
+              "retail_length": 1,
+              "actual": [
+                "3c018008",
+                "ac201450"
+              ],
+              "retail": [
+                "af800abc"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 13,
+              "retail_index": 11,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "14430065"
+              ],
+              "retail": [
+                "1443005e"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 30,
+              "retail_index": 28,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "0800fcec"
+              ],
+              "retail": [
+                "0800fcea"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 40,
+              "retail_index": 38,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "10430027"
+              ],
+              "retail": [
+                "10430022"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 50,
+              "retail_index": 48,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "14430019"
+              ],
+              "retail": [
+                "14430015"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 55,
+              "retail_index": 53,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "10600009"
+              ],
+              "retail": [
+                "10600007"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 57,
+              "retail_index": 55,
+              "actual_length": 2,
+              "retail_length": 1,
+              "actual": [
+                "3c028008",
+                "904214d0"
+              ],
+              "retail": [
+                "93820b3c"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 61,
+              "retail_index": 58,
+              "actual_length": 3,
+              "retail_length": 2,
+              "actual": [
+                "3c018008",
+                "a02214d0",
+                "0800fd1c"
+              ],
+              "retail": [
+                "a3820b3c",
+                "0800fd18"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 66,
+              "retail_index": 62,
+              "actual_length": 2,
+              "retail_length": 1,
+              "actual": [
+                "3c028008",
+                "904214d0"
+              ],
+              "retail": [
+                "93820b3c"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 70,
+              "retail_index": 65,
+              "actual_length": 2,
+              "retail_length": 1,
+              "actual": [
+                "3c018008",
+                "a02214d0"
+              ],
+              "retail": [
+                "a3820b3c"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 74,
+              "retail_index": 68,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "0800fceb"
+              ],
+              "retail": [
+                "0800fce9"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 76,
+              "retail_index": 70,
+              "actual_length": 3,
+              "retail_length": 2,
+              "actual": [
+                "3c018008",
+                "ac321450",
+                "0800fcfd"
+              ],
+              "retail": [
+                "af920abc",
+                "0800fcfb"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 80,
+              "retail_index": 73,
+              "actual_length": 2,
+              "retail_length": 1,
+              "actual": [
+                "3c028008",
+                "90421450"
+              ],
+              "retail": [
+                "93820abc"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 91,
+              "retail_index": 83,
+              "actual_length": 2,
+              "retail_length": 1,
+              "actual": [
+                "3c048008",
+                "90841450"
+              ],
+              "retail": [
+                "93840abc"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "genuine": {
+      "func_8003F368": {
+        "present": true,
+        "address": "0x8003f368",
+        "actual_words": 122,
+        "retail_words": 113,
+        "length_equal": false,
+        "masked_indices": [],
+        "masked_relocations": [],
+        "exact_unmasked": false,
+        "aligned_lcs": {
+          "substitutions": 13,
+          "indels": 9,
+          "total": 22,
+          "jump_targets_normalized": true,
+          "regions": [
+            {
+              "op": "replace",
+              "actual_index": 3,
+              "retail_index": 3,
+              "actual_length": 2,
+              "retail_length": 1,
+              "actual": [
+                "3c128008",
+                "8e521450"
+              ],
+              "retail": [
+                "8f920abc"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 8,
+              "retail_index": 7,
+              "actual_length": 2,
+              "retail_length": 1,
+              "actual": [
+                "3c018008",
+                "ac201450"
+              ],
+              "retail": [
+                "af800abc"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 13,
+              "retail_index": 11,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "14430065"
+              ],
+              "retail": [
+                "1443005e"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 30,
+              "retail_index": 28,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "0800fcec"
+              ],
+              "retail": [
+                "0800fcea"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 40,
+              "retail_index": 38,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "10430027"
+              ],
+              "retail": [
+                "10430022"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 50,
+              "retail_index": 48,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "14430019"
+              ],
+              "retail": [
+                "14430015"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 55,
+              "retail_index": 53,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "10600009"
+              ],
+              "retail": [
+                "10600007"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 57,
+              "retail_index": 55,
+              "actual_length": 2,
+              "retail_length": 1,
+              "actual": [
+                "3c028008",
+                "904214d0"
+              ],
+              "retail": [
+                "93820b3c"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 61,
+              "retail_index": 58,
+              "actual_length": 3,
+              "retail_length": 2,
+              "actual": [
+                "3c018008",
+                "a02214d0",
+                "0800fd1c"
+              ],
+              "retail": [
+                "a3820b3c",
+                "0800fd18"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 66,
+              "retail_index": 62,
+              "actual_length": 2,
+              "retail_length": 1,
+              "actual": [
+                "3c028008",
+                "904214d0"
+              ],
+              "retail": [
+                "93820b3c"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 70,
+              "retail_index": 65,
+              "actual_length": 2,
+              "retail_length": 1,
+              "actual": [
+                "3c018008",
+                "a02214d0"
+              ],
+              "retail": [
+                "a3820b3c"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 74,
+              "retail_index": 68,
+              "actual_length": 1,
+              "retail_length": 1,
+              "actual": [
+                "0800fceb"
+              ],
+              "retail": [
+                "0800fce9"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 76,
+              "retail_index": 70,
+              "actual_length": 3,
+              "retail_length": 2,
+              "actual": [
+                "3c018008",
+                "ac321450",
+                "0800fcfd"
+              ],
+              "retail": [
+                "af920abc",
+                "0800fcfb"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 80,
+              "retail_index": 73,
+              "actual_length": 2,
+              "retail_length": 1,
+              "actual": [
+                "3c028008",
+                "90421450"
+              ],
+              "retail": [
+                "93820abc"
+              ]
+            },
+            {
+              "op": "replace",
+              "actual_index": 91,
+              "retail_index": 83,
+              "actual_length": 2,
+              "retail_length": 1,
+              "actual": [
+                "3c048008",
+                "90841450"
+              ],
+              "retail": [
+                "93840abc"
+              ]
+            }
+          ]
+        }
+      }
+    }
+  },
+  "generic_vs_genuine": {
+    "exact": true,
+    "pair_token_diff_diagnostic": 0,
+    "left_words": 122,
+    "right_words": 122,
+    "missing_right": [],
+    "delay_only": [],
+    "classes": {},
+    "regions": []
+  },
+  "change": "Replace padded D81451/52 structs with incomplete byte-array address views only",
+  "stock_vs_production": {
+    "exact": true,
+    "pair_token_diff_diagnostic": 0,
+    "left_words": 113,
+    "right_words": 113,
+    "missing_right": [],
+    "delay_only": [],
+    "classes": {},
+    "regions": []
+  }
+}

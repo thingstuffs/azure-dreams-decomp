@@ -116,3 +116,18 @@ both existing placement certificates have been refreshed. See the
 [production receipt](evidence/gp_data_pieces/production/integration_receipt.json).
 Next is the shared CD source contract and complete consumer repair; the private
 E758 layout proof has not activated an owner or removed a GP dependency.
+
+The [shared CD declaration repair](evidence/gp_cd_contract.md) now gives seven
+whole rows one header for the selected small globals and an eight-byte result
+type, preserving F368's four-byte save/restore. All three assembler arms match
+their respective prior outputs; stock remains retail-exact and all 869 production
+objects are unchanged. Existing overlapping address views and driver/queue type
+conflicts still need repair before joining consumers. The 21 GP dependencies
+remain; this source cleanup claims no new owner or assembler transition.
+
+A further private E758 probe replaces the padded state-byte array bounds with
+observed one-/two-byte access spans while keeping array access semantics. With
+explicit ownership and data-piece projection, corrected/genuine assemblers both
+match all 698 words unmasked; stock's external-size GP rule produces 667 words.
+This candidate is queued with the generic transition, not activated separately.
+See the [next-probe evidence](evidence/gp_cd_contract.md#next-probes-recorded-after-the-shared-header-gate).

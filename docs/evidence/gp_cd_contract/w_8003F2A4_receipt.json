@@ -1,0 +1,485 @@
+{
+  "row": "slus/w_8003F2A4",
+  "baseline": {
+    "source_sha256": "0f2acaea6f43061bc4fbaf9914d089c201da89c1abd4187c6109f32d36b36bfd",
+    "recipe": {
+      "src": "src/w_8003F2A4.c",
+      "out": "build/src/w_8003F2A4.o",
+      "ccver": "2.6.3",
+      "ccflags": "-fno-schedule-insns",
+      "asflags": ""
+    },
+    "functions": [
+      "func_8003F2A4"
+    ],
+    "hashes": {
+      "stock": "715e05c68e9aea0390d28b831b22e7bb0cfffab4382f8acd027d9bd654d0dfb0",
+      "generic": "b17e9a3883b6eb6ad2a05b410d13556531987e3cc25687261bba695302d5727a",
+      "genuine": "b825fd7445c48280c556a526446eaaf45d413fc6aad3fd75464de0e2f40c6781"
+    },
+    "retail": {
+      "stock": {
+        "func_8003F2A4": {
+          "present": true,
+          "address": "0x8003f2a4",
+          "actual_words": 31,
+          "retail_words": 31,
+          "length_equal": true,
+          "masked_indices": [],
+          "masked_relocations": [],
+          "exact_unmasked": true,
+          "unmasked_mismatch_sites": [],
+          "masked_disagreement_sites": []
+        }
+      },
+      "generic": {
+        "func_8003F2A4": {
+          "present": true,
+          "address": "0x8003f2a4",
+          "actual_words": 32,
+          "retail_words": 31,
+          "length_equal": false,
+          "masked_indices": [],
+          "masked_relocations": [],
+          "exact_unmasked": false,
+          "aligned_lcs": {
+            "substitutions": 6,
+            "indels": 1,
+            "total": 7,
+            "jump_targets_normalized": true,
+            "regions": [
+              {
+                "op": "replace",
+                "actual_index": 2,
+                "retail_index": 2,
+                "actual_length": 1,
+                "retail_length": 1,
+                "actual": [
+                  "1462000c"
+                ],
+                "retail": [
+                  "1462000b"
+                ]
+              },
+              {
+                "op": "replace",
+                "actual_index": 4,
+                "retail_index": 4,
+                "actual_length": 2,
+                "retail_length": 1,
+                "actual": [
+                  "3c028008",
+                  "904214d0"
+                ],
+                "retail": [
+                  "93820b3c"
+                ]
+              },
+              {
+                "op": "replace",
+                "actual_index": 15,
+                "retail_index": 14,
+                "actual_length": 1,
+                "retail_length": 1,
+                "actual": [
+                  "0800fcc7"
+                ],
+                "retail": [
+                  "0800fcc6"
+                ]
+              },
+              {
+                "op": "replace",
+                "actual_index": 20,
+                "retail_index": 19,
+                "actual_length": 2,
+                "retail_length": 2,
+                "actual": [
+                  "3c018008",
+                  "ac2214b0"
+                ],
+                "retail": [
+                  "00000000",
+                  "af820b1c"
+                ]
+              },
+              {
+                "op": "replace",
+                "actual_index": 25,
+                "retail_index": 24,
+                "actual_length": 2,
+                "retail_length": 2,
+                "actual": [
+                  "3c018008",
+                  "ac2214b4"
+                ],
+                "retail": [
+                  "00000000",
+                  "af820b20"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "genuine": {
+        "func_8003F2A4": {
+          "present": true,
+          "address": "0x8003f2a4",
+          "actual_words": 32,
+          "retail_words": 31,
+          "length_equal": false,
+          "masked_indices": [],
+          "masked_relocations": [],
+          "exact_unmasked": false,
+          "aligned_lcs": {
+            "substitutions": 6,
+            "indels": 1,
+            "total": 7,
+            "jump_targets_normalized": true,
+            "regions": [
+              {
+                "op": "replace",
+                "actual_index": 2,
+                "retail_index": 2,
+                "actual_length": 1,
+                "retail_length": 1,
+                "actual": [
+                  "1462000c"
+                ],
+                "retail": [
+                  "1462000b"
+                ]
+              },
+              {
+                "op": "replace",
+                "actual_index": 4,
+                "retail_index": 4,
+                "actual_length": 2,
+                "retail_length": 1,
+                "actual": [
+                  "3c028008",
+                  "904214d0"
+                ],
+                "retail": [
+                  "93820b3c"
+                ]
+              },
+              {
+                "op": "replace",
+                "actual_index": 15,
+                "retail_index": 14,
+                "actual_length": 1,
+                "retail_length": 1,
+                "actual": [
+                  "0800fcc7"
+                ],
+                "retail": [
+                  "0800fcc6"
+                ]
+              },
+              {
+                "op": "replace",
+                "actual_index": 20,
+                "retail_index": 19,
+                "actual_length": 2,
+                "retail_length": 2,
+                "actual": [
+                  "3c018008",
+                  "ac2214b0"
+                ],
+                "retail": [
+                  "00000000",
+                  "af820b1c"
+                ]
+              },
+              {
+                "op": "replace",
+                "actual_index": 25,
+                "retail_index": 24,
+                "actual_length": 2,
+                "retail_length": 2,
+                "actual": [
+                  "3c018008",
+                  "ac2214b4"
+                ],
+                "retail": [
+                  "00000000",
+                  "af820b20"
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    "generic_vs_genuine": {
+      "exact": true,
+      "pair_token_diff_diagnostic": 0,
+      "left_words": 32,
+      "right_words": 32,
+      "missing_right": [],
+      "delay_only": [],
+      "classes": {},
+      "regions": []
+    }
+  },
+  "candidate": {
+    "source_sha256": "f88540f16d97fc219ae138ac63346a5e869fddc7e399b822943d29a7a67b9e51",
+    "recipe": {
+      "src": "src/w_8003F2A4.c",
+      "out": "build/src/w_8003F2A4.o",
+      "ccver": "2.6.3",
+      "ccflags": "-fno-schedule-insns",
+      "asflags": ""
+    },
+    "functions": [
+      "func_8003F2A4"
+    ],
+    "hashes": {
+      "stock": "715e05c68e9aea0390d28b831b22e7bb0cfffab4382f8acd027d9bd654d0dfb0",
+      "generic": "b17e9a3883b6eb6ad2a05b410d13556531987e3cc25687261bba695302d5727a",
+      "genuine": "1089431de873ed63679bbe96d0f55fc17aa1e60950d706eaf6a39446313431fb"
+    },
+    "retail": {
+      "stock": {
+        "func_8003F2A4": {
+          "present": true,
+          "address": "0x8003f2a4",
+          "actual_words": 31,
+          "retail_words": 31,
+          "length_equal": true,
+          "masked_indices": [],
+          "masked_relocations": [],
+          "exact_unmasked": true,
+          "unmasked_mismatch_sites": [],
+          "masked_disagreement_sites": []
+        }
+      },
+      "generic": {
+        "func_8003F2A4": {
+          "present": true,
+          "address": "0x8003f2a4",
+          "actual_words": 32,
+          "retail_words": 31,
+          "length_equal": false,
+          "masked_indices": [],
+          "masked_relocations": [],
+          "exact_unmasked": false,
+          "aligned_lcs": {
+            "substitutions": 6,
+            "indels": 1,
+            "total": 7,
+            "jump_targets_normalized": true,
+            "regions": [
+              {
+                "op": "replace",
+                "actual_index": 2,
+                "retail_index": 2,
+                "actual_length": 1,
+                "retail_length": 1,
+                "actual": [
+                  "1462000c"
+                ],
+                "retail": [
+                  "1462000b"
+                ]
+              },
+              {
+                "op": "replace",
+                "actual_index": 4,
+                "retail_index": 4,
+                "actual_length": 2,
+                "retail_length": 1,
+                "actual": [
+                  "3c028008",
+                  "904214d0"
+                ],
+                "retail": [
+                  "93820b3c"
+                ]
+              },
+              {
+                "op": "replace",
+                "actual_index": 15,
+                "retail_index": 14,
+                "actual_length": 1,
+                "retail_length": 1,
+                "actual": [
+                  "0800fcc7"
+                ],
+                "retail": [
+                  "0800fcc6"
+                ]
+              },
+              {
+                "op": "replace",
+                "actual_index": 20,
+                "retail_index": 19,
+                "actual_length": 2,
+                "retail_length": 2,
+                "actual": [
+                  "3c018008",
+                  "ac2214b0"
+                ],
+                "retail": [
+                  "00000000",
+                  "af820b1c"
+                ]
+              },
+              {
+                "op": "replace",
+                "actual_index": 25,
+                "retail_index": 24,
+                "actual_length": 2,
+                "retail_length": 2,
+                "actual": [
+                  "3c018008",
+                  "ac2214b4"
+                ],
+                "retail": [
+                  "00000000",
+                  "af820b20"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "genuine": {
+        "func_8003F2A4": {
+          "present": true,
+          "address": "0x8003f2a4",
+          "actual_words": 32,
+          "retail_words": 31,
+          "length_equal": false,
+          "masked_indices": [],
+          "masked_relocations": [],
+          "exact_unmasked": false,
+          "aligned_lcs": {
+            "substitutions": 6,
+            "indels": 1,
+            "total": 7,
+            "jump_targets_normalized": true,
+            "regions": [
+              {
+                "op": "replace",
+                "actual_index": 2,
+                "retail_index": 2,
+                "actual_length": 1,
+                "retail_length": 1,
+                "actual": [
+                  "1462000c"
+                ],
+                "retail": [
+                  "1462000b"
+                ]
+              },
+              {
+                "op": "replace",
+                "actual_index": 4,
+                "retail_index": 4,
+                "actual_length": 2,
+                "retail_length": 1,
+                "actual": [
+                  "3c028008",
+                  "904214d0"
+                ],
+                "retail": [
+                  "93820b3c"
+                ]
+              },
+              {
+                "op": "replace",
+                "actual_index": 15,
+                "retail_index": 14,
+                "actual_length": 1,
+                "retail_length": 1,
+                "actual": [
+                  "0800fcc7"
+                ],
+                "retail": [
+                  "0800fcc6"
+                ]
+              },
+              {
+                "op": "replace",
+                "actual_index": 20,
+                "retail_index": 19,
+                "actual_length": 2,
+                "retail_length": 2,
+                "actual": [
+                  "3c018008",
+                  "ac2214b0"
+                ],
+                "retail": [
+                  "00000000",
+                  "af820b1c"
+                ]
+              },
+              {
+                "op": "replace",
+                "actual_index": 25,
+                "retail_index": 24,
+                "actual_length": 2,
+                "retail_length": 2,
+                "actual": [
+                  "3c018008",
+                  "ac2214b4"
+                ],
+                "retail": [
+                  "00000000",
+                  "af820b20"
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    "generic_vs_genuine": {
+      "exact": true,
+      "pair_token_diff_diagnostic": 0,
+      "left_words": 32,
+      "right_words": 32,
+      "missing_right": [],
+      "delay_only": [],
+      "classes": {},
+      "regions": []
+    }
+  },
+  "comparison": {
+    "stock": {
+      "exact": true,
+      "pair_token_diff_diagnostic": 0,
+      "left_words": 31,
+      "right_words": 31,
+      "missing_right": [],
+      "delay_only": [],
+      "classes": {},
+      "regions": []
+    },
+    "generic": {
+      "exact": true,
+      "pair_token_diff_diagnostic": 0,
+      "left_words": 32,
+      "right_words": 32,
+      "missing_right": [],
+      "delay_only": [],
+      "classes": {},
+      "regions": []
+    },
+    "genuine": {
+      "exact": true,
+      "pair_token_diff_diagnostic": 0,
+      "left_words": 32,
+      "right_words": 32,
+      "missing_right": [],
+      "delay_only": [],
+      "classes": {},
+      "regions": []
+    }
+  },
+  "header_sha256": "993ba6df16dd90218f278f09a180a1db6a8f8a3bfa3a03c41c0df73e684e3614",
+  "production_source_unchanged": true
+}

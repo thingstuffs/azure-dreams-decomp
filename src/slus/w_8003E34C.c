@@ -1,6 +1,4 @@
-#include "common.h"
-
-#include "common.h"
+#include "slus/cd_state.h"
 
 typedef struct {
     s32 unk0;
@@ -10,10 +8,6 @@ typedef struct {
     s16 unk8;
 } S_80083958;
 
-extern s8 D_80080AD0;
-extern s16 D_80080AD4;
-extern s32 D_80080ADC;
-extern s8 D_800814D0;
 extern S_80083958 D_80083958;
 
 /* Reset the global state fields and initialize the status bytes to 2 and 255. */

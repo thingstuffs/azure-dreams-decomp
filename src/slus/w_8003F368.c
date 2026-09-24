@@ -1,40 +1,25 @@
-#include "common.h"
-
-#include "common.h"
-
-typedef union {
-    u32 raw;
-    struct {
-        u8 mm;
-        u8 ss;
-        u8 sect;
-        u8 mode;
-    } b;
-} S_80081450;
+#include "slus/cd_state.h"
 
 typedef struct {
     u8 val;
     u8 pad[15];
 } S_80081451;
 
-extern S_80081450 D_80081450;
 extern S_80081451 D_80081451;
 extern S_80081451 D_80081452;
-extern u8 D_800814D0;
 extern u8 D_800814D3[16];
 
 extern s32 CdSync(s32 mode, u8 *result);
 extern s32 CdControl(u8 com, u8 *param, u8 *result);
 extern s32 CdPosToInt(u8 *loc);
 extern void func_8003E70C(void);
-extern u8 func_8003F240(void);
 extern void func_8003F624(void);
 extern s32 func_8003F688(u8 val);
 
 /* Reads and validates the CD location, returning its sector position or zero. */
 s32 func_8003F368(void)
 {
-    S_80081450 saved_loc;
+    u32 saved_loc;
     u8 cd_loc[4];
     u8 sync_result[8]; /* CdSync copies eight result bytes. */
     s32 retries_left;
@@ -42,8 +27,8 @@ s32 func_8003F368(void)
     u8 index_is_zero;
     u8 *recovery_state;
 
-    saved_loc = D_80081450;
-    D_80081450.raw = 0;
+    saved_loc = D_80081450.first_word;
+    D_80081450.first_word = 0;
 
     if (CdSync(1, sync_result) != 2) {
         return 0;
@@ -83,16 +68,16 @@ L8003F3A4:
             func_8003F624();
             goto L8003F3A4;
         }
-        D_80081450 = saved_loc;
+        D_80081450.first_word = saved_loc;
         retries_left = 0x10;
     }
 
-    cd_loc[0] = D_80081450.b.mm;
+    cd_loc[0] = D_80081450.bytes[0];
     cd_loc[1] = D_80081451.val;
     cd_loc[2] = D_80081452.val;
     sector_pos = CdPosToInt(cd_loc);
 
-    if (func_8003F688(D_80081450.b.mm) >= 0x4B) {
+    if (func_8003F688(D_80081450.bytes[0]) >= 0x4B) {
         return 0;
     }
     {
