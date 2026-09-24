@@ -1,6 +1,6 @@
 # Toolchain fidelity plan (owner-approved direction, 2026-09-24)
 
-Status: **PLANNED - starts when the round-77 lanes still running at 2026-09-24 ~03:00Z (r77_opus_p5, p6, b1, b2, m8)
+Status: **STEPS 1-2 RUNNING (2026-09-24 ~03:30Z; Opus agents, briefs docs/evidence/fidelity_step{1,2}_brief.md).** Was: planned - starts when the round-77 lanes still running at 2026-09-24 ~03:00Z (r77_opus_p5, p6, b1, b2, m8)
 have finished and landed. No new pin lanes until step 2 reports.**
 
 Goal (owner): byte accuracy AND cleanliness for every row. Principle: a row's recipe is the toolchain the original
@@ -59,3 +59,4 @@ Steps 1 and 2 are measurements and need no sign-off.
 
 ## Log
 - 2026-09-24: plan recorded (round 77, after the sceptic's verdict). Pins at the time: 3,316 in 817 rows.
+- 2026-09-24 ~03:30Z: round-77 lanes all landed (3,512 -> 3,207, incl. the NON_MATCHING arm-retirement ruling). Steps 1 and 2 launched in parallel as Opus agents; outputs tools/fidelity/, work/fidelity/, docs/evidence/fidelity_step{1,2}_*.md.
