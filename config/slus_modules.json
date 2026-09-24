@@ -757,6 +757,69 @@
         }
       ],
       "evidence": "docs/evidence/gp_count_and_slots.md"
+    },
+    {
+      "name": "gp_split_storage",
+      "source": "src/gp_split_storage.c",
+      "members": [
+        {
+          "id": "slus/w_80048660",
+          "source": "src/w_80048660.c",
+          "functions": [
+            "func_80048660"
+          ]
+        }
+      ],
+      "headers": [
+        "include/common.h",
+        "include/game.h",
+        "include/globals.h",
+        "include/include_asm.h"
+      ],
+      "recipe": {
+        "ccver": "2.7.2-cdk",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "data": [
+        {
+          "symbol": "D_80080B10",
+          "asset": "assets/54240.bin",
+          "offset": 208,
+          "size": 2,
+          "vram": 2148010768,
+          "bytes": "0000",
+          "section": ".sdata"
+        },
+        {
+          "symbol": "D_80080B12",
+          "asset": "assets/54240.bin",
+          "offset": 210,
+          "size": 2,
+          "vram": 2148010770,
+          "bytes": "0000",
+          "section": ".sdata"
+        },
+        {
+          "symbol": "D_80080B14",
+          "asset": "assets/54240.bin",
+          "offset": 212,
+          "size": 2,
+          "vram": 2148010772,
+          "bytes": "0000",
+          "section": ".sdata"
+        },
+        {
+          "symbol": "D_80081530",
+          "asset": "assets/54240.bin",
+          "offset": 2800,
+          "size": 2,
+          "vram": 2148013360,
+          "bytes": "0000",
+          "section": ".sbss"
+        }
+      ],
+      "evidence": "docs/evidence/gp_split_storage.md"
     }
   ]
 }

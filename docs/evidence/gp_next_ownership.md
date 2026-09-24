@@ -1,9 +1,12 @@
 # Next GP ownership repairs: private proofs
 
 These experiments follow the production count/slot landing at `cbe72882`.
-Production still has 35 GP-dependent rows and 202 total dependency records.
+At that checkpoint production had 35 GP-dependent rows and 202 total dependency records.
 The candidates below are private; their passing measurements do not remove
 production dependencies or approve a global assembler semantic change.
+The subsequent [split-storage integration](gp_split_storage.md) activates 48660
+with production per-section support, reducing those counts to 34 and 201.
+The address-taking pair remains private.
 
 ## Address-taking owners: 47E78 and 53CFC
 

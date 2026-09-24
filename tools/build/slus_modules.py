@@ -147,8 +147,10 @@ def load_manifest(path) -> list[dict]:
             raw = datum["bytes"]
             if not isinstance(raw, str) or not re.fullmatch(r"[0-9A-Fa-f]+", raw) or len(raw) != 2 * size:
                 raise ModuleError(f"{dw}: bytes must encode exactly size bytes")
-            if datum["section"] != ".sdata":
-                raise ModuleError(f"{dw}: unsupported data section {datum['section']!r}; only .sdata is supported")
+            if datum["section"] not in (".sdata", ".sbss"):
+                raise ModuleError(f"{dw}: unsupported data section {datum['section']!r}")
+            if datum["section"] == ".sbss" and any(bytes.fromhex(raw)):
+                raise ModuleError(f"{dw}: .sbss storage must be zero")
             parsed_data.append(dict(datum, bytes=raw.lower()))
         modules.append({"name": name, "source": source, "members": members, "headers": headers,
                         "recipe": recipe, "data": parsed_data, "evidence": evidence})
@@ -215,6 +217,25 @@ def _prepare_output(root, relative):
     return dest
 
 
+def data_sections(module) -> dict[str, list[dict]]:
+    """Group records by real input section; each section has one ordered span."""
+    sections = {}
+    for datum in module["data"]:
+        section = datum["section"]
+        if section not in (".sdata", ".sbss"):
+            raise ModuleError(f"{module['name']}: unsupported data section {section!r}")
+        if section == ".sbss" and any(bytes.fromhex(datum["bytes"])):
+            raise ModuleError(f"{module['name']}: .sbss storage must be zero")
+        sections.setdefault(section, []).append(datum)
+    for section, records in sections.items():
+        if len({d["asset"] for d in records}) != 1:
+            raise ModuleError(f"{module['name']}: one {section} section cannot span multiple assets")
+        if any(a["offset"] + a["size"] != b["offset"] or a["vram"] + a["size"] != b["vram"]
+               for a, b in zip(records, records[1:])):
+            raise ModuleError(f"{module['name']}: multiple {section} definitions must be contiguous and ordered")
+    return sections
+
+
 def plan_asset_carves(modules, root=Path.cwd(), out_dir="build/module_assets") -> list[dict]:
     """Read assets, validate bytes and layout, and return deterministic ordered slots.
 
@@ -232,15 +253,8 @@ def plan_asset_carves(modules, root=Path.cwd(), out_dir="build/module_assets") -
         load_address = int.from_bytes(head[0x18:0x1C], "little")
     grouped = {}
     for module in modules:
-        records = module["data"]
-        if not records:
-            continue
-        if len({d["asset"] for d in records}) != 1:
-            raise ModuleError(f"{module['name']}: one .sdata section cannot span multiple assets")
-        if any(a["offset"] + a["size"] != b["offset"] or a["vram"] + a["size"] != b["vram"]
-               for a, b in zip(records, records[1:])):
-            raise ModuleError(f"{module['name']}: multiple .sdata definitions must be contiguous and ordered")
-        grouped.setdefault(records[0]["asset"], []).append((module, records))
+        for records in data_sections(module).values():
+            grouped.setdefault(records[0]["asset"], []).append((module, records))
     plans = []
     for asset in sorted(grouped):
         asset_path = root / asset
@@ -277,7 +291,7 @@ def plan_asset_carves(modules, root=Path.cwd(), out_dir="build/module_assets") -
             slots.append({"kind": "module_data", "start": start, "end": end,
                           "module": module["name"],
                           "object": str(PurePosixPath(build_dir) / PurePosixPath(module["source"]).with_suffix(".o")),
-                          "section": ".sdata", "symbols": [d["symbol"] for d in records]})
+                          "section": records[0]["section"], "symbols": [d["symbol"] for d in records]})
             prev = end
         chunk(prev, len(raw))
         plans.append({"asset": asset, "asset_object": str(PurePosixPath(build_dir) / PurePosixPath(asset).with_suffix(".o")),

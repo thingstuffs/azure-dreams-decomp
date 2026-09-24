@@ -19,15 +19,56 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / 'tools'))
 from common import rows
 from slus_module_context import modules, fingerprint
-from slus_module_evidence import digest, verifier_fingerprint
+from slus_module_evidence import verifier_fingerprint
+from slus_modules import data_sections
 from fidelity.slus_iso import SlusView
 from fidelity import aspsx_diff as A
 
 
-def symbols(path):
+def symbols(path, wanted):
     result = subprocess.check_output(['mipsel-linux-gnu-nm', '-n', '--defined-only', str(path)], text=True)
-    return {parts[2]: {'address': int(parts[0], 16), 'kind': parts[1]}
-            for line in result.splitlines() if len(parts := line.split()) == 3}
+    found = {}
+    for line in result.splitlines():
+        parts = line.split()
+        if len(parts) != 3 or parts[2] not in wanted:
+            continue
+        if parts[2] in found:
+            raise ValueError('ambiguous linked owned symbol: ' + parts[2])
+        found[parts[2]] = {'address': int(parts[0], 16), 'kind': parts[1]}
+    return found
+
+
+def prove_data(module, parsed_obj, linked_nm, image):
+    """Verify real section storage, including zero-filled NOBITS, and linked bytes."""
+    groups = data_sections(module)
+    if not groups:
+        raise ValueError('module has no owned data: ' + module['name'])
+    sections = {}
+    for section, records in groups.items():
+        actual = parsed_obj.sections.get(section)
+        expected = b''.join(bytes.fromhex(d['bytes']) for d in records)
+        if actual != expected:
+            raise ValueError('object section bytes or size differ: ' + module['name'] + ' ' + section)
+        offset = 0
+        proofs = []
+        for datum in records:
+            name = datum['symbol']
+            own = parsed_obj.symbols.get(name)
+            if (not own or own[0] != section or own[1] != offset
+                    or own[2] not in ('global', 'local')):
+                raise ValueError('object ownership/section/offset differs: ' + name)
+            linked = linked_nm.get(name)
+            if (not linked or linked['kind'].upper() in ('A', 'C', 'U')
+                    or linked['address'] != datum['vram']):
+                raise ValueError('linked ownership/address differs: ' + name)
+            foff = int(Path(datum['asset']).stem, 16) + datum['offset']
+            if image[foff:foff + datum['size']] != bytes.fromhex(datum['bytes']):
+                raise ValueError('linked data bytes differ: ' + name)
+            proofs.append(dict(datum, object_offset=offset, object_binding=own[2],
+                               linked_kind=linked['kind']))
+            offset += datum['size']
+        sections[section] = {'size': len(actual), 'bytes': actual.hex(), 'symbols': proofs}
+    return {'sections': sections}
 
 
 def prove(names):
@@ -47,33 +88,17 @@ def prove(names):
         if recipe != (ROOT / 'ledger/splits/slus.build.ninja').read_bytes():
             raise ValueError('generated recipe differs from the pinned build')
         image = (view.dest / 'build/slus_006.14').read_bytes()
-        linked = symbols(view.dest / 'build/slus_006.14.elf')
+        wanted = {d['symbol'] for m in selected for d in m['data']}
+        linked = symbols(view.dest / 'build/slus_006.14.elf', wanted)
         for module in selected:
-            records = module['data']
-            if not records:
-                raise ValueError('module has no owned data: ' + module['name'])
             obj = view.dest / 'build' / Path(module['source']).with_suffix('.o')
-            own = symbols(obj)
-            section = Path(temp) / 'section.bin'
-            subprocess.run(['mipsel-linux-gnu-objcopy', '-O', 'binary', '-j', '.sdata', str(obj), str(section)], check=True)
-            actual = section.read_bytes()
-            expected = b''.join(bytes.fromhex(d['bytes']) for d in records)
-            if actual != expected:
-                raise ValueError('object .sdata bytes or size differ: ' + module['name'])
-            offset = 0
-            proofs = []
-            for datum in records:
-                name = datum['symbol']
-                if name not in own or own[name]['kind'].upper() == 'A' or own[name]['address'] != offset:
-                    raise ValueError('object ownership/offset differs: ' + name)
-                if name not in linked or linked[name]['kind'].upper() == 'A' or linked[name]['address'] != datum['vram']:
-                    raise ValueError('linked ownership/address differs: ' + name)
-                foff = int(Path(datum['asset']).stem, 16) + datum['offset']
-                if image[foff:foff + datum['size']] != bytes.fromhex(datum['bytes']):
-                    raise ValueError('linked data bytes differ: ' + name)
-                proofs.append(dict(datum, object_offset=offset, linked_kind=linked[name]['kind']))
-                offset += datum['size']
-            data[module['name']] = {'section': '.sdata', 'size': len(actual), 'bytes': actual.hex(), 'symbols': proofs}
+            # Reject ambiguous object names before the reader's keyed symbol
+            # view can discard a duplicate entry.
+            symbols(obj, {d['symbol'] for d in module['data']})
+            # The ELF reader materializes NOBITS from its recorded section size,
+            # so an absent section cannot pass as a zero-length binary dump.
+            parsed = A.read_elf(obj.read_bytes())
+            data[module['name']] = prove_data(module, parsed, linked, image)
     old_versions = A.VERSIONS
     A.VERSIONS = ['2.79']
     try:
@@ -95,7 +120,7 @@ def prove(names):
         A.VERSIONS = old_versions
     if verifier_fingerprint() != tool_fp or any(fingerprint(by_id[rid]) != initial[rid] for rid in ids):
         raise ValueError('verification inputs changed while proving ownership')
-    return {'schema': 1, 'at': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()),
+    return {'schema': 2, 'at': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()),
             'purpose': 'data ownership only; no L4/L5 placement certificate',
             'modules': names, 'module_fingerprints': initial, 'tool_fingerprint': tool_fp,
             'recipe_sha256': hashlib.sha256(recipe).hexdigest(),

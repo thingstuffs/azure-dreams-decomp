@@ -1,0 +1,128 @@
+{
+  "schema": 2,
+  "at": "2026-09-24T15:44:01Z",
+  "purpose": "data ownership only; no L4/L5 placement certificate",
+  "modules": [
+    "gp_split_storage"
+  ],
+  "module_fingerprints": {
+    "slus/w_80048660": "73cff5cc9fac82ca02ebdfb6a243affa489e8e79cb5fc50e3ed3eb8283275d76"
+  },
+  "tool_fingerprint": "a72ec8129a76a8b8b759",
+  "recipe_sha256": "b441ae20f091d01fc3842fc90ac40892c21dac074976b74b1b2b787eea5d514c",
+  "image_sha1": "e6bfbb95ff6676899e077481221d73ddd4d3bf52",
+  "gate": {
+    "result": "MATCH",
+    "words_diff": 0
+  },
+  "data": {
+    "gp_split_storage": {
+      "sections": {
+        ".sdata": {
+          "size": 6,
+          "bytes": "000000000000",
+          "symbols": [
+            {
+              "symbol": "D_80080B10",
+              "asset": "assets/54240.bin",
+              "offset": 208,
+              "size": 2,
+              "vram": 2148010768,
+              "bytes": "0000",
+              "section": ".sdata",
+              "object_offset": 0,
+              "object_binding": "global",
+              "linked_kind": "T"
+            },
+            {
+              "symbol": "D_80080B12",
+              "asset": "assets/54240.bin",
+              "offset": 210,
+              "size": 2,
+              "vram": 2148010770,
+              "bytes": "0000",
+              "section": ".sdata",
+              "object_offset": 2,
+              "object_binding": "global",
+              "linked_kind": "T"
+            },
+            {
+              "symbol": "D_80080B14",
+              "asset": "assets/54240.bin",
+              "offset": 212,
+              "size": 2,
+              "vram": 2148010772,
+              "bytes": "0000",
+              "section": ".sdata",
+              "object_offset": 4,
+              "object_binding": "global",
+              "linked_kind": "T"
+            }
+          ]
+        },
+        ".sbss": {
+          "size": 2,
+          "bytes": "0000",
+          "symbols": [
+            {
+              "symbol": "D_80081530",
+              "asset": "assets/54240.bin",
+              "offset": 2800,
+              "size": 2,
+              "vram": 2148013360,
+              "bytes": "0000",
+              "section": ".sbss",
+              "object_offset": 0,
+              "object_binding": "local",
+              "linked_kind": "t"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "rows": {
+    "slus/w_80048660": {
+      "row": "slus/w_80048660",
+      "container": "slus",
+      "kind": "slus",
+      "cfg": "2.7.2-cdk",
+      "pins": 0,
+      "asflags": "",
+      "cell": "2.7.2-cdk",
+      "maspsx_exact": true,
+      "proof": "whole SLUS image, module context",
+      "fired": [],
+      "module": "gp_split_storage",
+      "module_fingerprint": "73cff5cc9fac82ca02ebdfb6a243affa489e8e79cb5fc50e3ed3eb8283275d76",
+      "trace_scope": "whole-module",
+      "selfcheck": true,
+      "funcs": 1,
+      "words": 53,
+      "maspsx_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      },
+      "has_div": false,
+      "genuine": {
+        "2.79": {
+          "exact": true,
+          "diff": 0,
+          "len": 53,
+          "mode": "",
+          "retail": [
+            0,
+            0
+          ]
+        }
+      },
+      "exact_versions": [
+        "2.79"
+      ],
+      "best": "2.79",
+      "status": "ok",
+      "secs": 2.0
+    }
+  }
+}

@@ -11,10 +11,10 @@ struct S_80083164 {
 
 extern struct S_80083164 D_80083164;
 
-extern u16 D_80081530;
-extern u16 D_80080B10;
-extern u16 D_80080B12;
-extern u16 D_80080B14;
+static u16 D_80081530;
+u16 D_80080B10 = 0;
+u16 D_80080B12 = 0;
+u16 D_80080B14 = 0;
 
 /* S_80048660: per-caller animation/scroll state passed by reference.
  * field_8/field_9 are outputs (written each call); field_A/field_B are

@@ -3,26 +3,26 @@
     "result": "MATCH",
     "words_diff": 0
   },
-  "configure": "wrote build.ninja (1135 objects)",
+  "configure": "wrote build.ninja (1138 objects)",
   "ninja_tail": [
-    "[25/32] CC src/w_800508F0_owned.c (gcc 2.7.2  )",
-    "[26/32] BIN build/module_assets/54240_000A0C_000AA8.bin",
-    "[27/32] BIN build/module_assets/54240_000AAA_000AC0.bin",
-    "[28/32] BIN build/module_assets/54240_000AC2_000AC8.bin",
-    "[29/32] BIN build/module_assets/54240_000ACC_000AD8.bin",
-    "[30/32] BIN build/module_assets/54240_000AE8_02BDC0.bin",
-    "[31/32] LINK build/slus_006.14.elf",
-    "[32/32] OBJCOPY build/slus_006.14"
+    "[32/39] BIN build/module_assets/54240_000A24_000AA8.bin",
+    "[33/39] BIN build/module_assets/54240_000AAA_000AC0.bin",
+    "[34/39] BIN build/module_assets/54240_000AC2_000AC8.bin",
+    "[35/39] BIN build/module_assets/54240_000ACC_000AD8.bin",
+    "[36/39] BIN build/module_assets/54240_000AE8_000AF0.bin",
+    "[37/39] BIN build/module_assets/54240_000AF2_02BDC0.bin",
+    "[38/39] LINK build/slus_006.14.elf",
+    "[39/39] OBJCOPY build/slus_006.14"
   ],
   "edges": {
-    "physical": 876,
+    "physical": 875,
     "logical": 884,
     "ledger_rows": 884,
     "logical_equal_to_pinned_recipe": true
   },
   "modules": {
-    "active": 13,
-    "other_inputs_preserved": 12
+    "active": 16,
+    "other_inputs_preserved": 15
   },
   "image": {
     "match_retail": true,
@@ -36,7 +36,7 @@
     "section_index": "2",
     "object_section": ".sdata",
     "bytes": "04000000",
-    "readelf": "4095: 80080a6c     0 NOTYPE  GLOBAL DEFAULT    2 D_80080A6C"
+    "readelf": "4103: 80080a6c     0 NOTYPE  GLOBAL DEFAULT    2 D_80080A6C"
   },
   "functions": {
     "func_8003C634": {

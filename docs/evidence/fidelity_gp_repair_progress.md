@@ -7,6 +7,12 @@ the separate MAIN coverage gaps.
 
 ## Latest ownership checkpoint
 
+[Split small-data storage](gp_split_storage.md) adds a further row with three
+initialized halfwords and one private uninitialized halfword in C. Production
+now supports separately placed `.sdata` and zero-only `.sbss` sections. Full
+image and all 53 function words pass, leaving 201 dependencies and 34 GP rows.
+The existing pilot is recertified and all 87 focused tests pass.
+
 [Runtime count and shared display slots](gp_count_and_slots.md) add seven real
 C definitions for three more rows. The full image remains exact at 875 physical
 and 884 logical inputs; genuine ASPSX 2.79 matches all 402 affected words with
