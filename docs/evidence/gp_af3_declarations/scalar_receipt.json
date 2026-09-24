@@ -1,0 +1,88 @@
+{
+  "source_sha256": "50f87027f52d8a150c4fa3b16c551c1a5278cc370a7f5f255dac7064831ed431",
+  "recipe": "2.7.2-cdk",
+  "results": {
+    "stock": {
+      "words": 51,
+      "masks": 0,
+      "retail_exact": false,
+      "aligned_distance": 8,
+      "regions": [
+        {
+          "op": "replace",
+          "candidate_start": 7,
+          "retail_start": 7,
+          "candidate": [
+            "10500024"
+          ],
+          "retail": [
+            "10500026"
+          ]
+        },
+        {
+          "op": "replace",
+          "candidate_start": 21,
+          "retail_start": 21,
+          "candidate": [
+            "8f820af8",
+            "00000000",
+            "af820aec"
+          ],
+          "retail": [
+            "3c028008",
+            "8c42148c",
+            "3c018008",
+            "ac221480"
+          ]
+        },
+        {
+          "op": "replace",
+          "candidate_start": 29,
+          "retail_start": 30,
+          "candidate": [
+            "8f840af8"
+          ],
+          "retail": [
+            "3c048008",
+            "8c84148c"
+          ]
+        },
+        {
+          "op": "replace",
+          "candidate_start": 42,
+          "retail_start": 44,
+          "candidate": [
+            "08011170"
+          ],
+          "retail": [
+            "08011172"
+          ]
+        }
+      ]
+    },
+    "generic": {
+      "words": 53,
+      "masks": 0,
+      "retail_exact": true,
+      "aligned_distance": 0,
+      "regions": []
+    },
+    "genuine": {
+      "words": 53,
+      "masks": 0,
+      "retail_exact": true,
+      "aligned_distance": 0,
+      "regions": []
+    }
+  },
+  "generic_genuine": {
+    "diff": 0,
+    "exact": true,
+    "len_m": 53,
+    "len_g": 53,
+    "missing": [],
+    "regions": [],
+    "delay_only": []
+  },
+  "full_link_proof": false
+}

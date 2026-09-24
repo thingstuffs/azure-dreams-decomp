@@ -11,7 +11,10 @@ the separate MAIN coverage gaps.
 ordering repair. Its [local-data guard](selfinc_local_guard.md) now gives the
 full private image and all 50 words with every pass enabled; its 12 existing
 pass consumers remain a separate retirement queue. The generic assembler
-transition remains private.
+transition remains private. The [AF3 declaration repair](gp_af3_declarations.md)
+now adds a two-row full-image proof: scalar external views replace artificial
+padding/aliasing, all 153 words are genuine-exact at default CDK, and actual
+AF3/AFC storage occupies its retail addresses. It remains pending that transition.
 
 ## Latest ownership checkpoint
 

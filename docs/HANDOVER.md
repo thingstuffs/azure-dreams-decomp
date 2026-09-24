@@ -82,12 +82,13 @@ rows share 22 symbol names across seven recipe variants. The recovered assertion
 map does not establish SLUS grouping here. Inventory distinguishes lexical source
 bodies from registry symbols; next establish per-access addressing and data
 extents for a local cluster before choosing any combined ownership.
-[AF3 recipe probes](evidence/gp_af3_recipe.md) reject both unchanged-source
-shared existing recipes. CDK `-mmips-as` preserves 4450C's retail words but
-4437C needs its address-folding mechanism resolved: explicit pointer locals
-produce identical instruction tokens. The adjacent cache44618 also passes the
-CDK dialect trial, but genuine ownership proof remains separate from these
-stock-retail results. Full retail maps and scoped negative trials are saved.
+[AF3 declaration repair](evidence/gp_af3_declarations.md) now resolves the earlier
+recipe obstacle: removing 4450C's artificial padded externs and asm alias gives
+all 153 pair words through default CDK and genuine ASPSX. Private real AF3/AFC
+storage and the full image pass, with every production module preserved. This
+pair awaits the coordinated generic assembler correction; no production
+exception or dependency removal is made. AFE has already landed independently.
+The earlier negative recipe and pointer-local trials remain recorded.
 
 First execution checkpoint: [SLUS small-data measurements](evidence/fidelity_gp_repair_progress.md).
 The isolated generic assembler correction passes 70/70 pinned-version probes and

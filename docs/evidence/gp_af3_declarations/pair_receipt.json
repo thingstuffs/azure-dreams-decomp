@@ -1,0 +1,67 @@
+{
+  "recipe": "2.7.2-cdk",
+  "source_sha256": "07677f2de8d6c552d62f2b13ce8f0a6e94468edc318231b4dd3c7892eb56c4f8",
+  "results": {
+    "func_8004437C": {
+      "generic": {
+        "words": 100,
+        "masks": [],
+        "retail_exact": true
+      },
+      "genuine": {
+        "words": 100,
+        "masks": [],
+        "retail_exact": true
+      },
+      "comparison": {
+        "diff": 0,
+        "exact": true,
+        "len_m": 100,
+        "len_g": 100,
+        "missing": [],
+        "regions": [],
+        "delay_only": []
+      }
+    },
+    "func_8004450C": {
+      "generic": {
+        "words": 53,
+        "masks": [],
+        "retail_exact": true
+      },
+      "genuine": {
+        "words": 53,
+        "masks": [],
+        "retail_exact": true
+      },
+      "comparison": {
+        "diff": 0,
+        "exact": true,
+        "len_m": 53,
+        "len_g": 53,
+        "missing": [],
+        "regions": [],
+        "delay_only": []
+      }
+    }
+  },
+  "data": {
+    ".sdata": "ff",
+    ".sbss": "0000"
+  },
+  "symbols": {
+    "D_80080AF3": [
+      ".sdata",
+      0,
+      "global",
+      0
+    ],
+    "D_80080AFC": [
+      ".sbss",
+      0,
+      "local",
+      0
+    ]
+  },
+  "full_link_proof": false
+}
