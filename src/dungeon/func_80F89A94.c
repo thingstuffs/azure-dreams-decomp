@@ -55,7 +55,7 @@ extern s16 D_8008346A;
 /* Advance the object removal animation, fade its sprite, and release it when finished. */
 void func_80173294(void *effect_data, void *motion_data, void *sprite_data, void *object_data) {
     s32 direction_offset;
-    register s32 direction_x ASM_REG("$4");
+    s32 direction_x;
     u8 *direction_y_table;
     u8 *direction_y_table_2;
     s32 direction_y;
@@ -64,14 +64,11 @@ void func_80173294(void *effect_data, void *motion_data, void *sprite_data, void
     s32 motion_value;
     s32 is_low_state;
 
-    direction_x = (s32)(unsigned long)&D_8006CCD8;
-    direction_y_table_2 = &D_8006CCE8;
     direction_offset = (((S_80173294_0 *)object_data)->unk_6A >> 8) & 0xE;
+    direction_x = *(s16 *)((u8 *)&D_8006CCD8 + direction_offset);
+    direction_y = *(s16 *)((u8 *)&D_8006CCE8 + direction_offset);
     motion_step = 0xC000;
-    direction_x = *(s16 *)(unsigned long)(u32)(direction_offset + direction_x);
-    direction_offset += (s32)(unsigned long)direction_y_table_2;
     motion_value = (((S_80173294_1 *)motion_data)->unk_14) + motion_step;
-    direction_y = *(s16 *)(unsigned long)(u32)direction_offset;
     ((S_80173294_1 *)motion_data)->unk_14 = motion_value;
     state = ((S_80173294_2 *)effect_data)->unk_9B;
 

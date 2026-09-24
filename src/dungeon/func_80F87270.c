@@ -61,7 +61,7 @@ void func_80170A70(void *entity, void *motion_arg, void *sprite_arg)
     Callback update_callback;
     s16 state_or_facing;
     s16 ground_height;
-    register s32 ground_delta ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 ground_delta;
     s16 facing;
     s32 bob_offset;
     u16 sprite_flags;
@@ -179,9 +179,7 @@ phase_update_a:
 
             ground_delta = (s16)func_800BCB04(
                 ((S_80170A70_0 *)motion_arg)->unk_00.at02.v, ((S_80170A70_0 *)motion_arg)->unk_04.at02.v,
-                (s16)(object->unk_88.u - 0x20));
-            object_height = object->unk_88.s;
-            ground_delta -= object_height;
+                (s16)(object->unk_88.u - 0x20)) - object->unk_88.s;
             if ((*(s16 *)((u8 *)entity + (0x92))) > ground_delta) {
                 (*(s16 *)((u8 *)entity + (0x92))) = ground_delta;
                 (*(u8 *)((u8 *)entity + (0x9D))) = 0;
@@ -208,9 +206,7 @@ phase_update_a:
 
             ground_delta = (s16)func_800BCB04(
                 ((S_80170A70_0 *)motion_arg)->unk_00.at02.v, ((S_80170A70_0 *)motion_arg)->unk_04.at02.v,
-                (s16)(object->unk_88.u - 0x20));
-            object_height = object->unk_88.s;
-            ground_delta -= object_height;
+                (s16)(object->unk_88.u - 0x20)) - object->unk_88.s;
             if ((*(s16 *)((u8 *)entity + (0x92))) > ground_delta) {
                 (*(s16 *)((u8 *)entity + (0x92))) = ground_delta;
                 (*(u8 *)((u8 *)entity + (0x9D))) = 0;

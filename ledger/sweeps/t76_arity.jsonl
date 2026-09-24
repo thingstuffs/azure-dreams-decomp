@@ -1335,3 +1335,5 @@
 {"id":"dungeon/func_81912154","transform":"t76_arity","in_sha":"ce4790d58117d07ae0641a8a796d10d669e94c0f8cd44ab603cf82d56429773a","from_clean":true,"size":1816,"outcome":"refused","reason":"no call with pinned fake arguments","at":"2026-09-24T12:56:05Z"}
 {"id":"dungeon/func_819611CC","transform":"t76_arity","in_sha":"cfca1059c9bc069ca6e4839124998e501d685190e35c5b7bd6097d938d497a09","from_clean":true,"size":476,"outcome":"refused","reason":"no pins","at":"2026-09-24T12:56:05Z"}
 {"id":"dungeon/func_8196B2F8","transform":"t76_arity","in_sha":"306a8f90cac35c9363195056a25f15818dd7bc5833e2b67a8c98da314e5a9f3d","from_clean":true,"size":428,"outcome":"refused","reason":"no pins","at":"2026-09-24T12:56:05Z"}
+{"id":"dungeon/func_80F87270","transform":"t76_arity","in_sha":"475608ac4ccb0f23d3674121de5680ea5438eaaca4c4f6938e31f8bde0279127","from_clean":true,"size":1736,"outcome":"refused","reason":"no pins","at":"2026-09-24T13:16:12Z"}
+{"id":"dungeon/func_80F89A94","transform":"t76_arity","in_sha":"4fa5a3d0bc51c26868e8143c92d309a3fd431b45e94d15ae5593e1a5d936d0ec","from_clean":true,"size":624,"outcome":"refused","reason":"no pins","at":"2026-09-24T13:16:12Z"}
