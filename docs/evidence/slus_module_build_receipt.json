@@ -3,22 +3,26 @@
     "result": "MATCH",
     "words_diff": 0
   },
-  "configure": "wrote build.ninja (1130 objects)",
+  "configure": "wrote build.ninja (1135 objects)",
   "ninja_tail": [
-    "[1/8] MODULE-SYMS build/slus_006.14.undefined_syms.modules.txt",
-    "[2/8] MODULE-ASSETS build/module_assets/54240_000000_00002C.bin build/module_assets/54240_000030_02BDC0.bin",
-    "[3/8] LD-SCRIPT build/slus_006.14_ordered.ld",
-    "[4/8] BIN build/module_assets/54240_000000_00002C.bin",
-    "[5/8] BIN build/module_assets/54240_000030_02BDC0.bin",
-    "[6/8] CC src/konami_runtime_directory.c (gcc 2.7.2-cdk  )",
-    "[7/8] LINK build/slus_006.14.elf",
-    "[8/8] OBJCOPY build/slus_006.14"
+    "[25/32] CC src/w_800508F0_owned.c (gcc 2.7.2  )",
+    "[26/32] BIN build/module_assets/54240_000A0C_000AA8.bin",
+    "[27/32] BIN build/module_assets/54240_000AAA_000AC0.bin",
+    "[28/32] BIN build/module_assets/54240_000AC2_000AC8.bin",
+    "[29/32] BIN build/module_assets/54240_000ACC_000AD8.bin",
+    "[30/32] BIN build/module_assets/54240_000AE8_02BDC0.bin",
+    "[31/32] LINK build/slus_006.14.elf",
+    "[32/32] OBJCOPY build/slus_006.14"
   ],
   "edges": {
-    "physical": 882,
+    "physical": 876,
     "logical": 884,
     "ledger_rows": 884,
     "logical_equal_to_pinned_recipe": true
+  },
+  "modules": {
+    "active": 13,
+    "other_inputs_preserved": 12
   },
   "image": {
     "match_retail": true,
@@ -32,7 +36,7 @@
     "section_index": "2",
     "object_section": ".sdata",
     "bytes": "04000000",
-    "readelf": "4109: 80080a6c     0 NOTYPE  GLOBAL DEFAULT    2 D_80080A6C"
+    "readelf": "4095: 80080a6c     0 NOTYPE  GLOBAL DEFAULT    2 D_80080A6C"
   },
   "functions": {
     "func_8003C634": {

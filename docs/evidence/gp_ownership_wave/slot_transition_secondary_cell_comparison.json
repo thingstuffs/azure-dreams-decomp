@@ -1,0 +1,167 @@
+[
+  {
+    "row": "slus/w_80043D04",
+    "cfg": "2.8.1 -G16",
+    "genuine_eq": false,
+    "maspsx_retail": {
+      "diff": 0,
+      "masked": 0,
+      "checked": 1
+    },
+    "genuine_retail": {
+      "diff": 2,
+      "masked": 0,
+      "checked": 1
+    }
+  },
+  {
+    "row": "slus/w_80043D04",
+    "cfg": "2.7.2-cdk",
+    "genuine_eq": true,
+    "maspsx_retail": {
+      "diff": 8,
+      "masked": 0,
+      "checked": 1
+    },
+    "genuine_retail": {
+      "diff": 8,
+      "masked": 0,
+      "checked": 1
+    }
+  },
+  {
+    "row": "slus/w_80043D04",
+    "cfg": "2.7.2-cdk -G16",
+    "genuine_eq": true,
+    "maspsx_retail": {
+      "diff": 0,
+      "masked": 0,
+      "checked": 1
+    },
+    "genuine_retail": {
+      "diff": 0,
+      "masked": 0,
+      "checked": 1
+    }
+  },
+  {
+    "row": "slus/w_80043DB8",
+    "cfg": "2.7.2-cdk",
+    "genuine_eq": true,
+    "maspsx_retail": {
+      "diff": 0,
+      "masked": 0,
+      "checked": 1
+    },
+    "genuine_retail": {
+      "diff": 0,
+      "masked": 0,
+      "checked": 1
+    }
+  },
+  {
+    "row": "slus/w_80043DB8",
+    "cfg": "2.7.2-cdk -G16",
+    "genuine_eq": true,
+    "maspsx_retail": {
+      "diff": 0,
+      "masked": 0,
+      "checked": 1
+    },
+    "genuine_retail": {
+      "diff": 0,
+      "masked": 0,
+      "checked": 1
+    }
+  },
+  {
+    "row": "slus/w_80043E04",
+    "cfg": "2.8.1",
+    "genuine_eq": false,
+    "maspsx_retail": {
+      "diff": 0,
+      "masked": 0,
+      "checked": 1
+    },
+    "genuine_retail": {
+      "diff": 2,
+      "masked": 0,
+      "checked": 1
+    }
+  },
+  {
+    "row": "slus/w_80043E04",
+    "cfg": "2.7.2-cdk",
+    "genuine_eq": true,
+    "maspsx_retail": {
+      "diff": 0,
+      "masked": 0,
+      "checked": 1
+    },
+    "genuine_retail": {
+      "diff": 0,
+      "masked": 0,
+      "checked": 1
+    }
+  },
+  {
+    "row": "slus/w_80043E04",
+    "cfg": "2.7.2-cdk -G16",
+    "genuine_eq": true,
+    "maspsx_retail": {
+      "diff": 0,
+      "masked": 0,
+      "checked": 1
+    },
+    "genuine_retail": {
+      "diff": 0,
+      "masked": 0,
+      "checked": 1
+    }
+  },
+  {
+    "row": "slus/w_80043E60",
+    "cfg": "2.8.1",
+    "genuine_eq": false,
+    "maspsx_retail": {
+      "diff": 0,
+      "masked": 0,
+      "checked": 1
+    },
+    "genuine_retail": {
+      "diff": 2,
+      "masked": 0,
+      "checked": 1
+    }
+  },
+  {
+    "row": "slus/w_80043E60",
+    "cfg": "2.7.2-cdk",
+    "genuine_eq": true,
+    "maspsx_retail": {
+      "diff": 0,
+      "masked": 0,
+      "checked": 1
+    },
+    "genuine_retail": {
+      "diff": 0,
+      "masked": 0,
+      "checked": 1
+    }
+  },
+  {
+    "row": "slus/w_80043E60",
+    "cfg": "2.7.2-cdk -G16",
+    "genuine_eq": false,
+    "maspsx_retail": {
+      "diff": 13,
+      "masked": 0,
+      "checked": 1
+    },
+    "genuine_retail": {
+      "diff": 14,
+      "masked": 0,
+      "checked": 1
+    }
+  }
+]

@@ -1,0 +1,35 @@
+{
+  "components": [
+    24
+  ],
+  "gate": {
+    "result": "NO MATCH",
+    "words_diff": 88567
+  },
+  "image_sha1": "6cda50942c6570ef06722c2528386d1913f49d0e",
+  "rows": [
+    {
+      "component": 24,
+      "row": "slus/w_80053CFC",
+      "symbols": {
+        "D_80081568": {
+          "vram": 2148013416,
+          "size": 4,
+          "object_owned": true,
+          "linked_exact": false
+        },
+        "D_8008156C": {
+          "vram": 2148013420,
+          "size": 4,
+          "object_owned": true,
+          "linked_exact": false
+        }
+      },
+      "sdata_exact": true,
+      "standalone_object_diff": 0,
+      "genuine_maspsx_diff": 8,
+      "genuine_retail_diff": 24,
+      "genuine_error": null
+    }
+  ]
+}

@@ -48,6 +48,591 @@
         }
       ],
       "evidence": "docs/evidence/runtime_directory_module.md"
+    },
+    {
+      "name": "entry_words",
+      "source": "src/w_800508F0_owned.c",
+      "members": [
+        {
+          "id": "slus/w_800508F0",
+          "source": "src/w_800508F0.c",
+          "functions": [
+            "func_800508F0"
+          ]
+        }
+      ],
+      "headers": [
+        "include/common.h",
+        "include/game.h",
+        "include/globals.h",
+        "include/include_asm.h"
+      ],
+      "recipe": {
+        "ccver": "2.7.2",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "data": [
+        {
+          "symbol": "D_80080B80",
+          "asset": "assets/54240.bin",
+          "offset": 320,
+          "size": 4,
+          "vram": 2148010880,
+          "bytes": "b8b89800",
+          "section": ".sdata"
+        },
+        {
+          "symbol": "D_80080B84",
+          "asset": "assets/54240.bin",
+          "offset": 324,
+          "size": 4,
+          "vram": 2148010884,
+          "bytes": "68685800",
+          "section": ".sdata"
+        }
+      ],
+      "evidence": "docs/evidence/gp_ownership_wave.md"
+    },
+    {
+      "name": "render_words",
+      "source": "src/konami_runtime_w_80035888_owned.c",
+      "members": [
+        {
+          "id": "slus/konami_runtime_w_80035888",
+          "source": "src/konami_runtime_w_80035888.c",
+          "functions": [
+            "func_80035888"
+          ]
+        }
+      ],
+      "headers": [
+        "include/common.h",
+        "include/game.h",
+        "include/globals.h",
+        "include/include_asm.h",
+        "include/records/Rec_func_80034F58_arg0.h"
+      ],
+      "recipe": {
+        "ccver": "2.7.2-cdk",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "data": [
+        {
+          "symbol": "D_800809B8",
+          "asset": "assets/3E018.bin",
+          "offset": 90528,
+          "size": 4,
+          "vram": 2148010424,
+          "bytes": "e003de01",
+          "section": ".sdata"
+        },
+        {
+          "symbol": "D_800809BC",
+          "asset": "assets/3E018.bin",
+          "offset": 90532,
+          "size": 4,
+          "vram": 2148010428,
+          "bytes": "30001000",
+          "section": ".sdata"
+        }
+      ],
+      "evidence": "docs/evidence/gp_ownership_wave.md"
+    },
+    {
+      "name": "owned_80035484",
+      "source": "src/konami_runtime_w_80035484_owned.c",
+      "members": [
+        {
+          "id": "slus/konami_runtime_w_80035484",
+          "source": "src/konami_runtime_w_80035484.c",
+          "functions": [
+            "func_80035484"
+          ]
+        }
+      ],
+      "headers": [
+        "include/common.h",
+        "include/game.h",
+        "include/globals.h",
+        "include/include_asm.h"
+      ],
+      "recipe": {
+        "ccver": "2.7.2-cdk",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "data": [
+        {
+          "symbol": "D_80081440",
+          "asset": "assets/54240.bin",
+          "offset": 2560,
+          "size": 4,
+          "vram": 2148013120,
+          "bytes": "00000000",
+          "section": ".sdata"
+        }
+      ],
+      "evidence": "docs/evidence/gp_ownership_wave.md"
+    },
+    {
+      "name": "owned_80038A10",
+      "source": "src/konami_runtime_w_80038A10_owned.c",
+      "members": [
+        {
+          "id": "slus/konami_runtime_w_80038A10",
+          "source": "src/konami_runtime_w_80038A10.c",
+          "functions": [
+            "func_80038A10"
+          ]
+        }
+      ],
+      "headers": [
+        "include/common.h",
+        "include/game.h",
+        "include/globals.h",
+        "include/include_asm.h"
+      ],
+      "recipe": {
+        "ccver": "2.7.2-cdk",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "data": [
+        {
+          "symbol": "D_80081448",
+          "asset": "assets/54240.bin",
+          "offset": 2568,
+          "size": 4,
+          "vram": 2148013128,
+          "bytes": "00000000",
+          "section": ".sdata"
+        }
+      ],
+      "evidence": "docs/evidence/gp_ownership_wave.md"
+    },
+    {
+      "name": "owned_80044698",
+      "source": "src/w_80044698_owned.c",
+      "members": [
+        {
+          "id": "slus/w_80044698",
+          "source": "src/w_80044698.c",
+          "functions": [
+            "func_80044698"
+          ]
+        }
+      ],
+      "headers": [
+        "include/common.h",
+        "include/game.h",
+        "include/globals.h",
+        "include/include_asm.h"
+      ],
+      "recipe": {
+        "ccver": "2.7.2",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "data": [
+        {
+          "symbol": "D_80080B00",
+          "asset": "assets/54240.bin",
+          "offset": 192,
+          "size": 2,
+          "vram": 2148010752,
+          "bytes": "0000",
+          "section": ".sdata"
+        }
+      ],
+      "evidence": "docs/evidence/gp_ownership_wave.md"
+    },
+    {
+      "name": "owned_800448BC",
+      "source": "src/w_800448BC_owned.c",
+      "members": [
+        {
+          "id": "slus/w_800448BC",
+          "source": "src/w_800448BC.c",
+          "functions": [
+            "func_800448BC"
+          ]
+        }
+      ],
+      "headers": [
+        "include/common.h",
+        "include/game.h",
+        "include/globals.h",
+        "include/include_asm.h"
+      ],
+      "recipe": {
+        "ccver": "2.7.2",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "data": [
+        {
+          "symbol": "D_80081508",
+          "asset": "assets/54240.bin",
+          "offset": 2760,
+          "size": 4,
+          "vram": 2148013320,
+          "bytes": "00000000",
+          "section": ".sdata"
+        }
+      ],
+      "evidence": "docs/evidence/gp_ownership_wave.md"
+    },
+    {
+      "name": "owned_8004713C",
+      "source": "src/w_8004713C_owned.c",
+      "members": [
+        {
+          "id": "slus/w_8004713C",
+          "source": "src/w_8004713C.c",
+          "functions": [
+            "func_8004713C"
+          ]
+        }
+      ],
+      "headers": [
+        "include/common.h",
+        "include/game.h",
+        "include/globals.h",
+        "include/include_asm.h"
+      ],
+      "recipe": {
+        "ccver": "2.7.2",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "data": [
+        {
+          "symbol": "D_80080B08",
+          "asset": "assets/54240.bin",
+          "offset": 200,
+          "size": 2,
+          "vram": 2148010760,
+          "bytes": "0000",
+          "section": ".sdata"
+        },
+        {
+          "symbol": "D_80080B0A",
+          "asset": "assets/54240.bin",
+          "offset": 202,
+          "size": 2,
+          "vram": 2148010762,
+          "bytes": "0000",
+          "section": ".sdata"
+        }
+      ],
+      "evidence": "docs/evidence/gp_ownership_wave.md"
+    },
+    {
+      "name": "owned_80047338",
+      "source": "src/w_80047338_owned.c",
+      "members": [
+        {
+          "id": "slus/w_80047338",
+          "source": "src/w_80047338.c",
+          "functions": [
+            "func_80047338"
+          ]
+        }
+      ],
+      "headers": [
+        "include/common.h",
+        "include/game.h",
+        "include/globals.h",
+        "include/include_asm.h"
+      ],
+      "recipe": {
+        "ccver": "2.7.2-cdk",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "data": [
+        {
+          "symbol": "D_80081518",
+          "asset": "assets/54240.bin",
+          "offset": 2776,
+          "size": 2,
+          "vram": 2148013336,
+          "bytes": "0000",
+          "section": ".sdata"
+        },
+        {
+          "symbol": "D_8008151A",
+          "asset": "assets/54240.bin",
+          "offset": 2778,
+          "size": 2,
+          "vram": 2148013338,
+          "bytes": "0000",
+          "section": ".sdata"
+        },
+        {
+          "symbol": "D_8008151C",
+          "asset": "assets/54240.bin",
+          "offset": 2780,
+          "size": 2,
+          "vram": 2148013340,
+          "bytes": "0000",
+          "section": ".sdata"
+        },
+        {
+          "symbol": "D_8008151E",
+          "asset": "assets/54240.bin",
+          "offset": 2782,
+          "size": 2,
+          "vram": 2148013342,
+          "bytes": "0000",
+          "section": ".sdata"
+        }
+      ],
+      "evidence": "docs/evidence/gp_ownership_wave.md"
+    },
+    {
+      "name": "owned_80047468",
+      "source": "src/w_80047468_owned.c",
+      "members": [
+        {
+          "id": "slus/w_80047468",
+          "source": "src/w_80047468.c",
+          "functions": [
+            "func_80047468"
+          ]
+        }
+      ],
+      "headers": [
+        "include/common.h",
+        "include/game.h",
+        "include/globals.h",
+        "include/include_asm.h"
+      ],
+      "recipe": {
+        "ccver": "2.7.2-cdk",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "data": [
+        {
+          "symbol": "D_80081520",
+          "asset": "assets/54240.bin",
+          "offset": 2784,
+          "size": 2,
+          "vram": 2148013344,
+          "bytes": "0000",
+          "section": ".sdata"
+        },
+        {
+          "symbol": "D_80081522",
+          "asset": "assets/54240.bin",
+          "offset": 2786,
+          "size": 2,
+          "vram": 2148013346,
+          "bytes": "0000",
+          "section": ".sdata"
+        },
+        {
+          "symbol": "D_80081524",
+          "asset": "assets/54240.bin",
+          "offset": 2788,
+          "size": 2,
+          "vram": 2148013348,
+          "bytes": "0000",
+          "section": ".sdata"
+        },
+        {
+          "symbol": "D_80081526",
+          "asset": "assets/54240.bin",
+          "offset": 2790,
+          "size": 2,
+          "vram": 2148013350,
+          "bytes": "0000",
+          "section": ".sdata"
+        }
+      ],
+      "evidence": "docs/evidence/gp_ownership_wave.md"
+    },
+    {
+      "name": "state_defaults",
+      "source": "src/gp_state_defaults.c",
+      "members": [
+        {
+          "id": "slus/w_8004D614",
+          "source": "src/w_8004D614.c",
+          "functions": [
+            "func_8004D614"
+          ]
+        }
+      ],
+      "headers": [
+        "include/common.h",
+        "include/game.h",
+        "include/globals.h",
+        "include/include_asm.h"
+      ],
+      "recipe": {
+        "ccver": "2.7.2-cdk",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "data": [
+        {
+          "symbol": "D_80080B58",
+          "asset": "assets/54240.bin",
+          "offset": 280,
+          "size": 4,
+          "vram": 2148010840,
+          "bytes": "80fd0000",
+          "section": ".sdata"
+        },
+        {
+          "symbol": "D_80080B5C",
+          "asset": "assets/54240.bin",
+          "offset": 284,
+          "size": 4,
+          "vram": 2148010844,
+          "bytes": "00000000",
+          "section": ".sdata"
+        },
+        {
+          "symbol": "D_80080B60",
+          "asset": "assets/54240.bin",
+          "offset": 288,
+          "size": 4,
+          "vram": 2148010848,
+          "bytes": "00000000",
+          "section": ".sdata"
+        },
+        {
+          "symbol": "D_80080B64",
+          "asset": "assets/54240.bin",
+          "offset": 292,
+          "size": 4,
+          "vram": 2148010852,
+          "bytes": "00040000",
+          "section": ".sdata"
+        }
+      ],
+      "evidence": "docs/evidence/gp_ownership_wave.md"
+    },
+    {
+      "name": "slot_transition",
+      "source": "src/slot_transition.c",
+      "members": [
+        {
+          "id": "slus/w_80041AE4",
+          "source": "src/w_80041AE4.c",
+          "functions": [
+            "func_80041AE4"
+          ]
+        },
+        {
+          "id": "slus/w_80041B98",
+          "source": "src/w_80041B98.c",
+          "functions": [
+            "func_80041B98"
+          ]
+        },
+        {
+          "id": "slus/w_80041BE4",
+          "source": "src/w_80041BE4.c",
+          "functions": [
+            "func_80041BE4"
+          ]
+        },
+        {
+          "id": "slus/w_80041C64",
+          "source": "src/w_80041C64.c",
+          "functions": [
+            "func_80041C64"
+          ]
+        }
+      ],
+      "headers": [
+        "include/common.h",
+        "include/game.h",
+        "include/globals.h",
+        "include/include_asm.h",
+        "include/slus/slot_transition.h"
+      ],
+      "recipe": {
+        "ccver": "2.7.2-cdk",
+        "ccflags": "-G16",
+        "asflags": ""
+      },
+      "data": [
+        {
+          "symbol": "D_800814E8",
+          "asset": "assets/54240.bin",
+          "offset": 2728,
+          "size": 2,
+          "vram": 2148013288,
+          "bytes": "0000",
+          "section": ".sdata"
+        }
+      ],
+      "evidence": "docs/evidence/gp_ownership_wave.md"
+    },
+    {
+      "name": "slot_transition_secondary",
+      "source": "src/slot_transition_secondary.c",
+      "members": [
+        {
+          "id": "slus/w_80043D04",
+          "source": "src/w_80043D04.c",
+          "functions": [
+            "func_80043D04"
+          ]
+        },
+        {
+          "id": "slus/w_80043DB8",
+          "source": "src/w_80043DB8.c",
+          "functions": [
+            "func_80043DB8"
+          ]
+        },
+        {
+          "id": "slus/w_80043E04",
+          "source": "src/w_80043E04.c",
+          "functions": [
+            "func_80043E04"
+          ]
+        },
+        {
+          "id": "slus/w_80043E60",
+          "source": "src/w_80043E60.c",
+          "functions": [
+            "func_80043E60"
+          ]
+        }
+      ],
+      "headers": [
+        "include/common.h",
+        "include/game.h",
+        "include/globals.h",
+        "include/include_asm.h",
+        "include/slus/slot_transition.h"
+      ],
+      "recipe": {
+        "ccver": "2.7.2-cdk",
+        "ccflags": "-G16",
+        "asflags": ""
+      },
+      "data": [
+        {
+          "symbol": "D_80081500",
+          "asset": "assets/54240.bin",
+          "offset": 2752,
+          "size": 2,
+          "vram": 2148013312,
+          "bytes": "0000",
+          "section": ".sdata"
+        }
+      ],
+      "evidence": "docs/evidence/gp_ownership_wave.md"
     }
   ]
 }

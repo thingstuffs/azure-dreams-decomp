@@ -145,7 +145,9 @@ class LanderTests(unittest.TestCase):
     def tree_state(self):
         out = {}
         for p in sorted(self.T.rglob("*")):
-            if p.is_file() and not p.is_symlink() and "lane" not in p.parts and "build_ovl" not in p.parts:
+            # Imported build helpers may create disposable Python bytecode; rollback
+            # must restore source/recipe/ledger state, not delete interpreter caches.
+            if p.is_file() and not p.is_symlink() and not {"lane", "build_ovl", "__pycache__"}.intersection(p.parts):
                 out[str(p.relative_to(self.T))] = hashlib.sha256(p.read_bytes()).hexdigest()
         return out
 

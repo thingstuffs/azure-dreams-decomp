@@ -99,7 +99,12 @@ def stage_sources():
                   + "".join(f'#include "{stem}.c"\n' for stem in STEMS))
     replace_private(STAGE / "src/konami_runtime_directory.c", aggregator)
 
-    manifest = {"version": 1, "modules": [{
+    manifest_path = STAGE / "config/slus_modules.json"
+    manifest = json.loads(manifest_path.read_text())
+    runtime_indices = [i for i, module in enumerate(manifest["modules"])
+                       if module["name"] == "runtime_directory"]
+    assert len(runtime_indices) == 1, runtime_indices
+    runtime = {
         "name": "runtime_directory", "source": "src/konami_runtime_directory.c",
         "members": [{"id": f"slus/{stem}", "source": f"src/{stem}.c", "functions": [function]}
                     for stem, function in zip(STEMS, FUNCTIONS)],
@@ -108,8 +113,9 @@ def stage_sources():
         "data": [{"symbol": "D_80080A6C", "asset": "assets/54240.bin", "offset": 44,
                   "size": 4, "vram": 0x80080A6C, "bytes": "04000000", "section": ".sdata"}],
         "evidence": "docs/evidence/fidelity_gp_repair_progress.md",
-    }]}
-    replace_private(STAGE / "config/slus_modules.json", json.dumps(manifest, indent=2) + "\n")
+    }
+    manifest["modules"][runtime_indices[0]] = runtime
+    replace_private(manifest_path, json.dumps(manifest, indent=2) + "\n")
     samples = HERE / "sources"
     samples.mkdir(exist_ok=True)
     for file in [STAGE / "src/konami_runtime_directory.c",
@@ -191,6 +197,16 @@ def main():
     pristine = defined_symbols(STAGE / "build/slus_006.14.elf")
     stage_sources()
     modules = load_manifest(STAGE / "config/slus_modules.json")
+    production_modules = load_manifest(ROOT / "config/slus_modules.json")
+    assert [m["name"] for m in modules] == [m["name"] for m in production_modules]
+    for staged, production in zip(modules, production_modules):
+        if staged["name"] == "runtime_directory":
+            continue
+        assert staged == production, staged["name"]
+        for source in [staged["source"], *(m["source"] for m in staged["members"])]:
+            assert (STAGE / source).read_bytes() == (ROOT / "src/slus" / Path(source).name).read_bytes(), source
+        for header in staged["headers"]:
+            assert (STAGE / header).read_bytes() == (ROOT / header).read_bytes(), header
 
     # Use the current configure and stock Ninja rules, without an assembler
     # companion override; unrelated TUs and the module compile at the stock recipe.
@@ -269,6 +285,7 @@ def main():
         "ninja_tail": build_out.splitlines()[-8:],
         "edges": {"physical": len(physical), "logical": len(logical), "ledger_rows": len(ledger_ids),
                   "logical_equal_to_pinned_recipe": logical == stock_edges},
+        "modules": {"active": len(modules), "other_inputs_preserved": len(modules) - 1},
         "image": {"match_retail": image == retail, "size": len(image),
                   "sha1": hashlib.sha1(image).hexdigest(), "retail_sha1": hashlib.sha1(retail).hexdigest()},
         "data": {"symbol": "D_80080A6C", "vma": fields[1], "section_index": fields[6],

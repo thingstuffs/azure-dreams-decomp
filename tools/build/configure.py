@@ -212,8 +212,8 @@ CC_VER = {
     "src/w_8005D550.c": ("2.7.2", ""),
     "src/w_8003E70C.c": ("2.7.2-cdk", ""),  # fidelity step 4 (cdk211): retail-proven splitting recipe
     "src/w_8003F688.c": ("2.7.2-cdk", ""),
-    "src/w_80041B98.c": ("2.7.2-cdk", ""),
-    "src/w_80043DB8.c": ("2.7.2-cdk", ""),
+    "src/w_80041B98.c": ("2.7.2-cdk", "-G16"),  # fidelity step 4 (gp_ownership_wave): retail-proven splitting recipe
+    "src/w_80043DB8.c": ("2.7.2-cdk", "-G16"),  # fidelity step 4 (gp_ownership_wave): retail-proven splitting recipe
     "src/w_80047D44.c": ("2.7.2", ""),
     "src/w_80047E78.c": ("2.7.2", ""),
     "src/w_80041E28.c": ("2.7.2", ""),
@@ -237,14 +237,14 @@ CC_VER = {
     "src/w_8005C6B4.c": ("2.7.2-cdk", ""),
     "src/w_80056D44.c": ("2.7.2-cdk", ""),  # fidelity step 4 (cdk211): retail-proven splitting recipe
     "src/w_8003F55C.c": ("2.7.2", ""),
-    "src/w_80041C64.c": ("2.8.1", ""),
-    "src/w_80043E60.c": ("2.8.1", ""),
+    "src/w_80041C64.c": ("2.7.2-cdk", "-G16"),  # fidelity step 4 (gp_ownership_wave): retail-proven splitting recipe
+    "src/w_80043E60.c": ("2.7.2-cdk", "-G16"),  # fidelity step 4 (gp_ownership_wave): retail-proven splitting recipe
     "src/w_80047C8C.c": ("2.7.2", ""),
     "src/w_800498A0.c": ("2.7.2-cdk", "-G0"),
     "src/w_8005405C.c": ("2.8.1", ""),
     "src/w_80058B70.c": ("2.7.2-cdk", ""),  # fidelity step 4 (cdk211): retail-proven splitting recipe
     "src/w_8003F794.c": ("2.7.2-cdk", ""),
-    "src/w_80041BE4.c": ("2.7.2-cdk", ""),
+    "src/w_80041BE4.c": ("2.7.2-cdk", "-G16"),  # fidelity step 4 (gp_ownership_wave): retail-proven splitting recipe
     "src/w_800411AC.c": ("2.7.2-cdk", ""),  # fidelity step 4 (cdk211): retail-proven splitting recipe
     "src/w_80041134.c": ("2.8.1", ""),
     "src/w_80048190.c": ("2.7.2-cdk", ""),  # fidelity step 4 (cdk211): retail-proven splitting recipe
@@ -322,7 +322,7 @@ CC_VER = {
     "src/w_80041038.c": ("2.7.2-cdk", ""),  # fidelity step 4 (cdk211): retail-proven splitting recipe
     "src/w_800411FC.c": ("2.7.2-cdk", ""),  # fidelity step 4 (cdk211): retail-proven splitting recipe
     "src/w_80040F2C.c": ("2.7.2-cdk", ""),
-    "src/w_80043E04.c": ("2.8.1", ""),
+    "src/w_80043E04.c": ("2.7.2-cdk", "-G16"),  # fidelity step 4 (gp_ownership_wave): retail-proven splitting recipe
     "src/w_80044A50.c": ("2.8.1", ""),
     "src/w_80048998.c": ("2.7.2-cdk", ""),  # fidelity step 4 (cdk211): retail-proven splitting recipe
     "src/w_80048B28.c": ("2.7.2-cdk", ""),  # fidelity step 4 (cdk211): retail-proven splitting recipe
@@ -570,7 +570,7 @@ CC_VER = {
     "src/w_8005B378.c": ("2.7.2-cdk", ""),  # fidelity step 4 (cdk211): retail-proven splitting recipe
     "src/w_8003D468.c": ("2.7.2-cdk", "-G0"),
     "src/w_80047200.c": ("2.7.2", ""),
-    "src/w_8004D614.c": ("2.8.1", ""),
+    "src/w_8004D614.c": ("2.7.2-cdk", ""),  # fidelity step 4 (gp_ownership_wave): retail-proven splitting recipe
     "src/w_800434E4.c": ("2.7.2-cdk", "-G0"),
     "src/w_80058510.c": ("2.7.2-cdk", ""),
     "src/w_8005B070.c": ("2.7.2-cdk", ""),
@@ -595,13 +595,13 @@ CC_VER = {
     "src/w_8004DF8C.c": ("2.7.2-cdk", ""),
     "src/w_80053428.c": ("2.7.2-cdk", ""),  # fidelity step 4 (cdk211): retail-proven splitting recipe
     "src/w_80050E20.c": ("2.7.2-cdk", ""),
-    "src/w_80041AE4.c": ("2.8.1", "-G16"),
+    "src/w_80041AE4.c": ("2.7.2-cdk", "-G16"),  # fidelity step 4 (gp_ownership_wave): retail-proven splitting recipe
     "src/w_80052FE8.c": ("2.7.2-cdk", ""),
     "src/w_800595C0.c": ("2.7.2-cdk", ""),
     "src/w_80057A94.c": ("2.7.2-cdk", ""),
     "src/w_8003F270.c": ("2.6.3", "-O1"),
     "src/w_80053CFC.c": ("2.7.2", ""),
-    "src/w_80043D04.c": ("2.8.1", "-G16"),
+    "src/w_80043D04.c": ("2.7.2-cdk", "-G16"),  # fidelity step 4 (gp_ownership_wave): retail-proven splitting recipe
     "src/w_80040AA0.c": ("2.7.2-cdk", ""),
     "src/w_80043FD0.c": ("2.7.2-cdk", "-G0"),
     "src/w_80042710.c": ("2.7.2", ""),

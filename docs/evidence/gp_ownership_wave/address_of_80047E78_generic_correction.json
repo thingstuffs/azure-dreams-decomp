@@ -1,0 +1,18 @@
+{
+  "genuine": {
+    "diff": 0,
+    "exact": true,
+    "len_m": 29,
+    "len_g": 29,
+    "missing": [],
+    "regions": [],
+    "delay_only": []
+  },
+  "retail": {
+    "diff": 0,
+    "masked": 0,
+    "checked": 1
+  },
+  "assembler": "work/fidelity/gp_probe279/candidate/maspsx.py",
+  "note": "Existing generic correction forces GNU as -G0; maspsx selects local small-data loads/stores and leaves address loads absolute for ASPSX2.79."
+}

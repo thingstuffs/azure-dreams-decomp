@@ -5,6 +5,23 @@ below precede the production activation recorded in the next section. The primar
 agent performed the assembler experiments; Sol inventoried ownership and prepared module candidates; Luna audited
 the separate MAIN coverage gaps.
 
+## Ownership wave checkpoint
+
+[The next integrated wave](gp_ownership_wave.md) repairs 18 more rows with 24 real
+C data definitions. The full image is retail-exact at 876 physical / 884 logical
+compiler rows; genuine ASPSX 2.79 matches all 781 affected function words with
+zero masks and no compatibility passes firing. Dependency records: 223 -> 205;
+GP cohort: 56 -> 38 remaining. This supersedes the two "next trials" below and the
+old concern that explicit zero initializers necessarily require `.sbss` handling.
+Twelve new ownership units have no L4 certificate; the original pilot is
+recertified separately. Reproduce with `tools/fidelity/prove_slus_ownership.py`.
+
+The generic assembler correction is still experimental. A newly precise blocker
+is 47E78's address load: real C storage is already genuine/retail exact, but stock
+GNU small-data optimization shrinks it; the experimental correction restores it.
+The wave report preserves the corrected retail-anchor evidence and distinguishes
+that assembler-owned issue from the earlier failing linked-layout comparison.
+
 ## Production module checkpoint
 
 The three-function `runtime_directory` pilot is active with a shared header,

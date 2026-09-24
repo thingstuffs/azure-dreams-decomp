@@ -319,6 +319,22 @@ def rewrite_ordered_linker_script(text: str, plans) -> str:
                 rendered = item["object"] + f"({item['section']});"
                 if rendered in text:
                     raise ModuleError(f"linker script already contains module data slot {rendered}")
+        # The original asset was one input section. Carving it creates new
+        # boundaries, which must not acquire padding from an output SUBALIGN.
+        # Retain the original directive for word-aligned carves; relax only the
+        # containing output section when a new boundary violates that directive.
+        headers = list(re.finditer(
+            r"(?m)^[ \t]*\.[^{}\n]*\bSUBALIGN\(\s*(?P<alignment>[0-9]+)\s*\)[^{}\n]*\n[ \t]*\{",
+            text[:matches[0].start()]))
+        if headers:
+            header = headers[-1]
+            if "}" not in text[header.end():matches[0].start()]:
+                alignment = int(header.group("alignment"))
+                boundaries = [s["start"] for s in plan["slots"]][1:]
+                if alignment > 1 and any(offset % alignment for offset in boundaries):
+                    a, b = header.span("alignment")
+                    text = text[:a] + "1" + text[b:]
+                    matches = list(slot.finditer(text))
         indent = matches[0].group("indent")
         replacement = ("\n" + indent).join(s["object"] + f"({s['section']});" for s in plan["slots"])
         text = text[:matches[0].start()] + indent + replacement + text[matches[0].end():]
