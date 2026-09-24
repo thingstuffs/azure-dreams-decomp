@@ -53,6 +53,12 @@ all 541 words. Preserve that residual when integrating; the current strict
 ownership verifier requires direct genuine equality.
 
 
+[Largest remaining GP component](evidence/gp_component20.md): 20 of the 32
+rows share 22 symbol names across seven recipe variants. The recovered assertion
+map does not establish SLUS grouping here. Inventory distinguishes lexical source
+bodies from registry symbols; next establish per-access addressing and data
+extents for a local cluster before choosing any combined ownership.
+
 First execution checkpoint: [SLUS small-data measurements](evidence/fidelity_gp_repair_progress.md).
 The isolated generic assembler correction passes 70/70 pinned-version probes and
 changes exactly 59/884 SLUS TUs; all 69 affected globals currently have raw-asset
