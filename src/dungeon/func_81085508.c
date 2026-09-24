@@ -68,6 +68,7 @@ extern u8 D_80170E94;
 void func_80172D08(void *action, void *motion, void *record, void *actor)
 {
     u8 state;
+    s32 terrain_height;
     static void *const state_labels[] = { &&state_zero, &&state_one,
                                        &&state_two, &&state_three,
                                        &&state_four };
@@ -81,7 +82,6 @@ void func_80172D08(void *action, void *motion, void *record, void *actor)
 
 state_zero: {
     s32 direction;
-    s32 terrain_height;
 
     if (((Rec_D_80082E80 *)record)->unk_14.at00_u16.v & 0x8000) {
         ((S_80172D08_0 *)action)->unk_9B = 4;
@@ -154,7 +154,7 @@ state_two: {
     if (timer >= 9) {
         if (((S_80172D08_2 *)actor)->unk_60 != 0) {
             register s32 scaled_arc ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            s32 height_delta;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            s32 height_delta;
             s32 arc_sample;
             void *owner;
 
@@ -177,8 +177,7 @@ state_two: {
         } else {
             s32 direction;
             s32 height_offset;
-            s32 terrain_height;
-            register s32 signed_terrain_height ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            s32 signed_terrain_height;
             s32 arc_sample;
             s32 height_delta;
 
@@ -279,8 +278,7 @@ state_four: {
             s32 height_delta;
             s32 arc_sample;
             s32 height_offset;
-            s32 terrain_height;
-            register s32 signed_terrain_height ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            s32 signed_terrain_height;
             s32 base_height;
 
             direction = (((S_80172D08_2 *)actor)->unk_2A.u >> 8) & 0xE;

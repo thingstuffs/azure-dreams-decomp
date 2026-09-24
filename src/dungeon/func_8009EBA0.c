@@ -22,7 +22,7 @@ typedef struct S_800A4300_2 {
 /* Selects data at the entity's position and updates the owner's map or floor entry. */
 void func_800A4300(Rec_D_80082E80 *entity, Rec_D_800E3D7C *search_state) {
     s32 lookup_code;
-    register void *owner ASM_REG("$3");
+    void *owner;
     u32 map_index_bits, floor_index_bits;
     u8 *map_base, *floor_base;
     s16 floor_index, map_index;
@@ -31,13 +31,9 @@ void func_800A4300(Rec_D_80082E80 *entity, Rec_D_800E3D7C *search_state) {
     lookup_code = func_800A4474(entity->unk_24, entity->unk_25);
     if ((lookup_code << 16) != 0) {
 #ifndef NON_MATCHING
-        u32 data_page = 0x80080000;
-        register s32 tagged_code ASM_REG("$2");
-
-        ASM_USE(data_page);
-        owner = *(void *volatile *)D_800814A8;
-        tagged_code = lookup_code | 0x1400;
-        *(s16 *)(data_page + 0x1470) = (s16)tagged_code;
+        *(s16 *)D_80081470 = (s16)(lookup_code | 0x1400);
+        ((S_800A4300_2 *)(D_800814A8[0]))->unk_F0.i = 0;
+        return;
 #else
         *(s16 *)D_80081470 = (s16)(lookup_code | 0x1400);
         owner = *(void *volatile *)D_800814A8;
