@@ -864,6 +864,50 @@
         }
       ],
       "evidence": "docs/evidence/gp_shared_state_81510.md"
+    },
+    {
+      "name": "gp_shared_8099c",
+      "source": "src/konami_runtime_gp_shared_8099c.c",
+      "members": [
+        {
+          "id": "slus/konami_runtime_w_80033D44",
+          "source": "src/konami_runtime_w_80033D44.c",
+          "functions": [
+            "func_80033D44"
+          ]
+        },
+        {
+          "id": "slus/konami_runtime_w_80033D54",
+          "source": "src/konami_runtime_w_80033D54.c",
+          "functions": [
+            "func_80033D54"
+          ]
+        }
+      ],
+      "headers": [
+        "include/common.h",
+        "include/game.h",
+        "include/globals.h",
+        "include/include_asm.h",
+        "include/slus/gp_shared_8099c.h"
+      ],
+      "recipe": {
+        "ccver": "2.8.1",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "data": [
+        {
+          "symbol": "D_8008099C",
+          "asset": "assets/3E018.bin",
+          "offset": 90500,
+          "size": 4,
+          "vram": 2148010396,
+          "bytes": "00000000",
+          "section": ".sdata"
+        }
+      ],
+      "evidence": "docs/evidence/gp_shared_8099c.md"
     }
   ]
 }

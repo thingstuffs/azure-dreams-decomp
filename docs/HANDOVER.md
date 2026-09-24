@@ -6,7 +6,16 @@ accounting for the three unregistered MAIN routines. The primary agent handles
 hard analysis and orchestration; the owner authorizes Sol and Luna delegates for
 bounded grunt work. Claude's reset in about three days is a handoff checkpoint.
 
-Latest checkpoint: [shared state at 81510](evidence/gp_shared_state_81510.md)
+Latest checkpoint: [shared cancellation state at 8099C](evidence/gp_shared_8099c.md)
+lands 33D44/33D54 at 2.8.1 after an unchanged-source byte-neutral setter move.
+The full retail image and actual four-byte C storage pass. The setter is direct
+genuine-exact; the renderer stays exact through the already accepted epilogue
+model, separately recorded by explicit verifier opt-in. Production: **198
+dependencies, 30 remaining GP rows, 18 ownership units, 873 physical / 884
+logical rows**. Renderer pins and its model dependency remain. The runtime pilot
+is recertified; no production assembler default or pass changed.
+
+Previous checkpoint: [shared state at 81510](evidence/gp_shared_state_81510.md)
 lands 45340/453E0 after a byte-neutral 45340 CDK recipe move. All 573 words are
 genuine/retail exact without masks or compatibility passes, and the complete
 image matches retail. Production: 199 dependencies, 32 remaining GP rows,
@@ -51,12 +60,13 @@ no production assembler or dependency change follows yet. The
 [81811E30 compiler investigation](evidence/selfinc_81811E30.md) records why later
 combine/allocation retain its full pointer and queues address-GIV analysis.
 
-[8099C private ownership](evidence/gp_shared_8099c.md) is also full-image exact
+[8099C ownership](evidence/gp_shared_8099c.md) is now integrated and full-image exact
 after retaining the runtime source-name prefix required by the current linker.
 33D44 is direct genuine-exact; 33D54 retains the accepted compiler epilogue model.
 Applying that model to the fresh compiler stream lets genuine ASPSX reproduce
-all 541 words. Preserve that residual when integrating; the current strict
-ownership verifier requires direct genuine equality.
+all 541 words. Its residual is retained. Ownership verification supports an
+explicit row opt-in with a separate modeled proof; the default and placement
+certificate still require direct genuine equality.
 
 
 [Largest remaining GP component](evidence/gp_component20.md): 20 of the 32
@@ -66,8 +76,10 @@ bodies from registry symbols; next establish per-access addressing and data
 extents for a local cluster before choosing any combined ownership.
 [AF3 recipe probes](evidence/gp_af3_recipe.md) reject both unchanged-source
 shared existing recipes. CDK `-mmips-as` preserves 4450C's retail words but
-4437C needs a held-table-base source reconstruction; genuine ownership proof
-remains separate from this stock-retail result.
+4437C needs its address-folding mechanism resolved: explicit pointer locals
+produce identical instruction tokens. The adjacent cache44618 also passes the
+CDK dialect trial, but genuine ownership proof remains separate from these
+stock-retail results. Full retail maps and scoped negative trials are saved.
 
 First execution checkpoint: [SLUS small-data measurements](evidence/fidelity_gp_repair_progress.md).
 The isolated generic assembler correction passes 70/70 pinned-version probes and

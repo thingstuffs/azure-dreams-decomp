@@ -6,18 +6,18 @@
     "slus/konami_runtime_w_8003C758",
     "slus/konami_runtime_w_8003C920"
   ],
-  "at": "2026-09-24T16:07:04Z",
+  "at": "2026-09-24T17:04:17Z",
   "module_fingerprint": "743ef88dc04b857707a304059179af9a99c3591026cc79a8083860bef4d8785c",
-  "tool_fingerprint": "15cfa48c2afa4baf6d86",
+  "tool_fingerprint": "fde349713aee6ac36080",
   "review": {
     "path": "docs/evidence/runtime_directory_module.md",
     "sha256": "551c75bd2044ab3703d0e153194963edbe5921cec3687b01ebc3ab2878d02771",
-    "reviewer": "Primary agent: existing runtime_directory review, rechecked after 81510 ownership"
+    "reviewer": "Codex: unchanged membership review; fresh proof after 8099C ownership integration"
   },
   "gate": {
     "result": "MATCH",
     "words_diff": 0,
-    "recipe_sha256": "908a5aed790924033c7cd93037f1bd405139b36e0ee47ab134775dab7cdba01c"
+    "recipe_sha256": "63bdee7938ccd80e74403cf3bf9d916ce2b5fb030c96f6c32492cf3747e4cbbc"
   },
   "image_sha1": "e6bfbb95ff6676899e077481221d73ddd4d3bf52",
   "rows": {

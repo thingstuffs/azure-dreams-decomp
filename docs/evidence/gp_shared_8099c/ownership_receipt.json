@@ -1,0 +1,210 @@
+{
+  "schema": 3,
+  "at": "2026-09-24T17:04:10Z",
+  "purpose": "data ownership with explicit accepted compiler epilogue model; genuine equality is after that model, not direct; no L4/L5 certificate",
+  "modules": [
+    "gp_shared_8099c"
+  ],
+  "module_fingerprints": {
+    "slus/konami_runtime_w_80033D44": "290a5272e177aec05c1e1d63a7569623c896ee966faa0dcaf73cbd1f45301696",
+    "slus/konami_runtime_w_80033D54": "290a5272e177aec05c1e1d63a7569623c896ee966faa0dcaf73cbd1f45301696"
+  },
+  "tool_fingerprint": "fde349713aee6ac36080",
+  "recipe_sha256": "63bdee7938ccd80e74403cf3bf9d916ce2b5fb030c96f6c32492cf3747e4cbbc",
+  "image_sha1": "e6bfbb95ff6676899e077481221d73ddd4d3bf52",
+  "gate": {
+    "result": "MATCH",
+    "words_diff": 0
+  },
+  "data": {
+    "gp_shared_8099c": {
+      "sections": {
+        ".sdata": {
+          "size": 4,
+          "bytes": "00000000",
+          "symbols": [
+            {
+              "symbol": "D_8008099C",
+              "asset": "assets/3E018.bin",
+              "offset": 90500,
+              "size": 4,
+              "vram": 2148010396,
+              "bytes": "00000000",
+              "section": ".sdata",
+              "object_offset": 0,
+              "object_binding": "global",
+              "linked_kind": "T"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "rows": {
+    "slus/konami_runtime_w_80033D44": {
+      "row": "slus/konami_runtime_w_80033D44",
+      "container": "slus",
+      "kind": "slus",
+      "cfg": "2.8.1",
+      "pins": 0,
+      "asflags": "",
+      "cell": "2.8.1",
+      "maspsx_exact": true,
+      "proof": "whole SLUS image, module context",
+      "fired": [
+        "_maybe_unfill_return_delay"
+      ],
+      "module": "gp_shared_8099c",
+      "module_fingerprint": "290a5272e177aec05c1e1d63a7569623c896ee966faa0dcaf73cbd1f45301696",
+      "trace_scope": "whole-module",
+      "selfcheck": true,
+      "funcs": 1,
+      "words": 4,
+      "maspsx_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      },
+      "has_div": false,
+      "genuine": {
+        "2.79": {
+          "exact": true,
+          "diff": 0,
+          "len": 4,
+          "mode": "",
+          "retail": [
+            0,
+            0
+          ]
+        }
+      },
+      "exact_versions": [
+        "2.79"
+      ],
+      "best": "2.79",
+      "status": "ok",
+      "secs": 2.3
+    },
+    "slus/konami_runtime_w_80033D54": {
+      "row": "slus/konami_runtime_w_80033D54",
+      "container": "slus",
+      "kind": "slus",
+      "cfg": "2.8.1",
+      "pins": 3,
+      "asflags": "",
+      "cell": "2.8.1",
+      "maspsx_exact": true,
+      "proof": "whole SLUS image, module context",
+      "fired": [
+        "_maybe_unfill_return_delay"
+      ],
+      "module": "gp_shared_8099c",
+      "module_fingerprint": "290a5272e177aec05c1e1d63a7569623c896ee966faa0dcaf73cbd1f45301696",
+      "trace_scope": "whole-module",
+      "selfcheck": true,
+      "funcs": 1,
+      "words": 537,
+      "maspsx_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      },
+      "has_div": false,
+      "genuine": {
+        "2.79": {
+          "exact": false,
+          "diff": 3,
+          "len": 536,
+          "mode": "",
+          "retail": [
+            2,
+            0
+          ]
+        }
+      },
+      "exact_versions": [],
+      "best": "2.79",
+      "classes": {
+        "delay-slot": 2
+      },
+      "first_diff": [
+        [
+          "func_80033D54",
+          "insert",
+          534
+        ],
+        [
+          "func_80033D54",
+          "delete",
+          535
+        ]
+      ],
+      "attrib": {
+        "2.79": {
+          "base": 3,
+          "fix": [
+            "no:_maybe_unfill_return_delay"
+          ]
+        },
+        "_nochange": [
+          "asv:2.79",
+          "extern-abs"
+        ]
+      },
+      "status": "ok",
+      "secs": 3.1
+    }
+  },
+  "compiler_model": {
+    "name": "t272",
+    "explicit_rows": [
+      "slus/konami_runtime_w_80033D54"
+    ],
+    "code": {
+      "path": "tools/fidelity/epilogue_model.py",
+      "source_sha256": "b7dcafc59370e7c75c3330d5b48481ecd020298aa761286a5b53f99d1c66c409",
+      "rewrite_sha256": "27531a0843796e2170e19d014d7df63446fa6e464b4f8db1b1832604f8673956"
+    },
+    "code_after": {
+      "path": "tools/fidelity/epilogue_model.py",
+      "source_sha256": "b7dcafc59370e7c75c3330d5b48481ecd020298aa761286a5b53f99d1c66c409",
+      "rewrite_sha256": "27531a0843796e2170e19d014d7df63446fa6e464b4f8db1b1832604f8673956"
+    },
+    "fired_passes_scope": "A.process_row traces whole module; not row attribution"
+  },
+  "modeled_rows": {
+    "slus/konami_runtime_w_80033D54": {
+      "model": "t272",
+      "functions": [
+        "func_80033D54"
+      ],
+      "aspsx_version": "2.79",
+      "aspsx_mode": "-q",
+      "source_sha256": "f910792803b1fc64c367eaed088952a790cb33e11c2b5d95f53b5443d953b0de",
+      "original_stream_sha256": "72449a648a60bcd02f2417d5fe548b43970cac1dfafa8de0c68e66625573bfe7",
+      "modeled_stream_sha256": "a1dba43033e966392cadab62241be5bf6202babccdb914f3c6b04a5c8e8ab858",
+      "pipeline_object_sha256": "c68187e159ed68c7e7a76f4cce7dea49183e81dc974ad8df42663596e079b998",
+      "genuine_object_sha256": "fc3c522dcee0671fee60a61900081bbb79403b64968da0d1d2b05c2816ca77fa",
+      "comparison": {
+        "diff": 0,
+        "exact": true,
+        "len_m": 537,
+        "len_g": 537,
+        "missing": [],
+        "regions": [],
+        "delay_only": []
+      },
+      "pipeline_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      },
+      "genuine_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      },
+      "unknown_records": []
+    }
+  }
+}

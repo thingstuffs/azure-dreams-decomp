@@ -1,6 +1,4 @@
-#include "common.h"
-
-#include "common.h"
+#include "slus/gp_shared_8099c.h"
 
 extern void PushMatrix(void);
 extern void PopMatrix(void);
@@ -15,7 +13,6 @@ extern void RotTransPers4(void *, void *, void *, void *, void *, void *,
 extern void AddPrim(void *, void *);
 
 extern u8 D_80080994[];
-extern s32 D_8008099C;
 extern u8 *D_80083160_init[3] asm("D_80083160");
 extern u8 *D_80083160_tail[3] asm("D_80083160");
 
