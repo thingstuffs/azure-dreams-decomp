@@ -315,12 +315,11 @@ init_loop:
 
             {
                 u8 *x_step;
-                register s32 old_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
+                x_step = (u8 *)&D_8006CCD8;
                 step_offset = (((S_80171C34_1 *)actor_data)->unk_2A.u >> 8) & 0xE;
-                x_step = (u8 *)&D_8006CCD8 + step_offset;
-                old_x = ((S_80171C34_2 *)position_data)->unk_24.at00.v;
-                ((S_80171C34_2 *)position_data)->unk_24.at00.v = old_x + *x_step;
+                x_step += step_offset;
+                ((S_80171C34_2 *)position_data)->unk_24.at00.v += *x_step;
                 ((S_80171C34_2 *)position_data)->unk_24.at01.v += *((u8 *)&D_8006CCE8 + step_offset);
             }
 

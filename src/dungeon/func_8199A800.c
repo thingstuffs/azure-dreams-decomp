@@ -58,6 +58,8 @@ void func_8199A800(void *state_data)
     void **phase_handlers;
     s32 phase;
     s32 result;
+    void *entry;
+    void *child;
     static void *const phase_labels[] = {
         &&case_0, &&case_1, &&case_2, &&case_3, &&default_case
     };
@@ -109,20 +111,17 @@ case_1:
     goto default_case;
 
 case_2:
-    {
-        void *entry = PTR_AT(MANAGER_PTR(), 0x60);
+    entry = PTR_AT(MANAGER_PTR(), 0x60);
+    if (entry != 0) {
+        s32 entry_flags = (s32)U32_AT(entry, 0x1C) | 0x10000000;
+        u32 tint = 0;
 
-        if (entry != 0) {
-            s32 entry_flags = (s32)U32_AT(entry, 0x1C) | 0x10000000;
-            register u32 tint ASM_REG("$4") = 0;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            register void *child ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            U32_AT(entry, 0x1C) = entry_flags;
-            child = PTR_AT(entry, -0x14);
-            if ((U16_AT(effect_flags, 4) & 1) != 0) {
-                tint = 0x0080FF80;
-            }
-            U32_AT(child, 0x0C) = tint;
+        U32_AT(entry, 0x1C) = entry_flags;
+        child = PTR_AT(entry, -0x14);
+        if ((U16_AT(effect_flags, 4) & 1) != 0) {
+            tint = 0x0080FF80;
         }
+        U32_AT(child, 0x0C) = tint;
     }
     if ((U16_AT(D_80082E94, 0) & 0x8000) == 0) {
         U16_AT(state, 0x18)--;
@@ -130,17 +129,16 @@ case_2:
             goto default_case;
         }
     }
-    {
-        register void *entry ASM_REG("$5") = PTR_AT(MANAGER_PTR(), 0x60);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    entry = PTR_AT(MANAGER_PTR(), 0x60);
+    if (entry != 0) {
+        u32 clear_effect_mask = 0xEFFFFFFF;
+        u32 tint = 0x00808080;
+        s32 entry_flags;
 
-        if (entry != 0) {
-            u32 clear_effect_mask = 0xEFFFFFFF;
-            register u32 tint ASM_REG("$4") = 0x00808080;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            void *child = PTR_AT(entry, -0x14);
-            s32 entry_flags = (s32)U32_AT(entry, 0x1C) & clear_effect_mask;
-            U32_AT(entry, 0x1C) = entry_flags;
-            U32_AT(child, 0x0C) = tint;
-        }
+        child = PTR_AT(entry, -0x14);
+        entry_flags = (s32)U32_AT(entry, 0x1C) & clear_effect_mask;
+        U32_AT(entry, 0x1C) = entry_flags;
+        U32_AT(child, 0x0C) = tint;
     }
     U16_AT(state, 0x0A)++;
     goto default_case;

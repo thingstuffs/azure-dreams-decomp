@@ -142,7 +142,7 @@ void BODY_NAME(S_func_80EE5000_0 *motion, S_func_80EE5000_1 *position, S_func_80
     u16 settle_frames;
     u16 scale;
     u32 tile_distance;
-    register s32 interp_goal ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    s32 interp_goal;
 
 #ifdef __mips__
     static void *const switch_keepalive[] __attribute__((used)) = {
@@ -227,7 +227,8 @@ interpolate:
                 s32 scaled = goal;
                 scaled *= 64;
                 delta = current - 32;
-                interp_goal = (scaled - delta) / ticks;
+                interp_goal = scaled - delta;
+                interp_goal /= ticks;
             }
             interp_current = position->unk_04.parts.unk_06.u16;
             countdown = position->unk_08.parts.unk_0A;
@@ -235,8 +236,8 @@ interpolate:
 
             interp_goal = position->unk_16;
             position->unk_04.parts.unk_06.s16 = interp_current;
-            interp_goal = (interp_goal - countdown) /
-                (s16)motion->unk_36;
+            interp_goal -= countdown;
+            interp_goal /= (s16)motion->unk_36;
             position->unk_08.parts.unk_0A += interp_goal;
         }
     }
@@ -296,7 +297,8 @@ move:
 
         coord = motion->unk_70;
         world_coord = motion->unk_7C;
-        interp_goal = motion->unk_34 << 2;
+        interp_goal = motion->unk_34;
+        interp_goal <<= 2;
         point = (GridPoint *)((u8 *)grid_base + interp_goal);
         interp_goal = motion->unk_5C;
         coord += world_coord;
