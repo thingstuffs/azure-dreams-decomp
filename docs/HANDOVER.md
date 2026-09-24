@@ -18,6 +18,17 @@ before a global switch. A separate CD-control module source pilot is exact.
 The [MAIN coverage audit](evidence/main_kernel_coverage_audit.md)
 independently hashes/disassembles all three gaps without claiming C completion.
 
+Second checkpoint: optional module build/verification consumers are implemented
+and the real generated stock-Ninja pilot passes the full image gate, genuine
+ASPSX (104 words, zero masked relocations), logical-row preservation and negative
+candidate checks. See [receipt](evidence/slus_module_build_receipt.json) and
+`tools/fidelity/probe_slus_module_build.py`. Canonical-name measurement is fixed;
+the fresh stock 59-row census still shows all 59 external-data dependencies.
+Production's 884-TU SHA-1 gate and 64 focused tests pass. No production manifest
+is active yet: lane diagnostics, status/L4 evidence and the coordinated source/
+manifest/pinned-build activation are the next work. The old private verifier
+draft has been superseded by the current tools.
+
 # Handover (2026-09-24, H28 recovery)
 
 Picked up the interrupted 67-row H28 wave from `r77_opus_h1..h16` after the

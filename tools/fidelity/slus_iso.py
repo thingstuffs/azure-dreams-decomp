@@ -36,6 +36,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from common import ROOT, parse_cfg  # noqa: E402
+from slus_module_context import load_manifest, module_for_row  # noqa: E402
 
 BUILD_SLUS = ROOT / "build_slus"
 IMAGE = "build/slus_006.14"
@@ -87,6 +88,8 @@ def cfg_to_ninja(cfg: str):
 
 class SlusView:
     def __init__(self, dest=None, source=BUILD_SLUS):
+        source = Path(source)
+        self.src_real = Path(os.path.realpath(source / "src"))
         self.dest = Path(dest) if dest else Path(tempfile.mkdtemp(prefix="slus_iso_"))
         if self.dest.exists() and (self.dest / "build.ninja").exists() and (self.dest / ".iso_ok").exists():
             pass                                              # reuse a prepared view
@@ -98,13 +101,18 @@ class SlusView:
             shutil.copytree(source, self.dest, symlinks=True)
             srcdir = self.dest / "src"
             real = Path(os.path.realpath(srcdir))
-            srcdir.unlink()
-            srcdir.mkdir()
-            for f in sorted(real.iterdir()):
-                (srcdir / f.name).symlink_to(f)
+            if srcdir.is_symlink():
+                srcdir.unlink()
+                srcdir.mkdir()
+                for f in sorted(real.iterdir()):
+                    (srcdir / f.name).symlink_to(f)
             (self.dest / ".iso_ok").write_text("")
         self.pristine = (self.dest / "build.ninja").read_text()
-        self.src_real = Path(os.path.realpath(ROOT / "src" / "slus"))
+        self.modules = load_manifest(self.dest / "config/slus_modules.json")
+
+    def physical_stem(self, stem):
+        module = module_for_row(self.modules, "slus/" + stem)
+        return Path(module["source"]).stem if module else stem
 
     # ---------------------------------------------------------------- helpers
     def _ninja(self, targets, env=None):
@@ -119,6 +127,7 @@ class SlusView:
             if p.is_symlink() or p.exists():
                 p.unlink()
             p.symlink_to(self.src_real / f"{stem}.c")
+        for stem in {self.physical_stem(s) for s in stems}:
             o = self.dest / "build" / "src" / f"{stem}.o"
             if o.exists():
                 o.unlink()
@@ -168,17 +177,32 @@ class SlusView:
         of the swapped TUs' functions against their retail words), "fn_size_drift", "detail"}."""
         import difflib
         stems = list(changes)
+        physical = list(dict.fromkeys(self.physical_stem(s) for s in stems))
+        recipes = {}
+        for stem, (_, cell, flags) in changes.items():
+            target = self.physical_stem(stem)
+            if target in recipes and recipes[target] != (cell, flags):
+                return {"result": "ERROR", "detail": f"conflicting recipes for module {target}"}
+            recipes[target] = (cell, flags)
+        for module in self.modules:
+            target = Path(module["source"]).stem
+            original = (module["recipe"]["ccver"], module["recipe"]["ccflags"])
+            if target in recipes and recipes[target] != original:
+                cohort = {Path(m["source"]).stem for m in module["members"]}
+                if not cohort.issubset(changes):
+                    return {"result": "ERROR", "detail": f"recipe change requires every member of module {target}"}
         text = self.pristine
         before = self.pristine_symbols()
-        fn_before = {s: self.tu_functions(s) for s in stems}
+        fn_before = {s: self.tu_functions(s) for s in physical}
         try:
             for stem, (ctext, cell, flags) in changes.items():
-                text = set_tu_recipe(text, stem, cell, flags)
+                target = self.physical_stem(stem)
+                text = set_tu_recipe(text, target, cell, flags)
                 if ctext is not None:
                     p = self.dest / "src" / f"{stem}.c"
                     p.unlink()
                     p.write_text(ctext)
-                o = self.dest / "build" / "src" / f"{stem}.o"
+                o = self.dest / "build" / "src" / f"{target}.o"
                 if o.exists():
                     o.unlink()
             (self.dest / "build.ninja").write_text(text)
@@ -190,7 +214,7 @@ class SlusView:
                 env["AZURE_MASPSX_COMPANION"] = str(w)
                 env["AZURE_STEP4_REAL_MASPSX"] = str(ROOT / "tools" / "maspsx" / "maspsx.py")
                 env["AZURE_STEP4_KEEP_EXTERNS"] = ",".join(sorted(keep_externs))
-            rc, out = self._ninja([f"build/src/{s}.o" for s in stems], env=env)
+            rc, out = self._ninja([f"build/src/{s}.o" for s in physical], env=env)
             if rc:
                 return {"result": "ERROR", "detail": "compile: " + out[-600:].replace(str(ROOT), "<repo>")}
             rc, out = self._ninja([IMAGE])
@@ -203,7 +227,7 @@ class SlusView:
             syms = self.symbols()
             load = self._load_base(ref)
             drift, residue, per_fn = {}, 0, {}
-            for s in stems:
+            for s in physical:
                 for f in sorted(set(fn_before[s]) | set(self.tu_functions(s))):
                     a, b = syms.get(f), before.get(f)
                     if not a or not b:

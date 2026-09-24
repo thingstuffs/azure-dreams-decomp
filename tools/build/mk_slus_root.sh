@@ -15,6 +15,6 @@ ln -sfn "$ROOT/tools/build"   "$B/tools"
 ln -sfn "$ROOT/toolchain"     "$B/toolchain"
 ln -sfn "$ROOT/.venv"         "$B/.venv"
 ln -sfn "$ROOT/baserom"       "$B/baserom"
-for f in slus_006.14.yaml slus_006.14.symbols.txt slus_006.14.sha1 names.tsv; do ln -sfn "$ROOT/config/$f" "$B/config/$f"; done
+for f in slus_006.14.yaml slus_006.14.symbols.txt slus_006.14.sha1 names.tsv slus_modules.json; do ln -sfn "$ROOT/config/$f" "$B/config/$f"; done
 mkdir -p "$B/config/generated"
 echo "build root: $B"

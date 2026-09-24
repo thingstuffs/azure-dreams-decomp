@@ -90,6 +90,8 @@ def tool_fingerprint() -> str:
     files = [HERE / "aspsx_diff.py", HERE / "objread.py", HERE / "maspsx_trace.py",
              ROOT / "tools/maspsx/maspsx.py", ROOT / "tools/maspsx/maspsx/__init__.py",
              ROOT / "tools/verify.py", ROOT / "tools/build/ccproc.py", ROOT / "config/names.tsv",
+             ROOT / "tools/slus_module_context.py", ROOT / "tools/build/slus_modules.py",
+             ROOT / "tools/build/configure.py", ROOT / "config/slus_modules.json",
              BROOT / "tools/match.py", BROOT / "work/g3/overlay_func_compare.py",
              BROOT / "tools/overlay_as_flags.py", BROOT / "tools/overlay_evidence.py",
              BROOT / "tools/rowbase.py", BROOT / "config/names.tsv", SLUS_ELF, ROOT / "ledger/cache/slus_obj.json"]
@@ -107,7 +109,8 @@ def tool_fingerprint() -> str:
 
 
 def row_key(row, text: str, fp: str, cfg: str, asflags: str) -> str:
-    return _sha(json.dumps([row["id"], _sha(text.encode()), cfg, asflags, fp]).encode())[:24]
+    from slus_module_context import fingerprint
+    return _sha(json.dumps([row["id"], _sha(text.encode()), cfg, asflags, fp, fingerprint(row)]).encode())[:24]
 
 
 # ------------------------------------------------------------------------------- normalisation
@@ -474,6 +477,12 @@ def resolve_tokens(view, fname, base, addr_of, gp, slice_base=None, layout=None)
     address) places the other pieces of a composite/bank unit."""
     out, masked = [], []
     layout = layout or {}
+    section_bases = {}
+    for symbol, (section, offset, *_rest) in view.obj.symbols.items():
+        if section is not None and not _is_text(section):
+            linked = addr_of(symbol)
+            if linked is not None:
+                section_bases.setdefault(_canon_sec(section), set()).add(linked - offset)
     for i, (w, rtype, key) in enumerate(view.tokens(fname)):
         if rtype is None:
             out.append(w); continue
@@ -488,6 +497,13 @@ def resolve_tokens(view, fname, base, addr_of, gp, slice_base=None, layout=None)
         elif kind == "sym":
             sa = addr_of(name)
             val = None if sa is None else sa + a
+        elif kind == "sec":
+            # Initialized TU-owned data is canonicalized by section offset.
+            # Recover its base only from agreeing named symbols in the gated
+            # link; absent or conflicting anchors remain explicitly masked.
+            bases = section_bases.get(name, set())
+            if len(bases) == 1:
+                val = next(iter(bases)) + a
         if val is None:
             out.append(w); masked.append(i); continue
         val &= 0xFFFFFFFF
@@ -631,8 +647,11 @@ def prepare_slus(row, cfile, cfg, asflags, td):
     if obj is None:
         return None, err
     s_raw = (Path(td) / "a.s").read_text(errors="replace")
-    ccp = subprocess.run(["python3", str(ROOT / "tools/build/ccproc.py")], input=s_raw, capture_output=True, text=True)
-    m_in = ccp.stdout
+    m_in = (Path(td) / "a.proc.s").read_text()
+    try:
+        g_src = verify.postprocess_slus(s_raw, names_only=True)
+    except ValueError as exc:
+        return None, str(exc)
     as_args = ["--aspsx-version=2.79", "--dont-force-G0", f"-I{ROOT / 'raw'}", f"-I{ROOT / 'include'}",
                "-EL", "-march=r3000", "-G8"] + asflags.split()
     # maspsx_exact exactly as verify_slus decides it (pinned TU object; name-masked text fallback)
@@ -649,9 +668,16 @@ def prepare_slus(row, cfile, cfg, asflags, td):
             mask = lambda ls: [re.sub(r"(R_MIPS_\w+)\s+\S+", r"\1 <>", re.sub(r"<[^>]*>", "<>", re.sub(r"^\s*[0-9a-f]+:\s*", "", l))) for l in ls]
             if len(got) == len(tgt) and mask(got) == mask(tgt):
                 exact, proof = True, "text-identical"
-    # the genuine leg reads gcc's own -S: ccproc only adds per-function `.section .text.NAME` lines
-    # (its names.tsv alias layer resolves no table from tools/build/, so it renames nothing here)
-    return {"kind": "slus", "m_in": m_in, "g_src": s_raw, "as_args": as_args, "env": _clean_env(),
+    from slus_module_context import membership
+    module = membership(row)
+    if module:
+        gate = verify.verify_slus_module(r, cfile)
+        exact, proof = bool(gate.get("exact")), gate.get("proof")
+        if not exact:
+            return None, "module full-image gate: " + str(gate)
+    # Both legs use production's canonical names. Genuine ASPSX reads the same
+    # compiler stream without the GAS-only function-section directives.
+    return {"kind": "slus", "m_in": m_in, "g_src": g_src, "as_args": as_args, "env": _clean_env(),
             "pipeline_obj": obj.read_bytes(), "maspsx_exact": exact, "proof": proof, "cell": cell, "flags": flags}, None
 
 
@@ -766,6 +792,8 @@ def process_row(row, cfile=None, cfg=None, asflags=None, keep=False):
     td = tempfile.mkdtemp(prefix=row["id"].replace("/", "__") + "_", dir=TMP)
     rec = {"row": row["id"], "container": row["container"], "kind": row["kind"]}
     try:
+        from slus_module_context import fingerprint
+        module_before = fingerprint(row)
         cfile = Path(cfile) if cfile else clean_path(row)
         text = cfile.read_text(errors="replace")
         cfg = cfg or row["cfg"]
@@ -793,7 +821,17 @@ def process_row(row, cfile=None, cfg=None, asflags=None, keep=False):
         rec["fired"] = tr["fired"]
         mv = View(read_elf(mo))
         if ctx["kind"] == "slus":
-            scope = sorted(mv.funcs)
+            from slus_module_context import membership, fingerprint
+            module = membership(row)
+            scope = sorted(row["defs"]) if module else sorted(mv.funcs)
+            if module:
+                rec["module"] = module["name"]
+                rec["module_fingerprint"] = module_before
+                rec["trace_scope"] = "whole-module"
+                missing = set(scope) - set(mv.funcs)
+                if missing:
+                    rec.update(status="error", err="module member symbols missing: " + str(sorted(missing)))
+                    return rec
             rec["selfcheck"] = _sha(mo) == _sha(ctx["pipeline_obj"])
         else:
             sym = ctx["symbol"]
@@ -879,6 +917,9 @@ def process_row(row, cfile=None, cfg=None, asflags=None, keep=False):
         need = [v for v in ok if not gen[v]["exact"]]
         if need:
             rec["attrib"] = attribute(ctx, env, tr["fired"], mv, views, allviews, need, scope, td)
+        if fingerprint(row) != module_before:
+            rec.update(status="error", maspsx_exact=False, err="module inputs changed during measurement")
+            return rec
         rec["status"] = "ok"
         return rec
     except Exception as exc:  # a harness failure is a record, never a crash of the run

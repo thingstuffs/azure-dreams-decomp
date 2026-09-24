@@ -1,10 +1,10 @@
 """tools/verify.py rebaseline_slus: re-derive the slus reference of named rows from the LANDED src at the LANDED
 recipe, only when the SLUS gate proved that object (fidelity step 4, part A2).
 
-Fixture: slus/w_8005A1D0 - a 39-word .word paste landed as C at 2.7.2-cdk (ca253080).  Its cached reference was
-built from the raw .word text, so verify_slus reads the landed C as `length-drift` although the SLUS SHA-1 gate
-matches.  Every test works on a COPY of the cache (verify.CACHE is pointed at a temp dir); ledger/cache is never
-written.
+Fixture: slus/w_8005A1D0 - a 39-word .word paste landed as C at 2.7.2-cdk (ca253080).
+The stale-reference test makes its private copy obsolete explicitly; the live cache may
+already have been refreshed by a later landing. Every test works on a COPY of the cache
+(verify.CACHE is pointed at a temp dir); ledger/cache is never written.
 
     python3 -m unittest tools/tests/test_verify_rebaseline_slus.py
 """
@@ -49,6 +49,13 @@ class RebaselineTests(unittest.TestCase):
     def test_landed_row_reads_stale_before_and_exact_after(self):
         if not (ROOT / "build_slus/build/src/w_8005A1D0.o").exists():
             self.skipTest("no gated build_slus tree")
+        # Model a reference from before a source/recipe change. Do not depend on
+        # the production cache remaining stale after its regression is repaired.
+        cache_file = self.cache / "slus_obj.json"
+        entries = json.loads(cache_file.read_text())
+        entries[ROW]["obj_sha"] = "0" * 64
+        cache_file.write_text(json.dumps(entries))
+        (self.cache / "slus_dis/w_8005A1D0.txt").write_text("")
         self.assertFalse(self.landed_verdict().get("exact"))
         res = verify.rebaseline_slus([ROW], cache=self.cache)
         self.assertEqual([r["outcome"] for r in res], ["rebaselined"], res)

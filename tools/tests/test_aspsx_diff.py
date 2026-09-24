@@ -39,6 +39,24 @@ ADDIU_SP = 0x27BD0018
 
 
 class Comparator(unittest.TestCase):
+    def test_owned_data_relocation_resolves_from_linked_symbol(self):
+        obj = elf(words(0x8F820000), [(".text", 0, "GPREL16", ("sym", "count"), 0)],
+                  syms={"f": (".text", 0, "func", 4), "count": (".sdata", 4, "object", 4)},
+                  extra={".sdata": words(0, 4)})
+        view = A.View(obj)
+        resolved, masked = A.resolve_tokens(view, "f", 0x80030000,
+                                           {"count": 0x80080A6C}.get, 0x80080994)
+        self.assertEqual(resolved, [0x8F8200D8])
+        self.assertEqual(masked, [])
+
+    def test_conflicting_or_missing_data_anchors_stay_masked(self):
+        obj = elf(words(0x8F820000), [(".text", 0, "GPREL16", ("sym", "count"), 0)],
+                  syms={"f": (".text", 0, "func", 4), "count": (".sdata", 0, "object", 4),
+                        "next": (".sdata", 4, "object", 4)}, extra={".sdata": words(4, 0)})
+        for addresses in ({}, {"count": 0x80080A6C, "next": 0x80080A78}):
+            _, masked = A.resolve_tokens(A.View(obj), "f", 0x80030000, addresses.get, 0x80080994)
+            self.assertEqual(masked, [0])
+
     def test_identical_is_exact(self):
         t = words(LUI_V0, LW_V0, JR_RA, NOP)
         m = A.View(elf(t, []))

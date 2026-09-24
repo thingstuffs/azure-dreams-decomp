@@ -17,10 +17,22 @@ SORT_BY_NAME(.text.func_*) glob). So for a renamed function this script:
 Both are byte-neutral: section names and the symbol table are stripped by objcopy,
 so the final binary is unaffected. When names.tsv is absent or a function is not
 listed, behaviour is byte-identical to the original per-`.ent` sectioning."""
-import sys, re, os
+import argparse, sys, re, os
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if os.path.basename(ROOT) == "tools" and os.path.basename(os.path.dirname(__file__)) == "build":
+    # The repository entry point lives in tools/build; the exported entry point
+    # lives in <build root>/tools. Both must use their root's name table.
+    ROOT = os.path.dirname(ROOT)
 NAMES_TSV = os.path.join(ROOT, "config", "names.tsv")
+ap = argparse.ArgumentParser(description=__doc__)
+ap.add_argument("--names-tsv", help="explicit canonical-name table (must exist)")
+ap.add_argument("--names-only", action="store_true", help="canonicalize symbols without GAS function sections")
+args = ap.parse_args()
+if args.names_tsv:
+    NAMES_TSV = args.names_tsv
+    if not os.path.isfile(NAMES_TSV):
+        ap.error("name table does not exist: " + NAMES_TSV)
 
 # new_name -> original section base (func_<addr>). Only renamed funcs appear here;
 # everything else falls through to the unchanged `.text.<name>` default.
@@ -50,6 +62,10 @@ if _rename:
     if _present:
         _pat = re.compile(r"\b(" + "|".join(re.escape(n) for n in sorted(_present, key=len, reverse=True)) + r")\b")
         _lines = [l if re.match(r"\s*\.(ascii|asciz|string)\b", l) else _pat.sub(lambda m: _rename[m.group(1)], l) for l in _lines]
+
+if args.names_only:
+    sys.stdout.writelines(_lines)
+    sys.exit(0)
 
 aliases = []  # (original func_<addr>, readable) to emit at EOF
 cur_section = None  # func_<addr> section name while between .ent and .end

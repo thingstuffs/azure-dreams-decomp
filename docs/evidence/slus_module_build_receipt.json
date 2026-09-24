@@ -1,0 +1,174 @@
+{
+  "calibration": {
+    "result": "MATCH",
+    "words_diff": 0
+  },
+  "configure": "wrote build.ninja (1130 objects)",
+  "ninja_tail": [
+    "[1/8] MODULE-SYMS build/slus_006.14.undefined_syms.modules.txt",
+    "[2/8] MODULE-ASSETS build/module_assets/54240_000000_00002C.bin build/module_assets/54240_000030_02BDC0.bin",
+    "[3/8] BIN build/module_assets/54240_000000_00002C.bin",
+    "[4/8] BIN build/module_assets/54240_000030_02BDC0.bin",
+    "[5/8] LD-SCRIPT build/slus_006.14_ordered.ld",
+    "[6/8] CC src/konami_runtime_directory.c (gcc 2.7.2-cdk  )",
+    "[7/8] LINK build/slus_006.14.elf",
+    "[8/8] OBJCOPY build/slus_006.14"
+  ],
+  "edges": {
+    "physical": 882,
+    "logical": 884,
+    "ledger_rows": 884,
+    "logical_equal_to_pinned_recipe": true
+  },
+  "image": {
+    "match_retail": true,
+    "size": 524288,
+    "sha1": "e6bfbb95ff6676899e077481221d73ddd4d3bf52",
+    "retail_sha1": "e6bfbb95ff6676899e077481221d73ddd4d3bf52"
+  },
+  "data": {
+    "symbol": "D_80080A6C",
+    "vma": "80080a6c",
+    "section_index": "2",
+    "object_section": ".sdata",
+    "bytes": "04000000",
+    "readelf": "4109: 80080a6c     0 NOTYPE  GLOBAL DEFAULT    2 D_80080A6C"
+  },
+  "functions": {
+    "func_8003C634": {
+      "pristine": {
+        "address": 2147730996,
+        "size": 72,
+        "nm_type": "T"
+      },
+      "linked": {
+        "address": 2147730996,
+        "size": 72,
+        "nm_type": "T"
+      }
+    },
+    "func_8003C758": {
+      "pristine": {
+        "address": 2147731288,
+        "size": 128,
+        "nm_type": "T"
+      },
+      "linked": {
+        "address": 2147731288,
+        "size": 128,
+        "nm_type": "T"
+      }
+    },
+    "func_8003C920": {
+      "pristine": {
+        "address": 2147731744,
+        "size": 216,
+        "nm_type": "T"
+      },
+      "linked": {
+        "address": 2147731744,
+        "size": 216,
+        "nm_type": "T"
+      }
+    }
+  },
+  "dependencies": {
+    "source": {
+      "cc": true,
+      "asset_chunks": false,
+      "ordered_script": false,
+      "filtered_symbols": false,
+      "link": true
+    },
+    "header": {
+      "cc": true,
+      "asset_chunks": false,
+      "ordered_script": false,
+      "filtered_symbols": false,
+      "link": true
+    },
+    "data": {
+      "cc": false,
+      "asset_chunks": true,
+      "ordered_script": true,
+      "filtered_symbols": false,
+      "link": true
+    },
+    "manifest": {
+      "cc": true,
+      "asset_chunks": true,
+      "ordered_script": true,
+      "filtered_symbols": true,
+      "link": true
+    }
+  },
+  "scorer": {
+    "calibration": {
+      "result": "MATCH",
+      "words_diff": 0
+    },
+    "same": {
+      "result": "MATCH",
+      "words_diff": 0,
+      "residue": 0,
+      "fn_size_drift": {},
+      "detail": ""
+    },
+    "altered": {
+      "result": "NO MATCH",
+      "words_diff": 1,
+      "residue": 1,
+      "per_fn": {
+        "func_8003C634": 1,
+        "func_8003C758": 0,
+        "func_8003C920": 0
+      },
+      "fn_size_drift": {},
+      "detail": "1 differing words in the swapped TUs' functions (aligned against retail); 1 image words differ"
+    },
+    "sibling_regression": {
+      "result": "NO MATCH",
+      "words_diff": 1,
+      "residue": 1,
+      "per_fn": {
+        "func_8003C634": 0,
+        "func_8003C758": 1,
+        "func_8003C920": 0
+      },
+      "fn_size_drift": {},
+      "detail": "1 differing words in the swapped TUs' functions (aligned against retail); 1 image words differ"
+    },
+    "conflict": {
+      "result": "ERROR",
+      "detail": "conflicting recipes for module konami_runtime_directory"
+    },
+    "partial_recipe": {
+      "result": "ERROR",
+      "detail": "recipe change requires every member of module konami_runtime_directory"
+    },
+    "restored": {
+      "result": "MATCH",
+      "words_diff": 0
+    }
+  },
+  "genuine_aspsx": {
+    "version": "2.79",
+    "flags": [
+      "-q",
+      "-0"
+    ],
+    "exact": true,
+    "diff": 0,
+    "retail": {
+      "diff": 0,
+      "masked": 0,
+      "checked": 3
+    },
+    "word_counts": {
+      "func_8003C634": 18,
+      "func_8003C758": 32,
+      "func_8003C920": 54
+    },
+    "pipeline": "compilation_source -> compile_slus -> names-only postprocess -> genuine ASPSX"
+  }
+}

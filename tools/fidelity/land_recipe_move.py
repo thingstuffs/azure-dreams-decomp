@@ -202,6 +202,11 @@ class Lander:
                 if not is_stock_cfg(to) or not splits(to):
                     self.log("skip target not a stock splitting recipe", rid, to); continue
                 if row["kind"] == "slus":
+                    from slus_module_context import require_individual_recipe
+                    try:
+                        require_individual_recipe(row, self.root)
+                    except ValueError as exc:
+                        self.log("skip grouped recipe move", str(exc)); continue
                     slus[Path(row["c_path"]).stem] = (e, row, cand, cur)
                     continue
                 v = self.verify_overlay(row, cand, to)
@@ -293,6 +298,9 @@ class Lander:
 
     def switch_slus(self, moves):
         r = self.root
+        from slus_module_context import require_individual_recipe
+        for _, row, *_ in moves:
+            require_individual_recipe(row, r)
         stems = {Path(row["c_path"]).stem: e["to"] for e, row, *_ in moves}
         cfgp = r / "tools/build/configure.py"
         text = cfgp.read_text()
@@ -317,9 +325,9 @@ class Lander:
             if not m or m.group(1).strip() != cell or m.group(2).strip() != " ".join(flags):
                 raise RuntimeError("regenerated recipe does not carry %s at %s %s" % (s, cell, flags))
         sys.path.insert(0, str(REAL_ROOT / "tools"))
-        from row_db import edges_of
-        old_edges = edges_of(pinned.read_text())
-        new_edges = edges_of(new)
+        from row_db import slus_edges
+        old_edges = slus_edges(pinned.read_text(), r)
+        new_edges = slus_edges(new, r)
         bad = edges_diff_ok(old_edges, new_edges, set(stems))
         if bad:
             raise RuntimeError("the recipe's cc edges would change outside the move: %s" % bad[:5])
