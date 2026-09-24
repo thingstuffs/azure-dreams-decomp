@@ -1,5 +1,9 @@
 # Combined 14-row private rehearsal
 
+The initial checkpoint below is retained. The current rebased and extended
+proof is the [18-function rehearsal](gp_ready18.md); production counts in the
+initial report are historical.
+
 All 14 prepared rows now coexist in one full retail-exact private image, with
 **735 words** independently matching genuine ASPSX 2.79 and zero masked
 references. This is a partial repair rehearsal, not production integration or a
@@ -42,3 +46,18 @@ The next global correction gate must apply the correction to **all** inputs,
 include the remaining coordinated source/ownership repairs, and refresh the
 whole dependency census. This selective proof alone does not authorize a default
 switch or pass deletion.
+
+## Rebase after production function partitions
+
+The [fresh 14-row receipt](gp_ready14_rebased/receipt.json) preserves all 22
+production owners and the active function-partition plan. It has 28 private
+owners, 869 physical inputs and 884 logical rows, with exactly the same seven
+recipe changes and 735 genuine-matched words. All 52 owned data declarations
+have exact object/asset/link evidence. This run compares 858 active unchanged
+outputs by object key, excluding inactive cached files from the denominator.
+All are byte-identical. The [primary coverage check](gp_ready14_rebased/coverage_review.json)
+requires exactly 14 functions across all 11 fresh, genuine and linked streams.
+
+This prepares nine of the current 25 GP rows. The subsequent 18-function combined
+rehearsal adds the 81550 source/data repair and is the current integration fixture.
+Neither private run changes production dependencies or authorizes a global switch.

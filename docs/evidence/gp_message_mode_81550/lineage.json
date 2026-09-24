@@ -1,0 +1,30 @@
+{
+  "source": "baserom/slus_006.14",
+  "offset": 137100,
+  "bytes": 288,
+  "instruction_count": 72,
+  "evidence": {
+    "at_macro": [],
+    "split_store": [],
+    "held_page": [],
+    "slot_store": [
+      "[11] jal 0x69e78 + [12] sb $v0, 0x3e18($s0)"
+    ],
+    "split_la": [],
+    "zero_copy": [],
+    "ret_copy": [
+      "[21] move $s1, $v0 after call"
+    ]
+  },
+  "held_pages": [],
+  "gp_refs": 2,
+  "verdict": {
+    "verdict": "insufficient store-emission evidence (few globals?)",
+    "family": null,
+    "notes": [
+      "store-filled call/jump slots (observed scheduling; family-neutral)",
+      "return-copy habit (plain-2.7.2 trait)"
+    ]
+  },
+  "adapter_note": "CLI supports overlays only; exact SLUS retail slice passed to unchanged scan/classify API."
+}

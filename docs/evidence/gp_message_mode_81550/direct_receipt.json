@@ -1,0 +1,54 @@
+{
+  "recipe": {
+    "ccver": "2.7.2-cdk",
+    "ccflags": "",
+    "asflags": ""
+  },
+  "physical_functions": [
+    "func_8004DCE0",
+    "func_8004DCEC",
+    "func_8004DE88",
+    "func_8004DF8C"
+  ],
+  "generic_vs_genuine": {
+    "exact": true,
+    "diff": 0,
+    "len_m": 156,
+    "len_g": 156,
+    "missing": []
+  },
+  "retail": {
+    "generic": {
+      "diff": 0,
+      "masked": 0,
+      "checked": 4
+    },
+    "genuine": {
+      "diff": 0,
+      "masked": 0,
+      "checked": 4
+    }
+  },
+  "stock_negative": {
+    "exact": false,
+    "diff": 2,
+    "len_m": 155,
+    "len_g": 156,
+    "missing": []
+  },
+  "stock_negative_cause": "local8154C la shortens to GP address in stock; generic/genuine retain absolute pair",
+  "candidate_sha256": {
+    "code_part.c": "5dbf0c020e2ac7b91afa6db843ff7001517232a7af9034b001fa47d119ea36b0",
+    "standalone.c": "71ccfe2ae6f6173a1b41fc77f10e9803c484ee0a17a261176a25d2d8490b285a",
+    "w_8004DCEC.c": "4da9f2da2681337b378cbfc9d2675f5360a50a2c0d6c20e9e55b5028b9e43be3",
+    "w_8004DCEC_owned.c": "4068ae2303c6563c1113f7b4c93b9d9f2c4b9d20fbb1d7904d82dca1c8aaa725",
+    "w_8004DE88.c": "ad2c9fbfab8bd21ac9b6a5324b6c9d9c7962ba7464244a4aee01a6584ec3a666",
+    "w_8004DF8C.c": "5187d162fe3e261f51ae62a00967d5d03be0cf815fcf166c5d234d0f738494ce",
+    "include/slus/message_mode_81550.h": "3e13e4a8d0a0c782311f1ed557c48f363092fb9df07a57851676aac174d8e583"
+  },
+  "assembler_sha256": {
+    "cli": "d3e6ec7d120abe00f963c82258dfdeb0e228774adce646177525f1dbed925caf",
+    "package": "28e45bbcf00fc90dc0645250f233b73f96ad11d06a2f8230ce533fc2fafbbfbe"
+  },
+  "production_assembler_changed": false
+}

@@ -1,0 +1,42 @@
+{
+  "exact_full_physical_function_sets": {
+    "w_80047E78_owned": [
+      "func_80047E78"
+    ],
+    "w_80053CFC_owned": [
+      "func_80053CFC"
+    ],
+    "gp_shared_8152c": [
+      "func_80047D44",
+      "func_80047DF0",
+      "func_80047E30"
+    ],
+    "gp_d92c_owned": [
+      "func_8003D92C"
+    ],
+    "gp_order_bytes_owner": [
+      "func_80049F68"
+    ],
+    "w_8004437C_pair": [
+      "func_8004437C",
+      "func_8004450C"
+    ],
+    "w_8003FAD4": [
+      "func_8003FAD4"
+    ],
+    "w_80041588": [
+      "func_80041588"
+    ],
+    "w_80041AB0": [
+      "func_80041AB0"
+    ],
+    "w_80043CD0": [
+      "func_80043CD0"
+    ],
+    "w_8004AB7C": [
+      "func_8004AB7C"
+    ]
+  },
+  "physical": 11,
+  "functions": 14
+}
