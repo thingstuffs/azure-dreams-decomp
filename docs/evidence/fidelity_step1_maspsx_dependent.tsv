@@ -1,0 +1,611 @@
+# row	container	cfg	asflags	pins	closest_version	diff_words	words	cause	ablations_that_fix	diff_classes
+dungeon/func_7FFE7BE8	dungeon	2.8.1	--fill-shadowed-return-delay	0	2.56	3	53	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_7FFEF6A8	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.56	3	80	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80084084	dungeon	2.8.1-G0 -fno-cse-follow-jumps	--fill-shadowed-return-delay	5	2.67	3	175	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_800881EC	dungeon	2.8.1-G0 -fno-schedule-insns	--fill-shadowed-return-delay	0	2.67	3	41	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_8008A31C	dungeon	2.8.0-G0 -fno-rerun-cse-after-loop	--fill-shadowed-return-delay	5	2.67	3	181	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_8008AAA0	dungeon	2.8.1-G0 -fno-schedule-insns	--fill-shadowed-return-delay	0	2.67	3	38	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_8008B4B0	dungeon	2.8.1 -G0	--fill-shadowed-return-delay	0	2.67	3	520	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_8008D990	dungeon	2.8.0-G0 -fno-cse-follow-jumps	--fill-shadowed-return-delay	2	2.77	3	219	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_8008EE88	dungeon	2.95.2-G0	--fill-shadowed-return-delay	22	2.77	3	181	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_8008F814	dungeon	2.8.1-G0	--fill-shadowed-return-delay	2	2.67	3	316	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_8009069C	dungeon	2.8.1-G0 -fforce-addr	--fill-shadowed-return-delay	0	2.67	3	163	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80092518	dungeon	2.8.1-G0 -fno-cse-follow-jumps	--fill-shadowed-return-delay	0	2.67	3	80	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80092B48	dungeon	2.8.1	--fill-shadowed-return-delay	3	2.67	3	219	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80093898	dungeon	2.7.2	--fill-shadowed-return-delay	1	2.56	3	21	_fold_selfinc_la	no:_fold_selfinc_la	other:1,reloc:1
+dungeon/func_800938EC	dungeon	2.7.2-G0	--fill-shadowed-return-delay	0	2.56	3	17	_fold_selfinc_la	no:_fold_selfinc_la	other:1,reloc:1
+dungeon/func_80094C70	dungeon	2.95.2-G0 -fno-schedule-insns	--fill-shadowed-return-delay	3	2.67	3	92	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80094DE0	dungeon	2.8.1	--fill-shadowed-return-delay	5	2.67	3	75	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80095160	dungeon	2.8.1-G0 -fno-cse-skip-blocks	--fill-shadowed-return-delay	9	2.67	3	184	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_8009612C	dungeon	2.8.1-G0 -fno-rerun-cse-after-loop	--fill-shadowed-return-delay	2	2.67	3	360	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_800969CC	dungeon	2.8.0 -fno-cse-skip-blocks	--fill-shadowed-return-delay	16	2.67	3	516	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_8009AE44	dungeon	2.8.1-G0	--fill-shadowed-return-delay	13	2.67	3	139	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_8009E0EC	dungeon	2.8.1-G0	--fill-shadowed-return-delay	12	2.67	3	307	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_8009F018	dungeon	2.8.1-G0 -fno-expensive-optimizations	--fill-shadowed-return-delay	7	2.56	3	94	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_8009F190	dungeon	2.8.0	--fill-shadowed-return-delay	5	2.56	3	107	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_800A133C	dungeon	2.8.1 -fno-strength-reduce	--fill-shadowed-return-delay	0	2.67	4	53	_unfill_via_load_delay	no:_unfill_via_load_delay	other:2
+dungeon/func_800A172C	dungeon	2.95.2-G0 -fno-schedule-insns	--fill-shadowed-return-delay	7	2.67	3	105	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_800A21EC	dungeon	2.8.1	--fill-shadowed-return-delay	3	2.56	3	59	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_800A4C0C	dungeon	2.8.0	--fill-shadowed-return-delay	3	2.67	3	103	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_800A4DDC	dungeon	2.8.0 -mno-split-addresses	--fill-shadowed-return-delay	0	2.56	3	42	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_800A5DD8	dungeon	2.8.1-G0 -fno-cse-follow-jumps	--fill-shadowed-return-delay	0	2.67	3	144	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_800AC008	dungeon	2.8.1-G0	--fill-shadowed-return-delay	3	2.67	3	234	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_800AC3B0	dungeon	2.8.0	--fill-shadowed-return-delay	4	2.67	3	220	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_800AC914	dungeon	2.8.1-G0	--fill-shadowed-return-delay	1	2.67	3	81	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_800ADD2C	dungeon	2.8.1-G0 -fno-cse-follow-jumps	--fill-shadowed-return-delay	0	2.67	3	545	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_800B5B84	dungeon	2.8.1-G0 -fno-cse-follow-jumps	--fill-shadowed-return-delay	10	2.67	3	158	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_800B6D74	dungeon	2.8.1-G0 -fno-strength-reduce	--fill-shadowed-return-delay	15	2.67	3	357	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_800B968C	dungeon	2.95.2-G0 -fno-expensive-optimizations -fno-rerun-cse-after-loop	--fill-shadowed-return-delay	2	2.67	3	162	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_800BB144	dungeon	2.95.2-G0	--fill-shadowed-return-delay	0	2.67	3	175	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_800BB400	dungeon	2.8.1	--fill-shadowed-return-delay	5	2.67	3	202	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_800BB728	dungeon	2.8.1-G0 -fno-cse-follow-jumps	--fill-shadowed-return-delay	0	2.67	3	309	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_800BFE94	dungeon	2.8.0 -fno-expensive-optimizations	--fill-shadowed-return-delay	16	2.67	3	284	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_800C23D8	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	4	135	_unfill_via_load_delay	no:_unfill_via_load_delay	other:2
+dungeon/func_800C379C	dungeon	2.91.66-G0	--fill-shadowed-return-delay	4	2.67	3	78	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_800C3928	dungeon	2.8.0	--fill-shadowed-return-delay	8	2.67	7	334	several passes jointly: _rotate_marked_store_into_jal_delay+_maybe_unfill_return_delay	no:all-fired	other:5
+dungeon/func_800C81B0	dungeon	2.8.1-G0 -fno-schedule-insns	--fill-shadowed-return-delay	0	2.67	3	33	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_800C9858	dungeon	2.8.1-G0	--fill-shadowed-return-delay	28	2.67	3	587	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_800CB068	dungeon	2.8.1-G0 -fno-strength-reduce	--fill-shadowed-return-delay	3	2.67	3	390	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_800CFE34	dungeon	2.8.1-G0 -fno-cse-skip-blocks	--fill-shadowed-return-delay	1	2.67	3	182	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_800D1A48	dungeon	2.8.1	--fill-shadowed-return-delay	4	2.56	3	454	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_800D2E30	dungeon	2.8.1-G0 -fno-cse-skip-blocks	--fill-shadowed-return-delay	3	2.67	3	102	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_800D3B60	dungeon	2.8.1-G0 -fno-cse-skip-blocks	--fill-shadowed-return-delay	4	2.67	3	344	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_800D53F0	dungeon	2.8.1-G0 -fno-strength-reduce -fno-expensive-optimizations	--fill-shadowed-return-delay	1	2.67	3	189	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_800D6EF0	dungeon	2.8.1-G0 -fno-expensive-optimizations	--fill-shadowed-return-delay	0	2.67	3	53	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_800D6FC4	dungeon	2.8.1-G0 -fno-schedule-insns	--fill-shadowed-return-delay	0	2.67	3	66	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80284BEC	dungeon	2.8.0-G0	--fill-shadowed-return-delay	9	2.67	3	180	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80285A70	dungeon	2.8.1-G0	--fill-shadowed-return-delay	8	2.67	3	260	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_8028A328	dungeon	2.95.2-G0	--fill-shadowed-return-delay	3	2.67	3	97	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_8028A5D8	dungeon	2.8.1	--fill-shadowed-return-delay	5	2.67	3	253	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_8028B824	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	82	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_8028BF0C	dungeon	2.8.0-G0	--fill-shadowed-return-delay	1	2.67	3	264	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_809755A8	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	459	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80975CD4	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	337	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80976218	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	135	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80976434	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	466	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80976B7C	dungeon	2.8.0-G0	--fill-shadowed-return-delay	1	2.67	3	115	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80976D48	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	56	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80976F6C	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	37	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80977064	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	121	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80977248	dungeon	2.8.0-G0	--fill-shadowed-return-delay	4	2.67	3	531	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80977A94	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	181	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80977D88	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.56	3	11	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80977E0C	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	296	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_809782AC	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	213	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80978600	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	89	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_8099F0B4	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	120	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_8099F294	dungeon	2.8.1-G0 -fno-cse-follow-jumps	--fill-shadowed-return-delay	6	2.67	3	406	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_8099F8EC	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	364	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_8099FE9C	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	110	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_809A079C	dungeon	2.8.0-G0	--fill-shadowed-return-delay	1	2.67	3	166	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_809A0A34	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	73	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_809A0B58	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	74	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_809A0C80	dungeon	2.8.0-G0	--fill-shadowed-return-delay	3	2.67	3	123	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_809A10A8	dungeon	2.8.0-G0	--fill-shadowed-return-delay	1	2.67	3	333	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_809A15DC	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	300	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_809A1D60	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	350	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_809A22D8	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	181	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_809A2650	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	241	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_809A2A14	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	216	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_809A2D74	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	50	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_809A3110	dungeon	2.8.0-G0	--fill-shadowed-return-delay	1	2.67	3	113	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_809A35A0	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	62	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_809A4014	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	25	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_809A457C	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	49	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_809B18EC	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	364	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_809B78EC	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	364	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_809C38EC	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	364	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_809C9228	dungeon	2.8.1-G0 -fno-cse-follow-jumps	--fill-shadowed-return-delay	0	2.67	3	267	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_809CB224	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	316	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80A1F0C4	dungeon	2.8.1-G0	--fill-shadowed-return-delay	1	2.67	3	509	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80A35000	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	150	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80A41000	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	150	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80A47C0C	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	342	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80A48C28	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	74	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80A48F8C	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	121	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80A49170	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	280	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80A495D0	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	206	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80A49908	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	201	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80A49C2C	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.56	3	11	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80A49CB0	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	268	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80A4A0E0	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	213	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80A4A8E4	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	76	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80A4AB34	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	346	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80A4B678	dungeon	2.8.1-G0 -fno-schedule-insns	--fill-shadowed-return-delay	5	2.67	3	124	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80A4B914	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	87	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80A71654	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	455	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80A79A38	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	265	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80A7FA38	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	265	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80A85A38	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	265	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80A8BA38	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	265	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80A91A38	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	265	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80A97A38	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	265	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80A9B67C	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	462	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80A9D030	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	302	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80A9D4E8	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	339	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80A9DA34	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	277	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80A9EB18	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	41	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80A9EBBC	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	45	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80AA9A34	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	277	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80ABBA34	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	277	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80ABF07C	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	117	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80AC1A34	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	277	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80AC5F28	dungeon	2.8.1-G0	--fill-shadowed-return-delay	2	2.67	3	363	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80AC854C	dungeon	2.8.1-G0 -fno-cse-follow-jumps	--fill-shadowed-return-delay	2	2.67	3	228	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80AC88DC	dungeon	2.8.1-G0 -fno-cse-follow-jumps	--fill-shadowed-return-delay	1	2.67	3	195	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80AEFFF4	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	354	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80B1AA58	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	217	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80B1AE20	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	124	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80B1B010	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	316	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80B43670	dungeon	2.8.1-G0 -fno-cse-follow-jumps	--fill-shadowed-return-delay	2	2.67	3	345	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80B452F8	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	316	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80B6D65C	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	350	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80B6EA90	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	183	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80B6EDD0	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	269	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80B6F204	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	316	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80B6F6F4	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	208	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80B6FA34	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	79	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80B7F054	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	119	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80B9769C	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	349	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80B97C10	dungeon	2.8.1-G0 -fno-cse-skip-blocks	--fill-shadowed-return-delay	7	2.67	3	466	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80B9913C	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	286	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80BA9094	dungeon	2.8.1-G0	--fill-shadowed-return-delay	3	2.67	3	129	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80BAF094	dungeon	2.8.1-G0	--fill-shadowed-return-delay	4	2.67	3	129	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80BBB094	dungeon	2.8.1-G0	--fill-shadowed-return-delay	3	2.67	3	129	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80BC19D0	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	118	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80BC1BA8	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	397	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80BC21DC	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	379	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80BC27C8	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	132	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80BC3120	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	99	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80BC32AC	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	56	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80BC35B0	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	325	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80BC4214	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	131	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80BC4440	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.56	3	15	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80BC44D4	dungeon	2.8.1-G0 -fno-cse-follow-jumps	--fill-shadowed-return-delay	2	2.67	3	242	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80BC489C	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	213	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80BC7BA8	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	397	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80BCDBA8	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	397	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80BD3BA8	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	397	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80BD9BA8	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	397	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80BDFBA8	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	397	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80BE5BA8	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	397	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80BEB258	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	367	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80BEB814	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	344	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80BEC6CC	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	113	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80BEC890	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	73	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80BECBF0	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	109	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80BEE104	dungeon	2.95.2-G0 -fno-expensive-optimizations	--fill-shadowed-return-delay	11	2.67	3	121	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80BEE394	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	86	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80BFD000	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	150	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80C412B4	dungeon	2.8.1-G0	--fill-shadowed-return-delay	4	2.67	3	422	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80C6B224	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	223	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80C6B604	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	157	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80C6B878	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	383	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80CBD2E0	dungeon	2.8.1-G0 -fno-cse-skip-blocks	--fill-shadowed-return-delay	0	2.67	3	272	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80CBE9B0	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	226	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80CBED38	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	32	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80CBEDB8	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	120	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80CBEF98	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	286	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80CBF410	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	228	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80CBF800	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	21	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80CBFBF0	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	204	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80CBFF20	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	68	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80CC01AC	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	21	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80CC0398	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	305	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80CC085C	dungeon	2.8.1-G0	--fill-shadowed-return-delay	14	2.67	3	562	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80CC1724	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	223	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80CC25A4	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	28	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80CC2614	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	22	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80CC266C	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	111	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80CC2828	dungeon	2.8.1-G0	--fill-shadowed-return-delay	1	2.67	7	166	several passes jointly: _rotate_marked_store_into_jal_delay+_maybe_unfill_return_delay	no:all-fired	other:4
+dungeon/func_80CE7A1C	dungeon	2.8.0	--fill-shadowed-return-delay	1	2.67	3	184	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80CE83EC	dungeon	2.8.1-G0	--fill-shadowed-return-delay	6	2.77	3	94	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80CE8564	dungeon	2.8.1-G0	--fill-shadowed-return-delay	3	2.67	3	212	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80CE8CBC	dungeon	2.8.1 -G0	--fill-shadowed-return-delay	0	2.67	3	513	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80CE9758	dungeon	2.8.1-G0 -fno-cse-skip-blocks	--fill-shadowed-return-delay	6	2.67	3	456	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80CEAF2C	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	326	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80CEBD74	dungeon	2.8.1-G0	--fill-shadowed-return-delay	3	2.67	3	267	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80D11F60	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	350	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80D13E4C	dungeon	2.8.1-G0	--fill-shadowed-return-delay	1	2.67	3	320	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80D3C280	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	433	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80D3CBF8	dungeon	2.8.1-G0	--fill-shadowed-return-delay	3	2.67	3	469	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80D3D3B0	dungeon	2.8.1	--fill-shadowed-return-delay	2	2.67	3	118	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80D40744	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	80	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80D65E5C	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.56	3	73	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80D65F80	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	121	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80D66164	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	366	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80D6671C	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	357	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80D66CB0	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	143	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80D6760C	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	29	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80D67680	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	137	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80D678A4	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	78	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80D67BB4	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	248	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80D67FF8	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	196	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80D68308	dungeon	2.8.0-G0	--fill-shadowed-return-delay	3	2.67	3	460	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80D69CF0	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	41	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80D6A3E0	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	62	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80D8F668	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	328	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80D90514	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	4	27	_unfill_via_load_delay	no:_unfill_via_load_delay	other:2
+dungeon/func_80D90580	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	132	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80D90790	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	84	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80D90ABC	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	222	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80D90E98	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	118	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80D91070	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	301	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80D91524	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	224	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80D91E14	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	106	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80DA7000	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	143	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80DBC9D8	dungeon	2.8.1-G0 -fno-cse-follow-jumps	--fill-shadowed-return-delay	2	2.67	3	235	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80DE48EC	dungeon	2.8.0-G0	--fill-shadowed-return-delay	7	2.67	3	160	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80DE9000	dungeon	2.8.1-G0	--fill-shadowed-return-delay	6	2.67	3	150	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80DF5054	dungeon	2.8.1	--fill-shadowed-return-delay	2	2.67	3	129	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80E0F7C0	dungeon	2.8.1-G0	--fill-shadowed-return-delay	2	2.67	3	492	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80E376E4	dungeon	2.8.1-G0 -fno-cse-follow-jumps	--fill-shadowed-return-delay	1	2.67	3	351	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80E3B4CC	dungeon	2.8.1-G0	--fill-shadowed-return-delay	1	2.67	3	232	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80E61EF4	dungeon	2.8.1-G0	--fill-shadowed-return-delay	2	2.67	3	365	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80E65598	dungeon	2.8.1-G0	--fill-shadowed-return-delay	1	2.77	3	147	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80E8B8F4	dungeon	2.8.1-G0	--fill-shadowed-return-delay	1	2.67	3	356	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80E8D490	dungeon	2.8.1-G0	--fill-shadowed-return-delay	4	2.67	3	484	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80E91000	dungeon	2.8.0	--fill-shadowed-return-delay	0	2.67	3	189	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80E9D000	dungeon	2.8.0	--fill-shadowed-return-delay	0	2.67	3	189	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80EA3000	dungeon	2.8.0	--fill-shadowed-return-delay	0	2.67	3	189	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80EAF000	dungeon	2.8.0	--fill-shadowed-return-delay	0	2.67	3	189	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80EB506C	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	190	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80EB5364	dungeon	2.8.0-G0	--fill-shadowed-return-delay	5	2.67	3	400	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80EB59A4	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	330	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80EB6CF4	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	181	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80EB6FC8	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	341	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80EB751C	dungeon	2.8.0-G0	--fill-shadowed-return-delay	6	2.67	3	312	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80EB79FC	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	174	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80EB7D2C	dungeon	2.8.0-G0	--fill-shadowed-return-delay	2	2.67	3	297	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80EB886C	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	38	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80EBB06C	dungeon	2.8.0	--fill-shadowed-return-delay	0	2.67	3	190	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80EC706C	dungeon	2.8.0	--fill-shadowed-return-delay	0	2.67	3	190	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80ECD06C	dungeon	2.8.0	--fill-shadowed-return-delay	0	2.67	3	190	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80ED906C	dungeon	2.8.0	--fill-shadowed-return-delay	0	2.67	3	190	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80EE1FB0	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	353	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80F09054	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	142	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80F0928C	dungeon	2.8.0-G0	--fill-shadowed-return-delay	1	2.67	3	314	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80F0A9A4	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	89	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80F0B0C4	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	121	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80F0B2A8	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	316	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80F0B798	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	197	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80F0C3B8	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	50	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80F0F054	dungeon	2.8.1 -G0	--fill-shadowed-return-delay	0	2.67	3	142	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80F45000	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	154	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80F5F040	dungeon	2.8.0-G0	--fill-shadowed-return-delay	9	2.67	3	434	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80F6F070	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	115	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80F75070	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	115	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80F81070	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	115	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80F90E88	dungeon	2.8.1-G0 -mno-split-addresses	--fill-shadowed-return-delay	17	2.77	3	245	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80FA5000	dungeon	2.8.1	--fill-shadowed-return-delay	0	2.67	3	156	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80FD5000	dungeon	2.8.1-G0	--fill-shadowed-return-delay	7	2.67	3	208	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80FDB000	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	159	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80FDE420	dungeon	2.8.1-G0 -fno-cse-follow-jumps	--fill-shadowed-return-delay	2	2.67	3	218	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80FE1000	dungeon	2.8.1-G0	--fill-shadowed-return-delay	1	2.67	3	159	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80FE7000	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	159	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80FED000	dungeon	2.8.1-G0 -fno-rerun-cse-after-loop	--fill-shadowed-return-delay	3	2.67	3	159	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80FF3000	dungeon	2.8.1-G0 -fno-cse-follow-jumps	--fill-shadowed-return-delay	0	2.67	3	159	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80FF9000	dungeon	2.8.1-G0	--fill-shadowed-return-delay	1	2.67	3	159	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_80FFF000	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	159	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_8100508C	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	123	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_81005278	dungeon	2.8.1-G0	--fill-shadowed-return-delay	4	2.67	3	376	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_81005858	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	358	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_81006AE0	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	77	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_81006E50	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	121	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_81007034	dungeon	2.8.1-G0	--fill-shadowed-return-delay	1	2.67	3	299	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_810074E0	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	204	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_810078B4	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	267	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_81007CE0	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	213	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_81008208	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	279	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_8101D000	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	158	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_81031F30	dungeon	2.8.1-G0 -fno-cse-skip-blocks	--fill-shadowed-return-delay	0	2.67	3	178	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_810330FC	dungeon	2.91.66-G0	--fill-shadowed-return-delay	1	2.56	3	65	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_810592A4	dungeon	2.8.1-G0 -fno-cse-follow-jumps	--fill-shadowed-return-delay	3	2.67	3	305	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_8106B000	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	169	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_81071000	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	169	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_810830BC	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	114	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_810860B4	dungeon	2.8.1-G0	--fill-shadowed-return-delay	2	2.67	3	309	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_810ADDF4	dungeon	2.8.1-G0 -fno-cse-skip-blocks	--fill-shadowed-return-delay	2	2.67	3	537	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_810AEADC	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	38	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_810AEB74	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	187	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_810AEEC4	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	124	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_810AF0B4	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	362	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_810AF65C	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	196	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_81252D6C	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	376	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_81254460	dungeon	2.8.1-G0	--fill-shadowed-return-delay	6	2.67	3	67	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_8127C3E0	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	466	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_812A67A4	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	347	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_812A7C08	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	330	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_812A8130	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	297	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_812A8E10	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	168	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_812AC7A4	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	347	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_812B27A4	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	347	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_812B87A4	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	347	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_812BE7A4	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	347	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_812C47A4	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	347	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_812CA7A4	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	347	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_813231FC	dungeon	2.8.0-G0 -fno-expensive-optimizations	--fill-shadowed-return-delay	3	2.67	3	115	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_813236DC	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	131	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_81323F78	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	359	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_813274E4	dungeon	2.8.1-G0	--fill-shadowed-return-delay	1	2.67	3	118	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_813284E4	dungeon	2.8.1-G0 -fno-cse-skip-blocks	--fill-shadowed-return-delay	1	2.67	3	332	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_8133336C	dungeon	2.8.1-G0	--fill-shadowed-return-delay	3	2.67	3	790	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_81334230	dungeon	2.8.1-G0 -fno-cse-skip-blocks	--fill-shadowed-return-delay	5	2.67	3	457	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_81335190	dungeon	2.8.1-G0	--fill-shadowed-return-delay	1	2.67	3	303	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_81337998	dungeon	2.8.1-G0	--fill-shadowed-return-delay	7	2.67	3	116	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_81339534	dungeon	2.8.1 -fno-schedule-insns	--fill-shadowed-return-delay	0	2.67	3	115	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_8133C2A4	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	426	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_8180D680	dungeon	2.8.1-G0 -fno-strength-reduce	--fill-shadowed-return-delay	0	2.67	3	257	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_8180DA84	dungeon	2.8.1-G0 -fno-strength-reduce	--fill-shadowed-return-delay	0	2.67	3	129	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_8180DC88	dungeon	2.8.1-G0 -fno-strength-reduce	--fill-shadowed-return-delay	0	2.67	3	109	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_8180F208	dungeon	2.95.2-G0	--fill-shadowed-return-delay	0	2.67	3	363	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_81811E30	dungeon	2.8.0-G0 -mno-split-addresses	--fill-shadowed-return-delay	0	2.56	2	16	_fold_selfinc_la	no:_fold_selfinc_la	other:1
+dungeon/func_81811E70	dungeon	2.8.0 -mno-split-addresses	--fill-shadowed-return-delay	0	2.56	3	20	_fold_selfinc_la	no:_fold_selfinc_la	other:2
+dungeon/func_81811EC0	dungeon	2.8.1-G0 -mno-split-addresses	--fill-shadowed-return-delay	0	2.56	2	17	_fold_selfinc_la	no:_fold_selfinc_la	other:1
+dungeon/func_81811F54	dungeon	2.7.2-G0	--fill-shadowed-return-delay	2	2.56	3	21	_fold_selfinc_la	no:_fold_selfinc_la	other:2
+dungeon/func_81850800	dungeon	2.8.1-G0	--fill-shadowed-return-delay	8	2.67	3	503	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_81875B38	dungeon	2.8.1-G0 -fno-schedule-insns	--fill-shadowed-return-delay	4	2.67	3	78	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_81876014	dungeon	2.8.1-G0 -fno-schedule-insns	--fill-shadowed-return-delay	8	2.67	3	113	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_8187A9A8	dungeon	2.8.1-G0	--fill-shadowed-return-delay	15	2.67	3	510	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_81881F60	dungeon	2.8.1-G0 -fno-schedule-insns	--fill-shadowed-return-delay	0	2.67	3	27	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_8189E820	dungeon	2.8.1	--fill-shadowed-return-delay	0	2.67	3	69	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_818AA83C	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.56	3	39	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_818AABB8	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	170	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_818AAE60	dungeon	2.8.0-G0	--fill-shadowed-return-delay	14	2.67	3	435	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_818D4B94	dungeon	2.8.1-G0 -fno-cse-skip-blocks	--fill-shadowed-return-delay	6	2.67	3	109	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_818D4E68	dungeon	2.7.2-G0	--fill-shadowed-return-delay	37	2.56	20	678	_split_funcaddr_la	no:_split_funcaddr_la	other:6,reloc:14
+dungeon/func_818E6800	dungeon	2.8.0	--fill-shadowed-return-delay	10	2.67	3	486	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_818FF5B8	dungeon	2.8.1-G0	--fill-shadowed-return-delay	3	2.77	3	86	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_819059A0	dungeon	2.8.1-G0 -fno-schedule-insns	--fill-shadowed-return-delay	0	2.67	3	61	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_81910A9C	dungeon	2.8.0-G0 -fno-expensive-optimizations	--fill-shadowed-return-delay	5	2.67	3	265	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_81911BF4	dungeon	2.8.0-G0	--fill-shadowed-return-delay	6	2.67	3	288	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_81912154	dungeon	2.8.1-G0	--fill-shadowed-return-delay	16	2.67	7	454	several passes jointly: _rotate_marked_store_into_jal_delay+_maybe_unfill_return_delay	no:all-fired	other:4
+dungeon/func_81934928	dungeon	2.8.1-G0 -fno-cse-follow-jumps	--fill-shadowed-return-delay	5	2.67	3	205	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_81946800	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.67	3	221	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_8194C81C	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.56	3	53	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_8194C8F0	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	233	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_8194CC94	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	50	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_8194CD5C	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	105	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_8194D118	dungeon	2.8.0-G0	--fill-shadowed-return-delay	0	2.67	3	51	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_8194D1E4	dungeon	2.8.0-G0	--fill-shadowed-return-delay	2	2.77	3	92	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_819602D8	dungeon	2.8.0-G0 -fforce-addr	--fill-shadowed-return-delay	10	2.67	3	109	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_819611CC	dungeon	2.8.0 -fno-cse-skip-blocks	--fill-shadowed-return-delay	9	2.67	7	119	several passes jointly: _rotate_marked_store_into_jal_delay+_maybe_unfill_return_delay	no:all-fired	other:5
+dungeon/func_8196B2F8	dungeon	2.8.1	--fill-shadowed-return-delay	9	2.56	3	107	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_81976850	dungeon	2.8.1-G0 -fno-cse-follow-jumps	--fill-shadowed-return-delay	0	2.67	3	220	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_8197C800	dungeon	2.8.1	--fill-shadowed-return-delay	13	2.67	3	432	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_81983138	dungeon	2.8.1-G0	--fill-shadowed-return-delay	1	2.67	3	95	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_81984754	dungeon	2.8.1-G0 -fno-cse-follow-jumps	--fill-shadowed-return-delay	1	2.67	3	187	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_81988800	dungeon	2.8.1-G0 -fno-strength-reduce	--fill-shadowed-return-delay	2	2.67	3	263	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_819AD81C	dungeon	2.8.1-G0 -fno-cse-follow-jumps	--fill-shadowed-return-delay	1	2.67	3	359	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_819ADDB8	dungeon	2.8.0	--fill-shadowed-return-delay	8	2.67	3	134	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_819AE378	dungeon	2.8.1-G0	--fill-shadowed-return-delay	0	2.77	3	108	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+dungeon/func_819B3414	dungeon	2.7.2-G0	--fill-shadowed-return-delay	35	2.56	7	266	_fold_selfinc_la	no:_fold_selfinc_la	other:6,reloc:1
+dungeon/func_819BF9F4	dungeon	2.8.1-G0	--fill-shadowed-return-delay	5	2.77	3	277	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+main/func_8000E68C	main	2.8.1	-	0	2.67	3	82	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+main/func_8000F524	main	2.8.1-G0	-	0	2.67	3	97	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+main/func_8000FCD8	main	2.8.1-G0	-	0	2.67	3	34	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+main/func_80011818	main	2.8.0	-	0	2.67	3	103	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+main/func_8001270C	main	2.8.1	-	0	2.67	3	31	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+main/func_80012848	main	2.8.1-G0 -fno-expensive-optimizations	-	0	2.67	3	32	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+main/func_80013128	main	2.8.1-G0	-	1	2.56	3	38	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+main/func_800139B4	main	2.8.1-G0 -fno-strength-reduce	-	0	2.67	3	76	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+main/func_8001EB98	main	2.95.2+-fno-schedule-insns	-	0	2.56	3	43	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+ovmovie/func_800400AC	ovmovie	2.8.1-G0	-	0	2.67	3	139	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+ovmovie/func_80040360	ovmovie	2.8.1+-G0 -fno-schedule-insns	-	0	2.67	3	35	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+ovmovie/func_800413C0	ovmovie	2.8.1-G0	-	0	2.67	10	38	several passes jointly: _unfill_via_load_delay+_rewrite_arg_sibcall_jal_to_j	no:all-fired	other:6
+slus/code	slus	2.7.2	-	0	2.56	53	1263	small-extern $gp model (.extern sizes)	extern-abs	delay-slot:8,gp-extern:10,other:16
+slus/code2	slus	2.8.1	-	0	2.67	35	241	combined: extern-abs+no:all-fired	extern-abs+no:all-fired,asv:2.67+extern-abs+no:all-fired	gp-extern:4,other:13,delay-slot:2
+slus/code7	slus	2.8.1 -fno-schedule-insns2	-	0	2.67	8	24	_unfill_via_load_delay	no:_unfill_via_load_delay	other:4
+slus/konami_runtime_w_80033D44	slus	2.7.2	-	0	2.56	2	4	small-extern $gp model (.extern sizes)	extern-abs	gp-extern:1
+slus/konami_runtime_w_80033D54	slus	2.8.1	-	3	2.67	13	537	combined: extern-abs+no:all-fired	extern-abs+no:all-fired,asv:2.67+extern-abs+no:all-fired	gp-extern:1,reloc:8,other:2
+slus/konami_runtime_w_80035484	slus	2.7.2-cdk	-	0	2.67	2	90	small-extern $gp model (.extern sizes)	extern-abs	gp-extern:1
+slus/konami_runtime_w_80035888	slus	2.7.2-cdk	-	0	2.67	4	93	small-extern $gp model (.extern sizes)	extern-abs	gp-extern:2
+slus/konami_runtime_w_80035DBC	slus	2.8.1	-	0	2.67	3	39	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+slus/konami_runtime_w_80037D9C	slus	2.8.1	-	0	2.67	3	47	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+slus/konami_runtime_w_80038240	slus	2.8.1	-	0	2.56	4	18	_unfill_via_load_delay	no:_unfill_via_load_delay	other:2
+slus/konami_runtime_w_80038A10	slus	2.7.2-cdk	-	0	2.67	2	42	small-extern $gp model (.extern sizes)	extern-abs	gp-extern:1
+slus/konami_runtime_w_8003ADB4	slus	2.8.1	-	0	2.67	4	16	_unfill_via_load_delay	no:_unfill_via_load_delay	other:2
+slus/konami_runtime_w_8003B7C8	slus	2.7.2	-	0	2.56	3	22	_fold_selfinc_la	no:_fold_selfinc_la	other:2
+slus/konami_runtime_w_8003B92C	slus	2.8.1	-	0	2.56	4	23	_unfill_via_load_delay	no:_unfill_via_load_delay	other:2
+slus/konami_runtime_w_8003BAF8	slus	2.8.1	-	1	2.67	3	143	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay,no:all-fired	delay-slot:2
+slus/konami_runtime_w_8003C634	slus	2.7.2-cdk	-	0	2.67	2	18	small-extern $gp model (.extern sizes)	extern-abs	gp-extern:1
+slus/konami_runtime_w_8003C6F8	slus	2.7.2-cdk	-	0	2.67	2	24	small-extern $gp model (.extern sizes)	extern-abs	gp-extern:1
+slus/konami_runtime_w_8003C758	slus	2.7.2-cdk	-	0	2.67	5	32	small-extern $gp model (.extern sizes)	extern-abs	other:1,gp-extern:2
+slus/konami_runtime_w_8003C920	slus	2.7.2-cdk	-	0	2.67	2	54	small-extern $gp model (.extern sizes)	extern-abs	gp-extern:1
+slus/w_8003CB08	slus	2.7.2-cdk	-	0	2.67	26	106	small-extern $gp model (.extern sizes)	extern-abs	other:4,gp-extern:10
+slus/w_8003CCB0	slus	2.7.2-cdk	-	9	2.67	18	272	small-extern $gp model (.extern sizes)	extern-abs	gp-extern:6,other:4
+slus/w_8003D92C	slus	2.7.2	-	5	2.56	38	136	small-extern $gp model (.extern sizes)	extern-abs	other:9,gp-extern:9,reloc:3
+slus/w_8003E188	slus	2.95.2 -G0 -fno-schedule-insns	-	0	2.67	3	15	_fold_lo_into_accesses	no:_fold_lo_into_accesses	other:1,reloc:2
+slus/w_8003E1FC	slus	2.8.1	-	0	2.67	4	17	_unfill_via_load_delay	no:_unfill_via_load_delay	other:2
+slus/w_8003E2D8	slus	2.8.1	-	0	2.67	3	29	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+slus/w_8003E34C	slus	2.7.2-cdk	-	0	2.67	8	20	small-extern $gp model (.extern sizes)	extern-abs	gp-extern:2
+slus/w_8003E4FC	slus	2.7.2-cdk	-	0	2.56	31	132	small-extern $gp model (.extern sizes)	extern-abs	other:8,reloc:15,gp-extern:3
+slus/w_8003E70C	slus	2.8.1	-	0	2.67	4	19	_unfill_via_load_delay	no:_unfill_via_load_delay	other:2
+slus/w_8003E758	slus	2.7.2-cdk -G32 -fno-expensive-optimizations	-	2	2.67	154	698	small-extern $gp model (.extern sizes)	extern-abs	gp-extern:32,other:57,reloc:28
+slus/w_8003F2A4	slus	2.6.3 -fno-schedule-insns	-	0	2.56	8	31	small-extern $gp model (.extern sizes)	extern-abs	other:1,gp-extern:3,reloc:1
+slus/w_8003F368	slus	2.7.2	-	1	2.56	26	113	small-extern $gp model (.extern sizes)	extern-abs	gp-extern:9,other:4,reloc:2
+slus/w_8003F5AC	slus	2.7.2-cdk	-	0	2.67	3	10	small-extern $gp model (.extern sizes)	extern-abs	gp-extern:1,reloc:1
+slus/w_8003F624	slus	2.7.2	-	0	2.56	2	25	small-extern $gp model (.extern sizes)	extern-abs	gp-extern:1
+slus/w_8003F80C	slus	2.8.1	-	0	2.67	3	59	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+slus/w_80041038	slus	2.8.1	-	0	2.67	4	23	_unfill_via_load_delay	no:_unfill_via_load_delay	other:2
+slus/w_80041094	slus	2.8.1	-	0	2.67	3	26	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+slus/w_80041134	slus	2.8.1	-	0	2.67	8	30	small-extern $gp model (.extern sizes)	extern-abs	other:3,gp-extern:2,reloc:1
+slus/w_800411AC	slus	2.8.1	-	0	2.67	3	20	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+slus/w_800411FC	slus	2.8.1	-	0	2.67	3	34	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+slus/w_80041344	slus	2.8.1	-	2	2.67	3	145	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+slus/w_80041818	slus	2.8.1	-	0	2.67	3	39	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+slus/w_80041AB0	slus	2.7.2	-	0	2.56	4	13	_split_funcaddr_la	no:_split_funcaddr_la	other:3
+slus/w_80041AE4	slus	2.8.1 -G16	-	0	2.67	6	45	combined: extern-abs+no:all-fired	extern-abs+no:all-fired,asv:2.67+extern-abs+no:all-fired	reloc:1,gp-extern:1,other:2
+slus/w_80041B98	slus	2.7.2-cdk	-	0	2.67	2	19	small-extern $gp model (.extern sizes)	extern-abs	gp-extern:1
+slus/w_80041BE4	slus	2.7.2-cdk	-	0	2.67	7	32	small-extern $gp model (.extern sizes)	extern-abs	other:2,gp-extern:2,reloc:1
+slus/w_80041C64	slus	2.8.1	-	0	2.67	6	22	combined: extern-abs+no:all-fired	extern-abs+no:all-fired,asv:2.67+extern-abs+no:all-fired	gp-extern:1,other:2
+slus/w_80041CBC	slus	2.8.1 -G0	-	3	2.67	3	91	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+slus/w_80043CD0	slus	2.7.2	-	0	2.56	4	13	_split_funcaddr_la	no:_split_funcaddr_la	other:3
+slus/w_80043D04	slus	2.8.1 -G16	-	0	2.67	6	45	combined: extern-abs+no:all-fired	extern-abs+no:all-fired,asv:2.67+extern-abs+no:all-fired	reloc:1,gp-extern:1,other:2
+slus/w_80043DB8	slus	2.7.2-cdk	-	0	2.67	2	19	small-extern $gp model (.extern sizes)	extern-abs	gp-extern:1
+slus/w_80043E04	slus	2.8.1	-	0	2.67	8	23	combined: extern-abs+no:all-fired	extern-abs+no:all-fired,asv:2.67+extern-abs+no:all-fired	other:3,gp-extern:1,reloc:1
+slus/w_80043E60	slus	2.8.1	-	0	2.67	6	22	combined: extern-abs+no:all-fired	extern-abs+no:all-fired,asv:2.67+extern-abs+no:all-fired	gp-extern:1,other:2
+slus/w_80043EB8	slus	2.8.1	-	1	2.67	3	64	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+slus/w_8004437C	slus	2.7.2-cdk	-	0	2.67	17	100	small-extern $gp model (.extern sizes)	extern-abs	gp-extern:7,reloc:2
+slus/w_8004450C	slus	2.7.2	-	0	2.56	6	53	small-extern $gp model (.extern sizes)	extern-abs	gp-extern:2,other:1,reloc:1
+slus/w_80044618	slus	2.7.2	-	0	2.56	7	32	small-extern $gp model (.extern sizes)	extern-abs	gp-extern:2,reloc:2,other:1
+slus/w_80044698	slus	2.7.2	-	0	2.56	6	35	small-extern $gp model (.extern sizes)	extern-abs	other:2,gp-extern:2
+slus/w_800448BC	slus	2.7.2	-	0	2.56	2	24	small-extern $gp model (.extern sizes)	extern-abs	gp-extern:1
+slus/w_80044AAC	slus	2.8.1	-	0	2.67	3	39	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+slus/w_80044B48	slus	2.8.1	-	0	2.67	3	26	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+slus/w_80045340	slus	2.8.1	-	0	2.67	9	40	combined: extern-abs+no:all-fired	extern-abs+no:all-fired,asv:2.67+extern-abs+no:all-fired	gp-extern:2,other:3,reloc:1
+slus/w_800453E0	slus	2.7.2-cdk	-	5	2.67	8	533	small-extern $gp model (.extern sizes)	extern-abs	other:4,gp-extern:1,reloc:2
+slus/w_800463EC	slus	2.7.2-cdk -O2	-	9	2.67	4	294	_rotate_marked_store_into_jal_delay	no:_rotate_marked_store_into_jal_delay	other:3
+slus/w_8004713C	slus	2.7.2	-	0	2.56	6	49	small-extern $gp model (.extern sizes)	extern-abs	other:2,gp-extern:2
+slus/w_80047338	slus	2.7.2-cdk	-	0	2.67	48	76	small-extern $gp model (.extern sizes)	extern-abs	gp-extern:12,other:4
+slus/w_80047468	slus	2.7.2-cdk	-	0	2.67	48	79	small-extern $gp model (.extern sizes)	extern-abs	gp-extern:13,other:4
+slus/w_80047C00	slus	2.8.1	-	0	2.67	3	24	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+slus/w_80047D44	slus	2.7.2	-	0	2.56	2	29	small-extern $gp model (.extern sizes)	extern-abs	gp-extern:1
+slus/w_80047DF0	slus	2.7.2	-	0	2.56	2	16	small-extern $gp model (.extern sizes)	extern-abs	gp-extern:1
+slus/w_80047E30	slus	2.7.2	-	0	2.56	2	18	small-extern $gp model (.extern sizes)	extern-abs	gp-extern:1
+slus/w_80047E78	slus	2.7.2	-	0	2.56	2	29	small-extern $gp model (.extern sizes)	extern-abs	gp-extern:1
+slus/w_80048190	slus	2.8.1	-	0	2.67	4	20	_unfill_via_load_delay	no:_unfill_via_load_delay	other:2
+slus/w_80048224	slus	2.7.2	-	0	2.56	3	22	_prefer_lui_over_sll_branch_delay	no:_prefer_lui_over_sll_branch_delay	other:3
+slus/w_80048500	slus	2.8.1	-	0	2.67	3	26	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+slus/w_80048660	slus	2.7.2-cdk	-	0	2.67	44	53	small-extern $gp model (.extern sizes)	extern-abs	gp-extern:10,other:4
+slus/w_80048998	slus	2.8.1	-	0	2.67	4	23	_unfill_via_load_delay	no:_unfill_via_load_delay	other:2
+slus/w_80048B28	slus	2.8.1	-	0	2.67	3	25	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+slus/w_80048EE4	slus	2.8.1	-	0	2.56	3	42	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+slus/w_80049004	slus	2.8.1	-	0	2.56	3	83	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+slus/w_800494B4	slus	2.8.1	-	0	2.67	3	18	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+slus/w_80049F68	slus	2.7.2-cdk -fno-strength-reduce	-	6	2.67	2	50	small-extern $gp model (.extern sizes)	extern-abs	gp-extern:1
+slus/w_8004A330	slus	2.8.1	-	0	2.67	3	77	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+slus/w_8004A6C0	slus	2.7.2	-	0	2.56	3	16	_fold_selfinc_la	no:_fold_selfinc_la	other:2
+slus/w_8004A700	slus	2.7.2-cdk	-	0	2.67	4	33	_fold_lo_into_accesses	no:_fold_lo_into_accesses	other:3
+slus/w_8004A7D8	slus	2.7.2-cdk	-	0	2.67	4	25	_fold_lo_into_accesses	no:_fold_lo_into_accesses	other:3
+slus/w_8004AB7C	slus	2.7.2	-	0	2.56	4	39	_sink_call_separated_la	no:_sink_call_separated_la	other:2
+slus/w_8004B08C	slus	2.7.2-cdk	-	0	2.67	2	70	small-extern $gp model (.extern sizes)	extern-abs	gp-extern:1
+slus/w_8004B42C	slus	2.8.1 -G0 -fno-schedule-insns	-	0	2.56	3	31	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+slus/w_8004B854	slus	2.8.1	-	0	2.56	3	26	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+slus/w_8004CAA0	slus	2.7.2 -fno-schedule-insns2	-	0	2.56	3	18	_unfill_jal_sp_delay	no:_unfill_jal_sp_delay	delay-slot:2
+slus/w_8004D4AC	slus	2.8.1	-	0	2.67	3	73	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+slus/w_8004D5D0	slus	2.8.1	-	0	2.67	4	17	_unfill_via_load_delay	no:_unfill_via_load_delay	other:2
+slus/w_8004D614	slus	2.8.1	-	0	2.67	11	31	combined: extern-abs+no:all-fired	extern-abs+no:all-fired,asv:2.67+extern-abs+no:all-fired	gp-extern:1,other:2
+slus/w_8004D7A8	slus	2.8.1	-	0	2.67	4	16	_unfill_via_load_delay	no:_unfill_via_load_delay	other:2
+slus/w_8004D7E8	slus	2.8.1	-	0	2.67	4	16	_unfill_via_load_delay	no:_unfill_via_load_delay	other:2
+slus/w_8004DCA8	slus	2.8.1	-	1	2.67	4	14	small-extern $gp model (.extern sizes)	extern-abs	gp-extern:2
+slus/w_8004DCEC	slus	2.7.2-cdk -fno-schedule-insns -fno-delayed-branch	-	0	2.67	2	16	small-extern $gp model (.extern sizes)	extern-abs	gp-extern:1
+slus/w_8004DD2C	slus	2.7.2-cdk	-	0	2.67	14	34	small-extern $gp model (.extern sizes)	extern-abs	gp-extern:5
+slus/w_8004DDE4	slus	2.7.2-cdk -fno-schedule-insns	-	0	2.67	16	41	small-extern $gp model (.extern sizes)	extern-abs	gp-extern:6
+slus/w_8004DE88	slus	2.7.2-cdk	-	3	2.67	2	65	small-extern $gp model (.extern sizes)	extern-abs	gp-extern:1
+slus/w_8004DF8C	slus	2.7.2-cdk	-	1	2.67	4	72	small-extern $gp model (.extern sizes)	extern-abs	gp-extern:2
+slus/w_8004E130	slus	2.7.2-cdk	-	0	2.67	8	22	small-extern $gp model (.extern sizes)	extern-abs	gp-extern:3
+slus/w_8004EA70	slus	2.8.1	-	0	2.67	3	21	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+slus/w_8004ED5C	slus	2.8.1	-	0	2.67	3	19	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+slus/w_8004EDA8	slus	2.8.1	-	0	2.67	3	34	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+slus/w_8004F418	slus	2.8.1	-	0	2.67	3	69	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+slus/w_8004F5F4	slus	2.8.1 -G0	-	0	2.67	3	34	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+slus/w_8004F95C	slus	2.8.1	-	0	2.67	3	20	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+slus/w_8004FA2C	slus	2.8.1	-	0	2.67	3	30	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+slus/w_80050308	slus	2.8.1	-	0	2.67	3	99	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+slus/w_800504B4	slus	2.8.1	-	0	2.67	4	39	_unfill_via_load_delay	no:_unfill_via_load_delay	other:2
+slus/w_80050640	slus	2.8.1	-	0	2.67	3	21	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+slus/w_800508F0	slus	2.7.2	-	0	2.56	4	35	small-extern $gp model (.extern sizes)	extern-abs	gp-extern:2
+slus/w_80050DA8	slus	2.7.2-cdk	-	0	2.67	3	30	small-extern $gp model (.extern sizes)	extern-abs	other:1,gp-extern:1
+slus/w_80050E20	slus	2.7.2-cdk	-	0	2.67	2	34	small-extern $gp model (.extern sizes)	extern-abs	gp-extern:1
+slus/w_80050EA8	slus	2.8.1	-	0	2.56	3	20	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+slus/w_80051164	slus	2.8.1	-	0	2.67	3	20	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+slus/w_80051708	slus	2.8.1	-	0	2.67	3	41	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+slus/w_80051BFC	slus	2.8.1	-	0	2.67	3	42	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+slus/w_80053428	slus	2.8.1	-	0	2.67	3	119	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+slus/w_80053CFC	slus	2.7.2	-	1	2.56	8	26	small-extern $gp model (.extern sizes)	extern-abs	gp-extern:3
+slus/w_80053F98	slus	2.8.1	-	0	2.67	4	49	_unfill_via_load_delay	no:_unfill_via_load_delay	other:2
+slus/w_8005440C	slus	2.8.1	-	0	2.67	3	38	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+slus/w_800544A4	slus	2.8.1	-	0	2.67	3	37	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+slus/w_800546B0	slus	2.8.1	-	0	2.67	4	21	_unfill_via_load_delay	no:_unfill_via_load_delay	other:2
+slus/w_800549FC	slus	2.8.1	-	0	2.67	3	32	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+slus/w_80054CD4	slus	2.8.1	-	0	2.67	3	36	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+slus/w_80054E00	slus	2.8.1	-	0	2.67	3	103	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+slus/w_800553D4	slus	2.8.1	-	0	2.67	3	86	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+slus/w_800559B4	slus	2.8.1 -G0	-	0	2.67	3	74	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+slus/w_80055B44	slus	2.8.1	-	0	2.67	4	37	_unfill_via_load_delay	no:_unfill_via_load_delay	other:2
+slus/w_800563B0	slus	2.8.1	-	0	2.67	4	22	_unfill_via_load_delay	no:_unfill_via_load_delay	other:2
+slus/w_80056408	slus	2.8.1	-	0	2.67	3	40	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+slus/w_800564A8	slus	2.8.1	-	0	2.67	3	44	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+slus/w_80056558	slus	2.8.1	-	0	2.67	3	32	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+slus/w_80056D44	slus	2.8.1	-	0	2.67	4	28	_unfill_via_load_delay	no:_unfill_via_load_delay	other:2
+slus/w_80058494	slus	2.8.1	-	0	2.67	4	20	_unfill_via_load_delay	no:_unfill_via_load_delay	other:2
+slus/w_800585A0	slus	2.8.1	-	0	2.67	3	39	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+slus/w_80058850	slus	2.8.1	-	0	2.67	3	30	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+slus/w_80058940	slus	2.8.1	-	0	2.67	3	30	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+slus/w_80058B70	slus	2.8.1	-	0	2.67	3	184	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+slus/w_8005914C	slus	2.8.1 -fno-strength-reduce	-	1	2.67	4	204	_unfill_via_load_delay	no:_unfill_via_load_delay	other:2
+slus/w_80059BC4	slus	2.8.1 -fno-strength-reduce	-	0	2.67	3	86	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+slus/w_80059E94	slus	2.8.1 -fno-schedule-insns	-	1	2.67	3	62	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+slus/w_8005A2FC	slus	2.8.1	-	0	2.67	4	16	_unfill_via_load_delay	no:_unfill_via_load_delay	other:2
+slus/w_8005ACDC	slus	2.8.1	-	0	2.67	3	75	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+slus/w_8005B378	slus	2.8.1	-	0	2.67	3	24	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+slus/w_8005D7BC	slus	2.7.2 -G0	-	0	2.56	3	31	_hoist_zero_arg_before_global_clears	no:_hoist_zero_arg_before_global_clears	other:2,rtype:1
+town/func_8009A0E4	town	2.91.66-G0	-	0	2.56	3	58	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+town/func_800A1480	town	2.7.2-G0	-	0	2.56	4	23	_fold_selfinc_la	no:_fold_selfinc_la	other:3
+town/func_800A2244	town	2.7.2-G0	-	0	2.56	2	12	_fold_selfinc_la	no:_fold_selfinc_la	other:1
+town/func_800A7434	town	2.8.1 -fno-cse-follow-jumps	-	0	2.67	4	31	_unfill_via_load_delay	no:_unfill_via_load_delay	other:2
+town/func_800A8F24	town	2.8.1-G0 -fno-expensive-optimizations	-	0	2.56	3	143	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+town/func_800AC018	town	2.8.1 -G0 -fno-schedule-insns	-	0	2.67	3	24	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+town/func_800B0BC4	town	2.8.1-G0 -fno-rerun-cse-after-loop	-	0	2.56	3	60	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+town/func_800B7CEC	town	2.8.0-G0	-	5	2.77	3	68	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+town/func_800B998C	town	2.8.1-G0	-	6	2.67	3	115	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+town/func_800B9B58	town	2.91.66	-	1	2.67	4	23	_unfill_via_load_delay	no:_unfill_via_load_delay	other:2
+town/func_800BAE88	town	2.91.66-G0 -fno-gcse	-	7	2.67	3	147	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+town/func_800BEB30	town	2.95.2-G0	-	0	2.67	3	64	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+town/func_800C3800	town	2.6.3-G0	-	1	2.56	4	17	_fold_selfinc_la	no:_fold_selfinc_la	other:1,reloc:2
+town/func_800C738C	town	2.95.2-G0	-	3	2.67	4	61	_unfill_via_load_delay	no:_unfill_via_load_delay	other:2
+town/func_800C8810	town	2.8.1-G0 -fno-expensive-optimizations	-	0	2.67	3	27	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+town/func_8032E2EC	town	2.8.1-G0 -fno-schedule-insns -fno-schedule-insns2	-	0	2.67	4	15	_unfill_via_load_delay	no:_unfill_via_load_delay	other:2
+town/func_8032E44C	town	2.95.2-G0 -fno-schedule-insns -fno-schedule-insns2	-	0	2.67	3	50	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+town/func_8032E514	town	2.8.1-G0 -fno-schedule-insns2 -fno-cse-skip-blocks	-	0	2.67	3	72	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+town/func_8032EF6C	town	2.8.1-G0 -fno-schedule-insns -fno-schedule-insns2	-	0	2.56	3	61	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+town/func_8032F060	town	2.8.1-G0 -O1	-	0	2.56	3	37	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+town/func_8032F234	town	2.8.1-G0 -fno-schedule-insns2	-	0	2.67	3	33	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+town/func_803308E8	town	2.8.1-G0 -fno-schedule-insns2	-	0	2.56	3	32	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+town/func_803334D4	town	2.8.1	-	0	2.67	3	40	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+town/func_8035A5E4	town	2.8.1-G0	-	0	2.67	4	14	_unfill_via_load_delay	no:_unfill_via_load_delay	other:2
+town/func_8046C188	town	2.8.1 -fno-cse-skip-blocks	-	2	2.67	3	62	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+town/func_8047E0D8	town	2.8.0-G0	-	0	2.67	5	22	several passes jointly: _unfill_via_load_delay+_rewrite_tail_call_jal_to_j	no:all-fired	jal-j:1,other:2
+town/func_8047E1C0	town	2.8.0-G0	-	0	2.67	3	35	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+town/func_8047E278	town	2.8.0-G0	-	0	2.67	4	16	_unfill_via_load_delay	no:_unfill_via_load_delay	other:2
+town/func_8047E8B4	town	2.8.0-G0	-	0	2.56	4	12	_unfill_via_load_delay	no:_unfill_via_load_delay	other:2
+town/func_804F027C	town	2.8.1-G0	-	0	2.67	4	20	_unfill_via_load_delay	no:_unfill_via_load_delay	other:2
+town/func_80615500	town	2.8.1-G0 -fno-schedule-insns	-	0	2.67	4	29	_unfill_via_load_delay	no:_unfill_via_load_delay	other:2
+town/func_80647308	town	2.8.1-G0	-	0	2.67	4	17	_unfill_via_load_delay	no:_unfill_via_load_delay	other:2
+town/func_806A9100	town	2.8.1	-	0	2.67	3	26	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+town/func_806CF118	town	2.8.1-G0	-	0	2.67	3	28	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+town/func_806D4B9C	town	2.95.2-G0	-	4	2.67	3	73	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+town/func_8077DC0C	town	2.8.1-G0	-	0	2.67	4	35	_unfill_via_load_delay	no:_unfill_via_load_delay	other:2
+town/func_8079A1EC	town	2.8.1-G0	-	0	2.67	4	21	_unfill_via_load_delay	no:_unfill_via_load_delay	other:2
+town/func_80813E14	town	2.8.1-G0 -mno-split-addresses	--preserve-casesi-at	0	2.56	3	233	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+town/func_8081822C	town	2.91.66-G0	-	9	2.67	3	124	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+town/func_80819B14	town	2.8.1-G0	-	2	2.67	3	278	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+town/func_8081F8A8	town	2.8.1-G0 -fno-expensive-optimizations	-	0	2.67	3	97	_maybe_unfill_return_delay	no:_maybe_unfill_return_delay	delay-slot:2
+town/func_808213CC	town	2.7.2	--prefer-target-arg-setup	2	2.56	2	133	_prefer_marked_target_arg_setup	no:_prefer_marked_target_arg_setup,drop:--prefer-target-arg-setup	other:2
+town/func_80874D84	town	2.7.2	--aspsx-version=2.40	1	2.56	1	37	row dial --aspsx-version=2.40	drop:--aspsx-version=2.40	other:1
+town/func_80874E18	town	2.6.3	--aspsx-version=2.40	1	2.56	3	77	row dial --aspsx-version=2.40	drop:--aspsx-version=2.40	other:3
+town/func_80874F4C	town	2.6.3	--aspsx-version=2.40	1	2.56	2	60	row dial --aspsx-version=2.40	drop:--aspsx-version=2.40	other:2
+town/func_80875060	town	2.7.2 -fno-schedule-insns -fno-schedule-insns2	--aspsx-version=2.40	2	2.56	1	49	row dial --aspsx-version=2.40	drop:--aspsx-version=2.40	other:1
+town/func_80875124	town	2.6.3	--aspsx-version=2.40	0	2.56	1	10	row dial --aspsx-version=2.40	drop:--aspsx-version=2.40	other:1
+town/func_8087514C	town	2.7.2 -fno-schedule-insns -fno-schedule-insns2 -O1	--aspsx-version=2.40	1	2.56	2	46	row dial --aspsx-version=2.40	drop:--aspsx-version=2.40	other:1
+town/func_80875238	town	2.6.3	--aspsx-version=2.40	0	2.56	3	37	row dial --aspsx-version=2.40	drop:--aspsx-version=2.40	other:3
+town/func_808752CC	town	2.6.3	--aspsx-version=2.40	0	2.56	3	38	row dial --aspsx-version=2.40	drop:--aspsx-version=2.40	other:3
+town/func_80875364	town	2.6.3	--aspsx-version=2.40	0	2.56	3	38	row dial --aspsx-version=2.40	drop:--aspsx-version=2.40	other:3
+town/func_808755AC	town	2.6.3	--aspsx-version=2.40	0	2.56	3	27	row dial --aspsx-version=2.40	drop:--aspsx-version=2.40	other:3
+town/func_808757A0	town	2.6.3	--aspsx-version=2.40	0	2.56	1	5	row dial --aspsx-version=2.40	drop:--aspsx-version=2.40	other:1
+town/func_80878924	town	2.7.2-G0	--aspsx-version=2.34	0	2.56	1	20	row dial --aspsx-version=2.34	drop:--aspsx-version=2.34	other:1
+town/func_80878974	town	2.7.2-G0	--aspsx-version=2.40	0	2.56	1	56	row dial --aspsx-version=2.40	drop:--aspsx-version=2.40	other:1
+town/func_80878A78	town	2.7.2-G0	--aspsx-version=2.40	0	2.56	6	76	row dial --aspsx-version=2.40	drop:--aspsx-version=2.40	other:5
+town/func_8087FD58	town	2.6.3-G0	--aspsx-version=2.40	0	2.56	1	19	row dial --aspsx-version=2.40	drop:--aspsx-version=2.40	other:1
+town/func_8087FDA4	town	2.6.3-G0	--aspsx-version=2.40	0	2.56	2	38	row dial --aspsx-version=2.40	drop:--aspsx-version=2.40	other:2
+town/func_8087FE98	town	2.6.3-G0	--aspsx-version=2.40	0	2.56	1	22	row dial --aspsx-version=2.40	drop:--aspsx-version=2.40	other:1
+town/func_8088116C	town	2.6.3-G0	--aspsx-version=2.40	0	2.56	1	18	row dial --aspsx-version=2.40	drop:--aspsx-version=2.40	other:1
+town/func_8088124C	town	2.6.3-G0	--aspsx-version=2.40	0	2.56	6	64	row dial --aspsx-version=2.40	drop:--aspsx-version=2.40	other:6
+town/func_808813CC	town	2.6.3-G0	--aspsx-version=2.40	0	2.56	1	22	row dial --aspsx-version=2.40	drop:--aspsx-version=2.40	other:1
+town/func_80881478	town	2.6.3-G0	--aspsx-version=2.40	0	2.56	3	22	row dial --aspsx-version=2.40	drop:--aspsx-version=2.40	other:3
+town/func_808816D8	town	2.6.3-G0	--aspsx-version=2.40	0	2.56	5	59	row dial --aspsx-version=2.40	drop:--aspsx-version=2.40	other:4
+town/func_808B2D90	town	2.8.1 -fno-schedule-insns2	-	2	2.67	4	47	_unfill_via_load_delay	no:_unfill_via_load_delay	other:2
+town/func_808B8184	town	2.6.3-G0	-	2	2.56	1	30	_rewrite_tail_call_jal_to_j	no:_rewrite_tail_call_jal_to_j	jal-j:1
+town/func_808B85F0	town	2.6.3-G0	-	0	2.56	1	76	_rewrite_tail_call_jal_to_j	no:_rewrite_tail_call_jal_to_j	jal-j:1
+town/func_808BB138	town	2.6.3-G0	-	0	2.56	2	64	_rewrite_tail_call_jal_to_j	no:_rewrite_tail_call_jal_to_j	jal-j:2
