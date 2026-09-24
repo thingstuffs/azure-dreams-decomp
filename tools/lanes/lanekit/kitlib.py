@@ -104,7 +104,8 @@ def row_of(row_id):
     from common import rows                                              # noqa: E402
     for r in rows():
         if r["id"] == row_id or r["id"].split("/")[-1] == row_id or r["func"] == row_id:
-            return r
+            # slus rows (all 556) carry func=None in common.rows(); lab.py/erase.py name files by it (r77_opus_m1)
+            return r if r["func"] else dict(r, func=r["id"].split("/")[-1])
     raise SystemExit("lanekit: no row %r (use the full id, e.g. dungeon/func_8009612C)" % row_id)
 
 
