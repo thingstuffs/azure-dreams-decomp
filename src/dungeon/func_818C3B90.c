@@ -154,29 +154,17 @@ jt_c1:
     }
 
     if (*(u16 *)action->field4 & 0x80) {
-        register s32 x_delta ASM_REG("$4");
+        Motion *target;
         index = 1;
         if (owner->target != 0) {
-            register Motion *target ASM_REG("$7");
-            s32 axis_delta;
-            s32 coord;
+            s32 x_delta;
             u8 *delta_iter;
 
             target = *(Motion **)((u8 *)owner->target - 24);
-            axis_delta = motion->x.h.hi;
-            x_delta = target->x.h.hi - axis_delta;
-            x_delta = abs(x_delta);
-            stack.diffs[0] = x_delta;
-            axis_delta = target->y.h.hi;
-            coord = motion->y.h.hi;
-            axis_delta -= coord;
-            axis_delta = abs(axis_delta);
-            stack.diffs[1] = axis_delta;
+            stack.diffs[0] = x_delta = abs(target->x.h.hi - motion->x.h.hi);
+            stack.diffs[1] = abs(target->y.h.hi - motion->y.h.hi);
             delta_iter = (u8 *)&stack.local + 2;
-            coord = motion->z.h.hi;
-            axis_delta = *(s16 *)((u8 *)owner->target + 0x88) - coord;
-            axis_delta = abs(axis_delta);
-            stack.diffs[2] = axis_delta;
+            stack.diffs[2] = abs(*(s16 *)((u8 *)owner->target + 0x88) - motion->z.h.hi);
 
             action->duration = x_delta;
             loop_0: {
@@ -201,10 +189,10 @@ jt_c1:
             next_state = (u16)action->state + 1;
             goto set_state;
         } else {
-            register s32 grid_x ASM_REG("$21");
-            s32 grid_y;
-            s32 saved_x;
-            Motion *destination;
+            s32 grid_x;
+            register s32 x_delta ASM_REG("$4");
+            s16 grid_y;
+            s16 saved_x;
             s32 coord_aux;
             s32 x_work;
             register s16 *table ASM_REG("$3");
@@ -273,31 +261,28 @@ jt_c1:
                 update_y_entry = (u16 *)((s32)table + table_work);
                 x_delta = grid_x + *update_x_entry;
                 grid_x = x_delta;
-                coord_aux = grid_y + *update_y_entry;
-                grid_y = coord_aux;
-                stack.accum_y = coord_aux;
-                ASM_KEEP4_NV(x_delta, coord_aux, grid_x, grid_y);
+                grid_y += *update_y_entry;
+                stack.accum_y = grid_y;
                 saved_x = x_delta;
             }
 
-            destination = &stack.local;
-            ASM_KEEP_NV(destination);
+            target = &stack.local;
             index = 1;
             x_work = (u32)saved_x << 16;
             table = D_8006CCD8;
             x_work = (s32)x_work >> 10;
             delta_iter = (u8 *)&stack.local + 2;
             x_work += (table[action->angle] + 1) << 5;
-            destination->x.h.hi = x_work;
+            target->x.h.hi = x_work;
             x_work = (u32)x_work << 16;
             x_work >>= 16;
             x_delta = (s32)((u32)(u16)(table_work = stack.accum_y) << 16) >> 10;
             table = D_8006CCE8;
             x_delta += (table[action->angle] + 1) << 5;
-            destination->y.h.hi = x_delta;
+            target->y.h.hi = x_delta;
             x_delta = (u32)x_delta << 16;
             coord_aux = (u16)motion->z.h.hi + 32;
-            destination->z.h.hi = coord_aux;
+            target->z.h.hi = coord_aux;
 
             {
                 s32 coord;
@@ -336,9 +321,9 @@ jt_c1:
                 action->duration = 1;
             }
 
-            motion->dx.val = (destination->x.val - motion->x.val) / action->duration;
-            motion->dy.val = (destination->y.val - motion->y.val) / action->duration;
-            motion->dz.val = (destination->z.val - motion->z.val) / action->duration;
+            motion->dx.val = (target->x.val - motion->x.val) / action->duration;
+            motion->dy.val = (target->y.val - motion->y.val) / action->duration;
+            motion->dz.val = (target->z.val - motion->z.val) / action->duration;
             func_8002523C(action, motion);
             next_state = 6;
             goto set_state;
