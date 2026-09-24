@@ -1,7 +1,4 @@
-#include "common.h"
-
-extern s32 D_80083C68[8];
-extern s32 *D_800814E0;
+#include "slus/list_cursor_e0.h"
 
 /* Removes the first matching value from the zero-terminated list and backs up its append cursor. */
 void func_80041134(s32 value) {

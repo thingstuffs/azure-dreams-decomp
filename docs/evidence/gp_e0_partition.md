@@ -1,6 +1,9 @@
 # E0 list cursor: exact physical partition, pending provenance support
 
-Status: **private architecture prototype, not a landable module**. The three
+Historical prototype: **superseded by the active explicit partition**.
+See [the current owner review](list_cursor_e0.md) and
+[production activation](../SLUS_PARTITIONS.md#production-e0-activation).
+The earlier receipts and limitations below describe the original experiment. The three
 adjacent functions at 410FC, 41110 and 41134 form a small zero-terminated list
 unit. Their current physical sources are `code2.c`, `code.c` and `w_80041134.c`,
 respectively. Combining their existing operations with one real
@@ -81,4 +84,6 @@ files and IDs intact, renders physical function views, preserves the original
 normal-Ninja private build is retail-exact, all 44 E0 words are genuine-exact,
 and source-edit negatives rebuild only their proper owner or remainder. The
 old prototype's silent redistribution is replaced by explicit provenance.
-Plural verification and part-aware ownership evidence remain before activation.
+Plural verification, full-TU ownership evidence and placement certificates now
+pass, and the explicit E0 partition is active. The earlier registry rejection
+remains a valid result for the old prototype, not the new provenance model.

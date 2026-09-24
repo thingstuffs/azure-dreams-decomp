@@ -128,7 +128,7 @@ class ConfigureSlusModulesTest(unittest.TestCase):
         pinned = REPO / "build_slus"
         other = Path(tempfile.mkdtemp(prefix="configure_slus_identity_"))
         self.addCleanup(shutil.rmtree, other)
-        for name in ("src", "asm", "assets", "config", "include"):
+        for name in ("src", "raw", "asm", "assets", "config", "include"):
             (other / name).symlink_to(pinned / name, target_is_directory=True)
         (other / "tools").symlink_to(TOOLS, target_is_directory=True)
         subprocess.run(("python3", "tools/configure.py"), cwd=other,

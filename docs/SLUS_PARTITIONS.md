@@ -1,11 +1,10 @@
-# SLUS function partitions: foundation and private build proof
+# SLUS function partitions and owner certificates
 
-Status: **build generation and full-image partition gates integrated; activation pending genuine/placement records**.
-The existing whole-row module model remains active. There is no production
-`config/slus_partitions.json`. Configure, row projection and full-image candidate
-gating now support an optional partition plan. Genuine comparison and placement
-certification still need per-owner records before a plan can be activated.
-Do not activate a partition solely from the private build proof below.
+Status: **E0 is active with full retail, genuine-ASPSX and ownership proof**.
+`config/slus_partitions.json` moves two named functions into the list-cursor
+owner while preserving both collector IDs, complete canonical C and original
+recipe provenance. The sections below retain the earlier implementation proofs;
+the production activation checkpoint is recorded near the end.
 
 ## Purpose and identity
 
@@ -241,7 +240,48 @@ The next [certificate handoff](evidence/slus_partitions/certificate_next.md)
 identifies current whole-member assumptions. It is a proposal, not a placement
 certificate. Data ownership and L4/L5 placement remain separate claims.
 
-## Remaining integration, in order
+## Production E0 activation
+
+The [owner review](evidence/list_cursor_e0.md) describes the three functions,
+shared header and actual four-byte cursor storage. Ownership schema 4 records
+all physical contributors and requires a direct, unmasked genuine result for the
+complete destination TU. Placement schema 2 binds the same complete function set,
+connected inputs and review. It grants only the declared whole member; incoming
+collector parts are provenance, not parent-row placement grants. Legacy direct
+and accepted-model ownership receipts retain their existing contracts. A request
+to model only one member of a connected owner is refused.
+
+The [production ownership receipt](evidence/slus_partitions/e0_ownership.json)
+and live `ledger/modules/list_cursor_e0.json` certificate prove all 44 owner words
+and real `.sdata` at 800814E0. The complete retail image remains exact. The new
+header's incomplete external array declaration and the unchanged function bodies
+are measured together; no padding, pins or assembler rules were introduced.
+
+Production `src/` previously used a directory symlink, which made a quoted
+`../build/partition_sources/...` include resolve outside the build root. The
+exporter now gives active partition builds a managed real source directory with
+per-file links to canonical C. It synchronizes added/removed files, refuses
+unmanaged or modified entries, and restores the directory symlink when the plan
+is removed. Four lifecycle tests include real host preprocessing of the generated
+include path. The production MIPS build confirms the same layout works there.
+
+The [active gate receipt](evidence/slus_partitions/e0_gate_receipt.json) repeats
+six actual MIPS candidate checks from the production source view: unchanged,
+moved function, remainder, whole member, invalid C and hidden macro function.
+Only unchanged input matches; every trial restores the full retail image and
+canonical sources. Row verification independently accepts unchanged collectors
+and rejects edits to their moved functions. Missing incoming functions, masked
+or mismatching full-TU evidence, stale descriptors and collector placement grants
+also fail the certificate checks.
+
+The [fresh row records](evidence/slus_partitions/e0_live_rows.json) still account
+for 156 + 24 + 1 logical functions. E0 disappears from their GP extern lists;
+seven unrelated symbols remain in code and three in code2. Only 41134's dependency
+entry is removed. Both the new module and runtime-directory pilot have current
+certificates. See [activation review](evidence/slus_partitions/e0_activation_review.json)
+for hashes, checks and current ladder results.
+
+## Integration and next groups
 
 1. **Implemented:** plural physical contexts, connected fingerprints and candidate
    compilation with exact emitted-function coverage. Legacy singular entry points
@@ -252,15 +292,15 @@ certificate. Data ownership and L4/L5 placement remain separate claims.
 3. **Implemented:** genuine-ASPSX records across per-owner streams with exact
    disjoint function scopes and per-owner recipes/pass traces. One original
    logical row is retained, including unrelated GP/model dependencies.
-4. Extend ownership/certificate evidence with incoming function parts and fresh
-   connected fingerprints. A subset proof must not grant placement to a whole
-   collector. Preserve existing L4/L5 pin and fidelity requirements.
-5. After negative/regression gates pass, activate E0 with the reviewed source
-   and data binding, rerun the full retail/genuine gates and runtime pilot, and
-   remove only dependencies proved eliminated. Then use the same mechanism for
-   the remaining actual function groups.
+4. **Implemented:** ownership/certificate evidence includes incoming function
+   parts and fresh connected fingerprints. A subset proof cannot grant placement
+   to a whole collector; existing L4/L5 requirements are preserved.
+5. **E0 activated:** retail/genuine/data gates and runtime-pilot recertification
+   pass. Apply the same explicit function grouping to remaining components, next
+   the bounded B94/B98 group or the CD driver groups. Review source/declaration
+   evidence independently for each; do not merge the whole historical 20-row graph.
 
 The [consumer inventory](evidence/slus_partitions/consumers.md) identifies exact
-callsites. Production remains **197 dependencies, 29 GP rows, 19 ownership
+callsites. Production now has **196 dependencies, 28 GP rows, 20 ownership
 units, 873 physical / 884 logical rows**. The separate generic assembler
 correction and pass retirement are still pending; this layer changes neither.

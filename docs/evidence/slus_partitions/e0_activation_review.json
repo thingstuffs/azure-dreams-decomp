@@ -1,0 +1,129 @@
+{
+  "tool_sha256": {
+    "tools/slus_module_evidence.py": "38a699f315e082f16c9e7ead3c414f37a1ef71b18d75e15e2699c5720b80b32a",
+    "tools/fidelity/prove_slus_ownership.py": "6eb7656ea1118212c32b848e22f6d58fb43e1a348ea5f932efb828936e684320",
+    "tools/fidelity/certify_slus_module.py": "0628cfa11b93d1e86b2f9c276f4f82d2f8dd7234ea7f0449dfc50c8017296cf4",
+    "tools/build/mk_slus_root.sh": "0c6441ffcb51d6c958b13a70d3cba98e44b3ff7425db00fdab213abc89dd351e"
+  },
+  "source_sha256": {
+    "config/slus_partitions.json": "837ee892e847931030ee89e11e0bc062297978cff0ada45dfb9a35734e84f6f6",
+    "config/slus_modules.json": "e32126ec8ba2de2cb42ef2f750930a6b0a481048b274cd253c9ad0666ef5d06c",
+    "include/slus/list_cursor_e0.h": "5d486c7dedc12e95150af2697512a36507dd69dcdccd71c9e66ff7941a35db5f",
+    "src/slus/w_80041134.c": "b92f5649965b6144c70459ae6dce6b5619497bcc31e7cf4ec2b7aa9b83d2b65c",
+    "src/slus/w_80041134_owned.c": "5ceadc57a5935303f6926283824ad48fdddd69254457ee65f7e6980b885c8a5d",
+    "src/slus/code.c": "1c1afc31d56af7f3505ad1a9e54c4c21023aac81b2314ad3581dbeadf1e28b16",
+    "src/slus/code2.c": "443e6c482c7a5fe6fcf53c5381384618acac6adb06cff6d287aea2386f65c2bb",
+    "docs/evidence/list_cursor_e0.md": "0295150c1c38923748913a8ae6020c3103b4dd2fdc8a3e69d2f1d0425c8801b7"
+  },
+  "matching_private_tool_candidates": {
+    "tools/slus_module_evidence.py": true,
+    "tools/fidelity/prove_slus_ownership.py": true,
+    "tools/fidelity/certify_slus_module.py": true,
+    "tools/build/mk_slus_root.sh": true
+  },
+  "receipts_sha256": {
+    "e0_ownership.json": "190680f40573e5d4982143b02616538d860fa049f4335184fc76b4a7af86becc",
+    "e0_live_rows.json": "d69c99dcb5673eeb3c11ae07f17a01902ef5c969d73c2372f61c2fafe4f96921",
+    "e0_gate_receipt.json": "00930a9582dc08f33217c8e2d5e8dfba1d5a1251045eb7eb9b498e2f524d8433",
+    "physical_certificate_receipt.json": "7ca8c0fe34368f48d8a67dfb115543c6e4e9ef585a2d735cb60d41f4ad576c96"
+  },
+  "certificates": {
+    "list_cursor_e0": {
+      "valid": true,
+      "sha256": "090d5ecb89a16d701b7e3b6ba4431779366ab64dd527b93836ec555746adcc82"
+    },
+    "runtime_directory": {
+      "valid": true,
+      "sha256": "ab3bfb5fc400626bce9db805bcebe37bd09254f3b6cd521ee4c9f46d4ac547c0"
+    }
+  },
+  "regression": {
+    "slus_tests_passed": 130,
+    "related_comparator_cell_configure_tests_passed": 25,
+    "row_database": "OK",
+    "actual_mips_candidate_trials": 6,
+    "all_trial_restorations_retail_exact": true
+  },
+  "production_gate": {
+    "at": "2026-09-24T18:51:08Z",
+    "result": "MATCH",
+    "tus": 873,
+    "recipe_sha256": "377c6eb619cb54e56eca34bca220d4bea171573dd8c07ab91a2e575ab2e4272e",
+    "recipe_vs_pinned": "identical",
+    "secs": 1,
+    "gate": "sha1sum -c config/slus_006.14.sha1 (ninja)"
+  },
+  "production_image_sha1": "e6bfbb95ff6676899e077481221d73ddd4d3bf52",
+  "counts": {
+    "modules": 20,
+    "physical": 873,
+    "logical": 884,
+    "dependencies": 196,
+    "gp_rows": 28
+  },
+  "ladder": {
+    "slus/code": {
+      "level": 3,
+      "pins_left": 0,
+      "tail_jumps": 0,
+      "l4_residue": [
+        "not_in_module",
+        "cell_imitation"
+      ],
+      "l5_residue": [
+        "fidelity_site",
+        "maspsx_dependent"
+      ]
+    },
+    "slus/code2": {
+      "level": 3,
+      "pins_left": 0,
+      "tail_jumps": 0,
+      "l4_residue": [
+        "not_in_module"
+      ],
+      "l5_residue": [
+        "fidelity_site",
+        "maspsx_dependent"
+      ]
+    },
+    "slus/w_80041134": {
+      "level": 5,
+      "pins_left": 0,
+      "tail_jumps": 0,
+      "l4_residue": [],
+      "l5_residue": []
+    },
+    "slus/konami_runtime_w_8003C634": {
+      "level": 5,
+      "pins_left": 0,
+      "tail_jumps": 0,
+      "l4_residue": [],
+      "l5_residue": []
+    },
+    "slus/konami_runtime_w_8003C758": {
+      "level": 4,
+      "pins_left": 0,
+      "tail_jumps": 0,
+      "l4_residue": [],
+      "l5_residue": [
+        "fidelity_site"
+      ]
+    },
+    "slus/konami_runtime_w_8003C920": {
+      "level": 5,
+      "pins_left": 0,
+      "tail_jumps": 0,
+      "l4_residue": [],
+      "l5_residue": []
+    }
+  },
+  "production_partition_plan_active": true,
+  "production_assembler_changed": false,
+  "activation_compile_failure": {
+    "cause": "directory symlink src made ../build includes resolve outside build root",
+    "resolved": "active-plan managed real source directory with canonical per-file links",
+    "final_gate": "MATCH"
+  },
+  "generated_ninja_note": "Changed code/code2 input lines retain the generator existing trailing-space format; pinned and generated recipes are byte-identical."
+}

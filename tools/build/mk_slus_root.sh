@@ -15,7 +15,50 @@ if [ -e "$B/raw/slus" ] && [ ! -L "$B/raw/slus" ]; then
   echo "refusing to replace $B/raw/slus" >&2; exit 1
 fi
 ln -sfn "$ROOT/raw/slus" "$B/raw/slus"
-ln -sfn "$ROOT/src/slus"      "$B/src"
+# A directory symlink makes src/../build resolve outside this build root.
+# Active partition aggregators include generated bodies there, so expose their
+# canonical files through a managed real directory (as SlusView already does).
+python3 - "$ROOT" "$B" <<'PY_SRC_VIEW'
+import os, sys
+from pathlib import Path
+root, build = map(Path, sys.argv[1:])
+canonical = root / "src/slus"
+view = build / "src"
+marker = build / ".partition_src_view"
+active = (root / "config/slus_partitions.json").is_file()
+if view.is_symlink():
+    if view.resolve() != canonical.resolve():
+        raise SystemExit("refusing unrelated source symlink: " + str(view))
+elif view.is_dir():
+    if not marker.is_file():
+        raise SystemExit("refusing unmanaged source directory: " + str(view))
+    for entry in view.iterdir():
+        if not entry.is_symlink() or os.readlink(entry) != str(canonical / entry.name):
+            raise SystemExit("refusing modified source view entry: " + str(entry))
+elif view.exists():
+    raise SystemExit("refusing non-directory source view: " + str(view))
+if active:
+    if view.is_symlink():
+        view.unlink()
+    view.mkdir(exist_ok=True)
+    wanted = {entry.name for entry in canonical.iterdir()}
+    for entry in view.iterdir():
+        if entry.name not in wanted:
+            entry.unlink()
+    for name in sorted(wanted):
+        entry = view / name
+        if not entry.is_symlink():
+            entry.symlink_to(canonical / name)
+    marker.write_text("canonical per-file symlinks for SLUS partitions\n")
+else:
+    if view.is_dir() and not view.is_symlink():
+        for entry in view.iterdir():
+            entry.unlink()
+        view.rmdir()
+    if not view.is_symlink():
+        view.symlink_to(canonical)
+    marker.unlink(missing_ok=True)
+PY_SRC_VIEW
 ln -sfn "$ROOT/include"       "$B/include"
 ln -sfn "$ROOT/tools/build"   "$B/tools"
 ln -sfn "$ROOT/toolchain"     "$B/toolchain"

@@ -20,7 +20,7 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / 'tools'))
 from common import clean_path, rows
 from slus_module_context import modules, fingerprint
-from slus_module_evidence import verifier_fingerprint
+from slus_module_evidence import verifier_fingerprint, physical_descriptor, check_physical_record
 from slus_modules import data_sections
 from fidelity.slus_iso import SlusView
 from fidelity import aspsx_diff as A
@@ -214,6 +214,12 @@ def prove(names, compiler_model_rows=()):
     declared = {m['name']: m for m in modules()}
     selected = [declared[name] for name in names]
     modeled_ids = selected_model_rows(selected, compiler_model_rows)
+    physical = {module['name']: descriptor for module in selected
+                if (descriptor := physical_descriptor(module)) is not None}
+    for module in selected:
+        if module['name'] in physical and any(member['id'] in modeled_ids for member in module['members']):
+            raise ValueError('connected physical owner requires direct genuine proof; '
+                             'an individual compiler-model row is insufficient: ' + module['name'])
     model_code_before = compiler_model_code() if modeled_ids else None
     by_id = {r['id']: r for r in rows()}
     ids = [member['id'] for module in selected for member in module['members']]
@@ -249,7 +255,10 @@ def prove(names, compiler_model_rows=()):
             for member in module['members']:
                 rid = member['id']
                 record = A.process_row(by_id[rid])
-                check_member_record(record, member, initial[rid], modeled=rid in modeled_ids)
+                if module['name'] in physical:
+                    check_physical_record(record, member, physical[module['name']], initial[rid])
+                else:
+                    check_member_record(record, member, initial[rid], modeled=rid in modeled_ids)
                 results[rid] = record
                 if rid in modeled_ids:
                     modeled_results[rid] = prove_compiler_model(by_id[rid], member)
@@ -277,6 +286,11 @@ def prove(names, compiler_model_rows=()):
                                      'code': model_code_before, 'code_after': compiler_model_code(),
                                      'fired_passes_scope': 'A.process_row traces whole module; not row attribution'}
         receipt['modeled_rows'] = modeled_results
+    if physical:
+        receipt['schema'] = 4
+        receipt['physical_modules'] = physical
+        receipt['purpose'] = ('data ownership with direct full-TU genuine proof for connected owners; '
+                              'any legacy compiler-model rows remain explicitly labelled; no L4/L5 certificate')
     return receipt
 
 

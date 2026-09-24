@@ -19,7 +19,7 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools"))
 from common import rows
 from slus_module_context import fingerprint, modules
-from slus_module_evidence import certificate_reason, digest, verifier_fingerprint
+from slus_module_evidence import certificate_reason, digest, verifier_fingerprint, physical_descriptor
 from fidelity import aspsx_diff as A
 from fidelity.slus_iso import SlusView
 
@@ -35,6 +35,7 @@ def certify(name, reviewer):
         raise ValueError("module placement requires its own shared header")
     by_id = {r["id"]: r for r in rows()}
     members = [m["id"] for m in module["members"]]
+    descriptor = physical_descriptor(module)
     start = fingerprint(by_id[members[0]])
     tool_fp = verifier_fingerprint()
     import tempfile
@@ -59,6 +60,8 @@ def certify(name, reviewer):
             "review": {"path": module["evidence"], "sha256": digest(review), "reviewer": reviewer},
             "gate": dict(gate, recipe_sha256=hashlib.sha256(recipe).hexdigest()),
             "image_sha1": hashlib.sha1(image).hexdigest(), "rows": results}
+    if descriptor:
+        cert.update(schema=2, physical=descriptor)
     why = certificate_reason(module, cert)
     if why:
         raise ValueError(why)
