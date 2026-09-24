@@ -33,6 +33,9 @@ Step 1c (work/fidelity/STEP1C_BRIEF.md) re-targets the `psyq` leg at any held cc
 read at import (the --worker subprocesses re-import this module, so command-line options would not reach them):
 
   EPILOGUE_MODEL_OUT   output root (journal default <OUT>/epilogue_model.jsonl, scratch <OUT>/tmp); default step1b
+  Lost-compiler hunt B adds psyq_s_sha (body hash), psyq_s_equal_t272 / psyq_s_diff_t272 (twin with our cell's
+  output after the t272 rewrite: the candidate differs from the 2.8-era cell only in the epilogue).
+
   EPILOGUE_MODEL_CC1   JSON {cell: [label, cc1 path (repo-relative or absolute), twin?, mode]} replacing PSYQ_CC1;
                        mode = "wibo" (Windows PE, default), "native" (a host ELF cc1) or "dosemu" (DOS/go32 cc1 under
                        dosemu2; every file next to the cc1, e.g. GO32.EXE, is copied into the run directory)
@@ -341,6 +344,9 @@ def process_row(row, psyq=False):
     td = tempfile.mkdtemp(prefix=row["id"].replace("/", "__") + "_", dir=A.TMP)
     rec = {"row": row["id"], "container": row["container"], "cfg": row["cfg"], "cell": parse_cfg(row["cfg"])[0]}
     try:
+        from common import clean_path
+        import hashlib
+        rec["src_sha"] = hashlib.sha1(Path(clean_path(row)).read_bytes()).hexdigest()[:12]   # (hunt B: the registry moves)
         ctx, err = prep(A, row, row["cfg"], td)
         if ctx is None:
             rec.update(status="error", err=("compile: " + str(err))[:300]); return rec
@@ -376,6 +382,17 @@ def process_row(row, psyq=False):
                     import difflib
                     rec["psyq_s_diff"] = sum(1 for l in difflib.unified_diff(strip_s(base), strip_s(ps), n=0)
                                              if l[:1] in "+-" and l[:3] not in ("+++", "---"))
+                # lost-compiler hunt B (additive): a body hash for cross-compiler comparison, and the twin test
+                # against our cell's output after gcc 2.7.2's epilogue rule - True means the candidate and our
+                # 2.8-era cell differ ONLY in the return epilogue
+                import hashlib
+                rec["psyq_s_sha"] = hashlib.sha1("\n".join(strip_s(ps)).encode()).hexdigest()[:16]
+                b272 = strip_s(rewrite(base, "t272"))
+                rec["psyq_s_equal_t272"] = strip_s(ps) == b272
+                if not rec["psyq_s_equal_t272"]:
+                    import difflib
+                    rec["psyq_s_diff_t272"] = sum(1 for l in difflib.unified_diff(b272, strip_s(ps), n=0)
+                                                  if l[:1] in "+-" and l[:3] not in ("+++", "---"))
                 srcs["psyq"] = ps; srcs["psyq_t272"] = rewrite(ps, "t272")
         res = {}
         for tag, s in srcs.items():
