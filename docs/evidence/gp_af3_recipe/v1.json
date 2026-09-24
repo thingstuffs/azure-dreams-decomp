@@ -1,0 +1,675 @@
+{
+  "source_sha256": "b14f3589027d2425e688b49aac5195c741bb99dd336444d519869fa041b8d9af",
+  "recipe": "2.7.2-cdk -mmips-as",
+  "stock": {
+    "words": 100,
+    "retail_words": 100,
+    "masks": 0,
+    "exact": false,
+    "aligned_distance": 16,
+    "regions": [
+      {
+        "op": "replace",
+        "candidate_start": 7,
+        "retail_start": 7,
+        "candidate": [
+          "3c038007",
+          "2463e704"
+        ],
+        "retail": [
+          "3c028007",
+          "2442e704"
+        ]
+      },
+      {
+        "op": "replace",
+        "candidate_start": 11,
+        "retail_start": 11,
+        "candidate": [
+          "00838021"
+        ],
+        "retail": [
+          "00828021"
+        ]
+      },
+      {
+        "op": "replace",
+        "candidate_start": 18,
+        "retail_start": 18,
+        "candidate": [
+          "3c018008",
+          "00220821",
+          "8c220af4"
+        ],
+        "retail": [
+          "00451021",
+          "8c420000"
+        ]
+      },
+      {
+        "op": "replace",
+        "candidate_start": 33,
+        "retail_start": 32,
+        "candidate": [
+          "10620030"
+        ],
+        "retail": [
+          "10620031"
+        ]
+      },
+      {
+        "op": "insert",
+        "candidate_start": 55,
+        "retail_start": 54,
+        "candidate": [],
+        "retail": [
+          "3463ffff"
+        ]
+      },
+      {
+        "op": "insert",
+        "candidate_start": 56,
+        "retail_start": 56,
+        "candidate": [],
+        "retail": [
+          "0801111c"
+        ]
+      },
+      {
+        "op": "delete",
+        "candidate_start": 57,
+        "retail_start": 58,
+        "candidate": [
+          "0801111d",
+          "3463ffff"
+        ],
+        "retail": []
+      },
+      {
+        "op": "insert",
+        "candidate_start": 74,
+        "retail_start": 73,
+        "candidate": [],
+        "retail": [
+          "3c048008",
+          "24840af4"
+        ]
+      },
+      {
+        "op": "replace",
+        "candidate_start": 77,
+        "retail_start": 78,
+        "candidate": [
+          "005c0821",
+          "ac230160"
+        ],
+        "retail": [
+          "00441021"
+        ]
+      },
+      {
+        "op": "replace",
+        "candidate_start": 80,
+        "retail_start": 80,
+        "candidate": [
+          "00000000"
+        ],
+        "retail": [
+          "ac430000"
+        ]
+      }
+    ]
+  },
+  "genuine": {
+    "words": 108,
+    "retail_words": 100,
+    "masks": 0,
+    "exact": false,
+    "aligned_distance": 31,
+    "regions": [
+      {
+        "op": "replace",
+        "candidate_start": 7,
+        "retail_start": 7,
+        "candidate": [
+          "3c038007",
+          "2463e704"
+        ],
+        "retail": [
+          "3c028007",
+          "2442e704"
+        ]
+      },
+      {
+        "op": "replace",
+        "candidate_start": 11,
+        "retail_start": 11,
+        "candidate": [
+          "00838021",
+          "3c028008",
+          "84420afc"
+        ],
+        "retail": [
+          "00828021",
+          "87820168"
+        ]
+      },
+      {
+        "op": "replace",
+        "candidate_start": 19,
+        "retail_start": 18,
+        "candidate": [
+          "3c018008",
+          "00220821",
+          "8c220af4",
+          "3c048008",
+          "94840afc"
+        ],
+        "retail": [
+          "00451021",
+          "8c420000",
+          "97840168"
+        ]
+      },
+      {
+        "op": "replace",
+        "candidate_start": 26,
+        "retail_start": 23,
+        "candidate": [
+          "08011143"
+        ],
+        "retail": [
+          "0801113b"
+        ]
+      },
+      {
+        "op": "replace",
+        "candidate_start": 34,
+        "retail_start": 31,
+        "candidate": [
+          "3c018008",
+          "a4240afc",
+          "10620034"
+        ],
+        "retail": [
+          "a7840168",
+          "10620031"
+        ]
+      },
+      {
+        "op": "replace",
+        "candidate_start": 40,
+        "retail_start": 36,
+        "candidate": [
+          "3c038008",
+          "80630af3"
+        ],
+        "retail": [
+          "8383015f"
+        ]
+      },
+      {
+        "op": "replace",
+        "candidate_start": 55,
+        "retail_start": 50,
+        "candidate": [
+          "3c028008",
+          "84420afc"
+        ],
+        "retail": [
+          "87820168"
+        ]
+      },
+      {
+        "op": "insert",
+        "candidate_start": 60,
+        "retail_start": 54,
+        "candidate": [],
+        "retail": [
+          "3463ffff"
+        ]
+      },
+      {
+        "op": "insert",
+        "candidate_start": 61,
+        "retail_start": 56,
+        "candidate": [],
+        "retail": [
+          "0801111c"
+        ]
+      },
+      {
+        "op": "delete",
+        "candidate_start": 62,
+        "retail_start": 58,
+        "candidate": [
+          "08011122",
+          "3463ffff"
+        ],
+        "retail": []
+      },
+      {
+        "op": "replace",
+        "candidate_start": 79,
+        "retail_start": 73,
+        "candidate": [
+          "3c028008",
+          "84420afc"
+        ],
+        "retail": [
+          "3c048008",
+          "24840af4",
+          "87820168"
+        ]
+      },
+      {
+        "op": "replace",
+        "candidate_start": 83,
+        "retail_start": 78,
+        "candidate": [
+          "3c018008",
+          "00220821",
+          "ac230af4"
+        ],
+        "retail": [
+          "00441021"
+        ]
+      },
+      {
+        "op": "replace",
+        "candidate_start": 87,
+        "retail_start": 80,
+        "candidate": [
+          "00000000"
+        ],
+        "retail": [
+          "ac430000"
+        ]
+      },
+      {
+        "op": "replace",
+        "candidate_start": 91,
+        "retail_start": 84,
+        "candidate": [
+          "3c028008",
+          "84420afc"
+        ],
+        "retail": [
+          "87820168"
+        ]
+      }
+    ]
+  },
+  "stock_genuine": {
+    "diff": 20,
+    "exact": false,
+    "len_m": 100,
+    "len_g": 108,
+    "missing": [],
+    "regions": [
+      [
+        "func_8004437C",
+        "replace",
+        [
+          [
+            2273443840,
+            "GPREL16",
+            [
+              "addr",
+              null,
+              2812
+            ]
+          ]
+        ],
+        [
+          [
+            1006764032,
+            "HI16",
+            [
+              "addr",
+              null,
+              2148010748
+            ]
+          ],
+          [
+            2218917888,
+            "LO16",
+            [
+              "addr",
+              null,
+              2812
+            ]
+          ]
+        ],
+        12
+      ],
+      [
+        "func_8004437C",
+        "replace",
+        [
+          [
+            2542010368,
+            "GPREL16",
+            [
+              "addr",
+              null,
+              2812
+            ]
+          ]
+        ],
+        [
+          [
+            1006895104,
+            "HI16",
+            [
+              "addr",
+              null,
+              2148010748
+            ]
+          ],
+          [
+            2491678720,
+            "LO16",
+            [
+              "addr",
+              null,
+              2812
+            ]
+          ]
+        ],
+        21
+      ],
+      [
+        "func_8004437C",
+        "replace",
+        [
+          [
+            134217728,
+            "26",
+            [
+              "fn",
+              "func_8004437C",
+              368
+            ]
+          ]
+        ],
+        [
+          [
+            134217728,
+            "26",
+            [
+              "fn",
+              "func_8004437C",
+              400
+            ]
+          ]
+        ],
+        24
+      ],
+      [
+        "func_8004437C",
+        "replace",
+        [
+          [
+            2810445824,
+            "GPREL16",
+            [
+              "addr",
+              null,
+              2812
+            ]
+          ],
+          [
+            274858032,
+            null,
+            null
+          ]
+        ],
+        [
+          [
+            1006698496,
+            "HI16",
+            [
+              "addr",
+              null,
+              2148010748
+            ]
+          ],
+          [
+            2753822720,
+            "LO16",
+            [
+              "addr",
+              null,
+              2812
+            ]
+          ],
+          [
+            274858036,
+            null,
+            null
+          ]
+        ],
+        32
+      ],
+      [
+        "func_8004437C",
+        "replace",
+        [
+          [
+            2206400512,
+            "GPREL16",
+            [
+              "addr",
+              null,
+              2803
+            ]
+          ]
+        ],
+        [
+          [
+            1006829568,
+            "HI16",
+            [
+              "addr",
+              null,
+              2148010739
+            ]
+          ],
+          [
+            2153971712,
+            "LO16",
+            [
+              "addr",
+              null,
+              2803
+            ]
+          ]
+        ],
+        37
+      ],
+      [
+        "func_8004437C",
+        "replace",
+        [
+          [
+            2273443840,
+            "GPREL16",
+            [
+              "addr",
+              null,
+              2812
+            ]
+          ]
+        ],
+        [
+          [
+            1006764032,
+            "HI16",
+            [
+              "addr",
+              null,
+              2148010748
+            ]
+          ],
+          [
+            2218917888,
+            "LO16",
+            [
+              "addr",
+              null,
+              2812
+            ]
+          ]
+        ],
+        51
+      ],
+      [
+        "func_8004437C",
+        "replace",
+        [
+          [
+            134217728,
+            "26",
+            [
+              "fn",
+              "func_8004437C",
+              248
+            ]
+          ]
+        ],
+        [
+          [
+            134217728,
+            "26",
+            [
+              "fn",
+              "func_8004437C",
+              268
+            ]
+          ]
+        ],
+        57
+      ],
+      [
+        "func_8004437C",
+        "replace",
+        [
+          [
+            2273443840,
+            "GPREL16",
+            [
+              "addr",
+              null,
+              2812
+            ]
+          ]
+        ],
+        [
+          [
+            1006764032,
+            "HI16",
+            [
+              "addr",
+              null,
+              2148010748
+            ]
+          ],
+          [
+            2218917888,
+            "LO16",
+            [
+              "addr",
+              null,
+              2812
+            ]
+          ]
+        ],
+        74
+      ],
+      [
+        "func_8004437C",
+        "replace",
+        [
+          [
+            6031393,
+            null,
+            null
+          ],
+          [
+            2887974912,
+            "GPREL16",
+            [
+              "addr",
+              null,
+              2804
+            ]
+          ]
+        ],
+        [
+          [
+            1006698496,
+            "HI16",
+            [
+              "addr",
+              null,
+              2148010740
+            ]
+          ],
+          [
+            2230305,
+            null,
+            null
+          ],
+          [
+            2887974912,
+            "LO16",
+            [
+              "addr",
+              null,
+              2804
+            ]
+          ]
+        ],
+        77
+      ],
+      [
+        "func_8004437C",
+        "replace",
+        [
+          [
+            2273443840,
+            "GPREL16",
+            [
+              "addr",
+              null,
+              2812
+            ]
+          ]
+        ],
+        [
+          [
+            1006764032,
+            "HI16",
+            [
+              "addr",
+              null,
+              2148010748
+            ]
+          ],
+          [
+            2218917888,
+            "LO16",
+            [
+              "addr",
+              null,
+              2812
+            ]
+          ]
+        ],
+        84
+      ]
+    ],
+    "delay_only": []
+  }
+}
