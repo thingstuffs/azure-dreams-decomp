@@ -1,10 +1,10 @@
 # SLUS function partitions: foundation and private build proof
 
-Status: **planner/renderer and plural compilation available; production activation pending**.
+Status: **build generation and full-image partition gates integrated; activation pending genuine/placement records**.
 The existing whole-row module model remains active. There is no production
-`config/slus_partitions.json`. Production configure, full-image candidate gating,
-genuine comparison and placement certification still use the existing model;
-the new plural compilation API is available independently.
+`config/slus_partitions.json`. Configure, row projection and full-image candidate
+gating now support an optional partition plan. Genuine comparison and placement
+certification still need per-owner records before a plan can be activated.
 Do not activate a partition solely from the private build proof below.
 
 ## Purpose and identity
@@ -110,8 +110,9 @@ Existing unpartitioned module fingerprints retain their previous contract.
 `verify.compile_slus_units` compiles each stream and requires exact ELF function
 coverage, with no missing, additional or duplicated ownership. It refuses stale
 inputs and partial compile failures. This is an input/coverage API, not a linked
-retail or genuine-ASPSX verdict. `verify_slus` and other singular consumers refuse
-partition-connected live inputs until their complete plural gates are integrated.
+retail or genuine-ASPSX verdict. `verify_slus` now dispatches partition-connected live inputs to the complete
+image gate described below. Other singular compilation consumers still refuse
+them until they can account for every physical stream.
 Historical frozen-raw compilation remains independent.
 
 The [compile receipt](evidence/slus_partitions/plural_receipt.json) checks all
@@ -130,21 +131,76 @@ Six context tests cover multiple destinations, incoming sibling parents, distinc
 recipes, host-compiled candidate behavior, fingerprints, legacy refusals and raw
 exceptions. Five compiler-boundary tests check per-owner recipes, complete emission,
 header selection, source/fingerprint drift and failure without partial success.
-All 85 SLUS tests pass; `row_db.py check` passes. The existing runtime-directory
+That checkpoint passed 85 SLUS tests; the expanded suite below now passes 99.
+`row_db.py check` passes. The existing runtime-directory
 pilot has been recertified against
 the changed verifier: full production image MATCH and genuine ASPSX 2.79 exact
 with zero masks. See [review hashes](evidence/slus_partitions/plural_review.json).
 Reproduce the actual MIPS routing/coverage probe with
 `python3 work/native_lane/slus_plural_context/negative_probe.py`.
 
+## Full-image gate and normal build integration
+
+The [integration receipt](evidence/slus_partitions/integration_receipt.json)
+proves the final configure/export/row-database implementation. With no plan,
+configure generates the exact current pinned Ninja file. With the private E0
+plan, it emits generated-source dependencies and a pre-link `partition_coverage`
+stamp. That check reads every defined ELF `STT_FUNC`, including local functions,
+from each remainder and destination object. Its exact-set check rejects extra,
+missing and duplicated ownership. A macro-generated extra function is rejected
+by ordinary Ninja before linking, even though source extraction accepted it.
+All 181 functions, 884 logical rows and the 44-word unmasked genuine E0 proof
+remain intact in the retail-exact private image.
+
+`row_db.slus_edges` projects the active physical graph before expanding whole
+modules. `row_db check` also projects the pinned graph and validates frozen raw
+provenance; an active plan cannot silently keep the old original-source compiler
+inputs. The exporter exposes frozen `raw/slus` and removes an obsolete optional
+plan link when the canonical plan is removed. No production plan is present.
+
+The [gate receipt](evidence/slus_partitions/gate_receipt.json) exercises the full
+`SlusView` implementation and the row verifier. A collector candidate is written
+to its original logical path in the isolated view; normal Ninja renders its
+remainder and moved parts and compiles each owner at its own recipe. Implicit
+logical-row recipe changes are refused because a collector can span recipes.
+The gate checks the whole partition's emitted functions before comparison. It
+restores original files or symlinks, recipes, generated inputs, affected objects
+and the exact retail image after each trial; a failed restoration cannot return
+a successful result.
+
+Six actual MIPS scenarios cover unchanged input, edits to moved/remainder/whole
+member bodies, invalid C and a hidden macro function. Only unchanged input passes;
+every trial restores the original canonical inputs and exact retail image. The
+row verifier independently reports a whole-collector MATCH for unchanged input
+and a mismatch for a changed moved body. It checks that the isolated build uses
+the current canonical sources, headers and declared partition context, then
+rejects source/fingerprint drift. Historical raw verification stays standalone.
+
+Ten gate tests cover routing, per-owner recipes, complete emitted coverage and
+restoration after match/mismatch/compile/link/coverage failures. Three actual ELF
+coverage tests check local functions, missing objects and protected stamp paths;
+an additional registry test rejects original-source bypass and frozen-raw drift.
+The full **99-test SLUS suite** and row database check pass. The production SLUS
+SHA-1 gate still matches the pinned recipe and retail image, and the runtime pilot
+has fresh unmasked genuine/retail certification. Verifier fingerprints now include
+the partition, isolated-gate, export and projection tools.
+
+See [review hashes](evidence/slus_partitions/gate_review.json) and the
+[configure](evidence/slus_partitions/configure_integration.diff),
+[export](evidence/slus_partitions/mk_root_integration.diff) and
+[row-database](evidence/slus_partitions/row_db_integration.diff) changes. Reproduce
+with `python3 work/native_lane/slus_partition_integration/probe.py` for the normal
+build and `python3 work/native_lane/slus_partition_gate/probe.py` for candidate
+routing/restoration. These remain E0 fixtures, not a global ownership rollout.
+
 ## Remaining integration, in order
 
 1. **Implemented:** plural physical contexts, connected fingerprints and candidate
    compilation with exact emitted-function coverage. Legacy singular entry points
    refuse partition-connected live rows; frozen raw remains standalone.
-2. Wire optional build generation and logical projection, then teach `SlusView`
-   to substitute a canonical candidate, render all affected views, run one full
-   image gate, and restore every input/object. Require emitted-set coverage.
+2. **Implemented:** optional build generation, logical projection, pre-link ELF
+   coverage and the plural `SlusView` candidate gate with full restoration.
+   Normal Ninja and row verification both enforce emitted coverage.
 3. Aggregate genuine-ASPSX records across per-owner streams with exact disjoint
    function scopes and per-owner recipes/pass traces. Keep a single original
    logical row record; retain unrelated GP/model dependencies in collectors.

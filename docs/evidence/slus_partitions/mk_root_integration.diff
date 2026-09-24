@@ -1,0 +1,32 @@
+--- tools/build/mk_slus_root.sh
++++ private/mk_slus_root.sh
+@@ -9,6 +9,12 @@
+ for need in toolchain/compilers/gcc-2.7.2/cc1 .venv/bin/splat baserom/slus_006.14 tools/maspsx/maspsx.py; do
+   [ -e "$ROOT/$need" ] || { echo "missing $need: run tools/setup.sh" >&2; exit 1; }
+ done
++if [ -L "$B/raw" ]; then echo "unsafe symlink: $B/raw" >&2; exit 1; fi
++mkdir -p "$B/raw"
++if [ -e "$B/raw/slus" ] && [ ! -L "$B/raw/slus" ]; then
++  echo "refusing to replace $B/raw/slus" >&2; exit 1
++fi
++ln -sfn "$ROOT/raw/slus" "$B/raw/slus"
+ ln -sfn "$ROOT/src/slus"      "$B/src"
+ ln -sfn "$ROOT/include"       "$B/include"
+ ln -sfn "$ROOT/tools/build"   "$B/tools"
+@@ -16,5 +22,16 @@
+ ln -sfn "$ROOT/.venv"         "$B/.venv"
+ ln -sfn "$ROOT/baserom"       "$B/baserom"
+ for f in slus_006.14.yaml slus_006.14.symbols.txt slus_006.14.sha1 names.tsv slus_modules.json; do ln -sfn "$ROOT/config/$f" "$B/config/$f"; done
++plan="$B/config/slus_partitions.json"
++if [ -f "$ROOT/config/slus_partitions.json" ]; then
++  if [ -e "$plan" ] && [ ! -L "$plan" ]; then
++    echo "refusing to replace $plan" >&2; exit 1
++  fi
++  ln -sfn "$ROOT/config/slus_partitions.json" "$plan"
++elif [ -L "$plan" ]; then
++  rm "$plan"
++elif [ -e "$plan" ]; then
++  echo "stale partition plan at $plan" >&2; exit 1
++fi
+ mkdir -p "$B/config/generated"
+ echo "build root: $B"

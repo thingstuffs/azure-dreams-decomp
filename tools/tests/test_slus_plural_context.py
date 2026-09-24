@@ -224,6 +224,34 @@ class PluralContextTests(unittest.TestCase):
                 self.assertEqual(unit["role"], "raw")
                 self.assertEqual(unit["cfile"], raw)
 
+    def test_registered_projection_rejects_original_source_bypass_and_raw_drift(self):
+        from row_db import slus_edges, check_slus_partition_plan
+        expected = [json.loads(line) for line in
+                    (self.root / "ledger/splits/slus.jsonl").read_text().splitlines()]
+        paths = P.output_paths(self.parents)
+        physical = []
+        for parent in self.parents:
+            physical.append({"src": paths["remainders"][parent["source"]],
+                             "out": "build/src/" + Path(parent["source"]).stem + ".o",
+                             **parent["recipe"]})
+        for module in self.modules:
+            physical.append({"src": module["source"],
+                             "out": "build/src/" + Path(module["source"]).stem + ".o",
+                             **module["recipe"]})
+        physical.append(next(edge for edge in expected if edge["src"] == "src/plain.c"))
+        ninja = "".join(f"build {e['out']}: cc {e['src']}\n  ccver = {e['ccver']}\n"
+                        f"  ccflags = {e['ccflags']}\n  asflags = {e['asflags']}\n" for e in physical)
+        self.assertEqual(sorted(slus_edges(ninja, self.root), key=lambda e: e['src']),
+                         sorted(expected, key=lambda e: e['src']))
+        bypass = ninja.replace(paths['remainders']['src/code.c'], 'src/code.c')
+        with self.assertRaisesRegex(ValueError, 'bypasses generated remainder'):
+            slus_edges(bypass, self.root)
+        self.assertEqual(check_slus_partition_plan(self.root, self.modules, expected), self.parents)
+        raw = self.root / 'raw/slus/code.c'
+        raw.write_text(raw.read_text() + '/* drift */\n')
+        with self.assertRaisesRegex(ValueError, 'frozen source mismatch'):
+            check_slus_partition_plan(self.root, self.modules, expected)
+
     def test_unconnected_row_keeps_standalone_behavior(self):
         plain = row("plain")
         candidate = self.root / "src/slus/plain.c"

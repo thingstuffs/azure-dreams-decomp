@@ -1,0 +1,91 @@
+--- tools/build/configure.py
++++ private/configure.py
+@@ -11,6 +11,7 @@
+ `#ifdef NON_MATCHING`. The default (no-flag) build.ninja is untouched and stays byte-exact.
+ Build it with: `ninja -f build_nm.ninja`."""
+ import os, glob, argparse, re
++import slus_partitions as partition_support
+ 
+ ap = argparse.ArgumentParser(description=__doc__)
+ ap.add_argument("--non-matching", action="store_true",
+@@ -1007,6 +1008,46 @@
+     "src/w_8005D598.c": "--expand-div",
+     "src/w_8005CB88.c": "--preserve-immediate-funcaddr-la",
+ }
++# Explicit partition build adapter. The original CC_VER row recipe stays
++# authoritative even while its compiler input is a generated remainder view.
++PARTITION_PLAN_FILE = "config/slus_partitions.json"
++PARTITIONS = partition_support.load_plan(PARTITION_PLAN_FILE)
++PARTITION_PATHS = partition_support.output_paths(PARTITIONS)
++PARTITION_MODULE_DEPS = {}
++PARTITION_COVERAGE_STAMP = f"{BUILDDIR}/partition_sources/coverage.ok"
++if PARTITIONS:
++    if NM:
++        raise RuntimeError("SLUS partitions are not supported in --non-matching builds")
++    partition_aliases = partition_support.read_aliases("config/names.tsv")
++    original_parent_edges = []
++    for parent in PARTITIONS:
++        source = parent["source"]
++        if not os.path.isfile(source):
++            raise RuntimeError(f"partition parent is not a current C source: {source}")
++        ccver, ccflags = CC_VER.get(source, DEFAULT_CC)
++        original_parent_edges.append({"src": source, "ccver": ccver,
++                                      "ccflags": ccflags, "asflags": AS_FLAGS.get(source, "")})
++        for part in parent["parts"]:
++            PARTITION_MODULE_DEPS.setdefault(part["module"], []).append(
++                PARTITION_PATHS["parts"][parent["id"]][part["module"]])
++    partition_support.validate_context(PARTITIONS, MODULES, original_parent_edges,
++                                       "raw/slus", partition_aliases)
++    outputs = sorted([*PARTITION_PATHS["remainders"].values(),
++                      *(path for row in PARTITION_PATHS["parts"].values() for path in row.values())])
++    original_sources = sorted(PARTITION_PATHS["remainders"])
++    out.append("rule partition_render\n"
++               "  command = python3 tools/slus_partitions.py render --plan config/slus_partitions.json "
++               "--output-dir build/partition_sources --names config/names.tsv\n"
++               "  description = PARTITION-RENDER $out\n"
++               "  restat = 1\n\n")
++    out.append("build " + " ".join(outputs) + ": partition_render " + " ".join(original_sources)
++               + " | config/slus_partitions.json config/names.tsv tools/slus_partitions.py\n")
++    out.append("rule partition_coverage\n"
++               "  command = python3 tools/slus_partitions.py check-emitted "
++               "--plan config/slus_partitions.json --manifest config/slus_modules.json "
++               "--names config/names.tsv --stamp $out\n"
++               "  description = PARTITION-COVERAGE $out\n\n")
++
+ # C translation units — recompile if the .c OR any INCLUDE_ASM'd nonmatching asm changes
+ nonmatch = " ".join(sorted(glob.glob("asm/nonmatchings/**/*.s", recursive=True)))
+ cfiles = sorted(glob.glob("src/*.c"))
+@@ -1049,9 +1090,11 @@
+         asflags = AS_FLAGS.get(cfile, "")
+     if NM:
+         flags = (flags + " -DNON_MATCHING").strip()
+-    deps = (" ".join([*(m["source"] for m in module["members"]), *module["headers"], MODULE_MANIFEST])
++    deps = (" ".join([*(m["source"] for m in module["members"]), *module["headers"], MODULE_MANIFEST,
++                      *PARTITION_MODULE_DEPS.get(module["name"], [])])
+             if module else "")
+-    out.append(f"build {o}: cc {cfile} | tools/cc.sh tools/ccproc.py {nonmatch}"
++    source_input = PARTITION_PATHS["remainders"].get(cfile, cfile)
++    out.append(f"build {o}: cc {source_input} | tools/cc.sh tools/ccproc.py {nonmatch}"
+                + (f" {deps}" if deps else "")
+                + f"\n  ccver = {ver}\n  ccflags = {flags}\n  asflags = {asflags}\n")
+     objs.append(o)
+@@ -1085,8 +1128,18 @@
+               + "".join(f" {plan['asset']}" for plan in carve_plans) if MODULES else "") + "\n")
+ if MODULES:
+     out.append(f"build {MODULE_SYMS}: module_syms {US} | tools/slus_modules.py {MODULE_MANIFEST}\n")
++if PARTITIONS:
++    physical_sources = {parent["source"] for parent in PARTITIONS}
++    module_by_name = {module["name"]: module for module in MODULES}
++    physical_sources.update(module_by_name[part["module"]]["source"]
++                            for parent in PARTITIONS for part in parent["parts"])
++    coverage_objects = sorted(f"{BUILDDIR}/" + source[:-2] + ".o"
++                              for source in physical_sources)
++    out.append(f"build {PARTITION_COVERAGE_STAMP}: partition_coverage " + " ".join(coverage_objects)
++               + f" | tools/slus_partitions.py tools/slus_modules.py {PARTITION_PLAN_FILE} {MODULE_MANIFEST} config/names.tsv\n")
+ out.append(f"build {BUILDDIR}/{BASE}.elf: link " + " ".join(objs)
+-           + f" | {BUILDDIR}/{BASE}_ordered.ld " + " ".join(LDSCRIPTS) + "\n")
++           + f" | {BUILDDIR}/{BASE}_ordered.ld " + " ".join(LDSCRIPTS)
++           + (f" {PARTITION_COVERAGE_STAMP}" if PARTITIONS else "") + "\n")
+ out.append(f"build {BUILDDIR}/{BASE}: objcopy {BUILDDIR}/{BASE}.elf\n")
+ if NM:
+     # No sha1 gate: NON_MATCHING output is intentionally not byte-identical to retail.

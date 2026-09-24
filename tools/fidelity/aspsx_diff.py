@@ -91,6 +91,8 @@ def tool_fingerprint() -> str:
              ROOT / "tools/maspsx/maspsx.py", ROOT / "tools/maspsx/maspsx/__init__.py",
              ROOT / "tools/verify.py", ROOT / "tools/build/ccproc.py", ROOT / "config/names.tsv",
              ROOT / "tools/slus_module_context.py", ROOT / "tools/build/slus_modules.py",
+             HERE / "slus_iso.py", ROOT / "tools/build/slus_partitions.py",
+             ROOT / "tools/row_db.py", ROOT / "tools/build/mk_slus_root.sh",
              ROOT / "tools/slus_module_evidence.py", HERE / "certify_slus_module.py", HERE / "prove_slus_ownership.py",
              ROOT / "tools/build/configure.py", ROOT / "config/slus_modules.json",
              BROOT / "tools/match.py", BROOT / "work/g3/overlay_func_compare.py",
