@@ -1,0 +1,47 @@
+--- tools/row_db.py
++++ private/row_db.py
+@@ -52,7 +52,21 @@
+     """Registry edges retain logical row identities when a physical TU is grouped."""
+     from slus_module_context import modules
+     from slus_modules import logical_edges
+-    return logical_edges(edges_of(ninja_text), modules(root))
++    from slus_partitions import load_plan, project_edges
++    plan = load_plan(Path(root) / "config/slus_partitions.json")
++    physical = project_edges(edges_of(ninja_text), plan)
++    return logical_edges(physical, modules(root))
++
++
++def check_slus_partition_plan(root, all_modules, original_logical_edges):
++    """Validate optional partition provenance against original registered rows."""
++    from slus_partitions import load_plan, read_aliases, validate_context
++    root = Path(root)
++    plan = load_plan(root / "config/slus_partitions.json")
++    if plan:
++        validate_context(plan, all_modules, original_logical_edges, root / "raw/slus",
++                         read_aliases(root / "config/names.tsv"))
++    return plan
+ 
+ 
+ def cmd_import(a):
+@@ -89,15 +103,17 @@
+ def cmd_check(a):
+     bad = 0
+     try:
+-        expected = slus_edges((SPLITS / "slus.build.ninja").read_text())
++        from slus_module_context import modules, input_paths
++        all_modules = modules(ROOT)
++        expected = slus_edges((SPLITS / "slus.build.ninja").read_text(), ROOT)
+         actual = read_jsonl(SPLITS / "slus.jsonl")
+         if expected != actual:
+             print("slus: logical split rows differ from the pinned build recipe"); bad += 1
+-        from slus_module_context import modules, input_paths
++        check_slus_partition_plan(ROOT, all_modules, actual)
+         from registry import slus_rows
+         by_id = {r["id"]: r for r in slus_rows()}
+-        for module in modules():
+-            for path in input_paths(module):
++        for module in all_modules:
++            for path in input_paths(module, ROOT):
+                 if not path.is_file():
+                     print(f"slus: missing module input {path.relative_to(ROOT)}"); bad += 1
+             for member in module["members"]:

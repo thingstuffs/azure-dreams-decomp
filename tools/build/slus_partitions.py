@@ -359,6 +359,43 @@ def render_files(plan, root, out_dir='build/partition_sources', aliases=None):
         if not target.exists() or target.read_text()!=text:target.write_text(text)
     return paths
 
+
+def emitted_functions(file, aliases=None):
+    """Read defined ELF STT_FUNC symbols, including local functions and duplicates.
+
+    Use the already-required MIPS binutils rather than relying on C syntax or
+    `nm` global-only filters. Retain a list so duplicate symbols cannot collapse.
+    """
+    import os
+    import subprocess
+    aliases = aliases or {}
+    env = dict(os.environ, LC_ALL='C')
+    result = subprocess.run(['mipsel-linux-gnu-readelf', '--wide', '--symbols', str(file)],
+                            capture_output=True, text=True, env=env)
+    if result.returncode:
+        raise PartitionError('cannot read emitted functions: ' + str(file) + ': ' + result.stderr[-300:])
+    found = []
+    for line in result.stdout.splitlines():
+        fields = line.split()
+        if len(fields) >= 8 and fields[0].endswith(':') and fields[3] == 'FUNC':
+            if fields[6].isdigit() and int(fields[6]) != 0:
+                found.append(aliases.get(fields[7], fields[7]))
+    return found
+
+
+def check_emitted_objects(plan, modules, root, aliases=None):
+    """Check every partition remainder and destination, not just edited rows."""
+    names = {part['module'] for parent in plan for part in parent['parts']}
+    owners = [module for module in modules if module['name'] in names]
+    if {m['name'] for m in owners} != names:
+        raise PartitionError('unknown destination in emitted coverage plan')
+    expected = expected_units(plan, owners)
+    actual = {source: emitted_functions(Path(root) / 'build/src' / (PurePosixPath(source).stem + '.o'), aliases)
+              for source in expected}
+    check_emitted(expected, actual)
+    return actual
+
+
 def main():
     import argparse
     parser=argparse.ArgumentParser(description=__doc__)
@@ -367,11 +404,30 @@ def main():
     render.add_argument('--plan',required=True)
     render.add_argument('--output-dir',default='build/partition_sources')
     render.add_argument('--names',required=True)
+    emitted=sub.add_parser('check-emitted')
+    emitted.add_argument('--plan',required=True)
+    emitted.add_argument('--manifest',required=True)
+    emitted.add_argument('--names',required=True)
+    emitted.add_argument('--stamp',required=True)
     args=parser.parse_args()
     try:
         if not Path(args.plan).is_file():
-            raise PartitionError('render plan is missing: '+args.plan)
-        render_files(load_plan(args.plan),Path.cwd(),args.output_dir,read_aliases(args.names))
+            raise PartitionError('partition plan is missing: '+args.plan)
+        plan = load_plan(args.plan)
+        aliases = read_aliases(args.names)
+        if args.command == 'render':
+            render_files(plan,Path.cwd(),args.output_dir,aliases)
+        else:
+            from slus_modules import load_manifest
+            stamp = Path(path(args.stamp, 'coverage stamp', 'build', '.ok'))
+            if stamp.is_symlink() or not stamp.parent.resolve().is_relative_to(Path.cwd().resolve()):
+                raise PartitionError('coverage stamp escapes build root')
+            stamp.unlink(missing_ok=True)
+            if not plan:
+                raise PartitionError('emitted coverage requires a nonempty partition plan')
+            actual = check_emitted_objects(plan,load_manifest(args.manifest),Path.cwd(),aliases)
+            stamp.parent.mkdir(parents=True,exist_ok=True)
+            stamp.write_text(json.dumps(actual,sort_keys=True)+'\n')
     except (OSError,ValueError) as exc:
         parser.exit(1,str(exc)+'\n')
 

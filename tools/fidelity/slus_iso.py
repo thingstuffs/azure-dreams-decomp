@@ -32,11 +32,16 @@ Nothing under the real build_slus/, src/, ledger/ or config/ is written.  The co
 """
 from __future__ import annotations
 import os, re, shutil, subprocess, sys, tempfile
+import json
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from common import ROOT, parse_cfg  # noqa: E402
 from slus_module_context import load_manifest, module_for_row  # noqa: E402
+import slus_partitions as partitions  # noqa: E402
+from row_db import edges_of  # noqa: E402
+from slus_modules import logical_edges  # noqa: E402
+from fidelity.objread import read_elf  # noqa: E402
 
 BUILD_SLUS = ROOT / "build_slus"
 IMAGE = "build/slus_006.14"
@@ -60,8 +65,8 @@ sys.exit(subprocess.run([sys.executable, maspsx] + sys.argv[1:], input=out, text
 
 
 def tu_block_re(stem):
-    return re.compile(r"(^build build/src/%s\.o: cc src/%s\.c[^\n]*\n  ccver = )([^\n]*)(\n  ccflags = )([^\n]*)(\n)"
-                      % (re.escape(stem), re.escape(stem)), re.M)
+    return re.compile(r"(^build build/src/%s\.o: cc \S+[^\n]*\n  ccver = )([^\n]*)(\n  ccflags = )([^\n]*)(\n)"
+                      % re.escape(stem), re.M)
 
 
 def set_tu_recipe(ninja_text: str, stem: str, cell: str, flags: str) -> str:
@@ -109,25 +114,89 @@ class SlusView:
             (self.dest / ".iso_ok").write_text("")
         self.pristine = (self.dest / "build.ninja").read_text()
         self.modules = load_manifest(self.dest / "config/slus_modules.json")
+        self.partitions = partitions.load_plan(self.dest / "config/slus_partitions.json")
+        if self.partitions:
+            self.aliases = partitions.read_aliases(self.dest / "config/names.tsv")
+            edges = logical_edges(partitions.project_edges(edges_of(self.pristine), self.partitions), self.modules)
+            expected = [json.loads(line) for line in (ROOT / "ledger/splits/slus.jsonl").read_text().splitlines() if line.strip()]
+            if edges != expected:
+                raise ValueError("partition build differs from the complete logical ledger")
+            partitions.validate_context(self.partitions, self.modules, edges, self.dest / "raw/slus", self.aliases)
 
     def physical_stem(self, stem):
+        if self._partition_context(stem)[0]:
+            raise ValueError("partition context requires physical_stems: " + stem)
         module = module_for_row(self.modules, "slus/" + stem)
         return Path(module["source"]).stem if module else stem
 
+    def _partition_context(self, stem):
+        return partitions.connected_context("slus/" + stem, getattr(self, "partitions", []), self.modules)
+
+    def physical_stems(self, stem):
+        parents, owners = self._partition_context(stem)
+        if parents:
+            return [Path(unit["source"]).stem for unit in partitions.row_units("slus/" + stem, parents, owners)]
+        return [self.physical_stem(stem)]
+
+    def _requested_recipes(self, stem, cell, flags):
+        parents, owners = self._partition_context(stem)
+        if not parents:
+            return {self.physical_stem(stem): (cell, flags)}
+        parent = next((p for p in parents if p["id"] == "slus/" + stem), None)
+        recipe = parent["recipe"] if parent else module_for_row(owners, "slus/" + stem)["recipe"]
+        if (cell, flags) != (recipe["ccver"], recipe["ccflags"]):
+            raise ValueError("partition recipe trial requires an explicit physical-owner plan: " + stem)
+        return {Path(unit["source"]).stem: (unit["recipe"]["ccver"], unit["recipe"]["ccflags"])
+                for unit in partitions.row_units("slus/" + stem, parents, owners)}
+
+    def _partition_coverage(self):
+        """Source parsing cannot detect every macro-generated function: read ELF."""
+        plan = getattr(self, "partitions", [])
+        if not plan:
+            return
+        names = {part["module"] for parent in plan for part in parent["parts"]}
+        owners = [module for module in self.modules if module["name"] in names]
+        expected = partitions.expected_units(plan, owners)
+        emitted = {}
+        for source in expected:
+            obj = read_elf((self.dest / "build/src" / (Path(source).stem + ".o")).read_bytes())
+            emitted[source] = [self.aliases.get(name, name) for name, symbol in obj.symbols.items()
+                if symbol[2] == "func" and symbol[0] and (symbol[0] == ".text" or symbol[0].startswith(".text."))]
+        partitions.check_emitted(expected, emitted)
+
     # ---------------------------------------------------------------- helpers
     def _ninja(self, targets, env=None):
+        if env is None:
+            env = dict(os.environ)
+            env.pop("AZURE_MASPSX", None); env.pop("AZURE_MASPSX_COMPANION", None)
         r = subprocess.run(NICE + ["ninja", "-C", str(self.dest), "-j", "2"] + targets, capture_output=True, text=True,
                            env=env, timeout=1800)
         return r.returncode, (r.stdout + r.stderr)
 
-    def _restore(self, stems):
+    def _restore(self, stems, snapshots=None):
         (self.dest / "build.ninja").write_text(self.pristine)
         for stem in stems:
             p = self.dest / "src" / f"{stem}.c"
             if p.is_symlink() or p.exists():
                 p.unlink()
-            p.symlink_to(self.src_real / f"{stem}.c")
-        for stem in {self.physical_stem(s) for s in stems}:
+            if snapshots is None:
+                p.symlink_to(self.src_real / f"{stem}.c")
+            else:
+                saved = snapshots[stem]
+                if saved["link"] is not None:
+                    p.symlink_to(saved["link"])
+                else:
+                    p.write_bytes(saved["bytes"])
+                    p.chmod(saved["mode"])
+                    os.utime(p, ns=saved["times"])
+        paths = partitions.output_paths(getattr(self, "partitions", []))
+        for parent in getattr(self, "partitions", []):
+            if Path(parent["source"]).stem in stems:
+                for relative in [paths["remainders"][parent["source"]], *paths["parts"][parent["id"]].values()]:
+                    p = self.dest / relative
+                    if p.exists():
+                        p.unlink()
+        for stem in {target for s in stems for target in self.physical_stems(s)}:
             o = self.dest / "build" / "src" / f"{stem}.o"
             if o.exists():
                 o.unlink()
@@ -135,6 +204,9 @@ class SlusView:
             rc, out = self._ninja([IMAGE])     # stock env: the pristine objects and image back
             if rc:
                 raise RuntimeError("could not rebuild the pristine objects of %s: %s" % (stems, out[-400:]))
+            self._partition_coverage()
+            if (self.dest / IMAGE).read_bytes() != (ROOT / "baserom/slus_006.14").read_bytes():
+                raise RuntimeError("restored isolated view does not reproduce retail")
 
     def symbols(self):
         """{name: (addr, size)} of the copy's linked ELF (functions and objects with a size)."""
@@ -158,6 +230,10 @@ class SlusView:
         rc, out = self._ninja([IMAGE])
         if rc:
             return {"result": "ERROR", "detail": out[-600:].replace(str(ROOT), "<repo>")}
+        try:
+            self._partition_coverage()
+        except (OSError, ValueError) as exc:
+            return {"result": "ERROR", "detail": "partition coverage: " + str(exc)}
         got = (self.dest / IMAGE).read_bytes(); ref = (ROOT / "baserom" / "slus_006.14").read_bytes()
         return {"result": "MATCH" if got == ref else "NO MATCH", "words_diff": len(self._diff_words(got, ref))}
 
@@ -177,13 +253,18 @@ class SlusView:
         of the swapped TUs' functions against their retail words), "fn_size_drift", "detail"}."""
         import difflib
         stems = list(changes)
-        physical = list(dict.fromkeys(self.physical_stem(s) for s in stems))
+        if any(not re.fullmatch(r"[A-Za-z0-9_]+", stem) for stem in stems):
+            return {"result": "ERROR", "detail": "invalid logical source stem"}
+        physical = list(dict.fromkeys(target for s in stems for target in self.physical_stems(s)))
         recipes = {}
-        for stem, (_, cell, flags) in changes.items():
-            target = self.physical_stem(stem)
-            if target in recipes and recipes[target] != (cell, flags):
-                return {"result": "ERROR", "detail": f"conflicting recipes for module {target}"}
-            recipes[target] = (cell, flags)
+        try:
+            for stem, (_, cell, flags) in changes.items():
+                for target, recipe in self._requested_recipes(stem, cell, flags).items():
+                    if target in recipes and recipes[target] != recipe:
+                        return {"result": "ERROR", "detail": f"conflicting recipes for module {target}"}
+                    recipes[target] = recipe
+        except ValueError as exc:
+            return {"result": "ERROR", "detail": str(exc)}
         for module in self.modules:
             target = Path(module["source"]).stem
             original = (module["recipe"]["ccver"], module["recipe"]["ccflags"])
@@ -194,14 +275,22 @@ class SlusView:
         text = self.pristine
         before = self.pristine_symbols()
         fn_before = {s: self.tu_functions(s) for s in physical}
+        snapshots = {}
+        for stem in stems:
+            p = self.dest / "src" / f"{stem}.c"
+            stat = p.stat()
+            snapshots[stem] = {"link": os.readlink(p) if p.is_symlink() else None,
+                               "bytes": p.read_bytes(), "mode": stat.st_mode & 0o777,
+                               "times": (stat.st_atime_ns, stat.st_mtime_ns)}
         try:
-            for stem, (ctext, cell, flags) in changes.items():
-                target = self.physical_stem(stem)
+            for target, (cell, flags) in recipes.items():
                 text = set_tu_recipe(text, target, cell, flags)
+            for stem, (ctext, cell, flags) in changes.items():
                 if ctext is not None:
                     p = self.dest / "src" / f"{stem}.c"
                     p.unlink()
                     p.write_text(ctext)
+            for target in physical:
                 o = self.dest / "build" / "src" / f"{target}.o"
                 if o.exists():
                     o.unlink()
@@ -217,6 +306,10 @@ class SlusView:
             rc, out = self._ninja([f"build/src/{s}.o" for s in physical], env=env)
             if rc:
                 return {"result": "ERROR", "detail": "compile: " + out[-600:].replace(str(ROOT), "<repo>")}
+            try:
+                self._partition_coverage()
+            except (OSError, ValueError) as exc:
+                return {"result": "ERROR", "detail": "partition coverage: " + str(exc)}
             rc, out = self._ninja([IMAGE])
             if rc:
                 return {"result": "ERROR", "detail": "link: " + out[-600:].replace(str(ROOT), "<repo>")}
@@ -245,7 +338,7 @@ class SlusView:
                     "against retail)%s; %d image words differ" % (residue, "; size drift %s" % drift if drift else "", len(words))}
         finally:
             if not keep:
-                self._restore(stems)
+                self._restore(stems, snapshots)
 
     @staticmethod
     def _diff_words(a: bytes, b: bytes):

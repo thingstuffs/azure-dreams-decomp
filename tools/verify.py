@@ -432,8 +432,10 @@ def slus_regions(got, tgt, mask):
 
 def verify_slus(row, cfile, include_root=None, regions=False, diff=False):
     t0 = time.time()
-    from slus_module_context import membership
+    from slus_module_context import membership, partition_context
     try:
+        if Path(cfile).resolve() != raw_path(row).resolve() and partition_context(row)[0]:
+            return verify_slus_partition(row, cfile, include_root=include_root, regions=regions, diff=diff)
         module = membership(row) if Path(cfile).resolve() != raw_path(row).resolve() else None
     except (OSError, ValueError) as exc:
         return {"status": "failed", "exact": False, "err": "module context: " + str(exc)}
@@ -469,6 +471,62 @@ def verify_slus(row, cfile, include_root=None, regions=False, diff=False):
         ndiff = sum(1 for a, b in zip(got, tgt) if a.split(None, 2)[-1] != b.split(None, 2)[-1]) + abs(len(got) - len(tgt))
         return {"status": "ok", "exact": False, "obj_sha": h, "gen_words": len(got), "tgt_words": len(tgt),
                 "total": ndiff, "class": "length-drift" if len(got) != len(tgt) else "slus-diff", "secs": round(time.time() - t0, 2)}
+
+def verify_slus_partition(row, cfile, include_root=None, regions=False, diff=False, root=ROOT, build_root=None):
+    """Gate one canonical row edit through every declared physical partition."""
+    from fidelity.slus_iso import SlusView
+    from slus_module_context import partition_context, fingerprint, source_path, modules
+    import slus_partitions as partitions
+    root = Path(root).resolve()
+    t0 = time.time()
+    try:
+        parents, owners, aliases = partition_context(row, root)
+        if not parents:
+            raise ValueError("row has no partition context")
+        if include_root is not None and Path(include_root).resolve() != root / "include":
+            raise ValueError("partition gate requires current shared headers")
+        parent = next((p for p in parents if p["id"] == row["id"]), None)
+        if parent:
+            recipe = parent["recipe"]
+        else:
+            recipe = next(m["recipe"] for m in owners if any(x["id"] == row["id"] for x in m["members"]))
+        if (row.get("row_asflags") or "") != recipe["asflags"]:
+            raise ValueError("partition gate does not support logical-row assembler-flag trials")
+        before = fingerprint(row, root)
+        candidate = Path(cfile).read_text()
+        with tempfile.TemporaryDirectory(prefix="slus_partition_") as td:
+            view = SlusView(Path(td) / "build", source=build_root or root / "build_slus")
+            if view.partitions != partitions.load_plan(root / "config/slus_partitions.json") or view.modules != modules(root):
+                raise ValueError("partition build context differs from the current manifest")
+            sources = {p["source"] for p in parents} | {m["source"] for m in owners}
+            sources.update(member["source"] for m in owners for member in m["members"])
+            for source in sources:
+                if (view.dest / source).read_bytes() != source_path(source, root).read_bytes():
+                    raise ValueError("partition build source differs from canonical input: " + source)
+            for header in {h for m in owners for h in m["headers"]}:
+                if (view.dest / header).read_bytes() != (root / header).read_bytes():
+                    raise ValueError("partition build header differs from canonical input: " + header)
+            if partitions.read_aliases(view.dest / "config/names.tsv") != aliases:
+                raise ValueError("partition build names differ from current aliases")
+            calibration = view.calibrate()
+            if calibration["result"] != "MATCH":
+                raise ValueError("partition gate baseline: " + str(calibration))
+            result = view.gate({Path(row["c_path"]).stem: (candidate, row["cell"], row["flags"])})
+        if fingerprint(row, root) != before or Path(cfile).read_text() != candidate:
+            raise ValueError("partition inputs changed during verification")
+        exact = result["result"] == "MATCH"
+        if regions or diff:
+            return {"status": "regions", "text": "*** MATCH *** (whole SLUS image, partition context)" if exact else json.dumps(result, indent=2),
+                    "secs": round(time.time() - t0, 2)}
+        return {"status": "failed" if result["result"] == "ERROR" else "ok", "exact": exact,
+                "proof": "whole SLUS image, partition context", "module_fingerprint": before,
+                "physical_units": partitions.row_units(row["id"], parents, owners),
+                "total": result.get("residue", result.get("words_diff")),
+                "err": result.get("detail") or None, "secs": round(time.time() - t0, 2)}
+    except (OSError, ValueError, RuntimeError) as exc:
+        return {"status": "failed", "exact": False, "err": "partition gate: " + str(exc),
+                "secs": round(time.time() - t0, 2)}
+
 
 def verify_slus_module(row, cfile, regions=False, diff=False):
     """A row edit must preserve the complete image, including its module siblings."""

@@ -21,16 +21,17 @@ the remaining 20 form the collector-linked component. Production counts and
 defaults remain unchanged by this selective rehearsal.
 
 Current architecture checkpoint: [explicit function partitions](SLUS_PARTITIONS.md)
-have a tested planner/renderer, normal-Ninja private proof, and plural candidate
-compilation with connected fingerprints and compiled function coverage. Canonical
-files remain intact; all 181 affected functions are accounted for, all 44 E0 words
-are genuine-exact, and the private image matches retail. Each logical input's new
-compiler streams reproduce the linked physical objects. Moved/remainder edits
-reach only their intended object; a hidden macro function is rejected. Existing
-singular consumers refuse live partition contexts; frozen raw remains standalone.
-The runtime-directory pilot is recertified. Production activation still needs
-plural full-image gating, per-owner genuine records and part-aware certificates.
-No production partition plan or assembler default/pass change is active.
+now support optional build generation, logical projection, plural candidate
+compilation and full-image gating. Both normal Ninja and isolated verification
+require exact emitted-function coverage before link/equality. All 181 private E0
+functions, 884 logical rows and 44 genuine-exact words are retained. Six MIPS
+candidate scenarios verify routing and restoration, including compile failures
+and macro-hidden extra functions. All 99 SLUS tests and the row database pass;
+the production image still matches the pinned recipe and retail. The runtime
+pilot is recertified. Activation still needs per-owner genuine records and
+part-aware ownership/placement certificates; then activate E0 and remove only
+its proved-eliminated GP dependency. No production partition plan or assembler
+default/pass change is active.
 
 Previous checkpoint: [shared cancellation state at 8099C](evidence/gp_shared_8099c.md)
 lands 33D44/33D54 at 2.8.1 after an unchanged-source byte-neutral setter move.

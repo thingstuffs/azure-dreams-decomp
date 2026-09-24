@@ -1,0 +1,44 @@
+{
+  "tool_sha256": {
+    "tools/build/configure.py": "b33d29d58b2564388bf7609a5bc3f37f77b0831ce1d215cc582d135ad6f4f10e",
+    "tools/build/mk_slus_root.sh": "62f6904a0cfb00823b6a6fba3e29c7f78e147bd84e37cde6a590d6ee0eb86f5b",
+    "tools/build/slus_partitions.py": "28004bb63ec42f23c1b3835098dc2f725d7d0b6affaf60b487fefdee675cb897",
+    "tools/row_db.py": "69d78b6b741cc30e2e040ad31e42c40a9439598ba3c901badf8760b413ff2461",
+    "tools/fidelity/slus_iso.py": "405a9ee8c3257aef4f54115e81a6f36e32afbf1176c7205a6312d6ec41bb40ab",
+    "tools/verify.py": "99f32103e0b1860aa45099442aa421e69939fd9523713e7982f24def952c5b65",
+    "tools/fidelity/aspsx_diff.py": "42f14153f742b20a94a4b8a51eb15362f6b5fb797d9521a36007c18465a627e7"
+  },
+  "matching_private_candidates": {
+    "tools/build/configure.py": true,
+    "tools/build/mk_slus_root.sh": true,
+    "tools/row_db.py": true,
+    "tools/build/slus_partitions.py": true,
+    "tools/fidelity/slus_iso.py": true,
+    "tools/verify.py": true
+  },
+  "receipts": {
+    "gate_receipt.json": "096221d8a916d9685367fc21f5893b54b1aa4c97a3a15026d1b855dd43cf84f7",
+    "integration_receipt.json": "b5bf76457800b6d316e965e16a232931ec1c8a00d0e83e482222815934032d70"
+  },
+  "probe_sha256": {
+    "gate": "24db4d115cbf05bd4614a507ba0215034ac18d9487348e4a588493414f5abfec",
+    "build": "bb06f10d54d539d139f0bef3d8cbe7a82beeb27a8aff9825f64f95284bb468d0"
+  },
+  "regression": {
+    "slus_tests_passed": 99,
+    "command": "python3 -m unittest discover -s tools/tests -p 'test_slus_*.py'",
+    "row_database": "OK"
+  },
+  "production_gate": {
+    "at": "2026-09-24T18:19:25Z",
+    "result": "MATCH",
+    "tus": 873,
+    "recipe_sha256": "cce6e9580c32bd7dd4c159fa58e4a5d89a6ba4944e9b125e6e1d5035fe305b46",
+    "recipe_vs_pinned": "identical",
+    "secs": 0,
+    "gate": "sha1sum -c config/slus_006.14.sha1 (ninja)"
+  },
+  "runtime_certificate_sha256": "2edbd6e767f4bc1fa1de858f75a78b5a9caa241bf88c43cef8af0de4a3c0775f",
+  "production_partition_plan_active": false,
+  "production_assembler_changed": false
+}
