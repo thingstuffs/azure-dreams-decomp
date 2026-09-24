@@ -1,9 +1,10 @@
 # SLUS function partitions and owner certificates
 
-Status: **E0 is active with full retail, genuine-ASPSX and ownership proof**.
-`config/slus_partitions.json` moves two named functions into the list-cursor
-owner while preserving both collector IDs, complete canonical C and original
-recipe provenance. The sections below retain the earlier implementation proofs;
+Status: **E0 and B94/B98 are active with full retail, genuine-ASPSX and ownership proof**.
+`config/slus_partitions.json` moves three named functions into the list-cursor
+and saved-value owners while preserving both collector IDs, complete canonical C
+and original recipe provenance. E0 has placement certification; B94/B98 currently
+has data-ownership proof only. The sections below retain the earlier implementation proofs;
 the production activation checkpoint is recorded near the end.
 
 ## Purpose and identity
@@ -281,6 +282,24 @@ entry is removed. Both the new module and runtime-directory pilot have current
 certificates. See [activation review](evidence/slus_partitions/e0_activation_review.json)
 for hashes, checks and current ladder results.
 
+## Production B94/B98 activation
+
+The [saved-value owner review](evidence/gp_b98_partition.md) groups 50CAC from
+`code` with the whole 50DA8 and 50E20 rows. It owns precisely two real `s32`
+words at B94/B98, initialized to 1/0, and shares the canonical attachment pointer
+prototype without inventing a record layout. All 76 owner words match stock,
+genuine ASPSX 2.79 and retail with zero masks. The complete image is retail-exact;
+all 870 outside objects are unchanged in the private integration comparison.
+
+The connected closure now contains 183 functions across two remainders and two
+owners, each emitted exactly once. Three negative candidate checks cover the new
+part, the existing E0 part and the collector remainder; all are rejected and
+restore canonical sources and the retail image. Fresh full-owner evidence removes
+only 50DA8/50E20 from the dependency ledger. Their existing 814A0 workarounds remain;
+this activation does not grant L4/L5 placement. E0 and runtime-directory placement
+certificates remain current. See the [activation review](evidence/gp_b98_partition/activation_review.json)
+for source hashes, 135 passing tests, current counts and ladder results.
+
 ## Integration and next groups
 
 1. **Implemented:** plural physical contexts, connected fingerprints and candidate
@@ -295,12 +314,12 @@ for hashes, checks and current ladder results.
 4. **Implemented:** ownership/certificate evidence includes incoming function
    parts and fresh connected fingerprints. A subset proof cannot grant placement
    to a whole collector; existing L4/L5 requirements are preserved.
-5. **E0 activated:** retail/genuine/data gates and runtime-pilot recertification
-   pass. Apply the same explicit function grouping to remaining components, next
-   the bounded B94/B98 group or the CD driver groups. Review source/declaration
+5. **E0 and B94/B98 activated:** retail/genuine/data gates and runtime-pilot
+   recertification pass. Apply the same explicit function grouping to remaining
+   components, next the bounded 81540 group or the CD driver groups. Review source/declaration
    evidence independently for each; do not merge the whole historical 20-row graph.
 
 The [consumer inventory](evidence/slus_partitions/consumers.md) identifies exact
-callsites. Production now has **196 dependencies, 28 GP rows, 20 ownership
-units, 873 physical / 884 logical rows**. The separate generic assembler
+callsites. Production now has **194 dependencies, 26 GP rows, 21 ownership
+units, 872 physical / 884 logical rows**. The separate generic assembler
 correction and pass retirement are still pending; this layer changes neither.

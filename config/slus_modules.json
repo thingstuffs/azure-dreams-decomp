@@ -981,6 +981,56 @@
         }
       ],
       "evidence": "docs/evidence/list_cursor_e0.md"
+    },
+    {
+      "name": "saved_value_b98",
+      "source": "src/w_80050DA8_owned.c",
+      "members": [
+        {
+          "id": "slus/w_80050DA8",
+          "source": "src/w_80050DA8.c",
+          "functions": [
+            "func_80050DA8"
+          ]
+        },
+        {
+          "id": "slus/w_80050E20",
+          "source": "src/w_80050E20.c",
+          "functions": [
+            "func_80050E20"
+          ]
+        }
+      ],
+      "headers": [
+        "include/common.h",
+        "include/slus/saved_value_b98.h"
+      ],
+      "recipe": {
+        "ccver": "2.7.2-cdk",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "data": [
+        {
+          "symbol": "D_80080B94",
+          "asset": "assets/54240.bin",
+          "offset": 340,
+          "size": 4,
+          "vram": 2148010900,
+          "bytes": "01000000",
+          "section": ".sdata"
+        },
+        {
+          "symbol": "D_80080B98",
+          "asset": "assets/54240.bin",
+          "offset": 344,
+          "size": 4,
+          "vram": 2148010904,
+          "bytes": "00000000",
+          "section": ".sdata"
+        }
+      ],
+      "evidence": "docs/evidence/gp_b98_partition.md"
     }
   ]
 }

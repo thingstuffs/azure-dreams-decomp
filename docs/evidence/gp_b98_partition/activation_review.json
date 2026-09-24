@@ -1,0 +1,144 @@
+{
+  "source_sha256": {
+    "config/slus_modules.json": "083fec5dbb0146a05fefd987b29304b2df41ede981415d55d18ccf70e1c36f16",
+    "config/slus_partitions.json": "0689f7f4f85ba61cc78cee3152cb4725c0f6408e21e12ec8039d64764a4fc96c",
+    "src/slus/code.c": "1c1afc31d56af7f3505ad1a9e54c4c21023aac81b2314ad3581dbeadf1e28b16",
+    "src/slus/code2.c": "443e6c482c7a5fe6fcf53c5381384618acac6adb06cff6d287aea2386f65c2bb",
+    "src/slus/w_80050DA8.c": "53a3b360e20f1d5c9c048498893f14ae4cfcff09d123b6e8f38f70183febc138",
+    "src/slus/w_80050E20.c": "d2ae10a5d322f55124265a3d89e0a0b52c71d3ab7af80ee9ba9e32a7053812f2",
+    "src/slus/w_80050DA8_owned.c": "97d54a74682f3ed719f76295d8e1eb0abd8b4f5983ce14b2ee63f4bd6b29c893",
+    "include/slus/saved_value_b98.h": "98e7c11a889f466e0757dbd6a769b4476fcc7bd34af80eb49cfe797c9ac6a404",
+    "docs/evidence/gp_b98_partition.md": "6d07ee24a9b1099098dec6c4445c607e6ec994a8962f2376399c1dd10e698eb2"
+  },
+  "tool_sha256": {
+    "tools/build/slus_partitions.py": "28004bb63ec42f23c1b3835098dc2f725d7d0b6affaf60b487fefdee675cb897",
+    "tools/slus_module_context.py": "046194a17445c6c34d1ae87a7d8117401e3527a8f789db99c2035fbdb68fa870",
+    "tools/slus_module_evidence.py": "38a699f315e082f16c9e7ead3c414f37a1ef71b18d75e15e2699c5720b80b32a",
+    "tools/fidelity/prove_slus_ownership.py": "6eb7656ea1118212c32b848e22f6d58fb43e1a348ea5f932efb828936e684320",
+    "tools/fidelity/certify_slus_module.py": "0628cfa11b93d1e86b2f9c276f4f82d2f8dd7234ea7f0449dfc50c8017296cf4",
+    "tools/build/mk_slus_root.sh": "0c6441ffcb51d6c958b13a70d3cba98e44b3ff7425db00fdab213abc89dd351e"
+  },
+  "receipts_sha256": {
+    "direct_receipt.json": "7eab0eb825cc6b7d7560902b53d9a9c93be36ece38823ad9cec68d44cff027a9",
+    "gate_receipt.json": "70975bda67b91ac8d39ec36feac7e21676574a31c1706f959020512dade95b57",
+    "live_rows.json": "6ceb1854da7b922f50474b27d67b5045421c90c0fb33433bcf7134ddbba93a46",
+    "ownership_receipt.json": "5d8c3b4e12c4ee81b9f553795edb483eacf459221a08a3e5822c8b81665786c6",
+    "private_genuine_receipt.json": "bf7b447213bb62ed331e456e3e7b3685dd87b4e8b8547d912d59f2e970d20d3d",
+    "private_link_receipt.json": "c5b328e18833bb321f2d19d2a1b0103dacf1787fb5db4f807d8701b9ebb22a5b"
+  },
+  "certificates": {
+    "runtime_directory": {
+      "valid": true,
+      "sha256": "22b3483b0e1a41cf4a78d9dd67d1c9f1dcb799f88cf69c495e1a352c22a30d7a"
+    },
+    "list_cursor_e0": {
+      "valid": true,
+      "sha256": "694c6116d4f872a98abac76d1a1593306f060181cf7ab912262982b40d3f65f0"
+    }
+  },
+  "regression": {
+    "slus_tests_passed": 130,
+    "configure_tests_passed": 5,
+    "row_database": "OK",
+    "actual_mips_candidate_trials": 3,
+    "all_trial_restorations_retail_exact": true
+  },
+  "production_gate": {
+    "at": "2026-09-24T19:07:34Z",
+    "result": "MATCH",
+    "tus": 872,
+    "recipe_sha256": "3938380214d95a5b9bf826ab96ff1a4605e5224444faecaa753a62a707fce61c",
+    "recipe_vs_pinned": "identical",
+    "secs": 1,
+    "gate": "sha1sum -c config/slus_006.14.sha1 (ninja)"
+  },
+  "production_image_sha1": "e6bfbb95ff6676899e077481221d73ddd4d3bf52",
+  "counts": {
+    "modules": 21,
+    "physical": 872,
+    "logical": 884,
+    "dependencies": 194,
+    "gp_rows": 26
+  },
+  "ladder": {
+    "slus/code": {
+      "level": 3,
+      "pins_left": 0,
+      "tail_jumps": 0,
+      "l4_residue": [
+        "not_in_module",
+        "cell_imitation"
+      ],
+      "l5_residue": [
+        "fidelity_site",
+        "maspsx_dependent"
+      ]
+    },
+    "slus/code2": {
+      "level": 3,
+      "pins_left": 0,
+      "tail_jumps": 0,
+      "l4_residue": [
+        "not_in_module"
+      ],
+      "l5_residue": [
+        "fidelity_site",
+        "maspsx_dependent"
+      ]
+    },
+    "slus/w_80050DA8": {
+      "level": 3,
+      "pins_left": 0,
+      "tail_jumps": 0,
+      "l4_residue": [
+        "not_in_module"
+      ],
+      "l5_residue": [
+        "inline_asm"
+      ]
+    },
+    "slus/w_80050E20": {
+      "level": 3,
+      "pins_left": 0,
+      "tail_jumps": 0,
+      "l4_residue": [
+        "not_in_module"
+      ],
+      "l5_residue": []
+    },
+    "slus/w_80041134": {
+      "level": 5,
+      "pins_left": 0,
+      "tail_jumps": 0,
+      "l4_residue": [],
+      "l5_residue": []
+    },
+    "slus/konami_runtime_w_8003C634": {
+      "level": 5,
+      "pins_left": 0,
+      "tail_jumps": 0,
+      "l4_residue": [],
+      "l5_residue": []
+    },
+    "slus/konami_runtime_w_8003C758": {
+      "level": 4,
+      "pins_left": 0,
+      "tail_jumps": 0,
+      "l4_residue": [],
+      "l5_residue": [
+        "fidelity_site"
+      ]
+    },
+    "slus/konami_runtime_w_8003C920": {
+      "level": 5,
+      "pins_left": 0,
+      "tail_jumps": 0,
+      "l4_residue": [],
+      "l5_residue": []
+    }
+  },
+  "data_ownership_only": "saved_value_b98; no new placement certificate",
+  "canonical_collectors_unchanged": true,
+  "production_assembler_changed": false,
+  "autosnapshot_note": "adcdf117 captured the source, pinned build and refreshed certificates before this activation documentation commit."
+}
