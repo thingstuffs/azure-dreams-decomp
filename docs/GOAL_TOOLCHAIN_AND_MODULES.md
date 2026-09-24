@@ -192,9 +192,15 @@ and data directive (only source-file metadata changes). Full verification is
 being rerun on this corrected proposal. The frozen census and any resulting
 include-contract failures are retained as separate evidence.
 
-The corrected final proposal passes the normal build, all33 ownership proofs
+The corrected final proposal passes the normal build, all 33 ownership proofs
 (59 measured rows / 70 data records), and both existing placement certificates.
-All860 object hashes match ready29 and the image matches retail. Candidate and
+All 860 object hashes match ready29 and the image matches retail. Candidate and
 production input hashes are unchanged. See the [final ownership rehearsal](evidence/gp_partition_only/full_ownership/report.md).
 The six-version census and final activation sign-off remain pending; production
 semantics and dependency counts have not yet changed.
+
+The MAIN coverage follow-up identifies four direct calls to the three unregistered
+routines, distinguishes their `0x8040...` linked addresses from old derived row
+names, and records the identical TOWN code copy. Exact SDK object/release and
+retail runtime loading remain unresolved; all three C-coverage gaps stay explicit.
+See the [caller and platform-boundary evidence](evidence/main_kernel_coverage_audit.md#follow-up-callers-and-linked-address-boundary).

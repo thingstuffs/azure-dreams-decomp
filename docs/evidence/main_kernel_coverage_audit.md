@@ -34,9 +34,42 @@ python3 tools/fidelity/audit_main_kernel.py
 Outputs: `work/fidelity/main_kernel_audit/` (slices, disassemblies, `SHA256SUMS`).
 Luna's detailed inventory: `work/native_lane/main_coverage_inventory/REPORT.md`.
 
-Incoming callers remain unverified; no source-name hits does not establish that
-these routines are unused. Their historical lane note is absent at its exact
+The initial audit left incoming callers unverified; the follow-up below now
+identifies direct calls. No source-name hits alone could establish that these
+routines are unused. Their historical lane note is absent at its exact
 working-tree and checked archive paths. Follow-up implementation should establish
 callers and the platform boundary, then reproduce code through the real build
 gate. Do not inherit the old notes' universal C-impossibility claims without a
 new feature-attribution audit.
+
+## Follow-up: callers and linked-address boundary
+
+The [caller audit](main_kernel_callers/REPORT.md) identifies four direct `jal`
+instructions in two MAIN caller functions. Their encoded targets use the
+independently evidenced link mapping of the memory-card front-end image, rather
+than the derived names assigned by `main_boot.overlay.yaml`:
+
+| Historical row name | Linked target | Direct callsite VMAs |
+| --- | --- | --- |
+| `func_800217C8` | `0x804087C8` | `0x80408780` |
+| `func_800218A0` | `0x804088A0` | `0x80408704` |
+| `func_80021958` | `0x80408958` | `0x8040870C`, `0x80408778` |
+
+TOWN contains the same 208-byte caller block, byte for byte; it is counted as a
+physical copy, not four additional independent source callers. A separate
+TOWN word containing the derived `0x80021958` spelling lies in table-like data
+and has no confirmed relationship to the installer. The scan and root review
+confirm the four MAIN instruction encodings against the held binary.
+
+The existing assertion-site audit classifies the containing image as devkit-linked.
+These linked addresses do not, by themselves, prove runtime loading or execution
+on retail hardware. The routines remain a BIOS-vector/kernel-patching boundary
+inside that image. Held libcard labels and neighboring Sony `c_server.c` evidence
+support the memory-card context, but the exact SDK object and release for these
+three routines remain unknown. The scan excludes neither indirect calls nor
+constructed/relocated pointers.
+
+All three remain explicit unregistered C-coverage gaps. This follow-up supplies
+callers and a more precise address/provenance boundary; it neither implements
+them nor establishes a universal C-impossibility claim. Their existing row IDs
+and source mapping are retained pending an independently verified mapping change.

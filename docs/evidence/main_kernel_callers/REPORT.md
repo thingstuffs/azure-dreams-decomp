@@ -1,0 +1,26 @@
+# Incoming references to the three unregistered MAIN routines
+
+The held `MAIN_MAIN.BIN` contains **four direct `jal` instructions** to the three routines in a coherent caller block immediately before them. The [disassembly](main_callsite_block.disasm.txt) shows two functions with normal stack prologues and returns; this is mapped executable code, not just an opcode-shaped raw word. The same 208-byte block is byte-identical in held `TOWN_TOWN.BIN` ([copy disassembly](town_callsite_block.disasm.txt)), giving eight physical instruction-word occurrences but **four distinct callsite instructions**. The TOWN copy's runtime load address is not established here.
+
+| MAIN file offset | MAIN devkit-linked callsite VMA | Caller block start | Encoded instruction | Linked target | Historical row name |
+|---:|---:|---:|---|---:|---|
+| `0x271704` | `0x80408704` | `0x804086DC` | `0C102228` `jal` | `0x804088A0` | `func_800218A0` |
+| `0x27170C` | `0x8040870C` | `0x804086DC` | `0C102256` `jal` | `0x80408958` | `func_80021958` |
+| `0x271778` | `0x80408778` | `0x80408768` | `0C102256` `jal` | `0x80408958` | `func_80021958` |
+| `0x271780` | `0x80408780` | `0x80408768` | `0C1021F2` `jal` | `0x804087C8` | `func_800217C8` |
+
+The VMA distinction matters. [main_boot.overlay.yaml](../../../config/overlays/main_boot.overlay.yaml) assigns the **derived** `file + 0x7FDB0000` map, naming the target slices `0x800217C8`, `0x800218A0`, and `0x80021958`. Independent assertion-site and `jal` evidence in [konami_assertion_sites.md](../../../docs/evidence/konami_assertion_sites.md) instead places `MAIN_MAIN.BIN[0x269000:0x275800)` at the **devkit-linked** `0x80400000 + (file-0x269000)` map. That gives the target VMAs in the table (`0x804087C8`, `0x804088A0`, `0x80408958`) and caller VMAs above. The raw `jal` fields decode to those linked targets under either KSEG0 PC mapping; they do **not** encode jumps to the derived `0x8002xxxx` target spellings. The assertion-site audit classifies this region as a devkit-linked image. This scan establishes linked call targets but does not prove whether or how the block was loaded or executed on retail hardware.
+
+The TOWN copy occupies the same file offsets `0x2716D0:0x2717A0` and has the same SHA-256 `fc9a0c189abd1f7e14b6bf0c4c5bef40e792a251c56fe45ab186a8e8009fbec6`. Its registered split rows label the two caller functions `func_802F16DC` and `func_802F1768`; their row-derived callsite VMAs are `0x802F1704`, `0x802F170C`, `0x802F1778`, and `0x802F1780`. Those are synthetic row mappings; the block's instructions still encode the `0x8040xxxx` targets. Treat the TOWN occurrences as a copied code block with unresolved load/use provenance, not four additional independent source callers.
+
+The exact 32-bit little-endian word scan found **one other hit** among the five binaries: TOWN file `0x79D890` contains `0x80021958`. It is word-aligned inside split row `func_8081CDC8`, amid increasing words `0x80021624, 0x80021768, 0x800217C4, 0x80021958, 0x80021A5C, 0x80021B20, 0x80021D94` ([context bytes](town_pointer_block.bin)). This is table-like raw data, not a mapped `jal`, and it spells the **derived** `0x80021958`, not the devkit-linked `0x80408958`. Its referent is therefore ambiguous; it is not counted as a confirmed incoming pointer to this installer. No exact 32-bit word spelling of the three devkit-linked addresses was found. No target-field `j`/`jal` or exact pointer-word hits were found in the resident SLUS, DUNGEON, or OVMOVIE inputs scanned.
+
+[scan.py](scan.py) reproduces the scan and [receipt.json](receipt.json) pins its source/config/ledger inputs, the SHA-256 of all five binaries, all three target slices, each hit's file offset, raw word, decoded/mapped VMA where available, and context. It scans every aligned 32-bit word for direct MIPS `j`/`jal` target fields and every byte offset for exact 32-bit target spellings, including the devkit and derived KSEG1 aliases. It checks the three slice hashes against the earlier [kernel audit](../../../docs/evidence/main_kernel_coverage_audit.md), regenerates the two caller disassemblies, and verifies the MAIN/TOWN block equality. Reproduce from the repository root with:
+
+```sh
+python3 work/native_lane/main_kernel_callers/scan.py
+```
+
+This exact-word scan does not find `jalr`/callback calls, split `lui`/low-half addresses, patched vectors, or references in unscanned library or disc material. An opcode field in a banked overlay has no unique full target without a source PC mapping; the MAIN mapping above has independent evidence, while the TOWN runtime mapping does not. Absence of a hit elsewhere is not proof that a routine is unused.
+
+For SDK provenance, the held [SLUS config](../../../config/slus_006.14.yaml) explicitly labels file `0x3D578` `psyq/libcard/END` as `_ExitCard`, another zero-frame fixed-global BIOS-vector installer, and `0x3D548` `psyq/libcard/A74` as `InitCARD2`. The assertion-site audit attributes neighboring MAIN card-server modules at `0x25D000` and `0x269000` to Sony's `c_server.c` in shipped and devkit revisions. Neither source identifies an exact library object or SDK release for **these three** routines. The historical split rows' `work/main_endgame_20260818/lane_D_handler_cluster_and_gate.md` reference remains unavailable as noted in the earlier audit; no broader attribution is claimed here.
