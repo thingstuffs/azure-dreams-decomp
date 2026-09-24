@@ -1,0 +1,242 @@
+{
+  "schema": 1,
+  "at": "2026-09-24T15:34:15Z",
+  "purpose": "data ownership only; no L4/L5 placement certificate",
+  "modules": [
+    "konami_runtime_gp_count",
+    "gp_shared_slots"
+  ],
+  "module_fingerprints": {
+    "slus/konami_runtime_w_8003C6F8": "e07073b33abe115a41453e1d7ca2a568b0f5eaf046341cb24c064906f69e6095",
+    "slus/w_8003CB08": "a01b66ead8d5c109b055eebec7ebcd35416d8bb8d868489f4a2cd132820490d6",
+    "slus/w_8003CCB0": "a01b66ead8d5c109b055eebec7ebcd35416d8bb8d868489f4a2cd132820490d6"
+  },
+  "tool_fingerprint": "087ade135653506c4a26",
+  "recipe_sha256": "519779ce313d028971637b73e4e215d109bc79652766e41911701ab5aa44caf1",
+  "image_sha1": "e6bfbb95ff6676899e077481221d73ddd4d3bf52",
+  "gate": {
+    "result": "MATCH",
+    "words_diff": 0
+  },
+  "data": {
+    "konami_runtime_gp_count": {
+      "section": ".sdata",
+      "size": 4,
+      "bytes": "00000000",
+      "symbols": [
+        {
+          "symbol": "D_80081460",
+          "asset": "assets/54240.bin",
+          "offset": 2592,
+          "size": 4,
+          "vram": 2148013152,
+          "bytes": "00000000",
+          "section": ".sdata",
+          "object_offset": 0,
+          "linked_kind": "T"
+        }
+      ]
+    },
+    "gp_shared_slots": {
+      "section": ".sdata",
+      "size": 16,
+      "bytes": "00000000000000000000000000000000",
+      "symbols": [
+        {
+          "symbol": "D_80080AA4",
+          "asset": "assets/54240.bin",
+          "offset": 100,
+          "size": 2,
+          "vram": 2148010660,
+          "bytes": "0000",
+          "section": ".sdata",
+          "object_offset": 0,
+          "linked_kind": "T"
+        },
+        {
+          "symbol": "D_80080AA6",
+          "asset": "assets/54240.bin",
+          "offset": 102,
+          "size": 2,
+          "vram": 2148010662,
+          "bytes": "0000",
+          "section": ".sdata",
+          "object_offset": 2,
+          "linked_kind": "T"
+        },
+        {
+          "symbol": "D_80080AA8",
+          "asset": "assets/54240.bin",
+          "offset": 104,
+          "size": 2,
+          "vram": 2148010664,
+          "bytes": "0000",
+          "section": ".sdata",
+          "object_offset": 4,
+          "linked_kind": "T"
+        },
+        {
+          "symbol": "D_80080AAA",
+          "asset": "assets/54240.bin",
+          "offset": 106,
+          "size": 2,
+          "vram": 2148010666,
+          "bytes": "0000",
+          "section": ".sdata",
+          "object_offset": 6,
+          "linked_kind": "T"
+        },
+        {
+          "symbol": "D_80080AAC",
+          "asset": "assets/54240.bin",
+          "offset": 108,
+          "size": 4,
+          "vram": 2148010668,
+          "bytes": "00000000",
+          "section": ".sdata",
+          "object_offset": 8,
+          "linked_kind": "T"
+        },
+        {
+          "symbol": "D_80080AB0",
+          "asset": "assets/54240.bin",
+          "offset": 112,
+          "size": 4,
+          "vram": 2148010672,
+          "bytes": "00000000",
+          "section": ".sdata",
+          "object_offset": 12,
+          "linked_kind": "T"
+        }
+      ]
+    }
+  },
+  "rows": {
+    "slus/konami_runtime_w_8003C6F8": {
+      "row": "slus/konami_runtime_w_8003C6F8",
+      "container": "slus",
+      "kind": "slus",
+      "cfg": "2.7.2-cdk",
+      "pins": 0,
+      "asflags": "",
+      "cell": "2.7.2-cdk",
+      "maspsx_exact": true,
+      "proof": "whole SLUS image, module context",
+      "fired": [],
+      "module": "konami_runtime_gp_count",
+      "module_fingerprint": "e07073b33abe115a41453e1d7ca2a568b0f5eaf046341cb24c064906f69e6095",
+      "trace_scope": "whole-module",
+      "selfcheck": true,
+      "funcs": 1,
+      "words": 24,
+      "maspsx_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      },
+      "has_div": false,
+      "genuine": {
+        "2.79": {
+          "exact": true,
+          "diff": 0,
+          "len": 24,
+          "mode": "",
+          "retail": [
+            0,
+            0
+          ]
+        }
+      },
+      "exact_versions": [
+        "2.79"
+      ],
+      "best": "2.79",
+      "status": "ok",
+      "secs": 2.0
+    },
+    "slus/w_8003CB08": {
+      "row": "slus/w_8003CB08",
+      "container": "slus",
+      "kind": "slus",
+      "cfg": "2.7.2-cdk",
+      "pins": 0,
+      "asflags": "",
+      "cell": "2.7.2-cdk",
+      "maspsx_exact": true,
+      "proof": "whole SLUS image, module context",
+      "fired": [],
+      "module": "gp_shared_slots",
+      "module_fingerprint": "a01b66ead8d5c109b055eebec7ebcd35416d8bb8d868489f4a2cd132820490d6",
+      "trace_scope": "whole-module",
+      "selfcheck": true,
+      "funcs": 1,
+      "words": 106,
+      "maspsx_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      },
+      "has_div": false,
+      "genuine": {
+        "2.79": {
+          "exact": true,
+          "diff": 0,
+          "len": 106,
+          "mode": "",
+          "retail": [
+            0,
+            0
+          ]
+        }
+      },
+      "exact_versions": [
+        "2.79"
+      ],
+      "best": "2.79",
+      "status": "ok",
+      "secs": 2.2
+    },
+    "slus/w_8003CCB0": {
+      "row": "slus/w_8003CCB0",
+      "container": "slus",
+      "kind": "slus",
+      "cfg": "2.7.2-cdk",
+      "pins": 9,
+      "asflags": "",
+      "cell": "2.7.2-cdk",
+      "maspsx_exact": true,
+      "proof": "whole SLUS image, module context",
+      "fired": [],
+      "module": "gp_shared_slots",
+      "module_fingerprint": "a01b66ead8d5c109b055eebec7ebcd35416d8bb8d868489f4a2cd132820490d6",
+      "trace_scope": "whole-module",
+      "selfcheck": true,
+      "funcs": 1,
+      "words": 272,
+      "maspsx_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      },
+      "has_div": false,
+      "genuine": {
+        "2.79": {
+          "exact": true,
+          "diff": 0,
+          "len": 272,
+          "mode": "",
+          "retail": [
+            0,
+            0
+          ]
+        }
+      },
+      "exact_versions": [
+        "2.79"
+      ],
+      "best": "2.79",
+      "status": "ok",
+      "secs": 2.2
+    }
+  }
+}

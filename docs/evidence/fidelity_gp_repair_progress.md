@@ -5,7 +5,16 @@ below precede the production activation recorded in the next section. The primar
 agent performed the assembler experiments; Sol inventoried ownership and prepared module candidates; Luna audited
 the separate MAIN coverage gaps.
 
-## Ownership wave checkpoint
+## Latest ownership checkpoint
+
+[Runtime count and shared display slots](gp_count_and_slots.md) add seven real
+C definitions for three more rows. The full image remains exact at 875 physical
+and 884 logical inputs; genuine ASPSX 2.79 matches all 402 affected words with
+zero masks. Dependency records fall from 205 to 202, and the GP cohort from 38
+to 35. Existing pins remain. These two units have no L4 placement certificate;
+the original runtime pilot is rechecked separately.
+
+## Earlier ownership wave checkpoint
 
 [The next integrated wave](gp_ownership_wave.md) repairs 18 more rows with 24 real
 C data definitions. The full image is retail-exact at 876 physical / 884 logical

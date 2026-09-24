@@ -633,6 +633,130 @@
         }
       ],
       "evidence": "docs/evidence/gp_ownership_wave.md"
+    },
+    {
+      "name": "konami_runtime_gp_count",
+      "source": "src/konami_runtime_gp_count.c",
+      "members": [
+        {
+          "id": "slus/konami_runtime_w_8003C6F8",
+          "source": "src/konami_runtime_w_8003C6F8.c",
+          "functions": [
+            "func_8003C6F8"
+          ]
+        }
+      ],
+      "headers": [
+        "include/common.h",
+        "include/game.h",
+        "include/globals.h",
+        "include/include_asm.h"
+      ],
+      "recipe": {
+        "ccver": "2.7.2-cdk",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "data": [
+        {
+          "symbol": "D_80081460",
+          "asset": "assets/54240.bin",
+          "offset": 2592,
+          "size": 4,
+          "vram": 2148013152,
+          "bytes": "00000000",
+          "section": ".sdata"
+        }
+      ],
+      "evidence": "docs/evidence/gp_count_and_slots.md"
+    },
+    {
+      "name": "gp_shared_slots",
+      "source": "src/gp_shared_slots.c",
+      "members": [
+        {
+          "id": "slus/w_8003CB08",
+          "source": "src/w_8003CB08.c",
+          "functions": [
+            "func_8003CB08"
+          ]
+        },
+        {
+          "id": "slus/w_8003CCB0",
+          "source": "src/w_8003CCB0.c",
+          "functions": [
+            "func_8003CCB0"
+          ]
+        }
+      ],
+      "headers": [
+        "include/common.h",
+        "include/game.h",
+        "include/globals.h",
+        "include/include_asm.h"
+      ],
+      "recipe": {
+        "ccver": "2.7.2-cdk",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "data": [
+        {
+          "symbol": "D_80080AA4",
+          "asset": "assets/54240.bin",
+          "offset": 100,
+          "size": 2,
+          "vram": 2148010660,
+          "bytes": "0000",
+          "section": ".sdata"
+        },
+        {
+          "symbol": "D_80080AA6",
+          "asset": "assets/54240.bin",
+          "offset": 102,
+          "size": 2,
+          "vram": 2148010662,
+          "bytes": "0000",
+          "section": ".sdata"
+        },
+        {
+          "symbol": "D_80080AA8",
+          "asset": "assets/54240.bin",
+          "offset": 104,
+          "size": 2,
+          "vram": 2148010664,
+          "bytes": "0000",
+          "section": ".sdata"
+        },
+        {
+          "symbol": "D_80080AAA",
+          "asset": "assets/54240.bin",
+          "offset": 106,
+          "size": 2,
+          "vram": 2148010666,
+          "bytes": "0000",
+          "section": ".sdata"
+        },
+        {
+          "symbol": "D_80080AAC",
+          "asset": "assets/54240.bin",
+          "offset": 108,
+          "size": 4,
+          "vram": 2148010668,
+          "bytes": "00000000",
+          "section": ".sdata"
+        },
+        {
+          "symbol": "D_80080AB0",
+          "asset": "assets/54240.bin",
+          "offset": 112,
+          "size": 4,
+          "vram": 2148010672,
+          "bytes": "00000000",
+          "section": ".sdata"
+        }
+      ],
+      "evidence": "docs/evidence/gp_count_and_slots.md"
     }
   ]
 }

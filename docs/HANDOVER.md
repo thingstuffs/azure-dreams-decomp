@@ -6,6 +6,15 @@ accounting for the three unregistered MAIN routines. The primary agent handles
 hard analysis and orchestration; the owner authorizes Sol and Luna delegates for
 bounded grunt work. Claude's reset in about three days is a handoff checkpoint.
 
+Latest checkpoint: [runtime count and shared display slots](evidence/gp_count_and_slots.md)
+recover seven C-owned globals for three more GP rows. Full SLUS retail image and
+402 words of genuine ASPSX 2.79 proof pass with zero masks. Current totals:
+202 dependency records, 35 remaining GP rows, 875 physical C inputs / 884 logical
+rows. No assembler default switch or pass deletion; existing pins are unchanged.
+The original runtime pilot is recertified, with no placement claims for these
+two new ownership units. The numbered checkpoints below retain their historical
+counts and intermediate findings.
+
 First execution checkpoint: [SLUS small-data measurements](evidence/fidelity_gp_repair_progress.md).
 The isolated generic assembler correction passes 70/70 pinned-version probes and
 changes exactly 59/884 SLUS TUs; all 69 affected globals currently have raw-asset

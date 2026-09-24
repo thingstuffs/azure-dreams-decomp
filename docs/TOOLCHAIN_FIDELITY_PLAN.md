@@ -5,9 +5,10 @@ Current goal: `docs/GOAL_TOOLCHAIN_AND_MODULES.md`. The first isolated measureme
 are in `docs/evidence/fidelity_gp_repair_progress.md`: a generic assembler candidate,
 59 affected TUs, 69 globals requiring data-ownership recovery, and five independently
 verified natural-C candidates. Production toolchain defaults remain unchanged.
-The later [ownership wave](evidence/gp_ownership_wave.md) repairs 18 more GP rows:
-38 remain, with 205 total dependency records. The live build has 876 physical
-C inputs and the same 884 logical rows; no compatibility pass has been removed.
+The [ownership wave](evidence/gp_ownership_wave.md) repaired 18 more GP rows;
+[runtime count and shared slots](evidence/gp_count_and_slots.md) repair another
+three. Now 35 remain, with 202 total dependency records. The live build has 875
+physical C inputs and the same 884 logical rows; no compatibility pass has been removed.
 The interrupted wave has now landed 11 CDK moves (74 pins removed; 9 newly
 pin-free), all genuine-ASPSX exact. See `docs/evidence/r77_h28_recovery.md` for the
 recovery receipt and remaining work. The dated log below retains the investigation

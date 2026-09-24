@@ -6,18 +6,18 @@
     "slus/konami_runtime_w_8003C758",
     "slus/konami_runtime_w_8003C920"
   ],
-  "at": "2026-09-24T15:19:07Z",
+  "at": "2026-09-24T15:34:37Z",
   "module_fingerprint": "743ef88dc04b857707a304059179af9a99c3591026cc79a8083860bef4d8785c",
-  "tool_fingerprint": "899605fa6e2aedad81e9",
+  "tool_fingerprint": "087ade135653506c4a26",
   "review": {
     "path": "docs/evidence/runtime_directory_module.md",
     "sha256": "551c75bd2044ab3703d0e153194963edbe5921cec3687b01ebc3ab2878d02771",
-    "reviewer": "Codex primary: prior membership review retained; recertified after ownership wave"
+    "reviewer": "Primary agent: existing runtime_directory review, rechecked after count and shared-slot ownership"
   },
   "gate": {
     "result": "MATCH",
     "words_diff": 0,
-    "recipe_sha256": "0660325435abcca0a30d8461976569fa17c41b4837896878b0e33dfb7548832e"
+    "recipe_sha256": "519779ce313d028971637b73e4e215d109bc79652766e41911701ab5aa44caf1"
   },
   "image_sha1": "e6bfbb95ff6676899e077481221d73ddd4d3bf52",
   "rows": {
@@ -103,7 +103,7 @@
       ],
       "best": "2.79",
       "status": "ok",
-      "secs": 1.9
+      "secs": 2.0
     },
     "slus/konami_runtime_w_8003C920": {
       "row": "slus/konami_runtime_w_8003C920",
@@ -145,7 +145,7 @@
       ],
       "best": "2.79",
       "status": "ok",
-      "secs": 1.9
+      "secs": 2.0
     }
   }
 }
