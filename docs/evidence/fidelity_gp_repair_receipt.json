@@ -1,0 +1,385 @@
+{
+  "date": "2026-09-24",
+  "head": "280c8daf1aa465bbc98b364d2f852d106e622dc8",
+  "production_changes": false,
+  "sha256": {
+    "tools/maspsx/maspsx/__init__.py": "a5e87a9c60f067144874411aefd61ab57b44e9c752b80a02c4417ed05263464f",
+    "tools/maspsx/maspsx.py": "3bbb64075ab6384f6b670a495cce152acb50f3318cf714c6ab9a082b7adaf086",
+    "tools/fidelity/probe_small_data.py": "ea4567111bb1157a30b436fffae5950d1c04377e44ceefc09e1fdb06cd8daf0b",
+    "work/native_lane/gp_semantics/candidate/maspsx/__init__.py": "f2c5472906bece3da0288974834c256e33a0dfc305e8c1159e9a7bb9194622c3",
+    "work/native_lane/gp_semantics/candidate/maspsx.py": "d3e6ec7d120abe00f963c82258dfdeb0e228774adce646177525f1dbed925caf",
+    "work/native_lane/cd_control_module_pilot/cd_control.c": "004b148aa19f551e347a13af49f7e5c3ebf97b12c0cc343721f6e205b67a0ef4",
+    "work/native_lane/cd_control_module_pilot/cd_control.h": "c70022cfecf4d846655ae9f91ec24140733d5effe55e3f6a6776c33b953b59cc"
+  },
+  "probe_2_79": {
+    "cases": 70,
+    "candidate_exact": 70
+  },
+  "wide_probe": {
+    "cases": 210,
+    "failures": [
+      "comm4_address_2.81_G8",
+      "lcomm4_address_2.81_G8",
+      "sdata4_address_2.81_G8"
+    ]
+  },
+  "slus_rebuild": {
+    "calibration": "MATCH",
+    "objects": 884,
+    "result": "NO MATCH",
+    "changed_tus": 59,
+    "unchanged_tus": 825,
+    "changed_ids": [
+      "slus/code",
+      "slus/konami_runtime_w_80035888",
+      "slus/konami_runtime_w_8003C6F8",
+      "slus/w_80044698",
+      "slus/w_80041BE4",
+      "slus/w_80047D44",
+      "slus/w_80045340",
+      "slus/w_8004D614",
+      "slus/w_80050E20",
+      "slus/w_8003CB08",
+      "slus/w_8004DCEC",
+      "slus/w_80049F68",
+      "slus/w_8004E130",
+      "slus/konami_runtime_w_80035484",
+      "slus/w_80041134",
+      "slus/w_80050DA8",
+      "slus/w_80047E30",
+      "slus/w_80053CFC",
+      "slus/w_80041B98",
+      "slus/w_80044618",
+      "slus/w_80043E60",
+      "slus/w_8003CCB0",
+      "slus/w_8003E34C",
+      "slus/w_8003D92C",
+      "slus/w_8004437C",
+      "slus/w_80041AE4",
+      "slus/w_8003E758",
+      "slus/w_80047338",
+      "slus/konami_runtime_w_80033D44",
+      "slus/w_8004DE88",
+      "slus/w_80047468",
+      "slus/w_8004713C",
+      "slus/w_80043DB8",
+      "slus/konami_runtime_w_80033D54",
+      "slus/w_8003F5AC",
+      "slus/konami_runtime_w_8003C634",
+      "slus/w_80048660",
+      "slus/w_80041C64",
+      "slus/w_8004DF8C",
+      "slus/w_80043E04",
+      "slus/w_8004450C",
+      "slus/w_8003F368",
+      "slus/w_8004B08C",
+      "slus/w_80047E78",
+      "slus/konami_runtime_w_80038A10",
+      "slus/w_800453E0",
+      "slus/w_80047DF0",
+      "slus/w_8003F2A4",
+      "slus/w_8004DD2C",
+      "slus/konami_runtime_w_8003C920",
+      "slus/w_8004DDE4",
+      "slus/w_80043D04",
+      "slus/konami_runtime_w_8003C758",
+      "slus/w_800508F0",
+      "slus/w_8003E4FC",
+      "slus/w_800448BC",
+      "slus/w_8004DCA8",
+      "slus/w_8003F624",
+      "slus/code2"
+    ]
+  },
+  "genuine_2_79": {
+    "rows": 59,
+    "exact": 49,
+    "remaining": [
+      {
+        "id": "slus/code",
+        "best_diff": 30
+      },
+      {
+        "id": "slus/w_80045340",
+        "best_diff": 3
+      },
+      {
+        "id": "slus/w_8004D614",
+        "best_diff": 3
+      },
+      {
+        "id": "slus/w_80043E60",
+        "best_diff": 4
+      },
+      {
+        "id": "slus/w_80041AE4",
+        "best_diff": 3
+      },
+      {
+        "id": "slus/konami_runtime_w_80033D54",
+        "best_diff": 3
+      },
+      {
+        "id": "slus/w_80041C64",
+        "best_diff": 4
+      },
+      {
+        "id": "slus/w_80043E04",
+        "best_diff": 4
+      },
+      {
+        "id": "slus/w_80043D04",
+        "best_diff": 3
+      },
+      {
+        "id": "slus/code2",
+        "best_diff": 27
+      }
+    ]
+  },
+  "five_candidates": {
+    "calibration": {
+      "result": "MATCH",
+      "words_diff": 0
+    },
+    "combined": {
+      "result": "MATCH",
+      "words_diff": 0,
+      "residue": 0,
+      "fn_size_drift": {},
+      "detail": ""
+    },
+    "candidates": [
+      {
+        "id": "slus/w_8003FAD4",
+        "base_sha": "736c57ea0f0706b3b498cabef84c6161de08a7a5772ec2880799ca7b0660f15b",
+        "candidate": "work/fidelity/step4/cands/slus/w_8003FAD4.gp.smallext+t86_pool_page_inplace_48_all.c",
+        "candidate_sha": "0d86b916467b2838d4337813fe4fa344bac3cd99026566371b5db640138bf1e9",
+        "recipe": "2.7.2-cdk",
+        "genuine_exact": true,
+        "tests": [
+          {
+            "flags": [
+              "-q"
+            ],
+            "equ": false,
+            "diff": 0,
+            "exact": true,
+            "len_m": 49,
+            "len_g": 49,
+            "missing": [],
+            "delay_only": []
+          }
+        ]
+      },
+      {
+        "id": "slus/w_80041588",
+        "base_sha": "4b8ff95891df4e8523e9140aac607d08c4df2a5c1daafff711463bdfab79fd5d",
+        "candidate": "work/fidelity/step4/cands/slus/w_80041588.gp.smallext+current.c",
+        "candidate_sha": "6994feb8355be6ccf078ca6c867470b7905c6937c7d716e4385c97269ffda82b",
+        "recipe": "2.7.2-cdk",
+        "genuine_exact": true,
+        "tests": [
+          {
+            "flags": [
+              "-q"
+            ],
+            "equ": false,
+            "diff": 0,
+            "exact": true,
+            "len_m": 164,
+            "len_g": 164,
+            "missing": [],
+            "delay_only": []
+          }
+        ]
+      },
+      {
+        "id": "slus/w_80041AB0",
+        "base_sha": "5b199d3116df7daea7c558940164711c2ff1be670a02fb6519578b1bc760d12e",
+        "candidate": "work/fidelity/step4/cands/slus/w_80041AB0.gp.smallext+current.c",
+        "candidate_sha": "b053cad2605d612a1e6520eda8535c84ecec05fb7cdcc87ee1cf51e27553d20c",
+        "recipe": "2.7.2-cdk",
+        "genuine_exact": true,
+        "tests": [
+          {
+            "flags": [
+              "-q"
+            ],
+            "equ": false,
+            "diff": 0,
+            "exact": true,
+            "len_m": 13,
+            "len_g": 13,
+            "missing": [],
+            "delay_only": []
+          }
+        ]
+      },
+      {
+        "id": "slus/w_80043CD0",
+        "base_sha": "7d3ce5a69bf7b74a0868392bae76f855ecb7e11605e66fc283d5da236051e9ec",
+        "candidate": "work/fidelity/step4/cands/slus/w_80043CD0.gp.hand_small_externs.c",
+        "candidate_sha": "8828b96db04845e88f65a6e7409e67b332fa661028966fe79ae074b82f88dc2d",
+        "recipe": "2.7.2-cdk",
+        "genuine_exact": true,
+        "tests": [
+          {
+            "flags": [
+              "-q"
+            ],
+            "equ": false,
+            "diff": 0,
+            "exact": true,
+            "len_m": 13,
+            "len_g": 13,
+            "missing": [],
+            "delay_only": []
+          }
+        ]
+      },
+      {
+        "id": "slus/w_8004AB7C",
+        "base_sha": "ef073018d88eafb86d24e7f0b4818a4566d6b458be989edd7f7edbdb587bb6f9",
+        "candidate": "work/fidelity/step4/cands/slus/w_8004AB7C.gp.smallext+current.c",
+        "candidate_sha": "76d2b9fd68b53381be6684ca94cddf9e50676b560d13efa297ba0783e8730aa1",
+        "recipe": "2.7.2-cdk",
+        "genuine_exact": true,
+        "tests": [
+          {
+            "flags": [
+              "-q"
+            ],
+            "equ": false,
+            "diff": 0,
+            "exact": true,
+            "len_m": 39,
+            "len_g": 39,
+            "missing": [],
+            "delay_only": []
+          }
+        ]
+      }
+    ]
+  },
+  "cd_control": {
+    "recipe": "2.7.2-cdk-G0",
+    "method": "Baseline: lanekit/lab.py baseline <row> --score; candidate: tools/verify.verify(row, cd_control.c, include_root=include)",
+    "results": [
+      {
+        "row": "dungeon/func_800B79C4",
+        "symbol": "func_800BD124",
+        "baseline": {
+          "exact": true,
+          "total": 0
+        },
+        "combined_module": {
+          "exact": true,
+          "total": 0,
+          "subs": 0,
+          "indels": 0,
+          "generated_words": 13,
+          "target_words": 13
+        }
+      },
+      {
+        "row": "dungeon/func_800B79F8",
+        "symbol": "func_800BD158",
+        "baseline": {
+          "exact": true,
+          "total": 0
+        },
+        "combined_module": {
+          "exact": true,
+          "total": 0,
+          "subs": 0,
+          "indels": 0,
+          "generated_words": 11,
+          "target_words": 11
+        }
+      },
+      {
+        "row": "dungeon/func_800B7A24",
+        "symbol": "func_800BD184",
+        "baseline": {
+          "exact": true,
+          "total": 0
+        },
+        "combined_module": {
+          "exact": true,
+          "total": 0,
+          "subs": 0,
+          "indels": 0,
+          "generated_words": 16,
+          "target_words": 16
+        }
+      }
+    ]
+  },
+  "owned_data_module": {
+    "calibration": {
+      "result": "MATCH",
+      "words_diff": 0
+    },
+    "recipe": "2.7.2-cdk; empty ccflags/asflags",
+    "assembler": "work/fidelity/gp_probe279/candidate/maspsx.py",
+    "asset_carve": {
+      "source": "assets/54240.bin",
+      "prefix_bytes": 44,
+      "removed_bytes": "04000000",
+      "suffix_bytes": 179600
+    },
+    "image": {
+      "match_retail": true,
+      "size": 524288,
+      "sha1": "e6bfbb95ff6676899e077481221d73ddd4d3bf52",
+      "retail_sha1": "e6bfbb95ff6676899e077481221d73ddd4d3bf52",
+      "first_differing_offsets": []
+    },
+    "data_symbol": {
+      "address": "0x80080A6C",
+      "type": "NOTYPE",
+      "binding": "GLOBAL",
+      "section_index": "2",
+      "raw": "4115: 80080a6c     0 NOTYPE  GLOBAL DEFAULT    2 D_80080A6C"
+    },
+    "data_bytes_at_vma": "04000000",
+    "functions": {
+      "func_8003C634": {
+        "pristine": {
+          "address": "0x8003C634",
+          "size": 72
+        },
+        "linked": {
+          "address": "0x8003C634",
+          "size": 72
+        }
+      },
+      "func_8003C758": {
+        "pristine": {
+          "address": "0x8003C758",
+          "size": 128
+        },
+        "linked": {
+          "address": "0x8003C758",
+          "size": 128
+        }
+      },
+      "func_8003C920": {
+        "pristine": {
+          "address": "0x8003C920",
+          "size": 216
+        },
+        "linked": {
+          "address": "0x8003C920",
+          "size": 216
+        }
+      }
+    },
+    "link_flags": [
+      "-EL",
+      "--no-check-sections"
+    ],
+    "private_view": "work/fidelity/gp_data_module/full_link_view"
+  }
+}

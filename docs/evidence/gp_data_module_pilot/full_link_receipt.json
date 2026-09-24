@@ -1,0 +1,66 @@
+{
+  "calibration": {
+    "result": "MATCH",
+    "words_diff": 0
+  },
+  "recipe": "2.7.2-cdk; empty ccflags/asflags",
+  "assembler": "work/fidelity/gp_probe279/candidate/maspsx.py",
+  "asset_carve": {
+    "source": "assets/54240.bin",
+    "prefix_bytes": 44,
+    "removed_bytes": "04000000",
+    "suffix_bytes": 179600
+  },
+  "image": {
+    "match_retail": true,
+    "size": 524288,
+    "sha1": "e6bfbb95ff6676899e077481221d73ddd4d3bf52",
+    "retail_sha1": "e6bfbb95ff6676899e077481221d73ddd4d3bf52",
+    "first_differing_offsets": []
+  },
+  "data_symbol": {
+    "address": "0x80080A6C",
+    "type": "NOTYPE",
+    "binding": "GLOBAL",
+    "section_index": "2",
+    "raw": "4115: 80080a6c     0 NOTYPE  GLOBAL DEFAULT    2 D_80080A6C"
+  },
+  "data_bytes_at_vma": "04000000",
+  "functions": {
+    "func_8003C634": {
+      "pristine": {
+        "address": "0x8003C634",
+        "size": 72
+      },
+      "linked": {
+        "address": "0x8003C634",
+        "size": 72
+      }
+    },
+    "func_8003C758": {
+      "pristine": {
+        "address": "0x8003C758",
+        "size": 128
+      },
+      "linked": {
+        "address": "0x8003C758",
+        "size": 128
+      }
+    },
+    "func_8003C920": {
+      "pristine": {
+        "address": "0x8003C920",
+        "size": 216
+      },
+      "linked": {
+        "address": "0x8003C920",
+        "size": 216
+      }
+    }
+  },
+  "link_flags": [
+    "-EL",
+    "--no-check-sections"
+  ],
+  "private_view": "work/fidelity/gp_data_module/full_link_view"
+}

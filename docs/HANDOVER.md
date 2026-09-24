@@ -1,3 +1,23 @@
+# Active goal (2026-09-24, owner-approved work order)
+
+See [GOAL_TOOLCHAIN_AND_MODULES.md](GOAL_TOOLCHAIN_AND_MODULES.md): SLUS `$gp`
+repair, obsolete maspsx pass retirement, one verified module pilot, and explicit
+accounting for the three unregistered MAIN routines. The primary agent handles
+hard analysis and orchestration; the owner authorizes Sol and Luna delegates for
+bounded grunt work. Claude's reset in about three days is a handoff checkpoint.
+
+First execution checkpoint: [SLUS small-data measurements](evidence/fidelity_gp_repair_progress.md).
+The isolated generic assembler correction passes 70/70 pinned-version probes and
+changes exactly 59/884 SLUS TUs; all 69 affected globals currently have raw-asset
+storage and absolute linker names, not C definitions. Five prepared candidates
+are genuine-exact and diagnostic-link exact. A three-function owned-data module
+now replaces the raw four bytes for D_80080A6C with a real C definition and links
+SLUS byte-exact under the corrected assembler (`tools/fidelity/probe_gp_module.py`).
+Production module/row/data integration and the other ownership repairs remain
+before a global switch. A separate CD-control module source pilot is exact.
+The [MAIN coverage audit](evidence/main_kernel_coverage_audit.md)
+independently hashes/disassembles all three gaps without claiming C completion.
+
 # Handover (2026-09-24, H28 recovery)
 
 Picked up the interrupted 67-row H28 wave from `r77_opus_h1..h16` after the

@@ -1,0 +1,291 @@
+{
+  "retail": {
+    "load_address": "0x8002D000",
+    "payload_offset": "0x800",
+    "symbol_address": "0x80080A6C",
+    "file_offset": "0x5426C",
+    "bytes_hex": "04000000",
+    "little_endian_s32": 4
+  },
+  "functions": [
+    {
+      "symbol": "func_8003C634",
+      "bytes": 72,
+      "reference": "build_slus/build/src/konami_runtime_w_8003C634.o",
+      "stock": {
+        "code_equal": true,
+        "relocations_equal": true,
+        "relocations": [
+          [
+            0,
+            "R_MIPS_GPREL16",
+            "D_80080A6C"
+          ],
+          [
+            20,
+            "R_MIPS_HI16",
+            "D_8006B200"
+          ],
+          [
+            24,
+            "R_MIPS_LO16",
+            "D_8006B200"
+          ]
+        ]
+      },
+      "corrected": {
+        "code_equal": true,
+        "relocations_equal": true,
+        "relocations": [
+          [
+            0,
+            "R_MIPS_GPREL16",
+            "D_80080A6C"
+          ],
+          [
+            20,
+            "R_MIPS_HI16",
+            "D_8006B200"
+          ],
+          [
+            24,
+            "R_MIPS_LO16",
+            "D_8006B200"
+          ]
+        ]
+      }
+    },
+    {
+      "symbol": "func_8003C758",
+      "bytes": 128,
+      "reference": "build_slus/build/src/konami_runtime_w_8003C758.o",
+      "stock": {
+        "code_equal": true,
+        "relocations_equal": true,
+        "relocations": [
+          [
+            12,
+            "R_MIPS_HI16",
+            "D_80082E6A"
+          ],
+          [
+            16,
+            "R_MIPS_LO16",
+            "D_80082E6A"
+          ],
+          [
+            52,
+            "R_MIPS_26",
+            "func_8003C634"
+          ],
+          [
+            76,
+            "R_MIPS_GPREL16",
+            "D_80080A6C"
+          ],
+          [
+            84,
+            "R_MIPS_26",
+            "func_8003C6F8"
+          ],
+          [
+            92,
+            "R_MIPS_GPREL16",
+            "D_80080A6C"
+          ]
+        ]
+      },
+      "corrected": {
+        "code_equal": true,
+        "relocations_equal": true,
+        "relocations": [
+          [
+            12,
+            "R_MIPS_HI16",
+            "D_80082E6A"
+          ],
+          [
+            16,
+            "R_MIPS_LO16",
+            "D_80082E6A"
+          ],
+          [
+            52,
+            "R_MIPS_26",
+            "func_8003C634"
+          ],
+          [
+            76,
+            "R_MIPS_GPREL16",
+            "D_80080A6C"
+          ],
+          [
+            84,
+            "R_MIPS_26",
+            "func_8003C6F8"
+          ],
+          [
+            92,
+            "R_MIPS_GPREL16",
+            "D_80080A6C"
+          ]
+        ]
+      }
+    },
+    {
+      "symbol": "func_8003C920",
+      "bytes": 216,
+      "reference": "build_slus/build/src/konami_runtime_w_8003C920.o",
+      "stock": {
+        "code_equal": true,
+        "relocations_equal": true,
+        "relocations": [
+          [
+            4,
+            "R_MIPS_HI16",
+            "D_8002D594"
+          ],
+          [
+            8,
+            "R_MIPS_LO16",
+            "D_8002D594"
+          ],
+          [
+            76,
+            "R_MIPS_HI16",
+            "D_80082E6A"
+          ],
+          [
+            80,
+            "R_MIPS_LO16",
+            "D_80082E6A"
+          ],
+          [
+            96,
+            "R_MIPS_LO16",
+            "D_8002D594"
+          ],
+          [
+            100,
+            "R_MIPS_LO16",
+            "D_8006B200"
+          ],
+          [
+            168,
+            "R_MIPS_26",
+            ".text.func_8003C920"
+          ],
+          [
+            176,
+            "R_MIPS_LO16",
+            "D_8006B200"
+          ],
+          [
+            92,
+            "R_MIPS_HI16",
+            "D_8006B200"
+          ],
+          [
+            180,
+            "R_MIPS_LO16",
+            "D_8006B200"
+          ],
+          [
+            184,
+            "R_MIPS_HI16",
+            "D_80016000"
+          ],
+          [
+            188,
+            "R_MIPS_LO16",
+            "D_80016000"
+          ],
+          [
+            200,
+            "R_MIPS_GPREL16",
+            "D_80080A6C"
+          ]
+        ]
+      },
+      "corrected": {
+        "code_equal": true,
+        "relocations_equal": true,
+        "relocations": [
+          [
+            4,
+            "R_MIPS_HI16",
+            "D_8002D594"
+          ],
+          [
+            8,
+            "R_MIPS_LO16",
+            "D_8002D594"
+          ],
+          [
+            76,
+            "R_MIPS_HI16",
+            "D_80082E6A"
+          ],
+          [
+            80,
+            "R_MIPS_LO16",
+            "D_80082E6A"
+          ],
+          [
+            96,
+            "R_MIPS_LO16",
+            "D_8002D594"
+          ],
+          [
+            100,
+            "R_MIPS_LO16",
+            "D_8006B200"
+          ],
+          [
+            168,
+            "R_MIPS_26",
+            ".text.func_8003C920"
+          ],
+          [
+            176,
+            "R_MIPS_LO16",
+            "D_8006B200"
+          ],
+          [
+            92,
+            "R_MIPS_HI16",
+            "D_8006B200"
+          ],
+          [
+            180,
+            "R_MIPS_LO16",
+            "D_8006B200"
+          ],
+          [
+            184,
+            "R_MIPS_HI16",
+            "D_80016000"
+          ],
+          [
+            188,
+            "R_MIPS_LO16",
+            "D_80016000"
+          ],
+          [
+            200,
+            "R_MIPS_GPREL16",
+            "D_80080A6C"
+          ]
+        ]
+      }
+    }
+  ],
+  "stock_data": {
+    "bytes_hex": "04000000",
+    "retail_equal": true
+  },
+  "corrected_data": {
+    "bytes_hex": "04000000",
+    "retail_equal": true
+  }
+}

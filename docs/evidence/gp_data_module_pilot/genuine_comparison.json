@@ -1,0 +1,34 @@
+{
+  "assembler": "genuine ASPSX 2.79 -q",
+  "input": "gcc.s",
+  "sdata_hex": "04000000",
+  "D_80080A6C_symbol": [
+    ".sdata",
+    0,
+    "global",
+    null
+  ],
+  "functions": [
+    {
+      "symbol": "func_8003C634",
+      "exact": true,
+      "difference_words": 0,
+      "maspsx_words": 18,
+      "genuine_words": 18
+    },
+    {
+      "symbol": "func_8003C758",
+      "exact": true,
+      "difference_words": 0,
+      "maspsx_words": 32,
+      "genuine_words": 32
+    },
+    {
+      "symbol": "func_8003C920",
+      "exact": true,
+      "difference_words": 0,
+      "maspsx_words": 54,
+      "genuine_words": 54
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+row	pinned_gp_symbols	zero_pinned_gp_symbols	in_59_row_set	pinned_disassembly
+slus/w_8003D92C	D_80080ABC,D_80080ABE	False	True	ledger/cache/slus_dis/w_8003D92C.txt
+slus/w_8003FAD4		True	False	ledger/cache/slus_dis/w_8003FAD4.txt
+slus/w_80041588		True	False	ledger/cache/slus_dis/w_80041588.txt
+slus/w_80041AB0		True	False	ledger/cache/slus_dis/w_80041AB0.txt
+slus/w_80043CD0		True	False	ledger/cache/slus_dis/w_80043CD0.txt
+slus/w_8004AB7C		True	False	ledger/cache/slus_dis/w_8004AB7C.txt
