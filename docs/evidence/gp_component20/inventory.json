@@ -1,0 +1,2184 @@
+{
+  "schema_version": 1,
+  "title": "Historical gp_01 component checked against current ledger/source/config",
+  "scope": {
+    "historical_input": "work/native_lane/gp_remaining38/cohorts.json",
+    "historical_snapshot_label": "pre-landing 38-row inventory; frozen when ledger had 205 records, per primary instruction; primary later reports commit cbe72882 landed the three in-progress rows (live ledger 202/35), not refreshed here",
+    "historical_component_id": "gp_01",
+    "historical_component_rows": 20,
+    "current_ledger_path": "ledger/maspsx_dependence.jsonl",
+    "current_ledger_records": 199,
+    "current_gp_rows": 32,
+    "current_component_rows_present": 20,
+    "current_component_cause_counts": {
+      "small-extern $gp model (.extern sizes)": 19,
+      "combined: extern-abs+no:all-fired": 1
+    },
+    "current_gp_rows_outside_component": [
+      "slus/konami_runtime_w_80033D44",
+      "slus/konami_runtime_w_80033D54",
+      "slus/w_8003D92C",
+      "slus/w_8004437C",
+      "slus/w_8004450C",
+      "slus/w_80044618",
+      "slus/w_80047D44",
+      "slus/w_80047DF0",
+      "slus/w_80047E30",
+      "slus/w_80047E78",
+      "slus/w_80049F68",
+      "slus/w_80053CFC"
+    ],
+    "current_gp_rows_outside_component_count": 12,
+    "distinction": "The 20-row gp_01 is the frozen historical 38-row snapshot component. It remains a 20-row subset of the current 32 GP rows; this inventory does not relabel the historical snapshot as current32."
+  },
+  "current_recipe_counts": [
+    {
+      "ccver": "2.6.3",
+      "ccflags": "-fno-schedule-insns",
+      "asflags": "",
+      "rows": 1
+    },
+    {
+      "ccver": "2.7.2",
+      "ccflags": "",
+      "asflags": "",
+      "rows": 3
+    },
+    {
+      "ccver": "2.7.2-cdk",
+      "ccflags": "",
+      "asflags": "",
+      "rows": 10
+    },
+    {
+      "ccver": "2.7.2-cdk",
+      "ccflags": "-G32 -fno-expensive-optimizations",
+      "asflags": "",
+      "rows": 1
+    },
+    {
+      "ccver": "2.7.2-cdk",
+      "ccflags": "-fno-schedule-insns",
+      "asflags": "",
+      "rows": 1
+    },
+    {
+      "ccver": "2.7.2-cdk",
+      "ccflags": "-fno-schedule-insns -fno-delayed-branch",
+      "asflags": "",
+      "rows": 1
+    },
+    {
+      "ccver": "2.8.1",
+      "ccflags": "",
+      "asflags": "",
+      "rows": 3
+    }
+  ],
+  "historical_topology": {
+    "split_span_1based": [
+      1,
+      680
+    ],
+    "component_split_positions_1based": [
+      1,
+      8,
+      333,
+      335,
+      337,
+      339,
+      341,
+      343,
+      344,
+      381,
+      556,
+      604,
+      605,
+      606,
+      607,
+      608,
+      609,
+      611,
+      679,
+      680
+    ],
+    "nonmember_split_rows_inside_historical_span": 660,
+    "shared_symbol_count": 12,
+    "component_symbol_count": 22,
+    "shared_symbols": [
+      {
+        "symbol": "D_80080AD0",
+        "rows": [
+          "slus/w_8003E34C",
+          "slus/w_8003E758"
+        ],
+        "current_recipes_by_row": {
+          "slus/w_8003E34C": {
+            "ccver": "2.7.2-cdk",
+            "ccflags": "",
+            "asflags": ""
+          },
+          "slus/w_8003E758": {
+            "ccver": "2.7.2-cdk",
+            "ccflags": "-G32 -fno-expensive-optimizations",
+            "asflags": ""
+          }
+        },
+        "gp_symbol_inventory_evidence": {
+          "symbol": "D_80080AD0",
+          "address": "0x80080AD0",
+          "rows": "slus/w_8003E34C,slus/w_8003E758",
+          "segment_start": "0x54240",
+          "segment_kind": "bin",
+          "asset_object": "build_slus/build/assets/54240.o",
+          "other_source_use_files": "",
+          "source_use_sites": "src/slus/w_8003E34C.c:28,src/slus/w_8003E758.c:384",
+          "source_extern_declarations": "src/slus/w_8003E34C.c:13,src/slus/w_8003E758.c:46"
+        },
+        "module_data_owner_current_config": null
+      },
+      {
+        "symbol": "D_80080AD4",
+        "rows": [
+          "slus/w_8003E34C",
+          "slus/w_8003E4FC",
+          "slus/w_8003E758",
+          "slus/w_8003F5AC"
+        ],
+        "current_recipes_by_row": {
+          "slus/w_8003E34C": {
+            "ccver": "2.7.2-cdk",
+            "ccflags": "",
+            "asflags": ""
+          },
+          "slus/w_8003E4FC": {
+            "ccver": "2.7.2-cdk",
+            "ccflags": "",
+            "asflags": ""
+          },
+          "slus/w_8003E758": {
+            "ccver": "2.7.2-cdk",
+            "ccflags": "-G32 -fno-expensive-optimizations",
+            "asflags": ""
+          },
+          "slus/w_8003F5AC": {
+            "ccver": "2.7.2-cdk",
+            "ccflags": "",
+            "asflags": ""
+          }
+        },
+        "gp_symbol_inventory_evidence": {
+          "symbol": "D_80080AD4",
+          "address": "0x80080AD4",
+          "rows": "slus/w_8003E34C,slus/w_8003E4FC,slus/w_8003E758,slus/w_8003F5AC",
+          "segment_start": "0x54240",
+          "segment_kind": "bin",
+          "asset_object": "build_slus/build/assets/54240.o",
+          "other_source_use_files": "",
+          "source_use_sites": "src/slus/w_8003E34C.c:30,src/slus/w_8003E4FC.c:123,src/slus/w_8003E758.c:470,src/slus/w_8003F5AC.c:12",
+          "source_extern_declarations": "src/slus/w_8003E34C.c:14,src/slus/w_8003E4FC.c:12,src/slus/w_8003E758.c:48,src/slus/w_8003F5AC.c:5"
+        },
+        "module_data_owner_current_config": null
+      },
+      {
+        "symbol": "D_80080ADC",
+        "rows": [
+          "slus/w_8003E34C",
+          "slus/w_8003E4FC"
+        ],
+        "current_recipes_by_row": {
+          "slus/w_8003E34C": {
+            "ccver": "2.7.2-cdk",
+            "ccflags": "",
+            "asflags": ""
+          },
+          "slus/w_8003E4FC": {
+            "ccver": "2.7.2-cdk",
+            "ccflags": "",
+            "asflags": ""
+          }
+        },
+        "gp_symbol_inventory_evidence": {
+          "symbol": "D_80080ADC",
+          "address": "0x80080ADC",
+          "rows": "slus/w_8003E34C,slus/w_8003E4FC",
+          "segment_start": "0x54240",
+          "segment_kind": "bin",
+          "asset_object": "build_slus/build/assets/54240.o",
+          "other_source_use_files": "",
+          "source_use_sites": "src/slus/w_8003E34C.c:29,src/slus/w_8003E4FC.c:112,src/slus/w_8003E4FC.c:131",
+          "source_extern_declarations": "src/slus/w_8003E34C.c:15,src/slus/w_8003E4FC.c:13"
+        },
+        "module_data_owner_current_config": null
+      },
+      {
+        "symbol": "D_80080B98",
+        "rows": [
+          "slus/code",
+          "slus/w_80050DA8",
+          "slus/w_80050E20"
+        ],
+        "current_recipes_by_row": {
+          "slus/code": {
+            "ccver": "2.7.2",
+            "ccflags": "",
+            "asflags": ""
+          },
+          "slus/w_80050DA8": {
+            "ccver": "2.7.2-cdk",
+            "ccflags": "",
+            "asflags": ""
+          },
+          "slus/w_80050E20": {
+            "ccver": "2.7.2-cdk",
+            "ccflags": "",
+            "asflags": ""
+          }
+        },
+        "gp_symbol_inventory_evidence": {
+          "symbol": "D_80080B98",
+          "address": "0x80080B98",
+          "rows": "slus/code,slus/w_80050DA8,slus/w_80050E20",
+          "segment_start": "0x54240",
+          "segment_kind": "bin",
+          "asset_object": "build_slus/build/assets/54240.o",
+          "other_source_use_files": "",
+          "source_use_sites": "src/slus/code.c:945,src/slus/w_80050DA8.c:26,src/slus/w_80050E20.c:43",
+          "source_extern_declarations": "src/slus/code.c:938,src/slus/w_80050DA8.c:8,src/slus/w_80050E20.c:31"
+        },
+        "module_data_owner_current_config": null
+      },
+      {
+        "symbol": "D_80081450",
+        "rows": [
+          "slus/w_8003E758",
+          "slus/w_8003F368"
+        ],
+        "current_recipes_by_row": {
+          "slus/w_8003E758": {
+            "ccver": "2.7.2-cdk",
+            "ccflags": "-G32 -fno-expensive-optimizations",
+            "asflags": ""
+          },
+          "slus/w_8003F368": {
+            "ccver": "2.7.2",
+            "ccflags": "",
+            "asflags": ""
+          }
+        },
+        "gp_symbol_inventory_evidence": {
+          "symbol": "D_80081450",
+          "address": "0x80081450",
+          "rows": "slus/w_8003E758,slus/w_8003F368",
+          "segment_start": "0x54240",
+          "segment_kind": "bin",
+          "asset_object": "build_slus/build/assets/54240.o",
+          "other_source_use_files": "",
+          "source_use_sites": "src/slus/w_8003E758.c:435,src/slus/w_8003E758.c:455,src/slus/w_8003F368.c:45,src/slus/w_8003F368.c:46,src/slus/w_8003F368.c:86,src/slus/w_8003F368.c:90,src/slus/w_8003F368.c:95",
+          "source_extern_declarations": "src/slus/w_8003E758.c:42,src/slus/w_8003F368.c:20"
+        },
+        "module_data_owner_current_config": null
+      },
+      {
+        "symbol": "D_800814D0",
+        "rows": [
+          "slus/code2",
+          "slus/w_8003E34C",
+          "slus/w_8003E758",
+          "slus/w_8003F2A4",
+          "slus/w_8003F368"
+        ],
+        "current_recipes_by_row": {
+          "slus/code2": {
+            "ccver": "2.8.1",
+            "ccflags": "",
+            "asflags": ""
+          },
+          "slus/w_8003E34C": {
+            "ccver": "2.7.2-cdk",
+            "ccflags": "",
+            "asflags": ""
+          },
+          "slus/w_8003E758": {
+            "ccver": "2.7.2-cdk",
+            "ccflags": "-G32 -fno-expensive-optimizations",
+            "asflags": ""
+          },
+          "slus/w_8003F2A4": {
+            "ccver": "2.6.3",
+            "ccflags": "-fno-schedule-insns",
+            "asflags": ""
+          },
+          "slus/w_8003F368": {
+            "ccver": "2.7.2",
+            "ccflags": "",
+            "asflags": ""
+          }
+        },
+        "gp_symbol_inventory_evidence": {
+          "symbol": "D_800814D0",
+          "address": "0x800814D0",
+          "rows": "slus/code2,slus/w_8003E34C,slus/w_8003E758,slus/w_8003F2A4,slus/w_8003F368",
+          "segment_start": "0x54240",
+          "segment_kind": "bin",
+          "asset_object": "build_slus/build/assets/54240.o",
+          "other_source_use_files": "",
+          "source_use_sites": "src/slus/code2.c:302,src/slus/w_8003E34C.c:24,src/slus/w_8003E758.c:101,src/slus/w_8003E758.c:109,src/slus/w_8003E758.c:120,src/slus/w_8003E758.c:133,src/slus/w_8003E758.c:146,src/slus/w_8003E758.c:149,src/slus/w_8003E758.c:164,src/slus/w_8003E758.c:230,src/slus/w_8003E758.c:235,src/slus/w_8003E758.c:249,src/slus/w_8003E758.c:254,src/slus/w_8003E758.c:267,src/slus/w_8003E758.c:282,src/slus/w_8003E758.c:321,src/slus/w_8003E758.c:325,src/slus/w_8003E758.c:326,src/slus/w_8003E758.c:331,src/slus/w_8003E758.c:353,src/slus/w_8003E758.c:438,src/slus/w_8003E758.c:487,src/slus/w_8003E758.c:488,src/slus/w_8003E758.c:490,src/slus/w_8003E758.c:500,src/slus/w_8003F2A4.c:37,src/slus/w_8003F368.c:77,src/slus/w_8003F368.c:81",
+          "source_extern_declarations": "src/slus/code2.c:297,src/slus/w_8003E34C.c:16,src/slus/w_8003E758.c:36,src/slus/w_8003F2A4.c:10,src/slus/w_8003F368.c:23"
+        },
+        "module_data_owner_current_config": null
+      },
+      {
+        "symbol": "D_800814D4",
+        "rows": [
+          "slus/w_8003E758",
+          "slus/w_8003F624"
+        ],
+        "current_recipes_by_row": {
+          "slus/w_8003E758": {
+            "ccver": "2.7.2-cdk",
+            "ccflags": "-G32 -fno-expensive-optimizations",
+            "asflags": ""
+          },
+          "slus/w_8003F624": {
+            "ccver": "2.7.2",
+            "ccflags": "",
+            "asflags": ""
+          }
+        },
+        "gp_symbol_inventory_evidence": {
+          "symbol": "D_800814D4",
+          "address": "0x800814D4",
+          "rows": "slus/w_8003E758,slus/w_8003F624",
+          "segment_start": "0x54240",
+          "segment_kind": "bin",
+          "asset_object": "build_slus/build/assets/54240.o",
+          "other_source_use_files": "",
+          "source_use_sites": "src/slus/w_8003E758.c:180,src/slus/w_8003F624.c:17",
+          "source_extern_declarations": "src/slus/w_8003E758.c:39,src/slus/w_8003F624.c:6"
+        },
+        "module_data_owner_current_config": null
+      },
+      {
+        "symbol": "D_800814E0",
+        "rows": [
+          "slus/code",
+          "slus/code2",
+          "slus/w_80041134"
+        ],
+        "current_recipes_by_row": {
+          "slus/code": {
+            "ccver": "2.7.2",
+            "ccflags": "",
+            "asflags": ""
+          },
+          "slus/code2": {
+            "ccver": "2.8.1",
+            "ccflags": "",
+            "asflags": ""
+          },
+          "slus/w_80041134": {
+            "ccver": "2.8.1",
+            "ccflags": "",
+            "asflags": ""
+          }
+        },
+        "gp_symbol_inventory_evidence": {
+          "symbol": "D_800814E0",
+          "address": "0x800814E0",
+          "rows": "slus/code,slus/code2,slus/w_80041134",
+          "segment_start": "0x54240",
+          "segment_kind": "bin",
+          "asset_object": "build_slus/build/assets/54240.o",
+          "other_source_use_files": "",
+          "source_use_sites": "src/slus/code.c:187,src/slus/code.c:188,src/slus/code.c:189,src/slus/code2.c:51,src/slus/w_80041134.c:12",
+          "source_extern_declarations": "src/slus/code.c:182,src/slus/code2.c:47,src/slus/w_80041134.c:4"
+        },
+        "module_data_owner_current_config": null
+      },
+      {
+        "symbol": "D_80081540",
+        "rows": [
+          "slus/code",
+          "slus/w_8004B08C"
+        ],
+        "current_recipes_by_row": {
+          "slus/code": {
+            "ccver": "2.7.2",
+            "ccflags": "",
+            "asflags": ""
+          },
+          "slus/w_8004B08C": {
+            "ccver": "2.7.2-cdk",
+            "ccflags": "",
+            "asflags": ""
+          }
+        },
+        "gp_symbol_inventory_evidence": {
+          "symbol": "D_80081540",
+          "address": "0x80081540",
+          "rows": "slus/code,slus/w_8004B08C",
+          "segment_start": "0x54240",
+          "segment_kind": "bin",
+          "asset_object": "build_slus/build/assets/54240.o",
+          "other_source_use_files": "",
+          "source_use_sites": "src/slus/code.c:593,src/slus/w_8004B08C.c:33",
+          "source_extern_declarations": "src/slus/code.c:585,src/slus/w_8004B08C.c:10"
+        },
+        "module_data_owner_current_config": null
+      },
+      {
+        "symbol": "D_80081550",
+        "rows": [
+          "slus/code",
+          "slus/w_8004DCEC",
+          "slus/w_8004DE88",
+          "slus/w_8004DF8C"
+        ],
+        "current_recipes_by_row": {
+          "slus/code": {
+            "ccver": "2.7.2",
+            "ccflags": "",
+            "asflags": ""
+          },
+          "slus/w_8004DCEC": {
+            "ccver": "2.7.2-cdk",
+            "ccflags": "-fno-schedule-insns -fno-delayed-branch",
+            "asflags": ""
+          },
+          "slus/w_8004DE88": {
+            "ccver": "2.7.2-cdk",
+            "ccflags": "",
+            "asflags": ""
+          },
+          "slus/w_8004DF8C": {
+            "ccver": "2.7.2-cdk",
+            "ccflags": "",
+            "asflags": ""
+          }
+        },
+        "gp_symbol_inventory_evidence": {
+          "symbol": "D_80081550",
+          "address": "0x80081550",
+          "rows": "slus/code,slus/w_8004DCEC,slus/w_8004DE88,slus/w_8004DF8C",
+          "segment_start": "0x54240",
+          "segment_kind": "bin",
+          "asset_object": "build_slus/build/assets/54240.o",
+          "other_source_use_files": "",
+          "source_use_sites": "src/slus/code.c:724,src/slus/w_8004DCEC.c:12,src/slus/w_8004DE88.c:44,src/slus/w_8004DF8C.c:55",
+          "source_extern_declarations": "src/slus/w_8004DCEC.c:5,src/slus/w_8004DE88.c:9,src/slus/w_8004DF8C.c:13"
+        },
+        "module_data_owner_current_config": null
+      },
+      {
+        "symbol": "D_80081554",
+        "rows": [
+          "slus/code",
+          "slus/w_8004DCA8",
+          "slus/w_8004DD2C",
+          "slus/w_8004DDE4",
+          "slus/w_8004E130"
+        ],
+        "current_recipes_by_row": {
+          "slus/code": {
+            "ccver": "2.7.2",
+            "ccflags": "",
+            "asflags": ""
+          },
+          "slus/w_8004DCA8": {
+            "ccver": "2.8.1",
+            "ccflags": "",
+            "asflags": ""
+          },
+          "slus/w_8004DD2C": {
+            "ccver": "2.7.2-cdk",
+            "ccflags": "",
+            "asflags": ""
+          },
+          "slus/w_8004DDE4": {
+            "ccver": "2.7.2-cdk",
+            "ccflags": "-fno-schedule-insns",
+            "asflags": ""
+          },
+          "slus/w_8004E130": {
+            "ccver": "2.7.2-cdk",
+            "ccflags": "",
+            "asflags": ""
+          }
+        },
+        "gp_symbol_inventory_evidence": {
+          "symbol": "D_80081554",
+          "address": "0x80081554",
+          "rows": "slus/code,slus/w_8004DCA8,slus/w_8004DD2C,slus/w_8004DDE4,slus/w_8004E130",
+          "segment_start": "0x54240",
+          "segment_kind": "bin",
+          "asset_object": "build_slus/build/assets/54240.o",
+          "other_source_use_files": "",
+          "source_use_sites": "src/slus/code.c:730,src/slus/w_8004DCA8.c:27,src/slus/w_8004DD2C.c:19,src/slus/w_8004DD2C.c:22,src/slus/w_8004DD2C.c:27,src/slus/w_8004DD2C.c:30,src/slus/w_8004DD2C.c:35,src/slus/w_8004DDE4.c:24,src/slus/w_8004DDE4.c:27,src/slus/w_8004DDE4.c:32,src/slus/w_8004DDE4.c:36,src/slus/w_8004DDE4.c:46,src/slus/w_8004DDE4.c:49,src/slus/w_8004E130.c:16,src/slus/w_8004E130.c:18,src/slus/w_8004E130.c:21",
+          "source_extern_declarations": "src/slus/w_8004DCA8.c:12,src/slus/w_8004DD2C.c:4,src/slus/w_8004DDE4.c:4,src/slus/w_8004E130.c:3"
+        },
+        "module_data_owner_current_config": null
+      },
+      {
+        "symbol": "D_80081558",
+        "rows": [
+          "slus/code",
+          "slus/w_8004DD2C",
+          "slus/w_8004DDE4",
+          "slus/w_8004E130"
+        ],
+        "current_recipes_by_row": {
+          "slus/code": {
+            "ccver": "2.7.2",
+            "ccflags": "",
+            "asflags": ""
+          },
+          "slus/w_8004DD2C": {
+            "ccver": "2.7.2-cdk",
+            "ccflags": "",
+            "asflags": ""
+          },
+          "slus/w_8004DDE4": {
+            "ccver": "2.7.2-cdk",
+            "ccflags": "-fno-schedule-insns",
+            "asflags": ""
+          },
+          "slus/w_8004E130": {
+            "ccver": "2.7.2-cdk",
+            "ccflags": "",
+            "asflags": ""
+          }
+        },
+        "gp_symbol_inventory_evidence": {
+          "symbol": "D_80081558",
+          "address": "0x80081558",
+          "rows": "slus/code,slus/w_8004DD2C,slus/w_8004DDE4,slus/w_8004E130",
+          "segment_start": "0x54240",
+          "segment_kind": "bin",
+          "asset_object": "build_slus/build/assets/54240.o",
+          "other_source_use_files": "",
+          "source_use_sites": "src/slus/code.c:731,src/slus/w_8004DD2C.c:23,src/slus/w_8004DD2C.c:36,src/slus/w_8004DDE4.c:28,src/slus/w_8004DDE4.c:37,src/slus/w_8004E130.c:19",
+          "source_extern_declarations": "src/slus/w_8004DD2C.c:5,src/slus/w_8004DDE4.c:5,src/slus/w_8004E130.c:4"
+        },
+        "module_data_owner_current_config": null
+      }
+    ],
+    "all_component_symbols": [
+      {
+        "symbol": "D_80080AD0",
+        "gp_symbol_inventory_evidence": {
+          "symbol": "D_80080AD0",
+          "address": "0x80080AD0",
+          "rows": "slus/w_8003E34C,slus/w_8003E758",
+          "segment_start": "0x54240",
+          "segment_kind": "bin",
+          "asset_object": "build_slus/build/assets/54240.o",
+          "other_source_use_files": "",
+          "source_use_sites": "src/slus/w_8003E34C.c:28,src/slus/w_8003E758.c:384",
+          "source_extern_declarations": "src/slus/w_8003E34C.c:13,src/slus/w_8003E758.c:46"
+        },
+        "module_data_owner_current_config": null,
+        "rows_in_component": [
+          "slus/w_8003E34C",
+          "slus/w_8003E758"
+        ]
+      },
+      {
+        "symbol": "D_80080AD2",
+        "gp_symbol_inventory_evidence": {
+          "symbol": "D_80080AD2",
+          "address": "0x80080AD2",
+          "rows": "slus/w_8003E758",
+          "segment_start": "0x54240",
+          "segment_kind": "bin",
+          "asset_object": "build_slus/build/assets/54240.o",
+          "other_source_use_files": "",
+          "source_use_sites": "src/slus/w_8003E758.c:388,src/slus/w_8003E758.c:389",
+          "source_extern_declarations": "src/slus/w_8003E758.c:47"
+        },
+        "module_data_owner_current_config": null,
+        "rows_in_component": [
+          "slus/w_8003E758"
+        ]
+      },
+      {
+        "symbol": "D_80080AD4",
+        "gp_symbol_inventory_evidence": {
+          "symbol": "D_80080AD4",
+          "address": "0x80080AD4",
+          "rows": "slus/w_8003E34C,slus/w_8003E4FC,slus/w_8003E758,slus/w_8003F5AC",
+          "segment_start": "0x54240",
+          "segment_kind": "bin",
+          "asset_object": "build_slus/build/assets/54240.o",
+          "other_source_use_files": "",
+          "source_use_sites": "src/slus/w_8003E34C.c:30,src/slus/w_8003E4FC.c:123,src/slus/w_8003E758.c:470,src/slus/w_8003F5AC.c:12",
+          "source_extern_declarations": "src/slus/w_8003E34C.c:14,src/slus/w_8003E4FC.c:12,src/slus/w_8003E758.c:48,src/slus/w_8003F5AC.c:5"
+        },
+        "module_data_owner_current_config": null,
+        "rows_in_component": [
+          "slus/w_8003E34C",
+          "slus/w_8003E4FC",
+          "slus/w_8003E758",
+          "slus/w_8003F5AC"
+        ]
+      },
+      {
+        "symbol": "D_80080AD8",
+        "gp_symbol_inventory_evidence": {
+          "symbol": "D_80080AD8",
+          "address": "0x80080AD8",
+          "rows": "slus/w_8003E758",
+          "segment_start": "0x54240",
+          "segment_kind": "bin",
+          "asset_object": "build_slus/build/assets/54240.o",
+          "other_source_use_files": "",
+          "source_use_sites": "src/slus/w_8003E758.c:381,src/slus/w_8003E758.c:382,src/slus/w_8003E758.c:383,src/slus/w_8003E758.c:407",
+          "source_extern_declarations": "src/slus/w_8003E758.c:49"
+        },
+        "module_data_owner_current_config": null,
+        "rows_in_component": [
+          "slus/w_8003E758"
+        ]
+      },
+      {
+        "symbol": "D_80080ADC",
+        "gp_symbol_inventory_evidence": {
+          "symbol": "D_80080ADC",
+          "address": "0x80080ADC",
+          "rows": "slus/w_8003E34C,slus/w_8003E4FC",
+          "segment_start": "0x54240",
+          "segment_kind": "bin",
+          "asset_object": "build_slus/build/assets/54240.o",
+          "other_source_use_files": "",
+          "source_use_sites": "src/slus/w_8003E34C.c:29,src/slus/w_8003E4FC.c:112,src/slus/w_8003E4FC.c:131",
+          "source_extern_declarations": "src/slus/w_8003E34C.c:15,src/slus/w_8003E4FC.c:13"
+        },
+        "module_data_owner_current_config": null,
+        "rows_in_component": [
+          "slus/w_8003E34C",
+          "slus/w_8003E4FC"
+        ]
+      },
+      {
+        "symbol": "D_80080B1B",
+        "gp_symbol_inventory_evidence": {
+          "symbol": "D_80080B1B",
+          "address": "0x80080B1B",
+          "rows": "slus/code2",
+          "segment_start": "0x54240",
+          "segment_kind": "bin",
+          "asset_object": "build_slus/build/assets/54240.o",
+          "other_source_use_files": "",
+          "source_use_sites": "src/slus/code2.c:271",
+          "source_extern_declarations": "src/slus/code2.c:263"
+        },
+        "module_data_owner_current_config": null,
+        "rows_in_component": [
+          "slus/code2"
+        ]
+      },
+      {
+        "symbol": "D_80080B1C",
+        "gp_symbol_inventory_evidence": {
+          "symbol": "D_80080B1C",
+          "address": "0x80080B1C",
+          "rows": "slus/code2",
+          "segment_start": "0x54240",
+          "segment_kind": "bin",
+          "asset_object": "build_slus/build/assets/54240.o",
+          "other_source_use_files": "",
+          "source_use_sites": "src/slus/code2.c:273",
+          "source_extern_declarations": "src/slus/code2.c:264"
+        },
+        "module_data_owner_current_config": null,
+        "rows_in_component": [
+          "slus/code2"
+        ]
+      },
+      {
+        "symbol": "D_80080B94",
+        "gp_symbol_inventory_evidence": {
+          "symbol": "D_80080B94",
+          "address": "0x80080B94",
+          "rows": "slus/code",
+          "segment_start": "0x54240",
+          "segment_kind": "bin",
+          "asset_object": "build_slus/build/assets/54240.o",
+          "other_source_use_files": "",
+          "source_use_sites": "src/slus/code.c:944",
+          "source_extern_declarations": "src/slus/code.c:937"
+        },
+        "module_data_owner_current_config": null,
+        "rows_in_component": [
+          "slus/code"
+        ]
+      },
+      {
+        "symbol": "D_80080B98",
+        "gp_symbol_inventory_evidence": {
+          "symbol": "D_80080B98",
+          "address": "0x80080B98",
+          "rows": "slus/code,slus/w_80050DA8,slus/w_80050E20",
+          "segment_start": "0x54240",
+          "segment_kind": "bin",
+          "asset_object": "build_slus/build/assets/54240.o",
+          "other_source_use_files": "",
+          "source_use_sites": "src/slus/code.c:945,src/slus/w_80050DA8.c:26,src/slus/w_80050E20.c:43",
+          "source_extern_declarations": "src/slus/code.c:938,src/slus/w_80050DA8.c:8,src/slus/w_80050E20.c:31"
+        },
+        "module_data_owner_current_config": null,
+        "rows_in_component": [
+          "slus/code",
+          "slus/w_80050DA8",
+          "slus/w_80050E20"
+        ]
+      },
+      {
+        "symbol": "D_80081450",
+        "gp_symbol_inventory_evidence": {
+          "symbol": "D_80081450",
+          "address": "0x80081450",
+          "rows": "slus/w_8003E758,slus/w_8003F368",
+          "segment_start": "0x54240",
+          "segment_kind": "bin",
+          "asset_object": "build_slus/build/assets/54240.o",
+          "other_source_use_files": "",
+          "source_use_sites": "src/slus/w_8003E758.c:435,src/slus/w_8003E758.c:455,src/slus/w_8003F368.c:45,src/slus/w_8003F368.c:46,src/slus/w_8003F368.c:86,src/slus/w_8003F368.c:90,src/slus/w_8003F368.c:95",
+          "source_extern_declarations": "src/slus/w_8003E758.c:42,src/slus/w_8003F368.c:20"
+        },
+        "module_data_owner_current_config": null,
+        "rows_in_component": [
+          "slus/w_8003E758",
+          "slus/w_8003F368"
+        ]
+      },
+      {
+        "symbol": "D_800814B0",
+        "gp_symbol_inventory_evidence": {
+          "symbol": "D_800814B0",
+          "address": "0x800814B0",
+          "rows": "slus/w_8003F2A4",
+          "segment_start": "0x54240",
+          "segment_kind": "bin",
+          "asset_object": "build_slus/build/assets/54240.o",
+          "other_source_use_files": "",
+          "source_use_sites": "src/slus/w_8003F2A4.c:41",
+          "source_extern_declarations": "src/slus/w_8003F2A4.c:15"
+        },
+        "module_data_owner_current_config": null,
+        "rows_in_component": [
+          "slus/w_8003F2A4"
+        ]
+      },
+      {
+        "symbol": "D_800814B4",
+        "gp_symbol_inventory_evidence": {
+          "symbol": "D_800814B4",
+          "address": "0x800814B4",
+          "rows": "slus/w_8003F2A4",
+          "segment_start": "0x54240",
+          "segment_kind": "bin",
+          "asset_object": "build_slus/build/assets/54240.o",
+          "other_source_use_files": "",
+          "source_use_sites": "src/slus/w_8003F2A4.c:42",
+          "source_extern_declarations": "src/slus/w_8003F2A4.c:16"
+        },
+        "module_data_owner_current_config": null,
+        "rows_in_component": [
+          "slus/w_8003F2A4"
+        ]
+      },
+      {
+        "symbol": "D_800814C8",
+        "gp_symbol_inventory_evidence": {
+          "symbol": "D_800814C8",
+          "address": "0x800814C8",
+          "rows": "slus/code",
+          "segment_start": "0x54240",
+          "segment_kind": "bin",
+          "asset_object": "build_slus/build/assets/54240.o",
+          "other_source_use_files": "",
+          "source_use_sites": "src/slus/code.c:94,src/slus/code.c:100",
+          "source_extern_declarations": ""
+        },
+        "module_data_owner_current_config": null,
+        "rows_in_component": [
+          "slus/code"
+        ]
+      },
+      {
+        "symbol": "D_800814CC",
+        "gp_symbol_inventory_evidence": {
+          "symbol": "D_800814CC",
+          "address": "0x800814CC",
+          "rows": "slus/w_8003E758",
+          "segment_start": "0x54240",
+          "segment_kind": "bin",
+          "asset_object": "build_slus/build/assets/54240.o",
+          "other_source_use_files": "",
+          "source_use_sites": "src/slus/w_8003E758.c:179,src/slus/w_8003E758.c:385",
+          "source_extern_declarations": "src/slus/w_8003E758.c:40"
+        },
+        "module_data_owner_current_config": null,
+        "rows_in_component": [
+          "slus/w_8003E758"
+        ]
+      },
+      {
+        "symbol": "D_800814D0",
+        "gp_symbol_inventory_evidence": {
+          "symbol": "D_800814D0",
+          "address": "0x800814D0",
+          "rows": "slus/code2,slus/w_8003E34C,slus/w_8003E758,slus/w_8003F2A4,slus/w_8003F368",
+          "segment_start": "0x54240",
+          "segment_kind": "bin",
+          "asset_object": "build_slus/build/assets/54240.o",
+          "other_source_use_files": "",
+          "source_use_sites": "src/slus/code2.c:302,src/slus/w_8003E34C.c:24,src/slus/w_8003E758.c:101,src/slus/w_8003E758.c:109,src/slus/w_8003E758.c:120,src/slus/w_8003E758.c:133,src/slus/w_8003E758.c:146,src/slus/w_8003E758.c:149,src/slus/w_8003E758.c:164,src/slus/w_8003E758.c:230,src/slus/w_8003E758.c:235,src/slus/w_8003E758.c:249,src/slus/w_8003E758.c:254,src/slus/w_8003E758.c:267,src/slus/w_8003E758.c:282,src/slus/w_8003E758.c:321,src/slus/w_8003E758.c:325,src/slus/w_8003E758.c:326,src/slus/w_8003E758.c:331,src/slus/w_8003E758.c:353,src/slus/w_8003E758.c:438,src/slus/w_8003E758.c:487,src/slus/w_8003E758.c:488,src/slus/w_8003E758.c:490,src/slus/w_8003E758.c:500,src/slus/w_8003F2A4.c:37,src/slus/w_8003F368.c:77,src/slus/w_8003F368.c:81",
+          "source_extern_declarations": "src/slus/code2.c:297,src/slus/w_8003E34C.c:16,src/slus/w_8003E758.c:36,src/slus/w_8003F2A4.c:10,src/slus/w_8003F368.c:23"
+        },
+        "module_data_owner_current_config": null,
+        "rows_in_component": [
+          "slus/code2",
+          "slus/w_8003E34C",
+          "slus/w_8003E758",
+          "slus/w_8003F2A4",
+          "slus/w_8003F368"
+        ]
+      },
+      {
+        "symbol": "D_800814D4",
+        "gp_symbol_inventory_evidence": {
+          "symbol": "D_800814D4",
+          "address": "0x800814D4",
+          "rows": "slus/w_8003E758,slus/w_8003F624",
+          "segment_start": "0x54240",
+          "segment_kind": "bin",
+          "asset_object": "build_slus/build/assets/54240.o",
+          "other_source_use_files": "",
+          "source_use_sites": "src/slus/w_8003E758.c:180,src/slus/w_8003F624.c:17",
+          "source_extern_declarations": "src/slus/w_8003E758.c:39,src/slus/w_8003F624.c:6"
+        },
+        "module_data_owner_current_config": null,
+        "rows_in_component": [
+          "slus/w_8003E758",
+          "slus/w_8003F624"
+        ]
+      },
+      {
+        "symbol": "D_800814E0",
+        "gp_symbol_inventory_evidence": {
+          "symbol": "D_800814E0",
+          "address": "0x800814E0",
+          "rows": "slus/code,slus/code2,slus/w_80041134",
+          "segment_start": "0x54240",
+          "segment_kind": "bin",
+          "asset_object": "build_slus/build/assets/54240.o",
+          "other_source_use_files": "",
+          "source_use_sites": "src/slus/code.c:187,src/slus/code.c:188,src/slus/code.c:189,src/slus/code2.c:51,src/slus/w_80041134.c:12",
+          "source_extern_declarations": "src/slus/code.c:182,src/slus/code2.c:47,src/slus/w_80041134.c:4"
+        },
+        "module_data_owner_current_config": null,
+        "rows_in_component": [
+          "slus/code",
+          "slus/code2",
+          "slus/w_80041134"
+        ]
+      },
+      {
+        "symbol": "D_80081540",
+        "gp_symbol_inventory_evidence": {
+          "symbol": "D_80081540",
+          "address": "0x80081540",
+          "rows": "slus/code,slus/w_8004B08C",
+          "segment_start": "0x54240",
+          "segment_kind": "bin",
+          "asset_object": "build_slus/build/assets/54240.o",
+          "other_source_use_files": "",
+          "source_use_sites": "src/slus/code.c:593,src/slus/w_8004B08C.c:33",
+          "source_extern_declarations": "src/slus/code.c:585,src/slus/w_8004B08C.c:10"
+        },
+        "module_data_owner_current_config": null,
+        "rows_in_component": [
+          "slus/code",
+          "slus/w_8004B08C"
+        ]
+      },
+      {
+        "symbol": "D_8008154C",
+        "gp_symbol_inventory_evidence": {
+          "symbol": "D_8008154C",
+          "address": "0x8008154C",
+          "rows": "slus/w_8004DF8C",
+          "segment_start": "0x54240",
+          "segment_kind": "bin",
+          "asset_object": "build_slus/build/assets/54240.o",
+          "other_source_use_files": "",
+          "source_use_sites": "src/slus/w_8004DF8C.c:49,src/slus/w_8004DF8C.c:58",
+          "source_extern_declarations": "src/slus/w_8004DF8C.c:15"
+        },
+        "module_data_owner_current_config": null,
+        "rows_in_component": [
+          "slus/w_8004DF8C"
+        ]
+      },
+      {
+        "symbol": "D_80081550",
+        "gp_symbol_inventory_evidence": {
+          "symbol": "D_80081550",
+          "address": "0x80081550",
+          "rows": "slus/code,slus/w_8004DCEC,slus/w_8004DE88,slus/w_8004DF8C",
+          "segment_start": "0x54240",
+          "segment_kind": "bin",
+          "asset_object": "build_slus/build/assets/54240.o",
+          "other_source_use_files": "",
+          "source_use_sites": "src/slus/code.c:724,src/slus/w_8004DCEC.c:12,src/slus/w_8004DE88.c:44,src/slus/w_8004DF8C.c:55",
+          "source_extern_declarations": "src/slus/w_8004DCEC.c:5,src/slus/w_8004DE88.c:9,src/slus/w_8004DF8C.c:13"
+        },
+        "module_data_owner_current_config": null,
+        "rows_in_component": [
+          "slus/code",
+          "slus/w_8004DCEC",
+          "slus/w_8004DE88",
+          "slus/w_8004DF8C"
+        ]
+      },
+      {
+        "symbol": "D_80081554",
+        "gp_symbol_inventory_evidence": {
+          "symbol": "D_80081554",
+          "address": "0x80081554",
+          "rows": "slus/code,slus/w_8004DCA8,slus/w_8004DD2C,slus/w_8004DDE4,slus/w_8004E130",
+          "segment_start": "0x54240",
+          "segment_kind": "bin",
+          "asset_object": "build_slus/build/assets/54240.o",
+          "other_source_use_files": "",
+          "source_use_sites": "src/slus/code.c:730,src/slus/w_8004DCA8.c:27,src/slus/w_8004DD2C.c:19,src/slus/w_8004DD2C.c:22,src/slus/w_8004DD2C.c:27,src/slus/w_8004DD2C.c:30,src/slus/w_8004DD2C.c:35,src/slus/w_8004DDE4.c:24,src/slus/w_8004DDE4.c:27,src/slus/w_8004DDE4.c:32,src/slus/w_8004DDE4.c:36,src/slus/w_8004DDE4.c:46,src/slus/w_8004DDE4.c:49,src/slus/w_8004E130.c:16,src/slus/w_8004E130.c:18,src/slus/w_8004E130.c:21",
+          "source_extern_declarations": "src/slus/w_8004DCA8.c:12,src/slus/w_8004DD2C.c:4,src/slus/w_8004DDE4.c:4,src/slus/w_8004E130.c:3"
+        },
+        "module_data_owner_current_config": null,
+        "rows_in_component": [
+          "slus/code",
+          "slus/w_8004DCA8",
+          "slus/w_8004DD2C",
+          "slus/w_8004DDE4",
+          "slus/w_8004E130"
+        ]
+      },
+      {
+        "symbol": "D_80081558",
+        "gp_symbol_inventory_evidence": {
+          "symbol": "D_80081558",
+          "address": "0x80081558",
+          "rows": "slus/code,slus/w_8004DD2C,slus/w_8004DDE4,slus/w_8004E130",
+          "segment_start": "0x54240",
+          "segment_kind": "bin",
+          "asset_object": "build_slus/build/assets/54240.o",
+          "other_source_use_files": "",
+          "source_use_sites": "src/slus/code.c:731,src/slus/w_8004DD2C.c:23,src/slus/w_8004DD2C.c:36,src/slus/w_8004DDE4.c:28,src/slus/w_8004DDE4.c:37,src/slus/w_8004E130.c:19",
+          "source_extern_declarations": "src/slus/w_8004DD2C.c:5,src/slus/w_8004DDE4.c:5,src/slus/w_8004E130.c:4"
+        },
+        "module_data_owner_current_config": null,
+        "rows_in_component": [
+          "slus/code",
+          "slus/w_8004DD2C",
+          "slus/w_8004DDE4",
+          "slus/w_8004E130"
+        ]
+      }
+    ],
+    "warning": "Shared-symbol connectivity establishes reachability in the frozen source-use inventory, not a retail translation-unit boundary or shared semantic type."
+  },
+  "current_config": {
+    "path": "config/slus_modules.json",
+    "module_count": 17,
+    "component_member_rows_with_module_membership": [],
+    "component_symbols_with_module_data_owner": []
+  },
+  "source_map_and_assertion_evidence": {
+    "recovered_source_map_scope": "docs/EVIDENCE.md \u00a72 maps TOWN scene overlay objects by assertion source lines (plus MAIN card/debug sources described in \u00a71). It contains no assertion-based source-map assignment for these SLUS rows.",
+    "gp_inventory_source_paths": "docs/evidence/fidelity_gp_rows.tsv has a per-row source path for all 20 and source_exists=True at its capture. Current src/slus/<basename>.c files were stat/read directly. This is the matching-source inventory, not recovered retail source ownership proof.",
+    "no_component_assert_evidence": "ledger/evidence/rows.jsonl has zero assert_sites/assert_copies for every present component record; ten IDs have no evidence-index row because tools/evidence.py omits empty records.",
+    "current_config_module_coverage": "config/slus_modules.json has no member row or data symbol for these component rows/symbols. This is an absence in the current module manifest, not a prohibition on evidence-backed present ownership.",
+    "split_path_ambiguity": "ledger/splits/slus.jsonl records logical src/<basename>.c paths while the GP row source inventory and on-disk C files use src/slus/<basename>.c; joined here by the slus/<basename> row ID."
+  },
+  "source_totals": {
+    "source_bytes_total": 81554,
+    "source_lines_total": 3173,
+    "source_body_lexical_lower_bound_total": 198
+  },
+  "rows": [
+    {
+      "id": "slus/code",
+      "current_ledger_cause": "small-extern $gp model (.extern sizes)",
+      "split_position_1based": 1,
+      "split_logical_src": "src/code.c",
+      "split_output": "build/src/code.o",
+      "current_recipe": {
+        "ccver": "2.7.2",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "historical_snapshot_recipe": {
+        "ccver": "2.7.2",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "recipe_matches_historical_snapshot": true,
+      "source_map_path": "src/slus/code.c",
+      "source_map_exists_at_capture": true,
+      "source_path_checked": "src/slus/code.c",
+      "source_exists_now": true,
+      "source_bytes": 32093,
+      "source_lines": 1486,
+      "component_symbols_from_historical_map": [
+        "D_80080B94",
+        "D_80080B98",
+        "D_800814C8",
+        "D_800814E0",
+        "D_80081540",
+        "D_80081550",
+        "D_80081554",
+        "D_80081558"
+      ],
+      "component_symbols_mentioned_in_current_source": [
+        "D_80080B94",
+        "D_80080B98",
+        "D_800814C8",
+        "D_800814E0",
+        "D_80081540",
+        "D_80081550",
+        "D_80081554",
+        "D_80081558"
+      ],
+      "module_membership_in_current_config": null,
+      "source_body_lexical_lower_bound": 156,
+      "ledger_row_registered_defs_count": 221
+    },
+    {
+      "id": "slus/code2",
+      "current_ledger_cause": "combined: extern-abs+no:all-fired",
+      "split_position_1based": 8,
+      "split_logical_src": "src/code2.c",
+      "split_output": "build/src/code2.o",
+      "current_recipe": {
+        "ccver": "2.8.1",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "historical_snapshot_recipe": {
+        "ccver": "2.8.1",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "recipe_matches_historical_snapshot": true,
+      "source_map_path": "src/slus/code2.c",
+      "source_map_exists_at_capture": true,
+      "source_path_checked": "src/slus/code2.c",
+      "source_exists_now": true,
+      "source_bytes": 9565,
+      "source_lines": 364,
+      "component_symbols_from_historical_map": [
+        "D_80080B1B",
+        "D_80080B1C",
+        "D_800814D0",
+        "D_800814E0"
+      ],
+      "component_symbols_mentioned_in_current_source": [
+        "D_80080B1B",
+        "D_80080B1C",
+        "D_800814D0",
+        "D_800814E0"
+      ],
+      "module_membership_in_current_config": null,
+      "source_body_lexical_lower_bound": 24,
+      "ledger_row_registered_defs_count": 32
+    },
+    {
+      "id": "slus/w_8003E34C",
+      "current_ledger_cause": "small-extern $gp model (.extern sizes)",
+      "split_position_1based": 333,
+      "split_logical_src": "src/w_8003E34C.c",
+      "split_output": "build/src/w_8003E34C.o",
+      "current_recipe": {
+        "ccver": "2.7.2-cdk",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "historical_snapshot_recipe": {
+        "ccver": "2.7.2-cdk",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "recipe_matches_historical_snapshot": true,
+      "source_map_path": "src/slus/w_8003E34C.c",
+      "source_map_exists_at_capture": true,
+      "source_path_checked": "src/slus/w_8003E34C.c",
+      "source_exists_now": true,
+      "source_bytes": 663,
+      "source_lines": 33,
+      "component_symbols_from_historical_map": [
+        "D_80080AD0",
+        "D_80080AD4",
+        "D_80080ADC",
+        "D_800814D0"
+      ],
+      "component_symbols_mentioned_in_current_source": [
+        "D_80080AD0",
+        "D_80080AD4",
+        "D_80080ADC",
+        "D_800814D0"
+      ],
+      "module_membership_in_current_config": null,
+      "source_body_lexical_lower_bound": 1,
+      "ledger_row_registered_defs_count": 1
+    },
+    {
+      "id": "slus/w_8003E4FC",
+      "current_ledger_cause": "small-extern $gp model (.extern sizes)",
+      "split_position_1based": 335,
+      "split_logical_src": "src/w_8003E4FC.c",
+      "split_output": "build/src/w_8003E4FC.o",
+      "current_recipe": {
+        "ccver": "2.7.2-cdk",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "historical_snapshot_recipe": {
+        "ccver": "2.7.2-cdk",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "recipe_matches_historical_snapshot": true,
+      "source_map_path": "src/slus/w_8003E4FC.c",
+      "source_map_exists_at_capture": true,
+      "source_path_checked": "src/slus/w_8003E4FC.c",
+      "source_exists_now": true,
+      "source_bytes": 3291,
+      "source_lines": 157,
+      "component_symbols_from_historical_map": [
+        "D_80080AD4",
+        "D_80080ADC"
+      ],
+      "component_symbols_mentioned_in_current_source": [
+        "D_80080AD4",
+        "D_80080ADC"
+      ],
+      "module_membership_in_current_config": null,
+      "source_body_lexical_lower_bound": 1,
+      "ledger_row_registered_defs_count": 2
+    },
+    {
+      "id": "slus/w_8003E758",
+      "current_ledger_cause": "small-extern $gp model (.extern sizes)",
+      "split_position_1based": 337,
+      "split_logical_src": "src/w_8003E758.c",
+      "split_output": "build/src/w_8003E758.o",
+      "current_recipe": {
+        "ccver": "2.7.2-cdk",
+        "ccflags": "-G32 -fno-expensive-optimizations",
+        "asflags": ""
+      },
+      "historical_snapshot_recipe": {
+        "ccver": "2.7.2-cdk",
+        "ccflags": "-G32 -fno-expensive-optimizations",
+        "asflags": ""
+      },
+      "recipe_matches_historical_snapshot": true,
+      "source_map_path": "src/slus/w_8003E758.c",
+      "source_map_exists_at_capture": true,
+      "source_path_checked": "src/slus/w_8003E758.c",
+      "source_exists_now": true,
+      "source_bytes": 17780,
+      "source_lines": 501,
+      "component_symbols_from_historical_map": [
+        "D_80080AD0",
+        "D_80080AD2",
+        "D_80080AD4",
+        "D_80080AD8",
+        "D_80081450",
+        "D_800814CC",
+        "D_800814D0",
+        "D_800814D4"
+      ],
+      "component_symbols_mentioned_in_current_source": [
+        "D_80080AD0",
+        "D_80080AD2",
+        "D_80080AD4",
+        "D_80080AD8",
+        "D_80081450",
+        "D_800814CC",
+        "D_800814D0",
+        "D_800814D4"
+      ],
+      "module_membership_in_current_config": null,
+      "source_body_lexical_lower_bound": 1,
+      "ledger_row_registered_defs_count": 5
+    },
+    {
+      "id": "slus/w_8003F2A4",
+      "current_ledger_cause": "small-extern $gp model (.extern sizes)",
+      "split_position_1based": 339,
+      "split_logical_src": "src/w_8003F2A4.c",
+      "split_output": "build/src/w_8003F2A4.o",
+      "current_recipe": {
+        "ccver": "2.6.3",
+        "ccflags": "-fno-schedule-insns",
+        "asflags": ""
+      },
+      "historical_snapshot_recipe": {
+        "ccver": "2.6.3",
+        "ccflags": "-fno-schedule-insns",
+        "asflags": ""
+      },
+      "recipe_matches_historical_snapshot": true,
+      "source_map_path": "src/slus/w_8003F2A4.c",
+      "source_map_exists_at_capture": true,
+      "source_path_checked": "src/slus/w_8003F2A4.c",
+      "source_exists_now": true,
+      "source_bytes": 1306,
+      "source_lines": 44,
+      "component_symbols_from_historical_map": [
+        "D_800814B0",
+        "D_800814B4",
+        "D_800814D0"
+      ],
+      "component_symbols_mentioned_in_current_source": [
+        "D_800814B0",
+        "D_800814B4",
+        "D_800814D0"
+      ],
+      "module_membership_in_current_config": null,
+      "source_body_lexical_lower_bound": 1,
+      "ledger_row_registered_defs_count": 1
+    },
+    {
+      "id": "slus/w_8003F368",
+      "current_ledger_cause": "small-extern $gp model (.extern sizes)",
+      "split_position_1based": 341,
+      "split_logical_src": "src/w_8003F368.c",
+      "split_output": "build/src/w_8003F368.o",
+      "current_recipe": {
+        "ccver": "2.7.2",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "historical_snapshot_recipe": {
+        "ccver": "2.7.2",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "recipe_matches_historical_snapshot": true,
+      "source_map_path": "src/slus/w_8003F368.c",
+      "source_map_exists_at_capture": true,
+      "source_path_checked": "src/slus/w_8003F368.c",
+      "source_exists_now": true,
+      "source_bytes": 2825,
+      "source_lines": 116,
+      "component_symbols_from_historical_map": [
+        "D_80081450",
+        "D_800814D0"
+      ],
+      "component_symbols_mentioned_in_current_source": [
+        "D_80081450",
+        "D_800814D0"
+      ],
+      "module_membership_in_current_config": null,
+      "source_body_lexical_lower_bound": 1,
+      "ledger_row_registered_defs_count": 5
+    },
+    {
+      "id": "slus/w_8003F5AC",
+      "current_ledger_cause": "small-extern $gp model (.extern sizes)",
+      "split_position_1based": 343,
+      "split_logical_src": "src/w_8003F5AC.c",
+      "split_output": "build/src/w_8003F5AC.o",
+      "current_recipe": {
+        "ccver": "2.7.2-cdk",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "historical_snapshot_recipe": {
+        "ccver": "2.7.2-cdk",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "recipe_matches_historical_snapshot": true,
+      "source_map_path": "src/slus/w_8003F5AC.c",
+      "source_map_exists_at_capture": true,
+      "source_path_checked": "src/slus/w_8003F5AC.c",
+      "source_exists_now": true,
+      "source_bytes": 332,
+      "source_lines": 18,
+      "component_symbols_from_historical_map": [
+        "D_80080AD4"
+      ],
+      "component_symbols_mentioned_in_current_source": [
+        "D_80080AD4"
+      ],
+      "module_membership_in_current_config": null,
+      "source_body_lexical_lower_bound": 1,
+      "ledger_row_registered_defs_count": 1
+    },
+    {
+      "id": "slus/w_8003F624",
+      "current_ledger_cause": "small-extern $gp model (.extern sizes)",
+      "split_position_1based": 344,
+      "split_logical_src": "src/w_8003F624.c",
+      "split_output": "build/src/w_8003F624.o",
+      "current_recipe": {
+        "ccver": "2.7.2",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "historical_snapshot_recipe": {
+        "ccver": "2.7.2",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "recipe_matches_historical_snapshot": true,
+      "source_map_path": "src/slus/w_8003F624.c",
+      "source_map_exists_at_capture": true,
+      "source_path_checked": "src/slus/w_8003F624.c",
+      "source_exists_now": true,
+      "source_bytes": 796,
+      "source_lines": 26,
+      "component_symbols_from_historical_map": [
+        "D_800814D4"
+      ],
+      "component_symbols_mentioned_in_current_source": [
+        "D_800814D4"
+      ],
+      "module_membership_in_current_config": null,
+      "source_body_lexical_lower_bound": 1,
+      "ledger_row_registered_defs_count": 3
+    },
+    {
+      "id": "slus/w_80041134",
+      "current_ledger_cause": "small-extern $gp model (.extern sizes)",
+      "split_position_1based": 381,
+      "split_logical_src": "src/w_80041134.c",
+      "split_output": "build/src/w_80041134.o",
+      "current_recipe": {
+        "ccver": "2.8.1",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "historical_snapshot_recipe": {
+        "ccver": "2.8.1",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "recipe_matches_historical_snapshot": true,
+      "source_map_path": "src/slus/w_80041134.c",
+      "source_map_exists_at_capture": true,
+      "source_path_checked": "src/slus/w_80041134.c",
+      "source_exists_now": true,
+      "source_bytes": 615,
+      "source_lines": 24,
+      "component_symbols_from_historical_map": [
+        "D_800814E0"
+      ],
+      "component_symbols_mentioned_in_current_source": [
+        "D_800814E0"
+      ],
+      "module_membership_in_current_config": null,
+      "source_body_lexical_lower_bound": 1,
+      "ledger_row_registered_defs_count": 1
+    },
+    {
+      "id": "slus/w_8004B08C",
+      "current_ledger_cause": "small-extern $gp model (.extern sizes)",
+      "split_position_1based": 556,
+      "split_logical_src": "src/w_8004B08C.c",
+      "split_output": "build/src/w_8004B08C.o",
+      "current_recipe": {
+        "ccver": "2.7.2-cdk",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "historical_snapshot_recipe": {
+        "ccver": "2.7.2-cdk",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "recipe_matches_historical_snapshot": true,
+      "source_map_path": "src/slus/w_8004B08C.c",
+      "source_map_exists_at_capture": true,
+      "source_path_checked": "src/slus/w_8004B08C.c",
+      "source_exists_now": true,
+      "source_bytes": 1873,
+      "source_lines": 59,
+      "component_symbols_from_historical_map": [
+        "D_80081540"
+      ],
+      "component_symbols_mentioned_in_current_source": [
+        "D_80081540"
+      ],
+      "module_membership_in_current_config": null,
+      "source_body_lexical_lower_bound": 1,
+      "ledger_row_registered_defs_count": 7
+    },
+    {
+      "id": "slus/w_8004DCA8",
+      "current_ledger_cause": "small-extern $gp model (.extern sizes)",
+      "split_position_1based": 604,
+      "split_logical_src": "src/w_8004DCA8.c",
+      "split_output": "build/src/w_8004DCA8.o",
+      "current_recipe": {
+        "ccver": "2.8.1",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "historical_snapshot_recipe": {
+        "ccver": "2.8.1",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "recipe_matches_historical_snapshot": true,
+      "source_map_path": "src/slus/w_8004DCA8.c",
+      "source_map_exists_at_capture": true,
+      "source_path_checked": "src/slus/w_8004DCA8.c",
+      "source_exists_now": true,
+      "source_bytes": 1507,
+      "source_lines": 28,
+      "component_symbols_from_historical_map": [
+        "D_80081554"
+      ],
+      "component_symbols_mentioned_in_current_source": [
+        "D_80081554"
+      ],
+      "module_membership_in_current_config": null,
+      "source_body_lexical_lower_bound": 1,
+      "ledger_row_registered_defs_count": 1
+    },
+    {
+      "id": "slus/w_8004DCEC",
+      "current_ledger_cause": "small-extern $gp model (.extern sizes)",
+      "split_position_1based": 605,
+      "split_logical_src": "src/w_8004DCEC.c",
+      "split_output": "build/src/w_8004DCEC.o",
+      "current_recipe": {
+        "ccver": "2.7.2-cdk",
+        "ccflags": "-fno-schedule-insns -fno-delayed-branch",
+        "asflags": ""
+      },
+      "historical_snapshot_recipe": {
+        "ccver": "2.7.2-cdk",
+        "ccflags": "-fno-schedule-insns -fno-delayed-branch",
+        "asflags": ""
+      },
+      "recipe_matches_historical_snapshot": true,
+      "source_map_path": "src/slus/w_8004DCEC.c",
+      "source_map_exists_at_capture": true,
+      "source_path_checked": "src/slus/w_8004DCEC.c",
+      "source_exists_now": true,
+      "source_bytes": 364,
+      "source_lines": 15,
+      "component_symbols_from_historical_map": [
+        "D_80081550"
+      ],
+      "component_symbols_mentioned_in_current_source": [
+        "D_80081550"
+      ],
+      "module_membership_in_current_config": null,
+      "source_body_lexical_lower_bound": 1,
+      "ledger_row_registered_defs_count": 1
+    },
+    {
+      "id": "slus/w_8004DD2C",
+      "current_ledger_cause": "small-extern $gp model (.extern sizes)",
+      "split_position_1based": 606,
+      "split_logical_src": "src/w_8004DD2C.c",
+      "split_output": "build/src/w_8004DD2C.o",
+      "current_recipe": {
+        "ccver": "2.7.2-cdk",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "historical_snapshot_recipe": {
+        "ccver": "2.7.2-cdk",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "recipe_matches_historical_snapshot": true,
+      "source_map_path": "src/slus/w_8004DD2C.c",
+      "source_map_exists_at_capture": true,
+      "source_path_checked": "src/slus/w_8004DD2C.c",
+      "source_exists_now": true,
+      "source_bytes": 999,
+      "source_lines": 38,
+      "component_symbols_from_historical_map": [
+        "D_80081554",
+        "D_80081558"
+      ],
+      "component_symbols_mentioned_in_current_source": [
+        "D_80081554",
+        "D_80081558"
+      ],
+      "module_membership_in_current_config": null,
+      "source_body_lexical_lower_bound": 1,
+      "ledger_row_registered_defs_count": 3
+    },
+    {
+      "id": "slus/w_8004DDE4",
+      "current_ledger_cause": "small-extern $gp model (.extern sizes)",
+      "split_position_1based": 607,
+      "split_logical_src": "src/w_8004DDE4.c",
+      "split_output": "build/src/w_8004DDE4.o",
+      "current_recipe": {
+        "ccver": "2.7.2-cdk",
+        "ccflags": "-fno-schedule-insns",
+        "asflags": ""
+      },
+      "historical_snapshot_recipe": {
+        "ccver": "2.7.2-cdk",
+        "ccflags": "-fno-schedule-insns",
+        "asflags": ""
+      },
+      "recipe_matches_historical_snapshot": true,
+      "source_map_path": "src/slus/w_8004DDE4.c",
+      "source_map_exists_at_capture": true,
+      "source_path_checked": "src/slus/w_8004DDE4.c",
+      "source_exists_now": true,
+      "source_bytes": 1451,
+      "source_lines": 51,
+      "component_symbols_from_historical_map": [
+        "D_80081554",
+        "D_80081558"
+      ],
+      "component_symbols_mentioned_in_current_source": [
+        "D_80081554",
+        "D_80081558"
+      ],
+      "module_membership_in_current_config": null,
+      "source_body_lexical_lower_bound": 1,
+      "ledger_row_registered_defs_count": 3
+    },
+    {
+      "id": "slus/w_8004DE88",
+      "current_ledger_cause": "small-extern $gp model (.extern sizes)",
+      "split_position_1based": 608,
+      "split_logical_src": "src/w_8004DE88.c",
+      "split_output": "build/src/w_8004DE88.o",
+      "current_recipe": {
+        "ccver": "2.7.2-cdk",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "historical_snapshot_recipe": {
+        "ccver": "2.7.2-cdk",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "recipe_matches_historical_snapshot": true,
+      "source_map_path": "src/slus/w_8004DE88.c",
+      "source_map_exists_at_capture": true,
+      "source_path_checked": "src/slus/w_8004DE88.c",
+      "source_exists_now": true,
+      "source_bytes": 1655,
+      "source_lines": 47,
+      "component_symbols_from_historical_map": [
+        "D_80081550"
+      ],
+      "component_symbols_mentioned_in_current_source": [
+        "D_80081550"
+      ],
+      "module_membership_in_current_config": null,
+      "source_body_lexical_lower_bound": 1,
+      "ledger_row_registered_defs_count": 1
+    },
+    {
+      "id": "slus/w_8004DF8C",
+      "current_ledger_cause": "small-extern $gp model (.extern sizes)",
+      "split_position_1based": 609,
+      "split_logical_src": "src/w_8004DF8C.c",
+      "split_output": "build/src/w_8004DF8C.o",
+      "current_recipe": {
+        "ccver": "2.7.2-cdk",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "historical_snapshot_recipe": {
+        "ccver": "2.7.2-cdk",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "recipe_matches_historical_snapshot": true,
+      "source_map_path": "src/slus/w_8004DF8C.c",
+      "source_map_exists_at_capture": true,
+      "source_path_checked": "src/slus/w_8004DF8C.c",
+      "source_exists_now": true,
+      "source_bytes": 1713,
+      "source_lines": 59,
+      "component_symbols_from_historical_map": [
+        "D_8008154C",
+        "D_80081550"
+      ],
+      "component_symbols_mentioned_in_current_source": [
+        "D_8008154C",
+        "D_80081550"
+      ],
+      "module_membership_in_current_config": null,
+      "source_body_lexical_lower_bound": 1,
+      "ledger_row_registered_defs_count": 1
+    },
+    {
+      "id": "slus/w_8004E130",
+      "current_ledger_cause": "small-extern $gp model (.extern sizes)",
+      "split_position_1based": 611,
+      "split_logical_src": "src/w_8004E130.c",
+      "split_output": "build/src/w_8004E130.o",
+      "current_recipe": {
+        "ccver": "2.7.2-cdk",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "historical_snapshot_recipe": {
+        "ccver": "2.7.2-cdk",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "recipe_matches_historical_snapshot": true,
+      "source_map_path": "src/slus/w_8004E130.c",
+      "source_map_exists_at_capture": true,
+      "source_path_checked": "src/slus/w_8004E130.c",
+      "source_exists_now": true,
+      "source_bytes": 551,
+      "source_lines": 24,
+      "component_symbols_from_historical_map": [
+        "D_80081554",
+        "D_80081558"
+      ],
+      "component_symbols_mentioned_in_current_source": [
+        "D_80081554",
+        "D_80081558"
+      ],
+      "module_membership_in_current_config": null,
+      "source_body_lexical_lower_bound": 1,
+      "ledger_row_registered_defs_count": 3
+    },
+    {
+      "id": "slus/w_80050DA8",
+      "current_ledger_cause": "small-extern $gp model (.extern sizes)",
+      "split_position_1based": 679,
+      "split_logical_src": "src/w_80050DA8.c",
+      "split_output": "build/src/w_80050DA8.o",
+      "current_recipe": {
+        "ccver": "2.7.2-cdk",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "historical_snapshot_recipe": {
+        "ccver": "2.7.2-cdk",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "recipe_matches_historical_snapshot": true,
+      "source_map_path": "src/slus/w_80050DA8.c",
+      "source_map_exists_at_capture": true,
+      "source_path_checked": "src/slus/w_80050DA8.c",
+      "source_exists_now": true,
+      "source_bytes": 969,
+      "source_lines": 33,
+      "component_symbols_from_historical_map": [
+        "D_80080B98"
+      ],
+      "component_symbols_mentioned_in_current_source": [
+        "D_80080B98"
+      ],
+      "module_membership_in_current_config": null,
+      "source_body_lexical_lower_bound": 1,
+      "ledger_row_registered_defs_count": 3
+    },
+    {
+      "id": "slus/w_80050E20",
+      "current_ledger_cause": "small-extern $gp model (.extern sizes)",
+      "split_position_1based": 680,
+      "split_logical_src": "src/w_80050E20.c",
+      "split_output": "build/src/w_80050E20.o",
+      "current_recipe": {
+        "ccver": "2.7.2-cdk",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "historical_snapshot_recipe": {
+        "ccver": "2.7.2-cdk",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "recipe_matches_historical_snapshot": true,
+      "source_map_path": "src/slus/w_80050E20.c",
+      "source_map_exists_at_capture": true,
+      "source_path_checked": "src/slus/w_80050E20.c",
+      "source_exists_now": true,
+      "source_bytes": 1206,
+      "source_lines": 50,
+      "component_symbols_from_historical_map": [
+        "D_80080B98"
+      ],
+      "component_symbols_mentioned_in_current_source": [
+        "D_80080B98"
+      ],
+      "module_membership_in_current_config": null,
+      "source_body_lexical_lower_bound": 1,
+      "ledger_row_registered_defs_count": 3
+    }
+  ],
+  "source_function_count_notes": {
+    "lexical_source_body_counts_are_lower_bounds": true,
+    "row_registry": "ledger/rows.jsonl `defs` counts are recorded per registered row; these symbol lists can include aliases/include-derived entries and overlap adjacent row mappings, so do not equate them with top-level source bodies or sum them into a TU count.",
+    "selected_large_rows": {
+      "slus/code": {
+        "lexical_source_body_lower_bound": 156,
+        "ledger_registered_defs_count": 221
+      },
+      "slus/code2": {
+        "lexical_source_body_lower_bound": 24,
+        "ledger_registered_defs_count": 32
+      }
+    },
+    "method": "Source bytes are filesystem stat; lines use splitlines. Lexical lower bounds count recognizable top-level function-body openings in the exact source file. No source rebuild was performed and no definitive source function total is claimed."
+  },
+  "evidence_coverage": {
+    "docs_index": "docs/EVIDENCE.md \u00a71 identifies recovered assertion sites as source-file/line evidence and \u00a72 gives the TOWN overlay map. Its source map is specific to those TOWN/MAIN assertion sources, not this SLUS component.",
+    "generator": "tools/evidence.py build() joins assertion sites, developer identifiers, randomizer map, resident VM table, prior knowledge, applied names, and script call-table names. It emits only rows with at least one evidence field.",
+    "ledger_rows_path": "ledger/evidence/rows.jsonl; filtered to these exact 20 IDs.",
+    "indexed_rows_present": 10,
+    "indexed_rows_absent": [
+      "slus/w_8003E34C",
+      "slus/w_8003E4FC",
+      "slus/w_8003F2A4",
+      "slus/w_8003F5AC",
+      "slus/w_8004DCA8",
+      "slus/w_8004DCEC",
+      "slus/w_8004DD2C",
+      "slus/w_8004DDE4",
+      "slus/w_8004DE88",
+      "slus/w_8004DF8C"
+    ],
+    "assertion_source_evidence": {
+      "rows_with_assert_site": 0,
+      "assertion_site_copies": 0,
+      "rows_with_developer_identifiers": 0,
+      "statement": "No recovered assertion source file/line or developer-identifier source evidence is indexed for these 20 rows. A missing index row means no evidence from the indexed sources, not that no possible evidence exists elsewhere."
+    },
+    "other_recovered_evidence": {
+      "rows_with_prior_knowledge": 10,
+      "prior_knowledge_note_count": 41,
+      "rows_with_applied_names": 3,
+      "rows_with_script_call_names": 1,
+      "rows_with_adrando_or_data_or_vm_evidence": 0,
+      "by_row": [
+        {
+          "id": "slus/code",
+          "index_row_present": true,
+          "assert_copies": 0,
+          "categories": {
+            "assert_sites": 0,
+            "identifiers": 0,
+            "knowledge": 26,
+            "adrando": 0,
+            "data": 0,
+            "vm": 0,
+            "name": 0,
+            "script_function": 6
+          },
+          "knowledge_functions": [
+            "func_80041284",
+            "func_80042984",
+            "func_80047694",
+            "func_80047784",
+            "func_80048500",
+            "func_800491F4",
+            "func_80049CF4",
+            "func_8004B364",
+            "func_8004B854",
+            "func_8004EDA8",
+            "func_8004EF90",
+            "func_8004EFF4",
+            "func_8004F068",
+            "func_80050308",
+            "func_80054D64",
+            "func_80056C30",
+            "func_80058700",
+            "func_8005A26C",
+            "func_8005A428",
+            "func_8005A4E8",
+            "func_8005A56C",
+            "func_8005ACDC",
+            "func_8005B418",
+            "func_8005BAB0",
+            "func_8005CA90",
+            "func_8005E450"
+          ],
+          "applied_names_and_evidence": [],
+          "script_function_names": [
+            "get_item_buy_money",
+            "Control_CD",
+            "get_item_sell_money",
+            "load_bin_nametwin",
+            "file_load_com",
+            "SD_Call"
+          ]
+        },
+        {
+          "id": "slus/code2",
+          "index_row_present": true,
+          "assert_copies": 0,
+          "categories": {
+            "assert_sites": 0,
+            "identifiers": 0,
+            "knowledge": 2,
+            "adrando": 0,
+            "data": 0,
+            "vm": 0,
+            "name": 0,
+            "script_function": 0
+          },
+          "knowledge_functions": [
+            "func_80040BB4",
+            "func_8005E450"
+          ],
+          "applied_names_and_evidence": [],
+          "script_function_names": []
+        },
+        {
+          "id": "slus/w_8003E34C",
+          "index_row_present": false,
+          "status": "no indexed evidence row; tools/evidence.py omits rows with no evidence fields",
+          "categories": {
+            "assert_sites": 0,
+            "identifiers": 0,
+            "knowledge": 0,
+            "adrando": 0,
+            "data": 0,
+            "vm": 0,
+            "name": 0,
+            "script_function": 0
+          }
+        },
+        {
+          "id": "slus/w_8003E4FC",
+          "index_row_present": false,
+          "status": "no indexed evidence row; tools/evidence.py omits rows with no evidence fields",
+          "categories": {
+            "assert_sites": 0,
+            "identifiers": 0,
+            "knowledge": 0,
+            "adrando": 0,
+            "data": 0,
+            "vm": 0,
+            "name": 0,
+            "script_function": 0
+          }
+        },
+        {
+          "id": "slus/w_8003E758",
+          "index_row_present": true,
+          "assert_copies": 0,
+          "categories": {
+            "assert_sites": 0,
+            "identifiers": 0,
+            "knowledge": 2,
+            "adrando": 0,
+            "data": 0,
+            "vm": 0,
+            "name": 1,
+            "script_function": 0
+          },
+          "knowledge_functions": [
+            "func_8003E70C",
+            "func_8003F624"
+          ],
+          "applied_names_and_evidence": [
+            {
+              "new_name": "cdIncRetryCounters",
+              "evidence": "knowledge/func_8003E70C.json: increments two u16 counters in the CD retry/frame-count state block at D_80083958 (medium)"
+            }
+          ],
+          "script_function_names": []
+        },
+        {
+          "id": "slus/w_8003F2A4",
+          "index_row_present": false,
+          "status": "no indexed evidence row; tools/evidence.py omits rows with no evidence fields",
+          "categories": {
+            "assert_sites": 0,
+            "identifiers": 0,
+            "knowledge": 0,
+            "adrando": 0,
+            "data": 0,
+            "vm": 0,
+            "name": 0,
+            "script_function": 0
+          }
+        },
+        {
+          "id": "slus/w_8003F368",
+          "index_row_present": true,
+          "assert_copies": 0,
+          "categories": {
+            "assert_sites": 0,
+            "identifiers": 0,
+            "knowledge": 3,
+            "adrando": 0,
+            "data": 0,
+            "vm": 0,
+            "name": 2,
+            "script_function": 0
+          },
+          "knowledge_functions": [
+            "func_8003E70C",
+            "func_8003F624",
+            "func_8003F688"
+          ],
+          "applied_names_and_evidence": [
+            {
+              "new_name": "cdIncRetryCounters",
+              "evidence": "knowledge/func_8003E70C.json: increments two u16 counters in the CD retry/frame-count state block at D_80083958 (medium)"
+            },
+            {
+              "new_name": "bcdToInt",
+              "evidence": "knowledge/func_8003F688.json: converts a value whose nibbles hold decimal digits 0-9 into the equivalent base-10 integer (BCD unpack)"
+            }
+          ],
+          "script_function_names": []
+        },
+        {
+          "id": "slus/w_8003F5AC",
+          "index_row_present": false,
+          "status": "no indexed evidence row; tools/evidence.py omits rows with no evidence fields",
+          "categories": {
+            "assert_sites": 0,
+            "identifiers": 0,
+            "knowledge": 0,
+            "adrando": 0,
+            "data": 0,
+            "vm": 0,
+            "name": 0,
+            "script_function": 0
+          }
+        },
+        {
+          "id": "slus/w_8003F624",
+          "index_row_present": true,
+          "assert_copies": 0,
+          "categories": {
+            "assert_sites": 0,
+            "identifiers": 0,
+            "knowledge": 2,
+            "adrando": 0,
+            "data": 0,
+            "vm": 0,
+            "name": 1,
+            "script_function": 0
+          },
+          "knowledge_functions": [
+            "func_8003E70C",
+            "func_8003F624"
+          ],
+          "applied_names_and_evidence": [
+            {
+              "new_name": "cdIncRetryCounters",
+              "evidence": "knowledge/func_8003E70C.json: increments two u16 counters in the CD retry/frame-count state block at D_80083958 (medium)"
+            }
+          ],
+          "script_function_names": []
+        },
+        {
+          "id": "slus/w_80041134",
+          "index_row_present": true,
+          "assert_copies": 0,
+          "categories": {
+            "assert_sites": 0,
+            "identifiers": 0,
+            "knowledge": 1,
+            "adrando": 0,
+            "data": 0,
+            "vm": 0,
+            "name": 0,
+            "script_function": 0
+          },
+          "knowledge_functions": [
+            "func_80041134"
+          ],
+          "applied_names_and_evidence": [],
+          "script_function_names": []
+        },
+        {
+          "id": "slus/w_8004B08C",
+          "index_row_present": true,
+          "assert_copies": 0,
+          "categories": {
+            "assert_sites": 0,
+            "identifiers": 0,
+            "knowledge": 1,
+            "adrando": 0,
+            "data": 0,
+            "vm": 0,
+            "name": 0,
+            "script_function": 0
+          },
+          "knowledge_functions": [
+            "func_8004B028"
+          ],
+          "applied_names_and_evidence": [],
+          "script_function_names": []
+        },
+        {
+          "id": "slus/w_8004DCA8",
+          "index_row_present": false,
+          "status": "no indexed evidence row; tools/evidence.py omits rows with no evidence fields",
+          "categories": {
+            "assert_sites": 0,
+            "identifiers": 0,
+            "knowledge": 0,
+            "adrando": 0,
+            "data": 0,
+            "vm": 0,
+            "name": 0,
+            "script_function": 0
+          }
+        },
+        {
+          "id": "slus/w_8004DCEC",
+          "index_row_present": false,
+          "status": "no indexed evidence row; tools/evidence.py omits rows with no evidence fields",
+          "categories": {
+            "assert_sites": 0,
+            "identifiers": 0,
+            "knowledge": 0,
+            "adrando": 0,
+            "data": 0,
+            "vm": 0,
+            "name": 0,
+            "script_function": 0
+          }
+        },
+        {
+          "id": "slus/w_8004DD2C",
+          "index_row_present": false,
+          "status": "no indexed evidence row; tools/evidence.py omits rows with no evidence fields",
+          "categories": {
+            "assert_sites": 0,
+            "identifiers": 0,
+            "knowledge": 0,
+            "adrando": 0,
+            "data": 0,
+            "vm": 0,
+            "name": 0,
+            "script_function": 0
+          }
+        },
+        {
+          "id": "slus/w_8004DDE4",
+          "index_row_present": false,
+          "status": "no indexed evidence row; tools/evidence.py omits rows with no evidence fields",
+          "categories": {
+            "assert_sites": 0,
+            "identifiers": 0,
+            "knowledge": 0,
+            "adrando": 0,
+            "data": 0,
+            "vm": 0,
+            "name": 0,
+            "script_function": 0
+          }
+        },
+        {
+          "id": "slus/w_8004DE88",
+          "index_row_present": false,
+          "status": "no indexed evidence row; tools/evidence.py omits rows with no evidence fields",
+          "categories": {
+            "assert_sites": 0,
+            "identifiers": 0,
+            "knowledge": 0,
+            "adrando": 0,
+            "data": 0,
+            "vm": 0,
+            "name": 0,
+            "script_function": 0
+          }
+        },
+        {
+          "id": "slus/w_8004DF8C",
+          "index_row_present": false,
+          "status": "no indexed evidence row; tools/evidence.py omits rows with no evidence fields",
+          "categories": {
+            "assert_sites": 0,
+            "identifiers": 0,
+            "knowledge": 0,
+            "adrando": 0,
+            "data": 0,
+            "vm": 0,
+            "name": 0,
+            "script_function": 0
+          }
+        },
+        {
+          "id": "slus/w_8004E130",
+          "index_row_present": true,
+          "assert_copies": 0,
+          "categories": {
+            "assert_sites": 0,
+            "identifiers": 0,
+            "knowledge": 1,
+            "adrando": 0,
+            "data": 0,
+            "vm": 0,
+            "name": 0,
+            "script_function": 0
+          },
+          "knowledge_functions": [
+            "func_8004E130"
+          ],
+          "applied_names_and_evidence": [],
+          "script_function_names": []
+        },
+        {
+          "id": "slus/w_80050DA8",
+          "index_row_present": true,
+          "assert_copies": 0,
+          "categories": {
+            "assert_sites": 0,
+            "identifiers": 0,
+            "knowledge": 1,
+            "adrando": 0,
+            "data": 0,
+            "vm": 0,
+            "name": 0,
+            "script_function": 0
+          },
+          "knowledge_functions": [
+            "func_8004FE78"
+          ],
+          "applied_names_and_evidence": [],
+          "script_function_names": []
+        },
+        {
+          "id": "slus/w_80050E20",
+          "index_row_present": true,
+          "assert_copies": 0,
+          "categories": {
+            "assert_sites": 0,
+            "identifiers": 0,
+            "knowledge": 2,
+            "adrando": 0,
+            "data": 0,
+            "vm": 0,
+            "name": 0,
+            "script_function": 0
+          },
+          "knowledge_functions": [
+            "func_8004B248",
+            "func_8004FE78"
+          ],
+          "applied_names_and_evidence": [],
+          "script_function_names": []
+        }
+      ]
+    },
+    "grouping_limit": "The absent assertion/source-map and current module-manifest membership provide no recovered placement constraint here. Their absence neither prohibits a future evidence-backed present module assignment nor proves any historical retail TU boundary."
+  }
+}
