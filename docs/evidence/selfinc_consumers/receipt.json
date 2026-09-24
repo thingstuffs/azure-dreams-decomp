@@ -1,0 +1,2379 @@
+{
+  "purpose": "bounded current-source _fold_selfinc_la consumers and original fired control",
+  "git_head": "ca1ceb6576be5c76a3c36ece2c6de43e6677dece",
+  "inputs_sha256": {
+    "tools/fidelity/aspsx_diff.py": "555b62f197ff83569bf85c528c63e457e0e6f23bf557e6d6fe3cd5b366631546",
+    "tools/fidelity/maspsx_trace.py": "d0336210e99493c2857abc13930bbcedeb92162b5d684037874fdb2a0a7d99c6",
+    "tools/maspsx/maspsx.py": "3bbb64075ab6384f6b670a495cce152acb50f3318cf714c6ab9a082b7adaf086",
+    "ledger/maspsx_dependence.jsonl": "c5de5a6b0a890422874933987a46d56757e091eb70c17d02825ace68c8972834",
+    "docs/evidence/fidelity_step1_pass_dependents.tsv": "6b4f1617f41fc6f96991a787a7baf718f952e6bfbedbb9ba1d82dce4a41d48ad",
+    "work/fidelity/aspsx_diff.jsonl": "111551ab4bdf224ae547f5de34845adf4bc2e415b7ae732ba13b4c13341e36b9",
+    "work/native_lane/selfinc_consumers/run.py": "4d9875f35ad9ea09a328346d62d080f44b2e915a95db9a35c8ed3d663d01fd31"
+  },
+  "direct_dependents": [
+    "dungeon/func_80093898",
+    "dungeon/func_800938EC",
+    "dungeon/func_81811E30",
+    "dungeon/func_81811E70",
+    "dungeon/func_81811EC0",
+    "dungeon/func_81811F54",
+    "dungeon/func_819B3414",
+    "slus/konami_runtime_w_8003B7C8",
+    "slus/w_8004A6C0",
+    "town/func_800A1480",
+    "town/func_800A2244",
+    "town/func_800C3800"
+  ],
+  "fired_non_dependent_control": "dungeon/func_808CB16C",
+  "prepared_step4_cdk_best_candidates_not_retested": {
+    "dungeon/func_80093898": {
+      "path": "work/fidelity/step4/cands/dungeon/func_80093898.erase_all.c",
+      "exists": true,
+      "label": "erase_all",
+      "recipe": "2.7.2-cdk-G0",
+      "exact_in_step4": false,
+      "step4_source_sha256": "ad10c2852f2f41ca643cf4d46a5f17e522929ef835ca3591db8785b93db764f3"
+    },
+    "dungeon/func_808CB16C": {
+      "path": "work/fidelity/step4/cands/dungeon/func_808CB16C.t86_record_base_inplace_60_all.c",
+      "exists": true,
+      "label": "t86:record_base:inplace@60/all",
+      "recipe": "2.7.2-cdk-G0 -fno-strength-reduce -fno-schedule-insns -fno-rerun-cse-after-loop",
+      "exact_in_step4": false,
+      "step4_source_sha256": "9387a050b6063bc980a7bd89fef3510c8a56439437251464cee7bdd8bbc54c97"
+    },
+    "dungeon/func_819B3414": {
+      "path": "work/fidelity/step4/cands/dungeon/func_819B3414.t86_render_globals_m_opsym_239_one238.c",
+      "exists": true,
+      "label": "t86:render_globals_m:opsym@239/one238",
+      "recipe": "2.7.2-cdk-G0",
+      "exact_in_step4": false,
+      "step4_source_sha256": "0d66fe571f15d0de82d389547738fe0e50f383fbf830a79a971598216a5e7af3"
+    },
+    "town/func_800C3800": {
+      "path": "work/fidelity/step4/cands/town/func_800C3800.erase_all.c",
+      "exists": true,
+      "label": "erase_all",
+      "recipe": "2.7.2-cdk-G0",
+      "exact_in_step4": false,
+      "step4_source_sha256": "8d47ef8290816f24cc1b90deee78a9287c33b321bc0be98eb0f45b5af76d8698"
+    }
+  },
+  "rows": [
+    {
+      "row": "dungeon/func_80093898",
+      "original_role": "direct_dependent",
+      "source": "src/dungeon/func_80093898.c",
+      "source_sha256": "ad10c2852f2f41ca643cf4d46a5f17e522929ef835ca3591db8785b93db764f3",
+      "recipe_cfg": "2.7.2",
+      "row_asflags": "",
+      "status": "ok",
+      "error": null,
+      "pins": 1,
+      "fired": [
+        "_fold_selfinc_la"
+      ],
+      "maspsx_exact": true,
+      "maspsx_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1,
+        "len": 21,
+        "retail_len": 21
+      },
+      "selfcheck": true,
+      "exact_versions": [],
+      "genuine": {
+        "2.56": {
+          "exact": false,
+          "diff": 3,
+          "len": 22,
+          "mode": "",
+          "retail": [
+            19,
+            0
+          ]
+        },
+        "2.67": {
+          "exact": false,
+          "diff": 3,
+          "len": 22,
+          "mode": "",
+          "retail": [
+            19,
+            0
+          ]
+        },
+        "2.77": {
+          "exact": false,
+          "diff": 3,
+          "len": 22,
+          "mode": "",
+          "retail": [
+            19,
+            0
+          ]
+        },
+        "2.79": {
+          "exact": false,
+          "diff": 3,
+          "len": 22,
+          "mode": "",
+          "retail": [
+            19,
+            0
+          ]
+        },
+        "2.81": {
+          "exact": false,
+          "diff": 3,
+          "len": 22,
+          "mode": "",
+          "retail": [
+            19,
+            0
+          ]
+        },
+        "2.86": {
+          "exact": false,
+          "diff": 3,
+          "len": 22,
+          "mode": "",
+          "retail": [
+            19,
+            0
+          ]
+        }
+      },
+      "attrib": {
+        "2.56": {
+          "base": 3,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "2.67": {
+          "base": 3,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "2.77": {
+          "base": 3,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "2.79": {
+          "base": 3,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "2.81": {
+          "base": 3,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "2.86": {
+          "base": 3,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "_nochange": [
+          "asv:2.67",
+          "asv:2.77",
+          "asv:2.79",
+          "drop:--fill-shadowed-return-delay",
+          "extern-abs"
+        ]
+      },
+      "asflags_effective": "--fill-shadowed-return-delay",
+      "cell": "2.7.2",
+      "ccflags": [],
+      "proof": "scorer-linked",
+      "secs": 1.9,
+      "disable_only": {
+        "pass": "_fold_selfinc_la",
+        "object_sha256": "367a8d69ac6761c34d69f8d11f10303d342428957f87e2a4974e1232fbc38c3c",
+        "stock_object_sha256": "82b96c026d8945c01770448e6586f73aa80ec15d583ec4ccf92d1e717f5432e1",
+        "stock_comparison": {
+          "exact": false,
+          "diff": 3,
+          "len_m": 21,
+          "len_g": 22
+        },
+        "aligned_regions": [
+          {
+            "function": "func_80098FF8",
+            "op": "replace",
+            "stock_index": 3,
+            "stock_words": 1,
+            "disabled_words": 2
+          },
+          {
+            "function": "func_80098FF8",
+            "op": "replace",
+            "stock_index": 7,
+            "stock_words": 1,
+            "disabled_words": 1
+          }
+        ],
+        "genuine_2_79_exact": true,
+        "retail": {
+          "diff": 19,
+          "masked": 0,
+          "checked": 1,
+          "len": 22,
+          "retail_len": 21
+        },
+        "stock_retail_rerun": {
+          "diff": 0,
+          "masked": 0,
+          "checked": 1,
+          "len": 21,
+          "retail_len": 21
+        },
+        "retail_exact": false
+      }
+    },
+    {
+      "row": "dungeon/func_800938EC",
+      "original_role": "direct_dependent",
+      "source": "src/dungeon/func_800938EC.c",
+      "source_sha256": "aa6f776ac5434b2acc743ec05a3d809e56f0ce7a44fb0f226f10fd67231f301d",
+      "recipe_cfg": "2.7.2-G0",
+      "row_asflags": "",
+      "status": "ok",
+      "error": null,
+      "pins": 0,
+      "fired": [
+        "_fold_selfinc_la"
+      ],
+      "maspsx_exact": true,
+      "maspsx_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1,
+        "len": 17,
+        "retail_len": 17
+      },
+      "selfcheck": true,
+      "exact_versions": [],
+      "genuine": {
+        "2.56": {
+          "exact": false,
+          "diff": 3,
+          "len": 18,
+          "mode": "-G0",
+          "retail": [
+            16,
+            0
+          ]
+        },
+        "2.67": {
+          "exact": false,
+          "diff": 3,
+          "len": 18,
+          "mode": "-G0",
+          "retail": [
+            16,
+            0
+          ]
+        },
+        "2.77": {
+          "exact": false,
+          "diff": 3,
+          "len": 18,
+          "mode": "-G0",
+          "retail": [
+            16,
+            0
+          ]
+        },
+        "2.79": {
+          "exact": false,
+          "diff": 3,
+          "len": 18,
+          "mode": "-G0",
+          "retail": [
+            16,
+            0
+          ]
+        },
+        "2.81": {
+          "exact": false,
+          "diff": 3,
+          "len": 18,
+          "mode": "-G0",
+          "retail": [
+            16,
+            0
+          ]
+        },
+        "2.86": {
+          "exact": false,
+          "diff": 3,
+          "len": 18,
+          "mode": "-G0",
+          "retail": [
+            16,
+            0
+          ]
+        }
+      },
+      "attrib": {
+        "2.56": {
+          "base": 3,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "2.67": {
+          "base": 3,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "2.77": {
+          "base": 3,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "2.79": {
+          "base": 3,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "2.81": {
+          "base": 3,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "2.86": {
+          "base": 3,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "_nochange": [
+          "asv:2.67",
+          "asv:2.77",
+          "asv:2.79",
+          "drop:--fill-shadowed-return-delay",
+          "extern-abs"
+        ]
+      },
+      "asflags_effective": "--fill-shadowed-return-delay",
+      "cell": "2.7.2",
+      "ccflags": [
+        "-G0"
+      ],
+      "proof": "scorer-linked",
+      "secs": 1.9,
+      "disable_only": {
+        "pass": "_fold_selfinc_la",
+        "object_sha256": "9affd10e013f5df94ed53c460c37fe632dafb0b71cd3dd50d83bfab09d5a13a4",
+        "stock_object_sha256": "ed93ef01624efa53263bf4b3972737afbbd0b13e8dd13171aa79df611f32c5de",
+        "stock_comparison": {
+          "exact": false,
+          "diff": 3,
+          "len_m": 17,
+          "len_g": 18
+        },
+        "aligned_regions": [
+          {
+            "function": "func_8009904C",
+            "op": "replace",
+            "stock_index": 2,
+            "stock_words": 1,
+            "disabled_words": 2
+          },
+          {
+            "function": "func_8009904C",
+            "op": "replace",
+            "stock_index": 8,
+            "stock_words": 1,
+            "disabled_words": 1
+          }
+        ],
+        "genuine_2_79_exact": true,
+        "retail": {
+          "diff": 16,
+          "masked": 0,
+          "checked": 1,
+          "len": 18,
+          "retail_len": 17
+        },
+        "stock_retail_rerun": {
+          "diff": 0,
+          "masked": 0,
+          "checked": 1,
+          "len": 17,
+          "retail_len": 17
+        },
+        "retail_exact": false
+      }
+    },
+    {
+      "row": "dungeon/func_81811E30",
+      "original_role": "direct_dependent",
+      "source": "src/dungeon/func_81811E30.c",
+      "source_sha256": "e23597d61acf8aa535812871108ac889171d116ec65072ad92ef4cf1a61e259c",
+      "recipe_cfg": "2.8.0-G0 -mno-split-addresses",
+      "row_asflags": "",
+      "status": "ok",
+      "error": null,
+      "pins": 0,
+      "fired": [
+        "_fold_selfinc_la"
+      ],
+      "maspsx_exact": true,
+      "maspsx_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1,
+        "len": 16,
+        "retail_len": 16
+      },
+      "selfcheck": true,
+      "exact_versions": [],
+      "genuine": {
+        "2.56": {
+          "exact": false,
+          "diff": 2,
+          "len": 17,
+          "mode": "-G0",
+          "retail": [
+            14,
+            0
+          ]
+        },
+        "2.67": {
+          "exact": false,
+          "diff": 2,
+          "len": 17,
+          "mode": "-G0",
+          "retail": [
+            14,
+            0
+          ]
+        },
+        "2.77": {
+          "exact": false,
+          "diff": 2,
+          "len": 17,
+          "mode": "-G0",
+          "retail": [
+            14,
+            0
+          ]
+        },
+        "2.79": {
+          "exact": false,
+          "diff": 2,
+          "len": 17,
+          "mode": "-G0",
+          "retail": [
+            14,
+            0
+          ]
+        },
+        "2.81": {
+          "exact": false,
+          "diff": 2,
+          "len": 17,
+          "mode": "-G0",
+          "retail": [
+            14,
+            0
+          ]
+        },
+        "2.86": {
+          "exact": false,
+          "diff": 2,
+          "len": 17,
+          "mode": "-G0",
+          "retail": [
+            14,
+            0
+          ]
+        }
+      },
+      "attrib": {
+        "2.56": {
+          "base": 2,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "2.67": {
+          "base": 2,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "2.77": {
+          "base": 2,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "2.79": {
+          "base": 2,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "2.81": {
+          "base": 2,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "2.86": {
+          "base": 2,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "_nochange": [
+          "asv:2.67",
+          "asv:2.77",
+          "asv:2.79",
+          "drop:--fill-shadowed-return-delay",
+          "extern-abs"
+        ]
+      },
+      "asflags_effective": "--fill-shadowed-return-delay",
+      "cell": "2.8.0",
+      "ccflags": [
+        "-G0",
+        "-mno-split-addresses"
+      ],
+      "proof": "scorer-linked",
+      "secs": 1.9,
+      "disable_only": {
+        "pass": "_fold_selfinc_la",
+        "object_sha256": "9b4462f2f1f9062f490d6fd220fb51c57ae9cf0e5ce24beff5e8dedd71278759",
+        "stock_object_sha256": "eb64c7baf42bab035df09d6349cd366d9579b6b799383e600d24518a6702a960",
+        "stock_comparison": {
+          "exact": false,
+          "diff": 2,
+          "len_m": 16,
+          "len_g": 17
+        },
+        "aligned_regions": [
+          {
+            "function": "func_80026E30",
+            "op": "replace",
+            "stock_index": 3,
+            "stock_words": 1,
+            "disabled_words": 2
+          }
+        ],
+        "genuine_2_79_exact": true,
+        "retail": {
+          "diff": 14,
+          "masked": 0,
+          "checked": 1,
+          "len": 17,
+          "retail_len": 16
+        },
+        "stock_retail_rerun": {
+          "diff": 0,
+          "masked": 0,
+          "checked": 1,
+          "len": 16,
+          "retail_len": 16
+        },
+        "retail_exact": false
+      }
+    },
+    {
+      "row": "dungeon/func_81811E70",
+      "original_role": "direct_dependent",
+      "source": "src/dungeon/func_81811E70.c",
+      "source_sha256": "ab62b8160195263f1aeda95e102168420a721acaeade1c83fb2b504106d5daaa",
+      "recipe_cfg": "2.8.0 -mno-split-addresses",
+      "row_asflags": "",
+      "status": "ok",
+      "error": null,
+      "pins": 0,
+      "fired": [
+        "_fold_selfinc_la"
+      ],
+      "maspsx_exact": true,
+      "maspsx_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1,
+        "len": 20,
+        "retail_len": 20
+      },
+      "selfcheck": true,
+      "exact_versions": [],
+      "genuine": {
+        "2.56": {
+          "exact": false,
+          "diff": 3,
+          "len": 21,
+          "mode": "",
+          "retail": [
+            18,
+            0
+          ]
+        },
+        "2.67": {
+          "exact": false,
+          "diff": 3,
+          "len": 21,
+          "mode": "",
+          "retail": [
+            18,
+            0
+          ]
+        },
+        "2.77": {
+          "exact": false,
+          "diff": 3,
+          "len": 21,
+          "mode": "",
+          "retail": [
+            18,
+            0
+          ]
+        },
+        "2.79": {
+          "exact": false,
+          "diff": 3,
+          "len": 21,
+          "mode": "",
+          "retail": [
+            18,
+            0
+          ]
+        },
+        "2.81": {
+          "exact": false,
+          "diff": 3,
+          "len": 21,
+          "mode": "",
+          "retail": [
+            18,
+            0
+          ]
+        },
+        "2.86": {
+          "exact": false,
+          "diff": 3,
+          "len": 21,
+          "mode": "",
+          "retail": [
+            18,
+            0
+          ]
+        }
+      },
+      "attrib": {
+        "2.56": {
+          "base": 3,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "2.67": {
+          "base": 3,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "2.77": {
+          "base": 3,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "2.79": {
+          "base": 3,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "2.81": {
+          "base": 3,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "2.86": {
+          "base": 3,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "_nochange": [
+          "asv:2.67",
+          "asv:2.77",
+          "asv:2.79",
+          "drop:--fill-shadowed-return-delay",
+          "extern-abs"
+        ]
+      },
+      "asflags_effective": "--fill-shadowed-return-delay",
+      "cell": "2.8.0",
+      "ccflags": [
+        "-mno-split-addresses"
+      ],
+      "proof": "scorer-linked",
+      "secs": 1.8,
+      "disable_only": {
+        "pass": "_fold_selfinc_la",
+        "object_sha256": "185bc22c30ed89dfabc71852f43748d0c117834104e053465566b67f5dfd43b5",
+        "stock_object_sha256": "8faef938ca7a36d43866737880c3988dacd8c84bcff3eef87f9d1bf82c9cbd97",
+        "stock_comparison": {
+          "exact": false,
+          "diff": 3,
+          "len_m": 20,
+          "len_g": 21
+        },
+        "aligned_regions": [
+          {
+            "function": "func_80026E70",
+            "op": "replace",
+            "stock_index": 3,
+            "stock_words": 1,
+            "disabled_words": 2
+          },
+          {
+            "function": "func_80026E70",
+            "op": "replace",
+            "stock_index": 9,
+            "stock_words": 1,
+            "disabled_words": 1
+          }
+        ],
+        "genuine_2_79_exact": true,
+        "retail": {
+          "diff": 18,
+          "masked": 0,
+          "checked": 1,
+          "len": 21,
+          "retail_len": 20
+        },
+        "stock_retail_rerun": {
+          "diff": 0,
+          "masked": 0,
+          "checked": 1,
+          "len": 20,
+          "retail_len": 20
+        },
+        "retail_exact": false
+      }
+    },
+    {
+      "row": "dungeon/func_81811EC0",
+      "original_role": "direct_dependent",
+      "source": "src/dungeon/func_81811EC0.c",
+      "source_sha256": "0e2f9fbc74b39ea4d8f8eec6116fd5d70aba82c6718a2ef42432bd2316af8605",
+      "recipe_cfg": "2.8.1-G0 -mno-split-addresses",
+      "row_asflags": "",
+      "status": "ok",
+      "error": null,
+      "pins": 0,
+      "fired": [
+        "_fold_selfinc_la"
+      ],
+      "maspsx_exact": true,
+      "maspsx_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1,
+        "len": 17,
+        "retail_len": 17
+      },
+      "selfcheck": true,
+      "exact_versions": [],
+      "genuine": {
+        "2.56": {
+          "exact": false,
+          "diff": 2,
+          "len": 18,
+          "mode": "-G0",
+          "retail": [
+            15,
+            0
+          ]
+        },
+        "2.67": {
+          "exact": false,
+          "diff": 2,
+          "len": 18,
+          "mode": "-G0",
+          "retail": [
+            15,
+            0
+          ]
+        },
+        "2.77": {
+          "exact": false,
+          "diff": 2,
+          "len": 18,
+          "mode": "-G0",
+          "retail": [
+            15,
+            0
+          ]
+        },
+        "2.79": {
+          "exact": false,
+          "diff": 2,
+          "len": 18,
+          "mode": "-G0",
+          "retail": [
+            15,
+            0
+          ]
+        },
+        "2.81": {
+          "exact": false,
+          "diff": 2,
+          "len": 18,
+          "mode": "-G0",
+          "retail": [
+            15,
+            0
+          ]
+        },
+        "2.86": {
+          "exact": false,
+          "diff": 2,
+          "len": 18,
+          "mode": "-G0",
+          "retail": [
+            15,
+            0
+          ]
+        }
+      },
+      "attrib": {
+        "2.56": {
+          "base": 2,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "2.67": {
+          "base": 2,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "2.77": {
+          "base": 2,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "2.79": {
+          "base": 2,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "2.81": {
+          "base": 2,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "2.86": {
+          "base": 2,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "_nochange": [
+          "asv:2.67",
+          "asv:2.77",
+          "asv:2.79",
+          "drop:--fill-shadowed-return-delay",
+          "extern-abs"
+        ]
+      },
+      "asflags_effective": "--fill-shadowed-return-delay",
+      "cell": "2.8.1",
+      "ccflags": [
+        "-G0",
+        "-mno-split-addresses"
+      ],
+      "proof": "scorer-linked",
+      "secs": 1.9,
+      "disable_only": {
+        "pass": "_fold_selfinc_la",
+        "object_sha256": "e03c7259d8c4d5b37646a491f86a4f4a4d820819075ff16ac46e74e25ddc5996",
+        "stock_object_sha256": "48c47ec456dfb9d9b18ffa9618992fdf0ecf2a89cf493b518923963bed6f6b8f",
+        "stock_comparison": {
+          "exact": false,
+          "diff": 2,
+          "len_m": 17,
+          "len_g": 18
+        },
+        "aligned_regions": [
+          {
+            "function": "func_80026EC0",
+            "op": "replace",
+            "stock_index": 3,
+            "stock_words": 1,
+            "disabled_words": 2
+          }
+        ],
+        "genuine_2_79_exact": true,
+        "retail": {
+          "diff": 15,
+          "masked": 0,
+          "checked": 1,
+          "len": 18,
+          "retail_len": 17
+        },
+        "stock_retail_rerun": {
+          "diff": 0,
+          "masked": 0,
+          "checked": 1,
+          "len": 17,
+          "retail_len": 17
+        },
+        "retail_exact": false
+      }
+    },
+    {
+      "row": "dungeon/func_81811F54",
+      "original_role": "direct_dependent",
+      "source": "src/dungeon/func_81811F54.c",
+      "source_sha256": "30f11758beb4795215fa9780400967036c79e536911d5be507804c59e2eec1d8",
+      "recipe_cfg": "2.7.2-G0",
+      "row_asflags": "",
+      "status": "ok",
+      "error": null,
+      "pins": 2,
+      "fired": [
+        "_fold_selfinc_la"
+      ],
+      "maspsx_exact": true,
+      "maspsx_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1,
+        "len": 21,
+        "retail_len": 21
+      },
+      "selfcheck": true,
+      "exact_versions": [],
+      "genuine": {
+        "2.56": {
+          "exact": false,
+          "diff": 3,
+          "len": 22,
+          "mode": "-G0",
+          "retail": [
+            19,
+            0
+          ]
+        },
+        "2.67": {
+          "exact": false,
+          "diff": 3,
+          "len": 22,
+          "mode": "-G0",
+          "retail": [
+            19,
+            0
+          ]
+        },
+        "2.77": {
+          "exact": false,
+          "diff": 3,
+          "len": 22,
+          "mode": "-G0",
+          "retail": [
+            19,
+            0
+          ]
+        },
+        "2.79": {
+          "exact": false,
+          "diff": 3,
+          "len": 22,
+          "mode": "-G0",
+          "retail": [
+            19,
+            0
+          ]
+        },
+        "2.81": {
+          "exact": false,
+          "diff": 3,
+          "len": 22,
+          "mode": "-G0",
+          "retail": [
+            19,
+            0
+          ]
+        },
+        "2.86": {
+          "exact": false,
+          "diff": 3,
+          "len": 22,
+          "mode": "-G0",
+          "retail": [
+            19,
+            0
+          ]
+        }
+      },
+      "attrib": {
+        "2.56": {
+          "base": 3,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "2.67": {
+          "base": 3,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "2.77": {
+          "base": 3,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "2.79": {
+          "base": 3,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "2.81": {
+          "base": 3,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "2.86": {
+          "base": 3,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "_nochange": [
+          "asv:2.67",
+          "asv:2.77",
+          "asv:2.79",
+          "drop:--fill-shadowed-return-delay",
+          "extern-abs"
+        ]
+      },
+      "asflags_effective": "--fill-shadowed-return-delay",
+      "cell": "2.7.2",
+      "ccflags": [
+        "-G0"
+      ],
+      "proof": "scorer-linked",
+      "secs": 1.8,
+      "disable_only": {
+        "pass": "_fold_selfinc_la",
+        "object_sha256": "ee99dcbd0de7dc08aa77e80bd78e3e16c1f8833c80b130081c2f191ab53604f3",
+        "stock_object_sha256": "ea86ae7c4b0b9ddd3f364ee6d3bf5f0dc6136e67603a6d2cd051878b448dbd86",
+        "stock_comparison": {
+          "exact": false,
+          "diff": 3,
+          "len_m": 21,
+          "len_g": 22
+        },
+        "aligned_regions": [
+          {
+            "function": "func_80026F54",
+            "op": "replace",
+            "stock_index": 3,
+            "stock_words": 1,
+            "disabled_words": 2
+          },
+          {
+            "function": "func_80026F54",
+            "op": "replace",
+            "stock_index": 7,
+            "stock_words": 1,
+            "disabled_words": 1
+          }
+        ],
+        "genuine_2_79_exact": true,
+        "retail": {
+          "diff": 19,
+          "masked": 0,
+          "checked": 1,
+          "len": 22,
+          "retail_len": 21
+        },
+        "stock_retail_rerun": {
+          "diff": 0,
+          "masked": 0,
+          "checked": 1,
+          "len": 21,
+          "retail_len": 21
+        },
+        "retail_exact": false
+      }
+    },
+    {
+      "row": "dungeon/func_819B3414",
+      "original_role": "direct_dependent",
+      "source": "src/dungeon/func_819B3414.c",
+      "source_sha256": "0d66fe571f15d0de82d389547738fe0e50f383fbf830a79a971598216a5e7af3",
+      "recipe_cfg": "2.7.2-G0",
+      "row_asflags": "",
+      "status": "ok",
+      "error": null,
+      "pins": 35,
+      "fired": [
+        "_fold_selfinc_la"
+      ],
+      "maspsx_exact": true,
+      "maspsx_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1,
+        "len": 266,
+        "retail_len": 266
+      },
+      "selfcheck": true,
+      "exact_versions": [],
+      "genuine": {
+        "2.56": {
+          "exact": false,
+          "diff": 7,
+          "len": 267,
+          "mode": "-G0",
+          "retail": [
+            98,
+            0
+          ]
+        },
+        "2.67": {
+          "exact": false,
+          "diff": 7,
+          "len": 267,
+          "mode": "-G0",
+          "retail": [
+            98,
+            0
+          ]
+        },
+        "2.77": {
+          "exact": false,
+          "diff": 7,
+          "len": 267,
+          "mode": "-G0",
+          "retail": [
+            98,
+            0
+          ]
+        },
+        "2.79": {
+          "exact": false,
+          "diff": 7,
+          "len": 267,
+          "mode": "-G0",
+          "retail": [
+            98,
+            0
+          ]
+        },
+        "2.81": {
+          "exact": false,
+          "diff": 7,
+          "len": 267,
+          "mode": "-G0",
+          "retail": [
+            98,
+            0
+          ]
+        },
+        "2.86": {
+          "exact": false,
+          "diff": 7,
+          "len": 267,
+          "mode": "-G0",
+          "retail": [
+            98,
+            0
+          ]
+        }
+      },
+      "attrib": {
+        "2.56": {
+          "base": 7,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "2.67": {
+          "base": 7,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "2.77": {
+          "base": 7,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "2.79": {
+          "base": 7,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "2.81": {
+          "base": 7,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "2.86": {
+          "base": 7,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "_nochange": [
+          "asv:2.67",
+          "asv:2.77",
+          "asv:2.79",
+          "drop:--fill-shadowed-return-delay",
+          "extern-abs"
+        ]
+      },
+      "asflags_effective": "--fill-shadowed-return-delay",
+      "cell": "2.7.2",
+      "ccflags": [
+        "-G0"
+      ],
+      "proof": "scorer-linked",
+      "secs": 2.3,
+      "disable_only": {
+        "pass": "_fold_selfinc_la",
+        "object_sha256": "e40276bdd820919141996e59a5d9a1a7cdaacd4d6fe488bce57d5144eeb32b5b",
+        "stock_object_sha256": "ddf5fbc66f99eed0ed347dbc7362881f46bed81f902ee2005c708d623e1f825d",
+        "stock_comparison": {
+          "exact": false,
+          "diff": 7,
+          "len_m": 266,
+          "len_g": 267
+        },
+        "aligned_regions": [
+          {
+            "function": "func_80024C14",
+            "op": "replace",
+            "stock_index": 128,
+            "stock_words": 1,
+            "disabled_words": 1
+          },
+          {
+            "function": "func_80024C14",
+            "op": "replace",
+            "stock_index": 132,
+            "stock_words": 1,
+            "disabled_words": 1
+          },
+          {
+            "function": "func_80024C14",
+            "op": "insert",
+            "stock_index": 171,
+            "stock_words": 0,
+            "disabled_words": 1
+          },
+          {
+            "function": "func_80024C14",
+            "op": "replace",
+            "stock_index": 186,
+            "stock_words": 1,
+            "disabled_words": 1
+          },
+          {
+            "function": "func_80024C14",
+            "op": "replace",
+            "stock_index": 203,
+            "stock_words": 1,
+            "disabled_words": 1
+          },
+          {
+            "function": "func_80024C14",
+            "op": "replace",
+            "stock_index": 208,
+            "stock_words": 1,
+            "disabled_words": 1
+          },
+          {
+            "function": "func_80024C14",
+            "op": "replace",
+            "stock_index": 250,
+            "stock_words": 1,
+            "disabled_words": 1
+          }
+        ],
+        "genuine_2_79_exact": true,
+        "retail": {
+          "diff": 98,
+          "masked": 0,
+          "checked": 1,
+          "len": 267,
+          "retail_len": 266
+        },
+        "stock_retail_rerun": {
+          "diff": 0,
+          "masked": 0,
+          "checked": 1,
+          "len": 266,
+          "retail_len": 266
+        },
+        "retail_exact": false
+      }
+    },
+    {
+      "row": "slus/konami_runtime_w_8003B7C8",
+      "original_role": "direct_dependent",
+      "source": "src/slus/konami_runtime_w_8003B7C8.c",
+      "source_sha256": "d0a8ba43114e05f07024375c7ac0b307198f58fe9a2446753420681e1beab33e",
+      "recipe_cfg": "2.7.2",
+      "row_asflags": "",
+      "status": "ok",
+      "error": null,
+      "pins": 0,
+      "fired": [
+        "_fold_selfinc_la"
+      ],
+      "maspsx_exact": true,
+      "maspsx_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      },
+      "selfcheck": true,
+      "exact_versions": [],
+      "genuine": {
+        "2.56": {
+          "exact": false,
+          "diff": 3,
+          "len": 23,
+          "mode": "",
+          "retail": [
+            11,
+            0
+          ]
+        },
+        "2.67": {
+          "exact": false,
+          "diff": 3,
+          "len": 23,
+          "mode": "",
+          "retail": [
+            11,
+            0
+          ]
+        },
+        "2.77": {
+          "exact": false,
+          "diff": 3,
+          "len": 23,
+          "mode": "",
+          "retail": [
+            11,
+            0
+          ]
+        },
+        "2.79": {
+          "exact": false,
+          "diff": 3,
+          "len": 23,
+          "mode": "",
+          "retail": [
+            11,
+            0
+          ]
+        },
+        "2.81": {
+          "exact": false,
+          "diff": 3,
+          "len": 23,
+          "mode": "",
+          "retail": [
+            11,
+            0
+          ]
+        },
+        "2.86": {
+          "exact": false,
+          "diff": 3,
+          "len": 23,
+          "mode": "",
+          "retail": [
+            11,
+            0
+          ]
+        }
+      },
+      "attrib": {
+        "2.56": {
+          "base": 3,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "2.67": {
+          "base": 3,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "2.77": {
+          "base": 3,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "2.79": {
+          "base": 3,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "2.81": {
+          "base": 3,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "2.86": {
+          "base": 3,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "_nochange": [
+          "asv:2.67",
+          "asv:2.77",
+          "asv:2.79",
+          "extern-abs"
+        ]
+      },
+      "asflags_effective": "",
+      "cell": "2.7.2",
+      "ccflags": [],
+      "proof": "pinned-object",
+      "secs": 1.5,
+      "disable_only": {
+        "pass": "_fold_selfinc_la",
+        "object_sha256": "95522e34398fbe5c33bb9dcfd4fe837fa924f26b33e9a922b21237a6b9c20fd5",
+        "stock_object_sha256": "45564893a19777933c159a1e225d56c750df8c2ece2407447d13e8f705b84ac7",
+        "stock_comparison": {
+          "exact": false,
+          "diff": 3,
+          "len_m": 22,
+          "len_g": 23
+        },
+        "aligned_regions": [
+          {
+            "function": "func_8003B7C8",
+            "op": "replace",
+            "stock_index": 10,
+            "stock_words": 1,
+            "disabled_words": 1
+          },
+          {
+            "function": "func_8003B7C8",
+            "op": "replace",
+            "stock_index": 13,
+            "stock_words": 1,
+            "disabled_words": 2
+          }
+        ],
+        "genuine_2_79_exact": true,
+        "retail": {
+          "diff": 11,
+          "masked": 0,
+          "checked": 1
+        },
+        "stock_retail_rerun": {
+          "diff": 0,
+          "masked": 0,
+          "checked": 1
+        },
+        "retail_exact": false
+      }
+    },
+    {
+      "row": "slus/w_8004A6C0",
+      "original_role": "direct_dependent",
+      "source": "src/slus/w_8004A6C0.c",
+      "source_sha256": "b97d244e293538d233c12ee5cca9bfbefe8755860c4f9e9f9d4b7621b2312ea0",
+      "recipe_cfg": "2.7.2",
+      "row_asflags": "",
+      "status": "ok",
+      "error": null,
+      "pins": 0,
+      "fired": [
+        "_fold_selfinc_la"
+      ],
+      "maspsx_exact": true,
+      "maspsx_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      },
+      "selfcheck": true,
+      "exact_versions": [],
+      "genuine": {
+        "2.56": {
+          "exact": false,
+          "diff": 3,
+          "len": 17,
+          "mode": "",
+          "retail": [
+            15,
+            0
+          ]
+        },
+        "2.67": {
+          "exact": false,
+          "diff": 3,
+          "len": 17,
+          "mode": "",
+          "retail": [
+            15,
+            0
+          ]
+        },
+        "2.77": {
+          "exact": false,
+          "diff": 3,
+          "len": 17,
+          "mode": "",
+          "retail": [
+            15,
+            0
+          ]
+        },
+        "2.79": {
+          "exact": false,
+          "diff": 3,
+          "len": 17,
+          "mode": "",
+          "retail": [
+            15,
+            0
+          ]
+        },
+        "2.81": {
+          "exact": false,
+          "diff": 3,
+          "len": 17,
+          "mode": "",
+          "retail": [
+            15,
+            0
+          ]
+        },
+        "2.86": {
+          "exact": false,
+          "diff": 3,
+          "len": 17,
+          "mode": "",
+          "retail": [
+            15,
+            0
+          ]
+        }
+      },
+      "attrib": {
+        "2.56": {
+          "base": 3,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "2.67": {
+          "base": 3,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "2.77": {
+          "base": 3,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "2.79": {
+          "base": 3,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "2.81": {
+          "base": 3,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "2.86": {
+          "base": 3,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "_nochange": [
+          "asv:2.67",
+          "asv:2.77",
+          "asv:2.79",
+          "extern-abs"
+        ]
+      },
+      "asflags_effective": "",
+      "cell": "2.7.2",
+      "ccflags": [],
+      "proof": "pinned-object",
+      "secs": 1.4,
+      "disable_only": {
+        "pass": "_fold_selfinc_la",
+        "object_sha256": "b7c70225374640000f33ab8dea5ce1be18fb5e425c818d0a32719ad7ff6d2bc7",
+        "stock_object_sha256": "cd09a861bfcc9071d3da3830f049ef2dafd4a318db2fb1cbff8aa89adb9ec29b",
+        "stock_comparison": {
+          "exact": false,
+          "diff": 3,
+          "len_m": 16,
+          "len_g": 17
+        },
+        "aligned_regions": [
+          {
+            "function": "func_8004A6C0",
+            "op": "replace",
+            "stock_index": 2,
+            "stock_words": 1,
+            "disabled_words": 2
+          },
+          {
+            "function": "func_8004A6C0",
+            "op": "replace",
+            "stock_index": 6,
+            "stock_words": 1,
+            "disabled_words": 1
+          }
+        ],
+        "genuine_2_79_exact": true,
+        "retail": {
+          "diff": 15,
+          "masked": 0,
+          "checked": 1
+        },
+        "stock_retail_rerun": {
+          "diff": 0,
+          "masked": 0,
+          "checked": 1
+        },
+        "retail_exact": false
+      }
+    },
+    {
+      "row": "town/func_800A1480",
+      "original_role": "direct_dependent",
+      "source": "src/town/func_800A1480.c",
+      "source_sha256": "3d9c6bbe78d9cb6fc9e68c6f7ffc7daa3921cb63d7bc5efaa3ab73b2cbe5437c",
+      "recipe_cfg": "2.7.2-G0",
+      "row_asflags": "",
+      "status": "ok",
+      "error": null,
+      "pins": 0,
+      "fired": [
+        "_fold_selfinc_la"
+      ],
+      "maspsx_exact": true,
+      "maspsx_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1,
+        "len": 23,
+        "retail_len": 23
+      },
+      "selfcheck": true,
+      "exact_versions": [],
+      "genuine": {
+        "2.56": {
+          "exact": false,
+          "diff": 4,
+          "len": 24,
+          "mode": "-G0",
+          "retail": [
+            19,
+            0
+          ]
+        },
+        "2.67": {
+          "exact": false,
+          "diff": 4,
+          "len": 24,
+          "mode": "-G0",
+          "retail": [
+            19,
+            0
+          ]
+        },
+        "2.77": {
+          "exact": false,
+          "diff": 4,
+          "len": 24,
+          "mode": "-G0",
+          "retail": [
+            19,
+            0
+          ]
+        },
+        "2.79": {
+          "exact": false,
+          "diff": 4,
+          "len": 24,
+          "mode": "-G0",
+          "retail": [
+            19,
+            0
+          ]
+        },
+        "2.81": {
+          "exact": false,
+          "diff": 4,
+          "len": 24,
+          "mode": "-G0",
+          "retail": [
+            19,
+            0
+          ]
+        },
+        "2.86": {
+          "exact": false,
+          "diff": 4,
+          "len": 24,
+          "mode": "-G0",
+          "retail": [
+            19,
+            0
+          ]
+        }
+      },
+      "attrib": {
+        "2.56": {
+          "base": 4,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "2.67": {
+          "base": 4,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "2.77": {
+          "base": 4,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "2.79": {
+          "base": 4,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "2.81": {
+          "base": 4,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "2.86": {
+          "base": 4,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "_nochange": [
+          "asv:2.67",
+          "asv:2.77",
+          "asv:2.79",
+          "extern-abs"
+        ]
+      },
+      "asflags_effective": "",
+      "cell": "2.7.2",
+      "ccflags": [
+        "-G0"
+      ],
+      "proof": "scorer-linked",
+      "secs": 1.7,
+      "disable_only": {
+        "pass": "_fold_selfinc_la",
+        "object_sha256": "92f8460e0ec3c892e6460673ec4229f0a609fad027de50880818d5f1adabba39",
+        "stock_object_sha256": "5befb3be73bd276ea6a0f474d13a570b59cb51151544f1c6fcc519da5ee307f2",
+        "stock_comparison": {
+          "exact": false,
+          "diff": 4,
+          "len_m": 23,
+          "len_g": 24
+        },
+        "aligned_regions": [
+          {
+            "function": "func_8009EBE0",
+            "op": "replace",
+            "stock_index": 3,
+            "stock_words": 1,
+            "disabled_words": 1
+          },
+          {
+            "function": "func_8009EBE0",
+            "op": "replace",
+            "stock_index": 6,
+            "stock_words": 1,
+            "disabled_words": 2
+          },
+          {
+            "function": "func_8009EBE0",
+            "op": "replace",
+            "stock_index": 17,
+            "stock_words": 1,
+            "disabled_words": 1
+          }
+        ],
+        "genuine_2_79_exact": true,
+        "retail": {
+          "diff": 19,
+          "masked": 0,
+          "checked": 1,
+          "len": 24,
+          "retail_len": 23
+        },
+        "stock_retail_rerun": {
+          "diff": 0,
+          "masked": 0,
+          "checked": 1,
+          "len": 23,
+          "retail_len": 23
+        },
+        "retail_exact": false
+      }
+    },
+    {
+      "row": "town/func_800A2244",
+      "original_role": "direct_dependent",
+      "source": "src/town/func_800A2244.c",
+      "source_sha256": "a4ec027a606e55d23391c2e8715e8261bbdaba312f1380d0ca4bb00fbfa8d4ee",
+      "recipe_cfg": "2.7.2-G0",
+      "row_asflags": "",
+      "status": "ok",
+      "error": null,
+      "pins": 0,
+      "fired": [
+        "_fold_selfinc_la"
+      ],
+      "maspsx_exact": true,
+      "maspsx_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1,
+        "len": 12,
+        "retail_len": 12
+      },
+      "selfcheck": true,
+      "exact_versions": [],
+      "genuine": {
+        "2.56": {
+          "exact": false,
+          "diff": 2,
+          "len": 13,
+          "mode": "-G0",
+          "retail": [
+            11,
+            0
+          ]
+        },
+        "2.67": {
+          "exact": false,
+          "diff": 2,
+          "len": 13,
+          "mode": "-G0",
+          "retail": [
+            11,
+            0
+          ]
+        },
+        "2.77": {
+          "exact": false,
+          "diff": 2,
+          "len": 13,
+          "mode": "-G0",
+          "retail": [
+            11,
+            0
+          ]
+        },
+        "2.79": {
+          "exact": false,
+          "diff": 2,
+          "len": 13,
+          "mode": "-G0",
+          "retail": [
+            11,
+            0
+          ]
+        },
+        "2.81": {
+          "exact": false,
+          "diff": 2,
+          "len": 13,
+          "mode": "-G0",
+          "retail": [
+            11,
+            0
+          ]
+        },
+        "2.86": {
+          "exact": false,
+          "diff": 2,
+          "len": 13,
+          "mode": "-G0",
+          "retail": [
+            11,
+            0
+          ]
+        }
+      },
+      "attrib": {
+        "2.56": {
+          "base": 2,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "2.67": {
+          "base": 2,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "2.77": {
+          "base": 2,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "2.79": {
+          "base": 2,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "2.81": {
+          "base": 2,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "2.86": {
+          "base": 2,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "_nochange": [
+          "asv:2.67",
+          "asv:2.77",
+          "asv:2.79",
+          "extern-abs"
+        ]
+      },
+      "asflags_effective": "",
+      "cell": "2.7.2",
+      "ccflags": [
+        "-G0"
+      ],
+      "proof": "scorer-linked",
+      "secs": 1.6,
+      "disable_only": {
+        "pass": "_fold_selfinc_la",
+        "object_sha256": "6a2e4c6b077024e7012f17acd32ea2745039d6fd4a381a8528694c5bfb43fe34",
+        "stock_object_sha256": "a3b882dcde6cd9ba4a0313d8629d570e29c50ccb1f6de9b51e754cdf0d8ea3db",
+        "stock_comparison": {
+          "exact": false,
+          "diff": 2,
+          "len_m": 12,
+          "len_g": 13
+        },
+        "aligned_regions": [
+          {
+            "function": "func_8009F9A4",
+            "op": "replace",
+            "stock_index": 2,
+            "stock_words": 1,
+            "disabled_words": 2
+          }
+        ],
+        "genuine_2_79_exact": true,
+        "retail": {
+          "diff": 11,
+          "masked": 0,
+          "checked": 1,
+          "len": 13,
+          "retail_len": 12
+        },
+        "stock_retail_rerun": {
+          "diff": 0,
+          "masked": 0,
+          "checked": 1,
+          "len": 12,
+          "retail_len": 12
+        },
+        "retail_exact": false
+      }
+    },
+    {
+      "row": "town/func_800C3800",
+      "original_role": "direct_dependent",
+      "source": "src/town/func_800C3800.c",
+      "source_sha256": "8d47ef8290816f24cc1b90deee78a9287c33b321bc0be98eb0f45b5af76d8698",
+      "recipe_cfg": "2.6.3-G0",
+      "row_asflags": "",
+      "status": "ok",
+      "error": null,
+      "pins": 1,
+      "fired": [
+        "_fold_selfinc_la"
+      ],
+      "maspsx_exact": true,
+      "maspsx_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1,
+        "len": 17,
+        "retail_len": 17
+      },
+      "selfcheck": true,
+      "exact_versions": [],
+      "genuine": {
+        "2.56": {
+          "exact": false,
+          "diff": 4,
+          "len": 18,
+          "mode": "-G0",
+          "retail": [
+            17,
+            0
+          ]
+        },
+        "2.67": {
+          "exact": false,
+          "diff": 4,
+          "len": 18,
+          "mode": "-G0",
+          "retail": [
+            17,
+            0
+          ]
+        },
+        "2.77": {
+          "exact": false,
+          "diff": 4,
+          "len": 18,
+          "mode": "-G0",
+          "retail": [
+            17,
+            0
+          ]
+        },
+        "2.79": {
+          "exact": false,
+          "diff": 4,
+          "len": 18,
+          "mode": "-G0",
+          "retail": [
+            17,
+            0
+          ]
+        },
+        "2.81": {
+          "exact": false,
+          "diff": 4,
+          "len": 18,
+          "mode": "-G0",
+          "retail": [
+            17,
+            0
+          ]
+        },
+        "2.86": {
+          "exact": false,
+          "diff": 4,
+          "len": 18,
+          "mode": "-G0",
+          "retail": [
+            17,
+            0
+          ]
+        }
+      },
+      "attrib": {
+        "2.56": {
+          "base": 4,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "2.67": {
+          "base": 4,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "2.77": {
+          "base": 4,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "2.79": {
+          "base": 4,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "2.81": {
+          "base": 4,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "2.86": {
+          "base": 4,
+          "fix": [
+            "no:_fold_selfinc_la"
+          ]
+        },
+        "_nochange": [
+          "asv:2.67",
+          "asv:2.77",
+          "asv:2.79",
+          "extern-abs"
+        ]
+      },
+      "asflags_effective": "",
+      "cell": "2.6.3",
+      "ccflags": [
+        "-G0"
+      ],
+      "proof": "scorer-linked",
+      "secs": 1.7,
+      "disable_only": {
+        "pass": "_fold_selfinc_la",
+        "object_sha256": "fefb66611b5cb7497e13b896a9b0a4e93b3267b24c0bcaa008d9b6501ac11f91",
+        "stock_object_sha256": "f29aef591ee8655a8f835f8877509b7139422d25b8bc9f201149cd931404c1ac",
+        "stock_comparison": {
+          "exact": false,
+          "diff": 4,
+          "len_m": 17,
+          "len_g": 18
+        },
+        "aligned_regions": [
+          {
+            "function": "func_800C0F60",
+            "op": "replace",
+            "stock_index": 1,
+            "stock_words": 1,
+            "disabled_words": 2
+          },
+          {
+            "function": "func_800C0F60",
+            "op": "replace",
+            "stock_index": 6,
+            "stock_words": 1,
+            "disabled_words": 1
+          },
+          {
+            "function": "func_800C0F60",
+            "op": "replace",
+            "stock_index": 11,
+            "stock_words": 1,
+            "disabled_words": 1
+          }
+        ],
+        "genuine_2_79_exact": true,
+        "retail": {
+          "diff": 17,
+          "masked": 0,
+          "checked": 1,
+          "len": 18,
+          "retail_len": 17
+        },
+        "stock_retail_rerun": {
+          "diff": 0,
+          "masked": 0,
+          "checked": 1,
+          "len": 17,
+          "retail_len": 17
+        },
+        "retail_exact": false
+      }
+    },
+    {
+      "row": "dungeon/func_808CB16C",
+      "original_role": "fired_non_dependent_control",
+      "source": "src/dungeon/func_808CB16C.c",
+      "source_sha256": "9387a050b6063bc980a7bd89fef3510c8a56439437251464cee7bdd8bbc54c97",
+      "recipe_cfg": "2.7.2-G0 -fno-strength-reduce -fno-schedule-insns -fno-rerun-cse-after-loop",
+      "row_asflags": "",
+      "status": "ok",
+      "error": null,
+      "pins": 3,
+      "fired": [
+        "_fold_selfinc_la"
+      ],
+      "maspsx_exact": true,
+      "maspsx_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1,
+        "len": 63,
+        "retail_len": 63
+      },
+      "selfcheck": true,
+      "exact_versions": [
+        "2.56",
+        "2.67",
+        "2.77",
+        "2.79",
+        "2.81",
+        "2.86"
+      ],
+      "genuine": {
+        "2.56": {
+          "exact": true,
+          "diff": 0,
+          "len": 63,
+          "mode": "-G0 equ",
+          "retail": [
+            0,
+            0
+          ]
+        },
+        "2.67": {
+          "exact": true,
+          "diff": 0,
+          "len": 63,
+          "mode": "-G0 equ",
+          "retail": [
+            0,
+            0
+          ]
+        },
+        "2.77": {
+          "exact": true,
+          "diff": 0,
+          "len": 63,
+          "mode": "-G0 equ",
+          "retail": [
+            0,
+            0
+          ]
+        },
+        "2.79": {
+          "exact": true,
+          "diff": 0,
+          "len": 63,
+          "mode": "-G0 equ",
+          "retail": [
+            0,
+            0
+          ]
+        },
+        "2.81": {
+          "exact": true,
+          "diff": 0,
+          "len": 63,
+          "mode": "-G0 equ",
+          "retail": [
+            0,
+            0
+          ]
+        },
+        "2.86": {
+          "exact": true,
+          "diff": 0,
+          "len": 63,
+          "mode": "-G0 equ",
+          "retail": [
+            0,
+            0
+          ]
+        }
+      },
+      "attrib": null,
+      "asflags_effective": "--fill-shadowed-return-delay",
+      "cell": "2.7.2",
+      "ccflags": [
+        "-G0",
+        "-fno-strength-reduce",
+        "-fno-schedule-insns",
+        "-fno-rerun-cse-after-loop"
+      ],
+      "proof": "scorer-linked",
+      "secs": 0.8,
+      "disable_only": {
+        "pass": "_fold_selfinc_la",
+        "object_sha256": "c120232391affa80610b9967e35f668727e29e569f69a6c37da8ea1143720121",
+        "stock_object_sha256": "c120232391affa80610b9967e35f668727e29e569f69a6c37da8ea1143720121",
+        "stock_comparison": {
+          "exact": true,
+          "diff": 0,
+          "len_m": 63,
+          "len_g": 63
+        },
+        "aligned_regions": [],
+        "genuine_2_79_exact": true,
+        "retail": {
+          "diff": 0,
+          "masked": 0,
+          "checked": 1,
+          "len": 63,
+          "retail_len": 63
+        },
+        "stock_retail_rerun": {
+          "diff": 0,
+          "masked": 0,
+          "checked": 1,
+          "len": 63,
+          "retail_len": 63
+        },
+        "retail_exact": true
+      }
+    }
+  ],
+  "validation": {
+    "passed": true,
+    "failures": []
+  }
+}
