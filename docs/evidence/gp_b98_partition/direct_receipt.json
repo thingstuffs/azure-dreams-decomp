@@ -1,0 +1,74 @@
+{
+  "generic": {
+    "comparison": {
+      "exact": true,
+      "diff": 0,
+      "len_m": 76,
+      "len_g": 76,
+      "missing": []
+    },
+    "retail": {
+      "diff": 0,
+      "masked": 0,
+      "checked": 3
+    },
+    "cli_sha256": "d3e6ec7d120abe00f963c82258dfdeb0e228774adce646177525f1dbed925caf",
+    "package_sha256": "28e45bbcf00fc90dc0645250f233b73f96ad11d06a2f8230ce533fc2fafbbfbe"
+  },
+  "stock_retail": {
+    "diff": 0,
+    "masked": 0,
+    "checked": 3
+  },
+  "genuine": [
+    {
+      "mode": [
+        "-q"
+      ],
+      "equ": false,
+      "comparison": {
+        "exact": true,
+        "diff": 0,
+        "len_m": 76,
+        "len_g": 76,
+        "missing": []
+      },
+      "retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 3
+      }
+    },
+    {
+      "mode": [
+        "-q"
+      ],
+      "equ": true,
+      "comparison": {
+        "exact": true,
+        "diff": 0,
+        "len_m": 76,
+        "len_g": 76,
+        "missing": []
+      },
+      "retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 3
+      }
+    }
+  ],
+  "stock_functions": [
+    "func_80050CAC",
+    "func_80050DA8",
+    "func_80050E20"
+  ],
+  "source_sha256": "64d07bdb8d665e415dfe3fda40842e6109e298f2e0445a988ed8a95c6eab65a1",
+  "input_sha256": {
+    "standalone.c": "64d07bdb8d665e415dfe3fda40842e6109e298f2e0445a988ed8a95c6eab65a1",
+    "code_part.c": "06880c0671c4f88ba584f4b39258abe46120f05caa28096fe7a322c597567ea5",
+    "w_80050DA8.c": "53a3b360e20f1d5c9c048498893f14ae4cfcff09d123b6e8f38f70183febc138",
+    "w_80050E20.c": "d2ae10a5d322f55124265a3d89e0a0b52c71d3ab7af80ee9ba9e32a7053812f2",
+    "saved_value_b98.h": "98e7c11a889f466e0757dbd6a769b4476fcc7bd34af80eb49cfe797c9ac6a404"
+  }
+}

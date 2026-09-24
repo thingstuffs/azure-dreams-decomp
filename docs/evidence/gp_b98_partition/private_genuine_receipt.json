@@ -1,0 +1,134 @@
+{
+  "production_plan_changed": false,
+  "ownership_schema": 4,
+  "physical_functions": [
+    "func_80050CAC",
+    "func_80050DA8",
+    "func_80050E20"
+  ],
+  "generic": {
+    "comparison": {
+      "exact": true,
+      "diff": 0,
+      "len_m": 76,
+      "len_g": 76,
+      "missing": []
+    },
+    "retail": {
+      "diff": 0,
+      "masked": 0,
+      "checked": 3
+    }
+  },
+  "logical_rows": {
+    "slus/w_80050DA8": {
+      "functions": 1,
+      "genuine": {
+        "2.79": {
+          "exact": true,
+          "diff": 0,
+          "len": 30,
+          "retail": [
+            0,
+            0
+          ],
+          "retail_checked": 1,
+          "modes": {
+            "src/w_80050DA8_owned.c": ""
+          }
+        }
+      },
+      "gp_externs": []
+    },
+    "slus/w_80050E20": {
+      "functions": 1,
+      "genuine": {
+        "2.79": {
+          "exact": true,
+          "diff": 0,
+          "len": 34,
+          "retail": [
+            0,
+            0
+          ],
+          "retail_checked": 1,
+          "modes": {
+            "src/w_80050DA8_owned.c": ""
+          }
+        }
+      },
+      "gp_externs": []
+    },
+    "slus/code": {
+      "functions": 156,
+      "genuine": {
+        "2.79": {
+          "exact": false,
+          "diff": 42,
+          "len": 1280,
+          "retail": [
+            84,
+            0
+          ],
+          "retail_checked": 156,
+          "modes": {
+            "src/code.c": "-0",
+            "src/w_80041134_owned.c": "",
+            "src/w_80050DA8_owned.c": ""
+          }
+        }
+      },
+      "gp_externs": [
+        "D_800814C8",
+        "D_80081540",
+        "D_80081550",
+        "D_80081554",
+        "D_80081558"
+      ]
+    },
+    "slus/code2": {
+      "functions": 24,
+      "genuine": {
+        "2.79": {
+          "exact": false,
+          "diff": 33,
+          "len": 244,
+          "retail": [
+            42,
+            0
+          ],
+          "retail_checked": 24,
+          "modes": {
+            "src/code2.c": "-0",
+            "src/w_80041134_owned.c": ""
+          }
+        }
+      },
+      "gp_externs": [
+        "D_80080B1B",
+        "D_80080B1C",
+        "D_800814D0"
+      ]
+    },
+    "slus/w_80041134": {
+      "functions": 1,
+      "genuine": {
+        "2.79": {
+          "exact": true,
+          "diff": 0,
+          "len": 30,
+          "retail": [
+            0,
+            0
+          ],
+          "retail_checked": 1,
+          "modes": {
+            "src/w_80041134_owned.c": ""
+          }
+        }
+      },
+      "gp_externs": []
+    }
+  },
+  "full_image_sha1": "e6bfbb95ff6676899e077481221d73ddd4d3bf52"
+}

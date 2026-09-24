@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-09-24T18:55:31Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-09-24T19:12:42Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -41,6 +41,7 @@ Baseline NOT exact: 0 rows
 | gp_shared_8099c | 2 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/gp_shared_8099c.json' | include/common.h, include/game.h, include/globals.h, include/include_asm.h, include/slus/gp_shared_8099c.h |
 | cache_afe | 1 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/cache_afe.json' | include/common.h, include/game.h, include/globals.h, include/include_asm.h |
 | list_cursor_e0 | 1 | current: retail + genuine ASPSX 2.79 | include/common.h, include/game.h, include/globals.h, include/include_asm.h, include/slus/list_cursor_e0.h |
+| saved_value_b98 | 2 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/saved_value_b98.json' | include/common.h, include/slus/saved_value_b98.h |
 
 Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump and fidelity requirements still apply; changed shared inputs invalidate placement evidence.
 
@@ -50,7 +51,7 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 |---|---:|---:|---:|---:|---:|---:|
 | m2c boilerplate block | 2332 | 515,092 | 20.1% | 0 | 0 | 0.0% |
 | M2C_FIELD raw offsets | 2950 | 1,457,076 | 57.0% | 0 | 0 | 0.0% |
-| m2c local names | 5182 | 2,172,128 | 84.9% | 2695 | 1,274,264 | 49.8% |
+| m2c local names | 5182 | 2,172,128 | 84.9% | 2694 | 1,273,804 | 49.8% |
 | ASM_ pins | 2135 | 1,465,048 | 57.3% | 769 | 755,112 | 29.5% |
 | goto | 1545 | 1,318,412 | 51.5% | 1599 | 1,365,188 | 53.4% |
 | computed-goto jump table | 317 | 437,288 | 17.1% | 315 | 435,848 | 17.0% |
@@ -62,7 +63,7 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,176 | 6.1% | 354 | 249,960 | 9.8% |
 | fake dependency x=(e)+a;x-=a / arg+v-v (scaffolding, pure C) | 1 | 408 | 0.0% | 2 | 820 | 0.0% |
 | local address-named struct | 633 | 346,988 | 13.6% | 3144 | 1,615,304 | 63.1% |
-| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,440 | 6.1% | 3090 | 552,084 | 21.6% |
+| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,440 | 6.1% | 3091 | 552,544 | 21.6% |
 
 Pin sites now: 3,108 in 768 rows; REG 1,480, KEEP 693, KEEP_NV 427, SCHED_BARRIER 158, KEEP_DEP_NV 75, USE_NV 50, USE 42, CLOBBER 35.  At the pin: 25,759; REG 12,778, KEEP 6,854, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
 

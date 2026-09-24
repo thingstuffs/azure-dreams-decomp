@@ -1,0 +1,163 @@
+{
+  "production_snapshot": {
+    "config/slus_modules.json": "e32126ec8ba2de2cb42ef2f750930a6b0a481048b274cd253c9ad0666ef5d06c",
+    "config/slus_partitions.json": "837ee892e847931030ee89e11e0bc062297978cff0ada45dfb9a35734e84f6f6",
+    "src/slus/code.c": "1c1afc31d56af7f3505ad1a9e54c4c21023aac81b2314ad3581dbeadf1e28b16",
+    "src/slus/code2.c": "443e6c482c7a5fe6fcf53c5381384618acac6adb06cff6d287aea2386f65c2bb",
+    "src/slus/w_80050DA8.c": "385692beaabc0ffaef0681e1507e76875196b46554f3505b065019c5920bae53",
+    "src/slus/w_80050E20.c": "d99fd169ed462eda6d9069574b256a49ad0ede05ae6302aed6ba251267cee176",
+    "src/slus/w_80041134_owned.c": "5ceadc57a5935303f6926283824ad48fdddd69254457ee65f7e6980b885c8a5d",
+    "tools/build/configure.py": "b33d29d58b2564388bf7609a5bc3f37f77b0831ce1d215cc582d135ad6f4f10e",
+    "tools/build/slus_partitions.py": "28004bb63ec42f23c1b3835098dc2f725d7d0b6affaf60b487fefdee675cb897",
+    "build_slus/assets/54240.bin": "c4e7faf5c7f42838e9fb2e9238af76ed6972cdc8ef055fa2b02a18d9360f76da",
+    "build_slus/build/slus_006.14": "ae19d8d4bdd2db9a933b1e44d70dd61be670781e441d7cb37da85250a7aed31f",
+    "baserom/slus_006.14": "ae19d8d4bdd2db9a933b1e44d70dd61be670781e441d7cb37da85250a7aed31f"
+  },
+  "production_inputs_unchanged": true,
+  "baseline": {
+    "result": "MATCH",
+    "words_diff": 0
+  },
+  "production_modules": 20,
+  "trial_modules": 21,
+  "production_plan_parents": [
+    "slus/code",
+    "slus/code2"
+  ],
+  "trial_plan_parents": [
+    "slus/code",
+    "slus/code2"
+  ],
+  "candidate_sha256": {
+    "owner.c": "97d54a74682f3ed719f76295d8e1eb0abd8b4f5983ce14b2ee63f4bd6b29c893",
+    "w_80050DA8.c": "53a3b360e20f1d5c9c048498893f14ae4cfcff09d123b6e8f38f70183febc138",
+    "w_80050E20.c": "d2ae10a5d322f55124265a3d89e0a0b52c71d3ab7af80ee9ba9e32a7053812f2",
+    "saved_value_b98.h": "98e7c11a889f466e0757dbd6a769b4476fcc7bd34af80eb49cfe797c9ac6a404"
+  },
+  "stage_owner_sha256": "97d54a74682f3ed719f76295d8e1eb0abd8b4f5983ce14b2ee63f4bd6b29c893",
+  "configure_tail": [
+    "wrote build.ninja (1139 objects)"
+  ],
+  "build_tail": [
+    "[893/900] BIN build/module_assets/54240_000ACC_000AD0.bin",
+    "[894/900] BIN build/module_assets/54240_000AD4_000AD8.bin",
+    "[895/900] BIN build/module_assets/54240_000AE8_000AF0.bin",
+    "[896/900] BIN build/module_assets/54240_000AF2_02BDC0.bin",
+    "[897/900] MODULE-SYMS build/slus_006.14.undefined_syms.modules.txt",
+    "[898/900] PARTITION-COVERAGE build/partition_sources/coverage.ok",
+    "[899/900] LINK build/slus_006.14.elf",
+    "[900/900] OBJCOPY build/slus_006.14"
+  ],
+  "routing": {
+    "physical_edges": 872,
+    "logical_edges": 884,
+    "projected_ledger_exact": true,
+    "owner_recipe": {
+      "ccver": "2.7.2-cdk",
+      "ccflags": "",
+      "asflags": ""
+    },
+    "stock_compiler_assembler": true
+  },
+  "image": {
+    "match_retail": true,
+    "sha1": "e6bfbb95ff6676899e077481221d73ddd4d3bf52",
+    "retail_sha1": "e6bfbb95ff6676899e077481221d73ddd4d3bf52"
+  },
+  "data": {
+    "section": "0100000000000000",
+    "symbols": [
+      {
+        "symbol": "D_80080B94",
+        "object_symbol": [
+          ".sdata",
+          0,
+          "global",
+          0
+        ],
+        "linked": [
+          {
+            "address": 2148010900,
+            "kind": "T"
+          }
+        ],
+        "asset_offset": 340,
+        "vram": 2148010900,
+        "asset_bytes": "01000000",
+        "image_bytes": "01000000"
+      },
+      {
+        "symbol": "D_80080B98",
+        "object_symbol": [
+          ".sdata",
+          4,
+          "global",
+          0
+        ],
+        "linked": [
+          {
+            "address": 2148010904,
+            "kind": "T"
+          }
+        ],
+        "asset_offset": 344,
+        "vram": 2148010904,
+        "asset_bytes": "00000000",
+        "image_bytes": "00000000"
+      }
+    ],
+    "slot": {
+      "kind": "module_data",
+      "start": 340,
+      "end": 348,
+      "module": "saved_value_b98",
+      "object": "build/src/w_80050DA8_owned.o",
+      "section": ".sdata",
+      "symbols": [
+        "D_80080B94",
+        "D_80080B98"
+      ]
+    }
+  },
+  "closure": {
+    "parents": [
+      "slus/code",
+      "slus/code2"
+    ],
+    "owners": [
+      "list_cursor_e0",
+      "saved_value_b98"
+    ],
+    "physical_sources": [
+      "src/code.c",
+      "src/code2.c",
+      "src/w_80041134_owned.c",
+      "src/w_80050DA8_owned.c"
+    ],
+    "function_counts": {
+      "src/w_80041134_owned.c": 3,
+      "src/w_80050DA8_owned.c": 3,
+      "src/code.c": 154,
+      "src/code2.c": 23
+    }
+  },
+  "outside_objects": {
+    "checked": 870,
+    "changed": []
+  },
+  "fixture": {
+    "sources": [
+      "src/code.c",
+      "src/code2.c",
+      "src/w_80041134.c",
+      "src/w_80041134_owned.c",
+      "src/w_80050DA8.c",
+      "src/w_80050DA8_owned.c",
+      "src/w_80050E20.c"
+    ],
+    "manifest_sha256": "083fec5dbb0146a05fefd987b29304b2df41ede981415d55d18ccf70e1c36f16",
+    "plan_sha256": "0689f7f4f85ba61cc78cee3152cb4725c0f6408e21e12ec8039d64764a4fc96c",
+    "pinned_ninja_sha256": "3938380214d95a5b9bf826ab96ff1a4605e5224444faecaa753a62a707fce61c",
+    "connected_fingerprint": "26ed186f0d425b1dd4d26150f355ca78e058ba35b15ddd4d453785e64438b439"
+  }
+}
