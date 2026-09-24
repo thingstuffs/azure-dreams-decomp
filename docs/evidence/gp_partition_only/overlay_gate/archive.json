@@ -1,0 +1,53 @@
+{
+  "note": "Exact guarded generic assembler full overlay gate; no production activation. Restore runner to its original path before executing. Updated 418-test migration is separately archived.",
+  "files": [
+    {
+      "source": "work/native_lane/gp_partition_only_tools/overlay_gate/REPORT.md",
+      "archive": "REPORT.md",
+      "source_sha256": "e6d040881fa90d8fbb253ee868fce0b775f4e321dff1226cf151cd7706d706c6",
+      "archive_sha256": "e6d040881fa90d8fbb253ee868fce0b775f4e321dff1226cf151cd7706d706c6",
+      "source_bytes": 2401,
+      "archive_bytes": 2401
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/overlay_gate/receipt.json",
+      "archive": "receipt.json",
+      "source_sha256": "8a77fc22e2ac0dae57deef7c75d175c54c0a494b44b08d82e56a3508a233aecb",
+      "archive_sha256": "5c643ae359b07569ff138707e5ac46b6081e388c45e3b068978288f70ce10078",
+      "source_bytes": 6451,
+      "archive_bytes": 6400
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/overlay_gate/run.py",
+      "archive": "run.py",
+      "source_sha256": "927f6d0c328e6679465f3f4442aec168553f776eeaf382deb97c09858047e50d",
+      "archive_sha256": "6c1f8b2ee46fe8e0bed5152c4897886717b068b3e56018c5c97c71be71a83ab6",
+      "source_bytes": 7364,
+      "archive_bytes": 7356
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/overlay_gate/gate.log",
+      "archive": "gate.log",
+      "source_sha256": "a0aa45d3b7943e082dae290e8f2a108e13c49fd8b384b789c6d3180ad5a2afe9",
+      "archive_sha256": "a0aa45d3b7943e082dae290e8f2a108e13c49fd8b384b789c6d3180ad5a2afe9",
+      "source_bytes": 1449,
+      "archive_bytes": 1449
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/overlay_gate/journal.jsonl",
+      "archive": "journal.jsonl",
+      "source_sha256": "a1b70d3ee87c704e9007439cdca4dd72778712a088ec33ec440e3fcb6aa9abc5",
+      "archive_sha256": "a1b70d3ee87c704e9007439cdca4dd72778712a088ec33ec440e3fcb6aa9abc5",
+      "source_bytes": 602320,
+      "archive_bytes": 602320
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/overlay_gate/setup.log",
+      "archive": "setup.log",
+      "source_sha256": "c12c5344810c675d7aaf4a31856501b85d6224968ff9a85a0864fe743d1f06e7",
+      "archive_sha256": "1e47e898d510f90b6df9f256865eefa38480eef9e35f1a7940fc36489541b7a0",
+      "source_bytes": 107,
+      "archive_bytes": 90
+    }
+  ]
+}

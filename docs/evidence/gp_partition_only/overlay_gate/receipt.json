@@ -1,0 +1,98 @@
+{
+  "candidate_paths": {
+    "cli": "work/native_lane/selfinc_local_guard/candidate/maspsx.py",
+    "package": "work/native_lane/selfinc_local_guard/candidate/maspsx/__init__.py"
+  },
+  "expected_candidate_sha256": {
+    "cli": "d3e6ec7d120abe00f963c82258dfdeb0e228774adce646177525f1dbed925caf",
+    "package": "28e45bbcf00fc90dc0645250f233b73f96ad11d06a2f8230ce533fc2fafbbfbe"
+  },
+  "candidate_before_sha256": {
+    "cli": "d3e6ec7d120abe00f963c82258dfdeb0e228774adce646177525f1dbed925caf",
+    "package": "28e45bbcf00fc90dc0645250f233b73f96ad11d06a2f8230ce533fc2fafbbfbe"
+  },
+  "production_before": {
+    "sha256": "f1dd11c3af72327fadb55359e4f23632584fe2028f9a1bcfb5dc2bf9dc56fb47",
+    "tracked_files": 9749,
+    "tracked_by_root": {
+      "config": 2215,
+      "include": 121,
+      "ledger": 7,
+      "src": 6795,
+      "tools": 611
+    }
+  },
+  "exp": "guarded_20260924_sol",
+  "build_root": "build_ovl_guarded_20260924_sol",
+  "start_utc": "2026-09-24T23:04:41Z",
+  "import_exit_code": 0,
+  "unit_exit_code": 1,
+  "generic_before_unit_exit_code": 1,
+  "candidate_failed_tests": [
+    "test_distinct_index_temp_keeps_temp_as_index_register (tools.maspsx.tests.test_casesi_jumptable.TestCasesiJumpTableLoad.test_distinct_index_temp_keeps_temp_as_index_register)",
+    "test_funcaddr_arg_split_over_store (tools.maspsx.tests.test_funcaddr_split.TestFuncAddrSplit.test_funcaddr_arg_split_over_store)",
+    "test_jr_ra_also_matches (tools.maspsx.tests.test_store_delay.TestStoreToSymbolInDelaySlot.test_jr_ra_also_matches)",
+    "test_load_address_into_delay (tools.maspsx.tests.test_store_delay.TestStoreToSymbolInDelaySlot.test_load_address_into_delay)",
+    "test_local_jumptable_dispatch_expands_to_base_materialize_form (tools.maspsx.tests.test_casesi_jumptable.TestCasesiJumpTableLoad.test_local_jumptable_dispatch_expands_to_base_materialize_form)",
+    "test_local_tables_still_fire_with_an_empty_table (tools.maspsx.tests.test_casesi_jumptable.TestCasesiExternDispatchTable.test_local_tables_still_fire_with_an_empty_table)",
+    "test_prefers_lui_in_branch_delay_over_path_local_shift (tools.maspsx.tests.test_branch_delay_lui.TestPreferLuiOverSllBranchDelay.test_prefers_lui_in_branch_delay_over_path_local_shift)",
+    "test_prologue_hoist_is_unchanged (tools.maspsx.tests.test_funcaddr_split_branch_delay.TestFuncAddrSplitBranchDelayGuard.test_prologue_hoist_is_unchanged)",
+    "test_small_extern_store_after_load_gets_nop (tools.maspsx.tests.test_uses_gp_extern.TestUsesGpExtern.test_small_extern_store_after_load_gets_nop)",
+    "test_store_arg_reg_uses_v0 (tools.maspsx.tests.test_store_delay.TestStoreToSymbolInDelaySlot.test_store_arg_reg_uses_v0)",
+    "test_store_half_word (tools.maspsx.tests.test_store_delay.TestStoreToSymbolInDelaySlot.test_store_half_word)",
+    "test_store_zero_into_return_delay (tools.maspsx.tests.test_store_delay.TestStoreToSymbolInDelaySlot.test_store_zero_into_return_delay)",
+    "test_temp_steps_to_v1_when_data_is_v0 (tools.maspsx.tests.test_store_delay.TestStoreToSymbolInDelaySlot.test_temp_steps_to_v1_when_data_is_v0)"
+  ],
+  "generic_before_failed_tests": [
+    "test_distinct_index_temp_keeps_temp_as_index_register (tools.maspsx.tests.test_casesi_jumptable.TestCasesiJumpTableLoad.test_distinct_index_temp_keeps_temp_as_index_register)",
+    "test_funcaddr_arg_split_over_store (tools.maspsx.tests.test_funcaddr_split.TestFuncAddrSplit.test_funcaddr_arg_split_over_store)",
+    "test_jr_ra_also_matches (tools.maspsx.tests.test_store_delay.TestStoreToSymbolInDelaySlot.test_jr_ra_also_matches)",
+    "test_load_address_into_delay (tools.maspsx.tests.test_store_delay.TestStoreToSymbolInDelaySlot.test_load_address_into_delay)",
+    "test_local_jumptable_dispatch_expands_to_base_materialize_form (tools.maspsx.tests.test_casesi_jumptable.TestCasesiJumpTableLoad.test_local_jumptable_dispatch_expands_to_base_materialize_form)",
+    "test_local_tables_still_fire_with_an_empty_table (tools.maspsx.tests.test_casesi_jumptable.TestCasesiExternDispatchTable.test_local_tables_still_fire_with_an_empty_table)",
+    "test_prefers_lui_in_branch_delay_over_path_local_shift (tools.maspsx.tests.test_branch_delay_lui.TestPreferLuiOverSllBranchDelay.test_prefers_lui_in_branch_delay_over_path_local_shift)",
+    "test_prologue_hoist_is_unchanged (tools.maspsx.tests.test_funcaddr_split_branch_delay.TestFuncAddrSplitBranchDelayGuard.test_prologue_hoist_is_unchanged)",
+    "test_small_extern_store_after_load_gets_nop (tools.maspsx.tests.test_uses_gp_extern.TestUsesGpExtern.test_small_extern_store_after_load_gets_nop)",
+    "test_store_arg_reg_uses_v0 (tools.maspsx.tests.test_store_delay.TestStoreToSymbolInDelaySlot.test_store_arg_reg_uses_v0)",
+    "test_store_half_word (tools.maspsx.tests.test_store_delay.TestStoreToSymbolInDelaySlot.test_store_half_word)",
+    "test_store_zero_into_return_delay (tools.maspsx.tests.test_store_delay.TestStoreToSymbolInDelaySlot.test_store_zero_into_return_delay)",
+    "test_temp_steps_to_v1_when_data_is_v0 (tools.maspsx.tests.test_store_delay.TestStoreToSymbolInDelaySlot.test_temp_steps_to_v1_when_data_is_v0)"
+  ],
+  "unit_failure_sets_equal": true,
+  "selfinc_unit_exit_code": 0,
+  "setup_exit_code": 0,
+  "gate_env_binding": {
+    "AZURE_MASPSX": "<repo>/work/native_lane/selfinc_local_guard/candidate/maspsx.py",
+    "AZURE_MASPSX_COMPANION": "<repo>/work/native_lane/selfinc_local_guard/candidate/maspsx.py",
+    "GATE_BUILD_ROOT": "build_ovl_guarded_20260924_sol",
+    "GATE_JOURNAL": "<repo>/work/native_lane/gp_partition_only_tools/overlay_gate/journal.jsonl"
+  },
+  "gate_exit_code": 0,
+  "journal": {
+    "lines": 2175,
+    "windows": 2175,
+    "latest_results": {
+      "MATCH": 2175
+    },
+    "all_latest_match": true,
+    "journal_sha256": "a1b70d3ee87c704e9007439cdca4dd72778712a088ec33ec440e3fcb6aa9abc5"
+  },
+  "candidate_after_sha256": {
+    "cli": "d3e6ec7d120abe00f963c82258dfdeb0e228774adce646177525f1dbed925caf",
+    "package": "28e45bbcf00fc90dc0645250f233b73f96ad11d06a2f8230ce533fc2fafbbfbe"
+  },
+  "production_after": {
+    "sha256": "f1dd11c3af72327fadb55359e4f23632584fe2028f9a1bcfb5dc2bf9dc56fb47",
+    "tracked_files": 9749,
+    "tracked_by_root": {
+      "config": 2215,
+      "include": 121,
+      "ledger": 7,
+      "src": 6795,
+      "tools": 611
+    }
+  },
+  "candidate_unchanged": true,
+  "production_inputs_unchanged": true,
+  "end_utc": "2026-09-24T23:21:00Z"
+}

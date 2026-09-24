@@ -9,9 +9,9 @@ records have their exact linked bytes and addresses.
 This closes the three instruction mismatches found by the earlier
 [all-858 audit](gp_cd_cohort/all858/REPORT.md). It is a private full-SLUS proof;
 production still has 23 owners, 869 physical objects, 884 logical rows and
-189 dependency records / 21 GP rows. Shared assembler activation, the broader
-overlay gate, a refreshed dependency census, and the existing final owner sign-off
-remain separate work.
+189 dependency records / 21 GP rows. Shared assembler activation, a refreshed dependency census, and the existing
+final owner sign-off remain separate work. The broader overlay gate now passes
+as recorded below.
 
 ## Two small owners, original collector identities
 
@@ -79,8 +79,9 @@ The [portable combined regression](gp_partition_only/portable_tests/receipt.json
 now passes all 187 tests in one interpreter: 151 existing SLUS checks, 14 new
 checks, eight configure checks and 14 ASPSX-comparator checks. No test is skipped.
 
-Next: complete the full overlay gate, refresh the candidate dependency census, and prepare the concrete assembler/source transition
-for the plan's required owner sign-off. No compatibility pass is retired here.
+Next: finish the candidate dependency census and full 33-owner recertification,
+then finalize the concrete assembler/source transition for the plan's required
+owner sign-off. No compatibility pass is retired here.
 The [archive index](gp_partition_only/archive.json) binds retained scripts,
 receipts, sources, tooling patch and tests to their original and scrubbed hashes.
 
@@ -94,3 +95,20 @@ external-size metadata, and one assumed a GP hazard on a true external. Updated
 checks preserve exact instruction assertions and add an explicit local-owned GP
 hazard case. The main-output golden changes only by six removed metadata lines.
 No assembler code was changed to make these tests pass.
+
+## Complete overlay gate
+
+The exact guarded generic assembler passes all **2,175/2,175 overlay windows**
+in a forced isolated run, with no serial retries. The candidate CLI/package
+hashes and all 9,749 tracked production inputs covered by the gate snapshot
+are unchanged before and after. The [report](gp_partition_only/overlay_gate/REPORT.md),
+[receipt](gp_partition_only/overlay_gate/receipt.json), and full per-window
+[journal](gp_partition_only/overlay_gate/journal.jsonl) retain the reproducible proof.
+The original-suite failures listed in that gate receipt are the stale expectations
+resolved by the separately archived 418/418 test migration above.
+
+A complete private transition patch now covers the repaired sources, ownership
+plans, build adapters, guarded assembler, tests, and full logical-row projections.
+Its generated Ninja graph matches the retail-exact ready29 graph byte for byte.
+The whole-tree six-version census and full normal ownership/certificate rehearsal
+are running against isolated inputs; their completion is not claimed here.

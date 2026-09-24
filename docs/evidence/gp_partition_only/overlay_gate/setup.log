@@ -1,0 +1,2 @@
+command: bash tools/build/mk_ovl_root.sh
+gate root: <repo>/build_ovl_guarded_20260924_sol
