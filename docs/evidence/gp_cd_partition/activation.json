@@ -1,0 +1,96 @@
+{
+  "source_sha256": "e208cfee45b4081ed535c818c0ae9261be0e27c96e262643e7fcc13362d7419e",
+  "object_sha256": "148198a1551f5daa3e80dcac75aebb52986e9d4a7fea7528f8109e3285326504",
+  "image_sha1": "e6bfbb95ff6676899e077481221d73ddd4d3bf52",
+  "gate": "MATCH",
+  "all_active_objects_unchanged": 869,
+  "recipe_unchanged": true,
+  "dependency_removed": false,
+  "production_genuine": {
+    "row": "slus/w_8003F368",
+    "container": "slus",
+    "kind": "slus",
+    "cfg": "2.7.2",
+    "pins": 1,
+    "asflags": "",
+    "cell": "2.7.2",
+    "maspsx_exact": true,
+    "proof": "pinned-object",
+    "fired": [],
+    "selfcheck": true,
+    "funcs": 1,
+    "words": 113,
+    "maspsx_retail": {
+      "diff": 0,
+      "masked": 0,
+      "checked": 1
+    },
+    "has_div": false,
+    "genuine": {
+      "2.79": {
+        "exact": false,
+        "diff": 26,
+        "len": 122,
+        "mode": "",
+        "retail": [
+          117,
+          0
+        ]
+      }
+    },
+    "exact_versions": [],
+    "best": "2.79",
+    "classes": {
+      "gp-extern": 9,
+      "other": 4,
+      "reloc": 2
+    },
+    "first_diff": [
+      [
+        "func_8003F368",
+        "replace",
+        3
+      ],
+      [
+        "func_8003F368",
+        "replace",
+        7
+      ],
+      [
+        "func_8003F368",
+        "replace",
+        11
+      ],
+      [
+        "func_8003F368",
+        "replace",
+        28
+      ]
+    ],
+    "gp_externs": [
+      "D_80081450",
+      "D_800814D0"
+    ],
+    "n_gp_externs": 2,
+    "attrib": {
+      "2.79": {
+        "base": 26,
+        "fix": [
+          "extern-abs"
+        ]
+      },
+      "_nochange": [
+        "asv:2.79"
+      ]
+    },
+    "status": "ok",
+    "secs": 0.9
+  },
+  "counts": {
+    "modules": 23,
+    "physical": 869,
+    "logical": 884,
+    "dependencies": 189,
+    "gp_rows": 21
+  }
+}

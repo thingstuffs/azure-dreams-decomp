@@ -1,0 +1,80 @@
+{
+  "change": "sync_result[4] to sync_result[8] only",
+  "recipe": {
+    "src": "src/w_8003F368.c",
+    "out": "build/src/w_8003F368.o",
+    "ccver": "2.7.2",
+    "ccflags": "",
+    "asflags": ""
+  },
+  "source_sha256": "61ef006142f919dc75a69bbc9adcc4980d08879b51e4c23d86fdf3e12158d384",
+  "candidate_sha256": "e208cfee45b4081ed535c818c0ae9261be0e27c96e262643e7fcc13362d7419e",
+  "stock_vs_production": {
+    "exact": true,
+    "pair_token_diff_diagnostic": 0,
+    "left_words": 113,
+    "right_words": 113,
+    "missing_right": [],
+    "delay_only": [],
+    "classes": {},
+    "regions": []
+  },
+  "stock_retail": {
+    "present": true,
+    "address": "0x8003f368",
+    "actual_words": 113,
+    "retail_words": 113,
+    "length_equal": true,
+    "masked_indices": [],
+    "masked_relocations": [],
+    "exact_unmasked": true,
+    "unmasked_mismatch_sites": [],
+    "masked_disagreement_sites": []
+  },
+  "generic_vs_baseline": {
+    "exact": true,
+    "pair_token_diff_diagnostic": 0,
+    "left_words": 122,
+    "right_words": 122,
+    "missing_right": [],
+    "delay_only": [],
+    "classes": {},
+    "regions": []
+  },
+  "genuine_vs_baseline": {
+    "exact": true,
+    "pair_token_diff_diagnostic": 0,
+    "left_words": 122,
+    "right_words": 122,
+    "missing_right": [],
+    "delay_only": [],
+    "classes": {},
+    "regions": []
+  },
+  "generic_vs_genuine": {
+    "exact": true,
+    "pair_token_diff_diagnostic": 0,
+    "left_words": 122,
+    "right_words": 122,
+    "missing_right": [],
+    "delay_only": [],
+    "classes": {},
+    "regions": []
+  },
+  "raw_function_sets": {
+    "stock": [
+      "func_8003F368"
+    ],
+    "generic": [
+      "func_8003F368"
+    ],
+    "genuine": [
+      "func_8003F368"
+    ]
+  },
+  "object_sha256": {
+    "stock": "e49c283cf5901764d56ef12d5d86d8088e21bd60949510b9ad9d99f7dae47e03",
+    "generic": "5c0edfedd6c204485d83a1acab42d216d1b48eb2d112a60d2a5266ac2952d7da",
+    "genuine": "f1f16ef175325b2493e83b644f44c46996830a16bf2fab501fc0fa31c7644998"
+  }
+}
