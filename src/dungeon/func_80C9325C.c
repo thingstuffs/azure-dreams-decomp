@@ -54,7 +54,7 @@ extern u8 D_801752B4[];
 extern u8 D_801752FC[];
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
-void *func_80170A5C(s16 spawn_flags, s8 attr_a, s8 attr_b, s32 attr_c)
+void *func_80170A5C(s16 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c)
 {
     s32 kind;
     s32 flags0;
@@ -78,13 +78,10 @@ void *func_80170A5C(s16 spawn_flags, s8 attr_a, s8 attr_b, s32 attr_c)
     func_8004491C(object, &D_80045340);
 
     {
-        void *page;
         void *handler;
 
-        page = (void *)0x80170000;
-        ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         part0 = ((S_80170A5C_0 *)object)->unk_08;
-        handler = (u8 *)page + 0x52B4;
+        handler = D_801752B4;
         part0->unk_0A = attr_c;
         part1 = ((S_80170A5C_0 *)object)->unk_0C;
         kind = spawn_flags & 3;
@@ -136,6 +133,6 @@ done:
     return result;
 }
 
-/* MECHANISM: True-space local joins and ABI-word attr_c reproduce the 0x38 frame and save order.
-   s0/s1 holds, the post-attr_b result copy, and a scoped v0 page split recover retail lifetimes.
-   Fixed v0/v1 flag temporaries close the equal-length color residue at retail word 44. */
+/* MECHANISM: 2.7.2-cdk-G0 (retail shows the compiler's HIGH/LO_SUM address split: lui / lw / addiu).
+   The two byte parameters arrive as s16: their narrowing copies survive cse, combine folds the a1/a2
+   temps into them, so sched1 schedules the parameter copies and the entry order is retail's. */

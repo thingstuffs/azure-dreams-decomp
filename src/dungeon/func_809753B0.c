@@ -61,7 +61,7 @@ extern u8 D_801714D4[16];
 extern u8 D_801740E0[16];
 extern u8 D_80174158[16];
 
-void *func_80170BB0(s16 arg0, s8 arg1, s8 arg2, s32 arg3)
+void *func_80170BB0(s16 arg0, s16 arg1, s16 arg2, s32 arg3)
 {
     s32 kind;
     s32 flags14;
@@ -69,7 +69,6 @@ void *func_80170BB0(s16 arg0, s8 arg1, s8 arg2, s32 arg3)
     void *object;
     S_80170BB0_2 *part_a;
     S_80170BB0_3 *part_b;
-    void *page;
     void *handler;
     S_80170BB0_1 *actor;
     S_80170BB0_4 *actor2;
@@ -83,10 +82,8 @@ void *func_80170BB0(s16 arg0, s8 arg1, s8 arg2, s32 arg3)
         actor->unk_13 = 1;
         func_8004491C(object, D_80045340);
 
-        page = (void *)0x80170000;
-        ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         part_a = ((S_80170BB0_0 *)object)->unk_08;
-        handler = (u8 *)page + 0x40E0;
+        handler = D_801740E0;
         part_a->unk_0A = arg3;
         part_b = ((S_80170BB0_0 *)object)->unk_0C;
         kind = arg0 & 3;
@@ -120,7 +117,6 @@ store_flags:
 
 finish_kind:
         func_800A9C18(object, part_a, part_b, arg0);
-           /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         actor2->unk_9A = 0xFF;
         actor2->unk_9C = -1;
         actor2->unk_8C = D_801714D4;
@@ -132,6 +128,6 @@ finish_kind:
     }
     return actor;
 }
-/* MECHANISM: The true-space body holds actor/object in s0/s1 and splits the v0 page
-   as 0x80170000 + 0x40E0 so its addiu fills the part_a load delay. ABI-word arg3
-   flips the entry sched tie, placing the s2/a3 save pair before s5/a2 at 2.7.2-G0. */
+/* MECHANISM: 2.8.0-G0 (retail shows the compiler's HIGH/LO_SUM address split: lui / lw / addiu).
+   The two byte parameters arrive as s16: their narrowing copies survive cse, combine folds the a1/a2
+   temps into them, so sched1 schedules the parameter copies and the entry order is retail's. */
