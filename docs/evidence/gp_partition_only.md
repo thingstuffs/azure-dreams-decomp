@@ -71,11 +71,26 @@ The separate [ready29 report](gp_partition_only/ready29/REPORT.md) and
 [receipt](gp_partition_only/ready29/receipt.json) record the actual complete C
 rebuild, normal generated link, SHA-1 gate, fresh genuine comparisons, and exact
 data checks. Production code/configuration/build bytes and all production objects
-are unchanged. The normal ownership-prover integration run is still pending;
-the current linked rehearsal uses explicit lower-level genuine/data checks.
+are unchanged. The [normal ownership-prover integration](gp_partition_only/live/REPORT.md) also
+passes using real `A.process_row` calls for both collectors. Its schema-5 receipt
+proves both complete new owner TUs (six and eleven words), their three data
+symbols, and the full generated image, with all production inputs unchanged.
+The [portable combined regression](gp_partition_only/portable_tests/receipt.json)
+now passes all 187 tests in one interpreter: 151 existing SLUS checks, 14 new
+checks, eight configure checks and 14 ASPSX-comparator checks. No test is skipped.
 
-Next: complete that normal ownership run and the full overlay gate, refresh the
-candidate dependency census, and prepare the concrete assembler/source transition
+Next: complete the full overlay gate, refresh the candidate dependency census, and prepare the concrete assembler/source transition
 for the plan's required owner sign-off. No compatibility pass is retired here.
 The [archive index](gp_partition_only/archive.json) binds retained scripts,
 receipts, sources, tooling patch and tests to their original and scrubbed hashes.
+
+The [live-proof archive index](gp_partition_only/live_archive.json) binds the
+normal prover receipts, runner, production snapshots and portable test sources.
+
+The [assembler test migration](gp_partition_only/assembler_tests/REPORT.md)
+also passes 418/418 with the candidate CLI and package. Production already had
+three stale local-switch-table expectations; nine other failures expected emitted
+external-size metadata, and one assumed a GP hazard on a true external. Updated
+checks preserve exact instruction assertions and add an explicit local-owned GP
+hazard case. The main-output golden changes only by six removed metadata lines.
+No assembler code was changed to make these tests pass.

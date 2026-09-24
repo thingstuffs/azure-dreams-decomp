@@ -1,0 +1,9 @@
+# Live private partition-only ownership proof
+
+The normal candidate `O.prove(['accessors_814c8', 'table_counters_b1b_b1c'])` completed through real `A.process_row` calls for `slus/code` and `slus/code2`. Receipt schema 5; full generated image gate MATCH with zero differing words. The two selected complete owner TUs reproduce genuine ASPSX 2.79 and retail with zero masks: accessors 2 functions/6 words, table counters 1 function/11 words. Three owned data records were checked in their real sections and linked image.
+
+The private fixture binds the ready29 860-object stage and complete 884-row logical ledger. Its 918 canonical source files match ready29, 884 raw SLUS files match production, and 123 headers match ready29. Names, build recipe and ledger recipe agree byte-for-byte. All nine candidate tool hashes and both guarded generic assembler hashes match their pins in `live_probe_receipt.json`. The generic assembler is installed as the private default because the normal verifier removes override environment variables.
+
+The two unrelated collector remainder streams are pipeline/retail exact but **not claimed genuine-exact**; the proof checkers require direct genuine equality only for the selected complete owners. The 869 production objects and snapshotted production tools/config/code hashes are identical before and after.
+
+Raw proof: `live_fixture/ownership_receipt.json`. Summary: `live_fixture/live_probe_receipt.json`. Production snapshots: `live_fixture/production_before.json` and `live_fixture/production_after_prove.json`. Runner: `live_ownership_probe.py` (SHA-256 7b47a8282d82055d5b4975527ebbf6aa9cfe4f456f44ecb6f106cd14596c888d). Preparation and proof logs: `live_prepare.log`, `live_prove.log`. This is a private proof, not a production activation or whole-tree generic assembler result.

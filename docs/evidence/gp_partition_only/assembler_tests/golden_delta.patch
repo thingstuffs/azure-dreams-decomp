@@ -1,0 +1,15 @@
+--- production golden
++++ candidate golden
+@@ -12,12 +12,6 @@
+ .align	2
+ .globl	func_80011390
+ 
+-.extern	D_80027FD4, 4
+-.extern	D_800200A4, 4
+-.extern	D_800283A8, 4
+-.extern	D_800282E8, 4
+-.extern	D_80083EA4, 4
+-.extern	D_800282D8, 4
+ 
+ .text
+ .text

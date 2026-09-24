@@ -1,0 +1,125 @@
+{
+  "note": "Private tests for the pending generic transition; no assembler code changed by this test migration.",
+  "files": [
+    {
+      "source": "work/native_lane/gp_partition_only_tools/assembler_tests_candidate/REPORT.md",
+      "archive": "REPORT.md",
+      "source_sha256": "40c714006139efb04aa77aff13b652b4e954fd2f23b17bee8f60ccffe774017b",
+      "archive_sha256": "40c714006139efb04aa77aff13b652b4e954fd2f23b17bee8f60ccffe774017b",
+      "source_bytes": 2307,
+      "archive_bytes": 2307
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/assembler_tests_candidate/receipt.json",
+      "archive": "receipt.json",
+      "source_sha256": "84a3a916ca6dfdb4f29e2f5856d0512fff4ad0f167629a175c760f15e879ba1c",
+      "archive_sha256": "cdd5fd83853dbe542004b23fb3e3a23e81192ef546c0c897b35746ba5c4aa939",
+      "source_bytes": 10528,
+      "archive_bytes": 10512
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/assembler_tests_candidate/test_updates.patch",
+      "archive": "test_updates.patch",
+      "source_sha256": "052e027ed2d6f400e35b0c5ec598ce28271075c7a15ee60b697e6c58fdee45b8",
+      "archive_sha256": "052e027ed2d6f400e35b0c5ec598ce28271075c7a15ee60b697e6c58fdee45b8",
+      "source_bytes": 11572,
+      "archive_bytes": 11572
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/assembler_tests_candidate/golden_delta.patch",
+      "archive": "golden_delta.patch",
+      "source_sha256": "b09bec19364c25451f2b52ef1d905f30128624ad85e94c2418bd0a8f007ea515",
+      "archive_sha256": "b09bec19364c25451f2b52ef1d905f30128624ad85e94c2418bd0a8f007ea515",
+      "source_bytes": 250,
+      "archive_bytes": 250
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/assembler_tests_candidate/candidate_unit.log",
+      "archive": "candidate_unit.log",
+      "source_sha256": "44072bdb902cc0186682721be910042fb142a4ef481b34ffc8a6d781d136d0d7",
+      "archive_sha256": "44072bdb902cc0186682721be910042fb142a4ef481b34ffc8a6d781d136d0d7",
+      "source_bytes": 518,
+      "archive_bytes": 518
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/assembler_tests_candidate/production_unit.log",
+      "archive": "production_unit.log",
+      "source_sha256": "516628d4b902467eae5e4ad1f075904e6d2d738f661baa8c59f1dd2a9ea171ca",
+      "archive_sha256": "f6c5531016e3a06797f20705b37bf258fa2ca91f0c423d09c98ea4428ee428d0",
+      "source_bytes": 3285,
+      "archive_bytes": 3234
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/assembler_tests_candidate/candidate_golden.s",
+      "archive": "candidate_golden.s",
+      "source_sha256": "3b79c3a477b2d507bb96e2c9e6d178aaf2003dc86ae55e5cd0fce9271f86c56a",
+      "archive_sha256": "3b79c3a477b2d507bb96e2c9e6d178aaf2003dc86ae55e5cd0fce9271f86c56a",
+      "source_bytes": 7861,
+      "archive_bytes": 7861
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/assembler_tests_candidate/production_golden.s",
+      "archive": "production_golden.s",
+      "source_sha256": "9e5c2f3f4a469228c91b1dc7baef59961227db693ece943a71d7ddb8230f753b",
+      "archive_sha256": "9e5c2f3f4a469228c91b1dc7baef59961227db693ece943a71d7ddb8230f753b",
+      "source_bytes": 7993,
+      "archive_bytes": 7993
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/assembler_tests_candidate/tools/maspsx/tests/test_branch_delay_lui.py",
+      "archive": "tools/maspsx/tests/test_branch_delay_lui.py",
+      "source_sha256": "7ae2f31de4a0fa7852e7799c575bdd0b89deef81e4fd1db2e5dc9827255ab47e",
+      "archive_sha256": "7ae2f31de4a0fa7852e7799c575bdd0b89deef81e4fd1db2e5dc9827255ab47e",
+      "source_bytes": 2688,
+      "archive_bytes": 2688
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/assembler_tests_candidate/tools/maspsx/tests/test_casesi_jumptable.py",
+      "archive": "tools/maspsx/tests/test_casesi_jumptable.py",
+      "source_sha256": "ad4b8cb7db50da302cacf7dd95aeb5614b3a5bdc5a96be7477332fa2778a72d3",
+      "archive_sha256": "ad4b8cb7db50da302cacf7dd95aeb5614b3a5bdc5a96be7477332fa2778a72d3",
+      "source_bytes": 7669,
+      "archive_bytes": 7669
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/assembler_tests_candidate/tools/maspsx/tests/test_funcaddr_split.py",
+      "archive": "tools/maspsx/tests/test_funcaddr_split.py",
+      "source_sha256": "6d7cde6e2f71903a2145051afc2bd5991c2dcf113fb21626ea7645f4ab80b815",
+      "archive_sha256": "6d7cde6e2f71903a2145051afc2bd5991c2dcf113fb21626ea7645f4ab80b815",
+      "source_bytes": 3645,
+      "archive_bytes": 3645
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/assembler_tests_candidate/tools/maspsx/tests/test_funcaddr_split_branch_delay.py",
+      "archive": "tools/maspsx/tests/test_funcaddr_split_branch_delay.py",
+      "source_sha256": "03f133339533902232e61262c3f974eef42306760516716abf835d9c932607b3",
+      "archive_sha256": "03f133339533902232e61262c3f974eef42306760516716abf835d9c932607b3",
+      "source_bytes": 9519,
+      "archive_bytes": 9519
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/assembler_tests_candidate/tools/maspsx/tests/test_main_endgame_closures.py",
+      "archive": "tools/maspsx/tests/test_main_endgame_closures.py",
+      "source_sha256": "c7e012304c3e784fc5372b79e393e198c4b18a930fad0bd2ad6a98384f40ae61",
+      "archive_sha256": "c7e012304c3e784fc5372b79e393e198c4b18a930fad0bd2ad6a98384f40ae61",
+      "source_bytes": 3654,
+      "archive_bytes": 3654
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/assembler_tests_candidate/tools/maspsx/tests/test_store_delay.py",
+      "archive": "tools/maspsx/tests/test_store_delay.py",
+      "source_sha256": "322b13f050f92237ec187fb2062715623325de2575c342aeb0bd1603bf4fb4da",
+      "archive_sha256": "322b13f050f92237ec187fb2062715623325de2575c342aeb0bd1603bf4fb4da",
+      "source_bytes": 6048,
+      "archive_bytes": 6048
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/assembler_tests_candidate/tools/maspsx/tests/test_uses_gp_extern.py",
+      "archive": "tools/maspsx/tests/test_uses_gp_extern.py",
+      "source_sha256": "3c74fb9a45a769a726e963030f1275a3bf23984ca38743f6d28d125d2bec7007",
+      "archive_sha256": "3c74fb9a45a769a726e963030f1275a3bf23984ca38743f6d28d125d2bec7007",
+      "source_bytes": 3011,
+      "archive_bytes": 3011
+    }
+  ]
+}

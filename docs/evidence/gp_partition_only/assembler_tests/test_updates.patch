@@ -1,0 +1,316 @@
+--- a/tools/maspsx/tests/test_branch_delay_lui.py
++++ b/tools/maspsx/tests/test_branch_delay_lui.py
+@@ -25,7 +25,6 @@
+             "$L3:",
+         ]
+         expected = [
+-            ".extern	D_80083D08, 48",
+             "bne	$4,$2,$L2",
+             "lui	$2,%hi(D_80083D08)",
+             "j	$L3",
+--- a/tools/maspsx/tests/test_casesi_jumptable.py
++++ b/tools/maspsx/tests/test_casesi_jumptable.py
+@@ -8,8 +8,10 @@
+ 
+ 
+ class TestCasesiJumpTableLoad(unittest.TestCase):
+-    """LEAD 13/F6: compiler-generated switch jump-table loads use ASPSX's
+-    normal-register base materialisation instead of GNU as's `$at` macro.
++    """Local switch tables retain the `$at` indexed-load macro form.
++
++    The historical five-word local-table rewrite was removed; explicit extern
++    dispatch-table admission is tested separately below.
+     """
+ 
+     def _run(self, lines, preserve_casesi_at=False):
+@@ -20,7 +22,7 @@
+         )
+         return strip_comments(mp.process_lines())
+ 
+-    def test_local_jumptable_dispatch_expands_to_base_materialize_form(self):
++    def test_local_jumptable_dispatch_keeps_at_macro_form(self):
+         lines = [
+             ".set\tnoreorder",
+             "beq\t$2,$0,$Ldefault",
+@@ -35,11 +37,12 @@
+         self.assertEqual(
+             [
+                 "beq\t$2,$0,$Ldefault",
+-                "lui\t$2,%hi($Ltable)",
+-                "addiu\t$2,$2,%lo($Ltable)",
+-                "sll\t$3,$3,2",
+-                "addu\t$3,$3,$2",
+-                "lw\t$2,0($3)",
++                "sll\t$2,$3,2",
++                ".set\tnoat",
++                "lui\t$at,%hi($Ltable)",
++                "addu\t$at,$at,$2",
++                "lw\t$2,%lo($Ltable)($at)",
++                ".set\tat",
+                 "nop",
+                 "j\t$2",
+                 "nop",
+@@ -47,7 +50,7 @@
+             out,
+         )
+ 
+-    def test_distinct_index_temp_keeps_temp_as_index_register(self):
++    def test_distinct_index_temp_keeps_at_macro_form(self):
+         lines = [
+             ".set\tnoreorder",
+             "sll\t$4,$3,2",
+@@ -58,11 +61,17 @@
+ 
+         out = self._run(lines)
+ 
+-        self.assertIn("lui\t$2,%hi($Ltable)", out)
+-        self.assertIn("addiu\t$2,$2,%lo($Ltable)", out)
+-        self.assertIn("sll\t$4,$3,2", out)
+-        self.assertIn("addu\t$4,$4,$2", out)
+-        self.assertIn("lw\t$2,0($4)", out)
++        self.assertEqual([
++            "sll\t$4,$3,2",
++            ".set\tnoat",
++            "lui\t$at,%hi($Ltable)",
++            "addu\t$at,$at,$4",
++            "lw\t$2,%lo($Ltable)($at)",
++            ".set\tat",
++            "nop",
++            "j\t$2",
++            "nop",
++        ], out)
+ 
+     def test_data_symbol_indexed_load_stays_at_macro(self):
+         lines = [
+@@ -204,7 +213,7 @@
+         out = self._run(self._body(sym="jtbl_DEADBEEF"))
+         self.assertIn("lui\t$at,%hi(jtbl_DEADBEEF)", out)
+ 
+-    def test_local_tables_still_fire_with_an_empty_table(self):
++    def test_local_tables_remain_at_macro_with_an_empty_extern_table(self):
+         lines = [
+             ".set\tnoreorder",
+             "beq\t$2,$0,$Ldefault",
+@@ -214,8 +223,18 @@
+             "nop",
+         ]
+         out = self._run(lines, table=set())
+-        self.assertIn("lui\t$2,%hi($Ltable)", out)
+-        self.assertIn("addiu\t$2,$2,%lo($Ltable)", out)
++        self.assertEqual([
++            "beq\t$2,$0,$Ldefault",
++            "sll\t$2,$3,2",
++            ".set\tnoat",
++            "lui\t$at,%hi($Ltable)",
++            "addu\t$at,$at,$2",
++            "lw\t$2,%lo($Ltable)($at)",
++            ".set\tat",
++            "nop",
++            "j\t$2",
++            "nop",
++        ], out)
+ 
+ 
+ if __name__ == "__main__":
+--- a/tools/maspsx/tests/test_funcaddr_split.py
++++ b/tools/maspsx/tests/test_funcaddr_split.py
+@@ -37,8 +37,6 @@
+             "j	$31",
+         ]
+         expected = [
+-            ".extern	D_8008148C, 12",
+-            ".extern	D_80081480, 12",
+             "subu	$sp,$sp,24",
+             "lui	$4,%hi(func_80041AE4)",   # hoisted to just after the prologue
+             "lw	$2,D_8008148C",
+--- a/tools/maspsx/tests/test_funcaddr_split_branch_delay.py
++++ b/tools/maspsx/tests/test_funcaddr_split_branch_delay.py
+@@ -118,8 +118,6 @@
+             "j	$31",
+         ]
+         expected = [
+-            ".extern	D_8008148C, 12",
+-            ".extern	D_80081480, 12",
+             "subu	$sp,$sp,24",
+             "lui	$4,%hi(func_80041AE4)",
+             "lw	$2,D_8008148C",
+--- a/tools/maspsx/tests/test_main_endgame_closures.py
++++ b/tools/maspsx/tests/test_main_endgame_closures.py
+@@ -67,9 +67,13 @@
+         self.assertEqual(shared.returncode, 0, shared.stderr.decode())
+         self.assertEqual(combined.returncode, 0, combined.stderr.decode())
+         self.assertEqual(combined.stdout, shared.stdout)
++        # Genuine-style external metadata is consumed rather than emitted;
++        # the pinned stream below differs from the old golden by those six
++        # directives only, with every instruction and other line unchanged.
++        self.assertNotIn(b".extern\t", combined.stdout)
+         self.assertEqual(
+             hashlib.sha256(combined.stdout).hexdigest(),
+-            "9e5c2f3f4a469228c91b1dc7baef59961227db693ece943a71d7ddb8230f753b",   # golden output; the fixture's .file path was neutralised when vendored (the directive passes through)
++            "3b79c3a477b2d507bb96e2c9e6d178aaf2003dc86ae55e5cd0fce9271f86c56a",   # full candidate stream; only six .extern metadata lines left the old golden
+         )
+ 
+ 
+--- a/tools/maspsx/tests/test_store_delay.py
++++ b/tools/maspsx/tests/test_store_delay.py
+@@ -5,9 +5,10 @@
+ from .util import strip_comments
+ 
+ 
+-# gcc emits `.extern SYM, size`; `as -G8` uses the size to pick $gp (size <= 8)
+-# vs %hi/%lo (size > 8). The delay-slot store expansion only applies to the
+-# %hi/%lo (non-small-data) symbols, so tests declare a size > 8.
++# gcc emits `.extern SYM, size` metadata. Genuine ASPSX resolves true externals
++# absolutely even at -G8; these fixtures retain the original >8-byte examples
++# while asserting the exact delay-slot address materialization and no metadata
++# passthrough.
+ 
+ 
+ class TestStoreToSymbolInDelaySlot(unittest.TestCase):
+@@ -31,7 +32,6 @@
+             "j	$31",
+         ]
+         expected_lines = [
+-            ".extern	D_80084130, 12",
+             "lui	$2,%hi(D_80084130)",
+             "j	$31",
+             "sw	$0,%lo(D_80084130)($2)",
+@@ -45,7 +45,6 @@
+             "j	$31",
+         ]
+         expected_lines = [
+-            ".extern	D_80086D4C, 12",
+             "lui	$2,%hi(D_80086D4C)",
+             "j	$31",
+             "sw	$4,%lo(D_80086D4C)($2)",
+@@ -59,7 +58,6 @@
+             "j	$31",
+         ]
+         expected_lines = [
+-            ".extern	D_80073828, 10",
+             "lui	$2,%hi(D_80073828)",
+             "j	$31",
+             "sh	$4,%lo(D_80073828)($2)",
+@@ -75,7 +73,6 @@
+             "j	$31",
+         ]
+         expected_lines = [
+-            ".extern	D_80084130, 12",
+             "lui	$3,%hi(D_80084130)",
+             "j	$31",
+             "sw	$2,%lo(D_80084130)($3)",
+@@ -89,7 +86,6 @@
+             "jr	$ra",
+         ]
+         expected_lines = [
+-            ".extern	D_80084130, 12",
+             "lui	$2,%hi(D_80084130)",
+             "jr	$ra",
+             "sw	$0,%lo(D_80084130)($2)",
+@@ -98,10 +94,9 @@
+ 
+     # --- guard cases: the transformation must NOT fire ---------------------
+ 
+-    def test_not_applied_to_small_data_extern(self):
+-        # size <= -G: `as -G8` handles this as a single %gp_rel store and fills
+-        # the delay slot itself; we must leave the macro untouched. This is the
+-        # func_8003F5E0 / D_800814C8 shape.
++    def test_small_extern_macro_is_left_to_assembler(self):
++        # This pass leaves the small-extern macro untouched. The test does not
++        # claim it is GP-relative in genuine ASPSX; final expansion is downstream.
+         lines = [
+             ".extern	D_800814C8, 4",
+             "sw	$4,D_800814C8",
+@@ -112,7 +107,7 @@
+         self.assertNotIn("lui	$2,%hi(D_800814C8)", clean)
+ 
+     def test_not_applied_without_extern_size(self):
+-        # no `.extern` seen -> treated as small-data (historic default), untouched.
++        # With no declaration this pass leaves the symbol macro untouched.
+         lines = [
+             "sw	$0,D_80084130",
+             "j	$31",
+@@ -173,7 +168,6 @@
+             "j	$31",
+         ]
+         expected_lines = [
+-            ".extern	D_8006CE34, 12",
+             "lui	$2,%hi(D_8006CE34)",
+             "j	$31",
+             "addiu	$2,$2,%lo(D_8006CE34)",
+--- a/tools/maspsx/tests/test_uses_gp_extern.py
++++ b/tools/maspsx/tests/test_uses_gp_extern.py
+@@ -7,16 +7,12 @@
+ 
+ class TestUsesGpExtern(unittest.TestCase):
+     """
+-    LEAD 16: `_uses_gp` must consult `extern_sizes` so the load-delay-nop gate
+-    fires for a store into a small (`<= sdata_limit`) `.extern` global.
+-
+-    Real `as -G8` emits a single gp-relative `sw` for such an extern, so the
+-    load->store hazard is genuine and needs a load-delay nop. Previously
+-    `_uses_gp` only looked at locally-defined `.sbss`/`.sdata` symbols and
+-    silently dropped the mandatory nop for referenced-only externs.
++    A locally owned small-data store is one GP-relative instruction and needs
++    the load-delay nop. A true external is absolute in genuine ASPSX even with
++    -G8, so its store macro has no adjacent GP hazard.
+     """
+ 
+-    def test_small_extern_store_after_load_gets_nop(self):
++    def test_small_external_store_after_load_has_no_artificial_nop(self):
+         lines = [
+             "	.extern	D_800814B0,4",
+             "	lw	$2,0($2)",
+@@ -25,16 +21,31 @@
+         ]
+         expected_lines = [
+             "lw\t$2,0($2)",
+-            "nop",
+             "sw\t$2,D_800814B0",
+         ]
+         mp = MaspsxProcessor(lines, sdata_limit=8)
+         res = mp.process_lines()
+ 
+         clean_lines = strip_comments(res)
+-        # drop the passed-through `.extern` directive line
+-        clean_lines = [l for l in clean_lines if not l.startswith(".extern")]
+-        self.assertEqual(expected_lines, clean_lines[:3])
++        self.assertEqual(expected_lines, clean_lines)
++
++    def test_locally_owned_small_store_after_load_gets_nop(self):
++        lines = [
++            "\t.comm\tD_800814B0,4",
++            "\tlw\t$2,0($2)",
++            "\t#nop",
++            "\tsw\t$2,D_800814B0",
++        ]
++        clean_lines = strip_comments(MaspsxProcessor(lines, sdata_limit=8).process_lines())
++        self.assertEqual([
++            "lw\t$2,0($2)",
++            "nop",
++            "sw\t$2,%gp_rel(D_800814B0)($gp)",
++            ".section .sbss",
++            ".align 2",
++            "D_800814B0:",
++            ".space 4",
++        ], clean_lines)
+ 
+     def test_large_extern_store_after_load_no_nop(self):
+         lines = [
+@@ -51,8 +62,7 @@
+         res = mp.process_lines()
+ 
+         clean_lines = strip_comments(res)
+-        clean_lines = [l for l in clean_lines if not l.startswith(".extern")]
+-        self.assertEqual(expected_lines, clean_lines[:2])
++        self.assertEqual(expected_lines, clean_lines)
+ 
+     def test_unknown_extern_store_after_load_no_nop(self):
+         """A symbol with no known size (never declared) must stay unchanged."""
+@@ -87,5 +97,4 @@
+         res = mp.process_lines()
+ 
+         clean_lines = strip_comments(res)
+-        clean_lines = [l for l in clean_lines if not l.startswith(".extern")]
+-        self.assertEqual(expected_lines, clean_lines[:2])
++        self.assertEqual(expected_lines, clean_lines)

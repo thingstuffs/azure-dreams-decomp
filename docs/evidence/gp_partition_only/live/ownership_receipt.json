@@ -1,0 +1,2900 @@
+{
+  "schema": 5,
+  "at": "2026-09-24T23:10:24Z",
+  "purpose": "data ownership with direct full-TU genuine proof for connected owners; any legacy compiler-model rows remain explicitly labelled; no L4/L5 certificate; collector records preserve full logical coverage, but direct genuine equality is required only for selected complete physical owners",
+  "modules": [
+    "accessors_814c8",
+    "table_counters_b1b_b1c"
+  ],
+  "module_fingerprints": {
+    "slus/code": "e0cec3e61c37d978fdc69d9137b98742fbfd64766aa8c75aed1c7b95b2a83983",
+    "slus/code2": "e0cec3e61c37d978fdc69d9137b98742fbfd64766aa8c75aed1c7b95b2a83983"
+  },
+  "tool_fingerprint": "dd567c2942036a935676",
+  "recipe_sha256": "968784a7addd9c20cca57e34f3f28d73a101dcc88c91e5046adbe55d0a7cdc44",
+  "image_sha1": "e6bfbb95ff6676899e077481221d73ddd4d3bf52",
+  "gate": {
+    "result": "MATCH",
+    "words_diff": 0
+  },
+  "data": {
+    "accessors_814c8": {
+      "sections": {
+        ".sdata": {
+          "size": 4,
+          "bytes": "00000000",
+          "symbols": [
+            {
+              "symbol": "D_800814C8",
+              "asset": "assets/54240.bin",
+              "offset": 2696,
+              "size": 4,
+              "vram": 2148013256,
+              "bytes": "00000000",
+              "section": ".sdata",
+              "object_offset": 0,
+              "object_binding": "global",
+              "linked_kind": "T"
+            }
+          ]
+        }
+      }
+    },
+    "table_counters_b1b_b1c": {
+      "sections": {
+        ".sdata.D_80080B1B": {
+          "size": 1,
+          "bytes": "00",
+          "symbols": [
+            {
+              "symbol": "D_80080B1B",
+              "asset": "assets/54240.bin",
+              "offset": 219,
+              "size": 1,
+              "vram": 2148010779,
+              "bytes": "00",
+              "section": ".sdata.D_80080B1B",
+              "object_offset": 0,
+              "object_binding": "global",
+              "linked_kind": "T"
+            }
+          ]
+        },
+        ".sdata.D_80080B1C": {
+          "size": 1,
+          "bytes": "00",
+          "symbols": [
+            {
+              "symbol": "D_80080B1C",
+              "asset": "assets/54240.bin",
+              "offset": 220,
+              "size": 1,
+              "vram": 2148010780,
+              "bytes": "00",
+              "section": ".sdata.D_80080B1C",
+              "object_offset": 0,
+              "object_binding": "global",
+              "linked_kind": "T"
+            }
+          ]
+        }
+      },
+      "transformation": {
+        "schema": 1,
+        "module": "table_counters_b1b_b1c",
+        "plan": [
+          {
+            "symbol": "D_80080B1B",
+            "size": 1,
+            "section": ".sdata.D_80080B1B",
+            "alignment": 1,
+            "source_section": ".sdata"
+          },
+          {
+            "symbol": "D_80080B1C",
+            "size": 1,
+            "section": ".sdata.D_80080B1C",
+            "alignment": 1,
+            "source_section": ".sdata"
+          }
+        ],
+        "core_sha256": "d72b0b7c9c910315dc1c344f64af6b6799d7036ee0709533d09422cbf28daea2",
+        "pre_object_sha256": "17649ee705c62688ef223c88520c34ea758da904e9416ab4383be1577243de4a",
+        "post_object_sha256": "be54dc68c58196663e7792f32ffa3c0b6e03f7711b7b711e1ae4ffff2ff0f779",
+        "split_elf": {
+          "schema": 1,
+          "input_sha256": "17649ee705c62688ef223c88520c34ea758da904e9416ab4383be1577243de4a",
+          "output_sha256": "be54dc68c58196663e7792f32ffa3c0b6e03f7711b7b711e1ae4ffff2ff0f779",
+          "original_section_count": 15,
+          "new_section_count": 17,
+          "original_symbol_count": 17,
+          "relocation_entries": 5,
+          "selected_relocations": [
+            {
+              "relocation_section": ".rel.text.func_80048DA0",
+              "offset": 12,
+              "symbol": "D_80080B1B",
+              "type": 7,
+              "addend": 0
+            },
+            {
+              "relocation_section": ".rel.text.func_80048DA0",
+              "offset": 28,
+              "symbol": "D_80080B1C",
+              "type": 7,
+              "addend": 0
+            }
+          ],
+          "relocation_entries_unchanged": true,
+          "original_nondata_payloads_unchanged": true,
+          "symbol_indices_and_order_unchanged": true,
+          "moved": [
+            {
+              "symbol": "D_80080B1B",
+              "old_section": ".sdata",
+              "old_section_index": 8,
+              "old_offset": 0,
+              "size": 1,
+              "alignment": 1,
+              "new_section": ".sdata.D_80080B1B",
+              "new_section_index": 15,
+              "content_sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+              "content_hex": "00",
+              "old_symbol_size": 0
+            },
+            {
+              "symbol": "D_80080B1C",
+              "old_section": ".sdata",
+              "old_section_index": 8,
+              "old_offset": 1,
+              "size": 1,
+              "alignment": 1,
+              "new_section": ".sdata.D_80080B1C",
+              "new_section_index": 16,
+              "content_sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+              "content_hex": "00",
+              "old_symbol_size": 0
+            }
+          ],
+          "emptied_source_sections": {
+            ".sdata": {
+              "old_section_index": 8,
+              "old_size": 2,
+              "kind": "PROGBITS",
+              "discarded_alignment_ranges": [],
+              "discarded_alignment_bytes": 0,
+              "all_discarded_bytes_zero": true
+            }
+          },
+          "text_section_sha256": {
+            ".text": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            ".text.func_80048DA0": "35b27668a1534830b7395d6db287af4023eddcb067c3cdcda21dc6f921140fb2"
+          },
+          "boundaries": {
+            "program_headers": 0,
+            "symtabs": 1,
+            "rela": 0,
+            "extended_indices": false
+          }
+        }
+      }
+    }
+  },
+  "rows": {
+    "slus/code": {
+      "row": "slus/code",
+      "container": "slus",
+      "kind": "slus",
+      "cfg": "2.7.2",
+      "pins": 0,
+      "module_fingerprint": "e0cec3e61c37d978fdc69d9137b98742fbfd64766aa8c75aed1c7b95b2a83983",
+      "partition_gate": {
+        "status": "ok",
+        "exact": true,
+        "proof": "whole SLUS image, partition context",
+        "module_fingerprint": "e0cec3e61c37d978fdc69d9137b98742fbfd64766aa8c75aed1c7b95b2a83983",
+        "physical_units": [
+          {
+            "source": "src/code.c",
+            "recipe": {
+              "ccver": "2.7.2",
+              "ccflags": "",
+              "asflags": ""
+            },
+            "functions": [
+              "func_8003D56C",
+              "func_8003DB4C",
+              "func_8003DB6C",
+              "func_8003DB94",
+              "func_8003E12C",
+              "func_8003E140",
+              "func_8003F52C",
+              "func_8003F534",
+              "func_8003F5EC",
+              "func_8003F6D4",
+              "func_80040044",
+              "func_80040418",
+              "func_80040F00",
+              "func_800422A8",
+              "func_800424E0",
+              "func_80043FB8",
+              "func_80044234",
+              "func_800445E0",
+              "func_80046398",
+              "func_80047714",
+              "func_800478B8",
+              "func_800479AC",
+              "func_80047A44",
+              "func_80047AA4",
+              "func_80047C60",
+              "func_80048374",
+              "func_80048568",
+              "func_80048590",
+              "func_800485B8",
+              "func_80048D00",
+              "func_80048D20",
+              "func_80048D40",
+              "func_80048DCC",
+              "func_80048DE8",
+              "func_80048F8C",
+              "func_80049250",
+              "func_80049280",
+              "func_8004928C",
+              "func_80049490",
+              "func_800494FC",
+              "func_80049944",
+              "func_80049984",
+              "func_800499DC",
+              "func_80049DC8",
+              "func_80049DE8",
+              "func_80049E6C",
+              "func_8004A4C4",
+              "func_8004A618",
+              "func_8004A638",
+              "func_8004A918",
+              "func_8004AA34",
+              "func_8004AE3C",
+              "func_8004AFC8",
+              "func_8004B3DC",
+              "func_8004B4A8",
+              "func_8004B4DC",
+              "func_8004B634",
+              "func_8004B834",
+              "func_8004B8BC",
+              "func_8004CBFC",
+              "func_8004D064",
+              "func_8004D8F0",
+              "func_8004D9E0",
+              "func_8004DDC4",
+              "func_8004E264",
+              "func_8004E280",
+              "func_8004E57C",
+              "func_8004E994",
+              "func_8004E99C",
+              "func_8004E9C0",
+              "func_8004E9E4",
+              "func_8004EB30",
+              "func_8004EE30",
+              "func_8004EE50",
+              "func_8004EE70",
+              "func_8004F2BC",
+              "func_8004F308",
+              "func_8004F3D0",
+              "func_8004F67C",
+              "func_8004F85C",
+              "func_8004FC68",
+              "func_8004FF00",
+              "func_800502E0",
+              "func_80050494",
+              "func_80050694",
+              "func_80050B7C",
+              "func_80050F84",
+              "func_80050FA8",
+              "func_80051500",
+              "func_80051528",
+              "func_800517AC",
+              "func_80051CA4",
+              "func_80051F38",
+              "func_800530A4",
+              "func_80053C3C",
+              "func_80053DA8",
+              "func_80053DCC",
+              "func_80053E14",
+              "func_800542A4",
+              "func_80054AF0",
+              "func_800555FC",
+              "func_80055604",
+              "func_80055730",
+              "func_800557BC",
+              "func_80055990",
+              "func_80055CEC",
+              "func_80055E6C",
+              "func_80055E74",
+              "func_80055E7C",
+              "func_80056D3C",
+              "func_80057A48",
+              "func_8005848C",
+              "func_800584E4",
+              "func_800587F8",
+              "func_80058A7C",
+              "func_80058AA8",
+              "func_80058E50",
+              "func_80058E64",
+              "func_8005A37C",
+              "func_8005A39C",
+              "func_8005A3A8",
+              "func_8005A3D4",
+              "func_8005A420",
+              "func_8005A4B8",
+              "func_8005ACD0",
+              "func_8005B300",
+              "func_8005B320",
+              "func_8005B3D8",
+              "func_8005C808",
+              "func_8005C88C",
+              "func_8005C8EC",
+              "func_8005C980",
+              "func_8005C988",
+              "func_8005C990",
+              "func_8005C998",
+              "func_8005C9A0",
+              "func_8005C9A8",
+              "func_8005C9D4",
+              "func_8005C9F4",
+              "func_8005CA1C",
+              "func_8005CA4C",
+              "func_8005CA70",
+              "func_8005D6D8",
+              "func_8005D704",
+              "func_8005D798",
+              "func_8005DA68",
+              "func_8005E4A0",
+              "func_8005E78C",
+              "func_8005EC0C"
+            ],
+            "role": "remainder"
+          },
+          {
+            "source": "src/w_80041134_owned.c",
+            "recipe": {
+              "ccver": "2.8.1",
+              "ccflags": "",
+              "asflags": ""
+            },
+            "functions": [
+              "func_80041110"
+            ],
+            "role": "module",
+            "module": "list_cursor_e0"
+          },
+          {
+            "source": "src/w_80050DA8_owned.c",
+            "recipe": {
+              "ccver": "2.7.2-cdk",
+              "ccflags": "",
+              "asflags": ""
+            },
+            "functions": [
+              "func_80050CAC"
+            ],
+            "role": "module",
+            "module": "saved_value_b98"
+          },
+          {
+            "source": "src/sort_rank_81540_owned.c",
+            "recipe": {
+              "ccver": "2.7.2-cdk",
+              "ccflags": "",
+              "asflags": ""
+            },
+            "functions": [
+              "func_8004AE98"
+            ],
+            "role": "module",
+            "module": "sort_rank_81540"
+          },
+          {
+            "source": "src/w_8004DCA8_owned.c",
+            "recipe": {
+              "ccver": "2.7.2-cdk",
+              "ccflags": "",
+              "asflags": ""
+            },
+            "functions": [
+              "func_8004DDB4"
+            ],
+            "role": "module",
+            "module": "command_slots_81554"
+          },
+          {
+            "source": "src/w_8004DCEC_owned.c",
+            "recipe": {
+              "ccver": "2.7.2-cdk",
+              "ccflags": "",
+              "asflags": ""
+            },
+            "functions": [
+              "func_8004DCE0"
+            ],
+            "role": "module",
+            "module": "message_mode_81550"
+          },
+          {
+            "source": "src/c8_accessors_owned.c",
+            "recipe": {
+              "ccver": "2.7.2",
+              "ccflags": "",
+              "asflags": ""
+            },
+            "functions": [
+              "func_8003F5D4",
+              "func_8003F5E0"
+            ],
+            "role": "module",
+            "module": "accessors_814c8"
+          }
+        ],
+        "total": 0,
+        "err": null,
+        "secs": 3.79
+      },
+      "physical_units": [
+        {
+          "source": "src/code.c",
+          "recipe": {
+            "ccver": "2.7.2",
+            "ccflags": "",
+            "asflags": ""
+          },
+          "functions": [
+            "func_8003D56C",
+            "func_8003DB4C",
+            "func_8003DB6C",
+            "func_8003DB94",
+            "func_8003E12C",
+            "func_8003E140",
+            "func_8003F52C",
+            "func_8003F534",
+            "func_8003F5EC",
+            "func_8003F6D4",
+            "func_80040044",
+            "func_80040418",
+            "func_80040F00",
+            "func_800422A8",
+            "func_800424E0",
+            "func_80043FB8",
+            "func_80044234",
+            "func_800445E0",
+            "func_80046398",
+            "func_80047714",
+            "func_800478B8",
+            "func_800479AC",
+            "func_80047A44",
+            "func_80047AA4",
+            "func_80047C60",
+            "func_80048374",
+            "func_80048568",
+            "func_80048590",
+            "func_800485B8",
+            "func_80048D00",
+            "func_80048D20",
+            "func_80048D40",
+            "func_80048DCC",
+            "func_80048DE8",
+            "func_80048F8C",
+            "func_80049250",
+            "func_80049280",
+            "func_8004928C",
+            "func_80049490",
+            "func_800494FC",
+            "func_80049944",
+            "func_80049984",
+            "func_800499DC",
+            "func_80049DC8",
+            "func_80049DE8",
+            "func_80049E6C",
+            "func_8004A4C4",
+            "func_8004A618",
+            "func_8004A638",
+            "func_8004A918",
+            "func_8004AA34",
+            "func_8004AE3C",
+            "func_8004AFC8",
+            "func_8004B3DC",
+            "func_8004B4A8",
+            "func_8004B4DC",
+            "func_8004B634",
+            "func_8004B834",
+            "func_8004B8BC",
+            "func_8004CBFC",
+            "func_8004D064",
+            "func_8004D8F0",
+            "func_8004D9E0",
+            "func_8004DDC4",
+            "func_8004E264",
+            "func_8004E280",
+            "func_8004E57C",
+            "func_8004E994",
+            "func_8004E99C",
+            "func_8004E9C0",
+            "func_8004E9E4",
+            "func_8004EB30",
+            "func_8004EE30",
+            "func_8004EE50",
+            "func_8004EE70",
+            "func_8004F2BC",
+            "func_8004F308",
+            "func_8004F3D0",
+            "func_8004F67C",
+            "func_8004F85C",
+            "func_8004FC68",
+            "func_8004FF00",
+            "func_800502E0",
+            "func_80050494",
+            "func_80050694",
+            "func_80050B7C",
+            "func_80050F84",
+            "func_80050FA8",
+            "func_80051500",
+            "func_80051528",
+            "func_800517AC",
+            "func_80051CA4",
+            "func_80051F38",
+            "func_800530A4",
+            "func_80053C3C",
+            "func_80053DA8",
+            "func_80053DCC",
+            "func_80053E14",
+            "func_800542A4",
+            "func_80054AF0",
+            "func_800555FC",
+            "func_80055604",
+            "func_80055730",
+            "func_800557BC",
+            "func_80055990",
+            "func_80055CEC",
+            "func_80055E6C",
+            "func_80055E74",
+            "func_80055E7C",
+            "func_80056D3C",
+            "func_80057A48",
+            "func_8005848C",
+            "func_800584E4",
+            "func_800587F8",
+            "func_80058A7C",
+            "func_80058AA8",
+            "func_80058E50",
+            "func_80058E64",
+            "func_8005A37C",
+            "func_8005A39C",
+            "func_8005A3A8",
+            "func_8005A3D4",
+            "func_8005A420",
+            "func_8005A4B8",
+            "func_8005ACD0",
+            "func_8005B300",
+            "func_8005B320",
+            "func_8005B3D8",
+            "func_8005C808",
+            "func_8005C88C",
+            "func_8005C8EC",
+            "func_8005C980",
+            "func_8005C988",
+            "func_8005C990",
+            "func_8005C998",
+            "func_8005C9A0",
+            "func_8005C9A8",
+            "func_8005C9D4",
+            "func_8005C9F4",
+            "func_8005CA1C",
+            "func_8005CA4C",
+            "func_8005CA70",
+            "func_8005D6D8",
+            "func_8005D704",
+            "func_8005D798",
+            "func_8005DA68",
+            "func_8005E4A0",
+            "func_8005E78C",
+            "func_8005EC0C"
+          ],
+          "expected_functions": [
+            "func_8003D56C",
+            "func_8003DB4C",
+            "func_8003DB6C",
+            "func_8003DB94",
+            "func_8003E12C",
+            "func_8003E140",
+            "func_8003F52C",
+            "func_8003F534",
+            "func_8003F5EC",
+            "func_8003F6D4",
+            "func_80040044",
+            "func_80040418",
+            "func_80040F00",
+            "func_800422A8",
+            "func_800424E0",
+            "func_80043FB8",
+            "func_80044234",
+            "func_800445E0",
+            "func_80046398",
+            "func_80047714",
+            "func_800478B8",
+            "func_800479AC",
+            "func_80047A44",
+            "func_80047AA4",
+            "func_80047C60",
+            "func_80048374",
+            "func_80048568",
+            "func_80048590",
+            "func_800485B8",
+            "func_80048D00",
+            "func_80048D20",
+            "func_80048D40",
+            "func_80048DCC",
+            "func_80048DE8",
+            "func_80048F8C",
+            "func_80049250",
+            "func_80049280",
+            "func_8004928C",
+            "func_80049490",
+            "func_800494FC",
+            "func_80049944",
+            "func_80049984",
+            "func_800499DC",
+            "func_80049DC8",
+            "func_80049DE8",
+            "func_80049E6C",
+            "func_8004A4C4",
+            "func_8004A618",
+            "func_8004A638",
+            "func_8004A918",
+            "func_8004AA34",
+            "func_8004AE3C",
+            "func_8004AFC8",
+            "func_8004B3DC",
+            "func_8004B4A8",
+            "func_8004B4DC",
+            "func_8004B634",
+            "func_8004B834",
+            "func_8004B8BC",
+            "func_8004CBFC",
+            "func_8004D064",
+            "func_8004D8F0",
+            "func_8004D9E0",
+            "func_8004DDC4",
+            "func_8004E264",
+            "func_8004E280",
+            "func_8004E57C",
+            "func_8004E994",
+            "func_8004E99C",
+            "func_8004E9C0",
+            "func_8004E9E4",
+            "func_8004EB30",
+            "func_8004EE30",
+            "func_8004EE50",
+            "func_8004EE70",
+            "func_8004F2BC",
+            "func_8004F308",
+            "func_8004F3D0",
+            "func_8004F67C",
+            "func_8004F85C",
+            "func_8004FC68",
+            "func_8004FF00",
+            "func_800502E0",
+            "func_80050494",
+            "func_80050694",
+            "func_80050B7C",
+            "func_80050F84",
+            "func_80050FA8",
+            "func_80051500",
+            "func_80051528",
+            "func_800517AC",
+            "func_80051CA4",
+            "func_80051F38",
+            "func_800530A4",
+            "func_80053C3C",
+            "func_80053DA8",
+            "func_80053DCC",
+            "func_80053E14",
+            "func_800542A4",
+            "func_80054AF0",
+            "func_800555FC",
+            "func_80055604",
+            "func_80055730",
+            "func_800557BC",
+            "func_80055990",
+            "func_80055CEC",
+            "func_80055E6C",
+            "func_80055E74",
+            "func_80055E7C",
+            "func_80056D3C",
+            "func_80057A48",
+            "func_8005848C",
+            "func_800584E4",
+            "func_800587F8",
+            "func_80058A7C",
+            "func_80058AA8",
+            "func_80058E50",
+            "func_80058E64",
+            "func_8005A37C",
+            "func_8005A39C",
+            "func_8005A3A8",
+            "func_8005A3D4",
+            "func_8005A420",
+            "func_8005A4B8",
+            "func_8005ACD0",
+            "func_8005B300",
+            "func_8005B320",
+            "func_8005B3D8",
+            "func_8005C808",
+            "func_8005C88C",
+            "func_8005C8EC",
+            "func_8005C980",
+            "func_8005C988",
+            "func_8005C990",
+            "func_8005C998",
+            "func_8005C9A0",
+            "func_8005C9A8",
+            "func_8005C9D4",
+            "func_8005C9F4",
+            "func_8005CA1C",
+            "func_8005CA4C",
+            "func_8005CA70",
+            "func_8005D6D8",
+            "func_8005D704",
+            "func_8005D798",
+            "func_8005DA68",
+            "func_8005E4A0",
+            "func_8005E78C",
+            "func_8005EC0C"
+          ],
+          "role": "remainder",
+          "row": "slus/code",
+          "container": "slus",
+          "kind": "slus",
+          "cfg": "2.7.2",
+          "asflags": "",
+          "cell": "2.7.2",
+          "maspsx_exact": true,
+          "proof": "whole SLUS image, partition context",
+          "fired": [
+            "_hoist_delay_luis",
+            "_expand_store_to_symbol_in_delay"
+          ],
+          "module_fingerprint": "e0cec3e61c37d978fdc69d9137b98742fbfd64766aa8c75aed1c7b95b2a83983",
+          "trace_scope": "whole-physical-unit",
+          "selfcheck": true,
+          "funcs": 149,
+          "words": 1218,
+          "maspsx_retail": {
+            "diff": 0,
+            "masked": 0,
+            "checked": 149
+          },
+          "maspsx_physical_retail": {
+            "diff": 0,
+            "masked": 0,
+            "checked": 149
+          },
+          "has_div": true,
+          "genuine": {
+            "2.79": {
+              "exact": false,
+              "diff": 30,
+              "len": 1229,
+              "mode": "-0",
+              "retail": [
+                57,
+                0
+              ],
+              "retail_checked": 149,
+              "physical": {
+                "exact": false,
+                "diff": 30,
+                "len_m": 1218,
+                "len_g": 1229,
+                "missing": [],
+                "retail": {
+                  "diff": 57,
+                  "masked": 0,
+                  "checked": 149
+                }
+              }
+            }
+          },
+          "exact_versions": [],
+          "best": "2.79",
+          "classes": {
+            "delay-slot": 8,
+            "other": 15
+          },
+          "first_diff": [
+            [
+              "func_8003F534",
+              "insert",
+              1
+            ],
+            [
+              "func_8003F534",
+              "replace",
+              2
+            ],
+            [
+              "func_80049490",
+              "insert",
+              3
+            ],
+            [
+              "func_80049490",
+              "replace",
+              4
+            ]
+          ],
+          "attrib": {
+            "2.79": {
+              "base": 30,
+              "fix": [
+                "no:_expand_store_to_symbol_in_delay",
+                "no:all-fired",
+                "extern-abs"
+              ]
+            },
+            "_nochange": [
+              "asv:2.79"
+            ]
+          },
+          "status": "ok"
+        },
+        {
+          "source": "src/w_80041134_owned.c",
+          "recipe": {
+            "ccver": "2.8.1",
+            "ccflags": "",
+            "asflags": ""
+          },
+          "functions": [
+            "func_80041110"
+          ],
+          "expected_functions": [
+            "func_800410FC",
+            "func_80041110",
+            "func_80041134"
+          ],
+          "role": "module",
+          "module": "list_cursor_e0",
+          "row": "slus/code",
+          "container": "slus",
+          "kind": "slus",
+          "cfg": "2.8.1",
+          "asflags": "",
+          "cell": "2.8.1",
+          "maspsx_exact": true,
+          "proof": "whole SLUS image, partition context",
+          "fired": [],
+          "module_fingerprint": "e0cec3e61c37d978fdc69d9137b98742fbfd64766aa8c75aed1c7b95b2a83983",
+          "trace_scope": "whole-physical-unit",
+          "selfcheck": true,
+          "funcs": 1,
+          "words": 9,
+          "maspsx_retail": {
+            "diff": 0,
+            "masked": 0,
+            "checked": 1
+          },
+          "maspsx_physical_retail": {
+            "diff": 0,
+            "masked": 0,
+            "checked": 3
+          },
+          "has_div": false,
+          "genuine": {
+            "2.79": {
+              "exact": true,
+              "diff": 0,
+              "len": 9,
+              "mode": "",
+              "retail": [
+                0,
+                0
+              ],
+              "retail_checked": 1,
+              "physical": {
+                "exact": true,
+                "diff": 0,
+                "len_m": 44,
+                "len_g": 44,
+                "missing": [],
+                "retail": {
+                  "diff": 0,
+                  "masked": 0,
+                  "checked": 3
+                }
+              }
+            }
+          },
+          "exact_versions": [
+            "2.79"
+          ],
+          "best": "2.79",
+          "status": "ok"
+        },
+        {
+          "source": "src/w_80050DA8_owned.c",
+          "recipe": {
+            "ccver": "2.7.2-cdk",
+            "ccflags": "",
+            "asflags": ""
+          },
+          "functions": [
+            "func_80050CAC"
+          ],
+          "expected_functions": [
+            "func_80050CAC",
+            "func_80050DA8",
+            "func_80050E20"
+          ],
+          "role": "module",
+          "module": "saved_value_b98",
+          "row": "slus/code",
+          "container": "slus",
+          "kind": "slus",
+          "cfg": "2.7.2-cdk",
+          "asflags": "",
+          "cell": "2.7.2-cdk",
+          "maspsx_exact": true,
+          "proof": "whole SLUS image, partition context",
+          "fired": [],
+          "module_fingerprint": "e0cec3e61c37d978fdc69d9137b98742fbfd64766aa8c75aed1c7b95b2a83983",
+          "trace_scope": "whole-physical-unit",
+          "selfcheck": true,
+          "funcs": 1,
+          "words": 12,
+          "maspsx_retail": {
+            "diff": 0,
+            "masked": 0,
+            "checked": 1
+          },
+          "maspsx_physical_retail": {
+            "diff": 0,
+            "masked": 0,
+            "checked": 3
+          },
+          "has_div": false,
+          "genuine": {
+            "2.79": {
+              "exact": true,
+              "diff": 0,
+              "len": 12,
+              "mode": "",
+              "retail": [
+                0,
+                0
+              ],
+              "retail_checked": 1,
+              "physical": {
+                "exact": true,
+                "diff": 0,
+                "len_m": 76,
+                "len_g": 76,
+                "missing": [],
+                "retail": {
+                  "diff": 0,
+                  "masked": 0,
+                  "checked": 3
+                }
+              }
+            }
+          },
+          "exact_versions": [
+            "2.79"
+          ],
+          "best": "2.79",
+          "status": "ok"
+        },
+        {
+          "source": "src/sort_rank_81540_owned.c",
+          "recipe": {
+            "ccver": "2.7.2-cdk",
+            "ccflags": "",
+            "asflags": ""
+          },
+          "functions": [
+            "func_8004AE98"
+          ],
+          "expected_functions": [
+            "func_8004AE98",
+            "func_8004B08C"
+          ],
+          "role": "module",
+          "module": "sort_rank_81540",
+          "row": "slus/code",
+          "container": "slus",
+          "kind": "slus",
+          "cfg": "2.7.2-cdk",
+          "asflags": "",
+          "cell": "2.7.2-cdk",
+          "maspsx_exact": true,
+          "proof": "whole SLUS image, partition context",
+          "fired": [],
+          "module_fingerprint": "e0cec3e61c37d978fdc69d9137b98742fbfd64766aa8c75aed1c7b95b2a83983",
+          "trace_scope": "whole-physical-unit",
+          "selfcheck": true,
+          "funcs": 1,
+          "words": 11,
+          "maspsx_retail": {
+            "diff": 0,
+            "masked": 0,
+            "checked": 1
+          },
+          "maspsx_physical_retail": {
+            "diff": 0,
+            "masked": 0,
+            "checked": 2
+          },
+          "has_div": false,
+          "genuine": {
+            "2.79": {
+              "exact": true,
+              "diff": 0,
+              "len": 11,
+              "mode": "",
+              "retail": [
+                0,
+                0
+              ],
+              "retail_checked": 1,
+              "physical": {
+                "exact": true,
+                "diff": 0,
+                "len_m": 81,
+                "len_g": 81,
+                "missing": [],
+                "retail": {
+                  "diff": 0,
+                  "masked": 0,
+                  "checked": 2
+                }
+              }
+            }
+          },
+          "exact_versions": [
+            "2.79"
+          ],
+          "best": "2.79",
+          "status": "ok"
+        },
+        {
+          "source": "src/w_8004DCA8_owned.c",
+          "recipe": {
+            "ccver": "2.7.2-cdk",
+            "ccflags": "",
+            "asflags": ""
+          },
+          "functions": [
+            "func_8004DDB4"
+          ],
+          "expected_functions": [
+            "func_8004DCA8",
+            "func_8004DD2C",
+            "func_8004DDB4",
+            "func_8004DDE4",
+            "func_8004E130"
+          ],
+          "role": "module",
+          "module": "command_slots_81554",
+          "row": "slus/code",
+          "container": "slus",
+          "kind": "slus",
+          "cfg": "2.7.2-cdk",
+          "asflags": "",
+          "cell": "2.7.2-cdk",
+          "maspsx_exact": true,
+          "proof": "whole SLUS image, partition context",
+          "fired": [
+            "_expand_smalldata_la"
+          ],
+          "module_fingerprint": "e0cec3e61c37d978fdc69d9137b98742fbfd64766aa8c75aed1c7b95b2a83983",
+          "trace_scope": "whole-physical-unit",
+          "selfcheck": true,
+          "funcs": 1,
+          "words": 4,
+          "maspsx_retail": {
+            "diff": 0,
+            "masked": 0,
+            "checked": 1
+          },
+          "maspsx_physical_retail": {
+            "diff": 0,
+            "masked": 0,
+            "checked": 5
+          },
+          "has_div": false,
+          "genuine": {
+            "2.79": {
+              "exact": true,
+              "diff": 0,
+              "len": 4,
+              "mode": "",
+              "retail": [
+                0,
+                0
+              ],
+              "retail_checked": 1,
+              "physical": {
+                "exact": true,
+                "diff": 0,
+                "len_m": 115,
+                "len_g": 115,
+                "missing": [],
+                "retail": {
+                  "diff": 0,
+                  "masked": 0,
+                  "checked": 5
+                }
+              }
+            }
+          },
+          "exact_versions": [
+            "2.79"
+          ],
+          "best": "2.79",
+          "status": "ok"
+        },
+        {
+          "source": "src/w_8004DCEC_owned.c",
+          "recipe": {
+            "ccver": "2.7.2-cdk",
+            "ccflags": "",
+            "asflags": ""
+          },
+          "functions": [
+            "func_8004DCE0"
+          ],
+          "expected_functions": [
+            "func_8004DCE0",
+            "func_8004DCEC",
+            "func_8004DE88",
+            "func_8004DF8C"
+          ],
+          "role": "module",
+          "module": "message_mode_81550",
+          "row": "slus/code",
+          "container": "slus",
+          "kind": "slus",
+          "cfg": "2.7.2-cdk",
+          "asflags": "",
+          "cell": "2.7.2-cdk",
+          "maspsx_exact": true,
+          "proof": "whole SLUS image, partition context",
+          "fired": [
+            "_expand_smalldata_la"
+          ],
+          "module_fingerprint": "e0cec3e61c37d978fdc69d9137b98742fbfd64766aa8c75aed1c7b95b2a83983",
+          "trace_scope": "whole-physical-unit",
+          "selfcheck": true,
+          "funcs": 1,
+          "words": 3,
+          "maspsx_retail": {
+            "diff": 0,
+            "masked": 0,
+            "checked": 1
+          },
+          "maspsx_physical_retail": {
+            "diff": 0,
+            "masked": 0,
+            "checked": 4
+          },
+          "has_div": false,
+          "genuine": {
+            "2.79": {
+              "exact": true,
+              "diff": 0,
+              "len": 3,
+              "mode": "",
+              "retail": [
+                0,
+                0
+              ],
+              "retail_checked": 1,
+              "physical": {
+                "exact": true,
+                "diff": 0,
+                "len_m": 156,
+                "len_g": 156,
+                "missing": [],
+                "retail": {
+                  "diff": 0,
+                  "masked": 0,
+                  "checked": 4
+                }
+              }
+            }
+          },
+          "exact_versions": [
+            "2.79"
+          ],
+          "best": "2.79",
+          "status": "ok"
+        },
+        {
+          "source": "src/c8_accessors_owned.c",
+          "recipe": {
+            "ccver": "2.7.2",
+            "ccflags": "",
+            "asflags": ""
+          },
+          "functions": [
+            "func_8003F5D4",
+            "func_8003F5E0"
+          ],
+          "expected_functions": [
+            "func_8003F5D4",
+            "func_8003F5E0"
+          ],
+          "role": "module",
+          "module": "accessors_814c8",
+          "row": "slus/code",
+          "container": "slus",
+          "kind": "slus",
+          "cfg": "2.7.2",
+          "asflags": "",
+          "cell": "2.7.2",
+          "maspsx_exact": true,
+          "proof": "whole SLUS image, partition context",
+          "fired": [],
+          "module_fingerprint": "e0cec3e61c37d978fdc69d9137b98742fbfd64766aa8c75aed1c7b95b2a83983",
+          "trace_scope": "whole-physical-unit",
+          "selfcheck": true,
+          "funcs": 2,
+          "words": 6,
+          "maspsx_retail": {
+            "diff": 0,
+            "masked": 0,
+            "checked": 2
+          },
+          "maspsx_physical_retail": {
+            "diff": 0,
+            "masked": 0,
+            "checked": 2
+          },
+          "has_div": false,
+          "genuine": {
+            "2.79": {
+              "exact": true,
+              "diff": 0,
+              "len": 6,
+              "mode": "",
+              "retail": [
+                0,
+                0
+              ],
+              "retail_checked": 2,
+              "physical": {
+                "exact": true,
+                "diff": 0,
+                "len_m": 6,
+                "len_g": 6,
+                "missing": [],
+                "retail": {
+                  "diff": 0,
+                  "masked": 0,
+                  "checked": 2
+                }
+              }
+            }
+          },
+          "exact_versions": [
+            "2.79"
+          ],
+          "best": "2.79",
+          "status": "ok"
+        }
+      ],
+      "functions": [
+        "func_8003D56C",
+        "func_8003DB4C",
+        "func_8003DB6C",
+        "func_8003DB94",
+        "func_8003E12C",
+        "func_8003E140",
+        "func_8003F52C",
+        "func_8003F534",
+        "func_8003F5D4",
+        "func_8003F5E0",
+        "func_8003F5EC",
+        "func_8003F6D4",
+        "func_80040044",
+        "func_80040418",
+        "func_80040F00",
+        "func_80041110",
+        "func_800422A8",
+        "func_800424E0",
+        "func_80043FB8",
+        "func_80044234",
+        "func_800445E0",
+        "func_80046398",
+        "func_80047714",
+        "func_800478B8",
+        "func_800479AC",
+        "func_80047A44",
+        "func_80047AA4",
+        "func_80047C60",
+        "func_80048374",
+        "func_80048568",
+        "func_80048590",
+        "func_800485B8",
+        "func_80048D00",
+        "func_80048D20",
+        "func_80048D40",
+        "func_80048DCC",
+        "func_80048DE8",
+        "func_80048F8C",
+        "func_80049250",
+        "func_80049280",
+        "func_8004928C",
+        "func_80049490",
+        "func_800494FC",
+        "func_80049944",
+        "func_80049984",
+        "func_800499DC",
+        "func_80049DC8",
+        "func_80049DE8",
+        "func_80049E6C",
+        "func_8004A4C4",
+        "func_8004A618",
+        "func_8004A638",
+        "func_8004A918",
+        "func_8004AA34",
+        "func_8004AE3C",
+        "func_8004AE98",
+        "func_8004AFC8",
+        "func_8004B3DC",
+        "func_8004B4A8",
+        "func_8004B4DC",
+        "func_8004B634",
+        "func_8004B834",
+        "func_8004B8BC",
+        "func_8004CBFC",
+        "func_8004D064",
+        "func_8004D8F0",
+        "func_8004D9E0",
+        "func_8004DCE0",
+        "func_8004DDB4",
+        "func_8004DDC4",
+        "func_8004E264",
+        "func_8004E280",
+        "func_8004E57C",
+        "func_8004E994",
+        "func_8004E99C",
+        "func_8004E9C0",
+        "func_8004E9E4",
+        "func_8004EB30",
+        "func_8004EE30",
+        "func_8004EE50",
+        "func_8004EE70",
+        "func_8004F2BC",
+        "func_8004F308",
+        "func_8004F3D0",
+        "func_8004F67C",
+        "func_8004F85C",
+        "func_8004FC68",
+        "func_8004FF00",
+        "func_800502E0",
+        "func_80050494",
+        "func_80050694",
+        "func_80050B7C",
+        "func_80050CAC",
+        "func_80050F84",
+        "func_80050FA8",
+        "func_80051500",
+        "func_80051528",
+        "func_800517AC",
+        "func_80051CA4",
+        "func_80051F38",
+        "func_800530A4",
+        "func_80053C3C",
+        "func_80053DA8",
+        "func_80053DCC",
+        "func_80053E14",
+        "func_800542A4",
+        "func_80054AF0",
+        "func_800555FC",
+        "func_80055604",
+        "func_80055730",
+        "func_800557BC",
+        "func_80055990",
+        "func_80055CEC",
+        "func_80055E6C",
+        "func_80055E74",
+        "func_80055E7C",
+        "func_80056D3C",
+        "func_80057A48",
+        "func_8005848C",
+        "func_800584E4",
+        "func_800587F8",
+        "func_80058A7C",
+        "func_80058AA8",
+        "func_80058E50",
+        "func_80058E64",
+        "func_8005A37C",
+        "func_8005A39C",
+        "func_8005A3A8",
+        "func_8005A3D4",
+        "func_8005A420",
+        "func_8005A4B8",
+        "func_8005ACD0",
+        "func_8005B300",
+        "func_8005B320",
+        "func_8005B3D8",
+        "func_8005C808",
+        "func_8005C88C",
+        "func_8005C8EC",
+        "func_8005C980",
+        "func_8005C988",
+        "func_8005C990",
+        "func_8005C998",
+        "func_8005C9A0",
+        "func_8005C9A8",
+        "func_8005C9D4",
+        "func_8005C9F4",
+        "func_8005CA1C",
+        "func_8005CA4C",
+        "func_8005CA70",
+        "func_8005D6D8",
+        "func_8005D704",
+        "func_8005D798",
+        "func_8005DA68",
+        "func_8005E4A0",
+        "func_8005E78C",
+        "func_8005EC0C"
+      ],
+      "funcs": 156,
+      "words": 1263,
+      "selfcheck": true,
+      "maspsx_exact": true,
+      "trace_scope": "union-of-whole-physical-units",
+      "cfg_scope": "original-logical-row",
+      "proof": "whole SLUS image, partition context",
+      "cell": "mixed",
+      "asflags": "",
+      "maspsx_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 156
+      },
+      "fired": [
+        "_expand_smalldata_la",
+        "_expand_store_to_symbol_in_delay",
+        "_hoist_delay_luis"
+      ],
+      "has_div": true,
+      "genuine": {
+        "2.79": {
+          "exact": false,
+          "diff": 30,
+          "len": 1274,
+          "retail": [
+            57,
+            0
+          ],
+          "retail_checked": 156,
+          "modes": {
+            "src/code.c": "-0",
+            "src/w_80041134_owned.c": "",
+            "src/w_80050DA8_owned.c": "",
+            "src/sort_rank_81540_owned.c": "",
+            "src/w_8004DCA8_owned.c": "",
+            "src/w_8004DCEC_owned.c": "",
+            "src/c8_accessors_owned.c": ""
+          }
+        }
+      },
+      "exact_versions": [],
+      "ownerwise_exact_versions": false,
+      "best": "2.79",
+      "partition_attribution": {
+        "src/code.c": {
+          "2.79": {
+            "base": 30,
+            "fix": [
+              "no:_expand_store_to_symbol_in_delay",
+              "no:all-fired",
+              "extern-abs"
+            ]
+          },
+          "_nochange": [
+            "asv:2.79"
+          ]
+        },
+        "src/w_80041134_owned.c": {},
+        "src/w_80050DA8_owned.c": {},
+        "src/sort_rank_81540_owned.c": {},
+        "src/w_8004DCA8_owned.c": {},
+        "src/w_8004DCEC_owned.c": {},
+        "src/c8_accessors_owned.c": {}
+      },
+      "status": "ok",
+      "secs": 10.0
+    },
+    "slus/code2": {
+      "row": "slus/code2",
+      "container": "slus",
+      "kind": "slus",
+      "cfg": "2.8.1",
+      "pins": 0,
+      "module_fingerprint": "e0cec3e61c37d978fdc69d9137b98742fbfd64766aa8c75aed1c7b95b2a83983",
+      "partition_gate": {
+        "status": "ok",
+        "exact": true,
+        "proof": "whole SLUS image, partition context",
+        "module_fingerprint": "e0cec3e61c37d978fdc69d9137b98742fbfd64766aa8c75aed1c7b95b2a83983",
+        "physical_units": [
+          {
+            "source": "src/code2.c",
+            "recipe": {
+              "ccver": "2.8.1",
+              "ccflags": "",
+              "asflags": ""
+            },
+            "functions": [
+              "func_8003F540",
+              "func_8003F7E4",
+              "func_80040A88",
+              "func_80040B88",
+              "func_800419EC",
+              "func_8004827C",
+              "func_800499BC",
+              "func_8004A8D8",
+              "func_8004AC18",
+              "func_8004D0C8",
+              "func_8004D110",
+              "func_80050F74",
+              "func_80053C6C",
+              "func_80053CA4",
+              "func_800542AC",
+              "func_8005A3E0",
+              "func_8005B348",
+              "func_8005C818",
+              "func_8005C8B8",
+              "func_8005C918",
+              "func_8005C94C"
+            ],
+            "role": "remainder"
+          },
+          {
+            "source": "src/w_80041134_owned.c",
+            "recipe": {
+              "ccver": "2.8.1",
+              "ccflags": "",
+              "asflags": ""
+            },
+            "functions": [
+              "func_800410FC"
+            ],
+            "role": "module",
+            "module": "list_cursor_e0"
+          },
+          {
+            "source": "src/cd_command_state_owned.c",
+            "recipe": {
+              "asflags": "",
+              "ccflags": "-G32",
+              "ccver": "2.7.2-cdk"
+            },
+            "functions": [
+              "func_8003F240"
+            ],
+            "role": "module",
+            "module": "cd_command_state"
+          },
+          {
+            "source": "src/b1b_b1c_table_owned.c",
+            "recipe": {
+              "ccver": "2.8.1",
+              "ccflags": "",
+              "asflags": ""
+            },
+            "functions": [
+              "func_80048DA0"
+            ],
+            "role": "module",
+            "module": "table_counters_b1b_b1c"
+          }
+        ],
+        "total": 0,
+        "err": null,
+        "secs": 3.64
+      },
+      "physical_units": [
+        {
+          "source": "src/code2.c",
+          "recipe": {
+            "ccver": "2.8.1",
+            "ccflags": "",
+            "asflags": ""
+          },
+          "functions": [
+            "func_8003F540",
+            "func_8003F7E4",
+            "func_80040A88",
+            "func_80040B88",
+            "func_800419EC",
+            "func_8004827C",
+            "func_800499BC",
+            "func_8004A8D8",
+            "func_8004AC18",
+            "func_8004D0C8",
+            "func_8004D110",
+            "func_80050F74",
+            "func_80053C6C",
+            "func_80053CA4",
+            "func_800542AC",
+            "func_8005A3E0",
+            "func_8005B348",
+            "func_8005C818",
+            "func_8005C8B8",
+            "func_8005C918",
+            "func_8005C94C"
+          ],
+          "expected_functions": [
+            "func_8003F540",
+            "func_8003F7E4",
+            "func_80040A88",
+            "func_80040B88",
+            "func_800419EC",
+            "func_8004827C",
+            "func_800499BC",
+            "func_8004A8D8",
+            "func_8004AC18",
+            "func_8004D0C8",
+            "func_8004D110",
+            "func_80050F74",
+            "func_80053C6C",
+            "func_80053CA4",
+            "func_800542AC",
+            "func_8005A3E0",
+            "func_8005B348",
+            "func_8005C818",
+            "func_8005C8B8",
+            "func_8005C918",
+            "func_8005C94C"
+          ],
+          "role": "remainder",
+          "row": "slus/code2",
+          "container": "slus",
+          "kind": "slus",
+          "cfg": "2.8.1",
+          "asflags": "",
+          "cell": "2.8.1",
+          "maspsx_exact": true,
+          "proof": "whole SLUS image, partition context",
+          "fired": [
+            "_fold_lo_into_accesses",
+            "_unfill_via_load_delay",
+            "_maybe_unfill_return_delay"
+          ],
+          "module_fingerprint": "e0cec3e61c37d978fdc69d9137b98742fbfd64766aa8c75aed1c7b95b2a83983",
+          "trace_scope": "whole-physical-unit",
+          "selfcheck": true,
+          "funcs": 21,
+          "words": 213,
+          "maspsx_retail": {
+            "diff": 0,
+            "masked": 0,
+            "checked": 21
+          },
+          "maspsx_physical_retail": {
+            "diff": 0,
+            "masked": 0,
+            "checked": 21
+          },
+          "has_div": true,
+          "genuine": {
+            "2.79": {
+              "exact": false,
+              "diff": 27,
+              "len": 213,
+              "mode": "-0",
+              "retail": [
+                20,
+                0
+              ],
+              "retail_checked": 21,
+              "physical": {
+                "exact": false,
+                "diff": 27,
+                "len_m": 213,
+                "len_g": 213,
+                "missing": [],
+                "retail": {
+                  "diff": 20,
+                  "masked": 0,
+                  "checked": 21
+                }
+              }
+            }
+          },
+          "exact_versions": [],
+          "best": "2.79",
+          "classes": {
+            "other": 13,
+            "delay-slot": 2
+          },
+          "first_diff": [
+            [
+              "func_80040B88",
+              "insert",
+              8
+            ],
+            [
+              "func_80040B88",
+              "delete",
+              9
+            ],
+            [
+              "func_8004827C",
+              "insert",
+              16
+            ],
+            [
+              "func_8004827C",
+              "delete",
+              17
+            ]
+          ],
+          "attrib": {
+            "2.79": {
+              "base": 27,
+              "fix": [
+                "no:all-fired"
+              ]
+            },
+            "_nochange": [
+              "asv:2.79",
+              "extern-abs"
+            ]
+          },
+          "status": "ok"
+        },
+        {
+          "source": "src/w_80041134_owned.c",
+          "recipe": {
+            "ccver": "2.8.1",
+            "ccflags": "",
+            "asflags": ""
+          },
+          "functions": [
+            "func_800410FC"
+          ],
+          "expected_functions": [
+            "func_800410FC",
+            "func_80041110",
+            "func_80041134"
+          ],
+          "role": "module",
+          "module": "list_cursor_e0",
+          "row": "slus/code2",
+          "container": "slus",
+          "kind": "slus",
+          "cfg": "2.8.1",
+          "asflags": "",
+          "cell": "2.8.1",
+          "maspsx_exact": true,
+          "proof": "whole SLUS image, partition context",
+          "fired": [],
+          "module_fingerprint": "e0cec3e61c37d978fdc69d9137b98742fbfd64766aa8c75aed1c7b95b2a83983",
+          "trace_scope": "whole-physical-unit",
+          "selfcheck": true,
+          "funcs": 1,
+          "words": 5,
+          "maspsx_retail": {
+            "diff": 0,
+            "masked": 0,
+            "checked": 1
+          },
+          "maspsx_physical_retail": {
+            "diff": 0,
+            "masked": 0,
+            "checked": 3
+          },
+          "has_div": false,
+          "genuine": {
+            "2.79": {
+              "exact": true,
+              "diff": 0,
+              "len": 5,
+              "mode": "",
+              "retail": [
+                0,
+                0
+              ],
+              "retail_checked": 1,
+              "physical": {
+                "exact": true,
+                "diff": 0,
+                "len_m": 44,
+                "len_g": 44,
+                "missing": [],
+                "retail": {
+                  "diff": 0,
+                  "masked": 0,
+                  "checked": 3
+                }
+              }
+            }
+          },
+          "exact_versions": [
+            "2.79"
+          ],
+          "best": "2.79",
+          "status": "ok"
+        },
+        {
+          "source": "src/cd_command_state_owned.c",
+          "recipe": {
+            "asflags": "",
+            "ccflags": "-G32",
+            "ccver": "2.7.2-cdk"
+          },
+          "functions": [
+            "func_8003F240"
+          ],
+          "expected_functions": [
+            "func_8003E34C",
+            "func_8003E4FC",
+            "func_8003E758",
+            "func_8003F240",
+            "func_8003F2A4",
+            "func_8003F368",
+            "func_8003F5AC",
+            "func_8003F624"
+          ],
+          "role": "module",
+          "module": "cd_command_state",
+          "row": "slus/code2",
+          "container": "slus",
+          "kind": "slus",
+          "cfg": "2.7.2-cdk -G32",
+          "asflags": "",
+          "cell": "2.7.2-cdk",
+          "maspsx_exact": true,
+          "proof": "whole SLUS image, partition context",
+          "fired": [
+            "_expand_smalldata_la"
+          ],
+          "data_piece_transform": {
+            "schema": 1,
+            "module": "cd_command_state",
+            "plan": [
+              {
+                "symbol": "D_800814D0",
+                "size": 1,
+                "section": ".sdata.D_800814D0",
+                "alignment": 1,
+                "source_section": ".sdata"
+              },
+              {
+                "symbol": "D_800814D4",
+                "size": 1,
+                "section": ".sdata.D_800814D4",
+                "alignment": 1,
+                "source_section": ".sdata"
+              },
+              {
+                "symbol": "D_800814CC",
+                "size": 4,
+                "section": ".sdata.D_800814CC",
+                "alignment": 4,
+                "source_section": ".sdata"
+              },
+              {
+                "symbol": "D_80081450",
+                "size": 8,
+                "section": ".sdata.D_80081450",
+                "alignment": 4,
+                "source_section": ".sdata"
+              },
+              {
+                "symbol": "D_80080AD0",
+                "size": 1,
+                "section": ".sdata.D_80080AD0",
+                "alignment": 1,
+                "source_section": ".sdata"
+              },
+              {
+                "symbol": "D_80080AD2",
+                "size": 2,
+                "section": ".sdata.D_80080AD2",
+                "alignment": 2,
+                "source_section": ".sdata"
+              },
+              {
+                "symbol": "D_80080AD4",
+                "size": 2,
+                "section": ".sdata.D_80080AD4",
+                "alignment": 2,
+                "source_section": ".sdata"
+              },
+              {
+                "symbol": "D_80080AD8",
+                "size": 4,
+                "section": ".sdata.D_80080AD8",
+                "alignment": 4,
+                "source_section": ".sdata"
+              },
+              {
+                "symbol": "D_80080ADC",
+                "size": 4,
+                "section": ".sdata.D_80080ADC",
+                "alignment": 4,
+                "source_section": ".sdata"
+              },
+              {
+                "symbol": "D_800814B0",
+                "size": 4,
+                "section": ".sdata.D_800814B0",
+                "alignment": 4,
+                "source_section": ".sdata"
+              },
+              {
+                "symbol": "D_800814B4",
+                "size": 4,
+                "section": ".sdata.D_800814B4",
+                "alignment": 4,
+                "source_section": ".sdata"
+              }
+            ],
+            "core_sha256": "d72b0b7c9c910315dc1c344f64af6b6799d7036ee0709533d09422cbf28daea2",
+            "pre_object_sha256": "93baf6a10551bd8b7997b035e90e34aca72ef3ad5330dd5341791c48879f29d6",
+            "post_object_sha256": "f36945fd8c398cafcaa5905ba040a4213ab0773563bfd96a77d7d476f0bcf3f9",
+            "split_elf": {
+              "schema": 1,
+              "input_sha256": "93baf6a10551bd8b7997b035e90e34aca72ef3ad5330dd5341791c48879f29d6",
+              "output_sha256": "f36945fd8c398cafcaa5905ba040a4213ab0773563bfd96a77d7d476f0bcf3f9",
+              "original_section_count": 31,
+              "new_section_count": 42,
+              "original_symbol_count": 69,
+              "relocation_entries": 371,
+              "selected_relocations": [
+                {
+                  "relocation_section": ".rel.text.func_8003E34C",
+                  "offset": 36,
+                  "symbol": "D_800814D0",
+                  "type": 7,
+                  "addend": 0
+                },
+                {
+                  "relocation_section": ".rel.text.func_8003E34C",
+                  "offset": 56,
+                  "symbol": "D_80080AD0",
+                  "type": 7,
+                  "addend": 0
+                },
+                {
+                  "relocation_section": ".rel.text.func_8003E34C",
+                  "offset": 60,
+                  "symbol": "D_80080ADC",
+                  "type": 7,
+                  "addend": 0
+                },
+                {
+                  "relocation_section": ".rel.text.func_8003E34C",
+                  "offset": 64,
+                  "symbol": "D_80080AD4",
+                  "type": 7,
+                  "addend": 0
+                },
+                {
+                  "relocation_section": ".rel.text.func_8003E4FC",
+                  "offset": 336,
+                  "symbol": "D_80080ADC",
+                  "type": 7,
+                  "addend": 0
+                },
+                {
+                  "relocation_section": ".rel.text.func_8003E4FC",
+                  "offset": 368,
+                  "symbol": "D_80080AD4",
+                  "type": 7,
+                  "addend": 0
+                },
+                {
+                  "relocation_section": ".rel.text.func_8003E4FC",
+                  "offset": 424,
+                  "symbol": "D_80080ADC",
+                  "type": 7,
+                  "addend": 0
+                },
+                {
+                  "relocation_section": ".rel.text.func_8003E758",
+                  "offset": 32,
+                  "symbol": "D_800814D0",
+                  "type": 7,
+                  "addend": 0
+                },
+                {
+                  "relocation_section": ".rel.text.func_8003E758",
+                  "offset": 88,
+                  "symbol": "D_800814D0",
+                  "type": 7,
+                  "addend": 0
+                },
+                {
+                  "relocation_section": ".rel.text.func_8003E758",
+                  "offset": 388,
+                  "symbol": "D_800814D0",
+                  "type": 7,
+                  "addend": 0
+                },
+                {
+                  "relocation_section": ".rel.text.func_8003E758",
+                  "offset": 440,
+                  "symbol": "D_800814D0",
+                  "type": 7,
+                  "addend": 0
+                },
+                {
+                  "relocation_section": ".rel.text.func_8003E758",
+                  "offset": 504,
+                  "symbol": "D_800814D0",
+                  "type": 7,
+                  "addend": 0
+                },
+                {
+                  "relocation_section": ".rel.text.func_8003E758",
+                  "offset": 576,
+                  "symbol": "D_800814D0",
+                  "type": 7,
+                  "addend": 0
+                },
+                {
+                  "relocation_section": ".rel.text.func_8003E758",
+                  "offset": 628,
+                  "symbol": "D_800814D0",
+                  "type": 7,
+                  "addend": 0
+                },
+                {
+                  "relocation_section": ".rel.text.func_8003E758",
+                  "offset": 788,
+                  "symbol": "D_800814CC",
+                  "type": 7,
+                  "addend": 0
+                },
+                {
+                  "relocation_section": ".rel.text.func_8003E758",
+                  "offset": 796,
+                  "symbol": "D_800814D4",
+                  "type": 7,
+                  "addend": 0
+                },
+                {
+                  "relocation_section": ".rel.text.func_8003E758",
+                  "offset": 1068,
+                  "symbol": "D_800814D0",
+                  "type": 7,
+                  "addend": 0
+                },
+                {
+                  "relocation_section": ".rel.text.func_8003E758",
+                  "offset": 1124,
+                  "symbol": "D_800814D0",
+                  "type": 7,
+                  "addend": 0
+                },
+                {
+                  "relocation_section": ".rel.text.func_8003E758",
+                  "offset": 1188,
+                  "symbol": "D_800814D0",
+                  "type": 7,
+                  "addend": 0
+                },
+                {
+                  "relocation_section": ".rel.text.func_8003E758",
+                  "offset": 1244,
+                  "symbol": "D_800814D0",
+                  "type": 7,
+                  "addend": 0
+                },
+                {
+                  "relocation_section": ".rel.text.func_8003E758",
+                  "offset": 1304,
+                  "symbol": "D_800814D0",
+                  "type": 7,
+                  "addend": 0
+                },
+                {
+                  "relocation_section": ".rel.text.func_8003E758",
+                  "offset": 1416,
+                  "symbol": "D_800814D0",
+                  "type": 7,
+                  "addend": 0
+                },
+                {
+                  "relocation_section": ".rel.text.func_8003E758",
+                  "offset": 1684,
+                  "symbol": "D_800814D0",
+                  "type": 7,
+                  "addend": 0
+                },
+                {
+                  "relocation_section": ".rel.text.func_8003E758",
+                  "offset": 1704,
+                  "symbol": "D_800814D0",
+                  "type": 7,
+                  "addend": 0
+                },
+                {
+                  "relocation_section": ".rel.text.func_8003E758",
+                  "offset": 1728,
+                  "symbol": "D_800814D0",
+                  "type": 7,
+                  "addend": 0
+                },
+                {
+                  "relocation_section": ".rel.text.func_8003E758",
+                  "offset": 1908,
+                  "symbol": "D_80080AD8",
+                  "type": 7,
+                  "addend": 0
+                },
+                {
+                  "relocation_section": ".rel.text.func_8003E758",
+                  "offset": 1928,
+                  "symbol": "D_80080AD0",
+                  "type": 7,
+                  "addend": 0
+                },
+                {
+                  "relocation_section": ".rel.text.func_8003E758",
+                  "offset": 1944,
+                  "symbol": "D_800814CC",
+                  "type": 7,
+                  "addend": 0
+                },
+                {
+                  "relocation_section": ".rel.text.func_8003E758",
+                  "offset": 1984,
+                  "symbol": "D_80080AD2",
+                  "type": 7,
+                  "addend": 0
+                },
+                {
+                  "relocation_section": ".rel.text.func_8003E758",
+                  "offset": 2004,
+                  "symbol": "D_80080AD2",
+                  "type": 7,
+                  "addend": 0
+                },
+                {
+                  "relocation_section": ".rel.text.func_8003E758",
+                  "offset": 2288,
+                  "symbol": "D_80081450",
+                  "type": 7,
+                  "addend": 0
+                },
+                {
+                  "relocation_section": ".rel.text.func_8003E758",
+                  "offset": 2320,
+                  "symbol": "D_800814D0",
+                  "type": 7,
+                  "addend": 0
+                },
+                {
+                  "relocation_section": ".rel.text.func_8003E758",
+                  "offset": 2340,
+                  "symbol": "D_800814D0",
+                  "type": 7,
+                  "addend": 0
+                },
+                {
+                  "relocation_section": ".rel.text.func_8003E758",
+                  "offset": 2444,
+                  "symbol": "D_80081450",
+                  "type": 7,
+                  "addend": 0
+                },
+                {
+                  "relocation_section": ".rel.text.func_8003E758",
+                  "offset": 2556,
+                  "symbol": "D_80080AD4",
+                  "type": 7,
+                  "addend": 0
+                },
+                {
+                  "relocation_section": ".rel.text.func_8003E758",
+                  "offset": 2660,
+                  "symbol": "D_800814D0",
+                  "type": 7,
+                  "addend": 0
+                },
+                {
+                  "relocation_section": ".rel.text.func_8003E758",
+                  "offset": 2688,
+                  "symbol": "D_800814D0",
+                  "type": 7,
+                  "addend": 0
+                },
+                {
+                  "relocation_section": ".rel.text.func_8003E758",
+                  "offset": 2748,
+                  "symbol": "D_800814D0",
+                  "type": 7,
+                  "addend": 0
+                },
+                {
+                  "relocation_section": ".rel.text.func_8003E758",
+                  "offset": 2760,
+                  "symbol": "D_800814D0",
+                  "type": 7,
+                  "addend": 0
+                },
+                {
+                  "relocation_section": ".rel.text.func_8003F240",
+                  "offset": 4,
+                  "symbol": "D_800814D0",
+                  "type": 7,
+                  "addend": 0
+                },
+                {
+                  "relocation_section": ".rel.text.func_8003F2A4",
+                  "offset": 16,
+                  "symbol": "D_800814D0",
+                  "type": 7,
+                  "addend": 0
+                },
+                {
+                  "relocation_section": ".rel.text.func_8003F2A4",
+                  "offset": 80,
+                  "symbol": "D_800814B0",
+                  "type": 7,
+                  "addend": 0
+                },
+                {
+                  "relocation_section": ".rel.text.func_8003F2A4",
+                  "offset": 100,
+                  "symbol": "D_800814B4",
+                  "type": 7,
+                  "addend": 0
+                },
+                {
+                  "relocation_section": ".rel.text.func_8003F368",
+                  "offset": 12,
+                  "symbol": "D_80081450",
+                  "type": 7,
+                  "addend": 0
+                },
+                {
+                  "relocation_section": ".rel.text.func_8003F368",
+                  "offset": 28,
+                  "symbol": "D_80081450",
+                  "type": 7,
+                  "addend": 0
+                },
+                {
+                  "relocation_section": ".rel.text.func_8003F368",
+                  "offset": 220,
+                  "symbol": "D_800814D0",
+                  "type": 7,
+                  "addend": 0
+                },
+                {
+                  "relocation_section": ".rel.text.func_8003F368",
+                  "offset": 232,
+                  "symbol": "D_800814D0",
+                  "type": 7,
+                  "addend": 0
+                },
+                {
+                  "relocation_section": ".rel.text.func_8003F368",
+                  "offset": 248,
+                  "symbol": "D_800814D0",
+                  "type": 7,
+                  "addend": 0
+                },
+                {
+                  "relocation_section": ".rel.text.func_8003F368",
+                  "offset": 260,
+                  "symbol": "D_800814D0",
+                  "type": 7,
+                  "addend": 0
+                },
+                {
+                  "relocation_section": ".rel.text.func_8003F368",
+                  "offset": 280,
+                  "symbol": "D_80081450",
+                  "type": 7,
+                  "addend": 0
+                },
+                {
+                  "relocation_section": ".rel.text.func_8003F368",
+                  "offset": 292,
+                  "symbol": "D_80081450",
+                  "type": 7,
+                  "addend": 0
+                },
+                {
+                  "relocation_section": ".rel.text.func_8003F368",
+                  "offset": 332,
+                  "symbol": "D_80081450",
+                  "type": 7,
+                  "addend": 0
+                },
+                {
+                  "relocation_section": ".rel.text.func_8003F5AC",
+                  "offset": 4,
+                  "symbol": "D_80080AD4",
+                  "type": 7,
+                  "addend": 0
+                },
+                {
+                  "relocation_section": ".rel.text.func_8003F624",
+                  "offset": 20,
+                  "symbol": "D_800814D4",
+                  "type": 7,
+                  "addend": 0
+                }
+              ],
+              "relocation_entries_unchanged": true,
+              "original_nondata_payloads_unchanged": true,
+              "symbol_indices_and_order_unchanged": true,
+              "moved": [
+                {
+                  "symbol": "D_800814D0",
+                  "old_section": ".sdata",
+                  "old_section_index": 8,
+                  "old_offset": 0,
+                  "size": 1,
+                  "alignment": 1,
+                  "new_section": ".sdata.D_800814D0",
+                  "new_section_index": 31,
+                  "content_sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+                  "content_hex": "00",
+                  "old_symbol_size": 0
+                },
+                {
+                  "symbol": "D_800814D4",
+                  "old_section": ".sdata",
+                  "old_section_index": 8,
+                  "old_offset": 1,
+                  "size": 1,
+                  "alignment": 1,
+                  "new_section": ".sdata.D_800814D4",
+                  "new_section_index": 32,
+                  "content_sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+                  "content_hex": "00",
+                  "old_symbol_size": 0
+                },
+                {
+                  "symbol": "D_800814CC",
+                  "old_section": ".sdata",
+                  "old_section_index": 8,
+                  "old_offset": 4,
+                  "size": 4,
+                  "alignment": 4,
+                  "new_section": ".sdata.D_800814CC",
+                  "new_section_index": 33,
+                  "content_sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+                  "content_hex": "00000000",
+                  "old_symbol_size": 0
+                },
+                {
+                  "symbol": "D_80081450",
+                  "old_section": ".sdata",
+                  "old_section_index": 8,
+                  "old_offset": 8,
+                  "size": 8,
+                  "alignment": 4,
+                  "new_section": ".sdata.D_80081450",
+                  "new_section_index": 34,
+                  "content_sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc",
+                  "content_hex": "0000000000000000",
+                  "old_symbol_size": 0
+                },
+                {
+                  "symbol": "D_80080AD0",
+                  "old_section": ".sdata",
+                  "old_section_index": 8,
+                  "old_offset": 16,
+                  "size": 1,
+                  "alignment": 1,
+                  "new_section": ".sdata.D_80080AD0",
+                  "new_section_index": 35,
+                  "content_sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+                  "content_hex": "00",
+                  "old_symbol_size": 0
+                },
+                {
+                  "symbol": "D_80080AD2",
+                  "old_section": ".sdata",
+                  "old_section_index": 8,
+                  "old_offset": 18,
+                  "size": 2,
+                  "alignment": 2,
+                  "new_section": ".sdata.D_80080AD2",
+                  "new_section_index": 36,
+                  "content_sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+                  "content_hex": "0000",
+                  "old_symbol_size": 0
+                },
+                {
+                  "symbol": "D_80080AD4",
+                  "old_section": ".sdata",
+                  "old_section_index": 8,
+                  "old_offset": 20,
+                  "size": 2,
+                  "alignment": 2,
+                  "new_section": ".sdata.D_80080AD4",
+                  "new_section_index": 37,
+                  "content_sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+                  "content_hex": "0000",
+                  "old_symbol_size": 0
+                },
+                {
+                  "symbol": "D_80080AD8",
+                  "old_section": ".sdata",
+                  "old_section_index": 8,
+                  "old_offset": 24,
+                  "size": 4,
+                  "alignment": 4,
+                  "new_section": ".sdata.D_80080AD8",
+                  "new_section_index": 38,
+                  "content_sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+                  "content_hex": "00000000",
+                  "old_symbol_size": 0
+                },
+                {
+                  "symbol": "D_80080ADC",
+                  "old_section": ".sdata",
+                  "old_section_index": 8,
+                  "old_offset": 28,
+                  "size": 4,
+                  "alignment": 4,
+                  "new_section": ".sdata.D_80080ADC",
+                  "new_section_index": 39,
+                  "content_sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+                  "content_hex": "00000000",
+                  "old_symbol_size": 0
+                },
+                {
+                  "symbol": "D_800814B0",
+                  "old_section": ".sdata",
+                  "old_section_index": 8,
+                  "old_offset": 32,
+                  "size": 4,
+                  "alignment": 4,
+                  "new_section": ".sdata.D_800814B0",
+                  "new_section_index": 40,
+                  "content_sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+                  "content_hex": "00000000",
+                  "old_symbol_size": 0
+                },
+                {
+                  "symbol": "D_800814B4",
+                  "old_section": ".sdata",
+                  "old_section_index": 8,
+                  "old_offset": 36,
+                  "size": 4,
+                  "alignment": 4,
+                  "new_section": ".sdata.D_800814B4",
+                  "new_section_index": 41,
+                  "content_sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+                  "content_hex": "00000000",
+                  "old_symbol_size": 0
+                }
+              ],
+              "emptied_source_sections": {
+                ".sdata": {
+                  "old_section_index": 8,
+                  "old_size": 40,
+                  "kind": "PROGBITS",
+                  "discarded_alignment_ranges": [
+                    {
+                      "start": 2,
+                      "end": 4
+                    },
+                    {
+                      "start": 17,
+                      "end": 18
+                    },
+                    {
+                      "start": 22,
+                      "end": 24
+                    }
+                  ],
+                  "discarded_alignment_bytes": 5,
+                  "all_discarded_bytes_zero": true
+                }
+              },
+              "text_section_sha256": {
+                ".text": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                ".text.func_8003E34C": "e972d2d7facdeb48c29562484a5bdbbb4bab9351814a06b1c813a182db025b17",
+                ".text.func_8003E4FC": "08265f44b2fe903b53a72e1cf2fa32c6fdbca7b65c0bf9a675050b62176beeae",
+                ".text.func_8003E758": "fba3e2bb1fa0577bd07a3f1740a1fbcfd9dacafc052a085ea490e155d72a8099",
+                ".text.func_8003F240": "f8074df22d4fc8287082fbd264f2c51d95bc8a2fa4ba36661918ea3e72446c26",
+                ".text.func_8003F2A4": "5e9abbc20745236c776013df13d4069a3db49d4dfeb358928c20bf7964346189",
+                ".text.func_8003F368": "8cf84b63e75846909552f40df62fdabe5e9ce0fdb745ba84c604db6dd3424469",
+                ".text.func_8003F5AC": "1efd2da013a6961b221031881f29276661dafc0b32843abf9331d8819e1cdf1a",
+                ".text.func_8003F624": "16306cf7fc0d2117be5aeadf8a550ca605c3e1256824f7f801d317cfb1a26141"
+              },
+              "boundaries": {
+                "program_headers": 0,
+                "symtabs": 1,
+                "rela": 0,
+                "extended_indices": false
+              }
+            }
+          },
+          "data_piece_functions": [
+            "func_8003E34C",
+            "func_8003E4FC",
+            "func_8003E758",
+            "func_8003F240",
+            "func_8003F2A4",
+            "func_8003F368",
+            "func_8003F5AC",
+            "func_8003F624"
+          ],
+          "module_fingerprint": "e0cec3e61c37d978fdc69d9137b98742fbfd64766aa8c75aed1c7b95b2a83983",
+          "trace_scope": "whole-physical-unit",
+          "selfcheck": true,
+          "funcs": 1,
+          "words": 12,
+          "maspsx_retail": {
+            "diff": 0,
+            "masked": 0,
+            "checked": 1
+          },
+          "maspsx_physical_retail": {
+            "diff": 0,
+            "masked": 0,
+            "checked": 8
+          },
+          "has_div": false,
+          "genuine": {
+            "2.79": {
+              "exact": true,
+              "diff": 0,
+              "len": 12,
+              "mode": "",
+              "retail": [
+                0,
+                0
+              ],
+              "retail_checked": 1,
+              "physical": {
+                "exact": true,
+                "diff": 0,
+                "len_m": 1041,
+                "len_g": 1041,
+                "missing": [],
+                "retail": {
+                  "diff": 0,
+                  "masked": 0,
+                  "checked": 8
+                }
+              }
+            }
+          },
+          "exact_versions": [
+            "2.79"
+          ],
+          "best": "2.79",
+          "status": "ok"
+        },
+        {
+          "source": "src/b1b_b1c_table_owned.c",
+          "recipe": {
+            "ccver": "2.8.1",
+            "ccflags": "",
+            "asflags": ""
+          },
+          "functions": [
+            "func_80048DA0"
+          ],
+          "expected_functions": [
+            "func_80048DA0"
+          ],
+          "role": "module",
+          "module": "table_counters_b1b_b1c",
+          "row": "slus/code2",
+          "container": "slus",
+          "kind": "slus",
+          "cfg": "2.8.1",
+          "asflags": "",
+          "cell": "2.8.1",
+          "maspsx_exact": true,
+          "proof": "whole SLUS image, partition context",
+          "fired": [],
+          "data_piece_transform": {
+            "schema": 1,
+            "module": "table_counters_b1b_b1c",
+            "plan": [
+              {
+                "symbol": "D_80080B1B",
+                "size": 1,
+                "section": ".sdata.D_80080B1B",
+                "alignment": 1,
+                "source_section": ".sdata"
+              },
+              {
+                "symbol": "D_80080B1C",
+                "size": 1,
+                "section": ".sdata.D_80080B1C",
+                "alignment": 1,
+                "source_section": ".sdata"
+              }
+            ],
+            "core_sha256": "d72b0b7c9c910315dc1c344f64af6b6799d7036ee0709533d09422cbf28daea2",
+            "pre_object_sha256": "98571620015702adc5d92a78d8a8d468c66901ccc9584651d920085f41bbf6a9",
+            "post_object_sha256": "148a7cea9f8e232527337a9037c12ea348a3cbd92abe148fb691c9f148a81ce4",
+            "split_elf": {
+              "schema": 1,
+              "input_sha256": "98571620015702adc5d92a78d8a8d468c66901ccc9584651d920085f41bbf6a9",
+              "output_sha256": "148a7cea9f8e232527337a9037c12ea348a3cbd92abe148fb691c9f148a81ce4",
+              "original_section_count": 15,
+              "new_section_count": 17,
+              "original_symbol_count": 17,
+              "relocation_entries": 5,
+              "selected_relocations": [
+                {
+                  "relocation_section": ".rel.text.func_80048DA0",
+                  "offset": 12,
+                  "symbol": "D_80080B1B",
+                  "type": 7,
+                  "addend": 0
+                },
+                {
+                  "relocation_section": ".rel.text.func_80048DA0",
+                  "offset": 28,
+                  "symbol": "D_80080B1C",
+                  "type": 7,
+                  "addend": 0
+                }
+              ],
+              "relocation_entries_unchanged": true,
+              "original_nondata_payloads_unchanged": true,
+              "symbol_indices_and_order_unchanged": true,
+              "moved": [
+                {
+                  "symbol": "D_80080B1B",
+                  "old_section": ".sdata",
+                  "old_section_index": 8,
+                  "old_offset": 0,
+                  "size": 1,
+                  "alignment": 1,
+                  "new_section": ".sdata.D_80080B1B",
+                  "new_section_index": 15,
+                  "content_sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+                  "content_hex": "00",
+                  "old_symbol_size": 0
+                },
+                {
+                  "symbol": "D_80080B1C",
+                  "old_section": ".sdata",
+                  "old_section_index": 8,
+                  "old_offset": 1,
+                  "size": 1,
+                  "alignment": 1,
+                  "new_section": ".sdata.D_80080B1C",
+                  "new_section_index": 16,
+                  "content_sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+                  "content_hex": "00",
+                  "old_symbol_size": 0
+                }
+              ],
+              "emptied_source_sections": {
+                ".sdata": {
+                  "old_section_index": 8,
+                  "old_size": 2,
+                  "kind": "PROGBITS",
+                  "discarded_alignment_ranges": [],
+                  "discarded_alignment_bytes": 0,
+                  "all_discarded_bytes_zero": true
+                }
+              },
+              "text_section_sha256": {
+                ".text": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                ".text.func_80048DA0": "35b27668a1534830b7395d6db287af4023eddcb067c3cdcda21dc6f921140fb2"
+              },
+              "boundaries": {
+                "program_headers": 0,
+                "symtabs": 1,
+                "rela": 0,
+                "extended_indices": false
+              }
+            }
+          },
+          "data_piece_functions": [
+            "func_80048DA0"
+          ],
+          "module_fingerprint": "e0cec3e61c37d978fdc69d9137b98742fbfd64766aa8c75aed1c7b95b2a83983",
+          "trace_scope": "whole-physical-unit",
+          "selfcheck": true,
+          "funcs": 1,
+          "words": 11,
+          "maspsx_retail": {
+            "diff": 0,
+            "masked": 0,
+            "checked": 1
+          },
+          "maspsx_physical_retail": {
+            "diff": 0,
+            "masked": 0,
+            "checked": 1
+          },
+          "has_div": false,
+          "genuine": {
+            "2.79": {
+              "exact": true,
+              "diff": 0,
+              "len": 11,
+              "mode": "",
+              "retail": [
+                0,
+                0
+              ],
+              "retail_checked": 1,
+              "physical": {
+                "exact": true,
+                "diff": 0,
+                "len_m": 11,
+                "len_g": 11,
+                "missing": [],
+                "retail": {
+                  "diff": 0,
+                  "masked": 0,
+                  "checked": 1
+                }
+              }
+            }
+          },
+          "exact_versions": [
+            "2.79"
+          ],
+          "best": "2.79",
+          "status": "ok"
+        }
+      ],
+      "functions": [
+        "func_8003F240",
+        "func_8003F540",
+        "func_8003F7E4",
+        "func_80040A88",
+        "func_80040B88",
+        "func_800410FC",
+        "func_800419EC",
+        "func_8004827C",
+        "func_80048DA0",
+        "func_800499BC",
+        "func_8004A8D8",
+        "func_8004AC18",
+        "func_8004D0C8",
+        "func_8004D110",
+        "func_80050F74",
+        "func_80053C6C",
+        "func_80053CA4",
+        "func_800542AC",
+        "func_8005A3E0",
+        "func_8005B348",
+        "func_8005C818",
+        "func_8005C8B8",
+        "func_8005C918",
+        "func_8005C94C"
+      ],
+      "funcs": 24,
+      "words": 241,
+      "selfcheck": true,
+      "maspsx_exact": true,
+      "trace_scope": "union-of-whole-physical-units",
+      "cfg_scope": "original-logical-row",
+      "proof": "whole SLUS image, partition context",
+      "cell": "mixed",
+      "asflags": "",
+      "maspsx_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 24
+      },
+      "fired": [
+        "_expand_smalldata_la",
+        "_fold_lo_into_accesses",
+        "_maybe_unfill_return_delay",
+        "_unfill_via_load_delay"
+      ],
+      "has_div": true,
+      "genuine": {
+        "2.79": {
+          "exact": false,
+          "diff": 27,
+          "len": 241,
+          "retail": [
+            20,
+            0
+          ],
+          "retail_checked": 24,
+          "modes": {
+            "src/code2.c": "-0",
+            "src/w_80041134_owned.c": "",
+            "src/cd_command_state_owned.c": "",
+            "src/b1b_b1c_table_owned.c": ""
+          }
+        }
+      },
+      "exact_versions": [],
+      "ownerwise_exact_versions": false,
+      "best": "2.79",
+      "partition_attribution": {
+        "src/code2.c": {
+          "2.79": {
+            "base": 27,
+            "fix": [
+              "no:all-fired"
+            ]
+          },
+          "_nochange": [
+            "asv:2.79",
+            "extern-abs"
+          ]
+        },
+        "src/w_80041134_owned.c": {},
+        "src/cd_command_state_owned.c": {},
+        "src/b1b_b1c_table_owned.c": {}
+      },
+      "status": "ok",
+      "secs": 7.4
+    }
+  },
+  "physical_modules": {
+    "accessors_814c8": {
+      "source": "src/c8_accessors_owned.c",
+      "module": "accessors_814c8",
+      "recipe": {
+        "ccver": "2.7.2",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "functions": [
+        "func_8003F5D4",
+        "func_8003F5E0"
+      ],
+      "contributors": [
+        {
+          "row": "slus/code",
+          "source": "src/code.c",
+          "kind": "part",
+          "functions": [
+            "func_8003F5D4",
+            "func_8003F5E0"
+          ]
+        }
+      ]
+    },
+    "table_counters_b1b_b1c": {
+      "source": "src/b1b_b1c_table_owned.c",
+      "module": "table_counters_b1b_b1c",
+      "recipe": {
+        "ccver": "2.8.1",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "functions": [
+        "func_80048DA0"
+      ],
+      "contributors": [
+        {
+          "row": "slus/code2",
+          "source": "src/code2.c",
+          "kind": "part",
+          "functions": [
+            "func_80048DA0"
+          ]
+        }
+      ]
+    }
+  },
+  "partition_only_modules": [
+    "accessors_814c8",
+    "table_counters_b1b_b1c"
+  ]
+}
