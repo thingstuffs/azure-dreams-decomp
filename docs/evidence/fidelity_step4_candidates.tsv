@@ -1,0 +1,73 @@
+id	cfg	splitting	pins	page_pins	page_lit	asm_hi	asm_words	fp	fp_highs	kinds	examples	module	census_recipe	census_splits	mechanism	step4
+dungeon/func_80093898	2.7.2	NO	1	1	1	0	0	FP	2	high_in_slot:1,interleaved:1,load_other_reg:1,store_high_base:1	0x80099000,0x80099030	inventory.c	2.7.2-cdk-G0	yes	page_pin	CANDIDATE
+dungeon/func_800A1984	2.7.2-G0 -fno-schedule-insns	NO	2	2	2	0	0	FP	2	lo_other_reg:2	0x800A715C,0x800A7164	entity_effects.c	2.7.2-cdk-G0	yes	page_pin	CANDIDATE
+dungeon/func_800B8F90	2.7.2-G0	NO	6	4	4	0	0	FP	3	interleaved:2,lo_other_reg:1,load_other_reg:1,shared_high:1,slot_lo:1,store_high_base:2	0x800BE7A0,0x800BE8B0,0x800BE900	item_effects.c	2.7.2-cdk-G0	yes	page_pin	CANDIDATE
+dungeon/func_800C4A80	2.7.2-G0 -fno-expensive-optimizations -fno-cse-follow-jumps	NO	19	2	1	0	0	FP	1	interleaved:1,lo_other_reg:1	0x800CA244	trap_actor.c	2.7.2-cdk-G0	yes	page_pin	CANDIDATE
+dungeon/func_80283F70	2.7.2-G0 -fno-strength-reduce	NO	2	1	1	0	0	FP	1	lo_other_reg:1	0x80016F70	dungeon_setup.c	2.7.2-cdk-G0	yes	page_pin	CANDIDATE
+dungeon/func_808CB16C	2.7.2-G0 -fno-strength-reduce -fno-schedule-insns -fno-rerun-cse-after-loop	NO	3	0	1	0	0	FP	2	interleaved:1,lo_other_reg:1	0x8012361C,0x8012369C	ovl_7f838498.c	2.7.2-cdk-G0	yes	page_literal	CANDIDATE
+dungeon/func_8092192C	2.7.2-G0	NO	3	2	1	0	0	FP	1	interleaved:1	0x800F69B8	ovl_7f7b5000.c	2.7.2-cdk-G0	yes	page_pin	CANDIDATE
+dungeon/func_809753B0	2.7.2-G0	NO	1	1	1	0	0	FP	1	interleaved:1	0x80170C30	ovl_7f7db800.c	2.8.0-G0	yes	page_pin	CANDIDATE
+dungeon/func_809F6D74	2.7.2-G0 -fno-schedule-insns	NO	1	1	1	0	0	FP	1	interleaved:1,load_other_reg:1	0x8017458C	ovl_7f75d800.c	2.7.2-cdk-G0	yes	page_pin	CANDIDATE
+dungeon/func_80A4AA14	2.7.2-G0 -fno-schedule-insns	NO	6	1	1	0	0	FP	1	high_in_slot:1	0x8017426C	ovl_7f709800.c	2.8.0-G0	yes	page_pin	CANDIDATE
+dungeon/func_80AC5958	2.6.3-G0	NO	1	1	1	0	0	FP	1	interleaved:1	0x801711D8	ovl_7f68b800.c	2.7.2-cdk-G0	yes	page_pin	CANDIDATE
+dungeon/func_80AEF73C	2.6.3-G0	NO	1	1	1	0	0	FP	1	interleaved:1	0x80170FBC	ovl_7f661800.c	2.7.2-cdk-G0	yes	page_pin	CANDIDATE
+dungeon/func_80B91054	2.7.2	NO	1	1	1	0	0	FP	1	interleaved:1	0x8014C8D4	ovl_bb1054.c			page_pin	CANDIDATE
+dungeon/func_80C69880	2.6.3-G0	NO	1	1	1	0	0	FP	1	interleaved:1	0x80171100	ovl_7f4e7800.c	2.8.0-G0	yes	page_pin	CANDIDATE
+dungeon/func_80C9325C	2.6.3-G0	NO	1	1	1	0	0	FP	1	interleaved:1	0x80170ADC	ovl_7f4bd800.c	2.7.2-cdk-G0	yes	page_pin	CANDIDATE
+dungeon/func_80D150D0	2.7.2-G0 -fno-schedule-insns	NO	16	7	8	0	0	FP	5	high_in_slot:1,interleaved:2,lo_other_reg:2,load_other_reg:2,shared_high:1,slot_lo:1,store_high_base:1	0x801749F8,0x80174AEC,0x80174BF8	ovl_7f43f800.c	2.7.2-cdk-G0	yes	page_pin	CANDIDATE
+dungeon/func_80DBA050	2.6.3-G0	NO	1	1	1	0	0	FP	1	interleaved:1	0x801718D0	ovl_7f397800.c	2.7.2-cdk-G0	yes	page_pin	CANDIDATE
+dungeon/func_80DFB054	2.7.2	NO	1	0	1	0	0	FP	3	high_in_slot:3	0x80158964,0x80158978,0x8015898C	ovl_e1b054.c			page_literal	CANDIDATE
+dungeon/func_80E07054	2.7.2	NO	3	2	2	0	0	FP	3	high_in_slot:3	0x8014C964,0x8014C978,0x8014C98C	ovl_e27054.c			page_pin	CANDIDATE
+dungeon/func_80E0EAE4	2.7.2-G0	NO	1	1	1	0	0	FP	1	interleaved:1	0x801723A4	ovl_7f343800.c	2.7.2-cdk-G0	yes	page_pin	CANDIDATE
+dungeon/func_80E618E0	2.6.3-G0	NO	1	1	1	0	0	FP	1	interleaved:1	0x80171160	ovl_7f2ef800.c	2.7.2-cdk-G0	yes	page_pin	CANDIDATE
+dungeon/func_80EDFF18	2.6.3-G0	NO	1	1	1	0	0	FP	1	interleaved:1	0x80171798	ovl_7f271800.c	2.7.2-cdk-G0	yes	page_pin	CANDIDATE
+dungeon/func_8102F674	2.6.3-G0	NO	1	1	1	0	0	FP	1	interleaved:1	0x80170EF4	ovl_104f0d4.c	2.7.2-cdk-G0	yes	page_pin	CANDIDATE
+dungeon/func_818CEB58	2.6.3-G0 -fno-schedule-insns	NO	4	1	1	0	0	FP	1	high_in_slot:1	0x818CEBB0	ovl_18ee83c.c	2.7.2-cdk-G0	yes	page_pin	CANDIDATE
+dungeon/func_818CFB74	2.7.2-G0 -fforce-addr	NO	30	15	8	0	0	FP	8	high_in_slot:2,interleaved:4,lo_other_reg:2,load_other_reg:2,shared_high:1,store_high_base:3	0x8002538C,0x8002543C,0x80025488	ovl_18ee83c.c	2.7.2-cdk-G0	yes	page_pin	CANDIDATE
+dungeon/func_818D4E68	2.7.2-G0	NO	37	14	10	0	0	FP	10	high_in_slot:2,interleaved:4,lo_other_reg:3,load_other_reg:3,shared_high:1,slot_lo:1,store_high_base:3	0x80024684,0x80024744,0x8002477C	ovl_18f4800.c	2.7.2-cdk-G0	yes	page_pin	CANDIDATE
+dungeon/func_818FECCC	2.6.3-G0 -fno-schedule-insns	NO	4	1	1	0	0	FP	1	high_in_slot:1	0x80024524	ovl_7e705800.c			page_pin	CANDIDATE
+dungeon/func_8195EF44	2.7.2	NO	7	3	2	0	0	FP	2	interleaved:2,lo_other_reg:1,load_other_reg:2,shared_high:2,store_high_base:1	0x80024784,0x800247F4	ovl_197eb88.c	2.7.2-cdk-G0	yes	page_pin	CANDIDATE
+dungeon/func_81978428	2.7.2	NO	19	11	11	0	0	FP	10	high_in_slot:4,interleaved:5,lo_other_reg:3,load_other_reg:4,shared_high:3,store_high_base:1	0x80025C8C,0x80025CD0,0x80025D60	ovl_1996850.c	2.7.2-cdk-G0	yes	page_pin	CANDIDATE
+dungeon/func_819B3414	2.7.2-G0	NO	35	6	2	0	0	FP	3	interleaved:3	0x80024EBC,0x80024F08,0x80024FB8	ovl_7e651800.c	2.7.2-cdk-G0	yes	page_pin	CANDIDATE
+main/func_8000F488	2.7.2	NO	1	0	1	0	0	FP	1	interleaved:1	0x80022494	c_server.c	2.7.2-cdk-G0	yes	page_literal	CANDIDATE
+main/func_8000F934	2.7.2	NO	1	0	1	0	0	FP	1	interleaved:1,lo_other_reg:1	0x80022948	c_server.c	2.7.2-cdk-G0	yes	page_literal	CANDIDATE
+main/func_80014684	2.7.2 -fno-expensive-optimizations	NO	2	1	2	0	0	FP	1	high_in_slot:1,slot_lo:1	0x800276A4	c_server.c	2.7.2-cdk-G0	yes	page_pin	CANDIDATE
+slus/w_8003D92C	2.7.2	NO	5	0	2	0	0	FP	2	interleaved:2,load_other_reg:1,shared_high:1,store_high_base:1	0x8003D930,0x8003DAB8	scene_runtime.c			page_literal	CANDIDATE
+slus/w_8003E39C	2.7.2-cdk -mmips-as -G0	NO	4	0	1	0	0	FP	1	lo_other_reg:1	0x8003E408	scene_runtime.c			page_literal	CANDIDATE
+slus/w_8003FAD4	2.7.2	NO	3	1	1	0	0	FP	1	interleaved:1,lo_other_reg:1	0x8003FAD8	scene_runtime.c			page_pin	CANDIDATE
+slus/w_80041588	2.7.2	NO	3	0	3	0	0	FP	1	interleaved:1,lo_other_reg:1	0x80041600	scene_runtime.c			page_literal	CANDIDATE
+slus/w_80046E38	2.6.3 -G0	NO	3	1	1	0	0	FP	1	load_other_reg:1	0x80046F2C	scene_runtime.c			page_pin	CANDIDATE
+slus/w_8004E6F4	2.6.3	NO	6	1	1	0	0	FP	1	interleaved:1	0x8004E704	scene_runtime.c			page_pin	CANDIDATE
+slus/w_80051228	2.7.2	NO	4	1	6	0	0	FP	1	interleaved:1	0x800514D4	scene_runtime.c			page_pin	CANDIDATE
+slus/w_80052144	2.7.2 -G0	NO	18	4	4	0	0	FP	2	high_in_slot:1,interleaved:1	0x80052158,0x800522D8	resource_load.c			page_pin	CANDIDATE
+town/func_800ABBF8	2.7.2-G0 -fno-expensive-optimizations -fno-schedule-insns	NO	15	1	1	0	0	FP	1	load_other_reg:1,shared_high:1,store_high_base:1	0x800A93B8	map_item_events.c	2.7.2-cdk-G0	yes	page_pin	CANDIDATE
+town/func_800B0930	2.7.2	NO	2	1	2	0	0	FP	1	high_in_slot:1,slot_lo:1	0x800AE0C0	shop.c	2.7.2-cdk-G0	yes	page_pin	CANDIDATE
+town/func_800B0ED0	2.7.2-G0	NO	1	1	1	0	0	FP	1	high_in_slot:1	0x800AE700	item_menu.c	2.7.2-cdk-G0	yes	page_pin	CANDIDATE
+town/func_800B50D4	2.7.2-G0	NO	4	2	1	0	0	FP	1	lo_other_reg:1	0x800B2838	souko.c	2.7.2-cdk-G0	yes	page_pin	CANDIDATE
+town/func_800BB264	2.7.2	NO	3	3	2	0	0	FP	1	interleaved:1,store_high_base:1	0x800B8A1C	town_building.c	2.7.2-cdk-G0	yes	page_pin	CANDIDATE
+town/func_800BC8AC	2.7.2-G0 -fno-schedule-insns -fno-rerun-cse-after-loop	NO	12	7	7	0	0	FP	6	interleaved:1,lo_other_reg:5	0x800BA0D0,0x800BA0D8,0x800BA0E0	map_events.c	2.7.2-cdk-G0	yes	page_pin	CANDIDATE
+town/func_800C3800	2.6.3-G0	NO	1	0	0	0	0	FP	1	load_other_reg:1,shared_high:1	0x800C0F60	town_sound.c	2.7.2-cdk-G0	yes	pins_other	CANDIDATE
+town/func_8032DE74	2.7.2	NO	1	1	1	0	0	FP	1	high_in_slot:1,slot_lo:1	0x80018688	ovl_2ad7fc.c	2.7.2-cdk-G0	yes	page_pin	CANDIDATE
+town/func_8032E720	2.6.3-G0 -fno-schedule-insns2 -fno-rerun-cse-after-loop -fno-strength-reduce	NO	3	3	5	0	0	FP	4	high_in_slot:1,interleaved:3,load_other_reg:2,shared_high:2	0x80018F70,0x80018F94,0x80018FA4	lshop.c	2.7.2-cdk-G0	yes	page_pin	CANDIDATE
+town/func_8032E8C0	2.6.3-G0	NO	1	0	2	0	0	FP	2	high_in_slot:1,interleaved:1,load_other_reg:1,shared_high:1	0x800190DC,0x80019104	lshop.c	2.7.2-cdk-G0	yes	page_literal	CANDIDATE
+town/func_8033077C	2.7.2-G0 -fno-strength-reduce -O1	NO	7	2	1	0	0	FP	1	lo_other_reg:1	0x8001AF9C	player.c	2.7.2-cdk-G0	yes	page_pin	CANDIDATE
+town/func_8046C048	2.7.2-G0 -fno-schedule-insns	NO	5	0	1	0	0	FP	1	lo_other_reg:1	0x8001D0D0	ovl_3eb288.c	2.7.2-cdk-G0	yes	page_literal	CANDIDATE
+town/func_8046FF64	2.7.2-G0	NO	5	4	4	0	0	FP	3	high_in_slot:2,lo_other_reg:2,slot_lo:2	0x80016F8C,0x80016FA4,0x80016FF8	ovl_3ef1c8.c	2.7.2-cdk-G0	yes	page_pin	CANDIDATE
+town/func_8051F4AC	2.7.2	NO	1	1	1	0	0	FP	1	high_in_slot:1,slot_lo:1	0x80016CC0	main.c	2.7.2-cdk-G0	yes	page_pin	CANDIDATE
+town/func_808213CC	2.7.2	NO	2	2	2	0	0	FP	2	high_in_slot:2,interleaved:2,load_other_reg:1,shared_high:1,store_high_base:1	0x80023CDC,0x80023DA4	ovl_79ded0.c	2.7.2-cdk-G0	yes	page_pin	CANDIDATE
+dungeon/func_800938EC	2.7.2-G0	NO	0	0	0	0	0	FP	1	load_other_reg:1	0x80099050	inventory.c	2.7.2-cdk-G0	yes	maspsx_or_other	CANDIDATE
+dungeon/func_80B97094	2.6.3	NO	0	0	4	0	0	FP	3	high_in_slot:3	0x801709A4,0x801709B8,0x801709CC	ovl_bb7094.c			page_literal	CANDIDATE
+dungeon/func_81917234	2.7.2	NO	0	0	1	0	0	FP	1	interleaved:1,load_other_reg:1,shared_high:1,store_high_base:1	0x80024A54	ovl_7e6ed800.c	2.7.2-cdk-G0	yes	page_literal	CANDIDATE
+main/func_800112D8	2.7.2 -fno-strength-reduce	NO	0	0	0	1	0	FP	1	lo_other_reg:1	0x80024320	c_server.c	2.7.2-cdk-G0	yes	inline_asm_hi	CANDIDATE
+slus/code	2.7.2	NO	0	0	0	0	0	FP	7	interleaved:1,slot_lo:10,store_high_base:7	0x8003F534,0x80049498,0x8004EB30	game_core.c			maspsx_or_other	CANDIDATE
+slus/konami_runtime_w_8003B7C8	2.7.2	NO	0	0	0	0	0	FP	1	shared_high:1,shared_multioff:1,store_high_base:1	0x8003B7F8	map_transition.c			maspsx_or_other	CANDIDATE
+slus/w_80041AB0	2.7.2	NO	0	0	0	0	0	FP	1	interleaved:1	0x80041AB4	resource_load.c			maspsx_or_other	CANDIDATE
+slus/w_800423C0	2.7.2	NO	0	0	1	0	0	FP	1	interleaved:1,load_other_reg:1,shared_high:1,shared_multioff:1,store_high_base:1	0x8004246C	entity_state.c			page_literal	CANDIDATE
+slus/w_80043CD0	2.7.2	NO	0	0	0	0	0	FP	1	interleaved:1	0x80043CD4	resource_load.c			maspsx_or_other	CANDIDATE
+slus/w_80048224	2.7.2	NO	0	0	0	0	0	FP	1	high_in_slot:1	0x80048244	texture_atlas.c			maspsx_or_other	CANDIDATE
+slus/w_8004A6C0	2.7.2	NO	0	0	0	0	0	FP	1	load_other_reg:1,shared_high:1,shared_multioff:1	0x8004A6C4	table_lookup.c			maspsx_or_other	CANDIDATE
+slus/w_8004AB7C	2.7.2	NO	0	0	0	0	0	FP	1	lo_other_reg:1	0x8004ABB0	scene_runtime.c			maspsx_or_other	CANDIDATE
+slus/w_8005A1D0	2.7.2	NO	0	0	2	0	39	FP	1	lo_other_reg:1	0x8005A1DC	sound_memory.c			asm_words	CANDIDATE
+town/func_8032F794	2.7.2 -fno-schedule-insns2	NO	0	0	1	0	0	FP	1	high_in_slot:1,store_high_base:1	0x80019FBC	main.c	2.7.2-cdk-G0	yes	page_literal	CANDIDATE
+main/func_80013B18	2.7.2-G0	NO	1	1	1	0	0	weak	0	slot_lo:1	0x80026B84	c_server.c	2.7.2-cdk-G0	yes	page_pin	weak
+town/func_8032C8B8	2.7.2	NO	1	1	1	0	0	weak	0	slot_lo:1	0x800170D8	ovl_2ac6e0.c	2.7.2-cdk-G0	yes	page_pin	weak
