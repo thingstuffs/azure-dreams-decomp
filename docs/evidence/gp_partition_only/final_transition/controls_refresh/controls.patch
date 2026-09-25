@@ -1,0 +1,160 @@
+--- a/tools/fidelity/aspsx_diff.py
++++ b/tools/fidelity/aspsx_diff.py
+@@ -20,13 +20,14 @@
+ tokens (instruction word with its relocation field masked, canonical relocation), where a canonical
+ relocation is (type, target, addend) with every TU-local target rewritten to a function-relative
+ or symbol-relative location (tools/fidelity/objread.py decodes the LNK expressions). Two functions
+-whose token streams are equal link to the same bytes. Every landed row's maspsx object is
+-retail-exact (the gate), so "genuine ASPSX == maspsx" is "genuine ASPSX reproduces retail" for it;
+-slus rows are ALSO resolved against the retail SLUS directly (build_slus/build/slus_006.14.elf
+-symbol addresses + baserom), which is what the d92c control needs.
++whose token streams are equal link to the same bytes. Genuine-versus-maspsx equality is a
++physical-unit pipeline comparison; the separate retail comparison can mask relocation words.
++SLUS rows are also resolved against the retail SLUS directly (build_slus/build/slus_006.14.elf
++symbol addresses + baserom), and their current census has zero retail masks.
+ 
+ Attribution (non-exact versions): the maspsx leg is re-run with each fired post-pass disabled, all
+-fired passes disabled, `.extern` sizes withheld (genuine ASPSX's small-extern model, decision 3),
++fired passes disabled, `.extern` sizes withheld (a metadata ablation; it can also affect
++post-pass scheduling),
+ each row as-flag dropped, and maspsx configured as the genuine version; a variant that makes
+ maspsx == genuine names the maspsx behaviour that made the difference.
+ 
+@@ -1242,7 +1243,7 @@
+ 
+ # ------------------------------------------------------------------------------------ controls
+ def run_controls(by):
+-    """The validation of docs/evidence/fidelity_step1_aspsx_diff.md, runnable as a regression check.
++    """Historical object controls plus current-row fidelity regressions.
+     Prints one line per control; returns the number of failures."""
+     from common import clean_path
+     fails = 0
+@@ -1277,27 +1278,56 @@
+             else:
+                 ok = all(r and r["exact"] for r in res.values())
+                 report(f"casesi maspsx {tag} == genuine", ok, {v: r["diff"] for v, r in res.items()})
++    else:
++        print("SKIP  historical casesi objects absent from work/maspsx_jtbl", flush=True)
+     # the live maspsx (after cddcc615) on the same real-switch text: now identical to genuine
+     if (jt / "sw.c").exists():
+         r = process_row(by["town/func_8080E994"], jt / "sw.c")
+         report("casesi live maspsx on sw.c == genuine (patch landed)", bool(r.get("exact_versions")),
+                f"exact {r.get('exact_versions')} maspsx_exact {r.get('maspsx_exact')}")
+-    # 2. d92c_genuine at 2.7.2-cdk: genuine 2.67/2.77 -0 reproduce RETAIL directly (no maspsx involved)
+-    cand = ROOT / "work/native_lane/r77_fable_splitaddr/cands/d92c_genuine.c"
+-    if cand.exists():
+-        r = process_row(by["slus/w_8003D92C"], cand, cfg="2.7.2-cdk")
+-        g = r.get("genuine", {})
+-        ok = all(g.get(v, {}).get("retail") == [0, 0] and g[v].get("mode") == "-0" for v in ("2.67", "2.77"))
+-        report("d92c_genuine @2.7.2-cdk: genuine 2.67/2.77 -0 == retail", ok,
+-               {v: (g.get(v, {}).get("retail"), g.get(v, {}).get("mode"), g.get(v, {}).get("err_kind")) for v in VERSIONS})
+-    # 3. in-tree positive controls (the sceptic's rows): the pass fires and its ablation == genuine
+-    for rid, p in (("slus/w_8004AB7C", "_sink_call_separated_la"), ("slus/w_80041AB0", "_split_funcaddr_la"),
++    else:
++        print("SKIP  historical casesi sw.c absent from work/maspsx_jtbl", flush=True)
++    # 2. Canonical current D92C owner: its member and aggregator now satisfy the module
++    #    include-order contract; the old standalone d92c_genuine.c is historical input and
++    #    cannot be passed through the current owner gate.
++    r = process_row(by["slus/w_8003D92C"])
++    g = r.get("genuine", {})
++    retail = r.get("maspsx_retail") or {}
++    ok = (r.get("status") == "ok" and r.get("maspsx_exact") is True and
++          r.get("selfcheck") is True and r.get("funcs") == 1 and r.get("words") == 136 and
++          retail.get("diff") == retail.get("masked") == 0 and retail.get("checked") == 1 and
++          all(g.get(v, {}).get("exact") is True and g[v].get("retail") == [0, 0]
++              for v in ("2.67", "2.77", "2.79")))
++    report("canonical D92C owner: 136 words, genuine + retail exact", ok,
++           f"status {r.get('status')} exact {r.get('exact_versions')} retail {retail} err {r.get('err')}")
++    # 3. The three formerly pass-dependent SLUS rows now compile as canonical,
++    #    zero-mask, genuine-exact owner streams. Their old pass requirements are retired.
++    for rid, p in (("slus/w_8004AB7C", "_sink_call_separated_la"),
++                   ("slus/w_80041AB0", "_split_funcaddr_la"),
+                    ("slus/w_80043CD0", "_split_funcaddr_la")):
+         r = process_row(by[rid])
+         fx = (r.get("attrib") or {}).get(r.get("best"), {}).get("fix", [])
+-        report(f"{rid}: {p} fires, ablation == genuine", p in (r.get("fired") or []) and ("no:" + p) in fx,
+-               f"fired {r.get('fired')} exact {r.get('exact_versions')} fix {fx}")
+-    # 4. plain pin-free rows at every cell: exact under some version, or explained by one ablation
++        retail = r.get("maspsx_retail") or {}
++        g279 = (r.get("genuine") or {}).get("2.79") or {}
++        ok = (r.get("status") == "ok" and r.get("maspsx_exact") is True and
++              r.get("selfcheck") is True and r.get("funcs") == 1 and
++              retail.get("diff") == retail.get("masked") == 0 and retail.get("checked") == 1 and
++              g279.get("exact") is True and g279.get("retail") == [0, 0] and
++              p not in (r.get("fired") or []) and ("no:" + p) not in fx)
++        report(f"{rid}: canonical genuine + retail exact; {p} idle", ok,
++               f"fired {r.get('fired')} exact {r.get('exact_versions')} retail {retail} fix {fx} err {r.get('err')}")
++    # 4. The remaining split-function-address pass has a real current positive control.
++    p = "_split_funcaddr_la"
++    r = process_row(by["dungeon/func_818D4E68"])
++    fx = (r.get("attrib") or {}).get(r.get("best"), {}).get("fix", [])
++    retail = r.get("maspsx_retail") or {}
++    ok = (r.get("status") == "ok" and r.get("maspsx_exact") is True and
++          r.get("selfcheck") is True and r.get("funcs") == 1 and
++          retail.get("diff") == retail.get("masked") == 0 and retail.get("checked") == 1 and
++          p in (r.get("fired") or []) and ("no:" + p) in fx)
++    report("dungeon/func_818D4E68: split pass fires and ablation reaches genuine", ok,
++           f"fired {r.get('fired')} exact {r.get('exact_versions')} retail {retail} fix {fx} err {r.get('err')}")
++    # 5. Plain pin-free rows at every cell: exact under some version, or explained by one ablation.
+     from pin_census import sites_of
+     per = {}
+     for row in sorted(by.values(), key=lambda r: r["id"]):
+@@ -1313,9 +1343,34 @@
+         for rid in ids:
+             r = process_row(by[rid])
+             fx = (r.get("attrib") or {}).get(r.get("best"), {}).get("fix", [])
+-            ok = r.get("status") == "ok" and r.get("maspsx_exact") and r.get("selfcheck") and bool(r.get("exact_versions") or fx)
++            retail = r.get("maspsx_retail") or {}
++            units = r.get("physical_units") or []
++            common = (r.get("status") == "ok" and r.get("maspsx_exact") is True and
++                      r.get("selfcheck") is True and isinstance(r.get("fired"), list) and
++                      retail.get("diff") == 0 and retail.get("checked") == r.get("funcs"))
++            if units:
++                scopes = [name for unit in units for name in unit.get("functions") or []]
++                expected = r.get("functions") or []
++                complete = (len(scopes) == len(set(scopes)) == len(expected) and
++                            set(scopes) == set(expected))
++                unit_results = []
++                for unit in units:
++                    own_fix = (((unit.get("attrib") or {}).get(unit.get("best")) or {}).get("fix") or [])
++                    unit_retail = unit.get("maspsx_retail") or {}
++                    unit_ok = (unit.get("status") == "ok" and unit.get("maspsx_exact") is True and
++                               unit.get("selfcheck") is True and isinstance(unit.get("fired"), list) and
++                               unit.get("funcs") == len(unit.get("functions") or []) and
++                               unit_retail.get("diff") == 0 and
++                               unit_retail.get("checked") == unit.get("funcs") and
++                               bool(unit.get("exact_versions") or own_fix))
++                    unit_results.append((unit.get("source"), unit_ok, unit.get("exact_versions"), own_fix))
++                ok = common and complete and all(item[1] for item in unit_results)
++                detail = f"physical units {unit_results} coverage {complete} retail {retail} err {r.get('err')}"
++            else:
++                ok = common and bool(r.get("exact_versions") or fx)
++                detail = f"exact {r.get('exact_versions')} fix {fx} retail {retail} err {r.get('err')}"
+             report(f"plain {rid} [{r.get('cfg')}]", ok,
+-                   f"exact {r.get('exact_versions')} fix {fx} err {r.get('err')}")
++                   detail)
+     return fails
+ 
+ 
+--- a/tools/fidelity/maspsx_trace.py
++++ b/tools/fidelity/maspsx_trace.py
+@@ -15,14 +15,13 @@
+     (`_maybe_unfill_return_delay`, `_expand_store_to_symbol_in_delay`) and the post-pass helper
+     `_backfill_return_delay_store` are wrapped the same way (fired = returned a rewrite);
+   * `--disable` makes the listed passes/helpers the identity (the ablation);
+-  * `--strip-externs` drops every `.extern NAME,SIZE` line from maspsx's input: genuine ASPSX
+-    ignores `.extern` sizes (every extern is addressed absolutely, measured on 2.56-2.86), while
+-    maspsx `$gp`-relativises externs of size <= -G. This is the decision-3 ablation
+-    (docs/TOOLCHAIN_FIDELITY_PLAN.md).
++  * `--strip-externs` drops every `.extern NAME,SIZE` line from maspsx's input as a metadata
++    ablation. A changed object can result from scheduling as well as addressing; inspect the
++    emitted relocation types before assigning a `$gp` cause.
+ 
+ The trace JSON: {"passes": [every wrapped pass], "fired": [passes that changed the listing],
+-"disabled": [...], "strip_externs": bool}.  (The `$gp` choice for an extern is made by GNU as from
+-the `.extern` size maspsx passes through, which is why the ablation acts on maspsx's INPUT.)
++"disabled": [...], "strip_externs": bool}. The ablation changes maspsx's input, not its
++implementation.
+ """
+ import importlib.util
+ import inspect

@@ -1,0 +1,151 @@
+{
+  "schema": 1,
+  "module": "runtime_directory",
+  "members": [
+    "slus/konami_runtime_w_8003C634",
+    "slus/konami_runtime_w_8003C758",
+    "slus/konami_runtime_w_8003C920"
+  ],
+  "at": "2026-09-25T00:19:15Z",
+  "module_fingerprint": "743ef88dc04b857707a304059179af9a99c3591026cc79a8083860bef4d8785c",
+  "tool_fingerprint": "06e8e40e2c7b1a2ec136",
+  "review": {
+    "path": "docs/evidence/runtime_directory_module.md",
+    "sha256": "551c75bd2044ab3703d0e153194963edbe5921cec3687b01ebc3ab2878d02771",
+    "reviewer": "codex"
+  },
+  "gate": {
+    "result": "MATCH",
+    "words_diff": 0,
+    "recipe_sha256": "968784a7addd9c20cca57e34f3f28d73a101dcc88c91e5046adbe55d0a7cdc44"
+  },
+  "image_sha1": "e6bfbb95ff6676899e077481221d73ddd4d3bf52",
+  "rows": {
+    "slus/konami_runtime_w_8003C634": {
+      "row": "slus/konami_runtime_w_8003C634",
+      "container": "slus",
+      "kind": "slus",
+      "cfg": "2.7.2-cdk",
+      "pins": 0,
+      "asflags": "",
+      "cell": "2.7.2-cdk",
+      "maspsx_exact": true,
+      "proof": "whole SLUS image, module context",
+      "fired": [],
+      "module": "runtime_directory",
+      "module_fingerprint": "743ef88dc04b857707a304059179af9a99c3591026cc79a8083860bef4d8785c",
+      "trace_scope": "whole-module",
+      "selfcheck": true,
+      "funcs": 1,
+      "words": 18,
+      "maspsx_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      },
+      "has_div": false,
+      "genuine": {
+        "2.79": {
+          "exact": true,
+          "diff": 0,
+          "len": 18,
+          "mode": "",
+          "retail": [
+            0,
+            0
+          ]
+        }
+      },
+      "exact_versions": [
+        "2.79"
+      ],
+      "best": "2.79",
+      "status": "ok",
+      "secs": 2.5
+    },
+    "slus/konami_runtime_w_8003C758": {
+      "row": "slus/konami_runtime_w_8003C758",
+      "container": "slus",
+      "kind": "slus",
+      "cfg": "2.7.2-cdk",
+      "pins": 0,
+      "asflags": "",
+      "cell": "2.7.2-cdk",
+      "maspsx_exact": true,
+      "proof": "whole SLUS image, module context",
+      "fired": [],
+      "module": "runtime_directory",
+      "module_fingerprint": "743ef88dc04b857707a304059179af9a99c3591026cc79a8083860bef4d8785c",
+      "trace_scope": "whole-module",
+      "selfcheck": true,
+      "funcs": 1,
+      "words": 32,
+      "maspsx_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      },
+      "has_div": false,
+      "genuine": {
+        "2.79": {
+          "exact": true,
+          "diff": 0,
+          "len": 32,
+          "mode": "",
+          "retail": [
+            0,
+            0
+          ]
+        }
+      },
+      "exact_versions": [
+        "2.79"
+      ],
+      "best": "2.79",
+      "status": "ok",
+      "secs": 2.6
+    },
+    "slus/konami_runtime_w_8003C920": {
+      "row": "slus/konami_runtime_w_8003C920",
+      "container": "slus",
+      "kind": "slus",
+      "cfg": "2.7.2-cdk",
+      "pins": 0,
+      "asflags": "",
+      "cell": "2.7.2-cdk",
+      "maspsx_exact": true,
+      "proof": "whole SLUS image, module context",
+      "fired": [],
+      "module": "runtime_directory",
+      "module_fingerprint": "743ef88dc04b857707a304059179af9a99c3591026cc79a8083860bef4d8785c",
+      "trace_scope": "whole-module",
+      "selfcheck": true,
+      "funcs": 1,
+      "words": 54,
+      "maspsx_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      },
+      "has_div": false,
+      "genuine": {
+        "2.79": {
+          "exact": true,
+          "diff": 0,
+          "len": 54,
+          "mode": "",
+          "retail": [
+            0,
+            0
+          ]
+        }
+      },
+      "exact_versions": [
+        "2.79"
+      ],
+      "best": "2.79",
+      "status": "ok",
+      "secs": 2.4
+    }
+  }
+}

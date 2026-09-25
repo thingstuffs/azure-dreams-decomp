@@ -1,0 +1,38 @@
+{
+  "schema": 1,
+  "status": "PASS",
+  "controls_return": 0,
+  "passed_controls": 60,
+  "failed_controls": [],
+  "expected_control_names": [
+    "casesi 2026-09-14 maspsx default",
+    "casesi maspsx --preserve-casesi-at",
+    "casesi live maspsx on sw.c",
+    "canonical D92C owner",
+    "slus/w_8004AB7C:",
+    "slus/w_80041AB0:",
+    "slus/w_80043CD0:",
+    "dungeon/func_818D4E68:"
+  ],
+  "log_sha256": "73a2b526c84ccedade580f1b0d34469a26d4c375746cf43e708be4e0592040c7",
+  "prepare_receipt_sha256": "0d8bac1b1419d4927166a4e6fb3f56c950c6d8cfaf961a947968921bfcc5a509",
+  "tool_fingerprint": "c83595342bc5a0559652",
+  "tool_pins": {
+    "aspsx_diff.py": {
+      "before": "991251611e11f584d106571277d095e1da332fce3ba7f87f79c98e5fe84ad1af",
+      "after": "34ea90ca45d1a3753851145b9731a728da3214fc640def9a12592f27731d5338"
+    },
+    "maspsx_trace.py": {
+      "before": "cae6004277b9fc15f706a045195e6e96d185c34bdcc422b06393aafffa6ad0c9",
+      "after": "cae6004277b9fc15f706a045195e6e96d185c34bdcc422b06393aafffa6ad0c9"
+    }
+  },
+  "historical_casesi_pins": {
+    "sw_base.o": "ae3840b093e806a8b63e4f53f6bdf66baad33fd4020cc60ae369e245a707fd30",
+    "sw_preserve.o": "9f7aebafa6bf517715648b24eed7a8910da07842768a1ca32e7469241f7f5216",
+    "sw.proc.s": "483f175708aa61c38176d47807020de332ed083ab327dd52130a8af60e315e3d",
+    "sw.c": "8ddeca184ac90acce27e0e3b66097302188d356835390221a351cdd08ac4785e"
+  },
+  "scratch": "/tmp/pctrl_d5ljv9lh",
+  "production_unchanged": true
+}

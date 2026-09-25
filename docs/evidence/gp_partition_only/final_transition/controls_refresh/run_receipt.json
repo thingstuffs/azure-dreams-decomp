@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "status": "FAIL",
+  "controls_return": 1,
+  "passed_controls": 59,
+  "failed_controls": [
+    "FAIL  plain slus/code [2.7.2]                                    exact [] fix [] err None"
+  ],
+  "expected_control_names": [
+    "casesi 2026-09-14 maspsx default",
+    "casesi maspsx --preserve-casesi-at",
+    "casesi live maspsx on sw.c",
+    "canonical D92C owner",
+    "slus/w_8004AB7C:",
+    "slus/w_80041AB0:",
+    "slus/w_80043CD0:",
+    "dungeon/func_818D4E68:"
+  ],
+  "log_sha256": "2f954dfb60272fcada3eac31b0498f924c52247a899bb58f0fc59d4d638e702c",
+  "prepare_receipt_sha256": "b2eaad4a2e18e9f27893fbecf76485b491b124746821a8c03175c0b27f8316af",
+  "tool_fingerprint": "6d573883b782fdb56c20",
+  "tool_pins": {
+    "aspsx_diff.py": {
+      "before": "385c3d7ef4f10df3892c0b18653ca91edf14fdbe6ebac76452f0ea2c93a48d72",
+      "after": "991251611e11f584d106571277d095e1da332fce3ba7f87f79c98e5fe84ad1af"
+    },
+    "maspsx_trace.py": {
+      "before": "d0336210e99493c2857abc13930bbcedeb92162b5d684037874fdb2a0a7d99c6",
+      "after": "cae6004277b9fc15f706a045195e6e96d185c34bdcc422b06393aafffa6ad0c9"
+    }
+  },
+  "historical_casesi_pins": {
+    "sw_base.o": "ae3840b093e806a8b63e4f53f6bdf66baad33fd4020cc60ae369e245a707fd30",
+    "sw_preserve.o": "9f7aebafa6bf517715648b24eed7a8910da07842768a1ca32e7469241f7f5216",
+    "sw.proc.s": "483f175708aa61c38176d47807020de332ed083ab327dd52130a8af60e315e3d",
+    "sw.c": "8ddeca184ac90acce27e0e3b66097302188d356835390221a351cdd08ac4785e"
+  },
+  "scratch": "/tmp/pctrl_ehcxs6_1",
+  "production_unchanged": true
+}

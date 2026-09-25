@@ -1,0 +1,57 @@
+{
+  "status": "PREPARED",
+  "schema": 1,
+  "source_fixture_receipt_sha256": "0e7b6acb9ecd25d511d9f0444451d16f9f825f791fe191deeff6a271049dca48",
+  "registry_sha256": "dad8bb076a6c6c2479aa488f24419394976040a42797a4783a1912426ce608bb",
+  "tool_pins": {
+    "aspsx_diff.py": {
+      "before": "385c3d7ef4f10df3892c0b18653ca91edf14fdbe6ebac76452f0ea2c93a48d72",
+      "after": "991251611e11f584d106571277d095e1da332fce3ba7f87f79c98e5fe84ad1af"
+    },
+    "maspsx_trace.py": {
+      "before": "d0336210e99493c2857abc13930bbcedeb92162b5d684037874fdb2a0a7d99c6",
+      "after": "cae6004277b9fc15f706a045195e6e96d185c34bdcc422b06393aafffa6ad0c9"
+    }
+  },
+  "historical_casesi_pins": {
+    "sw_base.o": "ae3840b093e806a8b63e4f53f6bdf66baad33fd4020cc60ae369e245a707fd30",
+    "sw_preserve.o": "9f7aebafa6bf517715648b24eed7a8910da07842768a1ca32e7469241f7f5216",
+    "sw.proc.s": "483f175708aa61c38176d47807020de332ed083ab327dd52130a8af60e315e3d",
+    "sw.c": "8ddeca184ac90acce27e0e3b66097302188d356835390221a351cdd08ac4785e"
+  },
+  "relinked_symlinks": [
+    "build_ovl/build",
+    "build_ovl/.venv",
+    "build_ovl/baserom",
+    "build_ovl/include",
+    "build_ovl/asm",
+    "build_ovl/bin",
+    "build_ovl/toolchain",
+    "build_slus/.venv",
+    "build_slus/baserom",
+    "build_slus/toolchain",
+    "build_ovl/config/noreturn_syms.txt",
+    "build_ovl/config/sibcall_syms.dungeon.txt",
+    "build_ovl/config/noreturn_syms.town.txt",
+    "build_ovl/config/generated",
+    "build_ovl/config/noreturn_syms.ovmovie.txt",
+    "build_ovl/config/sibcall_syms.ovmovie.txt",
+    "build_ovl/config/slus_006.14.yaml",
+    "build_ovl/config/overlays",
+    "build_ovl/config/sibcall_syms.town.txt",
+    "build_ovl/config/noreturn_syms.dungeon.txt",
+    "build_ovl/config/names.tsv",
+    "build_ovl/config/sibcall_syms.txt",
+    "build_ovl/config/slus_006.14.symbols.txt",
+    "build_ovl/overlays/town/first_pass_matched",
+    "build_ovl/overlays/ovmovie/first_pass_matched",
+    "build_ovl/overlays/dungeon/first_pass_matched",
+    "build_ovl/overlays/main/first_pass_matched",
+    "build_ovl/overlays/dungeon_engine/first_pass_matched",
+    "build_ovl/work/roundtrip/extract",
+    "build_ovl/work/overlay_recon/extract_bins.py",
+    "build_ovl/work/s3_splat/extract",
+    "build_slus/raw/slus"
+  ],
+  "production_unchanged": true
+}

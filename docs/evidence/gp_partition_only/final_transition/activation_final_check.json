@@ -1,0 +1,28 @@
+{
+  "status": "READ_ONLY_PREFLIGHT_PASS",
+  "payload_count": 60,
+  "patch_sha256": "6fc7ead242d82bac80b18ccfce92e3d12a7e24fb6054a8099607383e0d095da8",
+  "inventory_sha256": "4a67b840503321734ec7aadaef2af1e90bf1aecaf2f18c737f6ec8f2ca1b0b21",
+  "private_overlay_windows": 2175,
+  "target_state": "all_before_hashes_match",
+  "command": [
+    ".venv/bin/python",
+    "work/native_lane/gp_partition_only_tools/activate_transition.py",
+    "--check",
+    "--packet-dir",
+    "work/native_lane/gp_partition_only_tools/transition_final",
+    "--patch",
+    "combined.patch",
+    "--review",
+    "work/native_lane/gp_partition_only_tools/final_root_review.json",
+    "--full-proof",
+    "work/native_lane/gp_partition_only_tools/retire_sink/final_combined_receipt.json",
+    "--ownership-proof",
+    "work/native_lane/gp_partition_only_tools/retire_sink/final_ownership_receipt.json",
+    "--overlay-proof",
+    "work/native_lane/gp_partition_only_tools/retire_sink/overlay_gate/receipt.json",
+    "--proof-input-pins",
+    "work/native_lane/gp_partition_only_tools/retire_sink/final_source_pins.json"
+  ],
+  "activation_script_sha256": "ccbcd1f20c8b9fd640708fcce589804e5e9704ee0f2560b3f68689c7ab482336"
+}

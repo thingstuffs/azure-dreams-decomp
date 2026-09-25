@@ -231,3 +231,20 @@ Both existing production placement certificates remain current. They will be
 regenerated after the pending toolchain transition. MAIN item 4 retains its
 precise evidence-backed fallback: three unregistered C gaps, with exact SDK
 release and runtime loading still unresolved.
+
+
+## Resumption checkpoint: final proposal ready for owner sign-off
+
+The [final 60-file GP correction and sink-pass retirement](evidence/gp_partition_only/final_transition/README.md)
+is concrete and fully reviewed. It preserves all 860 object hashes and the retail
+image; the final tool inputs pass all 33 ownership proofs and both placement
+certifiers. The retired assembler passes all 2,175 overlay windows and 418 unit
+tests. Updated validation controls pass 60/60 with no skips, including the
+remaining real split-pass consumer. Read-only activation preflight passes against
+the exact final payload and proof pins. No production semantics have changed.
+
+The remaining integration sequence is the retained final owner sign-off, locked
+activation and production gates/cache refresh/recertification, then a fresh
+production-root six-version census and dependency/level/status refresh. The
+private candidate has 167 dependencies versus 189 currently installed. The
+verified module pilot and explicit MAIN coverage gaps retain their audited scope.

@@ -1,0 +1,21 @@
+{
+  "status": "REVIEWED",
+  "scope": "Validation controls and module docstrings only; no executable measurement or trace change",
+  "files": {
+    "tools/fidelity/aspsx_diff.py": {
+      "production_before_sha256": "385c3d7ef4f10df3892c0b18653ca91edf14fdbe6ebac76452f0ea2c93a48d72",
+      "after_sha256": "34ea90ca45d1a3753851145b9731a728da3214fc640def9a12592f27731d5338",
+      "measurement_executable_ast_equal": true
+    },
+    "tools/fidelity/maspsx_trace.py": {
+      "production_before_sha256": "d0336210e99493c2857abc13930bbcedeb92162b5d684037874fdb2a0a7d99c6",
+      "after_sha256": "cae6004277b9fc15f706a045195e6e96d185c34bdcc422b06393aafffa6ad0c9",
+      "measurement_executable_ast_equal": true
+    }
+  },
+  "controls": 60,
+  "skips": 0,
+  "control_receipt_sha256": "5b775f530d62f9a02bd9c5717e833945b6a9346e730e51c4d2f401e5467d8e27",
+  "controls_log_sha256": "73a2b526c84ccedade580f1b0d34469a26d4c375746cf43e708be4e0592040c7",
+  "production_changed": false
+}

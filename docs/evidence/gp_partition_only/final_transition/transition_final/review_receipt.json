@@ -1,0 +1,23 @@
+{
+  "before_hashes_match_gp57_and_production": true,
+  "controls_passed_without_skips": 60,
+  "controls_replay_exact": true,
+  "expected_final_ownership_receipt": "work/native_lane/gp_partition_only_tools/transition_final/final_ownership_audit.json",
+  "files": 60,
+  "final_packet_ownership_audit": "PENDING",
+  "former_consumer_object_byte_equal": true,
+  "git_apply_check": true,
+  "guarded_cli_unchanged": true,
+  "inventory_sha256": "4a67b840503321734ec7aadaef2af1e90bf1aecaf2f18c737f6ec8f2ca1b0b21",
+  "linked_overlay_windows_match": 2175,
+  "linked_retired_build_and_ownership_gate": "PASS",
+  "patch_replay_exact": true,
+  "patch_sha256": "6fc7ead242d82bac80b18ccfce92e3d12a7e24fb6054a8099607383e0d095da8",
+  "payload_manifest_sha256": "962978e990e81f536dddf4dc9d954295cedf4a90e405f1962cd59db35ffe77b6",
+  "production_applied": false,
+  "retired_package_sha256": "b89099797be1352d3122455164062d428dcc74529344a919d169e05f663afc52",
+  "retired_test_sha256": "80b9372b1db8fb2ca1bdc9a893f1d5c78a15bd581bf02e0da011394194fcc4f8",
+  "retirement_unit_tests": 418,
+  "status": "PACKAGED_PENDING_FINAL_OWNERSHIP_AUDIT",
+  "supplemental_replay_exact": true
+}
