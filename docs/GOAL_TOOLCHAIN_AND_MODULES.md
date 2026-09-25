@@ -222,3 +222,12 @@ relocations. The sink imitation pass fires on zero rows/physical units, so its
 isolated removal is now in full-gate rehearsal; the function-address split pass
 still has one required consumer. Final combined proposal review and owner sign-off,
 production activation, and a fresh production census remain outstanding.
+
+The [module and coverage completion audit](evidence/goal_module_coverage_checkpoint.md)
+confirms the runtime-directory pilot is already landed with a fresh placement
+certificate and documented repeat workflow. Its three rows are L5 / L4 / L5; the
+middle row retains a PASSTHRU fidelity site, so no whole-module L5 claim is made.
+Both existing production placement certificates remain current. They will be
+regenerated after the pending toolchain transition. MAIN item 4 retains its
+precise evidence-backed fallback: three unregistered C gaps, with exact SDK
+release and runtime loading still unresolved.
