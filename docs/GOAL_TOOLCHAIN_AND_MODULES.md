@@ -248,3 +248,9 @@ activation and production gates/cache refresh/recertification, then a fresh
 production-root six-version census and dependency/level/status refresh. The
 private candidate has 167 dependencies versus 189 currently installed. The
 verified module pilot and explicit MAIN coverage gaps retain their audited scope.
+
+Final owner sign-off was requested on 2026-09-25 for patch
+`6fc7ead242d82bac80b18ccfce92e3d12a7e24fb6054a8099607383e0d095da8`
+(the 60-file packet). All private preparation and the exact retired-assembler
+60-control rerun are complete; production remains unchanged while the required
+approval is pending. No approval is inferred from elapsed time or goal resumption.
