@@ -1,29 +1,11 @@
-#include "slus/cd_state.h"
-typedef struct S_80083958 {
-    /* 0x0 */ u32 unk0;
-    /* 0x4 */ u8  unk4;
-    /* 0x5 */ u8  unk5;
-    /* 0x6 */ u16 counter1;
-    /* 0x8 */ u16 counter2;
-    /* 0xA */ u16 flags;
-    /* 0xC */ u8  pad0C[40 - 0xC];   /* >gcc -G32 -> gcc SPLITS the address */
-} S_80083958;
+#include "slus/cd_cohort_types.h"
 
-typedef struct S_80083968 {
-    /* 0x00 */ u8  unk00;
-    /* 0x01 */ u8  pad01[3];
-    /* 0x04 */ u32 unk04;
-    /* 0x08 */ u8  unk08[0xF];
-    /* 0x17 */ u8  unk17;
-} S_80083968;
+
 
 typedef struct S_80083164 {
-    /* 0x0 */ u16 unk0;
-    /* 0x2 */ u8  pad2[0xE];
-    /* 0x10 */ u8 pad10[40 - 0x10]; /* >gcc -G32 -> gcc SPLITS the address */
+    u16 unk0; /* Observed prefix; enclosing extent is unknown. */
 } S_80083164;
 
-extern S_80083958 D_80083958;
 
 /* RETAIL jump table for the state==1 dispatch: an ABSOLUTE in
  * config/generated/slus_006.14.undefined_syms.txt (0x8002D5C0, 28 entries,
@@ -31,14 +13,13 @@ extern S_80083958 D_80083958;
  * Dispatching through it means this TU emits NO compiler-generated jump table
  * into .text-referenced .rodata, which is what makes the object LINK. */
 extern void *jtbl_8002D5C0[];
-extern S_80083968 D_80083968[32];
 
-extern u8  D_800814D1[16];    /* tail index: %hi/%lo (size>8) */
+extern u8  D_800814D1[1];    /* Observed tail-index byte view; no storage ownership. */
     /* driver state byte: %hi/%lo; head via [-3] */
 extern u8  D_800814D8[16];    /* %hi/%lo CdReadSync buffer */
 extern u8  D_80081438[0x20];  /* neighbour: &D_80081438[0x18]==&D_80081450 (%hi/%lo) */
 extern u32 D_80081480[8];     /* %hi/%lo */
-extern S_80083164 D_80083164; /* %hi/%lo (size>8) */
+extern S_80083164 D_80083164[];
 
 extern int  CdSync(int mode, u8 *result);
 extern int  CdControl(u8 com, u8 *param, u8 *result);
@@ -53,30 +34,29 @@ extern void func_8003E70C(void);
 extern void func_8003F5EC(void);
 extern void func_8003F624(void);
 extern void CdIntToPos(u32 lba, u8 *loc);
-extern u8  D_800814D3[16];
-extern u8  D_800814D3_1[16] __asm__("D_800814D3");
-extern u8  D_800814D3_2[16] __asm__("D_800814D3");
-extern u8  D_800814D3_3[16] __asm__("D_800814D3");
-extern u8  D_800814D3_8[16] __asm__("D_800814D3");
-extern u8  D_800814D3_9[16] __asm__("D_800814D3");
-extern u8  D_800814D3_10[16] __asm__("D_800814D3");
-extern u8  D_800814D3_11[16] __asm__("D_800814D3");
-extern u8  D_800814D3_12[16] __asm__("D_800814D3");
-extern u8  D_800814D3_13[16] __asm__("D_800814D3");
-extern u8  D_800814D3_14[16] __asm__("D_800814D3");
-extern u8  D_800814D3_15[16] __asm__("D_800814D3");
-extern u8  D_800814D3_24[16] __asm__("D_800814D3");
-extern u8  D_800814D2[16];
-extern u8  D_800814D2_P[16] __asm__("D_800814D2");
-extern u8  D_800814D2_R[16] __asm__("D_800814D2");
+extern u8  D_800814D3_1[1] __asm__("D_800814D3");
+extern u8  D_800814D3_2[1] __asm__("D_800814D3");
+extern u8  D_800814D3_3[1] __asm__("D_800814D3");
+extern u8  D_800814D3_8[1] __asm__("D_800814D3");
+extern u8  D_800814D3_9[1] __asm__("D_800814D3");
+extern u8  D_800814D3_10[1] __asm__("D_800814D3");
+extern u8  D_800814D3_11[1] __asm__("D_800814D3");
+extern u8  D_800814D3_12[1] __asm__("D_800814D3");
+extern u8  D_800814D3_13[1] __asm__("D_800814D3");
+extern u8  D_800814D3_14[1] __asm__("D_800814D3");
+extern u8  D_800814D3_15[1] __asm__("D_800814D3");
+extern u8  D_800814D3_24[1] __asm__("D_800814D3");
+extern u8  D_800814D2[1];
+extern u8  D_800814D2_P[1] __asm__("D_800814D2");
+extern u8  D_800814D2_R[1] __asm__("D_800814D2");
 
 #define CDBUF (&D_80081438[0x18])   /* == &D_80081450, %hi/%lo addressing */
 
 /* Processes queued CD commands and advances pending reads and drive operations. */
 void func_8003E758(void)
 {
-    S_80083958 *driver;
-    S_80083968 *queue, *command, *active_queue, *active_command;
+    SlusCdDriverPrefix *driver;
+    SlusCdQueueEntry *queue, *command, *active_queue, *active_command;
     int state;
     int sync_result, retries;
     u8  status;
@@ -86,7 +66,7 @@ void func_8003E758(void)
     u8  sync_status[8];
 
 process_queue:
-    driver = &D_80083958;
+    driver = &D_80083958[0];
     driver->flags &= 0xFFFE;
 
     if (D_800814D0 == D_800814D1[0])
@@ -293,7 +273,7 @@ process_queue:
                         if (CdRead2(0xC8) != 0) break;
                         if (--retries == 0) goto stream_error;
                     }
-                    D_80083958.unk4 = 0;
+                    D_80083958[0].unk4 = 0;
                 mark_pending:
                     D_800814D3_11[0] = 1;
                     goto finish;
@@ -339,10 +319,15 @@ process_queue:
             &&complete_noop, &&complete_read, &&complete_pause, &&complete_seek, &&complete_stream
         };
         u32 opcode;
+        int completion_offset;
         (void)dispatch_labels;
         active_queue = D_80083968;
         head_index = D_800814D0;
-        active_command = &active_queue[head_index];
+        /* Keep one byte-offset accumulator for this completion lookup. */
+        completion_offset = head_index << 1;
+        completion_offset += head_index;
+        completion_offset <<= 3;
+        active_command = (SlusCdQueueEntry *)((u8 *)active_queue + completion_offset);
         opcode = active_command->unk00;
         if (opcode >= 0x1C) goto finish;
         goto *jtbl_8002D5C0[opcode];
@@ -355,7 +340,7 @@ process_queue:
                 D_800814D3_14[0] = idle_state;
                 state_ptr = &D_800814D3_13[0];
                 old_head = state_ptr[-3];
-                D_80083958.unk4 = 0;
+                D_80083958[0].unk4 = 0;
                 D_800814D2[0] = 0;
                 state_ptr[-3] = (old_head + 1) & 0x1F;
                 goto process_queue;
@@ -386,7 +371,7 @@ process_queue:
             read_complete:
                 {
                     u8 *state_ptr = &D_800814D3_15[0];
-                    S_80083958 *read_driver = &D_80083958;
+                    SlusCdDriverPrefix *read_driver = &D_80083958[0];
                     D_800814D3[0] = 0xFF;
                     read_driver->unk4 = 2;
                     state_ptr[-3] += 1;
@@ -417,14 +402,14 @@ process_queue:
             command_failed:
                 func_8003E70C();
                 D_800814D3[0] = 0xFF;
-                D_80083958.unk4 = 0;
+                D_80083958[0].unk4 = 0;
                 D_800814D2[0] = 0;
                 goto finish;
 
             check_drive_status:
                 if (CdControl(1, 0, CDBUF) == 0) goto finish;
                 if ((D_80081450.bytes[0] & 0xFD) != 0) goto finish;
-                D_80083958.unk4 = 2;
+                D_80083958[0].unk4 = 2;
                 D_800814D3[0] = 0xFF;
                 D_800814D0 = D_800814D0 + 1;
                 goto finish;
@@ -447,8 +432,8 @@ process_queue:
                 if (status & 0x40) goto finish;
                 if (status & 0x20) {
                     u8 *status_ptr = &D_800814D2_P[0];
-                    register S_80083968 *stream_queue ASM_REG("$3");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-                    S_80083968 *stream_command;
+                    register SlusCdQueueEntry *stream_queue ASM_REG("$3");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+                    SlusCdQueueEntry *stream_command;
                     stream_command = 0xFF;
                     stream_queue = D_80083968;
                     ASM_KEEP_NV(status_ptr);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
@@ -457,7 +442,7 @@ process_queue:
                     head_index = status_ptr[-2];
                     stream_command = &stream_queue[head_index];
                     if (stream_command->unk17 != 0xFF) {
-                        D_80083958.unk4 = 4;
+                        D_80083958[0].unk4 = 4;
                         D_80080AD4 = 1;
                     }
                     status_ptr[-2] += 1;
@@ -486,7 +471,7 @@ queue_empty:
     }
 
 finish:
-    if ((D_80083164.unk0 & 0x7FFF) == 0)
-        D_80083958.counter1 = 0;
+    if ((D_80083164[0].unk0 & 0x7FFF) == 0)
+        D_80083958[0].counter1 = 0;
     D_800814D0 = D_800814D0 & 0x1F;
 }

@@ -12,16 +12,10 @@ typedef struct S_8004AB7C_CategoryEntry {
 
 extern S_8004AB7C_CategoryEntry itemCategoryTable[];
 
-/* Force hi/lo access rather than a small-data scalar load. */
-extern struct {
-    s32 v;
-    s32 pad[2];
-} D_80012090;
+/* External words used to select item categories. */
+extern s32 D_80012090;
 
-extern struct {
-    s32 v;
-    s32 pad[2];
-} D_80013628;
+extern s32 D_80013628;
 
 extern void func_8003E1FC(void);
 extern void func_8003F320(void);
@@ -39,11 +33,11 @@ void func_8004AB7C(void)
     func_8003E1FC();
     func_8003F320();
     func_800A6D60(1);
-    func_800A6D98(D_80013628.v);
+    func_800A6D98(D_80013628);
 
     category = itemCategoryTable;
     for (category_id = 0; category_id < 20; category_id++, category++) {
-        if (((s32)category->pad1[0] >> D_80012090.v) & 1) {
+        if (((s32)category->pad1[0] >> D_80012090) & 1) {
             func_8004AA78(category_id);
         }
     }

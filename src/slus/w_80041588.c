@@ -17,11 +17,6 @@ typedef struct {
     s16 flags;
 } StreamCommand;
 
-typedef struct {
-    s32 value;
-    s32 pad4;
-    s32 pad8;
-} LargeWord;
 
 extern void func_8003E140(u8 *);
 extern s32 Control_CD(s32, void *, void *);
@@ -30,8 +25,8 @@ extern void func_8003F80C(s32, s32, s32, s32);
 extern s32 DrawSync(s32);
 extern s32 LoadImage(void *, void *);
 extern void *memcpy(void *, const void *, u32);
-extern LargeWord D_80081480;
-extern LargeWord D_8008148C;
+extern s32 D_80081480;
+extern s32 D_8008148C;
 extern void *jtbl_8002D658[];
 
 /* Processes a command stream for VRAM uploads, tile caching, memory copies, and pointer relocation. */
@@ -77,8 +72,8 @@ void func_80041588(u32 *stream_ref, u8 *state, s32 execute)
     {
         register u8 *table_page = TBL_PAGE;
         ASM_KEEP_NV(table_page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        buffer_addr = D_8008148C.value;
-        D_80081480.value = buffer_addr;
+        buffer_addr = D_8008148C;
+        D_80081480 = buffer_addr;
         table = (void **)(table_page + TBL_OFFSET);
     }
     buffer = (u8 *)buffer_addr;

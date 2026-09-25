@@ -19,7 +19,7 @@ extern s8 D_80080AF3;
  * size (2, not an oversized/incomplete decl) is load-bearing for codegen --
  * see globals/learnings. */
 extern S_8006E704 *D_80080AF4[2];
-extern s16 D_80080AFC;
+static s16 D_80080AFC;
 /* Declared oversized (>8B) so their ADDRESS is taken via %hi/%lo, matching
  * the target's lui/addiu pair (their contents are never dereferenced --
  * only the low 23 bits of the address itself are used as a packed id). */

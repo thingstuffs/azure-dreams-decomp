@@ -1,13 +1,8 @@
 #include "slus/cd_state.h"
 
-typedef struct {
-    u8 val;
-    u8 pad[15];
-} S_80081451;
 
-extern S_80081451 D_80081451;
-extern S_80081451 D_80081452;
-extern u8 D_800814D3[16];
+extern u8 D_80081451[2];
+extern u8 D_80081452[1];
 
 extern s32 CdSync(s32 mode, u8 *result);
 extern s32 CdControl(u8 com, u8 *param, u8 *result);
@@ -38,7 +33,7 @@ s32 func_8003F368(void)
 
 L8003F3A4:
     for (;;) {
-        if (CdControl(0x10, 0, (u8 *)&D_80081451 - 1) == 1) {
+        if (CdControl(0x10, 0, (u8 *)((u32)D_80081451 - 1)) == 1) {
             break;
         }
         if (--retries_left == 0) {
@@ -50,18 +45,18 @@ L8003F3A4:
 
     retries_left = 0x10;
     recovery_state = D_800814D3;
-    while (CdSync(1, (u8 *)&D_80081451 - 1) != 2) {
+    while (CdSync(1, (u8 *)((u32)D_80081451 - 1)) != 2) {
         if (--retries_left != 0) {
             continue;
         }
         func_8003E70C();
         if ((func_8003F240() & 0xFF) == 0x1B) {
-            index_is_zero = (recovery_state[-3] == 0);
+            index_is_zero = ((*(u8 *)((u32)recovery_state - 3)) == 0);
             D_800814D3[0] = 0xFF;
             if (!index_is_zero) {
                 D_800814D0 -= 1;
             } else {
-                recovery_state[-3] = 0x1F;
+                (*(u8 *)((u32)recovery_state - 3)) = 0x1F;
             }
             D_800814D0 &= 0x1F;
             retries_left = 0x10;
@@ -73,8 +68,8 @@ L8003F3A4:
     }
 
     cd_loc[0] = D_80081450.bytes[0];
-    cd_loc[1] = D_80081451.val;
-    cd_loc[2] = D_80081452.val;
+    cd_loc[1] = D_80081451[0];
+    cd_loc[2] = D_80081452[0];
     sector_pos = CdPosToInt(cd_loc);
 
     if (func_8003F688(D_80081450.bytes[0]) >= 0x4B) {
@@ -83,9 +78,9 @@ L8003F3A4:
     {
         register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
 
-        if (func_8003F688(((u8 *)&D_80081452)[-1]) < 0x3C) {
+        if (func_8003F688((*(u8 *)((u32)D_80081452 - 1))) < 0x3C) {
             s32 sector_valid;
-            sector_valid = func_8003F688(((u8 *)&D_80081451)[1]) < 0x4B;
+            sector_valid = func_8003F688(D_80081451[1]) < 0x4B;
             result = 0;
             if (!sector_valid) {
                 return result;
