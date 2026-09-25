@@ -1,0 +1,63 @@
+{
+  "schema": 1,
+  "status": "PRIVATE_PROJECTION_ARCHIVED",
+  "interpretation": "Original receipt hashes bind original artifacts. Archived hashes bind stored bytes. No production ledger has been changed.",
+  "artifacts": [
+    {
+      "source": "work/native_lane/gp_partition_only_tools/dependency_import.py",
+      "archived": "dependency_import.py",
+      "source_sha256": "6e197fca2898c05e5c74d27fac1cfb53d1b45977904436e0c2c27ed1ed131cad",
+      "archived_sha256": "6e197fca2898c05e5c74d27fac1cfb53d1b45977904436e0c2c27ed1ed131cad",
+      "source_bytes": 10747,
+      "archived_bytes": 10747
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/dependency_import_checks.py",
+      "archived": "dependency_import_checks.py",
+      "source_sha256": "b708c37bbb867b8e09f8c7050c58931aecd4226c7374e9a49b588bc65b5b2061",
+      "archived_sha256": "b708c37bbb867b8e09f8c7050c58931aecd4226c7374e9a49b588bc65b5b2061",
+      "source_bytes": 2765,
+      "archived_bytes": 2765
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/dependency_scope_check.py",
+      "archived": "dependency_scope_check.py",
+      "source_sha256": "b9df8a7a822c81bd5eba5938b9ff24185f1c6888ea5acd15309b87995c534e29",
+      "archived_sha256": "b9df8a7a822c81bd5eba5938b9ff24185f1c6888ea5acd15309b87995c534e29",
+      "source_bytes": 2137,
+      "archived_bytes": 2137
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/dependency_projection/maspsx_dependence.proposed.jsonl",
+      "archived": "maspsx_dependence.proposed.jsonl",
+      "source_sha256": "04e67a8db8a0eea800a22f4c48d2411c3b5a0ae86be77331180a701da92cbd88",
+      "archived_sha256": "04e67a8db8a0eea800a22f4c48d2411c3b5a0ae86be77331180a701da92cbd88",
+      "source_bytes": 31449,
+      "archived_bytes": 31449
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/dependency_projection/receipt.json",
+      "archived": "receipt.json",
+      "source_sha256": "f33f5ae19298c58e6a35c5cc79c0638bbd9b0477f3e90af10db62c99db43cc1d",
+      "archived_sha256": "f33f5ae19298c58e6a35c5cc79c0638bbd9b0477f3e90af10db62c99db43cc1d",
+      "source_bytes": 1400,
+      "archived_bytes": 1400
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/dependency_projection/checks.json",
+      "archived": "checks.json",
+      "source_sha256": "86832e52f89bc13dd7944808b58bd86b719110e396b0003d0254832403370d7e",
+      "archived_sha256": "86832e52f89bc13dd7944808b58bd86b719110e396b0003d0254832403370d7e",
+      "source_bytes": 1673,
+      "archived_bytes": 1673
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/dependency_projection/scope_check.json",
+      "archived": "scope_check.json",
+      "source_sha256": "fdc71fbd061f7fa324aa0f9b6e8aea04473a13eb61977853aabb4fa695455111",
+      "archived_sha256": "fdc71fbd061f7fa324aa0f9b6e8aea04473a13eb61977853aabb4fa695455111",
+      "source_bytes": 2403,
+      "archived_bytes": 2403
+    }
+  ]
+}

@@ -42,3 +42,12 @@ genuine ASPSX binaries, retail inputs and preceding fixtures remain prerequisite
 The archive is evidence, not a self-contained toolchain distribution. Do not
 install private census keys into the production ledger; production needs a fresh
 census after cache and source activation.
+
+## Registered-row comparison scope
+
+The [dependency-import follow-up](../dependency_projection/README.md) records one
+data-only row and two objects whose extra inline helper has no symbol in the
+linked image. Those helpers are not directly retail-compared. The 6,767 count is
+registered rows, not a count of directly compared retail functions. The follow-up
+also archives the 167-row private ledger projection and provenance refusal checks;
+it does not install the private census or alter the reviewed transition.

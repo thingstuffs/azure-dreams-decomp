@@ -1,0 +1,81 @@
+{
+  "status": "PASS",
+  "scope": "private final fixture; symbol presence only",
+  "journal_sha256": "194c1db77d5ca87978971a420e87aff443f6a37560b3f51dce0a22c3fc4c97e5",
+  "linked_elf": "work/native_lane/gp_partition_only_tools/retire_sink/combined_final_fixture/build_slus/build/slus_006.14.elf",
+  "linked_elf_sha256": "051e387e422c620fb0e8adb2e1e13e04555f5c5a40a1ad89f80d6da236699eee",
+  "reader_sha256": "4cab76dc7c0628e784d286eb994bf45764dc03dc037da2127ef8ffecc180840f",
+  "comparator_sha256": "385c3d7ef4f10df3892c0b18653ca91edf14fdbe6ebac76452f0ea2c93a48d72",
+  "rows": [
+    {
+      "row": "slus/w_8003FE78",
+      "object": "work/native_lane/gp_partition_only_tools/retire_sink/combined_final_fixture/build_slus/build/src/w_8003FE78.o",
+      "object_sha256": "7e98de987bf663a751ca84b552a56cd4258731fbbb51e73004a3436bcda98807",
+      "object_function_extents": {
+        "inline_fn": [
+          ".text.inline_fn",
+          0,
+          8
+        ],
+        "func_8003FE78": [
+          ".text.func_8003FE78",
+          0,
+          180
+        ]
+      },
+      "mapped_symbols": {
+        "func_8003FE78": [
+          "._800",
+          2147745400,
+          "func",
+          180
+        ]
+      },
+      "unmapped_symbols": [
+        "inline_fn"
+      ],
+      "census_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      }
+    },
+    {
+      "row": "slus/w_8005DA88",
+      "object": "work/native_lane/gp_partition_only_tools/retire_sink/combined_final_fixture/build_slus/build/src/w_8005DA88.o",
+      "object_sha256": "71c1f84687e4c4f29764b77ddd1570a1e1670d34f9731d044592bbaefa8b77c8",
+      "object_function_extents": {
+        "inline_fn_8005DA88": [
+          ".text.inline_fn_8005DA88",
+          0,
+          8
+        ],
+        "func_8005DA88": [
+          ".text.func_8005DA88",
+          0,
+          1272
+        ]
+      },
+      "mapped_symbols": {
+        "func_8005DA88": [
+          "._800",
+          2147867272,
+          "func",
+          1272
+        ]
+      },
+      "unmapped_symbols": [
+        "inline_fn_8005DA88"
+      ],
+      "census_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      }
+    }
+  ],
+  "data_only_rows": [
+    "slus/gte_port_state"
+  ],
+  "limitation": "Missing linked symbols do not establish whether helper instruction bytes occur elsewhere. Data-only rows provide no instruction comparison."
+}

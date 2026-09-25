@@ -1,0 +1,50 @@
+{
+  "status": "PASS",
+  "script_sha256": "6e197fca2898c05e5c74d27fac1cfb53d1b45977904436e0c2c27ed1ed131cad",
+  "journal_sha256": "194c1db77d5ca87978971a420e87aff443f6a37560b3f51dce0a22c3fc4c97e5",
+  "production_ledger_sha256": "d110d6d521eba1df9f72ba1db4f0c5d1a2af4724a71d94b154dab36394565cd9",
+  "checks": [
+    {
+      "check": "duplicate registered identity",
+      "result": "REFUSED",
+      "reason": "duplicate identity: row"
+    },
+    {
+      "check": "missing registered identity",
+      "result": "REFUSED",
+      "reason": "census does not cover exactly the registered identities"
+    },
+    {
+      "check": "failed trace self-check",
+      "result": "REFUSED",
+      "reason": "incomplete pipeline/trace proof: main/func_7FDD1970"
+    },
+    {
+      "check": "missing genuine version",
+      "result": "REFUSED",
+      "reason": "incomplete six-version measurement: main/func_7FDD1970"
+    },
+    {
+      "check": "private journal cannot be live evidence",
+      "result": "REFUSED",
+      "reason": "fresh production-root census required; private keys cannot be imported"
+    },
+    {
+      "check": "unreviewed new dependency",
+      "result": "REFUSED",
+      "reason": "new dependent identities require attribution review: main/func_7FDD1970"
+    },
+    {
+      "check": "complete actual census projection",
+      "result": "PASS",
+      "before": 189,
+      "after": 167,
+      "removed": 22,
+      "new": 0,
+      "retained_kinds_unchanged": true,
+      "collector_attribution_scoped_to_remainder": true
+    }
+  ],
+  "production_written": false,
+  "limitation": "Fresh production acceptance is deferred until the approved transition and census exist."
+}

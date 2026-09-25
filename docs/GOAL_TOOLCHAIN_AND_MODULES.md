@@ -254,3 +254,17 @@ Final owner sign-off was requested on 2026-09-25 for patch
 (the 60-file packet). All private preparation and the exact retired-assembler
 60-control rerun are complete; production remains unchanged while the required
 approval is pending. No approval is inferred from elapsed time or goal resumption.
+
+
+## Resumption checkpoint: production-census import prepared
+
+The [dependency projection and import checks](evidence/gp_partition_only/dependency_projection/README.md)
+are archived. The private proposal removes the same 22 dependencies, adds none,
+and preserves retained ladder classifications. Both collector causes are scoped
+to their dependent remainder unit. Checks reject incomplete evidence and private
+fixture keys presented as production keys; successful fresh-production acceptance
+remains deferred until activation and measurement. A scope receipt distinguishes
+the data-only row and two unlinked helper symbols from directly compared functions.
+The reviewed 60-file transition and production semantics remain unchanged.
+Required owner approval, production activation, fresh census and live ledger/status
+refresh remain outstanding; no completion claim is made.
