@@ -249,3 +249,39 @@ fingerprint, pinned build-recipe hash, and retail image hash
 inputs makes placement unproved. Rebuild and rerun the certificate after the
 change; `tools/status.py` reports a missing or stale certificate. The unchanged
 level ladder then decides L4/L5 from the current row source and residue checks.
+
+## Owners made entirely from collector fragments
+
+A module may explicitly opt into `"partition_only": true` with `"members": []`
+when every function comes from the existing `config/slus_partitions.json` plan.
+The flag must be exactly true, and it cannot be combined with whole-row members.
+Ordinary modules still require a nonempty member list. This option does not add a
+logical row for the aggregator: the original collector retains each function's
+identity and its complete coverage denominator.
+
+Declare one or more nonempty incoming parts, keep the frozen collector recipe
+and source hash in the plan, and include only those generated fragments in the
+aggregator. The normal connected-context checks enforce the complete physical
+function set and reject duplicate or missing coverage. Configuration, isolated
+builds, and registry validation reject a part-only owner with no incoming part,
+including when the optional partition plan is absent.
+
+Use `tools/fidelity/prove_slus_ownership.py <module> --output <receipt>` to prove
+its data. The prover measures the real collector rows, checks their entire
+pipeline/retail scope, and requires direct genuine-ASPSX equality plus zero-mask
+retail equality for the selected owner's entire physical TU. Receipt schema 5
+records the selected partition-only modules, full collector measurements and
+physical contributors. Genuine debt in a different collector stream remains
+visible and does not become an assertion about the selected owner.
+
+This option supplies data ownership and physical build organization. It grants
+no whole-row placement credit to a collector: `certify_slus_module.py` refuses
+partition-only placement certificates, and status grants no collector placement
+from these fragment proofs. The normal shared-header and source-quality criteria
+continue to apply to whole-row module cleanup certificates.
+
+The motivating [collector-only rehearsal](evidence/gp_partition_only.md) shows
+two small owners at their original compiler recipes, a complete retail-exact
+SLUS link, and preserved collector remainders. Treat the recorded ownership
+boundaries as supported build organization; they do not recover a retail source
+filename or automatically identify adjacent data as part of the same allocation.

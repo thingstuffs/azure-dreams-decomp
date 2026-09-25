@@ -43,6 +43,8 @@ class RowDatabaseMemberScope(unittest.TestCase):
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name)
         (self.root / "raw/slus").mkdir(parents=True)
+        (self.root / "config").mkdir()
+        (self.root / "config/names.tsv").write_text("")
         (self.root / "ledger/splits").mkdir(parents=True)
         (self.root / "raw/slus/w_8003C634.c").write_text(SOURCE)
         (self.root / "ledger/splits/slus.build.ninja").write_text("")

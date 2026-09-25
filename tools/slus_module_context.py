@@ -24,6 +24,28 @@ def modules(root=ROOT):
     return load_manifest(Path(root) / "config/slus_modules.json")
 
 
+def module_anchor(module, root=ROOT):
+    """Choose a real logical contributor for context; never invent a member row.
+
+    This is a fingerprint/compilation entry point, not a placement grant.
+    A partition-only destination must be reachable from an actual parent.
+    """
+    if module["members"]:
+        return {"kind": "slus", "id": module["members"][0]["id"]}
+    if module.get("partition_only") is not True:
+        raise partitions.PartitionError("empty module lacks partition-only opt-in")
+    plan = partitions.load_plan(Path(root) / "config/slus_partitions.json")
+    parent = next((p for p in plan if any(part["module"] == module["name"]
+                                        for part in p["parts"])), None)
+    if parent is None:
+        raise partitions.PartitionError("partition-only owner has no incoming functions: " + module["name"])
+    row = {"kind": "slus", "id": parent["id"]}
+    _, owners, _ = partition_context(row, root)
+    if module not in owners:
+        raise partitions.PartitionError("partition-only owner is absent from contributor context")
+    return row
+
+
 def partition_context(row, root=ROOT):
     """Return the validated connected parent/owner closure for a live row."""
     if row.get("kind") != "slus":

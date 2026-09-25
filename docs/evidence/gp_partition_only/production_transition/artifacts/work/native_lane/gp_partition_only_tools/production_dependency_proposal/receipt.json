@@ -1,0 +1,52 @@
+{
+  "status": "FRESH_PRODUCTION_VALIDATED",
+  "run_receipt_sha256": "e609d98b48a619cddea0426ef05baa7a01497fbbaaedcb54253f8abc001b2702",
+  "previous_ledger_sha256": "d110d6d521eba1df9f72ba1db4f0c5d1a2af4724a71d94b154dab36394565cd9",
+  "proposed_ledger_sha256": "ffcf0787dbf96c5255a17e25ff8a7e6297a974a9e61640aa328132b6f65ad150",
+  "registered_rows": 6767,
+  "previous_dependencies": 189,
+  "proposed_dependencies": 167,
+  "removed": [
+    "slus/w_8003D92C",
+    "slus/w_8003E34C",
+    "slus/w_8003E4FC",
+    "slus/w_8003E758",
+    "slus/w_8003F2A4",
+    "slus/w_8003F368",
+    "slus/w_8003F5AC",
+    "slus/w_8003F624",
+    "slus/w_80041AB0",
+    "slus/w_80043CD0",
+    "slus/w_8004437C",
+    "slus/w_8004450C",
+    "slus/w_80047D44",
+    "slus/w_80047DF0",
+    "slus/w_80047E30",
+    "slus/w_80047E78",
+    "slus/w_80049F68",
+    "slus/w_8004AB7C",
+    "slus/w_8004DCEC",
+    "slus/w_8004DE88",
+    "slus/w_8004DF8C",
+    "slus/w_80053CFC"
+  ],
+  "added": [],
+  "retained_ladder_classifications_unchanged": true,
+  "maspsx_retail_masked_words": 872,
+  "retail_scope_counts_differ": [
+    {
+      "row": "slus/w_8003FE78",
+      "object_functions": 2,
+      "retail_checked": 1
+    },
+    {
+      "row": "slus/w_8005DA88",
+      "object_functions": 2,
+      "retail_checked": 1
+    }
+  ],
+  "data_only_rows_without_instruction_comparison": [
+    "slus/gte_port_state"
+  ],
+  "production_written": false
+}

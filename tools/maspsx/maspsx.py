@@ -189,7 +189,7 @@ def main() -> None:
             *filtered_as_args,
             "-",  # read from stdin
         ]
-        if not args.dont_force_G0:
+        if True:  # isolate ASPSX small-data selection from GNU as
             cmd.insert(-1, "-G0")
 
         with subprocess.Popen(

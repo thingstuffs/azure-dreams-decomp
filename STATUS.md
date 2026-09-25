@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-09-24T21:49:41Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-09-25T02:01:22Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -44,6 +44,16 @@ Baseline NOT exact: 0 rows
 | saved_value_b98 | 2 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/saved_value_b98.json' | include/common.h, include/slus/saved_value_b98.h |
 | sort_rank_81540 | 1 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/sort_rank_81540.json' | include/common.h, include/slus/sort_rank_81540.h |
 | command_slots_81554 | 4 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/command_slots_81554.json' | include/common.h, include/slus/command_slots_81554.h |
+| address_slot | 1 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/address_slot.json' | include/common.h |
+| command_words | 1 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/command_words.json' | include/common.h |
+| gp_shared_8152c | 3 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/gp_shared_8152c.json' | include/common.h |
+| gp_d92c_owned | 1 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/gp_d92c_owned.json' | include/common.h |
+| gp_order_bytes_owner | 1 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/gp_order_bytes_owner.json' | include/common.h |
+| gp_af3_pair | 2 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/gp_af3_pair.json' | include/common.h |
+| message_mode_81550 | 3 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/message_mode_81550.json' | include/common.h, include/slus/message_mode_81550.h |
+| cd_command_state | 7 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/cd_command_state.json' | include/common.h, include/slus/cd_state.h, include/slus/cd_cohort_types.h |
+| accessors_814c8 | 0 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/accessors_814c8.json' | include/common.h |
+| table_counters_b1b_b1c | 0 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/table_counters_b1b_b1c.json' | include/common.h |
 
 Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump and fidelity requirements still apply; changed shared inputs invalidate placement evidence.
 
@@ -54,24 +64,24 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | m2c boilerplate block | 2332 | 515,092 | 20.1% | 0 | 0 | 0.0% |
 | M2C_FIELD raw offsets | 2950 | 1,457,076 | 57.0% | 0 | 0 | 0.0% |
 | m2c local names | 5182 | 2,172,128 | 84.9% | 2694 | 1,273,804 | 49.8% |
-| ASM_ pins | 2135 | 1,465,048 | 57.3% | 768 | 755,056 | 29.5% |
+| ASM_ pins | 2135 | 1,465,048 | 57.3% | 766 | 750,512 | 29.3% |
 | goto | 1545 | 1,318,412 | 51.5% | 1599 | 1,365,188 | 53.4% |
 | computed-goto jump table | 317 | 437,288 | 17.1% | 315 | 435,848 | 17.0% |
-| inline asm outside macros | 362 | 256,260 | 10.0% | 272 | 230,476 | 9.0% |
+| inline asm outside macros | 362 | 256,260 | 10.0% | 271 | 229,272 | 9.0% |
 | fidelity blocking site (LABEL_AS_CALL/PASSTHRU_NO_ARGS) | 1489 | 680,132 | 26.6% | 308 | 157,064 | 6.1% |
 | any fidelity site | 2655 | 1,286,668 | 50.3% | 1778 | 960,508 | 37.5% |
 | noreturn tail-call spelling (scaffolding, docs/FIDELITY.md) | 751 | 560,500 | 21.9% | 122 | 106,264 | 4.2% |
 | maspsx marker pins (scaffolding) | 393 | 351,556 | 13.7% | 3 | 3,176 | 0.1% |
 | do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,176 | 6.1% | 354 | 249,960 | 9.8% |
 | fake dependency x=(e)+a;x-=a / arg+v-v (scaffolding, pure C) | 1 | 408 | 0.0% | 2 | 820 | 0.0% |
-| local address-named struct | 633 | 346,988 | 13.6% | 3144 | 1,615,304 | 63.1% |
-| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,440 | 6.1% | 3092 | 552,600 | 21.6% |
+| local address-named struct | 633 | 346,988 | 13.6% | 3140 | 1,613,960 | 63.1% |
+| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,440 | 6.1% | 3093 | 552,828 | 21.6% |
 
-Pin sites now: 3,107 in 767 rows; REG 1,479, KEEP 693, KEEP_NV 427, SCHED_BARRIER 158, KEEP_DEP_NV 75, USE_NV 50, USE 42, CLOBBER 35.  At the pin: 25,759; REG 12,778, KEEP 6,854, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
+Pin sites now: 3,099 in 765 rows; REG 1,477, KEEP 690, KEEP_NV 424, SCHED_BARRIER 158, KEEP_DEP_NV 75, USE_NV 50, USE 42, CLOBBER 35.  At the pin: 25,759; REG 12,778, KEEP 6,854, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
 
 Hidden scaffolding, not in the pin count (`pin_census.hidden_asm`): raw asm statements 3, calls of local asm wrappers 0, hand-written asm in function bodies 4 (C that is missing); symbol aliases 110 (a second typed name for one symbol: a missing type); file-scope asm directives 432.
 
-Per-row optimization flags (weak evidence about the real build; each switch is undone from the `t30_cellpins` journal's `cell_from`): 289 rows carry one flag, 41 carry two or more.
+Per-row optimization flags (weak evidence about the real build; each switch is undone from the `t30_cellpins` journal's `cell_from`): 287 rows carry one flag, 40 carry two or more.
 
 Site-for-pin trades (`ledger/recipe_trades.jsonl` records shaped `{"kind":"site_for_pin","id":row,"site":"LABEL_AS_CALL|ITC|PASSTHRU","pin":macro,"residue_without_pin":str,"at":iso,"note":str}` -- one pin, or two when one is not enough (owner ruling 2026-09-22 afternoon, "accept 2 pins") -- charter rule 3, "a pin moved elsewhere is not a removal"; the trade is tracked, and L4 is where pins stop counting toward removal regardless): 27.
 
@@ -92,7 +102,7 @@ Void callees (`config/void_callees.txt`, tiers read from its section-header comm
 
 On shared record headers (T7, `include/records/`): 1163 rows, 658,372 bytes (25.7%); records used: 102.
 
-L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 767 rows (754,932 B), tail_jump 8 rows (2,392 B), not_in_module 6,741 rows (2,554,568 B).
+L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 765 rows (750,388 B), tail_jump 8 rows (2,392 B), not_in_module 6,741 rows (2,554,568 B).
 
 ## Naming and module evidence carried per row (docs/EVIDENCE.md, ledger/evidence/rows.jsonl)
 

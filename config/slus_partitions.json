@@ -192,6 +192,19 @@
           "functions": [
             "func_8004DDB4"
           ]
+        },
+        {
+          "module": "message_mode_81550",
+          "functions": [
+            "func_8004DCE0"
+          ]
+        },
+        {
+          "module": "accessors_814c8",
+          "functions": [
+            "func_8003F5D4",
+            "func_8003F5E0"
+          ]
         }
       ]
     },
@@ -235,6 +248,18 @@
           "module": "list_cursor_e0",
           "functions": [
             "func_800410FC"
+          ]
+        },
+        {
+          "module": "cd_command_state",
+          "functions": [
+            "func_8003F240"
+          ]
+        },
+        {
+          "module": "table_counters_b1b_b1c",
+          "functions": [
+            "func_80048DA0"
           ]
         }
       ]

@@ -1,0 +1,61 @@
+command: <repo>/.venv/bin/python tools/fidelity/prove_slus_ownership.py runtime_directory entry_words render_words owned_80035484 owned_80038A10 owned_80044698 owned_800448BC owned_8004713C owned_80047338 owned_80047468 state_defaults slot_transition slot_transition_secondary konami_runtime_gp_count gp_shared_slots gp_split_storage gp_shared_81510 gp_shared_8099c cache_afe list_cursor_e0 saved_value_b98 sort_rank_81540 command_slots_81554 address_slot command_words gp_shared_8152c gp_d92c_owned gp_order_bytes_owner gp_af3_pair message_mode_81550 cd_command_state accessors_814c8 table_counters_b1b_b1c --compiler-model-row slus/konami_runtime_w_80033D54 --output <repo>/work/native_lane/gp_partition_only_tools/activation_runs/20260925T010431Z_625211_resumed3/ownership_receipt.json
+slus/konami_runtime_w_8003C634: direct genuine and retail exact
+slus/konami_runtime_w_8003C758: direct genuine and retail exact
+slus/konami_runtime_w_8003C920: direct genuine and retail exact
+slus/w_800508F0: direct genuine and retail exact
+slus/konami_runtime_w_80035888: direct genuine and retail exact
+slus/konami_runtime_w_80035484: direct genuine and retail exact
+slus/konami_runtime_w_80038A10: direct genuine and retail exact
+slus/w_80044698: direct genuine and retail exact
+slus/w_800448BC: direct genuine and retail exact
+slus/w_8004713C: direct genuine and retail exact
+slus/w_80047338: direct genuine and retail exact
+slus/w_80047468: direct genuine and retail exact
+slus/w_8004D614: direct genuine and retail exact
+slus/w_80041AE4: direct genuine and retail exact
+slus/w_80041B98: direct genuine and retail exact
+slus/w_80041BE4: direct genuine and retail exact
+slus/w_80041C64: direct genuine and retail exact
+slus/w_80043D04: direct genuine and retail exact
+slus/w_80043DB8: direct genuine and retail exact
+slus/w_80043E04: direct genuine and retail exact
+slus/w_80043E60: direct genuine and retail exact
+slus/konami_runtime_w_8003C6F8: direct genuine and retail exact
+slus/w_8003CB08: direct genuine and retail exact
+slus/w_8003CCB0: direct genuine and retail exact
+slus/w_80048660: direct genuine and retail exact
+slus/w_80045340: direct genuine and retail exact
+slus/w_800453E0: direct genuine and retail exact
+slus/konami_runtime_w_80033D44: direct genuine and retail exact
+slus/konami_runtime_w_80033D54: retail exact; genuine exact after explicit t272 model
+slus/w_80044618: direct genuine and retail exact
+slus/w_80041134: direct genuine and retail exact
+slus/w_80050DA8: direct genuine and retail exact
+slus/w_80050E20: direct genuine and retail exact
+slus/w_8004B08C: direct genuine and retail exact
+slus/w_8004DCA8: direct genuine and retail exact
+slus/w_8004DD2C: direct genuine and retail exact
+slus/w_8004DDE4: direct genuine and retail exact
+slus/w_8004E130: direct genuine and retail exact
+slus/w_80047E78: direct genuine and retail exact
+slus/w_80053CFC: direct genuine and retail exact
+slus/w_80047D44: direct genuine and retail exact
+slus/w_80047DF0: direct genuine and retail exact
+slus/w_80047E30: direct genuine and retail exact
+slus/w_8003D92C: direct genuine and retail exact
+slus/w_80049F68: direct genuine and retail exact
+slus/w_8004437C: direct genuine and retail exact
+slus/w_8004450C: direct genuine and retail exact
+slus/w_8004DCEC: direct genuine and retail exact
+slus/w_8004DE88: direct genuine and retail exact
+slus/w_8004DF8C: direct genuine and retail exact
+slus/w_8003E34C: direct genuine and retail exact
+slus/w_8003E4FC: direct genuine and retail exact
+slus/w_8003E758: direct genuine and retail exact
+slus/w_8003F2A4: direct genuine and retail exact
+slus/w_8003F368: direct genuine and retail exact
+slus/w_8003F5AC: direct genuine and retail exact
+slus/w_8003F624: direct genuine and retail exact
+accessors_814c8 via slus/code: full owner direct genuine and retail exact
+table_counters_b1b_b1c via slus/code2: full owner direct genuine and retail exact
+{"modules": 33, "rows": 59, "gate": {"result": "MATCH", "words_diff": 0}, "image_sha1": "e6bfbb95ff6676899e077481221d73ddd4d3bf52"}

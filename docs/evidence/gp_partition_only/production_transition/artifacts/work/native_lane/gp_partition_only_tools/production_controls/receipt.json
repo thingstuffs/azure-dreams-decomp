@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "passed": 60,
+  "failed": 0,
+  "skipped": 0,
+  "failures_returned": 0,
+  "production_root": "<repo>",
+  "tool_fingerprint": "06d4d4af6ec799dd3590",
+  "production_objects_unchanged": true,
+  "script_sha256": "f522b1db2ee14de360de9a1926dcb4aa7772b419f99619ab548d8d143fcc11f0",
+  "log_sha256": "73a2b526c84ccedade580f1b0d34469a26d4c375746cf43e708be4e0592040c7"
+}

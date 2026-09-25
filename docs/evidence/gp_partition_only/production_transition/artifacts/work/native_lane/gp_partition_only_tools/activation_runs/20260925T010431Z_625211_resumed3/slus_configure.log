@@ -1,0 +1,2 @@
+command: <repo>/.venv/bin/python tools/configure.py
+wrote build.ninja (1140 objects)

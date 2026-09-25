@@ -1,0 +1,12 @@
+command: <repo>/.venv/bin/python -m unittest -v tools.maspsx.tests.test_fold_selfinc_la
+test_call_separated_selfinc_loop_keeps_its_seed (tools.maspsx.tests.test_fold_selfinc_la.TestFoldSelfincLa.test_call_separated_selfinc_loop_keeps_its_seed) ... ok
+test_indexed_advance_aborts_fold (tools.maspsx.tests.test_fold_selfinc_la.TestFoldSelfincLa.test_indexed_advance_aborts_fold) ... ok
+test_known_small_data_is_not_folded (tools.maspsx.tests.test_fold_selfinc_la.TestFoldSelfincLa.test_known_small_data_is_not_folded) ... ok
+test_no_selfinc_is_not_folded (tools.maspsx.tests.test_fold_selfinc_la.TestFoldSelfincLa.test_no_selfinc_is_not_folded) ... ok
+test_selfinc_loop_is_folded (tools.maspsx.tests.test_fold_selfinc_la.TestFoldSelfincLa.test_selfinc_loop_is_folded) ... ok
+test_value_use_aborts_fold (tools.maspsx.tests.test_fold_selfinc_la.TestFoldSelfincLa.test_value_use_aborts_fold) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.016s
+
+OK

@@ -1,0 +1,123 @@
+{"status": "PASS", "passed": 60, "failed": 0, "skipped": 0, "failures_returned": 0, "production_root": "<repo>", "tool_fingerprint": "06d4d4af6ec799dd3590", "production_objects_unchanged": true, "script_sha256": "f522b1db2ee14de360de9a1926dcb4aa7772b419f99619ab548d8d143fcc11f0", "log_sha256": "73a2b526c84ccedade580f1b0d34469a26d4c375746cf43e708be4e0592040c7"}
+{"complete": 100, "selected": 6767, "status": {"ok": 100}, "elapsed": 23}
+{"complete": 200, "selected": 6767, "status": {"ok": 200}, "elapsed": 46}
+{"complete": 300, "selected": 6767, "status": {"ok": 300}, "elapsed": 68}
+{"complete": 400, "selected": 6767, "status": {"ok": 400}, "elapsed": 90}
+{"complete": 500, "selected": 6767, "status": {"ok": 500}, "elapsed": 112}
+{"complete": 600, "selected": 6767, "status": {"ok": 600}, "elapsed": 134}
+{"complete": 700, "selected": 6767, "status": {"ok": 700}, "elapsed": 157}
+{"complete": 800, "selected": 6767, "status": {"ok": 800}, "elapsed": 180}
+{"complete": 900, "selected": 6767, "status": {"ok": 900}, "elapsed": 202}
+{"complete": 1000, "selected": 6767, "status": {"ok": 1000}, "elapsed": 225}
+{"complete": 1100, "selected": 6767, "status": {"ok": 1100}, "elapsed": 247}
+{"complete": 1200, "selected": 6767, "status": {"ok": 1200}, "elapsed": 269}
+{"complete": 1300, "selected": 6767, "status": {"ok": 1300}, "elapsed": 291}
+{"complete": 1400, "selected": 6767, "status": {"ok": 1400}, "elapsed": 314}
+{"complete": 1500, "selected": 6767, "status": {"ok": 1500}, "elapsed": 338}
+{"complete": 1600, "selected": 6767, "status": {"ok": 1600}, "elapsed": 360}
+{"complete": 1700, "selected": 6767, "status": {"ok": 1700}, "elapsed": 383}
+{"complete": 1800, "selected": 6767, "status": {"ok": 1800}, "elapsed": 405}
+{"complete": 1900, "selected": 6767, "status": {"ok": 1900}, "elapsed": 427}
+{"complete": 2000, "selected": 6767, "status": {"ok": 2000}, "elapsed": 448}
+{"complete": 2100, "selected": 6767, "status": {"ok": 2100}, "elapsed": 471}
+{"complete": 2200, "selected": 6767, "status": {"ok": 2200}, "elapsed": 493}
+{"complete": 2300, "selected": 6767, "status": {"ok": 2300}, "elapsed": 515}
+{"complete": 2400, "selected": 6767, "status": {"ok": 2400}, "elapsed": 537}
+{"complete": 2500, "selected": 6767, "status": {"ok": 2500}, "elapsed": 559}
+{"complete": 2600, "selected": 6767, "status": {"ok": 2600}, "elapsed": 581}
+{"complete": 2700, "selected": 6767, "status": {"ok": 2700}, "elapsed": 603}
+{"complete": 2800, "selected": 6767, "status": {"ok": 2800}, "elapsed": 625}
+{"complete": 2900, "selected": 6767, "status": {"ok": 2900}, "elapsed": 650}
+{"complete": 3000, "selected": 6767, "status": {"ok": 3000}, "elapsed": 679}
+{"complete": 3100, "selected": 6767, "status": {"ok": 3100}, "elapsed": 704}
+{"complete": 3200, "selected": 6767, "status": {"ok": 3200}, "elapsed": 728}
+{"complete": 3300, "selected": 6767, "status": {"ok": 3300}, "elapsed": 756}
+{"complete": 3400, "selected": 6767, "status": {"ok": 3400}, "elapsed": 783}
+{"complete": 3500, "selected": 6767, "status": {"ok": 3500}, "elapsed": 808}
+{"complete": 3600, "selected": 6767, "status": {"ok": 3600}, "elapsed": 834}
+{"complete": 3700, "selected": 6767, "status": {"ok": 3700}, "elapsed": 861}
+{"complete": 3800, "selected": 6767, "status": {"ok": 3800}, "elapsed": 888}
+{"complete": 3900, "selected": 6767, "status": {"ok": 3900}, "elapsed": 915}
+{"complete": 4000, "selected": 6767, "status": {"ok": 4000}, "elapsed": 941}
+{"complete": 4100, "selected": 6767, "status": {"ok": 4100}, "elapsed": 967}
+{"complete": 4200, "selected": 6767, "status": {"ok": 4200}, "elapsed": 992}
+{"complete": 4300, "selected": 6767, "status": {"ok": 4300}, "elapsed": 1020}
+{"complete": 4400, "selected": 6767, "status": {"ok": 4400}, "elapsed": 1050}
+{"complete": 4500, "selected": 6767, "status": {"ok": 4500}, "elapsed": 1076}
+{"complete": 4600, "selected": 6767, "status": {"ok": 4600}, "elapsed": 1107}
+{"complete": 4700, "selected": 6767, "status": {"ok": 4700}, "elapsed": 1133}
+{"complete": 4800, "selected": 6767, "status": {"ok": 4800}, "elapsed": 1164}
+{"complete": 4900, "selected": 6767, "status": {"ok": 4900}, "elapsed": 1191}
+{"complete": 5000, "selected": 6767, "status": {"ok": 5000}, "elapsed": 1219}
+{"complete": 5100, "selected": 6767, "status": {"ok": 5100}, "elapsed": 1248}
+{"complete": 5200, "selected": 6767, "status": {"ok": 5200}, "elapsed": 1274}
+{"complete": 5300, "selected": 6767, "status": {"ok": 5300}, "elapsed": 1299}
+{"complete": 5400, "selected": 6767, "status": {"ok": 5400}, "elapsed": 1325}
+{"complete": 5500, "selected": 6767, "status": {"ok": 5500}, "elapsed": 1352}
+{"complete": 5600, "selected": 6767, "status": {"ok": 5600}, "elapsed": 1379}
+{"complete": 5700, "selected": 6767, "status": {"ok": 5700}, "elapsed": 1407}
+{"complete": 5800, "selected": 6767, "status": {"ok": 5800}, "elapsed": 1433}
+{"complete": 5900, "selected": 6767, "status": {"ok": 5900}, "elapsed": 1465}
+{"complete": 6000, "selected": 6767, "status": {"ok": 6000}, "elapsed": 1487}
+{"complete": 6100, "selected": 6767, "status": {"ok": 6100}, "elapsed": 1508}
+{"complete": 6200, "selected": 6767, "status": {"ok": 6200}, "elapsed": 1533}
+{"complete": 6300, "selected": 6767, "status": {"ok": 6300}, "elapsed": 1564}
+{"complete": 6400, "selected": 6767, "status": {"ok": 6400}, "elapsed": 1595}
+{"complete": 6500, "selected": 6767, "status": {"ok": 6500}, "elapsed": 1624}
+{"complete": 6600, "selected": 6767, "status": {"ok": 6600}, "elapsed": 1649}
+{"complete": 6700, "selected": 6767, "status": {"ok": 6700}, "elapsed": 1670}
+{"complete": 6767, "selected": 6767, "status": {"ok": 6767}, "elapsed": 1685}
+{"status": "MEASURED", "rows": 6767, "counts": {"ok": 6767}, "whole_registry": true, "journal_sha256": "1c9e9cf07cba3730fbd5979ea5368ff4c4abed5354901349f074541cb1856512", "inputs_sha256": "e3deb58cae369be8e26e23357d9468e0dfe1ec57886ec556eb33a6193013debc", "unchanged_inputs": true, "maspsx_exact": 6767, "selfcheck": 6767, "genuine_exact_some_version": 6600, "elapsed_seconds": 1685.9}
+{
+  "status": "FRESH_PRODUCTION_VALIDATED",
+  "run_receipt_sha256": "e609d98b48a619cddea0426ef05baa7a01497fbbaaedcb54253f8abc001b2702",
+  "previous_ledger_sha256": "d110d6d521eba1df9f72ba1db4f0c5d1a2af4724a71d94b154dab36394565cd9",
+  "proposed_ledger_sha256": "ffcf0787dbf96c5255a17e25ff8a7e6297a974a9e61640aa328132b6f65ad150",
+  "registered_rows": 6767,
+  "previous_dependencies": 189,
+  "proposed_dependencies": 167,
+  "removed": [
+    "slus/w_8003D92C",
+    "slus/w_8003E34C",
+    "slus/w_8003E4FC",
+    "slus/w_8003E758",
+    "slus/w_8003F2A4",
+    "slus/w_8003F368",
+    "slus/w_8003F5AC",
+    "slus/w_8003F624",
+    "slus/w_80041AB0",
+    "slus/w_80043CD0",
+    "slus/w_8004437C",
+    "slus/w_8004450C",
+    "slus/w_80047D44",
+    "slus/w_80047DF0",
+    "slus/w_80047E30",
+    "slus/w_80047E78",
+    "slus/w_80049F68",
+    "slus/w_8004AB7C",
+    "slus/w_8004DCEC",
+    "slus/w_8004DE88",
+    "slus/w_8004DF8C",
+    "slus/w_80053CFC"
+  ],
+  "added": [],
+  "retained_ladder_classifications_unchanged": true,
+  "maspsx_retail_masked_words": 872,
+  "retail_scope_counts_differ": [
+    {
+      "row": "slus/w_8003FE78",
+      "object_functions": 2,
+      "retail_checked": 1
+    },
+    {
+      "row": "slus/w_8005DA88",
+      "object_functions": 2,
+      "retail_checked": 1
+    }
+  ],
+  "data_only_rows_without_instruction_comparison": [
+    "slus/gte_port_state"
+  ],
+  "production_written": false
+}
+FRESH_PRODUCTION_CENSUS_AND_PROPOSAL_READY_FOR_REVIEW

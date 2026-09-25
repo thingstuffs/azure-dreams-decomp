@@ -1,6 +1,9 @@
 # Final GP correction and obsolete-pass retirement proposal
 
-Status: **ready for owner sign-off; not applied to production**.
+Status: **historical reviewed proposal; approved and activated on 2026-09-25**.
+See the [completed production transition](../production_transition/README.md) for
+actual gates, integration supplements, fresh census and live ledger import.
+The frozen receipts below retain their original pre-approval state.
 
 The [60-file patch](transition_final/combined.patch) combines the SLUS data-owner
 and source repairs, corrected generic small-data addressing, removal of the unused

@@ -1129,6 +1129,606 @@
         }
       ],
       "evidence": "docs/evidence/gp_81554_partition.md"
+    },
+    {
+      "name": "address_slot",
+      "source": "src/w_80047E78_owned.c",
+      "members": [
+        {
+          "id": "slus/w_80047E78",
+          "source": "src/w_80047E78.c",
+          "functions": [
+            "func_80047E78"
+          ]
+        }
+      ],
+      "headers": [
+        "include/common.h"
+      ],
+      "recipe": {
+        "ccver": "2.7.2",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "data": [
+        {
+          "symbol": "D_80081528",
+          "asset": "assets/54240.bin",
+          "offset": 2792,
+          "size": 4,
+          "vram": 2148013352,
+          "bytes": "00000000",
+          "section": ".sdata"
+        }
+      ],
+      "evidence": "docs/evidence/gp_ownership_wave.md"
+    },
+    {
+      "name": "command_words",
+      "source": "src/w_80053CFC_owned.c",
+      "members": [
+        {
+          "id": "slus/w_80053CFC",
+          "source": "src/w_80053CFC.c",
+          "functions": [
+            "func_80053CFC"
+          ]
+        }
+      ],
+      "headers": [
+        "include/common.h"
+      ],
+      "recipe": {
+        "ccver": "2.7.2",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "data": [
+        {
+          "symbol": "D_80081568",
+          "asset": "assets/54240.bin",
+          "offset": 2856,
+          "size": 4,
+          "vram": 2148013416,
+          "bytes": "00000000",
+          "section": ".sdata"
+        },
+        {
+          "symbol": "D_8008156C",
+          "asset": "assets/54240.bin",
+          "offset": 2860,
+          "size": 4,
+          "vram": 2148013420,
+          "bytes": "00000000",
+          "section": ".sdata"
+        }
+      ],
+      "evidence": "docs/evidence/gp_ownership_wave.md"
+    },
+    {
+      "name": "gp_shared_8152c",
+      "source": "src/gp_shared_8152c.c",
+      "members": [
+        {
+          "id": "slus/w_80047D44",
+          "source": "src/w_80047D44.c",
+          "functions": [
+            "func_80047D44"
+          ]
+        },
+        {
+          "id": "slus/w_80047DF0",
+          "source": "src/w_80047DF0.c",
+          "functions": [
+            "func_80047DF0"
+          ]
+        },
+        {
+          "id": "slus/w_80047E30",
+          "source": "src/w_80047E30.c",
+          "functions": [
+            "func_80047E30"
+          ]
+        }
+      ],
+      "headers": [
+        "include/common.h"
+      ],
+      "recipe": {
+        "ccver": "2.7.2",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "data": [
+        {
+          "symbol": "D_8008152C",
+          "asset": "assets/54240.bin",
+          "offset": 2796,
+          "size": 4,
+          "vram": 2148013356,
+          "bytes": "00000000",
+          "section": ".sdata"
+        }
+      ],
+      "evidence": "docs/evidence/fidelity_gp_repair_progress.md"
+    },
+    {
+      "name": "gp_d92c_owned",
+      "source": "src/gp_d92c_owned.c",
+      "members": [
+        {
+          "id": "slus/w_8003D92C",
+          "source": "src/w_8003D92C.c",
+          "functions": [
+            "func_8003D92C"
+          ]
+        }
+      ],
+      "headers": [
+        "include/common.h"
+      ],
+      "recipe": {
+        "ccver": "2.7.2-cdk",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "data": [
+        {
+          "symbol": "D_80080ABC",
+          "asset": "assets/54240.bin",
+          "offset": 124,
+          "size": 2,
+          "vram": 2148010684,
+          "bytes": "0000",
+          "section": ".sdata"
+        },
+        {
+          "symbol": "D_80080ABE",
+          "asset": "assets/54240.bin",
+          "offset": 126,
+          "size": 2,
+          "vram": 2148010686,
+          "bytes": "0000",
+          "section": ".sdata"
+        }
+      ],
+      "evidence": "docs/evidence/fidelity_step4_measure.md"
+    },
+    {
+      "name": "gp_order_bytes_owner",
+      "source": "src/gp_order_bytes_owner.c",
+      "members": [
+        {
+          "id": "slus/w_80049F68",
+          "source": "src/w_80049F68.c",
+          "functions": [
+            "func_80049F68"
+          ]
+        }
+      ],
+      "headers": [
+        "include/common.h"
+      ],
+      "recipe": {
+        "ccver": "2.7.2-cdk",
+        "ccflags": "-fno-strength-reduce",
+        "asflags": ""
+      },
+      "data": [
+        {
+          "symbol": "D_80080B30",
+          "asset": "assets/54240.bin",
+          "offset": 240,
+          "size": 4,
+          "vram": 2148010800,
+          "bytes": "01030204",
+          "section": ".sdata"
+        }
+      ],
+      "evidence": "docs/evidence/gp_ownership_wave.md"
+    },
+    {
+      "name": "gp_af3_pair",
+      "source": "src/w_8004437C_pair.c",
+      "members": [
+        {
+          "id": "slus/w_8004437C",
+          "source": "src/w_8004437C.c",
+          "functions": [
+            "func_8004437C"
+          ]
+        },
+        {
+          "id": "slus/w_8004450C",
+          "source": "src/w_8004450C.c",
+          "functions": [
+            "func_8004450C"
+          ]
+        }
+      ],
+      "headers": [
+        "include/common.h"
+      ],
+      "recipe": {
+        "ccver": "2.7.2-cdk",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "data": [
+        {
+          "symbol": "D_80080AF3",
+          "asset": "assets/54240.bin",
+          "offset": 179,
+          "size": 1,
+          "vram": 2148010739,
+          "bytes": "ff",
+          "section": ".sdata"
+        },
+        {
+          "symbol": "D_80080AFC",
+          "asset": "assets/54240.bin",
+          "offset": 188,
+          "size": 2,
+          "vram": 2148010748,
+          "bytes": "0000",
+          "section": ".sbss"
+        }
+      ],
+      "evidence": "docs/evidence/gp_ownership_wave.md"
+    },
+    {
+      "name": "message_mode_81550",
+      "source": "src/w_8004DCEC_owned.c",
+      "members": [
+        {
+          "id": "slus/w_8004DCEC",
+          "source": "src/w_8004DCEC.c",
+          "functions": [
+            "func_8004DCEC"
+          ]
+        },
+        {
+          "id": "slus/w_8004DE88",
+          "source": "src/w_8004DE88.c",
+          "functions": [
+            "func_8004DE88"
+          ]
+        },
+        {
+          "id": "slus/w_8004DF8C",
+          "source": "src/w_8004DF8C.c",
+          "functions": [
+            "func_8004DF8C"
+          ]
+        }
+      ],
+      "headers": [
+        "include/common.h",
+        "include/slus/message_mode_81550.h"
+      ],
+      "recipe": {
+        "ccver": "2.7.2-cdk",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "data": [
+        {
+          "symbol": "D_8008154C",
+          "asset": "assets/54240.bin",
+          "offset": 2828,
+          "size": 4,
+          "vram": 2148013388,
+          "bytes": "00000000",
+          "section": ".sdata"
+        },
+        {
+          "symbol": "D_80081550",
+          "asset": "assets/54240.bin",
+          "offset": 2832,
+          "size": 4,
+          "vram": 2148013392,
+          "bytes": "00000000",
+          "section": ".sdata"
+        }
+      ],
+      "evidence": "docs/evidence/gp_81550_partition.md"
+    },
+    {
+      "data": [
+        {
+          "asset": "assets/54240.bin",
+          "bytes": "00",
+          "offset": 2704,
+          "section": ".sdata.D_800814D0",
+          "size": 1,
+          "symbol": "D_800814D0",
+          "vram": 2148013264
+        },
+        {
+          "asset": "assets/54240.bin",
+          "bytes": "00",
+          "offset": 2708,
+          "section": ".sdata.D_800814D4",
+          "size": 1,
+          "symbol": "D_800814D4",
+          "vram": 2148013268
+        },
+        {
+          "asset": "assets/54240.bin",
+          "bytes": "00000000",
+          "offset": 2700,
+          "section": ".sdata.D_800814CC",
+          "size": 4,
+          "symbol": "D_800814CC",
+          "vram": 2148013260
+        },
+        {
+          "asset": "assets/54240.bin",
+          "bytes": "0000000000000000",
+          "offset": 2576,
+          "section": ".sdata.D_80081450",
+          "size": 8,
+          "symbol": "D_80081450",
+          "vram": 2148013136
+        },
+        {
+          "asset": "assets/54240.bin",
+          "bytes": "00",
+          "offset": 144,
+          "section": ".sdata.D_80080AD0",
+          "size": 1,
+          "symbol": "D_80080AD0",
+          "vram": 2148010704
+        },
+        {
+          "asset": "assets/54240.bin",
+          "bytes": "0000",
+          "offset": 146,
+          "section": ".sdata.D_80080AD2",
+          "size": 2,
+          "symbol": "D_80080AD2",
+          "vram": 2148010706
+        },
+        {
+          "asset": "assets/54240.bin",
+          "bytes": "0000",
+          "offset": 148,
+          "section": ".sdata.D_80080AD4",
+          "size": 2,
+          "symbol": "D_80080AD4",
+          "vram": 2148010708
+        },
+        {
+          "asset": "assets/54240.bin",
+          "bytes": "00000000",
+          "offset": 152,
+          "section": ".sdata.D_80080AD8",
+          "size": 4,
+          "symbol": "D_80080AD8",
+          "vram": 2148010712
+        },
+        {
+          "asset": "assets/54240.bin",
+          "bytes": "00000000",
+          "offset": 156,
+          "section": ".sdata.D_80080ADC",
+          "size": 4,
+          "symbol": "D_80080ADC",
+          "vram": 2148010716
+        },
+        {
+          "asset": "assets/54240.bin",
+          "bytes": "00000000",
+          "offset": 2672,
+          "section": ".sdata.D_800814B0",
+          "size": 4,
+          "symbol": "D_800814B0",
+          "vram": 2148013232
+        },
+        {
+          "asset": "assets/54240.bin",
+          "bytes": "00000000",
+          "offset": 2676,
+          "section": ".sdata.D_800814B4",
+          "size": 4,
+          "symbol": "D_800814B4",
+          "vram": 2148013236
+        }
+      ],
+      "data_pieces": [
+        {
+          "alignment": 1,
+          "source_section": ".sdata",
+          "symbol": "D_800814D0"
+        },
+        {
+          "alignment": 1,
+          "source_section": ".sdata",
+          "symbol": "D_800814D4"
+        },
+        {
+          "alignment": 4,
+          "source_section": ".sdata",
+          "symbol": "D_800814CC"
+        },
+        {
+          "alignment": 4,
+          "source_section": ".sdata",
+          "symbol": "D_80081450"
+        },
+        {
+          "alignment": 1,
+          "source_section": ".sdata",
+          "symbol": "D_80080AD0"
+        },
+        {
+          "alignment": 2,
+          "source_section": ".sdata",
+          "symbol": "D_80080AD2"
+        },
+        {
+          "alignment": 2,
+          "source_section": ".sdata",
+          "symbol": "D_80080AD4"
+        },
+        {
+          "alignment": 4,
+          "source_section": ".sdata",
+          "symbol": "D_80080AD8"
+        },
+        {
+          "alignment": 4,
+          "source_section": ".sdata",
+          "symbol": "D_80080ADC"
+        },
+        {
+          "alignment": 4,
+          "source_section": ".sdata",
+          "symbol": "D_800814B0"
+        },
+        {
+          "alignment": 4,
+          "source_section": ".sdata",
+          "symbol": "D_800814B4"
+        }
+      ],
+      "evidence": "docs/evidence/gp_cd_contract.md",
+      "headers": [
+        "include/common.h",
+        "include/slus/cd_state.h",
+        "include/slus/cd_cohort_types.h"
+      ],
+      "members": [
+        {
+          "functions": [
+            "func_8003E34C"
+          ],
+          "id": "slus/w_8003E34C",
+          "source": "src/w_8003E34C.c"
+        },
+        {
+          "functions": [
+            "func_8003E4FC"
+          ],
+          "id": "slus/w_8003E4FC",
+          "source": "src/w_8003E4FC.c"
+        },
+        {
+          "functions": [
+            "func_8003E758"
+          ],
+          "id": "slus/w_8003E758",
+          "source": "src/w_8003E758.c"
+        },
+        {
+          "functions": [
+            "func_8003F2A4"
+          ],
+          "id": "slus/w_8003F2A4",
+          "source": "src/w_8003F2A4.c"
+        },
+        {
+          "functions": [
+            "func_8003F368"
+          ],
+          "id": "slus/w_8003F368",
+          "source": "src/w_8003F368.c"
+        },
+        {
+          "functions": [
+            "func_8003F5AC"
+          ],
+          "id": "slus/w_8003F5AC",
+          "source": "src/w_8003F5AC.c"
+        },
+        {
+          "functions": [
+            "func_8003F624"
+          ],
+          "id": "slus/w_8003F624",
+          "source": "src/w_8003F624.c"
+        }
+      ],
+      "name": "cd_command_state",
+      "recipe": {
+        "asflags": "",
+        "ccflags": "-G32",
+        "ccver": "2.7.2-cdk"
+      },
+      "source": "src/cd_command_state_owned.c"
+    },
+    {
+      "name": "accessors_814c8",
+      "source": "src/c8_accessors_owned.c",
+      "members": [],
+      "partition_only": true,
+      "headers": [
+        "include/common.h"
+      ],
+      "recipe": {
+        "ccver": "2.7.2",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "data": [
+        {
+          "symbol": "D_800814C8",
+          "asset": "assets/54240.bin",
+          "offset": 2696,
+          "size": 4,
+          "vram": 2148013256,
+          "bytes": "00000000",
+          "section": ".sdata"
+        }
+      ],
+      "evidence": "docs/evidence/gp_cd_cohort.md"
+    },
+    {
+      "name": "table_counters_b1b_b1c",
+      "source": "src/b1b_b1c_table_owned.c",
+      "members": [],
+      "partition_only": true,
+      "headers": [
+        "include/common.h"
+      ],
+      "recipe": {
+        "ccver": "2.8.1",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "data": [
+        {
+          "symbol": "D_80080B1B",
+          "asset": "assets/54240.bin",
+          "offset": 219,
+          "size": 1,
+          "vram": 2148010779,
+          "bytes": "00",
+          "section": ".sdata.D_80080B1B"
+        },
+        {
+          "symbol": "D_80080B1C",
+          "asset": "assets/54240.bin",
+          "offset": 220,
+          "size": 1,
+          "vram": 2148010780,
+          "bytes": "00",
+          "section": ".sdata.D_80080B1C"
+        }
+      ],
+      "data_pieces": [
+        {
+          "symbol": "D_80080B1B",
+          "source_section": ".sdata",
+          "alignment": 1
+        },
+        {
+          "symbol": "D_80080B1C",
+          "source_section": ".sdata",
+          "alignment": 1
+        }
+      ],
+      "evidence": "docs/evidence/gp_cd_cohort.md"
     }
   ]
 }

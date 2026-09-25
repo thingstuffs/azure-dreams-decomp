@@ -1,0 +1,2 @@
+command: <repo>/.venv/bin/python tools/row_db.py check
+row database OK

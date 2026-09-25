@@ -115,7 +115,7 @@ class SlusView:
         self.pristine = (self.dest / "build.ninja").read_text()
         self.modules = load_manifest(self.dest / "config/slus_modules.json")
         self.partitions = partitions.load_plan(self.dest / "config/slus_partitions.json")
-        if self.partitions:
+        if self.partitions or any(module.get("partition_only") for module in self.modules):
             self.aliases = partitions.read_aliases(self.dest / "config/names.tsv")
             edges = logical_edges(partitions.project_edges(edges_of(self.pristine), self.partitions), self.modules)
             expected = [json.loads(line) for line in (ROOT / "ledger/splits/slus.jsonl").read_text().splitlines() if line.strip()]

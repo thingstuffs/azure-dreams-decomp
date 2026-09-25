@@ -15,14 +15,13 @@ post-pass methods have been wrapped in this process only.
     (`_maybe_unfill_return_delay`, `_expand_store_to_symbol_in_delay`) and the post-pass helper
     `_backfill_return_delay_store` are wrapped the same way (fired = returned a rewrite);
   * `--disable` makes the listed passes/helpers the identity (the ablation);
-  * `--strip-externs` drops every `.extern NAME,SIZE` line from maspsx's input: genuine ASPSX
-    ignores `.extern` sizes (every extern is addressed absolutely, measured on 2.56-2.86), while
-    maspsx `$gp`-relativises externs of size <= -G. This is the decision-3 ablation
-    (docs/TOOLCHAIN_FIDELITY_PLAN.md).
+  * `--strip-externs` drops every `.extern NAME,SIZE` line from maspsx's input as a metadata
+    ablation. A changed object can result from scheduling as well as addressing; inspect the
+    emitted relocation types before assigning a `$gp` cause.
 
 The trace JSON: {"passes": [every wrapped pass], "fired": [passes that changed the listing],
-"disabled": [...], "strip_externs": bool}.  (The `$gp` choice for an extern is made by GNU as from
-the `.extern` size maspsx passes through, which is why the ablation acts on maspsx's INPUT.)
+"disabled": [...], "strip_externs": bool}. The ablation changes maspsx's input, not its
+implementation.
 """
 import importlib.util
 import inspect

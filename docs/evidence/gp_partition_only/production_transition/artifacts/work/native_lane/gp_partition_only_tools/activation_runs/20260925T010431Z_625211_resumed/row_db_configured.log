@@ -1,0 +1,3 @@
+command: <repo>/.venv/bin/python tools/row_db.py check
+slus: module member definitions differ for slus/w_80047E30
+1 problems

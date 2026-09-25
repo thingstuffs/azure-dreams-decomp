@@ -1,0 +1,13 @@
+command: git apply <repo>/work/native_lane/gp_partition_only_tools/transition_final/combined.patch
+<repo>/work/native_lane/gp_partition_only_tools/transition_final/combined.patch:868: trailing whitespace.
+  ccflags =
+<repo>/work/native_lane/gp_partition_only_tools/transition_final/combined.patch:869: trailing whitespace.
+  asflags =
+<repo>/work/native_lane/gp_partition_only_tools/transition_final/combined.patch:881: trailing whitespace.
+  ccflags =
+<repo>/work/native_lane/gp_partition_only_tools/transition_final/combined.patch:882: trailing whitespace.
+  asflags =
+<repo>/work/native_lane/gp_partition_only_tools/transition_final/combined.patch:887: trailing whitespace.
+  asflags =
+warning: squelched 5 whitespace errors
+warning: 10 lines add whitespace errors.

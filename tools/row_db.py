@@ -63,10 +63,18 @@ def check_slus_partition_plan(root, all_modules, original_logical_edges):
     from slus_partitions import load_plan, read_aliases, validate_context
     root = Path(root)
     plan = load_plan(root / "config/slus_partitions.json")
-    if plan:
+    if plan or any(module.get("partition_only") for module in all_modules):
         validate_context(plan, all_modules, original_logical_edges, root / "raw/slus",
                          read_aliases(root / "config/names.tsv"))
     return plan
+
+
+
+def slus_member_definitions(raw, names):
+    """Canonical member identities include names registered in the alias table."""
+    from slus_partitions import read_aliases, spans
+    raw = Path(raw)
+    return sorted(spans(raw.read_text(), read_aliases(names))) if raw.is_file() else []
 
 
 def cmd_import(a):
@@ -118,9 +126,8 @@ def cmd_check(a):
                     print(f"slus: missing module input {path.relative_to(ROOT)}"); bad += 1
             for member in module["members"]:
                 row = by_id.get(member["id"])
-                from verify import DEF_SYM
                 raw = RAW / "slus" / Path(member["source"]).name
-                definitions = sorted(set(DEF_SYM.findall(raw.read_text()))) if raw.is_file() else []
+                definitions = slus_member_definitions(raw, ROOT / "config/names.tsv")
                 if row is None or definitions != sorted(member["functions"]):
                     print(f"slus: module member definitions differ for {member['id']}"); bad += 1
     except (OSError, ValueError) as exc:

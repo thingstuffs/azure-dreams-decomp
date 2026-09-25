@@ -1023,6 +1023,10 @@ PARTITIONS = partition_support.load_plan(PARTITION_PLAN_FILE)
 PARTITION_PATHS = partition_support.output_paths(PARTITIONS)
 PARTITION_MODULE_DEPS = {}
 PARTITION_COVERAGE_STAMP = f"{BUILDDIR}/partition_sources/coverage.ok"
+if not PARTITIONS and any(module.get("partition_only") is True for module in MODULES):
+    # An owner with no whole rows cannot be anchored by the logical ledger.
+    # Even an absent optional plan must go through the incoming-part check.
+    partition_support.validate_context([], MODULES, [], "raw/slus")
 if PARTITIONS:
     if NM:
         raise RuntimeError("SLUS partitions are not supported in --non-matching builds")
@@ -1058,6 +1062,25 @@ if PARTITIONS:
 
 # C translation units — recompile if the .c OR any INCLUDE_ASM'd nonmatching asm changes
 nonmatch = " ".join(sorted(glob.glob("asm/nonmatchings/**/*.s", recursive=True)))
+CC_VER.update({
+    "src/w_8003D92C.c": ("2.7.2-cdk", ""),
+    "src/w_8003FAD4.c": ("2.7.2-cdk", ""),
+    "src/w_80041588.c": ("2.7.2-cdk", ""),
+    "src/w_80041AB0.c": ("2.7.2-cdk", ""),
+    "src/w_80043CD0.c": ("2.7.2-cdk", ""),
+    "src/w_8004AB7C.c": ("2.7.2-cdk", ""),
+    "src/w_8004450C.c": ("2.7.2-cdk", ""),
+    "src/w_8004DCEC.c": ("2.7.2-cdk", ""),
+})
+CC_VER.update({
+    "src/w_8003E34C.c": ("2.7.2-cdk", "-G32"),
+    "src/w_8003E4FC.c": ("2.7.2-cdk", "-G32"),
+    "src/w_8003E758.c": ("2.7.2-cdk", "-G32"),
+    "src/w_8003F2A4.c": ("2.7.2-cdk", "-G32"),
+    "src/w_8003F368.c": ("2.7.2-cdk", "-G32"),
+    "src/w_8003F5AC.c": ("2.7.2-cdk", "-G32"),
+    "src/w_8003F624.c": ("2.7.2-cdk", "-G32"),
+})
 cfiles = sorted(glob.glob("src/*.c"))
 module_by_source = {}
 member_sources = set()

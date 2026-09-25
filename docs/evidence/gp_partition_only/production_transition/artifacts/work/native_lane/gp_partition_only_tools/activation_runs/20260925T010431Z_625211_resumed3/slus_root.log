@@ -1,0 +1,2 @@
+command: bash tools/build/mk_slus_root.sh
+build root: <repo>/build_slus

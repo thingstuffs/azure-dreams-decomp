@@ -1,0 +1,46 @@
+command: <repo>/.venv/bin/python -m unittest discover -s tools/tests -p test_configure_slus*.py
+F.F..E..
+======================================================================
+ERROR: test_current_manifest_matches_pinned_ninja_byte_for_byte (test_configure_slus_modules.ConfigureSlusModulesTest.test_current_manifest_matches_pinned_ninja_byte_for_byte)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repo>/tools/tests/test_configure_slus_modules.py", line 134, in test_current_manifest_matches_pinned_ninja_byte_for_byte
+    subprocess.run(("python3", "tools/configure.py"), cwd=other,
+  File "/usr/lib/python3.12/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '('python3', 'tools/configure.py')' returned non-zero exit status 1.
+
+======================================================================
+FAIL: test_legacy_module_keeps_original_cc_rule_and_edges (test_configure_slus_data_pieces.ConfigureSlusDataPiecesTest.test_legacy_module_keeps_original_cc_rule_and_edges)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repo>/tools/tests/test_configure_slus_data_pieces.py", line 80, in test_legacy_module_keeps_original_cc_rule_and_edges
+    ninja = self.configure()
+            ^^^^^^^^^^^^^^^^
+  File "<repo>/tools/tests/test_configure_slus_data_pieces.py", line 75, in configure
+    self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+AssertionError: 1 != 0 : Traceback (most recent call last):
+  File "/tmp/configure_slus_pieces_fjoc83kx/tools/configure.py", line 1108, in <module>
+    raise RuntimeError(f"module member recipe differs from current build: {member_source}: {actual}")
+RuntimeError: module member recipe differs from current build: src/w_8003E758.c: {'ccver': '2.7.2-cdk', 'ccflags': '-G32', 'asflags': ''}
+
+
+======================================================================
+FAIL: test_opted_edge_transforms_and_missing_sidecar_fails_verification (test_configure_slus_data_pieces.ConfigureSlusDataPiecesTest.test_opted_edge_transforms_and_missing_sidecar_fails_verification)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repo>/tools/tests/test_configure_slus_data_pieces.py", line 141, in test_opted_edge_transforms_and_missing_sidecar_fails_verification
+    legacy_physical = edges_of(self.configure())
+                               ^^^^^^^^^^^^^^^^
+  File "<repo>/tools/tests/test_configure_slus_data_pieces.py", line 75, in configure
+    self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+AssertionError: 1 != 0 : Traceback (most recent call last):
+  File "/tmp/configure_slus_pieces_2c23ms4e/tools/configure.py", line 1108, in <module>
+    raise RuntimeError(f"module member recipe differs from current build: {member_source}: {actual}")
+RuntimeError: module member recipe differs from current build: src/w_8003E758.c: {'ccver': '2.7.2-cdk', 'ccflags': '-G32', 'asflags': ''}
+
+
+----------------------------------------------------------------------
+Ran 8 tests in 1.141s
+
+FAILED (failures=2, errors=1)

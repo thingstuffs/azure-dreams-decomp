@@ -118,8 +118,6 @@ class TestFuncAddrSplitBranchDelayGuard(unittest.TestCase):
             "j	$31",
         ]
         expected = [
-            ".extern	D_8008148C, 12",
-            ".extern	D_80081480, 12",
             "subu	$sp,$sp,24",
             "lui	$4,%hi(func_80041AE4)",
             "lw	$2,D_8008148C",
