@@ -67,9 +67,13 @@ class CombinedIntegrationTests(unittest.TestCase):
         self.assertEqual(shared.returncode, 0, shared.stderr.decode())
         self.assertEqual(combined.returncode, 0, combined.stderr.decode())
         self.assertEqual(combined.stdout, shared.stdout)
+        # Genuine-style external metadata is consumed rather than emitted;
+        # the pinned stream below differs from the old golden by those six
+        # directives only, with every instruction and other line unchanged.
+        self.assertNotIn(b".extern\t", combined.stdout)
         self.assertEqual(
             hashlib.sha256(combined.stdout).hexdigest(),
-            "9e5c2f3f4a469228c91b1dc7baef59961227db693ece943a71d7ddb8230f753b",   # golden output; the fixture's .file path was neutralised when vendored (the directive passes through)
+            "3b79c3a477b2d507bb96e2c9e6d178aaf2003dc86ae55e5cd0fce9271f86c56a",   # full candidate stream; only six .extern metadata lines left the old golden
         )
 
 

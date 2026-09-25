@@ -268,3 +268,24 @@ the data-only row and two unlinked helper symbols from directly compared functio
 The reviewed 60-file transition and production semantics remain unchanged.
 Required owner approval, production activation, fresh census and live ledger/status
 refresh remain outstanding; no completion claim is made.
+
+
+## Completion checkpoint: approved production transition
+
+Completed 2026-09-25T02:02:18Z after explicit owner approval on 2026-09-25.
+The [production transition and requirement audit](evidence/gp_partition_only/production_transition/README.md)
+records the installed GP correction and sink-pass retirement, retail-exact SLUS
+image, all 2,175 overlay windows, 33 ownership proofs, and both fresh placement
+certificates. All 166 SLUS, eight configure, 418 assembler tests and 60 controls
+pass. Setup/alias-validator corrections and their original failed runs are retained.
+
+The fresh production six-version census passes all 6,767 registered rows;
+6,600 match a common genuine version and 167 remain dependent. The live ledger
+now has 167 dependencies (189 before; 22 removed, none added), with levels/status
+refreshed and proof inputs/certificates still current. The pilot remains L5/L4/L5.
+The three MAIN C gaps are explicitly evidenced under item 4's fallback; 22 movie
+rows remain parked. Census masks and data/helper comparison limits stay explicit.
+
+All four original goal requirements are satisfied at their stated scope. Remaining
+H28 reconstructions, the egcs proxy question, the 167 dependencies and MAIN gaps
+are the follow-up queue. No whole-game C-complete or pin-free claim is made.

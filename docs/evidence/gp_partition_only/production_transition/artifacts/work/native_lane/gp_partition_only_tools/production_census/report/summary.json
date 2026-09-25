@@ -1,0 +1,61 @@
+{
+  "rows": 6767,
+  "genuine_common": 6600,
+  "dependencies": 167,
+  "containers": {
+    "main": {
+      "rows": 423,
+      "genuine_common": 418,
+      "dependencies": 5,
+      "masked_words": 133,
+      "masked_rows": 26
+    },
+    "town": {
+      "rows": 2695,
+      "genuine_common": 2649,
+      "dependencies": 46,
+      "masked_words": 244,
+      "masked_rows": 83
+    },
+    "dungeon": {
+      "rows": 2743,
+      "genuine_common": 2642,
+      "dependencies": 101,
+      "masked_words": 492,
+      "masked_rows": 192
+    },
+    "ovmovie": {
+      "rows": 22,
+      "genuine_common": 20,
+      "dependencies": 2,
+      "masked_words": 3,
+      "masked_rows": 1
+    },
+    "slus": {
+      "rows": 884,
+      "genuine_common": 871,
+      "dependencies": 13,
+      "masked_words": 0,
+      "masked_rows": 0
+    }
+  },
+  "external_gp_rows": 0,
+  "sink_pass_present": false,
+  "retail_scope_counts_differ": [
+    {
+      "row": "slus/w_8003FE78",
+      "object_functions": 2,
+      "retail_checked": 1
+    },
+    {
+      "row": "slus/w_8005DA88",
+      "object_functions": 2,
+      "retail_checked": 1
+    }
+  ],
+  "data_only_rows": [
+    "slus/gte_port_state"
+  ],
+  "masked_words": 872,
+  "masked_rows": 302
+}

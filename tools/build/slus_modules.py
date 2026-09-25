@@ -28,6 +28,16 @@ class ModuleError(ValueError):
     """Unsafe, ambiguous, or unsupported module plan."""
 
 
+def _partition_only(module, where):
+    if "partition_only" not in module:
+        return False
+    if module["partition_only"] is not True:
+        raise ModuleError(f"{where}: partition_only must be true when present")
+    if module.get("members") != []:
+        raise ModuleError(f"{where}: partition_only owner must have no whole members")
+    return True
+
+
 def _keys(value, required, where):
     if not isinstance(value, dict) or set(value) != set(required):
         raise ModuleError(f"{where}: expected keys {sorted(required)}")
@@ -88,9 +98,11 @@ def data_piece_plan(module) -> list[dict]:
     """Validate an opt-in named-section plan and return exact physical pieces."""
     if not isinstance(module, dict):
         raise ModuleError("module: expected an object")
+    _partition_only(module, "module")
     if "data_pieces" not in module:
         return []
-    allowed = {"name", "source", "members", "headers", "recipe", "data", "evidence", "data_pieces"}
+    allowed = {"name", "source", "members", "headers", "recipe", "data", "evidence",
+               "data_pieces", "partition_only"}
     if set(module) - allowed:
         raise ModuleError(f"module: unexpected keys {sorted(set(module) - allowed)}")
     name = module.get("name")
@@ -152,7 +164,8 @@ def load_manifest(path) -> list[dict]:
     for i, module in enumerate(doc["modules"]):
         where = f"modules[{i}]"
         module_keys = ("name", "source", "members", "headers", "recipe", "data", "evidence")
-        _keys(module, module_keys + (("data_pieces",) if "data_pieces" in module else ()), where)
+        optional_keys = tuple(key for key in ("data_pieces", "partition_only") if key in module)
+        _keys(module, module_keys + optional_keys, where)
         name = module["name"]
         if not isinstance(name, str) or not _NAME.fullmatch(name) or name in seen_names:
             raise ModuleError(f"{where}: invalid or duplicate name {name!r}")
@@ -173,7 +186,10 @@ def load_manifest(path) -> list[dict]:
         evidence = _path(module["evidence"], where + ".evidence", "docs", ".md")
         if not evidence.startswith("docs/evidence/"):
             raise ModuleError(f"{where}: evidence must be under docs/evidence/")
-        if not isinstance(module["members"], list) or not module["members"]:
+        partition_only = _partition_only(module, where)
+        if not isinstance(module["members"], list):
+            raise ModuleError(f"{where}: members must be a list")
+        if not partition_only and not module["members"]:
             raise ModuleError(f"{where}: members must be nonempty")
         members = []
         for j, member in enumerate(module["members"]):
@@ -216,6 +232,8 @@ def load_manifest(path) -> list[dict]:
             parsed_data.append(parsed)
         parsed_module = {"name": name, "source": source, "members": members, "headers": headers,
                          "recipe": recipe, "data": parsed_data, "evidence": evidence}
+        if partition_only:
+            parsed_module["partition_only"] = True
         if "data_pieces" in module:
             parsed_module["data_pieces"] = [dict(piece) if isinstance(piece, dict) else piece
                                             for piece in module["data_pieces"]] if isinstance(module["data_pieces"], list) else module["data_pieces"]

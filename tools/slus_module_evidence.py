@@ -10,7 +10,7 @@ import json
 from pathlib import Path
 
 from common import ROOT
-from slus_module_context import fingerprint, modules, partition_context
+from slus_module_context import fingerprint, modules, partition_context, module_anchor
 
 
 def physical_descriptor(module, root=ROOT):
@@ -19,7 +19,7 @@ def physical_descriptor(module, root=ROOT):
     Contributor IDs document function provenance; they are not placement grants.
     The manifest's whole-member list remains the only placement candidate list.
     """
-    row = {"kind": "slus", "id": module["members"][0]["id"]}
+    row = module_anchor(module, root)
     parents, owners, _ = partition_context(row, root)
     if not parents:
         return None
@@ -96,6 +96,78 @@ def check_physical_record(record, member, descriptor, expected_fingerprint):
     return unit
 
 
+def check_partition_record(record, contributor, descriptor, expected_fingerprint, root=ROOT):
+    """Prove a part-only owner from its real collector measurement.
+
+    The collector must have complete pipeline/retail coverage. Its unrelated
+    streams need not be genuine-exact: direct genuine equality is required for
+    this destination's entire TU, including every other incoming contributor.
+    This result grants data ownership, never whole-collector placement.
+    """
+    import slus_partitions as partitions
+    if (contributor.get("kind") != "part"
+            or contributor not in descriptor["contributors"]):
+        raise ValueError("partition proof has no declared contributor")
+    row = {"kind": "slus", "id": contributor["row"]}
+    parents, owners, _ = partition_context(row, root)
+    parent = next((p for p in parents if p["id"] == row["id"]), None)
+    if parent is None or parent["source"] != contributor["source"]:
+        raise ValueError("partition proof has no matching collector")
+    units = partitions.row_units(row["id"], parents, owners)
+    emitted = partitions.expected_units(parents, owners)
+    measured = record.get("physical_units")
+    total = {"diff": 0, "masked": 0, "checked": len(parent["functions"])}
+    if (record.get("row") != row["id"] or record.get("status") != "ok"
+            or record.get("selfcheck") is not True or record.get("maspsx_exact") is not True
+            or record.get("functions") != parent["functions"]
+            or record.get("funcs") != len(parent["functions"])
+            or record.get("maspsx_retail") != total
+            or record.get("module_fingerprint") != expected_fingerprint
+            or record.get("compiler_model") or record.get("model")
+            or not isinstance(measured, list) or len(measured) != len(units)
+            or any(not isinstance(u, dict) for u in measured)):
+        raise ValueError("collector lacks complete pipeline/retail proof")
+    for expected, actual in zip(units, measured):
+        scope = {"diff": 0, "masked": 0, "checked": len(expected["functions"])}
+        if (any(actual.get(key) != value for key, value in expected.items())
+                or actual.get("row") != row["id"] or actual.get("status") != "ok"
+                or actual.get("selfcheck") is not True or actual.get("maspsx_exact") is not True
+                or actual.get("module_fingerprint") != expected_fingerprint
+                or actual.get("funcs") != len(expected["functions"])
+                or actual.get("maspsx_retail") != scope
+                or actual.get("expected_functions") != sorted(emitted[expected["source"]])):
+            raise ValueError("collector physical coverage or context differs")
+    matches = [u for u in measured if u.get("source") == descriptor["source"]]
+    if len(matches) != 1:
+        raise ValueError("partition destination proof is missing or ambiguous")
+    unit = matches[0]
+    cfg = " ".join(filter(None, (descriptor["recipe"]["ccver"], descriptor["recipe"]["ccflags"])))
+    full = {"diff": 0, "masked": 0, "checked": len(descriptor["functions"])}
+    if (unit.get("module") != descriptor["module"] or unit.get("role") != "module"
+            or unit.get("recipe") != descriptor["recipe"] or unit.get("cfg") != cfg
+            or unit.get("functions") != contributor["functions"]
+            or unit.get("expected_functions") != descriptor["functions"]
+            or unit.get("maspsx_physical_retail") != full
+            or unit.get("compiler_model") or unit.get("model")):
+        raise ValueError("partition destination physical proof differs")
+    versions = unit.get("genuine")
+    genuine = versions.get("2.79") if isinstance(versions, dict) else None
+    if not isinstance(genuine, dict):
+        raise ValueError("partition destination genuine result is missing")
+    physical = genuine.get("physical")
+    if (genuine.get("exact") is not True or genuine.get("retail") != [0, 0]
+            or genuine.get("retail_checked") != len(contributor["functions"])
+            or "err" in genuine or genuine.get("missing") or genuine.get("lnk_unknown")
+            or not isinstance(genuine.get("mode"), str)
+            or not isinstance(physical, dict)
+            or physical.get("exact") is not True or physical.get("diff") != 0
+            or physical.get("missing") != [] or physical.get("retail") != full
+            or type(physical.get("len_m")) is not int or physical["len_m"] <= 0
+            or physical.get("len_g") != physical["len_m"]):
+        raise ValueError("partition destination lacks direct full-TU genuine proof")
+    return unit
+
+
 def digest(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
@@ -164,6 +236,8 @@ def verifier_fingerprint():
 def certificate_reason(module, cert, root=ROOT, tool_fp=None):
     """None means current evidence; a string explains why placement is unproved."""
     root = Path(root)
+    if module.get("partition_only"):
+        return "partition-only owners have no whole-row placement grants; use data ownership proof"
     ids = [m["id"] for m in module["members"]]
     if not isinstance(cert, dict):
         return "certificate is not an object"

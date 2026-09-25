@@ -91,12 +91,23 @@ def validate_context(plan, modules, logical_edges, raw_root, aliases=None):
     by_module = {m['name']:m for m in modules}
     if len(by_module) != len(modules):
         raise PartitionError('duplicate destination module')
+    partition_only = set()
+    for module in modules:
+        if 'partition_only' in module:
+            if module['partition_only'] is not True or module['members']:
+                raise PartitionError('partition_only requires true and no whole members: '+module['name'])
+            partition_only.add(module['name'])
     by_source = {e['src']:e for e in logical_edges}
     if len(by_source) != len(logical_edges):
         raise PartitionError('duplicate logical source')
+    for name in partition_only:
+        if by_module[name]['source'] in by_source:
+            raise PartitionError('partition_only owner has a fake logical row: '+name)
     module_sources = {m['source'] for m in modules}
     whole_rows = {m['id'] for module in modules for m in module['members']}
     whole_functions = {f for module in modules for m in module['members'] for f in m['functions']}
+    incoming = {name: 0 for name in partition_only}
+    claimed = set()
     for parent in plan:
         if parent['source'] in module_sources:
             raise PartitionError('partition parent source is also a module aggregator')
@@ -112,9 +123,22 @@ def validate_context(plan, modules, logical_edges, raw_root, aliases=None):
             raise PartitionError('partition functions differ from frozen definitions: '+parent['id'])
         if whole_functions.intersection(parent['functions']):
             raise PartitionError('partition function is also owned by a whole module member')
+        seen_destinations = set()
         for part in parent['parts']:
             if part['module'] not in by_module:
                 raise PartitionError('unknown destination module: '+part['module'])
+            selected = functions(part['functions'], 'part.functions')
+            if not set(selected) <= set(parent['functions']):
+                raise PartitionError('partition part has unknown function coverage')
+            if part['module'] in seen_destinations or claimed.intersection(selected):
+                raise PartitionError('duplicate partition destination or function coverage')
+            seen_destinations.add(part['module'])
+            claimed.update(selected)
+            if part['module'] in incoming:
+                incoming[part['module']] += 1
+    orphaned = sorted(name for name, count in incoming.items() if count == 0)
+    if orphaned:
+        raise PartitionError('partition_only owner has no incoming nonempty part: '+str(orphaned))
     return True
 
 def lexical_mask(source):
@@ -210,11 +234,21 @@ def expected_units(plan, modules):
     """Expected complete canonical function sets, keyed by physical source."""
     expected={m['source']:set(f for member in m['members'] for f in member['functions']) for m in modules}
     module_source={m['name']:m['source'] for m in modules}
+    incoming={m['name']:0 for m in modules if m.get('partition_only') is True}
     for parent in plan:
         moved=set()
         for part in parent['parts']:
+            if part['module'] not in module_source:
+                raise PartitionError('unknown destination module: '+part['module'])
+            if part['module'] in incoming:
+                if not part['functions']:
+                    raise PartitionError('partition_only part must be nonempty: '+part['module'])
+                incoming[part['module']]+=1
             expected[module_source[part['module']]].update(part['functions']);moved.update(part['functions'])
         expected[parent['source']]=set(parent['functions'])-moved
+    orphaned=sorted(name for name,count in incoming.items() if count == 0)
+    if orphaned:
+        raise PartitionError('partition_only owner has no incoming nonempty part: '+str(orphaned))
     return expected
 
 def check_emitted(expected, emitted):

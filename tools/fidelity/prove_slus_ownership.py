@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 """Prove declared SLUS data ownership without granting module-cleanup placement.
 
-The complete image, object section bytes, symbol offsets/VMAs and every member's
-unmasked genuine-ASPSX comparison must agree. This receipt does not certify L4.
+The complete image, object section bytes, symbol offsets/VMAs and selected
+owners' unmasked genuine-ASPSX comparisons must agree. Connected owners require
+complete physical-TU proof; collector records retain their full logical scope.
+This receipt does not certify L4.
 Run under the shared landing lock when recording authoritative evidence.
 """
 from __future__ import annotations
@@ -20,7 +22,8 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / 'tools'))
 from common import clean_path, rows
 from slus_module_context import modules, fingerprint
-from slus_module_evidence import verifier_fingerprint, physical_descriptor, check_physical_record, check_data_piece_record
+from slus_module_evidence import (verifier_fingerprint, physical_descriptor, check_physical_record,
+                                  check_data_piece_record, check_partition_record)
 from slus_modules import data_sections
 from fidelity.slus_iso import SlusView
 from fidelity import aspsx_diff as A
@@ -223,6 +226,13 @@ def prove(names, compiler_model_rows=()):
     model_code_before = compiler_model_code() if modeled_ids else None
     by_id = {r['id']: r for r in rows()}
     ids = [member['id'] for module in selected for member in module['members']]
+    part_only = [module for module in selected if module.get('partition_only')]
+    for module in part_only:
+        descriptor = physical.get(module['name'])
+        if not descriptor or any(c['kind'] != 'part' for c in descriptor['contributors']):
+            raise ValueError('partition-only owner lacks complete contributor context: ' + module['name'])
+        ids.extend(c['row'] for c in descriptor['contributors'])
+    ids = list(dict.fromkeys(ids))
     initial = {rid: fingerprint(by_id[rid]) for rid in ids}
     tool_fp = verifier_fingerprint()
     data = {}
@@ -255,6 +265,17 @@ def prove(names, compiler_model_rows=()):
         results = {}
         modeled_results = {}
         for module in selected:
+            if module.get('partition_only'):
+                descriptor = physical[module['name']]
+                for contributor in descriptor['contributors']:
+                    rid = contributor['row']
+                    if rid not in results:
+                        results[rid] = A.process_row(by_id[rid])
+                    record = results[rid]
+                    check_partition_record(record, contributor, descriptor, initial[rid])
+                    check_data_piece_record(module, record, descriptor)
+                    print(module['name'] + ' via ' + rid + ': full owner direct genuine and retail exact', flush=True)
+                continue
             for member in module['members']:
                 rid = member['id']
                 record = A.process_row(by_id[rid])
@@ -295,6 +316,11 @@ def prove(names, compiler_model_rows=()):
         receipt['physical_modules'] = physical
         receipt['purpose'] = ('data ownership with direct full-TU genuine proof for connected owners; '
                               'any legacy compiler-model rows remain explicitly labelled; no L4/L5 certificate')
+    if part_only:
+        receipt['schema'] = 5
+        receipt['partition_only_modules'] = [module['name'] for module in part_only]
+        receipt['purpose'] += ('; collector records preserve full logical coverage, but direct genuine '
+                               'equality is required only for selected complete physical owners')
     return receipt
 
 

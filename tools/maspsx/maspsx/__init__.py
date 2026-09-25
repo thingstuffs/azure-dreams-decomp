@@ -1157,7 +1157,6 @@ class MaspsxProcessor:
             res = self._expand_casesi_jumptable_load(res)
         res = self._fold_lo_into_accesses(res)
         res = self._fold_selfinc_la(res)
-        res = self._sink_call_separated_la(res)
         res = self._split_funcaddr_la(res)
         res = self._prefer_lui_over_sll_branch_delay(res)
         res = self._prefer_marked_target_arg_setup(res)
@@ -3856,10 +3855,7 @@ class MaspsxProcessor:
                 if gp_allowed and (
                     symbol in self.sbss_entries
                     or symbol in self.sdata_entries
-                    or (
-                        symbol in self.extern_sizes
-                        and 0 < self.extern_sizes[symbol] <= self.sdata_limit
-                    )
+
                 ):
                     return True
 
@@ -4971,6 +4967,10 @@ class MaspsxProcessor:
 
         def is_known_small_data(sym):
             base = sym.split("+")[0]
+            # Preserve local small-data address materialization too. This
+            # imitation pass must not preempt the later faithful LA expansion.
+            if base in self.sdata_entries or base in self.sbss_entries:
+                return True
             size = self.extern_sizes.get(base, 0)
             return 0 < size <= self.sdata_limit
 
@@ -5081,135 +5081,6 @@ class MaspsxProcessor:
                     res[idx] = newline
                 res[i] = f"lui\t{R},%hi({sym})"
             i += 1
-        return res
-
-    def _sink_call_separated_la(self, res):
-        """LEAD 15 correction: gcc can emit a loop seed `la $sN,SYM` before a call,
-        with the first real use of `$sN` in the loop immediately after that call.
-
-        GNU `as` expands the leftover `la` in place (`lui/addiu` before the call).
-        Retail ASPSX output for func_8004AB7C instead leaves the call-adjacent work
-        first, then materializes the loop seed after the call delay slot using the
-        first load's `$v0` destination as the macro scratch:
-
-            la    $17,SYM
-            lw    $4,ARG
-            jal   callee
-            nop
-          $L:
-            lbu   $2,1($17)
-
-        becomes:
-
-            lw    $4,ARG
-            jal   callee
-            nop
-          $L:
-            lui   $2,%hi(SYM)
-            addiu $17,$2,%lo(SYM)
-            lbu   $2,1($17)
-
-        This is deliberately narrower than a scheduler: only callee-saved `$sN`
-        seeds, exactly one crossed call, an unfilled call delay slot, labels only
-        between the call and first use, and first use must be a load into `$2`.
-        """
-        def C(i):
-            return strip_comments(res[i]).strip()
-
-        def boundary(body):
-            return body.startswith(".end") or body.startswith(".ent") \
-                or body.startswith(".section") or body.startswith("glabel") \
-                or re.match(r"^func_[0-9A-Fa-f]+:", body)
-
-        def ignorable(body):
-            return not body or body.startswith("#") or body.startswith(".")
-
-        def label(body):
-            return body.endswith(":") or body.startswith("$L")
-
-        def mentions(body, reg):
-            return re.search(r"(?<![\w$])" + re.escape(reg) + r"(?![\w])", body) is not None
-
-        def is_callee_saved(reg):
-            return reg in {f"${n}" for n in range(16, 24)} | {f"$s{n}" for n in range(8)}
-
-        def is_known_small_data(sym):
-            base = sym.split("+")[0]
-            size = self.extern_sizes.get(base, 0)
-            return 0 < size <= self.sdata_limit
-
-        i = 0
-        while i < len(res):
-            m = re.match(r"^la\t(\$\w+),([A-Za-z_.][\w.]*)$", C(i))
-            if not m:
-                i += 1
-                continue
-            R, sym = m.group(1), m.group(2)
-            if self._is_func_symbol(sym) or is_known_small_data(sym) or not is_callee_saved(R):
-                i += 1
-                continue
-
-            call_i = None
-            delay_i = None
-            j = i + 1
-            while j < len(res):
-                cj = C(j)
-                if boundary(cj):
-                    break
-                if ignorable(cj) or label(cj):
-                    j += 1
-                    continue
-                is_call = re.match(r"^jalr?(?:\t|\s)", cj) is not None
-                if mentions(cj, R):
-                    break
-                if is_call:
-                    if call_i is not None:
-                        break
-                    call_i = j
-                    q = j + 1
-                    while q < len(res) and ignorable(C(q)):
-                        q += 1
-                    if q >= len(res) or C(q) != "nop":
-                        call_i = None
-                        break
-                    delay_i = q
-                j += 1
-
-            if call_i is None or delay_i is None or j >= len(res):
-                i += 1
-                continue
-            use = C(j)
-            mm = re.match(
-                r"^([a-z][a-z0-9]*)\t(\$2|\$v0),(-?(?:0x)?[0-9a-fA-F]+)\("
-                + re.escape(R)
-                + r"\)$",
-                use,
-            )
-            if not mm or mm.group(1) not in load_mnemonics:
-                i += 1
-                continue
-            if any(
-                (not ignorable(C(k)) and not label(C(k)))
-                for k in range(delay_i + 1, j)
-            ):
-                i += 1
-                continue
-
-            insert_at = j
-            for k in range(delay_i + 1, j):
-                if label(C(k)):
-                    insert_at = k
-                    break
-
-            scratch = mm.group(2)
-            res.pop(i)
-            if i < insert_at:
-                insert_at -= 1
-            res[insert_at:insert_at] = [
-                f"lui\t{scratch},%hi({sym})",
-                f"addiu\t{R},{scratch},%lo({sym})",
-            ]
-            i = insert_at + 2
         return res
 
     def _expand_smalldata_la(self, res):
@@ -5843,6 +5714,11 @@ class MaspsxProcessor:
                 # already handled via preprocess_lines
                 pass
 
+            elif line.startswith(".extern"):
+                # Genuine ASPSX does not use extern sizes to select $gp addressing.
+                # Retain the metadata internally, but do not let GNU as reinterpret it.
+                pass
+
             elif line.startswith(".data"):
                 res.append(".section .data")
             elif line.startswith(".sdata"):
@@ -5908,7 +5784,7 @@ class MaspsxProcessor:
                     gp_allowed = True
 
                 if gp_allowed and (
-                    symbol in self.sdata_entries or symbol in self.sbss_entries
+                    self.sdata_limit > 0 and (symbol in self.sdata_entries or symbol in self.sbss_entries)
                 ):
                     res.append(f"{op}\t{r_dest},{gp_rel}")
                 else:
@@ -6020,7 +5896,7 @@ class MaspsxProcessor:
                     gp_allowed = False
 
                 if gp_allowed and (
-                    symbol in self.sdata_entries or symbol in self.sbss_entries
+                    self.sdata_limit > 0 and (symbol in self.sdata_entries or symbol in self.sbss_entries)
                 ):
                     res.append(f"{op}\t{r_dest},{gp_rel}")
                 elif delayed := self._expand_store_to_symbol_in_delay(

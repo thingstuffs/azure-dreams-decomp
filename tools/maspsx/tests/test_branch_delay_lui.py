@@ -25,7 +25,6 @@ class TestPreferLuiOverSllBranchDelay(unittest.TestCase):
             "$L3:",
         ]
         expected = [
-            ".extern	D_80083D08, 48",
             "bne	$4,$2,$L2",
             "lui	$2,%hi(D_80083D08)",
             "j	$L3",

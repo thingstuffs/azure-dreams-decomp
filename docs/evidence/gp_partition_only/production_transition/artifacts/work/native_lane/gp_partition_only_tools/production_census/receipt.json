@@ -1,0 +1,15 @@
+{
+  "status": "MEASURED",
+  "rows": 6767,
+  "counts": {
+    "ok": 6767
+  },
+  "whole_registry": true,
+  "journal_sha256": "1c9e9cf07cba3730fbd5979ea5368ff4c4abed5354901349f074541cb1856512",
+  "inputs_sha256": "e3deb58cae369be8e26e23357d9468e0dfe1ec57886ec556eb33a6193013debc",
+  "unchanged_inputs": true,
+  "maspsx_exact": 6767,
+  "selfcheck": 6767,
+  "genuine_exact_some_version": 6600,
+  "elapsed_seconds": 1685.9
+}

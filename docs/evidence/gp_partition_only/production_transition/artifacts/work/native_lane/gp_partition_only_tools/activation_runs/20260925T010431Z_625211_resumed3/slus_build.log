@@ -1,0 +1,2 @@
+command: bash tools/build/build_slus.sh -j 2
+SLUS SHA-1 gate: MATCH (860 TUs, recipe identical to the pinned copy, 3s)

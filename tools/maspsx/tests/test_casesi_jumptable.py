@@ -8,8 +8,10 @@ from .util import strip_comments
 
 
 class TestCasesiJumpTableLoad(unittest.TestCase):
-    """LEAD 13/F6: compiler-generated switch jump-table loads use ASPSX's
-    normal-register base materialisation instead of GNU as's `$at` macro.
+    """Local switch tables retain the `$at` indexed-load macro form.
+
+    The historical five-word local-table rewrite was removed; explicit extern
+    dispatch-table admission is tested separately below.
     """
 
     def _run(self, lines, preserve_casesi_at=False):
@@ -20,7 +22,7 @@ class TestCasesiJumpTableLoad(unittest.TestCase):
         )
         return strip_comments(mp.process_lines())
 
-    def test_local_jumptable_dispatch_expands_to_base_materialize_form(self):
+    def test_local_jumptable_dispatch_keeps_at_macro_form(self):
         lines = [
             ".set\tnoreorder",
             "beq\t$2,$0,$Ldefault",
@@ -35,11 +37,12 @@ class TestCasesiJumpTableLoad(unittest.TestCase):
         self.assertEqual(
             [
                 "beq\t$2,$0,$Ldefault",
-                "lui\t$2,%hi($Ltable)",
-                "addiu\t$2,$2,%lo($Ltable)",
-                "sll\t$3,$3,2",
-                "addu\t$3,$3,$2",
-                "lw\t$2,0($3)",
+                "sll\t$2,$3,2",
+                ".set\tnoat",
+                "lui\t$at,%hi($Ltable)",
+                "addu\t$at,$at,$2",
+                "lw\t$2,%lo($Ltable)($at)",
+                ".set\tat",
                 "nop",
                 "j\t$2",
                 "nop",
@@ -47,7 +50,7 @@ class TestCasesiJumpTableLoad(unittest.TestCase):
             out,
         )
 
-    def test_distinct_index_temp_keeps_temp_as_index_register(self):
+    def test_distinct_index_temp_keeps_at_macro_form(self):
         lines = [
             ".set\tnoreorder",
             "sll\t$4,$3,2",
@@ -58,11 +61,17 @@ class TestCasesiJumpTableLoad(unittest.TestCase):
 
         out = self._run(lines)
 
-        self.assertIn("lui\t$2,%hi($Ltable)", out)
-        self.assertIn("addiu\t$2,$2,%lo($Ltable)", out)
-        self.assertIn("sll\t$4,$3,2", out)
-        self.assertIn("addu\t$4,$4,$2", out)
-        self.assertIn("lw\t$2,0($4)", out)
+        self.assertEqual([
+            "sll\t$4,$3,2",
+            ".set\tnoat",
+            "lui\t$at,%hi($Ltable)",
+            "addu\t$at,$at,$4",
+            "lw\t$2,%lo($Ltable)($at)",
+            ".set\tat",
+            "nop",
+            "j\t$2",
+            "nop",
+        ], out)
 
     def test_data_symbol_indexed_load_stays_at_macro(self):
         lines = [
@@ -204,7 +213,7 @@ class TestCasesiExternDispatchTable(unittest.TestCase):
         out = self._run(self._body(sym="jtbl_DEADBEEF"))
         self.assertIn("lui\t$at,%hi(jtbl_DEADBEEF)", out)
 
-    def test_local_tables_still_fire_with_an_empty_table(self):
+    def test_local_tables_remain_at_macro_with_an_empty_extern_table(self):
         lines = [
             ".set\tnoreorder",
             "beq\t$2,$0,$Ldefault",
@@ -214,8 +223,18 @@ class TestCasesiExternDispatchTable(unittest.TestCase):
             "nop",
         ]
         out = self._run(lines, table=set())
-        self.assertIn("lui\t$2,%hi($Ltable)", out)
-        self.assertIn("addiu\t$2,$2,%lo($Ltable)", out)
+        self.assertEqual([
+            "beq\t$2,$0,$Ldefault",
+            "sll\t$2,$3,2",
+            ".set\tnoat",
+            "lui\t$at,%hi($Ltable)",
+            "addu\t$at,$at,$2",
+            "lw\t$2,%lo($Ltable)($at)",
+            ".set\tat",
+            "nop",
+            "j\t$2",
+            "nop",
+        ], out)
 
 
 if __name__ == "__main__":

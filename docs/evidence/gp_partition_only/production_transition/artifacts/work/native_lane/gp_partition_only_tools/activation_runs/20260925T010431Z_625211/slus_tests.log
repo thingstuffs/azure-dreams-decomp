@@ -1,0 +1,8 @@
+command: <repo>/.venv/bin/python -m unittest discover -s tools/tests -p test_slus*.py
+........................................................................................................................part_owner via slus/code: full owner direct genuine and retail exact
+part_owner via slus/code2: full owner direct genuine and retail exact
+.............................................
+----------------------------------------------------------------------
+Ran 165 tests in 2.980s
+
+OK

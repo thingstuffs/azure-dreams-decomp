@@ -1,0 +1,3 @@
+# maspsx behaviour	logical row	physical source	scope
+_expand_store_to_symbol_in_delay	slus/code	src/code.c	owner-only
+small-extern-gp	slus/code	src/code.c	owner-only

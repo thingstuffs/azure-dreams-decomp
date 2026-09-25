@@ -28,6 +28,8 @@ def certify(name, reviewer):
     module = next((m for m in modules() if m["name"] == name), None)
     if module is None:
         raise ValueError("module is not declared: " + name)
+    if module.get("partition_only"):
+        raise ValueError("partition-only owners have no whole-row placement grants; use prove_slus_ownership.py")
     review = ROOT / module["evidence"]
     if not review.is_file() or not reviewer.strip():
         raise ValueError("a reviewed evidence document and reviewer are required")

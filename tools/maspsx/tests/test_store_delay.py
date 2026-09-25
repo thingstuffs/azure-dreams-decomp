@@ -5,9 +5,10 @@ from maspsx import MaspsxProcessor
 from .util import strip_comments
 
 
-# gcc emits `.extern SYM, size`; `as -G8` uses the size to pick $gp (size <= 8)
-# vs %hi/%lo (size > 8). The delay-slot store expansion only applies to the
-# %hi/%lo (non-small-data) symbols, so tests declare a size > 8.
+# gcc emits `.extern SYM, size` metadata. Genuine ASPSX resolves true externals
+# absolutely even at -G8; these fixtures retain the original >8-byte examples
+# while asserting the exact delay-slot address materialization and no metadata
+# passthrough.
 
 
 class TestStoreToSymbolInDelaySlot(unittest.TestCase):
@@ -31,7 +32,6 @@ class TestStoreToSymbolInDelaySlot(unittest.TestCase):
             "j	$31",
         ]
         expected_lines = [
-            ".extern	D_80084130, 12",
             "lui	$2,%hi(D_80084130)",
             "j	$31",
             "sw	$0,%lo(D_80084130)($2)",
@@ -45,7 +45,6 @@ class TestStoreToSymbolInDelaySlot(unittest.TestCase):
             "j	$31",
         ]
         expected_lines = [
-            ".extern	D_80086D4C, 12",
             "lui	$2,%hi(D_80086D4C)",
             "j	$31",
             "sw	$4,%lo(D_80086D4C)($2)",
@@ -59,7 +58,6 @@ class TestStoreToSymbolInDelaySlot(unittest.TestCase):
             "j	$31",
         ]
         expected_lines = [
-            ".extern	D_80073828, 10",
             "lui	$2,%hi(D_80073828)",
             "j	$31",
             "sh	$4,%lo(D_80073828)($2)",
@@ -75,7 +73,6 @@ class TestStoreToSymbolInDelaySlot(unittest.TestCase):
             "j	$31",
         ]
         expected_lines = [
-            ".extern	D_80084130, 12",
             "lui	$3,%hi(D_80084130)",
             "j	$31",
             "sw	$2,%lo(D_80084130)($3)",
@@ -89,7 +86,6 @@ class TestStoreToSymbolInDelaySlot(unittest.TestCase):
             "jr	$ra",
         ]
         expected_lines = [
-            ".extern	D_80084130, 12",
             "lui	$2,%hi(D_80084130)",
             "jr	$ra",
             "sw	$0,%lo(D_80084130)($2)",
@@ -98,10 +94,9 @@ class TestStoreToSymbolInDelaySlot(unittest.TestCase):
 
     # --- guard cases: the transformation must NOT fire ---------------------
 
-    def test_not_applied_to_small_data_extern(self):
-        # size <= -G: `as -G8` handles this as a single %gp_rel store and fills
-        # the delay slot itself; we must leave the macro untouched. This is the
-        # func_8003F5E0 / D_800814C8 shape.
+    def test_small_extern_macro_is_left_to_assembler(self):
+        # This pass leaves the small-extern macro untouched. The test does not
+        # claim it is GP-relative in genuine ASPSX; final expansion is downstream.
         lines = [
             ".extern	D_800814C8, 4",
             "sw	$4,D_800814C8",
@@ -112,7 +107,7 @@ class TestStoreToSymbolInDelaySlot(unittest.TestCase):
         self.assertNotIn("lui	$2,%hi(D_800814C8)", clean)
 
     def test_not_applied_without_extern_size(self):
-        # no `.extern` seen -> treated as small-data (historic default), untouched.
+        # With no declaration this pass leaves the symbol macro untouched.
         lines = [
             "sw	$0,D_80084130",
             "j	$31",
@@ -173,7 +168,6 @@ class TestStoreToSymbolInDelaySlot(unittest.TestCase):
             "j	$31",
         ]
         expected_lines = [
-            ".extern	D_8006CE34, 12",
             "lui	$2,%hi(D_8006CE34)",
             "j	$31",
             "addiu	$2,$2,%lo(D_8006CE34)",
