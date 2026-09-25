@@ -43,8 +43,7 @@ typedef struct S_80049F68_Obj
 
 extern S_8002E5D8 D_8002E5D8;
 extern S_8002E5E8 D_8002E5E8;
-extern u8 D_80080B30;
-extern u8 D_80080B2C[16];
+extern u8 D_80080B30[4];
 
 /* Initialize element defaults and link elements in the configured order. */
 void func_80049F68(S_80049F68_Obj *obj_input)
@@ -86,12 +85,13 @@ void func_80049F68(S_80049F68_Obj *obj_input)
     } while (init_index < 4);
 
     tail = &obj->elem[0].link;
+    elem_index = D_80080B30[0];
     end_marker = 4;
-    if (D_80080B30 != end_marker) {
+    if (elem_index != end_marker) {
         s32 expected_marker;
 
         expected_marker = end_marker;
-        cursor = &D_80080B2C[4];
+        cursor = D_80080B30;
         do {
             elem_index = *(cursor++);
             next = &obj->elem[elem_index].link;

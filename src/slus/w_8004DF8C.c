@@ -1,16 +1,10 @@
-#include "common.h"
-
-#include "common.h"
+#include "slus/message_mode_81550.h"
 
 typedef void (*FuncPtr)(char *);
 
-extern char *strcpy(char *dst, char *src);
 extern char *strcat(char *dst, char *src);
-extern char *strrchr(char *s, int c);
 extern char D_80083E18[0x100];
 extern char D_80071404[];
-extern FuncPtr D_800714A4[];
-extern s32 D_80081550;
 extern s32 D_80081548;
 extern s32 D_8008154C;
 

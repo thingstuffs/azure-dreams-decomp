@@ -1,9 +1,7 @@
-#include "common.h"
+#include "slus/message_mode_81550.h"
 
 typedef void (*FuncPtr_8004DCEC)(char *);
-extern FuncPtr_8004DCEC D_800714A4[];
-extern int D_80081550;
-extern char D_80080B6C[16];
+extern char D_80080B6C[2];
 
 /* Calls the selected mode handler with the shared work buffer. */
 void func_8004DCEC(void)

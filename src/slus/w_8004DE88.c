@@ -1,12 +1,6 @@
-#include "common.h"
+#include "slus/message_mode_81550.h"
 
-typedef void (*MessageHandler)(char *buffer);
-
-extern char *strcpy(char *dst, const char *src);
-extern char *strrchr(const char *str, s32 ch);
 extern u32 D_80083D88[0x24];
-extern MessageHandler D_800714A4[];
-extern s32 D_80081550;
 
 /* Builds and dispatches a message with control codes and two embedded addresses. */
 void func_8004DE88(char *message)

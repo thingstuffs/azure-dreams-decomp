@@ -1,13 +1,4 @@
-#include "slus/cd_state.h"
-
-/* Ring buffer of 32 history entries, each 0x18 (24) bytes; only offset 0 is
- * accessed elsewhere (func_8003F240), matching D_80083968's established layout. */
-typedef struct {
-    u8 unk00;
-    u8 pad[0x17];
-} Struct80083968;
-
-extern Struct80083968 D_80083968[32];
+#include "slus/cd_cohort_types.h"
 
 /* Two adjacent scalar globals (loaded/stored individually via $gp) that are
  * also treated as one small struct when their combined address is taken. */
@@ -22,20 +13,14 @@ typedef struct {
     s32 f4;
 } S_8003F2A4_pair;
 
-typedef struct {
-    u8 type;
-    u8 pad[3];
-    S_8003F2A4_pair *volatile ptr;
-} S_8003F2A4;
-
 /* Copy a type 6 ring-head entry's pair to globals and repoint it there, or clear the entry's type. */
-void func_8003F2A4(S_8003F2A4 *entry) {
-    if (entry->type != 6 ||
-        entry != (S_8003F2A4 *)&D_80083968[D_800814D0]) {
-        entry->type = 0;
+void func_8003F2A4(SlusCdQueueEntry *entry) {
+    if (entry->unk00 != 6 ||
+        entry != &D_80083968[D_800814D0]) {
+        entry->unk00 = 0;
         return;
     }
-    D_800814B0 = entry->ptr->f0;
-    D_800814B4 = entry->ptr->f4;
-    entry->ptr = (S_8003F2A4_pair *)&D_800814AC[4];
+    D_800814B0 = ((S_8003F2A4_pair *)(*(u32 *)((u8 *)entry + 4)))->f0;
+    D_800814B4 = ((S_8003F2A4_pair *)(*(u32 *)((u8 *)entry + 4)))->f4;
+    (*(u32 *)((u8 *)entry + 4)) = (u32)&D_800814AC[4];
 }

@@ -11,14 +11,9 @@ typedef struct {
 } S_8006E6F4;
 extern S_8006E6F4 D_8006E6F4[];
 
-/* Same struct layout as established in src/w_8004425C.c / src/w_80043CD0.c /
- * src/w_80041AB0.c: only field_0 is accessed; padded past 8 bytes to force
- * %hi/%lo addressing instead of %gp_rel. */
-struct S_80081480 { s32 field_0; s8 pad[8]; };
-struct S_8008148C { s32 field_0; s8 pad[8]; };
-extern struct S_80081480 D_80081480;
-extern struct S_8008148C D_8008148C;
-extern struct S_8008148C D_8008148C_alias2 asm("D_8008148C");
+/* External words: current buffer write position and buffer base. */
+extern s32 D_80081480;
+extern s32 D_8008148C;
 
 extern int Control_CD(int a0, void *a1, int a2);
 extern void DrawSync(s32 a0);
@@ -39,12 +34,12 @@ s32 func_8004450C(s16 state_index)
         DrawSync(0);
         {
             void *state_callback = state_entry->field0;
-            D_80081480.field_0 = D_8008148C.field_0;
+            D_80081480 = D_8008148C;
             Control_CD(6, state_callback, 0);
         }
         D_80080AF3 = (s8)state_index;
         func_8003F320();
-        func_8003F5E0(D_8008148C_alias2.field_0);
+        func_8003F5E0(D_8008148C);
         SD_Call(0x11);
         func_800542BC();
         while (func_8005405C(0) != 1) {
