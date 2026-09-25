@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-09-25T02:01:22Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-09-25T02:09:14Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -22,38 +22,40 @@ Baseline NOT exact: 0 rows
 | module | logical rows | placement evidence | shared headers |
 |---|---:|---|---|
 | runtime_directory | 3 | current: retail + genuine ASPSX 2.79 | include/common.h, include/slus/runtime_directory.h |
-| entry_words | 1 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/entry_words.json' | include/common.h, include/game.h, include/globals.h, include/include_asm.h |
-| render_words | 1 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/render_words.json' | include/common.h, include/game.h, include/globals.h, include/include_asm.h, include/records/Rec_func_80034F58_arg0.h |
-| owned_80035484 | 1 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/owned_80035484.json' | include/common.h, include/game.h, include/globals.h, include/include_asm.h |
-| owned_80038A10 | 1 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/owned_80038A10.json' | include/common.h, include/game.h, include/globals.h, include/include_asm.h |
-| owned_80044698 | 1 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/owned_80044698.json' | include/common.h, include/game.h, include/globals.h, include/include_asm.h |
-| owned_800448BC | 1 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/owned_800448BC.json' | include/common.h, include/game.h, include/globals.h, include/include_asm.h |
-| owned_8004713C | 1 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/owned_8004713C.json' | include/common.h, include/game.h, include/globals.h, include/include_asm.h |
-| owned_80047338 | 1 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/owned_80047338.json' | include/common.h, include/game.h, include/globals.h, include/include_asm.h |
-| owned_80047468 | 1 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/owned_80047468.json' | include/common.h, include/game.h, include/globals.h, include/include_asm.h |
-| state_defaults | 1 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/state_defaults.json' | include/common.h, include/game.h, include/globals.h, include/include_asm.h |
-| slot_transition | 4 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/slot_transition.json' | include/common.h, include/game.h, include/globals.h, include/include_asm.h, include/slus/slot_transition.h |
-| slot_transition_secondary | 4 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/slot_transition_secondary.json' | include/common.h, include/game.h, include/globals.h, include/include_asm.h, include/slus/slot_transition.h |
-| konami_runtime_gp_count | 1 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/konami_runtime_gp_count.json' | include/common.h, include/game.h, include/globals.h, include/include_asm.h |
-| gp_shared_slots | 2 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/gp_shared_slots.json' | include/common.h, include/game.h, include/globals.h, include/include_asm.h |
-| gp_split_storage | 1 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/gp_split_storage.json' | include/common.h, include/game.h, include/globals.h, include/include_asm.h |
-| gp_shared_81510 | 2 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/gp_shared_81510.json' | include/common.h, include/game.h, include/globals.h, include/include_asm.h, include/slus/gp_shared_81510.h |
-| gp_shared_8099c | 2 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/gp_shared_8099c.json' | include/common.h, include/game.h, include/globals.h, include/include_asm.h, include/slus/gp_shared_8099c.h |
-| cache_afe | 1 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/cache_afe.json' | include/common.h, include/game.h, include/globals.h, include/include_asm.h |
+| entry_words | 1 | not certified | include/common.h, include/game.h, include/globals.h, include/include_asm.h |
+| render_words | 1 | not certified | include/common.h, include/game.h, include/globals.h, include/include_asm.h, include/records/Rec_func_80034F58_arg0.h |
+| owned_80035484 | 1 | not certified | include/common.h, include/game.h, include/globals.h, include/include_asm.h |
+| owned_80038A10 | 1 | not certified | include/common.h, include/game.h, include/globals.h, include/include_asm.h |
+| owned_80044698 | 1 | not certified | include/common.h, include/game.h, include/globals.h, include/include_asm.h |
+| owned_800448BC | 1 | not certified | include/common.h, include/game.h, include/globals.h, include/include_asm.h |
+| owned_8004713C | 1 | not certified | include/common.h, include/game.h, include/globals.h, include/include_asm.h |
+| owned_80047338 | 1 | not certified | include/common.h, include/game.h, include/globals.h, include/include_asm.h |
+| owned_80047468 | 1 | not certified | include/common.h, include/game.h, include/globals.h, include/include_asm.h |
+| state_defaults | 1 | not certified | include/common.h, include/game.h, include/globals.h, include/include_asm.h |
+| slot_transition | 4 | not certified | include/common.h, include/game.h, include/globals.h, include/include_asm.h, include/slus/slot_transition.h |
+| slot_transition_secondary | 4 | not certified | include/common.h, include/game.h, include/globals.h, include/include_asm.h, include/slus/slot_transition.h |
+| konami_runtime_gp_count | 1 | not certified | include/common.h, include/game.h, include/globals.h, include/include_asm.h |
+| gp_shared_slots | 2 | not certified | include/common.h, include/game.h, include/globals.h, include/include_asm.h |
+| gp_split_storage | 1 | not certified | include/common.h, include/game.h, include/globals.h, include/include_asm.h |
+| gp_shared_81510 | 2 | not certified | include/common.h, include/game.h, include/globals.h, include/include_asm.h, include/slus/gp_shared_81510.h |
+| gp_shared_8099c | 2 | not certified | include/common.h, include/game.h, include/globals.h, include/include_asm.h, include/slus/gp_shared_8099c.h |
+| cache_afe | 1 | not certified | include/common.h, include/game.h, include/globals.h, include/include_asm.h |
 | list_cursor_e0 | 1 | current: retail + genuine ASPSX 2.79 | include/common.h, include/game.h, include/globals.h, include/include_asm.h, include/slus/list_cursor_e0.h |
-| saved_value_b98 | 2 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/saved_value_b98.json' | include/common.h, include/slus/saved_value_b98.h |
-| sort_rank_81540 | 1 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/sort_rank_81540.json' | include/common.h, include/slus/sort_rank_81540.h |
-| command_slots_81554 | 4 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/command_slots_81554.json' | include/common.h, include/slus/command_slots_81554.h |
-| address_slot | 1 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/address_slot.json' | include/common.h |
-| command_words | 1 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/command_words.json' | include/common.h |
-| gp_shared_8152c | 3 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/gp_shared_8152c.json' | include/common.h |
-| gp_d92c_owned | 1 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/gp_d92c_owned.json' | include/common.h |
-| gp_order_bytes_owner | 1 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/gp_order_bytes_owner.json' | include/common.h |
-| gp_af3_pair | 2 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/gp_af3_pair.json' | include/common.h |
-| message_mode_81550 | 3 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/message_mode_81550.json' | include/common.h, include/slus/message_mode_81550.h |
-| cd_command_state | 7 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/cd_command_state.json' | include/common.h, include/slus/cd_state.h, include/slus/cd_cohort_types.h |
-| accessors_814c8 | 0 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/accessors_814c8.json' | include/common.h |
-| table_counters_b1b_b1c | 0 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/table_counters_b1b_b1c.json' | include/common.h |
+| saved_value_b98 | 2 | not certified | include/common.h, include/slus/saved_value_b98.h |
+| sort_rank_81540 | 1 | not certified | include/common.h, include/slus/sort_rank_81540.h |
+| command_slots_81554 | 4 | not certified | include/common.h, include/slus/command_slots_81554.h |
+| address_slot | 1 | not certified | include/common.h |
+| command_words | 1 | not certified | include/common.h |
+| gp_shared_8152c | 3 | not certified | include/common.h |
+| gp_d92c_owned | 1 | not certified | include/common.h |
+| gp_order_bytes_owner | 1 | not certified | include/common.h |
+| gp_af3_pair | 2 | not certified | include/common.h |
+| message_mode_81550 | 3 | not certified | include/common.h, include/slus/message_mode_81550.h |
+| cd_command_state | 7 | not certified | include/common.h, include/slus/cd_state.h, include/slus/cd_cohort_types.h |
+| accessors_814c8 | 0 | not applicable (partition owner) | include/common.h |
+| table_counters_b1b_b1c | 0 | not applicable (partition owner) | include/common.h |
+
+Not certified means no placement certificate has been issued; ownership and retail-byte proofs are separate. Partition owners do not grant whole-row placement.
 
 Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump and fidelity requirements still apply; changed shared inputs invalidate placement evidence.
 
