@@ -133,10 +133,6 @@ typedef struct S_80094988_13 {
     u8 unk_25;
 } S_80094988_13;   /* spawned in func_80094988 */
 
-typedef struct S_80094988_14 {
-    s32 unk_00;
-} S_80094988_14;   /* addr_hold in func_80094988 */
-
 typedef struct S_80094988_15 {
     u8 pad_00[0x3714];
     s16 unk_3714;
@@ -172,7 +168,7 @@ void func_80094988(S_80094988_1 *dungeon, Rec_D_800E3D7C *actor, u16 base_x, u16
     u32 entry_idx32;
     void *entry_addr;
     s32 ff;
-    register u8 *addr_hold ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    u8 *addr_hold;
     u8 *save_page;
     void **dispatch_table;
     s32 ff2;
@@ -334,9 +330,7 @@ loop_1:
                                     slot_rec->unk_D0 = slot_ptr;
                                     ((S_80094988_9 *)slot_flags)->unk_00 =
                                         (u8)(((S_80094988_9 *)slot_flags)->unk_00 | 0x20);
-                                    addr_hold =
-                                        (u8 *)&D_800E3D74 + slot_offset;
-                                    ((S_80094988_14 *)addr_hold)->unk_00 = 0;
+                                    ((s32 *)&D_800E3D74)[slot_index] = 0;
                                     if (spawned->unk_25 == 0) {
                                         spawned->unk_1C =
                                             (s32)(spawned->unk_1C | 8);
@@ -348,7 +342,7 @@ loop_1:
                                     func_80042560(spawned);
                                     func_800C542C(
                                         spawned,
-                                        D_800DCED4[func_800429E4(spawned)],
+                                        D_800DCED4[(scratch = func_800429E4(spawned))],
                                         slot_index, 1);
                                 }
                             }
