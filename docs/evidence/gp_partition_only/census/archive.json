@@ -1,0 +1,624 @@
+{
+  "schema": 1,
+  "status": "ARCHIVED",
+  "interpretation": "Source receipt hashes refer to original private artifacts. Archived text paths are scrubbed; archive hashes bind the stored bytes. Decompress .gz journals before replay. No production census keys were installed.",
+  "production_dependencies": 189,
+  "candidate_dependencies": 167,
+  "removed_rows": [
+    "slus/w_8003D92C",
+    "slus/w_8003E34C",
+    "slus/w_8003E4FC",
+    "slus/w_8003E758",
+    "slus/w_8003F2A4",
+    "slus/w_8003F368",
+    "slus/w_8003F5AC",
+    "slus/w_8003F624",
+    "slus/w_80041AB0",
+    "slus/w_80043CD0",
+    "slus/w_8004437C",
+    "slus/w_8004450C",
+    "slus/w_80047D44",
+    "slus/w_80047DF0",
+    "slus/w_80047E30",
+    "slus/w_80047E78",
+    "slus/w_80049F68",
+    "slus/w_8004AB7C",
+    "slus/w_8004DCEC",
+    "slus/w_8004DE88",
+    "slus/w_8004DF8C",
+    "slus/w_80053CFC"
+  ],
+  "new_rows": [],
+  "artifacts": [
+    {
+      "source": "CENSUS_EVIDENCE.md",
+      "archived": "CENSUS_EVIDENCE.md",
+      "source_sha256": "45445d666aa68bd7ff0c7c1982ba36f8949ca363910e69fb13bb70dab54e78fa",
+      "content_sha256": "45445d666aa68bd7ff0c7c1982ba36f8949ca363910e69fb13bb70dab54e78fa",
+      "archived_sha256": "45445d666aa68bd7ff0c7c1982ba36f8949ca363910e69fb13bb70dab54e78fa",
+      "source_bytes": 7081,
+      "archived_bytes": 7081,
+      "gzip": false
+    },
+    {
+      "source": "archive_census.py",
+      "archived": "archive_census.py",
+      "source_sha256": "b23d61f9dce1b537feea19aa05bc426924f5532d2c2ce5f00adbb6a4b54eff19",
+      "content_sha256": "df6c63d2ede85d7c01d9c86bff5ae62b6683cb30880084d6a86c19919a523cec",
+      "archived_sha256": "df6c63d2ede85d7c01d9c86bff5ae62b6683cb30880084d6a86c19919a523cec",
+      "source_bytes": 3575,
+      "archived_bytes": 3550,
+      "gzip": false
+    },
+    {
+      "source": "census_compatibility.py",
+      "archived": "census_compatibility.py",
+      "source_sha256": "4a45fd08b2dba4153aa1079985a5797205f3e094b62dba8354d43cabca96aa3b",
+      "content_sha256": "4a45fd08b2dba4153aa1079985a5797205f3e094b62dba8354d43cabca96aa3b",
+      "archived_sha256": "4a45fd08b2dba4153aa1079985a5797205f3e094b62dba8354d43cabca96aa3b",
+      "source_bytes": 7817,
+      "archived_bytes": 7817,
+      "gzip": false
+    },
+    {
+      "source": "census_final_fixture/final_source_fixture_receipt.json",
+      "archived": "census_final_fixture/final_source_fixture_receipt.json",
+      "source_sha256": "0e7b6acb9ecd25d511d9f0444451d16f9f825f791fe191deeff6a271049dca48",
+      "content_sha256": "0e7b6acb9ecd25d511d9f0444451d16f9f825f791fe191deeff6a271049dca48",
+      "archived_sha256": "0e7b6acb9ecd25d511d9f0444451d16f9f825f791fe191deeff6a271049dca48",
+      "source_bytes": 2619,
+      "archived_bytes": 2619,
+      "gzip": false
+    },
+    {
+      "source": "census_final_source.py",
+      "archived": "census_final_source.py",
+      "source_sha256": "80ff36967960126473d51444427c0f2d57f2201ae63d8e9cb0f038685aac14e9",
+      "content_sha256": "80ff36967960126473d51444427c0f2d57f2201ae63d8e9cb0f038685aac14e9",
+      "archived_sha256": "80ff36967960126473d51444427c0f2d57f2201ae63d8e9cb0f038685aac14e9",
+      "source_bytes": 4225,
+      "archived_bytes": 4225,
+      "gzip": false
+    },
+    {
+      "source": "census_final_two/inputs.json",
+      "archived": "census_final_two/inputs.json",
+      "source_sha256": "e7497bf23b7d3edbe5c5788dcc1d4a1034f101b4714f7338dc856ff8cba466d5",
+      "content_sha256": "1c0422899fe7dd0636f6eba49e0c3380fea22ed59435b9ea724f3390f957c0da",
+      "archived_sha256": "1c0422899fe7dd0636f6eba49e0c3380fea22ed59435b9ea724f3390f957c0da",
+      "source_bytes": 1121,
+      "archived_bytes": 1104,
+      "gzip": false
+    },
+    {
+      "source": "census_final_two/journal.jsonl",
+      "archived": "census_final_two/journal.jsonl",
+      "source_sha256": "aa0795ae26b3eca05c8d942e2d38ae3718af81e894f95f9f2f955e6de7cc755d",
+      "content_sha256": "aa0795ae26b3eca05c8d942e2d38ae3718af81e894f95f9f2f955e6de7cc755d",
+      "archived_sha256": "aa0795ae26b3eca05c8d942e2d38ae3718af81e894f95f9f2f955e6de7cc755d",
+      "source_bytes": 2364,
+      "archived_bytes": 2364,
+      "gzip": false
+    },
+    {
+      "source": "census_final_two/receipt.json",
+      "archived": "census_final_two/receipt.json",
+      "source_sha256": "1fdf47afa06f19f84be4a1ea68d6b476fee63a6ab250839f6c644e0debcdc612",
+      "content_sha256": "1fdf47afa06f19f84be4a1ea68d6b476fee63a6ab250839f6c644e0debcdc612",
+      "archived_sha256": "1fdf47afa06f19f84be4a1ea68d6b476fee63a6ab250839f6c644e0debcdc612",
+      "source_bytes": 401,
+      "archived_bytes": 401,
+      "gzip": false
+    },
+    {
+      "source": "census_fixture/census_setup_receipt.json",
+      "archived": "census_fixture/census_setup_receipt.json",
+      "source_sha256": "102a84ba40d96bbf66cd27cd61ba97456e367728de8edb7a87b7cf2db595b8f3",
+      "content_sha256": "102a84ba40d96bbf66cd27cd61ba97456e367728de8edb7a87b7cf2db595b8f3",
+      "archived_sha256": "102a84ba40d96bbf66cd27cd61ba97456e367728de8edb7a87b7cf2db595b8f3",
+      "source_bytes": 3774,
+      "archived_bytes": 3774,
+      "gzip": false
+    },
+    {
+      "source": "census_fixture/production_after_census.json",
+      "archived": "census_fixture/production_after_census.json",
+      "source_sha256": "d6b496f2789e89301588d8839d81e2c77dc76627f7c216f88c74d230699a1f38",
+      "content_sha256": "d6b496f2789e89301588d8839d81e2c77dc76627f7c216f88c74d230699a1f38",
+      "archived_sha256": "d6b496f2789e89301588d8839d81e2c77dc76627f7c216f88c74d230699a1f38",
+      "source_bytes": 91675,
+      "archived_bytes": 91675,
+      "gzip": false
+    },
+    {
+      "source": "census_fixture/production_before_census.json",
+      "archived": "census_fixture/production_before_census.json",
+      "source_sha256": "d6b496f2789e89301588d8839d81e2c77dc76627f7c216f88c74d230699a1f38",
+      "content_sha256": "d6b496f2789e89301588d8839d81e2c77dc76627f7c216f88c74d230699a1f38",
+      "archived_sha256": "d6b496f2789e89301588d8839d81e2c77dc76627f7c216f88c74d230699a1f38",
+      "source_bytes": 91675,
+      "archived_bytes": 91675,
+      "gzip": false
+    },
+    {
+      "source": "census_full/inputs.json",
+      "archived": "census_full/inputs.json",
+      "source_sha256": "6bbb0185975b86726bf33768818284aba58762ba91c4fee1e7d6bf086db79d25",
+      "content_sha256": "2f2940e725e060e33557bfd3bff4d32cafd624d9029c90bc5411f144239d4087",
+      "archived_sha256": "2f2940e725e060e33557bfd3bff4d32cafd624d9029c90bc5411f144239d4087",
+      "source_bytes": 647024,
+      "archived_bytes": 647007,
+      "gzip": false
+    },
+    {
+      "source": "census_full/journal.jsonl",
+      "archived": "census_full/journal.jsonl.gz",
+      "source_sha256": "a0f99fef1c4b93825b85e46e7b82bd2b167532c8502c534b897cbecf1b503bbd",
+      "content_sha256": "a0f99fef1c4b93825b85e46e7b82bd2b167532c8502c534b897cbecf1b503bbd",
+      "archived_sha256": "42cfec7b911ea94236109bfd97a300ab7291ce14475d40993bb93b84c0735c28",
+      "source_bytes": 6913901,
+      "archived_bytes": 378486,
+      "gzip": true
+    },
+    {
+      "source": "census_full/receipt.json",
+      "archived": "census_full/receipt.json",
+      "source_sha256": "982edfb5293c7989e4acfc3e7ab124dbd7acc54810d12a538dd03df878f8dfac",
+      "content_sha256": "982edfb5293c7989e4acfc3e7ab124dbd7acc54810d12a538dd03df878f8dfac",
+      "archived_sha256": "982edfb5293c7989e4acfc3e7ab124dbd7acc54810d12a538dd03df878f8dfac",
+      "source_bytes": 434,
+      "archived_bytes": 434,
+      "gzip": false
+    },
+    {
+      "source": "census_full/slus__w_8003D92C.log",
+      "archived": "census_full/slus__w_8003D92C.log",
+      "source_sha256": "dc95a5461fb307af395fafb171e53cff9acbf424c9af8635222fd7176be1b0c6",
+      "content_sha256": "dc95a5461fb307af395fafb171e53cff9acbf424c9af8635222fd7176be1b0c6",
+      "archived_sha256": "dc95a5461fb307af395fafb171e53cff9acbf424c9af8635222fd7176be1b0c6",
+      "source_bytes": 264,
+      "archived_bytes": 264,
+      "gzip": false
+    },
+    {
+      "source": "census_full/slus__w_80049F68.log",
+      "archived": "census_full/slus__w_80049F68.log",
+      "source_sha256": "81a46895e2882ec47a452146af8f097403cb285e892a5ab6560162ab53b637a1",
+      "content_sha256": "81a46895e2882ec47a452146af8f097403cb285e892a5ab6560162ab53b637a1",
+      "archived_sha256": "81a46895e2882ec47a452146af8f097403cb285e892a5ab6560162ab53b637a1",
+      "source_bytes": 292,
+      "archived_bytes": 292,
+      "gzip": false
+    },
+    {
+      "source": "census_original_report/gp_extern_rows.tsv",
+      "archived": "census_original_report/gp_extern_rows.tsv",
+      "source_sha256": "f01edf35c86ab850b1c8029a93ca59717f791ba33109642bcf79db4014e163b4",
+      "content_sha256": "f01edf35c86ab850b1c8029a93ca59717f791ba33109642bcf79db4014e163b4",
+      "archived_sha256": "f01edf35c86ab850b1c8029a93ca59717f791ba33109642bcf79db4014e163b4",
+      "source_bytes": 37,
+      "archived_bytes": 37,
+      "gzip": false
+    },
+    {
+      "source": "census_original_report/maspsx_dependent.tsv",
+      "archived": "census_original_report/maspsx_dependent.tsv",
+      "source_sha256": "202c9fcbf1cbe52f486fe721591f6fa97807cbea9b6d2f8346353fd897fd5682",
+      "content_sha256": "202c9fcbf1cbe52f486fe721591f6fa97807cbea9b6d2f8346353fd897fd5682",
+      "archived_sha256": "202c9fcbf1cbe52f486fe721591f6fa97807cbea9b6d2f8346353fd897fd5682",
+      "source_bytes": 23968,
+      "archived_bytes": 23968,
+      "gzip": false
+    },
+    {
+      "source": "census_original_report/pass_dependents.tsv",
+      "archived": "census_original_report/pass_dependents.tsv",
+      "source_sha256": "ef36abc0976e92f45beb836c17b1aa6fe09e0f8c96e6ee4bb540fc21451ee8f1",
+      "content_sha256": "ef36abc0976e92f45beb836c17b1aa6fe09e0f8c96e6ee4bb540fc21451ee8f1",
+      "archived_sha256": "ef36abc0976e92f45beb836c17b1aa6fe09e0f8c96e6ee4bb540fc21451ee8f1",
+      "source_bytes": 6579,
+      "archived_bytes": 6579,
+      "gzip": false
+    },
+    {
+      "source": "census_original_report/pass_dependents_physical.tsv",
+      "archived": "census_original_report/pass_dependents_physical.tsv",
+      "source_sha256": "d42d2a0c7bfc2a67f4fe656ce2c518af142910a8b564f1442b041f79b6478bbf",
+      "content_sha256": "d42d2a0c7bfc2a67f4fe656ce2c518af142910a8b564f1442b041f79b6478bbf",
+      "archived_sha256": "d42d2a0c7bfc2a67f4fe656ce2c518af142910a8b564f1442b041f79b6478bbf",
+      "source_bytes": 166,
+      "archived_bytes": 166,
+      "gzip": false
+    },
+    {
+      "source": "census_original_report/physical_units.tsv",
+      "archived": "census_original_report/physical_units.tsv",
+      "source_sha256": "381a83dcdd181ecf88ff3046bcde3ea01aa76a323acc106199f29c7486517853",
+      "content_sha256": "381a83dcdd181ecf88ff3046bcde3ea01aa76a323acc106199f29c7486517853",
+      "archived_sha256": "381a83dcdd181ecf88ff3046bcde3ea01aa76a323acc106199f29c7486517853",
+      "source_bytes": 8169,
+      "archived_bytes": 8169,
+      "gzip": false
+    },
+    {
+      "source": "census_original_report/tables.md",
+      "archived": "census_original_report/tables.md",
+      "source_sha256": "f2d71cc935f2a1734d6ac014af86c712a6df0ee508e6b9a55bfdfeb3b0edabd9",
+      "content_sha256": "f2d71cc935f2a1734d6ac014af86c712a6df0ee508e6b9a55bfdfeb3b0edabd9",
+      "archived_sha256": "f2d71cc935f2a1734d6ac014af86c712a6df0ee508e6b9a55bfdfeb3b0edabd9",
+      "source_bytes": 9818,
+      "archived_bytes": 9818,
+      "gzip": false
+    },
+    {
+      "source": "census_reconcile.py",
+      "archived": "census_reconcile.py",
+      "source_sha256": "987decd8d8995e26d24f082251579f896b9d70d598820eb1ada93ba0d03d602a",
+      "content_sha256": "987decd8d8995e26d24f082251579f896b9d70d598820eb1ada93ba0d03d602a",
+      "archived_sha256": "987decd8d8995e26d24f082251579f896b9d70d598820eb1ada93ba0d03d602a",
+      "source_bytes": 6936,
+      "archived_bytes": 6936,
+      "gzip": false
+    },
+    {
+      "source": "census_reconciled/inputs.json",
+      "archived": "census_reconciled/inputs.json",
+      "source_sha256": "365438549403a2a3e8ed70d8fa628ee52b6097ce4ee3ab5ee51f95be9725a3f6",
+      "content_sha256": "365438549403a2a3e8ed70d8fa628ee52b6097ce4ee3ab5ee51f95be9725a3f6",
+      "archived_sha256": "365438549403a2a3e8ed70d8fa628ee52b6097ce4ee3ab5ee51f95be9725a3f6",
+      "source_bytes": 647293,
+      "archived_bytes": 647293,
+      "gzip": false
+    },
+    {
+      "source": "census_reconciled/journal.jsonl",
+      "archived": "census_reconciled/journal.jsonl.gz",
+      "source_sha256": "194c1db77d5ca87978971a420e87aff443f6a37560b3f51dce0a22c3fc4c97e5",
+      "content_sha256": "194c1db77d5ca87978971a420e87aff443f6a37560b3f51dce0a22c3fc4c97e5",
+      "archived_sha256": "d81a86dc32216b97131882df616db177bc2e29acd7653a49a136beeb630ef3fe",
+      "source_bytes": 6915687,
+      "archived_bytes": 378503,
+      "gzip": true
+    },
+    {
+      "source": "census_reconciled/receipt.json",
+      "archived": "census_reconciled/receipt.json",
+      "source_sha256": "b13ec7a4b2b8f99d6d3cd8cfad991bae5b2651d72c8bb9cc6100d9421e54bbd9",
+      "content_sha256": "b13ec7a4b2b8f99d6d3cd8cfad991bae5b2651d72c8bb9cc6100d9421e54bbd9",
+      "archived_sha256": "b13ec7a4b2b8f99d6d3cd8cfad991bae5b2651d72c8bb9cc6100d9421e54bbd9",
+      "source_bytes": 2636,
+      "archived_bytes": 2636,
+      "gzip": false
+    },
+    {
+      "source": "census_report/aspsx_report.stderr.log",
+      "archived": "census_report/aspsx_report.stderr.log",
+      "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archived_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source_bytes": 0,
+      "archived_bytes": 0,
+      "gzip": false
+    },
+    {
+      "source": "census_report/gp_extern_rows.tsv",
+      "archived": "census_report/gp_extern_rows.tsv",
+      "source_sha256": "f01edf35c86ab850b1c8029a93ca59717f791ba33109642bcf79db4014e163b4",
+      "content_sha256": "f01edf35c86ab850b1c8029a93ca59717f791ba33109642bcf79db4014e163b4",
+      "archived_sha256": "f01edf35c86ab850b1c8029a93ca59717f791ba33109642bcf79db4014e163b4",
+      "source_bytes": 37,
+      "archived_bytes": 37,
+      "gzip": false
+    },
+    {
+      "source": "census_report/maspsx_dependent.tsv",
+      "archived": "census_report/maspsx_dependent.tsv",
+      "source_sha256": "202c9fcbf1cbe52f486fe721591f6fa97807cbea9b6d2f8346353fd897fd5682",
+      "content_sha256": "202c9fcbf1cbe52f486fe721591f6fa97807cbea9b6d2f8346353fd897fd5682",
+      "archived_sha256": "202c9fcbf1cbe52f486fe721591f6fa97807cbea9b6d2f8346353fd897fd5682",
+      "source_bytes": 23968,
+      "archived_bytes": 23968,
+      "gzip": false
+    },
+    {
+      "source": "census_report/pass_dependents.tsv",
+      "archived": "census_report/pass_dependents.tsv",
+      "source_sha256": "ef36abc0976e92f45beb836c17b1aa6fe09e0f8c96e6ee4bb540fc21451ee8f1",
+      "content_sha256": "ef36abc0976e92f45beb836c17b1aa6fe09e0f8c96e6ee4bb540fc21451ee8f1",
+      "archived_sha256": "ef36abc0976e92f45beb836c17b1aa6fe09e0f8c96e6ee4bb540fc21451ee8f1",
+      "source_bytes": 6579,
+      "archived_bytes": 6579,
+      "gzip": false
+    },
+    {
+      "source": "census_report/pass_dependents_physical.tsv",
+      "archived": "census_report/pass_dependents_physical.tsv",
+      "source_sha256": "d42d2a0c7bfc2a67f4fe656ce2c518af142910a8b564f1442b041f79b6478bbf",
+      "content_sha256": "d42d2a0c7bfc2a67f4fe656ce2c518af142910a8b564f1442b041f79b6478bbf",
+      "archived_sha256": "d42d2a0c7bfc2a67f4fe656ce2c518af142910a8b564f1442b041f79b6478bbf",
+      "source_bytes": 166,
+      "archived_bytes": 166,
+      "gzip": false
+    },
+    {
+      "source": "census_report/physical_units.tsv",
+      "archived": "census_report/physical_units.tsv",
+      "source_sha256": "381a83dcdd181ecf88ff3046bcde3ea01aa76a323acc106199f29c7486517853",
+      "content_sha256": "381a83dcdd181ecf88ff3046bcde3ea01aa76a323acc106199f29c7486517853",
+      "archived_sha256": "381a83dcdd181ecf88ff3046bcde3ea01aa76a323acc106199f29c7486517853",
+      "source_bytes": 8169,
+      "archived_bytes": 8169,
+      "gzip": false
+    },
+    {
+      "source": "census_report/summary.json",
+      "archived": "census_report/summary.json",
+      "source_sha256": "239cd089390ca6f06e9c6ce163e216326476fabfa21fd047f19a890ddfc1a1f6",
+      "content_sha256": "77e0d412c346a79c75e76e82270fc84d69d99072b2770c58a5536f5c3e735b8e",
+      "archived_sha256": "77e0d412c346a79c75e76e82270fc84d69d99072b2770c58a5536f5c3e735b8e",
+      "source_bytes": 14259,
+      "archived_bytes": 14242,
+      "gzip": false
+    },
+    {
+      "source": "census_report/tables.md",
+      "archived": "census_report/tables.md",
+      "source_sha256": "4aa72c39ad0d582c1b0fdb074b3fcf0c473ba68280de315d8909ea165f23e6b1",
+      "content_sha256": "4aa72c39ad0d582c1b0fdb074b3fcf0c473ba68280de315d8909ea165f23e6b1",
+      "archived_sha256": "4aa72c39ad0d582c1b0fdb074b3fcf0c473ba68280de315d8909ea165f23e6b1",
+      "source_bytes": 10186,
+      "archived_bytes": 10186,
+      "gzip": false
+    },
+    {
+      "source": "census_report/tables_raw.md",
+      "archived": "census_report/tables_raw.md",
+      "source_sha256": "6b99eaf015e1f89088d173d537cac9d948d5ea1d87c95528010257d6488689d2",
+      "content_sha256": "6b99eaf015e1f89088d173d537cac9d948d5ea1d87c95528010257d6488689d2",
+      "archived_sha256": "6b99eaf015e1f89088d173d537cac9d948d5ea1d87c95528010257d6488689d2",
+      "source_bytes": 9680,
+      "archived_bytes": 9680,
+      "gzip": false
+    },
+    {
+      "source": "census_report.md",
+      "archived": "census_report.md",
+      "source_sha256": "db9a3e935ac239114719a725e07ab49b313dddc6a2358d09c196c17588e6eee0",
+      "content_sha256": "db9a3e935ac239114719a725e07ab49b313dddc6a2358d09c196c17588e6eee0",
+      "archived_sha256": "db9a3e935ac239114719a725e07ab49b313dddc6a2358d09c196c17588e6eee0",
+      "source_bytes": 2784,
+      "archived_bytes": 2784,
+      "gzip": false
+    },
+    {
+      "source": "census_report.py",
+      "archived": "census_report.py",
+      "source_sha256": "c9472235b89b72c3722e541ef09823aef763a2ef1addd203732475a20a170fc8",
+      "content_sha256": "c9472235b89b72c3722e541ef09823aef763a2ef1addd203732475a20a170fc8",
+      "archived_sha256": "c9472235b89b72c3722e541ef09823aef763a2ef1addd203732475a20a170fc8",
+      "source_bytes": 19062,
+      "archived_bytes": 19062,
+      "gzip": false
+    },
+    {
+      "source": "census_runner.py",
+      "archived": "census_runner.py",
+      "source_sha256": "adff1d1b65df41144d70d3206710f9fbdb9feb8cbe86bdd3dd72dca9dbbe186e",
+      "content_sha256": "adff1d1b65df41144d70d3206710f9fbdb9feb8cbe86bdd3dd72dca9dbbe186e",
+      "archived_sha256": "adff1d1b65df41144d70d3206710f9fbdb9feb8cbe86bdd3dd72dca9dbbe186e",
+      "source_bytes": 7195,
+      "archived_bytes": 7195,
+      "gzip": false
+    },
+    {
+      "source": "census_setup.py",
+      "archived": "census_setup.py",
+      "source_sha256": "638d4b80859a44fa20081c23595929b7c4552361f0188af77fd94f6e119b684e",
+      "content_sha256": "638d4b80859a44fa20081c23595929b7c4552361f0188af77fd94f6e119b684e",
+      "archived_sha256": "638d4b80859a44fa20081c23595929b7c4552361f0188af77fd94f6e119b684e",
+      "source_bytes": 12040,
+      "archived_bytes": 12040,
+      "gzip": false
+    },
+    {
+      "source": "census_transition_compatibility.json",
+      "archived": "census_transition_compatibility.json",
+      "source_sha256": "7762945b7178b34e4838cb1e8d2002de4fa20909d7635822a779d19a7b9287cc",
+      "content_sha256": "7762945b7178b34e4838cb1e8d2002de4fa20909d7635822a779d19a7b9287cc",
+      "archived_sha256": "7762945b7178b34e4838cb1e8d2002de4fa20909d7635822a779d19a7b9287cc",
+      "source_bytes": 17687,
+      "archived_bytes": 17687,
+      "gzip": false
+    },
+    {
+      "source": "code_metadata_probe/disable_store_delay.disasm.txt",
+      "archived": "code_metadata_probe/disable_store_delay.disasm.txt",
+      "source_sha256": "f002ba851ead5f949658a3009d32e5fbd491127f5b0ac5d2d889c1d65b6d9ef9",
+      "content_sha256": "f002ba851ead5f949658a3009d32e5fbd491127f5b0ac5d2d889c1d65b6d9ef9",
+      "archived_sha256": "f002ba851ead5f949658a3009d32e5fbd491127f5b0ac5d2d889c1d65b6d9ef9",
+      "source_bytes": 50491,
+      "archived_bytes": 50491,
+      "gzip": false
+    },
+    {
+      "source": "code_metadata_probe/disable_store_delay.o",
+      "archived": "code_metadata_probe/disable_store_delay.o",
+      "source_sha256": "ffebeeaf481a62c26d0b05ee74816e087b90b922fb20ef5b032d8c6daa02a21b",
+      "content_sha256": "ffebeeaf481a62c26d0b05ee74816e087b90b922fb20ef5b032d8c6daa02a21b",
+      "archived_sha256": "ffebeeaf481a62c26d0b05ee74816e087b90b922fb20ef5b032d8c6daa02a21b",
+      "source_bytes": 36104,
+      "archived_bytes": 36104,
+      "gzip": false
+    },
+    {
+      "source": "code_metadata_probe/disable_store_delay.relocations.txt",
+      "archived": "code_metadata_probe/disable_store_delay.relocations.txt",
+      "source_sha256": "c286fff69a0df824519522b9de3d0a22ff462fa0172ef2d75e6fc146a89f70de",
+      "content_sha256": "c286fff69a0df824519522b9de3d0a22ff462fa0172ef2d75e6fc146a89f70de",
+      "archived_sha256": "c286fff69a0df824519522b9de3d0a22ff462fa0172ef2d75e6fc146a89f70de",
+      "source_bytes": 33020,
+      "archived_bytes": 33020,
+      "gzip": false
+    },
+    {
+      "source": "code_metadata_probe/disable_store_delay.s",
+      "archived": "code_metadata_probe/disable_store_delay.s",
+      "source_sha256": "eba74649a84fdf6a9ce8029962341cf153b4828d696237700223139f02661871",
+      "content_sha256": "eba74649a84fdf6a9ce8029962341cf153b4828d696237700223139f02661871",
+      "archived_sha256": "eba74649a84fdf6a9ce8029962341cf153b4828d696237700223139f02661871",
+      "source_bytes": 64191,
+      "archived_bytes": 64191,
+      "gzip": false
+    },
+    {
+      "source": "code_metadata_probe/disable_store_delay.trace.json",
+      "archived": "code_metadata_probe/disable_store_delay.trace.json",
+      "source_sha256": "4465f46b1ebebb529c4b55deb5c6f559949fbd36c68e9f19259aa5d79377beef",
+      "content_sha256": "4465f46b1ebebb529c4b55deb5c6f559949fbd36c68e9f19259aa5d79377beef",
+      "archived_sha256": "4465f46b1ebebb529c4b55deb5c6f559949fbd36c68e9f19259aa5d79377beef",
+      "source_bytes": 936,
+      "archived_bytes": 936,
+      "gzip": false
+    },
+    {
+      "source": "code_metadata_probe/normal.disasm.txt",
+      "archived": "code_metadata_probe/normal.disasm.txt",
+      "source_sha256": "283ccb2e4bdf822782dce3d237f49bcaef8cc3720e61a6dd14843f5c4da54b9e",
+      "content_sha256": "283ccb2e4bdf822782dce3d237f49bcaef8cc3720e61a6dd14843f5c4da54b9e",
+      "archived_sha256": "283ccb2e4bdf822782dce3d237f49bcaef8cc3720e61a6dd14843f5c4da54b9e",
+      "source_bytes": 50271,
+      "archived_bytes": 50271,
+      "gzip": false
+    },
+    {
+      "source": "code_metadata_probe/normal.o",
+      "archived": "code_metadata_probe/normal.o",
+      "source_sha256": "53de52d74208b03b8ca57fac53d7de4a5f85e64451570fa678688a2b3375428e",
+      "content_sha256": "53de52d74208b03b8ca57fac53d7de4a5f85e64451570fa678688a2b3375428e",
+      "archived_sha256": "53de52d74208b03b8ca57fac53d7de4a5f85e64451570fa678688a2b3375428e",
+      "source_bytes": 36060,
+      "archived_bytes": 36060,
+      "gzip": false
+    },
+    {
+      "source": "code_metadata_probe/normal.relocations.txt",
+      "archived": "code_metadata_probe/normal.relocations.txt",
+      "source_sha256": "67e1a90e97ff10979eef3480491e216d1e147c1fdb384fdda781ddf776860562",
+      "content_sha256": "67e1a90e97ff10979eef3480491e216d1e147c1fdb384fdda781ddf776860562",
+      "archived_sha256": "67e1a90e97ff10979eef3480491e216d1e147c1fdb384fdda781ddf776860562",
+      "source_bytes": 33020,
+      "archived_bytes": 33020,
+      "gzip": false
+    },
+    {
+      "source": "code_metadata_probe/normal.s",
+      "archived": "code_metadata_probe/normal.s",
+      "source_sha256": "879ca84db547cf8c4e0f2166efb90c2b73ec8e61d265f7f01a9b787993d1bc51",
+      "content_sha256": "879ca84db547cf8c4e0f2166efb90c2b73ec8e61d265f7f01a9b787993d1bc51",
+      "archived_sha256": "879ca84db547cf8c4e0f2166efb90c2b73ec8e61d265f7f01a9b787993d1bc51",
+      "source_bytes": 64599,
+      "archived_bytes": 64599,
+      "gzip": false
+    },
+    {
+      "source": "code_metadata_probe/normal.trace.json",
+      "archived": "code_metadata_probe/normal.trace.json",
+      "source_sha256": "b3e9b7f014ee0ac1912e8255d69492dd03b2a53cc120f42d81f9d4a6cd7c369d",
+      "content_sha256": "b3e9b7f014ee0ac1912e8255d69492dd03b2a53cc120f42d81f9d4a6cd7c369d",
+      "archived_sha256": "b3e9b7f014ee0ac1912e8255d69492dd03b2a53cc120f42d81f9d4a6cd7c369d",
+      "source_bytes": 957,
+      "archived_bytes": 957,
+      "gzip": false
+    },
+    {
+      "source": "code_metadata_probe/pipeline.s",
+      "archived": "code_metadata_probe/pipeline.s",
+      "source_sha256": "5eaff08fb5358271dc39aa1536bbad8129b5b4789bb74c42e10e82355501bedf",
+      "content_sha256": "5eaff08fb5358271dc39aa1536bbad8129b5b4789bb74c42e10e82355501bedf",
+      "archived_sha256": "5eaff08fb5358271dc39aa1536bbad8129b5b4789bb74c42e10e82355501bedf",
+      "source_bytes": 59401,
+      "archived_bytes": 59401,
+      "gzip": false
+    },
+    {
+      "source": "code_metadata_probe/probe.py",
+      "archived": "code_metadata_probe/probe.py",
+      "source_sha256": "b7de449e869ab6644e40086918949c143356052699bd91b028b3eb05598b0181",
+      "content_sha256": "b7de449e869ab6644e40086918949c143356052699bd91b028b3eb05598b0181",
+      "archived_sha256": "b7de449e869ab6644e40086918949c143356052699bd91b028b3eb05598b0181",
+      "source_bytes": 4414,
+      "archived_bytes": 4414,
+      "gzip": false
+    },
+    {
+      "source": "code_metadata_probe/raw.s",
+      "archived": "code_metadata_probe/raw.s",
+      "source_sha256": "a128e599c7bc8d17ac51acd2d2c2f79a1f94a539857caf75df312880a4e15dab",
+      "content_sha256": "a128e599c7bc8d17ac51acd2d2c2f79a1f94a539857caf75df312880a4e15dab",
+      "archived_sha256": "a128e599c7bc8d17ac51acd2d2c2f79a1f94a539857caf75df312880a4e15dab",
+      "source_bytes": 52720,
+      "archived_bytes": 52720,
+      "gzip": false
+    },
+    {
+      "source": "code_metadata_probe/receipt.json",
+      "archived": "code_metadata_probe/receipt.json",
+      "source_sha256": "201be8d71350e4c7336bcf8bafc9ff212ad23c258b6e02517841c652727fff54",
+      "content_sha256": "b6257158f9fa1140bd5af0458ccf1693972b3cc23cc5563b9eca28ecd191faa3",
+      "archived_sha256": "b6257158f9fa1140bd5af0458ccf1693972b3cc23cc5563b9eca28ecd191faa3",
+      "source_bytes": 2714,
+      "archived_bytes": 2595,
+      "gzip": false
+    },
+    {
+      "source": "code_metadata_probe/strip_externs.disasm.txt",
+      "archived": "code_metadata_probe/strip_externs.disasm.txt",
+      "source_sha256": "f002ba851ead5f949658a3009d32e5fbd491127f5b0ac5d2d889c1d65b6d9ef9",
+      "content_sha256": "f002ba851ead5f949658a3009d32e5fbd491127f5b0ac5d2d889c1d65b6d9ef9",
+      "archived_sha256": "f002ba851ead5f949658a3009d32e5fbd491127f5b0ac5d2d889c1d65b6d9ef9",
+      "source_bytes": 50491,
+      "archived_bytes": 50491,
+      "gzip": false
+    },
+    {
+      "source": "code_metadata_probe/strip_externs.o",
+      "archived": "code_metadata_probe/strip_externs.o",
+      "source_sha256": "ffebeeaf481a62c26d0b05ee74816e087b90b922fb20ef5b032d8c6daa02a21b",
+      "content_sha256": "ffebeeaf481a62c26d0b05ee74816e087b90b922fb20ef5b032d8c6daa02a21b",
+      "archived_sha256": "ffebeeaf481a62c26d0b05ee74816e087b90b922fb20ef5b032d8c6daa02a21b",
+      "source_bytes": 36104,
+      "archived_bytes": 36104,
+      "gzip": false
+    },
+    {
+      "source": "code_metadata_probe/strip_externs.relocations.txt",
+      "archived": "code_metadata_probe/strip_externs.relocations.txt",
+      "source_sha256": "c286fff69a0df824519522b9de3d0a22ff462fa0172ef2d75e6fc146a89f70de",
+      "content_sha256": "c286fff69a0df824519522b9de3d0a22ff462fa0172ef2d75e6fc146a89f70de",
+      "archived_sha256": "c286fff69a0df824519522b9de3d0a22ff462fa0172ef2d75e6fc146a89f70de",
+      "source_bytes": 33020,
+      "archived_bytes": 33020,
+      "gzip": false
+    },
+    {
+      "source": "code_metadata_probe/strip_externs.s",
+      "archived": "code_metadata_probe/strip_externs.s",
+      "source_sha256": "eba74649a84fdf6a9ce8029962341cf153b4828d696237700223139f02661871",
+      "content_sha256": "eba74649a84fdf6a9ce8029962341cf153b4828d696237700223139f02661871",
+      "archived_sha256": "eba74649a84fdf6a9ce8029962341cf153b4828d696237700223139f02661871",
+      "source_bytes": 64191,
+      "archived_bytes": 64191,
+      "gzip": false
+    },
+    {
+      "source": "code_metadata_probe/strip_externs.trace.json",
+      "archived": "code_metadata_probe/strip_externs.trace.json",
+      "source_sha256": "5649ce3648673ff4a100798953e3812bc4d2d09b367a397ce3e9ae215db4e723",
+      "content_sha256": "5649ce3648673ff4a100798953e3812bc4d2d09b367a397ce3e9ae215db4e723",
+      "archived_sha256": "5649ce3648673ff4a100798953e3812bc4d2d09b367a397ce3e9ae215db4e723",
+      "source_bytes": 901,
+      "archived_bytes": 901,
+      "gzip": false
+    }
+  ]
+}

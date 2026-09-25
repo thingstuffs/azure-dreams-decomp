@@ -1,0 +1,2 @@
+{"row":"slus/w_80049F68","container":"slus","kind":"slus","cfg":"2.7.2-cdk -fno-strength-reduce","pins":6,"status":"error","err":"compile: module context: gp_order_bytes_owner: C includes must match declared member order exactly","secs":0.1}
+retained failed worker scratch: /tmp/pgc_4uj5of1h

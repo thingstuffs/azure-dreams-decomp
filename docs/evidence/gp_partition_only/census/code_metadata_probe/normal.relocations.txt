@@ -1,0 +1,611 @@
+
+Relocation section '.rel.pdr' at offset 0x4d08 contains 149 entries:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000000  0000a002 R_MIPS_32         00000000   func_8003D56C
+00000020  0000a102 R_MIPS_32         00000000   func_8003DB4C
+00000040  0000a202 R_MIPS_32         00000000   func_8003DB6C
+00000060  0000a302 R_MIPS_32         00000000   func_8003DB94
+00000080  0000a402 R_MIPS_32         00000000   func_8003E12C
+000000a0  0000a502 R_MIPS_32         00000000   func_8003E140
+000000c0  0000a602 R_MIPS_32         00000000   func_8003F52C
+000000e0  0000a702 R_MIPS_32         00000000   func_8003F534
+00000100  0000a802 R_MIPS_32         00000000   func_8003F5EC
+00000120  0000a902 R_MIPS_32         00000000   func_8003F6D4
+00000140  0000aa02 R_MIPS_32         00000000   func_80040044
+00000160  0000ab02 R_MIPS_32         00000000   func_80040418
+00000180  0000ac02 R_MIPS_32         00000000   func_80040F00
+000001a0  0000ad02 R_MIPS_32         00000000   func_800422A8
+000001c0  0000ae02 R_MIPS_32         00000000   func_800424E0
+000001e0  0000af02 R_MIPS_32         00000000   func_80043FB8
+00000200  0000b002 R_MIPS_32         00000000   func_80044234
+00000220  0000b102 R_MIPS_32         00000000   func_800445E0
+00000240  0000b202 R_MIPS_32         00000000   func_80046398
+00000260  0000b302 R_MIPS_32         00000000   func_80047714
+00000280  0000b402 R_MIPS_32         00000000   func_800478B8
+000002a0  0000b502 R_MIPS_32         00000000   func_800479AC
+000002c0  0000b602 R_MIPS_32         00000000   func_80047A44
+000002e0  0000b702 R_MIPS_32         00000000   func_80047AA4
+00000300  0000b802 R_MIPS_32         00000000   func_80047C60
+00000320  0000b902 R_MIPS_32         00000000   func_80048374
+00000340  0000ba02 R_MIPS_32         00000000   func_80048568
+00000360  0000bb02 R_MIPS_32         00000000   func_80048590
+00000380  0000bc02 R_MIPS_32         00000000   func_800485B8
+000003a0  0000bd02 R_MIPS_32         00000000   func_80048D00
+000003c0  0000be02 R_MIPS_32         00000000   func_80048D20
+000003e0  0000bf02 R_MIPS_32         00000000   func_80048D40
+00000400  0000c002 R_MIPS_32         00000000   func_80048DCC
+00000420  0000c102 R_MIPS_32         00000000   func_80048DE8
+00000440  0000c202 R_MIPS_32         00000000   func_80048F8C
+00000460  0000c302 R_MIPS_32         00000000   func_80049250
+00000480  0000c402 R_MIPS_32         00000000   func_80049280
+000004a0  0000c502 R_MIPS_32         00000000   func_8004928C
+000004c0  0000c602 R_MIPS_32         00000000   func_80049490
+000004e0  0000c702 R_MIPS_32         00000000   func_800494FC
+00000500  0000c802 R_MIPS_32         00000000   func_80049944
+00000520  0000c902 R_MIPS_32         00000000   func_80049984
+00000540  0000ca02 R_MIPS_32         00000000   func_800499DC
+00000560  0000cb02 R_MIPS_32         00000000   func_80049DC8
+00000580  0000cc02 R_MIPS_32         00000000   func_80049DE8
+000005a0  0000cd02 R_MIPS_32         00000000   func_80049E6C
+000005c0  0000ce02 R_MIPS_32         00000000   func_8004A4C4
+000005e0  0000cf02 R_MIPS_32         00000000   func_8004A618
+00000600  0000d002 R_MIPS_32         00000000   func_8004A638
+00000620  0000d102 R_MIPS_32         00000000   func_8004A918
+00000640  0000d202 R_MIPS_32         00000000   func_8004AA34
+00000660  0000d302 R_MIPS_32         00000000   func_8004AE3C
+00000680  0000d402 R_MIPS_32         00000000   func_8004AFC8
+000006a0  0000d502 R_MIPS_32         00000000   func_8004B3DC
+000006c0  0000d602 R_MIPS_32         00000000   func_8004B4A8
+000006e0  0000d702 R_MIPS_32         00000000   func_8004B4DC
+00000700  0000d802 R_MIPS_32         00000000   func_8004B634
+00000720  0000d902 R_MIPS_32         00000000   func_8004B834
+00000740  0000da02 R_MIPS_32         00000000   func_8004B8BC
+00000760  0000db02 R_MIPS_32         00000000   func_8004CBFC
+00000780  0000dc02 R_MIPS_32         00000000   func_8004D064
+000007a0  0000dd02 R_MIPS_32         00000000   func_8004D8F0
+000007c0  0000de02 R_MIPS_32         00000000   func_8004D9E0
+000007e0  0000df02 R_MIPS_32         00000000   func_8004DDC4
+00000800  0000e002 R_MIPS_32         00000000   func_8004E264
+00000820  0000e102 R_MIPS_32         00000000   func_8004E280
+00000840  0000e202 R_MIPS_32         00000000   func_8004E57C
+00000860  0000e302 R_MIPS_32         00000000   func_8004E994
+00000880  0000e402 R_MIPS_32         00000000   func_8004E99C
+000008a0  0000e502 R_MIPS_32         00000000   func_8004E9C0
+000008c0  0000e602 R_MIPS_32         00000000   func_8004E9E4
+000008e0  0000e702 R_MIPS_32         00000000   func_8004EB30
+00000900  0000e802 R_MIPS_32         00000000   func_8004EE30
+00000920  0000e902 R_MIPS_32         00000000   func_8004EE50
+00000940  0000ea02 R_MIPS_32         00000000   func_8004EE70
+00000960  0000eb02 R_MIPS_32         00000000   func_8004F2BC
+00000980  0000ec02 R_MIPS_32         00000000   func_8004F308
+000009a0  0000ed02 R_MIPS_32         00000000   func_8004F3D0
+000009c0  0000ee02 R_MIPS_32         00000000   func_8004F67C
+000009e0  0000ef02 R_MIPS_32         00000000   func_8004F85C
+00000a00  0000f002 R_MIPS_32         00000000   func_8004FC68
+00000a20  0000f102 R_MIPS_32         00000000   func_8004FF00
+00000a40  0000f202 R_MIPS_32         00000000   func_800502E0
+00000a60  0000f302 R_MIPS_32         00000000   func_80050494
+00000a80  0000f402 R_MIPS_32         00000000   func_80050694
+00000aa0  0000f502 R_MIPS_32         00000000   func_80050B7C
+00000ac0  0000f602 R_MIPS_32         00000000   func_80050F84
+00000ae0  0000f702 R_MIPS_32         00000000   func_80050FA8
+00000b00  0000f802 R_MIPS_32         00000000   func_80051500
+00000b20  0000f902 R_MIPS_32         00000000   func_80051528
+00000b40  0000fa02 R_MIPS_32         00000000   func_800517AC
+00000b60  0000fb02 R_MIPS_32         00000000   func_80051CA4
+00000b80  0000fc02 R_MIPS_32         00000000   func_80051F38
+00000ba0  0000fd02 R_MIPS_32         00000000   func_800530A4
+00000bc0  0000fe02 R_MIPS_32         00000000   func_80053C3C
+00000be0  0000ff02 R_MIPS_32         00000000   func_80053DA8
+00000c00  00010002 R_MIPS_32         00000000   func_80053DCC
+00000c20  00010102 R_MIPS_32         00000000   func_80053E14
+00000c40  00010202 R_MIPS_32         00000000   func_800542A4
+00000c60  00010302 R_MIPS_32         00000000   func_80054AF0
+00000c80  00010402 R_MIPS_32         00000000   func_800555FC
+00000ca0  00010502 R_MIPS_32         00000000   func_80055604
+00000cc0  00010602 R_MIPS_32         00000000   func_80055730
+00000ce0  00010702 R_MIPS_32         00000000   func_800557BC
+00000d00  00010802 R_MIPS_32         00000000   func_80055990
+00000d20  00010902 R_MIPS_32         00000000   func_80055CEC
+00000d40  00010a02 R_MIPS_32         00000000   func_80055E6C
+00000d60  00010b02 R_MIPS_32         00000000   func_80055E74
+00000d80  00010c02 R_MIPS_32         00000000   func_80055E7C
+00000da0  00010d02 R_MIPS_32         00000000   func_80056D3C
+00000dc0  00010e02 R_MIPS_32         00000000   func_80057A48
+00000de0  00010f02 R_MIPS_32         00000000   func_8005848C
+00000e00  00011002 R_MIPS_32         00000000   func_800584E4
+00000e20  00011102 R_MIPS_32         00000000   func_800587F8
+00000e40  00011202 R_MIPS_32         00000000   func_80058A7C
+00000e60  00011302 R_MIPS_32         00000000   func_80058AA8
+00000e80  00011402 R_MIPS_32         00000000   func_80058E50
+00000ea0  00011502 R_MIPS_32         00000000   func_80058E64
+00000ec0  00011602 R_MIPS_32         00000000   func_8005A37C
+00000ee0  00011702 R_MIPS_32         00000000   func_8005A39C
+00000f00  00011802 R_MIPS_32         00000000   func_8005A3A8
+00000f20  00011902 R_MIPS_32         00000000   func_8005A3D4
+00000f40  00011a02 R_MIPS_32         00000000   func_8005A420
+00000f60  00011b02 R_MIPS_32         00000000   func_8005A4B8
+00000f80  00011c02 R_MIPS_32         00000000   func_8005ACD0
+00000fa0  00011d02 R_MIPS_32         00000000   func_8005B300
+00000fc0  00011e02 R_MIPS_32         00000000   func_8005B320
+00000fe0  00011f02 R_MIPS_32         00000000   func_8005B3D8
+00001000  00012002 R_MIPS_32         00000000   func_8005C808
+00001020  00012102 R_MIPS_32         00000000   func_8005C88C
+00001040  00012202 R_MIPS_32         00000000   func_8005C8EC
+00001060  00012302 R_MIPS_32         00000000   func_8005C980
+00001080  00012402 R_MIPS_32         00000000   func_8005C988
+000010a0  00012502 R_MIPS_32         00000000   func_8005C990
+000010c0  00012602 R_MIPS_32         00000000   func_8005C998
+000010e0  00012702 R_MIPS_32         00000000   func_8005C9A0
+00001100  00012802 R_MIPS_32         00000000   func_8005C9A8
+00001120  00012902 R_MIPS_32         00000000   func_8005C9D4
+00001140  00012a02 R_MIPS_32         00000000   func_8005C9F4
+00001160  00012b02 R_MIPS_32         00000000   func_8005CA1C
+00001180  00012c02 R_MIPS_32         00000000   func_8005CA4C
+000011a0  00012d02 R_MIPS_32         00000000   func_8005CA70
+000011c0  00012e02 R_MIPS_32         00000000   func_8005D6D8
+000011e0  00012f02 R_MIPS_32         00000000   func_8005D704
+00001200  00013002 R_MIPS_32         00000000   func_8005D798
+00001220  00013102 R_MIPS_32         00000000   func_8005DA68
+00001240  00013202 R_MIPS_32         00000000   func_8005E4A0
+00001260  00013302 R_MIPS_32         00000000   func_8005E78C
+00001280  00013402 R_MIPS_32         00000000   func_8005EC0C
+
+Relocation section '.rel.text.func_8003D56C' at offset 0x51b0 contains 4 entries:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000008  00013504 R_MIPS_26         00000000   InitCARD
+00000010  00013604 R_MIPS_26         00000000   StartCARD
+00000018  00013704 R_MIPS_26         00000000   _bu_init
+00000020  00013804 R_MIPS_26         00000000   ChangeClearPAD
+
+Relocation section '.rel.text.func_8003F534' at offset 0x51d0 contains 2 entries:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000000  00013905 R_MIPS_HI16       00000000   D_8006CE34
+00000008  00013906 R_MIPS_LO16       00000000   D_8006CE34
+
+Relocation section '.rel.text.func_8003F5EC' at offset 0x51e0 contains 1 entry:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000010  00013a04 R_MIPS_26         00000000   VSync
+
+Relocation section '.rel.text.func_80040044' at offset 0x51e8 contains 4 entries:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000000  00013b05 R_MIPS_HI16       00000000   D_80081490
+00000004  00013b06 R_MIPS_LO16       00000000   D_80081490
+00000008  00013b05 R_MIPS_HI16       00000000   D_80081490
+0000000c  00013b06 R_MIPS_LO16       00000000   D_80081490
+
+Relocation section '.rel.text.func_80040418' at offset 0x5208 contains 2 entries:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000000  00013c05 R_MIPS_HI16       00000000   D_80081498
+00000004  00013c06 R_MIPS_LO16       00000000   D_80081498
+
+Relocation section '.rel.text.func_800422A8' at offset 0x5218 contains 1 entry:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000020  00001404 R_MIPS_26         00000000   .text.func_800422A8
+
+Relocation section '.rel.text.func_800424E0' at offset 0x5220 contains 2 entries:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000014  00013d04 R_MIPS_26         00000000   func_800423C0
+0000001c  00013e04 R_MIPS_26         00000000   func_80042984
+
+Relocation section '.rel.text.func_80044234' at offset 0x5230 contains 2 entries:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000008  00013f04 R_MIPS_26         00000000   func_8003F540
+00000010  0000ff04 R_MIPS_26         00000000   func_80053DA8
+
+Relocation section '.rel.text.func_800445E0' at offset 0x5240 contains 1 entry:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000008  0000a704 R_MIPS_26         00000000   func_8003F534
+
+Relocation section '.rel.text.func_80046398' at offset 0x5248 contains 2 entries:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000014  00014004 R_MIPS_26         00000000   func_800463EC
+00000034  00001904 R_MIPS_26         00000000   .text.func_80046398
+
+Relocation section '.rel.text.func_80047714' at offset 0x5258 contains 1 entry:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000008  00014104 R_MIPS_26         00000000   func_80044BB0
+
+Relocation section '.rel.text.func_800478B8' at offset 0x5260 contains 2 entries:
+ Offset     Info    Type            Sym.Value  Sym. Name
+0000000c  00014204 R_MIPS_26         00000000   func_800477F4
+00000014  00014304 R_MIPS_26         00000000   func_80047694
+
+Relocation section '.rel.text.func_800479AC' at offset 0x5270 contains 3 entries:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000008  00014405 R_MIPS_HI16       00000000   D_80083D08
+0000000c  00014406 R_MIPS_LO16       00000000   D_80083D08
+00000010  00014504 R_MIPS_26         00000000   bzero
+
+Relocation section '.rel.text.func_80047A44' at offset 0x5288 contains 2 entries:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000014  00014605 R_MIPS_HI16       00000000   D_800FC000
+00000018  00014606 R_MIPS_LO16       00000000   D_800FC000
+
+Relocation section '.rel.text.func_80047C60' at offset 0x5298 contains 2 entries:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000008  00014605 R_MIPS_HI16       00000000   D_800FC000
+0000000c  00014606 R_MIPS_LO16       00000000   D_800FC000
+
+Relocation section '.rel.text.func_80048374' at offset 0x52a8 contains 1 entry:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000020  00014704 R_MIPS_26         00000000   func_80047784
+
+Relocation section '.rel.text.func_80048568' at offset 0x52b0 contains 1 entry:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000010  00014804 R_MIPS_26         00000000   func_80048500
+
+Relocation section '.rel.text.func_80048590' at offset 0x52b8 contains 1 entry:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000010  00014804 R_MIPS_26         00000000   func_80048500
+
+Relocation section '.rel.text.func_800485B8' at offset 0x52c0 contains 1 entry:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000010  00014804 R_MIPS_26         00000000   func_80048500
+
+Relocation section '.rel.text.func_80048D00' at offset 0x52c8 contains 1 entry:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000008  00014904 R_MIPS_26         00000000   func_80048C3C
+
+Relocation section '.rel.text.func_80048D20' at offset 0x52d0 contains 1 entry:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000008  00014904 R_MIPS_26         00000000   func_80048C3C
+
+Relocation section '.rel.text.func_80048D40' at offset 0x52d8 contains 1 entry:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000008  00014904 R_MIPS_26         00000000   func_80048C3C
+
+Relocation section '.rel.text.func_80048DCC' at offset 0x52e0 contains 2 entries:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000000  00014a05 R_MIPS_HI16       00000000   D_80071250
+00000004  00014a06 R_MIPS_LO16       00000000   D_80071250
+
+Relocation section '.rel.text.func_80048DE8' at offset 0x52f0 contains 2 entries:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000000  00014b05 R_MIPS_HI16       00000000   D_80071298
+00000004  00014b06 R_MIPS_LO16       00000000   D_80071298
+
+Relocation section '.rel.text.func_8004928C' at offset 0x5300 contains 1 entry:
+ Offset     Info    Type            Sym.Value  Sym. Name
+0000000c  0000c404 R_MIPS_26         00000000   func_80049280
+
+Relocation section '.rel.text.func_80049490' at offset 0x5308 contains 3 entries:
+ Offset     Info    Type            Sym.Value  Sym. Name
+0000000c  00014d04 R_MIPS_26         00000000   func_80049374
+00000008  00014c05 R_MIPS_HI16       00000000   D_800713FC
+00000010  00014c06 R_MIPS_LO16       00000000   D_800713FC
+
+Relocation section '.rel.text.func_800494FC' at offset 0x5320 contains 1 entry:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000008  00014e04 R_MIPS_26         00000000   func_80042A80
+
+Relocation section '.rel.text.func_80049944' at offset 0x5328 contains 2 entries:
+ Offset     Info    Type            Sym.Value  Sym. Name
+0000000c  00002f04 R_MIPS_26         00000000   .text.func_80049944
+00000020  00002f04 R_MIPS_26         00000000   .text.func_80049944
+
+Relocation section '.rel.text.func_80049984' at offset 0x5338 contains 1 entry:
+ Offset     Info    Type            Sym.Value  Sym. Name
+0000001c  0000c804 R_MIPS_26         00000000   func_80049944
+
+Relocation section '.rel.text.func_80049DC8' at offset 0x5340 contains 1 entry:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000008  00014f04 R_MIPS_26         00000000   func_80049CF4
+
+Relocation section '.rel.text.func_80049DE8' at offset 0x5348 contains 1 entry:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000014  00003304 R_MIPS_26         00000000   .text.func_80049DE8
+
+Relocation section '.rel.text.func_80049E6C' at offset 0x5350 contains 2 entries:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000000  00015005 R_MIPS_HI16       00000000   D_800712B4
+00000004  00015006 R_MIPS_LO16       00000000   D_800712B4
+
+Relocation section '.rel.text.func_8004A4C4' at offset 0x5360 contains 1 entry:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000008  00015104 R_MIPS_26         00000000   func_800438E4
+
+Relocation section '.rel.text.func_8004A618' at offset 0x5368 contains 1 entry:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000008  00015204 R_MIPS_26         00000000   func_8004A574
+
+Relocation section '.rel.text.func_8004A638' at offset 0x5370 contains 1 entry:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000008  00015204 R_MIPS_26         00000000   func_8004A574
+
+Relocation section '.rel.text.func_8004A918' at offset 0x5378 contains 1 entry:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000010  00014504 R_MIPS_26         00000000   bzero
+
+Relocation section '.rel.text.func_8004AFC8' at offset 0x5380 contains 1 entry:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000008  00015304 R_MIPS_26         00000000   func_8004AEC4
+
+Relocation section '.rel.text.func_8004B3DC' at offset 0x5388 contains 1 entry:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000010  00015404 R_MIPS_26         00000000   func_8004B364
+
+Relocation section '.rel.text.func_8004B4A8' at offset 0x5390 contains 2 entries:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000000  00013c05 R_MIPS_HI16       00000000   D_80081498
+00000004  00013c06 R_MIPS_LO16       00000000   D_80081498
+
+Relocation section '.rel.text.func_8004B634' at offset 0x53a0 contains 3 entries:
+ Offset     Info    Type            Sym.Value  Sym. Name
+0000000c  00015505 R_MIPS_HI16       00000000   D_80080B48
+00000010  00015506 R_MIPS_LO16       00000000   D_80080B48
+00000014  00015604 R_MIPS_26         00000000   func_8003E4FC
+
+Relocation section '.rel.text.func_8004B834' at offset 0x53b8 contains 1 entry:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000008  0000d804 R_MIPS_26         00000000   func_8004B634
+
+Relocation section '.rel.text.func_8004B8BC' at offset 0x53c0 contains 1 entry:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000008  00015704 R_MIPS_26         00000000   func_8004B854
+
+Relocation section '.rel.text.func_8004CBFC' at offset 0x53c8 contains 2 entries:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000008  00015805 R_MIPS_HI16       00000000   D_80080A84
+0000000c  00015806 R_MIPS_LO16       00000000   D_80080A84
+
+Relocation section '.rel.text.func_8004D064' at offset 0x53d8 contains 1 entry:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000024  00004304 R_MIPS_26         00000000   .text.func_8004D064
+
+Relocation section '.rel.text.func_8004DDC4' at offset 0x53e0 contains 1 entry:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000008  00015904 R_MIPS_26         00000000   func_80033AE8
+
+Relocation section '.rel.text.func_8004E57C' at offset 0x53e8 contains 1 entry:
+ Offset     Info    Type            Sym.Value  Sym. Name
+0000000c  00015a04 R_MIPS_26         00000000   func_8004E4C0
+
+Relocation section '.rel.text.func_8004E99C' at offset 0x53f0 contains 1 entry:
+ Offset     Info    Type            Sym.Value  Sym. Name
+0000000c  00015b04 R_MIPS_26         00000000   func_8004B1A4
+
+Relocation section '.rel.text.func_8004E9C0' at offset 0x53f8 contains 1 entry:
+ Offset     Info    Type            Sym.Value  Sym. Name
+0000000c  00015b04 R_MIPS_26         00000000   func_8004B1A4
+
+Relocation section '.rel.text.func_8004EB30' at offset 0x5400 contains 2 entries:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000000  00015c05 R_MIPS_HI16       00000000   D_80084130
+00000008  00015c06 R_MIPS_LO16       00000000   D_80084130
+
+Relocation section '.rel.text.func_8004EE30' at offset 0x5410 contains 1 entry:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000008  00015d04 R_MIPS_26         00000000   func_8004EDA8
+
+Relocation section '.rel.text.func_8004EE50' at offset 0x5418 contains 1 entry:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000008  00015d04 R_MIPS_26         00000000   func_8004EDA8
+
+Relocation section '.rel.text.func_8004EE70' at offset 0x5420 contains 1 entry:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000008  00015d04 R_MIPS_26         00000000   func_8004EDA8
+
+Relocation section '.rel.text.func_8004F2BC' at offset 0x5428 contains 5 entries:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000010  00015e04 R_MIPS_26         00000000   func_8004EF90
+00000018  00015f04 R_MIPS_26         00000000   func_8004EFF4
+00000020  00016004 R_MIPS_26         00000000   func_8004F068
+00000028  00016104 R_MIPS_26         00000000   func_8004F1E8
+00000030  00016204 R_MIPS_26         00000000   func_8004F0DC
+
+Relocation section '.rel.text.func_8004F308' at offset 0x5450 contains 3 entries:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000008  00016305 R_MIPS_HI16       00000000   D_80071684
+0000000c  00016306 R_MIPS_LO16       00000000   D_80071684
+00000010  00016404 R_MIPS_26         00000000   func_800491F4
+
+Relocation section '.rel.text.func_8004FC68' at offset 0x5468 contains 1 entry:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000010  00016504 R_MIPS_26         00000000   func_80021448
+
+Relocation section '.rel.text.func_800502E0' at offset 0x5470 contains 2 entries:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000008  0000f104 R_MIPS_26         00000000   func_8004FF00
+00000010  00016604 R_MIPS_26         00000000   func_80021300
+
+Relocation section '.rel.text.func_80050494' at offset 0x5480 contains 1 entry:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000008  00016704 R_MIPS_26         00000000   func_80050308
+
+Relocation section '.rel.text.func_80050B7C' at offset 0x5488 contains 3 entries:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000008  00016805 R_MIPS_HI16       00000000   D_800717BC
+0000000c  00016806 R_MIPS_LO16       00000000   D_800717BC
+00000010  00016404 R_MIPS_26         00000000   func_800491F4
+
+Relocation section '.rel.text.func_80050F84' at offset 0x54a0 contains 3 entries:
+ Offset     Info    Type            Sym.Value  Sym. Name
+0000000c  00016a04 R_MIPS_26         00000000   func_8003AEF8
+00000008  00016905 R_MIPS_HI16       00000000   D_800717D0
+00000010  00016906 R_MIPS_LO16       00000000   D_800717D0
+
+Relocation section '.rel.text.func_80050FA8' at offset 0x54b8 contains 3 entries:
+ Offset     Info    Type            Sym.Value  Sym. Name
+0000000c  00016a04 R_MIPS_26         00000000   func_8003AEF8
+00000008  00016b05 R_MIPS_HI16       00000000   D_800717E8
+00000010  00016b06 R_MIPS_LO16       00000000   D_800717E8
+
+Relocation section '.rel.text.func_80051500' at offset 0x54d0 contains 3 entries:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000008  00016c05 R_MIPS_HI16       00000000   D_80080C1C
+0000000c  00016c06 R_MIPS_LO16       00000000   D_80080C1C
+00000010  00016d04 R_MIPS_26         00000000   func_80041284
+
+Relocation section '.rel.text.func_80051528' at offset 0x54e8 contains 2 entries:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000004  00016e05 R_MIPS_HI16       00000000   func_80051548
+00000008  00016e06 R_MIPS_LO16       00000000   func_80051548
+
+Relocation section '.rel.text.func_800517AC' at offset 0x54f8 contains 2 entries:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000004  00016f05 R_MIPS_HI16       00000000   func_800517CC
+00000008  00016f06 R_MIPS_LO16       00000000   func_800517CC
+
+Relocation section '.rel.text.func_80051CA4' at offset 0x5508 contains 2 entries:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000004  00017005 R_MIPS_HI16       00000000   func_80051CC4
+00000008  00017006 R_MIPS_LO16       00000000   func_80051CC4
+
+Relocation section '.rel.text.func_80051F38' at offset 0x5518 contains 2 entries:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000004  00017105 R_MIPS_HI16       00000000   func_80051F58
+00000008  00017106 R_MIPS_LO16       00000000   func_80051F58
+
+Relocation section '.rel.text.func_800530A4' at offset 0x5528 contains 2 entries:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000004  00017205 R_MIPS_HI16       00000000   func_8005313C
+00000008  00017206 R_MIPS_LO16       00000000   func_8005313C
+
+Relocation section '.rel.text.func_80053C3C' at offset 0x5538 contains 2 entries:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000010  00015604 R_MIPS_26         00000000   func_8003E4FC
+00000018  00017304 R_MIPS_26         00000000   func_8003F320
+
+Relocation section '.rel.text.func_80053DA8' at offset 0x5548 contains 1 entry:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000008  00017404 R_MIPS_26         00000000   func_80055778
+
+Relocation section '.rel.text.func_80053DCC' at offset 0x5550 contains 3 entries:
+ Offset     Info    Type            Sym.Value  Sym. Name
+0000000c  00017604 R_MIPS_26         00000000   func_80054D64
+00000004  00017505 R_MIPS_HI16       00000000   D_8008480C
+00000010  00017506 R_MIPS_LO16       00000000   D_8008480C
+
+Relocation section '.rel.text.func_80053E14' at offset 0x5568 contains 2 entries:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000000  00017705 R_MIPS_HI16       00000000   D_80084808
+00000008  00017706 R_MIPS_LO16       00000000   D_80084808
+
+Relocation section '.rel.text.func_80055730' at offset 0x5578 contains 1 entry:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000008  00017804 R_MIPS_26         00000000   func_8005BAB0
+
+Relocation section '.rel.text.func_800557BC' at offset 0x5580 contains 2 entries:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000000  00017905 R_MIPS_HI16       00000000   D_80084778
+00000008  00017906 R_MIPS_LO16       00000000   D_80084778
+
+Relocation section '.rel.text.func_800584E4' at offset 0x5590 contains 3 entries:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000000  00017a05 R_MIPS_HI16       00000000   D_800737A4
+00000004  00017a06 R_MIPS_LO16       00000000   D_800737A4
+00000014  00017b04 R_MIPS_26         00000000   func_80059BC4
+
+Relocation section '.rel.text.func_8005A37C' at offset 0x55a8 contains 1 entry:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000008  00017c04 R_MIPS_26         00000000   func_8005A33C
+
+Relocation section '.rel.text.func_8005A39C' at offset 0x55b0 contains 2 entries:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000000  00017d05 R_MIPS_HI16       00000000   D_80086D4C
+00000008  00017d06 R_MIPS_LO16       00000000   D_80086D4C
+
+Relocation section '.rel.text.func_8005A3A8' at offset 0x55c0 contains 3 entries:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000000  00017e05 R_MIPS_HI16       00000000   D_80073824
+00000004  00017e06 R_MIPS_LO16       00000000   D_80073824
+00000014  00017f04 R_MIPS_26         00000000   func_80058700
+
+Relocation section '.rel.text.func_8005A3D4' at offset 0x55d8 contains 2 entries:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000000  00018005 R_MIPS_HI16       00000000   D_8007382A
+00000008  00018006 R_MIPS_LO16       00000000   D_8007382A
+
+Relocation section '.rel.text.func_8005A4B8' at offset 0x55e8 contains 3 entries:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000008  00018104 R_MIPS_26         00000000   func_80056C30
+00000010  00018204 R_MIPS_26         00000000   func_8005A26C
+00000018  00018304 R_MIPS_26         00000000   func_8005D7BC
+
+Relocation section '.rel.text.func_8005ACD0' at offset 0x5600 contains 2 entries:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000000  00018405 R_MIPS_HI16       00000000   D_80073828
+00000008  00018406 R_MIPS_LO16       00000000   D_80073828
+
+Relocation section '.rel.text.func_8005B300' at offset 0x5610 contains 1 entry:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000008  00018504 R_MIPS_26         00000000   func_8005ACDC
+
+Relocation section '.rel.text.func_8005B320' at offset 0x5618 contains 2 entries:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000008  00018604 R_MIPS_26         00000000   func_8005E450
+00000010  00018704 R_MIPS_26         00000000   func_8005D88C
+
+Relocation section '.rel.text.func_8005B3D8' at offset 0x5628 contains 1 entry:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000028  00018804 R_MIPS_26         00000000   func_8005DA88
+
+Relocation section '.rel.text.func_8005C808' at offset 0x5630 contains 2 entries:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000000  00018905 R_MIPS_HI16       00000000   D_80085FCC
+00000004  00018906 R_MIPS_LO16       00000000   D_80085FCC
+
+Relocation section '.rel.text.func_8005C88C' at offset 0x5640 contains 1 entry:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000014  00018a04 R_MIPS_26         00000000   func_80057D20
+
+Relocation section '.rel.text.func_8005C8EC' at offset 0x5648 contains 1 entry:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000014  00018a04 R_MIPS_26         00000000   func_80057D20
+
+Relocation section '.rel.text.func_8005C9A8' at offset 0x5650 contains 1 entry:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000014  00018b04 R_MIPS_26         00000000   func_8005A5C8
+
+Relocation section '.rel.text.func_8005C9D4' at offset 0x5658 contains 1 entry:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000008  00018c04 R_MIPS_26         00000000   func_8005A428
+
+Relocation section '.rel.text.func_8005C9F4' at offset 0x5660 contains 1 entry:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000010  00018d04 R_MIPS_26         00000000   func_8005A4E8
+
+Relocation section '.rel.text.func_8005CA1C' at offset 0x5668 contains 1 entry:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000018  00018e04 R_MIPS_26         00000000   func_8005A56C
+
+Relocation section '.rel.text.func_8005CA4C' at offset 0x5670 contains 1 entry:
+ Offset     Info    Type            Sym.Value  Sym. Name
+0000000c  00018f04 R_MIPS_26         00000000   func_8005B418
+
+Relocation section '.rel.text.func_8005CA70' at offset 0x5678 contains 1 entry:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000008  00019004 R_MIPS_26         00000000   func_8005CA90
+
+Relocation section '.rel.text.func_8005D6D8' at offset 0x5680 contains 2 entries:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000000  00019105 R_MIPS_HI16       00000000   D_8007996C
+00000004  00019106 R_MIPS_LO16       00000000   D_8007996C
+
+Relocation section '.rel.text.func_8005D704' at offset 0x5690 contains 2 entries:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000000  00019105 R_MIPS_HI16       00000000   D_8007996C
+00000004  00019106 R_MIPS_LO16       00000000   D_8007996C
+
+Relocation section '.rel.text.func_8005D798' at offset 0x56a0 contains 1 entry:
+ Offset     Info    Type            Sym.Value  Sym. Name
+0000000c  00019204 R_MIPS_26         00000000   DMACallback
+
+Relocation section '.rel.text.func_8005DA68' at offset 0x56a8 contains 2 entries:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000000  00019305 R_MIPS_HI16       00000000   D_80079958
+00000004  00019306 R_MIPS_LO16       00000000   D_80079958
+
+Relocation section '.rel.text.func_8005E4A0' at offset 0x56b8 contains 1 entry:
+ Offset     Info    Type            Sym.Value  Sym. Name
+0000000c  00019404 R_MIPS_26         00000000   func_8005E4C4
+
+Relocation section '.rel.text.func_8005E78C' at offset 0x56c0 contains 1 entry:
+ Offset     Info    Type            Sym.Value  Sym. Name
+0000000c  00019504 R_MIPS_26         00000000   func_8005E7B0
+
+Relocation section '.rel.text.func_8005EC0C' at offset 0x56c8 contains 2 entries:
+ Offset     Info    Type            Sym.Value  Sym. Name
+0000000c  00019604 R_MIPS_26         00000000   func_8005F134
+00000018  00019704 R_MIPS_26         00000000   func_8005E97C

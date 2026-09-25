@@ -1,0 +1,194 @@
+{
+  "schema": 1,
+  "status": "PREPARED",
+  "live_proof_sha256": "7bd5395f4467bd2e079406197fafc3999256df745fd246a43ec573ebe89eb5f5",
+  "ready29_stage_sha256": "ae19d8d4bdd2db9a933b1e44d70dd61be670781e441d7cb37da85250a7aed31f",
+  "registry_sha256": "dad8bb076a6c6c2479aa488f24419394976040a42797a4783a1912426ce608bb",
+  "runner_sha256": "adff1d1b65df41144d70d3206710f9fbdb9feb8cbe86bdd3dd72dca9dbbe186e",
+  "rows": 6767,
+  "counts": {
+    "main": 423,
+    "town": 2695,
+    "dungeon": 2743,
+    "ovmovie": 22,
+    "slus": 884
+  },
+  "recipe_rebased_rows": {
+    "slus/w_8003D92C": {
+      "cfg": [
+        "2.7.2",
+        "2.7.2-cdk"
+      ],
+      "cell": [
+        "2.7.2",
+        "2.7.2-cdk"
+      ]
+    },
+    "slus/w_8003E34C": {
+      "flags": [
+        "",
+        "-G32"
+      ],
+      "cfg": [
+        "2.7.2-cdk",
+        "2.7.2-cdk -G32"
+      ]
+    },
+    "slus/w_8003E4FC": {
+      "flags": [
+        "",
+        "-G32"
+      ],
+      "cfg": [
+        "2.7.2-cdk",
+        "2.7.2-cdk -G32"
+      ]
+    },
+    "slus/w_8003E758": {
+      "flags": [
+        "-G32 -fno-expensive-optimizations",
+        "-G32"
+      ],
+      "cfg": [
+        "2.7.2-cdk -G32 -fno-expensive-optimizations",
+        "2.7.2-cdk -G32"
+      ]
+    },
+    "slus/w_8003F2A4": {
+      "flags": [
+        "-fno-schedule-insns",
+        "-G32"
+      ],
+      "cfg": [
+        "2.6.3 -fno-schedule-insns",
+        "2.7.2-cdk -G32"
+      ],
+      "cell": [
+        "2.6.3",
+        "2.7.2-cdk"
+      ]
+    },
+    "slus/w_8003F368": {
+      "flags": [
+        "",
+        "-G32"
+      ],
+      "cfg": [
+        "2.7.2",
+        "2.7.2-cdk -G32"
+      ],
+      "cell": [
+        "2.7.2",
+        "2.7.2-cdk"
+      ]
+    },
+    "slus/w_8003F5AC": {
+      "flags": [
+        "",
+        "-G32"
+      ],
+      "cfg": [
+        "2.7.2-cdk",
+        "2.7.2-cdk -G32"
+      ]
+    },
+    "slus/w_8003F624": {
+      "flags": [
+        "",
+        "-G32"
+      ],
+      "cfg": [
+        "2.7.2",
+        "2.7.2-cdk -G32"
+      ],
+      "cell": [
+        "2.7.2",
+        "2.7.2-cdk"
+      ]
+    },
+    "slus/w_8003FAD4": {
+      "cfg": [
+        "2.7.2",
+        "2.7.2-cdk"
+      ],
+      "cell": [
+        "2.7.2",
+        "2.7.2-cdk"
+      ]
+    },
+    "slus/w_80041588": {
+      "cfg": [
+        "2.7.2",
+        "2.7.2-cdk"
+      ],
+      "cell": [
+        "2.7.2",
+        "2.7.2-cdk"
+      ]
+    },
+    "slus/w_80041AB0": {
+      "cfg": [
+        "2.7.2",
+        "2.7.2-cdk"
+      ],
+      "cell": [
+        "2.7.2",
+        "2.7.2-cdk"
+      ]
+    },
+    "slus/w_80043CD0": {
+      "cfg": [
+        "2.7.2",
+        "2.7.2-cdk"
+      ],
+      "cell": [
+        "2.7.2",
+        "2.7.2-cdk"
+      ]
+    },
+    "slus/w_8004450C": {
+      "cfg": [
+        "2.7.2",
+        "2.7.2-cdk"
+      ],
+      "cell": [
+        "2.7.2",
+        "2.7.2-cdk"
+      ]
+    },
+    "slus/w_8004AB7C": {
+      "cfg": [
+        "2.7.2",
+        "2.7.2-cdk"
+      ],
+      "cell": [
+        "2.7.2",
+        "2.7.2-cdk"
+      ]
+    },
+    "slus/w_8004DCEC": {
+      "flags": [
+        "-fno-schedule-insns -fno-delayed-branch",
+        ""
+      ],
+      "cfg": [
+        "2.7.2-cdk -fno-schedule-insns -fno-delayed-branch",
+        "2.7.2-cdk"
+      ]
+    }
+  },
+  "registry_raw_sha256": "9714e5e813eae7cb3da6fdbcb69f322b59029f945629929c9174c674e5b7ae8c",
+  "retained_production_row_metadata": {
+    "cfg_corrected": 428,
+    "row_asflags": 1
+  },
+  "raw_registry_differences": {
+    "total_rows": 444,
+    "intended_slus_recipe_rows": 15,
+    "cfg_corrected_annotation_rows": 428,
+    "town_80614B88_row_asflags_override_rows": 1,
+    "town_80614B88_override": "--aspsx-version=2.60"
+  },
+  "overlay_inputs_sha256": "04fc785a9abaa72c510ba7d8c3d61dd5ae0b07fd8c4420de792720e20fa528b7",
+  "production_unchanged": true
+}

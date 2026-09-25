@@ -204,3 +204,21 @@ routines, distinguishes their `0x8040...` linked addresses from old derived row
 names, and records the identical TOWN code copy. Exact SDK object/release and
 retail runtime loading remain unresolved; all three C-coverage gaps stay explicit.
 See the [caller and platform-boundary evidence](evidence/main_kernel_coverage_audit.md#follow-up-callers-and-linked-address-boundary).
+
+
+## Resumption checkpoint: whole-tree census complete
+
+The [final private six-version census](evidence/gp_partition_only/census/README.md)
+now measures all 6,767 registered rows: all pipeline/scorer checks and trace
+self-checks pass, 6,600 match genuine ASPSX, and 167 remain dependent (189 in
+production; 22 removed and zero added). Two canonical-source repairs were measured
+separately and reconciled with explicit provenance, preserving the original errors.
+The comparator masks 872 relocation words across 302 overlay rows; SLUS has zero
+masks. Full SLUS and active overlay byte gates remain separate evidence.
+
+No external-GP rows remain detected. A three-arm probe proves that the remaining
+code-remainder extern-metadata ablation is store scheduling, with zero GPREL
+relocations. The sink imitation pass fires on zero rows/physical units, so its
+isolated removal is now in full-gate rehearsal; the function-address split pass
+still has one required consumer. Final combined proposal review and owner sign-off,
+production activation, and a fresh production census remain outstanding.
