@@ -159,3 +159,25 @@ final source/tool payload, genuine measurements, image gate and certificates.
 Candidate inputs and production files/objects remain unchanged before and after.
 The broad six-version census, its final-source repairs, and the existing owner
 sign-off remain outstanding before production activation.
+
+## Completed six-version census
+
+The [archived final census](gp_partition_only/census/README.md) now covers all
+6,767 registered identities with successful pipeline/scorer comparisons and
+trace self-checks. Genuine ASPSX equals the candidate pipeline for 6,600 rows;
+167 retain differences, compared with 189 production dependencies (22 removed,
+zero added). The original two include-contract failures and their separately
+remeasured replacements retain explicit provenance.
+
+The retail comparator has zero unmasked differences but masks 872 words in 302
+overlay rows; SLUS has zero masks. This census result is distinct from the separate
+full SLUS and 2,175 active-window byte gates. Three unregistered MAIN routines
+remain outside the census, and 22 movie rows remain parked.
+
+The [three-arm code-remainder probe](gp_partition_only/census/code_metadata_probe/receipt.json)
+attributes the remaining extern-metadata ablation to store scheduling, with zero
+GPREL relocations in all arms. The named external-GP detector reports no remaining
+rows. `_sink_call_separated_la` fires on no logical rows or physical units and is
+required by none; `_split_funcaddr_la` still has one required consumer. A separate
+sink-removal proposal is being gated. Production remains unchanged pending the
+combined review and existing final owner sign-off.

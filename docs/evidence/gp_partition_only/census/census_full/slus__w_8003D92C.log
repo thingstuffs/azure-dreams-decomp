@@ -1,0 +1,2 @@
+{"row":"slus/w_8003D92C","container":"slus","kind":"slus","cfg":"2.7.2-cdk","pins":5,"status":"error","err":"compile: module context: gp_d92c_owned: C includes must match declared member order exactly","secs":0.1}
+retained failed worker scratch: /tmp/pgc_gjq2l3zd

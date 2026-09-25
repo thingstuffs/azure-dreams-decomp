@@ -1,0 +1,27 @@
+{
+  "fixture": "<repo>/work/native_lane/gp_partition_only_tools/census_final_fixture",
+  "runner_sha256": "adff1d1b65df41144d70d3206710f9fbdb9feb8cbe86bdd3dd72dca9dbbe186e",
+  "registry_sha256": "dad8bb076a6c6c2479aa488f24419394976040a42797a4783a1912426ce608bb",
+  "tool_fingerprint": "a1a111085f583b273afb",
+  "versions": [
+    "2.56",
+    "2.67",
+    "2.77",
+    "2.79",
+    "2.81",
+    "2.86"
+  ],
+  "assembler": {
+    "tools/maspsx/maspsx.py": "d3e6ec7d120abe00f963c82258dfdeb0e228774adce646177525f1dbed925caf",
+    "tools/maspsx/maspsx/__init__.py": "28e45bbcf00fc90dc0645250f233b73f96ad11d06a2f8230ce533fc2fafbbfbe",
+    "toolchain/maspsx/maspsx.py": "d3e6ec7d120abe00f963c82258dfdeb0e228774adce646177525f1dbed925caf",
+    "toolchain/maspsx/maspsx/__init__.py": "28e45bbcf00fc90dc0645250f233b73f96ad11d06a2f8230ce533fc2fafbbfbe"
+  },
+  "source_sha256": {
+    "slus/w_8003D92C": "e656a830bcfb99616c605560416cfa97a0de75f38966bbaaa8d87677c6210ff5",
+    "slus/w_80049F68": "e55283688e29200caac56d7fb76dd715bcb1da2f68159373b6e5741bbb051675"
+  },
+  "rows": 2,
+  "whole_registry": false,
+  "workers": 1
+}

@@ -1,0 +1,59 @@
+{
+  "schema": 1,
+  "status": "PREPARED",
+  "frozen_fixture_setup_sha256": "102a84ba40d96bbf66cd27cd61ba97456e367728de8edb7a87b7cf2db595b8f3",
+  "transition_compatibility_sha256": "7762945b7178b34e4838cb1e8d2002de4fa20909d7635822a779d19a7b9287cc",
+  "canonical_receipt_sha256": "5e264a62919083e2ca16cc64b1dfef385e4166d8c7f8c3849529130406cfd82d",
+  "source_before_sha256": {
+    "gp_d92c_owned.c": "576ffc9abbd8310aec3ccae37c9948d95fdc8e2dc373e7e3e8df390d720056c8",
+    "gp_order_bytes_owner.c": "b6faa63327ca26472cda02992d722eee347d639c75daffe7b17f4a03368da388",
+    "w_8003D92C.c": "e561bedf36fe177514c4c6abb2cfe37c9d9de2359d6069c2ec528aa088285152",
+    "w_80049F68.c": "320c7d2a9d36142cf062cbdcb4a2746bb5c285c9fa7db964db700d3b51dfa4f0"
+  },
+  "source_after_sha256": {
+    "gp_d92c_owned.c": "377d7efd70a3fc2d13d98f28a79bbb1f6f6c537f5988bc782a8045190eee1d90",
+    "gp_order_bytes_owner.c": "49505bcd6bba6220cb935fe4d5eb564441902d70dce55243f896d85a553f1c4d",
+    "w_8003D92C.c": "e656a830bcfb99616c605560416cfa97a0de75f38966bbaaa8d87677c6210ff5",
+    "w_80049F68.c": "e55283688e29200caac56d7fb76dd715bcb1da2f68159373b6e5741bbb051675"
+  },
+  "relinked_internal_symlinks": [
+    "build_ovl/build",
+    "build_ovl/.venv",
+    "build_ovl/baserom",
+    "build_ovl/include",
+    "build_ovl/asm",
+    "build_ovl/bin",
+    "build_ovl/toolchain",
+    "build_slus/.venv",
+    "build_slus/baserom",
+    "build_slus/toolchain",
+    "build_ovl/config/noreturn_syms.txt",
+    "build_ovl/config/sibcall_syms.dungeon.txt",
+    "build_ovl/config/noreturn_syms.town.txt",
+    "build_ovl/config/generated",
+    "build_ovl/config/noreturn_syms.ovmovie.txt",
+    "build_ovl/config/sibcall_syms.ovmovie.txt",
+    "build_ovl/config/slus_006.14.yaml",
+    "build_ovl/config/overlays",
+    "build_ovl/config/sibcall_syms.town.txt",
+    "build_ovl/config/noreturn_syms.dungeon.txt",
+    "build_ovl/config/names.tsv",
+    "build_ovl/config/sibcall_syms.txt",
+    "build_ovl/config/slus_006.14.symbols.txt",
+    "build_ovl/overlays/town/first_pass_matched",
+    "build_ovl/overlays/ovmovie/first_pass_matched",
+    "build_ovl/overlays/dungeon/first_pass_matched",
+    "build_ovl/overlays/main/first_pass_matched",
+    "build_ovl/overlays/dungeon_engine/first_pass_matched",
+    "build_ovl/work/roundtrip/extract",
+    "build_ovl/work/overlay_recon/extract_bins.py",
+    "build_ovl/work/s3_splat/extract",
+    "build_slus/raw/slus"
+  ],
+  "invalidated_owner_objects": [
+    "gp_d92c_owned.o",
+    "gp_order_bytes_owner.o"
+  ],
+  "registry_sha256": "dad8bb076a6c6c2479aa488f24419394976040a42797a4783a1912426ce608bb",
+  "production_unchanged": true
+}

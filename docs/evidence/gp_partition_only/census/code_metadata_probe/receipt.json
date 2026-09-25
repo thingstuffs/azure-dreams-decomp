@@ -1,0 +1,43 @@
+{
+  "status": "ATTRIBUTED",
+  "scope": "SLUS code remainder only",
+  "recipe": "2.7.2 default G8, O2; guarded maspsx 2.79",
+  "fresh_normal_matches_measured_object_disassembly_and_relocations": true,
+  "extern_strip_equals_disable_store_delay_listing": true,
+  "finding": "extern metadata enables the store-delay rewrite; this ablation is not evidence of a GP addressing difference",
+  "records": {
+    "normal": {
+      "listing_sha256": "879ca84db547cf8c4e0f2166efb90c2b73ec8e61d265f7f01a9b787993d1bc51",
+      "object_sha256": "53de52d74208b03b8ca57fac53d7de4a5f85e64451570fa678688a2b3375428e",
+      "gprel_relocations": 0,
+      "fired": [
+        "_hoist_delay_luis",
+        "_expand_store_to_symbol_in_delay"
+      ]
+    },
+    "strip_externs": {
+      "listing_sha256": "eba74649a84fdf6a9ce8029962341cf153b4828d696237700223139f02661871",
+      "object_sha256": "ffebeeaf481a62c26d0b05ee74816e087b90b922fb20ef5b032d8c6daa02a21b",
+      "gprel_relocations": 0,
+      "fired": []
+    },
+    "disable_store_delay": {
+      "listing_sha256": "eba74649a84fdf6a9ce8029962341cf153b4828d696237700223139f02661871",
+      "object_sha256": "ffebeeaf481a62c26d0b05ee74816e087b90b922fb20ef5b032d8c6daa02a21b",
+      "gprel_relocations": 0,
+      "fired": []
+    }
+  },
+  "inputs": {
+    "<repo>/work/native_lane/gp_partition_only_tools/census_final_fixture/build_slus/build/partition_sources/code.c": "9971fb68a20cfc4c5da402f5abbeb40c56696628717f7f1a69069b3dd76d1cd7",
+    "<repo>/work/native_lane/gp_partition_only_tools/census_final_fixture/tools/build/ccproc.py": "fdfcf0cb45308cd2722f1eb055a2b06c3d907434c058265d838c76e96161195c",
+    "<repo>/work/native_lane/gp_partition_only_tools/census_final_fixture/tools/fidelity/maspsx_trace.py": "d0336210e99493c2857abc13930bbcedeb92162b5d684037874fdb2a0a7d99c6",
+    "<repo>/work/native_lane/gp_partition_only_tools/census_final_fixture/tools/maspsx/maspsx.py": "d3e6ec7d120abe00f963c82258dfdeb0e228774adce646177525f1dbed925caf",
+    "<repo>/work/native_lane/gp_partition_only_tools/census_final_fixture/tools/maspsx/maspsx/__init__.py": "28e45bbcf00fc90dc0645250f233b73f96ad11d06a2f8230ce533fc2fafbbfbe",
+    "<repo>/toolchain/compilers/gcc-2.7.2/gcc": "c85c2a18e0ebab8639f29fce427242dfc1419285e220a7d277c656cf70e3c016",
+    "<repo>/toolchain/compilers/gcc-2.7.2/cc1": "0359379289db8e3904b8ed3b25b422ca631c8d71ab2f543d533c39ed2967764f"
+  },
+  "inputs_unchanged": true,
+  "raw_compiler_sha256": "a128e599c7bc8d17ac51acd2d2c2f79a1f94a539857caf75df312880a4e15dab",
+  "pipeline_sha256": "5eaff08fb5358271dc39aa1536bbad8129b5b4789bb74c42e10e82355501bedf"
+}
