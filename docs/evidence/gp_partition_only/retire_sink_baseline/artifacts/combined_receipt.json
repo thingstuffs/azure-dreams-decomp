@@ -1,0 +1,48 @@
+{
+  "all_objects_equal_frozen_gp57": true,
+  "certificates": {
+    "list_cursor_e0": {
+      "members": [
+        "slus/w_80041134"
+      ],
+      "schema": 2,
+      "sha256": "6fb067d05531e94fe8cedb344d1b704c34b9f48dc687932f2eeb490b3419c35f"
+    },
+    "runtime_directory": {
+      "members": [
+        "slus/konami_runtime_w_8003C634",
+        "slus/konami_runtime_w_8003C758",
+        "slus/konami_runtime_w_8003C920"
+      ],
+      "schema": 1,
+      "sha256": "2c26ca35f48a8c3d02f1935761d362b857bd085559a04d81c02d4c471573857e"
+    }
+  },
+  "explicit_compiler_model_rows": [
+    "slus/konami_runtime_w_80033D54"
+  ],
+  "frozen_fixture_unchanged": true,
+  "full_image_retail_exact": true,
+  "full_image_sha256": "ae19d8d4bdd2db9a933b1e44d70dd61be670781e441d7cb37da85250a7aed31f",
+  "guarded_cli_sha256": "d3e6ec7d120abe00f963c82258dfdeb0e228774adce646177525f1dbed925caf",
+  "logs": {
+    "combined_certify_list_cursor_e0": "a7118be067efb4a54409e1a3f2d5f3f7f09a8b05d440fe2086d0dfc681b99f8d",
+    "combined_certify_runtime_directory": "9408618abb83142eabf770321fc178ff5b2762d732fffe6ba77063471762e41a",
+    "combined_configure": "3e89ef5447f24139a035999709aa38b3bb097c02acd33248515ed8cf0cb18d88",
+    "combined_ownership": "a337cf8c9440acea866c5cc4c4380f4f5444b55a8fa78b3c83bada6c032b69bf",
+    "combined_rebuild": "92be2f63ab3ce1f5e6e93dddeec8c5f07448730840b9d119bd7d918483ed5ad9"
+  },
+  "measured_rows": 59,
+  "normal_ninja_sha256": "968784a7addd9c20cca57e34f3f28d73a101dcc88c91e5046adbe55d0a7cdc44",
+  "owners": 33,
+  "ownership_receipt_sha256": "431860c5d372624b21980e7737ce1459a795eae19e3d7f50c62016093885ea71",
+  "ownership_schema": 5,
+  "physical_objects_rebuilt": 860,
+  "pinned_graph_equal": true,
+  "production_unchanged": true,
+  "purpose": "private combined GP57 plus sink retirement rehearsal",
+  "retired_package_sha256": "b89099797be1352d3122455164062d428dcc74529344a919d169e05f663afc52",
+  "schema": 1,
+  "source_pins_before_after_sha256": "c1cb52959ed157a494ef4b6e10f21860d66f5cbf9ac8f214ec345dacf1882c23",
+  "status": "PASS"
+}

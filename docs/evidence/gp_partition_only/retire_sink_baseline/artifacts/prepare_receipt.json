@@ -1,0 +1,15 @@
+{
+  "status": "PREPARED",
+  "census_rows": 6767,
+  "census_summary_sha256": "9c1e9302ab95bfe88dedc6caa8a7a14b13ebb84b495de1226e4b162f209e37aa",
+  "guarded_cli_sha256": "d3e6ec7d120abe00f963c82258dfdeb0e228774adce646177525f1dbed925caf",
+  "guarded_package_sha256": "28e45bbcf00fc90dc0645250f233b73f96ad11d06a2f8230ce533fc2fafbbfbe",
+  "candidate_cli_sha256": "d3e6ec7d120abe00f963c82258dfdeb0e228774adce646177525f1dbed925caf",
+  "candidate_package_sha256": "b89099797be1352d3122455164062d428dcc74529344a919d169e05f663afc52",
+  "removal_patch_sha256": "1037b7dce6a9f498f13303e99e8e348b74e931867a6c548a368ff618785c5d44",
+  "migrated_test_files": 47,
+  "test_files_unchanged": true,
+  "deleted_method_lines": 129,
+  "removed_call_count": 1,
+  "candidate_has_retired_reference": false
+}

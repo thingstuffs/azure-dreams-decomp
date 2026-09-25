@@ -1,0 +1,92 @@
+{
+  "canonical_owner_object_material": {
+    "build/src/gp_d92c_owned.o": {
+      "exact_material": {
+        "allocated_sections": true,
+        "relocations": true,
+        "symbols": true,
+        "unknown_relocations": true
+      },
+      "normal_build_sha256": "be002bbfd2e92eb1855054a4d88cb2d26a9fb1496518ec4681a4096e0eacc401",
+      "stage_sha256": "be002bbfd2e92eb1855054a4d88cb2d26a9fb1496518ec4681a4096e0eacc401"
+    },
+    "build/src/gp_order_bytes_owner.o": {
+      "exact_material": {
+        "allocated_sections": true,
+        "relocations": true,
+        "symbols": true,
+        "unknown_relocations": true
+      },
+      "normal_build_sha256": "f102bcab987f3628883e19cbc5e3e2edbba5f8bab275ba0fa02965b0c8d04429",
+      "stage_sha256": "f102bcab987f3628883e19cbc5e3e2edbba5f8bab275ba0fa02965b0c8d04429"
+    }
+  },
+  "canonical_receipt_sha256": "5e264a62919083e2ca16cc64b1dfef385e4166d8c7f8c3849529130406cfd82d",
+  "compiler_model_explicit_rows": [
+    "slus/konami_runtime_w_80033D54"
+  ],
+  "data_records": 70,
+  "hygiene_receipt_sha256": "11ad15c736726986c79ba5d4c4e6d6600875997fe858ebfb7290926041753317",
+  "logical": 884,
+  "logs": {
+    "certify_list_cursor_e0": "a7118be067efb4a54409e1a3f2d5f3f7f09a8b05d440fe2086d0dfc681b99f8d",
+    "certify_runtime_directory": "9408618abb83142eabf770321fc178ff5b2762d732fffe6ba77063471762e41a",
+    "configure": "3e89ef5447f24139a035999709aa38b3bb097c02acd33248515ed8cf0cb18d88",
+    "normal_build": "32481f7ec824fa61060a39e0767cb5d085a8a8da1f2812476a1006a9966a45a8",
+    "ownership": "a337cf8c9440acea866c5cc4c4380f4f5444b55a8fa78b3c83bada6c032b69bf"
+  },
+  "modules": 33,
+  "normal_generated_ninja_sha256": "968784a7addd9c20cca57e34f3f28d73a101dcc88c91e5046adbe55d0a7cdc44",
+  "normal_image_retail_exact": true,
+  "normal_image_sha256": "ae19d8d4bdd2db9a933b1e44d70dd61be670781e441d7cb37da85250a7aed31f",
+  "normal_objects_equal_ready29_except_file_metadata": true,
+  "ownership_receipt_sha256": "b34708ae47b03c1121810d55d4003bde895c444f909b5e9ca2f0bb6e181ec872",
+  "ownership_rows": 59,
+  "ownership_schema": 5,
+  "physical": 860,
+  "pinned_ninja_equal": true,
+  "placement_certificates": {
+    "list_cursor_e0": {
+      "gate": {
+        "recipe_sha256": "968784a7addd9c20cca57e34f3f28d73a101dcc88c91e5046adbe55d0a7cdc44",
+        "result": "MATCH",
+        "words_diff": 0
+      },
+      "members": [
+        "slus/w_80041134"
+      ],
+      "schema": 2,
+      "sha256": "b7308414c4961a78fae157797781cd7635f345feda0b3ca4609b276131752b07"
+    },
+    "runtime_directory": {
+      "gate": {
+        "recipe_sha256": "968784a7addd9c20cca57e34f3f28d73a101dcc88c91e5046adbe55d0a7cdc44",
+        "result": "MATCH",
+        "words_diff": 0
+      },
+      "members": [
+        "slus/konami_runtime_w_8003C634",
+        "slus/konami_runtime_w_8003C758",
+        "slus/konami_runtime_w_8003C920"
+      ],
+      "schema": 1,
+      "sha256": "7b0be4220427411894542304be0aed2e910fb173fcbfedc5de8ecf90ffdacc73"
+    }
+  },
+  "postflight": {
+    "at": "2026-09-24T23:42:57Z",
+    "candidate_inputs_equal": true,
+    "final_payload_files": 57,
+    "production_before_after_sha256": "1d07b7d1ce20b769d24ab614ee1a4e25484d1b50158328473b0d5b338f086e9e",
+    "production_equal": true,
+    "source_tool_input_before_after_sha256": "910104feb99211d3ffd66f5619f8757f0e106b59f0e52cb80db16d8ab7466bde",
+    "stage_objects_pinned": 860
+  },
+  "production_unchanged": true,
+  "prover_cli_wrapper_sha256": "279f689f7e184eda867099810cde1b32ba8b98b95cb036fd986d8d16a52ad224",
+  "purpose": "private final transition proof",
+  "registry": 6767,
+  "schema": 1,
+  "source_input_pins_sha256": "910104feb99211d3ffd66f5619f8757f0e106b59f0e52cb80db16d8ab7466bde",
+  "status": "PASS"
+}

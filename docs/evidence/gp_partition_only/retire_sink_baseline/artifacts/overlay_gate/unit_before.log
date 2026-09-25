@@ -1,0 +1,318 @@
+command: <reference-repo>/.venv/bin/python -m unittest discover -s tools/maspsx/tests -t .
+.....................................F..............F......FF..................................................................................................F.......F......................................................................................................................................................................FF.....FFFF.........................................................F..............
+======================================================================
+FAIL: test_prefers_lui_in_branch_delay_over_path_local_shift (tools.maspsx.tests.test_branch_delay_lui.TestPreferLuiOverSllBranchDelay.test_prefers_lui_in_branch_delay_over_path_local_shift)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repo>/tools/maspsx/tests/test_branch_delay_lui.py", line 40, in test_prefers_lui_in_branch_delay_over_path_local_shift
+    self.assertEqual(expected, self._run(lines))
+AssertionError: Lists differ: ['.extern\tD_80083D08, 48', 'bne\t$4,$2,$L2[154 chars]L3:'] != ['bne\t$4,$2,$L2', 'lui\t$2,%hi(D_80083D08)[127 chars]L3:']
+
+First differing element 0:
+'.extern\tD_80083D08, 48'
+'bne\t$4,$2,$L2'
+
+First list contains 1 additional elements.
+First extra element 10:
+'$L3:'
+
+- ['.extern\tD_80083D08, 48',
+-  'bne\t$4,$2,$L2',
+? ^
+
++ ['bne\t$4,$2,$L2',
+? ^
+
+   'lui\t$2,%hi(D_80083D08)',
+   'j\t$L3',
+   'addu\t$2,$0,$zero',
+   '$L2:',
+   'addiu\t$2,$2,%lo(D_80083D08)',
+   'sll\t$4,$4,3',
+   'addu\t$4,$4,$2',
+   'lhu\t$3,4($4)',
+   '$L3:']
+
+======================================================================
+FAIL: test_local_tables_still_fire_with_an_empty_table (tools.maspsx.tests.test_casesi_jumptable.TestCasesiExternDispatchTable.test_local_tables_still_fire_with_an_empty_table)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repo>/tools/maspsx/tests/test_casesi_jumptable.py", line 217, in test_local_tables_still_fire_with_an_empty_table
+    self.assertIn("lui\t$2,%hi($Ltable)", out)
+AssertionError: 'lui\t$2,%hi($Ltable)' not found in ['beq\t$2,$0,$Ldefault', 'sll\t$2,$3,2', '.set\tnoat', 'lui\t$at,%hi($Ltable)', 'addu\t$at,$at,$2', 'lw\t$2,%lo($Ltable)($at)', '.set\tat', 'nop', 'j\t$2', 'nop']
+
+======================================================================
+FAIL: test_distinct_index_temp_keeps_temp_as_index_register (tools.maspsx.tests.test_casesi_jumptable.TestCasesiJumpTableLoad.test_distinct_index_temp_keeps_temp_as_index_register)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repo>/tools/maspsx/tests/test_casesi_jumptable.py", line 61, in test_distinct_index_temp_keeps_temp_as_index_register
+    self.assertIn("lui\t$2,%hi($Ltable)", out)
+AssertionError: 'lui\t$2,%hi($Ltable)' not found in ['sll\t$4,$3,2', '.set\tnoat', 'lui\t$at,%hi($Ltable)', 'addu\t$at,$at,$4', 'lw\t$2,%lo($Ltable)($at)', '.set\tat', 'nop', 'j\t$2', 'nop']
+
+======================================================================
+FAIL: test_local_jumptable_dispatch_expands_to_base_materialize_form (tools.maspsx.tests.test_casesi_jumptable.TestCasesiJumpTableLoad.test_local_jumptable_dispatch_expands_to_base_materialize_form)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repo>/tools/maspsx/tests/test_casesi_jumptable.py", line 35, in test_local_jumptable_dispatch_expands_to_base_materialize_form
+    self.assertEqual(
+AssertionError: Lists differ: ['beq[16 chars]t', 'lui\t$2,%hi($Ltable)', 'addiu\t$2,$2,%lo([78 chars]nop'] != ['beq[16 chars]t', 'sll\t$2,$3,2', '.set\tnoat', 'lui\t$at,%h[90 chars]nop']
+
+First differing element 1:
+'lui\t$2,%hi($Ltable)'
+'sll\t$2,$3,2'
+
+Second list contains 1 additional elements.
+First extra element 9:
+'nop'
+
+  ['beq\t$2,$0,$Ldefault',
++  'sll\t$2,$3,2',
++  '.set\tnoat',
+-  'lui\t$2,%hi($Ltable)',
+?         ^
+
++  'lui\t$at,%hi($Ltable)',
+?         ^^
+
+-  'addiu\t$2,$2,%lo($Ltable)',
+-  'sll\t$3,$3,2',
+-  'addu\t$3,$3,$2',
+?          ^  ^
+
++  'addu\t$at,$at,$2',
+?          ^^  ^^
+
+-  'lw\t$2,0($3)',
++  'lw\t$2,%lo($Ltable)($at)',
++  '.set\tat',
+   'nop',
+   'j\t$2',
+   'nop']
+
+======================================================================
+FAIL: test_funcaddr_arg_split_over_store (tools.maspsx.tests.test_funcaddr_split.TestFuncAddrSplit.test_funcaddr_arg_split_over_store)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repo>/tools/maspsx/tests/test_funcaddr_split.py", line 54, in test_funcaddr_arg_split_over_store
+    self.assertEqual(expected, self._run(lines))
+AssertionError: Lists differ: ['.extern\tD_8008148C, 12', '.extern\tD_800[230 chars]nop'] != ['subu\t$sp,$sp,24', 'lui\t$4,%hi(func_8004[176 chars]nop']
+
+First differing element 0:
+'.extern\tD_8008148C, 12'
+'subu\t$sp,$sp,24'
+
+First list contains 2 additional elements.
+First extra element 11:
+'j\t$31'
+
+- ['.extern\tD_8008148C, 12',
+-  '.extern\tD_80081480, 12',
+-  'subu\t$sp,$sp,24',
+? ^
+
++ ['subu\t$sp,$sp,24',
+? ^
+
+   'lui\t$4,%hi(func_80041AE4)',
+   'lw\t$2,D_8008148C',
+   'sw\t$31,16($sp)',
+   'sw\t$2,D_80081480',
+   'jal\tfunc_80040A88',
+   'addiu\t$4,$4,%lo(func_80041AE4)',
+   'lw\t$31,16($sp)',
+   'addu\t$sp,$sp,24',
+   'j\t$31',
+   'nop']
+
+======================================================================
+FAIL: test_prologue_hoist_is_unchanged (tools.maspsx.tests.test_funcaddr_split_branch_delay.TestFuncAddrSplitBranchDelayGuard.test_prologue_hoist_is_unchanged)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repo>/tools/maspsx/tests/test_funcaddr_split_branch_delay.py", line 135, in test_prologue_hoist_is_unchanged
+    self.assertEqual(expected, self._run(lines))
+AssertionError: Lists differ: ['.extern\tD_8008148C, 12', '.extern\tD_800[230 chars]nop'] != ['subu\t$sp,$sp,24', 'lui\t$4,%hi(func_8004[176 chars]nop']
+
+First differing element 0:
+'.extern\tD_8008148C, 12'
+'subu\t$sp,$sp,24'
+
+First list contains 2 additional elements.
+First extra element 11:
+'j\t$31'
+
+- ['.extern\tD_8008148C, 12',
+-  '.extern\tD_80081480, 12',
+-  'subu\t$sp,$sp,24',
+? ^
+
++ ['subu\t$sp,$sp,24',
+? ^
+
+   'lui\t$4,%hi(func_80041AE4)',
+   'lw\t$2,D_8008148C',
+   'sw\t$31,16($sp)',
+   'sw\t$2,D_80081480',
+   'jal\tfunc_80040A88',
+   'addiu\t$4,$4,%lo(func_80041AE4)',
+   'lw\t$31,16($sp)',
+   'addu\t$sp,$sp,24',
+   'j\t$31',
+   'nop']
+
+======================================================================
+FAIL: test_jr_ra_also_matches (tools.maspsx.tests.test_store_delay.TestStoreToSymbolInDelaySlot.test_jr_ra_also_matches)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repo>/tools/maspsx/tests/test_store_delay.py", line 97, in test_jr_ra_also_matches
+    self.assertEqual(expected_lines, self._run(lines))
+AssertionError: Lists differ: ['.extern\tD_80084130, 12', 'lui\t$2,%hi(D_[47 chars]$2)'] != ['lui\t$2,%hi(D_80084130)', 'jr\t$ra', 'sw\[20 chars]$2)']
+
+First differing element 0:
+'.extern\tD_80084130, 12'
+'lui\t$2,%hi(D_80084130)'
+
+First list contains 1 additional elements.
+First extra element 3:
+'sw\t$0,%lo(D_80084130)($2)'
+
++ ['lui\t$2,%hi(D_80084130)', 'jr\t$ra', 'sw\t$0,%lo(D_80084130)($2)']
+- ['.extern\tD_80084130, 12',
+-  'lui\t$2,%hi(D_80084130)',
+-  'jr\t$ra',
+-  'sw\t$0,%lo(D_80084130)($2)']
+
+======================================================================
+FAIL: test_load_address_into_delay (tools.maspsx.tests.test_store_delay.TestStoreToSymbolInDelaySlot.test_load_address_into_delay)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repo>/tools/maspsx/tests/test_store_delay.py", line 181, in test_load_address_into_delay
+    self.assertEqual(expected_lines, self._run(lines))
+AssertionError: Lists differ: ['.extern\tD_8006CE34, 12', 'lui\t$2,%hi(D_[48 chars]34)'] != ['lui\t$2,%hi(D_8006CE34)', 'j\t$31', 'addi[21 chars]34)']
+
+First differing element 0:
+'.extern\tD_8006CE34, 12'
+'lui\t$2,%hi(D_8006CE34)'
+
+First list contains 1 additional elements.
+First extra element 3:
+'addiu\t$2,$2,%lo(D_8006CE34)'
+
++ ['lui\t$2,%hi(D_8006CE34)', 'j\t$31', 'addiu\t$2,$2,%lo(D_8006CE34)']
+- ['.extern\tD_8006CE34, 12',
+-  'lui\t$2,%hi(D_8006CE34)',
+-  'j\t$31',
+-  'addiu\t$2,$2,%lo(D_8006CE34)']
+
+======================================================================
+FAIL: test_store_arg_reg_uses_v0 (tools.maspsx.tests.test_store_delay.TestStoreToSymbolInDelaySlot.test_store_arg_reg_uses_v0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repo>/tools/maspsx/tests/test_store_delay.py", line 53, in test_store_arg_reg_uses_v0
+    self.assertEqual(expected_lines, self._run(lines))
+AssertionError: Lists differ: ['.extern\tD_80086D4C, 12', 'lui\t$2,%hi(D_[46 chars]$2)'] != ['lui\t$2,%hi(D_80086D4C)', 'j\t$31', 'sw\t[19 chars]$2)']
+
+First differing element 0:
+'.extern\tD_80086D4C, 12'
+'lui\t$2,%hi(D_80086D4C)'
+
+First list contains 1 additional elements.
+First extra element 3:
+'sw\t$4,%lo(D_80086D4C)($2)'
+
++ ['lui\t$2,%hi(D_80086D4C)', 'j\t$31', 'sw\t$4,%lo(D_80086D4C)($2)']
+- ['.extern\tD_80086D4C, 12',
+-  'lui\t$2,%hi(D_80086D4C)',
+-  'j\t$31',
+-  'sw\t$4,%lo(D_80086D4C)($2)']
+
+======================================================================
+FAIL: test_store_half_word (tools.maspsx.tests.test_store_delay.TestStoreToSymbolInDelaySlot.test_store_half_word)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repo>/tools/maspsx/tests/test_store_delay.py", line 67, in test_store_half_word
+    self.assertEqual(expected_lines, self._run(lines))
+AssertionError: Lists differ: ['.extern\tD_80073828, 10', 'lui\t$2,%hi(D_[46 chars]$2)'] != ['lui\t$2,%hi(D_80073828)', 'j\t$31', 'sh\t[19 chars]$2)']
+
+First differing element 0:
+'.extern\tD_80073828, 10'
+'lui\t$2,%hi(D_80073828)'
+
+First list contains 1 additional elements.
+First extra element 3:
+'sh\t$4,%lo(D_80073828)($2)'
+
++ ['lui\t$2,%hi(D_80073828)', 'j\t$31', 'sh\t$4,%lo(D_80073828)($2)']
+- ['.extern\tD_80073828, 10',
+-  'lui\t$2,%hi(D_80073828)',
+-  'j\t$31',
+-  'sh\t$4,%lo(D_80073828)($2)']
+
+======================================================================
+FAIL: test_store_zero_into_return_delay (tools.maspsx.tests.test_store_delay.TestStoreToSymbolInDelaySlot.test_store_zero_into_return_delay)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repo>/tools/maspsx/tests/test_store_delay.py", line 39, in test_store_zero_into_return_delay
+    self.assertEqual(expected_lines, self._run(lines))
+AssertionError: Lists differ: ['.extern\tD_80084130, 12', 'lui\t$2,%hi(D_[46 chars]$2)'] != ['lui\t$2,%hi(D_80084130)', 'j\t$31', 'sw\t[19 chars]$2)']
+
+First differing element 0:
+'.extern\tD_80084130, 12'
+'lui\t$2,%hi(D_80084130)'
+
+First list contains 1 additional elements.
+First extra element 3:
+'sw\t$0,%lo(D_80084130)($2)'
+
++ ['lui\t$2,%hi(D_80084130)', 'j\t$31', 'sw\t$0,%lo(D_80084130)($2)']
+- ['.extern\tD_80084130, 12',
+-  'lui\t$2,%hi(D_80084130)',
+-  'j\t$31',
+-  'sw\t$0,%lo(D_80084130)($2)']
+
+======================================================================
+FAIL: test_temp_steps_to_v1_when_data_is_v0 (tools.maspsx.tests.test_store_delay.TestStoreToSymbolInDelaySlot.test_temp_steps_to_v1_when_data_is_v0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repo>/tools/maspsx/tests/test_store_delay.py", line 83, in test_temp_steps_to_v1_when_data_is_v0
+    self.assertEqual(expected_lines, self._run(lines))
+AssertionError: Lists differ: ['.extern\tD_80084130, 12', 'lui\t$3,%hi(D_[46 chars]$3)'] != ['lui\t$3,%hi(D_80084130)', 'j\t$31', 'sw\t[19 chars]$3)']
+
+First differing element 0:
+'.extern\tD_80084130, 12'
+'lui\t$3,%hi(D_80084130)'
+
+First list contains 1 additional elements.
+First extra element 3:
+'sw\t$2,%lo(D_80084130)($3)'
+
++ ['lui\t$3,%hi(D_80084130)', 'j\t$31', 'sw\t$2,%lo(D_80084130)($3)']
+- ['.extern\tD_80084130, 12',
+-  'lui\t$3,%hi(D_80084130)',
+-  'j\t$31',
+-  'sw\t$2,%lo(D_80084130)($3)']
+
+======================================================================
+FAIL: test_small_extern_store_after_load_gets_nop (tools.maspsx.tests.test_uses_gp_extern.TestUsesGpExtern.test_small_extern_store_after_load_gets_nop)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repo>/tools/maspsx/tests/test_uses_gp_extern.py", line 37, in test_small_extern_store_after_load_gets_nop
+    self.assertEqual(expected_lines, clean_lines[:3])
+AssertionError: Lists differ: ['lw\t$2,0($2)', 'nop', 'sw\t$2,D_800814B0'] != ['lw\t$2,0($2)', 'sw\t$2,D_800814B0']
+
+First differing element 1:
+'nop'
+'sw\t$2,D_800814B0'
+
+First list contains 1 additional elements.
+First extra element 2:
+'sw\t$2,D_800814B0'
+
+- ['lw\t$2,0($2)', 'nop', 'sw\t$2,D_800814B0']
+?                 -------
+
++ ['lw\t$2,0($2)', 'sw\t$2,D_800814B0']
+
+----------------------------------------------------------------------
+Ran 417 tests in 0.892s
+
+FAILED (failures=13)

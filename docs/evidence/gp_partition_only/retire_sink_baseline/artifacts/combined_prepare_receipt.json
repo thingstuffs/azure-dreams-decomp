@@ -1,0 +1,9 @@
+{
+  "copied_fixture": "work/native_lane/gp_partition_only_tools/retire_sink/combined_fixture",
+  "frozen_fixture_unchanged": true,
+  "physical_objects": 860,
+  "production_unchanged": true,
+  "retired_package_sha256": "b89099797be1352d3122455164062d428dcc74529344a919d169e05f663afc52",
+  "rewired_symlinks": 928,
+  "status": "PREPARED"
+}

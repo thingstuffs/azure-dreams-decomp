@@ -1,0 +1,2 @@
+command: <reference-repo>/.venv/bin/python -c import maspsx; print(maspsx.__file__); assert maspsx.__file__.startswith('<repo>/work/native_lane/gp_partition_only_tools/retire_sink/candidate')
+<repo>/work/native_lane/gp_partition_only_tools/retire_sink/candidate/maspsx/__init__.py

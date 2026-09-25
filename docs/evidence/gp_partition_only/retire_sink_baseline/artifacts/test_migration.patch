@@ -1,0 +1,55 @@
+--- a/tools/maspsx/tests/test_fold_selfinc_la.py
++++ b/tools/maspsx/tests/test_fold_selfinc_la.py
+@@ -56,11 +56,10 @@
+         self.assertTrue(any(l.startswith("la\t$3,SYM") for l in res))
+         self.assertFalse(any("%lo(SYM" in l for l in res))
+ 
+-    def test_call_separated_selfinc_loop_is_sunk_and_materialized(self):
+-        # func_8004AB7C shape: gcc emits the loop seed before a call, then uses and
+-        # self-increments it in the loop after the call. Retail sinks the full pointer
+-        # materialization after that call's delay slot, using the first load's $v0
+-        # destination as the la macro scratch.
++    def test_call_separated_selfinc_loop_keeps_its_seed(self):
++        # Historical func_8004AB7C shape: the retired pass used to move the
++        # address seed across this call. The current source no longer emits that
++        # shape. Keep this synthetic input as an exact pass-through regression.
+         lines = [
+             "	la	$17,itemCategoryTable",
+             "	lw	$4,D_80013628",
+@@ -80,16 +79,26 @@
+         mp = MaspsxProcessor(lines, sdata_limit=8)
+         res = strip_comments(mp.process_lines())
+ 
+-        self.assertFalse(any(l.startswith("la\t$17,itemCategoryTable") for l in res))
+-        self.assertFalse(any(l.startswith("lbu\t$2,%lo(itemCategoryTable") for l in res))
+-        load_arg = res.index("lw\t$4,D_80013628")
+-        call = res.index("jal\tfunc_800A6D98")
+-        loop_load = res.index("lbu\t$2,1($17)")
+-        self.assertLess(load_arg, call)
+-        self.assertEqual(res[call + 1], "nop")
+-        self.assertEqual(res[loop_load - 3], "lui\t$2,%hi(itemCategoryTable)")
+-        self.assertEqual(res[loop_load - 2], "addiu\t$17,$2,%lo(itemCategoryTable)")
+-        self.assertEqual(res[loop_load - 1], "$L5:")
++        self.assertEqual(res, [
++            "la\t$17,itemCategoryTable",
++            "lw\t$4,D_80013628",
++            "jal\tfunc_800A6D98",
++            "nop",
++            "$L5:",
++            "lbu\t$2,1($17)",
++            "lw\t$3,D_80012090",
++            "nop",
++            "sra\t$2,$2,$3",
++            "andi\t$2,$2,1",
++            "bne\t$2,$0,$L4",
++            "nop",
++            "nop",
++            "$L4:",
++            "addu\t$17,$17,20",
++            "bne\t$2,$0,$L5",
++            "nop",
++            "nop",
++        ])
+ 
+     def test_value_use_aborts_fold(self):
+         # If the base escapes as a value (here `move $5,$3`), folding is unsafe

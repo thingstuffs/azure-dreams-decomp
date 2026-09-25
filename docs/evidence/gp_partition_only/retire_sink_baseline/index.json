@@ -1,0 +1,580 @@
+{
+  "artifacts": [
+    {
+      "archive_bytes": 3087,
+      "archive_path": "artifacts/REPORT.md",
+      "archive_sha256": "47a71c334f16e25468702b3cea5832d774e29db22874f76d8986d55f5fe0c39f",
+      "format": "text",
+      "original_bytes": 3087,
+      "original_sha256": "47a71c334f16e25468702b3cea5832d774e29db22874f76d8986d55f5fe0c39f",
+      "scrub_replacements": {
+        "reference_repo_root": 0,
+        "repo_root": 0
+      },
+      "source_path": "work/native_lane/gp_partition_only_tools/retire_sink/REPORT.md"
+    },
+    {
+      "archive_bytes": 7407,
+      "archive_path": "artifacts/candidate/maspsx.py",
+      "archive_sha256": "d3e6ec7d120abe00f963c82258dfdeb0e228774adce646177525f1dbed925caf",
+      "format": "text",
+      "original_bytes": 7407,
+      "original_sha256": "d3e6ec7d120abe00f963c82258dfdeb0e228774adce646177525f1dbed925caf",
+      "scrub_replacements": {
+        "reference_repo_root": 0,
+        "repo_root": 0
+      },
+      "source_path": "work/native_lane/gp_partition_only_tools/retire_sink/candidate/maspsx.py"
+    },
+    {
+      "archive_bytes": 277750,
+      "archive_path": "artifacts/candidate/maspsx/__init__.py",
+      "archive_sha256": "b89099797be1352d3122455164062d428dcc74529344a919d169e05f663afc52",
+      "format": "text",
+      "original_bytes": 277750,
+      "original_sha256": "b89099797be1352d3122455164062d428dcc74529344a919d169e05f663afc52",
+      "scrub_replacements": {
+        "reference_repo_root": 0,
+        "repo_root": 0
+      },
+      "source_path": "work/native_lane/gp_partition_only_tools/retire_sink/candidate/maspsx/__init__.py"
+    },
+    {
+      "archive_bytes": 12858,
+      "archive_path": "artifacts/combined.py",
+      "archive_sha256": "e338ef315d14345cf0ac171890e74578025df288a07bf557ea8390ed6d1a4496",
+      "format": "text",
+      "original_bytes": 12858,
+      "original_sha256": "e338ef315d14345cf0ac171890e74578025df288a07bf557ea8390ed6d1a4496",
+      "scrub_replacements": {
+        "reference_repo_root": 0,
+        "repo_root": 0
+      },
+      "source_path": "work/native_lane/gp_partition_only_tools/retire_sink/combined.py"
+    },
+    {
+      "archive_bytes": 295,
+      "archive_path": "artifacts/combined_certify_list_cursor_e0.log",
+      "archive_sha256": "a7118be067efb4a54409e1a3f2d5f3f7f09a8b05d440fe2086d0dfc681b99f8d",
+      "format": "text",
+      "original_bytes": 295,
+      "original_sha256": "a7118be067efb4a54409e1a3f2d5f3f7f09a8b05d440fe2086d0dfc681b99f8d",
+      "scrub_replacements": {
+        "reference_repo_root": 0,
+        "repo_root": 0
+      },
+      "source_path": "work/native_lane/gp_partition_only_tools/retire_sink/combined_certify_list_cursor_e0.log"
+    },
+    {
+      "archive_bytes": 389,
+      "archive_path": "artifacts/combined_certify_runtime_directory.log",
+      "archive_sha256": "9408618abb83142eabf770321fc178ff5b2762d732fffe6ba77063471762e41a",
+      "format": "text",
+      "original_bytes": 389,
+      "original_sha256": "9408618abb83142eabf770321fc178ff5b2762d732fffe6ba77063471762e41a",
+      "scrub_replacements": {
+        "reference_repo_root": 0,
+        "repo_root": 0
+      },
+      "source_path": "work/native_lane/gp_partition_only_tools/retire_sink/combined_certify_runtime_directory.log"
+    },
+    {
+      "archive_bytes": 33,
+      "archive_path": "artifacts/combined_configure.log",
+      "archive_sha256": "3e89ef5447f24139a035999709aa38b3bb097c02acd33248515ed8cf0cb18d88",
+      "format": "text",
+      "original_bytes": 33,
+      "original_sha256": "3e89ef5447f24139a035999709aa38b3bb097c02acd33248515ed8cf0cb18d88",
+      "scrub_replacements": {
+        "reference_repo_root": 0,
+        "repo_root": 0
+      },
+      "source_path": "work/native_lane/gp_partition_only_tools/retire_sink/combined_configure.log"
+    },
+    {
+      "archive_bytes": 5371,
+      "archive_path": "artifacts/combined_fixture/ledger/modules/list_cursor_e0.json",
+      "archive_sha256": "6fb067d05531e94fe8cedb344d1b704c34b9f48dc687932f2eeb490b3419c35f",
+      "format": "text",
+      "original_bytes": 5371,
+      "original_sha256": "6fb067d05531e94fe8cedb344d1b704c34b9f48dc687932f2eeb490b3419c35f",
+      "scrub_replacements": {
+        "reference_repo_root": 0,
+        "repo_root": 0
+      },
+      "source_path": "work/native_lane/gp_partition_only_tools/retire_sink/combined_fixture/ledger/modules/list_cursor_e0.json"
+    },
+    {
+      "archive_bytes": 3770,
+      "archive_path": "artifacts/combined_fixture/ledger/modules/runtime_directory.json",
+      "archive_sha256": "2c26ca35f48a8c3d02f1935761d362b857bd085559a04d81c02d4c471573857e",
+      "format": "text",
+      "original_bytes": 3770,
+      "original_sha256": "2c26ca35f48a8c3d02f1935761d362b857bd085559a04d81c02d4c471573857e",
+      "scrub_replacements": {
+        "reference_repo_root": 0,
+        "repo_root": 0
+      },
+      "source_path": "work/native_lane/gp_partition_only_tools/retire_sink/combined_fixture/ledger/modules/runtime_directory.json"
+    },
+    {
+      "archive_bytes": 89967,
+      "archive_path": "artifacts/combined_frozen_before.json",
+      "archive_sha256": "02ca7e1b6a798034c8eb1ab6f2526f52db8b6351fb72ad939618916111640a14",
+      "format": "text",
+      "original_bytes": 89967,
+      "original_sha256": "02ca7e1b6a798034c8eb1ab6f2526f52db8b6351fb72ad939618916111640a14",
+      "scrub_replacements": {
+        "reference_repo_root": 0,
+        "repo_root": 0
+      },
+      "source_path": "work/native_lane/gp_partition_only_tools/retire_sink/combined_frozen_before.json"
+    },
+    {
+      "archive_bytes": 3238,
+      "archive_path": "artifacts/combined_ownership.log",
+      "archive_sha256": "a337cf8c9440acea866c5cc4c4380f4f5444b55a8fa78b3c83bada6c032b69bf",
+      "format": "text",
+      "original_bytes": 3238,
+      "original_sha256": "a337cf8c9440acea866c5cc4c4380f4f5444b55a8fa78b3c83bada6c032b69bf",
+      "scrub_replacements": {
+        "reference_repo_root": 0,
+        "repo_root": 0
+      },
+      "source_path": "work/native_lane/gp_partition_only_tools/retire_sink/combined_ownership.log"
+    },
+    {
+      "archive_bytes": 441255,
+      "archive_path": "artifacts/combined_ownership_receipt.json",
+      "archive_sha256": "431860c5d372624b21980e7737ce1459a795eae19e3d7f50c62016093885ea71",
+      "format": "text",
+      "original_bytes": 441255,
+      "original_sha256": "431860c5d372624b21980e7737ce1459a795eae19e3d7f50c62016093885ea71",
+      "scrub_replacements": {
+        "reference_repo_root": 0,
+        "repo_root": 0
+      },
+      "source_path": "work/native_lane/gp_partition_only_tools/retire_sink/combined_ownership_receipt.json"
+    },
+    {
+      "archive_bytes": 338,
+      "archive_path": "artifacts/combined_prepare_receipt.json",
+      "archive_sha256": "e073649be2c3639b4b6f0897d1103f4a97acec1641ecc29f308599af1d01e8be",
+      "format": "text",
+      "original_bytes": 338,
+      "original_sha256": "e073649be2c3639b4b6f0897d1103f4a97acec1641ecc29f308599af1d01e8be",
+      "scrub_replacements": {
+        "reference_repo_root": 0,
+        "repo_root": 0
+      },
+      "source_path": "work/native_lane/gp_partition_only_tools/retire_sink/combined_prepare_receipt.json"
+    },
+    {
+      "archive_bytes": 104749,
+      "archive_path": "artifacts/combined_production_before.json",
+      "archive_sha256": "1d07b7d1ce20b769d24ab614ee1a4e25484d1b50158328473b0d5b338f086e9e",
+      "format": "text",
+      "original_bytes": 104749,
+      "original_sha256": "1d07b7d1ce20b769d24ab614ee1a4e25484d1b50158328473b0d5b338f086e9e",
+      "scrub_replacements": {
+        "reference_repo_root": 0,
+        "repo_root": 0
+      },
+      "source_path": "work/native_lane/gp_partition_only_tools/retire_sink/combined_production_before.json"
+    },
+    {
+      "archive_bytes": 46559,
+      "archive_path": "artifacts/combined_rebuild.log",
+      "archive_sha256": "9d479ee5fe667d52c77a94975a28df9ffc2d4d8ea98c74c380b37219c33b336b",
+      "format": "text",
+      "original_bytes": 46576,
+      "original_sha256": "92be2f63ab3ce1f5e6e93dddeec8c5f07448730840b9d119bd7d918483ed5ad9",
+      "scrub_replacements": {
+        "reference_repo_root": 0,
+        "repo_root": 1
+      },
+      "source_path": "work/native_lane/gp_partition_only_tools/retire_sink/combined_rebuild.log"
+    },
+    {
+      "archive_bytes": 2046,
+      "archive_path": "artifacts/combined_receipt.json",
+      "archive_sha256": "1cf4ef236bd0a0fad2a618b96e02754ad64fd6e7a192e6f6ace20cdd61290608",
+      "format": "text",
+      "original_bytes": 2046,
+      "original_sha256": "1cf4ef236bd0a0fad2a618b96e02754ad64fd6e7a192e6f6ace20cdd61290608",
+      "scrub_replacements": {
+        "reference_repo_root": 0,
+        "repo_root": 0
+      },
+      "source_path": "work/native_lane/gp_partition_only_tools/retire_sink/combined_receipt.json"
+    },
+    {
+      "archive_bytes": 204532,
+      "archive_path": "artifacts/combined_source_pins.json",
+      "archive_sha256": "c1cb52959ed157a494ef4b6e10f21860d66f5cbf9ac8f214ec345dacf1882c23",
+      "format": "text",
+      "original_bytes": 204532,
+      "original_sha256": "c1cb52959ed157a494ef4b6e10f21860d66f5cbf9ac8f214ec345dacf1882c23",
+      "scrub_replacements": {
+        "reference_repo_root": 0,
+        "repo_root": 0
+      },
+      "source_path": "work/native_lane/gp_partition_only_tools/retire_sink/combined_source_pins.json"
+    },
+    {
+      "archive_bytes": 1648,
+      "archive_path": "artifacts/former/frozen_final_w_8004AB7C.o",
+      "archive_sha256": "ec50b0f0dcc399fb1e586450aa2581dd89f810ceb5c305551474b87b4268ee0c",
+      "format": "binary",
+      "original_bytes": 1648,
+      "original_sha256": "ec50b0f0dcc399fb1e586450aa2581dd89f810ceb5c305551474b87b4268ee0c",
+      "scrub_replacements": {},
+      "source_path": "work/native_lane/gp_partition_only_tools/full_ownership/fixture/build_slus/build/src/w_8004AB7C.o"
+    },
+    {
+      "archive_bytes": 0,
+      "archive_path": "artifacts/former_guarded.log",
+      "archive_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "format": "text",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "scrub_replacements": {
+        "reference_repo_root": 0,
+        "repo_root": 0
+      },
+      "source_path": "work/native_lane/gp_partition_only_tools/retire_sink/former_guarded.log"
+    },
+    {
+      "archive_bytes": 1648,
+      "archive_path": "artifacts/former_guarded.o",
+      "archive_sha256": "ec50b0f0dcc399fb1e586450aa2581dd89f810ceb5c305551474b87b4268ee0c",
+      "format": "binary",
+      "original_bytes": 1648,
+      "original_sha256": "ec50b0f0dcc399fb1e586450aa2581dd89f810ceb5c305551474b87b4268ee0c",
+      "scrub_replacements": {},
+      "source_path": "work/native_lane/gp_partition_only_tools/retire_sink/former_guarded.o"
+    },
+    {
+      "archive_bytes": 0,
+      "archive_path": "artifacts/former_retired.log",
+      "archive_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "format": "text",
+      "original_bytes": 0,
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "scrub_replacements": {
+        "reference_repo_root": 0,
+        "repo_root": 0
+      },
+      "source_path": "work/native_lane/gp_partition_only_tools/retire_sink/former_retired.log"
+    },
+    {
+      "archive_bytes": 1648,
+      "archive_path": "artifacts/former_retired.o",
+      "archive_sha256": "ec50b0f0dcc399fb1e586450aa2581dd89f810ceb5c305551474b87b4268ee0c",
+      "format": "binary",
+      "original_bytes": 1648,
+      "original_sha256": "ec50b0f0dcc399fb1e586450aa2581dd89f810ceb5c305551474b87b4268ee0c",
+      "scrub_replacements": {},
+      "source_path": "work/native_lane/gp_partition_only_tools/retire_sink/former_retired.o"
+    },
+    {
+      "archive_bytes": 14242,
+      "archive_path": "artifacts/lineage/census_summary.json",
+      "archive_sha256": "77e0d412c346a79c75e76e82270fc84d69d99072b2770c58a5536f5c3e735b8e",
+      "format": "text",
+      "original_bytes": 14259,
+      "original_sha256": "239cd089390ca6f06e9c6ce163e216326476fabfa21fd047f19a890ddfc1a1f6",
+      "scrub_replacements": {
+        "reference_repo_root": 0,
+        "repo_root": 1
+      },
+      "source_path": "work/native_lane/gp_partition_only_tools/census_report/summary.json"
+    },
+    {
+      "archive_bytes": 200071,
+      "archive_path": "artifacts/lineage/frozen_gp57_input_pins.json",
+      "archive_sha256": "910104feb99211d3ffd66f5619f8757f0e106b59f0e52cb80db16d8ab7466bde",
+      "format": "text",
+      "original_bytes": 200071,
+      "original_sha256": "910104feb99211d3ffd66f5619f8757f0e106b59f0e52cb80db16d8ab7466bde",
+      "scrub_replacements": {
+        "reference_repo_root": 0,
+        "repo_root": 0
+      },
+      "source_path": "work/native_lane/gp_partition_only_tools/full_ownership/input_pins.json"
+    },
+    {
+      "archive_bytes": 3707,
+      "archive_path": "artifacts/lineage/frozen_gp57_ownership_receipt.json",
+      "archive_sha256": "36fa912030b99f77f3548b4a2795f3f6cb0336481d7b17d2d374c140df4450bc",
+      "format": "text",
+      "original_bytes": 3707,
+      "original_sha256": "36fa912030b99f77f3548b4a2795f3f6cb0336481d7b17d2d374c140df4450bc",
+      "scrub_replacements": {
+        "reference_repo_root": 0,
+        "repo_root": 0
+      },
+      "source_path": "work/native_lane/gp_partition_only_tools/full_ownership/receipt.json"
+    },
+    {
+      "archive_bytes": 2304,
+      "archive_path": "artifacts/overlay_gate/REPORT.md",
+      "archive_sha256": "9426b095cc7aaecc5a764107cedaf0f058b015d2e766bcfdcd36a82f5f2f4760",
+      "format": "text",
+      "original_bytes": 2304,
+      "original_sha256": "9426b095cc7aaecc5a764107cedaf0f058b015d2e766bcfdcd36a82f5f2f4760",
+      "scrub_replacements": {
+        "reference_repo_root": 0,
+        "repo_root": 0
+      },
+      "source_path": "work/native_lane/gp_partition_only_tools/retire_sink/overlay_gate/REPORT.md"
+    },
+    {
+      "archive_bytes": 1449,
+      "archive_path": "artifacts/overlay_gate/gate.log",
+      "archive_sha256": "f6c4e55439b0fec262c382db0986aed3cf0dc4c4500d72160dd418a8859dddbe",
+      "format": "text",
+      "original_bytes": 1449,
+      "original_sha256": "f6c4e55439b0fec262c382db0986aed3cf0dc4c4500d72160dd418a8859dddbe",
+      "scrub_replacements": {
+        "reference_repo_root": 0,
+        "repo_root": 0
+      },
+      "source_path": "work/native_lane/gp_partition_only_tools/retire_sink/overlay_gate/gate.log"
+    },
+    {
+      "archive_bytes": 602320,
+      "archive_path": "artifacts/overlay_gate/journal.jsonl",
+      "archive_sha256": "7f8c755b5005bae81dd21ea8b2cb6a75e9d744cfe7340e8ed45cc29828b7ecc5",
+      "format": "text",
+      "original_bytes": 602320,
+      "original_sha256": "7f8c755b5005bae81dd21ea8b2cb6a75e9d744cfe7340e8ed45cc29828b7ecc5",
+      "scrub_replacements": {
+        "reference_repo_root": 0,
+        "repo_root": 0
+      },
+      "source_path": "work/native_lane/gp_partition_only_tools/retire_sink/overlay_gate/journal.jsonl"
+    },
+    {
+      "archive_bytes": 6672,
+      "archive_path": "artifacts/overlay_gate/receipt.json",
+      "archive_sha256": "27213c484f4ac960e3017e312417d975e6cd87c14205004f8a3b199b58c91df4",
+      "format": "text",
+      "original_bytes": 6723,
+      "original_sha256": "bbac624e99338d382b83929344d80fa87f8969e37d19b1f76a78ecb4ecb0cb5c",
+      "scrub_replacements": {
+        "reference_repo_root": 0,
+        "repo_root": 3
+      },
+      "source_path": "work/native_lane/gp_partition_only_tools/retire_sink/overlay_gate/receipt.json"
+    },
+    {
+      "archive_bytes": 7395,
+      "archive_path": "artifacts/overlay_gate/run.py",
+      "archive_sha256": "bd08acdad4fb7f0d9c53ae8c1cfc3c58cb953e48b381d1cf06859520296726ba",
+      "format": "text",
+      "original_bytes": 7403,
+      "original_sha256": "922a8840a3d37230d64c463a309eb2a46f34bf2ca7d622ea0586bb60416027f8",
+      "scrub_replacements": {
+        "reference_repo_root": 1,
+        "repo_root": 0
+      },
+      "source_path": "work/native_lane/gp_partition_only_tools/retire_sink/overlay_gate/run.py"
+    },
+    {
+      "archive_bytes": 94,
+      "archive_path": "artifacts/overlay_gate/setup.log",
+      "archive_sha256": "8595de8ebbd0c461b70562cb76774b1d54b76ff154c49706b9e9abbc7087c072",
+      "format": "text",
+      "original_bytes": 111,
+      "original_sha256": "8662cd84a9fa84a6d7f4e74b9847021d8478fa7d727a4702e2e42c76d8bc172a",
+      "scrub_replacements": {
+        "reference_repo_root": 0,
+        "repo_root": 1
+      },
+      "source_path": "work/native_lane/gp_partition_only_tools/retire_sink/overlay_gate/setup.log"
+    },
+    {
+      "archive_bytes": 13992,
+      "archive_path": "artifacts/overlay_gate/unit.log",
+      "archive_sha256": "c9917367a4b3f32af402091ab41670484581bcb458577aa3c0ce60000cdebe4c",
+      "format": "text",
+      "original_bytes": 14238,
+      "original_sha256": "1d9ced3d41bb7eebca0e57f45bc869cfae0db44aac4f44b4a331fdccc5330be4",
+      "scrub_replacements": {
+        "reference_repo_root": 1,
+        "repo_root": 14
+      },
+      "source_path": "work/native_lane/gp_partition_only_tools/retire_sink/overlay_gate/unit.log"
+    },
+    {
+      "archive_bytes": 13386,
+      "archive_path": "artifacts/overlay_gate/unit_before.log",
+      "archive_sha256": "a57511064ffbe459ed8d1b23cf47f25f76718ae1ae46a5e5f0dbf1fccca7cd2c",
+      "format": "text",
+      "original_bytes": 13615,
+      "original_sha256": "dae7764bc3e10d28012f357a17c53f331a87f3c7cd33b5a2795bc0c0f5611b52",
+      "scrub_replacements": {
+        "reference_repo_root": 1,
+        "repo_root": 13
+      },
+      "source_path": "work/native_lane/gp_partition_only_tools/retire_sink/overlay_gate/unit_before.log"
+    },
+    {
+      "archive_bytes": 281,
+      "archive_path": "artifacts/overlay_gate/unit_import.log",
+      "archive_sha256": "c8f2a99c7ff84a3ecee7001d993bbc478b97578124284a69db2571a1f83938ee",
+      "format": "text",
+      "original_bytes": 323,
+      "original_sha256": "0e6dc54111e561a9efe5a1806649a0387c979e297bf904725d9bf5dd8f3fc0cd",
+      "scrub_replacements": {
+        "reference_repo_root": 1,
+        "repo_root": 2
+      },
+      "source_path": "work/native_lane/gp_partition_only_tools/retire_sink/overlay_gate/unit_import.log"
+    },
+    {
+      "archive_bytes": 1647,
+      "archive_path": "artifacts/overlay_gate/unit_selfinc.log",
+      "archive_sha256": "8572a8bea3b3be7eeb4ec200e7b39ef973d1c6f15e2377c78eb027c29dc73a52",
+      "format": "text",
+      "original_bytes": 1672,
+      "original_sha256": "4e2c6bdaab47ba931801c6ad8a9fb8996d05b848e565f5dd187d0a420422808c",
+      "scrub_replacements": {
+        "reference_repo_root": 1,
+        "repo_root": 1
+      },
+      "source_path": "work/native_lane/gp_partition_only_tools/retire_sink/overlay_gate/unit_selfinc.log"
+    },
+    {
+      "archive_bytes": 103,
+      "archive_path": "artifacts/patch_replay.log",
+      "archive_sha256": "027a8dbf343b096c5cadf225da85565ba8716134afc206a88f68e5ef72439f0e",
+      "format": "text",
+      "original_bytes": 103,
+      "original_sha256": "027a8dbf343b096c5cadf225da85565ba8716134afc206a88f68e5ef72439f0e",
+      "scrub_replacements": {
+        "reference_repo_root": 0,
+        "repo_root": 0
+      },
+      "source_path": "work/native_lane/gp_partition_only_tools/retire_sink/patch_replay.log"
+    },
+    {
+      "archive_bytes": 5487,
+      "archive_path": "artifacts/prepare.py",
+      "archive_sha256": "fa8535775660fb443194bcf57de7447deb553805d59238d3b4b98d5888ace3ac",
+      "format": "text",
+      "original_bytes": 5487,
+      "original_sha256": "fa8535775660fb443194bcf57de7447deb553805d59238d3b4b98d5888ace3ac",
+      "scrub_replacements": {
+        "reference_repo_root": 0,
+        "repo_root": 0
+      },
+      "source_path": "work/native_lane/gp_partition_only_tools/retire_sink/prepare.py"
+    },
+    {
+      "archive_bytes": 782,
+      "archive_path": "artifacts/prepare_receipt.json",
+      "archive_sha256": "4cd0fc95dbefa7dc17e6bc241bb72ec81f40cbde61c5e2d0c41b00a499876dd7",
+      "format": "text",
+      "original_bytes": 782,
+      "original_sha256": "4cd0fc95dbefa7dc17e6bc241bb72ec81f40cbde61c5e2d0c41b00a499876dd7",
+      "scrub_replacements": {
+        "reference_repo_root": 0,
+        "repo_root": 0
+      },
+      "source_path": "work/native_lane/gp_partition_only_tools/retire_sink/prepare_receipt.json"
+    },
+    {
+      "archive_bytes": 4182,
+      "archive_path": "artifacts/receipt.json",
+      "archive_sha256": "d15c2b462fd43153befcc722deabdf9b733a0f309c14ab3ad8f2171103707266",
+      "format": "text",
+      "original_bytes": 4233,
+      "original_sha256": "355bf5e1428a0c883d95772dda5f28d3ec6b18d5ae81f548de597f5dab2169b7",
+      "scrub_replacements": {
+        "reference_repo_root": 0,
+        "repo_root": 3
+      },
+      "source_path": "work/native_lane/gp_partition_only_tools/retire_sink/receipt.json"
+    },
+    {
+      "archive_bytes": 5231,
+      "archive_path": "artifacts/removal.patch",
+      "archive_sha256": "1037b7dce6a9f498f13303e99e8e348b74e931867a6c548a368ff618785c5d44",
+      "format": "text",
+      "original_bytes": 5231,
+      "original_sha256": "1037b7dce6a9f498f13303e99e8e348b74e931867a6c548a368ff618785c5d44",
+      "scrub_replacements": {
+        "reference_repo_root": 0,
+        "repo_root": 0
+      },
+      "source_path": "work/native_lane/gp_partition_only_tools/retire_sink/removal.patch"
+    },
+    {
+      "archive_bytes": 7683,
+      "archive_path": "artifacts/supplemental.patch",
+      "archive_sha256": "ffc8e37bda619821f7d484f047f73f980b33730325005becb04e47b6acbd8576",
+      "format": "text",
+      "original_bytes": 7683,
+      "original_sha256": "ffc8e37bda619821f7d484f047f73f980b33730325005becb04e47b6acbd8576",
+      "scrub_replacements": {
+        "reference_repo_root": 0,
+        "repo_root": 0
+      },
+      "source_path": "work/native_lane/gp_partition_only_tools/retire_sink/supplemental.patch"
+    },
+    {
+      "archive_bytes": 2452,
+      "archive_path": "artifacts/test_migration.patch",
+      "archive_sha256": "4b9ee5cb58fcc4b367da73bfd585d5fcce28aca1625fc362f3f610dd8e5d3430",
+      "format": "text",
+      "original_bytes": 2452,
+      "original_sha256": "4b9ee5cb58fcc4b367da73bfd585d5fcce28aca1625fc362f3f610dd8e5d3430",
+      "scrub_replacements": {
+        "reference_repo_root": 0,
+        "repo_root": 0
+      },
+      "source_path": "work/native_lane/gp_partition_only_tools/retire_sink/test_migration.patch"
+    },
+    {
+      "archive_bytes": 518,
+      "archive_path": "artifacts/unit.log",
+      "archive_sha256": "f1f31cdc2cc06f4d61122704a32688518cce9de400787128bbeef87d50c22382",
+      "format": "text",
+      "original_bytes": 518,
+      "original_sha256": "f1f31cdc2cc06f4d61122704a32688518cce9de400787128bbeef87d50c22382",
+      "scrub_replacements": {
+        "reference_repo_root": 0,
+        "repo_root": 0
+      },
+      "source_path": "work/native_lane/gp_partition_only_tools/retire_sink/unit.log"
+    },
+    {
+      "archive_bytes": 10761,
+      "archive_path": "artifacts/verify.py",
+      "archive_sha256": "db7729576c7de8c7baab225583d8fdb3576a33371cee4e212fade418e8fadb95",
+      "format": "text",
+      "original_bytes": 10761,
+      "original_sha256": "db7729576c7de8c7baab225583d8fdb3576a33371cee4e212fade418e8fadb95",
+      "scrub_replacements": {
+        "reference_repo_root": 0,
+        "repo_root": 0
+      },
+      "source_path": "work/native_lane/gp_partition_only_tools/retire_sink/verify.py"
+    }
+  ],
+  "gzip_rule": "UTF-8 .json/.jsonl text over 1,000,000 bytes, gzip level 9, mtime 0",
+  "schema": 1,
+  "scope": "private sink-retirement baseline before validation-controls refresh; not final activation",
+  "scrub": [
+    {
+      "source": "repo_root",
+      "to": "<repo>"
+    },
+    {
+      "source": "reference_repo_root",
+      "to": "<reference-repo>"
+    }
+  ]
+}
