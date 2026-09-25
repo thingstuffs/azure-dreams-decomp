@@ -1,0 +1,214 @@
+{
+  "schema": 2,
+  "module": "list_cursor_e0",
+  "members": [
+    "slus/w_80041134"
+  ],
+  "at": "2026-09-25T00:08:39Z",
+  "module_fingerprint": "e0cec3e61c37d978fdc69d9137b98742fbfd64766aa8c75aed1c7b95b2a83983",
+  "tool_fingerprint": "09aa0133e3d24e49ee4b",
+  "review": {
+    "path": "docs/evidence/list_cursor_e0.md",
+    "sha256": "0295150c1c38923748913a8ae6020c3103b4dd2fdc8a3e69d2f1d0425c8801b7",
+    "reviewer": "codex"
+  },
+  "gate": {
+    "result": "MATCH",
+    "words_diff": 0,
+    "recipe_sha256": "968784a7addd9c20cca57e34f3f28d73a101dcc88c91e5046adbe55d0a7cdc44"
+  },
+  "image_sha1": "e6bfbb95ff6676899e077481221d73ddd4d3bf52",
+  "rows": {
+    "slus/w_80041134": {
+      "row": "slus/w_80041134",
+      "container": "slus",
+      "kind": "slus",
+      "cfg": "2.8.1",
+      "pins": 0,
+      "module_fingerprint": "e0cec3e61c37d978fdc69d9137b98742fbfd64766aa8c75aed1c7b95b2a83983",
+      "partition_gate": {
+        "status": "ok",
+        "exact": true,
+        "proof": "whole SLUS image, partition context",
+        "module_fingerprint": "e0cec3e61c37d978fdc69d9137b98742fbfd64766aa8c75aed1c7b95b2a83983",
+        "physical_units": [
+          {
+            "source": "src/w_80041134_owned.c",
+            "recipe": {
+              "ccver": "2.8.1",
+              "ccflags": "",
+              "asflags": ""
+            },
+            "functions": [
+              "func_80041134"
+            ],
+            "role": "module",
+            "module": "list_cursor_e0"
+          }
+        ],
+        "total": 0,
+        "err": null,
+        "secs": 2.26
+      },
+      "physical_units": [
+        {
+          "source": "src/w_80041134_owned.c",
+          "recipe": {
+            "ccver": "2.8.1",
+            "ccflags": "",
+            "asflags": ""
+          },
+          "functions": [
+            "func_80041134"
+          ],
+          "expected_functions": [
+            "func_800410FC",
+            "func_80041110",
+            "func_80041134"
+          ],
+          "role": "module",
+          "module": "list_cursor_e0",
+          "row": "slus/w_80041134",
+          "container": "slus",
+          "kind": "slus",
+          "cfg": "2.8.1",
+          "asflags": "",
+          "cell": "2.8.1",
+          "maspsx_exact": true,
+          "proof": "whole SLUS image, partition context",
+          "fired": [],
+          "module_fingerprint": "e0cec3e61c37d978fdc69d9137b98742fbfd64766aa8c75aed1c7b95b2a83983",
+          "trace_scope": "whole-physical-unit",
+          "selfcheck": true,
+          "funcs": 1,
+          "words": 30,
+          "maspsx_retail": {
+            "diff": 0,
+            "masked": 0,
+            "checked": 1
+          },
+          "maspsx_physical_retail": {
+            "diff": 0,
+            "masked": 0,
+            "checked": 3
+          },
+          "has_div": false,
+          "genuine": {
+            "2.79": {
+              "exact": true,
+              "diff": 0,
+              "len": 30,
+              "mode": "",
+              "retail": [
+                0,
+                0
+              ],
+              "retail_checked": 1,
+              "physical": {
+                "exact": true,
+                "diff": 0,
+                "len_m": 44,
+                "len_g": 44,
+                "missing": [],
+                "retail": {
+                  "diff": 0,
+                  "masked": 0,
+                  "checked": 3
+                }
+              }
+            }
+          },
+          "exact_versions": [
+            "2.79"
+          ],
+          "best": "2.79",
+          "status": "ok"
+        }
+      ],
+      "functions": [
+        "func_80041134"
+      ],
+      "funcs": 1,
+      "words": 30,
+      "selfcheck": true,
+      "maspsx_exact": true,
+      "trace_scope": "union-of-whole-physical-units",
+      "cfg_scope": "original-logical-row",
+      "proof": "whole SLUS image, partition context",
+      "cell": "2.8.1",
+      "asflags": "",
+      "maspsx_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      },
+      "fired": [],
+      "has_div": false,
+      "genuine": {
+        "2.79": {
+          "exact": true,
+          "diff": 0,
+          "len": 30,
+          "retail": [
+            0,
+            0
+          ],
+          "retail_checked": 1,
+          "modes": {
+            "src/w_80041134_owned.c": ""
+          }
+        }
+      },
+      "exact_versions": [
+        "2.79"
+      ],
+      "ownerwise_exact_versions": true,
+      "best": "2.79",
+      "partition_attribution": {
+        "src/w_80041134_owned.c": {}
+      },
+      "status": "ok",
+      "secs": 3.2
+    }
+  },
+  "physical": {
+    "source": "src/w_80041134_owned.c",
+    "module": "list_cursor_e0",
+    "recipe": {
+      "ccver": "2.8.1",
+      "ccflags": "",
+      "asflags": ""
+    },
+    "functions": [
+      "func_800410FC",
+      "func_80041110",
+      "func_80041134"
+    ],
+    "contributors": [
+      {
+        "row": "slus/w_80041134",
+        "source": "src/w_80041134.c",
+        "kind": "member",
+        "functions": [
+          "func_80041134"
+        ]
+      },
+      {
+        "row": "slus/code",
+        "source": "src/code.c",
+        "kind": "part",
+        "functions": [
+          "func_80041110"
+        ]
+      },
+      {
+        "row": "slus/code2",
+        "source": "src/code2.c",
+        "kind": "part",
+        "functions": [
+          "func_800410FC"
+        ]
+      }
+    ]
+  }
+}

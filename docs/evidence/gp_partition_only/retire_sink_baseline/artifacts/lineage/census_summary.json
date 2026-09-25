@@ -1,0 +1,518 @@
+{
+  "schema": 1,
+  "status": "PASS",
+  "rows": 6767,
+  "status_counts": {
+    "ok": 6767
+  },
+  "pipeline_exact": 6767,
+  "selfcheck": 6767,
+  "common_genuine_exact": 6600,
+  "container": {
+    "main": {
+      "rows": 423,
+      "pipeline_exact": 423,
+      "selfcheck": 423,
+      "genuine_common": 418,
+      "retail_unmasked_differences": 0,
+      "retail_masked_words": 133,
+      "retail_masked_rows": 26
+    },
+    "town": {
+      "rows": 2695,
+      "pipeline_exact": 2695,
+      "selfcheck": 2695,
+      "genuine_common": 2649,
+      "retail_unmasked_differences": 0,
+      "retail_masked_words": 244,
+      "retail_masked_rows": 83
+    },
+    "dungeon": {
+      "rows": 2743,
+      "pipeline_exact": 2743,
+      "selfcheck": 2743,
+      "genuine_common": 2642,
+      "retail_unmasked_differences": 0,
+      "retail_masked_words": 492,
+      "retail_masked_rows": 192
+    },
+    "ovmovie": {
+      "rows": 22,
+      "pipeline_exact": 22,
+      "selfcheck": 22,
+      "genuine_common": 20,
+      "retail_unmasked_differences": 0,
+      "retail_masked_words": 3,
+      "retail_masked_rows": 1
+    },
+    "slus": {
+      "rows": 884,
+      "pipeline_exact": 884,
+      "selfcheck": 884,
+      "genuine_common": 871,
+      "retail_unmasked_differences": 0,
+      "retail_masked_words": 0,
+      "retail_masked_rows": 0
+    }
+  },
+  "selected_owners": {
+    "accessors_814c8": {
+      "collector_row": "slus/code",
+      "source": "src/c8_accessors_owned.c",
+      "functions": [
+        "func_8003F5D4",
+        "func_8003F5E0"
+      ],
+      "expected_functions": [
+        "func_8003F5D4",
+        "func_8003F5E0"
+      ],
+      "words": 6,
+      "pipeline_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 2
+      },
+      "genuine_exact_versions": [
+        "2.56",
+        "2.67",
+        "2.77",
+        "2.79",
+        "2.81",
+        "2.86"
+      ],
+      "genuine_279": {
+        "exact": true,
+        "diff": 0,
+        "len": 6,
+        "mode": "",
+        "retail": [
+          0,
+          0
+        ],
+        "retail_checked": 2,
+        "physical": {
+          "exact": true,
+          "diff": 0,
+          "len_m": 6,
+          "len_g": 6,
+          "missing": [],
+          "retail": {
+            "diff": 0,
+            "masked": 0,
+            "checked": 2
+          }
+        }
+      },
+      "gp_externs": null
+    },
+    "table_counters_b1b_b1c": {
+      "collector_row": "slus/code2",
+      "source": "src/b1b_b1c_table_owned.c",
+      "functions": [
+        "func_80048DA0"
+      ],
+      "expected_functions": [
+        "func_80048DA0"
+      ],
+      "words": 11,
+      "pipeline_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      },
+      "genuine_exact_versions": [
+        "2.67",
+        "2.77",
+        "2.79",
+        "2.81",
+        "2.86"
+      ],
+      "genuine_279": {
+        "exact": true,
+        "diff": 0,
+        "len": 11,
+        "mode": "",
+        "retail": [
+          0,
+          0
+        ],
+        "retail_checked": 1,
+        "physical": {
+          "exact": true,
+          "diff": 0,
+          "len_m": 11,
+          "len_g": 11,
+          "missing": [],
+          "retail": {
+            "diff": 0,
+            "masked": 0,
+            "checked": 1
+          }
+        }
+      },
+      "gp_externs": null
+    }
+  },
+  "collectors": {
+    "slus/code": {
+      "status": "ok",
+      "pipeline_exact": true,
+      "selfcheck": true,
+      "logical_functions": 156,
+      "logical_words": 1263,
+      "common_genuine_exact_versions": [],
+      "physical_units": [
+        {
+          "source": "src/code.c",
+          "role": "remainder",
+          "module": null,
+          "functions": 149,
+          "words": 1218,
+          "genuine_exact_versions": [],
+          "best": "2.56",
+          "gp_externs": null,
+          "best_ablation_fixes": [
+            "no:_expand_store_to_symbol_in_delay",
+            "no:all-fired",
+            "extern-abs"
+          ]
+        },
+        {
+          "source": "src/w_80041134_owned.c",
+          "role": "module",
+          "module": "list_cursor_e0",
+          "functions": 1,
+          "words": 9,
+          "genuine_exact_versions": [
+            "2.67",
+            "2.77",
+            "2.79",
+            "2.81",
+            "2.86"
+          ],
+          "best": "2.67",
+          "gp_externs": null,
+          "best_ablation_fixes": null
+        },
+        {
+          "source": "src/w_80050DA8_owned.c",
+          "role": "module",
+          "module": "saved_value_b98",
+          "functions": 1,
+          "words": 12,
+          "genuine_exact_versions": [
+            "2.67",
+            "2.77",
+            "2.79",
+            "2.81",
+            "2.86"
+          ],
+          "best": "2.67",
+          "gp_externs": null,
+          "best_ablation_fixes": null
+        },
+        {
+          "source": "src/sort_rank_81540_owned.c",
+          "role": "module",
+          "module": "sort_rank_81540",
+          "functions": 1,
+          "words": 11,
+          "genuine_exact_versions": [
+            "2.67",
+            "2.77",
+            "2.79",
+            "2.81",
+            "2.86"
+          ],
+          "best": "2.67",
+          "gp_externs": null,
+          "best_ablation_fixes": null
+        },
+        {
+          "source": "src/w_8004DCA8_owned.c",
+          "role": "module",
+          "module": "command_slots_81554",
+          "functions": 1,
+          "words": 4,
+          "genuine_exact_versions": [
+            "2.67",
+            "2.77",
+            "2.79",
+            "2.81",
+            "2.86"
+          ],
+          "best": "2.67",
+          "gp_externs": null,
+          "best_ablation_fixes": null
+        },
+        {
+          "source": "src/w_8004DCEC_owned.c",
+          "role": "module",
+          "module": "message_mode_81550",
+          "functions": 1,
+          "words": 3,
+          "genuine_exact_versions": [
+            "2.67",
+            "2.77",
+            "2.79",
+            "2.81",
+            "2.86"
+          ],
+          "best": "2.67",
+          "gp_externs": null,
+          "best_ablation_fixes": null
+        },
+        {
+          "source": "src/c8_accessors_owned.c",
+          "role": "module",
+          "module": "accessors_814c8",
+          "functions": 2,
+          "words": 6,
+          "genuine_exact_versions": [
+            "2.56",
+            "2.67",
+            "2.77",
+            "2.79",
+            "2.81",
+            "2.86"
+          ],
+          "best": "2.56",
+          "gp_externs": null,
+          "best_ablation_fixes": null
+        }
+      ]
+    },
+    "slus/code2": {
+      "status": "ok",
+      "pipeline_exact": true,
+      "selfcheck": true,
+      "logical_functions": 24,
+      "logical_words": 241,
+      "common_genuine_exact_versions": [],
+      "physical_units": [
+        {
+          "source": "src/code2.c",
+          "role": "remainder",
+          "module": null,
+          "functions": 21,
+          "words": 213,
+          "genuine_exact_versions": [],
+          "best": "2.67",
+          "gp_externs": null,
+          "best_ablation_fixes": [
+            "no:all-fired"
+          ]
+        },
+        {
+          "source": "src/w_80041134_owned.c",
+          "role": "module",
+          "module": "list_cursor_e0",
+          "functions": 1,
+          "words": 5,
+          "genuine_exact_versions": [
+            "2.67",
+            "2.77",
+            "2.79",
+            "2.81",
+            "2.86"
+          ],
+          "best": "2.67",
+          "gp_externs": null,
+          "best_ablation_fixes": null
+        },
+        {
+          "source": "src/cd_command_state_owned.c",
+          "role": "module",
+          "module": "cd_command_state",
+          "functions": 1,
+          "words": 12,
+          "genuine_exact_versions": [
+            "2.67",
+            "2.77",
+            "2.79",
+            "2.81",
+            "2.86"
+          ],
+          "best": "2.67",
+          "gp_externs": null,
+          "best_ablation_fixes": null
+        },
+        {
+          "source": "src/b1b_b1c_table_owned.c",
+          "role": "module",
+          "module": "table_counters_b1b_b1c",
+          "functions": 1,
+          "words": 11,
+          "genuine_exact_versions": [
+            "2.67",
+            "2.77",
+            "2.79",
+            "2.81",
+            "2.86"
+          ],
+          "best": "2.67",
+          "gp_externs": null,
+          "best_ablation_fixes": null
+        }
+      ]
+    }
+  },
+  "errors": [],
+  "scope": {
+    "registered_rows": 6767,
+    "slus_logical_rows": 884,
+    "slus_physical_objects": 860,
+    "slus_modules": 33,
+    "slus_partition_only_modules": 2,
+    "plural_logical_rows": 20,
+    "plural_physical_unit_measurements": 29,
+    "plural_distinct_physical_sources": 10
+  },
+  "retail_scope": {
+    "comparator": "maspsx_retail",
+    "unmasked_differences": 0,
+    "masked_words": 872,
+    "rows_with_masked_words": 302,
+    "by_container": {
+      "main": {
+        "masked_rows": 26,
+        "masked_words": 133,
+        "unmasked_differences": 0
+      },
+      "town": {
+        "masked_rows": 83,
+        "masked_words": 244,
+        "unmasked_differences": 0
+      },
+      "dungeon": {
+        "masked_rows": 192,
+        "masked_words": 492,
+        "unmasked_differences": 0
+      },
+      "ovmovie": {
+        "masked_rows": 1,
+        "masked_words": 3,
+        "unmasked_differences": 0
+      },
+      "slus": {
+        "masked_rows": 0,
+        "masked_words": 0,
+        "unmasked_differences": 0
+      }
+    },
+    "interpretation": "All 6,767 rows have zero unmasked retail differences, but 872 words in 302 overlay rows are relocation-masked. This comparator alone does not prove direct byte identity for those words. SLUS has zero masks."
+  },
+  "gp_model": {
+    "detected_external_gp_rows": 0,
+    "detected_external_gp_symbols": [],
+    "single_stream_extern_abs_ablations": [],
+    "owner_only_extern_abs_ablations": [
+      [
+        "slus/code",
+        "src/code.c"
+      ]
+    ],
+    "metadata_probe_sha256": "201be8d71350e4c7336bcf8bafc9ff212ad23c258b6e02517841c652727fff54",
+    "metadata_probe_status": "ATTRIBUTED",
+    "interpretation": "The detector found no named external-GP sites. The code remainder's sole extern-abs ablation is caused by extern-size metadata gating the store-delay rewrite: stripping externs and disabling that rewrite produce identical listings and objects, and all three arms have zero GPREL relocations. This case is scheduling debt, not GP addressing debt."
+  },
+  "pass_probe": {
+    "_sink_call_separated_la": {
+      "fired_rows": [],
+      "fired_units": [],
+      "required_rows": [],
+      "required_units": []
+    },
+    "_split_funcaddr_la": {
+      "fired_rows": [
+        "dungeon/func_818D4E68"
+      ],
+      "fired_units": [],
+      "required_rows": [
+        "dungeon/func_818D4E68"
+      ],
+      "required_units": []
+    }
+  },
+  "slus_genuine_dependent_rows": [
+    "slus/code",
+    "slus/code2",
+    "slus/code7",
+    "slus/konami_runtime_w_80033D54",
+    "slus/konami_runtime_w_8003B7C8",
+    "slus/w_8003E188",
+    "slus/w_800463EC",
+    "slus/w_80048224",
+    "slus/w_8004A6C0",
+    "slus/w_8004A700",
+    "slus/w_8004A7D8",
+    "slus/w_8004CAA0",
+    "slus/w_8005D7BC"
+  ],
+  "journal_sha256": "194c1db77d5ca87978971a420e87aff443f6a37560b3f51dce0a22c3fc4c97e5",
+  "inputs_sha256": "365438549403a2a3e8ed70d8fa628ee52b6097ce4ee3ab5ee51f95be9725a3f6",
+  "reconciliation_receipt_sha256": "b13ec7a4b2b8f99d6d3cd8cfad991bae5b2651d72c8bb9cc6100d9421e54bbd9",
+  "frozen_original_receipt_sha256": "982edfb5293c7989e4acfc3e7ab124dbd7acc54810d12a538dd03df878f8dfac",
+  "canonical_two_row_receipt_sha256": "1fdf47afa06f19f84be4a1ea68d6b476fee63a6ab250839f6c644e0debcdc612",
+  "transition_compatibility_sha256": "7762945b7178b34e4838cb1e8d2002de4fa20909d7635822a779d19a7b9287cc",
+  "source_replacements": [
+    {
+      "row": "slus/w_8003D92C",
+      "old_status": "error",
+      "new_status": "ok",
+      "old_key": "186465ba309727fe964a518f",
+      "new_key": "d2fbe2a2283846094f938d3a",
+      "old_source_sha256": "e561bedf36fe177514c4c6abb2cfe37c9d9de2359d6069c2ec528aa088285152",
+      "new_source_sha256": "e656a830bcfb99616c605560416cfa97a0de75f38966bbaaa8d87677c6210ff5",
+      "old_record_sha256": "bc5989aaf117c9c4a7d873e73b56408f359604ff3d6633a9ea42b97204fb96eb",
+      "new_record_sha256": "27b02c321594d4950209ed3991af3a71fcfb645ea600ce6127cb42d3d174b3d2",
+      "old_tool_fingerprint": "2bd3bb5f410cbd8bf6cb",
+      "new_tool_fingerprint": "a1a111085f583b273afb",
+      "genuine_exact_versions": [
+        "2.67",
+        "2.77",
+        "2.79",
+        "2.81",
+        "2.86"
+      ],
+      "words": 136,
+      "retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      }
+    },
+    {
+      "row": "slus/w_80049F68",
+      "old_status": "error",
+      "new_status": "ok",
+      "old_key": "378db0ef48210d8c73d0f52e",
+      "new_key": "952bc8b0d4f970d09805134f",
+      "old_source_sha256": "320c7d2a9d36142cf062cbdcb4a2746bb5c285c9fa7db964db700d3b51dfa4f0",
+      "new_source_sha256": "e55283688e29200caac56d7fb76dd715bcb1da2f68159373b6e5741bbb051675",
+      "old_record_sha256": "f8583869f062ad0189714b48a0183a13c44306984858d7ebbaef2d2d7a5fe720",
+      "new_record_sha256": "db83880d652c27339b8a5a84901e188e85fe98244cfee44bd5ae1b6870bf992e",
+      "old_tool_fingerprint": "2bd3bb5f410cbd8bf6cb",
+      "new_tool_fingerprint": "a1a111085f583b273afb",
+      "genuine_exact_versions": [
+        "2.67",
+        "2.77",
+        "2.79",
+        "2.81"
+      ],
+      "words": 50,
+      "retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      }
+    }
+  ],
+  "registry_sha256": "dad8bb076a6c6c2479aa488f24419394976040a42797a4783a1912426ce608bb",
+  "aspsx_report_sha256": "3d47b2f6e2473c1dbac79cf154547ad10dafdc59a3593316d106f024df69b752",
+  "ready29_receipt_sha256": "2a046a66e241a08c8575bdcdea4372d9c0f8d917803647fed48c22e80d242a05",
+  "tables_sha256": "4aa72c39ad0d582c1b0fdb074b3fcf0c473ba68280de315d8909ea165f23e6b1",
+  "tables_raw_sha256": "6b99eaf015e1f89088d173d537cac9d948d5ea1d87c95528010257d6488689d2",
+  "production_snapshot": "<repo>/work/native_lane/gp_partition_only_tools/census_fixture/production_after_census.json"
+}

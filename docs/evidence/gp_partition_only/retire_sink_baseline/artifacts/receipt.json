@@ -1,0 +1,72 @@
+{
+  "candidate_cli_sha256": "d3e6ec7d120abe00f963c82258dfdeb0e228774adce646177525f1dbed925caf",
+  "candidate_package_sha256": "b89099797be1352d3122455164062d428dcc74529344a919d169e05f663afc52",
+  "census_rows": 6767,
+  "census_summary_sha256": "239cd089390ca6f06e9c6ce163e216326476fabfa21fd047f19a890ddfc1a1f6",
+  "former_consumer": {
+    "asflags": "",
+    "flags": "",
+    "guarded_retired_and_final_object_byte_equal": true,
+    "object_bytes": 1648,
+    "object_sha256": "ec50b0f0dcc399fb1e586450aa2581dd89f810ceb5c305551474b87b4268ee0c",
+    "recipe": "2.7.2-cdk",
+    "retail_exact_fixture_receipt_sha256": "36fa912030b99f77f3548b4a2795f3f6cb0336481d7b17d2d374c140df4450bc",
+    "row": "slus/w_8004AB7C",
+    "source_sha256": "43b1cad48154576b7c58bc64245c55fe1372e454ff2f320965fef889797403ce"
+  },
+  "guarded_cli_sha256": "d3e6ec7d120abe00f963c82258dfdeb0e228774adce646177525f1dbed925caf",
+  "guarded_package_sha256": "28e45bbcf00fc90dc0645250f233b73f96ad11d06a2f8230ce533fc2fafbbfbe",
+  "input_hashes": {
+    "candidate_cli": "d3e6ec7d120abe00f963c82258dfdeb0e228774adce646177525f1dbed925caf",
+    "candidate_package": "b89099797be1352d3122455164062d428dcc74529344a919d169e05f663afc52",
+    "candidate_test": "80b9372b1db8fb2ca1bdc9a893f1d5c78a15bd581bf02e0da011394194fcc4f8",
+    "census_summary": "239cd089390ca6f06e9c6ce163e216326476fabfa21fd047f19a890ddfc1a1f6",
+    "final_57_pins": "910104feb99211d3ffd66f5619f8757f0e106b59f0e52cb80db16d8ab7466bde",
+    "final_build_source": "43b1cad48154576b7c58bc64245c55fe1372e454ff2f320965fef889797403ce",
+    "final_ninja": "968784a7addd9c20cca57e34f3f28d73a101dcc88c91e5046adbe55d0a7cdc44",
+    "final_object": "ec50b0f0dcc399fb1e586450aa2581dd89f810ceb5c305551474b87b4268ee0c",
+    "final_pinned_ninja": "968784a7addd9c20cca57e34f3f28d73a101dcc88c91e5046adbe55d0a7cdc44",
+    "final_registry": "dad8bb076a6c6c2479aa488f24419394976040a42797a4783a1912426ce608bb",
+    "final_source": "43b1cad48154576b7c58bc64245c55fe1372e454ff2f320965fef889797403ce",
+    "guarded_cli": "d3e6ec7d120abe00f963c82258dfdeb0e228774adce646177525f1dbed925caf",
+    "guarded_package": "28e45bbcf00fc90dc0645250f233b73f96ad11d06a2f8230ce533fc2fafbbfbe",
+    "migrated_test_base": "5ec3627a4a931d436f10c99596325fbe66f6851cf85e9c9c24bef867ce59e45d"
+  },
+  "input_hashes_before_after_equal": true,
+  "pass_probe": {
+    "fired_rows": [],
+    "fired_units": [],
+    "required_rows": [],
+    "required_units": []
+  },
+  "production_inputs": {
+    "build_slus/build/src/w_8004AB7C.o": "10fff2bcbfc516ad716aaa6f900d8acca8cca80aa61ee67b81b3bb1ed6fc262e",
+    "src/slus/w_8004AB7C.c": "ef073018d88eafb86d24e7f0b4818a4566d6b458be989edd7f7edbdb587bb6f9",
+    "tools/maspsx/maspsx.py": "3bbb64075ab6384f6b670a495cce152acb50f3318cf714c6ab9a082b7adaf086",
+    "tools/maspsx/maspsx/__init__.py": "a5e87a9c60f067144874411aefd61ab57b44e9c752b80a02c4417ed05263464f",
+    "tools/maspsx/tests/test_fold_selfinc_la.py": "5ec3627a4a931d436f10c99596325fbe66f6851cf85e9c9c24bef867ce59e45d"
+  },
+  "production_inputs_before_after_equal": true,
+  "schema": 1,
+  "scope": "no production change, no full global gate, no pass retirement activated",
+  "status": "PRIVATE_PASS_RETIREMENT_PROBE_PASS",
+  "supplemental_patch": {
+    "files": [
+      "tools/maspsx/maspsx/__init__.py",
+      "tools/maspsx/tests/test_fold_selfinc_la.py"
+    ],
+    "path": "work/native_lane/gp_partition_only_tools/retire_sink/supplemental.patch",
+    "replay_exact": true,
+    "retired_test_after_sha256": "80b9372b1db8fb2ca1bdc9a893f1d5c78a15bd581bf02e0da011394194fcc4f8",
+    "retired_test_before_sha256": "5ec3627a4a931d436f10c99596325fbe66f6851cf85e9c9c24bef867ce59e45d",
+    "sha256": "ffc8e37bda619821f7d484f047f73f980b33730325005becb04e47b6acbd8576"
+  },
+  "unit_tests": {
+    "candidate_cli_and_package_bound": true,
+    "command": "<repo>/.venv/bin/python -m unittest discover -s <repo>/work/native_lane/gp_partition_only_tools/retire_sink/test_fixture/tools/maspsx/tests -t <repo>/work/native_lane/gp_partition_only_tools/retire_sink/test_fixture",
+    "errors": 0,
+    "failures": 0,
+    "log_sha256": "f1f31cdc2cc06f4d61122704a32688518cce9de400787128bbeef87d50c22382",
+    "tests": 418
+  }
+}
