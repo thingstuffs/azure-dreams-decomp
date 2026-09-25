@@ -28,9 +28,17 @@ def main():
         out.append("## SLUS modules\n\n| module | logical rows | placement evidence | shared headers |\n|---|---:|---|---|")
         for entry in module_records:
             module = entry["module"]
-            proof = "current: retail + genuine ASPSX 2.79" if entry["valid"] else "unproved: " + entry["reason"]
+            if module.get("partition_only"):
+                proof = "not applicable (partition owner)"
+            elif entry["valid"]:
+                proof = "current: retail + genuine ASPSX 2.79"
+            elif not (LEDGER / "modules" / (module["name"] + ".json")).exists():
+                proof = "not certified"
+            else:
+                proof = "unproved: " + entry["reason"]
             out.append(f"| {module['name']} | {len(module['members'])} | {proof} | " + ", ".join(module["headers"]) + " |")
-        out.append("\nModule placement preserves logical row IDs. The existing L4/L5 pin, tail-jump and fidelity requirements still apply; changed shared inputs invalidate placement evidence.\n")
+        out.append("\nNot certified means no placement certificate has been issued; ownership and retail-byte proofs are separate. Partition owners do not grant whole-row placement.\n")
+        out.append("Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump and fidelity requirements still apply; changed shared inputs invalidate placement evidence.\n")
     out.append("## Shape census: pinned raw text vs current clean tree (files / bytes carrying each defect)\n\n| defect | files (pin) | bytes (pin) | % bytes | files (clean) | bytes (clean) | % bytes |\n|---|---:|---:|---:|---:|---:|---:|")
     tot = sum(r["size"] for r in rs)
     import re as _re
