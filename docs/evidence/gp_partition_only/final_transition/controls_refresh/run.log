@@ -1,0 +1,60 @@
+PASS  casesi 2026-09-14 maspsx default (5-word rewrite) != genuine {'2.56': (16, 333, 332, {'other': 1, 'reloc': 10}), '2.67': (16, 333, 332, {'other': 1, 'reloc': 10}), '2.79': (16, 333, 332, {'other': 1, 'reloc': 10})}
+PASS  casesi maspsx --preserve-casesi-at == genuine              {'2.56': 0, '2.67': 0, '2.79': 0}
+PASS  casesi live maspsx on sw.c == genuine (patch landed)       exact ['2.56', '2.67', '2.77', '2.79', '2.81', '2.86'] maspsx_exact True
+PASS  canonical D92C owner: 136 words, genuine + retail exact    status ok exact ['2.67', '2.77', '2.79', '2.81', '2.86'] retail {'diff': 0, 'masked': 0, 'checked': 1} err None
+PASS  slus/w_8004AB7C: canonical genuine + retail exact; _sink_call_separated_la idle fired [] exact ['2.67', '2.77', '2.79', '2.81', '2.86'] retail {'diff': 0, 'masked': 0, 'checked': 1} fix [] err None
+PASS  slus/w_80041AB0: canonical genuine + retail exact; _split_funcaddr_la idle fired [] exact ['2.67', '2.77', '2.79', '2.81', '2.86'] retail {'diff': 0, 'masked': 0, 'checked': 1} fix [] err None
+PASS  slus/w_80043CD0: canonical genuine + retail exact; _split_funcaddr_la idle fired [] exact ['2.67', '2.77', '2.79', '2.81', '2.86'] retail {'diff': 0, 'masked': 0, 'checked': 1} fix [] err None
+PASS  dungeon/func_818D4E68: split pass fires and ablation reaches genuine fired ['_split_funcaddr_la'] exact [] retail {'diff': 0, 'masked': 0, 'checked': 1, 'len': 678, 'retail_len': 678} fix ['no:_split_funcaddr_la'] err None
+PASS  plain dungeon/func_7FFF6B08 [2.6.3]                        exact ['2.56', '2.67', '2.77', '2.79', '2.81', '2.86'] fix [] err None
+PASS  plain dungeon/func_7FFF6B50 [2.6.3]                        exact ['2.56', '2.67', '2.77', '2.79', '2.81', '2.86'] fix [] err None
+PASS  plain dungeon/func_7FFE7CBC [2.7.2-G0]                     exact ['2.56', '2.67', '2.77', '2.79', '2.81', '2.86'] fix [] err None
+PASS  plain dungeon/func_7FFE8154 [2.7.2-G0]                     exact ['2.56', '2.67', '2.77', '2.79', '2.81', '2.86'] fix [] err None
+PASS  plain dungeon/func_7FFE7BE8 [2.7.2-cdk]                    exact ['2.56', '2.67', '2.77', '2.79', '2.81', '2.86'] fix [] err None
+PASS  plain dungeon/func_7FFED54C [2.7.2-cdk-G0]                 exact ['2.56', '2.67', '2.77', '2.79', '2.81', '2.86'] fix [] err None
+PASS  plain dungeon/func_800A4DDC [2.8.0 -mno-split-addresses]   exact [] fix ['no:_maybe_unfill_return_delay'] err None
+PASS  plain dungeon/func_8028B824 [2.8.0-G0]                     exact [] fix ['no:_maybe_unfill_return_delay'] err None
+PASS  plain dungeon/func_8008B4B0 [2.8.1 -G0]                    exact [] fix ['no:_maybe_unfill_return_delay'] err None
+PASS  plain dungeon/func_8009E0C0 [2.8.1]                        exact ['2.67', '2.77', '2.79', '2.81', '2.86'] fix [] err None
+PASS  plain dungeon/func_800BB144 [2.95.2-G0]                    exact [] fix ['no:_maybe_unfill_return_delay'] err None
+PASS  plain dungeon/func_8180F208 [2.95.2-G0]                    exact [] fix ['no:_maybe_unfill_return_delay'] err None
+PASS  plain main/func_8001A3D0 [2.6.3]                           exact ['2.56', '2.67', '2.77', '2.79', '2.81', '2.86'] fix [] err None
+PASS  plain main/func_8001AE2C [2.6.3]                           exact ['2.56', '2.67', '2.77', '2.79', '2.81', '2.86'] fix [] err None
+PASS  plain main/func_80010470 [2.7.2 -fno-strength-reduce]      exact ['2.56', '2.67', '2.77', '2.79', '2.81', '2.86'] fix [] err None
+PASS  plain main/func_80010600 [2.7.2 -fno-strength-reduce]      exact ['2.56', '2.67', '2.77', '2.79', '2.81', '2.86'] fix [] err None
+PASS  plain main/func_7FDD1970 [2.7.2-cdk-G0]                    exact ['2.67', '2.77', '2.79', '2.81', '2.86'] fix [] err None
+PASS  plain main/func_7FDD19D0 [2.7.2-cdk-G0]                    exact ['2.67', '2.77', '2.79', '2.81', '2.86'] fix [] err None
+PASS  plain main/func_80021848 [2.8.0]                           exact ['2.67', '2.77', '2.79', '2.81', '2.86'] fix [] err None
+PASS  plain main/func_8000E68C [2.8.1]                           exact [] fix ['no:_maybe_unfill_return_delay'] err None
+PASS  plain main/func_8000EEE0 [2.8.1 -fno-strength-reduce]      exact ['2.56', '2.67', '2.77', '2.79', '2.81', '2.86'] fix [] err None
+PASS  plain main/func_8001EB98 [2.95.2+-fno-schedule-insns]      exact [] fix ['no:_maybe_unfill_return_delay'] err None
+PASS  plain ovmovie/func_80040690 [2.7.2]                        exact ['2.56', '2.67', '2.77', '2.79', '2.81', '2.86'] fix [] err None
+PASS  plain ovmovie/func_800408BC [2.7.2]                        exact ['2.56', '2.67', '2.77', '2.79', '2.81', '2.86'] fix [] err None
+PASS  plain ovmovie/func_800400AC [2.7.2-cdk-G0]                 exact ['2.67', '2.77', '2.79', '2.81', '2.86'] fix [] err None
+PASS  plain ovmovie/func_800402D8 [2.7.2-cdk]                    exact ['2.56', '2.67', '2.77', '2.79', '2.81', '2.86'] fix [] err None
+PASS  plain ovmovie/func_8004033C [2.8.1-G0]                     exact ['2.67', '2.77', '2.79', '2.81', '2.86'] fix [] err None
+PASS  plain ovmovie/func_80040360 [2.8.1+-G0 -fno-schedule-insns] exact [] fix ['no:_maybe_unfill_return_delay'] err None
+PASS  plain slus/w_800418B4 [2.6.3 -G0]                          exact ['2.56', '2.67', '2.77', '2.79', '2.81', '2.86'] fix [] err None
+PASS  plain slus/w_8005DF80 [2.6.3 -G0]                          exact ['2.56', '2.67', '2.77', '2.79', '2.81', '2.86'] fix [] err None
+FAIL  plain slus/code [2.7.2]                                    exact [] fix [] err None
+PASS  plain slus/code11 [2.7.2 -G0]                              exact ['2.56', '2.67', '2.77', '2.79', '2.81', '2.86'] fix [] err None
+PASS  plain slus/code8 [2.7.2-cdk]                               exact ['2.67', '2.77', '2.79', '2.81', '2.86'] fix [] err None
+PASS  plain slus/konami_runtime_w_80033AA8 [2.7.2-cdk]           exact ['2.56', '2.67', '2.77', '2.79', '2.81', '2.86'] fix [] err None
+PASS  plain slus/code10 [2.8.1 -G0]                              exact ['2.67', '2.77', '2.79', '2.81', '2.86'] fix [] err None
+PASS  plain slus/code13 [2.8.1]                                  exact ['2.67', '2.77', '2.79', '2.81', '2.86'] fix [] err None
+PASS  plain slus/w_8003E240 [2.91.66 -G0]                        exact ['2.67', '2.77', '2.79', '2.81', '2.86'] fix [] err None
+PASS  plain slus/code3 [2.95.2 -fno-delayed-branch]              exact ['2.67', '2.77', '2.79', '2.81', '2.86'] fix [] err None
+PASS  plain slus/code9 [2.95.2 -fstrict-aliasing]                exact ['2.67', '2.77', '2.79', '2.81', '2.86'] fix [] err None
+PASS  plain town/func_802EE3A0 [2.6.3-G0]                        exact ['2.56', '2.67', '2.77', '2.79', '2.81', '2.86'] fix [] err None
+PASS  plain town/func_802EE4E8 [2.6.3-G0]                        exact ['2.56', '2.67', '2.77', '2.79', '2.81', '2.86'] fix [] err None
+PASS  plain town/func_80097934 [2.7.2-G0 -fno-cse-skip-blocks]   exact ['2.56', '2.67', '2.77', '2.79', '2.81', '2.86'] fix [] err None
+PASS  plain town/func_800A1480 [2.7.2-G0]                        exact [] fix ['no:_fold_selfinc_la'] err None
+PASS  plain town/func_8008D54C [2.7.2-cdk-G0]                    exact ['2.56', '2.67', '2.77', '2.79', '2.81', '2.86'] fix [] err None
+PASS  plain town/func_8008D588 [2.7.2-cdk-G0]                    exact ['2.67', '2.77', '2.79', '2.81', '2.86'] fix [] err None
+PASS  plain town/func_8047E0D0 [2.8.0-G0]                        exact ['2.56', '2.67', '2.77', '2.79', '2.81', '2.86'] fix [] err None
+PASS  plain town/func_8047E0D8 [2.8.0-G0]                        exact [] fix ['no:all-fired'] err None
+PASS  plain town/func_800A61B8 [2.8.1-G0 -fno-expensive-optimizations] exact ['2.67', '2.77', '2.79', '2.81', '2.86'] fix [] err None
+PASS  plain town/func_800AC54C [2.8.1-G0]                        exact ['2.67', '2.77', '2.79', '2.81', '2.86'] fix [] err None
+PASS  plain town/func_8009A0E4 [2.91.66-G0]                      exact [] fix ['no:_maybe_unfill_return_delay'] err None
+PASS  plain town/func_800A2F44 [2.95.2-G0]                       exact ['2.67', '2.77', '2.79', '2.81', '2.86'] fix [] err None
+PASS  plain town/func_800B3C30 [2.95.2]                          exact ['2.67', '2.77', '2.79', '2.81', '2.86'] fix [] err None

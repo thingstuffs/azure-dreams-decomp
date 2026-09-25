@@ -181,3 +181,14 @@ rows. `_sink_call_separated_la` fires on no logical rows or physical units and i
 required by none; `_split_funcaddr_la` still has one required consumer. A separate
 sink-removal proposal is being gated. Production remains unchanged pending the
 combined review and existing final owner sign-off.
+
+## Final combined proposal ready for sign-off
+
+The [final 60-file proposal](gp_partition_only/final_transition/README.md) now
+passes the exact-payload ownership proof, both placement certificates, the full
+SLUS/image check, all 2,175 active overlay windows, 418 assembler tests, and 60
+validation controls with no skips. Root review verifies patch composition,
+before/after hashes, full-payload proof bindings, and read-only activation preflight.
+The proposal includes the now-unused sink-pass deletion. Production activation
+still requires the explicitly retained final owner sign-off, followed by fresh
+production checks, census and derived views. Production remains at 189 dependencies.

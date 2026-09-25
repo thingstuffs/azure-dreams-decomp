@@ -1,0 +1,12 @@
+{
+  "combined_baseline_unchanged": true,
+  "fixture": "work/native_lane/gp_partition_only_tools/retire_sink/combined_final_fixture",
+  "physical_objects": 860,
+  "production_unchanged": true,
+  "rewired_symlinks": 924,
+  "status": "PREPARED",
+  "validation_tools": {
+    "aspsx_diff.py": "34ea90ca45d1a3753851145b9731a728da3214fc640def9a12592f27731d5338",
+    "maspsx_trace.py": "cae6004277b9fc15f706a045195e6e96d185c34bdcc422b06393aafffa6ad0c9"
+  }
+}

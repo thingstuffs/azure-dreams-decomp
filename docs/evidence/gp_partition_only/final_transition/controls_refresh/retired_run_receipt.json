@@ -1,0 +1,65 @@
+{
+  "schema": 1,
+  "status": "PASS",
+  "controls_return": 0,
+  "passed_controls": 60,
+  "failed_controls": [],
+  "expected_control_names": [
+    "casesi 2026-09-14 maspsx default",
+    "casesi maspsx --preserve-casesi-at",
+    "casesi live maspsx on sw.c",
+    "canonical D92C owner",
+    "slus/w_8004AB7C:",
+    "slus/w_80041AB0:",
+    "slus/w_80043CD0:",
+    "dungeon/func_818D4E68:"
+  ],
+  "log_sha256": "73a2b526c84ccedade580f1b0d34469a26d4c375746cf43e708be4e0592040c7",
+  "prepare_receipt_sha256": "af5aa0d401b9305fd42a425e7db345b476ca7146393a0ac22cdb2dfefae20a3e",
+  "tool_fingerprint": "0fe20f52ab28b9e01ddf",
+  "tool_pins": {
+    "aspsx_diff.py": "34ea90ca45d1a3753851145b9731a728da3214fc640def9a12592f27731d5338",
+    "maspsx_trace.py": "cae6004277b9fc15f706a045195e6e96d185c34bdcc422b06393aafffa6ad0c9"
+  },
+  "assembler_before_after": {
+    "tools/maspsx/maspsx.py": {
+      "before": "d3e6ec7d120abe00f963c82258dfdeb0e228774adce646177525f1dbed925caf",
+      "after": "d3e6ec7d120abe00f963c82258dfdeb0e228774adce646177525f1dbed925caf"
+    },
+    "toolchain/maspsx/maspsx.py": {
+      "before": "d3e6ec7d120abe00f963c82258dfdeb0e228774adce646177525f1dbed925caf",
+      "after": "d3e6ec7d120abe00f963c82258dfdeb0e228774adce646177525f1dbed925caf"
+    },
+    "tools/maspsx/maspsx/__init__.py": {
+      "before": "28e45bbcf00fc90dc0645250f233b73f96ad11d06a2f8230ce533fc2fafbbfbe",
+      "after": "b89099797be1352d3122455164062d428dcc74529344a919d169e05f663afc52"
+    },
+    "toolchain/maspsx/maspsx/__init__.py": {
+      "before": "28e45bbcf00fc90dc0645250f233b73f96ad11d06a2f8230ce533fc2fafbbfbe",
+      "after": "b89099797be1352d3122455164062d428dcc74529344a919d169e05f663afc52"
+    }
+  },
+  "source_trees_before": {
+    "src": "0a75c4cc0f112adc207b479974e8dafde0a079742a9f9bf34677b4f84ab515bf",
+    "build_slus/src": "ad930e5e20a29d5170af22f3aae8579f2c2241b8cd7c24473b62e7d44dd2b749",
+    "include": "143e59fb8dbc692dc530510e9c62b488398d2fbbd9c22ce5e1a7c0afcc199665",
+    "raw/slus": "70ac62201d7f89af1b38340feb6b6229289681070905066d02489ee592b87473"
+  },
+  "source_trees_after": {
+    "src": "0a75c4cc0f112adc207b479974e8dafde0a079742a9f9bf34677b4f84ab515bf",
+    "build_slus/src": "ad930e5e20a29d5170af22f3aae8579f2c2241b8cd7c24473b62e7d44dd2b749",
+    "include": "143e59fb8dbc692dc530510e9c62b488398d2fbbd9c22ce5e1a7c0afcc199665",
+    "raw/slus": "70ac62201d7f89af1b38340feb6b6229289681070905066d02489ee592b87473"
+  },
+  "historical_casesi_pins": {
+    "sw_base.o": "ae3840b093e806a8b63e4f53f6bdf66baad33fd4020cc60ae369e245a707fd30",
+    "sw_preserve.o": "9f7aebafa6bf517715648b24eed7a8910da07842768a1ca32e7469241f7f5216",
+    "sw.proc.s": "483f175708aa61c38176d47807020de332ed083ab327dd52130a8af60e315e3d",
+    "sw.c": "8ddeca184ac90acce27e0e3b66097302188d356835390221a351cdd08ac4785e"
+  },
+  "scratch": "/tmp/pctrl_0f0t5814",
+  "production_before_sha256": "d6b496f2789e89301588d8839d81e2c77dc76627f7c216f88c74d230699a1f38",
+  "production_after_sha256": "d6b496f2789e89301588d8839d81e2c77dc76627f7c216f88c74d230699a1f38",
+  "production_objects": 869,
+  "production_unchanged": true
+}

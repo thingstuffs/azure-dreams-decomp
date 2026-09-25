@@ -1,0 +1,22 @@
+{
+  "status": "READY_FOR_OWNER_SIGNOFF",
+  "checked_payloads": 60,
+  "patch_sha256": "6fc7ead242d82bac80b18ccfce92e3d12a7e24fb6054a8099607383e0d095da8",
+  "inventory_sha256": "4a67b840503321734ec7aadaef2af1e90bf1aecaf2f18c737f6ec8f2ca1b0b21",
+  "current_baseline_matches": true,
+  "source_payloads_match_recorded_origins": true,
+  "git_apply_check": true,
+  "composition": "Frozen GP57 plus reviewed sink deletion/test and validation-controls/docstrings only",
+  "production_applied": false,
+  "patch_target_set_exact": true,
+  "full_payload_matches_final_proof_pins": true,
+  "full_proof_sha256": "7f168b5db17f5f1b0547f4358391b96b5b434d4666a3f8e3a590703967ec6908",
+  "ownership_receipt_sha256": "bc53a9eafec9c34e7db53ba8dbecf026dee4564cd055a166bc06a647bdbf116b",
+  "proof_pins_sha256": "90565ab350eafc901d1c1f315619cb8da90a913f23c81d84498bfc2ba641905a",
+  "overlay_receipt_sha256": "bbac624e99338d382b83929344d80fa87f8969e37d19b1f76a78ecb4ecb0cb5c",
+  "controls_root_review_sha256": "74a1efc3ed84f1f730e961191a2faf0963f3be4b947b896942d83cbb478a00c4",
+  "owner_signoff": "not_yet_requested",
+  "activation_script_sha256": "ccbcd1f20c8b9fd640708fcce589804e5e9704ee0f2560b3f68689c7ab482336",
+  "activation_preflight_sha256": "d290933a362d800b9721f53d7f612f650edd23eb46d48d2d433e587c0fae4f79",
+  "retired_assembler_controls_receipt_sha256": "aefa4e1d5110cea4dde712598eea4db1eb2a88018d3427cddd950f9b215df9b4"
+}

@@ -1,0 +1,83 @@
+{
+  "individual": [
+    "slus/w_8003FAD4",
+    "slus/w_80041588",
+    "slus/w_80041AB0",
+    "slus/w_80043CD0",
+    "slus/w_8004AB7C"
+  ],
+  "grouped": [
+    "slus/w_8003D92C",
+    "slus/w_8003E34C",
+    "slus/w_8003E4FC",
+    "slus/w_8003E758",
+    "slus/w_8003F2A4",
+    "slus/w_8003F368",
+    "slus/w_8003F5AC",
+    "slus/w_8003F624",
+    "slus/w_8004437C",
+    "slus/w_8004450C",
+    "slus/w_80049F68",
+    "slus/w_8004DCEC",
+    "slus/w_8004DE88",
+    "slus/w_8004DF8C",
+    "slus/w_80053CFC"
+  ],
+  "facts": {
+    "registry_changed_rows": [
+      "slus/w_8003D92C",
+      "slus/w_8003E34C",
+      "slus/w_8003E4FC",
+      "slus/w_8003E758",
+      "slus/w_8003F2A4",
+      "slus/w_8003F368",
+      "slus/w_8003F5AC",
+      "slus/w_8003F624",
+      "slus/w_8003FAD4",
+      "slus/w_80041588",
+      "slus/w_80041AB0",
+      "slus/w_80043CD0",
+      "slus/w_8004450C",
+      "slus/w_8004AB7C",
+      "slus/w_8004DCEC"
+    ],
+    "source_changed_rows": [
+      "slus/w_8003D92C",
+      "slus/w_8003E34C",
+      "slus/w_8003E758",
+      "slus/w_8003F2A4",
+      "slus/w_8003F368",
+      "slus/w_8003F5AC",
+      "slus/w_8003F624",
+      "slus/w_8003FAD4",
+      "slus/w_80041588",
+      "slus/w_80041AB0",
+      "slus/w_80043CD0",
+      "slus/w_8004437C",
+      "slus/w_8004450C",
+      "slus/w_80049F68",
+      "slus/w_8004AB7C",
+      "slus/w_8004DCEC",
+      "slus/w_8004DE88",
+      "slus/w_8004DF8C",
+      "slus/w_80053CFC"
+    ],
+    "recipe_changed_rows": [
+      "slus/w_8003D92C",
+      "slus/w_8003E34C",
+      "slus/w_8003E4FC",
+      "slus/w_8003E758",
+      "slus/w_8003F2A4",
+      "slus/w_8003F368",
+      "slus/w_8003F5AC",
+      "slus/w_8003F624",
+      "slus/w_8003FAD4",
+      "slus/w_80041588",
+      "slus/w_80041AB0",
+      "slus/w_80043CD0",
+      "slus/w_8004450C",
+      "slus/w_8004AB7C",
+      "slus/w_8004DCEC"
+    ]
+  }
+}
