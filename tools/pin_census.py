@@ -177,6 +177,37 @@ def _arm_retirement(new, cur):
     dead_same = _arm_view(new, ("dead",)).split() == _arm_view(cur, ("dead",)).split()
     return dead_same and not (nb - cb) and sum(nb.values()) < sum(cb.values())
 
+_DECL_RE = re.compile(r"^(?:register\s+)?(?:(?:const|unsigned|signed|struct|union)\s+)*[A-Za-z_]\w*(?:\s*\*)*\s+"
+                      r"\**\s*([A-Za-z_]\w*)\s*;$")
+
+
+def _arm_lockstep_decls(new, cur):
+    """LOCKSTEP EDIT (owner ruling 2026-09-22: NON_MATCHING arms are edited in lockstep with the compiled
+    arm).  r77_opus_m7, dungeon/func_8008A31C: removing a `$18` pin dropped `final_anim` from both arms and
+    rewrote `anim_table = D_800DD0B8;` identically in a port arm that was a verbatim copy of its matching
+    arm.  Allowed only when no `#if 0` text changed and every port-arm line change is mirrored: each
+    added port line was also added to the matching arm, and each removed port line was either also
+    removed from the matching arm or is a plain declaration (no initializer) of a name that appears
+    nowhere in the candidate.  The byte gate proves the mirrored text in the matching build; the port
+    front end still has to accept the candidate below."""
+    from collections import Counter
+    if _arm_view(new, ("dead",)).split() != _arm_view(cur, ("dead",)).split():
+        return False
+    def lines(t, side):
+        return Counter(" ".join(l.split()) for l in _arm_view(t, (side,)).splitlines() if l.strip())
+    np_, cp_ = lines(new, "port"), lines(cur, "port")
+    nm, cm = lines(new, "match"), lines(cur, "match")
+    added, gone = np_ - cp_, cp_ - np_
+    if not (added or gone) or (added - (nm - cm)):
+        return False
+    body = CMT_RE.sub(" ", new)
+    for ln in gone - (cm - nm):
+        m = _DECL_RE.match(ln)
+        if not m or re.search(r"\b%s\b" % re.escape(m.group(1)), body):
+            return False
+    return True
+
+
 def landing_refusal(new, cur, relpath, row=None, port_ref=None):
     """Why a byte-exact candidate must still not land, or None.
 
@@ -196,7 +227,9 @@ def landing_refusal(new, cur, relpath, row=None, port_ref=None):
     removed with its port fallback, `zero | 9` under `#define zero 0` -> `9`): the port build of the
     candidate, compiled by the row's own compiler at its own cell with -DNON_MATCHING, generates
     exactly the assembly the current text's port build does.  ARM RETIREMENT (owner 2026-09-24,
-    `_arm_retirement`): whole NON_MATCHING blocks may be deleted, none edited or added.  When the current port build does not
+    `_arm_retirement`): whole NON_MATCHING blocks may be deleted, none edited or added.  LOCKSTEP
+    EDIT (`_arm_lockstep_decls`): port-arm edits mirrored in the matching arm, or a port-arm plain
+    declaration of a variable the candidate removed everywhere.  When the current port build does not
     compile at all (548963e9 left nameless `#define ({...})` arms behind), `port_ref` - the row's
     text at a named commit - stands in for it.  `#if 0` text must still be unchanged."""
     global _LINT
@@ -209,7 +242,7 @@ def landing_refusal(new, cur, relpath, row=None, port_ref=None):
                 if b is None and port_ref is not None:
                     b = port_asm(port_ref, row)
                 same = a is not None and a == b
-            if not same and not _arm_retirement(new, cur):
+            if not same and not _arm_retirement(new, cur) and not _arm_lockstep_decls(new, cur):
                 return "edits a NON_MATCHING/#if 0 arm that no byte gate compiles"
     if _LINT is None:
         import importlib.util

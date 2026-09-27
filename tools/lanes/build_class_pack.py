@@ -37,7 +37,7 @@ while i<len(sys.argv):
     a=sys.argv[i]
     if a.startswith('--'): i+=2 if a in VALOPTS else 1; continue
     pos.append(a); i+=1
-classes=set(pos[0].split(',')) if pos else set()
+classes={c for c in pos[0].split(',') if c} if pos else set()   # '' (a --rows pack with no class) = no class filter
 n=int(pos[1]) if len(pos)>1 else 12
 solved=opt('--solved')
 pr=opt('--pins','1-2')
