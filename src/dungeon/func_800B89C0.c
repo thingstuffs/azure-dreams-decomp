@@ -54,21 +54,17 @@ typedef struct S_800BE120_1 {
 
 /* Applies data to an entity and handles the resulting update or fallback. */
 s32 func_800BE120(void *entity, S_800BE120_1 *data, s16 mode) {
-    s32 stored;
+    s16 stored;
     void *call_entity;
     u32 context_arg;
-    register s32 zero_result ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 new_context;
     s32 context;
 
     stored = 0;
-#ifdef NON_MATCHING
-    zero_result = 0;
-#endif
     if (entity == D_800E3D7C[0]) {
         ((S_800BE120_0 *)entity)->unk_110 = (s32)data;
         func_8008D330(entity, &D_80083780, &D_80082E80, entity);
-        return zero_result;
+        return 0;
     }
 
     if ((u32)entity <= 0x9FFFFFFFU) {
