@@ -1941,8 +1941,8 @@ the SLUS SHA-1 gate MATCH after each phase.
 
 ### 2026-09-12 (owner's standing goal: keep working the pins, free rein, decisions documented)
 
-- **Research:** `work/research/sotn_findings.md` (sotn-decomp, ygofm-decomp, permuter forks; BFM not
-  repeated) — levers summarised in PIN_PATTERNS section 10. First one mechanised:
+- **Research:** `work/research/sotn_findings.md` (sotn-decomp, ygofm-decomp, permuter forks; the earlier
+  corpus harvest was not repeated) — levers summarised in PIN_PATTERNS section 10. First one mechanised:
   `natural.splitcursor` (one name per chain step): 3 rows, 3 pins.
 - **The permuter is wired to this tree:** `tools/permute_pins.py` (strip a close row's pins, build
   `target.o` from its own pinned byte-exact text with `tools/permute_cc.sh`, run the old

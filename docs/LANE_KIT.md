@@ -118,6 +118,13 @@ band, and never beyond the band where the key covers the catalogue's own other h
 reason string says which): t69's 94 bucket-a rows are 72 missed candidates (a composition target, not a table), t29's
 47 are 31 missed + 16 textual, and 105 of the address rows had never been offered to t29 at their current text (a sweep).
 
+The generic pin-removal hypothesis catalogue is now a permanent part of every v2 lane kit. The
+retained note is `tools/learnings/pin_removal_possibilities.md`; `duck_pack_brief_v2.md` carries its
+short operational rules, and generated `TOOLS.md` files link it. A lane uses the catalogue to choose
+a plausible ordinary-C source family, rebuilds it in the target's whole-function context, and reads
+the remaining address, live-range, allocation, and scheduling residue. A local instruction
+resemblance never bypasses the row recipe or full byte gate.
+
 ## Before launch: give it everything it would otherwise fetch or rebuild
 
 1. **GCC sources for every cell.** `bash tools/fetch_gcc_src.sh` writes `toolchain/gcc-src/<version>/`

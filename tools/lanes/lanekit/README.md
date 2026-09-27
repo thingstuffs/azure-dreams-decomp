@@ -25,6 +25,14 @@ every compiler dump lands inside it by construction: `TMPDIR` and `tempfile.temp
 | `install.py` | `TOOLS.md` in a lane: the same table with that lane's rows |
 | `sitecustomize.py`, `lane_shim.py`, `env.sh`, `kitlib.py` | plumbing; you never call these |
 
+## Pin-removal source-shape possibilities
+
+Read `../../learnings/pin_removal_possibilities.md` before inventing a new source family. It
+catalogues aggregate-copy forms, lvalue signedness, prototype widths, struct fields versus raw
+offsets, address-base sharing, variable split/merge and set-count effects, pointer-store CSE
+effects, loop hoisting, and lexical control-flow order. Use these possibilities to rank hypotheses
+for a target-local rebuild. The row's recorded recipe and full byte scorer remain the authority.
+
 ---
 
 ## lab.py - the harness

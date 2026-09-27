@@ -164,6 +164,21 @@ edit `src/`. Never run git or a gate.
 * **Store next to its producer** (`t83`), **scope merge** (`t93`), **cast split** (`t94`),
   **statement permutation** inside a dependence-preserving run (`t72`).
 
+### Pin-removal source-shape possibilities
+
+Read `<REPO>/tools/learnings/pin_removal_possibilities.md` before inventing a new source family.
+Use it as a catalogue of hypotheses for the target row:
+
+* treat a local instruction resemblance as a clue to an ordinary C idiom, never as proof of a reconstruction;
+* for `lwl/lwr` + `swl/swr` runs, test a correctly aligned typed aggregate and its real source,
+  destination, alias, and callee contracts - not only a blind `memcpy` substitution;
+* if the local copy/branch core appears but the full score misses, inspect address form, set count,
+  live ranges, saved-register membership, and block order instead of permuting the core again;
+* test lvalue signedness, parameter/return width, struct field/index versus raw byte offset,
+  split/merged variable roles, and source lexical order when the corresponding residue appears;
+* keep the row recipe fixed and require the full byte scorer. A local shape match ranks hypotheses;
+  it does not weaken the admission gate.
+
 A kind that matches none of these is written "unknown" in the duck - say so in the report rather
 than forcing it into a family.
 

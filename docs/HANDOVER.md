@@ -1,4 +1,12 @@
-# Active goal (2026-09-24, owner-approved work order)
+# Next restart (2026-09-27)
+
+Read [Claude / Codex restart plan](CLAUDE_CODEX_RESTART_PLAN_20260927.md) for the
+next review and pin campaign, model routing, retry policy and usage measurement.
+The GP transition below completed in production on September 25; its
+[final receipt](evidence/gp_partition_only/production_transition/README.md)
+supersedes the earlier pending/private checkpoints retained here.
+
+# Previous goal (2026-09-24, completed 2026-09-25)
 
 See [GOAL_TOOLCHAIN_AND_MODULES.md](GOAL_TOOLCHAIN_AND_MODULES.md): SLUS `$gp`
 repair, obsolete maspsx pass retirement, one verified module pilot, and explicit

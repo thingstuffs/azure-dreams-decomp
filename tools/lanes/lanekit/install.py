@@ -84,6 +84,12 @@ erased, or a path to your candidate).
 | joint erasure subsets | `{root}/tools/lanes/joint_scan.py` | `subsets_of(sites, pair_pins, exhaustive_pins)` (the scan itself is repo-scale: use `erase.py`) |
 | gcc sources for every cell | `{root}/toolchain/gcc-src/<version>/` | search ONE version directory, `--max-filesize 4M` |
 
+## Shared learning note
+
+| evidence | path | use |
+|---|---|---|
+| pin-removal possibilities | `{root}/tools/learnings/pin_removal_possibilities.md` | map a local residue to an ordinary C family; local shape matches are hypotheses, never byte authority |
+
 Do not run `tools/sweep.py`, `tools/pin_search.py` or `tools/apply_candidates.py` from a lane, and
 never edit `src/` or run git.
 """

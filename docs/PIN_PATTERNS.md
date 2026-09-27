@@ -368,8 +368,8 @@ finding.
 
 **Research from other decomps (2026-09-12, `work/research/sotn_findings.md`).** A pass over
 sotn-decomp, ygofm-decomp (cc1psx 2.8.1 + maspsx, the closest toolchain) and the permuter forks,
-with BFM's harvest not repeated. The levers new to this tree: one name per pointer-chain step
-instead of a reused cursor (ygofm, 34 -> 7 on one row); a named local, not a cast, to stop combine
+without repeating an earlier corpus harvest. The levers new to this tree: one name per pointer-chain
+step instead of a reused cursor (ygofm, 34 -> 7 on one row); a named local, not a cast, to stop combine
 substituting a sign-extend away; an lvalue cast (`*(s8 *)&x`) where a value cast is dropped; store
 groups ordered by phase to dodge dead-store elimination; declaration placement as a register-class
 lever; `find_cross_jump` compares only the block physically above a label, so arm order decides a

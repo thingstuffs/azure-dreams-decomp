@@ -318,6 +318,7 @@ class TestInstall(unittest.TestCase):
             self.assertIn("dungeon/func_80001234", text)
             self.assertIn("There is no `RUNBOOK.md`", text)
             self.assertIn(str(ROOT / "tools/xform/screen.py"), text)
+            self.assertIn(str(ROOT / "tools/learnings/pin_removal_possibilities.md"), text)
             self.assertIn("none of which exist", text)
 
     def test_refuses_the_repo_root(self):
@@ -352,6 +353,11 @@ class TestBriefTemplate(unittest.TestCase):
     def test_quotes_the_duck_payoff(self):
         self.assertIn("12.6%", self.text)
         self.assertIn("30.4%", self.text)
+
+    def test_carries_pin_removal_possibilities(self):
+        self.assertIn("tools/learnings/pin_removal_possibilities.md", self.text)
+        self.assertIn("local instruction resemblance", self.text)
+        self.assertIn("local shape match ranks hypotheses", self.text)
 
     def test_every_repo_path_it_names_exists(self):
         import re
