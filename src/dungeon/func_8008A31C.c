@@ -103,18 +103,15 @@ void func_8008FA7C(u8 *actor, u8 *motion, u8 *animation, u8 *entity) {
     s16 countdown;
     s32 direction;
     s16 state;
-    u8 *anim_table;
 #ifndef NON_MATCHING
     register s32 saved_value ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s16 action_result;
-    register u8 *final_anim ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     u32 mask_or_base;
     u32 object_or_base;
     u8 *init_anim;
 #else
     s32 saved_value;
     s16 action_result;
-    u8 *final_anim;
     u8 *init_anim;
 #endif
 
@@ -301,7 +298,6 @@ state_2:
     }
 
 state_3:
-    final_anim = animation;
     if (D_80083460.fieldA != 0) {
         return;
     }
@@ -311,21 +307,17 @@ state_3:
     if (((S_8008FA7C_2 *)entity)->unk_1C & 0x100000) {
 #ifndef NON_MATCHING
         ((S_8008FA7C_3 *)actor)->unk_8C.p = D_8008EAC8;
-        anim_table = D_800DD0B8;
+        (*(u8 * *)((u8 *)animation + (0x2C))) = D_800DD0B8;
 #else
         ((S_8008FA7C_3 *)actor)->unk_8C.p = D_8008EAC8;
-        anim_table = D_800DD0B8;
+        (*(u8 * *)((u8 *)animation + (0x2C))) = D_800DD0B8;
 #endif
     } else {
         ((S_8008FA7C_3 *)actor)->unk_8C.p2 = &D_8008ACDC;
-        anim_table = D_800DCFB0;
+        (*(u8 * *)((u8 *)animation + (0x2C))) = D_800DCFB0;
     }
-    (*(u8 * *)((u8 *)final_anim + (0x2C))) = anim_table;
-#ifndef NON_MATCHING
-    ASM_KEEP(final_anim);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-#endif
     direction = ((D_80083228[0] + ((S_8008FA7C_2 *)entity)->unk_2A + 0x100) >> 9) & 7;
-    func_80048A44(final_anim, (*(u8 * volatile *)((u8 *)final_anim + (0x2C)))[direction], 0, 1);
+    func_80048A44(animation, (*(u8 * volatile *)((u8 *)animation + (0x2C)))[direction], 0, 1);
     goto increment_state;
 
 increment_state:

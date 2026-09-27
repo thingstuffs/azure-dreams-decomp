@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-09-25T09:11:18Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-09-27T23:28:01Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -21,7 +21,7 @@ Baseline NOT exact: 0 rows
 
 | module | logical rows | placement evidence | shared headers |
 |---|---:|---|---|
-| runtime_directory | 3 | current: retail + genuine ASPSX 2.79 | include/common.h, include/slus/runtime_directory.h |
+| runtime_directory | 3 | unproved: verification inputs changed | include/common.h, include/slus/runtime_directory.h |
 | entry_words | 1 | not certified | include/common.h, include/game.h, include/globals.h, include/include_asm.h |
 | render_words | 1 | not certified | include/common.h, include/game.h, include/globals.h, include/include_asm.h, include/records/Rec_func_80034F58_arg0.h |
 | owned_80035484 | 1 | not certified | include/common.h, include/game.h, include/globals.h, include/include_asm.h |
@@ -40,7 +40,7 @@ Baseline NOT exact: 0 rows
 | gp_shared_81510 | 2 | not certified | include/common.h, include/game.h, include/globals.h, include/include_asm.h, include/slus/gp_shared_81510.h |
 | gp_shared_8099c | 2 | not certified | include/common.h, include/game.h, include/globals.h, include/include_asm.h, include/slus/gp_shared_8099c.h |
 | cache_afe | 1 | not certified | include/common.h, include/game.h, include/globals.h, include/include_asm.h |
-| list_cursor_e0 | 1 | current: retail + genuine ASPSX 2.79 | include/common.h, include/game.h, include/globals.h, include/include_asm.h, include/slus/list_cursor_e0.h |
+| list_cursor_e0 | 1 | unproved: verification inputs changed | include/common.h, include/game.h, include/globals.h, include/include_asm.h, include/slus/list_cursor_e0.h |
 | saved_value_b98 | 2 | not certified | include/common.h, include/slus/saved_value_b98.h |
 | sort_rank_81540 | 1 | not certified | include/common.h, include/slus/sort_rank_81540.h |
 | command_slots_81554 | 4 | not certified | include/common.h, include/slus/command_slots_81554.h |
@@ -66,7 +66,7 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | m2c boilerplate block | 2332 | 515,092 | 20.1% | 0 | 0 | 0.0% |
 | M2C_FIELD raw offsets | 2950 | 1,457,076 | 57.0% | 0 | 0 | 0.0% |
 | m2c local names | 5182 | 2,172,128 | 84.9% | 2694 | 1,273,804 | 49.8% |
-| ASM_ pins | 2135 | 1,465,048 | 57.3% | 766 | 750,512 | 29.3% |
+| ASM_ pins | 2135 | 1,465,048 | 57.3% | 765 | 749,936 | 29.3% |
 | goto | 1545 | 1,318,412 | 51.5% | 1599 | 1,365,188 | 53.4% |
 | computed-goto jump table | 317 | 437,288 | 17.1% | 315 | 435,848 | 17.0% |
 | inline asm outside macros | 362 | 256,260 | 10.0% | 271 | 229,272 | 9.0% |
@@ -79,7 +79,7 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | local address-named struct | 633 | 346,988 | 13.6% | 3140 | 1,613,960 | 63.1% |
 | clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,440 | 6.1% | 3093 | 552,828 | 21.6% |
 
-Pin sites now: 3,098 in 765 rows; REG 1,476, KEEP 690, KEEP_NV 424, SCHED_BARRIER 158, KEEP_DEP_NV 75, USE_NV 50, USE 42, CLOBBER 35.  At the pin: 25,759; REG 12,778, KEEP 6,854, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
+Pin sites now: 3,093 in 764 rows; REG 1,473, KEEP 689, KEEP_NV 423, SCHED_BARRIER 158, KEEP_DEP_NV 75, USE_NV 50, USE 42, CLOBBER 35.  At the pin: 25,759; REG 12,778, KEEP 6,854, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
 
 Hidden scaffolding, not in the pin count (`pin_census.hidden_asm`): raw asm statements 3, calls of local asm wrappers 0, hand-written asm in function bodies 4 (C that is missing); symbol aliases 110 (a second typed name for one symbol: a missing type); file-scope asm directives 432.
 
@@ -104,7 +104,7 @@ Void callees (`config/void_callees.txt`, tiers read from its section-header comm
 
 On shared record headers (T7, `include/records/`): 1163 rows, 658,372 bytes (25.7%); records used: 102.
 
-L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 765 rows (750,388 B), tail_jump 8 rows (2,392 B), not_in_module 6,741 rows (2,554,568 B).
+L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 764 rows (749,812 B), tail_jump 8 rows (2,392 B), not_in_module 6,741 rows (2,554,568 B).
 
 ## Naming and module evidence carried per row (docs/EVIDENCE.md, ledger/evidence/rows.jsonl)
 

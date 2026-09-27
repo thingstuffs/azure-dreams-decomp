@@ -75,6 +75,7 @@ extern LargeFlag D_800814A0;
 extern u32 D_8008346C[3];
 extern s16 D_8006CCD8[8];
 extern s16 D_8006CCE8[8];
+extern int abs(int);
 extern s32 func_8003DE58();
 extern s32 func_800A44E0();
 extern s32 func_800BCB04();
@@ -101,7 +102,7 @@ void func_80024CD4(Controller *input_ctrl, Motion *input_motion, void *input_ren
     u16 end_x;
     u16 end_y;
     s32 steps;
-    register s32 coord_diff ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 coord_diff;
     s32 origin_coord;
     s32 floor_height;
     s32 cell_x;
@@ -150,34 +151,16 @@ void func_80024CD4(Controller *input_ctrl, Motion *input_motion, void *input_ren
         input_ctrl->saved = *input_motion;
         linked_root = *(u8 **)(root + 0x60);
         if (linked_root != 0) {
-            s32 div_magic = (s32)0x88880000;
-            WideProduct product;
-
-            ASM_KEEP_NV(div_magic);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             linked_motion = *(Motion **)(linked_root - 0x18);
 
             origin_coord = input_motion->x.h.hi;
-            coord_diff = linked_motion->x.h.hi - origin_coord;
-            if (coord_diff < 0) {
-                coord_diff = -coord_diff;
-            }
-            offsets[0] = coord_diff;
+            offsets[0] = abs(linked_motion->x.h.hi - origin_coord);
 
-            coord_diff = linked_motion->y.h.hi;
-            coord_diff -= input_motion->y.h.hi;
-            if (coord_diff < 0) {
-                coord_diff = -coord_diff;
-            }
-            offsets[1] = coord_diff;
+            offsets[1] = abs(linked_motion->y.h.hi - input_motion->y.h.hi);
 
             linked_root_2 = *(u8 **)(root + 0x60);
             origin_coord = input_motion->z.h.hi;
-            coord_diff = *(s16 *)(linked_root_2 + 0x88);
-            coord_diff -= origin_coord;
-            if (coord_diff < 0) {
-                coord_diff = -coord_diff;
-            }
-            offsets[2] = coord_diff;
+            offsets[2] = abs(*(s16 *)(linked_root_2 + 0x88) - origin_coord);
 
             linked_root_3 = *(u8 **)(root + 0x60);
             lookup = *(Lookup **)(linked_root_3 - 0x14);
@@ -186,32 +169,18 @@ void func_80024CD4(Controller *input_ctrl, Motion *input_motion, void *input_ren
 
             input_ctrl->target[0].val = linked_motion->x.val;
             input_ctrl->target[1].val = linked_motion->y.val;
-            coord_diff = *(volatile u16 *)(*(u8 **)(root + 0x60) + 0x88);
-            *(volatile u16 *)&input_ctrl->target[2].h.lo = 0;
-            *(volatile u16 *)&input_ctrl->target[2].h.hi = coord_diff;
+            coord_diff = *(u16 *)(*(u8 **)(root + 0x60) + 0x88);
+            input_ctrl->target[2].h.lo = 0;
+            input_ctrl->target[2].h.hi = coord_diff;
 
-            div_magic |= 0x8889;
-            coord_diff = *(volatile s32 *)&input_ctrl->target[0].val;
-            coord_diff -= input_motion->x.val;
-            product.value = (long long)coord_diff * div_magic;
-            input_motion->dx.val = ((s32)((u32)product.word.upper -
-                (0U - (u32)coord_diff)) >> 3) - (coord_diff >> 31);
-            coord_diff = *(volatile s32 *)&input_ctrl->target[1].val;
-            coord_diff -= input_motion->y.val;
-            product.value = (long long)coord_diff * div_magic;
-            input_motion->dy.val = ((s32)((u32)product.word.upper -
-                (0U - (u32)coord_diff)) >> 3) - (coord_diff >> 31);
-            coord_diff = *(volatile s32 *)&input_ctrl->target[2].val;
-            coord_diff -= input_motion->z.val;
-            product.value = (long long)coord_diff * div_magic;
-            input_motion->dz.val = ((s32)((u32)product.word.upper -
-                (0U - (u32)coord_diff)) >> 3) - (coord_diff >> 31);
+            input_motion->dx.val = (input_ctrl->target[0].val - input_motion->x.val) / 15;
+            input_motion->dy.val = (input_ctrl->target[1].val - input_motion->y.val) / 15;
+            input_motion->dz.val = (input_ctrl->target[2].val - input_motion->z.val) / 15;
             goto advance;
         }
 
         steps = 0;
         lookup_2 = root_prefix->lookup;
-        coord_diff = (s32)0x80070000;
         cell_y = lookup_2->cell_y;
         cell_x = lookup_2->cell_x;
         end_x = cell_x;
