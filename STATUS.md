@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-09-28T05:43:23Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-09-28T05:53:03Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -65,7 +65,7 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 |---|---:|---:|---:|---:|---:|---:|
 | m2c boilerplate block | 2332 | 515,092 | 20.1% | 0 | 0 | 0.0% |
 | M2C_FIELD raw offsets | 2950 | 1,457,076 | 57.0% | 0 | 0 | 0.0% |
-| m2c local names | 5182 | 2,172,128 | 84.9% | 2692 | 1,272,492 | 49.7% |
+| m2c local names | 5182 | 2,172,128 | 84.9% | 789 | 310,932 | 12.2% |
 | ASM_ pins | 2135 | 1,465,048 | 57.3% | 750 | 742,752 | 29.0% |
 | goto | 1545 | 1,318,412 | 51.5% | 1599 | 1,365,188 | 53.4% |
 | computed-goto jump table | 317 | 437,288 | 17.1% | 315 | 435,848 | 17.0% |
@@ -77,7 +77,7 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,176 | 6.1% | 350 | 246,992 | 9.7% |
 | fake dependency x=(e)+a;x-=a / arg+v-v (scaffolding, pure C) | 1 | 408 | 0.0% | 2 | 820 | 0.0% |
 | local address-named struct | 633 | 346,988 | 13.6% | 3140 | 1,613,960 | 63.1% |
-| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,440 | 6.1% | 3100 | 555,040 | 21.7% |
+| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,440 | 6.1% | 4271 | 827,068 | 32.3% |
 
 Pin sites now: 2,897 in 749 rows; REG 1,391, KEEP 635, KEEP_NV 396, SCHED_BARRIER 145, KEEP_DEP_NV 72, USE_NV 49, USE 35, CLOBBER 34.  At the pin: 25,759; REG 12,778, KEEP 6,854, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
 

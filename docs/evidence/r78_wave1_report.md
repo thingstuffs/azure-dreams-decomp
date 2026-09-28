@@ -97,6 +97,30 @@ This round:
   `near_miss.md`; c14/c15 apply it to the next highest-stake near misses (cutoff_report ranking).
 - Fresh never-served 3-7 lanes decayed: w1 9, w2 7, w3 5, w4 3, w5 2, w6 4 pins.
 
+## Process review at the owner's 05:50Z check-in (Claude 13% / Codex 10% used)
+
+Rates since the 09% / 3% reading: ~80 pins for +4% Claude (~20 pins per 1%), ~20 pins for +7% Codex (~3 per 1%).
+Yield by lane mode (lander records): Opus big-row fresh-eyes 6.1 pins/lane (51k A-tokens/pin), Opus spill family
+5.1 (57k), Opus near-miss 4.2 (67k), Opus fresh 3-7 rows 2.8 (97k); Astra spill 7.5, Astra near/big 1.7; Gemini
+1.2 (near free); Sol/Luna pin lanes 0.25.
+**Adopted routing:** Opus default = 2-row big-row (8+) packs or family packs with exemplars; fresh 3-7 packs
+demoted. Astra on family-shaped work with exemplars. Sol/Luna: no pin lanes (Sol keeps bounded census/tooling).
+Gemini keeps feeding 1-2 rows.
+**Readability is now the larger debt** for a shareable tree: m2c placeholder names in 2,692 rows (49.7% of
+bytes), gotos 1,599 rows, address-named local structs 3,140 rows; only 21.7% of bytes are fully clean. 2,382
+pin-free rows carry m2c names (1,896 <= 600 B). Bounded test: gpt-6-luna `agent_task.py --mode readability
+--batch 10` on 20 pin-free rows (the Sep 8 pilot measured ~13k input / 2k uncached tokens per row), staged
+without --commit for review before any scaling.
+**Correction after the test:** the STATUS "m2c local names" metric counted comments (`/* arg0 in func_X */`
+struct notes): 2,687 -> **789** rows in code (status.py fixed; clean-shape rows 4,271 = 32.3% of bytes, not
+21.7%). Of those, only **191** rows have placeholders outside `extern` prototype parameter names (594 rows'
+only placeholders are callee prototype parameter names - harmless). Luna readability on 20 real rows: 12
+accepted, 2 fully renamed; the rest were prototype names it correctly left. Not scaled: local naming is nearly
+done. The real readability debt is 1,599 goto rows and 3,140 address-named local struct types (+ unk_XX
+fields); those need understanding and byte-exact control-flow work (Opus/Astra family packs), and struct naming
+needs a header/type design decision - queued for the owner, not started. Staged Luna outputs remain in
+ledger/agents/out/gpt-6-luna-xhigh-r78read*/ (not landed).
+
 ## Owner decisions queued (not taken while the owner is away)
 
 - **F0 discarded clamps**: land the reconstruction (5 of 6 pins on 11 clones, ~55 pins) with a visible comment
