@@ -52,3 +52,12 @@ per-row report: evidence/type_consolidation_pilot_report.md; apply script: work/
 - **Next:** a generator rewriting `D_base[i]` / `((T *)&g)[i]` into the field (clears most of the 60 view misses);
   next objects D_800814A0 (watch -G8 $gp), D_80083228, D_80083498, D_80083160. Two coherence repairs found
   (dungeon/func_800A065C ASM_KEEP, func_800A4DA8 do-while(0)): texts in the pilot lane's hand/pin/.
+
+### Does consolidation remove pins? (measured 2026-09-28)
+Directly, barely: t2_pins / t63_memdep / t86_symaddr over the 94 consolidated rows that still carry pins (633)
+applied nothing (noop/refused); of the pilot's two reported pin repairs, dungeon/func_800A065C is retail-exact at
+2.7.2-cdk (cell_retail_check: maspsx and genuine ASPSX, 0 words) and landed as a coherence trade (1 pin), while
+dungeon/func_800A4DA8 is NOT (8 words vs retail at cdk: genuine == maspsx != retail) and was not landed.
+Indirectly, yes: many round-78 pin removals were typed spellings (symbol arrays, real struct fields, shared
+bases, unsized array externs); shared types give future pin lanes those spellings ready-made. Pin lane briefs
+should point at include/shared/ once more objects are consolidated.
