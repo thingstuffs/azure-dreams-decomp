@@ -43,6 +43,8 @@ source reconstruction.
 | `goto` into another case's tail on a row with a callee-saved near-tie | write the tail out in each arm (jump2 cross-jumps it back after allocation) | global.c ref counts before jump2 (round 78, dungeon/func_818E6800) |
 | a fence whose only job is to stop two identical blocks merging | diagnosis: jump2 `find_cross_jump`; no C spelling found yet | treat as an open toolchain question, not a spelling search |
 | lw/sw runs beside a fake extra call argument in `$7` | one aggregate assignment of the real typed record; the call has its real arity | block-move scratch registers (round 78, town/func_8080E59C) |
+| page `ASM_REG` over a symbol declared as a scalar; a load must stay after stores it cannot alias | access the symbol through an unsized array extern (`extern T SYM[]; SYM[0]`) - array MEMs are in-struct and keep the dependence | sched.c true_dependence struct/scalar exemption (round 78, dungeon/func_81887004) |
+| SLUS page keep/barrier on a symbol of 16 bytes or less | declare it as an unsized array extern: not small data under -G16, so cc1 emits lui + offset and the store fills the delay slot | -G small-data choice by declared size (round 78, slus/w_80040CBC; land with land_slus_rebaseline.sh) |
 | frame size/stack slots are right only with apparently unused declarations | recover real locals, types, scopes, or aggregate objects from surrounding semantics | frame layout and slot order; do not add fake unused locals merely to shape code |
 
 ## Aggregate-copy decision rule

@@ -224,5 +224,12 @@
   "dungeon/func_8185CFD4",
   "dungeon/func_81809A0C",
   "town/func_809548E4"
+ ],
+ "r78_opus_w5": [
+  "dungeon/func_81905C08",
+  "dungeon/func_80D3CBF8",
+  "dungeon/func_800B39E4",
+  "town/func_8009D728",
+  "slus/w_800599B0"
  ]
 }

@@ -182,15 +182,11 @@ set_origin:
     }
     ((S_80025954_5 *)motion)->unk_00.at02.v = (u16) (((S_80025954_5 *)motion)->unk_00.at02.v + stack.distance[0]);
     ((S_80025954_5 *)motion)->unk_04.at02.v = (u16) (((S_80025954_5 *)motion)->unk_04.at02.v + stack.distance[1]);
-    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    motion_value = ((S_80025954_5 *)motion)->unk_08.at02.v;
-    axis_delta = stack.distance[2];
-    motion_value += axis_delta;
+    ((S_80025954_5 *)motion)->unk_08.at02.v = (u16) (((S_80025954_5 *)motion)->unk_08.at02.v + stack.distance[2]);
     goto store_origin_z;
 offset_origin_z:
-    motion_value = origin_z - 0x40;
+    ((S_80025954_5 *)motion)->unk_08.at02.v = origin_z - 0x40;
 store_origin_z:
-    ((S_80025954_5 *)motion)->unk_08.at02.v = motion_value;
     if (!(*((Rec_func_80024170_arg0 *)state)->unk_04 & 0x80)) {
         goto finish;
     }
