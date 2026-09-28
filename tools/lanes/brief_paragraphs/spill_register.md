@@ -19,3 +19,7 @@ pseudo whose REG_EQUIV is the symbol address, into the first call-clobbered regi
 ($8 on one row, $10 on the other). RESOLVES: declare `T **ref = (T **)SYM;` once (function scope or outside the
 loop) and write `*ref` at each site; if that pseudo wins a callee-saved register, split it per site group so it
 spills. One ASM_REG variable reused for several packet pointers: split it into one local per packet.
+
+Scope (r78_opus_sp9, dungeon/func_800A172C): the family holds on the 2.7.2 / 2.7.2-cdk / 2.8.x cells. On a
+2.95.x row reload chooses registers per instruction (unused call-clobbered first), so retail's $8 is NOT a
+reload choice there - check the row's cell before applying this rule.
