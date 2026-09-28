@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80016000.h"
 
@@ -11,10 +12,9 @@ typedef struct S_80017458_1 {
 
 
 
-extern Rec_D_80016000 *D_80016000;
 
 
 /* Invoke the system object callback with 0x25 and 0x200. */
 void func_80017458(void) {
-    ((S_80017458_1 *)(D_80016000->unk_20))->unk_238(0x25, 0x200);
+    ((S_80017458_1 *)(((Rec_D_80016000 *)D_80016000)->unk_20))->unk_238(0x25, 0x200);
 }

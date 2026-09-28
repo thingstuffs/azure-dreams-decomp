@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 
@@ -6,7 +7,6 @@ void *func_8003FC64(s32);
 void func_8004491C(void *, void *);
 void func_800A56E0(s32, void *);
 extern M2C_UNK D_80046398;
-extern void *D_800814A8;
 extern s8 D_800B1F34[];
 
 typedef struct S_800B2074_0 {

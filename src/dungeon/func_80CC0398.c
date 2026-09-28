@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_func_800A9E70_arg0.h"
@@ -60,7 +61,6 @@ void func_80174924(void);
 s32 func_80175C94(void *arg0, M2C_UNK arg1, void *arg2, s32 arg3);
 s32 func_80175E6C(void *arg0, M2C_UNK arg1, void *arg2, void *arg3);
 
-extern void *D_800814A8;
 extern M2C_UNK D_80082E80;
 extern u16 D_80082EA4;
 extern DungeonTile D_800E2970[];

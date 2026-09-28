@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
 typedef s32 M2C_UNK;
@@ -24,7 +25,6 @@ extern u16 D_800DDE84[];
 extern u8 D_800E0FA4[];
 extern u8 D_800E0FB9[];
 extern u8 D_800E0FD7[];
-extern u8 *D_800E3D7C;
 
 
 typedef struct S_800BDEB8_0_pre {
@@ -52,7 +52,7 @@ typedef struct S_800BDEB8_1 {
 
 /* Applies an interaction to an entity and displays the outcome. */
 s32 func_800BDEB8(void *entity, s32 action_id, s16 mode) {
-    void *current_entity = D_800E3D7C;
+    void *current_entity = ((u8 *)D_800E3D7C);
     void *target = entity;
     s32 special_case = 0;
     register s32 original_id;

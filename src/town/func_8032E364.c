@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 typedef struct {
     u32 value;
 } __attribute__((packed)) UA32;
 
-extern s8 D_80016000[];
 extern UA32 D_8001C31C;
 
 /* Copies the header and coordinate entries, flags entries whose grid field is zero, and appends a terminator. */

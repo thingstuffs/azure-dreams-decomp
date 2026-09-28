@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 
@@ -38,7 +39,6 @@ extern M2C_UNK D_800C135C;
 extern u16 D_800DDE84[];
 extern M2C_UNK D_800DEAE0;
 extern M2C_UNK D_800E1482;
-extern void *D_800E3D7C[];
 
 /* Handles an object operation and updates its state or triggers its effect. */
 s32 func_800C13C8(void *object, s32 value, s16 operation, M2C_UNK context) {
@@ -48,7 +48,7 @@ s32 func_800C13C8(void *object, s32 value, s16 operation, M2C_UNK context) {
     if (operation == 0xD) {
         return func_80098864(value, context);
     }
-    if (object == D_800E3D7C[0]) {
+    if (object == D_800E3D7C) {
         ((S_800C13C8_0 *)((u8 *)object - 0x14))->unk_124 = value;
         func_8008D344(object, &D_80083780, &D_80082E80, 0);
         return 0;

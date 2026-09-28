@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
@@ -11,7 +13,6 @@ extern volatile int D_80071250[];
 extern int D_800712B4[];
 extern int D_80084130[3];
 extern short D_80084808[8];
-extern struct S_80083178 D_80083178;
 extern struct S_80083178State D_80083CE8;
 typedef struct DungeonTileRecordLocal
 {
@@ -36,7 +37,6 @@ extern void func_800A9A0C();
 extern s16 func_800BCB04();
 extern s32 func_80171E00();
 extern s16 D_8006CD00[8];
-extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern s8 D_80082EA4;
 extern DungeonTileRecordLocal D_800E2970[];

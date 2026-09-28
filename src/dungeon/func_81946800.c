@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
@@ -30,7 +31,6 @@ extern void func_80047784(void *, u8, s32);
 extern s32 func_80053EF0(s32, void *);
 extern void func_800A56E0(s32);
 extern s32 D_80024374;
-extern void *D_800814A8;
 extern u16 D_80082E94;
 extern u8 D_80083498[];
 #ifdef __mips__

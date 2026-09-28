@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 typedef struct {
     u16 values[4];
 } TownValues;
 
 extern u8 D_80010000[];
-extern s8 D_80016000[];
 extern s32 D_80017530;
 extern s32 D_8001753C;
 extern s32 D_80017598;
@@ -30,7 +30,7 @@ second_call:
     if (func_800198D0(0x14) == 0) {
         goto set_3c;
     }
-    state_index = *(s32 *)(*(void **)D_80016000 + 8);
+    state_index = *(s32 *)(*(void **)((s8 *)(&D_80016000)) + 8);
     if (func_800198D0(condition_ids.values[state_index]) != 0) {
         goto set_a4;
     }

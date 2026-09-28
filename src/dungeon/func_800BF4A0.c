@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 
@@ -20,7 +21,6 @@ typedef struct S_800C4C00_1 {
 
 
 
-extern struct S_80083178 D_80083178;
 
 /* Fades the color toward the target, then back to neutral, and marks completion. */
 void func_800C4C00(void *fade)
@@ -28,7 +28,7 @@ void func_800C4C00(void *fade)
     u8 *color_state;
     u16 frames_left;
 
-    color_state = (u8 *)&D_80083178;
+    color_state = (u8 *)(&gameWork.unk_018);
     if (((S_800C4C00_0 *)fade)->unk_04.s == 0) {
         ((S_800C4C00_1 *)color_state)->unk_90 +=
             (((S_800C4C00_0 *)fade)->unk_00 - ((S_800C4C00_1 *)color_state)->unk_90) /

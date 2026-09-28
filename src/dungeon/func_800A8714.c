@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 extern int abs(int);
@@ -9,7 +10,6 @@ extern int abs(int);
 /* ---- globals (declared array-style so every access stays %hi/%lo, never $gp) ---- */
 extern u16 D_80013714[];
 extern u8 D_80082E80[];
-extern void *D_800814A8[];
 extern s32 D_800E296C[];
 typedef struct D_800E2970Entry {
     u8 pad_00[0xC];
@@ -19,7 +19,6 @@ typedef struct D_800E2970Entry {
 extern D_800E2970Entry D_800E2970[];
 typedef struct CFlags46 { u8 pad_00[0x46]; u16 f46; } CFlags46;
 extern u8 D_800E3548[];
-extern u8 *D_800E3D7C[];
 extern void *D_80089088[];
 
 /* ---- ordinary callees ---- */
@@ -174,7 +173,7 @@ s32 func_800ADE74(s32 unused, u8 *position_arg, u8 *creature_arg, s32 lower_limi
         goto check_species_action;
     }
     {
-        u8 *player = D_800E3D7C[0];
+        u8 *player = ((u8 *)D_800E3D7C);
         behavior_byte = creature[0x12];
         if ((*(s32 *)(player + 0x1C) & 0x220) || (func_80042900(player, 0xA) << 16) != 0) {
             if (*(s32 *)(creature + 0x1C) & 0x20000) {
@@ -215,14 +214,14 @@ Lcase0:
                 idle_player_dist = func_8009FD40(position, idle_player_pos);
                 idle_player_range = func_800A35A4(creature, slot_or_distance);
                 if ((idle_player_dist << 16) < (idle_player_range << 16)) {
-                    if ((func_800A3518(D_800E3D7C[0]) << 16) != 0) {
+                    if ((func_800A3518(((u8 *)D_800E3D7C)) << 16) != 0) {
                         s32 result;
                         register void *player_target;
                         *(u16 *)(creature + 0x46) = (*(u16 *)&slot_or_distance + 1) | 0x8000;
                         *(u16 *)(creature + 0x2A) = func_800A0818(
                             position[0x24], position[0x25],
                             idle_player_pos[0x24], idle_player_pos[0x25], &slot_or_distance);
-                        player_target = D_800814A8[0];
+                        player_target = D_800814A8;
                         result = 4;
                         *(void **)(creature + 0x60) = player_target;
                         return result;
@@ -234,18 +233,18 @@ idle_ally_scan:
             ally_index = dungeonStatus.unk_1E & 1;
             do {
                 ally_offset = ally_index * 4;
-                ally = *(void **)((ally_offset + (s32)D_800814A8[0]) + 0xAC);
+                ally = *(void **)((ally_offset + (s32)D_800814A8) + 0xAC);
                 if (ally != NULL) {
                     target_pos = *(void **)(ally - 0x14);
                     idle_ally_dist = func_8009FD40(position, target_pos);
                     idle_ally_range = func_800A35A4(creature, slot_or_distance);
                     if ((idle_ally_dist << 16) < (idle_ally_range << 16)) {
-                        if ((func_800A3518(*(void **)((ally_offset + (s32)D_800814A8[0]) + 0xAC)) << 16) != 0) {
+                        if ((func_800A3518(*(void **)((ally_offset + (s32)D_800814A8) + 0xAC)) << 16) != 0) {
                             {
                                 {
                                     s32 player_base, slot_action;
                                     slot_index = *(u16 *)&slot_or_distance;
-                                    player_base = (s32)D_800814A8[0];
+                                    player_base = (s32)D_800814A8;
                                     slot_action = slot_index + 1;
                                     slot_action |= 0x8000;
                                     ally_slot_base = (u8 *)(ally_offset + player_base);
@@ -256,7 +255,7 @@ idle_ally_scan:
                                         position[0x24], position[0x25],
                                         target_pos[0x24], target_pos[0x25], &slot_or_distance);
                                 }
-                                *(void **)(creature + 0x60) = *(void **)((ally_offset + (s32)D_800814A8[0]) + 0xAC);
+                                *(void **)(creature + 0x60) = *(void **)((ally_offset + (s32)D_800814A8) + 0xAC);
                                 return 4;
                             }
                         }
@@ -301,14 +300,14 @@ Lcase1:
                 follow_player_dist = func_8009FD40(position, follow_player_pos);
                 follow_player_range = func_800A35A4(creature, slot_or_distance);
                 if ((follow_player_dist << 16) < (follow_player_range << 16)) {
-                    if ((func_800A3518(D_800814A8[0]) << 16) != 0) {
+                    if ((func_800A3518(D_800814A8) << 16) != 0) {
                         void *player_target;
                         register s32 target_direction;
                         *(u16 *)(creature + 0x46) = (*(u16 *)&slot_or_distance + 1) | 0x8000;
                         target_direction = func_800A0818(
                             position[0x24], position[0x25],
                             follow_player_pos[0x24], follow_player_pos[0x25], &slot_or_distance);
-                        player_target = D_800814A8[0];
+                        player_target = D_800814A8;
                         *(u16 *)(creature + 0x2A) = target_direction;
                         *(void **)(creature + 0x60) = player_target;
                         return 4;
@@ -320,18 +319,18 @@ follow_ally_scan:
             ally_index = dungeonStatus.unk_1E & 1;
             do {
                 ally_offset = ally_index * 4;
-                ally = *(void **)((ally_offset + (s32)D_800814A8[0]) + 0xAC);
+                ally = *(void **)((ally_offset + (s32)D_800814A8) + 0xAC);
                 if (ally != NULL) {
                     target_pos = *(void **)(ally - 0x14);
                     follow_ally_dist = func_8009FD40(position, target_pos);
                     follow_ally_range = func_800A35A4(creature, slot_or_distance);
                     if ((follow_ally_dist << 16) < (follow_ally_range << 16)) {
-                        if ((func_800A3518(*(void **)((ally_offset + (s32)D_800814A8[0]) + 0xAC)) << 16) != 0) {
+                        if ((func_800A3518(*(void **)((ally_offset + (s32)D_800814A8) + 0xAC)) << 16) != 0) {
                             {
                                 {
                                     s32 player_base, slot_action;
                                     slot_index = *(u16 *)&slot_or_distance;
-                                    player_base = (s32)D_800814A8[0];
+                                    player_base = (s32)D_800814A8;
                                     slot_action = slot_index + 1;
                                     slot_action |= 0x8000;
                                     ally_slot_base = (u8 *)(ally_offset + player_base);
@@ -342,7 +341,7 @@ follow_ally_scan:
                                         position[0x24], position[0x25],
                                         target_pos[0x24], target_pos[0x25], &slot_or_distance);
                                 }
-                                *(void **)(creature + 0x60) = *(void **)((ally_offset + (s32)D_800814A8[0]) + 0xAC);
+                                *(void **)(creature + 0x60) = *(void **)((ally_offset + (s32)D_800814A8) + 0xAC);
                                 return 4;
                             }
                         }
@@ -386,7 +385,7 @@ Lcase2:
             assist_player_dist = func_8009FD40(position, assist_player_pos);
             assist_player_range = func_800A35A4(creature, slot_or_distance);
             if ((assist_player_dist << 16) < (assist_player_range << 16)) {
-                if ((func_800A3518(D_800814A8[0]) << 16) != 0) {
+                if ((func_800A3518(D_800814A8) << 16) != 0) {
                     if ((func_800A2C34(creature) << 16) != 0) {
                         return -1;
                     }
@@ -397,7 +396,7 @@ Lcase2:
                         target_direction = func_800A0818(
                             position[0x24], position[0x25],
                             assist_player_pos[0x24], assist_player_pos[0x25], &slot_or_distance);
-                        player_target = D_800814A8[0];
+                        player_target = D_800814A8;
                         *(u16 *)(creature + 0x2A) = target_direction;
                         *(void **)(creature + 0x60) = player_target;
                         return 4;
@@ -410,13 +409,13 @@ assist_ally_scan:
         ally_index = dungeonStatus.unk_1E & 1;
         do {
             ally_offset = ally_index * 4;
-            ally = *(void **)((ally_offset + (s32)D_800814A8[0]) + 0xAC);
+            ally = *(void **)((ally_offset + (s32)D_800814A8) + 0xAC);
             if (ally != NULL) {
                 target_pos = *(void **)(ally - 0x14);
                 assist_ally_dist = func_8009FD40(position, target_pos);
                 assist_ally_range = func_800A35A4(creature, slot_or_distance);
                 if ((assist_ally_dist << 16) < (assist_ally_range << 16)) {
-                    if ((func_800A3518(*(void **)((ally_offset + (s32)D_800814A8[0]) + 0xAC)) << 16) != 0) {
+                    if ((func_800A3518(*(void **)((ally_offset + (s32)D_800814A8) + 0xAC)) << 16) != 0) {
                         if ((func_800A2C34(creature) << 16) != 0) {
                             return -1;
                         }
@@ -424,7 +423,7 @@ select_ally:
                         {
                             s32 player_base, slot_action;
                             slot_index = *(u16 *)&slot_or_distance;
-                            player_base = (s32)D_800814A8[0];
+                            player_base = (s32)D_800814A8;
                             slot_action = slot_index + 1;
                             slot_action |= 0x8000;
                             ally_slot_base = (u8 *)(ally_offset + player_base);
@@ -435,7 +434,7 @@ select_ally:
                                 position[0x24], position[0x25],
                                 target_pos[0x24], target_pos[0x25], &slot_or_distance);
                         }
-                        *(void **)(creature + 0x60) = *(void **)((ally_offset + (s32)D_800814A8[0]) + 0xAC);
+                        *(void **)(creature + 0x60) = *(void **)((ally_offset + (s32)D_800814A8) + 0xAC);
                         return 4;
                     }
                 }
@@ -450,7 +449,7 @@ select_ally:
 check_player_action:
     if (*(s32 *)(creature + 0x1C) & 0x20000) {
         if ((func_800A404C() << 16) == 0) {
-            u8 *player = D_800814A8[0];
+            u8 *player = D_800814A8;
             if (player[0x9A] == 0x11) {
                 u8 *player_target = *(u8 **)(player + 0x60);
                 if (player_target != NULL) {
@@ -587,7 +586,7 @@ Lcase22:
     if (func_800A365C(position, near_player_pos) == 0) {
         goto wander;
     }
-    if (func_800A36B4(creature, D_800E3D7C[0]) == 0) {
+    if (func_800A36B4(creature, ((u8 *)D_800E3D7C)) == 0) {
         goto wander;
     }
     *(u16 *)(creature + 0x46) = 0x8008;
@@ -613,7 +612,7 @@ Lcase44:
         goto wander;
     }
     {
-        s32 height_delta = (s16)func_800A0134(creature, D_800E3D7C[0]);
+        s32 height_delta = (s16)func_800A0134(creature, ((u8 *)D_800E3D7C));
         height_delta = abs(height_delta);
         if (height_delta >= 0x21) {
             goto wander;
@@ -668,7 +667,7 @@ Lcase34:
     }
     scan_index = 0;
     do {
-        ally = *(void **)(((u8 *)D_800E3D7C[0] + scan_index * 4) + 0xAC);
+        ally = *(void **)(((u8 *)((u8 *)D_800E3D7C) + scan_index * 4) + 0xAC);
         if (ally != NULL) {
             if ((func_800A2CAC(ally) << 16) != 0) {
                 goto aim_at_player;
@@ -685,7 +684,7 @@ Lcase41:
         goto wander;
     }
     do {
-        target = *(u8 **)(((u8 *)D_800E3D7C[0] + scan_index * 4) + 0xAC);
+        target = *(u8 **)(((u8 *)((u8 *)D_800E3D7C) + scan_index * 4) + 0xAC);
         if (target != NULL) {
             s32 height_delta = (s16)func_800A0134(creature, target);
             height_delta = abs(height_delta);
@@ -808,7 +807,7 @@ Lcase32:
             goto wander;
         }
         STEPVEC(neighbor);
-        if (neighbor != D_800E3D7C[0]) {
+        if (neighbor != ((u8 *)D_800E3D7C)) {
             goto wander;
         }
         goto return_ability;
@@ -990,7 +989,7 @@ Lcase27:
         goto wander;
     }
     do {
-        target = *(u8 **)(((u8 *)D_800E3D7C[0] + scan_index * 4) + 0xAC);
+        target = *(u8 **)(((u8 *)((u8 *)D_800E3D7C) + scan_index * 4) + 0xAC);
         if (target != NULL) {
             s32 height_delta = (s16)func_800A0134(creature, target);
             height_delta = abs(height_delta);
@@ -1038,7 +1037,7 @@ Lcase23:
     if (!(*(s32 *)(target + 0x14) & 0x4000)) {
         goto wander;
     }
-    if (target == D_800E3D7C[0]) {
+    if (target == ((u8 *)D_800E3D7C)) {
         goto wander;
     }
     *(u16 *)(creature + 0x46) = 0x8009;
@@ -1112,7 +1111,7 @@ Lcase21:
     if (target == NULL) {
         goto wander;
     }
-    if (target != D_800E3D7C[0]) {
+    if (target != ((u8 *)D_800E3D7C)) {
         goto wander;
     }
     *(u16 *)(creature + 0x46) = 0x8009;

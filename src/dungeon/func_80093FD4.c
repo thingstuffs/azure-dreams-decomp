@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "records/Rec_D_800E3D7C.h"
 
 
@@ -17,7 +18,6 @@ typedef struct S_80099734_3 {
 
 extern s32 D_8007359C;
 extern s32 D_800DD728;
-extern u8 *D_800E3D7C;
 
 /* Copies the selected record text without its terminator and returns the output end. */
 u8 *func_80099734(void *record, u8 *out)
@@ -28,7 +28,7 @@ u8 *func_80099734(void *record, u8 *out)
     u8 *table_page;
     u8 ch;
 
-    if ((((Rec_D_800E3D7C *)D_800E3D7C)->unk_1C.as_s32 & 0x10) &&
+    if ((((Rec_D_800E3D7C *)((u8 *)D_800E3D7C))->unk_1C.as_s32 & 0x10) &&
         (((Rec_D_800E3D7C *)record)->unk_10.at03_u8.v != 0)) {
         src = (u8 *)D_800DD728;
         goto copy;

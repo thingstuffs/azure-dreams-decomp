@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
 #ifndef NULL
@@ -39,7 +40,6 @@ extern s32 func_80172BB0();
 extern u8 D_8006CCD8[16];
 extern u8 D_8006CCE8[16];
 extern s16 D_8006CD00[8];
-extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern FallbackCenter D_80082E80_center[] __asm__("D_80082E80");
 extern u16 D_80082EA4;

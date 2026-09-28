@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
@@ -15,7 +16,6 @@ typedef struct ShortVec {
     s16 z;
 } ShortVec;
 
-extern void *D_800814A8;
 extern void *D_800E3D18;
 
 extern void *func_8003DE58(void *, void *, ShortVec *, s16);

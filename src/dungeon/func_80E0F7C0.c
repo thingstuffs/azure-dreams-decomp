@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -101,7 +102,6 @@ extern void *func_80175858(void *, void *, void *);
 extern void *D_80170850[];
 extern void *D_80170870[];
 extern u8 D_8006DE24[];
-extern void *D_800814A8[3];
 extern u8 D_80171094[];
 extern u8 D_80176460[];
 extern u8 D_80176490[];
@@ -192,7 +192,7 @@ apply_effect:
 
             special_flag = is_special;
             if (special_flag != 0) {
-                effect = D_800814A8[0];
+                effect = D_800814A8;
                 ((Rec_D_800E3D7C *)actor)->unk_60.as_pv = effect;
                 goto copy_effect;
             }
@@ -235,7 +235,7 @@ copy_effect:
     ((S_80172FC0_5 *)transform_arg)->unk_10 = 0;
     ((S_80172FC0_5 *)transform_arg)->unk_0C = 0;
     func_800A2B04(transform_arg, ((S_80172FC0_4 *)sprite)->unk_24, ((S_80172FC0_4 *)sprite)->unk_25);
-    main_actor = D_800814A8[0];
+    main_actor = D_800814A8;
     dungeonStatus.unk_0C = 0;
     (*(u16 *)((u8 *)main_actor + 0xA6))--;
     func_800A4ACC(actor);

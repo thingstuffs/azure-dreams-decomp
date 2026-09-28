@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 #define FIELD(expr, type, offset) (*(type)((u8 *)(expr) + (offset)))
 
@@ -27,7 +28,6 @@ typedef struct S_func_80019800_3 {
 } S_func_80019800_3;
 
 extern void *func_80019AFC();
-extern void *D_80016000[];
 extern void *D_8001E950[];
 
 /* Checks the active event and dispatches the 0x27/0x200 handler when matched. */
@@ -39,7 +39,7 @@ s32 func_80019800(void) {
                               ((S_func_80019800_0 *)D_8001E950[0])->unk_05);
         if (event->unk_00 == 0x27) {
             if (event->unk_02 == 0x200) {
-                ((S_func_80019800_3 *)((S_func_80019800_2 *)D_80016000[0])->unk_20)->unk_2F8(0x27, 0x200);
+                ((S_func_80019800_3 *)((S_func_80019800_2 *)D_80016000)->unk_20)->unk_2F8(0x27, 0x200);
             }
         }
         return 1;

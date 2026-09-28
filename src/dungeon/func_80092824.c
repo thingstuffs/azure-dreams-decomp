@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 extern s32 func_800422A8(void *, void *, s32, s32);
 extern s32 func_80098FB0(void);
@@ -15,11 +16,9 @@ extern void func_800A5720(s32);
 
 extern u8 D_80081470[];
 extern void *D_80081484;
-extern void *D_800814A8;
 extern u8 D_800E07EF[];
 extern u8 D_800E3548[];
 extern u8 D_800E36C8[];
-extern u8 *D_800E3D7C;
 
 void *func_80097F84(void *arg0, void *arg1, void *arg2, s16 arg3)
 {
@@ -86,7 +85,7 @@ valid_index:
         *(u32 *)((u8 *)global_object + 0x1C) = flags & 0xFFEFFFFF;
     } else {
 
-        narrowed = func_800422A8(*(void **)(D_800E3D7C + 0xF0),
+        narrowed = func_800422A8(*(void **)(((u8 *)D_800E3D7C) + 0xF0),
                                   D_800E3548, 4, 0x40);
         narrowed <<= 16;
         found = narrowed >> 16;

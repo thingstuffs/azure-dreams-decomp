@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 typedef struct Entry Entry;
 
@@ -9,7 +10,6 @@ struct Entry {
     u8 pad10[4];
 };
 
-extern void *D_80016000;
 extern void func_8001A5E4(s32);
 
 /* Look up a value by group and entry index and pass it to the handler. */

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 typedef struct S_func_8065C05C_0 {
     s8 unk_00;
@@ -22,7 +23,6 @@ typedef struct S_func_8065C05C_3 {
     s32 (*unk_70)(s32);
 } S_func_8065C05C_3;
 
-extern u8 D_80016000[12];
 
 /* Build a terminated list of four-byte entries for IDs accepted by the callback. */
 void func_8065C05C(void *entries) {

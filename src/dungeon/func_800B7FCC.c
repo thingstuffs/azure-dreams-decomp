@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -16,7 +17,6 @@ extern u8 D_80082E80[];
 extern u8 D_80083780[];
 extern u16 D_800DDE84[];
 extern u8 D_800E0E9B[];
-extern void *D_800E3D7C;
 
 
 typedef struct S_800BD72C_0_pre {

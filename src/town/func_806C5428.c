@@ -1,8 +1,8 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 typedef s32 Callback(s32);
 
-extern void *D_80016000;
 
 /* Calls the callback with zero, then maps states 0-2 to results 1-3, defaulting to zero. */
 void func_80016428(void)

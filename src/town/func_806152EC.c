@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 typedef s32 (*TownCallback)();
 
 extern s32 func_80018B58();
 extern s32 func_80018BD0();
 extern s32 func_80018C50();
-extern s8 D_80016000[];
 extern s8 D_8001BD48[];
 
 /* Selects a town event from flag checks or invokes the default town callback. */
@@ -16,7 +16,7 @@ s32 func_80016AEC(void) {
     func_80018BD0(0xFB8);
 
     if (func_80018C50(0xFE7) == 0) {
-        town = *(void **)D_80016000;
+        town = *(void **)((s8 *)(&D_80016000));
         *(void **)((s8 *)*(void **)((s8 *)town + 0x1C) + 0x40) = D_8001BD48;
         (*(TownCallback *)((s8 *)*(void **)((s8 *)town + 0x20) + 0x2F8))(0x10, 0x200);
         return 0;
@@ -29,6 +29,6 @@ s32 func_80016AEC(void) {
         return 1;
     }
 
-    (*(TownCallback *)((s8 *)*(void **)((s8 *)*(void **)D_80016000 + 0x20) + 0x2F8))(0x10, 0x200);
+    (*(TownCallback *)((s8 *)*(void **)((s8 *)*(void **)((s8 *)(&D_80016000)) + 0x20) + 0x2F8))(0x10, 0x200);
     return 0;
 }

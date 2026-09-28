@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
@@ -9,7 +10,6 @@ extern void func_8004491C(void *, void *);
 extern s32 func_8003DE58(void *, void *, void *, s32);
 extern s32 func_800644B8(s32);
 
-extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern s32 *D_800E3D18;
 

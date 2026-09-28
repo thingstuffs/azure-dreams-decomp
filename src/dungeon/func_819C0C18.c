@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -74,7 +75,6 @@ extern void *D_80024048[];
 extern s16 D_8002992E;
 extern u8 D_8006E8A0[];
 extern u8 D_8006EE50[];
-extern GlobalObj *D_800814A8[3];
 extern u16 D_80082E86;
 extern u16 D_80082E94;
 extern Position D_80083780;
@@ -114,17 +114,17 @@ case_0:
         ChildObj *child;
         u16 state;
 
-        func_800C77D0((u8 *)D_800814A8[0] - 0x20, &D_80083780, 8, 0x400);
+        func_800C77D0((u8 *)((GlobalObj *)D_800814A8) - 0x20, &D_80083780, 8, 0x400);
         rect_xy = 0x010003A0;
         rect_size = 0x00400020;
-        D_800814A8[0]->unk_102 = 1;
+        ((GlobalObj *)D_800814A8)->unk_102 = 1;
         rect[0] = rect_xy;
         rect[1] = rect_size;
         func_80040490(D_8006E8A0, rect);
         func_8003F80C(D_8006EE50, 0x7AC0, 1, 2);
         func_80024BA0();
 
-        owner = D_800814A8[0];
+        owner = ((GlobalObj *)D_800814A8);
         owner->unk_F4 = 0;
         owner->unk96 = 30;
         state = effect->unk_0A.u;
@@ -155,12 +155,12 @@ case_1:
 
         effect->unk_28.u = timer + 1;
         if ((s16)timer >= 0x52) {
-            owner = D_800814A8[0];
+            owner = ((GlobalObj *)D_800814A8);
             effect->unk_1C.s = 0x21;
             owner->unkA6 = owner->unkA6 - 1;
             owner->unkA8 = effect->unk_08;
             next_state = effect->unk_0A.u;
-            direction = D_800814A8[0]->unk2A;
+            direction = ((GlobalObj *)D_800814A8)->unk2A;
             effect->unk_0A.u = next_state + 1;
             effect->unk_28.u = 0;
             effect->unk_24 = (direction >> 9) & 7;
@@ -173,10 +173,10 @@ case_1:
             func_80025CE8((s16)effect_position->x,
                           (s16)effect_position->y,
                           (s16)effect_position->z,
-                          (s16)D_800814A8[0]->unk2A);
+                          (s16)((GlobalObj *)D_800814A8)->unk2A);
         }
 
-        effect->unk_24 = (D_800814A8[0]->unk2A >> 9) & 7;
+        effect->unk_24 = (((GlobalObj *)D_800814A8)->unk2A >> 9) & 7;
         position = &D_80083780;
         offset_base = offsets.entries;
         do {

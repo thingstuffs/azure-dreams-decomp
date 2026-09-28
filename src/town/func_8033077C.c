@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 typedef struct {
     u8 bytes[8];
 } ByteBlock8;
 
-extern void *D_80016000;
 extern ByteBlock8 D_80016164;
 
 /* Sum the weights selected by type flags for enabled records. */

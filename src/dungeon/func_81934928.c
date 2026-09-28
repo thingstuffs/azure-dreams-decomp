@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 
@@ -78,7 +79,6 @@ extern void func_800A56E0(s32);
 
 extern s32 D_8002445C[];
 extern s32 D_80024740[];
-extern u8 *D_800814A8;
 extern u8 D_80082E80[];
 extern s32 D_80083498[];
 extern Copy24 D_80083780;
@@ -198,7 +198,7 @@ main_state:
     }
 
     if (((S_81934928_0 *)self)->unk_0C.u == 0x1E) {
-        search_origin = D_800814A8;
+        search_origin = ((u8 *)D_800814A8);
         if (search_origin != NULL) {
             u8 *search_page;
             u8 *lookup_table;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */

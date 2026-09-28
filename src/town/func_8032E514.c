@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 
 typedef void (*TownCall3)(void *, void *, s32);
@@ -22,7 +23,6 @@ typedef struct S_80018D14_2 {
 } S_80018D14_2;   /* root2 in func_80018D14 */
 
 
-extern s8 D_80016000[];
 extern u8 D_80016034[16];
 extern u8 D_8001605C[];
 

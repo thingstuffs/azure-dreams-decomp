@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern int D_800814A8[4];
 extern u8 D_80083498[];
 extern u8 D_80082E80[];
 extern u16 D_80082E94;
@@ -149,8 +149,8 @@ BODY_STORAGE void BODY_NAME(S_func_819B2800_0 *effect, S_func_819B2800_1 *positi
     (void)phase_labels;
     goto *D_80024008[(u32)(phase_or_delay)];
 init_effect:
-    ((S_func_819B2800_5 *) ((s32*)&D_800814A8)[0])->unk_102 = 1;
-    ((S_func_819B2800_5 *) ((s32*)&D_800814A8)[0])->unk_F4 = 0;
+    ((S_func_819B2800_5 *) ((s32*)((int *)(&D_800814A8)))[0])->unk_102 = 1;
+    ((S_func_819B2800_5 *) ((s32*)((int *)(&D_800814A8)))[0])->unk_F4 = 0;
     position->unk_00 = (s32) ((S_func_819B2800_1 *) location->unk_08)->unk_00;
     position->unk_04 = (s32) ((S_func_819B2800_1 *) location->unk_08)->unk_04;
     position->unk_08.unk_08 = (s32) ((S_func_819B2800_1 *) location->unk_08)->unk_08.unk_08;
@@ -159,7 +159,7 @@ wait_trigger:
     if (!(*effect->unk_04 & 0x80)) {
         goto done;
     }
-    actor = (void *) ((s32*)&D_800814A8)[0];
+    actor = (void *) ((s32*)((int *)(&D_800814A8)))[0];
     effect->unk_50 = 0xAU;
     actor->unk_A6 = (u16) (actor->unk_A6 - 1);
     actor->unk_A8 = (u8) effect->unk_08;
@@ -223,7 +223,7 @@ wait_visual:
     object_data->unk_10 = &D_80024B48;
     func_8004491C(data_bytes, &D_80024C14);
     data_bytes = D_80082E80;
-    direction = ((u16) ((S_func_819B2800_5 *) ((s32*)&D_800814A8)[0])->unk_2A >> 9) & 7;
+    direction = ((u16) ((S_func_819B2800_5 *) ((s32*)((int *)(&D_800814A8)))[0])->unk_2A >> 9) & 7;
     offset[0] = direction;
     visual->unk_0C = (s16) (((S_func_819B2800_3 *) D_80082E80)->unk_24 + dirStepX[direction]);
     visual->unk_0E = (s16) (((S_func_819B2800_3 *) D_80082E80)->unk_25 + dirStepY[offset[0]]);
@@ -242,7 +242,7 @@ apply_effect:
     if ((s16) effect->unk_50 != 8) {
         goto check_completion;
     }
-    target = ((s32*)&D_800814A8)[0];
+    target = ((s32*)((int *)(&D_800814A8)))[0];
     position = (void *) target;
     if (target == 0) {
         goto check_completion;

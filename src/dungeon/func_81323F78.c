@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
@@ -37,7 +38,6 @@ extern volatile s16 D_80013714[8];
 extern u8 D_801746C4[];
 extern u8 D_8017467C[];
 extern u16 D_80082EA4[8];
-extern int D_800814A8[4];
 extern u8 D_80082E80[];
 extern u8 D_8016B778[];
 extern s8 D_800E2970[];
@@ -190,7 +190,7 @@ block_33:
     if (!(dungeonStatus.flags & 0x2000)) {
         goto block_39;
     }
-    if ((func_8009A180(entity, ((S_8016B778_3 *)(*D_800814A8))->unk_58 + 0x20) << 0x10) != 0) {
+    if ((func_8009A180(entity, ((S_8016B778_3 *)(((int)D_800814A8)))->unk_58 + 0x20) << 0x10) != 0) {
         goto block_65;
     }
 block_39:
@@ -228,7 +228,7 @@ jt_c5:
 jt_c6:
 jt_c7:
     target_angle = func_800A0818(map_actor->unk_24.at00.v, map_actor->unk_24.at01.v, D_80082E80[0x24], D_80082E80[0x25], &target_distance);
-    active_actor = (u8 *)*D_800814A8;
+    active_actor = (u8 *)*((int *)(&D_800814A8));
     ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 = target_angle;
     if (((S_8016B778_4 *)active_actor)->unk_9A == 0x11) {
         action_data = (u8 *)0x80170000;

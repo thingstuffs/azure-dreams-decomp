@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "m2c_compat.h"
 extern void func_80017AC8(u8 *);
-extern void *D_80016000;
 extern u8 D_80019B08;
 extern s32 D_80019B88;
 /* Register D_80019B08 with the scene and keep the handle it returns. */

@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 
-extern s8 D_80016000[];
 
 typedef void (*Callback)(s32);
 
@@ -20,12 +20,12 @@ s32 func_8051EAF8(void) {
     s32 x;
     s32 y;
 
-    currentObject = *(void **)D_80016000;
+    currentObject = *(void **)((s8 *)(&D_80016000));
     currentObject = (*(void * *)((u8 *)currentObject + 0x20));
     callback = (*(Callback *)((u8 *)currentObject + 0x248));
     callback(1);
 
-    currentObject = *(void **)D_80016000;
+    currentObject = *(void **)((s8 *)(&D_80016000));
     position = (*(void * *)((u8 *)currentObject + 0x1C));
     x = position->unk_04;
     y = position->unk_08;

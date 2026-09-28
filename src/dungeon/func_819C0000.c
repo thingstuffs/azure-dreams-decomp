@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 
 typedef struct {
@@ -42,7 +43,6 @@ extern LocalPoints D_80024004;
 extern s32 D_80028630;
 extern s16 D_8002992C;
 extern s16 D_8002992E[5];
-extern u8 *D_800814A8;
 
 /* Updates an owner-following effect or its fade, wait, and rising phases. */
 void func_80025800(void *effect_in, void *position_in, void *visual_in)
@@ -77,7 +77,7 @@ void func_80025800(void *effect_in, void *position_in, void *visual_in)
     S16_AT(visual_in, 0x10) = half_tile;
     U16_AT(visual_in, 0x14) |= 0xC;
     owner = PTR_AT(effect_in, 0x20);
-    world = D_800814A8;
+    world = ((u8 *)D_800814A8);
 
     if (owner == 0) {
         state = S16_AT(effect_in, 0x2C);
@@ -133,7 +133,7 @@ state_one:
                           S16_AT(effect_in, 0x3A), S16_AT(effect_in, 0x38));
             func_80025FB0(effect_in, S32_AT(visual_in, 0));
         }
-        if (S16_AT(D_800814A8, 0x96) == 0) {
+        if (S16_AT(((u8 *)D_800814A8), 0x96) == 0) {
             U16_AT(effect_in, 0x30) = 0;
             S32_AT(effect_in, 0x50) = 0x200000;
             S32_AT(effect_in, 0x5C) = 0;

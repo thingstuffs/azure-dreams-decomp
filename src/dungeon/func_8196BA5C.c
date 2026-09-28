@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 
@@ -71,7 +72,6 @@ extern RectTable D_80024024;
 extern u8 D_8002407C[];
 extern PackedVec3 D_80026978;
 extern s16 D_800269B4;
-extern void *D_800814A8;
 
 extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *);

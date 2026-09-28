@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "records/Rec_D_80016000.h"
 
 
@@ -14,7 +15,6 @@ typedef struct S_80016858_2 {
 
 
 
-extern s8 D_80016000[];
 extern s8 D_8001ABF9;
 
 extern void func_80018C74(s32);
@@ -27,7 +27,7 @@ s32 func_80016858(void) {
         (func_80018D6C(0x7D2) == 0) &&
         (func_80018D6C(0xFDC) != 0)) {
         func_80018C74(0x7D9);
-        ((S_80016858_2 *)(((S_80016858_1 *)(((Rec_D_80016000 *)D_80016000)->unk_00.at00_pv.v))->unk_1C))->unk_40 = &D_8001ABF9;
+        ((S_80016858_2 *)(((S_80016858_1 *)(((Rec_D_80016000 *)((s8 *)(&D_80016000)))->unk_00.at00_pv.v))->unk_1C))->unk_40 = &D_8001ABF9;
         return 1;
     }
     func_80018CEC(0xFCB);

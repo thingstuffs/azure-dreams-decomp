@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 extern int abs(int);
 
 
-extern void *D_800814A8;
 extern u8 D_80170838[16];
 extern s32 D_80170F68;
 extern u8 D_80173FB8[8];

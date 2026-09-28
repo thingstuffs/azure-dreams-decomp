@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 
 
 typedef s32 M2C_UNK;
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-extern u8 D_80016000[];
 
 typedef struct S_80019ADC_0 {
     u8 pad_00[0x38];
@@ -31,7 +31,7 @@ s32 func_80019ADC(s32 match_byte_1, s32 match_byte_0) {
     S_80019ADC_2 *entry;
 
     result = -1;
-    do { list_owner = ((S_80019ADC_0 *)(*(void **)D_80016000))->unk_38; } while (0);
+    do { list_owner = ((S_80019ADC_0 *)(*(void **)((u8 *)(&D_80016000))))->unk_38; } while (0);
     entry_slot = list_owner + 0x29C;
     entry_index = 0;
     if (((S_80019ADC_1 *)list_owner)->unk_29C != 0) {

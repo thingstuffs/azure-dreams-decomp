@@ -1,6 +1,6 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
-extern s32 D_800E3D7C[4];
 
 typedef struct S_800C8078_0 {
     u8 pad_00[0x14];
@@ -27,7 +27,7 @@ s32 func_800C8078(S_800C8078_0 *entity) {
 
     if (entity->unk_14 & 0x4000) {
         slot_index = 1;
-        slot_cursor = (void *)(D_800E3D7C[0] + 4);
+        slot_cursor = (void *)(((s32)D_800E3D7C) + 4);
         do {
             linked_entity = ((S_800C8078_1 *)slot_cursor)->unk_AC;
             if ((linked_entity != 0) && ((linked_entity->unk_54 & 0x4000) != 0)) {

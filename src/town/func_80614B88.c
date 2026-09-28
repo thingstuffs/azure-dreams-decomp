@@ -1,5 +1,5 @@
 #include "common.h"
-extern void *D_80016000;
+#include "shared/record_ptrs.h"
 /* True when the scene state's counter has reached the -64 threshold. */
 s32 func_80614B88(void)
 {

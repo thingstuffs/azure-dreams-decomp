@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 typedef struct S_80099FDC_0 {
     u8 pad_00[0x10];
@@ -23,7 +24,6 @@ typedef struct S_80099FDC_3 {
 
 
 
-extern void *D_800814A8[3];
 
 /* Clear the entry flag and link the entry into the current owner list. */
 void func_80099FDC(void *entry)
@@ -32,7 +32,7 @@ void func_80099FDC(void *entry)
     S_80099FDC_3 *neighbor_links;
     S_80099FDC_1 *owner;
 
-    owner = D_800814A8[0];
+    owner = D_800814A8;
     ((S_80099FDC_0 *)entry)->unk_10 = ((S_80099FDC_0 *)entry)->unk_10 & 0x7FFFFFFF;
     neighbor_links = (u8 *)owner->unk_58 + 0x20;
     entry_links = (u8 *)entry + 0x20;

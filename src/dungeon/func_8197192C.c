@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -210,7 +211,6 @@ extern Data12 D_80025FD0;
 extern Data12 D_80025FDC;
 extern u8 D_800DDC40[];
 
-extern void *D_800814A8[3];
 extern void *D_800814A8_case0[3] __asm__("D_800814A8");
 extern u16 D_80082E86[5];
 extern u16 D_80082E94[5];
@@ -273,11 +273,11 @@ case_0:
     if ((((S_8197192C_14 *)(((S_8197192C_0 *)effect)->unk_04))->unk_00 & 0x80) == 0) {
         goto done;
     }
-    player_2 = D_800814A8[0];
+    player_2 = D_800814A8;
     ((S_8197192C_0 *)effect)->unk_2C.s = 33;
     ((S_8197192C_1 *)player_2)->unk_A6 = ((S_8197192C_1 *)player_2)->unk_A6 - 1;
     ((S_8197192C_1 *)player_2)->unk_A8 = ((S_8197192C_0 *)effect)->unk_08;
-    player = D_800814A8[0];
+    player = D_800814A8;
     heading = ((S_8197192C_1 *)player)->unk_2A;
     ((S_8197192C_0 *)effect)->unk_0A.u = ((S_8197192C_0 *)effect)->unk_0A.u + 1;
     ((S_8197192C_0 *)effect)->unk_38 = 0;
@@ -313,7 +313,7 @@ case_2:
             (u8 *)effect + 0x2E, 0) != 0) {
             step = 0;
             do {
-                func_800248A8((u8 *)((Rec_D_800814A8 *)&D_800814A8)->unk_00.as_pv - 0x20, 0,
+                func_800248A8((u8 *)((Rec_D_800814A8 *)((void * *)(&D_800814A8)))->unk_00.as_pv - 0x20, 0,
                               0xE04040, (func_80069EF8() & 0x3F) | 0x40,
                               ((S_8197192C_0 *)effect)->unk_2E.s,
                               ((S_8197192C_0 *)effect)->unk_30.s,
@@ -653,7 +653,7 @@ case_4:
         status_page = (u8 *)0x80080000;
         goto case_4_global_use;
     }
-    source_obj = ((S_8197192C_15 *)(((Rec_D_800814A8 *)&D_800814A8)->unk_00.as_pv))->unk_60;
+    source_obj = ((S_8197192C_15 *)(((Rec_D_800814A8 *)((void * *)(&D_800814A8)))->unk_00.as_pv))->unk_60;
     if (source_obj != 0) {
         angle_table = D_800DDC40;
         angle_count = angle_table[((S_8197192C_1 *)source_obj)->unk_10.at03.v];

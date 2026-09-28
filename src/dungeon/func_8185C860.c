@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "m2c_compat.h"
 
 typedef struct S_8185C860_0 {
@@ -13,7 +14,6 @@ typedef struct S_8185C860_1 {
     u8 unk_25;
 } S_8185C860_1;   /* temp_v1 in func_8185C860 */
 
-extern u8 *D_800E3D7C[];
 s32 func_800A2CB8();
 s32 func_800A41F0();
 s32 func_800A6D30();
@@ -31,7 +31,7 @@ void func_8185C860(s16 center_x, s16 center_y, M2C_UNK source, s32 power) {
     u8 *target;
     S_8185C860_1 *position;
 
-    target = *D_800E3D7C;
+    target = ((u8 *)D_800E3D7C);
     base_value = (s16)(((u32)(power & 0xFF) >> 2) + 0x10);
     do {
         if ((func_800A2CB8(source, target) << 0x10) != 0) {
@@ -58,6 +58,6 @@ void func_8185C860(s16 center_x, s16 center_y, M2C_UNK source, s32 power) {
             }
         }
         target = ((S_8185C860_0 *)((u8 *)target - 0x14))->unk_70 + 0x20;
-    } while (target != *D_800E3D7C);
+    } while (target != ((u8 *)D_800E3D7C));
 }
 

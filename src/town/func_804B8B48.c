@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 typedef struct TownState {
     s32 mode;
@@ -14,14 +15,13 @@ typedef struct TownContext {
 typedef s32 (*TownCall1)(s32);
 typedef s32 (*TownCall2)(s32, TownState *);
 
-extern s8 D_80016000[];
 
 /* Run town callbacks and, in mode 3, set the value to its previous value plus or minus 0x30. */
 s32 func_80017348(void) {
     TownContext **context_ptr;
     s32 previous_value;
 
-    context_ptr = (TownContext **)D_80016000;
+    context_ptr = (TownContext **)((s8 *)(&D_80016000));
 
     {
         TownContext *context;

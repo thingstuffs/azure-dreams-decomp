@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
@@ -21,7 +22,6 @@ extern s32 func_800BCB04();
 extern void D_8016A36C();
 
 extern u16 D_80013714;
-extern u8 *D_800E3D7C;
 extern Callback D_80173B94[];
 extern u8 D_80173DDC[];
 
@@ -107,7 +107,7 @@ void func_80169EC0(void *owner_arg, void *motion, void *data)
 
     if ((*(u16 *)0x80013714) & 8) {
         slot_index = 1;
-        slot_ptr = D_800E3D7C + 4;
+        slot_ptr = ((u8 *)D_800E3D7C) + 4;
         do {
             slot_entry = ((S_80169EC0_0 *)slot_ptr)->unk_AC;
             if (slot_entry != NULL) {

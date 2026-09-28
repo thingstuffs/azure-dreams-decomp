@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 extern s32 func_800177BC();
-extern void *D_80016000;
 extern s32 D_80017D64;
 
 /* Run operation 0xFE5 and attach D_80017D64 to the state object. */

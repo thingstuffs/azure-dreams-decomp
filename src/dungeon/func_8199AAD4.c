@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_800814A8.h"
@@ -97,7 +98,6 @@ typedef struct Vec3s {
 
 extern u8 D_80024AE0;
 extern u16 D_80024A70;
-extern void *D_800814A8;
 extern void *D_800E3D18;
 
 /* Ordinary declaration: the private selector authenticates this one

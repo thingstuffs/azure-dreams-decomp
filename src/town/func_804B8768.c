@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 typedef struct StructB {
     s32 unk0;
@@ -11,10 +12,9 @@ typedef struct StructA {
     StructB *unk1C;
 } StructA;
 
-extern StructA *D_80016000;
 
 /* Set the referenced structure's two values to 1248 and 992. */
 void func_80016F68(void) {
-    D_80016000->unk1C->unk4 = 1248;
-    D_80016000->unk1C->unk8 = 992;
+    ((StructA *)D_80016000)->unk1C->unk4 = 1248;
+    ((StructA *)D_80016000)->unk1C->unk8 = 992;
 }

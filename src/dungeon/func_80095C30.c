@@ -1,8 +1,8 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 extern s32 func_8009A350(s16 arg0, s16 arg1, s32 arg2, u16 *flags);
 extern s32 func_800A41F0(void *object);
-extern void *D_800E3D7C[];
 
 /* Find an eligible object at the tile within 64 units of the target height. */
 void *func_8009B390(s16 tile_x, s16 tile_y, s16 target_height)
@@ -20,7 +20,7 @@ void *func_8009B390(s16 tile_x, s16 tile_y, s16 target_height)
         return 0;
     }
 
-    object = D_800E3D7C[0];
+    object = D_800E3D7C;
     first_object = object;
     do {
         tile = *(void **)((u8 *)object - 0x14);

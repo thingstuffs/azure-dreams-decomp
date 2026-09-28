@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 typedef struct {
     s32 unk0;
@@ -11,10 +12,9 @@ typedef struct {
     StructB *unk1C;
 } StructA;
 
-extern StructA *D_80016000;
 
 /* Set the referenced object's unk4 and unk8 fields to 800 and 736. */
 void func_80016EA4(void) {
-    D_80016000->unk1C->unk4 = 800;
-    D_80016000->unk1C->unk8 = 736;
+    ((StructA *)D_80016000)->unk1C->unk4 = 800;
+    ((StructA *)D_80016000)->unk1C->unk8 = 736;
 }

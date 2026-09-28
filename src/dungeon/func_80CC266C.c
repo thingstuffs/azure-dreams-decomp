@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
@@ -36,7 +37,6 @@ s16 func_800A0818(u8, u8, u8, u8, s32 *);
 s32 func_800A2C34(void *);
 void func_800A9A0C(void *);
 void func_80175E14(void *);
-extern u8 *D_800E3D7C;
 extern u8 D_80176348[];
 
 /* Selects a neighboring target and starts an action when the reference entity is nearby. */
@@ -61,7 +61,7 @@ s32 func_80175E6C(void *action_state, void *unused, void *actor_pos_arg, void *a
 scan_neighbors:
     neighbor = func_800A04F0(actor, ((S_80175E6C_1 *)actor_pos_arg)->unk_24, ((S_80175E6C_1 *)actor_pos_arg)->unk_25, (s16) (direction << 9));
     if (neighbor != NULL) {
-        if (neighbor == D_800E3D7C) {
+        if (neighbor == ((u8 *)D_800E3D7C)) {
             reference_found = 1;
             goto next_direction;
         }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -22,7 +23,6 @@ extern M2C_UNK D_80082E80;
 extern M2C_UNK D_80083780;
 extern u16 D_800DDE84[];
 extern M2C_UNK D_800E0E82;
-extern void *D_800E3D7C[];
 
 
 typedef struct S_800BD5C4_0_pre {
@@ -40,7 +40,7 @@ s32 func_800BD5C4(void *entity, s32 update_value, s16 mode) {
     s32 type_index;
     s32 effect_result;
 
-    if (entity == D_800E3D7C[0]) {
+    if (entity == D_800E3D7C) {
         ((Rec_D_800E3D7C *)entity)->unk_110 = update_value;
         func_8008D330(entity, &D_80083780, &D_80082E80, entity);
         return 0;

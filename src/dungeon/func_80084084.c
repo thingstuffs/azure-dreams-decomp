@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 
 typedef s32 (*Callback)(void *, s32, s32);
@@ -17,7 +18,6 @@ typedef struct Entry {
 
 extern s32 func_80045310(s32);
 
-extern void *D_800814A8;
 extern Callback D_80083360[0x20];
 extern Entry *D_800833E0[0x20];
 extern Entry D_80083498;

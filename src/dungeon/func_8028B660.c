@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "m2c_compat.h"
 
 extern s32 func_8001EAA4(s8 *, s8 *);
@@ -8,7 +9,6 @@ extern s32 func_800A697C(s32, s32);
 extern s32 D_80012090[];
 extern u8 D_8001F6F0[];
 extern s16 D_8008146C[];
-extern void *D_800E3D7C[];
 
 typedef struct S_8001E660_0 {
     u8 pad_00[0xFB];
@@ -22,7 +22,7 @@ s32 func_8001E660(s8 *out_group, s8 *out_index, s32 unused, s32 skip_special) {
 
     if ((special_selected == 0) && (skip_special == 0) && (*(s32 *)0x80012090 == 0)) {
         if (D_8008146C[0] == 12) {
-            if (((S_8001E660_0 *)(D_800E3D7C[0]))->unk_FB == 0) {
+            if (((S_8001E660_0 *)(D_800E3D7C))->unk_FB == 0) {
                 *out_group = 12;
                 *out_index = 4;
                 D_8001F6F0[0] = 1;

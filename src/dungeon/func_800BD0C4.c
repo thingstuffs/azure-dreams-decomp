@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 
@@ -143,7 +144,6 @@ extern M2C_UNK D_800DF4A4;
 extern void *D_800DF55C;
 extern void *D_800DF560;
 extern M2C_UNK D_800E1640;
-extern void *D_800E3D7C;
 
 typedef struct {
     s32 sp20;

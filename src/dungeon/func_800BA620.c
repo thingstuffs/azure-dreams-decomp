@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -18,7 +19,6 @@ extern u8 D_80082E80[];
 extern u8 D_80083780[];
 extern u16 D_800DDE84[];
 extern u8 D_800E2056[];
-extern void *D_800E3D7C[];
 
 /* Updates entity state and progress counters, then triggers the associated effects. */
 s32 func_800BFD80(void *entity, s32 update_value, s16 update_mode)
@@ -27,7 +27,7 @@ s32 func_800BFD80(void *entity, s32 update_value, s16 update_mode)
     u8 progress;
     u8 completion_count;
 
-    if (entity == D_800E3D7C[0]) {
+    if (entity == D_800E3D7C) {
         ((Rec_D_800E3D7C *)entity)->unk_110 = update_value;
         func_8008D330(entity, D_80083780, D_80082E80, entity);
         return 0;

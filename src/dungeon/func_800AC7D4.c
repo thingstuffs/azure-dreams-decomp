@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 typedef struct S_800B1F34_0 {
     s16 * unk_00;
@@ -20,7 +21,6 @@ typedef struct S_800B1F34_2 {
 
 
 
-extern void *D_800814A8;
 
 /* Advances timed motion phases, updates the output offset, and sets the global update flag. */
 void func_800B1F34(S_800B1F34_0 *animation, S_800B1F34_1 *motion)

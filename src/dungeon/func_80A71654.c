@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -97,7 +98,6 @@ extern void func_80172184(void *, void *, void *, void *);
 extern s32 func_8017229C(void *, void *, void *, s32);
 extern void func_80173EF4(void *, void *, void *, void *);
 
-extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern s8 D_80082EA4;
 extern u8 D_80083498[];

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80016000.h"
 
@@ -19,7 +20,6 @@ typedef struct {
     u8 unk1;
 } FuncData;
 
-extern void *D_80016000;
 
 /* Checks whether the callback's record matches the two expected bytes. */
 s32 func_80019A34(s32 expected_second, s32 expected_first) {

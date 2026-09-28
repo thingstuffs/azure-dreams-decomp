@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -80,7 +81,6 @@ typedef struct {
 } Work;
 
 extern u16 D_8006CCD8_success[] __asm__("D_8006CCD8");
-extern u8 *D_800E3D7C;
 extern s32 *D_80174CCC;
 extern s8 D_801766F0[];
 
@@ -115,7 +115,7 @@ void func_8017516C(u8 *owner_data, Position *position_arg, Source *source_arg, C
     ASM_KEEP_NV(source_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ASM_KEEP_NV(position_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     target_y = target_x = 0;
-    if (context->f60 == D_800E3D7C) {
+    if (context->f60 == ((u8 *)D_800E3D7C)) {
         special_data = *(u8 **)((u8 *)context->f60 + 0x4C);
         if (special_data != 0) {
             if (special_data[1] == 15 && special_data[0] == 8) {

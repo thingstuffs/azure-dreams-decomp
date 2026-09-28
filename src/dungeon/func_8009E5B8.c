@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "records/Rec_D_800E3D7C.h"
 
 typedef struct S_800A3D18_0 {
@@ -47,7 +48,6 @@ typedef struct S_800A3D18_5 {
 
 
 
-extern u8 *D_800E3D7C;
 
 extern s32 func_8009FD40(void *, void *);
 extern s32 func_8009FE94(u8, u8, s16, u8, u8, s16);
@@ -161,7 +161,7 @@ done:
             best = special;
             goto out;
         }
-        if ((((Rec_D_800E3D7C *)D_800E3D7C)->unk_128 + ((S_800A3D18_1 *)candidate)->unk_43) & 3) {
+        if ((((Rec_D_800E3D7C *)((u8 *)D_800E3D7C))->unk_128 + ((S_800A3D18_1 *)candidate)->unk_43) & 3) {
             goto out;
         }
         best = special;

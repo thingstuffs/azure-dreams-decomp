@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -14,11 +15,10 @@ extern u8 D_80082E80[];
 extern u8 D_80083780[];
 extern u16 D_800DDE84[];
 extern s32 D_800E296C;
-extern u8 *D_800E3D7C;
 
 /* Handles item use for an entity, updating its state and consuming the item. */
 s32 func_800BFF00(void *entity, s32 item, s16 action_id) {
-    if (entity == D_800E3D7C) {
+    if (entity == ((u8 *)D_800E3D7C)) {
         ((Rec_D_800E3D7C *)entity)->unk_110 = item;
         func_8008D330(entity, D_80083780, D_80082E80, entity);
         return 0;

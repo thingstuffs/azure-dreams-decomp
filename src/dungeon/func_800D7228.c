@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 typedef struct S_800DC988_0 {
     u8 pad_00[0x20];
@@ -32,7 +33,6 @@ typedef struct S_800DC988_2 {
 extern s32 func_800DC724();
 extern s32 func_800DC82C();
 extern s16 D_8008146C[];
-extern void *D_800814A8;
 
 /* Initializes state with complemented global values and updates it until completion. */
 void func_800DC988(void *context) {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -45,7 +46,6 @@ extern u8 D_800E110B[];
 extern u8 D_800E112A[];
 extern u8 D_800E1156[];
 extern u8 D_800E116E[];
-extern u8 *D_800E3D7C[];
 
 /* Applies an action to a target or held item and updates the action counter. */
 s32 func_800BEB30(u32 target, u8 *action, s16 action_kind, s32 context) {
@@ -63,7 +63,7 @@ s32 func_800BEB30(u32 target, u8 *action, s16 action_kind, s32 context) {
         return func_80098864(action, call_context);
     }
 
-    state = D_800E3D7C[0];
+    state = ((u8 *)D_800E3D7C);
     if (target == (u32)state) {
         ((S_800BEB30_0 *)state)->unk_110 = action;
         func_8008D344(state, D_80083780, D_80082E80, state);

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -14,7 +15,6 @@ typedef struct {
     u16 z;
 } Coord;
 
-extern u8 *D_800E3D7C;
 extern s32 D_800835E8[];
 struct S_8003E2D8; typedef struct S_8003E2D8 S_8003E2D8;
 M2C_UNK func_8003E188();
@@ -167,7 +167,7 @@ state_0:
         u32 first_call_arg;
         s32 first_call_mode;
         s32 raw_first_result;
-        clamp_value = ((Rec_D_800E3D7C *)D_800E3D7C)->unk_10.at01_u8.v + 0x32;
+        clamp_value = ((Rec_D_800E3D7C *)((u8 *)D_800E3D7C))->unk_10.at01_u8.v + 0x32;
         egg_bomb_level = clamp_value;
         if (clamp_value >= 0x64) {
             egg_bomb_level = 0x63;
@@ -196,7 +196,7 @@ state_0:
         s32 *call_obj;
         u8 *call_state;
         call_obj = monster;
-        call_state = D_800E3D7C;
+        call_state = ((u8 *)D_800E3D7C);
         ((S_800B7774_0 *)egg_bomb)->unk_0C = 0x10U;
         func_8009A180(call_obj, call_state);
         }
@@ -232,7 +232,7 @@ state_2:
             }
         }
     }
-    ((Rec_D_800E3D7C *)D_800E3D7C)->unk_110 = 0;
+    ((Rec_D_800E3D7C *)((u8 *)D_800E3D7C))->unk_110 = 0;
     (*(s32 *)((u8 *)monster + (0x1C))) = (s32) (((S_800B7774_2 *)monster)->unk_1C | 0x400000);
     {
     u8 *controls_base = (u8 *)((s32 *)(&dungeonStatus));

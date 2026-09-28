@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
@@ -38,7 +39,6 @@ extern M2C_UNK D_800E0DD0;
 extern M2C_UNK D_800E0DDD;
 extern M2C_UNK D_800E0DEA;
 extern M2C_UNK D_800E3648;
-extern void *D_800E3D7C[3];
 
 
 typedef struct S_8009C12C_0 {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
 extern u8 D_800E0000[];
@@ -11,7 +12,6 @@ typedef struct {
 
 extern u16 D_800DCEAC[];
 extern u16 D_800DCEBC[];
-extern void *D_800E3D7C;
 s32 func_8009A350();            /* extern */
 void *func_8009B25C();           /* extern */
 s32 func_800A0548();                        /* extern */

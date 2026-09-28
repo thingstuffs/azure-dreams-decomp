@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 typedef struct TownRecord {
     u8 pad_00;
@@ -24,7 +25,6 @@ typedef struct TownRoot {
 
 void func_8001A188(TownRecord *, s32 *);
 s32 func_8001C57C(TownRecord *);
-extern TownRoot *D_80016000;
 extern s32 *D_80018868[];
 extern u8 *D_80018874[];
 extern TownRecord *D_80018A18;
@@ -38,9 +38,9 @@ TownRecord *func_8001CBF8(void)
     s32 *source;
     u8 *values;
 
-    source = source_table[D_80016000->dispatch->index(0)];
+    source = source_table[((TownRoot *)D_80016000)->dispatch->index(0)];
     index = 0;
-    values = value_table[D_80016000->dispatch->index(index)];
+    values = value_table[((TownRoot *)D_80016000)->dispatch->index(index)];
     if ((((volatile TownRecord *)D_80018A18)->flags & 0xC0) != 0x80) {
         register s32 next_addr_or_end;
         u8 value_or_flags;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -68,7 +69,6 @@ extern u8 D_80083780[];
 extern u8 D_80089360[];
 extern u8 D_800E1095[0x1E];
 extern u8 D_800E10B3[];
-extern u8 *D_800E3D7C;
 
 /* Handles entity removal, displays its message, and updates dungeon state. */
 s32 func_800BE6F0(void *entity, s32 source, s16 reason)
@@ -94,7 +94,7 @@ s32 func_800BE6F0(void *entity, s32 source, s16 reason)
     u8 *entity_base;
     s32 cleared_selection;
 
-    if (entity == D_800E3D7C) {
+    if (entity == ((u8 *)D_800E3D7C)) {
         ((Rec_D_800E3D7C *)entity)->unk_110 = source;
         func_8008D330(entity, D_80083780, D_80082E80, entity);
         return 0;

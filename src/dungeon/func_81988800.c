@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800814A8.h"
@@ -93,7 +94,6 @@ extern M2C_UNK D_80024648;
 extern M2C_UNK D_80024B20;
 extern M2C_UNK D_80024D58;
 extern void *D_80024008[];
-extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern u16 D_80082E94;
 extern u8 D_80083498[];

@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
-extern s32 D_800E3D7C;
 extern s32 D_800CBDB4;
 extern u8 D_800E1B5D;
 
@@ -21,7 +21,7 @@ s32 func_800CBF88(s32 entity)
     register s32 effect_id;
     register s32 effect_id_half;
 
-    if (entity == D_800E3D7C) {
+    if (entity == ((s32)D_800E3D7C)) {
         if (func_8003FA44(1) == 0) {
             return 0;
         }

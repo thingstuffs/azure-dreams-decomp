@@ -1,6 +1,6 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
-extern s8 D_80016000[];
 extern s32 D_800183D0[];
 extern s32 D_800183D8[];
 
@@ -22,7 +22,7 @@ typedef struct S_func_8065C250_2 {
 
 // Calls two callbacks with shared arguments, passing the first callback's result to the second.
 void func_8065C250(void) {
-    S_func_8065C250_0 *dispatchRoot = (S_func_8065C250_0 *)D_80016000;
+    S_func_8065C250_0 *dispatchRoot = (S_func_8065C250_0 *)((s8 *)(&D_80016000));
     s32 *sharedArguments = D_800183D8;
     s32 callbackResult;
 

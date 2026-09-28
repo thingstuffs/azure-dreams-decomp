@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 /* Sets the flags bit 0x8000 on four 6-byte table entries per party-slot index
  * i in [10, 12): entries at byte offsets (i << D_8008333C.field14) * 6 +
@@ -15,12 +16,11 @@ typedef struct S_8008333C {
     /* 0x14 */ s16 field14;
 } S_8008333C;
 
-extern S_8008333C D_8008333C;
 
 /* Sets flag 0x8000 in four sub-tables at scaled indices 10 and 11. */
 void func_80043B4C(void)
 {
-    S_8008333C *table = &D_8008333C;
+    S_8008333C *table = ((S_8008333C *)((u8 *)&gameWork + 476));
     u8 *entries = table->field0;
     s32 slot;
 

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 
 #define U8(p, o)  (*(u8 *)((u8 *)(p) + (o)))
@@ -13,7 +14,6 @@ extern s16 func_800B500C();
 extern s16 func_800A70E4();
 extern void func_800CCC20();
 extern u8 D_800E3648[], D_800E3548[];
-extern u8 *D_800E3D7C[];
 
 /* Advance the effect, process collisions, and mark it finished when its steps run out. */
 void func_800CC370(void *effect)
@@ -25,7 +25,7 @@ void func_800CC370(void *effect)
     U16(effect, 2) += D_8006CCE8[U8(effect, 6)];
     target = func_8009B390(U16(effect, 0), U16(effect, 2), S16(effect, 4));
     if (target) {
-        func_8009CE1C(target, 6, U8(D_800E3D7C[0], 0x11), 9,
+        func_8009CE1C(target, 6, U8(((u8 *)D_800E3D7C), 0x11), 9,
                       (s16)(U8(effect, 6) << 9), 0, 3);
     }
     entry_index = func_800B500C(S16(effect, 0), S16(effect, 2), S16(effect, 4));

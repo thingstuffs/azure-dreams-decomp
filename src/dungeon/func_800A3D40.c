@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -79,7 +80,6 @@ extern u8 D_80083498[];
 extern volatile s16 D_80013714[8];
 extern u8 D_80082E80[];
 extern u8 D_800E3CC8[];
-extern u8 *D_800E3D7C[];
 extern u16 D_800DCEAC[];
 extern u16 D_800DCEBC[];
 struct S_8006DE24_Entry;
@@ -186,12 +186,12 @@ void *func_800A94A0(void *actor, Rec_D_800E3D7C *effect_record, s16 mode, void *
         map_state = D_80082E80;
         if (!(actor_state->unk_14 & 0x8000)) {
             if (!(((S_800A94A0_8 *)map_state)->unk_14 & 0x8000)) {
-                func_800C7A3C(map_state, actor_state, ((S_800A94A0_9 *)(*D_800E3D7C))->unk_88, ((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_A0, 8, 0x300);
+                func_800C7A3C(map_state, actor_state, ((S_800A94A0_9 *)(((u8 *)D_800E3D7C)))->unk_88, ((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_A0, 8, 0x300);
                 goto set_effect_scale;
             }
         }
-        direction_offset = ((u16) ((S_800A94A0_9 *)(*D_800E3D7C))->unk_2A >> 8) & 0xE;
-        func_800C78A0(actor - 0x20, (((S_800A94A0_8 *)map_state)->unk_24 << 6) + ((s32) (*(u16 *)((u8 *)D_800DCEAC + direction_offset) << 0x10) >> 0x11) + 0x20, (((S_800A94A0_8 *)map_state)->unk_25 << 6) + ((s32) (*(u16 *)((u8 *)D_800DCEBC + direction_offset) << 0x10) >> 0x11) + 0x20, ((S_800A94A0_9 *)(*D_800E3D7C))->unk_88, 8, 0x300);
+        direction_offset = ((u16) ((S_800A94A0_9 *)(((u8 *)D_800E3D7C)))->unk_2A >> 8) & 0xE;
+        func_800C78A0(actor - 0x20, (((S_800A94A0_8 *)map_state)->unk_24 << 6) + ((s32) (*(u16 *)((u8 *)D_800DCEAC + direction_offset) << 0x10) >> 0x11) + 0x20, (((S_800A94A0_8 *)map_state)->unk_25 << 6) + ((s32) (*(u16 *)((u8 *)D_800DCEBC + direction_offset) << 0x10) >> 0x11) + 0x20, ((S_800A94A0_9 *)(((u8 *)D_800E3D7C)))->unk_88, 8, 0x300);
 set_effect_scale:
         if ((mode << 0x10) != 0) {
             lookup_index = effect_id;

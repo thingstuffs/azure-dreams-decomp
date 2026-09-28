@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 
 typedef struct {
@@ -56,7 +57,6 @@ typedef struct {
 extern u8 D_801C9E40[16];
 extern u8 D_80083780[12];
 extern u8 D_80082E80[];
-extern void *D_800E3D7C[];
 extern u8 D_800DD0F8[];
 extern s16 D_800814E8;
 extern u8 D_80083120[];
@@ -160,8 +160,8 @@ void func_800C0404(DungeonObject *obj, MotionState *motion, EffectState *effect)
                 if (obj->handle[0x13] == 0) {
                     u8 *dungeon_state;
                     func_80091934(obj->handle, D_80083780, D_80082E80, 0);
-                    ((u8 *)D_800E3D7C[0])[0x9B] = 0x11;
-                    dungeon_state = *(u8 *volatile *)D_800E3D7C;
+                    ((u8 *)D_800E3D7C)[0x9B] = 0x11;
+                    dungeon_state = *(u8 *volatile *)((void * *)(&D_800E3D7C));
                     *(u8 * volatile *)(D_80082E80 + 0x2C) = D_800DD0F8;
                     func_80048A44(
                         D_80082E80,
@@ -184,14 +184,14 @@ void func_800C0404(DungeonObject *obj, MotionState *motion, EffectState *effect)
             parent_motion->field8 = motion->field8;
             motion->field14 = motion->field14 + 0xFFFC0000;
             if (obj->handle[0x13] == 0 &&
-                (*(u16 *)(*(u8 **)((u8 *)D_800E3D7C[0] - 0x14) + 0x14) & 0x6000)) {
+                (*(u16 *)(*(u8 **)((u8 *)D_800E3D7C - 0x14) + 0x14) & 0x6000)) {
                 s16 entry_index = func_8003F794(6, 0x20);
                 u8 *entry_table = D_80083120;
                 s16 *entry_flag;
                 void *active_dungeon;
                 D_800814E8 = entry_index;
                 entry_flag = (s16 *)(entry_table + (((s32)(entry_index << 16)) >> 0xD) + 6);
-                active_dungeon = D_800E3D7C[0];
+                active_dungeon = D_800E3D7C;
                 *entry_flag = index_or_phase;
                 func_800945E8(active_dungeon);
                 func_800948BC();

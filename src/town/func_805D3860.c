@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80016000.h"
 
@@ -10,7 +11,6 @@ typedef struct S_805D3860_1 {
 } S_805D3860_1;   /* temp_v1 in func_805D3860 */
 
 
-extern void *D_80016000;
 extern s32 D_80019B00;
 extern s32 D_80019B8C;
 

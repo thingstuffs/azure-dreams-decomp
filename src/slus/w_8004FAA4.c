@@ -1,5 +1,6 @@
 /* first_pass: swept 49 configs, best 2.7.2-cdk '-fno-delayed-branch' 89 words off — do NOT re-sweep by hand */
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 
@@ -30,7 +31,6 @@ typedef struct S_8004FAA4_2 {
 M2C_UNK func_8004FA2C();
 s32 func_8004FD78();
 M2C_UNK SD_Call();
-extern void *D_800814A8[];
 
 /* Update menu selection from directional and side-switch input, with key repeat and sound. */
 void func_8004FAA4(S_8004FAA4_1 *menu) {
@@ -76,15 +76,13 @@ repeat_move:
         }
         if (index_delta == 0) {
             if (((S_8004FAA4_0 *)input)->unk_10 & 1) {
-                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-                if (((S_8004FAA4_2 *)(D_800814A8[0]))->unk_B0 != 0) {
+                if (((S_8004FAA4_2 *)(D_800814A8))->unk_B0 != 0) {
                     target_menu = menu;
                     target_side = 1;
                     goto select_target;
                 }
             } else if (((S_8004FAA4_0 *)input)->unk_10 & 2) {
-                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-                if (((S_8004FAA4_2 *)(D_800814A8[0]))->unk_AC != 0) {
+                if (((S_8004FAA4_2 *)(D_800814A8))->unk_AC != 0) {
                     target_menu = menu;
                     target_side = 0;
 select_target:

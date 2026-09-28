@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -39,7 +40,6 @@ M2C_UNK func_800CC5F0(); /* extern */
 M2C_UNK func_800CC88C();     /* extern */
 extern M2C_UNK D_800CC370;
 extern M2C_UNK D_800CC9BC;
-extern Rec_D_800E3D7C *D_800E3D7C;
 extern u8 D_800E5908;
 extern M2C_UNK D_8014A000;
 
@@ -94,6 +94,6 @@ void func_800CCA14(u16 x, u16 y, u16 z) {
     } while (part_index >= 0);
     target = func_8009B390(effect->unk_20, effect->unk_22, (s16) effect->unk_24);
     if (target != 0) {
-        func_8009CE1C(target, 0xC, D_800E3D7C->unk_10.at01_u8.v, 9, 0x400, 0, 3);
+        func_8009CE1C(target, 0xC, ((Rec_D_800E3D7C *)D_800E3D7C)->unk_10.at01_u8.v, 9, 0x400, 0, 3);
     }
 }

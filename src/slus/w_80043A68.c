@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct S_80043A68_entry {
     /* 0x00 */ s32 unk0;
@@ -11,12 +12,11 @@ typedef struct S_8008333C {
     /* 0x14 */ s16 field14;
 } S_8008333C;
 
-extern S_8008333C D_8008333C;
 
 /* Clears flag 0x8000 in four sub-tables at scaled indices 10 and 11. */
 void func_80043A68(void)
 {
-    S_8008333C *table = &D_8008333C;
+    S_8008333C *table = ((S_8008333C *)((u8 *)&gameWork + 476));
     u8 *base = table->field0;
     s32 index;
 

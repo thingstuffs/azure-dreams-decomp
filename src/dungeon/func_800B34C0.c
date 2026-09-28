@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
 typedef struct Child {
@@ -34,7 +35,6 @@ extern u8 D_80083498[];
 extern u8 D_800B8830[];
 extern u8 D_800DF2F8[];
 extern u8 D_800DF334[];
-extern EntityHeader *D_800814A8[3];
 
 extern void *func_8003FD64(s32, void *);
 
@@ -78,7 +78,7 @@ void func_800B8C20(void *owner, s32 value, void *child_data, void *tail_data)
         }
         descriptor_page = (u8 *)0x80080000;
         ASM_KEEP(descriptor_page);
-        header = D_800814A8[0];
+        header = ((EntityHeader *)D_800814A8);
         descriptor = descriptor_page + 0x3498;
         ((Tail *)object)->owner = owner;
         ((Tail *)object)->descriptor = descriptor;

@@ -1,9 +1,9 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 typedef s32 (*IndexFunc)(s32);
 typedef void (*UseFunc)(s16, s8);
 
-extern s8 D_80016000[];
 extern s8 *D_80018880[];
 extern s16 D_8001888C[];
 extern s8 *D_80018A1C;
@@ -27,7 +27,7 @@ void func_8001CD98(void) {
     IndexFunc get_selection;
     UseFunc apply_value;
 
-    context = *(void **)D_80016000;
+    context = *(void **)((s8 *)(&D_80016000));
     first_index = 0;
     entry_index = first_index;
     ASM_KEEP(first_index);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */

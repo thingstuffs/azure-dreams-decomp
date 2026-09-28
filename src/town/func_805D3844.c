@@ -1,3 +1,5 @@
+#include "shared/record_ptrs.h"
+#include "shared/game_work.h"
 
 struct S_80083178Vector
 {
@@ -45,7 +47,6 @@ extern volatile int D_80071250[];
 extern int D_800712B4[];
 extern int D_80084130[3];
 extern short D_80084808[8];
-extern struct S_80083178 D_80083178;
 extern struct S_80083178State D_80083CE8;
 typedef unsigned char u8;
 typedef signed char s8;
@@ -54,9 +55,8 @@ typedef short s16;
 typedef unsigned int u32;
 typedef int s32;
 typedef s8 M2C_UNK8;
-extern unsigned int D_80016000[0x10];
 /* Writes 0x61 through the pointer at offset 0x1C of D_80016000's first entry. */
 void func_80017844(void)
 {
-  **(s32 **)((s8 *)D_80016000[0] + 0x1C) = 0x61;
+  **(s32 **)((s8 *)((unsigned int)D_80016000) + 0x1C) = 0x61;
 }

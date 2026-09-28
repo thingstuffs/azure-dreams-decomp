@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 
 typedef void (*Callback3)(void *, void *, s32);
@@ -25,7 +26,6 @@ typedef struct S_806D2AB0_3 {
 } S_806D2AB0_3;   /* D_80016000[0] in func_806D2AB0 */
 
 
-extern void *D_80016000[];
 extern u8 D_80016148[16];
 extern u8 D_80016170[16];
 
@@ -58,9 +58,9 @@ loop:
         return entry_index;
     } else {
 notify:
-        (*(Callback3 *)((u8 *)(((S_806D2AB0_3 *)(D_80016000[0]))->unk_20) + 0x168))(
+        (*(Callback3 *)((u8 *)(((S_806D2AB0_3 *)(D_80016000))->unk_20) + 0x168))(
             D_80016148, D_80016170, 0x36);
-        (*(Callback1 *)((u8 *)(((S_806D2AB0_3 *)(D_80016000[0]))->unk_20) + 0x174))(1);
+        (*(Callback1 *)((u8 *)(((S_806D2AB0_3 *)(D_80016000))->unk_20) + 0x174))(1);
     }
     return entry_index;
 }

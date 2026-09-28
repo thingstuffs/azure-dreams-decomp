@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "records/Rec_D_80016000.h"
 
 
@@ -12,7 +13,6 @@ typedef struct S_8001A3FC_1 {
 } S_8001A3FC_1;   /* entry in func_8001A3FC */
 
 
-extern void *D_80016000;
 extern s32 D_8001C370;
 extern s32 D_8001C374;
 

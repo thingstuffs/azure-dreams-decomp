@@ -1,8 +1,8 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "m2c_compat.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern int D_800814A8[4];
 s32 func_8004DC14();                    /* extern */
 u32 func_80069E98();                             /* extern */
 M2C_UNK func_800DBD5C(); /* extern */

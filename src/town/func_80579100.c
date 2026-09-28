@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80016000.h"
 
@@ -10,7 +11,6 @@ typedef struct S_80579100_1 {
 
 
 M2C_UNK func_80017398();             /* extern */
-extern Rec_D_80016000 *D_80016000;
 extern M2C_UNK D_80017500;
 extern s16 D_800175B4;
 extern M2C_UNK *D_800175B8;
@@ -20,7 +20,7 @@ void func_80579100(void) {
     S_80579100_1 *activeState;
     s32 valueBeforeClamp;
 
-    activeState = D_80016000->unk_38.as_pv;
+    activeState = ((Rec_D_80016000 *)D_80016000)->unk_38.as_pv;
     valueBeforeClamp = activeState->unk_35C0;
     D_800175B8 = &D_80017500;
     if (valueBeforeClamp < 0x1E) {

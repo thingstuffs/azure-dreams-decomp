@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 extern void func_80099FDC(void *);
 extern void func_8009FAC4(void);
 extern void func_800A48F0(void *, s32, s32);
 
 extern u16 D_80013714[5];
-extern u8 *D_800E3D7C[3];
 extern u8 *D_80175D50[3];
 
 void func_8016F144(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
@@ -27,7 +27,7 @@ void func_8016F144(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     func_800A48F0(p, 7, 1);
     p[0xAE] = 2;
     do {
-        item = *(void **)(D_800E3D7C[0] + 0xAC + i * 4);
+        item = *(void **)(((u8 *)D_800E3D7C) + 0xAC + i * 4);
         if (item != 0) {
             func_80099FDC((u8 *)item - 0x20);
         }

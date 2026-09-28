@@ -93,7 +93,7 @@ typedef struct S_819112CC_5 {
 #define SP32(off) (*(u32 *)(scratch + (off)))
 /* Same address as D_80083160 (0x80083178 - 0x18); this spelling keeps its
    page construction shared with the other references below. */
-#define GFX_ROOT_SLOT (((u8 *)&D_80083178) - 0x18)
+#define GFX_ROOT_SLOT (((u8 *)(&gameWork.unk_018)) - 0x18)
 
 extern s32 func_800644B8();
 extern s32 func_80064584();

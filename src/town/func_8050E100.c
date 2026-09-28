@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 typedef struct S_8050E100_0 {
     u8 pad_00[0x38];
@@ -10,7 +11,6 @@ typedef struct S_8050E100_1 {
     s16 unk_35BE;
 } S_8050E100_1;   /* town in func_8050E100 */
 
-extern u8 D_80016000[0x10];
 extern void (*D_80017618)(void);
 extern s16 D_80017614;
 
@@ -21,7 +21,7 @@ extern void func_80017560(void);
 void func_8050E100(void)
 {
     s32 current_town_value;
-    S_8050E100_1 *town = ((S_8050E100_0 *)(*(void **)D_80016000))->unk_38;
+    S_8050E100_1 *town = ((S_8050E100_0 *)(*(void **)((u8 *)(&D_80016000))))->unk_38;
 
     current_town_value = town->unk_35BE;
     D_80017618 = func_80017560;

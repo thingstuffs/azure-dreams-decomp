@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 typedef struct Data20 {
     u8 pad0[0x3C];
     void (*callback3C)(void *, s32);
@@ -11,7 +12,6 @@ typedef struct State {
     Data20 *data20;
 } State;
 
-extern State *D_80016000[];
 extern u8 D_80018348[];
 extern s32 D_800183D0;
 extern s32 D_800183D4;
@@ -25,7 +25,7 @@ void func_8065C1C4(void) {
 
     value_table = D_80018348;
     selected_value = value_table[D_800183D4 * 4];
-    state_slot = D_80016000;
+    state_slot = ((State * *)(&D_80016000));
     D_800183D0 = (s32)selected_value;
     (*state_slot)->data20->callback3C(D_800183D8, (*state_slot)->data20->callback48(selected_value, D_800183D8));
 }

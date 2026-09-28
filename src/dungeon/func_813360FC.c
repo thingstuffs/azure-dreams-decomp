@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800814A8.h"
@@ -50,7 +51,6 @@ extern s32 func_800AA6B4(void *, s32, void *, s32);
 extern void func_800AA888(void *, s32, void *, void *);
 extern void func_8016D4B8(void *, s32, void *, void *);
 
-extern u8 *D_800814A8;
 extern u8 D_8016A36C[];
 extern u8 D_80173AC8[];
 extern u8 D_80173AD0[];
@@ -167,7 +167,7 @@ after_ac8:
         goto done;
     }
     if ((func_800A2C34(actor) << 16) != 0) {
-        if ((func_8009A180(actor, ((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pu8 + 0x20) << 16) != 0) {
+        if ((func_8009A180(actor, ((Rec_D_800814A8 *)((u8 *)D_800814A8))->unk_58.as_pu8 + 0x20) << 16) != 0) {
             goto done;
         }
     }

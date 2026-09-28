@@ -1,11 +1,5 @@
 #include "common.h"
-
-typedef struct {
-    u8 *ptr;
-    u8 pad[8];
-} D_800E3D7C_t;
-
-extern D_800E3D7C_t D_800E3D7C;
+#include "shared/record_ptrs.h"
 
 /* Finds the first matching value in the four slots at offset 0xAC, or returns -1. */
 s32 func_800A1BD0(s32 target_value) {
@@ -15,7 +9,7 @@ s32 func_800A1BD0(s32 target_value) {
     s16 match_index;
 
     do { slot = 0; } while (0);
-    slot_ptr = (s32 *)D_800E3D7C.ptr;
+    slot_ptr = (s32 *)((u8 *)D_800E3D7C);
 loop:
     slot_value = slot_ptr[0x2B];
     if (slot_value != target_value) {

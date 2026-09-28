@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 typedef struct Message {
     s16 x;
@@ -23,7 +24,6 @@ typedef struct TownState {
 } TownState;
 
 extern TownState *D_8001E950;
-extern SystemData *D_80016000;
 extern Message *func_80019AFC(s32, u8);
 extern void func_8001E578(s32);
 
@@ -33,7 +33,7 @@ s32 func_8001BED0(void) {
 
     if (D_8001E950->enabled == 1) {
         message = func_80019AFC(0, D_8001E950->messageId);
-        D_80016000->callbacks->callback(message->x, message->y);
+        ((SystemData *)D_80016000)->callbacks->callback(message->x, message->y);
         D_8001E950->enabled++;
         func_8001E578(0x408);
         return 1;

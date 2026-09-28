@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -22,7 +23,6 @@ extern s32 D_80083780;
 extern s32 D_800893E0;
 extern u8 D_800DDE84[];
 extern s32 D_800E18A4;
-extern s32 D_800E3D7C;
 
 
 typedef struct S_800C4490_0_pre {
@@ -38,7 +38,7 @@ s32 func_800C4490(void *target, s32 source, s16 effect_mode) {
     s32 effect_text;
     s32 message_context;
 
-    if (target == D_800E3D7C) {
+    if (target == ((s32)D_800E3D7C)) {
         ((Rec_D_800E3D7C *)target)->unk_110 = source;
         func_8008D330(target, &D_80083780, &D_80082E80, target);
         return 0;

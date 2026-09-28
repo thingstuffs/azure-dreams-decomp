@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "m2c_compat.h"
 
 typedef struct S_8009456C_0 {
@@ -14,7 +15,6 @@ typedef struct S_8009456C_1 {
 
 
 
-extern s32 D_800E3D7C;
 
 
 /* Set the byte at offset 0x45 in the object referenced by the selected entry. */
@@ -22,7 +22,7 @@ void func_8009456C(s32 entry_index, s8 value) {
     s32 entry_offset;
     s32 table_base;
 
-    table_base = D_800E3D7C;
+    table_base = ((s32)D_800E3D7C);
     entry_offset = (s32) (entry_index << 0x10) >> 0xE;
     ((S_8009456C_1 *)(((S_8009456C_0 *)(entry_offset + table_base))->unk_AC))->unk_45 = value;
 }

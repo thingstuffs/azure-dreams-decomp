@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
 extern void func_80042B68(void *, s32);
@@ -22,7 +23,6 @@ extern u16 D_800DDE84[];
 extern u8 D_800E1756[];
 extern u8 D_800E176F[];
 extern u8 D_800E1788[];
-extern u8 *D_800E3D7C;
 
 /* Applies a curse-removal item effect and reports changes to equipped items. */
 s32 func_800C3440(void *target, s32 item, s16 use_mode, s32 use_context)
@@ -35,7 +35,7 @@ s32 func_800C3440(void *target, s32 item, s16 use_mode, s32 use_context)
         return func_80098864(item, use_context);
     }
 
-    if (target == D_800E3D7C) {
+    if (target == ((u8 *)D_800E3D7C)) {
         *(s32 *)((u8 *)target + 0x110) = item;
         func_8008D344(target, D_80083780, D_80082E80, target);
         return 0;
@@ -55,7 +55,7 @@ s32 func_800C3440(void *target, s32 item, s16 use_mode, s32 use_context)
         func_80042B68(target, 8);
 
         uncursed = 0;
-        equipment = *(u8 **)(D_800E3D7C + 0x4C);
+        equipment = *(u8 **)(((u8 *)D_800E3D7C) + 0x4C);
         if (equipment[1] != 0 && (equipment[3] & 0x40) != 0) {
             equipment[3] &= 0xBF;
             message_buf = func_800990FC();
@@ -65,7 +65,7 @@ s32 func_800C3440(void *target, s32 item, s16 use_mode, s32 use_context)
             uncursed = 1;
         }
 
-        equipment = *(u8 **)(D_800E3D7C + 0x50);
+        equipment = *(u8 **)(((u8 *)D_800E3D7C) + 0x50);
         if (equipment[1] != 0 && (equipment[3] & 0x40) != 0) {
             equipment[3] &= 0xBF;
             message_buf = func_800990FC();

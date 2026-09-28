@@ -1,8 +1,8 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 extern u8 D_80081471;
 extern u8 D_80081485;
-extern s32 D_800E3D7C[];
 extern u8 D_800E04BA[];
 extern u8 D_800E04E6[];
 
@@ -19,7 +19,7 @@ s32 func_8008D388(void *actor, s32 action_arg, s32 unused, void *target) {
             func_800997FC(D_800E04BA);
             return 0;
         }
-        func_80099844(D_800E3D7C[0], D_800E04E6);
+        func_80099844(((s32)D_800E3D7C), D_800E04E6);
         return 0;
     }
     *(s32 *)((u8 *)target + 0x1C) |= 0x100000;

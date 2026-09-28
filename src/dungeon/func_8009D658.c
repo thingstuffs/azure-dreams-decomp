@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 #ifndef NULL
 #define NULL 0
 #endif
 
 
-extern void *D_800E3D7C[];
 
 extern void func_800A2D68(void *, s32);
 extern void func_800B4C7C(s32, void *, s16, s32);
@@ -109,7 +109,7 @@ s32 func_800A2DB8(S_800A2DB8_0 *source)
     }
 
     member_index = recipient_count;
-    member_slot = (u8 *)D_800E3D7C[0] + 4;
+    member_slot = (u8 *)D_800E3D7C + 4;
     do {
         member = ((S_800A2DB8_2 *)member_slot)->unk_AC;
         if ((member != NULL) && (member->unk_28 != 0)) {
@@ -126,7 +126,7 @@ s32 func_800A2DB8(S_800A2DB8_0 *source)
     if (((S_800A2DB8_4 *)target)->unk_14 & 0x4000) {
         member_index = 1;
         do {
-            member = ((S_800A2DB8_5 *)((u8 *)D_800E3D7C[0] + member_index * 4))->unk_AC;
+            member = ((S_800A2DB8_5 *)((u8 *)D_800E3D7C + member_index * 4))->unk_AC;
             if ((member != NULL) && (member->unk_28 != 0)) {
                 level_delta = member->unk_11 - source->unk_11;
                 award = experience;

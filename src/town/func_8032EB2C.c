@@ -1,6 +1,6 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
-extern void *D_80016000;
 
 /* Count entries in the zero-terminated table. */
 s32 func_8001932C(void) {

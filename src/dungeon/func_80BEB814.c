@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -33,7 +34,6 @@ extern s32 func_801721B4(void *, void *, void *, void *);
 extern void func_80173468(void *, void *, void *, void *);
 extern void func_80173AE8(void *, void *, void *, void *);
 
-extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern s8 D_80082EA4;
 extern s8 D_800E2970[];

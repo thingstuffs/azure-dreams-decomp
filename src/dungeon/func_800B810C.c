@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
-extern u8 *D_800E3D7C[];
 extern u8 D_80083780[12];
 extern u8 D_80082E80[];
 extern u16 D_800DDE84[];
@@ -29,7 +29,7 @@ s32 func_800BD86C(void *actor, s32 cause, s16 amount)
   register s32 msg_arg;
   u8 *counters;
   s32 slot;
-  if (actor == (*D_800E3D7C))
+  if (actor == (((u8 *)D_800E3D7C)))
   {
     *((s32 *) (((s8 *) actor) + 0x110)) = cause;
     func_8008D330(actor, D_80083780, D_80082E80, actor);

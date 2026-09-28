@@ -1,8 +1,8 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "m2c_compat.h"
 
 extern void func_80017670(s32);
-extern void *D_80016000;
 extern M2C_UNK D_8001601C;
 extern M2C_UNK D_8001605E;
 extern M2C_UNK D_800162A4;

@@ -1,0 +1,1 @@
+{"base": "0x80016000", "var": "D_80016000", "header": "shared/record_ptrs.h", "syms": "D_80016000", "census": "g16000.jsonl", "fields": [[0, "", "ptr", 4, false]], "ptype": {"": "struct Rec_D_80016000 *"}}

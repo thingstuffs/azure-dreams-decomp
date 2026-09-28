@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -72,7 +73,6 @@ extern u16 D_80027450;
 extern u8 D_80027452[16];
 extern Origin D_80083780;
 extern void **D_800E3D18;
-extern u8 *D_800E3D7C;
 
 extern void func_800255B8(s16, s16, s16, s16);
 extern void func_8002614C(s16, s16, s16, s16, s32);
@@ -116,7 +116,7 @@ initialize:
     origin = &D_80083780;
     base.x = origin->x;
     base.y = origin->y;
-    entity = D_800E3D7C;
+    entity = ((u8 *)D_800E3D7C);
     base.z = ((S_819ACDA0_0 *)entity)->unk_88 - 0x50;
     index =
         ((gameWork.viewAngle + ((S_819ACDA0_0 *)entity)->unk_2A + 0x100) >> 7) & 0x1C;
@@ -199,7 +199,7 @@ effect:
             D_80083780.x + base.x,
             D_80083780.y + base.y,
             D_80083780.z + base.z,
-            ((Rec_D_800E3D7C *)D_800E3D7C)->unk_2A.as_s16, 0);
+            ((Rec_D_800E3D7C *)((u8 *)D_800E3D7C))->unk_2A.as_s16, 0);
     }
 
     motion->effect_timer--;
@@ -210,7 +210,7 @@ effect:
         D_80083780.x,
         D_80083780.y,
         D_80083780.z - 0x20,
-        ((Rec_D_800E3D7C *)D_800E3D7C)->unk_2A.as_s16);
+        ((Rec_D_800E3D7C *)((u8 *)D_800E3D7C))->unk_2A.as_s16);
 
 finish:
     (*(u16 *)((u8 *)motion + -2)) |= 0x8000;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 typedef struct S_801761AC_0 {
     u8 pad_00[0x3];
@@ -9,7 +10,6 @@ typedef struct S_801761AC_0 {
 
 
 
-extern void *D_800E3D7C;
 
 extern s32 func_800A48F0();
 extern s32 func_800A6D30();

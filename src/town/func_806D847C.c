@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 typedef struct TownCallbacks {
     u8 pad0[0x54];
@@ -10,7 +11,6 @@ typedef struct TownRoot {
     TownCallbacks *callbacks;
 } TownRoot;
 
-extern TownRoot *D_80016000[4];
 extern s32 func_80018640(s32);
 extern void func_80018548(s32);
 

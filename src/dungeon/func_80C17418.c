@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
@@ -91,7 +92,6 @@ typedef struct {
 
 extern void *D_80170838[];
 extern ItemInfo D_8006DE24[];
-extern MainObj *D_800814A8;
 extern u8 D_801713A8[];
 extern u8 D_801744E4[];
 extern u8 D_801744DC[];
@@ -208,7 +208,7 @@ have_slot:
         state->flags98 = state_flags;
         main_link_test = use_main_link;
         if (main_link_test) {
-            link_base = (u8 *)D_800814A8;
+            link_base = (u8 *)((MainObj *)D_800814A8);
             ent->f60 = link_base;
             goto copy_link;
         }
@@ -262,7 +262,7 @@ copy_link:
     {
         MainObj *main_obj;
 
-        main_obj = D_800814A8;
+        main_obj = ((MainObj *)D_800814A8);
         dungeonStatus.unk_0C = 0;
         main_obj->fA6--;
     }

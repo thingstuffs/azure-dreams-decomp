@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -15,7 +16,6 @@ extern void func_80170A44(void *, void *, void *, void *);
 
 typedef struct { u8 pad[0x12]; u8 kind; u8 pad2; } ItemDef20;
 extern ItemDef20 D_8006DE24[];
-extern void *D_800814A8;
 extern void *D_80170850[];
 extern void *D_801708B0[];
 extern s32 D_801714D4[];

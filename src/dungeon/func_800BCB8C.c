@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -18,7 +19,6 @@ extern M2C_UNK D_80083780;
 extern u8 D_800DDE84[];
 extern M2C_UNK D_800E1580;
 extern M2C_UNK D_800E15A2;
-extern s32 D_800E3D7C;
 extern void *D_800E3DF0[];
 
 
@@ -55,7 +55,7 @@ s32 func_800C22EC(Rec_D_800E3D7C *entity, s32 action, s16 action_type, M2C_UNK c
     if (action_type == 0xD) {
         return func_80098864(action, context);
     }
-    if (entity == D_800E3D7C) {
+    if (entity == ((s32)D_800E3D7C)) {
         entity->unk_110 = action;
         func_8008D344(entity, &D_80083780, &D_80082E80, entity);
         return 0;

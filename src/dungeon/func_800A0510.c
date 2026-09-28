@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 extern int abs(int);
 
 
 extern u16 D_80013714;
 extern u8 D_80082E80[];
 extern s32 D_800E296C[];
-extern void *D_800E3D7C;
 
 
 typedef struct S_800A5C70_0_pre {

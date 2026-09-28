@@ -1,9 +1,9 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
 extern u8 D_80083780[12];
-extern u8 *D_800814A8;
 extern u8 D_8016A36C[];
 extern s16 D_801760D8[];
 extern u8 D_801739A0[];
@@ -64,7 +64,7 @@ jt_c2:
         func_801690D8(sequence, transform, sprite, D_80083780);
     }
     if (*(s16 *)(sequence + 0x96) == 2) {
-        effect_actor = D_800814A8;
+        effect_actor = ((u8 *)D_800814A8);
         *(u16 *)((u8 *)effect_actor + 0x10C) |= 1;
         *(s16 *)((u8 *)effect_actor + 0x6A) = *(u16 *)((u8 *)effect_actor + 0x2A) + 0x800;
         func_800419EC(6, 0xC, effect_actor);

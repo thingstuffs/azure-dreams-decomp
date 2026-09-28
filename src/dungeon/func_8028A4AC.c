@@ -1,9 +1,9 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_8001CE44_arg0.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern void *D_80016000[];
 M2C_UNK func_8001CEC0();                 /* extern */
 M2C_UNK func_8001CFB8();                 /* extern */
 M2C_UNK func_8001D0F4();                 /* extern */
@@ -29,7 +29,7 @@ void func_8001D4AC(Rec_func_8001CE44_arg0 *region, s32 update_id, s32 rng_input_
         goto done;
     }
     (void)case_labels;
-    goto *D_80016000[(u32)(feature_roll)];
+    goto *((void * *)(&D_80016000))[(u32)(feature_roll)];
 jt_c0:
     region->unk_0A = 2;
     return;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
@@ -50,7 +51,6 @@ typedef struct {
     u8 padE[6];
 } DungeonEntry;
 
-extern int D_800814A8[4];
 extern u8 D_80082E80_initial[] __asm__("D_80082E80");
 extern u8 D_80082E80_later[] __asm__("D_80082E80");
 extern u8 D_8006CCD8_bytes[] __asm__("D_8006CCD8");
@@ -120,7 +120,7 @@ void func_800D92C0(void *move_state, void *context, S_800D92C0_2 *position, void
                 if (actor_flags & 0x20000) {
                     {
                         u8 *coord_base = D_80082E80_initial;
-                        target_direction = (((S_800D92C0_0 *)actor)->unk_45 + ((s32) (((S_800D92C0_1 *)(*D_800814A8))->unk_2A << 0x10) >> 0x19)) & 7;
+                        target_direction = (((S_800D92C0_0 *)actor)->unk_45 + ((s32) (((S_800D92C0_1 *)(((int)D_800814A8)))->unk_2A << 0x10) >> 0x19)) & 7;
                         target_x = coord_base[0x24] + ((u16 *)dirStepX)[target_direction];
                         target_y = coord_base[0x25] + ((u16 *)dirStepY)[target_direction];
                     }
@@ -216,7 +216,7 @@ try_heading:
                     next_index = turn_index + 1;
                     goto increment_index;
                 }
-                if ((func_8009A180(actor, ((S_800D92C0_1 *)(*D_800814A8))->unk_58 + 0x20) << 0x10) != 0) {
+                if ((func_8009A180(actor, ((S_800D92C0_1 *)(((int)D_800814A8)))->unk_58 + 0x20) << 0x10) != 0) {
                     do {
                         return;
                     } while (0);

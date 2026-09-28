@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
 typedef struct DungeonObject {
@@ -9,7 +10,6 @@ typedef struct DungeonObject {
     s32 unk_110;
 } DungeonObject;
 
-extern DungeonObject *D_800E3D7C[];
 extern u8 D_80083780[12];
 extern u8 D_80082E80[];
 extern u16 D_800DDE84[];
@@ -33,7 +33,7 @@ s32 func_800C24A8(DungeonObject *object, s32 action, s16 action_type) {
     s32 message;
     s32 message_end;
 
-    if (object == D_800E3D7C[0]) {
+    if (object == ((DungeonObject *)D_800E3D7C)) {
         object->unk_110 = action;
         func_8008D330(object, D_80083780, D_80082E80, object);
         return 0;

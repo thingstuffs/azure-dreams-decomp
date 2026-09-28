@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dir_step.h"
@@ -93,7 +94,6 @@ extern u16 D_80027330[];
 extern u8 D_80082E80[];
 extern u8 D_80083780[];
 extern void **D_800E3D18;
-extern u8 *D_800E3D7C;
 
 extern void func_80025334(s16, s16, s16);
 extern void func_8003DE58(void *, void *, Vec3s *, s16);
@@ -127,8 +127,8 @@ void func_819615E4(State *state, Target *target, S_func_819615E4_0 *color)
 
         position.x = spawn->unk_02;
         position.y = spawn->unk_06;
-        position.z = ((S_func_819615E4_2 *)D_800E3D7C)->unk_88.u16_value - 0x50;
-        transform_offset = ((gameWork.viewAngle + ((S_func_819615E4_2 *)D_800E3D7C)->unk_2A.s16_value + 0x100) >> 7) & 0x1C;
+        position.z = ((S_func_819615E4_2 *)((u8 *)D_800E3D7C))->unk_88.u16_value - 0x50;
+        transform_offset = ((gameWork.viewAngle + ((S_func_819615E4_2 *)((u8 *)D_800E3D7C))->unk_2A.s16_value + 0x100) >> 7) & 0x1C;
         func_8003DE58(((S_func_819615E4_3 *)((s32)transform_offset + (s32)D_800E3D18))->unk_00, D_80082E80,
                       &position_offset, 0);
         position.x += position_offset.x;
@@ -228,13 +228,13 @@ void func_819615E4(State *state, Target *target, S_func_819615E4_0 *color)
         if ((s16)phase_value > 0) {
             return;
         }
-        direction_offset = ((((S_func_819615E4_2 *)D_800E3D7C)->unk_2A.u16_value >> 8) & 0xE);
+        direction_offset = ((((S_func_819615E4_2 *)((u8 *)D_800E3D7C))->unk_2A.u16_value >> 8) & 0xE);
         func_80025334(
             (s16)(((table->unk_24 +
                     (((S_func_819615E4_5 *)((u8 *)((s8 *)dirStepX) + direction_offset))->unk_00 * 4)) << 6) + 0x20),
             (s16)(((table->unk_25 +
                     (((S_func_819615E4_6 *)((u8 *)((s8 *)dirStepY) + direction_offset))->unk_00 * 4)) << 6) + 0x20),
-            ((S_func_819615E4_2 *)D_800E3D7C)->unk_88.s16_value);
+            ((S_func_819615E4_2 *)((u8 *)D_800E3D7C))->unk_88.s16_value);
 finish:
         *(u16 *)((u8 *)state - 2) |= 0x8000;
         objectFlagBlock.flags |= 0x8000;

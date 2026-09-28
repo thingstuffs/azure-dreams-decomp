@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "records/Rec_D_80016000.h"
 
 typedef s32 (*Callback)(s32);
@@ -44,7 +45,6 @@ typedef struct S_800164E0_6 {
 } S_800164E0_6;   /* (*(void * *)((u8 *)D_80016000 + 0)) in func_800164E0 */
 
 
-extern s8 D_80016000[];
 
 /* Run two callbacks and initialize offset and saved coordinates from the current position. */
 void func_800164E0(void) {
@@ -53,14 +53,14 @@ void func_800164E0(void) {
     void *saved_x_state;
     void *saved_y_state;
 
-    (*(Callback *)((u8 *)(((S_800164E0_5 *)(((Rec_D_80016000 *)D_80016000)->unk_00.at00_pv.v))->unk_20) + 0x248))(0);
-    offset_x_state = ((S_800164E0_6 *)((*(void * *)((u8 *)D_80016000 + 0))))->unk_1C;
+    (*(Callback *)((u8 *)(((S_800164E0_5 *)(((Rec_D_80016000 *)((s8 *)(&D_80016000)))->unk_00.at00_pv.v))->unk_20) + 0x248))(0);
+    offset_x_state = ((S_800164E0_6 *)((*(void * *)((u8 *)((s8 *)(&D_80016000)) + 0))))->unk_1C;
     ((S_800164E0_1 *)offset_x_state)->unk_10 = ((S_800164E0_1 *)offset_x_state)->unk_04 + 0x20;
-    offset_y_state = ((S_800164E0_5 *)(((Rec_D_80016000 *)D_80016000)->unk_00.at00_pv.v))->unk_1C;
+    offset_y_state = ((S_800164E0_5 *)(((Rec_D_80016000 *)((s8 *)(&D_80016000)))->unk_00.at00_pv.v))->unk_1C;
     ((S_800164E0_2 *)offset_y_state)->unk_14 = ((S_800164E0_2 *)offset_y_state)->unk_08;
-    (*(Callback *)((u8 *)(((S_800164E0_5 *)(((Rec_D_80016000 *)D_80016000)->unk_00.at00_pv.v))->unk_20) + 0x258))(0xD);
-    saved_x_state = ((S_800164E0_6 *)((*(void * *)((u8 *)D_80016000 + 0))))->unk_1C;
+    (*(Callback *)((u8 *)(((S_800164E0_5 *)(((Rec_D_80016000 *)((s8 *)(&D_80016000)))->unk_00.at00_pv.v))->unk_20) + 0x258))(0xD);
+    saved_x_state = ((S_800164E0_6 *)((*(void * *)((u8 *)((s8 *)(&D_80016000)) + 0))))->unk_1C;
     ((S_800164E0_3 *)saved_x_state)->unk_18 = ((S_800164E0_3 *)saved_x_state)->unk_04;
-    saved_y_state = ((S_800164E0_5 *)(((Rec_D_80016000 *)D_80016000)->unk_00.at00_pv.v))->unk_1C;
+    saved_y_state = ((S_800164E0_5 *)(((Rec_D_80016000 *)((s8 *)(&D_80016000)))->unk_00.at00_pv.v))->unk_1C;
     ((S_800164E0_4 *)saved_y_state)->unk_1C = ((S_800164E0_4 *)saved_y_state)->unk_08;
 }

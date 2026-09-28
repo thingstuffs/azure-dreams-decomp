@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -16,12 +17,11 @@ s32 func_800C8A3C();
 extern u8 D_80082E80[];
 extern u8 D_80083780[];
 extern u16 D_800DDE84[];
-extern void *D_800E3D7C[];
 
 
 /* Process an entity's item, deferring the primary entity's handling and cleaning up completed uses. */
 s32 func_800C4220(Rec_D_800E3D7C *entity, s32 item, s16 use_type) {
-    if (entity == D_800E3D7C[0]) {
+    if (entity == D_800E3D7C) {
         entity->unk_110 = item;
         func_8008D330(entity, D_80083780, D_80082E80, entity);
         return 0;

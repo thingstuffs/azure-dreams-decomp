@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 typedef void (*TownCallback)(s32);
 
@@ -21,7 +22,6 @@ typedef struct {
     TownCallbacks *callbacks;
 } TownState;
 
-extern TownState *D_80016000;
 
 /* Runs the town callbacks and offsets the position based on its x value. */
 void func_800170A4(void)
@@ -29,10 +29,10 @@ void func_800170A4(void)
     TownPosition *position;
     s32 position_x;
 
-    D_80016000->callbacks->callback1(0xB);
-    D_80016000->callbacks->callback2(1);
+    ((TownState *)D_80016000)->callbacks->callback1(0xB);
+    ((TownState *)D_80016000)->callbacks->callback2(1);
 
-    position = D_80016000->position;
+    position = ((TownState *)D_80016000)->position;
     position_x = position->value_00;
     if (position_x == 2 || position_x == 0) {
         position->value_08 += 0x30;

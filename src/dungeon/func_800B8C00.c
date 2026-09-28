@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
 extern void func_8008D344(void *arg0, void *arg1, void *arg2, void *arg3);
@@ -24,7 +25,6 @@ extern DungeonGroup D_80073414[];
 extern u8 D_80082E80[];
 extern s32 D_80083780[];
 extern u16 D_800DDE84[];
-extern s32 D_800E3D7C[];
 extern u8 D_800E101C;
 
 /* Dispatch an item action using its category flags and target selector, then decrement the counter. */
@@ -40,7 +40,7 @@ s32 func_800BE360(void *target, void *item, s16 action_type, s32 action_value) {
     if (action_type == 0xD) {
         return func_80098864(item, action_value);
     }
-    if ((s32) target == D_800E3D7C[0]) {
+    if ((s32) target == ((s32)D_800E3D7C)) {
         *(void **)((u8 *)target + 0x110) = item;
         func_8008D344(target, D_80083780, D_80082E80, target);
         return 0;

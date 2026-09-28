@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "records/Rec_D_80016000.h"
 
 
@@ -41,7 +42,6 @@ extern s32 func_80016818(void *, s32);
 extern s32 func_8001643C(s32, s32, s32, s32);
 extern void func_800163B8(void *, void *);
 
-extern Rec_D_80016000 *D_80016000;
 extern u8 D_80016178[0x10];
 extern u8 D_80016184[0x10];
 extern u8 D_800161B0[0x10];
@@ -69,7 +69,7 @@ void func_800168B4(s32 *entries, s32 ost_w, s32 *osel_w)
             bucket_bits = flags >> 19;
             bank_bits = (flags >> 23) & 1;
             if ((((S_800168B4_1 *)((bucket_bits & 0x7E0) +
-                          *((s32 *)((u8 *)D_80016000->unk_30.as_s32 +
+                          *((s32 *)((u8 *)((Rec_D_80016000 *)D_80016000)->unk_30.as_s32 +
                                     (bank_bits * 4)))))->unk_0A != 0) ||
                 (bank_bits != 0)) {
                 if (entry->active != 0) {
@@ -102,7 +102,7 @@ next_entry:
         } while (entry->flags != 0);
     }
 
-    (*(ReportFunc *)((u8 *)(((Rec_D_80016000 *)D_80016000)->unk_20) + 0x168))(
+    (*(ReportFunc *)((u8 *)(((Rec_D_80016000 *)((Rec_D_80016000 *)D_80016000))->unk_20) + 0x168))(
         D_80016178, D_80016184, ((u32)p - (u32)ost_w) / 20U);
 
     {
@@ -124,7 +124,7 @@ next_entry:
 
                     pp++;
                     bucket_id = bucket_bits;
-                    bucket_banks = (s32 **)D_80016000->unk_30.as_s32;
+                    bucket_banks = (s32 **)((Rec_D_80016000 *)D_80016000)->unk_30.as_s32;
                     bucket_base = bucket_banks[(bank_bits & 4) >> 2];
                     ((TownBucket *)bucket_base)[bucket_id].out = pp;
                     *pp = 0;
@@ -140,7 +140,7 @@ next_entry:
             } while (entry->flags != 0);
         }
 
-        (*(ReportFunc *)((u8 *)(((Rec_D_80016000 *)D_80016000)->unk_20) + 0x168))(
+        (*(ReportFunc *)((u8 *)(((Rec_D_80016000 *)((Rec_D_80016000 *)D_80016000))->unk_20) + 0x168))(
             D_80016178, D_800161B0,
             ((u32)pp - (u32)osel_w) >> 2);
     }
@@ -164,7 +164,7 @@ next_entry:
             } while (((S_800168B4_3 *)cd_header)->unk_04 != 0);
         }
 
-        (*(ReportFunc *)((u8 *)(((Rec_D_80016000 *)D_80016000)->unk_20) + 0x168))(
+        (*(ReportFunc *)((u8 *)(((Rec_D_80016000 *)((Rec_D_80016000 *)D_80016000))->unk_20) + 0x168))(
             D_80016178, D_800161E0, cdhd_cnt);
     }
 }

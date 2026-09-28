@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "m2c_compat.h"
 
 typedef struct S_8001A1A0_0 {
@@ -19,10 +20,9 @@ typedef struct S_8001A1A0_1 {
 #define M2C_SYNC() ((void)0)
 
 M2C_UNK func_8001A188();
-extern void *D_80016000[];
 
 
 /* Pass the callback-selected table value to the destination handler. */
 void func_8001A1A0(s32 destination, s32 *values) {
-    func_8001A188(destination, *((((S_8001A1A0_1 *)(((S_8001A1A0_0 *)(D_80016000[0]))->unk_20))->unk_2D4(0)) + values));
+    func_8001A188(destination, *((((S_8001A1A0_1 *)(((S_8001A1A0_0 *)(D_80016000))->unk_20))->unk_2D4(0)) + values));
 }

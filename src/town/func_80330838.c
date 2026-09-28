@@ -1,6 +1,6 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
-extern void *D_80016000;
 
 /* Return whether any of the 34 entries contains the requested byte value. */
 s32 func_8001B038(s32 target_value) {

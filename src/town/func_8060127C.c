@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 typedef s32 (*Callback)(s8 *);
 
@@ -12,7 +13,6 @@ typedef struct Outer {
     Inner *inner;
 } Outer;
 
-extern Outer *D_80016000;
 extern u32 D_80017FB8;
 
 /* Call the callback with fixed arguments and cache three quarters of its result. */
@@ -24,7 +24,7 @@ u32 func_8060127C(void) {
     callback_args[0] = 1;
     callback_args[2] = 0;
     callback_args[3] = 0;
-    scaled_result = (u32) (D_80016000->inner->callback(callback_args) * 3) >> 2;
+    scaled_result = (u32) (((Outer *)D_80016000)->inner->callback(callback_args) * 3) >> 2;
     D_80017FB8 = scaled_result;
     return scaled_result;
 }

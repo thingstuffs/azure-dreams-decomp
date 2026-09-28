@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
@@ -80,9 +81,7 @@ typedef struct S_8195281C_10 {
 
 
 extern u8 D_800DF334[];
-extern int D_800814A8[4];
 extern u16 D_80082E94;
-extern u8 *D_800E3D7C[];
 extern void *D_80024008[];
 M2C_UNK func_80024908();
 M2C_UNK func_800A56E0();
@@ -123,11 +122,11 @@ jt_c0:
     func_800B835C(D_800DF334, upload_rect, 1, 0);
     upload_rect[0] = 0x01000360;
     func_800B835C(&D_80024980, upload_rect, 1, 0);
-    ((S_8195281C_10 *)(((S_8195281C_1 *)D_800814A8)->unk_00.i))->unk_F4 = &D_80024998;
+    ((S_8195281C_10 *)(((S_8195281C_1 *)((int *)(&D_800814A8)))->unk_00.i))->unk_F4 = &D_80024998;
     func_800B8C20(((S_8195281C_0 *)effect)->unk_00 - 0x20, ((S_8195281C_0 *)effect)->unk_04, 0, 0);
     ((S_8195281C_0 *)effect)->unk_0A.s = (s16) ((u16) ((S_8195281C_0 *)effect)->unk_0A.s + 1);
 jt_c1:
-    actor_slot = (void **) D_800814A8;
+    actor_slot = (void **) ((int *)(&D_800814A8));
     if (!(*((S_8195281C_0 *)effect)->unk_04 & 0x80)) {
         goto block_27;
     }
@@ -155,13 +154,13 @@ block_8:
     if ((delay_left << 0x10) > 0) {
         goto block_28;
     }
-    model_owner = ((S_8195281C_1 *)D_800814A8)->unk_00.p;
+    model_owner = ((S_8195281C_1 *)((int *)(&D_800814A8)))->unk_00.p;
     ((S_8195281C_0 *)effect)->unk_18 = 0x20;
     func_80024908(effect - 0x20, ((S_8195281C_0 *)effect)->unk_14.s, ((S_8195281C_0 *)effect)->unk_09, model_owner->unk_60);
     ((S_8195281C_0 *)effect)->unk_0A.s = (u16) ((S_8195281C_0 *)effect)->unk_0A.s + 1;
     goto block_28;
 jt_c3:
-    model = ((S_8195281C_10 *)(((S_8195281C_1 *)D_800814A8)->unk_00.i))->unk_60;
+    model = ((S_8195281C_10 *)(((S_8195281C_1 *)((int *)(&D_800814A8)))->unk_00.i))->unk_60;
     if (model == NULL) {
         goto block_18;
     }
@@ -194,7 +193,7 @@ block_18:
         goto block_28;
     }
 block_21:
-    model = ((S_8195281C_7 *)(D_800E3D7C[0]))->unk_60;
+    model = ((S_8195281C_7 *)(((u8 *)D_800E3D7C)))->unk_60;
     if (model == NULL) {
         goto block_23;
     }

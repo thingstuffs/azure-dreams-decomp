@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -23,11 +24,10 @@ extern M2C_UNK D_80082E80;
 extern M2C_UNK D_80083780;
 extern u16 D_800DDE84[];
 extern M2C_UNK D_800E173A;
-extern s32 D_800E3D7C;
 
 /* Processes an entity's item interaction and consumes the item when finished. */
 s32 func_800C333C(Rec_D_800E3D7C *entity, s32 item, s16 action) {
-    if (entity == D_800E3D7C) {
+    if (entity == ((s32)D_800E3D7C)) {
         entity->unk_110 = item;
         func_8008D330(entity, &D_80083780, &D_80082E80, entity);
         return 0;

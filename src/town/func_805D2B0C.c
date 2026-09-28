@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 typedef struct S_80016B0C_0 {
     u8 pad_00[0x8];
@@ -22,7 +23,6 @@ typedef struct S_80016B0C_2 {
 
 
 
-extern s8 D_80016000[];
 extern s32 D_80019AFC;
 extern void *D_80019B90;
 
@@ -43,7 +43,7 @@ s32 func_80016B0C(void) {
 
     do {
     } while (0);
-    state = *(void **)D_80016000;
+    state = *(void **)((s8 *)(&D_80016000));
     do {
         fallback_args[0] = 2;
     } while (0);
@@ -59,8 +59,8 @@ s32 func_80016B0C(void) {
             func_80019458(0x62D);
         }
 
-        ((S_80016B0C_2 *)((u8 *)((S_80016B0C_1 *)(*(void **)D_80016000))->unk_40
-                + ((S_80016B0C_1 *)(*(void **)D_80016000))->unk_08 * 8))->unk_04 = 0;
+        ((S_80016B0C_2 *)((u8 *)((S_80016B0C_1 *)(*(void **)((s8 *)(&D_80016000))))->unk_40
+                + ((S_80016B0C_1 *)(*(void **)((s8 *)(&D_80016000))))->unk_08 * 8))->unk_04 = 0;
         D_80019AFC = 0;
         func_80018934();
     } else {

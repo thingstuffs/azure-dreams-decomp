@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -138,7 +139,6 @@ extern s32 func_800A6D30(void);
 extern s32 func_800A94A0(void *, u8 *, s32, void *);
 
 extern u8 D_8006DE24[0x200];
-extern u8 *D_800814A8[3];
 extern u8 D_80083498[0x10];
 extern u8 D_800DEA68[0x20];
 extern u8 D_80170E68[0x10];
@@ -274,7 +274,7 @@ have_selector:
         ((S_80172840_1 *)action)->unk_98 &= 0xFF7F;
         special_flag = is_special;
         if (special_flag != 0) {
-            move_object = D_800814A8[0];
+            move_object = ((u8 *)D_800814A8);
             ((S_80172840_0 *)actor)->unk_60 = move_object;
             goto copy_record;
         }
@@ -328,7 +328,7 @@ apply_move:
     ((S_80172840_5 *)position)->unk_0C = 0;
     func_800A2B04(position, ((S_80172840_4 *)sprite)->unk_24, ((S_80172840_4 *)sprite)->unk_25);
     dungeonStatus.unk_0C = 0;
-    ((S_80172840_6 *)(D_800814A8[0]))->unk_A6--;
+    ((S_80172840_6 *)(((u8 *)D_800814A8)))->unk_A6--;
     func_800A4ACC(actor);
     ((S_80172840_0 *)actor)->unk_6D.s--;
     ((S_80172840_1 *)action)->unk_8C = D_80170E68;

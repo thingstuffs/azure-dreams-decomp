@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 /* extern decls */
-extern int D_800814A8[4]; /* >8B forces hi/lo addressing (matches target's lui/lw) */
 extern int func_800492B0(int arg0);
 
 typedef struct {
@@ -17,5 +17,5 @@ int func_80049330(S_80049330 *record)
     if (record->unk0 != 0) {
         return func_800492B0(record->unk3 & 0x1F);
     }
-    return D_800814A8[0];
+    return ((int)D_800814A8);
 }

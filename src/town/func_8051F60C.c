@@ -1,3 +1,5 @@
+#include "shared/record_ptrs.h"
+#include "shared/game_work.h"
 
 struct S_80083178Vector
 {
@@ -45,7 +47,6 @@ extern volatile int D_80071250[];
 extern int D_800712B4[];
 extern int D_80084130[3];
 extern short D_80084808[8];
-extern struct S_80083178 D_80083178;
 extern struct S_80083178State D_80083CE8;
 typedef unsigned char u8;
 typedef signed char s8;
@@ -54,12 +55,11 @@ typedef short s16;
 typedef unsigned int u32;
 typedef int s32;
 typedef s8 M2C_UNK8;
-extern int D_80016000[0x10];
 /* Scale the linked object's value at offset 8 by 64 and add 0x220. */
 void func_80016E0C(void)
 {
   void *object_data;
-  object_data = *(void **) ((s8 *) *D_80016000 + 0x1C);
+  object_data = *(void **) ((s8 *) *((int *)(&D_80016000)) + 0x1C);
   *(s32 *) ((s8 *) object_data + 8) =
       (*(s32 *) ((s8 *) object_data + 8) << 6) + 0x220;
 }

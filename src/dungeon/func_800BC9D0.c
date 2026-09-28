@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -22,7 +23,6 @@ extern s32 D_80083780;
 extern u8 D_800DDE84[];
 extern u8 D_800E1567[];
 extern u8 D_800E3648[];
-extern u8 *D_800E3D7C;
 
 
 /* Apply an entity event or mark eligible slots, then finish the event. */
@@ -39,7 +39,7 @@ s32 func_800C2130(Rec_D_800E3D7C *entity, s32 event, s16 event_type, s32 event_a
     if (event_type == 0xD) {
         return func_80098864(event, event_arg);
     }
-    if (entity == D_800E3D7C) {
+    if (entity == ((u8 *)D_800E3D7C)) {
         entity->unk_110 = event;
         func_8008D344(entity, &D_80083780, &D_80082E80, entity);
         return 0;

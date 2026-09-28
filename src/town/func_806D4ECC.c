@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80016000.h"
 
@@ -23,7 +24,6 @@ typedef struct S_806D4ECC_3 {
 
 
 
-extern M2C_UNK D_80016000;
 
 
 /* Return the callback result for the pair (5, 0x17) minus the stored value. */
@@ -32,5 +32,5 @@ s32 func_806D4ECC(void) {
 
     queryPair[1] = 0x17;
     queryPair[0] = 5;
-    return ((S_806D4ECC_2 *)(((S_806D4ECC_1 *)(((Rec_D_80016000 *)(&D_80016000))->unk_00.at00_pv.v))->unk_20))->unk_50(queryPair) - ((S_806D4ECC_3 *)(((S_806D4ECC_1 *)(((Rec_D_80016000 *)(&D_80016000))->unk_00.at00_pv.v))->unk_40))->unk_110;
+    return ((S_806D4ECC_2 *)(((S_806D4ECC_1 *)(((Rec_D_80016000 *)(((M2C_UNK *)&D_80016000)))->unk_00.at00_pv.v))->unk_20))->unk_50(queryPair) - ((S_806D4ECC_3 *)(((S_806D4ECC_1 *)(((Rec_D_80016000 *)(((M2C_UNK *)&D_80016000)))->unk_00.at00_pv.v))->unk_40))->unk_110;
 }

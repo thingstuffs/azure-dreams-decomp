@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
@@ -25,7 +26,6 @@ typedef struct {
     s16 value6e;
 } Func95440Object;
 
-extern s32 D_800814A8[4];
 
 extern s32 func_8009A540(u32, u32, u32, s32);
 extern s32 func_8009A350(u8, u8, u32, u16 *);
@@ -75,7 +75,7 @@ s32 func_8009ABA0(u32 direction_bits, Func95440Input *position, Func95440Actor *
         target_height = func_800BCB04(wrapped_x, wrapped_y, target_height);
         x = wrapped_x;
         y = wrapped_y;
-        object = func_8009B25C(*D_800814A8, x >> 6, y >> 6, (s16)target_height);
+        object = func_8009B25C(((s32)D_800814A8), x >> 6, y >> 6, (s16)target_height);
         if (object != 0) {
             if (!(object->flags1c & 0x2000)) {
                 goto object_failure;

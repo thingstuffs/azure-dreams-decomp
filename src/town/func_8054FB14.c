@@ -1,6 +1,6 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
-extern void *D_80016000;
 
 typedef struct S_func_8054FB14_0 {
     u8 pad_00[0x38];

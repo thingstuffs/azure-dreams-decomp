@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
@@ -55,7 +56,6 @@ typedef struct Scratch {
 #define result scratch.result
 #define map_flags scratch.map_flags
 
-extern void *D_800814A8[4];
 extern u8 D_80082E80[];
 extern s16 D_8006CCD8_early[] __asm__("D_8006CCD8");
 extern s16 D_8006CCE8_early[] __asm__("D_8006CCE8");
@@ -148,7 +148,7 @@ void func_80024C74(EffectState *effect_state, Motion *effect_motion, ColorPart *
         /* This expression is intentionally kept in its retail form. */
         if ((U16_AT(owner_data, 0x1E) | 0x2000) != 0) {
             u8 *position_base = D_80082E80;
-            void *direction_node = D_800814A8[0];
+            void *direction_node = D_800814A8;
 
             {
                 u8 *x_table = (u8 *)dirStepX;
@@ -173,7 +173,7 @@ void func_80024C74(EffectState *effect_state, Motion *effect_motion, ColorPart *
             tile_coord = state->x;
             S16_AT(target_pos, 2) = tile_coord * 64 + 0x20;
             tile_coord = state->y;
-            height_node = D_800814A8[0];
+            height_node = D_800814A8;
             S16_AT(target_pos, 6) = tile_coord * 64 + 0x20;
             S16_AT(target_pos, 0xA) = ((s16 *)height_node)[0x44] - 0x20;
         }

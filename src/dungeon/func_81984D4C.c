@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "m2c_compat.h"
 
 struct S_81984D4C_local {
@@ -62,7 +63,7 @@ void func_81984D4C(void *tracker) {
     u8 *z_pending;
 
     blend_ticks = (*(s16 *)((u8 *)tracker + 0x24));
-    state = (u8 *)&D_80083178;
+    state = (u8 *)(&gameWork.unk_018);
     if (blend_ticks > 0) {
         ((S_81984D4C_0 *)state)->unk_98.u = (u16) ((S_81984D4C_0 *)state)->unk_98.u + ((s32) ((*(s16 *)((u8 *)tracker + 0x26)) - ((S_81984D4C_0 *)state)->unk_98.s) / blend_ticks);
     }

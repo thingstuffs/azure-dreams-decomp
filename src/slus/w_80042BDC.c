@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 
@@ -36,7 +37,6 @@ typedef struct S_80042BDC_child {
 
 
 extern void *D_800E3DF0[32];
-extern u8   *D_800E3D7C[];   /* by-value pointer global; %hi/%lo, [0] = the pointer */
 
 extern char D_800E1D55[];
 extern char D_800E1D61[];
@@ -253,7 +253,7 @@ L_10: {
             u8 *slot_data;
             int entity_index;
             spawn_mode = func_800A1BD0(ent);
-            slot_base = (u8 *)((s16)spawn_mode * 4 + (u32)D_800E3D7C[0]);
+            slot_base = (u8 *)((s16)spawn_mode * 4 + (u32)((u8 *)D_800E3D7C));
             slot_data = *(u8 **)(slot_base + 0xD0);
             entity_index = *(u8 *)(slot_data + 3) & 0x1F;
             D_800E3DF0[entity_index] = spawn_result_2;
@@ -265,8 +265,7 @@ L_10: {
             if (attach_owner) {
                 S_80042BDC *owned_ent = spawn_result_2;
                 u8 *owner_data;
-                ASM_KEEP_NV(owned_ent);   /* UNRESOLVED C shape (pin): removing it slus-diff; the source shape that makes it unnecessary has not been found */
-                owner_data = D_800E3D7C[0];
+                owner_data = ((u8 *)D_800E3D7C);
                 *(S_80042BDC **)(owner_data + 0x124) = spawn_result_2;
                 spawn_result_2->x60 = owner_data;
                 spawn_result_2->x1C |= 0x80000;

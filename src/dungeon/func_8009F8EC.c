@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -169,7 +170,6 @@ extern u8 D_8003E140[];
 extern u8 *D_80080A90;
 extern s32 D_80081488;
 extern u8 D_8008149C[];
-extern u8 *D_800814A8;
 extern s8 D_800DCF5C;
 extern u8 D_800DCF5E_page[0x30A3] __asm__("D_800DCF5E");
 extern u8 D_800E3DF0[];
@@ -315,7 +315,7 @@ spawn_copy:
     ((S_800A504C_3 *)tail_dst)->unk_9B = ((S_800A504C_0 *)base)->unk_9B;
 
     offset = func_800A1BD0(entity);
-    record = D_800814A8;
+    record = ((u8 *)D_800814A8);
     offset = (offset << 16) >> 14;
     offset += (s32)record;
     record = (u8 *)offset;
@@ -396,7 +396,7 @@ spawn_replacement:
     }
     ((S_800A504C_4 *)spawned)->unk_14 |= 0x4000;
     offset = func_800A1BD0(entity);
-    record = D_800814A8;
+    record = ((u8 *)D_800814A8);
     offset = (offset << 16) >> 14;
     offset += (s32)record;
     record = (u8 *)offset;

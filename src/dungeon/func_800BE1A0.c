@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -18,7 +19,6 @@ extern u8 D_800DDE84[];
 extern M2C_UNK D_800E17C6;
 extern M2C_UNK D_800E17EF;
 extern M2C_UNK D_800E180E;
-extern s32 D_800E3D7C;
 
 
 typedef struct S_800C3900_1 {
@@ -39,7 +39,7 @@ s32 func_800C3900(Rec_D_800E3D7C *entity, s32 action, s16 action_param) {
     s32 flag_test;
     u32 flags;
 
-    if (entity == D_800E3D7C) {
+    if (entity == ((s32)D_800E3D7C)) {
         entity->unk_110 = action;
         func_8008D330(entity, &D_80083780, &D_80082E80, entity);
         return 0;

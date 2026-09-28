@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 typedef struct S_800DC0BC_0 {
     u8 pad_00[0x28];
@@ -20,7 +21,6 @@ typedef struct S_800DC0BC_2 {
 
 
 
-extern void *D_800814A8;
 extern void func_800DC078(s32, u8);
 
 /* Updates two target entries when their cached values differ from the current values. */

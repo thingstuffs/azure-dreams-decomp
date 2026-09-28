@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 typedef struct TownState {
     s32 unk0;
@@ -11,10 +12,9 @@ typedef struct TownContext {
     TownState *state;
 } TownContext;
 
-extern TownContext *D_80016000;
 
 /* Set the town state's unk4 and unk8 values to 0x6A0 and 0x4A0. */
 void func_80017054(void) {
-    D_80016000->state->unk4 = 0x6A0;
-    D_80016000->state->unk8 = 0x4A0;
+    ((TownContext *)D_80016000)->state->unk4 = 0x6A0;
+    ((TownContext *)D_80016000)->state->unk8 = 0x4A0;
 }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
 extern void func_8008D330();
@@ -14,7 +15,6 @@ extern void func_80099290();
 extern void func_800A5720();
 extern void func_80098B38();
 
-extern u8 *D_800E3D7C[];
 extern u8 D_80083780[];
 extern u8 D_80082E80[];
 extern u16 D_800DDE84[];
@@ -40,7 +40,7 @@ s32 func_800C0B60(u8 *target, u8 *event_data, s32 value)
     u8 *slot;
     register s32 text_buffer ASM_REG("$5");
 
-    if (entity == D_800E3D7C[0]) {
+    if (entity == ((u8 *)D_800E3D7C)) {
         *(u8 **)(entity + 0x110) = event;
         ASM_KEEP_NV(target_copy);
         func_8008D330(target_copy, D_80083780, D_80082E80, target_copy);

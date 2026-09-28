@@ -1,3 +1,4 @@
+#include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
@@ -47,7 +48,6 @@ extern volatile int D_80071250[];
 extern int D_800712B4[];
 extern int D_80084130[3];
 extern short D_80084808[8];
-extern struct S_80083178 D_80083178;
 extern struct S_80083178State D_80083CE8;
 typedef unsigned char u8;
 typedef signed char s8;
@@ -85,7 +85,6 @@ extern void func_801721B8(void *, void *, void *, void *);
 extern void func_801722E0(void *, void *, void *, void *);
 extern s32 func_80172414(void *, void *, void *, s32);
 extern void func_80173834(void *, void *, void *, void *);
-extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern s8 D_80082EA4;
 extern u8 D_80174880[];

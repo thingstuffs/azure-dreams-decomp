@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80016000.h"
 
@@ -11,7 +12,6 @@ typedef struct S_80471334_1 {
 
 M2C_UNK func_800181DC();                            /* extern */
 M2C_UNK func_80019098();                   /* extern */
-extern Rec_D_80016000 *D_80016000;
 extern s32 D_8001B210;
 extern M2C_UNK D_8001B218;
 
@@ -21,6 +21,6 @@ void func_80471334(void) {
 
     func_800181DC();
     func_80019098(&D_8001B218);
-    context = D_80016000->unk_38.as_pv;
+    context = ((Rec_D_80016000 *)D_80016000)->unk_38.as_pv;
     context->unk_2D5C = (s32) (context->unk_2D5C - D_8001B210);
 }

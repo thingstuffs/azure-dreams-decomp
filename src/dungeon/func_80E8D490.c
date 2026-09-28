@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
@@ -87,7 +88,6 @@ extern s32 func_8003F270(void);
 extern void func_80047784(void *, u8, s32);
 
 extern LookupEntry D_8006DE24[];
-extern void *D_800814A8[];
 extern u8 D_80170838[0x44];
 extern u8 D_80170880[0x1C];
 extern u8 D_801710F4[];
@@ -198,7 +198,7 @@ IEnd:
         use_owner = special;
         ASM_KEEP_NV(use_owner);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         if (use_owner) {
-            owner = D_800814A8[0];
+            owner = D_800814A8;
             ((S_80172C90_0 *)actor)->unk_60 = owner;
             goto OwnerLinked;
         }
@@ -273,7 +273,7 @@ OwnerDone:
     {
         void *owner;
 
-        owner = D_800814A8[0];
+        owner = D_800814A8;
         dungeonStatus.unk_0C = 0;
         ((S_80172C90_3 *)owner)->unk_A6--;
     }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
 extern s32 func_8008D344();
@@ -27,7 +28,6 @@ extern u16 D_800DDE84[];
 extern u8 D_800E118C[];
 extern u8 D_800E11AB[];
 extern u8 D_800E11D7[];
-extern u8 *D_800E3D7C[];
 
 /* Applies an item effect to its target and prepares the resulting message. */
 s32 func_800BEDEC(u32 target_addr, u8 *used_item, s16 effect_type, s32 effect_value) {
@@ -43,7 +43,7 @@ s32 func_800BEDEC(u32 target_addr, u8 *used_item, s16 effect_type, s32 effect_va
         return func_80098864(item, effect_value);
     }
 
-    actor = D_800E3D7C[0];
+    actor = ((u8 *)D_800E3D7C);
     if ((u8 *)target == actor) {
         u8 item_flags;
         s32 result;

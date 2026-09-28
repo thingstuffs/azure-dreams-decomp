@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
@@ -48,7 +49,6 @@ extern void func_80094E34();
 extern u8 D_800D8728[];
 extern u8 D_800D8C64[];
 extern void *D_800E262C[];
-extern u8 *D_800E3D7C;
 
 /* Reset the entity state and animation, then update its child flags. */
 void *func_800D8590(void *entity)

@@ -1,6 +1,6 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
-extern void *D_80016000;
 void func_80018D14(void *);
 
 // Clears the indexed object and marks its slot unused, with cleanup for type 0x13.

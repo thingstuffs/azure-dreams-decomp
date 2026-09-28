@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80016000.h"
 
@@ -22,11 +23,10 @@ typedef struct S_80016334_3 {
 
 
 
-extern s8 D_80016000[];
 
 
 /* Invoke the context callback and check whether the stored value is below 0x3E0. */
 s32 func_80016334(void) {
-    ((S_80016334_2 *)(((S_80016334_1 *)(((Rec_D_80016000 *)D_80016000)->unk_00.at00_pv.v))->unk_20))->unk_248(0);
-    return ((S_80016334_3 *)(((S_80016334_1 *)(((Rec_D_80016000 *)D_80016000)->unk_00.at00_pv.v))->unk_1C))->unk_04 < 0x3E0;
+    ((S_80016334_2 *)(((S_80016334_1 *)(((Rec_D_80016000 *)((s8 *)(&D_80016000)))->unk_00.at00_pv.v))->unk_20))->unk_248(0);
+    return ((S_80016334_3 *)(((S_80016334_1 *)(((Rec_D_80016000 *)((s8 *)(&D_80016000)))->unk_00.at00_pv.v))->unk_1C))->unk_04 < 0x3E0;
 }

@@ -1,6 +1,6 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
-extern void *D_80016000;
 extern u8 D_80016524[];
 extern u8 D_80016578[];
 extern u8 D_800165CC[];

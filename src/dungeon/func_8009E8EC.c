@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 #ifndef NULL
 #define NULL 0
 #endif
 
-extern void *D_800814A8;
 
 /* Return whether either object has the high state bit set and state code 5 through 7. */
 s32 func_800A404C(void) {

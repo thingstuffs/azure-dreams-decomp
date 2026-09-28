@@ -1,6 +1,6 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
-extern s32 D_80016000[3];
 extern s32 D_80016000_reload[3] __asm__("D_80016000");
 
 /* Sets the indexed bit in the global bitfield, ignoring index zero. */
@@ -14,7 +14,7 @@ void func_8001ACE8(s32 bit_index)
     u32 bit_mask;
 
     if (bit_index != 0) {
-        value = D_80016000[0];
+        value = ((s32)D_80016000);
 
         biased_index = bit_index;
         if (bit_index < 0) {

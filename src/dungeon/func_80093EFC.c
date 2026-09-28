@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 typedef struct DungeonState {
     u8 pad[0x1C];
@@ -10,7 +11,6 @@ typedef struct Object {
     u8 flags;
 } Object;
 
-extern DungeonState *D_800E3D7C[3];
 extern u8 D_800E18C0[];
 extern u8 D_80088CA8[];
 
@@ -24,7 +24,7 @@ extern void func_800A90E8(void *arg0);
 s32 func_8009965C(Object *object, s32 input_value) {
     s32 result = input_value;
 
-    if (!(D_800E3D7C[0]->flags & 0x10)) {
+    if (!(((DungeonState *)D_800E3D7C)->flags & 0x10)) {
         if ((object->flags & 0x80) || func_80042A80(object)) {
             result = func_80099194(
                 D_800E18C0,

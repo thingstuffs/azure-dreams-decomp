@@ -1,3 +1,5 @@
+#include "shared/record_ptrs.h"
+#include "shared/game_work.h"
 
 struct S_80083178
 {
@@ -39,7 +41,6 @@ extern volatile int D_80071250[];
 extern int D_800712B4[];
 extern int D_80084130[3];
 extern short D_80084808[8];
-extern struct S_80083178 D_80083178;
 typedef unsigned char u8;
 typedef signed char s8;
 typedef unsigned short u16;
@@ -50,7 +51,6 @@ typedef s32 M2C_UNK;
 extern M2C_UNK func_80018F74();
 extern s32 func_800196F4();
 extern s32 func_8001979C();
-extern void *D_80016000;
 /* Invoke the callback for a match, or process a valid fallback lookup result. */
 void func_80016AF0(void)
 {

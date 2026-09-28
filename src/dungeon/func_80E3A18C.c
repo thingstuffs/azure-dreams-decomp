@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
 extern void func_80042710(void *, void *);
@@ -10,7 +11,6 @@ extern void func_800A2B04(s32, s32, s32);
 extern void func_800ACB98(void *, s32, s32, void *);
 extern void func_80173D40(void *, s32, void *, void *);
 
-extern u8 *D_800E3D7C;
 
 /* Copies linked object data and transfers or releases its state. */
 void func_8017398C(u8 *owner, s32 object_id, u8 *dest_object, u8 *dest_state)
@@ -44,7 +44,7 @@ void func_8017398C(u8 *owner, s32 object_id, u8 *dest_object, u8 *dest_state)
 
         if (*(s32 *)(dest_state + 0x14) & 0x4000) {
             call_result = func_800A1BD0(linked_state);
-            state_table = D_800E3D7C;
+            state_table = ((u8 *)D_800E3D7C);
             slot_address = (s32)(s16)call_result * 4;
             slot_address += (long)state_table;
             state_slot = (u8 *)slot_address;

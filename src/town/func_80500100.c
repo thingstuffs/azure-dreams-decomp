@@ -1,6 +1,6 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
-extern void *D_80016000[];
 extern u8 D_80017478[];
 extern void *D_80017548[];
 extern void func_80017350();
@@ -11,7 +11,7 @@ void func_80500100(void) {
     void *field_base;
     s32 field_value;
 
-    town_state = D_80016000[0];
+    town_state = D_80016000;
     field_base = *(void **)((u8 *)town_state + 0x38);
     field_value = *(s16 *)((u8 *)field_base + 0x35BC);
     D_80017548[0] = D_80017478;

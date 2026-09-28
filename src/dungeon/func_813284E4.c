@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
@@ -81,7 +82,6 @@ void func_800A9A0C(void *);
 extern void call_800A9A0C_top(void *) __asm__("func_800A9A0C");
 s16 func_800BCB04(s32, s32, s32);
 extern s16 D_8006CD00[];
-extern u8 *D_800814A8;
 extern u8 D_80082E80[];
 extern u8 D_80082E80_b[] __asm__("D_80082E80");
 extern u8 D_80082E80_c[] __asm__("D_80082E80");
@@ -220,7 +220,7 @@ take_step:
                 goto check_step;
             }
         }
-        if ((turn_index != 0) || (D_80082EA4 == ((S_8016FCE4_1 *)position_in)->unk_24.at00u.v) || ((func_8009A180(actor_in, ((Rec_D_800814A8 *)D_800814A8)->unk_58.as_s32 + 0x20) << 0x10) == 0)) {
+        if ((turn_index != 0) || (D_80082EA4 == ((S_8016FCE4_1 *)position_in)->unk_24.at00u.v) || ((func_8009A180(actor_in, ((Rec_D_800814A8 *)((u8 *)D_800814A8))->unk_58.as_s32 + 0x20) << 0x10) == 0)) {
             turn_index += 1;
             turn_offsets += 1;
         } else {

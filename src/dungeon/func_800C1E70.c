@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 extern s16 func_800BCB04(u16, u16, s16);
 extern u8 D_800DF63C[];
@@ -7,7 +8,7 @@ extern u16 D_800E58F8[];
 
 /* Update target tracking and smoothly approach its position and transition value. */
 void func_800C75D0(void *tracker) {
-    struct S_80083178 *state = &D_80083178;
+    struct S_80083178 *state = ((void *)&gameWork.unk_018);
     s16 frames_left;
     s16 next_frames;
     s16 target_height;

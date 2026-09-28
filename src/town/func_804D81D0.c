@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 typedef struct CallbackTable {
     u8 pad_00[0x2C8];
@@ -15,7 +16,6 @@ typedef struct DataPage {
     s32 *callback_data;
 } DataPage;
 
-extern CallbackOwner *D_80016000;
 extern s32 D_80017908;
 
 extern void func_800175FC(s32);
@@ -32,7 +32,7 @@ void func_800161D0(void)
     CallbackOwner *owner;
     CallbackTable *table;
 
-    owner = D_80016000;
+    owner = ((CallbackOwner *)D_80016000);
     ASM_KEEP(zero);
     table = owner->table;
     callback = table->callback;

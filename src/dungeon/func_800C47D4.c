@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_800814A8.h"
@@ -15,7 +16,6 @@ extern M2C_UNK func_800CA0DC();
 extern M2C_UNK func_800CA93C();
 extern M2C_UNK func_800CAA94();
 extern u16 D_80013714;
-extern void *D_800814A8;
 
 
 typedef struct S_800C9F34_0 {

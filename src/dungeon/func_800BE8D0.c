@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -32,7 +33,6 @@ extern u16 D_800DDE84[];
 extern u8 D_800E187C[];
 extern u8 D_800E3548[];
 extern u8 D_800E36C8[];
-extern void *D_800E3D7C;
 
 /* Handles a target or active-slot update and decrements the shared count on completion. */
 s32 func_800C4030(Rec_D_800E3D7C *target, s32 action, s16 action_type, s32 action_param)

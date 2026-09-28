@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 
 
 extern void func_8004E994();
 
 extern u8 D_800DDC40[];
-extern u8 *D_800E3D7C[];
 
 
 typedef struct S_800B0D34_0 {
@@ -138,7 +138,7 @@ mode_zero:
             ((S_800B0D34_3 *)anim_state)->unk_18.u = anim_offset + 0x80;
         }
     }
-    if (((S_800B0D34_4 *)(D_800E3D7C[0]))->unk_104 !=
+    if (((S_800B0D34_4 *)(((u8 *)D_800E3D7C)))->unk_104 !=
         ((S_800B0D34_0 *)object)->unk_14) {
         ((S_800B0D34_0 *)object)->unk_10.u++;
         goto finish;

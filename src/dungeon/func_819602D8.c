@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 
 extern u16 D_800273CC[8];
 extern u8 D_8002744C[9];
 extern u8 D_8002744D[9];
-extern u8 *D_800E3D7C[];
 extern s16 D_8008333C_second[16] __asm__("D_8008333C");
 extern s32 D_800274DC[7][8];
 s32 func_80025D30(s32, s32, s32);
@@ -70,7 +70,7 @@ row_loop:
     ASM_USE2_NV(world_y, tile_y);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 do {
     tile_sample = func_800BCA68((tile_x << 6) & 0xFFC0, world_y);
-    map = *D_800E3D7C;
+    map = ((u8 *)D_800E3D7C);
     *sample_ptr = 0 - tile_sample;
     tile = func_8009B4B0(map, tile_x, tile_y);
     if ((tile != NULL) && (tile != D_8002732C)) {

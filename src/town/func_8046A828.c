@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 typedef s32 Callback(s32);
 
@@ -22,7 +23,6 @@ extern void *func_8001B6E4(s32);
 extern void *func_8001B6F8();
 extern void func_8001E5F0(s32);
 
-extern void *D_80016000;
 extern s32 D_8001601C;
 extern u8 D_80017774[];
 extern u8 D_8001914C[];

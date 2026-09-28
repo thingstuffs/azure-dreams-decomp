@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -20,7 +21,6 @@ extern u8 D_80013610[0x3612];
 extern s16 D_80013714[5];
 extern u8 D_8006CCF8[256];
 extern u32 D_800835E4[64];
-extern u8 *D_800E3D7C[3];
 extern u8 D_800F927E[16];
 extern void D_8016B778(void);
 extern void (*D_80174728[256])(void *, void *, void *, void *);
@@ -256,7 +256,7 @@ void func_8016B0E8(void *entity, void *motion, void *sprite) {
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     if ((*(u16 *)D_80013714) & 8) {
         actor_index = 1;
-        slot_cursor = ((Rec_D_800E3D7C *)(&D_800E3D7C))->unk_00.at00_s32.v + 4;
+        slot_cursor = ((Rec_D_800E3D7C *)(((u8 * *)(&D_800E3D7C))))->unk_00.at00_s32.v + 4;
         do {
             linked_entry = ((S_8016B0E8_8 *)slot_cursor)->unk_AC;
             if (linked_entry != NULL) {

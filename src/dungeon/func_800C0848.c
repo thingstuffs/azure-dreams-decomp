@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -14,7 +15,6 @@ extern u8 D_800E0B73[];
 extern u8 D_800E0BA1[];
 extern u32 D_800E296C;
 extern u8 D_800E2970[];
-extern u8 *D_800E3D7C;
 
 void func_800419EC();
 void func_80040AA0();
@@ -250,7 +250,7 @@ void func_800C5FA8(u8 *w) {
         }
         tbl = D_800DCED4;
         phase = *(s16 *)(w + 6);
-        e = D_800E3D7C;
+        e = ((u8 *)D_800E3D7C);
         *(s16 *)(w + 18) = 0;
         do {
             ep = *(u8 **)(e - 20);
@@ -258,13 +258,13 @@ void func_800C5FA8(u8 *w) {
                 if (*(u8 *)(e + 19) == 0) {
                     D_800E296C |= 0x2000;
                     func_800C542C(e, tbl[func_800429E4(e)], 0, 0);
-                    p = D_800E3D7C;
+                    p = ((u8 *)D_800E3D7C);
                     q = *(u8 **)(p + 172);
                     if (q != 0) {
                         func_800C542C(q, tbl[func_800429E4(q)], 0, 0);
                     }
                     {
-                        u8 *p2 = D_800E3D7C;
+                        u8 *p2 = ((u8 *)D_800E3D7C);
                         q = *(u8 **)(p2 + 176);
                     }
                     if (q != 0) {
@@ -273,7 +273,7 @@ void func_800C5FA8(u8 *w) {
                     *(s16 *)(w + 18) = 1;
                 } else if (*(u32 *)(e + 20) & 0x4000) {
                     if (*(s16 *)(w + 18) == 0) {
-                        func_800C1F28(e, *(u8 **)(D_800E3D7C + 172) != e);
+                        func_800C1F28(e, *(u8 **)(((u8 *)D_800E3D7C) + 172) != e);
                     }
                 } else {
                     if (*(s16 *)(w + 18) != 0) {
@@ -298,7 +298,7 @@ void func_800C5FA8(u8 *w) {
                 }
             }
             e = *(u8 **)(e + 92) + 32;
-        } while (e != D_800E3D7C);
+        } while (e != ((u8 *)D_800E3D7C));
         if (phase < 0) {
             return;
         }
@@ -385,7 +385,7 @@ void func_800C5FA8(u8 *w) {
         func_80040AA0(3);
         return;
     }
-    func_800945E8(D_800E3D7C);
+    func_800945E8(((u8 *)D_800E3D7C));
     func_800948BC();
     func_800A6780();
     t = *(u32 *)(o + 0x234);

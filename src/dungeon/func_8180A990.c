@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 
@@ -171,7 +172,6 @@ extern s32 D_80025C94[];
 extern s32 D_8002663C[];
 extern s16 D_8002715A;
 extern s16 D_8002715C;
-extern u8 *D_800E3D7C;
 
 /* Initializes child objects and copies source entities, or requests their shutdown. */
 void func_80026190(void *owner_arg)
@@ -295,7 +295,7 @@ void func_80026190(void *owner_arg)
     source_slot = 0;
     flag_page = (u8 *)0x80080000;
 loop:
-    source = *(void **)(D_800E3D7C + (source_slot * 4) + 0xAC);
+    source = *(void **)(((u8 *)D_800E3D7C) + (source_slot * 4) + 0xAC);
     if (source == NULL) {
         goto next;
     }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 
 typedef struct {
@@ -26,7 +27,6 @@ typedef struct {
 
 extern void *jtbl_80024020[5];
 __asm__(".set jtbl_80024020, 0x80024020");
-extern S_81978140_global *D_800814A8;
 
 extern void func_800257B8(void);
 
@@ -60,7 +60,7 @@ L0:
 L1:
     func_800257B8();
 L2:
-    D_800814A8->value -= 0x200;
+    ((S_81978140_global *)D_800814A8)->value -= 0x200;
     goto L7;
 
 L3:

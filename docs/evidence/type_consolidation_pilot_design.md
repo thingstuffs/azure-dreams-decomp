@@ -388,3 +388,119 @@ Rows referencing each symbol, not yet consolidated:
 | D_80083120 | ~26 | slus, dungeon | S_80083120[8], the 0x40 bytes before gameWork |
 | D_800E2970 | 91 | dungeon | |
 | D_80013714 | 81 | all but ovmovie | |
+
+---
+
+# Phase 4 (r78): D_80083178 onto gameWork, typed pointer globals, more pointer folds
+
+## 17. game.h's `struct S_80083178` / D_80083178 is gameWork + 0x18
+
+- **Tool support.** consolidate.py now reads views from a shared header (`extra_views`: include/game.h) and
+  handles:
+  - nested struct members and arrays of them (`D_80083178.state_94.v[2].x`)
+  - function-pointer members
+  - symbols declared only by a shared header (`global_decls`: globals.h declares D_80083178; most rows have no
+    local declaration)
+- **Addresses of views the shared type replaces** (`drop_views`: S_80083178, S_80083178State,
+  S_80083178Vector) are spelled `(void *)&gameWork.unk_018`, so a migrated row stops depending on the old type.
+  Casts stacked on top of it collapse.
+- **Result.** 66 of 69 rows are exact (5 of them SLUS rows that need a rebaseline, see below). Member accesses
+  land on the flat GameWork fields: `unk2` -> `unk_01A`, `unkA` -> `unk_022`, `callback` -> `unk_0CC`,
+  `field_B8` -> `unk_0D0`, `ptr` -> `unk_0F0`, `state_94.v[i].c` -> `unk_0AC + 8i + 2c`.
+- **state_94 resolved against viewAngle.** game.h's four padded s16 xyz vectors sit at gameWork 0x0AC..0x0CB, so
+  `v[3].z` IS `viewAngle` (0x0C8).
+  - The census agrees on vector shape: 0x0AC/AE/B0, B4/B6/B8, BC/BE/C0 and C4/C6/C8 are all s16 slots; the pad
+    words 0xB2/BA/C2/CA are never touched.
+  - The SLUS accessors (func_8004D0C8 / func_8004D110) copy the whole 0x20-byte block to and from D_80083CE8.
+  - So this is a 4-vector view state whose last vector's z is the view rotation that 567 rows read.
+  - GameWork keeps its flat fields: renaming them would re-touch the 967 landed rows. The mapping is recorded
+    here, and landed headers are never rewritten.
+- **The game.h view stays; the removal is blocked.** Rows that still need it:
+  - **dungeon/func_800AFA68**, which misses by 9.
+  - **slus/w_8004D5D0**, which misses by 5. Retail forms its base at 0x80083178 itself and accesses +164/+166
+    (= gameWork 0xBC/0xBE). With GameWork the base moves to 0x80083160 (+188/+190). So this SLUS accessor TU
+    declared the object as starting at 0x80083178: a second declaration, like 0x800814A0. It keeps D_80083178.
+  - **slus/code2**, a plural partition that cannot be compiled on its own.
+  - Six migrated rows keep a local `struct S_80083178 *p = (void *)&gameWork.unk_018` pointer whose `->` uses the
+    fold could not reach: dungeon/func_800B2614, func_800C1E70, func_800C6654, func_8191696C, func_81984E94, and
+    slus/w_80044724.
+  - game.h and globals.h are therefore not in the payload.
+- **SLUS rows needing a rebaseline.** Some SLUS rows differ from their pinned object only by relocation symbol
+  names, e.g. D_80083160+24 instead of D_80083178 for the same address. verify.py compares SLUS rows by object
+  identity, so it reports them not exact; the lane proves them instead.
+  - `check.py` compares the two listings with every symbol+offset turned into an absolute address
+    (`abs_listing: identical`).
+  - apply4.sh marks them `rebaseline` in the manifest (11 rows). It runs `verify.py --rebaseline-slus` on them
+    after the SLUS image SHA-1 MATCH, the tools/lanes/land_slus_rebaseline.sh sequence.
+
+## 18. Typed pointer globals: D_800814A8, D_800E3D7C, D_80016000 (include/shared/record_ptrs.h)
+
+- **Census.** Every access to each of these is a 4-byte lw/sw of the word itself:
+  - D_800814A8: 446 lw in 230 rows
+  - D_800E3D7C: 283 lw in 190 rows (the overlay .bss)
+  - D_80016000: 417 lw in 298 rows
+  - The rows' `void *X[3]` / `u8 *X[]` / `int X[4]` spellings only ever read element 0.
+  - The census has already built the pointee records: include/records/Rec_D_800814A8.h,
+    Rec_D_800E3D7C.h (the entity record, 589 parameter sites) and Rec_D_80016000.h.
+- **Declaration.** Each is one pointer to its Rec struct, `extern struct Rec_X *X;`. The struct is only
+  forward-declared, so the header needs no include: the generated Rec headers pull in m2c_compat.h, which clashes
+  with rows' local `typedef s32 M2C_UNK`. Rows that dereference already include the Rec header.
+- **Rewrite.**
+  - Element-0 reads become the pointer itself.
+  - A row that viewed the pointee through its own record type keeps that view at the use, e.g.
+    `((S_x *)D_800814A8)->m`. This is the new `ptype` rule in `emit_field`.
+  - A placeholder keeps the rewritten spelling from being rewritten again, because the object keeps its address
+    name.
+- **Names stay D_.** D_800E3D7C is plausibly the player entity: it is the familiar owner (+0x124), the "reference
+  entity" in targeting, and holds the facing angle at +0x2A. That is not yet proven, per the naming rule.
+- **Retail agrees with the scalar pointer.** Three SLUS rows are exact with the scalar-pointer declaration AND
+  WITHOUT their pins (section 20). The m2c array declarations had put the pointer in the aggregate alias class,
+  and the pins were compensating for that.
+
+## 19. The 147 `(u8 *)&gameWork` view-pointer rows
+
+- 128 of them produce a folded text.
+- Only 9 fold exact (plus 1 typed-only). In the rest the local pointer is load-bearing: it is how retail formed
+  the base register, and the folded text changes the schedule.
+- The others cannot be folded at all:
+  - 75 derive the pointer some other way
+  - 55 use it in ways the fold does not model (passed to calls, variable arithmetic)
+  - 26 reassign it
+- These stay as they are. Their spelling `(u8 *)&gameWork` already names the shared object.
+
+## 20. Pins (phase 4)
+
+- 145 migrated rows that still carry pins were tested (each pin alone, then all), at the registered cell.
+- **Four pins in three SLUS rows fall only with the new declaration.** Erasing them from the current tree text
+  is not exact (totals 51, 11, 3):
+  - **slus/w_8004FAA4** (2.7.2-cdk): both `ASM_SCHED_BARRIER()` (lines 79, 86), via D_800814A8 as a scalar
+    pointer
+  - **slus/w_800492B0** (2.7.2-cdk): `ASM_KEEP(index)` (line 16), via D_800814A8
+  - **slus/w_80042BDC** (2.7.2-cdk -G16): `ASM_KEEP_NV(owned_ent)` (line 268), via D_800E3D7C
+- The candidate texts are in `pins4/`, each with a `.base_sha` = the sha of the apply4 candidate, so they land
+  after apply4.
+- All are exact at the registered cell (SLUS object identity), so cell_retail_check.py is not needed.
+
+## 21. Next objects
+
+| symbol | rows | note |
+|---|---|---|
+| D_80082E80 | 290 | entity record (grid x/y bytes +0x24/+0x25, s8 +0x26, u16 +0x14): the Rec_D_800E3D7C record class |
+| D_80083498 | 284 | same class: rooted in Rec_D_800E3D7C, passed by address |
+| D_80083780 | 177 | same class; its s16 slots at +2/+6/+0xA are read as lh/lhu |
+
+Before those three:
+- Resolve Rec_D_800E3D7C's unions to true field types. It is generated and "never hand-edit", so this needs a
+  hand-recovered entity type that supersedes it, as dungeon_status.h did for Rec_D_80083460.
+- Then declare the three objects as that type.
+- Rec_D_800814A8 looks like another view of the same entity record (facing angle at +0x2A, +0x124-sized); merge
+  it in the same pass.
+
+Also pending:
+
+| item | rows | note |
+|---|---|---|
+| D_80083120 | ~26 | S_80083120[8], the 0x40 bytes before gameWork |
+| D_800E2970 | 91 | |
+| D_80013714 | 81 | |
+| gameWork flat fields 0x0AC..0x0CB | | give them vector names once a renaming phase is allowed to touch the landed rows |

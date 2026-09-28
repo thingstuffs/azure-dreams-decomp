@@ -223,3 +223,76 @@ D_80083780 (177).
 
 ## Tool calls
 Phase 3 used about 75 tool calls.
+
+---
+
+# Phase 4 report (r78)
+
+Model: claude-opus-5-5[1m]. No edits to src/include/config/tools, no git, no landers. Busy rows: `BUSY_ROWS4.txt`
+plus the live one-hour rule in apply4.sh.
+
+## Deliverables
+- `apply4.sh` + `payload4/`:
+  - `include/shared/record_ptrs.h` is new; every other shared header is unchanged; there are no new names.tsv
+    rows.
+  - **game.h / globals.h are not touched: the removal of S_80083178 is blocked** (DESIGN section 17).
+  - Resumable in the same way as apply3.
+  - New: rows flagged `rebaseline` in the manifest (11 SLUS rows, relocation-symbol-only differences) are exempt
+    from the per-row verify. After the SLUS image MATCH they get `verify.py --rebaseline-slus` and then a strict
+    verify; any failure restores everything.
+  - Dry run: `preflight: 763 rows to land, 0 skipped`.
+- `cand4f/<container>/*.c` + `.base_sha`, and `cand4f/MANIFEST.tsv`, whose 5th column is `rebaseline`.
+  - 763 rows: dungeon 432, town 314, slus 16, main 1.
+- `p4_sample_rows.txt`: 40 rows (slus 9 including rebaseline rows, main 1, town 11, dungeon 19).
+- `pins4/`: three pin-removal candidates (below), each with a `.base_sha` of its apply4 text.
+
+## Rows
+| work item | rows exact | not migrated |
+|---|---|---|
+| D_80083178 onto gameWork (+0x18) | 66 of 69 (5 via SLUS rebaseline) | dungeon/func_800AFA68 (miss 9); slus/w_8004D5D0 (miss 5: retail's base is 0x80083178, a second declaration, so it keeps D_80083178); slus/code2 (plural partition) |
+| D_800814A8 as `struct Rec_D_800814A8 *` | 230 | a few misses, see results |
+| D_800E3D7C as `struct Rec_D_800E3D7C *` | 188 | |
+| D_80016000 as `struct Rec_D_80016000 *` | 294 | |
+| more local-pointer folds (the 147 `(u8 *)&gameWork` rows, plus dungeonStatus leftovers) | 10 | 128 folded texts are not exact (the pointer is load-bearing); 75 have no foldable pointer, 55 unmodelled uses, 26 reassigned |
+
+Rows touching several objects are migrated in one verified text; the plans are listed in the manifest.
+Evidence: `results/p3_dungeonStatus_gameWork_D_800814A8_D_800E3D7C_D_80016000_final.jsonl`, `results/p3_*_ptrs.jsonl`,
+`results/p3_gameWork_s78.jsonl`.
+
+## Pins (land after apply4)
+Candidates are in `pins4/`. Each is byte-exact at the registered cell (SLUS object identity) with the pins
+erased. The same erasure on today's tree text is not exact, so the type change is what frees them. None is
+cell-only exact, so no cell_retail_check was needed.
+
+| row | pin | line | via | tree erasure total |
+|---|---|---|---|---|
+| slus/w_8004FAA4 | `ASM_SCHED_BARRIER()` x2 | 79, 86 | D_800814A8 as a scalar pointer | 51 |
+| slus/w_800492B0 | `ASM_KEEP(index)` | 16 | D_800814A8 | 11 |
+| slus/w_80042BDC | `ASM_KEEP_NV(owned_ent)` | 268 | D_800E3D7C | 3 |
+
+The mechanism is the same in all three: m2c declared the pointer global as an array (the aggregate alias class),
+and the pins compensated for it. Declared as the scalar pointer retail used, the schedule comes out right with
+no pin.
+
+## Tool write-back (lane -> tools/consolidate/)
+- `tools/consolidate.py`:
+  - parse_views: nested views, function-pointer members, `known` views, struct tags
+  - member chains `a.b[k].c`
+  - `global_decls`, `extra_views`, `drop_views` + `agg_addr`, `collapse_casts`
+  - the placeholder for objects that keep their D_ name
+  - `ptype` view casts
+  - `_addr_off` accepting `(u8 *)&var + k`
+  - rewrite_pointers: known views, struct-tag pointee types, `allow_pinned`
+- `tools/check.py`: `abs_listing` for SLUS rebaseline detection; reads names_add4.tsv.
+- `tools/drive3.py`: `rebaseline_slus`, the ptr-only fallback plan, BUSY_ROWS4.
+- `tools/census.py`: BUSY_ROWS4.
+- `objects/gameWork.json` (+global_decls/extra_views/drop_views), `objects/D_800814A8.json`,
+  `objects/D_800E3D7C.json`, `objects/D_80016000.json`.
+
+## Next objects
+See DESIGN section 21. D_80082E80 (290), D_80083498 (284) and D_80083780 (177) are all instances of the entity
+record class. The next step is a hand-recovered entity type that supersedes the generated Rec_D_800E3D7C (resolving
+its unions), then those three objects and Rec_D_800814A8 onto it.
+
+## Tool calls
+Phase 4 used about 45 tool calls.

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 
 typedef struct S_80170CEC_0 {
@@ -73,7 +74,6 @@ typedef struct S_80170CEC_7 {
 extern s32 func_80042900();
 extern u8 D_800E23F8[];
 extern u8 D_800E2408[];
-extern u8 *D_800E3D7C[3];
 
 /* Update the effect rotation, position, and fade, marking it finished when needed. */
 void func_80170CEC(void *effect, void *position, void *visual) {
@@ -154,7 +154,7 @@ track_entity:
         ((S_80170CEC_0 *)effect)->unk_36.s = 0x14;
     }
     if ((((S_80170CEC_4 *)entity_saved)->unk_14 & 0x100000) &&
-        (D_800E3D7C[0][0x9A] != 0x28)) {
+        (((u8 *)D_800E3D7C)[0x9A] != 0x28)) {
         ((S_80170CEC_0 *)effect)->unk_2C.s = 3;
         ((S_80170CEC_0 *)effect)->unk_38 = 0x14;
         ((S_80170CEC_0 *)effect)->unk_36.s = 0x14;
