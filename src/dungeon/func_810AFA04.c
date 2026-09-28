@@ -25,11 +25,6 @@ typedef struct S_80173204_3 {
     u16 unk_0A;
 } S_80173204_3;   /* counter_base in func_80173204 */
 
-typedef struct S_80173204_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-} S_80173204_4;   /* status in func_80173204 */
-
 
 typedef struct S_80173204_6 {
     u8 pad_00[0x26];
@@ -68,10 +63,8 @@ void func_80173204(Rec_func_80173204_arg0 *controller, s32 update_mode, S_801732
     s32 state;
     s32 flags;
     s8 floor;
-    register u8 *status ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *counter_base;
     TileObject *floor_base;
-    u8 *status_page;
 
     if (controller->unk_9B < 2U) {
         if (sprite->unk_0C.u8 < 0x33U) {
@@ -128,14 +121,12 @@ state_1:
             controller->unk_8C.as_pu8 = &D_80170E54;
             goto done;
         }
-        goto increment_counter;
+        dungeonStatus.unk_0A++;
+        controller->unk_9B++;
+        goto done;
     }
 
-    status_page = (u8 *)0x80080000;
-    ASM_KEEP_NV(status_page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    status = status_page + 0x3460;
-    ASM_USE2(status_page, status);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    if (((S_80173204_4 *)status)->unk_02 & 0x1000) {
+    if (dungeonStatus.flags & 0x1000) {
         goto done;
     }
     if (entity->unk_64 != 0) {
@@ -144,7 +135,7 @@ state_1:
         }
     }
     if (entity->tileY == 0) {
-        if (((S_80173204_4 *)status)->unk_02 & 0x2008) {
+        if (dungeonStatus.flags & 0x2008) {
             goto done;
         }
         func_800AA79C(controller, update_mode, sprite, entity);
@@ -205,7 +196,6 @@ second_check:
         controller->unk_8C.as_pu8 = &D_80170E54;
         goto done;
     }
-increment_counter:
     {
         u8 *counter;
 

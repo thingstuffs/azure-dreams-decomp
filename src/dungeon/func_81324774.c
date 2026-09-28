@@ -100,22 +100,23 @@ typedef struct {
     u8 tail[6];
 } D_800E2970Entry;
 extern s16 D_8006CD00;
+extern s16 D_8006CCD8[8];
 extern u8 D_80082E80[];
 extern u16 D_80082EA4;
 extern D_800E2970Entry D_800E2970[];
 
+static __inline__ u8 get_y_step(s16 byte_offset) {
+    return ((u8 *)dirStepY)[byte_offset];
+}
+
 /* Selects a movement direction and advances the actor path through available tiles. */
-void func_8016BF74(void *raw_motion, void *context, void *raw_position, void *raw_actor) {
-    void *motion;
-    S_8016BF74_2 *position;
-    void *actor;
+void func_8016BF74(void *motion, void *context, S_8016BF74_2 *position, void *actor) {
     register s32 turn_index ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 near_target;
-    register u8 *x_offsets ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u8 *x_offsets;
     M2C_UNK old_tile_mask;
     M2C_UNK new_tile_mask;
-    register s8 *angle_offsets ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s8 *offset_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s8 *angle_offsets;
     s32 target_y;
     s32 target_x;
     s32 y_offset;
@@ -123,7 +124,7 @@ void func_8016BF74(void *raw_motion, void *context, void *raw_position, void *ra
     s32 world_x;
     s16 target_angle;
     s16 actor_distance;
-    register s32 tile_x_or_offset ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    u16 tile_x_or_offset;
     u8 *x_offset_ptr;
     s32 move_value;
     u32 initialized_bit;
@@ -138,6 +139,7 @@ void func_8016BF74(void *raw_motion, void *context, void *raw_position, void *ra
     s32 active_actor;
     s32 path_status;
     s32 tile_y;
+    s32 first_tile_y;
     s32 current_angle;
     s16 candidate_angle;
     void *motion_flags;
@@ -151,15 +153,9 @@ void func_8016BF74(void *raw_motion, void *context, void *raw_position, void *ra
     s16 current_x;
     s16 next_path_index;
     s32 current_y;
-    u8 *y_offsets;
-    u8 *y_offset_ptr;
     u8 *world_position;
 
-    motion = raw_motion;
-    position = raw_position;
-    actor = raw_actor;
     state = &dungeonStatus;
-    ASM_KEEP(motion);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     state_flags = state->flags;
     near_target = 0;
     if ((state_flags & 0x4000) || (((S_8016BF74_1 *)actor)->unk_71.s >= 0)) {
@@ -285,106 +281,96 @@ update_direction:
 start_search:
         turn_index = 0;
 init_offsets:
-#ifdef __mips__
-        offset_page = (s8 *)0x80070000;
-#else
-        offset_page = (s8 *)((M2C_UNK *)dirStepX) + 0x3328;
-#endif
-        ASM_KEEP(offset_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        x_offsets = (u8 *)(offset_page - 0x3328);
-#ifdef __mips__
-        offset_page = (s8 *)0x80070000;
-#else
-        offset_page = (s8 *)&D_8006CD00 + 0x3300;
-#endif
-        ASM_KEEP(offset_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        angle_offsets = offset_page - 0x3300;
-try_direction:
-        current_angle = ((S_8016BF74_1 *)actor)->unk_2A.s;
-        if (((S_8016BF74_5 *)motion)->unk_98 & 2) {
+        x_offsets = (u8 *)D_8006CCD8;
+        angle_offsets = (s8 *)&D_8006CD00;
+        for (;;) {
+            current_angle = ((S_8016BF74_1 *)actor)->unk_2A.s;
+            if (((S_8016BF74_5 *)motion)->unk_98 & 2) {
+                move_value = *(s16 *)angle_offsets;
+                candidate_angle = current_angle - move_value;
+                goto check_direction;
+            }
             move_value = *(s16 *)angle_offsets;
-            candidate_angle = current_angle - move_value;
-            goto check_direction;
-        }
-        move_value = *(s16 *)angle_offsets;
-        candidate_angle = current_angle + move_value;
+            candidate_angle = current_angle + move_value;
 check_direction:
-        if ((func_8009A66C(candidate_angle, position, actor, 0x20) << 0x10) > 0) {
-            if (turn_index < 3) {
-                goto take_step;
-            }
-            move_value = near_target;
-            if (move_value != 0) {
-                goto finish_search;
-            }
+            if ((func_8009A66C(candidate_angle, position, actor, 0x20) << 0x10) > 0) {
+                if (turn_index < 3) {
+                    goto take_step;
+                }
+                move_value = near_target;
+                if (move_value != 0) {
+                    goto finish_search;
+                }
 take_step:
-            ((S_8016BF74_1 *)actor)->unk_2A.u = (u16) candidate_angle;
-            ((S_8016BF74_9 *)((actor + ((u8) ((S_8016BF74_1 *)actor)->unk_71.s & 0x7F))))->unk_74 = (u8) position->unk_24.at00.v;
-            ((S_8016BF74_9 *)((actor + ((u8) ((S_8016BF74_1 *)actor)->unk_71.s & 0x7F))))->unk_7C = (u8) position->unk_24.at01.v;
-            next_path_index = (u8) ((S_8016BF74_1 *)actor)->unk_71.s + 1;
-            x_offset_ptr = (u8 *)(((S_8016BF74_1 *)actor)->unk_1C & 0x2000);
-            ((S_8016BF74_1 *)actor)->unk_71.s = (s8) next_path_index;
-            tile_x_or_offset = position->unk_24.at00.v;
-            tile_y = position->unk_24.at01.v;
-            old_tile_mask = 0x3000;
-            if ((s32)x_offset_ptr) {
-                old_tile_mask = 0x300;
-            }
-            func_8009A3D0(tile_x_or_offset, tile_y, old_tile_mask);
-            tile_x_or_offset = ((u16) ((S_8016BF74_1 *)actor)->unk_2A.u >> 8) & 0xE;
-            x_offset_ptr = (u8 *)((u32) tile_x_or_offset + (u32) x_offsets);
-            position->unk_24.at00.v = (u8) (position->unk_24.at00.v + *x_offset_ptr);
-            y_offsets = (u8 *)((M2C_UNK *)dirStepY);
-            y_offset_ptr = (u8 *)((u32) tile_x_or_offset + (u32) y_offsets);
-            current_y = position->unk_24.at01.v;
-            step_y = *y_offset_ptr;
-            next_x = position->unk_24.at00.v;
-            position->unk_24.at01.v = (u8) (current_y + step_y);
-            new_tile_mask = 0x3000;
-            new_tile_flags = ((S_8016BF74_1 *)actor)->unk_1C & 0x2000;
-            tile_y = position->unk_24.at01.v;
-            if (new_tile_flags) {
-                new_tile_mask = 0x300;
-            }
-            func_8009A21C(next_x, tile_y, new_tile_mask);
-            goto complete_step;
+                ((S_8016BF74_1 *)actor)->unk_2A.u = (u16) candidate_angle;
+                ((S_8016BF74_9 *)((actor + ((u8) ((S_8016BF74_1 *)actor)->unk_71.s & 0x7F))))->unk_74 = (u8) position->unk_24.at00.v;
+                ((S_8016BF74_9 *)((actor + ((u8) ((S_8016BF74_1 *)actor)->unk_71.s & 0x7F))))->unk_7C = (u8) position->unk_24.at01.v;
+                next_path_index = (u8) ((S_8016BF74_1 *)actor)->unk_71.s + 1;
+                x_offset_ptr = (u8 *)(((S_8016BF74_1 *)actor)->unk_1C & 0x2000);
+                ((S_8016BF74_1 *)actor)->unk_71.s = (s8) next_path_index;
+                tile_x_or_offset = position->unk_24.at00.v;
+                first_tile_y = position->unk_24.at01.v;
+                old_tile_mask = 0x3000;
+                if ((s32)x_offset_ptr) {
+                    old_tile_mask = 0x300;
+                }
+                func_8009A3D0(tile_x_or_offset, first_tile_y, old_tile_mask);
+                tile_x_or_offset = ((u16) ((S_8016BF74_1 *)actor)->unk_2A.u >> 8) & 0xE;
+                x_offset_ptr = (u8 *)((u32) tile_x_or_offset + (u32) x_offsets);
+                position->unk_24.at00.v = (u8) (position->unk_24.at00.v + *x_offset_ptr);
+                current_y = position->unk_24.at01.v;
+                step_y = get_y_step(tile_x_or_offset);
+                next_x = position->unk_24.at00.v;
+                position->unk_24.at01.v = (u8) (current_y + step_y);
+                new_tile_mask = 0x3000;
+                new_tile_flags = ((S_8016BF74_1 *)actor)->unk_1C & 0x2000;
+                tile_y = position->unk_24.at01.v;
+                if (new_tile_flags) {
+                    new_tile_mask = 0x300;
+                }
+                func_8009A21C(next_x, tile_y, new_tile_mask);
+                goto complete_step;
 finish_search:
-            goto finish_path;
+                goto finish_path;
+            }
+            if ((turn_index != 0) || (D_80082EA4 == position->unk_24.at00u.v) || (result = func_8009A180(actor, ((s32)((EntityRec *)D_800814A8)->unk_58) + 0x20) << 0x10, (result == 0))) {
+                turn_index += 1;
+                angle_offsets += 2;
+                if (turn_index < 8) {
+                    continue;
+                }
+                break;
+            }
+            return;
         }
-        if ((turn_index != 0) || (D_80082EA4 == position->unk_24.at00u.v) || (result = func_8009A180(actor, ((s32)((EntityRec *)D_800814A8)->unk_58) + 0x20) << 0x10, (result == 0))) {
-            turn_index += 1;
-            angle_offsets += 2;
-            if (turn_index >= 8) {
-                DungeonGlobalStatus *step_state;
+        {
+            DungeonGlobalStatus *step_state;
 
 complete_step:
-                result = turn_index < 8;
-                if (result == 0) {
-                    ((S_8016BF74_1 *)actor)->unk_71.s = (s8) ((u8) ((S_8016BF74_1 *)actor)->unk_71.s & 0x7F);
-                    ((S_8016BF74_1 *)actor)->unk_46 = (u16) (((S_8016BF74_1 *)actor)->unk_46 & 0x7FFF);
-                    func_800A9A0C(actor);
-                    return;
-                }
+            result = turn_index < 8;
+            if (result == 0) {
+                ((S_8016BF74_1 *)actor)->unk_71.s = (s8) ((u8) ((S_8016BF74_1 *)actor)->unk_71.s & 0x7F);
                 ((S_8016BF74_1 *)actor)->unk_46 = (u16) (((S_8016BF74_1 *)actor)->unk_46 & 0x7FFF);
-                ((S_8016BF74_5 *)motion)->unk_9C = (s8) (u8) position->unk_26;
-                ((S_8016BF74_1 *)actor)->unk_6D.u = (u8) (((S_8016BF74_1 *)actor)->unk_6D.u - 1);
-                step_state = &dungeonStatus;
-                step_state->unk_08 = (u16) (((u16)step_state->unk_08) + 1);
-                if (((S_8016BF74_1 *)actor)->unk_6D.s == 0) {
-finish_path:
-                    ((S_8016BF74_1 *)actor)->unk_71.u &= 0x7F;
-                    return;
-                }
-                turn_index = func_800BCB04((position->unk_24.at00.v << 6) | 0x20, (position->unk_24.at01.v << 6) | 0x20, (s16) (((S_8016BF74_1 *)actor)->unk_88 - 0x20));
-                result = turn_index < 0x200;
-                if (result != 0) {
-                    ((S_8016BF74_1 *)actor)->unk_88 = (u16) turn_index;
-                }
+                func_800A9A0C(actor);
                 return;
             }
-            goto try_direction;
+            ((S_8016BF74_1 *)actor)->unk_46 = (u16) (((S_8016BF74_1 *)actor)->unk_46 & 0x7FFF);
+            ((S_8016BF74_5 *)motion)->unk_9C = (s8) (u8) position->unk_26;
+            ((S_8016BF74_1 *)actor)->unk_6D.u = (u8) (((S_8016BF74_1 *)actor)->unk_6D.u - 1);
+            step_state = &dungeonStatus;
+            step_state->unk_08 = (u16) (((u16)step_state->unk_08) + 1);
+            if (((S_8016BF74_1 *)actor)->unk_6D.s == 0) {
+finish_path:
+                ((S_8016BF74_1 *)actor)->unk_71.u &= 0x7F;
+                return;
+            }
+            turn_index = func_800BCB04((position->unk_24.at00.v << 6) | 0x20, (position->unk_24.at01.v << 6) | 0x20, (s16) (((S_8016BF74_1 *)actor)->unk_88 - 0x20));
+            result = turn_index < 0x200;
+            if (result != 0) {
+                ((S_8016BF74_1 *)actor)->unk_88 = (u16) turn_index;
+            }
+            return;
         }
-        return;
     }
     return;
 }

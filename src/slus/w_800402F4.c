@@ -1,8 +1,6 @@
 #include "common.h"
 #include "shared/game_work.h"
 
-#include "common.h"
-
 typedef s32 (*Callback)(void *, s32, s32);
 
 typedef struct Entry {
@@ -18,48 +16,24 @@ extern s32 func_80045310(s32);
 extern Callback D_80083360[0x20];
 extern Entry *D_800833E0[0x20];
 
-/* Run eligible entry callbacks, clearing slots whose entries are missing. */
 void func_800402F4(void)
 {
-    Callback *callback_slot;
-    Callback callback;
-    s32 slot_index;
-    Entry **entry_slot;
-    Entry *entry;
-    s32 stop_requested;
+    s32 i;
 
-    slot_index = 0;
-    callback_slot = D_80083360;
-    entry_slot = D_800833E0;
-loop:
-    callback = *callback_slot;
-    if (callback != 0) {
-        entry = *entry_slot;
-        if (entry != 0) {
-            if (!(entry->flags & 0x800)) {
-                callback(entry->data, entry->arg1, entry->arg2);
-                stop_requested = func_80045310(*(s32 *)((u8 *)gameWork.unk_000 + 0x8D0));
-                ASM_KEEP(stop_requested);
-                callback_slot++;
-                if (stop_requested == 0) {
-                    slot_index++;
-                    goto next;
+    for (i = 0; i < 32; i++) {
+        Callback callback = D_80083360[i];
+        if (callback != 0) {
+            Entry *entry = D_800833E0[i];
+            if (entry != 0) {
+                if (!(entry->flags & 0x800)) {
+                    callback(entry->data, entry->arg1, entry->arg2);
+                    if (func_80045310(*(s32 *)((u8 *)gameWork.unk_000 + 0x8D0))) {
+                        break;
+                    }
                 }
-                goto done;
+            } else {
+                D_80083360[i] = 0;
             }
-        } else {
-            *callback_slot = 0;
         }
     }
-    callback_slot++;
-    slot_index++;
-next:
-    do {
-        entry_slot++;
-    } while (0);
-    if (slot_index < 0x20) {
-        goto loop;
-    }
-done:
-    return;
 }

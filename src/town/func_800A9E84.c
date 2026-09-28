@@ -76,9 +76,9 @@ void fukidasi_set(s32 entry_index, s32 part_index, s32 body_index, s32 body_valu
     object_template = &D_800A76F0;
 
     object = func_8009C390(entry_or_body, entry_data, object_template, 0);
-    body = (u8 *)object + 0x20;
     if (object != NULL) {
         S_800A75E4_0 *entry;
+        body = (u8 *)object + 0x20;
         entry_or_body = body;
         ASM_KEEP(entry_or_body);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         entry = D_800D0E24;
@@ -95,5 +95,4 @@ void fukidasi_set(s32 entry_index, s32 part_index, s32 body_index, s32 body_valu
         ((S_800A75E4_4 *)body)->unk_96 = body_index;
         ((S_800A75E4_4 *)body)->unk_50 = D_800D0E3C[body_index];
     }
-    ASM_KEEP(part);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 }
