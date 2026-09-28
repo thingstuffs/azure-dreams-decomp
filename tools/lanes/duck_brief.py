@@ -490,7 +490,7 @@ def duck(row_id, notes=None, row=None, text=None, skip_lane=None):
             lines, more = _diff(m["ref"], m["singles"][best[0]]["listing"], 4)
             L.append("  - %s x%d (pin %s, line %s) - %s|%s, %s changed lines"
                      % (label, len(members), ks, lns, cls_, band,
-                        ("%d" % ds[0]) if len(set(ds)) == 1 else "%d..%d" % (min(ds), max(ds))))
+                        "?" if not ds else ("%d" % ds[0]) if len(set(ds)) == 1 else "%d..%d" % (min(ds), max(ds))))
             L.append("    smallest (pin %d, %s lines): `%s`%s"
                      % (best[0] + 1, best[1], "` `".join(lines), " ... %d more" % more if more else ""))
         if len(shown) > CENSUS_GROUPS:

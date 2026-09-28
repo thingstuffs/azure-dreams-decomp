@@ -43,7 +43,7 @@ SLUS SHA-1 image MATCH (GATE_RC=0 each time). No census/reclassification change;
 Meters. **A** = Agent-tool `subagent_tokens` (approximately final context; a LOWER bound on consumption).
 **C** = codex rollout `input - cached_input + output` (lane_cap.py), read from the rollout because capped lanes
 never print codex's exit total. A and C are different units; do not rank across them. Gemini unmetered.
-Coordinator (this session) and advisor usage: unmeasured. Quota: codex weekly 0% -> 2% (resets 2026-10-03
+Coordinator (this session) and advisor usage: unmeasured per lane. **Owner-read account meters, 2026-09-28 ~03:45Z: Claude 9% used, Codex 3% used** (whole session to that point, coordinator + all lanes): ~121 pins landed + ~15 queued -> ~14 pins per 1% Claude; Codex ~4 pins for 3%. Quota: codex weekly 0% -> 2% (resets 2026-10-03
 23:05Z, no concurrent use seen); Gemini probe OK throughout; Claude: no meter.
 
 Opus: ~2.83M A-tokens over 10 lanes for 43 pins landed or staged (~66k A-tokens per pin, zero-yield lanes
