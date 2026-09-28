@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/def_table.h"
 #include "shared/dungeon_status.h"
 
-extern u8 D_8006DE24[];
 
 s32 func_800A35D8(u8 arg0, u16 arg1);
 

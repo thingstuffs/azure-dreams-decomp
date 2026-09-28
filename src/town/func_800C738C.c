@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_index_slots.h"
 
 typedef struct S_800C4AEC_0 {
     u8 pad_00[0x60];
@@ -26,7 +27,6 @@ typedef struct S_800C4AEC_2 {
 
 #define NULL 0
 
-extern u8 D_80082660;
 extern u16 D_800D2650[];
 extern u16 D_800D2FC0[];
 
@@ -50,7 +50,7 @@ void func_800C4AEC(void *object_arg, s32 update_arg)
     S_800C4AEC_2 *sprite_pos;
 
     object = object_arg;
-    *(&D_80082660 + ((S_800C4AEC_0 *)object)->unk_60 * 8) = 0;
+    *(((u8 *)D_80082660) + ((S_800C4AEC_0 *)object)->unk_60 * 8) = 0;
     sprite = ((S_800C4AEC_0 *)object)->unk_98;
     saved_update_arg = update_arg;
     if (sprite != NULL) {

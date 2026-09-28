@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/object_index_slots.h"
 
 typedef struct {
     s32 unk0;
     void *unk4;
 } Entry;
 
-extern Entry D_80082660[];
 extern s32 D_80082A38[];
 extern u8 D_800C3174[];
 extern u8 D_800C321C[];
@@ -21,7 +21,7 @@ void func_800C4C88(s32 object_slot) {
     u16 angle_raw;
 
     if (object_slot != 0) {
-        entry = D_80082660[object_slot].unk4;
+        entry = D_80082660[object_slot].object;
         if (entry != 0) {
             data = (u8 *)entry + 0x20;
             if (object_slot == 1) {

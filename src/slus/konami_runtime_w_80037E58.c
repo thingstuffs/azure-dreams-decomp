@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_index_slots.h"
 
 #include "common.h"
 
@@ -38,7 +39,6 @@ typedef struct RuntimeTask {
 } RuntimeTask;
 
 extern u8 D_80082BC0[9];
-extern RuntimeBlock D_80082660[107];
 extern RuntimeState D_80082A38;
 extern u8 D_800809C0[9];
 extern u8 D_80012D6E[9];

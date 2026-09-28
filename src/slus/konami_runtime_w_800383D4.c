@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_index_slots.h"
 
 typedef struct Entry {
     u8 pad_0[1];
@@ -13,13 +14,12 @@ typedef struct Object {
     u8 entry_index;
 } Object;
 
-extern Entry D_80082660[];
 extern void func_80038A10(void);
 
 /* Sets the object's callback to func_80038A10 when its entry's field_1 is zero. */
 void func_800383D4(Object *object)
 {
-    if (D_80082660[object->entry_index].field_1 == 0) {
+    if (D_80082660[object->entry_index].unk_01 == 0) {
         object->callback = func_80038A10;
     }
 }

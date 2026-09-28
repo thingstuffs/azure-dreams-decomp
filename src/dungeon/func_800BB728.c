@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/def_table.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
 #include "shared/record_ptrs.h"
@@ -82,7 +83,6 @@ extern void func_800A6480();
 extern s32 func_800A94A0();
 extern s32 func_800AD6FC();
 
-extern u8 D_8006DE24[];
 extern u8 *D_80073470[];
 extern u16 D_800DDE84[];
 extern u16 D_800DF4B0[];

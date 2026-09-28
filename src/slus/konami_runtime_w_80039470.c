@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_index_slots.h"
 
 #include "common.h"
 
@@ -16,7 +17,6 @@ typedef struct Func80039470Block {
     u8 pad_14[0xC];
 } Func80039470Block;
 
-extern Func80039470Entry D_80082660[];
 extern u8 D_800C3174[];
 extern u8 D_800C321C[];
 extern Func80039470Block *ms_mot_accpt_ow(s32 index);

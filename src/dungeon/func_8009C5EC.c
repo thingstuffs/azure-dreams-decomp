@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/def_table.h"
 #include "shared/sys_flags.h"
 #include "shared/dungeon_status.h"
 
@@ -17,7 +18,6 @@ extern s32 func_800A5720();
 extern s32 func_800B4C7C();
 
 extern u8 D_8006D168[];
-extern u8 D_8006DE24[];
 extern M2C_UNK D_80089000;
 extern s8 D_800DCF4F[];
 extern u8 D_800DDCBC[];

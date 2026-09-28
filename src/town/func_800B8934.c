@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/def_table.h"
 #include "m2c_compat.h"
 
 typedef struct S_800B6094_4 {
@@ -26,7 +27,6 @@ s32 func_80049944();
 M2C_UNK func_800B5264();
 M2C_UNK func_800B53BC();
 s32 func_800B6030();
-extern u8 D_8006DE24[];
 
 typedef struct S_800B6094_0 {
     u8 unk_00;
@@ -75,7 +75,7 @@ void func_800B6094(void *entry_data, s32 display_base, s32 row_index) {
     text_y = (row * 0x10) + 0xD8;
     entry_data = (void *) (row * 4);
     ASM_KEEP(row);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    entry_info = (entry->unk_00 * 0x14) + D_8006DE24;
+    entry_info = (entry->unk_00 * 0x14) + ((u8 *)D_8006DE24);
     entry_data = (void *) ((s8 *)entry_data + (s32)row_base);
     func_800B5264(((S_800B6094_1 *)entry_data)->unk_20, entry_info->unk_00, first_zero, 0x58, text_y);
     func_800B53BC(((S_800B6094_1 *)entry_data)->unk_2C, func_800B6030(entry->unk_01, text_buffer), 0, 0xA0, text_y);

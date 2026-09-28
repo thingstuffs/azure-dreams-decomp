@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_index_slots.h"
 #include "records/Rec_D_80082E80.h"
 
 
@@ -8,7 +9,6 @@
 
 extern void func_800C2E84(void *arg0, s32 arg2, void *arg3);
 extern void func_800C4174(void *arg0, M2C_UNK arg1, void *arg2);
-extern u8 D_80082660;
 extern M2C_UNK D_800D5518;
 extern M2C_UNK D_800D5624;
 extern M2C_UNK D_800D562C;
@@ -33,7 +33,7 @@ typedef struct S_800C5C70_1 {
 void func_800C5C70(void *object, M2C_UNK context, void *input) {
     if (((Rec_D_80082E80 *)input)->unk_14.at00_u16.v & 0x6000) {
         func_800C2E84(object, input, &D_800D5518);
-        *((((S_800C5C70_1 *)object)->unk_60 * 8) + &D_80082660) = 0;
+        D_80082660[((S_800C5C70_1 *)object)->unk_60].unk_00 = 0;
         ((S_800C5C70_1 *)object)->unk_58 = &D_800D5654;
         ((S_800C5C70_1 *)object)->unk_5C = &D_800D5658;
         ((S_800C5C70_1 *)object)->unk_7C = &D_800D5624;
