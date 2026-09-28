@@ -19,12 +19,6 @@ typedef struct AreaRecord {
     u8 pad[12];
 } AreaRecord;
 
-typedef struct LocalScratch {
-    u16 flags;
-    u8 pad[6];
-    u16 area_index;
-} LocalScratch;
-
 extern s32 D_800814A0;
 extern u8 D_80082EA6;
 extern s32 D_80083460;
@@ -51,7 +45,8 @@ extern s32 func_800A6DA4(s32, s32);
 
 /* Spawns and levels monster den monsters, then advances the event delays and cleanup. */
 void func_800CEA44(void *den_event) {
-    LocalScratch scratch;
+    u16 flags;
+    s16 area_index;
     s16 state;
     u16 next_state;
     s32 tail_value;
@@ -71,16 +66,16 @@ void func_800CEA44(void *den_event) {
     u32 experience;
     u16 delay_timer;
     s32 random_value;
+    u8 *entry_table;
+    AreaRecord *areas;
 
     state = *(s16 *)(den_event + 6);
     if (state == 0) {
-        register u8 *global_base ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         {
             u32 area_byte;
 
             area_byte = D_80082EA6;
-            global_base = (u8 *)((s8)area_byte);
-            scratch.area_index = (s32)global_base;
+            area_index = (s8)area_byte;
             if ((s32)(area_byte << 24) < 0) {
                 goto initial_done;
             }
@@ -97,31 +92,16 @@ do {
         }
 
         random_value = func_800A6D30();
-        {
-
-            global_base = (u8 *)&D_80083460;
-            ASM_KEEP(global_base);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            monster_entry = *(u8 **)(global_base + 0x18) + (random_value & 0x1E);
-            monster_type = monster_entry[0];
-            monster_level = monster_entry[1];
-        }
+        entry_table = (u8 *)&D_80083460;
+        monster_entry = *(u8 **)(entry_table + 0x18) + (random_value & 0x1E);
+        monster_type = monster_entry[0];
+        monster_level = monster_entry[1];
         spawn_availability = func_800A1618(monster_type, 1);
         if (spawn_availability != 0) {
             register s32 area_calc ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             retries_left = 0xF;
-            {
-                s32 area_offset;
-
-                global_base = (u8 *)(scratch.area_index);
-                ASM_KEEP(global_base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                area_calc = (s16)(unsigned long)global_base;
-                ASM_KEEP(area_calc);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                area_offset = area_calc * sizeof(AreaRecord);
-                do {
-                    global_base = (u8 *)((unsigned long)D_800E2970);
-                } while (0);
-                area = (u8 *)(area_offset + (unsigned long)global_base);
-            }
+            areas = (AreaRecord *)D_800E2970;
+            area = (u8 *)&areas[area_index];
 retry_position:
             spawn_x = func_800A6DA4(0, (u16)(((AreaRecord *)area)->width - 1));
             y = func_800A6DA4(0, (u16)(((AreaRecord *)area)->height - 1));
@@ -131,8 +111,8 @@ retry_position:
             entry_y += y;
             y = entry_y;
             if (((s16)func_8009A350((u8)spawn_x - 1, (u8)y, 0,
-                                    &scratch.flags) == 0) ||
-                ((scratch.flags & 0xB700) != 0)) {
+                                    &flags) == 0) ||
+                ((flags & 0xB700) != 0)) {
                 retries_left--;
                 if (retries_left >= 0) {
                     goto retry_position;

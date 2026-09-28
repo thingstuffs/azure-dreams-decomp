@@ -3,11 +3,6 @@
 
 typedef void (*Callback)(s32, void *, void *, void *);
 
-typedef struct {
-    u8 pad[0x3160];
-    u8 *table[3];
-} GlobalPage;
-
 extern void func_80064840(void *, void *, void *);
 extern void func_800649A0(void);
 extern void func_80064A40(void);
@@ -20,8 +15,6 @@ extern void func_80065820(void *, void *);
 extern void func_8006658C(void *, void *);
 
 extern u8 *D_80083160[3];
-extern GlobalPage D_80080000;
-__asm__(".set D_80080000, 0x80080000");
 
 
 typedef struct S_800D07C8_0 {
@@ -146,10 +139,10 @@ void func_800D07C8(s32 context, u8 *position, u8 *sprite, s16 depth_bias) {
     u16 sprite_flags;
     u8 part_command;
     u8 draw_command;
-    register GlobalPage *global_page ASM_REG("$4") = &D_80080000;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u8 **table = D_80083160;
     Callback callback;
 
-    ((S_800D07C8_0 *)scratch)->unk_20.p = global_page->table[0] + 0xB0;
+    ((S_800D07C8_0 *)scratch)->unk_20.p = table[0] + 0xB0;
     ((S_800D07C8_0 *)scratch)->unk_E4 = ((S_800D07C8_1 *)position)->unk_02;
     ((S_800D07C8_0 *)scratch)->unk_E8 = ((S_800D07C8_1 *)position)->unk_06;
     ((S_800D07C8_0 *)scratch)->unk_EC = ((S_800D07C8_1 *)position)->unk_0A;
@@ -157,7 +150,7 @@ void func_800D07C8(s32 context, u8 *position, u8 *sprite, s16 depth_bias) {
     ((S_800D07C8_0 *)scratch)->unk_84 = 0;
     ((S_800D07C8_0 *)scratch)->unk_7C = 0;
     ((S_800D07C8_0 *)scratch)->unk_74 = 0;
-    packet = ((S_800D07C8_2 *)(global_page->table[0]))->unk_8D0;
+    packet = ((S_800D07C8_2 *)(table[0]))->unk_8D0;
     ((S_800D07C8_3 *)sprite)->unk_14 |= 0x8000;
     func_800649A0();
     ((S_800D07C8_0 *)scratch)->unk_108 = ((S_800D07C8_3 *)sprite)->unk_20;
@@ -331,9 +324,5 @@ void func_800D07C8(s32 context, u8 *position, u8 *sprite, s16 depth_bias) {
         }
     }
     func_80064A40();
-    {
-        register u8 **table ASM_REG("$8") = D_80083160;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(table);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        ((S_800D07C8_6 *)(table[0]))->unk_8D0 = packet;
-    }
+    ((S_800D07C8_6 *)(table[0]))->unk_8D0 = packet;
 }

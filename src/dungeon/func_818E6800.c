@@ -22,9 +22,7 @@ extern u8 D_80024C7C[];
 extern u8 D_80024B60[];
 extern u8 D_80024798[];
 extern u8 D_800249DC[];
-extern u8 D_800249DC_store[] __asm__("D_800249DC");
 extern u8 D_800DECF8[];
-extern u8 D_800DECF8_load[] __asm__("D_800DECF8");
 extern u8 D_800E3D68[];
 extern s32 D_8008346C[3];
 extern s32 D_800814A0[3];
@@ -48,11 +46,11 @@ __asm__(".globl func_818E6800\n"
 #define BODY_NAME func_818E6800
 #endif
 
-void BODY_NAME(void *effect_arg, void *motion_arg, void * volatile context_arg)
+void BODY_NAME(void *effect_arg, void *motion_arg, void *context_arg)
     __attribute__((section(".text.func_818E6800")));
 
 /* Advance the effect through target selection, movement, impact, and cleanup. */
-void BODY_NAME(void *effect_arg, void *motion_arg, void * volatile context_arg) {
+void BODY_NAME(void *effect_arg, void *motion_arg, void *context_arg) {
     u8 *effect = (u8 *)effect_arg;
     u8 *motion = (u8 *)motion_arg;
     register u8 *actor ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
@@ -68,7 +66,8 @@ void BODY_NAME(void *effect_arg, void *motion_arg, void * volatile context_arg) 
     s32 distance;
     s16 offset[3];
     register s32 original_count ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register u8 *context_data ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u8 *spawn_callback = D_800249DC;
+    u8 *template_data = D_800DECF8;
 
     {
         actor = (u8 *)S32(effect, 0);
@@ -113,11 +112,7 @@ set_distance:
             if (particle != 0) {
                 func_8004491C(particle, D_80045340);
                 render_data = (u8 *)S32(particle, 12);
-                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                {
-                    context_data = D_800249DC_store;
-                    S32(particle, 16) = (s32)context_data;
-                }
+                S32(particle, 16) = (s32)spawn_callback;
                 U16(S32(particle, 8), 2) = (u16)(U16(motion, 2) +
                                              (func_80069EF8() & 0x1ff) - 256);
                 U16(S32(particle, 8), 6) = (u16)(U16(motion, 6) +
@@ -134,26 +129,19 @@ set_distance:
                 U16(particle_data, 72) = U16(effect, 80);
 
                 {
-                    s32 init_word = 0x101010;
                     s16 flags;
-                    s32 template_word;
+                    u8 *tpl;
                     S16(render_data, 30) = 4096;
                     S16(render_data, 28) = 4096;
                     S16(render_data, 16) = 32;
                     flags = U16(render_data, 20);
-                    ASM_KEEP(flags);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                    context_data = D_800DECF8;
-                    S32(render_data, 12) = init_word;
-                    init_word = (s32)context_data;
-                    ASM_KEEP(init_word);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                    S32(render_data, 0) = (s32)context_data;
-                    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                    flags |= 0xc;
-                    S16(render_data, 20) = (u16)flags;
-                    template_word = S32((u8 *)init_word, 4);
+                    S32(render_data, 12) = 0x101010;
+                    S32(render_data, 0) = (s32)template_data;
+                    S16(render_data, 20) = flags | 0xc;
+                    tpl = (u8 *)S32(render_data, 0);
+                    S32(render_data, 8) = S32(tpl, 4);
                     U8(render_data, 4) = 0;
                     U8(render_data, 5) = 0;
-                    S32(render_data, 8) = template_word;
                 }
                 S32(particle, 32) = (s32)effect;
                 S16(particle_data, 76) = 0;
@@ -202,8 +190,7 @@ mode_0: {
                 }
                 render_data = (u8 *)S32(target, -20);
                 if ((U16(render_data, 20) & 0x8000) != 0) {
-                    context_data = (u8 *)context_arg;
-                    if ((U16(context_data, 20) & 0x8000) != 0) {
+                    if ((U16(context_arg, 20) & 0x8000) != 0) {
                         U16(effect, 10) = 240;
                         goto set_state_240_done;
                     }
@@ -319,7 +306,9 @@ mode_2: {
                     ;
                     return;
                 }
-                goto cleanup_state;
+                func_80044A50(effect - 32);
+                U16(effect, 10) = 255;
+                return;
             }
             goto mode_done;
         }
@@ -338,7 +327,6 @@ mode_241:
                 func_800C8900(S32(actor, 96), U8(D_800E3D68, 0) == 255 ? 255 : 16, 4);
             }
             if (S16(effect, 80) > 0) goto mode_done;
-cleanup_state:
             func_80044A50(effect - 32);
             U16(effect, 10) = 255;
             return;
