@@ -1,7 +1,8 @@
 #!/bin/bash
 # Land lane wins, then the cascade, tidy, T2 and ONE gate:  bash tools/lanes/land_lanes.sh <tag> <lane>...
 #   A lane output (work/native_lane/<lane>/out/<container>/<name>.c) lands only when its base is current (the
-#   .base_sha next to it), its pins fell and no scaffolding kind grew (ASM_*, while (0), __asm__, volatile);
+#   .base_sha next to it), its pins fell (or, round 78, stayed equal while a scaffolding kind fell) and no
+#   scaffolding kind grew (ASM_*, while (0), __asm__, volatile);
 #   it goes through apply_candidates.py as transform lane_<lane>. CELLS=<jsonl> passes cell switches
 #   (apply_candidates --cells). EXTRA_T adds generators to the cascade. The caller reviews and commits.
 #   Run ONLY after every lane has exited (verify.py shares build_ovl with the gate), and from its own command
@@ -88,7 +89,10 @@ for lane in lanes:
         kc, ku = kinds(cand), kinds(cur); grew = [k for k in kc if kc[k] > ku[k]]
         if hashlib.sha256(cur.encode()).hexdigest() != base:
             print("skip", lane, rid, "stale base"); continue
-        if len(sites_of(cand)) >= len(sites_of(cur)) or grew:
+        fell = [k for k in ku if kc[k] < ku[k]]
+        # round 78: a byte-exact candidate that removes scaffolding (volatile, while(0), __asm__, an ASM_* kind)
+        # with no pin growth lands too - r78_opus_b1's `volatile ShortArg` parameter was refused for "no pin fell"
+        if len(sites_of(cand)) > len(sites_of(cur)) or grew or (len(sites_of(cand)) == len(sites_of(cur)) and not fell):
             print("skip", lane, rid, "pins", len(sites_of(cur)), "->", len(sites_of(cand)), "grew", grew); continue
         d = "%s/%s/%s" % (stage, lane, rid.split("/")[0]); os.makedirs(d, exist_ok=True)
         shutil.copy(f, d); shutil.copy(f + ".base_sha", d)
