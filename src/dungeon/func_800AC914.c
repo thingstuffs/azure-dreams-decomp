@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "shared/entity.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 
@@ -104,7 +105,7 @@ void func_800B2074(s32 world_x, s32 world_z) {
         ((S_800B2074_4 *)tile_addr)->unk_04 = (u16) (((S_800B2074_4 *)tile_addr)->unk_04 | 1);
         state_fields = object + 0x20;
         func_800A56E0(0x603, transform);
-        inherited_value = ((S_800B2074_5 *)D_800814A8)->unk_2A;
+        inherited_value = ((u16)D_800814A8->facing);
         state_fields->unk_0E = inherited_value;
     }
 }

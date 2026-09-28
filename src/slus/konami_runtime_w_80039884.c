@@ -4,11 +4,6 @@
 #include "common.h"
 
 typedef struct {
-    char pad0[8];
-    s32 field8;
-} S_80039884_Global;
-
-typedef struct {
     char pad0[0x87];
     s8 field87;
 } S_80039884_Arg;
@@ -18,10 +13,10 @@ typedef struct {
 s32 func_80039884(S_80039884_Arg *state)
 {
     s32 result = 0;
-    S_80039884_Global *global = ((S_80039884_Global *)&gameWork);
+    GameWork *global = &gameWork;
 
     if (state->field87 == 0) {
-        if ((global->field8 & 0x60) != 0) {
+        if ((((s32)global->unk_008) & 0x60) != 0) {
             goto done;
         }
     }

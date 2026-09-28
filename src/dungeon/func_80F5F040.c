@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/def_table.h"
 #include "shared/object_node.h"
 #include "shared/record_ptrs.h"
 #include "shared/slus_callbacks.h"
@@ -139,7 +140,6 @@ extern void func_800A56E0(s32);
 extern s32 func_800A6D30(void);
 extern s32 func_800A94A0(void *, u8 *, s32, void *);
 
-extern u8 D_8006DE24[0x200];
 extern u8 D_800DEA68[0x20];
 extern u8 D_80170E68[0x10];
 extern void *D_80170838[];
@@ -278,7 +278,7 @@ have_selector:
             ((S_80172840_0 *)actor)->unk_60 = move_object;
             goto copy_record;
         }
-        if (D_8006DE24[(*move_slot * 20) + 0x12] == 2) {
+        if (D_8006DE24[*move_slot].kind == 2) {
             move_object = ((S_80172840_0 *)actor)->unk_60;
             if (move_object != 0) {
 copy_record:

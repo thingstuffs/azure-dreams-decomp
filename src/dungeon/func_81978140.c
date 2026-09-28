@@ -1,16 +1,12 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "shared/entity.h"
 #include "shared/object_flags.h"
 
 typedef struct {
     u8 pad[0x1A];
     u16 value;
 } S_81978140_inner;
-
-typedef struct {
-    u8 pad0[0x2A];
-    u16 value;
-} S_81978140_global;
 
 typedef struct {
     S_81978140_inner *inner;
@@ -60,7 +56,7 @@ L0:
 L1:
     func_800257B8();
 L2:
-    ((S_81978140_global *)D_800814A8)->value -= 0x200;
+    (*(u16 *)&D_800814A8->facing) -= 0x200;
     goto L7;
 
 L3:

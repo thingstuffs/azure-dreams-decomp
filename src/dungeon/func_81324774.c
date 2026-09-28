@@ -132,7 +132,6 @@ void func_8016BF74(void *motion, void *context, S_8016BF74_2 *position, void *ac
     s32 direction_offset;
     s32 result;
     s8 tile_index;
-    DungeonGlobalStatus *state;
     s32 state_flags;
     S_8016BF74_4 *target_position;
     void *x_offset;
@@ -155,15 +154,14 @@ void func_8016BF74(void *motion, void *context, S_8016BF74_2 *position, void *ac
     s32 current_y;
     u8 *world_position;
 
-    state = &dungeonStatus;
-    state_flags = state->flags;
+    state_flags = dungeonStatus.flags;
     near_target = 0;
     if ((state_flags & 0x4000) || (((S_8016BF74_1 *)actor)->unk_71.s >= 0)) {
         if (((u8) ((S_8016BF74_1 *)actor)->unk_12 >= 2U) || ((func_8016C720(motion, context, position, actor) << 0x10) == 0)) {
             func_800A9A0C(actor);
             return;
         }
-        active_actor = ((s32)state->unk_0C);
+        active_actor = ((s32)dungeonStatus.unk_0C);
         if ((void *)active_actor == actor) {
             path_status = 0xC008;
             ((S_8016BF74_1 *)actor)->unk_46 = (u16) path_status;
@@ -210,7 +208,7 @@ void func_8016BF74(void *motion, void *context, S_8016BF74_2 *position, void *ac
             turn_index = 0;
             if (!(((S_8016BF74_1 *)actor)->unk_46 & 0x8000)) {
                 if (actor_flags & 0x20000) {
-                    direction_offset = ((((S_8016BF74_1 *)actor)->unk_45 + ((s32) (((u16)((EntityRec *)D_800814A8)->facing) << 0x10) >> 0x19)) & 7) * 2;
+                    direction_offset = ((((S_8016BF74_1 *)actor)->unk_45 + ((s32) (((u16)D_800814A8->facing) << 0x10) >> 0x19)) & 7) * 2;
                     world_x = D_80082E80[0x24];
                     world_y = D_80082E80[0x25];
                     x_offset = (void *)(*(u16 *)((u8 *)(((M2C_UNK *)dirStepX)) + direction_offset));
@@ -333,7 +331,7 @@ take_step:
 finish_search:
                 goto finish_path;
             }
-            if ((turn_index != 0) || (D_80082EA4 == position->unk_24.at00u.v) || (result = func_8009A180(actor, ((s32)((EntityRec *)D_800814A8)->unk_58) + 0x20) << 0x10, (result == 0))) {
+            if ((turn_index != 0) || (D_80082EA4 == position->unk_24.at00u.v) || (result = func_8009A180(actor, ((s32)D_800814A8->unk_58) + 0x20) << 0x10, (result == 0))) {
                 turn_index += 1;
                 angle_offsets += 2;
                 if (turn_index < 8) {
@@ -344,7 +342,6 @@ finish_search:
             return;
         }
         {
-            DungeonGlobalStatus *step_state;
 
 complete_step:
             result = turn_index < 8;
@@ -357,8 +354,7 @@ complete_step:
             ((S_8016BF74_1 *)actor)->unk_46 = (u16) (((S_8016BF74_1 *)actor)->unk_46 & 0x7FFF);
             ((S_8016BF74_5 *)motion)->unk_9C = (s8) (u8) position->unk_26;
             ((S_8016BF74_1 *)actor)->unk_6D.u = (u8) (((S_8016BF74_1 *)actor)->unk_6D.u - 1);
-            step_state = &dungeonStatus;
-            step_state->unk_08 = (u16) (((u16)step_state->unk_08) + 1);
+            dungeonStatus.unk_08 = (u16) (((u16)dungeonStatus.unk_08) + 1);
             if (((S_8016BF74_1 *)actor)->unk_6D.s == 0) {
 finish_path:
                 ((S_8016BF74_1 *)actor)->unk_71.u &= 0x7F;

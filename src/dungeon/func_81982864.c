@@ -66,7 +66,6 @@ typedef struct StackPair {
 } StackPair;
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-struct S_8003E2D8; typedef struct S_8003E2D8 S_8003E2D8;
 extern s16 D_800269F8[5];
 extern void *D_80024008[];
 s32 func_800244EC();                     /* extern */
@@ -93,7 +92,6 @@ void func_80024064(void *transition) {
     GameWork *levels;
     void *active_state;
     void *source_data;
-    DungeonGlobalStatus *parent_state;
 
     levels = &gameWork;
     state_or_frames = ((S_80024064_0 *)transition)->unk_0A.s;
@@ -162,9 +160,8 @@ finish_transition:
     if ((s16) *D_800269F8 != 0) {
         goto update_dimming;
     }
-    parent_state = &dungeonStatus;
-    parent_state->unk_0C = 0;
-    parent_state->unk_0A = (u16) (((u16)parent_state->unk_0A) - 1);
+    dungeonStatus.unk_0C = 0;
+    dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
     ((S_80024064_0_pre *)transition)[-1].unk_00 = (u16) (((S_80024064_0_pre *)transition)[-1].unk_00 | 0x8000);
     objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
 update_dimming:

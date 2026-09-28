@@ -161,10 +161,10 @@ s32 func_80174228(u8 *item_data)
     s32 half_height;
     S_func_80174228_3 *item;
     register s32 render_term ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    S_func_80174228_2 *render_state;
+    GameWork *render_state;
     register S_func_80174228_0 *profile_storage ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
-    render_state = (S_func_80174228_2 *)((u8 *)(&gameWork));
+    render_state = &gameWork;
     __builtin_memcpy(storage, D_8017087C, 8);
     depth = 0;
     vertices = storage + 8;
@@ -277,7 +277,7 @@ s32 func_80174228(u8 *item_data)
         if ((u32)depth < 0x1E0U) {
             i = 0;
             do {
-                context = render_state->unk_00;
+                context = render_state->unk_000;
                 prim = context->unk_8D0;
                 context->unk_8D0 = (u8 *)prim + 0x28;
 
@@ -362,10 +362,10 @@ s32 func_80174228(u8 *item_data)
                 ot_offset = depth * 4;
                 addr_mask = 0x00FFFFFF;
                 tag_mask = 0xFF000000;
-                context = render_state->unk_00;
+                context = render_state->unk_000;
                 prim->unk_00 = (prim->unk_00 & tag_mask) |
                     (((S_func_80174228_10 *)((u8 *)context + (0xB0 + ot_offset)))->unk_00 & addr_mask);
-                context2 = render_state->unk_00;
+                context2 = render_state->unk_000;
                 ((S_func_80174228_10 *)((u8 *)context2 + (0xB0 + ot_offset)))->unk_00 =
                     (((S_func_80174228_10 *)((u8 *)context2 + (0xB0 + ot_offset)))->unk_00 & tag_mask) |
                     ((u32)prim & addr_mask);

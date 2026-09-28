@@ -3,13 +3,6 @@
 #include "shared/object_flags.h"
 
 typedef struct {
-    u8 pad0[8];
-    u32 field_8;
-    u8 padC[4];
-    u32 field_10;
-} GlobalState;
-
-typedef struct {
     void *field_0;
     s16 field_4;
     s16 field_6;
@@ -43,7 +36,7 @@ extern void func_801231DC(void);
 /* Handles input to update object selections, action states, and exit behavior. */
 void func_801249A0(Object *object)
 {
-    GlobalState *input_state = ((GlobalState *)&gameWork);
+    GameWork *input_state = &gameWork;
     u32 input_flags;
     u32 side_value;
     u8 active_value;
@@ -52,7 +45,7 @@ void func_801249A0(Object *object)
     s32 entry_index;
     s32 **reset_entries;
 
-    input_flags = input_state->field_10;
+    input_flags = ((u32)input_state->unk_010);
     if (input_flags & 0x40) {
         s32 slot_index;
         register Object *slot_object ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
@@ -113,7 +106,7 @@ matched_five:
         }
     }
 
-    input_flags = input_state->field_10;
+    input_flags = ((u32)input_state->unk_010);
     if (input_flags & 0x8000) {
         u8 selection_group;
 
@@ -145,7 +138,7 @@ matched_five:
         goto end;
     }
 
-    input_flags = input_state->field_8;
+    input_flags = ((u32)input_state->unk_008);
     if (input_flags & 0x1000) {
         if (object->field_F == 3) {
             goto reset_four;

@@ -78,7 +78,7 @@ void func_8009A3D0(s32, s32, s32);
 
 /* Picks up an item, applying special effects or moving it into inventory. */
 s32 func_80094F74(Ctx *ctx, char *text, Item *item, Unit *unit) {
-    Sys *sys;
+    GameWork *sys;
     s32 item_lookup;
     s16 item_id;
     char *message;
@@ -108,7 +108,7 @@ s32 func_80094F74(Ctx *ctx, char *text, Item *item, Unit *unit) {
     Ent *entities;
     s32 item_kind;
 
-    sys = ((Sys *)&gameWork);
+    sys = &gameWork;
     item_lookup = func_800A70E4(item->kind, item->sub, unit->id);
     item_id = item_lookup;
     if (item_id < 0) {
@@ -128,7 +128,7 @@ s32 func_80094F74(Ctx *ctx, char *text, Item *item, Unit *unit) {
     free_slot = func_80098FB0();
     free_entry = func_80098FF8();
     if ((D_80013714 & 1) == 0) {
-        if ((sys->f8 & 0x20) != 0) {
+        if ((((s32)sys->unk_008) & 0x20) != 0) {
             func_8009F644(unit, 64, 0, 0);
             func_80099290(func_80099194(D_80088A80, func_80099368(&D_800E3548[item_id], func_80099194(D_800E0A83, message))));
             func_800A5720(message_handle);

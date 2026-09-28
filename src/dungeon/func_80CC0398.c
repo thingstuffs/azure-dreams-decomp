@@ -7,12 +7,6 @@
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "shared/entity.h"
 
-typedef struct {
-    u8 pad0[0xC];
-    u16 flags;
-    u8 padE[6];
-} DungeonTile;
-
 typedef s32 M2C_UNK;
 
 typedef struct S_set_map_0 {
@@ -145,7 +139,7 @@ void func_80173B98(void *actor, M2C_UNK context, void *sprite, void *creature) {
         }
         if (!(((EntityRec *)creature)->unk_46 & 0x8000)) {
             if (dungeonStatus.flags & 0x2000) {
-                if ((func_8009A180(creature, ((s32)((EntityRec *)D_800814A8)->unk_58) + 0x20) << 0x10) != 0) {
+                if ((func_8009A180(creature, ((s32)D_800814A8->unk_58) + 0x20) << 0x10) != 0) {
                     return;
                 }
             }

@@ -183,7 +183,7 @@ check_special_action:
 check_pending_action:
     if (((S_801732A4_2 *)actor_state)->unk_6D == 0) goto done;
     if ((func_800A2C34(actor_state) << 0x10) == 0) goto update_action;
-    if ((func_8009A180(actor_state, ((s32)((EntityRec *)D_800814A8)->unk_58) + 0x20) << 0x10) != 0) goto done;
+    if ((func_8009A180(actor_state, ((s32)D_800814A8->unk_58) + 0x20) << 0x10) != 0) goto done;
 update_action:
     func_800A9A0C(actor_state);
     func_800A9A04(actor_state);

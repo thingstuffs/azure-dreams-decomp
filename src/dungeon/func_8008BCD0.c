@@ -7,7 +7,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern void *D_8008ACDC[];
 extern void *D_8008EAC8[];
-struct S_8003E2D8; typedef struct S_8003E2D8 S_8003E2D8;
 extern volatile s32 D_80082EB0[];
 extern s16 D_800DCE66[5];
 extern s32 D_800E4940[];

@@ -220,7 +220,7 @@ cancel_ability:
     ((EntityRec *)motion)->unk_0C = 0;
     func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
     dungeonStatus.unk_0C = 0;
-    (*(u16 *)((u8 *)&((EntityRec *)D_800814A8)->unk_A4 + 2)) = (u16) ((*(u16 *)((u8 *)D_800814A8 + 0xA6)) - 1);
+    (*(u16 *)((u8 *)&D_800814A8->unk_A4 + 2)) = (u16) ((*(u16 *)((u8 *)D_800814A8 + 0xA6)) - 1);
     func_800A4ACC(actor);
     ((S_8017364C_1 *)actor)->unk_6D = (u8) (((S_8017364C_1 *)actor)->unk_6D - 1);
     ((S_8017364C_0 *)action)->unk_8C = &D_80171760;

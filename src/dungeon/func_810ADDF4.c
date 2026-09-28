@@ -200,7 +200,7 @@ void func_801715F4(void *move_state, void *caller_context, void *position_arg, v
 
                 follow_offset =
                     ((((S_801715F4_1 *)actor_arg)->unk_45 +
-                      ((s32)(((u16)((EntityRec *)D_800814A8)->facing) << 16) >> 25)) &
+                      ((s32)(((u16)D_800814A8->facing) << 16) >> 25)) &
                      7) *
                     2;
 
@@ -408,7 +408,7 @@ loop_setup:
                 ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                 if ((s16)func_8009A180(
                         actor_arg,
-                        (u8 *)((EntityRec *)D_800814A8)->unk_58 + 0x20) != 0) {
+                        (u8 *)D_800814A8->unk_58 + 0x20) != 0) {
                     goto end;
                 }
             }

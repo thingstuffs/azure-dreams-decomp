@@ -2,6 +2,7 @@
 #include "shared/sys_flags.h"
 #include "shared/dungeon_floor.h"
 #include "shared/record_ptrs.h"
+#include "shared/entity.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -512,7 +513,7 @@ place_creature:
     linked_creature = actor->unk_60;
     linked_creature->unk_98 = (u16) (linked_creature->unk_98 | 0xC);
     func_80069E78((u8 *)creature + 0x34, func_8003C06C(creature->unk_13));
-    experience = D_800835E4[((S_func_800B1364_5 *)D_800E3D7C)->unk_11];
+    experience = D_800835E4[(*(u8 *)((u8 *)&D_800E3D7C->unk_10 + 1))];
     level_thresholds = D_800835E4 + 1;
     creature->unk_18 = experience;
     if (experience < level_thresholds[creature->unk_11]) {

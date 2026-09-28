@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sound_volume.h"
 
 extern int   D_80084130[3];
 extern short D_80073828[5];
@@ -1077,20 +1078,19 @@ short SD_Call(int flags)
     return func_80055778((unsigned short)flags);
 }
 
-extern short D_8008480C[8];
 extern void func_80054D64(void);
 
-/* Store a halfword and invoke the follow-up handler. */
+/* Sets volume scale [2] and re-applies it through func_80054D64. */
 void func_80053DCC(short value)
 {
-    D_8008480C[0] = value;
+    volumeScale[2] = value;
     func_80054D64();
 }
 
-/* Store the global halfword value. */
+/* Sets volume scale [0]. */
 void func_80053E14(short value)
 {
-    D_80084808[0] = value;
+    volumeScale[0] = value;
 }
 
 /* Return zero. */

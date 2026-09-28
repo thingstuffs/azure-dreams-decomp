@@ -208,7 +208,7 @@ block_27:
     if (!(dungeonStatus.flags & 0x2000)) {
         goto block_33;
     }
-    if ((func_8009A180(status, ((s32)((EntityRec *)D_800814A8)->unk_58) + 0x20) << 0x10) != 0) {
+    if ((func_8009A180(status, ((s32)D_800814A8->unk_58) + 0x20) << 0x10) != 0) {
         goto block_55;
     }
 block_33:

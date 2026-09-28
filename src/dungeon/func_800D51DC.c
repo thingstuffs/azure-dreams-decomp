@@ -48,13 +48,6 @@ typedef struct S_800DA93C_4 {
 } S_800DA93C_4;   /* (u8 *)work in func_800DA93C */
 
 
-typedef struct {
-    void *unk0;
-    u8 pad[0x1F8];
-    s32 unk1FC;
-} S_800A1600_D80083160;
-
-
 extern s32 func_80065420();
 extern void func_80066640();
 extern void func_800666F4();
@@ -63,7 +56,7 @@ extern void func_800666F4();
 s32 func_800DA93C(void *first_quad) {
     void *quad_data;
     void *packet;
-    S_800A1600_D80083160 *render_state;
+    GameWork *render_state;
     s32 scratch;
     s32 depth;
     register s32 link_addr;
@@ -78,13 +71,13 @@ s32 func_800DA93C(void *first_quad) {
     u32 tag_mask;
 
     quad_data = first_quad;
-    render_state = ((S_800A1600_D80083160 *)&gameWork);
+    render_state = &gameWork;
     addr_mask = 0x00FFFFFF;
     tag_mask = 0xFF000000;
 
     do {
-        packet = ((S_800DA93C_0 *)(render_state->unk0))->unk_8D0;
-        ((S_800DA93C_0 *)(render_state->unk0))->unk_8D0 = (u8 *)packet + 0x28;
+        packet = ((S_800DA93C_0 *)(render_state->unk_000))->unk_8D0;
+        ((S_800DA93C_0 *)(render_state->unk_000))->unk_8D0 = (u8 *)packet + 0x28;
 
         depth = func_80065420((u8 *)quad_data + 0x28,
                            (u8 *)packet + 8, &scratch, &scratch);
@@ -127,8 +120,8 @@ s32 func_800DA93C(void *first_quad) {
             link_addr = depth << 2;
             ((S_800DA93C_2 *)packet)->unk_00 =
                 (((S_800DA93C_2 *)packet)->unk_00 & tag_mask) |
-                (((S_800DA93C_3 *)((u8 *)((u32)link_addr + (u32)render_state->unk0)))->unk_B0 & addr_mask);
-            link_addr += (s32)render_state->unk0;
+                (((S_800DA93C_3 *)((u8 *)((u32)link_addr + (u32)render_state->unk_000)))->unk_B0 & addr_mask);
+            link_addr += (s32)render_state->unk_000;
             ((S_800DA93C_4 *)((u8 *)link_addr))->unk_B0 =
                 (((S_800DA93C_4 *)((u8 *)link_addr))->unk_B0 & tag_mask) |
                 ((u32)packet & addr_mask);

@@ -6,13 +6,6 @@ typedef struct {
     u16 field_A;
 } Obj800AD0E4;
 
-typedef struct {
-    u8 pad0[8];
-    u32 field_8;
-    u8 padC[4];
-    u32 field_10;
-} State80083160;
-
 extern void func_80093D48(Obj800AD0E4 *, Obj800AD0E4 *, s32);
 extern void func_80093ED8(Obj800AD0E4 *, Obj800AD0E4 *, s32);
 extern void func_800942B0(Obj800AD0E4 *, Obj800AD0E4 *, s32);
@@ -27,7 +20,7 @@ extern u8 D_800FE488[9];
 
 /* Update the object and dispatch actions based on its value, timer, and state flags. */
 void func_800AA844(Obj800AD0E4 *timer_obj, Obj800AD0E4 *object, s32 action_arg) {
-    State80083160 *state = ((State80083160 *)&gameWork);
+    GameWork *state = &gameWork;
     s16 next_value;
     u16 timer;
 
@@ -51,12 +44,12 @@ void func_800AA844(Obj800AD0E4 *timer_obj, Obj800AD0E4 *object, s32 action_arg) 
         return;
     }
 
-    if (state->field_8 & 0xF000) {
+    if (((u32)state->unk_008) & 0xF000) {
         func_80093ED8(timer_obj, object, action_arg);
         return;
     }
 
-    if (state->field_10 & 0x10) {
+    if (((u32)state->unk_010) & 0x10) {
         func_800942B0(timer_obj, object, action_arg);
         return;
     }

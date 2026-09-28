@@ -157,8 +157,8 @@ void BODY_NAME(void *state_data, void *position_data)
     }
 
 jt_c0:
-        ((EntityRec *)D_800814A8)->unk_102 = 1;
-        ((EntityRec *)D_800814A8)->unk_F4 = 0;
+        D_800814A8->unk_102 = 1;
+        D_800814A8->unk_F4 = 0;
         ((S_81988800_2 *)position_ref)->unk_00 = ((S_81988800_10 *)(((S_81988800_3 *)work)->unk_08.p32))->unk_00;
         ((S_81988800_2 *)position_ref)->unk_04 = ((S_81988800_10 *)(((S_81988800_3 *)work)->unk_08.p32))->unk_04;
         ((S_81988800_2 *)position_ref)->unk_08.at00.v = ((S_81988800_10 *)(((S_81988800_3 *)work)->unk_08.p32))->unk_08;
@@ -233,7 +233,7 @@ jt_c3: {
                 ((S_81988800_5 *)object)->unk_10 = &D_80024B20;
                 func_8004491C(object, &D_80024D58);
                 actor = (void *)((u8 *)(&D_80082E80));
-                offset[0] = (((u16)((EntityRec *)D_800814A8)->facing) >> 9) & 7;
+                offset[0] = (((u16)D_800814A8->facing) >> 9) & 7;
                 work = (u8 *)object + 0x20;
                 ((S_81988800_3 *)work)->unk_04 = (((u8 *)actor)[0x24] << 6) + 0x20;
                 ((S_81988800_3 *)work)->unk_06 = (((u8 *)actor)[0x25] << 6) + 0x20;

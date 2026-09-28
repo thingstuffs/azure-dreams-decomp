@@ -57,12 +57,6 @@ extern s32 func_80064584(s32);
 extern s32 func_80065420(void *, void *, void *, void *);
 extern s32 rand(void);
 
-typedef struct {
-    void *ptr;
-    u32 pad[2];
-} Global83160;
-
-
 /* Draws randomized white points around each object in the linked chain. */
 s32 func_800BB218(void *first_object, void *first_coords)
 {
@@ -82,20 +76,20 @@ s32 func_800BB218(void *first_object, void *first_coords)
     u32 packet_tag;
     u32 linked_tag;
     unsigned long ot_link;
-    Global83160 *render_state;
+    GameWork *render_state;
 
     object = first_object;
     coords = first_coords;
-    render_state = ((Global83160 *)&gameWork);
+    render_state = &gameWork;
     scratch = (u8 *)0x1F800000;
-    ((S_800BB218_0 *)scratch)->unk_10 = render_state->ptr + 0xB0;
+    ((S_800BB218_0 *)scratch)->unk_10 = render_state->unk_000 + 0xB0;
     addr_mask = 0x00FFFFFF;
     tag_mask = 0xFF000000;
 
 draw_object:
     point_index = 0;
     do {
-        arena = render_state->ptr;
+        arena = render_state->unk_000;
         packet = ((S_800BB218_1 *)arena)->unk_8D0;
         ((S_800BB218_1 *)arena)->unk_8D0 = packet + 0xC;
         packet[3] = 2;

@@ -97,7 +97,6 @@ M2C_UNK func_800A2B04();
 M2C_UNK func_800A4ACC();
 M2C_UNK func_800A56E0();
 s32 func_800A94A0(void *, u8 *, s32, void *);
-typedef struct { u8 pad[0x12]; u8 kind; u8 pad2; } ItemDef20;
 extern M2C_UNK D_800D7960;
 extern M2C_UNK D_80170E54;
 extern u8 D_80173C6C[];
@@ -267,7 +266,7 @@ block_36:
     ((S_801728B4_5 *)motion)->unk_0C = 0;
     func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
     dungeonStatus.unk_0C = 0;
-    (*(u16 *)((u8 *)&((EntityRec *)D_800814A8)->unk_A4 + 2)) = (u16) ((*(u16 *)((u8 *)D_800814A8 + 0xA6)) - 1);
+    (*(u16 *)((u8 *)&D_800814A8->unk_A4 + 2)) = (u16) ((*(u16 *)((u8 *)D_800814A8 + 0xA6)) - 1);
     func_800A4ACC(action);
     ((EntityRec *)action)->unk_6D = (u8) (((u8)((EntityRec *)action)->unk_6D) - 1);
     ((S_801728B4_0 *)actor)->unk_8C = &D_80170E54;

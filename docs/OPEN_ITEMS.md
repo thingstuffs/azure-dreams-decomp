@@ -16,16 +16,14 @@ Newest first within each section. Evidence links point at the record that measur
 | 10 | 147 rows keep a `(u8 *)&gameWork` view pointer | readability | only where the local pointer is not retail's base register (128 miss when folded) | TYPE_CONSOLIDATION.md phase 4 |
 | 11 | goto readability debt (1,599 rows) and remaining address-named local views | readability | byte-exact control-flow work in family packs; views via type consolidation | evidence/r78_wave1_report.md |
 | 12 | r77_opus_m6 site-for-pin trade on dungeon/func_81875B38 (4 -> 1) | pins | stage with a trade-ledger entry and review | HANDOVER round 77 |
-| 21 | phase 9's full apply reverts deterministically: all SLUS module rows fail with 'module gate baseline: NO MATCH, 88,082 words' (twice, the second time with no lane running - NOT a lane race as first thought); tree healthy after each revert | phase 9's header rows (globals.h) cannot land | phase-9 agent diagnosing apply9's module-gate baseline step | apply9_full.log, apply9_full2.log |
 | 14 | tools/gate/match.py and tools/fidelity/probe_gp_module.py do not read config/slus_006.14.c_syms.txt | only the SLUS image gate + verify's module/partition gates prove a SLUS candidate naming a C-only symbol | teach both to read it | phase-6 REPORT |
 | 15 | evidence records keyed on the old pinned SLUS recipe sha read stale once (slus_module_evidence, certify_slus_module, prove_slus_ownership, pin_search) | expected after a recipe move | refresh on next use | phase-6 REPORT |
-| 17 | D_80084808/0A/0C/10 stats group declared at different sizes in 8 SLUS rows | two spellings of one object | recover the group's type | phase-8 REPORT |
-| 18 | 11 D_8006DE24 rows build the address from the table base (struct form misses) | not migrated to DefEntry | a spelling that keeps the base formation | phase-8 REPORT |
 
 ## Closed (round 78)
 
 | item | fix | commit |
 |---|---|---|
+| stats group D_80084808.. declared at several sizes; 11 D_8006DE24 base-form rows; phase-9 full apply reverting | volumeScale[8] (size must exceed 8 bytes: stock-2.7.2 store-macro expansion); DefEntry field spelling; root cause found by the phase-9 agent with a scratch-build repro | phase 9 (this commit) |
 | apply_names.py refused data rows; lab.py API ignored the 60-variant cap; verify.py include_root could not test a changed header | `apply_names.py --data [--rewrite]`; cap enforced in Lab.test/test_subs (`more=True` override); explicit include_root wins (overlay -isystem/-iquote ordering, SLUS -I before row flags) - 219 tests, whole-tree verify 6,767/6,767 exact with the new verify.py | this commit (r78_sol_tools, gpt-6-sol) |
 | stale UNRESOLVED pin comments on lines with no pin (the census found 11; tree-wide there were 262 in 135 files) | removed (comment-only diff, checked mechanically); 135 rows verify-exact, 118 windows + SLUS MATCH | this commit |
 | game.h struct S_80083178 overlapped GameWork | GameWork.view sub-structure; S_80083178 retired (3 genuine second declarations keep a local extern) | phase 8 (this commit) |

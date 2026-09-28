@@ -34,10 +34,10 @@ extern void SD_Call(s32);
 void func_800CA214(Object *object, Position *position, void *context)
 {
     s16 ticks_left;
-    GameState *game = ((GameState *)&gameWork);
+    GameWork *game = &gameWork;
 
     if (object->timer == 8) {
-        game->transition = 0x10;
+        game->view.unk_08C = 0x10;
     }
 
     ticks_left = (u16)object->timer - 1;

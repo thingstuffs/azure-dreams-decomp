@@ -323,12 +323,12 @@ void func_80024DAC(S_819835AC_1 *effect, S_819835AC_2 *motion, S_819835AC_3 *vis
     u16 tile_counter;
     u8 tile_y;
     s32 tile_div;
-    S_819835AC_7 *state34_base;
+    TileObject *state34_base;
     S_819835AC_2 *state34_move;
     S_819835AC_2 *state34_emit;
     S_819835AC_5 *state2_actor;
     u32 state2_angle;
-    S_819835AC_7 *tile_base;
+    TileObject *tile_base;
     u32 tile_coord;
     s32 tile_call_arg;
     s32 common_speed;
@@ -617,8 +617,8 @@ block_57:
     goto block_128;
 jt_c3:
 jt_c4:
-    state34_base = (S_819835AC_7 *) &D_80082E80.unk_000;
-    if (func_8003DE58(state34_base->unk_08, state34_base, &emit_offset, 0) == 0) {
+    state34_base = &D_80082E80;
+    if (func_8003DE58(state34_base->unk_008, state34_base, &emit_offset, 0) == 0) {
         goto block_63;
     }
     if (effect->unk_30 != 3) {
@@ -648,12 +648,12 @@ block_65:
     if ((launch_ticks << 0x10) > 0) {
         goto block_129;
     }
-    tile_base = (S_819835AC_7 *) &D_80082E80.unk_000;
-    tile_coord = tile_base->unk_24;
+    tile_base = &D_80082E80;
+    tile_coord = tile_base->tileX;
     tile_call_arg = 0x300;
     effect->unk_40 = (s16) tile_coord;
     effect->unk_98 = (u8) tile_coord;
-    tile_coord = tile_base->unk_25;
+    tile_coord = tile_base->tileY;
     effect->unk_30 = 5;
     effect->unk_46 = 3U;
     effect->unk_34.u16 = 0U;

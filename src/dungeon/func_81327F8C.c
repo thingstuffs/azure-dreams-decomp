@@ -77,7 +77,7 @@ check_action:
                 return;
             }
             if (!(((EntityRec *)entity)->unk_46 & 0x8000)) {
-                if (!(dungeonStatus.flags & 0x2000) || ((func_8009A180(entity, ((s32)((EntityRec *)D_800814A8)->unk_58) + 0x20) << 0x10) == 0)) {
+                if (!(dungeonStatus.flags & 0x2000) || ((func_8009A180(entity, ((s32)D_800814A8->unk_58) + 0x20) << 0x10) == 0)) {
                     if (D_80013714 & 8) {
                         func_80174320(actor, context, sprite);
                         ((EntityRec *)entity)->unk_71 = (u8) (((EntityRec *)entity)->unk_71 & 0x7F);

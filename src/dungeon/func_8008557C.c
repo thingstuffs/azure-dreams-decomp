@@ -157,7 +157,6 @@ void func_8008ACDC(void *actor, void *motion, register void *sprite, void *stats
     void *call_sprite;
     u32 button_bits;
     GameWork *input;
-    DungeonGlobalStatus *dungeon_status;
 
     input = &gameWork;
     action_state = ((Rec_func_8008ACDC_arg0 *)actor)->unk_9A.as_u8;
@@ -183,8 +182,7 @@ reset_action:
         goto check_status;
     }
 check_status:
-    dungeon_status = &dungeonStatus;
-    dungeon_status->flags = (u16) (dungeon_status->flags & 0xFF7F);
+    dungeonStatus.flags = (u16) (dungeonStatus.flags & 0xFF7F);
     status_count = ((S_8008ACDC_4 *)stats)->unk_64;
     if ((status_count < 0) || (((Rec_func_8008ACDC_arg0 *)actor)->unk_10C & 1)) {
         func_8008CAA0(actor, motion, sprite, stats);
@@ -211,7 +209,7 @@ check_status:
             func_8008D7D0(actor, motion, sprite, stats);
             goto epilogue;
         }
-        if (!(dungeon_status->flags & 4)) {
+        if (!(dungeonStatus.flags & 4)) {
             if (((S_8008ACDC_4 *)stats)->unk_1C & 0x20) {
                 if (!((*(u16 *)0x80013714) & 1) && (((u32)input->unk_008) & 0x80)) {
                     ((S_8008ACDC_4 *)stats)->unk_8A = 2;
@@ -405,7 +403,7 @@ apply_target_action:
                     if ((func_80094EA4(input_flags) << 0x10) != 0) {
                         ((Rec_func_8008ACDC_arg0 *)actor)->unk_A4.as_u16 = 0U;
                     }
-                    if ((((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 & 0x200) && ((func_800A2C34(stats) << 0x10) == 0) && !(dungeon_status->flags & 4)) {
+                    if ((((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 & 0x200) && ((func_800A2C34(stats) << 0x10) == 0) && !(dungeonStatus.flags & 4)) {
                         ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 = (u16) (((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 & 0xFDFF);
                         if ((func_800A4474(((S_8008ACDC_1 *)sprite)->unk_24, ((S_8008ACDC_1 *)sprite)->unk_25) << 0x10) != 0) {
                             func_8008CF6C(actor, motion, sprite, &D_800245A8);

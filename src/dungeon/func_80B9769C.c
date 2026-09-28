@@ -53,18 +53,6 @@ typedef struct S_80170E9C_4 {
 } S_80170E9C_4;   /* case_entity in func_80170E9C */
 
 
-typedef struct {
-    u8 pad_00[0x24];
-    u8 x;
-    u8 y;
-} RefPosition;
-
-typedef struct {
-    u8 pad_00[0xC];
-    u16 flags;
-    u8 pad_0E[6];
-} TerrainEntry;
-
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern void *D_80170808[];
@@ -212,7 +200,7 @@ block_30:
     if (!(dungeonStatus.flags & 0x2000)) {
         goto block_36;
     }
-    if ((func_8009A180(state, ((s32)((EntityRec *)D_800814A8)->unk_58) + 0x20) << 0x10) != 0) {
+    if ((func_8009A180(state, ((s32)D_800814A8->unk_58) + 0x20) << 0x10) != 0) {
         goto block_63;
     }
 block_36:

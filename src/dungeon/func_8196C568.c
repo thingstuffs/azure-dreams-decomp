@@ -2,6 +2,7 @@
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
 #include "shared/record_ptrs.h"
+#include "shared/entity.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 
@@ -93,11 +94,6 @@ typedef struct {
     u8 pad14[0xC];
     Motion motion;
 } Effect;
-
-typedef struct {
-    DungeonState *value;
-    u8 pad4[8];
-} DungeonStatePtr;
 
 typedef struct {
     s16 value;
@@ -290,7 +286,7 @@ state1:
     return;
 
 state2:
-    if (((DungeonState *)D_800814A8)->field60 != 0) {
+    if (D_800814A8->target != 0) {
         if (work->timer >= 13) {
             if (func_8003DF74((((SearchContext *)&D_80082E80))->field8, ((SearchContext *)&D_80082E80), &work->x, 0)) {
                 for (particle_index = 0; particle_index < 4; particle_index++) {

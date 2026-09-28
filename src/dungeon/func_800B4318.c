@@ -86,7 +86,6 @@ void func_800B9A78(Work *work, Out *out, Render *render_arg)
 {
     register Render *render;
     GameWork *controls;
-    DungeonGlobalStatus *counter_base;
     u8 *counter_base_2;
     s32 result;
     s32 height_step;
@@ -244,8 +243,7 @@ void func_800B9A78(Work *work, Out *out, Render *render_arg)
                 goto done;
             }
 decrement_counter:
-            counter_base = &dungeonStatus;
-            (counter_base->unk_0A)--;
+            (dungeonStatus.unk_0A)--;
         }
 finish:
         {

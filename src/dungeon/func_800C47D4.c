@@ -79,7 +79,7 @@ update_tile:
     if ((((EntityRec *)entity)->unk_6D > 0) &&
         (!(dungeonStatus.flags & 0x2000) ||
          ((func_8009A180(entity,
-            ((s32)((EntityRec *)D_800814A8)->unk_58) + 0x20) << 0x10) == 0))) {
+            ((s32)D_800814A8->unk_58) + 0x20) << 0x10) == 0))) {
         func_800CA93C(actor_state, context, position);
     }
 }

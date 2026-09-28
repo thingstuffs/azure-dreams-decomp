@@ -2,6 +2,7 @@
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
 #include "shared/record_ptrs.h"
+#include "shared/entity.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -96,7 +97,7 @@ void func_819C0C18(S_func_819C0C18_0 *effect)
     };
     s32 rect[2];
     OffsetTable offsets = D_80024028;
-    S_func_819C0C18_3 *colors = (S_func_819C0C18_3 *)((u8 *)(&gameWork));
+    GameWork *colors = &gameWork;
     s32 state;
 
     state = effect->unk_0A.s;
@@ -116,7 +117,7 @@ case_0:
         func_800C77D0((u8 *)((GlobalObj *)D_800814A8) - 0x20, ((Position *)&D_80083780), 8, 0x400);
         rect_xy = 0x010003A0;
         rect_size = 0x00400020;
-        ((GlobalObj *)D_800814A8)->unk_102 = 1;
+        D_800814A8->unk_102 = 1;
         rect[0] = rect_xy;
         rect[1] = rect_size;
         func_80040490(D_8006E8A0, rect);
@@ -146,7 +147,7 @@ case_1:
     {
         u16 timer = effect->unk_28.u;
         GlobalObj *owner;
-        Position *position;
+        EntityRec *position;
         OffsetPair *offset_base;
         u16 next_state;
         u16 direction;
@@ -159,7 +160,7 @@ case_1:
             owner->unkA6 = owner->unkA6 - 1;
             owner->unkA8 = effect->unk_08;
             next_state = effect->unk_0A.u;
-            direction = ((GlobalObj *)D_800814A8)->unk2A;
+            direction = ((u16)D_800814A8->facing);
             effect->unk_0A.u = next_state + 1;
             effect->unk_28.u = 0;
             effect->unk_24 = (direction >> 9) & 7;
@@ -167,16 +168,16 @@ case_1:
 
         particle_index = 0;
         if (effect->unk_28.s == 0x4A) {
-            Position *effect_position = ((Position *)&D_80083780);
+            EntityRec *effect_position = &D_80083780;
 
-            func_80025CE8((s16)effect_position->x,
-                          (s16)effect_position->y,
-                          (s16)effect_position->z,
-                          (s16)((GlobalObj *)D_800814A8)->unk2A);
+            func_80025CE8((s16)((u16)effect_position->x.w.i),
+                          (s16)((u16)effect_position->y.w.i),
+                          (s16)((u16)effect_position->z.w.i),
+                          (s16)((u16)D_800814A8->facing));
         }
 
-        effect->unk_24 = (((GlobalObj *)D_800814A8)->unk2A >> 9) & 7;
-        position = ((Position *)&D_80083780);
+        effect->unk_24 = (((u16)D_800814A8->facing) >> 9) & 7;
+        position = &D_80083780;
         offset_base = offsets.entries;
         do {
             s32 spread_y;
@@ -189,28 +190,28 @@ case_1:
 
             func_8002626C((u8 *)effect - 0x20, effect->unk_24,
                           0x00C0C0C0, 0x28, spread_y, spread_x, spread_z,
-                          (s16)(position->x + ({
+                          (s16)(((u16)position->x.w.i) + ({
                               OffsetPair *offset = (OffsetPair *)
                                   ((u8 *)offset_base +
                                   effect->unk_24 * 4);
                               offset->x;
                           }) * 128),
-                          (s16)(position->y + ({
+                          (s16)(((u16)position->y.w.i) + ({
                               OffsetPair *offset = (OffsetPair *)
                                   ((u8 *)offset_base +
                                   effect->unk_24 * 4);
                               (s32)(offset->y << 16) >> 9;
                           })),
-                          (s16)(position->z - 0x74));
+                          (s16)(((u16)position->z.w.i) - 0x74));
             particle_index++;
         } while (particle_index < 2);
 
-        if (colors->unk_A8 < 0x3D) {
+        if (colors->view.unk_090 < 0x3D) {
             return;
         }
-        colors->unk_A8 -= 2;
-        colors->unk_A9 -= 2;
-        colors->unk_AA -= 2;
+        colors->view.unk_090 -= 2;
+        colors->view.unk_091 -= 2;
+        colors->view.unk_092 -= 2;
         return;
     }
 
@@ -220,10 +221,10 @@ case_2:
 
         effect->unk_28.u = 0;
         effect->unk_0A.u = effect->unk_0A.u + 1;
-        if (colors->unk_A8 >= 0x3D) {
-            colors->unk_A8 -= 2;
-            colors->unk_A9 -= 2;
-            colors->unk_AA -= 2;
+        if (colors->view.unk_090 >= 0x3D) {
+            colors->view.unk_090 -= 2;
+            colors->view.unk_091 -= 2;
+            colors->view.unk_092 -= 2;
         }
         effect->unk_1C.u = effect->unk_1C.u - 1;
         if (effect->unk_1C.s > 0) {
@@ -237,13 +238,13 @@ case_2:
 
 case_3:
     {
-        s8 color = colors->unk_A8;
+        s8 color = colors->view.unk_090;
         s32 dungeon_mode;
 
         if ((u8)color < 0x80) {
-            colors->unk_A8 += 10;
-            colors->unk_A9 += 10;
-            colors->unk_AA += 10;
+            colors->view.unk_090 += 10;
+            colors->view.unk_091 += 10;
+            colors->view.unk_092 += 10;
         }
         if ((D_80082E80.unk_014 & 0x8000) == 0) {
             effect->unk_1C.u = effect->unk_1C.u - 1;
@@ -271,15 +272,14 @@ case_4:
         if ((s16)timer < 4) {
             return;
         }
-        colors->unk_AA = 0x80;
-        colors->unk_A9 = 0x80;
-        colors->unk_A8 = 0x80;
+        colors->view.unk_092 = 0x80;
+        colors->view.unk_091 = 0x80;
+        colors->view.unk_090 = 0x80;
         {
-            S_func_819C0C18_1 *dungeon_state = (S_func_819C0C18_1 *)((u8 *)(&dungeonStatus));
 
-            dungeon_state->unk_0C = 0;
-            dungeon_state->unk_0A =
-                dungeon_state->unk_0A - 1;
+            dungeonStatus.unk_0C = 0;
+            dungeonStatus.unk_0A =
+                ((u16)dungeonStatus.unk_0A) - 1;
         }
         D_80082E80.unk_006 = 0;
         *(u16 *)((u8 *)effect - 2) |= 0x8000;

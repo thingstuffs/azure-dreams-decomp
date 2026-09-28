@@ -51,7 +51,7 @@ void func_80046884(
     s32 screen_origin[2];
     UVec4_80046884 screen_point;
     SVec4_80046884 center;
-    GlobalGeometry_80046884 *view_geometry;
+    GameWork *view_geometry;
     UVec4_80046884 *corner;
     SVec4_80046884 *transformed_corner;
     SVec4_80046884 *output_corner;
@@ -87,7 +87,7 @@ void func_80046884(
     corners[2].y = bottom;
     corners[3].y = bottom;
 
-    view_geometry = ((GlobalGeometry_80046884 *)&gameWork);
+    view_geometry = &gameWork;
     corners[0].z = corners[1].z = corners[2].z = corners[3].z =
         ReadGeomScreen();
 
@@ -113,10 +113,10 @@ project_corners:
     }
 
     if (use_fallback != 0) {
-        angle = view_geometry->angle + 0x600;
-        screen_point.x = view_geometry->base_x;
-        screen_point.y = view_geometry->base_y;
-        screen_point.z = view_geometry->base_z;
+        angle = view_geometry->view.viewAngle + 0x600;
+        screen_point.x = ((u16)view_geometry->view.unk_094);
+        screen_point.y = ((u16)view_geometry->view.unk_096);
+        screen_point.z = ((u16)view_geometry->view.unk_098);
         func_80046A5C(&screen_point, &center);
 
         for (corner_index = 3; corner_index >= 0; corner_index--) {

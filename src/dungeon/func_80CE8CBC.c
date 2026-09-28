@@ -49,11 +49,6 @@ s32 func_80173734(); /* extern */
 void func_80173B48(); /* extern */
 s32 func_80173EAC(); /* extern */
 void func_801759A0(); /* extern */
-typedef struct {
-    u8 pad0[0xC];
-    u16 flags;
-    u8 padE[6];
-} D_800E2970_entry;
 extern M2C_UNK D_801724BC;
 extern M2C_UNK D_80175DF4;
 extern M2C_UNK D_80175DFC;
@@ -304,7 +299,7 @@ block_64:
     if (!(dungeonStatus.flags & 0x2000)) {
         goto block_70;
     }
-    if ((func_8009A180(state, ((s32)((EntityRec *)D_800814A8)->unk_58) + 0x20) << 0x10) != 0) {
+    if ((func_8009A180(state, ((s32)D_800814A8->unk_58) + 0x20) << 0x10) != 0) {
         goto block_109;
     }
 block_70:

@@ -51,7 +51,7 @@ s32 func_8002415C(u8 *node)
 {
     s32 coords[2];
     s32 *second_coord;
-    TownState *town_state;
+    GameWork *town_state;
     RenderState *render_state;
     u8 *line_prim;
     u8 *draw_mode_prim;
@@ -60,11 +60,11 @@ s32 func_8002415C(u8 *node)
     s32 avg_depth;
     s32 ot_offset;
 
-    town_state = ((TownState *)&gameWork);
+    town_state = &gameWork;
     second_coord = &coords[1];
     for (;;) {
         if (!(((S_8002415C_0 *)node)->unk_24 & 1)) {
-            render_state = town_state->render_state;
+            render_state = town_state->unk_000;
             line_prim = render_state->next_prim;
             render_state->next_prim = line_prim + 0x10;
             ((S_8002415C_1 *)line_prim)->unk_04 = ((S_8002415C_0 *)node)->unk_14;
@@ -76,15 +76,15 @@ s32 func_8002415C(u8 *node)
                                              &coords[0], second_coord)) >> 1;
             if ((u16)avg_depth < 0x1E0U) {
                 ot_offset = (s16)avg_depth * 4;
-                addPrim((u8 *)(ot_offset + (s32)town_state->render_state) + 0xB0,
+                addPrim((u8 *)(ot_offset + (s32)town_state->unk_000) + 0xB0,
                         line_prim);
 
-                render_state = town_state->render_state;
+                render_state = town_state->unk_000;
                 draw_mode_prim = render_state->next_prim;
                 render_state->next_prim = draw_mode_prim + 0xC;
                 func_80067F20(draw_mode_prim, 0, 0,
                     func_80066460(0, 0, 0, 0) & 0xFFFF, 0);
-                addPrim((u8 *)(ot_offset + (s32)town_state->render_state) + 0xB0,
+                addPrim((u8 *)(ot_offset + (s32)town_state->unk_000) + 0xB0,
                         draw_mode_prim);
             }
         }

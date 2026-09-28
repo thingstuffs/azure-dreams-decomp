@@ -25,10 +25,10 @@ void func_800A5828(void *effect, s32 unused, void *render_state)
     s16 current_brightness;
     u16 tilt;
     void *linked_prim;
-    GlobalState *global_state = ((GlobalState *)&gameWork);
+    GameWork *global_state = &gameWork;
 
     if (S16_AT(effect, 0x64) == 0) {
-        if (global_state->flags & 1) {
+        if (global_state->unk_004 & 1) {
             brightness = (s16)U16_AT(effect, 0x6A) >> 1;
         } else {
             current_brightness = U16_AT(effect, 0x6A);
@@ -46,7 +46,7 @@ void func_800A5828(void *effect, s32 unused, void *render_state)
             U16_AT(effect, 0x64)++;
         }
     } else {
-        if (global_state->flags & 1) {
+        if (global_state->unk_004 & 1) {
             S32_AT(render_state, 0xC) = 0;
         } else {
             fade_step = S16_AT(effect, 0x6A) / S16_AT(effect, 0x66);

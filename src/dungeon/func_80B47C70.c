@@ -122,7 +122,6 @@ void func_80175470(void *sequence, void *position, Rec_D_80082E80 *record, void 
     u8 cd_ready;
     u16 timer;
     u16 next_timer;
-    DungeonGlobalStatus *counters;
     s32 next_state;
     s16 effect_index;
 
@@ -274,7 +273,6 @@ jt_c8:
     ((S_80175470_5 *)(((S_80175470_1 *)actor)->unk_60))->unk_2A = ((S_80175470_1 *)actor)->unk_8A;
     ((S_80175470_0_pre *)sequence)[-1].unk_00 |= 0x8000;
     objectFlagBlock.flags |= 0x8000;
-    counters = &dungeonStatus;
-    counters->unk_0A--;
+    dungeonStatus.unk_0A--;
     ((S_80175470_1 *)actor)->unk_6D = 0;
 }

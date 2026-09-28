@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/def_table.h"
 #include "shared/object_node.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
@@ -116,7 +117,6 @@ typedef struct S_801728C4_10 {
 
 
 extern void *D_80170858[];
-extern u8 D_8006DE24[20];
 extern u8 D_80170E84[];
 extern u8 D_80174820[];
 extern u8 D_80174850[];
@@ -254,7 +254,7 @@ selected:
     }
 
     anim_id = *anim;
-    if (D_8006DE24[anim_id * 0x14 + 0x12] == 2) {
+    if (D_8006DE24[anim_id].kind == 2) {
         target_sprite = ((S_801728C4_1 *)actor)->unk_60;
         if (target_sprite != 0) {
             target_sprite = ((S_801728C4_3_pre *)target_sprite)[-1].unk_00;

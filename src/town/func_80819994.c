@@ -18,13 +18,6 @@ typedef struct S_80023994_1 {
 
 
 
-typedef struct {
-    u16 field_0;
-    u16 field_2;
-    u8 pad_4[8];
-    s32 field_C;
-} Unk83780;
-
 extern s32 func_800C2AE8(void *);
 extern void func_80093CEC(void *);
 

@@ -16,7 +16,6 @@ typedef struct {
 } Coord;
 
 extern s32 D_800835E8[];
-struct S_8003E2D8; typedef struct S_8003E2D8 S_8003E2D8;
 M2C_UNK func_8003E188();
 M2C_UNK func_80042640();
 M2C_UNK func_800424E0();
@@ -116,10 +115,10 @@ void func_800B7774(void *egg_bomb, Coord *position, void *effect) {
     s32 target_experience;
     s16 egg_bomb_level;
     u16 remaining_frames;
-    S_8003E2D8 *state_base;
+    GameWork *state_base;
     Coord *coord_arg = position;
 
-    state_base = ((struct S_8003E2D8 *)&gameWork);
+    state_base = &gameWork;
     phase = ((S_800B7774_0 *)egg_bomb)->unk_0A.s;
     if (phase == 1) {
         goto state_1;
@@ -143,8 +142,7 @@ void func_800B7774(void *egg_bomb, Coord *position, void *effect) {
 state_0:
     if ((func_8009B88C(0, (u16) coord_arg->x >> 6, (u16) coord_arg->y >> 6, &spawn_x, &spawn_y) << 0x10) == 0) {
         {
-        u8 *controls_base = (u8 *)((s32 *)(&dungeonStatus));
-        ((S_800B7774_1 *)controls_base)->unk_0A = (u16) (((S_800B7774_1 *)controls_base)->unk_0A - 1);
+        dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
         }
         func_800997FC(&D_800E0A42);
         (*(u16 *)((u8 *)egg_bomb + (-2))) = (u16) (((S_800B7774_0_pre *)egg_bomb)[-1].unk_00 | 0x8000);
@@ -207,7 +205,7 @@ state_0:
 state_1:
     remaining_frames = ((S_800B7774_0 *)egg_bomb)->unk_0C - 1;
     ((S_800B7774_0 *)egg_bomb)->unk_0C = remaining_frames;
-    if (((remaining_frames << 0x10) > 0) && !(((S_800B7774_4 *)effect)->unk_14 & 0x8000) && (((S_800B7774_5 *)state_base)->unk_10 == 0)) {
+    if (((remaining_frames << 0x10) > 0) && !(((S_800B7774_4 *)effect)->unk_14 & 0x8000) && (((s32)state_base->unk_010) == 0)) {
         goto block_30;
     }
 advance_phase:
@@ -219,8 +217,7 @@ state_2:
     if (((S_800B7774_0 *)egg_bomb)->unk_0E == 0) {
         ((S_800B7774_2 *)monster)->unk_60 = func_800A3D18(((S_800B7774_2_pre *)monster)[-1].unk_00, monster, 2);
         {
-        u8 *controls_base = (u8 *)((s32 *)(&dungeonStatus));
-        ((S_800B7774_1 *)controls_base)->unk_02 = (u16) (((S_800B7774_1 *)controls_base)->unk_02 | 2);
+        dungeonStatus.flags = (u16) (dungeonStatus.flags | 2);
         }
         action_data = ((S_800B7774_2 *)monster)->unk_60;
         ((S_800B7774_2 *)monster)->unk_46.u = 0x800C;
@@ -235,8 +232,7 @@ state_2:
     ((EntityRec *)((u8 *)D_800E3D7C))->unk_110 = 0;
     (*(s32 *)((u8 *)monster + (0x1C))) = (s32) (((S_800B7774_2 *)monster)->unk_1C | 0x400000);
     {
-    u8 *controls_base = (u8 *)((s32 *)(&dungeonStatus));
-    ((S_800B7774_1 *)controls_base)->unk_0A = (u16) (((S_800B7774_1 *)controls_base)->unk_0A - 1);
+    dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
     }
     (*(u16 *)((u8 *)egg_bomb + (-2))) = (u16) (((S_800B7774_0_pre *)egg_bomb)[-1].unk_00 | 0x8000);
     objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;

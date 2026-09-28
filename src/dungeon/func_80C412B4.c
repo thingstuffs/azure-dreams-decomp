@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/def_table.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -82,7 +83,6 @@ extern void func_800A56E0(s32);
 extern s32 func_800A94A0(void *, u8 *, s32, u16 *);
 extern void func_800DA840(u16 *, s32);
 
-extern u8 D_8006DE24[];
 extern void *D_80170838[];
 extern u8 D_80170E7C;
 extern u8 D_80174D4C[];
@@ -205,7 +205,7 @@ have_choice:
             }
         }
 
-        if (D_8006DE24[(*move_id * 20) + 0x12] == 2) {
+        if (D_8006DE24[*move_id].kind == 2) {
             target = ((S_80172AB4_1 *)actor)->unk_60;
             if (target == 0) {
                 goto move_setup;

@@ -182,7 +182,7 @@ void func_80170E5C(void *actor, void *context, void *sprite, void *status)
         if (!(((S_80170E5C_1 *)status)->unk_46 & 0x8000)) {
             if (dungeonStatus.flags & 0x2000) {
                 if ((s16)func_8009A180(status,
-                        (u8 *)((EntityRec *)D_800814A8)->unk_58 + 0x20) != 0) {
+                        (u8 *)D_800814A8->unk_58 + 0x20) != 0) {
                     return;
                 }
             }

@@ -39,11 +39,6 @@ typedef struct {
     u32 len : 8;
 } P_TAG;
 
-typedef struct {
-    u8 *cur;
-} RenderCtx;
-
-
 extern s32 func_80065420();
 extern s32 func_80066460();
 extern void func_80066640();
@@ -59,7 +54,7 @@ s32 func_8182121C(void *first_item)
     void *list_item;
     void *item_data;
     register s32 next_node ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    RenderCtx *render_context;
+    GameWork *render_context;
     u8 *draw_mode;
     u8 *triangle;
     u32 depth_index;
@@ -70,18 +65,18 @@ s32 func_8182121C(void *first_item)
     u32 ot_tag;
 
     list_item = first_item;
-    render_context = (RenderCtx *)((u8 *)(&gameWork));
+    render_context = &gameWork;
 
     do {
         item_data = list_item;
         point_index = 3;
         do {
-            draw_mode = render_context->cur + 0x8D0;
+            draw_mode = render_context->unk_000 + 0x8D0;
             draw_mode = *(u8 **)draw_mode;
-            *(u8 **)(render_context->cur + 0x8D0) = draw_mode + 0xC;
+            *(u8 **)(render_context->unk_000 + 0x8D0) = draw_mode + 0xC;
 
-            triangle = *(u8 **)(render_context->cur + 0x8D0);
-            *(u8 **)(render_context->cur + 0x8D0) = triangle + 0x14;
+            triangle = *(u8 **)(render_context->unk_000 + 0x8D0);
+            *(u8 **)(render_context->unk_000 + 0x8D0) = triangle + 0x14;
 
             ((S_8182121C_0 *)triangle)->unk_04 = ((S_8182121C_1 *)item_data)->unk_48;
             func_80066690(triangle);
@@ -110,17 +105,17 @@ s32 func_8182121C(void *first_item)
                 u32 length_mask = 0xFF000000;
 
                 byte_offset = depth_index * 4;
-                ((P_TAG *)triangle)->addr = ((P_TAG *)&((u32 *)(render_context->cur + 0xB0))[depth_index])->addr;
-                ot_entry_base = (u32 *)(byte_offset + (s32) render_context->cur);
+                ((P_TAG *)triangle)->addr = ((P_TAG *)&((u32 *)(render_context->unk_000 + 0xB0))[depth_index])->addr;
+                ot_entry_base = (u32 *)(byte_offset + (s32) render_context->unk_000);
                 ot_tag = ((S_8182121C_2 *)ot_entry_base)->unk_B0;
                 (*(u32 *)((u8 *)ot_entry_base + 0xB0)) = (ot_tag & length_mask) |
                     ((u32)triangle & addr_mask);
 
                 (*(u32 *)((u8 *)draw_mode + 0)) =
                     (((S_8182121C_3 *)draw_mode)->unk_00 & length_mask) |
-                    (((u32 *)(render_context->cur + 0xB0))[depth_index] & addr_mask);
-                ((u32 *)(render_context->cur + 0xB0))[depth_index] =
-                    (((u32 *)(render_context->cur + 0xB0))[depth_index] & length_mask) |
+                    (((u32 *)(render_context->unk_000 + 0xB0))[depth_index] & addr_mask);
+                ((u32 *)(render_context->unk_000 + 0xB0))[depth_index] =
+                    (((u32 *)(render_context->unk_000 + 0xB0))[depth_index] & length_mask) |
                     ((u32)draw_mode & addr_mask);
             }
             point_index--;

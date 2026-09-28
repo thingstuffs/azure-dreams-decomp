@@ -1,9 +1,8 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "shared/entity.h"
 
 typedef struct { u8 unk0; u8 unk1; s8 unk2; u8 unk3; } FuncData;
-typedef struct { u8 pad[0x1C]; s32 flags; } FuncState;
-
 extern void *func_8003AD08();
 extern void *func_80099194();
 extern void *func_800992A8();
@@ -26,7 +25,7 @@ u8 *func_80099368(FuncData *data, u8 *buffer) {
     u8 *out;
 
     out = buffer;
-    if (!(((FuncState *)D_800E3D7C)->flags & 0x10)) {
+    if (!(D_800E3D7C->flags1C & 0x10)) {
         prefix_kind = data->unk1;
         prefix_id = D_800DD72C[prefix_kind];
         if ((prefix_id != 0) && ((prefix_kind != 0xF) || (data->unk0 < 0xEU))) {
@@ -34,7 +33,7 @@ u8 *func_80099368(FuncData *data, u8 *buffer) {
         }
     }
     out = func_800992E8(data, out, out);
-    if (((FuncState *)D_800E3D7C)->flags & 0x10) {
+    if (D_800E3D7C->flags1C & 0x10) {
         goto return_out;
     }
     suffix_kind = data->unk1;

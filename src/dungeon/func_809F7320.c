@@ -155,7 +155,6 @@ void func_80174B20(void *state, EntityRec *position, Rec_D_80082E80 *entity, voi
     static void *const phase_labels[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8 };
     s32 tint;
     S_80174B20_7 *globals_base;
-    S_80174B20_12 *effect_pool;
     s32 global_flags;
     u16 active_count;
     s16 next_ray;
@@ -174,13 +173,13 @@ void func_80174B20(void *state, EntityRec *position, Rec_D_80082E80 *entity, voi
     u8 phase;
     S_80174B20_4 *target_color;
     S_80174B20_8 *effect_position;
-    S_80174B20_3 *scene_color;
+    GameWork *scene_color;
     S_80174B20_9 *sprite;
     S_80174B20_5 *effect;
     void *new_actor;
     void *replacement;
 
-    scene_color = ((M2C_UNK *)&gameWork.unk_000);
+    scene_color = &gameWork;
     phase = ((Rec_func_80174800_arg0 *)state)->unk_9B;
     if (phase >= 9U) {
         goto done;
@@ -236,9 +235,9 @@ jt_c3:
 fade_color:
     color_index = func_800498A0(actor);
     target_color = D_800DCEEC[color_index];
-    scene_color->unk_A8 = (u8) (scene_color->unk_A8 + ((s32) (target_color->unk_00 - scene_color->unk_A8) / (s16) ((Rec_func_80174800_arg0 *)state)->unk_96));
-    scene_color->unk_A9 = (u8) (scene_color->unk_A9 + ((s32) (target_color->unk_01 - scene_color->unk_A9) / (s16) ((Rec_func_80174800_arg0 *)state)->unk_96));
-    scene_color->unk_AA = (u8) (scene_color->unk_AA + ((s32) (target_color->unk_02 - scene_color->unk_AA) / (s16) ((Rec_func_80174800_arg0 *)state)->unk_96));
+    scene_color->view.unk_090 = (u8) (scene_color->view.unk_090 + ((s32) (target_color->unk_00 - scene_color->view.unk_090) / (s16) ((Rec_func_80174800_arg0 *)state)->unk_96));
+    scene_color->view.unk_091 = (u8) (scene_color->view.unk_091 + ((s32) (target_color->unk_01 - scene_color->view.unk_091) / (s16) ((Rec_func_80174800_arg0 *)state)->unk_96));
+    scene_color->view.unk_092 = (u8) (scene_color->view.unk_092 + ((s32) (target_color->unk_02 - scene_color->view.unk_092) / (s16) ((Rec_func_80174800_arg0 *)state)->unk_96));
     return;
 jt_c4:
     effect = func_8003FC64(0x12);
@@ -333,13 +332,12 @@ jt_c8:
         goto done;
     }
     globals_base = (void *)0x80080000;
-    effect_pool = &dungeonStatus.unk_00;
     ((S_80174B20_16 *)(((S_80174B20_14 *)actor)->unk_60))->unk_2A = (u16) ((S_80174B20_1 *)actor)->unk_8A;
     ((S_80174B20_0_pre *)state)[-1].unk_00 = (u16) (((S_80174B20_0_pre *)state)[-1].unk_00 | 0x8000);
     global_flags = globals_base->unk_14A0;
-    active_count = effect_pool->unk_0A;
+    active_count = ((u16)dungeonStatus.unk_0A);
     globals_base->unk_14A0 = global_flags | 0x8000;
-    effect_pool->unk_0A = active_count - 1;
+    dungeonStatus.unk_0A = active_count - 1;
     ((S_80174B20_1 *)actor)->unk_6D = 0;
 done:
     return;

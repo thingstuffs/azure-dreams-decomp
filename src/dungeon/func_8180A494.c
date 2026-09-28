@@ -116,7 +116,7 @@ void func_80025C94(void *object_arg, void *position_arg, void *sprite_arg) {
     S_80025C94_2 *sprite;
     S_80025C94_3 *position;
     S_80025C94_5 *appearance;
-    S_80025C94_4 *render_context;
+    GameWork *render_context;
     void *object_ptr;
     void *fade_in_ticks;
 
@@ -127,7 +127,7 @@ void func_80025C94(void *object_arg, void *position_arg, void *sprite_arg) {
     sprite = sprite_arg;
     object = motion;
     D_8002715C = update_count + 1;
-    render_context = ((s8 *)(&gameWork));
+    render_context = &gameWork;
     state = object->unk_72.s;
     switch (state) {
     case 0:
@@ -220,8 +220,8 @@ update_position:
 prepare_draw:
     motion->unk_9D = 0;
     appearance = ((S_80025C94_7_pre *)(object->unk_58))[-1].unk_00;
-    saved_render_value = render_context->unk_C8;
-    render_context->unk_C8 = (u16) appearance->unk_1A;
+    saved_render_value = ((u16)render_context->view.viewAngle);
+    render_context->view.viewAngle = (u16) appearance->unk_1A;
     sprite->unk_14 = (u16) (sprite->unk_14 & 0xFFBF);
     position->unk_00.at02.v = (u16) (position->unk_00.at02.v + 0x100);
     position->unk_04.at02.v = (u16) (position->unk_04.at02.v + 0x100);
@@ -234,7 +234,7 @@ prepare_draw:
     object->unk_5C(motion, position, sprite, motion);
     position->unk_00.at02.v = (u16) (position->unk_00.at02.v - 0x100);
     position->unk_04.at02.v = (u16) (position->unk_04.at02.v - 0x100);
-    render_context->unk_C8 = saved_render_value;
+    render_context->view.viewAngle = saved_render_value;
     object->unk_88 = 0;
     red = appearance->unk_0C;
     if (object->unk_6A != ((S_80025C94_7 *)(object->unk_58))->unk_26) {

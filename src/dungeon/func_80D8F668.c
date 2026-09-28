@@ -133,7 +133,7 @@ void func_80170E68(Rec_func_800A9E70_arg0 *actor, void *context, void *sprite, E
 
         if ((state->unk_46 & 0x8000) == 0) {
             if (dungeonStatus.flags & 0x2000) {
-                if ((s16)func_8009A180(state, (u8 *)((EntityRec *)D_800814A8)->unk_58 + 0x20) != 0) {
+                if ((s16)func_8009A180(state, (u8 *)D_800814A8->unk_58 + 0x20) != 0) {
                     return;
                 }
             }

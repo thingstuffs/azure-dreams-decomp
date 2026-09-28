@@ -201,3 +201,21 @@ SHA-1 MATCH, pin-neutral (155 migrated pinned rows re-tested).
   object + 0x20), 65/72 rows; **DefEntry D_8006DE24[]** (0x14-byte records, `kind` named: nearly every user tests it
   against 2), 49/61 rows.
 - Totals: **6,009 row migrations onto 15 shared headers.**
+
+## Phase 9 (2026-09-28): landed
+
+207 rows, whole tree verified (globals.h changed), SLUS SHA-1 MATCH, pin-neutral; 4 SLUS rows rebaselined (relocations
+name D_80084808+2/+4 for D_8008480A/C, same bytes).
+- **volumeScale** (include/shared/sound_volume.h; names.tsv alias of D_80084808): three volume scales (0x7FFF =
+  full; sound init sets them, the option words at 0x80080A9C/98/94 set them, each scales a volume before /32767).
+  Declared `short volumeScale[8]`: the size must exceed 8 bytes. Unsized, slus/code (stock 2.7.2) drops the
+  `.extern ..., size` and the assembler expands its `sh $r,SYM` store macros through $at with a nop instead of
+  filling the delay slot, shifting the SLUS image 88,082 words (the full apply reverted twice before this was
+  found; scratch-build repro: [] and [4] miss, [5] and [8] match). The true extent is unknown (it may be a larger
+  block holding D_80084810).
+- **DefEntry**: all 12 remaining D_8006DE24 rows exact via `D_8006DE24[i].kind` (phase 8's misses were a byte-view
+  spelling from its generator, not the type).
+- **182 rows folded off local view types onto shared types** (EntityRec pointer globals 120, gameWork 45,
+  dungeonStatus 21, TileObject 7, D_80083780 3; 35 now-unused local view typedefs dropped). census/views9.jsonl in
+  the lane lists 458 rows still casting a local view onto a shared object (next).
+- Totals: **6,216 row migrations onto 16 shared headers.**

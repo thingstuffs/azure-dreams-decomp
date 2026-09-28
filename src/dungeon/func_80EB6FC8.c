@@ -48,12 +48,6 @@ typedef struct S_801727C8_8 {
 } S_801727C8_8;   /* var_v0_3 in func_801727C8 */
 
 
-typedef struct {
-    u8 pad_00[0x12];
-    u8 type;
-    u8 pad_13;
-} DungeonEntry;
-
 extern void *D_80170838[];
 s32 func_8003F270();
 void func_80047784();
@@ -237,7 +231,7 @@ block_36:
     ((EntityRec *)motion)->unk_0C = 0;
     func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
     dungeonStatus.unk_0C = 0;
-    (*(u16 *)((u8 *)&((EntityRec *)D_800814A8)->unk_A4 + 2)) = (u16) ((*(u16 *)((u8 *)D_800814A8 + 0xA6)) - 1);
+    (*(u16 *)((u8 *)&D_800814A8->unk_A4 + 2)) = (u16) ((*(u16 *)((u8 *)D_800814A8 + 0xA6)) - 1);
     func_800A4ACC(actor);
     ((EntityRec *)actor)->unk_6D = (u8) (((u8)((EntityRec *)actor)->unk_6D) - 1);
     ((S_801727C8_0 *)action)->unk_8C = &D_801711A4;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/def_table.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
 #include "shared/record_ptrs.h"
@@ -18,7 +19,6 @@ extern void func_800A5720();
 extern void func_80098B38();
 
 extern u16 D_800DDE84[];
-extern u8 D_8006DE24[];
 extern u8 D_800E13FB[];
 extern u8 D_800E1402[];
 extern u8 D_800E1411[];
@@ -106,7 +106,7 @@ s32 func_800C0B60(u8 *target, u8 *event_data, s32 value)
                 s32 item = slot[0];
                 s32 flags = *(s32 *)(entity + 0x14);
 
-                if (((D_8006DE24[item * 20 + 16] & 7) & flags) == 0) {
+                if (((D_8006DE24[item].unk_10 & 7) & flags) == 0) {
                     if (flags & 1) {
                         slot[0] = ((item - 1) / 3) * 3 + 1;
                     } else if (flags & 2) {

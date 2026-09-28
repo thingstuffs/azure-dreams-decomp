@@ -5,7 +5,6 @@
 #include "m2c_compat.h"
 #include "shared/entity.h"
 
-struct S_8003E2D8; typedef struct S_8003E2D8 S_8003E2D8;
 extern void *D_8008ACDC[];
 extern u8 D_800E3CD0[9];
 extern u16 D_80082E76;
@@ -45,12 +44,11 @@ typedef struct S_8008E0C4_5 {
 } S_8008E0C4_5;   /* counter_base in func_8008E0C4 */
 
 void func_8008E0C4(S_8008E0C4_0 *arg0, void *unused, S_8008E0C4_1 *arg2, EntityRec *arg3) {
-    S_8008E0C4_4 *global_base;
-    S_8008E0C4_5 *counter_base;
+    GameWork *global_base;
     u16 temp_v0;
     s32 temp_v1;
 
-    global_base = ((struct S_8003E2D8 *)&gameWork);
+    global_base = &gameWork;
     temp_v1 = arg0->unk_9B;
     if (temp_v1 == 1) {
         goto state_1;
@@ -102,10 +100,9 @@ state_1:
 
 state_16:
     if (arg2->unk_14 & 0xE000) {
-        counter_base = ((s32 *)(&dungeonStatus));
         arg3->unk_28 = arg3->unk_29;
-        arg3->facing = 0x400 - ((global_base->unk_C8 + 0x100) & 0xE00);
+        arg3->facing = 0x400 - ((((u16)global_base->view.viewAngle) + 0x100) & 0xE00);
         arg0->unk_8C = D_8008ACDC;
-        counter_base->unk_0A = counter_base->unk_0A - 1;
+        dungeonStatus.unk_0A = ((u16)dungeonStatus.unk_0A) - 1;
     }
 }

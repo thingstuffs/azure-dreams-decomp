@@ -2,6 +2,7 @@
 #include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
+#include "shared/entity.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 
@@ -102,7 +103,7 @@ typedef struct S_func_8009E038_8 {
 void func_8009E038(S_func_8009E038_0 *transition, S_func_8009E038_1 *center, S_func_8009E038_2 *render_params, M2C_UNK *context) {
     static void *const jt_keep[] = { &&jt_c0, &&jt_c1, &&jt_c16, &&jt_c32, &&jt_c48 };
     s32 top_step;
-    S_func_8009E038_5 *input;
+    GameWork *input;
     s16 reset_frames;
     s16 move_frames;
     s16 next_scale;
@@ -138,7 +139,7 @@ void func_8009E038(S_func_8009E038_0 *transition, S_func_8009E038_1 *center, S_f
     register s32 shared_flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
     render = render_params;
-    input = (S_func_8009E038_5 *)((M2C_UNK *)&gameWork.unk_000);
+    input = &gameWork;
     if (!(((S_func_8009E038_3 *)&D_800E296C)->unk_00 & 0x2000)) {
         goto check_reset;
     }
@@ -176,7 +177,7 @@ check_idle:
     if (transition->unk_1A != 0) {
         goto reset_idle;
     }
-    if (!(((S_func_8009E038_4 *)D_800E3D7C)->unk_1C & 0x10)) {
+    if (!(D_800E3D7C->flags1C & 0x10)) {
         goto dispatch_state;
     }
 reset_idle:
@@ -256,7 +257,7 @@ tick_reset:
     transition->unk_1A = (s16) ((u16) transition->unk_1A + 1);
     goto apply_transition;
 check_move_start:
-    if (input->unk_08 & 0x100) {
+    if (((s32)input->unk_008) & 0x100) {
         goto apply_transition;
     }
     transition->unk_1C = 4;
@@ -324,10 +325,10 @@ sync_offsets:
     render->unk_20.s16 = (s16) D_80082E80.tileX;
     render->unk_22.s16 = (s16) D_80082E80.tileY;
 check_scale_input:
-    if (!(input->unk_08 & 0x10)) {
+    if (!(((s32)input->unk_008) & 0x10)) {
         goto check_reset_input;
     }
-    if (!(input->unk_10 & 8)) {
+    if (!(((s32)input->unk_010) & 8)) {
         goto check_reset_input;
     }
     current_scale = transition->unk_1E;
@@ -344,7 +345,7 @@ wrap_scale:
 start_scale_blend:
     transition->unk_1C = 4;
 check_reset_input:
-    if (!(input->unk_08 & 0x100)) {
+    if (!(((s32)input->unk_008) & 0x100)) {
         goto apply_transition;
     }
     if ((func_800A2C34(0) << 0x10) != 0) {
