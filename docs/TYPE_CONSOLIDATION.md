@@ -166,6 +166,9 @@ SHA-1 MATCH, pin-neutral (155 migrated pinned rows re-tested).
   allocator func_8003FD64 links into a list (next, pprev, flags named from the allocator); 277 rows. The name stays
   D_ (a script-slot label calls it item type data, which does not fit a list node). D_800834B8 stays separate
   (town rows form their base there).
+  *2026-09-28:* that label was a symbol-dump parse error (every name carried the previous record's value). The
+  true script variable slot of D_80083498 is `V_pobj` (26), which fits a list node; `V_item_type_data` (27) is
+  `itemCategoryTable` 0x80073414 and `V_sys` (28) is `gameWork` (docs/evidence/script_call_table_20260908.md, correction note).
 - Totals: **5,085 row migrations onto 10 shared headers.**
 
 ## Phase 7 (2026-09-28): landed

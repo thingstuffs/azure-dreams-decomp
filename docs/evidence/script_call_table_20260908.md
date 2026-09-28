@@ -2,6 +2,54 @@
 
 *Three Opus readers in parallel (VM call path, per-chunk table scan, S_ system calls), every claim re-derived by an independent verifier, one critic. 16 agents. What follows is their own text, lightly trimmed; the settled result is in `docs/SYMBOLS.md` §5.1 and `ledger/evidence/fno_table.json`.*
 
+## Correction 2026-09-28: the numbers were one low (symbol-dump parse), the functions were right
+
+**What was wrong.** `tools/evidence.py parse_symbol_tables` read the TOWN.BIN symbol dump as `u32 value; char name[32]`.
+The records are `char name[32]; u32 value`. Because the scan advanced 4 bytes at a time it locked onto the misaligned
+pairing, so every name carried the value of the record *before* it: the first record of each table got the zero padding
+word, the last record's value was dropped, and the tables were reported at 0x80BFFC / 0x811FFC instead of the true
+record starts 0x80C000 / 0x812000. Everything below that says "number *n* → entry *n+1*", "runtime index = dump value + 1",
+"S_NULL1 = 5", "S_printf = 34", "FNO_strcmp = 154", "number 133 = FNO_change_map" or `field20[n+1]` uses those shifted
+values. With the true values the rule is **number *n* → entry *n*** of the 213-entry table at `0x800D3CC8`
+(`field20[n]`, entries 0..212, ending where the variable table `0x800D401C` starts). Because names and entries were shifted
+together, **every developer name → function assignment in this record stays right**; only the numbers change (+1 in
+the sequential S_/FNO_/V_ runs). The open question under reader `tablescan` ("V or V+1?") and the `scalls` open
+question "why are S_ and FNO_ shifted but V_ is not" are both answered: there was no shift in the data, only in the parse.
+The "enum leak" observation (`S_open_buy_dougu` = 5327, `FNO_func_sn_casino` = 3, `Mode_inhouse` = 29 "continuing the
+previous enum") was the same artefact: each of those is the first record of a group and carried the last value of the
+group before it. The V_ block *was* shifted as well; the "consecutive run 0..20" check could not see it because the run
+is the same 21 pointers either way, but the tail slots can (below).
+
+**How it was proven** (lane r78_symfix):
+- Record layout: the dump reads `snf_false` = 0, `snf_truth` = 1 (old: 0, 0); every character's portrait enum restarts at 0
+  (`IMG_BBOSS_N` = 0, `IMG_BCHEL_N` = 0 ...; `IMG_BNURSE_*` 7-8 and `IMG_BSDNICO_N` 7 continue the Cheril and Nico sets they follow)
+  and no character has two poses on one value (old values collided, e.g. `IMG_BCHEL_N` = `IMG_BCHEL_G00` = 2);
+  `PSN_DM_KANASIBA` .. `PSN_DM_POS_ORG` = 1..21, `DFLT_END_PSN_DM` = 22 and every scene's first `SSTP_` step = 22; each
+  table ends with a terminator record (32 NUL bytes, value 0xFFFFFFFF).
+- Compiled call sites, independent of the dump: all 836 `lw 0x6000 / lw 0x20 / lw 4n` sites in the compiled script
+  modules (835 in TOWN.BIN, one in DUNGEON.BIN) use 66 distinct entries, and **every one is a dumped S_/FNO_ number**
+  under index = number: entry 134 = `FNO_change_map` (24 town sites + the DUNGEON.BIN site at 0x51E7E8, `lw v0,0x218`),
+  90 = `S_printf` (284 sites) and 93 = `S_exit` (152 sites) — the assert macro's printf/exit, which the old reading had
+  to call "number 89" and "number 92" against `S_printf` = 34 — and 100 = `FNO_func_sn_casino`, which the old values put
+  on a group slot (it is `0x800C2478`, between `func_sn_ball` 0x800C2340 and `func_sn_casino_slot` 0x800C24A0).
+  Scan: `docs/evidence/script_call_sites_20260928.py`, output `docs/evidence/script_call_sites_20260928.txt`.
+- The anchors, now with no offset: `S_NULL1` = 6 and `S_NULL2` = 16 are the only two NULL words (entries 6 and 16);
+  `FNO_nouse___168` = 168 and `FNO_nouse___170` = 170 (the developer's names equal their numbers) are the only FNO entries
+  on the stub; `FNO_strcmp` = 155 is the BIOS strcmp thunk; `S_printf` = 90, `S_sprintf` / `S_getchar` / `S_exit` = 91–93
+  sit inside the 65-entry stub band 35..99.
+- Variable table: `NUM_SN_VAR_WORK` = 21 = the 21 consecutive sn work words at entries 0..20 (`V_buki_gosyu_sno` = 0,
+  `V_cheriru00` = 1 .. `V_pad20` = 20); `S_ARG_MYMONEY` / `S_ARG_MAX_TOWER` / `S_ARG_TOWER` / `S_ARG_CNT_TOWER` /
+  `S_AEG_SNFG_P` = 21..25 are variable indices (23 and 24 are the two NULL slots), not call numbers; `V_pobj` = 26 →
+  `D_80083498` (the object-list node header), `V_item_type_data` = 27 → `0x80073414` = `itemCategoryTable` (named
+  independently by the randomizer map), `V_sys` = 28 → `gameWork` (0x80083160), `V_gamew2` = 29 → the resident descriptor
+  `0x8006ADBC` whose +0x1C / +0x20 words are the call and variable table pointers. The old values put `V_item_type_data`
+  on `D_80083498`, which the type consolidation (phase 6) had already found does not fit.
+
+What changed in the ledger: `FNO_func_sn_casino` now names `town/func_800C4D18` (number 100; new proposal
+`scr_func_sn_casino`), `S_open_buy_dougu` = 0 names group-slot entry 0, the `S_ARG_*` / `S_AEG_*` aliases no longer
+attach to the functions `flgtst` / `f_LandBuildingNo` / `open_twin_souko` / `Control_CD`, and every quoted number is
+one higher. Text below this note is the 2026-09-08 record, unchanged.
+
 ## Settled
 
 - One call table at `0x800D3CC8` (TOWN.BIN `0x56568`), number *n* → entry *n+1*. Published through `0x80016000` → `D_801131B8` → `field20` (compiled script modules) and installed into the bytecode VM system object `D_80082A38+0x40` from the resident word `0x8006ADD8`; opcodes 46 / 37 / 47 reach it. Variable table at `0x800D401C`. The previous evidence-layer rule (`0x800D3D0C`, `n−100`) was off by 17 slots and has been replaced; 14 landed rows that had received a wrong name were corrected through the gated landing path.
