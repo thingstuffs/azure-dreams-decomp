@@ -26,12 +26,12 @@ extern void func_80036434(CursorState *, s32, s32);
 /* Wrap the cursor on directional input and dispatch the selected action. */
 void func_80036350(CursorState *cursor, s32 action_arg1, s32 action_arg2)
 {
-    RuntimeState *runtime;
+    GameWork *runtime;
     u32 next_cursor;
     u32 flags_or_count;
 
-    runtime = ((RuntimeState *)&gameWork);
-    flags_or_count = runtime->flags_10;
+    runtime = &gameWork;
+    flags_or_count = ((u32)runtime->unk_010);
     if (flags_or_count & 0x4000) {
         SD_Call(0x502);
         next_cursor = cursor->cursor_4D + 1;
@@ -54,7 +54,7 @@ void func_80036350(CursorState *cursor, s32 action_arg1, s32 action_arg2)
         flags_or_count = next_cursor % flags_or_count;
         cursor->cursor_4D = flags_or_count;
     }
-    if (runtime->flags_10 & 0x40) {
+    if (((u32)runtime->unk_010) & 0x40) {
         func_80036434(cursor, action_arg1, action_arg2);
     }
 }

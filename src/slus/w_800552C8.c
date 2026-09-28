@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sound_volume.h"
 
 /* Canonical "task/timer object" struct shared with func_80055990's own D_80055990_Struct
    (src/code.c) and w_800540A8.c's D_80055990_Struct / w_80054C58.c's S_80084858: field0 is
@@ -43,7 +44,6 @@ typedef struct S_800847D0 {
 
 extern S_800847D0 D_800847D0;
 extern S_800848F8 D_800848F8;
-extern s16 D_80084808[8];
 
 extern s32 func_80055750(s16 arg0);
 extern void func_8005B27C(s16 a0, s32 a1, s32 a2);
@@ -56,7 +56,7 @@ void func_800552C8(void)
     s16 channel_value;
 
     if (D_800847D0.flags1 & 0x100) {
-        scale_product = D_800848F8.field8 * D_80084808[1];
+        scale_product = D_800848F8.field8 * volumeScale[1];
         scaled_value = (s16) (scale_product / 32767);
         scaled_value = scaled_value * D_800848F8.field10;
         channel_value = func_80055750((s16) (scaled_value / 128));

@@ -55,7 +55,7 @@ extern void func_80088BD0();
 /* Handles the options menu, adjusting audio levels and applying display settings. */
 void func_8008A288(Menu *menu)
 {
-  Pad *pad;
+  GameWork *pad;
   s32 buttons;
   s32 delta;
   s32 row;
@@ -80,7 +80,7 @@ void func_8008A288(Menu *menu)
   s32 blue;
   s32 scaled_b;
   D_80080A84 = 1;
-  pad = ((Pad *)&gameWork);
+  pad = &gameWork;
   switch (menu->state)
   {
     case 0:
@@ -96,7 +96,7 @@ void func_8008A288(Menu *menu)
       return;
 
     case 2:
-      buttons = pad->pressed;
+      buttons = ((s32)pad->unk_010);
       if (buttons & 0x1000)
       {
         SD_Call(0x502);
@@ -124,7 +124,7 @@ void func_8008A288(Menu *menu)
           menu->flags = new_flags;
         }
       }
-      buttons = pad->held;
+      buttons = ((s32)pad->unk_008);
       delta = -8;
       if (!(buttons & 0x8000))
       {
@@ -216,15 +216,15 @@ void func_8008A288(Menu *menu)
         color_base[7] = 0x100;
       }
     check_confirm:
-      if ((pad->held & 9) == 9)
+      if ((((s32)pad->unk_008) & 9) == 9)
       {
-        if (pad->pressed & 2)
+        if (((s32)pad->unk_010) & 2)
         {
           menu->shade = (menu->shade + 1) & 3;
         }
       }
 
-      if (!(pad->pressed & 0x840))
+      if (!(((s32)pad->unk_010) & 0x840))
       {
         return;
       }

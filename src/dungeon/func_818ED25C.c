@@ -45,7 +45,6 @@ typedef struct S_80024A5C_7 {
 } S_80024A5C_7;   /* pbase in func_80024A5C */
 
 
-typedef struct { void *p; } PagePtr;
 extern u8 D_801C9E40[16];
 
 extern void func_80024094(void *, s32, void *, s32);

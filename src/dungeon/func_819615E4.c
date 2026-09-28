@@ -218,10 +218,10 @@ void func_819615E4(State *state, Target *target, S_func_819615E4_0 *color)
     case 3:
     {
         s32 direction_offset;
-        S_func_819615E4_4 *table;
+        TileObject *table;
 
-        table = (S_func_819615E4_4 *)((u8 *)(&D_80082E80));
-        func_8003DE58(table->unk_08, table, &position, 0);
+        table = &D_80082E80;
+        func_8003DE58(((void *)table->unk_008), table, &position, 0);
         phase_value = state->phase - 1;
         state->phase = phase_value;
         if ((s16)phase_value > 0) {
@@ -229,9 +229,9 @@ void func_819615E4(State *state, Target *target, S_func_819615E4_0 *color)
         }
         direction_offset = ((((S_func_819615E4_2 *)((u8 *)D_800E3D7C))->unk_2A.u16_value >> 8) & 0xE);
         func_80025334(
-            (s16)(((table->unk_24 +
+            (s16)(((table->tileX +
                     (((S_func_819615E4_5 *)((u8 *)((s8 *)dirStepX) + direction_offset))->unk_00 * 4)) << 6) + 0x20),
-            (s16)(((table->unk_25 +
+            (s16)(((table->tileY +
                     (((S_func_819615E4_6 *)((u8 *)((s8 *)dirStepY) + direction_offset))->unk_00 * 4)) << 6) + 0x20),
             ((S_func_819615E4_2 *)((u8 *)D_800E3D7C))->unk_88.s16_value);
 finish:

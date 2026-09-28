@@ -6,13 +6,6 @@
 #endif
 
 typedef struct {
-    u8 pad0[8];
-    s32 flags;
-    u8 padC[0xBC];
-    s16 offset_c8;
-} S_80083160;
-
-typedef struct {
     u8 pad0[0x14];
     u16 flags14;
     u8 pad16[0x16];
@@ -54,14 +47,14 @@ extern s32 func_800A5C70(void);
 /* Advances actor animation states, periodic events, and handler transitions. */
 void func_80090298(Arg0Struct *controller, void *unused, Arg2Struct *animation, Arg3Struct *actor) {
     s32 event_code;
-    S_80083160 *scene = ((S_80083160 *)&gameWork);
+    GameWork *scene = &gameWork;
 
     (void)unused;
     switch (controller->state) {
     case 0:
         if (animation->flags14 & 0xE000) {
             animation->table = &D_800DD0F0;
-            func_80048A44(animation, (&D_800DD0F0)[((s32)(scene->offset_c8 + actor->angle + 0x100) >> 9) & 7], 0, 1);
+            func_80048A44(animation, (&D_800DD0F0)[((s32)(scene->view.viewAngle + actor->angle + 0x100) >> 9) & 7], 0, 1);
             controller->handler = &D_8008B870;
             controller->state = (s8)(controller->state + 1);
         }
@@ -76,7 +69,7 @@ void func_80090298(Arg0Struct *controller, void *unused, Arg2Struct *animation, 
             func_800A56E0(event_code);
         }
         if (!(dungeonStatus.flags & 4) && (controller->flagsa2 & 0x10)) {
-            if ((scene->flags & 0x20) && (func_800A5C70() != 0)) {
+            if ((((s32)scene->unk_008) & 0x20) && (func_800A5C70() != 0)) {
                 dungeonStatus.flags |= 0x80;
             }
             if ((func_80042900(actor, 1) << 0x10) == 0) {

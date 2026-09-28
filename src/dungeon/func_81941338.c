@@ -9,11 +9,6 @@
 #define F(p, t, o) (*(t *)((u8 *)(p) + (o)))
 
 typedef struct {
-    u8 pad[0xA];
-    u16 fieldA;
-} D_80083460_t;
-
-typedef struct {
     u8 bytes[12];
 } __attribute__((packed)) Packed12;
 
@@ -505,11 +500,11 @@ finish:
             F((void *)particle_color, u32, 0xC) = (u32)neutral_color;
         }
         {
-            D_80083460_t *dungeon_state = ((D_80083460_t *)&dungeonStatus);
-            bits_2 = dungeon_state->fieldA;
+            DungeonGlobalStatus *dungeon_state = &dungeonStatus;
+            bits_2 = ((u16)dungeon_state->unk_0A);
             F(dungeon_state, u32, 0xC) = 0;
             F(((u8 *)(&D_80082E80)), u16, 6) = 0;
-            dungeon_state->fieldA = (u16)(bits_2 - 1);
+            dungeon_state->unk_0A = (u16)(bits_2 - 1);
         }
         F(effect_base, u16, -2) = (u16)(F(effect_base, u16, -2) | 0x8000);
         objectFlagBlock.flags |= 0x8000;

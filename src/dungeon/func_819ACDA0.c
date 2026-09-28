@@ -56,15 +56,6 @@ typedef struct {
 } Position;
 
 typedef struct {
-    u8 pad0[2];
-    s16 x;
-    u8 pad4[2];
-    s16 y;
-    u8 pad8[2];
-    s16 z;
-} Origin;
-
-typedef struct {
     u16 x;
     u16 y;
     u16 z;
@@ -85,7 +76,7 @@ void func_819ACDA0(Motion *motion, Position *position, u8 *color)
     Vec3u delta;
     Vec3u base;
     register u8 *entity;
-    register u8 *source;
+    TileObject *source;
     u16 final_state;
     s32 index;
 
@@ -191,8 +182,8 @@ fade:
     goto finish;
 
 effect:
-    source = ((u8 *)(&D_80082E80));
-    if (func_8003DE58(*(void **)(source + 8), source, &base, 0) != 0) {
+    source = &D_80082E80;
+    if (func_8003DE58(((void *)source->unk_008), source, &base, 0) != 0) {
         func_8002614C(
             D_80083780.x.w.i + base.x,
             D_80083780.y.w.i + base.y,

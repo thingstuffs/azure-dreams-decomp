@@ -99,7 +99,7 @@ typedef struct S_800BA074_2 {
 /* Creates three linked display objects for the selection and initializes their appearance. */
 void *func_800BA074(u8 *selection_data) {
     Obj *objects[3];
-    D_80083780_t *layout;
+    EntityRec *layout;
     Obj **object_slot;
     s32 part_index;
     u8 *global_page;
@@ -112,7 +112,7 @@ void *func_800BA074(u8 *selection_data) {
 
     part_index = 0;
     last_part = 2;
-    layout = ((D_80083780_t *)&D_80083780);
+    layout = &D_80083780;
     global_page = (u8 *)0x800E0000;
     object_slot = objects;
 do {
@@ -136,8 +136,8 @@ do {
         }
     after_call:
         transform = (*object_slot)->subA;
-        transform->f2 = layout->f2;
-        transform->f6 = layout->f6;
+        transform->f2 = ((u16)layout->x.w.i);
+        transform->f6 = ((u16)layout->y.w.i);
         sprite = (*object_slot)->subB;
         sprite->f1E = 0x1000;
         sprite->f1C = 0x1000;
@@ -159,7 +159,7 @@ do {
 
             object = *object_slot;
             part_state = (Aux *)((u8 *)object + 0x20);
-            part_state->fA = layout->fA - D_800DDC40[0];
+            part_state->fA = ((u16)layout->z.w.i) - D_800DDC40[0];
             ((S_800BA074_0 *)object)->unk_20 = &D_800814A8;
             part_state->f12 = part_index;
             part_state->f16 = transform->f2;

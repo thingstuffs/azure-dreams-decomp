@@ -10,11 +10,6 @@ typedef struct {
     s16 unk10;
 } Entity;
 
-typedef struct {
-    u8 pad0[0x10];
-    u32 flags;
-} GlobalState;
-
 extern void func_80094984(void *arg0, Entity *arg1);
 
 extern u8 D_800D0190[];
@@ -26,11 +21,11 @@ extern u8 D_8009B014[];
 /* Update the entity state and handler from global flags and the signed counter. */
 void func_8009AE88(Entity *input_entity, s32 unused_1, s32 unused_2) {
     Entity *entity = input_entity;
-    GlobalState *state = (GlobalState *)((u8 *)(&gameWork));
+    GameWork *state = &gameWork;
     s32 state_or_handler;
     s32 adjustment;
 
-    if (state->flags & 0x40) {
+    if (((u32)state->unk_010) & 0x40) {
         Entity *call_entity = entity;
         ASM_KEEP(call_entity);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         {
@@ -48,7 +43,7 @@ void func_8009AE88(Entity *input_entity, s32 unused_1, s32 unused_2) {
         register void *tail_data ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         Entity *tail_entity;
 
-        if ((state->flags & 0x1000) && ((adjustment = D_800D0620) >= 0)) {
+        if ((((u32)state->unk_010) & 0x1000) && ((adjustment = D_800D0620) >= 0)) {
             tail_data = D_800D0088;
             tail_entity = entity;
 
@@ -56,7 +51,7 @@ void func_8009AE88(Entity *input_entity, s32 unused_1, s32 unused_2) {
             D_800D0620 = adjustment;
             entity->unk10 = 0x800;
             state_or_handler = 4;
-        } else if ((state->flags & 0x4000) && ((adjustment = D_800D0620) <= 0)) {
+        } else if ((((u32)state->unk_010) & 0x4000) && ((adjustment = D_800D0620) <= 0)) {
             tail_data = D_800D0088;
             tail_entity = entity;
             adjustment++;

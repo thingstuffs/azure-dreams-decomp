@@ -1,5 +1,6 @@
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
+#include "shared/entity.h"
 typedef unsigned char u8;
 typedef signed char s8;
 typedef short s16;
@@ -17,11 +18,6 @@ typedef struct S_800C135C_1 {
 
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-
-typedef struct {
-    u8 pad[0x88];
-    s16 unk88;
-} Object3D7C;
 
 extern s32 func_80042640();
 extern void *func_800C9850();
@@ -41,7 +37,7 @@ s32 func_800C135C(void) {
     entry = func_800C9850(
         D_80082E80.tileX,
         D_80082E80.tileY,
-        ((Object3D7C *)D_800E3D7C)->unk88);
+        D_800E3D7C->unk_88);
     if (entry != 0) {
         ((S_800C135C_1 *)(((S_800C135C_0_pre *)entry)[-1].unk_00))->unk_0C = 0;
         func_80042640(entry, entry->unk_13);
