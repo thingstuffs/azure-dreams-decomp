@@ -31,10 +31,8 @@ extern s32 D_80044BB0[3];
 extern s32 D_800A5AF0[3];
 
 /* Creates an object with the requested position, tint, and render parameter. */
-void func_8001F354(s16 x, s16 y, s32 tinted, s32 render_param)
+void func_8001F354(s16 x, s16 y, s16 tinted, s32 render_param)
 {
-    register s16 saved_x ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s32 saved_render_param ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     u16 flags;
     S_8001F354_1 *render_state;
     void *object;
@@ -43,9 +41,6 @@ void func_8001F354(s16 x, s16 y, s32 tinted, s32 render_param)
 
     object = func_8003FC64(2);
     if (object != NULL) {
-        saved_render_param = render_param;
-        saved_x = x;
-        ASM_KEEP(saved_x);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         ((S_8001F354_0 *)object)->unk_10 = (s32)D_800A5AF0;
         func_8004491C(object, D_80044BB0);
         position = (s16 *)((S_8001F354_0 *)object)->unk_08;
@@ -55,8 +50,8 @@ void func_8001F354(s16 x, s16 y, s32 tinted, s32 render_param)
         render_state = ((S_8001F354_0 *)object)->unk_0C;
         render_state->unk_1C = 0x2000;
         render_state->unk_1E = 0x1000;
-        render_state->unk_08 = saved_render_param;
-        if ((tinted << 0x10) != 0) {
+        render_state->unk_08 = render_param;
+        if (tinted != 0) {
             render_state->unk_0C = 0x202080;
         } else {
             render_state->unk_0C = 0x808080;
@@ -66,6 +61,6 @@ void func_8001F354(s16 x, s16 y, s32 tinted, s32 render_param)
         object_data = (s16 *)(object + 0x20);
         render_state->unk_14 = flags | 0xC;
         object_data[3] = 0x18;
-        object_data[4] = saved_x;
+        object_data[4] = x;
     }
 }
