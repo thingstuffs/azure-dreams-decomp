@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sys_flags.h"
 #include "shared/game_work.h"
 
 typedef struct S_800CF8E4_0 {
@@ -149,7 +150,6 @@ s32 func_80064D20();
 s32 func_80064D50();
 s16 func_800BCB04();
 extern s32 D_80013180[0x2000];
-extern u16 D_80013714[0x1000];
 extern s32 D_800DCF58[0x100];
 
 /* Render visible dungeon cells as lit, textured polygons in the ordering table. */
@@ -219,7 +219,7 @@ void func_800CF8E4(void) {
     register s32 neighbor_row_step ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     scene = (u8 *)((void * *)(&gameWork));
-    render_flags = D_80013714[0];
+    render_flags = D_80013714;
     ram_base = (u8 *)0x1F800000;
     view = scene + 0x18;
     map = scene + 0x1DC;

@@ -1,8 +1,8 @@
 #include "common.h"
+#include "shared/sys_flags.h"
+#include "shared/dungeon_floor.h"
 #include "shared/dungeon_status.h"
 
-extern s32 D_800E296C[];
-extern u16 D_80013714[];
 extern s8 D_800DCF4F[];
 extern s8 D_800E045C[];
 
@@ -11,7 +11,7 @@ extern void func_80035348(void);
 
 /* When unblocked, clears a set flag and decrements its counter before running updates. */
 void func_800A67F4(void) {
-    if (!(D_800E296C[0] & 0x200000) && !(D_80013714[0] & 8)) {
+    if (!(D_800E296C & 0x200000) && !(D_80013714 & 8)) {
         if (D_800DCF4F[0] != 0) {
             D_800DCF4F[0] = 0;
             dungeonStatus.unk_0A--;

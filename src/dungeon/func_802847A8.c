@@ -1,6 +1,6 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
 
-extern s8 D_800E2970[];
 
 /* Clear the fields at offsets 0xA, 0xE, and 0x10 in all 36 entries. */
 void func_800177A8(void) {

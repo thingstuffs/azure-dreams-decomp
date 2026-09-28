@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
 
 extern s16 D_8008146E;
-extern u8 D_800E2970[];
 
 /* Returns the first active rectangle containing the point, or -1 if none does. */
 s32 func_8009FB34(s32 point_x, s32 point_y) {

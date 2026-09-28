@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
@@ -11,7 +12,6 @@ M2C_UNK func_800A634C();
 M2C_UNK func_800A67F4();
 extern s16 D_80013630[4];
 extern M2C_UNK D_8001363C;
-extern M2C_UNK D_800E296C;
 
 typedef struct S_func_8009E038_0 {
     u8 pad_00[4];

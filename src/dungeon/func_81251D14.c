@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/sys_flags.h"
+#include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
@@ -26,8 +28,6 @@ extern s32 func_80172330(void *, void *, void *, s32);
 extern void func_801736B8(void *, void *, void *, void *);
 extern void func_80173D6C(void *, void *, void *);
 
-extern u16 D_80013714;
-extern s8 D_800E2970[];
 extern void *D_80170808[];
 extern u8 D_80171514;
 extern u8 D_80173E8C[8];

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80083460.h"
@@ -48,7 +49,6 @@ extern M2C_UNK D_800DCF4E;
 extern s8 D_800DCF4F;
 extern s8 D_800DCF58;
 extern s8 D_800DCF5B;
-extern s32 D_800E296C;
 extern M2C_UNK D_800E3548;
 extern M2C_UNK D_800E36C8;
 extern s16 D_800E3CCC;

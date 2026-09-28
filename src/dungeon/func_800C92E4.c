@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -25,7 +26,6 @@ typedef struct AreaRecord {
 extern u32 D_800835E4[];
 extern u8 D_800E1C3A;
 extern s8 D_800E2968;
-extern s8 D_800E2970[];
 extern u8 D_800E3648[];
 
 extern s32 func_8003FA44(s32);

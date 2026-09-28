@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
@@ -109,7 +110,6 @@ extern s16 func_80171EBC(void *, void *, void *, void *);
 extern s8 D_8006CD00;
 extern u8 D_80082E80_b[];
 __asm__(".set D_80082E80_b, 0x80082E80");
-extern s8 D_800E2970[];
 
 /* Chooses a movement direction, advances the actor, and updates its movement history. */
 void func_801715F4(void *move_state, void *caller_context, void *position_arg, void *actor_arg) {

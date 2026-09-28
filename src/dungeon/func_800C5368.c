@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sys_flags.h"
 #include "shared/dungeon_status.h"
 
 
@@ -6,7 +7,6 @@ extern s32 func_800AB1C0(void);
 extern void func_800A4ACC(void *);
 extern void func_800CAA94(void *, s32, s32);
 
-extern u16 D_80013714;
 extern u8 D_800C9F34;
 
 

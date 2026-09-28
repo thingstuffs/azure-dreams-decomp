@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sys_flags.h"
 #include "shared/game_work.h"
 
 #include "common.h"
@@ -20,7 +21,6 @@ extern void func_80048B28(void);
 extern void func_800542BC(void);
 extern void func_800894A0(void);
 
-extern u16 D_80013714;
 extern u8 D_80080A84;
 extern u8 D_80080A85;
 extern s8 D_80080A87;

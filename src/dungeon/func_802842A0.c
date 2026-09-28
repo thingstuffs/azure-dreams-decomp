@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/sys_flags.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern volatile s16 D_80013714[8];
 s32 func_800644B8();                             /* extern */
 s32 func_80064584();                             /* extern */
 s32 rand();                                /* extern */
@@ -73,7 +73,7 @@ void func_800172A0(S_800172A0_0 *source, s16 base_offset) {
     bounds = state + 0x1C4;
     effect = state + 0xB8;
     random_angle = (rand() & 0x1FFF) - 0x1000;
-    if (!((u16) *D_80013714 & 2)) {
+    if (!((u16) *((s16 *)&D_80013714) & 2)) {
         position_x = source->unk_02 + (func_80064584(random_angle) * 2);
         ((S_800172A0_1 *)state)->unk_A4 = position_x;
         if (position_x < 0) {

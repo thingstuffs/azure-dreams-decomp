@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -6,7 +7,6 @@
 typedef void (*EntityCallback)(void *, void *, void *, void *);
 
 extern u8 D_8006CCF8[];
-extern s32 D_800E296C;
 extern u8 D_80170F74[];
 extern EntityCallback D_80173D90[];
 

@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/sys_flags.h"
+#include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
@@ -94,14 +96,12 @@ typedef struct {
 } __attribute__((packed)) UnalignedCopy3;
 extern UnalignedCopy3 D_80012080;
 extern UnalignedCopy3 D_80013710;
-extern M2C_UNK D_80013714;
 extern M2C_UNK D_80021268;
 extern u16 D_8008146C;
 extern u8 D_80082E6B;
 extern u16 D_80082E76;
 extern s16 D_800DCED4[];
 extern s32 D_800DCF64;
-extern M2C_UNK D_800E296C;
 extern M2C_UNK D_800E3CD0;
 extern M2C_UNK D_800E4938;
 
@@ -221,7 +221,7 @@ jt_c4:
     goto block_24_done;
 jt_c16:
     transition_base = (M2C_UNK *)0x800E0000;
-    if (!(((S_800930F0_7 *)(&D_80013714))->unk_00 & 4)) {
+    if (!(((S_800930F0_7 *)(((M2C_UNK *)&D_80013714)))->unk_00 & 4)) {
         goto block_23;
     }
 block_21:

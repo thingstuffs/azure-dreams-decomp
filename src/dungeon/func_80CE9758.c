@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
@@ -125,7 +126,6 @@ extern s16 func_800BCB04();
 extern s32 func_80173734();
 
 extern s16 D_8006CD00;
-extern s8 D_800E2970[];
 
 /* Select a movement direction, move the actor, and update its path history and height. */
 void func_80172F58(u8 *move_input, void *action_context, u8 *position_input, u8 *actor_input) {

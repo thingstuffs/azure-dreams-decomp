@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/sys_flags.h"
+#include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
@@ -9,14 +11,11 @@ extern int abs(int);
 #endif
 
 /* ---- globals (declared array-style so every access stays %hi/%lo, never $gp) ---- */
-extern u16 D_80013714[];
-extern s32 D_800E296C[];
 typedef struct D_800E2970Entry {
     u8 pad_00[0xC];
     u16 flags;
     u8 pad_0E[6];
 } D_800E2970Entry;
-extern D_800E2970Entry D_800E2970[];
 typedef struct CFlags46 { u8 pad_00[0x46]; u16 f46; } CFlags46;
 extern u8 D_800E3548[];
 extern void *D_80089088[];
@@ -123,7 +122,7 @@ s32 func_800ADE74(s32 unused, u8 *position_arg, u8 *creature_arg, s32 lower_limi
     default_action = 2;
     saved_lower_limit = lower_limit;
     ((CFlags46 *)creature)->f46 |= 0x4000;
-    if (D_80013714[0] & 8) {
+    if (D_80013714 & 8) {
         func_800A9A0C(creature);
         return -1;
     }
@@ -749,7 +748,7 @@ Lcase35:
     if (*(s16 *)(creature + 0xA6) != 0) {
         goto wander;
     }
-    if (D_800E296C[0] & 4) {
+    if (D_800E296C & 4) {
         goto wander;
     }
     goto return_ability;

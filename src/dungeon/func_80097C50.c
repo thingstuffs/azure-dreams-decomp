@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
 #include "shared/game_work.h"
 #include "shared/dir_step.h"
@@ -16,7 +17,6 @@ struct S_8003E2D8 {
     s32 field_10;
 };
 typedef struct S_8003E2D8 S_8003E2D8;
-extern s8 D_800E2970[];
 extern u8 D_800E50A8[];
 extern void func_800672D8(void *, u8 *);
 extern u8 D_80088CB0;

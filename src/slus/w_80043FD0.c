@@ -1,15 +1,8 @@
 #include "common.h"
+#include "shared/transition_slots.h"
 #include "shared/object_flags.h"
 
 #include "common.h"
-typedef struct S_80083120
-{
-  s16 field0;
-  s16 field2;
-  s16 field4;
-  s16 field6;
-} S_80083120;
-extern S_80083120 D_80083120[8];
 extern s8 D_80080A86;
 #ifdef NON_MATCHING
 #define D_80080A86_store D_80080A86
@@ -59,7 +52,7 @@ void func_80043FD0(S_80043FD0 *controller)
     }
     return;
   }
-  if (D_80083120[controller->field_8].field0 != 0)
+  if (D_80083120[controller->field_8].type != 0)
   {
     return;
   }
@@ -68,10 +61,10 @@ void func_80043FD0(S_80043FD0 *controller)
     node = controller->field_0(controller->field_4);
     if (node == 0)
     {
-      D_80083120[controller->field_8].field0 = 6;
-      D_80083120[controller->field_8].field2 = 1;
-      D_80083120[controller->field_8].field4 = 1;
-      D_80083120[controller->field_8].field6 = 0;
+      D_80083120[controller->field_8].type = 6;
+      D_80083120[controller->field_8].unk_2 = 1;
+      D_80083120[controller->field_8].param = 1;
+      D_80083120[controller->field_8].unk_6 = 0;
       return;
     }
     func_80040418();

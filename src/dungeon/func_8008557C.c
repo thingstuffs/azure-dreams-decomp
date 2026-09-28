@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/sys_flags.h"
 #include "shared/tile_object.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -108,7 +109,6 @@ s32 func_800A2C34();                          /* extern */
 M2C_UNK func_800A4300();              /* extern */
 s32 func_800A4474();                          /* extern */
 s32 func_800A6D30(void);                      /* extern */
-extern u16 D_80013714;
 extern M2C_UNK D_800245A8;
 extern M2C_UNK D_8004F5F4;
 extern M2C_UNK D_80050CAC;

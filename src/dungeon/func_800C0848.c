@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
@@ -13,8 +14,6 @@ extern u8 D_800E0458[];
 extern u8 D_800E0B65[];
 extern u8 D_800E0B73[];
 extern u8 D_800E0BA1[];
-extern u32 D_800E296C;
-extern u8 D_800E2970[];
 
 void func_800419EC();
 void func_80040AA0();
@@ -111,7 +110,7 @@ void func_800C5FA8(u8 *w) {
         if (*(s16 *)((u8 *) st + 20) != 0) {
             return;
         }
-        if (D_800E296C & 0x100000) {
+        if (((u32)D_800E296C) & 0x100000) {
             return;
         }
         if (*(s16 *)((u8 *) st + 10) != 0) {

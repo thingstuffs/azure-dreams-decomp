@@ -1,9 +1,9 @@
 #include "common.h"
+#include "shared/sys_flags.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
-extern u16 D_80013714[];
 extern u8 D_80096384[];
 extern u8 D_800DD274[];
 
@@ -62,7 +62,7 @@ void func_80096C24(void *obj, s32 move_mode, void *actor, void *map)
         S32(obj, 0x8C) = 0;
 
         if (move_kind != 4) {
-            if (D_80013714[0] & 2) {
+            if (D_80013714 & 2) {
                 void *anim_entry;
 
                 move_state[1] |= 0x80;

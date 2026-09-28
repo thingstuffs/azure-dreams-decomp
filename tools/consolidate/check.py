@@ -43,7 +43,7 @@ def inline_and_respell(text):
         return p.read_text() if p.is_file() else m.group(0)
     t = text
     for _ in range(4):      # shared headers may include each other
-        t2 = re.sub(r'^#include "(shared/[^"]+)"[^\n]*$', inc, t, flags=re.M)
+        t2 = re.sub(r'^#include "(shared/[^"]+|slus/slot_transition\.h)"[^\n]*$', inc, t, flags=re.M)
         if t2 == t: break
         t = t2
     for new, old in names_map().items(): t = re.sub(r"\b%s\b" % new, old, t)

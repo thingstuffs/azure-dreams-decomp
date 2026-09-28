@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
 #include "shared/record_ptrs.h"
 
 typedef struct {
@@ -12,7 +13,6 @@ extern void *D_80174AB4[3];
 extern s16 D_80174AB8[5];
 extern u8 D_80174B38[];
 extern void *D_80174CD8[3];
-extern u32 D_800E296C[];
 extern Unaligned32 D_80174C58;
 
 /* Initialize shared state and update the two active entries and their header flags. */
@@ -41,10 +41,10 @@ void func_801712C4(void)
             register u8 *state_page ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
             u32 state_flags;
 
-            global_flags = D_800E296C[0];
+            global_flags = ((u32)D_800E296C);
             global_flags |= 0x08000000;
             state_page = (u8 *)0x80010000;
-            D_800E296C[0] = global_flags;
+            D_800E296C = global_flags;
             state_flags = *(u16 *)(state_page + 0x3714);
             *(s16 *)(state_page + 0x371A) = 0;
             *(s16 *)(state_page + 0x3718) = 0;

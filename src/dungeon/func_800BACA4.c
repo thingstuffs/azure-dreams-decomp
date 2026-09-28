@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/transition_slots.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
 #include "shared/record_ptrs.h"
@@ -59,7 +60,6 @@ typedef struct {
 extern u8 D_801C9E40[16];
 extern u8 D_800DD0F8[];
 extern s16 D_800814E8;
-extern u8 D_80083120[];
 extern u16 D_80082E76;
 
 extern void func_8006658C();
@@ -186,7 +186,7 @@ void func_800C0404(DungeonObject *obj, MotionState *motion, EffectState *effect)
             if (obj->handle[0x13] == 0 &&
                 (*(u16 *)(*(u8 **)((u8 *)D_800E3D7C - 0x14) + 0x14) & 0x6000)) {
                 s16 entry_index = func_8003F794(6, 0x20);
-                u8 *entry_table = D_80083120;
+                u8 *entry_table = (u8 *)D_80083120;
                 s16 *entry_flag;
                 void *active_dungeon;
                 D_800814E8 = entry_index;

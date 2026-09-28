@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082EB0.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern s32 D_800E296C[3];
 extern void *D_8008ACDC[];
 extern void *D_8008EAC8[];
 struct S_8003E2D8; typedef struct S_8003E2D8 S_8003E2D8;
@@ -155,10 +155,10 @@ update_selection:
                     (*(s32 *)((u8 *)state + 0xC8)) = 0;
                     func_8008DB0C(state, context_a, context_b, action_id, (s32) action_arg);
                     {
-                        s32 tail_flags = D_800E296C[0];
+                        s32 tail_flags = D_800E296C;
 
                         (*(void **)((u8 *)state + 0x104)) = NULL;
-                        D_800E296C[0] = tail_flags & ~0x2000;
+                        D_800E296C = tail_flags & ~0x2000;
                     }
                     goto done;
                 }
@@ -242,7 +242,7 @@ check_selection:
             }
             (*(void **)((u8 *)state + 0x104)) = NULL;
             func_8004E130();
-            D_800E296C[0] &= ~0x2000;
+            D_800E296C &= ~0x2000;
             {
                 void *callback;
                 if (actor->unk_1C & 0x100000) {
@@ -261,7 +261,7 @@ check_selection:
 finish_selection:
     (*(s32 *)((u8 *)state + 0xC8)) = 0;
     func_8004E130();
-    D_800E296C[0] &= ~0x2000;
+    D_800E296C &= ~0x2000;
     {
         void *callback;
         if (actor->unk_1C & 0x100000) {

@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-09-28T12:03:16Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-09-28T12:34:33Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -76,10 +76,10 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | maspsx marker pins (scaffolding) | 393 | 351,556 | 13.7% | 3 | 3,176 | 0.1% |
 | do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,176 | 6.1% | 349 | 246,744 | 9.6% |
 | fake dependency x=(e)+a;x-=a / arg+v-v (scaffolding, pure C) | 1 | 408 | 0.0% | 2 | 820 | 0.0% |
-| local address-named struct | 633 | 346,988 | 13.6% | 3124 | 1,608,020 | 62.9% |
+| local address-named struct | 633 | 346,988 | 13.6% | 3120 | 1,605,684 | 62.8% |
 | clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,440 | 6.1% | 4275 | 828,844 | 32.4% |
 
-Pin sites now: 2,841 in 740 rows; REG 1,371, KEEP 614, KEEP_NV 393, SCHED_BARRIER 141, KEEP_DEP_NV 72, USE_NV 47, CLOBBER 34, USE 34.  At the pin: 25,759; REG 12,778, KEEP 6,854, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
+Pin sites now: 2,833 in 740 rows; REG 1,365, KEEP 614, KEEP_NV 391, SCHED_BARRIER 141, KEEP_DEP_NV 72, USE_NV 47, CLOBBER 34, USE 34.  At the pin: 25,759; REG 12,778, KEEP 6,854, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
 
 Hidden scaffolding, not in the pin count (`pin_census.hidden_asm`): raw asm statements 3, calls of local asm wrappers 0, hand-written asm in function bodies 4 (C that is missing); symbol aliases 108 (a second typed name for one symbol: a missing type); file-scope asm directives 430.
 

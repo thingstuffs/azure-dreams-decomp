@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
 #include "shared/object_node.h"
 #include "shared/tile_object.h"
 #include "shared/slus_callbacks.h"
@@ -140,7 +141,6 @@ extern void func_80174250(void *, void *, void *, void *);
 
 extern void *D_800814A8[3];
 extern u8 D_800DEA68[];
-extern DungeonRecord D_800E2970[];
 extern u8 D_80175174[];
 extern u8 D_80175258[];
 extern u8 D_80175260[];

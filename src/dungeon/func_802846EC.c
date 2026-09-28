@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
 
 typedef struct {
     s32 words[2];
@@ -10,7 +11,6 @@ typedef struct {
 } DungeonEntry;
 
 extern s16 D_8008146E[5];
-extern DungeonEntry D_800E2970[];
 
 /* Compact occupied dungeon entries, clear the unused tail, and update the count. */
 void func_800176EC(void) {
@@ -38,9 +38,9 @@ void func_800176EC(void) {
     entry_index = entry_count;
     if (entry_count < 0x24) {
         do {
-            D_800E2970[entry_index].field_A = 0;
-            D_800E2970[entry_index].field_E = 0;
-            D_800E2970[entry_index].field_10 = 0;
+            D_800E2970[entry_index].unk_0A = 0;
+            D_800E2970[entry_index].unk_0E = 0;
+            D_800E2970[entry_index].unk_10 = 0;
         } while (++entry_index < 0x24);
     }
     D_8008146E[0] = entry_count;

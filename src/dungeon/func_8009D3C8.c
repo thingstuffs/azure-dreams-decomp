@@ -1,6 +1,6 @@
 #include "common.h"
+#include "shared/sys_flags.h"
 
-extern u16 D_80013714;
 extern u8 D_800E3D20;
 
 /* Returns whether D_800E3D20 is set while bit 1 of D_80013714 is clear. */

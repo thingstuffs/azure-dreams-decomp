@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/sys_flags.h"
+#include "shared/dungeon_floor.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
@@ -9,11 +11,9 @@ s32 func_800A1C58(void *);
 void func_800A1D4C(void *, s32);
 void func_800A56E0(s32);
 void func_800C77D0(void *, s32, s32, s32);
-extern u16 D_80013714;
 extern s32 D_8007359C;
 extern s8 D_80080A88;
 extern s8 D_80080AA0;
-extern s32 D_800E296C;
 
 
 typedef struct S_800AAB10_0 {

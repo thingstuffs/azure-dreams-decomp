@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/sys_flags.h"
+#include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
@@ -35,11 +37,9 @@ typedef struct S_8016B778_5 {
 
 extern u8 D_801746A4[];
 extern u8 D_80174684[];
-extern volatile s16 D_80013714[8];
 extern u8 D_801746C4[];
 extern u8 D_8017467C[];
 extern u8 D_8016B778[];
-extern s8 D_800E2970[];
 extern void *D_8016A828[];
 s8 func_8009FB34();
 s32 func_8009FD7C();
@@ -136,7 +136,7 @@ state_store:
     if (actor->unk_B4 != 0) {
         goto block_25;
     }
-    if ((u16) *D_80013714 & 8) {
+    if ((u16) *((s16 *)&D_80013714) & 8) {
         goto block_25;
     }
     if (((EntityRec *)entity)->unk_64 == 0) {
@@ -192,7 +192,7 @@ block_33:
         goto block_65;
     }
 block_39:
-    if (!((u16) *D_80013714 & 8)) {
+    if (!((u16) *((s16 *)&D_80013714) & 8)) {
         goto block_42;
     }
     func_8016EF10(actor, context, map_actor);

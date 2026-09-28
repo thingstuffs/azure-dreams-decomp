@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/sys_flags.h"
+#include "shared/dungeon_floor.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
@@ -207,7 +209,6 @@ M2C_UNK func_800A90E8();
 M2C_UNK func_800B1768();
 M2C_UNK func_800B4C7C();
 M2C_UNK func_800B8024();
-extern M2C_UNK D_80013714;
 #define D_80010000_PTR ((D_80010000_T *)0x80010000)
 extern s32 D_8007359C;
 extern s32 D_80081484;
@@ -226,7 +227,6 @@ extern M2C_UNK D_800E0458;
 extern M2C_UNK D_800E0A2A;
 extern M2C_UNK D_800E0A33;
 extern s8 D_800E2968;
-extern M2C_UNK D_800E296C;
 extern u8 D_800E3544;
 extern void *D_800E3DF0[];
 extern u8 D_800E3E48[];
@@ -542,7 +542,7 @@ init_creature_stats:
 build_spawn_message:
     message_start = func_800990FC();
     message_end = func_80099194(&D_800E0A33, func_80099734(creature, func_80099194(&D_800E0A2A, func_80099194(((S_func_800B1364_17 *)((creature->unk_13 * 0x14) + D_8007359C))->unk_04, func_8009929C(8, message_start)))));
-    if ((*(u16 *)&D_80013714) & 1) {
+    if ((*(u16 *)(&D_80013714)) & 1) {
         goto show_spawn_message;
     }
     message_end = func_80099254(&D_800E0458, func_8009929C(0x4C, func_8009929C(0x11, message_end)));
@@ -551,7 +551,7 @@ show_spawn_message:
     func_800A5720(message_start);
     *(u16 *)((u8 *)action + 0x96) = 0x20U;
     action->unk_9B = (u8) (action->unk_9B + 1);
-    if ((*(u16 *)&D_80013714) & 1) {
+    if ((*(u16 *)(&D_80013714)) & 1) {
         goto decrement_summon_count;
     }
     summon_state = (S_func_800B1364_8 *)&dungeonStatus.unk_00;

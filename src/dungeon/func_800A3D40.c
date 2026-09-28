@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sys_flags.h"
 #include "shared/object_node.h"
 #include "shared/tile_object.h"
 #include "shared/entity.h"
@@ -78,7 +79,6 @@ typedef struct S_800A94A0_9 {
 } S_800A94A0_9;   /* *D_800E3D7C in func_800A94A0 */
 
 
-extern volatile s16 D_80013714[8];
 extern u8 D_800E3CC8[];
 extern u16 D_800DCEAC[];
 extern u16 D_800DCEBC[];
@@ -173,7 +173,7 @@ void *func_800A94A0(void *actor, EntityRec *effect_record, s16 mode, void *conte
             effect_position->unk_06 = (u16) actor_position->unk_06;
             effect_position->unk_0A = (u16) actor_position->unk_0A;
             text_context = func_80069EF8();
-            if (!((u16) *D_80013714 & 1)) {
+            if (!((u16) *((s16 *)&D_80013714) & 1)) {
                 linked_object = ((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_78;
                 if (linked_object != NULL) {
                     func_8009FD40(((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_04, ((S_800A94A0_6 *)((u8 *)linked_object - 0x14))->unk_00);

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
@@ -38,7 +39,6 @@ extern void func_800A9A0C();
 extern s16 func_800BCB04();
 extern s32 func_80171E00();
 extern s16 D_8006CD00[8];
-extern DungeonTileRecordLocal D_800E2970[];
 /* Updates actor movement, recording the path and refreshing the tile position and height. */
 void func_80171410(u8 *object_arg, void *entry_context, u8 *tile_arg, u8 *actor_arg)
 {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
@@ -56,7 +57,6 @@ extern u8 D_80082E80_initial[] __asm__("D_80082E80");
 extern u8 D_80082E80_later[] __asm__("D_80082E80");
 extern u8 D_8006CCD8_bytes[] __asm__("D_8006CCD8");
 extern u8 D_8006CCE8_bytes[] __asm__("D_8006CCE8");
-extern DungeonEntry D_800E2970[];
 extern s16 D_8006CD00[];
 M2C_UNK func_8009A3D0();
 s32 func_8009A180();

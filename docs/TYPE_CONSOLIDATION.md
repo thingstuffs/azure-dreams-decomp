@@ -167,3 +167,16 @@ SHA-1 MATCH, pin-neutral (155 migrated pinned rows re-tested).
   D_ (a script-slot label calls it item type data, which does not fit a list node). D_800834B8 stays separate
   (town rows form their base there).
 - Totals: **5,085 row migrations onto 10 shared headers.**
+
+## Phase 7 (2026-09-28): landed
+
+205 rows (40-row sample first), 131 windows + SLUS SHA-1 MATCH, pin-neutral; no SLUS recipe change.
+- **DungeonRoom D_800E2970[]** + `int D_800E296C` (include/shared/dungeon_floor.h): a table of 0x14-byte room
+  records (x, y, w, h, flags named) and a floor flag word - two separate objects; 140 rows.
+- **TransitionSlot D_80083120[8]** (include/shared/transition_slots.h; include/slus/slot_transition.h now
+  includes it): fields named from the allocator func_8003F794; 11 rows incl. the slot_transition module.
+- **`unsigned short D_80013714`** (include/shared/sys_flags.h): 72 rows.
+- game.h S_80083178: measured blocked (the six rows miss by 19-118 words) because retail holds gameWork+0x18 as a
+  real pointer - the original had a sub-structure there. Decision (OPEN_ITEMS #2): GameWork gets that member;
+  phase 8. Rec_D_800814A8.h: its last user func_81324774 was busy; retires on the next pass.
+- Totals: **5,290 row migrations onto 13 shared headers.**

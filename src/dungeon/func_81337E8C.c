@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/sys_flags.h"
+#include "shared/dungeon_floor.h"
 #include "shared/entity_objects.h"
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
@@ -38,12 +40,10 @@ typedef struct S_8016EE8C_5 {
 
 M2C_UNK func_8009A028();                         /* extern */
 M2C_UNK func_8016E998();                   /* extern */
-extern u16 D_80013714;
 extern s16 D_80013716;
 extern s16 D_80013718;
 extern s16 D_8001371A;
 extern s32 D_8001371C;
-extern M2C_UNK D_800E296C;
 extern s32 D_80173C94;
 extern s32 D_80173D5C;
 extern s32 D_80175D50;

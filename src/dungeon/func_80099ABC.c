@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
 #include "shared/object_flags.h"
 
 typedef struct {
@@ -31,7 +32,6 @@ typedef struct {
 } E296C;
 
 extern u8 D_80044BB0[];
-extern E296C D_800E296C;
 extern void func_8004491C(void *, u8 *);
 extern void func_800A56E0(s32);
 
@@ -75,7 +75,7 @@ void func_8009F21C(InterpState *state, void *unused, InterpTarget *target) {
         ticks_left = state->counter - 1;
         state->counter = ticks_left;
         if ((s16)ticks_left <= 0) {
-            global_state = &D_800E296C;
+            global_state = ((E296C *)&D_800E296C);
             prior_flags = global_state->first;
             state_flags = state->flags;
             merged_flags = prior_flags | state_flags;

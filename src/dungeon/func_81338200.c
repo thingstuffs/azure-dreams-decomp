@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/sys_flags.h"
 #include "shared/record_ptrs.h"
 
 extern void func_80035208();
 extern void func_80099FDC();
 extern void func_8009FAC4(s32, s32, s32, s32);
-extern u16 D_80013714[8];
 extern u8 D_800E045C[];
 extern s32 D_80175D50;
 
@@ -17,7 +17,7 @@ void func_8016F200(s32 reset_arg_a, s32 reset_arg_b, s32 reset_arg_c, s32 reset_
     object_index = 0;
     state = (u8 *)(D_80175D50 + 0x20);
     *(u16 *)(state + 0x46) &= 0x7FFF;
-    D_80013714[0] &= 0xFFF6;
+    D_80013714 &= 0xFFF6;
     func_8009FAC4(reset_arg_a, reset_arg_b, reset_arg_c, reset_arg_d);
     state[0xAF] = 0;
     do {

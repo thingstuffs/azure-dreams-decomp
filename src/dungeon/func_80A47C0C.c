@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
@@ -58,11 +59,6 @@ typedef struct S_8017140C_5 {
 
 
 
-typedef struct {
-    u8 pad0[0xC];
-    u16 flags;
-    u8 padE[6];
-} DungeonRecord;
 
 extern void func_80047784(void *, s32, s32);
 extern s32 func_8009A180(void *, void *);
@@ -86,7 +82,6 @@ extern s32 func_80172550(void *, void *, void *, s32);
 extern void func_80173C34(void *, void *, void *, void *);
 extern void func_80175068(void *, void *, void *, void *);
 
-extern s8 D_800E2970[];
 extern u8 D_8017586C[];
 extern u8 D_80175874[];
 extern u8 D_80175884[];
@@ -267,7 +262,7 @@ generic:
         s32 room_index = room_id;
 
         if ((room_index < 0) ||
-            !(((DungeonRecord *)D_800E2970)[room_index].flags & 2)) {
+            !(D_800E2970[room_index].flags & 2)) {
             if (!(((S_8017140C_1 *)creature)->unk_1C & 0x430)) {
 
                 if ((func_8009FD7C(

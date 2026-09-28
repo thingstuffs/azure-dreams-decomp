@@ -4,7 +4,7 @@
 void func_80041C64(void)
 {
     func_80041CBC();
-    if (D_80083120[D_800814E8].field0 == 0) {
+    if (D_80083120[D_800814E8].type == 0) {
         D_80082E60.field_0 |= 1;
         func_80040B88();
     }

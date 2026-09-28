@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sys_flags.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
@@ -36,7 +37,6 @@ typedef struct D_80013714_s {
     u8 pad2[8];
 } D_80013714_s;
 
-extern D_80013714_s D_80013714;
 extern u8 D_8008EAC8[];
 extern u8 D_800DCFD8[8];
 extern u8 D_800DD0B8[8];
@@ -83,7 +83,7 @@ void func_8008C13C(void *controller, s32 actor_id, void *actor, void *actor_data
         ((S_8008C13C_2 *)controller)->unk_8C.s = 0;
 
         if (move_result != 4) {
-            if (D_80013714.flags & 2) {
+            if (D_80013714 & 2) {
                 dungeonStatus.flags |= 0x80;
             } else if ((((S_8008C13C_3 *)dungeon_state)->unk_08 & 0x20) && func_800A5C70()) {
                 dungeonStatus.flags |= 0x80;

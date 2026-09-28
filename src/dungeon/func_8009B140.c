@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -8,7 +9,6 @@ typedef void *(*SpawnFunc)(s32, s32, s32, s32);
 
 extern u32 D_800835E4[];
 extern u8 D_800E2968;
-extern s32 D_800E296C;
 
 extern void func_80042640(void *, s32);
 extern void func_8009A028(void *);

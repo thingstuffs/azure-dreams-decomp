@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
 #include "shared/dungeon_status.h"
 
 #ifndef NULL
@@ -36,7 +37,6 @@ extern s32 func_800A6DA4(s32, s32);
 extern s32 func_800BCA68(s32, s32);
 
 extern u8 D_800CE028[];
-extern s32 D_800E296C;
 
 /* Creates a dungeon object with two 5x5 value grids and sets its effect flags. */
 s32 func_800CE4E8(s32 center_x, s32 center_y, s16 unused_value, void *unused_data, s32 reverse_offset)

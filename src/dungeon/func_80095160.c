@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
 #include "shared/game_work.h"
 #include "shared/dir_step.h"
 
@@ -29,7 +30,6 @@ typedef struct {
 
 extern s16 D_800DCEAC[];
 extern s16 D_800DCEBC[];
-extern FuncMonster D_800E2970[];
 extern s32 func_8009A350(s32, s32, s32, u16 *);
 extern s32 func_8009A540(s32, s32, s32, s16);
 s32 func_8009B25C(FuncArg2 *, s32, s32, s32);

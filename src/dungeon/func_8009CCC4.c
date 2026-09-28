@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sys_flags.h"
 #include "shared/dungeon_status.h"
 
 typedef s32 M2C_UNK;
@@ -16,7 +17,6 @@ extern s32 func_800A56E0();
 extern s32 func_800A5720();
 extern s32 func_800B4C7C();
 
-extern u16 D_80013714[];
 extern u8 D_8006D168[];
 extern u8 D_8006DE24[];
 extern s32 D_800835E8[];
@@ -304,7 +304,7 @@ s32 func_800A2424(void *entity_data, s32 show_message) {
     }
     ASM_SCHED_BARRIER();
     {
-        if (!(*(volatile u16 *)D_80013714 & 1)) {
+        if (!(*(volatile u16 *)((u16 *)&D_80013714) & 1)) {
             D_800DCF4F[0] = 1;
             dungeonStatus.unk_0A++;
         }
@@ -332,7 +332,7 @@ s32 func_800A2424(void *entity_data, s32 show_message) {
             } while (++spell_index < 3);
         }
 
-        if (!(D_80013714[0] & 1)) {
+        if (!(D_80013714 & 1)) {
             message_end = func_8009929C(0x11, message_end);
             message_end = func_8009929C(0x4C, message_end);
             message_end = func_80099254(&D_800E0458, message_end);

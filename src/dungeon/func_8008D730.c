@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sys_flags.h"
 #include "shared/tile_object.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -12,7 +13,6 @@ extern s32 func_80048A44();
 extern s32 func_800997FC();
 extern s32 func_800A2B04();
 
-extern u16 D_80013714;
 extern s32 D_80083460_count __asm__("D_80083460");
 extern s32 D_8008ACDC;
 extern u8 D_800DCFF8[];

@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
 #include "shared/dungeon_status.h"
 
 typedef struct { u8 b0; u8 b1; u8 b2; u8 b3; } Elem;
 typedef struct { u8 pad0[0xE]; s16 fieldE; u8 pad1[4]; } E2970;
 
-extern E2970 D_800E2970[];
 extern s16 D_8006CD00[];
 extern s16 D_8006CD02[];
 extern u16 D_800DCEAC[];
@@ -76,7 +76,7 @@ s32 func_800A0E6C(void *actor, s32 kind, void *work, u16 *out) {
     actor_held[0x27] = 0xFF;
     s1 = func_8009FCAC(*(s8 *)(actor_held + 0x26));
     if (s1 != 0) {
-        count = D_800E2970[*(s8 *)(actor_held + 0x26)].fieldE;
+        count = D_800E2970[*(s8 *)(actor_held + 0x26)].unk_0E;
         if (count > 0) {
             i = 0;
             do {

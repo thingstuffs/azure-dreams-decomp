@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sys_flags.h"
 #include "shared/tile_object.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -12,7 +13,6 @@ M2C_UNK func_8008CBA0();
 M2C_UNK func_8008CF6C();
 M2C_UNK func_80090200();
 M2C_UNK func_800A2B04();
-extern u16 D_80013714[];
 extern M2C_UNK D_8004F5F4;
 extern s32 D_800E4940[];
 
@@ -33,7 +33,7 @@ void func_8008B870(Rec_func_8008ACDC_arg0 *controller, EntityRec *move_state, Re
     if (action_state > 0) {
         func_8008CBA0(controller, move_state, entity, actor);
     }
-    if (!(D_80013714[0] & 1) && !(dungeonStatus.flags & 4) && (((M2C_UNK)input_state->unk_008) & 0x80)) {
+    if (!(D_80013714 & 1) && !(dungeonStatus.flags & 4) && (((M2C_UNK)input_state->unk_008) & 0x80)) {
         actor->unk_8A = 2;
         D_800E4940[0] = 2;
         func_8008CF6C(controller, move_state, entity, &D_8004F5F4);

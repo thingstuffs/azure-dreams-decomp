@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
 #include "shared/entity.h"
@@ -15,7 +16,6 @@ typedef struct {
 extern u16 D_800DDE84[];
 extern u8 D_800E12D6[];
 extern u8 D_800E1303[];
-extern DungeonRecord D_800E2970[];
 
 extern void func_8008D344(void *, void *, void *, void *);
 extern s32 func_80098864(s32, s32);

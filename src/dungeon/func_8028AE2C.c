@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
 #include "shared/game_work.h"
 
 typedef struct {
@@ -14,7 +15,6 @@ typedef struct {
 extern s32 func_8001CE14(s16 value, s32 low, s32 high);
 extern void func_8001E108(s32 x, s32 y, s16 *tile, s32 kind, s32 amount);
 
-extern u8 D_800E2970[];
 extern u8 D_800EA000[];
 
 /* Update tiles in active dungeon areas, alternating variants in the first tile range. */

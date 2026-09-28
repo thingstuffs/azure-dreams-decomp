@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sys_flags.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
@@ -6,7 +7,6 @@
 M2C_UNK func_800A4ACC();                      /* extern */
 M2C_UNK func_800AA53C();                      /* extern */
 M2C_UNK func_800AD594();             /* extern */
-extern u16 D_80013714;
 
 
 /* Process an entity's pending updates and clear its update flags. */

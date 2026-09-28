@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
@@ -127,7 +128,6 @@ extern s16 func_800BCB04();
 extern s32 func_8016B954();
 
 extern s16 D_8006CD00;
-extern s8 D_800E2970[];
 
 /* Select a movement direction, record the previous tile, and update the actor position and height. */
 void func_8016B230(u8 *movement_in, void *action_ctx, u8 *position_in, u8 *actor_in) {

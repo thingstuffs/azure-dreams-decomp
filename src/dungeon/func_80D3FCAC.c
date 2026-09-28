@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
 #include "shared/dungeon_status.h"
 
-extern s32 D_800E296C;
 
 extern s32 func_800A2B5C(void *);
 extern void func_800A4ACC(void *);

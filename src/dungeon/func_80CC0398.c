@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
@@ -61,7 +62,6 @@ void func_80174924(void);
 s32 func_80175C94(void *arg0, M2C_UNK arg1, void *arg2, s32 arg3);
 s32 func_80175E6C(void *arg0, M2C_UNK arg1, void *arg2, void *arg3);
 
-extern DungeonTile D_800E2970[];
 extern u8 D_80176320[];
 extern M2C_UNK D_80176358;
 extern M2C_UNK D_80176360;

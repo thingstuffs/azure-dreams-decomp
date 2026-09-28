@@ -120,12 +120,13 @@ void func_8017405C(void *context, s32 action, S_8017405C_1 *actor, void *movemen
     s16 move_index;
     s16 stop_fallback = 0;
     s32 heading;
+    s32 target_x_sum;
     register s32 target_x ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    register s32 target_y ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u16 target_y;
     u16 state_flags;
     s32 flags;
     void *root;
-    register s32 y_offset ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 y_offset;
     register void *target ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 
     state_flags = dungeonStatus.flags;
@@ -181,17 +182,16 @@ void func_8017405C(void *context, s32 action, S_8017405C_1 *actor, void *movemen
         }
         {
             void **root_page = &D_800814A8;
-            register u8 *leader_pos ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            u8 *leader_pos;
             register unsigned long x_lookup ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             unsigned long y_lookup;
-            register s32 leader_x ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             u8 actor_x;
             ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             leader_pos = D_80082E80;
             x_lookup = (unsigned long)dirStepX;
             root = *root_page;
             y_lookup = ((S_8017405C_0 *)movement)->unk_45;
-            leader_x = leader_pos[0x24];
+            target_x_sum = leader_pos[0x24];
             y_lookup += (s16)((S_8017405C_4 *)root)->unk_2A >> 9;
             leader_pos = (u8 *)(leader_pos[0x25]);
             y_lookup &= 7;
@@ -204,8 +204,9 @@ void func_8017405C(void *context, s32 action, S_8017405C_1 *actor, void *movemen
                 y_offset = *(u16 *)y_lookup;
             }
             actor_x = actor->unk_24.at00.v;
-            target_x = leader_x + (s32)x_lookup;
-            target_y = (s32)leader_pos + y_offset;
+            target_x = target_x_sum + (s32)x_lookup;
+            target_y = (s32)leader_pos;
+            target_y += y_offset;
             if (actor_x == (u16)target_x && actor->unk_24.at01.v == (u16)target_y) {
                 ((S_8017405C_0 *)movement)->unk_71.u &= 0x7F;
                 return;
@@ -276,10 +277,9 @@ update_heading:
             register u8 *leader_pos = D_80082E80;
             register unsigned long x_lookup ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
             unsigned long y_lookup;
-            s32 target_x_sum;
             register u16 target_x ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            register u16 target_y ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             s32 actor_x;
+            s32 current_x;
             s32 actor_y;
             ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             x_lookup = (unsigned long)dirStepX;
@@ -306,16 +306,15 @@ update_heading:
             ((S_8017405C_0 *)movement)->unk_2A.u = func_800A0818(actor_x, actor_y,
                                                 target_x_sum, (s32)x_lookup, (u8 *)context + 0x98);
             {
-                s32 current_x = actor->unk_24.at00.v;
+                current_x = actor->unk_24.at00.v;
                 y_offset = (u16)target_x;
                 if (current_x != y_offset) {
                     goto choose_step;
                 }
             }
             {
-                s32 current_y = actor->unk_24.at01.v;
-                y_offset = (u16)target_y;
-                if (current_y != y_offset) {
+                current_x = actor->unk_24.at01.v;
+                if (current_x != (u16)target_y) {
                     goto choose_step;
                 }
             }

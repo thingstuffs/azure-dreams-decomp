@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
 
 extern s16 D_8008146E;
-extern u8 D_800E2970[];
 
 /* Return the first active record containing the coordinates, or -1 if none matches. */
 s32 func_8009FBF0(s32 pos_x, s32 pos_y) {

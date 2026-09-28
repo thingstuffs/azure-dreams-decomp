@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sys_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
@@ -16,7 +17,6 @@ s32 func_8009B25C();
 M2C_UNK func_8009C93C();
 M2C_UNK func_8009F644();
 s32 func_800A5C70();
-extern u16 D_80013714;
 extern u8 D_80013186;
 
 

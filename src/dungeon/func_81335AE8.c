@@ -1,8 +1,8 @@
 #include "common.h"
+#include "shared/sys_flags.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
-extern u16 D_80013714[5];
 extern u8 D_80175392[];
 
 extern void func_800353F4(void *, void *);

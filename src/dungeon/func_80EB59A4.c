@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
@@ -78,7 +79,6 @@ s32 func_80171FCC();
 M2C_UNK func_80172190();
 s32 func_801722B8();
 M2C_UNK func_80173D10();
-extern DungeonRecord D_800E2970[];
 extern M2C_UNK D_801711A4;
 extern M2C_UNK D_8017418C;
 extern M2C_UNK D_80174194;
