@@ -29,6 +29,7 @@ void func_8004C36C(u8 *parent, u8 *node)
     u8 *packet;
     u8 *node_matrix;
     u8 *sprite_matrix;
+    s32 opcode;
     u32 addr_mask;
     register u32 size_mask ASM_REG("$22");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     u8 *cmd;
@@ -171,7 +172,8 @@ command:
     }
 
     {
-        register s32 opcode ASM_REG("$3") = U8_AT(work, 1) & 0xFC;   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+        opcode = U8_AT(work, 1);
+        opcode &= 0xFC;
         if (opcode != 0x2C) goto big;
     }
     {
@@ -185,18 +187,21 @@ command:
         U32_AT(packet, 4) = U32_AT(work, 0xA8);
         func_8004C010(packet + 4, work + 0x78);
         {
-            u8 gpu_code = U8_AT(work, 1);
-            register u8 tex_u ASM_REG("$4") = U8_AT(work, 8);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-            register s32 screen_x0 ASM_REG("$5") = S16_AT(packet, 8);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-            coord = S16_AT(packet, 0x10);
-            U8_AT(packet, 7) = gpu_code;
+            u8 tex_u;
+            s32 screen_x0;
+            s32 screen_x1;
+            opcode = U8_AT(work, 1);
+            tex_u = U8_AT(work, 8);
+            screen_x0 = S16_AT(packet, 8);
+            screen_x1 = S16_AT(packet, 0x10);
+            U8_AT(packet, 7) = opcode;
             U8_AT(packet, 0xC) = tex_u;
             {
-                u16 clut = U16_AT(work, 6);
-                u8 tex_v = U8_AT(work, 9);
-                U16_AT(packet, 0xE) = clut;
-                U8_AT(packet, 0xD) = tex_v;
-                if (coord < screen_x0 || screen_x0 != S16_AT(packet, 0x18)) {
+                opcode = U16_AT(work, 6);
+                tex_u = U8_AT(work, 9);
+                U16_AT(packet, 0xE) = opcode;
+                U8_AT(packet, 0xD) = tex_u;
+                if (screen_x1 < screen_x0 || screen_x0 != S16_AT(packet, 0x18)) {
                     U8_AT(work, 0xA) = U8_AT(work, 0xA) - 1;
                 }
             }
@@ -211,12 +216,13 @@ command:
             U8_AT(packet, 0x14) = tex_right;
             U8_AT(packet, 0x15) = tex_v;
             {
-                register u8 left_u ASM_REG("$4") = U8_AT(work, 8);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-                s32 screen_y2 = S16_AT(packet, 0x1A);
+                s32 screen_y2;
                 u16 tex_page;
+                tex_v = U8_AT(work, 8);
+                screen_y2 = S16_AT(packet, 0x1A);
                 tex_page = U16_AT(work, 4);
                 U16_AT(packet, 0x16) = tex_page;
-                U8_AT(packet, 0x1C) = left_u;
+                U8_AT(packet, 0x1C) = tex_v;
                 if (screen_y2 < screen_y0 || screen_y0 != S16_AT(packet, 0x12)) {
                     U8_AT(work, 0xB) = U8_AT(work, 0xB) - 1;
                 }
