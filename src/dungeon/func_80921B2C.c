@@ -23,7 +23,7 @@ typedef struct S_80921B2C_1 {
     u8 pad_08[0x8];
     s16 unk_10;
     u8 pad_12[0x2];
-    union { u16 n; volatile u16 v; } unk_14;   /* accessed as both */
+    u16 unk_14;
 } S_80921B2C_1;   /* temp_a0 in func_80921B2C */
 
 typedef struct S_80921B2C_2 {
@@ -42,7 +42,7 @@ typedef struct S_80921B2C_3 {
 
 typedef struct S_80921B2C_4 {
     u8 pad_00[0x2A];
-    volatile u16 unk_2A;
+    u16 unk_2A;
 } S_80921B2C_4;   /* temp_s6 in func_80921B2C */
 
 typedef struct S_80921B2C_5 {
@@ -66,7 +66,6 @@ void func_80921B2C(S_80921B2C_3 *position, s32 x_offset, s32 y_offset, s32 z_off
     u8 *direction_source;
     s32 saved_y_offset = y_offset;
     s32 saved_z_offset = z_offset;
-    u16 render_flags;
     register s32 effect_type ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     u8 *global_state;
     register u8 *direction_state ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -90,15 +89,10 @@ void func_80921B2C(S_80921B2C_3 *position, s32 x_offset, s32 y_offset, s32 z_off
             S_80921B2C_1 *render_state;
 
             render_state = effect->unk_0C;
-            render_flags = render_state->unk_14.n;
-            ASM_USE(render_flags);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+            render_state->unk_14 |= 0xC;
             render_state->unk_10 = 0x20;
             render_state->unk_06 = 6;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            render_flags |= 0xC;
-            render_state->unk_14.v = render_flags;
-            render_flags |= 2;
-            render_state->unk_14.v = render_flags;
+            render_state->unk_14 |= 2;
         }
         motion = effect->unk_08;
         motion->unk_00.at00.v = (s32) position->unk_00;
