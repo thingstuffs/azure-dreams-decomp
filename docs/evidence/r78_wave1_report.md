@@ -102,6 +102,9 @@ This round:
 - **F0 discarded clamps**: land the reconstruction (5 of 6 pins on 11 clones, ~55 pins) with a visible comment
   and a trade record, or keep treating unused clamp assignments as fake dependencies? Retail's lbu reads have no
   consumer, so some dead computation existed; the specific clamp is invented. Coordinator + Astra: not landed.
+- dungeon/func_800957B8 5 -> 1 (r78_opus_c16, held in its lane's held/): byte-exact only because a shrunk
+  `tile_info[4]` lets the callee read its 5th halfword from a spill slot - an out-of-bounds read that imitates
+  the stack layout. Coordinator did not land it; landable form needs the real 5-element record.
 - r77_opus_m6 site-for-pin trade on dungeon/func_81875B38 (4 -> 1): still unstaged.
 
 ## Process changes adopted (each enforced in code, not prose)

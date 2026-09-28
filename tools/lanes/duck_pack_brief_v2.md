@@ -222,6 +222,7 @@ The census counts these exactly like pins:
 * No one-trip block: `do { } while (0)`, `while (0) { }`, `for (;0;)`, or any block that runs once
   only to change what the compiler sees.
 * No new branch whose two arms hold the same code. Moving an existing keep elsewhere removes nothing.
+* Never resize an array/struct or index out of bounds so that code reads or writes a spill slot, a neighbouring local or padding: a result that depends on the compiler's stack layout imitates the compiler, it does not recover source (r78: tile_info[5]->[4] held; volatile x[-1] was a removed hack).
 * Never edit an unscored arm (`NON_MATCHING`, `port`, `dead`) on its own: the scored arm is the whole subject. The lander accepts only a LOCKSTEP port edit (the same line change made in the matching arm, or dropping the port declaration of a variable you removed everywhere) or deleting a whole `NON_MATCHING` block your rewrite left with nothing to do; `#if 0` text never changes.
 * The compiler recipe is fixed per row (`cell` in `rows.md`); do not change it.
 * An output goes to `out/<container>/<name>.c` (with its `.base_sha`) only when `verify.py` said
