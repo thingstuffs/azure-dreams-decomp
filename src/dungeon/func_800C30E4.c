@@ -15,8 +15,8 @@ static volatile s32 dispatch_v1;
 
 s32 func_800C8844(State *arg0, s16 arg1, s8 arg2_in) {
     State *state = arg0;
-    s16 value = arg1;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s8 arg2 = arg2_in;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s16 value = arg1;
+    s8 arg2 = arg2_in;
     s32 result;
     s32 dividend;
     s32 dispatch_v1;
@@ -32,7 +32,7 @@ s32 func_800C8844(State *arg0, s16 arg1, s8 arg2_in) {
         dispatch_v1 = 0;
     }
     {
-        s32 signed_value;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        s32 signed_value;
 
         result = (s32)value << 16;
         signed_value = result >> 16;

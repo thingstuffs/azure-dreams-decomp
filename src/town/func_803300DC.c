@@ -27,11 +27,11 @@ s32 func_8001A8DC(void *base_point, void *other_point, s32 blend_weight, s32 oth
     s32 abs_other_weight;
     s32 base_x;
     s32 base_y;
-    void *base;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    void *other;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    void *base;
+    void *other;
     s32 weight;
     s32 total_weight;
-    void *out;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    void *out;
 
     base = base_point;
     other = other_point;

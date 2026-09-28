@@ -54,7 +54,6 @@ s32 func_8009CFE0(S_8009CFE0_0 *object, void *position_data)
         }
         state_result = func_80033B2C(state->unk_02);
         one = 1;
-           /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         if (state_result == one) {
             result = 1;
             return result;

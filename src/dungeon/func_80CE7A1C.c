@@ -196,7 +196,6 @@ void func_8017121C(void *source_handle, Rec_func_8017121C_arg1 *origin, s32 unus
         x_table_addr += (u32)direction_table;
         x_entry = (s16 *)x_table_addr;
         target_coords = ((S_8017121C_8_pre *)(void *)coord_delta)[-1].unk_00;
-   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         x_offset = *x_entry;
         target_x = target_coords->unk_02;
         x_offset <<= 4;

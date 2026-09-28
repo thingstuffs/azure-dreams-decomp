@@ -17,11 +17,11 @@ s32 func_800A44E0(u16 x, u16 y, s16 height, u32 flags)
     u16 *x_offsets;
     u16 *layer_x_offset;
     u16 *layer_y_offset;
-    s16 saved_height;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s16 saved_height;
     u32 cell_x;
     u32 cell_y;
     s32 layer;
-    s32 query_cell_x;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s32 query_cell_x;
     s32 query_cell_y;
 
     saved_height = height;

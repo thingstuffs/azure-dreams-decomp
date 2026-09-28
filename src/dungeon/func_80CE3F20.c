@@ -16,7 +16,7 @@ extern u8 D_80152360[];
 void func_8014F720(void *state_arg, void *context, void *visual_arg, void *actor_arg) {
     void *state = state_arg;
     void *visual = visual_arg;
-    void *actor = actor_arg;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    void *actor = actor_arg;
     void *current_table;
 
     if (func_800AC82C(state_arg, context, visual_arg, actor_arg) != 0) {

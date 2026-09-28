@@ -314,7 +314,6 @@ void func_800259D8(void *arg0, void *arg1, S_800259D8_2 *arg2)
     if (!(((S_800259D8_13 *)(((S_800259D8_1 *)base)->unk_0C))->unk_14 & 0x8000U)) {
         ((S_800259D8_4 *)arg1)->unk_00.at02.v += delta.x;
         ((S_800259D8_4 *)arg1)->unk_04.at02.v += delta.y;
-           /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         ((S_800259D8_4 *)arg1)->unk_08.at02u.v = ((S_800259D8_4 *)arg1)->unk_08.at02.v + delta.z;
     } else {
 L0_adjust_z:
@@ -424,7 +423,6 @@ L_calc2:
             work->unk_14 |= 0xC;
             work->unk_10 = 0x20;
             dst = ((S_800259D8_7 *)spawn)->unk_08;
-               /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
             ((S_800259D8_5 *)entry)->unk_08.at02u.v = (func_80069EF8() & 7) + 12;
             ((S_800259D8_5 *)entry)->unk_0C = func_80069EF8() & 0xFFF;
             work->unk_16 = (func_80069EF8() & 0xFF) << 4;
@@ -454,7 +452,6 @@ L_calc2:
         }
         i++;
         if (i < 8) {
-               /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             continue;
         }
     } while (i < 8);
@@ -529,7 +526,6 @@ L1_calc:
     }
     {
     void *spawn;
-       /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     spawn = func_8003FC64(0x12);
     if (spawn != 0) {
         entry = (u8 *)spawn + 0x20;

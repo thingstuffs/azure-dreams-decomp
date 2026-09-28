@@ -178,10 +178,9 @@ block_27:
     }
     {
         u16 wrap_hi;
-        u16 wrap_lo;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        u16 wrap_lo;
         wrap_hi = current_bits & 0xF000;
         wrap_lo = result_angle & 0xFFF;
-           /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         result_angle = wrap_hi | wrap_lo;
     }
     goto block_29;

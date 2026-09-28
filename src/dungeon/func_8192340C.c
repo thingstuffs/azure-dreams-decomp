@@ -24,7 +24,7 @@ typedef struct {
 
 /* Advance the effect, fade it as its timer runs down, and flag it for removal when finished. */
 void func_80024C0C(void *entity_data, s32 unused, DungeonEffect *effect_data) {
-    u16 ticks_left;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u16 ticks_left;
 #ifndef NON_MATCHING
     u8 *active_page = (u8 *)0x80020000;
 #endif

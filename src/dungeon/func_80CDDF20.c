@@ -16,7 +16,7 @@ extern u8 D_80158360[];
 void func_80155720(void *owner_arg, void *context, void *sprite_arg, void *actor_arg) {
     void *owner = owner_arg;
     void *sprite = sprite_arg;
-    void *actor = actor_arg;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    void *actor = actor_arg;
     void *frame_set;
 
     if (func_800AC82C(owner_arg, context, sprite_arg, actor_arg) != 0) {

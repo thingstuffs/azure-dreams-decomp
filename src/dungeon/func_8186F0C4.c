@@ -72,7 +72,6 @@ void func_800248C4(u8 *effect_data, u8 *effect_pos, u8 *effect_display) {
     entity = owner - 0x20;
     state_in_range = (u32)state < 9U;
     source = PTR_AT(entity, 0x08);
-       /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     if (!state_in_range) {
         goto done;
     }
@@ -81,7 +80,6 @@ void func_800248C4(u8 *effect_data, u8 *effect_pos, u8 *effect_display) {
 #else
 #endif
     jump_table = (void **)&D_80024058;
-       /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     goto *jump_table[state];
 
 state0:
@@ -343,7 +341,6 @@ state3:
             s32 trig;
 
             entity = source + 0x20;
-               /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
             {
                 u16 spawn_count = U16_AT(effect_data, 0x82);
                 S16_AT(entity, 0x0A) = 0x80;

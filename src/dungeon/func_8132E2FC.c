@@ -80,7 +80,7 @@ void func_801652FC(
     S_801652FC_2 *source_obj = source;
     s32 saved_value = initial_value;
     s32 saved_duration = duration;
-    s32 saved_offset_x = offset_x;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 saved_offset_x = offset_x;
     s32 saved_offset_y = offset_y;
     s32 saved_offset_z = offset_z;
     void *object;

@@ -124,7 +124,7 @@ state_zero:
         goto done;
     }
     {
-        s32 initial_speed = 0xFFF80000;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        s32 initial_speed = 0xFFF80000;
         anim_table = D_801744F4;
         ((S_801738E0_3 *)motion)->unk_14 = initial_speed;
     }

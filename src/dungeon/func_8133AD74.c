@@ -240,7 +240,6 @@ void func_80171D74(void *state_in, void *motion_in, void *sprite_in) {
     S_80171D74_21 *tile_se;
     register s32 angle_input_m ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
 
-       /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     offset_table = *((Table32 *)(&D_8016482C));
     direction_table = *((Table32 *)(&D_80164AC0));
     map_info = ((s32 *)(&gameWork.unk_1DC));

@@ -61,7 +61,6 @@ void func_80173450(void *action, void *unused, void *sprite, void *entity)
     goto end;
 
 state_ge_2:
-       /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     if (state == 2) {
         goto update;
     }

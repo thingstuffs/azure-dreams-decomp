@@ -22,7 +22,7 @@ extern void func_800AA10C();
 /* Initialize and apply the two town records to the target. */
 void func_800A9E68(s32 target, s32 setup_data)
 {
-    s32 record_value;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 record_value;
     s32 record_value2;
 
     func_800A2AF8(setup_data, target);

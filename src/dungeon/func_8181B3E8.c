@@ -287,7 +287,6 @@ void func_80024BE8(void *effect, void *motion, void *sprite) {
             goto common;
         }
         jump_table = (void **)&D_80024028;
-           /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         goto *jump_table[state];
 
 state_0:

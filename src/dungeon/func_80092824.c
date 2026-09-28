@@ -24,7 +24,7 @@ void *func_80097F84(void *arg0, void *arg1, void *arg2, s16 arg3)
 {
     void *held_arg0 = arg0;
     register void *held_arg1 ASM_REG("$20") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    void *held_arg2 = arg2;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *held_arg2 = arg2;
     s16 held_arg3 = arg3;
     register s32 first ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register s32 second ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
@@ -37,7 +37,6 @@ void *func_80097F84(void *arg0, void *arg1, void *arg2, s16 arg3)
     u8 *entry_base;
     void *global_object;
 
-       /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     if (held_arg0 != (void *)&D_80081484 &&
         held_arg0 != (void *)D_80081470 &&
         held_arg0 != *(void **)((u8 *)D_800814A8 + 0xF0)) {
@@ -89,12 +88,10 @@ valid_index:
                                   D_800E3548, 4, 0x40);
         narrowed <<= 16;
         found = narrowed >> 16;
-           /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         entry_base = (u8 *)0x800E0000;
         if (found >= 0) {
             ASM_KEEP_NV(entry_base);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
             entry_base += 0x36C8;
-               /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
             entry = (u8 *)(found * 12);
             entry += (s32)entry_base;
             func_8009A3D0(entry[0], entry[1], 0x800);
@@ -106,9 +103,7 @@ valid_index:
         narrowed = *(s32 *)(narrowed + 0xF0);
         *(s32 *)narrowed = 0;
     }
-       /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     entry_base = (u8 *)0x80010248;
-       /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     narrowed = first << 16;
     narrowed >>= 14;
     narrowed += (s32)entry_base;
@@ -116,7 +111,6 @@ valid_index:
     *(s32 *)held_arg0 = 0;
     held_arg0 = (void *)narrowed;
     entry_base = (u8 *)0x80010000;
-       /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     narrowed = second << 16;
     narrowed >>= 14;
     narrowed += (s32)entry_base;

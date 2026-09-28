@@ -116,7 +116,7 @@ void func_800257E0(void *state_data, void *source_data) {
     u8 *sprite;
     u8 *dest_position;
     u8 *globals_page = (u8 *)0x80020000;
-    s32 vertex_index;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 vertex_index;
     s32 angle_offset;
     s16 blended_coord;
     s32 mode;

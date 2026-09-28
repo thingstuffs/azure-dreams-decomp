@@ -125,10 +125,10 @@ s32 func_800249BC(void *shape_data)
                     u16 width_u16;
                     u16 start_y;
                     u16 end_y;
-                    u8 tex_coord;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+                    u8 tex_coord;
                     u8 tex_coord2;
                     u8 tex_coord3;
-                    u8 tex_span;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                    u8 tex_span;
                     u32 *ordering_entry;
                     DungeonDrawState *ordering_state;
                     u32 primitive_tag;

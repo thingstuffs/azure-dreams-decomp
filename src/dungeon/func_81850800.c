@@ -233,7 +233,7 @@ BODY_STORAGE void BODY_NAME(S_81850800_0 *owner, S_81850800_7 *motion, S_8185080
     u32 base_y;
     s16 ground_height;
     S_81850800_1 *caster_data;
-    S_81850800_4 *caster_sprite;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    S_81850800_4 *caster_sprite;
     S_81850800_8 *work;
     S_81850800_9 *obj;
     S_81850800_1 *target;

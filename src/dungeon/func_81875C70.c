@@ -127,7 +127,6 @@ jt_c4:
         *(s16 *)(*(u8 **)(p + 0x40) + 0x88) = 1;
 
         i = 0;
-   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         do {
             r0 = (func_80069EF8() & 0xFF) | 0x80;
             i++;

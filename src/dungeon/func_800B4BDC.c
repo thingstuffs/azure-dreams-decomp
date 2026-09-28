@@ -19,7 +19,7 @@ typedef struct S_800BA33C_0 {
 
 /* Test flag 0x20000 for a valid object outside the excluded state. */
 s32 func_800BA33C(S_800BA33C_0 *object) {
-    s32 code;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 code;
     if ((object == NULL) || ((object->unk_13 == 0x18) && (object->unk_B5 == 1))) {
         return 0;
     }

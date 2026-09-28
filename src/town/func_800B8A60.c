@@ -38,9 +38,9 @@ void func_800B61C0(S_800B61C0_1 *entry, s32 widgets_base, s32 row)
 {
     s32 detail_info[4];
     s32 entry_info[2];
-    s32 row_offset;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 row_offset;
     s32 text_y;
-    s32 entry_value;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s32 entry_value;
     s32 *info_out;
     S_800B61C0_0 *widgets;
 

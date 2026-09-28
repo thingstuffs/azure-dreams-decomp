@@ -60,7 +60,7 @@ object_loop:
         void *self_box;
         s32 separation;
         s32 self_offset;
-        s32 other_edge;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        s32 other_edge;
         s32 other_offset;
 
         self_box = VSPTR(scratch, 0);
@@ -109,7 +109,7 @@ object_loop:
 
     {
         void *self_box;
-        void *other_pos;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        void *other_pos;
         void *other_box;
         s32 separation;
         s32 self_offset;
@@ -162,7 +162,7 @@ object_loop:
 
     {
         void *self_box;
-        void *other_pos;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        void *other_pos;
         void *other_box;
         s32 separation;
         s32 self_offset;

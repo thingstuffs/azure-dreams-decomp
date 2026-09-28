@@ -201,7 +201,7 @@ main_state:
         search_origin = ((u8 *)D_800814A8);
         if (search_origin != NULL) {
             u8 *search_page;
-            u8 *lookup_table;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            u8 *lookup_table;
             s32 lookup_key_a;
             s32 lookup_key_b;
             void *lookup_origin = search_origin;

@@ -147,7 +147,7 @@ void func_80025738(void *state, void *motion_in, void *render) {
     register s32 probe_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s16 end_y;
     s16 end_x;
-    u16 base_z;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    u16 base_z;
     s16 floor_z;
     s16 end_z;
     s32 phase;
@@ -234,7 +234,6 @@ phase_aim:
     }
     ((S_80025738_5 *)motion_in)->unk_00.at02.v = (u16) (((S_80025738_5 *)motion_in)->unk_00.at02.v + frame.delta[0]);
     ((S_80025738_5 *)motion_in)->unk_04.at02.v = (u16) (((S_80025738_5 *)motion_in)->unk_04.at02.v + frame.delta[1]);
-       /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     base_z = ((S_80025738_5 *)motion_in)->unk_08.at02.v;
     ((S_80025738_5 *)motion_in)->unk_08.at02.v = base_z + frame.delta[2];
     if (!(*((S_80025738_0 *)state)->unk_04 & 0x80)) {

@@ -128,7 +128,7 @@ block_7:
         }
         {
             void *reset_actor = actor;
-            void *reset_status = status;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            void *reset_status = status;
             s32 clear_mask = (s32)0xFFFB0000;
             s32 flags;
             ((S_801711A4_3 *)reset_actor)->unk_9A = 0xDU;

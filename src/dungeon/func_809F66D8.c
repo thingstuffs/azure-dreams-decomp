@@ -55,7 +55,7 @@ void func_80173ED8(void *action, void *context, void *sprite, void *entity)
 {
     void *saved_context;
     register void *dungeon_state;
-    void *saved_entity;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    void *saved_entity;
     u8 state;
     s32 direction;
 

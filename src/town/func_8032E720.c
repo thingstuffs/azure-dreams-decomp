@@ -44,7 +44,7 @@ s32 func_80018F20(s32 *slot_list)
     s32 slot_addr;
     s32 free_slot;
     u32 next_slot_addr;
-    u8 *used_map;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u8 *used_map;
     u8 *used_flag;
     u8 *initial_page;
     u8 *initial_root;

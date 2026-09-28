@@ -40,7 +40,7 @@ void func_8004F684(S_8004F684 *state)
     s32 start_value;
     s32 value_delta;
     s32 scaled_weight;
-    s32 offset;   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    s32 offset;
     s32 offset2;
     s32 offset3;
     s32 target_value;

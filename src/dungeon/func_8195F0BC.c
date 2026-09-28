@@ -140,7 +140,6 @@ void func_8195F0BC(DungeonState *state, DungeonOrigin *origin) {
                     lookup_x = (((u32)lookup_x >> 6) + scratch) & 0xFFFF;
                     lookup_y >>= 6;
                     scratch = grid_y - 3;
-                       /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                     lookup_y += scratch;
                     lookup_y &= 0xFFFF;
                     tile = func_8009B4B0(page, lookup_x, lookup_y);

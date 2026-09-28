@@ -14,7 +14,6 @@ Newest first within each section. Evidence links point at the record that measur
 | 6 | dungeon/func_800957B8 5 -> 1 held | exact only by reading a callee's 5th halfword from a spill slot (layout-dependent) | find the real 5-element record + source of tile_info[4] | work/native_lane/r78_opus_c16/held/README.md |
 | 7 | early constant call argument (gcc 2.7 calls.c loads constant register args last; retail loads some first) | 37 sites / 34 rows; 11-row `call_one` clone cluster | the 11-row `call_one` cluster IS the F0 family (item 5) - resolve there; the other ~23 rows: the measurement r78_opus_rx1 named (narrow `u8/u16 x = 1` passed as x after a label / in a loop, read .cse/.combine) | work/native_lane/r78_opus_rx1/REPORT.md |
 | 8 | 0x800814A0 declared two ways by the original (22 rows compiled against a scalar int keep `extern int D_800814A0`) | two spellings of one address | revisit if a second readable name is wanted | TYPE_CONSOLIDATION.md phase 2 |
-| 9 | 11 stale UNRESOLVED comments on lines with no live pin | misleading comments | delete them (byte-neutral; lands under the scaffolding-only lander rule? comments only - needs a comment-only landing path) | work/native_lane/r78_sol6_xjump/REPORT.md |
 | 10 | 147 rows keep a `(u8 *)&gameWork` view pointer | readability | only where the local pointer is not retail's base register (128 miss when folded) | TYPE_CONSOLIDATION.md phase 4 |
 | 11 | goto readability debt (1,599 rows) and remaining address-named local views | readability | byte-exact control-flow work in family packs; views via type consolidation | evidence/r78_wave1_report.md |
 | 12 | r77_opus_m6 site-for-pin trade on dungeon/func_81875B38 (4 -> 1) | pins | stage with a trade-ledger entry and review | HANDOVER round 77 |
@@ -29,6 +28,7 @@ Newest first within each section. Evidence links point at the record that measur
 
 | item | fix | commit |
 |---|---|---|
+| stale UNRESOLVED pin comments on lines with no pin (the census found 11; tree-wide there were 262 in 135 files) | removed (comment-only diff, checked mechanically); 135 rows verify-exact, 118 windows + SLUS MATCH | this commit |
 | game.h struct S_80083178 overlapped GameWork | GameWork.view sub-structure; S_80083178 retired (3 genuine second declarations keep a local extern) | phase 8 (this commit) |
 | stale numbering text after the symbol-dump fix (names.tsv 125 rows, object_node.h, func_800C4D18.c) | corrected; func_800C4D18 verify-exact, SLUS MATCH | this commit |
 | script symbol dump misparsed (records are name[32] then u32 value; every name had the previous record's value) - reported by the owner's script decoder | tools/evidence.py parse fixed; call number n = entry n (no +1); proven by 836 compiled call sites (docs/evidence/script_call_sites_20260928.*); outputs regenerated with dated correction notes | this commit |

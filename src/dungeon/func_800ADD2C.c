@@ -132,7 +132,6 @@ jt_1:
             }
         } else {
             ((S_800B348C_0 *)action_state)->unk_F4 = 0;
-               /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         }
 block_7:
         ((S_800B348C_0 *)action_state)->unk_98 = (u16) (((S_800B348C_0 *)action_state)->unk_98 & 0xDFFF);
@@ -259,7 +258,6 @@ jt_7:
         } else {
             ((S_800B348C_0 *)action_state)->unk_96.u = (u16) (((S_800B348C_0 *)action_state)->unk_96.u - 1);
         }
-           /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         if (((S_800B348C_0 *)action_state)->unk_96.s == 0) {
             if (((S_800B348C_0 *)action_state)->unk_102 == 0) {
                 s32 temp_a2;
@@ -352,7 +350,7 @@ jt_10:
             ((EntityRec *)motion)->unk_0C = 0;
             func_800A2B04(motion, ((Rec_D_80082E80 *)animation)->unk_24, ((Rec_D_80082E80 *)animation)->unk_25);
             {
-                void *case10_arg2;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                void *case10_arg2;
                 case10_arg2 = animation;
                 (*(u8 **)((u8 *)case10_arg2 + 0x2C)) = D_800DD0A0;
                 func_80048A44(case10_arg2, D_800DD0A0[((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7], 0, 1);

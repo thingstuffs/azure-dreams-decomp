@@ -30,8 +30,8 @@ void func_8001E994(void)
     s32 item_flags;
     s16 *category_total;
     u8 *group;
-    u8 *group_copy;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    u8 *table_base;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u8 *group_copy;
+    u8 *table_base;
 
     total_weight = 0;
     category_index = 1;

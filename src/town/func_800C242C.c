@@ -56,7 +56,7 @@ extern M2C_UNK D_800BFFF4;
 /* Spawn objects at randomized coordinates and mark completion when the countdown expires. */
 void func_800BFB8C(void *source)
 {
-    s16 fixed_coord;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s16 fixed_coord;
     s16 state;
     s32 coord_term;
     s32 random_value;

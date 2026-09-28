@@ -72,7 +72,7 @@ void func_800A1D1C(void *object, S_800A1D1C_5 *coords, void *primitive) {
     s32 green_scaled;
     s32 blue_scaled;
     u8 *global_page;
-    u8 *scratch;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u8 *scratch;
     void *position;
     void *matrix;
     void *render_state;

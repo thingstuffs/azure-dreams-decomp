@@ -453,7 +453,7 @@ state3:
         S_func_8190B2D0_3 *child_pos;
         u32 child_data;
         s32 frame;
-        void *child_object;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        void *child_object;
         S_func_8190B2D0_6 *target;
         s32 current_frame;
         u32 spawn_frame;

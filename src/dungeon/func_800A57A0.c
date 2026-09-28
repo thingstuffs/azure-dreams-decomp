@@ -110,7 +110,7 @@ void func_800AAF00(void *actor, s32 effect_param, void *target, u8 *direction_ta
 shared_body:
                 if (!special_action) {
                     if (((S_800AAF00_0 *)object)->unk_1C & 0x400) {
-                        s32 object_flags;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                        s32 object_flags;
                         object_flags = ((S_800AAF00_0 *)object)->unk_14;
                         if (!(object_flags & 0x80000000)) {
                             object_flags |= 0x80000000;
@@ -160,5 +160,4 @@ shared_body:
         }
     }
 
-       /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 }

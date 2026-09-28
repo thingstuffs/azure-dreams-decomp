@@ -15,14 +15,12 @@ void func_800BC1B4(void *scrollState) {
     {
         s32 destinationX;
         s32 destinationY;
-        s32 offsetOrRectValue;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        s32 offsetOrRectValue;
         s32 scrollStepOrSourceY;
 
         destinationX = 0x270;
-           /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         offsetOrRectValue = *(u16 *)((unsigned char *)scrollState + 2);
         scrollStepOrSourceY = *(u16 *)((unsigned char *)scrollState + 0xC);
-           /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         destinationY = 0x100;
         offsetOrRectValue = (offsetOrRectValue - scrollStepOrSourceY) & 0x1F;
         *(u16 *)((unsigned char *)scrollState + 2) = (u16)offsetOrRectValue;

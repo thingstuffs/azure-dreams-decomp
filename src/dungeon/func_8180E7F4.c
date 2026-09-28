@@ -493,7 +493,7 @@ copy_source_ability:
                 }
                 {
                     s32 fallback_index = scan_index >> 1;
-                    s32 fallback_twice = fallback_index * 2;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+                    s32 fallback_twice = fallback_index * 2;
                     s32 fallback_offset = fallback_twice + fallback_index;
                     u8 *fallback_source;
                     u8 *second_source;

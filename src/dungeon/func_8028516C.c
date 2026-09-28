@@ -93,7 +93,6 @@ s32 func_8001816C(s16 record_id, s16 *out_x, s16 *out_y)
             records_page = (s8 *)(row << 6);
             ASM_KEEP_NV(records_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             center_y = (s32)records_page + 0x20;
-               /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             do {
                 flags = cell->flags;
                 if (!(flags & 0x8400)) {

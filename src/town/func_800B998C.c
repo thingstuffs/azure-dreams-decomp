@@ -39,7 +39,7 @@ void func_800B70EC(void) {
     s32 single_row;
     s32 size;
     s32 limit;
-    s32 seven;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 seven;
     u8 *asset_data;
     u8 *state_base;
     u8 *asset_state;

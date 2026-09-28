@@ -100,7 +100,6 @@ void func_80529594(State *st, Motion *mot, Actor *actor)
         {
             s32 quotient;
             quotient = call_a0 / 10;
-               /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             result_v0 = quotient * 10;
             threshold = st->threshold;
             quotient = call_a0 - result_v0;

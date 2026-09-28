@@ -55,7 +55,7 @@ void func_800982A8(Arg0 *arg0, Item *arg1) {
     s32 var_s2;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register s32 tail_index ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     s16 state;
-    s32 item_b3;   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    s32 item_b3;
     Item *temp_s2;
     Item *var_s0;
     u8 *head_c;
@@ -69,7 +69,6 @@ void func_800982A8(Arg0 *arg0, Item *arg1) {
         if (var_s0->b1 == 0xF && var_s0->b0 >= 0xD) {
             func_800A56E0(0x506);
             var_s1 = func_800990FC();
-               /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             item_b3 = func_80099368(var_s0, func_80099194(D_800E080A, func_80099734(arg0, func_8009929C(8, var_s1))));
             func_80099290(func_80099194(D_80088B64, item_b3));
             func_800A5720(var_s1);
@@ -103,7 +102,6 @@ void func_800982A8(Arg0 *arg0, Item *arg1) {
     if (var_s0 != NULL) {
         item_b3 = var_s0->b3;
         var_s2 = var_s0->b0;
-           /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         var_s0->b3 = item_b3 & 0x7F;
         var_s1 = func_800990FC();
         func_80099290(func_80099194(D_800E0844, func_80099368(var_s0, func_8009929C(8, var_s1))));
@@ -131,11 +129,8 @@ void func_800982A8(Arg0 *arg0, Item *arg1) {
         arg0->b84 = head_c[0];
         head_b = D_800DD2B4;
         head_b_value = head_b[0];
-           /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         var_s2 = 0;
-           /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         arg0->b85 = head_b_value;
-           /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     }
     arg0->field4C = var_s0;
     func_800A56E0(0x508);
@@ -157,7 +152,6 @@ void func_800982A8(Arg0 *arg0, Item *arg1) {
             goto clear_state;
         }
     }
-       /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     if (var_s2 != 0) {
         return;
     }

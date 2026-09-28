@@ -41,7 +41,7 @@ void func_81946800(void *action_in, void *saved_position) __asm__("func_81946800
 /* Advance a timed action, spawn its effect, and update completion flags. */
 void func_81946800(void *action, void *saved_position)
 {
-  void *owner_work;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+  void *owner_work;
   u8 *owner;
   void *effect;
   void *effect_part;

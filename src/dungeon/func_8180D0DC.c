@@ -34,7 +34,7 @@ void func_800260DC(u8 *obj, u8 *coords_out, u8 *rgb)
     register s32 direction_offset ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 frames_left;
     s32 shade;
-    u8 *linked_rgb;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u8 *linked_rgb;
     s32 raw_shade;
     s16 linked_shade;
     s32 final_coord;
@@ -139,7 +139,6 @@ interpolate:
     final_coord <<= 6;
     final_coord += 0x20;
     U16_AT(obj, 0x12) = final_coord;
-   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     final_state = U16_AT(obj, 0x64);
     final_z = U16_AT(((HeightData *)&D_80083780), 0x0A);
     U16_AT(obj, 0x64) = final_state + 1;
@@ -171,7 +170,6 @@ have_other:
     linked_rgb = PTR_AT(PTR_AT(obj, 8), 0x0C);
     raw_shade = U8_AT(linked_rgb, 0x0C) - S16_AT(obj, 0x6E) * 8;
     linked_shade = raw_shade;
-       /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     if ((s16)raw_shade < 0) {
         linked_shade = 0;
     }

@@ -182,14 +182,12 @@ block_5:
     }
     if (!(temp_v1_3 & 0x100000)) {
         call_arg = arg2;
-           /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         {
             void *callback = &D_8008ACDC;
             {
                 do {
                     data = (u8 *) &D_800DCFB0;
                 } while (0);
-                   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 ((Rec_func_8008ACDC_arg0 *)arg0)->unk_8C.as_pv = callback;
                 goto block_154;
             }
@@ -317,7 +315,6 @@ code_top_high:
 code_10:
                     func_8008C7B4(arg0, arg1, arg2, arg3);
                     return;
-                       /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                     return;
 code_48:
                     if (func_80095538(arg0, ((S_8008EAC8_6 *)temp_v0)->unk_00 & 0x1F, ((S_8008EAC8_6 *)temp_v0)->unk_02 & 0x1F) >= 0) {
@@ -401,7 +398,6 @@ code_D8:
                     if ((func_800A4474(((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25) << 0x10) != 0) {
                         func_8008CF6C(arg0, arg1, arg2, &D_800245A8);
                         return;
-                           /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                         return;
                     }
                 }
@@ -437,7 +433,7 @@ code_8:
                         return;
                     }
                     {
-                        s32 flag40;   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
+                        s32 flag40;
 
                         temp_v1_6 = ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2;
                         flag40 = temp_v1_6 & 0x40;
@@ -447,7 +443,6 @@ code_8:
                                 void *tail_a0 = arg2;
                                 void *tail_a1 = arg1;
 
-                                   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                                 ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 = (u16) (temp_v1_6 & 0xFFBF);
                                 goto block_153;
                             }

@@ -196,14 +196,12 @@ s32 func_818C29D4(S_818C29D4_6 *sprite, S_818C29D4_4 *position)
         addr_mask = 0x00FF0000; ASM_KEEP(addr_mask);
         texture_window.y = 0; texture_window.x = 0; texture_window.h = 0xFF; texture_window.w = 0xFF;
         draw_mode = ((S_818C29D4_7 *)(((Rec_D_80083160 *)((u8 *)(&gameWork)))->unk_00.as_pu8))->unk_8D0.p2;
-           /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         addr_mask |= 0xFFFF; 
         ((S_818C29D4_7 *)(((Rec_D_80083160 *)((u8 *)(&gameWork)))->unk_00.as_pu8))->unk_8D0.p2 = draw_mode + 0xC;
         func_80067F20(draw_mode, 0, 0,
                      func_80066460(reset_depth, reset_blend, reset_page_x, reset_page_y) & 0xFFFF,
                      &texture_window);
         tex_depth = 0; length_mask = 0xFF000000; blend_mode = 1; page_x = 0x280;
-           /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         { u32 *ot; u32 prim_tag; u32 ot_tag;
             ot = (u32 *)((((S_818C29D4_2 *)scratch)->unk_B4.v << 2) + (u32)((S_818C29D4_2 *)scratch)->unk_18.p2);
              prim_tag = *(u32 *)draw_mode; ot_tag = *ot;

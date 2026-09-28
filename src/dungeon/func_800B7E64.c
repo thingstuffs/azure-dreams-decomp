@@ -35,7 +35,7 @@ typedef struct S_800BD5C4_0_pre {
 s32 func_800BD5C4(void *entity, s32 update_value, s16 mode) {
     u16 *type_flags;
     void *call_arg;
-    s32 context_arg;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 context_arg;
     s32 saved_context;
     s32 type_index;
     s32 effect_result;
@@ -59,7 +59,6 @@ s32 func_800BD5C4(void *entity, s32 update_value, s16 mode) {
     if ((((EntityRec *)entity)->flags14 & 0x4000) && !(((EntityRec *)entity)->flags1C & 0x400)) {
         effect_result = func_800990FC();
         call_arg = &D_800E0E82;
-           /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         context_arg = effect_result;
         saved_context = context_arg;
         effect_result = func_80099194(call_arg, context_arg);

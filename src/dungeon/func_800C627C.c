@@ -90,7 +90,7 @@ extern u8 D_80082E6B;
 /* Updates go-up trap motion, then advances the player or removes the affected actor. */
 void func_800CB9DC(void *trap_state_in, void *motion_state_in, void *animation_in) {
     S_800CB9DC_2 *motion_state = motion_state_in;
-    S_800CB9DC_4 *animation = animation_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    S_800CB9DC_4 *animation = animation_in;
     M2C_UNK *actor_data;
     M2C_UNK tile_mask;
     s32 vertical_speed;
@@ -153,7 +153,7 @@ void func_800CB9DC(void *trap_state_in, void *motion_state_in, void *animation_i
             func_800A32A4(actor);
             func_8009A028(actor);
             {
-                u8 *status_page;   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+                u8 *status_page;
                 DungeonGlobalStatus *actor_counts;
                 s32 global_flags;
                 u16 actor_count;
@@ -171,7 +171,6 @@ void func_800CB9DC(void *trap_state_in, void *motion_state_in, void *animation_i
                 actor_count--;
                 ((S_800CB9DC_7 *)status_page)->unk_14A0 = global_flags;
                 actor_counts->unk_0A = actor_count;
-                   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             }
         }
         {

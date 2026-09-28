@@ -136,7 +136,7 @@ void func_818C8FD0(S_func_818C8FD0_1 *state, S_func_818C8FD0_4 *output_pos, S_fu
     S_func_818C8FD0_4 *owner_pos;
     S_func_818C8FD0_3 *effect_node;
     S_func_818C8FD0_4 *effect_pos;
-    OffsetTable *offset_table;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    OffsetTable *offset_table;
     s32 one;
     OffsetTable *offset_source = &D_80024004;
 
@@ -232,7 +232,7 @@ mode2:
                 effect->unk_58 = (s32)direction_offset[0] << 16;
             }
             {
-                u16 *direction_offset;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                u16 *direction_offset;
 
                 direction_index = state->unk_7E.s16;
                 direction_offset = (u16 *)((u8 *)offset_table + direction_index * 4);

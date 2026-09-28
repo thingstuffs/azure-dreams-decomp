@@ -371,9 +371,9 @@ void func_8002592C(u8 *self, u8 *position, void *volatile render_data)
 
             index = 0;
             loop_0: {
-                u8 *emitter;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                u8 *emitter;
                 s32 direction;
-                s32 color;   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+                s32 color;
                 s32 intensity;
                 random_bits = func_80069EF8();
                 emitter = self - 0x20;

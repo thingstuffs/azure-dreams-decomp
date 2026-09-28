@@ -170,7 +170,6 @@ block_28:
                     } else {
                         var_a1 = func_80099194(D_800E1BAA, temp_a1);
                     }
-                       /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
                 }
             }
             func_80099290(var_a1);

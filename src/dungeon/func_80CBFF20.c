@@ -16,7 +16,7 @@ extern u8 D_80176360[];
 void func_80173720(void *object_arg, void *context, void *source_arg, void *target_arg) {
     void *object = object_arg;
     void *source = source_arg;
-    void *target = target_arg;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    void *target = target_arg;
     void *state_table;
 
     if (func_800AC82C(object_arg, context, source_arg, target_arg) != 0) {

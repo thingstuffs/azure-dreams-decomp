@@ -176,7 +176,7 @@ void func_80094988(S_80094988_1 *dungeon, EntityRec *actor, u16 base_x, u16 base
     register u32 probe ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     u8 *dispatch_ptr;
     u32 dispatch_slot;
-    s32 sign_shift;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    s32 sign_shift;
     s32 slot_index;
     s32 slot_offset;
 

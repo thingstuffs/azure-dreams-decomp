@@ -211,7 +211,6 @@ state_2:
                 ((S_8197D468_9 *)(((S_8197D468_5 *)particle)->unk_08))->unk_10 = (s32) (((func_80069EF8() & 0x3FF) - 0x1FF) << 0xA);
                 ((S_8197D468_9 *)(((S_8197D468_5 *)particle)->unk_08))->unk_14 = (s32) (0 - ((func_80069EF8() & 0x3FF) << 8));
                 particle_color = 0xC00000;
-   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
                 ((S_8197D468_6 *)particle_sprite)->unk_1E = 0xC00;
                 ((S_8197D468_6 *)particle_sprite)->unk_1C = 0xC00;
                 ((S_8197D468_6 *)particle_sprite)->unk_10 = 0x20;

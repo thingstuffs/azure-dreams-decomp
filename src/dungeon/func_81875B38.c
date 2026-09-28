@@ -66,7 +66,7 @@ void func_81875B38(
     s32 y_offset,
     s32 z_offset)
 {
-    s32 saved_x_offset = x_offset;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s32 saved_x_offset = x_offset;
     S_func_81875B38_1 *source_obj = source;
     s16 saved_property_34 = property_34;
     u32 saved_property_28 = property_28;

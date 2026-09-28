@@ -56,7 +56,7 @@ void func_800956B8(void *arg0, s32 arg1, void *arg2, void *arg3)
     s32 index;
     s32 tail_result;
     s16 result;
-    s32 value;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s32 value;
 
     object = D_800E3DF0[((S_800956B8_0 *)arg3)->unk_03 & 0x1F];
     if (!(((S_800956B8_1 *)object)->unk_1C & 0x20000)) {
@@ -74,7 +74,6 @@ void func_800956B8(void *arg0, s32 arg1, void *arg2, void *arg3)
                 } else {
 
                     msg = D_800E05E1;
-                       /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
                 }
                 tail_result = func_80099194(msg, value);
                 msg3 = D_800E0B2B;
@@ -83,9 +82,7 @@ void func_800956B8(void *arg0, s32 arg1, void *arg2, void *arg3)
             } else {
                 msg3 = D_800E202D;
 
-                   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
                 value = (s32)arg0;
-                   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                 value = func_80099194(msg3, value);
             }
             func_80099290(value);
