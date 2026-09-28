@@ -1,0 +1,181 @@
+<title>Shared Types Pilot</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,500..800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+:root {
+  --bg: #f4f6f9;
+  --panel: #ffffff;
+  --ink: #18202e;
+  --muted: #586275;
+  --line: #d8dde6;
+  --accent: #2f4fc4;
+  --accent-soft: #e6ebfb;
+  --del: #a8323f;
+  --del-bg: #fbe9eb;
+  --add: #1c7048;
+  --add-bg: #e5f4ec;
+  --warn: #8a5a00;
+  --warn-bg: #fdf2dc;
+  --code-bg: #f8f9fc;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #11151d; --panel: #171c26; --ink: #e3e8f2; --muted: #9aa4b6; --line: #2a3242;
+    --accent: #8ea5ff; --accent-soft: #1e2744; --del: #ff8f9b; --del-bg: #3a1d23; --add: #7fd9a6;
+    --add-bg: #16332a; --warn: #f0c060; --warn-bg: #3a2f14; --code-bg: #131822;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #11151d; --panel: #171c26; --ink: #e3e8f2; --muted: #9aa4b6; --line: #2a3242;
+  --accent: #8ea5ff; --accent-soft: #1e2744; --del: #ff8f9b; --del-bg: #3a1d23; --add: #7fd9a6;
+  --add-bg: #16332a; --warn: #f0c060; --warn-bg: #3a2f14; --code-bg: #131822;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink);
+  font: 16px/1.55 "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+  padding: 0 20px;
+}
+.wrap { max-width: 1120px; margin: 0 auto; padding-block: 40px 64px; display: grid; gap: 44px; }
+h1, h2 { font-family: "Archivo", "Arial Narrow", system-ui, sans-serif; font-stretch: 80%; text-wrap: balance; margin: 0; }
+h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; letter-spacing: -0.01em; }
+h2 { font-size: 1.55rem; font-weight: 700; }
+p { margin: 0; max-width: 68ch; }
+.eyebrow { font: 600 0.78rem/1 "JetBrains Mono", ui-monospace, monospace; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+header { display: grid; gap: 14px; }
+.lede { color: var(--muted); font-size: 1.08rem; }
+.note {
+  display: inline-flex; gap: 8px; align-items: baseline; background: var(--warn-bg); color: var(--warn);
+  border-radius: 6px; padding: 8px 12px; font-size: 0.92rem; max-width: 100%;
+}
+section { display: grid; gap: 16px; }
+code, .mono { font-family: "JetBrains Mono", ui-monospace, "SFMono-Regular", Consolas, monospace; font-size: 0.86em; }
+
+/* memory strip */
+.strip { overflow-x: auto; }
+.mem { display: grid; grid-template-columns: repeat(16, minmax(44px, 1fr)); min-width: 720px; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: var(--panel); }
+.mem div { padding: 8px 4px; text-align: center; border-right: 1px solid var(--line); font: 0.72rem/1.2 "JetBrains Mono", monospace; color: var(--muted); font-variant-numeric: tabular-nums; }
+.mem div:last-child { border-right: 0; }
+.mem .hit { background: var(--accent-soft); color: var(--ink); font-weight: 600; }
+.spell { display: grid; gap: 8px; }
+.spell .row { display: grid; grid-template-columns: minmax(170px, 230px) 1fr; gap: 12px; align-items: baseline; }
+.spell .file { font: 0.8rem "JetBrains Mono", monospace; color: var(--muted); }
+.spell code { background: var(--code-bg); border: 1px solid var(--line); border-radius: 5px; padding: 3px 8px; overflow-x: auto; white-space: nowrap; display: block; }
+@media (max-width: 640px) { .spell .row { grid-template-columns: 1fr; gap: 4px; } }
+
+/* before / after */
+.pair { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 900px) { .pair { grid-template-columns: 1fr; } }
+.pane { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; display: grid; grid-template-rows: auto 1fr; min-width: 0; }
+.pane h3 { margin: 0; padding: 10px 14px; font: 700 0.95rem "Archivo", sans-serif; font-stretch: 85%; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; gap: 8px; }
+.pane h3 span { font: 400 0.78rem "JetBrains Mono", monospace; color: var(--muted); }
+pre { margin: 0; padding: 12px 0; overflow-x: auto; background: var(--code-bg); font: 0.8rem/1.6 "JetBrains Mono", ui-monospace, monospace; }
+pre .l { display: block; padding: 0 14px; white-space: pre; }
+pre .del { background: var(--del-bg); color: var(--del); }
+pre .add { background: var(--add-bg); color: var(--add); }
+pre .c { color: var(--muted); }
+
+/* change list */
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+.fact { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 16px; display: grid; gap: 6px; align-content: start; }
+.fact b { font-family: "Archivo", sans-serif; font-stretch: 85%; font-size: 1.05rem; }
+.fact p { color: var(--muted); font-size: 0.95rem; }
+.fact .tag { font: 600 0.72rem "JetBrains Mono", monospace; letter-spacing: 0.06em; text-transform: uppercase; }
+.fact .same { color: var(--add); }
+.fact .diff { color: var(--accent); }
+ol.rules { margin: 0; padding-left: 1.3rem; display: grid; gap: 6px; max-width: 72ch; }
+footer { color: var(--muted); font-size: 0.9rem; border-top: 1px solid var(--line); padding-top: 16px; }
+</style>
+
+<div class="wrap">
+<header>
+  <div class="eyebrow">Azure Dreams decomp · type consolidation pilot</div>
+  <h1>One object, one name</h1>
+  <p class="lede">Today every function carries its own private guess at the game's data: the same actor, table or
+  global appears under different names and types in different files. The pilot replaces those guesses with shared,
+  named types that every file includes, while every function still compiles to the exact retail bytes.</p>
+  <div class="note"><span class="mono">NOTE</span><span>Before-code is real (src/dungeon/func_800A4AF8.c, func_80DBD29C.c).
+  After-code is illustrative: the names show the shape; the pilot's evidence decides the real ones.</span></div>
+</header>
+
+<section>
+  <div class="eyebrow">The problem</div>
+  <h2>The global block at 0x80083460 has several spellings</h2>
+  <p>These bytes are one object in RAM. Different files reach them through an anonymous struct, through separate
+  symbols per field, or through different widths. A reader can't tell they are the same thing.</p>
+  <div class="strip">
+    <div class="mem" aria-label="Bytes 0x80083460 to 0x8008346F">
+      <div class="hit">+00</div><div>+01</div><div class="hit">+02</div><div>+03</div><div>+04</div><div>+05</div><div>+06</div><div>+07</div>
+      <div>+08</div><div>+09</div><div class="hit">+0A</div><div>+0B</div><div class="hit">+0C</div><div>+0D</div><div>+0E</div><div>+0F</div>
+    </div>
+  </div>
+  <div class="spell">
+    <div class="row"><span class="file">func_800A4AF8.c</span><code>extern struct { s8 pad0[10]; u16 field_0x0A; s8 pad1[10]; } D_80083460;</code></div>
+    <div class="row"><span class="file">func_80DBD29C.c</span><code>extern u16 D_80083462;   /* the field at +02, as its own symbol */</code></div>
+    <div class="row"><span class="file">other files</span><code>D_8008346C   /* +0C, 171 rows; D_80083460 itself: 538 rows */</code></div>
+  </div>
+</section>
+
+<section>
+  <div class="eyebrow">Same table, different types</div>
+  <h2>The direction step tables disagree with themselves</h2>
+  <p>Both files index the per-direction x/y step tables, but declare them as different types. After consolidation
+  there is one declaration, in one shared header, with a name that says what it is.</p>
+  <div class="pair">
+    <div class="pane">
+      <h3>Before <span>two files, two types</span></h3>
+<pre><span class="l c">/* func_800A4AF8.c */</span><span class="l del">extern s8 D_8006CCD8;</span><span class="l del">extern s8 D_8006CCE8;</span><span class="l"> </span><span class="l c">/* func_80DBD29C.c */</span><span class="l del">extern u16 D_8006CCD8[];</span><span class="l del">extern u16 D_8006CCE8[];</span></pre>
+    </div>
+    <div class="pane">
+      <h3>After <span>include/game/map.h</span></h3>
+<pre><span class="l c">/* x / y tile step for each facing (0..7). */</span><span class="l add">extern s16 g_dirStepX[8];   /* at 0x8006CCD8 */</span><span class="l add">extern s16 g_dirStepY[8];   /* at 0x8006CCE8 */</span><span class="l"> </span><span class="l c">/* both files: #include "game/map.h" */</span></pre>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="eyebrow">A whole function</div>
+  <h2>func_800AA258: step the actor one tile</h2>
+  <p>Private view types (<code>S_800AA258_2</code>, the same layout another file calls <code>S_80174A9C_2</code>)
+  become one shared <code>TilePos</code>; the record named after an address becomes <code>Actor</code>; the global
+  block becomes <code>g_field</code>. Fields stay <code>unk_</code> where nothing is known yet.</p>
+  <div class="pair">
+    <div class="pane">
+      <h3>Before <span>src/dungeon/func_800A4AF8.c</span></h3>
+<pre><span class="l del">typedef struct S_800AA258_2 {</span><span class="l del">    u8 pad_00[0x24];</span><span class="l del">    u8 unk_24;</span><span class="l del">    union { u8 s; volatile u8 u; } unk_25;  /* accessed as both */</span><span class="l del">} S_800AA258_2;   /* arg2 in func_800AA258 */</span><span class="l"> </span><span class="l del">extern s8 D_8006CCD8;</span><span class="l del">extern s8 D_8006CCE8;</span><span class="l del">extern struct { s8 pad0[10]; u16 field_0x0A; s8 pad1[10]; } D_80083460;</span><span class="l"> </span><span class="l">void func_800AA258(</span><span class="l del">    Rec_func_800A9E70_arg0 *state, void *unused,</span><span class="l del">    S_800AA258_2 *position, Rec_D_800E3D7C *actor) {</span><span class="l">    ...</span><span class="l del">    direction_index = ((u16) actor->unk_6A.as_u16 &gt;&gt; 8) &amp; 0xE;</span><span class="l del">    next_x = position-&gt;unk_24 + (u8) *(direction_index + &amp;D_8006CCD8);</span><span class="l del">    position-&gt;unk_25.s = (u8)(position-&gt;unk_25.s</span><span class="l del">                        + *(direction_index + &amp;D_8006CCE8));</span><span class="l">    ...</span><span class="l del">    D_80083460.field_0x0A = (u16)(D_80083460.field_0x0A + 1);</span><span class="l">}</span></pre>
+    </div>
+    <div class="pane">
+      <h3>After <span>illustrative</span></h3>
+<pre><span class="l add">#include "game/actor.h"   /* Actor */</span><span class="l add">#include "game/map.h"     /* TilePos, g_dirStepX/Y */</span><span class="l add">#include "game/field.h"   /* FieldState g_field */</span><span class="l"> </span><span class="l c">/* in game/map.h, shared by every binary:     */</span><span class="l c">/* typedef struct TilePos {                   */</span><span class="l c">/*     u8 pad_00[0x24];                       */</span><span class="l c">/*     u8 x;   (+24)                          */</span><span class="l c">/*     u8 y;   (+25, union resolved to u8)    */</span><span class="l c">/* } TilePos;                                 */</span><span class="l"> </span><span class="l">void func_800AA258(</span><span class="l add">    ActionState *state, void *unused,</span><span class="l add">    TilePos *pos, Actor *actor) {</span><span class="l">    ...</span><span class="l add">    facing = (actor-&gt;heading &gt;&gt; 8) &amp; 0xE;</span><span class="l add">    next_x = pos-&gt;x + (u8) g_dirStepX[facing / 2];</span><span class="l add">    pos-&gt;y = (u8)(pos-&gt;y + g_dirStepY[facing / 2]);</span><span class="l"> </span><span class="l">    ...</span><span class="l add">    g_field.unk_0A++;   /* stays unk_ until evidence */</span><span class="l">}</span></pre>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="eyebrow">What changes and what doesn't</div>
+  <h2>The bytes are the contract</h2>
+  <div class="facts">
+    <div class="fact"><span class="tag same">Unchanged</span><b>Retail bytes</b><p>Every touched function is re-verified and every overlay window and the SLUS image are gated. A spelling that changes one byte is refused and reverted.</p></div>
+    <div class="fact"><span class="tag diff">Changes</span><b>One definition per object</b><p>Shared headers under include/game/, used by the executable and both overlays alike.</p></div>
+    <div class="fact"><span class="tag diff">Changes</span><b>Names with evidence</b><p>A field is named when its role is clear from several functions; otherwise it keeps unk_XX or a plain descriptive name.</p></div>
+    <div class="fact"><span class="tag same">Checked per row</span><b>Codegen side effects</b><p>Fields of one struct can share an address register where separate symbols don't; retail's own code shows which the original used.</p></div>
+  </div>
+</section>
+
+<section>
+  <div class="eyebrow">Owner rulings, 2026-09-28</div>
+  <ol class="rules">
+    <li>Consolidate per-function views into shared game types.</li>
+    <li>Name at relatively high confidence; revisit if wrong. Unknowns stay unk_ or get a helpful descriptive name, never a claim they are something they're not.</li>
+    <li>Shared objects have one definition across all binaries.</li>
+    <li>Resolve "accessed as both" unions where the evidence allows.</li>
+    <li>Pilot first; the approach can change with more evidence.</li>
+  </ol>
+</section>
+
+<footer>Pilot lane: work/native_lane/r78_types_pilot · design notes: docs/TYPE_CONSOLIDATION.md ·
+baseline: 276 private view typedefs in 223 files, 102 shared record headers, 3,140 functions referencing address-named types.</footer>
+</div>

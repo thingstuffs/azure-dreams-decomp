@@ -25,3 +25,6 @@ D_8006CCE8 (231).
 
 Pilot: `work/native_lane/r78_types_pilot/` (Opus) - the direction step tables (data-symbol naming mechanism) and
 the 0x80083460 global block (struct consolidation). Results and the scaling recommendation go here when it lands.
+
+Visual before/after (illustrative until the pilot lands; republished with verified code afterwards):
+https://claude.ai/artifact/LA63o6jeL9Xc5hHTXuw6LZ - page source kept at docs/evidence/type_consolidation_preview.html
