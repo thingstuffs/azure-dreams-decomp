@@ -69,7 +69,7 @@ import kitlib                                                             # noqa
 class Lab:
     """One row, ready to measure.  `Lab(row_id).test(name, text)` is the whole interface."""
 
-    def __init__(self, row_id, lane=None, stage=True, cfg=None):
+    def __init__(self, row_id, lane=None, stage=True, cfg=None, more=False):
         self.lane = kitlib.bootstrap(lane)
         self.row = kitlib.row_of(row_id)
         if cfg and cfg != self.row["cfg"]:
@@ -82,6 +82,7 @@ class Lab:
         self.erased = kitlib.erased_text(self.base)
         self.screen = kitlib.screen_for(self.row, self.base)
         self.stage = stage
+        self.more = more
         self.dir = self.lane / "experiments" / self.row["func"]
         self.dir.mkdir(parents=True, exist_ok=True)
         if self.screen.target is None:
@@ -105,6 +106,13 @@ class Lab:
     def count(self):
         return kitlib.variant_count(kitlib.log_read(self.lane), self.id)
 
+    def check_cap(self):
+        have = self.count()
+        if not getattr(self, "more", False) and have >= kitlib.VARIANT_CAP:
+            raise SystemExit("lab: %s already has %d measured variants, the cap is %d.  "
+                             "Pass --more or Lab(..., more=True) to continue."
+                             % (self.id, have, kitlib.VARIANT_CAP))
+
     def guards(self, text):
         """The two regression guards worth keeping from the best lane harness."""
         bad = []
@@ -115,6 +123,7 @@ class Lab:
         return bad
 
     def test(self, name, text, note="", score=False, stage=None):
+        self.check_cap()
         bad = self.guards(text)
         if bad:
             rec = self.log({"variant": name, "distance": None, "score": None, "note": note,
@@ -152,6 +161,7 @@ class Lab:
         return self.test(path.stem, path.read_text(errors="replace"), note=note, score=score)
 
     def test_subs(self, name, reps, score=False, note=""):
+        self.check_cap()
         base = self.base if name.startswith("@") else self.erased
         try:
             text = kitlib.apply_subs(base, reps, label=name)
@@ -390,7 +400,7 @@ def main():
         kitlib.log_append(lane, rec)
         return
 
-    lab = Lab(a.row_id, stage=not a.no_stage, cfg=a.cfg)
+    lab = Lab(a.row_id, stage=not a.no_stage, cfg=a.cfg, more=a.more)
     if lab.cfg:
         print("scoring at %s; registered cfg %s UNCHANGED; distance is vs the pinned listing at the "
               "registered cfg (information only); nothing is staged" % (lab.cfg, lab.row["cfg"]))

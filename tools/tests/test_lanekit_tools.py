@@ -71,6 +71,24 @@ class TestGrid(unittest.TestCase):
         self.assertIn("SKIP", out.getvalue())
 
 
+class TestApiCap(unittest.TestCase):
+    def test_api_refuses_the_61st_attempt_and_explicit_more_allows_it(self):
+        with tempfile.TemporaryDirectory() as td:
+            lab = L.Lab.__new__(L.Lab)
+            lab.lane, lab.id, lab.base, lab.erased = Path(td), ROW["id"], PINNED, PINNED
+            for n in range(kitlib.VARIANT_CAP):
+                kitlib.log_append(td, {"row": lab.id, "variant": f"v{n}", "status": "measured"})
+            with self.assertRaisesRegex(SystemExit, "--more"):
+                lab.test("last", FREE)
+            with self.assertRaisesRegex(SystemExit, "--more"):
+                lab.test_subs("missing", [["absent", "x"]])
+            self.assertEqual(lab.count(), kitlib.VARIANT_CAP)
+            lab.more = True
+            with redirect_stdout(io.StringIO()):
+                self.assertIsNone(lab.test_subs("missing", [["absent", "x"]]))
+            self.assertEqual(lab.count(), kitlib.VARIANT_CAP + 1)
+
+
 def fake_verify(exact_for):
     calls = []
 

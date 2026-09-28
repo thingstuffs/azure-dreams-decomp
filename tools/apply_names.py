@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
-"""Apply evidence-backed function renames (L4 names) through the alias mechanism, verified.
+"""Apply evidence-backed function or data renames through the alias mechanism, verified.
 
     python3 tools/apply_names.py ledger/evidence/names_proposed.tsv [--limit N] [--only func_X,..] [--dry-run] [--workers 6]
+    python3 tools/apply_names.py data_names.tsv --data [--rewrite]
 
 Input rows have the config/names.tsv columns: addr, old (func_<addr>), new (readable identifier),
 evidence.  For each row, in order:
@@ -18,6 +19,8 @@ evidence.  For each row, in order:
      names.tsv line; the outcome is journalled either way in ledger/names.jsonl.
 Touched windows still need the window gate afterwards (tools/build/gate_all.py) and SLUS its
 SHA-1 gate (tools/build/build_slus.sh); both are the proof of record.
+In --data mode, old must be D_<addr>; the row is appended without a defining function row.
+Source references are rewritten and verified only with --rewrite.
 """
 import argparse, json, re, sys, time
 from concurrent.futures import ThreadPoolExecutor
@@ -30,6 +33,7 @@ NAMES = ROOT / "config" / "names.tsv"
 INCLUDE = ROOT / "include"
 JOURNAL = LEDGER / "names.jsonl"
 IDENT = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*$")
+DATA_NAME = re.compile(r"^D_[0-9A-Fa-f]{8}$")
 CONTAINERS = ("slus", "main", "town", "dungeon", "ovmovie")
 
 def read_names():
@@ -60,7 +64,11 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("tsv"); ap.add_argument("--limit", type=int); ap.add_argument("--only")
     ap.add_argument("--dry-run", action="store_true"); ap.add_argument("--workers", type=int, default=6)
+    ap.add_argument("--data", action="store_true", help="accept D_<addr> data aliases without a defining function row")
+    ap.add_argument("--rewrite", action="store_true", help="with --data, rewrite and verify source references")
     a = ap.parse_args()
+    if a.rewrite and not a.data:
+        ap.error("--rewrite requires --data (function renames always rewrite)")
     proposed = []
     for raw in Path(a.tsv).read_text().splitlines():
         line = raw.split("#", 1)[0].rstrip()
@@ -88,7 +96,7 @@ def main():
     for addr, old, new, evidence in proposed:
         rec = {"addr": addr, "old": old, "new": new, "at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}
         why = None
-        if old in defined:      # the C defines the function under its true-space symbol; the evidence may name the row
+        if not a.data and old in defined:      # the C defines the function under its true-space symbol; the evidence may name the row
             drow = defined[old]; old = drow.get("true_name") or drow.get("func") or old; addr = "0x" + old[5:]
             rec.update({"old": old, "addr": addr})
         if old in applied or old in done:
@@ -97,14 +105,16 @@ def main():
             why = "not a readable identifier"
         elif new in taken or new in idents:
             why = "identifier already used in the tree"
-        elif old not in defined:
+        elif a.data and (not DATA_NAME.fullmatch(old) or addr.lower() != "0x" + old[2:].lower()):
+            why = "data symbol and address must match (D_<addr>, 0x<addr>)"
+        elif not a.data and old not in defined:
             why = "no defining row in the tree"
         if why:
             tally["refused"] = tally.get("refused", 0) + 1
             if not a.dry_run: append_jsonl(JOURNAL, dict(rec, outcome="refused", reason=why))
             print(f"refuse {old} -> {new}: {why}"); continue
         pat = re.compile(r"\b" + re.escape(old) + r"\b")
-        touched = {p: t for p, t in texts.items() if pat.search(t)}
+        touched = {p: t for p, t in texts.items() if pat.search(t)} if not a.data or a.rewrite else {}
         touched_rows = sorted({by_file[p]["id"] for p in touched if p in by_file})
         rec.update({"files": len(touched), "rows": touched_rows})
         if a.dry_run:
