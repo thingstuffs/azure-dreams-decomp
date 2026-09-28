@@ -4,7 +4,6 @@
 #include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_800814A8.h"
 #include "records/Rec_func_80167A98_arg0.h"
 #include "records/Rec_func_80167A98_arg1.h"
 

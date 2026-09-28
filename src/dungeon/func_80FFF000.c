@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
 typedef struct S_80FFF000_0 {
@@ -47,7 +48,6 @@ extern s32 func_800A6D30();
 extern void func_800A9C18();
 extern void func_800AA36C();
 
-extern u8 D_80083498[];
 extern u8 D_8014CA7C[];
 extern u8 D_8014CEA8[];
 extern u8 D_80150038[];
@@ -146,7 +146,7 @@ void *BODY_NAME(s16 flags, s32 kind_id, s32 variant, s32 spawn_value)
     saved_kind_id = kind_id;
     saved_spawn = spawn_value;
     saved_variant = variant;
-    created = func_8003FD64(0x112, D_80083498);
+    created = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
     original_flags = flags;
     if (created == 0) {
         goto done;

@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
 
 #define FLD(p, t, o) (*(t *)((u8 *)(p) + (o)))
 
-extern void *D_80083498;
 extern u8 D_8006CCF8[];
 extern s32 D_800E0334[];
 extern u8 D_800C9AAC;
@@ -46,7 +46,7 @@ void *func_800C9850(u16 tile_x, u16 tile_z, u16 height) {
     register s32 tint_arg;
 
     state = 0;
-    entity = func_8003FD64(0x112, &D_80083498);
+    entity = func_8003FD64(0x112, &D_80083498.next);
     if (entity != 0) {
         state = (u8 *)entity + 0x20;
         FLD(entity, void *, 0x10) = &D_800C9AAC;

@@ -2,7 +2,6 @@
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
-#include "records/Rec_D_800814A8.h"
 #include "records/Rec_func_800C9F34_arg0.h"
 
 typedef s32 M2C_UNK;

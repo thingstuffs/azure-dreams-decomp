@@ -5,7 +5,6 @@
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_800814A8.h"
 
 typedef struct S_80024064_0_pre {
     u16 unk_00;

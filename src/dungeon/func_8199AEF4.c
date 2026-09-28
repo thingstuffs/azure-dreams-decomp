@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/record_ptrs.h"
 
 #ifndef NULL
@@ -30,7 +31,6 @@ typedef struct Source {
 extern void *func_8003FD64(s32, void *);
 extern char D_800242D4[];
 extern char D_80024A8C[];
-extern char D_80083498[];
 
 /* Allocate a node and initialize its child with supplied values and shared source data. */
 void func_8199AEF4(s32 node_value, s32 child_value)
@@ -41,7 +41,7 @@ void func_8199AEF4(s32 node_value, s32 child_value)
     void *callback;
     u16 source_value;
 
-    node = func_8003FD64(0x10, D_80083498);
+    node = func_8003FD64(0x10, ((char *)(&D_80083498)));
     if (node != NULL) {
         child = (Child *)((char *)node + 0x20);
         node->field10 = D_800242D4;
@@ -49,7 +49,7 @@ void func_8199AEF4(s32 node_value, s32 child_value)
         source = ((Source *)D_800814A8);
         child->field10 = callback;
         node->field20 = node_value;
-        child->field04 = D_80083498;
+        child->field04 = ((char *)(&D_80083498));
         source_value = source->field88;
         child->field0C = child_value;
         child->field08 = node;

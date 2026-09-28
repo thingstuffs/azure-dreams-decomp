@@ -4,7 +4,6 @@
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
-#include "records/Rec_D_800814A8.h"
 
 #ifndef NULL
 #define NULL 0

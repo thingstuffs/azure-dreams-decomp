@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
@@ -76,7 +77,6 @@ typedef struct GlobalFlag {
     s32 pad04[2];
 } GlobalFlag;
 
-extern u8 D_80083498[];
 extern s32 D_80024AA4;
 extern u8 D_800DEC00[];
 
@@ -198,7 +198,7 @@ state_done:
     callback = &D_80024AA4;
     resource = (Resource *)D_800DEC00;
     do {
-        effect = func_8003FD64(0x312, D_80083498);
+        effect = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
         if (effect != (EffectObject *)0) {
             effect->callback = callback;
             func_8004491C(effect, func_80045340);

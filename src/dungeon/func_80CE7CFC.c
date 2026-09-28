@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
 #include "records/Rec_func_8017121C_arg1.h"
@@ -11,7 +12,6 @@ extern s32 func_8003DE58();
 extern void func_8004491C();
 extern void func_80047784();
 
-extern u8 D_80083498[];
 extern u8 D_800DDC40[];
 extern u8 D_80170DC4[];
 extern u8 D_80175EB4[];
@@ -105,7 +105,7 @@ void func_801714FC(void *source_object, void *source_pos, void *sprite_template,
     if (((S_801714FC_0 *)actor)->unk_60.i == 0 && ((S_801714FC_0 *)actor)->unk_72.s >= 0) {
         return;
     }
-    effect = func_8003FD64(0x112, &D_80083498);
+    effect = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
     if (effect == 0) {
         return;
     }

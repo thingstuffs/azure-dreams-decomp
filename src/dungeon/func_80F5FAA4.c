@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/tile_object.h"
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
@@ -7,7 +8,6 @@
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
-#include "records/Rec_D_800814A8.h"
 #include "records/Rec_func_801732A4_arg0.h"
 
 
@@ -88,7 +88,6 @@ M2C_UNK func_800AA888();
 M2C_UNK func_800AD4D0();
 M2C_UNK func_80171F94();
 M2C_UNK func_80173CEC();
-extern M2C_UNK D_80083498;
 extern M2C_UNK D_800D7960;
 extern M2C_UNK D_80170E68;
 extern u8 D_801741DC[];
@@ -231,7 +230,7 @@ phase_spawn:
     ((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 = D_801741F4;
     func_80047784(sprite, D_801741F4[((gameWork.viewAngle + ((S_801732A4_2 *)actor_state)->unk_2A + 0x100) >> 9) & 7], 0);
     ((Rec_func_801732A4_arg0 *)actor)->unk_9B = (u8)(((Rec_func_801732A4_arg0 *)actor)->unk_9B + 1);
-    new_effect = func_8003FD64(0x112, &D_80083498);
+    new_effect = func_8003FD64(0x112, ((M2C_UNK *)&D_80083498.next));
     ((Rec_func_801732A4_arg0 *)actor)->unk_A0 = new_effect;
     actor = new_effect;
     if (actor == NULL) goto done;

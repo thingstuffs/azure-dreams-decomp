@@ -64,7 +64,7 @@ ln -sfn "$ROOT/tools/build"   "$B/tools"
 ln -sfn "$ROOT/toolchain"     "$B/toolchain"
 ln -sfn "$ROOT/.venv"         "$B/.venv"
 ln -sfn "$ROOT/baserom"       "$B/baserom"
-for f in slus_006.14.yaml slus_006.14.symbols.txt slus_006.14.sha1 names.tsv slus_modules.json; do ln -sfn "$ROOT/config/$f" "$B/config/$f"; done
+for f in slus_006.14.yaml slus_006.14.symbols.txt slus_006.14.sha1 names.tsv slus_modules.json slus_006.14.c_syms.txt; do ln -sfn "$ROOT/config/$f" "$B/config/$f"; done
 plan="$B/config/slus_partitions.json"
 if [ -f "$ROOT/config/slus_partitions.json" ]; then
   if [ -e "$plan" ] && [ ! -L "$plan" ]; then

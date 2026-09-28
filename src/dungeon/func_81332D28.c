@@ -1,8 +1,8 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
-extern u8 D_80083498[];
 extern u8 *D_80175D50[3];
 extern u8 D_8016A36C[];
 extern u8 *func_8003FD64(s32, u8 *);
@@ -71,7 +71,7 @@ u8 *func_80169D28(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     saved_arg1 = arg1;
     saved_arg2 = arg2;
     if (func_800F6598(arg0, saved_arg1, arg2, arg3) == 0) {
-        obj = func_8003FD64(0x112, D_80083498);
+        obj = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
         if (obj != NULL) {
             result = obj + 0x20;
             *D_80175D50 = obj;

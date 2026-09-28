@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
@@ -60,7 +61,6 @@ M2C_UNK func_800A9C18();
 M2C_UNK func_800AA36C();
 void *func_8014C984();
 void *func_8014CA40();
-extern M2C_UNK D_80083498;
 extern M2C_UNK D_8014CB40;
 extern M2C_UNK D_8014CF6C;
 extern M2C_UNK D_80151258;
@@ -171,7 +171,7 @@ void *BODY_NAME(s16 spawn_flags, s16 tile_x, s16 tile_y, s32 heading)
     S_80FD5000_4 *selected3;
 
     actor_state = 0;
-    created = func_8003FD64(0x112, &D_80083498);
+    created = func_8003FD64(0x112, ((M2C_UNK *)&D_80083498.next));
     if (created == 0) {
         goto done;
     }

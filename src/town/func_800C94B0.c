@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
@@ -6,7 +7,6 @@ M2C_UNK D_800C6CE4();            /* extern */
 void *func_8003FD64();            /* extern */
 M2C_UNK func_8004491C();           /* extern */
 s32 func_8004A658();                /* extern */
-extern M2C_UNK D_80083498;
 
 
 typedef struct S_800C6C10_0 {
@@ -37,7 +37,7 @@ s32 func_800C6C10(s32 state_value) {
     S_800C6C10_1 *state;
     void *object;
 
-    object = func_8003FD64(0x136, &D_80083498);
+    object = func_8003FD64(0x136, ((M2C_UNK *)&D_80083498.next));
     if (object == NULL) {
         return 0;
     }

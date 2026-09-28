@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
@@ -7,7 +8,6 @@
 #include "m2c_compat.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern u8 D_80083498[];
 extern void *D_80024008[];
 s32 func_8003DE58();     /* extern */
 u8 *func_8003FD64();                   /* extern */
@@ -162,7 +162,7 @@ wait_trigger:
     effect->unk_50 = 0xAU;
     actor->unk_A6 = (u16) (actor->unk_A6 - 1);
     actor->unk_A8 = (u8) effect->unk_08;
-    object_data = (S_func_819B2800_2 *) func_8003FD64(0x302, D_80083498);
+    object_data = (S_func_819B2800_2 *) func_8003FD64(0x302, ((u8 *)(&D_80083498)));
     if (object_data == NULL) {
         goto advance_phase;
     }
@@ -213,7 +213,7 @@ wait_visual:
     if ((s16) effect->unk_50 > 0) {
         goto done;
     }
-    object_data = (S_func_819B2800_2 *) func_8003FD64(0x302, D_80083498);
+    object_data = (S_func_819B2800_2 *) func_8003FD64(0x302, ((u8 *)(&D_80083498)));
     data_bytes = (u8 *) object_data;
     if (object_data == NULL) {
         goto set_apply_delay;

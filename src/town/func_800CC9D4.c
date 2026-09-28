@@ -1,8 +1,8 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "m2c_compat.h"
 
 M2C_UNK func_800CA75C(void *);                            /* extern */
-extern u8 D_80083498[];
 
 
 typedef struct S_800CA134_0 {
@@ -33,7 +33,7 @@ typedef struct S_800CA134_3 {
 
 /* Decrement the lifetime and ease the position toward the target with a vertical offset. */
 void func_800CA134(void *state, void *position) {
-    u8 *target_table;
+    ObjectNodeHeader *target_table;
     s32 x_delta;
     s32 y_delta;
     u16 ticks_left;
@@ -44,7 +44,7 @@ void func_800CA134(void *state, void *position) {
         func_800CA75C(state);
         return;
     }
-    target_table = D_80083498;
+    target_table = &D_80083498;
     x_delta = ((S_800CA134_3 *)((*(void * volatile *)((u8 *)target_table + (8)))))->unk_02 - ((S_800CA134_1 *)position)->unk_02;
     if (x_delta < 0) {
         x_delta += 3;

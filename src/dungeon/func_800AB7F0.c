@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 
 
 extern int D_800814C8;
@@ -11,7 +12,6 @@ extern int D_800712B4[];
 extern int D_80084130[3];
 extern short D_80084808[8];
 typedef s32 M2C_UNK;
-extern u8 D_80083498[];
 extern u8 D_800DDC40[];
 void *func_8003FD64();
 M2C_UNK func_8004491C();
@@ -53,7 +53,7 @@ void *func_800B0F50(void *owner)
   void *panel;
   void *transform;
   entity = owner;
-  panel = func_8003FD64(0x12, D_80083498);
+  panel = func_8003FD64(0x12, ((u8 *)(&D_80083498)));
   if (panel != 0)
   {
     color_or_addr = 0x808080;

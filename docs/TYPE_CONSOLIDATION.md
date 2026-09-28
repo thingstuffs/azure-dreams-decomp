@@ -147,3 +147,23 @@ SHA-1 MATCH, pin-neutral (155 migrated pinned rows re-tested).
   retype record_ptrs.h onto EntityRec and retire the generated Rec headers; D_80083498 (284); remove game.h's
   S_80083178; D_80083120; D_800E2970/D_800E296C; D_80013714).
 - Totals: **4,660 row migrations onto 9 shared headers.**
+
+## Phase 6 (2026-09-28): landed (fresh agent, cold start from HOW TO CONTINUE)
+
+425 rows (40-row sample first), every row verify-exact plus every row including an updated shared header
+(1,068 verified), 352 windows + SLUS SHA-1 MATCH, pin-neutral. Design/report: evidence/type_consolidation_phase6_*.md.
+- **SLUS C-only data symbols:** tools/build/configure.py `C_SYMS` + config/slus_006.14.c_syms.txt define data
+  symbols that only C names (D_8006CCD8, D_8006CCE8, D_80082E80, D_80083498) for the SLUS link; strict
+  `D_<ADDR> = 0x<ADDR>;` lines, module-owned symbols refused, inert without the file; only the link edge changes
+  (no cc edge); recipe re-pinned in ledger/splits/slus.build.ninja with the image MATCH.
+- **The phase-5 open item was a candidate error:** those SLUS candidates had folded the separate 128-word table
+  D_80082EC0 into TileObject. TileObject now ends at 0x40; w_8003D8B0 / w_8003F80C keep their current (correct)
+  text; w_8004D614 landed.
+- **record_ptrs.h retyped onto EntityRec *:** 158 dungeon rows dropped the generated record includes.
+  Rec_D_800E3D7C.h stays for func_8133AD74 (volatile view); Rec_D_800814A8.h stays until func_810AFA04 and
+  func_81324774 (pin-lane rows skipped as busy) migrate.
+- **ObjectNodeHeader** (include/shared/object_node.h) at D_80083498: the 0x20-byte node header the SLUS
+  allocator func_8003FD64 links into a list (next, pprev, flags named from the allocator); 277 rows. The name stays
+  D_ (a script-slot label calls it item type data, which does not fit a list node). D_800834B8 stays separate
+  (town rows form their base there).
+- Totals: **5,085 row migrations onto 10 shared headers.**

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/slus_callbacks.h"
@@ -6,7 +7,6 @@
 #include "shared/dungeon_status.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "shared/entity.h"
-#include "records/Rec_D_800814A8.h"
 
 
 typedef struct {
@@ -41,7 +41,6 @@ extern s32 func_80172280(void *, void *, void *, s32);
 extern void func_80173F20(void *, void *, void *, void *);
 extern void func_80174470(void *, void *, void *, void *);
 
-extern u8 D_80083498[];
 extern u8 D_800D79B0[];
 extern u8 D_800DEA68[];
 extern DungeonRecord D_800E2970[];
@@ -354,7 +353,7 @@ generic:
         void *tint;
         u8 *sprite_data;
 
-        effect = func_8003FD64(0x112, D_80083498);
+        effect = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
         ((Rec_func_800A9E70_arg0 *)actor)->unk_A0.at00_pv.v = effect;
         object = effect;
         if (object == 0) {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
@@ -49,7 +50,6 @@ extern void *D_800201B0[27];
 
 extern u8 D_800220A8[];
 extern u8 D_80024450[];
-extern u8 D_80083498[];
 extern u8 D_800834B8[];
 extern s32 D_80012D5C[3];
 extern s32 D_80024558[3];
@@ -258,7 +258,7 @@ state0_inner:
     }
 
     for (column = 2; column >= 0; column--) {
-        object = func_8003FD64(0x112, D_80083498);
+        object = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
         if (object != 0) {
             object_child = ((S_800211A4_0 *)object)->unk_0C;
             ((S_800211A4_0 *)object)->unk_10 = D_800220A8;

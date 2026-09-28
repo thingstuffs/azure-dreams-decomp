@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
@@ -114,7 +115,6 @@ extern s16 D_800272C8;
 extern s16 D_800272CA;
 extern s32 D_80053858[4];
 extern s32 D_80053A88;
-extern u8 D_80083498[];
 extern u8 D_800834B8[];
 typedef struct {
     u8 raw[0x18];
@@ -258,7 +258,7 @@ void func_80022F60(void *state_obj) {
                     two = (s32)(table_base + 1);
                     main_state = (u8 *)0xB0;
                     loop_0: {
-                        obj = func_8003FD64(1, D_80083498);
+                        obj = func_8003FD64(1, ((u8 *)(&D_80083498)));
                         if (obj != NULL) {
 
                             sprite = (u8 *)obj + 0x20;

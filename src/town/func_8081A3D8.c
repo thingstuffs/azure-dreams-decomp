@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
@@ -23,7 +24,6 @@ extern u8 D_80024B04[];
 extern u8 D_80024B48[];
 extern s32 D_80053858[4];
 extern s32 D_80053A88;
-extern u8 D_80083498[];
 extern u8 D_800F7DFC[];
 
 extern void func_80033B78(s32);
@@ -121,7 +121,7 @@ case_0:
         controller->countdown--;
     }
 
-    object = func_8003FD64(0x136, D_80083498);
+    object = func_8003FD64(0x136, ((u8 *)(&D_80083498)));
     if (object != 0) {
         u8 *object_tail = object + 0x20;
         ((S_800243D8_0 *)object)->unk_10 = D_80024B48;
@@ -157,7 +157,7 @@ tick:
     }
 
 case_1:
-    object = func_8003FD64(((s32)(1)), ((u8 *)(D_80083498)));
+    object = func_8003FD64(((s32)(1)), ((u8 *)(((u8 *)(&D_80083498)))));
     if (object != 0) {
         object_data = object + 0x20;
         ((S_800243D8_0 *)object)->unk_10 = D_80024AC0;
@@ -170,7 +170,7 @@ case_1:
         ((S_800243D8_2 *)object_data)->unk_02 = 0x96;
     }
 
-    object = func_8003FD64(((s32)(1)), ((u8 *)(D_80083498)));
+    object = func_8003FD64(((s32)(1)), ((u8 *)(((u8 *)(&D_80083498)))));
     if (object != 0) {
         object_data = object + 0x20;
         ((S_800243D8_0 *)object)->unk_10 = D_80024B04;
@@ -188,7 +188,7 @@ case_1:
     goto end;
 
 case_2:
-    object = func_8003FD64(((s32)(1)), ((u8 *)(D_80083498)));
+    object = func_8003FD64(((s32)(1)), ((u8 *)(((u8 *)(&D_80083498)))));
     if (object != 0) {
         object_data = object + 0x20;
         ((S_800243D8_0 *)object)->unk_10 = D_80024AC0;
@@ -201,7 +201,7 @@ case_2:
         ((S_800243D8_2 *)object_data)->unk_02 = 0x96;
     }
 
-    object = func_8003FD64(((s32)(1)), ((u8 *)(D_80083498)));
+    object = func_8003FD64(((s32)(1)), ((u8 *)(((u8 *)(&D_80083498)))));
     if (object != 0) {
         object_data = object + 0x20;
         ((S_800243D8_0 *)object)->unk_10 = D_80024B04;

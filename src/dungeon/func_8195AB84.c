@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/object_flags.h"
 
 #ifndef NULL
@@ -60,7 +61,6 @@ extern void *func_8003FD64(s32, void *);
 
 extern s32 D_80025C80;
 extern u8 D_80028268[];
-extern s32 D_80083498;
 
 /* Create 18 linked objects at the given position and angle, marking them for cleanup on failure. */
 void *func_8195AB84(s16 x, s32 y, s32 z, s16 angle)
@@ -102,7 +102,7 @@ void *func_8195AB84(s16 x, s32 y, s32 z, s16 angle)
             if (object_index != 0) {
                 call_context = objects[0];
             } else {
-                call_context = &D_80083498;
+                call_context = ((s32 *)&D_80083498.next);
             }
             scratch = (s32)func_8003FD64(18, call_context);
             *slot = (void *)scratch;

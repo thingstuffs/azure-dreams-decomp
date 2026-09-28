@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/entity_objects.h"
 
 
 
 typedef s32 M2C_UNK;
-extern M2C_UNK D_80083498;
 extern u8 *D_80175D50[3];
 extern s16 func_8016F428(void *arg);
 
@@ -22,7 +22,7 @@ typedef struct S_8016F79C_1 {
 
 /* Sets the target field from the record or source field and restores two record words. */
 void func_8016F79C(void *unused_0, u8 *record, void *unused_2) {
-    u8 *source_base = (u8 *)&D_80083498;
+    u8 *source_base = (u8 *)(&D_80083498.next);
     register volatile u8 *source_data = (volatile u8 *)(source_base + 0x20);
     u8 *target_base = D_80175D50[1];
     u8 *target_data = target_base + 0x20;

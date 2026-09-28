@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
@@ -115,7 +116,6 @@ extern void func_80044A50(void *);
 extern u8 D_80024008[];
 extern u8 D_80024B58[];
 extern u8 D_800248F8[];
-extern u8 D_80083498[];
 extern u8 D_800DEA68[];
 __asm__(".set D_800DEA68, 0x800DEA68");
 
@@ -185,7 +185,7 @@ void FUNC_80024000_BODY(S_func_81838800_1 *effect, S_func_81838800_2 *motion, S_
     if ((u32)(effect->unk_0A.u - 1) < 3) {
         index_or_x = 9;
         do {
-            particle_or_y = (s32)func_8003FD64(0x312, &D_80083498);
+            particle_or_y = (s32)func_8003FD64(0x312, ((u8 *)(&D_80083498)));
             if (particle_or_y != 0) {
                 sprite_or_x = (s32)((S_func_81838800_5 *)particle_or_y)->unk_0C;
                 ((S_func_81838800_5 *)particle_or_y)->unk_10 = D_80024B58;

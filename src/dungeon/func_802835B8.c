@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
 #include "shared/record_ptrs.h"
@@ -154,7 +155,6 @@ extern s32 D_800E3540;
 extern s32 D_80081484;
 extern s32 D_80081470;
 extern void *D_800E3D18;
-extern u8 D_80083498[];
 extern u8 D_80089AA0[];
 extern u8 D_80082E60[];
 extern u8 D_800DD078;
@@ -222,7 +222,7 @@ void func_800165B8(void) {
     u8 *zero_arg;
 
     D_800DCF5A = 1;
-    allocation = func_8003FE78(0, D_80083498, 0x53);
+    allocation = func_8003FE78(0, ((u8 *)(&D_80083498)), 0x53);
     ((S_800165B8_0 *)allocation)->unk_10 = D_80089AA0;
     func_8004491C(allocation, func_80045340);
     actor_storage = ((u8 *)(&D_80083780.x.v));
@@ -382,11 +382,11 @@ load_entries:
             *(void **)((u8 *)D_800DD274 +
                 (((gameWork.viewAngle + (*(s16 *)((u8 *)entity + 0x2A)) + 0x100) >> 7) & 0x1C)),
             0);
-        call_target = D_80083498;
+        call_target = ((u8 *)(&D_80083498));
     } else {
         func_800489F4(state, 0xB0, 0, 1);
         ((S_800165B8_3 *)state)->unk_2C = D_800DCFB0;
-        call_target = D_80083498;
+        call_target = ((u8 *)(&D_80083498));
     }
     bind_count = 1;
     bind_state = state + 0x2C;

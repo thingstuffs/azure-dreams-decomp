@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/record_ptrs.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
@@ -112,7 +113,6 @@ extern s32 func_800A94A0(void *, u8 *, s32, u16 *);
 extern void func_800DA840(void *, s16);
 
 extern ItemData D_8006DE24[];
-extern u8 D_80083498[];
 extern u8 D_800D7960[];
 extern u8 D_80170838[16];
 extern u8 D_80170EA8;
@@ -248,7 +248,7 @@ invoke_item:
         if (!(actor->unk_98 & 0x2000)) {
             void *new_effect;
 
-            new_effect = func_8003FD64(0x112, D_80083498);
+            new_effect = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
             actor->unk_A8 = new_effect;
             effect = new_effect;
             if (effect != 0) {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80016000.h"
@@ -80,7 +81,6 @@ typedef struct S_8183EFD8_9 {
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern u8 D_80083498[];
 extern u8 D_800DECF8[];
 void *func_8003FD64();                 /* extern */
 s32 func_80069EF8();                          /* extern */
@@ -144,7 +144,7 @@ accelerate:
         particle_data = D_80024688;
         ((S_8183EFD8_0 *)effect_arg)->unk_4C.s = (s16) ((u16) ((S_8183EFD8_0 *)effect_arg)->unk_4C.s + 1);
         do {
-            particle = func_8003FD64(0x312, D_80083498);
+            particle = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
             if (particle != NULL) {
                 ((S_8183EFD8_4 *)particle)->unk_10 = particle_data;
                 particle_sprite = ((S_8183EFD8_4 *)particle)->unk_0C;

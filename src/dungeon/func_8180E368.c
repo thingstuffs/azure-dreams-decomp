@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
 typedef struct S_80027368_0 {
@@ -44,7 +45,6 @@ extern void func_8004491C(void *, void *);
 
 extern s32 D_80027164;
 extern s32 D_80028874;
-extern s32 D_80083498;
 extern u8 D_800DDC40[];
 
 /* Creates a sprite object at the given position with a source-dependent Z offset. */
@@ -55,7 +55,7 @@ void *func_80027368(s16 pos_x, s16 pos_y, s16 pos_z, S_80027368_2 *source)
     S_80027368_3 *sprite;
     S_80027368_4 *work;
 
-    object = func_8003FD64(0x12, &D_80083498);
+    object = func_8003FD64(0x12, ((s32 *)&D_80083498.next));
     if (object != 0) {
         ((S_80027368_0 *)object)->unk_10 = &D_80027164;
         func_8004491C(object, func_80045340);

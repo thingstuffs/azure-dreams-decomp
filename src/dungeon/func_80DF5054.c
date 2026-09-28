@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
 
@@ -44,7 +45,6 @@ typedef struct S_8015E854_4 {
 } S_8015E854_4;   /* actor in func_8015E854 */
 
 
-extern u8 D_80083498[];
 extern u8 D_8015EA58[];
 extern u8 D_8015EE5C[];
 extern u8 D_80162510[];
@@ -77,7 +77,7 @@ void *func_8015E854(s32 flags, s8 kind_id, s16 variant, s16 spawn_value)
     saved_kind_id = kind_id;
     saved_spawn = spawn_value;
     saved_variant = variant;
-    obj = func_8003FD64(0x112, D_80083498);
+    obj = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
     final_arg0 = flags;
     if (obj != 0) {
         work = (u8 *)obj + 0x20;

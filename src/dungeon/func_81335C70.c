@@ -5,7 +5,6 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_800814A8.h"
 
 typedef struct S_8016CC70_0 {
     u8 pad_00[0x8C];

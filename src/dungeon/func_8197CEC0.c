@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
@@ -73,7 +74,6 @@ typedef struct {
     void *entry;
 } EntryTable;
 
-extern u8 D_80083498[];
 extern s32 D_800DEA68[];
 extern s32 D_80024BB8[3];
 
@@ -168,7 +168,7 @@ void func_8197CEC0(Actor *actor, Vec3 *target, Sprite *sprite) {
             s32 *particle_data = D_800DEA68;
             do {
                 Spawn *spawn;
-                spawn = func_8003FD64(0x312, D_80083498);
+                spawn = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
                 if (spawn != 0) {
                     register s32 coord_term ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                     s32 coord_magnitude;

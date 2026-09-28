@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 
 typedef struct S_800A3450_0 {
     u8 pad_00[0x8];
@@ -27,7 +28,6 @@ typedef struct S_800A3450_3 {
 } S_800A3450_3;
 
 extern void *func_8003FD64(s32, void *);
-extern u8 D_80083498[];
 extern u8 D_800A34E0[];
 extern u8 D_800A3508[];
 
@@ -38,7 +38,7 @@ void *func_800A3450(S_800A3450_2 *source_data, s16 initial_value)
     S_800A3450_1 *object_data;
     void *result;
 
-    object = func_8003FD64(0x136, D_80083498);
+    object = func_8003FD64(0x136, ((u8 *)(&D_80083498)));
     if (object == 0) {
         return 0;
     }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
@@ -26,7 +27,6 @@ extern void func_800A56E0();
 extern void func_800AD594();
 extern void func_800C8150();
 
-extern u8 D_80083498[];
 extern Record10 D_80170868;
 extern Record10 D_80170874;
 extern u8 D_80171138[];
@@ -90,7 +90,7 @@ state_zero:
         spawn_offset[0] = 0;
     }
 
-    effect_object = func_8003FD64(0x201, D_80083498);
+    effect_object = func_8003FD64(0x201, ((u8 *)(&D_80083498)));
     if (effect_object != NULL) {
         func_8004491C(effect_object, D_80174688);
         PTR_AT(effect_object, 0x10) = D_801745E0;

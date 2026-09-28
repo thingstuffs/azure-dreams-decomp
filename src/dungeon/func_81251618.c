@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
@@ -10,7 +11,6 @@ typedef struct {
     s32 word3;
 } Block16;
 
-extern u8 D_80083498[];
 void *func_8003FD64();
 M2C_UNK func_8004491C();
 void func_80047784();
@@ -85,7 +85,7 @@ void func_80170E18(void *unused, S_80170E18_5 *source_transform, void *sprite_te
     Block16 *dst;
     Block16 *end;
 
-    effect = func_8003FD64(0x112, D_80083498);
+    effect = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
     sprite_data = sprite_template;
     if (effect != NULL) {
         effect_state = effect + 0x20;

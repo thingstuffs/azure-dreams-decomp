@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
@@ -62,7 +63,6 @@ __asm__(".globl func_8015E800\n.size func_8015E800, 600");
 #define BODY_NAME func_8015E800
 #endif
 
-extern u8 D_80083498[];
 extern u8 D_8015EA58[];
 void *func_8003FD64();
 M2C_UNK func_8004491C();
@@ -98,7 +98,7 @@ void *BODY_NAME(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_value) {
     saved_y = tile_y;
     unused_byte_21d8 = (s32) *(s8 *)0x21D8;
     unused_byte_neg_ba0 = (s32) *(s8 *)-0xBA0;
-    object = func_8003FD64(0x112, D_80083498);
+    object = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
     if (object != NULL) {
         actor_state = object + 0x20;
         actor = actor_state;

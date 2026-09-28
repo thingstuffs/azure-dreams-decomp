@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "m2c_compat.h"
 
 typedef struct {
@@ -56,7 +57,6 @@ extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 extern u8 D_80045C34[];
 extern u8 D_800777E8[];
-extern u8 D_80083498[];
 extern u8 D_800BB0A8[];
 extern u8 D_800BB14C[];
 extern u8 D_800D0774[];
@@ -80,7 +80,7 @@ DungeonObject *func_800C7380(s16 tile_x, s16 tile_y, u16 z, s16 height, s16 spee
     s32 angle;
     void *callback_fn;
 
-    parent = func_8003FD64(0x12, D_80083498);
+    parent = func_8003FD64(0x12, ((u8 *)(&D_80083498)));
     if (parent != NULL) {
         s16 frame;
         u16 state_limit;

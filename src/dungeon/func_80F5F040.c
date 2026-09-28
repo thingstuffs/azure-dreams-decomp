@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/record_ptrs.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
@@ -139,7 +140,6 @@ extern s32 func_800A6D30(void);
 extern s32 func_800A94A0(void *, u8 *, s32, void *);
 
 extern u8 D_8006DE24[0x200];
-extern u8 D_80083498[0x10];
 extern u8 D_800DEA68[0x20];
 extern u8 D_80170E68[0x10];
 extern void *D_80170838[];
@@ -365,7 +365,7 @@ state_2:
             effect_base = D_800DEA68;
             for (; counter >= 0; counter--) {
                 void *particle_data;
-                particle = func_8003FD64(0x312, D_80083498);
+                particle = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
                 if (particle != 0) {
                     register void *particle_callback ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                     func_8004491C(particle, func_80045340);

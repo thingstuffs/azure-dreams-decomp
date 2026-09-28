@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
@@ -49,7 +50,6 @@ M2C_UNK func_800A48F0();
 s32 func_800A6D30();
 M2C_UNK func_800A9C18();
 M2C_UNK func_800AA36C();
-extern M2C_UNK D_80083498;
 extern M2C_UNK D_80158A78;
 extern M2C_UNK D_80159058;
 extern M2C_UNK D_8015C880;
@@ -101,7 +101,7 @@ void *BODY_NAME(s16 flags, s16 kind_id, s16 variant, s16 spawn_value) {
     saved_kind_id = kind_id;
     saved_spawn = spawn_value;
     saved_variant = variant;
-    obj = func_8003FD64(0x112, &D_80083498);
+    obj = func_8003FD64(0x112, ((M2C_UNK *)&D_80083498.next));
     final_arg0 = flags;
     if (obj != NULL) {
         work = obj + 0x20;

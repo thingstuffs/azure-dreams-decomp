@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -210,7 +211,6 @@ __asm__(".globl func_80024000\n.size func_80024000,3396");
 #endif
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern u8 D_80083498[];
 extern u8 D_800DEC28[];
 extern u8 D_800DEC00[];
 extern s32 D_800DEB70;
@@ -495,7 +495,7 @@ state_flight:
         trail_count = 0x14;
         trail_texture = D_800DEC28;
 spawn_trail:
-        object = func_8003FD64(0x312, D_80083498);
+        object = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
         if (object != NULL) {
             target_sprite = (S_8182C800_9 *)(((S_8182C800_8 *)object)->unk_0C);
             ((S_8182C800_8 *)object)->unk_10 = &D_80024D44;
@@ -635,7 +635,7 @@ state_hit:
                 func_8009CE1C(((S_8182C800_1 *)owner)->unk_60, 0xA, (*(u8 *)((u8 *)&((EntityRec *)effect)->z + 1)), 2, (s32) ((S_8182C800_1 *)owner)->unk_2A.u, owner, 2);
                 burst_count = 0x50;
                 do {
-                    object = func_8003FD64(0x312, D_80083498);
+                    object = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
                     if (object != NULL) {
                         burst_sprite = ((S_8182C800_8 *)object)->unk_0C;
                         ((S_8182C800_8 *)object)->unk_10 = &D_80024E98;

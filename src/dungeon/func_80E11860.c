@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/entity.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_func_80173DD4_arg0.h"
 
 typedef struct S_80175060_0 {
@@ -48,7 +48,7 @@ extern M2C_UNK D_800DEA68;
 extern M2C_UNK D_80174F64;
 
 /* Creates an object with randomized phase and rotation and copies its initial state. */
-s32 func_80175060(Rec_func_80173DD4_arg0 *owner, Rec_D_800E3D7C *initial_state) {
+s32 func_80175060(Rec_func_80173DD4_arg0 *owner, EntityRec *initial_state) {
     s32 color;
     s32 four;
     s32 phase_rand;

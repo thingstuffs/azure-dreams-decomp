@@ -1,8 +1,8 @@
 #include "common.h"
+#include "shared/object_node.h"
 
 typedef void (*Callback)(void);
 
-extern u8 D_80083498[];
 
 extern u8 *func_8003FD64(s32 kind, void *data);
 extern void func_8004491C(void *object, Callback callback);
@@ -29,7 +29,7 @@ void *func_8014C854(s32 spawn_flags, s32 attr_a, s16 attr_b, s32 attr_c)
     u8 *part_a;
     s16 flags_s16;
     s32 alloc_kind;
-    u8 *alloc_data;
+    ObjectNodeHeader *alloc_data;
     u32 callback_page;
     u32 flags0;
     u32 flags1;
@@ -37,7 +37,7 @@ void *func_8014C854(s32 spawn_flags, s32 attr_a, s16 attr_b, s32 attr_c)
     s32 random;
 
     alloc_kind = 0x112;
-    alloc_data = D_80083498;
+    alloc_data = &D_80083498;
     object = func_8003FD64(alloc_kind, alloc_data);
     flags_s16 = held_flags;
     if (object != 0) {

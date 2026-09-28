@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
 
 void *func_8003FD64();            /* extern */
 M2C_UNK func_8004491C();           /* extern */
-extern M2C_UNK D_80083498;
 extern M2C_UNK D_800ADB8C;
 extern M2C_UNK D_800ADBCC;
 
@@ -44,7 +44,7 @@ void *func_800ADC4C(EntityRec *source_pos, s32 render_param, s16 initial_state, 
     S_800ADC4C_3 *render_data;
     S_800ADC4C_1 *position;
 
-    object = func_8003FD64(0x12, &D_80083498);
+    object = func_8003FD64(0x12, ((M2C_UNK *)&D_80083498.next));
     if (object != NULL) {
         object->unk_10 = &D_800ADB8C;
         func_8004491C(object, &D_800ADBCC);

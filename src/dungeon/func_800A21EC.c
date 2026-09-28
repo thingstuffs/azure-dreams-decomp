@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/dungeon_status.h"
 
 typedef struct S_800A794C_0 {
@@ -35,7 +36,6 @@ typedef struct S_800A794C_3 {
 
 extern void *func_800A8608(void *, void *, s32, s32, s32);
 
-extern s32 D_80083498;
 extern s32 D_800A77AC;
 
 /* Create an object at the tile center, initialize its fields, and increment the object count. */
@@ -50,7 +50,7 @@ s32 func_800A794C(s32 tile_x, s32 tile_y, s32 height, s32 *payload_ptr,
     s16 result;
     register u8 *callback ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-    object = func_800A8608(&D_80083498, payload_ptr, 0, 0, 0);
+    object = func_800A8608(((s32 *)&D_80083498.next), payload_ptr, 0, 0, 0);
 #ifdef NON_MATCHING
     callback = (u8 *)&D_800A77AC;
 #else

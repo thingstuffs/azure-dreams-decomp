@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "m2c_compat.h"
 
 typedef struct {
@@ -11,7 +12,6 @@ extern s32 func_8004491C();
 
 extern s32 D_80026680[3];
 extern TableEntry D_80028820[];
-extern s32 D_80083498[3];
 extern s32 D_800CEEFC[3];
 extern u8 D_800DDC40[9];
 
@@ -102,7 +102,7 @@ void *func_80026C88(u16 x, u16 y, s16 z, void *source)
     callback = D_80026680;
     table_entry = D_80028820;
     do {
-        object = func_8003FD64(0x212, D_80083498);
+        object = func_8003FD64(0x212, ((s32 *)(&D_80083498)));
         if (object != NULL) {
             s32 point_index;
             S_80026C88_2 *state;

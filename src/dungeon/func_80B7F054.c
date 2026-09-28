@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
 
@@ -50,7 +51,6 @@ extern s32 func_800A6D30();
 extern void func_800A48F0(void *, s32, s32);
 extern void func_800A9C18(void *, void *, void *, s32);
 extern void func_800AA36C(void *, void *, void *, void *);
-extern u8 D_80083498[];
 extern u8 D_8015EA30[];
 extern u8 D_80161D0C[];
 extern u8 D_80161D4C[];
@@ -76,7 +76,7 @@ void *func_80B7F054(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 rotation)
     saved_x = tile_x;
     saved_rotation = rotation;
     saved_y = tile_y;
-    obj = func_8003FD64(0x112, D_80083498);
+    obj = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
     if (obj != 0) {
         work = (u8 *)obj;
         work += 0x20;

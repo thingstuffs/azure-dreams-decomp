@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 
 /* The type-0x13 table consists of 32 records, each 21 words (0x54 bytes). */
 typedef struct Copy84 {
@@ -19,7 +20,6 @@ extern void del_t_item_w_ptr(void *arg0);
 
 extern Copy84 D_800102F0[];
 extern s32 D_8006E240;
-extern u8 D_80083498[];
 extern u8 D_8009DEBC[];
 extern u8 D_800D073C[];
 extern u8 D_800D0754[];
@@ -48,7 +48,7 @@ void *func_8009DFD8(void *object_data, void *source_position, s32 alternate_call
     void *object;
     u8 type;
 
-    created = func_8003FD64(0x136, D_80083498);
+    created = func_8003FD64(0x136, ((u8 *)(&D_80083498)));
     if (created == 0) {
         return 0;
     }

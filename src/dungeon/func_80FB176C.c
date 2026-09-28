@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/tile_object.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
@@ -138,7 +139,6 @@ extern s32 func_80172658(void *, void *, void *, s32);
 extern void func_80174250(void *, void *, void *, void *);
 
 extern void *D_800814A8[3];
-extern u8 D_80083498[];
 extern u8 D_800DEA68[];
 extern DungeonRecord D_800E2970[];
 extern u8 D_80175174[];
@@ -296,7 +296,7 @@ sw1_case2: {
                 ((S_80170F6C_3 *)arg1)->unk_10 = ((S_80170F6C_3 *)arg1)->unk_10 +
                     (((S_80170F6C_3 *)arg1)->unk_10 * scale >> 9);
 
-                object = func_8003FD64(0x312, D_80083498);
+                object = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
                 if (object != 0) {
                     func_8004491C(object, func_80045340);
                     payload = object->unk_08;

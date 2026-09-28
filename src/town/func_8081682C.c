@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
 typedef struct S_8002082C_0 {
@@ -51,7 +52,6 @@ typedef struct {
 
 extern s32 D_80022698[3];
 extern D_80026DE0Entry D_80026DE0[3][8];
-extern s32 D_80083498[3];
 extern s32 D_800F29B4[3];
 
 /* Create and initialize eight child objects using the owner's image table selection. */
@@ -64,7 +64,7 @@ void func_8002082C(void *owner) {
 
     slot_index = 7;
     do {
-        object = func_8003FD64(0x136, D_80083498);
+        object = func_8003FD64(0x136, ((s32 *)(&D_80083498)));
         ((S_8002082C_0 *)((u8 *)owner + slot_index * 4))->unk_08 = object;
         slot_offset = slot_index * 4;
         if (object != 0) {

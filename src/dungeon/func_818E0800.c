@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -149,7 +150,6 @@ extern void func_800A56E0(s32);
 extern s32 func_800BCB04(s32, s32, s32);
 extern void func_800C8900(void *, s32, s32);
 
-extern u8 D_80083498[];
 extern u8 D_800DEC28[];
 extern u8 D_800E3D68[];
 extern void func_80024594(void);
@@ -214,7 +214,7 @@ void BODY_NAME(void *effect_arg, void *motion_arg, S_818E0800_10 *actor_state)
         particles_left = 5;
         sprite_set = D_800DEC28;
         do {
-            entity = func_8003FD64(0x312, D_80083498);
+            entity = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
             if (entity != 0) {
                 func_8004491C(entity, func_80045340);
                 render_state = ((S_818E0800_4 *)entity)->unk_0C;

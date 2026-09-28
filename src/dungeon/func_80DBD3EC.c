@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -121,7 +122,6 @@ extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
 extern void func_800C857C(void *, void *);
 
-extern u8 D_80083498[];
 extern s32 D_800DE870;
 extern u8 D_80170854[];
 extern u8 D_80171040[];
@@ -178,7 +178,7 @@ spawn_particles:
             for (; particle_index < 5; particle_index++) {
                 void *particle;
 
-                particle = func_8003FD64(0x112, D_80083498);
+                particle = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
                 if (particle == 0) continue;
                 {
                     s32 offset_y;

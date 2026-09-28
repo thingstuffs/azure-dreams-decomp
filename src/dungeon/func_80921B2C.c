@@ -1,8 +1,8 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "m2c_compat.h"
 
 extern u8 D_80045340[];
-extern u8 D_80083498[];
 extern u8 D_800DEC70[];
 void *func_8003FC64();
 s32 func_8004491C();
@@ -77,7 +77,7 @@ void func_80921B2C(S_80921B2C_3 *position, s32 x_offset, s32 y_offset, s32 z_off
     memcpy(direction_table, direction_source, 0x20);
     effect_type = 0x212;
     ASM_USE_NV(effect_type);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    global_state = D_80083498;
+    global_state = ((u8 *)(&D_80083498));
     direction_state = global_state + 0x20;
     effect = func_8003FC64(effect_type);
     if (effect != NULL) {

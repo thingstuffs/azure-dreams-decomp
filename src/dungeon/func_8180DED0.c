@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
 #ifndef NULL
@@ -45,7 +46,6 @@ typedef struct S_80026ED0_3 {
 extern void *func_8003FD64();
 extern s32 func_8004491C();
 extern s32 D_80026E3C;
-extern s32 D_80083498;
 extern s32 D_800DF358;
 
 /* Creates a visual object with the given position and size. */
@@ -58,7 +58,7 @@ void *func_80026ED0(s16 x, s16 y, s16 z, s32 size) {
 
     saved_size = size;
 
-    object = func_8003FD64(0x12, &D_80083498);
+    object = func_8003FD64(0x12, ((s32 *)&D_80083498.next));
     if (object != NULL) {
         ((S_80026ED0_0 *)object)->unk_10 = &D_80026E3C;
         func_8004491C(object, func_80045340);

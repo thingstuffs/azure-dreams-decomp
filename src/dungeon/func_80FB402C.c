@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_func_800AA258_arg2.h"
 #include "shared/entity.h"
-#include "records/Rec_D_800814A8.h"
 #include "records/Rec_D_80082E80.h"
 
 typedef struct S_8017382C_0 {
@@ -89,7 +89,6 @@ extern void func_800AA79C(void *, void *, void *, void *);
 extern void func_800AA888(void *, void *, void *, void *);
 extern void func_80174250(void *, void *, void *, void *);
 
-extern u8 D_80083498[];
 extern u8 D_80170F6C[];
 extern u8 D_80174424[];
 extern u8 D_80175298[];
@@ -159,7 +158,7 @@ scan_zero_done:
             0);
 
         dungeonStatus.unk_0A--;
-        effect = func_8003FD64(0x10, D_80083498);
+        effect = func_8003FD64(0x10, ((u8 *)(&D_80083498)));
         effect_state = (u8 *)effect + 0x20;
         if (effect != 0) {
             ((S_8017382C_6 *)effect)->unk_10 = D_80174424;
@@ -250,7 +249,7 @@ scan_two_done:
             direction_table[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
 
-        effect = func_8003FD64(0x10, D_80083498);
+        effect = func_8003FD64(0x10, ((u8 *)(&D_80083498)));
         effect_state = (u8 *)effect + 0x20;
         if (effect != 0) {
             ((S_8017382C_6 *)effect)->unk_10 = D_80174424;
@@ -353,7 +352,7 @@ second_call:
             exit_table[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
 
-        effect = func_8003FD64(0x10, D_80083498);
+        effect = func_8003FD64(0x10, ((u8 *)(&D_80083498)));
         effect_state = (u8 *)effect + 0x20;
         if (effect != 0) {
             u16 facing;

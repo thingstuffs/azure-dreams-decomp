@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
@@ -48,7 +49,6 @@ typedef struct S_80F2D000_4 {
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern u8 D_80083498[];
 void *func_8003FD64();                 /* extern */
 M2C_UNK func_8004491C();                /* extern */
 M2C_UNK func_800A48F0();        /* extern */
@@ -98,7 +98,7 @@ BODY_STORAGE void *BODY_NAME(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c
     unksp20 = (s32) *(s8 *)-0x149C;
     work = NULL;
     variant = 1;
-    object = func_8003FD64(0x112, D_80083498);
+    object = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
     if (object == NULL) {
         goto done;
     } else {

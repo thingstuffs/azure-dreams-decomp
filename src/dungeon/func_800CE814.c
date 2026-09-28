@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
 #ifndef NULL
@@ -64,7 +65,6 @@ extern s16 func_800BCB04();
 extern void func_80099FDC();
 extern void func_8009A21C();
 
-extern s32 D_80083498;
 extern u8 D_800D4158;
 extern u8 D_800D4494;
 extern u8 D_800DEEC0;
@@ -83,7 +83,7 @@ void *func_800D3F74(s16 variant, u16 tile_x, u16 tile_y, s16 spawn_height)
     u8 sprite_tile_x;
     u8 sprite_tile_y;
 
-    object = func_8003FD64(0x112, &D_80083498);
+    object = func_8003FD64(0x112, ((s32 *)&D_80083498.next));
     if (object != NULL) {
         entity = object + 0x20;
         ((S_800D3F74_0 *)entity)->unk_13 = 0x34;

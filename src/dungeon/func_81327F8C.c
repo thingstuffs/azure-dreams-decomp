@@ -5,7 +5,6 @@
 #include "m2c_compat.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
-#include "records/Rec_D_800814A8.h"
 
 M2C_UNK func_80047784();         /* extern */
 s32 func_8009A180();                     /* extern */

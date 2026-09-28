@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "m2c_compat.h"
 
 typedef struct S_800264D4_0 {
@@ -81,7 +82,6 @@ typedef struct {
     s16 unk1e;
 } NodeA;
 
-extern u8 D_80083498[];
 extern u8 D_80028808;
 extern u8 D_800260DC[];
 extern u8 D_800CEF54[];
@@ -114,7 +114,7 @@ void *func_800264D4(S_800264D4_1 *source_pos, s32 effect_value, s16 sprite_id, s
     page_base = &D_800260DC[0];
     sprite_index = (sprite_id << 0x10) >> 16;
 create_object:
-    object = func_8003FD64(0x12, D_80083498);
+    object = func_8003FD64(0x12, ((u8 *)(&D_80083498)));
     if (object != NULL) {
         ((S_800264D4_0 *)object)->unk_10 = page_base;
         func_8004491C(object, &D_800CEF54);

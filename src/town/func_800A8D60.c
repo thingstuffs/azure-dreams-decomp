@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 
 #ifndef NULL
 #define NULL 0
@@ -12,7 +13,6 @@ extern void func_8009B218();
 extern void func_800C2E84();
 extern void func_800A6328();
 
-extern s8 D_80083498[];
 extern s8 D_800A6684[];
 extern s32 D_800D0C60[];
 extern s32 D_800D0C78[];
@@ -52,7 +52,7 @@ void func_800A64C0(void) {
             D_80100E28 = D_800D0CE8;
             D_80100E20 = 0x1C0000;
         }
-        object = func_8009C390(D_80083498, 0, D_800A6684, 0);
+        object = func_8009C390(((s8 *)(&D_80083498)), 0, D_800A6684, 0);
         if (object != NULL) {
             position = *(s8 **)(object + 8);
             object_resource = *(s32 *)(object + 0xC);

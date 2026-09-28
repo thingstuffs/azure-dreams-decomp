@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/tile_object.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
@@ -14,7 +15,6 @@ typedef struct S_80173F6C_5 {
 
 
 
-extern u8 D_80083498[];
 extern u8 D_80174C84[];
 extern void *D_80174CE0[];
 void *func_8003FD64();
@@ -76,7 +76,7 @@ void func_80173F6C(void) {
     void *object;
     u16 sprite_flags;
 
-    object = func_8003FD64(0x112, D_80083498);
+    object = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
     if (object != NULL) {
         object_state = object + 0x20;
         object_state->unk_13 = 0x18;
@@ -85,7 +85,7 @@ void func_80173F6C(void) {
         ((S_80173F6C_1 *)object)->unk_10 = &D_801730AC;
         func_8004491C(object, func_80045340);
         model = ((S_80173F6C_1 *)object)->unk_08;
-        model->unk_0A = (u16) ((S_80173F6C_5 *)((*(void * *)&((EntityRec *)D_80083498)->z)))->unk_0A;
+        model->unk_0A = (u16) ((S_80173F6C_5 *)((*(void * *)&((EntityRec *)((u8 *)(&D_80083498)))->z)))->unk_0A;
         sprite = ((S_80173F6C_1 *)object)->unk_0C;
         sprite->unk_24 = (u8) (D_80082E80.tileX + 9);
         sprite->unk_25 = (u8) (D_80082E80.tileY - 9);

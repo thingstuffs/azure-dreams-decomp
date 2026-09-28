@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/tile_object.h"
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_800E3D7C.h"
 
 typedef struct S_800A94A0_0 {
     void * unk_00;
@@ -78,7 +78,6 @@ typedef struct S_800A94A0_9 {
 } S_800A94A0_9;   /* *D_800E3D7C in func_800A94A0 */
 
 
-extern u8 D_80083498[];
 extern volatile s16 D_80013714[8];
 extern u8 D_800E3CC8[];
 extern u16 D_800DCEAC[];
@@ -138,7 +137,7 @@ void *func_800A94A0(void *actor, EntityRec *effect_record, s16 mode, void *conte
     TileObject *map_state;
 
     actor_state = ((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_04;
-    effect = func_8003FD64(0x12, D_80083498);
+    effect = func_8003FD64(0x12, ((u8 *)(&D_80083498)));
     if (effect != NULL) {
         register s32 lookup_index ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         effect_mode = ((s32) mode << 0x10) >> 0x10;

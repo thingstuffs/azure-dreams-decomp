@@ -1,9 +1,9 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/entity_objects.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_800243C4_arg1.h"
 
-extern u8 D_80083498[];
 extern u8 D_800DF334[];
 M2C_UNK func_80024654();
 void *func_8003FD64();
@@ -84,7 +84,7 @@ void *func_80024ED4(Rec_func_800243C4_arg1 *position) {
         }
         parent = previous_segment;
         if (previous_segment == NULL) {
-            parent = D_80083498;
+            parent = ((u8 *)(&D_80083498));
         }
         segment = func_8003FD64(alloc_flags, parent);
         segment_state = segment + 0x20;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -142,7 +143,6 @@ extern void func_800A56E0(s32);
 extern s32 func_8009D218(void *, s32, void *);
 extern void func_800C8900(void *, s32, s32);
 
-extern u8 D_80083498[];
 extern u8 D_80024538[];
 extern u8 D_800DEAE0[];
 extern u8 D_80024684[];
@@ -323,7 +323,7 @@ case1:
             s32 prim_color;
 #endif
 
-            burst_obj = func_8003FD64(0x312, D_80083498);
+            burst_obj = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
             if (burst_obj != 0) {
                 func_8004491C(burst_obj, func_80045340);
                 prim = burst_obj->unk_0C;
@@ -378,7 +378,7 @@ case1:
     }
     if (actor->unk_60 != 0) {
         S_func_818DA800_5 *impact_obj;
-        impact_obj = func_8003FD64(0x201, D_80083498);
+        impact_obj = func_8003FD64(0x201, ((u8 *)(&D_80083498)));
         if (impact_obj != 0) {
 #ifdef __mips__
             register S_func_818DA800_8 *child_state ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */

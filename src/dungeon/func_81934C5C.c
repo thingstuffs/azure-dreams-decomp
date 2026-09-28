@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 
@@ -76,7 +77,6 @@ M2C_UNK func_8004491C();
 s32 func_80069EF8();
 s16 func_800BCB04();
 extern M2C_UNK D_80024928;
-extern M2C_UNK D_80083498;
 extern M2C_UNK D_800DEDB0;
 extern M2C_UNK D_800DEE38;
 
@@ -144,7 +144,7 @@ block_state2:
         goto block_return;
     }
     ((S_81934C5C_0 *)effect)->unk_24.at02.v = surface_height;
-    impact_effect = func_8003FD64(0x312, &D_80083498);
+    impact_effect = func_8003FD64(0x312, ((M2C_UNK *)&D_80083498.next));
     if (impact_effect != NULL) {
         impact_effect->unk_10 = &D_80024928;
         impact_effect->unk_20 = (void *) ((S_81934C5C_0 *)effect)->unk_00;

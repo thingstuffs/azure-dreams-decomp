@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
 typedef struct {
@@ -37,7 +38,6 @@ typedef struct {
     Func80BBB094PartC unk20;
 } Func80BBB094Object;
 
-extern u8 D_80083498[];
 extern u8 D_8014CE9C[];
 extern u8 D_80150ED8[];
 extern u8 D_80150F00[];
@@ -70,7 +70,7 @@ Func80BBB094PartC *func_8014C894(s32 spawn_flags, s32 attr_a, s32 attr_b, s32 at
     s32 randomTest;
     slot1 = (unsigned long)attr_c;
     arg2Reg = attr_b;
-    obj = func_8003FD64(0x112, D_80083498);
+    obj = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
     if (obj != 0) {
         savedArg0 = spawn_flags;
         ASM_KEEP_NV(spawn_flags);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */

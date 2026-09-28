@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/entity_objects.h"
 #include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
@@ -28,7 +29,6 @@ extern void func_800F6B2C();
 extern void func_80170D2C();
 
 extern Particle D_80082E80;
-extern u8 D_80083498[];
 extern Copy8 D_80164A4C;
 extern u8 *D_80175D50;
 
@@ -62,7 +62,7 @@ void func_80170F68(void *effect) {
     s32 enabled;
 
     *(Copy8 *)&blit_data[4] = D_80164A4C;
-    burst_context = D_80083498;
+    burst_context = ((u8 *)(&D_80083498));
     state = S16_AT(effect, 0x12);
     render_state = burst_context + 0x20;
     enabled = 1;

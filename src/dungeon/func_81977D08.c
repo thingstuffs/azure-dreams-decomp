@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
 #ifndef NULL
@@ -57,7 +58,6 @@ extern void *func_8003FD64();
 extern s32 func_8004491C();
 
 extern s32 D_8002548C;
-extern s32 D_80083498;
 extern s32 D_800DDC40;
 extern s32 D_800DEB70;
 
@@ -68,7 +68,7 @@ void func_81977D08(S_81977D08_4 *owner, S_81977D08_3 *position)
     S_81977D08_1 *sprite;
     S_81977D08_0 *effect;
 
-    effect = func_8003FD64(0x212, &D_80083498);
+    effect = func_8003FD64(0x212, ((s32 *)&D_80083498.next));
     if (effect != NULL) {
         void *sprite_data = &D_800DEB70;
 

@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 
 extern void *func_8003FD64(s32, void *);
 extern s32 func_8004491C(void *, void *);
-extern u8 D_80083498[9];
 extern u8 D_800BFF7C[9];
 extern u8 D_800F15AC[9];
 
@@ -73,7 +73,7 @@ state_2:
     goto epilogue;
   }
   *((s16 *) (((u8 *) object) + 0x26)) = 0;
-  effect = func_8003FD64(0x312, D_80083498);
+  effect = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
   if (effect != 0)
   {
     *((void **) (((u8 *) effect) + 0x10)) = D_800BFF7C;

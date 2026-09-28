@@ -5,7 +5,6 @@
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
-#include "records/Rec_D_800E3D7C.h"
 
 typedef struct S_819ACDA0_0 {
     u8 pad_00[0x2A];

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
@@ -57,7 +58,6 @@ void func_8009A21C(u8, u8, s32);
 s8 func_8009FB34(u8, u8);
 void func_800A2B04(void *, u8, u8);
 s16 func_800BCB04(u16, u16, s16);
-extern M2C_UNK D_80083498;
 extern M2C_UNK D_800D1E34;
 extern M2C_UNK D_800D20D8;
 extern M2C_UNK D_800E2178;
@@ -82,7 +82,7 @@ void *func_800D1C70(s16 spawn_kind, u16 tile_x, u16 tile_y, s16 height) {
     saved_x = tile_x;
     saved_height = height;
     saved_y = tile_y;
-    object = func_8003FD64(0x112, &D_80083498);
+    object = func_8003FD64(0x112, ((M2C_UNK *)&D_80083498.next));
     if (object != NULL) {
         state = object + 0x20;
         state->unk_13 = 0x34;

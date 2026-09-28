@@ -8,9 +8,8 @@ Newest first within each section. Evidence links point at the record that measur
 
 | # | item | why it matters | next step | evidence |
 |---|---|---|---|---|
-| 1 | SLUS link has no definition for data symbols that only C references (D_80082E80) | 3 SLUS rows (w_8003D8B0, w_8003F80C, w_8004D614) cannot migrate to TileObject | configure.py defines C-only data symbols for the SLUS link, gated by image SHA-1 + recipe check (phase-6 agent working on it) | evidence/type_consolidation_phase5_open.md |
 | 2 | game.h `struct S_80083178` overlaps GameWork (gameWork + 0x18) | two types for one object | migrate the 6 rows that type locals as `struct S_80083178 *`; func_800AFA68 misses by 9; slus/w_8004D5D0 is a genuine second declaration (keeps D_80083178); slus/code2 is a plural partition | TYPE_CONSOLIDATION.md phase 4 |
-| 3 | generated records Rec_D_800E3D7C.h / Rec_D_800814A8.h still used (74 + 106 rows) | EntityRec supersedes them | retype record_ptrs.h onto EntityRec *, migrate, retire (phase-6 agent) | TYPE_CONSOLIDATION.md phase 5 |
+| 3 | generated Rec_D_800E3D7C.h still used (and Rec_D_800814A8.h by func_810AFA04, func_81324774 - pin-lane rows skipped as busy) by dungeon/func_8133AD74 (reads through a volatile view in the generated header) | EntityRec supersedes it | resolve that row's volatile view, then retire the header | phase-6 REPORT |
 | 4 | apply_names.py refuses data rows | data names are appended to names.tsv by hand in apply scripts | add an `apply_names.py --data` mode | pilot DESIGN |
 | 5 | F0 clone family (11 rows x 6 pins): Astra reproduced retail with discarded colour clamps, self-rejected | 66 pins | OWNER DECISION: accept a visible dead-clamp reconstruction or keep rejecting | evidence/r78_wave1_report.md; work/native_lane/r78_astra_f0/diag/rejected_clamps/ |
 | 6 | dungeon/func_800957B8 5 -> 1 held | exact only by reading a callee's 5th halfword from a spill slot (layout-dependent) | find the real 5-element record + source of tile_info[4] | work/native_lane/r78_opus_c16/held/README.md |
@@ -20,12 +19,16 @@ Newest first within each section. Evidence links point at the record that measur
 | 10 | 147 rows keep a `(u8 *)&gameWork` view pointer | readability | only where the local pointer is not retail's base register (128 miss when folded) | TYPE_CONSOLIDATION.md phase 4 |
 | 11 | goto readability debt (1,599 rows) and remaining address-named local views | readability | byte-exact control-flow work in family packs; views via type consolidation | evidence/r78_wave1_report.md |
 | 12 | r77_opus_m6 site-for-pin trade on dungeon/func_81875B38 (4 -> 1) | pins | stage with a trade-ledger entry and review | HANDOVER round 77 |
+| 14 | tools/gate/match.py and tools/fidelity/probe_gp_module.py do not read config/slus_006.14.c_syms.txt | only the SLUS image gate + verify's module/partition gates prove a SLUS candidate naming a C-only symbol | teach both to read it | phase-6 REPORT |
+| 15 | evidence records keyed on the old pinned SLUS recipe sha read stale once (slus_module_evidence, certify_slus_module, prove_slus_ownership, pin_search) | expected after a recipe move | refresh on next use | phase-6 REPORT |
 | 13 | lab.py Python API does not enforce the 60-variant cap | lane efficiency | enforce in the API as well as the CLI | r78_opus_sp11 report |
 
 ## Closed (round 78)
 
 | item | fix | commit |
 |---|---|---|
+| SLUS link had no definition for data symbols only C names; phase-5 SLUS rows failed to link | configure.py C_SYMS + config/slus_006.14.c_syms.txt (recipe re-pinned, image MATCH); the two phase-5 candidates were wrong (folded the separate table D_80082EC0 into TileObject) and are not landed; TileObject corrected to 0x40 | phase 6 (this commit) |
+| generated Rec_D_800814A8.h / most Rec_D_800E3D7C.h uses | record_ptrs.h retyped onto EntityRec *, 158 rows migrated | phase 6 (this commit) |
 | verify.py compiled current SLUS texts against the frozen raw/include (182 rows could not compile via CLI) | live include/ for non-historical texts | e8874f3b |
 | byte-exact candidates hidden by assembler macros (la/ulw/usw) in the listing screen | screen.normalise expands them | 90ce36e3 |
 | lander refused scaffolding-only removals | land when a scaffolding kind falls with pins unchanged | a1304b6a |

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 
 typedef struct {
     s32 field_0;
@@ -16,7 +17,6 @@ typedef struct {
 } AllocatedObject;
 
 extern void *func_8003FD64(s32 kind, void *owner);
-extern u8 D_80083498[];
 extern void func_800A32C8(void);
 extern void func_800A32F0(void);
 
@@ -26,7 +26,7 @@ AllocatedObject *func_800A3248(CopyData *source)
     AllocatedObject *obj;
     CopyData *data;
 
-    obj = func_8003FD64(0x10, D_80083498);
+    obj = func_8003FD64(0x10, ((u8 *)(&D_80083498)));
     if (obj == 0) {
         return 0;
     }

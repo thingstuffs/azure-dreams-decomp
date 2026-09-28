@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
 
@@ -48,7 +49,6 @@ extern s32 func_800A6D30();
 extern void func_800A48F0();
 extern void func_800A9C18();
 extern void func_800AA36C();
-extern u8 D_80083498[];
 extern u8 D_80170CC8[];
 extern M2C_UNK D_801710F4;
 extern u8 D_80174F00[];
@@ -74,7 +74,7 @@ void *func_80170AF4(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
     saved_kind_id = kind_id;
     saved_spawn = spawn_value;
     saved_variant = variant;
-    obj = func_8003FD64(0x112, D_80083498);
+    obj = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((S_80170AF4_0 *)obj)->unk_10 = D_80170CC8;

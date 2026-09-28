@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/dungeon_status.h"
 
 #ifndef NULL
@@ -49,7 +50,6 @@ extern void func_800B835C(void *, s32 *, s32, s32);
 extern void func_800A56E0(s32, void *);
 extern void func_800C4944(void);
 
-extern u8 D_80083498[12];
 extern u8 D_800DCF78[12];
 
 /* Create an effect object, copy its source components, and initialize its state. */
@@ -62,7 +62,7 @@ void func_800C4AFC(S_800C4AFC_2 *source, s32 effect_param, s32 state_param)
     u8 *effect;
     u16 component;
 
-    object = func_8003FD64(0x202, D_80083498);
+    object = func_8003FD64(0x202, ((u8 *)(&D_80083498)));
     if (object == NULL) {
         return;
     }

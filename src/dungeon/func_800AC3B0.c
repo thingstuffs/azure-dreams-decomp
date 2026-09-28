@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "m2c_compat.h"
 
 typedef struct S_800B1B10_0 {
@@ -80,7 +81,6 @@ typedef struct S_800B1B10_7 {
 } S_800B1B10_7;   /* ((style_held * 4) + sub) in func_800B1B10 */
 
 
-extern u8 D_80083498[];
 void *func_8003FD64();
 M2C_UNK func_8004491C();
 s32 func_8004DA74();
@@ -112,7 +112,7 @@ void func_800B1B10(void *owner, s32 value_a, s32 value_b, s32 style, s16 compact
     s32 geom;
     s32 call_kind;
     register s32 call_target ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    u8 *alloc_data;
+    ObjectNodeHeader *alloc_data;
     s32 copy_a;
     s32 copy_b;
     u32 byte_val;
@@ -127,12 +127,12 @@ void func_800B1B10(void *owner, s32 value_a, s32 value_b, s32 style, s16 compact
 
     call_kind = 0x12;
 #ifdef NON_MATCHING
-    alloc_data = D_80083498;
+    alloc_data = &D_80083498;
 #else
 #endif
     subroutine_arg4 = flags_held;
 #ifndef NON_MATCHING
-    alloc_data = (u8 *)&D_80083498;
+    alloc_data = &D_80083498;
 #endif
     obj = (M2C_UNK) func_8003FD64(call_kind, alloc_data);
     compact_s16 = compact_held;

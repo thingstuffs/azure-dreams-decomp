@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/entity_objects.h"
 
 typedef struct S_800BFB00_0 {
@@ -24,7 +25,6 @@ typedef struct S_800BFB00_1 {
     (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern void *func_8003FD64(s32, void *);
-extern u8 D_80083498[12];
 extern void func_800BFB8C(void);
 
 /* town_rain_in: creates a rain object with its callback, preset values, and position. */
@@ -33,7 +33,7 @@ void town_rain_in(s16 x, s16 y) {
     S_800BFB00_1 *state;
     void *object;
 
-    object = func_8003FD64(2, D_80083498);
+    object = func_8003FD64(2, ((u8 *)(&D_80083498)));
     if (object != 0) {
         ((S_800BFB00_0 *)object)->unk_10 = func_800BFB8C;
         ((S_800BFB00_0 *)object)->unk_20 = ((u16)D_80083780.x.w.i);

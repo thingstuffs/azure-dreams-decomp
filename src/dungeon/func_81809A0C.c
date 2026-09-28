@@ -6,7 +6,6 @@
 #include "shared/object_flags.h"
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_800E3D7C.h"
 
 typedef struct S_8002520C_22 {
     u8 pad_00[0xC];

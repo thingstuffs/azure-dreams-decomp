@@ -5,7 +5,6 @@
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_800E3D7C.h"
 
 void func_80041E70(void *);             /* extern */
 s32 func_80042900();            /* extern */

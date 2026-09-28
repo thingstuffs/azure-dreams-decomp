@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 
@@ -186,7 +187,6 @@ extern void func_8004491C(void *, void *);
 extern void func_800A56E0(s32);
 extern void func_8009CE1C(void *, s32, u8, s32, s32, void *, s32);
 
-extern u8 D_80083498[];
 extern u8 D_80024850[];
 extern u8 D_800DEE38[];
 extern u8 D_800DEC50[];
@@ -301,7 +301,7 @@ BODY_STORAGE void FUNC_81856800_BODY(S_func_81856800_1 *action, void *motion_arg
 
         index = 7;
         do {
-            effect = func_8003FD64(0x312, D_80083498);
+            effect = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
             if (effect != 0) {
                 particle_data = (S_func_81856800_7 *)((u8 *)effect + 32);
                 part = effect->unk_0C;
@@ -528,7 +528,7 @@ case3:
     if (action->unk_50.s16_50 >= 6) {
         goto case3_tick;
     }
-    effect = func_8003FD64(0x201, D_80083498);
+    effect = func_8003FD64(0x201, ((u8 *)(&D_80083498)));
     if (effect == 0) {
         goto case3_tick;
     }
@@ -637,7 +637,7 @@ case5:
 #endif
 
 
-    effect = func_8003FD64(0x312, D_80083498);
+    effect = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
     if (effect != 0) {
         particle_data = (S_func_81856800_7 *)((u8 *)effect + 32);
         part = effect->unk_0C;

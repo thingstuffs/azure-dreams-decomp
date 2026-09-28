@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 #if 0 /* rowbase_rename_reverify precondition marker: dead declaration, never
@@ -54,7 +55,6 @@ M2C_UNK func_800A48F0();
 s32 func_800A6D30();
 M2C_UNK func_800A9C18();
 M2C_UNK func_800AA36C();
-extern M2C_UNK D_80083498;
 extern u8 D_8015EA7C[];
 extern M2C_UNK D_8015EEA8;
 extern M2C_UNK D_80162038;
@@ -158,7 +158,7 @@ void *BODY_NAME(s32 setup_bits, s8 grid_x, s8 grid_y, s16 placement_value) {
     state = NULL;
     call_count = 0x112;
     saved_grid_x = grid_x;
-    call_target = &D_80083498;
+    call_target = ((M2C_UNK *)&D_80083498.next);
     saved_placement = placement_value;
     saved_grid_y = grid_y;
     unused_byte_a64 = (s32) *(s8 *)0xA64;

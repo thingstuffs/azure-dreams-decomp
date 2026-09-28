@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "records/Rec_D_80082E80.h"
 
 #ifndef NULL
@@ -18,7 +19,6 @@ extern s32 func_8004491C();
 
 extern s32 D_80026680[3];
 extern TableEntry D_80028820[];
-extern s32 D_80083498[3];
 extern s32 D_800CEEFC[3];
 extern u8 D_800DDC40[9];
 
@@ -119,7 +119,7 @@ void *func_80026A84(S_80026A84_2 *origin, S_80026A84_7 *target_pos, s32 effect_p
     effect_index = 0;
     do { effect_entry = D_80028820; } while (0);
     do {
-        effect = func_8003FD64(0x12, D_80083498);
+        effect = func_8003FD64(0x12, ((s32 *)(&D_80083498)));
         if (effect != NULL) {
             ((S_80026A84_1 *)effect)->unk_10 = callback;
             func_8004491C(effect, D_800CEEFC);

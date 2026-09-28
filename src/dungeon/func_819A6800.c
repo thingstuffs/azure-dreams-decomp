@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/tile_object.h"
 #include "shared/slus_callbacks.h"
 #include "shared/dungeon_status.h"
@@ -113,7 +114,6 @@ typedef struct S_func_819A6800_10 {
 
 extern void *D_80024008[];
 extern u8 D_800814A8[16];
-extern u8 D_80083498[];
 extern u8 D_800244BC[];
 extern u8 D_80024810[];
 extern u8 D_80024B20[];
@@ -226,7 +226,7 @@ state2:
         SELF->unk_50.u = 10;
         counter_object->unk_A6--;
         counter_object->unk_A8 = SELF->unk_08;
-        new_object = func_8003FD64(0x312, D_80083498);
+        new_object = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
         record = new_object;
         if (record == 0) {
             goto advance_state;
@@ -295,7 +295,7 @@ state5:
         s16 timer_left = SELF->unk_50.s;
         if (timer_left == 7) {
             if (owner->unk_60.p != 0) {
-                record = func_8003FD64(0x302, D_80083498);
+                record = func_8003FD64(0x302, ((u8 *)(&D_80083498)));
                 if (record != 0) {
                     S_func_819A6800_7 *effect_data = (S_func_819A6800_7 *)((u8 *)record + 0x20);
                     u32 target_object;

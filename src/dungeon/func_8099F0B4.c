@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
 
@@ -11,7 +12,6 @@ extern void func_800AA36C(void *, void *, void *, void *);
 extern void func_80170A94(void);
 extern void func_801710EC(void);
 
-extern u8 D_80083498[];
 extern u8 D_801708B4[];
 extern u8 D_801714C8[];
 extern u8 D_80171500[];
@@ -108,7 +108,7 @@ void *func_801708B4(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 height)
     saved_x = grid_x;
     saved_height = height;
     saved_y = grid_y;
-    entity = func_8003FD64(0x112, D_80083498);
+    entity = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
     if (entity != 0) {
         entity_data = (u8 *)entity + 0x20;
         ((S_801708B4_0 *)entity)->unk_10 = func_80170A94;

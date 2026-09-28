@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
@@ -31,7 +32,6 @@ typedef struct EntityHeader {
     u16 value88;
 } EntityHeader;
 
-extern u8 D_80083498[];
 extern u8 D_800B8830[];
 extern u8 D_800DF2F8[];
 extern u8 D_800DF334[];
@@ -53,7 +53,7 @@ void func_800B8C20(void *owner, s32 value, void *child_data, void *tail_data)
 
         call_page = (u8 *)0x80080000;
         kind = 0x12;
-        object = func_8003FD64(kind, (u8 *)&D_80083498);
+        object = func_8003FD64(kind, (u8 *)((u8 *)(&D_80083498)));
     }
     if (object != 0) {
         child = object->child;

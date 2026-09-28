@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
 
@@ -49,7 +50,6 @@ typedef struct S_8016A854_4 {
 } S_8016A854_4;   /* work_copy in func_8016A854 */
 
 
-extern u8 D_80083498[];
 extern u8 D_8016AA8C[];
 extern u8 D_8016DD30[];
 extern u8 D_8016DD78[];
@@ -88,7 +88,7 @@ BODY_STORAGE void *func_8016A854(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 at
 
     work = 0;
     variant = 1;
-    object = func_8003FD64(274, D_80083498);
+    object = func_8003FD64(274, ((u8 *)(&D_80083498)));
     if (object == 0) {
         goto done;
     }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
@@ -70,7 +71,6 @@ void func_800A4ACC(void *);
 void func_800A56E0(s32);
 void func_800AD594(void *, s32);
 s32 func_800BCB04(s32, s32, s16);
-extern u8 D_80083498[];
 extern void *D_800E3DE8;
 extern u8 D_80170E70;
 extern u8 D_80173F38[];
@@ -152,7 +152,7 @@ state_2:
             effect_offset[1] = 0;
             effect_offset[0] = 0;
         }
-        effect = func_8003FD64(0x12, D_80083498);
+        effect = func_8003FD64(0x12, ((u8 *)(&D_80083498)));
         if (effect != NULL) {
             func_8004491C(effect, D_80173FDC);
             ((S_80172654_5 *)effect)->unk_10 = D_80173F38;

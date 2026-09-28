@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/tile_object.h"
 #include "shared/dir_step.h"
 
@@ -55,7 +56,6 @@ typedef struct S_800255B8_3 {
 } S_800255B8_3;   /* tail in func_800255B8 */
 
 
-extern u8 D_80083498[];
 extern u8 D_8002501C[];
 extern u8 D_800274C0[];
 extern u8 D_80027580[];
@@ -123,9 +123,9 @@ loop:
                 template = objects[0];
             } else {
 #ifdef NON_MATCHING
-                template = D_80083498;
+                template = ((u8 *)(&D_80083498));
 #else
-                template = D_80083498;
+                template = ((u8 *)(&D_80083498));
 #endif
             }
             *object_slot = func_8003FD64(2, template);

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
@@ -42,7 +43,6 @@ typedef struct {
     s8 field9C;
 } Func812A5000Entity;
 
-extern u8 D_80083498[];
 extern u8 D_80175C30[];
 extern u8 D_80171FA4[];
 void *func_8003FD64();                 /* extern */
@@ -61,7 +61,7 @@ void *func_812A50AC(s16 entity_id, s16 tile_x, u16 tile_y, u16 height) {
     Func812A5000Entity *entity;
 
     entity = NULL;
-    parent = func_8003FD64(0x112, D_80083498);
+    parent = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
     if (parent != NULL) {
         if (D_800FBE1C[0] == 0) {
             D_800FBE1C[0] = parent;

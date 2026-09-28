@@ -6,7 +6,6 @@
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_800A9E70_arg0.h"
-#include "records/Rec_D_800814A8.h"
 #ifdef NON_MATCHING
 #include <stdint.h>
 typedef uintptr_t uptr;

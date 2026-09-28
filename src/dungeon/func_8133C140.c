@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/tile_object.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
@@ -52,7 +53,6 @@ M2C_UNK func_80047784();         /* extern */
 M2C_UNK func_8009A028();                      /* extern */
 M2C_UNK func_8009A3D0();             /* extern */
 void func_800A9C18(void *, void *, void *, s32); /* extern */
-extern M2C_UNK D_80083498;
 extern M2C_UNK D_80171D74;
 extern M2C_UNK D_80173DA4;
 extern void *D_80175D54;
@@ -76,7 +76,7 @@ void func_80173140(void) {
     void *state;
     S_80173140_1 *st;
 
-    object = func_8003FD64(0x112, &D_80083498);
+    object = func_8003FD64(0x112, ((M2C_UNK *)&D_80083498.next));
     if (object != NULL) {
         state = object + 0x20;
         st = (S_80173140_1 *)state;
@@ -84,7 +84,7 @@ void func_80173140(void) {
         st->unk_13 = 2;
         func_8004491C(object, func_80045340);
         object_attrs = ((S_80173140_0 *)object)->unk_08;
-        ((S_80173140_2 *)object_attrs)->unk_0A = (u16) ((S_80173140_5 *)((*(void * *)&((EntityRec *)(&D_80083498))->z)))->unk_0A;
+        ((S_80173140_2 *)object_attrs)->unk_0A = (u16) ((S_80173140_5 *)((*(void * *)&((EntityRec *)(((M2C_UNK *)&D_80083498.next)))->z)))->unk_0A;
         sprite = ((S_80173140_0 *)object)->unk_0C;
         origin_x = D_80082E80.tileX;
         ((S_80173140_4 *)sprite)->unk_24 = (u8) (origin_x - 1);

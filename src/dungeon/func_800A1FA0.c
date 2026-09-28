@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 
 typedef s32 M2C_UNK;
 
@@ -20,7 +21,6 @@ typedef struct DungeonDescriptor {
     u32 fieldB8;
 } DungeonDescriptor;
 
-extern u8 D_80083498[];
 extern M2C_UNK D_800A7548;
 extern DungeonDescriptor *func_800A8608(u8 *, s32 *, s32, s32, s32);
 
@@ -29,7 +29,7 @@ DungeonDescriptor *func_800A7700(s32 tile_x, s32 tile_y, s32 z, s32 *init_data) 
     DungeonDescriptor *descriptor;
     DungeonInner *inner;
 
-    descriptor = func_800A8608(D_80083498, init_data, 0, 0, 0);
+    descriptor = func_800A8608(((u8 *)(&D_80083498)), init_data, 0, 0, 0);
     if (descriptor == 0) {
         return 0;
     }

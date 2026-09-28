@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
@@ -55,7 +56,6 @@ M2C_UNK func_800A48F0();
 s32 func_800A6D30();
 M2C_UNK func_800A9C18();
 M2C_UNK func_800AA36C();
-extern M2C_UNK D_80083498;
 extern M2C_UNK D_8015EAA4;
 extern M2C_UNK D_8015EF68;
 extern M2C_UNK D_80161FB8;
@@ -101,7 +101,7 @@ void *BODY_NAME(s16 arg0, s16 arg1, s16 arg2, s16 arg3) {
     saved_arg1 = arg1;
     saved_arg3 = arg3;
     saved_arg2 = arg2;
-    temp_v0 = func_8003FD64(0x112, &D_80083498);
+    temp_v0 = func_8003FD64(0x112, ((M2C_UNK *)&D_80083498.next));
     if (temp_v0 == NULL) {
         goto done;
     }

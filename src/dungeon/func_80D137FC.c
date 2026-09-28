@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -113,7 +114,6 @@ M2C_UNK func_8009C12C(); /* extern */
 M2C_UNK func_800A4ACC();                      /* extern */
 M2C_UNK func_800A56E0();                     /* extern */
 void func_800AD594(void *, s32);  /* extern */
-extern M2C_UNK D_80083498;
 extern s8 D_800DCECC[];
 extern Packed32 D_80170838;
 extern M2C_UNK D_80170874;
@@ -226,7 +226,7 @@ emit:
         spawn_count = 0;
         screen_pos = (M2C_UNK *)&effect_work.out18;
         do {
-            effect = func_8003FD64(0x112, &D_80083498);
+            effect = func_8003FD64(0x112, ((M2C_UNK *)&D_80083498.next));
             effect_data = effect + 0x20;
             if (effect != NULL) {
                 ((S_80172FFC_4 *)effect_data)->unk_96 = 0x19;

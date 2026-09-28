@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_800D6DC0_arg1.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern u8 D_80083498[];
 void *func_8003FD64(s32, void *);       /* extern */
 void func_8004491C(void *, void *, void *, void *); /* extern */
 s32 func_800644B8(s32);                           /* extern */
@@ -107,7 +107,7 @@ void func_800D6DC0(void *unused, Rec_func_800D6DC0_arg1 *origin, void *render_te
     direction_table = (u8 *)&D_800E23D8;
     end_angle = 0x200;
     do {
-        effect = func_8003FD64(0x112, D_80083498);
+        effect = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
         effect_state = effect + 0x20;
         if (effect != NULL) {
             copy_src = render_template;

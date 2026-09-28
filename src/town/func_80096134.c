@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 
 
 typedef struct {
@@ -39,7 +40,6 @@ extern s32 func_800A0608(void);
 extern s32 func_800B28A0(void);
 
 extern u8 D_80010980[];
-extern u8 D_80083498[];
 extern u8 D_80088C0C[];
 extern u8 D_80088C48[];
 extern u8 D_80088C8C[];
@@ -96,7 +96,7 @@ void func_80093894(void) {
     s32 is_available;
     s32 mode;
 
-    data = D_80083498;
+    data = ((u8 *)(&D_80083498));
     object = data + 0x20;
     context = D_80110EB8;
     position = ((S_80093894_0 *)data)->unk_08;

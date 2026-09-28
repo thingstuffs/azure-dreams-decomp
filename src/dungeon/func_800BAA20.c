@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/record_ptrs.h"
 
-extern s32 D_80083498;
 extern s16 D_800DCED4[];
 
 extern s32 func_800429E4(void *);
@@ -16,7 +16,7 @@ s32 func_800C0180(void)
     u8 *object_page;
     s16 *height_table;
 
-    if (func_800C07AC(&D_80083498) == 0) {
+    if (func_800C07AC(((s32 *)&D_80083498.next)) == 0) {
         return 0;
     }
 

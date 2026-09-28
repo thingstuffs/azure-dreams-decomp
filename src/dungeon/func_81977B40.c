@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 
 #ifndef NULL
 #define NULL 0
@@ -33,7 +34,6 @@ extern s32 rand();
 
 extern u8 D_80024D84[9];
 extern u8 D_800251E8[9];
-extern u8 D_80083498[9];
 
 /* Creates an object with 30 randomized entries spread across six angular directions. */
 void func_81977B40(void *source_data)
@@ -48,7 +48,7 @@ void func_81977B40(void *source_data)
     u8 *object_data;
 
     cursor = source_data;
-    object = func_8003FD64(0x212, D_80083498);
+    object = func_8003FD64(0x212, ((u8 *)(&D_80083498)));
     entry_index = 0;
     if (object != NULL) {
         do { ((S_81977B40_0 *)object)->unk_10 = D_800251E8; } while (0);

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/entity_objects.h"
 #include "m2c_compat.h"
 
@@ -8,7 +9,6 @@ M2C_UNK func_8004491C();           /* extern */
 M2C_UNK func_800A56E0();                     /* extern */
 M2C_UNK func_800BB2E4(); /* extern */
 M2C_UNK func_800C77D0(); /* extern */
-extern M2C_UNK D_80083498;
 extern M2C_UNK D_800BB55C;
 extern M2C_UNK D_800BBA20;
 extern M2C_UNK D_800DF3C0;
@@ -67,7 +67,7 @@ void *func_800BBA40(s32 tile_x, s32 tile_y, s32 pos_z, M2C_UNK transform_data, s
     call_data[0] = 0x01000340;
     call_data[1] = 0x01000080;
     func_800BB2E4(0, 0, call_data, 1, 0);
-    effect = func_8003FD64(0x12, &D_80083498);
+    effect = func_8003FD64(0x12, ((M2C_UNK *)&D_80083498.next));
     if (effect != NULL) {
         s32 angle_index;
         void *setup_cursor;
@@ -102,7 +102,7 @@ void *func_800BBA40(s32 tile_x, s32 tile_y, s32 pos_z, M2C_UNK transform_data, s
             angle_index += 1;
             setup_cursor += 2;
         } if (angle_index < 5) goto loop_0;
-        func_800C77D0(&D_80083498, &D_80083780.x.v, 8, 0x300);
+        func_800C77D0(((M2C_UNK *)&D_80083498.next), &D_80083780.x.v, 8, 0x300);
     }
     return effect;
 }

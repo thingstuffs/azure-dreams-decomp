@@ -3,7 +3,6 @@
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
-#include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
 
 typedef struct S_80172C10_0 {

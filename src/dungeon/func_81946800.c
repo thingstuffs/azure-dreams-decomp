@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/slus_callbacks.h"
@@ -32,7 +33,6 @@ extern void func_80047784(void *, u8, s32);
 extern s32 func_80053EF0(s32, void *);
 extern void func_800A56E0(s32);
 extern s32 D_80024374;
-extern u8 D_80083498[];
 #ifdef __mips__
 void func_81946800(void *action_in, void *saved_position) __asm__("func_81946800_body")
     __attribute__((section(".text.func_81946800")));
@@ -101,7 +101,7 @@ void func_81946800(void *action, void *saved_position)
   *((u16 *) (((u8 *) action) + 0x50)) = 10;
   (*((u16 *) (((u8 *) shared_data) + 0xA6)))--;
   *((u8 *) (((u8 *) shared_data) + 0xA8)) = *((u8 *) (((u8 *) action) + 8));
-  effect = func_8003FD64(0x312, D_80083498);
+  effect = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
   if (effect != 0)
   {
     offset_part = *((void **) (((u8 *) owner) + 0xC));

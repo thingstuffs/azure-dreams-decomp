@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 extern u8 D_80151168[];
 
@@ -93,7 +94,6 @@ extern void func_80047784(void *, s32, s32);
 extern void func_800478E8(void *, void *, s32);
 
 extern s16 D_80083228;
-extern u8 D_80083498[];
 extern u8 D_800D71A8[];
 extern u8 D_800D78C0[];
 extern u8 D_8014CBF8[];
@@ -118,13 +118,13 @@ void *func_8014C8DC(s32 kind, s32 part_x, s32 part_y, s32 init_value)
     void *part;
     void *allocated;
     s32 allocation_size;
-    void *allocation_pool;
+    ObjectNodeHeader *allocation_pool;
 
     saved_kind = kind;
     object = 0;
     allocation_size = 0x112;
     saved_part_x = part_x;
-    allocation_pool = D_80083498;
+    allocation_pool = &D_80083498;
 
     saved_init_value = init_value;
     saved_part_y = part_y;
@@ -213,7 +213,7 @@ flags_done:
 
     do {
 
-        saved_init_value = (s32)func_8003FD64(0x112, D_80083498);
+        saved_init_value = (s32)func_8003FD64(0x112, ((u8 *)(&D_80083498)));
         allocated = (void *)saved_init_value;
         ((S_8014C8DC_5 *)outer)->unk_A4 = allocated;
         if (allocated != 0) {

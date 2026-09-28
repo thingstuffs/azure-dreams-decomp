@@ -1,8 +1,8 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
 typedef s32 M2C_UNK;
-extern u8 D_80083498[];
 struct TargetVec;
 extern struct TargetVec *D_80026208[];
 void *func_8003FD64();
@@ -58,7 +58,7 @@ void func_81977FB8(void)
   s32 height_quotient;
   TargetSub *motion;
   TargetObj *obj;
-  obj = func_8003FD64(0x212, D_80083498);
+  obj = func_8003FD64(0x212, ((u8 *)(&D_80083498)));
   if (obj != 0)
   {
     motion = &obj->sub;

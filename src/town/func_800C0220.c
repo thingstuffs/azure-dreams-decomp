@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
 void func_8003DB94(void *, void *, s32, void *);
 void *func_8003FD64(s32, void *);
 void func_8004491C(void *, void *);
-extern M2C_UNK D_80083498;
 extern M2C_UNK D_800BD688;
 extern M2C_UNK D_800BD898;
 extern M2C_UNK D_800E9E14;
@@ -55,7 +55,7 @@ s32 event_tori_in(void *source) {
 
     source_data = source;
     child_slot = NULL;
-    object = func_8003FD64(0x202, &D_80083498);
+    object = func_8003FD64(0x202, ((M2C_UNK *)&D_80083498.next));
     if (object != NULL) {
         child_slot = object + 0x20;
         (*(M2C_UNK **)((u8 *)object + 0x10)) = &D_800BD688;
@@ -67,7 +67,7 @@ s32 event_tori_in(void *source) {
     x_step = 0x300000;
     child_slot = child_slot + 4;
     do {
-        object = func_8003FD64(0x312, &D_80083498);
+        object = func_8003FD64(0x312, ((M2C_UNK *)&D_80083498.next));
         if (object != NULL) {
             s32 motion_base = 0;
             s32 color;

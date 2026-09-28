@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 
 void *func_8003FD64();            /* extern */
 s32 func_800644B8();                             /* extern */
 s32 func_80064584();                             /* extern */
-extern M2C_UNK D_80083498;
 extern M2C_UNK D_800BB894;
 
 typedef struct Copy24 {
@@ -58,7 +58,7 @@ s32 func_800BB798(S_800BB798_0 *spawn_data, s16 state_48, s16 state_4a) {
 
     component = radius * trig_factor;
     spawn_data->unk_10 = component;
-    object = func_8003FD64(0x312, &D_80083498);
+    object = func_8003FD64(0x312, ((M2C_UNK *)&D_80083498.next));
     if (object != NULL) {
         object_data = ((S_800BB798_2 *)object)->unk_08;
         ((S_800BB798_2 *)object)->unk_10 = &D_800BB894;

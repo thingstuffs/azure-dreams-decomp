@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
 typedef struct S_80170BB0_0 {
@@ -55,7 +56,6 @@ extern void func_800A48F0(void *, s32, s32);
 extern void func_800A9C18(void *, void *, void *, s16);
 extern void func_800AA36C(void *, void *, void *, void *);
 
-extern u8 D_80083498[16];
 extern u8 D_80170DA8[16];
 extern u8 D_801714D4[16];
 extern u8 D_801740E0[16];
@@ -74,7 +74,7 @@ void *func_80170BB0(s16 arg0, s16 arg1, s16 arg2, s32 arg3)
     S_80170BB0_4 *actor2;
 
     actor = 0;
-    object = func_8003FD64(0x112, D_80083498);
+    object = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
     if (object != 0) {
         actor = object;
         actor = (S_80170BB0_1 *)((u8 *)actor + 0x20);
