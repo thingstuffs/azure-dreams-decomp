@@ -342,5 +342,10 @@
   "dungeon/func_8009BEB8",
   "town/func_8009CC44",
   "dungeon/func_80DE48EC"
+ ],
+ "r78_opus_rx1": [
+  "dungeon/func_80921B2C",
+  "dungeon/func_800A6018",
+  "dungeon/func_80DE48EC"
  ]
 }
