@@ -127,19 +127,10 @@ void func_8003D0F0(void)
         RotTransSV(scratch + 0x80, prim + 0x18, transform_flag);
         RotTransSV(scratch + 0x88, prim + 0x20, transform_flag);
 
-        {
-            s32 uv_value = U32_AT(scratch, 0x10);
-            register s32 u_start ASM_REG("$4") = U32_AT(scratch, 0x08);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-            register s32 v_end ASM_REG("$3") = U32_AT(scratch, 0x14);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-            register s32 v_start ASM_REG("$5") = U32_AT(scratch, 0x0C);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-            uv_value += u_start;
-            v_end += v_start;
-            U32_AT(scratch, 0x10) = uv_value;
-            uv_value = v_start;
-            ASM_KEEP_NV(uv_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            U32_AT(scratch, 0x14) = v_end << 8;
-            U32_AT(scratch, 0x0C) = uv_value << 8;
-        }
+        U32_AT(scratch, 0x10) += U32_AT(scratch, 0x08);
+        U32_AT(scratch, 0x14) =
+            (U32_AT(scratch, 0x14) + U32_AT(scratch, 0x0C)) << 8;
+        U32_AT(scratch, 0x0C) <<= 8;
 
         U16_AT((prim + 4), 0x0A) = U16_AT((sprite + 4), 2);
         S16_AT((prim + 4), 0x08) = U16_AT(scratch, 0x0C) + U16_AT(scratch, 0x08);

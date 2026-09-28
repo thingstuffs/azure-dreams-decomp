@@ -19,22 +19,19 @@ typedef struct S_819602D8_0 {
 } S_819602D8_0;   /* temp_v0 in func_819602D8 */
 
 /* Sample a 7 by 7 area around the given tile and flag the tiles found there. */
-void func_819602D8(s16 center_x, s32 center_y) {
-    register s16 *width_info ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    volatile union {
-        u16 h;
-        u8 b;
-    } saved_center_x;
-    s32 tile_x;
-    register s32 signed_y ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+void func_819602D8(u16 center_x, s32 center_y) {
+    s16 *width_ref = (s16 *)&gameWork.unk_1DC;
+    s16 *height_ref = D_8008333C_second;
+    s32 one = 1;
+    s16 tile_x;
+    s32 signed_y;
     s32 tile_y;
     u8 *sample_row;
     s32 world_y;
     s32 sample_y;
-    register u16 *sample_ptr ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register u32 col ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    u16 *sample_ptr;
+    u32 col;
     u32 row;
-    u8 *store_page;
     s32 sample_x;
     s32 tile_sample;
     void *map;
@@ -45,100 +42,69 @@ void func_819602D8(s16 center_x, s32 center_y) {
     tile_y = center_y - 3;
     row = 0;
     sample_row = D_800273CC;
-    store_page = (u8 *)0x80020000;
-    saved_center_x.h = center_x;
-    {
-        width_info = (s16 *)(saved_center_x.b);
-        ASM_KEEP4_NV(store_page, row, tile_y, sample_row);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        store_page[0x744C] = (u32)width_info;
-    }
+    *D_8002744C = center_x;
     *D_8002744D = center_y;
-row_loop:
-    {
-        register u16 row_center_x ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        row_center_x = saved_center_x.h;
+    do {
+        tile_x = center_x - 3;
         col = 0;
         tile_sample = tile_y << 16;
         signed_y = tile_sample >> 16;
         world_y = signed_y;
         world_y <<= 6;
         sample_y = world_y + 0x20;
-        ASM_KEEP_NV(world_y);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         sample_ptr = (u16 *)sample_row;
-        tile_x = row_center_x - 3;
-    }
-    ASM_USE2_NV(world_y, tile_y);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-do {
-    tile_sample = func_800BCA68((tile_x << 6) & 0xFFC0, world_y);
-    map = ((u8 *)D_800E3D7C);
-    *sample_ptr = 0 - tile_sample;
-    tile = func_8009B4B0(map, tile_x, tile_y);
-    if ((tile != NULL) && (tile != D_8002732C)) {
-        tile->unk_14 = (s32)(tile->unk_14 | 0x100000);
-    }
-    sample_x = (s16)tile_x;
-    if (sample_x < 0) {
-        goto bounds_fail;
-    }
-    {
-        s32 width_check;
-        {
-            width_info = (s16 *)((u8 *)(&gameWork.unk_1DC));
-            width_check = width_info[10];
-            ASM_USE_NV(width_info);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        }
-        {
-            width_info = (s16 *)((u32)(1));
-            width_check = (s32)(u32)width_info << width_check;
-        }
-        width_check = sample_x < width_check;
-        if (!width_check) {
-            goto bounds_fail;
-        }
-    }
-    if (signed_y < 0) {
-        goto bounds_fail;
-    }
-    {
-        s32 height_check;
-        {
-            width_info = D_8008333C_second;
-            height_check = width_info[11];
-            ASM_USE_NV(width_info);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        }
-        {
-            width_info = (s16 *)((u32)(1));
-            height_check = (s32)(u32)width_info << height_check;
-        }
-        height_check = signed_y < height_check;
-        if (height_check) {
-            goto bounds_ok;
-        }
-    }
-bounds_fail:
-    output_value = 0;
-    goto store_output;
-bounds_ok:
-    sample_x <<= 6;
-    sample_x += 0x20;
-    sample_x &= 0xFFE0;
-    output_value = func_80025D30(sample_x, sample_y & 0xFFFF, -0x400);
-store_output:
-    tile_sample = (u32)&D_800274DC[0][0];
-    output_row = (u32)tile_sample;
-    output_row += row << 5;
-    ((s32 *)output_row)[col] = output_value;
-    sample_ptr += 1;
-    col += 1;
-    tile_x += 1;
-    if (col >= 7U) {
+        do {
+            tile_sample = func_800BCA68((tile_x << 6) & 0xFFC0, world_y);
+            map = ((u8 *)D_800E3D7C);
+            *sample_ptr = 0 - tile_sample;
+            tile = func_8009B4B0(map, tile_x, tile_y);
+            if ((tile != NULL) && (tile != D_8002732C)) {
+                tile->unk_14 = (s32)(tile->unk_14 | 0x100000);
+            }
+            sample_x = (s16)tile_x;
+            if (sample_x < 0) {
+                goto bounds_fail;
+            }
+            {
+                s32 width_check;
+                width_check = width_ref[10];
+                width_check = one << width_check;
+                width_check = sample_x < width_check;
+                if (!width_check) {
+                    goto bounds_fail;
+                }
+            }
+            if (signed_y < 0) {
+                goto bounds_fail;
+            }
+            {
+                s32 height_check;
+                height_check = height_ref[11];
+                height_check = one << height_check;
+                height_check = signed_y < height_check;
+                if (height_check) {
+                    goto bounds_ok;
+                }
+            }
+        bounds_fail:
+            output_value = 0;
+            goto store_output;
+        bounds_ok:
+            sample_x <<= 6;
+            sample_x += 0x20;
+            sample_x &= 0xFFE0;
+            output_value = func_80025D30(sample_x, sample_y & 0xFFFF, -0x400);
+        store_output:
+            tile_sample = (u32)&D_800274DC[0][0];
+            output_row = (u32)tile_sample;
+            output_row += row << 5;
+            ((s32 *)output_row)[col] = output_value;
+            sample_ptr += 1;
+            col += 1;
+            tile_x += 1;
+        } while (col < 7U);
         sample_row += 16;
         row += 1;
         tile_y += 1;
-        if (row >= 7U) {
-            return;
-        }
-        goto row_loop;
-    }
-    } while (1);
+    } while (row < 7U);
 }
