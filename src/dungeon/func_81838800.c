@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 extern int abs(int);
 
 #define HI16(v) (((s16 *)&(v))[1])
@@ -112,8 +113,6 @@ extern void func_80044A50(void *);
 extern u8 D_80024008[];
 extern u8 D_80024B58[];
 extern u8 D_800248F8[];
-extern u8 D_8006CCD8[];
-extern u8 D_8006CCE8[];
 extern u8 D_80083498[];
 extern s32 D_8008346C[];
 extern s32 D_800814A0[3];
@@ -172,7 +171,7 @@ void FUNC_80024000_BODY(S_func_81838800_1 *effect, S_func_81838800_2 *motion, S_
         &&launch, &&wait_launch, &&travel, &&impact, &&stop_motion, &&cleanup
     };
 
-    register u8 *direction_x ASM_REG("$4") = D_8006CCD8;   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    register u8 *direction_x ASM_REG("$4") = ((u8 *)dirStepX);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     s16 direction_offset;
     caster = effect->unk_00;
     target = (S_func_81838800_4 *)caster->unk_2A.u;
@@ -181,7 +180,7 @@ void FUNC_80024000_BODY(S_func_81838800_1 *effect, S_func_81838800_2 *motion, S_
     direction_offset = ((u32)target) >> 8;
     direction_offset &= 0xE;
     step_x = *(s16 *)(direction_x + direction_offset);
-    step_y = *(s16 *)(D_8006CCE8 + direction_offset);
+    step_y = *(s16 *)(((u8 *)dirStepY) + direction_offset);
 
     if ((u32)(effect->unk_0A.u - 1) < 3) {
         index_or_x = 9;

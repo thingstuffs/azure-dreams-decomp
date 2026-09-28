@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_800814A8.h"
@@ -99,7 +100,6 @@ extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern s8 D_80082EA4;
 extern s16 D_80083228;
-extern u16 D_80083462;
 extern u8 D_80083498[];
 extern u8 D_800D79B0[];
 extern u8 D_800DEA68[];
@@ -127,7 +127,7 @@ void func_80170E54(void *arg0, void *arg1, void *arg2, void *arg3)
     u8 *table;
     u8 *high_table; /* MATCH: both table-selection paths feed the shared tail in a1. */
 
-    if (D_80083462 & 0x1000) {
+    if (dungeonStatus.flags & 0x1000) {
         ((Rec_func_800A9E70_arg0 *)arg0)->unk_9A.as_u8 = 0xE;
         func_80171570(arg0, arg1);
         return;
@@ -164,7 +164,7 @@ void func_80170E54(void *arg0, void *arg1, void *arg2, void *arg3)
         }
     }
 
-    if (!(D_80083462 & 0x2000)) {
+    if (!(dungeonStatus.flags & 0x2000)) {
         if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 & 0x100) {
             func_800AA258(arg0, arg1, arg2, arg3);
             return;
@@ -215,7 +215,7 @@ normal_state:
             goto generic;
         }
         if (!(((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v & 0x8000)) {
-            if (D_80083462 & 0x2000) {
+            if (dungeonStatus.flags & 0x2000) {
                 if ((func_8009A180(arg3,
                         (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) << 16) != 0) {
                     return;
@@ -304,7 +304,7 @@ generic:
         }
     }
 
-    if (D_80083462 & 0x2000) {
+    if (dungeonStatus.flags & 0x2000) {
         return;
     }
     if (((S_80170E54_2 *)arg2)->unk_14 & 0x40) {

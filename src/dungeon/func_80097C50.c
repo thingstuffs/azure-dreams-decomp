@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "m2c_compat.h"
 
 typedef struct {
@@ -17,8 +18,6 @@ extern struct S_8003E2D8 D_80083160;
 extern u8 D_80082E80[];
 extern s8 D_800E2970[];
 extern u8 D_800E50A8[];
-extern u8 D_8006CCD8[];
-extern u8 D_8006CCE8[];
 extern void func_800672D8(void *, u8 *);
 extern u8 D_80088CB0;
 extern u8 D_800EA000[];
@@ -179,8 +178,8 @@ advance_y:
         u8 *map;
         x_end_or_neighbor = 7;
         position = status_base;
-        x_offsets = D_8006CCD8;
-        y_offsets = D_8006CCE8;
+        x_offsets = ((u8 *)dirStepX);
+        y_offsets = ((u8 *)dirStepY);
         grid = D_800EA000;
         map = D_800E50A8;
 scan_neighbor:

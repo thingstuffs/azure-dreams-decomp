@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 extern int D_800814A0;
-extern u16 D_80083460[];
 
 /* Decrements an entity's countdown and finalizes it when the countdown expires. */
 void func_800C1EC4(u16 *entity) {
@@ -15,6 +15,6 @@ void func_800C1EC4(u16 *entity) {
         destination[0x88 / 2] = entity[4];
         entity[-1] |= 0x8000;
         D_800814A0 |= 0x8000;
-        D_80083460[5]--;
+        dungeonStatus.unk_0A--;
     }
 }

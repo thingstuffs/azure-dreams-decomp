@@ -1,10 +1,9 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 extern s32 rand(void);
 extern s16 func_800BCB04(u16, u16, s16);
 extern s16 D_80025914;
-extern s16 D_8006CCD8[];
-extern s16 D_8006CCE8[];
 extern s32 D_800814A0[];
 
 /* Applies randomized movement and reduces speed, setting flags when speed runs out. */
@@ -17,11 +16,11 @@ void func_8181AE04(void *object_data, s16 *position)
 
     D_80025914 = 1;
     if (position[5] < func_800BCB04((u16)position[1], (u16)position[3], position[5] + 2)) {
-        delta_x = ((D_8006CCD8[object[10]] * object[25]) << 10) +
+        delta_x = ((dirStepX[object[10]] * object[25]) << 10) +
             (rand() & 0xFFFF);
         ((s32 *)position)[0] += delta_x;
 
-        delta_y = ((D_8006CCE8[object[10]] * object[25]) << 10) +
+        delta_y = ((dirStepY[object[10]] * object[25]) << 10) +
             (rand() & 0xFFFF);
         ((s32 *)position)[1] += delta_y;
         ((s32 *)position)[2] += 0x20000 + (rand() & 0xFFF);

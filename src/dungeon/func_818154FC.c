@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -167,8 +168,6 @@ extern u8 D_800DEC00[];
 extern s16 D_80025338[5];
 extern s32 D_8008346C[];
 extern s32 D_800814A0[3];
-extern u16 D_8006CCD8[];
-extern u16 D_8006CCE8[];
 s32 func_8003DF74(s32, void *, Offset *, s32);     /* extern */
 u8 *func_8003FC64();   /* extern */
 M2C_UNK func_800A56E0();                     /* extern */
@@ -300,7 +299,7 @@ spawn_effects:
             ((S_818154FC_7 *)work)->unk_16 = ((S_818154FC_0 *)effect)->unk_7E.u;
 
             {
-                u8 *table_base = (u8 *)D_8006CCD8;
+                u8 *table_base = (u8 *)dirStepX;
 
                 index = ((S_818154FC_0 *)effect)->unk_7E.s * 2;
                 map = ((S_818154FC_3_pre *)parent)[-1].unk_00;
@@ -308,7 +307,7 @@ spawn_effects:
                     ((S_818154FC_8 *)map)->unk_24 + table_base[index];
             }
             {
-                u8 *table_base = (u8 *)D_8006CCE8;
+                u8 *table_base = (u8 *)dirStepY;
 
                 index = ((S_818154FC_0 *)effect)->unk_7E.s * 2;
                 ((S_818154FC_0 *)effect)->unk_A9 =

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 typedef struct {
     s16 x;
@@ -28,8 +29,6 @@ typedef struct {
     u8 pad0C[8];
 } Room;
 
-extern s16 D_8006CCD8[];
-extern s16 D_8006CCE8[];
 extern s32 D_8001F660;
 extern DungeonState D_8008333C;
 extern Room D_800E2970[];
@@ -100,11 +99,11 @@ s32 func_8001AC4C(s16 src_dir, s16 dest_dir, s16 src_idx, s16 dest_idx, u8 *room
     start.y = src_room->y + src_offset_y;
     start.dir = src_dir;
     if (D_800E2970[src_idx].active) {
-        start.x = start.x + D_8006CCD8[travel_dir];
-        start.y = start.y + D_8006CCE8[travel_dir];
+        start.x = start.x + dirStepX[travel_dir];
+        start.y = start.y + dirStepY[travel_dir];
     }
-    cursor_x = (s16)(src_idx % D_8001F660) + D_8006CCD8[travel_dir];
-    cursor_y = (s16)(src_idx / D_8001F660) + D_8006CCE8[travel_dir];
+    cursor_x = (s16)(src_idx % D_8001F660) + dirStepX[travel_dir];
+    cursor_y = (s16)(src_idx / D_8001F660) + dirStepY[travel_dir];
     dest_grid_x = dest_idx % D_8001F660;
     dest_grid_y = dest_idx / D_8001F660;
     for (;;) {
@@ -116,15 +115,15 @@ s32 func_8001AC4C(s16 src_dir, s16 dest_dir, s16 src_idx, s16 dest_idx, u8 *room
                 end.x = dest_room->x;
                 end.y = dest_room->y;
             }
-            end.x = end.x - D_8006CCD8[dest_dir];
-            end.y = end.y - D_8006CCE8[dest_dir];
+            end.x = end.x - dirStepX[dest_dir];
+            end.y = end.y - dirStepY[dest_dir];
             path_length += func_8001C06C(&start, &end, 1, &join_x, &join_y);
-            start.x = start.x + D_8006CCD8[(travel_dir + 2) & 7];
-            start.y = start.y + D_8006CCE8[(travel_dir + 2) & 7];
-            end.x = end.x + D_8006CCD8[(dest_dir + 2) & 7];
-            end.y = end.y + D_8006CCE8[(dest_dir + 2) & 7];
-            join_x = join_x - D_8006CCD8[travel_dir];
-            join_y = join_y - D_8006CCE8[travel_dir];
+            start.x = start.x + dirStepX[(travel_dir + 2) & 7];
+            start.y = start.y + dirStepY[(travel_dir + 2) & 7];
+            end.x = end.x + dirStepX[(dest_dir + 2) & 7];
+            end.y = end.y + dirStepY[(dest_dir + 2) & 7];
+            join_x = join_x - dirStepX[travel_dir];
+            join_y = join_y - dirStepY[travel_dir];
             func_8001C06C(&start, &end, 0, &join_x, &join_y);
             break;
         }
@@ -134,14 +133,14 @@ s32 func_8001AC4C(s16 src_dir, s16 dest_dir, s16 src_idx, s16 dest_idx, u8 *room
         end.y = D_800E2970[room_idx].y;
         path_length += func_8001C06C(&start, &end, 1, &join_x, &join_y);
         side_start = start;
-        side_start.x = side_start.x + D_8006CCD8[(travel_dir + 2) & 7];
-        side_start.y = side_start.y + D_8006CCE8[(travel_dir + 2) & 7];
-        join_x = join_x - D_8006CCD8[travel_dir];
-        join_y = join_y - D_8006CCE8[travel_dir];
+        side_start.x = side_start.x + dirStepX[(travel_dir + 2) & 7];
+        side_start.y = side_start.y + dirStepY[(travel_dir + 2) & 7];
+        join_x = join_x - dirStepX[travel_dir];
+        join_y = join_y - dirStepY[travel_dir];
         func_8001C06C(&side_start, &end, 0, &join_x, &join_y);
         start.x = end.x;
         start.y = end.y;
-        if (D_8006CCD8[travel_dir] != 0) {
+        if (dirStepX[travel_dir] != 0) {
             if (cursor_x == dest_grid_x) {
                 start.dir = (func_800A07D0(cursor_x, cursor_y, dest_grid_x, dest_grid_y) >> 9) & 6;
             }
@@ -150,8 +149,8 @@ s32 func_8001AC4C(s16 src_dir, s16 dest_dir, s16 src_idx, s16 dest_idx, u8 *room
                 start.dir = (func_800A07D0(cursor_x, cursor_y, dest_grid_x, dest_grid_y) >> 9) & 6;
             }
         }
-        cursor_x = cursor_x + D_8006CCD8[start.dir];
-        cursor_y = cursor_y + D_8006CCE8[start.dir];
+        cursor_x = cursor_x + dirStepX[start.dir];
+        cursor_y = cursor_y + dirStepY[start.dir];
         travel_dir = start.dir;
     }
 
@@ -160,7 +159,7 @@ s32 func_8001AC4C(s16 src_dir, s16 dest_dir, s16 src_idx, s16 dest_idx, u8 *room
     src_x = src_room->x + src_offset_x;
     src_y = src_room->y + src_offset_y;
     edge_cell = &D_800EA000[(src_y << dungeon->stride) + src_x];
-    inner_cell = &D_800EA000[((src_y + D_8006CCE8[back_dir]) << dungeon->stride) + src_x + D_8006CCD8[back_dir]];
+    inner_cell = &D_800EA000[((src_y + dirStepY[back_dir]) << dungeon->stride) + src_x + dirStepX[back_dir]];
     dest_x = dest_room->x + dest_offset_x;
     dest_y = dest_room->y + dest_offset_y;
     if (func_8001CE14(edge_cell->kind, 15, 18)) {
@@ -177,10 +176,10 @@ s32 func_8001AC4C(s16 src_dir, s16 dest_dir, s16 src_idx, s16 dest_idx, u8 *room
         inner_cell->value = inner_cell->value + 96;
     }
 
-    cursor_x = src_x + D_8006CCD8[(travel_dir + 2) & 7];
-    cursor_y = src_y + D_8006CCE8[(travel_dir + 2) & 7];
+    cursor_x = src_x + dirStepX[(travel_dir + 2) & 7];
+    cursor_y = src_y + dirStepY[(travel_dir + 2) & 7];
     edge_cell = &D_800EA000[(cursor_y << dungeon->stride) + cursor_x];
-    inner_cell = &D_800EA000[((cursor_y + D_8006CCE8[back_dir]) << dungeon->stride) + cursor_x + D_8006CCD8[back_dir]];
+    inner_cell = &D_800EA000[((cursor_y + dirStepY[back_dir]) << dungeon->stride) + cursor_x + dirStepX[back_dir]];
     if (func_8001CE14(edge_cell->kind, 15, 18)) {
         edge_cell->kind = (inner_cell->flags >> 1) + (travel_dir / 2) * 5 + 79;
         edge_cell->value = inner_cell->value - ((inner_cell->flags & 1) << 5);
@@ -200,8 +199,8 @@ s32 func_8001AC4C(s16 src_dir, s16 dest_dir, s16 src_idx, s16 dest_idx, u8 *room
         cursor_x = dest_x;
         cursor_y = dest_y;
         edge_cell = &D_800EA000[(cursor_y << dungeon->stride) + cursor_x];
-        cursor_x = cursor_x + D_8006CCD8[dest_dir];
-        cursor_y = cursor_y + D_8006CCE8[dest_dir];
+        cursor_x = cursor_x + dirStepX[dest_dir];
+        cursor_y = cursor_y + dirStepY[dest_dir];
         inner_cell = &D_800EA000[(cursor_y << dungeon->stride) + cursor_x];
         entry_dir = (dest_dir + 4) & 6;
         if (func_8001CE14(edge_cell->kind, 15, 18)) {
@@ -218,10 +217,10 @@ s32 func_8001AC4C(s16 src_dir, s16 dest_dir, s16 src_idx, s16 dest_idx, u8 *room
             inner_cell->value = inner_cell->value + 96;
         }
 
-        cursor_x = dest_x + D_8006CCD8[(entry_dir - 2) & 7];
-        cursor_y = dest_y + D_8006CCE8[(entry_dir - 2) & 7];
+        cursor_x = dest_x + dirStepX[(entry_dir - 2) & 7];
+        cursor_y = dest_y + dirStepY[(entry_dir - 2) & 7];
         edge_cell = &D_800EA000[(cursor_y << dungeon->stride) + cursor_x];
-        inner_cell = &D_800EA000[((cursor_y + D_8006CCE8[back_dir]) << dungeon->stride) + cursor_x + D_8006CCD8[back_dir]];
+        inner_cell = &D_800EA000[((cursor_y + dirStepY[back_dir]) << dungeon->stride) + cursor_x + dirStepX[back_dir]];
         if (func_8001CE14(edge_cell->kind, 15, 18)) {
             edge_cell->kind = (inner_cell->flags >> 1) + (entry_dir / 2) * 5 + 79;
             edge_cell->value = inner_cell->value - ((inner_cell->flags & 1) << 5);
@@ -268,11 +267,11 @@ s32 func_8001AC4C(s16 src_dir, s16 dest_dir, s16 src_idx, s16 dest_idx, u8 *room
     start.y = src_room->y + src_offset_y;
     start.dir = travel_dir;
     if (D_800E2970[src_idx].active) {
-        start.x = start.x + D_8006CCD8[travel_dir];
-        start.y = start.y + D_8006CCE8[travel_dir];
+        start.x = start.x + dirStepX[travel_dir];
+        start.y = start.y + dirStepY[travel_dir];
     }
-    cursor_x = (s16)(src_idx % D_8001F660) + D_8006CCD8[travel_dir];
-    cursor_y = (s16)(src_idx / D_8001F660) + D_8006CCE8[travel_dir];
+    cursor_x = (s16)(src_idx % D_8001F660) + dirStepX[travel_dir];
+    cursor_y = (s16)(src_idx / D_8001F660) + dirStepY[travel_dir];
     dest_grid_x = dest_idx % D_8001F660;
     dest_grid_y = dest_idx / D_8001F660;
     for (;;) {
@@ -284,17 +283,17 @@ s32 func_8001AC4C(s16 src_dir, s16 dest_dir, s16 src_idx, s16 dest_idx, u8 *room
                 end.x = dest_room->x;
                 end.y = dest_room->y;
             }
-            end.x = end.x - D_8006CCD8[dest_dir];
-            end.y = end.y - D_8006CCE8[dest_dir];
+            end.x = end.x - dirStepX[dest_dir];
+            end.y = end.y - dirStepY[dest_dir];
             if (func_8001C5E4(&start, &end, 1, &join_x, &join_y, main_height, height_step) < 0) {
                 goto failed;
             }
-            start.x = start.x + D_8006CCD8[(travel_dir + 2) & 7];
-            start.y = start.y + D_8006CCE8[(travel_dir + 2) & 7];
-            end.x = end.x + D_8006CCD8[(dest_dir + 2) & 7];
-            end.y = end.y + D_8006CCE8[(dest_dir + 2) & 7];
-            join_x = join_x - D_8006CCD8[travel_dir];
-            join_y = join_y - D_8006CCE8[travel_dir];
+            start.x = start.x + dirStepX[(travel_dir + 2) & 7];
+            start.y = start.y + dirStepY[(travel_dir + 2) & 7];
+            end.x = end.x + dirStepX[(dest_dir + 2) & 7];
+            end.y = end.y + dirStepY[(dest_dir + 2) & 7];
+            join_x = join_x - dirStepX[travel_dir];
+            join_y = join_y - dirStepY[travel_dir];
             if (func_8001C5E4(&start, &end, 0, &join_x, &join_y, side_height, height_step) < 0) {
                 goto failed;
             }
@@ -308,16 +307,16 @@ s32 func_8001AC4C(s16 src_dir, s16 dest_dir, s16 src_idx, s16 dest_idx, u8 *room
             goto failed;
         }
         side_start = start;
-        side_start.x = side_start.x + D_8006CCD8[(travel_dir + 2) & 7];
-        side_start.y = side_start.y + D_8006CCE8[(travel_dir + 2) & 7];
-        join_x = join_x - D_8006CCD8[travel_dir];
-        join_y = join_y - D_8006CCE8[travel_dir];
+        side_start.x = side_start.x + dirStepX[(travel_dir + 2) & 7];
+        side_start.y = side_start.y + dirStepY[(travel_dir + 2) & 7];
+        join_x = join_x - dirStepX[travel_dir];
+        join_y = join_y - dirStepY[travel_dir];
         if (func_8001C5E4(&side_start, &end, 0, &join_x, &join_y, side_height, height_step) < 0) {
             goto failed;
         }
         start.x = end.x;
         start.y = end.y;
-        if (D_8006CCD8[travel_dir] != 0) {
+        if (dirStepX[travel_dir] != 0) {
             if (cursor_x == dest_grid_x) {
                 start.dir = (func_800A07D0(cursor_x, cursor_y, dest_grid_x, dest_grid_y) >> 9) & 6;
             }
@@ -326,8 +325,8 @@ s32 func_8001AC4C(s16 src_dir, s16 dest_dir, s16 src_idx, s16 dest_idx, u8 *room
                 start.dir = (func_800A07D0(cursor_x, cursor_y, dest_grid_x, dest_grid_y) >> 9) & 6;
             }
         }
-        cursor_x = cursor_x + D_8006CCD8[start.dir];
-        cursor_y = cursor_y + D_8006CCE8[start.dir];
+        cursor_x = cursor_x + dirStepX[start.dir];
+        cursor_y = cursor_y + dirStepY[start.dir];
         travel_dir = start.dir;
     }
     return 0;

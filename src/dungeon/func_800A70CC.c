@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_800A9E70_arg0.h"
@@ -9,8 +10,6 @@ typedef struct EarlyCallData {
     s32 value;
 } EarlyCallData;
 
-extern u16 D_8006CCD8[];
-extern u16 D_8006CCE8[];
 extern s16 D_800E3DA8[2];
 s32 func_8003DE58();
 s32 func_8004CAE8(s32, s32);
@@ -122,8 +121,8 @@ update_position:
             state->unk_98 = (u16) (state->unk_98 & 0xFFF7);
             facing = ((S_800AC82C_7 *)((*(void **)((u8 *)actor + 0x60))))->unk_2A;
             (*(u16 *)((u8 *)actor + 0x6A)) = facing;
-            tile->unk_24 = (u8) (parent_data->unk_24 + *(u8 *) &D_8006CCD8[(facing >> 9) & 7]);
-            tile->unk_25 = (u8) (parent_data->unk_25 + *(u8 *) &D_8006CCE8[((u16) (*(u16 *)((u8 *)actor + 0x6A)) >> 9) & 7]);
+            tile->unk_24 = (u8) (parent_data->unk_24 + *(u8 *) &dirStepX[(facing >> 9) & 7]);
+            tile->unk_25 = (u8) (parent_data->unk_25 + *(u8 *) &dirStepY[((u16) (*(u16 *)((u8 *)actor + 0x6A)) >> 9) & 7]);
             func_800A2B04(position, tile->unk_24, tile->unk_25);
             ground_height = func_800BCB04(position->unk_00.at02_u16.v, position->unk_04.at02_u16.v, (s16) ((*(u16 *)((u8 *)actor + 0x88)) - 0x20));
             if (ground_height < 0x200) {

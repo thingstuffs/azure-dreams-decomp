@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 #define U8_AT(p, o)  (*(u8 *)((u8 *)(p) + (o)))
 #define U16_AT(p, o) (*(u16 *)((u8 *)(p) + (o)))
@@ -13,8 +14,6 @@ typedef struct {
 
 extern s32 func_800644B8(s32, s32);
 
-extern u8 D_8006CCD8[];
-extern u8 D_8006CCE8[];
 extern s32 D_800814A0;
 extern u8 D_80082E80[];
 extern u8 D_80083228[];
@@ -85,7 +84,7 @@ copy_history:
 interpolate:
     direction_offset = ((-S16_AT(D_80083228, 0) + 0x500) >> 8) & 0xE;
     room = D_80082E80;
-    x_adjust = (s16 *)(D_8006CCD8 + direction_offset);
+    x_adjust = (s16 *)(((u8 *)dirStepX) + direction_offset);
     {
         s32 x_target;
         s32 x_current;
@@ -97,7 +96,7 @@ interpolate:
         U16_AT(obj, 0x0E) += ((x_target << 6) -
                               ((x_current -= 0x20), x_current)) / frames_left;
     }
-    y_adjust = (s16 *)(D_8006CCE8 + direction_offset);
+    y_adjust = (s16 *)(((u8 *)dirStepY) + direction_offset);
     {
         s32 y_target;
         s32 y_current;

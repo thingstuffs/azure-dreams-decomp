@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 typedef struct S_func_818C8FD0_1 {
     void *unk_00;
@@ -107,8 +108,6 @@ typedef struct OffsetTable {
 extern OffsetTable D_80024004;
 extern void D_80024270(void);
 extern s16 D_80024D04[5];
-extern s8 D_8006CCD8[9];
-extern s8 D_8006CCE8[9];
 extern s32 D_800814A0[3];
 extern s32 D_8008346C[3];
 extern u8 D_800DEC00[];
@@ -246,7 +245,7 @@ mode2:
             effect->unk_16 = state->unk_7E.u16;
 
             {
-                u8 *table_base = (u8 *)D_8006CCD8;
+                u8 *table_base = (u8 *)((s8 *)dirStepX);
 
                 direction_index = state->unk_7E.s16 * 2;
                 tile = ((S_func_818C8FD0_3 *)((u8 *)object - 0x20))->unk_0C;
@@ -254,7 +253,7 @@ mode2:
                     tile->unk_24 + table_base[direction_index];
             }
             {
-                u8 *table_base = (u8 *)D_8006CCE8;
+                u8 *table_base = (u8 *)((s8 *)dirStepY);
 
                 direction_index = state->unk_7E.s16 * 2;
                 state->unk_A1 =

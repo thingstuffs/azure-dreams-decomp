@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "records/Rec_D_80016000.h"
 
 typedef struct S_80170F6C_0 {
@@ -133,8 +134,6 @@ extern s32 func_80172658(void *, void *, void *, s32);
 extern void func_80174250(void *, void *, void *, void *);
 
 extern u8 D_80045340[];
-extern s16 D_8006CCD8[];
-extern s16 D_8006CCE8[];
 extern void *D_800814A8[3];
 extern u8 D_80082E80[];
 extern s8 D_80082EA4[16];
@@ -289,9 +288,9 @@ sw1_case2: {
                 u32 texture_word;
 
                 ((S_80170F6C_3 *)arg1)->unk_0C =
-                    D_8006CCD8[((s32)(((S_80170F6C_1 *)arg3)->unk_6A << 16)) >> 25] << 16;
+                    dirStepX[((s32)(((S_80170F6C_1 *)arg3)->unk_6A << 16)) >> 25] << 16;
                 ((S_80170F6C_3 *)arg1)->unk_10 =
-                    D_8006CCE8[((s32)(((S_80170F6C_1 *)arg3)->unk_6A << 16)) >> 25] << 16;
+                    dirStepY[((s32)(((S_80170F6C_1 *)arg3)->unk_6A << 16)) >> 25] << 16;
                 scale = func_800644B8((s16)((S_80170F6C_0 *)arg0)->unk_A6 << 8);
                 ((S_80170F6C_3 *)arg1)->unk_0C = ((S_80170F6C_3 *)arg1)->unk_0C +
                     (((S_80170F6C_3 *)arg1)->unk_0C * scale >> 9);

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -28,8 +29,6 @@ extern void func_800A2B04(void *, u8, u8);
 extern void func_800AAA54(void *, void *, void *, void *);
 extern void func_800AD4D0(void *);
 
-extern s8 D_8006CCD8;
-extern s8 D_8006CCE8;
 extern s16 D_80083228;
 extern s32 D_80083460;
 extern u8 D_80171400[];
@@ -65,8 +64,8 @@ void func_80173354(void *action, void *motion, void *sprite, void *actor)
             return;
         }
 
-        ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = ((s16 *)&D_8006CCD8)[direction] << 18;
-        ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = ((s16 *)&D_8006CCE8)[direction] << 18;
+        ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = ((s16 *)((s8 *)dirStepX))[direction] << 18;
+        ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = ((s16 *)((s8 *)dirStepY))[direction] << 18;
         ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0x40000;
         ((S_80173354_1 *)action)->unk_98 |= 8;
         ((Rec_D_800E3D7C *)actor)->unk_1C.as_u32 &= 0xF7FFFFFF;
@@ -94,8 +93,8 @@ void func_80173354(void *action, void *motion, void *sprite, void *actor)
         return;
 
     case 1:
-        ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 -= ((s16 *)&D_8006CCD8)[direction] << 14;
-        ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v -= ((s16 *)&D_8006CCE8)[direction] << 14;
+        ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 -= ((s16 *)((s8 *)dirStepX))[direction] << 14;
+        ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v -= ((s16 *)((s8 *)dirStepY))[direction] << 14;
 
         if (((S_80173354_1 *)action)->unk_96.s > 0) {
             ((S_80173354_1 *)action)->unk_96.u--;

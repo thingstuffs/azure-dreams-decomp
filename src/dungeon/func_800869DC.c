@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -34,8 +35,6 @@ typedef struct D_80013714_s {
 } D_80013714_s;
 
 extern D_80013714_s D_80013714;
-extern u8 D_8006CCD8[];
-extern u8 D_8006CCE8[];
 extern u8 D_80083160[];
 extern s16 D_80083228;
 extern D_80083460_s D_80083460;
@@ -73,11 +72,11 @@ void func_8008C13C(void *controller, s32 actor_id, void *actor, void *actor_data
         func_8009A3D0(((Rec_D_80082E80 *)actor)->unk_24, ((Rec_D_80082E80 *)actor)->unk_25, 0x300);
 
         direction_index = ((u16)((Rec_D_800E3D7C *)actor_data)->unk_2A.as_s16 >> 8) & 0xE;
-        x_offsets = D_8006CCD8;
+        x_offsets = ((u8 *)dirStepX);
         tile_x = ((Rec_D_80082E80 *)actor)->unk_24;
         tile_x += x_offsets[direction_index];
         ((Rec_D_80082E80 *)actor)->unk_24 = tile_x;
-        ((Rec_D_80082E80 *)actor)->unk_25 += D_8006CCE8[direction_index];
+        ((Rec_D_80082E80 *)actor)->unk_25 += ((u8 *)dirStepY)[direction_index];
 
         func_8009A21C(((Rec_D_80082E80 *)actor)->unk_24, ((Rec_D_80082E80 *)actor)->unk_25, 0x300);
 

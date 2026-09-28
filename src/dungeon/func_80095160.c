@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 typedef struct {
     u8 pad24[0x24];
@@ -25,9 +26,7 @@ typedef struct {
     u8 pad02[6];
 } StackU16;
 
-extern s16 D_8006CCD8[];
 extern s16 D_8008333C[];
-extern s16 D_8006CCE8[];
 extern s16 D_800DCEAC[];
 extern s16 D_800DCEBC[];
 extern FuncMonster D_800E2970[];
@@ -68,7 +67,7 @@ s32 func_8009A8C0(u32 move_flags, FuncArg1 *actor, FuncArg2 *body, u16 height_of
     direction_bits = (move_flags >> 9) & 7;
     direction = direction_bits;
     ASM_KEEP_NV(direction);
-    x_steps = (u8 *)D_8006CCD8;
+    x_steps = (u8 *)dirStepX;
     step_offset = direction * 2;
     x_step = (u16 *)((s32)step_offset + (s32)x_steps);
     coord_or_height = actor->x;
@@ -79,7 +78,7 @@ s32 func_8009A8C0(u32 move_flags, FuncArg1 *actor, FuncArg2 *body, u16 height_of
     next_x = target_x & 0xFFFF;
     if (next_x != 0) {
         if (((1 << map_limits[10]) - 1) >= next_x) {
-            y_step = (u16 *)((u8 *)D_8006CCE8 + step_offset);
+            y_step = (u16 *)((u8 *)dirStepY + step_offset);
             coord_or_height = actor->y;
             offset_work = *y_step;
             coord_work = coord_or_height + offset_work;

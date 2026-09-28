@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
@@ -14,8 +15,6 @@ typedef struct {
 
 extern Vec3sTable D_80170838;
 extern Vec3sTable D_8017084C;
-extern u16 D_8006CCD8[];
-extern u16 D_8006CCE8[];
 extern s16 D_80083228[5];
 extern u8 D_80174AA4[];
 extern u8 D_80083498[];
@@ -131,8 +130,8 @@ set_velocity:
     wrapped_facing = facing + 0xB;
 apply_velocity:
     direction_index = reverse_facing - (wrapped_facing & 0x18);
-    motion->unk_0C.as_s32 = (s32) ((s16) D_8006CCD8[direction_index] * 0x30000);
-    motion->unk_10.at00_s32.v = (s32) ((s16) D_8006CCE8[direction_index] * 0x30000);
+    motion->unk_0C.as_s32 = (s32) ((s16) dirStepX[direction_index] * 0x30000);
+    motion->unk_10.at00_s32.v = (s32) ((s16) dirStepY[direction_index] * 0x30000);
     animation->unk_2C.as_pu8 = &D_80174A8C;
     func_80047784(animation, (&D_80174A8C)[((s32) (*D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
     goto increment_state_load;

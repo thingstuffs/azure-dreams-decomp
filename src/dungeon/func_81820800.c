@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "m2c_compat.h"
 
 extern void *jtbl_80024008[];
@@ -14,8 +15,6 @@ M2C_UNK func_800A56E0();
 s16 func_800BCB04();
 extern M2C_UNK D_800245B4;
 extern M2C_UNK D_80024A1C;
-extern M2C_UNK D_8006CCD8;
-extern M2C_UNK D_8006CCE8;
 extern M2C_UNK D_800814A0;
 extern s32 D_8008346C;
 extern M2C_UNK D_80083498;
@@ -188,7 +187,7 @@ BODY_STORAGE void BODY_NAME(void *state, S_func_81820800_2 *motion, void *source
     s32 coord_x;
     state_obj = state;
     source = source_data;
-    x_steps = (s8 *) &D_8006CCD8;
+    x_steps = (s8 *) ((M2C_UNK *)dirStepX);
     actor = state_obj->unk_00;
     owner = (void *) ((u8 *) actor - 0x20);
     header_raw = actor->unk_2A;
@@ -196,7 +195,7 @@ BODY_STORAGE void BODY_NAME(void *state, S_func_81820800_2 *motion, void *source
     abs_y = (s32)(delta_x & 0xE);
     actor_data = ((S_func_81820800_4 *) ((u8 *) actor - 0x20))->unk_0C;
     step_x = *(s16 *)((M2C_UNK)abs_y + x_steps);
-    step_y = *(s16 *)((M2C_UNK)abs_y + (s8 *)&D_8006CCE8);
+    step_y = *(s16 *)((M2C_UNK)abs_y + (s8 *)((M2C_UNK *)dirStepY));
     if (state_obj->unk_0A != 1) {
         goto dispatch;
     }

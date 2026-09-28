@@ -1,8 +1,7 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 extern void func_800ABE60(u32 x, u32 y, u32 cell);
-extern s8 D_8006CCD8;
-extern s8 D_8006CCE8;
 
 typedef struct {
     s32 map_base;
@@ -90,7 +89,7 @@ s32 func_800ABEEC(s32 dir, s32 start_x, s32 start_y) {
     step_count = zero;
     one = 1;
     map_base = D_8008333C[0].map_base;
-    x_steps = (u8 *)&D_8006CCD8;
+    x_steps = (u8 *)((s8 *)dirStepX);
     rev_count = 0;
     fwd_count = 0;
     reverse_dir = (dir - 2) & 7;
@@ -140,7 +139,7 @@ s32 func_800ABEEC(s32 dir, s32 start_x, s32 start_y) {
                 u16 *fwd_x_step_ptr;
 
                 fwd_count += 1;
-                y_steps_addr = (s32)&D_8006CCD8 + 0x10;
+                y_steps_addr = (s32)((s8 *)dirStepX) + 0x10;
                 fwd_y_step = (u16 *)(fwd_step_offset + y_steps_addr);
                 fwd_x_step_ptr = fwd_x_step;
                 fwd_dy = *fwd_y_step;
@@ -185,7 +184,7 @@ s32 func_800ABEEC(s32 dir, s32 start_x, s32 start_y) {
                     rev_step_dir = reverse_dir;
                     rev_step_offset = rev_step_dir << 1;
                     rev_x_step = (u16 *)(rev_step_offset + (s32)x_steps);
-                    rev_y_step = (u16 *)(rev_step_offset + (s32)&D_8006CCE8);
+                    rev_y_step = (u16 *)(rev_step_offset + (s32)((s8 *)dirStepY));
                     rev_dx = *rev_x_step;
                     rev_dy = *rev_y_step;
                     rev_x += rev_dx;

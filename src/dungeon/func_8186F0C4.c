@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 typedef struct { u8 b[32]; } AggU32;
 extern int abs(int);
@@ -35,8 +36,6 @@ extern u8 D_80024038[32];
 extern void *D_80024058[9];
 extern u8 D_800252FC[12];
 extern s16 D_80025308[6];
-extern u8 D_8006CCD8[];
-extern u8 D_8006CCE8[];
 extern u8 D_800DDC40[];
 extern u8 D_800DEAE0[];
 extern s32 D_8008346C[3];
@@ -179,7 +178,7 @@ state1:
                 table += 0x20;
                 target -= table;
 
-                table = (u32)D_8006CCD8;
+                table = (u32)((u8 *)dirStepX);
                 S16_AT(effect_data, 0x78) = target;
                 target = S16_AT(effect_data, 0x7E);
                 sprite = PTR_AT(owner, -0x14);
@@ -190,7 +189,7 @@ state1:
                 table += target;
                 U8_AT(effect_data, 0xA0) = table;
 
-                table = (u32)D_8006CCE8;
+                table = (u32)((u8 *)dirStepY);
                 target = S16_AT(effect_data, 0x7E);
                 target <<= 1;
                 target += table;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -21,8 +22,6 @@ extern void func_800A2B04();
 extern void func_800AAA54();
 extern void func_800AD4D0();
 
-extern s8 D_8006CCD8;
-extern s8 D_8006CCE8;
 extern s16 D_80083228;
 extern s32 D_80083460;
 extern u8 D_80170E5C[];
@@ -54,12 +53,12 @@ void func_80172EF4(void *action, void *motion, void *sprite, void *actor)
     switch (((S_80172EF4_1 *)action)->unk_9B) {
     case 0:
         func_800AD4D0(actor);
-        x_steps = (s16 *)&D_8006CCD8;
+        x_steps = (s16 *)((s8 *)dirStepX);
         initial_step_offset = direction * 2;
         ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 =
             *(s16 *)((u8 *)x_steps + initial_step_offset) << 0x12;
         ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v =
-            *(s16 *)((u8 *)&D_8006CCE8 + initial_step_offset) << 0x12;
+            *(s16 *)((u8 *)((s8 *)dirStepY) + initial_step_offset) << 0x12;
         ((S_80172EF4_1 *)action)->unk_9B++;
 
         if (((Rec_D_800E3D7C *)actor)->unk_28 == 0) {
@@ -92,9 +91,9 @@ void func_80172EF4(void *action, void *motion, void *sprite, void *actor)
         /* fall through */
 
     case 1:
-        x_steps = (s16 *)&D_8006CCD8;
+        x_steps = (s16 *)((s8 *)dirStepX);
         brake_step_offset = direction * 2;
-        y_step = (s16 *)((u8 *)&D_8006CCE8 + brake_step_offset);
+        y_step = (s16 *)((u8 *)((s8 *)dirStepY) + brake_step_offset);
         ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 -=
             *(s16 *)((u8 *)x_steps + brake_step_offset) << 0xF;
         ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v -= *y_step << 0xF;

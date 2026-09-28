@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "records/Rec_D_80082E80.h"
 
 
@@ -11,8 +12,6 @@ extern void func_800AD594(void *, s32);
 extern void func_800D5DCC(void *, s16, s32, s32);
 extern void func_801708B8(void *, void *, void *);
 
-extern s8 D_8006CCD8;
-extern s8 D_8006CCE8;
 extern s16 D_80083228;
 extern s32 D_8008346C;
 extern u8 D_800E23E0[];
@@ -110,9 +109,9 @@ wait_start:
         }
 
         ((S_80173510_0 *)action)->unk_96.u = 0x12;
-        direction_x = (s16 *)&D_8006CCD8;
+        direction_x = (s16 *)((s8 *)dirStepX);
         ((S_80173510_0 *)action)->unk_9B.n++;
-        direction_y = (s16 *)&D_8006CCE8;
+        direction_y = (s16 *)((s8 *)dirStepY);
         ((S_80173510_3 *)motion)->unk_0C =
             -*(s16 *)((u8 *)direction_x +
               ((((S_80173510_2 *)actor)->unk_2A.u >> 8) & 0xE)) << 18;
@@ -145,8 +144,8 @@ move:
                 animation_ids[((D_80083228 + ((S_80173510_2 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
                 1);
 
-            direction_x = (s16 *)&D_8006CCD8;
-            direction_y = (s16 *)&D_8006CCE8;
+            direction_x = (s16 *)((s8 *)dirStepX);
+            direction_y = (s16 *)((s8 *)dirStepY);
             ((S_80173510_3 *)motion)->unk_0C =
                 *(s16 *)((u8 *)direction_x +
                   ((((S_80173510_2 *)actor)->unk_2A.u >> 8) & 0xE)) << 19;

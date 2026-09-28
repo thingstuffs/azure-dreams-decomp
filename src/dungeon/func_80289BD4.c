@@ -1,7 +1,6 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
-extern s8 D_8006CCD8;
-extern s8 D_8006CCE8;
 extern s16 D_80083350[5];
 extern u8 D_800EA000[];
 
@@ -34,7 +33,7 @@ s32 func_8001CBD4(s32 x, s32 y, s32 requested_dir)
     lookup_value = direction << 16;
     dir_or_tiles = lookup_value >> 16;
 #ifdef NON_MATCHING
-    x_offsets = (u32)&D_8006CCD8;
+    x_offsets = (u32)((s8 *)dirStepX);
 #else
     lookup_value = 0x80070000;
     ASM_KEEP_NV(lookup_value);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
@@ -43,7 +42,7 @@ s32 func_8001CBD4(s32 x, s32 y, s32 requested_dir)
     row_work = (s32)dir_or_tiles * 2;
     tiles_or_shift = row_work + x_offsets;
 #ifdef NON_MATCHING
-    y_offsets = (u32)&D_8006CCE8;
+    y_offsets = (u32)((s8 *)dirStepY);
 #else
     lookup_value = 0x80070000;
     ASM_KEEP_NV(lookup_value);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */

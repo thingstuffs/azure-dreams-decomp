@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -78,8 +79,6 @@ extern void func_800AAA54(void *, void *, void *, void *);
 extern void func_800AD4D0(void *);
 
 extern u8 D_80045340[];
-extern s16 D_8006CCD8[];
-extern s16 D_8006CCE8[];
 extern s16 D_80083228;
 extern u8 D_80083460[];
 extern u8 D_80083498[];
@@ -199,8 +198,8 @@ state_0:
         goto end;
     }
 
-    ((S_80172D1C_2 *)motion)->unk_0C.s = D_8006CCD8[particle_or_dir_index] << 18;
-    ((S_80172D1C_2 *)motion)->unk_10.s = D_8006CCE8[particle_or_dir_index] << 18;
+    ((S_80172D1C_2 *)motion)->unk_0C.s = dirStepX[particle_or_dir_index] << 18;
+    ((S_80172D1C_2 *)motion)->unk_10.s = dirStepY[particle_or_dir_index] << 18;
     ((S_80172D1C_0 *)actor)->unk_9B++;
     state_timer = -1;
     if (((Rec_D_800E3D7C *)entity)->unk_1C.as_s32 & 0x228) {
@@ -214,8 +213,8 @@ state_0:
     goto end;
 
 state_1:
-    ((S_80172D1C_2 *)motion)->unk_0C.s -= D_8006CCD8[particle_or_dir_index] << 14;
-    ((S_80172D1C_2 *)motion)->unk_10.s -= D_8006CCE8[particle_or_dir_index] << 14;
+    ((S_80172D1C_2 *)motion)->unk_0C.s -= dirStepX[particle_or_dir_index] << 14;
+    ((S_80172D1C_2 *)motion)->unk_10.s -= dirStepY[particle_or_dir_index] << 14;
     timer = ((S_80172D1C_0 *)actor)->unk_96.s;
     if (timer > 0) {
         ((S_80172D1C_0 *)actor)->unk_96.s = ((S_80172D1C_0 *)actor)->unk_96.u - 1;

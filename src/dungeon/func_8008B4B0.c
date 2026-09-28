@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
@@ -114,8 +115,6 @@ s32 func_800BA33C();                             /* extern */
 M2C_UNK func_800BA810();            /* extern */
 extern M2C_UNK D_8001EF2C;
 extern M2C_UNK D_8004F5F4;
-extern u16 D_8006CCD8[];
-extern u16 D_8006CCE8[];
 extern M2C_UNK D_80082EB0;
 extern s32 D_80082EB8;
 extern s16 D_80083228;
@@ -301,7 +300,7 @@ jt_c9:
     goto block_64;
 block_41:
     direction = ((u16) ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 >> 9) & 7;
-    if ((func_8009B88C(0, (s16) (((Rec_D_80082E80 *)sprite)->unk_24 + D_8006CCD8[direction]), (s16) (((Rec_D_80082E80 *)sprite)->unk_25 + D_8006CCE8[direction]), &tile_x, &tile_y) << 0x10) != 0) {
+    if ((func_8009B88C(0, (s16) (((Rec_D_80082E80 *)sprite)->unk_24 + dirStepX[direction]), (s16) (((Rec_D_80082E80 *)sprite)->unk_25 + dirStepY[direction]), &tile_x, &tile_y) << 0x10) != 0) {
         goto block_43;
     }
     text_buffer = func_800990FC();

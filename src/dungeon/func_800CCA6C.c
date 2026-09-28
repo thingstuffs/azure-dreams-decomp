@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 typedef struct {
     u8 pad_00[0x8C];
@@ -36,8 +37,6 @@ typedef struct {
     u16 code;
 } CcaAnim;
 
-extern s16 D_8006CCD8[];
-extern s16 D_8006CCE8[];
 extern s32 D_80083460[];
 extern u8 D_800D20D8[];
 
@@ -66,8 +65,8 @@ void func_800D21CC(CcaState *state, CcaMotion *motion, CcaInfo *info, CcaAnim *a
 
 start:
     func_800AD4D0(anim);
-    motion->dx = (s32)(*(s16 *)((u8 *)D_8006CCD8 + ((anim->code >> 8) & 0xE)) << 15);
-    motion->dy = (s32)(*(s16 *)((u8 *)D_8006CCE8 + ((anim->code >> 8) & 0xE)) << 15);
+    motion->dx = (s32)(*(s16 *)((u8 *)dirStepX + ((anim->code >> 8) & 0xE)) << 15);
+    motion->dy = (s32)(*(s16 *)((u8 *)dirStepY + ((anim->code >> 8) & 0xE)) << 15);
     state->status = state->status + 1;
     if (anim->active != 0) {
         if (info->flags & 0x8000) {

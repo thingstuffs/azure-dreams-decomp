@@ -1,9 +1,8 @@
 #include "common.h"
+#include "shared/dir_step.h"
+#include "shared/dungeon_status.h"
 
 extern u8 *D_800E3D7C;
-extern u16 D_8008347E;
-extern u16 D_8006CCD8[];
-extern u16 D_8006CCE8[];
 extern u16 D_800DCE6C[];
 extern u16 D_800DCE8C[];
 
@@ -147,7 +146,7 @@ search_nearby:
     attempts = 0;
     near_x = (s16)target_x;
     do {
-        search_seed = D_8008347E;
+        search_seed = dungeonStatus.unk_1E;
     } while (0);
     near_y = (s16)target_y;
     ASM_USE(near_y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -155,8 +154,8 @@ search_nearby:
     do {
         near_dir = slot;
         if (*(occupied + near_dir + 1) == 0) {
-            near_dx = D_8006CCD8 + near_dir;
-            near_dy = D_8006CCE8 + near_dir;
+            near_dx = dirStepX + near_dir;
+            near_dy = dirStepY + near_dir;
             ASM_USE(near_dy);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             if ((near_offset_x = near_dx[0], near_offset_y = near_dy[0],
                  func_800A0548((s16)(target_x + near_offset_x), (s16)(target_y + near_offset_y))) == 0 &&
@@ -175,7 +174,7 @@ search_nearby:
 
     attempts = 0;
     far_x = (s16)target_x;
-    search_seed = D_8008347E;
+    search_seed = dungeonStatus.unk_1E;
     far_y = (s16)target_y;
     slot = search_seed & 15;
     do {

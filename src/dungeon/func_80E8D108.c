@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -27,8 +28,6 @@ extern void func_800A4ACC(void *);
 extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
 
-extern s8 D_8006CCD8;
-extern s8 D_8006CCE8;
 extern s16 D_80083228;
 extern s32 D_8008346C;
 extern Node *D_800E3DE8[];
@@ -46,8 +45,8 @@ void func_80172908(void *action, void *motion, void *sprite, void *actor)
     u16 frames_left;
 
     direction_offset = ((u16)((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 >> 8) & 0xE;
-    direction_x = *(s16 *)((u8 *)&D_8006CCD8 + direction_offset);
-    direction_y = *(s16 *)((u8 *)&D_8006CCE8 + direction_offset);
+    direction_x = *(s16 *)((u8 *)((s8 *)dirStepX) + direction_offset);
+    direction_y = *(s16 *)((u8 *)((s8 *)dirStepY) + direction_offset);
     state = ((S_80172908_1 *)action)->unk_9B;
     wait_state = 1;
     if (state == wait_state) {

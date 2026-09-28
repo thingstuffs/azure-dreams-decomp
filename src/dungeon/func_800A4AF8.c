@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -14,8 +15,6 @@ typedef struct S_800AA258_2 {
 
 M2C_UNK func_8009A21C();                 /* extern */
 M2C_UNK func_8009A3D0();                 /* extern */
-extern s8 D_8006CCD8;
-extern s8 D_8006CCE8;
 extern struct {
     s8 pad0[10];
     u16 field_0x0A;
@@ -39,10 +38,10 @@ void func_800AA258(Rec_func_800A9E70_arg0 *state, void *unused, S_800AA258_2 *po
     tile_mask = move_mask & 0xFFFF;
     func_8009A3D0(position->unk_24, position->unk_25.s, tile_mask);
     direction_index = ((u16) actor->unk_6A.as_u16 >> 8) & 0xE;
-    next_x = position->unk_24 + (u8) *(direction_index + &D_8006CCD8);
+    next_x = position->unk_24 + (u8) *(direction_index + ((s8 *)dirStepX));
     next_x = (u8) next_x;
     position->unk_24 = next_x;
-    position->unk_25.s = (u8) (position->unk_25.s + *(direction_index + &D_8006CCE8));
+    position->unk_25.s = (u8) (position->unk_25.s + *(direction_index + ((s8 *)dirStepY)));
     func_8009A21C(position->unk_24, position->unk_25.u, tile_mask);
     actor->unk_1C.as_s32 = (s32) (actor->unk_1C.as_s32 & ~0x100);
     state->unk_96.as_s16 = 0x21;

@@ -1,9 +1,8 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "m2c_compat.h"
 
 extern s8 D_80083160[];
-extern u16 D_8006CCD8[];
-extern u16 D_8006CCE8[];
 s32 func_80044724();
 M2C_UNK func_800D112C();
 M2C_UNK func_800D1338();
@@ -56,12 +55,12 @@ void func_800D13B8(void) {
             func_800D112C((direction - 1) & 7, diagonal_x, diagonal_y);
             next_direction = direction + 3;
             next_direction &= 7;
-            diagonal_x_step = D_8006CCD8;
+            diagonal_x_step = dirStepX;
             diagonal_x_step = &diagonal_x_step[direction];
-            func_800D112C(next_direction, (u32) (s16) (diagonal_x + ((s16) *diagonal_x_step * 0xA)), (u32) (s16) (diagonal_y + ((s16) D_8006CCE8[direction] * 0xA)));
+            func_800D112C(next_direction, (u32) (s16) (diagonal_x + ((s16) *diagonal_x_step * 0xA)), (u32) (s16) (diagonal_y + ((s16) dirStepY[direction] * 0xA)));
             last_direction = (direction - 3) & 7;
             last_x = (s16) (diagonal_x + ((s16) *diagonal_x_step * 0xA));
-            last_y = (s16) (diagonal_y + ((s16) D_8006CCE8[direction] * 0xA));
+            last_y = (s16) (diagonal_y + ((s16) dirStepY[direction] * 0xA));
             func_800D112C(last_direction, last_x, last_y);
         } else {
             direction_work = (s8 *) (s32) direction;
@@ -73,11 +72,11 @@ void func_800D13B8(void) {
             func_800D112C(left_direction, coord_x, coord_y);
             next_direction = (s32) direction_work + 4;
             next_direction &= 7;
-            x_step = D_8006CCD8;
+            x_step = dirStepX;
             direction_work = (s8 *) ((s32) direction_work * 2);
             x_step = (u16 *) ((s8 *) x_step + (s32) direction_work);
             offset_x_high = (s32) ((u32) (coord_x + ((s16) *x_step * 0xA)) << 16);
-            direction_work = (s8 *) D_8006CCE8 + (s32) direction_work;
+            direction_work = (s8 *) dirStepY + (s32) direction_work;
             func_800D112C(next_direction, offset_x_high >> 16, (u32) (s16) (coord_y + ((s16) *(u16 *) direction_work * 0xA)));
             func_800D112C(direction, (u32) (s16) (coord_x + ((s16) *x_step * 0xA)), (u32) (s16) (coord_y + ((s16) *(u16 *) direction_work * 0xA)));
             axis_step = (s16) *x_step;

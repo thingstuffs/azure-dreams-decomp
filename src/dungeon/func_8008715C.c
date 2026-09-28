@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 typedef long long s64;
 #ifndef NULL
@@ -16,8 +17,6 @@ M2C_UNK func_8009F644();
 s32 func_800A5C70();
 extern u16 D_80013714;
 extern u8 D_80013186;
-extern u16 D_8006CCD8[];
-extern u16 D_8006CCE8[];
 extern u8 D_80083460[];
 
 
@@ -82,7 +81,7 @@ s32 func_8008C8BC(void *actor_state_arg, void *unused, void *position_arg, void 
 
     direction = ((u16) ((S_8008C8BC_0 *)entity)->unk_2A >> 9) & 7;
     if ((func_8009A540(direction, ((S_8008C8BC_1 *)position_arg)->unk_24, ((S_8008C8BC_1 *)position_arg)->unk_25, (s16) (((S_8008C8BC_0 *)entity)->unk_88 - 0x20)) << 0x10) != 0) {
-        target = func_8009B25C(entity, (((S_8008C8BC_1 *)position_arg)->unk_24 + D_8006CCD8[direction]) & 0xFFFF, (((S_8008C8BC_1 *)position_arg)->unk_25 + D_8006CCE8[direction]) & 0xFFFF, (s16) ((S_8008C8BC_0 *)entity)->unk_88);
+        target = func_8009B25C(entity, (((S_8008C8BC_1 *)position_arg)->unk_24 + ((u16 *)dirStepX)[direction]) & 0xFFFF, (((S_8008C8BC_1 *)position_arg)->unk_25 + ((u16 *)dirStepY)[direction]) & 0xFFFF, (s16) ((S_8008C8BC_0 *)entity)->unk_88);
         page_or_entity = (u8 *)0x80010000;
         ((S_8008C8BC_0 *)entity)->unk_60.i = target;
         if (!(((S_8008C8BC_2 *)page_or_entity)->unk_3714 & 1) && (target != 0) && (((S_8008C8BC_3 *)target)->unk_14 & 0x4000)

@@ -1,9 +1,8 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 extern s32 func_8009A350(s32, s32, s32, u16 *);
 extern s32 func_800BCB04();
-extern u16 D_8006CCD8[];
-extern u16 D_8006CCE8[];
 
 /* Checks whether the selected neighbor has a sampled height above 512 when enabled. */
 s32 func_800A4688(s32 world_x, s32 world_y, s16 world_z, u32 direction, s32 disabled) {
@@ -39,8 +38,8 @@ s32 func_800A4688(s32 world_x, s32 world_y, s16 world_z, u32 direction, s32 disa
     }
 
     sample_z = (s16)(world_z - 0x20);
-    x_offset = D_8006CCD8[sector];
-    y_offset = D_8006CCE8[sector];
+    x_offset = dirStepX[sector];
+    y_offset = dirStepY[sector];
     neighbor_x = x_offset + tile_x;
     neighbor_y = y_offset + tile_y;
     height = func_800BCB04(

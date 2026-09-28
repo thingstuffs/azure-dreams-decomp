@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 typedef struct S_81814C48_0 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -23,8 +24,6 @@ typedef struct S_81814C48_2 {
 extern s32 rand();
 extern s16 func_800BCB04();
 extern s16 D_80025338;
-extern s8 D_8006CCD8;
-extern s8 D_8006CCE8;
 extern s32 D_800814A0;
 
 /* Updates a position with randomized motion, reduces speed, and flags completion. */
@@ -46,12 +45,12 @@ void func_81814C48(void *state, void *position, void *linked_state)
     D_80025338 = 1;
     if ((s16)((S_81814C48_0 *)position)->unk_08.at02.v <
         func_800BCB04(x, y, (s16)(z + 2))) {
-        x_step = ((*(s16 *)(&D_8006CCD8 + (((S_81814C48_1 *)state)->unk_14 * 2)) *
+        x_step = ((*(s16 *)(((s8 *)dirStepX) + (((S_81814C48_1 *)state)->unk_14 * 2)) *
                     ((S_81814C48_1 *)state)->unk_32) << 9) +
                   (rand() & 0xFFFF);
         coord_value = ((S_81814C48_0 *)position)->unk_00.at00.v + x_step;
         ((S_81814C48_0 *)position)->unk_00.at00.v = coord_value;
-        y_step = ((*(s16 *)(&D_8006CCE8 + (((S_81814C48_1 *)state)->unk_14 * 2)) *
+        y_step = ((*(s16 *)(((s8 *)dirStepY) + (((S_81814C48_1 *)state)->unk_14 * 2)) *
                       ((S_81814C48_1 *)state)->unk_32) << 9) +
                     (rand(x_step) & 0xFFFF);
         coord_value = ((S_81814C48_0 *)position)->unk_04.at00.v + y_step;

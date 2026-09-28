@@ -1,8 +1,7 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 extern u16 D_8008347E[];
-extern u16 D_8006CCD8[];
-extern u16 D_8006CCE8[];
 s32 func_8009A350();
 s32 func_800BCB04();
 extern u16 D_800DCE6C[];
@@ -81,7 +80,7 @@ found:
     *out_distance = distance;
     return 1;
 scan_start:
-    tab_x = D_8006CCD8;
+    tab_x = dirStepX;
     shifted_x = base_x << 0x10;
     inner_x = shifted_x >> 0x10;
     shifted_y = base_y << 0x10;
@@ -99,7 +98,7 @@ scan_inner:
     inner_offset = call_dir << 1;
     dx = (u16 *)(inner_offset + (u32)tab_x);
     distance_z = (s16)(base_z - 0x20);
-    dy = (u16 *)((u8 *)D_8006CCE8 + inner_offset);
+    dy = (u16 *)((u8 *)dirStepY + inner_offset);
     distance = func_800BCB04(((((inner_x + (s16)*dx) << 6) + 0x20) & 0xFFE0), ((((inner_y + (s16)*dy) << 6) + 0x20) & 0xFFE0), distance_z);
     if ((s16)distance < 0x200) {
         goto found;

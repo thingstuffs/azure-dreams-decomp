@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
@@ -12,8 +13,6 @@ typedef struct LocalResult {
 extern s32 func_8003DE58(void *, void *, LocalResult *, s32);
 extern void func_800A2B04(void *, u8, u8);
 extern s16 func_800BCB04(s32, s32, s16);
-extern s8 D_8006CCD8;
-extern s8 D_8006CCE8;
 
 
 
@@ -117,8 +116,8 @@ void func_800AACA4(Rec_func_800A9E70_arg0 *state, Rec_D_800E3D7C *motion, Rec_D_
         target_offset >>= 8;
         target_offset &= 0xE;
         target_height = func_800BCB04(
-            ((tile->unk_24 + (*(s16 *)((u8 *)(&D_8006CCD8) + target_offset)) * travel_steps) << 6) + 0x20 & 0xFFE0,
-            ((tile->unk_25 + (*(s16 *)((u8 *)(&D_8006CCE8) + target_offset)) * travel_steps) << 6) + 0x20 & 0xFFE0,
+            ((tile->unk_24 + (*(s16 *)((u8 *)(((s8 *)dirStepX)) + target_offset)) * travel_steps) << 6) + 0x20 & 0xFFE0,
+            ((tile->unk_25 + (*(s16 *)((u8 *)(((s8 *)dirStepY)) + target_offset)) * travel_steps) << 6) + 0x20 & 0xFFE0,
             motion->unk_08.at02_s16.v);
         travel_duration = entity->unk_8A.u + 2;
         entity->unk_8A.s = travel_duration;
@@ -133,9 +132,9 @@ void func_800AACA4(Rec_func_800A9E70_arg0 *state, Rec_D_800E3D7C *motion, Rec_D_
     step_offset = entity->unk_6A;
     step_offset >>= 8;
     step_offset &= 0xE;
-    tile->unk_24 += (*(u8 *)((u8 *)(&D_8006CCD8) + step_offset));
+    tile->unk_24 += (*(u8 *)((u8 *)(((s8 *)dirStepX)) + step_offset));
     step_offset = entity->unk_6A;
     step_offset >>= 8;
     step_offset &= 0xE;
-    tile->unk_25 += (*(u8 *)((u8 *)(&D_8006CCE8) + step_offset));
+    tile->unk_25 += (*(u8 *)((u8 *)(((s8 *)dirStepY)) + step_offset));
 }

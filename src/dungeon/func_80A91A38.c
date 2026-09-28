@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -29,8 +30,6 @@ extern void func_800A2B04(void *, s32, s32);
 extern void func_800AAA54(void *, void *, void *, void *);
 extern void func_800AD4D0(void *);
 
-extern s8 D_8006CCD8;
-extern s8 D_8006CCE8;
 extern s16 D_80083228;
 extern s32 D_80083460;
 extern u8 D_80152E54;
@@ -67,8 +66,8 @@ void func_80155238(void *action, void *motion, void *sprite, void *entity)
 
 init_motion:
     func_800AD4D0(entity);
-    ((S_80155238_2 *)motion)->unk_0C = ((s16 *)&D_8006CCD8)[direction] << 18;
-    ((S_80155238_2 *)motion)->unk_10 = ((s16 *)&D_8006CCE8)[direction] << 18;
+    ((S_80155238_2 *)motion)->unk_0C = ((s16 *)((s8 *)dirStepX))[direction] << 18;
+    ((S_80155238_2 *)motion)->unk_10 = ((s16 *)((s8 *)dirStepY))[direction] << 18;
     ((S_80155238_1 *)action)->unk_9B++;
 
     if (((Rec_D_800E3D7C *)entity)->unk_28 == 0) {
@@ -91,8 +90,8 @@ init_motion:
     ((S_80155238_2 *)motion)->unk_10 -= ((S_80155238_2 *)motion)->unk_10 / 4;
 
 decelerate:
-    ((S_80155238_2 *)motion)->unk_0C -= ((s16 *)&D_8006CCD8)[direction] << 14;
-    ((S_80155238_2 *)motion)->unk_10 -= ((s16 *)&D_8006CCE8)[direction] << 14;
+    ((S_80155238_2 *)motion)->unk_0C -= ((s16 *)((s8 *)dirStepX))[direction] << 14;
+    ((S_80155238_2 *)motion)->unk_10 -= ((s16 *)((s8 *)dirStepY))[direction] << 14;
 
     if (((S_80155238_1 *)action)->unk_96.s > 0) {
         ((S_80155238_1 *)action)->unk_96.s = ((S_80155238_1 *)action)->unk_96.u - 1;
@@ -124,8 +123,8 @@ start_animation:
     goto done;
 
 wait_animation:
-    ((S_80155238_2 *)motion)->unk_0C -= ((s16 *)&D_8006CCD8)[direction] << 14;
-    ((S_80155238_2 *)motion)->unk_10 -= ((s16 *)&D_8006CCE8)[direction] << 14;
+    ((S_80155238_2 *)motion)->unk_0C -= ((s16 *)((s8 *)dirStepX))[direction] << 14;
+    ((S_80155238_2 *)motion)->unk_10 -= ((s16 *)((s8 *)dirStepY))[direction] << 14;
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000)) {
         goto done;
     }

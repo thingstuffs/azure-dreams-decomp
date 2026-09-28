@@ -1,12 +1,11 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 typedef struct { u8 pad0[0x8C]; void *field8c; u8 pad90[6]; s16 count96; u8 pad98[3]; u8 state9b; } S_A;
 typedef struct { u8 pad0[2]; s16 x2; u8 pad4[2]; s16 y6; u8 pad8[4]; s32 dxC; s32 dy10; s32 dz14; } S_B;
 typedef struct { u8 pad0[0x14]; u16 flags14; u8 pad16[0x0E]; u8 x24; u8 y25; } S_C;
 typedef struct { u8 pad0[0x28]; u8 flag28; u8 pad29[0x41]; u16 index6A; } S_D;
 
-extern u8 D_8006CCD8[];
-extern u8 D_8006CCE8[];
 extern s32 D_80083460[3];
 extern u8 D_80171FA4[];
 extern void func_800A2B04(S_B *, u8, u8);
@@ -46,12 +45,12 @@ init_motion:
             motion_state->state9b = 2;
             goto done;
         }
-        motion->dxC = (-(*(s16 *)(D_8006CCD8 + (((u16)actor->index6A >> 8) & 0xE)))) << 0xF;
-        motion->dy10 = (-(*(s16 *)(D_8006CCE8 + (((u16)actor->index6A >> 8) & 0xE)))) << 0xF;
+        motion->dxC = (-(*(s16 *)(((u8 *)dirStepX) + (((u16)actor->index6A >> 8) & 0xE)))) << 0xF;
+        motion->dy10 = (-(*(s16 *)(((u8 *)dirStepY) + (((u16)actor->index6A >> 8) & 0xE)))) << 0xF;
         motion_state->count96 = 8;
 slow_motion:
-        motion->dxC += (*(s16 *)(D_8006CCD8 + (((u16)actor->index6A >> 8) & 0xE))) << 0xA;
-        motion->dy10 += (*(s16 *)(D_8006CCE8 + (((u16)actor->index6A >> 8) & 0xE))) << 0xA;
+        motion->dxC += (*(s16 *)(((u8 *)dirStepX) + (((u16)actor->index6A >> 8) & 0xE))) << 0xA;
+        motion->dy10 += (*(s16 *)(((u8 *)dirStepY) + (((u16)actor->index6A >> 8) & 0xE))) << 0xA;
         next_count = (u16)motion_state->count96 - 1;
         motion_state->count96 = (s16)next_count;
         if ((next_count << 0x10) <= 0) {

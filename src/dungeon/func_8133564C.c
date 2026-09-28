@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 typedef struct S_func_8016C64C_0 {
     u8 pad_00[0x8C];
@@ -65,8 +66,6 @@ extern void func_800A56E0(s32);
 extern void func_800AAA54(void *, void *, void *, void *);
 extern void func_800A2B04(void *, u8, u8);
 
-extern s8 D_8006CCD8;
-extern s8 D_8006CCE8;
 extern u8 D_80082E80[];
 extern s16 D_80083228;
 extern s32 D_80083460;
@@ -112,18 +111,18 @@ void func_8016C64C(S_func_8016C64C_0 *action, S_func_8016C64C_1 *motion, S_func_
         frame_count = --action->unk_96.u16_value;
         if (frame_count > 0) {
             motion->unk_0C =
-                ((S_func_8016C64C_5 *)((u8 *)&D_8006CCD8 + ((actor->unk_6A >> 8) & 0xE)))->unk_00 << 18;
+                ((S_func_8016C64C_5 *)((u8 *)((s8 *)dirStepX) + ((actor->unk_6A >> 8) & 0xE)))->unk_00 << 18;
             motion->unk_10 =
-                ((S_func_8016C64C_5 *)((u8 *)&D_8006CCE8 + ((actor->unk_6A >> 8) & 0xE)))->unk_00 << 18;
+                ((S_func_8016C64C_5 *)((u8 *)((s8 *)dirStepY) + ((actor->unk_6A >> 8) & 0xE)))->unk_00 << 18;
             return;
         }
         if (frame_count != 0) {
             return;
         }
         motion->unk_0C =
-            ((S_func_8016C64C_5 *)((u8 *)&D_8006CCD8 + ((actor->unk_6A >> 8) & 0xE)))->unk_00 << 18;
+            ((S_func_8016C64C_5 *)((u8 *)((s8 *)dirStepX) + ((actor->unk_6A >> 8) & 0xE)))->unk_00 << 18;
         motion->unk_10 =
-            ((S_func_8016C64C_5 *)((u8 *)&D_8006CCE8 + ((actor->unk_6A >> 8) & 0xE)))->unk_00 << 18;
+            ((S_func_8016C64C_5 *)((u8 *)((s8 *)dirStepY) + ((actor->unk_6A >> 8) & 0xE)))->unk_00 << 18;
         action->unk_96.s16_value = 8;
         action->unk_9B++;
         return;

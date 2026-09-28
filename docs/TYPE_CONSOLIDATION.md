@@ -28,3 +28,27 @@ the 0x80083460 global block (struct consolidation). Results and the scaling reco
 
 Visual before/after (illustrative until the pilot lands; republished with verified code afterwards):
 https://claude.ai/artifact/LA63o6jeL9Xc5hHTXuw6LZ - page source kept at docs/evidence/type_consolidation_preview.html
+
+## Pilot result (2026-09-28): landed
+
+243 rows consolidated (20-row sample first, then 223), every row verify-exact, 179 overlay windows + SLUS SHA-1
+image MATCH, pins unchanged or lower (2,875 / 748 after). Design: evidence/type_consolidation_pilot_design.md;
+per-row report: evidence/type_consolidation_pilot_report.md; apply script: work/native_lane/r78_types_pilot/apply.sh.
+
+- **Mechanism:** readable DATA names are ordinary `config/names.tsv` rows (addr, D_ name, readable name):
+  tools/build/ccproc.py (gates, SLUS) and tools/gate/match.py (scorer) spell them back to `D_<addr>` before the
+  assembler, so every binary links the same address. `apply_names.py` refuses data rows today (no defining row);
+  a `--data` mode is the tidy follow-up.
+- **Headers:** `include/shared/<object>.h`, plain C types, no includes; only migrated rows include them (not
+  common.h yet: local typedef names collide, e.g. `DungeonStatus` is already a local type in func_8028B110).
+- **dirStepX / dirStepY** (`short[8]`, x/y grid step per direction 0..7): 225/229 rows exact (215 natural
+  `dirStepX[i]`, 10 need a `(u16 *)` / byte view where retail reads unsigned or by byte).
+- **DungeonGlobalStatus dungeonStatus** (0x80083460, 0x20 bytes): one object (527 rows form one lui/addiu base);
+  `flags` (+0x02, bit tests only); the +0x0A union resolved to `short` (797 vs 786 rows exact); other fields
+  stay `unk_XX` with access counts. Whole population: 797/857 rows exact automatically; every miss is a
+  pointer-cast array view.
+- **Codegen rule measured:** plain struct field access reproduces retail's %hi pattern everywhere; cast array
+  views (`((T *)&g)[i]`) miss. Not "struct vs separate symbols".
+- **Next:** a generator rewriting `D_base[i]` / `((T *)&g)[i]` into the field (clears most of the 60 view misses);
+  next objects D_800814A0 (watch -G8 $gp), D_80083228, D_80083498, D_80083160. Two coherence repairs found
+  (dungeon/func_800A065C ASM_KEEP, func_800A4DA8 do-while(0)): texts in the pilot lane's hand/pin/.

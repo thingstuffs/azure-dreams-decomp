@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 extern void *func_8003FD64(s32, void *);
 extern s32 func_80069EF8(void);
@@ -8,8 +9,6 @@ extern void func_800A56E0(s32);
 extern s16 func_800BCB04(s32, s32, s32);
 
 extern u8 D_800247DC[];
-extern s8 D_8006CCD8;
-extern s8 D_8006CCE8;
 extern s32 D_800814A0;
 extern s32 D_8008346C;
 extern s32 D_80083498;
@@ -251,14 +250,14 @@ BODY_STORAGE void BODY_NAME(S_81850800_0 *owner, S_81850800_7 *motion, S_8185080
     s32 next_state;
     static void *const keepalive[] = { &&state_0_after };
     caster_data = owner->unk_00;
-    step_x_table = (u8 *)&D_8006CCD8;
+    step_x_table = (u8 *)((s8 *)dirStepX);
     magnitude = (u16)caster_data->unk_2A.unk_2A_u16;
     facing_shift = magnitude >> 8;
     caster_sprite = ((S_81850800_2 *)((u8 *)caster_data - 0x14))->unk_00;
     base_y = facing_shift & 0xE;
     step_x_table = (u8 *)(base_y + (s32)step_x_table);
     step_x = *(s16 *)step_x_table;
-    step_y_table = (u8 *)&D_8006CCE8;
+    step_y_table = (u8 *)((s8 *)dirStepY);
     base_y = (s32)step_y_table + base_y;
     timer = owner->unk_50.unk_50_u16 - 1;
     base_y = *(s16 *)base_y;

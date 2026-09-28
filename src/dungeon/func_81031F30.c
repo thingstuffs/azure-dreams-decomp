@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -7,8 +8,6 @@ extern void func_800A2B04();
 extern void func_800AAA54();
 extern void func_800AD4D0();
 
-extern s8 D_8006CCD8;
-extern s8 D_8006CCE8;
 extern s32 D_80083460;
 extern u8 D_801714B8;
 extern u8 D_801760D4;
@@ -59,10 +58,10 @@ void func_80173730(void *action, void *motion, void *target, void *actor)
         ((S_80173730_0 *)action)->unk_96.u = timer;
         if (timer > 0) {
             ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 =
-                *(s16 *)(&D_8006CCD8 +
+                *(s16 *)(((s8 *)dirStepX) +
                     ((((Rec_D_800E3D7C *)actor)->unk_6A.as_u16 >> 8) & 0xE)) << 19;
             ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v =
-                *(s16 *)(&D_8006CCE8 +
+                *(s16 *)(((s8 *)dirStepY) +
                     ((((Rec_D_800E3D7C *)actor)->unk_6A.as_u16 >> 8) & 0xE)) << 19;
             return;
         }
@@ -70,10 +69,10 @@ void func_80173730(void *action, void *motion, void *target, void *actor)
             return;
         }
         ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 =
-            *(s16 *)(&D_8006CCD8 +
+            *(s16 *)(((s8 *)dirStepX) +
                 ((((Rec_D_800E3D7C *)actor)->unk_6A.as_u16 >> 8) & 0xE)) << 18;
         ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v =
-            *(s16 *)(&D_8006CCE8 +
+            *(s16 *)(((s8 *)dirStepY) +
                 ((((Rec_D_800E3D7C *)actor)->unk_6A.as_u16 >> 8) & 0xE)) << 18;
         ((S_80173730_0 *)action)->unk_96.u = 12;
         ((S_80173730_0 *)action)->unk_9B++;

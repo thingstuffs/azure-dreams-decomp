@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 
 typedef struct {
@@ -17,8 +18,6 @@ extern void func_80047784(void *object, s32 kind, s32 arg2);
 extern void *func_8003DE58(void *arg0, void *arg1, Vec3u16 *out, s32 arg3);
 
 extern s32 D_80045340;
-extern u8 D_8006CCD8;
-extern u8 D_8006CCE8;
 extern u8 D_80175978;
 
 
@@ -92,12 +91,12 @@ void *func_80175D04(S_80175D04_0 *actor, Copy24 *start_pos, S_80175D04_3 *source
     target_pos = *start_pos;
     direction_offset = (direction_bits >> 8) & 0xE;
 
-    axis_step = *(s16 *)((u8 *)&D_8006CCD8 + direction_offset);
+    axis_step = *(s16 *)((u8 *)((u8 *)dirStepX) + direction_offset);
     ((S_80175D04_1 *)(&target_pos))->unk_02 +=
         (axis_step * actor->unk_B2 * 0x40) +
         (axis_step * 0x20);
 
-    axis_step = *(s16 *)((u8 *)&D_8006CCE8 + direction_offset);
+    axis_step = *(s16 *)((u8 *)((u8 *)dirStepY) + direction_offset);
     ((S_80175D04_1 *)(&target_pos))->unk_06 +=
         (axis_step * actor->unk_B2 * 0x40) +
         (axis_step * 0x20);

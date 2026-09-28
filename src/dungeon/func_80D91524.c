@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -21,8 +22,6 @@ extern void func_800A2B04();
 extern void func_800AAA54();
 extern void func_800AD4D0();
 
-extern s8 D_8006CCD8;
-extern s8 D_8006CCE8;
 extern s16 D_80083228;
 extern s32 D_80083460;
 extern u8 D_80170E68;
@@ -92,12 +91,12 @@ state_1:
         D_80173874[((D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7],
         0);
 
-    direction_x_table = (s16 *)&D_8006CCD8;
+    direction_x_table = (s16 *)((s8 *)dirStepX);
     launch_offset = direction * 2;
     ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 =
         *(s16 *)((u8 *)direction_x_table + launch_offset) << 19;
     ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v =
-        *(s16 *)((u8 *)&D_8006CCE8 + launch_offset) << 19;
+        *(s16 *)((u8 *)((s8 *)dirStepY) + launch_offset) << 19;
 
     duration = -1;
     if (((Rec_D_800E3D7C *)entity)->unk_1C.as_s32 & 0x228) {
@@ -121,9 +120,9 @@ state_1:
     goto store_state;
 
 state_2:
-    direction_x_table = (s16 *)&D_8006CCD8;
+    direction_x_table = (s16 *)((s8 *)dirStepX);
     decel_offset = direction * 2;
-    direction_y = (s16 *)((u8 *)&D_8006CCE8 + decel_offset);
+    direction_y = (s16 *)((u8 *)((s8 *)dirStepY) + decel_offset);
     ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 -=
         *(s16 *)((u8 *)direction_x_table + decel_offset) << 16;
     ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v -= *direction_y << 16;

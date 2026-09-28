@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 extern int abs(int);
 
 extern void *jtbl_80024008[];
@@ -17,8 +18,6 @@ extern void func_800A56E0(s32);
 
 extern s32 D_8008346C[];
 extern s32 D_800814A0[];
-extern u8 D_8006CCD8[];
-extern u8 D_8006CCE8[];
 extern u8 D_800DDC40[];
 
 typedef struct {
@@ -384,18 +383,18 @@ case_1_entry:
                                actor->unk_88.s16,
                                (s16)(effect->unk_0E << 9)) << 16) == 0) {
                 s16 floor = func_800BCB04(
-                    ((signed_tile_x + ((s16 *)D_8006CCD8)[(s16)effect->unk_0E]) << 6) + 0x20 & 0xFFE0,
-                    ((signed_tile_y + ((s16 *)D_8006CCE8)[(s16)effect->unk_0E]) << 6) + 0x20 & 0xFFE0,
+                    ((signed_tile_x + ((s16 *)((u8 *)dirStepX))[(s16)effect->unk_0E]) << 6) + 0x20 & 0xFFE0,
+                    ((signed_tile_y + ((s16 *)((u8 *)dirStepY))[(s16)effect->unk_0E]) << 6) + 0x20 & 0xFFE0,
                     (s16)(actor->unk_88.s16 - 0x20));
                 if ((floor < 513) && ((s16)(floor - actor->unk_88.s16) >= -63)) {
                     s32 next_tile_x;
                     s32 next_tile_y;
 
                     index++;
-                    next_tile_x = tile_x + ((u16 *)D_8006CCD8)[(s16)effect->unk_0E];
+                    next_tile_x = tile_x + ((u16 *)((u8 *)dirStepX))[(s16)effect->unk_0E];
                     tile_x = next_tile_x;
                     ASM_KEEP_NV(tile_x);
-                    next_tile_y = tile_y + ((u16 *)D_8006CCE8)[(s16)effect->unk_0E];
+                    next_tile_y = tile_y + ((u16 *)((u8 *)dirStepY))[(s16)effect->unk_0E];
                     last_tile_y = (u16)next_tile_y;
                     tile_y = next_tile_y;
                     last_tile_x = next_tile_x;
@@ -411,7 +410,7 @@ case_1_entry:
         x_base = (last_tile_x << 16) >> 10;
         floor_x = (x_base + 0x20);
         floor_x &= 0xFFE0;
-        x_adjust_table = (s16 *)D_8006CCD8;
+        x_adjust_table = (s16 *)((u8 *)dirStepX);
         floor_limit = -0x400;
 
         tile_y_bits = last_tile_y;
@@ -420,7 +419,7 @@ case_1_entry:
         floor_y = y_base + 0x20;
         x_adjust = x_adjust_table[(s16)effect->unk_0E];
         work_base->unk_00.parts_02.unk_02.u16 = (u16)(x_base + ((x_adjust + 1) << 5));
-        y_adjust = ((s16 *)D_8006CCE8)[(s16)effect->unk_0E];
+        y_adjust = ((s16 *)((u8 *)dirStepY))[(s16)effect->unk_0E];
         floor_y &= 0xFFE0;
         work_base->unk_04.parts_06.unk_06.u16 = (u16)(y_base + ((y_adjust + 1) << 5));
         final_floor = func_800BCB04(floor_x, floor_y, floor_limit);

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 typedef union Fixed32 {
     s32 val;
@@ -78,8 +79,6 @@ typedef union WideProduct {
     } word;
 } WideProduct;
 
-extern s16 D_8006CCD8[8];
-extern s16 D_8006CCE8[8];
 extern LargeFlag D_800814A0;
 extern u32 D_8008346C[3];
 extern s32 func_8003DE58();
@@ -213,10 +212,10 @@ void func_80024C88(Controller *ctrl, Motion *motion, void *render_data)
 
                 direction = (s16)ctrl->angle;
                 root_z = *(u16 *)(root + 0x88);
-                lookup = &D_8006CCD8[direction];
+                lookup = &dirStepX[direction];
                 x_step = lookup;
                 height = (s16)(root_z - 32);
-                y_step = &D_8006CCE8[direction];
+                y_step = &dirStepY[direction];
                 floor_height = func_800BCB04((((s16)cell_x + *x_step) << 6) + 32 & 0xFFE0,
                                            (((s16)cell_y + *y_step) << 6) + 32 & 0xFFE0,
                                            height);
@@ -236,9 +235,9 @@ void func_80024C88(Controller *ctrl, Motion *motion, void *render_data)
                 s32 direction;
 
                 direction = (s16)ctrl->angle;
-                x_step = &D_8006CCD8[direction];
+                x_step = &dirStepX[direction];
                 index++;
-                y_step = &D_8006CCE8[direction];
+                y_step = &dirStepY[direction];
                 next_x = cell_x + (u16)*x_step;
                 cell_x = next_x;
                 next_y = cell_y + (u16)*y_step;

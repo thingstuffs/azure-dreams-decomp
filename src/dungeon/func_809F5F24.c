@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
@@ -11,8 +12,6 @@ M2C_UNK func_800A2FE0();
 M2C_UNK func_800A32A4();
 M2C_UNK func_800A56E0();
 M2C_UNK func_800ACF88();
-extern s8 D_8006CCD8;
-extern s8 D_8006CCE8;
 extern s32 D_800814A0[3];
 extern M2C_UNK D_80083460;
 extern s16 D_8008346A;
@@ -82,8 +81,8 @@ void func_80173724(void *anim_state, void *motion, void *sprite, void *entity) {
 
     phase = ((S_80173724_0 *)anim_state)->unk_9B;
     direction_offset = ((u16) ((S_80173724_1 *)entity)->unk_6A >> 8) & 0xE;
-    direction_x = *(s16 *)((u8 *)&D_8006CCD8 + direction_offset);
-    direction_y = *(s16 *)((u8 *)&D_8006CCE8 + direction_offset);
+    direction_x = *(s16 *)((u8 *)((s8 *)dirStepX) + direction_offset);
+    direction_y = *(s16 *)((u8 *)((s8 *)dirStepY) + direction_offset);
     if (phase >= 5U) {
         goto block_20;
     }

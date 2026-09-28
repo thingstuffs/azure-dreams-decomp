@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 extern int abs(int);
 
 typedef struct Motion {
@@ -58,8 +59,6 @@ typedef struct ColorPart {
 
 extern void *D_80024008[];
 extern u8 D_800DDC40[256];
-extern s16 D_8006CCD8[8];
-extern s16 D_8006CCE8[8];
 extern s32 D_8008346C;
 extern u32 D_800814A0;
 
@@ -71,8 +70,8 @@ extern void func_8002558C(EffectState *, Motion *);
 extern void func_800A56E0(s32);
 extern void func_80024024(void *, u8, void *);
 #ifdef NON_MATCHING
-#define do { (v) = 0x80070000; ASM_KEEP(v); (v) -= 0x3328; } while (0) ((v) = (s32)D_8006CCD8)
-#define do { (v) = 0x80070000; ASM_KEEP(v); (v) -= 0x3318; } while (0) ((v) = (s32)D_8006CCE8)
+#define do { (v) = 0x80070000; ASM_KEEP(v); (v) -= 0x3328; } while (0) ((v) = (s32)dirStepX)
+#define do { (v) = 0x80070000; ASM_KEEP(v); (v) -= 0x3318; } while (0) ((v) = (s32)dirStepY)
 #else
 #endif
 
@@ -227,11 +226,11 @@ case_0:
 
         table_offset = (s16)state->direction;
         probe_z = U16_AT(owner, 0x88);
-        table_x_entry = (Position16 *)&D_8006CCD8[table_offset];
+        table_x_entry = (Position16 *)&dirStepX[table_offset];
         probe_z -= 0x20;
         probe_z = (u32)probe_z << 16;
         probe_z >>= 16;
-        table_y_entry = &D_8006CCE8[table_offset];
+        table_y_entry = &dirStepY[table_offset];
         ground_z = func_800BCB04(
             (((s16)tile_x + *((s16 *)table_x_entry)) << 6) + 0x20 & 0xFFE0,
             (((s16)tile_y + *table_y_entry) << 6) + 0x20 & 0xFFE0,
@@ -246,8 +245,8 @@ case_0:
 
         update_offset = (s16)state->direction;
         index++;
-        update_x_entry = (u16 *)&D_8006CCD8[update_offset];
-        update_y_entry = (u16 *)&D_8006CCE8[update_offset];
+        update_x_entry = (u16 *)&dirStepX[update_offset];
+        update_y_entry = (u16 *)&dirStepY[update_offset];
         next_x = tile_x + *update_x_entry;
         tile_x = next_x;
         next_y = tile_y;
@@ -261,12 +260,12 @@ case_0:
     target_pos = (void *)((Position16 *)&work.destination);
     index = 1;
     x_distance = (u32)end_tile_x << 16;
-    update_offset = (s32)(D_8006CCD8);
+    update_offset = (s32)(dirStepX);
     x_distance = (s32)x_distance >> 10;
     direction_index = (s16)state->direction;
     color_part = (u8 *)&work.destination + 2;
     offset_x = ((s16 *)update_offset)[direction_index];
-    update_offset = (s32)(D_8006CCE8);
+    update_offset = (s32)(dirStepY);
     x_distance = x_distance + ((offset_x + 1) << 5);
     ((Position16 *)target_pos)->x = x_distance;
     x_distance = (s16)x_distance;

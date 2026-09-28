@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "records/Rec_func_800AA258_arg2.h"
@@ -16,8 +17,6 @@ s32 func_8009B25C();
 s32 func_800A2B5C();
 M2C_UNK func_800A4ACC();
 M2C_UNK func_800C7930();
-extern u16 D_8006CCD8[];
-extern u16 D_8006CCE8[];
 extern s16 D_80083228;
 extern u16 D_80083462;
 extern u8 D_80174EC8;
@@ -45,8 +44,8 @@ void func_8017476C(void *action_state, M2C_UNK action_context, void *sprite, voi
             direction = ((u16)((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 >> 9) & 7;
             ((Rec_D_800E3D7C *)actor)->unk_60.as_s32 = func_8009B25C(
                 actor,
-                (((Rec_func_800AA258_arg2 *)sprite)->unk_24 + D_8006CCD8[direction]) & 0xFFFF,
-                (((Rec_func_800AA258_arg2 *)sprite)->unk_25 + D_8006CCE8[direction]) & 0xFFFF,
+                (((Rec_func_800AA258_arg2 *)sprite)->unk_24 + ((u16 *)dirStepX)[direction]) & 0xFFFF,
+                (((Rec_func_800AA258_arg2 *)sprite)->unk_25 + ((u16 *)dirStepY)[direction]) & 0xFFFF,
                 ((Rec_D_800E3D7C *)actor)->unk_88.as_s16);
         }
     }

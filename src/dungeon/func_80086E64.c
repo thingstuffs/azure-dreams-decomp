@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "records/Rec_D_800E3D7C.h"
 extern u8 D_80080000[];
 
@@ -10,8 +11,6 @@ extern s32 func_8009B5AC();
 extern M2C_UNK func_8009F644();
 extern M2C_UNK func_800A56E0();
 extern s32 D_80012090[];
-extern u8 D_8006CCD8[];
-extern u8 D_8006CCE8[];
 extern s32 D_80081484[];
 extern s32 D_80083170[];
 extern s16 D_80083228[];
@@ -76,8 +75,8 @@ s32 func_8008C5C4(S_8008C5C4_2 *action, void *unused, S_8008C5C4_1 *position, Re
     direction_offset = ((u16)actor->unk_2A.as_u16 >> 8) & 0xE;
     target_result = func_8009B5AC(
         actor,
-        (s16)(position->unk_24 + *(u16 *)(D_8006CCD8 + direction_offset)),
-        (s16)(position->unk_25 + *(u16 *)(D_8006CCE8 + direction_offset)));
+        (s16)(position->unk_24 + *(u16 *)(((u8 *)dirStepX) + direction_offset)),
+        (s16)(position->unk_25 + *(u16 *)(((u8 *)dirStepY) + direction_offset)));
     action->unk_124 = target_result;
     if (target_result != 0) {
         result = -1;

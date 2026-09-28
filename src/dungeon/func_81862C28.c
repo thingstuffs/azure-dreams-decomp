@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 typedef struct S_81862C28_0 {
     u8 pad_00[0x8];
@@ -50,8 +51,6 @@ extern u16 func_800BCAD0(void *);
 extern void func_80024374(void);
 extern u8 D_80045340[];
 extern u8 D_800DE9D0[];
-extern u16 D_8006CCD8[];
-extern u16 D_8006CCE8[];
 
 /* Creates an effect at the origin or in unblocked directions at the given radius. */
 void func_80024428(s32 effect_param, void *origin_arg, s32 radius_arg, u8 *blocked_dirs) {
@@ -116,7 +115,7 @@ next_direction:
             if (source_y < 0) {
                 source_y += 0x3F;
             }
-            tile_dy = *(u16 *)((u8 *)D_8006CCE8 + table_offset) * radius;
+            tile_dy = *(u16 *)((u8 *)dirStepY + table_offset) * radius;
             origin_z = ((S_81862C28_2 *)origin)->unk_0A.u;
             target_x = ((tile_x << 0x10) >> 0xA) + 0x20;
             target_y = ((((source_y >> 6) + tile_dy) << 0x10) >> 0xA) + 0x20;

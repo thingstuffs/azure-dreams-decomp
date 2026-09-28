@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 #ifndef NULL
 #define NULL ((void *)0)
@@ -20,8 +21,6 @@ extern void D_8016A36C();
 
 extern u16 D_80013714;
 extern s16 D_80083228;
-extern u16 D_80083462;
-extern s16 D_8008346A;
 extern u8 *D_800E3D7C;
 extern Callback D_80173B94[];
 extern u8 D_80173DDC[];
@@ -98,7 +97,7 @@ void func_80169EC0(void *owner_arg, void *motion, void *data)
     s32 height_offset;
 
     if ((*(u8 *)((u8 *)owner_arg + (0xB1))) == 0 &&
-        !(D_80013714 & 1) && D_8008346A == 0) {
+        !(D_80013714 & 1) && dungeonStatus.unk_0A == 0) {
         (*(u8 *)((u8 *)owner_arg + (0xB1))) = 1;
         func_800353F4(D_80173DDC);
         (*(u8 *)((u8 *)owner_arg + (0x6D))) = 0;
@@ -125,7 +124,7 @@ void func_80169EC0(void *owner_arg, void *motion, void *data)
     } else {
         func_80042B68(actor, 7);
     }
-    if (D_80083462 & 0x2000) {
+    if (dungeonStatus.flags & 0x2000) {
         special_callback = (*(Callback *)((u8 *)owner_arg + (0x8C)));
         if (special_callback == (Callback)D_8016A36C) {
             special_callback(owner_arg, motion, data, actor);

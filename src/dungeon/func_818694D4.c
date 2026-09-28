@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 typedef union Fixed32 {
     s32 val;
@@ -73,8 +74,6 @@ typedef struct LargeFlag {
 
 extern LargeFlag D_800814A0;
 extern u32 D_8008346C[3];
-extern s16 D_8006CCD8[8];
-extern s16 D_8006CCE8[8];
 extern int abs(int);
 extern s32 func_8003DE58();
 extern s32 func_800A44E0();
@@ -203,10 +202,10 @@ void func_80024CD4(Controller *input_ctrl, Motion *input_motion, void *input_ren
 
                 direction = (s16)input_ctrl->angle;
                 root_z = *(u16 *)(root + 0x88);
-                lookup = &D_8006CCD8[direction];
+                lookup = &dirStepX[direction];
                 step_x = lookup;
                 height = (s16)(root_z - 32);
-                step_y = &D_8006CCE8[direction];
+                step_y = &dirStepY[direction];
                 floor_height = func_800BCB04((((s16)cell_x + *step_x) << 6) + 32 & 0xFFE0,
                     (((s16)cell_y + *step_y) << 6) + 32 & 0xFFE0,
                     height);
@@ -226,9 +225,9 @@ void func_80024CD4(Controller *input_ctrl, Motion *input_motion, void *input_ren
                 s32 direction;
 
                 direction = (s16)input_ctrl->angle;
-                step_x = &D_8006CCD8[direction];
+                step_x = &dirStepX[direction];
                 steps++;
-                step_y = &D_8006CCE8[direction];
+                step_y = &dirStepY[direction];
                 next_x = cell_x + (u16)*step_x;
                 cell_x = next_x;
                 next_y = cell_y + (u16)*step_y;

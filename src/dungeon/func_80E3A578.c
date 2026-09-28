@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "records/Rec_func_80173D78_arg0.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
@@ -51,8 +52,6 @@ typedef struct S_80173D78_5 {
 
 
 extern void *D_801708A0[];
-extern s8 D_8006CCD8;
-extern s8 D_8006CCE8;
 extern s32 D_80083460;
 extern M2C_UNK D_800C6AEC;
 extern M2C_UNK D_8017086C;
@@ -138,8 +137,8 @@ jt_c1:
     }
 
     direction_offset = ((u16)actor->unk_2A >> 8) & 0xE;
-    target_x = sprite->unk_24 + *(u16 *)((s8 *)&D_8006CCD8 + direction_offset);
-    target_y = sprite->unk_25 + *(u16 *)((s8 *)&D_8006CCE8 + direction_offset);
+    target_x = sprite->unk_24 + *(u16 *)((s8 *)((s8 *)dirStepX) + direction_offset);
+    target_y = sprite->unk_25 + *(u16 *)((s8 *)((s8 *)dirStepY) + direction_offset);
     actor->unk_60.i = 0;
 
     if (((Rec_func_80173D78_arg0 *)action)->unk_AC == 0) {

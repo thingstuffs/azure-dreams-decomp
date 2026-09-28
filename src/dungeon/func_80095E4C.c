@@ -1,10 +1,9 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 typedef struct Source Source;
 typedef struct Spawned Spawned;
 
-extern u16 D_8006CCD8[];
-extern u16 D_8006CCE8[];
 extern u8 D_80081484[];
 extern Source *D_800814A8;
 extern u8 D_800E3548[];
@@ -63,8 +62,8 @@ void *func_8009B5AC(Source *source, s16 target_x, s16 target_y) {
     direction = (source->index_field >> 9) & 7;
 
     probe_result = func_8009A540(direction,
-                                (s16)(target_x - D_8006CCD8[direction]),
-                                (s16)(target_y - D_8006CCE8[direction]),
+                                (s16)(target_x - dirStepX[direction]),
+                                (s16)(target_y - dirStepY[direction]),
                                 (s16)(source->height - 0x20));
     spawn_x = (u16)target_x;
     spawn_y = (u16)target_y;

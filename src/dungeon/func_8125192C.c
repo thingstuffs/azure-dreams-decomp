@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 extern int abs(int);
 
 typedef s32 M2C_UNK;
@@ -27,8 +28,6 @@ extern s16 func_800BCB04();
 
 extern u16 D_80013714;
 extern s16 D_80083228;
-extern u16 D_80083462;
-extern s16 D_8008346A;
 extern u8 *D_800E3D7C[];
 extern M2C_UNK D_80171514;
 extern Callback D_80173EF4[];
@@ -117,7 +116,7 @@ void func_8017112C(void *entity_arg, void *motion_arg, void *monster_arg)
     void *node;
     void *record;
 
-    if (((S_8017112C_0 *)actor)->unk_BB == 0 && D_8008346A == 0) {
+    if (((S_8017112C_0 *)actor)->unk_BB == 0 && dungeonStatus.unk_0A == 0) {
         ((S_8017112C_0 *)actor)->unk_BB = 1;
         func_800353F4(D_80173FC8);
         ((S_8017112C_0 *)actor)->unk_6D.n = 0;
@@ -140,7 +139,7 @@ void func_8017112C(void *entity_arg, void *motion_arg, void *monster_arg)
         } if (slot_index >= 0) goto loop_0;
     }
 
-    if (D_80083462 & 0x2000) {
+    if (dungeonStatus.flags & 0x2000) {
         callback = (*(Callback *)((u8 *)entity_arg + (0x8C)));
         if (callback == (Callback)&D_80171514) {
             callback(entity_arg, motion_arg, monster_arg, actor);

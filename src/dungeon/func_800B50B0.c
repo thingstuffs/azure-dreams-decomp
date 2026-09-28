@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "m2c_compat.h"
 
 typedef struct S_800BA810_0 {
@@ -27,8 +28,6 @@ typedef struct S_800BA810_3 {
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern s32 D_800BA6B8;
 void func_800403BC(s32 *);                  /* extern */
-extern s16 D_8006CCD8[];
-extern s16 D_8006CCE8[];
 typedef struct S_8006DE24_Entry {
     u8 pad[0x12];
     u8 type;
@@ -115,8 +114,8 @@ update_tiles:
             if (forward_steps > 0) {
                 do {
                     forward_height = height - 0x20;
-                    tile_x += (s16) D_8006CCD8[direction];
-                    tile_z += (s16) D_8006CCE8[direction];
+                    tile_x += (s16) dirStepX[direction];
+                    tile_z += (s16) dirStepY[direction];
                     height = func_800BCB04(((tile_x << 6) + 0x20) & 0xFFE0, ((tile_z << 6) + 0x20) & 0xFFE0, forward_height);
                     if (height >= 0x201) {
                         break;
@@ -133,8 +132,8 @@ update_tiles:
             adjacent_steps = 1;
             do {
                 adjacent_height = height - 0x20;
-                tile_x += (s16) D_8006CCD8[direction];
-                tile_z += (s16) D_8006CCE8[direction];
+                tile_x += (s16) dirStepX[direction];
+                tile_z += (s16) dirStepY[direction];
                 height = func_800BCB04(((tile_x << 6) + 0x20) & 0xFFE0, ((tile_z << 6) + 0x20) & 0xFFE0, adjacent_height);
                 if (height >= 0x201) {
                     break;
@@ -159,8 +158,8 @@ update_tiles:
             if (forward_steps > 0) {
                 do {
                     range_height = height - 0x20;
-                    tile_x += (s16) D_8006CCD8[direction];
-                    tile_z += (s16) D_8006CCE8[direction];
+                    tile_x += (s16) dirStepX[direction];
+                    tile_z += (s16) dirStepY[direction];
                     height = func_800BCB04(((tile_x << 6) + 0x20) & 0xFFE0, ((tile_z << 6) + 0x20) & 0xFFE0, range_height);
                     if (height >= 0x201) {
                         break;

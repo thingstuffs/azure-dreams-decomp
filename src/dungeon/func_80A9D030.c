@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -32,8 +33,6 @@ extern void func_800A4ACC(void *);
 extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
 
-extern s16 D_8006CCD8[];
-extern s16 D_8006CCE8[];
 extern s16 D_80083228;
 extern s32 D_8008346C;
 extern void *D_800E3DE8[];
@@ -78,9 +77,9 @@ state_0:
 
     direction_offset = (((((S_80172830_2 *)actor)->unk_2A.s >> 9) & 7) + 4) % 8;
     ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 =
-        D_8006CCD8[direction_offset] * 3 << 16;
+        dirStepX[direction_offset] * 3 << 16;
     ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v =
-        D_8006CCE8[direction_offset] * 3 << 16;
+        dirStepY[direction_offset] * 3 << 16;
     ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0;
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80174C34;
     func_80047784(sprite,
@@ -158,12 +157,12 @@ state_3:
         s16 *y_step;
 
         direction_offset = ((S_80172830_2 *)actor)->unk_2A.s >> 8;
-        x_steps = D_8006CCD8;
+        x_steps = dirStepX;
         x_step = (s16 *)((u8 *)x_steps + (direction_offset & 0xE));
         direction_step = *x_step;
         ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 =
             (direction_step * 3 << 16) + ((direction_step * 3 << 16) >> 2);
-        y_step = (s16 *)((u8 *)&D_8006CCE8 + (direction_offset & 0xE));
+        y_step = (s16 *)((u8 *)&dirStepY + (direction_offset & 0xE));
         direction_step = *y_step;
         ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0xFFF70000;
         ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v =

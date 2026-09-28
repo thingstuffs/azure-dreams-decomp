@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 typedef union {
     s32 value;
@@ -73,8 +74,6 @@ typedef struct {
     u16 count;
 } CounterBlock;
 
-extern s16 D_8006CCD8[];
-extern s16 D_8006CCE8[];
 extern s16 D_80083228[];
 extern CounterBlock D_80083460[];
 extern PackedRecord D_800E3548[];
@@ -129,7 +128,7 @@ void func_80F36D0C(Entity *entity_arg, Motion *motion_arg, Effect *effect_arg, O
     case 0:
         angle_index = object->angle >> 9;
         direction = angle_index & 7;
-        angle_index = (u32)D_8006CCD8;
+        angle_index = (u32)dirStepX;
         entity->saved_x = motion->x.half.hi;
         saved_y = motion->y.half.hi;
 
@@ -138,7 +137,7 @@ void func_80F36D0C(Entity *entity_arg, Motion *motion_arg, Effect *effect_arg, O
 
         record_index = func_800A70E4(
             effect->x_tile + *(s16 *)(record_offset + (unsigned long)(s16 *)angle_index),
-            effect->y_tile + *(s16 *)((u8 *)D_8006CCE8 + record_offset),
+            effect->y_tile + *(s16 *)((u8 *)dirStepY + record_offset),
             object->height);
         angle_index = record_index << 16;
         record_index = (s32)angle_index >> 16;
@@ -174,7 +173,7 @@ void func_80F36D0C(Entity *entity_arg, Motion *motion_arg, Effect *effect_arg, O
             break;
         }
 
-        angle_index = (u32)(D_8006CCD8);
+        angle_index = (u32)(dirStepX);
         step_addr = direction << 1;
         angle_index = (u32)((s16 *)(step_addr + (unsigned long)(s16 *)angle_index));
         angle_index = (u32)((s16 *)(*(s16 *)angle_index));
@@ -182,7 +181,7 @@ void func_80F36D0C(Entity *entity_arg, Motion *motion_arg, Effect *effect_arg, O
         animation = (u8 *)0x80170000;
         ASM_KEEP_NV(animation);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         scaled_velocity = ((s32)(s16 *)angle_index << 16) + ((s32)(s16 *)angle_index << 15);
-        step_table_2 = D_8006CCE8;
+        step_table_2 = dirStepY;
         step_addr += (unsigned long)step_table_2;
         motion->velocity_x = scaled_velocity;
         angle_index = (u32)((s16 *)(*(s16 *)step_addr));
@@ -239,13 +238,13 @@ void func_80F36D0C(Entity *entity_arg, Motion *motion_arg, Effect *effect_arg, O
 
         angle_index = object->angle;
         zero_arg = angle_index >> 8;
-        angle_index = (u32)(D_8006CCD8);
+        angle_index = (u32)(dirStepX);
         return_step_addr = zero_arg & 0xE;
         angle_index = (u32)((s16 *)(return_step_addr + (unsigned long)(s16 *)angle_index));
         angle_index = (u32)((s16 *)(-*(s16 *)angle_index));
         angle_index = (u32)((s16 *)(((s32)(s16 *)angle_index) << (16)));
         motion->velocity_x = (s32)(s16 *)angle_index;
-        angle_index_2 = (u32)(D_8006CCE8);
+        angle_index_2 = (u32)(dirStepY);
         return_step_addr += (unsigned long)(s16 *)angle_index_2;
         angle_index = (u32)((s16 *)(*(s16 *)return_step_addr));
         animation = (u8 *)&D_80174A74;

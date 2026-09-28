@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -12,8 +13,6 @@ extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
 extern void func_8017586C(void *, void *, void *);
 
-extern s8 D_8006CCD8;
-extern s8 D_8006CCE8;
 extern s16 D_80083228;
 extern s32 D_8008346C;
 extern void *D_80170860[6];
@@ -67,9 +66,9 @@ L1:
     {
         u32 direction_offset = ((u16)((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 >> 8) & 0xE;
         ((Rec_D_800E3D7C *)velocity)->unk_0C.as_s32 -=
-            (s32)*(s16 *)((u8 *)&D_8006CCD8 + direction_offset) << 16;
+            (s32)*(s16 *)((u8 *)((s8 *)dirStepX) + direction_offset) << 16;
         ((Rec_D_800E3D7C *)velocity)->unk_10.at00_s32.v -=
-            (s32)*(s16 *)((u8 *)&D_8006CCE8 + direction_offset) << 16;
+            (s32)*(s16 *)((u8 *)((s8 *)dirStepY) + direction_offset) << 16;
     }
     if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000) {
         (*(u8 * *)((u8 *)sprite + (0x2C))) = D_80175C68;
@@ -116,8 +115,8 @@ L2:
 
 L3:
     {
-        u8 *direction_x = (u8 *)&D_8006CCD8;
-        u8 *direction_y = (u8 *)&D_8006CCE8;
+        u8 *direction_x = (u8 *)((s8 *)dirStepX);
+        u8 *direction_y = (u8 *)((s8 *)dirStepY);
         u16 frame;
 
         ((Rec_D_800E3D7C *)velocity)->unk_0C.as_s32 +=

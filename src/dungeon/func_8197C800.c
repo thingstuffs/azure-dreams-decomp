@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 typedef struct S_FUNC_8197C800_BODY_0_pre {
     u16 unk_00;
@@ -193,8 +194,6 @@ extern u8 D_800DE9D0[];
 extern u8 D_800DEC00[];
 extern u8 D_80083460[];
 extern s32 D_800814A0[];
-extern s16 D_8006CCD8[];
-extern s16 D_8006CCE8[];
 extern u16 D_80082E94[];
 
 extern void *func_8003FD64(s32, void *);
@@ -374,7 +373,7 @@ case_three:
             random_value = func_80069EF8();
             angle = ((S_FUNC_8197C800_BODY_23 *)(D_800814A8[0]))->unk_2A;
             offset_index = (s16)angle >> 9;
-            result = (s32)(D_8006CCD8);
+            result = (s32)(dirStepX);
             {
                 s32 grid_coord;
                 s32 rounded_random;
@@ -394,7 +393,7 @@ case_three:
             random_value = func_80069EF8();
             angle = ((S_FUNC_8197C800_BODY_23 *)(D_800814A8[0]))->unk_2A;
             offset_index = (s16)angle >> 9;
-            result = (s32)(D_8006CCE8);
+            result = (s32)(dirStepY);
             {
                 s32 grid_coord;
                 s32 rounded_random;
@@ -454,7 +453,7 @@ case_three:
             random_value = func_80069EF8();
             angle = ((S_FUNC_8197C800_BODY_24 *)(D_800814A8[0]))->unk_2A;
             offset_index = (s16)angle >> 9;
-            result = (s32)(D_8006CCD8);
+            result = (s32)(dirStepX);
             {
                 s32 grid_coord;
                 void *position;
@@ -466,7 +465,7 @@ case_three:
             random_value = func_80069EF8();
             angle = ((S_FUNC_8197C800_BODY_24 *)(D_800814A8[0]))->unk_2A;
             offset_index = (s16)angle >> 9;
-            result = (s32)(D_8006CCE8);
+            result = (s32)(dirStepY);
             {
                 s32 grid_coord;
                 void *position;

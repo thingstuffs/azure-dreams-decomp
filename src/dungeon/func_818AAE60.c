@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/dir_step.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_800243B8_arg0.h"
 extern int abs(int);
@@ -86,14 +88,11 @@ s32 func_8003DE58();
 s32 func_800A44E0();
 M2C_UNK func_800A56E0();
 s16 func_800BCB04();
-extern u16 D_8006CCD8[];
-extern u16 D_8006CCE8[];
 extern u16 D_8006CCD8_2[] __asm__("D_8006CCD8");
 extern u16 D_8006CCE8_2[] __asm__("D_8006CCE8");
 extern s16 D_8006CCD8_3[] __asm__("D_8006CCD8");
 extern s16 D_8006CCE8_3[] __asm__("D_8006CCE8");
 extern M2C_UNK D_800814A0;
-extern s32 D_8008346C;
 
 typedef struct {
     s32 pos[3];
@@ -257,11 +256,11 @@ set_target_velocity:
                 break;
             }
             direction = (s16) ((Rec_func_800243B8_arg0 *)effect)->unk_0E;
-            step_table = D_8006CCD8;
+            step_table = dirStepX;
             tile_info = (void *)(&step_table[direction]);
             probe_z = (u16) ((S_80024660_1 *)source)->unk_88;
             probe_z = (s16) (probe_z - 32);
-            step_table = D_8006CCE8;
+            step_table = dirStepY;
             probe_x_dest_y = *((u16 *)tile_info);
             probe_y_dest_x = step_table[direction];
             probe_x_dest_y = (((((s32)tile_x) + (s16)probe_x_dest_y) << 6) + 32) & 0xFFE0;
@@ -377,7 +376,7 @@ jt_c4:
     if (((Rec_func_800243B8_arg0 *)effect)->unk_14 != 0) {
         goto finish;
     }
-    D_8008346C = 0;
+    dungeonStatus.unk_0C = 0;
     (*(u16 *)((u8 *)effect + -2)) = (u16) ((*(u16 *)((u8 *)effect + -2)) | 0x8000);
     (*(s32 *)&D_800814A0) = (s32) (((S_80024660_11 *)(&D_800814A0))->unk_00 | 0x8000);
     goto finish;

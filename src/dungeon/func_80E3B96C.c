@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 typedef struct {
     s16 x;
@@ -76,9 +77,7 @@ typedef struct {
 } Work;
 
 extern s32 D_80045340;
-extern u16 D_8006CCD8[];
 extern u16 D_8006CCD8_success[] __asm__("D_8006CCD8");
-extern u16 D_8006CCE8[];
 extern s16 D_80083228;
 extern s32 D_80083460;
 extern s16 D_8008347C;
@@ -148,13 +147,13 @@ void func_8017516C(u8 *owner_data, Position *position_arg, Source *source_arg, C
         register s32 direction_offset ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
         trial_dir = 0;
-        x_steps = D_8006CCD8;
+        x_steps = ((u16 *)dirStepX);
         {
 
             ASM_SET(direction_offset);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
             direction_offset = direction << 1;
             first_x_step = (u16 *)(direction_offset + (s32)x_steps);
-            table_or_owner = (u8 *)D_8006CCE8;
+            table_or_owner = (u8 *)((u16 *)dirStepY);
             first_y_step = (u16 *)(direction_offset + (s32)table_or_owner);
         }
 search:
@@ -185,7 +184,7 @@ trial_success:
 
             direction_offset = trial_dir << 1;
             trial_x_step = (u16 *)(direction_offset + (s32)x_steps);
-            table_or_owner = (u8 *)D_8006CCE8;
+            table_or_owner = (u8 *)((u16 *)dirStepY);
             trial_y_address = direction_offset + (s32)table_or_owner;
             ASM_KEEP(trial_x_step);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
             target_x = trial_x_step[0] + (source_arg->x + first_x_step[0]);
@@ -204,7 +203,7 @@ initial_success:
         direction_offset = direction << 1;
         x_step_address = x_steps_address + direction_offset;
         target_x = source_arg->x + *(u16 *)x_step_address;
-        target_y = source_arg->y + D_8006CCE8[direction];
+        target_y = source_arg->y + ((u16 *)dirStepY)[direction];
     }
 
 allocate:

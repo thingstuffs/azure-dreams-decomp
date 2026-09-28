@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "m2c_compat.h"
 
 typedef struct S_800CA444_0 {
@@ -56,8 +57,6 @@ extern s16 D_8006CD00[];
 extern u16 D_80082E80[];
 extern u16 D_80083460[];
 extern int D_800814A8[4];
-extern u8 D_8006CCD8[];
-extern u8 D_8006CCE8[];
 M2C_UNK func_800A0E6C();
 M2C_UNK func_800A19E4();
 M2C_UNK func_800A9A0C();
@@ -113,14 +112,14 @@ write_hit:
     ((S_800CA444_5 *)((actor + (((S_800CA444_1 *)actor)->unk_71 & 0x7F))))->unk_74 = (u8) tile->unk_24.at00.v;
     ((S_800CA444_5 *)((actor + (((S_800CA444_1 *)actor)->unk_71 & 0x7F))))->unk_7C = (u8) tile->unk_24.at01.v;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    x_step_addr = (unsigned long) D_8006CCD8;
+    x_step_addr = (unsigned long) ((u8 *)dirStepX);
     trail_count = ((S_800CA444_1 *)actor)->unk_71;
     direction_index = ((u16) ((S_800CA444_1 *)actor)->unk_2A >> 8) & 0xE;
     trail_count++;
     x_step_addr = direction_index + x_step_addr;
     ((S_800CA444_1 *)actor)->unk_71 = (u8) trail_count;
     tile->unk_24.at00.v = (u8) (tile->unk_24.at00.v + *(u8 *) x_step_addr);
-    tile->unk_24.at01.v = (u8) (tile->unk_24.at01.v + D_8006CCE8[direction_index]);
+    tile->unk_24.at01.v = (u8) (tile->unk_24.at01.v + ((u8 *)dirStepY)[direction_index]);
     goto state_done;
 
 scan_start:

@@ -1,15 +1,7 @@
 #include "common.h"
-
-typedef struct {
-    u8    pad_0[2];
-    u16   field_2;
-    u8    pad_4[6];
-    s16   field_A;
-    void *field_C;
-} S80083460;
+#include "shared/dungeon_status.h"
 
 extern s32 D_800E296C;
-extern S80083460 D_80083460;
 extern s16 D_80083228;
 extern u8  D_800DD0F8[];
 extern u16 D_80013714;
@@ -23,10 +15,10 @@ extern void func_800A1D4C();
 
 /* Starts the selected target's action when ready and reports whether a target is active. */
 s32 func_8008D1D0(void *actor_state, s32 action_arg, void *sprite, void *target) {
-    if (!(D_800E296C & 0x100000) || D_80083460.field_C == 0) {
+    if (!(D_800E296C & 0x100000) || dungeonStatus.unk_0C == 0) {
         return 0;
     }
-    if (D_80083460.field_C == target && D_80083460.field_A == 0 && !(D_80083460.field_2 & 8)) {
+    if (dungeonStatus.unk_0C == target && dungeonStatus.unk_0A == 0 && !(dungeonStatus.flags & 8)) {
         *(s8 *)((char *)actor_state + 0x9A) = 9;
         *(s8 *)((char *)actor_state + 0x9B) = 0;
         *(s32 *)((char *)actor_state + 0x8C) = 0;

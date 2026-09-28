@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/dir_step.h"
 #include "m2c_compat.h"
 extern u8 D_80070000[];
 extern u8 D_800E0000[];
@@ -28,8 +29,6 @@ M2C_UNK func_800B4C7C();
 s16 func_800B5ED0();
 M2C_UNK func_800C7DEC();
 s32 func_800C82B8();
-extern s16 D_8006CCD8[8];
-extern s16 D_8006CCE8[8];
 extern void *D_80083470[3];
 extern M2C_UNK D_800E0D7B;
 extern M2C_UNK D_800E0D92;
@@ -429,7 +428,7 @@ void *func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distanc
     effect_elements = attack_elements << 0x10;
     effect_elements >>= 0x10;
     direction_value = direction;
-    opposite_x_ptr = D_8006CCD8;
+    opposite_x_ptr = dirStepX;
     opposite_offset = (direction_value >> 9) & 7;
     direction_offset = opposite_offset * 2;
     scaled_modifier = (s32)((s16 *)(direction_offset + (s32)opposite_x_ptr));
@@ -440,7 +439,7 @@ void *func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distanc
     effect_x = *(s16 *)scaled_modifier;
     null_result = (void *)distance;
     x_step = effect_x * ((s32)null_result);
-    scaled_modifier = (s32)D_8006CCE8;
+    scaled_modifier = (s32)dirStepY;
     direction_offset += (s32)(s16 *)scaled_modifier;
     opposite_offset += (s32)(s16 *)scaled_modifier;
     x_offset = *opposite_x_ptr;

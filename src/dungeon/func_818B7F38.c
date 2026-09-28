@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "m2c_compat.h"
 extern int abs(int);
 
@@ -116,14 +117,12 @@ s32 func_8003DE58();     /* extern */
 s32 func_800A44E0();              /* extern */
 M2C_UNK func_800A56E0();                /* extern */
 s16 func_800BCB04();                   /* extern */
-extern u16 D_8006CCD8[8];
-extern u16 D_8006CCE8[8];
 extern M2C_UNK D_800814A0;
 extern s32 D_8008346C;
 
 #ifdef NON_MATCHING
-#define LOAD_TABLE_X_BASE(v) ((v) = (s32)D_8006CCD8)
-#define LOAD_TABLE_Y_BASE(v) ((v) = (s32)D_8006CCE8)
+#define LOAD_TABLE_X_BASE(v) ((v) = (s32)dirStepX)
+#define LOAD_TABLE_Y_BASE(v) ((v) = (s32)dirStepY)
 #else
 #define LOAD_TABLE_X_BASE(v) do { (v) = 0x80070000; ASM_KEEP(v); (v) -= 0x3328; } while (0)
 #define LOAD_TABLE_Y_BASE(v) do { (v) = 0x80070000; ASM_KEEP(v); (v) -= 0x3318; } while (0)
@@ -348,12 +347,12 @@ do {
     if ((s16) (floor_z - (u16) ((S_80025738_1 *)owner)->unk_88) < -0x3F) {
         goto build_path_endpoint;
     }
-    table_base = (s32)D_8006CCD8;
+    table_base = (s32)dirStepX;
     table_x_entry = (s16) ((S_80025738_0 *)state)->unk_0E;
     index += 1;
     table_x_entry *= 2;
     update_x_entry = (u16 *)((s32)table_x_entry + table_base);
-    table_base = (s32)D_8006CCE8;
+    table_base = (s32)dirStepY;
     update_y_entry = (u16 *)((s32)table_x_entry + table_base);
     probe_x = tile_x + *update_x_entry;
     tile_x = probe_x;
@@ -368,14 +367,14 @@ use_path_endpoint:
 build_path_endpoint:
     index = 1;
     world_x = last_tile_x << 0x10;
-    x_offsets = (s16 *)D_8006CCD8;
+    x_offsets = (s16 *)dirStepX;
     world_x_final = world_x >> 0xA;
     direction = (s16) ((S_80025738_0 *)state)->unk_0E;
     ASM_KEEP(direction);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     path_delta_cursor = (u16 *)((u8 *)&frame.out_x + 2);
     ASM_KEEP(path_delta_cursor);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     offset_x = x_offsets[direction];
-    y_offsets = (s16 *)D_8006CCE8;
+    y_offsets = (s16 *)dirStepY;
     end_x = world_x_final + ((offset_x + 1) << 5);
     ((S_80025738_7 *)destination)->unk_00.at02.v = end_x;
     end_x_signed = end_x;

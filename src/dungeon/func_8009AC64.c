@@ -1,8 +1,7 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 extern u16 D_8008347E;
-extern u16 D_8006CCD8[];
-extern u16 D_8006CCE8[];
 s32 func_8009A540(s32, u8, u8, s16);
 s32 func_8009B25C(void *, u16, u16, s16);
 s32 func_800A2CB8(void *, s32);
@@ -22,8 +21,8 @@ s32 func_800A03C4(void *entity, u16 x, u16 y) {
     entity_ptr = entity;
     origin_x = x;
     origin_y = y;
-    x_offsets = D_8006CCD8;
-    y_offsets = D_8006CCE8;
+    x_offsets = dirStepX;
+    y_offsets = dirStepY;
     entity_data = *(void **)((s8 *)entity_ptr - 0x14);
     direction = D_8008347E & 7;
     for (attempt = 0; attempt < 8; attempt++, direction = (direction + 1) & 7) {

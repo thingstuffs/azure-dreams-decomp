@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 typedef struct S_80172840_0 {
     u8 pad_00[0x1C];
@@ -133,8 +134,6 @@ extern void func_800A56E0(s32);
 extern s32 func_800A6D30(void);
 extern s32 func_800A94A0(void *, u8 *, s32, void *);
 
-extern s16 D_8006CCD8[8];
-extern s16 D_8006CCE8[8];
 extern u8 D_8006DE24[0x200];
 extern u8 *D_800814A8[3];
 extern s16 D_80083228[2];
@@ -182,7 +181,7 @@ void func_80172840(void *action, void *position, void *sprite_in, void *actor_in
     register void *sprite ASM_REG("$20") = sprite_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register void *actor ASM_REG("$19") = actor_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     ASM_KEEP4_NV(sprite, actor, saved_reg, heading);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    direction_x_ptr = D_8006CCD8;
+    direction_x_ptr = dirStepX;
 
     {
         heading = ((S_80172840_0 *)actor)->unk_2A.s;
@@ -190,7 +189,7 @@ void func_80172840(void *action, void *position, void *sprite_in, void *actor_in
         counter = heading >> 8;
         direction_offset = counter & 0xE;
         direction_x_ptr = direction_offset + direction_x_ptr;
-        move_x = (s32)((u8 *)D_8006CCE8);
+        move_x = (s32)((u8 *)dirStepY);
         direction_x_value = *(s16 *)direction_x_ptr;
         direction_y_ptr = (u8 *)((unsigned long)direction_offset + (unsigned long)(u8 *)move_x);
         direction_x = direction_x_value;

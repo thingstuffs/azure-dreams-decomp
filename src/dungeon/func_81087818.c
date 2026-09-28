@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 extern int abs(int);
 
 typedef struct Vec3Work {
@@ -99,8 +100,6 @@ extern void func_8009C12C(void *, void *, s16, s16);
 extern void func_800C77D0(void *, void *, s32, s32);
 extern void func_80175A90(Vec3Work *, Vec3Work *);
 
-extern s16 D_8006CCD8[];
-extern s16 D_8006CCE8[];
 extern s32 D_800814A0;
 extern u8 D_800DDC40[];
 extern void *D_80170888[];
@@ -166,13 +165,13 @@ state0:
         source = motion->unk_4C;
         tile_x = actor->unk_A8;
         direction_offset = (source->unk_2A.u >> 8) & 0xE;
-        direction_table = D_8006CCD8;
+        direction_table = dirStepX;
         motion->unk_28.half.unk_2A =
             (tile_x * 64) +
             ((*(s16 *)((u8 *)direction_table + direction_offset) + 1) * 32);
         motion->unk_2C.half.unk_2E =
             (((S_81087818_1 *)motion->unk_40)->unk_AA * 64) +
-            ((*(s16 *)((u8 *)D_8006CCE8 + direction_offset) + 1) * 32);
+            ((*(s16 *)((u8 *)dirStepY + direction_offset) + 1) * 32);
         distance_x = ((S_81087818_4 *)&base)->unk_0A.u;
         motion->unk_30.half.unk_32.u = distance_x;
 

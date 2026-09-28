@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 typedef struct S_func_81325A04_0 {
     u8 pad_00[0x8C];
@@ -45,8 +46,6 @@ typedef struct S_func_81325A04_3 {
     u16 unk_6A;
 } S_func_81325A04_3;
 
-extern s16 D_8006CCD8[];
-extern s16 D_8006CCE8[];
 extern s16 D_80083228[];
 extern s32 D_80083460[];
 extern u8 D_8016B778[];
@@ -129,9 +128,9 @@ slow_move:
     timer = (s16)timer_bits;
     if (timer >= 11) {
         motion->unk_0C =
-            *(s16 *)((u8 *)D_8006CCD8 + ((actor->unk_6A >> 8) & 0xE)) << 20;
+            *(s16 *)((u8 *)dirStepX + ((actor->unk_6A >> 8) & 0xE)) << 20;
         motion->unk_10 =
-            *(s16 *)((u8 *)D_8006CCE8 + ((actor->unk_6A >> 8) & 0xE)) << 20;
+            *(s16 *)((u8 *)dirStepY + ((actor->unk_6A >> 8) & 0xE)) << 20;
         entity->unk_14 |= 0x800;
         return;
     }

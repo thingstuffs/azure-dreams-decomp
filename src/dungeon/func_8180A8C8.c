@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "m2c_compat.h"
 
 typedef struct S_800260C8_4 {
@@ -29,8 +30,6 @@ typedef struct ResidentPage {
     u16 table[1];
 } ResidentPage;
 
-extern u16 D_8006CCD8[];
-extern u16 D_8006CCE8[];
 
 typedef struct S_800260C8_0 {
     u8 pad_00[0x26];
@@ -74,8 +73,8 @@ void func_800260C8(void *object, s16 new_index) {
             entry_index = index_state->unk_26;
             entry_offsets = ((S_800260C8_7 *)(((S_800260C8_5 *)(((entry_index * 4) + ((S_800260C8_1 *)object)->unk_20)))->unk_0C))->unk_0C;
             direction = (resident_page->table[entry_index] + 2) & 7;
-            entry_offsets->unk_24 = (s8) (D_8006CCD8[direction] + 1);
-            entry_offsets->unk_25 = (s8) (D_8006CCE8[direction] + 1);
+            entry_offsets->unk_24 = (s8) (dirStepX[direction] + 1);
+            entry_offsets->unk_25 = (s8) (dirStepY[direction] + 1);
         }
         index_state->unk_26 = new_index;
         linked_state = ((S_800260C8_1 *)object)->unk_20;

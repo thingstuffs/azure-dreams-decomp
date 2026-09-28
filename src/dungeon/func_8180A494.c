@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "m2c_compat.h"
 
 typedef struct S_80025C94_0 {
@@ -85,8 +86,6 @@ extern s16 D_80027156;
 extern s16 D_80027158;
 extern s16 D_8002715A;
 extern u16 D_8002715C;
-extern s8 D_8006CCD8[];
-extern s8 D_8006CCE8[];
 extern s8 D_80083160[];
 extern u16 D_800DCEAC[];
 extern u16 D_800DCEBC[];
@@ -157,8 +156,8 @@ initialize:
     start_y = D_800DCEBC[direction];
     position->unk_0A = 0;
     position->unk_04.at02.v = start_y;
-    sprite->unk_24 = (u8) (D_8006CCD8[direction * 2] + 1);
-    sprite->unk_25 = (u8) (D_8006CCE8[direction * 2] + 1);
+    sprite->unk_24 = (u8) (((s8 *)dirStepX)[direction * 2] + 1);
+    sprite->unk_25 = (u8) (((s8 *)dirStepY)[direction * 2] + 1);
     object->unk_72.s = (s8) ((u8) object->unk_72.s + 1);
 fade_in:
     fade_in_ticks = (void *) object->unk_73.s;

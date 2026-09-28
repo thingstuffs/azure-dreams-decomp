@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -45,8 +46,6 @@ typedef struct S_8008B9FC_7_pre {
 
 
 
-extern u8 D_8006CCD8[16];
-extern u8 D_8006CCE8[16];
 extern volatile u16 D_80013714[];
 extern u8 D_80083160[];
 extern s16 D_80083228[];
@@ -95,12 +94,12 @@ void func_8008B9FC(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *sprit
         direction_index = ((u16)actor->unk_2A.as_s16 >> 8) & 0xE;
         {
             u8 x = sprite->unk_24;
-            u8 *movement_x = D_8006CCD8;
+            u8 *movement_x = ((u8 *)dirStepX);
             x = (u8)(x + movement_x[direction_index]);
             sprite->unk_24 = x;
         }
         sprite->unk_25 =
-            (u8)(sprite->unk_25 + D_8006CCE8[direction_index]);
+            (u8)(sprite->unk_25 + ((u8 *)dirStepY)[direction_index]);
         func_8009A21C(sprite->unk_24, sprite->unk_25, 0x300);
         flags = D_80083460;
         flags[1] |= 8;
@@ -260,8 +259,8 @@ update_step:
             1, 1);
         func_8009A3D0(sprite->unk_24, sprite->unk_25, 0x300);
         direction_index = ((u16)actor->unk_2A.as_s16 >> 8) & 0xE;
-        sprite->unk_24 -= ((s16 *)(void *)D_8006CCD8)[direction_index / 2] * 2;
-        sprite->unk_25 -= ((s16 *)(void *)D_8006CCE8)[direction_index / 2] * 2;
+        sprite->unk_24 -= ((s16 *)(void *)((u8 *)dirStepX))[direction_index / 2] * 2;
+        sprite->unk_25 -= ((s16 *)(void *)((u8 *)dirStepY))[direction_index / 2] * 2;
         func_8009A21C(sprite->unk_24, sprite->unk_25, 0x300);
         flags_2[2] = (s16)flags_2[2] >> 1;
         return;
@@ -278,11 +277,11 @@ update_step:
         direction_index = ((u16)actor->unk_2A.as_s16 >> 8) & 0xE;
         {
             u8 x = sprite->unk_24;
-            u8 *movement_x = D_8006CCD8;
+            u8 *movement_x = ((u8 *)dirStepX);
             x = (u8)(x - movement_x[direction_index]);
             sprite->unk_24 = x;
         }
-        sprite->unk_25 -= D_8006CCE8[direction_index];
+        sprite->unk_25 -= ((u8 *)dirStepY)[direction_index];
         func_8009A21C(sprite->unk_24, sprite->unk_25, 0x300);
     }
 }

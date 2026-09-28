@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 typedef struct {
     u8 bytes[8];
@@ -254,8 +255,6 @@ extern u8 D_800267A8[12];
 extern u8 D_800267B8[9];
 extern u8 D_800DDC40[];
 extern u8 D_800E3D68[1];
-extern u8 D_8006CCD8[];
-extern u8 D_8006CCE8[];
 extern s32 D_8008346C;
 extern s32 D_800814A0;
 extern u8 D_80045340[];
@@ -365,9 +364,9 @@ void func_800257D0(void *effect_data, void *motion_data, void *render_data)
                 effect->unk_78.u16 = ((S_func_81905FD0_2 *)particle_shade)->unk_08.u16_0A.unk_0A - target_height;
                 owner_info = ((S_func_81905FD0_5 *)((u8 *)owner - 0x20))->unk_0C;
                 effect->unk_BA = owner_info->unk_24 +
-                    D_8006CCD8[effect->unk_7E.s16 * 2];
+                    ((u8 *)dirStepX)[effect->unk_7E.s16 * 2];
                 effect->unk_BB = owner_info->unk_25 +
-                    D_8006CCE8[effect->unk_7E.s16 * 2];
+                    ((u8 *)dirStepY)[effect->unk_7E.s16 * 2];
                 {
                     s32 target_tile;
 

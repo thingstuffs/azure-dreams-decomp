@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 extern int abs(int);
 
 #define FIELD(base, type, offset) (*(type *)((u8 *)(base) + (offset)))
@@ -31,8 +32,6 @@ extern s32 func_800A35D8();
 extern u16 func_800A365C();
 extern s32 func_800A6D30();
 
-extern s8 D_8006CCD8;
-extern s8 D_8006CCE8;
 extern u8 D_8006DE24[];
 extern u8 D_80082E80[];
 extern u16 D_8008347E;
@@ -87,7 +86,7 @@ s16 func_800A384C(Actor *actor, Actor *target, u16 *out_angle, s32 prefer_abilit
   {
     return -1;
   }
-  x_steps_base = (s32) (&D_8006CCD8);
+  x_steps_base = (s32) (((s8 *)dirStepX));
   line_valid = func_800A365C(actor_entity, target_entity);
   distance = func_8009FD40(target_entity, actor_entity);
   target_angle = func_800A0818(actor_entity->x, actor_entity->y, target_entity->x, target_entity->y, &tile_flags);
@@ -225,7 +224,7 @@ s16 func_800A384C(Actor *actor, Actor *target, u16 *out_angle, s32 prefer_abilit
       next_steps = steps + 1;
       steps = next_steps;
       actor_or_x += *x_step;
-      y += *((u16 *) (((u8 *) (&D_8006CCE8)) + effect_blocked));
+      y += *((u16 *) (((u8 *) (((s8 *)dirStepY))) + effect_blocked));
       if (next_steps < distance)
       {
         goto inner_loop;

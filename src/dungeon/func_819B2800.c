@@ -1,12 +1,11 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "m2c_compat.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern int D_800814A8[4];
 extern u8 D_80083498[];
 extern u8 D_80082E80[];
-extern u16 D_8006CCD8[];
-extern u16 D_8006CCE8[];
 extern u16 D_80082E94;
 extern s32 D_80083460[3];
 extern s32 D_800814A0[3];
@@ -227,8 +226,8 @@ wait_visual:
     data_bytes = D_80082E80;
     direction = ((u16) ((S_func_819B2800_5 *) ((s32*)&D_800814A8)[0])->unk_2A >> 9) & 7;
     offset[0] = direction;
-    visual->unk_0C = (s16) (((S_func_819B2800_3 *) D_80082E80)->unk_24 + D_8006CCD8[direction]);
-    visual->unk_0E = (s16) (((S_func_819B2800_3 *) D_80082E80)->unk_25 + D_8006CCE8[offset[0]]);
+    visual->unk_0C = (s16) (((S_func_819B2800_3 *) D_80082E80)->unk_24 + dirStepX[direction]);
+    visual->unk_0E = (s16) (((S_func_819B2800_3 *) D_80082E80)->unk_25 + dirStepY[offset[0]]);
     visual->unk_10 = (u16) position->unk_08.unk_0A.unk_0A;
     object_data->unk_20 = effect;
 set_apply_delay:

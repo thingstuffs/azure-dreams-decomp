@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 extern int abs(int);
 
 
@@ -14,8 +15,6 @@ extern u8 D_800265C0[];
 extern u8 D_800265C4[];
 extern u8 D_800269C8[];
 extern u8 D_80045340[];
-extern u8 D_8006CCD8[];
-extern u8 D_8006CCE8[];
 extern u8 D_800DDC40[];
 extern u8 D_8008346C[];
 extern u8 D_800814A0[];
@@ -361,12 +360,12 @@ case_0:
                 {
                     u8 *target_record = ((S_FUNC_8188C800_BODY_8_pre *)owner)[-1].unk_00;
                     u8 x = ((S_FUNC_8188C800_BODY_16 *)target_record)->unk_24 +
-                           D_8006CCD8[((S_FUNC_8188C800_BODY_0 *)self)->unk_16.s * 2];
+                           ((u8 *)dirStepX)[((S_FUNC_8188C800_BODY_0 *)self)->unk_16.s * 2];
                     ((S_FUNC_8188C800_BODY_0 *)self)->unk_1C.at02.v = x;
                     ((S_FUNC_8188C800_BODY_0 *)self)->unk_20.at00.v = x;
                     {
                         u8 y = ((S_FUNC_8188C800_BODY_16 *)target_record)->unk_25 +
-                               D_8006CCE8[((S_FUNC_8188C800_BODY_0 *)self)->unk_16.s * 2];
+                               ((u8 *)dirStepY)[((S_FUNC_8188C800_BODY_0 *)self)->unk_16.s * 2];
                         ((S_FUNC_8188C800_BODY_0 *)self)->unk_1C.at03.v = y;
                         ((S_FUNC_8188C800_BODY_0 *)self)->unk_20.at01.v = y;
                     }
@@ -399,9 +398,9 @@ case_0:
 
 case_0_finish_coords:
         ((S_FUNC_8188C800_BODY_11 *)motion)->unk_0C.at02.v =
-            (*(s16 *)((u8 *)D_8006CCD8 + ((S_FUNC_8188C800_BODY_0 *)self)->unk_16.s * 2)) * 8;
+            (*(s16 *)((u8 *)((u8 *)dirStepX) + ((S_FUNC_8188C800_BODY_0 *)self)->unk_16.s * 2)) * 8;
         ((S_FUNC_8188C800_BODY_11 *)motion)->unk_10.at02.v =
-            (*(s16 *)((u8 *)D_8006CCE8 + ((S_FUNC_8188C800_BODY_0 *)self)->unk_16.s * 2)) * 8;
+            (*(s16 *)((u8 *)((u8 *)dirStepY) + ((S_FUNC_8188C800_BODY_0 *)self)->unk_16.s * 2)) * 8;
         goto case_increment;
     }
 

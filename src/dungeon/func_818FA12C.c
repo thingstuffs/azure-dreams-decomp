@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 extern int abs(int);
 
 
@@ -45,8 +46,6 @@ extern u8 D_80025348[12];
 extern u8 D_80025398[12];
 extern u8 D_8002558C[12];
 extern u8 D_80025648[12];
-extern u8 D_8006CCD8[64];
-extern u8 D_8006CCE8[64];
 extern s32 D_800814A0[3];
 extern s32 D_8008346C[2];
 extern u8 D_800DDC40[256];
@@ -321,9 +320,9 @@ void func_8002592C(u8 *self, u8 *position, void *volatile render_data)
                 (*(u16 *)((u8 *)self + 0x78)) = ((S_818FA12C_7 *)target_pos)->unk_08.at02.v - (target_height >> 1);
                 parent_data = ((S_818FA12C_2_pre *)parent)[-1].unk_00;
                 (*(u8 *)((u8 *)self + 0xBA)) = ((S_818FA12C_8 *)parent_data)->unk_24
-                    + D_8006CCD8[(*(s16 *)((u8 *)self + 0x7E)) * 2];
+                    + ((u8 *)dirStepX)[(*(s16 *)((u8 *)self + 0x7E)) * 2];
                 (*(u8 *)((u8 *)self + 0xBB)) = ((S_818FA12C_8 *)parent_data)->unk_25
-                    + D_8006CCE8[(*(s16 *)((u8 *)self + 0x7E)) * 2];
+                    + ((u8 *)dirStepY)[(*(s16 *)((u8 *)self + 0x7E)) * 2];
                 flags = (s8)((S_818FA12C_2 *)parent)->unk_72;
                 if (flags != ((S_818FA12C_8 *)parent_data)->unk_24) {
                     tile_distance = flags - ((S_818FA12C_8 *)parent_data)->unk_24;

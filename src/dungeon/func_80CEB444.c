@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -21,8 +22,6 @@ typedef struct S_80174C44_4 {
 
 
 
-extern s8 D_8006CCD8;
-extern s8 D_8006CCE8;
 extern s32 D_80083460;
 extern u8 D_801724BC[];
 extern u8 D_80175E3C[];
@@ -101,10 +100,10 @@ state_1:
     }
 
     transform->unk_0C.as_s32 =
-        *(s16 *)((u8 *)&D_8006CCD8 +
+        *(s16 *)((u8 *)((s8 *)dirStepX) +
             ((((Rec_D_800E3D7C *)actor)->unk_6A.as_u16 >> 8) & 0xE)) << 18;
     transform->unk_10.at00_s32.v =
-        *(s16 *)((u8 *)&D_8006CCE8 +
+        *(s16 *)((u8 *)((s8 *)dirStepY) +
             ((((Rec_D_800E3D7C *)actor)->unk_6A.as_u16 >> 8) & 0xE)) << 18;
     goto done;
 
@@ -113,10 +112,10 @@ state_1_nonpositive:
         goto done;
     }
     transform->unk_0C.as_s32 =
-        *(s16 *)((u8 *)&D_8006CCD8 +
+        *(s16 *)((u8 *)((s8 *)dirStepX) +
             ((((Rec_D_800E3D7C *)actor)->unk_6A.as_u16 >> 8) & 0xE)) << 18;
     transform->unk_10.at00_s32.v =
-        *(s16 *)((u8 *)&D_8006CCE8 +
+        *(s16 *)((u8 *)((s8 *)dirStepY) +
             ((((Rec_D_800E3D7C *)actor)->unk_6A.as_u16 >> 8) & 0xE)) << 18;
     controller->unk_96.s = 12;
     controller->unk_9B = controller->unk_9B + 1;

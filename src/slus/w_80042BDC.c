@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef struct S_80042BDC {
     /* 0x00 */ u8   pad00[0x13];
@@ -31,17 +32,7 @@ typedef struct S_80042BDC_child {
     /* 0x25 */ u8  x25;
 } S_80042BDC_child;
 
-/* global stat/counter block (>8B -> hi/lo) */
-typedef struct S_80042BDC_83460 {
-    /* 0x00 */ u8  pad00[2];
-    /* 0x02 */ u16 x2;
-    /* 0x04 */ u8  pad04[0x08 - 0x04];
-    /* 0x08 */ u16 x8;
-    /* 0x0A */ u16 xA;
-    /* 0x0C */ u8  pad0C[0x14 - 0x0C];
-} S_80042BDC_83460;
 
-extern S_80042BDC_83460 D_80083460;
 
 extern void *D_800E3DF0[32];
 extern int   D_800814A0[4];  /* 16B: <= gcc -G16 -> bare macro; > as -G8 -> $at */
@@ -249,9 +240,9 @@ L_10: {
         func_80042710(spawn_result_2, ent);
         func_80042984(spawn_result_2);
 
-        if (D_80083460.x2 & 0x1000) {
+        if (dungeonStatus.flags & 0x1000) {
             if (ent->x71 > (s16)ent->x8A) {
-                D_80083460.x8 -= (ent->x71 - ent->x8A);
+                dungeonStatus.unk_08 -= (ent->x71 - ent->x8A);
             }
         }
         func_800A9A0C(spawn_result_2);
@@ -283,7 +274,7 @@ L_10: {
                 func_800AC82C(spawn_result_2, *(int *)((u8 *)spawn_result_2 - 0x18), *(int *)((u8 *)spawn_result_2 - 0x14), spawn_result_2);
             } else {
                 if (spawn_result_2->x25 == 0) {
-                    D_80083460.xA += 1;
+                    dungeonStatus.unk_0A += 1;
                     spawn_result_2->x1C &= ~0x8;
                 }
             }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 #define F8(p, o) (*(u8 *)((u8 *)(p) + (o)))
 #define FS8(p, o) (*(s8 *)((u8 *)(p) + (o)))
@@ -7,8 +8,6 @@
 #define F32(p, o) (*(s32 *)((u8 *)(p) + (o)))
 #define FPTR(p, o) (*(void **)((u8 *)(p) + (o)))
 
-extern u8 D_8006CCD8[];
-extern u8 D_8006CCE8[];
 extern s16 D_80083228;
 extern s32 D_8008346C;
 extern void *D_800E3DE8;
@@ -50,10 +49,10 @@ void func_80172700(void *action_arg, void *motion_arg, void *sprite_arg, void *a
     sprite = sprite_arg;
     actor = actor_arg;
     ASM_KEEP4_NV(action, motion, sprite, actor);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    dir_x = D_8006CCD8;
+    dir_x = ((u8 *)dirStepX);
     dir_offset = (F16(actor, 0x2A) >> 8) & 0xE;
     step_x = *(s16 *)(dir_x + dir_offset);
-    dir_y = D_8006CCE8;
+    dir_y = ((u8 *)dirStepY);
     step_y = *(s16 *)(dir_y + dir_offset);
     state = F8(action, 0x9B);
     F16(action, 0x96)--;

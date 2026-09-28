@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 typedef struct {
     s16 x;
@@ -23,8 +24,6 @@ typedef struct {
     u16 tile;
 } Walker;
 
-extern s16 D_8006CCD8[];
-extern s16 D_8006CCE8[];
 extern DungeonCell D_800EA000[];
 extern DungeonState D_8008333C;
 extern DungeonState D_80083160;
@@ -109,13 +108,13 @@ s32 func_8001C5E4(Pos *start, Pos *dest, s16 rnd, s16 *out_x, s16 *out_y,
 
         r = (u16)func_800A6D30() % range_x;
         *out_x = r;
-        wx = cx + r * D_8006CCD8[dir] + D_8006CCD8[dir] * wx;
+        wx = cx + r * dirStepX[dir] + dirStepX[dir] * wx;
         r = (u16)func_800A6D30() % range_y;
         *out_y = r;
-        wy = cy + r * D_8006CCE8[dir] + D_8006CCE8[dir] * wy;
+        wy = cy + r * dirStepY[dir] + dirStepY[dir] * wy;
     } else {
-        wx = cx + *out_x * D_8006CCD8[dir] + D_8006CCD8[dir] * wx;
-        wy = cy + *out_y * D_8006CCE8[dir] + D_8006CCE8[dir] * wy;
+        wx = cx + *out_x * dirStepX[dir] + dirStepX[dir] * wx;
+        wy = cy + *out_y * dirStepY[dir] + dirStepY[dir] * wy;
     }
 
     for (;;) {
@@ -143,12 +142,12 @@ s32 func_8001C5E4(Pos *start, Pos *dest, s16 rnd, s16 *out_x, s16 *out_y,
         }
         *(s32 *)walker += *cost;
         count++;
-        cx += D_8006CCD8[dir];
-        cy += D_8006CCE8[dir];
+        cx += dirStepX[dir];
+        cy += dirStepY[dir];
     }
 
     if (wx != dst_x || wy != dst_y) {
-        if (D_8006CCD8[dir_slot] != 0) {
+        if (dirStepX[dir_slot] != 0) {
             wy = dst_y;
         } else {
             wx = dst_x;
@@ -179,8 +178,8 @@ s32 func_8001C5E4(Pos *start, Pos *dest, s16 rnd, s16 *out_x, s16 *out_y,
             }
             *(s32 *)walker += *cost;
             count++;
-            cx += D_8006CCD8[(r >> 9) & 6];
-            cy += D_8006CCE8[(r >> 9) & 6];
+            cx += dirStepX[(r >> 9) & 6];
+            cy += dirStepY[(r >> 9) & 6];
         }
     }
 
@@ -211,8 +210,8 @@ s32 func_8001C5E4(Pos *start, Pos *dest, s16 rnd, s16 *out_x, s16 *out_y,
             }
             *(s32 *)walker += *cost;
             count++;
-            cx += D_8006CCD8[(r >> 9) & 6];
-            cy += D_8006CCE8[(r >> 9) & 6];
+            cx += dirStepX[(r >> 9) & 6];
+            cy += dirStepY[(r >> 9) & 6];
         }
     }
     return count;

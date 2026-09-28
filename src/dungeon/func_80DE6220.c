@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "records/Rec_func_80173204_arg0.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -39,8 +40,6 @@ extern void func_80174084(void *, void *, void *);
 extern void *func_801742AC(void *, void *, void *);
 extern void func_80174460(void *);
 
-extern s8 D_8006CCD8;
-extern s8 D_8006CCE8;
 extern s32 D_800814A0;
 extern s32 D_8008346C;
 extern u8 D_80170E5C[];
@@ -101,11 +100,11 @@ void func_80173A20(void *actor, void *context, void *entity, void *creature)
         creature_height = ((S_80173A20_3 *)creature)->unk_88.s;
         D_800814A0 = global_flags | 0x8000;
 
-        x_offsets = (u8 *)&D_8006CCD8;
+        x_offsets = (u8 *)((s8 *)dirStepX);
         offset_index = direction_bits & 0xE;
         x_offset = (s16 *)(x_offsets + offset_index);
         world_x = ((((Rec_D_80082E80 *)entity)->unk_24 + *x_offset) << 6) & 0xFFC0;
-        y_offset = (s16 *)((u8 *)&D_8006CCE8 + offset_index);
+        y_offset = (s16 *)((u8 *)((s8 *)dirStepY) + offset_index);
         spawn_height = func_800BCB04(world_x,
             ((((Rec_D_80082E80 *)entity)->unk_25 + *y_offset) << 6) & 0xFFC0,
             (s16)(creature_height - 0x20));

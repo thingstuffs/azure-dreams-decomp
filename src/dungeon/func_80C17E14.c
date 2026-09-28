@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 typedef struct S_func_80C17E14_0 {
     u8 pad_00[0x96];
@@ -55,8 +56,6 @@ M2C_UNK func_800A32A4();
 M2C_UNK func_800A56E0();
 M2C_UNK func_800ACF88();
 
-extern s8 D_8006CCD8;
-extern s8 D_8006CCE8;
 extern s32 D_800814A0;
 extern s32 D_80083460;
 extern s16 D_8008346A;
@@ -69,8 +68,8 @@ void func_80173614(S_func_80C17E14_0 *action, S_func_80C17E14_1 *motion, S_func_
     s32 state;
 
     direction_offset = (entity->unk_6A >> 8) & 0xE;
-    offset_x = *(s16 *)((u8 *)&D_8006CCD8 + direction_offset);
-    offset_y = *(s16 *)((u8 *)&D_8006CCE8 + direction_offset);
+    offset_x = *(s16 *)((u8 *)((s8 *)dirStepX) + direction_offset);
+    offset_y = *(s16 *)((u8 *)((s8 *)dirStepY) + direction_offset);
     state = action->unk_9B;
 
     if (state == 1) {

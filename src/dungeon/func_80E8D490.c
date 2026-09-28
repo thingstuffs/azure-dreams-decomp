@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "records/Rec_D_80082E80.h"
 extern int abs(int);
 
@@ -83,8 +84,6 @@ extern void func_800A4ACC(void *);
 extern s32 func_8003F270(void);
 extern void func_80047784(void *, u8, s32);
 
-extern s16 D_8006CCD8[8];
-extern s16 D_8006CCE8[8];
 extern LookupEntry D_8006DE24[];
 extern void *D_800814A8[];
 extern s16 D_80083228[5];
@@ -116,13 +115,13 @@ void func_80172C90(void *action, S_80172C90_2 *motion, Rec_D_80082E80 *sprite, v
     };
 
     ASM_KEEP_DEP_NV(special, actor);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    dir_x_table = D_8006CCD8;
+    dir_x_table = dirStepX;
     angle = ((S_80172C90_0 *)actor)->unk_2A.s;
     dir_offset = angle >> 8;
     ASM_USE2_NV(angle, special);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     dir_offset &= 0xE;
     dir_x = *(s16 *)((u8 *)dir_x_table + dir_offset);
-    dir_y = *(s16 *)((u8 *)D_8006CCE8 + dir_offset);
+    dir_y = *(s16 *)((u8 *)dirStepY + dir_offset);
     timer = ((S_80172C90_1 *)action)->unk_96.s;
     state = ((S_80172C90_1 *)action)->unk_9B;
     ((S_80172C90_1 *)action)->unk_96.s = timer - 1;

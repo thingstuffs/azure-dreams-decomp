@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "records/Rec_D_800814A8.h"
 
@@ -109,8 +110,6 @@ extern u16 D_80083462;
 extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern u16 D_80082EA4;
-extern u16 D_8006CCD8[];
-extern u16 D_8006CCE8[];
 extern s16 D_8006CD00[];
 extern DungeonModeRecord D_800E2970[];
 extern u16 D_80083460[];
@@ -189,7 +188,7 @@ void func_8017405C(void *context, s32 action, S_8017405C_1 *actor, void *movemen
             u8 actor_x;
             ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             leader_pos = D_80082E80;
-            x_lookup = (unsigned long)D_8006CCD8;
+            x_lookup = (unsigned long)dirStepX;
             root = *root_page;
             y_lookup = ((S_8017405C_0 *)movement)->unk_45;
             leader_x = leader_pos[0x24];
@@ -199,7 +198,7 @@ void func_8017405C(void *context, s32 action, S_8017405C_1 *actor, void *movemen
             y_lookup <<= 1;
             x_lookup += y_lookup;
             {
-                u16 *y_steps = D_8006CCE8;
+                u16 *y_steps = dirStepY;
                 y_lookup += (unsigned long)y_steps;
                 x_lookup = *(u16 *)x_lookup;
                 y_offset = *(u16 *)y_lookup;
@@ -283,7 +282,7 @@ update_heading:
             s32 actor_x;
             s32 actor_y;
             ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            x_lookup = (unsigned long)D_8006CCD8;
+            x_lookup = (unsigned long)dirStepX;
             root = *root_page;
             actor_x = actor->unk_24.at00.v;
             actor_y = actor->unk_24.at01.v;
@@ -292,7 +291,7 @@ update_heading:
             y_lookup <<= 1;
             x_lookup += y_lookup;
             {
-                u16 *y_steps = D_8006CCE8;
+                u16 *y_steps = dirStepY;
                 y_lookup += (unsigned long)y_steps;
                 x_lookup = *(u16 *)x_lookup;
                 y_lookup = *(u16 *)y_lookup;
@@ -396,12 +395,12 @@ try_heading:
                               (((S_8017405C_0 *)movement)->unk_1C & 0x2000) ? 0x300 : 0x3000);
                 {
                     s32 step_offset;
-                    target = (void *)((u8 *)D_8006CCD8);
+                    target = (void *)((u8 *)dirStepX);
                     step_offset = (((S_8017405C_0 *)movement)->unk_2A.u >> 8) & 0xE;
                     actor->unk_24.at00.v = actor->unk_24.at00.v +
                                          *(u8 *)((unsigned long)step_offset + (unsigned long)(u8 *)target);
                     {
-                        u8 *y_steps = (u8 *)D_8006CCE8;
+                        u8 *y_steps = (u8 *)dirStepY;
                         actor->unk_24.at01.v = actor->unk_24.at01.v +
                                              *(u8 *)((unsigned long)step_offset + (unsigned long)y_steps);
                     }

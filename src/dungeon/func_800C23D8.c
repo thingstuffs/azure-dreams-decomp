@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 /* Entity transition state */
 typedef struct Entity {
@@ -38,7 +39,6 @@ typedef struct G {
 extern s16 D_800120A2;
 extern s16 D_800DD264[];
 extern s32 D_800E3D7C[];
-extern u16 D_80083460[];
 extern u8  D_80083780[];
 extern s16 D_800DCE66[5];
 
@@ -83,5 +83,5 @@ blend_state:
 
 dispatch_state:
     func_800C77D0((void *)(D_800E3D7C[0] - 0x20), D_80083780, 8, D_800DCE66[0]);
-    D_80083460[5] = D_80083460[5] - 1;
+    dungeonStatus.unk_0A = dungeonStatus.unk_0A - 1;
 }

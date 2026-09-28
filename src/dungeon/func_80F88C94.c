@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "records/Rec_D_80082E80.h"
 
 #ifndef NULL
@@ -101,8 +102,6 @@ extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
 
 extern u8 D_80045340;
-extern s8 D_8006CCD8;
-extern s8 D_8006CCE8;
 extern s16 D_80083228;
 extern s32 D_8008346C;
 extern s32 D_80083498;
@@ -145,9 +144,9 @@ void func_80172494(void *action, void *motion, void *map_actor, void *actor_arg)
 
     index = ((S_80172494_0 *)actor_arg)->unk_2A.s >> 8;
     setup_value = index & 0xE;
-    direction_x_table = (u8 *)&D_8006CCD8;
+    direction_x_table = (u8 *)((s8 *)dirStepX);
     direction_x_table += setup_value;
-    direction_y_table = (u8 *)&D_8006CCE8;
+    direction_y_table = (u8 *)((s8 *)dirStepY);
     direction_x = *(s16 *)direction_x_table;
     setup_value = (s32)(direction_y_table + setup_value);
     direction_y = *(s16 *)setup_value;

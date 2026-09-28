@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_80173D78_arg0.h"
 
@@ -60,8 +61,6 @@ extern void *func_8003FD64();
 extern s32 func_8004491C();
 extern s32 func_80047784();
 
-extern s8 D_8006CCD8;
-extern s8 D_8006CCE8;
 extern s16 D_80083228;
 extern s32 D_80175C60;
 extern s32 D_80175D74;
@@ -89,8 +88,8 @@ void func_80175DD0(void *parent_data, S_80175DD0_4 *origin, Rec_D_80082E80 *sour
               coords->unk_06 = origin->unk_06 + position_offset[1],
               coords->unk_0A = origin->unk_0A + position_offset[2],
               direction_offset = (((Rec_func_80173D78_arg0 *)parent_data)->unk_2A >> 8) & 0xE,
-              coords->unk_0E = *(u16 *)(&D_8006CCD8 + direction_offset),
-              coords->unk_12 = *(u16 *)(&D_8006CCE8 + direction_offset),
+              coords->unk_0E = *(u16 *)(((s8 *)dirStepX) + direction_offset),
+              coords->unk_12 = *(u16 *)(((s8 *)dirStepY) + direction_offset),
               object->unk_40 = 0x10,
               object->unk_20 = (s16 *)((u8 *)parent_data + 0x2A),
               func_80047784(object_data, 0x45, 0, coords),

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 extern int abs(int);
 
 typedef union Fixed32 {
@@ -68,8 +69,6 @@ typedef struct StackLocals {
     u16 accum_y;
 } StackLocals;
 
-extern s16 D_8006CCD8[8];
-extern s16 D_8006CCE8[8];
 extern s32 D_8008346C[3];
 extern LargeInt D_800814A0;
 extern void *D_80024008[];
@@ -85,8 +84,8 @@ extern void func_80024024(void *, u8, Owner *);
 
 
 #ifdef NON_MATCHING
-#define do { (v) = 0x80070000; ASM_KEEP(v); (v) -= 0x3328; } while (0) ((v) = (s32)D_8006CCD8)
-#define do { (v) = 0x80070000; ASM_KEEP(v); (v) -= 0x3318; } while (0) ((v) = (s32)D_8006CCE8)
+#define do { (v) = 0x80070000; ASM_KEEP(v); (v) -= 0x3328; } while (0) ((v) = (s32)dirStepX)
+#define do { (v) = 0x80070000; ASM_KEEP(v); (v) -= 0x3318; } while (0) ((v) = (s32)dirStepY)
 #else
 #define LOAD_TABLE_X_BASE(v) \
     do { (v) = 0x80070000;  (v) -= 0x3328; } while (0)
@@ -231,7 +230,7 @@ jt_c1:
                     break;
                 }
 
-                table_work = (s32)D_8006CCE8 - 0x10;
+                table_work = (s32)dirStepY - 0x10;
                 table_offset = (s16)action->angle;
                 probe_z = (u16)owner->z;
                 table_offset *= 2;
@@ -240,7 +239,7 @@ jt_c1:
                 probe_z -= 32;
                 probe_z = (u32)probe_z << 16;
                 probe_z >>= 16;
-                table_work = (s32)D_8006CCD8 + 0x10;
+                table_work = (s32)dirStepX + 0x10;
                 table_y_entry = (s16 *)(table_offset + table_work);
                 ASM_KEEP(table_y_entry);
                 probe_result = func_800BCB04(
@@ -252,12 +251,12 @@ jt_c1:
                     break;
                 }
 
-                table_work = (s32)D_8006CCD8;
+                table_work = (s32)dirStepX;
                 table = (s16 *)((s16)action->angle);
                 index++;
                 table = (s16 *)(((s32)table) * (2));
                 update_x_entry = (u16 *)((s32)table + table_work);
-                table_work = (s32)D_8006CCE8;
+                table_work = (s32)dirStepY;
                 update_y_entry = (u16 *)((s32)table + table_work);
                 x_delta = grid_x + *update_x_entry;
                 grid_x = x_delta;
@@ -269,7 +268,7 @@ jt_c1:
             target = &stack.local;
             index = 1;
             x_work = (u32)saved_x << 16;
-            table = D_8006CCD8;
+            table = dirStepX;
             x_work = (s32)x_work >> 10;
             delta_iter = (u8 *)&stack.local + 2;
             x_work += (table[action->angle] + 1) << 5;
@@ -277,7 +276,7 @@ jt_c1:
             x_work = (u32)x_work << 16;
             x_work >>= 16;
             x_delta = (s32)((u32)(u16)(table_work = stack.accum_y) << 16) >> 10;
-            table = D_8006CCE8;
+            table = dirStepY;
             x_delta += (table[action->angle] + 1) << 5;
             target->y.h.hi = x_delta;
             x_delta = (u32)x_delta << 16;
