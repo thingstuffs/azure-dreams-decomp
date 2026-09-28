@@ -25,43 +25,23 @@ s32 func_8001CBD4(s32 x, s32 y, s32 requested_dir)
     tile_or_turn = y;
     direction = requested_dir;
     origin_x = neighbor_x;
-    do {
-        origin_y = tile_or_turn;
-    } while (0);
-    config_or_dir = 0x80080000;
-    ASM_KEEP_NV(config_or_dir);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    origin_y = tile_or_turn;
+    config_or_dir = (u32)&gameWork;
     lookup_value = direction << 16;
     dir_or_tiles = lookup_value >> 16;
-#ifdef NON_MATCHING
     x_offsets = (u32)((s8 *)dirStepX);
-#else
-    lookup_value = 0x80070000;
-    ASM_KEEP_NV(lookup_value);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    x_offsets = lookup_value - 0x3328;
-#endif
     row_work = (s32)dir_or_tiles * 2;
     tiles_or_shift = row_work + x_offsets;
-#ifdef NON_MATCHING
     y_offsets = (u32)((s8 *)dirStepY);
-#else
-    lookup_value = 0x80070000;
-    ASM_KEEP_NV(lookup_value);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    y_offsets = lookup_value - 0x3318;
-#endif
     row_work += y_offsets;
     lookup_value = *(u16 *)tiles_or_shift;
     row_work = *(u16 *)row_work;
     neighbor_x += lookup_value;
     tile_or_turn += row_work;
-#ifdef NON_MATCHING
     tiles_or_shift = (u32)D_800EA000;
-#else
-    lookup_value = 0x800F0000;
-    tiles_or_shift = (u32)D_800EA000;
-#endif
     tile_or_turn = (s16)tile_or_turn;
     neighbor_x <<= 16;
-    row_work = *(s16 *)(config_or_dir + 0x3350);
+    row_work = ((GameWork *)config_or_dir)->unk_1F0;
     neighbor_x >>= 16;
     tile_or_turn = (tile_or_turn << row_work) + neighbor_x;
     if (*(u16 *)(tiles_or_shift + tile_or_turn * 6 + 4) != 0) {
@@ -69,7 +49,7 @@ s32 func_8001CBD4(s32 x, s32 y, s32 requested_dir)
         config_or_dir = dir_or_tiles;
         dir_or_tiles = tiles_or_shift;
         tiles_or_shift = row_work;
-        loop_0: {
+        do {
             lookup_value_2 = ((s32)config_or_dir + tile_or_turn) & 6;
             lookup_value_2 *= 2;
             neighbor_x = *(u16 *)(lookup_value_2 + x_offsets);
@@ -83,7 +63,7 @@ s32 func_8001CBD4(s32 x, s32 y, s32 requested_dir)
                 return (direction + tile_or_turn) & 6;
             }
             tile_or_turn += 4;
-        } if (tile_or_turn < 7) goto loop_0;
+        } while (tile_or_turn < 7);
     }
     return (s16)direction;
 }
