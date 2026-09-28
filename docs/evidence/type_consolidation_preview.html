@@ -97,8 +97,7 @@ footer { color: var(--muted); font-size: 0.9rem; border-top: 1px solid var(--lin
   <p class="lede">Today every function carries its own private guess at the game's data: the same actor, table or
   global appears under different names and types in different files. The pilot replaces those guesses with shared,
   named types that every file includes, while every function still compiles to the exact retail bytes.</p>
-  <div class="note"><span class="mono">PILOT</span><span>Landed 2026-09-28: 243 functions now use the shared types, every one byte-exact, with all 179 affected overlay windows and the SLUS image matching retail. The first three code comparisons below are landed, verified
-  diffs; the last one is an illustrative sketch of where this is heading.</span></div>
+  <div class="note"><span class="mono">PILOT</span><span>Five phases landed on 2026-09-28: 4,660 function migrations onto 9 shared headers, every one byte-exact, with every affected overlay window and the SLUS image matching retail. Every code comparison below is a landed, verified diff.</span></div>
 </header>
 
 <section>
@@ -159,20 +158,31 @@ footer { color: var(--muted); font-size: 0.9rem; border-top: 1px solid var(--lin
 </section>
 
 <section>
-  <div class="eyebrow">Where this is heading</div>
-  <h2>func_800AA258 once the actor and position types are consolidated too</h2>
-  <p>Private view types (<code>S_800AA258_2</code>, the same layout another file calls <code>S_80174A9C_2</code>)
-  become one shared <code>TilePos</code>; the record named after an address becomes <code>Actor</code>; the global
-  block becomes <code>g_field</code>. Fields stay <code>unk_</code> where nothing is known yet.</p>
+  <div class="eyebrow">One line, three phases</div>
+  <h2>Choosing an actor's 8-way sprite</h2>
+  <p>In <code>func_8008D9F0</code> this line picks which of eight sprites to draw from the camera rotation and the
+  actor's facing. Phase 3 found the camera angle inside the global work block; phase 5 recovered the actor record
+  that <code>unk_2A</code> belonged to.</p>
   <div class="pair">
     <div class="pane">
-      <h3>Before <span>src/dungeon/func_800A4AF8.c</span></h3>
-<pre><span class="l del">typedef struct S_800AA258_2 {</span><span class="l del">    u8 pad_00[0x24];</span><span class="l del">    u8 unk_24;</span><span class="l del">    union { u8 s; volatile u8 u; } unk_25;  /* accessed as both */</span><span class="l del">} S_800AA258_2;   /* arg2 in func_800AA258 */</span><span class="l"> </span><span class="l del">extern s8 D_8006CCD8;</span><span class="l del">extern s8 D_8006CCE8;</span><span class="l del">extern struct { s8 pad0[10]; u16 field_0x0A; s8 pad1[10]; } D_80083460;</span><span class="l"> </span><span class="l">void func_800AA258(</span><span class="l del">    Rec_func_800A9E70_arg0 *state, void *unused,</span><span class="l del">    S_800AA258_2 *position, Rec_D_800E3D7C *actor) {</span><span class="l">    ...</span><span class="l del">    direction_index = ((u16) actor->unk_6A.as_u16 &gt;&gt; 8) &amp; 0xE;</span><span class="l del">    next_x = position-&gt;unk_24 + (u8) *(direction_index + &amp;D_8006CCD8);</span><span class="l del">    position-&gt;unk_25.s = (u8)(position-&gt;unk_25.s</span><span class="l del">                        + *(direction_index + &amp;D_8006CCE8));</span><span class="l">    ...</span><span class="l del">    D_80083460.field_0x0A = (u16)(D_80083460.field_0x0A + 1);</span><span class="l">}</span></pre>
+      <h3>At the start of the day <span>src/dungeon/func_80088290.c</span></h3>
+<pre><span class="l del">#include "records/Rec_D_800E3D7C.h"</span><span class="l del">extern s16 D_80083228[5];</span><span class="l"> </span><span class="l del">void func_8008D9F0(..., Rec_D_800E3D7C *actor) {</span><span class="l">  ...</span><span class="l del">  D_800DCFB0[((s32)(D_80083228[0]</span><span class="l del">      + actor-&gt;unk_2A.as_s16 + 0x100) &gt;&gt; 9) &amp; 7]</span></pre>
     </div>
     <div class="pane">
-      <h3>Sketch <span>illustrative, not landed</span></h3>
-<pre><span class="l add">#include "game/actor.h"   /* Actor */</span><span class="l add">#include "shared/dir_step.h"</span><span class="l add">#include "game/map.h"     /* TilePos (next) */</span><span class="l add">#include "shared/dungeon_status.h"</span><span class="l"> </span><span class="l c">/* in game/map.h, shared by every binary:     */</span><span class="l c">/* typedef struct TilePos {                   */</span><span class="l c">/*     u8 pad_00[0x24];                       */</span><span class="l c">/*     u8 x;   (+24)                          */</span><span class="l c">/*     u8 y;   (+25, union resolved to u8)    */</span><span class="l c">/* } TilePos;                                 */</span><span class="l"> </span><span class="l">void func_800AA258(</span><span class="l add">    ActionState *state, void *unused,</span><span class="l add">    TilePos *pos, Actor *actor) {</span><span class="l">    ...</span><span class="l add">    facing = (actor-&gt;heading &gt;&gt; 8) &amp; 0xE;</span><span class="l add">    next_x = pos-&gt;x + (u8) dirStepX[facing / 2];</span><span class="l add">    pos-&gt;y = (u8)(pos-&gt;y + dirStepY[facing / 2]);</span><span class="l"> </span><span class="l">    ...</span><span class="l add">    dungeonStatus.unk_0A++;   /* stays unk_ until evidence */</span><span class="l">}</span></pre>
+      <h3>Now <span>landed, byte-exact</span></h3>
+<pre><span class="l add">#include "shared/game_work.h"</span><span class="l add">#include "shared/entity.h"</span><span class="l"> </span><span class="l add">void func_8008D9F0(..., EntityRec *actor) {</span><span class="l">  ...</span><span class="l add">  D_800DCFB0[((s32)(gameWork.viewAngle</span><span class="l add">      + actor-&gt;facing + 0x100) &gt;&gt; 9) &amp; 7]</span></pre>
     </div>
+  </div>
+</section>
+
+<section>
+  <div class="eyebrow">The recovered entity record</div>
+  <h2>EntityRec: one type for every actor</h2>
+  <p>Two decompiler-generated records turned out to describe the same 0x12C-byte actor record. The hand-recovered
+  type resolves their "accessed as both" unions and names only what every use agrees on.</p>
+  <div class="pane">
+    <h3>include/shared/entity.h <span>excerpt</span></h3>
+<pre><span class="l c">/* 16.16 fixed point: whole word, or the integer half at +2 */</span><span class="l add">typedef union Fixed1616 { int v; struct { unsigned short frac; short i; } w; } Fixed1616;</span><span class="l"> </span><span class="l add">typedef struct EntityRec {</span><span class="l add">    /* 0x000 */ Fixed1616 x;       /* world x; tile*64+32 */</span><span class="l add">    /* 0x004 */ Fixed1616 y;</span><span class="l add">    /* 0x008 */ Fixed1616 z;       /* height vs the ground */</span><span class="l add">    /* 0x014 */ int flags14;       /* bit tests */</span><span class="l add">    /* 0x01C */ int flags1C;       /* bit sets / clears */</span><span class="l add">    /* 0x024 */ unsigned char tileX;   /* + dirStepX[d] */</span><span class="l add">    /* 0x025 */ unsigned char tileY;   /* + dirStepY[d] */</span><span class="l add">    /* 0x02A */ short facing;      /* with viewAngle, picks the sprite */</span><span class="l add">    /* 0x060 */ void *target;      /* the entity an action targets */</span><span class="l c">    /* ... other fields stay unk_XX until evidence names them */</span><span class="l add">} EntityRec;</span></pre>
   </div>
 </section>
 
@@ -199,5 +209,5 @@ footer { color: var(--muted); font-size: 0.9rem; border-top: 1px solid var(--lin
 </section>
 
 <footer>Pilot lane: work/native_lane/r78_types_pilot · design: docs/TYPE_CONSOLIDATION.md · shared headers: include/shared/ ·
-baseline: 276 private view typedefs in 223 files, 102 shared record headers, 3,140 functions referencing address-named types.</footer>
+shared headers now: dir_step, dungeon_status, object_flags, game_work, slus_callbacks, record_ptrs, entity, entity_objects, tile_object.</footer>
 </div>
