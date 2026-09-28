@@ -60,7 +60,6 @@ void func_8009DAD8(s32 draw_param) {
     EntryInfo *info;
     LargeMapEntry *largeMapEntry;
     s32 brightness;
-    s32 mode;
     u8 *playerLater;
     register long a0Value ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     s32 firstY;
@@ -69,7 +68,7 @@ void func_8009DAD8(s32 draw_param) {
     s32 distance;
     register long pageOrTwo ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 *callPage = (u8 *)0x80080000;
-    register long flagsPage ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    long flagsPage;
     register long loopFlagsPage ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
     system = D_80083160;
@@ -160,15 +159,15 @@ void func_8009DAD8(s32 draw_param) {
             }
 
 process_mode:
-            mode = a0Value;
-            if (mode != 0) {
-                if (mode == pageOrTwo) {
+            flagsPage = a0Value;
+            if (flagsPage != 0) {
+                if (flagsPage == pageOrTwo) {
                     colour[2] = brightness;
                     colour[0] = 0;
                 }
                 a0Value = object[0x24];
                 func_8009DA70(a0Value, object[0x25], colour, draw_param);
-                if (mode == pageOrTwo) {
+                if (flagsPage == pageOrTwo) {
                     colour[2] = 0;
                     colour[0] = brightness;
                 }

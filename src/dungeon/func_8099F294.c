@@ -39,11 +39,11 @@ void func_80170A94(void *actor_input, void *motion_input, void *sprite_input)
   s32 ground_height;
   u16 sprite_flags;
   u16 anim_flags;
+  u32 clear_mask;
   s32 actor_flags;
   s32 bob_step;
   s32 ground_offset;
   s32 bob_offset;
-  register s32 actor_mask ASM_REG("$2");
   s32 height_adjust;
   register void *actor_base ASM_REG("$19") = actor;
   ActorCallback callback;
@@ -170,11 +170,11 @@ void func_80170A94(void *actor_input, void *motion_input, void *sprite_input)
     *((u16 *) (((u8 *) sprite) + 0x14)) = anim_flags;
   }
   while (0);
-  actor_mask = 0xF7FFFFFF;
-  actor_flags = actor_mask & (*((u32 *) (((u8 *) actor_base) + 0x1C)));
-  actor_mask = 0x40000;
+  clear_mask = 0xF7FFFFFF;
+  actor_flags = (*((u32 *) (((u8 *) actor_base) + 0x1C)));
+  actor_flags &= clear_mask;
   *((volatile u32 *) (((u8 *) actor_base) + 0x1C)) = actor_flags;
-  actor_flags &= actor_mask;
+  actor_flags &= 0x40000;
   if (!actor_flags)
   {
     clear_accumulator:
