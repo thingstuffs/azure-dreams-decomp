@@ -31,14 +31,14 @@ typedef struct {
     u32 flags;
 } Object;
 
-extern u16 D_80026324;
+extern u16 D_80026324[];
 extern u16 D_80026326;
 extern s16 D_80026328[];
 extern void *D_80024050[5];
 extern u8 D_80026470[];
 extern u8 D_80026474[];
 extern u8 D_80080A87[];
-extern s32 D_800814A0;
+extern s32 D_800814A0[];
 
 extern void func_8002596C(s32, s32, s32);
 extern void func_80026010(void);
@@ -153,8 +153,6 @@ jt_4: {
     s32 effect_count;
     u32 flags;
     u32 clear_effect_mask;
-    register u8 *counter_base ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register u8 *status_base ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     Object *fade_object;
 
     color = *(ColorObject **)((u8 *)effect->object - 0x14);
@@ -169,16 +167,14 @@ jt_4: {
         color->g = neutral_level;
         color->b = neutral_level;
         fade_object = effect->object;
-        counter_base = (u8 *)0x80020000;
-        effect_count = *(u16 *)(counter_base + 0x6324);
+        effect_count = D_80026324[0];
         flags = fade_object->flags;
         effect_count--;
-        *(u16 *)(counter_base + 0x6324) = effect_count;
+        D_80026324[0] = effect_count;
         flags &= clear_effect_mask;
         fade_object->flags = flags;
         ((u16 *)effect)[-1] |= 0x8000;
-        status_base = (u8 *)0x80080000;
-        *(volatile s32 *)(status_base + 0x14A0) |= 0x8000;
+        D_800814A0[0] |= 0x8000;
     }
     goto end;
 }
