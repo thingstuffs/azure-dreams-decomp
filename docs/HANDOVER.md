@@ -23,6 +23,16 @@ caps (`config/lane_caps.json`), capped lanes landable (cap stub), agent lanes wr
 clamps (7 exact texts, self-rejected as artificial dead computation; `work/native_lane/r78_astra_f0/diag/
 rejected_clamps/`) - land as a visible reconstruction or not? r77_opus_m6 site-for-pin trade (81875B38).
 
+**Routing adopted 2026-09-28 06:00Z (from per-mode yield, wave record):** Opus = continuation packs with
+evidence (near-miss conversion ranked by `cutoff_report.py --json`, fresh-eyes on reduced/interrupted rows) and
+family packs with exemplars; fresh never-served packs are the fallback (2.8 pins/lane vs 4-6). Astra = family
+packs with exemplars (7.5/lane on spill). Sol = bounded census/tooling only; Luna = no pin lanes (0 in 5).
+Gemini = 1-2 rows. Meters at 06:00Z: Claude 13%, Codex 10%. Lander now also lands scaffolding-only removals
+(volatile etc. with equal pins); screen.py expands la/ulw/usw so lab.py scores those exact candidates itself.
+**Readability:** STATUS m2c-names metric fixed (comments excluded): 789 rows, only 191 outside extern
+prototypes - naming is nearly done; the real debt is gotos (1,599 rows) and address-named local struct types
+(3,140) - needs a type/header design decision before a campaign.
+
 **Next.** Remaining spill-family rows (~18 with 7-30 pins; `ASM_REG("$8"..)` census in the wave record);
 fresh-eyes on this round's reduced rows; jump2 cross-jump blocker question (c8); set-once/birthing rows from
 c11 (known r76 family: zero-init is deleted by flow there).
