@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 
 #define U8_AT(p, off) (*(u8 *)((u8 *)(p) + (off)))
 #define U16_AT(p, off) (*(u16 *)((u8 *)(p) + (off)))
@@ -12,8 +14,6 @@ extern void *D_80024008[];
 extern u8 D_800814A8[12];
 extern u8 D_80024A64[];
 extern u16 D_80024A70[];
-extern u8 D_80083460[];
-extern s32 D_800814A0;
 extern u16 D_80082E94[];
 
 extern void func_800246F4(void *, void *);
@@ -148,12 +148,12 @@ case_3:
         goto default_case;
     }
     {
-        u8 *sequence_state = D_80083460;
+        u8 *sequence_state = ((u8 *)(&dungeonStatus));
         U16_AT(sequence_state, 0x0A)--;
         U32_AT(sequence_state, 0x0C) = 0;
     }
     U16_AT(state, -2) |= 0x8000;
-    D_800814A0 |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
 
 default_case:
     if (S16_AT(state, 0x0A) >= 2) {

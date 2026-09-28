@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 
 M2C_UNK func_8003DB94();
@@ -6,7 +7,6 @@ void *func_8003FC64();
 M2C_UNK func_8004491C();
 M2C_UNK func_800A56E0();
 extern M2C_UNK D_80045340;
-extern u8 D_80083460[0xC];
 extern M2C_UNK D_800CB9DC;
 extern u8 D_800DF650[];
 
@@ -77,7 +77,7 @@ void *func_800CBB98(s16 tile_x, u16 tile_y, s16 height, void *owner) {
         effect->unk_20 = saved_owner;
         saved_owner->unk_14 = (s32) (saved_owner->unk_14 | 0x100000);
         func_800A56E0(0x614);
-        effect_state = D_80083460;
+        effect_state = ((u8 *)(&dungeonStatus));
         ((S_800CBB98_4 *)effect_state)->unk_0A = (u16) (((S_800CBB98_4 *)effect_state)->unk_0A + 1);
     }
     return effect;

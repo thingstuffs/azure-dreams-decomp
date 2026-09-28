@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -79,7 +80,6 @@ extern void *D_800814A8;
 extern DungeonEnv D_80082E80;
 extern u16 D_80082EA4;
 extern s16 D_80083228;
-extern u16 D_80083462;
 extern DungeonRecord D_800E2970[];
 extern M2C_UNK D_801711A4;
 extern M2C_UNK D_8017418C;
@@ -103,7 +103,7 @@ void func_801711A4(void *actor, M2C_UNK context, void *sprite, void *status) {
     M2C_UNK *direction_aux_ptr;
     EmptyArg empty_arg;
 
-    if (!(D_80083462 & 0x1000)) {
+    if (!(dungeonStatus.flags & 0x1000)) {
         goto block_3;
     }
     ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 0xEU;
@@ -149,7 +149,7 @@ block_11:
         }
     }
 block_12:
-    if (D_80083462 & 0x2000) {
+    if (dungeonStatus.flags & 0x2000) {
         goto block_27;
     }
     if (!(((Rec_D_800E3D7C *)status)->unk_1C.as_s32 & 0x100)) {
@@ -208,7 +208,7 @@ block_27:
     if (((Rec_D_800E3D7C *)status)->unk_44.at02_u16.v & 0x8000) {
         goto block_35;
     }
-    if (!(D_80083462 & 0x2000)) {
+    if (!(dungeonStatus.flags & 0x2000)) {
         goto block_33;
     }
     if ((func_8009A180(status, ((Rec_D_800814A8 *)D_800814A8)->unk_58.as_s32 + 0x20) << 0x10) != 0) {

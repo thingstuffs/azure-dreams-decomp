@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef struct {
     u8 pad00[0x8C];
@@ -46,7 +47,6 @@ typedef struct {
 
 extern u8 D_80082E80[];
 extern s16 D_80083228;
-extern s32 D_80083460;
 extern u8 D_80171650[];
 extern u8 D_801742E0[];
 extern u8 D_801742E8[];
@@ -144,7 +144,7 @@ end_state:
     func_800A4ACC(entity);
 
     {
-        s32 *counter_base = &D_80083460;
+        s32 *counter_base = &dungeonStatus.unk_00;
 
         if (*(s16 *)((u8 *)counter_base + 8) != 0) {
             *(u16 *)((u8 *)counter_base + 8) -= 1;

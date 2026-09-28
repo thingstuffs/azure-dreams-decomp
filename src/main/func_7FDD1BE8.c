@@ -1,6 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
-extern int D_800814A0;
 
 typedef struct {
     u8 pad20[0x20];
@@ -33,7 +33,7 @@ void func_7FDD1BE8(S_7FDD1BE8 *object)
         object->unkE = (sub_object->unk24 * 0x10) + 0xA0;
         if (sub_object->unk26 & 1) {
             *prior_flags |= 0x8000;
-            D_800814A0 |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
         }
     }
 }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct {
     s8 pad00[0x98];
@@ -11,7 +12,6 @@ typedef struct {
     volatile u16 field_1A;
 } State;
 
-extern s32 D_800814A0[3];
 extern void func_80033D08(void *arg0);
 
 /* Mark inactive objects or advance their wrapped 12-bit state value. */
@@ -20,7 +20,7 @@ void func_800B9EDC(Obj *obj, void *unused, State *state)
     if (*obj->field_98 == 0) {
         func_80033D08(obj);
         *(u16 *)((u8 *)obj - 2) |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         return;
     }
 

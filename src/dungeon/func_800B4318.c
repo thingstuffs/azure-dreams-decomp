@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 extern u8 D_800E0000[];
 extern u8 D_80080000[];
 
@@ -66,9 +68,7 @@ typedef struct GlobalObj {
 } GlobalObj;
 
 extern u8 D_80083160[];
-extern s32 D_800814A0[3];
 extern GlobalObj *D_800814A8[3];
-extern u8 D_80083460[16];
 extern s16 D_800DCE66[5];
 extern u8 D_800DDC40[16];
 extern GlobalObj *D_800E3D7C[3];
@@ -245,7 +245,7 @@ void func_800B9A78(Work *work, Out *out, Render *render_arg)
                 goto done;
             }
 decrement_counter:
-            counter_base = D_80083460;
+            counter_base = ((u8 *)(&dungeonStatus));
             (*(s16 *)(counter_base + 10))--;
         }
 finish:

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800814A8.h"
 
 typedef struct S_80173D4C_0 {
@@ -64,7 +65,6 @@ extern void func_801743E8(void *, void *, void *, void *);
 extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern s16 D_80083228;
-extern s32 D_80083460;
 extern s32 D_80171728;
 extern u8 D_80174E4C[];
 extern u8 D_80174E54[];
@@ -115,7 +115,7 @@ state_zero:
     {
         u8 *counter_base;
 
-        counter_base = (u8 *)&D_80083460;
+        counter_base = (u8 *)&dungeonStatus.unk_00;
         ((S_80173D4C_3 *)counter_base)->unk_0A =
             ((S_80173D4C_3 *)counter_base)->unk_0A - 1;
     }
@@ -125,7 +125,7 @@ active:
     if ((func_80042900(actor, 1) << 16) == 0) {
         goto update_table;
     }
-    status = (u8 *)&D_80083460;
+    status = (u8 *)&dungeonStatus.unk_00;
     if (((S_80173D4C_4 *)status)->unk_02 & 0x1000) {
         goto done;
     }
@@ -202,7 +202,7 @@ update_table:
     }
     {
 
-        counter_base_m = (u8 *)&D_80083460;
+        counter_base_m = (u8 *)&dungeonStatus.unk_00;
         ((S_80173D4C_3 *)counter_base_m)->unk_0A++;
     }
 
@@ -216,7 +216,7 @@ state_two:
     }
     {
 
-        counter_base_m = (u8 *)&D_80083460;
+        counter_base_m = (u8 *)&dungeonStatus.unk_00;
         ((S_80173D4C_3 *)counter_base_m)->unk_0A--;
     }
 

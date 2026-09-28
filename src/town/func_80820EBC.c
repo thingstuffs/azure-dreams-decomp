@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_800206D0_arg1.h"
 
@@ -39,7 +40,6 @@ extern Vec3 D_80020278;
 extern u8 D_80024488[];
 extern s32 D_800244DC[];
 extern s32 D_80024628[];
-extern s32 D_800814A0;
 extern u8 D_80083780[];
 extern M2C_UNK D_800D0420;
 
@@ -209,5 +209,5 @@ state_4:
 state_255:
     func_8008F134((u8 *)object + 8);
     (*(u16 *)((u8 *)object + -2)) |= 0x8000;
-    D_800814A0 |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
 }

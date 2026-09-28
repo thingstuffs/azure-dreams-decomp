@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -36,7 +37,6 @@ s32 func_800AD9B4();
 
 extern u8 D_80082E80[];
 extern s16 D_80083228;
-extern s32 D_80083460;
 extern u8 D_80170E68;
 extern u8 D_801741B4[];
 extern u8 D_801741BC[];
@@ -134,7 +134,7 @@ tick:
         func_800AD594(actor, 4);
         func_800A4ACC(actor);
         {
-            void *shared_state = &D_80083460;
+            void *shared_state = &dungeonStatus.unk_00;
 
             if (((S_80172288_4 *)shared_state)->unk_08 != 0) {
                 ((S_80172288_4 *)shared_state)->unk_08--;

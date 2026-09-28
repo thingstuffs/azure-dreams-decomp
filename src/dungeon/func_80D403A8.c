@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 #ifndef NULL
 #define NULL 0
@@ -100,7 +101,6 @@ extern s32 func_800BCB04();
 
 extern u8 D_80045C34[];
 extern s16 D_80083228;
-extern s32 D_8008346C;
 extern u8 D_800E2438[];
 extern u8 D_800E2440[];
 extern u8 D_800E2488[];
@@ -224,7 +224,7 @@ wait_second_animation:
             ((S_80175BA8_0 *)actor_state)->unk_98 &= 0xFFF7;
             ((S_80175BA8_3 *)sprite)->unk_06 = 0;
             ((S_80175BA8_0 *)actor_state)->unk_8C = D_80171A80;
-            D_8008346C = 0;
+            dungeonStatus.unk_0C = 0;
             (*(u16 *)((u8 *)actor_info + 0x46)) &= 0x7FFF;
         }
     }

@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 
 #ifndef NULL
@@ -39,10 +41,8 @@ extern void *D_80170908[];
 
 extern s32 D_8003E140[];
 extern s32 D_8006CD58[];
-extern s32 D_800814A0;
 extern u8 D_80083160[];
 extern s16 D_80083228;
-extern u8 D_80083460[];
 extern u8 *D_800DCEEC[];
 extern u8 D_800DCF5C[];
 extern u8 D_8014A000[200000];
@@ -339,8 +339,8 @@ jt_c8:
 
             ((S_80175398_7 *)(((S_80175398_1 *)actor)->unk_60))->unk_2A = ((S_80175398_1 *)actor)->unk_8A;
             ((S_80175398_0_pre *)transition)[-1].unk_00 |= 0x8000;
-            D_800814A0 |= 0x8000;
-            counters = D_80083460;
+            objectFlagBlock.flags |= 0x8000;
+            counters = ((u8 *)(&dungeonStatus));
             ((S_80175398_6 *)counters)->unk_0A--;
         }
     }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
@@ -22,7 +23,6 @@ typedef struct S_80174C44_4 {
 
 
 
-extern s32 D_80083460;
 extern u8 D_801724BC[];
 extern u8 D_80175E3C[];
 extern u8 D_80175E44[];
@@ -198,7 +198,7 @@ state_3:
     transform->unk_10.at00_s32.v = 0;
     transform->unk_0C.as_s32 = 0;
     func_800A2B04(transform, entity->unk_24, entity->unk_25);
-    tracking = &D_80083460;
+    tracking = &dungeonStatus.unk_00;
     if (tracking->unk_10 == (s32)actor - 0x20) {
         tracking->unk_10 &= 0x7FFFFFFF;
     }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 
 typedef struct S_800D81D4_0_pre {
@@ -48,7 +49,6 @@ s32 func_800644B8(s32);
 s32 func_80064584(s32);
 s32 func_80064710(s32);
 s32 func_80069EF8(void);
-extern M2C_UNK D_800814A0;
 
 /* Updates a rotating effect's motion, color, and lifetime. */
 void func_800D81D4(S_800D81D4_0 *effect, S_800D81D4_1 *motion, void *primitive_data) {
@@ -139,7 +139,7 @@ jt_c5:
     goto update_position;
 jt_c6:
     ((S_800D81D4_0_pre *)effect)[-1].unk_00 = (u16) (((S_800D81D4_0_pre *)effect)[-1].unk_00 | 0x8000);
-    (*(s32 *)&D_800814A0) = (s32) (((S_800D81D4_3 *)(&D_800814A0))->unk_00 | 0x8000);
+    (*(s32 *)&objectFlagBlock.flags) = (s32) (((S_800D81D4_3 *)(&objectFlagBlock.flags))->unk_00 | 0x8000);
 update_position:
     motion->unk_02 = (s16) (effect->unk_0C + ((s32) (func_800644B8((s16) effect->unk_18) * effect->unk_1C.at02.v) >> 0xC));
     motion->unk_06 = (s16) (effect->unk_0E + ((s32) (func_80064584((s16) effect->unk_18) * effect->unk_1C.at02.v) >> 0xC));

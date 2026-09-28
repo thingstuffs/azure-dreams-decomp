@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 
 #define F(p, t, o) (*(t *)((u8 *)(p) + (o)))
 
@@ -16,7 +18,6 @@ __asm__(".set jtbl_80024048, 0x80024048");
 extern void *D_800814A8[4];
 extern u8 D_80082E80[32];
 extern u8 D_80083780[32];
-extern D_80083460_t D_80083460;
 extern u8 D_8002492C[16];
 extern u8 D_80025704[16];
 extern u8 D_80025710[16];
@@ -26,7 +27,6 @@ extern u8 D_800256EC[16];
 extern u8 D_800DED28[];
 extern u8 D_800DEB28[];
 extern u8 D_800DE870[];
-extern s32 D_800814A0[];
 
 extern s32 func_800249F0(void *, void *, void *, void *, s32, s32, s32, s32);
 extern s32 func_800243D8(void *, void *, void *);
@@ -505,14 +505,14 @@ finish:
             F((void *)particle_color, u32, 0xC) = (u32)neutral_color;
         }
         {
-            D_80083460_t *dungeon_state = &D_80083460;
+            D_80083460_t *dungeon_state = ((D_80083460_t *)&dungeonStatus);
             bits_2 = dungeon_state->fieldA;
             F(dungeon_state, u32, 0xC) = 0;
             F(D_80082E80, u16, 6) = 0;
             dungeon_state->fieldA = (u16)(bits_2 - 1);
         }
         F(effect_base, u16, -2) = (u16)(F(effect_base, u16, -2) | 0x8000);
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         return;
     }
     F(D_8002571C, s16, 0) = 0;

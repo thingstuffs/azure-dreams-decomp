@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct DungeonSub81811168 {
     u8 pad00[0x50];
@@ -22,7 +23,6 @@ extern void func_8004491C(DungeonObj81811168 *, void *);
 extern void func_80026314(DungeonObj81811168 *);
 extern void func_8004B248(void *);
 extern u8 D_8004CAA0[9];
-extern s32 D_800814A0[3];
 
 /* Allocate and initialize a child object, releasing its resources if setup fails. */
 DungeonObj81811168 *func_80026168(s32 parent_obj, s32 initial_value, s32 text_addr)
@@ -43,7 +43,7 @@ DungeonObj81811168 *func_80026168(s32 parent_obj, s32 initial_value, s32 text_ad
             func_8004B248((u8 *)obj + 0x78);
             obj->flags1E |= 0x8000;
             obj = 0;
-            D_800814A0[0] |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
         }
     }
     return obj;

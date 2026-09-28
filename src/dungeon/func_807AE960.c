@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 
 typedef struct S_807AE960_0 {
@@ -55,7 +56,6 @@ extern u16 D_8001371A;
 extern s32 D_8006CD58;
 extern u8 D_80082EA5;
 extern M2C_UNK D_80083160;
-extern s16 D_8008346A;
 
 /* Dispatch the CD-audio fade state machine, then step the actor's shake counter and raise the finished flag. */
 void func_807AE960(u8 *state, u8 *actor, u8 *target) {
@@ -123,7 +123,7 @@ block_15:
     if (((S_807AE960_3 *)global)->unk_2090 != 1) {
         goto block_17;
     }
-    D_8008346A = 1;
+    dungeonStatus.unk_0A = 1;
 block_17:
     if (((S_807AE960_1 *)state)->unk_04.s > 0) {
         goto block_28;
@@ -138,7 +138,7 @@ block_17:
     if (((S_807AE960_3 *)global)->unk_2090 != cd_mode) {
         goto block_22;
     }
-    D_8008346A = 0;
+    dungeonStatus.unk_0A = 0;
 block_22:
     ((S_807AE960_2 *)target)->unk_1A = (s16) (u16) ((S_807AE960_1 *)state)->unk_0A;
     ((S_807AE960_1 *)state)->unk_00.u = 0;

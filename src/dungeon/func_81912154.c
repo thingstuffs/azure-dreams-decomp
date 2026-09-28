@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_80024170_arg0.h"
@@ -106,8 +108,6 @@ M2C_UNK func_8009CE1C(); /* extern */
 s32 func_800A44E0();              /* extern */
 s32 func_800A56E0();                     /* extern */
 s16 func_800BCB04();                   /* extern */
-extern M2C_UNK D_800814A0;
-extern s32 D_8008346C;
 extern u8 D_800DDC40[];
 
 typedef struct LocalStack {
@@ -390,9 +390,9 @@ jt_c5:
     if (((Rec_func_80024170_arg0 *)state)->unk_14 != 0) {
         goto finish;
     }
-    D_8008346C = 0;
+    dungeonStatus.unk_0C = 0;
     (*(u16 *)((u8 *)state + -2)) = (u16) ((*(u16 *)((u8 *)state + -2)) | 0x8000);
-    (*(s32 *)&D_800814A0) = (s32) (((S_80025954_13 *)(&D_800814A0))->unk_00 | 0x8000);
+    (*(s32 *)&objectFlagBlock.flags) = (s32) (((S_80025954_13 *)(&objectFlagBlock.flags))->unk_00 | 0x8000);
     goto finish;
 jt_c6:
     ((S_80025954_5 *)motion)->unk_00.at00.v = (s32) (((S_80025954_5 *)motion)->unk_00.at00.v + ((S_80025954_5 *)motion)->unk_0C);

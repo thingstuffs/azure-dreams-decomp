@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 #if !defined(NON_MATCHING) && __GNUC__ < 3
 #else
@@ -10,7 +11,6 @@ extern void func_80099EA4(void *);
 extern void func_800A4ACC(void *);
 
 extern s16 D_80083228[];
-extern u8 D_80083460[];
 extern u8 D_801755B4[];
 extern u8 D_80175660[];
 
@@ -30,7 +30,7 @@ void func_80174FE4(void *action_state, void *unused, void *animation, void *obje
     if (*(s8 *)(state_data + 0x6D) != 0) {
         u8 *state_data;
         *(u8 *)((u8 *)object + 0x71) &= 0x7F;
-        state_data = D_80083460;
+        state_data = ((u8 *)(&dungeonStatus));
         if (!(*(u16 *)(state_data + 2) & 0x2000)) {
             direction_table = D_801755B4;
             *(s8 *)((u8 *)action_state + 0x9A) = 0x17;

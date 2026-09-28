@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct {
     s32 x;
@@ -16,7 +17,6 @@ typedef struct {
 
 extern void func_800478B8(s32 arg0);
 extern void func_8003DB94(s32 arg0, void *arg1, s32 arg2);
-extern s32 D_800814A0;
 extern s32 D_800E9E14[];
 extern s32 D_800E9E34[];
 
@@ -40,6 +40,6 @@ void func_800BD898(Actor *actor, Motion *motion, s32 actor_id) {
     }
     if (motion->dx == 0) {
         *(u16 *)((u8 *)actor - 2) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

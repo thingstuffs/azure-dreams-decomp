@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
@@ -23,7 +24,6 @@ extern void func_800AAA54(void *, void *, void *, void *);
 extern void func_800AD4D0(void *);
 
 extern s16 D_80083228;
-extern s32 D_80083460;
 extern s32 D_80171728;
 extern u8 D_80174DEC[];
 extern u8 D_80174DFC[];
@@ -159,7 +159,7 @@ state_3:
             D_80174DEC[((D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
     }
-    entity_globals = &D_80083460;
+    entity_globals = &dungeonStatus.unk_00;
     tracked_entity = entity_globals[4];
     if (tracked_entity == (s32)((u8 *)entity - 0x20)) {
         entity_globals[4] = tracked_entity & 0x7FFFFFFF;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "records/Rec_D_800E3D7C.h"
 
 
@@ -7,7 +8,6 @@ extern s32 func_80095388();
 extern s32 func_8009539C();
 extern s16 func_800C2AE8();
 
-extern s32 D_800814A0[3];
 extern u8 D_8009C5D8[];
 
 
@@ -44,7 +44,7 @@ void func_8009C4E8(void *object, Rec_D_800E3D7C *motion, S_8009C4E8_2 *appearanc
     if ((s16)(timer) < 0) {
         func_80033D08(object, motion);
         ((S_8009C4E8_0_pre *)object)[-1].unk_00 |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         return;
     }
 

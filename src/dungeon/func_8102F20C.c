@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 
 typedef struct S_8102F20C_0 {
@@ -46,7 +47,6 @@ typedef struct {
 
 extern s8 D_800DCECC[];
 extern s16 D_80083228[5];
-extern s32 D_800814A0[3];
 extern s32 func_80065420(void *, void *, void *, void *);
 extern void func_800478B8(void *, s32);
 
@@ -78,6 +78,6 @@ void func_8102F20C(void *entity, S_8102F20C_0 *position, void *output) {
     func_800478B8(result, depth_bias);
     if (result->unk_14 & 0x6000) {
         ((S_8102F20C_1_pre *)entity)[-1].unk_00 = (u16) (((S_8102F20C_1_pre *)entity)[-1].unk_00 | 0x8000);
-        D_800814A0[0] = D_800814A0[0] | 0x8000;
+        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
     }
 }

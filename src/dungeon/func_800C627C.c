@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 extern u8 D_80080000[];
 
@@ -82,9 +84,7 @@ M2C_UNK func_800A6780();                            /* extern */
 extern s32 D_80010234;
 extern M2C_UNK D_80013714;
 extern s16 D_80081468[3];
-extern M2C_UNK D_800814A0;
 extern u8 D_80082E6B;
-extern M2C_UNK D_80083460;
 extern u8 *D_800E3D7C;
 
 /* Updates go-up trap motion, then advances the player or removes the affected actor. */
@@ -162,7 +162,7 @@ void func_800CB9DC(void *trap_state_in, void *motion_state_in, void *animation_i
                 do {
                     status_page = (u8 *)0x80080000;
                 } while (0);
-                actor_counts = (u8 *)&D_80083460;
+                actor_counts = (u8 *)&dungeonStatus.unk_00;
                 removal_flags = ((S_800CB9DC_1_pre *)actor)[-1].unk_16;
                 ((S_800CB9DC_1_pre *)actor)[-1].unk_16 = removal_flags | 0x8000;
                 global_flags = ((S_800CB9DC_7 *)status_page)->unk_14A0;

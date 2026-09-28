@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct {
     u8 pad[0x1A];
@@ -7,7 +8,6 @@ typedef struct {
     u16 field_1E;
 } Object;
 
-extern s32 D_800814A0[3];
 
 /* Advance the object angle and height and set completion flags at height 0x2000. */
 void func_80174180(u16 *record_data, s32 unused, Object *object) {
@@ -21,6 +21,6 @@ void func_80174180(u16 *record_data, s32 unused, Object *object) {
     object->field_1A = angle;
     if (height >= 0x2000) {
         record_data[-1] |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

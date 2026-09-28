@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_func_80172CC0_arg0.h"
@@ -8,8 +9,6 @@
 extern u8 D_8006DE24[];
 extern void *D_800814A8;
 extern s16 D_80083228;
-extern u8 D_80083460[16];
-extern s32 D_8008346C;
 extern u8 D_80170838[16];
 extern u8 D_80170E54;
 extern u8 D_80174148[8];
@@ -185,7 +184,7 @@ no_item:
         ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = 0;
         ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
         func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
-        D_8008346C = 0;
+        dungeonStatus.unk_0C = 0;
         {
             u8 *active_entity = (u8 *)D_800814A8;
             (*(u16 *)((u8 *)active_entity + 0xA6))--;
@@ -263,7 +262,7 @@ no_item:
         }
 
         {
-            u8 *global_state = D_80083460;
+            u8 *global_state = ((u8 *)(&dungeonStatus));
             if (((S_80172CC0_5 *)global_state)->unk_0C != 0) {
                 goto end;
             }

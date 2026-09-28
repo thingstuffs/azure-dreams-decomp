@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 
 typedef struct S_800C4C00_0 {
     u8 unk_00;
@@ -19,8 +21,6 @@ typedef struct S_800C4C00_1 {
 
 
 extern struct S_80083178 D_80083178;
-extern s32 D_800814A0;
-extern s32 D_80083460;
 
 /* Fades the color toward the target, then back to neutral, and marks completion. */
 void func_800C4C00(void *fade)
@@ -62,10 +62,10 @@ void func_800C4C00(void *fade)
             ((S_800C4C00_1 *)color_state)->unk_90 = 0x80;
             ((S_800C4C00_1 *)color_state)->unk_91 = 0x80;
             ((S_800C4C00_1 *)color_state)->unk_92 = 0x80;
-            effect_counts = (u16 *)&D_80083460;
+            effect_counts = (u16 *)&dungeonStatus.unk_00;
             effect_counts[5]--;
             (*(u16 *)((u8 *)fade + -2)) |= 0x8000;
-            D_800814A0 |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
         }
     }
 }

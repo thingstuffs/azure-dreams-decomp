@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 #ifndef NULL
 #define NULL 0
@@ -37,7 +38,6 @@ extern u8 D_80046398[];
 extern u8 D_800BF4CC[];
 extern u8 D_800D2348[];
 extern s32 D_800D2360;
-extern s32 D_800814A0;
 
 /* Initialize an object and its packet, then set the caller and global flags. */
 void func_800BF654(void *caller_data)
@@ -67,5 +67,5 @@ void func_800BF654(void *caller_data)
         func_8008F074(setup, packet, D_800D2348);
     }
     (*(u16 *)((u8 *)caller_data + -2)) |= 0x8000;
-    D_800814A0 |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
 }

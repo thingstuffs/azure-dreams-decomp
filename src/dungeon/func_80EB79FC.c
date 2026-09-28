@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
@@ -13,9 +15,6 @@ M2C_UNK func_800A32A4();
 M2C_UNK func_800A56E0();
 M2C_UNK func_800ACF88();
 s16 func_800BCB04();
-extern s32 D_800814A0[3];
-extern M2C_UNK D_80083460;
-extern s16 D_8008346A;
 
 
 typedef struct S_801731FC_0 {
@@ -124,7 +123,7 @@ wait_motion:
     motion->unk_10 = 0;
     motion->unk_0C = 0;
 check_motion_done:
-    if (D_8008346A != 0) {
+    if (dungeonStatus.unk_0A != 0) {
         goto done;
     }
     state->unk_9B = state->unk_9B + 1;
@@ -162,7 +161,7 @@ fade_out:
     if ((s16)next_brightness >= 0x18) {
         goto done;
     }
-    entity_tracker = &D_80083460;
+    entity_tracker = &dungeonStatus.unk_00;
     if (entity_tracker->unk_10 != (entity - 0x20)) {
         goto remove_entity;
     }
@@ -181,7 +180,7 @@ play_sound:
     func_8009A3D0(sound_x, sound_y, sound_flags);
     func_8009A028(entity);
     ((S_801731FC_1_pre *)entity)[-1].unk_00 |= 0x8000;
-    D_800814A0[0] |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
 done:
     return;
 }

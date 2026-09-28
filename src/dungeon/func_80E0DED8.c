@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -44,7 +45,6 @@ M2C_UNK func_8009A3D0();             /* extern */
 M2C_UNK func_8009A66C(); /* extern */
 s16 func_800A0818();             /* extern */
 extern s16 D_80083228;
-extern u16 D_80083462;
 extern u8 D_80176460[8];
 
 /* Advance the entity along its stored path and update its heading and movement timing. */
@@ -93,7 +93,7 @@ void func_801716D8(void *motion, void *unused, void *entity, void *path_state) {
         ((S_801716D8_3 *)motion)->unk_9A = 0xF;
         ((S_801716D8_3 *)motion)->unk_8C = 0;
         (*(s32 *)((u8 *)state + 0x1C)) = (s32) (((S_801716D8_0 *)state)->unk_1C | 0x40000000);
-        if (D_80083462 & 0x80) {
+        if (dungeonStatus.flags & 0x80) {
             ((S_801716D8_3 *)motion)->unk_96 = 0;
             return;
         }

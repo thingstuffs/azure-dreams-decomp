@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -36,7 +37,6 @@ M2C_UNK func_8003DB94();
 M2C_UNK func_800478B8(void *);
 s32 func_800644B8();
 s32 func_80064584();
-extern s32 D_800814A0[];
 extern M2C_UNK D_800DEC70;
 
 /* Move the effect in an expanding spiral, fade its color, and flag it when its lifetime ends. */
@@ -71,6 +71,6 @@ void func_80173738(void *effect, FuncArg1 *position, Rec_D_80082E80 *primitive) 
     ((S_80173738_0 *)effect)->unk_1A = next_life;
     if ((next_life << 0x10) <= 0) {
         ((S_80173738_0_pre *)effect)[-1].unk_00 = (u16) (((S_80173738_0_pre *)effect)[-1].unk_00 | 0x8000);
-        ((S_80173738_2 *)D_800814A0)->unk_00 = (s32) (((S_80173738_2 *)D_800814A0)->unk_00 | 0x8000);
+        ((S_80173738_2 *)((s32 *)(&objectFlagBlock)))->unk_00 = (s32) (((S_80173738_2 *)((s32 *)(&objectFlagBlock)))->unk_00 | 0x8000);
     }
 }

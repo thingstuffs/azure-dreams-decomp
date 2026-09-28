@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef struct SubA {
     u8 pad0[2];
@@ -49,7 +50,6 @@ extern void *D_80083498;
 extern D_80083780_t D_80083780;
 extern u8 D_80079444[];
 extern s16 D_800DCE66[5];
-extern void *D_8008346C;
 
 extern void *func_8003FD64(s32 a0, void *a1);
 extern void func_8004491C(void *a0, void *a1);
@@ -107,7 +107,7 @@ void *func_800B9964(EntityHdr **entity_ref) {
             }
             object->owner = entity_ref;
 
-            D_8008346C = object;
+            dungeonStatus.unk_0C = object;
             func_800C77D0(init_object, init_transform, init_mode, D_800DCE66[0]);
         }
     }

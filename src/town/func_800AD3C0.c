@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082D58.h"
 #include "records/Rec_D_80082E80.h"
@@ -12,7 +13,6 @@ M2C_UNK func_8009706C();
 s32 func_8009CFE0();
 s32 func_800C2E1C();
 s32 func_800C2F14();
-extern s32 D_800814A0[3];
 
 
 typedef struct S_800AAB20_0_pre {
@@ -34,7 +34,7 @@ void func_800AAB20(void *object, M2C_UNK update_ctx, Rec_D_80082E80 *display) {
         }
         func_80033D08(object);
         ((S_800AAB20_0_pre *)object)[-1].unk_00 = (u16) (((S_800AAB20_0_pre *)object)[-1].unk_00 | 0x8000);
-        D_800814A0[0] = D_800814A0[0] | 0x8000;
+        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
         return;
     }
     func_8009706C(update_ctx);

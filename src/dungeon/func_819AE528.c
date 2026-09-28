@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "records/Rec_func_80025D28_arg0.h"
 
 
@@ -21,7 +22,6 @@ typedef struct S_80025D28_2 {
 extern s32 func_800644B8();
 extern s32 func_80064584();
 extern u8 D_80027452[16];
-extern s32 D_800814A0;
 
 /* Update two animated points, fade their intensity, and flag expiration. */
 void func_80025D28(void *state, void *points, void *appearance) {
@@ -83,7 +83,7 @@ void func_80025D28(void *state, void *points, void *appearance) {
     ((Rec_func_80025D28_arg0 *)state)->unk_30 = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
         (*(u16 *)((u8 *)state + -2)) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
     ((Rec_func_80025D28_arg0 *)state)->unk_34 = ((Rec_func_80025D28_arg0 *)state)->unk_34 + 1;
 }

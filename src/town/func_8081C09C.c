@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 extern void func_800478B8();
-extern s32 D_800814A0;
 
 /* Advances and darkens a moving effect, updates its visual, and propagates status flags. */
 void func_8002609C(u8 *effect, u8 *motion, u8 *visual)
@@ -23,6 +23,6 @@ void func_8002609C(u8 *effect, u8 *motion, u8 *visual)
     func_800478B8(visual, motion, velocity);
     if (*(u16 *)(visual + 0x14) & 0x6000) {
         *(u16 *)(effect - 2) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

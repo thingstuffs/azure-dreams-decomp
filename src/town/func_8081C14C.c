@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 extern int abs(int);
 
 #define S8(p, o)  (*(s8 *)((u8 *)(p) + (o)))
@@ -19,7 +20,6 @@ extern s32 rand();
 
 extern u8 D_80026748[];
 extern u8 D_80045340[];
-extern s32 D_800814A0;
 extern u8 D_80082E80[16];
 extern s32 D_80083784;
 extern u8 D_800F7950[];
@@ -207,7 +207,7 @@ common_countdown:
     case 0xFF:
         U16(object, 0x58) &= 0xFFFE;
         U16(state, -2) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         break;
     }
 }

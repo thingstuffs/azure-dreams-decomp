@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 
 #ifndef NULL
 #define NULL 0
@@ -77,8 +79,6 @@ typedef struct S_func_800D7FB8_7 {
 extern u8 D_80083498[];
 extern u8 D_80045340[];
 extern u8 D_800DEC00[];
-extern s32 D_80083460[3];
-extern s32 D_800814A0[];
 extern s32 D_800D81D4;
 
 extern void *func_8003FD64(void *, void *);
@@ -160,10 +160,10 @@ ff_state:
     finish_timer = (u16)(controller->unk_02.u16_value - 1);
     controller->unk_02.u16_value = finish_timer;
     if ((finish_timer << 0x10) <= 0) {
-        counter_base = (S_func_800D7FB8_5 *)D_80083460;
+        counter_base = (S_func_800D7FB8_5 *)((s32 *)(&dungeonStatus));
         counter_base->unk_0A = (u16)(counter_base->unk_0A - 1);
         ((S_func_800D7FB8_7 *)((u8 *)controller - 2))->unk_00 = (u16)(((S_func_800D7FB8_7 *)((u8 *)controller - 2))->unk_00 | 0x8000);
-        ((S_func_800D7FB8_6 *)D_800814A0)->unk_00 = ((S_func_800D7FB8_6 *)D_800814A0)->unk_00 | 0x8000;
+        ((S_func_800D7FB8_6 *)((s32 *)(&objectFlagBlock)))->unk_00 = ((S_func_800D7FB8_6 *)((s32 *)(&objectFlagBlock)))->unk_00 | 0x8000;
     }
 
 done:

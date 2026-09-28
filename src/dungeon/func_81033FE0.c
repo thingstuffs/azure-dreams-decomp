@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 
 typedef struct {
@@ -25,7 +26,6 @@ extern void func_80175494(void *, void *, void *);
 
 extern s32 D_80045340;
 extern s16 D_80083228;
-extern s32 D_8008346C;
 extern M2C_UNK D_800DE870;
 extern void *D_80170890[];
 extern u8 D_80170B48[];
@@ -459,7 +459,7 @@ state_9:
 #endif
     func_800AD594(entity, 0x800);
     ((S_801757E0_0 *)actor)->unk_8C = &D_801714B8;
-    D_8008346C = 0;
+    dungeonStatus.unk_0C = 0;
     (*(u16 *)((u8 *)entity + 0x46)) &= 0x7FFF;
 
 #ifdef __mips__

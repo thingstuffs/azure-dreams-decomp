@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_801724B0_arg0.h"
 
@@ -32,7 +33,6 @@ extern s16 func_800A0818();
 extern s32 func_80172E0C();
 
 extern s16 D_80083228;
-extern u16 D_80083462;
 extern u8 D_800E2348[8];
 
 /* Advance the actor along its queued path and update movement timing. */
@@ -85,7 +85,7 @@ void func_801724B0(void *motion, s32 actor_index, void *actor, void *move_data) 
 
         ((S_801724B0_0 *)move_data)->unk_2A = heading;
         if (x == 3) {
-            if (!(D_80083462 & 0x80) && !(((Rec_D_80082E80 *)actor)->unk_14.at00_u16.v & 0x8000)) {
+            if (!(dungeonStatus.flags & 0x80) && !(((Rec_D_80082E80 *)actor)->unk_14.at00_u16.v & 0x8000)) {
                 func_80172E0C(motion, actor_index, actor, move_data);
                 ((Rec_func_801724B0_arg0 *)motion)->unk_8C = 0;
                 goto post_state;
@@ -97,7 +97,7 @@ void func_801724B0(void *motion, s32 actor_index, void *actor, void *move_data) 
 
 post_state:
         (*(s32 *)((u8 *)move_data + 0x1C)) |= 0x40000000;
-        if (D_80083462 & 0x80) {
+        if (dungeonStatus.flags & 0x80) {
             ((Rec_func_801724B0_arg0 *)motion)->unk_96 = 0;
             goto end;
         }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 extern s32 func_800478B8(void *arg0);
 
@@ -8,7 +9,6 @@ typedef struct {
 } DungeonActive;
 
 extern DungeonActive D_80025B60;
-extern s32 D_800814A0;
 
 typedef struct {
     u8 pad_00[0xC];
@@ -63,7 +63,7 @@ void func_80024C0C(void *entity_data, s32 unused, DungeonEffect *effect_data) {
     if (*(s16 *)(entity_data + 0x5A) <= 0) {
         *(u16 *)(entity_data - 2) |= 0x8000;
 #ifdef NON_MATCHING
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
 #else
         {
             u8 *flags_page = (u8 *)0x80080000;
@@ -74,7 +74,7 @@ void func_80024C0C(void *entity_data, s32 unused, DungeonEffect *effect_data) {
     if (effect_data->flags_14 & 0x8000) {
         *(u16 *)(entity_data - 2) |= 0x8000;
 #ifdef NON_MATCHING
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
 #else
         {
             u8 *flags_page = (u8 *)0x80080000;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef struct {
     u8 pad00[0x10];
@@ -11,7 +12,6 @@ typedef struct {
     s16 unk20;
 } Func800B5948Object;
 
-extern u16 D_80083462[5];
 extern void func_8009A3D0(s16, s16, s32);
 extern void func_800B5F80(s16);
 
@@ -19,7 +19,7 @@ extern void func_800B5F80(s16);
 void func_800BB0A8(Func800B5948Object *object, s32 unused, Func800B5948Object *related_object) {
     u16 ticks_left;
 
-    if (D_80083462[0] & 0x10) {
+    if (dungeonStatus.flags & 0x10) {
         ticks_left = object->unk1E - 1;
         object->unk1E = ticks_left;
         if ((ticks_left << 0x10) <= 0) {

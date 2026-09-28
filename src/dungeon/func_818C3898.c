@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -35,7 +36,6 @@ typedef struct S_818C3898_4 {
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern s32 D_800814A0[3];
 extern void func_800478B8(void *arg0);
 /* Advance effect motion, color, rotation, and size, and flag lifetime expiration. */
 void func_818C3898(void *effect, void *motion_data, Rec_D_80082E80 *sprite) {
@@ -77,7 +77,7 @@ void func_818C3898(void *effect, void *motion_data, Rec_D_80082E80 *sprite) {
     motion->unk_08 = (s32) (motion->unk_08 + motion->unk_14);
     if ((s16) ((S_818C3898_0 *)effect)->unk_10 > ((S_818C3898_0 *)effect)->unk_14) {
         ((S_818C3898_0_pre *)effect)[-1].unk_00 = (u16) (((S_818C3898_0_pre *)effect)[-1].unk_00 | 0x8000);
-        global_flags = D_800814A0;
+        global_flags = ((s32 *)(&objectFlagBlock));
         ((S_818C3898_4 *)global_flags)->unk_00 = (s32) (((S_818C3898_4 *)global_flags)->unk_00 | 0x8000);
     }
 }

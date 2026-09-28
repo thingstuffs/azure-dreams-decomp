@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800814A8.h"
@@ -100,7 +101,6 @@ extern s16 D_8006CD00;
 extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern u16 D_80082EA4;
-extern M2C_UNK D_80083460;
 extern D_800E2970Entry D_800E2970[];
 
 /* Selects a movement direction and advances the actor path through available tiles. */
@@ -157,7 +157,7 @@ void func_8016BF74(void *raw_motion, void *context, void *raw_position, void *ra
     motion = raw_motion;
     position = raw_position;
     actor = raw_actor;
-    state = (s8 *)&D_80083460;
+    state = (s8 *)&dungeonStatus.unk_00;
     ASM_KEEP(motion);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     state_flags = ((S_8016BF74_0 *)state)->unk_02;
     near_target = 0;
@@ -367,7 +367,7 @@ complete_step:
                 ((S_8016BF74_1 *)actor)->unk_46 = (u16) (((S_8016BF74_1 *)actor)->unk_46 & 0x7FFF);
                 ((S_8016BF74_5 *)motion)->unk_9C = (s8) (u8) position->unk_26;
                 ((S_8016BF74_1 *)actor)->unk_6D.u = (u8) (((S_8016BF74_1 *)actor)->unk_6D.u - 1);
-                step_state = (s8 *)&D_80083460;
+                step_state = (s8 *)&dungeonStatus.unk_00;
                 ((S_8016BF74_8 *)step_state)->unk_08 = (u16) (((S_8016BF74_8 *)step_state)->unk_08 + 1);
                 if (((S_8016BF74_1 *)actor)->unk_6D.s == 0) {
 finish_path:

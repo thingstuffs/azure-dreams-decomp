@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 
 typedef struct S_80173AD4_0 {
@@ -54,7 +55,6 @@ M2C_UNK func_8009A3D0();             /* extern */
 s32 func_800A2BDC();                          /* extern */
 M2C_UNK func_800A5720();                         /* extern */
 extern s16 D_80083228;
-extern M2C_UNK D_80083460;
 extern u8 D_80170854[];
 extern u8 D_80173FD0[];
 
@@ -76,7 +76,7 @@ void func_80173AD4(void *work_in, void *part_a, void *part_b_in, void *actor) {
     flags71 = ((S_80173AD4_0 *)actor)->unk_71;
     work = work_in;
     ((S_80173AD4_0 *)actor)->unk_71 = flags71 & 0x7F;
-    state = (u8 *)&D_80083460;
+    state = (u8 *)&dungeonStatus.unk_00;
     part_b = part_b_in;
     if (!(((S_80173AD4_1 *)state)->unk_02 & 0x2000) && ((func_800A2BDC(actor) << 0x10) == 0)) {
         ((S_80173AD4_2 *)work)->unk_8C = 0;

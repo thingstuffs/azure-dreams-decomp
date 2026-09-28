@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 extern void *D_800E3D7C;
 extern u8 D_80083780[];
 extern u8 D_80082E80[];
 extern u16 D_800DDE84[];
 extern u8 D_800E2082[];
-extern u16 D_80083460[];
 
 extern s32 func_8008D330(void *, u8 *, u8 *, void *);
 extern void func_800A63B8(void *, s32, s16);
@@ -42,6 +42,6 @@ s32 func_800C37C8(void *target, s32 item, s16 use_type) {
     }
 
     func_80098B38(item);
-    D_80083460[5]--;
+    dungeonStatus.unk_0A--;
     return 1;
 }

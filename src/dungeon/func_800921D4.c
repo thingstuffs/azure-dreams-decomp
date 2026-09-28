@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -10,7 +11,6 @@ extern void func_80096384(void);
 extern void func_800AD4D0(void *arg0);
 
 extern s16 D_80083228[5];
-extern s32 D_80083460[5];
 extern void *D_800DD274[8];
 
 /* Refresh the directional sprite and advance the actor state when sprite flags are set. */
@@ -32,7 +32,7 @@ void func_80097934(Rec_func_8008ACDC_arg0 *state, Rec_D_800E3D7C *motion, Rec_D_
                 ((D_80083228[0] + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
 
-        tracking = D_80083460;
+        tracking = ((s32 *)(&dungeonStatus));
         tracked_addr = tracking[4];
         if (tracked_addr == (u32)((u8 *)actor - 0x20)) {
             tracking[4] = tracked_addr & 0x7FFFFFFF;

@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 extern int abs(int);
 
@@ -16,8 +18,6 @@ extern u8 D_800265C4[];
 extern u8 D_800269C8[];
 extern u8 D_80045340[];
 extern u8 D_800DDC40[];
-extern u8 D_8008346C[];
-extern u8 D_800814A0[];
 extern u8 D_80080000[];
 
 #ifdef __mips__

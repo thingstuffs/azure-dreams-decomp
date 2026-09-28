@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -30,7 +31,6 @@ typedef struct S_8191C848_3 {
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern s32 D_800814A0[3];
 s32 func_800644B8();                             /* extern */
 s32 func_80064584();                             /* extern */
 
@@ -43,7 +43,7 @@ void func_8191C848(void *motion, S_8191C848_3 *position, Rec_D_80082E80 *status)
     func_800478B8(status);
     if (status->unk_14.at00_u16.v & 0x6000) {
         ((S_8191C848_0_pre *)motion)[-1].unk_00 = (u16) (((S_8191C848_0_pre *)motion)[-1].unk_00 | 0x8000);
-        D_800814A0[0] = (s32) (D_800814A0[0] | 0x8000);
+        objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
     }
     position->unk_02 = (u16) (position->unk_02 + ((s32) ((func_800644B8(((S_8191C848_0 *)motion)->unk_08) >> 4) * ((S_8191C848_0 *)motion)->unk_0A) >> 8));
     y_step_scaled = (func_80064584(((S_8191C848_0 *)motion)->unk_08) >> 4) * ((S_8191C848_0 *)motion)->unk_0A;

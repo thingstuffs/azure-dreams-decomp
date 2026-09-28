@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
 #ifdef NON_MATCHING
@@ -98,7 +99,6 @@ extern void func_800AD594(void *, s32);
 
 extern u8 D_80045340;
 extern s16 D_80083228;
-extern s32 D_8008346C;
 extern s32 D_80083498;
 extern u8 D_800DEC28[];
 extern void *D_800E3DE8;
@@ -310,7 +310,7 @@ advance:
         func_800A2B04(motion, ((S_80172790_6 *)tile)->unk_24, ((S_80172790_6 *)tile)->unk_25);
         func_800AD594(actor, 0x100);
         ((S_80172790_1 *)action)->unk_8C = D_80171400;
-        D_8008346C = 0;
+        dungeonStatus.unk_0C = 0;
         func_800A4ACC(actor);
         ((S_80172790_4 *)motion)->unk_14 = 0;
         ((S_80172790_1 *)action)->unk_98 &= 0xFFF7;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -58,8 +59,6 @@ void func_80171020(); /* extern */
 extern M2C_UNK D_8006DE24;
 extern void *D_800814A8;
 extern s16 D_80083228;
-extern u8 D_80083460[16];
-extern s32 D_8008346C;
 extern M2C_UNK D_80171760;
 extern u8 D_80174E88[9];
 
@@ -223,7 +222,7 @@ cancel_ability:
     ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = 0;
     ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
     func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
-    D_8008346C = 0;
+    dungeonStatus.unk_0C = 0;
     ((Rec_D_800814A8 *)D_800814A8)->unk_A6 = (u16) ((*(u16 *)((u8 *)D_800814A8 + 0xA6)) - 1);
     func_800A4ACC(actor);
     ((S_8017364C_1 *)actor)->unk_6D = (u8) (((S_8017364C_1 *)actor)->unk_6D - 1);
@@ -270,7 +269,7 @@ do {
     }
     } while (1);
 wait_for_finish:
-    global_state = D_80083460;
+    global_state = ((u8 *)(&dungeonStatus));
     if (((S_8017364C_6 *)global_state)->unk_0C != 0) {
         goto update_finish_timer;
     }

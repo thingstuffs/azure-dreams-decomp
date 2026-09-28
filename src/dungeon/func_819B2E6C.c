@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 #ifndef NULL
 #define NULL 0
@@ -108,7 +109,6 @@ extern s32 rand(void);
 
 extern u8 D_80024ACC[];
 extern u8 D_80045340[];
-extern s32 D_800814A0;
 extern u8 D_80082E80[];
 extern u8 D_80083498[];
 extern u8 D_80083780[];
@@ -205,7 +205,7 @@ void func_8002466C(void *effect)
             last_particle = 5;
             if (((S_8002466C_0 *)effect)->unk_48.u == 0xF) {
                 (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-                D_800814A0 |= 0x8000;
+                objectFlagBlock.flags |= 0x8000;
             }
             break;
     }

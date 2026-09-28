@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -26,7 +27,6 @@ s32 func_800A2B5C();
 M2C_UNK func_800A4ACC();
 M2C_UNK func_800C7930();
 extern s16 D_80083228;
-extern u16 D_80083462;
 extern u8 D_80175414;
 
 /* Starts an actor action and selects its directional sprite and adjacent target. */
@@ -34,7 +34,7 @@ void func_80174A9C(void *action_state, M2C_UNK action_context, void *sprite, voi
     s32 direction;
 
     ((Rec_D_800E3D7C *)actor)->unk_71.as_u8 = (u8)(((Rec_D_800E3D7C *)actor)->unk_71.as_u8 & 0x7F);
-    if (!(D_80083462 & 0x2000) && ((func_800A2B5C(actor) << 0x10) == 0)) {
+    if (!(dungeonStatus.flags & 0x2000) && ((func_800A2B5C(actor) << 0x10) == 0)) {
         func_800C7930(actor - 0x20, action_context, 8, 0x300);
         if ((func_800A2B5C(actor) << 0x10) == 0) {
             ((S_80174A9C_1 *)action_state)->unk_9A = 0x17;

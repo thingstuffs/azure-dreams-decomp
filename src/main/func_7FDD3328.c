@@ -1,3 +1,4 @@
+#include "shared/object_flags.h"
 
 struct S_80083178Vector
 {
@@ -92,9 +93,6 @@ extern s32 D_80080A98;
 extern s32 D_80080A9C;
 extern s32 D_8008B2F0[3];
 extern s32 D_80081494;
-extern s32 D_800814A0;
-extern u8 D_800814A4;
-extern u8 D_800814AC;
 extern s32 func_80053428();
 extern s32 func_80053604();
 extern void SD_Call();
@@ -333,7 +331,7 @@ void func_8008A288(Menu *menu)
       if (D_80080A8A == 1)
       {
         ((Gfx *) 0x80010000)->shade = delta;
-        D_800814AC = delta;
+        objectFlagBlock.unk_0C = delta;
         ((Gfx *) 0x80010000)->color = channel_or_color;
         D_80081494 = channel_or_color;
         if (menu->flags & 2)
@@ -344,7 +342,7 @@ void func_8008A288(Menu *menu)
         {
           ((Gfx *) 0x80010000)->flags = ((Gfx *) 0x80010000)->flags | 1;
         }
-        D_800814A4 = ((Gfx *) 0x80010000)->flags;
+        objectFlagBlock.unk_04 = ((Gfx *) 0x80010000)->flags;
       }
       menu->flags = menu->flags | 0x8000;
       menu->state = ((u16) menu->state) + 1;
@@ -362,7 +360,7 @@ void func_8008A288(Menu *menu)
         return;
       }
       func_80088BD0();
-      settings_flags = &D_800814A0;
+      settings_flags = &objectFlagBlock.flags;
       ((u16 *) menu)[-1] |= 0x8000;
       do
       {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 
 typedef struct S_800B45E0_0_pre {
@@ -58,7 +59,6 @@ typedef struct S_800B45E0_5 {
 
 
 extern void *D_800892CC[];
-extern s32 D_800814A0[];
 s32 func_8004491C();
 extern M2C_UNK D_80044C54;
 
@@ -158,7 +158,7 @@ jt_c4:
     goto update_motion;
 expire:
     ((S_800B45E0_0_pre *)effect)[-1].unk_00 = (u16) (((S_800B45E0_0_pre *)effect)[-1].unk_00 | 0x8000);
-    D_800814A0[0] |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
 jt_c2:
 update_motion:
     motion->unk_08.at00.v = (s32) (motion->unk_08.at00.v + motion->unk_14);

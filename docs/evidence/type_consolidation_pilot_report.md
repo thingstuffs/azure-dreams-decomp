@@ -94,3 +94,70 @@ Land them with `land_coherence.sh`, with the struct in place. The texts are in `
 
 ## Tool calls
 About 155 tool calls, within the ~200 budget.
+
+---
+
+# Phase 2 report (r78)
+
+Model: claude-opus-5-5[1m]. No edits to src/include/config/tools, no git, no landers.
+- Busy rows: `BUSY_ROWS2.txt` (the 5 r78_* out rows with a fresh .base_sha). apply2.sh re-applies the one-hour
+  rule at run time.
+- 9 SLUS rows in plural-compilation partitions cannot be compiled alone: code, code2, w_8003E34C, w_8003E758,
+  w_8003F2A4, w_8003F368, w_8003F624, w_80041134, w_80050E20. They were skipped for objectFlagBlock.
+
+## Deliverables
+- `apply2.sh` + `payload2/`:
+  - `include/shared/object_flags.h` is new; `dungeon_status.h` and `dir_step.h` are unchanged.
+  - `names_add.tsv` holds 1 row: `D_800814A0 -> objectFlagBlock`.
+  - `cand2/<container>/*.c` + `.base_sha` and `cand2/MANIFEST.tsv`: 1,382 rows, each verify-exact in the lane.
+  - apply2.sh is resumable in the same way as the patched apply.sh: identical names rows and headers count as done,
+    and a row already equal to its candidate is skipped as landed.
+  - Its restore also puts back any header it overwrote.
+  - Dry run: `preflight: 1382 rows to land, 0 skipped`.
+  - `p2_sample_rows.txt` (44 rows: every slus/main row plus 10 town and 10 dungeon) gives a smaller first gate:
+    `apply2.sh --rows work/native_lane/r78_types_pilot/p2_sample_rows.txt`.
+- The generator: `tools/consolidate.py` + `objects/*.json` + `tools/drive3.py` (DESIGN section 7).
+- Evidence:
+  - `census/g814a0.jsonl`, `census/blk2.jsonl`
+  - `results/p2_multi.jsonl` (the final run)
+  - `results/p2_multi_scalar.jsonl` (the scalar-int A/B)
+  - `results/p2_objectFlagBlock_both.jsonl` (the A8-as-field A/B)
+  - `results/pins2.jsonl`
+
+## Rows
+| object | rows exact (in apply2) | spelling | not migrated |
+|---|---|---|---|
+| dungeonStatus (rest of the population) | 825 (dungeon) | 669 pure fields, 26 with a sign/int cast, 130 with a pointer-variable view | 2 miss (dungeon/func_8008629C by 13, dungeon/func_80CEAF2C by 26); 5 with no local declaration (func_800A4AF8, func_800A52C8, func_800A7438, func_800B7CFC, func_800BF6A0) |
+| objectFlagBlock | 681 (dungeon 537, town 120, main 15, slus 9) | `objectFlagBlock.flags \|= 0x8000`, `.unk_04`, `.unk_0C` | 21 miss (below); 12 declare it elsewhere (module/shared context); 7 have local view typedefs the generator does not lay out (`FlagBlock`, `S_800814A0`) or access +0x10; 9 plural-partition SLUS rows |
+
+Rows touching both objects: 124, each with both rewrites in one verified text.
+
+**The scalar-int rows**
+- 19 rows were compiled against `extern int D_800814A0;`: every aggregate spelling misses them, and a scalar is
+  exact. `scalar_rows.txt` lists all 21 misses; these 19 are the ones exact as a scalar:
+  - slus: code10, code11, code5, konami_runtime_w_8003C520, w_800403BC, w_8004B298, w_8004B2E0, w_8004F558,
+    w_8004FE78, w_80050CDC, w_800510DC, w_80052144, w_800530C4
+  - main: func_80012D34, func_80014C90
+  - town: func_800B2C54, func_800B9464, func_800BC078
+  - dungeon: func_81811B94
+- Two more misses are not explained by the scalar/aggregate choice: slus/w_800439F8 (A4/AC byte fields, by 12) and
+  slus/w_80050E20 (a plural partition).
+- Owner decision: one address declared two ways in the original. The options are to keep D_ in these rows or to
+  add a second readable alias for the scalar view.
+
+## Pins
+- 256 migrated rows still carry pins. Each pin was erased alone and then all together, and the migrated text was
+  byte-scored.
+- **No pin becomes removable.** There is nothing to land from phase 2; the type change is pin-neutral here.
+- From phase 1: func_800A065C and func_800A4DA8 are removable only through the cdk-G0 recipe (coherence).
+
+## Recipe side finding (informational; nothing to land for the aggregate choice)
+All 45 rows registered at the default -G8 on split cells are byte-exact at -G0 with their pinned text. This
+matters only if a scalar declaration is ever chosen for 0x800814A0.
+
+## Next objects
+See DESIGN section 11. By row count: D_80083228 578, D_80045340 442, D_80083160 403 (all binaries),
+D_80016000 313, D_80082E80 290, D_80083498 284, D_800814A8 236, D_800E3D7C 199, D_80083780 177.
+
+## Tool calls
+Phase 2 used about 50 tool calls.

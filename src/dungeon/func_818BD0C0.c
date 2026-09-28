@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
 
 typedef struct S_818BD0C0_0_pre {
@@ -22,7 +23,6 @@ typedef struct S_818BD0C0_1 {
 extern void func_8003DB94();
 extern void func_800478B8();
 extern u8 D_80025E04[];
-extern s32 D_800814A0[3];
 
 /* Update state counters and cycle the primitive color for up to three flagged updates. */
 void func_818BD0C0(void *state, s32 unused, Rec_D_80082E80 *primitive)
@@ -40,7 +40,7 @@ void func_818BD0C0(void *state, s32 unused, Rec_D_80082E80 *primitive)
         ((S_818BD0C0_0 *)state)->unk_04 = cycle_count;
         if ((s16)cycle_count >= 3) {
             ((S_818BD0C0_0_pre *)state)[-1].unk_00 |= 0x8000;
-            D_800814A0[0] = (u32)(D_800814A0[0] | 0x8000);
+            objectFlagBlock.flags = (u32)(objectFlagBlock.flags | 0x8000);
             return;
         }
 

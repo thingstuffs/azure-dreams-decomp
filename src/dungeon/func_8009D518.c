@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef struct {
     s8 pad[0xA];
@@ -6,11 +7,10 @@ typedef struct {
     s32 unk0C;
 } Struct_D_80083460;
 
-extern Struct_D_80083460 D_80083460;
 
 /* Returns whether either state field at offset 0x0A or 0x0C is nonzero. */
 s32 func_800A2C78(void) {
-    Struct_D_80083460 *state = &D_80083460;
+    Struct_D_80083460 *state = ((Struct_D_80083460 *)&dungeonStatus);
     s32 has_value;
 
     has_value = 0;

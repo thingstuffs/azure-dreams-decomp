@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
 typedef long long s64;
@@ -17,7 +18,6 @@ M2C_UNK func_8009F644();
 s32 func_800A5C70();
 extern u16 D_80013714;
 extern u8 D_80013186;
-extern u8 D_80083460[];
 
 
 typedef struct S_8008C8BC_0 {
@@ -95,7 +95,7 @@ s32 func_8008C8BC(void *actor_state_arg, void *unused, void *position_arg, void 
         ((S_8008C8BC_0 *)entity)->unk_60.p = NULL;
     }
     ((S_8008C8BC_4 *)actor_state_arg)->unk_9A = 0x11;
-    action_state = D_80083460;
+    action_state = ((u8 *)(&dungeonStatus));
     ((S_8008C8BC_4 *)actor_state_arg)->unk_9B = 0;
     ((S_8008C8BC_4 *)actor_state_arg)->unk_8C = 0;
     ((S_8008C8BC_5 *)action_state)->unk_0C = entity;

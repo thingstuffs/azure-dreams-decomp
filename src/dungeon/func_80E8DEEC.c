@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_func_800AD058_arg0.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_func_800AD058_arg2.h"
@@ -12,7 +13,6 @@ typedef s32 M2C_UNK;
 extern M2C_UNK func_800A56E0();
 extern M2C_UNK func_800AD058();
 extern M2C_UNK func_80174D48();
-extern s16 D_8008346A[];
 
 
 
@@ -43,7 +43,7 @@ check_update:
     goto done;
 
 wait_ready:
-    if (D_8008346A[0] != 0) {
+    if (dungeonStatus.unk_0A != 0) {
         goto done;
     }
     action->unk_9B = (u8)one;

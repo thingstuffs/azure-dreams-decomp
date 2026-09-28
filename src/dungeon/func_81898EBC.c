@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 extern int abs(int);
 
@@ -63,8 +65,6 @@ typedef struct Scratch {
 #define map_flags scratch.map_flags
 
 extern void *D_800814A8[4];
-extern u32 D_800814A0[4];
-extern s32 D_8008346C;
 extern u8 D_80082E80[];
 extern void *D_80024008[];
 extern s16 D_8006CCD8_early[] __asm__("D_8006CCD8");
@@ -376,9 +376,9 @@ advance_state:
         if (state->field_14 != 0) {
             goto done;
         }
-        D_8008346C = 0;
+        dungeonStatus.unk_0C = 0;
         U16_AT(state, -2) |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         goto done;
 
     case 6:

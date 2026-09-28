@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct PtrSet {
     void *ptr[3];
@@ -50,7 +51,6 @@ extern u8 D_800F2A5C[0x68];
 extern u8 D_800F2AC4[0x40];
 extern u8 D_800F2B04[0x28];
 extern u8 D_800F2B2C[0x28];
-extern s32 D_800814A0[3];
 
 extern void func_8003DB94(SpriteRecord *, void *, s32);
 extern void func_800478B8(SpriteRecord *);
@@ -198,7 +198,7 @@ increment_mode:
 
     case 0xfff:
         ((u16 *)state)[-1] |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         goto done;
 
     default:

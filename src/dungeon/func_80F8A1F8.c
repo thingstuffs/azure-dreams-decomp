@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -16,7 +17,6 @@ extern void func_80173D38(void *, void *, void *, void *);
 
 extern void *D_800814A8;
 extern s16 D_80083228;
-extern s32 D_80083460;
 extern u8 D_80171138[];
 extern u8 D_80174AF4[];
 extern u8 D_80174AFC[];
@@ -76,7 +76,7 @@ void func_801739F8(void *controller, void *context, void *sprite, void *entity)
             return;
         }
 
-        activity_counts = (u8 *)&D_80083460;
+        activity_counts = (u8 *)&dungeonStatus.unk_00;
 #ifndef __mips__
 #endif
         ((S_801739F8_2 *)activity_counts)->unk_0A--;
@@ -95,7 +95,7 @@ void func_801739F8(void *controller, void *context, void *sprite, void *entity)
             direction = (D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9;
             func_80047784(sprite, D_80174AF4[direction & 7], 0);
             (*(u32 *)((u8 *)entity + 0x1C)) |= 0x40000;
-            activity_counts = (u8 *)&D_80083460;
+            activity_counts = (u8 *)&dungeonStatus.unk_00;
 #ifndef __mips__
 #endif
             ((S_801739F8_2 *)activity_counts)->unk_0A++;
@@ -103,7 +103,7 @@ void func_801739F8(void *controller, void *context, void *sprite, void *entity)
             goto increment_state_done;
         }
 
-        dungeon_state = &D_80083460;
+        dungeon_state = &dungeonStatus.unk_00;
         if (((S_801739F8_4 *)dungeon_state)->unk_02 & 0x1000) {
             return;
         }
@@ -167,7 +167,7 @@ void func_801739F8(void *controller, void *context, void *sprite, void *entity)
             return;
         }
 
-        activity_counts = (u8 *)&D_80083460;
+        activity_counts = (u8 *)&dungeonStatus.unk_00;
 #ifndef __mips__
 #endif
         ((S_801739F8_2 *)activity_counts)->unk_0A--;

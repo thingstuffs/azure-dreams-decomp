@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 #ifndef NULL
 #define NULL 0
@@ -56,7 +57,6 @@ extern void func_8004491C(Object *, void *);
 extern s32 rand(void);
 
 extern u8 D_80045340[];
-extern int D_800814A0[3];
 extern u8 D_80083498[];
 extern u8 D_800BBA98[];
 extern Resource D_800F162C[];
@@ -109,7 +109,7 @@ void func_800BB894(Self *self, Copy24 *origin) {
         self->timer = timer;
         if ((s16)timer <= 0) {
             ((S_800BB894_0_pre *)self)[-1].unk_00 |= 0x8000;
-            D_800814A0[0] |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
         }
     }
 }

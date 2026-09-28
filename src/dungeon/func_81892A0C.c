@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 extern void func_800478B8(void *arg0);
-extern s32 D_800814A0;
 
 /* Advance the accumulation step, update the target, and flag completion past the final step. */
 void func_81892A0C(void *step_state, void *accumulator, void *target)
@@ -29,6 +29,6 @@ void func_81892A0C(void *step_state, void *accumulator, void *target)
 
     if (*(s16 *)((u8 *)step_state + 4) > *(s16 *)((u8 *)step_state + 6)) {
         *(u16 *)((u8 *)step_state - 2) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

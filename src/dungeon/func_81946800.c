@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 
 
 extern int D_800814C8;
@@ -27,11 +29,9 @@ extern s32 func_80053EF0(s32, void *);
 extern void func_800A56E0(s32);
 extern s32 D_80024374;
 extern s32 D_80045340;
-extern s32 D_800814A0;
 extern void *D_800814A8;
 extern u16 D_80082E94;
 extern s16 D_80083228;
-extern s32 D_80083460;
 extern u8 D_80083498[];
 #ifdef __mips__
 void func_81946800(void *action_in, void *saved_position) __asm__("func_81946800_body")
@@ -189,9 +189,9 @@ void func_81946800(void *action, void *saved_position)
     *((u16 *) (((u8 *) action) + 0x52)) = action_flags & 0x7FFF;
     return;
   }
-  shared_state = (u8 *) (&D_80083460);
+  shared_state = (u8 *) (&dungeonStatus.unk_00);
   *((s32 *) (((u8 *) shared_state) + 0xC)) = 0;
   (*((u16 *) (((u8 *) shared_state) + 0xA)))--;
   *((u16 *) (((u8 *) action) + (-2))) |= 0x8000;
-  D_800814A0 |= 0x8000;
+  objectFlagBlock.flags |= 0x8000;
 }

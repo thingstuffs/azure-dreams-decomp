@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 
 typedef struct S_800C4F20_10 {
@@ -108,7 +109,6 @@ s32 func_800644B8();
 s32 func_80064584();
 s32 func_80069EF8();
 M2C_UNK func_800A56E0();
-extern M2C_UNK D_800814A0;
 extern M2C_UNK D_80083780;
 
 /* Updates an object's staged scale and position animation. */
@@ -310,7 +310,7 @@ tick_finish:
     owner = ((S_800C4F20_0 *)anim)->unk_24;
     owner->unk_14 = (s32) (owner->unk_14 & 0xFFEFFFFF);
     ((S_800C4F20_0_pre *)anim)[-1].unk_00 = (u16) (((S_800C4F20_0_pre *)anim)[-1].unk_00 | 0x8000);
-    (*(s32 *)&D_800814A0) = (s32) (((S_800C4F20_9 *)(&D_800814A0))->unk_00 | 0x8000);
+    (*(s32 *)&objectFlagBlock.flags) = (s32) (((S_800C4F20_9 *)(&objectFlagBlock.flags))->unk_00 | 0x8000);
     return;
 jt_c4:
 jt_c5:

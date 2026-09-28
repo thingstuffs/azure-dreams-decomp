@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef void (*Callback)(void *, void *, void *, void *);
 
@@ -14,7 +15,6 @@ extern s32 func_800BCB04();
 extern u16 D_80013714;
 extern u8 D_8006CCF8[8];
 extern s16 D_80083228;
-extern u16 D_80083462;
 extern u8 *D_800E3D7C;
 extern u8 D_800F8BBC[9];
 extern u8 D_8016F78C[9];
@@ -118,7 +118,7 @@ void func_8016F2E0(void *actor_arg, void *motion_arg, void *sprite_arg)
         } while (slot_index >= 0);
     }
 
-    if (D_80083462 & 0x2000) {
+    if (dungeonStatus.flags & 0x2000) {
         paused_callback = (*(Callback *)((u8 *)entity + (0x8C)));
         if (paused_callback == (Callback)&D_8016F78C) {
             paused_callback(entity, motion, sprite, actor);

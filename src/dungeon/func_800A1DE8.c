@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct {
     u8 pad_a0[0xA0];
@@ -28,7 +29,6 @@ typedef struct {
     u16 value_1e;
 } FuncArg2;
 
-extern s32 D_800814A0[3];
 extern s32 func_800644B8(s32);
 
 /* Updates a two-phase visual effect's size, brightness, and motion. */
@@ -78,7 +78,7 @@ state_two:
     visual->value_c = updated_value;
     if ((s16)visual->value_1c <= 0) {
         ((u16 *)effect)[-1] = ((u16 *)effect)[-1] | 0x8000;
-        D_800814A0[0] = D_800814A0[0] | 0x8000;
+        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
     }
 
 done:

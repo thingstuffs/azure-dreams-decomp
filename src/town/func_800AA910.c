@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct {
     u8 pad_00[0x72];
@@ -22,7 +23,6 @@ extern void func_80033D08(void *);
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 
-extern s32 D_800814A0[3];
 extern ObjectSlot D_80082660[];
 
 /* Place the part's follow coordinates: when the mode query is off, detach it and raise its busy flags; otherwise offset the output from the anchor object's position by the anchor's angle. */
@@ -36,7 +36,7 @@ void func_800A8070(u16 *part, u16 *out_coords)
     if (func_800352FC() == 0) {
         func_80033D08(part);
         part[-1] |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         return;
     }
 

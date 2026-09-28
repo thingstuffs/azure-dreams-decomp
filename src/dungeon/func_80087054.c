@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 
 typedef s32 M2C_UNK;
@@ -28,7 +29,6 @@ extern s32 func_800A5C70(void *arg0, s32 arg1, void *arg2, void *arg3);
 extern u16 D_80013714;
 extern M2C_UNK D_80083160;
 extern s16 D_80083228;
-extern M2C_UNK D_80083460;
 extern u8 D_800DCFB0;
 extern M2C_UNK D_800DD0B8;
 
@@ -74,7 +74,7 @@ void func_8008C7B4(void *state, s32 mode, void *sprite, void *entity) {
     }
 set_control:
     {
-        M2C_UNK *control = &D_80083460;
+        M2C_UNK *control = &dungeonStatus.unk_00;
 
         ((S_8008C7B4_2 *)control)->unk_02 = (u16)(((S_8008C7B4_2 *)control)->unk_02 | 0x80);
     }

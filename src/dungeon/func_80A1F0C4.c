@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 extern int abs(int);
 
@@ -115,8 +116,6 @@ extern void *D_80170858[];
 extern u8 D_8006DE24[20];
 extern u8 *D_800814A8;
 extern s16 D_80083228;
-extern u8 D_80083460[16];
-extern s32 D_8008346C[3];
 extern u8 D_80083498[16];
 extern u8 D_80170E84[];
 extern u8 D_80174820[];
@@ -296,7 +295,7 @@ empty_anim:
     ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
     func_800A2B04(motion, ((S_801728C4_4 *)sprite)->unk_24, ((S_801728C4_4 *)sprite)->unk_25);
     player_state = D_800814A8;
-    D_8008346C[0] = 0;
+    dungeonStatus.unk_0C = 0;
     ((S_801728C4_6 *)player_state)->unk_A6--;
     func_800A4ACC(actor);
     ((S_801728C4_1 *)actor)->unk_6D.s--;
@@ -425,7 +424,7 @@ state_3:
             D_80174820[((D_80083228 + ((S_801728C4_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
     }
-    effect_status = D_80083460;
+    effect_status = ((u8 *)(&dungeonStatus));
     if (((S_801728C4_9 *)effect_status)->unk_0C == 0) {
         ((S_801728C4_9 *)effect_status)->unk_0A--;
         ((S_801728C4_4 *)sprite)->unk_14 &= 0xF7FF;

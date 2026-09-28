@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 
 
@@ -17,7 +18,6 @@ extern s16 func_800AD6FC();
 extern void func_800C4AFC();
 
 extern s32 D_80082E80;
-extern u16 D_80083460[];
 extern s32 D_80083780;
 extern s32 D_800893E0;
 extern u8 D_800DDE84[];
@@ -86,6 +86,6 @@ s32 func_800C4490(void *target, s32 source, s16 effect_mode) {
 
     func_800C4AFC(((S_800C4490_0_pre *)target)[-1].unk_00, 0x20E020, target);
     func_80098B38(source);
-    D_80083460[5]--;
+    dungeonStatus.unk_0A--;
     return 1;
 }

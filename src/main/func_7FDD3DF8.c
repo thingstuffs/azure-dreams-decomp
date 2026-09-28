@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct EffectOwner {
     u8 pad0[0x16];
@@ -14,7 +15,6 @@ typedef struct ColorRampEffect {
     u32 active;
 } ColorRampEffect;
 
-extern u32 D_800814A0[];
 
 /* Ramp the effect color using owner flags and active state, then propagate the owner high bit. */
 void func_8008AD58(ColorRampEffect *effect)
@@ -70,6 +70,6 @@ propagate_flag:
     state_bits = (s16)owner->flags;
     if ((state_bits & 0x8000) != 0) {
         ((u16 *)effect)[-1] |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

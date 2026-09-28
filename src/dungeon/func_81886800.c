@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 extern int abs(int);
 
@@ -289,8 +291,6 @@ extern u8 D_80026470[];
 extern u8 D_80026474[];
 extern u8 D_80026878[];
 extern u8 D_800DDC40[];
-extern u8 D_800814A0[];
-extern u8 D_8008346C[];
 
 #ifdef __mips__
 static void (*const func_81886800_table[])(void) __asm__("func_81886800")
@@ -671,9 +671,9 @@ case_4:
     if (((S_func_81886800_17 *)(D_80026326))->unk_00.s16 != 0) {
         goto end;
     }
-    ((S_func_81886800_18 *)(D_8008346C))->unk_00 = 0;
+    ((S_func_81886800_18 *)(((u8 *)(&dungeonStatus.unk_0C))))->unk_00 = 0;
     ((S_func_81886800_12 *)((u8 *)effect - 2))->unk_00 |= 0x8000;
-    ((S_func_81886800_19 *)(D_800814A0))->unk_00 |= 0x8000;
+    ((S_func_81886800_19 *)(((u8 *)(&objectFlagBlock))))->unk_00 |= 0x8000;
 
 case_5:
 case_6:

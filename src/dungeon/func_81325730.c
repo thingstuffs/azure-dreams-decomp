@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef struct {
     unsigned char pad8c[0x8c];
@@ -40,20 +41,12 @@ typedef struct {
 } DungeonEntry;
 
 typedef struct {
-    unsigned char pad0[10];
-    u16 count;
-    u32 zero;
-} D83460;
-
-typedef struct {
     DungeonEntry *entries;
     unsigned char pad4[8];
 } DungeonEntryTable;
 
 extern DungeonEntryTable D_800E3D7C;
 extern u8 D_8016B778[];
-extern D83460 D_80083460;
-extern u32 D_8008346C[];
 extern volatile u16 D_80013714;
 extern s16 D_80083228[];
 extern u8 D_801746B4[];
@@ -129,8 +122,8 @@ phase3:
             func_8016AD00();
             effect = D_800F93AA;
             state->unk8c = D_8016B778;
-            D_80083460.zero = 0;
-            D_80083460.count = D_80083460.count + 1;
+            dungeonStatus.unk_0C = 0;
+            dungeonStatus.unk_0A = ((u16)dungeonStatus.unk_0A) + 1;
             ((volatile Arg3 *)actor)->flags46 = ((volatile Arg3 *)actor)->flags46 & 0x7FFF;
             *(u16 *)&D_80013714 = D_80013714 | 8;
             func_800353F4(effect);
@@ -159,7 +152,7 @@ phase3:
             }
         } else {
             state->unk8c = D_8016B778;
-            D_8008346C[0] = 0;
+            dungeonStatus.unk_0C = 0;
             func_800A4ACC(actor);
             actor->flags46 = actor->flags46 & 0x7FFF;
         }

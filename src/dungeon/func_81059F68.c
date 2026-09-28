@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
 #define U8_AT(p, o)  (*(u8 *)((u8 *)(p) + (o)))
@@ -28,7 +29,6 @@ extern s16 D_8006CD00[8];
 extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern s8 D_80082EA4;
-extern s32 D_80083460;
 extern s8 D_800E2970[];
 
 /* Updates actor movement, choosing a direction and recording its path. */
@@ -46,7 +46,7 @@ void func_80171768(u8 *move_work, void *entry_context, u8 *position, u8 *actor)
     s32 trial_angle;
     s32 turn_flags;
 
-    state = (u8 *)&D_80083460;
+    state = (u8 *)&dungeonStatus.unk_00;
     state_flags = U16_AT(state, 2);
     limit_turn = 0;
 
@@ -320,7 +320,7 @@ post_loop_test:
     U8_AT(move_work, 0x9C) = U8_AT(position, 0x26);
     U8_AT(actor, 0x6D)--;
     {
-        u8 *move_state = (u8 *)&D_80083460;
+        u8 *move_state = (u8 *)&dungeonStatus.unk_00;
 
         U16_AT(move_state, 8)++;
     }

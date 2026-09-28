@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef struct Coord {
     u8 pad0[2];
@@ -138,7 +139,6 @@ extern LookupGlobal D_80082E80[];
 extern s16 D_80082E86[6];
 extern u16 D_80082E94[6];
 extern Coord D_80083780[];
-extern ControlGlobal D_80083460[];
 extern s16 D_800261B0[6];
 extern u8 D_800DDC40[];
 extern PointTable D_80024054[];
@@ -740,9 +740,9 @@ void func_80024E54(Entity *entity, void *saved_context, void *saved_data) {
     case_4:
 cleanup:
         if (D_800261B0[0] == 0) {
-            D_80083460[0].active = 0;
+            ((ControlGlobal *)&dungeonStatus)[0].active = 0;
             D_80082E86[0] = 0;
-            D_80083460[0].count--;
+            ((ControlGlobal *)&dungeonStatus)[0].count--;
             *((u16 *)entity - 1) |= 0x8000;
             D_800814A0[0].flags |= 0x8000;
             goto switch_end;

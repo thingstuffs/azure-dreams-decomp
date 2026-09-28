@@ -1,6 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
-extern s32 D_800814A0[3];
 extern s16 func_800BCB04(u16, u16, s16);
 
 /* Update damped motion with gravity, clamp to the floor, and flag expiration. */
@@ -23,6 +23,6 @@ void func_800CAED0(void *object, void *motion) {
     ((u16 *)object)[0x4B] = lifetime;
     if ((lifetime << 16) <= 0) {
         ((u16 *)object)[-1] |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

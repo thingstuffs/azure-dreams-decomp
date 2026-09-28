@@ -1,3 +1,4 @@
+#include "shared/object_flags.h"
 struct S_80083178Vector
 {
   short x;
@@ -72,7 +73,6 @@ typedef struct
   u8 pad0F[0x1E - 0x0F];
   u16 amount;
 } S_800BB14C_TARGET;
-extern s32 D_800814A0[3];
 /* Animates the target amount and selected channels, then marks the effect finished after fading. */
 void func_800BB14C(void *effect_data, register S_800BB14C *effect, S_800BB14C_TARGET *target)
 {
@@ -135,7 +135,7 @@ void func_800BB14C(void *effect_data, register S_800BB14C *effect, S_800BB14C_TA
     {
       u16 header_flags = ((volatile u16 *) effect)[-1];
       ((u16 *) effect)[-1] = header_flags | 0x8000;
-      D_800814A0[0] = D_800814A0[0] | 0x8000;
+      objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
       goto done;
     }
   }

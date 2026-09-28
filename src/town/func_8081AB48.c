@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct Motion {
     s32 x;
@@ -73,7 +74,6 @@ extern u8 D_800200FC[];
 extern void *D_80020104[];
 extern HalfTable D_800200E4;
 extern HalfTable D_800200F0;
-extern s32 D_800814A0[3];
 
 /* Updates actor movement, animation, and collision through its timed states. */
 void func_80024B48(Actor *actor, Motion *motion, Anim *anim)
@@ -292,7 +292,7 @@ jt_c8:
             }
             func_80033D08(actor);
             *(u16 *)((u8 *)actor - 2) |= 0x8000;
-            D_800814A0[0] |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
         }
         goto switch_end;
 

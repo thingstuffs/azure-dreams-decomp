@@ -1,12 +1,8 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 
 typedef s32 (*ActorCallback)(void *, void *, void *, void *);
-typedef struct 
-{
-  u16 value;
-  u8 pad[14];
-} U16Global;
 typedef struct 
 {
   s16 value;
@@ -21,7 +17,6 @@ extern void func_800AA36C(void *, void *, void *, void *);
 extern s32 func_800BCB04(s32, s32, s16);
 extern u8 D_8006CCF8[32];
 extern S16Global D_80083228;
-extern U16Global D_80083462;
 extern u8 D_801710EC[12];
 extern u8 D_80175E40[12];
 extern ActorCallback D_80175ED8[16];
@@ -47,7 +42,7 @@ void func_80170A94(void *actor_input, void *motion_input, void *sprite_input)
   s32 height_adjust;
   register void *actor_base ASM_REG("$19") = actor;
   ActorCallback callback;
-  u32 initial_flags = D_80083462.value;
+  u32 initial_flags = dungeonStatus.flags;
   if (initial_flags & 0x2000)
   {
     callback = *((ActorCallback *) (((u8 *) actor) + 0x8C));

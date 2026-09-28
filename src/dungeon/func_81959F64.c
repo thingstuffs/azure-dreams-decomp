@@ -1,9 +1,9 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "shared/dir_step.h"
 
 extern s16 func_800BCB04(u16, u16, s16);
 extern u16 D_800281F8[];
-extern s32 D_800814A0[];
 
 /* Update position, reduce movement speed, and flag completion when speed runs out. */
 void func_81959F64(void *motion_data, s16 *position)
@@ -26,6 +26,6 @@ void func_81959F64(void *motion_data, s16 *position)
     motion[24] = next_speed;
     if ((next_speed << 16) <= 0) {
         ((u16 *)motion)[-1] |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

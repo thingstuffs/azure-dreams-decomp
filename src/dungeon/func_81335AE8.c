@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 extern u16 D_80013714[5];
-extern u8 D_80083460[0x14];
 extern u8 *D_800E3D7C[];
 extern u8 D_80175392[];
 
@@ -21,7 +21,7 @@ void func_8016CAE8(void *controller, void *unused_1, void *unused_2, u8 *active_
     u8 *state;
 
     flags_page = (u8 *)0x80010000;
-    state = D_80083460;
+    state = ((u8 *)(&dungeonStatus));
     
     state_flags = *(u16 *)(flags_page + 0x3714);
     update_count = *(u16 *)(state + 0xA);

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 
 typedef struct S_80095A10_0 {
@@ -110,7 +111,6 @@ extern M2C_UNK D_8003E140;
 extern s32 D_80081488;
 extern u8 *D_80082EB0;
 extern s16 D_80083228;
-extern u8 D_80083460[12];
 extern M2C_UNK D_8008ACDC;
 extern u8 D_800DCFB0[];
 extern u8 D_800DD138[];
@@ -243,7 +243,7 @@ jt_c6:
     ((S_80095A10_0 *)actor)->unk_8C = &D_8008ACDC;
     func_80099F70(((S_80095A10_2 *)context)->unk_5C);
     func_80099F04(((S_80095A10_2 *)context)->unk_5C);
-    status = D_80083460;
+    status = ((u8 *)(&dungeonStatus));
     ((S_80095A10_9 *)status)->unk_02 = (u16) (((S_80095A10_9 *)status)->unk_02 | 0x812);
 done:
     return;

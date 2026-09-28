@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef long long s64;
 
@@ -41,7 +42,6 @@ typedef struct S_80BC1880_2 {
 
 
 extern s32 func_80065420(void *, void *, void *, void *);
-extern s32 D_800814A0[3];
 
 typedef struct StackWork {
     u16 xyz[3];
@@ -84,6 +84,6 @@ void func_80BC1880(void *effect, S_80BC1880_2 *position, S_80BC1880_0 *render_st
     ((S_80BC1880_1 *)effect)->unk_1A.u = ticks_left;
     if ((ticks_left << 16) <= 0) {
         ((S_80BC1880_1_pre *)effect)[-1].unk_00 |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

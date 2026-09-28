@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef struct S_func_80D40744_0 {
     u8 pad_00[0x6D];
@@ -35,8 +36,6 @@ typedef struct S_func_80D40744_1 {
 } S_func_80D40744_1;
 
 extern void func_800A4ACC(void *);
-extern s32 D_80083460;
-extern u16 D_80083462;
 
 /* Initializes an entity action when the global state permits it. */
 void func_80175F44(S_func_80D40744_0 *entity, s32 unused_1, s32 unused_2, s32 unused_3, s32 requested_mode)
@@ -52,7 +51,7 @@ void func_80175F44(S_func_80D40744_0 *entity, s32 unused_1, s32 unused_2, s32 un
     initial_mode = (s16)initial_mode;
     entity->unk_71 = flags_71;
     if (initial_mode != 2) {
-        S_func_80D40744_1 *state = (S_func_80D40744_1 *)&D_80083460;
+        S_func_80D40744_1 *state = (S_func_80D40744_1 *)&dungeonStatus.unk_00;
 
         state_or_flags = state->unk_02;
         if (state_or_flags & 0x2000) {
@@ -76,7 +75,7 @@ reject_entity:
         goto done;
     }
 
-    state_or_flags = (s32)&D_80083460;
+    state_or_flags = (s32)&dungeonStatus.unk_00;
     if (((S_func_80D40744_1 *)state_or_flags)->unk_02 & 0x2000) {
         goto reject_saved;
     }
@@ -97,7 +96,7 @@ accepted:
         s32 mode = (s16)raw_mode;
 
         if (mode == 0) {
-            S_func_80D40744_1 *state = (S_func_80D40744_1 *)((u8 *)&D_80083462 - 2);
+            S_func_80D40744_1 *state = (S_func_80D40744_1 *)((u8 *)&dungeonStatus.flags - 2);
             state->unk_0A.u16++;
         }
         entity->unk_8C = 0;

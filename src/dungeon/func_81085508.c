@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_80172D08_arg1.h"
@@ -58,7 +59,6 @@ extern void func_800AD594(void *, s32);
 extern s32 func_800BCB04(s32, s32, s16);
 extern void func_80174A6C(void *, void *, void *);
 
-extern s32 D_8008346C;
 extern u8 D_800DDC40[];
 extern u8 D_80170838[16];
 extern u8 D_80170E94;
@@ -315,7 +315,7 @@ vertical_done:
                       ((Rec_D_80082E80 *)record)->unk_25);
         func_800AD594(actor, 0x200);
         ((S_80172D08_0 *)action)->unk_8C = &D_80170E94;
-        D_8008346C = 0;
+        dungeonStatus.unk_0C = 0;
         (*(u16 *)((u8 *)actor + 0x46)) &= 0x7FFF;
         ((S_80172D08_0 *)action)->unk_98 &= 0xFFF3;
         ((S_80172D08_2 *)actor)->unk_1C |= 0x08000000;

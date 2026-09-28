@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 
 typedef struct S_800C4030_1 {
@@ -25,7 +26,6 @@ extern s8 func_800A6DA4(s32, s32);
 extern s32 func_800AD6FC(void *, s32, s32);
 
 extern s32 D_80082E80;
-extern s32 D_80083460;
 extern s32 D_80083780;
 extern u8 D_800893DC[];
 extern u16 D_800DDE84[];

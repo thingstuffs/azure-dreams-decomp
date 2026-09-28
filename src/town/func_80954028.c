@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 
 typedef struct S_80021028_0_pre {
@@ -19,7 +20,6 @@ typedef struct S_80021028_1 {
 } S_80021028_1;   /* temp_a0 in func_80021028 */
 
 
-extern s32 D_800814A0[3];
 
 /* Updates the object's derived value and propagates the linked data's 0x8000 flag. */
 void func_80021028(void *object) {
@@ -29,6 +29,6 @@ void func_80021028(void *object) {
     ((S_80021028_0 *)object)->unk_0E = (s16) ((objectData->unk_06 * 0xC) + 0x1E);
     if (objectData->unk_04 & 0x8000) {
         ((S_80021028_0_pre *)object)[-1].unk_00 = (u16) (((S_80021028_0_pre *)object)[-1].unk_00 | 0x8000);
-        D_800814A0[0] = (s32) (D_800814A0[0] | 0x8000);
+        objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
     }
 }

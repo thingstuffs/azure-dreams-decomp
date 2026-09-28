@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_8002744C_0 {
     s32 unk_00;
@@ -27,7 +28,6 @@ typedef struct S_8002744C_2 {
 
 
 
-extern s32 D_800814A0;
 
 /* Advance effect positions, fade the color, and flag expiration when the timer ends. */
 void func_8002744C(void *effect, void *positions, void *color) {
@@ -52,6 +52,6 @@ void func_8002744C(void *effect, void *positions, void *color) {
     ((S_8002744C_1 *)effect)->unk_66 = ticks_left;
     if ((ticks_left << 16) <= 0) {
         (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

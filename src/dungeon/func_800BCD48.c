@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef struct DungeonObject {
     u8 pad_00[0x13];
@@ -12,7 +13,6 @@ extern DungeonObject *D_800E3D7C[];
 extern u8 D_80083780[12];
 extern u8 D_80082E80[];
 extern u16 D_800DDE84[];
-extern u16 D_80083460[];
 extern u8 D_800E15BB[];
 extern u8 D_800E15E5[];
 
@@ -59,6 +59,6 @@ s32 func_800C24A8(DungeonObject *object, s32 action, s16 action_type) {
         func_800A5720(message);
     }
     func_80098B38(action);
-    D_80083460[5] = D_80083460[5] - 1;
+    dungeonStatus.unk_0A = ((u16)dungeonStatus.unk_0A) - 1;
     return 1;
 }

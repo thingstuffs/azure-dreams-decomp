@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_80024E80_arg1.h"
@@ -7,7 +8,6 @@ M2C_UNK func_80024E80();              /* extern */
 M2C_UNK func_800478B8();                      /* extern */
 s32 func_800644B8();                             /* extern */
 s32 func_80064584();                             /* extern */
-extern s32 D_800814A0;
 
 
 typedef struct S_80025094_0_pre {
@@ -92,7 +92,7 @@ state_2:
         func_80024E80(effect, transform);
         (*(u16 *)((u8 *)effect + (-2))) =
             (u16) (((S_80025094_0_pre *)effect)[-1].unk_00 | 0x8000);
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         return;
     }
 

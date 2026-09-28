@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 extern s32 SetVideoMode(s32 mode);
 extern void CdInit(void);
@@ -48,8 +49,6 @@ extern u8 D_80082E6B;
 
 /* mirror/shadow copies of the same three D_80013180-group fields */
 extern u32 D_80081494[3];
-extern u8 D_800814AC[12];
-extern u8 D_800814A4[12];
 
 extern u32 D_80081478[3];
 extern u8 D_801D8D7A[12];

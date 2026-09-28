@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_80020360_0_pre {
     u16 unk_00;
@@ -24,7 +25,6 @@ typedef struct S_80020360_2 {
 
 
 
-extern s32 D_800814A0;
 
 /* Advances the countdown state, then sets object and global flags when the status bit is set. */
 void func_80020360(void *object)

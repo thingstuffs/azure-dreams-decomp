@@ -1,5 +1,7 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
 extern u8 D_80080000[];
@@ -16,10 +18,7 @@ void func_8016A908(void *);                         /* extern */
 extern u8 D_80013610[0x3612];
 extern s16 D_80013714[5];
 extern u8 D_8006CCF8[256];
-extern s32 D_800814A0[3];
 extern s16 D_80083228[5];
-extern u8 D_80083460[0x100];
-extern u16 D_80083462[5];
 extern u32 D_800835E4[64];
 extern u8 *D_800E3D7C[3];
 extern u8 D_800F927E[16];
@@ -229,7 +228,7 @@ void func_8016B0E8(void *entity, void *motion, void *sprite) {
         }
     }
     if (((S_8016B0E8_0 *)entity)->unk_B4 != 0) {
-        scene_state = D_80083460;
+        scene_state = ((u8 *)(&dungeonStatus));
         if ((((S_8016B0E8_3 *)scene_state)->unk_0C != 0) || (((S_8016B0E8_3 *)scene_state)->unk_0A != 1)) {
             goto done;
         }
@@ -277,11 +276,11 @@ void func_8016B0E8(void *entity, void *motion, void *sprite) {
         if (!(countdown & 0xFF)) {
             ((S_8016B0E8_2 *)actor)->unk_14 = (s32) (((S_8016B0E8_2 *)actor)->unk_14 & 0xFFEFFFFF);
             ((S_8016B0E8_0 *)entity)->unk_B0.v = 0U;
-            countdown_state = D_80083460;
+            countdown_state = ((u8 *)(&dungeonStatus));
             ((S_8016B0E8_11 *)countdown_state)->unk_0A = (s16) ((u16) ((S_8016B0E8_11 *)countdown_state)->unk_0A - 1);
             status_record = ((S_8016B0E8_0 *)entity)->unk_A4;
             ((S_8016B0E8_12 *)status_record)->unk_1E = (u16) (((S_8016B0E8_12 *)status_record)->unk_1E | 0x8000);
-            D_800814A0[0] = (s32) (D_800814A0[0] | 0x8000);
+            objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
         }
     }
     if (((S_8016B0E8_13 *)D_80080000)->unk_3462 & 0x2000) {

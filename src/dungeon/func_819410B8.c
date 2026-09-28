@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 extern s16 D_8002571C[5];
-extern s32 D_800814A0[3];
 
 /* Advance animation values and set completion flags when the countdown expires. */
 void func_800248B8(void *countdownState, s32 unused, void *animationState)
@@ -21,6 +21,6 @@ void func_800248B8(void *countdownState, s32 unused, void *animationState)
     if (remainingTicks <= 0) {
         *(u16 *)((u8 *)countdownState - 2) =
             (u16)(*(u16 *)((u8 *)countdownState - 2) | 0x8000);
-        D_800814A0[0] = D_800814A0[0] | 0x8000;
+        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
     }
 }

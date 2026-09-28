@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 
 typedef struct S_80170A54_0 {
@@ -20,7 +21,6 @@ typedef struct S_80170A54_2 {
 __asm__(".set D_80080000, 0x80080000");
 
 void func_800489F4(); /* extern */
-extern s32 D_800814A0[3];
 extern void *D_800814A8[3];
 extern u8 D_80082E80[];
 extern s16 D_80083228[5];
@@ -43,7 +43,7 @@ void func_80170A54(void *record_data) {
         func_800489F4(state_data, direction_entry,
             4, 1);
         ((S_80170A54_2 *)((u8 *)record_data - 0x2))->unk_00 = (u16) (((S_80170A54_2 *)((u8 *)record_data - 0x2))->unk_00 | 0x8000);
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 done:
     ;

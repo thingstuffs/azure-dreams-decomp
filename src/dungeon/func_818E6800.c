@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 extern int abs(int);
 
 extern void *func_8003FD64(s32, void *);
@@ -24,8 +26,6 @@ extern u8 D_80024798[];
 extern u8 D_800249DC[];
 extern u8 D_800DECF8[];
 extern u8 D_800E3D68[];
-extern s32 D_8008346C[3];
-extern s32 D_800814A0[3];
 
 #define S8(p, o)  (*(s8 *)((u8 *)(p) + (o)))
 #define U8(p, o)  (*(u8 *)((u8 *)(p) + (o)))
@@ -346,9 +346,9 @@ mode_255: {
 
 mode_256:
             if (S16(effect, 80) < 0) {
-                D_8008346C[0] = 0;
+                dungeonStatus.unk_0C = 0;
                 U16(effect, -2) = (u16)(U16(effect, -2) | 0x8000);
-                D_800814A0[0] |= 0x8000;
+                objectFlagBlock.flags |= 0x8000;
             }
 mode_done:
             ;

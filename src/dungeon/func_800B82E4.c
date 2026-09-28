@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -10,13 +11,7 @@ M2C_UNK func_800A5F38();                 /* extern */
 M2C_UNK func_800A63B8();            /* extern */
 s32 func_800AD6FC();            /* extern */
 M2C_UNK func_800C4AFC();            /* extern */
-typedef struct {
-    u8 pad[0xA];
-    u16 fieldA;
-} D_80083460_t;
-
 extern M2C_UNK D_80082E80;
-extern D_80083460_t D_80083460;
 extern M2C_UNK D_80083780;
 extern u16 D_800DDE84[];
 extern M2C_UNK D_800E0EE1;
@@ -50,6 +45,6 @@ s32 func_800BDA44(void *target, s32 item, s16 use_type) {
         func_80099844(target, &D_800E0EE1);
     }
     func_80098B38(item);
-    D_80083460.fieldA = (u16) (D_80083460.fieldA - 1);
+    dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
     return 1;
 }

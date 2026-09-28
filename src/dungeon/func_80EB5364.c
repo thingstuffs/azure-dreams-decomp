@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef s32 M2C_UNK;
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
@@ -11,7 +12,6 @@ M2C_UNK func_800AA36C();
 s32 func_800BCB04();
 extern u8 D_8006CCF8[];
 extern s16 D_80083228[];
-extern u16 D_80083462[];
 extern M2C_UNK D_801711A4[];
 extern M2C_UNK D_80174174[];
 extern M2C_UNK D_8017418C[];
@@ -94,7 +94,7 @@ void func_80170B64(void *actor_arg, void *motion_arg, void *sprite_arg)
     s16 previous_state;
     u16 sprite_flags;
 
-    if (D_80083462[0] & 0x2000) {
+    if (dungeonStatus.flags & 0x2000) {
         void *paused_actor = actor_arg;
         pause_callback = ((S_80170B64_0 *)actor)->unk_8C;
         if (pause_callback == &D_801711A4) {

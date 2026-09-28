@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 extern void func_8008D330();
 extern void func_800A63B8();
@@ -23,7 +24,6 @@ extern u8 D_800E1402[];
 extern u8 D_800E1411[];
 extern u8 D_800E1426[];
 extern u8 D_80089380[];
-extern u8 D_80083460[];
 extern u8 D_800E140A[];
 
 /* Changes the entity's element, updates its slots, and displays the result. */
@@ -151,7 +151,7 @@ message_join:
     func_80098B38(event);
     {
         u8 *event_state;
-        event_state = D_80083460;
+        event_state = ((u8 *)(&dungeonStatus));
         *(u16 *)(event_state + 0xA) -= 1;
     }
     return 1;

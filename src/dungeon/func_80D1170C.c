@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_func_80D1170C_1 {
     u8 unk_00;
@@ -39,7 +40,6 @@ typedef struct S_func_80D1170C_3 {
     u16 unk_00;
 } S_func_80D1170C_3;
 
-extern s32 D_800814A0;
 
 /* Move and fade the effect, apply vertical acceleration, and flag it when its lifetime ends. */
 void func_80170F0C(S_func_80D1170C_1 *effect, S_func_80D1170C_2 *position)

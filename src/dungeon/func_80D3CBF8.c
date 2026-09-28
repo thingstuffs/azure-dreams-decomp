@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 #ifndef NULL
 #define NULL 0
@@ -42,7 +43,6 @@ extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern FallbackCenter D_80082E80_center[] __asm__("D_80082E80");
 extern u16 D_80082EA4;
-extern s32 D_80083460;
 extern u8 D_800E2970[];
 
 /* Choose a movement direction, move the actor, and update its path history and height. */
@@ -67,7 +67,7 @@ void func_801723F8(void *work_data, void *action_context, void *position_data, v
     void *node;
     void *parent;
 
-    turn_state = (u8 *)&D_80083460;
+    turn_state = (u8 *)&dungeonStatus.unk_00;
     turn_flags = U16_AT(turn_state, 2);
     ASM_KEEP(position);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     limit_turn = turn_flags & 0;
@@ -338,7 +338,7 @@ loop_done:
     S8_AT(work_data, 0x9C) = U8_AT(position, 0x26);
     U8_AT(actor, 0x6D)--;
     {
-        u8 *turn_state_tail = (u8 *)&D_80083460;
+        u8 *turn_state_tail = (u8 *)&dungeonStatus.unk_00;
 
         U16_AT(turn_state_tail, 8)++;
     }

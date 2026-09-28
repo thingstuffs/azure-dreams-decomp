@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_80170D40_0_pre {
     u16 unk_00;
@@ -21,7 +22,6 @@ typedef struct S_80170D40_1 {
 
 
 
-extern s32 D_800814A0[3];
 
 /* Fade the primitive color by one step and flag completion when the counter reaches zero. */
 void func_80170D40(void *fade_state, void *unused, S_80170D40_1 *primitive)
@@ -40,6 +40,6 @@ void func_80170D40(void *fade_state, void *unused, S_80170D40_1 *primitive)
     ((S_80170D40_0 *)fade_state)->unk_18 = steps_left;
     if ((steps_left << 0x10) <= 0) {
         ((S_80170D40_0_pre *)fade_state)[-1].unk_00 = (u16)(((S_80170D40_0_pre *)fade_state)[-1].unk_00 | 0x8000);
-        D_800814A0[0] = (s32)(D_800814A0[0] | 0x8000);
+        objectFlagBlock.flags = (s32)(objectFlagBlock.flags | 0x8000);
     }
 }

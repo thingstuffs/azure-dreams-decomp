@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_func_800AA258_arg2.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_800814A8.h"
@@ -43,7 +44,6 @@ extern void func_80173EF4(void *, s32, void *, void *);
 extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern s16 D_80083228;
-extern u8 D_80083460[];
 extern u8 D_80170E54;
 extern u8 D_80174140[];
 extern u8 D_80174188[];
@@ -86,7 +86,7 @@ state_zero:
     }
     {
         u8 *dungeon_counters;
-        dungeon_counters = D_80083460;
+        dungeon_counters = ((u8 *)(&dungeonStatus));
         ((S_801736F4_3 *)dungeon_counters)->unk_0A--;
     }
     ((Rec_func_801736F4_arg0 *)controller)->unk_9B++;
@@ -123,13 +123,13 @@ state_one:
             goto exit;
         }
         {
-            u8 *dungeon_counters = D_80083460;
+            u8 *dungeon_counters = ((u8 *)(&dungeonStatus));
             ((S_801736F4_3 *)dungeon_counters)->unk_0A++;
         }
         ((Rec_func_801736F4_arg0 *)controller)->unk_9B++;
         goto exit;
     } else {
-        dungeon_status = D_80083460;
+        dungeon_status = ((u8 *)(&dungeonStatus));
         if (!(((S_801736F4_4 *)dungeon_status)->unk_02 & 0x1000)
             && ((((Rec_D_800E3D7C *)actor)->unk_64.as_s16 == 0)
                 || (func_800AA6B4(controller, actor_index, sprite, 0) == 0))) {
@@ -200,7 +200,7 @@ state_one:
                 goto exit;
             }
             {
-                u8 *dungeon_counters = D_80083460;
+                u8 *dungeon_counters = ((u8 *)(&dungeonStatus));
                 ((S_801736F4_3 *)dungeon_counters)->unk_0A++;
             }
             ((Rec_func_801736F4_arg0 *)controller)->unk_9B++;
@@ -215,7 +215,7 @@ state_two:
     }
     {
         u8 *dungeon_counters;
-        dungeon_counters = D_80083460;
+        dungeon_counters = ((u8 *)(&dungeonStatus));
         ((S_801736F4_3 *)dungeon_counters)->unk_0A--;
     }
     ((Rec_D_800E3D7C *)actor)->unk_1C.as_s32 &= ~0x200;

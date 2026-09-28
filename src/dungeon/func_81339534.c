@@ -1,5 +1,6 @@
 /* cfail-repair: recovered external dispatch table */
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef s32 M2C_UNK;
 
@@ -9,7 +10,6 @@ extern void func_800419EC(s32, s32);
 extern void func_800A56E0(u32);
 extern void *jtbl_80164A38[];
 __asm__(".set jtbl_80164A38, 0x80164A38");
-extern s32 D_800814A0[3];
 extern s16 D_801760D8[5];
 
 
@@ -126,7 +126,7 @@ state_4:
         flags = (u16) (flags | 0x8000);
         ((S_80170534_0_pre *)state_data)[-1].unk_00 = flags;
 #ifdef NON_MATCHING
-        D_800814A0[0] = (s32) (D_800814A0[0] | 0x8000);
+        objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
 #else
         *(s32 *)(flags_page + 0x14A0) |= 0x8000;
 #endif

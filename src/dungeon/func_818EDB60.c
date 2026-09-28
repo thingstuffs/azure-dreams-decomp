@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_80025360_0_pre {
     u16 unk_00;
@@ -45,7 +46,6 @@ typedef struct Work {
 
 extern Rect D_80024048;
 extern s16 D_80026428;
-extern s32 D_800814A0;
 
 /* Updates a timed rectangle effect, fading its color in and out and marking completion. */
 void func_80025360(void *effect_arg, void *unused, void *sprite_arg)
@@ -103,6 +103,6 @@ draw_effect:
         ((S_80025360_0 *)effect_arg)->unk_00 = (s16)((u16)((S_80025360_0 *)effect_arg)->unk_00 + 1);
         ((S_80025360_2 *)(((S_80025360_0 *)effect_arg)->unk_40))->unk_9C = one;
         (*(u16 *)((u8 *)effect_arg + -2)) = (u16)(((S_80025360_0_pre *)effect_arg)[-1].unk_00 | 0x8000);
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

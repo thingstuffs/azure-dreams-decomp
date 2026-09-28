@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -75,7 +76,6 @@ typedef struct S_800A94A0_9 {
 
 
 extern u8 D_80083498[];
-extern s32 D_800814A0[3];
 extern volatile s16 D_80013714[8];
 extern u8 D_80082E80[];
 extern u8 D_800E3CC8[];
@@ -152,9 +152,9 @@ void *func_800A94A0(void *actor, Rec_D_800E3D7C *effect_record, s16 mode, void *
         ASM_KEEP_NV(effect_id);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         if (effect_data == 0) {
             effect_flags = ((S_800A94A0_2 *)effect)->unk_1E | 0x8000;
-            global_flags = D_800814A0[0] | 0x8000;
+            global_flags = objectFlagBlock.flags | 0x8000;
             ((S_800A94A0_2 *)effect)->unk_1E = effect_flags;
-            D_800814A0[0] = global_flags;
+            objectFlagBlock.flags = global_flags;
             return NULL;
         }
         ((S_800A94A0_2 *)effect)->unk_10 = effect_data;

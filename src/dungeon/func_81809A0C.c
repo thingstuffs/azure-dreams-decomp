@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/object_flags.h"
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -186,7 +187,6 @@ extern s16 D_80027156[5];
 extern u16 D_80027158[5];
 extern s16 D_8002715C[5];
 extern u8 D_80080A87[16];
-extern s32 D_800814A0;
 extern u8 D_80083160[32];
 extern u8 D_800E3D7C[16384];
 

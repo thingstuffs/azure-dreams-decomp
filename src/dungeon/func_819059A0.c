@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_800251A0_0_pre {
     u16 unk_00;
@@ -20,7 +21,6 @@ typedef struct DungeonAnimSlot {
 
 extern s32 func_800644B8(s32);
 extern s16 D_800267B8;
-extern s32 D_800814A0[3];
 
 /* Update eight animation slots and mark completion when the countdown expires. */
 void func_800251A0(void *anim_state)
@@ -73,6 +73,6 @@ void func_800251A0(void *anim_state)
     if ((s16)((S_800251A0_0 *)anim_state)->unk_02 <= 0) {
         ((S_800251A0_0_pre *)anim_state)[-1].unk_00 =
             (u16)(((S_800251A0_0_pre *)anim_state)[-1].unk_00 | 0x8000);
-        D_800814A0[0] = D_800814A0[0] | 0x8000;
+        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
     }
 }

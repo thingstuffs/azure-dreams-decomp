@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef s32 M2C_UNK;
 
@@ -80,7 +81,6 @@ M2C_UNK func_801759A0();
 extern u8 *D_800814A8[];
 extern u8 D_80082E80[];
 extern s16 D_80083228[];
-extern u8 D_80083460[];
 extern u8 D_801724BC[];
 extern u8 D_80175E54[];
 extern u8 D_80175E5C[];
@@ -142,7 +142,7 @@ state0_default_low:
 state0_default_high:
         starting_task = task;
 state0_decrement:
-        ((S_80175050_3 *)D_80083460)->unk_0A--;
+        ((S_80175050_3 *)((u8 *)(&dungeonStatus)))->unk_0A--;
         ((S_80175050_4 *)starting_task)->unk_9B++;
         func_80171BEC_returning(starting_task, task_id, sprite_in);
         goto done;
@@ -189,7 +189,7 @@ state1_check:
             }
         }
 
-        turn_state = (M2C_UNK *)D_80083460;
+        turn_state = (M2C_UNK *)((u8 *)(&dungeonStatus));
         if (((S_80175050_5 *)turn_state)->unk_02 & 0x1000) {
             goto done;
         }
@@ -277,14 +277,14 @@ suffix:
             ((S_80175050_0 *)task)->unk_8C = D_801724BC;
             goto done;
         }
-        ((S_80175050_3 *)D_80083460)->unk_0A++;
+        ((S_80175050_3 *)((u8 *)(&dungeonStatus)))->unk_0A++;
         ((S_80175050_0 *)task)->unk_9B++;
 
         goto done;
 
     case 2:
         if (((S_80175050_1 *)sprite_in)->unk_14 & 0xE000) {
-            ((S_80175050_3 *)D_80083460)->unk_0A--;
+            ((S_80175050_3 *)((u8 *)(&dungeonStatus)))->unk_0A--;
             ((S_80175050_0 *)task)->unk_8C = D_801724BC;
         }
         goto done;

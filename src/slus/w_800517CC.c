@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct EffectState800517CC {
     void *parent;
@@ -36,7 +37,6 @@ extern s32 rsin(s32);
 extern s32 rcos(s32);
 extern s32 rand(void);
 extern void *jtbl_8002E964[8];
-extern s32 D_800814A0[3];
 
 /* Update the effect motion state and detach it from its parent when finished. */
 void func_800517CC(
@@ -246,5 +246,5 @@ destroy:
     ((ParentState800517CC *)effect->parent)->child10 = 0;
     ((ParentState800517CC *)effect->parent)->timer++;
     *(u16 *)((u8 *)effect - 2) |= 0x8000;
-    D_800814A0[0] |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
 }

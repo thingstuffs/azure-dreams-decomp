@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800814A8.h"
 
 typedef struct S_80173880_0 {
@@ -64,7 +65,6 @@ extern void func_80174060(void *, void *, void *, void *);
 extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern s16 D_80083228;
-extern u16 D_80083460[];
 extern u8 D_801710F4[];
 extern u8 D_80174F40[];
 extern u8 D_80174F48[];
@@ -109,7 +109,7 @@ state_zero:
         func_80047784(in_sprite,
             anim_table[((D_80083228 + ((S_80173880_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
-        system_state = (u8 *)&D_80083460;
+        system_state = (u8 *)((u16 *)(&dungeonStatus));
         ((S_80173880_3 *)system_state)->unk_0A--;
         ((S_80173880_0 *)in_action)->unk_9B++;
         return;
@@ -147,7 +147,7 @@ state_one:
         }
 
         {
-            u8 *system_state = (u8 *)&D_80083460;
+            u8 *system_state = (u8 *)((u16 *)(&dungeonStatus));
 
             ((S_80173880_3 *)system_state)->unk_0A++;
         }
@@ -159,7 +159,7 @@ state_one_long:
     {
         s32 actor_flags;
 
-        input_state = (u8 *)&D_80083460;
+        input_state = (u8 *)((u16 *)(&dungeonStatus));
         if (((S_80173880_4 *)input_state)->unk_02 & 0x1000) {
             return;
         }
@@ -242,7 +242,7 @@ state_one_long:
     }
 
     {
-        u8 *system_state = (u8 *)&D_80083460;
+        u8 *system_state = (u8 *)((u16 *)(&dungeonStatus));
         u16 state_count;
 
         state_count = ((S_80173880_3 *)system_state)->unk_0A;
@@ -274,7 +274,7 @@ state_three:
     {
         u8 *system_state;
 
-        system_state = (u8 *)&D_80083460;
+        system_state = (u8 *)((u16 *)(&dungeonStatus));
         ((S_80173880_3 *)system_state)->unk_0A--;
     }
 

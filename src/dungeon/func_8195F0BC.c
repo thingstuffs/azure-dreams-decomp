@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct {
     u8 pad0[0x48];
@@ -36,7 +37,6 @@ extern void *D_8002732C;
 extern u8 D_800273BE;
 extern s32 D_800273C0;
 extern DungeonPage D_800E3D7C;
-extern s32 D_800814A0;
 
 extern void func_8002592C(s16, s16, s16, s16, s32);
 extern void func_80026BA8(s32, s32, DungeonOrigin *);
@@ -173,7 +173,7 @@ void func_8195F0BC(DungeonState *state, DungeonOrigin *origin) {
         state->timer = timer;
         if ((timer << 16) <= 0) {
             *((u16 *)state - 1) |= 0x8000;
-            D_800814A0 |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
         }
     }
 }

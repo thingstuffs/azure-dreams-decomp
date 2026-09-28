@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -31,7 +32,6 @@ s32 func_800AD9B4();
 
 extern u8 D_80082E80[];
 extern s16 D_80083228;
-extern s32 D_80083460;
 extern u8 D_80170E54;
 extern u8 D_80173C94[];
 extern u8 D_80173C9C[];
@@ -133,7 +133,7 @@ tick:
             s16 *counters;
             s32 count_signed;
 
-            counters = (s16 *)&D_80083460;
+            counters = (s16 *)&dungeonStatus.unk_00;
             count_signed = counters[4];
             count_unsigned = ((u16 *)counters)[4];
 

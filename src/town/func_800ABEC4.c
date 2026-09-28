@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef s32 M2C_UNK;
 
@@ -13,7 +14,6 @@ extern M2C_UNK func_80033CD8();
 extern M2C_UNK func_80033D08();
 extern s32 func_8009D20C(void *, s32);
 extern M2C_UNK func_800A8BBC();
-extern s32 D_800814A0;
 extern M2C_UNK D_800A9528;
 
 /* Process object state results or invoke the fallback callback. */
@@ -29,7 +29,7 @@ void func_800A9624(S_func_800A9624_1 *object, s32 state_arg, M2C_UNK callback_ar
         }
         func_80033D08(object);
         *(u16 *)((u8 *)object - 2) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         return;
     }
     if (state == 2) {

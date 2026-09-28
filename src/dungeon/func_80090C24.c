@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -29,7 +30,6 @@ extern u8 D_8004F5F4[];
 extern s32 D_80082EB0[];
 extern u8 D_80083160[];
 extern s16 D_80083228[];
-extern u8 D_80083460[];
 extern void *D_800DD274[];
 extern void (*D_800DD830[])();
 extern u8 D_800E3544[];
@@ -115,7 +115,7 @@ void func_80096384(void *actor, s32 actor_id, Rec_D_80082E80 *sprite, void *acto
         func_800A4300(sprite, actor_data);
     }
 
-    control = D_80083460;
+    control = ((u8 *)(&dungeonStatus));
     ((S_80096384_4 *)control)->unk_02 &= 0xFF7F;
     status_value = ((S_80096384_3 *)actor_data)->unk_64;
     if (status_value < 0) {

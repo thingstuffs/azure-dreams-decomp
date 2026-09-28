@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "shared/dir_step.h"
 
 #define U8_AT(p, o)  (*(u8 *)((u8 *)(p) + (o)))
@@ -14,7 +15,6 @@ typedef struct {
 
 extern s32 func_800644B8(s32, s32);
 
-extern s32 D_800814A0;
 extern u8 D_80082E80[];
 extern u8 D_80083228[];
 extern HeightData D_80083780;
@@ -201,7 +201,7 @@ compare_z:
         goto copy_out;
     }
     U16_AT(obj, -2) |= 0x8000;
-    D_800814A0 |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
     goto done;
 
 copy_out:

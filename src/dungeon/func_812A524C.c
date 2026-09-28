@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
 extern int abs(int);
@@ -307,7 +308,6 @@ extern u8 D_80082E80[64];
 extern u16 D_80082EA4[8];
 extern u8 D_80083160[16];
 extern s16 D_80083228[8];
-extern u16 D_80083462[8];
 extern u8 D_80083780[16];
 extern u8 D_800E296C[16];
 extern u8 D_800E3D7C[16];
@@ -440,7 +440,7 @@ void func_812A524C(void *actor_in, void *motion_in, void *sprite_in) {
     }
     if (((S_812A524C_3 *)actor_in)->unk_B8 != 0) {
         func_800A9A0C(entity);
-        if (D_80083462[0] & 0x2000) {
+        if (dungeonStatus.flags & 0x2000) {
             ((S_812A524C_4 *)entity)->unk_71 = (u8) (((S_812A524C_4 *)entity)->unk_71 & 0x7F);
         }
     }
@@ -483,7 +483,7 @@ block_26:
 block_27:
     if (!(((S_812A524C_6 *)(&D_80013714))->unk_00 & 1)) {
         if (((S_812A524C_3 *)actor_in)->unk_B8 == 0) {
-            if (!(D_80083462[0] & 0x2000) && ((func_800A2C34(entity) << 0x10) == 0) && (event_0 = (u8 *)&D_80082E80, position_0 = (u8 *)&D_80083780, (((((S_812A524C_7 *)event_0)->unk_24 << 6) + 0x20) == ((S_812A524C_8 *)position_0)->unk_02)) && (((((S_812A524C_7 *)event_0)->unk_25 << 6) + 0x20) == ((S_812A524C_8 *)position_0)->unk_06)) {
+            if (!(dungeonStatus.flags & 0x2000) && ((func_800A2C34(entity) << 0x10) == 0) && (event_0 = (u8 *)&D_80082E80, position_0 = (u8 *)&D_80083780, (((((S_812A524C_7 *)event_0)->unk_24 << 6) + 0x20) == ((S_812A524C_8 *)position_0)->unk_02)) && (((((S_812A524C_7 *)event_0)->unk_25 << 6) + 0x20) == ((S_812A524C_8 *)position_0)->unk_06)) {
                 actor_kind = ((S_812A524C_39 *)(((Rec_D_800E3D7C *)D_800E3D7C)->unk_00.at00_pv.v))->unk_9A;
                 if ((actor_kind != 0x19) && (actor_kind != 0x1B) && !(((S_812A524C_4 *)entity)->unk_1C & 0x80000)) {
                     if ((((S_812A524C_3 *)actor_in)->unk_B9 == 0) && !(D_80013714[0] & 1)) {
@@ -795,7 +795,7 @@ inactive:
     clear_flags &= 0xFFDFFFFF;
     ((S_812A524C_36 *)(&D_800E296C))->unk_00.v = clear_flags;
 check_mode:
-    if (D_80083462[0] & 0x2000) {
+    if (dungeonStatus.flags & 0x2000) {
         update_special = ((S_812A524C_3 *)actor_in)->unk_8C;
         if (update_special == &D_80171FA4) {
             update_special(actor_in, motion_in, sprite, entity);

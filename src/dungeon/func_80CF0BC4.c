@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -35,7 +36,6 @@ extern void func_8016B21C(void *, void *, void *, void *);
 extern void func_8016B4FC(void *, void *, void *, void *);
 
 extern s16 D_80083228;
-extern s32 D_8008346C;
 extern u8 D_8016C4BC[];
 extern u8 D_8016FDDC[8];
 extern u8 D_8016FDE4[8];
@@ -118,7 +118,7 @@ jt_c3:
     if (((Rec_D_80082E80 *)anim)->unk_14.at00_u16.v & 0xE000) {
         func_800AD594(actor, 0x100);
         ((S_8016E3C4_0 *)action)->unk_8C = D_8016C4BC;
-        D_8008346C = 0;
+        dungeonStatus.unk_0C = 0;
         func_800A4ACC(actor);
         ((Rec_D_800E3D7C *)actor)->unk_44.at02_u16.v &= 0x7FFF;
     }

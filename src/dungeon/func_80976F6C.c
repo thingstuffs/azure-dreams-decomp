@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 extern s32 func_800A4ACC();
 extern s32 func_800AB1C0();
 extern s32 func_800AD594();
 extern s32 func_800AD9B4();
 
-extern u16 D_80083462;
 extern s32 D_801714D4[];
 
 /* Selects the state table after a successful target check and applies the flagged offset. */
@@ -21,7 +21,7 @@ void func_8017276C(void *state, s32 unused, s32 source, s32 target) {
         }
     } else {
 block_3:
-        if (D_80083462 & 0x80) {
+        if (dungeonStatus.flags & 0x80) {
             *(s16 *)((u8 *)state + 0x92) = -0x20;
         }
     }

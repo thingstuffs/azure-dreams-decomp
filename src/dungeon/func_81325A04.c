@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
 typedef struct S_func_81325A04_0 {
@@ -47,7 +48,6 @@ typedef struct S_func_81325A04_3 {
 } S_func_81325A04_3;
 
 extern s16 D_80083228[];
-extern s32 D_80083460[];
 extern u8 D_8016B778[];
 extern u8 D_8017467C[];
 extern u8 D_80174684[];
@@ -230,7 +230,7 @@ restore_animation:
             func_80047784(entity, *(u8 *)((u32)(((facing + 0x100) >> 9) & 7) + (u32)anim_table), 0);
         }
     }
-    shared_state = D_80083460;
+    shared_state = ((s32 *)(&dungeonStatus));
     if (shared_state[4] == (s32)((u8 *)actor - 0x20)) {
         shared_state[4] &= 0x7FFFFFFF;
     }

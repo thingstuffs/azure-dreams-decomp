@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
 
 
@@ -14,7 +15,6 @@ extern void func_800C2CB0(void *, void *, void *, s8);
 extern s32 func_800C2E1C(s16, s16);
 extern s32 func_800C2F14(s16, s16);
 
-extern s32 D_800814A0;
 extern u8 D_80083160[];
 extern s32 D_800834A8;
 extern u8 D_80083780[];
@@ -45,7 +45,7 @@ void func_800AB1E0(void *arg0, s32 arg1, Rec_D_80082E80 *arg2) {
     if (D_800834A8 == 0) {
         func_80033D08(arg0, arg1);
         (*(u16 *)((u8 *)arg0 + (-2))) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         return;
     }
 

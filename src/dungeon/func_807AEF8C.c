@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 
 typedef struct {
     s32 base;
@@ -12,8 +14,6 @@ typedef struct {
 
 extern u8 D_80082E80[0x28];
 extern DungeonState D_8008333C;
-extern u16 D_80083462;
-extern s32 D_800814A0;
 extern u8 *D_800814A8;
 extern u8 D_800DCF5B;
 extern u8 *D_800E3D7C;
@@ -49,7 +49,7 @@ void func_807AEF8C(void *owner) {
     base = D_8008333C.base;
     mode = 0;
     state = &D_8008333C;
-    if (!(D_80083462 & 2)) {
+    if (!(dungeonStatus.flags & 2)) {
         return;
     }
     if (*(s32 *)(D_800E3D7C + 0x14) & 0x100000) {
@@ -117,7 +117,7 @@ void func_807AEF8C(void *owner) {
     func_80043A68();
     i = 0;
     *(u16 *)((u8 *)owner - 2) |= 0x8000;
-    D_800814A0 |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
     objects = D_800814A8;
     do {
         object = *(u8 **)(objects + 0xAC);

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 
 typedef struct S_801671AC_0 {
@@ -22,7 +23,6 @@ typedef struct S_801671AC_1 {
 } S_801671AC_1;   /* obj in func_801671AC */
 
 
-extern M2C_UNK D_800814A0;
 
 /* Pulse the color through three phases and mark the effect finished when its timer expires. */
 void func_801671AC(void *state_data, void *unused, void *color) {
@@ -75,6 +75,6 @@ void func_801671AC(void *state_data, void *unused, void *color) {
     }
     if ((s16) ((S_801671AC_1 *)state)->unk_18 <= 0) {
         (*(u16 *)((u8 *)state + -2)) = (u16) (((S_801671AC_1_pre *)state)[-1].unk_00 | 0x8000);
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

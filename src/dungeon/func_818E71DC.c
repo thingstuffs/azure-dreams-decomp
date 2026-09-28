@@ -1,9 +1,9 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "records/Rec_func_800249DC_arg0.h"
 
 
 extern void func_800478B8(void *arg0);
-extern s32 D_800814A0[3];
 
 
 typedef struct S_800249DC_0_pre {
@@ -81,7 +81,7 @@ void func_800249DC(void *motion, S_800249DC_2 *position, S_800249DC_3 *visual) {
     if ((u8)visual->unk_0C.u8 >= 0x60U) {
         ((S_800249DC_0_pre *)motion)[-1].unk_00 =
             (u16)(((S_800249DC_0_pre *)motion)[-1].unk_00 | 0x8000);
-        D_800814A0[0] = (s32)(D_800814A0[0] | 0x8000);
+        objectFlagBlock.flags = (s32)(objectFlagBlock.flags | 0x8000);
         return;
     }
 

@@ -1,11 +1,6 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
-typedef struct {
-    u8 unk00[0xA];
-    u16 unk0A;
-} D_80083460_t;
-
-extern D_80083460_t D_80083460;
 extern u16 D_800DDE84[];
 extern u8 D_800E1035[];
 
@@ -31,6 +26,6 @@ s32 func_800BE4E8(void *target, s32 item) {
         func_800997FC(D_800E1035);
     }
 
-    D_80083460.unk0A -= 1;
+    dungeonStatus.unk_0A -= 1;
     return 1;
 }

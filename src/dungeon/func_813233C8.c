@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct {
     u8 pad[0xA8];
@@ -8,7 +9,6 @@ typedef struct {
 } DungeonState;
 
 extern DungeonState D_80083160;
-extern s32 D_800814A0[];
 
 /* Increments three state bytes while the first is below 0x80, otherwise sets flag bits. */
 s32 func_8016ABC8(u16 *words)
@@ -23,5 +23,5 @@ s32 func_8016ABC8(u16 *words)
     }
 
     words[-1] |= 0x8000;
-    return D_800814A0[0] |= 0x8000;
+    return objectFlagBlock.flags |= 0x8000;
 }

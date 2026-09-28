@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -14,7 +15,6 @@ M2C_UNK func_800B3D10();          /* extern */
 M2C_UNK func_800B4194();             /* extern */
 M2C_UNK func_800C77D0(); /* extern */
 extern s16 D_80083228;
-extern s32 D_80083460;
 extern s32 D_8008ACDC;
 extern u8 D_800DD030[];
 extern u8 D_800DD068[];
@@ -358,7 +358,7 @@ jt_10:
                 func_80048A44(case10_arg2, D_800DD0A0[((s32) (D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0, 1);
             }
             func_80099F04(((Rec_D_800E3D7C *)actor)->unk_5C);
-            end_base = (s32 *)((u32)&D_80083460);
+            end_base = (s32 *)((u32)&dungeonStatus.unk_00);
             end_mask = -8;
             ((S_800B348C_6 *)end_base)->unk_02 = (u16) (((S_800B348C_6 *)end_base)->unk_02 | 0x412);
             ((S_800B348C_0 *)action_state)->unk_8C = &D_8008ACDC;

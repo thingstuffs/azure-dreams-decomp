@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_800249FC_0 {
     u8 pad_00[0x14];
@@ -22,7 +23,6 @@ typedef struct S_800249FC_1 {
 
 extern s32 func_8002406C(s32 arg0);
 extern s16 D_80025B60[5];
-extern s32 D_800814A0[3];
 
 /* Update effect values and flags, then mark the object when its countdown expires. */
 void func_800249FC(void *object, s32 unused, S_800249FC_0 *effect) {
@@ -62,6 +62,6 @@ void func_800249FC(void *object, s32 unused, S_800249FC_0 *effect) {
     ((S_800249FC_1 *)object)->unk_5A.s = next_ticks;
     if ((next_ticks << 16) <= 0) {
         ((S_800249FC_1_pre *)object)[-1].unk_00 |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

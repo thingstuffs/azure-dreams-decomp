@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_800D4BD4_arg1.h"
 #include "records/Rec_func_800D4BD4_arg2.h"
@@ -50,8 +52,6 @@ typedef struct S_800D5294_4 {
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern s32 D_800814A0[3];
-extern u16 D_80083460[];
 void *func_8003FC64();                       /* extern */
 s32 rand();                                /* extern */
 M2C_UNK func_800D4BD4(); /* extern */
@@ -109,8 +109,8 @@ void func_800D5294(void *emitter, Rec_func_800D4BD4_arg2 *position, M2C_UNK spaw
     ((Rec_func_800D4BD4_arg1 *)emitter)->unk_1E = life_left;
     if ((life_left << 0x10) <= 0) {
         ((S_800D5294_0_pre *)emitter)[-1].unk_00 = (u16) (((S_800D5294_0_pre *)emitter)[-1].unk_00 | 0x8000);
-        D_800814A0[0] = D_800814A0[0] | 0x8000;
-        effect_counters = D_80083460;
+        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
+        effect_counters = ((u16 *)(&dungeonStatus));
         effect_counters[5] = effect_counters[5] - 1;
     }
 }

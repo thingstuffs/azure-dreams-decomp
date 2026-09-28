@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct {
     u8 pad[0xA8];
@@ -8,7 +9,6 @@ typedef struct {
 } DungeonState;
 
 extern DungeonState D_80083160;
-extern s32 D_800814A0[];
 
 /* Increment three dungeon state bytes by two, or set flags when the first reaches 0x80. */
 s32 func_80170230(u16 *dataCursor)
@@ -24,5 +24,5 @@ s32 func_80170230(u16 *dataCursor)
     }
 
     dataCursor[-1] |= 0x8000;
-    return D_800814A0[0] |= 0x8000;
+    return objectFlagBlock.flags |= 0x8000;
 }

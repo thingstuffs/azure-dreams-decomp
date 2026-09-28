@@ -1,6 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
-extern s32 D_800814A0[];
 
 /* Packs three capped source components, copies an attribute, and propagates the high-bit flag. */
 void func_7FDD3BE4(void *dest) {
@@ -30,6 +30,6 @@ void func_7FDD3BE4(void *dest) {
     *(u16 *) ((s8 *) dest + 0x14) = *(u16 *) ((s8 *) source + 0x14);
     if (*(s16 *) ((s8 *) source + 0x16) & 0x8000) {
         *(u16 *) ((s8 *) dest - 2) = *(u16 *) ((s8 *) dest - 2) | 0x8000;
-        D_800814A0[0] = D_800814A0[0] | 0x8000;
+        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
     }
 }

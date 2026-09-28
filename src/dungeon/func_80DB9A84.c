@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_80171284_0 {
     u8 pad_00[0x2];
@@ -29,7 +30,6 @@ typedef struct S_80171284_2 {
 
 
 
-extern s32 D_800814A0;
 
 /* Update the effect countdown and motion, fade its color, and flag expiration. */
 void func_80171284(void *effect, void *transform, void *color) {
@@ -71,6 +71,6 @@ void func_80171284(void *effect, void *transform, void *color) {
 
     if (((S_80171284_0 *)effect)->unk_24.u <= 0) {
         (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

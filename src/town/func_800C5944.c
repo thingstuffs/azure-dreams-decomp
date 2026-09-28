@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_80094268_arg0.h"
 
@@ -8,7 +9,6 @@ typedef struct S_800C30A4_0_pre {
 
 
 
-extern s32 D_800814A0;
 extern u8 D_80082660[];
 
 /* Clears the object slot and sets the object and global removal flags. */
@@ -20,5 +20,5 @@ void func_800C30A4(void *object) {
     slot_offset = ((Rec_func_80094268_arg0 *)object)->unk_60 * 8;
     (*(s32 *)((u8 *)(slots + slot_offset) + 4)) = 0;
     (*(u16 *)((u8 *)object + -2)) = (u16) (((S_800C30A4_0_pre *)object)[-1].unk_00 | 0x8000);
-    D_800814A0 |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
 }

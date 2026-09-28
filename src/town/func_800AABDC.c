@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct {
     s32 words[3];
@@ -7,7 +8,6 @@ typedef struct {
 extern s32 func_8009CFE0(void *arg0, void *arg1);
 extern void func_80033D08(void *arg0);
 
-extern s32 D_800814A0[3];
 extern s32 D_800D0E44;
 extern s32 D_800D0E40[3];
 extern TownRecord D_800F8A70[];
@@ -24,7 +24,7 @@ void func_800A833C(void *object, void *check_context, void *record_holder)
         }
         func_80033D08(object);
         *(u16 *)((u8 *)object - 2) |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         return;
     }
 

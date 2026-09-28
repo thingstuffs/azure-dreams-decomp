@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_func_800AA258_arg2.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_800814A8.h"
@@ -88,7 +89,6 @@ extern void func_80174250(void *, void *, void *, void *);
 extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern s16 D_80083228;
-extern s32 D_80083460;
 extern u8 D_80083498[];
 extern u8 D_80170F6C[];
 extern u8 D_80174424[];
@@ -159,7 +159,7 @@ scan_zero_done:
             direction_table[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
 
-        counter_base = (u8 *)&D_80083460;
+        counter_base = (u8 *)&dungeonStatus.unk_00;
         ((S_8017382C_5 *)counter_base)->unk_0A--;
         effect = func_8003FD64(0x10, D_80083498);
         effect_state = (u8 *)effect + 0x20;
@@ -271,7 +271,7 @@ scan_two_done:
         }
 
         ((S_8017382C_0 *)action)->unk_AE = ((Rec_func_800AA258_arg2 *)sprite)->unk_12 + 0x40;
-        early_counter = (u8 *)&D_80083460;
+        early_counter = (u8 *)&dungeonStatus.unk_00;
         ((S_8017382C_8 *)early_counter)->unk_0A++;
 
 increment_state:
@@ -279,7 +279,7 @@ increment_state:
         goto done;
 
 state_two_active:
-        status_base = (u8 *)&D_80083460;
+        status_base = (u8 *)&dungeonStatus.unk_00;
         if (((S_8017382C_9 *)status_base)->unk_02 & 0x1000) {
             goto done;
         }
@@ -375,7 +375,7 @@ second_call:
             ((S_8017382C_7 *)effect_state)->unk_96 = 0;
             ((S_8017382C_7 *)effect_state)->unk_9E = 1;
         }
-        late_counter = (u8 *)&D_80083460;
+        late_counter = (u8 *)&dungeonStatus.unk_00;
         ((S_8017382C_12 *)late_counter)->unk_0A++;
         ((S_8017382C_0 *)action)->unk_9B++;
         ((S_8017382C_0 *)action)->unk_AE = ((Rec_func_800AA258_arg2 *)sprite)->unk_12 + 0x40;
@@ -412,7 +412,7 @@ state_three:
             }
         }
 
-        counter_base = (u8 *)&D_80083460;
+        counter_base = (u8 *)&dungeonStatus.unk_00;
         ((S_8017382C_5 *)counter_base)->unk_0A--;
         ((Rec_D_800E3D7C *)actor)->unk_1C.as_u32 &= ~0x200;
         ((S_8017382C_0 *)action)->unk_8C = D_80170F6C;

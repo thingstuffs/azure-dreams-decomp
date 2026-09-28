@@ -1,9 +1,9 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 extern s32 func_8009CFE0(void *arg0, s32 arg1);
 extern void func_80033D08(void *arg0);
 
-extern int D_800814A0;
 
 /* Finalizes and flags the object when its check succeeds or its countdown expires. */
 void func_800A7C0C(void *object, s32 check_value)
@@ -26,5 +26,5 @@ void func_800A7C0C(void *object, s32 check_value)
 
     func_80033D08(object);
     *(u16 *)((u8 *)object - 2) |= 0x8000;
-    D_800814A0 |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
 }

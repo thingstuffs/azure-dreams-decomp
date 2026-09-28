@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800814A8.h"
 
 typedef struct S_80173CD4_0 {
@@ -73,7 +74,6 @@ extern void func_801743F0(void *, void *, void *, void *);
 extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern s16 D_80083228;
-extern s32 D_80083460;
 extern s32 D_801719DC;
 extern u8 D_80174684[];
 extern u8 D_8017468C[];
@@ -120,7 +120,7 @@ state_zero:
         func_80047784(sprite,
             direction_anims[((D_80083228 + ((S_80173CD4_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
-        world_counters = (u8 *)&D_80083460;
+        world_counters = (u8 *)&dungeonStatus.unk_00;
         ((S_80173CD4_3 *)world_counters)->unk_0A--;
         goto increment_state;
     }
@@ -135,7 +135,7 @@ state_one:
         }
 
         world_page = 0x80080000;
-        world_state = (u8 *)((u32)&D_80083460);
+        world_state = (u8 *)((u32)&dungeonStatus.unk_00);
         if (((S_80173CD4_4 *)world_state)->unk_02 & 0x1000) {
             goto done;
         }
@@ -229,7 +229,7 @@ animate:
         }
 
         {
-            world_counters_m = (u8 *)&D_80083460;
+            world_counters_m = (u8 *)&dungeonStatus.unk_00;
             ((S_80173CD4_3 *)world_counters_m)->unk_0A++;
         }
     }
@@ -241,7 +241,7 @@ increment_state:
 state_two:
     if (((S_80173CD4_1 *)sprite)->unk_14 & 0xE000) {
 
-        world_counters_m = (u8 *)&D_80083460;
+        world_counters_m = (u8 *)&dungeonStatus.unk_00;
         ((S_80173CD4_3 *)world_counters_m)->unk_0A--;
         goto set_pointer;
     }

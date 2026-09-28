@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_800BC290_0 {
     union { s16 s; u16 u; } unk_00;   /* accessed as both */
@@ -16,7 +17,6 @@ typedef struct S_800BC290_1 {
 
 extern void func_8004E994(void *);
 extern u8 D_80111FB0[8];
-extern u32 D_800814A0;
 
 /* Advances a timed color fade and sets completion flags when it finishes. */
 void func_800BC290(void *fade_state, s32 unused, void *visual)
@@ -65,7 +65,7 @@ increment_state:
 
     case 2:
         (*(u16 *)((u8 *)fade_state + -2)) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         break;
     }
 }

@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 #define U8(p, o)  (*(u8  *)((u8 *)(p) + (o)))
 #define S16(p, o) (*(s16 *)((u8 *)(p) + (o)))
 #define U16(p, o) (*(u16 *)((u8 *)(p) + (o)))
 
-extern s32 D_800814A0;
 
 /* Fade the color toward 0xE0, then to black, and flag completion. */
 void func_800CC744(void *fade, void *unused, void *color) {
@@ -40,7 +40,7 @@ void func_800CC744(void *fade, void *unused, void *color) {
         S16(fade, 2) = darken_left;
         if ((darken_left << 16) <= 0) {
             U16(fade, -2) |= 0x8000;
-            D_800814A0 |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
         }
     }
 }

@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -212,8 +214,6 @@ extern u8 D_80083498[];
 extern u8 D_800DEC28[];
 extern u8 D_800DEC00[];
 extern s32 D_800DEB70;
-extern s32 D_8008346C[];
-extern s32 D_800814A0[3];
 s32 func_8003DE58();     /* extern */
 void *func_8003FD64();                 /* extern */
 M2C_UNK func_8004491C();                /* extern */
@@ -682,9 +682,9 @@ state_finish:
             ((Rec_D_800E3D7C *)effect)->unk_0C.as_s32 = effect_flags & 0xFFFF7FFF;
             goto done;
         }
-        *D_8008346C = 0;
+        dungeonStatus.unk_0C = 0;
         ((S_8182C800_0_pre *)effect)[-1].unk_00 = (u16) (((S_8182C800_0_pre *)effect)[-1].unk_00 | 0x8000);
-        ((S_8182C800_22 *)D_800814A0)->unk_00 = (s32) (((S_8182C800_22 *)D_800814A0)->unk_00 | 0x8000);
+        ((S_8182C800_22 *)((s32 *)(&objectFlagBlock)))->unk_00 = (s32) (((S_8182C800_22 *)((s32 *)(&objectFlagBlock)))->unk_00 | 0x8000);
 done:
         return;
 }

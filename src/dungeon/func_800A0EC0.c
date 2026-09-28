@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "records/Rec_D_80016000.h"
 
 
@@ -40,7 +41,6 @@ extern void func_800A32A4(void *arg0);
 
 extern s32 D_800E3D7C;
 extern void *D_800E3DF0[];
-extern s32 D_800814A0;
 
 /* Removes the object from its slot, performs flagged cleanup, and releases its handle. */
 s16 func_800A6620(void *handle, s32 extra_cleanup)
@@ -91,7 +91,7 @@ s16 func_800A6620(void *handle, s32 extra_cleanup)
         }
         func_8009A028(object);
         (*(u16 *)((u8 *)object + -2)) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 
     func_80098B38(handle);

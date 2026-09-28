@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -27,19 +28,11 @@ typedef struct S_800AB1C0_2 {
 } S_800AB1C0_2;   /* arg1 in func_800AB1C0 */
 
 
-typedef struct {
-    u16 pad00;
-    u16 flags;
-    u8 pad04[4];
-    s16 count;
-} DungeonState;
-
 #define M2C_FIELD(expr, type_ptr, offset) \
     (*(type_ptr)((s8 *)(expr) + (offset)))
 
 void func_800A2B04(Motion *, s32, s32);
 u16 func_800BCB04(s32, s32, s32);
-extern DungeonState D_80083460;
 
 /* Update motion toward the target tile and finalize movement when the countdown expires. */
 s32 func_800AB1C0(ObjA0 *move_state, Motion *motion, TilePos *target_tile, ObjA3 *actor) {
@@ -51,7 +44,7 @@ s32 func_800AB1C0(ObjA0 *move_state, Motion *motion, TilePos *target_tile, ObjA3
     s32 adjusted_x;
     s32 adjusted_y;
 
-    if (D_80083460.flags & 0x80) {
+    if (dungeonStatus.flags & 0x80) {
         ((S_800AB1C0_0 *)move_state)->unk_96 = 0;
     }
     frames_left = ((S_800AB1C0_0 *)move_state)->unk_96;
@@ -78,14 +71,14 @@ s32 func_800AB1C0(ObjA0 *move_state, Motion *motion, TilePos *target_tile, ObjA3
         ((S_800AB1C0_2 *)motion)->unk_0C = 0;
         func_800A2B04(motion, ((Rec_D_80082E80 *)target_tile)->unk_24,
                       ((Rec_D_80082E80 *)target_tile)->unk_25);
-        if (D_80083460.count != 0) {
-            D_80083460.count = (s16)((u16)D_80083460.count - 1);
+        if (dungeonStatus.unk_08 != 0) {
+            dungeonStatus.unk_08 = (s16)((u16)dungeonStatus.unk_08 - 1);
         }
         if (((Rec_D_800E3D7C *)actor)->unk_1C.as_s32 & 0x2000) {
             ((Rec_D_800E3D7C *)actor)->unk_44.at02_u16.v =
                 (u16)(((Rec_D_800E3D7C *)actor)->unk_44.at02_u16.v & 0x7FFF);
         }
-        if (D_80083460.flags & 0x80) {
+        if (dungeonStatus.flags & 0x80) {
             ((Rec_D_800E3D7C *)actor)->unk_1C.as_s32 =
                 (s32)(((Rec_D_800E3D7C *)actor)->unk_1C.as_s32 & 0xBFFFFFFF);
             new_height = func_800BCB04(

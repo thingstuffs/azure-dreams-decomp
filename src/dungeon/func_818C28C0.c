@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct Inner {
     u8 pad[0xC];
@@ -13,7 +14,6 @@ typedef struct Obj {
     u8 intensity;
 } Obj;
 
-extern s32 D_800814A0[3];
 
 /* Advance the object timer, update intensity and cycling values, and mark completion at 48 ticks. */
 void func_818C28C0(Obj *obj)
@@ -26,7 +26,7 @@ void func_818C28C0(Obj *obj)
 
     if (timer >= 0x30) {
         *(u16 *)((u8 *)obj - 2) |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         return;
     }
 

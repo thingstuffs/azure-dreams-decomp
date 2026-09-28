@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct {
     s16 state;
@@ -19,7 +20,6 @@ typedef struct {
     u16 value;
 } FuncOutput;
 
-extern s32 D_800814A0[3];
 
 extern s32 func_800644B8(u32);
 extern void func_800C77D0(void *, void *, s32, s32);
@@ -59,7 +59,7 @@ special_case:
         goto state0_tail;
     }
     *((u16 *)motion - 1) |= 0x8000;
-    D_800814A0[0] |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
     goto done;
 
 state0_tail:

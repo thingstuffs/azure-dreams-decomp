@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "records/Rec_D_80082E80.h"
 extern int abs(int);
@@ -87,8 +88,6 @@ extern void func_80047784(void *, u8, s32);
 extern LookupEntry D_8006DE24[];
 extern void *D_800814A8[];
 extern s16 D_80083228[5];
-extern u8 D_80083460[];
-extern s32 D_8008346C[3];
 extern u8 D_80170838[0x44];
 extern u8 D_80170880[0x1C];
 extern u8 D_801710F4[];
@@ -275,7 +274,7 @@ OwnerDone:
         void *owner;
 
         owner = D_800814A8[0];
-        D_8008346C[0] = 0;
+        dungeonStatus.unk_0C = 0;
         ((S_80172C90_3 *)owner)->unk_A6--;
     }
     func_800A4ACC(actor);
@@ -449,7 +448,7 @@ L16:
             D_80174F00[((D_80083228[0] + ((S_80172C90_0 *)actor)->unk_2A.u + 0x100) >> 9) & 7],
             0);
     }
-    counter = D_80083460;
+    counter = ((u8 *)(&dungeonStatus));
     if (((S_80172C90_6 *)counter)->unk_0C != 0) {
         return;
     }

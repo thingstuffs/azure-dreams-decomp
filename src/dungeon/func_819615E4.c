@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "shared/dir_step.h"
 
 typedef struct {
@@ -88,7 +89,6 @@ typedef struct S_func_819615E4_6 {
 } S_func_819615E4_6;
 
 extern u16 D_80027330[];
-extern s32 D_800814A0;
 extern u8 D_80082E80[];
 extern s16 D_80083228;
 extern u8 D_80083780[];
@@ -237,7 +237,7 @@ void func_819615E4(State *state, Target *target, S_func_819615E4_0 *color)
             ((S_func_819615E4_2 *)D_800E3D7C)->unk_88.s16_value);
 finish:
         *(u16 *)((u8 *)state - 2) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         return;
     }
     }

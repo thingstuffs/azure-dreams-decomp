@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 extern int abs(int);
 
 typedef union {
@@ -79,7 +80,6 @@ typedef struct {
 } EntryTable;
 
 extern Origin D_80083780;
-extern s32 D_800814A0[3];
 extern EntryTable D_80082E80;
 extern u8 D_80083498[];
 extern u8 D_80045340[];
@@ -143,11 +143,11 @@ void func_8197CEC0(Actor *actor, Vec3 *target, Sprite *sprite) {
             actor_bits_2 |= 0x8000;
             ((u16 *)actor)[-1] = actor_bits_2;
             actor_bits = actor->state;
-            global_flags = D_800814A0[0];
+            global_flags = objectFlagBlock.flags;
             actor_bits++;
             global_flags |= 0x8000;
             actor->state = actor_bits;
-            D_800814A0[0] = global_flags;
+            objectFlagBlock.flags = global_flags;
         }
         break;
     }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef struct {
     u8 pad_00[0x19];
@@ -16,7 +17,6 @@ extern void func_80064F00(s32, s32);
 extern void func_80064F20(s32);
 
 extern u8 D_80083160[];
-extern u8 *D_80083478;
 extern u8 D_800DDC7C;
 extern ColorState D_801C9E40;
 extern ColorState D_801DA714;
@@ -102,5 +102,5 @@ void BODY_NAME(void) {
     *(s16 *)(render_data + 0x1A) = -0x88;
     *(s16 *)(render_data + 0x1C) = 0x172;
     *(s16 *)(render_data + 0x1E) = 0x19A;
-    D_80083478 = &D_800DDC7C;
+    dungeonStatus.unk_18 = &D_800DDC7C;
 }

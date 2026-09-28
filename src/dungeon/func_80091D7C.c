@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -51,7 +52,6 @@ s32 func_8009C12C();
 M2C_UNK func_800A2B04();
 M2C_UNK func_800C77D0();
 extern s16 D_80083228;
-extern u8 D_80083460[16];
 extern M2C_UNK D_80096384;
 extern M2C_UNK D_800DD274[8];
 extern M2C_UNK D_800DD294[8];
@@ -169,7 +169,7 @@ block_22:
     ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
     func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
     func_80099F04(((Rec_D_800E3D7C *)actor)->unk_5C);
-    status = D_80083460;
+    status = ((u8 *)(&dungeonStatus));
     ((S_800974DC_5 *)status)->unk_02 = (u16) (((S_800974DC_5 *)status)->unk_02 | 0x412);
     ((S_800974DC_0 *)action)->unk_8C = &D_80096384;
     ((S_800974DC_5 *)status)->unk_0C = 0;

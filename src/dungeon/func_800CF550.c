@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 
 typedef struct S_800D4CB0_0 {
@@ -32,7 +33,6 @@ typedef struct S_800D4CB0_2 {
 } S_800D4CB0_2;   /* arg0 in func_800D4CB0 */
 
 
-extern M2C_UNK D_800814A0;
 
 /* Advance and damp motion, fade the effect color, and flag expiration. */
 void func_800D4CB0(void *effect, void *motion, void *color) {
@@ -51,6 +51,6 @@ void func_800D4CB0(void *effect, void *motion, void *color) {
     ((S_800D4CB0_2 *)effect)->unk_1E = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
         (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_800D4CB0_2_pre *)effect)[-1].unk_00 | 0x8000);
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

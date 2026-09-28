@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -57,7 +58,6 @@ struct S_12 {
 typedef struct S_800E3E48 S_800E3E48;
 extern S_800E3E48 D_800E3E48[];
 extern s32 D_800E3DF0[];
-extern s32 D_80083460[3];
 extern void func_80042B68(void *, s32);
 extern M2C_UNK func_800A18E8();
 extern M2C_UNK func_800A31D0();
@@ -145,14 +145,14 @@ update_count:
         if (!(state_flags & 0x4000)) {
             status_page = (u8 *)(state_flags & 0x2000);
             if (status_page) {
-                counter_base = D_80083460;
+                counter_base = ((s32 *)(&dungeonStatus));
                 if (((S_800A32A4_6 *)counter_base)->unk_1C.s != 0) {
                     ((S_800A32A4_6 *)counter_base)->unk_1C.s = (s16)(((S_800A32A4_6 *)counter_base)->unk_1C.u - 1);
                 }
                 update_mode = 2;
             } else {
                 s32 *counter_base;
-                counter_base = D_80083460;
+                counter_base = ((s32 *)(&dungeonStatus));
                 if (((S_800A32A4_6 *)counter_base)->unk_1C.s != 0) {
                     ((S_800A32A4_6 *)counter_base)->unk_1C.s = (s16)(((S_800A32A4_6 *)counter_base)->unk_1C.u - 1);
                 }

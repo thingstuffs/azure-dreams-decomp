@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef s32 M2C_UNK;
 
@@ -45,7 +46,6 @@ typedef struct S_func_809A0B58_3 {
 extern M2C_UNK func_80047784();
 extern M2C_UNK func_8009A350();
 extern s16 D_80083228;
-extern M2C_UNK D_80083460;
 extern u8 D_80175EA8[9];
 
 /* Advance the counter when unblocked and reset the action when it exceeds 60. */
@@ -61,7 +61,7 @@ void func_809A0B58(S_func_809A0B58_0 *actor_state, void *unused, S_func_809A0B58
         counter_value = actor_state->unk_B2 + 1;
         actor_state->unk_B2 = counter_value;
         if ((u32)(counter_value & 0xFFFF) >= 0x3D) {
-            global_state = (S_func_809A0B58_3 *)&D_80083460;
+            global_state = (S_func_809A0B58_3 *)&dungeonStatus.unk_00;
             actor_state->unk_B2 = 0x3C;
             global_state->unk_0A =
                 (u16)(global_state->unk_0A + 1);

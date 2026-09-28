@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct {
     u8 red;
@@ -80,7 +81,6 @@ extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *);
 extern void func_8003DB94(void *, void *, s32);
 
-extern s32 D_800814A0;
 extern u8 D_800DEAE0[];
 extern u8 D_80166914[];
 extern u8 D_80167C30[];
@@ -188,6 +188,6 @@ void func_80168914(S_func_81331914_0 *state, s32 *position, S_func_81331914_4 *c
     state->unk_18.u = ticks_left;
     if ((s16)ticks_left <= 0) {
         *(u16 *)((u8 *)state - 2) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct {
     s16 state;
@@ -66,7 +67,6 @@ extern u8 D_80021028[];
 extern s32 D_80012D5C;
 extern s32 D_80024300[];
 extern s16 D_80024308[];
-extern s32 D_800814A0;
 extern u8 D_80083160[];
 extern u16 D_80113158;
 extern s32 D_8011315C;
@@ -290,7 +290,7 @@ state_100:
 
 state_101:
     {
-        s32 *global_flags = &D_800814A0;
+        s32 *global_flags = &objectFlagBlock.flags;
 
         (*(u16 *)((u8 *)entity + -2)) |= 0x8000;
         *global_flags |= 0x8000;

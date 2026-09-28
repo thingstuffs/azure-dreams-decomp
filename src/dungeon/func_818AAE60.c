@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "shared/dir_step.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
@@ -92,7 +93,6 @@ extern u16 D_8006CCD8_2[] __asm__("D_8006CCD8");
 extern u16 D_8006CCE8_2[] __asm__("D_8006CCE8");
 extern s16 D_8006CCD8_3[] __asm__("D_8006CCD8");
 extern s16 D_8006CCE8_3[] __asm__("D_8006CCE8");
-extern M2C_UNK D_800814A0;
 
 typedef struct {
     s32 pos[3];
@@ -378,7 +378,7 @@ jt_c4:
     }
     dungeonStatus.unk_0C = 0;
     (*(u16 *)((u8 *)effect + -2)) = (u16) ((*(u16 *)((u8 *)effect + -2)) | 0x8000);
-    (*(s32 *)&D_800814A0) = (s32) (((S_80024660_11 *)(&D_800814A0))->unk_00 | 0x8000);
+    (*(s32 *)&objectFlagBlock.flags) = (s32) (((S_80024660_11 *)(&objectFlagBlock.flags))->unk_00 | 0x8000);
     goto finish;
 jt_c2:
 jt_c5:

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
@@ -17,16 +18,10 @@ typedef struct S_80172F98_0 {
 
 
 
-typedef struct {
-    u8 pad00[0x10];
-    s32 field10;
-} D_80083460_t;
-
 extern void func_800A2B04();
 extern void func_800AAA54();
 extern void func_800AD4D0();
 
-extern D_80083460_t D_80083460;
 extern u8 D_80170F74[];
 extern u8 D_80173D60[];
 
@@ -157,8 +152,8 @@ state_2:
     motion->unk_0C.as_s32 = 0;
     func_800A2B04(motion, target->unk_24, target->unk_25);
 
-    if (D_80083460.field10 == (s32)entity - 0x20) {
-        D_80083460.field10 &= 0x7FFFFFFF;
+    if (((s32)dungeonStatus.unk_10) == (s32)entity - 0x20) {
+        *(s32 *)&dungeonStatus.unk_10 &= 0x7FFFFFFF;
     }
     action->unk_8C = D_80170F74;
 

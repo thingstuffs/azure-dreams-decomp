@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 
 typedef struct S_80170224_0 {
@@ -17,7 +18,6 @@ extern s16 func_800ADDA0(s32, s32, void *, s32, s32, void *);
 extern void func_8016FCE4(void *, s32, s32, void *);
 extern void func_800A9A0C(void *);
 extern s16 func_800A2BDC(void *);
-extern u16 D_80083462;
 
 /* Updates an entity's state and flags according to its action result. */
 s32 func_80170224(Rec_func_800A9E70_arg0 *entity, s32 target_x, s32 target_y, s16 force_action) {
@@ -56,7 +56,7 @@ s32 func_80170224(Rec_func_800A9E70_arg0 *entity, s32 target_x, s32 target_y, s1
         /* fallthrough */
     default:
         ((S_80170224_0 *)entity_data)->unk_71 &= 0x7F;
-        if (!(D_80083462 & 8)) {
+        if (!(dungeonStatus.flags & 8)) {
             return 1;
         }
         ((S_80170224_0 *)entity_data)->unk_46 &= 0x7FFF;

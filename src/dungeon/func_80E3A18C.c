@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 extern void func_80042710(void *, void *);
 extern s32 func_80042900(void *, s32);
@@ -9,7 +10,6 @@ extern void func_800A2B04(s32, s32, s32);
 extern void func_800ACB98(void *, s32, s32, void *);
 extern void func_80173D40(void *, s32, void *, void *);
 
-extern s32 D_80083460;
 extern u8 *D_800E3D7C;
 
 /* Copies linked object data and transfers or releases its state. */
@@ -58,7 +58,7 @@ void func_8017398C(u8 *owner, s32 object_id, u8 *dest_object, u8 *dest_state)
         }
 
         if ((linked_state[0x13] != 0x1E) && (linked_state[0x28] == 0)) {
-            counter_data = (u8 *)&D_80083460;
+            counter_data = (u8 *)&dungeonStatus.unk_00;
             (*(u16 *)(counter_data + 0xA))++;
         }
 
@@ -109,7 +109,7 @@ void func_8017398C(u8 *owner, s32 object_id, u8 *dest_object, u8 *dest_state)
         return;
     }
 
-    active_data = (u8 *)&D_80083460;
+    active_data = (u8 *)&dungeonStatus.unk_00;
     if (*(u8 **)(active_data + 0xC) == linked_state) {
         *(u8 **)(active_data + 0xC) = 0;
     }

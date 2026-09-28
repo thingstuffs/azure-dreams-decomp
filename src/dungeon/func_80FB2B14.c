@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -23,7 +24,6 @@ extern s32 func_800A2B5C();
 extern s32 func_800A2CB8();
 extern s32 func_800C7930();
 extern s16 D_80083228;
-extern s32 D_80083460;
 extern u8 D_80175258[];
 
 /* Validate an actor transition and update its state and directional animation on success. */
@@ -34,7 +34,7 @@ s32 func_80172314(void *state, s32 transition_id, void *sprite, void *actor)
     u16 *global_flags;
 
     ((Rec_D_800E3D7C *)actor)->unk_71.as_u8 &= 0x7F;
-    global_flags = (u16 *)&D_80083460;
+    global_flags = (u16 *)&dungeonStatus.unk_00;
     transitioned = 0;
     if (global_flags[1] & 0x2000) {
         goto abort_transition;

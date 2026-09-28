@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 extern void func_8008D344(void *arg0, void *arg1, void *arg2, void *arg3);
 extern s32 func_80098864(void *arg0, s32 arg1);
@@ -21,7 +22,6 @@ typedef struct {
 
 extern DungeonGroup D_80073414[];
 extern u8 D_80082E80[];
-extern u8 D_80083460[];
 extern s32 D_80083780[];
 extern u16 D_800DDE84[];
 extern s32 D_800E3D7C[];
@@ -67,7 +67,7 @@ s32 func_800BE360(void *target, void *item, s16 action_type, s32 action_value) {
     } else {
         func_800997FC((u8 *)&D_800E101C, action_value, action_type);
     }
-    counter_base = D_80083460;
+    counter_base = ((u8 *)(&dungeonStatus));
     *(u16 *)(counter_base + 0xA) = *(u16 *)(counter_base + 0xA) - 1;
     return 1;
 }

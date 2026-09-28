@@ -1,3 +1,4 @@
+#include "shared/object_flags.h"
 typedef signed short s16;
 typedef unsigned short u16;
 typedef signed int s32;
@@ -13,7 +14,6 @@ typedef struct {
 } State;
 
 extern s16 D_8002571C;
-extern s32 D_800814A0[3];
 
 // Decrease position and timer, setting entity and global flags when the timer expires.
 void func_80024734(Entity *entity, State *state)
@@ -26,6 +26,6 @@ void func_80024734(Entity *entity, State *state)
     entity->timer = remainingTimer;
     if (remainingTimer <= 0) {
         ((u16 *)entity)[-1] |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

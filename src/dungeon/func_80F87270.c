@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 
 typedef void (*Callback)(void *, void *, void *, void *);
@@ -13,7 +14,6 @@ extern s32 func_800BCB04(u16, u16, s16);
 
 extern u8 D_8006CCF8[];
 extern s16 D_80083228;
-extern u16 D_80083462;
 extern u8 D_80171138[];
 extern Callback D_80174B1C[];
 
@@ -69,7 +69,7 @@ void func_80170A70(void *entity, void *motion_arg, void *sprite_arg)
     u32 object_height;
 
     bob_offset = 0;
-    if (D_80083462 & 0x2000) {
+    if (dungeonStatus.flags & 0x2000) {
         paused_callback = (*(Callback *)((u8 *)entity + (0x8C)));
         if (paused_callback == (Callback)D_80171138) {
             paused_callback(entity, motion_arg, sprite_arg, entity);

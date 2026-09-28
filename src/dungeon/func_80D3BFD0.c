@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 
@@ -49,8 +50,6 @@ typedef struct S_801717D0_6 {
 
 extern u8 D_8006DE24[];
 extern s16 D_80083228;
-extern s32 D_80083460;
-extern u16 D_80083462;
 extern u8 *D_800E3D7C;
 
 extern void func_80047784(void *, u8, s32);
@@ -90,7 +89,7 @@ void func_801717D0(u8 *entity, s32 action_param, u8 *sprite, u8 *direction_frame
         if ((((S_801717D0_0 *)self)->unk_46 & 0x3FFF) >= 5) {
             special_action = 1;
             if (((Rec_D_800E3D7C *)D_800E3D7C)->unk_A4.at02_u16.v == 2) {
-                counter_base_2 = (u8 *)&D_80083460;
+                counter_base_2 = (u8 *)&dungeonStatus.unk_00;
                 counter = ((S_801717D0_2 *)counter_base_2)->unk_0A;
                 counter--;
                 ((S_801717D0_2 *)counter_base_2)->unk_0A = counter;
@@ -101,7 +100,7 @@ void func_801717D0(u8 *entity, s32 action_param, u8 *sprite, u8 *direction_frame
                 ((S_801717D0_3 *)player)->unk_A6 != special_action) {
                 ((S_801717D0_3 *)player)->unk_A6 = special_action;
                 ((S_801717D0_3 *)player)->unk_98.u16 |= 0x1000;
-                counter_base = (u8 *)&D_80083460;
+                counter_base = (u8 *)&dungeonStatus.unk_00;
                 ((S_801717D0_2 *)counter_base)->unk_0A++;
                 goto process;
             }
@@ -113,7 +112,7 @@ void func_801717D0(u8 *entity, s32 action_param, u8 *sprite, u8 *direction_frame
         }
     }
 
-    if (D_80083462 & 8) {
+    if (dungeonStatus.flags & 8) {
         goto done;
     }
     if ((func_800A2B5C(self) << 16) != 0) {
@@ -167,7 +166,7 @@ process:
         ASM_KEEP(frame_table);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     }
 
-    ((S_801717D0_2 *)((u8 *)&D_80083460))->unk_0A++;
+    ((S_801717D0_2 *)((u8 *)&dungeonStatus.unk_00))->unk_0A++;
 
 done:
     return;

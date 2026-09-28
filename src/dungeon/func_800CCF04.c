@@ -1,9 +1,9 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 
 typedef void (*DungeonCallback)(void *, void *, void *, void *);
 
-extern u16 D_80083462;
 extern DungeonCallback D_800E2228[];
 
 extern s16 func_800BCB04(u16, u16, s16);
@@ -52,7 +52,7 @@ void func_800D2664(void *object, void *motion, void *entity) {
     s16 base_height;
     s32 base_height_u;
 
-    if (D_80083462 & 0x2000) {
+    if (dungeonStatus.flags & 0x2000) {
         (*(u8 *)((u8 *)update_obj + (0x71))) &= 0x7F;
         return;
     }

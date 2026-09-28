@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
 
@@ -45,7 +46,6 @@ typedef struct S_800CA444_5 {
 } S_800CA444_5;   /* (arg3 + (((S_800CA444_1 *)arg3)->unk_71 & 0x7F)) in func_800CA444 */
 
 
-extern u16 D_80083462[5];
 typedef struct {
     u8 pad_00[0xC];
     u16 flags;
@@ -55,7 +55,6 @@ typedef struct {
 extern DungeonTableEntry D_800E2970[];
 extern s16 D_8006CD00[];
 extern u16 D_80082E80[];
-extern u16 D_80083460[];
 extern int D_800814A8[4];
 M2C_UNK func_800A0E6C();
 M2C_UNK func_800A19E4();
@@ -89,11 +88,11 @@ void func_800CA444(void *motion_input, s32 unused, void *tile_input, void *actor
     tile = tile_input;
     actor = actor_input;
 
-    if (*D_80083462 & 0x4000) {
+    if (dungeonStatus.flags & 0x4000) {
         func_800A9A0C(actor);
         goto done;
     }
-    if (!(*D_80083462 & 0x2000)) {
+    if (!(dungeonStatus.flags & 0x2000)) {
         goto done;
     }
     func_800A19E4(tile, actor, 3, 6, motion + 0x9C);
@@ -191,7 +190,7 @@ state_long:
     ((S_800CA444_1 *)actor)->unk_46 = (u16) (((S_800CA444_1 *)actor)->unk_46 & 0x7FFF);
     ((S_800CA444_2 *)motion)->unk_9C = (s8) (u8) tile->unk_26;
     ((S_800CA444_1 *)actor)->unk_6D.u = (u8) (((S_800CA444_1 *)actor)->unk_6D.u - 1);
-    D_80083460[4] = (u16) (D_80083460[4] + 1);
+    dungeonStatus.unk_08 = (u16) (((u16)dungeonStatus.unk_08) + 1);
     steps_left = ((S_800CA444_1 *)actor)->unk_6D.s;
     if (steps_left == 0) {
         ((S_800CA444_1 *)actor)->unk_71 = (u8) (((S_800CA444_1 *)actor)->unk_71 & 0x7F);

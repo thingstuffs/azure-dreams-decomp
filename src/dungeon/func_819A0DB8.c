@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_func_819A0DB8_0 {
     u8 pad_00[0x3A];
@@ -27,7 +28,6 @@ typedef struct S_func_819A0DB8_1 {
 } S_func_819A0DB8_1;
 
 extern s16 D_800261B0[];
-extern s32 D_800814A0[];
 extern u8 D_80020000[];
 extern u8 D_80080000[];
 extern void *jtbl_80024008[];

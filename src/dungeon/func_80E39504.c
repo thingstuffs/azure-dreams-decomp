@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
@@ -26,7 +27,6 @@ extern void func_800AD4D0(void *);
 extern void func_8017516C(void *, void *, void *, void *);
 extern void func_80176480(void *, void *);
 
-extern s32 D_80083460;
 extern u8 D_80170EE4[];
 extern u8 D_80176640[];
 
@@ -172,7 +172,7 @@ state_2:
     {
         s32 *global;
 
-        global = &D_80083460;
+        global = &dungeonStatus.unk_00;
         value = *(s32 *)((u8 *)global + 0x10);
         if (value == (s32)((u8 *)actor - 0x20)) {
             *(s32 *)((u8 *)global + 0x10) = value & 0x7FFFFFFF;

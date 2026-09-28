@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_818FF19C_0 {
     union { s16 s; u16 u; } unk_00;   /* accessed as both */
@@ -49,7 +50,6 @@ extern Rect8 D_80024028;
 extern Rect8 D_80024030;
 extern s16 D_80025E80;
 extern u16 D_80025EE8[];
-extern s32 D_800814A0;
 
 extern s32 func_80067014(s32);
 extern void func_800672D8(Rect8 *, u16 *);
@@ -176,7 +176,7 @@ draw:
         ((S_818FF19C_0 *)effect)->unk_00.u++;
         ((S_818FF19C_3 *)(((S_818FF19C_0 *)effect)->unk_34))->unk_90 = 1;
         (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 
 final_check:

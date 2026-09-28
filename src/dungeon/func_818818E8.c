@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_800250E8_0 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -33,7 +34,6 @@ extern s32 func_80069EF8(void);
 extern s16 func_800BCB04(u16, u16, s16);
 
 extern u16 D_800257CE[5];
-extern s32 D_800814A0[3];
 
 __asm__(".set D_800257CE, 0x800257CE");
 
@@ -101,6 +101,6 @@ void func_800250E8(void *effect, S_800250E8_0 *motion, void *owner)
     if ((life_left << 16) <= 0 ||
         (((S_800250E8_2 *)owner_state)->unk_14 & 0x8000)) {
         ((S_800250E8_1_pre *)effect)[-1].unk_00 = (u16)(((S_800250E8_1_pre *)effect)[-1].unk_00 | 0x8000);
-        D_800814A0[0] = D_800814A0[0] | 0x8000;
+        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
     }
 }

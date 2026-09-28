@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 
 typedef void (*Callback)(void *, void *, void *, void *);
@@ -12,7 +13,6 @@ extern s16 func_800BCB04(s32, s32, s16);
 
 extern u8 D_8006CCF8[];
 extern s16 D_80083228;
-extern u16 D_80083462;
 extern u8 D_800C9F34;
 extern Callback D_800E0354[];
 
@@ -53,7 +53,7 @@ typedef struct S_800C9AAC_2 {
 /* Updates object callbacks, motion, sprite direction, and height. */
 void func_800C9AAC(void *state, void *object_motion, void *object_part)
 {
-    u32 update_flags = D_80083462;
+    u32 update_flags = dungeonStatus.flags;
     register void *motion ASM_REG("$21") = object_motion;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register void *part ASM_REG("$19") = object_part;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     void *secondary = state;

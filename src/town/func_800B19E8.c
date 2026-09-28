@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 
 typedef struct S_800AF148_0_pre {
@@ -15,7 +16,6 @@ typedef struct S_800AF148_0 {
 
 M2C_UNK func_8004B248();                         /* extern */
 M2C_UNK func_800AF0E0();                    /* extern */
-extern s32 D_800814A0[];
 
 /* Updates an object's state and sets its local and global 0x8000 flags. */
 void func_800AF148(s32 objectAddress) {
@@ -26,6 +26,6 @@ void func_800AF148(s32 objectAddress) {
         func_800AF0E0(((S_800AF148_0 *)objectFields)->unk_D8, ((S_800AF148_0 *)objectFields)->unk_28);
         func_8004B248(objectAddress + 0xFC);
         ((S_800AF148_0_pre *)objectFields)[-1].unk_00 = (u16) (((S_800AF148_0_pre *)objectFields)[-1].unk_00 | 0x8000);
-        D_800814A0[0] = (s32) (D_800814A0[0] | 0x8000);
+        objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
     }
 }

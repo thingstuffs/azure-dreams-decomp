@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
@@ -13,7 +14,6 @@ extern u16 D_80013714[];
 extern M2C_UNK D_8004F5F4;
 extern s32 D_80082EB0[];
 extern M2C_UNK D_80083160[];
-extern u16 D_80083462[];
 extern s32 D_800E4940[];
 
 /* Reset movement and dispatch actor actions based on state and input flags. */
@@ -33,7 +33,7 @@ void func_8008B870(Rec_func_8008ACDC_arg0 *controller, Rec_D_800E3D7C *move_stat
     if (action_state > 0) {
         func_8008CBA0(controller, move_state, entity, actor);
     }
-    if (!(D_80013714[0] & 1) && !(D_80083462[0] & 4) && (input_state[2] & 0x80)) {
+    if (!(D_80013714[0] & 1) && !(dungeonStatus.flags & 4) && (input_state[2] & 0x80)) {
         actor->unk_8A.as_s16 = 2;
         D_800E4940[0] = 2;
         func_8008CF6C(controller, move_state, entity, &D_8004F5F4);

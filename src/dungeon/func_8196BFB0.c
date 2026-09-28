@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_8196BFB0_0 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -45,7 +46,6 @@ extern s32 func_800A45D8(u16 arg0, u16 arg1, s16 arg2);
 extern s16 func_800BCB04(u16 arg0, u16 arg1, s16 arg2);
 
 extern s16 D_800269B4;
-extern s32 D_800814A0;
 extern u8 D_80083780[];
 
 /* Updates and renders a shrinking object with collision and lifetime checks. */
@@ -122,11 +122,11 @@ void func_8196BFB0(void *object, void *position, void *render_state)
 
     if (--((S_8196BFB0_1 *)object)->unk_2C <= 0) {
         (*(u16 *)((u8 *)object + -2)) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 
     if (((S_8196BFB0_2 *)render_state)->unk_14 & 0x8000) {
         (*(u16 *)((u8 *)object + -2)) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

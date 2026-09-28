@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 
 
@@ -10,13 +11,7 @@ extern void func_800A63B8();
 extern s32 func_800AD6FC();
 extern void func_800C4AFC();
 
-typedef struct {
-    u8 pad[0xA];
-    u16 counter;
-} DungeonState;
-
 extern u8 D_80082E80[];
-extern DungeonState D_80083460;
 extern u8 D_80083780[];
 extern u16 D_800DDE84[];
 extern u8 D_800E0F07[];
@@ -51,6 +46,6 @@ s32 func_800BDB74(void *entity, s32 item, s16 use_type) {
         func_80099844(entity, D_800E0F07);
     }
     func_80098B38(item);
-    D_80083460.counter = (u16)(D_80083460.counter - 1);
+    dungeonStatus.unk_0A = (u16)(((u16)dungeonStatus.unk_0A) - 1);
     return 1;
 }

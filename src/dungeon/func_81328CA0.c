@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
@@ -36,7 +37,6 @@ typedef struct {
 } Global83460;
 extern Global82E80 D_80082E80;
 extern s16 D_80083228[5];
-extern Global83460 D_80083460;
 extern u8 D_8016F78C[];
 extern u8 D_80174A2C[];
 
@@ -134,7 +134,7 @@ update_timer:
         motion->unk_0C.as_s32 = 0;
         func_800A2B04(motion, tile->unk_24, tile->unk_25);
         func_800A4ACC(entity);
-        active_actions = &D_80083460;
+        active_actions = ((Global83460 *)&dungeonStatus);
         if (active_actions->count != 0) {
             active_actions->count = (u16) active_actions->count - 1;
         }

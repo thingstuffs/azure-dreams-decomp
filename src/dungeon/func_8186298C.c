@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct {
     u8 pad00[0x14];
@@ -22,12 +23,6 @@ typedef struct {
     u16 unk1E;
 } Arg2Ent;
 
-typedef struct {
-    s32 value;
-    s32 pad[2];
-} LargeS32;
-
-extern LargeS32 D_800814A0;
 extern s32 D_800DEDB0[3];
 
 extern void func_800478B8(void *a0);
@@ -52,7 +47,7 @@ void func_8186298C(Arg0Ent *state, void *unused, Arg2Ent *effect)
     if (effect->unk14 & 0x6000) {
         if (state->unk04 != 0) {
             *(u16 *)((u8 *)state - 2) |= 0x8000;
-            D_800814A0.value |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
             return;
         } else {
             func_8003DB94(effect, D_800DEDB0, 4);

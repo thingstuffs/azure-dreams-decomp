@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "shared/dir_step.h"
 extern int abs(int);
 
@@ -100,7 +101,6 @@ extern void func_8009C12C(void *, void *, s16, s16);
 extern void func_800C77D0(void *, void *, s32, s32);
 extern void func_80175A90(Vec3Work *, Vec3Work *);
 
-extern s32 D_800814A0;
 extern u8 D_800DDC40[];
 extern void *D_80170888[];
 extern u8 D_80175F68;
@@ -394,7 +394,7 @@ state4:
     S_81087818_1 *actor = motion->unk_48;
     if (actor->unk_2C != &D_80175F68) {
         (*(u16 *)((u8 *)motion - 2)) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         return;
     }
     actor->unk_14 &= 0xF7FF;

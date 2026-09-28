@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 
 #define F(base, type, off) (*(type *)((char *)(base) + (off)))
 
 extern void *D_800DF364[];
 extern void *D_800E3D7C[];
-extern s32 D_800814A0[];
-extern s32 D_8008346C[];
 
 extern void func_800A56E0(s32);
 extern void func_800478B8(void *, void *, void *);
@@ -80,8 +80,8 @@ void func_800B96C4(void *state, void *position_arg, void *marker_arg) {
                     F(((void *)(position_arg)), u16, 0xA) = F(target, u16, 0x88);
                 } else {
                     F(state, u16, -2) = F(state, u16, -2) | 0x8000;
-                    D_8008346C[0] = 0;
-                    D_800814A0[0] = D_800814A0[0] | 0x8000;
+                    dungeonStatus.unk_0C = 0;
+                    objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
                 }
             }
         }

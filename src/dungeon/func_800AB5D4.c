@@ -1,9 +1,9 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 
 extern void func_8004E994();
 
-extern s32 D_800814A0;
 extern u8 D_800DDC40[];
 extern u8 *D_800E3D7C[];
 
@@ -170,7 +170,7 @@ mode_one:
         } while (entry_index < 4);
     }
     (*(u16 *)((u8 *)object + (-2))) |= 0x8000;
-    D_800814A0 |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
     return;
 
 finish:

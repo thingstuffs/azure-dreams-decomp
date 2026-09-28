@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_818D4D48_0 {
     u16 unk_00;
@@ -23,7 +24,6 @@ typedef struct S_818D4D48_1 {
 typedef s32 M2C_UNK;
 
 extern s16 D_80025118;
-extern s32 D_800814A0[3];
 
 /* Fades and rotates an effect, decrements its timer, and flags completion. */
 void func_818D4D48(void *record_data, M2C_UNK unused, S_818D4D48_1 *effect)
@@ -51,11 +51,11 @@ void func_818D4D48(void *record_data, M2C_UNK unused, S_818D4D48_1 *effect)
 
     if ((s16)((S_818D4D48_0 *)((u8 *)record_cursor - 0x2))->unk_04 <= 0) {
         ((S_818D4D48_0 *)((u8 *)record_cursor - 0x2))->unk_00 = (u16)(((S_818D4D48_0 *)((u8 *)record_cursor - 0x2))->unk_00 | 0x8000);
-        D_800814A0[0] = (s32)(D_800814A0[0] | 0x8000);
+        objectFlagBlock.flags = (s32)(objectFlagBlock.flags | 0x8000);
     }
 
     if (effect->unk_14 & 0x8000) {
         ((S_818D4D48_0 *)((u8 *)record_cursor - 0x2))->unk_00 = (u16)(((S_818D4D48_0 *)((u8 *)record_cursor - 0x2))->unk_00 | 0x8000);
-        D_800814A0[0] = (s32)(D_800814A0[0] | 0x8000);
+        objectFlagBlock.flags = (s32)(objectFlagBlock.flags | 0x8000);
     }
 }

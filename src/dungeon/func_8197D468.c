@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80016000.h"
 
@@ -92,7 +93,6 @@ extern u16 D_8008378A;
 extern u8 D_80083498[];
 extern u8 D_80045340[];
 extern u8 D_800DED70[];
-extern s32 D_800814A0;
 void *func_8003FD64();                 /* extern */
 s32 func_80069EF8();                          /* extern */
 s16 func_800BCB04();                   /* extern */
@@ -232,7 +232,7 @@ state_2:
             particle_index -= 1;
         } while (particle_index >= 0);
         (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_8197D468_0_pre *)effect)[-1].unk_00 | 0x8000);
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 done:
     return;

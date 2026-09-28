@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 extern s32 D_8008B2F0[];
-extern int D_800814A0[4];
 __asm__(".set D_8008B2F0, 0x8008B2F0");
 
 typedef struct {
@@ -18,6 +18,6 @@ void func_7FDD3B84(EntA *entry)
     *(short *)scaled_value = (s16)(D_8008B2F0[entry->unk18] >> 2);
     if (*(short *)((char *)entry->unk04 + 0x16) & 0x8000) {
         *(unsigned short *)((char *)entry - 2) |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

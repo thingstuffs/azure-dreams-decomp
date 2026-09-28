@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 #include "common.h"
 
@@ -18,7 +19,6 @@ typedef struct S_8004F5F4_node {
 extern void *func_8003FC64(s32 a0);
 extern void func_8004F5B0(void *a0);
 extern void *func_8004FDE0(void *a0);
-extern s32 D_800814A0;
 extern s32 D_800814A0_w asm("D_800814A0");
 
 /* Creates a callback node and initializes its result, marking failure if initialization fails. */
@@ -43,7 +43,7 @@ void *func_8004F5F4(void *unused, void *source)
             global_flags |= 0x8000;
             
 #ifdef NON_MATCHING
-            D_800814A0 = global_flags;
+            objectFlagBlock.flags = global_flags;
 #else
             global_page = (u8 *)0x80080000;
             

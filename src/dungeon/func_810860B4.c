@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 
 
@@ -17,8 +18,6 @@ extern void func_80174BC8(void *, void *, void *);
 extern u8 D_8006DE24[];
 extern void *D_800814A8;
 extern s16 D_80083228;
-extern s32 D_80083460;
-extern s32 D_8008346C;
 extern void *D_80170868[];
 extern M2C_UNK D_80170E94;
 extern u8 D_80175F10[8];
@@ -213,7 +212,7 @@ empty_item:
     ((Rec_D_800E3D7C *)scene_object)->unk_0C.as_s32 = 0;
     func_800A2B04(scene_object, ((S_801738B4_2 *)entity)->unk_24, ((S_801738B4_2 *)entity)->unk_25);
     active_object = D_800814A8;
-    D_8008346C = 0;
+    dungeonStatus.unk_0C = 0;
     (*(u16 *)((u8 *)active_object + 0xA6))--;
     func_800A4ACC(actor);
     (*(u8 *)((u8 *)actor + 0x6D))--;
@@ -269,7 +268,7 @@ state_3:
             0);
     }
 
-    action_status = (u8 *)&D_80083460;
+    action_status = (u8 *)&dungeonStatus.unk_00;
     if (((S_801738B4_4 *)action_status)->unk_0C != 0) {
         goto epilogue;
     }

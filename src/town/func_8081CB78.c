@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct {
     u8 pad0[0x1A];
@@ -11,7 +12,6 @@ typedef struct {
     S_8081CB78_sub *sub;
 } S_8081CB78;
 
-extern int D_800814A0[];
 
 /* Set object and global flags when the state is zero and subobject bit 3 is set. */
 void func_80026B78(S_8081CB78 *object) {
@@ -20,6 +20,6 @@ void func_80026B78(S_8081CB78 *object) {
 
     if (state == 0 && (sub->flags & 8)) {
         ((u16 *)object)[-1] |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

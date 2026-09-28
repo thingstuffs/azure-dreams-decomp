@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef struct S_func_801728C4_0 {
     u8 pad_00[0x8C];
@@ -36,7 +37,6 @@ typedef struct S_func_801728C4_3 {
 } S_func_801728C4_3;
 
 extern s16 D_80083228;
-extern s32 D_8008346C;
 extern void *D_800E3DE8;
 extern u8 D_80170F74[];
 extern u8 D_80173D58[];
@@ -103,7 +103,7 @@ state_3:
     func_800A2B04(motion, animation->unk_24, animation->unk_25);
     func_800AD594(actor, 0x100);
     action->unk_8C = D_80170F74;
-    D_8008346C = 0;
+    dungeonStatus.unk_0C = 0;
     func_800A4ACC(actor);
     if (actor->unk_6D == 0) {
         actor->unk_46 &= 0x7FFF;

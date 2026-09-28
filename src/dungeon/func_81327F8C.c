@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
@@ -19,7 +20,6 @@ M2C_UNK func_80174320();     /* extern */
 extern u16 D_80013714;
 extern void *D_800814A8;
 extern s16 D_80083228;
-extern u16 D_80083462;
 extern u8 D_80174A2C[];
 extern u8 D_80174A64[];
 
@@ -38,12 +38,12 @@ void func_8016F78C(void *actor, M2C_UNK context, void *sprite, void *entity) {
     u8 current_state;
     s32 next_state;
 
-    if (D_80083462 & 0x1000) {
+    if (dungeonStatus.flags & 0x1000) {
         ((S_8016F78C_0 *)actor)->unk_9A.n = 0xEU;
         func_8016FA84(actor, context, sprite, entity);
         return;
     }
-    if (!(D_80083462 & 0x2000)) {
+    if (!(dungeonStatus.flags & 0x2000)) {
         if (((Rec_D_800E3D7C *)entity)->unk_1C.as_s32 & 0x100) {
             func_800AA258(actor, context, sprite, entity);
             return;
@@ -78,7 +78,7 @@ check_action:
                 return;
             }
             if (!(((Rec_D_800E3D7C *)entity)->unk_44.at02_u16.v & 0x8000)) {
-                if (!(D_80083462 & 0x2000) || ((func_8009A180(entity, ((Rec_D_800814A8 *)D_800814A8)->unk_58.as_s32 + 0x20) << 0x10) == 0)) {
+                if (!(dungeonStatus.flags & 0x2000) || ((func_8009A180(entity, ((Rec_D_800814A8 *)D_800814A8)->unk_58.as_s32 + 0x20) << 0x10) == 0)) {
                     if (D_80013714 & 8) {
                         func_80174320(actor, context, sprite);
                         ((Rec_D_800E3D7C *)entity)->unk_71.as_u8 = (u8) (((Rec_D_800E3D7C *)entity)->unk_71.as_u8 & 0x7F);

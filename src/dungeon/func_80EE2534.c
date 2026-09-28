@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -24,7 +25,6 @@ typedef struct DungeonGlobal {
 extern void func_800A2B04(void *, s32, s32);
 extern void func_800AAA54(void *, void *, void *, s32);
 extern void func_800AD4D0(void *);
-extern DungeonGlobal D_80083460;
 extern s32 D_80171CE8;
 
 /* Advance a timed entity state transition, clearing motion and updating its handler. */
@@ -108,7 +108,7 @@ state_two:
     motion->unk_0C.as_s32 = 0;
     func_800A2B04(motion, actor->unk_24, actor->unk_25);
 
-    global = &D_80083460;
+    global = ((DungeonGlobal *)&dungeonStatus);
     if (global->field_10 == (s32)((u8 *)entity_data - 0x20)) {
         global->field_10 &= 0x7FFFFFFF;
     }

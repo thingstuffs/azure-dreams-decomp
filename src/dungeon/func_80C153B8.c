@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 #define FIELD(base, type, offset) (*(type *)((u8 *)(base) + (offset)))
 
@@ -6,7 +7,6 @@ typedef void (*EntityCallback)(void *, void *, void *, void *);
 
 extern u8 D_8006CCF8[];
 extern s16 D_80083228;
-extern u16 D_80083462;
 extern u8 D_801713A8[];
 extern u8 D_80174494[];
 extern u8 D_8017449C[];
@@ -61,7 +61,7 @@ typedef struct S_if_0 {
 /* Update actor callbacks, motion, directional animation, and ground-relative height. */
 void func_80170BB8(void *actor_arg, void *motion_arg, void *object_arg)
 {
-    u16 initial_flags = D_80083462;
+    u16 initial_flags = dungeonStatus.flags;
     register void *actor ASM_REG("$17") = actor_arg;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *motion = motion_arg;
     void *object = object_arg;

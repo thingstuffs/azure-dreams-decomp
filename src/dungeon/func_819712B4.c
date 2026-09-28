@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct {
     u8 pad[0x38];
@@ -15,7 +16,6 @@ typedef struct {
 } Motion;
 
 extern s16 D_80025FF4;
-extern s32 D_800814A0[3];
 extern void func_800478B8(void *arg0);
 
 /* Advance a timed effect, update its intensity and motion, and flag completion. */
@@ -39,6 +39,6 @@ void func_819712B4(Obj *effect, Motion *motion, s8 *render_data)
     motion->value += motion->delta;
     if (effect->timer <= 0) {
         ((u16 *)effect)[-1] |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800814A8.h"
@@ -87,7 +88,6 @@ extern void *D_800814A8;
 extern M2C_UNK D_80082E80;
 extern M2C_UNK D_80083160;
 extern s16 D_80083228;
-extern u16 D_80083460[];
 extern M2C_UNK D_80083498;
 extern M2C_UNK D_800D7960;
 extern M2C_UNK D_80170E68;
@@ -123,7 +123,7 @@ phase_start:
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) goto done;
     (*(u8 **)((u8 *)sprite + 0x2C)) = D_801741DC;
     func_80047784(sprite, D_801741DC[((D_80083228 + ((S_801732A4_2 *)actor_state)->unk_2A + 0x100) >> 9) & 7], 0);
-    D_80083460[5] = (u16)(D_80083460[5] - 1);
+    dungeonStatus.unk_0A = (u16)(((u16)dungeonStatus.unk_0A) - 1);
     ((Rec_func_801732A4_arg0 *)actor)->unk_9B = (u8)(((Rec_func_801732A4_arg0 *)actor)->unk_9B + 1);
     return;
 phase_update:
@@ -137,7 +137,7 @@ phase_update:
     func_800A56E0(0x51B);
 animation_updated:
 check_effect_state:
-    effect_state = &D_80083460;
+    effect_state = ((u16 *)(&dungeonStatus));
     if (((S_801732A4_3 *)effect_state)->unk_02 & 0x1000) goto done;
     if ((func_80042900(actor_state, 1) << 0x10) != 0) goto check_action;
     (*(u8 **)((u8 *)sprite + 0x2C)) = D_801741E4;
@@ -211,15 +211,15 @@ check_ready:
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) goto increment_count;
     if (!(((Rec_func_801732A4_arg0 *)actor)->unk_98 & 0x8000)) goto clear_action;
     {
-        actor_flags = D_80083460[5] + 1;
-        D_80083460[5] = actor_flags;
+        actor_flags = ((u16)dungeonStatus.unk_0A) + 1;
+        dungeonStatus.unk_0A = actor_flags;
     }
     ((Rec_func_801732A4_arg0 *)actor)->unk_9B = (u8)(((Rec_func_801732A4_arg0 *)actor)->unk_9B + 1);
     return;
 increment_count:
     {
-        actor_flags = D_80083460[5];
-        D_80083460[5] = (u16)(actor_flags + 1);
+        actor_flags = ((u16)dungeonStatus.unk_0A);
+        dungeonStatus.unk_0A = (u16)(actor_flags + 1);
     }
     ((Rec_func_801732A4_arg0 *)actor)->unk_9B = (u8)(((Rec_func_801732A4_arg0 *)actor)->unk_9B + 1);
     return;
@@ -263,7 +263,7 @@ phase_finish:
     ((S_801732A4_8 *)active_effect)->unk_BB = 0xFF;
     ((Rec_func_801732A4_arg0 *)actor)->unk_A0 = NULL;
 finish_effect:
-    D_80083460[5] = (u16)(D_80083460[5] - 1);
+    dungeonStatus.unk_0A = (u16)(((u16)dungeonStatus.unk_0A) - 1);
     ((S_801732A4_2 *)actor_state)->unk_1C = (s32)(((S_801732A4_2 *)actor_state)->unk_1C & ~0x200);
     effect_flags = ((Rec_func_801732A4_arg0 *)actor)->unk_98;
     if (!(effect_flags & 0x8000)) goto reset_handler;

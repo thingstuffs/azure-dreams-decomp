@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -34,9 +36,6 @@ typedef struct S_800D1A80_3 {
 #define M2C_BREAK() 0
 #define M2C_SYNC() 0
 
-extern s16 D_8008346A[];
-extern s32 D_80083460[3];
-extern s32 D_800814A0[3];
 void func_8009A028(void *arg0);
 void func_8009A3D0(u8 arg0, u8 arg1, s32 arg2);
 void func_800A32A4(void *arg0);
@@ -45,7 +44,7 @@ s32 func_80042900(void *arg0, s32 arg1);
 
 /* Fade the entity to dark gray, then remove it and update its tile flags. */
 s32 func_800D1A80(S_800D1A80_0 *state, void *unused, S_800D1A80_1 *visual, void *entity) {
-    s16 *fade_blocked = D_8008346A;
+    s16 *fade_blocked = ((s16 *)(&dungeonStatus.unk_0A));
     s16 fade_frames;
     M2C_UNK tile_flags;
     s16 frames_left;
@@ -88,7 +87,7 @@ update_fade:
         if (((frames_left << 0x10) > 0) && ((visual->unk_14 & 0x8000) == 0)) {
             return 0;
         }
-        entity_tracker = D_80083460;
+        entity_tracker = ((s32 *)(&dungeonStatus));
         {
             entity_ref = ((S_800D1A80_3 *)entity_tracker)->unk_10;
             if (entity_ref == (entity - 0x20)) {
@@ -106,7 +105,7 @@ update_fade:
             }
             func_8009A028(entity);
             ((S_800D1A80_2_pre *)entity)[-1].unk_00 = (u16) (((S_800D1A80_2_pre *)entity)[-1].unk_00 | 0x8000);
-            D_800814A0[0] = D_800814A0[0] | 0x8000;
+            objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
             return 1;
         }
         return 0;

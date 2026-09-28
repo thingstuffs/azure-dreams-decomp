@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_800A9E70_arg0.h"
@@ -6,7 +7,6 @@
 #include "records/Rec_D_800E3D7C.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern s32 D_80083460[3];
 s32 func_8009B164();             /* extern */
 s32 func_8009B88C();      /* extern */
 void *func_8009C93C(); /* extern */
@@ -97,7 +97,7 @@ object_move_ok:
                 contact_tile_mask = 0x300;
             }
             func_8009A21C(contact_x, contact_y, contact_tile_mask);
-            contact_counters = D_80083460;
+            contact_counters = ((s32 *)(&dungeonStatus));
             actor->unk_1C.as_s32 = (s32) (actor->unk_1C.as_s32 & 0xFFDFFFFF);
             ((S_800AC010_4 *)contact_counters)->unk_0A = (u16) (((S_800AC010_4 *)contact_counters)->unk_0A - 1);
             ((Rec_func_800A9E70_arg0 *)move_state)->unk_96.as_s16 = 0;
@@ -126,7 +126,7 @@ object_move_ok:
             ((Rec_func_800A9E70_arg0 *)move_state)->unk_90.at02_s16.v = 0;
             actor->unk_88.as_s16 = ground_height;
         }
-        stop_counters = D_80083460;
+        stop_counters = ((s32 *)(&dungeonStatus));
         ((S_800AC010_5 *)stop_counters)->unk_0A = (u16) (((S_800AC010_5 *)stop_counters)->unk_0A - 1);
         ((Rec_func_800A9E70_arg0 *)move_state)->unk_96.as_s16 = 0;
         actor->unk_1C.as_s32 = (s32) ((actor->unk_1C.as_s32 | 0x40000000) & 0xFFDFFFFF);

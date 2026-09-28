@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_8181B078_0_pre {
     u16 unk_00;
@@ -29,7 +30,6 @@ typedef struct S_8181B078_2 {
 
 
 extern s16 D_80025914;
-extern s32 D_800814A0[3];
 
 
 /* Advances the object cycle and position, flagging expiry or a flagged source. */
@@ -83,11 +83,11 @@ advance:
 
     if (((S_8181B078_0 *)object)->unk_02.u <= 0) {
         ((S_8181B078_0_pre *)object)[-1].unk_00 |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 
     if (source->unk_14 & 0x8000) {
         ((S_8181B078_0_pre *)object)[-1].unk_00 |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

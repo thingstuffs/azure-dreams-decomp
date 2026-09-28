@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800814A8.h"
 
 typedef struct S_80170E5C_0 {
@@ -85,7 +86,6 @@ extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern s8 D_80082EA4;
 extern s16 D_80083228;
-extern u16 D_80083462;
 extern DungeonRecord D_800E2970[];
 extern void *const D_80170808[];
 extern u8 D_80174520[];
@@ -101,7 +101,7 @@ void func_80170E5C(void *actor_in, void *context_in, void *sprite_in, void *stat
     u8 *anim_table;
     s32 tile_record;
     s32 direction_aux;
-    u32 initial_flags = D_80083462;
+    u32 initial_flags = dungeonStatus.flags;
 
     status = status_in;
 
@@ -137,7 +137,7 @@ void func_80170E5C(void *actor_in, void *context_in, void *sprite_in, void *stat
         }
     }
 
-    if (!(D_80083462 & 0x2000)) {
+    if (!(dungeonStatus.flags & 0x2000)) {
         if (((S_80170E5C_1 *)status)->unk_1C & 0x100) {
             func_800AA258(actor_in, context_in, sprite_in, status);
             return;
@@ -191,7 +191,7 @@ void func_80170E5C(void *actor_in, void *context_in, void *sprite_in, void *stat
             goto ordinary_cleanup;
         }
         if (!(((S_80170E5C_1 *)status)->unk_46 & 0x8000)) {
-            if (D_80083462 & 0x2000) {
+            if (dungeonStatus.flags & 0x2000) {
                 if ((s16)func_8009A180(status,
                         (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) != 0) {
                     return;
@@ -294,7 +294,7 @@ ordinary_cleanup:
         }
     }
 
-    if (D_80083462 & 0x2000) {
+    if (dungeonStatus.flags & 0x2000) {
         return;
     }
     if (((S_80170E5C_2 *)sprite_in)->unk_14 & 0x40) {

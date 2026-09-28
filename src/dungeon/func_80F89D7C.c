@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -56,7 +57,6 @@ extern void func_80173D38(void *, void *, void *, void *);
 extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern s16 D_80083228;
-extern s32 D_80083460;
 extern u8 D_80171138[];
 extern u8 D_80174AD4[];
 extern u8 D_80174AFC[];
@@ -92,7 +92,7 @@ state_zero:
     func_80047784(sprite,
         D_80174AFC[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
         0);
-    ((S_8017357C_3 *)(u8 *)&D_80083460)->unk_0A = ((S_8017357C_3 *)(u8 *)&D_80083460)->unk_0A - 1;
+    ((S_8017357C_3 *)(u8 *)&dungeonStatus.unk_00)->unk_0A = ((S_8017357C_3 *)(u8 *)&dungeonStatus.unk_00)->unk_0A - 1;
     ((S_8017357C_0 *)controller)->unk_9B++;
     goto done;
 
@@ -110,7 +110,7 @@ state_one:
         }
         goto increment_state;
     }
-    global_base = (u8 *)&D_80083460;
+    global_base = (u8 *)&dungeonStatus.unk_00;
     if (((S_8017357C_4 *)global_base)->unk_02 & 0x1000) {
         goto done;
     }
@@ -181,7 +181,7 @@ state_one:
 increment_state:
     ((S_8017357C_0 *)controller)->unk_96.s = 3;
 
-    ((S_8017357C_3 *)(u8 *)&D_80083460)->unk_0A = ((S_8017357C_3 *)(u8 *)&D_80083460)->unk_0A + 1;
+    ((S_8017357C_3 *)(u8 *)&dungeonStatus.unk_00)->unk_0A = ((S_8017357C_3 *)(u8 *)&dungeonStatus.unk_00)->unk_0A + 1;
     ((S_8017357C_0 *)controller)->unk_9B++;
     goto done;
 
@@ -200,7 +200,7 @@ state_two:
         D_80174AD4[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
         0);
     {
-        u8 *counter_base = (u8 *)&D_80083460;
+        u8 *counter_base = (u8 *)&dungeonStatus.unk_00;
 
         ((S_8017357C_3 *)counter_base)->unk_0A--;
     }

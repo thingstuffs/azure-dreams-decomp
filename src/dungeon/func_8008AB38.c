@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #ifndef NULL
 #define NULL 0
 #endif
@@ -38,7 +39,6 @@ typedef struct {
 } Arg0Struct;
 
 extern S_80083160 D_80083160;
-extern u16 D_80083460[];
 extern void *D_8008ACDC[];
 extern u8 D_800DD0F8[];
 extern s16 D_80083228[5];
@@ -76,20 +76,20 @@ void func_80090298(Arg0Struct *controller, void *unused, Arg2Struct *animation, 
             }
             func_800A56E0(event_code);
         }
-        if (!(D_80083460[1] & 4) && (controller->flagsa2 & 0x10)) {
+        if (!(dungeonStatus.flags & 4) && (controller->flagsa2 & 0x10)) {
             if ((scene->flags & 0x20) && (func_800A5C70() != 0)) {
-                D_80083460[1] |= 0x80;
+                dungeonStatus.flags |= 0x80;
             }
             if ((func_80042900(actor, 1) << 0x10) == 0) {
                 animation->table = D_800DD0F8;
                 func_80048A44(animation, D_800DD0F8[((s32)(*D_80083228 + actor->angle + 0x100) >> 9) & 7], 0, 1);
                 controller->handler = NULL;
-                D_80083460[5] += 1;
+                dungeonStatus.unk_0A += 1;
                 controller->state += 1;
             } else {
                 func_80099F70(actor->val5c);
                 func_80099F04(actor->val5c);
-                D_80083460[1] |= 0x812;
+                dungeonStatus.flags |= 0x812;
             }
         }
         break;
@@ -99,9 +99,9 @@ void func_80090298(Arg0Struct *controller, void *unused, Arg2Struct *animation, 
             actor->flags1c &= ~0x200;
             func_80099F70(actor->val5c);
             func_80099F04(actor->val5c);
-            D_80083460[1] |= 0x812;
+            dungeonStatus.flags |= 0x812;
             controller->handler = D_8008ACDC;
-            D_80083460[5] -= 1;
+            dungeonStatus.unk_0A -= 1;
         }
         break;
     }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 extern s32 func_80098864();
 extern s32 func_8008D344();
@@ -16,7 +17,6 @@ extern s32 D_80083160[];
 extern void *D_800E3D7C;
 extern s32 D_800E296C;
 extern u8 D_800DDE84[];
-extern u16 D_80083460[];
 extern u8 D_800E3548[];
 extern u8 D_800E36C8[];
 extern u8 D_800E3648[];
@@ -68,7 +68,7 @@ s32 func_800C3D3C(void *target, s32 effect_arg, s16 effect_id, s32 context) {
             func_800A5F38(target, effect_value);
             return 1;
         }
-        D_80083460[5] = D_80083460[5] - 1;
+        dungeonStatus.unk_0A = ((u16)dungeonStatus.unk_0A) - 1;
         func_80098B38(effect_value);
         return 1;
     }
@@ -128,7 +128,7 @@ s32 func_800C3D3C(void *target, s32 effect_arg, s16 effect_id, s32 context) {
     } else {
         func_800997FC(&D_800E1863, context, effect_code);
     }
-    D_80083460[5] = D_80083460[5] - 1;
+    dungeonStatus.unk_0A = ((u16)dungeonStatus.unk_0A) - 1;
     func_80098B38(effect_value);
     return 1;
 }

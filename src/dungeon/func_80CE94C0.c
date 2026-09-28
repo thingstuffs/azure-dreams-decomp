@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_80172CC0_arg0.h"
 
@@ -41,7 +42,6 @@ extern s16 func_800A0818();
 extern s32 func_80173678();
 
 extern s16 D_80083228;
-extern u16 D_80083462;
 extern s32 D_80175DC4;
 extern s32 D_80175DCC;
 extern s32 D_80175DD4;
@@ -143,7 +143,7 @@ setup:
 
     ((S_80172CC0_0 *)state)->unk_2A = heading;
     if (move_result == 3) {
-        if (!(D_80083462 & 0x80) && !(((Rec_D_80082E80 *)actor)->unk_14.at00_u16.v & 0x8000)) {
+        if (!(dungeonStatus.flags & 0x80) && !(((Rec_D_80082E80 *)actor)->unk_14.at00_u16.v & 0x8000)) {
             func_80173678(movement, actor_index, actor, state);
             ((Rec_func_80172CC0_arg0 *)movement)->unk_8C.as_s32 = 0;
             goto finish_state;
@@ -155,7 +155,7 @@ setup:
 
 finish_state:
     (*(s32 *)((u8 *)state + 0x1C)) |= 0x40000000;
-    if (D_80083462 & 0x80) {
+    if (dungeonStatus.flags & 0x80) {
         ((Rec_func_80172CC0_arg0 *)movement)->unk_96.as_s16 = 0;
         return;
     }

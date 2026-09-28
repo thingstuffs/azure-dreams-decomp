@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 
 typedef struct S_81892BF8_0_pre {
@@ -17,7 +18,6 @@ typedef struct S_81892BF8_1 {
 } S_81892BF8_1;   /* temp_v1 in func_81892BF8 */
 
 
-extern s32 D_800814A0[3];
 
 /* Increment both counters and set completion flags when the count reaches its limit. */
 void func_81892BF8(void *counterState) {
@@ -30,6 +30,6 @@ void func_81892BF8(void *counterState) {
     ((S_81892BF8_0 *)counterState)->unk_04 = incrementedCount;
     if ((s16) incrementedCount >= ((S_81892BF8_0 *)counterState)->unk_06) {
         ((S_81892BF8_0_pre *)counterState)[-1].unk_00 = (u16) (((S_81892BF8_0_pre *)counterState)[-1].unk_00 | 0x8000);
-        D_800814A0[0] = (s32) (D_800814A0[0] | 0x8000);
+        objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
     }
 }

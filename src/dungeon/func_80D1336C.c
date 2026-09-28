@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef struct {
     u8 pad_00[0x8c];
@@ -50,7 +51,6 @@ typedef struct {
 } Actor;
 
 extern s16 D_80083228[5];
-extern s32 D_80083460[3];
 extern u8 D_80082E80[];
 extern u8 D_80171760[];
 extern u8 D_80174EA8[];
@@ -216,7 +216,7 @@ L_update_96: {
             sprite->value_1e = 0x1000;
             func_800AD594(actor, 4);
             func_800A4ACC(actor);
-            global_counts = (s16 *)D_80083460;
+            global_counts = (s16 *)((s32 *)(&dungeonStatus));
             if (global_counts[4] != 0)
                 global_counts[4] = (u16)global_counts[4] - 1;
             actor_flags = actor->flags_1c;

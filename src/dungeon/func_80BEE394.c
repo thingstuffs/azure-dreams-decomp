@@ -1,9 +1,9 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 extern void func_80044A50(void *arg0);
 extern void func_800478B8(void *arg0);
 
-extern s32 D_800814A0[3];
 extern u8 D_80083160[0xAB];
 extern u16 D_801742E0;
 extern s32 D_801742E8;
@@ -42,7 +42,7 @@ void func_80173B94(void *entity_data, void *unused, void *source_data)
         *(u16 *)(entity + 0x96) = fade_left;
         if ((fade_left << 16) <= 0) {
             *(u16 *)(entity - 2) |= 0x8000;
-            D_800814A0[0] |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
         }
     }
 }

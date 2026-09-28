@@ -1,9 +1,9 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 
 M2C_UNK func_8004491C();           /* extern */
 s32 rand();                                /* extern */
-extern s32 D_800814A0[3];
 extern void func_800BABA8(void);
 
 
@@ -68,6 +68,6 @@ update_counters:
     }
     if (((S_800BAF04_0 *)object)->unk_11 == 0) {
         ((S_800BAF04_0_pre *)object)[-1].unk_00 = (u16) (((S_800BAF04_0_pre *)object)[-1].unk_00 | 0x8000);
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

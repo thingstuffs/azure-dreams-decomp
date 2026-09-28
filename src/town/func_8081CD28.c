@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_80026D28_0_pre {
     u16 unk_00;
@@ -12,7 +13,6 @@ typedef struct S_80026D28_0 {
 
 
 extern s32 SD_Call();
-extern s32 D_800814A0[3];
 
 
 /* Starts a timed state and sets completion flags when its countdown expires. */
@@ -38,6 +38,6 @@ tick:
     if ((timer << 16) <= 0) {
         SD_Call(0x1603);
         ((S_80026D28_0_pre *)object)[-1].unk_00 |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

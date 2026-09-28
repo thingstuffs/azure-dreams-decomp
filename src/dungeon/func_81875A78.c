@@ -1,8 +1,8 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 extern s16 func_800BCB04(u16, u16, s16);
 extern s16 D_80026664;
-extern s32 D_800814A0[3];
 
 __asm__(".set D_80026664, 0x80026664");
 
@@ -21,6 +21,6 @@ void func_81875A78(void *state, s16 *position)
     state_words[25] = countdown;
     if ((countdown << 16) <= 0) {
         ((u16 *)state_words)[-1] |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

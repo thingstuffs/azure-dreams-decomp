@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_80024264_arg1.h"
 
@@ -33,7 +34,6 @@ M2C_UNK func_80024264();
 s32 func_800644B8();
 s32 func_80064584();
 s32 func_800A45D8();
-extern s32 D_800814A0[];
 
 /* Animate three expanding, rotating points through growth, fade, and completion. */
 void func_81868B84(void *effect, void *position) {
@@ -131,7 +131,7 @@ case 3:
         (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_81868B84_0_pre *)effect)[-1].unk_00 | 0x8000);
         {
             s32 *global_flags;
-            global_flags = D_800814A0;
+            global_flags = ((s32 *)(&objectFlagBlock));
             global_flags[0] |= 0x8000;
         }
         return;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 
 typedef struct S_800BEB30_0 {
@@ -35,7 +36,6 @@ extern s32 func_800A6480();
 extern s32 func_800AD6FC();
 
 extern u8 D_80082E80[];
-extern s32 D_80083460;
 extern u8 D_80083780[];
 extern u8 D_80089364[];
 extern u8 D_80089368[];
@@ -132,7 +132,7 @@ other:
     func_800997FC(D_800E116E, call_context, action_kind);
 
 decrement:
-    counter_base = (u8 *)&D_80083460;
+    counter_base = (u8 *)&dungeonStatus.unk_00;
     ((S_800BEB30_2 *)counter_base)->unk_0A--;
     func_80098B38(action);
     return 1;

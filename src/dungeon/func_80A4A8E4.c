@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
 
@@ -23,7 +24,6 @@ typedef struct S_801740E4_2 {
 
 
 s32 rand();
-extern s32 D_800814A0[3];
 
 /* Updates randomized movement, reduces speed, and flags completion when speed expires or a stop is requested. */
 void func_801740E4(void *object_data, S_801740E4_0 *position, S_801740E4_2 *state) {
@@ -40,6 +40,6 @@ void func_801740E4(void *object_data, S_801740E4_0 *position, S_801740E4_2 *stat
     ((S_801740E4_1 *)((u8 *)object_data - 0x2))->unk_34 = next_speed;
     if (((next_speed << 0x10) <= 0) || (state->unk_14 & 0x8000)) {
         ((S_801740E4_1 *)((u8 *)object_data - 0x2))->unk_00 = (u16) (((S_801740E4_1 *)((u8 *)object_data - 0x2))->unk_00 | 0x8000);
-        D_800814A0[0] = D_800814A0[0] | 0x8000;
+        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
     }
 }

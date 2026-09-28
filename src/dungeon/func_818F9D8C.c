@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct {
     u16 unk0;
@@ -9,7 +10,6 @@ typedef struct {
 } Func818F9D8CState;
 
 extern s16 D_800266BC[5];
-extern s32 D_800814A0[3];
 
 /* Updates a grayscale fade, advances its progress, and flags completion. */
 void func_8002558C(Func818F9D8CState *state, s32 unused, u8 *out)
@@ -39,6 +39,6 @@ void func_8002558C(Func818F9D8CState *state, s32 unused, u8 *out)
     state->current = next_step;
     if (next_step >= state->limit) {
         ((u16 *)state)[-1] |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

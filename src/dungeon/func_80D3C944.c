@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 
 extern s32 func_80042900();
@@ -10,7 +11,6 @@ extern s16 func_800A0818();
 extern void func_801708B8();
 extern void func_80172B4C();
 extern s16 D_80083228[5];
-extern u16 D_80083462[5];
 extern u8 D_800E23E0[];
 
 
@@ -129,7 +129,7 @@ void func_80172144(void *actor, s32 actor_slot, void *entity_arg, void *state_ar
         }
         ((S_80172144_0 *)state)->unk_2A = direction;
         if (move_result == 3) {
-            if ((((S_80172144_1 *)actor)->unk_B5 == 0) && !(D_80083462[0] & 0x80) &&
+            if ((((S_80172144_1 *)actor)->unk_B5 == 0) && !(dungeonStatus.flags & 0x80) &&
                 !(((S_80172144_2 *)entity)->unk_14 & 0x8000)) {
                 func_80172B4C(actor, actor_slot, entity, state);
                 ((S_80172144_1 *)actor)->unk_8C = 0;
@@ -144,7 +144,7 @@ reset_action:
         ((S_80172144_0 *)state)->unk_1C |= 0x40000000;
         finish_step_done:
         ;
-        if (D_80083462[0] & 0x80) {
+        if (dungeonStatus.flags & 0x80) {
             ((S_80172144_1 *)actor)->unk_96 = 0;
             return;
         }

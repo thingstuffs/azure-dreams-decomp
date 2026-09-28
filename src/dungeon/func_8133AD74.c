@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -160,7 +161,6 @@ extern u8 D_8006CCF8[16];
 extern u16 D_80082E76[8];
 extern s16 D_80083228[8];
 extern s32 D_8008333C[8192];
-extern u16 D_80083460[8];
 extern s32 D_80083780[8192];
 extern s32 D_800E3D7C[3];
 extern Table32 D_8016482C;
@@ -763,7 +763,7 @@ jt_c40:
         if ((func_800F685C(phase, target_state) << 0x10) != 0) {
             ((S_80171D74_1 *)state_in)->unk_96 = 0U;
             ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
-            D_80083460[5] = (u16) (D_80083460[5] + 1);
+            dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) + 1);
         }
         goto update_sprite;
 jt_c41:
@@ -779,7 +779,7 @@ jt_c45:
         if ((func_800F685C(phase, target_state) << 0x10) != 0) {
             ((S_80171D74_1 *)state_in)->unk_96 = 0U;
             ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
-            D_80083460[5] = (u16) (D_80083460[5] + 1);
+            dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) + 1);
         }
         goto update_motion;
 jt_c46:

@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 extern u16 D_800257CE[5];
-extern s32 D_800814A0[3];
 
 __asm__(".set D_800257CE, 0x800257CE");
 
@@ -29,6 +29,6 @@ void func_800255DC(u16 *effect_data, s32 unused, EffectColor *color) {
 
     if (color->red < 8) {
         effect_data[-1] |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

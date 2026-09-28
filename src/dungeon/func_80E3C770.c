@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef s32 M2C_UNK;
 
@@ -8,7 +9,6 @@ typedef s32 M2C_UNK;
 #define U32_AT(p, off) (*(u32 *)((u8 *)(p) + (off)))
 
 extern s32 D_80045340;
-extern s32 D_800814A0;
 extern M2C_UNK D_800C6AEC;
 
 extern void func_8004491C();
@@ -65,7 +65,7 @@ advance_state:
                 U8_AT(render_data, 0xE) += -U8_AT(render_data, 0xE) / U8_AT(render_data, 0xF);
         } else {
             U16_AT(effect_state, -2) |= 0x8000;
-            D_800814A0 |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
             func_800BC318(effect_state - 0x20);
         }
         break;

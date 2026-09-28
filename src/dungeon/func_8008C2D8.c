@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 
 #define M2C_BREAK() 0
@@ -7,7 +8,6 @@ extern void func_80096088(void *, void *);
 extern void func_80099F04(s32);
 extern void func_80099F70(s32);
 extern void func_800BCFBC(s32);
-extern u16 D_80083460[8];
 extern s32 *D_800DD6B8[];
 
 /* Runs a banked callback and advances the object state when it completes. */
@@ -45,7 +45,7 @@ void func_80091A38(void *object, void *unused_1, void *unused_2, void *context) 
     if (state == 1) {
         func_80099F70(*(s32 *)((u8 *)context + 0x5C));
         func_80099F04(*(s32 *)((u8 *)context + 0x5C));
-        D_80083460[1] |= 0x812;
+        dungeonStatus.flags |= 0x812;
         func_80096088(object, context);
     }
 }

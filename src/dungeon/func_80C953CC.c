@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef struct S_func_80C953CC_1 {
     u8 pad_00[0x8C];
@@ -105,7 +106,6 @@ typedef struct Item {
 extern Item D_8006DE24[];
 extern void *D_800814A8;
 extern s16 D_80083228;
-extern s32 D_8008346C;
 extern void *D_80170838[7];
 extern u8 D_80170920[];
 extern u8 D_8017102C[];
@@ -228,7 +228,7 @@ part_ready:
             func_800A2B04(position, entity->unk_24,
                           entity->unk_25);
             active_actor = D_800814A8;
-            D_8008346C = 0;
+            dungeonStatus.unk_0C = 0;
             (*(u16 *)((u8 *)active_actor + 0xA6))--;
             func_800A4ACC(actor);
             actor->unk_6D--;
@@ -285,7 +285,7 @@ part_ready:
         break;
 
     case 3:
-        part = (S_func_80C953CC_9 *)((u8 *)&D_8008346C - 0x0C);
+        part = (S_func_80C953CC_9 *)((u8 *)((s32 *)&dungeonStatus.unk_0C) - 0x0C);
         if (part->unk_0C == 0) {
             work->unk_96 = 0;
         }

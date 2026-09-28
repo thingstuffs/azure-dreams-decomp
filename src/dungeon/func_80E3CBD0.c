@@ -1,6 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
-extern s32 D_800814A0[];
 
 /* Updates an effect's lifetime, fades its color, and advances its motion. */
 void func_801763D0(void *effect, s32 *motion, u8 *color_data)
@@ -12,7 +12,7 @@ void func_801763D0(void *effect, s32 *motion, u8 *color_data)
     *(u16 *)((u8 *)effect + 0x20) = ticks_left;
     if ((s16)ticks_left <= 0) {
         *(u16 *)((u8 *)effect - 2) |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         return;
     }
 

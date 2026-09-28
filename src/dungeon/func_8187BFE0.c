@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_8187BFE0_0 {
     union { s16 s; u16 u; } unk_00;   /* accessed as both */
@@ -106,7 +107,6 @@ extern u8 D_800249A0[];
 extern u8 D_80025380[];
 extern Data12 D_80026940;
 extern s16 D_8002694C;
-extern s32 D_800814A0;
 
 /* Initializes a five-point star and spawns its edge effects over successive updates. */
 void func_800257E0(void *state_data, void *source_data) {
@@ -292,7 +292,7 @@ update_state:
         }
 
         (*(u16 *)((u8 *)state_data + -2)) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
 
 case_done:
         break;

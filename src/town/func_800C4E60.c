@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef void (*Callback)(void *, s32, s32);
 
 extern u32 func_8009CFE0(void *, s32);
 extern void func_8008F134(void *);
 extern void func_80033D08(void *);
-extern s32 D_800814A0[];
 
 /* Clears and flags the object when the check succeeds, or invokes its callback. */
 void func_800C25C0(void *object, s32 check_value, s32 callback_value) {
@@ -21,7 +21,7 @@ void func_800C25C0(void *object, s32 check_value, s32 callback_value) {
         func_80033D08(object);
         object_flags = (u16 *)object - 1;
         *object_flags |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     } else {
         (*(Callback *)((u8 *)object + 0x50))(object, check_value, callback_value);
     }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 
 typedef struct S_800220A8_0 {
@@ -21,7 +22,6 @@ typedef struct S_800220A8_2 {
 
 
 M2C_UNK func_800644B8();
-extern M2C_UNK D_800814A0;
 
 /* Update motion through approach, oscillation, and withdrawal, flagging completion. */
 void func_800220A8(void *motion_state, void *motion) {
@@ -117,9 +117,9 @@ withdraw:
         return;
     }
     (*(u16 *)((u8 *)motion_state + -2)) |= 0x8000;
-    position_or_flags = D_800814A0;
+    position_or_flags = objectFlagBlock.flags;
     position_or_flags |= 0x8000;
-    D_800814A0 = position_or_flags;
+    objectFlagBlock.flags = position_or_flags;
     return;
 }
 }

@@ -1,3 +1,4 @@
+#include "shared/dungeon_status.h"
 
 struct S_80083178
 {
@@ -50,7 +51,6 @@ typedef s32 M2C_UNK;
 extern void func_8003DB94(void *, void *, s32);
 extern void *func_8003FC64(s32);
 extern void func_800A56E0(s32);
-extern u8 D_80083460[12];
 extern M2C_UNK D_800D4DE8;
 extern M2C_UNK D_800DECF8[3];
 /* Creates a colored effect at the source position and optionally plays a sound. */
@@ -99,7 +99,7 @@ void func_800D4FC8(void *source, s32 color, unsigned short sound_id)
     {
       func_800A56E0(sound);
     }
-    effect_state = (M2C_UNK *) D_80083460;
+    effect_state = (M2C_UNK *) ((u8 *)(&dungeonStatus));
     *((u16 *) (((u8 *) effect_state) + 0xA)) = (u16) ((*((u16 *) (((u8 *) effect_state) + 0xA))) + 1);
   }
 }

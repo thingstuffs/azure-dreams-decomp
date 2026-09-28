@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
 typedef struct S_80172840_0 {
@@ -137,8 +138,6 @@ extern s32 func_800A94A0(void *, u8 *, s32, void *);
 extern u8 D_8006DE24[0x200];
 extern u8 *D_800814A8[3];
 extern s16 D_80083228[2];
-extern u8 D_80083460[0x20];
-extern s32 D_8008346C[3];
 extern u8 D_80083498[0x10];
 extern u8 D_80045340[0x10];
 extern u8 D_800DEA68[0x20];
@@ -329,7 +328,7 @@ apply_move:
     ((S_80172840_5 *)position)->unk_10 = 0;
     ((S_80172840_5 *)position)->unk_0C = 0;
     func_800A2B04(position, ((S_80172840_4 *)sprite)->unk_24, ((S_80172840_4 *)sprite)->unk_25);
-    D_8008346C[0] = 0;
+    dungeonStatus.unk_0C = 0;
     ((S_80172840_6 *)(D_800814A8[0]))->unk_A6--;
     func_800A4ACC(actor);
     ((S_80172840_0 *)actor)->unk_6D.s--;
@@ -452,7 +451,7 @@ state_2:
             D_80174194[((D_80083228[0] + ((S_80172840_0 *)actor)->unk_2A.u + 0x100) >> 9) & 7],
             0);
     }
-    status = D_80083460;
+    status = ((u8 *)(&dungeonStatus));
     if (status->unk_0C != 0) {
         goto done;
     }

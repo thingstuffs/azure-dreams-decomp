@@ -1,0 +1,1 @@
+{"base": "0x800814A0", "var": "objectFlagBlock", "header": "shared/object_flags.h", "syms": "D_800814A[0-7C-F]", "census": "g814a0.jsonl", "fields": [[0, "flags", "s32", 4, true], [4, "unk_04", "u8", 1, false], [5, "pad_05", "u8", 3, false, 3], [12, "unk_0C", "u8", 1, false], [13, "pad_0D", "u8", 3, false, 3]]}

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
@@ -16,7 +17,6 @@ s32 func_800A2B5C(void *);
 s32 func_800A2CB8(void *, s32);
 void func_800C7930(void *, s32, s32, s32);
 extern s16 D_80083228;
-extern u16 D_80083462;
 extern u8 D_80173FB8[];
 
 /* Checks action eligibility and updates the actor state and directional animation on success. */
@@ -27,7 +27,7 @@ s32 func_80171F24(void *action_state, s32 action_id, void *sprite, void *actor) 
     u16 state_flag;
 
     ((Rec_D_800E3D7C *)actor)->unk_71.as_u8 = (u8) (((Rec_D_800E3D7C *)actor)->unk_71.as_u8 & 0x7F);
-    if (D_80083462 & 0x2000) {
+    if (dungeonStatus.flags & 0x2000) {
         goto late_failure;
     }
 
@@ -50,7 +50,7 @@ no_flag:
     }
 
 checks:
-    status_flags = D_80083462;
+    status_flags = dungeonStatus.flags;
     if (status_flags & 0x2000) {
         return -1;
     }

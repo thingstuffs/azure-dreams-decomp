@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_80024918_0 {
     void * unk_00;
@@ -24,7 +25,6 @@ typedef struct S_80024918_1 {
 
 extern s32 func_80024700();
 extern u32 func_800644B8();
-extern s32 D_800814A0;
 
 /* Advance object motion and animation, setting completion flags after nine ticks. */
 void func_80024918(void *object) {
@@ -48,6 +48,6 @@ void func_80024918(void *object) {
     ((S_80024918_0 *)object)->unk_74 = next_tick;
     if (next_tick >= 9) {
         (*(u16 *)((u8 *)object + -2)) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_81814A80_0 {
     u16 unk_00;
@@ -33,7 +34,6 @@ typedef struct {
 } Flags;
 
 extern s16 D_80025338;
-extern s32 D_800814A0;
 extern void func_800478B8(void *arg0);
 
 /* Accumulate motion, process the update mode, and mark expired or flagged state. */
@@ -56,11 +56,11 @@ void func_81814A80(State *state, s32 *sum, Flags *flags) {
             if (state->unk18 != 0) {
                 if ((s16) state->unk02 <= 0) {
                     ((S_81814A80_0 *)((u8 *)state - 0x2))->unk_00 = ((S_81814A80_0 *)((u8 *)state - 0x2))->unk_00 | 0x8000;
-                    ((S_81814A80_1 *)(&D_800814A0))->unk_00 = ((S_81814A80_1 *)(&D_800814A0))->unk_00 | 0x8000;
+                    ((S_81814A80_1 *)(&objectFlagBlock.flags))->unk_00 = ((S_81814A80_1 *)(&objectFlagBlock.flags))->unk_00 | 0x8000;
                 }
                 if (flags->unk14 & 0x8000) {
                     ((S_81814A80_0 *)((u8 *)state - 0x2))->unk_00 = ((S_81814A80_0 *)((u8 *)state - 0x2))->unk_00 | 0x8000;
-                    ((S_81814A80_1 *)(&D_800814A0))->unk_00 = ((S_81814A80_1 *)(&D_800814A0))->unk_00 | 0x8000;
+                    ((S_81814A80_1 *)(&objectFlagBlock.flags))->unk_00 = ((S_81814A80_1 *)(&objectFlagBlock.flags))->unk_00 | 0x8000;
                 }
                 return;
             }
@@ -69,11 +69,11 @@ void func_81814A80(State *state, s32 *sum, Flags *flags) {
         if (state->unk18 != 2) {
             if ((s16) state->unk02 <= 0) {
                 ((S_81814A80_0 *)((u8 *)state - 0x2))->unk_00 = ((S_81814A80_0 *)((u8 *)state - 0x2))->unk_00 | 0x8000;
-                ((S_81814A80_1 *)(&D_800814A0))->unk_00 = ((S_81814A80_1 *)(&D_800814A0))->unk_00 | 0x8000;
+                ((S_81814A80_1 *)(&objectFlagBlock.flags))->unk_00 = ((S_81814A80_1 *)(&objectFlagBlock.flags))->unk_00 | 0x8000;
             }
             if (flags->unk14 & 0x8000) {
                 ((S_81814A80_0 *)((u8 *)state - 0x2))->unk_00 = ((S_81814A80_0 *)((u8 *)state - 0x2))->unk_00 | 0x8000;
-                ((S_81814A80_1 *)(&D_800814A0))->unk_00 = ((S_81814A80_1 *)(&D_800814A0))->unk_00 | 0x8000;
+                ((S_81814A80_1 *)(&objectFlagBlock.flags))->unk_00 = ((S_81814A80_1 *)(&objectFlagBlock.flags))->unk_00 | 0x8000;
             }
             return;
         }
@@ -86,11 +86,11 @@ mode0:
     func_800478B8(flags);
     if ((s16) state->unk02 <= 0) {
         ((S_81814A80_0 *)((u8 *)state - 0x2))->unk_00 = ((S_81814A80_0 *)((u8 *)state - 0x2))->unk_00 | 0x8000;
-        ((S_81814A80_1 *)(&D_800814A0))->unk_00 = ((S_81814A80_1 *)(&D_800814A0))->unk_00 | 0x8000;
+        ((S_81814A80_1 *)(&objectFlagBlock.flags))->unk_00 = ((S_81814A80_1 *)(&objectFlagBlock.flags))->unk_00 | 0x8000;
     }
     if (flags->unk14 & 0x8000) {
         ((S_81814A80_0 *)((u8 *)state - 0x2))->unk_00 = ((S_81814A80_0 *)((u8 *)state - 0x2))->unk_00 | 0x8000;
-        ((S_81814A80_1 *)(&D_800814A0))->unk_00 = ((S_81814A80_1 *)(&D_800814A0))->unk_00 | 0x8000;
+        ((S_81814A80_1 *)(&objectFlagBlock.flags))->unk_00 = ((S_81814A80_1 *)(&objectFlagBlock.flags))->unk_00 | 0x8000;
     }
     return;
 
@@ -119,10 +119,10 @@ done:
 
     if ((s16) state->unk02 <= 0) {
         ((S_81814A80_0 *)((u8 *)state - 0x2))->unk_00 = ((S_81814A80_0 *)((u8 *)state - 0x2))->unk_00 | 0x8000;
-        ((S_81814A80_1 *)(&D_800814A0))->unk_00 = ((S_81814A80_1 *)(&D_800814A0))->unk_00 | 0x8000;
+        ((S_81814A80_1 *)(&objectFlagBlock.flags))->unk_00 = ((S_81814A80_1 *)(&objectFlagBlock.flags))->unk_00 | 0x8000;
     }
     if (flags->unk14 & 0x8000) {
         ((S_81814A80_0 *)((u8 *)state - 0x2))->unk_00 = ((S_81814A80_0 *)((u8 *)state - 0x2))->unk_00 | 0x8000;
-        ((S_81814A80_1 *)(&D_800814A0))->unk_00 = ((S_81814A80_1 *)(&D_800814A0))->unk_00 | 0x8000;
+        ((S_81814A80_1 *)(&objectFlagBlock.flags))->unk_00 = ((S_81814A80_1 *)(&objectFlagBlock.flags))->unk_00 | 0x8000;
     }
 }

@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 
 typedef struct S_818E0800_0_pre {
     u16 unk_00;
@@ -150,8 +152,6 @@ extern u8 D_80083498[];
 extern u8 D_80045340[];
 extern u8 D_800DEC28[];
 extern u8 D_800E3D68[];
-extern s32 D_8008346C[];
-extern s32 D_800814A0[];
 extern void func_80024594(void);
 
 #ifdef __mips__
@@ -393,9 +393,9 @@ dispatch_case_ff:
         if (((S_818E0800_0 *)effect_arg)->unk_50.u > 0) {
             return;
         }
-        D_8008346C[0] = 0;
+        dungeonStatus.unk_0C = 0;
         ((S_818E0800_0_pre *)effect_arg)[-1].unk_00 |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         return;
 
 }

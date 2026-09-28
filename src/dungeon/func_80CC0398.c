@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_800814A8.h"
@@ -62,7 +63,6 @@ extern void *D_800814A8;
 extern M2C_UNK D_80082E80;
 extern u16 D_80082EA4;
 extern s16 D_80083228;
-extern u16 D_80083462;
 extern DungeonTile D_800E2970[];
 extern u8 D_80176320[];
 extern M2C_UNK D_80176358;
@@ -84,7 +84,7 @@ void func_80173B98(void *actor, M2C_UNK context, void *sprite, void *creature) {
     u8 *target;
     u16 action_flags;
 
-    if (D_80083462 & 0x1000) {
+    if (dungeonStatus.flags & 0x1000) {
         ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 14;
         func_80174924();
         return;
@@ -109,7 +109,7 @@ void func_80173B98(void *actor, M2C_UNK context, void *sprite, void *creature) {
             return;
         }
     }
-    if (!(D_80083462 & 0x2000)) {
+    if (!(dungeonStatus.flags & 0x2000)) {
         if (((Rec_D_800E3D7C *)creature)->unk_1C.as_s32 & 0x100) {
             func_800AA258(actor, context, sprite, creature);
             return;
@@ -147,7 +147,7 @@ void func_80173B98(void *actor, M2C_UNK context, void *sprite, void *creature) {
             return;
         }
         if (!(((Rec_D_800E3D7C *)creature)->unk_44.at02_u16.v & 0x8000)) {
-            if (D_80083462 & 0x2000) {
+            if (dungeonStatus.flags & 0x2000) {
                 if ((func_8009A180(creature, ((Rec_D_800814A8 *)D_800814A8)->unk_58.as_s32 + 0x20) << 0x10) != 0) {
                     return;
                 }
@@ -204,7 +204,7 @@ jt_c11:
             }
         }
     }
-    if (D_80083462 & 0x2000) {
+    if (dungeonStatus.flags & 0x2000) {
         return;
     }
     if (((S_80173B98_2 *)sprite)->unk_14 & 0x40) {

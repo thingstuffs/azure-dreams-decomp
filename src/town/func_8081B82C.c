@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 extern void *D_8002014C[5];
 extern u8 D_80026F80[];
 extern u8 D_800F7968[16];
 extern u8 D_800F79E8[16];
-extern s32 D_800814A0;
 
 extern s32 rand(void);
 extern void func_800478B8(void *);
@@ -180,7 +180,7 @@ L4:
         if ((s16)timer_left <= 0) {
             func_8008F134((u8 *)entity + 4);
             *(u16 *)((u8 *)entity - 2) |= 0x8000;
-            D_800814A0 |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
         }
     }
 

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_80024370_0_pre {
     u16 unk_00;
@@ -29,7 +30,6 @@ extern void func_80024264_returning(void *arg0);
 #define func_80024264_returning func_80024264
 #endif
 extern void func_800478B8(void *arg0);
-extern s32 D_800814A0;
 
 /* Advance the entry counters, trigger count milestones, and update the target. */
 void func_80024370(void *entry, s32 unused, void *target)

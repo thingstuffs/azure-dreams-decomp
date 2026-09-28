@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
 
@@ -40,7 +41,6 @@ M2C_UNK func_8009F644();
 M2C_UNK func_800A56E0();
 
 extern s16 D_80083228[5];
-extern u8 D_80083460[9];
 extern u8 D_800DCFB8[];
 extern u8 D_800DD018[];
 
@@ -83,7 +83,7 @@ void func_8008CD4C(Rec_func_8008ACDC_arg0 *action, M2C_UNK context, S_8008CD4C_0
                               sprite->unk_25.u, 0x300);
 
                 actor->unk_1C |= 0x40000000;
-                control = D_80083460;
+                control = ((u8 *)(&dungeonStatus));
                 ((S_8008CD4C_3 *)control)->unk_04 = 0x20;
                 ((S_8008CD4C_3 *)control)->unk_02 |= 8;
                 action->unk_9B.as_u8 = 0x10;

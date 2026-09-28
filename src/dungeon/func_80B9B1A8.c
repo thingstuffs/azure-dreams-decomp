@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -86,8 +88,6 @@ extern struct S_8003E2D8 D_80083160;
 extern u8 D_80045340[];
 extern u8 D_8014A000[];
 extern s16 D_80174F48[];
-extern s32 D_800814A0[3];
-extern s32 D_80083460[3];
 extern void *D_80170870[];
 M2C_UNK Control_CD();
 M2C_UNK func_8003F540();
@@ -269,8 +269,8 @@ jt_c8:
     }
     ((S_801749A8_11 *)(((Rec_D_80082E80 *)target)->unk_60.as_pv))->unk_2A = (u16) ((Rec_D_80082E80 *)target)->unk_8A;
     ((S_801749A8_0_pre *)sequence)[-1].unk_00 = (u16) (((S_801749A8_0_pre *)sequence)[-1].unk_00 | 0x8000);
-    D_800814A0[0] = D_800814A0[0] | 0x8000;
-    effect_counts = (u16 *)&D_80083460;
+    objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
+    effect_counts = (u16 *)((s32 *)(&dungeonStatus));
     effect_counts[5] = (u16)(effect_counts[5] - 1);
     ((Rec_D_80082E80 *)target)->unk_6D = 0;
 done:

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct {
     u8 pad[0x24];
@@ -22,7 +23,6 @@ typedef struct {
 
 extern u16 D_800257CE[5];
 extern s16 D_800257CC[5];
-extern s32 D_800814A0[3];
 s32 func_800644B8(s32 arg0);
 s32 func_80064584(s32 arg0);
 
@@ -49,7 +49,7 @@ void func_80024EE0(void *effect_data, void *position_data, void *visual_data) {
     if ((u32)(brightness & 0xFF) < 0x20U) {
         D_800257CC[0] = (s16)((u16)D_800257CC[0] - 1);
         ((u16 *)effect_data)[-1] = (u16)(((u16 *)effect_data)[-1] | 0x8000);
-        D_800814A0[0] = D_800814A0[0] | 0x8000;
+        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
     }
     decay_value = visual->field1E;
     visual->field1E = (u16)(decay_value - (decay_value >> 7));

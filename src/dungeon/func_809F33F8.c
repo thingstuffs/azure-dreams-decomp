@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 
 /* Value-preserving cse-equivalence launder for the first callback's 4th
@@ -16,7 +17,6 @@ M2C_UNK func_800AA36C(void *, void *, void *, void *); /* extern */
 s16 func_800BCB04(s32, s32, s16);                 /* extern */
 extern u8 D_8006CCF8[12];
 extern s16 D_80083228[5];
-extern u16 D_80083462[5];
 extern M2C_UNK D_80171400[3];
 extern u8 D_80175140[12];
 extern u8 D_80175148[12];
@@ -78,7 +78,7 @@ typedef struct S_80170BF8_3 {
 
 /* Updates actor callbacks, movement, animation, and terrain-relative height. */
 void func_80170BF8(void *actor_arg, void *motion_arg, void *object_arg) {
-    u16 initial_flags = D_80083462[0];
+    u16 initial_flags = dungeonStatus.flags;
     s32 bob_offset = 0;
     void *actor_base = actor_arg;
 

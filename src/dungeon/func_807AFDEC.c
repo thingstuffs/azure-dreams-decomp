@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 
 typedef struct {
@@ -23,7 +24,6 @@ typedef struct {
     u8 b;
 } ColorPart;
 
-extern s32 D_800814A0;
 extern u8 D_800DDC42;
 
 extern void func_800F749C(void *, Position3 *, void *);
@@ -116,7 +116,7 @@ void func_807AFDEC(void *effect, Position3 *position, ColorPart *tint)
         ((S_807AFDEC_0 *)effect)->unk_0C.u = ticks_left;
         if ((ticks_left << 16) <= 0) {
             (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-            D_800814A0 |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
         }
     }
 }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "shared/dir_step.h"
 
 typedef struct S_81814C48_0 {
@@ -24,7 +25,6 @@ typedef struct S_81814C48_2 {
 extern s32 rand();
 extern s16 func_800BCB04();
 extern s16 D_80025338;
-extern s32 D_800814A0;
 
 /* Updates a position with randomized motion, reduces speed, and flags completion. */
 void func_81814C48(void *state, void *position, void *linked_state)
@@ -67,7 +67,7 @@ void func_81814C48(void *state, void *position, void *linked_state)
     ((S_81814C48_1 *)state)->unk_32 = speed;
     if (((speed << 16) <= 0) || (((S_81814C48_2 *)linked_state)->unk_14 & 0x8000)) {
         (*(u16 *)((u8 *)state + -2)) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }
 

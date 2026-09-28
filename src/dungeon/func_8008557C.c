@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
 
@@ -112,7 +113,6 @@ extern M2C_UNK D_80050CAC;
 extern s32 D_80082EB0;
 extern u8 D_80083160[];
 extern s16 D_80083228;
-extern u8 D_80083460[];
 extern u8 D_800DCFB0[8];
 extern u8 D_800DD058[];
 extern M2C_UNK D_800DD148;
@@ -184,7 +184,7 @@ reset_action:
         goto check_status;
     }
 check_status:
-    dungeon_status = D_80083460;
+    dungeon_status = ((u8 *)(&dungeonStatus));
     ((S_8008ACDC_3 *)dungeon_status)->unk_02 = (u16) (((S_8008ACDC_3 *)dungeon_status)->unk_02 & 0xFF7F);
     status_count = ((S_8008ACDC_4 *)stats)->unk_64;
     if ((status_count < 0) || (((Rec_func_8008ACDC_arg0 *)actor)->unk_10C & 1)) {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_80174600_0 {
     u8 pad_00[0xC];
@@ -16,7 +17,6 @@ typedef struct S_80174600_1 {
 
 
 
-extern s32 D_800814A0;
 
 /* Animate primitive colors and mark the effect finished when its timer expires. */
 void func_80174600(void *effect_state, s32 unused, void *primitive)
@@ -68,6 +68,6 @@ void func_80174600(void *effect_state, s32 unused, void *primitive)
     ((S_80174600_1 *)state)->unk_1A.s = frames_left;
     if ((frames_left << 16) <= 0) {
         (*(u16 *)((u8 *)state + -2)) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

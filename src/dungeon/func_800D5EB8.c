@@ -1,6 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
-extern s32 D_800814A0[];
 
 /* Subtracts the limit when available, otherwise marks the record and global flags. */
 void func_800DB618(void *record) {
@@ -12,5 +12,5 @@ void func_800DB618(void *record) {
         return;
     }
     *(u16 *)((s8 *)record - 2) |= 0x8000;
-    D_800814A0[0] |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
 }

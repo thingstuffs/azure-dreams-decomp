@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 
 typedef struct S_80023FF8_0_pre {
@@ -14,7 +15,6 @@ typedef struct S_80023FF8_0 {
 
 
 M2C_UNK func_800537D0();           /* extern */
-extern s32 D_800814A0[3];
 
 /* Process the entry and set its header and global flags when its status is zero. */
 void func_80023FF8(void *entry) {
@@ -24,6 +24,6 @@ void func_80023FF8(void *entry) {
     func_800537D0(*((S_80023FF8_0 *)entry)->unk_08, 4, ((S_80023FF8_0 *)entry)->unk_04 + 7);
     if (*status == 0) {
         ((S_80023FF8_0_pre *)entry)[-1].unk_00 = (u16) (((S_80023FF8_0_pre *)entry)[-1].unk_00 | 0x8000);
-        D_800814A0[0] = (s32) (D_800814A0[0] | 0x8000);
+        objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
     }
 }

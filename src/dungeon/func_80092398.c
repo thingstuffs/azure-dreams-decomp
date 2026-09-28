@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef struct S_80097AF8_0 {
     u8 pad_00[0x8C];
@@ -37,7 +38,6 @@ typedef struct S_80097AF8_4 {
 
 
 
-extern s32 D_80083460;
 extern u8 D_80096384[];
 
 extern void func_80099F04(void *);
@@ -99,7 +99,7 @@ state_two:
     if ((status->unk_14 & 0x6000) == 0) {
         goto done;
     }
-    shared_state = (u8 *)&D_80083460;
+    shared_state = (u8 *)&dungeonStatus.unk_00;
     if (((S_80097AF8_3 *)shared_state)->unk_0A != 0) {
         goto done;
     }

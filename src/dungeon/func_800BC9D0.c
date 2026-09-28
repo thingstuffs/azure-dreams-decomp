@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 
 
@@ -17,7 +18,6 @@ extern void func_800C4D78();
 
 extern s32 D_80082E80;
 extern s8 D_80082EA6;
-extern s32 D_80083460;
 extern s32 D_80083780;
 extern u8 D_800DDE84[];
 extern u8 D_800E1567[];
@@ -82,7 +82,7 @@ s32 func_800C2130(Rec_D_800E3D7C *entity, s32 event, s16 event_type, s32 event_a
     func_800A5720(message_buf);
 
 final:
-    event_state = (u8 *)&D_80083460;
+    event_state = (u8 *)&dungeonStatus.unk_00;
     pending_count = (u16 *)(event_state + 0xA);
     *pending_count = *pending_count - 1;
     func_80098B38(event);

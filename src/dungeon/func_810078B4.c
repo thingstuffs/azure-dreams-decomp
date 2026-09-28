@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef struct S_801730B4_0 {
     u8 pad_00[0x8C];
@@ -76,7 +77,6 @@ extern void func_80173834(void *, void *, void *, void *);
 extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern s16 D_80083228;
-extern s32 D_80083460;
 extern u8 D_80171058[];
 extern u8 D_801748E0[];
 extern u8 D_801748E8[];
@@ -116,7 +116,7 @@ state_zero:
         D_801748E0[((D_80083228 + ((S_801730B4_2 *)entity_in)->unk_2A + 0x100) >> 9) & 7],
         0);
     {
-        u8 *counter_base = (u8 *)&D_80083460;
+        u8 *counter_base = (u8 *)&dungeonStatus.unk_00;
         u16 counter_value;
 
         counter_value = ((S_801730B4_3 *)counter_base)->unk_0A;
@@ -137,7 +137,7 @@ state_one:
         0);
     ((S_801730B4_2 *)entity_in)->unk_1C.s |= 0x40000;
     if (!(((S_801730B4_1 *)sprite_in)->unk_14 & 0x8000)) {
-        u8 *counter_base = (u8 *)&D_80083460;
+        u8 *counter_base = (u8 *)&dungeonStatus.unk_00;
 
         state = ((S_801730B4_3 *)counter_base)->unk_0A;
         state++;
@@ -150,7 +150,7 @@ state_one:
     goto done;
 
 state_one_active:
-    global_base = (u8 *)&D_80083460;
+    global_base = (u8 *)&dungeonStatus.unk_00;
     {
         if (((S_801730B4_4 *)global_base)->unk_02 & 0x1000) {
             goto done;
@@ -232,7 +232,7 @@ state_one_active:
     }
 
     {
-        u8 *counter_base = (u8 *)&D_80083460;
+        u8 *counter_base = (u8 *)&dungeonStatus.unk_00;
 
         state = ((S_801730B4_3 *)counter_base)->unk_0A;
         state++;
@@ -247,7 +247,7 @@ state_two:
         goto done;
     }
     {
-        u8 *counter_base = (u8 *)&D_80083460;
+        u8 *counter_base = (u8 *)&dungeonStatus.unk_00;
 
         ((S_801730B4_3 *)counter_base)->unk_0A--;
     }

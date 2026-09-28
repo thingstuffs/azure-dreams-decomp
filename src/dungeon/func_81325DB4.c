@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef struct DungeonState {
     u8 pad0[10];
@@ -7,7 +8,6 @@ typedef struct DungeonState {
     s32 field_10;
 } DungeonState;
 
-extern DungeonState D_80083460;
 extern u8 D_8016B778[];
 extern void func_8016AD00(void);
 
@@ -22,14 +22,14 @@ void func_8016D5B4(void *object, s32 unused_1, s32 unused_2, s32 state_base)
     *(u8 *)((u8 *)object + 0x9B) = count;
 
     if (count == 1) {
-        s32 state_code = D_80083460.field_10;
+        s32 state_code = ((s32)dungeonStatus.unk_10);
 
         if (state_code == state_base - 0x20) {
-            D_80083460.field_10 = state_code & 0x7FFFFFFF;
+            dungeonStatus.unk_10 = state_code & 0x7FFFFFFF;
             return;
         }
     } else if (count >= 5) {
-        DungeonState *dungeon = &D_80083460;
+        DungeonState *dungeon = ((DungeonState *)&dungeonStatus);
 
         *(u8 *)((u8 *)object + 0x9B) = previous_count;
         if (dungeon->field_A == 0) {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef struct {
     u8 pad0[8];
@@ -24,7 +25,6 @@ typedef struct {
 } Object;
 
 extern D83160 D_80083160;
-extern u16 D_80083460[];
 extern u8 D_80096384[];
 extern u8 D_80097C78;
 extern s32 func_80042900(void *, s32);
@@ -66,25 +66,25 @@ state_zero:
 
 state_one:
     /* MATCH: Prevent propagation of the a3 copy into the a0 argument setup. */
-    if ((D_80083460[1] & 4) == 0 && (arg0->flags & 0x10) != 0) {
+    if ((dungeonStatus.flags & 4) == 0 && (arg0->flags & 0x10) != 0) {
         guard = ctx->flags & 0x20;
         callResource = arg3;
         if (guard != 0) {
             guard = func_800A5C70(callResource);
             callResource = arg3;
             if (guard != 0) {
-                flags = D_80083460;
+                flags = ((u16 *)(&dungeonStatus));
                 flags[1] |= 0x80;
             }
         }
         if ((func_80042900(callResource, 1) << 16) == 0) {
             arg0->callback = 0;
-            D_80083460[5] += 1;
+            dungeonStatus.unk_0A += 1;
             arg0->state += 1;
         } else {
             func_80099F70(arg3->value);
             func_80099F04(arg3->value);
-            D_80083460[1] |= 0x812;
+            dungeonStatus.flags |= 0x812;
         }
     }
     goto done;
@@ -93,9 +93,9 @@ state_two:
     arg3->flags &= ~0x200;
     func_80099F70(arg3->value);
     func_80099F04(arg3->value);
-    D_80083460[1] |= 0x812;
+    dungeonStatus.flags |= 0x812;
     arg0->callback = D_80096384;
-    D_80083460[5] -= 1;
+    dungeonStatus.unk_0A -= 1;
     goto done;
 
 done:

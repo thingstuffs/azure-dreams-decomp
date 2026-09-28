@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 #define U8_AT(p, o)  (*(u8 *)((u8 *)(p) + (o)))
 #define S16_AT(p, o) (*(s16 *)((u8 *)(p) + (o)))
@@ -12,7 +13,6 @@ extern void func_80064D80(void *);
 extern void func_80065320(void *, void *, void *);
 extern void func_80065820(void *, void *);
 extern u16 D_80026326[5];
-extern s32 D_800814A0;
 
 /* Rotate and move an effect quad, fade its colors, and flag it when its lifetime ends. */
 void func_80025A58(void *effect, void *motion_data, void *rotation_data)
@@ -100,6 +100,6 @@ void func_80025A58(void *effect, void *motion_data, void *rotation_data)
 
     if (ticks_test <= 0) {
         U16_AT(effect, -2) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

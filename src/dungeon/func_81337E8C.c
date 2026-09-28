@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -40,7 +41,6 @@ extern s16 D_80013716;
 extern s16 D_80013718;
 extern s16 D_8001371A;
 extern s32 D_8001371C;
-extern s32 D_8008346C;
 extern M2C_UNK D_80083780;
 extern M2C_UNK D_800E296C;
 extern M2C_UNK D_800E3D7C;
@@ -68,7 +68,7 @@ void func_8016EE8C(void) {
     (*(s16 *)((u8 *)page_8001 + 0x371A)) = 0;
     (*(s16 *)((u8 *)page_8001 + 0x3718)) = 0;
     (*(s16 *)((u8 *)page_8001 + 0x3716)) = 0;
-    D_8008346C = 0;
+    dungeonStatus.unk_0C = 0;
     D_80175DC8 = 0;
     ((S_8016EE8C_1 *)page_800e)->unk_296C = (s32) (((S_8016EE8C_1 *)page_800e)->unk_296C | 0x08000000);
     ((S_8016EE8C_2 *)page_8001)->unk_3714 = (u16) ((((S_8016EE8C_2 *)page_8001)->unk_3714 | 9) & 0xFFEF);

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "records/Rec_D_800814A8.h"
@@ -106,13 +107,11 @@ extern s16 func_8009A180(void *, void *);
 extern s16 func_800BCB04(s32, s32, s16);
 extern s16 func_80174BCC(void *, s32, void *, void *);
 
-extern u16 D_80083462;
 extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern u16 D_80082EA4;
 extern s16 D_8006CD00[];
 extern DungeonModeRecord D_800E2970[];
-extern u16 D_80083460[];
 
 /* Chooses a movement heading, advances the actor, and updates its path state and height. */
 void func_8017405C(void *context, s32 action, S_8017405C_1 *actor, void *movement)
@@ -128,7 +127,7 @@ void func_8017405C(void *context, s32 action, S_8017405C_1 *actor, void *movemen
     register s32 y_offset ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register void *target ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 
-    state_flags = D_80083462;
+    state_flags = dungeonStatus.flags;
 
     if ((state_flags & 0x4000) || ((S_8017405C_0 *)movement)->unk_71.s >= 0) {
         if (((S_8017405C_0 *)movement)->unk_71.s >= 0 || func_80174BCC(context, action, actor, movement) == 0) {
@@ -430,7 +429,7 @@ step_done:
         return;
     }
     {
-        u16 *counters = D_80083460;
+        u16 *counters = ((u16 *)(&dungeonStatus));
         ((S_8017405C_0 *)movement)->unk_46 &= 0x7FFF;
         ((Rec_func_800A9E70_arg0 *)context)->unk_9C.as_s8 = actor->unk_26.u;
         ((S_8017405C_0 *)movement)->unk_6D.u = ((S_8017405C_0 *)movement)->unk_6D.u - 1;

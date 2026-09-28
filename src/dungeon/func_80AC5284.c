@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct {
     u8 color[3];
@@ -25,7 +26,6 @@ typedef struct {
 } Sprite;
 
 extern void func_800478B8(Sprite *);
-extern s32 D_800814A0[3];
 
 /* Advance the actor, fade and shrink its sprite, and flag proximity or fade completion. */
 void func_80AC5284(Actor *actor, Vec3 *vec, Sprite *sprite)
@@ -47,7 +47,7 @@ void func_80AC5284(Actor *actor, Vec3 *vec, Sprite *sprite)
         distance_y = __builtin_abs(actor->y - *(s16 *)((u8 *)vec + 6));
         if (distance_y < 0x10) {
             *(u16 *)((u8 *)actor - 2) |= 0x8000;
-            D_800814A0[0] |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
         }
     }
 
@@ -66,6 +66,6 @@ void func_80AC5284(Actor *actor, Vec3 *vec, Sprite *sprite)
     func_800478B8(sprite);
     if (actor->scale <= 0) {
         *(u16 *)((u8 *)actor - 2) |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

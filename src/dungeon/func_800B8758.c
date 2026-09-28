@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef s32 M2C_UNK;
 
@@ -16,13 +17,7 @@ M2C_UNK func_800A63B8();
 s32 func_800AD6FC();
 M2C_UNK func_800D5460();
 
-typedef struct {
-    u8 pad[0xA];
-    u16 field_A;
-} D_80083460_t;
-
 extern u8 D_80082E80[];
-extern D_80083460_t D_80083460;
 extern u8 D_80083780[];
 extern u8 D_80089358[];
 extern u16 D_800DDE84[];
@@ -150,6 +145,6 @@ show_special:
 
 finish:
     func_80098B38(action_id);
-    D_80083460.field_A--;
+    dungeonStatus.unk_0A--;
     return 1;
 }

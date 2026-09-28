@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_func_819A0FC0_0 {
     u8 pad_00[0x3A];
@@ -18,7 +19,6 @@ typedef struct S_func_819A0FC0_2 {
 } S_func_819A0FC0_2;
 
 extern s16 D_800261B0;
-extern s32 D_800814A0;
 
 // Decrement the fade timer, update the primitive's brightness, and flag completion.
 void func_819A0FC0(S_func_819A0FC0_0 *fadeState, void *unused, S_func_819A0FC0_1 *primitive)
@@ -37,6 +37,6 @@ void func_819A0FC0(S_func_819A0FC0_0 *fadeState, void *unused, S_func_819A0FC0_1
     if ((s16)fadeState->unk_3A <= 0) {
         *(u16 *)((u8 *)fadeState - 2) =
             (u16)(((S_func_819A0FC0_2 *)((u8 *)fadeState - 2))->unk_00 | 0x8000);
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

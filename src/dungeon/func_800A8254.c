@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -14,7 +15,6 @@ extern void func_800AAA28(void *, void *);
 extern s16 func_800B500C(u8, u8, s16);
 
 extern u8 D_80082E80[];
-extern s32 D_80083460;
 extern DungeonEntry D_800E3648[];
 
 
@@ -76,7 +76,7 @@ process_entry:
             goto skip;
         }
 
-        dungeon_state = (u8 *)&D_80083460;
+        dungeon_state = (u8 *)&dungeonStatus.unk_00;
         if (((S_800AD9B4_3 *)dungeon_state)->unk_02 & 0x1000) {
             adjustment = ((Rec_D_800E3D7C *)target)->unk_71.as_s8;
             if (adjustment > 0) {

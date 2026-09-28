@@ -1,8 +1,8 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 
 extern s16 D_801760D8;
-extern s32 D_800814A0;
 extern void *D_80164808[];
 extern s16 func_800BCB04(u16, u16, s16);
 
@@ -125,7 +125,7 @@ check_counter:
 
 finish:
     (*(u16 *)((u8 *)object + (-2))) |= 0x8000;
-    D_800814A0 |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
 
 done:
     return;

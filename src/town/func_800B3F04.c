@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "records/Rec_func_800B15B8_arg0.h"
 
 typedef struct S_800B1664_0_pre {
@@ -28,14 +29,8 @@ typedef struct S_800B1664_4 {
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-typedef struct {
-    s32 value;
-    s32 pad[2];
-} GlobalFlags;
-
 M2C_UNK func_8004B248();
 M2C_UNK func_800B15B8();
-extern GlobalFlags D_800814A0;
 
 /* Halve a state value, decrement another, and trigger cleanup below the threshold. */
 void func_800B1664(void *object) {
@@ -54,6 +49,6 @@ void func_800B1664(void *object) {
         func_8004B248(object + 0xD0, decay_state);
         func_800B15B8(object);
         ((S_800B1664_0_pre *)object)[-1].unk_00 = (u16) (((S_800B1664_0_pre *)object)[-1].unk_00 | 0x8000);
-        D_800814A0.value |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800814A8.h"
 
 typedef struct S_8016D0FC_0 {
@@ -50,8 +51,6 @@ extern void func_8016D4B8(void *, s32, void *, void *);
 
 extern u8 *D_800814A8;
 extern s16 D_80083228;
-extern u8 D_80083460[];
-extern u16 D_80083462;
 extern u8 D_8016A36C[];
 extern u8 D_80173AC8[];
 extern u8 D_80173AD0[];
@@ -88,7 +87,7 @@ state_0:
     if (!(((S_8016D0FC_1 *)object)->unk_14 & 0xE000)) {
         goto done;
     }
-    counter_base = D_80083460;
+    counter_base = ((u8 *)(&dungeonStatus));
     current_table = ((S_8016D0FC_2 *)counter_base)->unk_0A;
     current_table--;
     ((S_8016D0FC_2 *)counter_base)->unk_0A = current_table;
@@ -145,7 +144,7 @@ after_ac8:
         }
         goto kind_ge_15;
     }
-    if (D_80083462 & 0x1000) {
+    if (dungeonStatus.flags & 0x1000) {
         goto done;
     }
     if (((S_8016D0FC_3 *)actor)->unk_64 != 0) {
@@ -188,11 +187,11 @@ kind_lt_15:
         if (kind == 0xD) {
             goto set_ad0;
         }
-        counter_base = D_80083460;
+        counter_base = ((u8 *)(&dungeonStatus));
         goto increment_counter;
     }
 kind_ge_15:
-    counter_base = D_80083460;
+    counter_base = ((u8 *)(&dungeonStatus));
     if (kind != 0xF) {
         goto increment_counter_pre;
     }
@@ -201,7 +200,7 @@ set_ad0:
     direction_index = (D_80083228 + ((S_8016D0FC_3 *)actor)->unk_2A + 0x100) >> 9;
     func_80047784(object, D_80173AD0[direction_index & 7], 0);
 increment_counter_pre:
-    counter_base = D_80083460;
+    counter_base = ((u8 *)(&dungeonStatus));
 increment_counter:
     current_table = ((S_8016D0FC_2 *)counter_base)->unk_0A;
     current_table++;
@@ -212,7 +211,7 @@ increment_state:
 
 state_2:
     if (((S_8016D0FC_1 *)object)->unk_14 & 0xE000) {
-        counter_base = D_80083460;
+        counter_base = ((u8 *)(&dungeonStatus));
         current_table = ((S_8016D0FC_2 *)counter_base)->unk_0A;
         current_table--;
         ((S_8016D0FC_2 *)counter_base)->unk_0A = current_table;

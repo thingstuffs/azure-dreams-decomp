@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 extern int abs(int);
 
@@ -59,8 +61,6 @@ typedef struct ColorPart {
 
 extern void *D_80024008[];
 extern u8 D_800DDC40[256];
-extern s32 D_8008346C;
-extern u32 D_800814A0;
 
 extern s32 func_8003DE58(void *, void *, void *, s32);
 extern s32 func_800A44E0(s32, s32, s32, s32);
@@ -353,9 +353,9 @@ case_4:
     if (state->done != 0) {
         goto case_6;
     }
-    D_8008346C = 0;
+    dungeonStatus.unk_0C = 0;
     U16_AT(state, -2) |= 0x8000;
-    D_800814A0 |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
     goto case_6;
 
 case_5:

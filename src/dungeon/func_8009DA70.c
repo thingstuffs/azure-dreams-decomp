@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef struct Entity Entity;
 
@@ -19,13 +20,6 @@ struct Entity {
     s16 fieldAA;
 };
 
-typedef struct {
-    u8 pad00[0xA];
-    u16 fieldA;
-    u8 pad0C[8];
-} DungeonState;
-
-extern DungeonState D_80083460;
 extern volatile u16 D_800DCE68[];
 extern Entity *D_800E3D7C[];
 
@@ -45,7 +39,7 @@ void func_800A31D0(Entity *owner_entity) {
                     do {
                         if ((node->kind == 0x1E) &&
                             (node->owner == (void *)((u8 *)owner_entity - 0x20))) {
-                            D_80083460.fieldA++;
+                            dungeonStatus.unk_0A++;
                             marked_count = D_800DCE68[0];
                             node_status = node->status;
                             node->field6E = 0;

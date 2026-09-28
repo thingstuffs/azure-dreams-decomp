@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 
@@ -13,7 +14,6 @@ extern void func_800ACD74(void *arg0, s32 arg1, void *arg2, void *arg3);
 extern s16 D_80083228;
 extern s16 D_800DCE68;
 extern u8 D_8006CCF8[8];
-extern u8 D_80083460[0x14];
 
 typedef struct S_800A9E70_2 {
     u8 pad_00[0x4];
@@ -103,7 +103,7 @@ s32 func_800A9E70(Rec_func_800A9E70_arg0 *anim, s32 action_arg, S_800A9E70_2 *sp
                     }
                     goto update_anim;
                 }
-                interaction_state = D_80083460;
+                interaction_state = ((u8 *)(&dungeonStatus));
                 active_entity = ((S_800A9E70_3 *)interaction_state)->unk_0C;
                 if (active_entity != entity) {
                     if ((((S_800A9E70_3 *)interaction_state)->unk_10 == 0) && (active_entity == 0) &&

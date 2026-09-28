@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 extern void func_800A020C(void *, void *);
 extern void func_800478B8(void *);
 extern void func_80047784(void *, s32, s32);
 extern s32 func_80042900(void *, s32);
 
-extern s32 D_800814A0;
 extern u8 D_80083160[];
 extern s16 D_80083228;
 extern s8 D_800DCECC[];
@@ -106,7 +106,7 @@ void func_800D5594(void *owner_data, void *position_data, void *entity_data)
             appearance_type == D_800E2440 ||
             appearance_type == D_800E2438) {
             U16(((u8 *)(owner_data)), -2) |= 0x8000;
-            D_800814A0 |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
             U8(saved_effect, 0xB0)--;
             return;
         }
@@ -116,5 +116,5 @@ void func_800D5594(void *owner_data, void *position_data, void *entity_data)
     }
 
     U16(((u8 *)(owner_data)), -2) |= 0x8000;
-    D_800814A0 |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
 }

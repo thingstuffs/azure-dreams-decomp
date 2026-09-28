@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_818BC888_0_pre {
     u16 unk_00;
@@ -21,7 +22,6 @@ typedef struct S_818BC888_1 {
 
 
 
-extern s32 D_800814A0[3];
 
 /* Advances the effect timer and updates its interpolated and cycling values. */
 void func_818BC888(void *effect) {
@@ -57,7 +57,7 @@ void func_818BC888(void *effect) {
     phase = ((S_818BC888_0 *)effect)->unk_04.s16;
     if (phase >= 0x40) {
         ((S_818BC888_0_pre *)effect)[-1].unk_00 |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         return;
     }
     if (phase < 0x10) {

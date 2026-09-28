@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 extern s16 D_800259AC;
-extern s32 D_800814A0;
 
 /* Subtracts 12 from the object counter and sets flags when it reaches zero. */
 void func_80024B6C(void *object)
@@ -15,6 +15,6 @@ void func_80024B6C(void *object)
     *(u16 *)(object_bytes + 50) = counter;
     if ((counter << 16) <= 0) {
         *(u16 *)(object_bytes - 2) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

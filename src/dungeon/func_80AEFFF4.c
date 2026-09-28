@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_800814A8.h"
@@ -37,7 +38,6 @@ extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern s8 D_80082EA4;
 extern s16 D_80083228;
-extern u16 D_80083462;
 extern s8 D_800E2970[];
 extern void *D_80170808[];
 extern u8 D_801717F4;
@@ -81,7 +81,7 @@ void func_801717F4(void *actor_arg, void *context_arg, void *sprite_arg, void *e
     s32 direction_aux;
     s32 tile_record;
     u16 action_state;
-    u32 initial_flags = D_80083462;
+    u32 initial_flags = dungeonStatus.flags;
 
 
     if (initial_flags & 0x1000) {
@@ -121,7 +121,7 @@ void func_801717F4(void *actor_arg, void *context_arg, void *sprite_arg, void *e
         }
     }
 
-    if (!(D_80083462 & 0x2000)) {
+    if (!(dungeonStatus.flags & 0x2000)) {
         if (((Rec_D_800E3D7C *)entity_arg)->unk_1C.as_u32 & 0x100) {
             func_800AA258(actor_arg, context_arg, sprite_arg, entity_arg);
             return;
@@ -184,7 +184,7 @@ void func_801717F4(void *actor_arg, void *context_arg, void *sprite_arg, void *e
             goto ordinary_cleanup;
         }
         if (!(((Rec_D_800E3D7C *)entity_arg)->unk_44.at02_u16.v & 0x8000)) {
-            if (D_80083462 & 0x2000) {
+            if (dungeonStatus.flags & 0x2000) {
                 if ((s16)func_8009A180(entity_arg,
                         (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) != 0) {
                     return;

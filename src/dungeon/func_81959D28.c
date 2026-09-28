@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 extern int abs(int);
 
 typedef struct {
@@ -11,7 +12,6 @@ typedef struct {
 } Motion;
 
 extern u16 D_800281F8;
-extern s32 D_800814A0;
 
 /* Advance and damp motion, flagging completion when the timer expires or motion slows. */
 void func_81959D28(void *actor, Motion *motion) {
@@ -46,7 +46,7 @@ void func_81959D28(void *actor, Motion *motion) {
     }
 
     *(u16 *)((u8 *)actor - 2) |= 0x8000;
-    D_800814A0 |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
 }
 
 /* MECHANISM: Frameless leaf keeps actor/motion in $a3/$a2; the volatile y reload preserves damping order.

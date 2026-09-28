@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_8182D544_0_pre {
     u16 unk_00;
@@ -42,7 +43,6 @@ extern void func_8004491C();
 extern void func_800478B8(void *);
 extern s32 rand(void);
 extern u8 D_80045340[0x10];
-extern s32 D_800814A0[3];
 
 /* Move the effect, count down its timer, then fade its sprite to black. */
 void func_8182D544(void *effect, S_8182D544_2 *motion, S_8182D544_3 *sprite)
@@ -94,7 +94,7 @@ fade_out:
     if (fade_step >= sprite->unk_0C.at00.v) {
         sprite->unk_0C.at00u.v = 0;
         ((S_8182D544_0_pre *)effect)[-1].unk_00 |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         return;
     }
 

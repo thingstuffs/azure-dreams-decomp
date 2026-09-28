@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 
 typedef struct S_80020510_0_pre {
@@ -24,7 +25,6 @@ typedef struct S_80020510_1 {
 M2C_UNK func_800537D0();               /* extern */
 s32 strlen();                             /* extern */
 extern s16 D_800272A0[];
-extern s32 D_800814A0;
 
 /* Advances a text entry's delay, processes its string, and propagates the linked object's flag. */
 void func_80020510(void *entry) {
@@ -68,7 +68,7 @@ state_one:
     if (((S_80020510_1 *)linked_object)->unk_2A & 1) {
         (*(u16 *)((u8 *)entry + -2)) =
             (u16) (((S_80020510_0_pre *)entry)[-1].unk_00 | 0x8000);
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 
 done:

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
@@ -97,8 +98,6 @@ typedef struct { u8 pad[0x12]; u8 kind; u8 pad2; } ItemDef20;
 extern ItemDef20 D_8006DE24[];
 extern void *D_800814A8;
 extern s16 D_80083228;
-extern u8 D_80083460[];
-extern s32 D_8008346C;
 extern M2C_UNK D_80083498;
 extern M2C_UNK D_800D7960;
 extern M2C_UNK D_80170E54;
@@ -269,7 +268,7 @@ block_36:
     ((S_801728B4_5 *)motion)->unk_10 = 0;
     ((S_801728B4_5 *)motion)->unk_0C = 0;
     func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
-    D_8008346C = 0;
+    dungeonStatus.unk_0C = 0;
     ((Rec_D_800814A8 *)D_800814A8)->unk_A6 = (u16) ((*(u16 *)((u8 *)D_800814A8 + 0xA6)) - 1);
     func_800A4ACC(action);
     ((Rec_D_800E3D7C *)action)->unk_6D.as_u8 = (u8) (((Rec_D_800E3D7C *)action)->unk_6D.as_u8 - 1);
@@ -336,7 +335,7 @@ block_49:
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80173C6C;
     func_80047784(sprite, D_80173C6C[((s32) (D_80083228 + ((Rec_D_800E3D7C *)action)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
 block_52:
-    action_status = D_80083460;
+    action_status = ((u8 *)(&dungeonStatus));
     if (((S_801728B4_10 *)action_status)->unk_0C != 0) {
         goto block_56;
     }

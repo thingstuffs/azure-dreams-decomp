@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct EffectOwner {
     u8 pad0[0x16];
@@ -29,7 +30,6 @@ static __inline__ s16 load_signed_state(ColorEffect *effect)
     return value;
 }
 
-extern u32 D_800814A0[];
 void func_7FDD3F8C(ColorEffect *effect)
 {
     s16 state;
@@ -100,6 +100,6 @@ state_3:
 shared_tail:
     if ((owner->flags & 0x8000) != 0) {
         ((u16 *)effect)[-1] |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

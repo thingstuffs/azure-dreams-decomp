@@ -1,8 +1,8 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 extern void func_800478B8(void *arg0);
 extern s32 rand(void);
-extern s32 D_800814A0[3];
 
 extern void func_80025090(void);
 extern void func_80025080(void);
@@ -75,7 +75,7 @@ void FUNC_8184A800_BODY(void *owner, void *unused, void *target)
 
     if (*(u16 *)((u8 *)target + 0x14) & 0x6000) {
         *(u16 *)((u8 *)owner - 2) |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }
 

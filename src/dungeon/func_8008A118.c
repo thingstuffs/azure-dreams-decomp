@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80016000.h"
 
@@ -8,7 +9,6 @@ M2C_UNK func_80099F70();                         /* extern */
 M2C_UNK func_8009A350();          /* extern */
 M2C_UNK func_800A56E0();                     /* extern */
 extern M2C_UNK D_80081484;
-extern M2C_UNK D_80083460;
 extern M2C_UNK D_8008ACDC;
 extern M2C_UNK D_800DD25C;
 extern s32 D_800E3540;
@@ -114,7 +114,7 @@ void func_8008F878(S_8008F878_0 *action, void *unused, S_8008F878_1 *action_data
 state_1:
     if (action_data->unk_14 & 0x6000) {
         action->unk_9B = 2U;
-        shared_state = &D_80083460;
+        shared_state = &dungeonStatus.unk_00;
         shared_state->unk_02 = (u16) (shared_state->unk_02 | 0x412);
         func_80099F70(actor->unk_5C);
         func_80099F04(actor->unk_5C);

@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 extern s32 func_800478B8();
-extern s32 D_800814A0[3];
 
 /* Updates the target and records object counts and flags from its status. */
 void func_8002457C(void *object_slot, void *unused, void *target)
@@ -20,9 +20,9 @@ void func_8002457C(void *object_slot, void *unused, void *target)
         slot_flags = *(u16 *)((u8 *)object_slot - 2);
         post_object = *(void **)object_slot;
         *(u16 *)((u8 *)object_slot - 2) = slot_flags | 0x8000;
-        global_flags = D_800814A0[0];
+        global_flags = objectFlagBlock.flags;
         object_count = *(u16 *)((u8 *)post_object + 0x18);
-        D_800814A0[0] = global_flags | 0x8000;
+        objectFlagBlock.flags = global_flags | 0x8000;
         *(u16 *)((u8 *)post_object + 0x18) = object_count + 1;
     }
 }

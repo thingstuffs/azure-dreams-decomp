@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 
 typedef struct S_801743DC_0 {
@@ -68,7 +69,6 @@ extern void func_80174A68(void *, void *, void *, void *);
 extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern s16 D_80083228;
-extern s32 D_80083460;
 extern u8 D_800E2428[];
 extern u8 D_800E2430[];
 extern u8 D_80171A80[];
@@ -106,7 +106,7 @@ state_zero:
         D_800E2428[((D_80083228 + ((S_801743DC_2 *)entity)->unk_2A + 0x100) >> 9) & 7],
         0);
     {
-        u8 *counter_base = (u8 *)&D_80083460;
+        u8 *counter_base = (u8 *)&dungeonStatus.unk_00;
 
         ((S_801743DC_3 *)counter_base)->unk_0A--;
     }
@@ -114,7 +114,7 @@ state_zero:
     goto done;
 
 state_one:
-    global_base = (u8 *)&D_80083460;
+    global_base = (u8 *)&dungeonStatus.unk_00;
     if (((S_801743DC_4 *)global_base)->unk_02 & 0x1000) {
         goto done;
     }
@@ -184,7 +184,7 @@ state_one:
         goto set_callback;
     }
     {
-        u8 *counter_base = (u8 *)&D_80083460;
+        u8 *counter_base = (u8 *)&dungeonStatus.unk_00;
 
         ((S_801743DC_0 *)action)->unk_9B++;
         ((S_801743DC_3 *)counter_base)->unk_0A++;
@@ -199,7 +199,7 @@ state_two:
         u8 *counter_base;
 
         do {
-            counter_base = (u8 *)&D_80083460;
+            counter_base = (u8 *)&dungeonStatus.unk_00;
         } while (0);
         ((S_801743DC_3 *)counter_base)->unk_0A--;
     }

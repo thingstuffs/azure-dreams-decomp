@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 
 
@@ -6,8 +8,6 @@ extern void func_800478B8(void *);
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 extern s32 rand(void);
-extern s32 D_800814A0;
-extern u16 D_80083460[];
 
 
 typedef struct S_800D7D30_0 {
@@ -112,9 +112,9 @@ void func_800D7D30(void *effect, void *motion, void *sprite) {
 
 retire:
     {
-        u16 *counters = D_80083460;
+        u16 *counters = ((u16 *)(&dungeonStatus));
         counters[5]--;
     }
     (*(u16 *)((u8 *)effect + (-2))) |= 0x8000;
-    D_800814A0 |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
 }

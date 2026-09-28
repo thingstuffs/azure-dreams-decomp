@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 extern void func_80047784();
 extern s32 func_800A2B5C();
 extern void func_800A4ACC();
 extern void func_800C7930();
 extern s16 D_80083208[16];
-extern u16 D_80083460[4];
 extern u8 D_8014A000[200000];
 #define D_801764A0_OFF 0x2C4A0
 
@@ -15,7 +15,7 @@ void func_8017272C(void *action_state, s32 action_param, void *sprite, void *act
     s32 direction;
 
     *((u8 *)actor + 0x71) = (u8)(*((u8 *)actor + 0x71) & 0x7F);
-    if (!(*(u16 *)((u8 *)D_80083460 + 2) & 0x2000) && ((func_800A2B5C(actor) << 0x10) == 0)) {
+    if (!(*(u16 *)((u8 *)((u16 *)(&dungeonStatus)) + 2) & 0x2000) && ((func_800A2B5C(actor) << 0x10) == 0)) {
         {
             void *actor_base = (u8 *)actor - 0x20;
             func_800C7930(actor_base, action_param, 8, 0x300);

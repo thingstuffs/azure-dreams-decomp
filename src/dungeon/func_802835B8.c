@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
 typedef struct S_800165B8_0 {
@@ -168,7 +169,6 @@ extern u8 D_800DCFB0[];
 extern u16 D_800DD264[];
 extern u16 D_800DD26C[];
 extern u8 D_80083160[];
-extern u8 D_80083460[];
 extern u8 D_800DCE60[];
 extern s32 D_800E4938[];
 
@@ -452,7 +452,7 @@ load_entries:
         tile_y = ((S_800165B8_3 *)state)->unk_25;
         ASM_KEEP_DEP_NV(display_index, tile_y);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         display_setting = ((u16 *)neutral_color)[(s16)display_index];
-        map_state = D_80083460;
+        map_state = ((u8 *)(&dungeonStatus));
         ((S_800165B8_7 *)table_base)->unk_C4 = display_setting;
         height_index = *(u16 *)(settings_page + 0x20A0);
         *(u16 *)(display_page - 0x31A0) = display_setting;

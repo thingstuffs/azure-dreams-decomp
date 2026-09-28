@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct EntitySlot {
     u8 pad_00[6];
@@ -21,7 +22,6 @@ typedef struct GlobalFlags {
 
 extern s32 D_800E3648[0x20];
 extern EntitySlot D_800E39C8[0x20];
-extern GlobalFlags D_800814A0;
 
 extern void func_8009A3D0(u8 x, u8 y, s32 type);
 
@@ -43,9 +43,9 @@ void func_800B5F80(s32 slot_index) {
     entity = slot->entity;
     if (entity != 0) {
         entity_flags = entity->flags;
-        global_flags = D_800814A0.value;
+        global_flags = objectFlagBlock.flags;
         entity->flags = entity_flags | 0x8000;
-        D_800814A0.value = global_flags | 0x8000;
+        objectFlagBlock.flags = global_flags | 0x8000;
         slot->entity = 0;
     }
 }

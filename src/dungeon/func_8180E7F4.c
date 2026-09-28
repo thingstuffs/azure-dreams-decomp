@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 
 s16 func_8002773C();
@@ -24,7 +25,6 @@ extern u8 D_80010980[];
 extern u8 D_800287B4[];
 extern s32 D_8006D6D8[4];
 extern D_8006DE24_Record D_8006DE24[];
-extern s32 D_800814A0;
 extern void *D_800814A8;
 extern void *D_800E3DF0[];
 extern u8 D_800E3E48[];

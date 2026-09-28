@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -10,7 +11,6 @@
 
 extern M2C_UNK func_8004491C();
 extern M2C_UNK func_80044A50();
-extern M2C_UNK D_80083460;
 extern M2C_UNK D_800C6AEC;
 
 
@@ -27,7 +27,7 @@ void func_800ACD74(void *object_state, void *unused_context, Rec_D_80082E80 *pro
     properties->unk_14.at00_u16.v = (u16)(properties->unk_14.at00_u16.v & 0xF7FF);
     ((Rec_func_800A9E70_arg0 *)object_state)->unk_96.as_s16 = 0;
     object = object_state - 0x20;
-    global_state = (u16 *)&D_80083460;
+    global_state = (u16 *)&dungeonStatus.unk_00;
     global_state[5] = (u16)(global_state[5] + 1);
     func_80044A50(object);
     func_8004491C(object, &D_800C6AEC);

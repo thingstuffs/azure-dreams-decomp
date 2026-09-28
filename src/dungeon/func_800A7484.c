@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 
 typedef struct S_800ACBE4_0 {
     u8 pad_00[0x9B];
@@ -33,8 +35,6 @@ extern void func_80044A50(void *);
 extern void func_8009A028(void *);
 extern void func_8009A3D0(u8, u8, s32);
 extern void func_800A32A4(void *);
-extern s32 D_800814A0;
-extern s32 D_80083460;
 extern s32 D_800C6AEC;
 
 /* Fades the actor to black, then triggers an effect and marks it for removal. */
@@ -81,7 +81,7 @@ state_one:
         goto done;
     }
 
-    actor_globals = &D_80083460;
+    actor_globals = &dungeonStatus.unk_00;
     if (actor_globals[4] == (s32)((u8 *)actor - 0x20)) {
         actor_globals[4] &= 0x7FFFFFFF;
     }
@@ -101,7 +101,7 @@ state_one:
     }
     func_8009A028(actor);
     (*(u16 *)((u8 *)actor + -2)) |= 0x8000;
-    D_800814A0 |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
 
 done:
     return;

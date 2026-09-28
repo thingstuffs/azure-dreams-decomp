@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_800BBCA0_0 {
     u8 pad_00[0x48];
@@ -59,7 +60,6 @@ extern void func_8004491C(void *, void *);
 extern s32 rand(void);
 
 extern s32 D_80045340;
-extern s32 D_800814A0;
 extern u8 D_80083498[];
 extern u8 D_800BC00C[];
 extern u8 D_800F1654[];
@@ -197,7 +197,7 @@ state_one:
 state_two:
     if ((s16)timer < 0) {
         (*(u16 *)((u8 *)self + -2)) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 
 done:

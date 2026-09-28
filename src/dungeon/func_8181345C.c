@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 extern void *func_8003FC64(s32);
 extern s32 func_80028284(void *, s32);
@@ -8,7 +9,6 @@ extern void func_8004491C(void *, void *);
 extern void func_80028620(void *);
 extern void func_8004B248(void *);
 extern u8 D_8004CAA0[];
-extern s32 D_800814A0[];
 
 typedef struct {
     u8 pad00[0x84];
@@ -43,7 +43,7 @@ void *func_8002845C(s32 parent_obj, s32 descriptor_value)
             func_8004B248((u8 *)obj + 0xAC);
             obj->flags |= 0x8000;
             obj = 0;
-            D_800814A0[0] |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
         }
     }
     return obj;

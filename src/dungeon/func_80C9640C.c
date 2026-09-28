@@ -1,6 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
-extern s32 D_800814A0[3];
 
 /* Fade the primitive color and flag the effect when its countdown expires. */
 void func_80173C0C(void *effect, s32 unused, void *primitive)
@@ -18,7 +18,7 @@ void func_80173C0C(void *effect, s32 unused, void *primitive)
     ticks_left = *(u16 *)((u8 *)effect + 0x24) - 1;
     *(s16 *)((u8 *)effect + 0x24) = ticks_left;
     if ((ticks_left << 16) <= 0) {
-        s32 *global_flags = D_800814A0;
+        s32 *global_flags = ((s32 *)(&objectFlagBlock));
 
         *(u16 *)((u8 *)effect - 2) |= 0x8000;
         *global_flags |= 0x8000;

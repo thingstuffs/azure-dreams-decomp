@@ -1,6 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
-extern s32 D_800814A0;
 
 typedef struct Func800A4A20Object {
     void (*callback)(void);
@@ -16,7 +16,7 @@ void func_800A2180(Func800A4A20Object *object)
     state = object->state;
     if (state != 0 && *state == 0) {
         *(u16 *)((u8 *)object - 2) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         return;
     }
     object->callback();

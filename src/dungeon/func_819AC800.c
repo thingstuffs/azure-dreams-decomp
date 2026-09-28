@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 
 typedef struct {
     u8 pad00[0xA];
@@ -38,11 +40,9 @@ extern u8 D_80028780[];
 extern s16 D_800287A0;
 extern u8 D_800287A2;
 extern s32 D_800287A4;
-extern s32 D_800814A0;
 extern void *D_800814A8;
 extern void *D_800814A8_count __asm__("D_800814A8");
 extern u8 D_80083160[];
-extern s32 D_80083460;
 
 extern void *func_800244C4(void *, void *);
 extern void func_8003F80C(void *, s32, s32, s32);
@@ -159,12 +159,12 @@ jt_c5:
             goto common_tail;
         }
         {
-            GlobalState *global_state = (GlobalState *)&D_80083460;
+            GlobalState *global_state = (GlobalState *)&dungeonStatus.unk_00;
             global_state->result = 0;
             global_state->state--;
         }
         *(u16 *)((u8 *)event - 2) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
 
 common_tail:
     if (event->mode20 < 0) {

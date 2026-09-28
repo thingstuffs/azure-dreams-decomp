@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80083460.h"
 
@@ -72,7 +73,6 @@ extern void D_80170CF8(void *, s32, s32, s32, s32, s32, s32);
 extern u8 D_8006DE24[];
 extern void *D_800814A8;
 extern s16 D_80083228;
-extern u8 D_80083460[16];
 extern u8 D_80170838[16];
 extern u8 D_801717F4[];
 extern u8 D_80175988[];
@@ -239,7 +239,7 @@ invoke_move:
     func_800A2B04(motion, ((S_80173280_3 *)tile_arg)->unk_24, ((S_80173280_3 *)tile_arg)->unk_25);
     {
         u8 *active_actor = D_800814A8;
-        ((Rec_D_80083460 *)D_80083460)->unk_0C = 0;
+        ((Rec_D_80083460 *)((u8 *)(&dungeonStatus)))->unk_0C = 0;
         ((S_80173280_6 *)active_actor)->unk_A6--;
     }
     func_800A4ACC(action);
@@ -290,7 +290,7 @@ state_2:
     return;
 
 state_3:
-    kind_data = D_80083460;
+    kind_data = ((u8 *)(&dungeonStatus));
     if (((S_80173280_7 *)kind_data)->unk_0C == 0) {
         ((S_80173280_0 *)actor)->unk_96.s = 0;
     }

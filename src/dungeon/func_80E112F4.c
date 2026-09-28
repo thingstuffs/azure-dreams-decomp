@@ -1,8 +1,8 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern u8 D_80171094[];
-extern s32 D_8008346C[];
 extern u8 D_80176460[8];
 extern s16 D_80083228[5];
 typedef struct Obj0 {
@@ -129,7 +129,7 @@ state2:
     func_800AD594(actor, 0x400);
     func_800A2B04(context, object->field24, object->field25);
     controller->field8c = D_80171094;
-    *D_8008346C = 0;
+    dungeonStatus.unk_0C = 0;
     actor->field46 &= 0x7FFF;
     goto common;
 

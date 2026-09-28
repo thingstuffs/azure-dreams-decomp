@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 extern int abs(int);
 
@@ -99,8 +101,6 @@ typedef struct LargeScalar {
 } LargeScalar;
 
 extern void *D_80024028[10];
-extern LargeScalar D_800814A0;
-extern s32 D_8008346C[3];
 
 extern void func_800240EC(u8 *, u8 *, DrawInfo *);
 extern s32 func_8003DE58(void *, void *, s16 *, s32);
@@ -585,9 +585,9 @@ case_7:
     if (state_arg->field14 != 0) {
         goto end;
     }
-    D_8008346C[0] = 0;
+    dungeonStatus.unk_0C = 0;
     *(u16 *)((u8 *)state_arg - 2) |= 0x8000;
-    D_800814A0.value |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
     goto end;
 
 case_8:

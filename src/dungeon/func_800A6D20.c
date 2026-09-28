@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
 
 M2C_UNK func_800A2B04();              /* extern */
 s16 func_800BCB04();                   /* extern */
-extern s32 D_80083460[3];
 
 typedef struct S_800AC480_0 {
     u8 pad_00[0x92];
@@ -66,7 +66,7 @@ s32 func_800AC480(S_800AC480_0 *move_state, Rec_D_800E3D7C *motion, S_800AC480_1
             move_state->unk_92 = (u16) (move_state->unk_92 + (height_state->unk_88 - target_height));
             height_state->unk_88 = (u16) target_height;
         }
-        global_base = D_80083460;
+        global_base = ((s32 *)(&dungeonStatus));
         ((S_800AC480_4 *)global_base)->unk_0A = (u16) (((S_800AC480_4 *)global_base)->unk_0A - 1);
         return 1;
     }

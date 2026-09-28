@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 
 
 extern s32 func_800990FC(s32, u8 *, void *);
@@ -7,9 +9,7 @@ extern void func_80099290(s32);
 extern s32 func_8009929C(s32, s32);
 extern void func_800A5720(s32);
 
-extern s32 D_800814A0;
 extern u8 D_80083160[];
-extern u8 D_80083460[];
 extern u8 D_8016A808[];
 
 
@@ -108,10 +108,10 @@ store_fades:
     fade_colors[0xAA] = 0x80;
     fade_colors[0xA9] = 0x80;
     fade_colors[0xA8] = 0x80;
-    effect_counts = D_80083460;
+    effect_counts = ((u8 *)(&dungeonStatus));
     ((S_8016A9FC_1 *)effect_counts)->unk_0A--;
     (*(u16 *)((u8 *)effect + (-2))) |= 0x8000;
-    D_800814A0 |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
 
 finish:
     return;

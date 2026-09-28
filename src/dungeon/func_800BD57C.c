@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 
 extern s32 func_80042900(void *arg0, s32 arg1);
@@ -20,7 +21,6 @@ extern s16 func_800B60B8(u8 arg0, u8 arg1, s16 arg2, s32 arg3, s32 arg4);
 extern s32 func_800C7380(u8 arg0, u8 arg1, s16 arg2, s32 arg3, s32 arg4);
 
 extern u8 D_80082E80[];
-extern s32 D_80083460;
 extern u8 D_80083780[];
 extern u8 D_800893D4[];
 extern u8 D_800E1684[];
@@ -130,7 +130,7 @@ s32 func_800C2CDC(void *actor, u8 *object_data, s16 action_type) {
 
     func_8009A21C(entity->unk_24, entity->unk_25, 2);
     func_80098B38(object_data);
-    counter_base = &D_80083460;
+    counter_base = &dungeonStatus.unk_00;
     ((S_800C2CDC_4 *)counter_base)->unk_0A--;
     return 1;
 }

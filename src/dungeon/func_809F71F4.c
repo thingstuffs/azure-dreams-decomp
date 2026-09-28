@@ -1,9 +1,9 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 extern void func_80044A50(void *arg0);
 extern void func_800478B8();
 
-extern s32 D_800814A0[3];
 extern u8 D_80083160[0xAB];
 extern s32 D_80175220;
 
@@ -34,7 +34,7 @@ void func_801749F4(u8 *task, void *context, u8 *input)
         *(s16 *)(task + 0x96) = frames_left;
         if (frames_left <= 0) {
             *(u16 *)(task - 2) |= 0x8000;
-            D_800814A0[0] |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
         }
     }
 }

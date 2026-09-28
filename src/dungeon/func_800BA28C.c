@@ -1,15 +1,10 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 
 
-typedef struct {
-    u8 pad[0xA];
-    u16 field_A;
-} D_80083460_t;
-
 extern void *D_800814A8;
 extern u8 D_80082E80[];
-extern D_80083460_t D_80083460;
 extern s32 D_800835E8[];
 extern u8 D_80083780[];
 extern u16 D_800DDE84[];
@@ -105,6 +100,6 @@ s32 func_800BF9EC(Rec_D_800E3D7C *target, s32 action_id, s16 action_type, s32 ac
     }
 
     func_80098B38(action_id);
-    D_80083460.field_A--;
+    dungeonStatus.unk_0A--;
     return 1;
 }

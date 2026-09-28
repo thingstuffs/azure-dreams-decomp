@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
@@ -8,7 +9,6 @@ extern void func_800A2B04();
 extern void func_800AAA54();
 extern void func_800AD4D0();
 
-extern s32 D_80083460;
 extern u8 D_801714B8;
 extern u8 D_801760D4;
 
@@ -133,7 +133,7 @@ update_motion:
             ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
             func_800A2B04(motion, ((Rec_D_80082E80 *)target)->unk_24,
                 ((Rec_D_80082E80 *)target)->unk_25);
-            tracking_data = &D_80083460;
+            tracking_data = &dungeonStatus.unk_00;
             entity_addr = *(s32 *)((u8 *)tracking_data + 0x10);
             if (entity_addr == (s32)((u8 *)actor - 0x20)) {
                 *(s32 *)((u8 *)tracking_data + 0x10) = entity_addr & 0x7FFFFFFF;

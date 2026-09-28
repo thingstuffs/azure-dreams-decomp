@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
 typedef struct S_func_80C17E14_0 {
@@ -56,9 +58,6 @@ M2C_UNK func_800A32A4();
 M2C_UNK func_800A56E0();
 M2C_UNK func_800ACF88();
 
-extern s32 D_800814A0;
-extern s32 D_80083460;
-extern s16 D_8008346A;
 
 /* Advances an entity removal animation, fading its sprite before cleanup. */
 void func_80173614(S_func_80C17E14_0 *action, S_func_80C17E14_1 *motion, S_func_80C17E14_2 *sprite, S_func_80C17E14_3 *entity) {
@@ -96,7 +95,7 @@ initialize:
     *(s32 *)((u8 *)motion + 0xC) = offset_x << 16;
     *(s32 *)((u8 *)motion + 0x10) = offset_y << 16;
     *(s32 *)((u8 *)motion + 0x14) = 0x8000;
-    if (D_8008346A != 0) {
+    if (dungeonStatus.unk_0A != 0) {
         goto done;
     }
     action->unk_9B = action->unk_9B + 1;
@@ -165,7 +164,7 @@ fade_out:
             goto done;
         }
 
-        dungeon_state = (S_func_80C17E14_4 *)&D_80083460;
+        dungeon_state = (S_func_80C17E14_4 *)&dungeonStatus.unk_00;
         if (dungeon_state->unk_10 == (s32)((u8 *)entity - 0x20)) {
             dungeon_state->unk_10 &= 0x7FFFFFFF;
         }
@@ -182,7 +181,7 @@ fade_out:
         func_8009A3D0(sound_x, sound_y, sound_kind);
         func_8009A028(entity);
         *(u16 *)((u8 *)entity - 2) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 
 done:

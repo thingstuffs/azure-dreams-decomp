@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct {
     u16 x;
@@ -13,7 +14,6 @@ typedef struct {
 } Point;
 
 extern Rect D_8016481C;
-extern s32 D_800814A0;
 extern void func_800B8FC8(void *, Rect *, Point *, s32, s32);
 
 /* Updates a timed effect around the rectangle's center and flags its expiration. */
@@ -33,6 +33,6 @@ void func_80166D68(void *effect, s32 unused, void *phase_state)
     *(u16 *)((u8 *)effect + 0x18) = timer;
     if ((s16)timer <= 0) {
         *(u16 *)((u8 *)effect - 2) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

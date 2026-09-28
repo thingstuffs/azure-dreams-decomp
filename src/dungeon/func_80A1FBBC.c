@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_80083460.h"
 
@@ -105,8 +107,6 @@ typedef struct {
 } Point;
 
 extern s32 D_80045340;
-extern s32 D_800814A0;
-extern u8 D_80083460[];
 extern u8 D_80083498[];
 extern Rect D_80170874;
 extern u8 D_801740FC[];
@@ -214,7 +214,7 @@ void func_801733BC(void *effect_state, void *position, void *render_part, void *
 
     switch (((S_801733BC_1 *)effect_state)->unk_9B) {
     case 0:
-        if (((Rec_D_80083460 *)D_80083460)->unk_0A != 0) {
+        if (((Rec_D_80083460 *)((u8 *)(&dungeonStatus)))->unk_0A != 0) {
             break;
         }
         if (((Rec_D_80082E80 *)entity)->unk_14.at00_u32.v & 0x4000) {
@@ -289,7 +289,7 @@ void func_801733BC(void *effect_state, void *position, void *render_part, void *
         if ((s16)frames_left > 0) {
             break;
         }
-        effect_list = D_80083460;
+        effect_list = ((u8 *)(&dungeonStatus));
         if (((S_801733BC_9 *)effect_list)->unk_10.p == (u8 *)entity - 0x20) {
             ((S_801733BC_9 *)effect_list)->unk_10.i &= 0x7FFFFFFF;
         }
@@ -299,7 +299,7 @@ void func_801733BC(void *effect_state, void *position, void *render_part, void *
             (((Rec_D_80082E80 *)entity)->unk_1C.at00_u32.v & 0x2000) ? 0x300 : 0x3000);
         func_8009A028(entity);
         (*(u16 *)((u8 *)entity + -2)) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         break;
     }
 }

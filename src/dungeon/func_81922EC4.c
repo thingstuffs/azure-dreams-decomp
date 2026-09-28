@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct {
     u8 r;
@@ -15,7 +16,6 @@ typedef struct {
 } DungeonColorWork;
 
 extern s16 D_80025B60;
-extern s32 D_800814A0;
 
 /* Fades four dungeon colors toward black and flags completion when time runs out. */
 void func_800246C4(DungeonColorWork *work)
@@ -35,6 +35,6 @@ void func_800246C4(DungeonColorWork *work)
 
     if (work->remaining <= 0) {
         *(u16 *)((u8 *)work - 2) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

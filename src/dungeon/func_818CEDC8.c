@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -30,7 +31,6 @@ typedef struct S_818CEDC8_1 {
 
 
 extern s16 D_80025924[5];
-extern s32 D_800814A0[3];
 s32 rand();
 s32 func_800A45D8();
 s16 func_800BCB04();
@@ -96,10 +96,10 @@ void func_818CEDC8(void *state, S_818CEDC8_0 *position, Rec_D_80082E80 *sprite) 
     ((S_818CEDC8_1 *)state)->unk_02 = life_left;
     if ((life_left << 0x10) <= 0) {
         ((S_818CEDC8_1_pre *)state)[-1].unk_00 = (u16) (((S_818CEDC8_1_pre *)state)[-1].unk_00 | 0x8000);
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
     if (sprite->unk_14.at00_u16.v & 0x8000) {
         ((S_818CEDC8_1_pre *)state)[-1].unk_00 = (u16) (((S_818CEDC8_1_pre *)state)[-1].unk_00 | 0x8000);
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

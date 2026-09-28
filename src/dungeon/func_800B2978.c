@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_800B80D8_0 {
     u8 pad_00[0xA2];
@@ -28,7 +29,6 @@ typedef struct S_800B80D8_2 {
 
 extern void func_800A7A7C(s32, s32, s32, void *, void *);
 extern s32 D_8006E240;
-extern s32 D_800814A0;
 
 /* Animate object motion and scale, then signal completion. */
 void func_800B80D8(void *object, void *motion, void *display)
@@ -91,7 +91,7 @@ state_two:
                   &D_8006E240,
                   (u8 *)object + 0x98);
     (*(u16 *)((u8 *)object + -2)) |= 0x8000;
-    D_800814A0 |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
 
 exit:
     return;

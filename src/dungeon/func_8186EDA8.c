@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 
 typedef struct S_8186EDA8_0 {
@@ -19,7 +20,6 @@ typedef struct S_8186EDA8_1 {
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern u16 D_80025308[];
-extern s32 D_800814A0[];
 s32 func_800644B8(s16);                          /* extern */
 s32 func_80064584(s16);                          /* extern */
 void func_800478B8(void *);                       /* extern */
@@ -169,12 +169,12 @@ case_3:
     ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_04 = finish_timer;
     if ((finish_timer << 0x10) <= 0) {
         ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_00 = (u16) (((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_00 | 0x8000);
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 check_effect_done:
     if (effect->flags14 & 0x8000) {
         ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_00 = (u16) (((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_00 | 0x8000);
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
     return;
 

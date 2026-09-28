@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 extern int abs(int);
 
@@ -34,7 +35,6 @@ extern s32 func_800A6D30();
 
 extern u8 D_8006DE24[];
 extern u8 D_80082E80[];
-extern u16 D_8008347E;
 
 /* Selects a usable ability or adjacent attack and sets the angle toward the target. */
 s16 func_800A384C(Actor *actor, Actor *target, u16 *out_angle, s32 prefer_ability)
@@ -126,7 +126,7 @@ s16 func_800A384C(Actor *actor, Actor *target, u16 *out_angle, s32 prefer_abilit
   if (((Actor *)actor_or_x)->status98 & 1)
   {
     slots_checked = 0;
-    target_mode = D_8008347E;
+    target_mode = dungeonStatus.unk_1E;
     slot = target_mode & 3;
     outer_loop:
     if (slot == 3)

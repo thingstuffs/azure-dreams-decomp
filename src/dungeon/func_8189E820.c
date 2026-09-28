@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 
 typedef struct S_8189E820_0_pre {
@@ -32,7 +33,6 @@ typedef struct S_8189E820_3 {
 } S_8189E820_3;   /* arg2 in func_8189E820 */
 
 s32 func_800644B8();
-extern s32 D_800814A0[3];
 
 /* Advances arcing motion and rotation, then flags completion when the duration expires. */
 void func_8189E820(void *state, S_8189E820_2 *motion, S_8189E820_3 *rotation)
@@ -67,6 +67,6 @@ void func_8189E820(void *state, S_8189E820_2 *motion, S_8189E820_3 *rotation)
     if (((S_8189E820_0 *)state)->unk_02 < next_frame) {
         ((S_8189E820_0_pre *)state)[-1].unk_00 =
             (u16)(((S_8189E820_0_pre *)state)[-1].unk_00 | 0x8000);
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_func_800AA258_arg2.h"
@@ -21,7 +22,6 @@ extern void func_800DA660(void *, void *, void *, void *);
 
 extern u8 D_80082E80[];
 extern s16 D_80083228;
-extern u16 D_80083462;
 extern void *D_800E262C[];
 extern s8 D_800E2970[];
 
@@ -44,7 +44,7 @@ void func_800D8C64(void *actor, void *motion, void *sprite, void *status)
     s32 cell_record;
     s32 direction_aux;
 
-    if (D_80083462 & 0x1000) {
+    if (dungeonStatus.flags & 0x1000) {
         ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 0xE;
         func_800D904C(actor, motion, sprite, status);
         return;
@@ -74,7 +74,7 @@ void func_800D8C64(void *actor, void *motion, void *sprite, void *status)
             }
         }
 
-        if (!(D_80083462 & 0x2000)) {
+        if (!(dungeonStatus.flags & 0x2000)) {
             if (((Rec_D_800E3D7C *)status)->unk_1C.as_u32 & 0x100) {
                 func_800AA258(actor, motion, sprite, status);
                 return;
@@ -147,7 +147,7 @@ void func_800D8C64(void *actor, void *motion, void *sprite, void *status)
             }
         }
 
-        if (D_80083462 & 0x2000) {
+        if (dungeonStatus.flags & 0x2000) {
             return;
         }
         if (((Rec_func_800AA258_arg2 *)sprite)->unk_14 & 0x40) {

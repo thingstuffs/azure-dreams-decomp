@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 
 typedef struct { s32 a, b; } __attribute__((packed)) M2C_PACKED_PAIR;
@@ -230,7 +231,6 @@ extern u8 D_80026BD4[];
 extern s16 D_80027C94;
 extern u8 D_80027C96;
 extern s32 D_80027C98;
-extern M2C_UNK D_800814A0;
 extern void *D_800814A8;
 extern M2C_UNK D_80082E80;
 extern s16 D_80083228;
@@ -998,7 +998,7 @@ block_138:
     }
 block_139:
     ((S_819835AC_8 *) ((u8 *) effect - 0x20))->unk_1E = (u16) (((S_819835AC_8 *) ((u8 *) effect - 0x20))->unk_1E | 0x8000);
-    (*(s32 *)&D_800814A0) = (s32) (((S_819835AC_12 *) &D_800814A0)->unk_00 | 0x8000);
+    (*(s32 *)&objectFlagBlock.flags) = (s32) (((S_819835AC_12 *) &objectFlagBlock.flags)->unk_00 | 0x8000);
     return;
 block_140:
     actor_data = ((S_819835AC_8 *) heading_or_owner)->unk_0C;

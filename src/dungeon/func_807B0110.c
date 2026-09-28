@@ -1,8 +1,8 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "shared/dir_step.h"
 
 extern s16 func_800BCB04(u16, u16, s16);
-extern s32 D_800814A0[];
 
 /* Updates position using decaying speed and sets completion flags when speed expires. */
 void func_807B0110(void *motion_data, s16 *position) {
@@ -19,6 +19,6 @@ void func_807B0110(void *motion_data, s16 *position) {
     motion[25] = next_speed;
     if ((next_speed << 16) <= 0) {
         ((u16 *) motion)[-1] |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

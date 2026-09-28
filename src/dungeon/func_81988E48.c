@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct MainObject {
     void *link;
@@ -75,7 +76,6 @@ typedef struct GlobalFlag {
 extern u8 D_80082E80[];
 extern u8 D_80083498[];
 extern s16 D_80083780[];
-extern GlobalFlag D_800814A0;
 extern s32 D_80024AA4;
 extern s32 D_80045340;
 extern u8 D_800DEC00[];
@@ -180,7 +180,7 @@ state_3:
         state_count = 5;
         if (obj->age == 15) {
             ((u16 *)obj)[-1] |= 0x8000;
-            D_800814A0.value |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
         }
         goto state_done;
 

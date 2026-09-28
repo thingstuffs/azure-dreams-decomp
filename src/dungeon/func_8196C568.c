@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 
 typedef struct {
     s16 x;
@@ -81,12 +83,6 @@ typedef struct {
 } DungeonState;
 
 typedef struct {
-    u8 pad0[10];
-    u16 count;
-    s32 fieldC;
-} GlobalActor;
-
-typedef struct {
     u8 pad0[8];
     Position *pos;
     Sprite *sprite;
@@ -110,11 +106,6 @@ typedef struct {
     u8 pad2[10];
 } U16Global;
 
-typedef struct {
-    u32 value;
-    u8 pad4[8];
-} U32Global;
-
 extern OffsetTable D_80024004;
 extern void *D_80024068[];
 extern u8 D_80020000[0x69C0];
@@ -127,8 +118,6 @@ extern Position D_80083780;
 extern Template12 D_80026990;
 extern Template12 D_8002699C;
 extern Template12 D_800269A8;
-extern GlobalActor D_80083460;
-extern U32Global D_800814A0;
 extern U16Global D_80082E94;
 
 extern s32 func_8003DF74(void *, void *, void *, s32);
@@ -446,11 +435,11 @@ flag_check:
 
 state4:
     if (D_800269B4.value == 0) {
-        D_80083460.fieldC = 0;
+        dungeonStatus.unk_0C = 0;
         D_80082E86.value = 0;
-        D_80083460.count--;
+        dungeonStatus.unk_0A--;
         ((u16 *)work)[-1] |= 0x8000;
-        D_800814A0.value |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         return;
     }
     D_800269B4.value = 0;

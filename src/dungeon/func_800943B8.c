@@ -1,17 +1,9 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
 
 
 extern void func_800478B8(void *arg0);
-typedef struct {
-    s32 value;
-    s32 pad[2];
-} GlobalFlags;
-
-extern GlobalFlags D_800814A0;
-
-
-
 typedef struct S_80099B18_1_pre {
     u16 unk_00;
 } S_80099B18_1_pre;   /* the 0x2 bytes before arg0 in func_80099B18, addressed as arg0[-1] */
@@ -42,7 +34,7 @@ void func_80099B18(void *state, S_80099B18_2 *motion, Rec_D_80082E80 *record)
     if (record->unk_14.at00_u16.v & 0xE000) {
         ((S_80099B18_1_pre *)state)[-1].unk_00 =
             (s16)(((S_80099B18_1_pre *)state)[-1].unk_00 | 0x8000);
-        D_800814A0.value |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         return;
     }
     update_count = ((S_80099B18_1 *)state)->unk_10 + 1;

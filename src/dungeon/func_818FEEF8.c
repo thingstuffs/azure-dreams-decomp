@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 extern s16 D_80025E80[5];
-extern s32 D_800814A0[3];
 
 /* Decrement the countdown, reset scale, and flag completion when it expires. */
 void func_818FEEF8(void *state_data, s32 unused, void *scale_data)
@@ -18,7 +18,7 @@ void func_818FEEF8(void *state_data, s32 unused, void *scale_data)
     D_80025E80[0] = 1;
     if (remaining_ticks <= 0) {
         *(u16 *)(state - 2) |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }
 

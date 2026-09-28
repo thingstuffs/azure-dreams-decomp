@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_80126890_0 {
     u8 pad_00[0xC];
@@ -21,7 +22,6 @@ extern void func_80126620(void *);
 
 extern s32 D_8004CAA0;
 extern s8 D_80080A84;
-extern s32 D_800814A0;
 extern s32 D_80126704;
 
 /* Allocates and initializes a node for the supplied data, returning null on failure. */
@@ -44,7 +44,7 @@ static void *func_80126890(void *data) {
         } else {
             func_8004B248((u8 *)node + 0x7C);
             ((S_80126890_0 *)node)->unk_1E |= 0x8000;
-            D_800814A0 |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
             node = 0;
         }
     }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_800AEFD8_0 {
     u8 pad_00[0xC];
@@ -24,7 +25,6 @@ extern void func_8004B248(void *arg0);
 extern void func_8004CAA0(void);
 extern void func_800AE630(void);
 
-extern s32 D_800814A0[3];
 
 /* Create and initialize a child object at (x, y), marking allocation failure for cleanup. */
 void *func_800AEFD8(void *parent, s32 x, s32 y, s32 resource_id,
@@ -45,7 +45,7 @@ void *func_800AEFD8(void *parent, s32 x, s32 y, s32 resource_id,
         } else {
             func_8004B248((u8 *)object + 0xFC);
             ((S_800AEFD8_0 *)object)->unk_1E |= 0x8000;
-            D_800814A0[0] |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
             object = 0;
         }
     }

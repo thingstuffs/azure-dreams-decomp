@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800814A8.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -61,7 +62,6 @@ extern void func_80174890(void *, void *, void *, void *);
 extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern s16 D_80083228;
-extern s32 D_80083460;
 extern u8 D_80171E20[];
 extern u8 D_80175404[];
 extern u8 D_8017540C[];
@@ -91,7 +91,7 @@ void func_801741D8(void *controller_in, void *context_in, void *sprite_in, void 
             func_80047784(sprite,
                 D_80175404[((D_80083228 + ((S_801741D8_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
                 0);
-            counter = (u8 *)&D_80083460;
+            counter = (u8 *)&dungeonStatus.unk_00;
             ((S_801741D8_3 *)counter)->unk_0A--;
             goto increment_state;
         }
@@ -102,7 +102,7 @@ void func_801741D8(void *controller_in, void *context_in, void *sprite_in, void 
             goto set_effect;
         }
 
-        global_state = (u8 *)&D_80083460;
+        global_state = (u8 *)&dungeonStatus.unk_00;
         if (((S_801741D8_4 *)global_state)->unk_02 & 0x1000) {
             break;
         }
@@ -185,7 +185,7 @@ set_effect:
         if (((S_801741D8_1 *)sprite)->unk_14 & 0x8000) {
             goto set_owner;
         } else {
-            counter_m = (u8 *)&D_80083460;
+            counter_m = (u8 *)&dungeonStatus.unk_00;
             ((S_801741D8_3 *)counter_m)->unk_0A++;
         }
 
@@ -195,7 +195,7 @@ increment_state:
 
     case 2:
         if (((S_801741D8_1 *)sprite)->unk_14 & 0xE000) {
-            counter_m = (u8 *)&D_80083460;
+            counter_m = (u8 *)&dungeonStatus.unk_00;
             ((S_801741D8_3 *)counter_m)->unk_0A--;
 set_owner:
             ((S_801741D8_0 *)controller)->unk_8C = D_80171E20;

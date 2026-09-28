@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef s32 M2C_UNK;
 
@@ -35,11 +36,6 @@ typedef struct S_800B7B60_3 {
 } S_800B7B60_3;   /* temp_a1 in func_800B7B60 */
 
 
-typedef struct {
-    u8 pad[0xA];
-    u16 value;
-} Counter;
-
 #ifndef NULL
 #define NULL 0
 #endif
@@ -48,7 +44,6 @@ typedef struct {
 
 extern void *func_8003FC64();
 extern M2C_UNK func_800B8024();
-extern Counter D_80083460;
 extern M2C_UNK D_800B7774;
 
 /* Allocates an object, copies the source coordinates, and increments the object counter. */
@@ -69,7 +64,7 @@ void *func_800B7B60(void *source, s32 *init_value) {
         coord_z = src_coords->unk_0A;
         dst_coords->unk_0A = coord_z;
         func_800B8024((s16) dst_coords->unk_02, (s16) dst_coords->unk_06, (s16) coord_z);
-        D_80083460.value++;
+        dungeonStatus.unk_0A++;
     }
     return object;
 }

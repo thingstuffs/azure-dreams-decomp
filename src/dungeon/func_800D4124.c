@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 
 typedef struct S_800D9884_0 {
@@ -12,7 +13,6 @@ M2C_UNK func_800A4ACC();                     /* extern */
 s32 func_800AB1C0();                                /* extern */
 M2C_UNK func_800AD594();            /* extern */
 s32 func_800AD9B4();                /* extern */
-extern u16 D_80083462;
 extern M2C_UNK D_800D8C64;
 
 /* Updates the target and resets state after a successful check or a reset flag. */
@@ -27,7 +27,7 @@ void func_800D9884(S_800D9884_0 *state, M2C_UNK unused, M2C_UNK source, M2C_UNK 
         }
     } else {
 check_reset_flag:
-        if (D_80083462 & 0x80) {
+        if (dungeonStatus.flags & 0x80) {
             state->unk_90.at02.v = 0;
         }
     }

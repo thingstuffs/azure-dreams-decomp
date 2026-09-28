@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_818FEF80_0_pre {
     u16 unk_00;
@@ -45,7 +46,6 @@ typedef struct S_818FEF80_4 {
 
 
 extern s16 D_80025E80;
-extern s32 D_800814A0;
 
 /* Advance a timed visual effect, updating position, shading, and linked display flags. */
 void func_80024780(void *state, void *position, void *visual) {
@@ -57,7 +57,7 @@ void func_80024780(void *state, void *position, void *visual) {
     D_80025E80 = 1;
     if ((u32)(((S_818FEF80_1 *)object)->unk_13 - 0x33) < 4U) {
         (*(u16 *)((u8 *)state + -2)) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         return;
     }
 
@@ -90,7 +90,7 @@ void func_80024780(void *state, void *position, void *visual) {
 
         ((S_818FEF80_0_pre *)state)[-1].unk_00 |= 0x8000;
         linked_flags = ((S_818FEF80_4 *)linked_visual)->unk_14;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         ((S_818FEF80_4 *)linked_visual)->unk_14 = linked_flags & 0xFF7F;
     }
 }

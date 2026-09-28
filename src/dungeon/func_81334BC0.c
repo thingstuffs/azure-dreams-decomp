@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 
 typedef struct S_8016BBC0_0 {
@@ -14,7 +15,6 @@ extern s32 func_800A2BDC(void *);
 extern void func_800A9A0C(void *);
 extern s16 func_800ADDA0(s32, s32, void *, s32, s32, void *);
 extern void func_8016B230(void *, s32, s32, void *);
-extern u16 D_80083462;
 
 /* Update the actor's action delay, dispatch movement, and clear completed action flags. */
 s32 func_8016BBC0(Rec_func_800A9E70_arg0 *entity, s32 action_ctx, s32 position, s32 force_move)
@@ -76,7 +76,7 @@ check_action:
 finish_action:
     ((S_8016BBC0_0 *)actor)->unk_71 &= 0x7F;
     result = 1;
-    if (!(D_80083462 & 8)) {
+    if (!(dungeonStatus.flags & 8)) {
         return result;
     }
 

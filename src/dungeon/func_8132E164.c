@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80080000.h"
 
@@ -38,7 +39,6 @@ typedef struct S_80165164_1 {
 #define M2C_BREAK() ((void)0)
 #define M2C_SYNC() ((void)0)
 
-extern s32 D_800814A0[3];
 extern u8 D_80080000[];
 
 /* Update effect motion and color, flagging it near its target or when fully faded. */

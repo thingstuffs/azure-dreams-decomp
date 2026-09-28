@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
 typedef union Fixed32 {
@@ -79,8 +81,6 @@ typedef union WideProduct {
     } word;
 } WideProduct;
 
-extern LargeFlag D_800814A0;
-extern u32 D_8008346C[3];
 extern s32 func_8003DE58();
 extern s32 func_800A44E0();
 extern s32 func_800BCB04();
@@ -357,9 +357,9 @@ advance:
 
     case 5:
         if (ctrl->active == 0) {
-            D_8008346C[0] = 0;
+            dungeonStatus.unk_0C = 0;
             *(u16 *)((u8 *)ctrl - 2) |= 0x8000;
-            D_800814A0.value |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
         }
 
     default:

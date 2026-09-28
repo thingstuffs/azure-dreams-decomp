@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -37,7 +38,6 @@ M2C_UNK func_800B66C8();                      /* extern */
 s16 func_800BCB04();                   /* extern */
 extern M2C_UNK D_80082E80;
 extern s16 D_80083228;
-extern M2C_UNK D_80083460;
 extern u8 D_8017102C[];
 extern u8 D_801752CC[];
 extern u8 D_801752D4[];
@@ -188,7 +188,7 @@ update_timer:
         func_800A2B04(motion, ((Rec_D_80082E80 *)map_entry)->unk_24, ((Rec_D_80082E80 *)map_entry)->unk_25);
         func_800AD594(actor, 4);
         func_800A4ACC(actor);
-        global_state = (s16 *)&D_80083460;
+        global_state = (s16 *)&dungeonStatus.unk_00;
         if (global_state[4] != 0) {
             global_state[4] = (s16) ((u16) global_state[4] - 1);
         }

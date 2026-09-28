@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 
 typedef void (*Callback)(void *, void *, void *, void *);
 
 extern u8 D_8006CCF8[];
 extern s16 D_80083228[8];
-extern u16 D_80083462[8];
 extern u8 D_800E23E0[];
 extern u8 D_80171A80[];
 extern Callback D_80176374[];
@@ -74,7 +74,7 @@ void func_801711B0(void *object_arg, void *motion_arg, void *part_arg)
     register u16 bob_step ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 bob_phase;
 
-    if (D_80083462[0] & 0x2000) {
+    if (dungeonStatus.flags & 0x2000) {
         paused_callback = (*(Callback *)((u8 *)object_arg + (0x8C)));
         if (paused_callback == (Callback)D_80171A80) {
             void *callback_obj = object_arg;

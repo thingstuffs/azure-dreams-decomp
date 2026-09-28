@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef struct Child {
     u8 pad0[8];
@@ -30,7 +31,6 @@ typedef struct EntityHeader {
 } EntityHeader;
 
 extern u8 D_80083498[];
-extern u8 D_8008346C[16];
 extern u8 D_800B8830[];
 extern u8 D_800DF2F8[];
 extern u8 D_800DF334[];

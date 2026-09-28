@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "records/Rec_D_80082D58.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -25,7 +26,6 @@ extern void func_80033D08(void *);
 extern void func_800478B8(void *);
 extern void func_8003DB94(void *, void *, s32);
 
-extern s32 D_800814A0;
 extern s32 D_800E9E14[];
 extern s32 D_800E9E34[];
 extern s32 D_800E9E54[];
@@ -413,7 +413,7 @@ case_FF:
         func_8008F134(actor, glide_state, settle_state);
         func_80033D08(actor);
         (*(u16 *)((u8 *)actor + -2)) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         goto tail;
 
 tail:

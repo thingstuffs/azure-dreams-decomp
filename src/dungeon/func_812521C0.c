@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 
 extern s32 func_80047784();
@@ -7,7 +8,6 @@ extern s32 func_8009A3D0();
 extern s16 func_800A0818();
 
 extern s16 D_80083228;
-extern u16 D_80083462;
 extern u8 D_80173E8C[8];
 
 
@@ -122,7 +122,7 @@ void func_801719C0(void *motion, s32 unused, void *sprite, void *path)
     ((S_801719C0_2 *)motion)->unk_8C = 0;
     (*(s32 *)((u8 *)path + (0x1C))) |= 0x40000000;
 
-    if (D_80083462 & 0x80) {
+    if (dungeonStatus.flags & 0x80) {
         ((S_801719C0_2 *)motion)->unk_96 = 0;
         return;
     }

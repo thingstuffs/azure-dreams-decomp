@@ -1,9 +1,9 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 
 typedef void (*Func4)(void *, void *, void *, void *);
-extern u16 D_80083462[5];
 extern Func4 D_800E22E0[];
 extern void func_800478B8(void *);
 extern s32 func_800644B8(s32);
@@ -40,7 +40,7 @@ void func_800D4158(void *entity, S_800D4158_1 *motion, Rec_D_80082E80 *sprite) {
     s16 pulse_phase;
     s32 brightness;
 
-    if (*D_80083462 & 0x2000) {
+    if (dungeonStatus.flags & 0x2000) {
         (*(u8 *)((u8 *)entity_ref + 0x71)) = (*(u8 *)((u8 *)entity_ref + 0x71)) & 0x7f;
         goto epilogue;
     }

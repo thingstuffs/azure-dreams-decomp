@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -40,7 +41,6 @@ extern void func_800CAA94(void *, M2C_UNK, void *);
 M2C_UNK func_800CAFDC();
 M2C_UNK func_800CB4C0();
 extern u16 D_80013714;
-extern s32 D_8008346C;
 extern u8 D_800C9F34;
 
 /* Advances the actor rotation and color effect through fading and cleanup. */
@@ -176,7 +176,7 @@ block_16:
 jt_c4:
     ((S_800CABA8_0 *)effect)->unk_A0.at02.v = 0U;
     func_800A2B04(context, ((Rec_D_80082E80 *)record)->unk_24, ((Rec_D_80082E80 *)record)->unk_25);
-    D_8008346C = 0;
+    dungeonStatus.unk_0C = 0;
     ((S_800CABA8_2 *)actor_state)->unk_46 = (u16) ((*(u16 *)((u8 *)actor_state + 0x46)) & 0x7FFF);
     func_800A4ACC(actor_state);
     cycles_left = ((S_800CABA8_0 *)effect)->unk_B6 - 1;

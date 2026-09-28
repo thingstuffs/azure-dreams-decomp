@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 extern u8 D_80020000[];
 
 #define U16_AT(p, off) (*(u16 *)((u8 *)(p) + (off)))
@@ -7,7 +8,6 @@ extern u8 D_80020000[];
 
 extern void *D_80024008[];
 extern s16 D_80025FF4;
-extern s32 D_800814A0;
 
 /* Advances a timed visual update and sets completion flags when the countdown expires. */
 void func_81971510(void *effect, s32 unused, void *visual)
@@ -70,7 +70,7 @@ case_default:
         return;
     }
 #ifdef NON_MATCHING
-    flags_page = (u8 *)&D_800814A0 - 0x14A0;
+    flags_page = (u8 *)&objectFlagBlock.flags - 0x14A0;
 #else
     flags_page = (u8 *)0x80080000;
 #endif

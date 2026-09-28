@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_func_800AA258_arg2.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_800814A8.h"
@@ -50,7 +51,6 @@ extern void func_80174A68();
 
 extern void *D_800814A8;
 extern s16 D_80083228;
-extern s32 D_80083460;
 extern u8 D_800E2428[];
 extern u8 D_800E2430[];
 extern u8 D_80171A80[];
@@ -86,7 +86,7 @@ state_zero:
     {
         u8 *animation_counters;
 
-        animation_counters = (u8 *)&D_80083460;
+        animation_counters = (u8 *)&dungeonStatus.unk_00;
         ((S_80174788_2 *)animation_counters)->unk_0A--;
     }
     (*(void * *)((u8 *)sprite + 0x2C)) = D_800E2428;
@@ -96,7 +96,7 @@ state_zero:
     goto increment_state;
 
 state_one:
-    shared_state = (u8 *)&D_80083460;
+    shared_state = (u8 *)&dungeonStatus.unk_00;
     if (((S_80174788_4 *)shared_state)->unk_02 & 0x1000) {
         goto done;
     }
@@ -154,7 +154,7 @@ state_two:
     {
         u8 *animation_counters;
 
-        animation_counters = (u8 *)&D_80083460;
+        animation_counters = (u8 *)&dungeonStatus.unk_00;
         ((S_80174788_6 *)animation_counters)->unk_0A--;
     }
     ((Rec_D_800E3D7C *)actor)->unk_1C.as_s32 &= ~8;

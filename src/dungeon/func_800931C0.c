@@ -7,16 +7,10 @@
  * retail (`j 0x98b10 / li v0,-1`). Config: 2.8.1.
  */
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 extern s32 D_80082EB4[];
 
-typedef struct {
-    u8 pad0[2];
-    u16 field2;
-    u8 pad4[6];
-    u16 fieldA;
-} S80083460;
-extern S80083460 D_80083460;
 extern u32 *D_800DD6B8[];
 extern u8 D_800E3648[];
 extern void *D_800E3D7C[];
@@ -57,7 +51,7 @@ s32 func_80098920(void *actor, void *action, s16 dispatch_mode, s32 handler_para
         func_800B627C(D_800E3648[result * 4], actor, result, 1);
         return;
     }
-    D_80083460.fieldA += 1;
+    dungeonStatus.unk_0A += 1;
     handler_entry = D_800DD6B8[type_index][action_index];
     handler_tag = handler_entry >> 0x18;
     handler = (void (*)(void *, void *, s16, s32))((handler_entry & 0xFFFFFF) | 0x80000000);
@@ -81,7 +75,7 @@ s32 func_80098920(void *actor, void *action, s16 dispatch_mode, s32 handler_para
     }
     func_80099F70(*(s32 *)((u8 *)D_800E3D7C[0] + 0x5C));
     func_80099F04(*(s32 *)((u8 *)D_800E3D7C[0] + 0x5C));
-    D_80083460.field2 |= 0x812;
+    dungeonStatus.flags |= 0x812;
 tail:
     handler(actor, action, dispatch_mode, handler_param);
 }

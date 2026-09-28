@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef union {
     u16 unsigned_value;
@@ -52,7 +53,6 @@ extern u8 D_801739B0[];
 extern u8 D_8016A36C[];
 extern s16 D_80083228[5];
 extern u8 D_80083780[12];
-extern s32 D_8008346C[];
 extern void *D_80164998[];
 
 extern void func_80047784(DungeonObject *, u8, s32);
@@ -207,7 +207,7 @@ case6:
     input->unk_73 = 0;
     input->unk_72 = 0;
     state->unk_8C = D_8016A36C;
-    D_8008346C[0] = 0;
+    dungeonStatus.unk_0C = 0;
     input->unk_46 = input->unk_46 & 0x7FFF;
 
 done:

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
 typedef struct S_80172504_0 {
@@ -51,7 +52,6 @@ extern s16 func_800BCB04();
 extern void func_800C77D0();
 extern void func_800C7930();
 
-extern u16 D_80083462;
 
 /* Scan up to eight tiles ahead for a valid target and update the entity action state. */
 s32 func_80172504(void *action_state, void *transfer_data, void *origin, void *actor) {
@@ -75,10 +75,10 @@ s32 func_80172504(void *action_state, void *transfer_data, void *origin, void *a
     u16 direction;
 
     ((S_80172504_0 *)actor)->unk_71 &= 0x7F;
-    if (D_80083462 & 0x2000) {
+    if (dungeonStatus.flags & 0x2000) {
         return -1;
     }
-    if (!(((S_80172504_0 *)actor)->unk_46 & 0x8000) && (D_80083462 & 8)) {
+    if (!(((S_80172504_0 *)actor)->unk_46 & 0x8000) && (dungeonStatus.flags & 8)) {
         return -1;
     }
     if ((func_800A2B5C(actor) << 16) != 0) {

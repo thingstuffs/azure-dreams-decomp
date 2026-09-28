@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 
 typedef struct State8081A3D8 {
@@ -21,7 +22,6 @@ extern u8 D_80024B48[];
 extern u8 D_80045340[];
 extern s32 D_80053858[4];
 extern s32 D_80053A88;
-extern int D_800814A0;
 extern u8 D_80083498[];
 extern u8 D_80083780[];
 extern u8 D_800F7DFC[];
@@ -266,7 +266,7 @@ case_4:
 
 case_5:
     *((u16 *)controller - 1) |= 0x8000;
-    D_800814A0 |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
 
 end:
     controller->flags &= 0xFFFE;

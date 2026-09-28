@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
@@ -21,7 +22,6 @@ extern void func_800A2B04(void *, u8, u8);
 extern void func_800AAA54(void *, void *, void *, void *);
 extern void func_800AD4D0(void *);
 
-extern s32 D_80083460;
 extern u8 D_80171094;
 extern u8 D_801764B0;
 
@@ -146,7 +146,7 @@ align_to_tile:
     {
         s32 *entity_globals;
 
-        entity_globals = &D_80083460;
+        entity_globals = &dungeonStatus.unk_00;
         velocity_or_entity = entity_globals[4];
         if (velocity_or_entity == (s32)((u8 *)entity - 0x20)) {
             entity_globals[4] = velocity_or_entity & 0x7FFFFFFF;

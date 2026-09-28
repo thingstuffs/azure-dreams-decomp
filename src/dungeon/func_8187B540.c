@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_8187B540_0 {
     u8 pad_00[0x1A];
@@ -15,7 +16,6 @@ typedef struct S_8187B540_1 {
 
 
 extern s16 D_8002694C;
-extern s32 D_800814A0;
 
 /* Add the object increment to the target and flag completion when its countdown expires. */
 void func_8187B540(void *object, s32 unused, void *target) {
@@ -29,6 +29,6 @@ void func_8187B540(void *object, s32 unused, void *target) {
     ((S_8187B540_1 *)object_data)->unk_10 = remaining;
     if ((s16)remaining <= 0) {
         (*(u16 *)((u8 *)object_data + -2)) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct {
     u16 pad0;
@@ -13,7 +14,6 @@ typedef struct {
     u16 value1E;
 } Obj2;
 
-extern s32 D_800814A0[3];
 
 /* Decrement the countdown, adjust both state values, and flag completion or cancellation. */
 void func_80171030(Obj0 *countdown, s32 unused, Obj2 *state)
@@ -33,11 +33,11 @@ void func_80171030(Obj0 *countdown, s32 unused, Obj2 *state)
 
     if ((s16)countdown->count <= 0) {
         ((u16 *)countdown)[-1] |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 
     if (state->flags14 & 0x8000) {
         ((u16 *)countdown)[-1] |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

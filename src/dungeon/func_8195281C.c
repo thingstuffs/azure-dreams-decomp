@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 
 typedef struct S_8195281C_0_pre {
@@ -81,8 +83,6 @@ extern u8 D_800DF334[];
 extern int D_800814A8[4];
 extern u16 D_80082E94;
 extern u8 *D_800E3D7C[];
-extern s32 D_80083460[3];
-extern s32 D_800814A0[3];
 extern void *D_80024008[];
 M2C_UNK func_80024908();
 M2C_UNK func_800A56E0();
@@ -210,11 +210,11 @@ jt_c4:
     if (D_800249A6 != 0) {
         goto block_28;
     }
-    effect_manager = (u8 *) D_80083460;
+    effect_manager = (u8 *) ((s32 *)(&dungeonStatus));
     ((S_8195281C_8 *)effect_manager)->unk_0C = 0;
     ((S_8195281C_8 *)effect_manager)->unk_0A = (u16) (((S_8195281C_8 *)effect_manager)->unk_0A - 1);
     ((S_8195281C_0_pre *)effect)[-1].unk_00 = (u16) (((S_8195281C_0_pre *)effect)[-1].unk_00 | 0x8000);
-    ((S_8195281C_9 *)D_800814A0)->unk_00 = (s32) (((S_8195281C_9 *)D_800814A0)->unk_00 | 0x8000);
+    ((S_8195281C_9 *)((s32 *)(&objectFlagBlock)))->unk_00 = (s32) (((S_8195281C_9 *)((s32 *)(&objectFlagBlock)))->unk_00 | 0x8000);
 block_27:
 block_28:
     D_800249A6 = 0;

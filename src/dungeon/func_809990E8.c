@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -18,7 +19,6 @@ typedef struct S_8014C8E8_2 {
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 
-extern s32 D_800814A0[3];
 extern void func_800478B8(void *arg0);
 /* Scale the color by the remaining countdown, then decrement it and flag completion. */
 void func_8014C8E8(void *record_data, void *unused, Rec_D_80082E80 *color)
@@ -35,6 +35,6 @@ void func_8014C8E8(void *record_data, void *unused, Rec_D_80082E80 *color)
     ((S_8014C8E8_0 *)((u8 *)record_data - 0x2))->unk_98 = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
         ((S_8014C8E8_0 *)((u8 *)record_data - 0x2))->unk_00 = (u16) (((S_8014C8E8_0 *)((u8 *)record_data - 0x2))->unk_00 | 0x8000);
-        ((S_8014C8E8_2 *)D_800814A0)->unk_00 = (s32) (((S_8014C8E8_2 *)D_800814A0)->unk_00 | 0x8000);
+        ((S_8014C8E8_2 *)((s32 *)(&objectFlagBlock)))->unk_00 = (s32) (((S_8014C8E8_2 *)((s32 *)(&objectFlagBlock)))->unk_00 | 0x8000);
     }
 }

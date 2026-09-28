@@ -1,6 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
-extern s32 D_800814A0[];
 extern void func_800478B8(void *arg0);
 
 /* Advances object motion, decrements its timer, and flags expiration. */
@@ -20,7 +20,7 @@ void func_801740FC(void *object_data, void *motion_data, void *work_data)
     *(u16 *)(object + 0x96) = timer;
     if (timer <= 0) {
         *(u16 *)(object - 2) |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 
     func_800478B8(work);

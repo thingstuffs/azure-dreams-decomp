@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_80170DC4_0_pre {
     u16 unk_00;
@@ -19,14 +20,6 @@ typedef struct S_80170DC4_1 {
 } S_80170DC4_1;   /* arg2 in func_80170DC4 */
 
 
-typedef struct {
-    s32 value;
-    s32 pad[2];
-} GlobalFlags;
-
-
-extern GlobalFlags D_800814A0;
-
 /* Decrement the countdown, update three scaled output components, and flag completion. */
 void func_80170DC4(void *countdownState, s32 unused, S_80170DC4_1 *output) {
     s32 scaledRemaining;
@@ -40,6 +33,6 @@ void func_80170DC4(void *countdownState, s32 unused, S_80170DC4_1 *output) {
     output->unk_0D = (s8) scaledRemaining;
     if ((s16) ((S_80170DC4_0 *)countdownState)->unk_96 <= 0) {
         ((S_80170DC4_0_pre *)countdownState)[-1].unk_00 = ((S_80170DC4_0_pre *)countdownState)[-1].unk_00 | 0x8000;
-        D_800814A0.value = D_800814A0.value | 0x8000;
+        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
     }
 }

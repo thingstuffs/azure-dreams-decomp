@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
 
 typedef struct S_80170D44_0_pre {
@@ -35,7 +36,6 @@ typedef struct S_80170D44_2 {
 
 
 extern void func_800478B8(void *arg0);
-extern s32 D_800814A0[3];
 
 
 /* Copy the effect position, expand and fade its primitive, and flag expiration. */
@@ -65,6 +65,6 @@ void func_80170D44(void *effect, S_80170D44_1 *position, Rec_D_80082E80 *primiti
 
     if (((S_80170D44_0 *)effect)->unk_96.u <= 0) {
         ((S_80170D44_0_pre *)effect)[-1].unk_00 = (u16)(((S_80170D44_0_pre *)effect)[-1].unk_00 | 0x8000);
-        D_800814A0[0] = (s32)(D_800814A0[0] | 0x8000);
+        objectFlagBlock.flags = (s32)(objectFlagBlock.flags | 0x8000);
     }
 }

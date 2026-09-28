@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "shared/dir_step.h"
 
 extern s32 rand(void);
 extern s16 func_800BCB04(u16, u16, s16);
 extern s16 D_80025914;
-extern s32 D_800814A0[];
 
 /* Applies randomized movement and reduces speed, setting flags when speed runs out. */
 void func_8181AE04(void *object_data, s16 *position)
@@ -30,6 +30,6 @@ void func_8181AE04(void *object_data, s16 *position)
     object[25] = speed;
     if ((speed << 16) <= 0) {
         ((u16 *)object)[-1] |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

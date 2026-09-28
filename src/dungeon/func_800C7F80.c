@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
 
@@ -11,7 +12,6 @@ extern s32 func_800A6D30(void *, s32, s32, s32);
 extern void func_800CD6AC();
 
 extern u8 D_80045C34[];
-extern u16 D_80083460[6];
 extern u8 D_800CD474[];
 extern u8 D_800E03E0[];
 extern u8 D_800E3D40;
@@ -132,7 +132,7 @@ check_gate:
 
         effect_index = 0;
         update_callback = (void *)D_800CD474;
-        effect_counts = D_80083460;
+        effect_counts = ((u16 *)(&dungeonStatus));
         x_offsets = dirStepX;
         do {
             ((S_800CD6E0_2 *)((effect = func_8003FC64(2))))->unk_10 = update_callback;

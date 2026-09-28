@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 
 typedef struct {
@@ -6,18 +7,12 @@ typedef struct {
     u8 pad[8];
 } Counter;
 
-typedef struct {
-    s32 value;
-    u8 pad[8];
-} Flags;
-
 s32 func_800644B8(s16);
 s32 func_80064584(s16);
 void func_800B835C(void *, s32 *, s32, s32);
 
 extern Counter D_80026472;
 extern u8 D_80026478[];
-extern Flags D_800814A0;
 
 
 typedef struct S_80025E48_0_pre {
@@ -273,7 +268,7 @@ fade_slow:
 
 finish:
         ((S_80025E48_0_pre *)effect)[-1].unk_00 |= 0x8000;
-        D_800814A0.value |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 
 epilogue:

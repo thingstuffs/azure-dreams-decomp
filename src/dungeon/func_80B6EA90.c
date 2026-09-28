@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -39,7 +40,6 @@ extern void func_800AD594(void *, s32);
 extern s32 func_800AD9B4(void *, void *);
 
 extern u8 D_80082E80[];
-extern s32 D_80083460;
 extern s32 D_80170E5C;
 
 /* Advance arcing movement toward the destination tile and finalize the landing. */
@@ -123,7 +123,7 @@ countdown:
         func_800A4ACC(entity);
 
         {
-            u8 *global_state = (u8 *)&D_80083460;
+            u8 *global_state = (u8 *)&dungeonStatus.unk_00;
 
             if (((S_80172290_4 *)global_state)->unk_08.s != 0) {
                 ((S_80172290_4 *)global_state)->unk_08.u--;

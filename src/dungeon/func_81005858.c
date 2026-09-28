@@ -1,3 +1,4 @@
+#include "shared/dungeon_status.h"
 
 struct S_80083178Vector
 {
@@ -87,7 +88,6 @@ extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern s8 D_80082EA4;
 extern s16 D_80083228;
-extern u16 D_80083462;
 extern u8 D_80174880[];
 extern u8 D_80174890[];
 extern u8 D_801748C8;
@@ -103,7 +103,7 @@ void func_80171058(void *actor, void *context, void *sprite_arg, void *creature)
   s8 room_id;
   u16 action;
   void *sprite;
-  u32 dungeon_flags = D_80083462;
+  u32 dungeon_flags = dungeonStatus.flags;
   if (dungeon_flags & 0x1000)
   {
     *((u8 *) (((u8 *) actor) + 0x9A)) = 0xE;
@@ -139,7 +139,7 @@ void func_80171058(void *actor, void *context, void *sprite_arg, void *creature)
       return;
     }
   }
-  if (!(D_80083462 & 0x2000))
+  if (!(dungeonStatus.flags & 0x2000))
   {
     if ((*((u32 *) (((u8 *) creature) + 0x1C))) & 0x100)
     {
@@ -210,7 +210,7 @@ void func_80171058(void *actor, void *context, void *sprite_arg, void *creature)
     }
     if (!((*((u16 *) (((u8 *) creature) + 0x46))) & 0x8000))
     {
-      if (D_80083462 & 0x2000)
+      if (dungeonStatus.flags & 0x2000)
       {
         if ((func_8009A180(creature, ((u8 *) (*((void **) (((u8 *) D_800814A8) + 0x58)))) + 0x20) << 16) != 0)
         {

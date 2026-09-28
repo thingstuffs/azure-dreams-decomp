@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_8008D470_0_pre {
     u16 unk_00;
@@ -72,7 +73,6 @@ typedef struct S_8008D470_7 {
 
 
 extern void *D_800E3D7C[];
-extern u32 D_800814A0[];
 extern s32 D_800814A8[];
 extern u8 D_80081484[];
 
@@ -151,7 +151,7 @@ nonzero_state:
         if (state == 1) {
             if (((S_8008D470_0 *)effect)->unk_AE == 0) {
                 ((S_8008D470_0_pre *)effect)[-1].unk_00 |= 0x8000;
-                D_800814A0[0] |= 0x8000;
+                objectFlagBlock.flags |= 0x8000;
             }
         }
     }
@@ -196,7 +196,7 @@ update_light:
             }
 set_flag:
             ((S_8008D470_0_pre *)effect)[-1].unk_00 |= 0x8000;
-            D_800814A0[0] |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
         }
     }
 }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct EffectState {
     u8 pad00[4];
@@ -54,7 +55,6 @@ typedef struct Packed12 {
 
 extern EffectObject *func_8003FC64(s32 kind);
 extern void func_8004491C(void *object, void *callback);
-extern s32 D_800814A0;
 extern u8 D_801740B4[];
 extern u8 D_80174108[];
 extern Packed12 D_80174FC0;
@@ -183,7 +183,7 @@ spawn_objects:
     state->lifetime--;
     if (state->lifetime <= 0) {
         *(u16 *)((u8 *)state - 2) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }
 

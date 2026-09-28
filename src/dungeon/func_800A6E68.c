@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -8,8 +10,6 @@ typedef struct {
     u16 field_A;
 } D_80083460_t;
 
-extern D_80083460_t D_80083460;
-extern s32 D_800814A0[3];
 
 extern void func_8009A028();
 extern void func_8009A21C();
@@ -86,11 +86,11 @@ state_1:
     animation->unk_96 = 0x10;
 
     if (!(((Rec_D_80082E80 *)object)->unk_14.at00_s32.v & 0x4000)) {
-        D_80083460.field_A--;
+        dungeonStatus.unk_0A--;
         func_800A32A4(object);
         func_8009A028(object);
         ((S_800AC5C8_1_pre *)object)[-1].unk_00 |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         goto return_zero;
     }
 
@@ -124,7 +124,7 @@ state_2:
     {
         D_80083460_t *status;
 
-        status = &D_80083460;
+        status = ((D_80083460_t *)&dungeonStatus);
         status->field_A--;
     }
     {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_func_800AA258_arg2.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_800814A8.h"
@@ -61,8 +62,6 @@ extern void func_801759A0(Obj0 *, void *, Obj2 *, Obj3 *);
 
 extern void *D_800814A8;
 extern s16 D_80083228;
-extern s32 D_80083460;
-extern u16 D_80083462;
 extern u8 D_801724BC[];
 extern u8 D_80175E54[];
 extern u8 D_80175E5C[];
@@ -96,7 +95,7 @@ void func_80175574(Obj0 *controller_arg, void *context_arg, Obj2 *animation_arg,
             return;
         }
         {
-            counter_base = (u8 *)&D_80083460;
+            counter_base = (u8 *)&dungeonStatus.unk_00;
 
             ((S_80175574_2 *)counter_base)->unk_0A--;
         }
@@ -196,7 +195,7 @@ early_second_table_14:
             }
             goto increment_counter;
         }
-        if (D_80083462 & 0x1000) {
+        if (dungeonStatus.flags & 0x1000) {
             return;
         }
         if (((Rec_D_800E3D7C *)actor)->unk_64.as_s16 != 0) {
@@ -280,7 +279,7 @@ second_table_15:
 
 increment_counter:
         {
-            counter_base = (u8 *)&D_80083460;
+            counter_base = (u8 *)&dungeonStatus.unk_00;
 
             ((S_80175574_2 *)counter_base)->unk_0A++;
         }
@@ -293,7 +292,7 @@ increment_state:
             return;
         }
         {
-            counter_base = (u8 *)&D_80083460;
+            counter_base = (u8 *)&dungeonStatus.unk_00;
 
             ((S_80175574_2 *)counter_base)->unk_0A--;
         }

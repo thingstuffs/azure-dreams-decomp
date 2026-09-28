@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 
 typedef void (*Callback)(void *, void *, void *, void *);
 
 extern u8 D_8006CCF8[9];
 extern s16 D_80083228[5];
-extern u8 D_80083460[9];
 extern u8 D_80171058[];
 extern u8 D_80174880[9];
 extern Callback D_80174900[];
@@ -70,7 +70,7 @@ void func_80170A78(void *input_obj, void *input_motion, void *input_part)
     s32 bob_offset;
     u8 direction_flag;
 
-    if (*(u16 *)(D_80083460 + 2) & 0x2000) {
+    if (*(u16 *)(((u8 *)(&dungeonStatus)) + 2) & 0x2000) {
         callback = (*(Callback *)((u8 *)input_obj + 0x8C));
         if (callback == (Callback)D_80171058) {
             void *entry_obj = input_obj;
@@ -124,7 +124,7 @@ void func_80170A78(void *input_obj, void *input_motion, void *input_part)
     (*(s32 *)((u8 *)obj + 0x90)) += ((S_80170A78_0 *)motion)->unk_14;
     part_flags = ((S_80170A78_1 *)part)->unk_14;
     if (!(part_flags & 0x8000)) {
-        value_bits = *(s16 *)((u8 *)D_80083460 - 0x238) +
+        value_bits = *(s16 *)((u8 *)((u8 *)(&dungeonStatus)) - 0x238) +
             ((S_80170A78_2 *)state)->unk_2A + 0x100;
         input_motion = ((s32)value_bits >> 9) & 7;
         mode_or_dir = input_motion;

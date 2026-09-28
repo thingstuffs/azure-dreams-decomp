@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_800814A8.h"
@@ -28,8 +29,6 @@ extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern s8 D_80082EA4;
 extern s16 D_80083228;
-extern s32 D_80083460;
-extern u16 D_80083462;
 extern s8 D_800E2970[];
 extern void *D_80170808[];
 extern u8 D_80170E68[];
@@ -68,7 +67,7 @@ void func_80170E68(Rec_func_800A9E70_arg0 *actor, void *context, void *sprite, R
     volatile s16 distance;
     u16 status_flags;
 
-    dungeon_status = (volatile u16 *)&D_80083460;
+    dungeon_status = (volatile u16 *)&dungeonStatus.unk_00;
     if (dungeon_status[1] & 0x1000) {
         actor->unk_9A.as_u8 = 14;
         func_80171388(actor);
@@ -136,7 +135,7 @@ void func_80170E68(Rec_func_800A9E70_arg0 *actor, void *context, void *sprite, R
         }
 
         if ((state->unk_44.at02_u16.v & 0x8000) == 0) {
-            if (D_80083462 & 0x2000) {
+            if (dungeonStatus.flags & 0x2000) {
                 if ((s16)func_8009A180(state, (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) != 0) {
                     return;
                 }
@@ -221,7 +220,7 @@ case_default:
     }
 
 tail_checks:
-    if (D_80083462 & 0x2000) {
+    if (dungeonStatus.flags & 0x2000) {
         return;
     }
     if (*(u16 *)((u8 *)sprite + 0x14) & 0x40) {

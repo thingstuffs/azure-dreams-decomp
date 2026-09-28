@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 #ifndef NULL
 #define NULL 0
@@ -38,7 +39,6 @@ typedef struct {
 } RenderSource;
 
 extern u8 *D_800E3D7C[];
-extern s32 D_800814A0;
 
 extern void func_80042B68(void *obj, s8 index);
 extern void func_80041E70(void *obj);
@@ -153,7 +153,7 @@ mode_two:
     if ((frames_left << 16) > 0)
         goto done;
     *((u16 *)state - 1) |= 0x8000;
-    D_800814A0 |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
 
 done:
     return;

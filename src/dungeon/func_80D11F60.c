@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_800814A8.h"
@@ -37,7 +38,6 @@ extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern s8 D_80082EA4;
 extern s16 D_80083228;
-extern u16 D_80083462;
 extern s8 D_800E2970[];
 extern void *D_80170808[];
 extern u8 D_80171760[];
@@ -84,7 +84,7 @@ void func_80171760(void *motion, void *render_ctx, void *map_entity, void *actor
     u8 *anim_table;
     s32 room_id;
     s32 direction_flags;
-    u32 initial_flags = D_80083462;
+    u32 initial_flags = dungeonStatus.flags;
 
     if (initial_flags & 0x1000) {
         ((Rec_func_800A9E70_arg0 *)motion)->unk_9A.as_u8 = 0xE;
@@ -117,7 +117,7 @@ void func_80171760(void *motion, void *render_ctx, void *map_entity, void *actor
         }
     }
 
-    if (!(D_80083462 & 0x2000)) {
+    if (!(dungeonStatus.flags & 0x2000)) {
         if (((Rec_D_800E3D7C *)actor)->unk_1C.as_u32 & 0x100) {
             func_800AA258(motion, render_ctx, map_entity, actor);
             return;
@@ -174,7 +174,7 @@ void func_80171760(void *motion, void *render_ctx, void *map_entity, void *actor
             goto generic;
         }
         if (!(((Rec_D_800E3D7C *)actor)->unk_44.at02_u16.v & 0x8000)) {
-            if (D_80083462 & 0x2000) {
+            if (dungeonStatus.flags & 0x2000) {
                 if ((func_8009A180(actor,
                         (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) << 16) != 0) {
                     return;
@@ -265,7 +265,7 @@ generic:
         }
     }
 
-    if (D_80083462 & 0x2000) {
+    if (dungeonStatus.flags & 0x2000) {
         return;
     }
     if (((S_80171760_2 *)map_entity)->unk_14 & 0x40) {

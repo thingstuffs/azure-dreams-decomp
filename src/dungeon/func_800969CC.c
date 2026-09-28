@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
 extern u8 D_80070000[];
@@ -29,7 +30,6 @@ M2C_UNK func_800B4C7C();
 s16 func_800B5ED0();
 M2C_UNK func_800C7DEC();
 s32 func_800C82B8();
-extern void *D_80083470[3];
 extern M2C_UNK D_800E0D7B;
 extern M2C_UNK D_800E0D92;
 extern M2C_UNK D_800E0D9E;

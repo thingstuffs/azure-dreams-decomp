@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
@@ -31,7 +32,6 @@ extern void func_800AAA54(void *, void *, void *, void *);
 extern void func_800AD4D0(void *);
 
 extern s16 D_80083228;
-extern s32 D_80083460;
 extern u8 D_80170E7C;
 extern u8 D_80174C44[];
 extern u8 D_80174C74[];
@@ -171,7 +171,7 @@ state_three:
     ((S_80173234_1 *)motion)->unk_04.at00.v = ((((Rec_D_80082E80 *)sprite)->unk_25 << 6) + 0x20) << 16;
     func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
 
-    tracking_state = &D_80083460;
+    tracking_state = &dungeonStatus.unk_00;
     tracked_entity = tracking_state[4];
     if (tracked_entity == (s32)((u8 *)entity - 0x20)) {
         tracking_state[4] = tracked_entity & 0x7FFFFFFF;

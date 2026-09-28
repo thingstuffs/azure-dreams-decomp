@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "records/Rec_D_800814A8.h"
 
 
@@ -7,7 +8,6 @@ extern s32 func_8003DE58(void *, void *, void *, s32);
 extern s32 func_800644B8(s32);
 
 extern s32 D_80045340;
-extern s32 D_800814A0;
 extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern s16 D_80083228;
@@ -213,7 +213,7 @@ state_three:
     }
 
     (*(u16 *)((u8 *)effect + (-2))) |= 0x8000;
-    D_800814A0 |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
     return;
 
 tick:

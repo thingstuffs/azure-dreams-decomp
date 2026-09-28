@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 
@@ -8,7 +9,6 @@ extern void func_800ACB98(void *arg0, s32 arg1, s32 arg2, void *arg3);
 extern void func_800ACD74(void *arg0, s32 arg1, s32 arg2, void *arg3);
 
 extern s16 D_800DCE68;
-extern u8 D_80083460[0x14];
 
 
 
@@ -39,7 +39,7 @@ void func_800B253C(Rec_func_800A9E70_arg0 *actor, s32 update_arg1, s32 update_ar
                     }
                     goto update_state;
                 }
-                shared_state = D_80083460;
+                shared_state = ((u8 *)(&dungeonStatus));
                 active_entity = ((S_800B253C_2 *)shared_state)->unk_0C;
                 if (active_entity != entity) {
                     if ((((S_800B253C_2 *)shared_state)->unk_10 == 0) && (active_entity == 0) &&

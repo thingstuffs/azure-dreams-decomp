@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
 #define U8(p, o)  (*(u8 *)((u8 *)(p) + (o)))
@@ -16,7 +17,6 @@ extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
 
 extern s16 D_80083228[];
-extern s32 D_8008346C[];
 extern u8 D_801710EC[];
 extern u8 D_80175E88[];
 extern u8 D_80175EB8[];

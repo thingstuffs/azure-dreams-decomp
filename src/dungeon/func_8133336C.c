@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_800814A8.h"
@@ -83,8 +84,6 @@ extern void *D_800814A8;
 extern M2C_UNK D_80082E80;
 extern u16 D_80082EA4;
 extern s16 D_80083228;
-extern M2C_UNK D_80083460;
-extern u16 D_80083462;
 extern DungeonEntry D_800E2970[];
 extern u8 D_801739A0;
 extern u8 D_801739A8;
@@ -133,7 +132,7 @@ void func_8016A36C(void *actor, void *context, void *sprite_arg, void *entity) {
     u32 clear_mask;
     s32 state_changed;
 
-    dungeon_state = &D_80083460;
+    dungeon_state = &dungeonStatus.unk_00;
     if (!(((S_8016A36C_0 *)dungeon_state)->unk_02 & 0x1000)) {
         goto block_3;
     }
@@ -258,7 +257,7 @@ block_35:
     }
 block_36:
 block_37:
-    if (D_80083462 & 0x2000) {
+    if (dungeonStatus.flags & 0x2000) {
         goto block_77;
     }
     if (!(((Rec_D_800E3D7C *)entity)->unk_1C.as_s32 & 0x100)) {
@@ -377,7 +376,7 @@ block_71:
     if ((func_800A1C58(entity) << 0x10) == 0) {
         goto block_77;
     }
-    turn_state = &D_80083460;
+    turn_state = &dungeonStatus.unk_00;
     if (((S_8016A36C_4 *)turn_state)->unk_0C != entity) {
         goto block_150;
     }
@@ -407,7 +406,7 @@ block_77:
     if (((Rec_D_800E3D7C *)entity)->unk_44.at02_u16.v & 0x8000) {
         goto block_87;
     }
-    if (!(D_80083462 & 0x2000)) {
+    if (!(dungeonStatus.flags & 0x2000)) {
         goto block_83;
     }
     if ((func_8009A180(entity, ((Rec_D_800814A8 *)D_800814A8)->unk_58.as_s32 + 0x20) << 0x10) != 0) {
@@ -533,7 +532,7 @@ block_112:
     }
 block_115:
 block_116:
-    if (D_80083462 & 0x2000) {
+    if (dungeonStatus.flags & 0x2000) {
         goto block_150;
     }
     if (((S_8016A36C_3 *)sprite)->unk_14 & 0x40) {

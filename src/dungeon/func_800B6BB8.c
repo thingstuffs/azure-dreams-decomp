@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 #ifndef NULL
 #define NULL 0
@@ -16,7 +17,6 @@ struct S_8003FFF0 {
 
 extern S_8003FFF0 *D_80081498[4];
 extern u8 D_800BC388[9];
-extern s32 D_800814A0[3];
 
 // Set bit 0x8000 in the first matching node's flags and the shared flags.
 void func_800BC318(s32 targetId) {
@@ -27,10 +27,10 @@ void func_800BC318(s32 targetId) {
         do {
             if ((node->kind == D_800BC388) && (node->id == targetId)) {
                 u16 nodeFlags = node->flags;
-                s32 sharedFlags = D_800814A0[0];
+                s32 sharedFlags = objectFlagBlock.flags;
 
                 node->flags = nodeFlags | 0x8000;
-                D_800814A0[0] = sharedFlags | 0x8000;
+                objectFlagBlock.flags = sharedFlags | 0x8000;
                 return;
             }
             node = node->next;

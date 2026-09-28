@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
@@ -29,7 +30,6 @@ s32 func_800644B8();                             /* extern */
 s32 func_80064584();                             /* extern */
 s32 rand();                                /* extern */
 M2C_UNK func_8017406C();      /* extern */
-extern s32 D_800814A0[3];
 
 /* Update the effect's orbit and height, fade its color, and mark it for removal when its life expires. */
 void func_801741A0(void *effect, Rec_D_800E3D7C *position, Rec_D_80082E80 *primitive) {
@@ -56,6 +56,6 @@ void func_801741A0(void *effect, Rec_D_800E3D7C *position, Rec_D_80082E80 *primi
     ((S_801741A0_0 *)effect)->unk_1A = next_life;
     if ((next_life << 0x10) <= 0) {
         ((S_801741A0_0_pre *)effect)[-1].unk_00 = (u16) (((S_801741A0_0_pre *)effect)[-1].unk_00 | 0x8000);
-        D_800814A0[0] = (s32) (D_800814A0[0] | 0x8000);
+        objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
     }
 }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -120,7 +121,6 @@ extern void func_800C857C(void *, void *);
 
 extern s32 D_80045340;
 extern s16 D_80083228;
-extern s32 D_8008346C;
 extern u8 D_80083498[];
 extern s32 D_800DE870;
 extern u8 D_80170854[];
@@ -385,7 +385,7 @@ finish_delay:
         if ((s16)timer <= 0 || (((Rec_D_80082E80 *)source_render)->unk_14.at00_u16.v & 0xE000)) {
             func_800AD594(actor, 0x1000);
             ((S_80174BEC_0 *)state)->unk_8C = D_80171E20;
-            D_8008346C = 0;
+            dungeonStatus.unk_0C = 0;
             (*(u16 *)((u8 *)actor + 0x46)) &= 0x7FFF;
         }
     }

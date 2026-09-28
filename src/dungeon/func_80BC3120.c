@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -20,7 +21,6 @@ typedef struct S_80172920_3 {
 
 
 
-extern s32 D_80083460;
 
 extern void func_8009C93C(void *, void *, s16, s32, s32);
 extern s32 func_800A0134(s32, void *);
@@ -36,7 +36,7 @@ s32 func_80172920(S_80172920_3 *action_state, s32 effect_arg, Rec_D_80082E80 *ta
     s32 *global_flags;
 
     ((Rec_D_800E3D7C *)actor)->unk_71.as_u8 &= 0x7F;
-    global_flags = &D_80083460;
+    global_flags = &dungeonStatus.unk_00;
 
     if (((S_80172920_1 *)global_flags)->unk_02 & 0x2000) {
         goto shared_failure;

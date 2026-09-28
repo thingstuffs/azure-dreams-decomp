@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 typedef long long s64;
 typedef s32 M2C_UNK;
@@ -117,7 +118,6 @@ s16 func_800BCB04();
 extern s16 D_8008146E;
 extern u8 D_80082E80[];
 extern s16 D_80083228;
-extern u8 D_80083460[];
 extern u8 D_800DDC40[];
 extern M2C_UNK D_80171058;
 extern u8 D_80174888[];
@@ -577,7 +577,7 @@ finish_movement:
     partner_actor->unk_8C = saved_handler;
     func_800AD594(reset_entity, 0x100);
     next_handler = &D_80171058;
-    dungeon_state = (S_func_81008664_8 *) D_80083460;
+    dungeon_state = (S_func_81008664_8 *) ((u8 *)(&dungeonStatus));
     actor->unk_8C = next_handler;
     active_count = dungeon_state->unk_0A;
     finish_entity = entity;

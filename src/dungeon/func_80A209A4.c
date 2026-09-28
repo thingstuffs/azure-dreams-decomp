@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct {
     u8 pad0[8];
@@ -9,7 +10,6 @@ typedef struct {
     u16 field18;
 } Func80A209A4Data;
 
-extern s32 D_800814A0[3];
 
 /* Advance motion and set completion flags when the countdown expires. */
 void func_801741A4(Func80A209A4Data *motion) {
@@ -24,7 +24,7 @@ void func_801741A4(Func80A209A4Data *motion) {
     data->field18 = ticks_left;
     if ((ticks_left << 16) <= 0) {
         *(u16 *)((u8 *)data - 2) |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }
 

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_8196BA5C_0 {
     u8 pad_00[0x2C];
@@ -70,7 +71,6 @@ extern u8 D_8002407C[];
 extern PackedVec3 D_80026978;
 extern s16 D_800269B4;
 extern u8 D_80045340[];
-extern s32 D_800814A0;
 extern void *D_800814A8;
 
 extern void *func_8003FC64(s32);
@@ -169,7 +169,7 @@ slot_loop:
     (*(u16 *)((u8 *)owner + 0x2C)) = ticks_left;
     if ((s16)ticks_left <= 0) {
         (*(u16 *)((u8 *)owner + -2)) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }
 

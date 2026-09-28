@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -35,7 +36,6 @@ s32 func_8003DB94();
 s32 func_800478B8();
 s32 func_800644B8();
 s32 func_80064584();
-extern s32 D_800814A0[3];
 extern M2C_UNK D_800DEC70[3];
 
 /* Advance orbital motion, expire it at its duration, and update the object. */
@@ -52,7 +52,7 @@ void func_818BD3B0(void *motion, S_818BD3B0_2 *position, Rec_D_80082E80 *object)
     ((S_818BD3B0_0 *)motion)->unk_04 = tick;
     if (((S_818BD3B0_0 *)motion)->unk_06 < (s16) tick) {
         ((S_818BD3B0_0_pre *)motion)[-1].unk_00 = (u16) (((S_818BD3B0_0_pre *)motion)[-1].unk_00 | 0x8000);
-        D_800814A0[0] = D_800814A0[0] | 0x8000;
+        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
         return;
     }
     height_offset = (s32) ((func_80064584((s16) tick << 7) >> 4) * ((S_818BD3B0_0 *)motion)->unk_0A) >> 8;

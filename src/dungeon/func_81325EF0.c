@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -21,8 +22,6 @@ extern u16 D_80013714;
 extern u8 *D_800814A8;
 extern u8 D_80082E80[];
 extern s16 D_80083228;
-extern u8 D_80083460[];
-extern u16 D_80083462;
 extern u8 D_8016B778[];
 extern u8 D_801746A4[];
 extern u8 D_801746AC[];
@@ -123,7 +122,7 @@ state_zero:
                     ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
     }
-    counter_base = D_80083460;
+    counter_base = ((u8 *)(&dungeonStatus));
     ((S_8016D6F0_4 *)counter_base)->unk_0A--;
     goto advance_state;
 
@@ -146,7 +145,7 @@ state_one:
         }
     }
     if (((Rec_D_800E3D7C *)entity)->unk_64.as_s16 != 0) {
-        reference_base = (u8 *)&D_80083460;
+        reference_base = (u8 *)((u8 *)(&dungeonStatus));
         if (((S_8016D6F0_6 *)reference_base)->unk_10 ==
             (u32)((u8 *)entity - 0x20)) {
             ((S_8016D6F0_6 *)reference_base)->unk_10 &= 0x7FFFFFFF;
@@ -213,7 +212,7 @@ post_actions:
     if (sprite->unk_14.at00_u16.v & 0x8000) {
         goto set_callback;
     }
-    counter_update = D_80083460;
+    counter_update = ((u8 *)(&dungeonStatus));
     ((S_8016D6F0_8 *)counter_update)->unk_0A++;
 advance_state:
     actor->unk_9B++;
@@ -223,7 +222,7 @@ state_two:
     if (!(sprite->unk_14.at00_u16.v & 0xE000)) {
         goto done;
     }
-    counter_update = D_80083460;
+    counter_update = ((u8 *)(&dungeonStatus));
     ((S_8016D6F0_8 *)counter_update)->unk_0A--;
 
 set_callback:

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
 #include "records/Rec_D_80082E80.h"
@@ -26,8 +27,6 @@ M2C_UNK func_80099F70();                         /* extern */
 M2C_UNK func_800A2B04();              /* extern */
 M2C_UNK func_800A56E0();                     /* extern */
 extern s16 D_80083228;
-extern M2C_UNK D_80083460;
-extern s16 D_80083464;
 extern void *D_80088810[];
 extern M2C_UNK D_8008ACDC;
 extern u8 D_800DD040[];
@@ -76,7 +75,7 @@ apply_launch:
 launch_ready:
             func_80099F70(((Rec_D_800E3D7C *)model)->unk_5C);
             func_80099F04(((Rec_D_800E3D7C *)model)->unk_5C);
-            move_flags = (u8 *)&D_80083460;
+            move_flags = (u8 *)&dungeonStatus.unk_00;
             ((S_8008E264_4 *)move_flags)->unk_02 = (u16) (((S_8008E264_4 *)move_flags)->unk_02 | 0x812);
             ((Rec_func_8008ACDC_arg0 *)actor)->unk_98 = (u16) (((Rec_func_8008ACDC_arg0 *)actor)->unk_98 & 0xFFF3);
             (*(u8 **)((u8 *)sprite + 0x2C)) = D_800DD040;
@@ -88,7 +87,7 @@ launch_ready:
 done:
         return;
 update_move:
-        move_timer = (u8 *)&D_80083460;
+        move_timer = (u8 *)&dungeonStatus.unk_00;
         if (((S_8008E264_5 *)move_timer)->unk_04 != 0) {
             motion_value = ((Rec_D_80082E80 *)sprite)->unk_24 << 6;
             coord_or_ticks = ((Rec_D_800E3D7C *)motion)->unk_00.at02_s16.v;
@@ -123,7 +122,7 @@ update_move:
         return;
 wait_animation:
         if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000) {
-            D_80083464 = 0;
+            dungeonStatus.unk_04 = 0;
             goto finish_move;
         }
         return;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -21,7 +22,6 @@ typedef struct S_800ABB20_1 {
 
 
 extern void func_800478B8(void *arg0);
-extern s32 D_800814A0[3];
 
 /* Update effect motion, fade its brightness, and mark it expired when its timer ends. */
 void func_800ABB20(void *effect_record, S_800ABB20_0 *motion, Rec_D_80082E80 *primitive) {
@@ -45,6 +45,6 @@ void func_800ABB20(void *effect_record, S_800ABB20_0 *motion, Rec_D_80082E80 *pr
     ((S_800ABB20_1 *)((u8 *)effect_record - 0x2))->unk_04 = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
         ((S_800ABB20_1 *)((u8 *)effect_record - 0x2))->unk_00 = (u16) (((S_800ABB20_1 *)((u8 *)effect_record - 0x2))->unk_00 | 0x8000);
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

@@ -1,8 +1,8 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef void (*ActorCallback)(void *, void *, void *, void *);
 
-extern u16 D_80083462;
 extern ActorCallback D_800DF1E8[];
 
 extern void func_800A020C(void *, void *);
@@ -19,7 +19,7 @@ extern s16 func_800BCB04(u16, u16, s16);
 
 /* Runs actor callbacks, advances motion, and updates ground contact and rendering. */
 void func_800B274C(u8 *actor, u8 *motion, u8 *render) {
-    u16 global_flags = D_80083462;
+    u16 global_flags = dungeonStatus.flags;
     u8 *actor_alias = actor;
     s16 old_state;
     ActorCallback callback;

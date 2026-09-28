@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 extern s16 D_800261B0;
-extern s32 D_800814A0;
 
 /* Advance the effect fade and mark it finished when its countdown expires. */
 void func_819A133C(void *effect, s32 unused, void *primitive)
@@ -21,6 +21,6 @@ void func_819A133C(void *effect, s32 unused, void *primitive)
     *(u16 *)((u8 *)primitive + 0x1A) += *(u16 *)((u8 *)effect + 0x40);
     if (*(s16 *)((u8 *)effect + 0x3A) <= 0) {
         *(u16 *)((u8 *)effect - 2) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

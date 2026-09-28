@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 
 typedef struct S_80026BC4_0_pre {
@@ -21,7 +22,6 @@ typedef struct S_80026BC4_1 {
 
 M2C_UNK func_800537D0();               /* extern */
 s32 strlen();                             /* extern */
-extern s32 D_800814A0[3];
 
 /* Submits text for a zero-state entry and sets flags when requested by its configuration. */
 void func_80026BC4(void *text_entry) {
@@ -32,7 +32,7 @@ void func_80026BC4(void *text_entry) {
         func_800537D0(*((S_80026BC4_0 *)text_entry)->unk_08, strlen(((S_80026BC4_0 *)text_entry)->unk_04), ((S_80026BC4_0 *)text_entry)->unk_04);
         if (text_config->unk_1A & 8) {
             ((S_80026BC4_0_pre *)text_entry)[-1].unk_00 = (u16) (((S_80026BC4_0_pre *)text_entry)[-1].unk_00 | 0x8000);
-            D_800814A0[0] = (s32) (D_800814A0[0] | 0x8000);
+            objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
         }
     }
 }

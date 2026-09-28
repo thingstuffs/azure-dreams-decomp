@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
@@ -33,10 +35,8 @@ M2C_UNK func_800A5720();                         /* extern */
 extern M2C_UNK D_8003E140;
 extern s32 D_80081488;
 extern M2C_UNK D_8008149C;
-extern M2C_UNK D_800814A0;
 extern void *D_80082EB0[];
 extern s16 D_80083228;
-extern u16 D_80083460[];
 extern M2C_UNK D_8008ACDC;
 extern u8 D_800DD138[];
 extern u8 D_800DD140[];
@@ -263,7 +263,7 @@ show_removal:
     func_8009A028(((S_8009345C_2 *)context)->unk_60);
     removed_object = ((S_8009345C_2 *)context)->unk_60;
     ((S_8009345C_5_pre *)removed_object)[-1].unk_00 = (u16) (((S_8009345C_5_pre *)removed_object)[-1].unk_00 | 0x8000);
-    (*(s32 *)&D_800814A0) = (s32) (((S_8009345C_6 *)(&D_800814A0))->unk_00 | 0x8000);
+    (*(s32 *)&objectFlagBlock.flags) = (s32) (((S_8009345C_6 *)(&objectFlagBlock.flags))->unk_00 | 0x8000);
     if (D_80082EB0[0] != NULL) {
         goto advance_state;
     }
@@ -363,7 +363,7 @@ jt_c8:
     ((S_8009345C_0 *)actor)->unk_8C = &D_8008ACDC;
     func_80099F70(((S_8009345C_2 *)context)->unk_5C);
     func_80099F04(((S_8009345C_2 *)context)->unk_5C);
-    D_80083460[1] = (u16) (D_80083460[1] | 0x812);
+    dungeonStatus.flags = (u16) (dungeonStatus.flags | 0x812);
     ((S_8009345C_1 *)entity)->unk_14 = (u16) (((S_8009345C_1 *)entity)->unk_14 & 0xFDFF);
 jt_c6:
 advance_state:

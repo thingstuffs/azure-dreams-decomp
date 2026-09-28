@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "records/Rec_D_800814A8.h"
 
@@ -47,16 +49,9 @@ extern s16 D_800273BC;
 extern u8 D_800273BE;
 extern void *D_800273C0;
 extern s32 D_800274DC[];
-extern s32 D_800814A0;
 extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern u8 D_80083160[];
-typedef struct {
-    u8 pad[0xA];
-    u16 field_a;
-    s32 field_c;
-} D83460;
-extern D83460 D_80083460;
 extern u8 *D_800E3D7C;
 extern void *D_80024008[];
 
@@ -170,10 +165,10 @@ jt_c3:
 
 jt_c4:
         if (D_80027330 == 0) {
-            D_80083460.field_c = 0;
-            D_80083460.field_a--;
+            dungeonStatus.unk_0C = 0;
+            dungeonStatus.unk_0A--;
             (*(u16 *)((u8 *)object_bytes + -2)) |= 0x8000;
-            D_800814A0 |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
         }
         goto dispatch_done;
 

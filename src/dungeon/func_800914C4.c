@@ -1,11 +1,10 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
 extern u16 D_80013714[];
 extern u8 D_80083160[];
 extern s16 D_80083228;
-extern s32 D_80083460;
-extern s16 D_80083464;
 extern u8 D_80096384[];
 extern u8 D_800DD274[];
 
@@ -58,7 +57,7 @@ void func_80096C24(void *obj, s32 move_mode, void *actor, void *map)
         }
         func_8009A21C(U8(actor, 0x24), U8(actor, 0x25), 0x300);
 
-        state_base = (u8 *)&D_80083460;
+        state_base = (u8 *)&dungeonStatus.unk_00;
         move_state = (u16 *)state_base;
         move_state[1] |= 8;
         S32(obj, 0x8C) = 0;
@@ -92,7 +91,7 @@ void func_80096C24(void *obj, s32 move_mode, void *actor, void *map)
         {
             s16 move_kind;
 
-            updated_state = (u16 *)&D_80083460;
+            updated_state = (u16 *)&dungeonStatus.unk_00;
             move_kind = (s16)move_result;
             if ((updated_state[1] & 0x80) || move_kind == 1) {
                 func_80099F70(S32(map, 0x5C));
@@ -118,7 +117,7 @@ void func_80096C24(void *obj, s32 move_mode, void *actor, void *map)
             }
             func_80094ED4(obj, move_mode, actor, map);
             {
-                D_80083464 = 8;
+                dungeonStatus.unk_04 = 8;
                 U8(obj, 0x9A) = 0x36;
                 U16(obj, 0x96) = 2;
                 S32(map, 0x1C) |= 0x40000000;
@@ -149,7 +148,7 @@ finish_move:
             map_flag_mask = 0x40000000;
             map_flags |= map_flag_mask;
         }
-        state_base = (u8 *)&D_80083460;
+        state_base = (u8 *)&dungeonStatus.unk_00;
         {
             u8 *final_state_base;
 

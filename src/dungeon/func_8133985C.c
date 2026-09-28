@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_8017085C_0 {
     u8 pad_00[0x12];
@@ -31,7 +32,6 @@ typedef struct S_8017085C_2 {
 
 extern s32 func_800644B8();
 extern void func_800A7A7C();
-extern s32 D_800814A0;
 
 /* Updates vertical animation and triggers an effect upon reaching the resting height. */
 void func_8017085C(void *motion, void *position, void *effect) {
@@ -124,5 +124,5 @@ settle:
         ((S_8017085C_1 *)position)->unk_08.at02.v, ((S_8017085C_2 *)effect)->unk_08, effect_args);
 
     (*(u16 *)((u8 *)motion + -2)) |= 0x8000;
-    D_800814A0 |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
 }

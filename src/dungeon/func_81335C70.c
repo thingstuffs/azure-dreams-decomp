@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800814A8.h"
 
@@ -66,7 +67,6 @@ void func_8016D4B8(void *, s32, void *, void *);
 extern void *D_800814A8;
 extern M2C_UNK D_80082E80;
 extern s16 D_80083228;
-extern M2C_UNK D_80083460;
 extern M2C_UNK D_8016A36C;
 extern u8 D_80173AC8[];
 extern u8 D_80173AD0[];
@@ -120,7 +120,7 @@ zero_setup:
     (*(u8 **)((u8 *)target + 0x2C)) = D_80173AC8;
     func_80047784(target, D_80173AC8[((D_80083228 + ((S_8016CC70_2 *)actor)->unk_2A + 0x100) >> 9) & 7], 0);
 decrement_counter:
-    counter_base = (u8 *)&D_80083460;
+    counter_base = (u8 *)&dungeonStatus.unk_00;
     ((S_8016CC70_3 *)counter_base)->unk_0A--;
     ((S_8016CC70_0 *)obj_arg)->unk_9B++;
     goto done;
@@ -158,7 +158,7 @@ call_check:
     goto high_kind;
 
 action_body:
-    held_base = &D_80083460;
+    held_base = &dungeonStatus.unk_00;
     if (((S_8016CC70_4 *)held_base)->unk_02 & 0x1000) {
         goto done;
     }
@@ -238,7 +238,7 @@ after_tiles:
     if (((S_8016CC70_1 *)target)->unk_14 & 0x8000) {
         goto set_callback;
     }
-    counter_base = (u8 *)&D_80083460;
+    counter_base = (u8 *)&dungeonStatus.unk_00;
     ((S_8016CC70_3 *)counter_base)->unk_0A++;
 counter_changed:
     ((S_8016CC70_0 *)obj_arg)->unk_9B++;
@@ -248,7 +248,7 @@ state_two:
     if (!(((S_8016CC70_1 *)target)->unk_14 & 0xE000)) {
         goto done;
     }
-    counter_base = (u8 *)&D_80083460;
+    counter_base = (u8 *)&dungeonStatus.unk_00;
     ((S_8016CC70_3 *)counter_base)->unk_0A--;
 set_callback:
     callback = &D_8016A36C;

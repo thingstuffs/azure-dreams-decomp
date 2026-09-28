@@ -1,6 +1,6 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
-extern u16 D_80083462;
 extern s32 D_800E296C;
 
 extern s32 func_800A2B5C(void *);
@@ -13,7 +13,7 @@ void func_801754AC(void *actor, void *unused_1, void *unused_2, void *entity) {
     u16 actor_flags;
 
     *(u8 *)((u8 *)entity + 0x71) &= 0x7F;
-    if (!(D_80083462 & 0x2000) &&
+    if (!(dungeonStatus.flags & 0x2000) &&
         (func_800A2B5C(entity) << 16) == 0 &&
         (func_800A2B5C(entity) << 16) == 0) {
         *(s32 *)((u8 *)actor + 0x8C) = 0;

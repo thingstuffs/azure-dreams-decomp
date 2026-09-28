@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -26,7 +27,6 @@ typedef struct S_80F606C0_1 {
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern int   D_800814A0[];
 /* Moves the effect toward its target, shrinks it, and marks completion after the countdown. */
 void func_80F606C0(void *effect, S_80F606C0_1 *position, Rec_D_80082E80 *transform) {
     s16 phase;
@@ -57,7 +57,7 @@ void func_80F606C0(void *effect, S_80F606C0_1 *position, Rec_D_80082E80 *transfo
         return;
     case 1:
         ((S_80F606C0_0_pre *)effect)[-1].unk_00 = (u16) (((S_80F606C0_0_pre *)effect)[-1].unk_00 | 0x8000);
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         break;
     }
 }

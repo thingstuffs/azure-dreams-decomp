@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct EntityInner {
     u8 pad0[8];
@@ -34,7 +35,6 @@ typedef struct Motion {
 
 extern u16 D_800269F8;
 extern u8 D_80045340[];
-extern u32 D_800814A0;
 extern u8 *D_80027C98[];
 
 extern s32 func_80025F54(s16, s16, s16, s16);
@@ -92,7 +92,7 @@ advance_state:
         motion->value += 0xFFFBFBFC;
         if ((u8)motion->value == 0) {
             *(u16 *)((u8 *)entity - 2) |= 0x8000;
-            D_800814A0 |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
         }
     }
 }

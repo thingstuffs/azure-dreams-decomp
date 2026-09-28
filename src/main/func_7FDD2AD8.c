@@ -1,3 +1,4 @@
+#include "shared/object_flags.h"
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
@@ -33,7 +34,6 @@ typedef union MotionView {
 } MotionView;
 
 extern void func_800478B8(void *);
-extern u32 D_800814A0;
 extern int abs(int);
 
 /* Updates phased motion and marks completion when stopped or out of bounds. */
@@ -109,7 +109,7 @@ accelerate_motion:
 
 mark_complete:
     *(u16 *)((unsigned char *)state - 2) |= 0x8000;
-    D_800814A0 |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
 
 epilogue:
     return;

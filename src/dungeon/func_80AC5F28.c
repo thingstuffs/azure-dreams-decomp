@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_800814A8.h"
@@ -36,7 +37,6 @@ extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern s8 D_80082EA4;
 extern s16 D_80083228;
-extern u16 D_80083462;
 extern s8 D_800E2970[];
 extern void *D_80170808[];
 extern s32 D_80171728;
@@ -84,7 +84,7 @@ void func_80171728(void *actor_in, void *context_in, void *sprite_in, void *crea
     s32 distance;
     s8 room_id;
     u16 action_flags;
-    u32 initial_flags = D_80083462;
+    u32 initial_flags = dungeonStatus.flags;
 
     sprite = sprite_in;
 
@@ -120,7 +120,7 @@ void func_80171728(void *actor_in, void *context_in, void *sprite_in, void *crea
         }
     }
 
-    if (!(D_80083462 & 0x2000)) {
+    if (!(dungeonStatus.flags & 0x2000)) {
         if (((Rec_D_800E3D7C *)creature_in)->unk_1C.as_u32 & 0x100) {
             func_800AA258(actor_in, context_in, sprite, creature_in);
             return;
@@ -179,7 +179,7 @@ void func_80171728(void *actor_in, void *context_in, void *sprite_in, void *crea
             goto generic;
         }
         if (!(((Rec_D_800E3D7C *)creature_in)->unk_44.at02_u16.v & 0x8000)) {
-            if (D_80083462 & 0x2000) {
+            if (dungeonStatus.flags & 0x2000) {
                 if ((func_8009A180(creature_in,
                         (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) << 16) != 0) {
                     return;
@@ -271,7 +271,7 @@ generic:
         }
     }
 
-    if (D_80083462 & 0x2000) {
+    if (dungeonStatus.flags & 0x2000) {
         return;
     }
     if (((S_80171728_2 *)sprite)->unk_14 & 0x40) {

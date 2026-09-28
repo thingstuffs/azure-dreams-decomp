@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef s32 M2C_UNK;
 
@@ -46,7 +47,6 @@ typedef struct S_81911A8C_5 {
 
 M2C_UNK func_8006658C();
 M2C_UNK func_800667A8();
-extern M2C_UNK D_800814A0;
 extern M2C_UNK D_80083160;
 
 /* Draw a full-screen color overlay and mark the effect complete when its countdown ends. */
@@ -75,6 +75,6 @@ void func_81911A8C(void *effect, void *unused, void *fade_state) {
     ((S_81911A8C_4 *)fade_state)->unk_05 = frames_left;
     if ((frames_left << 0x18) == 0) {
         (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_81911A8C_0_pre *)effect)[-1].unk_00 | 0x8000);
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

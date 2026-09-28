@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 
 #ifndef NULL
 #define NULL 0
@@ -76,10 +78,8 @@ extern void func_800A56E0(s32);
 
 extern s32 D_8002445C[];
 extern s32 D_80024740[];
-extern s32 D_800814A0;
 extern u8 *D_800814A8;
 extern u8 D_80082E80[];
-extern s32 D_8008346C;
 extern s32 D_80083498[];
 extern Copy24 D_80083780;
 
@@ -254,9 +254,9 @@ state_ff:
             return;
         }
     }
-    D_8008346C = 0;
+    dungeonStatus.unk_0C = 0;
     (*(u16 *)((u8 *)self + -2)) |= 0x8000;
-    D_800814A0 |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
 
 done:
     return;

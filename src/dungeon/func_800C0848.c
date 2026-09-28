@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 
 extern u8 D_80081468[];
 extern u16 D_8008146C;
-extern u32 D_800814A0;
 extern u8 D_80082E6B;
 extern u8 D_80083160[];
-extern u8 D_80083460[];
 extern s16 D_800DCED4[];
 extern u8 D_800DCF4F;
 extern u8 D_800E0458[];
@@ -86,7 +86,7 @@ void func_800C5FA8(u8 *w) {
     cells = *(u8 **)(ctx + 0x1DC);
     fld = ctx + 0x1DC;
     if (phase0 == 0) {
-        st = (s32) D_80083460;
+        st = (s32) ((u8 *)(&dungeonStatus));
         f = *(u16 *)((u8 *) st + 2);
         if (f & 0x10) {
             *(u16 *)((u8 *) st + 2) = f | 0x200;
@@ -291,13 +291,13 @@ void func_800C5FA8(u8 *w) {
                     }
                     func_8009A3D0(ea, eb, mode);
                     if ((*(u32 *)(o + 20) & 0x20000000) && *(u8 *)(o + 19) == 30) {
-                        st2 = D_80083460;
+                        st2 = ((u8 *)(&dungeonStatus));
                         *(u16 *)(st2 + 10) = *(u16 *)(st2 + 10) + 1;
                     }
                     func_800A32A4(o);
                     func_8009A028(o);
                     *(u16 *)(o - 2) |= 0x8000;
-                    D_800814A0 |= 0x8000;
+                    objectFlagBlock.flags |= 0x8000;
                 }
             }
             e = *(u8 **)(e + 92) + 32;
@@ -374,7 +374,7 @@ void func_800C5FA8(u8 *w) {
             return;
         }
         if (*(s16 *)(w + 18) == 0) {
-            st3 = D_80083460;
+            st3 = ((u8 *)(&dungeonStatus));
             *(s16 *)w = 0;
             *(u16 *)(st3 + 10) = *(u16 *)(st3 + 10) - 1;
             return;
@@ -400,5 +400,5 @@ void func_800C5FA8(u8 *w) {
     func_80040AA0(ch);
     func_800481E0();
     *(u16 *)(w - 2) |= 0x8000;
-    D_800814A0 |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
 }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 
 typedef struct S_818C8A70_0_pre {
@@ -86,7 +87,6 @@ typedef struct S_818C8A70_7_pre {
 extern s16 D_80024D04;
 extern u8 D_80045340[];
 extern u8 D_800DE870[9];
-extern s32 D_800814A0[3];
 extern u8 D_800DEC00[];
 void *func_8003FC64();                       /* extern */
 M2C_UNK func_8004491C();                /* extern */
@@ -166,7 +166,7 @@ void func_818C8A70(void *effect, S_818C8A70_4 *position) {
                 goto move_effect;
             }
             ((S_818C8A70_0_pre *)effect)[-1].unk_00 = (u16) (((S_818C8A70_0_pre *)effect)[-1].unk_00 | 0x8000);
-            D_800814A0[0] = D_800814A0[0] | 0x8000;
+            objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
         }
 move_effect:
         if ((func_800A4778(position->unk_00.at02.v, position->unk_04.at02.v, (s16) position->unk_08.at02.v, ((S_818C8A70_0 *)effect)->unk_30) << 0x10) == 0) {
@@ -176,7 +176,7 @@ move_effect:
             goto update_phase;
         }
         ((S_818C8A70_0_pre *)effect)[-1].unk_00 = (u16) (((S_818C8A70_0_pre *)effect)[-1].unk_00 | 0x8000);
-        D_800814A0[0] = D_800814A0[0] | 0x8000;
+        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
         goto remove_effect_done;
     }
 update_phase:
@@ -294,7 +294,7 @@ update_phase:
         ((S_818C8A70_0 *)effect)->unk_02 = fade_ticks;
         if ((s16) fade_ticks >= 0x15) {
             ((S_818C8A70_0_pre *)effect)[-1].unk_00 = (u16) (((S_818C8A70_0_pre *)effect)[-1].unk_00 | 0x8000);
-            D_800814A0[0] = D_800814A0[0] | 0x8000;
+            objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
             remove_effect_done:
             ;
         }

@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
 
 M2C_UNK func_8009C93C(); /* extern */
 s32 func_800A2B5C();                          /* extern */
 M2C_UNK func_800C7930(); /* extern */
-extern u16 D_80083462;
 
 
 typedef struct S_80172AAC_1 {
@@ -19,7 +19,7 @@ typedef struct S_80172AAC_1 {
 /* Clears an actor flag, applies a conditional effect, and updates its action state. */
 void func_80172AAC(S_80172AAC_1 *action_state, M2C_UNK effect_context, M2C_UNK action_context, void *actor) {
     ((Rec_D_800E3D7C *)actor)->unk_71.as_u8 = (u8) (((Rec_D_800E3D7C *)actor)->unk_71.as_u8 & 0x7F);
-    if (!(D_80083462 & 0x2000) && ((func_800A2B5C(actor) << 0x10) == 0)) {
+    if (!(dungeonStatus.flags & 0x2000) && ((func_800A2B5C(actor) << 0x10) == 0)) {
         func_800C7930(actor - 0x20, effect_context, 8, 0x300);
         if ((func_800A2B5C(actor) << 0x10) == 0) {
             action_state->unk_8C = 0;

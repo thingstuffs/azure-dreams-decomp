@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -28,7 +29,6 @@ M2C_UNK func_8009C12C(); /* extern */
 M2C_UNK func_800A4ACC();                      /* extern */
 M2C_UNK func_800A56E0();                     /* extern */
 M2C_UNK func_800AD594();             /* extern */
-extern s32 D_8008346C;
 extern M2C_UNK D_80170E5C;
 
 /* Advances the object state from entity flags and updates the actor. */
@@ -74,7 +74,7 @@ void func_801728B4(void *obj, void *record, void *entity, void *actor) {
         }
         func_800AD594(actor, 0x100);
         ((S_801728B4_0 *)obj)->unk_8C = &D_80170E5C;
-        D_8008346C = 0;
+        dungeonStatus.unk_0C = 0;
         ((S_801728B4_2 *)actor)->unk_46 =
             (u16)((*(u16 *)((u8 *)actor + 0x46)) & 0x7FFF);
         func_800A4ACC(actor);

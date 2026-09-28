@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_800DAEF4_0 {
     u8 pad_00[0x8];
@@ -73,7 +74,6 @@ extern void *func_8003FD64();
 extern void func_8004491C();
 extern s32 func_80069EF8(void);
 extern u8 D_80045340[0x10];
-extern s32 D_800814A0[3];
 extern u8 D_80083498[];
 extern s32 D_800DB164;
 extern s32 D_800DEA68;
@@ -153,7 +153,7 @@ void func_800DAEF4(void *source_owner, void *spawn_params)
     ((S_800DAEF4_3 *)source_owner)->unk_48 = timer;
     if ((timer << 16) <= 0) {
         ((S_800DAEF4_3_pre *)source_owner)[-1].unk_00 |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 
 }

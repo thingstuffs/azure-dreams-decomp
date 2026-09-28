@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 extern u8 D_8006DE24[];
-extern u16 D_8008347E;
 
 s32 func_800A35D8(u8 arg0, u16 arg1);
 
@@ -28,7 +28,7 @@ s16 func_800A40AC(s32 records_addr, s32 item_kind)
     best_score = -4;
     best_value = 0;
     count = 0;
-    tripled_index = D_8008347E;
+    tripled_index = dungeonStatus.unk_1E;
     item_page = 0x80070000;
     ASM_KEEP_NV(item_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     item_data = (u8 *)(item_page - 0x21DC);

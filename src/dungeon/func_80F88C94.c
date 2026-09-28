@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -103,7 +104,6 @@ extern void func_800AD594(void *, s32);
 
 extern u8 D_80045340;
 extern s16 D_80083228;
-extern s32 D_8008346C;
 extern s32 D_80083498;
 extern u8 D_800DEC28[];
 extern void *D_800E3DE8;
@@ -303,7 +303,7 @@ advance_state:
                       ((Rec_D_80082E80 *)map_actor)->unk_25);
         func_800AD594(actor_arg, 0x100);
         ((S_80172494_1 *)action)->unk_8C = D_80171138;
-        D_8008346C = 0;
+        dungeonStatus.unk_0C = 0;
         (*(void * *)((u8 *)map_actor + 0x2C)) = D_80174AD4;
         direction_index_2 = (D_80083228 + ((S_80172494_0 *)actor_arg)->unk_2A.u + 0x100) >> 9;
         func_80047784(map_actor, D_80174AD4[direction_index_2 & 7], 0);

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_800814A8.h"
@@ -22,7 +23,6 @@ extern void func_801737DC(void *, void *, void *, void *);
 extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern s16 D_80083228;
-extern s32 D_80083460;
 extern u8 D_80170E5C[];
 extern u8 D_80174520[];
 extern u8 D_80174538[];
@@ -79,7 +79,7 @@ state_zero:
         func_80047784(sprite,
             direction_anims[((D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
-        system_base = (u8 *)&D_80083460;
+        system_base = (u8 *)&dungeonStatus.unk_00;
         ((S_80173254_3 *)system_base)->unk_0A--;
         ((S_80173254_0 *)action)->unk_9B++;
     }
@@ -92,7 +92,7 @@ state_one:
         if ((func_80042900(entity, 1) << 16) != 0) {
             s32 entity_flags;
 
-            system_base = (u8 *)&D_80083460;
+            system_base = (u8 *)&dungeonStatus.unk_00;
             if (((S_80173254_3 *)system_base)->unk_02 & 0x1000) {
                 return;
             }

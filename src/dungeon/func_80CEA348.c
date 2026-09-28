@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef struct S_80173B48_0 {
     u8 pad_00[0x14];
@@ -56,7 +57,6 @@ extern s32 func_800A2B5C(void *);
 extern void func_800C78A0(void *, s32, s32, s16, s32, s32);
 extern void func_800C7930(void *, s32, s32, s32);
 
-extern u16 D_80083462;
 extern u16 D_800DCEAC[];
 extern u16 D_800DCEBC[];
 
@@ -74,7 +74,7 @@ void func_80173B48(void *action_input, s32 x_offset_input, void *position_input,
 
 
     ((S_80173B48_0 *)actor)->unk_71 &= 0x7F;
-    if (D_80083462 & 0x2000) {
+    if (dungeonStatus.flags & 0x2000) {
         goto done;
     }
 

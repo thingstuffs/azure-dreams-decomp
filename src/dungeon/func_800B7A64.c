@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef struct DungeonObject {
     u8 pad00[5];
@@ -19,7 +20,6 @@ extern u8 *D_800E3D7C[];
 extern u8 D_80083780[12];
 extern u8 D_80082E80[];
 extern u16 D_800DDE84[];
-extern u16 D_80083460[];
 extern u8 D_80089354[];
 extern u8 D_800E0E14[];
 extern u8 D_800E0E34[];
@@ -118,7 +118,7 @@ after_amount:
     {
         volatile u16 *counter_base;
 
-        counter_base = D_80083460;
+        counter_base = ((u16 *)(&dungeonStatus));
         counter_base[5] = counter_base[5] - 1;
     }
     return 1;

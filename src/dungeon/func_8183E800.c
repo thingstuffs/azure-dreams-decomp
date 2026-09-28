@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 
 #define F(p, t, o) (*(t *)((u8 *)(p) + (o)))
 
@@ -8,8 +10,6 @@ extern u8 D_80083498[];
 extern u8 D_80045340[];
 extern u8 D_800247D8[];
 extern void *D_80024008[];
-extern s32 D_8008346C[];
-extern u32 D_800814A0[];
 
 extern void *func_8003FD64(s32, void *);
 extern s32 func_80069EF8(void);
@@ -278,9 +278,9 @@ state_7:
     }
     if (timer > 0)
         goto return_done;
-    D_8008346C[0] = 0;
+    dungeonStatus.unk_0C = 0;
     F(self, u16, -2) |= 0x8000;
-    D_800814A0[0] |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
 
 return_done:
     return;

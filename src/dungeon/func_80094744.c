@@ -1,6 +1,6 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
-extern s16 D_80083460[10];
 
 typedef struct {
     s8 pad_00[0x14];
@@ -20,7 +20,7 @@ typedef struct {
 /* Apply scaled velocity and reset the entity motion state. */
 void func_80099EA4(Entity94744 *entity) {
     entity->field_71 = 0x80;
-    entity->value_6C += ((s32)(entity->velocity_6E * D_80083460[0])) >> 8;
+    entity->value_6C += ((s32)(entity->velocity_6E * dungeonStatus.unk_00)) >> 8;
     entity->field_42 = 0;
     entity->field_41 = 0;
     entity->flags_1C &= 0x7FFFFFFF;

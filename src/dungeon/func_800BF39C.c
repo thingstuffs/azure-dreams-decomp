@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 #ifndef NULL
 #define NULL 0
@@ -50,7 +51,6 @@ extern void func_800C4944(void);
 
 extern u8 D_80083498[12];
 extern u8 D_800DCF78[12];
-extern u8 D_80083460[12];
 
 /* Create an effect object, copy its source components, and initialize its state. */
 void func_800C4AFC(S_800C4AFC_2 *source, s32 effect_param, s32 state_param)
@@ -91,7 +91,7 @@ void func_800C4AFC(S_800C4AFC_2 *source, s32 effect_param, s32 state_param)
     ((S_800C4AFC_0 *)state)->unk_1C = source;
     ((S_800C4AFC_0 *)state)->unk_28 = state_param;
     func_800A56E0(0x702, state);
-    setup_or_addr = (unsigned long)D_80083460;
+    setup_or_addr = (unsigned long)((u8 *)(&dungeonStatus));
     ((S_800C4AFC_3 *)((void *)setup_or_addr))->unk_0A++;
 }
 

@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800814A8.h"
 
 
@@ -91,11 +93,9 @@ extern M2C_UNK D_80024648;
 extern M2C_UNK D_80024B20;
 extern M2C_UNK D_80024D58;
 extern void *D_80024008[];
-extern s32 D_800814A0;
 extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern u16 D_80082E94;
-extern s32 D_80083460;
 extern u8 D_80083498[];
 
 extern s32 func_8003DE58();
@@ -282,13 +282,13 @@ loop_done:
             } else {
                 u8 *cleanup_state;
 
-                cleanup_state = (u8 *)&D_80083460;
+                cleanup_state = (u8 *)&dungeonStatus.unk_00;
                 if (0) {
                 }
                 ((S_81988800_9 *)cleanup_state)->unk_0C = 0;
                 ((S_81988800_9 *)cleanup_state)->unk_0A--;
                 (*(u16 *)((u8 *)state_data + -2)) |= 0x8000;
-                D_800814A0 |= 0x8000;
+                objectFlagBlock.flags |= 0x8000;
             }
         }
         goto done;

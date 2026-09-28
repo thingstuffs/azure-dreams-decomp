@@ -1,8 +1,8 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 extern s32 rand(void);
 extern void func_8004491C(void *a0, void *a1);
-extern int D_800814A0;
 extern u8 D_800F6E48[];
 
 typedef struct {
@@ -59,6 +59,6 @@ update_counters:
 
     if (data->flag_f == 0) {
         *(u16 *)((u8 *)data - 2) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

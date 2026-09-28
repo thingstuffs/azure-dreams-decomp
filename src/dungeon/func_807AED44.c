@@ -1,9 +1,9 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 
 extern s32 D_80013718;
-extern u16 D_80083460[];
 extern s16 *D_800F8A44[];
-extern s32 D_800814A0[];
 
 /* Update both state targets and set flags when the mode is 3. */
 void func_800F6544(void *data)
@@ -17,7 +17,7 @@ void func_800F6544(void *data)
 
     if (*(s32 *)0x80013718 == 3) {
         slot_index = 1;
-        flags = D_80083460;
+        flags = ((u16 *)(&dungeonStatus));
         state_table = D_800F8A44;
         state_slot = state_table + 1;
         do {
@@ -33,7 +33,7 @@ void func_800F6544(void *data)
             state_slot -= 1;
         } while (slot_index >= 0);
         ((u16 *)data)[-1] |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }
 

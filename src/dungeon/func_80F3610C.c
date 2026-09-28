@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_func_800AD058_arg2.h"
 
 typedef s32 M2C_UNK;
@@ -68,7 +69,6 @@ extern M2C_UNK func_800BC26C();
 extern s32 D_80045340;
 extern M2C_UNK D_8006E240;
 extern M2C_UNK D_80173770;
-extern s16 D_8008346A;
 
 /* Spawns an object from stored appearance data and advances the actor's state. */
 void func_8017390C(S_8017390C_0 *actor, void *transform, Rec_func_800AD058_arg2 *render, void *actor_data)
@@ -104,7 +104,7 @@ high_state:
     goto done;
 
 state_zero:
-    if (D_8008346A != 0) {
+    if (dungeonStatus.unk_0A != 0) {
         goto done;
     }
     actor->unk_9B = 1;

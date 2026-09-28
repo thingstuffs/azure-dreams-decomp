@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 #define F8(p, o)  (*(u8 *)((u8 *)(p) + (o)))
 #define F16(p, o) (*(s16 *)((u8 *)(p) + (o)))
 #define FU16(p, o) (*(u16 *)((u8 *)(p) + (o)))
 #define F32(p, o) (*(s32 *)((u8 *)(p) + (o)))
 
-extern s32 D_800814A0;
 extern void func_80173CFC(void *, s32 *, s32, s32);
 
 /* Update an effect's color phases, burst, movement, and remaining lifetime. */
@@ -139,6 +139,6 @@ finish:
     F16(effect, 0x24) = life_left;
     if ((life_left << 16) <= 0) {
         FU16(effect, -2) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "records/Rec_D_800E3D7C.h"
 typedef s32 M2C_UNK;
 
@@ -34,7 +35,6 @@ __asm__(".globl func_81994800\n.type func_81994800,@function\n.size func_8199480
 #endif
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 extern s16 D_80025384;
-extern s32 D_800814A0;
 void BODY_NAME(void *arg0, void *arg1, void *arg2)
 #ifdef __mips__
     __attribute__((section(".text.func_81994800")))
@@ -58,6 +58,6 @@ void BODY_NAME(void *effect, void *unused_context, void *effect_params) {
     if ((s16)((Rec_D_800E3D7C *)effect)->unk_2A.as_u16 <= 0) {
         ((S_81994800_2 *)(((((Rec_D_800E3D7C *)effect)->unk_32 * 2) + ((Rec_D_800E3D7C *)effect)->unk_60.as_s32)))->unk_46 = 0;
         (*(u16 *)((u8 *)effect + -2)) = (u16)(((S_81994800_0_pre *)effect)[-1].unk_00 | 0x8000);
-        D_800814A0 = D_800814A0 | 0x8000;
+        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
     }
 }

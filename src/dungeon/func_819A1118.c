@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 
 typedef struct S_819A1118_0_pre {
@@ -44,7 +45,6 @@ typedef struct S_819A1118_1 {
 
 
 extern s16 D_800261B0[];
-extern s32 D_800814A0;
 
 /* Advance effect interpolation, fade its four colors, and flag expiration. */
 void func_819A1118(void *effect) {
@@ -78,6 +78,6 @@ void func_819A1118(void *effect) {
     } while (color_index < 4);
     if ((s16) ((S_819A1118_0 *)effect)->unk_3A <= 0) {
         (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_819A1118_0_pre *)effect)[-1].unk_00 | 0x8000);
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

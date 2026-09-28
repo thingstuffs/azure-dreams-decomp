@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
 
@@ -43,8 +45,6 @@ extern Packed12 D_80025E58;
 extern Packed12 D_80025E70;
 extern M2C_UNK D_80025E80;
 extern M2C_UNK D_80045340;
-extern M2C_UNK D_800814A0;
-extern s32 D_8008346C;
 extern u8 D_800DDC40[];
 extern u8 D_800E3D68;
 
@@ -869,9 +869,9 @@ jt_c8:
     if (effect_active != 0) {
         goto clear_active;
     }
-    D_8008346C = 0;
+    dungeonStatus.unk_0C = 0;
     (*(u16 *)((u8 *)effect + -2)) = (u16) ((*(u16 *)((u8 *)effect + -2)) | 0x8000);
-    (*(s32 *)&D_800814A0) = (s32) (((S_818FF710_29 *)(&D_800814A0))->unk_00 | 0x8000);
+    (*(s32 *)&objectFlagBlock.flags) = (s32) (((S_818FF710_29 *)(&objectFlagBlock.flags))->unk_00 | 0x8000);
     goto done;
 clear_active:
     (*(s16 *)&D_80025E80) = 0;

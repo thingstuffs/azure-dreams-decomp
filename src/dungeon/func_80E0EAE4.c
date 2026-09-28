@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 
 
@@ -21,7 +22,6 @@ extern M2C_UNK func_800A4ACC();
 extern M2C_UNK func_800C77D0();
 extern M2C_UNK func_800C7930();
 extern s16 D_80083228;
-extern u16 D_80083462;
 extern u8 D_801764A0[];
 
 
@@ -58,7 +58,7 @@ void func_801722E4(S_801722E4_3 *action_state, M2C_UNK event_context, S_801722E4
 
     ((Rec_D_800E3D7C *)actor)->unk_71.as_u8 =
         (u8)(((Rec_D_800E3D7C *)actor)->unk_71.as_u8 & 0x7F);
-    if (!(D_80083462 & 0x2008)) {
+    if (!(dungeonStatus.flags & 0x2008)) {
         actor_base = (s8 *)actor - 0x20;
         if ((func_800A2B5C(actor) << 0x10) == 0) {
             func_800C7930(actor_base, event_context, 8, 0x300);

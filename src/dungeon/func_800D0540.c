@@ -1,6 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
-extern s32 D_800814A0;
 
 /* Advance and damp effect motion, fade its colors, and flag expiration. */
 void func_800D5CA0(u8 *effect, s32 *motion)
@@ -26,6 +26,6 @@ void func_800D5CA0(u8 *effect, s32 *motion)
     *(s32 *)(effect + 8) = *(s32 *)(effect + 4);
     if (ticks_left <= 0) {
         *(u16 *)(effect - 2) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

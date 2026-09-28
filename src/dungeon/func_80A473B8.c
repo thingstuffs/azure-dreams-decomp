@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 extern u8 D_80080000[];
 
 
@@ -16,7 +17,6 @@ extern s32 func_800BCB04();
 
 extern u8 D_8006CCF8[];
 extern s16 D_80083228[5];
-extern u16 D_80083462[5];
 extern u8 D_8017140C[];
 extern u8 D_8017586C[];
 extern Callback D_8017589C[];

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct {
     void *unk0;
@@ -22,7 +23,6 @@ typedef struct {
 } Unk818DAD38Target;
 
 extern void func_800478B8(Unk818DAD38Target *);
-extern u32 D_800814A0[];
 
 /* Advance the target's growth animation, then fade its color and mark completion. */
 void func_818DAD38(Unk818DAD38Owner *owner, s32 unused,
@@ -71,7 +71,7 @@ fade:
         if ((u8)target->unkC < 9) {
             target->unkC = 0;
             ((u16 *)owner)[-1] |= 0x8000;
-            D_800814A0[0] |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
             return;
         }
     } while (0);

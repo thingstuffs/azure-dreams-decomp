@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800814A8.h"
 
@@ -66,8 +68,6 @@ extern int D_800814A8[4];
 struct S_8003E2D8; typedef struct S_8003E2D8 S_8003E2D8;
 extern struct S_8003E2D8 D_80083160;
 extern s16 D_800269F8[5];
-extern s32 D_80083460[3];
-extern s32 D_800814A0[3];
 extern void *D_80024008[];
 s32 func_800244EC();                     /* extern */
 M2C_UNK func_800263F0();                         /* extern */
@@ -162,11 +162,11 @@ finish_transition:
     if ((s16) *D_800269F8 != 0) {
         goto update_dimming;
     }
-    parent_state = D_80083460;
+    parent_state = ((s32 *)(&dungeonStatus));
     ((S_80024064_5 *)parent_state)->unk_0C = 0;
     ((S_80024064_5 *)parent_state)->unk_0A = (u16) (((S_80024064_5 *)parent_state)->unk_0A - 1);
     ((S_80024064_0_pre *)transition)[-1].unk_00 = (u16) (((S_80024064_0_pre *)transition)[-1].unk_00 | 0x8000);
-    D_800814A0[0] = D_800814A0[0] | 0x8000;
+    objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
 update_dimming:
     if (((S_80024064_0 *)transition)->unk_20 >= 0) {
         goto clear_input;

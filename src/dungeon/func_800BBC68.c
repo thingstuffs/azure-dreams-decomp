@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 
 typedef struct S_800C13C8_0 {
@@ -32,7 +33,6 @@ M2C_UNK func_800A6480();            /* extern */
 s32 func_800AD6FC();                /* extern */
 s32 func_800BBA40(); /* extern */
 extern M2C_UNK D_80082E80;
-extern M2C_UNK D_80083460;
 extern M2C_UNK D_80083780;
 extern M2C_UNK D_800C135C;
 extern u16 D_800DDE84[];
@@ -60,7 +60,7 @@ s32 func_800C13C8(void *object, s32 value, s16 operation, M2C_UNK context) {
             func_800A5F38(object, value);
             return 1;
         }
-        state = &D_80083460;
+        state = &dungeonStatus.unk_00;
 
         state->unk_0A--;
         goto shared;

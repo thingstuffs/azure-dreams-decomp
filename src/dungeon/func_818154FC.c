@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
@@ -166,8 +168,6 @@ typedef struct {
 extern LocalPoints D_80024004;
 extern u8 D_800DEC00[];
 extern s16 D_80025338[5];
-extern s32 D_8008346C[];
-extern s32 D_800814A0[3];
 s32 func_8003DF74(s32, void *, Offset *, s32);     /* extern */
 u8 *func_8003FC64();   /* extern */
 M2C_UNK func_800A56E0();                     /* extern */
@@ -440,9 +440,9 @@ check_timeout:
 
         ((S_818154FC_0 *)effect)->unk_84.s = old_counter;
         if (global_state == 0) {
-            D_8008346C[0] = 0;
+            dungeonStatus.unk_0C = 0;
             ((S_818154FC_0_pre *)effect)[-1].unk_00 |= 0x8000;
-            D_800814A0[0] |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
         } else {
             D_80025338[0] = 0;
         }

@@ -1,16 +1,11 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 /* Global 32-bit flags word D_800814A0 (same global touched by the
  * func_8004B530 / func_8004F52C / func_8004EE90 family, see code9.c). Here
  * retail reuses a single lui-based base register for both the load and the
  * store, so declare it as a >8B struct to force gcc to materialize one
  * shared %hi/%lo address instead of the two-independent-lui -G0 shape. */
-typedef struct {
-    s32 val;
-    s32 pad[2];
-} S_800814A0;
-extern S_800814A0 D_800814A0;
-
 extern void *func_8003FC64(s32 a0);
 extern s32 func_800B0198(void *a0, s32 a1);
 extern s32 func_800AFE10(s32 a0);
@@ -40,7 +35,7 @@ void *func_800B0214(s32 init_value)
         func_8004B248((u16 **)((u8 *)object + 0xCC));
         *(u16 *)((u8 *)object + 0x1E) |= 0x8000;
         object = 0;
-        D_800814A0.val |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
     return object;
 }

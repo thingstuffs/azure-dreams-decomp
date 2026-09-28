@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 
 typedef struct S_800D50FC_0 {
@@ -35,7 +36,6 @@ typedef struct S_800D50FC_3 {
 
 
 s32 rand();                                /* extern */
-extern M2C_UNK D_800814A0;
 
 /* Updates effect motion and color, then marks it inactive when its lifetime expires. */
 void func_800D50FC(void *effect, S_800D50FC_1 *motion, S_800D50FC_2 *color) {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 
 M2C_UNK func_800649A0();                            /* extern */
@@ -6,7 +7,6 @@ M2C_UNK func_80064A40();                            /* extern */
 M2C_UNK func_80064CF0();                      /* extern */
 M2C_UNK func_80064D80();                      /* extern */
 M2C_UNK func_80065320();     /* extern */
-extern s32 D_800814A0;
 
 
 typedef struct S_800A1D1C_0_pre {

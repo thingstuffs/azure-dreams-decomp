@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 
 typedef struct S_80023C80_0_pre {
@@ -26,7 +27,6 @@ typedef struct S_80023C80_1 {
 } S_80023C80_1;   /* (void *)work in func_80023C80 */
 
 
-extern s32 D_800814A0;
 
 /* Advances object state, updates coordinates and size, or sets status flags. */
 void func_80023C80(void *object) {
@@ -103,7 +103,7 @@ update_geometry:
 set_flags:
     (*(u16 *)((u8 *)obj + -2)) =
         (u16) (((S_80023C80_0_pre *)obj)[-1].unk_00 | 0x8000);
-    D_800814A0 |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
 
 done:
 

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 
 typedef struct S_80AC5470_0 {
@@ -32,7 +33,6 @@ typedef struct S_80AC5470_1 {
 } S_80AC5470_1;   /* arg0 in func_80AC5470 */
 
 
-extern M2C_UNK D_800814A0;
 
 /* Updates effect motion and color fading, flagging completion near its target or at zero brightness. */
 void func_80AC5470(void *effect, void *position) {
@@ -67,7 +67,7 @@ void func_80AC5470(void *effect, void *position) {
     }
     if (target_distance < 0x10) {
         (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_80AC5470_1_pre *)effect)[-1].unk_00 | 0x8000);
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
     motion_or_color = ((S_80AC5470_1 *)effect)->unk_00;
     motion_or_shade = ((S_80AC5470_1 *)effect)->unk_32;
@@ -98,6 +98,6 @@ void func_80AC5470(void *effect, void *position) {
     ((S_80AC5470_1 *)effect)->unk_08 = ((S_80AC5470_1 *)effect)->unk_04.at00u.v;
     if ((next_brightness << 0x10) <= 0) {
         (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_80AC5470_1_pre *)effect)[-1].unk_00 | 0x8000);
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

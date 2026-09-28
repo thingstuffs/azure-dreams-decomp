@@ -1,10 +1,5 @@
 #include "common.h"
-
-typedef struct {
-    s8 pad0[0xA];
-    u16 count;
-    u8 padC[0x14];
-} DungeonState;
+#include "shared/dungeon_status.h"
 
 typedef struct {
     u16 pad0;
@@ -17,7 +12,6 @@ typedef struct {
 
 extern void *func_8003FD64(s32 kind, void *owner);
 extern void func_800D7FB8(void);
-extern DungeonState D_80083460;
 extern s32 D_80083498[4];
 extern Rotation D_80083780;
 
@@ -26,7 +20,7 @@ void func_800D7F38(void)
 {
     u8 *object;
 
-    D_80083460.count++;
+    dungeonStatus.unk_0A++;
     object = func_8003FD64(2, D_80083498);
     if (object != 0) {
         *(void (**)(void))(object + 0x10) = func_800D7FB8;

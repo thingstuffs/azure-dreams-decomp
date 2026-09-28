@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
 typedef struct {
@@ -25,7 +26,6 @@ typedef struct {
 } Func95440Object;
 
 extern s32 D_800814A8[4];
-extern s16 D_80083460[3];
 
 extern s32 func_8009A540(u32, u32, u32, s32);
 extern s32 func_8009A350(u8, u8, u32, u16 *);
@@ -86,7 +86,7 @@ s32 func_8009ABA0(u32 direction_bits, Func95440Input *position, Func95440Actor *
             if (object->mask14 & 0x40000000) {
                 goto object_failure;
             }
-            if (object->value6c + ((object->value6e * D_80083460[0]) >> 8) < 0x100) {
+            if (object->value6c + ((object->value6e * dungeonStatus.unk_00) >> 8) < 0x100) {
                 goto object_failure;
             }
         }

@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 
 #ifndef NULL
 #define NULL 0
@@ -73,8 +75,6 @@ typedef struct {
 
 extern u8 D_80082E80[];
 extern u8 D_80083780[12];
-extern u8 D_80083460[];
-extern u8 D_800814A0[];
 extern u8 D_80083498[];
 extern u8 D_80045340[];
 extern u8 D_800DEA68[];
@@ -122,7 +122,7 @@ spawn_objects:
     {
         s32 spawn_index = 7;
         u8 *object_data = D_800D7D30;
-        DungeonCounter *object_counter = (DungeonCounter *)D_80083460;
+        DungeonCounter *object_counter = (DungeonCounter *)((u8 *)(&dungeonStatus));
         DungeonTemplate *object_template = (DungeonTemplate *)D_800DEA68;
 
         do {
@@ -174,9 +174,9 @@ expired:
         u16 ticks_left = effect->timer - 1;
         effect->timer = ticks_left;
         if ((s16)ticks_left <= 0) {
-            ((DungeonCounter *)D_80083460)->count -= 1;
+            ((DungeonCounter *)((u8 *)(&dungeonStatus)))->count -= 1;
             *(u16 *)((u8 *)effect - 2) |= 0x8000;
-            *(u32 *)D_800814A0 |= 0x8000;
+            *(u32 *)((u8 *)(&objectFlagBlock)) |= 0x8000;
         }
     }
 

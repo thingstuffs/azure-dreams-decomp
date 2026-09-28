@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef long long s64;
 
@@ -56,7 +57,6 @@ typedef struct S_80170AD0_4 {
 extern void func_800478B8();
 extern s32 func_80065420();
 
-extern s32 D_800814A0;
 extern s16 D_80083228;
 extern s8 D_800DCECC[8];
 
@@ -153,6 +153,6 @@ position_done:
     ((S_80170AD0_0 *)state)->unk_96.u = next_ticks;
     if ((next_ticks << 16) <= 0) {
         (*(u16 *)((u8 *)state + -2)) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

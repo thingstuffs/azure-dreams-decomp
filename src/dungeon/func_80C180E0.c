@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800814A8.h"
 
 typedef struct S_801738E0_0 {
@@ -71,7 +72,6 @@ extern void func_80174250(void *, void *, void *, void *);
 extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern s16 D_80083228;
-extern struct GlobalStruct D_80083460;
 extern void *D_80170858[];
 extern u8 D_801713A8[];
 extern u8 D_8017449C[];
@@ -155,7 +155,7 @@ state_one:
 
 state_to_two:
     {
-        register struct GlobalStruct *globals ASM_REG("$3") = &D_80083460;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        register struct GlobalStruct *globals ASM_REG("$3") = ((struct GlobalStruct *)&dungeonStatus);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         globals->counter--;
     }
     ((S_801738E0_0 *)actor)->unk_9B = 2;
@@ -179,14 +179,14 @@ state_two:
         }
         {
             register struct GlobalStruct *globals;
-            globals = &D_80083460;
+            globals = ((struct GlobalStruct *)&dungeonStatus);
             entity_flags = globals->counter + 1;
             globals->counter = entity_flags;
         }
         ((S_801738E0_0 *)actor)->unk_9B++;
         goto done;
     } else {
-        global_state = &D_80083460;
+        global_state = ((struct GlobalStruct *)&dungeonStatus);
     }
 
     if (global_state->flags & 0x1000) {
@@ -257,7 +257,7 @@ state_two:
         goto clear_200;
     }
     {
-        struct GlobalStruct *globals = &D_80083460;
+        struct GlobalStruct *globals = ((struct GlobalStruct *)&dungeonStatus);
         globals->counter++;
     }
     ((S_801738E0_0 *)actor)->unk_9B++;
@@ -306,7 +306,7 @@ state_sixteen:
     ((S_801738E0_0 *)actor)->unk_98 |= 0x4000;
     ((S_801738E0_3 *)motion)->unk_14 = 0;
     {
-        struct GlobalStruct *globals = &D_80083460;
+        struct GlobalStruct *globals = ((struct GlobalStruct *)&dungeonStatus);
         globals->counter--;
     }
     ((S_801738E0_2 *)entity)->unk_1C &= ~0x200;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 
 
@@ -13,7 +14,6 @@ extern s16 func_800BCB04();
 
 extern u8 D_8006CCF8[8];
 extern s16 D_80083228;
-extern u16 D_80083462;
 extern s32 D_801539DC;
 extern u8 D_80156634[8];
 extern u8 D_80156644[8];
@@ -62,7 +62,7 @@ void func_801533A8(void *entity, S_801533A8_0 *motion, void *sprite)
     s32 height_fixed;
     u16 height_flags;
 
-    if (D_80083462 & 0x2000) {
+    if (dungeonStatus.flags & 0x2000) {
         void *callback_entity = entity;
         Callback special_callback;
 

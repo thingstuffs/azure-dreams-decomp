@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef struct S_80173734_0 {
     u8 pad_00[0x14];
@@ -64,7 +65,6 @@ extern s32 func_800A2CB8(void *, void *);
 extern void func_800C78A0(void *, s32, s32, s16, s32, s32);
 extern void func_800C7930(void *, s32, s32, s32);
 
-extern s32 D_80083460;
 extern u16 D_800DCEAC[];
 extern u16 D_800DCEBC[];
 
@@ -72,7 +72,7 @@ extern u16 D_800DCEBC[];
 s32 func_80173734(void *action_state, s32 facing, void *origin, void *actor)
 {
     void *initial_target;
-    s32 *global_flags = &D_80083460;
+    s32 *global_flags = &dungeonStatus.unk_00;
     s32 result = 0;
     s32 range_left;
     s32 next_x;

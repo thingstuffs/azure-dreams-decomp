@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct {
     u8 target0[3];
@@ -30,7 +31,6 @@ typedef struct {
     s16 value1a;
 } Interp;
 
-extern s32 D_800814A0[3];
 extern s32 func_800644B8(s16);
 extern s32 func_80064584(s16);
 
@@ -63,7 +63,7 @@ void func_800BBBE0(State *state, Output *output, Interp *interp) {
         state->count = state->count - 1;
         if (state->count <= 0) {
             *((u16 *)state - 1) |= 0x8000;
-            D_800814A0[0] |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
         }
     }
 }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 
 extern void func_80024FD8();
@@ -7,7 +8,6 @@ extern void func_800478B8();
 extern s32 func_800644B8();
 extern s16 D_800257CC;
 extern s16 D_800257CE;
-extern s32 D_800814A0;
 
 
 typedef struct S_80024B98_0 {
@@ -66,7 +66,7 @@ advance_frame:
         if (((S_80024B98_1 *)primitive)->unk_0C.u8 < 4) {
             D_800257CC--;
             (*(u16 *)((u8 *)effect + (-2))) |= 0x8000;
-            D_800814A0 |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
             return;
         }
 update_effect:

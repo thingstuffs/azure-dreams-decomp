@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef struct {
     u16 field_00;
@@ -10,7 +11,6 @@ typedef struct {
     u16 field_16;
 } DungeonState;
 
-extern DungeonState D_80083460;
 extern s32 func_800A2B5C(void *);
 extern s32 func_800ADAE4(void *, void *);
 
@@ -21,7 +21,7 @@ s32 func_800AB464(void *action, s32 unused, void *source, void *target) {
 
     if (*((u8 *)action + 0x9B) == 0) {
         *((u8 *)target + 0x71) &= 0x7F;
-        state = &D_80083460;
+        state = ((DungeonState *)&dungeonStatus);
         if (state->field_02 & 0x2000) {
             return 0;
         }

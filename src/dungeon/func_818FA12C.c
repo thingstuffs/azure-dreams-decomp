@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 extern int abs(int);
 
@@ -46,8 +48,6 @@ extern u8 D_80025348[12];
 extern u8 D_80025398[12];
 extern u8 D_8002558C[12];
 extern u8 D_80025648[12];
-extern s32 D_800814A0[3];
-extern s32 D_8008346C[2];
 extern u8 D_800DDC40[256];
 extern u8 D_800E3D68[256];
 
@@ -700,9 +700,9 @@ state_advance:
             effect_active = D_800266BC[0];
             (*(u16 *)((u8 *)self + 0x82)) = ticks;
             if (effect_active == 0) {
-                D_8008346C[0] = 0;
+                dungeonStatus.unk_0C = 0;
                 (*(u16 *)((u8 *)self + -2)) |= 0x8000;
-                D_800814A0[0] |= 0x8000;
+                objectFlagBlock.flags |= 0x8000;
                 return;
             }
             D_800266BC[0] = 0;

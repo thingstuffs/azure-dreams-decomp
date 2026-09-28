@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 
 typedef struct S_80024F40_0_pre {
@@ -22,7 +23,6 @@ typedef struct S_80024F40_1 {
 
 s16 func_8006649C();
 s32 func_80069EF8();
-extern s32 D_800814A0;
 
 /* Fades the object's packed color to zero, then sets completion flags. */
 void func_80024F40(void *object) {
@@ -56,7 +56,7 @@ status_zero_high:
 status_one:
     (*(u16 *)((u8 *)object + -2)) =
         (u16)(((S_80024F40_0_pre *)object)[-1].unk_00 | 0x8000);
-    D_800814A0 |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
     goto common_return;
 
 common_return:

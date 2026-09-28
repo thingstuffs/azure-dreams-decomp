@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef struct {
     u8 bytes[0x20];
@@ -9,7 +10,6 @@ extern void func_8003F320(void);
 extern void func_8003F6D4(s32, void *, s32 *, s32);
 
 extern u8 D_8001F584;
-extern u8 *D_80083478;
 extern Copy32 D_800DDC9C;
 extern Copy32 D_8014A000;
 
@@ -23,7 +23,7 @@ void func_800194C4(s16 resource_index)
     func_8003F6D4(1, resource_data, &load_result, resource_index + 0x3F5E);
     Control_CD(6, &load_result, 0);
     func_8003F320();
-    *(Copy32 *)D_80083478 = D_8014A000;
+    *(Copy32 *)dungeonStatus.unk_18 = D_8014A000;
     D_800DDC9C = *(Copy32 *)(resource_data + 0x20);
     D_8001F584 = resource_data[0x40];
 }

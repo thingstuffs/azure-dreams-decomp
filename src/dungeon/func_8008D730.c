@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 
 
@@ -12,7 +13,6 @@ extern s32 func_800A2B04();
 extern u16 D_80013714;
 extern u8 D_80082E80[];
 extern s16 D_80083228;
-extern s32 D_80083460;
 extern s32 D_80083460_count __asm__("D_80083460");
 extern s32 D_8008ACDC;
 extern u8 D_800DCFF8[];
@@ -95,7 +95,7 @@ void func_80092E90(void *controller, void *motion, void *actor, void *entry)
     void *end_state;
     void *node;
 
-    move_state = (s16 *)&D_80083460;
+    move_state = (s16 *)&dungeonStatus.unk_00;
     move_frames = ((S_80092E90_0 *)move_state)->unk_04;
     if (move_frames != 0) {
         target_pos = ((S_80092E90_1 *)actor)->unk_24 << 6;
@@ -177,6 +177,6 @@ finish_effect:
     ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
     func_800A2B04(motion, ((S_80092E90_1 *)actor)->unk_24, ((S_80092E90_1 *)actor)->unk_25);
     ((S_80092E90_4 *)controller)->unk_8C = &D_8008ACDC;
-    end_state = &D_80083460;
+    end_state = &dungeonStatus.unk_00;
     ((S_80092E90_8 *)end_state)->unk_0A--;
 }

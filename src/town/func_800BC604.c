@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "records/Rec_D_80082D58.h"
 
 
@@ -7,7 +8,6 @@ extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 extern void func_8008F134(void *);
 
-extern s32 D_800814A0;
 
 
 
@@ -33,7 +33,7 @@ void func_800B9D64(void *object, void *offset_state)
         func_8008F134(object);
         func_80033D08(object);
         (*(u16 *)((u8 *)object + (-2))) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         return;
     }
 

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 #ifndef NULL
 #define NULL 0
@@ -75,7 +76,6 @@ s32 func_80069EF8();
 s16 func_800BCB04();
 extern M2C_UNK D_80024928;
 extern M2C_UNK D_80045340;
-extern s32 D_800814A0[3];
 extern M2C_UNK D_80083498;
 extern M2C_UNK D_800DEDB0;
 extern M2C_UNK D_800DEE38;
@@ -190,7 +190,7 @@ block_tail_ff:
 
 block_state_ff:
     ((S_81934C5C_0_pre *)effect)[-1].unk_00 = (u16) (((S_81934C5C_0_pre *)effect)[-1].unk_00 | 0x8000);
-    D_800814A0[0] |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
 
 block_return:
     return;

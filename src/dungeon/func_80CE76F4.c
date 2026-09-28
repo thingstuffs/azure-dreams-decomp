@@ -1,6 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
-extern s32 D_800814A0[];
 
 /* Update the effect transform, fade its color, and mark expiration when its timer runs out. */
 void func_80170EF4(void *effect, s32 unused, void *visual) {
@@ -24,6 +24,6 @@ void func_80170EF4(void *effect, s32 unused, void *visual) {
 
     if (*(s16 *)((u8 *)effect + 0x18) <= 0) {
         *(u16 *)((u8 *)effect - 2) |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

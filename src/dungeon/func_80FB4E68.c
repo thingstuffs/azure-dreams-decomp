@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_80016000.h"
 
 typedef struct S_80174668_0 {
@@ -144,7 +145,6 @@ extern void func_800C8CD8(void *, s32, s32);
 
 extern u8 D_80045340[];
 extern s16 D_80083228[];
-extern u8 D_8008346C[];
 extern u8 D_80083498[];
 extern u8 D_800DEC50[];
 extern u32 D_800E3DE8[];
@@ -321,7 +321,7 @@ finish_effect:
         void *actor_to_reset;
         actor_to_reset = actor;
         effect->unk_8C = D_80170F6C;
-        ((S_80174668_10 *)D_8008346C)->unk_00 = 0;
+        ((S_80174668_10 *)((u8 *)(&dungeonStatus.unk_0C)))->unk_00 = 0;
         func_800A4ACC(actor_to_reset);
     }
     if (((S_80174668_2 *)actor)->unk_6D == 0) {

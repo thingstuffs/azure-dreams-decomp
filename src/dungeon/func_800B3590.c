@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_800B8CF0_0_pre {
     u16 unk_00;
@@ -16,7 +17,6 @@ typedef struct S_800B8CF0_1 {
 
 
 
-extern s32 D_800814A0; /* overlays/dungeon/first_pass_matched/func_800AB5D4.c */
 
 /* Count down the effect, alternating its shade until marking it finished. */
 void func_800B8CF0(void *state, s32 unused, void *primitive) {
@@ -26,7 +26,7 @@ void func_800B8CF0(void *state, s32 unused, void *primitive) {
     ((S_800B8CF0_0 *)state)->unk_02 = (u16) ticks_left;
     if (((ticks_left << 16) >> 16) <= 0) {
         (*(u16 *)((u8 *)state + -2)) = (u16) (((S_800B8CF0_0_pre *)state)[-1].unk_00 | 0x8000);
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         return;
     }
     if (ticks_left & 1) {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_80174978_0 {
     u8 pad_00[0x96];
@@ -33,7 +34,6 @@ typedef struct S_80174978_2 {
 
 
 extern void func_800A7A7C(s16, s16, s16, s32, void *);
-extern s32 D_800814A0;
 
 /* Updates a timed movement animation and marks its completion. */
 void func_80174978(void *actor, void *motion, void *visual) {
@@ -107,7 +107,7 @@ state_two:
                   (s16)(((S_80174978_2 *)motion)->unk_08.at02.v - 0x20),
                   ((S_80174978_1 *)visual)->unk_08, actor + 0x48);
     (*(u16 *)((u8 *)actor + -2)) |= 0x8000;
-    D_800814A0 |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
 
 done:
     return;

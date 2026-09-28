@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 
 typedef struct S_80042BDC {
@@ -35,7 +36,6 @@ typedef struct S_80042BDC_child {
 
 
 extern void *D_800E3DF0[32];
-extern int   D_800814A0[4];  /* 16B: <= gcc -G16 -> bare macro; > as -G8 -> $at */
 extern u8   *D_800E3D7C[];   /* by-value pointer global; %hi/%lo, [0] = the pointer */
 
 extern char D_800E1D55[];
@@ -283,7 +283,7 @@ L_10: {
         func_800A32A4(ent);
         func_8009A028(ent);
         *(u16 *)((u8 *)ent - 2) |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         ent = spawn_result_2;
 
     L_print4B:

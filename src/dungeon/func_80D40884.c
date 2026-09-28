@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -38,7 +39,6 @@ extern M2C_UNK func_800AA36C();
 extern M2C_UNK func_801708B8();
 
 extern s16 D_80083228;
-extern s32 D_80083460;
 extern u8 D_800E23E0[];
 extern u8 D_800E2448[];
 extern u8 D_80171A80[];
@@ -104,7 +104,7 @@ update_finish:
                 ((S_80176084_0 *)state)->unk_8C = (M2C_UNK *)D_80171A80;
                 func_80042B68(entity, 0x1B);
                 if (((S_80176084_0 *)state)->unk_B4 == 0) {
-                    u8 *shared_state = (u8 *)&D_80083460;
+                    u8 *shared_state = (u8 *)&dungeonStatus.unk_00;
                     ((S_80176084_4 *)shared_state)->unk_0C = 0;
                     ((S_80176084_4 *)shared_state)->unk_0A--;
                     ((Rec_D_800E3D7C *)entity)->unk_44.at02_u16.v &= 0x7FFF;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 #define U8(p, o)  (*(u8 *)((u8 *)(p) + (o)))
 #define S16(p, o) (*(s16 *)((u8 *)(p) + (o)))
@@ -13,7 +14,6 @@ extern s16 func_800A70E4();
 extern void func_800CCC20();
 extern u8 D_800E3648[], D_800E3548[];
 extern u8 *D_800E3D7C[];
-extern u32 D_800814A0[3];
 
 /* Advance the effect, process collisions, and mark it finished when its steps run out. */
 void func_800CC370(void *effect)
@@ -43,6 +43,6 @@ void func_800CC370(void *effect)
     U8(effect, 7)--;
     if (!U8(effect, 7)) {
         U16(effect, -2) |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

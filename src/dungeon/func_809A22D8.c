@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
 #define FIELD_U8(p, o)  (*(u8 *)((u8 *)(p) + (o)))
@@ -10,7 +11,6 @@
 extern void func_800A2B04(void *, u8, u8);
 extern void func_800AAA54(void *, void *, void *, void *);
 extern void func_800AD4D0(void *);
-extern s32 D_80083460[];
 extern s32 D_801710EC[];
 extern u8 D_80175E90[];
 
@@ -127,7 +127,7 @@ align_motion:
     FIELD_S32(motion, 0x10) = 0;
     FIELD_S32(motion, 0xC) = 0;
     func_800A2B04(motion, FIELD_U8(actor, 0x24), FIELD_U8(actor, 0x25));
-    entity_refs = D_80083460;
+    entity_refs = ((s32 *)(&dungeonStatus));
     if (entity_refs[4] == (s32)((u8 *)source - 0x20)) {
         entity_refs[4] &= 0x7FFFFFFF;
     }

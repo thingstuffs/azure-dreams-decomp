@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 
 extern void *D_8016A868[];
@@ -6,7 +7,6 @@ s32 func_800A45D8();
 s32 func_800A7234();
 M2C_UNK func_800A7A7C();
 s16 func_800BCB04();
-extern s32 D_800814A0;
 extern u8 D_80174708;
 
 
@@ -203,7 +203,7 @@ check_falling:
     ((S_8016E528_2 *)position)->unk_08.at00u.v = 0;
 mark_removed:
     (*(u16 *)((u8 *)motion + (-2))) = (u16) (((S_8016E528_0_pre *)motion)[-1].unk_00 | 0x8000);
-    D_800814A0 |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
     return;
 check_fall_repeat:
     if (((S_8016E528_1 *)object)->unk_14 & 0x8000) {

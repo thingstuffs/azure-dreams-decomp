@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -36,7 +37,6 @@ s32 func_80064584();                             /* extern */
 M2C_UNK func_800649A0();                            /* extern */
 M2C_UNK func_80064A40();                            /* extern */
 M2C_UNK func_80064B30();        /* extern */
-extern M2C_UNK D_800814A0;
 
 typedef struct {
     s16 x;
@@ -84,7 +84,7 @@ void func_8002455C(void *effect, void *position, void *sprite) {
     ((Rec_D_80082E80 *)sprite)->unk_0C.at00_u8.v = brightness;
     if (!(brightness & 0xFF) || (scale = ((Rec_D_80082E80 *)sprite)->unk_1C.at02_u16.v - 0x100, ((Rec_D_80082E80 *)sprite)->unk_1C.at02_u16.v = scale, ((Rec_D_80082E80 *)sprite)->unk_1C.at00_u16.v = scale, ((Rec_D_80082E80 *)sprite)->unk_1A.as_u16 = (u16) ((S_8002455C_0 *)effect)->unk_2E, func_800478B8(sprite), ((((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000) != 0))) {
         (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_8002455C_0_pre *)effect)[-1].unk_00 | 0x8000);
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }
 /* MECHANISM: Two six-byte vector aggregates force stack slots sp+0x10..0x14 and sp+0x18..0x1C,

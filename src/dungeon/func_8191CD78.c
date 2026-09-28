@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 extern int abs(int);
 
@@ -16,8 +18,6 @@ extern void func_800542BC(void);
 extern void func_8009CE1C(void *, s32, u8, s32, s32, void *, s32);
 extern void func_800A56E0(s32);
 
-extern s32 D_8008346C[];
-extern s32 D_800814A0[];
 extern u8 D_800DDC40[];
 
 typedef struct {
@@ -584,9 +584,9 @@ case_6:
     if (effect->unk_14.s16 != 0) {
         goto finish;
     }
-    D_8008346C[0] = 0;
+    dungeonStatus.unk_0C = 0;
     ((S_func_80024578_12 *)((u8 *)(effect) - 2))->unk_00 |= 0x8000;
-    D_800814A0[0] |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
     goto finish;
 
 case_7:

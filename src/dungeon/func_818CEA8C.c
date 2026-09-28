@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 extern s16 D_80025924[];
-extern u32 D_800814A0[];
 
 extern s16 func_800BCB04(s32 arg0, s32 arg1, s16 arg2);
 extern s32 rand(void);
@@ -32,6 +32,6 @@ void func_818CEA8C(void *object_data, void *source_data)
     *(s16 *)(object + 0x32) -= 8;
     if (*(s16 *)(object + 0x32) <= 0) {
         *(u16 *)(object - 2) |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

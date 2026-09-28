@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef s32 M2C_UNK;
 
@@ -24,7 +25,6 @@ extern u8 D_800DCFB0[8];
 extern u8 D_800DD0B8[8];
 extern u8 D_800E0523[];
 extern u8 D_800E0683[];
-extern u8 D_80083460[12];
 extern s32 D_800E3540;
 extern s16 D_800E3DA8[2];
 
@@ -156,7 +156,7 @@ use_effect:
         }
 
         {
-            u8 *flags_base = D_80083460;
+            u8 *flags_base = ((u8 *)(&dungeonStatus));
 
             ((S_8008F428_5 *)flags_base)->unk_02 |= 0x412;
         }

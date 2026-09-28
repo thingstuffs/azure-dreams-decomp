@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 
 typedef struct S_800D6FEC_0_pre {
@@ -32,7 +33,6 @@ typedef struct S_800D6FEC_2 {
 
 
 M2C_UNK func_800478B8();                     /* extern */
-extern s32 D_800814A0[3];
 
 /* Copy stored values, run the update, and flag completion when the count reaches zero. */
 void func_800D6FEC(void *object, S_800D6FEC_1 *output, M2C_UNK update_arg) {
@@ -48,6 +48,6 @@ void func_800D6FEC(void *object, S_800D6FEC_1 *output, M2C_UNK update_arg) {
     ((S_800D6FEC_0 *)object)->unk_96 = remaining;
     if ((remaining << 0x10) <= 0) {
         ((S_800D6FEC_0_pre *)object)[-1].unk_00 = (u16) (((S_800D6FEC_0_pre *)object)[-1].unk_00 | 0x8000);
-        D_800814A0[0] = (s32) (D_800814A0[0] | 0x8000);
+        objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
     }
 }

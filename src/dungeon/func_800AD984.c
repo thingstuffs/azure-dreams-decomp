@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 
 typedef struct {
     u8 pad_0[0x10];
@@ -16,15 +18,13 @@ typedef struct {
     u8 field_25;
 } Source;
 
-extern State D_80083460[];
-extern s32 D_800814A0[];
 extern void func_800A32A4(Entity *);
 extern void func_8009A3D0(u8, u8, s32);
 extern void func_8009A028(Entity *);
 
 /* Update an entity using source bytes and a flag-dependent mask, then set completion flags. */
 void func_800B30E4(void *unused_0, void *unused_1, Source *source, Entity *entity) {
-    State *state = D_80083460;
+    State *state = ((State *)&dungeonStatus);
     s32 update_mask;
     u8 source_24;
     u8 source_25;
@@ -42,5 +42,5 @@ void func_800B30E4(void *unused_0, void *unused_1, Source *source, Entity *entit
     func_8009A3D0(source_24, source_25, update_mask);
     func_8009A028(entity);
     *(u16 *)((u8 *)entity - 2) |= 0x8000;
-    D_800814A0[0] |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
 }

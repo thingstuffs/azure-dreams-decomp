@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
@@ -37,7 +38,6 @@ typedef struct D_80013714_s {
 extern D_80013714_s D_80013714;
 extern u8 D_80083160[];
 extern s16 D_80083228;
-extern D_80083460_s D_80083460;
 extern u8 D_8008EAC8[];
 extern u8 D_800DCFD8[8];
 extern u8 D_800DD0B8[8];
@@ -80,18 +80,18 @@ void func_8008C13C(void *controller, s32 actor_id, void *actor, void *actor_data
 
         func_8009A21C(((Rec_D_80082E80 *)actor)->unk_24, ((Rec_D_80082E80 *)actor)->unk_25, 0x300);
 
-        D_80083460.flags |= 8;
+        dungeonStatus.flags |= 8;
         ((S_8008C13C_2 *)controller)->unk_8C.s = 0;
 
         if (move_result != 4) {
             if (D_80013714.flags & 2) {
-                D_80083460.flags |= 0x80;
+                dungeonStatus.flags |= 0x80;
             } else if ((((S_8008C13C_3 *)dungeon_state)->unk_08 & 0x20) && func_800A5C70()) {
-                D_80083460.flags |= 0x80;
+                dungeonStatus.flags |= 0x80;
             }
         }
 
-        move_state = &D_80083460;
+        move_state = ((D_80083460_s *)&dungeonStatus);
         if ((move_state->flags & 0x80) || (move_result == 1)) {
             if (((Rec_D_80082E80 *)actor)->unk_2C.as_pv != D_800DCFD8) {
                 (*(void * *)((u8 *)actor + 0x2C)) = D_800DCFD8;
@@ -128,5 +128,5 @@ void func_8008C13C(void *controller, s32 actor_id, void *actor, void *actor_data
     func_800A67F4();
     func_80094ED4(controller, actor_id, actor, actor_data);
     ((Rec_D_800E3D7C *)actor_data)->unk_1C.as_s32 |= 0x40000000;
-    D_80083460.flags |= 0x812;
+    dungeonStatus.flags |= 0x812;
 }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 
 typedef struct CounterBlock {
@@ -11,7 +12,6 @@ void *func_8003FC64();                       /* extern */
 M2C_UNK func_8004491C();           /* extern */
 M2C_UNK func_800A56E0();                     /* extern */
 extern M2C_UNK D_80045C34;
-extern CounterBlock D_80083460;
 extern M2C_UNK D_800C5D80;
 
 typedef struct S_800C5E5C_0 {
@@ -68,7 +68,7 @@ void func_800C5E5C(s16 x, s16 y, s16 z, s32 sprite_id, s16 play_sound) {
     }
     effect_index = 0xB;
     size = 0x20;
-    counter = &D_80083460;
+    counter = ((CounterBlock *)&dungeonStatus);
     effect_offset = 0xFFFA0000;
     do {
         object_type = 0x12;

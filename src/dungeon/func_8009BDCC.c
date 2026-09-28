@@ -1,13 +1,9 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 #ifndef NULL
 #define NULL 0
 #endif
-
-typedef struct {
-    s8 unk0[0x1C];
-    u16 count;
-} DungeonState;
 
 typedef struct {
     u8 unk0;
@@ -16,7 +12,6 @@ typedef struct {
 } Entry;
 
 extern Entry *func_800A1618(s16 arg0, s16 arg1);
-extern DungeonState D_80083460;
 
 /* Normalize the entry type and increment the matching entry and dungeon counts. */
 s32 func_800A152C(s16 entry_type, s16 entry_key) {
@@ -31,7 +26,7 @@ s32 func_800A152C(s16 entry_type, s16 entry_key) {
     if (entry != NULL) {
         entry->type = type;
         entry->count++;
-        D_80083460.count++;
+        dungeonStatus.unk_1C++;
         return 1;
     }
     return 0;

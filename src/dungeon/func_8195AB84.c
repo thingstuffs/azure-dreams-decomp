@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 #ifndef NULL
 #define NULL 0
@@ -59,7 +60,6 @@ extern void *func_8003FD64(s32, void *);
 
 extern s32 D_80025C80;
 extern u8 D_80028268[];
-extern s32 D_800814A0;
 extern s32 D_80083498;
 
 /* Create 18 linked objects at the given position and angle, marking them for cleanup on failure. */

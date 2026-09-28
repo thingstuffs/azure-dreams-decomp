@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_80170CEC_0 {
     u8 pad_00[0x2C];
@@ -70,7 +71,6 @@ typedef struct S_80170CEC_7 {
 #define VFIELD(ptr, type, off) (*(type volatile *)((u8 *)(ptr) + (off)))
 
 extern s32 func_80042900();
-extern s32 D_800814A0;
 extern u8 D_800E23F8[];
 extern u8 D_800E2408[];
 extern u8 *D_800E3D7C[3];
@@ -206,5 +206,5 @@ do_call:
 
 set_flags:
     (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-    D_800814A0 |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
 }

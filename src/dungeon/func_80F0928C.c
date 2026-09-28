@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef void (*EntityCallback)(void *, void *, void *, void *);
 
 extern s32 D_80045340;
 extern u8 D_8006CCF8[];
 extern s16 D_80083228;
-extern u16 D_80083462;
 extern s32 D_800E296C;
 extern u8 D_80170F74[];
 extern EntityCallback D_80173D90[];
@@ -47,7 +47,7 @@ void func_80170A8C(void *entity_state, void *entity_motion, void *entity_part)
     s32 view_direction;
     s32 state_flags;
 
-    if (D_80083462 & 0x2000) {
+    if (dungeonStatus.flags & 0x2000) {
         EntityCallback early_callback;
 
         early_callback = CB_AT(entity_state, 0x8C);

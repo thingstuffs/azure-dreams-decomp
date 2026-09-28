@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 
-extern s32 D_800814A0[3];
 extern void func_800478B8(void *);
 M2C_UNK func_80024FD4();
 
@@ -162,7 +162,7 @@ state2:
 state3:
     if (gfx->flags & 0x6000) {
         *((u16 *)obj - 1) = (u16) (*((u16 *)obj - 1) | 0x8000);
-        D_800814A0[0] = D_800814A0[0] | 0x8000;
+        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
     }
 
 done:

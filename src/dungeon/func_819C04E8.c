@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 extern u8 D_80083498[];
 extern u8 D_80030000[];
 
@@ -33,7 +34,6 @@ extern Copy32 D_80024028[];
 extern u8 D_80025800[];
 extern void *D_80028630;
 extern u8 D_80028664[];
-extern s32 D_800814A0;
 extern u8 D_800C9034[];
 
 
@@ -185,9 +185,9 @@ s32 func_80025CE8(u16 x, u16 y, u16 z, u16 angle) {
                 previous_index = (s32)((u32)previous_index << 16);
                 cleanup_object = *(Object **)alloc_page;
                 cleanup_flags = ((S_80025CE8_4 *)cleanup_object)->unk_1E;
-                slot_offset = D_800814A0;
+                slot_offset = objectFlagBlock.flags;
                 slot_offset |= 0x8000;
-                D_800814A0 = slot_offset;
+                objectFlagBlock.flags = slot_offset;
                 cleanup_flags |= 0x8000;
                 ((S_80025CE8_4 *)cleanup_object)->unk_1E = cleanup_flags;
             } while (previous_index >= 0);

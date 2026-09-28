@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct {
     u8 pad0[8];
@@ -29,7 +30,6 @@ typedef struct {
 
 extern GlobalState D_80083160;
 extern u8 D_80082E6B;
-extern int D_800814A0;
 extern s8 D_80080A84;
 extern s8 D_80129728;
 
@@ -106,7 +106,7 @@ matched_five:
             *(u16 *)((u8 *)object->field_0 + 0x1E) |= 0x2000;
             func_8004B248((u8 *)object + 0x5C);
             *(u16 *)((u8 *)object - 2) |= 0x8000;
-            D_800814A0 |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
             func_801231DC();
             D_80080A84 = 2;
             goto end;

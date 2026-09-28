@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80083460.h"
 #include "records/Rec_D_80082E80.h"
@@ -35,8 +37,6 @@ void func_800A2FE0(void *);
 void func_800A32A4(void *);
 void func_800A56E0(s32);
 void func_800ACF88(void *);
-extern s32 D_800814A0;
-extern s32 D_80083460;
 
 /* Fades out an entity, then removes it and updates its tile flags. */
 void func_801735B8(void *fade_state, void *unused, void *visual_data, void *entity) {
@@ -52,7 +52,7 @@ void func_801735B8(void *fade_state, void *unused, void *visual_data, void *enti
     state = ((S_801735B8_0 *)fade_state)->unk_9B;
     switch (state) {
     case 0:
-        if (((Rec_D_80083460 *)(&D_80083460))->unk_0A != 0) {
+        if (((Rec_D_80083460 *)(&dungeonStatus.unk_00))->unk_0A != 0) {
             return;
         }
         ((S_801735B8_0 *)fade_state)->unk_9B = 1;
@@ -92,7 +92,7 @@ void func_801735B8(void *fade_state, void *unused, void *visual_data, void *enti
             }
         }
 
-        world = &D_80083460;
+        world = &dungeonStatus.unk_00;
         tracked_entity = ((S_801735B8_4 *)world)->unk_10;
         if (tracked_entity == (s32)((u8 *)entity - 0x20)) {
             ((S_801735B8_4 *)world)->unk_10 =
@@ -110,7 +110,7 @@ void func_801735B8(void *fade_state, void *unused, void *visual_data, void *enti
         func_8009A3D0(tile_x, tile_y, tile_mask);
         func_8009A028(entity);
         (*(u16 *)((u8 *)entity + -2)) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         break;
     default:
         return;

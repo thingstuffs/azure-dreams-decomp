@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef struct DungeonRecord80285E80 {
     u8 value;
@@ -33,8 +34,6 @@ extern s8 D_80080A88[12];
 extern u8 D_80081468[12];
 extern s16 D_8008146C[5];
 extern u8 D_80082E6B[9];
-extern DungeonState80285E80 D_80083460;
-extern u8 *D_80083478[3];
 extern u8 D_800DDC9C[4][8];
 extern s32 D_800E296C[3];
 extern u8 D_800E3648[12];
@@ -196,7 +195,7 @@ finish_state_zero:
                     level = 99;
                 }
                 i = 0;
-                dungeon = &D_80083460;
+                dungeon = ((DungeonState80285E80 *)&dungeonStatus);
                 base = D_800DDC9C[0];
                 even_ids = base;
                 odd_ids = even_ids + 1;
@@ -222,7 +221,7 @@ finish_state_zero:
                     level = 99;
                 }
                 i = 0;
-                dungeon = &D_80083460;
+                dungeon = ((DungeonState80285E80 *)&dungeonStatus);
                 base = D_800DDC9C[1];
                 even_ids = base;
                 odd_ids = even_ids + 1;
@@ -239,8 +238,8 @@ finish_state_zero:
             goto third_pair;
             }
 
-            *(Packed16_80285E80 *)D_80083478[0] =
-                *(Packed16_80285E80 *)(D_80083478[0] + 0x10);
+            *(Packed16_80285E80 *)dungeonStatus.unk_18 =
+                *(Packed16_80285E80 *)(dungeonStatus.unk_18 + 0x10);
             *(Packed16_80285E80 *)D_800DDC9C[0] =
                 *(Packed16_80285E80 *)D_800DDC9C[2];
 
@@ -254,7 +253,7 @@ third_pair:
             monster_id = func_800A6DA4(3, 0x2D) & 0xFFFF;
             level_bonus = func_800A6D30() & 1;
             i_m = 0;
-            base = &D_80083460;
+            base = ((DungeonState80285E80 *)&dungeonStatus);
             dungeon = base;
             final_floor = (s32)D_800DDC9C[2];
             even_ids = (u8 *)final_floor;
@@ -283,7 +282,7 @@ third_pair:
             monster_id = func_800A6DA4(3, 0x2D) & 0xFFFF;
             level_bonus = func_800A6D30() & 1;
             i_m = 0;
-            dungeon = &D_80083460;
+            dungeon = ((DungeonState80285E80 *)&dungeonStatus);
             final_floor = (s32)D_800DDC9C[3];
             even_ids = (u8 *)final_floor;
             odd_ids = even_ids + 1;

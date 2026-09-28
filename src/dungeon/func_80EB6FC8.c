@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
@@ -63,8 +64,6 @@ M2C_UNK func_800DB2DC();
 extern DungeonEntry D_8006DE24[];
 extern void *D_800814A8;
 extern s16 D_80083228;
-extern M2C_UNK D_80083460;
-extern s32 D_8008346C;
 extern M2C_UNK D_801711A4;
 extern u8 D_8017418C;
 extern u8 D_801741B4;
@@ -239,7 +238,7 @@ block_36:
     ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = 0;
     ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
     func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
-    D_8008346C = 0;
+    dungeonStatus.unk_0C = 0;
     ((Rec_D_800814A8 *)D_800814A8)->unk_A6 = (u16) ((*(u16 *)((u8 *)D_800814A8 + 0xA6)) - 1);
     func_800A4ACC(actor);
     ((Rec_D_800E3D7C *)actor)->unk_6D.as_u8 = (u8) (((Rec_D_800E3D7C *)actor)->unk_6D.as_u8 - 1);
@@ -287,7 +286,7 @@ block_45:
     ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
     func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
     if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pm == &D_8017418C) {
-        effect_state = &D_80083460;
+        effect_state = &dungeonStatus.unk_00;
         goto block_50;
     }
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000)) {
@@ -298,7 +297,7 @@ block_45:
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_8017418C;
     func_80047784(sprite, *((((s32) (D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7) + &D_8017418C), 0);
 block_49:
-    effect_state = &D_80083460;
+    effect_state = &dungeonStatus.unk_00;
 block_50:
     if (((S_801727C8_8 *)effect_state)->unk_0C != 0) {
         goto block_54;

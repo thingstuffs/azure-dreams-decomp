@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 
 
@@ -12,7 +13,6 @@ typedef s32 M2C_UNK;
 
 void *func_8003FD64();
 M2C_UNK func_800A56E0();
-extern M2C_UNK D_80083460;
 extern M2C_UNK D_80083498;
 extern M2C_UNK D_800C4C00;
 
@@ -44,7 +44,7 @@ void func_800C4D78(s32 payload, s16 trigger_event) {
         if ((held_event << 0x10) != 0) {
             func_800A56E0(0x501);
         }
-        counter_base = (u8 *)&D_80083460;
+        counter_base = (u8 *)&dungeonStatus.unk_00;
         ((S_800C4D78_1 *)counter_base)->unk_0A =
             (u16)(((S_800C4D78_1 *)counter_base)->unk_0A + 1);
     }

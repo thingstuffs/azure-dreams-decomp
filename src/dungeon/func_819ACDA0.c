@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "records/Rec_D_800E3D7C.h"
 
 typedef struct S_819ACDA0_0 {
@@ -70,7 +71,6 @@ extern u16 D_80027450;
 extern u8 D_80027452[16];
 extern s16 D_80083228;
 extern Origin D_80083780;
-extern s32 D_800814A0;
 extern void **D_800E3D18;
 extern u8 *D_800E3D7C;
 
@@ -214,5 +214,5 @@ effect:
 
 finish:
     (*(u16 *)((u8 *)motion + -2)) |= 0x8000;
-    D_800814A0 |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
 }

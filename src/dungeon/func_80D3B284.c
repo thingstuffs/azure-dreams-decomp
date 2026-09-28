@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_80170A84_0_pre {
     u16 unk_00;
@@ -48,7 +49,6 @@ typedef struct S_80170A84_3 {
 
 
 extern void *D_80170808[];
-extern s32 D_800814A0[3];
 
 /* Updates effect rotation and fading, then copies three source words to the output. */
 void func_80170A84(void *effect, void *output, S_80170A84_2 *render_data)
@@ -158,7 +158,7 @@ case_2:
         goto done;
     }
     ((S_80170A84_0_pre *)effect)[-1].unk_00 |= 0x8000;
-    D_800814A0[0] |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
     goto done;
 
 case_3:

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -30,7 +31,6 @@ typedef struct S_80173C5C_4 {
 extern s16 D_80083228[5];
 extern u8 D_80173FD0[];
 extern u8 D_80173FB8[];
-extern s32 D_80083460[3];
 extern s32 D_80170F68;
 extern void *D_80170878[];
 M2C_UNK func_800A2B04();
@@ -134,7 +134,7 @@ jt_c7:
     }
     part_b->unk_2C.as_pu8 = D_80173FB8;
     func_80047784(part_b, D_80173FB8[((s32) (*D_80083228 + actor->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
-    counters = (u16 *) D_80083460;
+    counters = (u16 *) ((s32 *)(&dungeonStatus));
     ((S_80173C5C_4 *)counters)->unk_0A = (u16) (((S_80173C5C_4 *)counters)->unk_0A - 1);
     func_800A4ACC(actor);
     actor->unk_6D.as_s8 = 0;

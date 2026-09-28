@@ -1,8 +1,8 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 extern void func_800478B8(void *arg0);
 extern s16 D_80025924[5];
-extern s32 D_800814A0[3];
 
 /* Advance position and object state, then flag completion on timeout or object status. */
 void func_818CEC78(void *state, void *position, void *object)
@@ -26,11 +26,11 @@ void func_818CEC78(void *state, void *position, void *object)
     *(u16 *)((u8 *)state + 2) = ticks_left;
     if ((s16)ticks_left <= 0) {
         *(u16 *)((u8 *)state - 2) |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 
     if (*(u16 *)((u8 *)object + 0x14) & 0x8000) {
         *(u16 *)((u8 *)state - 2) |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

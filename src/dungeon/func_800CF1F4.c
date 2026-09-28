@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_800D4954_0_pre {
     u16 unk_00;
@@ -53,7 +54,6 @@ typedef struct S_800D4954_5 {
 
 
 extern s32 func_80042900(void *, s32);
-extern s32 D_800814A0[3];
 
 /* Updates an attached effect's position, color, growth, and removal flags. */
 void func_800D4954(void *effect, S_800D4954_2 *position, S_800D4954_4 *appearance) {
@@ -88,10 +88,10 @@ void func_800D4954(void *effect, S_800D4954_2 *position, S_800D4954_4 *appearanc
     }
     if ((func_80042900(source, 0x1D) << 0x10) == 0) {
         ((S_800D4954_0_pre *)effect)[-1].unk_00 |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
     if (source_header->unk_1E & 0x8000) {
         ((S_800D4954_0_pre *)effect)[-1].unk_00 |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

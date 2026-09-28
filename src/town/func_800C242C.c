@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 #ifndef NULL
 #define NULL 0
@@ -47,7 +48,6 @@ s32 func_80033BC0();
 void *func_8003FD64();
 void func_8004491C(void *, void *);
 s32 rand(void);
-extern M2C_UNK D_800814A0;
 extern M2C_UNK D_80083160;
 extern M2C_UNK D_80083498;
 extern M2C_UNK D_800BFD14;
@@ -140,7 +140,7 @@ state_one:
     if ((next_value << 0x10) <= 0) {
         (*(u16 *)((u8 *)source + -2)) =
             (u16)(((S_800BFB8C_0_pre *)source)[-1].unk_00 | 0x8000);
-        D_800814A0 = D_800814A0 | 0x8000;
+        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
     }
 
 done:

@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 extern s32 D_800E3D7C;
-extern u8 D_80083460[12];
 extern s32 D_800CBDB4;
 extern u8 D_800E1B5D;
 
@@ -34,7 +34,7 @@ s32 func_800CBF88(s32 entity)
                 *(void **)((u8 *)effect + 0x10) = &D_800CBDB4;
                 effect_id_half = effect_id;
                 *(s16 *)((u8 *)effect + 0x24) = effect_id_half;
-                effect_counts = (u16 *)D_80083460;
+                effect_counts = (u16 *)((u8 *)(&dungeonStatus));
                 effect_counts[5] = (u16)(effect_counts[5] + 1);
                 func_800419EC(effect_id, 8);
                 func_800A56E0(0x818);

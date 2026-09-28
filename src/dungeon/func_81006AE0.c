@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 
 typedef s32 M2C_UNK;
@@ -29,7 +30,6 @@ extern s32 func_800A2BDC();
 extern M2C_UNK func_800A5720();
 
 extern s16 D_80083228;
-extern u8 D_80083460[12];
 extern u8 D_80170838[16];
 extern u8 D_80170848[16];
 extern u8 D_80174880[9];
@@ -40,7 +40,7 @@ void func_801722E0(void *owner, void *unused, void *part, void *actor) {
     s32 original_value;
     s32 current_value;
     s32 adjusted_value;
-    u8 *state = D_80083460;
+    u8 *state = ((u8 *)(&dungeonStatus));
 
     ((Rec_D_800E3D7C *)actor)->unk_71.as_u8 = (u8)(((Rec_D_800E3D7C *)actor)->unk_71.as_u8 & 0x7F);
     if (!(((S_801722E0_1 *)state)->unk_02 & 0x2000) &&

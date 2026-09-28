@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_80024600_arg1.h"
 extern int abs(int);
@@ -8,7 +9,6 @@ extern void func_80024A34();
 extern void func_800478B8();
 extern s32 func_800644B8();
 extern s32 func_80064584();
-extern s32 D_800814A0;
 
 
 typedef struct S_80024C0C_0 {
@@ -107,7 +107,7 @@ fading:
     if (((Rec_D_80082E80 *)effect)->unk_14.at00_u16.v & 0x6000) {
         object = ((S_80024C0C_0 *)motion)->unk_00;
         ((S_80024C0C_1 *)object)->unk_16++;
-        global_flags = &D_800814A0;
+        global_flags = &objectFlagBlock.flags;
         (*(u16 *)((u8 *)motion + (-2))) |= 0x8000;
         *global_flags |= 0x8000;
     }
