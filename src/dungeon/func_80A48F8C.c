@@ -72,7 +72,7 @@ state_0:
     motion->unk_10 = 0;
     motion->unk_0C = 0;
     sprite->unk_2C.as_pu8 = direction_frames;
-    func_80047784(sprite, direction_frames[((s32) (gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7], 0);
+    func_80047784(sprite, direction_frames[((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7], 0);
     action->unk_96 = 9;
     action->unk_9B++;
     goto cleanup;

@@ -23,12 +23,12 @@ void func_801749F4(u8 *task, void *context, u8 *input)
             return;
         }
     } else {
-        fade_state->unk_0A8 = (u8)(fade_state->unk_0A8 +
-            ((s32)(0x80 - fade_state->unk_0A8) / *(s16 *)(task + 0x96)));
-        fade_state->unk_0A9 = (u8)(fade_state->unk_0A9 +
-            ((s32)(0x80 - fade_state->unk_0A9) / *(s16 *)(task + 0x96)));
-        fade_state->unk_0AA = (u8)(fade_state->unk_0AA +
-            ((s32)(0x80 - fade_state->unk_0AA) / *(s16 *)(task + 0x96)));
+        fade_state->view.unk_090 = (u8)(fade_state->view.unk_090 +
+            ((s32)(0x80 - fade_state->view.unk_090) / *(s16 *)(task + 0x96)));
+        fade_state->view.unk_091 = (u8)(fade_state->view.unk_091 +
+            ((s32)(0x80 - fade_state->view.unk_091) / *(s16 *)(task + 0x96)));
+        fade_state->view.unk_092 = (u8)(fade_state->view.unk_092 +
+            ((s32)(0x80 - fade_state->view.unk_092) / *(s16 *)(task + 0x96)));
 
         frames_left = *(u16 *)(task + 0x96) - 1;
         *(s16 *)(task + 0x96) = frames_left;

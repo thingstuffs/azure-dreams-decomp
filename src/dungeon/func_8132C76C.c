@@ -93,7 +93,7 @@ void func_80173F6C(void) {
         func_800A9C18(object, model, sprite, 0);
         object_state->unk_B6 = 1;
         object_state->unk_2A = 0x800;
-        func_80047784(sprite, sprite->unk_2C[((s32) (gameWork.viewAngle + 0x900) >> 9) & 7], 0);
+        func_80047784(sprite, sprite->unk_2C[((s32) (gameWork.view.viewAngle + 0x900) >> 9) & 7], 0);
         sprite->unk_1E = 0x1000;
         sprite->unk_1C = 0x1000;
         func_8009A3D0(sprite->unk_24, sprite->unk_25,

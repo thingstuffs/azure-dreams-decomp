@@ -328,15 +328,15 @@ void func_81904990(void *screen_pos, void *sprite, s32 *ordering_table, s32 draw
     length_mask = 0xFF000000;
     ASM_KEEP_NV(length_mask);
     view_matrix = (S_func_81904990_8 *)D_8006CD10;
-    view_matrix->unk_1C = (s32) state_page->unk_0A0;
+    view_matrix->unk_1C = (s32) state_page->view.unk_088;
     func_800649A0((s32) setup_arg, matrix_arg);
     {
         s32 view_x;
         s32 view_y;
         s32 view_z;
-        view_x = state_page->unk_0C4;
-        view_y = state_page->unk_0C6;
-        view_z = state_page->viewAngle;
+        view_x = state_page->view.unk_0AC;
+        view_y = state_page->view.unk_0AE;
+        view_z = state_page->view.viewAngle;
         scratch->unk_30 = view_x;
         scratch->unk_34 = view_y;
         scratch->unk_38 = view_z;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_index_slots.h"
 #include "records/Rec_func_80094268_arg0.h"
 
 
@@ -16,7 +17,6 @@ typedef struct S_8009A3A4_2 {
 
 extern s32 func_80094984();
 extern s32 func_80098928();
-extern u8 D_80082660;
 
 /* Run the object's indexed handler, clear its table flag, and reset its state. */
 void func_8009A3A4(Rec_func_80094268_arg0 *object, s32 position, s32 context) {
@@ -31,7 +31,7 @@ void func_8009A3A4(Rec_func_80094268_arg0 *object, s32 position, s32 context) {
 
         ASM_KEEP(reset_position);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         ASM_KEEP(reset_context);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        *(&D_80082660 + (((S_8009A3A4_1 *)reset_object)->unk_40 * 8)) = 0;
+        *(((u8 *)D_80082660) + (((S_8009A3A4_1 *)reset_object)->unk_40 * 8)) = 0;
         func_80098928(reset_object, reset_position, reset_context);
     }
 }

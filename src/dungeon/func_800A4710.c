@@ -43,7 +43,7 @@ s32 func_800A9E70(Rec_func_800A9E70_arg0 *anim, s32 action_arg, S_800A9E70_2 *sp
     u16 action_flags;
 
     if (entity->flags14 & 0x100000) {
-        direction = ((gameWork.viewAngle + entity->facing + 0x100) >> 9) & 7;
+        direction = ((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7;
         if (anim->unk_94 != direction) {
             if (func_800A9E38(entity) != 0) {
                 func_8003DB94(sprite, sprite->unk_2C.p[direction],
@@ -78,7 +78,7 @@ s32 func_800A9E70(Rec_func_800A9E70_arg0 *anim, s32 action_arg, S_800A9E70_2 *sp
 
     if (!(sprite->unk_14 & 0x8000)) {
         if (anim->unk_98 & 0x400) {
-            direction = ((gameWork.viewAngle + entity->facing + 0x100) >> 9) & 7;
+            direction = ((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7;
             if (func_800A9E38(entity) != 0) {
                 func_8003DB94(sprite, sprite->unk_2C.p[direction],
                               sprite->unk_04);

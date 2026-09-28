@@ -40,7 +40,7 @@ void func_8008F6EC(void *state, void *target, void *sprite, u32 actor_or_can) {
         ((Rec_func_8008ACDC_arg0 *)state)->unk_9B.as_s8 = 0;
         ((Rec_func_8008ACDC_arg0 *)state)->unk_8C.as_s32 = 0;
         (*(u8 **)((u8 *)sprite + 0x2C)) = D_800DD0D0;
-        func_80048A44(sprite, D_800DD0D0[(((s32) (gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100)) >> 9) & 7], 0, 1);
+        func_80048A44(sprite, D_800DD0D0[(((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100)) >> 9) & 7], 0, 1);
         dungeonStatus.unk_0A = ((u16)dungeonStatus.unk_0A) + 1;
         func_8009F644(actor, 0x28, 0, 0);
     }

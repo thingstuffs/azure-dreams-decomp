@@ -29,7 +29,7 @@ void func_8016DCC8(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
     if (*(u8 **)(linked + 0x2C) != D_80174684) {
         *(u8 **)(linked + 0x2C) = D_80174684;
         func_80047784(linked,
-            D_80174684[((gameWork.viewAngle + *(s16 *)(base + 0x2A) + 0x100) >> 9) & 7],
+            D_80174684[((gameWork.view.viewAngle + *(s16 *)(base + 0x2A) + 0x100) >> 9) & 7],
             0);
     }
 

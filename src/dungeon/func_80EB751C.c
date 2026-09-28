@@ -277,7 +277,7 @@ state_2:
     func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
     (*(void * *)((u8 *)sprite + 0x2C)) = D_8017418C;
     func_80047784(sprite,
-                  D_8017418C[((gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
+                  D_8017418C[((gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
                   0);
     if (((s32)dungeonStatus.unk_10) == (s32)((u8 *)entity - 0x20)) {
         *(s32 *)&dungeonStatus.unk_10 &= 0x7FFFFFFF;

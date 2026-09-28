@@ -119,7 +119,7 @@ state_two:
         (*(void * *)((u8 *)actor + 0x2C)) = D_80174520;
         func_80047784(
             actor,
-            D_80174520[((gameWork.viewAngle + ((S_801724E8_2 *)actor_state)->unk_2A + 0x100) >> 9) & 7],
+            D_80174520[((gameWork.view.viewAngle + ((S_801724E8_2 *)actor_state)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((S_801724E8_0 *)anim)->unk_9B++;
     }

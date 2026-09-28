@@ -118,7 +118,7 @@ state_zero:
         direction_anims = D_80174684;
         (*(void * *)((u8 *)sprite + 0x2C)) = direction_anims;
         func_80047784(sprite,
-            direction_anims[((gameWork.viewAngle + ((S_80173CD4_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            direction_anims[((gameWork.view.viewAngle + ((S_80173CD4_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         world_counters = (u8 *)&dungeonStatus.unk_00;
         ((S_80173CD4_3 *)world_counters)->unk_0A--;
@@ -221,7 +221,7 @@ animate:
         direction_anims = D_8017468C;
         (*(void * *)((u8 *)sprite + 0x2C)) = direction_anims;
         func_80047784(sprite,
-            direction_anims[((gameWork.viewAngle + ((S_80173CD4_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            direction_anims[((gameWork.view.viewAngle + ((S_80173CD4_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((S_80173CD4_2 *)actor)->unk_1C |= 0x40000;
         if (((S_80173CD4_1 *)sprite)->unk_14 & 0x8000) {

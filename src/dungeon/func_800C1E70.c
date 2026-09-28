@@ -8,7 +8,7 @@ extern u16 D_800E58F8[];
 
 /* Update target tracking and smoothly approach its position and transition value. */
 void func_800C75D0(void *tracker) {
-    struct S_80083178 *state = ((void *)&gameWork.unk_018);
+    GameView *state = &gameWork.view;
     s16 frames_left;
     s16 next_frames;
     s16 target_height;
@@ -26,8 +26,8 @@ void func_800C75D0(void *tracker) {
     }
     frames_left = *(s16 *)((char *)tracker + 0x24);
     if (frames_left > 0) {
-        *(u16 *)((char *)state + 0x98) = (u16)*(s16 *)((char *)state + 0x98) +
-            (*(s16 *)((char *)tracker + 0x26) - *(s16 *)((char *)state + 0x98)) / frames_left;
+        *(u16 *)((char *)state + 0x98) = (u16)state->unk_098 +
+            (*(s16 *)((char *)tracker + 0x26) - state->unk_098) / frames_left;
     } else {
         D_800E3D20[0] = 0;
     }
@@ -44,12 +44,12 @@ void func_800C75D0(void *tracker) {
     if (target_height >= 0x201) {
         *(s16 *)((char *)tracker + 8) = *(u16 *)((char *)*(void **)((char *)tracker + 0xC) + 0xA);
     }
-    *(s16 *)((char *)state + 0xA4) = (u16)*(s16 *)((char *)state + 0xA4) + ((s32)((s16)*(u16 *)((char *)tracker + 4) - *(s16 *)((char *)state + 0xA4)) >> 2);
-    *(s16 *)((char *)state + 0xA6) = (u16)*(s16 *)((char *)state + 0xA6) + ((s32)((s16)*(u16 *)((char *)tracker + 6) - *(s16 *)((char *)state + 0xA6)) >> 2);
+    state->unk_0A4 = (u16)state->unk_0A4 + ((s32)((s16)*(u16 *)((char *)tracker + 4) - state->unk_0A4) >> 2);
+    state->unk_0A6 = (u16)state->unk_0A6 + ((s32)((s16)*(u16 *)((char *)tracker + 6) - state->unk_0A6) >> 2);
     if (D_800DF63C[0] != 0) {
-        *(s16 *)((char *)state + 0xA8) = (u16)*(s16 *)((char *)state + 0xA8) + ((s32)(*(s16 *)((char *)tracker + 8) - *(s16 *)((char *)state + 0xA8)) >> 2);
+        state->unk_0A8 = (u16)state->unk_0A8 + ((s32)(*(s16 *)((char *)tracker + 8) - state->unk_0A8) >> 2);
     }
-    D_800DF63C[0] = (s8)(*(s16 *)((char *)state + 0xA8) != *(s16 *)((char *)tracker + 8));
+    D_800DF63C[0] = (s8)(state->unk_0A8 != *(s16 *)((char *)tracker + 8));
     *(u16 *)((char *)state + 0x94) = (s32)(*(u16 *)((char *)state + 0x94) << 0x10) >> 0x12;
     *(u16 *)((char *)state + 0x96) = (s32)(*(u16 *)((char *)state + 0x96) << 0x10) >> 0x12;
 }

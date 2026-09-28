@@ -87,7 +87,7 @@ next_direction:
             target_pos = ((S_80175E6C_6_pre *)(((EntityRec *)actor)->target))[-1].unk_00;
             ((EntityRec *)actor)->facing = func_800A0818(((S_80175E6C_1 *)actor_pos_arg)->unk_24, ((S_80175E6C_1 *)actor_pos_arg)->unk_25, ((S_80175E6C_5 *)target_pos)->unk_24, ((S_80175E6C_5 *)target_pos)->unk_25, &distance);
             (*(u8 **)((u8 *)actor_pos_arg + 0x2C)) = D_80176348;
-            func_80047784(actor_pos_arg, D_80176348[((s32) (gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7], 0);
+            func_80047784(actor_pos_arg, D_80176348[((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7], 0);
             func_80175E14(actor);
             result = 1;
             goto done;

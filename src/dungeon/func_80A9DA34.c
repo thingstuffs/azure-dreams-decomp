@@ -118,7 +118,7 @@ continue_state_one:
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80174C44;
     func_80047784(
         sprite,
-        D_80174C44[((gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
+        D_80174C44[((gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
         0);
     ((S_80173234_0 *)action)->unk_9B++;
     goto done;
@@ -135,7 +135,7 @@ state_two:
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80174C44;
     func_80047784(
         sprite,
-        D_80174C44[((gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
+        D_80174C44[((gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
         0);
     ((S_80173234_0 *)action)->unk_96.s = 8;
     ((S_80173234_0 *)action)->unk_9B++;

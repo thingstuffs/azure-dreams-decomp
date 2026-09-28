@@ -83,7 +83,7 @@ void func_800D8C64(void *actor, void *motion, void *sprite, void *status)
                     (*(void * *)((u8 *)sprite + (0x2C))) = anim_table;
                     func_8003DB94(sprite,
                         *(void **)((u8 *)anim_table +
-                            (((gameWork.viewAngle + ((EntityRec *)status)->facing + 0x100) >> 7) & 0x1C)),
+                            (((gameWork.view.viewAngle + ((EntityRec *)status)->facing + 0x100) >> 7) & 0x1C)),
                         0);
                 }
                 ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = next_state;
@@ -157,7 +157,7 @@ void func_800D8C64(void *actor, void *motion, void *sprite, void *status)
     }
     (*(void * *)((u8 *)sprite + (0x2C))) = anim_table;
     func_8003DB94(sprite,
-        *(void **)((((gameWork.viewAngle + ((EntityRec *)status)->facing + 0x100) >> 7) & 0x1C) +
+        *(void **)((((gameWork.view.viewAngle + ((EntityRec *)status)->facing + 0x100) >> 7) & 0x1C) +
             (u32)anim_table),
         0);
 }

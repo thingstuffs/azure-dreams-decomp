@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/object_index_slots.h"
 
 
-extern u8 D_80082660;
 extern s32 D_80082A38[];
 extern u8 D_800A4F4C[];
 extern u8 D_80100D98[];
@@ -50,7 +50,7 @@ void func_800A4F84(S_800A4F84_0 *object, s32 check_arg_1, s32 check_arg_2, s32 c
 
         state_index = state[1];
         if ((u32)(state_index - 2) < 0x53U) {
-            state_table = &D_80082660;
+            state_table = ((u8 *)D_80082660);
             value = ((S_800A4F84_1 *)(state_table + (state[1] * 8)))->unk_04;
             if (value != 0) {
                 object->unk_00.i = value->unk_08;

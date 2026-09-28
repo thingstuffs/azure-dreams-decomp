@@ -11,6 +11,6 @@ void func_800D9820(void *object, void *unusedContext, void *tableTarget, void *h
     *((u8 *)object + 0x9A) = 0x10;
     *((u8 *)object + 0x9B) = 0;
     *(u8 **)((u8 *)tableTarget + 0x2C) = D_800E260C;
-    tableByteOffset = ((gameWork.viewAngle + *(s16 *)((u8 *)headingSource + 0x2A) + 0x100) >> 7) & 0x1C;
+    tableByteOffset = ((gameWork.view.viewAngle + *(s16 *)((u8 *)headingSource + 0x2A) + 0x100) >> 7) & 0x1C;
     func_8003DB94(tableTarget, *(s32 *)(D_800E260C + tableByteOffset), 0);
 }

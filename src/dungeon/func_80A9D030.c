@@ -83,7 +83,7 @@ state_0:
     ((EntityRec *)motion)->flags14 = 0;
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80174C34;
     func_80047784(sprite,
-        D_80174C34[((gameWork.viewAngle + ((S_80172830_2 *)actor)->unk_2A.u + 0x100) >> 9) & 7],
+        D_80174C34[((gameWork.view.viewAngle + ((S_80172830_2 *)actor)->unk_2A.u + 0x100) >> 9) & 7],
         0);
     {
         s32 next_state;
@@ -103,7 +103,7 @@ state_1:
     }
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80174C64;
     func_80047784(sprite,
-        D_80174C64[((gameWork.viewAngle + ((S_80172830_2 *)actor)->unk_2A.u + 0x100) >> 9) & 7],
+        D_80174C64[((gameWork.view.viewAngle + ((S_80172830_2 *)actor)->unk_2A.u + 0x100) >> 9) & 7],
         0);
     {
         s32 next_state;
@@ -122,7 +122,7 @@ state_2:
     func_800A56E0(0x808);
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80174C6C;
     func_80047784(sprite,
-        D_80174C6C[((gameWork.viewAngle + ((S_80172830_2 *)actor)->unk_2A.u + 0x100) >> 9) & 7],
+        D_80174C6C[((gameWork.view.viewAngle + ((S_80172830_2 *)actor)->unk_2A.u + 0x100) >> 9) & 7],
         0);
     ((S_80172830_0 *)action)->unk_96 = 0x14;
     ((EntityRec *)motion)->flags14 = 0;

@@ -109,7 +109,7 @@ state_0:
     func_80047784(
         sprite,
         *(&D_80174D7C +
-          (((gameWork.viewAngle + ((S_80172664_0 *)actor)->unk_2A + 0x100) >> 9) & 7)),
+          (((gameWork.view.viewAngle + ((S_80172664_0 *)actor)->unk_2A + 0x100) >> 9) & 7)),
         0);
     {
         s32 shifted_x = direction_x << 19;
@@ -136,7 +136,7 @@ state_1:
     func_80047784(
         sprite,
         *(&D_80174D84 +
-          (((gameWork.viewAngle + ((S_80172664_0 *)actor)->unk_2A + 0x100) >> 9) & 7)),
+          (((gameWork.view.viewAngle + ((S_80172664_0 *)actor)->unk_2A + 0x100) >> 9) & 7)),
         0);
     next_state = ((S_80172664_1 *)animation)->unk_9B;
     ((S_80172664_1 *)animation)->unk_96.s = 8;
@@ -189,7 +189,7 @@ state_4:
     func_80047784(
         sprite,
         *(&D_80174D8C +
-          (((gameWork.viewAngle + ((S_80172664_0 *)actor)->unk_2A + 0x100) >> 9) & 7)),
+          (((gameWork.view.viewAngle + ((S_80172664_0 *)actor)->unk_2A + 0x100) >> 9) & 7)),
         0);
     ((S_80172664_3 *)motion)->unk_14 = 0;
     ((S_80172664_1 *)animation)->unk_90 = 0;

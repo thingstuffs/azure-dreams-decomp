@@ -129,7 +129,7 @@ void func_80171728(void *actor_in, void *context_in, void *sprite_in, void *crea
                 if (((S_80171728_2 *)sprite)->unk_2C != anim_table) {
                     (*(void * *)((u8 *)sprite + 0x2C)) = anim_table;
                     func_80047784(sprite,
-                        anim_table[((gameWork.viewAngle + ((EntityRec *)creature_in)->facing + 0x100) >> 9) & 7],
+                        anim_table[((gameWork.view.viewAngle + ((EntityRec *)creature_in)->facing + 0x100) >> 9) & 7],
                         0);
                 }
                 ((Rec_func_800A9E70_arg0 *)actor_in)->unk_9E.as_s16 = 0;
@@ -150,7 +150,7 @@ void func_80171728(void *actor_in, void *context_in, void *sprite_in, void *crea
             func_801743E8(actor_in, context_in, sprite, creature_in);
             (*(void * *)((u8 *)sprite + 0x2C)) = D_80174DEC;
             func_80047784(sprite,
-                D_80174DEC[((gameWork.viewAngle + ((EntityRec *)creature_in)->facing + 0x100) >> 9) & 7],
+                D_80174DEC[((gameWork.view.viewAngle + ((EntityRec *)creature_in)->facing + 0x100) >> 9) & 7],
                 0);
             ((Rec_func_800A9E70_arg0 *)actor_in)->unk_90.at00_s32.v = 0;
             return;
@@ -275,6 +275,6 @@ generic:
 set_table:
     (*(void * *)((u8 *)sprite + 0x2C)) = anim_table;
     func_80047784(sprite,
-        *(u8 *)(((((gameWork.viewAngle + ((EntityRec *)creature_in)->facing + 0x100) >> 9) & 7)) + (u32)anim_table),
+        *(u8 *)(((((gameWork.view.viewAngle + ((EntityRec *)creature_in)->facing + 0x100) >> 9) & 7)) + (u32)anim_table),
         0);
 }

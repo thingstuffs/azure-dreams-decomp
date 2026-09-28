@@ -97,6 +97,6 @@ void func_8008CD4C(Rec_func_8008ACDC_arg0 *action, M2C_UNK context, S_8008CD4C_0
     func_80048A44(
         sprite,
         sprite->unk_2C
-            [((gameWork.viewAngle + actor->unk_2A.u + 0x100) >> 9) & 7],
+            [((gameWork.view.viewAngle + actor->unk_2A.u + 0x100) >> 9) & 7],
         0, 1);
 }

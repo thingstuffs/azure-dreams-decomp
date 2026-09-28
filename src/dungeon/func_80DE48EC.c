@@ -134,7 +134,7 @@ s32 func_801720EC(void *action_state, s32 update_arg, void *sprite, void *actor)
         ((S_801720EC_2 *)output)->unk_9A = 0x17;
         (*(u8 * *)((u8 *)sprite + 0x2c)) = D_80174558;
         func_80047784(sprite,
-                      D_80174558[((gameWork.viewAngle + ((S_801720EC_0 *)actor)->unk_2A.u + 0x100) >> 9) & 7],
+                      D_80174558[((gameWork.view.viewAngle + ((S_801720EC_0 *)actor)->unk_2A.u + 0x100) >> 9) & 7],
                       0);
         func_800A4ACC(actor);
         {

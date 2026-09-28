@@ -159,7 +159,7 @@ state_zero:
 
        /* Pin: removal changes a delay-slot fill. */
     {
-        s32 base_angle = gameWork.viewAngle;
+        s32 base_angle = gameWork.view.viewAngle;
         s32 signed_angle = actor->unk_2A.s;
         s32 angle_or_sprite;
         s32 next_angle;
@@ -174,7 +174,7 @@ state_zero:
                 ((S_800927E4_5 *)((void *)angle_or_sprite))->unk_2C = anim_table;
                 func_80048A44(
                     (void *)angle_or_sprite,
-                    anim_table[((gameWork.viewAngle +
+                    anim_table[((gameWork.view.viewAngle +
                             actor->unk_2A.s + 0x100) >> 9) & 7],
                     0,
                     1);

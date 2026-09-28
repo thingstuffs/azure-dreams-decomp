@@ -122,7 +122,7 @@ void func_801719DC(void *motion_in, void *context_in, void *entity_in, void *act
         anim_table = D_8017467C;
         (*(void * *)((u8 *)entity_in + (0x2C))) = anim_table;
         func_80047784(entity_in,
-            ((u8 *)anim_table)[((gameWork.viewAngle + ((S_801719DC_1 *)actor_in)->unk_2A + 0x100) >> 9) & 7],
+            ((u8 *)anim_table)[((gameWork.view.viewAngle + ((S_801719DC_1 *)actor_in)->unk_2A + 0x100) >> 9) & 7],
             0);
         return;
     }
@@ -162,7 +162,7 @@ void func_801719DC(void *motion_in, void *context_in, void *entity_in, void *act
                 if (current_anim != anim_table) {
                     (*(void * *)((u8 *)entity_in + (0x2C))) = anim_table;
                     func_80047784(entity_in,
-                        ((u8 *)anim_table)[((gameWork.viewAngle + ((S_801719DC_1 *)actor_in)->unk_2A + 0x100) >> 9) & 7],
+                        ((u8 *)anim_table)[((gameWork.view.viewAngle + ((S_801719DC_1 *)actor_in)->unk_2A + 0x100) >> 9) & 7],
                         1);
                     ((S_801719DC_2 *)entity_in)->unk_05 = 1;
                     motion_value = ((S_801719DC_0 *)motion_in)->unk_A4.at00.v;
@@ -324,7 +324,7 @@ generic:
         if (((S_801719DC_2 *)entity_in)->unk_2C != anim_table) {
             (*(void * *)((u8 *)entity_in + (0x2C))) = anim_table;
             func_80047784(entity_in,
-                ((u8 *)anim_table)[((gameWork.viewAngle + ((S_801719DC_1 *)actor_in)->unk_2A + 0x100) >> 9) & 7],
+                ((u8 *)anim_table)[((gameWork.view.viewAngle + ((S_801719DC_1 *)actor_in)->unk_2A + 0x100) >> 9) & 7],
                 1);
             ((S_801719DC_2 *)entity_in)->unk_05 = 1;
             motion_value = ((S_801719DC_0 *)motion_in)->unk_A4.at00.v;

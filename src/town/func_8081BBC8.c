@@ -77,13 +77,13 @@ case_0:
         init_state->state = 1;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         target_offset = -0x80;
-        scene_data->unk_0AC +=
-            (target_offset - scene_data->unk_0AC) >> 1;
+        scene_data->view.unk_094 +=
+            (target_offset - scene_data->view.unk_094) >> 1;
         first_object = *(TownObject **)init_state;
         if (first_object->state != 1) {
             goto cleanup;
         }
-        scene_data->unk_0AC = target_offset;
+        scene_data->view.unk_094 = target_offset;
         init_state->counter = 0;
         round_delay = *(u16 *)(D_80026F80 +
                         init_state->table_x * 40 + init_state->table_y * 400);
@@ -164,7 +164,7 @@ case_2:
 
 case_3:
     if (state->timer < 15) {
-        scene_data->unk_0AC >>= 1;
+        scene_data->view.unk_094 >>= 1;
     }
     state->timer--;
     if (state->timer >= 0) {
@@ -189,7 +189,7 @@ case_3:
     if (state->timer > 0) {
         goto cleanup;
     }
-    scene_data->unk_0AC = 0;
+    scene_data->view.unk_094 = 0;
     state->state = 5;
     state->flags |= 8;
     goto cleanup;

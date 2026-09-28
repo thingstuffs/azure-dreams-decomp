@@ -132,7 +132,7 @@ state0_kind_15:
         anim_table = D_80175E64;
 state0_notify:
         ((S_80175050_1 *)sprite_in)->unk_2C = anim_table;
-        func_80047784(sprite_in, ((S_80175050_3 *)((((gameWork.viewAngle + ((S_80175050_2 *)actor)->unk_2A + 0x100) >> 9) & 7) + (unsigned long)anim_table))->unk_00, 0);
+        func_80047784(sprite_in, ((S_80175050_3 *)((((gameWork.view.viewAngle + ((S_80175050_2 *)actor)->unk_2A + 0x100) >> 9) & 7) + (unsigned long)anim_table))->unk_00, 0);
         starting_task = task;
         goto state0_decrement;
 state0_default_low:
@@ -167,7 +167,7 @@ state0_decrement:
 state1_maybe_update:
         if (old_anim_table != next_anim_table) {
             ((S_80175050_1 *)sprite_in)->unk_2C = next_anim_table;
-            func_80047784(sprite_in, ((S_80175050_3 *)((((gameWork.viewAngle + ((S_80175050_2 *)actor)->unk_2A + 0x100) >> 9) & 7) + (unsigned long)next_anim_table))->unk_00, 0);
+            func_80047784(sprite_in, ((S_80175050_3 *)((((gameWork.view.viewAngle + ((S_80175050_2 *)actor)->unk_2A + 0x100) >> 9) & 7) + (unsigned long)next_anim_table))->unk_00, 0);
         }
 
 state1_check:
@@ -268,7 +268,7 @@ kind_15:
         anim_table = D_80175E7C;
 state1_notify:
         ((S_80175050_1 *)sprite_in)->unk_2C = anim_table;
-        func_80047784(sprite_in, ((S_80175050_3 *)((((gameWork.viewAngle + ((S_80175050_2 *)actor)->unk_2A + 0x100) >> 9) & 7) + (unsigned long)anim_table))->unk_00, 0);
+        func_80047784(sprite_in, ((S_80175050_3 *)((((gameWork.view.viewAngle + ((S_80175050_2 *)actor)->unk_2A + 0x100) >> 9) & 7) + (unsigned long)anim_table))->unk_00, 0);
 
 suffix:
         if (((S_80175050_1 *)sprite_in)->unk_14 & 0x8000) {

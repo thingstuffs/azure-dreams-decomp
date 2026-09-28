@@ -74,7 +74,7 @@ L1:
         (*(u8 * *)((u8 *)sprite + (0x2C))) = D_80175C68;
         func_80047784(
             sprite,
-            D_80175C68[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            D_80175C68[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
         ((S_80173930_0 *)motion)->unk_9B++;
     }
@@ -138,7 +138,7 @@ L3:
         (*(u8 * *)((u8 *)sprite + (0x2C))) = D_80175C70;
         func_80047784(
             sprite,
-            D_80175C70[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            D_80175C70[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
 
         ((EntityRec *)velocity)->unk_0C =

@@ -117,7 +117,7 @@ initialize:
     entity = ((u8 *)D_800E3D7C);
     base.z = ((S_819ACDA0_0 *)entity)->unk_88 - 0x50;
     index =
-        ((gameWork.viewAngle + ((S_819ACDA0_0 *)entity)->unk_2A + 0x100) >> 7) & 0x1C;
+        ((gameWork.view.viewAngle + ((S_819ACDA0_0 *)entity)->unk_2A + 0x100) >> 7) & 0x1C;
 
     func_8003DE58(
         *(void **)(index + (s32)D_800E3D18),

@@ -144,7 +144,7 @@ void func_80170E54(void *arg0, void *arg1, void *arg2, void *arg3)
         }
         (*(void * *)((u8 *)arg2 + 0x2C)) = high_table;
         func_80047784(arg2,
-            *((u8 *)(((gameWork.viewAngle + ((EntityRec *)arg3)->facing + 0x100) >> 9) & 7) + (u32)high_table),
+            *((u8 *)(((gameWork.view.viewAngle + ((EntityRec *)arg3)->facing + 0x100) >> 9) & 7) + (u32)high_table),
             0);
         return;
     }
@@ -174,7 +174,7 @@ normal_state:
             if (((S_80170E54_2 *)arg2)->unk_2C.p != table) {
                 (*(void * *)((u8 *)arg2 + 0x2C)) = table;
                 func_80047784(arg2,
-                    table[((gameWork.viewAngle + ((EntityRec *)arg3)->facing + 0x100) >> 9) & 7],
+                    table[((gameWork.view.viewAngle + ((EntityRec *)arg3)->facing + 0x100) >> 9) & 7],
                     0);
             }
             ((Rec_func_800A9E70_arg0 *)arg0)->unk_9A.as_u8 = 0xE;
@@ -192,7 +192,7 @@ normal_state:
             func_80173EF4(arg0, arg1, arg2, arg3);
             (*(void * *)((u8 *)arg2 + 0x2C)) = D_80174140;
             func_80047784(arg2,
-                *((u8 *)(((gameWork.viewAngle + ((EntityRec *)arg3)->facing + 0x100) >> 9) & 7) + (u32)D_80174140),
+                *((u8 *)(((gameWork.view.viewAngle + ((EntityRec *)arg3)->facing + 0x100) >> 9) & 7) + (u32)D_80174140),
                 0);
             return;
         }
@@ -312,7 +312,7 @@ generic:
         (((S_80170E54_2 *)arg2)->unk_2C.p != D_80174140)) {
         (*(void * *)((u8 *)arg2 + 0x2C)) = table;
         func_80047784(arg2,
-            table[((gameWork.viewAngle + ((EntityRec *)arg3)->facing + 0x100) >> 9) & 7],
+            table[((gameWork.view.viewAngle + ((EntityRec *)arg3)->facing + 0x100) >> 9) & 7],
             0);
         ((Rec_func_800A9E70_arg0 *)arg0)->unk_AA = 1;
     } else if (((S_80170E54_2 *)arg2)->unk_14 & 0x6000) {
@@ -335,7 +335,7 @@ generic:
 timer_table_reload:
         func_80047784(arg2,
             ((S_80170E54_2 *)arg2)->unk_2C.p2[
-                ((gameWork.viewAngle + ((EntityRec *)arg3)->facing + 0x100) >> 9) & 7],
+                ((gameWork.view.viewAngle + ((EntityRec *)arg3)->facing + 0x100) >> 9) & 7],
             0);
     }
 

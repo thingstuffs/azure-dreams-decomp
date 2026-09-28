@@ -176,7 +176,7 @@ block_13:
         goto block_150;
     }
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = (M2C_UNK *)((u8 *)&D_80173A58 + 0x68);
-    table_index = ((s32) (gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7;
+    table_index = ((s32) (gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7;
     table_index += (unsigned long)(M2C_UNK *)((u8 *)&D_80173A58 + 0x68);
     func_80047784(sprite, *(u8 *)table_index, 0);
     return;
@@ -185,7 +185,7 @@ block_15:
         goto block_150;
     }
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80173AC0;
-    table_index = ((s32) (gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7;
+    table_index = ((s32) (gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7;
     table_index += (unsigned long)&D_80173AC0;
     func_80047784(sprite, *(u8 *)table_index, 0);
     return;
@@ -194,7 +194,7 @@ block_17:
         goto block_150;
     }
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = (M2C_UNK *)((u8 *)&D_80173A00 + 0xC0);
-    table_index = ((s32) (gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7;
+    table_index = ((s32) (gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7;
     table_index += (unsigned long)(M2C_UNK *)((u8 *)&D_80173A00 + 0xC0);
     func_80047784(sprite, *(u8 *)table_index, 0);
     return;
@@ -292,25 +292,25 @@ block_45:
 block_48:
     if (((S_8016A36C_3 *)sprite)->unk_2C.p2 != &D_801739A0) {
         (*(u8 **)((u8 *)sprite + 0x2C)) = &D_801739A0;
-        func_80047784(sprite, *((((s32) (gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7) + &D_801739A0), 0);
+        func_80047784(sprite, *((((s32) (gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7) + &D_801739A0), 0);
     }
     goto block_54;
 block_49:
     if (((S_8016A36C_3 *)sprite)->unk_2C.p2 != &D_801739A8) {
         (*(u8 **)((u8 *)sprite + 0x2C)) = &D_801739A8;
-        func_80047784(sprite, *((((s32) (gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7) + &D_801739A8), 0);
+        func_80047784(sprite, *((((s32) (gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7) + &D_801739A8), 0);
     }
     goto block_54;
 block_50:
     if (((S_8016A36C_3 *)sprite)->unk_2C.p2 != &D_801739B0) {
         (*(u8 **)((u8 *)sprite + 0x2C)) = &D_801739B0;
-        func_80047784(sprite, *((((s32) (gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7) + &D_801739B0), 0);
+        func_80047784(sprite, *((((s32) (gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7) + &D_801739B0), 0);
     }
     goto block_54;
 block_51:
     if (((S_8016A36C_3 *)sprite)->unk_2C.p2 != &D_801739B8) {
         (*(u8 **)((u8 *)sprite + 0x2C)) = &D_801739B8;
-        func_80047784(sprite, *((((s32) (gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7) + &D_801739B8), 0);
+        func_80047784(sprite, *((((s32) (gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7) + &D_801739B8), 0);
     }
 block_54:
     ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 0xEU;
@@ -567,7 +567,7 @@ block_129:
         goto block_150;
     }
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = next_table;
-    table_index = ((s32) (gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7;
+    table_index = ((s32) (gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7;
     table_index += (unsigned long)next_table;
     func_80047784(sprite, *(u8 *)table_index, 0);
     return;
@@ -580,7 +580,7 @@ block_131:
         goto block_134;
     }
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_801739B0;
-    func_80047784(sprite, *((((s32) (gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7) + &D_801739B0), 0);
+    func_80047784(sprite, *((((s32) (gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7) + &D_801739B0), 0);
     ((Rec_func_800A9E70_arg0 *)actor)->unk_9E.as_u16 = 0U;
     ((Rec_func_800A9E70_arg0 *)actor)->unk_A0.at00_s16.v = (s16) ((func_80069EF8() & 0x3F) + 0x3C);
 block_134:
@@ -594,7 +594,7 @@ block_135:
         goto block_137;
     }
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80173A50;
-    func_80047784(sprite, *((((s32) (gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7) + &D_80173A50), 0);
+    func_80047784(sprite, *((((s32) (gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7) + &D_80173A50), 0);
     func_800478B8(sprite);
     ((Rec_func_800A9E70_arg0 *)actor)->unk_9E.as_u16 = 0U;
 block_137:
@@ -607,7 +607,7 @@ block_137:
         goto block_150;
     }
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_801739B0;
-    table_index = ((s32) (gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7;
+    table_index = ((s32) (gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7;
     table_index += (unsigned long)&D_801739B0;
     func_80047784(sprite, *(u8 *)table_index, 0);
     ((Rec_func_800A9E70_arg0 *)actor)->unk_9E.as_u16 = 0U;
@@ -623,7 +623,7 @@ block_140:
         goto block_143;
     }
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = idle_table;
-    func_80047784(sprite, *((((s32) (gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7) + idle_table), 0);
+    func_80047784(sprite, *((((s32) (gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7) + idle_table), 0);
     ((Rec_func_800A9E70_arg0 *)actor)->unk_9E.as_u16 = 0U;
     ((Rec_func_800A9E70_arg0 *)actor)->unk_A0.at00_s16.v = (s16) ((func_80069EF8() & 0x3F) + 0x3C);
 block_143:
@@ -637,7 +637,7 @@ block_144:
         goto block_146;
     }
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80173A58;
-    func_80047784(sprite, *((((s32) (gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7) + &D_80173A58), 0);
+    func_80047784(sprite, *((((s32) (gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7) + &D_80173A58), 0);
     func_800478B8(sprite);
     ((Rec_func_800A9E70_arg0 *)actor)->unk_9E.as_u16 = 0U;
 block_146:
@@ -650,7 +650,7 @@ block_146:
         goto block_150;
     }
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_801739B8;
-    table_index = ((s32) (gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7;
+    table_index = ((s32) (gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7;
     table_index += (unsigned long)&D_801739B8;
     func_80047784(sprite, *(u8 *)table_index, 0);
     ((Rec_func_800A9E70_arg0 *)actor)->unk_9E.as_u16 = 0U;

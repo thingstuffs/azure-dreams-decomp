@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/def_table.h"
 #include "shared/object_node.h"
 #include "shared/record_ptrs.h"
 #include "shared/slus_callbacks.h"
@@ -29,7 +30,6 @@ extern void func_800A56E0(s32);
 extern s32 func_800A94A0(void *, u8 *, s32, u16 *);
 extern void func_801708B8(void *, void *, void *);
 
-extern ItemInfo D_8006DE24[];
 extern u8 D_800D58D8[];
 extern s8 D_800DCECC[];
 extern u8 D_800E23E0[];
@@ -175,7 +175,7 @@ L_kind4:
                 linked_actor = D_800814A8;
                 (*(void * *)((u8 *)actor + 0x60)) = linked_actor;
                 goto L_copy_linked;
-            } else if (D_8006DE24[*item_id].type == 2) {
+            } else if (D_8006DE24[*item_id].kind == 2) {
                 linked_actor = (*(void * *)((u8 *)actor + 0x60));
                 if (linked_actor != 0) {
                     register u8 *linked_sprite ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -274,12 +274,12 @@ L_copy_linked:
 
                     anim_table = D_800E2410;
                     ((S_80173A60_6 *)effect_sprite)->unk_2C = anim_table;
-                    anim_entry = (u8 *)((u32)(((gameWork.viewAngle +
+                    anim_entry = (u8 *)((u32)(((gameWork.view.viewAngle +
                               (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7) + (u32)anim_table);
                     func_80047784(effect_sprite, *anim_entry, 0);
                     ((S_80173A60_6 *)effect_sprite)->unk_14 &= 0xFFF3;
 
-                    direction_index = ((gameWork.viewAngle +
+                    direction_index = ((gameWork.view.viewAngle +
                               ((S_80173A60_0 *)actor_state)->unk_2A.s + 0x100) >> 9) & 7;
                     height_offsets = D_800DCECC;
                     ((S_80173A60_6 *)effect_sprite)->unk_06 = -(height_offsets[direction_index] * 4);
@@ -300,7 +300,7 @@ L_copy_linked:
 
                 anim_table = D_800E23E0;
                 (*(void * *)((u8 *)sprite + 0x2C)) = anim_table;
-                direction_index = ((gameWork.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7;
+                direction_index = ((gameWork.view.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7;
                 func_80047784(sprite, anim_table[direction_index], 3);
                 if (((S_80173A60_0 *)actor_state)->unk_B0 == 0) {
                     func_801708B8(actor_state, motion, sprite);

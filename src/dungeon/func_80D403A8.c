@@ -183,7 +183,7 @@ height_ready:
     if (((S_80175BA8_0 *)actor_state)->unk_92.s == 0) {
         (*(void * *)((u8 *)sprite + 0x2C)) = D_800E2438;
         func_80047784(sprite,
-                      D_800E2438[((gameWork.viewAngle + ((S_80175BA8_2 *)actor_info)->unk_2A + 0x100) >> 9) & 7],
+                      D_800E2438[((gameWork.view.viewAngle + ((S_80175BA8_2 *)actor_info)->unk_2A + 0x100) >> 9) & 7],
                       0);
         ((S_80175BA8_0 *)actor_state)->unk_96 = 2;
         ((S_80175BA8_0 *)actor_state)->unk_9B++;
@@ -204,7 +204,7 @@ wait_first_animation:
     if (((first_delay << 0x10) <= 0) || (((S_80175BA8_3 *)sprite)->unk_14 & 0xE000)) {
         (*(void * *)((u8 *)sprite + 0x2C)) = D_800E2440;
         func_80047784(sprite,
-                      D_800E2440[((gameWork.viewAngle + ((S_80175BA8_2 *)actor_info)->unk_2A + 0x100) >> 9) & 7],
+                      D_800E2440[((gameWork.view.viewAngle + ((S_80175BA8_2 *)actor_info)->unk_2A + 0x100) >> 9) & 7],
                       0);
         ((S_80175BA8_0 *)actor_state)->unk_96 = 3;
         ((S_80175BA8_0 *)actor_state)->unk_9B++;

@@ -90,7 +90,7 @@ state_zero:
     func_80047784(
         sprite,
         *(&D_801760BC +
-          (((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7)),
+          (((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7)),
         0);
     ((S_80172AD8_0 *)action)->unk_98 |= 8;
     ((EntityRec *)actor)->flags1C &= 0xF7FFFFFF;
@@ -147,7 +147,7 @@ state_two:
         func_80047784(
             sprite,
             *(&D_801760C4 +
-              (((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7)),
+              (((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7)),
             0);
         ((S_80172AD8_0 *)action)->unk_9B++;
         goto decrement_timer;

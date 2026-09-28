@@ -15,7 +15,7 @@ extern s32 D_80080B64;
 /* Initialize state fields from globals and clear associated state. */
 void func_8004D614(void)
 {
-    u8 *state = (u8 *)(&gameWork.unk_018);
+    u8 *state = (u8 *)(&gameWork.view);
 
     bzero(state + 0x9C, 8);
     *(s32 *)(state + 0x94) = D_80080B60;

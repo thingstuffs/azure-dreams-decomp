@@ -97,7 +97,7 @@ s32 func_8016EF10(u8 *actor_arg, s32 action_context, u8 *entity_arg) {
     case 0x10:
         if (((S_8016EF10_0 *)entity)->unk_2C != D_8017467C) {
             ((S_8016EF10_0 *)entity)->unk_2C = D_8017467C;
-            direction_index = ((gameWork.viewAngle + ((S_8016EF10_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
+            direction_index = ((gameWork.view.viewAngle + ((S_8016EF10_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
             func_80047784(entity, D_8017467C[direction_index], 0);
         }
         break;
@@ -105,7 +105,7 @@ s32 func_8016EF10(u8 *actor_arg, s32 action_context, u8 *entity_arg) {
     case 0xF8:
         if (((S_8016EF10_0 *)entity)->unk_2C != D_801746FC) {
             ((S_8016EF10_0 *)entity)->unk_2C = D_801746FC;
-            direction_index = ((gameWork.viewAngle + ((S_8016EF10_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
+            direction_index = ((gameWork.view.viewAngle + ((S_8016EF10_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
             func_80047784(entity, D_801746FC[direction_index], 0);
         }
         break;
@@ -115,7 +115,7 @@ s32 func_8016EF10(u8 *actor_arg, s32 action_context, u8 *entity_arg) {
             ((S_8016EF10_1 *)actor)->unk_2A = func_8016A928(action_context) << 9;
             if (((S_8016EF10_0 *)entity)->unk_2C != D_80174694) {
                 ((S_8016EF10_0 *)entity)->unk_2C = D_80174694;
-                direction_index = ((gameWork.viewAngle + ((S_8016EF10_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
+                direction_index = ((gameWork.view.viewAngle + ((S_8016EF10_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
                 func_80047784(entity, D_80174694[direction_index], 0);
             }
             if (func_800BBA40(((S_8016EF10_0 *)entity)->unk_24,

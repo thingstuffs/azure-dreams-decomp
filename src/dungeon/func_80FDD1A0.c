@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/def_table.h"
 #include "shared/object_node.h"
 #include "shared/record_ptrs.h"
 #include "shared/slus_callbacks.h"
@@ -112,7 +113,6 @@ extern void func_800A56E0(s32);
 extern s32 func_800A94A0(void *, u8 *, s32, u16 *);
 extern void func_800DA840(void *, s16);
 
-extern ItemData D_8006DE24[];
 extern u8 D_800D7960[];
 extern u8 D_80170838[16];
 extern u8 D_80170EA8;
@@ -210,7 +210,7 @@ selection_ready:
             S_func_80FDD1A0_2 *item_id;
 
             item_id = (S_func_80FDD1A0_2 *)(*item_slot);
-            if (D_8006DE24[((u8)item_id)].type == 2) {
+            if (D_8006DE24[((u8)item_id)].kind == 2) {
                 target = actor_data->unk_60;
                 if (target != 0) {
 
@@ -287,7 +287,7 @@ invoke_item:
             effect_sprite = actor->unk_A8;
             effect_sprite = ((S_func_80FDD1A0_4 *)effect_sprite)->unk_0C;
             animations = effect_sprite->unk_2C;
-            direction = ((gameWork.viewAngle + actor_data->unk_2A.s + 0x100) >> 9) & 7;
+            direction = ((gameWork.view.viewAngle + actor_data->unk_2A.s + 0x100) >> 9) & 7;
             func_80047784(effect_sprite, animations[direction], 0);
         }
         if (func_800A94A0(actor_data, item_slot, use_player,
@@ -346,7 +346,7 @@ empty_selection:
         *(void **)((u8 *)sprite + 0x2C) = D_80174038;
         func_80047784(
             sprite,
-            D_80174038[((gameWork.viewAngle + actor_data->unk_2A.s + 0x100) >> 9) & 7],
+            D_80174038[((gameWork.view.viewAngle + actor_data->unk_2A.s + 0x100) >> 9) & 7],
             0);
         motion->dz = 0;
         motion->dy = 0;

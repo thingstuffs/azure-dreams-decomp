@@ -88,7 +88,7 @@ void func_80170AE0(void *entity, S_80170AE0_2 *motion, void *monster)
 
     monster_flags = ((S_80170AE0_0 *)monster)->unk_14;
     if (!(monster_flags & 0x8000)) {
-        facing_angle = gameWork.viewAngle + (*(s16 *)((u8 *)entity + 0x2A)) + 0x100;
+        facing_angle = gameWork.view.viewAngle + (*(s16 *)((u8 *)entity + 0x2A)) + 0x100;
         direction = (facing_angle >> 9) & 7;
         direction_index = direction;
         direction_copy = direction;

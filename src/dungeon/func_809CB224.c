@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/def_table.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -53,11 +54,6 @@ typedef struct S_80172A24_7 {
 
 
 
-typedef struct {
-    u8 pad0[0x12];
-    u8 kind;
-    u8 pad13;
-} MotionEntry;
 
 extern int abs(int);
 extern s32 func_8003F270(void);
@@ -69,7 +65,6 @@ extern void func_800A56E0(s32);
 extern s32 func_800A94A0(void *, u8 *, s32, void *);
 extern void func_800DA840(void *, s16);
 
-extern u8 D_8006DE24[];
 extern u8 D_80170E54[];
 extern u8 D_80173C7C[];
 
@@ -137,7 +132,7 @@ void func_80172A24(void *action_state, void *transform, void *sprite, void *acto
                     goto have_target;
                 }
             }
-            if (((MotionEntry *)D_8006DE24)[*motion].kind == 2) {
+            if (D_8006DE24[*motion].kind == 2) {
                 target = ((S_80172A24_1 *)actor)->unk_60;
                 if (target == 0) {
                     goto advance_motion;
@@ -216,7 +211,7 @@ void func_80172A24(void *action_state, void *transform, void *sprite, void *acto
             if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 != direction_table) {
                 (*(u8 * *)((u8 *)sprite + 0x2C)) = direction_table;
                 func_80047784(sprite,
-                    direction_table[((gameWork.viewAngle + ((S_80172A24_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                    direction_table[((gameWork.view.viewAngle + ((S_80172A24_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
                     0);
             }
         }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_index_slots.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_80094268_arg0.h"
@@ -9,7 +10,6 @@ typedef struct S_800C30A4_0_pre {
 
 
 
-extern u8 D_80082660[];
 
 /* Clears the object slot and sets the object and global removal flags. */
 void func_800C30A4(void *object) {

@@ -477,7 +477,7 @@ block_153:
             data = D_800DD0B8;
 block_154:
             (*(u8 **)((u8 *)call_arg + (0x2C))) = data;
-            func_80048A44(call_arg, *((u8 *) (((s32) (gameWork.viewAngle + (s16) ((S_8008EAC8_1 *)arg3)->unk_2A.u + 0x100) >> 9) & 7) + (u32) data), 0, 1);
+            func_80048A44(call_arg, *((u8 *) (((s32) (gameWork.view.viewAngle + (s16) ((S_8008EAC8_1 *)arg3)->unk_2A.u + 0x100) >> 9) & 7) + (u32) data), 0, 1);
         }
     }
 }

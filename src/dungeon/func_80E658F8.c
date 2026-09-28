@@ -91,7 +91,7 @@ L0:
         ((S_801750F8_0 *)action_in)->unk_9B++;
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801755BC;
         func_80047784(sprite,
-            D_801755BC[((gameWork.viewAngle + ((S_801750F8_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            D_801755BC[((gameWork.view.viewAngle + ((S_801750F8_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         func_800A56E0(0x51E);
         goto end;
@@ -105,7 +105,7 @@ L1:
     ((S_801750F8_0 *)action_in)->unk_9B++;
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801755CC;
     func_80047784(sprite,
-        D_801755CC[((gameWork.viewAngle + ((S_801750F8_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+        D_801755CC[((gameWork.view.viewAngle + ((S_801750F8_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
         0);
     ((S_801750F8_2 *)sprite)->unk_14 |= 0x0800;
     goto end;
@@ -190,7 +190,7 @@ after_xy:
         ((S_801750F8_2 *)sprite)->unk_1C = 0x1000;
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801755C4;
         func_80047784(sprite,
-            D_801755C4[((gameWork.viewAngle + ((S_801750F8_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            D_801755C4[((gameWork.view.viewAngle + ((S_801750F8_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         func_800A56E0(0x509);
         func_80174D98(action_in, direction_data, sprite, actor);
@@ -216,7 +216,7 @@ L5:
         dungeonStatus.unk_0A--;
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_8017555C;
         func_80047784(sprite,
-            D_8017555C[((gameWork.viewAngle + ((S_801750F8_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            D_8017555C[((gameWork.view.viewAngle + ((S_801750F8_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         func_800AD594(actor, 0x1000);
         ((S_801750F8_0 *)action_in)->unk_8C = D_801716F4;

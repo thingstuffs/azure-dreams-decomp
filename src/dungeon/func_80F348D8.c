@@ -41,6 +41,6 @@ void func_801720D8(void *work, void *part_a, void *part_b, void *actor) {
         dungeonStatus.unk_0A = (u16)(((u16)dungeonStatus.unk_0A) + 1);
         ((EntityRec *)actor)->unk_6D = (u8)(((u8)((EntityRec *)actor)->unk_6D) - 1);
         (*(void * *)((u8 *)part_b + 0x2C)) = D_80174AE4;
-        func_80047784(part_b, D_80174AE4[((gameWork.viewAngle + (s16)((u16)((EntityRec *)actor)->facing) + 0x100) >> 9) & 7], 0);
+        func_80047784(part_b, D_80174AE4[((gameWork.view.viewAngle + (s16)((u16)((EntityRec *)actor)->facing) + 0x100) >> 9) & 7], 0);
     }
 }

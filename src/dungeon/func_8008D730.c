@@ -131,7 +131,7 @@ start_effect:
     (*(void * *)((u8 *)actor + (0x2C))) = D_800DCFF8;
     func_80048A44(
         actor,
-        D_800DCFF8[((gameWork.viewAngle + ((S_80092E90_5 *)entry)->unk_2A + 0x100) >> 9) & 7],
+        D_800DCFF8[((gameWork.view.viewAngle + ((S_80092E90_5 *)entry)->unk_2A + 0x100) >> 9) & 7],
         0,
         1);
     ((S_80092E90_4 *)controller)->unk_9B++;

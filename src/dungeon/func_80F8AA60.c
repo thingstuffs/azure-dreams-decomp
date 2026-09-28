@@ -137,7 +137,7 @@ state_one:
 
     PTR_AT(animation_input, 0x2C) = D_80174B14;
     func_80047784(animation_input,
-        D_80174B14[((gameWork.viewAngle + S16_AT(actor_input, 0x2A) + 0x100) >> 9) & 7],
+        D_80174B14[((gameWork.view.viewAngle + S16_AT(actor_input, 0x2A) + 0x100) >> 9) & 7],
         0);
     next_state = U8_AT(state_input, 0x9B);
 advance_state:
@@ -151,7 +151,7 @@ state_two:
         func_800AD594(actor_input, 0x800);
         PTR_AT(animation_input, 0x2C) = D_80174ACC;
         func_80047784(animation_input,
-            D_80174ACC[((gameWork.viewAngle + S16_AT(actor_input, 0x2A) + 0x100) >> 9) & 7],
+            D_80174ACC[((gameWork.view.viewAngle + S16_AT(actor_input, 0x2A) + 0x100) >> 9) & 7],
             0);
         dungeonStatus.unk_0A--;
         func_800A4ACC(actor_input);

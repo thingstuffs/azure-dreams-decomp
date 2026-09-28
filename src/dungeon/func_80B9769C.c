@@ -125,7 +125,7 @@ block_3:
         return;
     }
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80174EF8;
-    func_80047784(sprite, *(u8 *)((((s32)(gameWork.viewAngle + ((S_80170E9C_1 *)state)->unk_2A + 0x100) >> 9) & 7) + (u32)&D_80174EF8), 0);
+    func_80047784(sprite, *(u8 *)((((s32)(gameWork.view.viewAngle + ((S_80170E9C_1 *)state)->unk_2A + 0x100) >> 9) & 7) + (u32)&D_80174EF8), 0);
     return;
 block_7:
     state_flags = ((S_80170E9C_1 *)state)->unk_1C;
@@ -168,7 +168,7 @@ block_18:
         goto block_21;
     }
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = D_80174EE0;
-    func_80047784(sprite, D_80174EE0[((s32)(gameWork.viewAngle + ((S_80170E9C_1 *)state)->unk_2A + 0x100) >> 9) & 7], 0);
+    func_80047784(sprite, D_80174EE0[((s32)(gameWork.view.viewAngle + ((S_80170E9C_1 *)state)->unk_2A + 0x100) >> 9) & 7], 0);
 block_21:
     ((S_80170E9C_0 *)entity)->unk_9A = idle_mode;
 block_22:
@@ -296,7 +296,7 @@ block_59:
         goto block_63;
     }
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = (M2C_UNK *)D_80174EE0;
-    func_80047784(sprite, D_80174EE0[((s32)(gameWork.viewAngle + ((S_80170E9C_1 *)state)->unk_2A + 0x100) >> 9) & 7], 0);
+    func_80047784(sprite, D_80174EE0[((s32)(gameWork.view.viewAngle + ((S_80170E9C_1 *)state)->unk_2A + 0x100) >> 9) & 7], 0);
 block_63:
     return;
 }

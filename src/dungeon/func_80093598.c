@@ -188,7 +188,7 @@ print_message:
 
             func_80048A44(
                 message,
-                sound_table[((gameWork.viewAngle + ((S_80098CF8_4 *)actor_state)->unk_2A + 0x100) >> 9) & 7],
+                sound_table[((gameWork.view.viewAngle + ((S_80098CF8_4 *)actor_state)->unk_2A + 0x100) >> 9) & 7],
                 0,
                 1);
             func_800A56E0(0x511);

@@ -42,7 +42,7 @@ void func_8008FD50(void *actor, void *motion, void *sprite, void *facing) {
         u8 *anim_table = D_800DD0E0;
         if (old_anim_table != anim_table) {
             (*(u8 **)((u8 *)sprite + (0x2C))) = anim_table;
-            func_80048A44(sprite, anim_table[((s32) (gameWork.viewAngle + ((EntityRec *)facing)->facing + 0x100) >> 9) & 7], 0, 1);
+            func_80048A44(sprite, anim_table[((s32) (gameWork.view.viewAngle + ((EntityRec *)facing)->facing + 0x100) >> 9) & 7], 0, 1);
         }
     }
     ticks_left = dungeonStatus.unk_04 - 1;

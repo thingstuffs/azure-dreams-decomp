@@ -67,7 +67,7 @@ void func_80174F24(void *action, void *motion_arg, void *unit, void *actor)
 
             (*(u8 * *)((u8 *)unit + 0x2C)) = direction_table;
             func_80047784(unit,
-                direction_table[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+                direction_table[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
                 0);
             ((S_80174F24_0 *)action)->unk_98 |= 8;
             ((EntityRec *)actor)->flags1C &= ~0x08000000;
@@ -133,7 +133,7 @@ check_landing:
             direction_table = D_80176340;
             (*(u8 * *)((u8 *)unit + 0x2C)) = direction_table;
             func_80047784(unit,
-                direction_table[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+                direction_table[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
                 0);
             ((S_80174F24_0 *)action)->unk_9B++;
         }

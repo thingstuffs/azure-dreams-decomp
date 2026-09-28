@@ -160,7 +160,7 @@ case_1:
     ((S_80175270_1 *)actor)->unk_8A = ((S_80175270_1 *)actor)->unk_2A.u;
     ((S_80175270_1 *)actor)->unk_1C &= 0xFFFBFFFF;
     do { angle = ((S_80175270_1 *)actor)->unk_2A.u; } while (0);
-    raw_direction = (gameWork.viewAngle + ((S_80175270_1 *)actor)->unk_2A.s + 0x100) >> 9;
+    raw_direction = (gameWork.view.viewAngle + ((S_80175270_1 *)actor)->unk_2A.s + 0x100) >> 9;
     direction = raw_direction & 7;
     if ((((u8 *)D_80175924)[-4] == 0) || (direction != 2)) {
         if (direction == 2) {
@@ -293,7 +293,7 @@ case_7:
     ((S_80175270_9 *)(((S_80175270_1 *)actor)->unk_60))->unk_2A = ((S_80175270_1 *)actor)->unk_2A.u;
     child = ((S_80175270_1 *)actor)->unk_60;
     child_obj = ((S_80175270_6_pre *)child)[-1].unk_00;
-    direction = (gameWork.viewAngle + ((S_80175270_6 *)child)->unk_2A + 0x100) >> 9;
+    direction = (gameWork.view.viewAngle + ((S_80175270_6 *)child)->unk_2A + 0x100) >> 9;
     direction &= 7;
     func_80047738(child_obj, ((S_80175270_10 *)(child_obj->unk_2C + direction))->unk_00, child_obj->unk_04);
     child_obj->unk_14 &= 0xFFFE;

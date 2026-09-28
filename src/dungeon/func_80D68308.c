@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/def_table.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -18,7 +19,6 @@ extern void func_801711DC(void *, s32, s32);
 extern void func_8017145C(void *, s32);
 
 typedef struct { u8 pad[0x12]; u8 kind; u8 pad2; } ItemDef20;
-extern ItemDef20 D_8006DE24[];
 extern u8 D_800E2348[];
 extern u8 D_800E2388[8];
 extern u8 D_800E2398[8];
@@ -378,7 +378,7 @@ state_7:
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_800E2348;
         func_80047784(
             sprite,
-            D_800E2348[((gameWork.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7],
+            D_800E2348[((gameWork.view.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7],
             0);
         ((S_80173B08_0 *)action)->unk_9E = 0;
         ((S_80173B08_0 *)action)->unk_98 |= 8;

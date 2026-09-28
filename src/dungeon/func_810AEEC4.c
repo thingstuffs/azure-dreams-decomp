@@ -44,7 +44,7 @@ void func_801726C4(void *action, s32 actor_id, void *animation, void *actor) {
             }
             (*(u8 * *)((u8 *)animation + 0x2C)) = D_80173C84;
             func_80047784(animation,
-                D_80173C84[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+                D_80173C84[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
                 0);
             ((S_801726C4_0 *)action)->unk_9B++;
             return;

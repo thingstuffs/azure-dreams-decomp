@@ -101,7 +101,7 @@ jt_c0:
         goto block_27;
     }
     (*(u8 **)((u8 *)sprite + 0x2C)) = D_800DD028;
-    func_80048A44(sprite, *((((s32) (gameWork.viewAngle + ((S_80092018_2 *)model)->unk_2A + 0x100) >> 9) & 7) + D_800DD028), 0, 1);
+    func_80048A44(sprite, *((((s32) (gameWork.view.viewAngle + ((S_80092018_2 *)model)->unk_2A + 0x100) >> 9) & 7) + D_800DD028), 0, 1);
     return;
 block_5:
     heading_or_coord = func_8009074C(((S_80092018_0 *)actor)->unk_9E, actor + 0xA2, model + 0x2A) << 0x10;
@@ -124,7 +124,7 @@ jt_c16:
         goto block_29;
     }
     (*(u8 **)((u8 *)sprite + 0x2C)) = D_800DD018;
-    func_80048A44(sprite, *((((s32) (gameWork.viewAngle + ((S_80092018_2 *)model)->unk_2A + 0x100) >> 9) & 7) + D_800DD018), 0, 1);
+    func_80048A44(sprite, *((((s32) (gameWork.view.viewAngle + ((S_80092018_2 *)model)->unk_2A + 0x100) >> 9) & 7) + D_800DD018), 0, 1);
     attachment = ((S_80092018_0 *)actor)->unk_124;
     ((S_80092018_4 *)attachment)->unk_1C = (s32) (((S_80092018_4 *)attachment)->unk_1C | 0x100);
     ((S_80092018_7 *)(((S_80092018_0 *)actor)->unk_124))->unk_6A = (u16) ((S_80092018_2 *)model)->unk_2A;
@@ -136,7 +136,7 @@ jt_c17:
         goto block_13;
     }
     (*(u8 **)((u8 *)sprite + 0x2C)) = D_800DD020;
-    func_80048A44(sprite, *((((s32) (gameWork.viewAngle + ((S_80092018_2 *)model)->unk_2A + 0x100) >> 9) & 7) + D_800DD020), 0, 1);
+    func_80048A44(sprite, *((((s32) (gameWork.view.viewAngle + ((S_80092018_2 *)model)->unk_2A + 0x100) >> 9) & 7) + D_800DD020), 0, 1);
     ((S_80092018_0 *)actor)->unk_9B = (u8) (((S_80092018_0 *)actor)->unk_9B + 1);
 jt_c18:
 block_13:
@@ -182,7 +182,7 @@ block_17:
     ((S_80092018_3 *)motion)->unk_10.at00.v = 0;
     ((S_80092018_3 *)motion)->unk_0C.at00.v = 0;
     (*(u8 **)((u8 *)sprite + 0x2C)) = D_800DD028;
-    func_80048A44(sprite, *((((s32) (gameWork.viewAngle + ((S_80092018_2 *)model)->unk_2A + 0x100) >> 9) & 7) + D_800DD028), 0, 1);
+    func_80048A44(sprite, *((((s32) (gameWork.view.viewAngle + ((S_80092018_2 *)model)->unk_2A + 0x100) >> 9) & 7) + D_800DD028), 0, 1);
     ((S_80092018_0 *)actor)->unk_96.s = 2U;
     ((S_80092018_0 *)actor)->unk_9B = 0x13U;
     return;

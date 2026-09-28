@@ -105,7 +105,7 @@ s32 func_800A3B80(S_800A3B80_3 *object, s32 unused, void *context)
     context_view->unk_0F = context_data->unk_01;
 
     start_angle = object->unk_06;
-    result = ((u16)gameWork.viewAngle);
+    result = ((u16)gameWork.view.viewAngle);
     start_angle += 0xC00;
     result = (result + 0x80) & 0xF00;
     start_angle -= result;

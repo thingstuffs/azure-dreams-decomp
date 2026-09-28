@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/def_table.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -23,7 +24,6 @@ extern void func_800A4ACC(void *);
 extern void func_800A56E0(s32);
 extern s32 func_800A94A0(void *, u8 *, s32, void *);
 
-extern u8 D_8006DE24[];
 extern u8 D_80170838[16];
 extern u8 D_80170FD8[];
 extern u8 D_80171284[];
@@ -360,7 +360,7 @@ state_3:
 
             facing_frames = D_801753BC;
             (*(u8 * *)((u8 *)actor + 0x2C)) = facing_frames;
-            facing_index = ((gameWork.viewAngle + (*(s16 *)((u8 *)object + 0x2A)) + 0x100) >> 9) & 7;
+            facing_index = ((gameWork.view.viewAngle + (*(s16 *)((u8 *)object + 0x2A)) + 0x100) >> 9) & 7;
             func_80047784(actor, facing_frames[facing_index], 0);
             ((Rec_D_80082E80 *)actor)->unk_14.at00_u16.v &= 0xF7FF;
         }

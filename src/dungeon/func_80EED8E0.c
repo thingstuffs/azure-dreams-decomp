@@ -88,7 +88,7 @@ hop_delay:
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80168ED0;
     func_80047784(
         sprite,
-        D_80168ED0[((gameWork.viewAngle + ((S_801670E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+        D_80168ED0[((gameWork.view.viewAngle + ((S_801670E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
         0);
     ((S_801670E0_0 *)motion_state)->unk_98 |= 8;
     ((S_801670E0_1 *)actor)->unk_1C.s &= 0xF7FFFFFF;
@@ -136,7 +136,7 @@ hop_land:
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80168ED8;
         func_80047784(
             sprite,
-            D_80168ED8[((gameWork.viewAngle + ((S_801670E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            D_80168ED8[((gameWork.view.viewAngle + ((S_801670E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((S_801670E0_0 *)motion_state)->unk_9B++;
     }
@@ -148,7 +148,7 @@ idle_animation:
         (*(u8 * *)((u8 *)sprite + 0x2C)) = anim_table;
         func_80047784(
             sprite,
-            anim_table[((gameWork.viewAngle + ((S_801670E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            anim_table[((gameWork.view.viewAngle + ((S_801670E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
     }
 

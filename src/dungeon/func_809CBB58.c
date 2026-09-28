@@ -100,7 +100,7 @@ state_zero:
         direction_anims = D_80173CDC;
         (*(void * *)((u8 *)sprite + 0x2C)) = direction_anims;
         func_80047784(sprite,
-            direction_anims[((gameWork.viewAngle + ((S_80173358_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            direction_anims[((gameWork.view.viewAngle + ((S_80173358_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         system_base = (u8 *)&dungeonStatus.unk_00;
         ((S_80173358_3 *)system_base)->unk_0A--;
@@ -186,7 +186,7 @@ state_one:
         direction_anims = D_80173CE4;
         (*(void * *)((u8 *)sprite + 0x2C)) = direction_anims;
         func_80047784(sprite,
-            direction_anims[((gameWork.viewAngle + ((S_80173358_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            direction_anims[((gameWork.view.viewAngle + ((S_80173358_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
     }
 

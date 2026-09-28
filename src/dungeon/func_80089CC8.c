@@ -116,7 +116,7 @@ use_effect:
             ((S_8008F428_0 *)effect_state)->unk_8C = D_8008EAC8;
             (*(u8 * *)((u8 *)effect_target + (0x2C))) = D_800DD0B8;
             func_80048A44(effect_target,
-                D_800DD0B8[((gameWork.viewAngle + ((S_8008F428_4 *)owner)->unk_2A + 0x100) >> 9) & 7],
+                D_800DD0B8[((gameWork.view.viewAngle + ((S_8008F428_4 *)owner)->unk_2A + 0x100) >> 9) & 7],
                 0, 1);
             return;
         }
@@ -199,7 +199,7 @@ reset_effect:
         ((S_8008F428_0 *)effect_state)->unk_8C = (u8 *)&D_8008ACDC;
         (*(u8 * *)((u8 *)target + (0x2C))) = D_800DCFB0;
         func_80048A44(target,
-            D_800DCFB0[((gameWork.viewAngle + ((S_8008F428_4 *)owner)->unk_2A + 0x100) >> 9) & 7],
+            D_800DCFB0[((gameWork.view.viewAngle + ((S_8008F428_4 *)owner)->unk_2A + 0x100) >> 9) & 7],
             0, 1);
     }
 }

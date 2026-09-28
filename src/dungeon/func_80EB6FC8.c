@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/def_table.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -62,7 +63,6 @@ M2C_UNK func_800A4ACC();
 M2C_UNK func_800A56E0();
 s32 func_800A94A0();
 M2C_UNK func_800DB2DC();
-extern DungeonEntry D_8006DE24[];
 extern M2C_UNK D_801711A4;
 extern u8 D_8017418C;
 extern u8 D_801741B4;
@@ -183,7 +183,7 @@ block_22:
     ((EntityRec *)actor)->target = target_owner;
     goto block_27;
 block_25:
-    if (D_8006DE24[*entry].type != 2) {
+    if (D_8006DE24[*entry].kind != 2) {
         goto block_28;
     }
     target_owner = ((EntityRec *)actor)->target;
@@ -217,7 +217,7 @@ block_34:
     anim_table += 0x41B4;
     ((S_801727C8_5 *)visual_flags)->unk_04 = (u16) (((S_801727C8_5 *)visual_flags)->unk_04 & 0x7FFF);
     (*(M2C_UNK **)((u8 *)effect_sprite + 0x2C)) = anim_table;
-    func_80047784(effect_sprite, *((u8 *) ((((s32) (gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7) + (s32) anim_table)), 0);
+    func_80047784(effect_sprite, *((u8 *) ((((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7) + (s32) anim_table)), 0);
     if (func_800A94A0(actor, entry, is_special, action + 0x98) == 0) {
         goto block_54;
     }
@@ -269,7 +269,7 @@ block_42:
         goto block_54;
     }
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_801741BC;
-    func_80047784(sprite, *((((s32) (gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7) + &D_801741BC), 0);
+    func_80047784(sprite, *((((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7) + &D_801741BC), 0);
 block_44:
     current_state = ((S_801727C8_0 *)action)->unk_9B;
 block_44_increment:
@@ -292,7 +292,7 @@ block_45:
     ((S_801727C8_5 *)visual_flags)->unk_04 = (u16) (((S_801727C8_5 *)visual_flags)->unk_04 | 0x8000);
     ((S_801727C8_0 *)action)->unk_A8 = 0;
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_8017418C;
-    func_80047784(sprite, *((((s32) (gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7) + &D_8017418C), 0);
+    func_80047784(sprite, *((((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7) + &D_8017418C), 0);
 block_49:
 block_50:
     if (((s32)dungeonStatus.unk_0C) != 0) {

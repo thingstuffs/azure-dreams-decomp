@@ -447,7 +447,7 @@ state_2:
         ((S_80172840_4 *)sprite)->unk_2C = D_80174194;
         func_80047784(
             sprite,
-            D_80174194[((gameWork.viewAngle + ((S_80172840_0 *)actor)->unk_2A.u + 0x100) >> 9) & 7],
+            D_80174194[((gameWork.view.viewAngle + ((S_80172840_0 *)actor)->unk_2A.u + 0x100) >> 9) & 7],
             0);
     }
     if (((s32)dungeonStatus.unk_0C) != 0) {

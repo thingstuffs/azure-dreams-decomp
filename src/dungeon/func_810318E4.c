@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/def_table.h"
 #include "shared/object_node.h"
 #include "shared/record_ptrs.h"
 #include "shared/slus_callbacks.h"
@@ -29,7 +30,6 @@ extern void func_800A4ACC(void *);
 extern void func_800A56E0(s32);
 extern s32 func_800A94A0(void *, u8 *, s32, void *);
 
-extern ItemInfo D_8006DE24[];
 extern void *D_80170838[];
 extern u8 D_801708D4;
 extern u8 D_801714B8;
@@ -212,7 +212,7 @@ selection_ready:
             active = D_800814A8;
             (*(void * *)((u8 *)actor + 0x60)) = active;
         } else {
-            linked = D_8006DE24[*selection].type;
+            linked = D_8006DE24[*selection].kind;
             if (linked != 2) {
                 goto create_active;
             }
@@ -374,7 +374,7 @@ state_3:
             s32 direction_index;
 
             (*(u8 * *)((u8 *)sprite + 0x2C)) = D_8017609C;
-            direction_index = ((gameWork.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7;
+            direction_index = ((gameWork.view.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7;
             func_80047784(sprite, D_8017609C[direction_index], 0);
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
         }

@@ -401,7 +401,7 @@ state_2:
         (*(void * *)((u8 *)sprite + 0x2C)) = D_80174850;
         func_80047784(
             sprite,
-            D_80174850[((gameWork.viewAngle + ((S_801728C4_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            D_80174850[((gameWork.view.viewAngle + ((S_801728C4_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((S_801728C4_0 *)action)->unk_9B = ((S_801728C4_0 *)action)->unk_9B + 1;
         goto done;
@@ -420,7 +420,7 @@ state_3:
         (*(void * *)((u8 *)sprite + 0x2C)) = D_80174820;
         func_80047784(
             sprite,
-            D_80174820[((gameWork.viewAngle + ((S_801728C4_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            D_80174820[((gameWork.view.viewAngle + ((S_801728C4_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
     }
     if (((s32)dungeonStatus.unk_0C) == 0) {

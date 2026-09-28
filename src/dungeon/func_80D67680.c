@@ -92,7 +92,7 @@ return_minus_one:
         anim_table = &D_800E2378;
         (*(u8 **)((u8 *)sprite + 0x2C)) = anim_table;
         func_80047784(sprite,
-                      anim_table[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+                      anim_table[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
                       0);
         ((EntityRec *)actor)->unk_6D--;
         func_8009C93C(actor, sprite, ((EntityRec *)actor)->facing, 1, 0);

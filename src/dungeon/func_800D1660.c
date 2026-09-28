@@ -156,7 +156,7 @@ void func_800D6DC0(void *unused, Rec_func_800D6DC0_arg1 *origin, void *render_te
             effect_state->unk_4E = (s16) end_y;
             position->unk_16 = 0;
             render_data->unk_2C = direction_table;
-            func_80047784(render_data, *((u8 *) (((((s32) (gameWork.viewAngle + orientation->unk_2A + 0x100) >> 9) & 7) + (s32) direction_table))), 0);
+            func_80047784(render_data, *((u8 *) (((((s32) (gameWork.view.viewAngle + orientation->unk_2A + 0x100) >> 9) & 7) + (s32) direction_table))), 0);
         }
         segment += 1;
         end_angle += 0x200;

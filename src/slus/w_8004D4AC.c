@@ -58,7 +58,7 @@ extern void func_80041900(MATRIX *m);
 /* Build and install the combined rotation and translation from global transform state. */
 void func_8004D4AC(void)
 {
-  S_80083178_local *transform = (S_80083178_local *)(&gameWork.unk_018);
+  S_80083178_local *transform = (S_80083178_local *)(&gameWork.view);
   VECTOR rotated_pos;
   MATRIX base_mat;
   MATRIX combined_mat;

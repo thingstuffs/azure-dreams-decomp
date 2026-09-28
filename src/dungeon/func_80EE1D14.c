@@ -62,7 +62,7 @@ init:
         ((S_80173514_2 *)motion)->unk_0C = 0;
         (*(u8 **)((u8 *)sprite + 0x2C)) = D_80174EE0;
         func_80047784(sprite,
-            D_80174EE0[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            D_80174EE0[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
         ((S_80173514_0 *)action)->unk_96.u = 0;
         ((S_80173514_0 *)action)->unk_9B++;

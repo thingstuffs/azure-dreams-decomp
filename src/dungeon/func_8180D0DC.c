@@ -82,7 +82,7 @@ copy_history:
     goto copy_out;
 
 interpolate:
-    direction_offset = ((-S16_AT(((u8 *)(&gameWork.viewAngle)), 0) + 0x500) >> 8) & 0xE;
+    direction_offset = ((-S16_AT(((u8 *)(&gameWork.view.viewAngle)), 0) + 0x500) >> 8) & 0xE;
     room = &D_80082E80;
     x_adjust = (s16 *)(((u8 *)dirStepX) + direction_offset);
     {

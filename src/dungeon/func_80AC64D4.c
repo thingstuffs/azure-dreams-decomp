@@ -64,7 +64,7 @@ void func_80171CD4(void *movement, void *motion, void *entity, void *path_state)
         (*(u8 * *)((u8 *)entity + (0x2C))) = D_80174DE4;
         func_80047784(
             entity,
-            D_80174DE4[((gameWork.viewAngle + ((S_80171CD4_0 *)state)->unk_2A + 0x100) >> 9) & 7],
+            D_80174DE4[((gameWork.view.viewAngle + ((S_80171CD4_0 *)state)->unk_2A + 0x100) >> 9) & 7],
             0);
     }
 

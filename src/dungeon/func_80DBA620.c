@@ -119,7 +119,7 @@ void func_80171E20(void *actor_in, void *actor_data_in, void *sprite_in, void *s
             (*(u8 * *)((u8 *)sprite_in + 0x2C)) = early_anim_table;
             func_80047784(
                 sprite_in,
-                early_anim_table[((gameWork.viewAngle + ((S_80171E20_1 *)status_in)->unk_2A + 0x100) >> 9) & 7],
+                early_anim_table[((gameWork.view.viewAngle + ((S_80171E20_1 *)status_in)->unk_2A + 0x100) >> 9) & 7],
                 0);
             return;
         }
@@ -154,7 +154,7 @@ void func_80171E20(void *actor_in, void *actor_data_in, void *sprite_in, void *s
                     (*(u8 * *)((u8 *)sprite_in + 0x2C)) = anim_table;
                     func_80047784(
                         sprite_in,
-                        anim_table[((gameWork.viewAngle + ((S_80171E20_1 *)status_in)->unk_2A + 0x100) >> 9) & 7],
+                        anim_table[((gameWork.view.viewAngle + ((S_80171E20_1 *)status_in)->unk_2A + 0x100) >> 9) & 7],
                         0);
                 }
                 ((S_80171E20_0 *)actor_in)->unk_9A = next_state;
@@ -288,6 +288,6 @@ assign_table:
     (*(u8 * *)((u8 *)sprite_in + 0x2C)) = anim_table;
     func_80047784(
         sprite_in,
-        anim_table[((gameWork.viewAngle + ((S_80171E20_1 *)status_in)->unk_2A + 0x100) >> 9) & 7],
+        anim_table[((gameWork.view.viewAngle + ((S_80171E20_1 *)status_in)->unk_2A + 0x100) >> 9) & 7],
         0);
 }

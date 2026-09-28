@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/def_table.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -87,7 +88,6 @@ extern void func_800A4ACC(void *);
 extern s32 func_8003F270(void);
 extern void func_80047784(void *, u8, s32);
 
-extern LookupEntry D_8006DE24[];
 extern u8 D_80170838[0x44];
 extern u8 D_80170880[0x1C];
 extern u8 D_801710F4[];
@@ -202,7 +202,7 @@ IEnd:
             ((S_80172C90_0 *)actor)->unk_60 = owner;
             goto OwnerLinked;
         }
-        if (D_8006DE24[*selector].type == 2) {
+        if (D_8006DE24[*selector].kind == 2) {
             owner = ((S_80172C90_0 *)actor)->unk_60;
             if (owner != 0) {
 OwnerLinked:
@@ -360,7 +360,7 @@ L4Activate:
     effect = D_80174F00;
     sprite->unk_2C.as_pu8 = effect;
     func_80047784(sprite,
-        effect[((gameWork.viewAngle + ((S_80172C90_0 *)actor)->unk_2A.u + 0x100) >> 9) & 7],
+        effect[((gameWork.view.viewAngle + ((S_80172C90_0 *)actor)->unk_2A.u + 0x100) >> 9) & 7],
         0);
     tail_flags = ((S_80172C90_1 *)action)->unk_98;
     tail_state = ((S_80172C90_1 *)action)->unk_9B;
@@ -389,7 +389,7 @@ L5:
     }
     sprite->unk_2C.as_pu8 = D_80174EF8;
     func_80047784(sprite,
-        D_80174EF8[((gameWork.viewAngle + ((S_80172C90_0 *)actor)->unk_2A.u + 0x100) >> 9) & 7],
+        D_80174EF8[((gameWork.view.viewAngle + ((S_80172C90_0 *)actor)->unk_2A.u + 0x100) >> 9) & 7],
         0);
     ((S_80172C90_1 *)action)->unk_96.s = 10;
     ((S_80172C90_1 *)action)->unk_9B = ((S_80172C90_1 *)action)->unk_9B + 1;
@@ -444,7 +444,7 @@ L16:
     if (sprite->unk_2C.as_pu8 != D_80174F00) {
         sprite->unk_2C.as_pu8 = D_80174F00;
         func_80047784(sprite,
-            D_80174F00[((gameWork.viewAngle + ((S_80172C90_0 *)actor)->unk_2A.u + 0x100) >> 9) & 7],
+            D_80174F00[((gameWork.view.viewAngle + ((S_80172C90_0 *)actor)->unk_2A.u + 0x100) >> 9) & 7],
             0);
     }
     if (((s32)dungeonStatus.unk_0C) != 0) {

@@ -107,7 +107,7 @@ void func_801712A8(void *entity, S_801712A8_2 *motion, void *monster)
         s32 angle_sector;
 
         angle_sector =
-            (gameWork.viewAngle + ((S_801712A8_0 *)actor)->unk_2A + 0x100) >> 9;
+            (gameWork.view.viewAngle + ((S_801712A8_0 *)actor)->unk_2A + 0x100) >> 9;
         direction = angle_sector & 7;
         direction_index = direction;
         direction_copy = direction;

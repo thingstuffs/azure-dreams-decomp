@@ -121,7 +121,7 @@ check_landing:
 update_animation:
     if (tile->unk_2C.as_pu8 != D_80174A2C) {
         tile->unk_2C.as_pu8 = D_80174A2C;
-        func_80047784(tile, D_80174A2C[((s32) (gameWork.viewAngle + entity->facing + 0x100) >> 9) & 7], 0);
+        func_80047784(tile, D_80174A2C[((s32) (gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7], 0);
     }
 update_timer:
     action_timer = action->unk_96 - 1;

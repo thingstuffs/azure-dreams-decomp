@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/def_table.h"
 #include "shared/object_node.h"
 #include "shared/record_ptrs.h"
 #include "shared/slus_callbacks.h"
@@ -97,7 +98,6 @@ M2C_UNK func_800A4ACC();
 M2C_UNK func_800A56E0();
 s32 func_800A94A0(void *, u8 *, s32, void *);
 typedef struct { u8 pad[0x12]; u8 kind; u8 pad2; } ItemDef20;
-extern ItemDef20 D_8006DE24[];
 extern M2C_UNK D_800D7960;
 extern M2C_UNK D_80170E54;
 extern u8 D_80173C6C[];
@@ -331,7 +331,7 @@ block_49:
         goto block_52;
     }
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80173C6C;
-    func_80047784(sprite, D_80173C6C[((s32) (gameWork.viewAngle + ((EntityRec *)action)->facing + 0x100) >> 9) & 7], 0);
+    func_80047784(sprite, D_80173C6C[((s32) (gameWork.view.viewAngle + ((EntityRec *)action)->facing + 0x100) >> 9) & 7], 0);
 block_52:
     if (((s32)dungeonStatus.unk_0C) != 0) {
         goto block_56;

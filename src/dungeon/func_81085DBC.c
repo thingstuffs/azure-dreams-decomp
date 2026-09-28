@@ -72,7 +72,7 @@ L0:
     }
     (*(u8 * *)((u8 *)arg2 + (0x2C))) = D_80175F40;
     func_80047784(arg2,
-        D_80175F40[((gameWork.viewAngle + ((S_801735BC_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+        D_80175F40[((gameWork.view.viewAngle + ((S_801735BC_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
         0);
     ((EntityRec *)arg1)->flags14 = 0;
     ((EntityRec *)arg1)->unk_10 = 0;
@@ -107,7 +107,7 @@ L2:
     }
     (*(u8 * *)((u8 *)arg2 + (0x2C))) = D_80175F68;
     func_80047784(arg2,
-        D_80175F68[((gameWork.viewAngle + ((S_801735BC_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+        D_80175F68[((gameWork.view.viewAngle + ((S_801735BC_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
         0);
     ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v |= 0x0800;
 Ladvance:
@@ -119,7 +119,7 @@ L3:
     if (flags3 & 0x8000) {
         (*(u8 * *)((u8 *)arg2 + (0x2C))) = D_80175F68;
         func_80047784(arg2,
-            D_80175F68[((gameWork.viewAngle + ((S_801735BC_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            D_80175F68[((gameWork.view.viewAngle + ((S_801735BC_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v |= 0x0800;
         return;
@@ -135,7 +135,7 @@ Lgate:
     }
     (*(u8 * *)((u8 *)arg2 + (0x2C))) = D_80175F10;
     func_80047784(arg2,
-        D_80175F10[((gameWork.viewAngle + ((S_801735BC_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+        D_80175F10[((gameWork.view.viewAngle + ((S_801735BC_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
         0);
     ((S_801735BC_0 *)arg0)->unk_AE = 0;
     ((S_801735BC_1 *)actor)->unk_14 &= ~0x40000000;

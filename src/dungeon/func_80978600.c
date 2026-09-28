@@ -30,7 +30,7 @@ void func_80173E00(s32 controller, s32 update_arg, void *sprite, void *actor)
             func_80047784(
                 sprite,
                 D_801740E8[
-                    ((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+                    ((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
                 0);
         }
         goto update_actor;
@@ -45,7 +45,7 @@ void func_80173E00(s32 controller, s32 update_arg, void *sprite, void *actor)
     func_80047784(
         sprite,
         D_801740E0[
-            ((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            ((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
         0);
 
 update_actor:
@@ -58,7 +58,7 @@ update_actor:
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801740E0;
         func_80047784(
             sprite,
-            D_801740E0[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            D_801740E0[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
     }
 }

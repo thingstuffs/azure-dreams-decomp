@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/def_table.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -63,11 +64,6 @@ typedef struct S_80172810_7 {
 
 
 
-typedef struct {
-    u8 pad0[0x12];
-    u8 kind;
-    u8 pad13;
-} MotionEntry;
 
 extern s32 func_8003F270(void);
 extern void func_80047784(void *, s32, s32);
@@ -79,7 +75,6 @@ extern s32 func_800A94A0(void *, u8 *, s32, void *);
 extern void func_800DA840(void *, s16);
 
 extern int abs(int);
-extern u8 D_8006DE24[];
 extern u8 D_80170E54[];
 extern u8 D_801739C0[];
 
@@ -149,7 +144,7 @@ void func_80172810(void *action_state, void *position, void *sprite, void *actor
                     goto have_target;
                 }
             }
-            if (((MotionEntry *)D_8006DE24)[*motion].kind == 2) {
+            if (D_8006DE24[*motion].kind == 2) {
                 target = ((S_80172810_1 *)actor)->unk_60;
                 if (target == 0) {
                     goto apply_motion;
@@ -230,7 +225,7 @@ void func_80172810(void *action_state, void *position, void *sprite, void *actor
             if (((S_80172810_4 *)sprite)->unk_2C != direction_frames) {
                 (*(u8 * *)((u8 *)sprite + 0x2C)) = direction_frames;
                 func_80047784(sprite,
-                    direction_frames[((gameWork.viewAngle + ((S_80172810_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                    direction_frames[((gameWork.view.viewAngle + ((S_80172810_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
                     0);
             }
         }

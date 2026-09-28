@@ -28,7 +28,7 @@ void func_800C4C00(void *fade)
     u8 *color_state;
     u16 frames_left;
 
-    color_state = (u8 *)(&gameWork.unk_018);
+    color_state = (u8 *)(&gameWork.view);
     if (((S_800C4C00_0 *)fade)->unk_04.s == 0) {
         ((S_800C4C00_1 *)color_state)->unk_90 +=
             (((S_800C4C00_0 *)fade)->unk_00 - ((S_800C4C00_1 *)color_state)->unk_90) /

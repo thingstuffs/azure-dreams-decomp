@@ -81,7 +81,7 @@ void func_80171A18(void *motion, s32 unused, void *actor, void *move_state) {
         (*(u8 * *)((u8 *)actor + 0x2C)) = D_801740E0;
         func_80047784(
             actor,
-            D_801740E0[((gameWork.viewAngle + ((S_80171A18_0 *)move_state)->unk_2A + 0x100) >> 9) & 7],
+            D_801740E0[((gameWork.view.viewAngle + ((S_80171A18_0 *)move_state)->unk_2A + 0x100) >> 9) & 7],
             0);
     }
 

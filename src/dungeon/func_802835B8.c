@@ -380,7 +380,7 @@ load_entries:
         (*(void * *)((u8 *)state + 0x2C)) = D_800DD274;
         func_8003DB94(state,
             *(void **)((u8 *)D_800DD274 +
-                (((gameWork.viewAngle + (*(s16 *)((u8 *)entity + 0x2A)) + 0x100) >> 7) & 0x1C)),
+                (((gameWork.view.viewAngle + (*(s16 *)((u8 *)entity + 0x2A)) + 0x100) >> 7) & 0x1C)),
             0);
         call_target = ((u8 *)(&D_80083498));
     } else {
@@ -395,7 +395,7 @@ load_entries:
     delta_page = (u8 *)(-1);
     (*(s16 *)((u8 *)obj + 0x94)) = (s32)delta_page;
     (*(s16 *)((u8 *)obj + 0x118)) = 0;
-    ((S_800165B8_5 *)entity)->unk_2A = 0x400 - (((u16)gameWork.viewAngle + 0x100) & 0xE00);
+    ((S_800165B8_5 *)entity)->unk_2A = 0x400 - (((u16)gameWork.view.viewAngle + 0x100) & 0xE00);
     func_800BC26C(call_target, bind_count, bind_state, bind_angle);
     {
         s32 clear_flag_mask;

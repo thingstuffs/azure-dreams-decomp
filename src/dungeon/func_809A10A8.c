@@ -97,7 +97,7 @@ L1:
     }
     (*(u8 * *)((u8 *)sprite + (0x2C))) = D_80175E58;
     func_80047784(sprite,
-        D_80175E58[((gameWork.viewAngle + ((S_801728A8_4 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
+        D_80175E58[((gameWork.view.viewAngle + ((S_801728A8_4 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
         0);
     func_80174910((u8 *)action - 0x20, (u8 *)actor + 0x2A);
     state = ((S_801728A8_0 *)action)->unk_9B.n;
@@ -125,7 +125,7 @@ L2:
     }
     (*(u8 * *)((u8 *)sprite + (0x2C))) = D_80175E60;
     func_80047784(sprite,
-        D_80175E60[((gameWork.viewAngle + ((S_801728A8_4 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
+        D_80175E60[((gameWork.view.viewAngle + ((S_801728A8_4 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
         0);
     func_800A56E0(0x808);
     state = ((S_801728A8_0 *)action)->unk_9B.n;
@@ -168,7 +168,7 @@ L3:
         }
         (*(u8 * *)((u8 *)sprite + (0x2C))) = D_80175E68;
         func_80047784(sprite,
-            D_80175E68[((gameWork.viewAngle + ((S_801728A8_4 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
+            D_80175E68[((gameWork.view.viewAngle + ((S_801728A8_4 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
             0);
 
         velocity_x = -*(s16 *)((u8 *)directions_x +

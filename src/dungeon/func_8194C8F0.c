@@ -155,7 +155,7 @@ state_two:
 
     {
         s32 angle_index;
-        angle_index = (gameWork.viewAngle + ((EntityRec *)D_800814A8)->facing + 0x100) >> 7;
+        angle_index = (gameWork.view.viewAngle + ((EntityRec *)D_800814A8)->facing + 0x100) >> 7;
         if (func_8003DE58(*(void **)((angle_index & 0x1C) + (s32)D_800E3D18),
                           ((u8 *)(&D_80082E80)), offset, 0) != 0) {
             ((S_800240F0_2 *)motion)->unk_0C += ((s16 *)offset)[0] << 16;

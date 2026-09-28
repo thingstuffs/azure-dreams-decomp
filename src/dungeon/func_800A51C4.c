@@ -32,7 +32,7 @@ s32 func_800AA924(void *actor, s32 unused, void *sprite, u8 *direction_frames)
     if (direction_frames != 0) {
         *(u8 **)((u8 *)sprite + 0x2C) = direction_frames;
         func_80047784(sprite,
-            direction_frames[((gameWork.viewAngle + *(s16 *)((u8 *)actor + 0x2A) + 0x100) >> 9) & 7],
+            direction_frames[((gameWork.view.viewAngle + *(s16 *)((u8 *)actor + 0x2A) + 0x100) >> 9) & 7],
             0);
     }
     dungeonStatus.unk_0A++;

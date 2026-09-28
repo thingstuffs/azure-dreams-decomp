@@ -79,19 +79,19 @@ jt_c1:
     case 13:
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80169DDC;
         func_80047784(sprite,
-            D_80169DDC[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            D_80169DDC[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
         goto jt_c4;
     case 14:
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80169DE4;
         func_80047784(sprite,
-            D_80169DE4[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            D_80169DE4[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
         goto jt_c4;
     case 15:
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80169DEC;
         func_80047784(sprite,
-            D_80169DEC[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            D_80169DEC[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
         ((S_801683C4_0 *)action)->unk_9B = 5;
         func_800A56E0(0x60C);

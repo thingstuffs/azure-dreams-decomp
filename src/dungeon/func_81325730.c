@@ -92,7 +92,7 @@ phase1:
     state->unk96 = 0;
     state->unk9b = state->unk9b + 1;
     animation->unk2c = D_801746B4;
-    func_80047784(animation, D_801746B4[(((s32)gameWork.viewAngle + actor->unk2a + 0x100) >> 9) & 7], 0);
+    func_80047784(animation, D_801746B4[(((s32)gameWork.view.viewAngle + actor->unk2a + 0x100) >> 9) & 7], 0);
 
 phase2:
     state->unk96 = state->unk96 + 1;

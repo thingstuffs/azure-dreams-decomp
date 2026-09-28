@@ -116,7 +116,7 @@ start_animation:
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80156150;
     func_80047784(
         sprite,
-        D_80156150[((gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
+        D_80156150[((gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
         0);
     ((S_80155238_1 *)action)->unk_9B++;
     goto done;
@@ -131,7 +131,7 @@ wait_animation:
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80156150;
     func_80047784(
         sprite,
-        D_80156150[((gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
+        D_80156150[((gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
         0);
     ((S_80155238_1 *)action)->unk_96.s = 8;
     ((S_80155238_1 *)action)->unk_9B++;

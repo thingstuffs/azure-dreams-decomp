@@ -114,7 +114,7 @@ void func_8008B9FC(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *sprit
                     sprite->unk_2C.as_pu8 = D_800DCFC0;
                     func_80048A44(
                         sprite,
-                        D_800DCFC0[((s32)(dungeon_state->viewAngle +
+                        D_800DCFC0[((s32)(dungeon_state->view.viewAngle +
                                          actor->facing + 0x100) >> 9) & 7],
                         0, 1);
                 }
@@ -133,7 +133,7 @@ void func_8008B9FC(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *sprit
                     sprite->unk_2C.as_pu8 = D_800DCFB8;
                     func_80048A44(
                         anim_sprite,
-                        D_800DCFB8[((s32)(gameWork.viewAngle +
+                        D_800DCFB8[((s32)(gameWork.view.viewAngle +
                                          actor->facing + 0x100) >> 9) & 7],
                         0, 1);
                 }
@@ -158,7 +158,7 @@ void func_8008B9FC(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *sprit
             sprite->unk_2C.as_pu8 = D_800DD030;
             func_80048A44(
                 sprite,
-                D_800DD030[((s32)(gameWork.viewAngle + actor->facing +
+                D_800DD030[((s32)(gameWork.view.viewAngle + actor->facing +
                                   0x100) >> 9) & 7],
                 0, 1);
         }
@@ -197,7 +197,7 @@ finish_step:
         ((S_8008B9FC_5 *)idle_sprite)->unk_2C = D_800DCFB0;
         func_80048A44(
             idle_sprite,
-            D_800DCFB0[((s32)(dungeon_state->viewAngle +
+            D_800DCFB0[((s32)(dungeon_state->view.viewAngle +
                               actor->facing + 0x100) >> 9) & 7],
             0, 1);
     }
@@ -243,7 +243,7 @@ update_step:
         sprite->unk_2C.as_pu8 = alt_anim;
         func_80048A44(
             sprite,
-            alt_anim[((s32)(gameWork.viewAngle + actor->facing +
+            alt_anim[((s32)(gameWork.view.viewAngle + actor->facing +
                                  0x100) >> 9) & 7],
             0, 1);
         flags_2[2] = (s16)flags_2[2] >> 1; return;
@@ -253,7 +253,7 @@ update_step:
         sprite->unk_2C.as_pu8 = D_800DCFE8;
         func_80048A44(
             sprite,
-            D_800DCFE8[((s32)(gameWork.viewAngle + actor->facing +
+            D_800DCFE8[((s32)(gameWork.view.viewAngle + actor->facing +
                                0x100) >> 9) & 7],
             1, 1);
         func_8009A3D0(sprite->unk_24, sprite->unk_25, 0x300);
@@ -269,7 +269,7 @@ update_step:
         sprite->unk_2C.as_pu8 = D_800DD0D0;
         func_80048A44(
             sprite,
-            D_800DD0D0[((s32)(gameWork.viewAngle + actor->facing +
+            D_800DD0D0[((s32)(gameWork.view.viewAngle + actor->facing +
                                0x100) >> 9) & 7],
             1, 1);
         func_8009A3D0(sprite->unk_24, sprite->unk_25, 0x300);

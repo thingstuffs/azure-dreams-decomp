@@ -119,7 +119,7 @@ void func_80171A80(void *entity, void *context, void *sprite, void *actor)
             anim_table = D_800E2420;
             (*(void * *)((u8 *)sprite + 0x2C)) = anim_table;
             func_80047784(sprite,
-                ((u8 *)anim_table)[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+                ((u8 *)anim_table)[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
                 0);
             return;
         } else {
@@ -157,7 +157,7 @@ void func_80171A80(void *entity, void *context, void *sprite, void *actor)
             if (((S_80171A80_2 *)sprite)->unk_2C != anim_table) {
                 (*(void * *)((u8 *)sprite + 0x2C)) = anim_table;
                 func_80047784(sprite,
-                    ((u8 *)anim_table)[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+                    ((u8 *)anim_table)[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
                     0);
                 ((S_80171A80_2 *)sprite)->unk_05 = 1;
                 is_active = ((S_80171A80_0 *)entity)->unk_B0.v;

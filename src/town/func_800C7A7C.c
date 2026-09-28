@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/object_index_slots.h"
 #include "m2c_compat.h"
 
-extern u8 D_80082660;
 extern M2C_UNK D_800C5100;
 
 typedef struct S_800C51DC_0 {
@@ -19,7 +19,7 @@ typedef struct S_800C51DC_1 {
 
 /* Clear the actor table flag, install its handler, and initialize state values. */
 void func_800C51DC(S_800C51DC_0 *actor, S_800C51DC_1 *state) {
-    *((actor->unk_60 * 8) + &D_80082660) = 0;
+    D_80082660[actor->unk_60].unk_00 = 0;
     actor->unk_54 = &D_800C5100;
     state->unk_10 = 0x80000;
     state->unk_14 = 0x40000;

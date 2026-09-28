@@ -98,7 +98,7 @@ case1:
             goto case1_common;
         }
         object->unk_2C = direction_table;
-        direction_index = ((s32)(gameWork.viewAngle + input->unk_2A + 0x100) >> 9) & 7;
+        direction_index = ((s32)(gameWork.view.viewAngle + input->unk_2A + 0x100) >> 9) & 7;
         func_80047784(object,
             *((u8 *)((u32)direction_index + (u32)direction_table)), 0);
     }
@@ -180,7 +180,7 @@ case4:
         }
         if (previous_table != direction_table) {
             object->unk_2C = direction_table;
-            direction_index = ((s32)(gameWork.viewAngle + input->unk_2A + 0x100) >> 9) & 7;
+            direction_index = ((s32)(gameWork.view.viewAngle + input->unk_2A + 0x100) >> 9) & 7;
             func_80047784(object,
                 *((u8 *)((u32)direction_index + (u32)direction_table)), 0);
         }

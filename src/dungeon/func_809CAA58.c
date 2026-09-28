@@ -64,7 +64,7 @@ state_0:
         (*(u8 * *)((u8 *)map_entity + 0x2C)) = D_80173C94;
         func_80047784(
             map_entity,
-            D_80173C94[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            D_80173C94[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
         ((S_80172258_0 *)jump)->unk_98 |= 8;
         ((EntityRec *)motion)->flags14 = 0xFFF20000;
@@ -113,7 +113,7 @@ state_2:
         (*(u8 * *)((u8 *)map_entity + 0x2C)) = D_80173C9C;
         func_80047784(
             map_entity,
-            D_80173C9C[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            D_80173C9C[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
         ((S_80172258_0 *)jump)->unk_9B++;
     }

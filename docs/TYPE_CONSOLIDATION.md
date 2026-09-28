@@ -183,3 +183,21 @@ SHA-1 MATCH, pin-neutral (155 migrated pinned rows re-tested).
   real pointer - the original had a sub-structure there. Decision (OPEN_ITEMS #2): GameWork gets that member;
   phase 8. Rec_D_800814A8.h: its last user func_81324774 was busy; retires on the next pass.
 - Totals: **5,290 row migrations onto 13 shared headers.**
+
+## Phase 8 (2026-09-28): landed
+
+719 rows (38-row sample first, then the header change with its 640 rows in one run), every row in the tree re-verified
+(game.h / globals.h reach every file), 459 windows + SLUS SHA-1 MATCH, pin-neutral.
+- **GameWork.view** (`GameView`, gameWork+0x18..0x1DB: a header plus `ViewSlot slot[4]` of 0x44 bytes): retail keeps
+  that address in a register across calls and passes it to func_800997FC / func_80042900, so the original had this
+  sub-structure. "view" (not "camera"): the four short vectors feed w_8004D4AC's view-matrix build and viewAngle is
+  the fourth vector's z; the rest of the header is unexplained. 1,161 `gameWork.viewAngle` sites became
+  `gameWork.view.viewAngle` (all 72 old field paths keep offset and size). game.h's `struct S_80083178` is retired;
+  S_80083178State/Vector stay for D_80083CE8; three files keep a local `extern GameView D_80083178;` because retail
+  forms 0x80083178 there (slus/w_8004D5D0, dungeon/func_800AFA68, slus/code2).
+- **The "nine-object cluster" was dead declaration copies** (a decompiler-flattened game.h/globals.h) in 51 rows;
+  removed from 42 (compiler output identical).
+- **ObjectIndexSlot D_80082660[]** (8-byte slots, `object` named: rows register object - 0x20, the runtime returns
+  object + 0x20), 65/72 rows; **DefEntry D_8006DE24[]** (0x14-byte records, `kind` named: nearly every user tests it
+  against 2), 49/61 rows.
+- Totals: **6,009 row migrations onto 15 shared headers.**

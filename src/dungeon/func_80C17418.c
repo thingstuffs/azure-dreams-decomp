@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/def_table.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -91,7 +92,6 @@ typedef struct {
 } Global83460;
 
 extern void *D_80170838[];
-extern ItemInfo D_8006DE24[];
 extern u8 D_801713A8[];
 extern u8 D_801744E4[];
 extern u8 D_801744DC[];
@@ -212,7 +212,7 @@ have_slot:
             ent->f60 = link_base;
             goto copy_link;
         }
-        if (D_8006DE24[*item_slot].f12 == 2) {
+        if (D_8006DE24[*item_slot].kind == 2) {
             link_base = ent->f60;
             if (link_base != 0) {
 copy_link:
@@ -240,7 +240,7 @@ copy_link:
         actor_base->f2C = (void (*)(void))D_801744E4;
         func_80047784(
             actor_base,
-            D_801744E4[((gameWork.viewAngle + ent->f2A + 0x100) >> 9) & 7],
+            D_801744E4[((gameWork.view.viewAngle + ent->f2A + 0x100) >> 9) & 7],
             0);
         if (!func_800A94A0(ent, item_slot, use_main_link, &state->flags98)) {
             goto end;
@@ -280,7 +280,7 @@ state1:
         actor->f2C = (void (*)(void))D_801744DC;
         func_80047784(
             actor,
-            D_801744DC[((gameWork.viewAngle + ent->f2A + 0x100) >> 9) & 7],
+            D_801744DC[((gameWork.view.viewAngle + ent->f2A + 0x100) >> 9) & 7],
             0);
         state->f96 = state_index;
         state->state9B++;
@@ -337,7 +337,7 @@ no_flag4000:
         actor->f2C = (void (*)(void))D_80174494;
         func_80047784(
             actor,
-            D_80174494[((gameWork.viewAngle + ent->f2A + 0x100) >> 9) & 7],
+            D_80174494[((gameWork.view.viewAngle + ent->f2A + 0x100) >> 9) & 7],
             state->fA8);
     }
     {

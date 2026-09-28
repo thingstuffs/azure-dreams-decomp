@@ -136,7 +136,7 @@ state2:
 common:
     if (object->field14 & 0xE000) {
         object->field2c = D_80176460;
-        func_80047784(object, D_80176460[((gameWork.viewAngle + actor->field2a + 0x100) >> 9) & 7], 0);
+        func_80047784(object, D_80176460[((gameWork.view.viewAngle + actor->field2a + 0x100) >> 9) & 7], 0);
         controller->field98 &= 0xFFF7;
     }
 

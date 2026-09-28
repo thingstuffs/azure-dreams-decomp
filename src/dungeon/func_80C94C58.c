@@ -75,7 +75,7 @@ check_settling:
 start_movement:
     if (((Rec_D_80082E80 *)map_entry)->unk_14.at00_u16.v & 0x6000) {
         (*(u8 **)((u8 *)map_entry + 0x2C)) = D_801752CC;
-        func_80047784(map_entry, D_801752CC[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7], 0);
+        func_80047784(map_entry, D_801752CC[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7], 0);
         ((S_80172458_0 *)action)->unk_98 = (u16) (((S_80172458_0 *)action)->unk_98 | 8);
         ((EntityRec *)actor)->flags1C = (s32) (((EntityRec *)actor)->flags1C & 0xF7FFFFFF);
         ((S_80172458_0 *)action)->unk_9E = 5;
@@ -171,7 +171,7 @@ finish_movement:
         ((EntityRec *)motion)->unk_0C = 0;
         func_800A2B04(motion, ((Rec_D_80082E80 *)map_entry)->unk_24, ((Rec_D_80082E80 *)map_entry)->unk_25);
         (*(u8 **)((u8 *)map_entry + 0x2C)) = D_801752D4;
-        func_80047784(map_entry, D_801752D4[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7], 0);
+        func_80047784(map_entry, D_801752D4[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7], 0);
         func_800419EC(4, 8);
         func_800B66C8(motion);
         ((S_80172458_0 *)action)->unk_9B = 3U;

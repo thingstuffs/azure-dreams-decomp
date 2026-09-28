@@ -104,7 +104,7 @@ kind15_alternate:
 apply_table:
     if (current_table != selected_table) {
         *(u32 * volatile)((u8 *)display + 0x2c) = selected_table;
-        direction_index = (gameWork.viewAngle + state->value2a + 0x100) >> 9;
+        direction_index = (gameWork.view.viewAngle + state->value2a + 0x100) >> 9;
         func_80047784(display, *(u8 *)((direction_index & 7) + selected_table), 0);
     }
 
@@ -123,7 +123,7 @@ update_state:
             return;
         }
         *(u32 * volatile)((u8 *)display + 0x2c) = (u32)&D_80157DC4;
-        direction_index = (gameWork.viewAngle + state->value2a + 0x100) >> 9;
+        direction_index = (gameWork.view.viewAngle + state->value2a + 0x100) >> 9;
         func_80047784(display, *(u8 *)((direction_index & 7) + (u32)&D_80157DC4), 0);
         return;
     case 14:
@@ -132,7 +132,7 @@ update_state:
             return;
         }
         *(u32 * volatile)((u8 *)display + 0x2c) = (u32)&D_80157DCC;
-        direction_index = (gameWork.viewAngle + state->value2a + 0x100) >> 9;
+        direction_index = (gameWork.view.viewAngle + state->value2a + 0x100) >> 9;
         func_80047784(display, *(u8 *)((direction_index & 7) + (u32)&D_80157DCC), 0);
         return;
     case 15:
@@ -141,7 +141,7 @@ update_state:
             return;
         }
         *(u32 * volatile)((u8 *)display + 0x2c) = (u32)&D_80157DD4;
-        direction_index = (gameWork.viewAngle + state->value2a + 0x100) >> 9;
+        direction_index = (gameWork.view.viewAngle + state->value2a + 0x100) >> 9;
         func_80047784(display, *(u8 *)((direction_index & 7) + (u32)&D_80157DD4), 0);
         return;
     default:

@@ -161,7 +161,7 @@ state1_timer_done:
         ((EntityRec *)actor)->flags1C |= 0x00040000;
         (*(void * *)((u8 *)sprite + 0x2C)) = D_80175148;
         func_80047784(sprite,
-            D_80175148[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            D_80175148[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
 
         {

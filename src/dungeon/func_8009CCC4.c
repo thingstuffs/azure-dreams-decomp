@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/def_table.h"
 #include "shared/sys_flags.h"
 #include "shared/dungeon_status.h"
 
@@ -18,7 +19,6 @@ extern s32 func_800A5720();
 extern s32 func_800B4C7C();
 
 extern u8 D_8006D168[];
-extern u8 D_8006DE24[];
 extern s32 D_800835E8[];
 extern M2C_UNK D_80089000;
 extern s8 D_800DCF4F[];
@@ -324,7 +324,7 @@ s32 func_800A2424(void *entity_data, s32 show_message) {
             do {
                 if (spell_lowered[spell_index] != 0) {
                     message_end = func_8009929C(0xA, message_end);
-                    message_end = func_80099194(*(s32 *)(D_8006DE24 + entity[8] * 0x14), message_end);
+                    message_end = func_80099194(*(s32 *)(((u8 *)D_8006DE24) + entity[8] * 0x14), message_end);
                     message_end = func_80099194(&D_800E09B2, message_end);
                     message_end = func_80099194(&D_800E09BB, message_end);
                 }

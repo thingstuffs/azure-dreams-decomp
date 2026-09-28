@@ -117,7 +117,7 @@ jt_c1:
             ((S_8016BE20_0 *)state)->unk_9B.n++;
             (*(u8 * *)((u8 *)actor + 0x2C)) = D_80173A40;
             func_80047784(actor,
-                D_80173A40[((gameWork.viewAngle + ((S_8016BE20_2 *)ctx)->unk_2A + 0x100) >> 9) & 7],
+                D_80173A40[((gameWork.view.viewAngle + ((S_8016BE20_2 *)ctx)->unk_2A + 0x100) >> 9) & 7],
                 0);
         } else {
             if (D_80175DC0 == 0) {
@@ -128,7 +128,7 @@ jt_c1:
             func_800A56E0(0x300);
             (*(u8 * *)((u8 *)actor + 0x2C)) = D_80173A40;
             func_80047784(actor,
-                D_80173A40[((gameWork.viewAngle + ((S_8016BE20_2 *)ctx)->unk_2A + 0x100) >> 9) & 7],
+                D_80173A40[((gameWork.view.viewAngle + ((S_8016BE20_2 *)ctx)->unk_2A + 0x100) >> 9) & 7],
                 0);
         }
         return;
@@ -156,7 +156,7 @@ jt_c3:
         if (((S_8016BE20_3 *)actor)->unk_2C != anim_table) {
             (*(u8 * *)((u8 *)actor + 0x2C)) = anim_table;
             func_80047784(actor,
-                anim_table[((gameWork.viewAngle + ((S_8016BE20_2 *)ctx)->unk_2A + 0x100) >> 9) & 7],
+                anim_table[((gameWork.view.viewAngle + ((S_8016BE20_2 *)ctx)->unk_2A + 0x100) >> 9) & 7],
                 0);
         }
         if (D_80175DC1 != 0) {

@@ -115,9 +115,9 @@ void func_800BA930(Core *effect, Position *origin) {
             particle_prim->scaleX = 0x1000;
             particle_prim->scaleY = 0x1000;
             particle_prim->scaleZ = 0xAAA;
-            particle_prim->red = gameWork.unk_0A8;
-            particle_prim->green = gameWork.unk_0A9;
-            particle_blue = gameWork.unk_0AA;
+            particle_prim->red = gameWork.view.unk_090;
+            particle_prim->green = gameWork.view.unk_091;
+            particle_blue = gameWork.view.unk_092;
             ((S_800BA930_1 *)particle_prim)->unk_08 = child_index + 0x1A;
             particle_prim->blue = particle_blue;
             child_pos = child_obj->position;
@@ -201,9 +201,9 @@ void func_800BA930(Core *effect, Position *origin) {
         particle_prim->scaleY = 0x1000;
         particle_prim->scaleZ = 0x1000;
         particle_prim->angle = effect->angle;
-        particle_prim->red = gameWork.unk_0A8;
-        particle_prim->green = gameWork.unk_0A9;
-        particle_prim->blue = gameWork.unk_0AA;
+        particle_prim->red = gameWork.view.unk_090;
+        particle_prim->green = gameWork.view.unk_091;
+        particle_prim->blue = gameWork.view.unk_092;
         child_pos = child_obj->position;
         ((S_800BA930_1 *)particle_prim)->unk_08 = 0x19;
         child_pos->x = origin->x;

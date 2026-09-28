@@ -48,8 +48,8 @@ void func_80040BB4(void)
     D_80082E60.field_E = 0;
     D_80082E60.field_8.h = 0;
 
-    gameWork.unk_154 = 0;
-    gameWork.unk_198 = 0;
-    gameWork.unk_0CC = 0;
-    gameWork.unk_110 = 0;
+    gameWork.view.slot[2].callback = 0;
+    gameWork.view.slot[3].callback = 0;
+    gameWork.view.slot[0].callback = 0;
+    gameWork.view.slot[1].callback = 0;
 }

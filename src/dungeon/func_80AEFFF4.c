@@ -96,7 +96,7 @@ void func_801717F4(void *actor_arg, void *context_arg, void *sprite_arg, void *e
         animations = D_801759E0;
         (*(void * *)((u8 *)sprite_arg + (0x2C))) = animations;
         func_80047784(sprite_arg,
-            animations[((gameWork.viewAngle + ((EntityRec *)entity_arg)->facing + 0x100) >> 9) & 7],
+            animations[((gameWork.view.viewAngle + ((EntityRec *)entity_arg)->facing + 0x100) >> 9) & 7],
             0);
         return;
     }
@@ -131,7 +131,7 @@ void func_801717F4(void *actor_arg, void *context_arg, void *sprite_arg, void *e
                 if (((S_801717F4_2 *)sprite_arg)->unk_2C != animations) {
                     (*(void * *)((u8 *)sprite_arg + (0x2C))) = animations;
                     func_80047784(sprite_arg,
-                        animations[((gameWork.viewAngle + ((EntityRec *)entity_arg)->facing + 0x100) >> 9) & 7],
+                        animations[((gameWork.view.viewAngle + ((EntityRec *)entity_arg)->facing + 0x100) >> 9) & 7],
                         0);
                 }
                 ((Rec_func_800A9E70_arg0 *)actor_arg)->unk_9E.as_s16 = 0;
@@ -153,7 +153,7 @@ void func_801717F4(void *actor_arg, void *context_arg, void *sprite_arg, void *e
             func_80174258(actor_arg, context_arg, sprite_arg, entity_arg);
             (*(void * *)((u8 *)sprite_arg + (0x2C))) = D_80175988;
             func_80047784(sprite_arg,
-                D_80175988[((gameWork.viewAngle + ((EntityRec *)entity_arg)->facing + 0x100) >> 9) & 7],
+                D_80175988[((gameWork.view.viewAngle + ((EntityRec *)entity_arg)->facing + 0x100) >> 9) & 7],
                 0);
             ((Rec_func_800A9E70_arg0 *)actor_arg)->unk_90.at00_s32.v = 0;
             return;

@@ -26,7 +26,7 @@ void func_8004D09C(InStruct *object)
 {
     SrcStruct *source = object->unk20;
 
-    gameWork.unk_0BC = source->unk2;
-    gameWork.unk_0BE = source->unk6;
-    gameWork.unk_0C0 = source->unkA;
+    gameWork.view.unk_0A4 = source->unk2;
+    gameWork.view.unk_0A6 = source->unk6;
+    gameWork.view.unk_0A8 = source->unkA;
 }

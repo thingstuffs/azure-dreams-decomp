@@ -79,19 +79,19 @@ jt_c1:
     case 13:
         (*(u8 * *)((u8 *)anim + 0x2C)) = D_8016FDDC;
         func_80047784(anim,
-            D_8016FDDC[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            D_8016FDDC[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
         goto jt_c4;
     case 14:
         (*(u8 * *)((u8 *)anim + 0x2C)) = D_8016FDE4;
         func_80047784(anim,
-            D_8016FDE4[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            D_8016FDE4[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
         goto jt_c4;
     case 15:
         (*(u8 * *)((u8 *)anim + 0x2C)) = D_8016FDEC;
         func_80047784(anim,
-            D_8016FDEC[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            D_8016FDEC[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
         ((S_8016E3C4_0 *)action)->unk_9B = 5;
         func_800A56E0(0x60C);

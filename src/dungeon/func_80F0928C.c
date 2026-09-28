@@ -114,7 +114,7 @@ void func_80170A8C(void *entity_state, void *entity_motion, void *entity_part)
 
         part_flags = U16_AT(entity_part, 0x14);
         if (!(part_flags & 0x8000)) {
-            view_direction = (gameWork.viewAngle + S16_AT(state_alias, 0x2A) + 0x100) >> 9;
+            view_direction = (gameWork.view.viewAngle + S16_AT(state_alias, 0x2A) + 0x100) >> 9;
             direction = view_direction & 7;
             if (S16_AT(entity_state, 0x94) != direction) {
                 direction_frames = PTR_AT(entity_part, 0x2C);

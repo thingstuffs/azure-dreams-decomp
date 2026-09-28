@@ -145,7 +145,7 @@ jt_c1:
     return;
 
 jt_c2:
-    direction = ((gameWork.viewAngle + ((S_80175470_1 *)actor)->unk_2A.s + 0x100) >> 9) & 7;
+    direction = ((gameWork.view.viewAngle + ((S_80175470_1 *)actor)->unk_2A.s + 0x100) >> 9) & 7;
     if (D_80175B24 == 0) {
         goto check_facing;
     }
@@ -186,9 +186,9 @@ jt_c3:
     }
     color_index = func_800498A0(actor);
     target_color = D_800DCEEC[color_index];
-    scene_color->unk_0A8 += ((s32)target_color[0] - scene_color->unk_0A8) / ((S_80175470_0 *)sequence)->unk_96.s;
-    scene_color->unk_0A9 += ((s32)target_color[1] - scene_color->unk_0A9) / ((S_80175470_0 *)sequence)->unk_96.s;
-    scene_color->unk_0AA += ((s32)target_color[2] - scene_color->unk_0AA) / ((S_80175470_0 *)sequence)->unk_96.s;
+    scene_color->view.unk_090 += ((s32)target_color[0] - scene_color->view.unk_090) / ((S_80175470_0 *)sequence)->unk_96.s;
+    scene_color->view.unk_091 += ((s32)target_color[1] - scene_color->view.unk_091) / ((S_80175470_0 *)sequence)->unk_96.s;
+    scene_color->view.unk_092 += ((s32)target_color[2] - scene_color->view.unk_092) / ((S_80175470_0 *)sequence)->unk_96.s;
     return;
 
 jt_c4:
@@ -261,7 +261,7 @@ jt_c7:
     model = ((S_80175470_5_pre *)(((S_80175470_1 *)actor)->unk_60))[-1].unk_00;
     node = ((S_80175470_1 *)actor)->unk_60;
     func_80047738(model, ((u8 *)model->unk_2C)[
-                  ((gameWork.viewAngle + node->unk_2A + 0x100) >> 9) & 7],
+                  ((gameWork.view.viewAngle + node->unk_2A + 0x100) >> 9) & 7],
                   model->unk_04);
     model->unk_14 &= 0xFFFE;
 

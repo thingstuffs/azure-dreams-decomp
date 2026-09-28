@@ -51,7 +51,7 @@ void func_80091B5C(void *action, void *unused, void *actor, void *motion) {
     dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) + 1);
     ((Rec_func_8008ACDC_arg0 *)action)->unk_96.as_s16 = 0x10;
     (*(u8 **)((u8 *)actor + (0x2C))) = D_800DD030;
-    func_80048A44(actor, D_800DD030[((s32) (gameWork.viewAngle + ((S_80091B5C_1 *)motion)->unk_2A + 0x100) >> 9) & 7], 0, 1);
+    func_80048A44(actor, D_800DD030[((s32) (gameWork.view.viewAngle + ((S_80091B5C_1 *)motion)->unk_2A + 0x100) >> 9) & 7], 0, 1);
     target = ((S_80091B5C_5_pre *)(dungeonStatus.unk_0C))[-1].unk_00;
     ((Rec_func_8008ACDC_arg0 *)action)->unk_11A = (u16) ((S_80091B5C_1 *)motion)->unk_2A;
     ((S_80091B5C_1 *)motion)->unk_2A = func_800A0818(((Rec_D_80082E80 *)actor)->unk_24, ((Rec_D_80082E80 *)actor)->unk_25, ((S_80091B5C_4 *)target)->unk_24, ((S_80091B5C_4 *)target)->unk_25, &distance);

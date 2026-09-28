@@ -66,7 +66,7 @@ void func_801722BC(void *action, void *motion, void *sprite, void *actor)
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801765F0;
         func_80047784(
             sprite,
-            D_801765F0[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            D_801765F0[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
         ((S_801722BC_0 *)action)->unk_98 |= 8;
         ((EntityRec *)actor)->flags1C &= 0xF7FFFFFF;
@@ -118,7 +118,7 @@ void func_801722BC(void *action, void *motion, void *sprite, void *actor)
             (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801765F8;
             func_80047784(
                 sprite,
-                D_801765F8[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+                D_801765F8[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
                 0);
             ((S_801722BC_0 *)action)->unk_9B++;
         }

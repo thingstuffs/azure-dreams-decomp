@@ -315,7 +315,7 @@ check_open_anim:
         goto done;
     }
     *(u8 **)((u8 *)sprite + 0x2C) = D_800DD110;
-    func_80048A44(sprite, D_800DD110[((s32) (gameWork.viewAngle + actor->unk_2A + 0x100) >> 9) & 7], 0, 1);
+    func_80048A44(sprite, D_800DD110[((s32) (gameWork.view.viewAngle + actor->unk_2A + 0x100) >> 9) & 7], 0, 1);
     action->unk_9B = (u8) (action->unk_9B + 1);
     if (((S_func_800B1364_14 *)&D_80013714)->unk_00 & 1) {
         goto save_item;
@@ -372,7 +372,7 @@ read_command:
     }
     func_8009F988();
     *(u8 **)((u8 *)sprite + 0x2C) = D_800DD118;
-    func_80048A44(sprite, D_800DD118[((s32) (gameWork.viewAngle + actor->unk_2A + 0x100) >> 9) & 7], 0, 1);
+    func_80048A44(sprite, D_800DD118[((s32) (gameWork.view.viewAngle + actor->unk_2A + 0x100) >> 9) & 7], 0, 1);
     sprite->unk_14 = (u16) (sprite->unk_14 & 0xF7FF);
     goto start_cancel;
 check_use_button:
@@ -399,7 +399,7 @@ check_item_use:
     }
     worn_item->unk_02 = 0U;
     *(u8 **)((u8 *)sprite + 0x2C) = D_800DD118;
-    func_80048A44(sprite, D_800DD118[((s32) (gameWork.viewAngle + actor->unk_2A + 0x100) >> 9) & 7], 0, 1);
+    func_80048A44(sprite, D_800DD118[((s32) (gameWork.view.viewAngle + actor->unk_2A + 0x100) >> 9) & 7], 0, 1);
     sprite->unk_14 = (u16) (sprite->unk_14 & 0xF7FF);
     action->unk_9B = 5U;
     actor->unk_8A = func_8009904C(action->unk_BC);
@@ -422,7 +422,7 @@ check_cancel:
     }
     func_8009F644(actor, 0xA8, 0, 0);
     *(u8 **)((u8 *)sprite + 0x2C) = D_800DD118;
-    func_80048A44(sprite, D_800DD118[((s32) (gameWork.viewAngle + actor->unk_2A + 0x100) >> 9) & 7], 0, 1);
+    func_80048A44(sprite, D_800DD118[((s32) (gameWork.view.viewAngle + actor->unk_2A + 0x100) >> 9) & 7], 0, 1);
     sprite->unk_14 = (u16) (sprite->unk_14 & 0xF7FF);
     func_800A56E0(0x515);
 start_cancel:
@@ -586,7 +586,7 @@ wait_spawn:
 start_store_anim:
     direction_base = D_800DD130;
     *(u8 **)((u8 *)anim_sprite + 0x2C) = direction_base;
-    direction_anim = (u8 *) ((u32) (((s32) (gameWork.viewAngle + actor->unk_2A + 0x100) >> 9) & 7) + (u32) direction_base);
+    direction_anim = (u8 *) ((u32) (((s32) (gameWork.view.viewAngle + actor->unk_2A + 0x100) >> 9) & 7) + (u32) direction_base);
     copy_src = NULL;
     goto play_direction_anim;
 save_creature:
@@ -594,7 +594,7 @@ save_creature:
         goto done;
     }
     *(u8 **)((u8 *)sprite + 0x2C) = D_800DD138;
-    func_80048A44(sprite, D_800DD138[((s32) (gameWork.viewAngle + actor->unk_2A + 0x100) >> 9) & 7], 0, 1);
+    func_80048A44(sprite, D_800DD138[((s32) (gameWork.view.viewAngle + actor->unk_2A + 0x100) >> 9) & 7], 0, 1);
     sprite->unk_14 = (u16) (sprite->unk_14 | 0x200);
     func_80093C70(action, position, sprite);
     func_80093D8C(action, position, sprite);
@@ -644,7 +644,7 @@ finish_creature:
         direction_base = D_800DD140;
         anim_sprite = sprite;
         *(u8 **)((u8 *)anim_sprite + 0x2C) = direction_base;
-        direction_anim = direction_base + (((s32) (gameWork.viewAngle + actor->unk_2A + 0x100) >> 9) & 7);
+        direction_anim = direction_base + (((s32) (gameWork.view.viewAngle + actor->unk_2A + 0x100) >> 9) & 7);
         flags_page->unk_14A0 = (s32) release_value;
     }
 play_direction_anim:

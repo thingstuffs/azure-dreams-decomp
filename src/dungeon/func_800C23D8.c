@@ -48,7 +48,7 @@ extern void func_800C77D0(void *a0, void *a1, s32 a2, s16 a3);
 /* Blend toward the entity target, then dispatch the next state. */
 void func_800C7B38(void *entity_data) {
     Entity *entity = entity_data;
-    G *blend = (G *)(&gameWork.unk_018);
+    G *blend = (G *)(&gameWork.view);
     s32 state = entity->unk18;
 
     if (state == 0) goto blend_state;

@@ -1,5 +1,5 @@
 #include "common.h"
-extern u8 D_80082660[];
+#include "shared/object_index_slots.h"
 
 typedef void (*Callback)(s32, void *, void *);
 

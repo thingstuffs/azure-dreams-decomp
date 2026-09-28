@@ -165,7 +165,7 @@ case_1:
         saved_angle = ((S_80174648_1 *)actor)->unk_2A.u;
     } while (0);
     ((S_80174648_1 *)actor)->unk_8A = saved_angle;
-    direction = ((gameWork.viewAngle + ((S_80174648_1 *)actor)->unk_2A.s + 0x100) >> 9) & 7;
+    direction = ((gameWork.view.viewAngle + ((S_80174648_1 *)actor)->unk_2A.s + 0x100) >> 9) & 7;
     mode = ((u8 *)D_80174D1C)[-4];
     angle = ((S_80174648_1 *)actor)->unk_2A.u;
     if ((mode == 0) || (direction != 2)) {
@@ -293,7 +293,7 @@ case_7:
     child_or_angle = ((S_80174648_1 *)actor)->unk_60.i;
     child_sprite = ((S_80174648_6_pre *)((void *)child_or_angle))[-1].unk_00;
     child_or_angle = ((S_80174648_6 *)((void *)child_or_angle))->unk_2A;
-    direction = (gameWork.viewAngle + child_or_angle + 0x100) >> 9;
+    direction = (gameWork.view.viewAngle + child_or_angle + 0x100) >> 9;
     direction &= 7;
     func_80047738(child_sprite, ((S_80174648_11 *)(child_sprite->unk_2C + direction))->unk_00, child_sprite->unk_04);
     child_sprite->unk_14 &= 0xFFFE;

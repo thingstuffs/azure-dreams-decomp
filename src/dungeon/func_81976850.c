@@ -173,7 +173,7 @@ move_to_target:
     ((S_81976850_2 *)motion)->unk_14 =
         (((S_81976850_6 *)scene)->unk_88 - 0x50) << 16;
 
-    table_entry = ((gameWork.viewAngle + ((S_81976850_6 *)scene)->unk_2A + 0x100) >> 7) & 0x1C;
+    table_entry = ((gameWork.view.viewAngle + ((S_81976850_6 *)scene)->unk_2A + 0x100) >> 7) & 0x1C;
     table_entry += (s32)D_800E3D18;
     if (func_8003DE58(
             ((S_81976850_7 *)((void *)table_entry))->unk_00,

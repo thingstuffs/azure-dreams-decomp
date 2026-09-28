@@ -89,7 +89,7 @@ void func_801741D8(void *controller_in, void *context_in, void *sprite_in, void 
 
             (*(void * *)((u8 *)sprite + 0x2C)) = D_80175404;
             func_80047784(sprite,
-                D_80175404[((gameWork.viewAngle + ((S_801741D8_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                D_80175404[((gameWork.view.viewAngle + ((S_801741D8_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
                 0);
             counter = (u8 *)&dungeonStatus.unk_00;
             ((S_801741D8_3 *)counter)->unk_0A--;
@@ -180,7 +180,7 @@ final_call:
 set_effect:
         (*(void * *)((u8 *)sprite + 0x2C)) = D_8017540C;
         func_80047784(sprite,
-            D_8017540C[((gameWork.viewAngle + ((S_801741D8_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            D_8017540C[((gameWork.view.viewAngle + ((S_801741D8_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         if (((S_801741D8_1 *)sprite)->unk_14 & 0x8000) {
             goto set_owner;

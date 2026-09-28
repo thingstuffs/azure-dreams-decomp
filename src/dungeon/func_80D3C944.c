@@ -82,7 +82,7 @@ void func_80172144(void *actor, s32 actor_slot, void *entity_arg, void *state_ar
             (((S_80172144_2 *)entity)->unk_2C != D_800E23E0)) {
             ((S_80172144_2 *)entity)->unk_2C = D_800E23E0;
             func_80047784(entity,
-                D_800E23E0[((gameWork.viewAngle + ((S_80172144_0 *)state)->unk_2A + 0x100) >> 9) & 7],
+                D_800E23E0[((gameWork.view.viewAngle + ((S_80172144_0 *)state)->unk_2A + 0x100) >> 9) & 7],
                 0);
             if (((S_80172144_1 *)actor)->unk_B0 == 0) {
                 func_801708B8(actor, actor_slot, entity);

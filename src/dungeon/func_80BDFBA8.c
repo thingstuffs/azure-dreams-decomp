@@ -118,7 +118,7 @@ void func_801533A8(void *entity, S_801533A8_0 *motion, void *sprite)
     initial_sprite_flags = ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v;
 
     if (!(initial_sprite_flags & 0x8000)) {
-        direction = ((gameWork.viewAngle + ((S_801533A8_2 *)entity_base)->unk_2A + 0x100) >> 9) & 7;
+        direction = ((gameWork.view.viewAngle + ((S_801533A8_2 *)entity_base)->unk_2A + 0x100) >> 9) & 7;
         if ((*(s16 *)((u8 *)entity + 0x94)) != direction) {
             func_80047738(sprite,
                 *(u8 *)(((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 + direction),

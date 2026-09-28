@@ -158,7 +158,7 @@ void func_8016C64C(S_func_8016C64C_0 *action, S_func_8016C64C_1 *motion, S_func_
             *(u8 **)((u8 *)sprite + 0x2C) = anim_table;
             func_80047784(
                 sprite,
-                anim_table[((gameWork.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
+                anim_table[((gameWork.view.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
                 0);
             return;
         case 1:
@@ -170,7 +170,7 @@ void func_8016C64C(S_func_8016C64C_0 *action, S_func_8016C64C_1 *motion, S_func_
             *(u8 **)((u8 *)sprite + 0x2C) = anim_table;
             func_80047784(
                 sprite,
-                anim_table[((gameWork.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
+                anim_table[((gameWork.view.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
                 0);
             return;
         case 2:
@@ -182,7 +182,7 @@ void func_8016C64C(S_func_8016C64C_0 *action, S_func_8016C64C_1 *motion, S_func_
             *(u8 **)((u8 *)sprite + 0x2C) = anim_table;
             func_80047784(
                 sprite,
-                anim_table[((gameWork.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
+                anim_table[((gameWork.view.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
                 0);
             return;
         case 3:
@@ -193,7 +193,7 @@ void func_8016C64C(S_func_8016C64C_0 *action, S_func_8016C64C_1 *motion, S_func_
             *(u8 **)((u8 *)sprite + 0x2C) = anim_table;
             func_80047784(
                 sprite,
-                anim_table[((gameWork.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
+                anim_table[((gameWork.view.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
                 0);
             return;
         default:

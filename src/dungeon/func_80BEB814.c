@@ -104,7 +104,7 @@ void func_80171014(void *actor, void *actor_context, void *map_object, void *cre
         animation_table = D_80174254;
         (*(void * *)((u8 *)map_object + (0x2C))) = animation_table;
         func_80047784(map_object,
-            ((u8 *)animation_table)[((gameWork.viewAngle + ((EntityRec *)creature)->facing + 0x100) >> 9) & 7],
+            ((u8 *)animation_table)[((gameWork.view.viewAngle + ((EntityRec *)creature)->facing + 0x100) >> 9) & 7],
             0);
         return;
     }
@@ -142,7 +142,7 @@ void func_80171014(void *actor, void *actor_context, void *map_object, void *cre
             if (current_animation != animation_table) {
                 (*(void * *)((u8 *)map_object + (0x2C))) = animation_table;
                 func_80047784(map_object,
-                    ((u8 *)animation_table)[((gameWork.viewAngle + ((EntityRec *)creature)->facing + 0x100) >> 9) & 7],
+                    ((u8 *)animation_table)[((gameWork.view.viewAngle + ((EntityRec *)creature)->facing + 0x100) >> 9) & 7],
                     0);
                 ((S_80171014_2 *)map_object)->unk_05 = 1;
                 ((S_80171014_0 *)actor)->unk_A2.s = 0;

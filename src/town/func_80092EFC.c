@@ -36,8 +36,8 @@ void func_8009065C(void *arg0, void *arg1, void *arg2) {
     if (D_80100DB0[0] != 0) {
         goto after_initial;
     }
-    if (((u16)base->viewAngle) >= 0x800) {
-        base->viewAngle |= 0xF000;
+    if (((u16)base->view.viewAngle) >= 0x800) {
+        base->view.viewAngle |= 0xF000;
     }
 
     callback = *(void **)arg0;
@@ -72,15 +72,15 @@ inactive_callback:
     }
     initial_flags = ((s32)base->unk_008);
     if (initial_flags & 8) {
-        base->viewAngle -= 0x20;
-        if (base->viewAngle < -0x1E0) {
-            base->viewAngle = -0x1E0;
+        base->view.viewAngle -= 0x20;
+        if (base->view.viewAngle < -0x1E0) {
+            base->view.viewAngle = -0x1E0;
             goto after_initial;
         }
     } else if (initial_flags & 4) {
-        base->viewAngle += 0x20;
-        if (base->viewAngle > 0x1E0) {
-            base->viewAngle = 0x1E0;
+        base->view.viewAngle += 0x20;
+        if (base->view.viewAngle > 0x1E0) {
+            base->view.viewAngle = 0x1E0;
             goto after_initial;
         }
     } else {
@@ -97,16 +97,16 @@ low_height:
     movement = func_8003BD84(*(s32 *)((u8 *)arg1 + 0xC),
                              *(s32 *)((u8 *)arg1 + 0x10));
     if (movement == 0) {
-        base->viewAngle =
-            (((u16)base->viewAngle) + 8) & 0xFFF0;
+        base->view.viewAngle =
+            (((u16)base->view.viewAngle) + 8) & 0xFFF0;
     }
     movement /= 0x10000;
     flags = ((s32)base->unk_008);
     if (flags & 8) {
-        base->viewAngle -= 0x10 + movement;
+        base->view.viewAngle -= 0x10 + movement;
     }
     if (flags & 4) {
-        base->viewAngle += 0x10 + movement;
+        base->view.viewAngle += 0x10 + movement;
     }
 
 after_initial:

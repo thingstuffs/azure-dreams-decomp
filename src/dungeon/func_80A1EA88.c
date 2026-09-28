@@ -129,7 +129,7 @@ landing:
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80174820;
         func_80047784(
             sprite,
-            D_80174820[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            D_80174820[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
         phase_value = ((S_80172288_0 *)motion)->unk_9B;
 advance_phase:

@@ -66,7 +66,7 @@ void func_800A9C18(void *entity, void *position, void *sprite, s32 init_flags)
 
     func_80047784(sprite,
                   (*(u8 **)((u8 *)sprite + 0x2C))[
-                      ((gameWork.viewAngle + *(s16 *)(entity_data + 0x2A) + 0x100) >> 9) & 7],
+                      ((gameWork.view.viewAngle + *(s16 *)(entity_data + 0x2A) + 0x100) >> 9) & 7],
                   0);
 
     func_80099FDC(entity);
@@ -83,7 +83,7 @@ void func_800A9C18(void *entity, void *position, void *sprite, s32 init_flags)
     func_800BC26C(entity, 0, (u8 *)sprite + 0x2C, entity_data + 0x2A);
 
     if (D_8006CCF8[
-            ((gameWork.viewAngle + *(s16 *)(entity_data + 0x2A) + 0x100) >> 9) & 7] != 0) {
+            ((gameWork.view.viewAngle + *(s16 *)(entity_data + 0x2A) + 0x100) >> 9) & 7] != 0) {
         *(u16 *)((u8 *)sprite + 0x14) |= 1;
         return;
     }

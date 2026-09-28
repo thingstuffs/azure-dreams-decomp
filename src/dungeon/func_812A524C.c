@@ -814,7 +814,7 @@ check_mode:
         ((S_812A524C_3 *)actor_in)->unk_9D.s = 0;
 add_motion:
         ((S_812A524C_3 *)actor_in)->unk_90.at00.v = (s32) (((S_812A524C_3 *)actor_in)->unk_90.at00.v + ((S_812A524C_37 *)motion_in)->unk_14);
-        facing = ((s32) (gameWork.viewAngle + ((S_812A524C_4 *)entity)->unk_2A + 0x100) >> 9) & 7;
+        facing = ((s32) (gameWork.view.viewAngle + ((S_812A524C_4 *)entity)->unk_2A + 0x100) >> 9) & 7;
         sprite_facing = facing;
         if (((S_812A524C_3 *)actor_in)->unk_94 != sprite_facing) {
             func_80047738(sprite, ((S_812A524C_38 *)sprite)->unk_2C.p[sprite_facing], ((S_812A524C_38 *)sprite)->unk_04.s8);

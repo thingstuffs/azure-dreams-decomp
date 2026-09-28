@@ -138,7 +138,7 @@ void func_80170E7C(void *actor, void *position, void *object, void *actor_data)
         }
         (*(void * *)((u8 *)object + (0x2C))) = D_80174C84;
         func_80047784(object,
-            D_80174C84[((gameWork.viewAngle + ((EntityRec *)actor_data)->facing + 0x100) >> 9) & 7],
+            D_80174C84[((gameWork.view.viewAngle + ((EntityRec *)actor_data)->facing + 0x100) >> 9) & 7],
             0);
         return;
     }
@@ -172,7 +172,7 @@ void func_80170E7C(void *actor, void *position, void *object, void *actor_data)
                 if (((S_80170E7C_2 *)object)->unk_2C != anim_table) {
                     (*(void * *)((u8 *)object + (0x2C))) = anim_table;
                     func_80047784(object,
-                        anim_table[((gameWork.viewAngle + ((EntityRec *)actor_data)->facing + 0x100) >> 9) & 7],
+                        anim_table[((gameWork.view.viewAngle + ((EntityRec *)actor_data)->facing + 0x100) >> 9) & 7],
                         0);
                 }
                 ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = idle_state;
@@ -192,7 +192,7 @@ void func_80170E7C(void *actor, void *position, void *object, void *actor_data)
             func_80173F20(actor, position, object, actor_data);
             (*(void * *)((u8 *)object + (0x2C))) = D_80174C34;
             func_80047784(object,
-                D_80174C34[((gameWork.viewAngle + ((EntityRec *)actor_data)->facing + 0x100) >> 9) & 7],
+                D_80174C34[((gameWork.view.viewAngle + ((EntityRec *)actor_data)->facing + 0x100) >> 9) & 7],
                 0);
             return;
         }
@@ -317,7 +317,7 @@ generic:
         (((S_80170E7C_2 *)object)->unk_2C != D_80174C34)) {
         (*(void * *)((u8 *)object + (0x2C))) = anim_table;
         func_80047784(object,
-            anim_table[((gameWork.viewAngle + ((EntityRec *)actor_data)->facing + 0x100) >> 9) & 7],
+            anim_table[((gameWork.view.viewAngle + ((EntityRec *)actor_data)->facing + 0x100) >> 9) & 7],
             0);
         ((Rec_func_800A9E70_arg0 *)actor)->unk_AA = 1;
     } else if (((S_80170E7C_2 *)object)->unk_14 & 0x6000) {
@@ -336,7 +336,7 @@ generic:
         ((S_80170E7C_2 *)object)->unk_2C = next_anim;
         func_80047784(object,
             ((u8 *)*(u8 * volatile *)((u8 *)object + 0x2C))[
-                ((gameWork.viewAngle + ((EntityRec *)actor_data)->facing + 0x100) >> 9) & 7],
+                ((gameWork.view.viewAngle + ((EntityRec *)actor_data)->facing + 0x100) >> 9) & 7],
             0);
     }
 

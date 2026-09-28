@@ -8,6 +8,6 @@ void func_800C1ABC(void) {
     GameWork *state = &gameWork;
 
     if (D_8006ADD4[0] == 0x3E000C) {
-        state->unk_0C4 = -0x240;
+        state->view.unk_0AC = -0x240;
     }
 }

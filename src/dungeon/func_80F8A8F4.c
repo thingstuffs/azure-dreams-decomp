@@ -57,7 +57,7 @@ void func_801740F4(void *work, void *part_a, void *part_b, void *actor) {
         table_base = D_80174B0C;
         ((EntityRec *)actor)->target = field_60;
         (*(u8 **)((u8 *)part_b + 0x2C)) = table_base;
-        func_80047784(part_b, table_base[((s32)(gameWork.viewAngle + (s16)((u16)((EntityRec *)actor)->facing) + 0x100) >> 9) & 7], 0);
+        func_80047784(part_b, table_base[((s32)(gameWork.view.viewAngle + (s16)((u16)((EntityRec *)actor)->facing) + 0x100) >> 9) & 7], 0);
         ((EntityRec *)actor)->unk_6D = (u8)(((u8)((EntityRec *)actor)->unk_6D) - 1);
         dungeonStatus.unk_0A = (u16)(((u16)dungeonStatus.unk_0A) + 1);
         raw_result = func_800990FC();

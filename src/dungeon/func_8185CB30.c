@@ -79,7 +79,7 @@ void func_8185CB30(S_8185CB30_0 *motion, S_8185CB30_2 *position, Rec_D_80082E80 
                      (s16)motion->unk_20) >> 8));
     object->unk_1A.as_s16 =
         (s16)((s32)(0 - ((func_80064584((s16)motion->unk_1C -
-                                      angle_table->viewAngle) >> 4) << 8)) >> 8);
+                                      angle_table->view.viewAngle) >> 4) << 8)) >> 8);
     func_800478B8(object);
     if (object->unk_14.at00_u16.v & 0x6000) {
         func_8003DB94(object, D_800DEAE0, 0);

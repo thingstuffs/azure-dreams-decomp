@@ -143,16 +143,16 @@ wait_for_transition:
     result_or_state = ((S_80024064_0 *)transition)->unk_0A.p;
     goto increment_loaded;
 restore_levels:
-    levels->unk_0A9 = (u8) (levels->unk_0A9 + ((s32) (0x80 - levels->unk_0A9) / (s16) ((S_80024064_0 *)transition)->unk_1A));
+    levels->view.unk_091 = (u8) (levels->view.unk_091 + ((s32) (0x80 - levels->view.unk_091) / (s16) ((S_80024064_0 *)transition)->unk_1A));
     restore_frames = ((S_80024064_0 *)transition)->unk_1A;
-    levels->unk_0A8 = (u8) (levels->unk_0A8 + ((s32) (0x80 - levels->unk_0A8) / restore_frames));
+    levels->view.unk_090 = (u8) (levels->view.unk_090 + ((s32) (0x80 - levels->view.unk_090) / restore_frames));
     restore_left = (u16) ((S_80024064_0 *)transition)->unk_1A - 1;
     ((S_80024064_0 *)transition)->unk_1A = restore_left;
     if ((restore_left << 0x10) > 0) {
         goto update_dimming;
     }
-    levels->unk_0A9 = 0x80U;
-    levels->unk_0A8 = 0x80U;
+    levels->view.unk_091 = 0x80U;
+    levels->view.unk_090 = 0x80U;
 increment_state:
     result_or_state = ((S_80024064_0 *)transition)->unk_0A.p;
 increment_loaded:
@@ -171,8 +171,8 @@ update_dimming:
     if (((S_80024064_0 *)transition)->unk_20 >= 0) {
         goto clear_input;
     }
-    levels->unk_0A9 = (u8) (levels->unk_0A9 + ((s32) (0x20 - levels->unk_0A9) / (s16) ((S_80024064_0 *)transition)->unk_22));
-    levels->unk_0A8 = (u8) (levels->unk_0A8 + ((s32) (0x20 - levels->unk_0A8) / (s16) ((S_80024064_0 *)transition)->unk_22));
+    levels->view.unk_091 = (u8) (levels->view.unk_091 + ((s32) (0x20 - levels->view.unk_091) / (s16) ((S_80024064_0 *)transition)->unk_22));
+    levels->view.unk_090 = (u8) (levels->view.unk_090 + ((s32) (0x20 - levels->view.unk_090) / (s16) ((S_80024064_0 *)transition)->unk_22));
     dim_left = (u16) ((S_80024064_0 *)transition)->unk_22 - 1;
     ((S_80024064_0 *)transition)->unk_22 = dim_left;
     if ((dim_left << 0x10) > 0) {

@@ -326,7 +326,7 @@ jt_c4:
         goto update_height;
 jt_c6:
         ((S_80171D74_5 *)sprite_in)->unk_2C.p = &D_80173DAC;
-        func_80047784(sprite_in, D_80173DAC[((s32) (((S_80171D74_6 *)((s16 *)(&gameWork.viewAngle)))->unk_00 + (s16) owner_state->unk_2A.n + 0x100) >> 9) & 7], 3);
+        func_80047784(sprite_in, D_80173DAC[((s32) (((S_80171D74_6 *)((s16 *)(&gameWork.view.viewAngle)))->unk_00 + (s16) owner_state->unk_2A.n + 0x100) >> 9) & 7], 3);
         ((S_80171D74_1 *)state_in)->unk_96 = 0U;
         ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
         ((S_80171D74_3 *)motion_in)->unk_0C.n = (s32) 0x00020000;
@@ -379,7 +379,7 @@ jt_c10:
             owner_state->unk_2A.n = angle_input_m;
             ((S_80171D74_1 *)state_in)->unk_94 = 1;
             ((S_80171D74_5 *)sprite_in)->unk_2C.p = &D_80173DB4;
-            func_80047784(sprite_in, D_80173DB4[((s32) (((S_80171D74_6 *)((s16 *)(&gameWork.viewAngle)))->unk_00 + (s16) owner_state->unk_2A.n + 0x100) >> 9) & 7], 0);
+            func_80047784(sprite_in, D_80173DB4[((s32) (((S_80171D74_6 *)((s16 *)(&gameWork.view.viewAngle)))->unk_00 + (s16) owner_state->unk_2A.n + 0x100) >> 9) & 7], 0);
             direction_base = (u8 *)&direction_table;
             ((S_80171D74_3 *)motion_in)->unk_0C.n = (s32) (0 - (SP2_X_AT(direction_base, owner_state->unk_2A.n) << 0x10));
             ((S_80171D74_3 *)motion_in)->unk_10.n = (void *) (0 - (SP2_Y_AT(direction_base, owner_state->unk_2A.n) << 0x10));
@@ -446,7 +446,7 @@ jt_c16:
             ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
             ((S_80171D74_10 *)(D_80175DB8[0]))->unk_32 = 3;
             ((S_80171D74_5 *)sprite_in)->unk_2C.p = &D_80173DA4;
-            func_80047784(sprite_in, D_80173DA4[((s32) (((S_80171D74_6 *)((s16 *)(&gameWork.viewAngle)))->unk_00 + (s16) owner_state->unk_2A.n + 0x100) >> 9) & 7], 0);
+            func_80047784(sprite_in, D_80173DA4[((s32) (((S_80171D74_6 *)((s16 *)(&gameWork.view.viewAngle)))->unk_00 + (s16) owner_state->unk_2A.n + 0x100) >> 9) & 7], 0);
             angle_input_m = owner_state->unk_2A.n;
             angle_tmp = angle_input_m + 0x200;
             angle_input_m = angle_tmp;
@@ -604,7 +604,7 @@ jt_c24:
             ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
             ((S_80171D74_5 *)sprite_in)->unk_2C.p = &D_80173DA4;
             ((S_80171D74_5 *)sprite_in)->unk_14 = (u16) (((S_80171D74_5 *)sprite_in)->unk_14 & 0xF7FF);
-            func_80047784(sprite_in, D_80173DA4[((s32) (((S_80171D74_6 *)((s16 *)(&gameWork.viewAngle)))->unk_00 + (s16) owner_state->unk_2A.n + 0x100) >> 9) & 7], 0);
+            func_80047784(sprite_in, D_80173DA4[((s32) (((S_80171D74_6 *)((s16 *)(&gameWork.view.viewAngle)))->unk_00 + (s16) owner_state->unk_2A.n + 0x100) >> 9) & 7], 0);
             direction_base = (u8 *)&direction_table;
             ((S_80171D74_3 *)motion_in)->unk_0C.n = (s32) (SP2_X_AT(direction_base, owner_state->unk_2A.n) << 0x14);
             ((S_80171D74_3 *)motion_in)->unk_10.n = (s32) (SP2_Y_AT(direction_base, owner_state->unk_2A.n) << 0x14);
@@ -686,7 +686,7 @@ jt_c32:
         if (turn_value == 0x1A) {
             ((S_80171D74_5 *)sprite_in)->unk_2C.p = &D_80173DA4;
             ((S_80171D74_5 *)sprite_in)->unk_14 = (u16) (((S_80171D74_5 *)sprite_in)->unk_14 & 0xF7FF);
-            func_80047784(sprite_in, D_80173DA4[((s32) (((S_80171D74_6 *)((s16 *)(&gameWork.viewAngle)))->unk_00 + (s16) owner_state->unk_2A.n + 0x100) >> 9) & 7], 0);
+            func_80047784(sprite_in, D_80173DA4[((s32) (((S_80171D74_6 *)((s16 *)(&gameWork.view.viewAngle)))->unk_00 + (s16) owner_state->unk_2A.n + 0x100) >> 9) & 7], 0);
         }
         if ((s16) ((S_80171D74_1 *)state_in)->unk_96 >= 0x1E) {
             ((S_80171D74_1 *)state_in)->unk_96 = 0U;
@@ -717,7 +717,7 @@ jt_c33:
                 facing_angle = quarter_turn - 0x1000;
             }
             owner_state->unk_2A.n = (u16) facing_angle;
-            func_80047784(sprite_in, *(((S_80171D74_5 *)sprite_in)->unk_2C.p2 + (((s32) (((S_80171D74_6 *)((s16 *)(&gameWork.viewAngle)))->unk_00 + facing_angle + 0x100) >> 9) & 7)), 0);
+            func_80047784(sprite_in, *(((S_80171D74_5 *)sprite_in)->unk_2C.p2 + (((s32) (((S_80171D74_6 *)((s16 *)(&gameWork.view.viewAngle)))->unk_00 + facing_angle + 0x100) >> 9) & 7)), 0);
         }
         goto update_sprite;
 jt_c34: {
@@ -835,7 +835,7 @@ jt_c44:
 jt_c48:
 update_sprite:
     if (D_80175D54[0] != 0) {
-        sprite_dir = ((s32) (((S_80171D74_6 *)((s16 *)(&gameWork.viewAngle)))->unk_00 + (s16) owner_state->unk_2A.n + 0x100) >> 9) & 7;
+        sprite_dir = ((s32) (((S_80171D74_6 *)((s16 *)(&gameWork.view.viewAngle)))->unk_00 + (s16) owner_state->unk_2A.n + 0x100) >> 9) & 7;
         if (((S_80171D74_1 *)state_in)->unk_94 != sprite_dir) {
             func_80047738(sprite_in, *(((S_80171D74_5 *)sprite_in)->unk_2C.p2 + sprite_dir), ((S_80171D74_5 *)sprite_in)->unk_04);
             ((S_80171D74_1 *)state_in)->unk_94 = sprite_dir;

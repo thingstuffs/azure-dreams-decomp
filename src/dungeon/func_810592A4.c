@@ -138,7 +138,7 @@ void func_80170AA4(void *entity_input, void *motion_input, void *part_input)
 
     part_flags = ((S_80170AA4_0 *)part)->unk_14.n;
     if (!(part_flags & 0x8000)) {
-        view_angle = gameWork.viewAngle + ((S_80170AA4_1 *)entity)->unk_2A + 0x100;
+        view_angle = gameWork.view.viewAngle + ((S_80170AA4_1 *)entity)->unk_2A + 0x100;
         state_direction = (view_angle >> 9) & 7;
         previous_direction = (*(s16 *)((u8 *)actor + 0x94));
         direction_index = (u16)state_direction;

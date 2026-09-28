@@ -16,7 +16,7 @@ void func_80171EFC(void *effect, s32 *position, void *sprite, void *source)
     *((s8 *)effect + 0x9B) = 0;
     *(u8 **)((s8 *)sprite + 0x2C) = D_80174158;
     func_80047784(sprite,
-                  D_80174158[((gameWork.viewAngle +
+                  D_80174158[((gameWork.view.viewAngle +
                                *(s16 *)((s8 *)source + 0x2A) + 0x100) >> 9) & 7],
                   0);
     direction_x = dirStepX;

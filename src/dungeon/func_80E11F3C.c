@@ -25,7 +25,7 @@ void func_8017573C(S_8017573C_0 *animation, s32 unused, Rec_D_80082E80 *object) 
     animation->unk_02.s = animation->unk_02.s + 1;
     func_800478B8(object);
     if (object->unk_14.at00_u16.v & 0x6000) {
-        direction_index = gameWork.viewAngle;
+        direction_index = gameWork.view.viewAngle;
         direction_index += animation->unk_04;
         direction_index += 0x100;
         direction_index >>= 9;

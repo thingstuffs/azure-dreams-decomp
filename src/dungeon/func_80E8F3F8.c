@@ -68,7 +68,7 @@ active:
     animation->unk_2C = D_80174F00;
     func_800AD594(entity_arg, 0x200);
     func_80047784(animation,
-        animation->unk_2C[((gameWork.viewAngle + entity->facing + 0x100) >> 9) & 7],
+        animation->unk_2C[((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
         0);
     action->unk_8C = D_801710F4;
     func_800A4ACC(entity);

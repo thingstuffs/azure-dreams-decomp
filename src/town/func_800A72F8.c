@@ -28,23 +28,23 @@ void func_800A4A58(void)
     goto *D_80089110[change_mode];
 
 case_0:
-    channels->unk_0A8 = 0x80;
-    channels->unk_0A9 = 0x80;
-    channels->unk_0AA = 0x80;
+    channels->view.unk_090 = 0x80;
+    channels->view.unk_091 = 0x80;
+    channels->view.unk_092 = 0x80;
     D_80100D94[0] = 0;
     goto done;
 
 case_1:
-    channels->unk_0A8 = 0;
-    channels->unk_0A9 = 0;
-    channels->unk_0AA = 0;
+    channels->view.unk_090 = 0;
+    channels->view.unk_091 = 0;
+    channels->view.unk_092 = 0;
     D_80100D94[0] = 0;
     goto done;
 
 case_2:
-    channels->unk_0A8 = 0x40;
-    channels->unk_0A9 = 0x40;
-    channels->unk_0AA = 0x40;
+    channels->view.unk_090 = 0x40;
+    channels->view.unk_091 = 0x40;
+    channels->view.unk_092 = 0x40;
     D_80100D94[0] = 0;
     goto done;
 
@@ -60,10 +60,10 @@ case_5:
     target_level = 0x40;
 update:
     target_level &= 0xFF;
-    level = func_80094AA0(channels->unk_0A8, target_level, 8);
-    channels->unk_0A8 = level;
-    channels->unk_0A9 = level;
-    channels->unk_0AA = level;
+    level = func_80094AA0(channels->view.unk_090, target_level, 8);
+    channels->view.unk_090 = level;
+    channels->view.unk_091 = level;
+    channels->view.unk_092 = level;
     if ((level & 0xFF) == target_level) {
         D_80100D94[0] = 0;
     }

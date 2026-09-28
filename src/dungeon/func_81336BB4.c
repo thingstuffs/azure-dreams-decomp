@@ -122,7 +122,7 @@ set_base3:
 shared_base:
     if (current_anim_table != anim_table) {
         *(u8 **)(sprite + 0x2C) = anim_table;
-        direction = ((s32)(gameWork.viewAngle + *(s16 *)(actor + 0x2A) + 0x100) >> 9) & 7;
+        direction = ((s32)(gameWork.view.viewAngle + *(s16 *)(actor + 0x2A) + 0x100) >> 9) & 7;
         func_80047784(sprite, *(u8 *)((u32)direction + (u32)anim_table), 0);
     }
     goto advance;

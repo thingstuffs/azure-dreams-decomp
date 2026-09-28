@@ -118,7 +118,7 @@ state_zero:
     }
 zero_setup:
     (*(u8 **)((u8 *)target + 0x2C)) = D_80173AC8;
-    func_80047784(target, D_80173AC8[((gameWork.viewAngle + ((S_8016CC70_2 *)actor)->unk_2A + 0x100) >> 9) & 7], 0);
+    func_80047784(target, D_80173AC8[((gameWork.view.viewAngle + ((S_8016CC70_2 *)actor)->unk_2A + 0x100) >> 9) & 7], 0);
 decrement_counter:
     counter_base = (u8 *)&dungeonStatus.unk_00;
     ((S_8016CC70_3 *)counter_base)->unk_0A--;
@@ -142,7 +142,7 @@ state_one:
 one_setup:
     if (((S_8016CC70_1 *)target)->unk_2C != D_80173AC8) {
         (*(u8 **)((u8 *)target + 0x2C)) = D_80173AC8;
-        func_80047784(target, D_80173AC8[((gameWork.viewAngle + ((S_8016CC70_2 *)actor)->unk_2A + 0x100) >> 9) & 7], 0);
+        func_80047784(target, D_80173AC8[((gameWork.view.viewAngle + ((S_8016CC70_2 *)actor)->unk_2A + 0x100) >> 9) & 7], 0);
     }
 call_check:
     if ((func_80042900(actor, 1) << 0x10) != 0) {
@@ -232,7 +232,7 @@ high_kind:
     }
 update_tiles:
     (*(u8 **)((u8 *)target + 0x2C)) = D_80173AD0;
-    func_80047784(target, D_80173AD0[((gameWork.viewAngle + ((S_8016CC70_2 *)actor)->unk_2A + 0x100) >> 9) & 7], 0);
+    func_80047784(target, D_80173AD0[((gameWork.view.viewAngle + ((S_8016CC70_2 *)actor)->unk_2A + 0x100) >> 9) & 7], 0);
 
 after_tiles:
     if (((S_8016CC70_1 *)target)->unk_14 & 0x8000) {

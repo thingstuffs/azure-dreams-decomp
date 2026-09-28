@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_index_slots.h"
 #include "shared/entity_objects.h"
 
 typedef struct {
@@ -13,7 +14,6 @@ typedef struct {
     s32 object_index;
 } TownState;
 
-extern ObjectEntry D_80082660[];
 extern TownState D_800CFCB4;
 extern s16 D_800D5078[];
 

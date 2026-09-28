@@ -128,7 +128,7 @@ void func_80D653B8(void *unused, S_80D653B8_5 *anchor, Block16 *object_template,
 
             object_data->unk_2C = direction_table;
             func_80047784(object_data,
-                direction_table[((gameWork.viewAngle + facing_source->unk_2A + 0x100) >> 9) & 7],
+                direction_table[((gameWork.view.viewAngle + facing_source->unk_2A + 0x100) >> 9) & 7],
                 0);
         }
 

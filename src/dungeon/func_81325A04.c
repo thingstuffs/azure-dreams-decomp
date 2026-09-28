@@ -225,7 +225,7 @@ restore_animation:
         }
         if (anim_addr != (s32)anim_table) {
             entity->unk_2C = (s32)anim_table;
-            facing = gameWork.viewAngle + actor->unk_2A;
+            facing = gameWork.view.viewAngle + actor->unk_2A;
             func_80047784(entity, *(u8 *)((u32)(((facing + 0x100) >> 9) & 7) + (u32)anim_table), 0);
         }
     }

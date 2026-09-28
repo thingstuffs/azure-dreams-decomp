@@ -28,5 +28,5 @@ void func_80090200(void *arg0, M2C_UNK arg1, void *arg2, void *arg3) {
     data = &D_800DD0E8;
     ((EntityRec *)arg3)->flags1C = (s32) (((EntityRec *)arg3)->flags1C & mask);
     (*(M2C_UNK **)((u8 *)arg2 + 0x2C)) = data;
-    func_80048A44(arg2, *((((s32) (gameWork.viewAngle + ((EntityRec *)arg3)->facing + 0x100) >> 9) & 7) + data), 0, 1);
+    func_80048A44(arg2, *((((s32) (gameWork.view.viewAngle + ((EntityRec *)arg3)->facing + 0x100) >> 9) & 7) + data), 0, 1);
 }

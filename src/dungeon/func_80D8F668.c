@@ -94,7 +94,7 @@ void func_80170E68(Rec_func_800A9E70_arg0 *actor, void *context, void *sprite, E
                 *(u8 **)((u8 *)sprite + 0x2C) = D_8017386C;
                 func_80047784(
                     sprite,
-                    D_8017386C[((gameWork.viewAngle + state->facing + 0x100) >> 9) & 7],
+                    D_8017386C[((gameWork.view.viewAngle + state->facing + 0x100) >> 9) & 7],
                     0);
             }
             actor->unk_9A.as_u8 = 14;
@@ -227,7 +227,7 @@ tail_animation:
         *(u8 **)((u8 *)sprite + 0x2C) = D_8017386C;
         func_80047784(
             sprite,
-            D_8017386C[((gameWork.viewAngle + state->facing + 0x100) >> 9) & 7],
+            D_8017386C[((gameWork.view.viewAngle + state->facing + 0x100) >> 9) & 7],
             0);
     }
 }

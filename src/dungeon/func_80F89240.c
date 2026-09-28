@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/def_table.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -15,7 +16,6 @@ extern void func_800A56E0(s32);
 extern s32 func_800A94A0(void *, u8 *, s32, u16 *);
 extern void func_800DAE44(void *, s32);
 
-extern u8 D_8006DE24[];
 extern u8 D_80170838[16];
 extern u8 D_80171138[];
 extern u8 D_80174AD4[];
@@ -271,7 +271,7 @@ state_two:
     if (((S_80172A40_4 *)actor_input)->unk_2C != D_80174AD4) {
         (*(u8 * *)((u8 *)actor_input + 0x2C)) = D_80174AD4;
         func_80047784(actor_input,
-                      D_80174AD4[((gameWork.viewAngle +
+                      D_80174AD4[((gameWork.view.viewAngle +
                                    ((S_80172A40_1 *)object)->unk_2A + 0x100) >> 9) & 7],
                       ((S_80172A40_0 *)owner_input)->unk_A0);
     }

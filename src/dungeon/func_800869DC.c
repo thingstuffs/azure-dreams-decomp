@@ -94,7 +94,7 @@ void func_8008C13C(void *controller, s32 actor_id, void *actor, void *actor_data
         if ((move_state->flags & 0x80) || (move_result == 1)) {
             if (((Rec_D_80082E80 *)actor)->unk_2C.as_pv != D_800DCFD8) {
                 (*(void * *)((u8 *)actor + 0x2C)) = D_800DCFD8;
-                direction_index = ((gameWork.viewAngle + ((EntityRec *)actor_data)->facing + 0x100) >> 9) & 7;
+                direction_index = ((gameWork.view.viewAngle + ((EntityRec *)actor_data)->facing + 0x100) >> 9) & 7;
                 func_80048A44(actor, D_800DCFD8[direction_index], 0, 1);
             }
             func_80099F70(((EntityRec *)actor_data)->unk_5C);

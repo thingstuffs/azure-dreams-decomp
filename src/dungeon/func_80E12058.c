@@ -85,7 +85,7 @@ void *func_80175858(void *direction_src, Copy24 *initial_data, void *render_src)
         func_80047784(
             render_data,
             D_80176498[
-                ((gameWork.viewAngle + ((S_80175858_1 *)object_state)->unk_04.u + 0x100) >> 9) &
+                ((gameWork.view.viewAngle + ((S_80175858_1 *)object_state)->unk_04.u + 0x100) >> 9) &
                 7],
             0);
         data_dst = ((S_80175858_0 *)object)->unk_08;

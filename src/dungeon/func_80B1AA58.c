@@ -69,7 +69,7 @@ state_0:
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801739E0;
         func_80047784(
             sprite,
-            D_801739E0[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            D_801739E0[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
         ((S_80172258_0 *)jump)->unk_98 |= 8;
         ((EntityRec *)motion)->flags14 = 0xFFEE0000;
@@ -118,7 +118,7 @@ state_2:
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801739E8;
         func_80047784(
             sprite,
-            D_801739E8[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            D_801739E8[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
         ((S_80172258_0 *)jump)->unk_9B++;
     }

@@ -92,7 +92,7 @@ void func_80024550(S_80024550_4 *origin)
         render_data->unk_14 |= 0xC;
         render_data->unk_1A =
             (s32)(0 - ((func_80064584(effect_state->unk_08 -
-                                      scene_state->viewAngle) >> 4) << 8)) >> 8;
+                                      scene_state->view.viewAngle) >> 4) << 8)) >> 8;
         func_8004491C(effect, func_80045340);
         position = ((S_80024550_0 *)effect)->unk_08;
         position->unk_02 = origin->unk_02 +

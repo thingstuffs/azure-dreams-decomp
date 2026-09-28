@@ -44,11 +44,6 @@ typedef struct S_800B7D74_3 {
     s16 unk_1E;
 } S_800B7D74_3;   /* temp_s0 in func_800B7D74 */
 
-typedef struct S_800B7D74_4 {
-    u8 pad_00[0xB0];
-    s16 unk_B0;
-} S_800B7D74_4;   /* global in func_800B7D74 */
-
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern void *D_80089340[];
@@ -78,7 +73,7 @@ extern M2C_UNK D_800B7C14;
 /* Spawns an effect at the given position with variant-specific graphics and randomized motion. */
 void func_800B7D74(s32 pos_x, s32 pos_y, s32 pos_z, u32 variant) {
     static void *const jt_keep[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4 };
-    struct S_80083178 *game_state = ((void *)&gameWork.unk_018);
+    GameView *game_state = &gameWork.view;
     s32 velocity_y;
     S_800B7D74_3 *sprite;
     S_800B7D74_1 *motion;
@@ -111,29 +106,29 @@ jt_c0:
 jt_c1:
     sprite->unk_08 = &D_8006E24C;
     motion->unk_16 = (s16) (-0x10 - (rand() & 0xF));
-    motion->unk_0C.at00.v = (s32) (func_80064584(((S_800B7D74_4 *)game_state)->unk_B0 - 0x300) << 7);
-    motion->unk_10.at00.v = (s32) (func_800644B8(((S_800B7D74_4 *)game_state)->unk_B0 - 0x300) << 7);
+    motion->unk_0C.at00.v = (s32) (func_80064584(game_state->viewAngle - 0x300) << 7);
+    motion->unk_10.at00.v = (s32) (func_800644B8(game_state->viewAngle - 0x300) << 7);
     goto block_6;
     goto block_6;
 jt_c2:
     sprite->unk_08 = &D_8006E258;
     motion->unk_16 = (s16) (-8 - (rand() & 0xF));
-    motion->unk_0C.at00.v = (s32) (func_80064584(((S_800B7D74_4 *)game_state)->unk_B0 + 0x500) << 7);
-    motion->unk_10.at00.v = (s32) (func_800644B8(((S_800B7D74_4 *)game_state)->unk_B0 + 0x500) << 7);
+    motion->unk_0C.at00.v = (s32) (func_80064584(game_state->viewAngle + 0x500) << 7);
+    motion->unk_10.at00.v = (s32) (func_800644B8(game_state->viewAngle + 0x500) << 7);
 block_6:
     effect_data->unk_12 = 1;
     goto block_10;
 jt_c3:
     effect_data->unk_08 = &D_8006E51C;
     func_8003DB94(sprite, &D_8006E51C, 0);
-    motion->unk_0C.at00.v = (s32) (func_80064584(((S_800B7D74_4 *)game_state)->unk_B0) << 7);
-    velocity_y = func_800644B8(((S_800B7D74_4 *)game_state)->unk_B0) << 7;
+    motion->unk_0C.at00.v = (s32) (func_80064584(game_state->viewAngle) << 7);
+    velocity_y = func_800644B8(game_state->viewAngle) << 7;
     goto block_9;
 jt_c4:
     effect_data->unk_08 = &D_8006E57C;
     func_8003DB94(sprite, &D_8006E57C, 0);
-    motion->unk_0C.at00.v = (s32) ((0 - func_80064584(((S_800B7D74_4 *)game_state)->unk_B0)) << 7);
-    velocity_y = (0 - func_800644B8(((S_800B7D74_4 *)game_state)->unk_B0)) << 7;
+    motion->unk_0C.at00.v = (s32) ((0 - func_80064584(game_state->viewAngle)) << 7);
+    velocity_y = (0 - func_800644B8(game_state->viewAngle)) << 7;
 block_9:
     motion->unk_10.at00.v = velocity_y;
     motion->unk_16 = (s16) (-0xC - (rand() & 0xF));

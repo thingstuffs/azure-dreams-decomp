@@ -79,7 +79,7 @@ void func_80170A94(void *actor_input, void *motion_input, void *sprite_input)
     *((u8 *) (((u8 *) actor) + 0x9D)) = 0;
   }
   *((s32 *) (((u8 *) actor) + 0x90)) += *((s32 *) (((u8 *) motion) + 0x14));
-  view_direction = ((gameWork.viewAngle + (*((s16 *) (((u8 *) actor_base) + 0x2A)))) + 0x100) >> 9;
+  view_direction = ((gameWork.view.viewAngle + (*((s16 *) (((u8 *) actor_base) + 0x2A)))) + 0x100) >> 9;
   bob_step = view_direction & 7;
   direction_index = bob_step;
   if ((*((s16 *) (((u8 *) actor) + 0x94))) != direction_index)

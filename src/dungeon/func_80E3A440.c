@@ -44,7 +44,7 @@ void func_80173C40(void *action, void *unused, void *animation, void *entity) {
         ((S_80173C40_2 *)action)->unk_8C = 0;
         *(u8 **)((u8 *)animation + 0x2C) = D_80176670;
 
-        direction = ((gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7;
+        direction = ((gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7;
         func_80047784(animation, D_80176670[direction], 0);
 
         ((S_80173C40_2 *)action)->unk_96 = 0;

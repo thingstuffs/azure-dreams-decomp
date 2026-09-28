@@ -383,7 +383,7 @@ update_audio:
             angle_step = effect_angle - 8;
         }
         effect_data[2] = (s16) angle_step;
-        gameWork.unk_154 = 0;
+        gameWork.view.slot[2].callback = 0;
         func_8004D7A8(1);
         func_8004D294(0, (s16 *)((u8 *)&D_800DCF4F - 0xEF), 2);
     }
@@ -585,7 +585,7 @@ after_status_or:
         if (!((*(u16 *)0x80013714) & 8) && (!(dungeonStatus.flags & 4) || (((S_80089AA0_6 *)(&D_800E296C))->unk_00 & 0x40) || ((*(u8 *)((u8 *)linked_actor + 0x9A)) == 0x17))) {
             D_800E296C = (s32)(D_800E296C & ~0x40);
             if ((func_800C77D0(actor - 0x20, motion_or_count, 8, D_800DCE60[3]) << 0x10) != 0) {
-                gameWork.unk_154 = 0;
+                gameWork.view.slot[2].callback = 0;
                 func_8004D7A8(1);
                 func_8004D294(0, D_800DCE60, 2);
                 goto update_sprite;
@@ -612,7 +612,7 @@ run_actor_callbacks:
         update_callback(linked_actor, motion_or_count, sprite_or_root, actor);
     }
     D_800DD168[(*(u8 *)((u8 *)linked_actor + 0x9A))](linked_actor, motion_or_count, sprite_or_root, actor);
-    facing = ((s32) (gameWork.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7;
+    facing = ((s32) (gameWork.view.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7;
     if ((*(s16 *)((u8 *)linked_actor + 0x94)) != facing) {
         if ((func_80042900(actor, 0xA) << 0x10) != 0) {
             func_8003DB94(sprite_or_root, ((void **)((S_80089AA0_16 *)sprite_or_root)->unk_2C)[facing], ((S_80089AA0_16 *)sprite_or_root)->unk_04);

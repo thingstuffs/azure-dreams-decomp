@@ -90,7 +90,7 @@ void func_801713A8(void *actor, void *context, void *sprite, void *status)
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801744EC;
         func_80047784(
             sprite,
-            D_801744EC[((gameWork.viewAngle + ((EntityRec *)status)->facing + 0x100) >> 9) & 7],
+            D_801744EC[((gameWork.view.viewAngle + ((EntityRec *)status)->facing + 0x100) >> 9) & 7],
             0);
         return;
     }
@@ -124,7 +124,7 @@ void func_801713A8(void *actor, void *context, void *sprite, void *status)
             (*(u8 * *)((u8 *)sprite + 0x2C)) = D_8017449C;
             func_80047784(
                 sprite,
-                D_8017449C[((gameWork.viewAngle + ((EntityRec *)status)->facing + 0x100) >> 9) & 7],
+                D_8017449C[((gameWork.view.viewAngle + ((EntityRec *)status)->facing + 0x100) >> 9) & 7],
                 ((Rec_func_800A9E70_arg0 *)actor)->unk_A8);
         }
 

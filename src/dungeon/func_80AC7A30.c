@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/def_table.h"
 #include "shared/object_node.h"
 #include "shared/record_ptrs.h"
 #include "shared/slus_callbacks.h"
@@ -23,7 +24,6 @@ extern void func_800A4ACC(void *);
 extern void func_800A56E0(s32);
 extern s32 func_800A94A0(void *, u8 *, s32, void *);
 
-extern u8 D_8006DE24[];
 extern void *D_80170850[];
 extern void *D_80170868[];
 extern u8 D_80171020[];
@@ -391,7 +391,7 @@ state_4:
 
             animations = D_80174DEC;
             (*(u8 * *)((u8 *)sprite + 0x2C)) = animations;
-            direction = ((gameWork.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7;
+            direction = ((gameWork.view.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7;
             func_80047784(sprite, animations[direction], 0);
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
         }

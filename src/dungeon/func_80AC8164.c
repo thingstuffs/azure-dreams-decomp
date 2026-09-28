@@ -155,7 +155,7 @@ state_3:
         (*(void * *)((u8 *)actor + 0x2C)) = D_80174DEC;
         func_80047784(
             actor,
-            D_80174DEC[((gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
+            D_80174DEC[((gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
             0);
     }
     tracked_entity = ((s32)dungeonStatus.unk_10);

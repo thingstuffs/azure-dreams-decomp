@@ -5,12 +5,12 @@
 /* Increments three state bytes while the first is below 0x80, otherwise sets flag bits. */
 s32 func_8016ABC8(u16 *words)
 {
-    u8 state_value = gameWork.unk_0A8;
+    u8 state_value = gameWork.view.unk_090;
 
     if (state_value < 0x80U) {
-        gameWork.unk_0A8 = state_value + 4;
-        gameWork.unk_0A9 += 4;
-        gameWork.unk_0AA += 4;
+        gameWork.view.unk_090 = state_value + 4;
+        gameWork.view.unk_091 += 4;
+        gameWork.view.unk_092 += 4;
         return;
     }
 

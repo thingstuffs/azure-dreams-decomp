@@ -185,7 +185,7 @@ pause_complete:
     goto block_97;
 jt_c5:
     *(u8 **)((u8 *)sprite + 0x2C) = D_80174C8C;
-    func_80047784(sprite, D_80174C8C[((s32) (gameWork.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
+    func_80047784(sprite, D_80174C8C[((s32) (gameWork.view.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
     func_800A56E0(0x801);
     actor->unk_96 = 0U;
     actor->unk_9A = (u8) (actor->unk_9A + 1);
@@ -200,7 +200,7 @@ jt_c6:
         goto block_97;
     }
     *(u8 **)((u8 *)sprite + 0x2C) = D_80174C64;
-    func_80047784(sprite, D_80174C64[((s32) (gameWork.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
+    func_80047784(sprite, D_80174C64[((s32) (gameWork.view.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
     {
         void *case6_a0 = actor;   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
         void *saved_motion = motion;
@@ -237,7 +237,7 @@ jt_c9:
     }
     actor->unk_9A = (u8) (actor->unk_9A + 1);
     *(u8 **)((u8 *)sprite + 0x2C) = D_80174C6C;
-    func_80047784(sprite, D_80174C6C[((s32) (gameWork.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
+    func_80047784(sprite, D_80174C6C[((s32) (gameWork.view.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
     motion->unk_0C.unk_0C = 0xFFF80000;
     actor->unk_B4.s = 5;
     actor->unk_96 = 0x10U;
@@ -288,7 +288,7 @@ path_particles:
     particle_a0 = sprite;
        /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     *(u8 **)((u8 *)sprite + 0x2C) = D_80174C6C;
-    func_80047784(particle_a0, D_80174C6C[((s32) (gameWork.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
+    func_80047784(particle_a0, D_80174C6C[((s32) (gameWork.view.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
     path_particle_count = 0;
     func_800A56E0(0x706);
 loop_31:
@@ -311,7 +311,7 @@ jt_c11:
         goto block_37;
     }
     *(u8 **)((u8 *)sprite + 0x2C) = D_80174C6C;
-    func_80047784(sprite, D_80174C6C[((s32) (gameWork.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
+    func_80047784(sprite, D_80174C6C[((s32) (gameWork.view.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
     end_particle_count = 0;
     func_800A56E0(0x706);
 loop_36:
@@ -427,7 +427,7 @@ jt_c15:
     particle_a0 = sprite;
     particle_color = 0;
     *(u8 **)((u8 *)sprite + 0x2C) = D_80174C6C;
-    sprite_angle_base = gameWork.viewAngle;
+    sprite_angle_base = gameWork.view.viewAngle;
     sprite_angle_delta = beldo->unk_2A.s;
     func_80047784(particle_a0, D_80174C6C[((s32) (sprite_angle_base + sprite_angle_delta + 0x100) >> 9) & 7], particle_color);
     wait_particle_count = particle_color;
@@ -487,7 +487,7 @@ block_74:
     particle_a0 = sprite;
     particle_color = 0;
     *(u8 **)((u8 *)sprite + 0x2C) = D_80174C6C;
-    sprite_angle_base = gameWork.viewAngle;
+    sprite_angle_base = gameWork.view.viewAngle;
     sprite_angle_delta = beldo->unk_2A.s;
     func_80047784(particle_a0, D_80174C6C[((s32) (sprite_angle_base + sprite_angle_delta + 0x100) >> 9) & 7], particle_color);
     move_particle_count = particle_color;
@@ -550,7 +550,7 @@ jt_c18:
     actor->unk_9A = (u8) (actor->unk_9A + 1);
     func_80172A14(actor, motion, sprite);
     *(u8 **)((u8 *)sprite + 0x2C) = D_80174C7C;
-    func_80047784(sprite, D_80174C7C[((s32) (gameWork.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
+    func_80047784(sprite, D_80174C7C[((s32) (gameWork.view.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
     func_800A56E0(0x800);
 block_90:
     if ((actor->unk_96 & 3) != 1) {
@@ -581,7 +581,7 @@ advance_animation:
     sprite->unk_2C = tail_sprite;
 update_animation:
 #ifdef NON_MATCHING
-    func_80047784(sprite, tail_sprite[((s32) (gameWork.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
+    func_80047784(sprite, tail_sprite[((s32) (gameWork.view.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
 #else
     tail_state = (((s32) (((S_func_8132B8AC_4 *)tail_state)->unk_3228 + beldo->unk_2A.s + 0x100) >> 9) & 7) + (s32) tail_sprite;
     func_80047784(sprite, ((S_func_8132B8AC_5 *)tail_state)->unk_00, 0);
@@ -597,7 +597,7 @@ block_98:
     if (D_80174CE0 == 0) {
         goto block_105;
     }
-    final_direction = ((s32) (gameWork.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7;
+    final_direction = ((s32) (gameWork.view.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7;
     sprite_direction = final_direction;
     if (actor->unk_94 == sprite_direction) {
         goto block_101;

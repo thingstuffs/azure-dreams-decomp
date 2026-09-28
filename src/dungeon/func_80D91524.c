@@ -87,7 +87,7 @@ state_1:
 
     (*(void * *)((u8 *)sprite + 0x2C)) = D_80173874;
     func_80047784(sprite,
-        D_80173874[((gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
+        D_80173874[((gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
         0);
 
     direction_x_table = (s16 *)((s8 *)dirStepX);

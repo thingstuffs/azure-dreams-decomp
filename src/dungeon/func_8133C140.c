@@ -93,7 +93,7 @@ void func_80173140(void) {
         ((S_80173140_4 *)sprite)->unk_25 = (u8) (origin_y + 7);
         func_800A9C18(object, object_attrs, sprite, 0);
         (*(s16 *)((u8 *)st + 0x2A)) = 0xC00;
-        func_80047784(sprite, ((u8 *) ((S_80173140_4 *)sprite)->unk_2C.u)[((s32) (gameWork.viewAngle + 0xD00) >> 9) & 7], 0);
+        func_80047784(sprite, ((u8 *) ((S_80173140_4 *)sprite)->unk_2C.u)[((s32) (gameWork.view.viewAngle + 0xD00) >> 9) & 7], 0);
         ((S_80173140_4 *)sprite)->unk_1E = 0x1000;
         ((S_80173140_4 *)sprite)->unk_1C = 0x1000;
         flag_mask = 0x40000;

@@ -35,7 +35,7 @@ void func_8185CCD4(void *state, void *position, void *sprite)
         (((func_80064584(S16_AT(state, 0x1C)) >> 4) *
           S16_AT(state, 0x20)) >> 8);
     S16_AT(sprite, 0x1A) =
-        (s32)(0 - ((func_80064584(S16_AT(state, 0x1C) - angle_table->viewAngle) >> 4) << 8)) >> 8;
+        (s32)(0 - ((func_80064584(S16_AT(state, 0x1C) - angle_table->view.viewAngle) >> 4) << 8)) >> 8;
 
     func_800478B8(sprite);
     if (U16_AT(sprite, 0x14) & 0x6000) {

@@ -105,7 +105,7 @@ state_0:
 set_ac8_pre:
 set_ac8:
     (*(u8 * *)((u8 *)object + 0x2C)) = D_80173AC8;
-    direction_index = (gameWork.viewAngle + ((S_8016D0FC_3 *)actor)->unk_2A + 0x100) >> 9;
+    direction_index = (gameWork.view.viewAngle + ((S_8016D0FC_3 *)actor)->unk_2A + 0x100) >> 9;
     func_80047784(object, D_80173AC8[direction_index & 7], 0);
     goto increment_state;
 
@@ -128,7 +128,7 @@ maybe_set_ac8:
     expected_table = D_80173AC8;
     if (current_table != expected_table) {
         (*(u8 * *)((u8 *)object + 0x2C)) = expected_table;
-        direction_index = (gameWork.viewAngle + ((S_8016D0FC_3 *)actor)->unk_2A + 0x100) >> 9;
+        direction_index = (gameWork.view.viewAngle + ((S_8016D0FC_3 *)actor)->unk_2A + 0x100) >> 9;
         func_80047784(object, expected_table[direction_index & 7], 0);
     }
 after_ac8:
@@ -193,7 +193,7 @@ kind_ge_15:
     }
 set_ad0:
     (*(u8 * *)((u8 *)object + 0x2C)) = D_80173AD0;
-    direction_index = (gameWork.viewAngle + ((S_8016D0FC_3 *)actor)->unk_2A + 0x100) >> 9;
+    direction_index = (gameWork.view.viewAngle + ((S_8016D0FC_3 *)actor)->unk_2A + 0x100) >> 9;
     func_80047784(object, D_80173AD0[direction_index & 7], 0);
 increment_counter_pre:
 increment_counter:

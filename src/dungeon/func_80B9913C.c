@@ -240,7 +240,7 @@ state_2:
 
         direction_frames = D_80174EE0;
         (*(u8 * *)((u8 *)sprite + 0x2C)) = direction_frames;
-        direction = ((gameWork.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7;
+        direction = ((gameWork.view.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7;
         func_80047784(sprite, direction_frames[direction], 0);
     }
     {

@@ -32,7 +32,7 @@ s32 func_800C77D0(s32 slot_id, void *target, s32 target_id, s16 slot_value) {
         return 0;
     }
 
-    state = (u8 *)(&gameWork.unk_018);
+    state = (u8 *)(&gameWork.view);
     slot = state + 0xB8;
     previous_target = *(void **)(slot + 0xC);
     *(s32 *)(slot + 0x34) = slot_id;

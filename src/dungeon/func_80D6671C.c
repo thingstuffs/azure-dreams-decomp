@@ -120,7 +120,7 @@ void func_80171F1C(void *motion_arg, void *actor_index_arg, void *actor_arg, voi
         anim_table = D_800E23A0;
         (*(void * *)((u8 *)actor_arg + (0x2C))) = anim_table;
         func_80047784(actor_arg,
-            ((u8 *)anim_table)[((gameWork.viewAngle + ((EntityRec *)move_data)->facing + 0x100) >> 9) & 7],
+            ((u8 *)anim_table)[((gameWork.view.viewAngle + ((EntityRec *)move_data)->facing + 0x100) >> 9) & 7],
             0);
         return;
     }
@@ -158,7 +158,7 @@ void func_80171F1C(void *motion_arg, void *actor_index_arg, void *actor_arg, voi
             if (current_anim != anim_table) {
                 (*(void * *)((u8 *)actor_arg + (0x2C))) = anim_table;
                 func_80047784(actor_arg,
-                    ((u8 *)anim_table)[((gameWork.viewAngle + ((EntityRec *)move_data)->facing + 0x100) >> 9) & 7],
+                    ((u8 *)anim_table)[((gameWork.view.viewAngle + ((EntityRec *)move_data)->facing + 0x100) >> 9) & 7],
                     0);
                 ((S_80171F1C_2 *)actor_arg)->unk_05 = 1;
                 ((S_80171F1C_0 *)motion_arg)->unk_A2.s = 0;

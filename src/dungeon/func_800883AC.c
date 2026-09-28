@@ -30,7 +30,7 @@ void func_8008DB0C(void *obj, s32 unused, void *display, s32 mode, u16 variant) 
     saved_mode = mode;
     func_80048A44(
         display,
-        direction_table[((gameWork.viewAngle + ((Rec_func_8008ACDC_arg0 *)obj)->unk_2A + 0x100) >> 9) & 7],
+        direction_table[((gameWork.view.viewAngle + ((Rec_func_8008ACDC_arg0 *)obj)->unk_2A + 0x100) >> 9) & 7],
         0,
         1);
 

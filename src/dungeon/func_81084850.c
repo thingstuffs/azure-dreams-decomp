@@ -105,7 +105,7 @@ s32 func_80172050(void *action_out, s32 action_param, void *actor_info, void *ac
     direction_table = &D_80175F48;
     (*(void * *)((u8 *)actor_info + 0x2C)) = direction_table;
     func_80047784(actor_info,
-        direction_table[((gameWork.viewAngle + ((S_80172050_0 *)acting_actor)->unk_2A + 0x100) >> 9) & 7],
+        direction_table[((gameWork.view.viewAngle + ((S_80172050_0 *)acting_actor)->unk_2A + 0x100) >> 9) & 7],
         0);
     ((S_80172050_3 *)acting_actor)->unk_6D--;
     func_8009C93C(acting_actor, actor_info, ((S_80172050_3 *)acting_actor)->unk_2A, 1, 0);

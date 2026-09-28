@@ -218,7 +218,7 @@ void func_80170F6C(void *arg0, void *arg1, void *arg2, void *arg3)
                 if (((S_80170F6C_2 *)arg2)->unk_2C != D_80175258) {
                     ((S_80170F6C_2 *)arg2)->unk_2C = D_80175258;
                     func_80047784(arg2,
-                        D_80175258[((gameWork.viewAngle + ((S_80170F6C_1 *)arg3)->unk_2A.s + 0x100) >> 9) & 7],
+                        D_80175258[((gameWork.view.viewAngle + ((S_80170F6C_1 *)arg3)->unk_2A.s + 0x100) >> 9) & 7],
                         0);
                 }
                 ((S_80170F6C_0 *)arg0)->unk_9A = state;
@@ -268,7 +268,7 @@ sw1_case1: {
                     ((S_80170F6C_0 *)arg0)->unk_A8.u++;
                     ((S_80170F6C_2 *)arg2)->unk_2C = D_801752A0;
                     func_80047784(arg2,
-                        D_801752A0[((gameWork.viewAngle + ((S_80170F6C_1 *)arg3)->unk_2A.s + 0x100) >> 9) & 7],
+                        D_801752A0[((gameWork.view.viewAngle + ((S_80170F6C_1 *)arg3)->unk_2A.s + 0x100) >> 9) & 7],
                         0);
                     ((S_80170F6C_0 *)arg0)->unk_A6 = 0;
                     goto epilogue;
@@ -383,7 +383,7 @@ sw1_case4: {
                     ((S_80170F6C_1 *)arg3)->unk_2A.s = ((S_80170F6C_0 *)arg0)->unk_AA;
                     ((S_80170F6C_2 *)arg2)->unk_2C = D_80175258;
                     func_80047784(arg2,
-                        D_80175258[((gameWork.viewAngle + ((S_80170F6C_1 *)arg3)->unk_2A.s + 0x100) >> 9) & 7],
+                        D_80175258[((gameWork.view.viewAngle + ((S_80170F6C_1 *)arg3)->unk_2A.s + 0x100) >> 9) & 7],
                         0);
                     ((S_80170F6C_0 *)arg0)->unk_A8.u = 0;
                     goto epilogue;
@@ -523,7 +523,7 @@ post_compare:
             u32 post_index;
 
             ((S_80170F6C_2 *)arg2)->unk_2C = post_table;
-            post_index = ((gameWork.viewAngle +
+            post_index = ((gameWork.view.viewAngle +
                 ((S_80170F6C_1 *)arg3)->unk_2A.s + 0x100) >> 9) & 7;
             func_80047784(arg2,
                 *(u8 *)((unsigned long)post_index +

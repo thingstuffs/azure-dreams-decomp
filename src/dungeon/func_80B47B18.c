@@ -34,9 +34,9 @@ void func_80175318(void *entity_data, void *unused, void *source_data)
             return;
         }
     } else {
-        colors->unk_0A8 += (0x80 - colors->unk_0A8) / *(s16 *)(entity + 0x96);
-        colors->unk_0A9 += (0x80 - colors->unk_0A9) / *(s16 *)(entity + 0x96);
-        colors->unk_0AA += (0x80 - colors->unk_0AA) / *(s16 *)(entity + 0x96);
+        colors->view.unk_090 += (0x80 - colors->view.unk_090) / *(s16 *)(entity + 0x96);
+        colors->view.unk_091 += (0x80 - colors->view.unk_091) / *(s16 *)(entity + 0x96);
+        colors->view.unk_092 += (0x80 - colors->view.unk_092) / *(s16 *)(entity + 0x96);
 
         fade_ticks = *(u16 *)(entity + 0x96) - 1;
         *(u16 *)(entity + 0x96) = fade_ticks;

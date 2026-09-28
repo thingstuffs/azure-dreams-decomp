@@ -36,13 +36,13 @@ void func_80167720(void *state_arg, void *context, void *sprite_arg, void *actor
             return;
         }
         *(void **)((u8 *)sprite + 0x2C) = D_8016A2C8;
-        func_80047784(sprite, D_8016A2C8[((gameWork.viewAngle + *(s16 *)((u8 *)actor + 0x2A) + 0x100) >> 9) & 7], 0);
+        func_80047784(sprite, D_8016A2C8[((gameWork.view.viewAngle + *(s16 *)((u8 *)actor + 0x2A) + 0x100) >> 9) & 7], 0);
     } else if (active_table == D_8016A360) {
         if (*(s32 *)((u8 *)actor + 0x1C) & 0x208) {
             return;
         }
         *(void **)((u8 *)sprite + 0x2C) = D_8016A328;
-        func_80047784(sprite, D_8016A328[((gameWork.viewAngle + *(s16 *)((u8 *)actor + 0x2A) + 0x100) >> 9) & 7], 0);
+        func_80047784(sprite, D_8016A328[((gameWork.view.viewAngle + *(s16 *)((u8 *)actor + 0x2A) + 0x100) >> 9) & 7], 0);
     } else {
         return;
     }

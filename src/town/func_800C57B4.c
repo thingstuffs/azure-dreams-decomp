@@ -21,7 +21,7 @@ s32 func_800C2F14(s32 angle, s16 divisions) {
 
     result = 0x1000;
     step = (s16)(result / division_count);
-    distance = (angle_data->viewAngle + (step / 2) - angle) & 0xFFF;
+    distance = (angle_data->view.viewAngle + (step / 2) - angle) & 0xFFF;
     distance /= step;
     result = (division_count / 2) < distance;
     return result;

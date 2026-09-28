@@ -115,7 +115,7 @@ block_3:
         goto block_55;
     }
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_801741C4;
-    func_80047784(sprite, *(((u8 *)&D_801741C4) + (((s32) (gameWork.viewAngle + ((EntityRec *)status)->facing + 0x100) >> 9) & 7)), 0);
+    func_80047784(sprite, *(((u8 *)&D_801741C4) + (((s32) (gameWork.view.viewAngle + ((EntityRec *)status)->facing + 0x100) >> 9) & 7)), 0);
     goto block_55;
 block_7:
     if (!(((EntityRec *)status)->flags1C & 0x200)) {
@@ -164,7 +164,7 @@ block_18:
         goto block_20;
     }
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_8017418C;
-    func_80047784(sprite, *(((u8 *)&D_8017418C) + (((s32) (gameWork.viewAngle + ((EntityRec *)status)->facing + 0x100) >> 9) & 7)), 0);
+    func_80047784(sprite, *(((u8 *)&D_8017418C) + (((s32) (gameWork.view.viewAngle + ((EntityRec *)status)->facing + 0x100) >> 9) & 7)), 0);
     ((S_801711A4_2 *)sprite)->unk_05 = 1;
     ((Rec_func_800A9E70_arg0 *)actor)->unk_AE = 0;
     ((Rec_func_800A9E70_arg0 *)actor)->unk_A8 = 0;

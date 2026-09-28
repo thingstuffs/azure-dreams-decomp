@@ -94,7 +94,7 @@ void func_80170EA8(void *actor, void *context, void *sprite, void *entity)
         if (((S_80170EA8_2 *)sprite)->unk_2C != D_80174088) {
             (*(void * *)((u8 *)sprite + (0x2C))) = D_80174080;
             func_80047784(sprite,
-                D_80174080[((gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
+                D_80174080[((gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
                 0);
         }
         return;
@@ -126,7 +126,7 @@ void func_80170EA8(void *actor, void *context, void *sprite, void *entity)
             if (((S_80170EA8_2 *)sprite)->unk_2C != anim_table) {
                 (*(void * *)((u8 *)sprite + (0x2C))) = anim_table;
                 func_80047784(sprite,
-                    anim_table[((gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
+                    anim_table[((gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
                     0);
             }
             ((S_80170EA8_0 *)actor)->unk_9A = next_state;
@@ -294,6 +294,6 @@ ordinary_cleanup:
     }
     (*(void * *)((u8 *)sprite + (0x2C))) = anim_table;
     func_80047784(sprite,
-        *(u8 *)((((gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7) + (u32)anim_table),
+        *(u8 *)((((gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7) + (u32)anim_table),
         0);
 }

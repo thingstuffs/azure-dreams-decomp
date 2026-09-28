@@ -133,7 +133,7 @@ jt_c1:
     ((Rec_D_80082E80 *)model)->unk_8A = (u16) ((Rec_D_80082E80 *)model)->unk_28.at02_u16.v;
     ((Rec_D_80082E80 *)model)->unk_1C.at00_s32.v = (s32) (((Rec_D_80082E80 *)model)->unk_1C.at00_s32.v & 0xFFFBFFFF);
 jt_c2:
-    direction = ((s32) (gameWork.viewAngle + (s16) ((Rec_D_80082E80 *)model)->unk_28.at02_u16.v + 0x100) >> 9) & 7;
+    direction = ((s32) (gameWork.view.viewAngle + (s16) ((Rec_D_80082E80 *)model)->unk_28.at02_u16.v + 0x100) >> 9) & 7;
     if ((*(u8 *)&D_801742E4) == 0) {
         goto turn_model;
     }

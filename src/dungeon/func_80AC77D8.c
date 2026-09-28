@@ -64,7 +64,7 @@ wait_animation:
         (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
         (*(u8 **)((u8 *)sprite + 0x2C)) = D_80174E1C;
         func_80047784(sprite,
-            D_80174E1C[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            D_80174E1C[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
         goto advance_state;
     }

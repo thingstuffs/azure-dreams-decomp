@@ -220,7 +220,7 @@ void func_80172790(void *action, void *motion, void *tile, void *actor)
         if (flags & 0xE000) {
             move_frames = D_80175160;
             (*(void * *)((u8 *)tile + 0x2C)) = move_frames;
-            move_angle = gameWork.viewAngle + ((S_80172790_0 *)actor)->unk_2A.u;
+            move_angle = gameWork.view.viewAngle + ((S_80172790_0 *)actor)->unk_2A.u;
             move_direction = ((move_angle + 0x100) >> 9) & 7;
             func_80047784(tile, move_frames[move_direction], 0);
             ((S_80172790_4 *)motion)->unk_0C = (-x_step) << 0x12;
@@ -318,7 +318,7 @@ advance:
         ((S_80172790_1 *)action)->unk_A8 = 7;
         idle_frames = D_80175148;
         (*(void * *)((u8 *)tile + 0x2C)) = idle_frames;
-        idle_angle = gameWork.viewAngle + ((S_80172790_0 *)actor)->unk_2A.u;
+        idle_angle = gameWork.view.viewAngle + ((S_80172790_0 *)actor)->unk_2A.u;
         idle_direction = ((idle_angle + 0x100) >> 9) & 7;
         func_80047784(tile, idle_frames[idle_direction], 2);
         if (((S_80172790_0 *)actor)->unk_6D == 0) {

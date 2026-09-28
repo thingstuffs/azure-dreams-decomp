@@ -135,7 +135,7 @@ void func_80170B64(void *actor_arg, void *motion_arg, void *sprite_arg)
             ((S_80170B64_1 *)motion)->unk_14;
         sprite_flags = ((S_80170B64_2 *)sprite_arg)->unk_14;
         if (!(sprite_flags & 0x8000)) {
-            view_direction = ((gameWork.viewAngle + ((S_80170B64_3 *)actor_base)->unk_2A + 0x100) >> 9) & 7;
+            view_direction = ((gameWork.view.viewAngle + ((S_80170B64_3 *)actor_base)->unk_2A + 0x100) >> 9) & 7;
             if (((S_80170B64_0 *)actor)->unk_94 != view_direction) {
                 func_80047738(sprite_arg,
                     *(((u8 *)((S_80170B64_2 *)sprite_arg)->unk_2C.p) + view_direction),

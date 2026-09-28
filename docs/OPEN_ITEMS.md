@@ -8,7 +8,6 @@ Newest first within each section. Evidence links point at the record that measur
 
 | # | item | why it matters | next step | evidence |
 |---|---|---|---|---|
-| 2 | game.h `struct S_80083178` overlaps GameWork (gameWork + 0x18) | two types for one object | DECIDED 2026-09-28 (orchestrator, owner delegated): GameWork gets the real sub-struct for gameWork+0x18..0x1DB (header + four 0x44-byte dispatch slots; retail holds that address across calls and passes it as a pointer) as a named member; `gameWork.viewAngle` becomes a member path in 634 rows - its own phase (8); then retire S_80083178 except slus/w_8004D5D0's genuine second declaration; S_80083178State stays (types D_80083CE8) | phase-7 REPORT |
 | 3 | generated Rec_D_800E3D7C.h still used (and Rec_D_800814A8.h by func_810AFA04, func_81324774 - pin-lane rows skipped as busy) by dungeon/func_8133AD74 (reads through a volatile view in the generated header) | EntityRec supersedes it | resolve that row's volatile view, then retire the header | phase-6 REPORT |
 | 4 | apply_names.py refuses data rows | data names are appended to names.tsv by hand in apply scripts | add an `apply_names.py --data` mode | pilot DESIGN |
 | 5 | F0 clone family (11 rows x 6 pins): Astra reproduced retail with discarded colour clamps, self-rejected | 66 pins | OWNER DECISION: accept a visible dead-clamp reconstruction or keep rejecting | evidence/r78_wave1_report.md; work/native_lane/r78_astra_f0/diag/rejected_clamps/ |
@@ -24,13 +23,14 @@ Newest first within each section. Evidence links point at the record that measur
 | 16 | verify.py include_root cannot test a changed header from a lane (the scorer puts -I ROOT/include before the config flags, so the live include wins) | lane proof for header edits needs compiler-output identity against a full include copy (phase 8 tools/listing8.py) | make include_root take precedence (or document the listing8 method in the kit) | phase-8 REPORT |
 | 17 | D_80084808/0A/0C/10 stats group declared at different sizes in 8 SLUS rows | two spellings of one object | recover the group's type | phase-8 REPORT |
 | 18 | 11 D_8006DE24 rows build the address from the table base (struct form misses) | not migrated to DefEntry | a spelling that keeps the base formation | phase-8 REPORT |
-| 20 | stale numbering text after the symbol-dump fix: config/names.tsv evidence column (125 rows say "number N / entry N+1"; true number N+1; names unchanged), include/shared/object_node.h:13 (slot 26 is V_pobj, not V_item_type_data), src/town/func_800C4D18.c:8 (script call 100, not 99) | misleading text | byte-neutral text edits once no landing touches those files | r78_symfix REPORT |
 | 13 | lab.py Python API does not enforce the 60-variant cap | lane efficiency | enforce in the API as well as the CLI | r78_opus_sp11 report |
 
 ## Closed (round 78)
 
 | item | fix | commit |
 |---|---|---|
+| game.h struct S_80083178 overlapped GameWork | GameWork.view sub-structure; S_80083178 retired (3 genuine second declarations keep a local extern) | phase 8 (this commit) |
+| stale numbering text after the symbol-dump fix (names.tsv 125 rows, object_node.h, func_800C4D18.c) | corrected; func_800C4D18 verify-exact, SLUS MATCH | this commit |
 | script symbol dump misparsed (records are name[32] then u32 value; every name had the previous record's value) - reported by the owner's script decoder | tools/evidence.py parse fixed; call number n = entry n (no +1); proven by 836 compiled call sites (docs/evidence/script_call_sites_20260928.*); outputs regenerated with dated correction notes | this commit |
 | SLUS link had no definition for data symbols only C names; phase-5 SLUS rows failed to link | configure.py C_SYMS + config/slus_006.14.c_syms.txt (recipe re-pinned, image MATCH); the two phase-5 candidates were wrong (folded the separate table D_80082EC0 into TileObject) and are not landed; TileObject corrected to 0x40 | phase 6 (this commit) |
 | generated Rec_D_800814A8.h / most Rec_D_800E3D7C.h uses | record_ptrs.h retyped onto EntityRec *, 158 rows migrated | phase 6 (this commit) |

@@ -108,7 +108,7 @@ void func_8014DFA4(void *actor, void *actor_aux, void *sprite, void *entity)
         anim_table = D_80151CA0;
         (*(void * *)((u8 *)sprite + 0x2C)) = anim_table;
         func_80047784(sprite,
-            ((u8 *)anim_table)[((gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
+            ((u8 *)anim_table)[((gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
             0);
         return;
     }
@@ -149,7 +149,7 @@ void func_8014DFA4(void *actor, void *actor_aux, void *sprite, void *entity)
                     idle_anim = D_80151C30;
                     (*(void * *)((u8 *)sprite + 0x2C)) = idle_anim;
                     func_80047784(sprite,
-                        ((u8 *)idle_anim)[((gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
+                        ((u8 *)idle_anim)[((gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
                         0);
                     ((S_8014DFA4_2 *)sprite)->unk_05 = 1;
                     ((S_8014DFA4_0 *)actor)->unk_A2.s = 0;
@@ -160,7 +160,7 @@ void func_8014DFA4(void *actor, void *actor_aux, void *sprite, void *entity)
                 if (current_anim != anim_table) {
                     (*(void * *)((u8 *)sprite + 0x2C)) = anim_table;
                     func_80047784(sprite,
-                        ((u8 *)anim_table)[((gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
+                        ((u8 *)anim_table)[((gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
                         0);
                     ((S_8014DFA4_2 *)sprite)->unk_05 = 1;
                     ((S_8014DFA4_0 *)actor)->unk_A2.s = 0;

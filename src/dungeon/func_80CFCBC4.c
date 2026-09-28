@@ -79,19 +79,19 @@ select_animation:
     case 13:
         (*(u8 * *)((u8 *)animation + 0x2C)) = D_80163DDC;
         func_80047784(animation,
-            D_80163DDC[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            D_80163DDC[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
         goto done;
     case 14:
         (*(u8 * *)((u8 *)animation + 0x2C)) = D_80163DE4;
         func_80047784(animation,
-            D_80163DE4[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            D_80163DE4[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
         goto done;
     case 15:
         (*(u8 * *)((u8 *)animation + 0x2C)) = D_80163DEC;
         func_80047784(animation,
-            D_80163DEC[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            D_80163DEC[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
         ((S_801623C4_0 *)action)->unk_9B = 5;
         func_800A56E0(0x60C);

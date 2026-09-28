@@ -179,12 +179,12 @@ init_sprite:
     directions = D_800D2388;
     ((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 = directions;
     ((Rec_D_80082E80 *)sprite)->unk_28.at00_s32.v = sprite_config;
-    func_80047784(sprite, D_800D2388[((gameWork.viewAngle + ((S_80023260_0 *)actor)->unk_2A + 0x100) >> 9) & 7], 0);
+    func_80047784(sprite, D_800D2388[((gameWork.view.viewAngle + ((S_80023260_0 *)actor)->unk_2A + 0x100) >> 9) & 7], 0);
     ((S_80023260_0 *)actor)->unk_18.p = (u16) (((S_80023260_0 *)actor)->unk_18.p + 1);
     goto update_motion;
 reset_sprite:
     (*(u8 **)((u8 *)sprite + 0x2C)) = D_800D2388 - 8;
-    func_80047784(sprite, (D_800D2388 - 8)[((gameWork.viewAngle + ((S_80023260_0 *)actor)->unk_2A + 0x100) >> 9) & 7], 0);
+    func_80047784(sprite, (D_800D2388 - 8)[((gameWork.view.viewAngle + ((S_80023260_0 *)actor)->unk_2A + 0x100) >> 9) & 7], 0);
     ((S_80023260_0 *)actor)->unk_18.p = idle_state;
     goto update_motion;
 follow_path:

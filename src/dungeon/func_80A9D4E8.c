@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/def_table.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -7,7 +8,6 @@
 typedef s32 M2C_UNK;
 
 
-extern u8 D_8006DE24[];
 extern u8 D_80170838[16];
 extern u8 D_80170E7C;
 extern u8 D_80174C3C[8];
@@ -219,7 +219,7 @@ no_item:
         (*(void * *)((u8 *)actor + 0x2C)) = D_80174C7C;
         func_80047784(
             actor,
-            D_80174C7C[((gameWork.viewAngle + (*(s16 *)((u8 *)object + 0x2A)) + 0x100) >> 9) & 7],
+            D_80174C7C[((gameWork.view.viewAngle + (*(s16 *)((u8 *)object + 0x2A)) + 0x100) >> 9) & 7],
             0);
 increment_state:
         ((S_80172CE8_0 *)action)->unk_9B++;
@@ -265,7 +265,7 @@ increment_state:
             (*(void * *)((u8 *)actor + 0x2C)) = D_80174C3C;
             func_80047784(
                 actor,
-                D_80174C3C[((gameWork.viewAngle + (*(s16 *)((u8 *)object + 0x2A)) + 0x100) >> 9) & 7],
+                D_80174C3C[((gameWork.view.viewAngle + (*(s16 *)((u8 *)object + 0x2A)) + 0x100) >> 9) & 7],
                 0);
         }
 

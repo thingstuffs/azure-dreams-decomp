@@ -80,7 +80,7 @@ state1:
         goto done;
     }
     animation->unk_2C.as_pm = &D_801753E4;
-    func_80047784(animation, D_801753E4[(((s32) (gameWork.viewAngle + actor->facing + 0x100) >> 9) & 7)], 0);
+    func_80047784(animation, D_801753E4[(((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7)], 0);
     func_800A56E0(0x808);
     phase_value = action->unk_9B;
     action->unk_96 = 0U;

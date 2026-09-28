@@ -157,7 +157,7 @@ start_action:
         if (((S_801738B8_2 *)actor)->unk_2C == D_80175564) {
             (*(void * *)((u8 *)actor + 0x2C)) = D_80175554;
             func_80047784(actor,
-                D_80175554[((gameWork.viewAngle + ((S_801738B8_1 *)room)->unk_2A + 0x100)
+                D_80175554[((gameWork.view.viewAngle + ((S_801738B8_1 *)room)->unk_2A + 0x100)
                     >> 9) & 7], 0);
         }
         room_ref = ((s32)dungeonStatus.unk_10);

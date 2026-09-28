@@ -112,7 +112,7 @@ state_zero:
     }
     (*(void * *)((u8 *)sprite_in + 0x2C)) = D_801748E0;
     func_80047784(sprite_in,
-        D_801748E0[((gameWork.viewAngle + ((S_801730B4_2 *)entity_in)->unk_2A + 0x100) >> 9) & 7],
+        D_801748E0[((gameWork.view.viewAngle + ((S_801730B4_2 *)entity_in)->unk_2A + 0x100) >> 9) & 7],
         0);
     {
         u16 counter_value;
@@ -131,7 +131,7 @@ state_one:
     }
     (*(void * *)((u8 *)sprite_in + 0x2C)) = D_801748E8;
     func_80047784(sprite_in,
-        D_801748E8[((gameWork.viewAngle + ((S_801730B4_2 *)entity_in)->unk_2A + 0x100) >> 9) & 7],
+        D_801748E8[((gameWork.view.viewAngle + ((S_801730B4_2 *)entity_in)->unk_2A + 0x100) >> 9) & 7],
         0);
     ((S_801730B4_2 *)entity_in)->unk_1C.s |= 0x40000;
     if (!(((S_801730B4_1 *)sprite_in)->unk_14 & 0x8000)) {
@@ -212,7 +212,7 @@ state_one_active:
     }
     (*(void * *)((u8 *)sprite_in + 0x2C)) = D_801748E8;
     func_80047784(sprite_in,
-        D_801748E8[((gameWork.viewAngle + ((S_801730B4_2 *)entity_in)->unk_2A + 0x100) >> 9) & 7],
+        D_801748E8[((gameWork.view.viewAngle + ((S_801730B4_2 *)entity_in)->unk_2A + 0x100) >> 9) & 7],
         0);
     {
         u32 updated_flags;

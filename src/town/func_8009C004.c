@@ -1,6 +1,6 @@
 #include "common.h"
+#include "shared/object_index_slots.h"
 
-extern u8 D_80082660[];
 extern u8 D_800D05E0[];
 
 /* Initializes the object state and registers its enclosing record globally. */

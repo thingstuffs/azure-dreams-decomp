@@ -163,7 +163,7 @@ void func_801714B8(void *actor_arg, void *context_arg, void *sprite_arg, void *s
 
             (*(void * *)((u8 *)sprite + (0x2C))) = state_table;
             func_80047784(sprite,
-                state_table[((gameWork.viewAngle + ((S_801714B8_1 *)stats)->unk_2A.s + 0x100) >> 9) & 7],
+                state_table[((gameWork.view.viewAngle + ((S_801714B8_1 *)stats)->unk_2A.s + 0x100) >> 9) & 7],
                 0);
             return;
         }
@@ -197,7 +197,7 @@ void func_801714B8(void *actor_arg, void *context_arg, void *sprite_arg, void *s
             if (((S_801714B8_2 *)sprite)->unk_2C != state_table) {
                 (*(void * *)((u8 *)sprite + (0x2C))) = state_table;
                 func_80047784(sprite,
-                    state_table[((gameWork.viewAngle + ((S_801714B8_1 *)stats)->unk_2A.s + 0x100) >> 9) & 7],
+                    state_table[((gameWork.view.viewAngle + ((S_801714B8_1 *)stats)->unk_2A.s + 0x100) >> 9) & 7],
                     0);
             }
             ((S_801714B8_0 *)actor)->unk_9E.s = 0;
@@ -366,7 +366,7 @@ ordinary_cleanup:
             if (((S_801714B8_2 *)sprite)->unk_2C != D_801760A4) {
                 (*(void * *)((u8 *)sprite + (0x2C))) = main_table;
                 func_80047784(sprite,
-                    main_table[((gameWork.viewAngle + ((S_801714B8_1 *)stats)->unk_2A.s + 0x100) >> 9) & 7],
+                    main_table[((gameWork.view.viewAngle + ((S_801714B8_1 *)stats)->unk_2A.s + 0x100) >> 9) & 7],
                     0);
                 ((S_801714B8_0 *)actor)->unk_9E.s = 0;
                 ((S_801714B8_0 *)actor)->unk_A0 = (rand() & 0x1F) + 0xF;
@@ -388,7 +388,7 @@ ordinary_cleanup:
 
                 (*(void * *)((u8 *)sprite + (0x2C))) = alt_table;
                 func_80047784(sprite,
-                    alt_table[((gameWork.viewAngle + ((S_801714B8_1 *)stats)->unk_2A.s + 0x100) >> 9) & 7],
+                    alt_table[((gameWork.view.viewAngle + ((S_801714B8_1 *)stats)->unk_2A.s + 0x100) >> 9) & 7],
                     0);
                 func_800478B8(sprite);
 
@@ -431,7 +431,7 @@ final_state_check:
 
         (*(void * *)((u8 *)sprite + (0x2C))) = state_table;
         func_80047784(sprite,
-            state_table[((gameWork.viewAngle + ((S_801714B8_1 *)stats)->unk_2A.s + 0x100) >> 9) & 7],
+            state_table[((gameWork.view.viewAngle + ((S_801714B8_1 *)stats)->unk_2A.s + 0x100) >> 9) & 7],
             0);
         ((S_801714B8_0 *)actor)->unk_9E.s = 0;
         ((S_801714B8_0 *)actor)->unk_A0 = (rand() & 0x1F) + 0xF;

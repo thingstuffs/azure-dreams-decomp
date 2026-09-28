@@ -113,7 +113,7 @@ void func_80170E18(void *unused, S_80170E18_5 *source_transform, void *sprite_te
         sprite->unk_14 = (u16) (sprite->unk_14 | 0xC);
         func_8004491C(effect, func_80045340, src, dst);
         sprite->unk_2C = &D_80173EB4;
-        func_80047784(sprite, *((((s32) (gameWork.viewAngle + facing_source->unk_2A + 0x100) >> 9) & 7) + D_80173EB4), 0);
+        func_80047784(sprite, *((((s32) (gameWork.view.viewAngle + facing_source->unk_2A + 0x100) >> 9) & 7) + D_80173EB4), 0);
         transform = ((S_80170E18_1 *)effect)->unk_08;
         transform->unk_02 = (u16) source_transform->unk_02;
         transform->unk_06 = (u16) source_transform->unk_06;

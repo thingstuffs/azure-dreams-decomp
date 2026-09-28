@@ -69,12 +69,12 @@ void func_80092BB8(S_8003E2D8 *controller, void *context, S_arg2 *actor, S_arg3 
     goto done;
 
 state0_body:
-    if ((s32)((((s32)gameWork.viewAngle + facing->coord + 0x100) >> 9) & 7) == 2) {
+    if ((s32)((((s32)gameWork.view.viewAngle + facing->coord + 0x100) >> 9) & 7) == 2) {
         u8 *animation_table;
 
         animation_table = controller->table;
         actor->field2c = animation_table;
-        direction = (((s32)gameWork.viewAngle + facing->coord + 0x100) >> 9) & 7;
+        direction = (((s32)gameWork.view.viewAngle + facing->coord + 0x100) >> 9) & 7;
         func_80048A44(actor, animation_table[direction], controller->field10e, 1);
         controller->state++;
     } else {
@@ -104,7 +104,7 @@ state2_body:
             return;
         }
         actor->field2c = D_800DD150;
-        func_80048A44(actor, D_800DD150[(((s32)gameWork.viewAngle + facing->coord + 0x100) >> 9) & 7], 2, 1);
+        func_80048A44(actor, D_800DD150[(((s32)gameWork.view.viewAngle + facing->coord + 0x100) >> 9) & 7], 2, 1);
         goto state2_store;
     }
     goto done;

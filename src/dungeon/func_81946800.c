@@ -120,7 +120,7 @@ void func_81946800(void *action, void *saved_position)
     *((u16 *) (((u8 *) effect_part) + 0x14)) = (*((u16 *) (((u8 *) source_part) + 0x14))) & 0x97FF;
     colors = *((u8 **) (((u8 *) source_part) + 0x2C));
     *((u8 **) (((u8 *) effect_part) + 0x2C)) = colors;
-    color_index = ((gameWork.viewAngle + (*((s16 *) (((u8 *) owner_work) + 0x2A)))) + 0x100) >> 9;
+    color_index = ((gameWork.view.viewAngle + (*((s16 *) (((u8 *) owner_work) + 0x2A)))) + 0x100) >> 9;
     colors += color_index & 7;
     func_80047784(effect_part, *colors, 0);
     *((s16 *) (((u8 *) effect_part) + 0x1E)) = 0x1000;

@@ -52,9 +52,9 @@ s32 func_800BC3E4(void *start_node) {
     volatile u16 *scratch = (volatile u16 *)0x1F800000;
     register void *previous ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-    scratch[0x80] = -((u16)state->unk_0C4);
-    scratch[0x81] = -((u16)state->unk_0C6);
-    scratch[0x82] = ((u16)state->unk_0B8);
+    scratch[0x80] = -((u16)state->view.unk_0AC);
+    scratch[0x81] = -((u16)state->view.unk_0AE);
+    scratch[0x82] = ((u16)state->view.unk_0A0);
 
     for (;;) {
         S_800BC3E4_1 *object = ((S_800BC3E4_0 *)node)->unk_00;

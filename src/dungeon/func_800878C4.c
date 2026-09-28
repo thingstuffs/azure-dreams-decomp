@@ -69,7 +69,7 @@ s32 func_8008D024(Rec_func_8008D024_arg0 *actor, s32 context, Rec_D_80082E80 *di
                     direction_frames = D_800DCFB0;
                 }
                 display->unk_2C.as_pu8 = direction_frames;
-                func_80048A44(display, direction_frames[((s32)(gameWork.viewAngle + ((Arg0 *)actor_heading)->field_2A + 0x100) >> 9) & 7], 0, 1);
+                func_80048A44(display, direction_frames[((s32)(gameWork.view.viewAngle + ((Arg0 *)actor_heading)->field_2A + 0x100) >> 9) & 7], 0, 1);
                 actor->unk_120 = saved_mode;
                 return 1;
             }

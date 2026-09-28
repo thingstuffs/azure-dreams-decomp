@@ -90,7 +90,7 @@ start_motion:
     (*(u8 * *)((u8 *)entity + 0x2C)) = D_80173884;
     func_80047784(
         entity,
-        D_80173884[((gameWork.viewAngle + ((S_801722BC_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+        D_80173884[((gameWork.view.viewAngle + ((S_801722BC_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
         0);
     ((S_801722BC_0 *)anim)->unk_98 |= 8;
     ((S_801722BC_2 *)actor)->unk_1C.s &= 0xF7FFFFFF;
@@ -145,7 +145,7 @@ check_landing:
         (*(u8 * *)((u8 *)entity + 0x2C)) = D_8017388C;
         func_80047784(
             entity,
-            D_8017388C[((gameWork.viewAngle + ((S_801722BC_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            D_8017388C[((gameWork.view.viewAngle + ((S_801722BC_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((S_801722BC_0 *)anim)->unk_9B++;
     }

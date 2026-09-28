@@ -108,7 +108,7 @@ void func_80159FA4(void *actor, void *context, void *sprite, void *entity)
         anim_table = D_8015DCA0;
         (*(void * *)((u8 *)sprite + 0x2C)) = anim_table;
         func_80047784(sprite,
-            ((u8 *)anim_table)[((gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
+            ((u8 *)anim_table)[((gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
             0);
         return;
     }
@@ -148,7 +148,7 @@ void func_80159FA4(void *actor, void *context, void *sprite, void *entity)
                 }
                 (*(void * *)((u8 *)sprite + 0x2C)) = D_8015DC30;
                 func_80047784(sprite,
-                    D_8015DC30[((gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
+                    D_8015DC30[((gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
                     0);
             } else {
                 void *idle_anim = D_8015DC30;
@@ -157,7 +157,7 @@ void func_80159FA4(void *actor, void *context, void *sprite, void *entity)
                 }
                 (*(void * *)((u8 *)sprite + 0x2C)) = idle_anim;
                 func_80047784(sprite,
-                    *(u8 *)((((gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7) + (u32)idle_anim),
+                    *(u8 *)((((gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7) + (u32)idle_anim),
                     0);
             }
             ((S_80159FA4_2 *)sprite)->unk_05 = 1;

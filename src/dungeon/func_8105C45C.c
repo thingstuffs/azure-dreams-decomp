@@ -72,7 +72,7 @@ block_5:
         goto block_20;
     }
     part_b->unk_2C.as_pu8 = &D_80173FD8;
-    func_80047784(part_b, (&D_80173FD8)[((s32) (gameWork.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+    func_80047784(part_b, (&D_80173FD8)[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
     work->unk_98 = (u16) (work->unk_98 | 8);
     part_a->flags14 = 0xFFF00000;
     actor->flags1C = (s32) (actor->flags1C & 0xF7FFFFFF);
@@ -114,14 +114,14 @@ jt_c6:
     part_a->unk_0C = 0;
     func_800A2B04(part_a, part_b->unk_24, part_b->unk_25);
     part_b->unk_2C.as_pu8 = &D_80173FE0;
-    func_80047784(part_b, ((u8 *) ((u32) ((((s32) (gameWork.viewAngle + actor->facing + 0x100) >> 9) & 7) + (u32) &D_80173FE0)))[0], 0);
+    func_80047784(part_b, ((u8 *) ((u32) ((((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7) + (u32) &D_80173FE0)))[0], 0);
     goto block_e5c;
 jt_c3:
     if (!(part_b->unk_14.at00_u16.v & 0xE000)) {
         goto block_20;
     }
     part_b->unk_2C.as_pu8 = D_80173FD0;
-    func_80047784(part_b, D_80173FD0[((s32) (gameWork.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+    func_80047784(part_b, D_80173FD0[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
     block_e5c:
     state_now = work->unk_9B;
     block_e60:
@@ -132,7 +132,7 @@ jt_c7:
         goto block_20;
     }
     part_b->unk_2C.as_pu8 = D_80173FB8;
-    func_80047784(part_b, D_80173FB8[((s32) (gameWork.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+    func_80047784(part_b, D_80173FB8[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
     dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
     func_800A4ACC(actor);
     actor->unk_6D = 0;

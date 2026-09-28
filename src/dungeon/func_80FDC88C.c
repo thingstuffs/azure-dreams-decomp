@@ -35,7 +35,7 @@ void func_8017208C(void *action_state, M2C_UNK context, void *sprite, void *acto
             ((EntityRec *)actor)->unk_85 = 8;
         } while (0);
         (*(u8 **)((u8 *)sprite + 0x2C)) = D_80174038;
-        func_80047784(sprite, D_80174038[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7], 0);
+        func_80047784(sprite, D_80174038[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7], 0);
         ((EntityRec *)actor)->unk_6D = (u8) (((u8)((EntityRec *)actor)->unk_6D) - 1);
         func_8009C93C(actor, sprite, ((EntityRec *)actor)->facing, 1, 0);
         if (!(((Rec_func_800A9E70_arg0 *)action_state)->unk_98 & 0x8000)) {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_index_slots.h"
 
 typedef struct {
     s32 active;
@@ -15,7 +16,6 @@ typedef struct {
 
 extern s32 D_800C3174;
 extern s32 D_800C3438;
-extern ObjectSlot D_80082660[];
 
 /* Initializes object fields and registers the object in its slot. */
 void func_800C3050(void *object, s32 slot_index, s32 field_58_value, s32 field_5c_value, s32 field_7c_value, s32 field_80_value)

@@ -73,7 +73,7 @@ init_animation:
         (*(u8 * *)((u8 *)animation + (0x2C))) = anim_table;
         func_80047784(
             animation,
-            *(u8 *)(((((gameWork.viewAngle + ((S_801740F8_2 *)motion)->unk_2A + 0x100) >> 9) & 7)) + (u32)anim_table),
+            *(u8 *)(((((gameWork.view.viewAngle + ((S_801740F8_2 *)motion)->unk_2A + 0x100) >> 9) & 7)) + (u32)anim_table),
             0);
     }
     ((S_801740F8_0 *)actor)->unk_98 |= 8;
@@ -116,7 +116,7 @@ restore_animation:
         (*(u8 * *)((u8 *)animation + (0x2C))) = D_80174A7C - 0x50;
         func_80047784(
             animation,
-            (D_80174A7C - 0x50)[((gameWork.viewAngle + ((S_801740F8_2 *)motion)->unk_2A + 0x100) >> 9) & 7],
+            (D_80174A7C - 0x50)[((gameWork.view.viewAngle + ((S_801740F8_2 *)motion)->unk_2A + 0x100) >> 9) & 7],
             0);
     }
 

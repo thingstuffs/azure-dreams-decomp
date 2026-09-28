@@ -24,7 +24,7 @@ extern void func_8004D1EC(void *a0, void *a1, u16 a2, void *a3);
 /* Set position and rotation targets, adjusting rotation components across the 12-bit wrap. */
 void func_8004D294(void *target_position, void *target_rotation, s32 transition_param)
 {
-  S_80083178_local *state = (S_80083178_local *)(&gameWork.unk_018);
+  S_80083178_local *state = (S_80083178_local *)(&gameWork.view);
   u16 angle_bits;
   s16 target_angle;
   s16 current_angle;

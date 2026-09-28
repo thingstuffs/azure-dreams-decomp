@@ -115,7 +115,7 @@ s32 func_8008C5C4(S_8008C5C4_2 *action, void *unused, S_8008C5C4_1 *position, En
             position->unk_2C = D_800DCFC8;
             func_80048A44(
                 position,
-                D_800DCFC8[((s32)(gameWork.viewAngle +
+                D_800DCFC8[((s32)(gameWork.view.viewAngle +
                                  (s16)((u16)actor->facing) + 0x100) >> 9) & 7],
                 0, 1);
             tail_result = 1;

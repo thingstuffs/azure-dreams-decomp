@@ -202,7 +202,7 @@ void func_80172494(void *action, void *motion, void *map_actor, void *actor_arg)
             ((S_80172494_3 *)motion)->unk_10 = 0;
             ((S_80172494_3 *)motion)->unk_14 = 0;
             (*(void * *)((u8 *)map_actor + 0x2C)) = D_80174AE4;
-            direction_index = (gameWork.viewAngle + ((S_80172494_0 *)actor_arg)->unk_2A.u + 0x100) >> 9;
+            direction_index = (gameWork.view.viewAngle + ((S_80172494_0 *)actor_arg)->unk_2A.u + 0x100) >> 9;
             func_80047784(map_actor, D_80174AE4[direction_index & 7], 0);
         }
         if (((S_80172494_1 *)action)->unk_96.u > 0) {
@@ -305,7 +305,7 @@ advance_state:
         ((S_80172494_1 *)action)->unk_8C = D_80171138;
         dungeonStatus.unk_0C = 0;
         (*(void * *)((u8 *)map_actor + 0x2C)) = D_80174AD4;
-        direction_index_2 = (gameWork.viewAngle + ((S_80172494_0 *)actor_arg)->unk_2A.u + 0x100) >> 9;
+        direction_index_2 = (gameWork.view.viewAngle + ((S_80172494_0 *)actor_arg)->unk_2A.u + 0x100) >> 9;
         func_80047784(map_actor, D_80174AD4[direction_index_2 & 7], 0);
         func_800A4ACC(actor_arg);
         if (((S_80172494_0 *)actor_arg)->unk_6D == 0) {

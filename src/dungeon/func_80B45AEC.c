@@ -109,7 +109,7 @@ wait_transition:
     entity->table = D_80175AA4;
     effect->timer = 0x80;
     *(volatile u16 *)&effect->countdown = 0;
-    direction_index = ((gameWork.viewAngle + object->angle + 0x100) >> 9) & 7;
+    direction_index = ((gameWork.view.viewAngle + object->angle + 0x100) >> 9) & 7;
     func_80047784(entity, entity->table[direction_index], 0);
 advance_state:
     effect->state++;
@@ -135,7 +135,7 @@ finish_fade:
     effect->countdown = (u16)((s32)(timer << 16) >> 24);
 countdown_done:
     if ((entity->type == 2) && (entity->flags & 0x1000)) {
-        direction_index = ((gameWork.viewAngle + object->angle + 0x100) >> 9) & 7;
+        direction_index = ((gameWork.view.viewAngle + object->angle + 0x100) >> 9) & 7;
         func_80047784(entity, entity->table[direction_index], 0);
     }
     if ((u8)entity->value < 0x11) {

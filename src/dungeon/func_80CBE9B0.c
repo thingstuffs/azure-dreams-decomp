@@ -78,7 +78,7 @@ state_zero:
         (*(void * *)((u8 *)sprite + 0x2C)) = D_801762D8;
         func_80047784(
             sprite,
-            D_801762D8[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >>
+            D_801762D8[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >>
                          9) &
                         7],
             0);
@@ -131,7 +131,7 @@ state_two:
         (*(void * *)((u8 *)sprite + 0x2C)) = D_801762E0;
         func_80047784(
             sprite,
-            D_801762E0[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >>
+            D_801762E0[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >>
                          9) &
                         7],
             0);

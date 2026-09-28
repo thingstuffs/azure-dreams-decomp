@@ -308,7 +308,7 @@ clear_sprite_tile:
     partner->unk_1C = (s32) (partner->unk_1C & 0xFFFBFFFF);
     partner_actor->unk_98 = (u16) (partner_actor->unk_98 | 0xC);
     animation_table = D_801748F0;
-    angle_or_count = &gameWork.viewAngle;
+    angle_or_count = &gameWork.view.viewAngle;
     *(u8 **)((u8 *)sprite + 0x2C) = animation_table;
     {
         u32 anim_flags;
@@ -352,7 +352,7 @@ check_launch_end:
         animation_table = D_801748F8;
         actor->unk_96 = fall_anim;
     }
-    angle_or_count = &gameWork.viewAngle;
+    angle_or_count = &gameWork.view.viewAngle;
     *(u8 **)((u8 *)sprite + 0x2C) = animation_table;
     search_step_offset = (s32)((S_func_81008664_5 *)(entity));
     fall_anim = ((s32) (*angle_or_count + (s16) ((S_func_81008664_3 *)(S_func_81008664_5 *)search_step_offset)->unk_2A + 0x100) >> 9) & 7;
@@ -480,7 +480,7 @@ place_actors:
     search_step_offset = (s32)((S_func_81008664_5 *)(entity));
     motion->unk_14 = (s32) ((s32) ((((S_func_81008664_3 *)(S_func_81008664_5 *)search_step_offset)->unk_88 << 0x10) - motion->unk_08.unk_08) / (s16) actor->unk_96);
     animation_table = D_801748F8;
-    angle_or_count = &gameWork.viewAngle;
+    angle_or_count = &gameWork.view.viewAngle;
     *(u8 **)((u8 *)sprite + 0x2C) = animation_table;
     rise_anim = ((s32) (*angle_or_count + (s16) ((S_func_81008664_3 *)(S_func_81008664_5 *)search_step_offset)->unk_2A + 0x100) >> 9) & 7;
     rise_anim = rise_anim + (u32) animation_table;
@@ -624,7 +624,7 @@ restore_partner_tile:
         func_8009A21C(restore_x, restore_y, restore_partner_mask);
     }
     animation_table = D_80174888;
-    angle_or_count = &gameWork.viewAngle;
+    angle_or_count = &gameWork.view.viewAngle;
     *(u8 **)((u8 *)sprite + 0x2C) = animation_table;
     search_step_offset = (s32)((S_func_81008664_5 *)(entity));
     idle_anim = ((s32) (*angle_or_count + (s16) ((S_func_81008664_3 *)(S_func_81008664_5 *)search_step_offset)->unk_2A + 0x100) >> 9) & 7;

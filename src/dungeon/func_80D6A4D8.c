@@ -222,7 +222,7 @@ state_1:
 
 state_2:
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_800E2368;
-    facing = (gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9;
+    facing = (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9;
     func_80047784(sprite, D_800E2368[facing & 7], 0);
     ((S_80175CD8_0 *)action)->unk_96.s = 0;
     ((S_80175CD8_0 *)action)->unk_9B++;
@@ -403,7 +403,7 @@ state_9:
     ((EntityRec *)actor)->flags1C |= 0x40000;
     (*(u16 *)((u8 *)action + 0x98)) &= 0xFFF7;
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_800E2348;
-    facing = (gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9;
+    facing = (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9;
     func_80047784(sprite, D_800E2348[facing & 7], 0);
     ((Rec_D_80082E80 *)sprite)->unk_05.as_u8 = 1;
     ((S_80175CD8_0 *)action)->unk_A2.s = 0;

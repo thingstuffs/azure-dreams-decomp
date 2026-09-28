@@ -73,7 +73,7 @@ state1:
     ((S_801723F0_3 *)motion)->unk_0C = 0;
     (*(u8 * *)((u8 *)anim + 0x2C)) = D_8017423C;
     func_80047784(anim,
-        D_8017423C[((s32)(gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+        D_8017423C[((s32)(gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
         0);
     ((S_801723F0_0 *)action)->unk_96 = 0;
     ((S_801723F0_0 *)action)->unk_9B++;

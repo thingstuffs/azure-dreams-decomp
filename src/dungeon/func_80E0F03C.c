@@ -32,7 +32,7 @@ void func_8017283C(S_8017283C_1 *action_state, M2C_UNK action_context, Rec_D_800
             action_state->unk_8C = 0;
             action_state->unk_9B = 0;
             animation->unk_2C.as_pu8 = D_801764A0;
-            func_80047784(animation, D_801764A0[((s32) (gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7], 0);
+            func_80047784(animation, D_801764A0[((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7], 0);
             func_800A4ACC(actor);
             ((EntityRec *)actor)->unk_6D = (u8) (((u8)((EntityRec *)actor)->unk_6D) - 1);
             action_state->unk_98 = (u16) (action_state->unk_98 | 8);

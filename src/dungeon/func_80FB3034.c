@@ -69,7 +69,7 @@ start_jump:
         (*(u8 * *)((u8 *)unit + 0x2C)) = D_80175278;
         func_80047784(
             unit,
-            D_80175278[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            D_80175278[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
         ((S_80172834_0 *)action)->unk_98 |= 8;
         ((EntityRec *)motion)->flags14 = 0xFFEE0000;
@@ -118,7 +118,7 @@ land:
         (*(u8 * *)((u8 *)unit + 0x2C)) = D_80175280;
         func_80047784(
             unit,
-            D_80175280[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            D_80175280[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
         ((S_80172834_0 *)action)->unk_9B++;
     }

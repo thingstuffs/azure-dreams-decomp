@@ -153,7 +153,7 @@ state1_done:
         s32 direction;
 
         (*(void * *)((u8 *)sprite + 0x2C)) = D_80176460;
-        direction = (gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9;
+        direction = (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9;
         func_80047784(sprite, D_80176460[direction & 7], 0);
         ((S_80174764_0 *)action)->unk_98 &= 0xFFF7;
     }

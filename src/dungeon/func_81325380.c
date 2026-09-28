@@ -125,14 +125,14 @@ update_animation:
         anims = (u8 *)&D_8017467C;
         if (current_anims != anims) {
             (*(u8 **)((u8 *)actor + 0x2C)) = anims;
-            func_80047784(actor, *(u8 *)((((s32) (gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7) + (u32)anims), 0);
+            func_80047784(actor, *(u8 *)((((s32) (gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7) + (u32)anims), 0);
         }
     } else {
         current_anims = ((S_8016CB80_2 *)actor)->unk_2C.p;
         anims = D_80174684;
         if (current_anims != anims) {
             (*(u8 **)((u8 *)actor + 0x2C)) = anims;
-            func_80047784(actor, *(u8 *)((((s32) (gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7) + (u32)anims), 0);
+            func_80047784(actor, *(u8 *)((((s32) (gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7) + (u32)anims), 0);
         }
     }
 update_timer:

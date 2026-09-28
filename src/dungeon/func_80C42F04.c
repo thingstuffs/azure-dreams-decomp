@@ -173,7 +173,7 @@ wait_turn:
         s32 direction;
         u16 angle;
 
-        direction = ((gameWork.viewAngle + ((S_80174704_1 *)actor)->unk_2A.s + 0x100) >> 9) & 7;
+        direction = ((gameWork.view.viewAngle + ((S_80174704_1 *)actor)->unk_2A.s + 0x100) >> 9) & 7;
         angle = ((S_80174704_1 *)actor)->unk_2A.u;
         if (((S_80174704_2 *)D_80174E3C)->unk_00 == 0) {
             goto direction_not_ready;
@@ -324,7 +324,7 @@ create_replacement:
             u8 *direction_frames;
 
             object = ((S_80174704_8_pre *)replacement_actor)[-1].unk_00;
-            direction = ((gameWork.viewAngle + ((S_80174704_8 *)replacement_actor)->unk_2A + 0x100) >> 9) & 7;
+            direction = ((gameWork.view.viewAngle + ((S_80174704_8 *)replacement_actor)->unk_2A + 0x100) >> 9) & 7;
             direction_frames = ((S_80174704_3 *)object)->unk_2C;
             func_80047738(object, direction_frames[direction], ((S_80174704_3 *)object)->unk_04);
         }

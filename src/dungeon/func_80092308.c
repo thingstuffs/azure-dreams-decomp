@@ -38,7 +38,7 @@ void func_80097A68(S_func_80097A68_0 *actor, M2C_UNK unused, S_func_80097A68_1 *
     actor->unk_9B = 0;
     actor->unk_8C = 0;
     *(u8 **)((u8 *)anim + 0x2C) = D_800DD294;
-    func_8003DB94(anim, ((S_func_80097A68_3 *) (D_800DD294 + (((s32) (gameWork.viewAngle + facing_source->unk_2A + 0x100) >> 7) & 0x1C)))->unk_00, 0);
+    func_8003DB94(anim, ((S_func_80097A68_3 *) (D_800DD294 + (((s32) (gameWork.view.viewAngle + facing_source->unk_2A + 0x100) >> 7) & 0x1C)))->unk_00, 0);
     func_800A56E0(0x50A);
     actor->unk_96 = 2;
     actor->unk_A2 = (u16) (actor->unk_A2 & 0xFFEF);

@@ -9,15 +9,15 @@ void func_800A5178(void *state) {
     u16 initial_ac;
     u16 initial_ae;
 
-    initial_ac = ((u16)gameWork.unk_0AC);
+    initial_ac = ((u16)gameWork.view.unk_094);
     *(u16 *) ((u8 *) state + 0) = initial_ac;
     *(u16 *) ((u8 *) state + 0x10) = initial_ac;
 
-    initial_ae = ((u16)gameWork.unk_0AE);
+    initial_ae = ((u16)gameWork.view.unk_096);
     *(u16 *) ((u8 *) state + 2) = initial_ae;
     *(u16 *) ((u8 *) state + 0x12) = initial_ae;
 
-    gameWork.unk_0B0 = 0x400;
+    gameWork.view.unk_098 = 0x400;
     *(s16 *) ((u8 *) state + 4) = 0x400;
     *(s16 *) ((u8 *) state + 0x14) = 0x400;
     *(void **) ((u8 *) state + 0x1C) = &D_800A5340;

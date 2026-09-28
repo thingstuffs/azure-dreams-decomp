@@ -95,7 +95,7 @@ state_zero:
     state_anims = D_80157574;
     (*(u8 * *)((u8 *)sprite + 0x2C)) = state_anims;
     func_80047784(sprite,
-        state_anims[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+        state_anims[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
         0);
     ((Rec_D_80082E80 *)sprite)->unk_1C.at02_s16.v = 0x1000;
     ((S_80154B4C_0 *)action)->unk_98 |= 8;
@@ -154,7 +154,7 @@ state_two:
         state_anims = D_8015757C;
         (*(u8 * *)((u8 *)sprite + 0x2C)) = state_anims;
         func_80047784(sprite,
-            state_anims[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            state_anims[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
         ((Rec_D_80082E80 *)sprite)->unk_1C.at02_s16.v = 0xC00;
         ((S_80154B4C_0 *)action)->unk_9B++;
@@ -168,7 +168,7 @@ state_three:
     if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 != idle_anims) {
         (*(u8 * *)((u8 *)sprite + 0x2C)) = idle_anims;
         func_80047784(sprite,
-            idle_anims[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            idle_anims[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
         ((Rec_D_80082E80 *)sprite)->unk_1C.at02_s16.v = 0x1000;
     }

@@ -26,7 +26,7 @@ void func_80174A68(void *state, s32 update_mode, void *sprite, void *entity)
         *(void **)((u8 *)sprite + 0x2C) = direction_frames;
         func_80047784(
             sprite,
-            direction_frames[((gameWork.viewAngle + *(s16 *)((u8 *)entity + 0x2A) + 0x100) >> 9) & 7],
+            direction_frames[((gameWork.view.viewAngle + *(s16 *)((u8 *)entity + 0x2A) + 0x100) >> 9) & 7],
             0);
         if (*(u8 *)((u8 *)state + 0xB0) == 0) {
             func_801708B8(state, update_mode, sprite);

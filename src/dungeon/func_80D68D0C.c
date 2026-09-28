@@ -140,7 +140,7 @@ state_0:
 
     facing_angle = 0;
     do {
-        if (((gameWork.viewAngle + facing_angle + 0x100) >> 9 & 7) == 2) {
+        if (((gameWork.view.viewAngle + facing_angle + 0x100) >> 9 & 7) == 2) {
             ((S_8017450C_3 *)actor)->unk_2A = facing_angle;
         }
         facing_angle += 0x200;
@@ -149,7 +149,7 @@ state_0:
     {
         u8 *animation_table = D_800E2368;
         (*(u8 * *)((u8 *)monster + (0x2C))) = animation_table;
-        direction_index = (gameWork.viewAngle + ((S_8017450C_3 *)actor)->unk_2A + 0x100) >> 9 & 7;
+        direction_index = (gameWork.view.viewAngle + ((S_8017450C_3 *)actor)->unk_2A + 0x100) >> 9 & 7;
         func_80047784(monster, animation_table[direction_index], 0);
         ((S_8017450C_0 *)state)->unk_98 |= 8;
         ((S_8017450C_3 *)actor)->unk_1C &= 0xFFFBFFFF;

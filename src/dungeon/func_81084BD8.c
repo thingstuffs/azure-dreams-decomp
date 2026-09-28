@@ -25,7 +25,7 @@ s32 func_801723D8(void *state_ptr, s32 action_arg, void *sprite_ptr, void *entit
                     state[0x9B] = 0;
                     *(s32 *)(state + 0x8C) = 0;
                     *(u8 **)(sprite + 0x2C) = D_80175F30;
-                    func_80047784(sprite, D_80175F30[((gameWork.viewAngle + *(s16 *)(entity + 0x2A) + 0x100) >> 9) & 7], 0);
+                    func_80047784(sprite, D_80175F30[((gameWork.view.viewAngle + *(s16 *)(entity + 0x2A) + 0x100) >> 9) & 7], 0);
                     func_800A4ACC(entity);
                     entity[0x6D]--;
                     return 0;
