@@ -332,5 +332,15 @@
  "r78_astra_b3": [
   "dungeon/func_8181B3E8",
   "dungeon/func_80C96F24"
+ ],
+ "r78_opus_c18": [
+  "dungeon/func_818571BC"
+ ],
+ "r78_opus_c19": [
+  "dungeon/func_80921B2C",
+  "dungeon/func_800A6018",
+  "dungeon/func_8009BEB8",
+  "town/func_8009CC44",
+  "dungeon/func_80DE48EC"
  ]
 }
