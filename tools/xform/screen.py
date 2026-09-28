@@ -92,8 +92,28 @@ def normalise(src):
         s = re.sub(r"\s+", " ", s)
         if _NOOP_MOVE.match(s):
             continue
-        out.append(_addr(s))
+        out.extend(_addr(x) for x in _expand(s))
     return _labels(out)
+
+
+_LA = re.compile(r"^la (\$\w+),([A-Za-z_][\w.]*(?:\s*[+-]\s*(?:0x[0-9A-Fa-f]+|\d+))?)$")
+_UMEM = re.compile(r"^(ulw|usw) (\$\w+),(-?\d+)\((\$\w+)\)$")
+
+
+def _expand(s):
+    """Assembler macros printed by cc1 where another text prints the expansion (round 78: r78_opus_b2's
+    packed copy listed `ulw/usw` against the pinned `lwl/lwr/swl/swr`, and c8/sp8's `la $8,SYM` against
+    `lui/addiu`; both were byte-exact but screened at distance 3-12, so lab.py never scored them)."""
+    m = _LA.match(s)
+    if m:
+        r, sym = m.group(1), m.group(2).replace(" ", "")
+        return ["lui %s,%%hi(%s)" % (r, sym), "addiu %s,%s,%%lo(%s)" % (r, r, sym)]
+    m = _UMEM.match(s)
+    if m:
+        op, r, off, b = m.group(1), m.group(2), int(m.group(3)), m.group(4)
+        hi, lo = ("lwl", "lwr") if op == "ulw" else ("swl", "swr")
+        return ["%s %s,%d(%s)" % (hi, r, off + 3, b), "%s %s,%d(%s)" % (lo, r, off, b)]
+    return [s]
 
 
 _HILO = re.compile(r"%(hi|lo)\(D_([0-9A-Fa-f]{8})\s*([+-]\s*(?:0x[0-9A-Fa-f]+|\d+))?\)")
