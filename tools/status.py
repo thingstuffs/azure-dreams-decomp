@@ -57,7 +57,8 @@ def main():
                 "pin_total": len(sites_of(t)), "pins_by": collections.Counter(s[1][4:] for s in sites_of(t)), "hidden": hidden_asm(t),
                 "gotos": len(_re.findall(r"\bgoto\s+[A-Za-z_]", t)),
                 "computed_goto": len(_re.findall(r"\bgoto\s*\*", t)), "inline_asm": len(_re.findall(r"__asm__|\basm\s*\(", t)),
-                "m2c_locals": len(set(_re.findall(r"\b(temp_[a-z0-9_]+|arg[0-9]|sp[0-9A-F]{2,}|var_[a-z0-9_]+|phi_[a-z0-9_]+)\b", t))),
+                "m2c_locals": len(set(_re.findall(r"\b(temp_[a-z0-9_]+|arg[0-9]|sp[0-9A-F]{2,}|var_[a-z0-9_]+|phi_[a-z0-9_]+)\b",
+                                                 _re.sub(r"/\*.*?\*/|//[^\n]*", " ", t, flags=_re.S)))),   # code only (r78: struct notes like `/* arg0 in func_X */` inflated this 2,687 -> 785 rows)
                 "n_local_structs": len(set(_re.findall(r"\b((?:S_|Struct|Func)[0-9A-F]{7,8}[A-Za-z0-9_]*)\b", t))),
                 "audit": cen.get(r["id"], {}).get("audit", {}),   # live: sites still spelled in the current text
                 "tail_idiom": len(_re.findall(r"__attribute__\s*\(\s*\(\s*noreturn\s*\)\s*\)", t)) + len(_re.findall(r"\basm\s*\(\s*\"func_[0-9A-F]{8}\"\s*\)|__asm__\s*\(\s*\"func_[0-9A-F]{8}\"\s*\)", t)),
