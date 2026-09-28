@@ -89,10 +89,10 @@ VM_TABLES = [   # (vram, file offset in slus_006.14, entries, kind, role)
     ("0x8008077C", 0x53F7C, 16, "unknown", "resident pointer table (targets not yet classified)"),
 ]
 
-# ---- the script symbol dump (TOWN.BIN devkit blob): 36-byte records, u32 value + char name[32] ----
+# ---- the script symbol dump (TOWN.BIN devkit blob): 36-byte records, char name[32] + u32 value ----
 SYM_NAME = re.compile(rb"^[A-Za-z_][A-Za-z0-9_]*$")
 FAMILIES = {  # prefix: (what the numbers are, how the repo uses them)
-    "FNO_": ("script call numbers 100-211: entries of the script call table at 0x800D3CC8 (entry = number + 1) that the compiled event-script modules and the bytecode VM call by number; the text after FNO_ is the developer's name of that C function", "function names (ledger/evidence/names_proposed.tsv), per-row evidence"),
+    "FNO_": ("script call numbers 100-212: entries of the script call table at 0x800D3CC8 (entry = number) that the compiled event-script modules and the bytecode VM call by number; the text after FNO_ is the developer's name of that C function", "function names (ledger/evidence/names_proposed.tsv), per-row evidence"),
     "F_": ("event flag numbers (index into the save-game event-flag array); F_act_<npc> are the actor flags, F_<scene>_* scene flags", "flag constants (include/script_symbols.h) wherever a flag test/set call takes a literal"),
     "Ftt_": ("event flags, talk-table variant (same number space)", "flag constants"),
     "Ft_": ("event flags, talk variant", "flag constants"), "Fr_": ("event flags, reserve variant", "flag constants"),
@@ -102,15 +102,15 @@ FAMILIES = {  # prefix: (what the numbers are, how the repo uses them)
     "mamonogoya_": ("monster-hut (mamono-goya) flags and status slots; 0x8000-based numbers are a second flag bank", "flag constants"),
     "SSTP_": ("scene step ids: the per-scene state-machine steps the scripts wait on (SSTP_ANGEL_APPEAR ...)", "step constants and scene summaries"),
     "IMG_": ("portrait image ids per character (IMG_B<name>_<pose>; 0..12 within each character's set)", "image constants"),
-    "S_": ("script call numbers 0-34 (and the developer-console band 90-92): the system-call entries of the same call table (S_open_shop, S_flgtst, S_rand_sn ...; 5 and 15 are the NULL words S_NULL1/S_NULL2; 0-13 except 8 hold group-slot addresses rather than code)", "function names for entries 14-33 (ledger/evidence/names_proposed.tsv), per-row evidence"),
-    "V_": ("script variable slots (V_sys, V_gamew2, V_pobj, V_pad03..)", "variable-slot constants"),
+    "S_": ("script call numbers 0-34 (and the developer-console band S_printf/S_sprintf/S_getchar/S_exit 90-93): the system-call entries of the same call table (S_open_shop, S_flgtst, S_rand_sn ...; 6 and 16 are the NULL words S_NULL1/S_NULL2; 0-14 except 6 and 9 hold group-slot addresses rather than code). S_ARG_*/S_AEG_* (21-25) are NOT call numbers: they index the script variable table, like V_", "function names for entries 9 and 15-34 (ledger/evidence/names_proposed.tsv), per-row evidence"),
+    "V_": ("script variable slots: indices into the variable table at 0x800D401C (V_buki_gosyu_sno 0, V_cheriru00 1 .. V_pad20 20 = the 21 sn work words, then S_ARG_*/S_AEG_* 21-25, V_pobj 26, V_item_type_data 27, V_sys 28, V_gamew2 29)", "variable-slot constants"),
     "sn_": ("scene numbers and scene switches (sn_win_sw0.., sn_open_*)", "scene constants"),
     "PSN_": ("person (NPC) demo-motion commands PSN_DM_* (home position, talk, walk a way, jump, display on/off, delete)", "NPC command constants"),
     "ANM_": ("animation ids paired with the PSN_DM commands", "animation constants"), "ANMWAY_": ("facing directions (down/left/up/right)", "direction constants"),
     "mam_": ("mama's first-talk ids", "constants"), "fg_": ("opening-demo end flags", "flag constants"), "SB01_": ("scene sb01 steps", "step constants"),
     "func_": ("town-map function numbers (func_town_map_reset/del/set)", "constants"), "P_": ("person ids (cheriru scenes)", "constants"),
     "Arg_": ("script argument slots (mode, pno, sno)", "constants"), "snf_": ("script booleans", "constants"), "TB_": ("table ids", "constants"),
-    "Mode_": ("person modes", "constants"), "NUM_": ("counts (NUM_SN_VAR_WORK)", "constants"), "DFLT_": ("defaults", "constants"),
+    "Mode_": ("person modes", "constants"), "NUM_": ("counts (NUM_SN_VAR_WORK = 21, the sn work words V_ 0-20)", "constants"), "DFLT_": ("defaults", "constants"),
     "SHOW970906_": ("build tag: the 1997-09-06 show version", "provenance"),
 }
 def family_of(name):
@@ -118,11 +118,17 @@ def family_of(name):
     return f if f in FAMILIES else (f.lstrip("_") if f.lstrip("_") in FAMILIES else f or "(other)")
 
 def parse_symbol_tables(b: bytes):
-    """Runs of >= 3 consecutive 36-byte records (u32 value, NUL-padded 32-byte identifier)."""
+    """Runs of >= 3 consecutive 36-byte records: char name[32] (NUL-padded identifier) FOLLOWED BY u32 value.
+    file_offset is the record start (= the name's first byte). Corrected 2026-09-28: the parse used to read
+    `u32 value; char name[32]`, locked onto the misaligned pairing (4-byte scan) and gave every name the PREVIOUS
+    record's value (docs/evidence/script_call_table_20260908.md, correction note). Each table ends with a terminator
+    record (32 NUL bytes, value 0xFFFFFFFF), which the identifier test excludes; the scan starts a table only at a
+    record whose first name byte is an identifier character, so the preceding zero padding cannot pair with it."""
     tables, cur, i, n = [], [], 0, len(b)
     while i + 36 <= n:
-        v = struct.unpack_from("<I", b, i)[0]; nm = b[i + 4:i + 36]; z = nm.find(b"\0")
+        nm = b[i:i + 32]; z = nm.find(b"\0")
         if z > 0 and SYM_NAME.match(nm[:z]) and not any(nm[z:]):
+            v = struct.unpack_from("<I", b, i + 32)[0]
             cur.append({"file_offset": f"0x{i:X}", "value": v, "name": nm[:z].decode()}); i += 36
         else:
             if len(cur) >= 3: tables.append(cur)
@@ -130,32 +136,43 @@ def parse_symbol_tables(b: bytes):
     if len(cur) >= 3: tables.append(cur)
     return tables
 
-# The script CALL TABLE (research workflow 2026-09-08, three readers + verifiers + critic; docs/evidence/script_call_table_20260908.md):
-# one table at TOWN.BIN 0x56568 = vram 0x800D3CC8 in the town main overlay (vram = foff + 0x8007D760), published to the compiled
-# event-script modules through the fixed word 0x80016000 -> TownState (D_801131B8) -> field20, and installed into the bytecode VM's
-# system object D_80082A38+0x40 (from the resident data word 0x8006ADD8). A script call number n selects entry n+1, i.e.
-# *(u32*)(0x800D3CC8 + 4*(n+1)); opcode 46 (func_80039DBC) calls it once, opcode 37 (func_80039BBC/func_80038690) every frame until
-# it returns nonzero, opcode 47 (func_80039E1C) names a table explicitly. Numbers 0-33 are the S_ system calls (5 and 15 are the
-# only NULL words = S_NULL1/S_NULL2; 0-13 except 8 hold group-slot addresses in 0x80110E80.., the bytecode VM's table-of-tables
-# D_80110E98 neighbourhood, not code), 34-98 are 65 copies of the empty stub 0x800C0E5C (the developer-console band: S_printf 34,
-# S_sprintf/S_getchar/S_exit 90-92), 100-211 are the FNO_ functions (167/169 = FNO_nouse___168/170 are the only stubs there).
-# The sibling table at 0x800D401C (+0x44) is the script VARIABLE table (30 pointers) = the V_ namespace.
-CALL_TABLE = {"vram": 0x800D3CC8, "foff": 0x56568, "delta": 0x8007D760, "numbers": 212, "stub": 0x800C0E5C}
+# The script CALL TABLE (research workflow 2026-09-08, three readers + verifiers + critic; docs/evidence/script_call_table_20260908.md;
+# numbering corrected 2026-09-28 with the symbol-dump parse fix, see the correction note there):
+# one table at TOWN.BIN 0x56568 = vram 0x800D3CC8 in the town main overlay (vram = foff + 0x8007D760), 213 entries
+# [0x800D3CC8, 0x800D401C), published to the compiled event-script modules through the fixed word 0x80016000 -> TownState
+# (D_801131B8) -> field20, and installed into the bytecode VM's system object D_80082A38+0x40 (from the resident data word
+# 0x8006ADD8). A script call number n selects entry n, i.e. *(u32*)(0x800D3CC8 + 4*n) = field20[n]: the compiled modules'
+# 836 call sites (lw 0x6000 / lw 0x20 / lw 4n) all land on a dumped S_/FNO_ number (docs/evidence/script_call_sites_20260928.txt).
+# Opcode 46 (func_80039DBC) calls it once, opcode 37 (func_80039BBC/func_80038690) every frame until it returns nonzero,
+# opcode 47 (func_80039E1C) names a table explicitly. Numbers 0-34 are the S_ system calls (6 and 16 are the only NULL words =
+# S_NULL1/S_NULL2; 0-14 except 6 and 9 hold group-slot addresses in 0x80110E80.., the bytecode VM's table-of-tables D_80110E98
+# neighbourhood, not code), 35-99 are 65 copies of the empty stub 0x800C0E5C (the developer-console band: S_printf 90,
+# S_sprintf/S_getchar/S_exit 91-93), 100-212 are the FNO_ functions (168/170 = FNO_nouse___168/170 are the only stubs there).
+# The sibling table at 0x800D401C (+0x44) is the script VARIABLE table (30 pointers) = the V_ namespace plus S_ARG_/S_AEG_ (21-25).
+CALL_TABLE = {"vram": 0x800D3CC8, "foff": 0x56568, "delta": 0x8007D760, "numbers": 213, "stub": 0x800C0E5C}
+VAR_ALIAS = ("S_ARG_", "S_AEG_")   # S_-prefixed names that index the variable table, not the call table
 VAR_TABLE = {"vram": 0x800D401C, "foff": 0x800D401C - 0x8007D760, "entries": 30}
 
+def fam_index(fam, name):
+    v = next((v for v, ns in fam.items() if name in ns), None)
+    assert v is not None, f"{name} missing from the symbol dump"
+    return v
+
 def call_table(b: bytes, rs, symbols):
-    """Resolve every script call number 0..211 through the proven table -> entries with kind/row/names."""
+    """Resolve every script call number 0..212 through the proven table (entry = number) -> entries with kind/row/names."""
     town = [r for r in rs if r["container"] == "town" and r.get("foff") is not None]
     by_foff = {r["foff"]: r for r in town}
     by_true = {int(r["true_name"][5:], 16): r for r in town if r.get("true_name") and r["true_name"].startswith("func_")}
     idx = _addr_index(rs); names_tsv = _names()
     fam = defaultdict(list)
     for r in symbols:
-        if r["name"].startswith(("S_", "FNO_")): fam[r["value"]].append(r["name"])
-    D = CALL_TABLE["delta"]; ws = struct.unpack_from("<%dI" % (CALL_TABLE["numbers"] + 2), b, CALL_TABLE["foff"])
+        if r["name"].startswith(("S_", "FNO_")) and not r["name"].startswith(VAR_ALIAS): fam[r["value"]].append(r["name"])
+    D = CALL_TABLE["delta"]; ws = struct.unpack_from("<%dI" % (CALL_TABLE["numbers"] + 1), b, CALL_TABLE["foff"])
+    assert CALL_TABLE["vram"] + 4 * CALL_TABLE["numbers"] == VAR_TABLE["vram"] and ws[-1] == 0x80113160, "call table must end where the variable table starts"
+    assert ws[fam_index(fam, "S_NULL1")] == 0 and ws[fam_index(fam, "S_NULL2")] == 0, "S_NULL1/S_NULL2 must land on NULL words"
     ents = []
     for n in range(CALL_TABLE["numbers"]):
-        w = ws[n + 1]; syms = fam.get(n, [])
+        w = ws[n]; syms = fam.get(n, [])
         row = by_foff.get(w - D) or by_true.get(w); res = _lookup(idx, "slus", w) if not row else None
         if w == 0: kind = "NULL"
         elif w == CALL_TABLE["stub"]: kind = "stub"
@@ -164,7 +181,7 @@ def call_table(b: bytes, rs, symbols):
         elif 0x80110000 <= w < 0x80120000: kind = "group-slot"
         else: kind = "unowned-function"
         # the developer's C name: FNO_x -> x; S_x -> x (skip the S_ARG_/S_AEG_ aliases and NULLs)
-        cands = [s for s in syms if s.startswith("FNO_")] + [s for s in syms if s.startswith("S_") and not s.startswith(("S_ARG_", "S_AEG_", "S_NULL"))]
+        cands = [s for s in syms if s.startswith("FNO_")] + [s for s in syms if s.startswith("S_") and not s.startswith("S_NULL")]
         dev = cands[0].split("_", 1)[1] if cands else None
         ents.append({"number": n, "target": f"0x{w:08X}", "kind": kind, "row": row["id"] if row else (res[0] if kind == "resident" else None),
                      "row_func": row["func"] if row else (names_tsv.get(res[1], (res[1],))[0] if kind == "resident" else None),
@@ -172,9 +189,9 @@ def call_table(b: bytes, rs, symbols):
     vws = struct.unpack_from("<%dI" % VAR_TABLE["entries"], b, VAR_TABLE["foff"])
     vnames = defaultdict(list)
     for r in symbols:
-        if r["name"].startswith("V_"): vnames[r["value"]].append(r["name"])
+        if r["name"].startswith(("V_",) + VAR_ALIAS): vnames[r["value"]].append(r["name"])
     variables = [{"index": i, "target": f"0x{w:08X}", "symbol": f"D_{w:08X}" if w else None, "names": vnames.get(i, [])} for i, w in enumerate(vws)]
-    return {"vram": f"0x{CALL_TABLE['vram']:08X}", "file_offset": f"0x{CALL_TABLE['foff']:X}", "index": "number n -> entry n+1 (base 0x800D3CC8)",
+    return {"vram": f"0x{CALL_TABLE['vram']:08X}", "file_offset": f"0x{CALL_TABLE['foff']:X}", "index": "number n -> entry n (base 0x800D3CC8, = TownState field20[n])",
             "published_via": "0x80016000 -> TownState D_801131B8 ->field20 (compiled script modules); D_80082A38+0x40 (bytecode VM opcodes 46/37/47)",
             "counts": dict(Counter(e["kind"] for e in ents)), "named_on_functions": sum(1 for e in ents if e["dev_name"] and e["kind"] in ("row", "resident")),
             "table": ents, "variable_table": {"vram": f"0x{VAR_TABLE['vram']:08X}", "entries": variables}}
@@ -184,13 +201,16 @@ def import_town_symbols(town_bin):
     recs = [dict(r, family=family_of(r["name"])) for t in tabs for r in t]
     fam = Counter(r["family"] for r in recs)
     (EV / "script_symbols.json").write_text(json.dumps({
-        "source": "TOWN.BIN devkit blob: the scene tool's symbol dump, 36-byte records (u32 value + 32-byte name); identical on the Japanese disc (one name fewer)",
+        "source": "TOWN.BIN devkit blob: the scene tool's symbol dump, 36-byte records (char name[32] then u32 value; file_offset = record start = name; each table ends with a terminator record of 32 NUL bytes + 0xFFFFFFFF); identical on the Japanese disc (one name fewer). Parse corrected 2026-09-28 (it used to read value-then-name and gave every name the previous record's value)",
         "tables": [{"file_offset": t[0]["file_offset"], "records": len(t)} for t in tabs],
         "families": {k: {"count": v, "what": FAMILIES.get(k, ("", ""))[0], "use": FAMILIES.get(k, ("", ""))[1]} for k, v in fam.most_common()},
         "records": recs}, indent=1) + "\n")
     with (DOCS / "script_symbols.tsv").open("w") as f:
         f.write("name\tvalue\tfamily\tfile_offset\n")
         for r in recs: f.write(f"{r['name']}\t{r['value']}\t{r['family']}\t{r['file_offset']}\n")
+    # layout self-checks (2026-09-28 parse fix): the developer's own names carry these numbers
+    val = {r["name"]: r["value"] for r in recs}
+    assert (val["snf_false"], val["snf_truth"], val["FNO_nouse___168"], val["FNO_nouse___170"], val["NUM_SN_VAR_WORK"]) == (0, 1, 168, 170, 21), "symbol dump misparsed"
     ft = call_table(b, rows(), recs)
     (EV / "fno_table.json").write_text(json.dumps(ft, indent=1) + "\n")
     # a header of the constants, for the L4 lanes (not included by anything until a lane proves a literal is one of these)
@@ -200,11 +220,12 @@ def import_town_symbols(town_bin):
     seen = set()
     for r in recs:
         if r["name"] in seen: continue
-        seen.add(r["name"]); H.append(f"#define {r['name']} {r['value']}")
+        seen.add(r["name"]); v = r["value"]
+        H.append(f"#define {r['name']} ({v - 0x100000000})" if v >= 0x80000000 else f"#define {r['name']} {v}")   # TB_SIT = -1
     H += ["", "#endif", ""]
     (ROOT / "include" / "script_symbols.h").write_text("\n".join(H))
     print(f"script symbols: {len(recs)} records in {len(tabs)} tables; families {fam.most_common(8)}")
-    print(f"script call table: {ft['file_offset']} (vram {ft['vram']}), numbers 0..211: {ft['counts']}; named numbers on functions {ft['named_on_functions']}")
+    print(f"script call table: {ft['file_offset']} (vram {ft['vram']}), numbers 0..{CALL_TABLE['numbers'] - 1}: {ft['counts']}; named numbers on functions {ft['named_on_functions']}")
 
 def _names():
     out = {}
@@ -441,7 +462,7 @@ def build():
             if e["dev_name"] and not e["dev_name"].startswith("nouse") and e["row_func"] and e["row_func"].startswith("func_"):
                 new = e["dev_name"]; note = ""
                 if new.startswith("func_"): new = "scr_" + new; note = " (developer name starts with func_, which the alias mechanism reserves; prefixed scr_)"
-                prop.append(f"0x{int(e['row_func'][5:], 16):08X}\t{e['row_func']}\t{new}\tscript call number {e['number']}: the town call table {ft['vram']} entry {e['number'] + 1} = this function; developer symbol {'/'.join(e['symbols'])} (TOWN.BIN symbol dump; rule proven by the 2026-09-08 research workflow){note}")
+                prop.append(f"0x{int(e['row_func'][5:], 16):08X}\t{e['row_func']}\t{new}\tscript call number {e['number']}: the town call table {ft['vram']} entry {e['number']} = this function; developer symbol {'/'.join(e['symbols'])} (TOWN.BIN symbol dump; rule proven by the 2026-09-08 research workflow, numbering corrected 2026-09-28){note}")
         (EV / "names_proposed.tsv").write_text("# Proposed function renames from the script symbol dump (docs/SYMBOLS.md §5). Same columns as config/names.tsv;\n# apply at L4 with the gate (tools/build/ccproc.py alias mechanism). Not applied yet.\n" + "\n".join(prop) + "\n")
     # 5. applied names
     for r in rs:
@@ -492,10 +513,10 @@ def prompt_block(rid):
         L.append(f"- resident pointer table {v['table']}: this function is entry {v['index']} ({v['role']})")
     sf = [s for s in e.get("script_function", []) if not s.get("stub")]
     if sf:
-        L.append("- script call: the event scripts reach this function by call number " + ", ".join(str(s["number"]) for s in sf) + f" through the town call table at {sf[0]['table']} (entry = number + 1); the developer's name for it is `" + "` / `".join(s["dev_name"] for s in sf if s["dev_name"]) + "` (symbol " + ", ".join(s["symbol"] for s in sf if s.get("symbol")) + "). Use that name in the summary comment; the symbol rename itself happens through config/names.tsv.")
+        L.append("- script call: the event scripts reach this function by call number " + ", ".join(str(s["number"]) for s in sf) + f" through the town call table at {sf[0]['table']} (entry = number); the developer's name for it is `" + "` / `".join(s["dev_name"] for s in sf if s["dev_name"]) + "` (symbol " + ", ".join(s["symbol"] for s in sf if s.get("symbol")) + "). Use that name in the summary comment; the symbol rename itself happens through config/names.tsv.")
     st = [s for s in e.get("script_function", []) if s.get("stub")]
     if st:
-        L.append(f"- script call stub: {len(st)} call numbers (the unused 34-98 band and the nouse slots) point at this empty function")
+        L.append(f"- script call stub: {len(st)} call numbers (the unused 35-99 band and the nouse slots 168/170) point at this empty function")
     for d in e.get("data", []):
         lay = f"; record {d['record_bytes']} bytes" if d.get("record_bytes") else ""
         fields = ("; fields (byte offsets): " + ", ".join(f"{k}@{v}" for k, v in d["layout"].items())) if d.get("layout") else ""
@@ -673,23 +694,29 @@ the day a lane proves that a literal in the C is one of these numbers.
             named=[e for e in ft["table"] if e["dev_name"] and e["kind"] in ("row","resident")]
             stubs=[e for e in ft["table"] if e["kind"]=="stub"]; groups=[e for e in ft["table"] if e["kind"]=="group-slot"]
             O.append(f"""The `S_` and `FNO_` numbers are one numbering into **one call table** at `{ft['vram']}` (TOWN.BIN file {ft['file_offset']}, in the
-town main overlay). A script call number *n* selects entry *n+1*. The table is published two ways: the town main overlay stores its
+town main overlay). A script call number *n* selects entry *n*: the table has 213 entries, `0x800D3CC8` up to the variable
+table at `0x800D401C`. The table is published two ways: the town main overlay stores its
 system record (`D_801131B8`) at the fixed word `0x80016000`, and the 54 compiled event-script modules call
-`(*(TownState **)0x80016000)->field20[n+1](...)`; and the resident installs the same table into the bytecode VM's system object
+`(*(TownState **)0x80016000)->field20[n](...)`; and the resident installs the same table into the bytecode VM's system object
 (`D_80082A38+0x40`, from the resident data word `0x8006ADD8`), where opcode 46 (`func_80039DBC`) calls entry *n* once, opcode 37
 (`func_80039BBC` → `func_80038690`) calls it every frame until it returns nonzero, and opcode 47 (`func_80039E1C`) names a table
-explicitly. The sibling table at `0x800D401C` (`+0x44`) is the script **variable** table (30 pointers), the `V_` namespace.
-Proof of the index rule: the only two NULL words are numbers 5 and 15 = `S_NULL1` / `S_NULL2`; number 20 = `S_rand_sn` is
-`rand() % arg`; number 32 = `S_set_no_change_seq` sets one byte; numbers 167 and 169 = `FNO_nouse___168` / `FNO_nouse___170` are
-the only `FNO_` entries on the empty stub; `FNO_strcmp` = 154 is the BIOS strcmp thunk; a dungeon overlay calls number 133 =
-`FNO_change_map`. Layout: numbers 0–33 are the `S_` system calls ({len(groups)} of the shop/twin-shop entries 0–13 hold addresses of
-group slots in `0x80110E80..` rather than code: the bytecode VM's table-of-tables `D_80110E98`, still to be read), 34–98 are {len(stubs) - 2}
-copies of the empty stub `0x800C0E5C` (the developer-console band: `S_printf` 34, `S_sprintf` / `S_getchar` / `S_exit` 90–92),
-100–211 are the `FNO_` functions. **{len(named)} named numbers resolve to a function the tree owns** ({sum(1 for e in named if e['kind']=='row')} town rows,
+explicitly. The sibling table at `0x800D401C` (`+0x44`) is the script **variable** table (30 pointers), the `V_` namespace
+(plus `S_ARG_*` / `S_AEG_*`, which are variable indices 21–25, not call numbers).
+Proof of the index rule: the compiled modules' 836 call sites (`lw 0x6000` / `lw 0x20` / `lw 4n`: 835 in TOWN.BIN, one in
+DUNGEON.BIN; `docs/evidence/script_call_sites_20260928.txt`) use 66 distinct entries and every one is a dumped `S_` / `FNO_` number, e.g. entry 134 = `FNO_change_map` (24 town
+sites and the dungeon site), 90 = `S_printf` and 93 = `S_exit` (the assert macro, 284 and 152 sites), 100 = `FNO_func_sn_casino`;
+the only two NULL words are entries 6 and 16 = `S_NULL1` / `S_NULL2`; entries 168 and 170 = `FNO_nouse___168` / `FNO_nouse___170`
+(the developer's names carry their numbers) are the only `FNO_` entries on the empty stub; entry 21 = `S_rand_sn` is
+`rand() % arg`; entry 33 = `S_set_no_change_seq` sets one byte; entry 155 = `FNO_strcmp` is the BIOS strcmp thunk.
+(Before 2026-09-28 the dump was parsed value-then-name, every name carried the previous record's value, and the rule was
+written "entry = number + 1"; the name → function mapping was the same.) Layout: numbers 0–34 are the `S_` system calls ({len(groups)} of
+the shop/twin-shop entries 0–14 hold addresses of group slots in `0x80110E80..` rather than code: the bytecode VM's table-of-tables
+`D_80110E98`, still to be read), 35–99 are {len(stubs) - 2} copies of the empty stub `0x800C0E5C` (the developer-console band:
+`S_printf` 90, `S_sprintf` / `S_getchar` / `S_exit` 91–93), 100–212 are the `FNO_` functions.
+**{len(named)} named numbers resolve to a function the tree owns** ({sum(1 for e in named if e['kind']=='row')} town rows,
 {sum(1 for e in named if e['kind']=='resident')} resident); they are in `ledger/evidence/names_proposed.tsv` in `config/names.tsv` format, to be
 applied at L4 through the alias mechanism. Names beginning with `func_` are proposed with a `scr_` prefix. Open: the 13 group-slot
-entries, `FNO_func_sn_casino` = 3 (collides with `S_open_buy_mamono`), `S_open_buy_dougu` = 5327, `S_printf` = 34 while the
-modules' assert macro calls number 89, and the resident scene registry at `0x8006ADC0` nobody has read yet
+entries and the resident scene registry at `0x8006ADC0` nobody has read yet
 (`docs/evidence/script_call_table_20260908.md`).
 """)
             O.append("| number | developer symbol | function (row) | note |")
@@ -700,7 +727,7 @@ modules' assert macro calls number 89, and the resident scene registry at `0x800
                 note={"stub":"empty stub","NULL":"NULL","group-slot":"group slot in 0x80110E80.. (data)","unowned-function":f"target {e['target']} is code the tree has not carved"}.get(e["kind"],"")
                 O.append(f"| {e['number']} | `{'`, `'.join(e['symbols']) if e['symbols'] else '—'}` | `{e['row'] or '—'}`{(' (' + e['row_func'] + ')') if e['row_func'] and e['row'] and e['row_func'] != e['row'].split('/')[-1] else ''} | {note} |")
             O.append("")
-            O.append("Script variable table (`0x800D401C`, the `V_` namespace): " + ", ".join(f"{v['index']}={'/'.join(v['names']) if v['names'] else '?'}→`{v['symbol']}`" for v in ft["variable_table"]["entries"] if v["symbol"]) + "\n")
+            O.append("Script variable table (`0x800D401C`, the `V_` namespace; variable *i* = entry *i*, `NUM_SN_VAR_WORK` = 21 sn work words 0–20): " + ", ".join(f"{v['index']}={'/'.join(v['names']) if v['names'] else '?'}→" + (f"`{v['symbol']}`" if v["symbol"] else "NULL") for v in ft["variable_table"]["entries"]) + ". The tail slots fit the tree's types: `V_pobj` → `D_80083498` (the object-list node header, `include/shared/object_node.h`), `V_item_type_data` → `itemCategoryTable` (0x80073414), `V_sys` → `gameWork` (0x80083160, `include/shared/game_work.h`), `V_gamew2` → the resident descriptor at 0x8006ADBC whose +0x1C / +0x20 words are the call / variable table pointers.\n")
         # small families in full
         by = defaultdict(list)
         for r in recs: by[r["family"]].append((r["value"], r["name"]))
@@ -711,7 +738,7 @@ modules' assert macro calls number 89, and the resident scene registry at `0x800
             O.append(f"- **{title}** ({len(items)}): " + ", ".join(f"`{n}`={v}" for v, n in items))
         O.append("")
         O.append("""The `S_` numbers are the script system calls, and §5.1 shows they live in the same call table as the `FNO_` functions
-(numbers 0–33). They are not VM opcode numbers (the interpreter `func_80038AB8` dispatches `D_8006AA90[opcode]` for opcodes
+(numbers 0–34). They are not VM opcode numbers (the interpreter `func_80038AB8` dispatches `D_8006AA90[opcode]` for opcodes
 0–88) and not the 33-entry table at `0x8006B01C` (that is the monster name table).
 """)
         O.append("### 5.3 The flags (`F_` and its variants, `GOODS_`, `mamonogoya_`)\n")
@@ -744,6 +771,8 @@ Examples: """ + ", ".join(f"`{n}`={v}" for v, n in F[:10]) + " ...\n")
     # 6. names + notes
     O.append("## 7. Names already applied, and the prior notes\n")
     O.append(f"`config/names.tsv` holds {len(names)} function renames applied through the alias mechanism (byte-exact by construction), each with an evidence line:\n")
+    if any("script call number" in ev and "numbering corrected 2026-09-28" not in ev for _, ev in names.values()):
+        O.append("Script-call evidence lines written before 2026-09-28 quote the old symbol-dump numbering (\"script call number *N*: ... entry *N+1*\"): the true script call number is *N+1*, equal to the entry; the name and the function are unaffected (§5.1 and the correction note in `docs/evidence/script_call_table_20260908.md`).\n")
     O.append("| symbol | name | evidence |")
     O.append("|---|---|---|")
     for s, (n, ev) in sorted(names.items()):
