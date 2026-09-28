@@ -13,4 +13,4 @@ Hard rules (same as every lane): never edit anything under <REPO>/src/, never ru
 
 Partial progress counts: a byte-exact candidate with FEWER pins is a landing even when pins remain - stage it in out/ and keep working from it. Budget (orchestrator checkpoint, not a hard cap): <TOOL_BUDGET> tool calls; when you reach about 80% of it, stop exploring, stage what is exact and write the report.
 
-FINAL STEP: write your complete final report (the model line first, then the per-row lines) to <LANE_DIR>/last_message.txt. Do NOT write any token figure anywhere: the orchestrator records your measured usage from the Agent tool (tools/lanes/record_usage.py). Then return the same report.
+FINAL STEP: write REPORT.md and your complete final report with a Bash heredoc (cat > FILE <<'EOF' ... EOF) - the Write tool refuses report files from subagents (r78_opus_c1 lost its report that way). Write your complete final report (the model line first, then the per-row lines) to <LANE_DIR>/last_message.txt. Do NOT write any token figure anywhere: the orchestrator records your measured usage from the Agent tool (tools/lanes/record_usage.py). Then return the same report.
