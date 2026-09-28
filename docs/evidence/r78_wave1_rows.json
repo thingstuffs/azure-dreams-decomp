@@ -26,5 +26,31 @@
   "slus/w_80042560",
   "town/func_8046FF64",
   "dungeon/func_8194D1E4"
+ ],
+ "r78_luna6_red1": [
+  "dungeon/func_818694D4",
+  "dungeon/func_8008A31C",
+  "dungeon/func_80FC9000",
+  "dungeon/func_81898EBC",
+  "dungeon/func_80BC1528"
+ ],
+ "r78_opus_c1": [
+  "dungeon/func_80BE5084"
+ ],
+ "r78_opus_c2": [
+  "dungeon/func_80099038",
+  "town/func_8046C048",
+  "dungeon/func_81844F2C"
+ ],
+ "r78_opus_c3": [
+  "dungeon/func_800C9858",
+  "dungeon/func_81912154"
+ ],
+ "r78_agy_g2": [
+  "slus/w_8004425C",
+  "slus/w_80053CFC",
+  "town/func_8032BD34",
+  "slus/w_80047FF4",
+  "dungeon/func_818C29D4"
  ]
 }

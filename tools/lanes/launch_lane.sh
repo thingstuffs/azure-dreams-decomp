@@ -29,6 +29,12 @@ else
 fi
 echo $! > $D/lane.pid
 echo "lane $N model $M pid $(cat $D/lane.pid) started $(date -u +%H:%M)"
+# Round 78: caps default ON from config/lane_caps.json (per model, price-scaled); LANE_TOKEN_CAP=0 LANE_WALL_CAP=0
+# explicitly disables them.
+if [ -z "${LANE_TOKEN_CAP+x}" ] || [ -z "${LANE_WALL_CAP+x}" ]; then
+  read DT DW < <(python3 -c "import json,sys; c=json.load(open('config/lane_caps.json')).get(sys.argv[1],{}); print(c.get('tokens',0), c.get('minutes',0))" "$M")
+  LANE_TOKEN_CAP=${LANE_TOKEN_CAP-$DT}; LANE_WALL_CAP=${LANE_WALL_CAP-$DW}
+fi
 if [ "${LANE_TOKEN_CAP:-0}" != 0 ] || [ "${LANE_WALL_CAP:-0}" != 0 ]; then
   nohup python3 tools/lanes/lane_cap.py watch "$N" --tokens "${LANE_TOKEN_CAP:-0}" --minutes "${LANE_WALL_CAP:-0}" \
       > $D/cap_watch.log 2>&1 &

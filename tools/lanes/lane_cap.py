@@ -144,7 +144,13 @@ def kill_lane(pid):
 def write_cap(root, lane, what, figure, limit):
     rec = {"cap": what, "figure": figure, "limit": limit,
            "at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")}
-    (lane_dir(root, lane) / "cap.txt").write_text(json.dumps(rec) + "\n")
+    d = lane_dir(root, lane)
+    (d / "cap.txt").write_text(json.dumps(rec) + "\n")
+    # round 78: a killed codex lane never writes last_message.txt, so land_finished2 (which lands lanes that have
+    # one) never landed a capped lane's staged out/ candidates (r78_sol6_h10).  A stub makes it landable; ab_report
+    # still reads cap.txt first, and pool.py already treats either file as "ran".
+    if not (d / "last_message.txt").exists():
+        (d / "last_message.txt").write_text("CAPPED by lane_cap.py: %s\n" % json.dumps(rec))
     return rec
 
 

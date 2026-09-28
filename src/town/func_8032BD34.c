@@ -3,26 +3,10 @@
 extern s32 func_8001ADE0(s32 arg0);
 extern void func_80019958(s32 arg0, s32 arg1);
 
-#ifndef NON_MATCHING
-register s16 dispatch_result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-#endif
-
-/* Dispatch the argument pair when condition 0x1463 is active. */
 s32 func_80016534(s32 dispatch_value, s32 dispatch_option) {
-#ifndef NON_MATCHING
-    register s32 dispatch_arg;
-#endif
-#ifndef NON_MATCHING
-    if (func_8001ADE0(0x1463) == 0) {
-        dispatch_arg = dispatch_value;
-        dispatch_result = 0;
-        return;
+    if (func_8001ADE0(0x1463) != 0) {
+        func_80019958(dispatch_value, dispatch_option);
+        return 1;
     }
-#else
-    if (func_8001ADE0(0x1463) == 0) {
-        return;
-    }
-#endif
-    func_80019958(dispatch_value, dispatch_option);
-    return 1;
+    return 0;
 }
