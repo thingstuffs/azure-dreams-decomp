@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 
 typedef struct Scratch80090320 {
@@ -16,7 +17,6 @@ typedef struct Grid80090320 {
     u8 pad10[4]; s16 shift; u16 pad16; u16 x_mask; u16 y_mask;
 } Grid80090320;
 
-extern u8 D_80083160[];
 extern s32 D_800FE480;
 extern s32 D_800FE484;
 extern s32 func_8008CE08();
@@ -107,7 +107,7 @@ s16 func_8008DA80(s32 query_x, s32 query_y, s32 query_z)
     scratch->lower_bound = (s16)query_x - block_base - 0x14;
     scratch->origin_y = query_y & 0x3F;
     scratch->origin_z = query_z;
-    grid_data = D_80083160;
+    grid_data = ((u8 *)(&gameWork));
     grid = (Grid80090320 *)(grid_data + 0x1DC);
     scratch->result = query_x & 0x3F;
     query_x &= 0x3F;

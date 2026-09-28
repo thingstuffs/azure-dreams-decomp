@@ -16,7 +16,6 @@ void func_80173234(u8 *action, s32 unused, u8 *tile, u8 *actor)
     s32 status_flags;
     s32 actor_flags;
     s32 strength;
-    s32 *global_state;
     s32 x;
     s32 y;
     u8 phase;
@@ -42,9 +41,8 @@ void func_80173234(u8 *action, s32 unused, u8 *tile, u8 *actor)
 
 active:
         if (*(u16 *)(tile + 0x14) & 0xE000) {
-            global_state = &dungeonStatus.unk_00;
-            if (global_state[4] == (s32)(actor - 0x20)) {
-                global_state[4] &= 0x7FFFFFFF;
+            if (((s32)dungeonStatus.unk_10) == (s32)(actor - 0x20)) {
+                *(s32 *)&dungeonStatus.unk_10 &= 0x7FFFFFFF;
             }
 
             func_800A2FE0(actor);

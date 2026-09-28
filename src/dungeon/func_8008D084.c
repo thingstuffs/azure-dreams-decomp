@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -18,14 +19,12 @@ extern void func_80099F70();
 extern void func_800A5720();
 extern void *func_800A8608(void *, void *, s32, s32, s32);
 
-extern s16 D_80083228[12];
 extern u8 D_8008ACDC[12];
 extern u8 D_8008D470[12];
 extern u8 D_800DD0B8[8];
 extern u8 D_800E06EE[9];
 extern u8 D_800E06F7[9];
 extern u8 D_80080000[];
-extern u8 D_80083160[];
 
 
 typedef struct S_800927E4_0 {
@@ -123,9 +122,7 @@ void func_800927E4(void *action, s32 actor_id, Rec_D_80082E80 *sprite, S_800927E
     s32 text_root;
     s32 state_or_text;
     u16 timer;
-    s16 *angle_page;
     s32 tail_value; /* MATCH: keep the shared-tail store value in retail's v0. */
-    u8 *flags_base;
 
     state_or_text = ((S_800927E4_0 *)action)->unk_9B;
     if (state_or_text == 1) {
@@ -160,10 +157,9 @@ state_zero:
         return;
     }
 
-    angle_page = (s16 *)D_80083160;
        /* Pin: removal changes a delay-slot fill. */
     {
-        s32 base_angle = ((S_800927E4_4 *)angle_page)->unk_C8;
+        s32 base_angle = gameWork.viewAngle;
         s32 signed_angle = actor->unk_2A.s;
         s32 angle_or_sprite;
         s32 next_angle;
@@ -178,7 +174,7 @@ state_zero:
                 ((S_800927E4_5 *)((void *)angle_or_sprite))->unk_2C = anim_table;
                 func_80048A44(
                     (void *)angle_or_sprite,
-                    anim_table[((((S_800927E4_4 *)angle_page)->unk_C8 +
+                    anim_table[((gameWork.viewAngle +
                             actor->unk_2A.s + 0x100) >> 9) & 7],
                     0,
                     1);
@@ -264,9 +260,8 @@ state_two:
         }
         func_80099F70(actor->unk_5C);
         func_80099F04(actor->unk_5C);
-        flags_base = ((u8 *)(&dungeonStatus));
            /* Pin: removal changes the whole function shape. */
-        ((S_800927E4_11 *)flags_base)->unk_02 |= 0x812;
+        dungeonStatus.flags |= 0x812;
         ((S_800927E4_0 *)action)->unk_8C = D_8008ACDC;
     }
     return;

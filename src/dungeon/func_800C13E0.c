@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/game_work.h"
 #include "m2c_compat.h"
 
 typedef struct S_800C6B40_0 {
@@ -57,13 +58,12 @@ M2C_UNK func_800654B0();
 M2C_UNK func_80065820();
 M2C_UNK func_8006658C();
 extern s32 D_8006CD30[];
-extern u8 D_80083160[];
 
 /* Draws sprite parts as a 4-by-4 grid of textured quads, invoking custom part callbacks. */
 void func_800C6B40(s32 context, void *position, void *sprite, s16 depth_bias) {
     u8 *scratch = (u8 *)0x1F800000;
     u8 *state;
-    u8 *render_globals;
+    GameWork *render_globals;
     s32 packet_next;
     s32 local_y;
     s32 local_x;
@@ -132,8 +132,8 @@ void func_800C6B40(s32 context, void *position, void *sprite, s16 depth_bias) {
     void *quad;
     void *part;
 
-    render_globals = D_80083160;
-    state = *(u8 **)D_80083160;
+    render_globals = &gameWork;
+    state = *(u8 **)((u8 *)(&gameWork));
     *(u32 *)(scratch + 0x0EC) = NULL;
     *(u16 *)(scratch + 0x08C) = 0;
     *(u16 *)(scratch + 0x084) = 0;
@@ -156,9 +156,9 @@ void func_800C6B40(s32 context, void *position, void *sprite, s16 depth_bias) {
         func_800649A0();
         *(u16 *)(scratch + 0x0B8) = (u16)(*(u16 *)(scratch + 0x0B8) - 0xA0);
         *(u16 *)(scratch + 0x0BA) = (u16)(*(u16 *)(scratch + 0x0BA) - 0x78);
-        *(u32 *)(scratch + 0x030) = *(s16 *)(render_globals + 0xC4);
-        *(u32 *)(scratch + 0x034) = *(s16 *)(render_globals + 0xC6);
-        *(u32 *)(scratch + 0x038) = *(s16 *)(render_globals + 0xC8);
+        *(u32 *)(scratch + 0x030) = render_globals->unk_0C4;
+        *(u32 *)(scratch + 0x034) = render_globals->unk_0C6;
+        *(u32 *)(scratch + 0x038) = render_globals->viewAngle;
         *(u16 *)(scratch + 0x100) = (u16)(*(u16 *)((u8 *)sprite + 0x16));
         *(u16 *)(scratch + 0x104) = (s16)(((S_800C6B40_0 *)sprite)->unk_1A - (u16)*(u32 *)(scratch + 0x034));
         *(u16 *)(scratch + 0x102) = (s16)((((u16)*(u32 *)(scratch + 0x038) + 0x100) & 0x1FF) + (angle_offset = (s32)((S_800C6B40_0 *)sprite)->unk_18 - 0x100));
@@ -170,7 +170,7 @@ void func_800C6B40(s32 context, void *position, void *sprite, s16 depth_bias) {
         origin_y = (*(u16 *)((u8 *)sprite + 0x22));
         *(u32 *)(scratch + 0x0E8) = origin_y;
         *(u16 *)(scratch + 0x10A) = origin_y;
-        func_80065820(rotation, scratch + 0xD0, *(s16 *)(render_globals + 0xC8));
+        func_80065820(rotation, scratch + 0xD0, render_globals->viewAngle);
         *(u32 *)(scratch + 0x030) = (void *)((S_800C6B40_0 *)sprite)->unk_1C;
         *(u32 *)(scratch + 0x034) = (void *)(*(u16 *)((u8 *)sprite + 0x1E));
         *(u32 *)(scratch + 0x038) = NULL;

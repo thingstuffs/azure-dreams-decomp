@@ -55,7 +55,6 @@ void func_800CCA14(u16 x, u16 y, u16 z) {
     u16 part_x;
     u16 part_y;
     u16 part_z;
-    u8 *count_base;
     S_800CCA14_0 *effect;
     S_800CCA14_2 *part;
 
@@ -65,8 +64,7 @@ void func_800CCA14(u16 x, u16 y, u16 z) {
     effect->unk_22 = y;
     effect->unk_24 = z;
     effect->unk_27 = 8;
-    count_base = (u8 *)&dungeonStatus.unk_00;
-    ((S_800CCA14_1 *)count_base)->unk_0A = (u16) (((S_800CCA14_1 *)count_base)->unk_0A + 1);
+    dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) + 1);
     part_index = 3;
     do {
         part = func_8003FE78(0, (((D_800E5908 * 5) + part_index) * 0x28) + ((u8 *)&D_8014A000 + 0x28), 0xA);

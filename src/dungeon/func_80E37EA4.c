@@ -109,8 +109,7 @@ extern s8 D_800E2970[];
 /* Selects and applies an actor movement step, updating its path and remaining movement. */
 void func_801716A4(void *move_data_in, void *context, void *tile_in, void *actor_in)
 {
-    u8 *dungeon_state = (u8 *)&dungeonStatus.unk_00;
-    u16 dungeon_flags = ((S_801716A4_0 *)dungeon_state)->unk_02;
+    u16 dungeon_flags = dungeonStatus.flags;
     s32 stop_on_wide_turn = 0;
     s16 stop_turn;
     s32 actor_flags;
@@ -141,7 +140,7 @@ reject_state:
     return;
 
 accept_state:
-    if (((S_801716A4_0 *)dungeon_state)->unk_0C == actor_in) {
+    if (dungeonStatus.unk_0C == actor_in) {
         ((S_801716A4_1 *)actor_in)->unk_46 = 0xC008;
     }
     return;
@@ -343,11 +342,10 @@ loop_test:
     }
 
     {
-        u8 *move_counter = (u8 *)&dungeonStatus.unk_00;
         ((S_801716A4_1 *)actor_in)->unk_46 &= 0x7FFF;
         ((S_801716A4_5 *)move_data_in)->unk_9C.u = ((S_801716A4_2 *)tile_in)->unk_26.u;
         ((S_801716A4_1 *)actor_in)->unk_6D.u--;
-        ((S_801716A4_6 *)move_counter)->unk_08++;
+        dungeonStatus.unk_08++;
     }
     if (((S_801716A4_1 *)actor_in)->unk_6D.s == 0) {
 success:

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct S_80174334_0 {
     u8 pad_00[0xC];
@@ -136,7 +137,6 @@ extern void func_80064D80(void *);
 extern s32 func_80065590(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
 extern void func_80065820(void *, void *);
 extern void func_8006671C(void *);
-extern u8 D_80083160[];
 
 /* Project a textured quad and add it to the ordering table if visible. */
 void func_80174334(void *quad, void *position, void *draw_state, s16 depth_bias)
@@ -149,7 +149,7 @@ void func_80174334(void *quad, void *position, void *draw_state, s16 depth_bias)
     u8 tex_flags;
     MATRIX matrix;
 
-    ((S_80174334_0 *)scratch)->unk_24.p = *(u8 **)D_80083160 + 0xB0;
+    ((S_80174334_0 *)scratch)->unk_24.p = *(u8 **)((u8 *)(&gameWork)) + 0xB0;
     ((S_80174334_0 *)scratch)->unk_88 = ((S_80174334_1 *)position)->unk_02;
     ((S_80174334_0 *)scratch)->unk_8C = ((S_80174334_1 *)position)->unk_06;
     ((S_80174334_0 *)scratch)->unk_90 = ((S_80174334_1 *)position)->unk_0A;
@@ -176,8 +176,8 @@ void func_80174334(void *quad, void *position, void *draw_state, s16 depth_bias)
     ((S_80174334_0 *)scratch)->unk_10.s32 = texture[9];
     (*(s32 *)((u8 *)scratch + 0x14)) = texture[0xA];
     ((S_80174334_0 *)scratch)->unk_18.s32 = texture[0xB];
-    packet = ((S_80174334_3 *)(*(u8 **)D_80083160))->unk_8D0;
-    ((S_80174334_3 *)(*(u8 **)D_80083160))->unk_8D0 = packet + 0x34;
+    packet = ((S_80174334_3 *)(*(u8 **)((u8 *)(&gameWork))))->unk_8D0;
+    ((S_80174334_3 *)(*(u8 **)((u8 *)(&gameWork))))->unk_8D0 = packet + 0x34;
 
     ((S_80174334_0 *)scratch)->unk_B0 = ((S_80174334_4 *)quad)->unk_64;
     ((S_80174334_0 *)scratch)->unk_B8 = ((S_80174334_4 *)quad)->unk_6A;

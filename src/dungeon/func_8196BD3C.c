@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 typedef struct S_8196BD3C_0 {
     u8 pad_00[0x2C];
@@ -43,7 +44,6 @@ typedef struct {
 
 extern u8 D_8002525C[];
 extern PackedVec3 D_80026978;
-extern u8 D_80045340[];
 
 extern void *func_8003FC64(u32);
 extern void func_8004491C(void *, void *);
@@ -62,7 +62,7 @@ void func_8196BD3C(void *source) {
         ((S_8196BD3C_0 *)object_state)->unk_2C = 0xB;
         ((S_8196BD3C_0 *)object_state)->unk_7C = source;
         ((S_8196BD3C_1 *)object)->unk_10 = D_8002525C;
-        func_8004491C(object, D_80045340);
+        func_8004491C(object, func_80045340);
 
         display = ((S_8196BD3C_1 *)object)->unk_0C;
         display->field10 = 0x20;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 typedef s32 unk32;
 
@@ -16,7 +17,6 @@ extern void func_8003DB94(void *, void *, s32);
 extern void func_8004491C(void *, void *);
 
 extern unk32 D_800241E4;
-extern unk32 D_80045340;
 extern unk32 D_800DEC70;
 
 
@@ -85,7 +85,7 @@ void *func_800242EC(s32 object_id, void *initial_data, S_800242EC_2 *source)
         func_8003DB94(visual, &D_800DEC70, 0);
         visual->unk_1E = 0x1000;
         visual->unk_1C = 0x1000;
-        func_8004491C(object, &D_80045340);
+        func_8004491C(object, func_80045340);
         object_data = ((S_800242EC_0 *)object)->unk_08;
         result = object;
         *object_data = *(Copy6 *)initial_data;

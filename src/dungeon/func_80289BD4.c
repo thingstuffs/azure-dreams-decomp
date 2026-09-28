@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dir_step.h"
 
-extern s16 D_80083350[5];
 extern u8 D_800EA000[];
 
 /* Chooses an available neighboring direction, checking perpendicular alternatives when needed. */

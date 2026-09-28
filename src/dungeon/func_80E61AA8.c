@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
 typedef void (*Callback)(void *, void *, void *, void *);
@@ -13,7 +14,6 @@ extern s16 func_800BCB04(u16, u16, s16);
 extern void func_80174FE4(void *, void *, void *, void *);
 
 extern u8 D_8006CCF8[8];
-extern s16 D_80083228;
 extern u8 D_801716F4[];
 extern Callback D_80175600[];
 
@@ -107,7 +107,7 @@ void func_801712A8(void *entity, S_801712A8_2 *motion, void *monster)
         s32 angle_sector;
 
         angle_sector =
-            (D_80083228 + ((S_801712A8_0 *)actor)->unk_2A + 0x100) >> 9;
+            (gameWork.viewAngle + ((S_801712A8_0 *)actor)->unk_2A + 0x100) >> 9;
         direction = angle_sector & 7;
         direction_index = direction;
         direction_copy = direction;

@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 extern void func_800478B8(void *);
 extern void func_8003DB94(void *, void *, s32);
-extern s16 D_80083160[];
 extern u8 D_800DEAE0[];
 
 #define U16_AT(p, o) (*(u16 *)((u8 *)(p) + (o)))
@@ -15,7 +15,7 @@ extern u8 D_800DEAE0[];
 void func_8185CCD4(void *state, void *position, void *sprite)
 {
     s16 angle;
-    s16 *angle_table;
+    GameWork *angle_table;
     void *owner;
 
     owner = *(void **)state;
@@ -23,7 +23,7 @@ void func_8185CCD4(void *state, void *position, void *sprite)
     S32_AT(sprite, 0xC) = S32_AT(sprite, 0xC) + 0xFFF7F7F8;
 
     angle = U16_AT(state, 0x1C) + U16_AT(state, 0x1E);
-    angle_table = D_80083160;
+    angle_table = &gameWork;
     U16_AT(state, 0x1C) = angle;
     U16_AT(state, 0x1C) = angle % 0x1000;
     U16_AT(state, 0x20) = U16_AT(state, 0x20) + 4;
@@ -35,7 +35,7 @@ void func_8185CCD4(void *state, void *position, void *sprite)
         (((func_80064584(S16_AT(state, 0x1C)) >> 4) *
           S16_AT(state, 0x20)) >> 8);
     S16_AT(sprite, 0x1A) =
-        (s32)(0 - ((func_80064584(S16_AT(state, 0x1C) - angle_table[100]) >> 4) << 8)) >> 8;
+        (s32)(0 - ((func_80064584(S16_AT(state, 0x1C) - angle_table->viewAngle) >> 4) << 8)) >> 8;
 
     func_800478B8(sprite);
     if (U16_AT(sprite, 0x14) & 0x6000) {

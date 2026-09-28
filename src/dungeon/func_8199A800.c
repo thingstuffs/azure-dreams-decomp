@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 
@@ -9,7 +10,6 @@
 #define S16_AT(p, off) (*(s16 *)((u8 *)(p) + (off)))
 #define PTR_AT(p, off) (*(void **)((u8 *)(p) + (off)))
 
-extern u8 D_80083160[];
 extern void *D_80024008[];
 extern u8 D_800814A8[12];
 extern u8 D_80024A64[];
@@ -54,7 +54,7 @@ void func_8199A800(void *state_data) __asm__("func_8199A800_body")
 void func_8199A800(void *state_data)
 {
     u8 *state = (u8 *)state_data;
-    u8 *effect_flags;
+    GameWork *effect_flags;
     void **phase_handlers;
     s32 phase;
     s32 result;
@@ -66,7 +66,7 @@ void func_8199A800(void *state_data)
 
     U16_AT(state, 0x16)++;
     phase = S16_AT(state, 0x0A);
-    effect_flags = D_80083160;
+    effect_flags = &gameWork;
     if ((u32)phase < 5U) {
         (void)phase_labels;
         phase_handlers = D_80024008;
@@ -148,7 +148,7 @@ case_3:
         goto default_case;
     }
     {
-        u8 *sequence_state = ((u8 *)(&dungeonStatus));
+        DungeonGlobalStatus *sequence_state = &dungeonStatus;
         U16_AT(sequence_state, 0x0A)--;
         U32_AT(sequence_state, 0x0C) = 0;
     }

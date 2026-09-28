@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -12,7 +13,6 @@ typedef struct Copy24 {
 } Copy24;
 
 extern s32 D_800DEB70;
-extern u8 D_80045340[];
 
 void *func_8003FD64();
 M2C_UNK func_8004491C();
@@ -91,7 +91,7 @@ s32 func_80025270(void *object, Copy24 *src_transform, s16 effect_index) {
         ((Rec_D_80082E80 *)object)->unk_1A.as_s16 = (s16) (random_value - ((adjusted_random >> 0xC) << 0xC));
         ((Rec_D_80082E80 *)object)->unk_1C.at02_s16.v = 0x400;
         ((Rec_D_80082E80 *)object)->unk_1C.at00_s16.v = 0x400;
-        func_8004491C(effect, D_80045340);
+        func_8004491C(effect, func_80045340);
         transform = ((S_80025270_0 *)effect)->unk_08;
         *transform = *src_transform;
         first_word = ((S_80025270_3 *)transform)->unk_00;

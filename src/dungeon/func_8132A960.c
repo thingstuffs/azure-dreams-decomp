@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "records/Rec_D_80174CD8.h"
 
 #ifndef NULL
@@ -57,7 +58,6 @@ extern M2C_UNK func_8003DB94();
 extern void *func_8003FC64();
 extern M2C_UNK func_8004491C();
 extern s32 rand();
-extern M2C_UNK D_80045340;
 extern M2C_UNK D_800DE870;
 extern M2C_UNK D_801720D0;
 extern Rec_D_80174CD8 *D_80174CD8;
@@ -81,7 +81,7 @@ void func_80172160(void)
         effect_state->unk_16 = 0x1E;
         effect_state->unk_18 = 0x1E;
         ((S_80172160_2 *)effect)->unk_10 = &D_801720D0;
-        func_8004491C(effect, &D_80045340);
+        func_8004491C(effect, func_80045340);
         sprite_header = ((S_80172160_2 *)effect)->unk_0C;
         sprite_header->unk_06 = 0;
         effect_pos = ((S_80172160_2 *)effect)->unk_08;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_800814A8.h"
@@ -35,7 +36,6 @@ extern void func_80173AE8(void *, void *, void *, void *);
 extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern s8 D_80082EA4;
-extern s16 D_80083228;
 extern s8 D_800E2970[];
 extern void *D_80170808[];
 extern u8 D_80171014[];
@@ -111,7 +111,7 @@ void func_80171014(void *actor, void *actor_context, void *map_object, void *cre
         animation_table = D_80174254;
         (*(void * *)((u8 *)map_object + (0x2C))) = animation_table;
         func_80047784(map_object,
-            ((u8 *)animation_table)[((D_80083228 + ((Rec_D_800E3D7C *)creature)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            ((u8 *)animation_table)[((gameWork.viewAngle + ((Rec_D_800E3D7C *)creature)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
         return;
     }
@@ -149,7 +149,7 @@ void func_80171014(void *actor, void *actor_context, void *map_object, void *cre
             if (current_animation != animation_table) {
                 (*(void * *)((u8 *)map_object + (0x2C))) = animation_table;
                 func_80047784(map_object,
-                    ((u8 *)animation_table)[((D_80083228 + ((Rec_D_800E3D7C *)creature)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+                    ((u8 *)animation_table)[((gameWork.viewAngle + ((Rec_D_800E3D7C *)creature)->unk_2A.as_s16 + 0x100) >> 9) & 7],
                     0);
                 ((S_80171014_2 *)map_object)->unk_05 = 1;
                 ((S_80171014_0 *)actor)->unk_A2.s = 0;

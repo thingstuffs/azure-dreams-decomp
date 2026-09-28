@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
@@ -137,9 +139,7 @@ extern s32 func_800A94A0(void *, u8 *, s32, void *);
 
 extern u8 D_8006DE24[0x200];
 extern u8 *D_800814A8[3];
-extern s16 D_80083228[2];
 extern u8 D_80083498[0x10];
-extern u8 D_80045340[0x10];
 extern u8 D_800DEA68[0x20];
 extern u8 D_80170E68[0x10];
 extern void *D_80170838[];
@@ -161,7 +161,6 @@ void func_80172840(void *action, void *position, void *sprite_in, void *actor_in
     S_80172840_10 *effect_base;
     register s32 move_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 move_y;
-    S_80172840_11 *status;
     s32 counter;
     void *particle;
     u16 source_x;
@@ -369,7 +368,7 @@ state_2:
                 particle = func_8003FD64(0x312, D_80083498);
                 if (particle != 0) {
                     register void *particle_callback ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                    func_8004491C(particle, D_80045340);
+                    func_8004491C(particle, func_80045340);
                     particle_data = ((S_80172840_7 *)particle)->unk_0C;
                     ASM_KEEP_NV(particle_data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                     {
@@ -448,14 +447,13 @@ state_2:
         ((S_80172840_4 *)sprite)->unk_2C = D_80174194;
         func_80047784(
             sprite,
-            D_80174194[((D_80083228[0] + ((S_80172840_0 *)actor)->unk_2A.u + 0x100) >> 9) & 7],
+            D_80174194[((gameWork.viewAngle + ((S_80172840_0 *)actor)->unk_2A.u + 0x100) >> 9) & 7],
             0);
     }
-    status = ((u8 *)(&dungeonStatus));
-    if (status->unk_0C != 0) {
+    if (((s32)dungeonStatus.unk_0C) != 0) {
         goto done;
     }
-    status->unk_0A--;
+    dungeonStatus.unk_0A--;
     ((S_80172840_4 *)sprite)->unk_14 &= 0xF7FF;
     ((S_80172840_1 *)action)->unk_8C = D_80170E68;
     func_800A4ACC(actor);

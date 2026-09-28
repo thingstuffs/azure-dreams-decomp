@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 #define U8_AT(p, o)  (*(u8 *)((u8 *)(p) + (o)))
 #define S8_AT(p, o)  (*(s8 *)((u8 *)(p) + (o)))
@@ -16,7 +17,6 @@ extern void SetTransMatrix(void *m);
 extern void RotTransSV(void *v0, void *out, void *flag);
 extern s32 rcos(s32);
 extern s32 rsin(s32);
-extern void *D_80083160[3];
 
 /* Transforms a flipped point using local scale, rotation, and offsets, then adjusts for view angles. */
 void func_8003DBD0(void *transform, void *point, void *result)
@@ -37,7 +37,7 @@ void func_8003DBD0(void *transform, void *point, void *result)
     s32 final_angle_z;
     s32 base_angle;
 
-    render_state = (u8 *)D_80083160;
+    render_state = (u8 *)((void * *)(&gameWork));
     PushMatrix();
     scratch = (u8 *)0x1F800000;
 

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -56,7 +57,6 @@ extern void func_80173D38(void *, void *, void *, void *);
 
 extern void *D_800814A8;
 extern u8 D_80082E80[];
-extern s16 D_80083228;
 extern u8 D_80171138[];
 extern u8 D_80174AD4[];
 extern u8 D_80174AFC[];
@@ -66,7 +66,6 @@ extern u8 D_80174B04[];
 void func_8017357C(void *controller, void *motion, void *sprite, void *actor)
 {
     s32 actor_flags;
-    u8 *global_base;
     s32 state;
 
     state = ((S_8017357C_0 *)controller)->unk_9B;
@@ -90,7 +89,7 @@ state_zero:
     }
     (*(void * *)((u8 *)sprite + 0x2C)) = D_80174AFC;
     func_80047784(sprite,
-        D_80174AFC[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+        D_80174AFC[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
         0);
     ((S_8017357C_3 *)(u8 *)&dungeonStatus.unk_00)->unk_0A = ((S_8017357C_3 *)(u8 *)&dungeonStatus.unk_00)->unk_0A - 1;
     ((S_8017357C_0 *)controller)->unk_9B++;
@@ -100,7 +99,7 @@ state_one:
     if ((func_80042900(actor, 1) << 16) == 0) {
         (*(void * *)((u8 *)sprite + 0x2C)) = D_80174B04;
         func_80047784(sprite,
-            D_80174B04[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            D_80174B04[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
         actor_flags = ((Rec_D_800E3D7C *)actor)->unk_1C.as_s32 | 0x40000;
         ((Rec_D_800E3D7C *)actor)->unk_1C.as_s32 = actor_flags;
@@ -110,8 +109,7 @@ state_one:
         }
         goto increment_state;
     }
-    global_base = (u8 *)&dungeonStatus.unk_00;
-    if (((S_8017357C_4 *)global_base)->unk_02 & 0x1000) {
+    if (dungeonStatus.flags & 0x1000) {
         goto done;
     }
     if (((Rec_D_800E3D7C *)actor)->unk_64.as_s16 != 0) {
@@ -120,7 +118,7 @@ state_one:
         }
     }
     if (((Rec_D_800E3D7C *)actor)->unk_24.at01_u8.v == 0) {
-        if (((S_8017357C_4 *)global_base)->unk_02 & 0x2008) {
+        if (dungeonStatus.flags & 0x2008) {
             goto done;
         }
         func_800AA79C(controller, motion, sprite, actor);
@@ -169,7 +167,7 @@ state_one:
     }
     (*(void * *)((u8 *)sprite + 0x2C)) = D_80174B04;
     func_80047784(sprite,
-        D_80174B04[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+        D_80174B04[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
         0);
     actor_flags = ((Rec_D_800E3D7C *)actor)->unk_1C.as_s32 | 0x40000;
     ((Rec_D_800E3D7C *)actor)->unk_1C.as_s32 = actor_flags;
@@ -197,12 +195,11 @@ state_two:
     ((S_8017357C_0 *)controller)->unk_A0 = 0;
     (*(void * *)((u8 *)sprite + 0x2C)) = D_80174AD4;
     func_80047784(sprite,
-        D_80174AD4[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+        D_80174AD4[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
         0);
     {
-        u8 *counter_base = (u8 *)&dungeonStatus.unk_00;
 
-        ((S_8017357C_3 *)counter_base)->unk_0A--;
+        dungeonStatus.unk_0A--;
     }
     ((Rec_D_800E3D7C *)actor)->unk_1C.as_s32 &= ~0x200;
 

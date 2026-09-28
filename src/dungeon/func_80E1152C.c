@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
 typedef struct {
@@ -41,7 +42,6 @@ typedef struct {
 
 extern u8 D_80171094[];
 extern u8 D_80176460[8];
-extern s16 D_80083228[5];
 
 extern void func_800A2B04(void *, u8, u8);
 extern void func_800A56E0(s32);
@@ -130,7 +130,7 @@ state_2:
 common:
     if (sprite->flags & 0xE000) {
         sprite->field_2C = D_80176460;
-        func_80047784(sprite, D_80176460[(((*D_80083228 + actor->value_2A + 0x100) >> 9) & 7)], 0);
+        func_80047784(sprite, D_80176460[(((gameWork.viewAngle + actor->value_2A + 0x100) >> 9) & 7)], 0);
         action->field_98 &= 0xFFF7;
     }
 

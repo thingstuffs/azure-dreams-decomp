@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
@@ -43,7 +44,6 @@ extern Copy12 D_80026680;
 extern Copy12 D_80026698;
 extern Copy12 D_800266A4;
 extern s16 D_800266BC[5];
-extern u8 D_80045340[9];
 extern u8 D_80025348[12];
 extern u8 D_80025398[12];
 extern u8 D_8002558C[12];
@@ -299,7 +299,7 @@ void func_8002592C(u8 *self, u8 *position, void *volatile render_data)
                 return;
             }
             if (!((*(u8 *)((u8 *)self + 0x7A)) & 4)) {
-                func_8004491C(self - 0x20, D_80045340);
+                func_8004491C(self - 0x20, func_80045340);
                 frames_squared = (s32)(render_data);
                 ((S_818FA12C_1 *)(u8 *)frames_squared)->unk_10 = 0x20;
                 ((S_818FA12C_1 *)(u8 *)frames_squared)->unk_0C.at02.v = 0x20;
@@ -438,7 +438,7 @@ void func_8002592C(u8 *self, u8 *position, void *volatile render_data)
             if (flash != 0) {
                 (*(u16 *)((u8 *)flash + 0x22)) = 120;
                 (*(u32 *)((u8 *)flash + 0x10)) = (u32)D_80025348;
-                func_8004491C(flash, D_80045340);
+                func_8004491C(flash, func_80045340);
                 flash_data = (*(u8 * *)((u8 *)flash + 0x0C));
                 ((S_818FA12C_9 *)flash_data)->unk_14 |= 0x0C;
                 ((S_818FA12C_9 *)flash_data)->unk_10 = 0;
@@ -480,7 +480,7 @@ void func_8002592C(u8 *self, u8 *position, void *volatile render_data)
             index = 96;
             (*(u16 *)((u8 *)particle_state + 0x9A)) = 0;
             (*(u32 *)((u8 *)impact + 0x10)) = (u32)D_80025398;
-            func_8004491C(impact, D_80045340);
+            func_8004491C(impact, func_80045340);
             impact_data = (*(u8 * *)((u8 *)impact + 0x0C));
             flags = 0x0C;
             ((S_818FA12C_8 *)impact_data)->unk_14 = flags;
@@ -552,7 +552,7 @@ update_position:
                 }
                 (*(u16 *)((u8 *)particle_state + 0x9A)) = 0;
                 (*(u32 *)((u8 *)impact + 0x10)) = (u32)D_80025648;
-                func_8004491C(impact, D_80045340);
+                func_8004491C(impact, func_80045340);
                 flash_data = (*(u8 * *)((u8 *)impact + 0x0C));
                 render_flags = ((S_818FA12C_8 *)flash_data)->unk_14 & 0xFFF3;
                 ((S_818FA12C_8 *)flash_data)->unk_14 = render_flags;
@@ -608,7 +608,7 @@ update_position:
             (*(u16 *)((u8 *)particle_state + 0x0A)) = 10;
             (*(u16 *)((u8 *)particle_state + 4)) = 0;
             (*(u32 *)((u8 *)impact + 0x10)) = (u32)D_8002558C;
-            func_8004491C(impact, D_80045340);
+            func_8004491C(impact, func_80045340);
             particle_data = (*(u8 * *)((u8 *)impact + 0x0C));
             ((S_818FA12C_8 *)particle_data)->unk_10.u = 0x20;
             ((S_818FA12C_8 *)particle_data)->unk_14 |= 0x0C;

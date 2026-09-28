@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800814A8.h"
 
@@ -35,7 +36,6 @@ extern void func_8017526C(void *, void *, void *, void *);
 extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern s8 D_80082EA4;
-extern s16 D_80083228;
 extern s8 D_800E2970[];
 extern void *D_80170808[];
 extern u8 D_80170E70[];
@@ -139,7 +139,7 @@ void func_80170E70(void *entity_in, void *context_in, void *sprite_in, void *act
             (*(void * *)((u8 *)sprite + (0x2C))) = effects;
             func_80047784(
                 sprite,
-                effects[((D_80083228 + ((S_80170E70_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                effects[((gameWork.viewAngle + ((S_80170E70_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
                 0);
         }
         return;
@@ -173,7 +173,7 @@ void func_80170E70(void *entity_in, void *context_in, void *sprite_in, void *act
                 (*(void * *)((u8 *)sprite + (0x2C))) = effect;
                 func_80047784(
                     sprite,
-                    effect[((D_80083228 + ((S_80170E70_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                    effect[((gameWork.viewAngle + ((S_80170E70_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
                     0);
             }
             ((S_80170E70_0 *)entity)->unk_9A = next_state;
@@ -318,7 +318,7 @@ jt_default:
         (*(void * *)((u8 *)sprite + (0x2C))) = effects;
         func_80047784(
             sprite,
-            effects[((D_80083228 + ((S_80170E70_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            effects[((gameWork.viewAngle + ((S_80170E70_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
     }
 }

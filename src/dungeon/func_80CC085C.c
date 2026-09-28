@@ -429,11 +429,10 @@ step_done:
         return;
     }
     {
-        u16 *counters = ((u16 *)(&dungeonStatus));
         ((S_8017405C_0 *)movement)->unk_46 &= 0x7FFF;
         ((Rec_func_800A9E70_arg0 *)context)->unk_9C.as_s8 = actor->unk_26.u;
         ((S_8017405C_0 *)movement)->unk_6D.u = ((S_8017405C_0 *)movement)->unk_6D.u - 1;
-        counters[4] = counters[4] + 1;
+        dungeonStatus.unk_08 = ((u16)dungeonStatus.unk_08) + 1;
     }
     if (((S_8017405C_0 *)movement)->unk_6D.s != 0) {
         goto update_height;

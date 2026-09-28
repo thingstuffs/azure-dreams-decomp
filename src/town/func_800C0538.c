@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "m2c_compat.h"
 
-extern struct S_8003E2D8 D_80083160;
 extern u8 D_80089660[];
 extern void *memcpy(void *dst, const void *src, u32 n);
 
@@ -42,7 +42,7 @@ void func_800BDC98(s16 start_x, s16 start_y, s16 mode, s32 pair_index) {
     saved_pair = pair_index;
     selected_pair = saved_pair;
     M2C_MEMCPY_UNALIGNED(value_pairs, D_80089660, 0x10);
-    state = (s8 *)&D_80083160;
+    state = (s8 *)((struct S_8003E2D8 *)&gameWork);
     buffer_info = state + 0x1DC;
     buffer = ((S_800BDC98_0 *)state)->unk_1DC;
     height = 1;

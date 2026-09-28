@@ -144,12 +144,10 @@ center_on_tile:
     func_800A2B04(motion, tile_state->unk_24,
         tile_state->unk_25);
     {
-        s32 *entity_slots;
 
-        entity_slots = &dungeonStatus.unk_00;
-        x_speed_or_entity = entity_slots[4];
+        x_speed_or_entity = ((s32)dungeonStatus.unk_10);
         if (x_speed_or_entity == (s32)((u8 *)entity - 0x20)) {
-            entity_slots[4] = x_speed_or_entity & 0x7FFFFFFF;
+            dungeonStatus.unk_10 = x_speed_or_entity & 0x7FFFFFFF;
         }
     }
     motion_state->unk_8C = &D_801714D4;

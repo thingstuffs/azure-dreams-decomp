@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 extern int abs(int);
 
@@ -19,7 +20,6 @@ extern void SD_Call();
 extern s32 rand();
 
 extern u8 D_80026748[];
-extern u8 D_80045340[];
 extern u8 D_80082E80[16];
 extern s32 D_80083784;
 extern u8 D_800F7950[];
@@ -140,7 +140,7 @@ void func_8002614C(void *state_data, void *position_data, void *sprite_data)
             if (effect != 0) {
                 effect_state = effect + 0x20;
                 PTR(effect, 0x10) = D_80026748;
-                func_8004491C(effect, D_80045340);
+                func_8004491C(effect, func_80045340);
                 effect_position = PTR(effect, 8);
                 effect_sprite = PTR(effect, 0xC);
                 S32(effect_position, 0) = position[0];

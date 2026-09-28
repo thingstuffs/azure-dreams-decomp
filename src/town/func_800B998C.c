@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct S_800B70EC_0 {
     u8 pad_00[0x14];
@@ -18,7 +19,6 @@ extern void func_8006733C();
 extern void func_800B73F0();
 
 extern u8 D_80082E60[];
-extern u8 D_80083160[];
 extern u8 D_800D2FB4[];
 extern volatile u8 D_800D381A[];
 extern u8 D_80110EC8[];
@@ -51,7 +51,7 @@ void func_800B70EC(void) {
     upload_rect = D_80111FA8;
     scene_entry = (u8 *)(upload_rect);
     image_data = D_80110EC8;
-    state_base = D_80083160;
+    state_base = ((u8 *)(&gameWork));
     asset_state = state_base + 0x1DC;
     seven = 7;
     limit = 0x7F;

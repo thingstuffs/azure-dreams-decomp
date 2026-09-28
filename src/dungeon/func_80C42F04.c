@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -13,8 +14,6 @@ extern void *D_80170858[];
 
 extern s32 D_8003E140[];
 extern s32 D_8006CD58[];
-extern u8 D_80083160[];
-extern s16 D_80083228[];
 extern u8 *D_800DCEEC[];
 extern u8 D_800DCF5C[];
 extern u8 D_8014A000[200000];
@@ -144,7 +143,7 @@ void func_80174704(void *action, Rec_D_800E3D7C *position, Rec_D_80082E80 *entit
         &&start, &&init_turn, &&wait_turn, &&fade_color, &&create_effect,
         &&animate_effect, &&wait_motion, &&create_replacement, &&finish_transition
     };
-    u8 *object = D_80083160;
+    u8 *object = ((u8 *)(&gameWork));
     u32 color;
     u8 state;
     s32 next_state;
@@ -174,7 +173,7 @@ wait_turn:
         s32 direction;
         u16 angle;
 
-        direction = ((D_80083228[0] + ((S_80174704_1 *)actor)->unk_2A.s + 0x100) >> 9) & 7;
+        direction = ((gameWork.viewAngle + ((S_80174704_1 *)actor)->unk_2A.s + 0x100) >> 9) & 7;
         angle = ((S_80174704_1 *)actor)->unk_2A.u;
         if (((S_80174704_2 *)D_80174E3C)->unk_00 == 0) {
             goto direction_not_ready;
@@ -325,7 +324,7 @@ create_replacement:
             u8 *direction_frames;
 
             object = ((S_80174704_8_pre *)replacement_actor)[-1].unk_00;
-            direction = ((D_80083228[0] + ((S_80174704_8 *)replacement_actor)->unk_2A + 0x100) >> 9) & 7;
+            direction = ((gameWork.viewAngle + ((S_80174704_8 *)replacement_actor)->unk_2A + 0x100) >> 9) & 7;
             direction_frames = ((S_80174704_3 *)object)->unk_2C;
             func_80047738(object, direction_frames[direction], ((S_80174704_3 *)object)->unk_04);
         }
@@ -341,13 +340,11 @@ finish_transition:
         }
     }
     {
-        u8 *actor_counts;
 
         ((S_80174704_11 *)(((S_80174704_1 *)actor)->unk_60))->unk_2A = ((S_80174704_1 *)actor)->unk_8A;
         ((S_80174704_0_pre *)action)[-1].unk_00 |= 0x8000;
         objectFlagBlock.flags |= 0x8000;
-        actor_counts = (u8 *)((s32 *)(&dungeonStatus));
-        ((S_80174704_9 *)actor_counts)->unk_0A--;
+        dungeonStatus.unk_0A--;
         ((S_80174704_1 *)actor)->unk_6D = 0;
     }
 

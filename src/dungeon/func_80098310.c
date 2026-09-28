@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct Inner {
     u8 unk0[3];
@@ -13,7 +14,6 @@ typedef struct State {
     Inner *next;
 } State;
 
-extern State *D_80083160[3];
 extern u8 D_801C9E40[16];
 extern s32 func_8006658C(s32 arg0, void *arg1);
 
@@ -22,7 +22,7 @@ void func_8009DA70(s32 x, s32 y, s32 *entryValue, s32 submissionTarget)
 {
     s32 maskedY = y & 0xFFFF;
     s32 adjustedY = maskedY + 0xC0;
-    State *state = D_80083160[0];
+    State *state = gameWork.unk_000;
     Inner *entry = state->next;
     s32 adjustedX = x + 0x300;
 

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "records/Rec_func_800AA258_arg2.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -56,7 +57,6 @@ extern void func_8004491C(void *, void *);
 extern void func_80047784(void *, s32, s32);
 extern s32 func_8003DE58(s32, void *, u16 *, s32);
 
-extern u8 D_80045340[9];
 extern u8 D_80174D24[9];
 
 /* Create a render object, copy its source state, and apply queried position offsets. */
@@ -70,7 +70,7 @@ s32 func_80174EB4(s32 priority, Rec_D_800E3D7C *source_state, Rec_func_800AA258_
     object = func_8003FD64(0x312, priority - 0x20);
     if (object != 0) {
         ((S_80174EB4_0 *)object)->unk_10 = D_80174D24;
-        func_8004491C(object, D_80045340);
+        func_8004491C(object, func_80045340);
 
         context = (u8 *)object + 0x20;
         context->unk_04 = source_state;

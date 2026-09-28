@@ -1,9 +1,9 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
 extern u8 D_80083780[12];
 extern u8 *D_800814A8;
-extern s16 D_80083228[];
 extern u8 D_8016A36C[];
 extern s16 D_801760D8[];
 extern u8 D_801739A0[];
@@ -122,7 +122,7 @@ set_base3:
 shared_base:
     if (current_anim_table != anim_table) {
         *(u8 **)(sprite + 0x2C) = anim_table;
-        direction = ((s32)(D_80083228[0] + *(s16 *)(actor + 0x2A) + 0x100) >> 9) & 7;
+        direction = ((s32)(gameWork.viewAngle + *(s16 *)(actor + 0x2A) + 0x100) >> 9) & 7;
         func_80047784(sprite, *(u8 *)((u32)direction + (u32)anim_table), 0);
     }
     goto advance;

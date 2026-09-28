@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 
 __asm__(".set jtbl_800898AC, 0x800898AC");
@@ -52,7 +53,6 @@ extern void func_8006733C(void *, void *);
 extern s32 rand(void);
 extern void func_800BF15C(void);
 
-extern u8 D_80045340[];
 extern u8 D_800D231C[];
 extern u8 D_800D2324[];
 extern u8 D_800F15AC[];
@@ -110,7 +110,7 @@ L_case0:
         particle = func_8003FC64(0x136);
         if (particle != 0) {
             particle->callback = func_800BF15C;
-            func_8004491C(particle, D_80045340);
+            func_8004491C(particle, func_80045340);
             sprite = particle->sprite;
             particle->position->x = motion->x + ((rand() & 0x1FF) - 0x100) * 0x2000;
             particle->position->y = motion->y + ((rand() & 0x1FF) - 0x100) * 0x2000;

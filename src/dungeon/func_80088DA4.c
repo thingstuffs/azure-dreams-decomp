@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct S_8008E504_0 {
     u8 pad_00[0x8C];
@@ -47,7 +48,6 @@ extern s32 D_800E3540;
 extern u8 D_8008ACDC[];
 extern u8 D_8008EAC8[];
 extern u8 D_800DD058[];
-extern s16 D_80083228[5];
 
 extern void func_800419EC(s32, s32);
 extern void func_80048A44(void *, u8, s32, s32);
@@ -118,7 +118,7 @@ state_one:
     }
     sprite->unk_2C = D_800DD058;
     func_80048A44(sprite,
-        D_800DD058[((D_80083228[0] + entity->unk_2A + 0x100) >> 9) & 7],
+        D_800DD058[((gameWork.viewAngle + entity->unk_2A + 0x100) >> 9) & 7],
         0, 1);
     sprite->unk_14 = (u16)(sprite->unk_14 | 0x800);
     actor->unk_9B = (u8)(actor->unk_9B + 1);

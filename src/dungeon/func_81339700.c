@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "records/Rec_D_80175D50.h"
 
 #ifndef NULL
@@ -45,7 +46,6 @@ typedef struct S_80170700_3 {
 extern void *func_8003FC64();
 extern s32 func_8004491C();
 extern s32 func_80047784();
-extern s32 D_80045340;
 typedef struct {
     u16 x0;
     u16 x2;
@@ -94,7 +94,7 @@ void func_80170700(void) {
         } while (copy_src != (void *)copy_end);
         render_data->unk_14 =
             (render_data->unk_14 & 0xFF7F) | 0x400;
-        func_8004491C(object, &D_80045340, copy_dst, copy_src);
+        func_8004491C(object, func_80045340, copy_dst, copy_src);
         call_obj = render_data;
         do {
             data_index = *(&D_80170000[0x3A80]);

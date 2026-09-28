@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
 typedef struct Copy12 {
@@ -21,7 +22,6 @@ typedef struct {
 } Part;
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern u8 D_80045340[];
 void *func_8003FC64(s32);                       /* extern */
 void func_8004491C(void *, void *);                /* extern */
 extern M2C_UNK D_80024104;
@@ -66,7 +66,7 @@ void func_800243D8(void *source) {
         state->unk_2A = 0xB;
         state->unk_60 = source;
         (*(M2C_UNK **)((u8 *)object + 0x10)) = &D_80024104;
-        func_8004491C(object, D_80045340);
+        func_8004491C(object, func_80045340);
         part = (*(Part **)((u8 *)object + 0xC));
         part->field10 = 0x20;
         part->field6 = 0;

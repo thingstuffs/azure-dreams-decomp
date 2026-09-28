@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
 typedef struct {
@@ -50,7 +51,6 @@ typedef struct {
     u16 flags_46;
 } Actor;
 
-extern s16 D_80083228[5];
 extern u8 D_80082E80[];
 extern u8 D_80171760[];
 extern u8 D_80174EA8[];
@@ -94,7 +94,7 @@ L_state_0: {
             goto L_update_96;
         sprite->ptr_2c = D_80174EA8;
         func_80047784(sprite,
-                      D_80174EA8[((D_80083228[0] + actor->value_2a + 0x100) >> 9) & 7],
+                      D_80174EA8[((gameWork.viewAngle + actor->value_2a + 0x100) >> 9) & 7],
                       0);
         state->flags_98 |= 8;
         actor->flags_1c &= 0xf7ffffff;
@@ -188,7 +188,7 @@ L_flagged:
         sprite->value_1c = 0x1000;
         sprite->ptr_2c = D_80174EB0;
         func_80047784(sprite,
-                      D_80174EB0[((D_80083228[0] + actor->value_2a + 0x100) >> 9) & 7],
+                      D_80174EB0[((gameWork.viewAngle + actor->value_2a + 0x100) >> 9) & 7],
                       0);
         state->state_9b += 1;
         goto L_update_96;
@@ -205,7 +205,6 @@ L_update_96: {
         next_timer = state->value_96 - 1;
         state->value_96 = next_timer;
         if ((next_timer << 16) <= 0) {
-            s16 *global_counts;
             s32 actor_flags;
 
             motion->value_14 = 0;
@@ -216,9 +215,8 @@ L_update_96: {
             sprite->value_1e = 0x1000;
             func_800AD594(actor, 4);
             func_800A4ACC(actor);
-            global_counts = (s16 *)((s32 *)(&dungeonStatus));
-            if (global_counts[4] != 0)
-                global_counts[4] = (u16)global_counts[4] - 1;
+            if (dungeonStatus.unk_08 != 0)
+                dungeonStatus.unk_08 = (u16)dungeonStatus.unk_08 - 1;
             actor_flags = actor->flags_1c;
             if (actor_flags & 0x2000) {
                 if (actor->flags_46 & 0x8000) {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
 typedef struct Func81893244Data Func81893244Data;
@@ -62,7 +63,6 @@ struct Func81893244Object {
 };
 
 extern s32 D_800E2178;
-extern u8 D_80045340[];
 M2C_UNK func_80024824(s32, Func81893244Sub *, s32, s32);
 Func81893244Object *func_8003FC64(s32);
 void func_8003DB94(Func81893244Sub *, s32 *, s32);
@@ -95,7 +95,7 @@ void func_81893244(s32 source, Func81893244Data *initial_data, s16 status_param)
         func_8003DB94(sprite, &D_800E2178, 0);
         sprite->field1E = 0x1800;
         sprite->field1C = 0x1800;
-        func_8004491C(effect, D_80045340);
+        func_8004491C(effect, func_80045340);
         payload = effect->field8;
         *payload = *initial_data;
         func_80024824(source, payload, 8, -0x40);
@@ -119,7 +119,7 @@ void func_81893244(s32 source, Func81893244Data *initial_data, s16 status_param)
             sprite->field1C = 0x800;
             sprite->field14 = (u16) (sprite->field14 | 0xC);
             sprite->field10 = (u16) (sprite->field10 | 0x60);
-            func_8004491C(effect, D_80045340);
+            func_8004491C(effect, func_80045340);
             payload = effect->field8;
             *payload = *initial_data;
             payload->u0.halves0.field2 = (u16) (payload->u0.halves0.field2 + ((s32) (func_800644B8(rand()) * 2) >> 8));

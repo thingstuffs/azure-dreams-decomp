@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct S_BODY_0 {
     u8 pad_00[0x8D0];
@@ -119,7 +120,6 @@ typedef struct {
 extern GlobalPage D_80080000;
 __asm__(".set D_80080000, 0x80080000");
 
-extern void *D_80083160[];
 
 #ifdef __mips__
 extern void func_80024FA4(void);
@@ -189,7 +189,7 @@ void BODY(void *shape, void *position, void *render_state, u16 depth_offset)
     register s32 next_height_m ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     geometry = shape;
-    globals = D_80083160;
+    globals = ((void * *)(&gameWork));
     next_height_m = (s32)((u8 *)(&D_80080000));
     graphics = ((GlobalPage *)(u8 *)next_height_m)->table[0];
     scratch = (u8 *)0x1F800000;

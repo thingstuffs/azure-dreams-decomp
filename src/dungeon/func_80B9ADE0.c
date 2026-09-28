@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 typedef struct {
     s32 x;
@@ -61,7 +62,6 @@ extern Entity *func_8003FC64(s32);
 extern void func_8004491C(Entity *, void *);
 extern s32 func_80064584(s32);
 extern s32 func_800644B8(s32);
-extern u8 D_80045340;
 extern void D_8017414C(void);
 
 /* Creates a 16-segment cylindrical effect at the supplied position. */
@@ -102,7 +102,7 @@ void func_801745E0(Source *source, Vec3i *origin)
         sub->field_1A = lifetime;
         sub->field_1C = source->field_96;
         entity->callback = callback;
-        func_8004491C(init_entity, &D_80045340);
+        func_8004491C(init_entity, func_80045340);
 
         prim = entity->prim;
         prim_flags = &prim->field_14;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
@@ -36,7 +37,6 @@ extern M2C_UNK D_8003E140;
 extern s32 D_80081488;
 extern M2C_UNK D_8008149C;
 extern void *D_80082EB0[];
-extern s16 D_80083228;
 extern M2C_UNK D_8008ACDC;
 extern u8 D_800DD138[];
 extern u8 D_800DD140[];
@@ -212,7 +212,7 @@ jt_c0:
         goto done;
     }
     (*(void **)((u8 *)entity + (0x2C))) = D_800DD138;
-    func_80048A44(entity, D_800DD138[((s32) (D_80083228 + ((S_8009345C_2 *)context)->unk_2A + 0x100) >> 9) & 7], 0, 1);
+    func_80048A44(entity, D_800DD138[((s32) (gameWork.viewAngle + ((S_8009345C_2 *)context)->unk_2A + 0x100) >> 9) & 7], 0, 1);
     func_80093C70(actor, map, entity);
     func_80093D8C(actor, map, entity);
     entity_flags = ((S_8009345C_1 *)entity)->unk_14;
@@ -354,7 +354,7 @@ jt_c7:
         goto done;
     }
     (*(void **)((u8 *)entity + (0x2C))) = D_800DD140;
-    func_80048A44(entity, D_800DD140[((s32) (D_80083228 + ((S_8009345C_2 *)context)->unk_2A + 0x100) >> 9) & 7], 0, 1);
+    func_80048A44(entity, D_800DD140[((s32) (gameWork.viewAngle + ((S_8009345C_2 *)context)->unk_2A + 0x100) >> 9) & 7], 0, 1);
     goto advance_state;
 jt_c8:
     if (!(((S_8009345C_1 *)entity)->unk_14 & 0x6000)) {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct Scratch {
     u8 pad0[0x18];
@@ -31,7 +32,6 @@ typedef struct Entry {
 typedef struct EmptyCallArg {
 } EmptyCallArg;
 
-extern u8 *D_80083160;
 extern s16 D_8002632A;
 extern u32 D_80026470;
 extern u32 D_80026474;
@@ -50,7 +50,7 @@ s32 func_80024EF4(void)
 {
     s32 quad_index = 0;
     Scratch *scratch = (Scratch *)0x1F800000;
-    u8 *state = D_80083160;
+    u8 *state = gameWork.unk_000;
     u8 *primitive_start = *(u8 **)(state + 0x8D0);
     u32 *vertices;
     u8 *vertex_record;
@@ -60,7 +60,7 @@ s32 func_80024EF4(void)
 
     /* This address is needed only by the loop's terminal writeback. */
     {
-        u8 **state_slot = &D_80083160;
+        u8 **state_slot = &gameWork.unk_000;
 
         if (D_8002632A <= 0)
             goto done;

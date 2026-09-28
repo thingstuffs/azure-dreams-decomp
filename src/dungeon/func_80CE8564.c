@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
+#include "shared/game_work.h"
 
 typedef struct S_80171D64_0 {
     u8 pad_00[0x8];
@@ -54,8 +56,6 @@ extern s32 func_800A6D30();
 extern void func_800A9C18();
 extern void func_800AA36C();
 
-extern s32 D_80045340;
-extern s16 D_80083228;
 extern u8 D_80083498[];
 extern s8 D_800E2968;
 extern u8 D_801720B4[];
@@ -108,7 +108,7 @@ void *func_80171D64(s32 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initial_hei
     result = (u8 *)object + 0x20;
     ((S_80171D64_0 *)object)->unk_10 = D_801720B4;
     ((S_80171D64_1 *)result)->unk_13 = 0x16;
-    func_8004491C(object, &D_80045340);
+    func_8004491C(object, func_80045340);
 
     default_frames = (s32)D_80175E24;
     kind_or_position = 0xE;
@@ -255,7 +255,7 @@ select_f:
     }
 table_store:
     (*(void * *)((u8 *)((void *)height_or_sprite) + 0x2C)) = frame_table;
-    default_frames = ((D_80083228 + ((S_80171D64_1 *)result)->unk_2A + 0x100) >> 9) & 7;
+    default_frames = ((gameWork.viewAngle + ((S_80171D64_1 *)result)->unk_2A + 0x100) >> 9) & 7;
     func_80047784((void *)height_or_sprite,
         *(u8 *)((u32)default_frames + (u32)frame_table),
         0);

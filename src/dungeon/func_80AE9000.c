@@ -1,5 +1,6 @@
 /* cfail-repair: extent span with the matched DUNGEON packet idiom */
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct {
     u8 pad[0x8D0];
@@ -37,7 +38,6 @@ typedef struct {
 extern u32 func_80065420(void *, void *, void *, void *);
 extern s32 func_80066460(s32, s32, s32, s32);
 extern void func_80067F20(void *, s32, s32, s32, s32);
-extern u8 D_80083160[];
 
 #ifdef __mips__
 static const u32 func_80AE9000_extent_prefix[41]
@@ -66,9 +66,9 @@ __asm__(".globl func_80AE9000\n"
 s32 FUNC_80AE9000_BODY(Input0 *render_data, Input1 *position_data) {
     u8 *render_bytes = (u8 *)render_data;
     u8 *position_bytes = (u8 *)position_data;
-    u8 *context_addr = D_80083160;
+    u8 *context_addr = ((u8 *)(&gameWork));
     register u32 addr_mask ASM_REG("$18") = 0x00FFFFFF;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    Context *state = *(Context **)D_80083160;
+    Context *state = *(Context **)((u8 *)(&gameWork));
     u32 length_mask = 0xFF000000;
     Scratch *scratch = (Scratch *)0x1F800000;
     register u8 red ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */

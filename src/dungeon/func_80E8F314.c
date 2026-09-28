@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
 typedef struct {
@@ -25,23 +26,22 @@ typedef struct {
 
 extern s32 func_800A2BDC(State *state);
 extern void func_80047784(Object *object, u8 value, s32 arg2);
-extern s16 D_80083228[];
 extern u8 D_80174F08[];
 
 /* Clears the state flag and, when allowed, resets the entity and selects a directional object value. */
 void func_80174B14(Entity *entity, s32 unused, Object *object, State *state) {
-    u16 *flags = ((u16 *)(&dungeonStatus));
+    DungeonGlobalStatus *flags = &dungeonStatus;
 
     state->unk71 &= 0x7F;
-    if (!(flags[1] & 0x2000) && ((func_800A2BDC(state) << 16) == 0)) {
+    if (!(flags->flags & 0x2000) && ((func_800A2BDC(state) << 16) == 0)) {
         entity->unk9A = 0x18;
         entity->unk8C = 0;
         entity->unk9B = 0;
         object->unk2C = D_80174F08;
         func_80047784(object,
-                      D_80174F08[((D_80083228[0] + state->unk2A + 0x100) >> 9) & 7],
+                      D_80174F08[((gameWork.viewAngle + state->unk2A + 0x100) >> 9) & 7],
                       0);
         state->unk6D--;
-        flags[5]++;
+        flags->unk_0A++;
     }
 }

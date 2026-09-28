@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 
@@ -54,7 +55,6 @@ M2C_UNK func_8009A21C();             /* extern */
 M2C_UNK func_8009A3D0();             /* extern */
 s32 func_800A2BDC();                          /* extern */
 M2C_UNK func_800A5720();                         /* extern */
-extern s16 D_80083228;
 extern u8 D_80170854[];
 extern u8 D_80173FD0[];
 
@@ -71,14 +71,12 @@ void func_80173AD4(void *work_in, void *part_a, void *part_b_in, void *actor) {
     s32 call_flags;
     void *work;
     void *part_b;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    u8 *state;
 
     flags71 = ((S_80173AD4_0 *)actor)->unk_71;
     work = work_in;
     ((S_80173AD4_0 *)actor)->unk_71 = flags71 & 0x7F;
-    state = (u8 *)&dungeonStatus.unk_00;
     part_b = part_b_in;
-    if (!(((S_80173AD4_1 *)state)->unk_02 & 0x2000) && ((func_800A2BDC(actor) << 0x10) == 0)) {
+    if (!(dungeonStatus.flags & 0x2000) && ((func_800A2BDC(actor) << 0x10) == 0)) {
         ((S_80173AD4_2 *)work)->unk_8C = 0;
         ((S_80173AD4_2 *)work)->unk_9A = 0x17;
         ((S_80173AD4_2 *)work)->unk_9B = 0;
@@ -87,7 +85,7 @@ void func_80173AD4(void *work_in, void *part_a, void *part_b_in, void *actor) {
             ((S_80173AD4_2 *)work)->unk_A6 = (u16) ((S_80173AD4_3 *)part_b)->unk_12;
             ((S_80173AD4_2 *)work)->unk_AA = (s16) (((S_80173AD4_0 *)actor)->unk_14 & 7);
         }
-        ((S_80173AD4_1 *)state)->unk_0A = (u16) (((S_80173AD4_1 *)state)->unk_0A + 1);
+        dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) + 1);
         ((S_80173AD4_0 *)actor)->unk_6D = (u8) (((S_80173AD4_0 *)actor)->unk_6D - 1);
         call_flags = ((S_80173AD4_0 *)actor)->unk_1C & 0x2000;
         call_a0 = ((S_80173AD4_3 *)part_b)->unk_24;
@@ -100,7 +98,7 @@ void func_80173AD4(void *work_in, void *part_a, void *part_b_in, void *actor) {
         ((S_80173AD4_0 *)actor)->unk_1C = (s32) (((S_80173AD4_0 *)actor)->unk_1C & ~0x2000);
         func_8009A21C(((S_80173AD4_3 *)part_b)->unk_24, ((S_80173AD4_3 *)part_b)->unk_25, 0x3000);
         (*(u8 **)((u8 *)part_b + 0x2C)) = D_80173FD0;
-        func_80047784(part_b, D_80173FD0[((D_80083228 + ((S_80173AD4_0 *)actor)->unk_2A + 0x100) >> 9) & 7], 0);
+        func_80047784(part_b, D_80173FD0[((gameWork.viewAngle + ((S_80173AD4_0 *)actor)->unk_2A + 0x100) >> 9) & 7], 0);
         msg = func_800990FC();
         msg_actor = actor;
         msg_handle = msg;

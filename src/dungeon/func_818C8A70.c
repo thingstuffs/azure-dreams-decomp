@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 
@@ -85,7 +86,6 @@ typedef struct S_818C8A70_7_pre {
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern s16 D_80024D04;
-extern u8 D_80045340[];
 extern u8 D_800DE870[9];
 extern u8 D_800DEC00[];
 void *func_8003FC64();                       /* extern */
@@ -125,7 +125,7 @@ void func_818C8A70(void *effect, S_818C8A70_4 *position) {
         if (particle != NULL) {
             particle_state->unk_02 = 0x1A;
             ((S_818C8A70_2 *)particle)->unk_10 = &D_80024124;
-            func_8004491C(particle, D_80045340);
+            func_8004491C(particle, func_80045340);
             sprite = ((S_818C8A70_2 *)particle)->unk_0C;
             sprite->unk_10 = 0x60;
             sprite->unk_14 = (u16) (sprite->unk_14 | 0xC);
@@ -192,7 +192,7 @@ update_phase:
                 u16 particle_z_base;
                 particle_state->unk_02 = 0x1A;
                 ((S_818C8A70_2 *)particle)->unk_10 = &D_80024124;
-                func_8004491C(particle, D_80045340);
+                func_8004491C(particle, func_80045340);
                 sprite = ((S_818C8A70_2 *)particle)->unk_0C;
                 sprite->unk_10 = 0x60;
                 sprite->unk_14 = (u16) (sprite->unk_14 | 0xC);
@@ -235,7 +235,7 @@ update_phase:
                 s16 particle_z;
                 particle_state->unk_02 = 0x14;
                 ((S_818C8A70_2 *)particle)->unk_10 = &D_80024024;
-                func_8004491C(particle, D_80045340);
+                func_8004491C(particle, func_80045340);
                 sprite = ((S_818C8A70_2 *)particle)->unk_0C;
                 sprite->unk_10 = 0;
                 sprite->unk_14 = (u16) (sprite->unk_14 | 0xC);

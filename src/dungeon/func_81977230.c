@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/game_work.h"
 #include "m2c_compat.h"
 
 extern s32 func_80065590(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
@@ -29,13 +30,7 @@ typedef struct {
     u8 pad[8];
 } OffsetGlobal;
 
-typedef struct {
-    Context *context;
-    u8 pad[8];
-} RootGlobal;
-
 extern OffsetGlobal D_80026208;
-extern RootGlobal D_80083160;
 
 /* Builds and projects a textured, vertex-colored quad and links it into the ordering table. */
 s32 func_81977230(s32 color0, s32 color1, s32 color2, s32 color3) {
@@ -62,7 +57,7 @@ s32 func_81977230(s32 color0, s32 color1, s32 color2, s32 color3) {
 
     vertex0 = (void *)0;
     vertex1 = (void *)3;
-    u_right = D_80083160.context;
+    u_right = gameWork.unk_000;
     vertex2 = (void *)0x300;
     scratch = (Scratch *)0x1F800000;
     scratch->ordering_table = (u8 *)u_right + 0xB0;

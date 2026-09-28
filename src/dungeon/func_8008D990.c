@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
 extern u8 D_80080000[];
@@ -98,7 +99,6 @@ extern u16 D_8008146C;
 extern u8 D_80082E6B;
 extern u16 D_80082E76;
 extern s32 D_80082EB8;
-extern M2C_UNK D_80083160;
 extern s16 D_800DCED4[];
 extern s32 D_800DCF64;
 extern M2C_UNK D_800E296C;
@@ -108,7 +108,6 @@ extern M2C_UNK D_800E4938;
 /* Advances the dungeon transition through its delay, setup, and completion phases. */
 void func_800930F0(void *state, s32 unused, S_800930F0_1 *tile, S_800930F0_2 *actor) {
     static void *const jt_keep[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8, &&jt_c9, &&jt_c10, &&jt_c11, &&jt_c12, &&jt_c13, &&jt_c14, &&jt_c15, &&jt_c16, &&jt_c17 };
-    M2C_UNK *control_state;
     M2C_UNK *transition_base;
     u8 *saved_state_base;
     s32 *slot_cursor;
@@ -271,9 +270,8 @@ jt_c17:
 block_25:
     goto block_26;
 block_26:
-    control_state = &D_80083160;
-    ((S_800930F0_10 *)control_state)->unk_CC = 0;
-    ((S_800930F0_10 *)control_state)->unk_154 = 0;
+    gameWork.unk_0CC = 0;
+    gameWork.unk_154 = 0;
     (*(s32 *)&D_800E296C) = (s32) (((S_800930F0_6 *)(&D_800E296C))->unk_00 | 0x40000);
     return;
 }

@@ -1,12 +1,12 @@
 #include "common.h"
+#include "shared/game_work.h"
 
-extern s8 D_80083160[];
 extern s32 D_80012090[];
 extern s32 D_8008ACDC;
 
 /* Waits for a countdown or global state change before resetting the object's handler. */
 void func_80092DFC(void *object) {
-    s8 *shared_data = D_80083160;
+    GameWork *shared_data = &gameWork;
     u8 state = *(u8 *)((u8 *)object + 0x9B);
     u8 current_state;
     u16 timer;
@@ -31,7 +31,7 @@ state_one:
     if ((s16)timer < 0) {
         goto reset;
     }
-    if (*(s32 *)(shared_data + 0x10) == 0) {
+    if (((s32)shared_data->unk_010) == 0) {
         return;
     }
     ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */

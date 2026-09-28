@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct S_80053A88_TILE {
     u32 tag;
@@ -28,7 +29,6 @@ typedef struct S_80053A88_Node {
     s16 unk14;
     u16 unk16;
 } S_80053A88_Node;
-extern S_80053A88_Base *D_80083160[3];
 extern void SetTile(S_80053A88_TILE *p);
 extern void SetSemiTrans(void *p, s32 abe);
 extern s32 GetTPage(s32 tp, s32 abr, s32 x, s32 y);
@@ -47,7 +47,7 @@ s32 func_80053A88(S_80053A88_Node *first_node)
     u32 addr_mask;
     u32 tag_mask;
     node = first_node;
-    draw_base_ptr = &D_80083160[0];
+    draw_base_ptr = &gameWork.unk_000;
     ASM_KEEP_NV(draw_base_ptr);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     addr_mask = 0x00FFFFFF;
     tag_mask = 0xFF000000;

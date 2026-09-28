@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
@@ -58,7 +59,6 @@ s32 func_800A94A0();       /* extern */
 void func_80171020(); /* extern */
 extern M2C_UNK D_8006DE24;
 extern void *D_800814A8;
-extern s16 D_80083228;
 extern M2C_UNK D_80171760;
 extern u8 D_80174E88[9];
 
@@ -72,7 +72,6 @@ void func_8017364C(void *action, void *motion, void *sprite, void *actor) {
     s16 use_player;
     u16 effect_ticks;
     u16 finish_ticks;
-    u8 *global_state;
     u8 *ability;
     s32 phase;
     void *target;
@@ -269,8 +268,7 @@ do {
     }
     } while (1);
 wait_for_finish:
-    global_state = ((u8 *)(&dungeonStatus));
-    if (((S_8017364C_6 *)global_state)->unk_0C != 0) {
+    if (((s32)dungeonStatus.unk_0C) != 0) {
         goto update_finish_timer;
     }
     ((S_8017364C_0 *)action)->unk_96 = 0U;
@@ -294,13 +292,13 @@ check_animation:
         goto check_completion;
     }
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = D_80174E88;
-    func_80047784(sprite, D_80174E88[((s32) (D_80083228 + ((S_8017364C_1 *)actor)->unk_2A + 0x100) >> 9) & 7], 0);
+    func_80047784(sprite, D_80174E88[((s32) (gameWork.viewAngle + ((S_8017364C_1 *)actor)->unk_2A + 0x100) >> 9) & 7], 0);
     ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = (u16) (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xF7FF);
 check_completion:
-    if (((S_8017364C_6 *)global_state)->unk_0C != 0) {
+    if (((s32)dungeonStatus.unk_0C) != 0) {
         goto done;
     }
-    ((S_8017364C_6 *)global_state)->unk_0A = (u16) (((S_8017364C_6 *)global_state)->unk_0A - 1);
+    dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
     ((S_8017364C_0 *)action)->unk_8C = &D_80171760;
     func_800A4ACC(actor);
     ((S_8017364C_1 *)actor)->unk_73.u = 0;

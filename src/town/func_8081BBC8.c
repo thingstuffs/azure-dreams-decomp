@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 
 typedef struct TownObject {
@@ -26,7 +27,6 @@ extern void *D_80020164[6];
 extern u8 D_80026F80[];
 extern u8 D_80082E80[];
 extern u32 D_80082E8C;
-extern u8 D_80083160[];
 extern s16 D_800834C8[1];
 extern s32 D_80083780[];
 
@@ -45,7 +45,7 @@ extern void tw_sd_sq_ld_call(s32, s32);
 /* Advances a three-object shuffle sequence and handles its effects and completion. */
 void func_80025BC8(TownState *state)
 {
-    u8 *scene_data;
+    GameWork *scene_data;
     s32 phase;
     s32 loop_index;
     s32 particle_x;
@@ -53,9 +53,9 @@ void func_80025BC8(TownState *state)
         &&case_0, &&case_1, &&case_2, &&case_3, &&case_4, &&case_5
     };
 
-    scene_data = D_80083160;
+    scene_data = &gameWork;
     (void)case_labels;
-    if (*(u32 *)(scene_data + 0x10) & 0x40) {
+    if (((u32)scene_data->unk_010) & 0x40) {
         state->counter = 0;
     }
     state->counter++;
@@ -78,13 +78,13 @@ case_0:
         init_state->state = 1;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         target_offset = -0x80;
-        *(s16 *)(scene_data + 0xAC) +=
-            (target_offset - *(s16 *)(scene_data + 0xAC)) >> 1;
+        scene_data->unk_0AC +=
+            (target_offset - scene_data->unk_0AC) >> 1;
         first_object = *(TownObject **)init_state;
         if (first_object->state != 1) {
             goto cleanup;
         }
-        *(s16 *)(scene_data + 0xAC) = target_offset;
+        scene_data->unk_0AC = target_offset;
         init_state->counter = 0;
         round_delay = *(u16 *)(D_80026F80 +
                         init_state->table_x * 40 + init_state->table_y * 400);
@@ -165,7 +165,7 @@ case_2:
 
 case_3:
     if (state->timer < 15) {
-        *(s16 *)(scene_data + 0xAC) >>= 1;
+        scene_data->unk_0AC >>= 1;
     }
     state->timer--;
     if (state->timer >= 0) {
@@ -191,7 +191,7 @@ case_3:
     if (state->timer > 0) {
         goto cleanup;
     }
-    *(s16 *)(scene_data + 0xAC) = 0;
+    scene_data->unk_0AC = 0;
     state->state = 5;
     state->flags |= 8;
     goto cleanup;

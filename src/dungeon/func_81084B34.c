@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -16,7 +17,6 @@ typedef struct S_80172334_0 {
 
 
 M2C_UNK func_80047784();         /* extern */
-extern s16 D_80083228;
 typedef struct {
     s8 pad[0xA];
     u16 field_0xA;
@@ -30,15 +30,14 @@ void func_80172334(void *state, M2C_UNK unused, void *sprite, void *orientation)
     ticks = ((S_80172334_0 *)state)->unk_A6 + 1;
     ((S_80172334_0 *)state)->unk_A6 = ticks;
     if ((u32) (ticks & 0xFFFF) >= 0x3DU) {
-        D_80083460_t *counters = ((D_80083460_t *)&dungeonStatus);
         u8 *direction_table = &D_80175F20;
 
         ((S_80172334_0 *)state)->unk_A6 = 0x3CU;
-        counters->field_0xA = counters->field_0xA + 1;
+        dungeonStatus.unk_0A = ((u16)dungeonStatus.unk_0A) + 1;
         ((S_80172334_0 *)state)->unk_8C = 0;
         ((S_80172334_0 *)state)->unk_9A = 0x17;
         ((S_80172334_0 *)state)->unk_9B = 0;
         (*(u8 **)((u8 *)sprite + 0x2C)) = direction_table;
-        func_80047784(sprite, *((((s32) (D_80083228 + ((Rec_D_800E3D7C *)orientation)->unk_2A.as_s16 + 0x100) >> 9) & 7) + direction_table), 0);
+        func_80047784(sprite, *((((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)orientation)->unk_2A.as_s16 + 0x100) >> 9) & 7) + direction_table), 0);
     }
 }

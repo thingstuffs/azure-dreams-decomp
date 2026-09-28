@@ -1,6 +1,6 @@
 #include "common.h"
+#include "shared/game_work.h"
 
-extern void *D_80083160[3];
 extern u8 D_801C9E40[16];
 
 extern void func_8002616C();
@@ -20,13 +20,13 @@ void func_81960864(void *draw_data, s32 draw_mode)
     void *draw_context;
     void *end_context;
 
-    draw_context = D_80083160[0];
-    draw_contexts = D_80083160;
+    draw_context = gameWork.unk_000;
+    draw_contexts = ((void * *)(&gameWork));
     buffer_shift = draw_context != (void *)D_801C9E40;
     start_packet = *(s32 *)((u8 *)draw_context + 0x8D0);
     ordering_table = (u8 *)draw_context + 0x8B0;
     *(s32 *)((u8 *)draw_context + 0x8D0) = start_packet + 0xC;
-    func_80067E2C(start_packet, D_80083160[0], draw_context);
+    func_80067E2C(start_packet, gameWork.unk_000, draw_context);
     {
         void *packet_table;
         s32 packet_addr;

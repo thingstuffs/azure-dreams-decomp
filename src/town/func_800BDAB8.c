@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct S_800BB218_0 {
     u16 unk_00;
@@ -61,7 +62,6 @@ typedef struct {
     u32 pad[2];
 } Global83160;
 
-extern Global83160 D_80083160;
 
 /* Draws randomized white points around each object in the linked chain. */
 s32 func_800BB218(void *first_object, void *first_coords)
@@ -86,7 +86,7 @@ s32 func_800BB218(void *first_object, void *first_coords)
 
     object = first_object;
     coords = first_coords;
-    render_state = &D_80083160;
+    render_state = ((Global83160 *)&gameWork);
     scratch = (u8 *)0x1F800000;
     ((S_800BB218_0 *)scratch)->unk_10 = render_state->ptr + 0xB0;
     addr_mask = 0x00FFFFFF;

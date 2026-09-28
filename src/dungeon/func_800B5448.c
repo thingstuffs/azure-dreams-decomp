@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
@@ -58,7 +59,6 @@ struct Scratch {
     s32 length;
 };
 
-extern u8 D_80083160[];
 
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
@@ -70,9 +70,8 @@ extern s16 func_80069EF8(void);
 /* Advances particle levels and emits colored effect primitives into the dungeon display list. */
 s32 func_800BABA8(DungeonObject *object, u16 *position) {
     DungeonRoot *root =
-        *(DungeonRoot **)D_80083160;
-    void *root_slot =
-        (void *)D_80083160;
+        *(DungeonRoot **)((u8 *)(&gameWork));
+    GameWork *root_slot = &gameWork;
     s32 packet_cursor = root->cursor;
     Scratch *scratch;
     s16 particle = 0;
@@ -163,7 +162,7 @@ s32 func_800BABA8(DungeonObject *object, u16 *position) {
             }
         }
     } while (1);
-    ((S_800BABA8_1 *)(*(DungeonRoot **)root_slot))->unk_8D0 = packet_cursor;
+    ((S_800BABA8_1 *)(root_slot->unk_000))->unk_8D0 = packet_cursor;
     {
         s32 result = 0;
         return result;

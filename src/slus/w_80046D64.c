@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 /* D_8006E7F0: array of pointers to per-type info records; each record has a
  * u16 count at +0x6 and four u16 word-offsets at +0x8/+0xA/+0xC/+0xE. */
@@ -29,12 +30,11 @@ typedef struct S_80083160_View {
     S_80046D64_Dst sub;
 } S_80083160_View;
 
-extern S_80083160_View D_80083160;
 
 /* Sets four list pointers from type offsets and relocates the first list entries. */
 void func_80046D64(s32 data_base, s16 type_index)
 {
-    S_80083160_View *state = &D_80083160;
+    S_80083160_View *state = ((S_80083160_View *)&gameWork);
     S_80046D64_Dst *lists = &state->sub;
     s32 *first_list;
     s32 *entry;

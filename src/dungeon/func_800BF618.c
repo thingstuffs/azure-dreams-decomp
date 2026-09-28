@@ -33,7 +33,6 @@ typedef struct S_800C4D78_1 {
 /* Creates an object with the supplied payload, optionally triggers an event, and increments the counter. */
 void func_800C4D78(s32 payload, s16 trigger_event) {
     S_800C4D78_0 *object;
-    u8 *counter_base;
     s16 held_event = trigger_event;
 
     object = func_8003FD64(0x200, &D_80083498);
@@ -44,9 +43,8 @@ void func_800C4D78(s32 payload, s16 trigger_event) {
         if ((held_event << 0x10) != 0) {
             func_800A56E0(0x501);
         }
-        counter_base = (u8 *)&dungeonStatus.unk_00;
-        ((S_800C4D78_1 *)counter_base)->unk_0A =
-            (u16)(((S_800C4D78_1 *)counter_base)->unk_0A + 1);
+        dungeonStatus.unk_0A =
+            (u16)(((u16)dungeonStatus.unk_0A) + 1);
     }
 }
 

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 #define VFIELD(p, type, offset) (*(volatile type *)((u8 *)(p) + (offset)))
 
@@ -114,7 +115,6 @@ typedef struct S_81874988_5 {
 } S_81874988_5;   /* packet in func_81874988 */
 
 
-extern u8 *D_80083160;
 extern void func_80064840(void *, void *, void *);
 extern void func_800649A0(void);
 extern void func_80064A40(void);
@@ -128,7 +128,7 @@ extern void func_80065820(void *, void *);
 /* Projects a textured quad and queues it for drawing, or invokes its texture callback. */
 void func_81874988(void *quad, void *position, void *material, s16 depth_bias)
 {
-    u8 *render_state = D_80083160;
+    u8 *render_state = gameWork.unk_000;
     u8 *scratch = (u8 *)0x1F800000;
     u8 *packet;
     u32 tex_attr;

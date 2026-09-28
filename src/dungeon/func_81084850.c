@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
 typedef struct S_80172050_0 {
@@ -44,14 +45,12 @@ extern s32 func_800A2B5C(void *);
 extern s32 func_800A2CB8(void *, s32);
 extern void func_800C7930(void *, s32, s32, s32);
 
-extern s16 D_80083228;
 extern u8 D_80175F48;
 
 /* Attempts an actor action and initializes its output and directional display on success. */
 s32 func_80172050(void *action_out, s32 action_param, void *actor_info, void *acting_actor)
 {
     volatile u8 frame_pad[8];
-    u16 *global_state;
     u8 *direction_table;
     s32 computed_angle;
     s32 result;
@@ -59,8 +58,7 @@ s32 func_80172050(void *action_out, s32 action_param, void *actor_info, void *ac
     u16 state_flags;
 
     ((S_80172050_0 *)acting_actor)->unk_71 &= 0x7F;
-    global_state = (u16 *)&dungeonStatus.unk_00;
-    if (global_state[1] & 0x2000) {
+    if (dungeonStatus.flags & 0x2000) {
         result = -1;
         goto done;
     }
@@ -72,7 +70,7 @@ s32 func_80172050(void *action_out, s32 action_param, void *actor_info, void *ac
         goto done;
     }
 
-    state_flags = global_state[1];
+    state_flags = dungeonStatus.flags;
     if (state_flags & 0x2000) {
         result = -1;
         goto done;
@@ -107,7 +105,7 @@ s32 func_80172050(void *action_out, s32 action_param, void *actor_info, void *ac
     direction_table = &D_80175F48;
     (*(void * *)((u8 *)actor_info + 0x2C)) = direction_table;
     func_80047784(actor_info,
-        direction_table[((D_80083228 + ((S_80172050_0 *)acting_actor)->unk_2A + 0x100) >> 9) & 7],
+        direction_table[((gameWork.viewAngle + ((S_80172050_0 *)acting_actor)->unk_2A + 0x100) >> 9) & 7],
         0);
     ((S_80172050_3 *)acting_actor)->unk_6D--;
     func_8009C93C(acting_actor, actor_info, ((S_80172050_3 *)acting_actor)->unk_2A, 1, 0);

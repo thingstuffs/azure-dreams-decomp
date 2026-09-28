@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 /* D_80083160: shared state table (own view). Only the flags halfword at
  * offset 0x4 is touched here (bit0/bit1 select add-vs-subtract direction
@@ -9,7 +10,6 @@ typedef struct {
     char pad6[6]; /* keep total size > 8B so hi/lo (not $gp) addressing is used */
 } S_80041900_D80083160;
 
-extern S_80041900_D80083160 D_80083160;
 
 /* D_80083CA8: sibling struct of code2.c's func_800419EC (which documents
  * offset 0 = rate/quotient, offset 4 = accumulator, offset 6 = short
@@ -44,7 +44,7 @@ typedef struct {
 /* Moves the entity while the timer runs, then ticks the timer and decays the motion accumulator. */
 void func_80041900(S_80041900_Obj *entity)
 {
-    S_80041900_D80083160 *direction_state = &D_80083160;
+    S_80041900_D80083160 *direction_state = ((S_80041900_D80083160 *)&gameWork);
     S_80041900_D80083CA8 *motion_state = &D_80083CA8;
 
     if (motion_state->field8 != 0) {

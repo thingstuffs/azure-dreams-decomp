@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -93,11 +95,9 @@ M2C_UNK func_800A2B04();
 M2C_UNK func_800A4ACC();
 M2C_UNK func_800A56E0();
 s32 func_800A94A0(void *, u8 *, s32, void *);
-extern M2C_UNK D_80045340;
 typedef struct { u8 pad[0x12]; u8 kind; u8 pad2; } ItemDef20;
 extern ItemDef20 D_8006DE24[];
 extern void *D_800814A8;
-extern s16 D_80083228;
 extern M2C_UNK D_80083498;
 extern M2C_UNK D_800D7960;
 extern M2C_UNK D_80170E54;
@@ -116,7 +116,6 @@ void func_801728B4(void *actor, void *motion, void *sprite, void *action) {
     u16 sprite_angle;
     u8 *slot_or_effect;
     s32 state;
-    u8 *action_status;
     void *effect_sprite;
     void *new_effect;
     void *target;
@@ -241,7 +240,7 @@ block_33:
     if (new_effect == NULL) {
         goto block_56;
     }
-    func_8004491C(new_effect, &D_80045340);
+    func_8004491C(new_effect, func_80045340);
     ((S_801728B4_6 *)new_effect)->unk_10 = &D_800D7960;
     ((S_801728B4_11 *)(((S_801728B4_6 *)new_effect)->unk_08))->unk_00 = (s32) ((S_801728B4_5 *)motion)->unk_00.at00.v;
     ((S_801728B4_11 *)(((S_801728B4_6 *)new_effect)->unk_08))->unk_04 = (s32) ((S_801728B4_5 *)motion)->unk_04.at00.v;
@@ -333,13 +332,12 @@ block_49:
         goto block_52;
     }
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80173C6C;
-    func_80047784(sprite, D_80173C6C[((s32) (D_80083228 + ((Rec_D_800E3D7C *)action)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
+    func_80047784(sprite, D_80173C6C[((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)action)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
 block_52:
-    action_status = ((u8 *)(&dungeonStatus));
-    if (((S_801728B4_10 *)action_status)->unk_0C != 0) {
+    if (((s32)dungeonStatus.unk_0C) != 0) {
         goto block_56;
     }
-    ((S_801728B4_10 *)action_status)->unk_0A = (u16) (((S_801728B4_10 *)action_status)->unk_0A - 1);
+    dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
     ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = (u16) (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xF7FF);
     ((S_801728B4_0 *)actor)->unk_8C = &D_80170E54;
     func_800A4ACC(action);

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
 typedef struct {
@@ -46,7 +47,6 @@ typedef struct {
 } Entity;
 
 extern u8 D_80082E80[];
-extern s16 D_80083228;
 extern u8 D_80171650[];
 extern u8 D_801742E0[];
 extern u8 D_801742E8[];
@@ -75,7 +75,7 @@ void func_80172A24(State *action, Motion *motion, Actor *actor, Entity *entity)
             goto end_state;
         }
         *(u8 * volatile *)((u8 *)actor + 0x2C) = D_801742E0;
-        direction_index = (D_80083228 + entity->direction2A + 0x100) >> 9;
+        direction_index = (gameWork.viewAngle + entity->direction2A + 0x100) >> 9;
         func_80047784(actor, D_801742E0[direction_index & 7], 0);
         action->flags98 |= 8;
         entity->flags1C &= 0xF7FFFFFF;
@@ -122,7 +122,7 @@ state_two:
         motion->dxC = 0;
         func_800A2B04(motion, actor->x24, actor->y25);
         *(u8 * volatile *)((u8 *)actor + 0x2C) = D_801742E8;
-        direction_index = (D_80083228 + entity->direction2A + 0x100) >> 9;
+        direction_index = (gameWork.viewAngle + entity->direction2A + 0x100) >> 9;
         func_80047784(actor, D_801742E8[direction_index & 7], 0);
         action->state9B++;
         break;
@@ -144,10 +144,9 @@ end_state:
     func_800A4ACC(entity);
 
     {
-        s32 *counter_base = &dungeonStatus.unk_00;
 
-        if (*(s16 *)((u8 *)counter_base + 8) != 0) {
-            *(u16 *)((u8 *)counter_base + 8) -= 1;
+        if (dungeonStatus.unk_08 != 0) {
+            dungeonStatus.unk_08 -= 1;
         }
     }
 

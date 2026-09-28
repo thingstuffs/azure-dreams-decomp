@@ -58,8 +58,7 @@ s32 func_800C30D4(void *entity, s32 item, s16 action_type) {
     }
     func_80098B38(item);
     {
-        u16 *counter_base = (u16 *)((s32 *)(&dungeonStatus));
-        counter_base[5] = (u16) (counter_base[5] - 1);
+        dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
     }
     return 1;
 }

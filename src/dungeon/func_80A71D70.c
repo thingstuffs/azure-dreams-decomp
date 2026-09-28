@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -39,7 +40,6 @@ extern s16 func_8009A66C(s16, void *, void *, s32);
 extern s16 func_800A0818(s32, s32, s32, s32, void *);
 extern void func_80171EFC(void *, s32, void *, void *);
 
-extern s16 D_80083228;
 extern u8 D_80174138[];
 
 /* Advances the entity along its stored path and updates movement timing. */
@@ -65,7 +65,7 @@ void func_80171570(void *action, s32 action_id, void *entity, void *move_state) 
         (*(u8 * *)((u8 *)entity + 0x2C)) = D_80174138;
         func_80047784(
             entity,
-            D_80174138[((D_80083228 + ((S_80171570_0 *)state)->unk_2A + 0x100) >> 9) & 7],
+            D_80174138[((gameWork.viewAngle + ((S_80171570_0 *)state)->unk_2A + 0x100) >> 9) & 7],
             0);
     }
 

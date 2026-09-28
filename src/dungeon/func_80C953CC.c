@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
 typedef struct S_func_80C953CC_1 {
@@ -105,7 +106,6 @@ typedef struct Item {
 
 extern Item D_8006DE24[];
 extern void *D_800814A8;
-extern s16 D_80083228;
 extern void *D_80170838[7];
 extern u8 D_80170920[];
 extern u8 D_8017102C[];
@@ -302,7 +302,7 @@ part_ready:
             s32 direction;
 
             (*(void **)((u8 *)entity + 0x2C)) = D_801752B4;
-            direction = (D_80083228 + actor->unk_2A + 0x100) >> 9;
+            direction = (gameWork.viewAngle + actor->unk_2A + 0x100) >> 9;
             func_80047784(entity, D_801752B4[direction & 7], 0);
         }
         if (part->unk_0C != 0) {

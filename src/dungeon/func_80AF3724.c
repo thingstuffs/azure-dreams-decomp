@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
+#include "shared/game_work.h"
 
 typedef struct {
     s16 x;
@@ -89,8 +91,6 @@ extern void *func_8003FC64(s32 arg0);
 extern void func_8004491C(void *arg0, void *arg1);
 extern s32 rand(void);
 
-extern s32 D_80045340;
-extern u8 D_80083160[];
 extern LocalTable D_80170874;
 extern u8 D_80174C70[12];
 extern LocalPacket D_80175A0C;
@@ -104,7 +104,6 @@ void func_80174F24(s32 unused, S_func_80AF3724_0 *origin)
     s32 jitter;
     s32 coordinate;
     s32 x_offset;
-    S_func_80AF3724_1 *globals;
     S_func_80AF3724_2 *direction_entry;
     S_func_80AF3724_3 *object;
     S_func_80AF3724_4 *state;
@@ -117,16 +116,15 @@ void func_80174F24(s32 unused, S_func_80AF3724_0 *origin)
     if (object != 0) {
         state->unk_1A = 0;
         angle = 0;
-        globals = (S_func_80AF3724_1 *)D_80083160;
         do {
-            if (((globals->unk_C8 + angle + 0x100) >> 9 & 7) == 2) {
+            if (((gameWork.viewAngle + angle + 0x100) >> 9 & 7) == 2) {
                 state->unk_18 = angle;
             }
             angle += 0x200;
         } while (angle < 0x1000);
 
         object->unk_10 = D_80174C70;
-        func_8004491C(object, &D_80045340);
+        func_8004491C(object, func_80045340);
 
         display = object->unk_0C;
         display->unk_10 = 0x20;

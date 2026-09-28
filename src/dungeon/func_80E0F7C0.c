@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 extern int abs(int);
@@ -101,8 +102,6 @@ extern void *D_80170850[];
 extern void *D_80170870[];
 extern u8 D_8006DE24[];
 extern void *D_800814A8[3];
-extern s16 D_80083160[];
-extern s16 D_80083228;
 extern u8 D_80171094[];
 extern u8 D_80176460[];
 extern u8 D_80176490[];
@@ -270,7 +269,6 @@ shrink_sprite:
 
     ((S_80172FC0_0 *)anim)->unk_A0 = func_80175858(anim, transform_arg, sprite);
     {
-        s16 *camera_data;
         s32 direction;
         u8 frame;
         void *model_root;
@@ -279,16 +277,14 @@ shrink_sprite:
         void *selected_model;
 
 #ifdef NON_MATCHING
-        camera_data = D_80083160;
 #else
-        camera_data = (s16 *)((u8 *)&D_80083160);
 #endif
         {
             s32 model_direction;
             s32 view_angle;
             s32 actor_angle;
 
-            view_angle = camera_data[0x64];
+            view_angle = gameWork.viewAngle;
             actor_angle = ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16;
             model_root = ((S_80172FC0_4 *)sprite)->unk_28;
             model_direction =
@@ -327,7 +323,7 @@ shrink_sprite:
         ((S_80172FC0_0 *)anim)->unk_98 |= 8;
         ((Rec_D_800E3D7C *)actor)->unk_1C.as_u32 &= 0xBFFFFFFF;
         ((S_80172FC0_4 *)sprite)->unk_2C = D_80176490;
-        direction = ((camera_data[0x64] + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7;
+        direction = ((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7;
         frame = D_80176490[direction];
         func_80047784(sprite, frame, 0);
         ((S_80172FC0_4 *)sprite)->unk_1E = 0x800;
@@ -440,17 +436,15 @@ restore_sprite:
         s32 direction;
 
         (*(void * *)((u8 *)sprite + 0x2C)) = D_80176460;
-        direction = ((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7;
+        direction = ((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7;
         func_80047784(sprite, D_80176460[direction], 0);
     }
     {
-        u8 *dungeon_state;
 
-        dungeon_state = ((u8 *)(&dungeonStatus));
-        if (((S_80172FC0_8 *)dungeon_state)->unk_0C != 0) {
+        if (((s32)dungeonStatus.unk_0C) != 0) {
             return;
         }
-        ((S_80172FC0_8 *)dungeon_state)->unk_0A--;
+        dungeonStatus.unk_0A--;
     }
     ((S_80172FC0_0 *)anim)->unk_8C = D_80171094;
     ((S_80172FC0_4 *)sprite)->unk_1E = 0x1000;

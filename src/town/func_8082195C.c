@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct S_8002415C_0_pre {
     u8 * unk_00;
@@ -39,7 +40,6 @@ typedef struct TownState {
     RenderState *render_state;
 } TownState;
 
-extern TownState D_80083160;
 extern s32 func_80065420(void *, void *, void *, void *);
 extern s32 func_80066460(s32, s32, s32, s32);
 extern void func_80066640(void *, s32);
@@ -60,7 +60,7 @@ s32 func_8002415C(u8 *node)
     s32 avg_depth;
     s32 ot_offset;
 
-    town_state = &D_80083160;
+    town_state = ((TownState *)&gameWork);
     second_coord = &coords[1];
     for (;;) {
         if (!(((S_8002415C_0 *)node)->unk_24 & 1)) {

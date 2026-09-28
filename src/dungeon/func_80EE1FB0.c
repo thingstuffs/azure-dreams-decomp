@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
@@ -42,7 +43,6 @@ extern void *D_80170888[];
 extern void *D_801708A0[];
 extern u8 D_8006DE24[];
 extern void *D_800814A8;
-extern s16 D_80083228;
 extern u8 D_80171CE8[];
 extern u8 D_80174EB8[];
 
@@ -80,7 +80,6 @@ void func_801737B0(void *action, void *motion, void *sprite, void *actor) {
     u32 kind_index;
     u8 state;
     u8 *action_data;
-    u8 *effect_state;
     u8 *particle_origin;
 
     state = ((S_801737B0_0 *)action)->unk_9B;
@@ -270,8 +269,7 @@ state_3:
     ((S_801737B0_0 *)action)->unk_9B++;
 
 state_4:
-    effect_state = (u8 *)&dungeonStatus.unk_00;
-    if (((S_801737B0_6 *)effect_state)->unk_0C == 0) {
+    if (((s32)dungeonStatus.unk_0C) == 0) {
         ((S_801737B0_0 *)action)->unk_96.s = 0;
     }
     timer = ((S_801737B0_0 *)action)->unk_96.s - 1;
@@ -291,14 +289,14 @@ state_4:
 
     if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pv != D_80174EB8) {
         (*(void * *)((u8 *)sprite + 0x2C)) = D_80174EB8;
-        direction = ((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7;
+        direction = ((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7;
         func_80047784(sprite, D_80174EB8[direction], 0);
     }
-    if (((S_801737B0_6 *)effect_state)->unk_0C != 0) {
+    if (((s32)dungeonStatus.unk_0C) != 0) {
         goto done;
     }
 
-    ((S_801737B0_6 *)effect_state)->unk_0A--;
+    dungeonStatus.unk_0A--;
     ((S_801737B0_0 *)action)->unk_8C = D_80171CE8;
     func_800A4ACC(actor);
     ((Rec_D_800E3D7C *)actor)->unk_73.as_s8 = 0;

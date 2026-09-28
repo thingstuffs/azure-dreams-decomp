@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
 M2C_UNK func_80033CD8();           /* extern */
 s32 func_8004A658();                          /* extern */
 void *func_8009C390(); /* extern */
 M2C_UNK func_800A8248();         /* extern */
-extern M2C_UNK D_80045340;
 extern M2C_UNK D_8006E240;
 extern M2C_UNK D_800A8248;
 
@@ -51,7 +51,7 @@ void func_800A8184(s32 index, s32 kind) {
             }
             data->unk_08 = dispatch_result;
         }
-        func_80033CD8(state, &D_80045340);
+        func_80033CD8(state, func_80045340);
         func_800A8248(state, object_id, data);
     }
 }

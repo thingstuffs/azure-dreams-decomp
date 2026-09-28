@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 
 typedef struct MainObject {
@@ -77,7 +78,6 @@ extern u8 D_80082E80[];
 extern u8 D_80083498[];
 extern s16 D_80083780[];
 extern s32 D_80024AA4;
-extern s32 D_80045340;
 extern u8 D_800DEC00[];
 
 extern s32 func_8003DE58(void *, void *, s16 *, s32);
@@ -201,7 +201,7 @@ state_done:
         effect = func_8003FD64(0x312, D_80083498);
         if (effect != (EffectObject *)0) {
             effect->callback = callback;
-            func_8004491C(effect, &D_80045340);
+            func_8004491C(effect, func_80045340);
             child = effect->child;
 
             effect->position->x = obj->x +

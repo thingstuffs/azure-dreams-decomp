@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 extern int abs(int);
 
 
 extern void *D_800814A8;
-extern s16 D_80083228;
 extern u8 D_80170838[16];
 extern s32 D_80170F68;
 extern u8 D_80173FB8[8];
@@ -91,7 +91,6 @@ void func_801729D4(void *action, void *motion, void *sprite, void *actor)
     void *target_root;
     void *target_source;
     void *new_target;
-    u8 *status;
     s32 target_x;
     s32 abs_x;
     s32 abs_y;
@@ -249,12 +248,11 @@ state_2:
             (*(void * *)((u8 *)sprite + (0x2C))) = D_80173FB8;
             func_80047784(
                 sprite,
-                D_80173FB8[((D_80083228 + ((S_801729D4_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                D_80173FB8[((gameWork.viewAngle + ((S_801729D4_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
                 0);
         }
-        status = (u8 *)&dungeonStatus.unk_00;
-        if (((S_801729D4_6 *)status)->unk_0C == 0) {
-            ((S_801729D4_6 *)status)->unk_0A--;
+        if (((s32)dungeonStatus.unk_0C) == 0) {
+            dungeonStatus.unk_0A--;
             ((S_801729D4_4 *)sprite)->unk_14 &= 0xF7FF;
             ((S_801729D4_0 *)action)->unk_8C = &D_80170F68;
             func_800A4ACC(actor);

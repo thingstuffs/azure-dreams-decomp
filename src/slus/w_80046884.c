@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct RectU16_80046884 {
     u16 x;
@@ -34,7 +35,6 @@ typedef struct GlobalGeometry_80046884 {
     s16 angle;
 } GlobalGeometry_80046884;
 
-extern GlobalGeometry_80046884 D_80083160;
 extern s32 ReadGeomScreen(void);
 extern void func_80046A5C(UVec4_80046884 *, SVec4_80046884 *);
 extern s16 func_80046AFC(
@@ -87,7 +87,7 @@ void func_80046884(
     corners[2].y = bottom;
     corners[3].y = bottom;
 
-    view_geometry = &D_80083160;
+    view_geometry = ((GlobalGeometry_80046884 *)&gameWork);
     corners[0].z = corners[1].z = corners[2].z = corners[3].z =
         ReadGeomScreen();
 

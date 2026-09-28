@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct S_80175A90_0 {
     u8 pad_00[0x18];
@@ -74,14 +75,13 @@ typedef struct S_80175A90_4 {
 
 
 
-extern u8 D_80083160[];
 extern s32 rand(void);
 extern s32 func_80065530(void *, void *, void *, void *, void *, void *, void *, void *);
 
 /* Draw seven shaded polylines with randomized offsets between two positions. */
 void func_80175A90(S_80175A90_3 *start_pos, S_80175A90_4 *end_pos)
 {
-    void **context_ptr = (void **)D_80083160;
+    void **context_ptr = (void **)((u8 *)(&gameWork));
     u8 *scratch = (u8 *)0x1F800000;
     u8 *prim;
     s32 line_index = 0;

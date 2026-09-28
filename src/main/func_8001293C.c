@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "records/Rec_func_80025030_arg0.h"
 
 
 
 
-extern s32 D_80083160[];
 
 extern void SD_Call(s32);
 extern void func_80025D34(void *);
@@ -25,15 +25,13 @@ void func_8002593C(u8 *object)
     s32 selection_step;
     s32 repeat_ticks;
     s32 needs_refresh;
-    s32 *controller;
     s32 update_status;
 
-    held_buttons = D_80083160[2];
-    controller = D_80083160;
+    held_buttons = ((s32)gameWork.unk_008);
     selection_step = 0;
     needs_refresh = selection_step;
     if (held_buttons != 0) {
-        pressed_buttons = controller[4];
+        pressed_buttons = ((s32)gameWork.unk_010);
         if (pressed_buttons & 0x20) {
             SD_Call(0x515);
             func_80025D34(object - 0x20);
@@ -53,7 +51,7 @@ void func_8002593C(u8 *object)
         if (held_buttons & 0x5000) {
             if (pressed_buttons & 0x5000) {
                 ((Rec_func_80025030_arg0 *)object)->unk_30 = 0;
-                pressed_buttons = controller[4];
+                pressed_buttons = ((s32)gameWork.unk_010);
                 if (pressed_buttons & 0x1000) {
                     selection_step = -1;
                 } else if (pressed_buttons & 0x4000) {
@@ -63,7 +61,7 @@ void func_8002593C(u8 *object)
                 repeat_ticks = ((Rec_func_80025030_arg0 *)object)->unk_30;
                 if (repeat_ticks >= 13) {
                     ((Rec_func_80025030_arg0 *)object)->unk_30 = repeat_ticks - 4;
-                    repeat_buttons = controller[2];
+                    repeat_buttons = ((s32)gameWork.unk_008);
                     if (repeat_buttons & 0x1000) {
                         selection_step = -1;
                     } else if (repeat_buttons & 0x4000) {

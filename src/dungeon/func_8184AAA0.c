@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
 M2C_UNK func_8003DB94();
 void *func_8003FC64();
 M2C_UNK func_8004491C();
 extern M2C_UNK D_80024224;
-extern M2C_UNK D_80045340;
 extern M2C_UNK D_800DE8E8;
 
 typedef struct S_800242A0_0 {
@@ -62,7 +62,7 @@ void *func_800242A0(s32 object_value, S_800242A0_3 *source_coords) {
         func_8003DB94(sprite, &D_800DE8E8, 0);
         sprite->unk_1E = 0x1000;
         sprite->unk_1C = 0x1000;
-        func_8004491C(object, &D_80045340);
+        func_8004491C(object, func_80045340);
         coords = object->unk_08;
         coords->unk_02 = (u16)source_coords->unk_02;
         coords->unk_06 = (u16)source_coords->unk_06;

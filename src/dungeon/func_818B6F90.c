@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 
-extern u8 D_80083160[];
 extern s16 func_80066460(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern s32 func_80065590(
     void *arg0, void *arg1, void *arg2, void *arg3,
@@ -122,7 +122,7 @@ s32 func_818B6F90(s32 texture_index, u8 *color_source)
     u8 *transform_flags;
 
     scratch = (u8 *)0x1F800000;
-    render_buffer = *(u8 **)D_80083160;
+    render_buffer = *(u8 **)((u8 *)(&gameWork));
     ((S_818B6F90_0 *)scratch)->unk_00 = render_buffer + 0xB0;
     packet = ((S_818B6F90_1 *)render_buffer)->unk_8D0;
     ((S_818B6F90_1 *)render_buffer)->unk_8D0 = packet + 0x34;

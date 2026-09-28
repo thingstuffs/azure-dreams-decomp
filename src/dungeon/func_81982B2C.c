@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 
 typedef struct EntityInner {
@@ -34,7 +35,6 @@ typedef struct Motion {
 } Motion;
 
 extern u16 D_800269F8;
-extern u8 D_80045340[];
 extern u8 *D_80027C98[];
 
 extern s32 func_80025F54(s16, s16, s16, s16);
@@ -70,7 +70,7 @@ void func_8002432C(Entity *entity, Position *position, Motion *motion)
         position->x = base_coords[1] + entity->x;
         position->y = base_coords[3] + entity->y;
         position->z = base_coords[5] + entity->z;
-        func_8004491C((u8 *)entity - 0x20, D_80045340, base_coords);
+        func_8004491C((u8 *)entity - 0x20, func_80045340, base_coords);
         goto advance_state;
     }
 

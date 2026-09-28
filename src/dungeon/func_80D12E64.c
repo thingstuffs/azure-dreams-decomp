@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct {
     u8 pad00[0x9A];
@@ -18,7 +19,6 @@ typedef struct {
     s16 unk2A;
 } IndexSource;
 
-extern s16 D_80083228[5];
 extern u8 D_80174EA0[9];
 extern void func_80047784(Context *, s16, s16);
 
@@ -29,5 +29,5 @@ void func_80172664(State *state, s32 unused, Context *context, IndexSource *sour
     state->unk9B = 0;
     state->unk9E = 2;
     context->unk2C = D_80174EA0;
-    func_80047784(context, D_80174EA0[((D_80083228[0] + source->unk2A + 0x100) >> 9) & 7], 0);
+    func_80047784(context, D_80174EA0[((gameWork.viewAngle + source->unk2A + 0x100) >> 9) & 7], 0);
 }

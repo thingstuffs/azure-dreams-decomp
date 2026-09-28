@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -48,7 +49,6 @@ extern s32 func_800AD9B4(void *, void *);
 extern void func_801708B8(void *, void *, void *);
 
 extern u8 D_80082E80[];
-extern s16 D_80083228;
 extern u8 D_800E23E0[];
 extern u8 D_800E2458[];
 extern u8 D_800E2460[];
@@ -87,7 +87,7 @@ state_zero:
 
         (*(u8 * *)((u8 *)sprite + 0x2C)) = anim_table;
         func_80047784(sprite,
-            anim_table[((D_80083228 + ((S_801730C4_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            anim_table[((gameWork.viewAngle + ((S_801730C4_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
             1);
     }
     ((S_801730C4_0 *)action)->unk_98 |= 8;
@@ -149,7 +149,7 @@ state_two:
 
         (*(u8 * *)((u8 *)sprite + 0x2C)) = anim_table;
         func_80047784(sprite,
-            anim_table[((D_80083228 + ((S_801730C4_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            anim_table[((gameWork.viewAngle + ((S_801730C4_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
     }
     ((S_801730C4_0 *)action)->unk_9B++;
@@ -164,7 +164,7 @@ state_three:
         }
         (*(u8 * *)((u8 *)sprite + 0x2C)) = anim_table;
         func_80047784(sprite,
-            anim_table[((D_80083228 + ((S_801730C4_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            anim_table[((gameWork.viewAngle + ((S_801730C4_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
     }
     if (((S_801730C4_0 *)action)->unk_B0 != 0) {
@@ -190,10 +190,9 @@ done:
     func_800AD594(actor, 0x10);
     func_800A4ACC(actor);
     {
-        u8 *global_state = (u8 *)&dungeonStatus.unk_00;
 
-        if (((S_801730C4_4 *)global_state)->unk_08 != 0) {
-            ((S_801730C4_4 *)global_state)->unk_08 = (u16)((S_801730C4_4 *)global_state)->unk_08 - 1;
+        if (dungeonStatus.unk_08 != 0) {
+            dungeonStatus.unk_08 = (u16)dungeonStatus.unk_08 - 1;
         }
     }
     {

@@ -37,14 +37,12 @@ s32 func_80171F9C(Rec_func_800A9E70_arg0 *action_state, s32 action_param, void *
     status = *(volatile u8 *)((u8 *)actor + 0x71);
     {
         s32 target;
-        u16 *global_flags;
         u8 *flags_page;
 
         ((volatile u8 *)actor)[113] = status & 0x7F;
         flags_page = (u8 *)0x80080000;
-        global_flags = (u16 *)((u8 *)(&dungeonStatus));
         action_mode = 0;
-        if (global_flags[1] & 0x2000) {
+        if (dungeonStatus.flags & 0x2000) {
             return -1;
         }
 
@@ -52,10 +50,10 @@ s32 func_80171F9C(Rec_func_800A9E70_arg0 *action_state, s32 action_param, void *
         if ((func_800A2CB8(actor, target) << 16) == 0) {
             return 0;
         }
-        if (global_flags[1] & 0x2000) {
+        if (dungeonStatus.flags & 0x2000) {
             return -1;
         }
-        if (!(((Rec_D_800E3D7C *)actor)->unk_44.at02_u16.v & 0x8000) && (global_flags[1] & 8)) {
+        if (!(((Rec_D_800E3D7C *)actor)->unk_44.at02_u16.v & 0x8000) && (dungeonStatus.flags & 8)) {
             return -1;
         }
 

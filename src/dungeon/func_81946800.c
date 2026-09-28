@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 
@@ -28,10 +30,8 @@ extern void func_80047784(void *, u8, s32);
 extern s32 func_80053EF0(s32, void *);
 extern void func_800A56E0(s32);
 extern s32 D_80024374;
-extern s32 D_80045340;
 extern void *D_800814A8;
 extern u16 D_80082E94;
-extern s16 D_80083228;
 extern u8 D_80083498[];
 #ifdef __mips__
 void func_81946800(void *action_in, void *saved_position) __asm__("func_81946800_body")
@@ -113,14 +113,14 @@ void func_81946800(void *action, void *saved_position)
     }
     *((void **) (((u8 *) effect) + 0x10)) = &D_80024374;
     *((void **) (((u8 *) effect) + 0x20)) = action;
-    func_8004491C(effect, &D_80045340);
+    func_8004491C(effect, func_80045340);
     source_part = *((void **) (((u8 *) owner_work) + (-0x14)));
     effect_part = *((void **) (((u8 *) effect) + 0xC));
     *((s32 *) (((u8 *) effect_part) + 0x28)) = *((s32 *) (((u8 *) source_part) + 0x28));
     *((u16 *) (((u8 *) effect_part) + 0x14)) = (*((u16 *) (((u8 *) source_part) + 0x14))) & 0x97FF;
     colors = *((u8 **) (((u8 *) source_part) + 0x2C));
     *((u8 **) (((u8 *) effect_part) + 0x2C)) = colors;
-    color_index = ((D_80083228 + (*((s16 *) (((u8 *) owner_work) + 0x2A)))) + 0x100) >> 9;
+    color_index = ((gameWork.viewAngle + (*((s16 *) (((u8 *) owner_work) + 0x2A)))) + 0x100) >> 9;
     colors += color_index & 7;
     func_80047784(effect_part, *colors, 0);
     *((s16 *) (((u8 *) effect_part) + 0x1E)) = 0x1000;

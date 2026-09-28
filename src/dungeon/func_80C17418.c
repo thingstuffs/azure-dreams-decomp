@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
 typedef struct {
@@ -91,7 +92,6 @@ typedef struct {
 extern void *D_80170838[];
 extern ItemInfo D_8006DE24[];
 extern MainObj *D_800814A8;
-extern s16 D_80083228[];
 extern u8 D_801713A8[];
 extern u8 D_801744E4[];
 extern u8 D_801744DC[];
@@ -240,7 +240,7 @@ copy_link:
         actor_base->f2C = (void (*)(void))D_801744E4;
         func_80047784(
             actor_base,
-            D_801744E4[((D_80083228[0] + ent->f2A + 0x100) >> 9) & 7],
+            D_801744E4[((gameWork.viewAngle + ent->f2A + 0x100) >> 9) & 7],
             0);
         if (!func_800A94A0(ent, item_slot, use_main_link, &state->flags98)) {
             goto end;
@@ -280,7 +280,7 @@ state1:
         actor->f2C = (void (*)(void))D_801744DC;
         func_80047784(
             actor,
-            D_801744DC[((D_80083228[0] + ent->f2A + 0x100) >> 9) & 7],
+            D_801744DC[((gameWork.viewAngle + ent->f2A + 0x100) >> 9) & 7],
             0);
         state->f96 = state_index;
         state->state9B++;
@@ -337,20 +337,18 @@ no_flag4000:
         actor->f2C = (void (*)(void))D_80174494;
         func_80047784(
             actor,
-            D_80174494[((D_80083228[0] + ent->f2A + 0x100) >> 9) & 7],
+            D_80174494[((gameWork.viewAngle + ent->f2A + 0x100) >> 9) & 7],
             state->fA8);
     }
     {
-        Global83460 *action_status;
 
-        action_status = ((Global83460 *)&dungeonStatus);
-        if (action_status->fC != 0) {
+        if (((u32)dungeonStatus.unk_0C) != 0) {
             goto end;
         }
         if (!(state->flags98 & 0x4000)) {
             goto end;
         }
-        action_status->fA--;
+        dungeonStatus.unk_0A--;
     }
     actor->flags14 &= 0xF7FF;
     state->f8C = (void (*)(void))D_801713A8;

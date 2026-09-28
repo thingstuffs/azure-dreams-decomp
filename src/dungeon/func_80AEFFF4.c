@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -37,7 +38,6 @@ extern void func_801751C0(void *, void *, void *, void *);
 extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern s8 D_80082EA4;
-extern s16 D_80083228;
 extern s8 D_800E2970[];
 extern void *D_80170808[];
 extern u8 D_801717F4;
@@ -103,7 +103,7 @@ void func_801717F4(void *actor_arg, void *context_arg, void *sprite_arg, void *e
         animations = D_801759E0;
         (*(void * *)((u8 *)sprite_arg + (0x2C))) = animations;
         func_80047784(sprite_arg,
-            animations[((D_80083228 + ((Rec_D_800E3D7C *)entity_arg)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            animations[((gameWork.viewAngle + ((Rec_D_800E3D7C *)entity_arg)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
         return;
     }
@@ -138,7 +138,7 @@ void func_801717F4(void *actor_arg, void *context_arg, void *sprite_arg, void *e
                 if (((S_801717F4_2 *)sprite_arg)->unk_2C != animations) {
                     (*(void * *)((u8 *)sprite_arg + (0x2C))) = animations;
                     func_80047784(sprite_arg,
-                        animations[((D_80083228 + ((Rec_D_800E3D7C *)entity_arg)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+                        animations[((gameWork.viewAngle + ((Rec_D_800E3D7C *)entity_arg)->unk_2A.as_s16 + 0x100) >> 9) & 7],
                         0);
                 }
                 ((Rec_func_800A9E70_arg0 *)actor_arg)->unk_9E.as_s16 = 0;
@@ -160,7 +160,7 @@ void func_801717F4(void *actor_arg, void *context_arg, void *sprite_arg, void *e
             func_80174258(actor_arg, context_arg, sprite_arg, entity_arg);
             (*(void * *)((u8 *)sprite_arg + (0x2C))) = D_80175988;
             func_80047784(sprite_arg,
-                D_80175988[((D_80083228 + ((Rec_D_800E3D7C *)entity_arg)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+                D_80175988[((gameWork.viewAngle + ((Rec_D_800E3D7C *)entity_arg)->unk_2A.as_s16 + 0x100) >> 9) & 7],
                 0);
             ((Rec_func_800A9E70_arg0 *)actor_arg)->unk_90.at00_s32.v = 0;
             return;

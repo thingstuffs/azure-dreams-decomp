@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "records/Rec_D_800E3D7C.h"
 
 
@@ -27,7 +28,6 @@ extern s16 func_80095978(void *, void *);
 extern void func_80095A94(void *, s16, void *);
 extern void func_80095C80(void *);
 
-extern u8 D_80083160[];
 extern s32 D_800CFCB4;
 extern u8 D_800CFCEF;
 extern u8 D_800FE488[];
@@ -35,7 +35,7 @@ extern u8 D_800FE488[];
 /* Update the entity and dispatch its handler according to state flags and checks. */
 void func_800924EC(void *context, void *entity, s32 update_arg)
 {
-    u8 *state = D_80083160;
+    GameWork *state = &gameWork;
     s16 reference_value;
     s32 state_flags;
     s32 check_result;
@@ -56,7 +56,7 @@ void func_800924EC(void *context, void *entity, s32 update_arg)
         func_80095A94(entity, reference_value, D_800FE488);
     }
 
-    state_flags = ((S_800924EC_1 *)state)->unk_10;
+    state_flags = ((s32)state->unk_010);
     if (state_flags & 0x10)
     {
         func_800942B0(context, entity, update_arg);
@@ -83,7 +83,7 @@ void func_800924EC(void *context, void *entity, s32 update_arg)
     }
     else
     {
-        if (((S_800924EC_1 *)state)->unk_08 & 0xF000)
+        if (((s32)state->unk_008) & 0xF000)
         {
             func_80094C1C(context);
             if (func_8009567C(&D_800CFCB4) > 0)

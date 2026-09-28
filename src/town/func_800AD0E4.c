@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct {
     u8 pad0[0xA];
@@ -21,13 +22,12 @@ extern s16 func_80095978(Obj800AD0E4 *, void *);
 extern void func_80095A94(Obj800AD0E4 *, s16, void *);
 extern void func_800A9F14(Obj800AD0E4 *);
 
-extern State80083160 D_80083160;
 extern u8 D_800CFCEF[9];
 extern u8 D_800FE488[9];
 
 /* Update the object and dispatch actions based on its value, timer, and state flags. */
 void func_800AA844(Obj800AD0E4 *timer_obj, Obj800AD0E4 *object, s32 action_arg) {
-    State80083160 *state = &D_80083160;
+    State80083160 *state = ((State80083160 *)&gameWork);
     s16 next_value;
     u16 timer;
 

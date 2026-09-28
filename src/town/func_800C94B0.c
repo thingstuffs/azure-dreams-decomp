@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
 M2C_UNK D_800C6CE4();            /* extern */
 void *func_8003FD64();            /* extern */
 M2C_UNK func_8004491C();           /* extern */
 s32 func_8004A658();                /* extern */
-extern M2C_UNK D_80045340;
 extern M2C_UNK D_80083498;
 
 
@@ -50,7 +50,7 @@ s32 func_800C6C10(s32 state_value) {
     render_data->unk_1C = 0x1000;
     render_data->unk_0C = 0x808080;
     render_data->unk_08 = func_8004A658(0xD, 3);
-    func_8004491C(object, &D_80045340);
+    func_8004491C(object, func_80045340);
     ((S_800C6C10_0 *)object)->unk_10(state, callback_arg, render_data);
     return (s32)object;
 }

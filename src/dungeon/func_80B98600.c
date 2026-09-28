@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -27,27 +28,24 @@ s32 func_800A04F0();             /* extern */
 s32 func_800A2B5C();                          /* extern */
 s32 func_800A2CB8();                     /* extern */
 M2C_UNK func_800C7930(); /* extern */
-extern s16 D_80083228;
 extern u8 D_80174F28;
 
 /* Check movement conditions and initialize the actor action and directional animation. */
 s32 func_80171E00(void *action_state, M2C_UNK action_ctx, void *sprite, void *actor) {
     volatile s64 frame_pad;
-    u8 *flags_base;
     u8 *direction_table;
     s32 move_heading;
     u16 flags;
 
     ((Rec_D_800E3D7C *)actor)->unk_71.as_u8 = (u8) (((Rec_D_800E3D7C *)actor)->unk_71.as_u8 & 0x7F);
-    flags_base = (u8 *) &dungeonStatus.unk_00;
-    if (((S_80171E00_1 *)flags_base)->unk_02 & 0x2000) {
+    if (dungeonStatus.flags & 0x2000) {
         goto return_minus_one;
     }
     move_heading = func_800A04F0(actor, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25, ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16);
     if ((func_800A2CB8(actor, move_heading) << 0x10) == 0) {
         return 0;
     }
-    flags = ((S_80171E00_1 *)flags_base)->unk_02;
+    flags = dungeonStatus.flags;
     if (flags & 0x2000) {
         return -1;
     }
@@ -76,7 +74,7 @@ success:
     ((Rec_D_800E3D7C *)actor)->unk_85.as_s8 = 0;
     direction_table = &D_80174F28;
     (*(u8 **)((u8 *)sprite + 0x2C)) = direction_table;
-    func_80047784(sprite, direction_table[((s32) (D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
+    func_80047784(sprite, direction_table[((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
     ((Rec_D_800E3D7C *)actor)->unk_6D.as_u8 = (u8) (((Rec_D_800E3D7C *)actor)->unk_6D.as_u8 - 1);
     func_8009C93C(actor, sprite, ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16, 1, 0);
     return 1;

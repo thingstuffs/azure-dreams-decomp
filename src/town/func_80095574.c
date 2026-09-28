@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct {
     s8 pad0[0x10];
@@ -10,7 +11,6 @@ typedef struct {
     s32 field14;
 } TownObject;
 
-extern SharedInput D_80083160;
 extern u8 D_800CFCEE[];
 
 extern void func_80095C80(TownObject *);
@@ -24,7 +24,7 @@ extern void func_80094620(void *, TownObject *, void *);
 /* Updates the town object and dispatches its action based on input and state. */
 void func_80092CD4(void *context, TownObject *object, void *action_data)
 {
-    SharedInput *input = &D_80083160;
+    SharedInput *input = ((SharedInput *)&gameWork);
 
     func_80095C80(object);
     func_80094C1C(context);

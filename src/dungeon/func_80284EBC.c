@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct {
     u16 x;
@@ -21,14 +22,13 @@ typedef struct {
 } DungeonState;
 
 extern DungeonEntry D_800E2970[];
-extern DungeonState D_8008333C;
 
 /* Counts cells in the selected dungeon entry with no flags in mask 0x8500. */
 s16 func_80017EBC(s16 entry_index) {
     s16 count = 0;
     u8 *entry_base = (u8 *)D_800E2970;
     DungeonEntry *region = (DungeonEntry *)(entry_base + (entry_index * 20));
-    DungeonState *state = &D_8008333C;
+    DungeonState *state = ((DungeonState *)((u8 *)&gameWork + 476));
     s16 height = region->height;
     u16 y = region->y;
     s16 rows_left = height;

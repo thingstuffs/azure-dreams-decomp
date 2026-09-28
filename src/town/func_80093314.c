@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_func_8009431C_arg0.h"
@@ -20,7 +21,6 @@ s16 func_80095978();               /* extern */
 M2C_UNK func_80095A94();      /* extern */
 M2C_UNK func_80095C80();                      /* extern */
 M2C_UNK func_80098868();     /* extern */
-extern u8 D_80083160[];
 extern s32 D_800CFCB4;
 extern M2C_UNK D_800CFCEF;
 extern u8 D_800FE488[];
@@ -52,7 +52,7 @@ void func_80090A74(Rec_func_8009431C_arg0 *actor, Rec_D_800E3D7C *record, M2C_UN
     u8 *page_base;
     u8 *height_data;
     u8 *shared_data;
-    u8 *input_state = D_80083160;
+    GameWork *input_state = &gameWork;
 
     func_80095C80(record);
     func_80095094(record);
@@ -70,11 +70,11 @@ void func_80090A74(Rec_func_8009431C_arg0 *actor, Rec_D_800E3D7C *record, M2C_UN
     } else if (((S_80090A74_1 *)(&D_800CFCEF))->unk_00 == 0) {
         func_80095A94(record, height, height_data);
     }
-    if (((S_80090A74_2 *)input_state)->unk_10 & 0x10) {
+    if (((s32)input_state->unk_010) & 0x10) {
         func_800942B0(actor, record, context);
         return;
     }
-    if (((S_80090A74_2 *)input_state)->unk_10 & 0x40) {
+    if (((s32)input_state->unk_010) & 0x40) {
         action_result = func_80095840(actor, &D_800CFCB4);
         if (action_result != 0) {
             if (action_result == 2) {
@@ -102,7 +102,7 @@ void func_80090A74(Rec_func_8009431C_arg0 *actor, Rec_D_800E3D7C *record, M2C_UN
             func_800943B8(actor, record, context);
             return;
         }
-        page_base = (u8 *)(u32)(((S_80090A74_2 *)input_state)->unk_08 & 0xF000);
+        page_base = (u8 *)(u32)(((s32)input_state->unk_008) & 0xF000);
         if (page_base != 0) {
             func_80093ED8(actor, record, context);
         }

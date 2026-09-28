@@ -280,13 +280,11 @@ loop_done:
             if (((S_81988800_0 *)state_data)->unk_52.s & 0x8000) {
                 ((S_81988800_0 *)state_data)->unk_52.u &= 0x7FFF;
             } else {
-                u8 *cleanup_state;
 
-                cleanup_state = (u8 *)&dungeonStatus.unk_00;
                 if (0) {
                 }
-                ((S_81988800_9 *)cleanup_state)->unk_0C = 0;
-                ((S_81988800_9 *)cleanup_state)->unk_0A--;
+                dungeonStatus.unk_0C = 0;
+                dungeonStatus.unk_0A--;
                 (*(u16 *)((u8 *)state_data + -2)) |= 0x8000;
                 objectFlagBlock.flags |= 0x8000;
             }

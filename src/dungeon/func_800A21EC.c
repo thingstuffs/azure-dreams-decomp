@@ -44,7 +44,6 @@ s32 func_800A794C(s32 tile_x, s32 tile_y, s32 height, s32 *payload_ptr,
     u8 *object;
     u8 *position;
     u8 *fields;
-    u8 *state;
     s32 payload;
     s32 stored_ae;
     u16 object_count;
@@ -75,13 +74,12 @@ s32 func_800A794C(s32 tile_x, s32 tile_y, s32 height, s32 *payload_ptr,
         ((S_800A794C_2 *)fields)->unk_AC = (s16)field_ac;
         stored_ae = field_ae;
         ((S_800A794C_2 *)fields)->unk_98 = payload;
-        state = (u8 *)&dungeonStatus.unk_00;
         ((S_800A794C_2 *)fields)->unk_AE = (s16)stored_ae;
-        object_count = ((S_800A794C_3 *)state)->unk_0A;
+        object_count = ((u16)dungeonStatus.unk_0A);
         result = (s32)object;
         object_count++;
         ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        ((S_800A794C_3 *)state)->unk_0A = object_count;
+        dungeonStatus.unk_0A = object_count;
         return;
     }
     result = 0;

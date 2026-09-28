@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_func_800AD058_arg2.h"
 
@@ -66,7 +67,6 @@ extern M2C_UNK func_800A56E0();
 extern M2C_UNK func_800AD058();
 extern M2C_UNK func_800BC26C();
 
-extern s32 D_80045340;
 extern M2C_UNK D_8006E240;
 extern M2C_UNK D_80173770;
 
@@ -125,7 +125,7 @@ active:
             spawned_transform->unk_14 = 0xFFEE0000;
             spawned_transform->unk_08 = pos_z;
             angle = 0xC90;
-            func_8004491C(init_obj, &D_80045340, pos_z);
+            func_8004491C(init_obj, func_80045340, pos_z);
             spawned_render->unk_0C = 0x808080;
             spawned_render->unk_1E = angle;
             spawned_data = (u8 *)spawned_obj + 0x20;

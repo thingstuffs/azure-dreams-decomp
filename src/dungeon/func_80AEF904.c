@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
 
@@ -13,7 +14,6 @@ extern void func_800AA36C(void *, void *, void *, void *);
 extern s16 func_800BCB04(s32, s32, s32);
 
 extern u8 D_8006CCF8[8];
-extern s16 D_80083228;
 extern u8 D_801717F4;
 extern u8 D_80175988[8];
 extern u8 D_801759A0[8];
@@ -117,7 +117,7 @@ void func_80171104(u8 *actor, u8 *motion, u8 *object)
         ((S_80171104_0 *)object)->unk_2C != D_801759B8) {
         (*(u8 * *)((u8 *)object + 0x2C)) = D_80175988;
         func_80047784(object,
-            D_80175988[((D_80083228 + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7], 0);
+            D_80175988[((gameWork.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7], 0);
         (*(u16 *)((u8 *)actor + 0x9E)) = 0;
         (*(s16 *)((u8 *)actor + 0xA0)) = 10;
     }
@@ -128,7 +128,7 @@ void func_80171104(u8 *actor, u8 *motion, u8 *object)
         if (timer >= (*(s16 *)((u8 *)actor + 0xA0))) {
             (*(u8 * *)((u8 *)object + 0x2C)) = D_801759A0;
             func_80047784(object,
-                D_801759A0[((D_80083228 + ((S_80171104_1 *)actor_copy)->unk_2A + 0x100) >> 9) & 7], 0);
+                D_801759A0[((gameWork.viewAngle + ((S_80171104_1 *)actor_copy)->unk_2A + 0x100) >> 9) & 7], 0);
             func_800478B8(object);
             (*(s16 *)((u8 *)actor + 0xA0)) = 3;
         }
@@ -141,7 +141,7 @@ void func_80171104(u8 *actor, u8 *motion, u8 *object)
             (((S_80171104_0 *)object)->unk_14.n & 0xE000)) {
             (*(u8 * *)((u8 *)object + 0x2C)) = D_801759B0;
             func_80047784(object,
-                D_801759B0[((D_80083228 + ((S_80171104_1 *)actor_copy)->unk_2A + 0x100) >> 9) & 7], 0);
+                D_801759B0[((gameWork.viewAngle + ((S_80171104_1 *)actor_copy)->unk_2A + 0x100) >> 9) & 7], 0);
             func_800478B8(object);
             (*(s16 *)((u8 *)actor + 0xA0)) = 6;
             (*(s32 *)((u8 *)actor + 0x90)) += 0xFFE00000;
@@ -157,7 +157,7 @@ void func_80171104(u8 *actor, u8 *motion, u8 *object)
             (((S_80171104_0 *)object)->unk_14.n & 0xE000)) {
             (*(u8 * *)((u8 *)object + 0x2C)) = D_801759B8;
             func_80047784(object,
-                D_801759B8[((D_80083228 + ((S_80171104_1 *)actor_copy)->unk_2A + 0x100) >> 9) & 7], 0);
+                D_801759B8[((gameWork.viewAngle + ((S_80171104_1 *)actor_copy)->unk_2A + 0x100) >> 9) & 7], 0);
             func_800478B8(object);
             (*(s16 *)((u8 *)actor + 0xA0)) = 3;
         }
@@ -176,7 +176,7 @@ void func_80171104(u8 *actor, u8 *motion, u8 *object)
     if (((S_80171104_0 *)object)->unk_14.n & 0xE000) {
         (*(u8 * *)((u8 *)object + 0x2C)) = D_80175988;
         func_80047784(object,
-            D_80175988[((D_80083228 + ((S_80171104_1 *)actor_copy)->unk_2A + 0x100) >> 9) & 7], 0);
+            D_80175988[((gameWork.viewAngle + ((S_80171104_1 *)actor_copy)->unk_2A + 0x100) >> 9) & 7], 0);
         (*(u16 *)((u8 *)actor + 0x9E)) = 0;
         (*(s16 *)((u8 *)actor + 0xA0)) = 20;
     }
@@ -193,7 +193,7 @@ compare_direction:
         u16 object_flags;
         s32 old_direction;
 
-        old_direction = ((D_80083228 + ((S_80171104_1 *)actor_copy)->unk_2A + 0x100) >> 9) & 7;
+        old_direction = ((gameWork.viewAngle + ((S_80171104_1 *)actor_copy)->unk_2A + 0x100) >> 9) & 7;
         view_index = old_direction;
         view_index_copy = old_direction;
         if ((*(s16 *)((u8 *)actor + 0x94)) != view_index) {

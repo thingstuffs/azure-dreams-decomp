@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 
 typedef struct StatePair {
@@ -6,7 +7,6 @@ typedef struct StatePair {
     s32 second;
 } StatePair;
 
-extern s32 D_80083160[];
 extern u8 D_80082E6B;
 
 extern void func_80020924(s32 arg0);
@@ -38,13 +38,11 @@ void func_8002789C(void *menu)
     s32 button_flags;
     s32 selection_changed;
     s32 selection;
-    s32 *controller;
 
-    buttons = D_80083160[2];
-    controller = D_80083160;
+    buttons = ((s32)gameWork.unk_008);
     selection_changed = 0;
     if (buttons != 0) {
-        button_flags = controller[4];
+        button_flags = ((s32)gameWork.unk_010);
         if (button_flags & 0x20) {
             s32 *object;
 

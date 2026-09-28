@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 
 typedef s32 M2C_UNK;
@@ -48,7 +49,6 @@ typedef struct S_8015E854_4 {
 } S_8015E854_4;   /* temp_s3 in func_8015E854 */
 
 
-extern u8 D_80045340[];
 extern u8 D_80083498[];
 extern u8 D_8015EA8C[];
 extern u8 D_80161D30[];
@@ -95,7 +95,7 @@ BODY_STORAGE void *func_8015E854(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
     var_s1 = (u8 *)temp_v0 + 0x20;
     ((S_8015E854_0 *)temp_v0)->unk_10 = D_8015EA8C;
     var_s1->unk_13 = 0x23;
-    func_8004491C(temp_v0, D_80045340);
+    func_8004491C(temp_v0, func_80045340);
     temp_s6 = ((S_8015E854_0 *)temp_v0)->unk_08;
     temp_s6->unk_0A = arg3;
     temp_s2 = ((S_8015E854_0 *)temp_v0)->unk_0C;

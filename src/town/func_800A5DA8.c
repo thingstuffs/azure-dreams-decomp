@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "records/Rec_D_80082E80.h"
 
 
@@ -21,7 +22,6 @@ extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 extern void func_8009539C(void *);
 
-extern u8 D_80045340[];
 extern u8 D_800A378C[];
 extern s16 D_800D0B18[];
 extern s32 D_800D0B20[];
@@ -68,7 +68,7 @@ void func_800A3508(void *object, void *vector_data, Rec_D_80082E80 *record_data)
 
     }
 
-    func_8004491C(obj - 0x20, D_80045340);
+    func_8004491C(obj - 0x20, func_80045340);
 
     if (((S_800A3508_1 *)obj)->unk_22 < 4) {
         init_value = func_800374F4(0x1000);

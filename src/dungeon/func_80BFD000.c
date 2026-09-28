@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
 typedef struct S_80BFD000_0 {
@@ -63,7 +64,6 @@ __asm__(".globl func_8015E800\n.size func_8015E800, 600");
 
 extern u8 D_80083498[];
 extern u8 D_8015EA58[];
-extern u8 D_80045340[];
 void *func_8003FD64();
 M2C_UNK func_8004491C();
 M2C_UNK func_800A48F0();
@@ -104,7 +104,7 @@ void *BODY_NAME(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_value) {
         actor = actor_state;
         ((S_80BFD000_0 *)object)->unk_10 = D_8015EA58;
         actor_state->unk_13 = 0x10;
-        func_8004491C(object, D_80045340);
+        func_8004491C(object, func_80045340);
         attributes = ((S_80BFD000_0 *)object)->unk_08;
         attributes->unk_0A = saved_value;
         placement = ((S_80BFD000_0 *)object)->unk_0C;

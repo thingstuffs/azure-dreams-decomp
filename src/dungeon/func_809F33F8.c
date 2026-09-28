@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 
@@ -16,7 +17,6 @@ s32 func_800A9E70(void *, void *, void *, void *); /* extern */
 M2C_UNK func_800AA36C(void *, void *, void *, void *); /* extern */
 s16 func_800BCB04(s32, s32, s16);                 /* extern */
 extern u8 D_8006CCF8[12];
-extern s16 D_80083228[5];
 extern M2C_UNK D_80171400[3];
 extern u8 D_80175140[12];
 extern u8 D_80175148[12];
@@ -145,7 +145,7 @@ update_height:
         ((S_80170BF8_0 *)actor_arg)->unk_90.at00.v = (s32) (((S_80170BF8_0 *)actor_arg)->unk_90.at00.v + ((S_80170BF8_1 *)((void *)(motion_arg)))->unk_14);
         object_flags = ((S_80170BF8_2 *)object_arg)->unk_14;
         if (!(object_flags & 0x8000)) {
-            facing = ((s32) (D_80083228[0] + ((S_80170BF8_3 *)actor_base)->unk_2A + 0x100) >> 9) & 7;
+            facing = ((s32) (gameWork.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A + 0x100) >> 9) & 7;
             state_or_facing = (s16) facing;
             if (((S_80170BF8_0 *)actor_arg)->unk_94 != state_or_facing) {
                 func_80047738(object_arg, *(((S_80170BF8_2 *)object_arg)->unk_2C + state_or_facing), ((S_80170BF8_2 *)object_arg)->unk_04);
@@ -200,7 +200,7 @@ select_anim:
 apply_anim:
                         next_anim = (u8 *) anim_addr;
                         ((S_80170BF8_2 *)object_arg)->unk_2C = next_anim;
-                        frame_addr = (u32) ((((s32) (D_80083228[0] + ((S_80170BF8_3 *)actor_base)->unk_2A + 0x100) >> 9) & 7));
+                        frame_addr = (u32) ((((s32) (gameWork.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A + 0x100) >> 9) & 7));
                         frame_addr += (u32) next_anim;
                         func_80047784(object_arg, *(u8 *) frame_addr, 0);
                         goto update_bob;
@@ -298,7 +298,7 @@ select_hidden_anim:
 apply_hidden_anim:
                 hidden_next_anim = (u8 *) anim_addr;
                 ((S_80170BF8_2 *)object_arg)->unk_2C = hidden_next_anim;
-                frame_addr = (u32) ((((s32) (D_80083228[0] + ((S_80170BF8_3 *)actor_base)->unk_2A + 0x100) >> 9) & 7));
+                frame_addr = (u32) ((((s32) (gameWork.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A + 0x100) >> 9) & 7));
                 frame_addr += (u32) hidden_next_anim;
                 func_80047784(object_arg, *(u8 *) frame_addr, 0);
                 goto update_hidden_bob;

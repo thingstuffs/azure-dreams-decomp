@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct {
     u32 unk00;
@@ -18,7 +19,6 @@ typedef struct {
     InitBlock unk1DC;
 } GlobalState;
 
-extern GlobalState D_80083160;
 extern u8 D_80080AA0[16];
 extern u8 D_800EA000[16];
 
@@ -28,7 +28,7 @@ extern void func_80099188(void *);
 /* Initializes the global state block and clears associated flags. */
 void func_800161D8(void) {
     u32 color_command = 0x2C808080;
-    GlobalState *state = &D_80083160;
+    GlobalState *state = ((GlobalState *)&gameWork);
     InitBlock *init_block = &state->unk1DC;
     u32 block_extent = 0x3F;
     u32 block_offset = 6;

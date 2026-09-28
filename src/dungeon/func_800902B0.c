@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 
@@ -110,7 +111,6 @@ M2C_UNK func_800A56E0();
 extern M2C_UNK D_8003E140;
 extern s32 D_80081488;
 extern u8 *D_80082EB0;
-extern s16 D_80083228;
 extern M2C_UNK D_8008ACDC;
 extern u8 D_800DCFB0[];
 extern u8 D_800DD138[];
@@ -137,7 +137,6 @@ void func_80095A10(u8 *actor_in, void *position_in, void *animation_in, u8 *cont
     void *object;
     void *object_scale;
     void *object_position;
-    u8 *status;
 
     state = ((S_80095A10_0 *)actor)->unk_9B;
     resource_info = D_80082EB0;
@@ -150,7 +149,7 @@ jt_c0:
         goto done;
     }
     (*(M2C_UNK **)((u8 *)animation + 0x2C)) = D_800DD138;
-    func_80048A44(animation, *((((s32) (D_80083228 + ((S_80095A10_2 *)context)->unk_2A + 0x100) >> 9) & 7) + D_800DD138), 0, 1);
+    func_80048A44(animation, *((((s32) (gameWork.viewAngle + ((S_80095A10_2 *)context)->unk_2A + 0x100) >> 9) & 7) + D_800DD138), 0, 1);
     ((S_80095A10_1 *)animation)->unk_14 = (u16) (((S_80095A10_1 *)animation)->unk_14 | 0x200);
     func_80093C70(actor, position, animation);
     func_80093D8C(actor, position, animation);
@@ -218,7 +217,7 @@ jt_c4:
         goto done;
     }
     (*(M2C_UNK **)((u8 *)animation + 0x2C)) = D_800DD140;
-    func_80048A44(animation, *((((s32) (D_80083228 + ((S_80095A10_2 *)context)->unk_2A + 0x100) >> 9) & 7) + D_800DD140), 0, 1);
+    func_80048A44(animation, *((((s32) (gameWork.viewAngle + ((S_80095A10_2 *)context)->unk_2A + 0x100) >> 9) & 7) + D_800DD140), 0, 1);
     goto advance_state;
 jt_c5:
     animation_flags = ((S_80095A10_1 *)animation)->unk_14;
@@ -229,7 +228,7 @@ jt_c5:
     ((S_80095A10_1 *)animation)->unk_14 = (u16) (animation_flags & 0xFDFF);
 set_animation:
     (*(M2C_UNK **)((u8 *)animation + 0x2C)) = animation_table;
-    func_80048A44(animation, *((((s32) (D_80083228 + ((S_80095A10_2 *)context)->unk_2A + 0x100) >> 9) & 7) + animation_table), 0, 1);
+    func_80048A44(animation, *((((s32) (gameWork.viewAngle + ((S_80095A10_2 *)context)->unk_2A + 0x100) >> 9) & 7) + animation_table), 0, 1);
 advance_state:
     previous_state = ((S_80095A10_0 *)actor)->unk_9B;
 store_next_state:
@@ -243,8 +242,7 @@ jt_c6:
     ((S_80095A10_0 *)actor)->unk_8C = &D_8008ACDC;
     func_80099F70(((S_80095A10_2 *)context)->unk_5C);
     func_80099F04(((S_80095A10_2 *)context)->unk_5C);
-    status = ((u8 *)(&dungeonStatus));
-    ((S_80095A10_9 *)status)->unk_02 = (u16) (((S_80095A10_9 *)status)->unk_02 | 0x812);
+    dungeonStatus.flags = (u16) (dungeonStatus.flags | 0x812);
 done:
     return;
 }

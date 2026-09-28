@@ -46,7 +46,6 @@ void func_8016EFAC(void)
     u8 *object_state;
     u8 *position_data;
     u8 *entry;
-    DungeonCounters *counters;
     u32 handler_index;
     u8 *handler_table;
     u32 high_bit;
@@ -59,8 +58,7 @@ void func_8016EFAC(void)
     sys_work->f371A = 0;
     sys_work->f3718 = 0;
     sys_work->f3716 = 0;
-    counters = ((DungeonCounters *)&dungeonStatus);
-    counters->counter -= 1;
+    dungeonStatus.unk_0A -= 1;
     active_object = D_80175D50;
     sys_work->flags = (sys_work->flags | 9) & 0xFFEF;
     handler_index = D_800834E2 >> 7;

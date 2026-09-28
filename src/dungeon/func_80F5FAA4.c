@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
@@ -83,11 +85,8 @@ M2C_UNK func_800AA888();
 M2C_UNK func_800AD4D0();
 M2C_UNK func_80171F94();
 M2C_UNK func_80173CEC();
-extern M2C_UNK D_80045340;
 extern void *D_800814A8;
 extern M2C_UNK D_80082E80;
-extern M2C_UNK D_80083160;
-extern s16 D_80083228;
 extern M2C_UNK D_80083498;
 extern M2C_UNK D_800D7960;
 extern M2C_UNK D_80170E68;
@@ -100,7 +99,6 @@ extern u8 D_801741FC[];
 /* Advances the actor effect sequence, updating directional animation and its attached effect. */
 void func_801732A4(void *actor, void *transform, void *sprite, void *actor_state) {
     static void *const state_labels[] = { &&phase_start, &&phase_update, &&phase_transition, &&phase_spawn, &&phase_finish, &&phase_resume };
-    M2C_UNK *effect_state;
     s32 actor_flags;
     s32 action_flags;
     s32 sprite_data;
@@ -113,7 +111,6 @@ void func_801732A4(void *actor, void *transform, void *sprite, void *actor_state
     void *new_effect;
     void *effect_transform;
     void *active_effect;
-    void *view_state;
     void *player_sprite;
 
     phase = ((Rec_func_801732A4_arg0 *)actor)->unk_9B;
@@ -122,7 +119,7 @@ void func_801732A4(void *actor, void *transform, void *sprite, void *actor_state
 phase_start:
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) goto done;
     (*(u8 **)((u8 *)sprite + 0x2C)) = D_801741DC;
-    func_80047784(sprite, D_801741DC[((D_80083228 + ((S_801732A4_2 *)actor_state)->unk_2A + 0x100) >> 9) & 7], 0);
+    func_80047784(sprite, D_801741DC[((gameWork.viewAngle + ((S_801732A4_2 *)actor_state)->unk_2A + 0x100) >> 9) & 7], 0);
     dungeonStatus.unk_0A = (u16)(((u16)dungeonStatus.unk_0A) - 1);
     ((Rec_func_801732A4_arg0 *)actor)->unk_9B = (u8)(((Rec_func_801732A4_arg0 *)actor)->unk_9B + 1);
     return;
@@ -137,15 +134,14 @@ phase_update:
     func_800A56E0(0x51B);
 animation_updated:
 check_effect_state:
-    effect_state = ((u16 *)(&dungeonStatus));
-    if (((S_801732A4_3 *)effect_state)->unk_02 & 0x1000) goto done;
+    if (dungeonStatus.flags & 0x1000) goto done;
     if ((func_80042900(actor_state, 1) << 0x10) != 0) goto check_action;
     (*(u8 **)((u8 *)sprite + 0x2C)) = D_801741E4;
-    func_80047784(sprite, D_801741E4[((D_80083228 + ((S_801732A4_2 *)actor_state)->unk_2A + 0x100) >> 9) & 7], 0);
+    func_80047784(sprite, D_801741E4[((gameWork.viewAngle + ((S_801732A4_2 *)actor_state)->unk_2A + 0x100) >> 9) & 7], 0);
     if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
         if (!(((Rec_func_801732A4_arg0 *)actor)->unk_98 & 0x8000)) goto clear_action;
-        count = ((S_801732A4_3 *)effect_state)->unk_0A + 1;
-        ((S_801732A4_3 *)effect_state)->unk_0A = count;
+        count = ((u16)dungeonStatus.unk_0A) + 1;
+        dungeonStatus.unk_0A = count;
         ((Rec_func_801732A4_arg0 *)actor)->unk_9B = (u8)(((Rec_func_801732A4_arg0 *)actor)->unk_9B + 1);
         return;
 clear_action:
@@ -153,7 +149,7 @@ clear_action:
         ((Rec_func_801732A4_arg0 *)actor)->unk_8C = &D_80170E68;
         return;
     }
-    ((S_801732A4_3 *)effect_state)->unk_0A = (u16)(((S_801732A4_3 *)effect_state)->unk_0A + 1);
+    dungeonStatus.unk_0A = (u16)(((u16)dungeonStatus.unk_0A) + 1);
     ((Rec_func_801732A4_arg0 *)actor)->unk_9B = (u8)(((Rec_func_801732A4_arg0 *)actor)->unk_9B + 1);
     return;
 check_action:
@@ -161,7 +157,7 @@ check_action:
     if (func_800AA6B4(actor, transform, sprite, 0) == 0) goto start_action;
     ((Rec_func_801732A4_arg0 *)actor)->unk_98 = (u16)(((Rec_func_801732A4_arg0 *)actor)->unk_98 | 0x8000);
     if (((S_801732A4_2 *)actor_state)->unk_25 != 0) goto save_heading;
-    if (((S_801732A4_3 *)effect_state)->unk_02 & 0x2008) goto done;
+    if (dungeonStatus.flags & 0x2008) goto done;
     func_800AA79C(actor, transform, sprite, actor_state);
     return;
 save_heading:
@@ -207,7 +203,7 @@ check_effect_flag:
 check_ready:
     if ((func_80042900(actor_state, 1) << 0x10) != 0) goto done;
     (*(u8 **)((u8 *)sprite + 0x2C)) = D_801741E4;
-    func_80047784(sprite, D_801741E4[((D_80083228 + ((S_801732A4_2 *)actor_state)->unk_2A + 0x100) >> 9) & 7], 0);
+    func_80047784(sprite, D_801741E4[((gameWork.viewAngle + ((S_801732A4_2 *)actor_state)->unk_2A + 0x100) >> 9) & 7], 0);
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) goto increment_count;
     if (!(((Rec_func_801732A4_arg0 *)actor)->unk_98 & 0x8000)) goto clear_action;
     {
@@ -226,20 +222,19 @@ increment_count:
 phase_transition:
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) goto done;
     (*(u8 **)((u8 *)sprite + 0x2C)) = D_801741EC;
-    func_80047784(sprite, D_801741EC[((D_80083228 + ((S_801732A4_2 *)actor_state)->unk_2A + 0x100) >> 9) & 7], 0);
+    func_80047784(sprite, D_801741EC[((gameWork.viewAngle + ((S_801732A4_2 *)actor_state)->unk_2A + 0x100) >> 9) & 7], 0);
     ((Rec_func_801732A4_arg0 *)actor)->unk_9B = (u8)(((Rec_func_801732A4_arg0 *)actor)->unk_9B + 1);
     return;
 phase_spawn:
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) goto done;
-    view_state = &D_80083160;
     ((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 = D_801741F4;
-    func_80047784(sprite, D_801741F4[((((S_801732A4_6 *)view_state)->unk_C8 + ((S_801732A4_2 *)actor_state)->unk_2A + 0x100) >> 9) & 7], 0);
+    func_80047784(sprite, D_801741F4[((gameWork.viewAngle + ((S_801732A4_2 *)actor_state)->unk_2A + 0x100) >> 9) & 7], 0);
     ((Rec_func_801732A4_arg0 *)actor)->unk_9B = (u8)(((Rec_func_801732A4_arg0 *)actor)->unk_9B + 1);
     new_effect = func_8003FD64(0x112, &D_80083498);
     ((Rec_func_801732A4_arg0 *)actor)->unk_A0 = new_effect;
     actor = new_effect;
     if (actor == NULL) goto done;
-    func_8004491C(actor, &D_80045340);
+    func_8004491C(actor, func_80045340);
     effect_transform = ((Rec_func_801732A4_arg0 *)actor)->unk_08;
     ((Rec_func_801732A4_arg0 *)actor)->unk_10 = &D_800D7960;
     *(Copy24 *)effect_transform = *(Copy24 *)transform;
@@ -254,7 +249,7 @@ phase_spawn:
     ((S_801732A4_7 *)effect_sprite)->unk_12 = (u16)((Rec_D_80082E80 *)sprite)->unk_12.at00_u16.v;
     ((S_801732A4_7 *)effect_sprite)->unk_0C = (s32)((Rec_D_80082E80 *)sprite)->unk_0C.at00_s32.v;
     ((S_801732A4_7 *)effect_sprite)->unk_2C = D_801741FC;
-    func_80047784(effect_sprite, D_801741FC[((((S_801732A4_6 *)view_state)->unk_C8 + ((S_801732A4_2 *)actor_state)->unk_2A + 0x100) >> 9) & 7], 0);
+    func_80047784(effect_sprite, D_801741FC[((gameWork.viewAngle + ((S_801732A4_2 *)actor_state)->unk_2A + 0x100) >> 9) & 7], 0);
     return;
 phase_finish:
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) goto done;

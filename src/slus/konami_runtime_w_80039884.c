@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 #include "common.h"
 
@@ -12,13 +13,12 @@ typedef struct {
     s8 field87;
 } S_80039884_Arg;
 
-extern S_80039884_Global D_80083160;
 
 /* Returns whether the state flag is set or global flag bits 0x60 are clear. */
 s32 func_80039884(S_80039884_Arg *state)
 {
     s32 result = 0;
-    S_80039884_Global *global = &D_80083160;
+    S_80039884_Global *global = ((S_80039884_Global *)&gameWork);
 
     if (state->field87 == 0) {
         if ((global->field8 & 0x60) != 0) {

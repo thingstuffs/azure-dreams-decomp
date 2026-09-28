@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "records/Rec_D_80082E80.h"
 
 typedef struct S_8017573C_0 {
@@ -12,7 +13,6 @@ typedef struct S_8017573C_0 {
 
 extern void func_80047784(void *, u8, s32);
 extern void func_800478B8(void *);
-extern s16 D_80083228;
 extern u8 D_80176460[8];
 
 /* Updates object direction and grows it to full scale after an eight-tick delay. */
@@ -25,7 +25,7 @@ void func_8017573C(S_8017573C_0 *animation, s32 unused, Rec_D_80082E80 *object) 
     animation->unk_02.s = animation->unk_02.s + 1;
     func_800478B8(object);
     if (object->unk_14.at00_u16.v & 0x6000) {
-        direction_index = D_80083228;
+        direction_index = gameWork.viewAngle;
         direction_index += animation->unk_04;
         direction_index += 0x100;
         direction_index >>= 9;

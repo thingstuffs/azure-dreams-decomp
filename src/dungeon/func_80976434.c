@@ -109,8 +109,7 @@ extern s8 D_800E2970[];
 /* Selects a movement direction and updates the actor's position and movement state. */
 void func_80171C34(void *move_data, void *context, void *position_data, void *actor_data)
 {
-    u8 *dungeon_state = (u8 *)&dungeonStatus.unk_00;
-    u16 dungeon_flags = ((S_80171C34_0 *)dungeon_state)->unk_02;
+    u16 dungeon_flags = dungeonStatus.flags;
     s32 limit_detour = 0;
     s16 detour_check;
     s32 actor_flags;
@@ -141,7 +140,7 @@ reject_state:
     return;
 
 accept_state:
-    if (((S_80171C34_0 *)dungeon_state)->unk_0C == actor_data) {
+    if (dungeonStatus.unk_0C == actor_data) {
         ((S_80171C34_1 *)actor_data)->unk_46 = 0xC008;
     }
     return;
@@ -353,11 +352,10 @@ loop_test:
     }
 
     {
-        u8 *dungeon_stats = (u8 *)&dungeonStatus.unk_00;
         ((S_80171C34_1 *)actor_data)->unk_46 &= 0x7FFF;
         ((S_80171C34_5 *)move_data)->unk_9C.u = ((S_80171C34_2 *)position_data)->unk_26.u;
         ((S_80171C34_1 *)actor_data)->unk_6D.u--;
-        ((S_80171C34_6 *)dungeon_stats)->unk_08++;
+        dungeonStatus.unk_08++;
     }
     if (((S_80171C34_1 *)actor_data)->unk_6D.s == 0) {
 success:

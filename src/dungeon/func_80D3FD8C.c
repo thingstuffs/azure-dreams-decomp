@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
@@ -76,7 +77,6 @@ typedef struct S_8017558C_7 {
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern s32 D_800E296C[3];
 extern u8 D_800E2438[];
-extern s16 D_80083228[5];
 extern u8 D_80170A84[];
 extern s32 D_80045C34[3];
 extern u8 D_800E2440[];
@@ -161,7 +161,7 @@ check_height:
         goto update_effect;
     }
     sprite->unk_2C.as_pu8 = D_800E2438;
-    func_80047784(sprite, D_800E2438[((s32) (*D_80083228 + actor->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
+    func_80047784(sprite, D_800E2438[((s32) (gameWork.viewAngle + actor->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
     func_800A56E0(0x800);
     ((S_8017558C_0 *)action)->unk_96 = 2U;
     ((S_8017558C_0 *)action)->unk_9B = (u8) (((S_8017558C_0 *)action)->unk_9B + 1);
@@ -210,7 +210,7 @@ phase_wait:
     }
 start_windup:
     sprite->unk_2C.as_pu8 = D_800E2440;
-    func_80047784(sprite, D_800E2440[((s32) (*D_80083228 + actor->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
+    func_80047784(sprite, D_800E2440[((s32) (gameWork.viewAngle + actor->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
     ((S_8017558C_0 *)action)->unk_96 = 3U;
     ((S_8017558C_0 *)action)->unk_9B = (u8) (((S_8017558C_0 *)action)->unk_9B + 1);
     ((S_8017558C_0 *)action)->unk_B6 = (u16) position->unk_00.at02_u16.v;
@@ -264,7 +264,7 @@ restore_position:
     actor->unk_88.as_u16 = (u16) ((S_8017558C_0 *)action)->unk_BA;
     saved_angle = ((S_8017558C_0 *)action)->unk_A6;
     actor->unk_2A.as_s16 = (s16) saved_angle;
-    view_dir = ((s32) (*D_80083228 + (s16) saved_angle + 0x100) >> 9) & 7;
+    view_dir = ((s32) (gameWork.viewAngle + (s16) saved_angle + 0x100) >> 9) & 7;
     func_80047738(sprite, sprite->unk_2C.as_pu8[view_dir], sprite->unk_04.as_s8);
     ((S_8017558C_0 *)action)->unk_94 = view_dir;
 wait_restore:
@@ -284,7 +284,7 @@ wait_pause:
     ((S_8017558C_0 *)action)->unk_96 = 0U;
     ((S_8017558C_0 *)action)->unk_B1 = (u8) (((S_8017558C_0 *)action)->unk_B1 + 1);
     sprite->unk_2C.as_pu8 = D_800E2448;
-    func_80047784(sprite, D_800E2448[((s32) (*D_80083228 + actor->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
+    func_80047784(sprite, D_800E2448[((s32) (gameWork.viewAngle + actor->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
     sprite->unk_14.at00_u16.v = (u16) (sprite->unk_14.at00_u16.v & 0x9F7F);
     func_800A56E0(0x801);
     goto done;
@@ -302,7 +302,7 @@ finish_restore:
         goto done;
     }
     sprite->unk_2C.as_pu8 = D_800E23E0;
-    func_80047784(sprite, D_800E23E0[((s32) (*D_80083228 + actor->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
+    func_80047784(sprite, D_800E23E0[((s32) (gameWork.viewAngle + actor->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
     ((S_8017558C_0 *)action)->unk_96 = 5U;
     ((S_8017558C_0 *)action)->unk_9B = (u8) (((S_8017558C_0 *)action)->unk_9B + 1);
     if (((S_8017558C_0 *)action)->unk_B0 != 0) {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "records/Rec_D_800E3D7C.h"
 
 typedef s32 M2C_UNK;
@@ -109,7 +110,6 @@ extern s32 D_80026F2C[];
 extern s32 D_80026F34;
 extern s16 D_800272C8;
 extern s16 D_800272CA;
-extern u8 D_80045340[];
 extern s32 D_80053858[4];
 extern s32 D_80053A88;
 extern u8 D_80082E80[];
@@ -289,7 +289,7 @@ void func_80022F60(void *state_obj) {
                         sprite = (u8 *)obj + 0x20;
 
                         ((S_80022F60_3 *)obj)->unk_10 = D_80023B14;
-                        func_8004491C(obj, D_80045340);
+                        func_8004491C(obj, func_80045340);
                         image = ((S_80022F60_3 *)obj)->unk_0C;
                         ((S_80022F60_6 *)image)->unk_1E = 0x1000;
                         ((S_80022F60_6 *)image)->unk_1C = 0x1000;
@@ -356,7 +356,7 @@ void func_80022F60(void *state_obj) {
 
                     sprite = (u8 *)obj + 0x20;
                     ((S_80022F60_3 *)obj)->unk_10 = D_80023B14;
-                    func_8004491C(obj, D_80045340);
+                    func_8004491C(obj, func_80045340);
                     image = ((S_80022F60_3 *)obj)->unk_0C;
                     ((S_80022F60_6 *)image)->unk_1E = 0x1000;
                     ((S_80022F60_6 *)image)->unk_1C = 0x1000;
@@ -408,7 +408,7 @@ void func_80022F60(void *state_obj) {
 
                     sprite = (u8 *)obj + 0x20;
                     ((S_80022F60_3 *)obj)->unk_10 = D_80023B14;
-                    func_8004491C(obj, D_80045340);
+                    func_8004491C(obj, func_80045340);
                     image = ((S_80022F60_3 *)obj)->unk_0C;
                     ((S_80022F60_6 *)image)->unk_1E = 0x1000;
                     ((S_80022F60_6 *)image)->unk_1C = 0x1000;

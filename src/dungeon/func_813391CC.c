@@ -1,17 +1,16 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 
-extern s8 D_80083160[];
 
 /* Decrease three state bytes, or set entry and global flags below the threshold. */
 void func_801701CC(u16 *entry)
 {
-    u8 *state = D_80083160;
 
-    if (state[0xA8] >= 0x3D) {
-        state[0xA8] -= 2;
-        state[0xA9] -= 2;
-        state[0xAA] -= 2;
+    if (gameWork.unk_0A8 >= 0x3D) {
+        gameWork.unk_0A8 -= 2;
+        gameWork.unk_0A9 -= 2;
+        gameWork.unk_0AA -= 2;
         return;
     }
 

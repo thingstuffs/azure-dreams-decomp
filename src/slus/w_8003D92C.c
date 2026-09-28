@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct
 {
@@ -7,7 +8,6 @@ typedef struct
   char padC[4];
   int field10;
 } S_8003D92C_80083160;
-extern S_8003D92C_80083160 D_80083160;
 extern u8 D_80082E6F[16];
 extern u8 D_80080A84;
 extern short D_80080ABC;
@@ -38,7 +38,7 @@ int func_8003D92C(void)
   int flags;
   int saved_setting;
   S_8003D92C_80083160 *input_state;
-  input_state = &D_80083160;
+  input_state = ((S_8003D92C_80083160 *)&gameWork);
   if (D_80082E6F[0] & 0x80)
   {
     return 0;

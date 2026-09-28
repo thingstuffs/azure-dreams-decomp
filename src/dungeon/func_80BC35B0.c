@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "records/Rec_D_80082E80.h"
@@ -11,7 +12,6 @@ extern void func_800A4ACC(void *);
 extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
 
-extern s16 D_80083228;
 extern u8 D_80170838[16];
 extern s32 D_801719DC;
 extern u8 D_8017464C[8];
@@ -75,7 +75,7 @@ start:
     }
     (*(u8 * *)((u8 *)sprite + (0x2C))) = D_8017464C;
     func_80047784(sprite,
-        D_8017464C[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+        D_8017464C[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
         0);
     ((S_80172DB0_0 *)action)->unk_96.u = 8;
     ((S_80172DB0_0 *)action)->unk_9B++;
@@ -92,7 +92,7 @@ windup:
     }
     (*(u8 * *)((u8 *)sprite + (0x2C))) = D_80174654;
     func_80047784(sprite,
-        D_80174654[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+        D_80174654[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
         0);
     func_800A56E0(0x707);
     ((S_80172DB0_0 *)action)->unk_96.u = 6;
@@ -135,7 +135,7 @@ land:
     }
     (*(u8 * *)((u8 *)sprite + (0x2C))) = D_8017465C;
     func_80047784(sprite,
-        D_8017465C[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+        D_8017465C[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
         0);
     ((S_80172DB0_0 *)action)->unk_9B++;
     ((S_80172DB0_3 *)motion)->unk_10 = 0;
@@ -149,7 +149,7 @@ recenter:
     }
     (*(u8 * *)((u8 *)sprite + (0x2C))) = D_80174664;
     func_80047784(sprite,
-        D_80174664[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+        D_80174664[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
         0);
     ((S_80172DB0_0 *)action)->unk_96.u = 4;
     ((S_80172DB0_0 *)action)->unk_A4 = 0;

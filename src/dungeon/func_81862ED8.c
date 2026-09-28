@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct S_800246D8_0 {
     u8 pad_00[0x18];
@@ -63,7 +64,6 @@ typedef struct S_800246D8_3 {
 
 
 
-extern u8 D_80083160[];
 extern s32 func_80065420(void *, void *, void *, void *);
 
 typedef union {
@@ -124,7 +124,7 @@ s32 func_800246D8(void *line)
     s32 depth_sum;
 #endif
     u32 *ordering_table;
-    u8 *render_ctx = *(u8 **)D_80083160;
+    u8 *render_ctx = *(u8 **)((u8 *)(&gameWork));
 
     ((S_800246D8_0 *)scratch)->unk_18 = (u32 *)(render_ctx + 0xB0);
     packet = ((S_800246D8_1 *)render_ctx)->unk_8D0;

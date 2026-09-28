@@ -44,12 +44,10 @@ s32 func_80042900(void *arg0, s32 arg1);
 
 /* Fade the entity to dark gray, then remove it and update its tile flags. */
 s32 func_800D1A80(S_800D1A80_0 *state, void *unused, S_800D1A80_1 *visual, void *entity) {
-    s16 *fade_blocked = ((s16 *)(&dungeonStatus.unk_0A));
     s16 fade_frames;
     M2C_UNK tile_flags;
     s16 frames_left;
     s32 entity_ref;
-    s32 *entity_tracker;
     u8 blue;
     u8 phase;
     u8 red;
@@ -64,7 +62,7 @@ s32 func_800D1A80(S_800D1A80_0 *state, void *unused, S_800D1A80_1 *visual, void 
         }
         goto update_fade;
     }
-    if (*fade_blocked == 0) {
+    if (dungeonStatus.unk_0A == 0) {
         visual->unk_10 = 0x20;
         visual->unk_12 = (u16) (visual->unk_12 - 0x80);
         visual->unk_14 = (u16) (visual->unk_14 | 0xC);
@@ -87,11 +85,10 @@ update_fade:
         if (((frames_left << 0x10) > 0) && ((visual->unk_14 & 0x8000) == 0)) {
             return 0;
         }
-        entity_tracker = ((s32 *)(&dungeonStatus));
         {
-            entity_ref = ((S_800D1A80_3 *)entity_tracker)->unk_10;
+            entity_ref = ((s32)dungeonStatus.unk_10);
             if (entity_ref == (entity - 0x20)) {
-                ((S_800D1A80_3 *)entity_tracker)->unk_10 = (s32) (entity_ref & 0x7FFFFFFF);
+                dungeonStatus.unk_10 = (s32) (entity_ref & 0x7FFFFFFF);
             }
             func_800A32A4(entity);
             if ((func_80042900(entity, 0x1B) << 0x10) == 0) {

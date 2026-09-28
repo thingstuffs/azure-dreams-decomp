@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "records/Rec_D_80082E80.h"
@@ -79,8 +81,6 @@ extern void func_800A2B04(void *, s32, s32);
 extern void func_800AAA54(void *, void *, void *, void *);
 extern void func_800AD4D0(void *);
 
-extern u8 D_80045340[];
-extern s16 D_80083228;
 extern u8 D_80083498[];
 extern u8 D_801711A4[];
 extern u8 D_8017406C[];
@@ -93,7 +93,6 @@ void func_80172D1C(void *actor, void *motion, void *sprite, void *entity) {
     void *particle_sprite;
     void *particle_update;
     u8 *unused_particle_state;
-    u8 *world_state;
     s32 particle_or_dir_index;
     s32 state;
     s32 unused_value;
@@ -117,7 +116,7 @@ void func_80172D1C(void *actor, void *motion, void *sprite, void *entity) {
         do {
             particle = func_8003FD64(0x312, D_80083498);
             if (particle != 0) {
-                func_8004491C(particle, D_80045340);
+                func_8004491C(particle, func_80045340);
                 particle_sprite = ((S_80172D1C_1 *)particle)->unk_0C;
                 ((S_80172D1C_1 *)particle)->unk_10 = particle_update;
 
@@ -278,11 +277,10 @@ state_2:
     func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
     (*(void * *)((u8 *)sprite + 0x2C)) = D_8017418C;
     func_80047784(sprite,
-                  D_8017418C[((D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+                  D_8017418C[((gameWork.viewAngle + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7],
                   0);
-    world_state = ((u8 *)(&dungeonStatus));
-    if (((S_80172D1C_7 *)world_state)->unk_10 == (s32)((u8 *)entity - 0x20)) {
-        ((S_80172D1C_7 *)world_state)->unk_10 &= 0x7FFFFFFF;
+    if (((s32)dungeonStatus.unk_10) == (s32)((u8 *)entity - 0x20)) {
+        *(s32 *)&dungeonStatus.unk_10 &= 0x7FFFFFFF;
     }
     ((S_80172D1C_0 *)actor)->unk_8C = D_801711A4;
 

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
@@ -151,7 +152,6 @@ s16 func_800BCAD0();
 extern M2C_UNK D_800814A8;
 extern M2C_UNK D_80082E80;
 extern u16 D_80082E94;
-extern s16 D_80083228;
 extern s32 D_80083780;
 extern M2C_UNK D_800DE5DC;
 extern s32 D_800E3D18;
@@ -273,7 +273,7 @@ block_10:
     effect_data = offset;
     step_value = (step_value - 0x50) << 0x10;
     (*(s32 *)((u8 *)source_pos + 8)) = step_value;
-    step_value = D_80083228;
+    step_value = gameWork.viewAngle;
     state_or_heading = ((S_80024B54_1 *)actor_value)->unk_2A.s;
     offset_mode = 0;
     step_value = ((step_value + state_or_heading + 0x100) >> 7) & 0x1C;

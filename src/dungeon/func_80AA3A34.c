@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -31,7 +32,6 @@ extern void func_800A2B04(void *, s32, s32);
 extern void func_800AAA54(void *, void *, void *, void *);
 extern void func_800AD4D0(void *);
 
-extern s16 D_80083228;
 extern u8 D_8016AE7C;
 extern u8 D_8016EC44[];
 extern u8 D_8016EC74[];
@@ -42,7 +42,6 @@ void func_8016D234(void *action, void *motion, void *sprite, void *entity)
     s32 state;
     s16 timer;
     s32 tracked_entity;
-    s32 *entity_slots;
 
     state = ((S_8016D234_0 *)action)->unk_9B;
     if (state == 1) {
@@ -119,7 +118,7 @@ continue_state_one:
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_8016EC44;
     func_80047784(
         sprite,
-        D_8016EC44[((D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+        D_8016EC44[((gameWork.viewAngle + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7],
         0);
     ((S_8016D234_0 *)action)->unk_9B++;
     goto done;
@@ -136,7 +135,7 @@ state_two:
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_8016EC44;
     func_80047784(
         sprite,
-        D_8016EC44[((D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+        D_8016EC44[((gameWork.viewAngle + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7],
         0);
     ((S_8016D234_0 *)action)->unk_96.s = 8;
     ((S_8016D234_0 *)action)->unk_9B++;
@@ -171,10 +170,9 @@ state_three:
     ((S_8016D234_1 *)motion)->unk_04.at00.v = ((((Rec_D_80082E80 *)sprite)->unk_25 << 6) + 0x20) << 16;
     func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
 
-    entity_slots = &dungeonStatus.unk_00;
-    tracked_entity = entity_slots[4];
+    tracked_entity = ((s32)dungeonStatus.unk_10);
     if (tracked_entity == (s32)((u8 *)entity - 0x20)) {
-        entity_slots[4] = tracked_entity & 0x7FFFFFFF;
+        dungeonStatus.unk_10 = tracked_entity & 0x7FFFFFFF;
     }
     ((S_8016D234_0 *)action)->unk_8C = &D_8016AE7C;
 

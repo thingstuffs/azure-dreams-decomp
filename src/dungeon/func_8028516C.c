@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct DungeonCell {
     s16 unk0;
@@ -20,7 +21,6 @@ typedef struct DungeonState {
     s16 shift;
 } DungeonState;
 
-extern DungeonState D_8008333C;
 extern DungeonRecord D_800E2970[];
 
 s16 func_800BCB04(s32, s32, s32);
@@ -58,7 +58,7 @@ s32 func_8001816C(s16 record_id, s16 *out_x, s16 *out_y)
     records_page = (s8 *)record_addr;
     rows_left = *(s16 *)(records_page + 6);
     y = *(u16 *)(records_page + 2);
-    state = &D_8008333C;
+    state = ((DungeonState *)((u8 *)&gameWork + 476));
 
     if (rows_left > 0) {
         register s16 *y_ptr ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */

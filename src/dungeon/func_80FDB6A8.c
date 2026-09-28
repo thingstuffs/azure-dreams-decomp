@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_800814A8.h"
@@ -34,7 +35,6 @@ extern void func_80173A84(void *, void *, void *, void *);
 extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern u16 D_80082EA4;
-extern s16 D_80083228;
 extern DungeonRecord D_800E2970[];
 extern void *D_80170808[];
 extern u8 D_80170EA8;
@@ -96,7 +96,7 @@ void func_80170EA8(void *actor, void *context, void *sprite, void *entity)
         if (((S_80170EA8_2 *)sprite)->unk_2C != D_80174088) {
             (*(void * *)((u8 *)sprite + (0x2C))) = D_80174080;
             func_80047784(sprite,
-                D_80174080[((D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+                D_80174080[((gameWork.viewAngle + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7],
                 0);
         }
         return;
@@ -128,7 +128,7 @@ void func_80170EA8(void *actor, void *context, void *sprite, void *entity)
             if (((S_80170EA8_2 *)sprite)->unk_2C != anim_table) {
                 (*(void * *)((u8 *)sprite + (0x2C))) = anim_table;
                 func_80047784(sprite,
-                    anim_table[((D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+                    anim_table[((gameWork.viewAngle + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7],
                     0);
             }
             ((S_80170EA8_0 *)actor)->unk_9A = next_state;
@@ -298,6 +298,6 @@ ordinary_cleanup:
     }
     (*(void * *)((u8 *)sprite + (0x2C))) = anim_table;
     func_80047784(sprite,
-        *(u8 *)((((D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7) + (u32)anim_table),
+        *(u8 *)((((gameWork.viewAngle + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7) + (u32)anim_table),
         0);
 }

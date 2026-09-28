@@ -170,12 +170,10 @@ state_2:
     func_800A2B04(motion, tile->unk_24,
         tile->unk_25);
     {
-        s32 *global;
 
-        global = &dungeonStatus.unk_00;
-        value = *(s32 *)((u8 *)global + 0x10);
+        value = ((s32)dungeonStatus.unk_10);
         if (value == (s32)((u8 *)actor - 0x20)) {
-            *(s32 *)((u8 *)global + 0x10) = value & 0x7FFFFFFF;
+            dungeonStatus.unk_10 = value & 0x7FFFFFFF;
         }
     }
     script->unk_8C = D_80170EE4;

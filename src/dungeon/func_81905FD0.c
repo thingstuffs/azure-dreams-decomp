@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
@@ -257,7 +258,6 @@ extern u8 D_800267A8[12];
 extern u8 D_800267B8[9];
 extern u8 D_800DDC40[];
 extern u8 D_800E3D68[1];
-extern u8 D_80045340[];
 
 extern s32 func_8003DF74(void *, void *, Vec3 *, s32);
 extern void func_8004491C(void *, void *);
@@ -340,7 +340,7 @@ void func_800257D0(void *effect_data, void *motion_data, void *render_data)
             goto done;
         }
         if ((effect->unk_7A & 4) == 0) {
-            func_8004491C((u8 *)effect - 0x20, D_80045340);
+            func_8004491C((u8 *)effect - 0x20, func_80045340);
             render->unk_10.u16 = 32;
             render->unk_0C.u8_0E.unk_0E = 128;
             render->unk_0C.u8_0D.unk_0D = 128;
@@ -592,7 +592,7 @@ void func_800257D0(void *effect_data, void *motion_data, void *render_data)
                 child_data = (S_func_81905FD0_7 *)((u8 *)upper_effect + 0x20);
                 child_data->unk_02 = 120;
                 upper_effect->unk_10 = D_80025294;
-                func_8004491C(upper_effect, D_80045340);
+                func_8004491C(upper_effect, func_80045340);
                 child_render = upper_effect->unk_0C;
                 child_render->unk_06 = 0;
                 {
@@ -636,7 +636,7 @@ void func_800257D0(void *effect_data, void *motion_data, void *render_data)
                 child_data = (S_func_81905FD0_7 *)((u8 *)lower_effect + 0x20);
                 child_data->unk_02 = 140;
                 lower_effect->unk_10 = D_800252E4;
-                func_8004491C(lower_effect, D_80045340);
+                func_8004491C(lower_effect, func_80045340);
                 child_render = lower_effect->unk_0C;
                 child_render->unk_14 &= 0xFFF3;
                 child_render->unk_10.s16 = 32;
@@ -671,7 +671,7 @@ void func_800257D0(void *effect_data, void *motion_data, void *render_data)
                 child_data = (S_func_81905FD0_7 *)((u8 *)ring_effect + 0x20);
                 child_data->unk_02 = 120;
                 ring_effect->unk_10 = D_800251A0;
-                func_8004491C(ring_effect, D_80045340);
+                func_8004491C(ring_effect, func_80045340);
                 child_render = ring_effect->unk_0C;
                 child_render->unk_06 = 0;
                 {
@@ -733,7 +733,7 @@ void func_800257D0(void *effect_data, void *motion_data, void *render_data)
 
                 child_data = (S_func_81905FD0_7 *)((u8 *)control_effect + 0x20);
                 effect_object = control_effect;
-                render_template = D_80045340;
+                render_template = func_80045340;
                 ASM_KEEP_NV(render_template);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 child_data->unk_38 = owner;
                 owner_target = owner->unk_60;

@@ -11,9 +11,9 @@
  * defines func_8002403C) -> overlay_land_function.
  */
 #include "common.h"
+#include "shared/game_work.h"
 
 
-extern u8 D_80083160[];
 
 extern s32 func_80065420(void *, void *, void *, void *);
 extern s32 func_80066460(s32, s32, s32, s32);
@@ -92,9 +92,9 @@ s32 func_8002403C(void *start_node, void *start_coords)
 
     node = start_node;
     coords = start_coords;
-    state_ptr = (u8 **)D_80083160;
+    state_ptr = (u8 **)((u8 *)(&gameWork));
     addr_mask = 0x00FFFFFF;
-    render_state = *(u8 **)D_80083160;
+    render_state = *(u8 **)((u8 *)(&gameWork));
     length_mask = 0xFF000000;
     scratch = (u8 *)0x1F800000;
 

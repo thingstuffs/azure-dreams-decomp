@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 
@@ -42,7 +43,6 @@ extern u8 D_800287A2;
 extern s32 D_800287A4;
 extern void *D_800814A8;
 extern void *D_800814A8_count __asm__("D_800814A8");
-extern u8 D_80083160[];
 
 extern void *func_800244C4(void *, void *);
 extern void func_8003F80C(void *, s32, s32, s32);
@@ -76,7 +76,7 @@ BODY_LINKAGE void BODY_NAME(EventState *event) {
     u8 *colors;
     s32 state;
 
-    colors = D_80083160;
+    colors = ((u8 *)(&gameWork));
     state = event->state;
     if ((u32)state >= 6) {
         goto common_tail;

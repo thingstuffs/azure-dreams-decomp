@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 extern void func_80064840();
 extern void func_800649A0(void);
@@ -13,7 +14,6 @@ extern void func_8006658C();
 extern void func_800666F4();
 
 extern u8 D_8006CD30[];
-extern u8 D_80083160[];
 typedef struct { u8 b0, b1, b2, b3; } Ent4;
 typedef struct { u8 b0, b1; u16 h2, h4; u8 *p8; } Ent12;
 extern Ent4 D_800E3548[];
@@ -34,7 +34,7 @@ typedef struct {
 s32 func_800A7CC4(s32 unused0, s32 unused1, void *render_params) {
     s32 entity_index;
     u8 *scratch;
-    u8 *render_state;
+    GameWork *render_state;
     u8 *render_ctx;
     u8 *entity;
     u8 *prim;
@@ -75,8 +75,8 @@ s32 func_800A7CC4(s32 unused0, s32 unused1, void *render_params) {
     vertex1 = (u8 *)0x1F800078;
     vertex2 = (u8 *)0x1F800080;
     scratch = (u8 *)0x1F800000;
-    render_state = D_80083160;
-    render_ctx = *(u8 **)D_80083160;
+    render_state = &gameWork;
+    render_ctx = *(u8 **)((u8 *)(&gameWork));
     prim = *(u8 **)(render_ctx + 0x8D0);
     U32(scratch, 0x20) = (u32)(render_ctx + 0xB0);
     U32(scratch, 0xE4) = 0;

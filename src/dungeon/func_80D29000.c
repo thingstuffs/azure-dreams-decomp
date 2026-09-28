@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 
 typedef long long s64;
@@ -50,7 +51,6 @@ typedef struct S_80D29000_3 {
 extern void func_800478B8(void *);
 extern s32 func_80065420(void *, void *, void *, void *);
 
-extern s16 D_80083228;
 extern s8 D_800DCECC[8];
 
 typedef struct StackWork {
@@ -117,7 +117,7 @@ void BODY_NAME(void *effect, void *motion, void *sprite)
     projection.xyz[2] = ((S_80D29000_3 *)anchor_pos)->unk_0A;
     ((S_80D29000_1 *)sprite)->unk_06 = motion_depth -
         func_80065420(projection.xyz, &projection.out18, &projection.out20, &projection.out24) -
-        D_800DCECC[((D_80083228 + ((S_80D29000_2 *)effect)->unk_94 + 0x100) >> 9) & 7] * 2;
+        D_800DCECC[((gameWork.viewAngle + ((S_80D29000_2 *)effect)->unk_94 + 0x100) >> 9) & 7] * 2;
 
     life = ((S_80D29000_2 *)effect)->unk_96.s;
     if (life < 10) {

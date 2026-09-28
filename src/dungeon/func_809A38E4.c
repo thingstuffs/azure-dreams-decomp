@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct S_801750E4_0_pre {
     s16 unk_00;
@@ -52,7 +53,6 @@ typedef struct StackValues {
     u16 arg3;
 } StackValues;
 
-extern GraphicsState *D_80083160;
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 extern void func_8006658C(s32, void *);
@@ -102,7 +102,7 @@ void func_801750E4(u16 radius_a_x, u16 radius_a_y, u16 radius_b_x, u16 radius_b_
     vertex_data = (u8 *)((s16)start_segment);
     angle = (s32)vertex_data << 7;
     radii.arg0 = radius_a_x;
-    graphics_ptr = &D_80083160;
+    graphics_ptr = &gameWork.unk_000;
     graphics = *graphics_ptr;
     prim = (u8 *)graphics->next_prim;
     radii.arg1 = radius_a_y;

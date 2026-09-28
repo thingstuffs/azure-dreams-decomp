@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct {
     u16 x;
@@ -20,7 +21,6 @@ typedef struct {
     s16 shift;
 } DungeonState;
 
-extern DungeonState D_8008333C;
 extern DungeonRect D_800E2970[];
 extern s16 func_800BCB04(s32, s32, s32);
 
@@ -42,7 +42,7 @@ s32 func_80017F88(s16 rect_index, s16 *out_x, s16 *out_y, s16 check_flags)
     best_value = -0x200;
     rows_left = D_800E2970[rect_index].height;
     tile_y = D_800E2970[rect_index].y;
-    state = &D_8008333C;
+    state = ((DungeonState *)((u8 *)&gameWork + 476));
     cells = state->cells;
     if (rows_left > 0) {
         do {

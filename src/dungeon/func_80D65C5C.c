@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 
 typedef s32 M2C_UNK;
@@ -68,7 +69,6 @@ extern s32 rand(void);
 extern void func_8004491C(void *, void *);
 extern void func_8003DB94(void *, void *, s32);
 
-extern s32 D_80045340;
 extern M2C_UNK D_800DE870;
 extern s16 D_800E2468[];
 extern u8 D_80171384[];
@@ -112,7 +112,7 @@ void func_80D65C5C(S_80D65C5C_1 *source, s32 angle)
         sprite->unk_0A = angle;
         sprite->unk_0C = 0xC;
         sprite->unk_0E = 0xC;
-        func_8004491C(node, &D_80045340);
+        func_8004491C(node, func_80045340);
 
         {
             S_80D65C5C_3 *part = ((S_80D65C5C_0 *)node)->unk_0C;

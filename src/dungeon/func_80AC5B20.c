@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
 typedef void (*Callback)(void *, void *, void *, void *);
@@ -12,7 +13,6 @@ extern void func_800AA36C();
 extern s16 func_800BCB04();
 
 extern u8 D_8006CCF8[8];
-extern s16 D_80083228;
 extern s32 D_80171728;
 extern Callback D_80174E5C[];
 
@@ -91,7 +91,7 @@ void func_80171320(void *entity, S_80171320_2 *motion, void *monster)
 
     monster_flags = ((S_80171320_0 *)monster)->unk_14;
     if (!(monster_flags & 0x8000)) {
-        direction_value = D_80083228 + (*(s16 *)((u8 *)entity + 0x2A)) + 0x100;
+        direction_value = gameWork.viewAngle + (*(s16 *)((u8 *)entity + 0x2A)) + 0x100;
         direction = (direction_value >> 9) & 7;
         direction_index = direction;
         direction_copy = direction;

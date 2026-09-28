@@ -1,9 +1,9 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
 extern u8 D_80083498[];
 extern u8 *D_80175D50[3];
-extern u8 D_80045340[];
 extern u8 D_8016A36C[];
 extern u8 *func_8003FD64(s32, u8 *);
 extern void func_8004491C(u8 *, u8 *);
@@ -78,7 +78,7 @@ u8 *func_80169D28(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
             ((S_80169D28_0 *)obj)->unk_10 = &D_80169EC0;
             child = obj + 0x20;
             ((S_80169D28_1 *)child)->unk_13 = 0x38;
-            func_8004491C(obj, D_80045340);
+            func_8004491C(obj, func_80045340);
             first = ((S_80169D28_0 *)obj)->unk_08;
             ((S_80169D28_2 *)first)->unk_0A = saved_arg3;
             second = ((S_80169D28_0 *)obj)->unk_0C;

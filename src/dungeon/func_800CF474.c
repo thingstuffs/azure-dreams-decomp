@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "records/Rec_func_800D4BD4_arg2.h"
 #include "records/Rec_func_800D4BD4_arg1.h"
 
@@ -48,7 +49,6 @@ typedef struct S_800D4BD4_5 {
 
 extern void func_8004491C(void *, void *);
 extern void func_8003DB94(void *, void *, s32);
-extern s32 D_80045340;
 extern s32 D_800DECF8;
 
 /* Initialize object state and rendering data from the source and position. */
@@ -63,7 +63,7 @@ void func_800D4BD4(void *object, Rec_func_800D4BD4_arg1 *source, Rec_func_800D4B
 
     state = (u8 *)object + 0x20;
     state->unk_24 = source;
-    func_8004491C(object, &D_80045340);
+    func_8004491C(object, func_80045340);
     render_config = ((S_800D4BD4_1 *)object)->unk_0C;
     render_config->unk_10 = 0x20;
     render_config->unk_14 = render_config->unk_14 | 0xC;

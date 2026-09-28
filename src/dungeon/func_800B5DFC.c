@@ -89,7 +89,6 @@ void func_800BB55C(void *effect, S_800BB55C_2 *position, s32 restore_link) {
     u8 red;
     u8 green;
     u8 blue;
-    u8 *effect_globals;
     S_800BB55C_3 *color;
     DungeonWork *arc_or_count;
     DungeonWork *arc_state;
@@ -199,8 +198,7 @@ void func_800BB55C(void *effect, S_800BB55C_2 *position, s32 restore_link) {
             fade_ticks = ((S_800BB55C_0 *)effect)->unk_64 - 1;
             ((S_800BB55C_0 *)effect)->unk_64 = fade_ticks;
             if ((fade_ticks << 0x10) <= 0) {
-                effect_globals = (u8 *)((s32 *)(&dungeonStatus));
-                ((S_800BB55C_4 *)effect_globals)->unk_0A = (u16) (((S_800BB55C_4 *)effect_globals)->unk_0A - 1);
+                dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
                 ((S_800BB55C_0_pre *)effect)[-1].unk_12 = (u16) (((S_800BB55C_0_pre *)effect)[-1].unk_12 | 0x8000);
                 objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
             }

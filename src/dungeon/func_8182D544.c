@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 
 typedef struct S_8182D544_0_pre {
@@ -42,7 +43,6 @@ typedef struct S_8182D544_3 {
 extern void func_8004491C();
 extern void func_800478B8(void *);
 extern s32 rand(void);
-extern u8 D_80045340[0x10];
 
 /* Move the effect, count down its timer, then fade its sprite to black. */
 void func_8182D544(void *effect, S_8182D544_2 *motion, S_8182D544_3 *sprite)
@@ -77,7 +77,7 @@ wait_timer:
     timer = ((S_8182D544_0 *)effect)->unk_48 - 1;
     ((S_8182D544_0 *)effect)->unk_48 = timer;
     if ((timer << 16) <= 0) {
-        func_8004491C((u8 *)effect - 0x20, D_80045340, delta_z);
+        func_8004491C((u8 *)effect - 0x20, func_80045340, delta_z);
         ((S_8182D544_0 *)effect)->unk_4C.u++;
         return;
     }

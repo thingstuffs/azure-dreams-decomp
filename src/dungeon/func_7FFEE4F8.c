@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct S_8008BC58_0 {
     u8 pad_00[0x64];
@@ -36,7 +37,6 @@ extern void func_8008B620();
 extern u8 D_80072210[];
 extern u8 D_80072214[];
 extern s32 D_80082ABC;
-extern u8 D_80083160[];
 extern u8 D_80083780[];
 extern u8 D_8008BED8[];
 extern u8 D_800D2EA4[];
@@ -45,7 +45,7 @@ extern u8 D_800FC418;
 /* Handles input, selection changes, and display positioning for the current state. */
 void func_8008BC58(u8 *object, S_8008BC58_2 *view_params, void *update_context)
 {
-    u8 *input = D_80083160;
+    GameWork *input = &gameWork;
     u8 *selection_ids = ((S_8008BC58_0 *)object)->unk_7C;
     u8 *display_record;
     s16 state;
@@ -64,13 +64,13 @@ void func_8008BC58(u8 *object, S_8008BC58_2 *view_params, void *update_context)
         ((S_8008BC58_0 *)object)->unk_64 = input_delay;
         if ((input_delay << 16) <= 0) {
             ((S_8008BC58_0 *)object)->unk_64 = 0;
-            if (((S_8008BC58_1 *)input)->unk_10 & 0x10000000) {
+            if (((s32)input->unk_010) & 0x10000000) {
                 view_params->unk_0A += 0x10;
             }
-            if (((S_8008BC58_1 *)input)->unk_10 & 0x40000000) {
+            if (((s32)input->unk_010) & 0x40000000) {
                 view_params->unk_0A -= 0x10;
             }
-            buttons = ((S_8008BC58_1 *)input)->unk_10;
+            buttons = ((s32)input->unk_010);
             if (buttons & 0x40) {
                 D_800FC418 = 1;
                 func_80035208(D_80072214);
@@ -110,7 +110,7 @@ void func_8008BC58(u8 *object, S_8008BC58_2 *view_params, void *update_context)
         s32 buttons;
 
         func_800478B8(update_context);
-        buttons = ((S_8008BC58_1 *)input)->unk_10;
+        buttons = ((s32)input->unk_010);
         if (buttons & 0x6000) {
             selection_index = ((S_8008BC58_0 *)object)->unk_74.s + 1;
             ((S_8008BC58_0 *)object)->unk_74.s = selection_index;

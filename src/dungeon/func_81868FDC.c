@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 typedef struct {
     u8 pad0[8];
@@ -28,7 +29,6 @@ extern void func_8003DB94(Sprite *, void *, s32);
 extern void func_8004491C(Object *, void *);
 extern u8 D_80024730[];
 extern u8 D_80025368[];
-extern u8 D_80045340[];
 
 /* Create and initialize a sprite object, storing a value and copying three source halfwords. */
 void func_81868FDC(s32 value, void *source_data) {
@@ -51,7 +51,7 @@ void func_81868FDC(s32 value, void *source_data) {
         sprite->angle = 0x7E0B;
         sprite->flags10 |= 0x60;
         sprite->flags14 |= 0x10C;
-        func_8004491C(obj, D_80045340);
+        func_8004491C(obj, func_80045340);
         dst = obj->dst;
         src = source_data;
         dst[1] = src[1];

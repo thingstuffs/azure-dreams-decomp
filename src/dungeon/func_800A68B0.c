@@ -43,8 +43,6 @@ s32 func_800AC010(void *move_state, Rec_D_800E3D7C *motion, Rec_D_80082E80 *tile
     u8 contact_y;
     u8 stop_x;
     u8 stop_y;
-    s32 *contact_counters;
-    s32 *stop_counters;
     s16 move_ticks;
     s32 target_x;
     s32 axis_pos;
@@ -97,9 +95,8 @@ object_move_ok:
                 contact_tile_mask = 0x300;
             }
             func_8009A21C(contact_x, contact_y, contact_tile_mask);
-            contact_counters = ((s32 *)(&dungeonStatus));
             actor->unk_1C.as_s32 = (s32) (actor->unk_1C.as_s32 & 0xFFDFFFFF);
-            ((S_800AC010_4 *)contact_counters)->unk_0A = (u16) (((S_800AC010_4 *)contact_counters)->unk_0A - 1);
+            dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
             ((Rec_func_800A9E70_arg0 *)move_state)->unk_96.as_s16 = 0;
             actor->unk_71.as_s8 = 0;
             return 1;
@@ -126,8 +123,7 @@ object_move_ok:
             ((Rec_func_800A9E70_arg0 *)move_state)->unk_90.at02_s16.v = 0;
             actor->unk_88.as_s16 = ground_height;
         }
-        stop_counters = ((s32 *)(&dungeonStatus));
-        ((S_800AC010_5 *)stop_counters)->unk_0A = (u16) (((S_800AC010_5 *)stop_counters)->unk_0A - 1);
+        dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
         ((Rec_func_800A9E70_arg0 *)move_state)->unk_96.as_s16 = 0;
         actor->unk_1C.as_s32 = (s32) ((actor->unk_1C.as_s32 | 0x40000000) & 0xFFDFFFFF);
         if ((func_8009B88C(actor, tile_pos->unk_24, tile_pos->unk_25, &resolved_x, &resolved_y) << 0x10) != 0) {

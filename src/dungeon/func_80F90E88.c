@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "m2c_compat.h"
 
 typedef struct S_80F90E88_0 {
@@ -49,7 +50,6 @@ typedef struct S_80F90E88_5 {
 
 
 struct S_8003E2D8; typedef struct S_8003E2D8 S_8003E2D8;
-extern struct S_8003E2D8 D_80083160;
 extern struct S_8003E2D8 D_80083160_init __asm__("D_80083160");
 extern struct S_8003E2D8 D_80083160_alloc __asm__("D_80083160");
 extern struct S_8003E2D8 D_80083160_link __asm__("D_80083160");

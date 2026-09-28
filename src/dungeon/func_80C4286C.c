@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 #define M2C_FIELD(p, type, off) (*(type)((u8 *)(p) + (off)))
 
@@ -59,7 +60,6 @@ M2C_UNK func_8003DB94();
 void *func_8003FC64();
 M2C_UNK func_8004491C();
 s32 rand();
-extern M2C_UNK D_80045340;
 extern M2C_UNK D_800DEC70;
 extern M2C_UNK D_80173FF4;
 
@@ -76,7 +76,7 @@ void func_8017406C(void *unused, void *position_data) {
         effect_state = effect + 0x20;
         effect_state->unk_1A = 0xF;
         ((S_8017406C_1 *)effect)->unk_10 = &D_80173FF4;
-        func_8004491C(effect, &D_80045340);
+        func_8004491C(effect, func_80045340);
         sprite = ((S_8017406C_1 *)effect)->unk_0C;
         sprite->unk_10 = 0x20;
         sprite->unk_14 = (u16)(sprite->unk_14 | 0xC);

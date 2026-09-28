@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
 typedef struct S_800AAF00_0 {
@@ -65,15 +66,12 @@ extern s32 func_800A6D30();
 extern void func_800C77D0();
 
 extern u8 D_8006DE24[];
-extern s16 D_80083228;
 extern u8 *D_800E3D7C;
 
 /* Updates the object action state and applies direction data to its target. */
 void func_800AAF00(void *actor, s32 effect_param, void *target, u8 *direction_table, s32 next_state) {
     void *object;
     s32 special_action;
-    u8 *action_state;
-    u8 *updated_state;
     u8 *slot_data;
     u8 *type_data;
     u8 *type_table;
@@ -84,8 +82,7 @@ void func_800AAF00(void *actor, s32 effect_param, void *target, u8 *direction_ta
 
     object = actor;
     ((S_800AAF00_0 *)object)->unk_71 &= 0x7F;
-    action_state = (u8 *)&dungeonStatus.unk_00;
-    input_flags = ((S_800AAF00_1 *)action_state)->unk_02;
+    input_flags = dungeonStatus.flags;
     special_action = 0;
 
     if (!(input_flags & 0x2008)) {
@@ -96,7 +93,7 @@ void func_800AAF00(void *actor, s32 effect_param, void *target, u8 *direction_ta
                 (((S_800AAF00_2 *)D_800E3D7C)->unk_A6 == 0)) {
                 ((S_800AAF00_2 *)D_800E3D7C)->unk_98.u16 |= 0x1000;
                 ((S_800AAF00_2 *)D_800E3D7C)->unk_A6++;
-                ((S_800AAF00_1 *)action_state)->unk_0A++;
+                dungeonStatus.unk_0A++;
 
                 goto shared_body;
             }
@@ -154,12 +151,11 @@ shared_body:
                     (*(u8 * *)((u8 *)target + 0x2C)) = direction_table;
                     func_80047784(
                         target,
-                        direction_table[((D_80083228 + ((S_800AAF00_0 *)object)->unk_2A.s + 0x100) >> 9) & 7],
+                        direction_table[((gameWork.viewAngle + ((S_800AAF00_0 *)object)->unk_2A.s + 0x100) >> 9) & 7],
                         0);
                 }
-                updated_state = (u8 *)&dungeonStatus.unk_00;
                 ((S_800AAF00_4 *)target)->unk_14 |= 0x800;
-                ((S_800AAF00_5 *)updated_state)->unk_0A++;
+                dungeonStatus.unk_0A++;
             }
         }
     }

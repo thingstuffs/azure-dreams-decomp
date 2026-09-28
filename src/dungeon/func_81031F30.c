@@ -125,7 +125,6 @@ update_motion:
 
     case 3:
         {
-            s32 *tracking_data;
             s32 entity_addr;
 
             ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0;
@@ -133,10 +132,9 @@ update_motion:
             ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
             func_800A2B04(motion, ((Rec_D_80082E80 *)target)->unk_24,
                 ((Rec_D_80082E80 *)target)->unk_25);
-            tracking_data = &dungeonStatus.unk_00;
-            entity_addr = *(s32 *)((u8 *)tracking_data + 0x10);
+            entity_addr = ((s32)dungeonStatus.unk_10);
             if (entity_addr == (s32)((u8 *)actor - 0x20)) {
-                *(s32 *)((u8 *)tracking_data + 0x10) = entity_addr & 0x7FFFFFFF;
+                dungeonStatus.unk_10 = entity_addr & 0x7FFFFFFF;
             }
             ((S_80173730_0 *)action)->unk_8C = &D_801714B8;
         }

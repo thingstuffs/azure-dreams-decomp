@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "records/Rec_D_800E3D7C.h"
 
 
@@ -6,7 +7,6 @@ extern void func_80047784(void *, s32, s32);
 extern s32 func_800644B8(s32);
 extern void func_800A2B04(void *, u8, u8);
 
-extern s16 D_80083228;
 extern u8 D_80174A7C[];
 extern u8 D_80170000[];
 
@@ -73,7 +73,7 @@ init_animation:
         (*(u8 * *)((u8 *)animation + (0x2C))) = anim_table;
         func_80047784(
             animation,
-            *(u8 *)(((((D_80083228 + ((S_801740F8_2 *)motion)->unk_2A + 0x100) >> 9) & 7)) + (u32)anim_table),
+            *(u8 *)(((((gameWork.viewAngle + ((S_801740F8_2 *)motion)->unk_2A + 0x100) >> 9) & 7)) + (u32)anim_table),
             0);
     }
     ((S_801740F8_0 *)actor)->unk_98 |= 8;
@@ -116,7 +116,7 @@ restore_animation:
         (*(u8 * *)((u8 *)animation + (0x2C))) = D_80174A7C - 0x50;
         func_80047784(
             animation,
-            (D_80174A7C - 0x50)[((D_80083228 + ((S_801740F8_2 *)motion)->unk_2A + 0x100) >> 9) & 7],
+            (D_80174A7C - 0x50)[((gameWork.viewAngle + ((S_801740F8_2 *)motion)->unk_2A + 0x100) >> 9) & 7],
             0);
     }
 

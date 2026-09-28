@@ -135,7 +135,6 @@ BODY_STORAGE void BODY_NAME(S_func_819B2800_0 *effect, S_func_819B2800_1 *positi
     u8 *data_bytes;
     S_func_819B2800_6 *model;
     S_func_819B2800_5 *actor;
-    S_func_819B2800_7 *effect_state;
     S_func_819B2800_2 *object_data;
     S_func_819B2800_3 *location;
 
@@ -273,9 +272,8 @@ check_hold:
     effect->unk_52.unk_52 = (u16) (effect->unk_52.unk_52 & 0x7FFF);
     goto done;
 finish_effect:
-    effect_state = (S_func_819B2800_7 *) ((s32 *)(&dungeonStatus));
-    effect_state->unk_0C = 0;
-    effect_state->unk_0A = (u16) (effect_state->unk_0A - 1);
+    dungeonStatus.unk_0C = 0;
+    dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
     ((S_func_819B2800_8 *) ((u8 *) effect - 2))->unk_00 = (u16) (((S_func_819B2800_8 *) ((u8 *) effect - 2))->unk_00 | 0x8000);
     objectFlagBlock.flags |= 0x8000;
 done:

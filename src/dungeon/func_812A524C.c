@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -306,8 +307,6 @@ extern u8 D_80070C11[16];
 extern u8 D_80070E63[16];
 extern u8 D_80082E80[64];
 extern u16 D_80082EA4[8];
-extern u8 D_80083160[16];
-extern s16 D_80083228[8];
 extern u8 D_80083780[16];
 extern u8 D_800E296C[16];
 extern u8 D_800E3D7C[16];
@@ -338,7 +337,7 @@ void func_812A524C(void *actor_in, void *motion_in, void *sprite_in) {
     u16 *facing_lookup;
     s32 tail_value;
     s32 tail_acc;
-    u8 *flag_base;
+    GameWork *flag_base;
     u8 *event_0;
     u8 *position_0;
     u8 *event_1;
@@ -418,7 +417,7 @@ void func_812A524C(void *actor_in, void *motion_in, void *sprite_in) {
     facing_map_src = &D_80170804;
     entity = actor_in;
     facing_map = *facing_map_src;
-    flag_base = D_80083160;
+    flag_base = &gameWork;
     facing_lookup = (u16 *)&facing_map;
     if (((S_812A524C_0 *)(&D_800FBE22))->unk_00.s != ((S_812A524C_1 *)(&D_800FBE20))->unk_00.s) {
         ((S_812A524C_0 *)(&D_800FBE22))->unk_00.u = (u16) ((S_812A524C_1 *)(&D_800FBE20))->unk_00.u;
@@ -581,7 +580,7 @@ block_27:
                                                     }
                                                 }
                                             }
-                                            if ((((S_812A524C_39 *)(((Rec_D_800E3D7C *)D_800E3D7C)->unk_00.at00_pv.v))->unk_9A != 0x19) && (((S_812A524C_20 *)flag_base)->unk_10 & 0x20)) {
+                                            if ((((S_812A524C_39 *)(((Rec_D_800E3D7C *)D_800E3D7C)->unk_00.at00_pv.v))->unk_9A != 0x19) && (((s32)flag_base->unk_010) & 0x20)) {
                                                 func_800353F4(&D_8006F47A);
                                                 ((S_812A524C_4 *)entity)->unk_6D = 0U;
                                                 ((S_812A524C_3 *)actor_in)->unk_9B = 0;
@@ -605,7 +604,7 @@ block_27:
                                                         }
                                                     }
                                                 }
-                                                if ((((S_812A524C_39 *)(((Rec_D_800E3D7C *)D_800E3D7C)->unk_00.at00_pv.v))->unk_9A != 0x19) && (((S_812A524C_20 *)flag_base)->unk_08 & 0x10)) {
+                                                if ((((S_812A524C_39 *)(((Rec_D_800E3D7C *)D_800E3D7C)->unk_00.at00_pv.v))->unk_9A != 0x19) && (((s32)flag_base->unk_008) & 0x10)) {
                                                     func_800353F4(&D_8006F50D);
                                                     ((S_812A524C_4 *)entity)->unk_6D = 0U;
                                                     ((S_812A524C_3 *)actor_in)->unk_9B = 0;
@@ -828,7 +827,7 @@ check_mode:
         ((S_812A524C_3 *)actor_in)->unk_9D.s = 0;
 add_motion:
         ((S_812A524C_3 *)actor_in)->unk_90.at00.v = (s32) (((S_812A524C_3 *)actor_in)->unk_90.at00.v + ((S_812A524C_37 *)motion_in)->unk_14);
-        facing = ((s32) (D_80083228[0] + ((S_812A524C_4 *)entity)->unk_2A + 0x100) >> 9) & 7;
+        facing = ((s32) (gameWork.viewAngle + ((S_812A524C_4 *)entity)->unk_2A + 0x100) >> 9) & 7;
         sprite_facing = facing;
         if (((S_812A524C_3 *)actor_in)->unk_94 != sprite_facing) {
             func_80047738(sprite, ((S_812A524C_38 *)sprite)->unk_2C.p[sprite_facing], ((S_812A524C_38 *)sprite)->unk_04.s8);

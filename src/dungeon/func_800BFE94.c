@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct S_800C55F4_0 {
     u8 ** unk_00;
@@ -114,7 +115,6 @@ extern s32 func_8006658C();
 extern s32 func_800666B8();
 extern s32 func_80067F20();
 
-extern u8 D_80083160[];
 static __inline__ s32 narrow_depth(s32 value) { return (s16)value; }
 
 /* Transform mesh triangles, shade visible vertices, and append draw packets to the ordering table. */
@@ -373,7 +373,7 @@ void func_800C55F4(u8 *params, u8 *record, void *mesh_data, s32 depth_offset)
         break;
     }
     func_80064A40();
-    output_addr = (u32)(D_80083160);
+    output_addr = (u32)(((u8 *)(&gameWork)));
     ASM_KEEP(output_addr);
     ((S_800C55F4_10 *)(((S_800C55F4_9 *)(u8 *)output_addr)->unk_00))->unk_8D0 = record;
 }

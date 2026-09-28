@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct S_80174618_0 {
     u8 pad_00[0x24];
@@ -101,7 +102,6 @@ extern s32 func_80065590();
 extern void func_80065820(void *, void *);
 extern s32 func_80066460(s32, s32, s32, s32);
 extern void func_80067F20(void *, s32, s32, s32, s32);
-extern u8 D_80083160[];
 
 /* Transform a line and add its drawing packets to the ordering table. */
 void func_80174618(S_80174618_4 *endpoints, S_80174618_1 *position, void *render_params, s16 depth_bias)
@@ -124,7 +124,7 @@ void func_80174618(S_80174618_4 *endpoints, S_80174618_1 *position, void *render
     MATRIX matrix;
     EMPTY_ARG no_arg;
 
-    ((S_80174618_0 *)scratch)->unk_24.s = *(u8 **)D_80083160 + 0xB0;
+    ((S_80174618_0 *)scratch)->unk_24.s = *(u8 **)((u8 *)(&gameWork)) + 0xB0;
     ((S_80174618_0 *)scratch)->unk_88 = position->unk_02;
     ((S_80174618_0 *)scratch)->unk_8C = position->unk_06;
     ((S_80174618_0 *)scratch)->unk_90 = position->unk_0A;
@@ -150,7 +150,7 @@ void func_80174618(S_80174618_4 *endpoints, S_80174618_1 *position, void *render
     start_vertex = scratch + 0xB0;
 
     field_value = ((S_80174618_2 *)render_params)->unk_14;
-    context = *(u8 **)D_80083160;
+    context = *(u8 **)((u8 *)(&gameWork));
     ((S_80174618_0 *)scratch)->unk_28 = field_value;
     line_packet = ((S_80174618_3 *)context)->unk_8D0;
     ((S_80174618_3 *)context)->unk_8D0 = line_packet + 0x10;
@@ -185,7 +185,7 @@ void func_80174618(S_80174618_4 *endpoints, S_80174618_1 *position, void *render
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ((S_80174618_0 *)scratch)->unk_100 = depth_index;
     flags = ((S_80174618_0 *)scratch)->unk_28;
-    global_page = D_80083160 - 0x3160;
+    global_page = ((u8 *)(&gameWork)) - 0x3160;
     ASM_SET(global_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     draw_packet = global_page + 0x3160;
 

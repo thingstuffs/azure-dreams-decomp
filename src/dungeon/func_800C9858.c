@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "m2c_compat.h"
 
 typedef struct S_800CEFB8_0 {
@@ -120,7 +121,6 @@ M2C_UNK func_80065820();
 u16 func_80065F90();
 M2C_UNK func_8006658C();
 extern s32 D_8006CD30[];
-extern s8 D_80083160[];
 
 /* Projects sprite parts between two endpoints and queues visible textured quads. */
 void func_800CEFB8(void *unused, void *endpoints, void *sprite, s16 depth_bias, s32 orient_mode) {
@@ -175,10 +175,10 @@ void func_800CEFB8(void *unused, void *endpoints, void *sprite, s16 depth_bias, 
     screen_out = scratch_base;
     screen_out = (u8 *)((u32)screen_out | 0xB8);
     depth_out = scratch_base;
-    ASM_KEEP_MEM_NV(screen_out, *(u8 **)D_80083160);
+    ASM_KEEP_MEM_NV(screen_out, *(u8 **)((s8 *)(&gameWork)));
     scratch = scratch_base;
     ASM_KEEP_NV(orient_mode);
-    global_base = *(void **)D_80083160;
+    global_base = *(void **)((s8 *)(&gameWork));
     ASM_KEEP_DEP_NV(depth_out, global_base);
     depth_out = (u8 *)((u32)depth_out | 0x90);
     ASM_KEEP_NV(sort_bias);
@@ -198,7 +198,7 @@ void func_800CEFB8(void *unused, void *endpoints, void *sprite, s16 depth_bias, 
     SP32(0x20) = global_base + 0xB0;
     packet_next = ((S_800CEFB8_0 *)global_base)->unk_8D0;
     ((S_800CEFB8_1 *)sprite_data)->unk_14 = (u16) (((S_800CEFB8_1 *)sprite_data)->unk_14 | 0x8000);
-    ASM_KEEP_MEMDEP(sprite_data, state_dep, *(u8 **)D_80083160);
+    ASM_KEEP_MEMDEP(sprite_data, state_dep, *(u8 **)((s8 *)(&gameWork)));
     ASM_SET(global_page);
     ASM_KEEP(bias_copy);
     SP16(0x00) = (u16) ((S_800CEFB8_2 *)endpoints)->unk_02;

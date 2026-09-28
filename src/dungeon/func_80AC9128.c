@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_func_800A9E70_arg0.h"
@@ -11,7 +12,6 @@ extern s32 func_80047784();
 extern s32 func_800A2B5C();
 extern s32 func_800A4ACC();
 extern s32 func_800C7930();
-extern s16 D_80083228;
 extern s32 D_80174E3C;
 
 /* Clear the actor flag and apply an effect and animation change when allowed. */
@@ -25,7 +25,7 @@ void func_80174928(void *action_state, s32 effect_arg, void *anim_state, void *a
             ((Rec_func_800A9E70_arg0 *)action_state)->unk_9B.as_s8 = 0;
             (*(s32 * *)((u8 *)anim_state + 0x2C)) = &D_80174E3C;
             func_80047784(anim_state,
-                         *((((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7)
+                         *((((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7)
                            + (u8 *)&D_80174E3C),
                          0);
             func_800A4ACC(actor);

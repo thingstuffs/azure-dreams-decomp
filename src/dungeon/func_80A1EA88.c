@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
@@ -44,7 +45,6 @@ extern void func_800AD594(void *, s32);
 extern s32 func_800AD9B4(void *, void *);
 
 extern u8 D_80082E80[];
-extern s16 D_80083228;
 extern u8 D_80170838[16];
 extern s32 D_80170E84;
 extern u8 D_80174820[];
@@ -129,7 +129,7 @@ landing:
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80174820;
         func_80047784(
             sprite,
-            D_80174820[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            D_80174820[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
         phase_value = ((S_80172288_0 *)motion)->unk_9B;
 advance_phase:

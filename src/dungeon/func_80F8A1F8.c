@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -16,7 +17,6 @@ extern void func_800AA888(void *, void *, void *, void *);
 extern void func_80173D38(void *, void *, void *, void *);
 
 extern void *D_800814A8;
-extern s16 D_80083228;
 extern u8 D_80171138[];
 extern u8 D_80174AF4[];
 extern u8 D_80174AFC[];
@@ -81,7 +81,7 @@ void func_801739F8(void *controller, void *context, void *sprite, void *entity)
 #endif
         ((S_801739F8_2 *)activity_counts)->unk_0A--;
         (*(void * *)((u8 *)sprite + 0x2C)) = D_80174AFC;
-        direction = (D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9;
+        direction = (gameWork.viewAngle + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9;
         func_80047784(sprite, D_80174AFC[direction & 7], 0);
         ((S_801739F8_0 *)controller)->unk_9B++;
         goto increment_state_done;
@@ -92,7 +92,7 @@ void func_801739F8(void *controller, void *context, void *sprite, void *entity)
             register u8 *activity_counts;
 
             (*(void * *)((u8 *)sprite + 0x2C)) = D_80174AF4;
-            direction = (D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9;
+            direction = (gameWork.viewAngle + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9;
             func_80047784(sprite, D_80174AF4[direction & 7], 0);
             (*(u32 *)((u8 *)entity + 0x1C)) |= 0x40000;
             activity_counts = (u8 *)&dungeonStatus.unk_00;
@@ -149,7 +149,7 @@ void func_801739F8(void *controller, void *context, void *sprite, void *entity)
         }
 
         (*(void * *)((u8 *)sprite + 0x2C)) = D_80174AF4;
-        direction = (D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9;
+        direction = (gameWork.viewAngle + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9;
         func_80047784(sprite, D_80174AF4[direction & 7], 0);
         ((Rec_D_800E3D7C *)entity)->unk_1C.as_u32 |= 0x40000;
         ((S_801739F8_4 *)dungeon_state)->unk_0A++;

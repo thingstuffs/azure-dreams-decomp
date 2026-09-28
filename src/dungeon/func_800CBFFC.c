@@ -1,8 +1,8 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 extern s32 func_800BCB04(u16, u16, s16, void *);
 extern void *D_800814A8[3];
-extern u8 D_8008333C[32];
 extern u8 D_800EA000[];
 
 /* Rounds the sampled or fallback height up to a 64-unit boundary relative to the cell height. */
@@ -15,7 +15,7 @@ s16 func_800D175C(s32 grid_x, s32 grid_y)
     s32 height;
     s32 biased_height;
 
-    grid_info = D_8008333C;
+    grid_info = ((u8 *)(&gameWork.unk_1DC));
     state = grid_info - 0x1C4;
     cell_table = D_800EA000;
     grid_y = (s16)grid_y;

@@ -32,11 +32,9 @@ void func_8016ED98(void)
     s32 i;
     s32 value;
     S_8016ED98_1 *object;
-    u8 *state;
 
     object = (void *)(D_80175D50 + 0x20);
-    state = (u8 *)&dungeonStatus.unk_00;
-    ((S_8016ED98_0 *)state)->unk_0A = ((S_8016ED98_0 *)state)->unk_0A - 1;
+    dungeonStatus.unk_0A = ((u16)dungeonStatus.unk_0A) - 1;
     object->unk_46 &= 0x7FFF;
     D_80013714[0] &= 0xFFF6;
     func_8009FAC4();

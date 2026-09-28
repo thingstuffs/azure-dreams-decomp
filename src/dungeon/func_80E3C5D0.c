@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dir_step.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_80173D78_arg0.h"
@@ -61,7 +62,6 @@ extern void *func_8003FD64();
 extern s32 func_8004491C();
 extern s32 func_80047784();
 
-extern s16 D_80083228;
 extern s32 D_80175C60;
 extern s32 D_80175D74;
 
@@ -94,7 +94,7 @@ void func_80175DD0(void *parent_data, S_80175DD0_4 *origin, Rec_D_80082E80 *sour
               object->unk_20 = (s16 *)((u8 *)parent_data + 0x2A),
               func_80047784(object_data, 0x45, 0, coords),
               func_8004491C(object, &D_80175D74),
-              angle = ((((D_80083228 + *object->unk_20 + 0x100) >> 9) & 7) + 2) << 9,
+              angle = ((((gameWork.viewAngle + *object->unk_20 + 0x100) >> 9) & 7) + 2) << 9,
               object_data->unk_18 = angle,
               angle == 0x400) ||
              (angle == 0xC00))) {

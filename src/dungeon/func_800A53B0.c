@@ -35,15 +35,13 @@ typedef struct S_800AAB10_2_pre {
 s32 func_800AAB10(s32 buffer_addr, M2C_UNK source, M2C_UNK unused, Rec_D_800E3D7C *record) {
     s32 eligible;
     u8 type_id;
-    u8 *state;
 
     eligible = 0;
     if (D_800E296C & 0x100000) {
-        state = (u8 *)&dungeonStatus.unk_00;
-        if (((S_800AAB10_0 *)state)->unk_0C != 0) {
-            if (((S_800AAB10_0 *)state)->unk_0C == record) {
-                if (((S_800AAB10_0 *)state)->unk_0A == 0) {
-                    if (!(((S_800AAB10_0 *)state)->unk_02 & 8)) {
+        if (((s32)dungeonStatus.unk_0C) != 0) {
+            if (((s32)dungeonStatus.unk_0C) == record) {
+                if (dungeonStatus.unk_0A == 0) {
+                    if (!(dungeonStatus.flags & 8)) {
                         func_800C77D0((void *)(buffer_addr - 0x20), source, 8, 0x300);
                         func_800A1D4C(record, 1);
                         func_800A56E0(0x201);

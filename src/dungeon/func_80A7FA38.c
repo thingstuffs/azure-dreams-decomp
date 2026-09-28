@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -31,7 +32,6 @@ extern void func_800A2B04(void *, s32, s32);
 extern void func_800AAA54(void *, void *, void *, void *);
 extern void func_800AD4D0(void *);
 
-extern s16 D_80083228;
 extern u8 D_80164E54;
 extern u8 D_80168150[];
 extern u8 D_80168178[];
@@ -43,7 +43,6 @@ void func_80167238(void *action, void *motion, void *sprite, void *entity)
     s32 direction;
     s16 timer;
     s32 entity_ref;
-    s32 *entity_refs;
 
     direction = (((Rec_D_800E3D7C *)entity)->unk_6A.as_u16 >> 9) & 7;
     state = ((S_80167238_1 *)action)->unk_9B;
@@ -117,7 +116,7 @@ continue_state_one:
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80168150;
     func_80047784(
         sprite,
-        D_80168150[((D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+        D_80168150[((gameWork.viewAngle + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7],
         0);
     ((S_80167238_1 *)action)->unk_9B++;
     goto done;
@@ -132,7 +131,7 @@ state_two:
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80168150;
     func_80047784(
         sprite,
-        D_80168150[((D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+        D_80168150[((gameWork.viewAngle + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7],
         0);
     ((S_80167238_1 *)action)->unk_96.s = 8;
     ((S_80167238_1 *)action)->unk_9B++;
@@ -167,10 +166,9 @@ state_three:
     ((S_80167238_2 *)motion)->unk_04.at00.v = ((((Rec_D_80082E80 *)sprite)->unk_25 << 6) + 0x20) << 16;
     func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
 
-    entity_refs = &dungeonStatus.unk_00;
-    entity_ref = entity_refs[4];
+    entity_ref = ((s32)dungeonStatus.unk_10);
     if (entity_ref == (s32)((u8 *)entity - 0x20)) {
-        entity_refs[4] = entity_ref & 0x7FFFFFFF;
+        dungeonStatus.unk_10 = entity_ref & 0x7FFFFFFF;
     }
     ((S_80167238_1 *)action)->unk_8C = &D_80164E54;
 

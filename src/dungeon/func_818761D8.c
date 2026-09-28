@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
@@ -231,7 +232,6 @@ extern Copy12 D_80026634;
 extern Copy12 D_80026640;
 extern Copy12 D_8002664C;
 extern s16 D_80026664[8];
-extern u8 D_80045340[];
 extern u8 D_80024704[];
 extern u8 D_80025814[];
 extern u8 D_80024FD4[];
@@ -326,7 +326,7 @@ L0_adjust_z:
         goto done;
     }
     if (!(((S_800259D8_0 *)arg0)->unk_7A & 4U)) {
-        func_8004491C((u8 *)arg0 - 0x20, D_80045340);
+        func_8004491C((u8 *)arg0 - 0x20, func_80045340);
         arg2->unk_10 = 0x20;
         arg2->unk_0C.at02.v = 0x80;
         arg2->unk_0C.at01.v = 0x80;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 
@@ -77,7 +78,6 @@ typedef struct S_func_800D7FB8_7 {
 } S_func_800D7FB8_7;
 
 extern u8 D_80083498[];
-extern u8 D_80045340[];
 extern u8 D_800DEC00[];
 extern s32 D_800D81D4;
 
@@ -95,7 +95,6 @@ void func_800D7FB8(S_func_800D7FB8_0 *controller) {
     s32 resource_word;
     S_func_800D7FB8_3 *sub_data;
     Entry *entry;
-    S_func_800D7FB8_5 *counter_base;
 
     state = controller->unk_00;
     if (state == 1) {
@@ -125,7 +124,7 @@ init_state:
         if (entry != NULL) {
             entry_data = (S_func_800D7FB8_1 *)((u8 *)entry + 0x20);
             entry->d81d4 = (u8 *)&D_800D81D4;
-            func_8004491C(entry, D_80045340);
+            func_8004491C(entry, func_80045340);
             sub_data = entry->sub;
             ((S_func_800D7FB8_2 *)entry->child)->unk_02 = controller->unk_04;
             ((S_func_800D7FB8_2 *)entry->child)->unk_06 = controller->unk_06;
@@ -160,8 +159,7 @@ ff_state:
     finish_timer = (u16)(controller->unk_02.u16_value - 1);
     controller->unk_02.u16_value = finish_timer;
     if ((finish_timer << 0x10) <= 0) {
-        counter_base = (S_func_800D7FB8_5 *)((s32 *)(&dungeonStatus));
-        counter_base->unk_0A = (u16)(counter_base->unk_0A - 1);
+        dungeonStatus.unk_0A = (u16)(((u16)dungeonStatus.unk_0A) - 1);
         ((S_func_800D7FB8_7 *)((u8 *)controller - 2))->unk_00 = (u16)(((S_func_800D7FB8_7 *)((u8 *)controller - 2))->unk_00 | 0x8000);
         ((S_func_800D7FB8_6 *)((s32 *)(&objectFlagBlock)))->unk_00 = ((S_func_800D7FB8_6 *)((s32 *)(&objectFlagBlock)))->unk_00 | 0x8000;
     }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082EB0.h"
 
@@ -7,7 +8,6 @@ extern s32 D_800E296C[3];
 extern void *D_8008ACDC[];
 extern void *D_8008EAC8[];
 struct S_8003E2D8; typedef struct S_8003E2D8 S_8003E2D8;
-extern struct S_8003E2D8 D_80083160;
 extern volatile s32 D_80082EB0[];
 extern s16 D_800DCE66[5];
 extern s32 D_800E4940[];
@@ -76,7 +76,7 @@ typedef struct S_80091430_7 {
 /* Updates the selection, handles dungeon input, and restores the actor callback on exit. */
 void func_80091430(void *state, M2C_UNK context_a, M2C_UNK context_b, void *actor_ptr) {
     S_80091430_1 *actor = actor_ptr;
-    S_8003E2D8 *dungeon_state = &D_80083160;
+    GameWork *dungeon_state = &gameWork;
     s16 action_id;
     s16 action_arg;
     s16 selection_code;
@@ -143,7 +143,7 @@ update_selection:
     if ((*(s16 *)((u8 *)state + 0x120)) == 0) {
         selection_data = (*(void **)((u8 *)state + 0x104));
         if (selection_data != NULL) {
-            if (((S_80091430_0 *)dungeon_state)->unk_10 & 0x80) {
+            if (((s32)dungeon_state->unk_010) & 0x80) {
                 if ((func_80094208(0) == 0) && !(actor->unk_1C & 0x100000)) {
                     actor->unk_8A = (s16) ((s32) (*(void **)((u8 *)state + 0x104)) != (*(s32 *)((u8 *)state + 0xAC)));
                     D_80082EB0[0] = 0;
@@ -163,7 +163,7 @@ update_selection:
                     goto done;
                 }
             } else {
-                if (((S_80091430_0 *)dungeon_state)->unk_10 & 0x10) {
+                if (((s32)dungeon_state->unk_010) & 0x10) {
                     func_800C77D0(selection_data - 0x20, ((S_80091430_2_pre *)selection_data)[-1].unk_00, 8, *D_800DCE66);
                     slot_index = (s32) (*(void **)((u8 *)state + 0x104)) != (*(s32 *)((u8 *)state + 0xAC));
                     actor->unk_8A = slot_index;
@@ -175,7 +175,7 @@ update_selection:
                     func_8004E130();
                     goto done;
                 }
-                if (((S_80091430_0 *)dungeon_state)->unk_10 & 0x20) {
+                if (((s32)dungeon_state->unk_010) & 0x20) {
                     slot_index = (s32) (*(void **)((u8 *)state + 0x104)) != (*(s32 *)((u8 *)state + 0xAC));
                     actor->unk_8A = slot_index;
                     *D_800E4940 = (s32) slot_index;
@@ -186,7 +186,7 @@ update_selection:
                     func_8004E130();
                     goto done;
                 }
-                if (((S_80091430_0 *)dungeon_state)->unk_10 & 0x40) {
+                if (((s32)dungeon_state->unk_010) & 0x40) {
                     func_800C77D0(selection_data - 0x20, ((S_80091430_2_pre *)selection_data)[-1].unk_00, 8, *D_800DCE66);
                     slot_index = (s32) (*(void **)((u8 *)state + 0x104)) != (*(s32 *)((u8 *)state + 0xAC));
                     actor->unk_8A = slot_index;
@@ -204,11 +204,11 @@ update_selection:
 check_selection:
             selection = (*(void **)((u8 *)state + 0x104));
             if ((selection == (*(s32 *)((u8 *)state + 0xAC)))
-                ? !(((S_80091430_0 *)dungeon_state)->unk_08 & 2)
-                : ((selection != (*(s32 *)((u8 *)state + 0xB0))) || !(((S_80091430_0 *)dungeon_state)->unk_08 & 1))) {
-                if (((S_80091430_0 *)dungeon_state)->unk_08 & 3) {
+                ? !(((s32)dungeon_state->unk_008) & 2)
+                : ((selection != (*(s32 *)((u8 *)state + 0xB0))) || !(((s32)dungeon_state->unk_008) & 1))) {
+                if (((s32)dungeon_state->unk_008) & 3) {
                     candidate_slot = state + 0xAC;
-                    if (!(((S_80091430_0 *)dungeon_state)->unk_08 & 2)) {
+                    if (!(((s32)dungeon_state->unk_008) & 2)) {
                         candidate_slot = state + 0xB0;
                     }
                     candidate = *candidate_slot;
@@ -232,8 +232,8 @@ check_selection:
     } else {
         preview = (*(void **)((u8 *)state + 0x104));
         func_800BA810(preview, preview->unk_46);
-        if (((S_80091430_0 *)dungeon_state)->unk_10 & 0x60) {
-            if (((S_80091430_0 *)dungeon_state)->unk_10 & 0x20) {
+        if (((s32)dungeon_state->unk_010) & 0x60) {
+            if (((s32)dungeon_state->unk_010) & 0x20) {
                 func_800A56E0(0x515);
                 selection = (*(void **)((u8 *)state + 0x104));
                 selection->unk_46 &= 0x7FFF;

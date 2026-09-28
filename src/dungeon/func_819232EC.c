@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_800247B8_arg1.h"
 
@@ -7,7 +8,6 @@ typedef struct {
 } U12;
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern u8 D_80045340[];
 void *func_8003FC64();                       /* extern */
 M2C_UNK func_8004491C();                /* extern */
 extern M2C_UNK D_800249FC;
@@ -73,7 +73,7 @@ void func_80024AEC(S_80024AEC_1 *source, Rec_func_800247B8_arg1 *position) {
         effect_state->unk_5C = 0x3C;
         effect_state->unk_88 = (s32) source->unk_88;
         ((S_80024AEC_2 *)effect)->unk_10 = &D_800249FC;
-        func_8004491C(effect, D_80045340);
+        func_8004491C(effect, func_80045340);
         render_state = ((S_80024AEC_2 *)effect)->unk_0C;
         render_state->unk_10 = 0x40;
         render_state->unk_06 = 0xA;

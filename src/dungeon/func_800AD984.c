@@ -24,13 +24,12 @@ extern void func_8009A028(Entity *);
 
 /* Update an entity using source bytes and a flag-dependent mask, then set completion flags. */
 void func_800B30E4(void *unused_0, void *unused_1, Source *source, Entity *entity) {
-    State *state = ((State *)&dungeonStatus);
     s32 update_mask;
     u8 source_24;
     u8 source_25;
 
-    if (state->field_10 == (s32)((u8 *)entity - 0x20)) {
-        state->field_10 &= 0x7FFFFFFF;
+    if (((s32)dungeonStatus.unk_10) == (s32)((u8 *)entity - 0x20)) {
+        *(s32 *)&dungeonStatus.unk_10 &= 0x7FFFFFFF;
     }
     func_800A32A4(entity);
     source_24 = source->field_24;

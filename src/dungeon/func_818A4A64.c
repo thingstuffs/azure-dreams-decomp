@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 typedef s32 M2C_UNK;
 
@@ -10,7 +11,6 @@ extern void func_8003DB94(void *, void *, s16);
 extern void *func_8003FC64(s32);
 extern s32 func_8004491C(void *, s32);
 extern u8 D_80024230[];
-extern u8 D_80045340[];
 extern u8 D_800DEAE0[];
 
 typedef struct S_818A4A64_0 {
@@ -70,7 +70,7 @@ void *func_818A4A64(s32 context_value, S_818A4A64_2 *initial_position) {
         render_state->unk_1E = 0x1000;
         render_state->unk_1C = 0x1000;
         render_state->unk_14 |= 0xC;
-        func_8004491C(object, (s32) D_80045340);
+        func_8004491C(object, (s32) func_80045340);
         position = object->unk_08;
         position->unk_02 = initial_position->unk_02;
         position->unk_06 = initial_position->unk_06;

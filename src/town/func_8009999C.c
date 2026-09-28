@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/game_work.h"
 #include "m2c_compat.h"
 
 typedef struct S_800970FC_0 {
@@ -136,10 +137,9 @@ extern u8 D_800D0504[];
 extern s16 D_800D45AA[];
 extern u8 D_801C9E40[];
 
-extern void *D_80083160[3];
 
 #define CUR_CTX (*page_state)
-#define CUR_PAGE (D_80083160[0])
+#define CUR_PAGE (gameWork.unk_000)
 
 /* Draws the entry and its height-dependent textured and solid overlays. */
 s32 func_800970FC(void) {
@@ -179,7 +179,7 @@ s32 func_800970FC(void) {
     u32 rect_height;
     u32 fill_height;
 
-    page_state = &D_80083160[0];
+    page_state = &gameWork.unk_000;
     entry = D_80082E80;
     alternate_page = CUR_PAGE != (void *)D_801C9E40;
     rotation = ((S_800970FC_0 *)entry)->unk_06;

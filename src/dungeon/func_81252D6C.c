@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 extern int abs(int);
 
@@ -16,7 +17,6 @@ extern void func_80170E18();
 
 extern u8 D_8006DE24[];
 extern void *D_800814A8;
-extern s16 D_80083228;
 extern void *D_80170838[];
 extern void *D_80170860[];
 extern M2C_UNK D_80171514;
@@ -276,7 +276,7 @@ state2:
     (*(u8 * *)((u8 *)sprite + (0x2C))) = D_80173EDC;
     func_80047784(
         sprite,
-        D_80173EDC[((D_80083228 + ((S_8017256C_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+        D_80173EDC[((gameWork.viewAngle + ((S_8017256C_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
         0);
     return;
 
@@ -329,7 +329,7 @@ state7:
     (*(u8 * *)((u8 *)sprite + (0x2C))) = D_80173E8C;
     func_80047784(
         sprite,
-        D_80173E8C[((D_80083228 + ((S_8017256C_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+        D_80173E8C[((gameWork.viewAngle + ((S_8017256C_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
         0);
     ((S_8017256C_0 *)action)->unk_9E = 0;
     ((S_8017256C_0 *)action)->unk_92 = -0x20;
@@ -337,12 +337,11 @@ state7:
 
 state8:
     {
-        u8 *action_status = (u8 *)&dungeonStatus.unk_00;
 
-        if (((S_8017256C_6 *)action_status)->unk_0C != 0) {
+        if (((s32)dungeonStatus.unk_0C) != 0) {
             return;
         }
-        ((S_8017256C_6 *)action_status)->unk_0A--;
+        dungeonStatus.unk_0A--;
         ((S_8017256C_0 *)action)->unk_8C = &D_80171514;
         func_800A4ACC(actor);
         ((S_8017256C_1 *)actor)->unk_6D--;

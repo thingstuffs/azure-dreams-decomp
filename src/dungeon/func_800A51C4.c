@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
 typedef struct {
@@ -8,16 +9,14 @@ typedef struct {
     u16 count;
 } DungeonState;
 
-extern s16 D_80083228[];
 extern void func_80047784(void *, s32, s32);
 
 /* Resets actor action state and selects a sprite frame for its facing direction. */
 s32 func_800AA924(void *actor, s32 unused, void *sprite, u8 *direction_frames)
 {
-    DungeonState *state = ((DungeonState *)&dungeonStatus);
 
     *(u8 *)((u8 *)actor + 0x71) &= 0x7F;
-    if (state->flags & 0x2008) {
+    if (dungeonStatus.flags & 0x2008) {
         *(s8 *)((u8 *)actor + 0x9A) = 0xE;
         return 1;
     }
@@ -33,10 +32,10 @@ s32 func_800AA924(void *actor, s32 unused, void *sprite, u8 *direction_frames)
     if (direction_frames != 0) {
         *(u8 **)((u8 *)sprite + 0x2C) = direction_frames;
         func_80047784(sprite,
-            direction_frames[((D_80083228[0] + *(s16 *)((u8 *)actor + 0x2A) + 0x100) >> 9) & 7],
+            direction_frames[((gameWork.viewAngle + *(s16 *)((u8 *)actor + 0x2A) + 0x100) >> 9) & 7],
             0);
     }
-    state->count++;
+    dungeonStatus.unk_0A++;
     *(s32 *)((u8 *)actor + 0x1C) &= ~0x40000;
     return 1;
 }

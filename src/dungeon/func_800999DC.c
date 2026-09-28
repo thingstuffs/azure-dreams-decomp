@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 /* D_80083160: shared state table. offset 0x1DC holds a pointer to the
  * dungeon map cell array (6-byte cells, first s16 field is the cell
@@ -7,13 +8,6 @@
  * declaration per merge-safety contract -- only a raw byte-offset
  * view is needed here (matches the field access shape in the asm,
  * base symbol used with explicit sub-offsets, not folded). */
-typedef struct {
-    u8 pad0[0x1DC];
-    void *mapPtrField;  /* offset 0x1DC */
-} S_800999DC_D80083160;
-
-extern S_800999DC_D80083160 D_80083160;
-
 extern void func_8009EEAC(void);
 extern void func_8009F3D4(s16 x, s16 y, s32 color, s32 size, s32 count);
 
@@ -30,8 +24,8 @@ void func_8009F13C(void) {
     s32 y;
     s32 count;
 
-    mapPtr = (MapCell *)D_80083160.mapPtrField;
-    shiftBase = (u8 *)&D_80083160.mapPtrField;
+    mapPtr = (MapCell *)((void *)gameWork.unk_1DC);
+    shiftBase = (u8 *)((void * *)&gameWork.unk_1DC);
     func_8009EEAC();
     count = 0;
     y = 1;

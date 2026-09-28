@@ -100,7 +100,6 @@ state_0:
 state_1:
     {
         u8 *saved_actor;
-        u8 *counter;
         u8 *actor_map;
         u16 saved_index;
         u8 actor_index;
@@ -120,8 +119,7 @@ state_1:
         func_80093E74(D_800E3D7C, primary_table, secondary_table, D_800E3D7C);
         (*(u8 * *)((u8 *)D_800E3D7C + (0x60))) = saved_actor;
         ((Rec_D_800E3D7C *)D_800E3D7C)->unk_8A.as_u16 = saved_index;
-        counter = (u8 *)&dungeonStatus.unk_00;
-        ((S_80176028_3 *)counter)->unk_0A--;
+        dungeonStatus.unk_0A--;
     }
 
 advance_state:

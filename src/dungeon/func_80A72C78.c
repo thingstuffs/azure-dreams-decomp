@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -51,7 +52,6 @@ extern void func_800AD594(void *, s32);
 extern s32 func_800AD9B4(void *, void *);
 
 extern u8 D_80082E80[];
-extern s16 D_80083228;
 extern u8 D_80170E54;
 extern u8 D_80174160[];
 extern u8 D_80174168[];
@@ -95,7 +95,7 @@ state_zero:
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80174160;
     func_80047784(
         sprite,
-        D_80174160[((D_80083228 + ((S_80172478_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+        D_80174160[((gameWork.viewAngle + ((S_80172478_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
         0);
     ((S_80172478_0 *)action)->unk_98 |= 8;
     ((S_80172478_2 *)actor)->unk_1C.s &= 0xF7FFFFFF;
@@ -150,7 +150,7 @@ state_two:
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80174168;
         func_80047784(
             sprite,
-            D_80174168[((D_80083228 + ((S_80172478_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            D_80174168[((gameWork.viewAngle + ((S_80172478_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
 
 advance_state:

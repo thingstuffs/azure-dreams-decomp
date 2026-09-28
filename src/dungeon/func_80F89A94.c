@@ -144,7 +144,6 @@ state_3:
     {
         u8 brightness;
         u16 fade_level;
-        s32 *link_base;
         s32 linked_object;
         s32 flags;
         s32 tile_mask;
@@ -159,9 +158,8 @@ state_3:
         fade_level = ((S_80173294_2 *)effect_data)->unk_96.u16 - 0x10;
         ((S_80173294_2 *)effect_data)->unk_96.u16 = fade_level;
         if ((s16)fade_level >= 0x10) goto done;
-        link_base = &dungeonStatus.unk_00;
-        linked_object = link_base[4];
-        if (linked_object == (s32)(object_data - 0x20)) link_base[4] = linked_object & 0x7FFFFFFF;
+        linked_object = ((s32)dungeonStatus.unk_10);
+        if (linked_object == (s32)(object_data - 0x20)) dungeonStatus.unk_10 = linked_object & 0x7FFFFFFF;
         func_800A2FE0(object_data);
         func_800A32A4(object_data);
         flags = ((S_80173294_0 *)object_data)->unk_1C;

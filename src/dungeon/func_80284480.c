@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct {
     u16 field_0;
@@ -6,7 +7,6 @@ typedef struct {
     u16 field_4;
 } DungeonCell;
 
-extern s16 D_8008333C[12];
 extern DungeonCell D_800EA000[];
 
 /* Applies a bitmask to field_4 of each dungeon cell in a rectangle. */
@@ -23,7 +23,7 @@ void func_80017480(s32 start_x, s32 start_y, s32 rect_width, s32 rect_height, u1
     DungeonCell *cells;
 
     y = (s16)start_y;
-    config = D_8008333C;
+    config = ((s16 *)(&gameWork.unk_1DC));
     cells = D_800EA000;
     height = (s16)rect_height;
     y_limit = y + height;

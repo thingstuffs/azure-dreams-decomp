@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 typedef struct S_8016EB14_0 {
     u8 pad_00[0x8];
@@ -74,7 +75,6 @@ typedef struct S_8016EB14_6 {
 
 extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *);
-extern u8 D_80045340;
 extern u8 D_800777B8;
 extern u8 D_8016E528;
 extern void *D_80174704;
@@ -104,7 +104,7 @@ void func_8016EB14(void)
     if (spawned_object != 0) {
         ((S_8016EB14_1 *)spawned_object)->unk_10 = &D_8016E528;
         object_state = (u8 *)spawned_object + 0x20;
-        func_8004491C(spawned_object, &D_80045340);
+        func_8004491C(spawned_object, func_80045340);
         render_part = ((S_8016EB14_1 *)spawned_object)->unk_0C;
         render_part->unk_14 &= 0xFFF3;
         ((S_8016EB14_3 *)object_state)->unk_24 = owner_state;

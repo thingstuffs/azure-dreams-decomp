@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 extern s16 D_80080B00[8];
-extern u8 D_8008333C[32];
 extern u8 D_800E6000[16400];
 extern u8 *D_80081508;
 
@@ -12,7 +12,7 @@ void func_800D1338(void) {
     u16 tile_flags;
     u8 *map_config;
 
-    map_config = D_8008333C;
+    map_config = ((u8 *)(&gameWork.unk_1DC));
     entry = D_80081508;
     if (*entry != 0) {
         do {

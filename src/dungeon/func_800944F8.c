@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 typedef s32 M2C_UNK;
 
@@ -13,7 +14,6 @@ extern void func_8004491C(void *, u8 *, s32, void *);
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 
-extern u8 D_80045340;
 extern u8 D_80099B18[];
 extern u8 D_800DE870[];
 extern s32 D_800DEDB0[3];
@@ -100,7 +100,7 @@ void func_80099C58(s16 x, s16 y, s16 z, s16 flags)
         (*(s16 *)((u8 *)sprite + 0x1E)) = 0x1000;
         (*(s16 *)((u8 *)sprite + 0x1C)) = 0x1000;
         (*(void **)((u8 *)sprite + 8)) = texture_data;
-        func_8004491C(particle, &D_80045340, color, sprite);
+        func_8004491C(particle, func_80045340, color, sprite);
     }
 
     for (spokes_left = 0x10; spokes_left > 0; spokes_left--) {
@@ -142,7 +142,7 @@ void func_80099C58(s16 x, s16 y, s16 z, s16 flags)
             (*(s16 *)((u8 *)sprite + 0x1E)) = 0x1000;
             (*(s16 *)((u8 *)sprite + 0x1C)) = 0x1000;
             (*(void **)((u8 *)sprite + 8)) = texture_data;
-            func_8004491C(particle, &D_80045340, color, sprite);
+            func_8004491C(particle, func_80045340, color, sprite);
         }
     }
 }

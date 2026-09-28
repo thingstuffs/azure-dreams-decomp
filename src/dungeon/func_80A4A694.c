@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct S_80173E94_0 {
     u8 pad_00[0x8D0];
@@ -55,7 +56,6 @@ typedef struct S_80173E94_6 {
 
 
 
-extern u8 D_80083160[];
 
 extern s32 func_80065420(void *, void *, void *, void *);
 extern s32 func_80066460(s32, s32, s32, s32);
@@ -80,9 +80,9 @@ s32 func_80173E94(void *node_arg, void *vertex_arg)
 
     node = node_arg;
     vertex = vertex_arg;
-    state_ptr = (u8 **)D_80083160;
+    state_ptr = (u8 **)((u8 *)(&gameWork));
     addr_mask = 0x00FFFFFF;
-    state = *(u8 **)D_80083160;
+    state = *(u8 **)((u8 *)(&gameWork));
     tag_mask = 0xFF000000;
     scratch = (u8 *)0x1F800000;
 

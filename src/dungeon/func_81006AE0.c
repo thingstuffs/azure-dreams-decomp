@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -29,7 +30,6 @@ extern s32 func_80099734();
 extern s32 func_800A2BDC();
 extern M2C_UNK func_800A5720();
 
-extern s16 D_80083228;
 extern u8 D_80170838[16];
 extern u8 D_80170848[16];
 extern u8 D_80174880[9];
@@ -40,10 +40,9 @@ void func_801722E0(void *owner, void *unused, void *part, void *actor) {
     s32 original_value;
     s32 current_value;
     s32 adjusted_value;
-    u8 *state = ((u8 *)(&dungeonStatus));
 
     ((Rec_D_800E3D7C *)actor)->unk_71.as_u8 = (u8)(((Rec_D_800E3D7C *)actor)->unk_71.as_u8 & 0x7F);
-    if (!(((S_801722E0_1 *)state)->unk_02 & 0x2000) &&
+    if (!(dungeonStatus.flags & 0x2000) &&
         ((func_800A2BDC(actor) << 0x10) == 0)) {
         u8 *table = D_80174880;
 
@@ -53,10 +52,10 @@ void func_801722E0(void *owner, void *unused, void *part, void *actor) {
         (*(u8 * *)((u8 *)part + 0x2C)) = table;
         func_80047784(
             part,
-            table[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            table[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
         ((Rec_D_800E3D7C *)actor)->unk_6D.as_u8 = (u8)(((Rec_D_800E3D7C *)actor)->unk_6D.as_u8 - 1);
-        ((S_801722E0_1 *)state)->unk_0A = (u16)(((S_801722E0_1 *)state)->unk_0A + 1);
+        dungeonStatus.unk_0A = (u16)(((u16)dungeonStatus.unk_0A) + 1);
         adjusted_value = func_80099734(actor, current_value = func_800990FC());
         original_value = current_value;
         current_value = adjusted_value;

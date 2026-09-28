@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800814A8.h"
 
@@ -64,7 +65,6 @@ extern void func_80174060(void *, void *, void *, void *);
 
 extern void *D_800814A8;
 extern u8 D_80082E80[];
-extern s16 D_80083228;
 extern u8 D_801710F4[];
 extern u8 D_80174F40[];
 extern u8 D_80174F48[];
@@ -107,7 +107,7 @@ state_zero:
         anim_table = D_80174F50;
         (*(void * *)((u8 *)in_sprite + 0x2C)) = anim_table;
         func_80047784(in_sprite,
-            anim_table[((D_80083228 + ((S_80173880_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            anim_table[((gameWork.viewAngle + ((S_80173880_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         system_state = (u8 *)((u16 *)(&dungeonStatus));
         ((S_80173880_3 *)system_state)->unk_0A--;
@@ -123,7 +123,7 @@ state_one:
         anim_table = D_80174F48;
         (*(void * *)((u8 *)in_sprite + 0x2C)) = anim_table;
         func_80047784(in_sprite,
-            anim_table[((D_80083228 + ((S_80173880_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            anim_table[((gameWork.viewAngle + ((S_80173880_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
     }
 
@@ -138,7 +138,7 @@ state_one:
             anim_table = D_80174F50;
             (*(void * *)((u8 *)in_sprite + 0x2C)) = anim_table;
             func_80047784(in_sprite,
-                anim_table[((D_80083228 + ((S_80173880_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                anim_table[((gameWork.viewAngle + ((S_80173880_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
                 0);
         }
 
@@ -233,7 +233,7 @@ state_one_long:
         anim_table = D_80174F50;
         (*(void * *)((u8 *)in_sprite + 0x2C)) = anim_table;
         func_80047784(in_sprite,
-            anim_table[((D_80083228 + ((S_80173880_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            anim_table[((gameWork.viewAngle + ((S_80173880_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
     }
 
@@ -259,7 +259,7 @@ state_two:
         anim_table = D_80174F40;
         (*(void * *)((u8 *)in_sprite + 0x2C)) = anim_table;
         func_80047784(in_sprite,
-            anim_table[((D_80083228 + ((S_80173880_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            anim_table[((gameWork.viewAngle + ((S_80173880_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((S_80173880_0 *)in_action)->unk_9B++;
         return;

@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80175D54.h"
 
 void *func_8003FD64();               /* extern */
 M2C_UNK func_8004491C();           /* extern */
-extern M2C_UNK D_80045340;
 extern M2C_UNK D_80077854;
 extern M2C_UNK D_801714AC;
 extern s16 D_80173AFC[];
@@ -93,7 +93,7 @@ void func_801715D0(void) {
     if (object != NULL) {
         ((S_801715D0_1 *)object)->unk_10 = &D_801714AC;
         object_state = object + 0x20;
-        func_8004491C(object, &D_80045340);
+        func_8004491C(object, func_80045340);
         render_flags = ((S_801715D0_1 *)object)->unk_0C;
         render_flags->unk_14 = (u16) ((render_flags->unk_14 & 0xFFF3) | 0x80);
         object_state->unk_24 = owner_state;

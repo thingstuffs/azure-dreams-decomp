@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 #ifndef NULL
 #define NULL 0
@@ -63,7 +64,6 @@ extern void func_8008F104(Core *, Position *, void *);
 
 extern u8 D_80045C34[];
 extern u8 D_80046398[];
-extern u8 D_80083160[];
 extern u8 D_800B9CB8[];
 extern u8 D_800B9EDC[];
 extern u8 D_800B9F74[];
@@ -121,9 +121,9 @@ void func_800BACB0(Core *parent_core, Position *origin)
             particle_prim->scaleX = 0x1000;
             particle_prim->scaleY = 0x1000;
             particle_prim->scaleZ = 0xAAA;
-            particle_prim->red = D_80083160[0xA8];
-            particle_prim->green = D_80083160[0xA9];
-            particle_blue = D_80083160[0xAA];
+            particle_prim->red = gameWork.unk_0A8;
+            particle_prim->green = gameWork.unk_0A9;
+            particle_blue = gameWork.unk_0AA;
             ((S_800BACB0_1 *)particle_prim)->unk_08 = child_index + 0xA;
             particle_prim->blue = particle_blue;
             child_pos = child_obj->position;
@@ -207,9 +207,9 @@ void func_800BACB0(Core *parent_core, Position *origin)
         particle_prim->scaleY = 0x1000;
         particle_prim->scaleZ = 0x1000;
         particle_prim->angle = parent_core->angle;
-        particle_prim->red = D_80083160[0xA8];
-        particle_prim->green = D_80083160[0xA9];
-        particle_prim->blue = D_80083160[0xAA];
+        particle_prim->red = gameWork.unk_0A8;
+        particle_prim->green = gameWork.unk_0A9;
+        particle_prim->blue = gameWork.unk_0AA;
         child_pos = child_obj->position;
         ((S_800BACB0_1 *)particle_prim)->unk_08 = 9;
         child_pos->x = origin->x;

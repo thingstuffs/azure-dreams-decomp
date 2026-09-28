@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct {
     s32 unk0;
@@ -23,7 +24,6 @@ typedef struct {
 extern void func_8004491C(s32, void *);
 extern void func_8008F104(s32, void *, void *);
 extern u8 D_80046398[];
-extern u8 D_80083160[];
 extern u8 D_800D1BDC[];
 
 /* Initialize object state, scale, and color, then offset and configure the object. */
@@ -42,9 +42,9 @@ void func_800BB57C(s32 object_id, void *object, FuncData *state) {
     state->unk1C = 0x1000;
     state->unk1E = 0x1000;
     state->unk20 = 0x1000;
-    state->unkC = D_80083160[0xA8];
-    state->unkD = D_80083160[0xA9];
-    state->unkE = D_80083160[0xAA];
+    state->unkC = gameWork.unk_0A8;
+    state->unkD = gameWork.unk_0A9;
+    state->unkE = gameWork.unk_0AA;
     *(s32 *)((u8 *)object + 8) += 0x200000;
 
     func_8008F104(object_id, object, D_800D1BDC);

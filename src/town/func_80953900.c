@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 
 typedef struct {
@@ -67,7 +68,6 @@ extern u8 D_80021028[];
 extern s32 D_80012D5C;
 extern s32 D_80024300[];
 extern s16 D_80024308[];
-extern u8 D_80083160[];
 extern u16 D_80113158;
 extern s32 D_8011315C;
 
@@ -97,10 +97,10 @@ void func_80020900(TownEntity *menu)
     s16 *prices;
     s32 quantity;
     s32 state;
-    u8 *input;
+    GameWork *input;
     s32 text_color;
 
-    input = D_80083160;
+    input = &gameWork;
 
     if (func_80033BC0(0x590) != 0) {
         entity->state = 0x100;
@@ -174,23 +174,23 @@ state_0:
     goto exit;
 
 state_1:
-    if ((*(s32 *)(input + 0x10) & 0x1000) &&
+    if ((((s32)input->unk_010) & 0x1000) &&
         (entity->selection > 0)) {
         SD_Call(0x502);
         entity->selection = (u16)entity->selection - 1;
-    } else if ((*(s32 *)(input + 0x10) & 0x4000) &&
+    } else if ((((s32)input->unk_010) & 0x4000) &&
                (entity->selection < 5)) {
         SD_Call(0x502);
         entity->selection = (u16)entity->selection + 1;
     }
-    if (*(s32 *)(input + 0x10) & 0x20) {
+    if (((s32)input->unk_010) & 0x20) {
         SD_Call(0x515);
         func_80033B9C(0x592);
         func_80033B9C(0x593);
         entity->state = 0x100;
         goto exit;
     }
-    if (*(s32 *)(input + 0x10) & 0x40) {
+    if (((s32)input->unk_010) & 0x40) {
         volatile s32 *money = &D_80012D5C;
 
         SD_Call(0x503);
@@ -222,7 +222,7 @@ state_3:
         entity->timer = (u16)entity->timer - 1;
         goto exit;
     }
-    if ((*(s32 *)(input + 8) & 0x2000) &&
+    if ((((s32)input->unk_008) & 0x2000) &&
         (entity->quantity < 10) &&
         ((u32)D_80012D5C >= 100U)) {
         SD_Call(0x502);
@@ -236,7 +236,7 @@ state_3:
         entity->state = (u16)entity->state - 1;
         goto exit;
     }
-    if ((*(s32 *)(input + 8) & 0x8000) &&
+    if ((((s32)input->unk_008) & 0x8000) &&
         (entity->quantity >= 2)) {
         s32 *money = &D_80012D5C;
 
@@ -251,7 +251,7 @@ state_3:
         entity->state = (u16)entity->state - 1;
         goto exit;
     }
-    if (*(s32 *)(input + 0x10) & 0x40) {
+    if (((s32)input->unk_010) & 0x40) {
         Pair04 *selected_pair;
 
         do {
@@ -271,7 +271,7 @@ state_3:
         func_800B1DBC(D_80024300[0]);
         entity->state = 0x100;
     }
-    if (*(s32 *)(input + 0x10) & 0x20) {
+    if (((s32)input->unk_010) & 0x20) {
         SD_Call(0x515);
         D_80012D5C += entity->quantity * 100;
         func_800B1DBC(D_80024300[0]);

@@ -1,13 +1,9 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
 
 typedef s32 (*ActorCallback)(void *, void *, void *, void *);
-typedef struct 
-{
-  s16 value;
-  u8 pad[14];
-} S16Global;
 extern void func_80047738(void *, s32, s32);
 extern void func_800478B8(void *);
 extern s32 func_800644B8(s32);
@@ -16,7 +12,6 @@ extern s32 func_800A9E70(void *, void *, void *, void *);
 extern void func_800AA36C(void *, void *, void *, void *);
 extern s32 func_800BCB04(s32, s32, s16);
 extern u8 D_8006CCF8[32];
-extern S16Global D_80083228;
 extern u8 D_801710EC[12];
 extern u8 D_80175E40[12];
 extern ActorCallback D_80175ED8[16];
@@ -84,7 +79,7 @@ void func_80170A94(void *actor_input, void *motion_input, void *sprite_input)
     *((u8 *) (((u8 *) actor) + 0x9D)) = 0;
   }
   *((s32 *) (((u8 *) actor) + 0x90)) += *((s32 *) (((u8 *) motion) + 0x14));
-  view_direction = ((D_80083228.value + (*((s16 *) (((u8 *) actor_base) + 0x2A)))) + 0x100) >> 9;
+  view_direction = ((gameWork.viewAngle + (*((s16 *) (((u8 *) actor_base) + 0x2A)))) + 0x100) >> 9;
   bob_step = view_direction & 7;
   direction_index = bob_step;
   if ((*((s16 *) (((u8 *) actor) + 0x94))) != direction_index)

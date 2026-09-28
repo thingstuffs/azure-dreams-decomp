@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 
 typedef struct S_80172610_0 {
@@ -86,8 +87,6 @@ extern void func_80047784(void *, s32, s32);
 extern void func_800478B8(void *);
 extern void func_800A020C(void *, void *);
 
-extern u8 D_80083160[];
-extern s16 D_80083228;
 extern s8 D_800DCECC[];
 extern u8 D_80174C6C[];
 
@@ -102,7 +101,6 @@ void func_80172610(void *actor_data, void *output_data, void *context_data)
     register u8 *saved_base;
     u8 *linked;
     u8 *source;
-    u8 *state;
     s32 facing_index;
     s32 direction_index;
     s32 effect_index;
@@ -141,12 +139,11 @@ void func_80172610(void *actor_data, void *output_data, void *context_data)
     new_angle_bits = ((S_80172610_2 *)base)->unk_2A.u;
     if (old_angle != new_angle) {
         (*(u16 *)((u8 *)actor + 0x2A)) = new_angle_bits;
-        facing_index = ((D_80083228 + new_angle + 0x100) >> 9) & 7;
+        facing_index = ((gameWork.viewAngle + new_angle + 0x100) >> 9) & 7;
         func_80047784(context, (*(u8 *)((u8 *)(((S_80172610_4 *)context)->unk_2C) + facing_index)), 0);
     }
 
-    state = D_80083160;
-    direction_index = ((((S_80172610_5 *)state)->unk_C8 + ((S_80172610_0 *)actor)->unk_2A + 0x100) >> 9) & 7;
+    direction_index = ((gameWork.viewAngle + ((S_80172610_0 *)actor)->unk_2A + 0x100) >> 9) & 7;
     direction_short = direction_index;
     if (((S_80172610_0 *)actor)->unk_94.s != direction_short) {
         func_80047784(context, (*(u8 *)((u8 *)(((S_80172610_4 *)context)->unk_2C) + direction_short)), 0);
@@ -158,7 +155,7 @@ void func_80172610(void *actor_data, void *output_data, void *context_data)
     ((S_80172610_6 *)output)->unk_06 = ((S_80172610_7 *)source)->unk_06;
     ((S_80172610_6 *)output)->unk_0A = ((S_80172610_7 *)source)->unk_0A;
 
-    effect_index = ((((S_80172610_5 *)state)->unk_C8 + ((S_80172610_0 *)actor)->unk_2A + 0x100) >> 9) & 7;
+    effect_index = ((gameWork.viewAngle + ((S_80172610_0 *)actor)->unk_2A + 0x100) >> 9) & 7;
     effect = D_800DCECC[effect_index];
     ((S_80172610_4 *)context)->unk_06 = effect << 2;
     ((S_80172610_4 *)context)->unk_1C = ((S_80172610_3 *)linked)->unk_1C;

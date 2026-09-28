@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
@@ -174,7 +175,6 @@ M2C_UNK func_800ACB98();
 M2C_UNK func_800C542C();
 extern u8 D_80010A80[];
 extern M2C_UNK D_800814A0;
-extern M2C_UNK D_80083460;
 extern M2C_UNK D_800DCE68;
 extern s16 D_800DCED4[];
 extern M2C_UNK D_800E0C34;
@@ -213,8 +213,6 @@ s32 func_800AB778(S_800AB778_1 *state, void *unused_context, S_800AB778_3 *visua
     S_800AB778_14 *globals_page16;
     S_800AB778_9 *globals4;
     S_800AB778_15 *globals16;
-    u8 *state4_tail;
-    u8 *state16_tail;
     s32 *update_flags;
     s32 state4_owner;
     s32 effect_actor_flags;
@@ -259,7 +257,6 @@ s32 func_800AB778(S_800AB778_1 *state, void *unused_context, S_800AB778_3 *visua
 
 state_case0:
     {
-        u8 *state0;
         register s32 next_state;
 
         if (((Rec_D_80082E80 *)actor)->unk_43 != 0xFD) {
@@ -269,8 +266,7 @@ state_case0:
         } else {
             ((S_800AB778_21 *)(((Rec_D_800E3D7C *)(&D_800E3D7C))->unk_00.at00_pv.v))->unk_110 = 0;
         }
-        state0 = (u8 *)&D_80083460;
-        ((S_800AB778_2 *)state0)->unk_0A++;
+        dungeonStatus.unk_0A++;
         next_state = 3;
         state->unk_9B = next_state;
         goto return_zero;
@@ -339,13 +335,11 @@ state4_emit:
         func_80099290(func_80099194(state4_event, state4_result));
         func_800A5720(event_source);
     } else {
-        u8 *state4_head;
         u16 *state4_global;
 
         state4_global = (u16 *)&D_800DCE68;
-        state4_head = (u8 *)&D_80083460;
         (*state4_global)--;
-        ((S_800AB778_4 *)state4_head)->unk_0A--;
+        dungeonStatus.unk_0A--;
     }
     func_800A31D0(actor);
     actor_slot4 = func_800A1BD0(actor);
@@ -383,13 +377,12 @@ state4_emit:
     func_8009A028(actor);
     ((S_800AB778_0_pre *)actor)[-1].unk_00 |= 0x8000;
     ((S_800AB778_10 *)(&D_800814A0))->unk_00 |= 0x8000;
-    state4_tail = (u8 *)&D_80083460;
-    state4_count = ((S_800AB778_11 *)state4_tail)->unk_0A;
-    state4_owner = ((S_800AB778_11 *)state4_tail)->unk_0C;
+    state4_count = ((u16)dungeonStatus.unk_0A);
+    state4_owner = ((s32)dungeonStatus.unk_0C);
     state4_count--;
-    ((S_800AB778_11 *)state4_tail)->unk_0A = state4_count;
+    dungeonStatus.unk_0A = state4_count;
     if (state4_owner == (s32)actor) {
-        ((S_800AB778_11 *)state4_tail)->unk_0C = 0;
+        dungeonStatus.unk_0C = 0;
         goto return_zero;
     }
     goto return_zero;
@@ -440,12 +433,11 @@ state_case16:
     }
     func_8009A028(actor);
     update_flags = (s32 *)&D_800814A0;
-    state16_tail = (u8 *)&D_80083460;
     ((S_800AB778_0_pre *)actor)[-1].unk_00 |= 0x8000;
     ((S_800AB778_16 *)update_flags)->unk_00 |= 0x8000;
-    state16_count = ((S_800AB778_17 *)state16_tail)->unk_0A;
+    state16_count = ((u16)dungeonStatus.unk_0A);
     state16_count--;
-    ((S_800AB778_17 *)state16_tail)->unk_0A = state16_count;
+    dungeonStatus.unk_0A = state16_count;
 return_zero:
     return 0;
 }

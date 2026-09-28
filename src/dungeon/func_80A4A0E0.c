@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800814A8.h"
 
@@ -58,7 +59,6 @@ extern void func_800AA888(void *, void *, void *, void *);
 extern void func_80173C34(void *, void *, void *, void *);
 
 extern void *D_800814A8;
-extern s16 D_80083228;
 extern s32 D_8017140C;
 extern u8 D_80175894[];
 extern u8 D_8017588C[];
@@ -100,7 +100,7 @@ state_zero:
         direction_anims = D_80175894;
         (*(void * *)((u8 *)anim + 0x2C)) = direction_anims;
         func_80047784(anim,
-            direction_anims[((D_80083228 + ((S_801738E0_3 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            direction_anims[((gameWork.viewAngle + ((S_801738E0_3 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         goto increment_state;
     }
@@ -115,7 +115,7 @@ state_one:
 
             (*(void * *)((u8 *)anim + 0x2C)) = D_8017588C;
             func_80047784(anim,
-                D_8017588C[((D_80083228 + ((S_801738E0_3 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                D_8017588C[((gameWork.viewAngle + ((S_801738E0_3 *)actor)->unk_2A + 0x100) >> 9) & 7],
                 0);
             ((S_801738E0_3 *)actor)->unk_1C |= 0x40000;
             scene_state = &dungeonStatus.unk_00;
@@ -176,7 +176,7 @@ state_one:
 
         (*(void * *)((u8 *)anim + 0x2C)) = D_8017588C;
         func_80047784(anim,
-            D_8017588C[((D_80083228 + ((S_801738E0_3 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            D_8017588C[((gameWork.viewAngle + ((S_801738E0_3 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((S_801738E0_3 *)actor)->unk_1C |= 0x40000;
         ((S_801738E0_4 *)scene_state)->unk_0A++;

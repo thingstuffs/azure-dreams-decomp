@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct Func800AB788Arg {
     u8 pad00[0x24];
@@ -45,7 +46,6 @@ typedef struct Func800AB788Poly {
     u16 y3;
 } Func800AB788Poly;
 
-extern u8 D_80083160[];
 extern u16 func_80066460(s32, s32, s32, s32);
 extern void func_8006658C(void *, void *);
 extern void func_80066640(void *, s32);
@@ -57,7 +57,7 @@ void func_800A8EE8(Func800AB788Arg *strip)
 {
     Func800AB788Poly *poly;
     u8 *tpage;
-    u8 *render_state_ptr = D_80083160;
+    GameWork *render_state_ptr = &gameWork;
 
     if ((((u16)(strip->x0 + 0x20) < 0x181) &&
          ((u16)(strip->y0 + 0x20) < 0x121)) |

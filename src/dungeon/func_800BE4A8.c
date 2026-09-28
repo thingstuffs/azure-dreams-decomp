@@ -25,7 +25,6 @@ typedef struct S_800C3C08_1 {
 
 /* Process an entity event, increment its counter, and finish the event with a visual effect. */
 s32 func_800C3C08(void *entity, s32 event, s16 event_type) {
-    u8 *counter_base;
     u8 entity_count;
 
     if (entity == D_800E3D7C[0]) {
@@ -49,8 +48,7 @@ s32 func_800C3C08(void *entity, s32 event, s16 event_type) {
     }
     func_800D4FC8(entity - 0x20, 0x202020, 0x616);
     func_80098B38(event);
-    counter_base = (u8 *)&dungeonStatus.unk_00;
 
-    ((S_800C3C08_1 *)counter_base)->unk_0A = (u16) (((S_800C3C08_1 *)counter_base)->unk_0A - 1);
+    dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
     return 1;
 }

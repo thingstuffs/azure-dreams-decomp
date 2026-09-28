@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/game_work.h"
 typedef struct {
     u32 addr : 24;
     u32 len : 8;
 } P_TAG;
 
-extern u8 *D_80083160;
 
 typedef struct {} EmptyArg;
 
@@ -64,7 +64,7 @@ void func_80024758(void *mesh, void *position, void *material, u16 depth_bias) {
     u8 texture_flags;
     u8 draw_flags;
 
-    page_ptr = &D_80083160;
+    page_ptr = &gameWork.unk_000;
     initial_page = *page_ptr;
     *(u8 **)(scratch + 0x24) = initial_page + 0xB0;
     *(s32 *)(scratch + 0x88) = *(s16 *)((u8 *)position + 2);

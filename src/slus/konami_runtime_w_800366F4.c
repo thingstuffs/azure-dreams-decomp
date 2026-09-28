@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 #include "common.h"
 
@@ -17,7 +18,6 @@ struct Object {
     Child *child;
 };
 
-extern u8 D_80083160[];
 extern void func_80036880(Object *arg0, void *arg1, void *arg2);
 extern void SD_Call(s32 arg0);
 
@@ -28,11 +28,11 @@ void func_800366F4(Object *menu, void *confirm_arg1, void *confirm_arg2) {
     s32 cursor;
     s32 item_count;
     u32 buttons;
-    u8 *input_state;
+    GameWork *input_state;
 
-    input_state = D_80083160;
+    input_state = &gameWork;
     cursor = menu->unk4D;
-    buttons = *(u32 *)(input_state + 0x10);
+    buttons = ((u32)input_state->unk_010);
     if (buttons & 0x2000) {
         goto switch_column;
     }
@@ -46,7 +46,7 @@ switch_column:
     } else if (next_cursor < menu->child->unk26) {
         cursor = next_cursor;
     }
-    buttons = *(u32 *)(input_state + 0x10);
+    buttons = ((u32)input_state->unk_010);
 after_switch_column:
 
     if (buttons & 0x4000) {
@@ -78,7 +78,7 @@ after_switch_column:
         SD_Call(0x502);
         menu->unk4D = cursor;
     }
-    if (*(u32 *)(input_state + 0x10) & 0x40) {
+    if (((u32)input_state->unk_010) & 0x40) {
         func_80036880(menu, confirm_arg1, confirm_arg2);
     }
 }

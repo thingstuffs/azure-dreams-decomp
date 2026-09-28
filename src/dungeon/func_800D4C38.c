@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
 extern s32 func_8003DB94();
@@ -12,7 +13,6 @@ extern void func_800AA888();
 extern void func_800DA660();
 
 extern void *D_800814A8;
-extern s16 D_80083228;
 extern u8 D_800D8C64[];
 extern void *D_800E262C[];
 
@@ -54,7 +54,7 @@ state_zero:
     PTR_AT(sprite, 0x2C) = D_800E262C;
     func_8003DB94(sprite,
         *(void **)((u8 *)D_800E262C +
-            (((D_80083228 + S16_AT(actor, 0x2A) + 0x100) >> 7) & 0x1C)),
+            (((gameWork.viewAngle + S16_AT(actor, 0x2A) + 0x100) >> 7) & 0x1C)),
         0);
     goto advance_state;
 
@@ -100,7 +100,7 @@ permitted:
     PTR_AT(sprite, 0x2C) = D_800E262C;
     func_8003DB94(sprite,
         *(void **)((u8 *)D_800E262C +
-            (((D_80083228 + S16_AT(actor, 0x2A) + 0x100) >> 7) & 0x1C)),
+            (((gameWork.viewAngle + S16_AT(actor, 0x2A) + 0x100) >> 7) & 0x1C)),
         0);
     S32_AT(actor, 0x1C) |= 0x40000;
     dungeonStatus.unk_0A++;

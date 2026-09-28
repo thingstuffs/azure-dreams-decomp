@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -13,7 +14,6 @@ s16 func_80095978();               /* extern */
 M2C_UNK func_80095A94();      /* extern */
 M2C_UNK func_80095C80();                      /* extern */
 M2C_UNK func_800ABD74();                      /* extern */
-extern u8 D_80083160[];
 extern u8 D_800CFCEF;
 extern M2C_UNK D_800FE488;
 
@@ -26,13 +26,13 @@ typedef struct S_80092DA8_0 {
 /* Updates a town object based on its threshold and the global update flag. */
 void func_80092DA8(s32 object_id, Rec_D_800E3D7C *object, M2C_UNK update_context) {
     s16 update_threshold;
-    u8 *town_state;
+    GameWork *town_state;
 
-    town_state = D_80083160;
+    town_state = &gameWork;
     func_80095C80(object);
     func_80094C1C(object_id);
     func_80094C74(object);
-    if (((S_80092DA8_0 *)town_state)->unk_10 & 0x40) {
+    if (((s32)town_state->unk_010) & 0x40) {
         func_80094714(object_id, object, update_context);
     }
     update_threshold = func_80095978(object, &D_800FE488);

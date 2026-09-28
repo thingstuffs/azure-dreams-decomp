@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_func_80173DD4_arg0.h"
@@ -43,7 +44,6 @@ void *func_8003FC64();                       /* extern */
 M2C_UNK func_8004491C();           /* extern */
 M2C_UNK func_800478B8();                      /* extern */
 s32 rand();                                /* extern */
-extern M2C_UNK D_80045340;
 extern M2C_UNK D_800DEA68;
 extern M2C_UNK D_80174F64;
 
@@ -86,7 +86,7 @@ s32 func_80175060(Rec_func_80173DD4_arg0 *owner, Rec_D_800E3D7C *initial_state) 
         part->unk_1A = (s16) (rotation_rand - ((biased_rotation >> 0xC) << 0xC));
         part->unk_1E = 0x1000;
         part->unk_1C = 0x1000;
-        func_8004491C(object, &D_80045340);
+        func_8004491C(object, func_80045340);
         {
             s32 copy_word_1;
 

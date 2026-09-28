@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
 typedef struct {
@@ -15,7 +16,6 @@ extern void func_80048A44(void *, u8, s32, s32);
 extern void func_8008ACDC(void *, void *, void *, void *);
 extern s32 func_80094EA4(void);
 
-extern u8 D_80083160[];
 extern s32 D_8008ACDC;
 extern u8 D_800DD008[8];
 extern u8 D_800DD010[8];
@@ -24,7 +24,7 @@ extern StateFunc D_800DD168[];
 /* Advances the camera reset animation and resumes actor state handling. */
 void to_camera_zero_00(void *actor, void *context, void *animation, void *transform)
 {
-    u8 *camera = D_80083160;
+    u8 *camera = ((u8 *)(&gameWork));
     s32 phase;
     Status *status;
 

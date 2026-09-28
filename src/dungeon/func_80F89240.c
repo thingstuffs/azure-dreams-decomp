@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 extern int abs(int);
@@ -15,7 +16,6 @@ extern void func_800DAE44(void *, s32);
 
 extern u8 D_8006DE24[];
 extern void *D_800814A8;
-extern s16 D_80083228;
 extern u8 D_80170838[16];
 extern u8 D_80171138[];
 extern u8 D_80174AD4[];
@@ -102,7 +102,6 @@ void func_80172A40(void *owner_input, void *motion_input, void *actor_input, voi
     s32 target_y;
     s32 slot_index;
     s32 item_id;
-    u8 *status;
 
 
 
@@ -272,16 +271,15 @@ state_two:
     if (((S_80172A40_4 *)actor_input)->unk_2C != D_80174AD4) {
         (*(u8 * *)((u8 *)actor_input + 0x2C)) = D_80174AD4;
         func_80047784(actor_input,
-                      D_80174AD4[((D_80083228 +
+                      D_80174AD4[((gameWork.viewAngle +
                                    ((S_80172A40_1 *)object)->unk_2A + 0x100) >> 9) & 7],
                       ((S_80172A40_0 *)owner_input)->unk_A0);
     }
 
-    status = (u8 *)&dungeonStatus.unk_00;
-    if (((S_80172A40_6 *)status)->unk_0C != 0) {
+    if (((s32)dungeonStatus.unk_0C) != 0) {
         return;
     }
-    ((S_80172A40_6 *)status)->unk_0A--;
+    dungeonStatus.unk_0A--;
     ((S_80172A40_4 *)actor_input)->unk_14 &= 0xF7FF;
     ((S_80172A40_0 *)owner_input)->unk_8C = D_80171138;
     func_800A4ACC(object);

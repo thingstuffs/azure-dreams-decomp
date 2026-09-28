@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "records/Rec_D_80082E80.h"
 extern u8 D_80080000[];
 
@@ -42,7 +43,6 @@ extern void func_800A4ACC(void *);
 extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
 
-extern u8 D_80083228[];
 extern u8 D_801714B8[];
 extern u8 D_801760CC[];
 

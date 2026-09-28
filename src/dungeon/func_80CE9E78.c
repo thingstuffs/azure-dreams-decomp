@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "records/Rec_func_80172CC0_arg0.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -15,7 +16,6 @@ typedef struct S_80173678_1 {
 
 
 extern void func_80047784();
-extern s16 D_80083228[5];
 extern u8 D_80175E9C[];
 extern u8 D_80175EA4[];
 extern u8 D_80175EAC[];
@@ -51,7 +51,7 @@ case_13:
     }
     display->unk_2C.as_pu8 = direction_table;
     func_80047784(display,
-                  direction_table[((D_80083228[0] + entity->unk_2A + 0x100) >> 9) & 7],
+                  direction_table[((gameWork.viewAngle + entity->unk_2A + 0x100) >> 9) & 7],
                   0);
     return;
 case_14:
@@ -62,7 +62,7 @@ case_14:
     }
     display->unk_2C.as_pu8 = direction_table;
     func_80047784(display,
-                  direction_table[((D_80083228[0] + entity->unk_2A + 0x100) >> 9) & 7],
+                  direction_table[((gameWork.viewAngle + entity->unk_2A + 0x100) >> 9) & 7],
                   0);
     return;
 case_15:
@@ -73,6 +73,6 @@ case_15:
     }
     display->unk_2C.as_pu8 = direction_table;
     func_80047784(display,
-                  direction_table[((D_80083228[0] + entity->unk_2A + 0x100) >> 9) & 7],
+                  direction_table[((gameWork.viewAngle + entity->unk_2A + 0x100) >> 9) & 7],
                   0);
 }

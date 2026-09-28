@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct S_800C9088_0 {
     u8 pad_00[0x8];
@@ -144,7 +145,6 @@ extern void func_80065C50(u16, void *);
 extern void func_80065DF0(u16, void *);
 extern void func_8006658C(void *, void *);
 extern void func_8006671C(void *);
-extern u8 D_80083160[];
 
 /* Transform, shade, and enqueue visible textured quads for the model. */
 void func_800C9088(void *parent_matrix, void *translation, void *model, s16 depth_bias)
@@ -158,7 +158,7 @@ void func_800C9088(void *parent_matrix, void *translation, void *model, s16 dept
     u8 *packet;
     u8 *base_color;
     u8 *state;
-    u8 **state_table = (u8 **)D_80083160;
+    u8 **state_table = (u8 **)((u8 *)(&gameWork));
     u8 *descriptor;
     u8 *vertex0;
     u8 *vertex1;

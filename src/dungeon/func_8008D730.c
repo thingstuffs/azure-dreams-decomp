@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -12,7 +13,6 @@ extern s32 func_800A2B04();
 
 extern u16 D_80013714;
 extern u8 D_80082E80[];
-extern s16 D_80083228;
 extern s32 D_80083460_count __asm__("D_80083460");
 extern s32 D_8008ACDC;
 extern u8 D_800DCFF8[];
@@ -88,15 +88,12 @@ void func_80092E90(void *controller, void *motion, void *actor, void *entry)
     s16 match_result;
     s16 frames_left;
     s16 move_frames;
-    s16 *move_state;
     u16 frame_count;
     u8 state;
     void *count_state;
-    void *end_state;
     void *node;
 
-    move_state = (s16 *)&dungeonStatus.unk_00;
-    move_frames = ((S_80092E90_0 *)move_state)->unk_04;
+    move_frames = dungeonStatus.unk_04;
     if (move_frames != 0) {
         target_pos = ((S_80092E90_1 *)actor)->unk_24 << 6;
         tile_origin = ((Rec_D_800E3D7C *)motion)->unk_00.at02_s16.v - 0x20;
@@ -106,7 +103,7 @@ void func_80092E90(void *controller, void *motion, void *actor, void *entry)
         tile_origin -= 0x20;
         target_pos = ((S_80092E90_1 *)actor)->unk_25 << 6;
         ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v =
-            ((target_pos - tile_origin) << 16) / ((S_80092E90_0 *)move_state)->unk_04;
+            ((target_pos - tile_origin) << 16) / dungeonStatus.unk_04;
     } else {
         ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
         ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = 0;
@@ -135,7 +132,7 @@ start_effect:
     (*(void * *)((u8 *)actor + (0x2C))) = D_800DCFF8;
     func_80048A44(
         actor,
-        D_800DCFF8[((D_80083228 + ((S_80092E90_5 *)entry)->unk_2A + 0x100) >> 9) & 7],
+        D_800DCFF8[((gameWork.viewAngle + ((S_80092E90_5 *)entry)->unk_2A + 0x100) >> 9) & 7],
         0,
         1);
     ((S_80092E90_4 *)controller)->unk_9B++;
@@ -177,6 +174,5 @@ finish_effect:
     ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
     func_800A2B04(motion, ((S_80092E90_1 *)actor)->unk_24, ((S_80092E90_1 *)actor)->unk_25);
     ((S_80092E90_4 *)controller)->unk_8C = &D_8008ACDC;
-    end_state = &dungeonStatus.unk_00;
-    ((S_80092E90_8 *)end_state)->unk_0A--;
+    dungeonStatus.unk_0A--;
 }

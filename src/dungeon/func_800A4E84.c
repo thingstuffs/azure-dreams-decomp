@@ -26,7 +26,6 @@ void func_800AA5E4(Rec_func_800A9E70_arg0 *entity, void *unused, void *position,
     s32 tile_x;
     s32 tile_y;
     void *tile_x_ptr;
-    DungeonState *state;
 
     entity->unk_9A.as_s8 = 4;
     entity->unk_9B.as_s8 = 0;
@@ -50,6 +49,5 @@ retry_position:
     }
     ((Rec_D_80082E80 *)position)->unk_26.as_s8 = func_8009FB34(((Rec_D_80082E80 *)position)->unk_24, ((Rec_D_80082E80 *)position)->unk_25);
     func_800AA53C(entity_state);
-    state = ((DungeonState *)&dungeonStatus);
-    state->counter = state->counter + 1;
+    dungeonStatus.unk_0A = ((u16)dungeonStatus.unk_0A) + 1;
 }

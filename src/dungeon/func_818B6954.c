@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 #ifndef NULL
 #define NULL 0
@@ -43,7 +44,6 @@ extern s32 func_80064584();
 extern s32 rand();
 
 extern u8 D_800240B8[];
-extern u8 D_80045340[];
 extern u8 D_800DEC70[];
 
 /* Create an object with randomized rotation and a radial position offset. */
@@ -89,7 +89,7 @@ s32 func_818B6954(s32 context_value, void *source_state, s32 render_param) {
         render_state->unk_1A = random_rotation - ((rotation_dividend >> 0xC) << 0xC);
         render_state->unk_1E = 0xC00;
         render_state->unk_1C = 0xC00;
-        func_8004491C(object, D_80045340);
+        func_8004491C(object, func_80045340);
         object_state = ((S_818B6954_0 *)object)->unk_08;
         position_xy = (*(s64_local *)((u8 *)source_state + 0));
         coord_work = (*(s32 *)((u8 *)source_state + 8));

@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
 void *func_8003FD64();                  /* extern */
 M2C_UNK func_8004491C();           /* extern */
 s32 rand();                                /* extern */
-extern M2C_UNK D_80045340;
 extern M2C_UNK D_800F7348;
 extern M2C_UNK D_800FBE24;
 
@@ -71,7 +71,7 @@ void func_807AFC9C(s32 spawn_arg, S_807AFC9C_2 *origin, S_807AFC9C_4 *source) {
     effect = func_8003FD64(0x212, spawn_arg);
     if (effect != NULL) {
         ((S_807AFC9C_0 *)effect)->unk_10 = &D_800F7348;
-        func_8004491C(effect, &D_80045340);
+        func_8004491C(effect, func_80045340);
         position = ((S_807AFC9C_0 *)effect)->unk_08;
         position->unk_02 = (s16) ((origin->unk_02 + (rand() & 0x3F)) - 0x20);
         position->unk_06 = (s16) ((origin->unk_06 + (rand() & 0x3F)) - 0x20);

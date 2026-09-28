@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_801724B0_arg0.h"
@@ -32,7 +33,6 @@ extern s16 func_8009A66C();
 extern s16 func_800A0818();
 extern s32 func_80172E0C();
 
-extern s16 D_80083228;
 extern u8 D_800E2348[8];
 
 /* Advance the actor along its queued path and update movement timing. */
@@ -48,7 +48,7 @@ void func_801724B0(void *motion, s32 actor_index, void *actor, void *move_data) 
             (*(u8 * *)((u8 *)actor + 0x2C)) = D_800E2348;
             func_80047784(
                 actor,
-                D_800E2348[((D_80083228 + ((S_801724B0_0 *)move_data)->unk_2A + 0x100) >> 9) & 7],
+                D_800E2348[((gameWork.viewAngle + ((S_801724B0_0 *)move_data)->unk_2A + 0x100) >> 9) & 7],
                 0);
             ((Rec_func_801724B0_arg0 *)motion)->unk_9E = 0;
         }

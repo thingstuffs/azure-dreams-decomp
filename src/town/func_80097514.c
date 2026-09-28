@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "m2c_compat.h"
 
 s32 func_8003BD84();                        /* extern */
 s32 func_800644B8();                             /* extern */
 s32 func_80064584();                             /* extern */
 s16 func_80094BC8();                        /* extern */
-extern u8 D_80083160[];
 
 typedef struct {
     u8 pad[0xC];
@@ -22,15 +22,13 @@ typedef struct S_80094C74_0 {
 
 /* Adjust the object vector toward the selected angle and limit its magnitude. */
 void func_80094C74(Func97514Object *object) {
-    u8 *global_base;
     s16 angle;
     s32 delta_x;
     s32 delta_y;
     s32 old_magnitude;
     s32 new_magnitude;
 
-    global_base = D_80083160;
-    angle = func_80094BC8(((S_80094C74_0 *)global_base)->unk_08, ((S_80094C74_0 *)global_base)->unk_C8);
+    angle = func_80094BC8(((s32)gameWork.unk_008), gameWork.viewAngle);
     if (angle != -1) {
         delta_x = func_800644B8(angle) << 6;
         delta_y = func_80064584(angle) << 6;

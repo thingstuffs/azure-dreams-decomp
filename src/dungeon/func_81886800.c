@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
@@ -285,7 +286,6 @@ extern u8 D_80026326[];
 extern u8 D_80026328[];
 extern u8 D_8002632A[];
 extern u8 D_8002632C[];
-extern u8 D_80045340[];
 extern u8 D_80026344[];
 extern u8 D_80026470[];
 extern u8 D_80026474[];
@@ -406,7 +406,7 @@ case_0:
             goto end;
         }
         if ((effect->unk_12 & 4) == 0) {
-            func_8004491C((u8 *)effect - 0x20, D_80045340);
+            func_8004491C((u8 *)effect - 0x20, func_80045340);
             sprite->unk_10 = 0x20;
             sprite->unk_0C.parts.unk_0E = 0x80;
             sprite->unk_0C.parts.unk_0D = 0x80;

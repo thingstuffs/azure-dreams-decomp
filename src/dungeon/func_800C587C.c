@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -20,7 +21,6 @@ M2C_UNK func_8004491C();           /* extern */
 s32 func_800644B8();                             /* extern */
 s32 func_80064584();                             /* extern */
 s16 rand();                                /* extern */
-extern M2C_UNK D_80045340;
 extern M2C_UNK D_800CAED0;
 extern M2C_UNK D_800E03B0;
 
@@ -75,7 +75,7 @@ void func_800CAFDC(Rec_D_800E3D7C *source, s16 effect_param, s32 render_param) {
         particle = func_8003FD64(0x212, source);
         if (particle != NULL) {
             ((S_800CAFDC_0 *)particle)->unk_10 = &D_800CAED0;
-            func_8004491C(particle, &D_80045340);
+            func_8004491C(particle, func_80045340);
             motion = ((S_800CAFDC_0 *)particle)->unk_08;
             motion->unk_02 = (s16) ((((S_800CAFDC_5 *)(source->unk_08.at00_pv.v))->unk_02 + (rand() & 0x3F)) - 0x20);
             motion->unk_06 = (s16) ((((S_800CAFDC_5 *)(source->unk_08.at00_pv.v))->unk_06 + (rand() & 0x3F)) - 0x20);

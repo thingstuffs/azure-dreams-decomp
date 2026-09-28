@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 extern int abs(int);
 
@@ -108,10 +110,8 @@ extern void func_800A56E0(s32);
 extern s32 func_800A94A0(void *, u8 *, s32, u16 *);
 extern void func_800DA840(void *, s16);
 
-extern s32 D_80045340;
 extern ItemData D_8006DE24[];
 extern void *D_800814A8;
-extern s16 D_80083228;
 extern u8 D_80083498[];
 extern u8 D_800D7960[];
 extern u8 D_80170838[16];
@@ -130,7 +130,6 @@ void func_801729A0(S_func_80FDD1A0_1 *actor, VecData *motion, S_func_80FDD1A0_2 
     S_func_80FDD1A0_4 *effect = 0;
     void *target;
     u8 *item_slot;
-    S_func_80FDD1A0_6 *turn_state;
     S_func_80FDD1A0_2 *effect_sprite;
     ShortVec sound_pos;
     u8 phase;
@@ -255,7 +254,7 @@ invoke_item:
             if (effect != 0) {
                 VecData *effect_motion;
 
-                func_8004491C(effect, &D_80045340);
+                func_8004491C(effect, func_80045340);
                 effect->unk_10 = D_800D7960;
                 effect_motion = effect->unk_08;
                 *effect_motion = *motion;
@@ -288,7 +287,7 @@ invoke_item:
             effect_sprite = actor->unk_A8;
             effect_sprite = ((S_func_80FDD1A0_4 *)effect_sprite)->unk_0C;
             animations = effect_sprite->unk_2C;
-            direction = ((D_80083228 + actor_data->unk_2A.s + 0x100) >> 9) & 7;
+            direction = ((gameWork.viewAngle + actor_data->unk_2A.s + 0x100) >> 9) & 7;
             func_80047784(effect_sprite, animations[direction], 0);
         }
         if (func_800A94A0(actor_data, item_slot, use_player,
@@ -347,17 +346,16 @@ empty_selection:
         *(void **)((u8 *)sprite + 0x2C) = D_80174038;
         func_80047784(
             sprite,
-            D_80174038[((D_80083228 + actor_data->unk_2A.s + 0x100) >> 9) & 7],
+            D_80174038[((gameWork.viewAngle + actor_data->unk_2A.s + 0x100) >> 9) & 7],
             0);
         motion->dz = 0;
         motion->dy = 0;
         motion->dx = 0;
         func_800A2B04(motion, sprite->unk_24, sprite->unk_25);
-        turn_state = (S_func_80FDD1A0_6 *)&dungeonStatus.unk_00;
-        if (turn_state->unk_0C != 0) {
+        if (((s32)dungeonStatus.unk_0C) != 0) {
             return;
         }
-        turn_state->unk_0A--;
+        dungeonStatus.unk_0A--;
         sprite->unk_14 &= 0xF7FF;
         actor->unk_8C = &D_80170EA8;
         func_800A4ACC(actor_data);

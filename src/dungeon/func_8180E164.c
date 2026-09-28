@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 
 typedef union {
@@ -36,7 +37,6 @@ typedef struct {
     Output *output;
 } Link;
 
-extern DungeonState D_80083160;
 extern s32 func_800644B8(s32);
 
 /* Advance the effect fades, animate its scale and phase, and pulse the linked output brightness. */
@@ -47,7 +47,7 @@ void func_80027164(Effect *effect, void *unused, Output *output) {
     u16 duration;
     s16 scale;
     Output *linked_output;
-    DungeonState *dungeon = &D_80083160;
+    DungeonState *dungeon = ((DungeonState *)&gameWork);
 
     if (effect->state == 0) {
         tick = effect->count - 1;

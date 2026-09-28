@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
 typedef struct {
@@ -49,7 +50,6 @@ typedef struct {
 } Global83460;
 
 extern u8 D_80174038[];
-extern s16 D_80083228[5];
 
 extern s32 func_80047784(void *, u8, s32);
 extern void func_8009C93C(void *, void *, s16, s32, s32);
@@ -122,7 +122,7 @@ s32 func_80171E28(Arg0 *action_state, s32 action_id, Arg2 *sprite, Arg3 *actor) 
 
     direction_frames = D_80174038;
     sprite->field_2c = direction_frames;
-    func_80047784(sprite, direction_frames[(((s32)D_80083228[0] + actor->field_2a + 0x100) >> 9) & 7], 0);
+    func_80047784(sprite, direction_frames[(((s32)gameWork.viewAngle + actor->field_2a + 0x100) >> 9) & 7], 0);
     actor->field_6d--;
     func_8009C93C(actor, sprite, actor->field_2a, 1, 0);
     if ((action_state->field_98 & 0x8000) == 0) {

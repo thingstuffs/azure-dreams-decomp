@@ -94,7 +94,7 @@ s32 func_800CD6E0(void *source, s32 passthrough_1, s32 passthrough_2, s32 passth
     S_800CD6E0_6 *sprite;
     S_800CD6E0_7 *effect_link;
     s16 *x_offsets;
-    u16 *effect_counts;
+    DungeonGlobalStatus *effect_counts;
     s32 effect_index;
     register s32 random_or_effect_id ASM_REG("$4");
     s32 divisor;
@@ -132,7 +132,7 @@ check_gate:
 
         effect_index = 0;
         update_callback = (void *)D_800CD474;
-        effect_counts = ((u16 *)(&dungeonStatus));
+        effect_counts = &dungeonStatus;
         x_offsets = dirStepX;
         do {
             ((S_800CD6E0_2 *)((effect = func_8003FC64(2))))->unk_10 = update_callback;
@@ -180,7 +180,7 @@ check_gate:
             effect_link->unk_08 = effect_index;
             ((S_800CD6E0_3 *)effect)->unk_20 = source;
             effect_index++;
-            effect_counts[5]++;
+            effect_counts->unk_0A++;
             func_800A56E0(random_or_effect_id, sprite, position, color);
         } while (effect_index < 4);
 

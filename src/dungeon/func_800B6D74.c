@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct S_800BC4D4_0 {
     u8 pad_00[0x8D0];
@@ -152,10 +153,9 @@ extern void func_80065820(void *, void *);
 extern void func_8006658C(void *, void *);
 extern void func_80067EF4(void *, s32, s32);
 extern u8 D_8006CD30[];
-extern u8 D_80083160[];
 
 #ifdef NON_MATCHING
-#define GLOBAL_PAGE_8008 (D_80083160 - 0x3160)
+#define GLOBAL_PAGE_8008 (((u8 *)(&gameWork)) - 0x3160)
 #else
 #define GLOBAL_PAGE_8008 ((u8 *)0x80080000)
 #endif
@@ -195,16 +195,16 @@ void func_800BC4D4(void *position, void *sprite, u16 world_z, s32 depth_bias)
     u16 world_y;
 
     screen_pos = (u8 *)((u32)screen_pos | 0xB8);
-    ASM_KEEP_MEMDEP_NV(scratch_base, page_reg, *(u8 **)D_80083160);
+    ASM_KEEP_MEMDEP_NV(scratch_base, page_reg, *(u8 **)((u8 *)(&gameWork)));
     perspective = scratch_base;
     ASM_KEEP_NV(perspective);
     scratch = scratch_base;
     perspective = (u8 *)((u32)perspective | 0x90);
-    root = *(u8 **)D_80083160;
+    root = *(u8 **)((u8 *)(&gameWork));
     packet = ((S_800BC4D4_0 *)root)->unk_8D0;
     ((S_800BC4D4_1 *)scratch)->unk_20 = root + 0xB0;
 #ifdef NON_MATCHING
-    global_page = D_80083160 - 0x3160;
+    global_page = ((u8 *)(&gameWork)) - 0x3160;
 #else
     ASM_SET(global_page);
 #endif

@@ -37,7 +37,6 @@ void func_80173420(S_80173420_0 *action, Rec_D_800E3D7C *motion, Rec_D_80082E80 
     s32 biased_velocity_x;
     s32 biased_velocity_y;
     s32 tracked_entity;
-    s32 *global_state;
     s16 *directions_x;
     s32 ticks_left;
     s32 phase;
@@ -146,10 +145,9 @@ settle_position:
     motion->unk_0C.as_s32 = 0;
     func_800A2B04(motion, grid_pos->unk_24, grid_pos->unk_25);
 
-    global_state = &dungeonStatus.unk_00;
-    tracked_entity = global_state[4];
+    tracked_entity = ((s32)dungeonStatus.unk_10);
     if (tracked_entity == (s32)((u8 *)entity - 0x20)) {
-        global_state[4] = tracked_entity & 0x7FFFFFFF;
+        dungeonStatus.unk_10 = tracked_entity & 0x7FFFFFFF;
     }
     action->unk_8C = D_801710F4;
 }

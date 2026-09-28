@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dir_step.h"
 
 extern s16 func_800ABEEC(s16, s32, s32);
@@ -10,7 +11,6 @@ typedef struct {
     s16 field16;
 } Config;
 
-extern Config D_8008333C;
 
 /* Counts flagged tiles along a direction for up to ten in-bounds positions. */
 s32 func_800AC1B0(s16 direction, s16 start_x, s16 start_y, s32 unused) {
@@ -38,8 +38,8 @@ s32 func_800AC1B0(s16 direction, s16 start_x, s16 start_y, s32 unused) {
     y = start_y;
     steps_left = 0xA;
     flagged_count = 0;
-    config = &D_8008333C;
-    tile_data = *(u16 **)&D_8008333C;
+    config = ((Config *)((u8 *)&gameWork + 476));
+    tile_data = *(u16 **)((Config *)((u8 *)&gameWork + 476));
     tiles = tile_data;
     if (start_x < 0) {
         goto invalid_position;

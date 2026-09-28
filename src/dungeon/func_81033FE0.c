@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
 
@@ -24,8 +26,6 @@ extern s16 func_800BCB04(u16, u16, s16);
 extern s32 func_80174A00(void *, u16, u16, s16);
 extern void func_80175494(void *, void *, void *);
 
-extern s32 D_80045340;
-extern s16 D_80083228;
 extern M2C_UNK D_800DE870;
 extern void *D_80170890[];
 extern u8 D_80170B48[];
@@ -197,7 +197,7 @@ state_1:
             particle_work += 0x20;
             ((S_801757E0_3 *)particle_work)->unk_1E = 0x28;
             ((S_801757E0_4 *)particle)->unk_10 = D_80170B48;
-            func_8004491C(particle, &D_80045340);
+            func_8004491C(particle, func_80045340);
 
             sprite = ((S_801757E0_4 *)particle)->unk_0C;
             ((S_801757E0_5 *)sprite)->unk_14 |= 0x0C;
@@ -331,7 +331,7 @@ final_flags:
         ((S_801757E0_1 *)animation)->unk_14 &= 0xF7FF;
         func_80047784(animation,
             ((S_801757E0_1 *)animation)->unk_2C.p2
-                [((D_80083228 + ((S_801757E0_8 *)entity)->unk_2A.s + 0x100) >> 9) & 7],
+                [((gameWork.viewAngle + ((S_801757E0_8 *)entity)->unk_2A.s + 0x100) >> 9) & 7],
             0);
     }
     ((S_801757E0_0 *)actor)->unk_96.u = 0;
@@ -381,7 +381,7 @@ state_4:
     ((S_801757E0_0 *)actor)->unk_9B++;
     (*(void * *)((u8 *)animation + 0x2C)) = D_801760A4;
     func_80047784(animation,
-        D_801760A4[((D_80083228 + ((S_801757E0_8 *)entity)->unk_2A.s + 0x100) >> 9) & 7],
+        D_801760A4[((gameWork.viewAngle + ((S_801757E0_8 *)entity)->unk_2A.s + 0x100) >> 9) & 7],
         0);
     goto end;
 
@@ -393,7 +393,7 @@ state_5:
     if (((S_801757E0_1 *)animation)->unk_14 & 0xE000) {
         (*(void * *)((u8 *)animation + 0x2C)) = D_8017609C;
         func_80047784(animation,
-            D_8017609C[((D_80083228 + ((S_801757E0_8 *)entity)->unk_2A.s + 0x100) >> 9) & 7],
+            D_8017609C[((gameWork.viewAngle + ((S_801757E0_8 *)entity)->unk_2A.s + 0x100) >> 9) & 7],
             0);
         goto bump_state;
     }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct S_800BFFF4_0_pre {
     u8 * unk_00;
@@ -26,7 +27,6 @@ typedef struct LineG2 { u32 tag; PackedColor color0; s16 x0; s16 y0; PackedColor
 typedef struct RenderState { u8 pad0[0x8D0]; u8 *next_prim; } RenderState;
 typedef struct TownState { RenderState *render_state; } TownState;
 static __inline__ void init_line_colors(LineG2 *line, u32 color0, u32 color1) { line->color0.word = color0; line->color1.word = color1; }
-extern TownState D_80083160;
 s32 func_80065420(void *, void *, void *, void *);
 s32 func_80066460(s32, s32, s32, s32);
 void func_80066640(LineG2 *, s32);
@@ -49,7 +49,7 @@ s32 func_800BFFF4(u8 *node)
     s32 ot_offset;
     s32 zero;
 
-    town = &D_80083160;
+    town = ((TownState *)&gameWork);
     do {
         line = (LineG2 *)town->render_state->next_prim;
         town->render_state->next_prim = (u8 *)line + 0x14;

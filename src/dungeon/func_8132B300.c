@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
+#include "shared/game_work.h"
 #include "m2c_compat.h"
 
 typedef struct S_80172B00_0 {
@@ -73,8 +75,6 @@ void *func_8003FD64();                  /* extern */
 M2C_UNK func_8004491C(); /* extern */
 M2C_UNK func_80047784();         /* extern */
 M2C_UNK func_800BC26C(); /* extern */
-extern M2C_UNK D_80045340;
-extern s8 D_80083160[];
 extern s8 D_800DCECC[];
 extern M2C_UNK D_80172610;
 extern u8 D_80174C74[];
@@ -94,7 +94,6 @@ void func_80172B00(void *parent_data, S_80172B00_6 *source_pos, void *sprite_tem
     void *effect_data;
     void *effect_object;
     S_80172B00_5 *effect_pos;
-    s8 *view_state;
     CopyBlock *copy_dst;
     CopyBlock *copy_src;
     u16 template_1c;
@@ -115,10 +114,9 @@ void func_80172B00(void *parent_data, S_80172B00_6 *source_pos, void *sprite_tem
         sprite = ((S_80172B00_1 *)effect_object)->unk_0C;
         copy_dst = (CopyBlock *) sprite;
         *(Copy48 *)copy_dst = *(Copy48 *)copy_src;
-        func_8004491C(effect_object, &D_80045340);
+        func_8004491C(effect_object, func_80045340);
         ((S_80172B00_3 *)sprite)->unk_2C = D_80174C74;
-        view_state = D_80083160;
-        func_80047784(sprite, D_80174C74[((s32) (((S_80172B00_4 *)view_state)->unk_C8 + (s16) ((S_80172B00_2 *)parent_data)->unk_2A.s + 0x100) >> 9) & 7], 0);
+        func_80047784(sprite, D_80174C74[((s32) (gameWork.viewAngle + (s16) ((S_80172B00_2 *)parent_data)->unk_2A.s + 0x100) >> 9) & 7], 0);
         effect_pos = ((S_80172B00_1 *)effect_object)->unk_08;
         effect_pos->unk_02 = (u16) source_pos->unk_02;
         effect_pos->unk_06 = (u16) source_pos->unk_06;
@@ -129,7 +127,7 @@ void func_80172B00(void *parent_data, S_80172B00_6 *source_pos, void *sprite_tem
         ((S_80172B00_3 *)sprite)->unk_0E = 0x80;
         ((S_80172B00_3 *)sprite)->unk_0D = 0x80;
         ((S_80172B00_3 *)sprite)->unk_0C = 0x80;
-        direction_index = ((S_80172B00_4 *)view_state)->unk_C8;
+        direction_index = gameWork.viewAngle;
         parent_angle = ((S_80172B00_2 *)parent_data)->unk_2A.u;
    /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         setup_mode = 0;

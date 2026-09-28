@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "shared/dungeon_status.h"
 
 #ifndef NULL
@@ -74,7 +75,6 @@ extern void func_800A56E0(s32);
 extern void func_800A6508();
 extern s32 func_800A6D30(void);
 
-extern u8 D_80045340;
 extern u8 D_800CCDA0;
 extern u8 D_800DDC40[];
 extern u8 D_800DFD0C[];
@@ -100,7 +100,6 @@ s32 func_800CD004(void *source, s32 rng_arg_1, s32 rng_arg_2, s32 rng_arg_3)
     s32 variant;
     u32 height_offset;
     s32 height_delta;
-    u8 *counter;
     void *init_effect;
 
     if (D_800E3D40 == 0) {
@@ -126,7 +125,7 @@ s32 func_800CD004(void *source, s32 rng_arg_1, s32 rng_arg_2, s32 rng_arg_3)
         }
         init_effect = effect;
         ((S_800CD004_1 *)effect)->unk_10 = &D_800CCDA0;
-        func_8004491C(init_effect, &D_80045340);
+        func_8004491C(init_effect, func_80045340);
 
         map = ((S_800CD004_0_pre *)source)[-1].unk_00;
         tile_x = map->unk_24;
@@ -157,8 +156,7 @@ s32 func_800CD004(void *source, s32 rng_arg_1, s32 rng_arg_2, s32 rng_arg_3)
         ((S_800CD004_1 *)effect)->unk_20 = source;
         effect_state->unk_06 = 0xC;
 
-        counter = ((u8 *)(&dungeonStatus));
-        ((S_800CD004_6 *)counter)->unk_0A = ((S_800CD004_6 *)counter)->unk_0A + 1;
+        dungeonStatus.unk_0A = ((u16)dungeonStatus.unk_0A) + 1;
         func_800A56E0(0x50D);
         goto return_object;
     }

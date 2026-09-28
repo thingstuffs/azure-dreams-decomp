@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct S_800B0490_0 {
     u8 pad_00[0x8];
@@ -20,7 +21,6 @@ extern void SD_Call();
 extern void func_800AE4D4();
 extern void func_800AF1B4();
 extern void func_800B0424();
-extern u8 D_80083160[];
 
 
 /* Handles menu actions and directional input with held-button repeat. */
@@ -36,7 +36,7 @@ void func_800B0490(S_800B0490_1 *menu)
 
     direction = 0;
     move_mode = direction;
-    pad_state = D_80083160;
+    pad_state = ((u8 *)(&gameWork));
     held_buttons = ((S_800B0490_0 *)pad_state)->unk_08.s;
     if (held_buttons == 0) {
         goto done;

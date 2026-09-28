@@ -25,7 +25,6 @@ typedef struct S_800B253C_2 {
 
 /* Updates actor state from pending entity flags when entity processing is allowed. */
 void func_800B253C(Rec_func_800A9E70_arg0 *actor, s32 update_arg1, s32 update_arg2, Rec_D_800E3D7C *entity) {
-    u8 *shared_state;
     void *active_entity;
     s32 entity_flags;
     s32 next_state;
@@ -39,14 +38,13 @@ void func_800B253C(Rec_func_800A9E70_arg0 *actor, s32 update_arg1, s32 update_ar
                     }
                     goto update_state;
                 }
-                shared_state = ((u8 *)(&dungeonStatus));
-                active_entity = ((S_800B253C_2 *)shared_state)->unk_0C;
+                active_entity = dungeonStatus.unk_0C;
                 if (active_entity != entity) {
-                    if ((((S_800B253C_2 *)shared_state)->unk_10 == 0) && (active_entity == 0) &&
-                        (((S_800B253C_2 *)shared_state)->unk_08 == 0) &&
-                        !(((S_800B253C_2 *)shared_state)->unk_02 & 0x2008) &&
+                    if ((((s32)dungeonStatus.unk_10) == 0) && (active_entity == 0) &&
+                        (dungeonStatus.unk_08 == 0) &&
+                        !(dungeonStatus.flags & 0x2008) &&
                         (entity->unk_43 == 0xFD)) {
-                        ((S_800B253C_2 *)shared_state)->unk_0C = entity;
+                        dungeonStatus.unk_0C = entity;
                         goto check_entity;
                     }
                 } else {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
 typedef struct Actor Actor;
@@ -56,7 +57,6 @@ struct Entity {
 };
 
 extern u8 D_8006CCF8[8];
-extern s16 D_80083228;
 extern u8 D_80171094;
 extern u8 D_80176460[8];
 extern u8 D_80176490[8];
@@ -104,7 +104,7 @@ void func_80170AE8(Actor *input_actor, Motion *input_motion, Entity *input_entit
 
     entity_flags = input_entity->flags14;
     if (!(entity_flags & 0x8000)) {
-        direction = ((D_80083228 + input_actor->angle + 0x100) >> 9) & 7;
+        direction = ((gameWork.viewAngle + input_actor->angle + 0x100) >> 9) & 7;
         direction_index = direction;
 
         if (input_actor->direction94 != direction) {

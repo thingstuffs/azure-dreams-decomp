@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
@@ -66,7 +67,6 @@ typedef struct StackPair {
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern int D_800814A8[4];
 struct S_8003E2D8; typedef struct S_8003E2D8 S_8003E2D8;
-extern struct S_8003E2D8 D_80083160;
 extern s16 D_800269F8[5];
 extern void *D_80024008[];
 s32 func_800244EC();                     /* extern */
@@ -90,12 +90,12 @@ void func_80024064(void *transition) {
     s32 result_or_state;
     u8 transition_kind;
     void *transition_data;
-    S_8003E2D8 *levels;
+    GameWork *levels;
     void *active_state;
     void *source_data;
-    s32 *parent_state;
+    DungeonGlobalStatus *parent_state;
 
-    levels = &D_80083160;
+    levels = &gameWork;
     state_or_frames = ((S_80024064_0 *)transition)->unk_0A.s;
     if ((u32) state_or_frames >= 5U) {
         goto update_dimming;
@@ -143,16 +143,16 @@ wait_for_transition:
     result_or_state = ((S_80024064_0 *)transition)->unk_0A.p;
     goto increment_loaded;
 restore_levels:
-    ((S_80024064_4 *)levels)->unk_A9 = (u8) (((S_80024064_4 *)levels)->unk_A9 + ((s32) (0x80 - ((S_80024064_4 *)levels)->unk_A9) / (s16) ((S_80024064_0 *)transition)->unk_1A));
+    levels->unk_0A9 = (u8) (levels->unk_0A9 + ((s32) (0x80 - levels->unk_0A9) / (s16) ((S_80024064_0 *)transition)->unk_1A));
     restore_frames = ((S_80024064_0 *)transition)->unk_1A;
-    ((S_80024064_4 *)levels)->unk_A8 = (u8) (((S_80024064_4 *)levels)->unk_A8 + ((s32) (0x80 - ((S_80024064_4 *)levels)->unk_A8) / restore_frames));
+    levels->unk_0A8 = (u8) (levels->unk_0A8 + ((s32) (0x80 - levels->unk_0A8) / restore_frames));
     restore_left = (u16) ((S_80024064_0 *)transition)->unk_1A - 1;
     ((S_80024064_0 *)transition)->unk_1A = restore_left;
     if ((restore_left << 0x10) > 0) {
         goto update_dimming;
     }
-    ((S_80024064_4 *)levels)->unk_A9 = 0x80U;
-    ((S_80024064_4 *)levels)->unk_A8 = 0x80U;
+    levels->unk_0A9 = 0x80U;
+    levels->unk_0A8 = 0x80U;
 increment_state:
     result_or_state = ((S_80024064_0 *)transition)->unk_0A.p;
 increment_loaded:
@@ -162,17 +162,17 @@ finish_transition:
     if ((s16) *D_800269F8 != 0) {
         goto update_dimming;
     }
-    parent_state = ((s32 *)(&dungeonStatus));
-    ((S_80024064_5 *)parent_state)->unk_0C = 0;
-    ((S_80024064_5 *)parent_state)->unk_0A = (u16) (((S_80024064_5 *)parent_state)->unk_0A - 1);
+    parent_state = &dungeonStatus;
+    parent_state->unk_0C = 0;
+    parent_state->unk_0A = (u16) (((u16)parent_state->unk_0A) - 1);
     ((S_80024064_0_pre *)transition)[-1].unk_00 = (u16) (((S_80024064_0_pre *)transition)[-1].unk_00 | 0x8000);
     objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
 update_dimming:
     if (((S_80024064_0 *)transition)->unk_20 >= 0) {
         goto clear_input;
     }
-    ((S_80024064_4 *)levels)->unk_A9 = (u8) (((S_80024064_4 *)levels)->unk_A9 + ((s32) (0x20 - ((S_80024064_4 *)levels)->unk_A9) / (s16) ((S_80024064_0 *)transition)->unk_22));
-    ((S_80024064_4 *)levels)->unk_A8 = (u8) (((S_80024064_4 *)levels)->unk_A8 + ((s32) (0x20 - ((S_80024064_4 *)levels)->unk_A8) / (s16) ((S_80024064_0 *)transition)->unk_22));
+    levels->unk_0A9 = (u8) (levels->unk_0A9 + ((s32) (0x20 - levels->unk_0A9) / (s16) ((S_80024064_0 *)transition)->unk_22));
+    levels->unk_0A8 = (u8) (levels->unk_0A8 + ((s32) (0x20 - levels->unk_0A8) / (s16) ((S_80024064_0 *)transition)->unk_22));
     dim_left = (u16) ((S_80024064_0 *)transition)->unk_22 - 1;
     ((S_80024064_0 *)transition)->unk_22 = dim_left;
     if ((dim_left << 0x10) > 0) {

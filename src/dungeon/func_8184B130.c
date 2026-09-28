@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct S_80024930_0 {
     u8 pad_00[0x18];
@@ -95,7 +96,6 @@ extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 extern u32 func_80065590(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
 extern s32 func_80066460(s32, s32, s32, s32);
-extern u8 D_80083160[];
 
 /* Draws a shaded, textured cylindrical wall using 16 quads. */
 s32 func_80024930(void *unused_data, S_80024930_1 *center, s32 unused_value, s16 rotation,
@@ -104,7 +104,7 @@ s32 func_80024930(void *unused_data, S_80024930_1 *center, s32 unused_value, s16
     u8 *scratch = (u8 *)0x1F800000;
     s32 edge_z;
     s16 segment;
-    void **global_page = (void **)D_80083160;
+    void **global_page = (void **)((u8 *)(&gameWork));
 
     ((S_80024930_0 *)scratch)->unk_18.p = (u8 *)(*global_page) + 0xB0;
     edge_z = center->unk_0A - height + 1;

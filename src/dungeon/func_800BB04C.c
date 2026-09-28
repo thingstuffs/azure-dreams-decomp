@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 #ifndef NULL
 #define NULL 0
@@ -43,7 +44,6 @@ typedef struct EntityFields {
     TailFields tail;
 } EntityFields;
 
-extern u8 D_80045340[];
 extern u8 D_800C0404[];
 extern u8 D_800DF4A4[];
 
@@ -68,7 +68,7 @@ void *func_800C07AC(EntityFields *source) {
         func_80044A50(source);
         func_800BC318(source);
         entity->field10 = D_800C0404;
-        func_8004491C(entity, D_80045340);
+        func_8004491C(entity, func_80045340);
 
         source_fields = source->field8;
         entity_fields = entity->field8;

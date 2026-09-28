@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 #include "common.h"
 #include "records/Rec_D_80016000.h"
@@ -87,7 +88,6 @@ extern void NormalColorCol(void *a0, void *a1, void *a2);
 extern void SetPolyFT4(void *p);
 extern void AddPrim(void *ot, void *p);
 
-extern void *D_80083160[3];
 
 /* Transform, light, and queue visible textured mesh quads for rendering. */
 void func_800463EC(void *unused, u8 *position, RenderObject *object, s16 depth_bias)
@@ -115,7 +115,7 @@ void func_800463EC(void *unused, u8 *position, RenderObject *object, s16 depth_b
     u16 colour;
     u32 depth;
 
-    render_globals = (u8 *)D_80083160;
+    render_globals = (u8 *)((void * *)(&gameWork));
     vertex_table = *(Vertex **)(render_globals + 0x1E4);
     normal_table = *(u8 **)(render_globals + 0x1E8);
 
@@ -160,7 +160,7 @@ void func_800463EC(void *unused, u8 *position, RenderObject *object, s16 depth_b
     SetRotMatrix((void *)0x1F8000D0);
 
     depth_offset = depth_bias;
-    render_state = D_80083160[0];
+    render_state = gameWork.unk_000;
     SPAD(scratch, void *, 0x20) = render_state + 0xB0;
     prim = *(u8 **)(render_state + 0x8D0);
     object->flags |= 0x8000;

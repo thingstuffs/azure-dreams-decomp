@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -70,7 +71,6 @@ extern void func_800DB2DC(void *, void *, void *, s32);
 
 extern u8 D_8006DE24[];
 extern void *D_800814A8;
-extern s16 D_80083228;
 extern u8 D_80170F6C[];
 extern u8 D_80175258[];
 
@@ -86,7 +86,6 @@ void func_80172DEC(void *action_state, void *transform, void *sprite, void *acto
     s32 abs_y;
     s32 target_y;
     s32 ticks_left;
-    u8 *action_status;
 
     use_global_target = 0;
     switch (((S_80172DEC_0 *)action_state)->unk_9B) {
@@ -225,15 +224,14 @@ void func_80172DEC(void *action_state, void *transform, void *sprite, void *acto
             if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 != direction_table) {
                 (*(u8 * *)((u8 *)sprite + 0x2C)) = direction_table;
                 func_80047784(sprite,
-                    direction_table[((D_80083228 + ((S_80172DEC_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                    direction_table[((gameWork.viewAngle + ((S_80172DEC_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
                     0);
             }
         }
-        action_status = (u8 *)&dungeonStatus.unk_00;
-        if (((S_80172DEC_7 *)action_status)->unk_0C != 0) {
+        if (((s32)dungeonStatus.unk_0C) != 0) {
             return;
         }
-        ((S_80172DEC_7 *)action_status)->unk_0A = ((S_80172DEC_7 *)action_status)->unk_0A - 1;
+        dungeonStatus.unk_0A = ((u16)dungeonStatus.unk_0A) - 1;
         ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
         ((S_80172DEC_0 *)action_state)->unk_8C = D_80170F6C;
         func_800A4ACC(actor);

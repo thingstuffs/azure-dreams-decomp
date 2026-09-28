@@ -40,7 +40,7 @@ typedef struct S_800AD9B4_3 {
 s32 func_800AD9B4(Rec_D_80082E80 *actor, void *target)
 {
     u8 *player;
-    u8 *dungeon_state;
+    DungeonGlobalStatus *dungeon_state;
     DungeonEntry *entries;
     s32 entry_index;
     s32 result;
@@ -76,12 +76,12 @@ process_entry:
             goto skip;
         }
 
-        dungeon_state = (u8 *)&dungeonStatus.unk_00;
-        if (((S_800AD9B4_3 *)dungeon_state)->unk_02 & 0x1000) {
+        dungeon_state = &dungeonStatus;
+        if (dungeon_state->flags & 0x1000) {
             adjustment = ((Rec_D_800E3D7C *)target)->unk_71.as_s8;
             if (adjustment > 0) {
-                ((S_800AD9B4_3 *)dungeon_state)->unk_08 =
-                    ((S_800AD9B4_3 *)dungeon_state)->unk_08 -
+                dungeon_state->unk_08 =
+                    ((u16)dungeon_state->unk_08) -
                     (adjustment - ((Rec_D_800E3D7C *)target)->unk_8A.as_u16);
                 ((Rec_D_800E3D7C *)target)->unk_71.as_s8 = 0;
             }

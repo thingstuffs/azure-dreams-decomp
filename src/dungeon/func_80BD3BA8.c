@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -12,7 +13,6 @@ extern void func_800AA36C();
 extern s16 func_800BCB04();
 
 extern u8 D_8006CCF8[8];
-extern s16 D_80083228;
 extern s32 D_8015F9DC;
 extern u8 D_80162634[8];
 extern u8 D_80162644[8];
@@ -112,7 +112,7 @@ void func_8015F3A8(void *entity, S_8015F3A8_0 *motion, void *sprite)
     initial_flags = ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v;
 
     if (!(initial_flags & 0x8000)) {
-        direction = ((D_80083228 + ((S_8015F3A8_2 *)entity_base)->unk_2A + 0x100) >> 9) & 7;
+        direction = ((gameWork.viewAngle + ((S_8015F3A8_2 *)entity_base)->unk_2A + 0x100) >> 9) & 7;
         if ((*(s16 *)((u8 *)entity + 0x94)) != direction) {
             func_80047738(sprite,
                 *(u8 *)(((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 + direction),

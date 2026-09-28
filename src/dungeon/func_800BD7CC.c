@@ -17,7 +17,7 @@ s32 func_800C2F2C(void *actor, u8 *item, s16 action) {
     s16 entry_index;
     s32 message_handle;
     s32 saved_handle, object_addr;
-    s32 *counter_base;
+    DungeonGlobalStatus *counter_base;
     void *entity;
     u8 *object_fields;
     u8 *entries;
@@ -56,7 +56,7 @@ s32 func_800C2F2C(void *actor, u8 *item, s16 action) {
         func_800C8CD8(actor, 0x100, 0x10);
         func_8009A21C(F(entity, u8, 0x24), F(entity, u8, 0x25), 0x10);
         func_80098B38(item);
-        counter_base = &dungeonStatus.unk_00;
+        counter_base = &dungeonStatus;
         F(counter_base, u16, 0xA)--;
         return 1;
     }

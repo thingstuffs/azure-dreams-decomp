@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 
@@ -22,7 +23,6 @@ typedef struct S_800BA6B8_1 {
 
 
 s32 func_800644B8();                             /* extern */
-extern u16 D_80083164;
 extern u16 D_800DF37C;
 
 /* Updates enabled output channels with a shared value and sets flags when active. */
@@ -33,7 +33,7 @@ void func_800BA6B8(void *channel_config, void *unused, void *output) {
         (*(u16 *)((u8 *)channel_config + -2)) = (u16) (((S_800BA6B8_0_pre *)channel_config)[-1].unk_00 | 0x8000);
         objectFlagBlock.flags |= 0x8000;
     }
-    channel_value = (func_800644B8(D_80083164 << 8) >> 7) - 0x80;
+    channel_value = (func_800644B8(gameWork.unk_004 << 8) >> 7) - 0x80;
     if (((S_800BA6B8_0 *)channel_config)->unk_30 != 0) {
         ((S_800BA6B8_1 *)output)->unk_0C = channel_value;
     }

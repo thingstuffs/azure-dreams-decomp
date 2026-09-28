@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
 typedef struct S_801721A4_0 {
@@ -48,13 +49,11 @@ extern s32 func_800A2BDC(void *);
 extern void func_800A56E0(s32);
 extern s32 func_800A6D30(void);
 
-extern s16 D_80083228;
 extern u8 D_80173D88[9];
 
 /* Start the actor's reaction step: clear its 0x71 busy bit and, when the global 0x2000 mode is off and the ready query says 0, randomise its facing, arm state 0x17, cue 0x811 and point the part at the direction table. */
 void func_801721A4(S_801721A4_1 *owner, void *unused, S_801721A4_2 *part, S_801721A4_0 *actor)
 {
-    u8 *state;
 
     actor->unk_71 &= 0x7F;
     if (!(dungeonStatus.flags & 0x2000) &&
@@ -79,8 +78,7 @@ void func_801721A4(S_801721A4_1 *owner, void *unused, S_801721A4_2 *part, S_8017
 
         part->unk_14 |= 0xC;
         part->unk_12 -= 0x80;
-        state = ((u8 *)(&dungeonStatus));
-        ((S_801721A4_3 *)state)->unk_0A++;
+        dungeonStatus.unk_0A++;
         actor->unk_6D--;
         part->unk_2C = D_80173D88;
         part->unk_0C = 0xFFFFFF;
@@ -88,7 +86,7 @@ void func_801721A4(S_801721A4_1 *owner, void *unused, S_801721A4_2 *part, S_8017
         func_800A56E0(0x811);
         func_80047784(part,
             part->unk_2C[
-                ((D_80083228 + actor->unk_2A.u + 0x100) >> 9) & 7],
+                ((gameWork.viewAngle + actor->unk_2A.u + 0x100) >> 9) & 7],
             0);
     }
 }

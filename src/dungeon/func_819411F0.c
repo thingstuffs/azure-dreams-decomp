@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
 typedef struct {
@@ -8,7 +9,6 @@ typedef struct {
 void *func_8003FC64();
 M2C_UNK func_8004491C();
 extern M2C_UNK D_800249A0;
-extern M2C_UNK D_80045340;
 
 
 typedef struct S_800249F0_0 {
@@ -67,7 +67,7 @@ void *func_800249F0(void *source, s32 unused_1, s32 unused_2, void *packed_data,
         state = object + 0x20;
         state->unk_2A = 0x3C;
         (*(M2C_UNK **)((u8 *)object + 0x10)) = &D_800249A0;
-        func_8004491C(object, &D_80045340);
+        func_8004491C(object, func_80045340);
         render_state = (*(void **)((u8 *)object + 0xC));
         flags = ((S_800249F0_1 *)render_state)->unk_14 | 0xC;
         ((S_800249F0_1 *)render_state)->unk_14 = flags;

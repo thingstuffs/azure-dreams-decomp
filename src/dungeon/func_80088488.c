@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -10,7 +11,6 @@ extern s32 func_80094F74(void *, void *, void *, void *);
 extern void func_800A2B04(void *, u8, u8);
 
 extern u16 D_80013714;
-extern s16 D_80083228;
 extern s32 D_8008ACDC;
 extern u8 D_800DD050[];
 
@@ -27,7 +27,6 @@ typedef struct S_8008DBE8_5 {
 
 /* Move toward the target tile, update the animation, and finish when the timer expires. */
 void func_8008DBE8(void *entity, void *motion, void *sprite, void *facing) {
-    void *status = &dungeonStatus.unk_00;
     void *late_status;
     u32 status_page;
     s32 frames_left;
@@ -37,11 +36,11 @@ void func_8008DBE8(void *entity, void *motion, void *sprite, void *facing) {
     s16 timer;
     u16 flags;
 
-    if (((S_8008DBE8_0 *)status)->unk_02 & 0x80) {
-        ((S_8008DBE8_0 *)status)->unk_04 = 0;
+    if (dungeonStatus.flags & 0x80) {
+        dungeonStatus.unk_04 = 0;
     }
 
-    timer = ((S_8008DBE8_0 *)status)->unk_04;
+    timer = dungeonStatus.unk_04;
     if (timer != 0) {
         x_velocity =
             ((((((Rec_D_80082E80 *)sprite)->unk_24 << 6) + 0x20) << 16) -
@@ -49,7 +48,7 @@ void func_8008DBE8(void *entity, void *motion, void *sprite, void *facing) {
             timer;
         y_position = ((Rec_D_800E3D7C *)motion)->unk_04.at00_s32.v;
         ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = x_velocity;
-        move_frames = ((S_8008DBE8_0 *)status)->unk_04;
+        move_frames = dungeonStatus.unk_04;
         ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v =
             ((((((Rec_D_80082E80 *)sprite)->unk_25 << 6) + 0x20) << 16) -
              y_position) /
@@ -57,7 +56,7 @@ void func_8008DBE8(void *entity, void *motion, void *sprite, void *facing) {
     }
 
     if (((Rec_func_8008ACDC_arg0 *)entity)->unk_A2 & 0x100) {
-        frames_left = ((S_8008DBE8_0 *)status)->unk_04;
+        frames_left = dungeonStatus.unk_04;
         if (((*(u16 *)0x80013714 & 8) && frames_left == 3) ||
             (!(*(u16 *)0x80013714 & 8) && frames_left == 6)) {
             func_8008D94C(entity, motion, sprite, facing);
@@ -73,7 +72,7 @@ continue_update:
             *(u8 **)((u8 *)sprite + 0x2C) = D_800DD050;
             func_80048A44(
                 sprite,
-                D_800DD050[((D_80083228 + ((Rec_D_800E3D7C *)facing)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+                D_800DD050[((gameWork.viewAngle + ((Rec_D_800E3D7C *)facing)->unk_2A.as_s16 + 0x100) >> 9) & 7],
                 0,
                 1);
         }

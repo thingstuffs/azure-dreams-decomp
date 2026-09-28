@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct DungeonDrawState {
     u8 pad[0x8D0];
@@ -32,7 +33,6 @@ typedef union DungeonSignedProduct {
 } DungeonSignedProduct;
 #endif
 
-extern DungeonDrawState *D_80083160[];
 extern s32 func_80065420(void *arg0, void *arg1, void *arg2, void *arg3);
 extern void func_80066640(void *arg0, s32 arg1);
 extern void func_800666F4(void *arg0);
@@ -51,10 +51,10 @@ s32 func_800249BC(void *shape_data)
 #ifdef __mips__
     u8 *draw_state_page = (u8 *)0x80080000;
     DungeonDrawState **draw_state_p = ({
-        (DungeonDrawState **)((u8 *)&D_80083160);
+        (DungeonDrawState **)((u8 *)((DungeonDrawState * *)(&gameWork)));
     });
 #else
-    DungeonDrawState **draw_state_p = D_80083160;
+    DungeonDrawState **draw_state_p = ((DungeonDrawState * *)(&gameWork));
 #endif
     u16 (*points_base)[2] = points;
     s32 *half_width_p = &half_width;

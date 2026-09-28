@@ -32,7 +32,6 @@ void func_800AD594(S_800AD594_0 *entity, s32 base_reduction) {
     s32 one;
     u8 initial_level;
     u8 level_limit;
-    u8 *counter_base;
 
     reduction = base_reduction;
     if (entity->unk_13.s > 0) {
@@ -74,9 +73,8 @@ void func_800AD594(S_800AD594_0 *entity, s32 base_reduction) {
                 func_80094E34();
             }
             if (initial_level != 0) {
-                counter_base = (u8 *)&dungeonStatus.unk_00;
-                ((S_800AD594_1 *)counter_base)->unk_0A =
-                    ((S_800AD594_1 *)counter_base)->unk_0A + 1;
+                dungeonStatus.unk_0A =
+                    ((u16)dungeonStatus.unk_0A) + 1;
             }
         }
     }

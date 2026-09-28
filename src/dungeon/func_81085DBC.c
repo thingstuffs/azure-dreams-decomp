@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
@@ -12,7 +13,6 @@ extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
 extern s32 func_8017589C(void *, void *, void *);
 
-extern s16 D_80083228;
 extern u8 D_80170850[20];
 extern M2C_UNK D_80170E94;
 extern u8 D_80175F10[8];
@@ -72,7 +72,7 @@ L0:
     }
     (*(u8 * *)((u8 *)arg2 + (0x2C))) = D_80175F40;
     func_80047784(arg2,
-        D_80175F40[((D_80083228 + ((S_801735BC_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+        D_80175F40[((gameWork.viewAngle + ((S_801735BC_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
         0);
     ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
     ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
@@ -107,7 +107,7 @@ L2:
     }
     (*(u8 * *)((u8 *)arg2 + (0x2C))) = D_80175F68;
     func_80047784(arg2,
-        D_80175F68[((D_80083228 + ((S_801735BC_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+        D_80175F68[((gameWork.viewAngle + ((S_801735BC_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
         0);
     ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v |= 0x0800;
 Ladvance:
@@ -119,7 +119,7 @@ L3:
     if (flags3 & 0x8000) {
         (*(u8 * *)((u8 *)arg2 + (0x2C))) = D_80175F68;
         func_80047784(arg2,
-            D_80175F68[((D_80083228 + ((S_801735BC_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            D_80175F68[((gameWork.viewAngle + ((S_801735BC_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v |= 0x0800;
         return;
@@ -135,7 +135,7 @@ Lgate:
     }
     (*(u8 * *)((u8 *)arg2 + (0x2C))) = D_80175F10;
     func_80047784(arg2,
-        D_80175F10[((D_80083228 + ((S_801735BC_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+        D_80175F10[((gameWork.viewAngle + ((S_801735BC_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
         0);
     ((S_801735BC_0 *)arg0)->unk_AE = 0;
     ((S_801735BC_1 *)actor)->unk_14 &= ~0x40000000;

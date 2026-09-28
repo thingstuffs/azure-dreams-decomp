@@ -50,7 +50,6 @@ void func_80097AF8(S_80097AF8_0 *actor, S_80097AF8_1 *motion, S_80097AF8_2 *stat
     s32 owner_flags;
     u16 state_ticks;
     u8 next_state;
-    u8 *shared_state;
 
     state = actor->unk_9B;
     if (state == 1) {
@@ -99,14 +98,13 @@ state_two:
     if ((status->unk_14 & 0x6000) == 0) {
         goto done;
     }
-    shared_state = (u8 *)&dungeonStatus.unk_00;
-    if (((S_80097AF8_3 *)shared_state)->unk_0A != 0) {
+    if (dungeonStatus.unk_0A != 0) {
         goto done;
     }
     owner_flags = owner->unk_1C;
     if (owner_flags & 0x200000) {
         owner->unk_1C = owner_flags & 0xFFDFFFFF;
-        ((S_80097AF8_3 *)shared_state)->unk_02 |= 0x412;
+        dungeonStatus.flags |= 0x412;
         func_80099F70(owner->unk_5C);
         func_80099F04(owner->unk_5C);
     }

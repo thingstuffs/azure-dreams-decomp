@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -17,7 +18,6 @@ extern void func_80174BC8(void *, void *, void *);
 
 extern u8 D_8006DE24[];
 extern void *D_800814A8;
-extern s16 D_80083228;
 extern void *D_80170868[];
 extern M2C_UNK D_80170E94;
 extern u8 D_80175F10[8];
@@ -264,7 +264,7 @@ state_3:
     if (((S_801738B4_2 *)entity)->unk_2C != D_80175F10) {
         (*(u8 * *)((u8 *)entity + 0x2C)) = D_80175F10;
         func_80047784(entity,
-            D_80175F10[((D_80083228 + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7],
+            D_80175F10[((gameWork.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7],
             0);
     }
 

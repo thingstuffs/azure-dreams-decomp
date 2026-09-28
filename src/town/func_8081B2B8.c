@@ -1,3 +1,4 @@
+#include "shared/slus_callbacks.h"
 
 struct S_80083178
 {
@@ -50,7 +51,6 @@ typedef s32 M2C_UNK;
 extern void *func_8003FC64();
 extern M2C_UNK func_8004491C();
 extern u8 D_8002609C[];
-extern u8 D_80045340[];
 extern u8 D_800F15AC[];
 /* Creates a sprite at the given position and applies color-specific settings. */
 void func_800252B8(s32 color, s32 x, s32 y, s32 z)
@@ -63,7 +63,7 @@ void func_800252B8(s32 color, s32 x, s32 y, s32 z)
   if (object != 0)
   {
     *((M2C_UNK **) (((s8 *) object) + 0x10)) = &D_8002609C;
-    func_8004491C(object, &D_80045340);
+    func_8004491C(object, func_80045340);
     sprite = *((void **) (((s8 *) object) + 0xC));
     *((s32 *) (((s8 *) (*((void **) (((s8 *) object) + 8)))) + 0)) = x;
     *((s32 *) (((s8 *) (*((void **) (((s8 *) object) + 8)))) + 4)) = y;

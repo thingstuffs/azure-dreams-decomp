@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -16,7 +17,6 @@ extern void func_800AA888(void *, s32, void *, void *);
 extern void func_801743E8(void *, s32, void *, void *);
 
 extern void *D_800814A8;
-extern s16 D_80083228;
 extern s32 D_80171728;
 extern u8 D_80174E4C[];
 extern u8 D_80174E54[];
@@ -58,7 +58,7 @@ void func_801740DC(void *actor_in, s32 actor_index_in, void *target_in, void *en
     s32 state;
     s32 entity_flags;
     s32 direction;
-    u8 *shared_state;
+    DungeonGlobalStatus *shared_state;
     state = ((S_801740DC_0 *)actor_in)->unk_9B;
     if (state == 1) {
         goto state_one;
@@ -79,30 +79,30 @@ state_zero:
         goto done;
     }
     {
-        u8 *shared_counter;
+        DungeonGlobalStatus *shared_counter;
 
-        shared_counter = (u8 *)&dungeonStatus.unk_00;
-        ((S_801740DC_2 *)shared_counter)->unk_0A--;
+        shared_counter = &dungeonStatus;
+        shared_counter->unk_0A--;
     }
     (*(void * *)((u8 *)target + 0x2C)) = D_80174E4C;
-    direction = (D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9;
+    direction = (gameWork.viewAngle + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9;
     func_80047784(target, D_80174E4C[direction & 7], 0);
     goto increment_state;
 
 state_one:
     if (((Rec_D_800E3D7C *)entity)->unk_24.at01_u8.v != 0) {
-        u8 *shared_counter;
+        DungeonGlobalStatus *shared_counter;
 
         (*(void * *)((u8 *)target + 0x2C)) = D_80174E54;
-        direction = (D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9;
+        direction = (gameWork.viewAngle + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9;
         func_80047784(target, D_80174E54[direction & 7], 0);
-        shared_counter = (u8 *)&dungeonStatus.unk_00;
-        ((S_801740DC_2 *)shared_counter)->unk_0A++;
+        shared_counter = &dungeonStatus;
+        shared_counter->unk_0A++;
         goto increment_state;
     }
 
-    shared_state = (u8 *)&dungeonStatus.unk_00;
-    if (((S_801740DC_4 *)shared_state)->unk_02 & 0x1000) {
+    shared_state = &dungeonStatus;
+    if (shared_state->flags & 0x1000) {
         goto done;
     }
     if (((Rec_D_800E3D7C *)entity)->unk_64.as_s16 != 0) {
@@ -140,9 +140,9 @@ state_one:
         goto done;
     }
     (*(void * *)((u8 *)target + 0x2C)) = D_80174E54;
-    direction = (D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9;
+    direction = (gameWork.viewAngle + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9;
     func_80047784(target, D_80174E54[direction & 7], 0);
-    ((S_801740DC_4 *)shared_state)->unk_0A++;
+    shared_state->unk_0A++;
 
 increment_state:
     ((S_801740DC_0 *)actor_in)->unk_9B++;
@@ -153,10 +153,10 @@ state_two:
         goto done;
     }
     {
-        u8 *shared_counter;
+        DungeonGlobalStatus *shared_counter;
 
-        shared_counter = (u8 *)&dungeonStatus.unk_00;
-        ((S_801740DC_6 *)shared_counter)->unk_0A--;
+        shared_counter = &dungeonStatus;
+        shared_counter->unk_0A--;
     }
     ((S_801740DC_0 *)actor_in)->unk_8C = &D_80171728;
 

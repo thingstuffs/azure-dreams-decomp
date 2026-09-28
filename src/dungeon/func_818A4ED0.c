@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
 void *func_8003FC64();                       /* extern */
@@ -6,7 +7,6 @@ M2C_UNK func_8004491C();           /* extern */
 s32 rand();                                /* extern */
 extern u8 D_80024674[];
 extern u8 D_80025214[];
-extern u8 D_80045340[];
 
 typedef struct S_818A4ED0_0 {
     u8 pad_00[0x8];
@@ -74,7 +74,7 @@ s32 func_818A4ED0(s32 object_param, S_818A4ED0_3 *spawn_position) {
         render_state->unk_1A = (s16) (rotation_rng % 0x1000);
         render_state->unk_1E = 0;
         render_state->unk_1C = 0;
-        func_8004491C(object, D_80045340);
+        func_8004491C(object, func_80045340);
         position = object->unk_08;
         {
             s32 unused_rng;

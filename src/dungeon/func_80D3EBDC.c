@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -68,7 +69,6 @@ extern void func_80174A68(void *, void *, void *, void *);
 
 extern void *D_800814A8;
 extern u8 D_80082E80[];
-extern s16 D_80083228;
 extern u8 D_800E2428[];
 extern u8 D_800E2430[];
 extern u8 D_80171A80[];
@@ -103,7 +103,7 @@ state_zero:
     }
     (*(void * *)((u8 *)sprite + 0x2C)) = D_800E2428;
     func_80047784(sprite,
-        D_800E2428[((D_80083228 + ((S_801743DC_2 *)entity)->unk_2A + 0x100) >> 9) & 7],
+        D_800E2428[((gameWork.viewAngle + ((S_801743DC_2 *)entity)->unk_2A + 0x100) >> 9) & 7],
         0);
     {
         u8 *counter_base = (u8 *)&dungeonStatus.unk_00;
@@ -177,7 +177,7 @@ state_one:
     }
     (*(void * *)((u8 *)sprite + 0x2C)) = D_800E2430;
     func_80047784(sprite,
-        D_800E2430[((D_80083228 + ((S_801743DC_2 *)entity)->unk_2A + 0x100) >> 9) & 7],
+        D_800E2430[((gameWork.viewAngle + ((S_801743DC_2 *)entity)->unk_2A + 0x100) >> 9) & 7],
         0);
     ((S_801743DC_2 *)entity)->unk_1C.u |= 0x40000;
     if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {

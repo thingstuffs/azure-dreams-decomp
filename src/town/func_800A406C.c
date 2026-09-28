@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct S_800A17CC_0 {
     u8 pad_00[0x8D0];
@@ -74,7 +75,6 @@ extern void func_800666F4();
 extern void func_80067F20();
 extern void func_800A130C();
 extern void func_800A1330();
-extern u8 *D_80083160;
 extern u8 D_1F800000[];
 extern s16 D_800D0A40;
 
@@ -105,7 +105,7 @@ void func_800A17CC(void *sprite, s32 position) {
 
     color = 0x800000;
     ASM_KEEP_NV(color);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    render_state = D_80083160;
+    render_state = gameWork.unk_000;
     window_size = 0x80;
     texture_window[1] = 0;
     texture_window[0] = 0;
@@ -223,7 +223,7 @@ void func_800A17CC(void *sprite, s32 position) {
     ((S_800A17CC_1 *)textured_quad)->unk_20 = SCRATCH(u16, 0xF4);
     (*(u16 *)((u8 *)textured_quad + 0x22)) = SCRATCH(u16, 0xF6);
 
-    render_state = D_80083160;
+    render_state = gameWork.unk_000;
     overlay_quad = ((S_800A17CC_0 *)render_state)->unk_8D0;
     ((S_800A17CC_0 *)render_state)->unk_8D0 = overlay_quad + 0x18;
     ((S_800A17CC_3 *)overlay_quad)->unk_04 = ((S_800A17CC_2 *)sprite)->unk_12;
@@ -240,7 +240,7 @@ void func_800A17CC(void *sprite, s32 position) {
     ((S_800A17CC_3 *)overlay_quad)->unk_14 = SCRATCH(u16, 0xF4);
     (*(u16 *)((u8 *)overlay_quad + 0x16)) = SCRATCH(u16, 0xF6);
 
-    render_state = D_80083160;
+    render_state = gameWork.unk_000;
     SCRATCH(u32, 0x24) = (s32)(render_state + 0xB0);
     draw_mode = ((S_800A17CC_0 *)render_state)->unk_8D0;
     ((S_800A17CC_0 *)render_state)->unk_8D0 = draw_mode + 0xC;
@@ -248,7 +248,7 @@ void func_800A17CC(void *sprite, s32 position) {
     func_8006658C((u8 *)SCRATCH(u32, 0x24) + (SCRATCH(s32, 0xC4) * 4), draw_mode);
     func_8006658C((u8 *)SCRATCH(u32, 0x24) + (SCRATCH(s32, 0xC4) * 4), overlay_quad);
 
-    render_state = D_80083160;
+    render_state = gameWork.unk_000;
     draw_mode = ((S_800A17CC_0 *)render_state)->unk_8D0;
     ((S_800A17CC_0 *)render_state)->unk_8D0 = draw_mode + 0xC;
     func_80067F20(draw_mode, 1, 0,
@@ -256,7 +256,7 @@ void func_800A17CC(void *sprite, s32 position) {
     func_8006658C((u8 *)SCRATCH(u32, 0x24) + (SCRATCH(s32, 0xC4) * 4), draw_mode);
     func_8006658C((u8 *)SCRATCH(u32, 0x24) + (SCRATCH(s32, 0xC4) * 4), textured_quad);
 
-    render_state = D_80083160;
+    render_state = gameWork.unk_000;
     draw_mode = ((S_800A17CC_0 *)render_state)->unk_8D0;
     ((S_800A17CC_0 *)render_state)->unk_8D0 = draw_mode + 0xC;
     func_80067F20(draw_mode, 1, 0, texture_page & 0xFFFF, texture_window);

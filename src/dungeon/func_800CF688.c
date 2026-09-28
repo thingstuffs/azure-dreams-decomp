@@ -76,7 +76,6 @@ void func_800D4DE8(void *emitter, Rec_func_800D4BD4_arg2 *position, s32 init_par
     S_800D4DE8_5 *particle_motion;
     void *particle;
     S_800D4DE8_3 *particle_state;
-    u8 *effect_state;
 
     parent = ((Rec_func_800D4BD4_arg1 *)emitter)->unk_24;
     position->unk_02.as_s16 =
@@ -119,7 +118,6 @@ void func_800D4DE8(void *emitter, Rec_func_800D4BD4_arg2 *position, s32 init_par
     if ((life_left << 0x10) <= 0) {
         ((S_800D4DE8_0_pre *)emitter)[-1].unk_00 = ((S_800D4DE8_0_pre *)emitter)[-1].unk_00 | 0x8000;
         objectFlagBlock.flags |= 0x8000;
-        effect_state = ((u8 *)(&dungeonStatus));
-        ((S_800D4DE8_6 *)effect_state)->unk_0A = ((S_800D4DE8_6 *)effect_state)->unk_0A - 1;
+        dungeonStatus.unk_0A = ((u16)dungeonStatus.unk_0A) - 1;
     }
 }

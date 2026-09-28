@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -44,7 +45,6 @@ extern void func_800AD594(void *, s32);
 extern s32 func_800AD9B4(void *, void *);
 
 extern u8 D_80082E80[];
-extern s16 D_80083228;
 extern u8 D_801596F4[];
 extern u8 D_8015D554[];
 extern u8 D_8015D574[];
@@ -96,7 +96,7 @@ state_zero:
     phase_anims = D_8015D574;
     (*(u8 * *)((u8 *)sprite + 0x2C)) = phase_anims;
     func_80047784(sprite,
-        phase_anims[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+        phase_anims[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
         0);
     ((Rec_D_80082E80 *)sprite)->unk_1C.at02_s16.v = 0x1000;
     ((S_80E7B34C_0 *)action)->unk_98 |= 8;
@@ -155,7 +155,7 @@ state_two:
         phase_anims = D_8015D57C;
         (*(u8 * *)((u8 *)sprite + 0x2C)) = phase_anims;
         func_80047784(sprite,
-            phase_anims[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            phase_anims[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
         ((Rec_D_80082E80 *)sprite)->unk_1C.at02_s16.v = 0xC00;
         ((S_80E7B34C_0 *)action)->unk_9B++;
@@ -169,7 +169,7 @@ state_three:
     if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 != idle_anims) {
         (*(u8 * *)((u8 *)sprite + 0x2C)) = idle_anims;
         func_80047784(sprite,
-            idle_anims[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            idle_anims[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
         ((Rec_D_80082E80 *)sprite)->unk_1C.at02_s16.v = 0x1000;
     }

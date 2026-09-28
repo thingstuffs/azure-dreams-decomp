@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
@@ -119,10 +121,7 @@ s32 func_800ADC4C();     /* extern */
 s32 func_800C77D0(); /* extern */
 M2C_UNK func_80174724();      /* extern */
 extern M2C_UNK D_8003E140;
-extern M2C_UNK D_80045340;
 extern s32 D_8006CD58;
-extern M2C_UNK D_80083160;
-extern s16 D_80083228;
 extern M2C_UNK D_800DCEEC;
 extern M2C_UNK D_800DCF5C;
 extern M2C_UNK D_8014A000;
@@ -144,7 +143,7 @@ void func_80C97514(void *state, Rec_D_800E3D7C *position, Rec_D_80082E80 *entity
     u8 status;
     u8 next_state;
     S_80C97514_4 *effect_data;
-    S_80C97514_3 *scene_color = &D_80083160;
+    S_80C97514_3 *scene_color = ((M2C_UNK *)&gameWork.unk_000);
     S_80C97514_11 *scene_state;
     S_80C97514_7 *render_obj;
     S_80C97514_5 *effect;
@@ -165,7 +164,7 @@ jt_c1:
     ((S_80C97514_0 *)state)->unk_9B = (u8) (((S_80C97514_0 *)state)->unk_9B + 1);
     ((Rec_D_80082E80 *)actor)->unk_8A = (u16) ((Rec_D_80082E80 *)actor)->unk_28.at02_u16.v;
 jt_c2:
-    direction = ((s32) (D_80083228 + (s16) ((Rec_D_80082E80 *)actor)->unk_28.at02_u16.v + 0x100) >> 9) & 7;
+    direction = ((s32) (gameWork.viewAngle + (s16) ((Rec_D_80082E80 *)actor)->unk_28.at02_u16.v + 0x100) >> 9) & 7;
     if ((*(u8 *)&D_801753A8) == 0) {
         goto turn_actor;
     }
@@ -219,7 +218,7 @@ jt_c4:
         goto done;
     }
     effect->unk_10 = &D_80174BE8;
-    func_8004491C(effect, &D_80045340);
+    func_8004491C(effect, func_80045340);
     ((S_80C97514_0 *)state)->unk_AC = effect;
     ((S_80C97514_14 *)(((S_80C97514_12 *)effect)->unk_08))->unk_00 = (s32) position->unk_00.at00_s32.v;
     ((S_80C97514_14 *)(((S_80C97514_12 *)effect)->unk_08))->unk_04 = (s32) position->unk_04.at00_s32.v;
@@ -278,7 +277,7 @@ jt_c7:
     ((S_80C97514_15 *)(((Rec_D_80082E80 *)actor)->unk_60.as_pv))->unk_2A = (u16) ((Rec_D_80082E80 *)actor)->unk_28.at02_u16.v;
     model = ((Rec_D_80082E80 *)actor)->unk_60.as_pv;
     render_obj = ((S_80C97514_9_pre *)model)[-1].unk_00;
-    func_80047738(render_obj, render_obj->unk_2C[((s32) (D_80083228 + (s16) ((S_80C97514_9 *)model)->unk_2A + 0x100) >> 9) & 7], render_obj->unk_04);
+    func_80047738(render_obj, render_obj->unk_2C[((s32) (gameWork.viewAngle + (s16) ((S_80C97514_9 *)model)->unk_2A + 0x100) >> 9) & 7], render_obj->unk_04);
     render_obj->unk_14 = (u16) (render_obj->unk_14 & 0xFFFE);
 jt_c8:
     finish_ticks = ((S_80C97514_0 *)state)->unk_96 - 1;

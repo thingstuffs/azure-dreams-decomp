@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
 typedef struct Copy12 {
@@ -8,7 +9,6 @@ typedef struct Copy12 {
 void *func_8003FC64(s32);
 void func_8004491C(void *, void *);
 s32 rand(void);
-extern u8 D_80045340;
 extern u8 D_801654F0[];
 extern M2C_UNK D_80173B34[3];
 
@@ -89,7 +89,7 @@ void func_8016583C(S_8016583C_0 *source, s16 duration, s32 scale, s16 offset_x, 
         effect_state->unk_14 = duration;
         effect_state->unk_32 = 8;
         effect_state->unk_34 = 8;
-        func_8004491C(effect, &D_80045340);
+        func_8004491C(effect, func_80045340);
         sprite = (*(void **)((u8 *)effect + 0xC));
         sprite->unk_1E = 0x200;
         sprite->unk_1C = 0x200;

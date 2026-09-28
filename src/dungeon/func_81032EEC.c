@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "records/Rec_func_801744DC_arg1.h"
 #include "records/Rec_func_801744DC_arg0.h"
 
@@ -60,7 +61,6 @@ extern void func_8004491C(void *, void *);
 extern void func_8003DB94(void *, void *, s32);
 extern s32 rand(void);
 
-extern s32 D_80045340;
 extern u8 D_800DECF8[];
 extern s32 D_80174300;
 extern Pair16 D_8017610C[];
@@ -79,7 +79,7 @@ void func_801746EC(Rec_func_801744DC_arg0 *source, Rec_func_801744DC_arg1 *origi
         motion = (u8 *)effect + 0x20;
         motion->unk_1E = 0x4;
         ((S_801746EC_1 *)effect)->unk_10 = &D_80174300;
-        func_8004491C(effect, &D_80045340);
+        func_8004491C(effect, func_80045340);
 
         sprite = ((S_801746EC_1 *)effect)->unk_0C;
         sprite->unk_10 = 0x20;

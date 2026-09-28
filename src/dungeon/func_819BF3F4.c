@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct S_80024BF4_0 {
     u8 pad_00[0x24];
@@ -140,7 +141,6 @@ extern void func_80064D80(void *);
 extern s32 func_80065590(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
 extern void func_80065820(void *, void *);
 extern void func_8006671C(void *);
-extern u8 D_80083160[];
 
 /* Projects a textured quad and adds it to the ordering table when visible. */
 void func_80024BF4(S_80024BF4_4 *quad, S_80024BF4_1 *position, S_80024BF4_2 *render_state, s16 depth_bias)
@@ -153,7 +153,7 @@ void func_80024BF4(S_80024BF4_4 *quad, S_80024BF4_1 *position, S_80024BF4_2 *ren
     u8 texture_flags;
     MATRIX matrix;
 
-    ((S_80024BF4_0 *)scratch)->unk_24.p = *(u8 **)D_80083160 + 0xB0;
+    ((S_80024BF4_0 *)scratch)->unk_24.p = *(u8 **)((u8 *)(&gameWork)) + 0xB0;
     ((S_80024BF4_0 *)scratch)->unk_88 = position->unk_02;
     ((S_80024BF4_0 *)scratch)->unk_8C = position->unk_06;
     ((S_80024BF4_0 *)scratch)->unk_90 = position->unk_0A;
@@ -176,8 +176,8 @@ void func_80024BF4(S_80024BF4_4 *quad, S_80024BF4_1 *position, S_80024BF4_2 *ren
 
     texture = render_state->unk_08;
     ((S_80024BF4_0 *)scratch)->unk_28 = render_state->unk_14;
-    packet = ((S_80024BF4_3 *)(*(u8 **)D_80083160))->unk_8D0;
-    ((S_80024BF4_3 *)(*(u8 **)D_80083160))->unk_8D0 = packet + 0x34;
+    packet = ((S_80024BF4_3 *)(*(u8 **)((u8 *)(&gameWork))))->unk_8D0;
+    ((S_80024BF4_3 *)(*(u8 **)((u8 *)(&gameWork))))->unk_8D0 = packet + 0x34;
 
     ((S_80024BF4_0 *)scratch)->unk_B0 = quad->unk_4A;
     ((S_80024BF4_0 *)scratch)->unk_B8 = quad->unk_50;

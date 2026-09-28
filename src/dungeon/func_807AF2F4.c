@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct {
     u8 *field0;
@@ -19,7 +20,6 @@ typedef struct {
     u16 field16;
 } GlobalState;
 
-extern DungeonState D_8008333C;
 extern GlobalState D_80082E60;
 extern s8 D_800DCF5B[9];
 extern s32 D_800E296C[3];
@@ -34,7 +34,7 @@ void func_807AF2F4(void)
     GlobalState *global_state;
     s32 coord;
 
-    dungeon = &D_8008333C;
+    dungeon = ((DungeonState *)((u8 *)&gameWork + 476));
     cells = dungeon->field0;
 
     coord = 0x10;

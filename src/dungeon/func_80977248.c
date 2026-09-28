@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -15,7 +16,6 @@ extern void func_80170A44(void *, void *, void *, void *);
 typedef struct { u8 pad[0x12]; u8 kind; u8 pad2; } ItemDef20;
 extern ItemDef20 D_8006DE24[];
 extern void *D_800814A8;
-extern s16 D_80083228;
 extern void *D_80170850[];
 extern void *D_801708B0[];
 extern s32 D_801714D4[];
@@ -289,7 +289,7 @@ state_3:
     func_800A56E0(0x703);
     (*(void * *)((u8 *)actor + 0x2C)) = D_80174110;
     func_80047784(actor,
-        *((u8 *)((((D_80083228 + (*(s16 *)((u8 *)item + 0x2A)) + 0x100) >> 9) & 7) + (u32)D_80174110)),
+        *((u8 *)((((gameWork.viewAngle + (*(s16 *)((u8 *)item + 0x2A)) + 0x100) >> 9) & 7) + (u32)D_80174110)),
         0);
     return;
 
@@ -351,7 +351,7 @@ state_7:
 
         (*(void * *)((u8 *)actor + 0x2C)) = model;
         func_80047784(actor,
-            model[((D_80083228 + (*(s16 *)((u8 *)item + 0x2A)) + 0x100) >> 9) & 7],
+            model[((gameWork.viewAngle + (*(s16 *)((u8 *)item + 0x2A)) + 0x100) >> 9) & 7],
             0);
     }
     ((S_80172A48_0 *)action)->unk_9E = 0;
@@ -360,13 +360,11 @@ state_7:
 
 state_8:
     {
-        u8 *action_state;
 
-        action_state = (u8 *)&dungeonStatus.unk_00;
-        if (((S_80172A48_5 *)action_state)->unk_0C != 0) {
+        if (((s32)dungeonStatus.unk_0C) != 0) {
             goto end;
         }
-        ((S_80172A48_5 *)action_state)->unk_0A--;
+        dungeonStatus.unk_0A--;
         ((S_80172A48_0 *)action)->unk_8C = D_801714D4;
         func_800A4ACC(item);
         (*(u8 *)((u8 *)item + 0x73)) = 0;
@@ -420,7 +418,7 @@ state_18:
     /* MATCH: the preceding eight-byte model table uses a distinct address expression in this arm. */
     (*(void * *)((u8 *)actor + 0x2C)) = (u8 *)((u32)D_80174118 - 8);
     func_80047784(actor,
-        *((u8 *)((((D_80083228 + (*(s16 *)((u8 *)item + 0x2A)) + 0x100) >> 9) & 7) + (u32)(u8 *)((u32)D_80174118 - 8))),
+        *((u8 *)((((gameWork.viewAngle + (*(s16 *)((u8 *)item + 0x2A)) + 0x100) >> 9) & 7) + (u32)(u8 *)((u32)D_80174118 - 8))),
         0);
     return;
 
@@ -473,7 +471,7 @@ state_21:
 
         (*(void * *)((u8 *)actor + 0x2C)) = D_80174118;
         func_80047784(actor,
-            *((u8 *)((((D_80083228 + (*(s16 *)((u8 *)item + 0x2A)) + 0x100) >> 9) & 7) + (u32)D_80174118)),
+            *((u8 *)((((gameWork.viewAngle + (*(s16 *)((u8 *)item + 0x2A)) + 0x100) >> 9) & 7) + (u32)D_80174118)),
             0);
     }
     return;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct S_80098CF8_0 {
     u8 pad_00[0x1];
@@ -83,7 +84,6 @@ extern void func_800A5720();
 extern void *func_800A8608();
 
 extern u8 D_80081484[];
-extern s16 D_80083228;
 extern u8 D_8008D470[];
 extern u8 D_800DD0B8[8];
 extern u8 D_800E08CC[];
@@ -188,7 +188,7 @@ print_message:
 
             func_80048A44(
                 message,
-                sound_table[((D_80083228 + ((S_80098CF8_4 *)actor_state)->unk_2A + 0x100) >> 9) & 7],
+                sound_table[((gameWork.viewAngle + ((S_80098CF8_4 *)actor_state)->unk_2A + 0x100) >> 9) & 7],
                 0,
                 1);
             func_800A56E0(0x511);

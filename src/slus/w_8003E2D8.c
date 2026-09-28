@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 /* D_80083160: shared state table (own view here). field_8 (cur reading) is
  * accessed directly on the base struct; a separate history view starting
@@ -17,14 +18,13 @@ typedef struct {
     s32 trg;
 } Hist_8003E2D8;
 
-extern struct S_8003E2D8 D_80083160;
 
 extern s32 func_8003E240(s32 a0);
 
 /* Updates controller state, clears invalid readings, and records newly pressed buttons. */
 void func_8003E2D8(void)
 {
-    struct S_8003E2D8 *pad_state = &D_80083160;
+    struct S_8003E2D8 *pad_state = ((struct S_8003E2D8 *)&gameWork);
     Hist_8003E2D8 *history = (Hist_8003E2D8 *)&pad_state->field_8;
     s32 prev_buttons = pad_state->field_8;
     s32 buttons;

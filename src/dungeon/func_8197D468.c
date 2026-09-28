@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80016000.h"
@@ -91,7 +92,6 @@ typedef struct S_8197D468_9 {
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern u16 D_8008378A;
 extern u8 D_80083498[];
-extern u8 D_80045340[];
 extern u8 D_800DED70[];
 void *func_8003FD64();                 /* extern */
 s32 func_80069EF8();                          /* extern */
@@ -202,7 +202,7 @@ state_2:
             particle = func_8003FD64(0x312, D_80083498);
             if (particle != NULL) {
                 ((S_8197D468_5 *)particle)->unk_10 = &D_80024BB8;
-                func_8004491C(particle, D_80045340);
+                func_8004491C(particle, func_80045340);
                 particle_sprite = ((S_8197D468_5 *)particle)->unk_0C;
                 ((S_8197D468_9 *)(((S_8197D468_5 *)particle)->unk_08))->unk_00 = (s32) (((S_8197D468_3 *)motion)->unk_00.at00.v + (((func_80069EF8() & 0x3FF) - 0x1FF) << 0xA));
                 ((S_8197D468_9 *)(((S_8197D468_5 *)particle)->unk_08))->unk_04 = (s32) (((S_8197D468_3 *)motion)->unk_04.at00.v + (((func_80069EF8() & 0x3FF) - 0x1FF) << 0xA));

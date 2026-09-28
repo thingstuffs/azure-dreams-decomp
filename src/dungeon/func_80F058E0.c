@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -40,7 +41,6 @@ extern void func_800AD594(void *, s32);
 extern s32 func_800AD9B4(void *, void *);
 
 extern u8 D_80082E80[];
-extern s16 D_80083228;
 extern s32 D_8014DCE8;
 extern u8 D_80150EB8[];
 extern u8 D_80150ED0[];
@@ -57,7 +57,6 @@ void func_8014F0E0(void *action, void *motion, void *sprite, void *actor)
     s32 position_x;
     s32 position_y;
     s16 phase_timer;
-    s16 *action_counters;
     u16 action_timer;
     u8 *idle_anims;
 
@@ -89,7 +88,7 @@ wait_to_hop:
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80150ED0;
     func_80047784(
         sprite,
-        D_80150ED0[((D_80083228 + ((S_8014F0E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+        D_80150ED0[((gameWork.viewAngle + ((S_8014F0E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
         0);
     ((S_8014F0E0_0 *)action)->unk_98 |= 8;
     ((S_8014F0E0_1 *)actor)->unk_1C.s &= 0xF7FFFFFF;
@@ -137,7 +136,7 @@ land:
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80150ED8;
         func_80047784(
             sprite,
-            D_80150ED8[((D_80083228 + ((S_8014F0E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            D_80150ED8[((gameWork.viewAngle + ((S_8014F0E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((S_8014F0E0_0 *)action)->unk_9B++;
     }
@@ -149,7 +148,7 @@ idle:
         (*(u8 * *)((u8 *)sprite + 0x2C)) = idle_anims;
         func_80047784(
             sprite,
-            idle_anims[((D_80083228 + ((S_8014F0E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            idle_anims[((gameWork.viewAngle + ((S_8014F0E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
     }
 
@@ -167,9 +166,8 @@ update_countdown:
     func_800AD594(actor, 4);
     func_800A4ACC(actor);
 
-    action_counters = (s16 *)&dungeonStatus.unk_00;
-    if (action_counters[4] != 0) {
-        action_counters[4]--;
+    if (dungeonStatus.unk_08 != 0) {
+        dungeonStatus.unk_08--;
     }
 
     actor_flags = ((S_8014F0E0_1 *)actor)->unk_1C.u;

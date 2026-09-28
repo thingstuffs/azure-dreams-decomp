@@ -17,7 +17,6 @@ void func_801751C0(void *entity_data, s32 unused_1, s32 unused_2, void *other_da
 {
     u8 *entity = entity_data;
     u8 *other_entity = other_data;
-    DungeonState *dungeon_state = ((DungeonState *)&dungeonStatus);
     s32 kind = 0x18;
 
     other_entity[0x71] &= 0x7F;
@@ -25,11 +24,11 @@ void func_801751C0(void *entity_data, s32 unused_1, s32 unused_2, void *other_da
     entity[0x9A] = kind;
     entity[0x9B] = 0;
     other_entity[0x6D] = 0;
-    if (!(dungeon_state->flags & 0x2000) && ((func_800A2BDC(other_entity) << 16) == 0)) {
+    if (!(dungeonStatus.flags & 0x2000) && ((func_800A2BDC(other_entity) << 16) == 0)) {
         *(void **)(entity + 0x8C) = 0;
         entity[0x9A] = kind;
         entity[0x9B] = 0;
         D_800DCF5E = 0;
-        dungeon_state->count++;
+        dungeonStatus.unk_0A++;
     }
 }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
 typedef void (*Callback)(void *, void *, void *, void *);
@@ -14,7 +15,6 @@ extern s32 func_800BCB04();
 
 extern u16 D_80013714;
 extern u8 D_8006CCF8[8];
-extern s16 D_80083228;
 extern u8 *D_800E3D7C;
 extern u8 D_800F8BBC[9];
 extern u8 D_8016F78C[9];
@@ -150,7 +150,7 @@ void func_8016F2E0(void *actor_arg, void *motion_arg, void *sprite_arg)
     sprite_flags = ((S_8016F2E0_4 *)sprite)->unk_14.n;
     updated_flags = sprite_flags & 0x8000;
     if (updated_flags == 0) {
-        old_direction = ((D_80083228 + ((S_8016F2E0_3 *)actor)->unk_2A + 0x100) >> 9) & 7;
+        old_direction = ((gameWork.viewAngle + ((S_8016F2E0_3 *)actor)->unk_2A + 0x100) >> 9) & 7;
         previous_direction = (*(s16 *)((u8 *)entity + (0x94)));
         ASM_SCHED_BARRIER();
         direction_value = old_direction;

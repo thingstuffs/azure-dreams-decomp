@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_func_800AA258_arg2.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -61,7 +62,6 @@ extern void func_800AA888(Obj0 *, void *, Obj2 *, Obj3 *);
 extern void func_801759A0(Obj0 *, void *, Obj2 *, Obj3 *);
 
 extern void *D_800814A8;
-extern s16 D_80083228;
 extern u8 D_801724BC[];
 extern u8 D_80175E54[];
 extern u8 D_80175E5C[];
@@ -106,7 +106,7 @@ void func_80175574(Obj0 *controller_arg, void *context_arg, Obj2 *animation_arg,
                 goto increment_state;
             case 13:
                 (*(void * *)((u8 *)animation + 0x2C)) = D_80175E54;
-                table_entry = ((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7;
+                table_entry = ((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7;
                 table_entry += (unsigned long)D_80175E54;
                 func_80047784(animation,
                     *(u8 *)table_entry,
@@ -114,7 +114,7 @@ void func_80175574(Obj0 *controller_arg, void *context_arg, Obj2 *animation_arg,
                 break;
             case 14:
                 (*(void * *)((u8 *)animation + 0x2C)) = D_80175E5C;
-                table_entry = ((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7;
+                table_entry = ((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7;
                 table_entry += (unsigned long)D_80175E5C;
                 func_80047784(animation,
                     *(u8 *)table_entry,
@@ -122,7 +122,7 @@ void func_80175574(Obj0 *controller_arg, void *context_arg, Obj2 *animation_arg,
                 break;
             case 15:
                 (*(void * *)((u8 *)animation + 0x2C)) = D_80175E64;
-                table_entry = ((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7;
+                table_entry = ((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7;
                 table_entry += (unsigned long)D_80175E64;
                 func_80047784(animation,
                     *(u8 *)table_entry,
@@ -155,7 +155,7 @@ void func_80175574(Obj0 *controller_arg, void *context_arg, Obj2 *animation_arg,
 check_first_table:
                 if (current_table != dir_table) {
                     (*(void * *)((u8 *)animation + 0x2C)) = dir_table;
-                    table_entry = ((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7;
+                    table_entry = ((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7;
                     table_entry += (unsigned long)dir_table;
                     func_80047784(animation,
                         *(u8 *)table_entry,
@@ -182,13 +182,13 @@ check_first_table:
                 }
 early_second_table_13:
                 (*(void * *)((u8 *)animation + 0x2C)) = D_80175E6C;
-                table_entry = ((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7;
+                table_entry = ((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7;
                 table_entry += (unsigned long)D_80175E6C;
                 func_80047784(animation, *(u8 *)table_entry, 0);
                 goto increment_counter;
 early_second_table_14:
                 (*(void * *)((u8 *)animation + 0x2C)) = D_80175E74;
-                table_entry = ((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7;
+                table_entry = ((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7;
                 table_entry += (unsigned long)D_80175E74;
                 func_80047784(animation, *(u8 *)table_entry, 0);
                 goto increment_counter;
@@ -254,7 +254,7 @@ check_second_kind_15:
             goto increment_counter;
 second_table_13:
             (*(void * *)((u8 *)animation + 0x2C)) = D_80175E6C;
-            table_entry = ((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7;
+            table_entry = ((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7;
             table_entry += (unsigned long)D_80175E6C;
             func_80047784(animation,
                 *(u8 *)table_entry,
@@ -262,7 +262,7 @@ second_table_13:
             goto increment_counter;
 second_table_14:
             (*(void * *)((u8 *)animation + 0x2C)) = D_80175E74;
-            table_entry = ((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7;
+            table_entry = ((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7;
             table_entry += (unsigned long)D_80175E74;
             func_80047784(animation,
                 *(u8 *)table_entry,
@@ -270,7 +270,7 @@ second_table_14:
             goto increment_counter;
 second_table_15:
             (*(void * *)((u8 *)animation + 0x2C)) = D_80175E7C;
-            table_entry = ((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7;
+            table_entry = ((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7;
             table_entry += (unsigned long)D_80175E7C;
             func_80047784(animation,
                 *(u8 *)table_entry,

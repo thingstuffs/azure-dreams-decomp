@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 #ifndef NULL
 #define NULL 0
@@ -77,7 +78,6 @@ extern s32 func_800666F4();
 extern s32 func_80066640();
 extern s16 func_80066460();
 extern s16 func_8006649C();
-extern u8 D_80083160[];
 
 typedef struct {
     s16 x;
@@ -107,7 +107,7 @@ s32 func_80024C7C(void *node_data) {
         Point2 *jitter_point;
         Point2 *segment_start;
         u8 *node;
-        u8 *global_base;
+        GameWork *global_base;
         s32 corner_index;
         s32 segment_index;
         s32 step;
@@ -119,7 +119,7 @@ s32 func_80024C7C(void *node_data) {
         void *next_node;
 
         node = node_data;
-        global_base = D_80083160;
+        global_base = &gameWork;
         world_base = world_points;
         screen_base = screen_points;
         strip_base = strip_points;
@@ -189,7 +189,7 @@ s32 func_80024C7C(void *node_data) {
                         u32 primitive_color;
 
                         {
-                            void *context = ((S_80024C7C_1 *)global_base)->unk_00;
+                            void *context = global_base->unk_000;
                             primitive = ((S_80024C7C_2 *)context)->unk_8D0;
                             ((S_80024C7C_2 *)context)->unk_8D0 =
                                 (void *)((u8 *)primitive + 0x34);
@@ -239,7 +239,7 @@ s32 func_80024C7C(void *node_data) {
                         ((S_80024C7C_3 *)primitive)->unk_1D = (s8)tex_coord;
 
                         {
-                            void *context = ((S_80024C7C_1 *)global_base)->unk_00;
+                            void *context = global_base->unk_000;
                             ((S_80024C7C_3 *)primitive)->unk_00.s = (s32)(
                                 (((S_80024C7C_3 *)primitive)->unk_00.u & 0xFF000000) |
                                 (((S_80024C7C_5 *)((u8 *)(ot_offset + (u32)context)))->unk_B0 &
@@ -247,7 +247,7 @@ s32 func_80024C7C(void *node_data) {
                         }
                         segment_start--;
                         {
-                            void *context = ((S_80024C7C_1 *)global_base)->unk_00;
+                            void *context = global_base->unk_000;
                             ((S_80024C7C_5 *)((u8 *)(ot_offset + (u32)context)))->unk_B0 = (u32)(
                                 (((S_80024C7C_5 *)((u8 *)(ot_offset + (u32)context)))->unk_B0 &
                                  0xFF000000) |

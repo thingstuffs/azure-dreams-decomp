@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 extern u8 D_80080000[];
 
@@ -16,7 +17,6 @@ extern void func_800AA36C();
 extern s32 func_800BCB04();
 
 extern u8 D_8006CCF8[];
-extern s16 D_80083228[5];
 extern u8 D_8017140C[];
 extern u8 D_8017586C[];
 extern Callback D_8017589C[];
@@ -232,7 +232,7 @@ void func_80170BB8(void *actor_data, void *motion_data, void *entity_data)
             s32 view_angle;
 
             view_angle =
-                D_80083228[0] + ((S_80170BB8_1 *)subject)->unk_2A + 0x100;
+                gameWork.viewAngle + ((S_80170BB8_1 *)subject)->unk_2A + 0x100;
             state_index = (view_angle >> 9) & 7;
         }
         {

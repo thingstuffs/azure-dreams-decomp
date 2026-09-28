@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -31,7 +32,6 @@ extern void func_800A2B04(void *, s32, s32);
 extern void func_800AAA54(void *, void *, void *, void *);
 extern void func_800AD4D0(void *);
 
-extern s16 D_80083228;
 extern u8 D_80158E54;
 extern u8 D_8015C150[];
 extern u8 D_8015C178[];
@@ -43,7 +43,6 @@ void func_8015B238(void *motion_state, void *motion, void *map_actor, void *acto
     s32 direction;
     s16 timer;
     s32 tracked_actor;
-    s32 *tracking_data;
 
     direction = (((Rec_D_800E3D7C *)actor)->unk_6A.as_u16 >> 9) & 7;
     state = ((S_8015B238_1 *)motion_state)->unk_9B;
@@ -117,7 +116,7 @@ continue_state_one:
     (*(u8 * *)((u8 *)map_actor + 0x2C)) = D_8015C150;
     func_80047784(
         map_actor,
-        D_8015C150[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+        D_8015C150[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
         0);
     ((S_8015B238_1 *)motion_state)->unk_9B++;
     goto done;
@@ -132,7 +131,7 @@ state_two:
     (*(u8 * *)((u8 *)map_actor + 0x2C)) = D_8015C150;
     func_80047784(
         map_actor,
-        D_8015C150[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+        D_8015C150[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
         0);
     ((S_8015B238_1 *)motion_state)->unk_96.s = 8;
     ((S_8015B238_1 *)motion_state)->unk_9B++;
@@ -167,10 +166,9 @@ state_three:
     ((S_8015B238_2 *)motion)->unk_04.at00.v = ((((Rec_D_80082E80 *)map_actor)->unk_25 << 6) + 0x20) << 16;
     func_800A2B04(motion, ((Rec_D_80082E80 *)map_actor)->unk_24, ((Rec_D_80082E80 *)map_actor)->unk_25);
 
-    tracking_data = &dungeonStatus.unk_00;
-    tracked_actor = tracking_data[4];
+    tracked_actor = ((s32)dungeonStatus.unk_10);
     if (tracked_actor == (s32)((u8 *)actor - 0x20)) {
-        tracking_data[4] = tracked_actor & 0x7FFFFFFF;
+        dungeonStatus.unk_10 = tracked_actor & 0x7FFFFFFF;
     }
     ((S_8015B238_1 *)motion_state)->unk_8C = &D_80158E54;
 

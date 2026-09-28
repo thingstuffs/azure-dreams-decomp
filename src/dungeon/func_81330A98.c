@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_80167A98_arg1.h"
 #include "records/Rec_func_80167A98_arg0.h"
@@ -12,7 +13,6 @@ typedef struct {
     s16 z;
     u8 pad[0x5A];
 } PositionTableEntry;
-extern M2C_UNK D_80045340;
 extern M2C_UNK D_800DE870;
 extern M2C_UNK D_800DEDB0;
 extern M2C_UNK D_800DEE38;
@@ -59,7 +59,7 @@ void func_80167A98(Rec_func_80167A98_arg0 *source, Rec_func_80167A98_arg1 *origi
     object = func_8003FC64(0x212);
     if (object != NULL) {
         object->unk_10 = &D_80167A2C;
-        func_8004491C(object, &D_80045340);
+        func_8004491C(object, func_80045340);
         render_state = object->unk_0C;
         render_state->unk_10 = 0x20;
         render_state->unk_06 = 0;

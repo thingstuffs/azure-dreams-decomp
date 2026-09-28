@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
+#include "shared/game_work.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -49,9 +51,7 @@ M2C_UNK func_80047784();         /* extern */
 M2C_UNK func_8009A028();                      /* extern */
 M2C_UNK func_8009A3D0();             /* extern */
 void func_800A9C18(void *, void *, void *, s32); /* extern */
-extern M2C_UNK D_80045340;
 extern M2C_UNK D_80082E80;
-extern s16 D_80083228;
 extern M2C_UNK D_80083498;
 extern M2C_UNK D_80171D74;
 extern M2C_UNK D_80173DA4;
@@ -83,7 +83,7 @@ void func_80173140(void) {
         st = (S_80173140_1 *)state;
         ((S_80173140_0 *)object)->unk_10 = &D_80171D74;
         st->unk_13 = 2;
-        func_8004491C(object, &D_80045340);
+        func_8004491C(object, func_80045340);
         environment = (u8 *)&D_80082E80;
         object_attrs = ((S_80173140_0 *)object)->unk_08;
         ((S_80173140_2 *)object_attrs)->unk_0A = (u16) ((S_80173140_5 *)(((Rec_D_800E3D7C *)(&D_80083498))->unk_08.at00_pv.v))->unk_0A;
@@ -95,7 +95,7 @@ void func_80173140(void) {
         ((S_80173140_4 *)sprite)->unk_25 = (u8) (origin_y + 7);
         func_800A9C18(object, object_attrs, sprite, 0);
         (*(s16 *)((u8 *)st + 0x2A)) = 0xC00;
-        func_80047784(sprite, ((u8 *) ((S_80173140_4 *)sprite)->unk_2C.u)[((s32) (D_80083228 + 0xD00) >> 9) & 7], 0);
+        func_80047784(sprite, ((u8 *) ((S_80173140_4 *)sprite)->unk_2C.u)[((s32) (gameWork.viewAngle + 0xD00) >> 9) & 7], 0);
         ((S_80173140_4 *)sprite)->unk_1E = 0x1000;
         ((S_80173140_4 *)sprite)->unk_1C = 0x1000;
         flag_mask = 0x40000;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 extern u8 D_80080000[];
 
 extern s32 func_800644B8();
@@ -8,7 +9,6 @@ extern s32 func_80066460();
 extern s32 func_80066640();
 extern s32 func_80066708();
 extern s32 func_80067F20();
-extern void *D_80083160[];
 
 /* Draw fading radial grids of shaded quads for the linked effects. */
 s32 func_80024C14(void *effect_data) {
@@ -149,7 +149,7 @@ s32 func_80024C14(void *effect_data) {
 
                             {
                                 u8 *packet_pool;
-                                draw_row = (s32)(D_80083160);
+                                draw_row = (s32)(((void * *)(&gameWork)));
                                 ASM_KEEP_NV(draw_row);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                                 packet_pool = (u8 *)((void **)draw_row)[0];
                                 quad = *(u8 **)(packet_pool + 0x8d0);
@@ -232,7 +232,7 @@ s32 func_80024C14(void *effect_data) {
                 s32 zero_arg = 0;
                 s32 blend_mode = 2;
                 u8 *packet_pool;
-                render_globals_m = D_80083160;
+                render_globals_m = ((void * *)(&gameWork));
                 ASM_KEEP_NV(zero_arg);
                 ASM_KEEP_NV(blend_mode);
                 ASM_KEEP_NV(render_globals_m);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
@@ -255,7 +255,7 @@ s32 func_80024C14(void *effect_data) {
             {
                 u8 *order_head;
                 u32 packet_tag;
-                render_globals_m = D_80083160;
+                render_globals_m = ((void * *)(&gameWork));
                 ASM_KEEP_NV(render_globals_m);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                 order_head = (u8 *)render_globals_m[0];
                 packet_tag = *(u32 *)draw_mode;

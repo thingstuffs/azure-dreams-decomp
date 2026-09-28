@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800814A8.h"
@@ -205,7 +206,6 @@ extern void *D_80024058[];
 extern void *D_80024B98;
 extern void *D_80024D10;
 extern void *D_80024544;
-extern u8 D_80045340[];
 extern Data12 D_80025FD0;
 extern Data12 D_80025FDC;
 extern u8 D_800DDC40[];
@@ -337,7 +337,7 @@ case_2:
                 ((S_8197192C_7 *)effect_data_m)->unk_38 = 20;
                 ((S_8197192C_7 *)effect_data_m)->unk_3A = 20;
                 ((S_8197192C_1 *)effect_obj)->unk_10.at00.v = (void *)&D_80024D10;
-                func_8004491C(effect_obj, D_80045340);
+                func_8004491C(effect_obj, func_80045340);
                 sprite = ((S_8197192C_1 *)effect_obj)->unk_0C;
                 world_pos = D_80083780;
                 ((S_8197192C_8 *)sprite)->unk_10 = 0x60;
@@ -689,14 +689,12 @@ case_4_set_state:
 
 cleanup:
 {
-    void *cleanup_obj;
     u16 cleanup_count;
     if (D_80025FF4[0] == 0) {
-        cleanup_obj = ((u8 *)(&dungeonStatus));
-        cleanup_count = ((S_8197192C_13 *)cleanup_obj)->unk_0A;
-        ((S_8197192C_13 *)cleanup_obj)->unk_0C = 0;
+        cleanup_count = ((u16)dungeonStatus.unk_0A);
+        dungeonStatus.unk_0C = 0;
         D_80082E86[0] = 0;
-        ((S_8197192C_13 *)cleanup_obj)->unk_0A = cleanup_count - 1;
+        dungeonStatus.unk_0A = cleanup_count - 1;
         ((S_8197192C_0_pre *)effect)[-1].unk_00 = ((S_8197192C_0_pre *)effect)[-1].unk_00 | 0x8000;
         objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
         return;

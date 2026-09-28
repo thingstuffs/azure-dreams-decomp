@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -14,8 +15,6 @@
 #endif
 
 extern void func_80047784();
-extern u8 D_80083160[];
-extern s16 D_80083228[];
 extern u8 *D_800E3D7C[];
 extern void *D_80170838[];
 extern u8 D_801710EC[];
@@ -59,7 +58,7 @@ typedef struct S_80172480_4 {
 void func_80172480(S_80172480_0 *actor, s32 unused, Rec_D_80082E80 *animation, S_80172480_1 *transform) {
     s32 heading;
     u8 phase;
-    u8 *scene_state = D_80083160;
+    GameWork *scene_state = &gameWork;
     unsigned long table_page;
     static void *const phase_labels[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4 };
 
@@ -72,7 +71,7 @@ void func_80172480(S_80172480_0 *actor, s32 unused, Rec_D_80082E80 *animation, S
 jt_c0:
         heading = transform->unk_2A & 0xFFF;
         transform->unk_2A = heading;
-        if (((0x400 - ((((S_80172480_2 *)scene_state)->unk_C8 + 0x100) & 0xE00)) & 0xE00) != heading) {
+        if (((0x400 - ((((u16)scene_state->viewAngle) + 0x100) & 0xE00)) & 0xE00) != heading) {
             transform->unk_2A = heading + 0x200;
             return;
         }
@@ -99,7 +98,7 @@ jt_c2:
         goto done;
 jt_c3:
         {
-            u16 scene_status = ((S_80172480_2 *)scene_state)->unk_08;
+            u16 scene_status = ((u16)scene_state->unk_008);
             if (scene_status != 0) {
                 table_page = DGN_TABLE_PAGE(D_80175EC8, 0x5EC8);
                 goto resolve_table;
@@ -119,7 +118,7 @@ start_animation:
             animation_table = (u8 *)table_page;
             animation->unk_2C.as_pm = animation_table;
             {
-                unsigned long animation_entry = (unsigned long)(((s32) (D_80083228[0] + (s16) transform->unk_2A + 0x100) >> 9) & 7);
+                unsigned long animation_entry = (unsigned long)(((s32) (gameWork.viewAngle + (s16) transform->unk_2A + 0x100) >> 9) & 7);
                 animation_entry += (unsigned long)animation_table;
                 func_80047784(animation, *(u8 *)animation_entry, 0);
             }
@@ -134,7 +133,7 @@ jt_c4:
             {
                 u8 *animation_table = D_80175EB8;
                 animation->unk_2C.as_pm = animation_table;
-                func_80047784(animation, animation_table[((s32) (D_80083228[0] + (s16) transform->unk_2A + 0x100) >> 9) & 7], 0);
+                func_80047784(animation, animation_table[((s32) (gameWork.viewAngle + (s16) transform->unk_2A + 0x100) >> 9) & 7], 0);
             }
             actor->unk_8C = D_801710EC;
             transform->unk_2A = (u16) actor->unk_B0;

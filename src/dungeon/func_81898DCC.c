@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 typedef struct Object {
     u8 pad0[8];
@@ -14,7 +15,6 @@ extern void func_8003DB94(void *, void *, s32);
 extern void func_8004491C(Object *, void *);
 extern u8 D_80024550[];
 extern u8 D_80024FC4[];
-extern u8 D_80045340[];
 
 /* Creates and initializes a sprite object, offsetting its third data value. */
 Object *func_800245CC(s32 field_value, s32 *initial_data) {
@@ -33,7 +33,7 @@ Object *func_800245CC(s32 field_value, s32 *initial_data) {
         *(s16 *)(sprite + 0x1E) = 0x1400;
         *(s16 *)(sprite + 0x1C) = 0x1400;
         func_8003DB94(sprite, D_80024FC4, 0);
-        func_8004491C(obj, D_80045340);
+        func_8004491C(obj, func_80045340);
 
         data = obj->data;
         data[0] = initial_data[0];

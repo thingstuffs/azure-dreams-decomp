@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -37,7 +38,6 @@ extern void func_80174FE4(void *, void *, void *, void *);
 extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern s8 D_80082EA4;
-extern s16 D_80083228;
 extern s8 D_800E2970[];
 extern void *D_80170808[];
 extern u8 D_801716F4[];
@@ -132,7 +132,7 @@ void func_801716F4(void *actor_arg, void *context_arg, void *sprite_arg, void *e
             if (((S_801716F4_2 *)sprite)->unk_2C != anim_table) {
                 (*(void * *)((u8 *)sprite + (0x2C))) = anim_table;
                 func_80047784(sprite,
-                    anim_table[((D_80083228 + ((Rec_D_800E3D7C *)entity_arg)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+                    anim_table[((gameWork.viewAngle + ((Rec_D_800E3D7C *)entity_arg)->unk_2A.as_s16 + 0x100) >> 9) & 7],
                     0);
             }
             ((Rec_func_800A9E70_arg0 *)actor_arg)->unk_9E.as_s16 = 0;
@@ -157,7 +157,7 @@ void func_801716F4(void *actor_arg, void *context_arg, void *sprite_arg, void *e
             func_8017430C(actor_arg, context_arg, sprite, entity_arg);
             event_table = D_8017555C;
             (*(void * *)((u8 *)sprite + (0x2C))) = event_table;
-            direction_index = ((D_80083228 + ((Rec_D_800E3D7C *)entity_arg)->unk_2A.as_s16 + 0x100) >> 9) & 7;
+            direction_index = ((gameWork.viewAngle + ((Rec_D_800E3D7C *)entity_arg)->unk_2A.as_s16 + 0x100) >> 9) & 7;
             anim_sprite = sprite;
 #ifdef __mips__
             anim_entry = (u8 *)((u32)direction_index + (u32)event_table);
@@ -293,7 +293,7 @@ generic:
 set_table:
     (*(void * *)((u8 *)sprite + (0x2C))) = next_table;
     {
-        s32 direction_index = ((D_80083228 + ((Rec_D_800E3D7C *)entity_arg)->unk_2A.as_s16 + 0x100) >> 9) & 7;
+        s32 direction_index = ((gameWork.viewAngle + ((Rec_D_800E3D7C *)entity_arg)->unk_2A.as_s16 + 0x100) >> 9) & 7;
         u8 *anim_entry;
 #ifdef __mips__
         anim_entry = (u8 *)((u32)direction_index + (u32)next_table);

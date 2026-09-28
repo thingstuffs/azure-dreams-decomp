@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct S_80166968_0 {
     u8 pad_00[0x24];
@@ -103,13 +104,12 @@ extern s32 func_80065590(void *, void *, void *, void *, void *, void *, void *,
 extern void func_80065820(void *, void *);
 extern u16 func_80066460(s32, s32, s32, s32);
 extern void func_80067F20(void *, s32, s32, u16, s32);
-extern u8 *D_80083160;
 
 /* Project edge midpoints and queue line and draw-mode packets in the ordering table. */
 void func_80166968(S_80166968_4 *geometry, S_80166968_1 *position, u8 *render_data, s32 depth_bias)
 {
     u8 *scratch = (u8 *)0x1F800000;
-    u8 *render_state = D_80083160;
+    u8 *render_state = gameWork.unk_000;
     u32 draw_flags;
     u8 **render_state_ref;
     u8 *packet;
@@ -140,7 +140,7 @@ void func_80166968(S_80166968_4 *geometry, S_80166968_1 *position, u8 *render_da
     saved_depth_bias = depth_bias;
     ((S_80166968_0 *)scratch)->unk_90 = position->unk_0A;
     ((S_80166968_2 *)render_data)->unk_14 |= 0x8000;
-    render_state_ref = &D_80083160;
+    render_state_ref = &gameWork.unk_000;
     func_800649A0();
 
     ((S_80166968_0 *)scratch)->unk_3C = 0x2000;

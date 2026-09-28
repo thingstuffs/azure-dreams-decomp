@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
@@ -47,7 +48,6 @@ typedef struct S_func_81325A04_3 {
     u16 unk_6A;
 } S_func_81325A04_3;
 
-extern s16 D_80083228[];
 extern u8 D_8016B778[];
 extern u8 D_8017467C[];
 extern u8 D_80174684[];
@@ -74,7 +74,6 @@ u8 *func_8016D204(S_func_81325A04_0 *action, S_func_81325A04_1 *motion, S_func_8
     s32 offset_x;
     s32 tile_y;
     s32 offset_y;
-    s32 *shared_state;
     u8 *final_state;
     register u32 result_bits ASM_REG("$2");
     u8 *anim_table;
@@ -226,13 +225,12 @@ restore_animation:
         }
         if (anim_addr != (s32)anim_table) {
             entity->unk_2C = (s32)anim_table;
-            facing = D_80083228[0] + actor->unk_2A;
+            facing = gameWork.viewAngle + actor->unk_2A;
             func_80047784(entity, *(u8 *)((u32)(((facing + 0x100) >> 9) & 7) + (u32)anim_table), 0);
         }
     }
-    shared_state = ((s32 *)(&dungeonStatus));
-    if (shared_state[4] == (s32)((u8 *)actor - 0x20)) {
-        shared_state[4] &= 0x7FFFFFFF;
+    if (((s32)dungeonStatus.unk_10) == (s32)((u8 *)actor - 0x20)) {
+        *(s32 *)&dungeonStatus.unk_10 &= 0x7FFFFFFF;
     }
     result_bits = (u32)D_8016B778;
 store_handler:

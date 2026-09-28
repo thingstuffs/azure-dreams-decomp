@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 extern int abs(int);
 
 typedef struct {
@@ -10,11 +11,9 @@ typedef struct {
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 extern s16 func_80094BC8(s32, s16);
-extern u8 D_80083160[];
 
 /* Reduce object coordinates toward direction-dependent limits without overshooting. */
 void func_80094DA8(TownObject *object) {
-    u8 *state;
     s16 direction;
     s32 y_direction;
     s32 component_x;
@@ -35,8 +34,7 @@ void func_80094DA8(TownObject *object) {
     s32 clamp_work_y;
     s32 clamp_abs_y;
 
-    state = D_80083160;
-    direction = func_80094BC8(*(s32 *)(state + 8), *(s16 *)(state + 0xC8));
+    direction = func_80094BC8(((s32)gameWork.unk_008), gameWork.viewAngle);
     if (direction != -1) {
         component_x = func_800644B8(direction);
         current_abs_x = object->x;

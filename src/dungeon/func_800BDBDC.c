@@ -47,8 +47,7 @@ s32 func_800C333C(Rec_D_800E3D7C *entity, s32 item, s16 action) {
     }
     func_80098B38(item);
     {
-        D_80083460_Type *state = ((D_80083460_Type *)&dungeonStatus);
-        state->field_A = (u16) (state->field_A - 1);
+        dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
     }
     return 1;
 }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -31,7 +32,6 @@ M2C_UNK func_800AD594();
 s32 func_800AD9B4();
 
 extern u8 D_80082E80[];
-extern s16 D_80083228;
 extern u8 D_80170E54;
 extern u8 D_80173C94[];
 extern u8 D_80173C9C[];
@@ -64,7 +64,7 @@ state_0:
         (*(u8 * *)((u8 *)map_entity + 0x2C)) = D_80173C94;
         func_80047784(
             map_entity,
-            D_80173C94[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            D_80173C94[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
         ((S_80172258_0 *)jump)->unk_98 |= 8;
         ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0xFFF20000;
@@ -113,7 +113,7 @@ state_2:
         (*(u8 * *)((u8 *)map_entity + 0x2C)) = D_80173C9C;
         func_80047784(
             map_entity,
-            D_80173C9C[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            D_80173C9C[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
         ((S_80172258_0 *)jump)->unk_9B++;
     }
@@ -130,15 +130,13 @@ tick:
         func_800A4ACC(actor);
         {
             u32 count_unsigned;
-            s16 *counters;
             s32 count_signed;
 
-            counters = (s16 *)&dungeonStatus.unk_00;
-            count_signed = counters[4];
-            count_unsigned = ((u16 *)counters)[4];
+            count_signed = dungeonStatus.unk_08;
+            count_unsigned = ((u16)dungeonStatus.unk_08);
 
             if (count_signed != 0) {
-                counters[4] = count_unsigned - 1;
+                dungeonStatus.unk_08 = count_unsigned - 1;
             }
         }
 

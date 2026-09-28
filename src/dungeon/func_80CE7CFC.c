@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
+#include "shared/game_work.h"
 #include "records/Rec_func_8017121C_arg1.h"
 
 
@@ -9,8 +11,6 @@ extern s32 func_8003DE58();
 extern void func_8004491C();
 extern void func_80047784();
 
-extern s16 D_80083228;
-extern s32 D_80045340;
 extern u8 D_80083498[];
 extern u8 D_800DDC40[];
 extern u8 D_80170DC4[];
@@ -132,10 +132,10 @@ void func_801714FC(void *source_object, void *source_pos, void *sprite_template,
     ((S_801714FC_3 *)effect_data)->unk_0D = 0x80;
     ((S_801714FC_3 *)effect_data)->unk_0C = 0x80;
     ((S_801714FC_3 *)effect_data)->unk_14 = ((S_801714FC_3 *)effect_data)->unk_14 & 0xfff3;
-    func_8004491C(effect, &D_80045340);
+    func_8004491C(effect, func_80045340);
     (*(void * *)((u8 *)effect_data + 0x2c)) = (void *)&D_80175EB4;
     func_80047784(effect_data,
-        ((u8 *)&D_80175EB4)[(((s32)D_80083228 + (s32)((S_801714FC_0 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
+        ((u8 *)&D_80175EB4)[(((s32)gameWork.viewAngle + (s32)((S_801714FC_0 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
         0);
     effect_data = ((S_801714FC_2 *)effect)->unk_08;
     if (((S_801714FC_0 *)actor)->unk_60.i != 0 && (((S_801714FC_0 *)actor)->unk_14 & 0x04000000) == 0) {

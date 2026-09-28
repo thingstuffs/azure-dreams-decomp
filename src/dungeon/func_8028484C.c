@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct {
     s16 kind;
@@ -19,7 +20,6 @@ extern s32 func_800A6D30(void);
 
 extern s32 D_80012090;
 extern s16 D_8008146C;
-extern u8 D_8008333C[32];
 extern u8 D_800E3548[];
 extern u8 D_800E3648[];
 extern u8 D_800E36C8[];
@@ -43,8 +43,8 @@ void func_8001784C(void) {
         state_page = (u8 *)0x80010000;
         state = *(s32 *)(state_page + 0x2090);
     }
-    config = D_8008333C;
-    map = *(MapCell **)D_8008333C;
+    config = ((u8 *)(&gameWork.unk_1DC));
+    map = *(MapCell **)((u8 *)(&gameWork.unk_1DC));
 
     if ((state == 2) || (D_8008146C != 0x28)) {
         spawn_count = 0;

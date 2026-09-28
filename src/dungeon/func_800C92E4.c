@@ -66,7 +66,6 @@ void func_800CEA44(void *den_event) {
     u32 experience;
     u16 delay_timer;
     s32 random_value;
-    u8 *entry_table;
     AreaRecord *areas;
 
     state = *(s16 *)(den_event + 6);
@@ -92,8 +91,7 @@ do {
         }
 
         random_value = func_800A6D30();
-        entry_table = (u8 *)&dungeonStatus.unk_00;
-        monster_entry = *(u8 **)(entry_table + 0x18) + (random_value & 0x1E);
+        monster_entry = dungeonStatus.unk_18 + (random_value & 0x1E);
         monster_type = monster_entry[0];
         monster_level = monster_entry[1];
         spawn_availability = func_800A1618(monster_type, 1);
@@ -196,9 +194,8 @@ other_state:
         SD_Call(0x200);
         *(s32 *)(D_800E3648 + *(s16 *)(den_event + 0xC) * 4) = 0;
         {
-            u8 *global_base = (u8 *)&dungeonStatus.unk_00;
 
-            *(u16 *)(global_base + 0xA) -= 1;
+            dungeonStatus.unk_0A -= 1;
         }
         *(u16 *)(den_event - 2) |= 0x8000;
         objectFlagBlock.flags |= 0x8000;

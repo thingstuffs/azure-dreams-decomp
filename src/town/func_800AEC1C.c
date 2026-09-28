@@ -1,8 +1,8 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 extern s16 D_80080B04;
 extern u8 *D_80081508;
-extern u8 D_8008333C[32];
 
 // Clear bit 0x4000 in each listed grid cell, then reset the list and its state.
 void func_800AC37C(void) {
@@ -12,7 +12,7 @@ void func_800AC37C(void) {
     u8 *gridDescriptor;
     u8 *gridBase;
 
-    gridDescriptor = D_8008333C;
+    gridDescriptor = ((u8 *)(&gameWork.unk_1DC));
     coordinateEntry = D_80081508;
     gridBase = *(u8 **)gridDescriptor;
     if (*coordinateEntry != 0) {

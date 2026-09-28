@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -20,7 +21,6 @@ extern void func_800A2B04();
 extern void func_800AAA54();
 extern void func_800AD4D0();
 
-extern s16 D_80083228;
 extern u8 D_80171138[];
 extern u8 D_80174AD4[];
 extern u8 D_80174ADC[];
@@ -35,7 +35,6 @@ void func_80172F00(void *action, void *motion, void *sprite, void *entity)
     s32 rounded_vx;
     s32 rounded_vy;
     s32 tracked_entity;
-    s32 *global_state;
     s32 state;
     u16 timer;
 
@@ -179,13 +178,12 @@ state_2:
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80174AD4;
     func_80047784(
         sprite,
-        D_80174AD4[((D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+        D_80174AD4[((gameWork.viewAngle + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7],
         0);
 
-    global_state = &dungeonStatus.unk_00;
-    tracked_entity = global_state[4];
+    tracked_entity = ((s32)dungeonStatus.unk_10);
     if (tracked_entity == (s32)((u8 *)entity - 0x20)) {
-        global_state[4] = tracked_entity & 0x7FFFFFFF;
+        dungeonStatus.unk_10 = tracked_entity & 0x7FFFFFFF;
     }
     ((S_80172F00_0 *)action)->unk_8C = D_80171138;
 }

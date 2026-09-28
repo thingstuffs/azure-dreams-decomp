@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
@@ -8,8 +9,6 @@
 extern s32 D_8003E140[];
 extern s32 D_8006CD58[];
 extern u16 D_8008000A;
-extern u8 D_80083160[];
-extern s16 D_80083228;
 extern u8 *D_800DCEEC[];
 extern s32 D_800DCF5C;
 extern u8 D_8014A000[200000];
@@ -110,7 +109,7 @@ void func_80175470(void *sequence, void *position, Rec_D_80082E80 *record, void 
         &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4,
         &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8
     };
-    u8 *scene_color = D_80083160;
+    GameWork *scene_color = &gameWork;
     S_80175470_2 *node;
     S_80175470_3 *model;
     void *child;
@@ -123,7 +122,7 @@ void func_80175470(void *sequence, void *position, Rec_D_80082E80 *record, void 
     u8 cd_ready;
     u16 timer;
     u16 next_timer;
-    u16 *counters;
+    DungeonGlobalStatus *counters;
     s32 next_state;
     s16 effect_index;
 
@@ -146,7 +145,7 @@ jt_c1:
     return;
 
 jt_c2:
-    direction = ((D_80083228 + ((S_80175470_1 *)actor)->unk_2A.s + 0x100) >> 9) & 7;
+    direction = ((gameWork.viewAngle + ((S_80175470_1 *)actor)->unk_2A.s + 0x100) >> 9) & 7;
     if (D_80175B24 == 0) {
         goto check_facing;
     }
@@ -187,9 +186,9 @@ jt_c3:
     }
     color_index = func_800498A0(actor);
     target_color = D_800DCEEC[color_index];
-    scene_color[0xA8] += ((s32)target_color[0] - scene_color[0xA8]) / ((S_80175470_0 *)sequence)->unk_96.s;
-    scene_color[0xA9] += ((s32)target_color[1] - scene_color[0xA9]) / ((S_80175470_0 *)sequence)->unk_96.s;
-    scene_color[0xAA] += ((s32)target_color[2] - scene_color[0xAA]) / ((S_80175470_0 *)sequence)->unk_96.s;
+    scene_color->unk_0A8 += ((s32)target_color[0] - scene_color->unk_0A8) / ((S_80175470_0 *)sequence)->unk_96.s;
+    scene_color->unk_0A9 += ((s32)target_color[1] - scene_color->unk_0A9) / ((S_80175470_0 *)sequence)->unk_96.s;
+    scene_color->unk_0AA += ((s32)target_color[2] - scene_color->unk_0AA) / ((S_80175470_0 *)sequence)->unk_96.s;
     return;
 
 jt_c4:
@@ -262,7 +261,7 @@ jt_c7:
     model = ((S_80175470_5_pre *)(((S_80175470_1 *)actor)->unk_60))[-1].unk_00;
     node = ((S_80175470_1 *)actor)->unk_60;
     func_80047738(model, ((u8 *)model->unk_2C)[
-                  ((D_80083228 + node->unk_2A + 0x100) >> 9) & 7],
+                  ((gameWork.viewAngle + node->unk_2A + 0x100) >> 9) & 7],
                   model->unk_04);
     model->unk_14 &= 0xFFFE;
 
@@ -275,7 +274,7 @@ jt_c8:
     ((S_80175470_5 *)(((S_80175470_1 *)actor)->unk_60))->unk_2A = ((S_80175470_1 *)actor)->unk_8A;
     ((S_80175470_0_pre *)sequence)[-1].unk_00 |= 0x8000;
     objectFlagBlock.flags |= 0x8000;
-    counters = (u16 *)&dungeonStatus.unk_00;
-    counters[5]--;
+    counters = &dungeonStatus;
+    counters->unk_0A--;
     ((S_80175470_1 *)actor)->unk_6D = 0;
 }

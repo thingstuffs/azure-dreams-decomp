@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -16,7 +17,6 @@ extern void func_800BB044(void *);
 typedef struct { u8 pad[0x12]; u8 kind; u8 pad2; } ItemDef20;
 extern ItemDef20 D_8006DE24[];
 extern void *D_800814A8;
-extern s16 D_80083228;
 extern void *D_80170838[];
 extern u8 D_80170F20[];
 extern u8 D_801762C0[];
@@ -241,7 +241,7 @@ state_2:
 
         anim_table = D_801762C0;
         (*(u8 * *)((u8 *)sprite + 0x2C)) = anim_table;
-        direction = ((D_80083228 + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7;
+        direction = ((gameWork.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7;
         func_80047784(sprite, anim_table[direction], 0);
     }
     {

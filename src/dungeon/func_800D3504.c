@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -21,7 +22,6 @@ extern void func_800D92C0(void *, void *, void *, void *);
 extern void func_800DA660(void *, void *, void *, void *);
 
 extern u8 D_80082E80[];
-extern s16 D_80083228;
 extern void *D_800E262C[];
 extern s8 D_800E2970[];
 
@@ -88,7 +88,7 @@ void func_800D8C64(void *actor, void *motion, void *sprite, void *status)
                     (*(void * *)((u8 *)sprite + (0x2C))) = anim_table;
                     func_8003DB94(sprite,
                         *(void **)((u8 *)anim_table +
-                            (((D_80083228 + ((Rec_D_800E3D7C *)status)->unk_2A.as_s16 + 0x100) >> 7) & 0x1C)),
+                            (((gameWork.viewAngle + ((Rec_D_800E3D7C *)status)->unk_2A.as_s16 + 0x100) >> 7) & 0x1C)),
                         0);
                 }
                 ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = next_state;
@@ -163,7 +163,7 @@ void func_800D8C64(void *actor, void *motion, void *sprite, void *status)
     }
     (*(void * *)((u8 *)sprite + (0x2C))) = anim_table;
     func_8003DB94(sprite,
-        *(void **)((((D_80083228 + ((Rec_D_800E3D7C *)status)->unk_2A.as_s16 + 0x100) >> 7) & 0x1C) +
+        *(void **)((((gameWork.viewAngle + ((Rec_D_800E3D7C *)status)->unk_2A.as_s16 + 0x100) >> 7) & 0x1C) +
             (u32)anim_table),
         0);
 }

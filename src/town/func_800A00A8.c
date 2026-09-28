@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "m2c_compat.h"
 
-extern u8 D_80083160[];
 
 typedef struct S_8009D808_0 {
     u16 unk_00;
@@ -44,7 +44,7 @@ void func_8009D808(void *points, S_8009D808_2 *max_point, S_8009D808_1 *min_poin
     first_y = ((S_8009D808_0 *)points)->unk_02;
     min_point->unk_02 = first_y;
     max_point->unk_02 = first_y;
-    config_base = D_80083160;
+    config_base = ((u8 *)(&gameWork));
     size_config = config_base + 0x1DC;
     if ((s16) max_point->unk_00 < 0) {
         min_point->unk_00 = 0U;

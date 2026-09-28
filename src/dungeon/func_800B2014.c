@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
@@ -16,7 +17,6 @@ typedef struct {
 extern u8 *D_800E3D7C;
 extern s32 D_800835E8[];
 struct S_8003E2D8; typedef struct S_8003E2D8 S_8003E2D8;
-extern struct S_8003E2D8 D_80083160;
 M2C_UNK func_8003E188();
 M2C_UNK func_80042640();
 M2C_UNK func_800424E0();
@@ -119,7 +119,7 @@ void func_800B7774(void *egg_bomb, Coord *position, void *effect) {
     S_8003E2D8 *state_base;
     Coord *coord_arg = position;
 
-    state_base = &D_80083160;
+    state_base = ((struct S_8003E2D8 *)&gameWork);
     phase = ((S_800B7774_0 *)egg_bomb)->unk_0A.s;
     if (phase == 1) {
         goto state_1;

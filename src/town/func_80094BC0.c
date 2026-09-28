@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_func_80094268_arg0.h"
@@ -18,7 +19,6 @@ s32 func_80095840();               /* extern */
 s16 func_80095978();               /* extern */
 M2C_UNK func_80095A94();      /* extern */
 M2C_UNK func_80095C80();                      /* extern */
-extern u8 D_80083160[];
 extern M2C_UNK D_800CFCB4;
 extern M2C_UNK D_800CFCEF;
 extern M2C_UNK D_800FE488;
@@ -36,7 +36,7 @@ typedef struct S_80092320_2 {
 
 /* Update the actor and select an action from the reference value, state flags, and timer. */
 void func_80092320(Rec_func_80094268_arg0 *action, Rec_D_800E3D7C *actor, M2C_UNK context) {
-    u8 *state = D_80083160;
+    GameWork *state = &gameWork;
     s16 reference_value;
     s32 action_result;
     u16 ticks_left;
@@ -56,7 +56,7 @@ void func_80092320(Rec_func_80094268_arg0 *action, Rec_D_800E3D7C *actor, M2C_UN
         func_80095A94(actor, reference_value, &D_800FE488);
     }
 check_state:
-    if (((S_80092320_2 *)state)->unk_10 & 0x10) {
+    if (((s32)state->unk_010) & 0x10) {
         func_800942B0(action, actor, context);
         goto done;
     }
@@ -66,7 +66,7 @@ check_state:
         func_80094414(action, actor, context);
         goto done;
     }
-    if (((S_80092320_2 *)state)->unk_10 & 0x40) {
+    if (((s32)state->unk_010) & 0x40) {
         action_result = func_80095840(action, &D_800CFCB4);
         if (action_result != 0) {
             if (action_result == 2) {

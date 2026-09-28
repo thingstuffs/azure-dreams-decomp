@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 typedef s32 M2C_UNK;
 extern u8 D_80083498[];
 struct TargetVec;
 extern struct TargetVec *D_80026208[];
-extern u8 D_80045340[];
 void *func_8003FD64();
 M2C_UNK func_8004491C();
 s32 func_800644B8();
@@ -109,7 +109,7 @@ void func_81977FB8(void)
       origin_y = origin->field4;
       position->field4 = origin_y + (axis_offset << 8);
       position->fieldA = (s16) (origin->fieldA + motion->fieldA);
-      func_8004491C(obj, D_80045340);
+      func_8004491C(obj, func_80045340);
     }
   }
 }

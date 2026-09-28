@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "m2c_compat.h"
 
 M2C_UNK func_80093D48();     /* extern */
@@ -10,7 +11,6 @@ s16 func_80095978();               /* extern */
 M2C_UNK func_80095A94();      /* extern */
 M2C_UNK func_80095C80();                      /* extern */
 s32 func_8009FF50();                                /* extern */
-extern u8 D_80083160[];
 extern u8 D_800CFCEF;
 extern u8 D_800FE488[];
 
@@ -43,10 +43,10 @@ void func_800930E4(void *self_arg, void *target_arg, M2C_UNK context_arg) {
     s16 target_value;
     u16 countdown;
     u16 busy_countdown;
-    u8 *state;
+    GameWork *state;
 
     context = context_arg;
-    state = D_80083160;
+    state = &gameWork;
 
     func_80095C80(target_arg);
     target = target_arg;
@@ -65,11 +65,11 @@ void func_800930E4(void *self_arg, void *target_arg, M2C_UNK context_arg) {
         countdown = ((S_800930E4_2 *)self_arg)->unk_0A - 1;
         ((S_800930E4_2 *)self_arg)->unk_0A = countdown;
         if ((s16) countdown >= 0) {
-            if (((S_800930E4_3 *)state)->unk_08 & 0xF000) {
+            if (((s32)state->unk_008) & 0xF000) {
                 func_80093ED8(self_arg, target, context);
                 return;
             }
-            if (((S_800930E4_3 *)state)->unk_10 & 0x10) {
+            if (((s32)state->unk_010) & 0x10) {
                 func_800942B0(self_arg, target, context);
                 return;
             }

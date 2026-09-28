@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct Vec8 { u32 xy; s16 z; s16 pad; } Vec8;
 typedef union Quad { u32 words[4]; s16 vals[8]; } Quad;
@@ -27,7 +28,6 @@ typedef struct ScratchPrefix {
 typedef union ScratchArena { Scratch full; ScratchPrefix prefix; } ScratchArena;
 
 s32 func_8008CE08(Scratch *arg0);
-extern GlobalState D_80083160;
 extern s32 D_800FE480;
 extern s32 D_800FE484;
 
@@ -38,7 +38,7 @@ s32 func_8008D5C4(s32 world_x, s32 world_y, s16 height) {
     s16 scan_y = world_y;
     ScratchArena *arena = (ScratchArena *)0x1F800000;
     Scratch *scratch = &arena->full;
-    GlobalState *global = &D_80083160;
+    GlobalState *global = ((GlobalState *)&gameWork);
     MapInfo *map;
     u16 *grid;
     Vec8 *vertices;

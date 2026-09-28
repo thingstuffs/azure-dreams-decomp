@@ -1,3 +1,4 @@
+#include "shared/slus_callbacks.h"
 typedef signed char s8;
 typedef unsigned char u8;
 typedef short s16;
@@ -21,7 +22,6 @@ typedef struct Object136 {
 extern void *func_8003FC64();
 extern void func_8004491C();
 extern u8 D_8002614C[];
-extern u8 D_80045340[];
 extern u8 D_800F7944[];
 
 /* Creates object 0x136 with the supplied initial state and Y position. */
@@ -35,7 +35,7 @@ void func_800253BC(Copy20 *init_data, s32 pos_y)
     if (obj != 0) {
         obj->init = *init_data;
         obj->callback = D_8002614C;
-        func_8004491C(obj, D_80045340);
+        func_8004491C(obj, func_80045340);
 
         data = obj->data;
         entity = obj->entity;

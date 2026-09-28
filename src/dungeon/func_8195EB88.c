@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 
 typedef struct S_8195EB88_0_pre {
@@ -70,7 +71,6 @@ typedef struct FlagsView {
 } FlagsView;
 
 extern CounterView D_80027330;
-extern u8 D_80045340[];
 
 /* Updates the effect position, brightens and fades its primitive, and marks completion. */
 void func_80024388(void *effect, S_8195EB88_2 *position, S_8195EB88_4 *primitive)
@@ -110,7 +110,7 @@ void func_80024388(void *effect, S_8195EB88_2 *position, S_8195EB88_4 *primitive
         position->unk_0A =
             base_position->unk_0A + ((S_8195EB88_0 *)effect)->unk_44.u;
         if (func_80027204(position) != 0) {
-            func_8004491C((u8 *)effect - 0x20, D_80045340);
+            func_8004491C((u8 *)effect - 0x20, func_80045340);
             ((S_8195EB88_0 *)effect)->unk_48.u = ((S_8195EB88_0 *)effect)->unk_48.u + 1;
             goto end;
         }

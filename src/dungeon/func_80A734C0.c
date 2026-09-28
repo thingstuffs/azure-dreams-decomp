@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -8,7 +9,6 @@
 
 extern u8 D_8006DE24[];
 extern void *D_800814A8;
-extern s16 D_80083228;
 extern u8 D_80170838[16];
 extern u8 D_80170E54;
 extern u8 D_80174148[8];
@@ -212,7 +212,7 @@ no_item:
         (*(void * *)((u8 *)sprite + 0x2C)) = D_80174180;
         func_80047784(
             sprite,
-            D_80174180[((D_80083228 + (*(s16 *)((u8 *)entity + 0x2A)) + 0x100) >> 9) & 7],
+            D_80174180[((gameWork.viewAngle + (*(s16 *)((u8 *)entity + 0x2A)) + 0x100) >> 9) & 7],
             0);
         ((Rec_func_80172CC0_arg0 *)action)->unk_A8 = 0x10;
         ((Rec_func_80172CC0_arg0 *)action)->unk_9B.as_u8++;
@@ -257,16 +257,15 @@ no_item:
             (*(void * *)((u8 *)sprite + 0x2C)) = D_80174148;
             func_80047784(
                 sprite,
-                D_80174148[((D_80083228 + (*(s16 *)((u8 *)entity + 0x2A)) + 0x100) >> 9) & 7],
+                D_80174148[((gameWork.viewAngle + (*(s16 *)((u8 *)entity + 0x2A)) + 0x100) >> 9) & 7],
                 0);
         }
 
         {
-            u8 *global_state = ((u8 *)(&dungeonStatus));
-            if (((S_80172CC0_5 *)global_state)->unk_0C != 0) {
+            if (((s32)dungeonStatus.unk_0C) != 0) {
                 goto end;
             }
-            ((S_80172CC0_5 *)global_state)->unk_0A--;
+            dungeonStatus.unk_0A--;
         }
         ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
         ((Rec_func_80172CC0_arg0 *)action)->unk_8C.as_pv = &D_80170E54;

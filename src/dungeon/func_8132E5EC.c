@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 typedef struct Sprite {
     u8 pad0[6];
@@ -26,7 +27,6 @@ typedef struct Object {
 extern void func_8003DB94(Sprite *, void *, s16);
 extern Object *func_8003FC64(s32);
 extern void func_8004491C(Object *, void *);
-extern u8 D_80045340;
 extern u8 D_800DE870[];
 extern u8 D_80165580;
 
@@ -40,7 +40,7 @@ void func_801655EC(void *source_position, s32 x_offset, s32 y_offset, s32 z_offs
     obj = func_8003FC64(0x212);
     if (obj != 0) {
         obj->callback = &D_80165580;
-        func_8004491C(obj, &D_80045340);
+        func_8004491C(obj, func_80045340);
         sprite = obj->sprite;
         sprite->field10 = 0x20;
         sprite->field6 = 6;

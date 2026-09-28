@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "records/Rec_D_800E3D7C.h"
 
 typedef struct S_800A5FDC_0 {
@@ -46,7 +47,6 @@ extern s32 func_800A5894();
 extern s32 func_800C1D44();
 extern int abs(int);
 
-extern u8 D_80083160[];
 extern u8 D_80083780[];
 extern s32 D_800A58CC;
 extern u8 D_800CFCEE[];
@@ -71,7 +71,7 @@ void func_800A5FDC(u8 *state, u8 *table, void *action_context)
     s16 ground_height;
 
     context = action_context;
-    globals = D_80083160;
+    globals = ((u8 *)(&gameWork));
     func_80095C80(table);
 
     ((S_800A5FDC_0 *)state)->unk_0A.s--;

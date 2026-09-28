@@ -26,7 +26,6 @@ extern struct S_80083178 D_80083178;
 void func_800C4C00(void *fade)
 {
     u8 *color_state;
-    u16 *effect_counts;
     u16 frames_left;
 
     color_state = (u8 *)&D_80083178;
@@ -62,8 +61,7 @@ void func_800C4C00(void *fade)
             ((S_800C4C00_1 *)color_state)->unk_90 = 0x80;
             ((S_800C4C00_1 *)color_state)->unk_91 = 0x80;
             ((S_800C4C00_1 *)color_state)->unk_92 = 0x80;
-            effect_counts = (u16 *)&dungeonStatus.unk_00;
-            effect_counts[5]--;
+            dungeonStatus.unk_0A--;
             (*(u16 *)((u8 *)fade + -2)) |= 0x8000;
             objectFlagBlock.flags |= 0x8000;
         }

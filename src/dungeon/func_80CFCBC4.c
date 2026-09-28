@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -35,7 +36,6 @@ extern void func_800AD594(void *, s32);
 extern void func_8015F21C(void *, void *, void *, void *);
 extern void func_8015F4FC(void *, void *, void *, void *);
 
-extern s16 D_80083228;
 extern u8 D_801604BC[];
 extern u8 D_80163DDC[8];
 extern u8 D_80163DE4[8];
@@ -79,19 +79,19 @@ select_animation:
     case 13:
         (*(u8 * *)((u8 *)animation + 0x2C)) = D_80163DDC;
         func_80047784(animation,
-            D_80163DDC[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            D_80163DDC[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
         goto done;
     case 14:
         (*(u8 * *)((u8 *)animation + 0x2C)) = D_80163DE4;
         func_80047784(animation,
-            D_80163DE4[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            D_80163DE4[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
         goto done;
     case 15:
         (*(u8 * *)((u8 *)animation + 0x2C)) = D_80163DEC;
         func_80047784(animation,
-            D_80163DEC[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            D_80163DEC[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
         ((S_801623C4_0 *)action)->unk_9B = 5;
         func_800A56E0(0x60C);

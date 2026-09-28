@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dir_step.h"
 
@@ -16,7 +17,6 @@ typedef struct {
 extern s32 func_800644B8(s32, s32);
 
 extern u8 D_80082E80[];
-extern u8 D_80083228[];
 extern HeightData D_80083780;
 
 /* Updates position history, motion and shading, and flags objects whose positions have settled. */
@@ -82,7 +82,7 @@ copy_history:
     goto copy_out;
 
 interpolate:
-    direction_offset = ((-S16_AT(D_80083228, 0) + 0x500) >> 8) & 0xE;
+    direction_offset = ((-S16_AT(((u8 *)(&gameWork.viewAngle)), 0) + 0x500) >> 8) & 0xE;
     room = D_80082E80;
     x_adjust = (s16 *)(((u8 *)dirStepX) + direction_offset);
     {

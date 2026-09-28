@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
 typedef struct S_801725A4_0 {
@@ -62,7 +63,6 @@ extern void func_800BB044(void *);
 
 extern u8 D_8006DE24[];
 extern void *D_800814A8;
-extern s16 D_80083228;
 extern u8 D_80170838[28];
 extern u8 D_80171014[];
 extern u8 D_8017420C[];
@@ -255,17 +255,16 @@ L_state2_ready:
             (*(u8 * *)((u8 *)actor + 0x2C)) = direction_table;
             func_80047784(
                 actor,
-                direction_table[((D_80083228 + ((S_801725A4_1 *)object)->unk_2A + 0x100) >> 9) & 7],
+                direction_table[((gameWork.viewAngle + ((S_801725A4_1 *)object)->unk_2A + 0x100) >> 9) & 7],
                 0);
         }
     }
 
     {
-        u8 *status = (u8 *)&dungeonStatus.unk_00;
-        if (((S_801725A4_4 *)status)->unk_0C != 0) {
+        if (((s32)dungeonStatus.unk_0C) != 0) {
             return;
         }
-        ((S_801725A4_4 *)status)->unk_0A--;
+        dungeonStatus.unk_0A--;
     }
     ((S_801725A4_0 *)owner)->unk_8C = D_80171014;
     func_800A4ACC(object);

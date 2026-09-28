@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -69,7 +70,6 @@ typedef struct {
 extern u8 D_80082E80[];
 extern u16 D_80027450;
 extern u8 D_80027452[16];
-extern s16 D_80083228;
 extern Origin D_80083780;
 extern void **D_800E3D18;
 extern u8 *D_800E3D7C;
@@ -119,7 +119,7 @@ initialize:
     entity = D_800E3D7C;
     base.z = ((S_819ACDA0_0 *)entity)->unk_88 - 0x50;
     index =
-        ((D_80083228 + ((S_819ACDA0_0 *)entity)->unk_2A + 0x100) >> 7) & 0x1C;
+        ((gameWork.viewAngle + ((S_819ACDA0_0 *)entity)->unk_2A + 0x100) >> 7) & 0x1C;
 
     func_8003DE58(
         *(void **)(index + (s32)D_800E3D18),

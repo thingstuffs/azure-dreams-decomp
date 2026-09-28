@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct S_80024198_0 {
     u8 pad_00[0x24];
@@ -127,7 +128,6 @@ extern s32 func_80065590(void *, void *, void *, void *, void *, void *, void *,
 extern void func_80065820(void *, void *);
 extern u16 func_80066460(s32, s32, s32, s32);
 extern void func_80067F20(void *, s32, s32, u16, s32);
-extern u8 D_80083160[];
 
 /* Projects a shaded quad and adds it to the ordering table when visible. */
 void func_80024198(void *quad, void *position, void *render_state, s16 depth_bias)
@@ -138,10 +138,10 @@ void func_80024198(void *quad, void *position, void *render_state, s16 depth_bia
     s32 ot_index;
     u16 render_flags;
     u8 texture_flags;
-    u8 **render_context_ptr = (u8 **)D_80083160;
+    u8 **render_context_ptr = (u8 **)((u8 *)(&gameWork));
     MATRIX current_matrix;
 
-    ((S_80024198_0 *)scratch)->unk_24.p = *(u8 **)D_80083160 + 0xB0;
+    ((S_80024198_0 *)scratch)->unk_24.p = *(u8 **)((u8 *)(&gameWork)) + 0xB0;
     ((S_80024198_0 *)scratch)->unk_88 = ((S_80024198_1 *)position)->unk_02;
     ((S_80024198_0 *)scratch)->unk_8C = ((S_80024198_1 *)position)->unk_06;
     ((S_80024198_0 *)scratch)->unk_90 = ((S_80024198_1 *)position)->unk_0A;
@@ -165,19 +165,19 @@ void func_80024198(void *quad, void *position, void *render_state, s16 depth_bia
     texture = (*(u8 * *)((u8 *)render_state + 8));
     ((S_80024198_0 *)scratch)->unk_28 = ((S_80024198_2 *)render_state)->unk_14;
 
-    packet = ((S_80024198_3 *)(*(u8 **)D_80083160))->unk_8D0;
-    ((S_80024198_3 *)(*(u8 **)D_80083160))->unk_8D0 = packet + 0xC;
+    packet = ((S_80024198_3 *)(*(u8 **)((u8 *)(&gameWork))))->unk_8D0;
+    ((S_80024198_3 *)(*(u8 **)((u8 *)(&gameWork))))->unk_8D0 = packet + 0xC;
     func_80067F20(packet, 0, 1, func_80066460(0, 0, 0, 0) & 0xFFFF, 0);
     (*(u32 *)((u8 *)packet + 0)) = (((S_80024198_4 *)packet)->unk_00.at00.v & 0xFF000000) |
-        (((S_80024198_3 *)(*(u8 **)D_80083160))->unk_B0 & 0x00FFFFFF);
-    (*(u32 *)((u8 *)(*(u8 **)D_80083160) + 0xB0)) =
-        (((S_80024198_3 *)(*(u8 **)D_80083160))->unk_B0 & 0xFF000000) |
+        (((S_80024198_3 *)(*(u8 **)((u8 *)(&gameWork))))->unk_B0 & 0x00FFFFFF);
+    (*(u32 *)((u8 *)(*(u8 **)((u8 *)(&gameWork))) + 0xB0)) =
+        (((S_80024198_3 *)(*(u8 **)((u8 *)(&gameWork))))->unk_B0 & 0xFF000000) |
         ((u32)packet & 0x00FFFFFF);
 
     {
         u8 *render_context;
 
-        render_context = *(u8 * volatile *)D_80083160;
+        render_context = *(u8 * volatile *)((u8 *)(&gameWork));
         packet = ((S_80024198_5 *)render_context)->unk_8D0;
         ((S_80024198_5 *)render_context)->unk_8D0 = packet + 0x24;
     }

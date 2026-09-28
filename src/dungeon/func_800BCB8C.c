@@ -68,10 +68,8 @@ s32 func_800C22EC(Rec_D_800E3D7C *entity, s32 action, s16 action_type, M2C_UNK c
         }
         func_80098B38(action);
         {
-            void *counter;
 
-            counter = &dungeonStatus.unk_00;
-            ((S_800C22EC_1 *)counter)->unk_0A = (u16) (((S_800C22EC_1 *)counter)->unk_0A - 1);
+            dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
         }
         return 1;
     }
@@ -98,10 +96,8 @@ s32 func_800C22EC(Rec_D_800E3D7C *entity, s32 action, s16 action_type, M2C_UNK c
     }
     func_80098B38(action);
     {
-        void *counter;
 
-        counter = &dungeonStatus.unk_00;
-        ((S_800C22EC_1 *)counter)->unk_0A = (u16) (((S_800C22EC_1 *)counter)->unk_0A - 1);
+        dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
     }
     return 1;
 }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "records/Rec_func_800AD058_arg2.h"
 
 typedef s32 M2C_UNK;
@@ -16,7 +17,6 @@ extern void func_8004491C(void *arg0, void *arg1);
 extern s32 func_8004A658(s32, s32);
 extern void func_800BC26C(void *, s32, s32, s32);
 
-extern u8 D_80045340[9];
 extern u8 D_8006E240[9];
 extern u8 D_80174978[9];
 
@@ -88,7 +88,7 @@ void func_80174D48(void *source, Rec_func_800AD058_arg2 *record, void *appearanc
         transform->unk_0C = 0;
         transform->unk_14 = 0xFFEE0000;
         transform->unk_08 = coord_z;
-        func_8004491C(init_object, (void *)D_80045340);
+        func_8004491C(init_object, func_80045340);
         sprite->unk_0C = 0x808080;
         sprite_size = 0xC90;
         object_data = (u8 *)object + 0x20;

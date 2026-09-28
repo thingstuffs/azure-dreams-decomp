@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 typedef s32 M2C_UNK;
 
@@ -44,7 +45,6 @@ M2C_UNK func_8003DB94();
 Node *func_8003FC64();
 M2C_UNK func_8004491C();
 
-extern M2C_UNK D_80045340[3];
 extern M2C_UNK D_800DE870[3];
 extern M2C_UNK D_800DEDB0[3];
 extern M2C_UNK D_80170D60[3];
@@ -63,7 +63,7 @@ void func_80172CC8(S_80172CC8_1 *origin, s16 x_offset, s16 y_offset, s16 z_offse
     node = func_8003FC64(0x212);
     if (node != 0) {
         node->callback = D_80170D60;
-        func_8004491C(node, D_80045340);
+        func_8004491C(node, func_80045340);
         setup_sub = node->sub;
         setup_sub->field_10 = 0x20;
         setup_sub->field_06 = 6;

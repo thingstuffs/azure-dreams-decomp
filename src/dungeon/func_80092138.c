@@ -1,9 +1,9 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "m2c_compat.h"
 
 M2C_UNK func_8003DB94();        /* extern */
 s32 func_800A6D30(void *, M2C_UNK, void *, void *);   /* extern */
-extern s16 D_80083228;
 extern u8 D_800DD294[];
 
 
@@ -36,5 +36,5 @@ void func_80097898(void *arg0, M2C_UNK arg1, void *arg2, void *arg3) {
     }
     temp = D_800DD294;
     (*(u8 **)((u8 *)saved2 + (0x2C))) = temp;
-    func_8003DB94(saved2, (*(s32 *)((u8 *)temp + (((s32) (D_80083228 + ((S_80097898_1 *)saved)->unk_2A + 0x100) >> 7) & 0x1C))), 0);
+    func_8003DB94(saved2, (*(s32 *)((u8 *)temp + (((s32) (gameWork.viewAngle + ((S_80097898_1 *)saved)->unk_2A + 0x100) >> 7) & 0x1C))), 0);
 }

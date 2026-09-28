@@ -127,21 +127,21 @@ void func_801715F4(void *move_state, void *caller_context, void *position_arg, v
     s32 dy;
     u32 table_offset;
     void *angle;
-    u8 *dungeon_state = (u8 *)&dungeonStatus.unk_00;
+    DungeonGlobalStatus *dungeon_state = &dungeonStatus;
     u8 *angle_context;
     u8 *leader_position;
     u8 *follow_context;
     s16 *turn_table;
 
     limit_turns = 0;
-    flags = ((S_801715F4_0 *)dungeon_state)->unk_02;
+    flags = dungeon_state->flags;
     if ((flags & 0x4000) || (((S_801715F4_1 *)actor_arg)->unk_71.s >= 0)) {
         if ((((S_801715F4_1 *)actor_arg)->unk_12 >= 2) ||
             ((s16)func_80171EBC(move_state, caller_context, position_arg, actor_arg) == 0)) {
             func_800A9A0C(actor_arg);
             goto end;
         }
-        if (((S_801715F4_0 *)dungeon_state)->unk_0C == actor_arg) {
+        if (dungeon_state->unk_0C == actor_arg) {
             ((S_801715F4_1 *)actor_arg)->unk_46 = 0xC008;
         }
         goto end;
@@ -437,9 +437,9 @@ after_loop:
     ((S_801715F4_8 *)move_state)->unk_9C.u = ((S_801715F4_2 *)position_arg)->unk_26.u;
     ((S_801715F4_1 *)actor_arg)->unk_6D.u--;
     {
-        u8 *counter_state = (u8 *)&dungeonStatus.unk_00;
+        DungeonGlobalStatus *counter_state = &dungeonStatus;
 
-        ((S_801715F4_9 *)counter_state)->unk_08++;
+        counter_state->unk_08++;
     }
     if (((S_801715F4_1 *)actor_arg)->unk_6D.s != 0) {
         goto remaining_count;

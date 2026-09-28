@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 
 #ifndef NULL
@@ -170,7 +171,6 @@ extern s32 D_80025C94[];
 extern s32 D_8002663C[];
 extern s16 D_8002715A;
 extern s16 D_8002715C;
-extern s8 D_80083160[];
 extern u8 *D_800E3D7C;
 
 /* Initializes child objects and copies source entities, or requests their shutdown. */
@@ -218,7 +218,7 @@ void func_80026190(void *owner_arg)
     void *entity;
 
     owner = owner_arg;
-    status_page = (u8 *)D_80083160;
+    status_page = (u8 *)((s8 *)(&gameWork));
     state = ((S_80026190_0 *)owner)->unk_1C.s;
     stop_state = 2;
     if (state == stop_state) {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef s32 M2C_UNK;
 
@@ -16,7 +17,6 @@ extern M2C_UNK SD_Call();
 
 extern M2C_UNK D_80027E10;
 extern M2C_UNK D_80027E84;
-extern u8 D_80083160[];
 
 
 typedef struct S_800277A8_0 {
@@ -50,7 +50,7 @@ typedef struct S_800277A8_1 {
 
 /* Handle menu buttons and move the selection, refreshing the page when needed. */
 void func_800277A8(void *menu) {
-    u8 *input = D_80083160;
+    u8 *input = ((u8 *)(&gameWork));
     s32 held_buttons;
     s32 buttons;
     s32 cursor_step = 0;

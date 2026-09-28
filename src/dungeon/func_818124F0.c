@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct S_8003E2D8 {
     s32 unk0;
@@ -33,7 +34,6 @@ typedef struct S_800274F0_Arg {
     void *unk88;
 } S_800274F0_Arg;
 
-extern S_8003E2D8 D_80083160;
 extern u8 D_80027E84[];
 
 extern s16 SD_Call(s32, S_8003E2D8 *);
@@ -59,7 +59,7 @@ void func_800274F0(S_800274F0_Arg *menu) {
     s32 remaining_items;
     s32 repeat_buttons;
 
-    input = &D_80083160;
+    input = ((S_8003E2D8 *)&gameWork);
     held_buttons = input->unk8;
     if (held_buttons == 0)
         goto done;

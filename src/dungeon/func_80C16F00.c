@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
@@ -9,7 +10,6 @@
 #define F32(p, o) (*(s32 *)((u8 *)(p) + (o)))
 #define FPTR(p, o) (*(void **)((u8 *)(p) + (o)))
 
-extern s16 D_80083228;
 extern void *D_800E3DE8;
 extern u8 D_801713A8[];
 extern u8 D_8017449C[];
@@ -79,7 +79,7 @@ state_0:
     }
     if (!(flags & 0xE000)) goto done;
     FPTR(sprite, 0x2C) = D_801744B4;
-    result = (D_80083228 + FS16(actor, 0x2A) + 0x100) >> 9;
+    result = (gameWork.viewAngle + FS16(actor, 0x2A) + 0x100) >> 9;
     func_80047784(sprite, D_801744B4[result & 7], 0);
     F32(motion, 0xC) = (-step_x) << 18;
     F32(motion, 0x10) = (-step_y) << 18;
@@ -115,7 +115,7 @@ state_2:
         F32(motion, 0x10) = 0;
         F32(motion, 0x14) = 0;
         FPTR(sprite, 0x2C) = D_801744BC;
-        result = (D_80083228 + FS16(actor, 0x2A) + 0x100) >> 9;
+        result = (gameWork.viewAngle + FS16(actor, 0x2A) + 0x100) >> 9;
         func_80047784(sprite, D_801744BC[result & 7], 0);
     }
     if (FS16(action, 0x96) > 0) goto done;
@@ -124,7 +124,7 @@ state_2:
     F32(motion, 0xC) = (step_x << 18) + (step_x << 17);
     F32(motion, 0x10) = (step_y << 18) + (step_y << 17);
     FPTR(sprite, 0x2C) = D_801744C4;
-    result = (D_80083228 + FS16(actor, 0x2A) + 0x100) >> 9;
+    result = (gameWork.viewAngle + FS16(actor, 0x2A) + 0x100) >> 9;
     func_80047784(sprite, D_801744C4[result & 7], 0);
     goto increment;
 
@@ -150,7 +150,7 @@ state_4:
     F32(action, 0x90) += 0x80000;
     if (!(F16(sprite, 0x14) & 0xE000)) goto done;
     FPTR(sprite, 0x2C) = D_801744CC;
-    result = (D_80083228 + FS16(actor, 0x2A) + 0x100) >> 9;
+    result = (gameWork.viewAngle + FS16(actor, 0x2A) + 0x100) >> 9;
     func_80047784(sprite, D_801744CC[result & 7], 0);
     F32(motion, 0x14) = 0;
     F32(action, 0x90) = 0;
@@ -184,7 +184,7 @@ state_ff:
     dungeonStatus.unk_0C = 0;
     func_800A4ACC(actor);
     FPTR(sprite, 0x2C) = D_8017449C;
-    result = (D_80083228 + FS16(actor, 0x2A) + 0x100) >> 9;
+    result = (gameWork.viewAngle + FS16(actor, 0x2A) + 0x100) >> 9;
     func_80047784(sprite, D_8017449C[result & 7], 0);
     if (FS8(actor, 0x6D) == 0) {
         F16(actor, 0x46) &= 0x7FFF;

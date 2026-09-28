@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 #define SPAD_U16(off) (*(u16 *)(scratch + (off)))
 #define SPAD_U32(off) (*(u32 *)(scratch + (off)))
@@ -6,7 +7,6 @@
 extern u32 func_80065420(void *, void *, void *, void *);
 extern s32 func_80066460(s32, s32, s32, s32);
 extern void func_80067F20(void *, s32, s32, s32, s32);
-extern void *D_80083160;
 
 typedef void (*Callback)(void);
 
@@ -137,10 +137,10 @@ s32 func_80AC50A4(void *render_state, void *coord_data)
     u32 length_mask;
     void *next_node;
 
-    render_buffer_ptr = &D_80083160;
+    render_buffer_ptr = &gameWork.unk_000;
     address_mask = 0x00FF0000U;
     ASM_KEEP_NV(address_mask);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    render_buffer = D_80083160;
+    render_buffer = gameWork.unk_000;
     address_mask |= 0xFFFFU;
     length_mask = 0xFF000000U;
     scratch = (u8 *)0x1F800000;

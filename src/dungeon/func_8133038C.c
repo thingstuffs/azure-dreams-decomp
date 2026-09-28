@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 #ifndef NULL
 #define NULL 0
@@ -12,7 +13,6 @@ typedef struct {
 extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *);
 
-extern u8 D_80045340;
 extern u8 D_801671AC;
 extern u8 D_80173B58[48];
 
@@ -65,7 +65,7 @@ void func_8016738C(S_8016738C_3 *origin)
         node->unk_18 = 0x1E;
         node->unk_1A = 0x1E;
         (*(void * *)((u8 *)object + 0x10)) = &D_801671AC;
-        func_8004491C(object, &D_80045340);
+        func_8004491C(object, func_80045340);
 
         control = (*(void * *)((u8 *)object + 0xC));
 

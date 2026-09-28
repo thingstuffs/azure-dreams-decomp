@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "shared/dir_step.h"
 
 
@@ -17,7 +18,6 @@ extern M2C_UNK func_8003DB94();
 extern void *func_8003FC64();
 extern M2C_UNK func_8004491C();
 extern s32 rand();
-extern M2C_UNK D_80045340;
 extern M2C_UNK D_800ABB20;
 extern M2C_UNK D_800D1464;
 
@@ -87,7 +87,7 @@ void *func_8009792C(S_8009792C_2 *source, u32 angle) {
     effect = func_8003FC64(0x212, angle);
     if (effect != NULL) {
         init_object = effect;
-        init_data = &D_80045340;
+        init_data = func_80045340;
         ASM_KEEP_NV(init_data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 #ifdef NON_MATCHING
         callback_page = (u8 *)&D_800ABB20 + 0x44E0;

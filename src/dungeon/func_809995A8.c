@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
 
@@ -15,7 +16,6 @@ extern s16 func_800BCB04(u16, u16, s16);
 
 
 extern u8 D_8006CCF8[8];
-extern s16 D_80083228;
 extern void D_8014D4D4(void);
 extern u8 D_801500E0[];
 extern u8 D_801500E8[];
@@ -112,7 +112,7 @@ void func_8014CDA8(void *entity, void *motion, void *sprite)
     sprite_flags = ((S_8014CDA8_1 *)sprite)->unk_14;
 
     if (!(sprite_flags & 0x8000)) {
-        direction = ((D_80083228 + ((S_8014CDA8_2 *)entity_state)->unk_2A + 0x100) >> 9) & 7;
+        direction = ((gameWork.viewAngle + ((S_8014CDA8_2 *)entity_state)->unk_2A + 0x100) >> 9) & 7;
         direction_index = direction;
         if ((*(s16 *)((u8 *)entity + 0x94)) != direction_index) {
             func_80047738(sprite,
@@ -177,7 +177,7 @@ void func_8014CDA8(void *entity, void *motion, void *sprite)
                 (*(s32 *)((u8 *)entity + 0xA0)) = func_800644B8(bob_angle) << 7;
                 if (((S_8014CDA8_1 *)sprite)->unk_04.u16 == 0x103) {
                     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801500E8;
-                    func_80047784(sprite, D_801500E8[((D_80083228 + ((S_8014CDA8_2 *)entity_state)->unk_2A + 0x100) >> 9) & 7], 0);
+                    func_80047784(sprite, D_801500E8[((gameWork.viewAngle + ((S_8014CDA8_2 *)entity_state)->unk_2A + 0x100) >> 9) & 7], 0);
                 }
             } else if (((S_8014CDA8_1 *)sprite)->unk_2C == D_801500E8) {
                 bob_frame = (*(u16 *)((u8 *)entity + 0x9E))++;
@@ -186,7 +186,7 @@ void func_8014CDA8(void *entity, void *motion, void *sprite)
                 (*(s32 *)((u8 *)entity + 0xA0)) = func_800644B8(bob_angle) << 7;
                 if (((S_8014CDA8_1 *)sprite)->unk_04.u16 == 0x103) {
                     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801500E0;
-                    func_80047784(sprite, D_801500E0[((D_80083228 + ((S_8014CDA8_2 *)entity_state)->unk_2A + 0x100) >> 9) & 7], 0);
+                    func_80047784(sprite, D_801500E0[((gameWork.viewAngle + ((S_8014CDA8_2 *)entity_state)->unk_2A + 0x100) >> 9) & 7], 0);
                 }
             }
         }
@@ -241,7 +241,7 @@ void func_8014CDA8(void *entity, void *motion, void *sprite)
             (*(s32 *)((u8 *)entity + 0xA0)) = func_800644B8(bob_angle) << 7;
             if (((S_8014CDA8_1 *)sprite)->unk_04.u16 == 0x103) {
                 (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801500E8;
-                func_80047784(sprite, D_801500E8[((D_80083228 + ((S_8014CDA8_2 *)entity_state)->unk_2A + 0x100) >> 9) & 7], 0);
+                func_80047784(sprite, D_801500E8[((gameWork.viewAngle + ((S_8014CDA8_2 *)entity_state)->unk_2A + 0x100) >> 9) & 7], 0);
             }
         } else if (((S_8014CDA8_1 *)sprite)->unk_2C == D_801500E8) {
             bob_frame = (*(u16 *)((u8 *)entity + 0x9E))++;
@@ -250,7 +250,7 @@ void func_8014CDA8(void *entity, void *motion, void *sprite)
             (*(s32 *)((u8 *)entity + 0xA0)) = func_800644B8(bob_angle) << 7;
             if (((S_8014CDA8_1 *)sprite)->unk_04.u16 == 0x103) {
                 (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801500E0;
-                func_80047784(sprite, D_801500E0[((D_80083228 + ((S_8014CDA8_2 *)entity_state)->unk_2A + 0x100) >> 9) & 7], 0);
+                func_80047784(sprite, D_801500E0[((gameWork.viewAngle + ((S_8014CDA8_2 *)entity_state)->unk_2A + 0x100) >> 9) & 7], 0);
             }
         }
     }

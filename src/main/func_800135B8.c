@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct S_800265B8_0 {
     u8 pad_00[0x20];
@@ -11,7 +12,6 @@ typedef struct S_800265B8_0 {
 
 
 
-extern s32 D_80083160[];
 
 extern s32 func_8002168C(void);
 extern void func_80021904(void);
@@ -30,13 +30,11 @@ void func_800265B8(u8 *menu)
     s32 repeat_buttons;
     s32 status;
     s32 repeat_ticks;
-    s32 *controller;
 
-    held_buttons = D_80083160[2];
-    controller = D_80083160;
+    held_buttons = ((s32)gameWork.unk_008);
     status = 0;
     if (held_buttons != 0) {
-        pressed_buttons = controller[4];
+        pressed_buttons = ((s32)gameWork.unk_010);
         if (pressed_buttons & 0x20) {
             SD_Call(0x515);
             goto perform_action;
@@ -49,7 +47,7 @@ void func_800265B8(u8 *menu)
         if (held_buttons & 0x5000) {
             if (pressed_buttons & 0x5000) {
                 ((S_800265B8_0 *)menu)->unk_30 = 0;
-                pressed_buttons = controller[4];
+                pressed_buttons = ((s32)gameWork.unk_010);
                 if (pressed_buttons & 0x1000) {
                     status = -1;
                 } else if (pressed_buttons & 0x4000) {
@@ -59,7 +57,7 @@ void func_800265B8(u8 *menu)
                 repeat_ticks = ((S_800265B8_0 *)menu)->unk_30;
                 if (repeat_ticks >= 13) {
                     ((S_800265B8_0 *)menu)->unk_30 = repeat_ticks - 4;
-                    repeat_buttons = controller[2];
+                    repeat_buttons = ((s32)gameWork.unk_008);
                     if (repeat_buttons & 0x1000) {
                         status = -1;
                     } else if (repeat_buttons & 0x4000) {

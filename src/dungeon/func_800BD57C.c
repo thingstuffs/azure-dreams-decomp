@@ -71,7 +71,6 @@ s32 func_800C2CDC(void *actor, u8 *object_data, s16 action_type) {
     S_800C2CDC_1 *entity;
     s32 object_fields;
     u8 *entries;
-    s32 *counter_base;
     s32 object;
     s32 handle;
     s16 entry_index;
@@ -130,7 +129,6 @@ s32 func_800C2CDC(void *actor, u8 *object_data, s16 action_type) {
 
     func_8009A21C(entity->unk_24, entity->unk_25, 2);
     func_80098B38(object_data);
-    counter_base = &dungeonStatus.unk_00;
-    ((S_800C2CDC_4 *)counter_base)->unk_0A--;
+    dungeonStatus.unk_0A--;
     return 1;
 }

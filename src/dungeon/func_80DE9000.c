@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 #ifndef NULL
 #define NULL 0
@@ -52,7 +53,6 @@ extern void func_800A48F0(void *, s32, s32);
 extern void func_800A9C18(void *, void *, void *, s16);
 extern void func_800AA36C(void *, void *, void *, void *);
 
-extern u8 D_80045340[];
 extern u8 D_80083498[];
 extern u8 D_8016AA58[];
 extern u8 D_8016AE5C[];
@@ -130,7 +130,7 @@ void *func_8016A800(s32 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c)
     if (root != NULL) {
         result = (u8 *)root + 0x20;
         ((S_8016A800_0 *)result)->unk_13 = 0x1C;
-        func_8004491C(root, D_80045340);
+        func_8004491C(root, func_80045340);
 
         position = ((S_8016A800_1 *)root)->unk_08;
         kind = spawn_flags & 3;

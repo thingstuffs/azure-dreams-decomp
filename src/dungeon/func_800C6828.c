@@ -20,7 +20,6 @@ s32 func_800CBF88(s32 entity)
     s32 status;
     register s32 effect_id;
     register s32 effect_id_half;
-    register u16 *effect_counts;
 
     if (entity == D_800E3D7C) {
         if (func_8003FA44(1) == 0) {
@@ -34,8 +33,7 @@ s32 func_800CBF88(s32 entity)
                 *(void **)((u8 *)effect + 0x10) = &D_800CBDB4;
                 effect_id_half = effect_id;
                 *(s16 *)((u8 *)effect + 0x24) = effect_id_half;
-                effect_counts = (u16 *)((u8 *)(&dungeonStatus));
-                effect_counts[5] = (u16)(effect_counts[5] + 1);
+                dungeonStatus.unk_0A = (u16)(((u16)dungeonStatus.unk_0A) + 1);
                 func_800419EC(effect_id, 8);
                 func_800A56E0(0x818);
                 return 1;

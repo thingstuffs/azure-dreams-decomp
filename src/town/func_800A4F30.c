@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 
 typedef struct S_800A2690_0 {
@@ -53,7 +54,6 @@ typedef struct S_800A2690_4 {
 
 
 
-extern u8 D_80083160[];
 
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
@@ -105,7 +105,7 @@ void func_800A2690(void *effect)
         (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
         objectFlagBlock.flags |= 0x8000;
     } else {
-        render_state = *(u8 **)D_80083160;
+        render_state = *(u8 **)((u8 *)(&gameWork));
         triangle = ((S_800A2690_2 *)render_state)->unk_8D0;
         ((S_800A2690_2 *)render_state)->unk_8D0 = triangle + 0x24;
 
@@ -152,20 +152,20 @@ void func_800A2690(void *effect)
         (*(s16 *)((u8 *)triangle + 0x1A)) =
             (((S_800A2690_0 *)effect)->unk_10 * func_80064584((s16)angle)) / 4096;
 
-        render_state = *(u8 **)D_80083160;
+        render_state = *(u8 **)((u8 *)(&gameWork));
         draw_packet = ((S_800A2690_2 *)render_state)->unk_8D0;
         ((S_800A2690_2 *)render_state)->unk_8D0 = draw_packet + 0xC;
         draw_page = func_80066460(0, 0, 0x140, 0);
         func_80067F20(draw_packet, 0, 0, draw_page & 0xFFFF, 0);
-        func_8006658C(*(u8 **)D_80083160 + 0xD8, draw_packet);
+        func_8006658C(*(u8 **)((u8 *)(&gameWork)) + 0xD8, draw_packet);
 
-        func_8006658C(*(u8 **)D_80083160 + 0xD8, triangle);
+        func_8006658C(*(u8 **)((u8 *)(&gameWork)) + 0xD8, triangle);
 
-        render_state = *(u8 **)D_80083160;
+        render_state = *(u8 **)((u8 *)(&gameWork));
         draw_packet = ((S_800A2690_2 *)render_state)->unk_8D0;
         ((S_800A2690_2 *)render_state)->unk_8D0 = draw_packet + 0xC;
         draw_page = func_80066460(0, 1, 0x140, 0);
         func_80067F20(draw_packet, 0, 0, draw_page & 0xFFFF, 0);
-        func_8006658C(*(u8 **)D_80083160 + 0xD8, draw_packet);
+        func_8006658C(*(u8 **)((u8 *)(&gameWork)) + 0xD8, draw_packet);
     }
 }

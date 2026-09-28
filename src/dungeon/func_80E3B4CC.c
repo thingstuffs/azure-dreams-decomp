@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
@@ -101,7 +102,6 @@ typedef struct S_80174CCC_11 {
 
 
 
-extern s16 D_80083228;
 extern s8 D_800E2968;
 extern u8 D_80176668[];
 
@@ -124,7 +124,6 @@ void func_80174CCC(void *motion, S_80174CCC_1 *position, Rec_D_80082E80 *record)
     S_80174CCC_10 *owner;
     S_80174CCC_9 *parent;
     register void *linked_object;
-    u8 *counter_base;
     s32 spawn_kind;
     s32 target_coord;
     s32 target_coord_x;
@@ -203,9 +202,8 @@ state_one:
         goto done;
     }
 
-    counter_base = (u8 *)&dungeonStatus.unk_00;
     spawn_kind = 4;
-    ((S_80174CCC_3 *)counter_base)->unk_0A--;
+    dungeonStatus.unk_0A--;
     used_page = 0x80080000;
     removal_flags = ((S_80174CCC_0_pre *)motion)[-1].unk_00.s;
     flags = ((S_80174CCC_0 *)motion)->unk_38.s;
@@ -267,7 +265,7 @@ state_one:
     owner->unk_12 = ((S_80174CCC_0 *)motion)->unk_3A;
     func_80047784(owner,
         owner->unk_2C.u
-            [((D_80083228 + ((S_80174CCC_6 *)created)->unk_2A + 0x100) >> 9) & 7],
+            [((gameWork.viewAngle + ((S_80174CCC_6 *)created)->unk_2A + 0x100) >> 9) & 7],
         0);
     func_800A152C(0x1E, 1);
 

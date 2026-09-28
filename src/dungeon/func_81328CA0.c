@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -36,7 +37,6 @@ typedef struct {
     s16 count;
 } Global83460;
 extern Global82E80 D_80082E80;
-extern s16 D_80083228[5];
 extern u8 D_8016F78C[];
 extern u8 D_80174A2C[];
 
@@ -53,7 +53,6 @@ void func_801704A0(S_801704A0_0 *action, Rec_D_800E3D7C *motion, Rec_D_80082E80 
     u16 action_timer;
     s32 phase;
     Global82E80 *target_tile;
-    Global83460 *active_actions;
 
     phase = action->unk_9B;
     if (phase == 1) {
@@ -123,7 +122,7 @@ check_landing:
 update_animation:
     if (tile->unk_2C.as_pu8 != D_80174A2C) {
         tile->unk_2C.as_pu8 = D_80174A2C;
-        func_80047784(tile, D_80174A2C[((s32) (D_80083228[0] + entity->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
+        func_80047784(tile, D_80174A2C[((s32) (gameWork.viewAngle + entity->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
     }
 update_timer:
     action_timer = action->unk_96 - 1;
@@ -134,9 +133,8 @@ update_timer:
         motion->unk_0C.as_s32 = 0;
         func_800A2B04(motion, tile->unk_24, tile->unk_25);
         func_800A4ACC(entity);
-        active_actions = ((Global83460 *)&dungeonStatus);
-        if (active_actions->count != 0) {
-            active_actions->count = (u16) active_actions->count - 1;
+        if (dungeonStatus.unk_08 != 0) {
+            dungeonStatus.unk_08 = (u16) dungeonStatus.unk_08 - 1;
         }
         entity_flags = entity->unk_1C.as_s32;
         if (!(entity_flags & 0x2000)) {

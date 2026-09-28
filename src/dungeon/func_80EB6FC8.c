@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -63,7 +64,6 @@ s32 func_800A94A0();
 M2C_UNK func_800DB2DC();
 extern DungeonEntry D_8006DE24[];
 extern void *D_800814A8;
-extern s16 D_80083228;
 extern M2C_UNK D_801711A4;
 extern u8 D_8017418C;
 extern u8 D_801741B4;
@@ -73,7 +73,6 @@ extern u8 D_801741BC;
 void func_801727C8(void *action, void *motion, void *sprite, void *actor) {
     static void *const case_labels[] = { &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6, &&jt_c7 };
     u8 *anim_table;
-    M2C_UNK *effect_state;
     s32 visual_base;
     s32 special_slot;
     s32 slot;
@@ -219,7 +218,7 @@ block_34:
     anim_table += 0x41B4;
     ((S_801727C8_5 *)visual_flags)->unk_04 = (u16) (((S_801727C8_5 *)visual_flags)->unk_04 & 0x7FFF);
     (*(M2C_UNK **)((u8 *)effect_sprite + 0x2C)) = anim_table;
-    func_80047784(effect_sprite, *((u8 *) ((((s32) (D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7) + (s32) anim_table)), 0);
+    func_80047784(effect_sprite, *((u8 *) ((((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7) + (s32) anim_table)), 0);
     if (func_800A94A0(actor, entry, is_special, action + 0x98) == 0) {
         goto block_54;
     }
@@ -271,7 +270,7 @@ block_42:
         goto block_54;
     }
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_801741BC;
-    func_80047784(sprite, *((((s32) (D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7) + &D_801741BC), 0);
+    func_80047784(sprite, *((((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7) + &D_801741BC), 0);
 block_44:
     current_state = ((S_801727C8_0 *)action)->unk_9B;
 block_44_increment:
@@ -286,7 +285,6 @@ block_45:
     ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
     func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
     if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pm == &D_8017418C) {
-        effect_state = &dungeonStatus.unk_00;
         goto block_50;
     }
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000)) {
@@ -295,14 +293,13 @@ block_45:
     ((S_801727C8_5 *)visual_flags)->unk_04 = (u16) (((S_801727C8_5 *)visual_flags)->unk_04 | 0x8000);
     ((S_801727C8_0 *)action)->unk_A8 = 0;
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_8017418C;
-    func_80047784(sprite, *((((s32) (D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7) + &D_8017418C), 0);
+    func_80047784(sprite, *((((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7) + &D_8017418C), 0);
 block_49:
-    effect_state = &dungeonStatus.unk_00;
 block_50:
-    if (((S_801727C8_8 *)effect_state)->unk_0C != 0) {
+    if (((s32)dungeonStatus.unk_0C) != 0) {
         goto block_54;
     }
-    ((S_801727C8_8 *)effect_state)->unk_0A = (u16) (((S_801727C8_8 *)effect_state)->unk_0A - 1);
+    dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
     ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = (u16) (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xF7FF);
     ((S_801727C8_0 *)action)->unk_8C = &D_801711A4;
     func_800A4ACC(actor);

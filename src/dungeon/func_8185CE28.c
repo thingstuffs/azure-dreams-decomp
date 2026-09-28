@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 
 
@@ -16,7 +17,6 @@ extern M2C_UNK func_8004491C();
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 extern M2C_UNK D_80024330[];
-extern M2C_UNK D_80045340[];
 extern M2C_UNK D_800DEAE0[];
 
 typedef struct S_8185CE28_0 {
@@ -106,7 +106,7 @@ s32 func_8185CE28(s32 effect_param, S_8185CE28_2 *position, s16 effect_index)
         component->unk_14 |= 0xC;
         component->unk_10 |= 0x20;
         component->unk_14 |= 0x100;
-        func_8004491C(effect, D_80045340);
+        func_8004491C(effect, func_80045340);
         component = ((S_8185CE28_0 *)effect)->unk_08;
         component->unk_02 = state->unk_06 +
             ((func_800644B8(state->unk_1C) >> 4) *

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 
 typedef struct {
@@ -11,7 +12,6 @@ typedef struct S_800814A0 {
     s32 pad[2];
 } S_800814A0;
 
-extern u8 D_80045340[];
 
 extern void func_8004491C(void *, u8 *);
 extern void func_800478B8(void *);
@@ -45,7 +45,7 @@ void func_81845484(void *effect, VecState *motion, void *sprite) {
     timer = *(u16 *)((s8 *)effect + 0x48) - 1;
     *(u16 *)((s8 *)effect + 0x48) = timer;
     if ((s16)timer <= 0) {
-        func_8004491C((s8 *)effect - 0x20, D_80045340);
+        func_8004491C((s8 *)effect - 0x20, func_80045340);
         *(u16 *)((s8 *)effect + 0x4C) += 1;
         return;
     }

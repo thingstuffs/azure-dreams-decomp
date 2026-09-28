@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "m2c_compat.h"
 
 typedef struct S_8009D6F4_1 {
@@ -14,7 +15,6 @@ typedef struct {
 } __attribute__((packed)) Copy8;
 
 extern u8 D_800E50A8[];
-extern u8 D_80083160[];
 M2C_UNK func_800672D8(Copy8 *);
 extern Copy8 D_80088CB0;
 extern u8 D_800EA000[];
@@ -48,7 +48,7 @@ void func_8009D6F4(void) {
     base = D_800E50A8;
     cursor = base;
     row_index = 0;
-    state = D_80083160;
+    state = ((u8 *)(&gameWork));
     grid_dims = state + 0x1DC;
     if ((1 << ((S_8009D6F4_0 *)grid_dims)->unk_16) > 0) {
         register s32 col_index ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */

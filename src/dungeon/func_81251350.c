@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
+#include "shared/game_work.h"
 #include "m2c_compat.h"
 
 typedef struct S_80170B50_0 {
@@ -82,8 +84,6 @@ typedef struct {
 
 extern u8 D_80083498[];
 extern void *D_80170898[];
-extern u8 D_80045340[];
-extern s16 D_80083228[5];
 extern M2C_UNK D_80173EB4;
 extern s32 func_8003DE58();
 extern void *func_8003FD64();
@@ -120,9 +120,9 @@ void func_80170B50(void *owner_data, S_80170B50_5 *base_position, void *sprite_t
             copy_src += 0x10;
             copy_dst += 0x10;
         } while (copy_src != (sprite_template + 0x30));
-        func_8004491C(object, D_80045340, copy_dst, copy_src);
+        func_8004491C(object, func_80045340, copy_dst, copy_src);
         ((S_80170B50_3 *)sprite)->unk_2C = &D_80173EB4;
-        func_80047784(sprite, *((u8 *)&D_80173EB4 + ((((s32) (*D_80083228 + (s16) ((S_80170B50_2 *)((u8 *)owner_data - 0x14))->unk_3E + 0x100) >> 9) & 7))), 0);
+        func_80047784(sprite, *((u8 *)&D_80173EB4 + ((((s32) (gameWork.viewAngle + (s16) ((S_80170B50_2 *)((u8 *)owner_data - 0x14))->unk_3E + 0x100) >> 9) & 7))), 0);
         ((S_80170B50_3 *)sprite)->unk_10 = 0x20;
         sprite_flags = ((S_80170B50_3 *)sprite)->unk_14 | 0xC;
         ((S_80170B50_3 *)sprite)->unk_14 = sprite_flags;

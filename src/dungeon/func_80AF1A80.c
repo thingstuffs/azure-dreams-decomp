@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80083460.h"
@@ -72,7 +73,6 @@ extern void D_80170CF8(void *, s32, s32, s32, s32, s32, s32);
 
 extern u8 D_8006DE24[];
 extern void *D_800814A8;
-extern s16 D_80083228;
 extern u8 D_80170838[16];
 extern u8 D_801717F4[];
 extern u8 D_80175988[];
@@ -310,7 +310,7 @@ state_3:
         u8 *frame_table = D_80175988;
         (*(u8 * *)((u8 *)tile_arg + 0x2C)) = frame_table;
         func_80047784(tile_arg,
-            frame_table[((D_80083228 + ((S_80173280_1 *)action)->unk_2A + 0x100) >> 9) & 7],
+            frame_table[((gameWork.viewAngle + ((S_80173280_1 *)action)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((S_80173280_3 *)tile_arg)->unk_14 &= 0xF7FF;
     }

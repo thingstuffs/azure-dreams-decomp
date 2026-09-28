@@ -18,12 +18,12 @@ void func_800B2A60(u8 *actor, s32 action_context, u8 *destination, u8 *target)
     u8 *entity;
     s32 context = action_context;
     u8 *position = destination;
-    u16 *flags = ((u16 *)(&dungeonStatus));
+    DungeonGlobalStatus *flags = &dungeonStatus;
     u8 *idle_actor = actor;
 
     ASM_KEEP(actor);
 
-    if (!(flags[1] & 0x1000)) {
+    if (!(flags->flags & 0x1000)) {
         entity = target;
         if (*(u8 *)(entity + 0x25) == 0) {
             *(s8 *)(actor + 0xAD) = 0;
@@ -32,7 +32,7 @@ void func_800B2A60(u8 *actor, s32 action_context, u8 *destination, u8 *target)
         }
 
         if ((func_80042900(entity, 1) << 16) == 0) {
-            if (!(flags[1] & 0x2000)) {
+            if (!(flags->flags & 0x2000)) {
                 if (*(s32 *)(entity + 0x1C) & 0x100) {
                     func_800AA258(actor, context, position, entity);
                     return;

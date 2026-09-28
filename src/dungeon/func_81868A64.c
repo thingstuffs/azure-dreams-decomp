@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
 M2C_UNK func_8003DB94();  /* extern */
@@ -6,7 +7,6 @@ void *func_8003FC64();                       /* extern */
 M2C_UNK func_8004491C();           /* extern */
 s32 rand();                                /* extern */
 extern M2C_UNK D_8002418C;
-extern M2C_UNK D_80045340;
 extern M2C_UNK D_800DEDB0;
 
 typedef struct S_81868A64_0 {
@@ -70,7 +70,7 @@ void func_81868A64(s32 user_data, S_81868A64_3 *source_pos, s8 intensity) {
         render_state->unk_12 = 0x7E0B;
         render_state->unk_10 = (u16) (render_state->unk_10 | 0x60);
         render_state->unk_14 = (u16) (render_state->unk_14 | 0x10C);
-        func_8004491C(effect, &D_80045340);
+        func_8004491C(effect, func_80045340);
         effect_pos = effect->unk_08;
         effect_pos->unk_02 = (u16) source_pos->unk_02;
         effect_pos->unk_06 = (u16) source_pos->unk_06;

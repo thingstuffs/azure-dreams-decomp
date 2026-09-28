@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct S_8002222C_0 {
     u8 pad_00[0x8D0];
@@ -60,7 +61,6 @@ extern s32 func_80066460(s32, s32, s32, s32);
 extern void func_80066640(void *, s32);
 extern void func_800667D0(void *);
 extern void func_80067F20(void *, s32, s32, s32, s32);
-extern u8 D_80083160[];
 extern u8 D_1F800000[];
 
 /* Build line and draw-mode packets for each entry and link them into the ordering table. */
@@ -83,7 +83,7 @@ s32 func_8002222C(void *first_entry) {
     register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
     entry = first_entry;
-    arena_ptr = (u8 **)D_80083160;
+    arena_ptr = (u8 **)((u8 *)(&gameWork));
     scratch_base = (u8 *)0x1F800000;
     ASM_KEEP_NV(scratch_base);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     screen_xy = scratch_base;

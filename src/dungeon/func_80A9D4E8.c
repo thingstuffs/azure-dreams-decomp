@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -7,7 +8,6 @@ typedef s32 M2C_UNK;
 
 extern u8 D_8006DE24[];
 extern void *D_800814A8;
-extern s16 D_80083228;
 extern u8 D_80170838[16];
 extern u8 D_80170E7C;
 extern u8 D_80174C3C[8];
@@ -219,7 +219,7 @@ no_item:
         (*(void * *)((u8 *)actor + 0x2C)) = D_80174C7C;
         func_80047784(
             actor,
-            D_80174C7C[((D_80083228 + (*(s16 *)((u8 *)object + 0x2A)) + 0x100) >> 9) & 7],
+            D_80174C7C[((gameWork.viewAngle + (*(s16 *)((u8 *)object + 0x2A)) + 0x100) >> 9) & 7],
             0);
 increment_state:
         ((S_80172CE8_0 *)action)->unk_9B++;
@@ -265,16 +265,15 @@ increment_state:
             (*(void * *)((u8 *)actor + 0x2C)) = D_80174C3C;
             func_80047784(
                 actor,
-                D_80174C3C[((D_80083228 + (*(s16 *)((u8 *)object + 0x2A)) + 0x100) >> 9) & 7],
+                D_80174C3C[((gameWork.viewAngle + (*(s16 *)((u8 *)object + 0x2A)) + 0x100) >> 9) & 7],
                 0);
         }
 
         {
-            u8 *global_state = ((u8 *)(&dungeonStatus));
-            if (((S_80172CE8_5 *)global_state)->unk_0C != 0) {
+            if (((s32)dungeonStatus.unk_0C) != 0) {
                 goto end;
             }
-            ((S_80172CE8_5 *)global_state)->unk_0A--;
+            dungeonStatus.unk_0A--;
         }
         ((S_80172CE8_3 *)actor)->unk_14 &= 0xF7FF;
         ((S_80172CE8_0 *)action)->unk_8C = &D_80170E7C;

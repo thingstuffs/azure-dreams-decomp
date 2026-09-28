@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_80172D08_arg1.h"
 
@@ -52,7 +53,6 @@ extern void func_8004491C(void *, void *);
 extern void func_80047784(void *, s32, s32);
 extern s32 func_8003DE58(s32, void *, u16 *, s32);
 
-extern u8 D_80045340[9];
 extern u8 D_80174A00[9];
 
 /* Creates an object, initializes its primitive, copies state, and applies queried offsets. */
@@ -66,7 +66,7 @@ s32 func_80174A6C(void *unused, Rec_func_80172D08_arg1 *src_state, Rec_D_80082E8
     obj = func_8003FC64(0x312);
     if (obj != 0) {
         obj->unk_10 = D_80174A00;
-        func_8004491C(obj, D_80045340);
+        func_8004491C(obj, func_80045340);
 
         prim = obj->unk_0C;
         prim->unk_28 = source->unk_28.at00_s32.v;

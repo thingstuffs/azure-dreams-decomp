@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct S_800B260C_0 {
     u8 pad_00[0x8];
@@ -14,7 +15,6 @@ typedef struct S_800B260C_1 {
 
 
 
-extern u8 D_80083160[];
 
 extern void SD_Call(s32);
 extern void func_800B1DCC(void *);
@@ -27,7 +27,7 @@ extern void func_800B2CE8(void *);
 
 /* Handles menu button actions and directional cursor movement with key repeat. */
 void func_800B260C(u8 *menu) {
-    u8 *pad_state = D_80083160;
+    u8 *pad_state = ((u8 *)(&gameWork));
     s32 held_buttons = ((S_800B260C_0 *)pad_state)->unk_08;
     s32 pressed_buttons;
     s32 cursor_step = 0;

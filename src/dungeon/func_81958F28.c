@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 extern int abs(int);
 
@@ -44,7 +45,6 @@ extern void func_8004491C(void *, void *);
 
 extern u16 D_800281F8;
 extern u8 D_80082E80[];
-extern s16 D_80083228;
 extern u8 D_80083780[];
 extern s32 D_800CEEFC;
 extern s32 *D_800E3D18;
@@ -211,7 +211,7 @@ main_phase:
         color.y = U16(base, 6);
         color.z = U16(D_800E3D7C, 0x88) - 0x50;
         tableAddress =
-            ((D_80083228 + S16(D_800E3D7C, 0x2A) + 0x100) >> 7) & 0x1C;
+            ((gameWork.viewAngle + S16(D_800E3D7C, 0x2A) + 0x100) >> 7) & 0x1C;
         tableAddress += (s32)D_800E3D18;
         func_8003DE58(
             *(s32 *)tableAddress,

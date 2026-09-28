@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 
 
@@ -16,7 +17,6 @@ extern s32 func_8003DB94();
 extern void *func_8003FC64();
 extern s32 func_8004491C();
 extern s32 D_8002420C;
-extern s32 D_80045340;
 extern s32 D_800E2178;
 
 typedef struct S_81892AF0_0 {
@@ -72,7 +72,7 @@ void *func_81892AF0(s32 state_value, Copy24 *source_transform, s16 variant) {
         func_8003DB94(sprite, &D_800E2178, 0);
         sprite->unk_1E = 0x1800;
         sprite->unk_1C = 0x1800;
-        func_8004491C(object, &D_80045340);
+        func_8004491C(object, func_80045340);
         transform = ((S_81892AF0_0 *)object)->unk_08;
         *transform = *source_transform;
         ((S_81892AF0_3 *)transform)->unk_14 = 0x10000;

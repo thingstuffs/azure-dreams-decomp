@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 extern s32 func_800AC82C(void *, void *, void *, void *);
 extern s32 func_800AD9B4(void *, void *);
 extern void func_80047784(void *, u8, s32);
 
-extern s16 D_80083228;
 extern u8 D_80170F20[];
 extern u8 D_80173B98[];
 extern u8 D_801762C8[];
@@ -36,13 +36,13 @@ void func_80173720(void *object_arg, void *context, void *source_arg, void *targ
             return;
         }
         *(void **)((u8 *)source + 0x2C) = D_801762C8;
-        func_80047784(source, D_801762C8[((D_80083228 + *(s16 *)((u8 *)target + 0x2A) + 0x100) >> 9) & 7], 0);
+        func_80047784(source, D_801762C8[((gameWork.viewAngle + *(s16 *)((u8 *)target + 0x2A) + 0x100) >> 9) & 7], 0);
     } else if (state_table == D_80176360) {
         if (*(s32 *)((u8 *)target + 0x1C) & 0x208) {
             return;
         }
         *(void **)((u8 *)source + 0x2C) = D_80176328;
-        func_80047784(source, D_80176328[((D_80083228 + *(s16 *)((u8 *)target + 0x2A) + 0x100) >> 9) & 7], 0);
+        func_80047784(source, D_80176328[((gameWork.viewAngle + *(s16 *)((u8 *)target + 0x2A) + 0x100) >> 9) & 7], 0);
     } else {
         return;
     }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -29,7 +30,6 @@ extern void func_800A4ACC(void *);
 extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
 
-extern s16 D_80083228;
 extern Node *D_800E3DE8[];
 extern u8 D_801710F4[];
 extern u8 D_80174F30;
@@ -80,7 +80,7 @@ state_0:
     (*(u8 * *)((u8 *)sprite + 0x2C)) = &D_80174F30;
     func_80047784(sprite,
         *(&D_80174F30 +
-          (((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7)),
+          (((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7)),
         0);
     goto bump_state;
 

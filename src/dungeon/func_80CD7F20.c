@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 extern s32 func_800AC82C(void *, void *, void *, void *);
 extern s32 func_800AD9B4(void *, void *);
 extern void func_80047784(void *, u8, s32);
 
-extern s16 D_80083228;
 extern u8 D_80158F20[];
 extern u8 D_8015BB98[];
 extern u8 D_8015E2C8[];
@@ -36,13 +36,13 @@ void func_8015B720(void *owner_arg, void *context, void *anim_obj_arg, void *sta
             return;
         }
         *(void **)((u8 *)anim_obj + 0x2C) = D_8015E2C8;
-        func_80047784(anim_obj, D_8015E2C8[((D_80083228 + *(s16 *)((u8 *)state + 0x2A) + 0x100) >> 9) & 7], 0);
+        func_80047784(anim_obj, D_8015E2C8[((gameWork.viewAngle + *(s16 *)((u8 *)state + 0x2A) + 0x100) >> 9) & 7], 0);
     } else if (current_table == D_8015E360) {
         if (*(s32 *)((u8 *)state + 0x1C) & 0x208) {
             return;
         }
         *(void **)((u8 *)anim_obj + 0x2C) = D_8015E328;
-        func_80047784(anim_obj, D_8015E328[((D_80083228 + *(s16 *)((u8 *)state + 0x2A) + 0x100) >> 9) & 7], 0);
+        func_80047784(anim_obj, D_8015E328[((gameWork.viewAngle + *(s16 *)((u8 *)state + 0x2A) + 0x100) >> 9) & 7], 0);
     } else {
         return;
     }

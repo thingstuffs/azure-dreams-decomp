@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 
@@ -28,8 +29,6 @@ extern void func_800ACF88(void *);
 extern s16 func_800BCB04(u16, u16, s16);
 extern s32 func_8017165C(s32);
 
-extern u8 D_80083160[];
-extern s16 D_80083228;
 extern u8 D_800E2368[];
 extern s32 D_800E296C;
 extern LocalTable D_8017088C;
@@ -115,7 +114,6 @@ void func_8017450C(void *state, void *motion, void *monster, void *actor_ptr)
     s32 y;
     s32 direction_index;
     u32 actor;
-    u8 *view_state;
     u8 tile_x;
     u8 tile_y;
 
@@ -141,9 +139,8 @@ state_0:
     }
 
     facing_angle = 0;
-    view_state = D_80083160;
     do {
-        if (((((S_8017450C_2 *)view_state)->unk_C8 + facing_angle + 0x100) >> 9 & 7) == 2) {
+        if (((gameWork.viewAngle + facing_angle + 0x100) >> 9 & 7) == 2) {
             ((S_8017450C_3 *)actor)->unk_2A = facing_angle;
         }
         facing_angle += 0x200;
@@ -152,7 +149,7 @@ state_0:
     {
         u8 *animation_table = D_800E2368;
         (*(u8 * *)((u8 *)monster + (0x2C))) = animation_table;
-        direction_index = (D_80083228 + ((S_8017450C_3 *)actor)->unk_2A + 0x100) >> 9 & 7;
+        direction_index = (gameWork.viewAngle + ((S_8017450C_3 *)actor)->unk_2A + 0x100) >> 9 & 7;
         func_80047784(monster, animation_table[direction_index], 0);
         ((S_8017450C_0 *)state)->unk_98 |= 8;
         ((S_8017450C_3 *)actor)->unk_1C &= 0xFFFBFFFF;
@@ -360,13 +357,12 @@ state_4:
 
 cleanup:
 {
-    u8 *cleanup_base = (u8 *)&dungeonStatus.unk_00;
     u32 tracked_actor;
     s32 tile_flags;
 
-    tracked_actor = ((S_8017450C_5 *)cleanup_base)->unk_10;
+    tracked_actor = ((u32)dungeonStatus.unk_10);
     if (tracked_actor == actor - 0x20) {
-        ((S_8017450C_5 *)cleanup_base)->unk_10 = tracked_actor & 0x7FFFFFFF;
+        dungeonStatus.unk_10 = tracked_actor & 0x7FFFFFFF;
     }
     func_800A2FE0((void *)actor);
     func_800A32A4((void *)actor);

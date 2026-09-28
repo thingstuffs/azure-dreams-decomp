@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #ifndef NULL
 #define NULL 0
 #endif
@@ -23,7 +24,6 @@ extern S_80083780 D_80083780;
 extern u8 D_800AB1E0[];
 extern u8 D_800AB708[];
 extern u8 D_800D1200[];
-extern u8 D_80045340[];
 
 /* Creates an object and initializes its state, rendering data, and position. */
 void func_800AB084(void) {
@@ -40,7 +40,7 @@ void func_800AB084(void) {
         *(s8 *)(state + 0x93) = 1;
         *(s32 *)(render_data + 0x28) = D_80081458[0];
         func_800C2E84(state, render_data, D_800D1200);
-        func_80033CD8(state, D_80045340);
+        func_80033CD8(state, func_80045340);
         func_800AAEFC();
         *(s16 *)(state + 0x90) = 0;
         *(void **)(state + 0x50) = D_800AB708;

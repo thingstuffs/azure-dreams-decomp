@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -31,7 +32,6 @@ M2C_UNK func_800AD594();
 s32 func_800AD9B4();
 
 extern u8 D_80082E80[];
-extern s16 D_80083228;
 extern u8 D_80170E70;
 extern u8 D_80175A6C[];
 extern u8 D_80175A74[];
@@ -64,7 +64,7 @@ start_jump:
         (*(u8 * *)((u8 *)map_actor + 0x2C)) = D_80175A6C;
         func_80047784(
             map_actor,
-            D_80175A6C[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            D_80175A6C[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
         ((S_80172290_0 *)action)->unk_98 |= 8;
         ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0xFFF00000;
@@ -113,7 +113,7 @@ check_landing:
         (*(u8 * *)((u8 *)map_actor + 0x2C)) = D_80175A74;
         func_80047784(
             map_actor,
-            D_80175A74[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            D_80175A74[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
         ((S_80172290_0 *)action)->unk_9B++;
     }
@@ -130,15 +130,13 @@ tick:
         func_800A4ACC(actor);
         {
             u32 count;
-            s16 *counter_words;
             s32 signed_count;
 
-            counter_words = (s16 *)&dungeonStatus.unk_00;
-            signed_count = counter_words[4];
-            count = ((u16 *)counter_words)[4];
+            signed_count = dungeonStatus.unk_08;
+            count = ((u16)dungeonStatus.unk_08);
 
             if (signed_count != 0) {
-                counter_words[4] = count - 1;
+                dungeonStatus.unk_08 = count - 1;
             }
         }
 

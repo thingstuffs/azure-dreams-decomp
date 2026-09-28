@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -117,7 +118,6 @@ extern M2C_UNK D_8001EF2C;
 extern M2C_UNK D_8004F5F4;
 extern M2C_UNK D_80082EB0;
 extern s32 D_80082EB8;
-extern s16 D_80083228;
 extern s8 D_800DCF4D;
 extern u8 D_800DCFB0[];
 extern u8 D_800DD0B8[];
@@ -182,7 +182,7 @@ block_6:
         goto block_9;
     }
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_800DD274;
-    func_8003DB94(sprite, *(s32 *)(D_800DD274 + (((s32) (D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 7) & 0x1C)), 0);
+    func_8003DB94(sprite, *(s32 *)(D_800DD274 + (((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 7) & 0x1C)), 0);
     goto block_13;
 block_9:
     if (!(((Rec_D_800E3D7C *)actor)->unk_1C.as_s32 & 0x100000)) {
@@ -194,7 +194,7 @@ block_11:
     anim_table = D_800DCFB0;
 block_12:
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = anim_table;
-    func_80048A44(sprite, *(anim_table + (((s32) (D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7)), 0, 1);
+    func_80048A44(sprite, *(anim_table + (((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7)), 0, 1);
 block_13:
     ((Rec_func_8008D024_arg0 *)state)->unk_9B.as_u8 = (u8) (((Rec_func_8008D024_arg0 *)state)->unk_9B.as_u8 + 1);
 block_14:

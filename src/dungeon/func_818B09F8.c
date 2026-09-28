@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 typedef struct SubObj {
     u8 pad0[0xC];
@@ -36,7 +37,6 @@ extern void func_8003DB94(SubObj *, void *, s32);
 extern void func_8004491C(MainObj *, void *);
 extern u8 D_8002417C[];
 extern u8 D_800DEC70[];
-extern u8 D_80045340[];
 
 /* Creates an object with initialized render state and a copy of the supplied vector. */
 MainObj *func_800241F8(s32 object_value, VecObj *source_vec) {
@@ -58,7 +58,7 @@ MainObj *func_800241F8(s32 object_value, VecObj *source_vec) {
         sub->unk1C = 4096;
         sub->unk12 = 0x7E09;
         sub->unk14 |= 0x100;
-        func_8004491C(obj, D_80045340);
+        func_8004491C(obj, func_80045340);
 
         vec = obj->vec;
         vec->unk2 = source_vec->unk2;

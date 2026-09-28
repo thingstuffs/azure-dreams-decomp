@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -37,7 +38,6 @@ extern void func_8017476C(void *, void *, void *, void *);
 extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern s8 D_80082EA4;
-extern s16 D_80083228;
 extern s8 D_800E2970[];
 extern void *D_80170808[];
 extern u8 D_80171760[];
@@ -97,7 +97,7 @@ void func_80171760(void *motion, void *render_ctx, void *map_entity, void *actor
         if (((S_80171760_2 *)map_entity)->unk_2C != D_80174EF0) {
             (*(void * *)((u8 *)map_entity + (0x2C))) = D_80174EE8;
             func_80047784(map_entity,
-                *(u8 *)((((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7) + (u32)D_80174EE8),
+                *(u8 *)((((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7) + (u32)D_80174EE8),
                 0);
             return;
         }
@@ -134,7 +134,7 @@ void func_80171760(void *motion, void *render_ctx, void *map_entity, void *actor
                 if (((S_80171760_2 *)map_entity)->unk_2C != anim_table) {
                     (*(void * *)((u8 *)map_entity + (0x2C))) = anim_table;
                     func_80047784(map_entity,
-                        anim_table[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+                        anim_table[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
                         0);
                 }
                 ((Rec_func_800A9E70_arg0 *)motion)->unk_9E.as_s16 = 0;
@@ -278,6 +278,6 @@ generic:
 update_common:
     (*(void * *)((u8 *)map_entity + (0x2C))) = anim_table;
     func_80047784(map_entity,
-        *(u8 *)((((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7) + (u32)anim_table),
+        *(u8 *)((((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7) + (u32)anim_table),
         0);
 }

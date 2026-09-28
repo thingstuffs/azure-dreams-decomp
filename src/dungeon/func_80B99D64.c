@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -34,7 +35,6 @@ extern void func_800AA888(void *, void *, void *, void *);
 extern void func_801737C4(void *, void *, void *, void *);
 
 extern void *D_800814A8;
-extern s16 D_80083228;
 extern u8 D_80170E9C[];
 extern u8 D_80174EE0[];
 extern u8 D_80174F00[];
@@ -58,18 +58,16 @@ void func_80173564(void *controller, void *context, void *sprite, void *actor)
 
 state_zero:
     {
-        u8 *dungeon_state;
         u8 *initial_effects;
 
         if ((((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) == 0) {
             return;
         }
 
-        dungeon_state = (u8 *)&dungeonStatus.unk_00;
         initial_effects = D_80174F00;
-        ((S_80173564_2 *)dungeon_state)->unk_0A--;
+        dungeonStatus.unk_0A--;
         (*(void * *)((u8 *)sprite + 0x2C)) = initial_effects;
-        direction = (D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9;
+        direction = (gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9;
         func_80047784(sprite, initial_effects[direction & 7], 0);
         ((S_80173564_0 *)controller)->unk_9B++;
         return;
@@ -123,7 +121,7 @@ state_one:
 
     effect_table = D_80174EE0;
     (*(void * *)((u8 *)sprite + 0x2C)) = effect_table;
-    direction = (D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9;
+    direction = (gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9;
     func_80047784(sprite, effect_table[direction & 7], 0);
     ((Rec_D_800E3D7C *)actor)->unk_1C.as_u32 &= ~0x200;
     ((S_80173564_0 *)controller)->unk_8C = D_80170E9C;

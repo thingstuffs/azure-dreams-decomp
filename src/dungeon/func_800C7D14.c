@@ -46,7 +46,6 @@ void func_800CD474(void *effect, S_800CD474_1 *motion, S_800CD474_2 *primitive) 
     u16 hold_timer;
     u16 fade_timer;
     u16 target_y;
-    s32 *effect_counts;
 
     state = ((S_800CD474_0 *)effect)->unk_04;
     if (state == 0) {
@@ -98,8 +97,7 @@ void func_800CD474(void *effect, S_800CD474_1 *motion, S_800CD474_2 *primitive) 
         if ((fade_timer << 16) <= 0) {
             ((S_800CD474_0_pre *)effect)[-1].unk_00 |= 0x8000;
             objectFlagBlock.flags |= 0x8000;
-            effect_counts = &dungeonStatus.unk_00;
-            ((S_800CD474_3 *)effect_counts)->unk_0A -= 1;
+            dungeonStatus.unk_0A -= 1;
         }
     }
     motion->unk_08.at00.v += motion->unk_14;

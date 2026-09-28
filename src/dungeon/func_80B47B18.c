@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 
 extern void func_800478B8();
 extern void func_80044A50();
 
-extern u8 D_80083160[];
 extern u16 D_80175B20[];
 extern s32 D_80175B28[];
 
@@ -13,7 +13,7 @@ void func_80175318(void *entity_data, void *unused, void *source_data)
 {
     u8 *entity = entity_data;
     u8 *source = source_data;
-    u8 *colors = D_80083160;
+    GameWork *colors = &gameWork;
     u16 elapsed_ticks;
     u16 fade_ticks;
 
@@ -34,9 +34,9 @@ void func_80175318(void *entity_data, void *unused, void *source_data)
             return;
         }
     } else {
-        colors[0xA8] += (0x80 - colors[0xA8]) / *(s16 *)(entity + 0x96);
-        colors[0xA9] += (0x80 - colors[0xA9]) / *(s16 *)(entity + 0x96);
-        colors[0xAA] += (0x80 - colors[0xAA]) / *(s16 *)(entity + 0x96);
+        colors->unk_0A8 += (0x80 - colors->unk_0A8) / *(s16 *)(entity + 0x96);
+        colors->unk_0A9 += (0x80 - colors->unk_0A9) / *(s16 *)(entity + 0x96);
+        colors->unk_0AA += (0x80 - colors->unk_0AA) / *(s16 *)(entity + 0x96);
 
         fade_ticks = *(u16 *)(entity + 0x96) - 1;
         *(u16 *)(entity + 0x96) = fade_ticks;

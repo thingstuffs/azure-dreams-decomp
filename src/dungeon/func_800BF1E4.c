@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 
@@ -56,7 +57,6 @@ typedef struct {
     void *field10;
 } FuncItem;
 
-extern u8 D_80045340[];
 extern u8 D_800DDC40[];
 extern u8 D_800C4640[];
 extern u8 D_800DF564[];
@@ -93,7 +93,7 @@ void func_800C4944(FuncArg *source) {
     if (effect_item != 0) {
         effect_item->field10 = effect_def;
         effect_state = (FuncSub *)((u8 *)effect_item + 0x20);
-        func_8004491C(effect_item, D_80045340);
+        func_8004491C(effect_item, func_80045340);
         effect_state->field12 = (random_values[0] & 0xF) + 0x10;
         effect_state->field16 = random_values[1];
         source_pos = (FuncData *)source->data;

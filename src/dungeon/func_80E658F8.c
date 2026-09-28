@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
 typedef struct S_801750F8_0 {
@@ -41,7 +42,6 @@ extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
 extern void func_80174D98(void *, void *, void *, void *);
 
-extern s16 D_80083228;
 extern void *D_80170888[];
 extern u8 D_801716F4[];
 extern u8 D_8017555C[];
@@ -91,7 +91,7 @@ L0:
         ((S_801750F8_0 *)action_in)->unk_9B++;
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801755BC;
         func_80047784(sprite,
-            D_801755BC[((D_80083228 + ((S_801750F8_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            D_801755BC[((gameWork.viewAngle + ((S_801750F8_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         func_800A56E0(0x51E);
         goto end;
@@ -105,7 +105,7 @@ L1:
     ((S_801750F8_0 *)action_in)->unk_9B++;
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801755CC;
     func_80047784(sprite,
-        D_801755CC[((D_80083228 + ((S_801750F8_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+        D_801755CC[((gameWork.viewAngle + ((S_801750F8_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
         0);
     ((S_801750F8_2 *)sprite)->unk_14 |= 0x0800;
     goto end;
@@ -190,7 +190,7 @@ after_xy:
         ((S_801750F8_2 *)sprite)->unk_1C = 0x1000;
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801755C4;
         func_80047784(sprite,
-            D_801755C4[((D_80083228 + ((S_801750F8_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            D_801755C4[((gameWork.viewAngle + ((S_801750F8_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         func_800A56E0(0x509);
         func_80174D98(action_in, direction_data, sprite, actor);
@@ -212,16 +212,15 @@ L4:
 
 L5:
     {
-        u8 *action_counters = (u8 *)&dungeonStatus.unk_00;
 
-        ((S_801750F8_3 *)action_counters)->unk_0A--;
+        dungeonStatus.unk_0A--;
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_8017555C;
         func_80047784(sprite,
-            D_8017555C[((D_80083228 + ((S_801750F8_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            D_8017555C[((gameWork.viewAngle + ((S_801750F8_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         func_800AD594(actor, 0x1000);
         ((S_801750F8_0 *)action_in)->unk_8C = D_801716F4;
-        ((S_801750F8_3 *)action_counters)->unk_0C = 0;
+        dungeonStatus.unk_0C = 0;
         ((S_801750F8_1 *)actor)->unk_46 &= 0x7FFF;
     }
 

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800814A8.h"
 
@@ -73,7 +74,6 @@ extern void func_801743F0(void *, void *, void *, void *);
 
 extern void *D_800814A8;
 extern u8 D_80082E80[];
-extern s16 D_80083228;
 extern s32 D_801719DC;
 extern u8 D_80174684[];
 extern u8 D_8017468C[];
@@ -118,7 +118,7 @@ state_zero:
         direction_anims = D_80174684;
         (*(void * *)((u8 *)sprite + 0x2C)) = direction_anims;
         func_80047784(sprite,
-            direction_anims[((D_80083228 + ((S_80173CD4_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            direction_anims[((gameWork.viewAngle + ((S_80173CD4_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         world_counters = (u8 *)&dungeonStatus.unk_00;
         ((S_80173CD4_3 *)world_counters)->unk_0A--;
@@ -221,7 +221,7 @@ animate:
         direction_anims = D_8017468C;
         (*(void * *)((u8 *)sprite + 0x2C)) = direction_anims;
         func_80047784(sprite,
-            direction_anims[((D_80083228 + ((S_80173CD4_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            direction_anims[((gameWork.viewAngle + ((S_80173CD4_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((S_80173CD4_2 *)actor)->unk_1C |= 0x40000;
         if (((S_80173CD4_1 *)sprite)->unk_14 & 0x8000) {

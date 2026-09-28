@@ -29,7 +29,6 @@ void func_80173A14(S_80173A14_0 *action, Rec_D_800E3D7C *motion, Rec_D_80082E80 
 {
     s16 delay;
     s32 tracked_actor;
-    s32 *global_state;
 
     switch (action->unk_9B) {
     case 0:
@@ -97,10 +96,9 @@ increment_state:
         motion->unk_0C.as_s32 = 0;
         func_800A2B04(motion, action_info->unk_24, action_info->unk_25);
 
-        global_state = &dungeonStatus.unk_00;
-        tracked_actor = global_state[4];
+        tracked_actor = ((s32)dungeonStatus.unk_10);
         if (tracked_actor == (s32)((u8 *)actor_data - 0x20)) {
-            global_state[4] = tracked_actor & 0x7FFFFFFF;
+            dungeonStatus.unk_10 = tracked_actor & 0x7FFFFFFF;
         }
         action->unk_8C = &D_801719DC;
         return;

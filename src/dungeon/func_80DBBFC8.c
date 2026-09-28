@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -23,7 +24,6 @@ extern s32 func_800A94A0(void *, u8 *, s32, void *);
 
 extern u8 D_8006DE24[];
 extern void *D_800814A8;
-extern s16 D_80083228;
 extern u8 D_80170838[16];
 extern u8 D_80170FD8[];
 extern u8 D_80171284[];
@@ -336,11 +336,9 @@ state_2:
 
 state_3:
     {
-        u8 *action_state;
         s16 timer;
 
-        action_state = (u8 *)&dungeonStatus.unk_00;
-        if (((S_801737C8_7 *)action_state)->unk_0C == 0) {
+        if (((s32)dungeonStatus.unk_0C) == 0) {
             ((S_801737C8_0 *)controller)->unk_96 = 0;
         }
         timer = ((S_801737C8_0 *)controller)->unk_96 - 1;
@@ -362,14 +360,14 @@ state_3:
 
             facing_frames = D_801753BC;
             (*(u8 * *)((u8 *)actor + 0x2C)) = facing_frames;
-            facing_index = ((D_80083228 + (*(s16 *)((u8 *)object + 0x2A)) + 0x100) >> 9) & 7;
+            facing_index = ((gameWork.viewAngle + (*(s16 *)((u8 *)object + 0x2A)) + 0x100) >> 9) & 7;
             func_80047784(actor, facing_frames[facing_index], 0);
             ((Rec_D_80082E80 *)actor)->unk_14.at00_u16.v &= 0xF7FF;
         }
-        if (((S_801737C8_7 *)action_state)->unk_0C != 0) {
+        if (((s32)dungeonStatus.unk_0C) != 0) {
             goto end;
         }
-        ((S_801737C8_7 *)action_state)->unk_0A--;
+        dungeonStatus.unk_0A--;
         ((S_801737C8_0 *)controller)->unk_8C = D_80171E20;
         func_800A4ACC(object);
         (*(u8 *)((u8 *)object + 0x73)) = 0;

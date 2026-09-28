@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct S_800259DC_0 {
     u8 pad_00[0x18];
@@ -68,11 +69,10 @@ typedef struct GlobalState {
     void *next;
 } GlobalState;
 
-extern GlobalState *D_80083160[];
 
 /* Build and depth-sort quad primitives from the linked entries. */
 s32 func_800259DC(void *quad_entry) {
-    GlobalState **state_table = D_80083160;
+    GlobalState **state_table = ((GlobalState * *)(&gameWork));
     u8 *scratch = (u8 *)0x1F800000;
     void *packet;
     u32 depth_index;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 
@@ -42,7 +43,6 @@ extern s32 func_80064584(s32);
 extern void func_8009CE1C(s32, s32, s32, s32, s32, s32, s32);
 extern void func_800A56E0(s32);
 
-extern u8 D_80083160[];
 
 extern u8 *D_800E3D7C;
 
@@ -50,7 +50,6 @@ extern u8 *D_800E3D7C;
 void func_800CCDA0(void *effect, void *motion, void *sprite)
 {
     u16 ticks_or_angle;
-    u8 *direction_data;
 
     if (((S_800CCDA0_0 *)effect)->unk_04.s == 0) {
         ((S_800CCDA0_1 *)motion)->unk_14 += 0x20000;
@@ -66,12 +65,11 @@ void func_800CCDA0(void *effect, void *motion, void *sprite)
                           D_800E3D7C[0x11], 8,
                           (((S_800CCDA0_0 *)effect)->unk_08 << 25) >> 16, 0, 2);
 
-            direction_data = D_80083160;
             ((S_800CCDA0_1 *)motion)->unk_14 = -((S_800CCDA0_1 *)motion)->unk_14;
             ((S_800CCDA0_1 *)motion)->unk_0C =
-                func_80064584(((S_800CCDA0_2 *)direction_data)->unk_C8) << 8;
+                func_80064584(gameWork.viewAngle) << 8;
             ((S_800CCDA0_1 *)motion)->unk_10 =
-                func_800644B8(((S_800CCDA0_2 *)direction_data)->unk_C8) << 8;
+                func_800644B8(gameWork.viewAngle) << 8;
 
             ((S_800CCDA0_3 *)sprite)->unk_14 |= 0xC;
             ((S_800CCDA0_0 *)effect)->unk_06.s = 12;

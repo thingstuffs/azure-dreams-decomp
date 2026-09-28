@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
 
@@ -14,7 +15,6 @@ struct S_8003E2D8 {
     s32 field_10;
 };
 typedef struct S_8003E2D8 S_8003E2D8;
-extern struct S_8003E2D8 D_80083160;
 extern u8 D_80082E80[];
 extern s8 D_800E2970[];
 extern u8 D_800E50A8[];
@@ -68,7 +68,7 @@ void func_8009D3B0(void) {
 
     tile_or_map = &D_80088CB0;
     map_params = *(UA64 *)tile_or_map;
-    tile_index_or_level = (s32)&D_80083160;
+    tile_index_or_level = (s32)((struct S_8003E2D8 *)&gameWork);
     grid_config = (u8 *)tile_index_or_level + 0x1DC;
     status_base = D_80082E80;
     region_index = ((s8 *)status_base)[0x26];

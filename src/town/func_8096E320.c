@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 
 #ifndef NULL
@@ -29,7 +30,6 @@ M2C_UNK func_80126620();
 
 extern M2C_UNK D_8004CAA0;
 extern s8 D_80080A84;
-extern s32 D_80083200;
 extern M2C_UNK D_80126704;
 
 /* Initializes the object's state and callbacks, or flags initialization failure. */
@@ -49,7 +49,7 @@ void func_801267B8(void) {
             func_80126620(obj_data);
             func_8004491C(obj, &D_8004CAA0);
             ((S_801267B8_0 *)obj)->unk_10 = &D_80126704;
-            D_80083200 = 0x200;
+            gameWork.unk_0A0 = 0x200;
             func_80064F20(0x200);
             func_80064F00(0xA0, 0x78);
             SD_Call(0x701);

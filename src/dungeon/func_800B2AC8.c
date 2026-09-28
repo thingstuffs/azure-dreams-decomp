@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 #ifndef NULL
 #define NULL 0
@@ -50,7 +51,6 @@ extern s32 func_800A7A38(void *, s32);
 extern void func_800A7A7C(s32, s32, s32, void *, void *);
 extern void func_800BC26C(void *, s32, s32, s32);
 
-extern u8 D_80045340[];
 extern u8 D_8006E240[9];
 extern u8 D_800B80D8[];
 
@@ -66,7 +66,7 @@ void *func_800B8228(u32 x, u32 y, s32 z, void *effect_data) {
         goto failure;
 
     {
-        func_8004491C(effect, D_80045340);
+        func_8004491C(effect, func_80045340);
         ((S_800B8228_0 *)effect)->unk_10 = D_800B80D8;
         position = ((S_800B8228_0 *)effect)->unk_08;
         position->unk_02 = x;

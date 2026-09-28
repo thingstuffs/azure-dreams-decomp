@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
 M2C_UNK func_8003DB94();    /* extern */
 void *func_8003FC64();                       /* extern */
 M2C_UNK func_8004491C();           /* extern */
-extern M2C_UNK D_80045340;
 
 typedef struct S_800BDB20_0 {
     u8 pad_00[0x8];
@@ -41,7 +41,7 @@ void *func_800BDB20(S_800BDB20_2 *position, s32 object_param, M2C_UNK graphics_i
 
     object = func_8003FC64(0x132);
     if (object != NULL) {
-        func_8004491C(object, &D_80045340);
+        func_8004491C(object, func_80045340);
         render_data = object->unk_0C;
         object_pos = object->unk_08;
         object->unk_10 = object_param;

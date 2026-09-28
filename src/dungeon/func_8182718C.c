@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
@@ -23,7 +24,6 @@ typedef struct S_8182718C_1 {
 
 
 
-extern u8 D_80045340[];
 
 /* Advance a timed two-state action and propagate target status flags. */
 void func_8002498C(void *state_data, void *unused, Rec_D_80082E80 *target) {
@@ -51,7 +51,7 @@ zero_state:
         ticks_left = ((S_8182718C_0 *)state_data)->unk_48 - 1;
         ((S_8182718C_0 *)state_data)->unk_48 = ticks_left;
         if ((ticks_left << 0x10) <= 0) {
-            func_8004491C(state_data - 0x20, D_80045340);
+            func_8004491C(state_data - 0x20, func_80045340);
             old_state = ((S_8182718C_0 *)state_data)->unk_4C.u;
             interval = ((S_8182718C_0 *)state_data)->unk_4E;
             ((S_8182718C_0 *)state_data)->unk_48 = interval;

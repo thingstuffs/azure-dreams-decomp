@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
 
@@ -28,7 +29,6 @@ typedef struct S_800CA1E0_3 {
 } S_800CA1E0_3;   /* (void *)temp_e_index in func_800CA1E0 */
 
 
-extern u8 D_8008333C[32];
 extern u16 D_800DCEAC[];
 extern u16 D_800DCEBC[];
 extern s8 D_800E2970[];

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct Packet81976F70 {
     u8 link_bytes[3];
@@ -73,7 +74,6 @@ typedef struct Scratch81976F70 {
     u16 out5;
 } Scratch81976F70;
 
-extern u8 D_80083160[];
 extern s32 *D_80026208;
 extern s32 func_80066460(s32, s32, s32, s32);
 extern s32 func_80065530(void *, void *, void *, void *, void *, void *, void *, void *);
@@ -93,7 +93,7 @@ s32 func_81976F70(s32 vertex_color0, s32 vertex_color1, s32 vertex_color2)
     void *scratch_base;
     u32 ordering_link;
 
-    state = *(State81976F70 **)D_80083160;
+    state = *(State81976F70 **)((u8 *)(&gameWork));
     scratch->ordering_table = (u32 *)((u8 *)state + 0xB0);
     packet = state->next;
     state->next = packet + 1;

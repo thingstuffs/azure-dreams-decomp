@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "shared/dir_step.h"
 
 typedef struct S_81862C28_0 {
@@ -49,7 +50,6 @@ extern s32 func_800A45D8(s32, s32, s16);
 extern u16 func_800BCAD0(void *);
 
 extern void func_80024374(void);
-extern u8 D_80045340[];
 extern u8 D_800DE9D0[];
 
 /* Creates an effect at the origin or in unblocked directions at the given radius. */
@@ -89,7 +89,7 @@ void func_80024428(s32 effect_param, void *origin_arg, s32 radius_arg, u8 *block
             effect_data->unk_12 = 0x7E0B;
             effect_data->unk_10 |= 0x20;
             effect_data->unk_14 |= 0x10C;
-            func_8004491C(effect, D_80045340);
+            func_8004491C(effect, func_80045340);
             origin = origin_arg;
             effect_data = effect->unk_08;
             effect_data->unk_02.s = ((S_81862C28_2 *)origin)->unk_02.s;
@@ -138,7 +138,7 @@ next_direction:
                 effect_data->unk_12 = 0x7E0B;
                 effect_data->unk_10 |= 0x20;
                 effect_data->unk_14 |= 0x10C;
-                func_8004491C(effect, D_80045340);
+                func_8004491C(effect, func_80045340);
                 effect_data = effect->unk_08;
                 effect_data->unk_02.u = target_x;
                 effect_data->unk_06.u = target_y;

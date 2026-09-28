@@ -154,7 +154,7 @@ void func_800CB9DC(void *trap_state_in, void *motion_state_in, void *animation_i
             func_8009A028(actor);
             {
                 u8 *status_page;   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-                u8 *actor_counts;
+                DungeonGlobalStatus *actor_counts;
                 s32 global_flags;
                 u16 actor_count;
                 u16 removal_flags;
@@ -162,15 +162,15 @@ void func_800CB9DC(void *trap_state_in, void *motion_state_in, void *animation_i
                 do {
                     status_page = (u8 *)0x80080000;
                 } while (0);
-                actor_counts = (u8 *)&dungeonStatus.unk_00;
+                actor_counts = &dungeonStatus;
                 removal_flags = ((S_800CB9DC_1_pre *)actor)[-1].unk_16;
                 ((S_800CB9DC_1_pre *)actor)[-1].unk_16 = removal_flags | 0x8000;
                 global_flags = ((S_800CB9DC_7 *)status_page)->unk_14A0;
-                actor_count = ((S_800CB9DC_8 *)actor_counts)->unk_0A;
+                actor_count = ((u16)actor_counts->unk_0A);
                 global_flags |= 0x8000;
                 actor_count--;
                 ((S_800CB9DC_7 *)status_page)->unk_14A0 = global_flags;
-                ((S_800CB9DC_8 *)actor_counts)->unk_0A = actor_count;
+                actor_counts->unk_0A = actor_count;
                    /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             }
         }

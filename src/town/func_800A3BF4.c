@@ -1,9 +1,9 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "records/Rec_D_80100B70.h"
 
 #define SCALE255(value) ((u32)(value) / 255)
 
-extern u8 D_80083160[];
 extern s32 func_80069EF8(void);
 extern void func_80066844(void *);
 extern void func_80066640(void *, s32);
@@ -78,7 +78,7 @@ typedef struct S_800A1354_7 {
 /* Draw two translucent quads with random vertex colors scaled by the effect intensity. */
 void func_800A1354(u8 *effect)
 {
-    u8 **render_ctx_addr = (u8 **)D_80083160;
+    u8 **render_ctx_addr = (u8 **)((u8 *)(&gameWork));
     s32 vertex_index = 0;
     u32 rgb_mask = 0xFFFFFF;
     u8 *scratch = (u8 *)0x1F800000;

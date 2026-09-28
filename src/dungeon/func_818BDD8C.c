@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 
 
@@ -16,7 +17,6 @@ extern M2C_UNK func_8004491C();
 extern s32 rand();
 extern M2C_UNK D_800254E0;
 extern M2C_UNK D_80025DF8;
-extern M2C_UNK D_80045340;
 
 typedef struct S_818BDD8C_0 {
     u8 pad_00[0x8];
@@ -112,7 +112,7 @@ void *func_818BDD8C(S_818BDD8C_2 *owner, S_818BDD8C_4 *initial_data)
             scale = 0x400;
             render->unk_1E = scale;
             render->unk_1C = scale;
-            func_8004491C(call_obj, &D_80045340);
+            func_8004491C(call_obj, func_80045340);
         }
         object_data = ((S_818BDD8C_0 *)object)->unk_08;
         *object_data = *(S_818BDD8C_5 *)initial_data;

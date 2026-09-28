@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct S_800A526C_0 {
     u8 pad_00[0xAC];
@@ -23,7 +24,6 @@ typedef struct S_800A526C_1 {
 
 
 
-extern u8 D_80083160[0xB2];
 extern u8 D_800A51CC[16];
 
 /* Interpolate three state components toward their targets and advance the transition when complete. */
@@ -33,7 +33,7 @@ void func_800A526C(S_800A526C_1 *transition)
     s32 ticks_left;
     u16 target_component;
 
-    state_base = D_80083160;
+    state_base = ((u8 *)(&gameWork));
     ((S_800A526C_0 *)state_base)->unk_AC.s =
         ((S_800A526C_0 *)state_base)->unk_AC.u +
         ((transition->unk_00.s - ((S_800A526C_0 *)state_base)->unk_AC.s) /

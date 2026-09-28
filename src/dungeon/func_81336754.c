@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
 typedef union {
@@ -51,7 +52,6 @@ extern u8 D_801739A0[];
 extern u8 D_801739A8[];
 extern u8 D_801739B0[];
 extern u8 D_8016A36C[];
-extern s16 D_80083228[5];
 extern u8 D_80083780[12];
 extern void *D_80164998[];
 
@@ -98,7 +98,7 @@ case1:
             goto case1_common;
         }
         object->unk_2C = direction_table;
-        direction_index = ((s32)(D_80083228[0] + input->unk_2A + 0x100) >> 9) & 7;
+        direction_index = ((s32)(gameWork.viewAngle + input->unk_2A + 0x100) >> 9) & 7;
         func_80047784(object,
             *((u8 *)((u32)direction_index + (u32)direction_table)), 0);
     }
@@ -180,7 +180,7 @@ case4:
         }
         if (previous_table != direction_table) {
             object->unk_2C = direction_table;
-            direction_index = ((s32)(D_80083228[0] + input->unk_2A + 0x100) >> 9) & 7;
+            direction_index = ((s32)(gameWork.viewAngle + input->unk_2A + 0x100) >> 9) & 7;
             func_80047784(object,
                 *((u8 *)((u32)direction_index + (u32)direction_table)), 0);
         }

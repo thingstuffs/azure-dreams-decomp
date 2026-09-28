@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "m2c_compat.h"
 
-extern u8 D_8008333C[32];
 extern s32 D_800E296C[3];
 
 void *func_8003FC64();
@@ -25,7 +25,7 @@ void *func_8009F3D4(s32 x, s32 y, s32 initial_value, s32 update_param, s32 mode)
     u8 *camera_config;
 
     alloc_flags = 2;
-    view_config = D_8008333C;
+    view_config = ((u8 *)(&gameWork.unk_1DC));
     camera_config = view_config - 0x1C4;
     scratchpad = (u8 *)0x1F800000;
     if (mode != 0) {

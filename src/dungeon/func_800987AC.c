@@ -1,6 +1,6 @@
 #include "common.h"
+#include "shared/game_work.h"
 
-extern u8 *D_80083160;
 extern u8 D_801C9E40[16];
 
 extern void func_8006658C(void *, void *);
@@ -19,17 +19,17 @@ void func_8009DF0C(s32 draw_param) {
 
     draw_rect[0] = 0xC00300;
     draw_rect[1] = 0x400040;
-    draw_buffer = D_80083160;
+    draw_buffer = gameWork.unk_000;
     adjust_y = draw_buffer != D_801C9E40;
     ordering_table = draw_buffer + 0x8B0;
     area_packet = *(u8 **)(draw_buffer + 0x8D0);
     *(u8 **)(draw_buffer + 0x8D0) = area_packet + 0xC;
-    func_80067E2C(area_packet, *(u8 * volatile *)&D_80083160);
+    func_80067E2C(area_packet, *(u8 * volatile *)&gameWork.unk_000);
     func_8006658C(ordering_table, area_packet);
     func_8009DAD8(ordering_table, draw_param);
 
-    rect_packet = *(u8 **)(D_80083160 + 0x8D0);
-    *(u8 **)(D_80083160 + 0x8D0) = rect_packet + 0x10;
+    rect_packet = *(u8 **)(gameWork.unk_000 + 0x8D0);
+    *(u8 **)(gameWork.unk_000 + 0x8D0) = rect_packet + 0x10;
     *(s32 *)(rect_packet + 4) = 0x60000000;
     *(s8 *)(rect_packet + 3) = 3;
     *(s32 *)(rect_packet + 8) = draw_rect[0];
@@ -41,8 +41,8 @@ void func_8009DF0C(s32 draw_param) {
     *(s32 *)(rect_packet + 0xC) = draw_rect[1];
     func_8006658C(ordering_table, rect_packet);
 
-    area_packet = *(u8 **)(D_80083160 + 0x8D0);
-    *(u8 **)(D_80083160 + 0x8D0) = area_packet + 0xC;
+    area_packet = *(u8 **)(gameWork.unk_000 + 0x8D0);
+    *(u8 **)(gameWork.unk_000 + 0x8D0) = area_packet + 0xC;
     func_80067E2C(area_packet, &draw_rect[0]);
     func_8006658C(ordering_table, area_packet);
 }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "records/Rec_D_80083160.h"
@@ -148,7 +149,6 @@ typedef struct S_800253C0_19 {
 
 
 
-extern u8 D_80083160[];
 extern void *D_8006CD58[];
 extern u8 D_800DD148[];
 extern u8 D_800DD150[];
@@ -192,7 +192,7 @@ void func_800253C0(void *sequence_in, void *position_in, void *actor_in, void *o
     void *position = position_in;
     void *actor = actor_in;
     register void *owner = owner_in;
-    u8 *scene = D_80083160;
+    u8 *scene = ((u8 *)(&gameWork));
     u8 *anim_entry;
     u8 state;
     u32 result_flags;
@@ -233,7 +233,7 @@ start_sequence:
             u8 *turn_scene;
             u16 old_angle;
 
-            turn_scene = D_80083160;
+            turn_scene = ((u8 *)(&gameWork));
             old_angle = ((S_800253C0_1 *)owner)->unk_2A.u;
             index = ((((S_800253C0_2 *)turn_scene)->unk_C8 +
                 ((S_800253C0_1 *)owner)->unk_2A.s + 0x100) >> 9) & 7;
@@ -311,7 +311,7 @@ start_sequence:
             message_text = (s32)(scene + 0xA8);
             object_index_m = 0;
             object_slot = sequence;
-            move_scene = D_80083160;
+            move_scene = ((u8 *)(&gameWork));
             table_x = (s16 *)((s8 *)dirStepX);
             table_y = (s16 *)((s8 *)dirStepY);
             ((S_800253C0_6 *)scene)->unk_A8 = brightness;
@@ -376,7 +376,7 @@ start_sequence:
                 void *final_slot;
                 ((S_800253C0_11 *)(u8 *)message_text)->unk_00 = 0x2C202020;
                 object_index_m = 0;
-                snap_scene = D_80083160;
+                snap_scene = ((u8 *)(&gameWork));
                 snap_x = (s16 *)((s8 *)dirStepX);
                 snap_y = (s16 *)((s8 *)dirStepY);
                 final_slot = sequence;
@@ -511,7 +511,7 @@ animate_objects:
                         func_800264D4(((S_800253C0_14_pre *)other)[-1].unk_00, other,
                             slot_index, object == other);
                         if (object == ((S_800253C0_4 *)object_slot)->unk_AC) {
-                            register u8 *table_base ASM_REG("$12") = D_80083160;
+                            register u8 *table_base ASM_REG("$12") = ((u8 *)(&gameWork));
                             s32 angle;
                             s32 index;
                             s32 x;
@@ -660,7 +660,7 @@ show_result:
         }
         {
             s32 object_index = 0;
-            u8 *restore_scene = D_80083160;
+            u8 *restore_scene = ((u8 *)(&gameWork));
             s16 *table_x = (s16 *)((s8 *)dirStepX);
             loop_7: {
                 object_m =
@@ -807,7 +807,7 @@ show_result:
 
     case 11:
         ((S_800253C0_3 *)actor)->unk_2C = D_800DD150;
-        anim_entry = D_800DD150 + ((((((Rec_D_80083160 *)D_80083160)->unk_C8.as_s16 +
+        anim_entry = D_800DD150 + ((((((Rec_D_80083160 *)((u8 *)(&gameWork)))->unk_C8.as_s16 +
             ((S_800253C0_1 *)owner)->unk_2A.s) + 0x100) >> 9) & 7);
         func_80048A44(actor, *anim_entry, 0, 1);
 advance_state:
@@ -821,12 +821,10 @@ store_next_state:
             goto done;
         }
         {
-            u8 *scene_flags;
             u16 value;
-            scene_flags = ((u8 *)(&dungeonStatus));
-            value = ((S_800253C0_15 *)scene_flags)->unk_02;
-            ((S_800253C0_15 *)scene_flags)->unk_0C = 0;
-            ((S_800253C0_15 *)scene_flags)->unk_02 = value | 0x812;
+            value = dungeonStatus.flags;
+            dungeonStatus.unk_0C = 0;
+            dungeonStatus.flags = value | 0x812;
         }
         ((S_800253C0_0 *)sequence)->unk_8C = D_8008ACDC;
 

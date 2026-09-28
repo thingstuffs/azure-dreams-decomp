@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 
 typedef s32 M2C_UNK;
@@ -28,7 +29,6 @@ extern M2C_UNK func_80033D08();
 extern M2C_UNK func_800478B8();
 extern s32 func_800644B8();
 extern s32 func_8009D20C(void *, M2C_UNK);
-extern M2C_UNK D_80045340;
 
 /* Updates an object's pulse brightness and handles its completion state. */
 void func_8009E714(S_func_8009E714_0 *object, M2C_UNK context, S_func_8009E714_1 *primitive) {
@@ -53,7 +53,7 @@ void func_8009E714(S_func_8009E714_0 *object, M2C_UNK context, S_func_8009E714_1
         func_80033D08(object);
         return;
     }
-    func_80033CD8(object, &D_80045340);
+    func_80033CD8(object, func_80045340);
     phase = object->unk_6C + 0x60;
     object->unk_6C = phase;
     wave = func_800644B8(phase);

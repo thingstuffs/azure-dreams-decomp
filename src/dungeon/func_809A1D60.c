@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -8,7 +9,6 @@ typedef struct { u8 pad[0x12]; u8 kind; u8 pad2; } ItemDef20;
 extern ItemDef20 D_8006DE24[];
 extern u8 D_80080A84;
 extern void *D_800814A8;
-extern s16 D_80083228;
 extern u8 D_800DCF50;
 extern s32 D_800DDAB8[];
 extern void *D_80170880[];
@@ -184,7 +184,7 @@ copy_target_pos:
         D_800DCF50 = *(u8 *)item_addr;
         ((S_80173560_1 *)actor)->unk_13 |= 0x80;
     }
-    direction = ((D_80083228 + ((S_80173560_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
+    direction = ((gameWork.viewAngle + ((S_80173560_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
     func_80047784(sprite, ((u8 *)((S_80173560_4 *)sprite)->unk_2C)[direction], 2);
     ((S_80173560_4 *)sprite)->unk_14 |= 0x800;
     if (item_or_audio_base != 0 && !(((S_80173560_1 *)actor)->unk_13 & 0x80)) {
@@ -272,15 +272,14 @@ check_high_flags:
     resource = D_80175E40;
     if (((S_80173560_4 *)sprite)->unk_2C != resource) {
         (*(void * *)((u8 *)sprite + (0x2C))) = resource;
-        direction = ((D_80083228 + ((S_80173560_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
+        direction = ((gameWork.viewAngle + ((S_80173560_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
         func_80047784(sprite, D_80175E40[direction], 0);
     }
     {
-        s32 *action_status = &dungeonStatus.unk_00;
-        if (action_status[3] != 0) {
+        if (((s32)dungeonStatus.unk_0C) != 0) {
             return;
         }
-        ((u16 *)action_status)[5]--;
+        dungeonStatus.unk_0A--;
     }
     ((S_80173560_0 *)action)->unk_8C = D_801710EC;
     func_800A4ACC(actor);

@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
@@ -119,8 +121,6 @@ extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
 extern void func_800C857C(void *, void *);
 
-extern s32 D_80045340;
-extern s16 D_80083228;
 extern u8 D_80083498[];
 extern s32 D_800DE870;
 extern u8 D_80170854[];
@@ -213,7 +213,7 @@ spawn_particles:
                     } while (copy_src != copy_end);
 
                     ((S_80174BEC_5 *)render)->unk_14 &= 0xFFFC;
-                    func_8004491C(particle, &D_80045340);
+                    func_8004491C(particle, func_80045340);
                     animation = D_8017541C[0];
                     ((S_80174BEC_5 *)render)->unk_2C = D_8017541C;
                     func_80047784(render, animation, 0);
@@ -290,7 +290,7 @@ spawn_particles:
                     ((S_80174BEC_3 *)motion)->unk_24 = 0x19 - ((S_80174BEC_0 *)state)->unk_96.s;
                     ((S_80174BEC_4 *)particle)->unk_20 = 0;
                     ((S_80174BEC_4 *)particle)->unk_10 = D_8017142C;
-                    func_8004491C(particle, &D_80045340);
+                    func_8004491C(particle, func_80045340);
 
                     render = ((S_80174BEC_4 *)particle)->unk_0C;
                     ((S_80174BEC_5 *)render)->unk_14 |= 0x0C;
@@ -368,7 +368,7 @@ wait_for_animation:
         if (((Rec_D_80082E80 *)source_render)->unk_2C.as_pu8 != D_801753BC) {
             ((Rec_D_80082E80 *)source_render)->unk_2C.as_pu8 = D_801753BC;
             ((Rec_D_80082E80 *)source_render)->unk_14.at00_u16.v &= 0xF7FF;
-            direction_index = (D_80083228 + ((S_80174BEC_8 *)actor)->unk_2A.u + 0x100) >> 9;
+            direction_index = (gameWork.viewAngle + ((S_80174BEC_8 *)actor)->unk_2A.u + 0x100) >> 9;
             func_80047784(source_render, ((Rec_D_80082E80 *)source_render)->unk_2C.as_pu8[direction_index & 7], 0);
             ((S_80174BEC_0 *)state)->unk_96.s = 0x14;
             ((S_80174BEC_0 *)state)->unk_9B++;

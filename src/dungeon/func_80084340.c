@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 extern u8 D_800E0000[];
@@ -45,9 +46,6 @@ extern s8 D_80080A88;
 extern M2C_UNK D_80080AA0;
 extern s16 D_80081468[3];
 extern void *D_800814A8;
-extern s8 D_80083160[];
-extern s16 D_80083228;
-extern s32 D_800832B4[3];
 extern M2C_UNK D_8008ACDC;
 extern s16 D_800DCE60[];
 extern s8 D_800DCF4F;
@@ -286,7 +284,7 @@ typedef struct S_80089AA0_27 {
 void func_80089AA0(void *in_actor, void *in_motion, void *in_sprite) {
     register void *sprite_or_root ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *motion_or_count;
-    void *world_state;
+    GameWork *world_state;
     volatile s32 repeat_pass;
     M2C_UNK (*update_callback)(void *, void *, void *, void *);
     M2C_UNK (*current_callback)(void *, void *, void *, void *);
@@ -350,7 +348,7 @@ void func_80089AA0(void *in_actor, void *in_motion, void *in_sprite) {
     u16 initial_flags;
 
     linked_actor = in_actor;
-    world_state = D_80083160;
+    world_state = &gameWork;
     initial_flags = D_80013714;
     motion_or_count = in_motion;
     sprite_or_root = in_sprite;
@@ -358,7 +356,7 @@ void func_80089AA0(void *in_actor, void *in_motion, void *in_sprite) {
     world_object = (u8 *)world_state + 0x18;
     if (initial_flags & 4) {
         record_or_page = (M2C_UNK *)0x80080000;
-        if ((D_800E3CD0 == 0) && (((S_80089AA0_0 *)world_state)->unk_10 != 0)) {
+        if ((D_800E3CD0 == 0) && (((s32)world_state->unk_010) != 0)) {
             D_800E3CD0 = 1;
             func_80040AA0(3);
             goto function_end;
@@ -387,7 +385,7 @@ update_audio:
             angle_step = effect_angle - 8;
         }
         effect_data[2] = (s16) angle_step;
-        D_800832B4[0] = 0;
+        gameWork.unk_154 = 0;
         func_8004D7A8(1);
         func_8004D294(0, (s16 *)((u8 *)&D_800DCF4F - 0xEF), 2);
     }
@@ -589,7 +587,7 @@ after_status_or:
         if (!((*(u16 *)0x80013714) & 8) && (!(dungeonStatus.flags & 4) || (((S_80089AA0_6 *)(&D_800E296C))->unk_00 & 0x40) || ((*(u8 *)((u8 *)linked_actor + 0x9A)) == 0x17))) {
             D_800E296C = (s32)(D_800E296C & ~0x40);
             if ((func_800C77D0(actor - 0x20, motion_or_count, 8, D_800DCE60[3]) << 0x10) != 0) {
-                D_800832B4[0] = 0;
+                gameWork.unk_154 = 0;
                 func_8004D7A8(1);
                 func_8004D294(0, D_800DCE60, 2);
                 goto update_sprite;
@@ -616,7 +614,7 @@ run_actor_callbacks:
         update_callback(linked_actor, motion_or_count, sprite_or_root, actor);
     }
     D_800DD168[(*(u8 *)((u8 *)linked_actor + 0x9A))](linked_actor, motion_or_count, sprite_or_root, actor);
-    facing = ((s32) (D_80083228 + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7;
+    facing = ((s32) (gameWork.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7;
     if ((*(s16 *)((u8 *)linked_actor + 0x94)) != facing) {
         if ((func_80042900(actor, 0xA) << 0x10) != 0) {
             func_8003DB94(sprite_or_root, ((void **)((S_80089AA0_16 *)sprite_or_root)->unk_2C)[facing], ((S_80089AA0_16 *)sprite_or_root)->unk_04);

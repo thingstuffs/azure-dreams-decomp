@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dir_step.h"
 
 typedef struct {
@@ -26,7 +27,6 @@ typedef struct {
     u8 pad02[6];
 } StackU16;
 
-extern s16 D_8008333C[];
 extern s16 D_800DCEAC[];
 extern s16 D_800DCEBC[];
 extern FuncMonster D_800E2970[];
@@ -74,7 +74,7 @@ s32 func_8009A8C0(u32 move_flags, FuncArg1 *actor, FuncArg2 *body, u16 height_of
     offset_work = *x_step;
     direction_or_x = direction;
     target_x = coord_or_height + offset_work;
-    map_limits = D_8008333C;
+    map_limits = ((s16 *)(&gameWork.unk_1DC));
     next_x = target_x & 0xFFFF;
     if (next_x != 0) {
         if (((1 << map_limits[10]) - 1) >= next_x) {

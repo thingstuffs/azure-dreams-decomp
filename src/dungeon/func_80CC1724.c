@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -48,7 +49,6 @@ extern void func_800AD594(void *, s32);
 extern s32 func_800AD9B4(void *, void *);
 
 extern u8 D_80082E80[];
-extern s16 D_80083228;
 extern s32 D_80173B98;
 extern u8 D_80176338[];
 extern u8 D_80176340[];
@@ -67,7 +67,7 @@ void func_80174F24(void *action, void *motion_arg, void *unit, void *actor)
 
             (*(u8 * *)((u8 *)unit + 0x2C)) = direction_table;
             func_80047784(unit,
-                direction_table[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+                direction_table[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
                 0);
             ((S_80174F24_0 *)action)->unk_98 |= 8;
             ((Rec_D_800E3D7C *)actor)->unk_1C.as_u32 &= ~0x08000000;
@@ -133,7 +133,7 @@ check_landing:
             direction_table = D_80176340;
             (*(u8 * *)((u8 *)unit + 0x2C)) = direction_table;
             func_80047784(unit,
-                direction_table[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+                direction_table[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
                 0);
             ((S_80174F24_0 *)action)->unk_9B++;
         }
@@ -146,7 +146,6 @@ check_landing:
 check_timeout:
     {
         s16 action_ticks;
-        s16 *global_counts;
         u32 actor_flags;
 
         action_ticks = ((S_80174F24_0 *)action)->unk_96.s - 1;
@@ -163,9 +162,8 @@ check_timeout:
         func_800AD594(actor, 4);
         func_800A4ACC(actor);
 
-        global_counts = (s16 *)&dungeonStatus.unk_00;
-        if (global_counts[4] != 0) {
-            global_counts[4]--;
+        if (dungeonStatus.unk_08 != 0) {
+            dungeonStatus.unk_08--;
         }
 
         actor_flags = ((Rec_D_800E3D7C *)actor)->unk_1C.as_u32;

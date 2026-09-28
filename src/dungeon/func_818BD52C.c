@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 typedef struct S_818BD52C_0 {
     u8 pad_00[0x8];
@@ -66,7 +67,6 @@ extern s32 rand();
 extern void func_8004491C();
 
 extern u8 D_80024BB0[];
-extern s32 D_80045340;
 extern u8 D_800DDC40[];
 extern u8 D_800DEC70[];
 
@@ -122,7 +122,7 @@ void *func_818BD52C(S_818BD52C_1 *owner, void *source_coords, s32 phase_index, s
         part->unk_1A = random_angle % 0x1000;
         part->unk_1E = 0xC00;
         part->unk_1C = 0xC00;
-        func_8004491C(node, &D_80045340);
+        func_8004491C(node, func_80045340);
 
         coords = ((S_818BD52C_0 *)node)->unk_08;
         *(Copy24 *)coords = *(Copy24 *)source_coords;

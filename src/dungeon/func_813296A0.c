@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct {
     s32 field_00;
@@ -42,7 +43,6 @@ typedef struct {
     void *callback;
 } Node;
 
-extern s16 D_80083228[5];
 extern u8 D_80174B30[9];
 extern Node *D_80174CDC;
 
@@ -106,7 +106,7 @@ delay:
         sprite->field_10 = 0x20;
         sprite->field_2C = D_80174B30;
         sprite->flags_14 |= 0xC;
-        func_80047784(sprite, D_80174B30[((D_80083228[0] + direction_data->field_2A + 0x100) >> 9) & 7], 0);
+        func_80047784(sprite, D_80174B30[((gameWork.viewAngle + direction_data->field_2A + 0x100) >> 9) & 7], 0);
         goto update_sprite;
     }
     goto update_sprite;

@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
+#include "shared/game_work.h"
 
 typedef struct S_80D3B0B8_0 {
     u8 pad_00[0x2A];
@@ -78,8 +80,6 @@ extern void func_8004491C(void *, void *);
 extern void func_80047784(void *, u8, s32);
 extern void func_800BC26C(void *, s32, void *, void *);
 
-extern s32 D_80045340;
-extern u8 D_80083160[];
 extern u8 D_80083498[];
 extern u8 D_800D5594[];
 extern s8 D_800DCECC[];
@@ -90,7 +90,6 @@ void func_80D3B0B8(u8 *owner_data, u8 *source_position, u8 *source_sprite) {
     u8 *object;
     u8 *object_data;
     u8 *sprite;
-    u8 *view_state;
     u8 *position;
     Copy16 *copy_dst;
     Copy16 *copy_src;
@@ -116,12 +115,11 @@ void func_80D3B0B8(u8 *owner_data, u8 *source_position, u8 *source_sprite) {
             copy_dst++;
         } if (copy_src != copy_end) goto loop_0;
 
-        func_8004491C(object, &D_80045340);
+        func_8004491C(object, func_80045340);
         direction_table = D_800E23F0;
         ((S_80D3B0B8_3 *)sprite)->unk_2C = direction_table;
-        view_state = D_80083160;
         func_80047784(sprite,
-            direction_table[((((S_80D3B0B8_4 *)view_state)->unk_C8 +
+            direction_table[((gameWork.viewAngle +
                 ((S_80D3B0B8_2 *)owner_data)->unk_2A.u + 0x100) >> 9) & 7], 0);
 
         position = ((S_80D3B0B8_1 *)object)->unk_08;
@@ -141,7 +139,7 @@ void func_80D3B0B8(u8 *owner_data, u8 *source_position, u8 *source_sprite) {
             ((S_80D3B0B8_3 *)sprite)->unk_1E = sprite_field_1e;
         }
         ((S_80D3B0B8_3 *)sprite)->unk_06 =
-            D_800DCECC[((((S_80D3B0B8_4 *)view_state)->unk_C8 +
+            D_800DCECC[((gameWork.viewAngle +
                 ((S_80D3B0B8_2 *)owner_data)->unk_2A.u + 0x100) >> 9) & 7] * 4;
         ((S_80D3B0B8_2 *)owner_data)->unk_B0++;
         func_800BC26C(object, 0, sprite + 0x2C, object_data + 0x2A);

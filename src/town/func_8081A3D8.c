@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 
 
@@ -19,7 +20,6 @@ extern void *D_800200CC[];
 extern u8 D_80024AC0[];
 extern u8 D_80024B04[];
 extern u8 D_80024B48[];
-extern u8 D_80045340[];
 extern s32 D_80053858[4];
 extern s32 D_80053A88;
 extern u8 D_80083498[];
@@ -127,7 +127,7 @@ case_0:
     if (object != 0) {
         u8 *object_tail = object + 0x20;
         ((S_800243D8_0 *)object)->unk_10 = D_80024B48;
-        func_8004491C(object, D_80045340);
+        func_8004491C(object, func_80045340);
         object_data = ((S_800243D8_0 *)object)->unk_0C;
         ((S_800243D8_3 *)(((S_800243D8_0 *)object)->unk_08))->unk_00 = 0x03200000;
         ((S_800243D8_3 *)(((S_800243D8_0 *)object)->unk_08))->unk_04 = 0x02E00000;

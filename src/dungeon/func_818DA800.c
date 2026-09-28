@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 
@@ -142,7 +143,6 @@ extern s32 func_8009D218(void *, s32, void *);
 extern void func_800C8900(void *, s32, s32);
 
 extern u8 D_80083498[];
-extern u8 D_80045340[];
 extern u8 D_80024538[];
 extern u8 D_800DEAE0[];
 extern u8 D_80024684[];
@@ -325,7 +325,7 @@ case1:
 
             burst_obj = func_8003FD64(0x312, D_80083498);
             if (burst_obj != 0) {
-                func_8004491C(burst_obj, D_80045340);
+                func_8004491C(burst_obj, func_80045340);
                 prim = burst_obj->unk_0C;
                 position_or_z_offset = (s32)burst_obj->unk_08;
                 burst_obj->unk_10 = image_base;

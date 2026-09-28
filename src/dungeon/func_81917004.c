@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 #ifndef NULL
 #define NULL 0
@@ -17,7 +18,6 @@ extern s32 func_80064584();
 
 extern s32 D_80024710;
 extern s32 D_80025B10;
-extern s32 D_80045340;
 
 
 typedef struct S_80024804_0 {
@@ -106,7 +106,7 @@ void *func_80024804(void *source, Copy24 *origin, s16 size_step)
     part_scale = ((step_word >> 16) << 8) + 0x500;
     part->unk_1E = part_scale;
     part->unk_1C = part_scale;
-    func_8004491C(effect, &D_80045340);
+    func_8004491C(effect, func_80045340);
 
     position = ((S_80024804_0 *)effect)->unk_08;
     *position = *origin;

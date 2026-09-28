@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct S_800A3B80_0 {
     u8 pad_00[0x8D0];
@@ -61,7 +62,6 @@ typedef struct Scratch {
     void *data118;
 } Scratch;
 
-extern TownGlobals D_80083160;
 extern u16 D_80100D88;
 extern u16 D_80100D8A;
 
@@ -78,7 +78,7 @@ s32 func_800A3B80(S_800A3B80_3 *object, s32 unused, void *context)
     s32 coord_value;
     register s32 angle_or_coord ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    u8 *global_base;
+    GameWork *global_base;
     void *town;
     void *output;
     void *next_output;
@@ -93,8 +93,8 @@ s32 func_800A3B80(S_800A3B80_3 *object, s32 unused, void *context)
     s32 start_angle;
 
     scratch = (Scratch *)0x1F800000;
-    global_base = (u8 *)&D_80083160;
-    town = D_80083160.root;
+    global_base = &gameWork;
+    town = gameWork.unk_000;
     output = ((S_800A3B80_0 *)town)->unk_8D0;
     scratch->data20 = (u8 *)town + 0x8B0;
     origin_y = D_80100D88;
@@ -105,7 +105,7 @@ s32 func_800A3B80(S_800A3B80_3 *object, s32 unused, void *context)
     context_view->unk_0F = context_data->unk_01;
 
     start_angle = object->unk_06;
-    result = D_80083160.angle;
+    result = ((u16)gameWork.viewAngle);
     start_angle += 0xC00;
     result = (result + 0x80) & 0xF00;
     start_angle -= result;
@@ -304,7 +304,7 @@ reverse_segment:
     }
 
 done:
-    end_town = ((S_800A3B80_4 *)global_base)->unk_00;
+    end_town = global_base->unk_000;
     end_town->unk_8D0 = output;
     return 0;
 }

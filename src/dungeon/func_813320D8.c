@@ -1,5 +1,6 @@
 /* cfail-repair: true-name warm-start */
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
 typedef struct S_801690D8_0 {
@@ -84,7 +85,6 @@ typedef struct {
 extern void func_8003DB94();
 extern void *func_8003FC64();
 extern M2C_UNK func_8004491C();
-extern M2C_UNK D_80045340[3];
 extern M2C_UNK D_800DEAE0[3];
 extern Copy32 D_801648DC;
 extern M2C_UNK D_80168C88[3];
@@ -158,7 +158,7 @@ void func_801690D8(S_801690D8_1 *source, void *origin, s32 unused, s32 effect_va
             effect->unk_1E = 0;
             effect->unk_24 = effect_value;
             ((S_801690D8_2 *)object)->unk_10 = &D_80168C88;
-            func_8004491C(object, &D_80045340);
+            func_8004491C(object, func_80045340);
             render_flags = ((S_801690D8_2 *)object)->unk_0C;
             render_flags->unk_10 = 0x20;
             render_flags->unk_14 = (u16) (render_flags->unk_14 | 0x8C);

@@ -1,8 +1,8 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "m2c_compat.h"
 #define ARM_RRX(x, shift) (0)
 
-extern u8 D_8008333C[];
 extern s32 func_80033BC0();
 extern u8 D_800E3548[];
 
@@ -77,7 +77,7 @@ s32 func_800F6598(void) {
     u8 *reset_state;
     s32 result;
 
-    grid_state = D_8008333C;
+    grid_state = ((u8 *)(&gameWork.unk_1DC));
     grid_base = *(s32 *)grid_state;
     if (func_80033BC0(0xA2) != 0) {
         row_shift = ((S_800F6598_0 *)grid_state)->unk_14;

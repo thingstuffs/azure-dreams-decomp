@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 typedef struct {
     u8 pad0[2];
@@ -32,7 +33,6 @@ typedef struct {
 } Object;
 
 extern void func_8004491C(Object *, void *);
-extern u8 D_80045340[9];
 
 #ifdef __mips__
 extern void func_80170A5C(void);
@@ -83,7 +83,7 @@ void BODY_NAME(Object *object, s32 field60_value, CopyFields *source_coords)
     CopyFields *copy;
 
     object->field60 = field60_value;
-    func_8004491C(object, D_80045340);
+    func_8004491C(object, func_80045340);
 
     part = object->part;
     part->field10 = 0x20;

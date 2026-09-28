@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 #ifndef NULL
 #define NULL 0
@@ -67,7 +68,6 @@ extern u32 func_80065420();
 extern s32 func_80066460();
 extern void func_80067F20();
 extern u8 D_80080000[];
-extern u8 D_80083160[];
 
 /* Queue projected point primitives from a linked list into the ordering table. */
 s32 func_800252E0(void *node_data, void *position_data, void *appearance_data) {

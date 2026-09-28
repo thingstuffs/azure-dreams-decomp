@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct S_800BBDEC_0 {
     u8 pad_00[0x20];
@@ -86,13 +87,12 @@ extern void func_80065820(void *, void *);
 extern void func_8006658C(void *, void *);
 extern void func_80066708(void *);
 extern void func_80067F20(void *, s32, s32, s32, s32);
-extern u8 D_80083160[];
 
 /* Projects and queues a shaded quad with optional semitransparency. */
 void func_800BBDEC(S_800BBDEC_4 *object, S_800BBDEC_1 *position, S_800BBDEC_3 *appearance)
 {
     u8 *scratch = (u8 *)0x1F800000;
-    void **render_ctx = (void **)D_80083160;
+    void **render_ctx = (void **)((u8 *)(&gameWork));
     u8 *prim;
     u32 depth_index;
     s32 color_word;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -40,7 +41,6 @@ extern void func_800AD594(void *, s32);
 extern s32 func_800AD9B4(void *, void *);
 
 extern u8 D_80082E80[];
-extern s16 D_80083228;
 extern s32 D_80165CE8;
 extern u8 D_80168EB8[];
 extern u8 D_80168ED0[];
@@ -57,7 +57,6 @@ void func_801670E0(void *motion_state, void *motion, void *sprite, void *actor)
     s32 position_x;
     s32 position_y;
     s16 phase_ticks;
-    s16 *global_counters;
     u16 action_ticks;
     u8 *anim_table;
 
@@ -89,7 +88,7 @@ hop_delay:
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80168ED0;
     func_80047784(
         sprite,
-        D_80168ED0[((D_80083228 + ((S_801670E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+        D_80168ED0[((gameWork.viewAngle + ((S_801670E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
         0);
     ((S_801670E0_0 *)motion_state)->unk_98 |= 8;
     ((S_801670E0_1 *)actor)->unk_1C.s &= 0xF7FFFFFF;
@@ -137,7 +136,7 @@ hop_land:
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80168ED8;
         func_80047784(
             sprite,
-            D_80168ED8[((D_80083228 + ((S_801670E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            D_80168ED8[((gameWork.viewAngle + ((S_801670E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((S_801670E0_0 *)motion_state)->unk_9B++;
     }
@@ -149,7 +148,7 @@ idle_animation:
         (*(u8 * *)((u8 *)sprite + 0x2C)) = anim_table;
         func_80047784(
             sprite,
-            anim_table[((D_80083228 + ((S_801670E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            anim_table[((gameWork.viewAngle + ((S_801670E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
     }
 
@@ -167,9 +166,8 @@ update_countdown:
     func_800AD594(actor, 4);
     func_800A4ACC(actor);
 
-    global_counters = (s16 *)&dungeonStatus.unk_00;
-    if (global_counters[4] != 0) {
-        global_counters[4]--;
+    if (dungeonStatus.unk_08 != 0) {
+        dungeonStatus.unk_08--;
     }
 
     actor_flags = ((S_801670E0_1 *)actor)->unk_1C.u;

@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
@@ -187,7 +188,6 @@ extern s16 D_80027156[5];
 extern u16 D_80027158[5];
 extern s16 D_8002715C[5];
 extern u8 D_80080A87[16];
-extern u8 D_80083160[32];
 extern u8 D_800E3D7C[16384];
 
 /* Update the selection menu animation, side positions, and facing directions. */
@@ -229,7 +229,7 @@ void func_8002520C(void *menu_in, void *motion_in, void *appearance_in) {
     void *side_object;
     s32 side_count;
     void *side_cursor;
-    u8 *state_base;
+    GameWork *state_base;
     S_8002520C_2 *appearance;
     u8 *direction_page;
     s32 *world_page;
@@ -240,7 +240,7 @@ void func_8002520C(void *menu_in, void *motion_in, void *appearance_in) {
     D_8002715C[0] = entry_counter + 1;
     motion = motion_data;
     appearance = appearance_in;
-    state_base = D_80083160;
+    state_base = &gameWork;
     state = ((S_8002520C_0 *)menu)->unk_1C;
     (void)state_labels;
     if ((u32)state >= 5U) {
@@ -287,7 +287,7 @@ handle_input:
     if (D_80027156[0] == 0) {
         register S_8002520C_6 *cell ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         input_angle = func_8009074C(((u16) appearance->unk_1A >> 9) & 7, ((Rec_D_800E3D7C *)(&D_800E3D7C))->unk_00.at00_s32.v + 0xA2, 0) & 0xFFFF;
-        if ((input_angle != 0xFFF) && (((S_8002520C_4 *)state_base)->unk_10 & 0xF000)) {
+        if ((input_angle != 0xFFF) && (((s32)state_base->unk_010) & 0xF000)) {
             s32 step_index;
             s32 step_or_cell;
             s32 side_index;
@@ -386,7 +386,7 @@ check_other_side:
                 cell->unk_25 = (u8) target_y;
             }
         }
-        if (((S_8002520C_4 *)state_base)->unk_10 & 0x40) {
+        if (((s32)state_base->unk_010) & 0x40) {
             s16 direction;
 
             func_800A56E0(0x503);
@@ -453,10 +453,10 @@ check_other_side:
             }
             ((S_8002520C_25 *)(((S_8002520C_24 *)(((((S_8002520C_0 *)menu)->unk_26 * 4) + menu)))->unk_0C))->unk_B6 = 1;
         }
-        if (((S_8002520C_4 *)state_base)->unk_10 & 8) {
+        if (((s32)state_base->unk_010) & 8) {
             ((S_8002520C_0 *)menu)->unk_20 = (u16) (((S_8002520C_0 *)menu)->unk_20 - 0x200);
         }
-        if (((S_8002520C_4 *)state_base)->unk_10 & 4) {
+        if (((s32)state_base->unk_010) & 4) {
             ((S_8002520C_0 *)menu)->unk_20 = (u16) (((S_8002520C_0 *)menu)->unk_20 + 0x200);
         }
     }

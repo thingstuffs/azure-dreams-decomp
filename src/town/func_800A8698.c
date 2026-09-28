@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "m2c_compat.h"
 
 typedef struct S_800A5DF8_0 {
@@ -45,7 +46,6 @@ M2C_UNK func_80095C80();                      /* extern */
 s32 func_800A5894();                          /* extern */
 M2C_UNK func_800A55CC();                         /* extern */
 s32 func_800C1D44();                             /* extern */
-extern u8 D_80083160[];
 extern u8 D_80083780[];
 extern u8 D_800CFCEF;
 extern u8 D_800FE488[];
@@ -62,7 +62,7 @@ void func_800A5DF8(S_800A5DF8_4 *state, S_800A5DF8_0 *actor, M2C_UNK context) {
     register u8 *scene_state;
     register u8 *effect_data;
 
-    scene_state = D_80083160;
+    scene_state = ((u8 *)(&gameWork));
     func_80095C80(actor);
     effect_data = D_800FE488;
     threshold = func_80095978(actor, effect_data);

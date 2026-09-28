@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 
 typedef s32 M2C_UNK;
@@ -42,7 +43,6 @@ typedef struct S_800B23F8_4 {
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
 extern void func_800B22F0(void *, void *, void *, s16);
-extern u8 D_80045340;
 extern s32 D_80083498;
 extern M2C_UNK D_800B274C;
 extern M2C_UNK D_800B2A60;
@@ -79,7 +79,7 @@ void *func_800B23F8(s32 mode, s32 part_b_byte_24, s32 part_b_byte_25, s32 part_a
         work = (u8 *)work + 0x20;
         ((S_800B23F8_0 *)obj)->unk_10 = &D_800B274C;
         ((S_800B23F8_1 *)work)->unk_13 = 0x1E;
-        func_8004491C(obj, &D_80045340);
+        func_8004491C(obj, func_80045340);
 
         part_a = ((S_800B23F8_0 *)obj)->unk_08;
         kind = mode & 3;

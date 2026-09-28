@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 typedef struct {
     s32 value0;
@@ -83,7 +84,6 @@ typedef struct {
 } SecondaryBlock;
 
 extern u8 D_80174AA4[];
-extern u8 D_80045340[];
 extern u8 D_8017610C[];
 extern u8 D_8017612C[];
 
@@ -114,7 +114,7 @@ void func_80175494(Arg0Object *owner, Arg1Object *height_source, Arg2Object *ori
         block->field30 = 0;
         block->field2c = 0;
         allocated->resource10 = D_80174AA4;
-        func_8004491C(allocated, D_80045340);
+        func_8004491C(allocated, func_80045340);
         child = allocated->child;
         child->field10 = 0x20;
         child->flags14 |= 0xc;

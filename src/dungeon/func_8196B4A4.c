@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 typedef struct S_8196B4A4_0 {
     u8 pad_00[0x2C];
@@ -76,7 +77,6 @@ extern s16 rand();
 
 extern LocalPoints D_80024004;
 extern u8 D_80024874[];
-extern s32 D_80045340;
 extern u8 D_80083780[];
 extern u8 D_800DEC70[];
 
@@ -103,7 +103,7 @@ void func_8196B4A4(S_8196B4A4_5 *source, s16 unused_1, s16 unused_2, s16 offset_
         motion = (u8 *)effect + 0x20;
         motion->unk_2C = 0xF;
         ((S_8196B4A4_1 *)effect)->unk_10 = D_80024874;
-        func_8004491C(effect, &D_80045340);
+        func_8004491C(effect, func_80045340);
 
         sprite = ((S_8196B4A4_1 *)effect)->unk_0C;
         sprite->unk_10 = 0x20;

@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/game_work.h"
 #include "m2c_compat.h"
 typedef struct { s32 w[10]; } Blk40;
 typedef struct { s32 w[4]; } Blk16;
@@ -25,7 +26,6 @@ M2C_UNK func_800654B0();
 M2C_UNK func_80065820();
 M2C_UNK func_80067EF4();
 extern M2C_UNK D_8006CD10[3];
-extern struct S_8003E2D8 D_80083160;
 
 #ifdef __mips__
 extern void func_800255B4(void);
@@ -156,11 +156,11 @@ void func_818EC800(void *screen_pos, void *effect, s32 *ordering_tag, u32 draw_m
   u8 *context_addr;
   s32 packet_low;
   setup_arg = screen_pos;
-  ASM_KEEP_MEMDEP_NV(setup_arg, context_dep, *((void **) (&D_80083160)));   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+  ASM_KEEP_MEMDEP_NV(setup_arg, context_dep, *((void **) (((struct S_8003E2D8 *)&gameWork))));   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
   sprite = *((void **) (((s8 *) effect) + (-0x14)));
   callback_arg = *((s32 *) (((s8 *) effect) + (-0x18)));
-  render_context = *((void **) (&D_80083160));
-  render_state = (u8 *) (&D_80083160);
+  render_context = *((void **) (((struct S_8003E2D8 *)&gameWork)));
+  render_state = (u8 *) (((struct S_8003E2D8 *)&gameWork));
   frame = *((void **) (((s8 *) sprite) + 8));
   scratch = (u8 *) 0x1F800000;
   ASM_KEEP(scratch);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */

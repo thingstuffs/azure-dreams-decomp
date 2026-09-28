@@ -1,9 +1,9 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
 void *func_8003FC64();                       /* extern */
 M2C_UNK func_8004491C();           /* extern */
-extern M2C_UNK D_80045340;
 extern M2C_UNK D_800B8CF0;
 extern M2C_UNK D_800DF358;
 
@@ -44,7 +44,7 @@ void func_800B8D64(s16 x, s16 y, s16 z) {
     effect = func_8003FC64(0x212);
     if (effect != NULL) {
         effect->unk_10 = &D_800B8CF0;
-        func_8004491C(effect, &D_80045340);
+        func_8004491C(effect, func_80045340);
         position = effect->unk_08;
         position->unk_02 = x;
         position->unk_06 = y;

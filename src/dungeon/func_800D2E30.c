@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
 typedef struct S_800D8590_0 {
@@ -44,7 +45,6 @@ extern void func_80042B68();
 extern void bzero();
 extern void func_80094E34();
 
-extern s16 D_80083228;
 extern u8 D_800D8728[];
 extern u8 D_800D8C64[];
 extern void *D_800E262C[];
@@ -59,17 +59,15 @@ void *func_800D8590(void *entity)
     register u16 flags ASM_REG("$2");
     register void *result ASM_REG("$2");
     void *entity_arg;
-    s32 *object_state;
     u8 *parent;
     u8 *object;
     u16 masked_flags;
     s32 frame_index;
 
     entity_arg = entity;
-    object_state = &dungeonStatus.unk_00;
     parent = entity - 0x20;
-    if ((u8 *)object_state[4] == parent) {
-        object_state[4] = (s32)parent & 0x7FFFFFFF;
+    if ((u8 *)((s32)dungeonStatus.unk_10) == parent) {
+        dungeonStatus.unk_10 = (s32)parent & 0x7FFFFFFF;
     }
 
     child = ((S_800D8590_0 *)parent)->unk_0C;
@@ -104,7 +102,7 @@ void *func_800D8590(void *entity)
         ((S_800D8590_2 *)object)->unk_8C = D_800D8C64;
         (*(void ** *)((u8 *)child + 0x2C)) = D_800E262C;
 
-        frame_index = (D_80083228 + ((S_800D8590_1 *)entity)->unk_2A + 0x100) >> 7;
+        frame_index = (gameWork.viewAngle + ((S_800D8590_1 *)entity)->unk_2A + 0x100) >> 7;
         func_8003DB94(child,
                       *(void **)((u8 *)D_800E262C + (frame_index & 0x1C)), 0);
         ((S_800D8590_2 *)object)->unk_A0 = 0x14;

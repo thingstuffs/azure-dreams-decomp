@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "shared/dir_step.h"
 
 #ifndef NULL
@@ -75,7 +76,6 @@ extern s32 func_8004491C();
 extern s32 rand();
 extern s32 func_8003DB94();
 
-extern s32 D_80045340;
 extern s32 D_800ABB20;
 extern s32 D_800D1464;
 
@@ -100,7 +100,7 @@ void func_800ABC00(void *source_data, u32 angle)
         sprite = effect->unkC;
         effect_state = &effect->sub20;
         effect->unk10 = &D_800ABB20;
-        func_8004491C(effect, &D_80045340);
+        func_8004491C(effect, func_80045340);
         x_steps = dirStepX;
         y_step = &dirStepY[direction];
         motion->unk_02 =

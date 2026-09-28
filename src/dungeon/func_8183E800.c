@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 
@@ -7,7 +8,6 @@
 extern u8 D_800DEA68[];
 extern u8 D_800DE990[];
 extern u8 D_80083498[];
-extern u8 D_80045340[];
 extern u8 D_800247D8[];
 extern void *D_80024008[];
 
@@ -205,7 +205,7 @@ state_5:
         particle = func_8003FD64(0x312, D_80083498);
         if (particle != 0) {
             F(particle, void *, 16) = D_800247D8;
-            func_8004491C(particle, D_80045340);
+            func_8004491C(particle, func_80045340);
             child_data = F(particle, u8 *, 12);
 
             spawn_coord = func_80069EF8();

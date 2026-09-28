@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
 M2C_UNK func_80033CD8();           /* extern */
 s32 func_8004A658();                /* extern */
 void *func_8009C390(); /* extern */
 M2C_UNK func_800A8070();         /* extern */
-extern M2C_UNK D_80045340;
 extern M2C_UNK D_800A8070;
 
 typedef struct S_800A7FD8_0 {
@@ -38,7 +38,7 @@ void present_flower_set(s32 initial_value) {
         state = object + 0x20;
         state->unk_60 = initial_value;
         callback_data->unk_08 = func_8004A658(0xB, 2);
-        func_80033CD8(state, &D_80045340);
+        func_80033CD8(state, func_80045340);
         func_800A8070(state, callback_arg, callback_data);
     }
 }

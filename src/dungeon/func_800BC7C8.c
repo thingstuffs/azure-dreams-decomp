@@ -56,7 +56,6 @@ void *func_800C1F28(void *object, s16 action_arg) {
     u8 *position;
     u8 *task_data;
     void *task;
-    u8 *task_counters;
     u8 *search_origin;
     s32 object_index;
     u8 old_x;
@@ -67,8 +66,7 @@ void *func_800C1F28(void *object, s16 action_arg) {
         object_index = func_800429E4(object);
         func_800C542C(object, D_800DCED4[object_index], action_arg, 3);
         tile_mask = 0x3000;
-        task_counters = (u8 *)((s32 *)(&dungeonStatus));
-        *(u16 *)(task_counters + 0xA) = (u16)(*(u16 *)(task_counters + 0xA) + 1);
+        dungeonStatus.unk_0A = (u16)(((u16)dungeonStatus.unk_0A) + 1);
         position = *(u8 **)((u8 *)object - 0x14);
         task_data = (u8 *)task + 0x20;
         old_x = position[0x24];

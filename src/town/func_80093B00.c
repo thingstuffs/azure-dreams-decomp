@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 
 extern s32 func_80033B2C();
@@ -28,7 +29,6 @@ extern void func_80095C80();
 extern void func_80098868();
 extern s32 func_800C1D44();
 
-extern u8 D_80083160[];
 extern s32 D_800CFCB4[];
 extern u8 D_800CFCEF[];
 extern u8 D_800FE488[];
@@ -60,7 +60,7 @@ typedef struct S_80091260_2 {
 
 /* Dispatch actor actions from input flags and position checks. */
 void func_80091260(S_80091260_2 *actor, S_80091260_0 *position, s32 context) {
-    u8 *input_state = D_80083160;
+    GameWork *input_state = &gameWork;
     s32 input_flags;
     s32 action_result;
     s32 tile_id;
@@ -81,7 +81,7 @@ void func_80091260(S_80091260_2 *actor, S_80091260_0 *position, s32 context) {
         func_80095A94(position, height, D_800FE488);
     }
 
-    input_flags = ((S_80091260_1 *)input_state)->unk_10;
+    input_flags = ((s32)input_state->unk_010);
     if (input_flags & 0x10) {
         func_800942B0(actor, position, context);
         return;
@@ -120,7 +120,7 @@ void func_80091260(S_80091260_2 *actor, S_80091260_0 *position, s32 context) {
         return;
     }
 
-    input_flags = ((S_80091260_1 *)input_state)->unk_08;
+    input_flags = ((s32)input_state->unk_008);
     if (input_flags & 0x20) {
         if (actor->unk_16 == 1) {
             tile_id = func_8008C180(position->unk_02, position->unk_06);

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 
 #ifndef NULL
@@ -31,7 +32,6 @@ typedef struct {
     s32 b;       /* 0x10 */
 } S_80083160;
 
-extern S_80083160 D_80083160;
 extern u8 D_80080A84[];
 extern u8 D_80080A78[];
 extern u8 D_80088930[];
@@ -51,7 +51,7 @@ void func_800890EC(Obj *obj, s32 *position) {
     int slot;
     u16 next_state;
     void *child;
-    S_80083160 *input = &D_80083160;
+    S_80083160 *input = ((S_80083160 *)&gameWork);
 
     frames_left = obj->counter - 1;
     obj->counter = frames_left;

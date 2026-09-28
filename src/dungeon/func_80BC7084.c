@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct RenderState {
     u8 pad0[0x8D0];
@@ -50,7 +51,6 @@ typedef struct Input {
     u16 in2;
 } Input;
 
-extern void *D_80083160[3];
 extern s32 func_80065420(void *, void *, void *, void *);
 extern s32 func_80066460(s32, s32, s32, s32);
 extern void func_80067F20(void *, s32, s32, u16, s32);
@@ -59,7 +59,7 @@ extern void func_80067F20(void *, s32, s32, u16, s32);
 s32 func_8016A884(u8 *entry_data, u16 *coords)
 {
     Scratch *scratch = (Scratch *)0x1F800000;
-    void **globals = D_80083160;
+    void **globals = ((void * *)(&gameWork));
     RenderState *render_state = (RenderState *)globals[0];
     Packet *first_packet = (Packet *)render_state->next_prim;
     Packet *packet;

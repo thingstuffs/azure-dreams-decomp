@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "records/Rec_func_8008D024_arg0.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -14,7 +15,6 @@ typedef struct {
 extern s32 D_800E296C[3];
 extern u8 D_800DD0B8[8];
 extern u8 D_800DCFB0[8];
-extern s16 D_80083228[5];
 
 extern void func_800B0F50(void *, s32, void *, void *);
 extern void func_800B1768(s32, s32, s32, s32, s32, s32);
@@ -69,7 +69,7 @@ s32 func_8008D024(Rec_func_8008D024_arg0 *actor, s32 context, Rec_D_80082E80 *di
                     direction_frames = D_800DCFB0;
                 }
                 display->unk_2C.as_pu8 = direction_frames;
-                func_80048A44(display, direction_frames[((s32)(D_80083228[0] + ((Arg0 *)actor_heading)->field_2A + 0x100) >> 9) & 7], 0, 1);
+                func_80048A44(display, direction_frames[((s32)(gameWork.viewAngle + ((Arg0 *)actor_heading)->field_2A + 0x100) >> 9) & 7], 0, 1);
                 actor->unk_120 = saved_mode;
                 return 1;
             }

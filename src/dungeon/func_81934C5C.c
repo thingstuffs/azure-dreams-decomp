@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 
 #ifndef NULL
@@ -75,7 +76,6 @@ M2C_UNK func_8004491C();
 s32 func_80069EF8();
 s16 func_800BCB04();
 extern M2C_UNK D_80024928;
-extern M2C_UNK D_80045340;
 extern M2C_UNK D_80083498;
 extern M2C_UNK D_800DEDB0;
 extern M2C_UNK D_800DEE38;
@@ -148,7 +148,7 @@ block_state2:
     if (impact_effect != NULL) {
         impact_effect->unk_10 = &D_80024928;
         impact_effect->unk_20 = (void *) ((S_81934C5C_0 *)effect)->unk_00;
-        func_8004491C(impact_effect, &D_80045340);
+        func_8004491C(impact_effect, func_80045340);
         impact_sprite = impact_effect->unk_0C;
         ((S_81934C5C_5 *)(impact_effect->unk_08))->unk_00 = (s32) ((S_81934C5C_0 *)effect)->unk_1C.at00.v;
         ((S_81934C5C_5 *)(impact_effect->unk_08))->unk_04 = (s32) ((S_81934C5C_0 *)effect)->unk_20.at00.v;

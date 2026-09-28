@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
+#include "shared/game_work.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -12,10 +14,8 @@ typedef struct S_80173F6C_5 {
 
 
 extern u8 D_80083498[];
-extern u8 D_80045340[];
 extern u8 D_80082E80[];
 extern u8 D_80174C84[];
-extern s16 D_80083228[5];
 extern void *D_80174CE0[];
 void *func_8003FD64();
 M2C_UNK func_8004491C();
@@ -84,7 +84,7 @@ void func_80173F6C(void) {
         object_state->unk_9A = 0;
         object_state->unk_96 = 0;
         ((S_80173F6C_1 *)object)->unk_10 = &D_801730AC;
-        func_8004491C(object, D_80045340);
+        func_8004491C(object, func_80045340);
         origin = D_80082E80;
         model = ((S_80173F6C_1 *)object)->unk_08;
         model->unk_0A = (u16) ((S_80173F6C_5 *)(((Rec_D_800E3D7C *)D_80083498)->unk_08.at00_pv.v))->unk_0A;
@@ -95,7 +95,7 @@ void func_80173F6C(void) {
         func_800A9C18(object, model, sprite, 0);
         object_state->unk_B6 = 1;
         object_state->unk_2A = 0x800;
-        func_80047784(sprite, sprite->unk_2C[((s32) (*D_80083228 + 0x900) >> 9) & 7], 0);
+        func_80047784(sprite, sprite->unk_2C[((s32) (gameWork.viewAngle + 0x900) >> 9) & 7], 0);
         sprite->unk_1E = 0x1000;
         sprite->unk_1C = 0x1000;
         func_8009A3D0(sprite->unk_24, sprite->unk_25,

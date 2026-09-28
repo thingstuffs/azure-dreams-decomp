@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -10,7 +11,6 @@ extern void func_800A4ACC(void *);
 extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
 
-extern s16 D_80083228;
 extern u8 D_80170838[16];
 extern u8 D_801716F4[];
 extern u8 D_80175584[];
@@ -63,7 +63,7 @@ wait_animation:
         (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
         (*(u8 * *)((u8 *)sprite + (0x2C))) = D_80175584;
         func_80047784(sprite,
-            D_80175584[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            D_80175584[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
         ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x0800;
     }

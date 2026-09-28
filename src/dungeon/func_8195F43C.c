@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct S_8195F43C_0 {
     u8 pad_00[0x20];
@@ -121,12 +122,11 @@ extern void func_80064D80(void *);
 extern u32 func_80065590(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
 extern void func_80065820(void *, void *);
 extern u8 D_8002745C[];
-extern u8 D_80083160[];
 
 /* Project a textured object quad onto the height grid and add it to the ordering table. */
 void func_8195F43C(void *unused, void *origin, u8 *object, s16 tile_x, s16 tile_y)
 {
-    u8 **render_state = (u8 **)D_80083160;
+    u8 **render_state = (u8 **)((u8 *)(&gameWork));
     u8 *scratch = (u8 *)0x1F800000;
     u8 *height_grid = D_8002745C;
     u8 *render_ctx;

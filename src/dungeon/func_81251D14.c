@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800814A8.h"
 
@@ -27,7 +28,6 @@ extern u16 D_80013714;
 extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern s8 D_80082EA4;
-extern s16 D_80083228;
 extern s8 D_800E2970[];
 extern void *D_80170808[];
 extern u8 D_80171514;
@@ -119,7 +119,7 @@ void func_80171514(void *obj, void *motion, void *part, void *state)
             (*(u8 * *)((u8 *)part + (0x2C))) = D_80173E8C;
             func_80047784(
                 part,
-                D_80173E8C[((D_80083228 + ((S_80171514_0 *)state)->unk_2A + 0x100) >> 9) & 7],
+                D_80173E8C[((gameWork.viewAngle + ((S_80171514_0 *)state)->unk_2A + 0x100) >> 9) & 7],
                 0);
             ((S_80171514_1 *)part)->unk_05 = 1;
             (*(s16 *)((u8 *)obj + (0xA2))) = 0;

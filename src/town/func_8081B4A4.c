@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 #ifndef NULL
 #define NULL 0
@@ -91,7 +92,6 @@ extern u8 D_80026B78[];
 extern u8 D_80026BC4[];
 extern u8 D_80026C54[];
 extern u8 D_80026F50[];
-extern u8 D_80045340[];
 extern s32 D_80053858[4];
 extern s32 D_80053A88;
 extern u8 D_80083498[];
@@ -156,7 +156,7 @@ create_child:
     *child_slot = object;
     if (object != NULL) {
         ((S_800254A4_0 *)object)->unk_10 = child_callback;
-        func_8004491C(object, D_80045340);
+        func_8004491C(object, func_80045340);
         child_state = (u8 *)object + 0x20;
         draw_state = ((S_800254A4_0 *)object)->unk_0C;
         packet = ((S_800254A4_0 *)object)->unk_08;

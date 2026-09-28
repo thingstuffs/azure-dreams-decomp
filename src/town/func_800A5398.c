@@ -1,6 +1,6 @@
 #include "common.h"
+#include "shared/game_work.h"
 
-extern u8 D_80083160[];
 
 extern s32 func_80065420();
 extern s32 func_80066460();
@@ -28,7 +28,7 @@ void func_800A2AF8(s32 end_point, s32 start_point)
     register s32 texture_depth ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     register s32 texture_y ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
-    draw_ctx = *(u8 **)D_80083160;
+    draw_ctx = *(u8 **)((u8 *)(&gameWork));
     *(u8 **)(scratch + 0x24) = draw_ctx + 0xB0;
     line = *(u32 **)(draw_ctx + 0x8D0);
     *(u8 **)(draw_ctx + 0x8D0) = (u8 *)line + 0x14;
@@ -67,7 +67,7 @@ void func_800A2AF8(s32 end_point, s32 start_point)
         *(s32 *)(scratch + 0xC4) = 0;
     }
 
-    draw_ctx = *(u8 **)D_80083160;
+    draw_ctx = *(u8 **)((u8 *)(&gameWork));
     draw_mode = *(u32 **)(draw_ctx + 0x8D0);
     *(u8 **)(draw_ctx + 0x8D0) = (u8 *)draw_mode + 0xC;
     depth_or_tpage = func_80066460(0, 0, 0x140, 0);
@@ -102,7 +102,7 @@ void func_800A2AF8(s32 end_point, s32 start_point)
     }
 
     ASM_KEEP(line);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    draw_ctx = *(u8 **)D_80083160;
+    draw_ctx = *(u8 **)((u8 *)(&gameWork));
     draw_mode = *(u32 **)(draw_ctx + 0x8D0);
     *(u8 **)(draw_ctx + 0x8D0) = (u8 *)draw_mode + 0xC;
     depth_or_tpage = func_80066460(texture_depth, 1, 0x140, texture_y);

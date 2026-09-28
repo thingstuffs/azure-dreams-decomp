@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 
 typedef struct S_800BBCA0_0 {
@@ -59,7 +60,6 @@ extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
 extern s32 rand(void);
 
-extern s32 D_80045340;
 extern u8 D_80083498[];
 extern u8 D_800BC00C[];
 extern u8 D_800F1654[];
@@ -107,7 +107,7 @@ state_zero:
         object = func_8003FD64(0x312, D_80083498);
         if (object != 0) {
             ((S_800BBCA0_1 *)object)->unk_10 = object_type;
-            func_8004491C(object, &D_80045340);
+            func_8004491C(object, func_80045340);
             sprite = ((S_800BBCA0_1 *)object)->unk_0C;
             motion = object + 0x20;
 
@@ -153,7 +153,7 @@ state_one:
         motion = object + 0x20;
         if (object != 0) {
             ((S_800BBCA0_1 *)object)->unk_10 = object_type;
-            func_8004491C(object, &D_80045340);
+            func_8004491C(object, func_80045340);
             sprite = ((S_800BBCA0_1 *)object)->unk_0C;
 
             rand_value = rand();

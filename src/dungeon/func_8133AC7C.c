@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 
 typedef struct {
@@ -9,7 +10,6 @@ typedef struct {
 
 extern void *func_8003FC64();
 extern s32 func_8004491C();
-extern s32 D_80045340;
 extern s32 D_80083780[3];
 extern s32 D_801717A8;
 extern PackedVec D_80173B40;
@@ -54,7 +54,7 @@ void func_80171C7C(void) {
     if (object != 0) {
         (*(s16 *)((u8 *)object + 0x38)) = 0;
         (*(s32 * *)((u8 *)object + 0x10)) = &D_801717A8;
-        func_8004491C(object, &D_80045340);
+        func_8004491C(object, func_80045340);
         render_state = (*(void * *)((u8 *)object + 0xC));
         render_state->unk_06 = 0;
         coords = (*(void * *)((u8 *)object + 8));

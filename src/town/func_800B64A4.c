@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct TownState {
     u8 pad0[8];
@@ -7,7 +8,6 @@ typedef struct TownState {
     s32 flags;
 } TownState;
 
-extern TownState D_80083160;
 
 // Selects a choice from enabled town flags, marks its array entry with 4, and returns it.
 s32 func_800B3C04(s32 *choice_values)
@@ -15,12 +15,10 @@ s32 func_800B3C04(s32 *choice_values)
     s32 choice;
     s32 town_flags;
     s32 selected_value;
-    TownState *town_state;
 
-    town_state = &D_80083160;
     choice = -1;
-    if (town_state->enabled != 0) {
-        town_flags = town_state->flags;
+    if (((s32)gameWork.unk_008) != 0) {
+        town_flags = ((s32)gameWork.unk_010);
         if (town_flags & 0x40) {
             choice = 2;
             goto selected;

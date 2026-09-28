@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -35,7 +36,6 @@ extern void func_80173A30(void *, void *, void *, void *);
 extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern u16 D_80082EA4;
-extern s16 D_80083228;
 extern DungeonRecord D_800E2970[];
 extern void *D_80170808[];
 extern u8 D_80170E54;
@@ -130,7 +130,7 @@ void func_80170E54(void *input_controller, void *input_context, void *input_enti
             if (((S_80170E54_2 *)entity)->unk_2C != anim_table) {
                 (*(void * *)((u8 *)entity + (0x2C))) = anim_table;
                 func_80047784(entity,
-                    anim_table[((D_80083228 + ((Rec_D_800E3D7C *)actor_state)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+                    anim_table[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor_state)->unk_2A.as_s16 + 0x100) >> 9) & 7],
                     0);
             }
             ((Rec_func_800A9E70_arg0 *)controller)->unk_9A.as_u8 = control_state;
@@ -292,6 +292,6 @@ update_table:
     anim_table = next_table;
     (*(void * *)((u8 *)entity + (0x2C))) = anim_table;
     func_80047784(entity,
-        *(u8 *)((u32)(((D_80083228 + ((Rec_D_800E3D7C *)actor_state)->unk_2A.as_s16 + 0x100) >> 9) & 7) + (u32)anim_table),
+        *(u8 *)((u32)(((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor_state)->unk_2A.as_s16 + 0x100) >> 9) & 7) + (u32)anim_table),
         0);
 }

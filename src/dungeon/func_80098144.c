@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct {
     s32 word0 __attribute__((packed));
@@ -12,7 +13,6 @@ typedef struct {
 } DungeonConfig;
 
 extern PackedPair D_80088CB0;
-extern u8 D_80083160[];
 extern u8 D_800E50A8[];
 extern u8 D_800EA000[];
 
@@ -43,7 +43,7 @@ void func_8009D8A4(void) {
     upload_pair = D_80088CB0;
     buffer = D_800E50A8;
     write_ptr = buffer;
-    dungeon_data = D_80083160;
+    dungeon_data = ((u8 *)(&gameWork));
     config = (DungeonConfig *)(dungeon_data + 0x1DC);
     row = 0;
     if ((1 << config->field_16) > 0) {

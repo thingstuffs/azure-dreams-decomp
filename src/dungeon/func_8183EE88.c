@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 
 typedef struct {
@@ -9,7 +10,6 @@ typedef struct {
     s32 f10;
 } StateBlock;
 
-extern u8 D_80045340[];
 extern void func_8004491C(void *, void *);
 extern void func_800478B8(void *);
 
@@ -36,7 +36,7 @@ tick_delay:
     delay = *(u16 *)((u8 *)effect + 0x48) - 1;
     *(u16 *)((u8 *)effect + 0x48) = delay;
     if ((delay << 0x10) <= 0) {
-        func_8004491C((u8 *)effect - 0x20, D_80045340);
+        func_8004491C((u8 *)effect - 0x20, func_80045340);
         *(u16 *)((u8 *)effect + 0x4C) += 1;
     }
     return;

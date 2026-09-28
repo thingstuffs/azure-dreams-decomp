@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800814A8.h"
 
@@ -35,7 +36,6 @@ extern void func_80173C40(void *, void *, void *, void *);
 extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern s8 D_80082EA4;
-extern s16 D_80083228;
 extern s8 D_800E2970[];
 extern void *D_80170808[];
 extern u8 D_80170EE4[];
@@ -129,7 +129,7 @@ void func_80170EE4(void *actor_state_in, void *update_context_in, void *map_obje
         (*(u8 * *)((u8 *)map_object + (0x2C))) = D_80176678;
         func_80047784(
             map_object,
-            D_80176678[((D_80083228 + ((S_80170EE4_1 *)actor_data)->unk_2A + 0x100) >> 9) & 7],
+            D_80176678[((gameWork.viewAngle + ((S_80170EE4_1 *)actor_data)->unk_2A + 0x100) >> 9) & 7],
             0);
         return;
     }
@@ -160,7 +160,7 @@ void func_80170EE4(void *actor_state_in, void *update_context_in, void *map_obje
                     (*(u8 * *)((u8 *)map_object + (0x2C))) = D_801765D8;
                     func_80047784(
                         map_object,
-                        D_801765D8[((D_80083228 + ((S_80170EE4_1 *)actor_data)->unk_2A + 0x100) >> 9) & 7],
+                        D_801765D8[((gameWork.viewAngle + ((S_80170EE4_1 *)actor_data)->unk_2A + 0x100) >> 9) & 7],
                         0);
                 }
                 ((S_80170EE4_0 *)actor_state_in)->unk_9A = default_state;
@@ -297,6 +297,6 @@ jt_default:
     (*(u8 * *)((u8 *)map_object + (0x2C))) = animation_table;
     func_80047784(
         map_object,
-        *(u8 *)((((D_80083228 + ((S_80170EE4_1 *)actor_data)->unk_2A + 0x100) >> 9) & 7) + (u32)animation_table),
+        *(u8 *)((((gameWork.viewAngle + ((S_80170EE4_1 *)actor_data)->unk_2A + 0x100) >> 9) & 7) + (u32)animation_table),
         0);
 }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -36,7 +37,6 @@ extern void func_80174928(void *, void *, void *, void *);
 extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern s8 D_80082EA4;
-extern s16 D_80083228;
 extern s8 D_800E2970[];
 extern void *D_80170808[];
 extern s32 D_80171728;
@@ -136,7 +136,7 @@ void func_80171728(void *actor_in, void *context_in, void *sprite_in, void *crea
                 if (((S_80171728_2 *)sprite)->unk_2C != anim_table) {
                     (*(void * *)((u8 *)sprite + 0x2C)) = anim_table;
                     func_80047784(sprite,
-                        anim_table[((D_80083228 + ((Rec_D_800E3D7C *)creature_in)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+                        anim_table[((gameWork.viewAngle + ((Rec_D_800E3D7C *)creature_in)->unk_2A.as_s16 + 0x100) >> 9) & 7],
                         0);
                 }
                 ((Rec_func_800A9E70_arg0 *)actor_in)->unk_9E.as_s16 = 0;
@@ -157,7 +157,7 @@ void func_80171728(void *actor_in, void *context_in, void *sprite_in, void *crea
             func_801743E8(actor_in, context_in, sprite, creature_in);
             (*(void * *)((u8 *)sprite + 0x2C)) = D_80174DEC;
             func_80047784(sprite,
-                D_80174DEC[((D_80083228 + ((Rec_D_800E3D7C *)creature_in)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+                D_80174DEC[((gameWork.viewAngle + ((Rec_D_800E3D7C *)creature_in)->unk_2A.as_s16 + 0x100) >> 9) & 7],
                 0);
             ((Rec_func_800A9E70_arg0 *)actor_in)->unk_90.at00_s32.v = 0;
             return;
@@ -284,6 +284,6 @@ generic:
 set_table:
     (*(void * *)((u8 *)sprite + 0x2C)) = anim_table;
     func_80047784(sprite,
-        *(u8 *)(((((D_80083228 + ((Rec_D_800E3D7C *)creature_in)->unk_2A.as_s16 + 0x100) >> 9) & 7)) + (u32)anim_table),
+        *(u8 *)(((((gameWork.viewAngle + ((Rec_D_800E3D7C *)creature_in)->unk_2A.as_s16 + 0x100) >> 9) & 7)) + (u32)anim_table),
         0);
 }

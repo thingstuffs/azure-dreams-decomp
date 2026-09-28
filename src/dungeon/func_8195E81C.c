@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
@@ -51,7 +52,6 @@ extern void *D_800273C0;
 extern s32 D_800274DC[];
 extern void *D_800814A8;
 extern u8 D_80082E80[];
-extern u8 D_80083160[];
 extern u8 *D_800E3D7C;
 extern void *D_80024008[];
 
@@ -59,7 +59,7 @@ extern void *D_80024008[];
 void func_8002401C(void *object)
 {
     u8 *object_bytes = object;
-    u8 *palette = D_80083160;
+    GameWork *palette = &gameWork;
     u8 *source;
     s32 *row;
     s32 *clear_row;
@@ -199,6 +199,6 @@ dispatch_done:
     }
 
     D_80027330 = 0;
-    D_80027374[8] = (palette[4] & 0x1F) + 0x80;
-    D_80027374[9] = palette[4] & 0x1F;
+    D_80027374[8] = (palette->unk_004 & 0x1F) + 0x80;
+    D_80027374[9] = palette->unk_004 & 0x1F;
 }

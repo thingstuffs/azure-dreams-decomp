@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct MapCell {
     s16 kind;
@@ -34,7 +35,6 @@ typedef struct Pair {
     u8 b;
 } Pair;
 
-extern DungeonCfg D_8008333C;
 extern MapCell D_800EA000[];
 extern Room D_800E2970[];
 extern s16 D_80081468[];
@@ -90,7 +90,7 @@ s32 func_80019AF8(void)
   s32 y0;
   s32 x1;
   s32 y1;
-  dc = (Room *) &D_8008333C;
+  dc = (Room *) ((DungeonCfg *)((u8 *)&gameWork + 476));
   j = 0;
   tries = 1024;
   rnd = func_800A6D30();

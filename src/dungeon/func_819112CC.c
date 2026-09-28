@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct S_819112CC_0 {
     u8 pad_00[0xA];
@@ -104,7 +105,6 @@ typedef struct {
     u8 *nextPrim;
 } RenderContext;
 typedef struct {} EmptyArg;
-extern RenderContext *D_80083160;
 
 static __inline__ s32 radial_coordinate(s32 center, s32 trig, s16 radius) { return center + (((trig >> 4) * radius) << 8); }
 

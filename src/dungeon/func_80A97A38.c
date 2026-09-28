@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -31,7 +32,6 @@ extern void func_800A2B04(void *, s32, s32);
 extern void func_800AAA54(void *, void *, void *, void *);
 extern void func_800AD4D0(void *);
 
-extern s16 D_80083228;
 extern u8 D_8014CE54;
 extern u8 D_80150150[];
 extern u8 D_80150178[];
@@ -43,7 +43,6 @@ void func_8014F238(void *action, void *motion, void *actor, void *entity)
     s32 direction;
     s16 timer;
     s32 tracked_entity;
-    s32 *tracking_data;
 
     direction = (((Rec_D_800E3D7C *)entity)->unk_6A.as_u16 >> 9) & 7;
     state = ((S_8014F238_1 *)action)->unk_9B;
@@ -117,7 +116,7 @@ continue_state_one:
     (*(u8 * *)((u8 *)actor + 0x2C)) = D_80150150;
     func_80047784(
         actor,
-        D_80150150[((D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+        D_80150150[((gameWork.viewAngle + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7],
         0);
     ((S_8014F238_1 *)action)->unk_9B++;
     goto done;
@@ -132,7 +131,7 @@ state_two:
     (*(u8 * *)((u8 *)actor + 0x2C)) = D_80150150;
     func_80047784(
         actor,
-        D_80150150[((D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+        D_80150150[((gameWork.viewAngle + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7],
         0);
     ((S_8014F238_1 *)action)->unk_96.s = 8;
     ((S_8014F238_1 *)action)->unk_9B++;
@@ -167,10 +166,9 @@ state_three:
     ((S_8014F238_2 *)motion)->unk_04.at00.v = ((((Rec_D_80082E80 *)actor)->unk_25 << 6) + 0x20) << 16;
     func_800A2B04(motion, ((Rec_D_80082E80 *)actor)->unk_24, ((Rec_D_80082E80 *)actor)->unk_25);
 
-    tracking_data = &dungeonStatus.unk_00;
-    tracked_entity = tracking_data[4];
+    tracked_entity = ((s32)dungeonStatus.unk_10);
     if (tracked_entity == (s32)((u8 *)entity - 0x20)) {
-        tracking_data[4] = tracked_entity & 0x7FFFFFFF;
+        dungeonStatus.unk_10 = tracked_entity & 0x7FFFFFFF;
     }
     ((S_8014F238_1 *)action)->unk_8C = &D_8014CE54;
 

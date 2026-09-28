@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct TownState {
     u8 pad00[8];
@@ -36,7 +37,6 @@ typedef struct TownObject {
     TownAux *aux;
 } TownObject;
 
-extern TownState D_80083160;
 extern u8 D_8001029C[];
 extern s32 D_800891F4;
 extern u8 D_800AF96C[];
@@ -53,7 +53,6 @@ extern s32 func_800AF8B0(TownObject *);
 /* Handles town menu actions, selection movement, and scrolling between bands. */
 void func_800AF9C4(TownObject *obj)
 {
-    TownState *input_state;
     s32 held_buttons;
     s32 move_step;
     s32 next_position;
@@ -63,8 +62,7 @@ void func_800AF9C4(TownObject *obj)
     TownInner *selection;
     TownInner *refreshed_inner;
 
-    input_state = &D_80083160;
-    held_buttons = input_state->input;
+    held_buttons = ((s32)gameWork.unk_008);
     move_step = 0;
     if (held_buttons == 0) {
         return;
@@ -73,19 +71,19 @@ void func_800AF9C4(TownObject *obj)
         return;
     }
     if (obj->inner->limit == 0) {
-        if (input_state->flags & 0x20) {
+        if (((s32)gameWork.unk_010) & 0x20) {
             goto confirm;
         }
         return;
     }
 
-    if (input_state->flags & 0x20) {
+    if (((s32)gameWork.unk_010) & 0x20) {
 confirm:
         SD_Call(0x515);
         func_800AE484(obj->resource);
         return;
     }
-    if (input_state->flags & 0x40) {
+    if (((s32)gameWork.unk_010) & 0x40) {
         SD_Call(0x514);
         obj->inner->handle = func_800AF8B0(obj);
         if (obj->inner->handle != 0) {
@@ -94,7 +92,7 @@ confirm:
         obj->old_state = *(s32 *)((u8 *)obj - 0x10);
         *(void **)((u8 *)obj - 0x10) = D_800AF96C;
         return;
-    } else if (input_state->flags & 0x10) {
+    } else if (((s32)gameWork.unk_010) & 0x10) {
         SD_Call(0x503);
         func_8004B08C((void *)0x8001029C);
         func_800AF860(obj);
@@ -106,12 +104,12 @@ confirm:
     if (!(held_buttons & 0xF000)) {
         return;
     }
-    if (input_state->flags & 0xF000) {
+    if (((s32)gameWork.unk_010) & 0xF000) {
         obj->counter = 0;
-        if (input_state->flags & 0x8000) move_step = -5;
-        else if (input_state->flags & 0x2000) move_step = 5;
-        else if (input_state->flags & 0x1000) move_step = -1;
-        else if (input_state->flags & 0x4000) move_step = 1;
+        if (((s32)gameWork.unk_010) & 0x8000) move_step = -5;
+        else if (((s32)gameWork.unk_010) & 0x2000) move_step = 5;
+        else if (((s32)gameWork.unk_010) & 0x1000) move_step = -1;
+        else if (((s32)gameWork.unk_010) & 0x4000) move_step = 1;
     } else {
         if (obj->counter >= 5) {
             if (held_buttons & 0x8000) move_step = -5;

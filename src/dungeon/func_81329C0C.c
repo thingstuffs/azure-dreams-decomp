@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct {
     u16 unk0;
@@ -15,7 +16,6 @@ typedef struct {
 
 extern S_80174CF0 D_80174CF0;
 extern S_800DCE60 D_800DCE60;
-extern s32 D_800832B4[3];
 extern void func_8004D7A8(s32);
 extern void func_8004D294();
 
@@ -25,7 +25,7 @@ void func_8017140C(void)
     S_80174CF0 *destinationState = &D_80174CF0;
 
     destinationState->unk4 = 0;
-    D_800832B4[0] = 0;
+    gameWork.unk_154 = 0;
     D_80174CF0.unk0 = D_800DCE60.unk0;
     destinationState->unk2 = D_800DCE60.unk2;
     func_8004D7A8(1);

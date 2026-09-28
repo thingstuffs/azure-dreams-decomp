@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 extern u8 D_80082E80[];
-extern u8 D_80083160[];
 extern s32 D_800E296C;
 extern u8 D_800E3548[];
 extern u8 D_800E3648[];
@@ -54,7 +54,7 @@ void func_8009DAD8(s32 draw_param) {
     u8 *entry;
     u8 *object;
     long playerAndIndex;
-    u8 *system;
+    GameWork *system;
     MapEntry *mapEntry;
     ObjectEntry *objectEntry;
     EntryInfo *info;
@@ -71,7 +71,7 @@ void func_8009DAD8(s32 draw_param) {
     long flagsPage;
     register long loopFlagsPage ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
-    system = D_80083160;
+    system = &gameWork;
     head = D_800E3D7C;
 
     if (D_800E296C & 0x1000) {
@@ -95,7 +95,7 @@ void func_8009DAD8(s32 draw_param) {
         func_8009EF04();
     }
 
-    a0Value = *(u16 *)(system + 4) << 8;
+    a0Value = system->unk_004 << 8;
     brightness = (func_800644B8(a0Value) >> 6) + 0x80;
     firstColour = colour;
     if (brightness >= 0x100) {

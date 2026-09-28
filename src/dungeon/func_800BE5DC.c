@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
 extern s32 func_80098864();
@@ -13,7 +14,6 @@ extern s32 func_800403BC();
 extern s32 func_800997FC();
 extern s32 func_80098B38();
 
-extern s32 D_80083160[];
 extern void *D_800E3D7C;
 extern s32 D_800E296C;
 extern u8 D_800DDE84[];
@@ -33,7 +33,7 @@ extern u8 D_800CE028[];
 
 /* Apply a target effect and clear dungeon entities and tiles when requested. */
 s32 func_800C3D3C(void *target, s32 effect_arg, s16 effect_id, s32 context) {
-    s32 *dungeon_state = D_80083160;
+    s32 *dungeon_state = ((s32 *)(&gameWork));
     u8 *grid_info;
     s32 grid_base;
     void *entity;

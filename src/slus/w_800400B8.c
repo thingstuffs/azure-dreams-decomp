@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 #include "common.h"
 
@@ -25,7 +26,6 @@ typedef struct S_800400B8_D80083160
   u8 field_20[0x1DC - 0x20];
   s32 field_1DC;
 } S_800400B8_D80083160;
-extern S_800400B8_D80083160 D_80083160;
 
 extern void func_80046884(void *a0, void *a1, s32 a2);
 extern void func_8003BFE4(void);
@@ -41,7 +41,7 @@ extern void func_80044B48(void);
 /* Runs node callbacks, removes flagged nodes, and updates movement and drawing state. */
 void func_800400B8(void)
 {
-  S_800400B8_D80083160 *state = &D_80083160;
+  S_800400B8_D80083160 *state = ((S_800400B8_D80083160 *)&gameWork);
   s32 mode;
   if ((D_80080A86.val == 0) && (state->field_1DC != 0))
   {

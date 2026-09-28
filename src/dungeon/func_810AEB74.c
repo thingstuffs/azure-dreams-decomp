@@ -49,7 +49,6 @@ void func_80172374(S_80172374_0 *motion, Rec_D_800E3D7C *position, Rec_D_80082E8
     s32 frames_left;
     s16 next_frames;
     s32 entity_flags;
-    u8 *action_counters;
 
     jump_state = motion->unk_9B;
     if (jump_state == 1) {
@@ -124,9 +123,8 @@ tick_timer:
         func_800AD594(entity, 5);
         func_800A4ACC(entity);
 
-        action_counters = (u8 *)&dungeonStatus.unk_00;
-        if (((S_80172374_4 *)action_counters)->unk_08 != 0) {
-            ((S_80172374_4 *)action_counters)->unk_08 = (u16)((S_80172374_4 *)action_counters)->unk_08 - 1;
+        if (dungeonStatus.unk_08 != 0) {
+            dungeonStatus.unk_08 = (u16)dungeonStatus.unk_08 - 1;
         }
 
         entity_flags = entity->unk_1C.as_s32;

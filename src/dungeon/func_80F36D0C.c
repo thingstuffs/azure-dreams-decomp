@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
@@ -75,7 +76,6 @@ typedef struct {
     u16 count;
 } CounterBlock;
 
-extern s16 D_80083228[];
 extern PackedRecord D_800E3548[];
 extern TileRecord D_800E36C8[];
 extern u8 D_80174A74[];

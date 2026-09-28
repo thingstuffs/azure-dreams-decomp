@@ -1,16 +1,11 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct {
     u8 pad[4];
     u16 flags;
 } DungeonCell;
 
-typedef struct {
-    u8 pad[0x1DC];
-    DungeonCell *cells;
-} DungeonState;
-
-extern DungeonState D_80083160;
 s32 func_800A6E10(s32, s32);
 
 /* Clears selected cell flags or decrements their encoded value, clamping at zero. */
@@ -28,8 +23,8 @@ void func_8009A3D0(s32 x, s32 y, s32 flag_mask)
     register DungeonCell *cell ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     flags = flag_mask;
-    cells = D_80083160.cells;
-    config = (s8 *)&D_80083160.cells;
+    cells = ((DungeonCell *)gameWork.unk_1DC);
+    config = (s8 *)((DungeonCell * *)&gameWork.unk_1DC);
 
     matched_flags = flags & 0x8832;
     if (matched_flags) {

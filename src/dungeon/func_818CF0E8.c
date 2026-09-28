@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 extern int abs(int);
 
@@ -129,7 +130,6 @@ extern s16 D_80025924[5];
 extern u8 D_80024478[];
 extern u8 D_80024578[];
 extern u8 D_800245C8[];
-extern u8 D_80045340[];
 extern Vec12 D_8002590C;
 extern Vec12 D_80025918;
 extern u8 D_800DE870[];
@@ -367,7 +367,7 @@ after_axes:
             if (obj != 0) {
             ((S_818CF0E8_4 *)s3)->unk_02 = 0x34;
             ((S_818CF0E8_5 *)obj)->unk_10 = D_800245C8;
-            func_8004491C(obj, D_80045340);
+            func_8004491C(obj, func_80045340);
             p = ((S_818CF0E8_5 *)obj)->unk_0C;
             flags = ((S_818CF0E8_6 *)p)->unk_14.s;
             flags |= 0xC;
@@ -414,7 +414,7 @@ after_axes:
             if (obj != 0) {
                 ((S_818CF0E8_4 *)s3)->unk_02 = 0x14;
                 ((S_818CF0E8_5 *)obj)->unk_10 = D_80024478;
-                func_8004491C(obj, D_80045340);
+                func_8004491C(obj, func_80045340);
                 p = ((S_818CF0E8_5 *)obj)->unk_0C;
                 flags = ((S_818CF0E8_6 *)p)->unk_14.s | 0xC;
                 ((S_818CF0E8_6 *)p)->unk_10 = 0;
@@ -492,7 +492,7 @@ finish:
     if (obj != 0) {
         ((S_818CF0E8_5 *)obj)->unk_22 = 1;
         ((S_818CF0E8_5 *)obj)->unk_10 = D_80024578;
-        func_8004491C(obj, D_80045340);
+        func_8004491C(obj, func_80045340);
         p = ((S_818CF0E8_5 *)obj)->unk_0C;
         flags = ((S_818CF0E8_6 *)p)->unk_14.s | 0xC;
         ((S_818CF0E8_6 *)p)->unk_10 = 0x60;
@@ -517,7 +517,7 @@ finish:
     if (obj != 0) {
         ((S_818CF0E8_5 *)obj)->unk_22 = 1;
         ((S_818CF0E8_5 *)obj)->unk_10 = D_80024578;
-        func_8004491C(obj, D_80045340);
+        func_8004491C(obj, func_80045340);
         p = ((S_818CF0E8_5 *)obj)->unk_0C;
         flags = ((S_818CF0E8_6 *)p)->unk_14.s | 0xC;
         ((S_818CF0E8_6 *)p)->unk_10 = 0x60;

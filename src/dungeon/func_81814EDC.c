@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 
@@ -126,7 +127,6 @@ typedef struct S_81814EDC_12_pre {
     u8 pad_08[0x10];
 } S_81814EDC_12_pre;   /* the 0x18 bytes before ((S_81814EDC_0 *)arg0)->unk_30 in func_81814EDC, addressed as ((S_81814EDC_0 *)arg0)->unk_30[-1] */
 
-extern u8 D_80045340[];
 extern u8 D_800DE938[];
 extern u8 D_800DE870[9];
 M2C_UNK func_800245BC();
@@ -169,7 +169,7 @@ void func_81814EDC(void *effect, void *position) {
         if (particle != NULL) {
             ((S_81814EDC_1 *)particle)->unk_22 = 9;
             ((S_81814EDC_1 *)particle)->unk_10 = &D_80024280;
-            func_8004491C(particle, D_80045340);
+            func_8004491C(particle, func_80045340);
             sprite = ((S_81814EDC_1 *)particle)->unk_0C;
             sprite->unk_14 = (u16) (sprite->unk_14 | 0xC);
             debris = ((S_81814EDC_1 *)particle)->unk_08;
@@ -234,7 +234,7 @@ loop_effects:
                         debris->unk_02 = 0xD;
                         owner_position = ((S_81814EDC_12_pre *)(((S_81814EDC_0 *)effect)->unk_30))[-1].unk_00;
                         ((S_81814EDC_1 *)particle)->unk_10 = &D_80024280;
-                        func_8004491C(particle, D_80045340);
+                        func_8004491C(particle, func_80045340);
                         sprite = ((S_81814EDC_1 *)particle)->unk_0C;
                         sprite->unk_14 = (u16) (sprite->unk_14 | 0xC);
                         debris->unk_58 = (s32) (((func_80069EF8() & 0x7FFF) << 5) + 0xFFF80000);
@@ -275,7 +275,7 @@ loop_effects:
                         ((S_81814EDC_1 *)particle)->unk_22 = random_offset;
                         owner_position = ((S_81814EDC_7_pre *)(((S_81814EDC_0 *)effect)->unk_30))[-1].unk_00;
                         ((S_81814EDC_1 *)particle)->unk_10 = &D_80024280;
-                        func_8004491C(particle, D_80045340);
+                        func_8004491C(particle, func_80045340);
                         sprite = ((S_81814EDC_1 *)particle)->unk_0C;
                         sprite->unk_14 = (u16) (sprite->unk_14 | 0xC);
                         debris = ((S_81814EDC_1 *)particle)->unk_08;

@@ -33,7 +33,6 @@ s32 func_800BE360(void *target, void *item, s16 action_type, s32 action_value) {
     s32 category_index;
     DungeonItem *item_entries;
     u16 *selector_table;
-    u8 *counter_base;
     s32 selector;
     s16 item_flags;
     u16 selector_bits;
@@ -67,7 +66,6 @@ s32 func_800BE360(void *target, void *item, s16 action_type, s32 action_value) {
     } else {
         func_800997FC((u8 *)&D_800E101C, action_value, action_type);
     }
-    counter_base = ((u8 *)(&dungeonStatus));
-    *(u16 *)(counter_base + 0xA) = *(u16 *)(counter_base + 0xA) - 1;
+    dungeonStatus.unk_0A = ((u16)dungeonStatus.unk_0A) - 1;
     return 1;
 }

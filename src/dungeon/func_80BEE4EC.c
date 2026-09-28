@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -80,8 +81,6 @@ s32 func_800C77D0();
 void func_80173904();
 extern M2C_UNK D_8003E140;
 extern s32 D_8006CD58;
-extern M2C_UNK D_80083160;
-extern s16 D_80083228;
 extern M2C_UNK D_800DCEEC;
 extern M2C_UNK D_800DCF5C;
 extern M2C_UNK D_8014A000;
@@ -118,7 +117,7 @@ void func_80173CEC(Rec_func_801732A4_arg0 *state, Rec_D_800E3D7C *position, Rec_
     S_80173CEC_3 *scene_color;
     S_80173CEC_5 *effect;
 
-    scene_color = &D_80083160;
+    scene_color = ((M2C_UNK *)&gameWork.unk_000);
     phase = state->unk_9B;
     if (phase >= 8U) {
         goto done;
@@ -134,7 +133,7 @@ jt_c1:
     ((Rec_D_80082E80 *)model)->unk_8A = (u16) ((Rec_D_80082E80 *)model)->unk_28.at02_u16.v;
     ((Rec_D_80082E80 *)model)->unk_1C.at00_s32.v = (s32) (((Rec_D_80082E80 *)model)->unk_1C.at00_s32.v & 0xFFFBFFFF);
 jt_c2:
-    direction = ((s32) (D_80083228 + (s16) ((Rec_D_80082E80 *)model)->unk_28.at02_u16.v + 0x100) >> 9) & 7;
+    direction = ((s32) (gameWork.viewAngle + (s16) ((Rec_D_80082E80 *)model)->unk_28.at02_u16.v + 0x100) >> 9) & 7;
     if ((*(u8 *)&D_801742E4) == 0) {
         goto turn_model;
     }

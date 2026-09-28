@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -69,7 +70,6 @@ extern void func_80175060(void *, void *);
 
 extern void *D_800814A8;
 extern u8 D_80082E80[];
-extern s16 D_80083228;
 extern u8 D_801710EC[];
 extern u8 D_80175EA0[];
 extern u8 D_80175EC0[];
@@ -104,7 +104,7 @@ state_zero:
     }
     (*(void * *)((u8 *)render_record + 0x2C)) = D_80175EA0;
     func_80047784(render_record,
-        D_80175EA0[((D_80083228 + ((S_80173E50_2 *)actor_state)->unk_2A + 0x100) >> 9) & 7],
+        D_80175EA0[((gameWork.viewAngle + ((S_80173E50_2 *)actor_state)->unk_2A + 0x100) >> 9) & 7],
         0);
     {
         u8 *counter_base = (u8 *)&dungeonStatus.unk_00;
@@ -182,7 +182,7 @@ state_one:
     }
     (*(void * *)((u8 *)render_record + 0x2C)) = D_80175EC0;
     func_80047784(render_record,
-        D_80175EC0[((D_80083228 + ((S_80173E50_2 *)actor_state)->unk_2A + 0x100) >> 9) & 7],
+        D_80175EC0[((gameWork.viewAngle + ((S_80173E50_2 *)actor_state)->unk_2A + 0x100) >> 9) & 7],
         0);
     ((S_80173E50_2 *)actor_state)->unk_1C.u |= 0x40000;
     if (((Rec_D_80082E80 *)render_record)->unk_14.at00_u16.v & 0x8000) {

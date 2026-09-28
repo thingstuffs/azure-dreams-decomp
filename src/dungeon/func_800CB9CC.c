@@ -1,9 +1,9 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dir_step.h"
 
 extern s32 func_8009A350(s16, s16, s16, u16 *);
 extern s16 func_800D0DE0(s16, s16, s16);
-extern u8 D_8008333C[32];
 
 /* Counts flagged tiles along a direction for up to eleven steps. */
 s32 func_800D112C(s16 scan_direction, s32 start_x, s32 start_y) {
@@ -33,7 +33,7 @@ s32 func_800D112C(s16 scan_direction, s32 start_x, s32 start_y) {
     count = 0;
     x_acc = start_x - *x_step;
     x = (u16)x_acc;
-    bounds = D_8008333C;
+    bounds = ((u8 *)(&gameWork.unk_1DC));
 
     if (x < 0 || x >= (1 << *(s16 *)(bounds + 0x14))) {
         return 0;

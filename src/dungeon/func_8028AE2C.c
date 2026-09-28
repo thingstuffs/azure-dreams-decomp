@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct {
     u16 x;
@@ -13,7 +14,6 @@ typedef struct {
 extern s32 func_8001CE14(s16 value, s32 low, s32 high);
 extern void func_8001E108(s32 x, s32 y, s16 *tile, s32 kind, s32 amount);
 
-extern u8 D_8008333C[32];
 extern u8 D_800E2970[];
 extern u8 D_800EA000[];
 
@@ -50,7 +50,7 @@ outer_loop:
 do {
             x = area->x;
             if (x < x_end) {
-                map_config_addr = (u32)&D_8008333C;
+                map_config_addr = (u32)((u8 *)(&gameWork.unk_1DC));
                 x_loop_done:
                 ;
                 tile_id = (s16 *)&D_800EA000[((y << *(s16 *)(map_config_addr + 0x14)) + x) * 6];
@@ -107,7 +107,7 @@ check_x:
                 if (x >= x_end) {
                     goto next_y;
                 }
-                map_config_addr = (u32)&D_8008333C;
+                map_config_addr = (u32)((u8 *)(&gameWork.unk_1DC));
                 goto x_loop_done;
             }
 next_y:

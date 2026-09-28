@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 typedef struct {
     s32 x;
@@ -61,7 +62,6 @@ extern Entity *func_8003FC64(s32);
 extern void func_8004491C(Entity *, void *);
 extern s32 func_80064584(s32);
 extern s32 func_800644B8(s32);
-extern u8 D_80045340;
 extern void func_80174934(void);
 
 static __inline__ u16 hold_intensity(s32 value)
@@ -111,7 +111,7 @@ void func_80174E78(Source *source, Vec3i *center)
         sub->field_1A = initial_count;
         sub->field_1C = source->field_96;
         entity->callback = update_callback;
-        func_8004491C(setup_entity, &D_80045340);
+        func_8004491C(setup_entity, func_80045340);
 
         angle = segment_index;
         prim = entity->prim;

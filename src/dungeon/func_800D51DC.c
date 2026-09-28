@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct S_800DA93C_0 {
     u8 pad_00[0x8D0];
@@ -54,7 +55,6 @@ typedef struct {
 } S_800A1600_D80083160;
 
 
-extern S_800A1600_D80083160 D_80083160;
 extern s32 func_80065420();
 extern void func_80066640();
 extern void func_800666F4();
@@ -78,7 +78,7 @@ s32 func_800DA93C(void *first_quad) {
     u32 tag_mask;
 
     quad_data = first_quad;
-    render_state = &D_80083160;
+    render_state = ((S_800A1600_D80083160 *)&gameWork);
     addr_mask = 0x00FFFFFF;
     tag_mask = 0xFF000000;
 

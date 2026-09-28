@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 #define U8_AT(p, o)  (*(u8 *)((u8 *)(p) + (o)))
 #define S8_AT(p, o)  (*(s8 *)((u8 *)(p) + (o)))
@@ -15,7 +16,6 @@ extern void ScaleMatrix(void *m, void *v);
 extern void SetRotMatrix(void *m);
 extern void SetTransMatrix(void *m);
 extern void AddPrim(void *ot, void *prim);
-extern void *D_80083160[3];
 
 /* Transform sprite parts into textured quads and add them to the ordering table. */
 void func_80044D24(void *unused, void *sprite_data, s32 ot_depth)
@@ -40,11 +40,11 @@ void func_80044D24(void *unused, void *sprite_data, s32 ot_depth)
     u8 uv_size;
 
     (void)unused;
-    context = D_80083160[0];
+    context = gameWork.unk_000;
     sprite = sprite_data;
     scratch = (u8 *)0x1F800000;
     depth = ot_depth;
-    contexts = (u8 **)D_80083160;
+    contexts = (u8 **)((void * *)(&gameWork));
     do { prim = *(void **)(context + 0x8D0); } while (0);
     U32_AT(scratch, 0x20) = (u32)(context + 0x70);
     U32_AT(scratch, 0x38) = 0x1000;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 #ifndef NULL
 #define NULL 0
@@ -58,7 +59,6 @@ extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *);
 extern s32 rand(void);
 extern void *memcpy(void *, const void *, u32);
-extern u8 D_80045340[9];
 extern u8 D_80174180[9];
 extern u8 D_80174D08[12];
 
@@ -75,7 +75,7 @@ void func_801741D0(s32 unused_0, S_801741D0_3 *source_pos, s32 unused_2, s8 gree
     node = func_8003FC64(0x212);
     if (node != NULL) {
         ((S_801741D0_0 *)node)->unk_10 = D_80174180;
-        func_8004491C(node, D_80045340);
+        func_8004491C(node, func_80045340);
 
         sprite = ((S_801741D0_0 *)node)->unk_0C;
         sprite->unk_10 = 0x60;

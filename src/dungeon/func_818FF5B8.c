@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 typedef s32 M2C_UNK;
 
@@ -19,7 +20,6 @@ void *func_8003FC64();
 M2C_UNK func_8004491C();
 extern M2C_UNK D_80024750;
 extern Copy12 D_80025E64;
-extern M2C_UNK D_80045340;
 
 
 typedef struct S_818FF5B8_0 {
@@ -90,7 +90,7 @@ void func_818FF5B8(void **owner_ref, S_818FF5B8_4 *spawn_pos, S_818FF5B8_5 *appe
         state->unk_30 = (s32) ((S_818FF5B8_1 *)(*owner_ref))->unk_60;
         state->unk_34 = owner_ref;
         (*(M2C_UNK **)((u8 *)object + 0x10)) = &D_80024750;
-        func_8004491C(object, &D_80045340);
+        func_8004491C(object, func_80045340);
         sprite = (*(void **)((u8 *)object + 0xC));
         sprite->unk_10 = 0x20;
         sprite->unk_06 = 0;

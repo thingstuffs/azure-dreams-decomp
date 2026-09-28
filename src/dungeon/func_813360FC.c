@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800814A8.h"
 
@@ -50,7 +51,6 @@ extern void func_800AA888(void *, s32, void *, void *);
 extern void func_8016D4B8(void *, s32, void *, void *);
 
 extern u8 *D_800814A8;
-extern s16 D_80083228;
 extern u8 D_8016A36C[];
 extern u8 D_80173AC8[];
 extern u8 D_80173AD0[];
@@ -59,7 +59,6 @@ extern u8 D_80173AD0[];
 void func_8016D0FC(void *context, s32 callback_arg, void *object_arg, void *actor_arg)
 {
     register void *object ASM_REG("$16") = object_arg;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    u8 *counter_base;
     void *actor = actor_arg;
     u8 *expected_table;
     u8 *current_table;
@@ -87,10 +86,9 @@ state_0:
     if (!(((S_8016D0FC_1 *)object)->unk_14 & 0xE000)) {
         goto done;
     }
-    counter_base = ((u8 *)(&dungeonStatus));
-    current_table = ((S_8016D0FC_2 *)counter_base)->unk_0A;
+    current_table = ((u16)dungeonStatus.unk_0A);
     current_table--;
-    ((S_8016D0FC_2 *)counter_base)->unk_0A = current_table;
+    dungeonStatus.unk_0A = current_table;
     kind = ((S_8016D0FC_0 *)context)->unk_AC;
     if (kind == 0xE) {
         goto set_ac8_pre;
@@ -107,7 +105,7 @@ state_0:
 set_ac8_pre:
 set_ac8:
     (*(u8 * *)((u8 *)object + 0x2C)) = D_80173AC8;
-    direction_index = (D_80083228 + ((S_8016D0FC_3 *)actor)->unk_2A + 0x100) >> 9;
+    direction_index = (gameWork.viewAngle + ((S_8016D0FC_3 *)actor)->unk_2A + 0x100) >> 9;
     func_80047784(object, D_80173AC8[direction_index & 7], 0);
     goto increment_state;
 
@@ -130,7 +128,7 @@ maybe_set_ac8:
     expected_table = D_80173AC8;
     if (current_table != expected_table) {
         (*(u8 * *)((u8 *)object + 0x2C)) = expected_table;
-        direction_index = (D_80083228 + ((S_8016D0FC_3 *)actor)->unk_2A + 0x100) >> 9;
+        direction_index = (gameWork.viewAngle + ((S_8016D0FC_3 *)actor)->unk_2A + 0x100) >> 9;
         func_80047784(object, expected_table[direction_index & 7], 0);
     }
 after_ac8:
@@ -187,34 +185,30 @@ kind_lt_15:
         if (kind == 0xD) {
             goto set_ad0;
         }
-        counter_base = ((u8 *)(&dungeonStatus));
         goto increment_counter;
     }
 kind_ge_15:
-    counter_base = ((u8 *)(&dungeonStatus));
     if (kind != 0xF) {
         goto increment_counter_pre;
     }
 set_ad0:
     (*(u8 * *)((u8 *)object + 0x2C)) = D_80173AD0;
-    direction_index = (D_80083228 + ((S_8016D0FC_3 *)actor)->unk_2A + 0x100) >> 9;
+    direction_index = (gameWork.viewAngle + ((S_8016D0FC_3 *)actor)->unk_2A + 0x100) >> 9;
     func_80047784(object, D_80173AD0[direction_index & 7], 0);
 increment_counter_pre:
-    counter_base = ((u8 *)(&dungeonStatus));
 increment_counter:
-    current_table = ((S_8016D0FC_2 *)counter_base)->unk_0A;
+    current_table = ((u16)dungeonStatus.unk_0A);
     current_table++;
-    ((S_8016D0FC_2 *)counter_base)->unk_0A = current_table;
+    dungeonStatus.unk_0A = current_table;
 increment_state:
     ((S_8016D0FC_0 *)context)->unk_9B++;
     goto done;
 
 state_2:
     if (((S_8016D0FC_1 *)object)->unk_14 & 0xE000) {
-        counter_base = ((u8 *)(&dungeonStatus));
-        current_table = ((S_8016D0FC_2 *)counter_base)->unk_0A;
+        current_table = ((u16)dungeonStatus.unk_0A);
         current_table--;
-        ((S_8016D0FC_2 *)counter_base)->unk_0A = current_table;
+        dungeonStatus.unk_0A = current_table;
         ((S_8016D0FC_0 *)context)->unk_8C = D_8016A36C;
     }
 done:

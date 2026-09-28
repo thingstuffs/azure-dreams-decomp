@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -83,7 +84,6 @@ extern u16 D_80013714;
 extern void *D_800814A8;
 extern M2C_UNK D_80082E80;
 extern u16 D_80082EA4;
-extern s16 D_80083228;
 extern DungeonEntry D_800E2970[];
 extern u8 D_801739A0;
 extern u8 D_801739A8;
@@ -108,8 +108,6 @@ void func_8016A36C(void *actor, void *context, void *sprite_arg, void *entity) {
     register void *sprite = sprite_arg;
     M2C_UNK distance;
     u8 *idle_table;
-    M2C_UNK *dungeon_state;
-    M2C_UNK *turn_state;
     u8 *pose2_table;
     u8 *pose3_table;
     unsigned long table_index;
@@ -132,8 +130,7 @@ void func_8016A36C(void *actor, void *context, void *sprite_arg, void *entity) {
     u32 clear_mask;
     s32 state_changed;
 
-    dungeon_state = &dungeonStatus.unk_00;
-    if (!(((S_8016A36C_0 *)dungeon_state)->unk_02 & 0x1000)) {
+    if (!(dungeonStatus.flags & 0x1000)) {
         goto block_3;
     }
     ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 0xEU;
@@ -142,7 +139,7 @@ void func_8016A36C(void *actor, void *context, void *sprite_arg, void *entity) {
         goto block_150;
     }
     ((Rec_func_800A9E70_arg0 *)actor)->unk_AD = (u8) (((Rec_func_800A9E70_arg0 *)actor)->unk_AD + 1);
-    ((S_8016A36C_0 *)dungeon_state)->unk_0A = (u16) (((S_8016A36C_0 *)dungeon_state)->unk_0A + 1);
+    dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) + 1);
     return;
 block_3:
     if (((Rec_func_800A9E70_arg0 *)actor)->unk_B0 != 1) {
@@ -151,7 +148,7 @@ block_3:
     if (((Rec_func_800A9E70_arg0 *)actor)->unk_AD == 0) {
         goto block_6;
     }
-    ((S_8016A36C_0 *)dungeon_state)->unk_0A = (u16) (((S_8016A36C_0 *)dungeon_state)->unk_0A - ((Rec_func_800A9E70_arg0 *)actor)->unk_AD);
+    dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - ((Rec_func_800A9E70_arg0 *)actor)->unk_AD);
     ((Rec_func_800A9E70_arg0 *)actor)->unk_AD = 0U;
 block_6:
     if (((Rec_D_800E3D7C *)entity)->unk_24.at01_u8.v != 0) {
@@ -181,7 +178,7 @@ block_13:
         goto block_150;
     }
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = (M2C_UNK *)((u8 *)&D_80173A58 + 0x68);
-    table_index = ((s32) (D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7;
+    table_index = ((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7;
     table_index += (unsigned long)(M2C_UNK *)((u8 *)&D_80173A58 + 0x68);
     func_80047784(sprite, *(u8 *)table_index, 0);
     return;
@@ -190,7 +187,7 @@ block_15:
         goto block_150;
     }
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80173AC0;
-    table_index = ((s32) (D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7;
+    table_index = ((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7;
     table_index += (unsigned long)&D_80173AC0;
     func_80047784(sprite, *(u8 *)table_index, 0);
     return;
@@ -199,7 +196,7 @@ block_17:
         goto block_150;
     }
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = (M2C_UNK *)((u8 *)&D_80173A00 + 0xC0);
-    table_index = ((s32) (D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7;
+    table_index = ((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7;
     table_index += (unsigned long)(M2C_UNK *)((u8 *)&D_80173A00 + 0xC0);
     func_80047784(sprite, *(u8 *)table_index, 0);
     return;
@@ -297,25 +294,25 @@ block_45:
 block_48:
     if (((S_8016A36C_3 *)sprite)->unk_2C.p2 != &D_801739A0) {
         (*(u8 **)((u8 *)sprite + 0x2C)) = &D_801739A0;
-        func_80047784(sprite, *((((s32) (D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7) + &D_801739A0), 0);
+        func_80047784(sprite, *((((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7) + &D_801739A0), 0);
     }
     goto block_54;
 block_49:
     if (((S_8016A36C_3 *)sprite)->unk_2C.p2 != &D_801739A8) {
         (*(u8 **)((u8 *)sprite + 0x2C)) = &D_801739A8;
-        func_80047784(sprite, *((((s32) (D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7) + &D_801739A8), 0);
+        func_80047784(sprite, *((((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7) + &D_801739A8), 0);
     }
     goto block_54;
 block_50:
     if (((S_8016A36C_3 *)sprite)->unk_2C.p2 != &D_801739B0) {
         (*(u8 **)((u8 *)sprite + 0x2C)) = &D_801739B0;
-        func_80047784(sprite, *((((s32) (D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7) + &D_801739B0), 0);
+        func_80047784(sprite, *((((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7) + &D_801739B0), 0);
     }
     goto block_54;
 block_51:
     if (((S_8016A36C_3 *)sprite)->unk_2C.p2 != &D_801739B8) {
         (*(u8 **)((u8 *)sprite + 0x2C)) = &D_801739B8;
-        func_80047784(sprite, *((((s32) (D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7) + &D_801739B8), 0);
+        func_80047784(sprite, *((((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7) + &D_801739B8), 0);
     }
 block_54:
     ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 0xEU;
@@ -376,21 +373,20 @@ block_71:
     if ((func_800A1C58(entity) << 0x10) == 0) {
         goto block_77;
     }
-    turn_state = &dungeonStatus.unk_00;
-    if (((S_8016A36C_4 *)turn_state)->unk_0C != entity) {
+    if (((s32)dungeonStatus.unk_0C) != entity) {
         goto block_150;
     }
-    if (((S_8016A36C_4 *)turn_state)->unk_10 != 0) {
+    if (((s32)dungeonStatus.unk_10) != 0) {
         goto block_150;
     }
-    if ((s16) ((S_8016A36C_4 *)turn_state)->unk_0A >= 2) {
+    if ((s16) ((u16)dungeonStatus.unk_0A) >= 2) {
         goto block_150;
     }
-    if (((S_8016A36C_4 *)turn_state)->unk_02 & 8) {
+    if (dungeonStatus.flags & 8) {
         goto block_150;
     }
     ((Rec_D_800E3D7C *)entity)->unk_18 = 0;
-    ((S_8016A36C_4 *)turn_state)->unk_0C = 0;
+    dungeonStatus.unk_0C = 0;
 block_77:
     room_id = func_8009FB34(((S_8016A36C_3 *)sprite)->unk_24.at00.v, ((S_8016A36C_3 *)sprite)->unk_24.at01.v);
     ((S_8016A36C_3 *)sprite)->unk_26 = room_id;
@@ -575,7 +571,7 @@ block_129:
         goto block_150;
     }
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = next_table;
-    table_index = ((s32) (D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7;
+    table_index = ((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7;
     table_index += (unsigned long)next_table;
     func_80047784(sprite, *(u8 *)table_index, 0);
     return;
@@ -588,7 +584,7 @@ block_131:
         goto block_134;
     }
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_801739B0;
-    func_80047784(sprite, *((((s32) (D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7) + &D_801739B0), 0);
+    func_80047784(sprite, *((((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7) + &D_801739B0), 0);
     ((Rec_func_800A9E70_arg0 *)actor)->unk_9E.as_u16 = 0U;
     ((Rec_func_800A9E70_arg0 *)actor)->unk_A0.at00_s16.v = (s16) ((func_80069EF8() & 0x3F) + 0x3C);
 block_134:
@@ -602,7 +598,7 @@ block_135:
         goto block_137;
     }
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80173A50;
-    func_80047784(sprite, *((((s32) (D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7) + &D_80173A50), 0);
+    func_80047784(sprite, *((((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7) + &D_80173A50), 0);
     func_800478B8(sprite);
     ((Rec_func_800A9E70_arg0 *)actor)->unk_9E.as_u16 = 0U;
 block_137:
@@ -615,7 +611,7 @@ block_137:
         goto block_150;
     }
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_801739B0;
-    table_index = ((s32) (D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7;
+    table_index = ((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7;
     table_index += (unsigned long)&D_801739B0;
     func_80047784(sprite, *(u8 *)table_index, 0);
     ((Rec_func_800A9E70_arg0 *)actor)->unk_9E.as_u16 = 0U;
@@ -631,7 +627,7 @@ block_140:
         goto block_143;
     }
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = idle_table;
-    func_80047784(sprite, *((((s32) (D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7) + idle_table), 0);
+    func_80047784(sprite, *((((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7) + idle_table), 0);
     ((Rec_func_800A9E70_arg0 *)actor)->unk_9E.as_u16 = 0U;
     ((Rec_func_800A9E70_arg0 *)actor)->unk_A0.at00_s16.v = (s16) ((func_80069EF8() & 0x3F) + 0x3C);
 block_143:
@@ -645,7 +641,7 @@ block_144:
         goto block_146;
     }
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80173A58;
-    func_80047784(sprite, *((((s32) (D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7) + &D_80173A58), 0);
+    func_80047784(sprite, *((((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7) + &D_80173A58), 0);
     func_800478B8(sprite);
     ((Rec_func_800A9E70_arg0 *)actor)->unk_9E.as_u16 = 0U;
 block_146:
@@ -658,7 +654,7 @@ block_146:
         goto block_150;
     }
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_801739B8;
-    table_index = ((s32) (D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7;
+    table_index = ((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7;
     table_index += (unsigned long)&D_801739B8;
     func_80047784(sprite, *(u8 *)table_index, 0);
     ((Rec_func_800A9E70_arg0 *)actor)->unk_9E.as_u16 = 0U;

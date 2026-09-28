@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_func_800D6DC0_arg2.h"
 
@@ -48,7 +49,6 @@ typedef struct S_80175594_3 {
 
 
 extern u8 D_80082E80[];
-extern s16 D_80083228;
 extern u8 D_800E2348[];
 extern u8 D_800E23B8[];
 extern u8 D_800E23C0[];
@@ -130,7 +130,7 @@ case_0:
 case_1:
     (*(u8 * *)((u8 *)entity + 0x2C)) = D_800E23B8;
     func_80047784(entity,
-        D_800E23B8[((D_80083228 + ((S_80175594_3 *)object)->unk_2A + 0x100) >> 9) & 7],
+        D_800E23B8[((gameWork.viewAngle + ((S_80175594_3 *)object)->unk_2A + 0x100) >> 9) & 7],
         0);
     ((S_80175594_0 *)motion)->unk_96 = 0;
     ((S_80175594_0 *)motion)->unk_9B++;
@@ -142,7 +142,7 @@ case_2:
     }
     (*(u8 * *)((u8 *)entity + 0x2C)) = D_800E23C0;
     func_80047784(entity,
-        D_800E23C0[((D_80083228 + ((S_80175594_3 *)object)->unk_2A + 0x100) >> 9) & 7],
+        D_800E23C0[((gameWork.viewAngle + ((S_80175594_3 *)object)->unk_2A + 0x100) >> 9) & 7],
         0);
     ((S_80175594_0 *)motion)->unk_96 = 0;
     ((S_80175594_0 *)motion)->unk_9B++;
@@ -290,7 +290,7 @@ coordinates_ready:
     if (((Rec_func_800D6DC0_arg2 *)entity)->unk_2C != animations) {
         (*(u8 * *)((u8 *)entity + 0x2C)) = animations;
         func_80047784(entity,
-            animations[((D_80083228 + ((S_80175594_3 *)object)->unk_2A + 0x100) >> 9) & 7],
+            animations[((gameWork.viewAngle + ((S_80175594_3 *)object)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((Rec_func_800D6DC0_arg2 *)entity)->unk_05 = 1;
         ((S_80175594_0 *)motion)->unk_A0.at02.v = 0;

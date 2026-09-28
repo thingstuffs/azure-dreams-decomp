@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 
 typedef struct S_80174AD4_0 {
@@ -84,16 +85,11 @@ extern void func_80067E2C(void *, void *);
 extern void func_80174FC0(void *, s32, s32);
 extern void func_801750E4(s32, s32, s32, s32, s32, s32, void *, void *, void *, s32, s32);
 
-typedef struct {
-    u8 *ptr;
-} PagePtr;
-
-extern PagePtr D_80083160;
 extern s32 D_800CEEFC[3];
 extern u8 D_801C9E40[16];
 
-#define DUNGEON_INITIAL (D_80083160.ptr)
-#define DUNGEON_FROM_PAGE (D_80083160.ptr)
+#define DUNGEON_INITIAL (gameWork.unk_000)
+#define DUNGEON_FROM_PAGE (gameWork.unk_000)
 
 /* Updates the actor rendering state, effect level, and output position. */
 void func_80174AD4(u8 *actor_data, u8 *output_data, u8 *effect_data)

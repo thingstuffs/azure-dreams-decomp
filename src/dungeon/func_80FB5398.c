@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 #define FIELD(p, type, off) (*(type *)((u8 *)(p) + (off)))
 
@@ -37,7 +38,6 @@ typedef struct {
 } Projection;
 
 extern u8 D_8017089C[];
-extern u8 D_80083160[];
 extern u8 D_801C9E40[];
 
 extern void func_800DBA90(void *);
@@ -76,7 +76,7 @@ s32 func_80174B98(void *object_data, void *unused, void *appearance)
   register s32 crop_y;
   u8 *render_state;
   (void) unused;
-  render_state = D_80083160;
+  render_state = ((u8 *)(&gameWork));
   material = *((PackedPair *) D_8017089C);
   depth = 0;
   vertex_base = vertices;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -36,7 +37,6 @@ M2C_UNK func_800AD594();
 s32 func_800AD9B4();
 
 extern u8 D_80082E80[];
-extern s16 D_80083228;
 extern u8 D_801710F4;
 extern u8 D_80174F20[];
 extern u8 D_80174F28[];
@@ -69,7 +69,7 @@ state_0:
         (*(u8 * *)((u8 *)map_entity + 0x2C)) = D_80174F20;
         func_80047784(
             map_entity,
-            D_80174F20[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            D_80174F20[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
         ((S_80172540_0 *)jump_state)->unk_98 |= 8;
         ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0xFFEE0000;
@@ -118,7 +118,7 @@ state_2:
         (*(u8 * *)((u8 *)map_entity + 0x2C)) = D_80174F28;
         func_80047784(
             map_entity,
-            D_80174F28[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            D_80174F28[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
         ((S_80172540_0 *)jump_state)->unk_9B++;
     }
@@ -134,10 +134,9 @@ tick:
         func_800AD594(actor, 3);
         func_800A4ACC(actor);
         {
-            void *action_counter = &dungeonStatus.unk_00;
 
-            if (((S_80172540_4 *)action_counter)->unk_08 != 0) {
-                ((S_80172540_4 *)action_counter)->unk_08--;
+            if (dungeonStatus.unk_08 != 0) {
+                dungeonStatus.unk_08--;
             }
         }
 

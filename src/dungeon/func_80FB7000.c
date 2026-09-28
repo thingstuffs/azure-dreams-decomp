@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 typedef void (*retfn)(void);
 
@@ -54,7 +55,6 @@ extern void func_800A9C18(void *, void *, void *, s16);
 extern void func_800AA36C(void *, void *, void *, void *);
 extern void func_800673A0(s16 *, s32, s32);
 
-extern u8 D_80045340[];
 extern u8 D_80083498[];
 extern u8 D_8016AB40[];
 extern u8 D_8016AF6C[];
@@ -126,7 +126,7 @@ void *BODY_NAME(s32 spawn_flags, s16 pos_x, s16 pos_y, s16 part_a_value)
         work = (u8 *)obj + 0x20;
         ((S_80FB7000_0 *)obj)->unk_10 = D_8016AB40;
         ((S_80FB7000_1 *)work)->unk_13 = 0x27;
-        func_8004491C(obj, &D_80045340);
+        func_8004491C(obj, func_80045340);
 
         pin_part_a = ((S_80FB7000_0 *)obj)->unk_08;
         ((S_80FB7000_2 *)pin_part_a)->unk_0A = saved_part_value;

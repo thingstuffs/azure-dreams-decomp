@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 typedef s32 M2C_UNK;
 
 typedef struct S_80DE6884_0 {
@@ -65,7 +66,6 @@ M2C_UNK func_800478B8();
 s32 func_800644B8();
 s32 func_80064584(s32);
 s32 rand();
-extern M2C_UNK D_80045340[3];
 extern M2C_UNK D_800DEA68[3];
 extern M2C_UNK D_80173F8C[3];
 
@@ -113,7 +113,7 @@ void func_80DE6884(void *owner_arg, void *motion_arg, void *origin_arg) {
             render_data->unk_1A = rand() % 0x1000;
             render_data->unk_1E = 0x1000;
             render_data->unk_1C = 0x1000;
-            func_8004491C(effect, &D_80045340);
+            func_8004491C(effect, func_80045340);
             motion = effect->unk_08;
             *(S_80DE6884_3 *)motion = *(S_80DE6884_3 *)motion_arg;
             motion->unk_00.at02.v = offset_coord(motion->unk_00.at02.v, offsets[0]);

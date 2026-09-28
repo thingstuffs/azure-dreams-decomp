@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
 #ifndef NULL
@@ -25,7 +26,6 @@ extern void func_800A56E0();
 extern void func_800AD594();
 extern void func_800C8150();
 
-extern s16 D_80083228;
 extern u8 D_80083498[];
 extern Record10 D_80170868;
 extern Record10 D_80170874;
@@ -137,7 +137,7 @@ state_one:
 
     PTR_AT(animation_input, 0x2C) = D_80174B14;
     func_80047784(animation_input,
-        D_80174B14[((D_80083228 + S16_AT(actor_input, 0x2A) + 0x100) >> 9) & 7],
+        D_80174B14[((gameWork.viewAngle + S16_AT(actor_input, 0x2A) + 0x100) >> 9) & 7],
         0);
     next_state = U8_AT(state_input, 0x9B);
 advance_state:
@@ -145,17 +145,15 @@ advance_state:
     return;
 state_two:
     if (U16_AT(animation_input, 0x14) & 0xE000) {
-        u16 *global_counts;
 
         S32_AT(motion, 0x10) = 0;
         S32_AT(motion, 0x0C) = 0;
         func_800AD594(actor_input, 0x800);
         PTR_AT(animation_input, 0x2C) = D_80174ACC;
         func_80047784(animation_input,
-            D_80174ACC[((D_80083228 + S16_AT(actor_input, 0x2A) + 0x100) >> 9) & 7],
+            D_80174ACC[((gameWork.viewAngle + S16_AT(actor_input, 0x2A) + 0x100) >> 9) & 7],
             0);
-        global_counts = (u16 *)&dungeonStatus.unk_00;
-        global_counts[5]--;
+        dungeonStatus.unk_0A--;
         func_800A4ACC(actor_input);
         U8_AT(actor_input, 0x6D) = 0;
         U16_AT(actor_input, 0x46) &= 0x7FFF;

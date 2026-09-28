@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "records/Rec_func_800D6DC0_arg1.h"
 #include "records/Rec_func_800D6DC0_arg2.h"
 
@@ -133,7 +134,6 @@ extern void func_80065820(void *, void *);
 extern void func_8006658C(void *, void *);
 extern void func_800666F4(void *);
 extern u8 D_8006CD30[];
-extern u8 D_80083160[];
 
 typedef struct {
     s32 tag;
@@ -172,7 +172,7 @@ typedef struct {
 /* Projects textured sprite quads and queues visible packets for depth-sorted drawing. */
 void func_80175594(S_80175594_0 *sprite, Rec_func_800D6DC0_arg1 *position, Rec_func_800D6DC0_arg2 *render, s16 depth_bias)
 {
-    u8 **render_globals = (u8 **)D_80083160;
+    u8 **render_globals = (u8 **)((u8 *)(&gameWork));
     u8 *scratch = (u8 *)0x1F800000;
     u8 *state;
     u8 *matrix;

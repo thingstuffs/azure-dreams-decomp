@@ -1,10 +1,9 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
 extern u16 D_80013714[];
-extern u8 D_80083160[];
-extern s16 D_80083228;
 extern u8 D_80096384[];
 extern u8 D_800DD274[];
 
@@ -28,18 +27,18 @@ extern void func_800A67F4(void);
 /* Moves the actor and updates its animation, movement state, and map flags. */
 void func_80096C24(void *obj, s32 move_mode, void *actor, void *map)
 {
-    register u8 *globals;
+    GameWork *globals;
     register s16 move_kind;
     register s32 move_result;
     register u16 *move_state;
-    register u16 *updated_state;
-    register u8 *state_base;
+    DungeonGlobalStatus *updated_state;
+    DungeonGlobalStatus *state_base;
     register u8 *anim_table;
     register s32 facing_offset;
     void *tail_obj;
 
     ASM_USE_NV(obj);
-    globals = D_80083160;
+    globals = &gameWork;
     func_800A67F4();
     move_result = func_8009ABA0(S16(map, 0x2A), move_mode, actor, S16(map, 0x88), 0x20);
     move_kind = (s16)move_result;
@@ -57,7 +56,7 @@ void func_80096C24(void *obj, s32 move_mode, void *actor, void *map)
         }
         func_8009A21C(U8(actor, 0x24), U8(actor, 0x25), 0x300);
 
-        state_base = (u8 *)&dungeonStatus.unk_00;
+        state_base = &dungeonStatus;
         move_state = (u16 *)state_base;
         move_state[1] |= 8;
         S32(obj, 0x8C) = 0;
@@ -91,24 +90,24 @@ void func_80096C24(void *obj, s32 move_mode, void *actor, void *map)
         {
             s16 move_kind;
 
-            updated_state = (u16 *)&dungeonStatus.unk_00;
+            updated_state = &dungeonStatus;
             move_kind = (s16)move_result;
-            if ((updated_state[1] & 0x80) || move_kind == 1) {
+            if ((updated_state->flags & 0x80) || move_kind == 1) {
                 func_80099F70(S32(map, 0x5C));
                 func_80099F04(S32(map, 0x5C));
-                if (!(updated_state[1] & 0x80)) {
+                if (!(updated_state->flags & 0x80)) {
                     P32(actor, 0x2C) = D_800DD274;
-                    facing_offset = (D_80083228 + S16(map, 0x2A) + 0x100) >> 7;
+                    facing_offset = (gameWork.viewAngle + S16(map, 0x2A) + 0x100) >> 7;
                     func_8003DB94(actor, *(void **)(D_800DD274 + (facing_offset & 0x1C)), 0);
                 }
                 U8(obj, 0x9A) = 0x35;
-                updated_state[2] = 8;
+                updated_state->unk_04 = 8;
                 goto update_map;
             }
 
             U16(obj, 0x98) |= 0xC;
             P32(actor, 0x2C) = D_800DD274 + 0x20;
-            facing_offset = (D_80083228 + S16(map, 0x2A) + 0x100) >> 7;
+            facing_offset = (gameWork.viewAngle + S16(map, 0x2A) + 0x100) >> 7;
             func_8003DB94(actor, *(void **)((D_800DD274 + 0x20) + (facing_offset & 0x1C)), 0);
             if (move_kind < 4) {
                 U16(obj, 0xA2) |= 1;
@@ -148,7 +147,7 @@ finish_move:
             map_flag_mask = 0x40000000;
             map_flags |= map_flag_mask;
         }
-        state_base = (u8 *)&dungeonStatus.unk_00;
+        state_base = &dungeonStatus;
         {
             u8 *final_state_base;
 

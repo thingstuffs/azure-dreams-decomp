@@ -1,8 +1,8 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 
 
-extern s32 D_80083170[3];
 
 
 typedef struct S_800A5AF0_0_pre {
@@ -59,7 +59,7 @@ void func_800A5AF0(void *transition, S_800A5AF0_1 *output, S_800A5AF0_2 *appeara
             goto end;
         }
     } else if (state == 1) {
-        if (D_80083170[0] != 0) {
+        if (((s32)gameWork.unk_010) != 0) {
             ((S_800A5AF0_0 *)transition)->unk_06 = 0;
         }
 

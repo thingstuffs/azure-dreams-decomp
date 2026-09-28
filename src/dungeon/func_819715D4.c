@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
 typedef struct Sprite Sprite;
@@ -33,7 +34,6 @@ Object *func_8003FC64();
 M2C_UNK func_8004491C();
 s32 rand();
 extern u8 D_80024AB4[];
-extern u8 D_80045340[];
 extern u8 D_800DECF8[];
 
 typedef struct S_819715D4_0 {
@@ -67,7 +67,7 @@ void func_819715D4(u16 *source, s32 unused_1, s32 unused_2, s32 base_x, s32 base
         ((S_819715D4_0 *)object_data)->unk_38 = 0x14;
         ((S_819715D4_0 *)object_data)->unk_3A = 0x14;
         object->callback = D_80024AB4;
-        func_8004491C(object, D_80045340);
+        func_8004491C(object, func_80045340);
         sprite = object->sprite;
         sprite->flags10 = 0x20;
         ((S_819715D4_1 *)sprite)->unk_06 = 0;

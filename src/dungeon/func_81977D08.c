@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 #ifndef NULL
 #define NULL 0
@@ -56,7 +57,6 @@ extern void *func_8003FD64();
 extern s32 func_8004491C();
 
 extern s32 D_8002548C;
-extern s32 D_80045340;
 extern s32 D_80083498;
 extern s32 D_800DDC40;
 extern s32 D_800DEB70;
@@ -96,6 +96,6 @@ void func_81977D08(S_81977D08_4 *owner, S_81977D08_3 *position)
         effect_pos->unk_04 = position->unk_04;
         effect_pos->unk_08 = position->unk_08 -
             (((u8 *)&D_800DDC40)[((S_81977D08_5 *)(owner->unk_14))->unk_13] >> 1 << 16);
-        func_8004491C(effect, &D_80045340);
+        func_8004491C(effect, func_80045340);
     }
 }

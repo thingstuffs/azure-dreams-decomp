@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct {
     u16 x;
@@ -14,13 +15,12 @@ typedef struct {
 } Tile;
 
 extern s32 func_800A6D30(Rect *, s32, s32, s32);
-extern u8 D_8008333C[32];
 extern u8 D_800EA000[];
 
 /* Adjust tile heights and flags where both coordinates match a random parity. */
 void func_8001CEC0(Rect *rect, s32 rng_input_1, s32 rng_input_2, s32 rng_input_3)
 {
-    u8 *dungeon = D_8008333C;
+    u8 *dungeon = ((u8 *)(&gameWork.unk_1DC));
     s32 parity;
     s32 x_end;
     s32 y_end;

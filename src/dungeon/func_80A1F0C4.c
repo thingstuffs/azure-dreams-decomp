@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 extern int abs(int);
@@ -115,7 +116,6 @@ typedef struct S_801728C4_10 {
 extern void *D_80170858[];
 extern u8 D_8006DE24[20];
 extern u8 *D_800814A8;
-extern s16 D_80083228;
 extern u8 D_80083498[16];
 extern u8 D_80170E84[];
 extern u8 D_80174820[];
@@ -162,7 +162,6 @@ void func_801728C4(void *action, void *motion, void *sprite, void *actor)
     void (*callback)(void);
     void *player_state;
     void *special_target;
-    u8 *effect_status;
     s32 offset_x;
     s32 abs_x;
     s32 abs_y;
@@ -402,7 +401,7 @@ state_2:
         (*(void * *)((u8 *)sprite + 0x2C)) = D_80174850;
         func_80047784(
             sprite,
-            D_80174850[((D_80083228 + ((S_801728C4_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            D_80174850[((gameWork.viewAngle + ((S_801728C4_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((S_801728C4_0 *)action)->unk_9B = ((S_801728C4_0 *)action)->unk_9B + 1;
         goto done;
@@ -421,12 +420,11 @@ state_3:
         (*(void * *)((u8 *)sprite + 0x2C)) = D_80174820;
         func_80047784(
             sprite,
-            D_80174820[((D_80083228 + ((S_801728C4_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            D_80174820[((gameWork.viewAngle + ((S_801728C4_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
     }
-    effect_status = ((u8 *)(&dungeonStatus));
-    if (((S_801728C4_9 *)effect_status)->unk_0C == 0) {
-        ((S_801728C4_9 *)effect_status)->unk_0A--;
+    if (((s32)dungeonStatus.unk_0C) == 0) {
+        dungeonStatus.unk_0A--;
         ((S_801728C4_4 *)sprite)->unk_14 &= 0xF7FF;
         ((S_801728C4_0 *)action)->unk_8C = D_80170E84;
         func_800A4ACC(actor);

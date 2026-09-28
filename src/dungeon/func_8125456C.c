@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 extern s32 func_80047784();
 extern void func_800A9A0C();
 extern void func_80171BE0();
 
-extern s16 D_80083228;
 extern u8 D_80173E94[];
 extern u8 *D_80174714;
 extern u16 D_80174718;
@@ -63,7 +63,7 @@ type_10:
     if (*(u8 **)(sprite + 0x2C) != D_80173E94) {
         *(u8 **)(sprite + 0x2C) = D_80173E94;
         func_80047784(sprite,
-                      D_80173E94[((D_80083228 +
+                      D_80173E94[((gameWork.viewAngle +
                                    *(s16 *)(saved_actor + 0x2A) + 0x100) >> 9) & 7],
                       *(s8 *)(sprite + 4));
     }

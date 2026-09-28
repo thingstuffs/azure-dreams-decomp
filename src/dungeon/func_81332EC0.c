@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
 #ifndef NULL
@@ -20,7 +21,6 @@ extern s32 func_800BCB04();
 extern void D_8016A36C();
 
 extern u16 D_80013714;
-extern s16 D_80083228;
 extern u8 *D_800E3D7C;
 extern Callback D_80173B94[];
 extern u8 D_80173DDC[];
@@ -159,7 +159,7 @@ void func_80169EC0(void *owner_arg, void *motion, void *data)
     if (!(status & 0x8000)) {
         u16 frame_status;
         u16 cleared_status;
-        state_bits = (u32)(D_80083228 + ((S_80169EC0_3 *)actor)->unk_2A + 0x100);
+        state_bits = (u32)(gameWork.viewAngle + ((S_80169EC0_3 *)actor)->unk_2A + 0x100);
         state_bits = (s32)state_bits >> 9;
         direction = state_bits & 7;
         if ((*(s16 *)((u8 *)owner_arg + (0x94))) != direction) {

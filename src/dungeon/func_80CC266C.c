@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -35,7 +36,6 @@ s16 func_800A0818(u8, u8, u8, u8, s32 *);
 s32 func_800A2C34(void *);
 void func_800A9A0C(void *);
 void func_80175E14(void *);
-extern s16 D_80083228;
 extern u8 *D_800E3D7C;
 extern u8 D_80176348[];
 
@@ -87,7 +87,7 @@ next_direction:
             target_pos = ((S_80175E6C_6_pre *)(((Rec_D_800E3D7C *)actor)->unk_60.as_pv))[-1].unk_00;
             ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 = func_800A0818(((S_80175E6C_1 *)actor_pos_arg)->unk_24, ((S_80175E6C_1 *)actor_pos_arg)->unk_25, ((S_80175E6C_5 *)target_pos)->unk_24, ((S_80175E6C_5 *)target_pos)->unk_25, &distance);
             (*(u8 **)((u8 *)actor_pos_arg + 0x2C)) = D_80176348;
-            func_80047784(actor_pos_arg, D_80176348[((s32) (D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
+            func_80047784(actor_pos_arg, D_80176348[((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
             func_80175E14(actor);
             result = 1;
             goto done;

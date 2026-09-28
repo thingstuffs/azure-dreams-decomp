@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 typedef struct {
     s32 word[6];
@@ -25,7 +26,6 @@ extern Object *func_8003FC64(s32 type);
 extern void func_8004491C(Object *object, void *init);
 extern void func_8003DB94(RenderPart *part, void *data, s32 index);
 
-extern u8 D_80045340[16];
 extern u8 D_800B21B8[16];
 extern u8 D_800DEC70[16];
 
@@ -38,7 +38,7 @@ void func_800B2230(CopyBlock *source)
     object = func_8003FC64(0x212);
     if (object != 0) {
         object->callback = D_800B21B8;
-        func_8004491C(object, D_80045340);
+        func_8004491C(object, func_80045340);
         *object->copy_dst = *source;
 
         part = object->part;

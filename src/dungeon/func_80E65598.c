@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 typedef struct {
     u8 pad0[2];
@@ -92,7 +93,6 @@ extern Entity *func_8003FC64(s32);
 extern void func_8004491C(Entity *, void *);
 extern void func_801745B4(void *, DungeonObjectArg *, EntityRender *);
 
-extern s32 D_80045340;
 extern DungeonGroup D_80073414[];
 extern s32 D_8007361C[256];
 extern s32 D_801747F0;
@@ -120,7 +120,7 @@ void func_80174D98(void *owner, SourcePosition *source_pos, void *unused,
     }
 
     entity->callback = &D_801747F0;
-    func_8004491C(entity, &D_80045340);
+    func_8004491C(entity, func_80045340);
 
     copy_dst = (PackedWord *)((u8 *)entity + 0x4C);
     ASM_USE(copy_dst);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */

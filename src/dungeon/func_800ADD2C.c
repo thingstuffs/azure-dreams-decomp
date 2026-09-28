@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
@@ -14,7 +15,6 @@ M2C_UNK func_800B341C();        /* extern */
 M2C_UNK func_800B3D10();          /* extern */
 M2C_UNK func_800B4194();             /* extern */
 M2C_UNK func_800C77D0(); /* extern */
-extern s16 D_80083228;
 extern s32 D_8008ACDC;
 extern u8 D_800DD030[];
 extern u8 D_800DD068[];
@@ -125,7 +125,7 @@ jt_0:
 jt_1:
         if (((S_800B348C_0 *)action_state)->unk_A6 != 0) {
             (*(u8 **)((u8 *)animation + 0x2C)) = D_800DD030;
-            func_80048A44(animation, D_800DD030[((s32) (D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0, 1);
+            func_80048A44(animation, D_800DD030[((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0, 1);
             ((S_800B348C_0 *)action_state)->unk_CC = NULL;
             if ((u16) ((S_800B348C_0 *)action_state)->unk_A6 >= 2U) {
                 return;
@@ -142,7 +142,7 @@ jt_2:
         if (((S_800B348C_0 *)action_state)->unk_A6 == 0) {
             func_800C77D0(actor - 0x20, motion, 8, 0x300);
             (*(u8 **)((u8 *)animation + 0x2C)) = D_800DD068;
-            func_80048A44(animation, D_800DD068[((s32) (D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0, 1);
+            func_80048A44(animation, D_800DD068[((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0, 1);
             action_phase = ((S_800B348C_0 *)action_state)->unk_9B;
             ((S_800B348C_0 *)action_state)->unk_CC = NULL;
             goto bump_state_9b;
@@ -156,7 +156,7 @@ jt_3:
             ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = (s32) (*(s16 *)((u8 *)((s8 *)dirStepY) + launch_direction_offset) << 0x11);
             ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0xFFEBC000;
             (*(u8 **)((u8 *)animation + 0x2C)) = D_800DD070;
-            func_80048A44(animation, D_800DD070[((s32) (D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0, 1);
+            func_80048A44(animation, D_800DD070[((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0, 1);
             {
                 u8 *next_animations;
 
@@ -177,7 +177,7 @@ jt_4:
         if (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0xE000) {
             windup_animations = ((S_800B348C_0 *)action_state)->unk_CC;
             (*(u8 **)((u8 *)animation + 0x2C)) = windup_animations;
-            func_80048A44(animation, *(windup_animations + (((s32) (D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7)), 0, 1);
+            func_80048A44(animation, *(windup_animations + (((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7)), 0, 1);
             {
                 u8 *next_v1;
 
@@ -216,7 +216,7 @@ jt_15:
             func_800A56E0(sound_id);
             attack_animations = ((S_800B348C_0 *)action_state)->unk_CC;
             (*(u8 **)((u8 *)animation + 0x2C)) = attack_animations;
-            func_80048A44(animation, *(attack_animations + (((s32) (D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7)), 0, 1);
+            func_80048A44(animation, *(attack_animations + (((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7)), 0, 1);
             ((S_800B348C_0 *)action_state)->unk_CC = D_800DD088;
             ((S_800B348C_0 *)action_state)->unk_96.u = 2U;
             ((S_800B348C_0 *)action_state)->unk_9B = 7U;
@@ -246,7 +246,7 @@ jt_6:
             func_800B341C(action_state - 0x20, ((S_800B348C_0 *)action_state)->unk_F4, 0x40);
             mix_animations = ((S_800B348C_0 *)action_state)->unk_CC;
             (*(u8 **)((u8 *)animation + 0x2C)) = mix_animations;
-            func_80048A44(animation, *(mix_animations + (((s32) (D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7)), 0, 1);
+            func_80048A44(animation, *(mix_animations + (((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7)), 0, 1);
             ((S_800B348C_0 *)action_state)->unk_CC = D_800DD088;
             func_800B3D10(((S_800B348C_0 *)action_state)->unk_A8, ((Rec_D_800E3D7C *)actor)->unk_60.as_pv, actor);
             return;
@@ -290,7 +290,7 @@ jt_7:
 check_mix_delay:
         if (((s16) ((S_800B348C_0 *)action_state)->unk_96.u <= 0) && (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0xE000)) {
             (*(u8 **)((u8 *)animation + 0x2C)) = D_800DD088;
-            func_80048A44(animation, D_800DD088[((s32) (D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0, 1);
+            func_80048A44(animation, D_800DD088[((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0, 1);
             ((S_800B348C_0 *)action_state)->unk_CC = D_800DD090;
             ((S_800B348C_0 *)action_state)->unk_9B = (u8) (((S_800B348C_0 *)action_state)->unk_9B + 1);
         }
@@ -306,7 +306,7 @@ jt_8:
             }
             if ((s16) ((S_800B348C_0 *)action_state)->unk_96.u <= 0) {
                 (*(u8 **)((u8 *)animation + 0x2C)) = D_800DD090;
-                func_80048A44(animation, D_800DD090[((s32) (D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0, 1);
+                func_80048A44(animation, D_800DD090[((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0, 1);
                 ((S_800B348C_0 *)action_state)->unk_CC = D_800DD098;
                 ((S_800B348C_0 *)action_state)->unk_9B = 9U;
                 return;
@@ -321,7 +321,7 @@ jt_9:
         if (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0xE000) {
             ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0;
             (*(u8 **)((u8 *)animation + 0x2C)) = D_800DD098;
-            func_80048A44(animation, D_800DD098[((s32) (D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0, 1);
+            func_80048A44(animation, D_800DD098[((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0, 1);
             ((S_800B348C_0 *)action_state)->unk_96.u = 2U;
             delta_x = ((Rec_D_80082E80 *)animation)->unk_24 << 6;
             delta_y = ((Rec_D_800E3D7C *)motion)->unk_00.at02_s16.v;
@@ -355,7 +355,7 @@ jt_10:
                 void *case10_arg2;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                 case10_arg2 = animation;
                 (*(u8 **)((u8 *)case10_arg2 + 0x2C)) = D_800DD0A0;
-                func_80048A44(case10_arg2, D_800DD0A0[((s32) (D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0, 1);
+                func_80048A44(case10_arg2, D_800DD0A0[((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0, 1);
             }
             func_80099F04(((Rec_D_800E3D7C *)actor)->unk_5C);
             end_base = (s32 *)((u32)&dungeonStatus.unk_00);

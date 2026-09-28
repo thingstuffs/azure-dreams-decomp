@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
@@ -27,8 +29,6 @@ typedef struct {
     u8 *data2c;
 } D_800DB420_Effect;
 
-extern u8 D_80045340[];
-extern s16 D_80083228[5];
 extern void func_8004491C(void *, void *);
 extern s32 rand(void);
 extern void func_80047784(void *, s32, s32);
@@ -46,8 +46,8 @@ void func_800DB420(D_800DB420_Obj *state, D_800DB420_RngOut *position, D_800DB42
         effect->wordC = 0x00303030;
         goto common;
     case 1:
-        func_8004491C((u8 *)state - 0x20, D_80045340);
-        func_80047784(effect, effect->data2c[((*D_80083228 + state->value2a + 0x100) >> 9) & 7], 0);
+        func_8004491C((u8 *)state - 0x20, func_80045340);
+        func_80047784(effect, effect->data2c[((gameWork.viewAngle + state->value2a + 0x100) >> 9) & 7], 0);
     common:
         *(u16 *)((u8 *)state + 4) += 1;
         goto done;

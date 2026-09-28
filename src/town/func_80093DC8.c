@@ -1,3 +1,4 @@
+#include "shared/game_work.h"
 
 struct S_80083178
 {
@@ -70,14 +71,13 @@ extern void func_80095A94(void *arg0, s16 arg1, void *arg2);
 extern void func_80095C80(void *arg0);
 extern void func_80097844(void *arg0, s32 arg1);
 extern void func_80098868(void *arg0, void *arg1, s32 arg2);
-extern u8 D_80083160[];
 extern s32 D_800CFCB4;
 extern u8 D_800CFCEF;
 extern u8 D_800FE488[];
 /* Updates the actor and dispatches town actions from input and interaction state. */
 void func_80091528(void *action_state, void *actor, s32 context)
 {
-  u8 *input_state = D_80083160;
+  u8 *input_state = ((u8 *)(&gameWork));
   register s32 saved_context;
   u8 *map_work;
   u8 *menu_state;

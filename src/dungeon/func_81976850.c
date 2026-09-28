@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 
 typedef struct S_81976850_0 {
@@ -83,10 +85,8 @@ typedef struct Vec16 {
     s16 z;
 } Vec16;
 
-extern s32 D_80045340;
 extern void *D_800814A8;
 extern u8 D_80082E80[];
-extern s16 D_80083228;
 extern u8 *D_800E3D18;
 
 extern s32 func_8003DE58(void *, void *, Vec16 *, s16);
@@ -129,7 +129,7 @@ void func_81976850(void *effect, void *motion, void *visual)
     goto follow_source;
 
 initialize:
-    func_8004491C(object, &D_80045340);
+    func_8004491C(object, func_80045340);
     ((S_81976850_0 *)effect)->unk_0C.u++;
 
 follow_source:
@@ -173,7 +173,7 @@ move_to_target:
     ((S_81976850_2 *)motion)->unk_14 =
         (((S_81976850_6 *)scene)->unk_88 - 0x50) << 16;
 
-    table_entry = ((D_80083228 + ((S_81976850_6 *)scene)->unk_2A + 0x100) >> 7) & 0x1C;
+    table_entry = ((gameWork.viewAngle + ((S_81976850_6 *)scene)->unk_2A + 0x100) >> 7) & 0x1C;
     table_entry += (s32)D_800E3D18;
     if (func_8003DE58(
             ((S_81976850_7 *)((void *)table_entry))->unk_00,

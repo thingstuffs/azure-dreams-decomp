@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct {
     u8 pad[0x14];
@@ -7,7 +8,6 @@ typedef struct {
 } DungeonInfo;
 
 extern u8 D_800E9FFA[];
-extern u8 D_8008333C;
 
 /* Writes the corners and edges of a rectangular border in the dungeon tile grid. */
 void func_8001D9CC(s16 left_x, s16 top_y, s16 right_x, s16 bottom_y, s32 tile_value_base) {
@@ -20,7 +20,7 @@ void func_8001D9CC(s16 left_x, s16 top_y, s16 right_x, s16 bottom_y, s32 tile_va
     s16 x;
     s16 y;
     info_page = (u8 *)0x80080000;
-    info = (DungeonInfo *)((u8 *)&D_8008333C);
+    info = (DungeonInfo *)((u8 *)((u8 *)&gameWork.unk_1DC));
     bottom_row = bottom_y;
     tile = (s16 *)(D_800E9FFA + (((((s16)top_y - 1) << info->shift) + left_x) * 6));
     tile[0] = 0xE;

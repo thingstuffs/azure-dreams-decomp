@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
@@ -16,7 +17,6 @@ extern s32 func_800A04F0();
 extern s32 func_800A2B5C();
 extern s32 func_800A2CB8();
 extern s32 func_800C7930();
-extern s16 D_80083228;
 extern u8 D_8017386C[];
 
 /* Attempt an actor transition and update its state and sprite on success. */
@@ -83,7 +83,7 @@ transition_ok:
 
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_8017386C;
     func_80047784(sprite,
-                  D_8017386C[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+                  D_8017386C[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
                   0);
     ((Rec_D_800E3D7C *)actor)->unk_6D.as_u8--;
     if (((Rec_func_800A9E70_arg0 *)state)->unk_9A.as_u8 != 0x11) {

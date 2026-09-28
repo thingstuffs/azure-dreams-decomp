@@ -1,12 +1,12 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 extern s32 func_80016BF0();
-extern u8 D_80083160[];
 
 /* Pass the two state indices as bit masks to func_80016BF0. */
 void func_80016E6C(void)
 {
-    void *state = D_80083160;
+    void *state = ((u8 *)(&gameWork));
 
     state = (u8 *)state + 0x1DC;
 

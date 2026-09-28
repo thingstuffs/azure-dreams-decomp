@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -17,7 +18,6 @@ typedef struct S_801720D8_1 {
 extern void func_80047784(void *, u8, s32);
 extern s32 func_800A2BDC(void *);
 extern s32 func_800A6D30(void);
-extern s16 D_80083228;
 extern u8 D_80174AE4[];
 
 /* Start the actor's hit reaction: clear its flags, give it a random spin and arm the matching sprite frame. */
@@ -41,6 +41,6 @@ void func_801720D8(void *work, void *part_a, void *part_b, void *actor) {
         dungeonStatus.unk_0A = (u16)(((u16)dungeonStatus.unk_0A) + 1);
         ((Rec_D_800E3D7C *)actor)->unk_6D.as_u8 = (u8)(((Rec_D_800E3D7C *)actor)->unk_6D.as_u8 - 1);
         (*(void * *)((u8 *)part_b + 0x2C)) = D_80174AE4;
-        func_80047784(part_b, D_80174AE4[((D_80083228 + (s16)((Rec_D_800E3D7C *)actor)->unk_2A.as_u16 + 0x100) >> 9) & 7], 0);
+        func_80047784(part_b, D_80174AE4[((gameWork.viewAngle + (s16)((Rec_D_800E3D7C *)actor)->unk_2A.as_u16 + 0x100) >> 9) & 7], 0);
     }
 }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 typedef struct ChildA {
     u8 pad_00[10];
@@ -37,7 +38,6 @@ typedef struct Object {
 } Object;
 
 extern u8 D_80083498[9];
-extern u8 D_80045340[9];
 extern u8 D_8015EE9C[9];
 extern u8 D_80162ED8[9];
 extern u8 D_80162F00[9];
@@ -70,7 +70,7 @@ Body *func_8015E894(s32 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c) {
         ASM_KEEP(arg0_copy);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         body = &object->body_20;
         body->field_13 = 14;
-        func_8004491C(object, D_80045340);
+        func_8004491C(object, func_80045340);
 
         child_a = object->child_a_08;
         attr_b = held_flags & 3;

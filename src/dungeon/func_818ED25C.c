@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct S_80024A5C_0 {
     u8 pad_00[0x8B0];
@@ -45,7 +46,6 @@ typedef struct S_80024A5C_7 {
 
 
 typedef struct { void *p; } PagePtr;
-extern PagePtr D_80083160;
 extern u8 D_801C9E40[16];
 
 extern void func_80024094(void *, s32, void *, s32);
@@ -62,7 +62,7 @@ void func_80024A5C(volatile s32 draw_data, S_80024A5C_5 *clip_rect, void *screen
     s32 draw_y;
     s32 rect_y;
     u8 *clip_packet;
-    u8 *page_ptr;
+    GameWork *page_ptr;
     s16 saved_param;
     u32 tag_mask;
     u8 *pos_or_ot;
@@ -75,15 +75,15 @@ void func_80024A5C(volatile s32 draw_data, S_80024A5C_5 *clip_rect, void *screen
     void *call_order_table;
     s32 call_param;
 
-    draw_page = D_80083160.p;
+    draw_page = gameWork.unk_000;
     pos_or_ot = screen_pos;
     clip_packet = ((S_80024A5C_0 *)draw_page)->unk_8D0;
     offset_y = draw_page != (void *)D_801C9E40;
     ((S_80024A5C_0 *)draw_page)->unk_8D0 = clip_packet + 0xC;
     saved_param = draw_param;
     clear_enabled = clear_rect;
-    page_ptr = (u8 *)&D_80083160;
-    func_80067E2C(clip_packet, D_80083160.p);
+    page_ptr = &gameWork;
+    func_80067E2C(clip_packet, gameWork.unk_000);
     tag_mask = 0xFF000000U;
 
     ((S_80024A5C_1 *)clip_packet)->unk_00 = (((S_80024A5C_1 *)clip_packet)->unk_00 & tag_mask) |
@@ -108,7 +108,7 @@ void func_80024A5C(volatile s32 draw_data, S_80024A5C_5 *clip_rect, void *screen
     if (clear_enabled != 0) {
         u8 *fill_packet;
 
-        packet_page = D_80083160.p;
+        packet_page = gameWork.unk_000;
         fill_packet = packet_page->unk_8D0;
         packet_page->unk_8D0 = fill_packet + 0x10;
         ((S_80024A5C_4 *)fill_packet)->unk_04 = 0x60000000;
@@ -126,7 +126,7 @@ void func_80024A5C(volatile s32 draw_data, S_80024A5C_5 *clip_rect, void *screen
                             ((u32)fill_packet & 0x00FFFFFFU);
     }
 
-    packet_page = ((S_80024A5C_7 *)page_ptr)->unk_00;
+    packet_page = page_ptr->unk_000;
     clip_packet = packet_page->unk_8D0;
     packet_page->unk_8D0 = clip_packet + 0xC;
     func_80067E2C(clip_packet, clip_rect);
