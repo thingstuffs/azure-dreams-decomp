@@ -46,7 +46,7 @@ void func_80171A10(void *source, s32 angle, s32 initial_value, s32 unused, volat
   frame_ptr = (u8 *)__builtin_alloca(0);
   if (effect != 0)
   {
-    register u32 entry_addr ASM_REG("$4");
+    u32 entry_addr;
     handler = &D_801718E4;
     table_base = frame_ptr;
     ASM_KEEP(table_base);
@@ -55,7 +55,7 @@ void func_80171A10(void *source, s32 angle, s32 initial_value, s32 unused, volat
     *((u16 *) (((s8 *) (*((void **) (((s8 *) effect) + 8)))) + 2)) = (u16) (*((u16 *) (((s8 *) (*((void **) (((s8 *) source) + 8)))) + 2)));
     entry_addr &= 0x1C;
     *((u16 *) (((s8 *) (*((void **) (((s8 *) effect) + 8)))) + 6)) = (u16) (*((u16 *) (((s8 *) (*((void **) (((s8 *) source) + 8)))) + 6)));
-    entry_addr = (u32) table_base + entry_addr;
+    entry_addr = (u32)table_base - -entry_addr;
     ASM_KEEP(direction);
     *((s16 *) (((s8 *) (*((void **) (((s8 *) effect) + 8)))) + 0xA)) = (s16) ((*((u16 *) (((s8 *) (*((void **) (((s8 *) source) + 8)))) + 0xA))) - 0x14);
     ASM_KEEP(source);

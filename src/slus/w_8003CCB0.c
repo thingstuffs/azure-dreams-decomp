@@ -28,11 +28,19 @@ extern s16 D_80083858[64];
 extern s16 D_800838D8[64];
 extern void *D_80083160[3];
 
+typedef union { struct { u8 u, v; } c; u16 word; } UVPair;
+typedef struct { union { u32 word; u8 bytes[4]; } tag; u8 r,g,b,code;
+ s16 x0,y0; UVPair uv0; u16 clut;
+ s16 x1,y1; UVPair uv1; u16 tpage;
+ s16 x2,y2; UVPair uv2; u16 pad2;
+ s16 x3,y3; UVPair uv3; u16 pad3;
+} SpriteQuad;
+
 /* Draw fourteen sprites with interpolated positions and pulsing color. */
 void func_8003CCB0(s32 blend_step)
 {
     u8 *scratch;
-    register u8 *packet ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    SpriteQuad *packet;
     register u8 *sprite_uv ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     u8 *quad;
     u8 *transform_flags;
@@ -93,7 +101,7 @@ void func_8003CCB0(s32 blend_step)
     U16_AT(scratch, 0x28) = 0;
     U16_AT(scratch, 0x2A) = 0;
     U16_AT(scratch, 0x2C) = 0;
-    packet = quad + 7;
+    packet = (SpriteQuad *)quad;
 
     do {
         path_offset = sprite_index << 2;
@@ -133,7 +141,7 @@ void func_8003CCB0(s32 blend_step)
         {
             s32 origin_x = U8_AT(sprite_uv, -2);
             s32 edge_x;
-            width = U16_AT(scratch, 0x10);
+            width = ((u16 *)scratch)[8];
             ASM_KEEP_DEP_NV(origin_x, width);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             edge_x = (origin_x << 24) >> 24;
             S16_AT(scratch, 0x80) = edge_x;
@@ -145,7 +153,7 @@ void func_8003CCB0(s32 blend_step)
         {
             s32 origin_y = U8_AT(sprite_uv, -1);
             s32 edge_y;
-            height = U16_AT(scratch, 0x14);
+            height = ((u16 *)scratch)[10];
             ASM_KEEP_DEP_NV(origin_y, height);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             edge_y = (origin_y << 24) >> 24;
             S16_AT(scratch, 0x7A) = edge_y;
@@ -174,32 +182,32 @@ void func_8003CCB0(s32 blend_step)
             U32_AT(scratch, 0x0C) = uv_coord << 8;
         }
 
-        U16_AT(packet, 0x07) = U16_AT(sprite_uv, 2);
-        S16_AT(packet, 0x05) = U16_AT(scratch, 0x0C) + U16_AT(scratch, 0x08);
-        S16_AT(packet, 0x0D) = U16_AT(scratch, 0x0C) + U16_AT(scratch, 0x10);
-        U16_AT(packet, 0x0F) = U16_AT(sprite_uv, 0);
-        S16_AT(packet, 0x15) = U16_AT(scratch, 0x14) + U16_AT(scratch, 0x08);
-        S16_AT(packet, 0x1D) = U16_AT(scratch, 0x14) + U16_AT(scratch, 0x10);
+        packet->clut = U16_AT(sprite_uv, 2);
+        packet->uv0.word = ((u16 *)scratch)[6] + ((u16 *)scratch)[4];
+        packet->uv1.word = ((u16 *)scratch)[6] + ((u16 *)scratch)[8];
+        packet->tpage = U16_AT(sprite_uv, 0);
+        packet->uv2.word = ((u16 *)scratch)[10] + ((u16 *)scratch)[4];
+        packet->uv3.word = ((u16 *)scratch)[10] + ((u16 *)scratch)[8];
 
-        if (S16_AT(packet, 0x01) > S16_AT(packet, 0x19)) {
-            u8 right_u = U8_AT(packet, 0x1D);
-            U8_AT(packet, 0x1D) = right_u + 0xFF;
-            U8_AT(packet, 0x0D) = right_u;
+        if (packet->x0 > packet->x3) {
+            u8 right_u = packet->uv3.c.u;
+            packet->uv3.c.u = right_u + 0xFF;
+            packet->uv1.c.u = right_u;
         }
-        if (S16_AT(packet, 0x03) > S16_AT(packet, 0x1B)) {
-            u8 bottom_v = U8_AT(packet, 0x1E);
-            U8_AT(packet, 0x1E) = bottom_v + 0xFF;
-            U8_AT(packet, 0x16) = bottom_v;
+        if (packet->y0 > packet->y3) {
+            u8 bottom_v = packet->uv3.c.v;
+            packet->uv3.c.v = bottom_v + 0xFF;
+            packet->uv2.c.v = bottom_v;
         }
-        U8_AT(packet, -4) = 9;
-        U8_AT(packet, 0) = 0x2C;
+        packet->tag.bytes[3] = 9;
+        packet->code = 0x2C;
 
         {
             s32 pulse = (rsin((D_80080AA4 << 8) + (sprite_index << 6)) >> 6) + 0x80;
             s32 fade_shift = blend_step / 2;
             shade = pulse >> fade_shift;
         }
-        U8_AT(packet, -3) = shade;
+        packet->r = shade;
         colour = 0;
         if (D_80080AA8 == 0) {
             colour = shade;
@@ -209,12 +217,12 @@ void func_8003CCB0(s32 blend_step)
             quad += 0x28;
             sprite_uv += 0xC;
             sprite_index++;
-            U8_AT(packet, -1) = colour;
-            U8_AT(packet, -2) = colour;
-            U8_AT(packet, 0) |= 2;
+            packet->b = colour;
+            packet->g = colour;
+            packet->code |= 2;
             DrawPrim(draw_quad);
         }
-        packet += 0x28;
+        packet++;
     } while (sprite_index < 0xE);
 
     PopMatrix();

@@ -270,8 +270,7 @@ void func_800AC4C4(void) {
     s32 work_value;
     s32 column_rounding;
     M2C_UNK * lookup_value;
-    register s32 edge_index ASM_REG("$6");
-    s32 span_edge_index;
+    s32 edge_index;
     s8 *tile_map;
     s32 row_rounding;
     u16 normal_index;
@@ -384,7 +383,7 @@ do {
             edge_index -= 1;
             start_edge = (S_func_800AED64_7 *)((u8 *)start_edge - 0x28);
         } while (edge_index >= 0);
-        span_edge_index = 3;
+        edge_index = 3;
         span_edge = (s32 *)((u8 *)scratch + 0x78);
         scratch->unk_14.s32 = 0x7FFF;
         scratch->unk_18 = -0x7FFF;
@@ -430,12 +429,12 @@ step_span:
                 if (scratch->unk_18 < span_end_x) {
                     scratch->unk_18 = span_end_x;
                 }
-                span_edge_index -= 1;
+                edge_index -= 1;
             } else {
-                span_edge_index -= 1;
+                edge_index -= 1;
             }
             span_edge = (S_func_800AED64_7 *)((u8 *)span_edge - 0x28);
-        } while (span_edge_index >= 0);
+        } while (edge_index >= 0);
         scratch->unk_14.s32 = (scratch->unk_14.s32 - 0x20) & ~0x3F;
         column_rounding = ((volatile S_func_800AED64_4 *)scratch)->unk_14.s32;
         scratch->unk_18 = (scratch->unk_18 + 0x20) & ~0x3F;

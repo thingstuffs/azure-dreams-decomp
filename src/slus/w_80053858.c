@@ -2,13 +2,6 @@
 #include "shared/game_work.h"
 
 
-#ifdef NON_MATCHING
-#define ASM_REG(reg)
-#define ASM_KEEP(var)   ((void)0)
-#else
-#define ASM_REG(reg)    asm(reg)
-#define ASM_KEEP(var)   __asm__ __volatile__("" : "+r"(var))
-#endif
 typedef struct 
 {
   u32 tag;
@@ -21,6 +14,11 @@ typedef struct
   s16 unk10;
   s16 unk12;
 } S_80053858_prim;
+typedef struct
+{
+  u32 addr : 24;
+  u32 len : 8;
+} S_80053858_tag;
 typedef struct 
 {
   char pad0[0x70];
@@ -57,12 +55,11 @@ s32 func_80053858(S_80053858_rec *first_text)
   S_80083160_t *render_state = ((S_80083160_t *)&gameWork);
   S_80053858_rec *text;
   int texture_page;
-  register S_80053858_rec *next_node ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-  int link_mask = 0xFFFFFF;
+  S_80053858_rec *next_node;
   do
   {
     s32 char_index = 0;
-    register s32 cursor_x ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    s32 cursor_x;
     text = text_record;
     cursor_x = text->unk14;
     if (text->unk4[0] != 0)
@@ -90,8 +87,8 @@ s32 func_80053858(S_80053858_rec *first_text)
         }
         if (!(text->unk1C & 2))
         {
-          sprite->tag = (sprite->tag & 0xFF000000) | (render_state->unk0->unk70 & link_mask);
-          render_state->unk0->unk70 = (render_state->unk0->unk70 & 0xFF000000) | (((u32) sprite) & link_mask);
+          ((S_80053858_tag *) sprite)->addr = ((S_80053858_tag *) (&render_state->unk0->unk70))->addr;
+          ((S_80053858_tag *) (&render_state->unk0->unk70))->addr = (u32) sprite;
         }
         char_index++;
       }
@@ -101,13 +98,14 @@ s32 func_80053858(S_80053858_rec *first_text)
       S_80053858_prim *draw_mode = (S_80053858_prim *) render_state->unk0->unk8D0;
       render_state->unk0->unk8D0 = ((u8 *) draw_mode) + 0xC;
       SetDrawMode(draw_mode, 0, 0, texture_page = GetTPage(0, text->unk18, 0x3C0, 0) & 0xFFFF, 0);
-      draw_mode->tag = (draw_mode->tag & 0xFF000000) | (render_state->unk0->unk70 & link_mask);
-      render_state->unk0->unk70 = (render_state->unk0->unk70 & 0xFF000000) | (((u32) draw_mode) & link_mask);
+      ((S_80053858_tag *) draw_mode)->addr = ((S_80053858_tag *) (&render_state->unk0->unk70))->addr;
+      ((S_80053858_tag *) (&render_state->unk0->unk70))->addr = (u32) draw_mode;
     }
     next_node = *((S_80053858_rec **) (((char *) text_record) - 8));
+    if (next_node == 0)
+      break;
     text_record = (S_80053858_rec *) (((char *) next_node) + 0x20);
   }
-  while (next_node != 0);
-  ASM_KEEP(next_node);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+  while (1);
  return 0;
 }
