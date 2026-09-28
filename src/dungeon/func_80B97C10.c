@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -37,8 +38,6 @@ extern void func_800A9A0C();
 extern s16 func_800BCB04();
 extern s32 func_80171E00();
 extern s16 D_8006CD00[8];
-extern u8 D_80082E80[];
-extern s8 D_80082EA4;
 extern DungeonTileRecordLocal D_800E2970[];
 /* Updates actor movement, recording the path and refreshing the tile position and height. */
 void func_80171410(u8 *object_arg, void *entry_context, u8 *tile_arg, u8 *actor_arg)
@@ -153,7 +152,6 @@ void func_80171410(u8 *object_arg, void *entry_context, u8 *tile_arg, u8 *actor_
     goto invoke_fallback;
   }
   {
-    u8 *goal = D_80082E80;
     s32 direction = *(u8 *)(actor + 0x45);
     s32 base_angle = *((s16 *) (((u8 *) D_800814A8) + 0x2A));
     s32 direction_offset;
@@ -161,8 +159,8 @@ void func_80171410(u8 *object_arg, void *entry_context, u8 *tile_arg, u8 *actor_
     s32 target_y;
     direction += base_angle >> 9;
     direction_offset = (direction & 7) * 2;
-    target_x = (*(u8 *)(goal + 0x24)) + (*((u16 *) (((u8 *) (((s8 *)dirStepX))) + direction_offset)));
-    target_y = (*(u8 *)(goal + 0x25)) + (*((u16 *) (((u8 *) (((s8 *)dirStepY))) + direction_offset)));
+    target_x = (D_80082E80.tileX) + (*((u16 *) (((u8 *) (((s8 *)dirStepX))) + direction_offset)));
+    target_y = (D_80082E80.tileY) + (*((u16 *) (((u8 *) (((s8 *)dirStepY))) + direction_offset)));
     if (((*(u8 *)(tile + 0x24)) == ((u16) target_x)) && ((*(u8 *)(tile + 0x25)) == ((u16) target_y)))
     {
       goto strip_path;
@@ -172,13 +170,13 @@ void func_80171410(u8 *object_arg, void *entry_context, u8 *tile_arg, u8 *actor_
       *(u16 *)(actor + 0x2A) = next_angle;
       if ((func_8009A66C((s16) next_angle, tile, actor, 0x20) << 16) <= 0)
       {
-        u8 *retry_goal = ((u8 *) (&D_80082EA4)) - 0x24;
+        u8 *retry_goal = ((u8 *) (((s8 *)&D_80082E80.tileX))) - 0x24;
         *(u16 *)(actor + 0x2A) = func_800A0818(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), *(u8 *)(retry_goal + 0x24), *(u8 *)(retry_goal + 0x25), object + 0x98);
       }
     }
   }
   {
-    u8 *check_goal = ((u8 *) (&D_80082EA4)) - 0x24;
+    u8 *check_goal = ((u8 *) (((s8 *)&D_80082E80.tileX))) - 0x24;
     if ((func_8009FD7C(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), *(u8 *)(check_goal + 0x24), *(u8 *)(check_goal + 0x25)) << 16) != 0)
     {
       limit_turn = 1;
@@ -222,10 +220,9 @@ void func_80171410(u8 *object_arg, void *entry_context, u8 *tile_arg, u8 *actor_
   }
 
   {
-    u8 *goal = D_80082E80;
     u8 *angle_flags = object + 0x98;
-    *(u16 *)(actor + 0x2A) = func_800A0818(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), *(u8 *)(goal + 0x24), *(u8 *)(goal + 0x25), angle_flags);
-    if ((func_8009FD7C(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), *(u8 *)(goal + 0x24), *(u8 *)(goal + 0x25)) << 16) == 0)
+    *(u16 *)(actor + 0x2A) = func_800A0818(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), D_80082E80.tileX, D_80082E80.tileY, angle_flags);
+    if ((func_8009FD7C(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), D_80082E80.tileX, D_80082E80.tileY) << 16) == 0)
     {
       goto zero_counter;
     }
@@ -292,7 +289,7 @@ void func_80171410(u8 *object_arg, void *entry_context, u8 *tile_arg, u8 *actor_
     move_failed:
     if (turn_index == 0)
     {
-      if ((*((u16 *) (((u8 *) (&D_80082EA4)) + 0))) != (*(u16 *)(tile + 0x24)))
+      if ((*((u16 *) (((u8 *) (((s8 *)&D_80082E80.tileX))) + 0))) != (*(u16 *)(tile + 0x24)))
       {
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         if ((func_8009A180(actor, (*((s32 *) (((u8 *) D_800814A8) + 0x58))) + 0x20) << 16) != 0)

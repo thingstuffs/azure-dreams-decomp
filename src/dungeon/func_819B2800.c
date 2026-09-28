@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -7,8 +8,6 @@
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern u8 D_80083498[];
-extern u8 D_80082E80[];
-extern u16 D_80082E94;
 extern void *D_80024008[];
 s32 func_8003DE58();     /* extern */
 u8 *func_8003FD64();                   /* extern */
@@ -222,11 +221,11 @@ wait_visual:
     visual = (S_func_819B2800_4 *) ((u8 *) object_data + 0x20);
     object_data->unk_10 = &D_80024B48;
     func_8004491C(data_bytes, &D_80024C14);
-    data_bytes = D_80082E80;
+    data_bytes = ((u8 *)(&D_80082E80));
     direction = ((u16) ((S_func_819B2800_5 *) ((s32*)((int *)(&D_800814A8)))[0])->unk_2A >> 9) & 7;
     offset[0] = direction;
-    visual->unk_0C = (s16) (((S_func_819B2800_3 *) D_80082E80)->unk_24 + dirStepX[direction]);
-    visual->unk_0E = (s16) (((S_func_819B2800_3 *) D_80082E80)->unk_25 + dirStepY[offset[0]]);
+    visual->unk_0C = (s16) (((S_func_819B2800_3 *) ((u8 *)(&D_80082E80)))->unk_24 + dirStepX[direction]);
+    visual->unk_0E = (s16) (((S_func_819B2800_3 *) ((u8 *)(&D_80082E80)))->unk_25 + dirStepY[offset[0]]);
     visual->unk_10 = (u16) position->unk_08.unk_0A.unk_0A;
     object_data->unk_20 = effect;
 set_apply_delay:
@@ -247,7 +246,7 @@ apply_effect:
     if (target == 0) {
         goto check_completion;
     }
-    location = (S_func_819B2800_3 *) D_80082E80;
+    location = (S_func_819B2800_3 *) ((u8 *)(&D_80082E80));
 next_target:
     target = func_800A3F28(location->unk_24, location->unk_25, position, (void *) target);
     if (target == 0) {
@@ -259,7 +258,7 @@ next_target:
     func_8009CE1C((void *) target, 0x10, effect->unk_09, 0xC, (s32) object_data->unk_2A, object_data, 2);
     goto next_target;
 check_completion:
-    if (D_80082E94 & 0x8000) {
+    if (D_80082E80.unk_014 & 0x8000) {
         goto check_hold;
     }
     if ((s16) effect->unk_50 >= 0) {

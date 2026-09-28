@@ -1,4 +1,7 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity_objects.h"
+#include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -36,8 +39,6 @@ extern s32 func_800A5F38();
 extern s32 func_800A6480();
 extern s32 func_800AD6FC();
 
-extern u8 D_80082E80[];
-extern u8 D_80083780[];
 extern u8 D_80089364[];
 extern u8 D_80089368[];
 extern u8 D_800DD148[];
@@ -66,14 +67,14 @@ s32 func_800BEB30(u32 target, u8 *action, s16 action_kind, s32 context) {
     state = ((u8 *)D_800E3D7C);
     if (target == (u32)state) {
         ((S_800BEB30_0 *)state)->unk_110 = action;
-        func_8008D344(state, D_80083780, D_80082E80, state);
+        func_8008D344(state, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), state);
         action[3] &= (u8)~0x20;
         return 0;
     }
 
     if (target <= 0x9FFFFFFF) {
         func_800A6480(target, action, action_kind);
-        if (func_800AD6FC(target, D_800DDE84[((Rec_D_800E3D7C *)target)->unk_10.at03_u8.v] & 3, 0) == 0) {
+        if (func_800AD6FC(target, D_800DDE84[(*(u8 *)((u8 *)&((EntityRec *)target)->unk_10 + 3))] & 3, 0) == 0) {
             func_800A5F38(target, action);
             return 1;
         }
@@ -84,7 +85,7 @@ s32 func_800BEB30(u32 target, u8 *action, s16 action_kind, s32 context) {
     if (item != 0) {
         if (!(action[3] & 0x20)) {
             ((S_800BEB30_0 *)state)->unk_114 = 0x202080;
-            func_8008D368(state, D_80083780, D_80082E80, D_800DD148, 2);
+            func_8008D368(state, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), D_800DD148, 2);
             action[3] |= 0x20;
             return 0;
         }

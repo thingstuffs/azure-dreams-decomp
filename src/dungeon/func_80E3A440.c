@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 
 extern void func_80047784();
@@ -32,7 +32,7 @@ typedef struct S_80173C40_2 {
 void func_80173C40(void *action, void *unused, void *animation, void *entity) {
 
     if (dungeonStatus.flags & 0x2000) {
-        ((Rec_D_800E3D7C *)entity)->unk_71.as_u8 &= 0x7F;
+        ((EntityRec *)entity)->unk_71 &= 0x7F;
         return;
     }
 
@@ -44,12 +44,12 @@ void func_80173C40(void *action, void *unused, void *animation, void *entity) {
         ((S_80173C40_2 *)action)->unk_8C = 0;
         *(u8 **)((u8 *)animation + 0x2C) = D_80176670;
 
-        direction = ((gameWork.viewAngle + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7;
+        direction = ((gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7;
         func_80047784(animation, D_80176670[direction], 0);
 
         ((S_80173C40_2 *)action)->unk_96 = 0;
-        ((Rec_D_800E3D7C *)entity)->unk_1C.as_s32 |= 0x10000000;
+        ((EntityRec *)entity)->flags1C |= 0x10000000;
         dungeonStatus.unk_0A++;
-        ((Rec_D_800E3D7C *)entity)->unk_44.at02_u16.v &= 0x7FFF;
+        ((EntityRec *)entity)->unk_46 &= 0x7FFF;
     }
 }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity_objects.h"
 #include "shared/game_work.h"
 
 typedef struct S_8009F868_0 {
@@ -10,7 +11,6 @@ typedef struct S_8009F868_0 {
     u8 * unk_0C;
 } S_8009F868_0;   /* state in func_8009F868 */
 
-extern u8 D_80083780[16];
 extern u8 D_800DCE60[16];
 extern u16 D_80013714;
 
@@ -39,7 +39,7 @@ void *func_8009F868(void)
         }
         ((S_8009F868_0 *)state)->unk_0A = 0;
         ((S_8009F868_0 *)state)->unk_04 &= 0xC;
-        func_8004D0C8(D_80083780, state);
+        func_8004D0C8(((u8 *)(&D_80083780)), state);
         gameWork.unk_154 = 0;
         func_8004D7A8(1);
         func_8004D294(0, D_800DCE60, 8);

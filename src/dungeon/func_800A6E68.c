@@ -2,7 +2,7 @@
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 
 typedef struct {
@@ -41,7 +41,7 @@ typedef struct S_800AC5C8_3 {
 } S_800AC5C8_3;   /* arg2 in func_800AC5C8 */
 
 /* Advance the object's timed animation and perform its final cleanup. */
-s32 func_800AC5C8(S_800AC5C8_0 *animation, Rec_D_800E3D7C *position, S_800AC5C8_3 *tile, void *object) {
+s32 func_800AC5C8(S_800AC5C8_0 *animation, EntityRec *position, S_800AC5C8_3 *tile, void *object) {
     s32 force;
     u16 ticks_left;
     s32 state;
@@ -73,7 +73,7 @@ state_0:
 
 state_1:
     ((Rec_D_80082E80 *)object)->unk_28.at02_u16.v += 0x200;
-    position->unk_14.as_s32 -= 0x10000;
+    position->flags14 -= 0x10000;
 
     ticks_left = animation->unk_96 - 1;
     animation->unk_96 = ticks_left;
@@ -81,7 +81,7 @@ state_1:
         return 0;
     }
 
-    position->unk_14.as_s32 = 0;
+    position->flags14 = 0;
     func_800A2B04(position, tile->unk_24, tile->unk_25);
     animation->unk_96 = 0x10;
 

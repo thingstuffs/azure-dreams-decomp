@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 void *func_8003FC64();                       /* extern */
 M2C_UNK func_8004491C();           /* extern */
@@ -39,7 +39,7 @@ typedef struct S_801743BC_3 {
 } S_801743BC_3;   /* temp_v0_2 in func_801743BC */
 
 /* Creates an effect at the supplied position and initializes its sprite. */
-void func_801743BC(M2C_UNK unused, Rec_D_800E3D7C *source_pos) {
+void func_801743BC(M2C_UNK unused, EntityRec *source_pos) {
     S_801743BC_0 *effect;
     S_801743BC_3 *sprite;
     S_801743BC_1 *effect_pos;
@@ -50,9 +50,9 @@ void func_801743BC(M2C_UNK unused, Rec_D_800E3D7C *source_pos) {
         effect->unk_10 = &D_80174318;
         func_8004491C(effect, func_80045340);
         effect_pos = effect->unk_08;
-        effect_pos->unk_02 = (u16) source_pos->unk_00.at02_u16.v;
-        effect_pos->unk_06 = (u16) source_pos->unk_04.at02_u16.v;
-        effect_pos->unk_0A = (u16) source_pos->unk_08.at02_u16.v;
+        effect_pos->unk_02 = (u16) ((u16)source_pos->x.w.i);
+        effect_pos->unk_06 = (u16) ((u16)source_pos->y.w.i);
+        effect_pos->unk_0A = (u16) ((u16)source_pos->z.w.i);
         sprite = effect->unk_0C;
         sprite->unk_1E = 0x1000;
         sprite->unk_1C = 0x1000;

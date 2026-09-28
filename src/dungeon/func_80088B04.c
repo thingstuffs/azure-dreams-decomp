@@ -4,7 +4,7 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
 #include "records/Rec_D_80082E80.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 
 
@@ -59,7 +59,7 @@ start_move:
             if (launch_state != 0) {
                 goto check_launch_state;
             }
-            ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0xFFF00000;
+            ((EntityRec *)motion)->flags14 = 0xFFF00000;
             goto launch_ready;
 check_launch_state:
             motion_value = 8;
@@ -69,14 +69,14 @@ check_launch_state:
             }
             motion_value = 0xFFF80000;
 apply_launch:
-            ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = motion_value;
+            ((EntityRec *)motion)->flags14 = motion_value;
 launch_ready:
-            func_80099F70(((Rec_D_800E3D7C *)model)->unk_5C);
-            func_80099F04(((Rec_D_800E3D7C *)model)->unk_5C);
+            func_80099F70(((EntityRec *)model)->unk_5C);
+            func_80099F04(((EntityRec *)model)->unk_5C);
             dungeonStatus.flags = (u16) (dungeonStatus.flags | 0x812);
             ((Rec_func_8008ACDC_arg0 *)actor)->unk_98 = (u16) (((Rec_func_8008ACDC_arg0 *)actor)->unk_98 & 0xFFF3);
             (*(u8 **)((u8 *)sprite + 0x2C)) = D_800DD040;
-            func_80048A44(sprite, D_800DD040[((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)model)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0, 1);
+            func_80048A44(sprite, D_800DD040[((s32) (gameWork.viewAngle + ((EntityRec *)model)->facing + 0x100) >> 9) & 7], 0, 1);
             ((Rec_func_8008ACDC_arg0 *)actor)->unk_9B.as_u8 = (u8) (((Rec_func_8008ACDC_arg0 *)actor)->unk_9B.as_u8 + 1);
             func_800A56E0(0x50A);
             return;
@@ -86,29 +86,29 @@ done:
 update_move:
         if (dungeonStatus.unk_04 != 0) {
             motion_value = ((Rec_D_80082E80 *)sprite)->unk_24 << 6;
-            coord_or_ticks = ((Rec_D_800E3D7C *)motion)->unk_00.at02_s16.v;
+            coord_or_ticks = ((EntityRec *)motion)->x.w.i;
             coord_or_ticks -= 0x20;
             motion_value = (motion_value - coord_or_ticks) << 0x10;
-            ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = motion_value / dungeonStatus.unk_04;
-            coord_or_ticks = ((Rec_D_800E3D7C *)motion)->unk_04.at02_s16.v;
+            ((EntityRec *)motion)->unk_0C = motion_value / dungeonStatus.unk_04;
+            coord_or_ticks = ((EntityRec *)motion)->y.w.i;
             motion_value = ((Rec_D_80082E80 *)sprite)->unk_25;
             coord_or_ticks -= 0x20;
             motion_value <<= 6;
             motion_value -= coord_or_ticks;
             coord_or_ticks = dungeonStatus.unk_04;
             motion_value <<= 0x10;
-            ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = motion_value / coord_or_ticks;
+            ((EntityRec *)motion)->unk_10 = motion_value / coord_or_ticks;
         }
         ticks_left = (u16) dungeonStatus.unk_04 - 1;
         dungeonStatus.unk_04 = ticks_left;
         if ((ticks_left << 0x10) <= 0) {
             dungeonStatus.unk_04 = 0;
-            ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = 0;
-            ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
+            ((EntityRec *)motion)->unk_10 = 0;
+            ((EntityRec *)motion)->unk_0C = 0;
             func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
             if ((u8) ((Rec_func_8008ACDC_arg0 *)actor)->unk_9B.as_u8 >= 0xAU) {
                 (*(u8 **)((u8 *)sprite + 0x2C)) = D_800DD058;
-                func_80048A44(sprite, D_800DD058[((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)model)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0, 1);
+                func_80048A44(sprite, D_800DD058[((s32) (gameWork.viewAngle + ((EntityRec *)model)->facing + 0x100) >> 9) & 7], 0, 1);
                 ((Rec_func_8008ACDC_arg0 *)actor)->unk_9B.as_u8 = (u8) (((Rec_func_8008ACDC_arg0 *)actor)->unk_9B.as_u8 + 1);
                 dungeonStatus.unk_04 = 1;
                 return;

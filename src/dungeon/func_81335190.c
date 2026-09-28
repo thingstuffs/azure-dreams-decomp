@@ -2,7 +2,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 typedef struct S_8016C190_0 {
     u8 pad_00[0x8C];
@@ -185,9 +185,9 @@ set_from_object:
             return;
         }
 
-        ((Rec_D_800E3D7C *)transform)->unk_14.as_s32 = 0;
-        ((Rec_D_800E3D7C *)transform)->unk_10.at00_s32.v = 0;
-        ((Rec_D_800E3D7C *)transform)->unk_0C.as_s32 = 0;
+        ((EntityRec *)transform)->flags14 = 0;
+        ((EntityRec *)transform)->unk_10 = 0;
+        ((EntityRec *)transform)->unk_0C = 0;
         func_800A2B04(transform, ((S_8016C190_3 *)sprite)->unk_24, ((S_8016C190_3 *)sprite)->unk_25);
         dungeonStatus.unk_0C = 0;
         (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
@@ -227,9 +227,9 @@ set_from_object:
             return;
         }
 
-        ((Rec_D_800E3D7C *)transform)->unk_14.as_s32 = 0;
-        ((Rec_D_800E3D7C *)transform)->unk_10.at00_s32.v = 0;
-        ((Rec_D_800E3D7C *)transform)->unk_0C.as_s32 = 0;
+        ((EntityRec *)transform)->flags14 = 0;
+        ((EntityRec *)transform)->unk_10 = 0;
+        ((EntityRec *)transform)->unk_0C = 0;
         func_800A2B04(transform, ((S_8016C190_3 *)sprite)->unk_24, ((S_8016C190_3 *)sprite)->unk_25);
 
         switch (((S_8016C190_0 *)action)->unk_AC) {

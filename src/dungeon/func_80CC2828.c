@@ -1,4 +1,7 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity_objects.h"
+#include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -16,8 +19,6 @@ extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
 extern void func_80175DA4(void *);
 
-extern u8 D_80082E80[];
-extern u8 D_80083780[];
 extern u8 D_80173B98;
 
 
@@ -103,22 +104,22 @@ state_1:
         u8 *actor_map;
         u16 saved_index;
         u8 actor_index;
-        register u8 *primary_table;
-        register u8 *secondary_table;
+        EntityRec *primary_table;
+        TileObject *secondary_table;
 
-        saved_index = ((Rec_D_800E3D7C *)((u8 *)D_800E3D7C))->unk_8A.as_u16;
-        saved_actor = ((Rec_D_800E3D7C *)((u8 *)D_800E3D7C))->unk_60.as_pu8;
+        saved_index = ((u16)((EntityRec *)((u8 *)D_800E3D7C))->unk_8A);
+        saved_actor = ((EntityRec *)((u8 *)D_800E3D7C))->target;
         actor_index = func_800A1BD0(actor);
-        primary_table = D_80083780;
-        secondary_table = D_80082E80;
+        primary_table = &D_80083780;
+        secondary_table = &D_80082E80;
         actor_map = ((u8 *)D_800E3D7C);
         owner[0xA9] = actor_index;
         ASM_JALDELAY_PIN(actor);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        ((Rec_D_800E3D7C *)((u8 *)D_800E3D7C))->unk_60.as_pu8 = actor;
+        ((EntityRec *)((u8 *)D_800E3D7C))->target = actor;
         ((S_80176028_2 *)actor_map)->unk_8A = actor_index;
         func_80093E74(((u8 *)D_800E3D7C), primary_table, secondary_table, ((u8 *)D_800E3D7C));
         (*(u8 * *)((u8 *)((u8 *)D_800E3D7C) + (0x60))) = saved_actor;
-        ((Rec_D_800E3D7C *)((u8 *)D_800E3D7C))->unk_8A.as_u16 = saved_index;
+        ((EntityRec *)((u8 *)D_800E3D7C))->unk_8A = saved_index;
         dungeonStatus.unk_0A--;
     }
 

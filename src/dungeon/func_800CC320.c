@@ -2,7 +2,7 @@
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 typedef struct S_800D1A80_0 {
     u8 pad_00[0x96];
@@ -66,7 +66,7 @@ s32 func_800D1A80(S_800D1A80_0 *state, void *unused, S_800D1A80_1 *visual, void 
         visual->unk_10 = 0x20;
         visual->unk_12 = (u16) (visual->unk_12 - 0x80);
         visual->unk_14 = (u16) (visual->unk_14 | 0xC);
-        ((Rec_D_800E3D7C *)entity)->unk_1C.as_s32 = (s32) (((Rec_D_800E3D7C *)entity)->unk_1C.as_s32 | 0x10000000);
+        ((EntityRec *)entity)->flags1C = (s32) (((EntityRec *)entity)->flags1C | 0x10000000);
         func_800A56E0(0x805);
         visual->unk_0C.at00.v = 0x808080;
         state->unk_96 = 0x10;
@@ -95,7 +95,7 @@ update_fade:
                 tile_x = visual->unk_24;
                 tile_y = visual->unk_25;
                 tile_flags = 0x3000;
-                if (((Rec_D_800E3D7C *)entity)->unk_1C.as_s32 & 0x2000) {
+                if (((EntityRec *)entity)->flags1C & 0x2000) {
                     tile_flags = 0x300;
                 }
                 func_8009A3D0(tile_x, tile_y, tile_flags);

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/game_work.h"
 
 #ifdef NON_MATCHING
@@ -53,7 +54,6 @@ extern void func_8016EB68(void);
 extern void func_80170510(void);
 extern void func_80170838(void);
 
-extern u8 D_80082E80[];
 extern u8 D_801739A0[];
 extern u8 D_801739A8[];
 extern u8 D_801739B0[];
@@ -175,7 +175,7 @@ case_F0:
 
 case_E8:
     actor->angle = func_800A0818(aux->x24, aux->y25,
-        D_80082E80[0x24], D_80082E80[0x25], angle_out);
+        D_80082E80.tileX, D_80082E80.tileY, angle_out);
     func_8016D6F8(entity, action_value, aux, actor);
     return 0;
 
@@ -363,7 +363,7 @@ case_D8_state0:
     }
 case_D8_state1:
     actor->angle = func_800A0818(aux->x24, aux->y25,
-        D_80082E80[0x24], D_80082E80[0x25], angle_out);
+        D_80082E80.tileX, D_80082E80.tileY, angle_out);
     timer = (u16)(entity->timer + 1);
     entity->timer = timer;
     if (timer & 1) {
@@ -394,7 +394,7 @@ case_C8_ge2:
 
 case_C8_state0:
     actor->angle = func_800A0818(aux->x24, aux->y25,
-        D_80082E80[0x24], D_80082E80[0x25], angle_out);
+        D_80082E80.tileX, D_80082E80.tileY, angle_out);
     entity->state++;
     entity->timer = 0;
     entity->direction = 0;
@@ -414,7 +414,7 @@ case_C8_state1:
         entity->timer = 0;
         entity->state = (u8)(entity->state + 1);
         actor->angle = func_800A0818(aux->x24, aux->y25,
-            D_80082E80[0x24], D_80082E80[0x25], angle_out);
+            D_80082E80.tileX, D_80082E80.tileY, angle_out);
         idle_sequence = D_801739A0;
         angle_base = &gameWork.viewAngle;
         entity->animation = 0;
@@ -426,7 +426,7 @@ case_C8_state1:
 
 update_angle:
     actor->angle = func_800A0818(aux->x24, aux->y25,
-        D_80082E80[0x24], D_80082E80[0x25], angle_out);
+        D_80082E80.tileX, D_80082E80.tileY, angle_out);
 
 common:
     func_800A9A0C(actor);

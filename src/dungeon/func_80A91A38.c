@@ -2,7 +2,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 
 
@@ -44,7 +44,7 @@ void func_80155238(void *action, void *motion, void *sprite, void *entity)
     s16 timer;
     s32 tracked_addr;
 
-    direction = (((Rec_D_800E3D7C *)entity)->unk_6A.as_u16 >> 9) & 7;
+    direction = (((EntityRec *)entity)->unk_6A >> 9) & 7;
     state = ((S_80155238_1 *)action)->unk_9B;
     if (state == 1) {
         goto decelerate;
@@ -69,7 +69,7 @@ init_motion:
     ((S_80155238_2 *)motion)->unk_10 = ((s16 *)((s8 *)dirStepY))[direction] << 18;
     ((S_80155238_1 *)action)->unk_9B++;
 
-    if (((Rec_D_800E3D7C *)entity)->unk_28 == 0) {
+    if (((EntityRec *)entity)->unk_28 == 0) {
         goto stop_motion;
     }
     if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
@@ -78,7 +78,7 @@ init_motion:
         goto done;
     }
 
-    if (((Rec_D_800E3D7C *)entity)->unk_1C.as_u32 & 0x228) {
+    if (((u32)((EntityRec *)entity)->flags1C) & 0x228) {
         timer = 8;
     } else {
         timer = -1;
@@ -101,7 +101,7 @@ decelerate:
     if (((S_80155238_1 *)action)->unk_96.s != 0) {
         goto done;
     }
-    if (((Rec_D_800E3D7C *)entity)->unk_28 != 0) {
+    if (((EntityRec *)entity)->unk_28 != 0) {
         goto start_animation;
     }
 
@@ -116,7 +116,7 @@ start_animation:
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80156150;
     func_80047784(
         sprite,
-        D_80156150[((gameWork.viewAngle + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+        D_80156150[((gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
         0);
     ((S_80155238_1 *)action)->unk_9B++;
     goto done;
@@ -131,7 +131,7 @@ wait_animation:
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80156150;
     func_80047784(
         sprite,
-        D_80156150[((gameWork.viewAngle + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+        D_80156150[((gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
         0);
     ((S_80155238_1 *)action)->unk_96.s = 8;
     ((S_80155238_1 *)action)->unk_9B++;

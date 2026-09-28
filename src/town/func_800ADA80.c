@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity_objects.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
@@ -17,7 +18,6 @@ extern s32 func_800C2E1C(s16, s16);
 extern s32 func_800C2F14(s16, s16);
 
 extern s32 D_800834A8;
-extern u8 D_80083780[];
 
 
 typedef struct S_800AB1E0_0 {
@@ -38,7 +38,6 @@ typedef struct S_800AB1E0_1 {
 void func_800AB1E0(void *arg0, s32 arg1, Rec_D_80082E80 *arg2) {
     GameWork *base = &gameWork;
     s16 buf[12];
-    u8 *ref;
     s32 idx;
     u16 cleared;
 
@@ -50,9 +49,8 @@ void func_800AB1E0(void *arg0, s32 arg1, Rec_D_80082E80 *arg2) {
     }
 
     func_800AAFE0(buf, 0);
-    ref = D_80083780;
-    if (buf[1] != ((S_800AB1E0_0 *)ref)->unk_02 || buf[3] != ((S_800AB1E0_0 *)ref)->unk_06 ||
-        buf[5] != ((S_800AB1E0_0 *)ref)->unk_0A || func_800352FC() != 0 ||
+    if (buf[1] != D_80083780.x.w.i || buf[3] != D_80083780.y.w.i ||
+        buf[5] != D_80083780.z.w.i || func_800352FC() != 0 ||
         (((s32)base->unk_008) & 0xF000) != 0) {
         func_800AAF5C();
         (*(s16 *)((u8 *)arg0 + (0x90))) = 0;

@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity_objects.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
@@ -17,8 +19,6 @@ typedef struct DungeonObject {
     u8 *payload;
 } DungeonObject;
 
-extern u8 D_80083780[12];
-extern u8 D_80082E80[];
 extern u16 D_800DDE84[];
 extern u8 D_80089354[];
 extern u8 D_800E0E14[];
@@ -56,7 +56,7 @@ s32 func_800BD1C4(DungeonObject *obj, u8 *payload, s16 effect_arg) {
     effect_state = 0;
     if (obj == (DungeonObject *)((u8 *)D_800E3D7C)) {
         obj->payload = payload;
-        func_8008D330(obj, D_80083780, D_80082E80, obj);
+        func_8008D330(obj, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), obj);
         return 0;
     }
     if ((u32)obj <= 0x9FFFFFFFU) {

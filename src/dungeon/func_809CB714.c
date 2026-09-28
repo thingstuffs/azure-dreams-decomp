@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 extern int abs(int);
 
@@ -27,28 +27,28 @@ extern u8 D_80170E54;
 extern s32 D_80173CC4;
 
 /* Updates directional movement, slows it, and settles the object onto its grid tile. */
-void func_80172F14(S_80172F14_1 *controller, Rec_D_800E3D7C *motion, Rec_D_80082E80 *entity, void *source)
+void func_80172F14(S_80172F14_1 *controller, EntityRec *motion, Rec_D_80082E80 *entity, void *source)
 {
     s16 timer;
     s32 direction;
     s32 speed_limit;
     s32 tracked_object;
 
-    direction = (((Rec_D_800E3D7C *)source)->unk_6A.as_u16 >> 9) & 7;
+    direction = (((EntityRec *)source)->unk_6A >> 9) & 7;
 
     switch (controller->unk_9B) {
     case 0:
         func_800AD4D0(source);
-        motion->unk_0C.as_s32 =
+        motion->unk_0C =
             *(s16 *)((u8 *)((s8 *)dirStepX) + direction * 2) << 19;
-        motion->unk_10.at00_s32.v =
+        motion->unk_10 =
             *(s16 *)((u8 *)((s8 *)dirStepY) + direction * 2) << 19;
         controller->unk_9B++;
 
-        if (((Rec_D_800E3D7C *)source)->unk_28 == 0) {
-            motion->unk_14.as_s32 = 0;
-            motion->unk_10.at00_s32.v = 0;
-            motion->unk_0C.as_s32 = 0;
+        if (((EntityRec *)source)->unk_28 == 0) {
+            motion->flags14 = 0;
+            motion->unk_10 = 0;
+            motion->unk_0C = 0;
             func_800AAA54(controller, motion, entity, &D_80173CC4);
             return;
         }
@@ -59,40 +59,40 @@ void func_80172F14(S_80172F14_1 *controller, Rec_D_800E3D7C *motion, Rec_D_80082
         }
 
         timer = 5;
-        if (((Rec_D_800E3D7C *)source)->unk_1C.as_s32 & 0x228) {
+        if (((EntityRec *)source)->flags1C & 0x228) {
             timer = 8;
         }
         controller->unk_96.s = timer;
 
         {
-            s32 velocity = motion->unk_0C.as_s32;
-            motion->unk_0C.as_s32 = velocity - velocity / 4;
+            s32 velocity = motion->unk_0C;
+            motion->unk_0C = velocity - velocity / 4;
         }
         {
-            s32 velocity = motion->unk_10.at00_s32.v;
-            motion->unk_10.at00_s32.v = velocity - velocity / 4;
+            s32 velocity = motion->unk_10;
+            motion->unk_10 = velocity - velocity / 4;
         }
         /* fall through */
 
     case 1:
         speed_limit = 0x7FFF;
         {
-            s32 velocity = motion->unk_0C.as_s32;
+            s32 velocity = motion->unk_0C;
             s32 magnitude = velocity;
 
             magnitude = abs(magnitude);
             if (speed_limit < magnitude) {
-                motion->unk_0C.as_s32 = velocity -
+                motion->unk_0C = velocity -
                     (*(s16 *)((u8 *)((s8 *)dirStepX) + direction * 2) << 15);
             }
         }
         {
-            s32 velocity = motion->unk_10.at00_s32.v;
+            s32 velocity = motion->unk_10;
             s32 magnitude = velocity;
 
             magnitude = abs(magnitude);
             if (speed_limit < magnitude) {
-                motion->unk_10.at00_s32.v = velocity -
+                motion->unk_10 = velocity -
                     (*(s16 *)((u8 *)((s8 *)dirStepY) + direction * 2) << 15);
             }
         }
@@ -105,30 +105,30 @@ void func_80172F14(S_80172F14_1 *controller, Rec_D_800E3D7C *motion, Rec_D_80082
             controller->unk_96.s = 0;
         }
 
-        if (((Rec_D_800E3D7C *)source)->unk_28 != 0) {
+        if (((EntityRec *)source)->unk_28 != 0) {
             {
                 s32 tile_pos = entity->unk_24 << 6;
-                s32 current_pos = motion->unk_00.at02_s16.v - 0x20;
+                s32 current_pos = motion->x.w.i - 0x20;
 
-                motion->unk_0C.as_s32 = (tile_pos - current_pos) << 15;
+                motion->unk_0C = (tile_pos - current_pos) << 15;
             }
             {
                 s32 tile_pos = entity->unk_25 << 6;
-                s32 current_pos = motion->unk_04.at02_s16.v - 0x20;
+                s32 current_pos = motion->y.w.i - 0x20;
 
-                motion->unk_10.at00_s32.v = (tile_pos - current_pos) << 15;
+                motion->unk_10 = (tile_pos - current_pos) << 15;
             }
         } else {
-            motion->unk_0C.as_s32 = 0;
-            motion->unk_10.at00_s32.v = 0;
+            motion->unk_0C = 0;
+            motion->unk_10 = 0;
         }
 
 check_timer:
         if (controller->unk_96.s != 0) {
             return;
         }
-        if (((Rec_D_800E3D7C *)source)->unk_28 == 0) {
-            motion->unk_14.as_s32 = 0;
+        if (((EntityRec *)source)->unk_28 == 0) {
+            motion->flags14 = 0;
             func_800AAA54(controller, motion, entity, &D_80173CC4);
             return;
         }
@@ -140,15 +140,15 @@ check_timer:
         if (controller->unk_96.s != 0) {
             {
                 s32 tile_pos = entity->unk_24 << 6;
-                s32 current_pos = motion->unk_00.at02_s16.v - 0x20;
+                s32 current_pos = motion->x.w.i - 0x20;
 
-                motion->unk_0C.as_s32 = (tile_pos - current_pos) << 16;
+                motion->unk_0C = (tile_pos - current_pos) << 16;
             }
             {
                 s32 tile_pos = entity->unk_25 << 6;
-                s32 current_pos = motion->unk_04.at02_s16.v - 0x20;
+                s32 current_pos = motion->y.w.i - 0x20;
 
-                motion->unk_10.at00_s32.v = (tile_pos - current_pos) << 16;
+                motion->unk_10 = (tile_pos - current_pos) << 16;
             }
         }
 
@@ -158,9 +158,9 @@ check_timer:
             return;
         }
 
-        motion->unk_14.as_s32 = 0;
-        motion->unk_10.at00_s32.v = 0;
-        motion->unk_0C.as_s32 = 0;
+        motion->flags14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
         func_800A2B04(motion, entity->unk_24,
                       entity->unk_25);
 

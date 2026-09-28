@@ -1,5 +1,5 @@
 #include "common.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 typedef s32 M2C_UNK;
 
@@ -37,21 +37,21 @@ s32 func_800CD384(void *object) {
         amount = 0x400;
     }
     if (func_800C8844(object, amount, 8) == 0) {
-        if (((Rec_D_800E3D7C *)object)->unk_14.as_s32 & 0x4000) {
+        if (((EntityRec *)object)->flags14 & 0x4000) {
             func_800A6508();
             return 1;
         }
         return 1;
     }
     func_80099844(object, &D_800E1C14);
-    if (((Rec_D_800E3D7C *)object)->unk_10.at03_u8.v == 0) {
+    if ((*(u8 *)((u8 *)&((EntityRec *)object)->unk_10 + 3)) == 0) {
         func_800DC1B8(D_800DCF1C);
     }
     entry = ((S_800CD384_0_pre *)object)[-1].unk_00;
     if (!(entry->unk_14 & 0x8000)) {
         func_800C5BBC((entry->unk_24 << 6) | 0x20,
                       (entry->unk_25 << 6) | 0x20,
-                      ((Rec_D_800E3D7C *)object)->unk_88.as_s16, 0x802080, 0x20, 1);
+                      ((EntityRec *)object)->unk_88, 0x802080, 0x20, 1);
     }
     return 1;
 }

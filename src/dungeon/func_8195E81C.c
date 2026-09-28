@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
@@ -51,7 +53,6 @@ extern s16 D_800273BC;
 extern u8 D_800273BE;
 extern void *D_800273C0;
 extern s32 D_800274DC[];
-extern u8 D_80082E80[];
 extern void *D_80024008[];
 
 /* Advances the object's state and draws its 7-by-7 grid. */
@@ -102,9 +103,9 @@ jt_c0:
         D_800273C0 = ((S_8002401C_0 *)object_bytes)->unk_00.s;
         D_8002732C = source_obj;
 
-        ((Rec_D_800814A8 *)D_800814A8)->unk_F4 = 0;
-        ((Rec_D_800814A8 *)D_800814A8)->unk_102 = 1;
-        ((Rec_D_800814A8 *)D_800814A8)->unk_A8 = ((S_8002401C_0 *)object_bytes)->unk_08;
+        ((EntityRec *)D_800814A8)->unk_F4 = 0;
+        ((EntityRec *)D_800814A8)->unk_102 = 1;
+        ((EntityRec *)D_800814A8)->unk_A8 = ((S_8002401C_0 *)object_bytes)->unk_08;
 
         clear_row = D_800274DC;
         do {
@@ -126,9 +127,9 @@ jt_c0:
         map_data = (u16 *)((u8 *)D_800E3D7C);
         direction_offset = (map_data[0x15] >> 8) & 0xE;
         func_80025AD8(
-            (s16)(D_80082E80[0x24] +
+            (s16)(D_80082E80.tileX +
                   (dirStepX[direction_offset >> 1] * 4)),
-            (s16)(D_80082E80[0x25] +
+            (s16)(D_80082E80.tileY +
                   (dirStepY[direction_offset >> 1] * 4)));
         ((S_8002401C_0 *)object_bytes)->unk_0A.u++;
         /* fallthrough */

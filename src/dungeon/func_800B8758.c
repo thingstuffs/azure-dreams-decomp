@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity_objects.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
@@ -18,8 +20,6 @@ M2C_UNK func_800A63B8();
 s32 func_800AD6FC();
 M2C_UNK func_800D5460();
 
-extern u8 D_80082E80[];
-extern u8 D_80083780[];
 extern u8 D_80089358[];
 extern u16 D_800DDE84[];
 extern u8 D_800E0FA4[];
@@ -65,7 +65,7 @@ s32 func_800BDEB8(void *entity, s32 action_id, s16 mode) {
 
     if (entity == current_entity) {
         ((S_800BDEB8_0 *)entity)->unk_110 = action_id;
-        func_8008D330(target, D_80083780, D_80082E80, target);
+        func_8008D330(target, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), target);
         goto return_zero;
     }
 

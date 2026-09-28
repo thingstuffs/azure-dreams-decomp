@@ -1,6 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 typedef struct S_800B62A4_0 {
     u8 pad_00[0x8];
@@ -56,7 +56,7 @@ void func_800B62A4(void *source, s32 output) {
             source_cursor = (void *)((s8 *)source_cursor + 4);
         } while ((index + scan_base) < 3);
     }
-    if ((slot_count < 3) && (((Rec_D_800E3D7C *)source)->unk_48.at01_u8.v != 0)) {
+    if ((slot_count < 3) && (((EntityRec *)source)->unk_49 != 0)) {
         func_800B61C0(source + 0x48, output, slot_count);
         slot_count += 1;
     }

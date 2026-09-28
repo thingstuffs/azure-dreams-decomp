@@ -2,7 +2,7 @@
 #include "shared/dungeon_status.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "records/Rec_D_80082E80.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 
 
@@ -17,7 +17,7 @@ extern M2C_UNK D_800C6AEC;
 
 
 /* Resets object state, runs object setup, and updates property and status flags. */
-void func_800ACD74(void *object_state, void *unused_context, Rec_D_80082E80 *properties, Rec_D_800E3D7C *status) {
+void func_800ACD74(void *object_state, void *unused_context, Rec_D_80082E80 *properties, EntityRec *status) {
     void *object;
 
     ((Rec_func_800A9E70_arg0 *)object_state)->unk_9A.as_s8 = 0x13;
@@ -35,5 +35,5 @@ void func_800ACD74(void *object_state, void *unused_context, Rec_D_80082E80 *pro
     properties->unk_0C.at00_s8.v = 0;
     properties->unk_10.as_s16 = 0x20;
     properties->unk_12.at00_u16.v = (u16)(properties->unk_12.at00_u16.v - 0x80);
-    status->unk_1C.as_s32 = (s32)(status->unk_1C.as_s32 | 0x10000000);
+    status->flags1C = (s32)(status->flags1C | 0x10000000);
 }

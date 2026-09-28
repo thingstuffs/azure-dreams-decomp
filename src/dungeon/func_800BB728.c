@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity_objects.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 extern int abs(int);
@@ -82,8 +84,6 @@ extern s32 func_800AD6FC();
 
 extern u8 D_8006DE24[];
 extern u8 *D_80073470[];
-extern u8 D_80082E80[];
-extern u8 D_80083780[];
 extern u16 D_800DDE84[];
 extern u16 D_800DF4B0[];
 extern u8 D_800E1440[];
@@ -100,7 +100,7 @@ s32 func_800C0E88(u8 *object, u8 *data, s16 action, void *context)
     u8 *current_object;
     u8 *tail_status;
     u8 *active_object;
-    u8 *callback;
+    EntityRec *callback;
     u8 *message_table;
     s32 message_start;
     s32 slot;
@@ -117,11 +117,11 @@ s32 func_800C0E88(u8 *object, u8 *data, s16 action, void *context)
 
     current_object = ((u8 *)D_800E3D7C);
     if (object == current_object) {
-        callback = D_80083780;
+        callback = &D_80083780;
         data[3] |= 0x20;
         active_object = ((u8 *)D_800E3D7C);
         ((S_800C0E88_0 *)active_object)->unk_110 = data;
-        func_8008D344(active_object, callback, D_80082E80, active_object);
+        func_8008D344(active_object, callback, ((u8 *)(&D_80082E80)), active_object);
         return 0;
     }
 

@@ -1,6 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 struct S_800E3E48 {
     u8 pad00[0x14];
@@ -139,7 +139,7 @@ typedef struct S_80094988_15 {
 } S_80094988_15;   /* save_page in func_80094988 */
 
 /* Rebuild the dungeon's slot tables from the 0x80010000 save page: relink each of the 0x14 entries with its 0x8C record, re-point the two dispatch slots, then spawn and register an actor for every flagged party member. */
-void func_80094988(S_80094988_1 *dungeon, Rec_D_800E3D7C *actor, u16 base_x, u16 base_y) {
+void func_80094988(S_80094988_1 *dungeon, EntityRec *actor, u16 base_x, u16 base_y) {
     s16 place_x;
     s16 place_y;
     u8 rand_x;
@@ -314,7 +314,7 @@ loop_1:
                                 }
                                 spawned = func_800A0B94(*slot_ptr, kind, 1)(
                                     1, place_x, place_y,
-                                    actor->unk_88.as_s16);
+                                    actor->unk_88);
                                 sign_shift = scratch << 16;
                                 slot_index = sign_shift >> 16;
                                 slot_offset = slot_index * 4;

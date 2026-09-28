@@ -1,7 +1,8 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 
 typedef struct S_80093C70_0 {
@@ -48,11 +49,10 @@ typedef struct S_80093C70_5 {
 void *func_8003FD64();                  /* extern */
 M2C_UNK func_8004491C();           /* extern */
 M2C_UNK func_80048A44(); /* extern */
-extern u16 D_80082E94;
 extern M2C_UNK D_80093A94;
 
 /* Creates a sprite effect at the supplied position and links it to its owner. */
-void func_80093C70(s32 priority, Rec_D_800E3D7C *source_pos, Rec_D_80082E80 *owner) {
+void func_80093C70(s32 priority, EntityRec *source_pos, Rec_D_80082E80 *owner) {
     S_80093C70_3 *sprite;
     void *effect;
     S_80093C70_1 *position;
@@ -63,9 +63,9 @@ void func_80093C70(s32 priority, Rec_D_800E3D7C *source_pos, Rec_D_80082E80 *own
     if (effect != NULL) {
         position = ((S_80093C70_0 *)effect)->unk_08;
         ((S_80093C70_0 *)effect)->unk_10 = &D_80093A94;
-        position->unk_02 = (u16) source_pos->unk_00.at02_u16.v;
-        position->unk_06 = (u16) source_pos->unk_04.at02_u16.v;
-        position->unk_0A = (u16) source_pos->unk_08.at02_u16.v;
+        position->unk_02 = (u16) ((u16)source_pos->x.w.i);
+        position->unk_06 = (u16) ((u16)source_pos->y.w.i);
+        position->unk_0A = (u16) ((u16)source_pos->z.w.i);
         sprite = ((S_80093C70_0 *)effect)->unk_0C;
         sprite->unk_28 = (s32) owner->unk_28.at00_s32.v;
         sprite->unk_1E = 0x1000;
@@ -74,7 +74,7 @@ void func_80093C70(s32 priority, Rec_D_800E3D7C *source_pos, Rec_D_80082E80 *own
         sprite->unk_06 = 4;
         sprite->unk_14.u = (u16) (flags | 0x200);
         ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        if (D_80082E94 & 1) {
+        if (D_80082E80.unk_014 & 1) {
             sprite->unk_14.u = (u16) (sprite->unk_14.u | 1);
         }
         func_80048A44(sprite, 0xCE, 0, 3);

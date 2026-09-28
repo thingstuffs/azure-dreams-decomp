@@ -1,5 +1,5 @@
 #include "common.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 
 
@@ -24,21 +24,21 @@ typedef struct S_80098764_0 {
 
 
 /* Interpolate the position toward an angle-based offset until the countdown expires. */
-void func_80098764(void *motion, Rec_D_800E3D7C *position) {
+void func_80098764(void *motion, EntityRec *position) {
     u16 ticks_left;
     s32 old_y;
 
     ticks_left = ((S_80098764_0 *)motion)->unk_0A - 1;
     ((S_80098764_0 *)motion)->unk_0A = ticks_left;
     if ((ticks_left << 0x10) > 0) {
-        position->unk_00.at00_s32.v =
+        position->x.v =
             ((func_800644B8(((S_80098764_0 *)motion)->unk_10) << 9)
              + (((S_80098764_0 *)motion)->unk_30 << 0x10)
-             + position->unk_00.at00_s32.v) / 2;
-        position->unk_04.at00_s32.v =
+             + position->x.v) / 2;
+        position->y.v =
             ((func_80064584(((S_80098764_0 *)motion)->unk_10) << 9)
              + (((S_80098764_0 *)motion)->unk_32 << 0x10)
-             + (old_y = position->unk_04.at00_s32.v)) / 2;
+             + (old_y = position->y.v)) / 2;
         return;
     }
     func_80099754(position);

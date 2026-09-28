@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 typedef struct ObjA0 ObjA0;
 typedef struct Motion Motion;
@@ -74,22 +74,22 @@ s32 func_800AB1C0(ObjA0 *move_state, Motion *motion, TilePos *target_tile, ObjA3
         if (dungeonStatus.unk_08 != 0) {
             dungeonStatus.unk_08 = (s16)((u16)dungeonStatus.unk_08 - 1);
         }
-        if (((Rec_D_800E3D7C *)actor)->unk_1C.as_s32 & 0x2000) {
-            ((Rec_D_800E3D7C *)actor)->unk_44.at02_u16.v =
-                (u16)(((Rec_D_800E3D7C *)actor)->unk_44.at02_u16.v & 0x7FFF);
+        if (((EntityRec *)actor)->flags1C & 0x2000) {
+            ((EntityRec *)actor)->unk_46 =
+                (u16)(((EntityRec *)actor)->unk_46 & 0x7FFF);
         }
         if (dungeonStatus.flags & 0x80) {
-            ((Rec_D_800E3D7C *)actor)->unk_1C.as_s32 =
-                (s32)(((Rec_D_800E3D7C *)actor)->unk_1C.as_s32 & 0xBFFFFFFF);
+            ((EntityRec *)actor)->flags1C =
+                (s32)(((EntityRec *)actor)->flags1C & 0xBFFFFFFF);
             new_height = func_800BCB04(
                 (((Rec_D_80082E80 *)target_tile)->unk_24 << 6) | 0x20,
                 (((Rec_D_80082E80 *)target_tile)->unk_25 << 6) | 0x20,
-                (s16)(((Rec_D_800E3D7C *)actor)->unk_88.as_u16 - 0x20));
+                (s16)(((u16)((EntityRec *)actor)->unk_88) - 0x20));
             ((S_800AB1C0_0 *)move_state)->unk_90.at02.v =
                 (u16)(((S_800AB1C0_0 *)move_state)->unk_90.at02.v +
-                      (((Rec_D_800E3D7C *)actor)->unk_88.as_u16 - new_height));
-            ((Rec_D_800E3D7C *)actor)->unk_88.as_u16 = new_height;
-            if (!(((Rec_D_800E3D7C *)actor)->unk_1C.as_s32 & 0x40000)) {
+                      (((u16)((EntityRec *)actor)->unk_88) - new_height));
+            ((EntityRec *)actor)->unk_88 = new_height;
+            if (!(((EntityRec *)actor)->flags1C & 0x40000)) {
                 ((S_800AB1C0_0 *)move_state)->unk_90.at00.v = 0;
             }
         }

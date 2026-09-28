@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -35,8 +37,6 @@ extern s32 func_80172228(void *, void *, void *, s32);
 extern void func_80173900(void *, void *, void *, void *);
 extern void func_80173AD4(void *, void *, void *, void *);
 
-extern u8 D_80082E80[];
-extern s8 D_80082EA4;
 extern s8 D_800E2970[];
 extern void *D_80170808[];
 extern s32 D_80170F68;
@@ -176,13 +176,13 @@ void func_80170F68(void *actor_arg, void *context_arg, void *map_object_arg, voi
         if (((S_80170F68_1 *)actor_state_arg)->unk_1C & 0x20) {
             goto special_cleanup;
         }
-        if (((S_80170F68_2 *)map_object_arg)->unk_24.at00u.v == *(u16 *)&D_80082EA4) {
+        if (((S_80170F68_2 *)map_object_arg)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
             goto ordinary_cleanup;
         }
         if (!(((S_80170F68_1 *)actor_state_arg)->unk_46 & 0x8000)) {
             if (dungeonStatus.flags & 0x2000) {
                 if ((s16)func_8009A180(actor_state_arg,
-                        (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) != 0) {
+                        (u8 *)((EntityRec *)D_800814A8)->unk_58 + 0x20) != 0) {
                     return;
                 }
             }
@@ -241,13 +241,12 @@ coords_case:
         case 7:
 #endif
         {
-            u8 *player_pos = D_80082E80;
             void *player;
             s32 direction;
 
             direction = func_800A0818(
                 ((S_80170F68_2 *)map_object_arg)->unk_24.at00.v, ((S_80170F68_2 *)map_object_arg)->unk_24.at01.v,
-                ((S_80170F68_4 *)player_pos)->unk_24, ((S_80170F68_4 *)player_pos)->unk_25,
+                D_80082E80.tileX, D_80082E80.tileY,
                 &distance);
             player = D_800814A8;
             ((S_80170F68_1 *)actor_state_arg)->unk_2A = direction;
@@ -288,14 +287,13 @@ ordinary_cleanup:
 
         if ((record_index < 0) || !(((DungeonRecord *)D_800E2970)[record_index].flags & 2)) {
             if (!(((S_80170F68_1 *)actor_state_arg)->unk_1C & 0x430)) {
-                u8 *player_pos = D_80082E80;
 
                 if ((s16)func_8009FD7C(((S_80170F68_2 *)map_object_arg)->unk_24.at00.v,
-                        ((S_80170F68_2 *)map_object_arg)->unk_24.at01.v, ((S_80170F68_4 *)player_pos)->unk_24,
-                        ((S_80170F68_4 *)player_pos)->unk_25) != 0) {
+                        ((S_80170F68_2 *)map_object_arg)->unk_24.at01.v, D_80082E80.tileX,
+                        D_80082E80.tileY) != 0) {
                     ((S_80170F68_1 *)actor_state_arg)->unk_2A = func_800A0818(
                         ((S_80170F68_2 *)map_object_arg)->unk_24.at00.v, ((S_80170F68_2 *)map_object_arg)->unk_24.at01.v,
-                        ((S_80170F68_4 *)player_pos)->unk_24, ((S_80170F68_4 *)player_pos)->unk_25,
+                        D_80082E80.tileX, D_80082E80.tileY,
                         &distance);
                 }
             }

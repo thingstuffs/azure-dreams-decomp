@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
@@ -78,7 +80,6 @@ typedef struct S_800A94A0_9 {
 
 extern u8 D_80083498[];
 extern volatile s16 D_80013714[8];
-extern u8 D_80082E80[];
 extern u8 D_800E3CC8[];
 extern u16 D_800DCEAC[];
 extern u16 D_800DCEBC[];
@@ -113,7 +114,7 @@ extern M2C_UNK D_800E1C58;
 extern u8 D_800E3D68;
 
 /* Creates an effect for an actor, sets its position and scale, and builds its message. */
-void *func_800A94A0(void *actor, Rec_D_800E3D7C *effect_record, s16 mode, void *context) {
+void *func_800A94A0(void *actor, EntityRec *effect_record, s16 mode, void *context) {
     s32 message;
     s32 name_text;
     s32 effect_data;
@@ -134,7 +135,7 @@ void *func_800A94A0(void *actor, Rec_D_800E3D7C *effect_record, s16 mode, void *
     S_800A94A0_3 *effect_state;
     void *linked_object;
     S_800A94A0_5 *actor_position;
-    u8 *map_state;
+    TileObject *map_state;
 
     actor_state = ((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_04;
     effect = func_8003FD64(0x12, D_80083498);
@@ -144,8 +145,8 @@ void *func_800A94A0(void *actor, Rec_D_800E3D7C *effect_record, s16 mode, void *
         {
             s32 mode_arg = effect_mode;
             u8 entry_variant;
-            effect_id = effect_record->unk_00.at00_u8.v;
-            entry_variant = effect_record->unk_00.at01_u8.v;
+            effect_id = (*(u8 *)&effect_record->x);
+            entry_variant = (*(u8 *)((u8 *)&effect_record->x + 1));
             D_800E3D68 = entry_variant;
             effect_data = func_800A982C((u8) effect_id, mode_arg, ((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_2B);
         }
@@ -163,7 +164,7 @@ void *func_800A94A0(void *actor, Rec_D_800E3D7C *effect_record, s16 mode, void *
         effect_state->unk_04 = context;
         effect_state->unk_08 = effect_id;
         D_800E3CC8[0] = effect_id;
-        variant = effect_record->unk_00.at01_u8.v;
+        variant = (*(u8 *)((u8 *)&effect_record->x + 1));
         effect_state->unk_09 = variant;
         D_800E3CC8[1] = variant;
         if (mode == 0) {
@@ -183,15 +184,15 @@ void *func_800A94A0(void *actor, Rec_D_800E3D7C *effect_record, s16 mode, void *
             ASM_KEEP(text_context);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             goto set_effect_scale;
         }
-        map_state = D_80082E80;
+        map_state = &D_80082E80;
         if (!(actor_state->unk_14 & 0x8000)) {
-            if (!(((S_800A94A0_8 *)map_state)->unk_14 & 0x8000)) {
+            if (!(map_state->unk_014 & 0x8000)) {
                 func_800C7A3C(map_state, actor_state, ((S_800A94A0_9 *)(((u8 *)D_800E3D7C)))->unk_88, ((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_A0, 8, 0x300);
                 goto set_effect_scale;
             }
         }
         direction_offset = ((u16) ((S_800A94A0_9 *)(((u8 *)D_800E3D7C)))->unk_2A >> 8) & 0xE;
-        func_800C78A0(actor - 0x20, (((S_800A94A0_8 *)map_state)->unk_24 << 6) + ((s32) (*(u16 *)((u8 *)D_800DCEAC + direction_offset) << 0x10) >> 0x11) + 0x20, (((S_800A94A0_8 *)map_state)->unk_25 << 6) + ((s32) (*(u16 *)((u8 *)D_800DCEBC + direction_offset) << 0x10) >> 0x11) + 0x20, ((S_800A94A0_9 *)(((u8 *)D_800E3D7C)))->unk_88, 8, 0x300);
+        func_800C78A0(actor - 0x20, (map_state->tileX << 6) + ((s32) (*(u16 *)((u8 *)D_800DCEAC + direction_offset) << 0x10) >> 0x11) + 0x20, (map_state->tileY << 6) + ((s32) (*(u16 *)((u8 *)D_800DCEBC + direction_offset) << 0x10) >> 0x11) + 0x20, ((S_800A94A0_9 *)(((u8 *)D_800E3D7C)))->unk_88, 8, 0x300);
 set_effect_scale:
         if ((mode << 0x10) != 0) {
             lookup_index = effect_id;

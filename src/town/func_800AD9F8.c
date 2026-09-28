@@ -1,8 +1,8 @@
 #include "common.h"
+#include "shared/entity_objects.h"
 
 extern void func_800AAEFC(void);
 extern s32 func_800AAE98(void *arg0);
-extern u8 D_80083780[];
 extern u8 D_800AB1E0[];
 extern u8 D_800AB708[];
 
@@ -16,10 +16,8 @@ void func_800AB158(void *state, void *output) {
     *(s16 *)((s8 *)state + 0x6A) = 0;
 
     {
-        u16 *defaults;
-        defaults = (u16 *)D_80083780;
-        *(u16 *)((s8 *)output + 2) = defaults[1];
-        *(u16 *)((s8 *)output + 6) = defaults[3];
-        *(s16 *)((s8 *)output + 0xA) = defaults[5] - func_800AAE98(output);
+        *(u16 *)((s8 *)output + 2) = ((u16)D_80083780.x.w.i);
+        *(u16 *)((s8 *)output + 6) = ((u16)D_80083780.y.w.i);
+        *(s16 *)((s8 *)output + 0xA) = ((u16)D_80083780.z.w.i) - func_800AAE98(output);
     }
 }

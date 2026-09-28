@@ -1,4 +1,7 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity_objects.h"
+#include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -14,22 +17,20 @@ M2C_UNK func_800A5F38();
 M2C_UNK func_800A63B8();
 s32 func_800AD6FC();
 s32 func_800C8A3C();
-extern u8 D_80082E80[];
-extern u8 D_80083780[];
 extern u16 D_800DDE84[];
 
 
 /* Process an entity's item, deferring the primary entity's handling and cleaning up completed uses. */
-s32 func_800C4220(Rec_D_800E3D7C *entity, s32 item, s16 use_type) {
+s32 func_800C4220(EntityRec *entity, s32 item, s16 use_type) {
     if (entity == D_800E3D7C) {
         entity->unk_110 = item;
-        func_8008D330(entity, D_80083780, D_80082E80, entity);
+        func_8008D330(entity, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), entity);
         return 0;
     }
     if ((s32)entity <= 0x9FFFFFFFU) {
         func_800A63B8(entity, item, use_type);
         if (func_800AD6FC(entity,
-                         (D_800DDE84[entity->unk_10.at03_u8.v] >> 6) & 3,
+                         (D_800DDE84[(*(u8 *)((u8 *)&entity->unk_10 + 3))] >> 6) & 3,
                          0) == 0) {
             func_800A5F38(entity, item);
             return 1;

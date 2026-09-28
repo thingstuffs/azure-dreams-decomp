@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity_objects.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
 extern u8 D_8008000A[];
-extern u8 D_80082E80[];
-extern u8 D_80083780[];
 extern u16 D_800DDE84[];
 extern u8 D_800E0F2D[];
 extern u8 D_800E0F44[];
@@ -36,7 +36,7 @@ s32 func_800BDC98(void *entity, s32 action_id, s16 action_arg) {
     match_state = 0;
     if (entity == ((u8 *)D_800E3D7C)) {
         *(s32 *)((u8 *)entity + 0x110) = action_id;
-        func_8008D330(entity, D_80083780, D_80082E80, entity);
+        func_8008D330(entity, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), entity);
         return 0;
     }
 

@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
@@ -86,7 +88,6 @@ M2C_UNK func_800AA888();
 M2C_UNK func_800AD4D0();
 M2C_UNK func_80171F94();
 M2C_UNK func_80173CEC();
-extern M2C_UNK D_80082E80;
 extern M2C_UNK D_80083498;
 extern M2C_UNK D_800D7960;
 extern M2C_UNK D_80170E68;
@@ -111,7 +112,7 @@ void func_801732A4(void *actor, void *transform, void *sprite, void *actor_state
     void *new_effect;
     void *effect_transform;
     void *active_effect;
-    void *player_sprite;
+    TileObject *player_sprite;
 
     phase = ((Rec_func_801732A4_arg0 *)actor)->unk_9B;
     if (phase >= 6U) goto done;
@@ -183,14 +184,14 @@ check_special_action:
 check_pending_action:
     if (((S_801732A4_2 *)actor_state)->unk_6D == 0) goto done;
     if ((func_800A2C34(actor_state) << 0x10) == 0) goto update_action;
-    if ((func_8009A180(actor_state, ((Rec_D_800814A8 *)D_800814A8)->unk_58.as_s32 + 0x20) << 0x10) != 0) goto done;
+    if ((func_8009A180(actor_state, ((s32)((EntityRec *)D_800814A8)->unk_58) + 0x20) << 0x10) != 0) goto done;
 update_action:
     func_800A9A0C(actor_state);
     func_800A9A04(actor_state);
     if ((func_80042900(actor_state, 1) << 0x10) == 0) goto check_ready;
     player_sprite = &D_80082E80;
     region_id = ((Rec_D_80082E80 *)sprite)->unk_26.as_s8;
-    if (region_id != ((S_801732A4_5 *)player_sprite)->unk_26) goto check_distance;
+    if (region_id != player_sprite->unk_026) goto check_distance;
     if (region_id >= 0) goto check_random;
 check_distance:
     if (func_8009FD40(player_sprite, sprite) >= 2) goto check_effect_flag;

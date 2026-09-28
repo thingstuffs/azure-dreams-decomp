@@ -1,6 +1,6 @@
 #include "common.h"
 #include "records/Rec_func_800AA258_arg2.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 typedef struct S_801743E8_0_pre {
     u16 unk_00;
@@ -23,7 +23,7 @@ typedef struct Page8008 {
 } Page8008;
 
 /* Update a timed effect's size and position, then set its completion flags. */
-void func_801743E8(void *effect, Rec_D_800E3D7C *position, Rec_func_800AA258_arg2 *visual)
+void func_801743E8(void *effect, EntityRec *position, Rec_func_800AA258_arg2 *visual)
 {
     s32 state;
     u16 size_or_state;
@@ -70,7 +70,7 @@ state_1:
     goto exit;
 
 state_2:
-    position->unk_08.at00_s32.v += 0x28000;
+    position->z.v += 0x28000;
     size_or_state = visual->unk_1E - 0x80;
     visual->unk_1E = size_or_state;
     visual->unk_1C = size_or_state;

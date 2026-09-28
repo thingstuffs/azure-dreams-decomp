@@ -2,7 +2,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 
 typedef struct S_80155234_0 {
@@ -64,12 +64,12 @@ void func_80155234(void *action, void *motion, void *sprite, void *actor)
 state_zero:
     func_800AD4D0(actor);
     ((S_80155234_1 *)motion)->unk_0C =
-        -((s16 *)((s8 *)dirStepX))[(((Rec_D_800E3D7C *)actor)->unk_6A.as_u16 >> 9) & 7] << 15;
+        -((s16 *)((s8 *)dirStepX))[(((EntityRec *)actor)->unk_6A >> 9) & 7] << 15;
     ((S_80155234_1 *)motion)->unk_10 =
-        -((s16 *)((s8 *)dirStepY))[(((Rec_D_800E3D7C *)actor)->unk_6A.as_u16 >> 9) & 7] << 15;
+        -((s16 *)((s8 *)dirStepY))[(((EntityRec *)actor)->unk_6A >> 9) & 7] << 15;
     ((S_80155234_0 *)action)->unk_9B++;
 
-    if (((Rec_D_800E3D7C *)actor)->unk_28 == 0) {
+    if (((EntityRec *)actor)->unk_28 == 0) {
         goto stop_motion;
     }
     if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
@@ -78,7 +78,7 @@ state_zero:
         goto done;
     }
 
-    if (((Rec_D_800E3D7C *)actor)->unk_1C.as_u32 & 0x228) {
+    if (((u32)((EntityRec *)actor)->flags1C) & 0x228) {
         timer = 8;
     } else {
         timer = -1;
@@ -90,9 +90,9 @@ state_zero:
 
 state_one:
     ((S_80155234_1 *)motion)->unk_0C +=
-        ((s16 *)((s8 *)dirStepX))[(((Rec_D_800E3D7C *)actor)->unk_6A.as_u16 >> 9) & 7] << 14;
+        ((s16 *)((s8 *)dirStepX))[(((EntityRec *)actor)->unk_6A >> 9) & 7] << 14;
     ((S_80155234_1 *)motion)->unk_10 +=
-        ((s16 *)((s8 *)dirStepY))[(((Rec_D_800E3D7C *)actor)->unk_6A.as_u16 >> 9) & 7] << 14;
+        ((s16 *)((s8 *)dirStepY))[(((EntityRec *)actor)->unk_6A >> 9) & 7] << 14;
 
     if (((S_80155234_0 *)action)->unk_96.s > 0) {
         ((S_80155234_0 *)action)->unk_96.s = ((S_80155234_0 *)action)->unk_96.u - 1;
@@ -103,7 +103,7 @@ state_one:
     if (((S_80155234_0 *)action)->unk_96.s != 0) {
         goto done;
     }
-    if (((Rec_D_800E3D7C *)actor)->unk_28 != 0) {
+    if (((EntityRec *)actor)->unk_28 != 0) {
         goto continue_state_one;
     }
 
@@ -118,16 +118,16 @@ continue_state_one:
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80156C44;
     func_80047784(
         sprite,
-        D_80156C44[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+        D_80156C44[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
         0);
     ((S_80155234_0 *)action)->unk_9B++;
     goto done;
 
 state_two:
     ((S_80155234_1 *)motion)->unk_0C +=
-        ((s16 *)((s8 *)dirStepX))[(((Rec_D_800E3D7C *)actor)->unk_6A.as_u16 >> 9) & 7] << 14;
+        ((s16 *)((s8 *)dirStepX))[(((EntityRec *)actor)->unk_6A >> 9) & 7] << 14;
     ((S_80155234_1 *)motion)->unk_10 +=
-        ((s16 *)((s8 *)dirStepY))[(((Rec_D_800E3D7C *)actor)->unk_6A.as_u16 >> 9) & 7] << 14;
+        ((s16 *)((s8 *)dirStepY))[(((EntityRec *)actor)->unk_6A >> 9) & 7] << 14;
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000)) {
         goto done;
     }
@@ -135,7 +135,7 @@ state_two:
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80156C44;
     func_80047784(
         sprite,
-        D_80156C44[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+        D_80156C44[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
         0);
     ((S_80155234_0 *)action)->unk_96.s = 8;
     ((S_80155234_0 *)action)->unk_9B++;

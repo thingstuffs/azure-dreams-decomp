@@ -1,9 +1,9 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern u16 D_80082E94;
 extern M2C_UNK D_800DD140;
 extern void func_80048AC8(void *, s32);
 
@@ -21,7 +21,7 @@ void func_80093A94(void *object_data, void *unused, void *state_data) {
     u8 brightness;
 
     func_80048AC8(state, *(s16 *)(obj + 8) + 2);
-    if (D_80082E94 & 1) {
+    if (D_80082E80.unk_014 & 1) {
         *(u16 *)(state + 0x14) |= 1;
     } else {
         *(u16 *)(state + 0x14) &= 0xFFFE;

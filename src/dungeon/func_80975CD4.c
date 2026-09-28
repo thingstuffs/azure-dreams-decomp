@@ -1,8 +1,9 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_D_800814A8.h"
 
 
@@ -34,8 +35,6 @@ extern void func_80172548(void *, void *, void *, void *);
 extern s32 func_80172628(void *, void *, void *, s32);
 extern void func_80173E00(void *, void *, void *, void *);
 
-extern u8 D_80082E80[];
-extern s8 D_80082EA4;
 extern DungeonRecord D_800E2970[];
 extern void *D_80170808[];
 extern u8 D_801740E0[];
@@ -109,7 +108,7 @@ void func_801714D4(void *actor_arg, void *context_arg, void *sprite_arg, void *s
     }
 
 
-    if (((Rec_D_800E3D7C *)stats)->unk_24.at01_u8.v == 0) {
+    if (((EntityRec *)stats)->tileY == 0) {
         func_800AA79C(actor_arg, context_arg, sprite, stats);
         if (((S_801714D4_2 *)sprite)->unk_2C == D_80174158) {
             return;
@@ -117,17 +116,17 @@ void func_801714D4(void *actor_arg, void *context_arg, void *sprite_arg, void *s
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80174150;
         func_80047784(
             sprite,
-            D_80174150[((gameWork.viewAngle + ((Rec_D_800E3D7C *)stats)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            D_80174150[((gameWork.viewAngle + ((EntityRec *)stats)->facing + 0x100) >> 9) & 7],
             0);
         return;
     }
 
-    if (((Rec_D_800E3D7C *)stats)->unk_1C.as_u32 & 0x200) {
+    if (((u32)((EntityRec *)stats)->flags1C) & 0x200) {
         if (((S_801714D4_2 *)sprite)->unk_2C == D_80174158) {
             ((S_801714D4_0 *)actor_arg)->unk_9A = 13;
             ((S_801714D4_0 *)actor_arg)->unk_9B = 1;
             ((S_801714D4_0 *)actor_arg)->unk_8C = 0;
-            ((Rec_D_800E3D7C *)stats)->unk_1C.as_u32 &= ~0x40000;
+            ((EntityRec *)stats)->flags1C &= ~0x40000;
             return;
         }
         if (func_800AA924(actor_arg, context_arg, sprite, D_801740F0) != 0) {
@@ -136,7 +135,7 @@ void func_801714D4(void *actor_arg, void *context_arg, void *sprite_arg, void *s
     }
 
     if ((dungeonStatus.flags & 0x2000) == 0) {
-        if (((Rec_D_800E3D7C *)stats)->unk_1C.as_u32 & 0x100) {
+        if (((u32)((EntityRec *)stats)->flags1C) & 0x100) {
             func_800AA258(actor_arg, context_arg, sprite, stats);
             return;
         }
@@ -150,23 +149,23 @@ void func_801714D4(void *actor_arg, void *context_arg, void *sprite_arg, void *s
             (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801740E0;
             func_80047784(
                 sprite,
-                D_801740E0[((gameWork.viewAngle + ((Rec_D_800E3D7C *)stats)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+                D_801740E0[((gameWork.viewAngle + ((EntityRec *)stats)->facing + 0x100) >> 9) & 7],
                 0);
             ((S_801714D4_2 *)sprite)->unk_05 = 1;
             ((S_801714D4_0 *)actor_arg)->unk_A2.s = 0;
             ((S_801714D4_0 *)actor_arg)->unk_9E = 0;
         }
 
-        ((Rec_D_800E3D7C *)stats)->unk_1C.as_u32 |= 0x40000;
+        ((EntityRec *)stats)->flags1C |= 0x40000;
         ((S_801714D4_0 *)actor_arg)->unk_98 &= 0xFFF7;
 
-        if (((Rec_D_800E3D7C *)stats)->unk_64.as_s16 != 0) {
+        if (((EntityRec *)stats)->unk_64 != 0) {
             if (func_800AA6B4(actor_arg, context_arg, sprite, D_80174140) != 0) {
                 return;
             }
         }
 
-        if (((Rec_D_800E3D7C *)stats)->unk_1C.as_u32 & 0x80000) {
+        if (((u32)((EntityRec *)stats)->flags1C) & 0x80000) {
             func_800AA888(actor_arg, context_arg, sprite, stats);
             ((S_801714D4_0 *)actor_arg)->unk_92 -= ((S_801714D4_0 *)actor_arg)->unk_A2.u;
             ((S_801714D4_0 *)actor_arg)->unk_A2.s = 0;
@@ -186,32 +185,32 @@ void func_801714D4(void *actor_arg, void *context_arg, void *sprite_arg, void *s
     tile_index = func_8009FB34(((S_801714D4_2 *)sprite)->unk_24.at00.v, ((S_801714D4_2 *)sprite)->unk_24.at01.v);
     ((S_801714D4_2 *)sprite)->unk_26 = tile_index;
 
-    if (((Rec_D_800E3D7C *)stats)->unk_6D.as_s8 > 0) {
-        if (((Rec_D_800E3D7C *)stats)->unk_1C.as_u32 & 0x20) {
+    if (((EntityRec *)stats)->unk_6D > 0) {
+        if (((u32)((EntityRec *)stats)->flags1C) & 0x20) {
             goto jt_c12;
         }
-        if (((S_801714D4_2 *)sprite)->unk_24.at00u.v == *(u16 *)&D_80082EA4) {
+        if (((S_801714D4_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
             goto jt_default;
         }
-        action_flags = ((Rec_D_800E3D7C *)stats)->unk_44.at02_u16.v;
+        action_flags = ((EntityRec *)stats)->unk_46;
         if ((action_flags & 0x8000) == 0) {
             if (dungeonStatus.flags & 0x2000) {
                 if ((s16)func_8009A180(
-                        stats, (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) != 0) {
+                        stats, (u8 *)((EntityRec *)D_800814A8)->unk_58 + 0x20) != 0) {
                     return;
                 }
             }
             if ((s16)func_80172628(actor_arg, context_arg, sprite, 0) == 0) {
                 return;
             }
-            action_flags = ((Rec_D_800E3D7C *)stats)->unk_44.at02_u16.v | 0x4000;
-            ((Rec_D_800E3D7C *)stats)->unk_44.at02_u16.v = action_flags;
+            action_flags = ((EntityRec *)stats)->unk_46 | 0x4000;
+            ((EntityRec *)stats)->unk_46 = action_flags;
             if ((action_flags & 0x8000) == 0) {
                 goto jt_default;
             }
         }
 
-        action_index = (((Rec_D_800E3D7C *)stats)->unk_44.at02_u16.v & 0x3FFF) - 1;
+        action_index = (((EntityRec *)stats)->unk_46 & 0x3FFF) - 1;
         if ((u32)action_index >= 12U) {
             goto jt_default;
         }
@@ -231,9 +230,9 @@ jt_c6:
 jt_c7:
         angle = func_800A0818(
             ((S_801714D4_2 *)sprite)->unk_24.at00.v, ((S_801714D4_2 *)sprite)->unk_24.at01.v,
-            D_80082E80[0x24], D_80082E80[0x25], &distance);
+            D_80082E80.tileX, D_80082E80.tileY, &distance);
         owner = D_800814A8;
-        ((Rec_D_800E3D7C *)stats)->unk_2A.as_s16 = angle;
+        ((EntityRec *)stats)->facing = angle;
         if (((S_801714D4_4 *)owner)->unk_9A == 0x11) {
             goto jt_c1;
         }
@@ -259,7 +258,7 @@ jt_default:
         return;
     }
 
-    flags = ((Rec_D_800E3D7C *)stats)->unk_1C.as_u32;
+    flags = ((u32)((EntityRec *)stats)->flags1C);
     if (flags & 0x2000) {
         return;
     }
@@ -273,16 +272,15 @@ jt_default:
     }
 
     {
-        u8 *origin = D_80082E80;
 
         if ((s16)func_8009FD7C(
                 ((S_801714D4_2 *)sprite)->unk_24.at00.v, ((S_801714D4_2 *)sprite)->unk_24.at01.v,
-                origin[0x24], origin[0x25]) == 0) {
+                D_80082E80.tileX, D_80082E80.tileY) == 0) {
             return;
         }
-        ((Rec_D_800E3D7C *)stats)->unk_2A.as_s16 = func_800A0818(
+        ((EntityRec *)stats)->facing = func_800A0818(
             ((S_801714D4_2 *)sprite)->unk_24.at00.v, ((S_801714D4_2 *)sprite)->unk_24.at01.v,
-            origin[0x24], origin[0x25], &distance);
+            D_80082E80.tileX, D_80082E80.tileY, &distance);
     }
 #undef actor_arg
 #undef context_arg

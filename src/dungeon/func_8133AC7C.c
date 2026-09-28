@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
 
 
@@ -10,7 +11,6 @@ typedef struct {
 
 extern void *func_8003FC64();
 extern s32 func_8004491C();
-extern s32 D_80083780[3];
 extern s32 D_801717A8;
 extern PackedVec D_80173B40;
 extern void *D_80175D60;
@@ -44,7 +44,6 @@ typedef struct S_80171C7C_2 {
 
 /* Creates an object with default coordinates and initializes its rendering state. */
 void func_80171C7C(void) {
-    s32 *default_coords;
     S_80171C7C_1 *coords;
     S_80171C7C_0 *render_state;
     void *object;
@@ -58,10 +57,9 @@ void func_80171C7C(void) {
         render_state = (*(void * *)((u8 *)object + 0xC));
         render_state->unk_06 = 0;
         coords = (*(void * *)((u8 *)object + 8));
-        default_coords = D_80083780;
-        coords->unk_00 = ((S_80171C7C_2 *)default_coords)->unk_00;
-        coords->unk_04 = ((S_80171C7C_2 *)default_coords)->unk_04;
-        coords->unk_08 = ((S_80171C7C_2 *)default_coords)->unk_08;
+        coords->unk_00 = D_80083780.x.v;
+        coords->unk_04 = D_80083780.y.v;
+        coords->unk_08 = D_80083780.z.v;
         render_state = (*(void * *)((u8 *)object + 0xC));
         render_state->unk_1E = 0x1000;
         render_state->unk_1C = 0x1000;

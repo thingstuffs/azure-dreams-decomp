@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity_objects.h"
 
 typedef struct {
     u16 field_0;
@@ -8,7 +9,6 @@ typedef struct {
 } TownRecord;
 
 extern s16 D_800834C8;
-extern s32 D_80083780;
 extern s32 D_80100E40;
 
 /* Shifts the eight-record history and stores the current values in the first record. */
@@ -37,7 +37,7 @@ void func_800AAF5C(void)
         u16 *current_values;
         TownRecord *newest_record;
 
-        current_values = (u16 *)&D_80083780;
+        current_values = (u16 *)&D_80083780.x.v;
         newest_record = (TownRecord *)&D_80100E40;
         newest_record->field_0 = current_values[1];
         newest_record->field_2 = current_values[3];

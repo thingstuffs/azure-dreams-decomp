@@ -2,7 +2,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 
 typedef struct S_80171FC4_1 {
@@ -20,7 +20,7 @@ extern u8 D_80174F28;
 
 /* Update action state and start a directional animation if the actor passes the checks. */
 void func_80171FC4(void *action_state, M2C_UNK action_context, void *sprite, void *actor) {
-    ((Rec_D_800E3D7C *)actor)->unk_71.as_u8 = (u8) (((Rec_D_800E3D7C *)actor)->unk_71.as_u8 & 0x7F);
+    ((EntityRec *)actor)->unk_71 = (u8) (((EntityRec *)actor)->unk_71 & 0x7F);
     if (!(dungeonStatus.flags & 0x2000) && ((func_800A2B5C(actor) << 0x10) == 0)) {
         func_800C7930(actor - 0x20, action_context, 8, 0x300);
         if ((func_800A2B5C(actor) << 0x10) == 0) {
@@ -28,11 +28,11 @@ void func_80171FC4(void *action_state, M2C_UNK action_context, void *sprite, voi
             (*(s32 *)((u8 *)action_state + 0x8C)) = 0;
             ((S_80171FC4_1 *)action_state)->unk_9B = 0;
             (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80174F28;
-            func_80047784(sprite, *((((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7) + &D_80174F28), 0);
-            ((Rec_D_800E3D7C *)actor)->unk_84.as_s8 = 0x7C;
-            ((Rec_D_800E3D7C *)actor)->unk_85.as_s8 = 0;
-            ((Rec_D_800E3D7C *)actor)->unk_6D.as_u8 = (u8) (((Rec_D_800E3D7C *)actor)->unk_6D.as_u8 - 1);
-            func_8009C93C(actor, sprite, ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16, 1, 0);
+            func_80047784(sprite, *((((s32) (gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7) + &D_80174F28), 0);
+            ((EntityRec *)actor)->unk_84 = 0x7C;
+            ((EntityRec *)actor)->unk_85 = 0;
+            ((EntityRec *)actor)->unk_6D = (u8) (((u8)((EntityRec *)actor)->unk_6D) - 1);
+            func_8009C93C(actor, sprite, ((EntityRec *)actor)->facing, 1, 0);
         }
     }
 }

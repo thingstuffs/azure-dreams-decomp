@@ -3,7 +3,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_func_800AA258_arg2.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 typedef struct S_801733F0_0 {
     u8 pad_00[0x8C];
@@ -46,7 +46,7 @@ extern u8 D_80176360[];
 extern u8 D_80176368[];
 
 /* Advance the actor state, select directional sprite data, and dispatch entity actions. */
-void func_801733F0(S_801733F0_0 *actor, void *context, Rec_func_800AA258_arg2 *sprite, Rec_D_800E3D7C *entity)
+void func_801733F0(S_801733F0_0 *actor, void *context, Rec_func_800AA258_arg2 *sprite, EntityRec *entity)
 {
     u8 state;
 
@@ -68,13 +68,13 @@ void func_801733F0(S_801733F0_0 *actor, void *context, Rec_func_800AA258_arg2 *s
         func_80047784(
             sprite,
             ((u8 *)sprite->unk_2C.as_pv)[
-                ((gameWork.viewAngle + entity->unk_2A.as_s16 + 0x100) >> 9) & 7],
+                ((gameWork.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         goto increment_state;
     }
 
     case 1:
-        if (entity->unk_24.at01_u8.v != 0) {
+        if (entity->tileY != 0) {
             if (actor->unk_A7 != 0) {
                 sprite->unk_2C.as_pv = D_80176368;
             } else {
@@ -85,7 +85,7 @@ void func_801733F0(S_801733F0_0 *actor, void *context, Rec_func_800AA258_arg2 *s
                 return;
             }
 
-            if ((entity->unk_64.as_s16 != 0) &&
+            if ((entity->unk_64 != 0) &&
                 func_800AA6B4(actor, context, sprite, 0)) {
                 return;
             }
@@ -94,18 +94,18 @@ void func_801733F0(S_801733F0_0 *actor, void *context, Rec_func_800AA258_arg2 *s
                 return;
             }
 
-            if (entity->unk_1C.as_u32 & 0x100) {
+            if (((u32)entity->flags1C) & 0x100) {
                 func_800AA258(actor, context, sprite, entity);
                 return;
             }
 
-            if (entity->unk_1C.as_u32 & 0x80000) {
+            if (((u32)entity->flags1C) & 0x80000) {
                 func_800AA888(actor, context, sprite, entity);
                 func_80173720(actor, context, sprite, entity);
                 return;
             }
 
-            if (entity->unk_6D.as_s8 == 0) {
+            if (entity->unk_6D == 0) {
                 return;
             }
 
@@ -121,7 +121,7 @@ void func_801733F0(S_801733F0_0 *actor, void *context, Rec_func_800AA258_arg2 *s
 
             func_800A9A0C(entity);
             func_800A9A04(entity);
-            if (entity->unk_24.at01_u8.v == 0) {
+            if (entity->tileY == 0) {
                 return;
             }
 
@@ -134,7 +134,7 @@ void func_801733F0(S_801733F0_0 *actor, void *context, Rec_func_800AA258_arg2 *s
         func_80047784(
             sprite,
             ((u8 *)sprite->unk_2C.as_pv)[
-                ((gameWork.viewAngle + entity->unk_2A.as_s16 + 0x100) >> 9) & 7],
+                ((gameWork.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         {
 
@@ -153,7 +153,7 @@ increment_state:
         }
 
         dungeonStatus.unk_0A--;
-        entity->unk_1C.as_u32 &= ~0x200;
+        entity->flags1C &= ~0x200;
         if (actor->unk_A7 != 0) {
             actor->unk_8C = D_80173B98;
         } else {

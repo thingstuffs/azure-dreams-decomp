@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity_objects.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
@@ -45,8 +47,6 @@ extern void func_8003DE58(s32, u8 *, Vec3s *, s32);
 extern void func_8004491C(void *, void *);
 
 extern u16 D_800281F8;
-extern u8 D_80082E80[];
-extern u8 D_80083780[];
 extern s32 D_800CEEFC;
 extern s32 *D_800E3D18;
 
@@ -205,7 +205,7 @@ main_phase:
     S16(state, 0x3A) = 0xA0;
     U16(state, 0x30)--;
     if (S16(state, 0x30) <= 0) {
-        u8 *base = D_80083780;
+        EntityRec *base = &D_80083780;
         s32 tableAddress;
         color.x = U16(base, 2);
         color.y = U16(base, 6);
@@ -215,7 +215,7 @@ main_phase:
         tableAddress += (s32)D_800E3D18;
         func_8003DE58(
             *(s32 *)tableAddress,
-            D_80082E80,
+            ((u8 *)(&D_80082E80)),
             &effect,
             0);
         color.x += effect.x;

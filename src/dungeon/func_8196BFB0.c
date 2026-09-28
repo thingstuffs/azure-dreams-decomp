@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity_objects.h"
 #include "shared/object_flags.h"
 
 typedef struct S_8196BFB0_0 {
@@ -46,7 +47,6 @@ extern s32 func_800A45D8(u16 arg0, u16 arg1, s16 arg2);
 extern s16 func_800BCB04(u16 arg0, u16 arg1, s16 arg2);
 
 extern s16 D_800269B4;
-extern u8 D_80083780[];
 
 /* Updates and renders a shrinking object with collision and lifetime checks. */
 void func_8196BFB0(void *object, void *position, void *render_state)
@@ -57,7 +57,6 @@ void func_8196BFB0(void *object, void *position, void *render_state)
     s32 collide_x;
     s32 collide_y;
     s32 collide_z;
-    u8 *camera;
 
     ((S_8196BFB0_0 *)position)->unk_00.at00.v += ((S_8196BFB0_1 *)object)->unk_8C;
     ((S_8196BFB0_1 *)object)->unk_8C += ((S_8196BFB0_1 *)object)->unk_98;
@@ -114,11 +113,10 @@ void func_8196BFB0(void *object, void *position, void *render_state)
         ((S_8196BFB0_2 *)render_state)->unk_1E.s = scale_y;
     }
 
-    camera = D_80083780;
     func_80024AF8(object, position, render_state,
-                  (s16)(((S_8196BFB0_0 *)position)->unk_00.at02.v - ((S_8196BFB0_3 *)camera)->unk_02),
-                  (s16)(((S_8196BFB0_0 *)position)->unk_04.at02.v - ((S_8196BFB0_3 *)camera)->unk_06),
-                  (s16)(((S_8196BFB0_0 *)position)->unk_08.at02p.v - ((S_8196BFB0_3 *)camera)->unk_0A));
+                  (s16)(((S_8196BFB0_0 *)position)->unk_00.at02.v - ((u16)D_80083780.x.w.i)),
+                  (s16)(((S_8196BFB0_0 *)position)->unk_04.at02.v - ((u16)D_80083780.y.w.i)),
+                  (s16)(((S_8196BFB0_0 *)position)->unk_08.at02p.v - ((u16)D_80083780.z.w.i)));
 
     if (--((S_8196BFB0_1 *)object)->unk_2C <= 0) {
         (*(u16 *)((u8 *)object + -2)) |= 0x8000;

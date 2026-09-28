@@ -33,7 +33,7 @@ def split_ext(s):
     return body, ext
 def names_map():
     m = {}
-    for l in [x for f in ("names_add.tsv", "names_add2.tsv", "names_add3.tsv", "names_add4.tsv") if (LANE_ / f).exists() for x in open(LANE_ / f)]:
+    for l in [x for f in ("names_add.tsv", "names_add2.tsv", "names_add3.tsv", "names_add4.tsv", "names_add5.tsv") if (LANE_ / f).exists() for x in open(LANE_ / f)]:
         c = l.rstrip("\n").split("\t")
         if len(c) >= 3: m[c[2]] = c[1]
     return m
@@ -41,7 +41,11 @@ def inline_and_respell(text):
     def inc(m):
         p = INC / m.group(1)
         return p.read_text() if p.is_file() else m.group(0)
-    t = re.sub(r'^#include "(shared/[^"]+)"[^\n]*$', inc, text, flags=re.M)
+    t = text
+    for _ in range(4):      # shared headers may include each other
+        t2 = re.sub(r'^#include "(shared/[^"]+)"[^\n]*$', inc, t, flags=re.M)
+        if t2 == t: break
+        t = t2
     for new, old in names_map().items(): t = re.sub(r"\b%s\b" % new, old, t)
     return t
 def check(row, cand_text, score=True):

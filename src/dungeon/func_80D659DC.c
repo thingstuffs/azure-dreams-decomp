@@ -1,5 +1,5 @@
 #include "common.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 
 
@@ -97,7 +97,7 @@ typedef struct S_80D659DC_5 {
 } S_80D659DC_5;   /* temp_a2 in func_80D659DC */
 
 /* Spawns an effect offset from the source with randomized velocity biased along the given angle. */
-void func_80D659DC(Rec_D_800E3D7C *source, u32 angle, s32 effect_param) {
+void func_80D659DC(EntityRec *source, u32 angle, s32 effect_param) {
     S_80D659DC_1 *position_x;
     S_80D659DC_3 *position_y;
     S_80D659DC_4 *velocity_x;
@@ -111,11 +111,11 @@ void func_80D659DC(Rec_D_800E3D7C *source, u32 angle, s32 effect_param) {
         base = &effect->base;
         ((S_80D659DC_0 *)effect)->unk_10 = &D_800D707C;
         ((S_80D659DC_8 *)(((S_80D659DC_6 *)effect)->unk_08))->unk_02 = (u16)
-            ((S_80D659DC_9 *)(source->unk_08.at00_pv.v))->unk_02;
+            ((S_80D659DC_9 *)((*(void * *)&source->z)))->unk_02;
         ((S_80D659DC_8 *)(((S_80D659DC_6 *)effect)->unk_08))->unk_06 = (u16)
-            ((S_80D659DC_9 *)(source->unk_08.at00_pv.v))->unk_06;
+            ((S_80D659DC_9 *)((*(void * *)&source->z)))->unk_06;
         ((S_80D659DC_8 *)(((S_80D659DC_6 *)effect)->unk_08))->unk_0A = (s16)
-            (((S_80D659DC_9 *)(source->unk_08.at00_pv.v))->unk_0A - 0x58);
+            (((S_80D659DC_9 *)((*(void * *)&source->z)))->unk_0A - 0x58);
         direction = (void *)D_800E2468 + ((angle >> 7) & 0x1C);
         position_x = ((S_80D659DC_0 *)effect)->unk_08;
         position_x->unk_02 = (u16)

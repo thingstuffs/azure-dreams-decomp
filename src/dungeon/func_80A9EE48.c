@@ -2,7 +2,7 @@
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 
 
@@ -131,7 +131,7 @@ typedef struct S_80174648_11 {
 } S_80174648_11;   /* ((S_80174648_7 *)obj)->unk_2C + index in func_80174648 */
 
 /* Advances an actor's effect sequence and child animation, then restores its facing. */
-void func_80174648(void *effect_state, Rec_D_800E3D7C *position, Rec_D_80082E80 *entity, void *actor)
+void func_80174648(void *effect_state, EntityRec *position, Rec_D_80082E80 *entity, void *actor)
 {
     static void *const state_labels[] = {
         &&case_0, &&case_1, &&case_2, &&case_3, &&case_4,
@@ -225,10 +225,10 @@ case_3:
     func_8004491C(effect_work, D_801740F4);
     color = 0x00808080;
     ((S_80174648_0 *)effect_state)->unk_AC = effect_work;
-    ((S_80174648_9 *)(effect_work->unk_08))->unk_00 = position->unk_00.at00_s32.v;
-    ((S_80174648_9 *)(effect_work->unk_08))->unk_04 = position->unk_04.at00_s32.v;
+    ((S_80174648_9 *)(effect_work->unk_08))->unk_00 = position->x.v;
+    ((S_80174648_9 *)(effect_work->unk_08))->unk_04 = position->y.v;
     ((S_80174648_9 *)(effect_work->unk_08))->unk_08 =
-        (pos_z = position->unk_08.at00_s32.v, D_80174D14[0] = 5, pos_z);
+        (pos_z = position->z.v, D_80174D14[0] = 5, pos_z);
     effect_work = effect_work->unk_0C.p;
     effect_work->unk_1E = 0x1000;
     effect_work->unk_1C = 0x1000;

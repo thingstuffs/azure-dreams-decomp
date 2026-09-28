@@ -2,7 +2,7 @@
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 
 typedef struct S_80174BEC_0_pre {
@@ -154,9 +154,9 @@ void func_80174BEC(void *state, void *source_pos, void *source_render, void *act
     }
 
 initialize:
-    ((Rec_D_800E3D7C *)source_pos)->unk_14.as_s32 = 0;
-    ((Rec_D_800E3D7C *)source_pos)->unk_10.at00_s32.v = 0;
-    ((Rec_D_800E3D7C *)source_pos)->unk_0C.as_s32 = 0;
+    ((EntityRec *)source_pos)->flags14 = 0;
+    ((EntityRec *)source_pos)->unk_10 = 0;
+    ((EntityRec *)source_pos)->unk_0C = 0;
     ((S_80174BEC_0 *)state)->unk_96.s = 0;
     ((S_80174BEC_0 *)state)->unk_9B++;
     ((Rec_D_80082E80 *)source_render)->unk_14.at00_u16.v &= 0x9FFF;
@@ -219,9 +219,9 @@ spawn_particles:
                     func_80047784(render, animation, 0);
 
                     position = ((S_80174BEC_4 *)particle)->unk_08;
-                    ((S_80174BEC_6 *)position)->unk_02 = ((Rec_D_800E3D7C *)source_pos)->unk_00.at02_u16.v;
-                    ((S_80174BEC_6 *)position)->unk_06 = ((Rec_D_800E3D7C *)source_pos)->unk_04.at02_u16.v;
-                    ((S_80174BEC_6 *)position)->unk_0A = ((Rec_D_800E3D7C *)source_pos)->unk_08.at02_u16.v;
+                    ((S_80174BEC_6 *)position)->unk_02 = ((u16)((EntityRec *)source_pos)->x.w.i);
+                    ((S_80174BEC_6 *)position)->unk_06 = ((u16)((EntityRec *)source_pos)->y.w.i);
+                    ((S_80174BEC_6 *)position)->unk_0A = ((u16)((EntityRec *)source_pos)->z.w.i);
 
                     map = ((S_80174BEC_0_pre *)state)[-1].unk_00;
                     if (func_8003DF74(((S_80174BEC_7 *)map)->unk_08, map, &map_offset, 1)) {
@@ -298,9 +298,9 @@ spawn_particles:
                     ((S_80174BEC_5 *)render)->unk_14 |= 2;
 
                     position = ((S_80174BEC_4 *)particle)->unk_08;
-                    ((S_80174BEC_6 *)position)->unk_02 = ((Rec_D_800E3D7C *)source_pos)->unk_00.at02_u16.v;
-                    ((S_80174BEC_6 *)position)->unk_06 = ((Rec_D_800E3D7C *)source_pos)->unk_04.at02_u16.v;
-                    ((S_80174BEC_6 *)position)->unk_0A = ((Rec_D_800E3D7C *)source_pos)->unk_08.at02_u16.v;
+                    ((S_80174BEC_6 *)position)->unk_02 = ((u16)((EntityRec *)source_pos)->x.w.i);
+                    ((S_80174BEC_6 *)position)->unk_06 = ((u16)((EntityRec *)source_pos)->y.w.i);
+                    ((S_80174BEC_6 *)position)->unk_0A = ((u16)((EntityRec *)source_pos)->z.w.i);
 
                     map = ((S_80174BEC_0_pre *)state)[-1].unk_00;
                     if (func_8003DE58(((S_80174BEC_7 *)map)->unk_08, map, &map_offset, 1)) {
@@ -361,9 +361,9 @@ wait_for_animation:
     if (((Rec_D_80082E80 *)source_render)->unk_14.at00_u16.v & 0xE000) {
         s32 direction_index;
 
-        ((Rec_D_800E3D7C *)source_pos)->unk_14.as_s32 = 0;
-        ((Rec_D_800E3D7C *)source_pos)->unk_10.at00_s32.v = 0;
-        ((Rec_D_800E3D7C *)source_pos)->unk_0C.as_s32 = 0;
+        ((EntityRec *)source_pos)->flags14 = 0;
+        ((EntityRec *)source_pos)->unk_10 = 0;
+        ((EntityRec *)source_pos)->unk_0C = 0;
         func_800A2B04(source_pos, ((Rec_D_80082E80 *)source_render)->unk_24, ((Rec_D_80082E80 *)source_render)->unk_25);
         if (((Rec_D_80082E80 *)source_render)->unk_2C.as_pu8 != D_801753BC) {
             ((Rec_D_80082E80 *)source_render)->unk_2C.as_pu8 = D_801753BC;

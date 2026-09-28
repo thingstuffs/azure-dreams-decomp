@@ -2,7 +2,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 typedef struct S_801726A4_0 {
     u8 pad_00[0x8C];
@@ -71,7 +71,7 @@ state_one:
     if (sprite_flags & 0x8000) {
         ((S_801726A4_0 *)action)->unk_9B = 3;
         ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x6000;
-        func_8009C12C(actor, sprite, ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16, 1);
+        func_8009C12C(actor, sprite, ((EntityRec *)actor)->facing, 1);
         return;
     }
 
@@ -81,7 +81,7 @@ state_one:
             ((S_801726A4_3 *)motion)->unk_14 = 0;
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80176600;
         func_80047784(sprite,
-            D_80176600[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            D_80176600[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
         func_80174690((u8 *)action - 0x20);
         ((S_801726A4_0 *)action)->unk_96 = 0;
@@ -97,13 +97,13 @@ state_two:
 
     if ((s16)frame_count == state ||
         (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
-        func_8009C12C(actor, sprite, ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16, 1);
+        func_8009C12C(actor, sprite, ((EntityRec *)actor)->facing, 1);
     }
 
     if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) {
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80176668;
         func_80047784(sprite,
-            D_80176668[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            D_80176668[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
         ((S_801726A4_0 *)action)->unk_9B++;
         ((S_801726A4_0 *)action)->unk_98 &= 0xFFFE;

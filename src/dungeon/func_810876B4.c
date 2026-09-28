@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "records/Rec_func_800AA258_arg2.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 typedef struct { s32 word[4]; } Copy16;
 
@@ -60,7 +60,7 @@ extern s32 func_8003DE58(s32, void *, u16 *, s32);
 extern u8 D_80174D24[9];
 
 /* Create a render object, copy its source state, and apply queried position offsets. */
-s32 func_80174EB4(s32 priority, Rec_D_800E3D7C *source_state, Rec_func_800AA258_arg2 *render_data) {
+s32 func_80174EB4(s32 priority, EntityRec *source_state, Rec_func_800AA258_arg2 *render_data) {
     u16 offsets[3];
     void *object;
     S_80174EB4_5 *state;
@@ -97,8 +97,8 @@ s32 func_80174EB4(s32 priority, Rec_D_800E3D7C *source_state, Rec_func_800AA258_
             *(Copy16 *)state = *(Copy16 *)source_state;
             offset_out = offsets;
             ASM_KEEP(offset_out);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            copy_word_1 = source_state->unk_14.as_s32;
-            state->unk_10 = source_state->unk_10.at00_s32.v;
+            copy_word_1 = source_state->flags14;
+            state->unk_10 = source_state->unk_10;
             state->unk_14 = copy_word_1;
 
             offsets[2] = 0;

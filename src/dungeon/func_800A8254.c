@@ -1,6 +1,7 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/dungeon_status.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 
 
@@ -14,7 +15,6 @@ extern void func_800A9A0C(void *, void *);
 extern void func_800AAA28(void *, void *);
 extern s16 func_800B500C(u8, u8, s16);
 
-extern u8 D_80082E80[];
 extern DungeonEntry D_800E3648[];
 
 
@@ -39,7 +39,7 @@ typedef struct S_800AD9B4_3 {
 /* Process an eligible dungeon entry and apply its state updates. */
 s32 func_800AD9B4(Rec_D_80082E80 *actor, void *target)
 {
-    u8 *player;
+    TileObject *player;
     DungeonGlobalStatus *dungeon_state;
     DungeonEntry *entries;
     s32 entry_index;
@@ -49,8 +49,8 @@ s32 func_800AD9B4(Rec_D_80082E80 *actor, void *target)
     if (((S_800AD9B4_0_pre *)target)[-1].unk_00 & 0x8000) {
         goto skip;
     }
-    player = D_80082E80;
-    if (((S_800AD9B4_1 *)player)->unk_26 == actor->unk_26.as_s8) {
+    player = &D_80082E80;
+    if (player->unk_026 == actor->unk_26.as_s8) {
         goto process_entry;
     }
     if (func_8009FD40(player, actor) < 7) {
@@ -61,13 +61,13 @@ skip:
     return 1;
 
 process_entry:
-    if (((Rec_D_800E3D7C *)target)->unk_24.at01_u8.v == 0) {
+    if (((EntityRec *)target)->tileY == 0) {
         goto skip;
     }
 
     entry_index = func_800B500C(actor->unk_24,
                            actor->unk_25,
-                           ((Rec_D_800E3D7C *)target)->unk_88.as_s16);
+                           ((EntityRec *)target)->unk_88);
     ASM_KEEP(entry_index);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     result = 1;
     if (entry_index >= 0) {
@@ -78,12 +78,12 @@ process_entry:
 
         dungeon_state = &dungeonStatus;
         if (dungeon_state->flags & 0x1000) {
-            adjustment = ((Rec_D_800E3D7C *)target)->unk_71.as_s8;
+            adjustment = ((s8)((EntityRec *)target)->unk_71);
             if (adjustment > 0) {
                 dungeon_state->unk_08 =
                     ((u16)dungeon_state->unk_08) -
-                    (adjustment - ((Rec_D_800E3D7C *)target)->unk_8A.as_u16);
-                ((Rec_D_800E3D7C *)target)->unk_71.as_s8 = 0;
+                    (adjustment - ((u16)((EntityRec *)target)->unk_8A));
+                ((EntityRec *)target)->unk_71 = 0;
             }
         }
 

@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 
 
@@ -37,10 +37,10 @@ s32 func_80171DA0(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, void *
     u16 *status;
     volatile s32 frame_pad[2];
 
-    actor_flags = ((Rec_D_800E3D7C *)actor)->unk_71.as_u8;
+    actor_flags = ((EntityRec *)actor)->unk_71;
     saved_motion_param = motion_param;
     actor_flags &= 0x7F;
-    ((Rec_D_800E3D7C *)actor)->unk_71.as_u8 = actor_flags;
+    ((EntityRec *)actor)->unk_71 = actor_flags;
     do {
         status_page = 0x80080000U;
     } while (0);
@@ -52,7 +52,7 @@ s32 func_80171DA0(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, void *
     sprite = sprite_arg;
 
     target_angle = func_800A04F0(actor, ((S_80171DA0_1 *)sprite)->unk_24,
-                           ((S_80171DA0_1 *)sprite)->unk_25, ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16);
+                           ((S_80171DA0_1 *)sprite)->unk_25, ((EntityRec *)actor)->facing);
     if ((func_800A2CB8(actor, target_angle) << 16) == 0) {
         return 0;
     }
@@ -61,7 +61,7 @@ s32 func_80171DA0(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, void *
     if (status_flags & 0x2000) {
         return -1;
     }
-    if (!(((Rec_D_800E3D7C *)actor)->unk_44.at02_u16.v & 0x8000) && (status_flags & 8)) {
+    if (!(((EntityRec *)actor)->unk_46 & 0x8000) && (status_flags & 8)) {
         return -1;
     }
     if ((u16)(-func_800A0134(target_angle, actor) + 0x40) >= 0x81U) {
@@ -93,13 +93,13 @@ transition_ok:
         effect_table = &D_80173C7C;
         action_state->unk_9B.as_u8 = 0;
         action_state->unk_8C = 0;
-        ((Rec_D_800E3D7C *)actor)->unk_84.as_u8 = effect_lookup;
+        ((EntityRec *)actor)->unk_84 = effect_lookup;
         effect_lookup = 0x80080000U;
         ASM_KEEP(effect_lookup);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        ((Rec_D_800E3D7C *)actor)->unk_85.as_u8 = 0;
+        ((EntityRec *)actor)->unk_85 = 0;
         ((S_80171DA0_1 *)sprite)->unk_2C = effect_table;
         effect_lookup = (s32)*(s16 *)(effect_lookup + 0x3228);
-        actor_angle = ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16;
+        actor_angle = ((EntityRec *)actor)->facing;
         effect_lookup += actor_angle;
         effect_lookup += 0x100;
         effect_lookup = ((s32)effect_lookup >> 9) & 7;
@@ -107,8 +107,8 @@ transition_ok:
         func_80047784(sprite,
                       *(u8 *)effect_lookup,
                       0);
-        ((Rec_D_800E3D7C *)actor)->unk_6D.as_u8--;
-        func_8009C93C(actor, sprite, ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16, 1, 0);
+        ((EntityRec *)actor)->unk_6D--;
+        func_8009C93C(actor, sprite, ((EntityRec *)actor)->facing, 1, 0);
         return 1;
     }
 }

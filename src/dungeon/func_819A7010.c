@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity_objects.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 
@@ -47,8 +49,6 @@ typedef struct S_80024810_1 {
 
 
 /* micro-lane E 2026-08-14: true base 0x80024810 (delta 0x7E65D800) */
-extern s16 D_80083780[];
-extern s32 D_80082E80[];
 s32 func_8003DE58();       /* extern */
 s32 rand();                                /* extern */
 
@@ -67,10 +67,10 @@ void func_80024810(void *effect) {
     ((S_80024810_0 *)effect)->unk_24 = (u16) ((S_80024810_3 *)(target->unk_08))->unk_02;
     ((S_80024810_0 *)effect)->unk_26 = (u16) ((S_80024810_3 *)(target->unk_08))->unk_06;
     ((S_80024810_0 *)effect)->unk_28 = (s16) (((S_80024810_3 *)(target->unk_08))->unk_0A - 0x20);
-    ((S_80024810_0 *)effect)->unk_04 = (u16) D_80083780[1];
-    ((S_80024810_0 *)effect)->unk_06 = (u16) D_80083780[3];
-    ((S_80024810_0 *)effect)->unk_08 = (u16) D_80083780[5];
-    if (func_8003DE58(D_80082E80[2], D_80082E80, coord_delta, 0) != 0) {
+    ((S_80024810_0 *)effect)->unk_04 = (u16) D_80083780.x.w.i;
+    ((S_80024810_0 *)effect)->unk_06 = (u16) D_80083780.y.w.i;
+    ((S_80024810_0 *)effect)->unk_08 = (u16) D_80083780.z.w.i;
+    if (func_8003DE58(D_80082E80.unk_008, ((s32 *)(&D_80082E80)), coord_delta, 0) != 0) {
         ((S_80024810_0 *)effect)->unk_04 = (u16) (((S_80024810_0 *)effect)->unk_04 + coord_delta[0]);
         ((S_80024810_0 *)effect)->unk_06 = (u16) (((S_80024810_0 *)effect)->unk_06 + coord_delta[1]);
         ((S_80024810_0 *)effect)->unk_08 = (u16) (((S_80024810_0 *)effect)->unk_08 + coord_delta[2]);

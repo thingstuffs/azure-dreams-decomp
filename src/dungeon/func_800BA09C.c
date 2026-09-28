@@ -1,4 +1,7 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity_objects.h"
+#include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -10,8 +13,6 @@ typedef struct {
     u8 pad_E[6];
 } DungeonRecord;
 
-extern u8 D_80082E80[];
-extern u8 D_80083780[];
 extern u16 D_800DDE84[];
 extern u8 D_800E12D6[];
 extern u8 D_800E1303[];
@@ -59,15 +60,15 @@ s32 func_800BF7FC(void *target, u8 *item, s16 action, s32 action_param)
     }
 
     if (target == ((u8 *)D_800E3D7C)) {
-        ((Rec_D_800E3D7C *)target)->unk_110 = (s32)item;
-        func_8008D344(target, D_80083780, D_80082E80, target);
+        ((EntityRec *)target)->unk_110 = (s32)item;
+        func_8008D344(target, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), target);
         return 0;
     }
 
     if ((u32)target <= 0x9FFFFFFF) {
         func_800A6480(target, (s32)item, action);
         if (func_800AD6FC(target,
-                         D_800DDE84[((Rec_D_800E3D7C *)target)->unk_10.at03_u8.v] & 3,
+                         D_800DDE84[(*(u8 *)((u8 *)&((EntityRec *)target)->unk_10 + 3))] & 3,
                          (s32)item) == 0) {
             func_800A5F38(target, (s32)item);
             return 1;
@@ -78,7 +79,7 @@ s32 func_800BF7FC(void *target, u8 *item, s16 action, s32 action_param)
         if (record_index >= 0 && !(D_800E2970[record_index].flags & 2)) {
             if (func_800C4EB4(((S_800BF7FC_1 *)record_obj)->unk_24,
                              ((S_800BF7FC_1 *)record_obj)->unk_25,
-                             ((Rec_D_800E3D7C *)target)->unk_88.as_s16,
+                             ((EntityRec *)target)->unk_88,
                              item[0], record_index) == 0) {
                 return 0;
             }

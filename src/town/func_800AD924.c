@@ -1,17 +1,9 @@
 #include "common.h"
+#include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
 #ifndef NULL
 #define NULL 0
 #endif
-
-typedef struct {
-    s16 pad0;
-    u16 f2;
-    s16 pad4;
-    u16 f6;
-    s16 pad8;
-    u16 fA;
-} S_80083780;
 
 extern void *func_8009C390(s32 arg0, s32 arg1, void *arg2, s32 arg3);
 extern s32 func_800AAE98(void *arg0);
@@ -20,7 +12,6 @@ extern void func_800C2E84(void *arg0, s32 arg1, void *arg2);
 extern void func_80033CD8(void *arg0, void *arg1);
 
 extern s32 D_80081458[];
-extern S_80083780 D_80083780;
 extern u8 D_800AB1E0[];
 extern u8 D_800AB708[];
 extern u8 D_800D1200[];
@@ -45,8 +36,8 @@ void func_800AB084(void) {
         *(s16 *)(state + 0x90) = 0;
         *(void **)(state + 0x50) = D_800AB708;
         *(s16 *)(state + 0x6A) = 0;
-        *(u16 *)(position + 2) = (u16) D_80083780.f2;
-        *(u16 *)(position + 6) = (u16) D_80083780.f6;
-        *(s16 *)(position + 0xA) = (s16) (D_80083780.fA - func_800AAE98(position));
+        *(u16 *)(position + 2) = (u16) ((u16)D_80083780.x.w.i);
+        *(u16 *)(position + 6) = (u16) ((u16)D_80083780.y.w.i);
+        *(s16 *)(position + 0xA) = (s16) (((u16)D_80083780.z.w.i) - func_800AAE98(position));
     }
 }

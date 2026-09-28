@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity_objects.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
@@ -22,8 +24,6 @@ typedef struct S_800C30D4_1 {
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern u8 D_80083780[12];
-extern u8 D_80082E80[];
 extern u8 D_800DDE84[];
 M2C_UNK func_8008D330(void *arg0, void *arg1, void *arg2, void *arg3);          /* extern */
 M2C_UNK func_80098B38();                         /* extern */
@@ -41,7 +41,7 @@ s32 func_800C30D4(void *entity, s32 item, s16 action_type) {
 
     if (entity == ((u8 *)D_800E3D7C)) {
         ((S_800C30D4_0 *)((u8 *)entity - 0x14))->unk_124 = item;
-        func_8008D330(entity, D_80083780, D_80082E80, entity);
+        func_8008D330(entity, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), entity);
         return 0;
     }
     if ((u32) entity <= 0x9FFFFFFFU) {

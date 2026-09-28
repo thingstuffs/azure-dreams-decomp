@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
@@ -10,7 +12,6 @@ extern void func_8004491C(void *, void *);
 extern s32 func_8003DE58(void *, void *, void *, s32);
 extern s32 func_800644B8(s32);
 
-extern u8 D_80082E80[];
 extern s32 *D_800E3D18;
 
 
@@ -151,13 +152,13 @@ state_two:
         ((S_800240F0_2 *)motion)->unk_0C = ((S_800240F0_3 *)position)->unk_00.at00.v;
         ((S_800240F0_2 *)motion)->unk_10 = ((S_800240F0_3 *)position)->unk_04.at00.v;
     }
-    ((S_800240F0_2 *)motion)->unk_14 = (((Rec_D_800814A8 *)D_800814A8)->unk_88.as_s16 - 0x50) << 16;
+    ((S_800240F0_2 *)motion)->unk_14 = (((EntityRec *)D_800814A8)->unk_88 - 0x50) << 16;
 
     {
         s32 angle_index;
-        angle_index = (gameWork.viewAngle + ((Rec_D_800814A8 *)D_800814A8)->unk_2A.as_s16 + 0x100) >> 7;
+        angle_index = (gameWork.viewAngle + ((EntityRec *)D_800814A8)->facing + 0x100) >> 7;
         if (func_8003DE58(*(void **)((angle_index & 0x1C) + (s32)D_800E3D18),
-                          D_80082E80, offset, 0) != 0) {
+                          ((u8 *)(&D_80082E80)), offset, 0) != 0) {
             ((S_800240F0_2 *)motion)->unk_0C += ((s16 *)offset)[0] << 16;
             ((S_800240F0_2 *)motion)->unk_10 += ((s16 *)offset)[1] << 16;
             ((S_800240F0_2 *)motion)->unk_14 += ((s16 *)offset)[2] << 16;

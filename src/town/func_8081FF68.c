@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
 
@@ -20,7 +21,6 @@ typedef struct State8081FF68 {
 
 extern u8 D_80020224[];
 extern void *D_80020244[8];
-extern u8 D_80083780[];
 extern s32 D_80012D5C[];
 extern s32 D_80024638[];
 extern s16 D_80024630[8];
@@ -178,7 +178,7 @@ void func_80022768(State8081FF68 *state, void *position)
     payout_callback = D_80020224;
 
     if ((u32)((u16)((S_80022768_0 *)state)->unk_5C.u - 2) < 5U) {
-        s16 *angles = (s16 *)D_80083780;
+        s16 *angles = (s16 *)((u8 *)(&D_80083780));
 
         angle = func_800C2AE8(angles);
         if (angle > 0) {

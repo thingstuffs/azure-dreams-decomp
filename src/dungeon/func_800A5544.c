@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/dir_step.h"
 #include "records/Rec_func_800A9E70_arg0.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 
 
@@ -75,7 +75,7 @@ typedef struct S_800AACA4_11 {
 } S_800AACA4_11;   /* ((S_800AACA4_2_pre *)root)[-1].unk_00 in func_800AACA4 */
 
 /* Initialize movement from the source object, set vertical speed, and advance the tile. */
-void func_800AACA4(Rec_func_800A9E70_arg0 *state, Rec_D_800E3D7C *motion, Rec_D_80082E80 *tile, S_800AACA4_1 *entity) {
+void func_800AACA4(Rec_func_800A9E70_arg0 *state, EntityRec *motion, Rec_D_80082E80 *tile, S_800AACA4_1 *entity) {
     LocalResult height_adjustment;
     S_800AACA4_3 *source_object;
     void *entity_data;
@@ -105,7 +105,7 @@ void func_800AACA4(Rec_func_800A9E70_arg0 *state, Rec_D_800E3D7C *motion, Rec_D_
     }
 
     entity_data = entity->unk_60;
-    motion->unk_08.at02_s16.v = ((S_800AACA4_11 *)(((S_800AACA4_2_pre *)entity_data)[-1].unk_00))->unk_0A + height_adjustment.value;
+    motion->z.w.i = ((S_800AACA4_11 *)(((S_800AACA4_2_pre *)entity_data)[-1].unk_00))->unk_0A + height_adjustment.value;
     tile->unk_24 = source_object->unk_24;
     tile->unk_25 = source_object->unk_25;
     func_800A2B04(motion, tile->unk_24, tile->unk_25);
@@ -118,13 +118,13 @@ void func_800AACA4(Rec_func_800A9E70_arg0 *state, Rec_D_800E3D7C *motion, Rec_D_
         target_height = func_800BCB04(
             ((tile->unk_24 + (*(s16 *)((u8 *)(((s8 *)dirStepX)) + target_offset)) * travel_steps) << 6) + 0x20 & 0xFFE0,
             ((tile->unk_25 + (*(s16 *)((u8 *)(((s8 *)dirStepY)) + target_offset)) * travel_steps) << 6) + 0x20 & 0xFFE0,
-            motion->unk_08.at02_s16.v);
+            motion->z.w.i);
         travel_duration = entity->unk_8A.u + 2;
         entity->unk_8A.s = travel_duration;
         if (target_height < 0x200) {
-            motion->unk_14.as_s32 = -((motion->unk_08.at02_s16.v - target_height) << 15) / travel_duration;
+            motion->flags14 = -((motion->z.w.i - target_height) << 15) / travel_duration;
         } else {
-            motion->unk_14.as_s32 = -((motion->unk_08.at02_s16.v - ((S_800AACA4_8 *)(entity->unk_60))->unk_88) << 15) / travel_duration;
+            motion->flags14 = -((motion->z.w.i - ((S_800AACA4_8 *)(entity->unk_60))->unk_88) << 15) / travel_duration;
         }
         entity->unk_8A.s = entity->unk_8A.u - 2;
     }

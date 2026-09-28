@@ -1,7 +1,8 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 
 extern s32 func_800419EC();
@@ -12,7 +13,6 @@ extern s32 func_800997FC();
 extern s32 func_800A2B04();
 
 extern u16 D_80013714;
-extern u8 D_80082E80[];
 extern s32 D_80083460_count __asm__("D_80083460");
 extern s32 D_8008ACDC;
 extern u8 D_800DCFF8[];
@@ -81,7 +81,6 @@ typedef struct S_80092E90_9 {
 /* Move toward the target tile, process matching list entries, and advance the effect state. */
 void func_80092E90(void *controller, void *motion, void *actor, void *entry)
 {
-    register void *player;
     s32 found_match;
     s32 tile_origin;
     s32 target_pos;
@@ -96,17 +95,17 @@ void func_80092E90(void *controller, void *motion, void *actor, void *entry)
     move_frames = dungeonStatus.unk_04;
     if (move_frames != 0) {
         target_pos = ((S_80092E90_1 *)actor)->unk_24 << 6;
-        tile_origin = ((Rec_D_800E3D7C *)motion)->unk_00.at02_s16.v - 0x20;
-        ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 =
+        tile_origin = ((EntityRec *)motion)->x.w.i - 0x20;
+        ((EntityRec *)motion)->unk_0C =
             ((target_pos - tile_origin) << 16) / move_frames;
-        tile_origin = ((Rec_D_800E3D7C *)motion)->unk_04.at02_s16.v;
+        tile_origin = ((EntityRec *)motion)->y.w.i;
         tile_origin -= 0x20;
         target_pos = ((S_80092E90_1 *)actor)->unk_25 << 6;
-        ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v =
+        ((EntityRec *)motion)->unk_10 =
             ((target_pos - tile_origin) << 16) / dungeonStatus.unk_04;
     } else {
-        ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
-        ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = 0;
+        ((EntityRec *)motion)->unk_0C = 0;
+        ((EntityRec *)motion)->unk_10 = 0;
     }
     count_state = &D_80083460_count;
     frames_left = ((S_80092E90_3 *)count_state)->unk_04.n;
@@ -146,9 +145,8 @@ finish_effect:
     found_match = 0;
     if (!((*(u16 *)0x80013714) & 8)) {
         node = (u8 *)((S_80092E90_5 *)entry)->unk_5C + 0x20;
-        player = D_80082E80;
         do {
-            if ((((S_80092E90_6 *)player)->unk_26 ==
+            if ((D_80082E80.unk_026 ==
                  ((S_80092E90_9 *)(((S_80092E90_7_pre *)node)[-1].unk_00))->unk_26) &&
                 ((func_80042900(node, 1) << 16) != 0)) {
                 func_80042B68(node, 1);
@@ -169,9 +167,9 @@ finish_effect:
         }
     }
 
-    ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0;
-    ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = 0;
-    ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
+    ((EntityRec *)motion)->flags14 = 0;
+    ((EntityRec *)motion)->unk_10 = 0;
+    ((EntityRec *)motion)->unk_0C = 0;
     func_800A2B04(motion, ((S_80092E90_1 *)actor)->unk_24, ((S_80092E90_1 *)actor)->unk_25);
     ((S_80092E90_4 *)controller)->unk_8C = &D_8008ACDC;
     dungeonStatus.unk_0A--;

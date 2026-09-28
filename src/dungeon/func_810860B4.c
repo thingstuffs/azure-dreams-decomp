@@ -2,7 +2,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 
 typedef s32 M2C_UNK;
@@ -207,9 +207,9 @@ apply_item:
     goto done;
 
 empty_item:
-    ((Rec_D_800E3D7C *)scene_object)->unk_14.as_s32 = 0;
-    ((Rec_D_800E3D7C *)scene_object)->unk_10.at00_s32.v = 0;
-    ((Rec_D_800E3D7C *)scene_object)->unk_0C.as_s32 = 0;
+    ((EntityRec *)scene_object)->flags14 = 0;
+    ((EntityRec *)scene_object)->unk_10 = 0;
+    ((EntityRec *)scene_object)->unk_0C = 0;
     func_800A2B04(scene_object, ((S_801738B4_2 *)entity)->unk_24, ((S_801738B4_2 *)entity)->unk_25);
     active_object = D_800814A8;
     dungeonStatus.unk_0C = 0;
@@ -257,9 +257,9 @@ state_3:
         goto epilogue;
     }
 
-    ((Rec_D_800E3D7C *)scene_object)->unk_14.as_s32 = 0;
-    ((Rec_D_800E3D7C *)scene_object)->unk_10.at00_s32.v = 0;
-    ((Rec_D_800E3D7C *)scene_object)->unk_0C.as_s32 = 0;
+    ((EntityRec *)scene_object)->flags14 = 0;
+    ((EntityRec *)scene_object)->unk_10 = 0;
+    ((EntityRec *)scene_object)->unk_0C = 0;
     func_800A2B04(scene_object, ((S_801738B4_2 *)entity)->unk_24, ((S_801738B4_2 *)entity)->unk_25);
     if (((S_801738B4_2 *)entity)->unk_2C != D_80175F10) {
         (*(u8 * *)((u8 *)entity + 0x2C)) = D_80175F10;

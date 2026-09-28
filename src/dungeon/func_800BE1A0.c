@@ -1,4 +1,7 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity_objects.h"
+#include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
@@ -13,8 +16,6 @@ M2C_UNK func_800A56E0();                     /* extern */
 M2C_UNK func_800A5F38();                 /* extern */
 M2C_UNK func_800A63B8();            /* extern */
 s32 func_800AD6FC();            /* extern */
-extern M2C_UNK D_80082E80;
-extern M2C_UNK D_80083780;
 extern u8 D_800DDE84[];
 extern M2C_UNK D_800E17C6;
 extern M2C_UNK D_800E17EF;
@@ -32,7 +33,7 @@ typedef struct S_800C3900_2 {
 } S_800C3900_2;   /* counter_base in func_800C3900 */
 
 /* Processes an entity action, preserves its state flag, and updates the shared counter. */
-s32 func_800C3900(Rec_D_800E3D7C *entity, s32 action, s16 action_param) {
+s32 func_800C3900(EntityRec *entity, s32 action, s16 action_param) {
     M2C_UNK *counter_page;
     M2C_UNK *counter_base;
     s32 saved_flag;
@@ -41,22 +42,22 @@ s32 func_800C3900(Rec_D_800E3D7C *entity, s32 action, s16 action_param) {
 
     if (entity == ((s32)D_800E3D7C)) {
         entity->unk_110 = action;
-        func_8008D330(entity, &D_80083780, &D_80082E80, entity);
+        func_8008D330(entity, &D_80083780.x.v, &D_80082E80.unk_000, entity);
         return 0;
     }
-    if (((u32) (entity->unk_10.at03_u8.v - 1) < 0x2EU) && ((u32) entity <= 0x9FFFFFFFU)) {
+    if (((u32) ((*(u8 *)((u8 *)&entity->unk_10 + 3)) - 1) < 0x2EU) && ((u32) entity <= 0x9FFFFFFFU)) {
         func_800A63B8(entity, action, action_param);
-        saved_flag = ((u32) entity->unk_1C.as_u32 >> 3) & 1;
-        if (func_800AD6FC(entity, (((u16 *) D_800DDE84)[entity->unk_10.at03_u8.v] >> 6) & 3, 0) == 0) {
+        saved_flag = ((u32) ((u32)entity->flags1C) >> 3) & 1;
+        if (func_800AD6FC(entity, (((u16 *) D_800DDE84)[(*(u8 *)((u8 *)&entity->unk_10 + 3))] >> 6) & 3, 0) == 0) {
             func_800A5F38(entity, action);
             return 1;
         }
         flag_test = saved_flag;
         if (flag_test != 0) {
-            entity->unk_1C.as_u32 = (u32) (entity->unk_1C.as_u32 | 8);
+            entity->flags1C = (u32) (((u32)entity->flags1C) | 8);
         }
-        flags = entity->unk_1C.as_u32;
-        entity->unk_24.at00_s16.v = 0;
+        flags = ((u32)entity->flags1C);
+        (*(s16 *)&entity->tileX) = 0;
         if (!(flags & 8)) {
             flag_test = flags & 0x80000;
             counter_page = (M2C_UNK *)0x80080000;
@@ -68,13 +69,13 @@ s32 func_800C3900(Rec_D_800E3D7C *entity, s32 action, s16 action_param) {
             ((S_800C3900_1 *)counter_page)->unk_0A = (u16) (((S_800C3900_1 *)counter_page)->unk_0A + 1);
         }
         func_800A56E0(0x51E);
-        if (entity->unk_14.as_s32 & 0x4000) {
+        if (entity->flags14 & 0x4000) {
             func_80099844(entity, &D_800E17C6);
         }
         func_80098B38(action);
         goto decrement_counter;
     }
-    if (entity->unk_10.at03_u8.v == 0) {
+    if ((*(u8 *)((u8 *)&entity->unk_10 + 3)) == 0) {
         func_800997FC(&D_800E17EF);
         func_800A56E0(0x506);
         goto decrement_counter;

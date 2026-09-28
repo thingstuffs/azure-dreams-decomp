@@ -1,6 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_func_800A5DFC_arg1.h"
 
 M2C_UNK func_800B4C7C(); /* extern */
@@ -26,27 +26,27 @@ void func_800A5DFC(void *entity, Rec_func_800A5DFC_arg1 *effect_pos) {
     s32 damage;
     u8 max_hp;
 
-    if ((((Rec_D_800E3D7C *)entity)->unk_1C.as_s32 & 0x40) && ((((Rec_D_800E3D7C *)entity)->unk_28 + ((Rec_D_800E3D7C *)entity)->unk_64.as_s16) >= 2)) {
-        max_hp = ((Rec_D_800E3D7C *)entity)->unk_29;
+    if ((((EntityRec *)entity)->flags1C & 0x40) && ((((EntityRec *)entity)->unk_28 + ((EntityRec *)entity)->unk_64) >= 2)) {
+        max_hp = ((EntityRec *)entity)->unk_29;
         rounded_hp = max_hp + 0xF;
-        ((Rec_D_800E3D7C *)entity)->unk_6A.as_s16 = (s16) (((Rec_D_800E3D7C *)entity)->unk_2A.as_u16 + 0x800);
+        ((EntityRec *)entity)->unk_6A = (s16) (((u16)((EntityRec *)entity)->facing) + 0x800);
         if (rounded_hp < 0) {
             rounded_hp = max_hp + 0x1E;
         }
         damage = rounded_hp >> 4;
-        current_hp = ((Rec_D_800E3D7C *)entity)->unk_28 + ((Rec_D_800E3D7C *)entity)->unk_64.as_s16;
+        current_hp = ((EntityRec *)entity)->unk_28 + ((EntityRec *)entity)->unk_64;
         if ((current_hp - damage) <= 0) {
             damage = current_hp - 1;
         }
         if (damage != 0) {
-            ((Rec_D_800E3D7C *)entity)->unk_1C.as_s32 = (s32) (((Rec_D_800E3D7C *)entity)->unk_1C.as_s32 & 0xDFFFFFFF);
+            ((EntityRec *)entity)->flags1C = (s32) (((EntityRec *)entity)->flags1C & 0xDFFFFFFF);
             if (!(((S_800A5DFC_2 *)(((S_800A5DFC_0_pre *)entity)[-1].unk_00))->unk_14 & 0x8000)) {
                 func_800B4C7C(3, entity, (s16) damage, 0);
-                ((Rec_D_800E3D7C *)entity)->unk_64.as_s16 = (s16) ((u16) ((Rec_D_800E3D7C *)entity)->unk_64.as_s16 - damage);
+                ((EntityRec *)entity)->unk_64 = (s16) ((u16) ((EntityRec *)entity)->unk_64 - damage);
                 func_800C5BBC(effect_pos->unk_02, effect_pos->unk_06, (s16) (effect_pos->unk_0A - 8), 0x802080, 0x20, 1);
                 return;
             }
-            ((Rec_D_800E3D7C *)entity)->unk_28 = (u8) (((Rec_D_800E3D7C *)entity)->unk_28 - damage);
+            ((EntityRec *)entity)->unk_28 = (u8) (((EntityRec *)entity)->unk_28 - damage);
         }
     }
 }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
 
 #ifndef NULL
@@ -46,7 +47,6 @@ typedef struct {
 
 extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *);
-extern s32 D_80083780[];
 extern u8 D_80169754[9];
 extern u8 D_80173B40[12];
 
@@ -87,9 +87,9 @@ void func_80169C1C(void)
         sub_object->unk_14 |= 0xC;
 
         position = (*(Vec3i * *)((u8 *)object + 8));
-        position->x = D_80083780[0];
-        position->y = D_80083780[1];
-        position->z = D_80083780[2];
+        position->x = D_80083780.x.v;
+        position->y = D_80083780.y.v;
+        position->z = D_80083780.z.v;
 
         sub_object = (*(void * *)((u8 *)object + 0xC));
         sub_object->unk_1E = 0x1000;

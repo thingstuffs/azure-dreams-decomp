@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
@@ -135,7 +136,6 @@ s32 func_800A6620();
 M2C_UNK func_800B8FC8();
 s32 func_800BBA40(u8, u8, s16, void *, s32, s32, void *);
 void func_800BC318();
-extern u8 D_80082E80[];
 extern M2C_UNK D_800C0180;
 extern M2C_UNK D_800C27F0;
 extern M2C_UNK D_800CEF54;
@@ -280,7 +280,7 @@ finish_release:
     return;
 state_finish: {
 
-    object_coords = D_80082E80;
+    object_coords = ((u8 *)(&D_80082E80));
     effect_object = D_800E3D7C;
     D_800DF55C = effect_object;
     if (func_800BBA40(((u8 *)object_coords)[0x24], ((u8 *)object_coords)[0x25], ((S_800C2824_8 *)effect_object)->unk_88, &D_800DF45C, 0x2800, 0x208020, &D_800C0180) == 0) {

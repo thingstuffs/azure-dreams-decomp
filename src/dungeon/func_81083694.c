@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -11,8 +12,6 @@ typedef struct TileEntry {
     u8 tail[6];
 } TileEntry;
 
-extern u8 D_80082E80[];
-extern s8 D_80082EA4;
 extern TileEntry D_800E2970[];
 extern void *D_80170808[];
 extern u8 D_80175F10[];
@@ -61,7 +60,6 @@ void func_80170E94(void *actor, void *context, void *sprite, void *stats) {
     u8 *active_anims;
     register u8 *next_anims ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u8 *anim_entry;
-    u8 *leader_sprite;
     static void *const action_labels[] = {
         &&case_1, &&case_1, &&case_1, &&case_default,
         &&case_5, &&case_5, &&case_5, &&case_8,
@@ -163,7 +161,7 @@ state_done:
     if (F(stats, u32, 0x1C) & 0x20) {
         goto kill;
     }
-    if ((F(sprite, u16, 0x24) == *(u16 *)&D_80082EA4) &&
+    if ((F(sprite, u16, 0x24) == *(u16 *)(&D_80082E80.tileX)) &&
         (F(actor, u8, 0xAE) == 0)) {
         func_80175ED4(actor, stats);
         func_801718F8(actor, context, sprite, stats);
@@ -244,7 +242,7 @@ case_5: {
 
         heading = func_800A0818(
             F(sprite, u8, 0x24), F(sprite, u8, 0x25),
-            D_80082E80[0x24], D_80082E80[0x25], &heading_flags);
+            D_80082E80.tileX, D_80082E80.tileY, &heading_flags);
         leader = D_800814A8;
         F(stats, s16, 0x2A) = heading;
         if (F(leader, u8, 0x9A) == 17) {
@@ -285,12 +283,11 @@ health_zero:
         if (flags & 0x430) {
             goto final_checks;
         }
-        leader_sprite = D_80082E80;
         if ((s16)func_8009FD7C(F(sprite, u8, 0x24), F(sprite, u8, 0x25),
-                leader_sprite[0x24], leader_sprite[0x25]) != 0) {
+                D_80082E80.tileX, D_80082E80.tileY) != 0) {
             F(stats, s16, 0x2A) = func_800A0818(
                 F(sprite, u8, 0x24), F(sprite, u8, 0x25),
-                leader_sprite[0x24], leader_sprite[0x25], &heading_flags);
+                D_80082E80.tileX, D_80082E80.tileY, &heading_flags);
         }
         goto final_checks;
 

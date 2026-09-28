@@ -1,6 +1,6 @@
 #include "common.h"
 #include "shared/dungeon_status.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 
 typedef struct S_80173D34_0 {
@@ -28,7 +28,7 @@ extern void func_800AD4D0(void *);
 extern s32 D_80171CE8;
 
 /* Advance a timed entity state transition, clearing motion and updating its handler. */
-void func_80173D34(S_80173D34_0 *controller, Rec_D_800E3D7C *motion, Rec_D_80082E80 *actor, void *entity_data)
+void func_80173D34(S_80173D34_0 *controller, EntityRec *motion, Rec_D_80082E80 *actor, void *entity_data)
 {
     s32 state;
     s32 timer_signed;
@@ -49,11 +49,11 @@ void func_80173D34(S_80173D34_0 *controller, Rec_D_800E3D7C *motion, Rec_D_80082
     }
 
     func_800AD4D0(entity_data);
-    motion->unk_10.at00_s32.v = 0;
-    motion->unk_0C.as_s32 = 0;
+    motion->unk_10 = 0;
+    motion->unk_0C = 0;
     controller->unk_9B++;
 
-    if (((Rec_D_800E3D7C *)entity_data)->unk_28 == 0) {
+    if (((EntityRec *)entity_data)->unk_28 == 0) {
         goto call_update;
     }
     if (actor->unk_14.at00_u16.v & 0x8000) {
@@ -63,7 +63,7 @@ void func_80173D34(S_80173D34_0 *controller, Rec_D_800E3D7C *motion, Rec_D_80082
     }
 
     timer_init = -1;
-    if (((Rec_D_800E3D7C *)entity_data)->unk_1C.as_s32 & 0x228) {
+    if (((EntityRec *)entity_data)->flags1C & 0x228) {
         timer_init = 8;
     }
     controller->unk_96.s = timer_init;
@@ -83,11 +83,11 @@ check_timer:
     if (controller->unk_96.u != 0) {
         goto epilogue;
     }
-    if (((Rec_D_800E3D7C *)entity_data)->unk_28 == 0) {
+    if (((EntityRec *)entity_data)->unk_28 == 0) {
 call_update:
-        motion->unk_14.as_s32 = 0;
-        motion->unk_10.at00_s32.v = 0;
-        motion->unk_0C.as_s32 = 0;
+        motion->flags14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
         func_800AAA54(controller, motion, actor, 0);
         goto epilogue;
     }
@@ -102,9 +102,9 @@ state_two:
         goto epilogue;
     }
 
-    motion->unk_14.as_s32 = 0;
-    motion->unk_10.at00_s32.v = 0;
-    motion->unk_0C.as_s32 = 0;
+    motion->flags14 = 0;
+    motion->unk_10 = 0;
+    motion->unk_0C = 0;
     func_800A2B04(motion, actor->unk_24, actor->unk_25);
 
     if (((s32)dungeonStatus.unk_10) == (s32)((u8 *)entity_data - 0x20)) {

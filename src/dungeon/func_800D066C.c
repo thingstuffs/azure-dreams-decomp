@@ -1,5 +1,5 @@
 #include "common.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 #ifndef NULL
 #define NULL 0
@@ -87,7 +87,7 @@ extern u8 D_800D5CA0[];
 extern s16 D_800E2468[];
 
 /* Spawn an effect offset from the source with randomized directional velocity. */
-void func_800D5DCC(Rec_D_800E3D7C *source, s16 angle, s32 effect_value)
+void func_800D5DCC(EntityRec *source, s16 angle, s32 effect_value)
 {
     S_800D5DCC_2 *pos_x;
     S_800D5DCC_4 *pos_y;
@@ -101,11 +101,11 @@ void func_800D5DCC(Rec_D_800E3D7C *source, s16 angle, s32 effect_value)
     if (effect != NULL) {
         ((S_800D5DCC_0 *)effect)->unk_10 = D_800D5CA0;
         ((S_800D5DCC_8 *)(((S_800D5DCC_0 *)effect)->unk_08))->unk_02 =
-            ((S_800D5DCC_9 *)(source->unk_08.at00_pv.v))->unk_02;
+            ((S_800D5DCC_9 *)((*(void * *)&source->z)))->unk_02;
         ((S_800D5DCC_8 *)(((S_800D5DCC_0 *)effect)->unk_08))->unk_06 =
-            ((S_800D5DCC_9 *)(source->unk_08.at00_pv.v))->unk_06;
+            ((S_800D5DCC_9 *)((*(void * *)&source->z)))->unk_06;
         ((S_800D5DCC_8 *)(((S_800D5DCC_0 *)effect)->unk_08))->unk_0A =
-            ((S_800D5DCC_9 *)(source->unk_08.at00_pv.v))->unk_0A - 0x14;
+            ((S_800D5DCC_9 *)((*(void * *)&source->z)))->unk_0A - 0x14;
         direction = ((angle >> 7) & 0x1C) + (u8 *)D_800E2468;
         pos_x = ((S_800D5DCC_0 *)effect)->unk_08;
         pos_x->unk_02 += direction->unk_00 * 0x10;

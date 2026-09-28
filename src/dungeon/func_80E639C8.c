@@ -4,7 +4,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 
 typedef struct {
@@ -251,9 +251,9 @@ invoke_item:
     goto state_1_done;
 
 empty_selection:
-    ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0;
-    ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = 0;
-    ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
+    ((EntityRec *)motion)->flags14 = 0;
+    ((EntityRec *)motion)->unk_10 = 0;
+    ((EntityRec *)motion)->unk_0C = 0;
     func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
     dungeonStatus.unk_0C = 0;
     (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
@@ -336,7 +336,7 @@ state_2:
                     s32 position_base;
 
                     position_roll = func_80069EF8();
-                    position_base = ((Rec_D_800E3D7C *)motion)->unk_00.at02_u16.v;
+                    position_base = ((u16)((EntityRec *)motion)->x.w.i);
                     position_base -= 0x20;
                     ((S_801731C8_6 *)particle_part)->unk_02 = position_base + (position_roll & 0x3F);
                 }
@@ -345,12 +345,12 @@ state_2:
                     s32 position_base;
 
                     position_roll = func_80069EF8();
-                    position_base = ((Rec_D_800E3D7C *)motion)->unk_04.at02_u16.v;
+                    position_base = ((u16)((EntityRec *)motion)->y.w.i);
                     position_base -= 0x20;
                     ((S_801731C8_6 *)particle_part)->unk_06 = position_base + (position_roll & 0x3F);
                 }
                 ((S_801731C8_6 *)particle_part)->unk_08.at02.v =
-                    ((Rec_D_800E3D7C *)motion)->unk_08.at02_u16.v - (func_80069EF8() & 0x1F) - 0x30;
+                    ((u16)((EntityRec *)motion)->z.w.i) - (func_80069EF8() & 0x1F) - 0x30;
 
                 particle_part = ((S_801731C8_5 *)particle)->unk_0C;
                 {
@@ -411,9 +411,9 @@ state_3:
         if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
             goto end;
         }
-        ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0;
-        ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = 0;
-        ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
+        ((EntityRec *)motion)->flags14 = 0;
+        ((EntityRec *)motion)->unk_10 = 0;
+        ((EntityRec *)motion)->unk_0C = 0;
         func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
         if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 != D_80175554) {
             u8 *animations;

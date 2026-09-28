@@ -2,7 +2,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 extern int abs(int);
 
@@ -91,8 +91,8 @@ void func_801737B0(void *action, void *motion, void *sprite, void *actor) {
     goto *D_80170888[(u32)state];
 
 state_0:
-    if (((Rec_D_800E3D7C *)actor)->unk_1C.as_s32 & 0x2000) {
-        raw_kind = ((Rec_D_800E3D7C *)actor)->unk_44.at02_u16.v & 0x3FFF;
+    if (((EntityRec *)actor)->flags1C & 0x2000) {
+        raw_kind = ((EntityRec *)actor)->unk_46 & 0x3FFF;
         kind_index = raw_kind - 1;
         if (kind_index >= 7U) {
             goto kind_bad;
@@ -110,7 +110,7 @@ kind_5:
         goto kind_1;
     }
 
-    action_kind = ((Rec_D_800E3D7C *)actor)->unk_44.at02_u16.v & 0x3FFF;
+    action_kind = ((EntityRec *)actor)->unk_46 & 0x3FFF;
     if (action_kind == 2) {
         goto kind_2;
     }
@@ -150,12 +150,12 @@ kind_ready:
     direction = use_player_target;
     if (((void *)direction) != 0) {
         direction = (s32)D_800814A8;
-        ((Rec_D_800E3D7C *)actor)->unk_60.as_pv = (void *)direction;
+        ((EntityRec *)actor)->target = (void *)direction;
         goto copy_facing;
     }
 
     if (D_8006DE24[*action_data * 0x14 + 0x12] == 2) {
-        direction = (s32)(((Rec_D_800E3D7C *)actor)->unk_60.as_pv);
+        direction = (s32)(((EntityRec *)actor)->target);
         if (((void *)direction) != 0) {
 copy_facing:
             {
@@ -163,22 +163,22 @@ copy_facing:
 
                 action_kind = (s32)(((S_801737B0_2_pre *)((void *)direction))[-1].unk_00);
                 facing = ((S_801737B0_3 *)((u8 *)action_kind))->unk_24;
-                ((Rec_D_800E3D7C *)actor)->unk_72.as_s8 = facing;
+                ((EntityRec *)actor)->unk_72 = facing;
                 facing = ((S_801737B0_3 *)((u8 *)action_kind))->unk_25;
-                ((Rec_D_800E3D7C *)actor)->unk_73.as_s8 = facing;
+                ((EntityRec *)actor)->unk_73 = facing;
             }
         }
     } else {
 
-        ((Rec_D_800E3D7C *)actor)->unk_60.as_pv = func_800A05A4(
+        ((EntityRec *)actor)->target = func_800A05A4(
             actor,
             ((Rec_D_80082E80 *)sprite)->unk_24,
             ((Rec_D_80082E80 *)sprite)->unk_25,
-            ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16,
+            ((EntityRec *)actor)->facing,
             0x10);
 
-        ((Rec_D_800E3D7C *)actor)->unk_72.as_s8 = abs(((Rec_D_800E3D7C *)actor)->unk_72.as_s8);
-        ((Rec_D_800E3D7C *)actor)->unk_73.as_s8 = abs(((Rec_D_800E3D7C *)actor)->unk_73.as_s8);
+        ((EntityRec *)actor)->unk_72 = abs(((EntityRec *)actor)->unk_72);
+        ((EntityRec *)actor)->unk_73 = abs(((EntityRec *)actor)->unk_73);
     }
 
     if (func_800A94A0(actor, action_data, use_player_target, (u8 *)action + 0x98) == 0) {
@@ -188,18 +188,18 @@ copy_facing:
     goto done;
 
 remove_actor:
-    ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0;
-    ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = 0;
-    ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
+    ((EntityRec *)motion)->flags14 = 0;
+    ((EntityRec *)motion)->unk_10 = 0;
+    ((EntityRec *)motion)->unk_0C = 0;
     func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
     dungeonStatus.unk_0C = 0;
     (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
     func_800A4ACC(actor);
-    ((Rec_D_800E3D7C *)actor)->unk_6D.as_u8--;
+    ((EntityRec *)actor)->unk_6D--;
     ((S_801737B0_0 *)action)->unk_8C = D_80171CE8;
-    ((Rec_D_800E3D7C *)actor)->unk_73.as_s8 = 0;
-    ((Rec_D_800E3D7C *)actor)->unk_72.as_s8 = 0;
-    ((Rec_D_800E3D7C *)actor)->unk_44.at02_u16.v &= 0x7FFF;
+    ((EntityRec *)actor)->unk_73 = 0;
+    ((EntityRec *)actor)->unk_72 = 0;
+    ((EntityRec *)actor)->unk_46 &= 0x7FFF;
     goto done;
 
 state_1:
@@ -282,14 +282,14 @@ state_4:
         goto done;
     }
 
-    ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0;
-    ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = 0;
-    ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
+    ((EntityRec *)motion)->flags14 = 0;
+    ((EntityRec *)motion)->unk_10 = 0;
+    ((EntityRec *)motion)->unk_0C = 0;
     func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
 
     if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pv != D_80174EB8) {
         (*(void * *)((u8 *)sprite + 0x2C)) = D_80174EB8;
-        direction = ((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7;
+        direction = ((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7;
         func_80047784(sprite, D_80174EB8[direction], 0);
     }
     if (((s32)dungeonStatus.unk_0C) != 0) {
@@ -299,10 +299,10 @@ state_4:
     dungeonStatus.unk_0A--;
     ((S_801737B0_0 *)action)->unk_8C = D_80171CE8;
     func_800A4ACC(actor);
-    ((Rec_D_800E3D7C *)actor)->unk_73.as_s8 = 0;
-    ((Rec_D_800E3D7C *)actor)->unk_72.as_s8 = 0;
-    ((Rec_D_800E3D7C *)actor)->unk_6D.as_u8--;
-    ((Rec_D_800E3D7C *)actor)->unk_44.at02_u16.v &= 0x7FFF;
+    ((EntityRec *)actor)->unk_73 = 0;
+    ((EntityRec *)actor)->unk_72 = 0;
+    ((EntityRec *)actor)->unk_6D--;
+    ((EntityRec *)actor)->unk_46 &= 0x7FFF;
     func_800A56E0(0xB4);
 
 done:

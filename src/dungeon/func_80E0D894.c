@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -93,8 +95,6 @@ extern void func_8017294C(void *, void *, void *, void *);
 extern s32 func_80172A5C(void *, void *, void *, s32);
 extern void func_80174520(void *, void *, void *, void *);
 
-extern u8 D_80082E80[];
-extern s8 D_80082EA4;
 extern s8 D_800E2970[];
 extern void *D_80170808[];
 extern u8 D_80170838[16];
@@ -220,14 +220,14 @@ store_98:
         if (((S_80171094_1 *)stats)->unk_1C & 0x20) {
             goto jt_c12;
         }
-        if (((S_80171094_2 *)sprite_arg)->unk_24.at00u.v == *(u16 *)&D_80082EA4) {
+        if (((S_80171094_2 *)sprite_arg)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
             goto jt_default;
         }
         action_flags = ((S_80171094_1 *)stats)->unk_46;
         if ((action_flags & 0x8000) == 0) {
             if (dungeonStatus.flags & 0x2000) {
                 if ((s16)func_8009A180(
-                        stats, (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) != 0) {
+                        stats, (u8 *)((EntityRec *)D_800814A8)->unk_58 + 0x20) != 0) {
                     return;
                 }
             }
@@ -291,7 +291,7 @@ jt_c7:
         {
             s16 heading = func_800A0818(
                 ((S_80171094_2 *)sprite_arg)->unk_24.at00.v, ((S_80171094_2 *)sprite_arg)->unk_24.at01.v,
-                D_80082E80[0x24], D_80082E80[0x25], &distance);
+                D_80082E80.tileX, D_80082E80.tileY, &distance);
             void *player = D_800814A8;
             ((S_80171094_1 *)stats)->unk_2A.s = heading;
             if (((S_80171094_4 *)player)->unk_9A == 0x11) {
@@ -327,13 +327,12 @@ jt_default:
             if ((tile_index < 0) ||
                 !(((DungeonRecord *)D_800E2970)[tile_index].flags & 2)) {
                 if (!(flags & 0x430)) {
-                    void *player_pos = D_80082E80;
                     if ((s16)func_8009FD7C(
                             ((S_80171094_2 *)sprite_arg)->unk_24.at00.v, ((S_80171094_2 *)sprite_arg)->unk_24.at01.v,
-                            ((S_80171094_5 *)player_pos)->unk_24, ((S_80171094_5 *)player_pos)->unk_25) != 0) {
+                            D_80082E80.tileX, D_80082E80.tileY) != 0) {
                         ((S_80171094_1 *)stats)->unk_2A.s = func_800A0818(
                             ((S_80171094_2 *)sprite_arg)->unk_24.at00.v, ((S_80171094_2 *)sprite_arg)->unk_24.at01.v,
-                            ((S_80171094_5 *)player_pos)->unk_24, ((S_80171094_5 *)player_pos)->unk_25,
+                            D_80082E80.tileX, D_80082E80.tileY,
                             &distance);
                     }
                 }

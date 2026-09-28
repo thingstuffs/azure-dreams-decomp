@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -28,20 +29,20 @@ u8 *func_80099734(void *record, u8 *out)
     u8 *table_page;
     u8 ch;
 
-    if ((((Rec_D_800E3D7C *)((u8 *)D_800E3D7C))->unk_1C.as_s32 & 0x10) &&
-        (((Rec_D_800E3D7C *)record)->unk_10.at03_u8.v != 0)) {
+    if ((((EntityRec *)((u8 *)D_800E3D7C))->flags1C & 0x10) &&
+        ((*(u8 *)((u8 *)&((EntityRec *)record)->unk_10 + 3)) != 0)) {
         src = (u8 *)D_800DD728;
         goto copy;
     }
 
-    if (((Rec_D_800E3D7C *)record)->unk_14.as_s32 & 0x4000) {
+    if (((EntityRec *)record)->flags14 & 0x4000) {
         src = (u8 *)record + 0x34;
         goto copy;
     }
 
-    text_index = ((Rec_D_800E3D7C *)record)->unk_10.at03_u8.v;
+    text_index = (*(u8 *)((u8 *)&((EntityRec *)record)->unk_10 + 3));
     if (text_index == 0x23) {
-        if (((Rec_D_800E3D7C *)record)->unk_A4.at02_s16.v != 0) {
+        if ((*(s16 *)((u8 *)&((EntityRec *)record)->unk_A4 + 2)) != 0) {
             src = (u8 *)D_800DD728;
             goto copy;
         }

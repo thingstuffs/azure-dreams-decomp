@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_func_800AD058_arg0.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_func_800AD058_arg2.h"
 
 
@@ -18,7 +18,7 @@ extern M2C_UNK func_80174D48();
 
 
 /* Initializes the visual effect and advances its action state. */
-void func_801736EC(Rec_func_800AD058_arg0 *action, M2C_UNK context, Rec_func_800AD058_arg2 *visual, Rec_D_800E3D7C *entity) {
+void func_801736EC(Rec_func_800AD058_arg0 *action, M2C_UNK context, Rec_func_800AD058_arg2 *visual, EntityRec *entity) {
     M2C_UNK one;
     M2C_UNK color;
     M2C_UNK phase;
@@ -49,12 +49,12 @@ wait_ready:
     action->unk_9B = (u8)one;
 
 initialize:
-    if (entity->unk_48.at01_u8.v != 0) {
+    if (entity->unk_49 != 0) {
         func_80174D48(context, visual, entity);
         do {
-            entity->unk_48.at00_s8.v = 0;
+            entity->unk_48 = 0;
         } while (0);
-        entity->unk_48.at01_u8.v = 0U;
+        entity->unk_49 = 0U;
         color = 0x808080;
     } else {
         color = 0x808080;
@@ -62,7 +62,7 @@ initialize:
     visual->unk_10 = 0x20;
     visual->unk_12 = (u16)(visual->unk_12 - 0x80);
     visual->unk_14 = (u16)(visual->unk_14 | 0xC);
-    entity->unk_1C.as_s32 = entity->unk_1C.as_s32 | 0x10000000;
+    entity->flags1C = entity->flags1C | 0x10000000;
     visual->unk_0C = color;
     action->unk_96 = 0x10;
     action->unk_9B = (u8)(action->unk_9B + 1);

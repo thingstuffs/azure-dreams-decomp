@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity_objects.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dir_step.h"
@@ -16,15 +18,13 @@ typedef struct {
 
 extern s32 func_800644B8(s32, s32);
 
-extern u8 D_80082E80[];
-extern HeightData D_80083780;
 
 /* Updates position history, motion and shading, and flags objects whose positions have settled. */
 void func_800260DC(u8 *obj, u8 *coords_out, u8 *rgb)
 {
     u8 *linked_obj;
     u8 *linked_data;
-    u8 *room;
+    TileObject *room;
     u8 *history_src;
     u8 *history_dst;
     s16 *x_adjust;
@@ -83,13 +83,13 @@ copy_history:
 
 interpolate:
     direction_offset = ((-S16_AT(((u8 *)(&gameWork.viewAngle)), 0) + 0x500) >> 8) & 0xE;
-    room = D_80082E80;
+    room = &D_80082E80;
     x_adjust = (s16 *)(((u8 *)dirStepX) + direction_offset);
     {
         s32 x_target;
         s32 x_current;
 
-        x_target = room[0x24] + *x_adjust;
+        x_target = room->tileX + *x_adjust;
         frames_left = S16_AT(obj, 0x66);
         ASM_KEEP(x_target);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         x_current = S16_AT(obj, 0x0E);
@@ -101,7 +101,7 @@ interpolate:
         s32 y_target;
         s32 y_current;
 
-        y_target = room[0x25];
+        y_target = room->tileY;
         y_target += *y_adjust;
         ASM_KEEP(y_target);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         y_current = S16_AT(obj, 0x12);
@@ -110,7 +110,7 @@ interpolate:
     }
 
     S32_AT(obj, 0x14) +=
-        (D_80083780.height -
+        (D_80083780.z.v -
          (func_800644B8(frames_left * 42, frames_left) << 12) -
          S32_AT(obj, 0x14)) / S16_AT(obj, 0x66);
 
@@ -127,13 +127,13 @@ interpolate:
         goto copy_out;
     }
 
-    final_coord = room[0x24];
+    final_coord = room->tileX;
     final_adjust = *x_adjust;
     final_coord += final_adjust;
     final_coord <<= 6;
     final_coord += 0x20;
     U16_AT(obj, 0x0E) = final_coord;
-    final_coord = room[0x25];
+    final_coord = room->tileY;
     final_adjust = *y_adjust;
     final_coord += final_adjust;
     final_coord <<= 6;
@@ -141,7 +141,7 @@ interpolate:
     U16_AT(obj, 0x12) = final_coord;
    /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     final_state = U16_AT(obj, 0x64);
-    final_z = U16_AT(&D_80083780, 0x0A);
+    final_z = U16_AT(((HeightData *)&D_80083780), 0x0A);
     U16_AT(obj, 0x64) = final_state + 1;
     U16_AT(obj, 0x16) = final_z;
     goto copy_out;

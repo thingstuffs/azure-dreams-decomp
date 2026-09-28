@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity_objects.h"
 #include "shared/object_flags.h"
 
 typedef struct S_8002191C_0 {
@@ -108,9 +110,7 @@ extern u8 D_80022454[];
 extern u8 D_80022C2C[];
 extern s16 D_800272A0[];
 extern s16 D_800272B0[];
-extern u8 D_80082E80[];
 extern s32 D_800834B8;
-extern u8 D_80083780[];
 extern u8 D_800930E4[];
 extern s32 D_80097D2C[3];
 extern u8 D_800D0128[];
@@ -155,7 +155,7 @@ void func_8002191C(void *scene)
         s32 t10;
 
         SD_Call(0xB1);
-        motion = D_80083780;
+        motion = ((u8 *)(&D_80083780));
         ((S_8002191C_0 *)scene)->unk_30.s = ((S_8002191C_2 *)motion)->unk_02.s;
         t6 = ((S_8002191C_2 *)motion)->unk_06;
         ((S_8002191C_0 *)scene)->unk_28.s = 4;
@@ -182,7 +182,7 @@ void func_8002191C(void *scene)
         }
         ((S_8002191C_0 *)scene)->unk_28.s = 0x10;
         ((S_8002191C_0 *)scene)->unk_36.s = 2;
-        motion = D_80083780;
+        motion = ((u8 *)(&D_80083780));
         ((S_8002191C_2 *)motion)->unk_0C =
             ((0x420 - ((S_8002191C_0 *)scene)->unk_30.u) << 16) /
             ((S_8002191C_0 *)scene)->unk_28.u;
@@ -197,7 +197,7 @@ void func_8002191C(void *scene)
     }
 
     case 2: {
-        u8 *motion = D_80083780;
+        u8 *motion = ((u8 *)(&D_80083780));
         s32 h2;
         s32 rmw;
 
@@ -223,7 +223,7 @@ void func_8002191C(void *scene)
         s32 lim = 0x044FFFFF;
         s32 m1;
 
-        work = D_80083780;
+        work = ((u8 *)(&D_80083780));
         if (((s32 *)work)[1] <= lim) {
             ((s32 *)work)[1] += (0x04500000 - ((s32 *)work)[1]) >> 1;
         }
@@ -243,7 +243,7 @@ void func_8002191C(void *scene)
         tw_sd_sq_ld_call(0x24, 0x200);
         ((S_8002191C_0 *)scene)->unk_36.s = 4;
         func_8002082C(scene);
-        func_80093D48(global, work, D_80082E80);
+        func_80093D48(global, work, ((u8 *)(&D_80082E80)));
         goto finish;
 
     case 4:
@@ -270,7 +270,7 @@ void func_8002191C(void *scene)
         ((S_8002191C_3 *)global)->unk_10.s = 0x800;
         func_80093C70();
         func_80093CEC(D_800D0128);
-        motion = D_80083780;
+        motion = ((u8 *)(&D_80083780));
         ((S_8002191C_0 *)scene)->unk_30.s = ((S_8002191C_2 *)motion)->unk_02.s;
         ((S_8002191C_0 *)scene)->unk_32.u = ((S_8002191C_2 *)motion)->unk_06;
         ((S_8002191C_0 *)scene)->unk_2C.s = 0;
@@ -475,7 +475,7 @@ void func_8002191C(void *scene)
 
 finish:
     if (((S_8002191C_0 *)scene)->unk_36.s >= 4) {
-        s32 *motion = (s32 *)D_80083780;
+        s32 *motion = (s32 *)((u8 *)(&D_80083780));
 
         if (motion[0] <= 0x03CFFFFF) {
             motion[0] = 0x03D00000;

@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 M2C_UNK func_800942B0();        /* extern */
 M2C_UNK func_80094378();        /* extern */
@@ -27,14 +27,14 @@ typedef struct S_80091000_2 {
 } S_80091000_2;   /* state in func_80091000 */
 
 /* Update the actor against ground height, then dispatch input actions. */
-void func_80091000(s32 controller, Rec_D_800E3D7C *actor, M2C_UNK context) {
+void func_80091000(s32 controller, EntityRec *actor, M2C_UNK context) {
     s16 ground_height;
     GameWork *input_state = &gameWork;
 
     func_80095C80(actor);
     func_80095094(actor);
     ground_height = func_80095978(actor, &D_800FE488);
-    if ((ground_height - actor->unk_08.at02_s16.v) >= 4) {
+    if ((ground_height - actor->z.w.i) >= 4) {
         if (((S_80091000_1 *)(&D_800CFCEF))->unk_00 == 0) {
             func_80094378(controller, actor, context);
             return;

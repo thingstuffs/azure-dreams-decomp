@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
@@ -99,11 +101,9 @@ extern s16 func_8009A180(void *, void *);
 extern s16 func_800BCB04(s32, s32, s16);
 
 extern s16 D_8006CD00[];
-extern u8 D_80082E80[];
 extern u8 D_80082E80_initial[] __asm__("D_80082E80");
 extern u8 D_80082E80_fallback[] __asm__("D_80082E80");
 extern u8 D_80082E80_check[] __asm__("D_80082E80");
-extern s8 D_80082EA4;
 extern s8 D_800E2970[];
 
 /* Selects a movement direction and updates the actor's position and movement state. */
@@ -195,7 +195,7 @@ active:
             u8 *turn_data;
             {
                 u8 *target_position = D_80082E80_initial;
-                s32 target_facing = ((Rec_D_800814A8 *)D_800814A8)->unk_2A.as_u16;
+                s32 target_facing = ((u16)((EntityRec *)D_800814A8)->facing);
                 s32 offset_index =
                     ((((S_80171C34_1 *)actor_data)->unk_45 + ((s16)target_facing >> 9)) & 7) << 1;
                 target_x = target_position[0x24] +
@@ -217,11 +217,11 @@ active:
             if (func_8009A8C0(target_angle, position_data, actor_data, 0x20) <= 0) {
                 ((S_80171C34_1 *)actor_data)->unk_2A.s = func_800A0818(
                     ((S_80171C34_2 *)position_data)->unk_24.at00.v, ((S_80171C34_2 *)position_data)->unk_24.at01.v,
-                    D_80082E80[0x24], D_80082E80[0x25], turn_data);
+                    D_80082E80.tileX, D_80082E80.tileY, turn_data);
             }
             if (func_8009FD7C(
                     ((S_80171C34_2 *)position_data)->unk_24.at00.v, ((S_80171C34_2 *)position_data)->unk_24.at01.v,
-                    D_80082E80[0x24], D_80082E80[0x25]) != 0) {
+                    D_80082E80.tileX, D_80082E80.tileY) != 0) {
                 limit_detour = 1;
             }
             goto init_loop;
@@ -254,7 +254,7 @@ active:
     }
 
     if (((S_80171C34_1 *)actor_data)->unk_1C & 0x20000) {
-        u8 *target_position = D_80082E80;
+        u8 *target_position = ((u8 *)(&D_80082E80));
         ((S_80171C34_1 *)actor_data)->unk_2A.s = func_800A0818(
             ((S_80171C34_2 *)position_data)->unk_24.at00.v, ((S_80171C34_2 *)position_data)->unk_24.at01.v,
             target_position[0x24], target_position[0x25], (u8 *)move_data + 0x98);
@@ -328,9 +328,9 @@ init_loop:
         }
 
         if (turn_index == 0 &&
-            *(u16 *)&D_80082EA4 != ((S_80171C34_2 *)position_data)->unk_24.at00u.v) {
+            *(u16 *)(&D_80082E80.tileX) != ((S_80171C34_2 *)position_data)->unk_24.at00u.v) {
             if (func_8009A180(actor_data,
-                    (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) != 0) {
+                    (u8 *)((EntityRec *)D_800814A8)->unk_58 + 0x20) != 0) {
                 do {
                     return;
                 } while (0);

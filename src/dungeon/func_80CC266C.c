@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -51,7 +52,7 @@ s32 func_80175E6C(void *action_state, void *unused, void *actor_pos_arg, void *a
     void *target;
 
     target = NULL;
-    ((Rec_D_800E3D7C *)actor)->unk_71.as_u8 = (u8) (((Rec_D_800E3D7C *)actor)->unk_71.as_u8 & 0x7F);
+    ((EntityRec *)actor)->unk_71 = (u8) (((EntityRec *)actor)->unk_71 & 0x7F);
     reference_found = (s32) target;
     if ((dungeonStatus.flags & 0x2008) || ((func_800A2C34(actor) << 0x10) != 0)) {
         result = -1;
@@ -79,15 +80,15 @@ next_direction:
         if ((target != NULL) && (reference_found & 0xFFFF)) {
             reference_found = (s16) (dungeonStatus.unk_0A + 1);
             dungeonStatus.unk_0A = reference_found;
-            ((Rec_D_800E3D7C *)actor)->unk_60.as_pv = target;
+            ((EntityRec *)actor)->target = target;
             func_800A9A0C(target);
             ((Rec_func_800A9E70_arg0 *)action_state)->unk_9A.as_s8 = 0x17;
             ((Rec_func_800A9E70_arg0 *)action_state)->unk_9B.as_s8 = 0;
             ((Rec_func_800A9E70_arg0 *)action_state)->unk_8C = 0;
-            target_pos = ((S_80175E6C_6_pre *)(((Rec_D_800E3D7C *)actor)->unk_60.as_pv))[-1].unk_00;
-            ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 = func_800A0818(((S_80175E6C_1 *)actor_pos_arg)->unk_24, ((S_80175E6C_1 *)actor_pos_arg)->unk_25, ((S_80175E6C_5 *)target_pos)->unk_24, ((S_80175E6C_5 *)target_pos)->unk_25, &distance);
+            target_pos = ((S_80175E6C_6_pre *)(((EntityRec *)actor)->target))[-1].unk_00;
+            ((EntityRec *)actor)->facing = func_800A0818(((S_80175E6C_1 *)actor_pos_arg)->unk_24, ((S_80175E6C_1 *)actor_pos_arg)->unk_25, ((S_80175E6C_5 *)target_pos)->unk_24, ((S_80175E6C_5 *)target_pos)->unk_25, &distance);
             (*(u8 **)((u8 *)actor_pos_arg + 0x2C)) = D_80176348;
-            func_80047784(actor_pos_arg, D_80176348[((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
+            func_80047784(actor_pos_arg, D_80176348[((s32) (gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7], 0);
             func_80175E14(actor);
             result = 1;
             goto done;

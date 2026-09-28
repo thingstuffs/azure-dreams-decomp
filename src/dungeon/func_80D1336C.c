@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
@@ -51,7 +52,6 @@ typedef struct {
     u16 flags_46;
 } Actor;
 
-extern u8 D_80082E80[];
 extern u8 D_80171760[];
 extern u8 D_80174EA8[];
 extern u8 D_80174EB0[];
@@ -229,7 +229,7 @@ L_update_96: {
                 if (!(actor_flags & 0x20000))
                     goto L_after_flag;
                 actor->value_2a = func_800A0818(sprite->value_24, sprite->value_25,
-                                                 D_80082E80[0x24], D_80082E80[0x25],
+                                                 D_80082E80.tileX, D_80082E80.tileY,
                                                  &direction_scratch);
             }
 L_after_flag:

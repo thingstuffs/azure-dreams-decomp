@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_func_8009431C_arg0.h"
 
 s32 func_80033B2C();                         /* extern */
@@ -45,7 +45,7 @@ typedef struct S_80090A74_4 {
 } S_80090A74_4;   /* temp_s3 in func_80090A74 */
 
 /* Update the actor and dispatch town actions from input and interaction state. */
-void func_80090A74(Rec_func_8009431C_arg0 *actor, Rec_D_800E3D7C *record, M2C_UNK context) {
+void func_80090A74(Rec_func_8009431C_arg0 *actor, EntityRec *record, M2C_UNK context) {
     s16 height;
     s32 action_result;
     s32 interaction_result;
@@ -62,7 +62,7 @@ void func_80090A74(Rec_func_8009431C_arg0 *actor, Rec_D_800E3D7C *record, M2C_UN
         height_data = D_800FE488;
         height = func_80095978(height_record, height_data);
     }
-    if ((height - record->unk_08.at02_s16.v) >= 4) {
+    if ((height - record->z.w.i) >= 4) {
         if (((S_80090A74_1 *)(&D_800CFCEF))->unk_00 == 0) {
             func_80094378(actor, record, context);
             return;

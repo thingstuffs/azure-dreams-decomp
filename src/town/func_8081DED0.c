@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity_objects.h"
 #include "shared/object_flags.h"
 #include "records/Rec_func_800206D0_arg1.h"
 
@@ -54,7 +55,6 @@ extern u8 D_80024420[];
 extern s32 D_8002445C[];
 extern s32 D_80024628[];
 extern s32 D_8007947C[];
-extern u8 D_80083780[];
 extern M2C_UNK D_800D0420;
 
 /* Updates a bouncing pickup, awards its value on collection, and expires it. */
@@ -158,7 +158,7 @@ state3:
             ((Rec_func_800206D0_arg1 *)motion)->unk_08 = floor_z;
             ((Rec_func_800206D0_arg1 *)motion)->unk_14 = -((Rec_func_800206D0_arg1 *)motion)->unk_14 >> 1;
         }
-        if (func_8008FD9C(D_80024420, motion, &D_800D0420, D_80083780) != 0) {
+        if (func_8008FD9C(D_80024420, motion, &D_800D0420, ((u8 *)(&D_80083780))) != 0) {
             SD_Call(0x516);
             reward = ((s32 *)&reward_units)[((S_800206D0_0 *)pickup)->unk_54] * 100;
             D_80012D5C[0] += reward;
@@ -181,7 +181,7 @@ state3:
     }
 
 state4:
-    if (func_8008FD9C(D_80024420, motion, &D_800D0420, D_80083780) != 0) {
+    if (func_8008FD9C(D_80024420, motion, &D_800D0420, ((u8 *)(&D_80083780))) != 0) {
         SD_Call(0x516);
         reward = ((s32 *)&reward_units)[((S_800206D0_0 *)pickup)->unk_54] * 100;
         D_80012D5C[0] += reward;
@@ -202,7 +202,7 @@ state5:
     } else {
         ((S_800206D0_2 *)sprite)->unk_14 &= 0xFF7F;
     }
-    if (func_8008FD9C(D_80024420, motion, &D_800D0420, D_80083780) != 0) {
+    if (func_8008FD9C(D_80024420, motion, &D_800D0420, ((u8 *)(&D_80083780))) != 0) {
         SD_Call(0x516);
         reward = ((s32 *)&reward_units)[((S_800206D0_0 *)pickup)->unk_54] * 100;
         D_80012D5C[0] += reward;

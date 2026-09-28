@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity_objects.h"
 
 typedef struct {
     s16 x;
@@ -8,7 +9,6 @@ typedef struct {
 } Vec3s;
 
 extern u8 D_8002241C[];
-extern u8 D_80083780[];
 
 extern void func_80020948(void *, void *, void *, void *);
 extern s32 func_800644B8(s32);
@@ -30,7 +30,7 @@ void func_80022494(u8 *effect)
     {
         u16 *origin;
 
-        for (index = 3, origin = (u16 *)D_80083780; index >= 0; index--) {
+        for (index = 3, origin = (u16 *)((u8 *)(&D_80083780)); index >= 0; index--) {
             s32 angle_offset = index << 10;
 
             corner[index].x = origin[1] + (func_800644B8(*(s16 *)(effect + 0x28) + angle_offset) >> 6);
@@ -40,7 +40,7 @@ void func_80022494(u8 *effect)
     }
 
     {
-        u16 *origin = (u16 *)D_80083780;
+        u16 *origin = (u16 *)((u8 *)(&D_80083780));
 
         center.x = origin[1];
         center.y = origin[3];

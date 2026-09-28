@@ -2,7 +2,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 extern int abs(int);
 
 
@@ -224,9 +224,9 @@ move_setup:
         return;
     }
 
-    ((Rec_D_800E3D7C *)motion_input)->unk_14.as_s32 = 0;
-    ((Rec_D_800E3D7C *)motion_input)->unk_10.at00_s32.v = 0;
-    ((Rec_D_800E3D7C *)motion_input)->unk_0C.as_s32 = 0;
+    ((EntityRec *)motion_input)->flags14 = 0;
+    ((EntityRec *)motion_input)->unk_10 = 0;
+    ((EntityRec *)motion_input)->unk_0C = 0;
     func_800A2B04(motion_input, ((S_80172A40_4 *)actor_input)->unk_24, ((S_80172A40_4 *)actor_input)->unk_25);
     dungeonStatus.unk_0C = 0;
     (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
@@ -260,9 +260,9 @@ state_two:
         return;
     }
 
-    ((Rec_D_800E3D7C *)motion_input)->unk_14.as_s32 = 0;
-    ((Rec_D_800E3D7C *)motion_input)->unk_10.at00_s32.v = 0;
-    ((Rec_D_800E3D7C *)motion_input)->unk_0C.as_s32 = 0;
+    ((EntityRec *)motion_input)->flags14 = 0;
+    ((EntityRec *)motion_input)->unk_10 = 0;
+    ((EntityRec *)motion_input)->unk_0C = 0;
     func_800A2B04(motion_input, ((S_80172A40_4 *)actor_input)->unk_24, ((S_80172A40_4 *)actor_input)->unk_25);
     ((S_80172A40_0 *)owner_input)->unk_98 &= 0xFFF7;
     ((S_80172A40_1 *)object)->unk_1C |= 0x08000000;

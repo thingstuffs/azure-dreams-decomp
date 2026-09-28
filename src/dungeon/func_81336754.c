@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity_objects.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
@@ -52,7 +53,6 @@ extern u8 D_801739A0[];
 extern u8 D_801739A8[];
 extern u8 D_801739B0[];
 extern u8 D_8016A36C[];
-extern u8 D_80083780[12];
 extern void *D_80164998[];
 
 extern void func_80047784(DungeonObject *, u8, s32);
@@ -131,12 +131,12 @@ case3:
         timer = state->timer.unsigned_value + 1;
         state->timer.unsigned_value = timer;
         if ((s16)timer == 1) {
-            func_801685CC(state, work, object, D_80083780, 0);
+            func_801685CC(state, work, object, ((u8 *)(&D_80083780)), 0);
             current_timer = state->timer.signed_value;
             if (current_timer == (s16)timer) {
-                func_801685CC(state, work, object, D_80083780, current_timer);
+                func_801685CC(state, work, object, ((u8 *)(&D_80083780)), current_timer);
                 if (state->timer.signed_value == current_timer)
-                    func_801685CC(state, work, object, D_80083780, 2);
+                    func_801685CC(state, work, object, ((u8 *)(&D_80083780)), 2);
             }
         }
         if (state->timer.signed_value != 0xB)

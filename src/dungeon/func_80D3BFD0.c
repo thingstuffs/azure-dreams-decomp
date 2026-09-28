@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -86,7 +87,7 @@ void func_801717D0(u8 *entity, s32 action_param, u8 *sprite, u8 *direction_frame
     if (((S_801717D0_0 *)self)->unk_1C & 0x2000) {
         if ((((S_801717D0_0 *)self)->unk_46 & 0x3FFF) >= 5) {
             special_action = 1;
-            if (((Rec_D_800E3D7C *)((u8 *)D_800E3D7C))->unk_A4.at02_u16.v == 2) {
+            if ((*(u16 *)((u8 *)&((EntityRec *)((u8 *)D_800E3D7C))->unk_A4 + 2)) == 2) {
                 counter = ((u16)dungeonStatus.unk_0A);
                 counter--;
                 dungeonStatus.unk_0A = counter;

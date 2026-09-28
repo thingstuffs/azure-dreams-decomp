@@ -1,4 +1,7 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity_objects.h"
+#include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -26,8 +29,6 @@ extern void func_800A5F38(void *, s32);
 extern s8 func_800A6DA4(s32, s32);
 extern s32 func_800AD6FC(void *, s32, s32);
 
-extern s32 D_80082E80;
-extern s32 D_80083780;
 extern u8 D_800893DC[];
 extern u16 D_800DDE84[];
 extern u8 D_800E187C[];
@@ -35,7 +36,7 @@ extern u8 D_800E3548[];
 extern u8 D_800E36C8[];
 
 /* Handles a target or active-slot update and decrements the shared count on completion. */
-s32 func_800C4030(Rec_D_800E3D7C *target, s32 action, s16 action_type, s32 action_param)
+s32 func_800C4030(EntityRec *target, s32 action, s16 action_type, s32 action_param)
 {
     s32 result;
     s32 slot_index;
@@ -55,7 +56,7 @@ s32 func_800C4030(Rec_D_800E3D7C *target, s32 action, s16 action_type, s32 actio
 
     if (target == D_800E3D7C) {
         target->unk_110 = action;
-        func_8008D344(target, &D_80083780, &D_80082E80, target);
+        func_8008D344(target, &D_80083780.x.v, &D_80082E80.unk_000, target);
         return 0;
     }
 
@@ -73,7 +74,7 @@ s32 func_800C4030(Rec_D_800E3D7C *target, s32 action, s16 action_type, s32 actio
         func_800A5720(saved_context);
 
         table_base = (u8 *)0x800E0000;
-        scratch_value = target->unk_10.at03_u8.v;
+        scratch_value = (*(u8 *)((u8 *)&target->unk_10 + 3));
         table_base_2 = (u8 *)D_800DDE84;
         second_arg = ((u16 *)table_base_2)[scratch_value];
         first_arg = second_arg & 3;

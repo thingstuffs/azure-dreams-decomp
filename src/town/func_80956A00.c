@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity_objects.h"
 extern int abs(int);
 
 typedef struct S_80023A00_0 {
@@ -43,7 +44,6 @@ extern s32 D_80081458[];
 extern s16 D_80083228;
 extern u8 D_80083220[];
 extern s32 D_800834B8;
-extern u8 D_80083780[];
 extern u8 D_800D2398[];
 extern u8 D_800D23A0[];
 
@@ -62,7 +62,7 @@ void func_80023A00(void *object, void *output, void *entity_data)
     };
 
     func_800478B8(entity_data);
-    *(Copy24 *)output_bytes = *(Copy24 *)D_80083780;
+    *(Copy24 *)output_bytes = *(Copy24 *)((u8 *)(&D_80083780));
     ((S_80023A00_0 *)object)->unk_2A =
         (0x1400 - ((S_80023A00_1 *)state_base)->unk_10) & 0xFFF;
 

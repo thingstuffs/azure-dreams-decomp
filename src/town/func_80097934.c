@@ -1,6 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 extern int abs(int);
 
 s32 func_800644B8();                             /* extern */
@@ -10,7 +10,7 @@ extern M2C_UNK D_80000001;
 
 
 /* Move both components toward zero by direction-dependent steps, clamping at zero. */
-void func_80095094(Rec_D_800E3D7C *record) {
+void func_80095094(EntityRec *record) {
     s32 clamped_x;
     s32 clamped_y;
     s32 min_component;
@@ -27,14 +27,14 @@ void func_80095094(Rec_D_800E3D7C *record) {
     s32 y_step;
     s32 x_step;
 
-    initial_x = record->unk_0C.as_s32;
-    if ((initial_x != 0) || (record->unk_10.at00_s32.v != 0)) {
+    initial_x = record->unk_0C;
+    if ((initial_x != 0) || (record->unk_10 != 0)) {
         min_component = 0x80000001;
         clamped_x = 0x80000001;
         if (min_component < initial_x) {
             clamped_x = initial_x;
         }
-        initial_y = record->unk_10.at00_s32.v;
+        initial_y = record->unk_10;
         clamped_y = 0x80000001;
         if (min_component < initial_y) {
             clamped_y = initial_y;
@@ -47,34 +47,34 @@ void func_80095094(Rec_D_800E3D7C *record) {
         x_step = abs(x_step);
         signed_y_step = func_80064584(y_step);
         signed_y_step = signed_y_step << 5;
-        current_x = record->unk_0C.as_s32;
+        current_x = record->unk_0C;
         y_step = abs(signed_y_step);
         reduced_x = current_x - x_step;
         if (current_x < 0) {
             raised_x = current_x + x_step;
-            record->unk_0C.as_s32 = raised_x;
+            record->unk_0C = raised_x;
             if (raised_x > 0) {
-                record->unk_0C.as_s32 = 0;
+                record->unk_0C = 0;
             }
         } else {
-            record->unk_0C.as_s32 = reduced_x;
+            record->unk_0C = reduced_x;
             if (reduced_x < 0) {
-                record->unk_0C.as_s32 = 0;
+                record->unk_0C = 0;
             }
         }
-        current_y = record->unk_10.at00_s32.v;
+        current_y = record->unk_10;
         if (current_y < 0) {
             raised_y = current_y + y_step;
-            record->unk_10.at00_s32.v = raised_y;
+            record->unk_10 = raised_y;
             if (raised_y > 0) {
-                record->unk_10.at00_s32.v = 0;
+                record->unk_10 = 0;
                 return;
             }
         } else {
             reduced_y = current_y - y_step;
-            record->unk_10.at00_s32.v = reduced_y;
+            record->unk_10 = reduced_y;
             if (reduced_y < 0) {
-                record->unk_10.at00_s32.v = 0;
+                record->unk_10 = 0;
             }
         }
     }

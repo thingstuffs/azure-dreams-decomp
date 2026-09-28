@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -81,7 +82,6 @@ typedef struct S_8195281C_10 {
 
 
 extern u8 D_800DF334[];
-extern u16 D_80082E94;
 extern void *D_80024008[];
 M2C_UNK func_80024908();
 M2C_UNK func_800A56E0();
@@ -184,7 +184,7 @@ block_16:
     }
     model_colors->unk_0C.at02.v = 0x20U;
 block_18:
-    if (D_80082E94 & 0x8000) {
+    if (D_80082E80.unk_014 & 0x8000) {
         goto block_21;
     }
     fade_left = (u16) ((S_8195281C_0 *)effect)->unk_18 - 1;

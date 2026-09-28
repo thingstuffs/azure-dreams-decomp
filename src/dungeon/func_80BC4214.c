@@ -1,6 +1,6 @@
 #include "common.h"
 #include "shared/dungeon_status.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 
 typedef struct S_80173A14_0 {
@@ -25,7 +25,7 @@ extern s32 D_8017466C;
 
 
 /* Advance the action delay, reset motion, and select the next handler. */
-void func_80173A14(S_80173A14_0 *action, Rec_D_800E3D7C *motion, Rec_D_80082E80 *action_info, void *actor_data)
+void func_80173A14(S_80173A14_0 *action, EntityRec *motion, Rec_D_80082E80 *action_info, void *actor_data)
 {
     s16 delay;
     s32 tracked_actor;
@@ -33,11 +33,11 @@ void func_80173A14(S_80173A14_0 *action, Rec_D_800E3D7C *motion, Rec_D_80082E80 
     switch (action->unk_9B) {
     case 0:
         func_800AD4D0(actor_data);
-        motion->unk_10.at00_s32.v = 0;
-        motion->unk_0C.as_s32 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
         action->unk_9B++;
 
-        if (((Rec_D_800E3D7C *)actor_data)->unk_28 == 0) {
+        if (((EntityRec *)actor_data)->unk_28 == 0) {
             goto start_action;
         }
         if (action_info->unk_14.at00_u16.v & 0x8000) {
@@ -45,7 +45,7 @@ void func_80173A14(S_80173A14_0 *action, Rec_D_800E3D7C *motion, Rec_D_80082E80 
             action->unk_9B = 2;
             return;
         }
-        if (((Rec_D_800E3D7C *)actor_data)->unk_1C.as_s32 & 0x228) {
+        if (((EntityRec *)actor_data)->flags1C & 0x228) {
             delay = 8;
         } else {
             delay = -1;
@@ -54,8 +54,8 @@ void func_80173A14(S_80173A14_0 *action, Rec_D_800E3D7C *motion, Rec_D_80082E80 
         /* fall through */
 
     case 1:
-        motion->unk_10.at00_s32.v = 0;
-        motion->unk_0C.as_s32 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
         if (action->unk_96.s > 0) {
             action->unk_96.s = action->unk_96.u - 1;
         } else if (action_info->unk_14.at00_u16.v & 0x6000) {
@@ -64,15 +64,15 @@ void func_80173A14(S_80173A14_0 *action, Rec_D_800E3D7C *motion, Rec_D_80082E80 
         if (action->unk_96.s != 0) {
             return;
         }
-        if (((Rec_D_800E3D7C *)actor_data)->unk_28 != 0) {
+        if (((EntityRec *)actor_data)->unk_28 != 0) {
             goto increment_state;
         }
         goto start_action;
 
 start_action:
-        motion->unk_14.as_s32 = 0;
-        motion->unk_10.at00_s32.v = 0;
-        motion->unk_0C.as_s32 = 0;
+        motion->flags14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
         func_800AAA54(action, motion, action_info, &D_8017466C);
         return;
 
@@ -83,17 +83,17 @@ increment_state:
 
     case 2:
         if (action->unk_96.s != 0) {
-            motion->unk_10.at00_s32.v = 0;
-            motion->unk_0C.as_s32 = 0;
+            motion->unk_10 = 0;
+            motion->unk_0C = 0;
         }
         delay = action->unk_96.u - 1;
         action->unk_96.s = delay;
         if ((s32)(delay << 16) > 0) {
             return;
         }
-        motion->unk_14.as_s32 = 0;
-        motion->unk_10.at00_s32.v = 0;
-        motion->unk_0C.as_s32 = 0;
+        motion->flags14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
         func_800A2B04(motion, action_info->unk_24, action_info->unk_25);
 
         tracked_actor = ((s32)dungeonStatus.unk_10);

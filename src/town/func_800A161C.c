@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_D_80082D58.h"
 
 
@@ -38,9 +38,9 @@ void func_8009ED7C(void *object, M2C_UNK context, void *motion) {
     u16 ticks_or_flags;
 
     target_pos = D_80100B50;
-    ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = (s32) ((s32) (((S_8009ED7C_1 *)target_pos)->unk_00 - ((Rec_D_800E3D7C *)motion)->unk_00.at00_s32.v) / 2);
-    ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = (s32) ((s32) (((S_8009ED7C_1 *)target_pos)->unk_04 - ((Rec_D_800E3D7C *)motion)->unk_04.at00_s32.v) / 2);
-    ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = (s32) ((s32) (((S_8009ED7C_1 *)target_pos)->unk_08 - ((Rec_D_800E3D7C *)motion)->unk_08.at00_s32.v) / 2);
+    ((EntityRec *)motion)->unk_0C = (s32) ((s32) (((S_8009ED7C_1 *)target_pos)->unk_00 - ((EntityRec *)motion)->x.v) / 2);
+    ((EntityRec *)motion)->unk_10 = (s32) ((s32) (((S_8009ED7C_1 *)target_pos)->unk_04 - ((EntityRec *)motion)->y.v) / 2);
+    ((EntityRec *)motion)->flags14 = (s32) ((s32) (((S_8009ED7C_1 *)target_pos)->unk_08 - ((EntityRec *)motion)->z.v) / 2);
     func_8009539C(motion);
     func_8008F294(context, motion);
     func_8008F664(context, motion);

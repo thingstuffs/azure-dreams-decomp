@@ -1,8 +1,8 @@
 #include "common.h"
+#include "shared/entity_objects.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_800243C4_arg1.h"
 
-extern s16 D_80083780[];
 extern u8 D_80083498[];
 extern u8 D_800DF334[];
 M2C_UNK func_80024654();
@@ -73,12 +73,10 @@ void *func_80024ED4(Rec_func_800243C4_arg1 *position) {
     void *segment;
     S_80024ED4_3 *render_state;
     void *previous_segment;
-    s16 *origin_coords;
 
-    origin_coords = D_80083780;
     previous_segment = NULL;
     segment_index = 0;
-    angle = func_800A07D0(origin_coords[1], origin_coords[3], position->unk_02, position->unk_06);
+    angle = func_800A07D0(D_80083780.x.w.i, D_80083780.y.w.i, position->unk_02, position->unk_06);
     do {
         alloc_flags = 0x12;
         if (segment_index != 0) {

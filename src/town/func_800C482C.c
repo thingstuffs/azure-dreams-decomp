@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity_objects.h"
 
 typedef struct S_800C1F8C_0 {
     void * unk_00;
@@ -19,7 +20,6 @@ typedef struct Position {
 } Position;
 
 extern void SD_Call(s32);
-extern Position D_80083780;
 extern u8 D_800C1EA4[];
 
 
@@ -31,8 +31,8 @@ void func_800C1F8C(S_800C1F8C_0 *object)
     register s32 axis_offset ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     axis_distance = object->unk_04;
-    axis_offset = D_80083780.x;
-    y_distance = D_80083780.y;
+    axis_offset = D_80083780.x.w.i;
+    y_distance = D_80083780.y.w.i;
     axis_distance -= axis_offset;
     if (axis_distance < 0) {
         axis_distance = -axis_distance;

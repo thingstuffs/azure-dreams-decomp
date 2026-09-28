@@ -2,7 +2,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 
 
@@ -37,11 +37,11 @@ s32 func_80171E00(void *action_state, M2C_UNK action_ctx, void *sprite, void *ac
     s32 move_heading;
     u16 flags;
 
-    ((Rec_D_800E3D7C *)actor)->unk_71.as_u8 = (u8) (((Rec_D_800E3D7C *)actor)->unk_71.as_u8 & 0x7F);
+    ((EntityRec *)actor)->unk_71 = (u8) (((EntityRec *)actor)->unk_71 & 0x7F);
     if (dungeonStatus.flags & 0x2000) {
         goto return_minus_one;
     }
-    move_heading = func_800A04F0(actor, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25, ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16);
+    move_heading = func_800A04F0(actor, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25, ((EntityRec *)actor)->facing);
     if ((func_800A2CB8(actor, move_heading) << 0x10) == 0) {
         return 0;
     }
@@ -49,7 +49,7 @@ s32 func_80171E00(void *action_state, M2C_UNK action_ctx, void *sprite, void *ac
     if (flags & 0x2000) {
         return -1;
     }
-    if (!(((Rec_D_800E3D7C *)actor)->unk_44.at02_u16.v & 0x8000)) {
+    if (!(((EntityRec *)actor)->unk_46 & 0x8000)) {
         if (flags & 8) {
             return -1;
         }
@@ -70,12 +70,12 @@ success:
     ((S_80171E00_3 *)action_state)->unk_9A = 0x11;
     ((S_80171E00_3 *)action_state)->unk_9B = 0;
     ((S_80171E00_3 *)action_state)->unk_8C = 0;
-    ((Rec_D_800E3D7C *)actor)->unk_84.as_s8 = 0x7C;
-    ((Rec_D_800E3D7C *)actor)->unk_85.as_s8 = 0;
+    ((EntityRec *)actor)->unk_84 = 0x7C;
+    ((EntityRec *)actor)->unk_85 = 0;
     direction_table = &D_80174F28;
     (*(u8 **)((u8 *)sprite + 0x2C)) = direction_table;
-    func_80047784(sprite, direction_table[((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
-    ((Rec_D_800E3D7C *)actor)->unk_6D.as_u8 = (u8) (((Rec_D_800E3D7C *)actor)->unk_6D.as_u8 - 1);
-    func_8009C93C(actor, sprite, ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16, 1, 0);
+    func_80047784(sprite, direction_table[((s32) (gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7], 0);
+    ((EntityRec *)actor)->unk_6D = (u8) (((u8)((EntityRec *)actor)->unk_6D) - 1);
+    func_8009C93C(actor, sprite, ((EntityRec *)actor)->facing, 1, 0);
     return 1;
 }

@@ -1,4 +1,7 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity_objects.h"
+#include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
@@ -14,8 +17,6 @@ M2C_UNK func_80099844();           /* extern */
 M2C_UNK func_800A5F38();                 /* extern */
 M2C_UNK func_800A63B8();            /* extern */
 s32 func_800AD6FC();            /* extern */
-extern M2C_UNK D_80082E80;
-extern M2C_UNK D_80083780;
 extern u8 D_800DDE84[];
 extern M2C_UNK D_800E1580;
 extern M2C_UNK D_800E15A2;
@@ -44,7 +45,7 @@ typedef struct S_800C22EC_3 {
 } S_800C22EC_3;   /* temp_s0 in func_800C22EC */
 
 /* Processes an entity action and updates the selected target or reports failure. */
-s32 func_800C22EC(Rec_D_800E3D7C *entity, s32 action, s16 action_type, M2C_UNK context) {
+s32 func_800C22EC(EntityRec *entity, s32 action, s16 action_type, M2C_UNK context) {
     s32 target_index;
     s32 flags_mask;
     s32 target_updated;
@@ -57,12 +58,12 @@ s32 func_800C22EC(Rec_D_800E3D7C *entity, s32 action, s16 action_type, M2C_UNK c
     }
     if (entity == ((s32)D_800E3D7C)) {
         entity->unk_110 = action;
-        func_8008D344(entity, &D_80083780, &D_80082E80, entity);
+        func_8008D344(entity, &D_80083780.x.v, &D_80082E80.unk_000, entity);
         return 0;
     }
     if ((u32) entity <= 0x9FFFFFFFU) {
         func_800A63B8(entity, action, action_type);
-        if (func_800AD6FC(entity, ((u16 *)D_800DDE84)[entity->unk_10.at03_u8.v] & 3, 0) == 0) {
+        if (func_800AD6FC(entity, ((u16 *)D_800DDE84)[(*(u8 *)((u8 *)&entity->unk_10 + 3))] & 3, 0) == 0) {
             func_800A5F38(entity, action);
             return 1;
         }
@@ -73,7 +74,7 @@ s32 func_800C22EC(Rec_D_800E3D7C *entity, s32 action, s16 action_type, M2C_UNK c
         }
         return 1;
     }
-    selection = *(void **)((u8 *)&D_80082E80 + 0x34);
+    selection = *(void **)((u8 *)&D_80082E80.unk_000 + 0x34);
     if (selection->unk_01 == 0x13) {
         target_index = selection->unk_03 & 0x1F;
         if (target_index < 0x14) {

@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity_objects.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
@@ -19,8 +21,6 @@ extern s32 func_800A5F38();
 extern s32 func_800A6480();
 extern s32 func_800AD6FC();
 
-extern u8 D_80082E80[];
-extern u8 D_80083780[];
 extern u8 D_8008936C[];
 extern u8 D_80089370[];
 extern u8 D_800DD158[];
@@ -50,7 +50,7 @@ s32 func_800BEDEC(u32 target_addr, u8 *used_item, s16 effect_type, s32 effect_va
 
         ASM_KEEP(actor);
         *(u8 **)(actor + 0x110) = item;
-        func_8008D344(actor, D_80083780, D_80082E80, actor);
+        func_8008D344(actor, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), actor);
         item_flags = item[3];
         result = 0;
         item[3] = item_flags & 0xDF;
@@ -75,7 +75,7 @@ s32 func_800BEDEC(u32 target_addr, u8 *used_item, s16 effect_type, s32 effect_va
             register s32 result;
 
             *(s32 *)(actor + 0x114) = 0x802020;
-            func_8008D368(actor, D_80083780, D_80082E80, D_800DD158, 0);
+            func_8008D368(actor, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), D_800DD158, 0);
             item_flags = item[3];
             result = 0;
             item[3] = item_flags | 0x20;

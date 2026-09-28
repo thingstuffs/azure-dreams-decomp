@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity_objects.h"
 #include "m2c_compat.h"
 
 M2C_UNK func_8003DB94();    /* extern */
@@ -8,7 +9,6 @@ M2C_UNK func_800A56E0();                     /* extern */
 M2C_UNK func_800BB2E4(); /* extern */
 M2C_UNK func_800C77D0(); /* extern */
 extern M2C_UNK D_80083498;
-extern M2C_UNK D_80083780;
 extern M2C_UNK D_800BB55C;
 extern M2C_UNK D_800BBA20;
 extern M2C_UNK D_800DF3C0;
@@ -102,7 +102,7 @@ void *func_800BBA40(s32 tile_x, s32 tile_y, s32 pos_z, M2C_UNK transform_data, s
             angle_index += 1;
             setup_cursor += 2;
         } if (angle_index < 5) goto loop_0;
-        func_800C77D0(&D_80083498, &D_80083780, 8, 0x300);
+        func_800C77D0(&D_80083498, &D_80083780.x.v, 8, 0x300);
     }
     return effect;
 }

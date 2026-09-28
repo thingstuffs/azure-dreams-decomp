@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 
@@ -26,9 +26,9 @@ s32 func_80172BB0(Rec_func_800A9E70_arg0 *action_state, M2C_UNK action_context, 
     {
         s32 history;
 
-        history = ((Rec_D_800E3D7C *)actor)->unk_71.as_u8;
+        history = ((EntityRec *)actor)->unk_71;
         history &= 0x7F;
-        ((Rec_D_800E3D7C *)actor)->unk_71.as_u8 = history;
+        ((EntityRec *)actor)->unk_71 = history;
     }
     {
 
@@ -40,7 +40,7 @@ s32 func_80172BB0(Rec_func_800A9E70_arg0 *action_state, M2C_UNK action_context, 
     }
 
     target_angle = func_800A04F0(actor, target->unk_24,
-        target->unk_25, ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16);
+        target->unk_25, ((EntityRec *)actor)->facing);
     if ((func_800A2CB8(actor, target_angle) << 0x10) == 0) {
         return result;
     }
@@ -48,7 +48,7 @@ s32 func_80172BB0(Rec_func_800A9E70_arg0 *action_state, M2C_UNK action_context, 
     if (global_flags[1] & 0x2000) {
         return -1;
     }
-    if (!(((Rec_D_800E3D7C *)actor)->unk_44.at02_u16.v & 0x8000) && (global_flags[1] & 8)) {
+    if (!(((EntityRec *)actor)->unk_46 & 0x8000) && (global_flags[1] & 8)) {
         return -1;
     }
     if ((u32)(((0 - func_800A0134(target_angle, actor)) + 0x40) & 0xFFFF) <
@@ -66,12 +66,12 @@ s32 func_80172BB0(Rec_func_800A9E70_arg0 *action_state, M2C_UNK action_context, 
         if (action_state->unk_B5 == 0) {
             action_state->unk_9A.as_s8 = 0x11;
             action_state->unk_8C = 0;
-            ((Rec_D_800E3D7C *)actor)->unk_84.as_s8 = 0x7C;
-            ((Rec_D_800E3D7C *)actor)->unk_85.as_s8 = 0;
+            ((EntityRec *)actor)->unk_84 = 0x7C;
+            ((EntityRec *)actor)->unk_85 = 0;
             action_state->unk_98 =
                 (u16)(action_state->unk_98 | 8);
-            func_8009C93C(actor, target, ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16, 1, 0);
-            ((Rec_D_800E3D7C *)actor)->unk_6D.as_u8--;
+            func_8009C93C(actor, target, ((EntityRec *)actor)->facing, 1, 0);
+            ((EntityRec *)actor)->unk_6D--;
         } else {
             register s32 one ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 

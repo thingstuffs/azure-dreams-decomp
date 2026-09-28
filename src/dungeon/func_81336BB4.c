@@ -1,9 +1,9 @@
 #include "common.h"
+#include "shared/entity_objects.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
-extern u8 D_80083780[12];
 extern u8 D_8016A36C[];
 extern s16 D_801760D8[];
 extern u8 D_801739A0[];
@@ -61,7 +61,7 @@ jt_c2:
     timer = *(u16 *)(sequence + 0x96) + 1;
     *(u16 *)(sequence + 0x96) = timer;
     if ((s16)timer == 1) {
-        func_801690D8(sequence, transform, sprite, D_80083780);
+        func_801690D8(sequence, transform, sprite, ((u8 *)(&D_80083780)));
     }
     if (*(s16 *)(sequence + 0x96) == 2) {
         effect_actor = ((u8 *)D_800814A8);

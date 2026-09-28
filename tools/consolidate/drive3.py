@@ -13,7 +13,7 @@ from check import check
 LANE_ = Path(__file__).resolve().parent.parent
 NAMES = sys.argv[1].split(","); OBJS = {n: C.load(LANE_ / "objects" / (n + ".json")) for n in NAMES}
 ONLY = set(sys.argv[sys.argv.index("--only") + 1].split(",")) if "--only" in sys.argv else None
-busy = set(l.strip() for l in open(LANE_ / "BUSY_ROWS4.txt") if l.strip())
+busy = set(l.strip() for l in open(LANE_ / "BUSY_ROWS5.txt") if l.strip())
 R = row_index()
 ids = []
 for o in OBJS.values(): ids += [json.loads(l)["id"] for l in open(LANE_ / "census" / o["census"])]
@@ -27,6 +27,15 @@ def apply(t, plan):
     for name, how in plan:
         if how == "view":
             n, why = rewrite_blk(t, loose=True)
+        elif OBJS[name].get("kind") == "entity":
+            import entity
+            n, whys = t, []
+            for rn in OBJS[name]["recs"]:
+                if rn not in n: continue
+                n2, w2 = entity.rewrite(n, str(REPO / "include/records" / (rn + ".h")), None, rn)
+                if n2 is None: n = None; whys.append(w2); break
+                n = n2; whys.append(w2)
+            why = "; ".join(whys)
         elif "function" in OBJS[name]:
             n, why = C.rewrite_funcaddr(t, OBJS[name])
         else:

@@ -1,6 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 __asm__(".set D_80080000, 0x80080000");
 
@@ -18,13 +18,13 @@ typedef struct S_7FFFE188_1 {
 } S_7FFFE188_1;   /* arg0 in func_7FFFE188 */
 
 /* Updates motion toward the target and handles countdown expiration. */
-void func_7FFFE188(S_7FFFE188_1 *entity, M2C_UNK context, Rec_D_800E3D7C *motion, M2C_UNK completion_data) {
+void func_7FFFE188(S_7FFFE188_1 *entity, M2C_UNK context, EntityRec *motion, M2C_UNK completion_data) {
     s32 *target_pos;
     u16 remaining_ticks;
 
     target_pos = D_80080000 + 0xDE0;
-    motion->unk_0C.as_s32 = (s32) ((s32) (target_pos[0] - motion->unk_00.at00_s32.v) / 2);
-    motion->unk_10.at00_s32.v = (s32) ((s32) (target_pos[1] - motion->unk_04.at00_s32.v) / 2);
+    motion->unk_0C = (s32) ((s32) (target_pos[0] - motion->x.v) / 2);
+    motion->unk_10 = (s32) ((s32) (target_pos[1] - motion->y.v) / 2);
     func_8009539C(motion);
     func_8008F294(context, motion);
     func_8008F664(context, motion);

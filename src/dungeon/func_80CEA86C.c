@@ -1,6 +1,7 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/dungeon_status.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 
 typedef struct S_8017406C_0 {
@@ -41,11 +42,10 @@ extern void func_800A9A04(void *);
 extern void func_800AD594(void *, s32);
 extern s32 func_800AD9B4(void *, void *);
 
-extern u8 D_80082E80[];
 extern u8 D_801724BC[];
 
 /* Animate movement to the target tile and finalize the actor when the timer expires. */
-void func_8017406C(S_8017406C_0 *animation, Rec_D_800E3D7C *motion, Rec_D_80082E80 *tile, Rec_D_800E3D7C *actor)
+void func_8017406C(S_8017406C_0 *animation, EntityRec *motion, Rec_D_80082E80 *tile, EntityRec *actor)
 {
     s32 state;
     s32 arc_ticks;
@@ -59,7 +59,6 @@ void func_8017406C(S_8017406C_0 *animation, Rec_D_800E3D7C *motion, Rec_D_80082E
     s32 actor_flags;
     s32 coord_result;
     u8 *global_base;
-    u8 *map_base;
 
     state = animation->unk_9B;
     if (state == 1) {
@@ -78,7 +77,7 @@ void func_8017406C(S_8017406C_0 *animation, Rec_D_800E3D7C *motion, Rec_D_80082E
 
 state_zero:
     animation->unk_98 |= 8;
-    actor->unk_1C.as_s32 &= 0xF7FFFFFF;
+    actor->flags1C &= 0xF7FFFFFF;
     animation->unk_9E.s = 5;
     animation->unk_A0 = 0;
     animation->unk_9B++;
@@ -88,16 +87,16 @@ state_one:
     animation->unk_90 -= animation->unk_A0;
     if (arc_ticks != 0) {
         target_x = tile->unk_24;
-        world_x = motion->unk_00.at02_s16.v;
+        world_x = motion->x.w.i;
         target_x <<= 6;
         world_x -= 0x20;
         
-        motion->unk_0C.as_s32 =
+        motion->unk_0C =
             ((target_x - world_x) << 16) / arc_ticks;
 
-        world_y = motion->unk_04.at02_s16.v;
+        world_y = motion->y.w.i;
         world_y -= 0x20;
-        motion->unk_10.at00_s32.v =
+        motion->unk_10 =
             (((tile->unk_25 << 6) - world_y) << 16) /
             animation->unk_9E.s;
 
@@ -118,15 +117,15 @@ state_one:
 
     animation->unk_90 = 0;
     animation->unk_98 &= 0xFFF7;
-    actor->unk_1C.as_s32 |= 0x08000000;
+    actor->flags1C |= 0x08000000;
     animation->unk_9B++;
 
 state_two:
-    if (actor->unk_1C.as_s32 & 0x08000000) {
+    if (actor->flags1C & 0x08000000) {
         animation->unk_98 &= 0xFFF7;
-        motion->unk_14.as_s32 = 0;
-        motion->unk_10.at00_s32.v = 0;
-        motion->unk_0C.as_s32 = 0;
+        motion->flags14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
         func_800A2B04(motion, tile->unk_24, tile->unk_25);
         animation->unk_9B++;
     }
@@ -138,9 +137,9 @@ decrement_timer:
         return;
     }
 
-    motion->unk_14.as_s32 = 0;
-    motion->unk_10.at00_s32.v = 0;
-    motion->unk_0C.as_s32 = 0;
+    motion->flags14 = 0;
+    motion->unk_10 = 0;
+    motion->unk_0C = 0;
     func_800A2B04(motion, tile->unk_24, tile->unk_25);
     func_800AD594(actor, 4);
     func_800A4ACC(actor);
@@ -150,10 +149,10 @@ decrement_timer:
         ((S_8017406C_4 *)global_base)->unk_08.u--;
     }
 
-    actor_flags = actor->unk_1C.as_s32;
+    actor_flags = actor->flags1C;
     if (actor_flags & 0x2000) {
-        if (actor->unk_44.at02_u16.v & 0x8000) {
-            actor->unk_44.at02_u16.v &= 0x7FFF;
+        if (actor->unk_46 & 0x8000) {
+            actor->unk_46 &= 0x7FFF;
         }
         goto collision_check;
     }
@@ -163,12 +162,11 @@ decrement_timer:
     if (!(actor_flags & 0x20000)) {
         goto collision_check;
     }
-    map_base = D_80082E80;
-    actor->unk_2A.as_s16 = func_800A0818(
+    actor->facing = func_800A0818(
         tile->unk_24,
         tile->unk_25,
-        ((S_8017406C_5 *)map_base)->unk_24,
-        ((S_8017406C_5 *)map_base)->unk_25,
+        D_80082E80.tileX,
+        D_80082E80.tileY,
         &coord_result);
 
 collision_check:

@@ -3,7 +3,7 @@
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "records/Rec_D_80082E80.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 typedef struct S_801724F4_0 {
     u8 pad_00[0x1C];
@@ -93,8 +93,8 @@ state_one:
         func_80047784(sprite,
             D_801741A4[((gameWork.viewAngle + ((S_801724F4_0 *)actor)->unk_2A.u + 0x100) >> 9) & 7],
             0);
-        ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = (dir_x << 18) + (dir_x << 17);
-        ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = (dir_y << 18) + (dir_y << 17);
+        ((EntityRec *)motion)->unk_0C = (dir_x << 18) + (dir_x << 17);
+        ((EntityRec *)motion)->unk_10 = (dir_y << 18) + (dir_y << 17);
         ((S_801724F4_1 *)action)->unk_96 = 8;
         func_800A56E0(0x607);
 increment_state:
@@ -112,17 +112,17 @@ state_two:
 state_ff:
     {
         s32 target_x = ((Rec_D_80082E80 *)sprite)->unk_24 << 6;
-        s32 current_x = ((Rec_D_800E3D7C *)motion)->unk_00.at02_s16.v - 0x20;
-        ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = ((target_x - current_x) << 0xF) >> 1;
+        s32 current_x = ((EntityRec *)motion)->x.w.i - 0x20;
+        ((EntityRec *)motion)->unk_0C = ((target_x - current_x) << 0xF) >> 1;
     }
     {
         s32 target_y = ((Rec_D_80082E80 *)sprite)->unk_25 << 6;
-        s32 current_y = ((Rec_D_800E3D7C *)motion)->unk_04.at02_s16.v - 0x20;
-        ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = ((target_y - current_y) << 0xF) >> 1;
+        s32 current_y = ((EntityRec *)motion)->y.w.i - 0x20;
+        ((EntityRec *)motion)->unk_10 = ((target_y - current_y) << 0xF) >> 1;
     }
     if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) {
-        ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = 0;
-        ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
+        ((EntityRec *)motion)->unk_10 = 0;
+        ((EntityRec *)motion)->unk_0C = 0;
         ((S_801724F4_0 *)actor)->unk_1C |= 0x40000;
         func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
         func_800AD594(actor, 0x100);

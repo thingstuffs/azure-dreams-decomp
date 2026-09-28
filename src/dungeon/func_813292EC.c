@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
 
 typedef struct Node {
@@ -12,7 +13,6 @@ extern Node *func_8003FC64(s32);
 extern void func_8004491C(Node *, void *);
 extern void func_8003DB94(void *, void *, s32);
 
-extern u32 D_80083780[3];
 extern u8 D_800DE870[9];
 extern u8 D_80170A54[9];
 
@@ -23,7 +23,6 @@ void func_80170AEC(void)
     s16 *node_params;
     s16 *effect;
     u32 *part_words;
-    u32 *initial_words;
 
     node = func_8003FC64(0x212);
     if (node != 0) {
@@ -36,10 +35,9 @@ void func_80170AEC(void)
         effect = node->partC;
         *(s16 *)((u8 *)effect + 6) = 0;
         part_words = (u32 *)node->part8;
-        initial_words = D_80083780;
-        part_words[0] = initial_words[0];
-        part_words[1] = initial_words[1];
-        part_words[2] = initial_words[2];
+        part_words[0] = ((u32)D_80083780.x.v);
+        part_words[1] = ((u32)D_80083780.y.v);
+        part_words[2] = ((u32)D_80083780.z.v);
 
         effect = (s16 *)node->partC;
         effect[15] = 0x1000;

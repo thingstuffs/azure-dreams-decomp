@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 typedef struct S_801728B4_0 {
     u8 pad_00[0x8C];
@@ -45,9 +45,9 @@ void func_801728B4(void *obj, void *record, void *entity, void *actor) {
             func_8009C12C(actor, entity, ((S_801728B4_2 *)actor)->unk_2A, 1);
             return;
         }
-        ((Rec_D_800E3D7C *)record)->unk_14.as_s32 = 0;
-        ((Rec_D_800E3D7C *)record)->unk_10.at00_s32.v = 0;
-        ((Rec_D_800E3D7C *)record)->unk_0C.as_s32 = 0;
+        ((EntityRec *)record)->flags14 = 0;
+        ((EntityRec *)record)->unk_10 = 0;
+        ((EntityRec *)record)->unk_0C = 0;
         ((S_801728B4_0 *)obj)->unk_9B =
             (u8)(((S_801728B4_0 *)obj)->unk_9B + 1);
         return;

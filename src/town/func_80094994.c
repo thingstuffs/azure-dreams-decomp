@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_80094268_arg0.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 M2C_UNK func_80094330();     /* extern */
 M2C_UNK func_80094910();                            /* extern */
@@ -19,7 +19,7 @@ extern M2C_UNK D_800D00B8;
 extern M2C_UNK D_800FE488;
 
 /* Advance the state counter and update the entity, handling threshold and flag transitions. */
-void func_800920F4(Rec_func_80094268_arg0 *state, Rec_D_800E3D7C *entity, M2C_UNK context) {
+void func_800920F4(Rec_func_80094268_arg0 *state, EntityRec *entity, M2C_UNK context) {
     s16 threshold;
     u16 counter;
 
@@ -32,7 +32,7 @@ void func_800920F4(Rec_func_80094268_arg0 *state, Rec_D_800E3D7C *entity, M2C_UN
     func_80094C1C(state);
     func_80094C74(entity);
     threshold = func_80095978(entity, &D_800FE488);
-    if (entity->unk_08.at02_s16.v >= threshold) {
+    if (entity->z.w.i >= threshold) {
         func_80094910();
         func_80095A94(entity, threshold, &D_800FE488);
         func_800ABD74(entity);
@@ -40,7 +40,7 @@ void func_800920F4(Rec_func_80094268_arg0 *state, Rec_D_800E3D7C *entity, M2C_UN
     }
     if (D_800CFCEF != 0) {
         func_80094910();
-        entity->unk_14.as_s32 = 0;
+        entity->flags14 = 0;
         func_800954F4(entity);
 shared_tail:
         func_80094330(state, entity, context);

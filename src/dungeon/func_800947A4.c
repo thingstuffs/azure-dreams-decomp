@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800814A8.h"
@@ -18,12 +19,12 @@ void func_80099F04(s32 firstEntryBase) {
     S_80099F04_1 *entry;
 
     entry = firstEntryBase + 0x20;
-    if (entry != ((Rec_D_800814A8 *)(((M2C_UNK *)&D_800814A8)))->unk_00.as_s32) {
+    if (entry != ((EntityRec *)(((M2C_UNK *)&D_800814A8)))->x.v) {
         do {
             if (!(entry->unk_14 & 0x4000)) {
                 func_80099EA4(entry);
             }
             entry = entry->unk_5C + 0x20;
-        } while (entry != ((Rec_D_800814A8 *)(((M2C_UNK *)&D_800814A8)))->unk_00.as_s32);
+        } while (entry != ((EntityRec *)(((M2C_UNK *)&D_800814A8)))->x.v);
     }
 }

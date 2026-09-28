@@ -1,5 +1,5 @@
 #include "common.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 
 
@@ -67,7 +67,7 @@ typedef struct S_80164ED0_1 {
 } S_80164ED0_1;   /* temp_s0 in func_80164ED0 */
 
 /* Creates an effect relative to its parent with randomized motion and initial state values. */
-void func_80164ED0(Rec_D_800E3D7C *parent, s32 state_value, s16 pair_value, s16 offset_x, s16 offset_y, s16 offset_z)
+void func_80164ED0(EntityRec *parent, s32 state_value, s16 pair_value, s16 offset_x, s16 offset_y, s16 offset_z)
 {
     S_80164ED0_1 *effect_data;
     void *effect;
@@ -76,11 +76,11 @@ void func_80164ED0(Rec_D_800E3D7C *parent, s32 state_value, s16 pair_value, s16 
     if (effect != NULL) {
         ((S_80164ED0_0 *)effect)->unk_10 = D_80164DA4;
         ((S_80164ED0_4 *)(((S_80164ED0_2 *)effect)->unk_08))->unk_02 = (s16)
-            (((S_80164ED0_5 *)(parent->unk_08.at00_pv.v))->unk_02 + offset_x);
+            (((S_80164ED0_5 *)((*(void * *)&parent->z)))->unk_02 + offset_x);
         ((S_80164ED0_4 *)(((S_80164ED0_2 *)effect)->unk_08))->unk_06 = (s16)
-            (((S_80164ED0_5 *)(parent->unk_08.at00_pv.v))->unk_06 + offset_y);
+            (((S_80164ED0_5 *)((*(void * *)&parent->z)))->unk_06 + offset_y);
         ((S_80164ED0_4 *)(((S_80164ED0_2 *)effect)->unk_08))->unk_0A = (s16)
-            (((S_80164ED0_5 *)(parent->unk_08.at00_pv.v))->unk_0A + offset_z);
+            (((S_80164ED0_5 *)((*(void * *)&parent->z)))->unk_0A + offset_z);
         ((S_80164ED0_6 *)(((S_80164ED0_2 *)effect)->unk_0C))->unk_06 = 6;
         ((S_80164ED0_4 *)(((S_80164ED0_2 *)effect)->unk_08))->unk_0C = (s32)
             (((rand() & 0x7FFF) - 0x4000) << 6);

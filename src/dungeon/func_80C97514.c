@@ -5,7 +5,7 @@
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 typedef struct S_80C97514_12 {
     u8 pad_00[0x8];
@@ -134,7 +134,7 @@ extern M2C_UNK D_801753A9;
 extern s32 D_801753AC;
 
 /* Advances the actor transition through turning, color blending, effects, and model replacement. */
-void func_80C97514(void *state, Rec_D_800E3D7C *position, Rec_D_80082E80 *entity, void *actor) {
+void func_80C97514(void *state, EntityRec *position, Rec_D_80082E80 *entity, void *actor) {
     static void *const state_labels[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8 };
     s32 direction;
     u16 fade_ticks;
@@ -220,9 +220,9 @@ jt_c4:
     effect->unk_10 = &D_80174BE8;
     func_8004491C(effect, func_80045340);
     ((S_80C97514_0 *)state)->unk_AC = effect;
-    ((S_80C97514_14 *)(((S_80C97514_12 *)effect)->unk_08))->unk_00 = (s32) position->unk_00.at00_s32.v;
-    ((S_80C97514_14 *)(((S_80C97514_12 *)effect)->unk_08))->unk_04 = (s32) position->unk_04.at00_s32.v;
-    ((S_80C97514_14 *)(((S_80C97514_12 *)effect)->unk_08))->unk_08 = (s32) position->unk_08.at00_s32.v;
+    ((S_80C97514_14 *)(((S_80C97514_12 *)effect)->unk_08))->unk_00 = (s32) position->x.v;
+    ((S_80C97514_14 *)(((S_80C97514_12 *)effect)->unk_08))->unk_04 = (s32) position->y.v;
+    ((S_80C97514_14 *)(((S_80C97514_12 *)effect)->unk_08))->unk_08 = (s32) position->z.v;
     render_obj = effect->unk_0C;
     render_obj->unk_1E = 0x1000;
     render_obj->unk_1C = 0x1000;

@@ -1,4 +1,7 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity_objects.h"
+#include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -6,8 +9,6 @@
 
 
 
-extern u8 D_80082E80[];
-extern u8 D_80083780[];
 extern u16 D_800DDE84[];
 extern u8 D_800E1279[];
 extern s32 D_800E296C;
@@ -21,7 +22,7 @@ extern void func_800A6480(void *, s32);
 extern s32 func_800AD6FC(void *, s32, s32);
 
 /* Apply an item to its target and handle action completion. */
-s32 func_800BF5A4(Rec_D_800E3D7C *target, s32 item, s16 action_type, s32 source)
+s32 func_800BF5A4(EntityRec *target, s32 item, s16 action_type, s32 source)
 {
     if (action_type == 13) {
         return func_80098864(item, source);
@@ -29,14 +30,14 @@ s32 func_800BF5A4(Rec_D_800E3D7C *target, s32 item, s16 action_type, s32 source)
 
     if (target == ((u8 *)D_800E3D7C)) {
         target->unk_110 = item;
-        func_8008D344(target, D_80083780, D_80082E80, target);
+        func_8008D344(target, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), target);
         return 0;
     }
 
     if ((u32)target <= 0x9FFFFFFF) {
         func_800A6480(target, item);
         if (func_800AD6FC(target,
-                          D_800DDE84[target->unk_10.at03_u8.v] & 3,
+                          D_800DDE84[(*(u8 *)((u8 *)&target->unk_10 + 3))] & 3,
                           item) == 0) {
             func_800A5F38(target, item);
             return 1;

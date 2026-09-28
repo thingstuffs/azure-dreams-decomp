@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
@@ -32,7 +33,7 @@ extern u8 D_80176318[];
 extern u8 D_80176378[];
 
 /* Slows directional motion, returns the entity to its tile, and switches behavior. */
-void func_80172C10(S_80172C10_0 *state, Rec_D_800E3D7C *motion, Rec_D_80082E80 *tile, void *entity)
+void func_80172C10(S_80172C10_0 *state, EntityRec *motion, Rec_D_80082E80 *tile, void *entity)
 {
     s32 mark_value;
     s32 tracked_entity;
@@ -41,18 +42,18 @@ void func_80172C10(S_80172C10_0 *state, Rec_D_800E3D7C *motion, Rec_D_80082E80 *
     switch (state->unk_9B) {
     case 0:
         func_800AD4D0(entity);
-        motion->unk_0C.as_s32 =
+        motion->unk_0C =
             *(s16 *)((u8 *)((s8 *)dirStepX) +
-                     ((((Rec_D_800E3D7C *)entity)->unk_6A.as_u16 >> 8) & 0xE)) << 19;
-        motion->unk_10.at00_s32.v =
+                     ((((EntityRec *)entity)->unk_6A >> 8) & 0xE)) << 19;
+        motion->unk_10 =
             *(s16 *)((u8 *)((s8 *)dirStepY) +
-                     ((((Rec_D_800E3D7C *)entity)->unk_6A.as_u16 >> 8) & 0xE)) << 19;
+                     ((((EntityRec *)entity)->unk_6A >> 8) & 0xE)) << 19;
         state->unk_9B++;
 
-        if (((Rec_D_800E3D7C *)entity)->unk_28 == 0) {
-            motion->unk_14.as_s32 = 0;
-            motion->unk_10.at00_s32.v = 0;
-            motion->unk_0C.as_s32 = 0;
+        if (((EntityRec *)entity)->unk_28 == 0) {
+            motion->flags14 = 0;
+            motion->unk_10 = 0;
+            motion->unk_0C = 0;
             if (state->unk_A7 != 0) {
                 func_800AAA54(state, motion, tile, D_80176378);
                 if (state->unk_A8 != 0) {
@@ -74,12 +75,12 @@ void func_80172C10(S_80172C10_0 *state, Rec_D_800E3D7C *motion, Rec_D_80082E80 *
             return;
         }
         state->unk_96.s =
-            (((Rec_D_800E3D7C *)entity)->unk_1C.as_s32 & 0x228) ? 8 : -1;
+            (((EntityRec *)entity)->flags1C & 0x228) ? 8 : -1;
         /* fall through */
 
     case 1:
-        motion->unk_0C.as_s32 -= motion->unk_0C.as_s32 / 4;
-        motion->unk_10.at00_s32.v -= motion->unk_10.at00_s32.v / 4;
+        motion->unk_0C -= motion->unk_0C / 4;
+        motion->unk_10 -= motion->unk_10 / 4;
 
         if (state->unk_96.s > 0) {
             state->unk_96.s = state->unk_96.u - 1;
@@ -90,13 +91,13 @@ void func_80172C10(S_80172C10_0 *state, Rec_D_800E3D7C *motion, Rec_D_80082E80 *
         if (state->unk_96.s != 0) {
             return;
         }
-        if (((Rec_D_800E3D7C *)entity)->unk_28 != 0) {
+        if (((EntityRec *)entity)->unk_28 != 0) {
             goto increment_state;
         }
 
-        motion->unk_14.as_s32 = 0;
-        motion->unk_10.at00_s32.v = 0;
-        motion->unk_0C.as_s32 = 0;
+        motion->flags14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
         if (state->unk_A7 != 0) {
             func_800AAA54(state, motion, tile, D_80176378);
             if (state->unk_A8 != 0) {
@@ -126,13 +127,13 @@ increment_state:
         frames_left = state->unk_96.s;
         if (frames_left > 0) {
             x_step = tile->unk_24 << 6;
-            position_offset = motion->unk_00.at02_s16.v - 0x20;
+            position_offset = motion->x.w.i - 0x20;
             x_step = (x_step - position_offset) << 16;
             x_step = x_step / frames_left;
-            position_offset = motion->unk_04.at02_s16.v - 0x20;
-            motion->unk_0C.as_s32 = x_step;
+            position_offset = motion->y.w.i - 0x20;
+            motion->unk_0C = x_step;
             y_distance = (tile->unk_25 << 6) - position_offset;
-            motion->unk_10.at00_s32.v =
+            motion->unk_10 =
                 (y_distance << 16) / state->unk_96.s;
         }
 
@@ -142,9 +143,9 @@ increment_state:
             return;
         }
 
-        motion->unk_14.as_s32 = 0;
-        motion->unk_10.at00_s32.v = 0;
-        motion->unk_0C.as_s32 = 0;
+        motion->flags14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
         func_800A2B04(motion, tile->unk_24, tile->unk_25);
 
         tracked_entity = ((s32)dungeonStatus.unk_10);

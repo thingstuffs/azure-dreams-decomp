@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
@@ -233,7 +234,7 @@ loop_top:
     target[1] = target_node->unk_04;
     target[2] = (((S_8199AAD4_0 *)self)->unk_38 - 0x50) << 16;
 
-    entry_offset = (gameWork.viewAngle + ((Rec_D_800814A8 *)D_800814A8)->unk_2A.as_s16 + 0x100) >> 7;
+    entry_offset = (gameWork.viewAngle + ((EntityRec *)D_800814A8)->facing + 0x100) >> 7;
     delta_out = delta;
     entry_base = D_800E3D18;
     entry_offset &= 0x1C;

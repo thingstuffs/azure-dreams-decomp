@@ -3,7 +3,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_D_800814A8.h"
 
 
@@ -85,16 +85,16 @@ state_zero:
         shared_counter->unk_0A--;
     }
     (*(void * *)((u8 *)target + 0x2C)) = D_80174E4C;
-    direction = (gameWork.viewAngle + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9;
+    direction = (gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
     func_80047784(target, D_80174E4C[direction & 7], 0);
     goto increment_state;
 
 state_one:
-    if (((Rec_D_800E3D7C *)entity)->unk_24.at01_u8.v != 0) {
+    if (((EntityRec *)entity)->tileY != 0) {
         DungeonGlobalStatus *shared_counter;
 
         (*(void * *)((u8 *)target + 0x2C)) = D_80174E54;
-        direction = (gameWork.viewAngle + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9;
+        direction = (gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
         func_80047784(target, D_80174E54[direction & 7], 0);
         shared_counter = &dungeonStatus;
         shared_counter->unk_0A++;
@@ -105,7 +105,7 @@ state_one:
     if (shared_state->flags & 0x1000) {
         goto done;
     }
-    if (((Rec_D_800E3D7C *)entity)->unk_64.as_s16 != 0) {
+    if (((EntityRec *)entity)->unk_64 != 0) {
         if (func_800AA6B4(actor_in, actor_index, target, 0) != 0) {
             goto done;
         }
@@ -113,7 +113,7 @@ state_one:
     if ((func_800A2C34(entity) << 16) != 0) {
         goto done;
     }
-    entity_flags = ((Rec_D_800E3D7C *)entity)->unk_1C.as_s32;
+    entity_flags = ((EntityRec *)entity)->flags1C;
     if (entity_flags & 0x100) {
         func_800AA258(actor_in, actor_index, target, entity);
         goto done;
@@ -123,12 +123,12 @@ state_one:
         func_801743E8(actor_in, actor_index, target, entity);
         goto done;
     }
-    if (((Rec_D_800E3D7C *)entity)->unk_6D.as_s8 == 0) {
+    if (((EntityRec *)entity)->unk_6D == 0) {
         goto done;
     }
     if ((func_800A2C34(entity) << 16) != 0) {
         if ((func_8009A180(entity,
-                (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) << 16) != 0) {
+                (u8 *)((EntityRec *)D_800814A8)->unk_58 + 0x20) << 16) != 0) {
             goto done;
         }
         func_800A9A0C(entity);
@@ -136,11 +136,11 @@ state_one:
         func_800A9A0C(entity);
     }
     func_800A9A04(entity);
-    if (((Rec_D_800E3D7C *)entity)->unk_24.at01_u8.v == 0) {
+    if (((EntityRec *)entity)->tileY == 0) {
         goto done;
     }
     (*(void * *)((u8 *)target + 0x2C)) = D_80174E54;
-    direction = (gameWork.viewAngle + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9;
+    direction = (gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
     func_80047784(target, D_80174E54[direction & 7], 0);
     shared_state->unk_0A++;
 

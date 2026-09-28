@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 
 typedef struct S_801730E0_0 {
@@ -26,7 +26,7 @@ extern void func_800B66C8(void *);
 extern void func_800419EC(s32, s32);
 
 /* Advance the action wait states, then reset motion and switch scripts. */
-void func_801730E0(S_801730E0_0 *state, Rec_D_800E3D7C *motion, Rec_D_80082E80 *action, void *entity) {
+void func_801730E0(S_801730E0_0 *state, EntityRec *motion, Rec_D_80082E80 *action, void *entity) {
     s16 phase;
     u16 ticks_left;
     s16 wait_ticks;
@@ -46,29 +46,29 @@ void func_801730E0(S_801730E0_0 *state, Rec_D_800E3D7C *motion, Rec_D_80082E80 *
 
 start_action:
         func_800AD4D0(entity);
-        motion->unk_10.at00_s32.v = 0;
-        motion->unk_0C.as_s32 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
         func_800B66C8(motion);
         func_800B66C8(motion);
         func_800B66C8(motion);
         func_800B66C8(motion);
         func_800419EC(4, 6);
         state->unk_9B = state->unk_9B + 1;
-        if (((Rec_D_800E3D7C *)entity)->unk_28 != 0) {
+        if (((EntityRec *)entity)->unk_28 != 0) {
             if (action->unk_14.at00_u16.v & 0x8000) {
                 state->unk_96.s = 0;
                 state->unk_9B = 2;
                 goto done;
             }
             wait_ticks = -1U;
-            if (((Rec_D_800E3D7C *)entity)->unk_1C.as_s32 & 0x228)
+            if (((EntityRec *)entity)->flags1C & 0x228)
                 wait_ticks = 8;
             state->unk_96.s = wait_ticks;
             goto update_wait;
         }
-        motion->unk_14.as_s32 = 0;
-        motion->unk_10.at00_s32.v = 0;
-        motion->unk_0C.as_s32 = 0;
+        motion->flags14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
         func_800AAA54(state, motion, action, &D_801752E4);
         goto done;
 
@@ -84,10 +84,10 @@ update_wait:
 check_wait:
         if (state->unk_96.u != 0)
             goto done;
-        if (((Rec_D_800E3D7C *)entity)->unk_28 == 0) {
-            motion->unk_14.as_s32 = 0;
-            motion->unk_10.at00_s32.v = 0;
-            motion->unk_0C.as_s32 = 0;
+        if (((EntityRec *)entity)->unk_28 == 0) {
+            motion->flags14 = 0;
+            motion->unk_10 = 0;
+            motion->unk_0C = 0;
             func_800AAA54(state, motion, action, &D_801752E4);
             goto done;
         }
@@ -101,9 +101,9 @@ finish_action:
         state->unk_96.s = ticks_left;
         if ((ticks_left << 0x10) > 0)
             goto done;
-        motion->unk_14.as_s32 = 0;
-        motion->unk_10.at00_s32.v = 0;
-        motion->unk_0C.as_s32 = 0;
+        motion->flags14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
         func_800A2B04(motion, action->unk_24, action->unk_25);
         if (((s32)dungeonStatus.unk_10) == (entity - 0x20)) {
             dungeonStatus.unk_10 = ((s32)dungeonStatus.unk_10) & 0x7FFFFFFF;

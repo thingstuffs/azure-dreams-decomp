@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -186,15 +188,12 @@ static const u32 func_8197C800_bank[] __asm__("func_8197C800")
 extern void *D_80024008[];
 extern void *D_800814A8[];
 extern u8 D_80083498[];
-extern u8 D_80083780[];
 extern u32 D_800246C0[];
 extern u8 D_80024BB8[];
 extern u8 D_80024C68[];
-extern u8 D_80082E80[];
 extern u8 D_800DEDB0[];
 extern u8 D_800DE9D0[];
 extern u8 D_800DEC00[];
-extern u16 D_80082E94[];
 
 extern void *func_8003FD64(s32, void *);
 extern s32 func_8003DE58(void *, void *, void *, s32);
@@ -234,14 +233,14 @@ void FUNC_8197C800_BODY(void *input, void *output)
     s32 remaining;
     register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *particle_script_debris;
-    u8 *debris_origin;
+    TileObject *debris_origin;
     s32 height;
     s32 offset_index;
     s32 random_value;
     u16 angle;
     u16 tail_state;
     u16 tail_timer;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    u8 *burst_origin;
+    TileObject *burst_origin;
     u16 timer;
     s32 scaled_coord;
     static void *const state_labels[] = {
@@ -361,7 +360,7 @@ case_three:
                           (s16)(reference_position->unk_0A - 0x80));
     }
     particle_script = D_80024BB8;
-    burst_origin = D_80082E80;
+    burst_origin = &D_80082E80;
     do {
         particle = func_8003FD64(0x312, D_80083498);
         if (particle != 0) {
@@ -378,7 +377,7 @@ case_three:
                 s32 rounded_random;
                 s32 jitter;
                 void *position;
-                grid_coord = ((S_FUNC_8197C800_BODY_13 *)burst_origin)->unk_24 + ((s16 *)result)[offset_index];
+                grid_coord = burst_origin->tileX + ((s16 *)result)[offset_index];
                 rounded_random = random_value;
                 position = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_08;
                 scaled_coord = grid_coord << 6;
@@ -398,7 +397,7 @@ case_three:
                 s32 rounded_random;
                 s32 jitter;
                 void *position;
-                grid_coord = ((S_FUNC_8197C800_BODY_13 *)burst_origin)->unk_25 + ((s16 *)result)[offset_index];
+                grid_coord = burst_origin->tileY + ((s16 *)result)[offset_index];
                 rounded_random = random_value;
                 position = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_08;
                 ASM_KEEP(position);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -441,7 +440,7 @@ case_three:
 
     remaining = 9;
     particle_script_debris = D_80024C68;
-    debris_origin = D_80082E80;
+    debris_origin = &D_80082E80;
     do {
         particle = func_8003FD64(0x312, D_80083498);
         if (particle != 0) {
@@ -456,7 +455,7 @@ case_three:
             {
                 s32 grid_coord;
                 void *position;
-                grid_coord = ((S_FUNC_8197C800_BODY_17 *)debris_origin)->unk_24 + ((s16 *)result)[offset_index];
+                grid_coord = debris_origin->tileX + ((s16 *)result)[offset_index];
                 position = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_08;
                 result = jitter_coordinate_64(grid_coord, random_value);
                 ((S_FUNC_8197C800_BODY_14 *)position)->unk_02 = result;
@@ -468,7 +467,7 @@ case_three:
             {
                 s32 grid_coord;
                 void *position;
-                grid_coord = ((S_FUNC_8197C800_BODY_17 *)debris_origin)->unk_25 + ((s16 *)result)[offset_index];
+                grid_coord = debris_origin->tileY + ((s16 *)result)[offset_index];
                 position = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_08;
                 result = jitter_coordinate_64(grid_coord, random_value);
                 ((S_FUNC_8197C800_BODY_14 *)position)->unk_06 = result;
@@ -518,7 +517,7 @@ store_state:
     return;
 
 case_four:
-    if (!(D_80082E94[0] & 0x8000) && ((S_FUNC_8197C800_BODY_0 *)input)->unk_50.u >= 0) {
+    if (!(D_80082E80.unk_014 & 0x8000) && ((S_FUNC_8197C800_BODY_0 *)input)->unk_50.u >= 0) {
         return;
     }
     if (((S_FUNC_8197C800_BODY_0 *)input)->unk_52.s & 0x8000) {

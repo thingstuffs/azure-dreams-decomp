@@ -1,7 +1,8 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 
 typedef struct S_80172288_0 {
@@ -44,7 +45,6 @@ extern void func_800A9A04(void *);
 extern void func_800AD594(void *, s32);
 extern s32 func_800AD9B4(void *, void *);
 
-extern u8 D_80082E80[];
 extern u8 D_80170838[16];
 extern s32 D_80170E84;
 extern u8 D_80174820[];
@@ -81,8 +81,8 @@ void func_80172288(u8 *motion, u8 *position, u8 *sprite, u8 *actor)
 takeoff:
     if (((S_80172288_0 *)motion)->unk_96 < 8) {
         ((S_80172288_0 *)motion)->unk_98 |= 8;
-        ((Rec_D_800E3D7C *)position)->unk_14.as_s32 = 0xFFEE0000;
-        ((Rec_D_800E3D7C *)actor)->unk_1C.as_s32 &= 0xF7FFFFFF;
+        ((EntityRec *)position)->flags14 = 0xFFEE0000;
+        ((EntityRec *)actor)->flags1C &= 0xF7FFFFFF;
         phase_value = *(volatile u8 *)(motion + 0x9B);
         ((S_80172288_0 *)motion)->unk_A0 = 0;
         goto advance_phase;
@@ -98,38 +98,38 @@ airborne:
             s32 current_x;
 
             target_x = sprite[0x24];
-            current_x = ((Rec_D_800E3D7C *)position)->unk_00.at02_s16.v;
+            current_x = ((EntityRec *)position)->x.w.i;
             target_x <<= 6;
             current_x -= 0x20;
-            ((Rec_D_800E3D7C *)position)->unk_0C.as_s32 =
+            ((EntityRec *)position)->unk_0C =
                 ((target_x - current_x) << 16) / frames_left;
         }
-        current_y = ((Rec_D_800E3D7C *)position)->unk_04.at02_s16.v - 0x20;
-        ((Rec_D_800E3D7C *)position)->unk_10.at00_s32.v =
+        current_y = ((EntityRec *)position)->y.w.i - 0x20;
+        ((EntityRec *)position)->unk_10 =
             (((sprite[0x25] << 6) - current_y) << 16) /
             ((S_80172288_0 *)motion)->unk_96;
-        ((S_80172288_0 *)motion)->unk_A0 += ((Rec_D_800E3D7C *)position)->unk_14.as_s32;
-        ((Rec_D_800E3D7C *)position)->unk_14.as_s32 += 0x40000;
+        ((S_80172288_0 *)motion)->unk_A0 += ((EntityRec *)position)->flags14;
+        ((EntityRec *)position)->flags14 += 0x40000;
     }
     ((S_80172288_0 *)motion)->unk_90 += ((S_80172288_0 *)motion)->unk_A0;
     if (((S_80172288_0 *)motion)->unk_96 < 3) {
         ((S_80172288_0 *)motion)->unk_90 = 0;
         ((S_80172288_0 *)motion)->unk_98 &= 0xFFF7;
-        ((Rec_D_800E3D7C *)actor)->unk_1C.as_s32 |= 0x08000000;
+        ((EntityRec *)actor)->flags1C |= 0x08000000;
         ((S_80172288_0 *)motion)->unk_9B++;
     }
 
 landing:
-    if (((Rec_D_800E3D7C *)actor)->unk_1C.as_s32 & 0x08000000) {
+    if (((EntityRec *)actor)->flags1C & 0x08000000) {
         ((S_80172288_0 *)motion)->unk_98 &= 0xFFF7;
-        ((Rec_D_800E3D7C *)position)->unk_14.as_s32 = 0;
-        ((Rec_D_800E3D7C *)position)->unk_10.at00_s32.v = 0;
-        ((Rec_D_800E3D7C *)position)->unk_0C.as_s32 = 0;
+        ((EntityRec *)position)->flags14 = 0;
+        ((EntityRec *)position)->unk_10 = 0;
+        ((EntityRec *)position)->unk_0C = 0;
         func_800A2B04(position, sprite[0x24], sprite[0x25]);
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80174820;
         func_80047784(
             sprite,
-            D_80174820[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            D_80174820[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
         phase_value = ((S_80172288_0 *)motion)->unk_9B;
 advance_phase:
@@ -140,9 +140,9 @@ tick_timer:
     timer = ((S_80172288_0 *)motion)->unk_96 - 1;
     ((S_80172288_0 *)motion)->unk_96 = timer;
     if ((timer << 16) <= 0) {
-        ((Rec_D_800E3D7C *)position)->unk_14.as_s32 = 0;
-        ((Rec_D_800E3D7C *)position)->unk_10.at00_s32.v = 0;
-        ((Rec_D_800E3D7C *)position)->unk_0C.as_s32 = 0;
+        ((EntityRec *)position)->flags14 = 0;
+        ((EntityRec *)position)->unk_10 = 0;
+        ((EntityRec *)position)->unk_0C = 0;
         func_800A2B04(position, sprite[0x24], sprite[0x25]);
         func_800AD594(actor, 4);
         func_800A4ACC(actor);
@@ -152,10 +152,10 @@ tick_timer:
             ((S_80172288_3 *)global_counter)->unk_08.u--;
         }
 
-        actor_flags = ((Rec_D_800E3D7C *)actor)->unk_1C.as_s32;
+        actor_flags = ((EntityRec *)actor)->flags1C;
         if (actor_flags & 0x2000) {
-            if (((Rec_D_800E3D7C *)actor)->unk_44.at02_u16.v & 0x8000) {
-                ((Rec_D_800E3D7C *)actor)->unk_44.at02_u16.v &= 0x7FFF;
+            if (((EntityRec *)actor)->unk_46 & 0x8000) {
+                ((EntityRec *)actor)->unk_46 &= 0x7FFF;
                 goto update_actor;
             }
             goto update_actor;
@@ -166,8 +166,8 @@ tick_timer:
         if (!(actor_flags & 0x20000)) {
             goto update_actor;
         }
-        ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 = func_800A0818(
-            sprite[0x24], sprite[0x25], D_80082E80[0x24], D_80082E80[0x25],
+        ((EntityRec *)actor)->facing = func_800A0818(
+            sprite[0x24], sprite[0x25], D_80082E80.tileX, D_80082E80.tileY,
             &facing_result);
 
 update_actor:

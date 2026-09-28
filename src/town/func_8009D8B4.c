@@ -1,5 +1,5 @@
 #include "common.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 typedef s32 M2C_UNK;
 
@@ -35,11 +35,11 @@ void func_8009B014(void *state, void *motion, M2C_UNK context) {
     target_index = D_800D0620;
     target_bases = D_800D0640;
     target_base = target_bases + target_index;
-    ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = (s32) ((u32) (((S_8009B014_1 *)state)->unk_32 * 0x10000) + (u32) *target_base - (u32) ((Rec_D_800E3D7C *)motion)->unk_04.at00_s32.v) / ((S_8009B014_1 *)state)->unk_0A.s;
+    ((EntityRec *)motion)->unk_10 = (s32) ((u32) (((S_8009B014_1 *)state)->unk_32 * 0x10000) + (u32) *target_base - (u32) ((EntityRec *)motion)->y.v) / ((S_8009B014_1 *)state)->unk_0A.s;
     ticks_left = (u16) ((S_8009B014_1 *)state)->unk_0A.s - 1;
     ((S_8009B014_1 *)state)->unk_0A.u = ticks_left;
     if (((s16) ticks_left * 0x10000) <= 0) {
-        ((Rec_D_800E3D7C *)motion)->unk_04.at00_s32.v = (s32) ((u32) (((S_8009B014_1 *)state)->unk_32 * 0x10000) + (u32) *target_base);
+        ((EntityRec *)motion)->y.v = (s32) ((u32) (((S_8009B014_1 *)state)->unk_32 * 0x10000) + (u32) *target_base);
         func_80099754(motion);
         ((S_8009B014_1 *)state)->unk_10 = 0x400;
         ((S_8009B014_1 *)state)->unk_0A.u = 0xA;

@@ -1,4 +1,7 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity_objects.h"
+#include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -14,9 +17,7 @@ M2C_UNK func_800A5F38();                 /* extern */
 M2C_UNK func_800A63B8();            /* extern */
 s32 func_800AD6FC();            /* extern */
 M2C_UNK func_800C4AFC();            /* extern */
-extern M2C_UNK D_80082E80;
 extern extern M2C_UNK D_80083460[3];
-extern M2C_UNK D_80083780;
 extern u16 D_800DDE84[];
 extern M2C_UNK D_800E0E69;
 
@@ -38,8 +39,8 @@ s32 func_800BD45C(void *entity, s32 item, s16 action) {
     M2C_UNK *item_counts;
 
     if (entity == D_800E3D7C) {
-        ((Rec_D_800E3D7C *)entity)->unk_110 = item;
-        func_8008D330(entity, &D_80083780, &D_80082E80, entity);
+        ((EntityRec *)entity)->unk_110 = item;
+        func_8008D330(entity, &D_80083780.x.v, &D_80082E80.unk_000, entity);
         return 0;
     }
     if ((u32) entity <= 0x9FFFFFFFU) {
@@ -48,14 +49,14 @@ s32 func_800BD45C(void *entity, s32 item, s16 action) {
 
         func_800A63B8(entity, item, action);
         call_entity = entity;
-        type_id = ((Rec_D_800E3D7C *)entity)->unk_10.at03_u8.v;
+        type_id = (*(u8 *)((u8 *)&((EntityRec *)entity)->unk_10 + 3));
         if (func_800AD6FC(call_entity, (D_800DDE84[type_id] >> 6) & 3, 0) == 0) {
             func_800A5F38(entity, item);
             return 1;
         }
     }
     func_800C4AFC(((S_800BD45C_0_pre *)entity)[-1].unk_00, 0x802080, entity);
-    if ((((Rec_D_800E3D7C *)entity)->unk_14.as_s32 & 0x4000) && !(((Rec_D_800E3D7C *)entity)->unk_1C.as_s32 & 0x40)) {
+    if ((((EntityRec *)entity)->flags14 & 0x4000) && !(((EntityRec *)entity)->flags1C & 0x40)) {
         M2C_UNK *message_text;
         s32 message_pos;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         s32 message_start;

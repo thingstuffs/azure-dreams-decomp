@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/tile_object.h"
 
 typedef struct S_8016EC04_0 {
     u8 pad_00[0x14];
@@ -13,7 +14,6 @@ typedef struct S_8016EC04_1 {
 
 
 extern u8 *D_80175D50;
-extern u8 D_80082E80[];
 
 extern void func_8009A3D0(s32, s32, s32);
 extern void func_800A2B04(void *, s32, s32);
@@ -28,7 +28,7 @@ void func_8016EC04(s32 offset_index)
     u8 *entity;
     void *motion;
     u8 *step;
-    u8 *origin;
+    TileObject *origin;
 
     object = D_80175D50;
     state = object + 0x20;
@@ -40,10 +40,10 @@ void func_8016EC04(s32 offset_index)
     func_8009A3D0(entity[0x24], entity[0x25],
                   (((S_8016EC04_1 *)state)->unk_1C & 0x2000) ? 0x300 : 0x3000);
 
-    origin = D_80082E80;
+    origin = &D_80082E80;
     step = (u8 *)&delta[offset_index * 2];
-    entity[0x24] = origin[0x24] + step[0];
-    entity[0x25] = origin[0x25] + step[2];
+    entity[0x24] = origin->tileX + step[0];
+    entity[0x25] = origin->tileY + step[2];
 
     func_800A2B04(motion, entity[0x24], entity[0x25]);
 

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -80,7 +81,6 @@ extern M2C_UNK func_80171BEC_returning();
 #endif
 M2C_UNK func_801759A0();
 
-extern u8 D_80082E80[];
 extern u8 D_801724BC[];
 extern u8 D_80175E54[];
 extern u8 D_80175E5C[];
@@ -225,10 +225,10 @@ state1_check:
         func_800A9A0C(actor);
         func_800A9A04(actor);
         if ((func_80042900(actor, 1) << 16) != 0) {
-            register M2C_UNK *player;
-            player = (M2C_UNK *)D_80082E80;
+            TileObject *player;
+            player = &D_80082E80;
             floor = ((S_80175050_1 *)sprite_in)->unk_26;
-            if (!((floor == ((S_80175050_6 *)player)->unk_26 && floor >= 0) || func_8009FD40(player, sprite_in) < 2)) {
+            if (!((floor == player->unk_026 && floor >= 0) || func_8009FD40(player, sprite_in) < 2)) {
                 goto second_check;
             }
             if (func_800A6D30() & 7) {

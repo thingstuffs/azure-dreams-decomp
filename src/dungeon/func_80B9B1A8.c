@@ -5,7 +5,7 @@
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 typedef struct S_801749A8_8 {
     u8 pad_00[0x8];
@@ -116,7 +116,7 @@ extern u8 D_80174FCD[];
 extern s32 D_80174FD0[];
 
 /* Updates the turning, color fade, effect, and model replacement sequence. */
-void func_801749A8(void *sequence, Rec_D_800E3D7C *position, Rec_D_80082E80 *actor, void *target) {
+void func_801749A8(void *sequence, EntityRec *position, Rec_D_80082E80 *actor, void *target) {
     static void *const state_labels[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8 };
     M2C_UNK *target_color;
     s16 direction;
@@ -202,9 +202,9 @@ jt_c4:
     object->unk_10.s = &D_8017487C;
     func_8004491C(object, func_80045340);
     ((S_801749A8_0 *)sequence)->unk_A4 = object;
-    ((S_801749A8_10 *)(((S_801749A8_8 *)object)->unk_08))->unk_00 = (s32) position->unk_00.at00_s32.v;
-    ((S_801749A8_10 *)(((S_801749A8_8 *)object)->unk_08))->unk_04 = (s32) position->unk_04.at00_s32.v;
-    ((S_801749A8_10 *)(((S_801749A8_8 *)object)->unk_08))->unk_08 = (s32) position->unk_08.at00_s32.v;
+    ((S_801749A8_10 *)(((S_801749A8_8 *)object)->unk_08))->unk_00 = (s32) position->x.v;
+    ((S_801749A8_10 *)(((S_801749A8_8 *)object)->unk_08))->unk_04 = (s32) position->y.v;
+    ((S_801749A8_10 *)(((S_801749A8_8 *)object)->unk_08))->unk_08 = (s32) position->z.v;
     object = object->unk_0C.s;
     object->unk_1E = 0x1000;
     object->unk_1C = 0x1000;

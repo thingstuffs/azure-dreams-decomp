@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_D_80083460.h"
 
 s32 func_80042900(void *, s32);
@@ -32,7 +32,7 @@ typedef struct S_800AAB10_2_pre {
 
 
 /* Processes the selected record, checks eligibility, and clears completed state. */
-s32 func_800AAB10(s32 buffer_addr, M2C_UNK source, M2C_UNK unused, Rec_D_800E3D7C *record) {
+s32 func_800AAB10(s32 buffer_addr, M2C_UNK source, M2C_UNK unused, EntityRec *record) {
     s32 eligible;
     u8 type_id;
 
@@ -49,9 +49,9 @@ s32 func_800AAB10(s32 buffer_addr, M2C_UNK source, M2C_UNK unused, Rec_D_800E3D7
                             D_80080AA0 = 1;
                             D_80080A88 = 0;
                         }
-                        if (!(record->unk_54.as_s32 & 0x800000) && (record->unk_14.as_s32 & 0x4000)) {
-                            type_id = record->unk_10.at03_u8.v;
-                            if ((((S_800AAB10_2_pre *)(((type_id * 0x14) + D_8007359C)))[-1].unk_00 & 0x80) && (type_id >= 2U) && ((u8) record->unk_10.at01_u8.v >= 0x14U) && !(record->unk_1C.as_s32 & 0x228) && ((func_80042900(record, 0x18) << 0x10) == 0)) {
+                        if (!(record->unk_54 & 0x800000) && (record->flags14 & 0x4000)) {
+                            type_id = (*(u8 *)((u8 *)&record->unk_10 + 3));
+                            if ((((S_800AAB10_2_pre *)(((type_id * 0x14) + D_8007359C)))[-1].unk_00 & 0x80) && (type_id >= 2U) && ((u8) (*(u8 *)((u8 *)&record->unk_10 + 1)) >= 0x14U) && !(record->flags1C & 0x228) && ((func_80042900(record, 0x18) << 0x10) == 0)) {
                                 eligible = 1;
                             }
                         }

@@ -1,9 +1,10 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_func_800AA258_arg2.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_D_800814A8.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -88,7 +89,6 @@ extern void func_800AA79C(void *, void *, void *, void *);
 extern void func_800AA888(void *, void *, void *, void *);
 extern void func_80174250(void *, void *, void *, void *);
 
-extern u8 D_80082E80[];
 extern u8 D_80083498[];
 extern u8 D_80170F6C[];
 extern u8 D_80174424[];
@@ -155,7 +155,7 @@ scan_zero_done:
         (*(u8 * *)((u8 *)sprite + 0x2C)) = direction_table;
         func_80047784(
             sprite,
-            direction_table[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            direction_table[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
 
         dungeonStatus.unk_0A--;
@@ -247,7 +247,7 @@ scan_two_done:
         (*(u8 * *)((u8 *)sprite + 0x2C)) = direction_table;
         func_80047784(
             sprite,
-            direction_table[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            direction_table[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
 
         effect = func_8003FD64(0x10, D_80083498);
@@ -276,13 +276,13 @@ state_two_active:
         if (dungeonStatus.flags & 0x1000) {
             goto done;
         }
-        if (((Rec_D_800E3D7C *)actor)->unk_64.as_s16 != 0) {
+        if (((EntityRec *)actor)->unk_64 != 0) {
             if (func_800AA6B4(action, context, sprite, 0) != 0) {
                 goto done;
             }
         }
 
-        if (((Rec_D_800E3D7C *)actor)->unk_24.at01_u8.v == 0) {
+        if (((EntityRec *)actor)->tileY == 0) {
             if (dungeonStatus.flags & 0x2008) {
                 goto done;
             }
@@ -297,7 +297,7 @@ state_two_active:
         {
             u32 actor_flags;
 
-            actor_flags = ((Rec_D_800E3D7C *)actor)->unk_1C.as_u32;
+            actor_flags = ((u32)((EntityRec *)actor)->flags1C);
             if (actor_flags & 0x100) {
                 func_800AA258(action, context, sprite, actor);
                 goto done;
@@ -309,12 +309,12 @@ state_two_active:
             }
         }
 
-        if (((Rec_D_800E3D7C *)actor)->unk_6D.as_s8 == 0) {
+        if (((EntityRec *)actor)->unk_6D == 0) {
             goto done;
         }
         if ((s16)func_800A2C34(actor) != 0) {
             if ((s16)func_8009A180(
-                    actor, (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) != 0) {
+                    actor, (u8 *)((EntityRec *)D_800814A8)->unk_58 + 0x20) != 0) {
                 goto done;
             }
         }
@@ -324,12 +324,12 @@ state_two_active:
         if ((s16)func_80042900(actor, 1) != 0) {
             s8 tile;
 
-            check_actor = D_80082E80;
+            check_actor = ((u8 *)(&D_80082E80));
             tile = ((Rec_func_800AA258_arg2 *)sprite)->unk_26.as_s8;
-            if ((tile != ((Rec_D_80082E80 *)D_80082E80)->unk_26.as_s8) || (tile < 0)) {
+            if ((tile != ((Rec_D_80082E80 *)((u8 *)(&D_80082E80)))->unk_26.as_s8) || (tile < 0)) {
                 s32 distance;
 
-                distance = (s16)func_8009FD40(D_80082E80, sprite);
+                distance = (s16)func_8009FD40(((u8 *)(&D_80082E80)), sprite);
                 check_actor = actor;
                 if (distance >= 2) {
                     goto second_call;
@@ -350,7 +350,7 @@ second_call:
         (*(u8 * *)((u8 *)sprite + 0x2C)) = exit_table;
         func_80047784(
             sprite,
-            exit_table[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            exit_table[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
 
         effect = func_8003FD64(0x10, D_80083498);
@@ -404,7 +404,7 @@ state_three:
         }
 
         dungeonStatus.unk_0A--;
-        ((Rec_D_800E3D7C *)actor)->unk_1C.as_u32 &= ~0x200;
+        ((EntityRec *)actor)->flags1C &= ~0x200;
         ((S_8017382C_0 *)action)->unk_8C = D_80170F6C;
         ((Rec_func_800AA258_arg2 *)sprite)->unk_12 = ((S_8017382C_0 *)action)->unk_AE;
     }

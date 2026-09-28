@@ -1,4 +1,7 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity_objects.h"
+#include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -64,8 +67,6 @@ s32 func_800A90E8();
 s32 func_800B8228();
 
 extern u8 D_80010980[];
-extern u8 D_80082E80[];
-extern u8 D_80083780[];
 extern u8 D_80089360[];
 extern u8 D_800E1095[0x1E];
 extern u8 D_800E10B3[];
@@ -95,8 +96,8 @@ s32 func_800BE6F0(void *entity, s32 source, s16 reason)
     s32 cleared_selection;
 
     if (entity == ((u8 *)D_800E3D7C)) {
-        ((Rec_D_800E3D7C *)entity)->unk_110 = source;
-        func_8008D330(entity, D_80083780, D_80082E80, entity);
+        ((EntityRec *)entity)->unk_110 = source;
+        func_8008D330(entity, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), entity);
         return 0;
     }
 
@@ -104,9 +105,9 @@ s32 func_800BE6F0(void *entity, s32 source, s16 reason)
         func_800A63B8(entity, source, reason);
     }
 
-    if (((Rec_D_800E3D7C *)entity)->unk_14.as_s32 & 0x4000) {
+    if (((EntityRec *)entity)->flags14 & 0x4000) {
         text_buffer = func_800990FC();
-        if ((u32)(((Rec_D_800E3D7C *)entity)->unk_10.at03_u8.v - 3) < 0x2B) {
+        if ((u32)((*(u8 *)((u8 *)&((EntityRec *)entity)->unk_10 + 3)) - 3) < 0x2B) {
             text_end = func_80099734(entity, text_buffer);
             message = (u8 *)0x800E0000;
             ASM_KEEP(message);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -122,10 +123,10 @@ s32 func_800BE6F0(void *entity, s32 source, s16 reason)
         func_800A5720(text_buffer);
     }
 
-    entity_type = ((Rec_D_800E3D7C *)entity)->unk_10.at03_u8.v;
+    entity_type = (*(u8 *)((u8 *)&((EntityRec *)entity)->unk_10 + 3));
     if ((u32)(entity_type - 3) < 0x2B) {
         spawn_data[0] = entity_type;
-        spawn_type = ((Rec_D_800E3D7C *)entity)->unk_10.at03_u8.v;
+        spawn_type = (*(u8 *)((u8 *)&((EntityRec *)entity)->unk_10 + 3));
         if ((spawn_type == 3) || (spawn_type == 5) || (spawn_type == 7) ||
             (spawn_type == 9) || (spawn_type == 0xB) || (spawn_type == 0xD) ||
             (spawn_type == 0xF) || (spawn_type == 0x11) || (spawn_type == 0x13)) {
@@ -170,7 +171,7 @@ s32 func_800BE6F0(void *entity, s32 source, s16 reason)
             tile_x = map_position->unk_24;
             tile_y = map_position->unk_25;
             tile_mask = 0x3000;
-            if (((Rec_D_800E3D7C *)entity)->unk_1C.as_s32 & 0x2000) {
+            if (((EntityRec *)entity)->flags1C & 0x2000) {
                 tile_mask = 0x300;
             }
             func_8009A3D0(tile_x, tile_y, tile_mask);

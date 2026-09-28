@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 
@@ -12,7 +13,6 @@ typedef struct {
     u8 bytes[8];
 } __attribute__((packed)) Packed8;
 
-extern u8 D_80082E80[0x28];
 extern DungeonState D_8008333C;
 extern u8 *D_800814A8;
 extern u8 D_800DCF5B;
@@ -55,12 +55,12 @@ void func_807AEF8C(void *owner) {
     if (*(s32 *)(D_800E3D7C + 0x14) & 0x100000) {
         return;
     }
-    if (D_80082E80[0x25] != 0x24) {
+    if (D_80082E80.tileY != 0x24) {
         return;
     }
-    if (D_80082E80[0x24] == 0x1F) {
+    if (D_80082E80.tileX == 0x1F) {
         mode = 2;
-    } else if (D_80082E80[0x24] == 0x20) {
+    } else if (D_80082E80.tileX == 0x20) {
         mode = 1;
     }
     if (mode == 0) {

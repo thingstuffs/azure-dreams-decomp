@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
@@ -10,7 +11,6 @@ M2C_UNK func_800A634C();
 M2C_UNK func_800A67F4();
 extern s16 D_80013630[4];
 extern M2C_UNK D_8001363C;
-extern M2C_UNK D_80082E80;
 extern M2C_UNK D_800E296C;
 
 typedef struct S_func_8009E038_0 {
@@ -102,7 +102,6 @@ typedef struct S_func_8009E038_8 {
 void func_8009E038(S_func_8009E038_0 *transition, S_func_8009E038_1 *center, S_func_8009E038_2 *render_params, M2C_UNK *context) {
     static void *const jt_keep[] = { &&jt_c0, &&jt_c1, &&jt_c16, &&jt_c32, &&jt_c48 };
     s32 top_step;
-    S_func_8009E038_7 *target_offsets;
     S_func_8009E038_5 *input;
     s16 reset_frames;
     s16 move_frames;
@@ -135,7 +134,6 @@ void func_8009E038(S_func_8009E038_0 *transition, S_func_8009E038_1 *center, S_f
     S_func_8009E038_2 *render;
     S_func_8009E038_8 *viewport_page;
     S_func_8009E038_6 *flags_page;
-    S_func_8009E038_7 *idle_offsets;
     s32 left_step;
     register s32 shared_flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
@@ -287,9 +285,8 @@ jt_c16:
     render->unk_1C = moving_scale;
     center->unk_02 = (s16) ((u16) center->unk_02 + ((s32) (transition->unk_14 - center->unk_02) / (s16) transition->unk_1C));
     center->unk_06 = (s16) ((u16) center->unk_06 + ((s32) (transition->unk_16 - center->unk_06) / (s16) transition->unk_1C));
-    target_offsets = (S_func_8009E038_7 *)&D_80082E80;
-    render->unk_20.u16 = (u16) (((s32) (target_offsets->unk_24 - render->unk_20.u16) / (s16) transition->unk_1C) + render->unk_20.u16);
-    render->unk_22.u16 = (u16) (((s32) (target_offsets->unk_25 - render->unk_22.u16) / (s16) transition->unk_1C) + render->unk_22.u16);
+    render->unk_20.u16 = (u16) (((s32) (D_80082E80.tileX - render->unk_20.u16) / (s16) transition->unk_1C) + render->unk_20.u16);
+    render->unk_22.u16 = (u16) (((s32) (D_80082E80.tileY - render->unk_22.u16) / (s16) transition->unk_1C) + render->unk_22.u16);
     left_step = (s32) (transition->unk_0C - transition->unk_04) / (s16) transition->unk_1C;
     transition->unk_04 = (s16) ((u16) transition->unk_04 + left_step);
     top_step = (s32) (transition->unk_0E - transition->unk_06) / (s16) transition->unk_1C;
@@ -307,8 +304,8 @@ jt_c16:
     target_scale = (u16) transition->unk_1E;
     render->unk_1E = target_scale;
     render->unk_1C = target_scale;
-    render->unk_20.s16 = (s16) ((S_func_8009E038_7 *)&D_80082E80)->unk_24;
-    render->unk_22.s16 = (s16) ((S_func_8009E038_7 *)&D_80082E80)->unk_25;
+    render->unk_20.s16 = (s16) ((S_func_8009E038_7 *)&D_80082E80.unk_000)->unk_24;
+    render->unk_22.s16 = (s16) ((S_func_8009E038_7 *)&D_80082E80.unk_000)->unk_25;
     target_left = (u16) transition->unk_0C;
     viewport_page = (S_func_8009E038_8 *)0x80010000;
     transition->unk_04 = (s16) target_left;
@@ -324,9 +321,8 @@ jt_c16:
     viewport_page->unk_3636 = target_height;
     goto check_scale_input;
 sync_offsets:
-    idle_offsets = (S_func_8009E038_7 *)&D_80082E80;
-    render->unk_20.s16 = (s16) idle_offsets->unk_24;
-    render->unk_22.s16 = (s16) idle_offsets->unk_25;
+    render->unk_20.s16 = (s16) D_80082E80.tileX;
+    render->unk_22.s16 = (s16) D_80082E80.tileY;
 check_scale_input:
     if (!(input->unk_08 & 0x10)) {
         goto check_reset_input;

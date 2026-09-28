@@ -1,8 +1,8 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "m2c_compat.h"
 
 extern s32 D_80174CD8[3];
-extern u8 D_80082E80[];
 typedef struct {
     u8 data[24];
 } Config24;
@@ -37,7 +37,7 @@ void func_80171168(s32 offset_index) {
     M2C_UNK old_cell_mask;
     M2C_UNK new_cell_mask;
     u8 *offset_bytes;
-    u8 *origin;
+    TileObject *origin;
     u8 old_x;
     u8 old_y;
     u8 new_x;
@@ -61,11 +61,11 @@ void func_80171168(s32 offset_index) {
         old_cell_mask = 0x300;
     }
     func_8009A3D0(old_x, old_y, old_cell_mask);
-    origin = D_80082E80;
+    origin = &D_80082E80;
     offset_pair = &offset_pair[offset_index];
     offset_bytes = (u8 *)offset_pair;
-    entity->unk_24 = (u8) (origin[0x24] + offset_bytes[0]);
-    entity->unk_25 = (u8) (origin[0x25] + offset_bytes[1]);
+    entity->unk_24 = (u8) (origin->tileX + offset_bytes[0]);
+    entity->unk_25 = (u8) (origin->tileY + offset_bytes[1]);
     func_800A2B04(entity_id, entity->unk_24, entity->unk_25);
     new_x = entity->unk_24;
     new_y = entity->unk_25;

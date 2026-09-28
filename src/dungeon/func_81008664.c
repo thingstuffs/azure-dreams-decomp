@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
@@ -117,7 +118,6 @@ void func_800AA53C();
 void func_800AD594();
 s16 func_800BCB04();
 extern s16 D_8008146E;
-extern u8 D_80082E80[];
 extern u8 D_800DDC40[];
 extern M2C_UNK D_80171058;
 extern u8 D_80174888[];
@@ -411,7 +411,7 @@ check_attempts: do {
     }
     attempts += 1;
     ASM_KEEP(attempts);
-    search_step_offset = (s32)((u32)((S_func_81008664_7 *) D_80082E80));
+    search_step_offset = (s32)((u32)((S_func_81008664_7 *) ((u8 *)(&D_80082E80))));
     ASM_KEEP_NV(search_step_offset);
     if (tile_type != ((S_func_81008664_7 *)(u32)search_step_offset)->unk_26) {
         goto check_tile_path;

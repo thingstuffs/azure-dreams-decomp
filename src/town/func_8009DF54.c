@@ -1,5 +1,5 @@
 #include "common.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_D_800CFCB4.h"
 
 typedef void (*Callback)(void *, void *, void *, s32);
@@ -32,24 +32,24 @@ extern s16 D_800D45AA[];
 extern u8 D_800FE488[];
 
 /* Update object motion, handle contact, and play the tile height sound. */
-void func_8009B6B4(void *object, Rec_D_800CFCB4 *collision, Rec_D_800E3D7C *motion, s32 callback_arg) {
+void func_8009B6B4(void *object, Rec_D_800CFCB4 *collision, EntityRec *motion, s32 callback_arg) {
     s16 contact_height;
     s32 contact_height_ext;
 
     func_80095388(motion);
-    if (motion->unk_14.as_s32 > 0x200000) {
-        motion->unk_14.as_s32 = 0x200000;
+    if (motion->flags14 > 0x200000) {
+        motion->flags14 = 0x200000;
     }
     func_8009539C(motion);
     contact_height = func_8008F170(motion, D_800FE488);
     func_8008F294(collision, motion);
     func_8008F664(collision, motion);
     contact_height_ext = contact_height;
-    if (motion->unk_08.at02_s16.v >= contact_height_ext) {
+    if (motion->z.w.i >= contact_height_ext) {
         func_8008F27C(collision, motion, contact_height_ext);
         ((Callback *)(*(void **)((u8 *)object + 0x58)))[1](object, collision, motion, callback_arg);
     } else if (collision->unk_3B != 0) {
-        motion->unk_14.as_s32 = 0;
+        motion->flags14 = 0;
         ((Callback *)(*(void **)((u8 *)object + 0x58)))[1](object, collision, motion, callback_arg);
     }
     if ((((S_8009B6B4_2_pre *)object)[-1].unk_00 & 0x8000) == 0 &&
@@ -57,10 +57,10 @@ void func_8009B6B4(void *object, Rec_D_800CFCB4 *collision, Rec_D_800E3D7C *moti
         s32 tile_type;
 
         tile_type = func_800C1D44((u16)func_8008C180(
-            motion->unk_00.at02_s16.v, motion->unk_04.at02_s16.v));
+            motion->x.w.i, motion->y.w.i));
         if (tile_type != 0) {
             s16 *thresholds = D_800D45AA;
-            s16 height = motion->unk_08.at02_s16.v;
+            s16 height = motion->z.w.i;
             s16 threshold = thresholds[tile_type];
 
             if (height > threshold) {

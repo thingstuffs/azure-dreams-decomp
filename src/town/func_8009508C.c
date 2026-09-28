@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_func_80094268_arg0.h"
 #include "records/Rec_D_800CFCC4.h"
 
@@ -59,7 +59,7 @@ typedef struct S_800927EC_5 {
 } S_800927EC_5;   /* ((Rec_func_80094268_arg0 *)arg0)->unk_2C in func_800927EC */
 
 /* Update the actor and dispatch town movement and interaction input. */
-void func_800927EC(void *actor, Rec_D_800E3D7C *position, M2C_UNK context) {
+void func_800927EC(void *actor, EntityRec *position, M2C_UNK context) {
     GameWork *input = &gameWork;
     M2C_UNK *interaction;
     s16 ground_height;
@@ -70,7 +70,7 @@ void func_800927EC(void *actor, Rec_D_800E3D7C *position, M2C_UNK context) {
     func_80094C1C(actor);
     func_80095094(position);
     ground_height = func_80095978(position, &D_800FE488);
-    if ((ground_height - position->unk_08.at02_s16.v) >= 4) {
+    if ((ground_height - position->z.w.i) >= 4) {
         if (D_800CFCEF[0] == 0) {
             func_80094660(actor, position, context);
             return;

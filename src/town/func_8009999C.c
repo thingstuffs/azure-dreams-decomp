@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 
@@ -126,7 +127,6 @@ extern void func_80067E2C(void *, void *);
 extern void func_80067EF4(void *, s32, s32);
 extern s32 func_8008C180(s16, s16);
 extern s32 func_800C1D44(s32);
-extern u8 D_80082E80[];
 extern u8 D_800834B8[];
 extern u8 D_80083780[];
 extern s32 D_800D0460[3];
@@ -180,7 +180,7 @@ s32 func_800970FC(void) {
     u32 fill_height;
 
     page_state = &gameWork.unk_000;
-    entry = D_80082E80;
+    entry = ((u8 *)(&D_80082E80));
     alternate_page = CUR_PAGE != (void *)D_801C9E40;
     rotation = ((S_800970FC_0 *)entry)->unk_06;
     page_index = (u16) alternate_page;
@@ -316,7 +316,7 @@ s32 func_800970FC(void) {
                     func_80067E2C(primitive, rect);
                     func_8006658C(CUR_CTX + 0x830, primitive);
                 }
-                draw_entry = D_80082E80;
+                draw_entry = ((u8 *)(&D_80082E80));
                 quad_x = ((S_800970FC_6 *)texture_rect)->unk_00;
                 texture_top = ((S_800970FC_6 *)texture_rect)->unk_02.s;
                 saved_flags = ((S_800970FC_12 *)draw_entry)->unk_14;

@@ -4,7 +4,7 @@
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800287A4.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 typedef struct S_800CB82C_0 {
     u8 pad_00[0x8];
@@ -124,10 +124,10 @@ void *func_800CB82C(void *spawn_pos, void *source_state, void *owner) {
         owner_map = ((S_800CB82C_6_pre *)owner)[-1].unk_00;
         ((S_800CB82C_4 *)object_state)->unk_72 = (u8) ((S_800CB82C_7 *)owner_map)->unk_24;
         ((S_800CB82C_4 *)object_state)->unk_73 = (u8) ((S_800CB82C_7 *)owner_map)->unk_25;
-        ((S_800CB82C_4 *)object_state)->unk_88 = (u16) ((Rec_D_800E3D7C *)source_state)->unk_88.as_u16;
+        ((S_800CB82C_4 *)object_state)->unk_88 = (u16) ((u16)((EntityRec *)source_state)->unk_88);
         ((S_800CB82C_4 *)object_state)->unk_13 = 0xFF;
-        ((S_800CB82C_4 *)object_state)->unk_14 = (s32) ((Rec_D_800E3D7C *)source_state)->unk_14.as_s32;
-        ((S_800CB82C_4 *)object_state)->unk_1C = (s32) ((Rec_D_800E3D7C *)source_state)->unk_1C.as_s32;
+        ((S_800CB82C_4 *)object_state)->unk_14 = (s32) ((EntityRec *)source_state)->flags14;
+        ((S_800CB82C_4 *)object_state)->unk_1C = (s32) ((EntityRec *)source_state)->flags1C;
         ((S_800CB82C_4 *)object_state)->unk_2A = (s16) (((Rec_D_800287A4 *)owner)->unk_2A - 0x800);
         ((S_800CB82C_4 *)object_state)->unk_90 = (s32) ((S_800CB82C_2 *)spawn_pos)->unk_08.at00.v;
         if (func_800A94A0(object_state, object + 0x28, 0, object + 0xB8) == 0) {

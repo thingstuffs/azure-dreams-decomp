@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity_objects.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
@@ -22,8 +24,6 @@ typedef struct {
 } DungeonGroup;
 
 extern DungeonGroup D_80073414[];
-extern u8 D_80082E80[];
-extern s32 D_80083780[];
 extern u16 D_800DDE84[];
 extern u8 D_800E101C;
 
@@ -42,7 +42,7 @@ s32 func_800BE360(void *target, void *item, s16 action_type, s32 action_value) {
     }
     if ((s32) target == ((s32)D_800E3D7C)) {
         *(void **)((u8 *)target + 0x110) = item;
-        func_8008D344(target, D_80083780, D_80082E80, target);
+        func_8008D344(target, ((s32 *)(&D_80083780)), ((u8 *)(&D_80082E80)), target);
         return 0;
     }
     if ((u32)target <= 0x9FFFFFFFU) {

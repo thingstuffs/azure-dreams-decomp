@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/tile_object.h"
 
 typedef struct S_80025A14_0 {
     u8 pad_00[0x46];
@@ -62,7 +63,6 @@ extern void func_80048AC8(void *, s32);
 extern s16 D_8002715A;
 extern u16 D_8002715C;
 extern u8 D_8006CCF8[];
-extern u8 D_80082E80[];
 extern u8 D_800DD008[];
 
 /* Updates the object fade and selects its animation and render flags by direction. */
@@ -73,7 +73,6 @@ void func_80025A14(void *state_arg, void *buffer_arg, void *obj_arg)
     s32 fade_ticks;
     void *buffer = buffer_arg;
     u16 render_flags;
-    u8 *obj_template;
     s8 phase;
     u8 fade_in_value;
     u8 fade_in_value_2;
@@ -116,9 +115,8 @@ init:
     ((S_80025A14_2 *)obj_arg)->unk_0E = 0;
     ((S_80025A14_2 *)obj_arg)->unk_0D = 0;
     ((S_80025A14_2 *)obj_arg)->unk_0C = 0;
-    obj_template = D_80082E80;
-    ((S_80025A14_2 *)obj_arg)->unk_28 = ((S_80025A14_3 *)obj_template)->unk_28;
-    ((S_80025A14_2 *)obj_arg)->unk_14 = ((S_80025A14_3 *)obj_template)->unk_14 & 0xFFFC;
+    ((S_80025A14_2 *)obj_arg)->unk_28 = D_80082E80.unk_028;
+    ((S_80025A14_2 *)obj_arg)->unk_14 = D_80082E80.unk_014 & 0xFFFC;
     ((S_80025A14_2 *)obj_arg)->unk_2C = D_800DD008;
     ((S_80025A14_2 *)obj_arg)->unk_14 |= 0x200;
     ((S_80025A14_0 *)state)->unk_73.s = 8;

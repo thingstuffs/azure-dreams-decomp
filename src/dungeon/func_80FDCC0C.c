@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
@@ -46,7 +47,6 @@ typedef struct {
     u16 field46;
 } Entity;
 
-extern u8 D_80082E80[];
 extern u8 D_80170EA8[];
 extern u8 D_80174050[];
 extern u8 D_80174058[];
@@ -158,8 +158,8 @@ end_state:
     } else if ((entity_flags & 0x410) == 0) {
         if ((entity_flags & 0x20000) != 0) {
             entity->direction2A = func_800A0818(
-                actor->x24, actor->y25, D_80082E80[0x24],
-                D_80082E80[0x25], direction_scratch);
+                actor->x24, actor->y25, D_80082E80.tileX,
+                D_80082E80.tileY, direction_scratch);
         }
     }
 

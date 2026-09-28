@@ -2,7 +2,7 @@
 #include "shared/game_work.h"
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_8008D024_arg0.h"
 #include "records/Rec_D_80082EB0.h"
@@ -182,10 +182,10 @@ block_6:
         goto block_9;
     }
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_800DD274;
-    func_8003DB94(sprite, *(s32 *)(D_800DD274 + (((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 7) & 0x1C)), 0);
+    func_8003DB94(sprite, *(s32 *)(D_800DD274 + (((s32) (gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 7) & 0x1C)), 0);
     goto block_13;
 block_9:
-    if (!(((Rec_D_800E3D7C *)actor)->unk_1C.as_s32 & 0x100000)) {
+    if (!(((EntityRec *)actor)->flags1C & 0x100000)) {
         goto block_11;
     }
     anim_table = D_800DD0B8;
@@ -194,7 +194,7 @@ block_11:
     anim_table = D_800DCFB0;
 block_12:
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = anim_table;
-    func_80048A44(sprite, *(anim_table + (((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7)), 0, 1);
+    func_80048A44(sprite, *(anim_table + (((s32) (gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7)), 0, 1);
 block_13:
     ((Rec_func_8008D024_arg0 *)state)->unk_9B.as_u8 = (u8) (((Rec_func_8008D024_arg0 *)state)->unk_9B.as_u8 + 1);
 block_14:
@@ -239,11 +239,11 @@ jt_c2:
     if (((S_80090C10_13 *)(((Rec_D_80082EB0 *)(&D_80082EB0))->unk_00.as_pv))->unk_01 != 0x11) {
         goto block_26;
     }
-    func_8009F644(actor, 0x48, func_80098C80(((Rec_D_800E3D7C *)actor)->unk_50.at00_pv.v), 0);
+    func_8009F644(actor, 0x48, func_80098C80((*(void * *)&((EntityRec *)actor)->unk_50)), 0);
     func_80098614(actor, NULL);
     goto block_64;
 block_26:
-    func_8009F644(actor, 0x48, func_80098C80(((Rec_D_800E3D7C *)actor)->unk_4C.as_pv), 0);
+    func_8009F644(actor, 0x48, func_80098C80(((EntityRec *)actor)->unk_4C), 0);
     func_800982A8(actor, NULL);
     goto block_64;
 jt_c21:
@@ -299,7 +299,7 @@ jt_c9:
     func_800956B8(state, context, sprite, (*(void **)&D_80082EB0));
     goto block_64;
 block_41:
-    direction = ((u16) ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 >> 9) & 7;
+    direction = ((u16) ((EntityRec *)actor)->facing >> 9) & 7;
     if ((func_8009B88C(0, (s16) (((Rec_D_80082E80 *)sprite)->unk_24 + dirStepX[direction]), (s16) (((Rec_D_80082E80 *)sprite)->unk_25 + dirStepY[direction]), &tile_x, &tile_y) << 0x10) != 0) {
         goto block_43;
     }
@@ -371,7 +371,7 @@ jt_c7:
     {
         u8 *action_data = (u8 *)&D_80082EB0;
         action_index = ((S_80090C10_11 *)action_data)->unk_08 - 6;
-        ((Rec_D_800E3D7C *)actor)->unk_8A.as_s16 = action_index;
+        ((EntityRec *)actor)->unk_8A = action_index;
         if (func_80094270(state, context, sprite, ((S_80090C10_11 *)action_data)->unk_00, (s32) action_index) == 0) {
             goto block_68;
         }

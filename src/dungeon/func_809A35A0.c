@@ -1,5 +1,5 @@
 #include "common.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 typedef struct S_80174DA0_0 {
     u8 pad_00[0x8];
@@ -64,7 +64,7 @@ extern u8 D_80174AD4[9];
 extern u8 D_80175F90[9];
 
 /* Creates an effect at the parent position and initializes its display and state. */
-void func_80174DA0(Rec_D_800E3D7C *parent, s32 effect_param, u8 *effect_data)
+void func_80174DA0(EntityRec *parent, s32 effect_param, u8 *effect_data)
 {
     void *effect;
     S_80174DA0_2 *position;
@@ -78,15 +78,15 @@ void func_80174DA0(Rec_D_800E3D7C *parent, s32 effect_param, u8 *effect_data)
         ((S_80174DA0_0 *)effect)->unk_10 = D_80174AD4;
         position = ((S_80174DA0_0 *)effect)->unk_08;
 
-        coordinate = ((S_80174DA0_5 *)(parent->unk_08.at00_pv.v))->unk_02;
+        coordinate = ((S_80174DA0_5 *)((*(void * *)&parent->z)))->unk_02;
         position->unk_0E = coordinate;
         position->unk_02 = coordinate;
 
-        coordinate = ((S_80174DA0_5 *)(parent->unk_08.at00_pv.v))->unk_06;
+        coordinate = ((S_80174DA0_5 *)((*(void * *)&parent->z)))->unk_06;
         position->unk_12 = coordinate;
         position->unk_06 = coordinate;
 
-        coordinate = ((S_80174DA0_5 *)(parent->unk_08.at00_pv.v))->unk_0A;
+        coordinate = ((S_80174DA0_5 *)((*(void * *)&parent->z)))->unk_0A;
         position->unk_16 = coordinate;
         position->unk_0A = coordinate;
 
@@ -97,7 +97,7 @@ void func_80174DA0(Rec_D_800E3D7C *parent, s32 effect_param, u8 *effect_data)
         display->unk_0C = 0;
         display->unk_06 = 8;
 
-        parent_position = parent->unk_08.at00_pv.v;
+        parent_position = (*(void * *)&parent->z);
         state = (u8 *)effect + 0x20;
         state->unk_0C = effect_param;
         state->unk_10 = effect_data;

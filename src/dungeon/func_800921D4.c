@@ -3,7 +3,7 @@
 #include "shared/dungeon_status.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
 #include "records/Rec_D_80082E80.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 extern void func_8003DB94(void *arg0, void *arg1, s32 arg2);
 extern void func_80042B68(void *arg0, s32 arg1);
@@ -14,7 +14,7 @@ extern void func_800AD4D0(void *arg0);
 extern void *D_800DD274[8];
 
 /* Refresh the directional sprite and advance the actor state when sprite flags are set. */
-void func_80097934(Rec_func_8008ACDC_arg0 *state, Rec_D_800E3D7C *motion, Rec_D_80082E80 *sprite, void *actor)
+void func_80097934(Rec_func_8008ACDC_arg0 *state, EntityRec *motion, Rec_D_80082E80 *sprite, void *actor)
 {
     s32 tracked_addr;
 
@@ -28,7 +28,7 @@ void func_80097934(Rec_func_8008ACDC_arg0 *state, Rec_D_800E3D7C *motion, Rec_D_
         func_8003DB94(
             sprite,
             D_800DD274[
-                ((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+                ((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
 
         tracked_addr = ((s32)dungeonStatus.unk_10);
@@ -36,11 +36,11 @@ void func_80097934(Rec_func_8008ACDC_arg0 *state, Rec_D_800E3D7C *motion, Rec_D_
             dungeonStatus.unk_10 = tracked_addr & 0x7FFFFFFF;
         }
 
-        if (((Rec_D_800E3D7C *)actor)->unk_28 == 0) {
-            ((Rec_D_800E3D7C *)actor)->unk_28 = 0;
-            motion->unk_14.as_s32 = 0;
-            motion->unk_10.at00_s32.v = 0;
-            motion->unk_0C.as_s32 = 0;
+        if (((EntityRec *)actor)->unk_28 == 0) {
+            ((EntityRec *)actor)->unk_28 = 0;
+            motion->flags14 = 0;
+            motion->unk_10 = 0;
+            motion->unk_0C = 0;
             func_80042B68(actor, 10);
             func_8008CBD4(state, motion, sprite, actor);
             return;

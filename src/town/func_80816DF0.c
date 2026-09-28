@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
@@ -86,7 +87,6 @@ extern u8 D_80022B80[];
 extern s16 D_800272A0[];
 extern u8 D_80083498[];
 extern void *D_800834B8;
-extern u8 D_80083780[];
 extern s32 D_800D0428;
 extern u8 D_80092698[];
 extern u8 D_800927EC[];
@@ -235,7 +235,7 @@ void func_80020DF0(void *object, void *motion, void *sprite)
             s32 target_height;
             s32 base_height;
 
-            target = D_80083780;
+            target = ((u8 *)(&D_80083780));
             (*(s32 *)((u8 *)motion + 0xC)) =
                 (((S_80020DF0_4 *)target)->unk_00 - ((S_80020DF0_2 *)motion)->unk_00) >> 1;
             (*(s32 *)((u8 *)motion + 0x10)) =
@@ -262,7 +262,7 @@ void func_80020DF0(void *object, void *motion, void *sprite)
         {
             u8 *target;
 
-            target = D_80083780;
+            target = ((u8 *)(&D_80083780));
             (*(s32 *)((u8 *)motion + 0)) = ((S_80020DF0_4 *)target)->unk_00;
             (*(s32 *)((u8 *)motion + 4)) = ((S_80020DF0_4 *)target)->unk_04;
             (*(s32 *)((u8 *)motion + 8)) =

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 extern int abs(int);
@@ -34,7 +35,6 @@ extern u16 func_800A365C();
 extern s32 func_800A6D30();
 
 extern u8 D_8006DE24[];
-extern u8 D_80082E80[];
 
 /* Selects a usable ability or adjacent attack and sets the angle toward the target. */
 s16 func_800A384C(Actor *actor, Actor *target, u16 *out_angle, s32 prefer_ability)
@@ -102,7 +102,7 @@ s16 func_800A384C(Actor *actor, Actor *target, u16 *out_angle, s32 prefer_abilit
   if (!(flags & 0x10000))
   {
     actor->flags14 = flags | 0x10000;
-    if (func_8009FD40(D_80082E80, actor_entity) < 0x11)
+    if (func_8009FD40(((u8 *)(&D_80082E80)), actor_entity) < 0x11)
     {
       ability_flags = actor->flags14;
       if (((ability_flags & 0x6000) || (!(((Actor *)actor_or_x)->status98 & 0x10))) || (!(func_800A6D30() & 0xF)))

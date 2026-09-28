@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity_objects.h"
 
 typedef struct {
     s8 pad00[0x50];
@@ -13,7 +14,6 @@ extern void func_800A643C(s32, const char *);
 extern void func_800A6328(void *, const char *);
 extern void func_800A6994(void *, void *, void *, s32);
 extern void *D_80100E28[];
-extern s32 D_80083780[3];
 extern u8 D_800D0D54[];
 extern char D_800A630C[];
 extern char D_800A62E8[];
@@ -33,9 +33,9 @@ void func_800A68C0(Obj *obj, State *state, VecState *motion, s32 callback_arg)
     obj->callback = func_800A6994;
     func_800C2E84(obj, resource_arg, resource);
     func_800A5598();
-    motion->x = D_80083780[0];
-    motion->y = D_80083780[1];
-    motion->z = D_80083780[2];
+    motion->x = D_80083780.x.v;
+    motion->y = D_80083780.y.v;
+    motion->z = D_80083780.z.v;
     func_800A643C(0xE5, D_800A630C);
     func_800A6328(D_800D0D54, D_800A62E8);
     func_800A6994(obj, state, motion, callback_arg);

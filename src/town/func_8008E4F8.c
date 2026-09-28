@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity_objects.h"
 #include "shared/game_work.h"
 
 extern void func_80035208();
@@ -8,7 +9,6 @@ extern void func_8008B620();
 extern u8 D_80072210[];
 extern u8 D_80072214[];
 extern s32 D_80082ABC;
-extern u8 D_80083780[];
 extern u8 D_8008BED8[];
 extern u8 D_800FC418;
 extern u8 D_800D2EA4;
@@ -53,12 +53,10 @@ void func_8008BC58(u8 *object, void *transform, void *context) {
             }
         }
     } else if (state == 9) {
-        s16 *position;
 
         func_800478B8(context);
-        position = (s16 *)D_80083780;
-        *(s32 *)(*(u8 **)object + 0x30) = position[1] / 64 - 0x18;
-        *(s32 *)(*(u8 **)object + 0x34) = position[3] / 64 - 0x40;
+        *(s32 *)(*(u8 **)object + 0x30) = D_80083780.x.w.i / 64 - 0x18;
+        *(s32 *)(*(u8 **)object + 0x34) = D_80083780.y.w.i / 64 - 0x40;
         return;
     } else if (state == 10) {
         s32 buttons;

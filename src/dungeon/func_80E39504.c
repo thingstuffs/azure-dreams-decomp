@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 
 typedef struct S_80172D04_0 {
@@ -31,7 +31,7 @@ extern u8 D_80170EE4[];
 extern u8 D_80176640[];
 
 /* Three-stage knockback script driven by the 0x9B step byte: stage 0 seeds the velocity from the facing table and picks the timer, stage 1 decays that velocity a quarter per frame, stage 2 steers back to the tile centre and ends by clearing the motion record. */
-void func_80172D04(S_80172D04_0 *script, Rec_D_800E3D7C *motion, Rec_D_80082E80 *tile, void *actor)
+void func_80172D04(S_80172D04_0 *script, EntityRec *motion, Rec_D_80082E80 *tile, void *actor)
 {
     s16 timer;
     s32 value;
@@ -60,15 +60,15 @@ void func_80172D04(S_80172D04_0 *script, Rec_D_800E3D7C *motion, Rec_D_80082E80 
 state_0:
     func_80176480(motion, tile);
     func_800AD4D0(actor);
-    motion->unk_0C.as_s32 =
+    motion->unk_0C =
         -*(s16 *)((u8 *)((s8 *)dirStepX) +
-            ((((Rec_D_800E3D7C *)actor)->unk_6A.as_u16 >> 8) & 0xE)) << 15;
-    motion->unk_10.at00_s32.v =
+            ((((EntityRec *)actor)->unk_6A >> 8) & 0xE)) << 15;
+    motion->unk_10 =
         -*(s16 *)((u8 *)((s8 *)dirStepY) +
-            ((((Rec_D_800E3D7C *)actor)->unk_6A.as_u16 >> 8) & 0xE)) << 15;
+            ((((EntityRec *)actor)->unk_6A >> 8) & 0xE)) << 15;
     script->unk_9B++;
 
-    if (((Rec_D_800E3D7C *)actor)->unk_28 == 0) {
+    if (((EntityRec *)actor)->unk_28 == 0) {
         goto reset_motion;
     }
     random = func_800A6D30() & 3;
@@ -82,7 +82,7 @@ state_0:
         return;
     }
     timer = -1;
-    if (((Rec_D_800E3D7C *)actor)->unk_1C.as_s32 & 0x228) {
+    if (((EntityRec *)actor)->flags1C & 0x228) {
         timer = 8;
     }
     script->unk_96.s = timer;
@@ -93,19 +93,19 @@ state_0:
     script->unk_A8.u = one;
 
 state_1:
-    value = motion->unk_0C.as_s32;
+    value = motion->unk_0C;
     adjusted = value;
     if (value < 0) {
         adjusted = value + 3;
     }
-    value2 = motion->unk_10.at00_s32.v;
-    motion->unk_0C.as_s32 = value - (adjusted >> 2);
+    value2 = motion->unk_10;
+    motion->unk_0C = value - (adjusted >> 2);
 
     adjusted = value2;
     if (value2 < 0) {
         adjusted = value2 + 3;
     }
-    motion->unk_10.at00_s32.v = value2 - (adjusted >> 2);
+    motion->unk_10 = value2 - (adjusted >> 2);
 
     timer = script->unk_A8.u - 1;
     script->unk_A8.u = timer;
@@ -122,14 +122,14 @@ state_1:
     if (script->unk_96.s != 0) {
         return;
     }
-    if (((Rec_D_800E3D7C *)actor)->unk_28 != 0) {
+    if (((EntityRec *)actor)->unk_28 != 0) {
         goto increment_state;
     }
 
 reset_motion:
-    motion->unk_14.as_s32 = 0;
-    motion->unk_10.at00_s32.v = 0;
-    motion->unk_0C.as_s32 = 0;
+    motion->flags14 = 0;
+    motion->unk_10 = 0;
+    motion->unk_0C = 0;
     func_800AAA54(script, motion, tile, D_80176640);
     return;
 
@@ -144,10 +144,10 @@ state_2:
         s32 sub, m;
         m = tile->unk_24;
         m <<= 6;
-        sub = motion->unk_00.at02_s16.v - 0x20;
-        motion->unk_0C.as_s32 = ((m - sub) << 15) / timer;
-        sub = motion->unk_04.at02_s16.v - 0x20;
-        motion->unk_10.at00_s32.v =
+        sub = motion->x.w.i - 0x20;
+        motion->unk_0C = ((m - sub) << 15) / timer;
+        sub = motion->y.w.i - 0x20;
+        motion->unk_10 =
             (((tile->unk_25 << 6) - sub) << 15) /
             script->unk_96.s;
     }
@@ -164,9 +164,9 @@ state_2:
         return;
     }
 
-    motion->unk_14.as_s32 = 0;
-    motion->unk_10.at00_s32.v = 0;
-    motion->unk_0C.as_s32 = 0;
+    motion->flags14 = 0;
+    motion->unk_10 = 0;
+    motion->unk_0C = 0;
     func_800A2B04(motion, tile->unk_24,
         tile->unk_25);
     {

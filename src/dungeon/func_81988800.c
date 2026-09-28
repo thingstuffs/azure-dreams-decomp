@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -94,8 +96,6 @@ extern M2C_UNK D_80024648;
 extern M2C_UNK D_80024B20;
 extern M2C_UNK D_80024D58;
 extern void *D_80024008[];
-extern u8 D_80082E80[];
-extern u16 D_80082E94;
 extern u8 D_80083498[];
 
 extern s32 func_8003DE58();
@@ -158,8 +158,8 @@ void BODY_NAME(void *state_data, void *position_data)
     }
 
 jt_c0:
-        ((Rec_D_800814A8 *)D_800814A8)->unk_102 = 1;
-        ((Rec_D_800814A8 *)D_800814A8)->unk_F4 = 0;
+        ((EntityRec *)D_800814A8)->unk_102 = 1;
+        ((EntityRec *)D_800814A8)->unk_F4 = 0;
         ((S_81988800_2 *)position_ref)->unk_00 = ((S_81988800_10 *)(((S_81988800_3 *)work)->unk_08.p32))->unk_00;
         ((S_81988800_2 *)position_ref)->unk_04 = ((S_81988800_10 *)(((S_81988800_3 *)work)->unk_08.p32))->unk_04;
         ((S_81988800_2 *)position_ref)->unk_08.at00.v = ((S_81988800_10 *)(((S_81988800_3 *)work)->unk_08.p32))->unk_08;
@@ -233,8 +233,8 @@ jt_c3: {
             if (object != 0) {
                 ((S_81988800_5 *)object)->unk_10 = &D_80024B20;
                 func_8004491C(object, &D_80024D58);
-                actor = (void *)D_80082E80;
-                offset[0] = (((Rec_D_800814A8 *)D_800814A8)->unk_2A.as_u16 >> 9) & 7;
+                actor = (void *)((u8 *)(&D_80082E80));
+                offset[0] = (((u16)((EntityRec *)D_800814A8)->facing) >> 9) & 7;
                 work = (u8 *)object + 0x20;
                 ((S_81988800_3 *)work)->unk_04 = (((u8 *)actor)[0x24] << 6) + 0x20;
                 ((S_81988800_3 *)work)->unk_06 = (((u8 *)actor)[0x25] << 6) + 0x20;
@@ -259,7 +259,7 @@ jt_c4: {
             if (object != 0) {
 
                 position_ref = object;
-                work = (u8 *)&D_80082E80;
+                work = (u8 *)((u8 *)(&D_80082E80));
 loop:
                 object = func_800A3F28(work[0x24], work[0x25], position_ref, object);
                 if (object == 0) {
@@ -276,7 +276,7 @@ loop_done:
             }
         }
 
-        if ((D_80082E94 & 0x8000) || ((S_81988800_0 *)state_data)->unk_50.s < 0) {
+        if ((D_80082E80.unk_014 & 0x8000) || ((S_81988800_0 *)state_data)->unk_50.s < 0) {
             if (((S_81988800_0 *)state_data)->unk_52.s & 0x8000) {
                 ((S_81988800_0 *)state_data)->unk_52.u &= 0x7FFF;
             } else {

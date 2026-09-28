@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity_objects.h"
 
 typedef struct {
     void *handler;
@@ -19,7 +20,6 @@ typedef struct {
     s16 y;
 } Position;
 
-extern u8 D_80083780[8];
 extern s32 D_800C1F8C;
 
 extern s32 func_80033B2C(s16);
@@ -35,7 +35,7 @@ void func_800C1EA4(Entity *entity)
     s16 x_distance;
     s16 y_distance;
 
-    reference_pos = (Position *)D_80083780;
+    reference_pos = (Position *)((u8 *)(&D_80083780));
     ASM_KEEP(reference_pos);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     x_delta = entity->x;
     axis_value = reference_pos->x;

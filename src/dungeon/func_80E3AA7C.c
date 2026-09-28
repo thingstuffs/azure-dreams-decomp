@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity_objects.h"
 #include "shared/record_ptrs.h"
 #include "shared/slus_callbacks.h"
 #include "shared/dungeon_status.h"
@@ -55,8 +57,6 @@ extern void func_800A48F0(void *, s32, s32);
 extern void func_800AAA54(void *, void *, void *, void *);
 extern void func_80174B90(void *, void *, void *, void *);
 
-extern u8 D_80082E80[];
-extern u8 D_80083780[];
 extern s32 D_800C6AEC;
 extern u8 D_80170EE4[];
 extern u8 D_80176640[];
@@ -145,7 +145,7 @@ advance_state:
             if (entry_index < 0) {
                 break;
             }
-            func_800956B8(((u8 *)D_800E3D7C), D_80083780, D_80082E80,
+            func_800956B8(((u8 *)D_800E3D7C), ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)),
                           ((S_8017427C_4 *)(((u8 *)D_800E3D7C) + entry_index * 4))->unk_D0);
             ((S_8017427C_2 *)actor_data)->unk_1C.s &= 0xFFFEFFFF;
             break;

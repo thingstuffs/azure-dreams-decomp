@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/dir_step.h"
 
 
@@ -54,7 +55,6 @@ typedef struct S_800255B8_3 {
 } S_800255B8_3;   /* tail in func_800255B8 */
 
 
-extern u8 D_80082E80[];
 extern u8 D_80083498[];
 extern u8 D_8002501C[];
 extern u8 D_800274C0[];
@@ -80,7 +80,7 @@ void *func_800255B8(s32 x, s32 y, s16 z, u16 angle) {
     void **object_base;
     register void **object_slot ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s16 *x_offsets;
-    register u8 *color_table;
+    TileObject *color_table;
     u8 *effect_state;
     register u8 *component_data ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 *sprite;
@@ -104,12 +104,12 @@ void *func_800255B8(s32 x, s32 y, s16 z, u16 angle) {
     piece_index = 0;
 #ifdef NON_MATCHING
     x_offsets = dirStepX;
-    color_table = D_80082E80;
+    color_table = &D_80082E80;
 #else
     {
 
         x_offsets = dirStepX;
-        color_table = D_80082E80;
+        color_table = &D_80082E80;
     }
 #endif
     object_base = objects;
@@ -211,10 +211,10 @@ loop:
         ((S_800255B8_3 *)effect_state)->unk_34 = heading;
         ((S_800255B8_3 *)effect_state)->unk_48 = piece_index;
         ((S_800255B8_3 *)effect_state)->unk_46 = 8;
-        color_first = color_table[0x24];
+        color_first = color_table->tileX;
         ((S_800255B8_3 *)effect_state)->unk_3C = color_first;
         ((S_800255B8_3 *)effect_state)->unk_40 = color_first;
-        color_second = color_table[0x25];
+        color_second = color_table->tileY;
         ((S_800255B8_3 *)effect_state)->unk_3E = color_second;
         ((S_800255B8_3 *)effect_state)->unk_42 = color_second;
         object_slot++;

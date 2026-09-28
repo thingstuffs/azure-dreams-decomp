@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity_objects.h"
 #include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 #include "shared/dir_step.h"
@@ -17,9 +19,6 @@ extern u16 D_800281F8;
 extern s16 D_8002966C[6];
 extern u8 D_8002966E;
 extern s32 D_80029670;
-extern M2C_UNK D_80082E80;
-extern u16 D_80082E94;
-extern u16 D_80083780[];
 extern M2C_UNK D_800C9034;
 
 
@@ -168,7 +167,6 @@ void func_80025C80(void *effect_in, void *motion_in, void *sprite_in) {
     u8 start_tile_y;
     S_80025C80_6 *linked_monster;
     S_80025C80_7 *linked_sprite;
-    S_80025C80_5 *base_position;
 
     linked_monster = ((S_80025C80_0 *)effect_in)->unk_20;
     sprite = sprite_in;
@@ -215,7 +213,7 @@ rise:
         ((S_80025C80_0 *)effect_in)->unk_32 = 1;
         ((S_80025C80_0 *)effect_in)->unk_3A = (u16) ((S_80025C80_3 *)source_data_2)->unk_88;
         ((S_80025C80_0 *)effect_in)->unk_40.u = (u16) (((u16) ((S_80025C80_3 *)source_data_2)->unk_2A >> 9) & 7);
-        resident_sprite = &D_80082E80;
+        resident_sprite = &D_80082E80.unk_000;
         ((S_80025C80_0 *)effect_in)->unk_3C = ((S_80025C80_4 *)resident_sprite)->unk_24;
         start_tile_y = ((S_80025C80_4 *)resident_sprite)->unk_25;
         ((S_80025C80_0 *)effect_in)->unk_42 = end_frame;
@@ -227,7 +225,7 @@ rise:
     goto finish_update;
 
 follow:
-    sprite = (u8 *)&D_80082E80;
+    sprite = (u8 *)&D_80082E80.unk_000;
     transform_result = func_8003DE58(((S_80025C80_1 *)sprite)->unk_08, sprite, effect_in + 0x24, 0);
     follow_ticks = (u16) ((S_80025C80_0 *)effect_in)->unk_30.n - 1;
     ((S_80025C80_0 *)effect_in)->unk_30.n = follow_ticks;
@@ -241,20 +239,19 @@ follow:
         goto apply_base_position;
     }
 finish_follow:
-    if (D_80082E94 & 0x8000) {
-        ((S_80025C80_2 *)((void *)(motion_in)))->unk_00.at02.v = D_80083780[1];
-        ((S_80025C80_2 *)((void *)(motion_in)))->unk_04.at02.v = D_80083780[3];
-        ((S_80025C80_2 *)((void *)(motion_in)))->unk_08.at02.v = D_80083780[5] - 0x10;
+    if (D_80082E80.unk_014 & 0x8000) {
+        ((S_80025C80_2 *)((void *)(motion_in)))->unk_00.at02.v = ((u16)D_80083780.x.w.i);
+        ((S_80025C80_2 *)((void *)(motion_in)))->unk_04.at02.v = ((u16)D_80083780.y.w.i);
+        ((S_80025C80_2 *)((void *)(motion_in)))->unk_08.at02.v = ((u16)D_80083780.z.w.i) - 0x10;
     }
     ((S_80025C80_0 *)effect_in)->unk_30.n = 0;
     ((S_80025C80_0 *)effect_in)->unk_2C = (u16) ((S_80025C80_0 *)effect_in)->unk_2C + 1;
     goto finish_update;
 
 apply_base_position:
-    base_position = &D_80083780;
-    ((S_80025C80_2 *)((void *)(motion_in)))->unk_00.at02.v = (s16) (base_position->unk_02 + ((S_80025C80_0 *)effect_in)->unk_24);
-    ((S_80025C80_2 *)((void *)(motion_in)))->unk_04.at02.v = (s16) (base_position->unk_06 + ((S_80025C80_0 *)effect_in)->unk_26);
-    ((S_80025C80_2 *)((void *)(motion_in)))->unk_08.at02.v = (s16) (base_position->unk_0A + ((S_80025C80_0 *)effect_in)->unk_28);
+    ((S_80025C80_2 *)((void *)(motion_in)))->unk_00.at02.v = (s16) (((u16)D_80083780.x.w.i) + ((S_80025C80_0 *)effect_in)->unk_24);
+    ((S_80025C80_2 *)((void *)(motion_in)))->unk_04.at02.v = (s16) (((u16)D_80083780.y.w.i) + ((S_80025C80_0 *)effect_in)->unk_26);
+    ((S_80025C80_2 *)((void *)(motion_in)))->unk_08.at02.v = (s16) (((u16)D_80083780.z.w.i) + ((S_80025C80_0 *)effect_in)->unk_28);
     goto finish_update;
 
 advance:

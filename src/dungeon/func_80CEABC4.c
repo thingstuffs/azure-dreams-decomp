@@ -2,7 +2,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_func_8017121C_arg1.h"
 
 typedef struct S_801743C4_0 {
@@ -70,23 +70,23 @@ jt_c1:
     }
     ((S_801743C4_0 *)action)->unk_96.s = 0;
     ((S_801743C4_0 *)action)->unk_9B++;
-    switch (((Rec_D_800E3D7C *)entity)->unk_48.at00_u8.v) {
+    switch (((EntityRec *)entity)->unk_48) {
     case 13:
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80175DDC;
         func_80047784(sprite,
-            D_80175DDC[((gameWork.viewAngle + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            D_80175DDC[((gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
             0);
         goto jt_c4;
     case 14:
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80175DE4;
         func_80047784(sprite,
-            D_80175DE4[((gameWork.viewAngle + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            D_80175DE4[((gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
             0);
         goto jt_c4;
     case 15:
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80175DEC;
         func_80047784(sprite,
-            D_80175DEC[((gameWork.viewAngle + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            D_80175DEC[((gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
             0);
         ((S_801743C4_0 *)action)->unk_9B = 5;
         func_800A56E0(0x60C);
@@ -99,7 +99,7 @@ jt_c2:
     timer = ((S_801743C4_0 *)action)->unk_96.s + 1;
     ((S_801743C4_0 *)action)->unk_96.s = timer;
     if ((timer == 5) || (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
-        func_8009C12C(entity, sprite, ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16, 1);
+        func_8009C12C(entity, sprite, ((EntityRec *)entity)->facing, 1);
         ((S_801743C4_0 *)action)->unk_96.s = 0;
         ((S_801743C4_0 *)action)->unk_9B++;
     }
@@ -115,7 +115,7 @@ jt_c3:
         ((S_801743C4_0 *)action)->unk_8C = D_801724BC;
         dungeonStatus.unk_0C = 0;
         func_800A4ACC(entity);
-        ((Rec_D_800E3D7C *)entity)->unk_44.at02_u16.v &= 0x7FFF;
+        ((EntityRec *)entity)->unk_46 &= 0x7FFF;
     }
     goto jt_c4;
 
@@ -130,7 +130,7 @@ jt_c5:
     }
     if ((((S_801743C4_0 *)action)->unk_96.u == 12) ||
         (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
-        func_8009C12C(entity, sprite, ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16,
+        func_8009C12C(entity, sprite, ((EntityRec *)entity)->facing,
             ((S_801743C4_0 *)action)->unk_AA);
     }
     if ((((S_801743C4_0 *)action)->unk_96.u != 20) &&

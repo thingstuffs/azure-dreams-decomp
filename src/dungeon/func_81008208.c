@@ -1,8 +1,9 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 typedef struct S_80173A08_0 {
     u8 pad_00[0x8C];
@@ -43,7 +44,6 @@ extern void func_800A4ACC(void *);
 extern void func_800A9A04(void *);
 extern void func_800AD594(void *, s32);
 
-extern u8 D_80082E80[];
 extern u8 D_80171058[];
 extern u8 D_801748A0[];
 extern u8 D_801748A8[];
@@ -67,7 +67,6 @@ void func_80173A08(void *action, void *motion, void *sprite, void *entity)
     s32 entity_flags;
     s32 facing_index;
     u8 *global_base;
-    u8 *map_base;
 
     state = ((S_80173A08_0 *)action)->unk_9B;
     if (state == 1) {
@@ -92,10 +91,10 @@ state_zero:
         goto tick;
     }
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801748A0;
-    facing_index = (gameWork.viewAngle + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9;
+    facing_index = (gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
     func_80047784(sprite, D_801748A0[facing_index & 7], 0);
     ((S_80173A08_0 *)action)->unk_98 |= 8;
-    ((Rec_D_800E3D7C *)entity)->unk_1C.as_s32 &= 0xF7FFFFFF;
+    ((EntityRec *)entity)->flags1C &= 0xF7FFFFFF;
     ((S_80173A08_0 *)action)->unk_B0.s = 5;
     ((S_80173A08_0 *)action)->unk_A0 = 0;
     ((S_80173A08_0 *)action)->unk_9B++;
@@ -107,10 +106,10 @@ state_one:
         goto tick;
     }
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801748A8;
-    facing_index = (gameWork.viewAngle + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9;
+    facing_index = (gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
     func_80047784(sprite, D_801748A8[facing_index & 7], 0);
     ((S_80173A08_0 *)action)->unk_98 |= 8;
-    ((Rec_D_800E3D7C *)entity)->unk_1C.as_s32 &= 0xF7FFFFFF;
+    ((EntityRec *)entity)->flags1C &= 0xF7FFFFFF;
     ((S_80173A08_0 *)action)->unk_B0.s = 5;
     ((S_80173A08_0 *)action)->unk_A0 = 0;
     ((S_80173A08_0 *)action)->unk_90 -= 0x400000;
@@ -121,14 +120,14 @@ state_two:
     ((S_80173A08_0 *)action)->unk_90 -= ((S_80173A08_0 *)action)->unk_A0;
     if (move_ticks != 0) {
         target_x = ((Rec_D_80082E80 *)sprite)->unk_24;
-        world_x = ((Rec_D_800E3D7C *)motion)->unk_00.at02_s16.v;
+        world_x = ((EntityRec *)motion)->x.w.i;
         target_x <<= 6;
         world_x -= 0x20;
-        ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = ((target_x - world_x) << 16) / move_ticks;
+        ((EntityRec *)motion)->unk_0C = ((target_x - world_x) << 16) / move_ticks;
 
-        world_y = ((Rec_D_800E3D7C *)motion)->unk_04.at02_s16.v;
+        world_y = ((EntityRec *)motion)->y.w.i;
         world_y -= 0x20;
-        ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v =
+        ((EntityRec *)motion)->unk_10 =
             (((((Rec_D_80082E80 *)sprite)->unk_25 << 6) - world_y) << 16) /
             ((S_80173A08_0 *)action)->unk_B0.s;
 
@@ -151,23 +150,23 @@ state_two:
        /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ((S_80173A08_0 *)action)->unk_90 = 0;
     ((S_80173A08_0 *)action)->unk_98 &= 0xFFF7;
-    ((Rec_D_800E3D7C *)entity)->unk_1C.as_s32 |= entity_mask;
+    ((EntityRec *)entity)->flags1C |= entity_mask;
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801748B0;
-    facing_index = (gameWork.viewAngle + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9;
+    facing_index = (gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
     func_80047784(sprite, D_801748B0[facing_index & 7], 0);
     ((S_80173A08_0 *)action)->unk_9B++;
 
 state_three:
-    if (!(((Rec_D_800E3D7C *)entity)->unk_1C.as_s32 & 0x08000000)) {
+    if (!(((EntityRec *)entity)->flags1C & 0x08000000)) {
         goto tick;
     }
     ((S_80173A08_0 *)action)->unk_98 &= 0xFFF7;
-    ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0;
-    ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = 0;
-    ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
+    ((EntityRec *)motion)->flags14 = 0;
+    ((EntityRec *)motion)->unk_10 = 0;
+    ((EntityRec *)motion)->unk_0C = 0;
     func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801748B0;
-    facing_index = (gameWork.viewAngle + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9;
+    facing_index = (gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
     func_80047784(sprite, D_801748B0[facing_index & 7], 0);
     ((S_80173A08_0 *)action)->unk_9B++;
 
@@ -178,9 +177,9 @@ tick:
         return;
     }
 
-    ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0;
-    ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = 0;
-    ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
+    ((EntityRec *)motion)->flags14 = 0;
+    ((EntityRec *)motion)->unk_10 = 0;
+    ((EntityRec *)motion)->unk_0C = 0;
     func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
     func_800AD594(entity, 4);
     func_800A4ACC(entity);
@@ -190,10 +189,10 @@ tick:
         ((S_80173A08_4 *)global_base)->unk_08.u--;
     }
 
-    entity_flags = ((Rec_D_800E3D7C *)entity)->unk_1C.as_s32;
+    entity_flags = ((EntityRec *)entity)->flags1C;
     if (entity_flags & 0x2000) {
-        if (((Rec_D_800E3D7C *)entity)->unk_44.at02_u16.v & 0x8000) {
-            ((Rec_D_800E3D7C *)entity)->unk_44.at02_u16.v &= 0x7FFF;
+        if (((EntityRec *)entity)->unk_46 & 0x8000) {
+            ((EntityRec *)entity)->unk_46 &= 0x7FFF;
         }
         goto finish;
     }
@@ -201,10 +200,9 @@ tick:
         goto finish;
     }
     if (entity_flags & 0x20000) {
-        map_base = D_80082E80;
-        ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 = func_800A0818(
+        ((EntityRec *)entity)->facing = func_800A0818(
             ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25,
-            ((S_80173A08_5 *)map_base)->unk_24, ((S_80173A08_5 *)map_base)->unk_25, direction_work);
+            D_80082E80.tileX, D_80082E80.tileY, direction_work);
     }
 
 finish:

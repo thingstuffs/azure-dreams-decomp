@@ -4,7 +4,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 
 typedef struct Copy48 {
@@ -215,9 +215,9 @@ L_copy_linked:
             return;
         }
 
-        ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0;
-        ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = 0;
-        ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
+        ((EntityRec *)motion)->flags14 = 0;
+        ((EntityRec *)motion)->unk_10 = 0;
+        ((EntityRec *)motion)->unk_0C = 0;
         func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
         dungeonStatus.unk_0C = 0;
         (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
@@ -288,9 +288,9 @@ L_copy_linked:
                     ((S_80173A60_4 *)effect_state)->unk_2A = ((S_80173A60_0 *)actor_state)->unk_2A.u;
 
                     effect_pos = ((S_80173A60_5 *)effect)->unk_08;
-                    ((S_80173A60_8 *)effect_pos)->unk_02 = ((Rec_D_800E3D7C *)motion)->unk_00.at02_u16.v;
-                    ((S_80173A60_8 *)effect_pos)->unk_06 = ((Rec_D_800E3D7C *)motion)->unk_04.at02_u16.v;
-                    ((S_80173A60_8 *)effect_pos)->unk_0A = ((Rec_D_800E3D7C *)motion)->unk_08.at02_u16.v;
+                    ((S_80173A60_8 *)effect_pos)->unk_02 = ((u16)((EntityRec *)motion)->x.w.i);
+                    ((S_80173A60_8 *)effect_pos)->unk_06 = ((u16)((EntityRec *)motion)->y.w.i);
+                    ((S_80173A60_8 *)effect_pos)->unk_0A = ((u16)((EntityRec *)motion)->z.w.i);
                 }
             }
 

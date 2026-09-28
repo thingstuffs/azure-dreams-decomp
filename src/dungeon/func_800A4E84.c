@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_func_800A9E70_arg0.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 
 
@@ -20,7 +20,7 @@ typedef struct {
 
 
 /* Resets entity state, selects a new position, and increments the dungeon counter. */
-void func_800AA5E4(Rec_func_800A9E70_arg0 *entity, void *unused, void *position, Rec_D_800E3D7C *entity_state) {
+void func_800AA5E4(Rec_func_800A9E70_arg0 *entity, void *unused, void *position, EntityRec *entity_state) {
     s32 tile_mask;
     s32 flags;
     s32 tile_x;
@@ -32,8 +32,8 @@ void func_800AA5E4(Rec_func_800A9E70_arg0 *entity, void *unused, void *position,
     entity->unk_8C = 0;
     entity->unk_96.as_s16 = 0x10;
     entity->unk_98 = entity->unk_98 | 8;
-    flags = entity_state->unk_1C.as_s32 | 0x10000;
-    entity_state->unk_1C.as_s32 = flags;
+    flags = entity_state->flags1C | 0x10000;
+    entity_state->flags1C = flags;
     tile_x = ((Rec_D_80082E80 *)position)->unk_24;
     tile_y = ((Rec_D_80082E80 *)position)->unk_25;
     tile_mask = 0x3000;

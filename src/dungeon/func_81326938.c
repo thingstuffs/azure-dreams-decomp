@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/tile_object.h"
 
 typedef struct {
     u32 words[3];
@@ -12,7 +13,6 @@ typedef struct {
 extern void func_8009A21C(s32, s32, s32);
 extern void func_8009A3D0();
 extern void func_800A2B04(s32, s32, s32);
-extern u8 D_80082E80[];
 extern Copy12 D_8016A858[];
 extern u8 *D_80174704;
 
@@ -26,7 +26,7 @@ void func_8016E138(s32 offset_index) {
     s16 *xy_offset;
     s32 object_handle;
     u8 *object;
-    u8 *origin;
+    TileObject *origin;
     u8 *state;
     Status *status;
     s32 offset_pos;
@@ -58,11 +58,11 @@ void func_8016E138(s32 offset_index) {
     }
     offset_bytes = (u8 *)&offsets;
     func_8009A3D0(x, y, old_tile_mask, offset_src);
-    origin = D_80082E80;
+    origin = &D_80082E80;
     offset_pos = offset_index << 1;
     xy_offset = (s16 *)(offset_bytes + offset_pos);
-    object[0x24] = origin[0x24] + ((u8 *)xy_offset)[0];
-    object[0x25] = origin[0x25] + ((u8 *)xy_offset)[1];
+    object[0x24] = origin->tileX + ((u8 *)xy_offset)[0];
+    object[0x25] = origin->tileY + ((u8 *)xy_offset)[1];
     func_800A2B04(object_handle, object[0x24], object[0x25]);
     status_flags = *(volatile s32 *)&status->flags;
     x = object[0x24];

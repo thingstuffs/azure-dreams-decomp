@@ -2,7 +2,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 extern int abs(int);
 
 typedef struct S_80172970_0 {
@@ -204,9 +204,9 @@ apply_move:
         goto done;
     }
 
-    ((Rec_D_800E3D7C *)position)->unk_14.as_s32 = 0;
-    ((Rec_D_800E3D7C *)position)->unk_10.at00_s32.v = 0;
-    ((Rec_D_800E3D7C *)position)->unk_0C.as_s32 = 0;
+    ((EntityRec *)position)->flags14 = 0;
+    ((EntityRec *)position)->unk_10 = 0;
+    ((EntityRec *)position)->unk_0C = 0;
     func_800A2B04(position, ((S_80172970_4 *)sprite)->unk_24, ((S_80172970_4 *)sprite)->unk_25);
     dungeonStatus.unk_0C = 0;
     (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
@@ -238,9 +238,9 @@ state_2:
     if (!(((S_80172970_4 *)sprite)->unk_14 & 0xE000)) {
         goto done;
     }
-    ((Rec_D_800E3D7C *)position)->unk_14.as_s32 = 0;
-    ((Rec_D_800E3D7C *)position)->unk_10.at00_s32.v = 0;
-    ((Rec_D_800E3D7C *)position)->unk_0C.as_s32 = 0;
+    ((EntityRec *)position)->flags14 = 0;
+    ((EntityRec *)position)->unk_10 = 0;
+    ((EntityRec *)position)->unk_0C = 0;
     func_800A2B04(position, ((S_80172970_4 *)sprite)->unk_24, ((S_80172970_4 *)sprite)->unk_25);
     if (((S_80172970_4 *)sprite)->unk_2C != D_8017586C) {
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_8017586C;

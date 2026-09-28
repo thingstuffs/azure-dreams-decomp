@@ -2,7 +2,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
 
 extern void func_80048A44(void *, u8, s32, s32);
@@ -44,12 +44,12 @@ void func_8008DBE8(void *entity, void *motion, void *sprite, void *facing) {
     if (timer != 0) {
         x_velocity =
             ((((((Rec_D_80082E80 *)sprite)->unk_24 << 6) + 0x20) << 16) -
-             ((Rec_D_800E3D7C *)motion)->unk_00.at00_s32.v) /
+             ((EntityRec *)motion)->x.v) /
             timer;
-        y_position = ((Rec_D_800E3D7C *)motion)->unk_04.at00_s32.v;
-        ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = x_velocity;
+        y_position = ((EntityRec *)motion)->y.v;
+        ((EntityRec *)motion)->unk_0C = x_velocity;
         move_frames = dungeonStatus.unk_04;
-        ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v =
+        ((EntityRec *)motion)->unk_10 =
             ((((((Rec_D_80082E80 *)sprite)->unk_25 << 6) + 0x20) << 16) -
              y_position) /
             move_frames;
@@ -72,7 +72,7 @@ continue_update:
             *(u8 **)((u8 *)sprite + 0x2C) = D_800DD050;
             func_80048A44(
                 sprite,
-                D_800DD050[((gameWork.viewAngle + ((Rec_D_800E3D7C *)facing)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+                D_800DD050[((gameWork.viewAngle + ((EntityRec *)facing)->facing + 0x100) >> 9) & 7],
                 0,
                 1);
         }
@@ -87,9 +87,9 @@ continue_update:
     }
 
     ((S_8008DBE8_5 *)late_status)->unk_04 = 0;
-    ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0;
-    ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = 0;
-    ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
+    ((EntityRec *)motion)->flags14 = 0;
+    ((EntityRec *)motion)->unk_10 = 0;
+    ((EntityRec *)motion)->unk_0C = 0;
     func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
 
     ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x4000;

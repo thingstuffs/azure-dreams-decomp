@@ -1,6 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 void *func_8003FD64();            /* extern */
 M2C_UNK func_8004491C();           /* extern */
@@ -39,7 +39,7 @@ typedef struct S_800ADC4C_3 {
 } S_800ADC4C_3;   /* temp_v0_2 in func_800ADC4C */
 
 /* Create an object with the supplied position and render settings, and clear its status flag. */
-void *func_800ADC4C(Rec_D_800E3D7C *source_pos, s32 render_param, s16 initial_state, s8 *status) {
+void *func_800ADC4C(EntityRec *source_pos, s32 render_param, s16 initial_state, s8 *status) {
     S_800ADC4C_0 *object;
     S_800ADC4C_3 *render_data;
     S_800ADC4C_1 *position;
@@ -49,9 +49,9 @@ void *func_800ADC4C(Rec_D_800E3D7C *source_pos, s32 render_param, s16 initial_st
         object->unk_10 = &D_800ADB8C;
         func_8004491C(object, &D_800ADBCC);
         position = object->unk_08;
-        position->unk_02 = (u16) source_pos->unk_00.at02_u16.v;
-        position->unk_06 = (u16) source_pos->unk_04.at02_u16.v;
-        position->unk_0A = (u16) source_pos->unk_08.at02_u16.v;
+        position->unk_02 = (u16) ((u16)source_pos->x.w.i);
+        position->unk_06 = (u16) ((u16)source_pos->y.w.i);
+        position->unk_0A = (u16) ((u16)source_pos->z.w.i);
         render_data = object->unk_0C;
         render_data->unk_08 = render_param;
         render_data->unk_0C = 0x808080;

@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
@@ -77,7 +78,6 @@ u16 func_800A0818(u8, u8, u8, u8, s32 *);
 M2C_UNK func_800A56E0();
 M2C_UNK func_80164ED0();
 void func_801655EC(void *, s32, s32, s32);
-extern u8 D_80082E80[64];
 extern s16 D_80173AFC[16];
 extern void *D_80175D50[3];
 
@@ -137,7 +137,7 @@ void func_8016FC4C(void *effect, void *entity_data, void *object_data) {
         s32 scaled_step;
         heading->unk_2A = func_800A0818(
             object->unk_24, object->unk_25,
-            D_80082E80[0x24], D_80082E80[0x25], &distance);
+            D_80082E80.tileX, D_80082E80.tileY, &distance);
         ((S_8016FC4C_3 *)effect)->unk_96 = (u16)(((S_8016FC4C_3 *)effect)->unk_96 + 1);
         height = object->unk_1E.s;
         height = (u16)(height - 0x14);
@@ -167,7 +167,7 @@ void func_8016FC4C(void *effect, void *entity_data, void *object_data) {
         s32 scaled_step;
         heading->unk_2A = func_800A0818(
             object->unk_24, object->unk_25,
-            D_80082E80[0x24], D_80082E80[0x25], &distance);
+            D_80082E80.tileX, D_80082E80.tileY, &distance);
         scaled_step = 0 - (object->unk_1E.s << 6);
         if (scaled_step < 0) scaled_step += 0xFFF;
         count = 0;

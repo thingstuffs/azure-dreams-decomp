@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 M2C_UNK func_800A2B04();              /* extern */
 s16 func_800BCB04();                   /* extern */
@@ -31,7 +31,7 @@ typedef struct S_800AC480_4 {
 } S_800AC480_4;   /* global_base in func_800AC480 */
 
 /* Update movement toward the target tile and finalize position and height when the timer expires. */
-s32 func_800AC480(S_800AC480_0 *move_state, Rec_D_800E3D7C *motion, S_800AC480_1 *target_tile, S_800AC480_3 *height_state) {
+s32 func_800AC480(S_800AC480_0 *move_state, EntityRec *motion, S_800AC480_1 *target_tile, S_800AC480_3 *height_state) {
     s32 delta;
     s32 coord;
     s32 x_step;
@@ -42,23 +42,23 @@ s32 func_800AC480(S_800AC480_0 *move_state, Rec_D_800E3D7C *motion, S_800AC480_1
     ticks_left = move_state->unk_96;
     if (ticks_left != 0) {
         delta = target_tile->unk_24 << 6;
-        coord = motion->unk_00.at02_s16.v;
+        coord = motion->x.w.i;
         coord -= 0x20;
         delta -= coord;
         x_step = (delta << 0x10) / ticks_left;
-        coord = motion->unk_04.at02_s16.v;
-        motion->unk_0C.as_s32 = x_step;
+        coord = motion->y.w.i;
+        motion->unk_0C = x_step;
         delta = target_tile->unk_25 << 6;
         coord -= 0x20;
         delta -= coord;
-        motion->unk_10.at00_s32.v = (delta << 0x10) / (s16) move_state->unk_96;
+        motion->unk_10 = (delta << 0x10) / (s16) move_state->unk_96;
     }
     next_ticks = (u16) move_state->unk_96 - 1;
     move_state->unk_96 = next_ticks;
     if ((next_ticks << 0x10) <= 0) {
-        motion->unk_14.as_s32 = 0;
-        motion->unk_10.at00_s32.v = 0;
-        motion->unk_0C.as_s32 = 0;
+        motion->flags14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
         func_800A2B04(motion, target_tile->unk_24, target_tile->unk_25);
         target_height = func_800BCB04((target_tile->unk_24 << 6) | 0x20, (target_tile->unk_25 << 6) | 0x20, (s16) (height_state->unk_88 - 0x20));
         if (target_height < 0x200) {

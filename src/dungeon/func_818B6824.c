@@ -1,6 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 extern s32 func_8009D218(void *, s32);
 extern s32 func_800A6870(s32);
@@ -10,7 +10,7 @@ extern M2C_UNK func_800B4C7C(s32, void *, s32, s32);
 
 
 /* Adds a computed gain to the target's stored value, doubling it when flagged. */
-void func_818B6824(Rec_D_800E3D7C *target, s32 gain_param) {
+void func_818B6824(EntityRec *target, s32 gain_param) {
     s32 base_gain;
     register s32 gain;
 
@@ -20,10 +20,10 @@ void func_818B6824(Rec_D_800E3D7C *target, s32 gain_param) {
         if (target->unk_28 & 1) {
             gain = base_gain << 1;
         }
-        target->unk_64.as_u16 = (u16) (target->unk_64.as_u16 + gain);
+        target->unk_64 = (u16) (((u16)target->unk_64) + gain);
         func_800AD568(target, gain);
         base_gain = 0x8004;
-        func_800B4C7C(base_gain, target, (s16) target->unk_64.as_u16, 1);
+        func_800B4C7C(base_gain, target, (s16) ((u16)target->unk_64), 1);
         func_800AD4D0(target);
     }
 }

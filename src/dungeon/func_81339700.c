@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
 #include "records/Rec_D_80175D50.h"
 
@@ -47,20 +48,11 @@ extern void *func_8003FC64();
 extern s32 func_8004491C();
 extern s32 func_80047784();
 typedef struct {
-    u16 x0;
-    u16 x2;
-    u16 x4;
-    u16 x6;
-    u16 x8;
-    u16 xA;
-} D_80083780_S;
-typedef struct {
     s32 x0;
     s32 x4;
     s32 x8;
     s32 xC;
 } Copy16;
-extern D_80083780_S D_80083780;
 extern s32 D_80170534;
 extern u8 D_80170000[0x3A81];
 extern void *D_80175D50;
@@ -104,9 +96,9 @@ void func_80170700(void) {
         render_data->unk_06 = 6;
         render_data->unk_14 &= 0xFFF3;
         position = object->unk_08;
-        position->unk_02 = D_80083780.x2;
-        position->unk_06 = D_80083780.x6 - 0x400;
-        position->unk_0A = D_80083780.xA;
+        position->unk_02 = ((u16)D_80083780.x.w.i);
+        position->unk_06 = ((u16)D_80083780.y.w.i) - 0x400;
+        position->unk_0A = ((u16)D_80083780.z.w.i);
         render_data->unk_1E = 0x1000;
         render_data->unk_1C = 0x1000;
         render_data->unk_0E = 0x80;

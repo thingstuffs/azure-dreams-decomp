@@ -2,7 +2,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 extern int abs(int);
 
 
@@ -147,7 +147,7 @@ K8:
     item = (u8 *)act + 8;
 KNone:
 HaveSource:
-    if (((Rec_D_800E3D7C *)item)->unk_00.at00_u8.v == 0) {
+    if ((*(u8 *)&((EntityRec *)item)->x) == 0) {
         return;
     }
 
@@ -163,7 +163,7 @@ HaveSource:
         }
     }
 
-    if (D_8006DE24[((Rec_D_800E3D7C *)item)->unk_00.at00_u8.v].field12 != 2) {
+    if (D_8006DE24[(*(u8 *)&((EntityRec *)item)->x)].field12 != 2) {
         goto MakeSource;
     }
 
@@ -250,9 +250,9 @@ L4:
             D_801765D8[((gameWork.viewAngle + ((S_801728E4_1 *)act)->unk_2A + 0x100) >> 9) & 7],
             0);
     }
-    ((Rec_D_800E3D7C *)item)->unk_14.as_s32 = 0;
-    ((Rec_D_800E3D7C *)item)->unk_10.at00_s32.v = 0;
-    ((Rec_D_800E3D7C *)item)->unk_0C.as_s32 = 0;
+    ((EntityRec *)item)->flags14 = 0;
+    ((EntityRec *)item)->unk_10 = 0;
+    ((EntityRec *)item)->unk_0C = 0;
     func_800A2B04(item, ((S_801728E4_4 *)sprite)->unk_24, ((S_801728E4_4 *)sprite)->unk_25);
     source_sprite = ((u8 *)(&dungeonStatus));
     if (((S_801728E4_5 *)source_sprite)->unk_0C != 0) {

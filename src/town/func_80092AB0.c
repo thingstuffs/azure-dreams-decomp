@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity_objects.h"
 #include "m2c_compat.h"
 
 typedef struct S_80090210_0 {
@@ -32,9 +34,7 @@ M2C_UNK func_80098868(); /* extern */
 M2C_UNK func_80098928(); /* extern */
 M2C_UNK func_80099764();                   /* extern */
 extern s32 D_80080A80;
-extern u8 D_80082E80[];
 extern s32 D_800834B8;
-extern s32 D_80083780;
 extern u8 D_8008FFC0[];
 extern M2C_UNK D_80097D54;
 extern u8 D_800D0078[];
@@ -45,8 +45,8 @@ void func_80090210(void) {
     s32 disabled_flag;
     s32 enabled_flag;
     s32 mode_result; /* MATCH: Keep the merged call result in v0 for the shared stores. */
-    u8 *work_state = (u8 *)&D_80083780;
-    u8 *update_state = D_80082E80;
+    u8 *work_state = (u8 *)&D_80083780.x.v;
+    TileObject *update_state = &D_80082E80;
     u8 *handler_state = (u8 *)&D_800834B8;
     M2C_UNK (*callback)();
 
@@ -57,7 +57,7 @@ void func_80090210(void) {
             if (disabled_flag != func_80033B2C(0x9D)) {
                 mode_result = func_80048D20();
                 D_80080A80 = mode_result;
-                ((S_80090210_1 *)update_state)->unk_28 = mode_result;
+                update_state->unk_028 = mode_result;
             }
             goto sync_mode_flag;
         }
@@ -67,7 +67,7 @@ void func_80090210(void) {
             s32 mode_result;
             mode_result = func_80048D40();
             D_80080A80 = mode_result;
-            ((S_80090210_1 *)update_state)->unk_28 = mode_result;
+            update_state->unk_028 = mode_result;
         }
 sync_mode_flag:
         if (func_80033B2C(0x1202) != 0) {

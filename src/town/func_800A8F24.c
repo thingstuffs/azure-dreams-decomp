@@ -1,5 +1,5 @@
 #include "common.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 
 typedef struct {
@@ -35,7 +35,7 @@ typedef struct S_800A6684_0 {
 
 
 /* Update the entity sprite and trigger effects when it crosses the height threshold. */
-void func_800A6684(void *entity, Rec_D_800E3D7C *position, S_800A6684_0 *sprite)
+void func_800A6684(void *entity, EntityRec *position, S_800A6684_0 *sprite)
 {
     StackRecord effect_pos;
     s32 frame_index;
@@ -60,20 +60,20 @@ void func_800A6684(void *entity, Rec_D_800E3D7C *position, S_800A6684_0 *sprite)
            /* MATCH: keep the flags store before call argument setup. */
         func_800478B8(sprite);
 
-        height_or_shade = position->unk_04.at00_s32.v;
+        height_or_shade = position->y.v;
         above_height = height_or_shade > 0x06500000;
         if (!above_height && (*(s32 *)((u8 *)entity + 0xA0)) > 0x06500000) {
             sprite->unk_0C = sprite->unk_0D = sprite->unk_0E = 0xFF;
-            effect_pos.unk0 = position->unk_00.at00_s32.v;
+            effect_pos.unk0 = position->x.v;
             effect_pos.unk4 = 0x06400000;
-            effect_pos.unk8 = position->unk_08.at00_s32.v - 0x00280000;
+            effect_pos.unk8 = position->z.v - 0x00280000;
             func_800A6A94(&effect_pos);
         } else if (above_height && (*(s32 *)((u8 *)entity + 0xA0)) <= 0x06500000 &&
             (*(s32 *)((u8 *)entity + 0xA4)) <= 0x06500000) {
             sprite->unk_0C = sprite->unk_0D = sprite->unk_0E = 0xFF;
-            effect_pos.unk0 = position->unk_00.at00_s32.v;
+            effect_pos.unk0 = position->x.v;
             effect_pos.unk4 = 0x06600000;
-            effect_pos.unk8 = position->unk_08.at00_s32.v - 0x00280000;
+            effect_pos.unk8 = position->z.v - 0x00280000;
             func_800A6B70(&effect_pos);
         } else {
             height_or_shade = sprite->unk_0C - 8;
@@ -89,6 +89,6 @@ void func_800A6684(void *entity, Rec_D_800E3D7C *position, S_800A6684_0 *sprite)
             sprite->unk_0E = sprite->unk_0D;
         }
         (*(s32 *)((u8 *)entity + 0xA4)) = (*(s32 *)((u8 *)entity + 0xA0));
-        (*(s32 *)((u8 *)entity + 0xA0)) = position->unk_04.at00_s32.v;
+        (*(s32 *)((u8 *)entity + 0xA0)) = position->y.v;
     }
 }

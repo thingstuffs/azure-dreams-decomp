@@ -1,8 +1,9 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 
 typedef struct S_80173F6C_5 {
@@ -14,7 +15,6 @@ typedef struct S_80173F6C_5 {
 
 
 extern u8 D_80083498[];
-extern u8 D_80082E80[];
 extern u8 D_80174C84[];
 extern void *D_80174CE0[];
 void *func_8003FD64();
@@ -74,7 +74,6 @@ void func_80173F6C(void) {
     S_80173F6C_0 *object_state;
     S_80173F6C_2 *model;
     void *object;
-    u8 *origin;
     u16 sprite_flags;
 
     object = func_8003FD64(0x112, D_80083498);
@@ -85,12 +84,11 @@ void func_80173F6C(void) {
         object_state->unk_96 = 0;
         ((S_80173F6C_1 *)object)->unk_10 = &D_801730AC;
         func_8004491C(object, func_80045340);
-        origin = D_80082E80;
         model = ((S_80173F6C_1 *)object)->unk_08;
-        model->unk_0A = (u16) ((S_80173F6C_5 *)(((Rec_D_800E3D7C *)D_80083498)->unk_08.at00_pv.v))->unk_0A;
+        model->unk_0A = (u16) ((S_80173F6C_5 *)((*(void * *)&((EntityRec *)D_80083498)->z)))->unk_0A;
         sprite = ((S_80173F6C_1 *)object)->unk_0C;
-        sprite->unk_24 = (u8) (origin[0x24] + 9);
-        sprite->unk_25 = (u8) (origin[0x25] - 9);
+        sprite->unk_24 = (u8) (D_80082E80.tileX + 9);
+        sprite->unk_25 = (u8) (D_80082E80.tileY - 9);
         sprite->unk_2C = D_80174C84;
         func_800A9C18(object, model, sprite, 0);
         object_state->unk_B6 = 1;

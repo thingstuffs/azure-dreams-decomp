@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity_objects.h"
 extern int abs(int);
 
 typedef struct {
@@ -11,7 +12,6 @@ typedef struct {
 extern u8 D_8002004C[];
 extern void *D_80020058[];
 extern u8 D_800245DC[];
-extern u8 D_80083780[];
 
 extern s32 func_80064710(s32);
 extern void func_800672D8(LocalPoint *, void *);
@@ -25,10 +25,10 @@ extern void SD_Call(s32);
 /* Update the effect position, spin phases, animated icons, and rotation sound. */
 void func_80020C10(void *state_arg, void *target_arg, void *effect_arg)
 {
-    s32 *world_pos = (s32 *)D_80083780;
-    s32 *close_pos;
-    s32 dx = (world_pos[0] + (s32)0xFCA00000) >> 16;
-    s32 dy = (world_pos[1] + (s32)0xFCA00000) >> 16;
+    EntityRec *world_pos = &D_80083780;
+    EntityRec *close_pos;
+    s32 dx = (world_pos->x.v + (s32)0xFCA00000) >> 16;
+    s32 dy = (world_pos->y.v + (s32)0xFCA00000) >> 16;
     void *spin_data;
     s32 prev_angle;
     LocalPoint point;
@@ -64,7 +64,7 @@ void func_80020C10(void *state_arg, void *target_arg, void *effect_arg)
     distance = func_80064710(dx_squared + dy_squared);
     S32(state_arg, 0x60) = S32(target_arg, 8);
 
-    if (world_pos[1] > 0x035FFFFF) {
+    if (world_pos->y.v > 0x035FFFFF) {
         if (distance < 185) {
             goto close_range;
         }
@@ -74,13 +74,13 @@ void func_80020C10(void *state_arg, void *target_arg, void *effect_arg)
     goto middle_range;
 
 close_range:
-    close_pos = (s32 *)D_80083780;
+    close_pos = &D_80083780;
     if (S16(close_pos, 0xA) >= S16(target_arg, 0xA)) {
-        close_pos[0] = S32(state_arg, 4);
-        close_pos[1] = S32(state_arg, 8);
+        close_pos->x.v = S32(state_arg, 4);
+        close_pos->y.v = S32(state_arg, 8);
     }
-    S32(state_arg, 0x58) = close_pos[0];
-    S32(state_arg, 0x5C) = close_pos[1];
+    S32(state_arg, 0x58) = close_pos->x.v;
+    S32(state_arg, 0x5C) = close_pos->y.v;
     if (distance < 128) {
         value_close = (128 - distance) >> 1;
         U16(state_arg, 0x62) = U16(state_arg, 0x62) - value_close;
@@ -89,11 +89,11 @@ close_range:
 
 middle_range:
     if (distance < 209) {
-        s32 *mid_pos;
-        mid_pos = (s32 *)D_80083780;
+        EntityRec *mid_pos;
+        mid_pos = &D_80083780;
         if (S16(mid_pos, 0xA) >= S16(target_arg, 0xA)) {
-            mid_pos[0] = S32(state_arg, 4);
-            mid_pos[1] = S32(state_arg, 8);
+            mid_pos->x.v = S32(state_arg, 4);
+            mid_pos->y.v = S32(state_arg, 8);
         }
 
         abs_dx = dx;
@@ -103,24 +103,24 @@ middle_range:
         if (abs_dx > abs_dy) {
             goto x_axis;
         }
-        if (mid_pos[1] > 0x033FFFFF) {
+        if (mid_pos->y.v > 0x033FFFFF) {
             goto y_axis;
         }
 x_axis:
-        S32(state_arg, 0x5C) = mid_pos[1];
+        S32(state_arg, 0x5C) = mid_pos->y.v;
         if (dx > 0) {
-            S32(state_arg, 0x58) = mid_pos[0] - 0x00280000;
+            S32(state_arg, 0x58) = mid_pos->x.v - 0x00280000;
         } else {
-            S32(state_arg, 0x58) = mid_pos[0] + 0x00280000;
+            S32(state_arg, 0x58) = mid_pos->x.v + 0x00280000;
         }
         goto position_done;
 
 y_axis:
-        S32(state_arg, 0x58) = mid_pos[0];
+        S32(state_arg, 0x58) = mid_pos->x.v;
         if (dy > 0) {
-            S32(state_arg, 0x5C) = mid_pos[1] - 0x00280000;
+            S32(state_arg, 0x5C) = mid_pos->y.v - 0x00280000;
         } else {
-            S32(state_arg, 0x5C) = mid_pos[1] + 0x00280000;
+            S32(state_arg, 0x5C) = mid_pos->y.v + 0x00280000;
         }
     } else {
         S32(state_arg, 0x58) = 0x03600000;
@@ -129,8 +129,8 @@ y_axis:
     }
 
 position_done:
-    S32(state_arg, 4) = S32(D_80083780, 0);
-    S32(state_arg, 8) = S32(D_80083780, 4);
+    S32(state_arg, 4) = S32(((u8 *)(&D_80083780)), 0);
+    S32(state_arg, 8) = S32(((u8 *)(&D_80083780)), 4);
 
     {
         s32 scaled_speed = S32(spin_data, 0x14) / ((S16(spin_data, 0x22) << 8) + 0x300);
@@ -167,7 +167,7 @@ accelerate:
 
 spin:
     U16(effect_arg, 0x1A) += speed_limit;
-    if (distance >= 161 && S32(D_80083780, 4) > 0x03600000 && S16(spin_data, 0x18) == 5) {
+    if (distance >= 161 && S32(((u8 *)(&D_80083780)), 4) > 0x03600000 && S16(spin_data, 0x18) == 5) {
         S16(state_arg, 0x72) = speed_limit;
         S16(state_arg, 0x70) = 3;
     }

@@ -2,7 +2,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 typedef struct S_801723F0_0 {
     u8 pad_00[0x8C];
@@ -65,7 +65,7 @@ state1:
     if (((Rec_D_80082E80 *)anim)->unk_14.at00_u16.v & 0x8000) {
         ((S_801723F0_0 *)action)->unk_9B = 3;
         ((Rec_D_80082E80 *)anim)->unk_14.at00_u16.v |= 0x6000;
-        func_8009C12C(actor, anim, ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16, 1);
+        func_8009C12C(actor, anim, ((EntityRec *)actor)->facing, 1);
         goto done;
     }
     ((S_801723F0_3 *)motion)->unk_14 = 0;
@@ -73,7 +73,7 @@ state1:
     ((S_801723F0_3 *)motion)->unk_0C = 0;
     (*(u8 * *)((u8 *)anim + 0x2C)) = D_8017423C;
     func_80047784(anim,
-        D_8017423C[((s32)(gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+        D_8017423C[((s32)(gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
         0);
     ((S_801723F0_0 *)action)->unk_96 = 0;
     ((S_801723F0_0 *)action)->unk_9B++;
@@ -84,7 +84,7 @@ state2:
     ticks = ((S_801723F0_0 *)action)->unk_96 + 1;
     ((S_801723F0_0 *)action)->unk_96 = ticks;
     if (((s16)ticks == 8) || (((Rec_D_80082E80 *)anim)->unk_14.at00_u16.v & 0x8000)) {
-        func_8009C12C(actor, anim, ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16, 1);
+        func_8009C12C(actor, anim, ((EntityRec *)actor)->facing, 1);
     }
 
 state3:

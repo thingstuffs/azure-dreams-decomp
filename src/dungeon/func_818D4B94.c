@@ -1,6 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 typedef struct S_818D4B94_2 {
     u8 pad_00[0x8];
@@ -56,7 +56,7 @@ typedef struct S_818D4B94_1 {
 } S_818D4B94_1;   /* temp_s0 in func_818D4B94 */
 
 /* Creates an offset effect with velocity directed back toward the source position. */
-void func_818D4B94(Rec_D_800E3D7C *source, s16 setting_14, s32 setting_08, s32 duration, s32 offset_x, s32 offset_y, s32 offset_z) {
+void func_818D4B94(EntityRec *source, s16 setting_14, s32 setting_08, s32 duration, s32 offset_x, s32 offset_y, s32 offset_z) {
     s16 saved_setting_14 = setting_14;
     s32 saved_setting_08 = setting_08;
     s32 saved_duration = duration;
@@ -75,13 +75,13 @@ void func_818D4B94(Rec_D_800E3D7C *source, s16 setting_14, s32 setting_08, s32 d
     effect = func_8003FD64(0x211, source);
     if (effect != NULL) {
         ((S_818D4B94_0 *)effect)->unk_10 = &D_80024294;
-        ((S_818D4B94_4 *)(((S_818D4B94_2 *)effect)->unk_08))->unk_02 = (s16) (((S_818D4B94_5 *)(source->unk_08.at00_pv.v))->unk_02 + saved_offset_x);
-        ((S_818D4B94_4 *)(((S_818D4B94_2 *)effect)->unk_08))->unk_06 = (s16) (((S_818D4B94_5 *)(source->unk_08.at00_pv.v))->unk_06 + saved_offset_y);
-        ((S_818D4B94_4 *)(((S_818D4B94_2 *)effect)->unk_08))->unk_0A = (s16) (((S_818D4B94_5 *)(source->unk_08.at00_pv.v))->unk_0A + saved_offset_z);
+        ((S_818D4B94_4 *)(((S_818D4B94_2 *)effect)->unk_08))->unk_02 = (s16) (((S_818D4B94_5 *)((*(void * *)&source->z)))->unk_02 + saved_offset_x);
+        ((S_818D4B94_4 *)(((S_818D4B94_2 *)effect)->unk_08))->unk_06 = (s16) (((S_818D4B94_5 *)((*(void * *)&source->z)))->unk_06 + saved_offset_y);
+        ((S_818D4B94_4 *)(((S_818D4B94_2 *)effect)->unk_08))->unk_0A = (s16) (((S_818D4B94_5 *)((*(void * *)&source->z)))->unk_0A + saved_offset_z);
         state = effect + 0x20;
-        state->unk_34 = (u16) ((S_818D4B94_5 *)(source->unk_08.at00_pv.v))->unk_02;
-        state->unk_36 = (u16) ((S_818D4B94_5 *)(source->unk_08.at00_pv.v))->unk_06;
-        state->unk_38 = (u16) ((S_818D4B94_5 *)(source->unk_08.at00_pv.v))->unk_0A;
+        state->unk_34 = (u16) ((S_818D4B94_5 *)((*(void * *)&source->z)))->unk_02;
+        state->unk_36 = (u16) ((S_818D4B94_5 *)((*(void * *)&source->z)))->unk_06;
+        state->unk_38 = (u16) ((S_818D4B94_5 *)((*(void * *)&source->z)))->unk_0A;
         signed_duration = (s16) saved_duration;
         biased_duration = signed_duration;
         return_delta_x = 0 - (saved_offset_x << 0x10);

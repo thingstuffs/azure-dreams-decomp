@@ -1,5 +1,6 @@
 #include "common.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity_objects.h"
+#include "shared/entity.h"
 #include "records/Rec_D_80082D58.h"
 
 
@@ -33,7 +34,6 @@ typedef struct S_8009B9BC_4 {
 
 
 extern TownState D_800834B8;
-extern s32 D_80083780[];
 extern s32 D_800D0420[];
 extern u8 D_800FE488[];
 
@@ -61,10 +61,9 @@ extern void func_8009C340(void *, void *, void *, s32);
 extern void func_800C172C(void);
 
 /* Resolve the owner position and dispatch its handler for the current town state. */
-void func_8009B9BC(void *object, S_8009B9BC_1 *owner, Rec_D_800E3D7C *resolved_pos, s32 dispatch_param)
+void func_8009B9BC(void *object, S_8009B9BC_1 *owner, EntityRec *resolved_pos, s32 dispatch_param)
 {
     TownState *state = &D_800834B8;
-    s32 *position = D_80083780;
     s32 *offset = D_800D0420;
     s32 previous_owner = state->previous_owner;
     s32 current_state;
@@ -75,17 +74,17 @@ void func_8009B9BC(void *object, S_8009B9BC_1 *owner, Rec_D_800E3D7C *resolved_p
     void *dispatch_owner;
     void *dispatch_pos;
 
-    resolved_pos->unk_00.at00_s32.v = D_80083780[0];
-    resolved_pos->unk_04.at00_s32.v = position[1];
-    resolved_pos->unk_08.at00_s32.v = position[2] + offset[2];
+    resolved_pos->x.v = D_80083780.x.v;
+    resolved_pos->y.v = D_80083780.y.v;
+    resolved_pos->z.v = D_80083780.z.v + offset[2];
 
     func_8008F170(resolved_pos, D_800FE488);
     func_8008F294(owner, resolved_pos);
     func_8008F664(owner, resolved_pos);
 
-    target_z = position[2] + offset[2];
-    if (target_z - resolved_pos->unk_08.at00_s32.v >= 0x10) {
-        resolved_pos->unk_08.at00_s32.v =
+    target_z = D_80083780.z.v + offset[2];
+    if (target_z - resolved_pos->z.v >= 0x10) {
+        resolved_pos->z.v =
             target_z + ((S_8009B9BC_3 *)(owner->unk_0C))->unk_14;
         dispatch_pos = resolved_pos;
     }

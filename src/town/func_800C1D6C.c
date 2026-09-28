@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity_objects.h"
 
 typedef struct S0 {
     char pad0[0x68];
@@ -18,7 +19,6 @@ typedef struct S80083780 {
     s32 field8;
 } S80083780;
 
-extern S80083780 D_80083780;
 
 extern s32 func_800352FC(s32, s32 *, S1 *);
 extern s32 func_800C2AB4(S0 *);
@@ -63,7 +63,7 @@ L_CHECK_DISTANCE: {
         register s32 x_distance;
         s32 target_x;
 
-        x_distance = D_80083780.field0;
+        x_distance = D_80083780.x.v;
         target_x = position[0];
         x_distance -= target_x;
         threshold = 0x3FFFFF;
@@ -91,9 +91,9 @@ L_CHECK_DISTANCE: {
 L_MOVE: {
         s32 below_limit;
 
-        below_limit = D_80083780.field4 < y_limit;
+        below_limit = D_80083780.y.v < y_limit;
         if (below_limit != 0) {
-            D_80083780.field4 += 0x40000;
+            D_80083780.y.v += 0x40000;
         }
         next_value = target->f1A - 32;
         goto L_STORE_TARGET;

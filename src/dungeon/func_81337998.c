@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 typedef struct S_8016E998_0 {
     u8 pad_00[0x1];
@@ -67,7 +67,7 @@ extern M2C_UNK D_8016E4E8;
 extern void *D_80175D78;
 
 /* Creates sixteen radial effect segments around the supplied position. */
-void func_8016E998(Rec_D_800E3D7C *origin) {
+void func_8016E998(EntityRec *origin) {
     s32 origin_z;
     s32 start_angle;
     s32 end_x;
@@ -114,9 +114,9 @@ void func_8016E998(Rec_D_800E3D7C *origin) {
             ((S_8016E998_2 *)origin_z)->unk_10 = 0x20;
             ((S_8016E998_2 *)origin_z)->unk_14 = (u16) (flags_copy | 0x80);
             position = ((S_8016E998_1 *)effect)->unk_08;
-            position->unk_00 = (s32) origin->unk_00.at00_s32.v;
-            position->unk_04.at00.v = (s32) origin->unk_04.at00_s32.v;
-            origin_z = origin->unk_08.at00_s32.v;
+            position->unk_00 = (s32) origin->x.v;
+            position->unk_04.at00.v = (s32) origin->y.v;
+            origin_z = origin->z.v;
             position->unk_04.at02.v = (u16) (position->unk_04.at02.v - 0x440);
             position->unk_08 = origin_z;
             effect_data->unk_7E = -0x40;

@@ -1,6 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 typedef struct S_81809800_0 {
     u8 pad_00[0x26];
@@ -79,18 +79,18 @@ void BODY_NAME(void *motion_state, void *position, void *draw_state) {
     target_y = ((S_81809800_4 *)target_pos)->unk_00.at02.v;
     update_counts[0] = (s16) ((u16) update_counts[0] + 1);
     if ((target_y != current_y) || (((S_81809800_4 *)target_pos)->unk_04.at02.v != ((S_81809800_2 *)position)->unk_04.at02.v)) {
-        ((Rec_D_800E3D7C *)motion_state)->unk_08.at02_s16.v = 2;
+        ((EntityRec *)motion_state)->z.w.i = 2;
     }
-    move_ticks = ((Rec_D_800E3D7C *)motion_state)->unk_08.at02_s16.v;
+    move_ticks = ((EntityRec *)motion_state)->z.w.i;
     if (move_ticks != 0) {
         ((S_81809800_2 *)position)->unk_00.at00.v = (s32) (((S_81809800_2 *)position)->unk_00.at00.v + ((s32) (((S_81809800_4 *)target_pos)->unk_00.at00.v - ((S_81809800_2 *)position)->unk_00.at00.v) / move_ticks));
-        ((S_81809800_2 *)position)->unk_04.at00.v = (s32) (((S_81809800_2 *)position)->unk_04.at00.v + ((s32) (((S_81809800_4 *)target_pos)->unk_04.at00.v - ((S_81809800_2 *)position)->unk_04.at00.v) / (s16) ((Rec_D_800E3D7C *)motion_state)->unk_08.at02_s16.v));
-        ticks_left = (u16) ((Rec_D_800E3D7C *)motion_state)->unk_08.at02_s16.v - 1;
-        ((Rec_D_800E3D7C *)motion_state)->unk_08.at02_s16.v = ticks_left;
+        ((S_81809800_2 *)position)->unk_04.at00.v = (s32) (((S_81809800_2 *)position)->unk_04.at00.v + ((s32) (((S_81809800_4 *)target_pos)->unk_04.at00.v - ((S_81809800_2 *)position)->unk_04.at00.v) / (s16) ((EntityRec *)motion_state)->z.w.i));
+        ticks_left = (u16) ((EntityRec *)motion_state)->z.w.i - 1;
+        ((EntityRec *)motion_state)->z.w.i = ticks_left;
         if ((ticks_left << 0x10) <= 0) {
             ((S_81809800_2 *)position)->unk_00.at02.v = (s16) (u16) ((S_81809800_4 *)target_pos)->unk_00.at02.v;
             ((S_81809800_2 *)position)->unk_04.at02.v = (s16) (u16) ((S_81809800_4 *)target_pos)->unk_04.at02.v;
-            ((Rec_D_800E3D7C *)motion_state)->unk_08.at02_s16.v = 0;
+            ((EntityRec *)motion_state)->z.w.i = 0;
         }
     }
     func_800478B8(draw_state, target_y, target_pos, position);

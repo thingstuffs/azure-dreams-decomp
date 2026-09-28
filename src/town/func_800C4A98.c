@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity_objects.h"
 extern int abs(int);
 
 typedef s32 M2C_UNK;
@@ -13,7 +14,6 @@ typedef struct Position {
 
 extern void town_sd_sq_callagain(s32 arg0);
 extern s32 func_800C2124(void);
-extern Position D_80083780;
 
 
 typedef struct S_800C21F8_0 {
@@ -31,8 +31,8 @@ s32 func_800C21F8(S_800C21F8_0 *object) {
     s32 x_distance;
     s32 axis_delta;
 
-    x_distance = abs(object->unk_04 - D_80083780.x);
-    y_distance = abs(object->unk_06 - D_80083780.y);
+    x_distance = abs(object->unk_04 - D_80083780.x.w.i);
+    y_distance = abs(object->unk_06 - D_80083780.y.w.i);
     x_distance = (s32)((u32)x_distance << 16);
     if ((object->unk_0C < (x_distance >> 16)) ||
         ((s16)y_distance > object->unk_0E)) {

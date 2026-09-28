@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity_objects.h"
 #include "shared/object_flags.h"
 extern int abs(int);
 
@@ -34,7 +35,6 @@ typedef struct S_800B9998_3 {
 
 
 
-extern s32 D_80083780;
 
 extern void func_80033D08(void *);
 extern s32 func_8009CFE0(void *, void *);
@@ -77,7 +77,7 @@ void func_800B9998(void *object, void *position, void *rotation) {
     ((S_800B9998_0 *)object)->unk_66.s = 0;
 
     speed_ready:
-    town_state = (u8 *)&D_80083780;
+    town_state = (u8 *)&D_80083780.x.v;
     dx = ((S_800B9998_1 *)town_state)->unk_02;
     dy = ((S_800B9998_2 *)position_data)->unk_02;
     position_y = ((S_800B9998_2 *)position_data)->unk_06;

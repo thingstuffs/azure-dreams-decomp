@@ -1,6 +1,8 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 typedef s32 M2C_UNK;
 
@@ -112,8 +114,6 @@ extern s16 D_800272C8;
 extern s16 D_800272CA;
 extern s32 D_80053858[4];
 extern s32 D_80053A88;
-extern u8 D_80082E80[];
-extern u16 D_80082E94;
 extern u8 D_80083498[];
 extern u8 D_800834B8[];
 typedef struct {
@@ -123,8 +123,6 @@ typedef struct {
     u8 pad[0x34B8];
     u8 state[0x20];
 } TownPage;
-extern MotionState D_80083780;
-extern s32 D_8008378C;
 extern s32 D_80097D2C[3];
 extern M2C_UNK D_800D0120;
 extern M2C_UNK D_800D0128;
@@ -163,7 +161,7 @@ void func_80022F60(void *state_obj) {
             ((S_80022F60_0 *)obj_held)->unk_02.s = 4;
             ((S_80022F60_0 *)obj_held)->unk_06 = 0;
             (*(u16 *)((u8 *)obj_held + 0))++;
-            motion = (u8 *)&D_80083780;
+            motion = (u8 *)(&D_80083780);
             ((S_80022F60_2 *)motion)->unk_10 = 0;
             ((S_80022F60_2 *)motion)->unk_0C = 0;
             ((S_80022F60_2 *)motion)->unk_14 = 0xFFE00000;
@@ -177,7 +175,7 @@ void func_80022F60(void *state_obj) {
         ((S_80022F60_1 *)main_state)->unk_10.u =
             (((S_80022F60_1 *)main_state)->unk_10.u + 0x200) & 0xFFF;
         if (((S_80022F60_0 *)obj_held)->unk_02.u <= 0) {
-            u8 *motion = (u8 *)&D_80083780;
+            u8 *motion = (u8 *)(&D_80083780);
             s32 value;
 
             (*(u16 *)((u8 *)obj_held + 2)) = 8;
@@ -199,7 +197,7 @@ void func_80022F60(void *state_obj) {
             state_obj = raw & 0xFFF;
             ((S_80022F60_1 *)main_state)->unk_10.u = state_obj;
             if (((S_80022F60_0 *)obj_held)->unk_02.u <= 0) {
-                u8 *motion = (u8 *)&D_80083780;
+                u8 *motion = (u8 *)(&D_80083780);
 
                 ((S_80022F60_2 *)motion)->unk_10 = 0;
                 ((S_80022F60_2 *)motion)->unk_0C = 0;
@@ -212,7 +210,7 @@ void func_80022F60(void *state_obj) {
 
     case 3:
         {
-            u8 *motion = (u8 *)&D_80083780;
+            u8 *motion = (u8 *)(&D_80083780);
             u8 *loop_asset;
             s32 *table_base;
             s8 one;
@@ -237,7 +235,7 @@ void func_80022F60(void *state_obj) {
                     ((S_80022F60_2 *)motion)->unk_04 = 0x03800000;
                     (*(s32 *)((u8 *)motion + 0x10)) = 0;
                     D_800272CA = 0;
-                    *(s32 *)&D_80083780 = D_80026F26 << 16;
+                    *(s32 *)(&D_80083780) = D_80026F26 << 16;
 
                     obj = func_8003FD64(one, alloc_page);
                     if (obj != NULL) {
@@ -313,7 +311,7 @@ void func_80022F60(void *state_obj) {
         break;
 
     case 4:
-        if (D_80082E94 & 0x6000) {
+        if (D_80082E80.unk_014 & 0x6000) {
             func_80093CEC(&D_800D0128);
             ((S_80022F60_0 *)obj_held)->unk_00.u++;
         }
@@ -333,7 +331,7 @@ void func_80022F60(void *state_obj) {
         break;
 
     case 6:
-        if (D_80082E94 & 0x6000) {
+        if (D_80082E80.unk_014 & 0x6000) {
             ((S_80022F60_0 *)obj_held)->unk_02.s = 1;
             func_80093CEC(&D_800D0120);
             ((S_80022F60_1 *)main_state)->unk_04 = D_80023994;
@@ -385,7 +383,7 @@ void func_80022F60(void *state_obj) {
                 func_80093CEC(&D_800D0138);
                 D_800272CA = 0;
                 D_800272C8 = 1;
-                D_8008378C = 0;
+                D_80083780.unk_0C = 0;
                 ((S_80022F60_0 *)obj_held)->unk_02.s = 0x40;
                 ((S_80022F60_0 *)obj_held)->unk_00.u++;
             }
@@ -397,8 +395,8 @@ void func_80022F60(void *state_obj) {
             s32 current;
 
             two = 0x03800000;
-            current = ((Rec_D_800E3D7C *)(&D_80083780))->unk_00.at00_s32.v;
-            ((Rec_D_800E3D7C *)(&D_80083780))->unk_00.at00_s32.v =
+            current = ((EntityRec *)(((MotionState *)&D_80083780)))->x.v;
+            ((EntityRec *)(((MotionState *)&D_80083780)))->x.v =
                 current + ((two - current) >> 1);
             if (((S_80022F60_0 *)obj_held)->unk_02.u <= 0) {
                 obj = func_8003FC64(0x136);
@@ -497,7 +495,7 @@ void func_80022F60(void *state_obj) {
     case 0xFF:
         if ((s16)timer <= 0) {
             SD_Call(0x200);
-            func_80093D48(main_state, &D_80083780, D_80082E80);
+            func_80093D48(main_state, ((MotionState *)&D_80083780), ((u8 *)(&D_80082E80)));
             ((S_80022F60_0 *)obj_held)->unk_00.s = 0;
         }
         break;

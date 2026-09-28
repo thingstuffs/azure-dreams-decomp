@@ -6,3 +6,5 @@
 {"tag": "r78_types_phase3", "at": "2026-09-28T09:16:56Z", "rows": 1447, "names": ["gameWork"], "headers": ["include/shared/game_work.h", "include/shared/slus_callbacks.h"], "how": "verify.py every row + gate_all + SLUS SHA-1 MATCH"}
 {"tag": "r78_types_phase4", "at": "2026-09-28T09:56:54Z", "rows": 40, "names": [], "headers": ["include/shared/record_ptrs.h"], "how": "verify.py every row + gate_all + SLUS SHA-1 MATCH"}
 {"tag": "r78_types_phase4", "at": "2026-09-28T10:05:34Z", "rows": 723, "names": [], "headers": ["include/shared/record_ptrs.h"], "how": "verify.py every row + gate_all + SLUS SHA-1 MATCH"}
+{"tag": "r78_types_phase5", "at": "2026-09-28T10:46:41Z", "rows": 37, "names": [], "headers": ["include/shared/entity.h", "include/shared/entity_objects.h", "include/shared/tile_object.h"], "how": "verify.py every row + gate_all + SLUS SHA-1 MATCH"}
+{"tag": "r78_types_phase5", "at": "2026-09-28T10:55:25Z", "rows": 748, "names": [], "headers": ["include/shared/entity.h", "include/shared/entity_objects.h", "include/shared/tile_object.h"], "how": "verify.py every row + gate_all + SLUS SHA-1 MATCH"}

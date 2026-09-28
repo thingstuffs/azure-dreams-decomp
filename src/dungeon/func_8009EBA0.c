@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "records/Rec_D_80082E80.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 /* This data symbol has no shared-catalog address. */
 __asm__(".set D_80081470, 0x80081470");
@@ -20,7 +20,7 @@ typedef struct S_800A4300_2 {
 } S_800A4300_2;   /* D_800814A8[0] in func_800A4300 */
 
 /* Selects data at the entity's position and updates the owner's map or floor entry. */
-void func_800A4300(Rec_D_80082E80 *entity, Rec_D_800E3D7C *search_state) {
+void func_800A4300(Rec_D_80082E80 *entity, EntityRec *search_state) {
     s32 lookup_code;
     void *owner;
     u32 map_index_bits, floor_index_bits;
@@ -41,7 +41,7 @@ void func_800A4300(Rec_D_80082E80 *entity, Rec_D_800E3D7C *search_state) {
     } else {
         map_index_bits = (u32)func_800B500C(entity->unk_24,
                                             entity->unk_25,
-                                            search_state->unk_88.as_s16) << 16;
+                                            search_state->unk_88) << 16;
         map_index = (s16)((s32)map_index_bits >> 16);
         if (map_index >= 0) {
             map_base = D_800E3648;
@@ -57,7 +57,7 @@ void func_800A4300(Rec_D_80082E80 *entity, Rec_D_800E3D7C *search_state) {
 
         floor_index_bits = (u32)func_800A70E4(entity->unk_24,
                                               entity->unk_25,
-                                              search_state->unk_88.as_s16) << 16;
+                                              search_state->unk_88) << 16;
         floor_index = (s16)((s32)floor_index_bits >> 16);
         if (floor_index >= 0) {
             floor_base = D_800E3548;

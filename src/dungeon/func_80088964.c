@@ -2,7 +2,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 struct S_8003E2D8; typedef struct S_8003E2D8 S_8003E2D8;
 extern void *D_8008ACDC[];
@@ -44,7 +44,7 @@ typedef struct S_8008E0C4_5 {
     u16 unk_0A;
 } S_8008E0C4_5;   /* counter_base in func_8008E0C4 */
 
-void func_8008E0C4(S_8008E0C4_0 *arg0, void *unused, S_8008E0C4_1 *arg2, Rec_D_800E3D7C *arg3) {
+void func_8008E0C4(S_8008E0C4_0 *arg0, void *unused, S_8008E0C4_1 *arg2, EntityRec *arg3) {
     S_8008E0C4_4 *global_base;
     S_8008E0C4_5 *counter_base;
     u16 temp_v0;
@@ -105,7 +105,7 @@ state_16:
     if (arg2->unk_14 & 0xE000) {
         counter_base = ((s32 *)(&dungeonStatus));
         arg3->unk_28 = arg3->unk_29;
-        arg3->unk_2A.as_s16 = 0x400 - ((global_base->unk_C8 + 0x100) & 0xE00);
+        arg3->facing = 0x400 - ((global_base->unk_C8 + 0x100) & 0xE00);
         arg0->unk_8C = D_8008ACDC;
         counter_base->unk_0A = counter_base->unk_0A - 1;
     }

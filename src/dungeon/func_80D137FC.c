@@ -4,7 +4,7 @@
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 typedef struct S_80172FFC_0 {
     u8 pad_00[0x8C];
@@ -178,7 +178,7 @@ init:
     if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
         ((S_80172FFC_0 *)action)->unk_9B = 3U;
         ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = (u16) (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v | 0x6000);
-        func_8009C12C(actor, sprite, ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16, 1);
+        func_8009C12C(actor, sprite, ((EntityRec *)actor)->facing, 1);
         goto done;
     }
     ((S_80172FFC_3 *)motion)->unk_14 = 0;
@@ -195,7 +195,7 @@ wait:
         goto done;
     }
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80174EB8;
-    func_80047784(sprite, D_80174EB8[((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
+    func_80047784(sprite, D_80174EB8[((s32) (gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7], 0);
 
 advance:
     ((S_80172FFC_0 *)action)->unk_96 = 0U;
@@ -210,11 +210,11 @@ emit:
         ((S_80172FFC_0 *)action)->unk_9B = (u8) (((S_80172FFC_0 *)action)->unk_9B + 1);
     }
     if (((s16) ((S_80172FFC_0 *)action)->unk_96 == 0xB) || (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
-        func_8009C12C(actor, sprite, ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16, 1);
+        func_8009C12C(actor, sprite, ((EntityRec *)actor)->facing, 1);
     }
     if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) {
         (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80174E90;
-        func_80047784(sprite, D_80174E90[((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
+        func_80047784(sprite, D_80174E90[((s32) (gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7], 0);
     }
     spawn_tick = ((S_80172FFC_0 *)action)->unk_96;
     if ((u32) (spawn_tick - 9) < 5U) {
@@ -235,7 +235,7 @@ emit:
                 ((S_80172FFC_4 *)effect_data)->unk_A8 = motion;
                 copy_src = (Copy16 *)sprite;
                 copy_end = (Copy16 *)sprite + 3;
-                ((S_80172FFC_4 *)effect_data)->unk_94 = (u16) ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16;
+                ((S_80172FFC_4 *)effect_data)->unk_94 = (u16) ((EntityRec *)actor)->facing;
                 effect_sprite = ((S_80172FFC_5 *)effect)->unk_0C;
                 copy_dst = (Copy16 *)effect_sprite;
                 do {
@@ -300,7 +300,7 @@ finish:
         ((S_80172FFC_0 *)action)->unk_8C = &D_80171760;
         dungeonStatus.unk_0C = 0;
         func_800A4ACC(actor);
-        ((Rec_D_800E3D7C *)actor)->unk_44.at02_u16.v = (u16) (((Rec_D_800E3D7C *)actor)->unk_44.at02_u16.v & 0x7FFF);
+        ((EntityRec *)actor)->unk_46 = (u16) (((EntityRec *)actor)->unk_46 & 0x7FFF);
     }
 
 done:

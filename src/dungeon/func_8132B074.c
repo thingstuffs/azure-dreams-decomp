@@ -1,6 +1,6 @@
 #include "common.h"
 #include "shared/object_flags.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 typedef struct S_80172874_0_pre {
     u16 unk_00;
@@ -63,7 +63,7 @@ extern u8 D_80174C8C[];
 extern s32 D_80174CE0;
 
 /* Advances the effect through growth, position tracking, and shrinkage. */
-void func_80172874(void *effect, Rec_D_800E3D7C *position, S_80172874_2 *transform)
+void func_80172874(void *effect, EntityRec *position, S_80172874_2 *transform)
 {
     void *base = effect;
     S_80172874_6 *source;
@@ -133,9 +133,9 @@ track:
             ((S_80172874_0 *)base)->unk_16.s = 0x14;
             ((S_80172874_0 *)base)->unk_12.s = ((S_80172874_0 *)base)->unk_12.p + 1;
         }
-        position->unk_00.at00_s32.v = source->unk_00;
-        position->unk_04.at00_s32.v = source->unk_04;
-        position->unk_08.at00_s32.v = source->unk_08;
+        position->x.v = source->unk_00;
+        position->y.v = source->unk_04;
+        position->z.v = source->unk_08;
         goto done;
     }
 

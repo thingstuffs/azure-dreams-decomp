@@ -1,8 +1,7 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #define F(p,t,o) (*(t *)((u8 *)(p) + (o)))
 extern s16 func_8009FD40(void *, void *);
-extern u8 D_80082E80[];
-extern s8 D_80082EA6;
 extern u8 D_80080000[];
 
 /* Updates and returns the state flag using a source index and two thresholds. */
@@ -22,7 +21,7 @@ s32 func_800A19E4(void *source, void *state, s32 lower_limit, s32 upper_limit, s
         if (source_index >= 0) {
             if (source_index == F(D_80080000, s8, 0x2EA6)) goto done;
         }
-        if ((func_8009FD40(D_80082E80, source) << 16) >= (upper_limit << 16)) {
+        if ((func_8009FD40(((u8 *)(&D_80082E80)), source) << 16) >= (upper_limit << 16)) {
             F(state, s8, 0x73) = 0;
             F(state, s8, 0x72) = 0;
             F(state, u32, 0x1C) &= ~0x20000;
@@ -36,7 +35,7 @@ s32 func_800A19E4(void *source, void *state, s32 lower_limit, s32 upper_limit, s
         if (source_index >= 0) {
             if (source_index == F(D_80080000, s8, 0x2EA6)) goto set_flag;
         }
-        if ((func_8009FD40(D_80082E80, source) << 16) >= (lower_limit << 16)) goto done;
+        if ((func_8009FD40(((u8 *)(&D_80082E80)), source) << 16) >= (lower_limit << 16)) goto done;
 set_flag:
         F(state, u32, 0x1C) |= 0x20000;
     }

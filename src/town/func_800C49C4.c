@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity_objects.h"
 extern int abs(int);
 
 typedef struct {
@@ -24,7 +25,6 @@ typedef struct {
 
 extern s32 func_80033B2C(s32, s32);
 extern void tw_sd_sq_ld_call(s32, s32);
-extern u8 D_80083780[8];
 extern u8 D_800C21F8[];
 
 /* Applies an eligible nearby object's effects and updates its callback. */
@@ -38,7 +38,7 @@ s32 func_800C2124(TownObject *object) {
     s16 distance_x;
     s16 distance_z;
 
-    position = (TownPosition *)D_80083780;
+    position = (TownPosition *)((u8 *)(&D_80083780));
     ASM_KEEP(position);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     offset_x = object->x;
     coord_value_2 = position->x;

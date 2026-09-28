@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity_objects.h"
 #include "shared/record_ptrs.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
@@ -154,8 +156,6 @@ extern s32 D_80081470;
 extern void *D_800E3D18;
 extern u8 D_80083498[];
 extern u8 D_80089AA0[];
-extern u8 D_80083780;
-extern u8 D_80082E80[];
 extern u8 D_80082E60[];
 extern u8 D_800DD078;
 extern volatile u8 D_800DD090;
@@ -225,11 +225,11 @@ void func_800165B8(void) {
     allocation = func_8003FE78(0, D_80083498, 0x53);
     ((S_800165B8_0 *)allocation)->unk_10 = D_80089AA0;
     func_8004491C(allocation, func_80045340);
-    actor_storage = &D_80083780;
+    actor_storage = ((u8 *)(&D_80083780.x.v));
     ((S_800165B8_0 *)allocation)->unk_08 = actor_storage;
     actor = actor_storage;
     func_8003DB4C(actor, 6);
-    state = D_80082E80;
+    state = ((u8 *)(&D_80082E80));
     ((S_800165B8_0 *)allocation)->unk_0C = state;
     func_8003DB4C(state, 0xC);
     D_800814A8 = obj = (u8 *)allocation + 0x20;

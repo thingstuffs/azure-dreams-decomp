@@ -1,5 +1,5 @@
 #include "common.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 typedef struct S_80165018_0 {
     u8 pad_00[0x8];
@@ -65,7 +65,7 @@ extern u8 D_80164DA4[];
 
 
 /* Create an effect at a randomized offset from its parent and initialize its state. */
-void func_80165018(Rec_D_800E3D7C *parent, s32 effect_value, s16 effect_size, s16 offset_x, s16 offset_y,
+void func_80165018(EntityRec *parent, s32 effect_value, s16 effect_size, s16 offset_x, s16 offset_y,
                    s16 offset_z) {
     void *effect;
     S_80165018_2 *state;
@@ -78,17 +78,17 @@ void func_80165018(Rec_D_800E3D7C *parent, s32 effect_value, s16 effect_size, s1
     if (effect != 0) {
         ((S_80165018_0 *)effect)->unk_10 = D_80164DA4;
         jitter = rand() & 7;
-        coordinate = ((S_80165018_5 *)(parent->unk_08.at00_pv.v))->unk_02 + offset_x;
+        coordinate = ((S_80165018_5 *)((*(void * *)&parent->z)))->unk_02 + offset_x;
         coordinate -= 3;
         coordinate += jitter;
         ((S_80165018_6 *)(((S_80165018_0 *)effect)->unk_08))->unk_02 = (s16)coordinate;
         jitter = rand() & 7;
-        coordinate = ((S_80165018_5 *)(parent->unk_08.at00_pv.v))->unk_06 + offset_y;
+        coordinate = ((S_80165018_5 *)((*(void * *)&parent->z)))->unk_06 + offset_y;
         coordinate -= 3;
         coordinate += jitter;
         ((S_80165018_6 *)(((S_80165018_0 *)effect)->unk_08))->unk_06 = (s16)coordinate;
         jitter = rand() & 7;
-        coordinate = ((S_80165018_5 *)(parent->unk_08.at00_pv.v))->unk_0A + offset_z;
+        coordinate = ((S_80165018_5 *)((*(void * *)&parent->z)))->unk_0A + offset_z;
         coordinate -= 3;
         coordinate += jitter;
         ((S_80165018_6 *)(((S_80165018_0 *)effect)->unk_08))->unk_0A = (s16)coordinate;

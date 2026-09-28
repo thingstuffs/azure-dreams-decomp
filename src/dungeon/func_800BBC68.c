@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity_objects.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
@@ -33,8 +35,6 @@ M2C_UNK func_800A5F38();                 /* extern */
 M2C_UNK func_800A6480();            /* extern */
 s32 func_800AD6FC();                /* extern */
 s32 func_800BBA40(); /* extern */
-extern M2C_UNK D_80082E80;
-extern M2C_UNK D_80083780;
 extern M2C_UNK D_800C135C;
 extern u16 D_800DDE84[];
 extern M2C_UNK D_800DEAE0;
@@ -50,7 +50,7 @@ s32 func_800C13C8(void *object, s32 value, s16 operation, M2C_UNK context) {
     }
     if (object == D_800E3D7C) {
         ((S_800C13C8_0 *)((u8 *)object - 0x14))->unk_124 = value;
-        func_8008D344(object, &D_80083780, &D_80082E80, 0);
+        func_8008D344(object, &D_80083780.x.v, &D_80082E80.unk_000, 0);
         return 0;
     }
     if ((u32) object <= 0x9FFFFFFFU) {

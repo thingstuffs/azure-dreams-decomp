@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity_objects.h"
 #include "records/Rec_D_800CFCB4.h"
 
 #ifndef NULL
@@ -10,7 +11,6 @@ extern s32 func_8009539C(void *);
 extern s32 func_8009EB9C();
 extern s32 func_8009F148();
 extern s32 func_800C0C88();
-extern s32 D_80083780[];
 extern s32 D_800D09C8[];
 
 
@@ -33,7 +33,6 @@ typedef struct S_8009EF88_1 {
 /* Updates motion toward the target and resolves the entity when its countdown expires. */
 void func_8009EF88(void *entity, s32 context, void *motion, s32 mode) {
     s32 result[5];
-    s32 *target_pos;
     s8 *linked_flag;
     s8 *clear_flag;
     u16 ticks_left;
@@ -41,12 +40,11 @@ void func_8009EF88(void *entity, s32 context, void *motion, s32 mode) {
     s32 offset_z;
     u8 slot;
 
-    target_pos = D_80083780;
-    ((S_8009EF88_0 *)motion)->unk_0C = (s32)((s32)(D_80083780[0] - ((S_8009EF88_0 *)motion)->unk_00.at00.v) / 2);
-    delta_y = ((S_8009EF88_1 *)target_pos)->unk_04 - ((S_8009EF88_0 *)motion)->unk_04.at00.v;
+    ((S_8009EF88_0 *)motion)->unk_0C = (s32)((s32)(D_80083780.x.v - ((S_8009EF88_0 *)motion)->unk_00.at00.v) / 2);
+    delta_y = D_80083780.y.v - ((S_8009EF88_0 *)motion)->unk_04.at00.v;
     ((S_8009EF88_0 *)motion)->unk_10 = (s32)((s32)(delta_y + (delta_y >> 31)) >> 1);
     offset_z = ((S_8009EF88_0 *)motion)->unk_08 + 0x200000;
-    ((S_8009EF88_0 *)motion)->unk_14 = (s32)((s32)(((S_8009EF88_1 *)target_pos)->unk_08 - offset_z) / 2);
+    ((S_8009EF88_0 *)motion)->unk_14 = (s32)((s32)(D_80083780.z.v - offset_z) / 2);
     func_8009539C(motion);
     ticks_left = ((Rec_D_800CFCB4 *)entity)->unk_6C.as_u16 - 1;
     ((Rec_D_800CFCB4 *)entity)->unk_6C.as_u16 = ticks_left;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
 
 typedef struct S_80170D2C_0 {
@@ -56,7 +57,6 @@ typedef struct S_80170D2C_4 {
 
 extern void *func_8003FC64();
 extern s32 func_8004491C();
-extern u8 D_80083780[];
 extern u8 D_80170BB0[];
 extern u8 D_80173B88[];
 
@@ -87,18 +87,18 @@ void func_80170D2C(s32 unused, s16 duration, s32 offset_x, s32 offset_y, s32 off
         ((S_80170D2C_2 *)packet)->unk_06 = 0;
         ((S_80170D2C_2 *)packet)->unk_14 |= 0xC;
         prim = ((S_80170D2C_1 *)obj)->unk_08;
-        ((S_80170D2C_3 *)prim)->unk_00.at00.v = ((S_80170D2C_4 *)D_80083780)->unk_00.at00.v;
-        ((S_80170D2C_3 *)prim)->unk_04.at00.v = ((S_80170D2C_4 *)D_80083780)->unk_04.at00.v;
-        ((S_80170D2C_3 *)prim)->unk_08.at00.v = ((S_80170D2C_4 *)D_80083780)->unk_08.at00.v;
+        ((S_80170D2C_3 *)prim)->unk_00.at00.v = ((S_80170D2C_4 *)((u8 *)(&D_80083780)))->unk_00.at00.v;
+        ((S_80170D2C_3 *)prim)->unk_04.at00.v = ((S_80170D2C_4 *)((u8 *)(&D_80083780)))->unk_04.at00.v;
+        ((S_80170D2C_3 *)prim)->unk_08.at00.v = ((S_80170D2C_4 *)((u8 *)(&D_80083780)))->unk_08.at00.v;
         ((S_80170D2C_3 *)prim)->unk_00.at02.v += offset_x;
         ((S_80170D2C_3 *)prim)->unk_04.at02.v += offset_y;
         ((S_80170D2C_3 *)prim)->unk_08.at02.v += offset_z;
-        ((S_80170D2C_0 *)work)->unk_1C = ((S_80170D2C_4 *)D_80083780)->unk_00.at02.v;
-        fixed_value = ((S_80170D2C_4 *)D_80083780)->unk_04.at02.v;
+        ((S_80170D2C_0 *)work)->unk_1C = ((S_80170D2C_4 *)((u8 *)(&D_80083780)))->unk_00.at02.v;
+        fixed_value = ((S_80170D2C_4 *)((u8 *)(&D_80083780)))->unk_04.at02.v;
         ((S_80170D2C_0 *)work)->unk_1E = fixed_value;
         fixed_value = duration << 16;
         duration_value = fixed_value >> 16;
-        ((S_80170D2C_0 *)work)->unk_20 = ((S_80170D2C_4 *)D_80083780)->unk_08.at02.v;
+        ((S_80170D2C_0 *)work)->unk_20 = ((S_80170D2C_4 *)((u8 *)(&D_80083780)))->unk_08.at02.v;
         step_divisor = duration_value;
         fixed_value_2 = -(offset_x << 16);
         if (duration_value < 0) {

@@ -3,7 +3,7 @@
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_80174800_arg0.h"
 
@@ -151,7 +151,7 @@ extern M2C_UNK D_8017521D;
 extern s32 D_80175220;
 
 /* Advances the actor replacement sequence, including its visual effects and cleanup. */
-void func_80174B20(void *state, Rec_D_800E3D7C *position, Rec_D_80082E80 *entity, void *actor) {
+void func_80174B20(void *state, EntityRec *position, Rec_D_80082E80 *entity, void *actor) {
     static void *const phase_labels[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8 };
     s32 tint;
     S_80174B20_7 *globals_base;
@@ -249,10 +249,10 @@ jt_c4:
     func_8004491C(effect, &D_80174574);
     tint = 0x808080;
     ((Rec_func_80174800_arg0 *)state)->unk_AC = effect;
-    ((S_80174B20_15 *)(((S_80174B20_13 *)effect)->unk_08))->unk_00 = (s32) position->unk_00.at00_s32.v;
-    ((S_80174B20_15 *)(((S_80174B20_13 *)effect)->unk_08))->unk_04 = (s32) position->unk_04.at00_s32.v;
+    ((S_80174B20_15 *)(((S_80174B20_13 *)effect)->unk_08))->unk_00 = (s32) position->x.v;
+    ((S_80174B20_15 *)(((S_80174B20_13 *)effect)->unk_08))->unk_04 = (s32) position->y.v;
     effect_position = effect->unk_08;
-    position_z = position->unk_08.at00_s32.v;
+    position_z = position->z.v;
     D_80175218 = -4;
     effect_position->unk_08 = position_z;
     sprite = effect->unk_0C;

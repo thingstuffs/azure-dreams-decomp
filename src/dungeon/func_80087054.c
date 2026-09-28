@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 typedef s32 M2C_UNK;
 
@@ -85,7 +85,7 @@ after_control:
     {
         u8 *direction_table;
 
-        if (((Rec_D_800E3D7C *)entity)->unk_1C.as_s32 & 0x100000) {
+        if (((EntityRec *)entity)->flags1C & 0x100000) {
 #ifndef NON_MATCHING
 
             direction_table = (u8 *)&D_800DD0B8;
@@ -105,12 +105,12 @@ after_control:
         {
             u8 *direction_entry;
 
-            initial_state = ((s32)(gameWork.viewAngle + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7;
+            initial_state = ((s32)(gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7;
             direction_entry = direction_table + initial_state;
             func_80048A44(sprite, *direction_entry, 0, 1);
         }
 #else
-        func_80048A44(sprite, direction_table[((s32)(gameWork.viewAngle + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0, 1);
+        func_80048A44(sprite, direction_table[((s32)(gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7], 0, 1);
 #endif
     }
 }

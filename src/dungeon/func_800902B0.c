@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
@@ -110,7 +111,6 @@ s32 func_800A1618();
 M2C_UNK func_800A56E0();
 extern M2C_UNK D_8003E140;
 extern s32 D_80081488;
-extern u8 *D_80082EB0;
 extern M2C_UNK D_8008ACDC;
 extern u8 D_800DCFB0[];
 extern u8 D_800DD138[];
@@ -139,7 +139,7 @@ void func_80095A10(u8 *actor_in, void *position_in, void *animation_in, u8 *cont
     void *object_position;
 
     state = ((S_80095A10_0 *)actor)->unk_9B;
-    resource_info = D_80082EB0;
+    resource_info = ((u8 *)D_80082E80.unk_030);
     if (state >= 7U) {
         goto done;
     }
@@ -175,7 +175,7 @@ jt_c3:
     if (spawn_resource == 0) {
         goto done;
     }
-    func_80043914(D_80082EB0);
+    func_80043914(((u8 *)D_80082E80.unk_030));
     object = func_800A0B94(((S_80095A10_3 *)resource_info)->unk_00, spawn_resource, 1)(6, ((S_80095A10_2 *)context)->unk_72, ((S_80095A10_2 *)context)->unk_73, (s16) (((S_80095A10_2 *)context)->unk_88 - 0x20));
     if (object == NULL) {
         goto start_delay;

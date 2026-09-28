@@ -1,8 +1,9 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 typedef struct S_801724E8_0 {
     u8 pad_00[0x8C];
@@ -40,7 +41,6 @@ extern void func_800A9A04(void *);
 extern void func_800AD594(void *, s32);
 extern s32 func_800AD9B4(void *, void *);
 
-extern u8 D_80082E80[];
 extern u8 D_80170E5C[];
 extern u8 D_80174520[];
 
@@ -54,7 +54,6 @@ void func_801724E8(void *anim, void *motion, void *actor, void *actor_state)
     s32 phase;
     s32 actor_flags;
     s32 tile_origin_y;
-    u8 *target_actor;
 
     phase = ((S_801724E8_0 *)anim)->unk_9B;
     if (phase == 1) {
@@ -91,10 +90,10 @@ state_one:
     hop_frames = ((S_801724E8_0 *)anim)->unk_9E.s;
     ((S_801724E8_0 *)anim)->unk_90 -= ((S_801724E8_0 *)anim)->unk_A0;
     if (hop_frames != 0) {
-        ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 =
-            (((((Rec_D_80082E80 *)actor)->unk_24 << 6) - ({ ((Rec_D_800E3D7C *)motion)->unk_00.at02_s16.v - 0x20; })) << 16) / hop_frames;
-        ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v =
-            (((((Rec_D_80082E80 *)actor)->unk_25 << 6) - (tile_origin_y = ((Rec_D_800E3D7C *)motion)->unk_04.at02_s16.v - 0x20)) << 16) /
+        ((EntityRec *)motion)->unk_0C =
+            (((((Rec_D_80082E80 *)actor)->unk_24 << 6) - ({ ((EntityRec *)motion)->x.w.i - 0x20; })) << 16) / hop_frames;
+        ((EntityRec *)motion)->unk_10 =
+            (((((Rec_D_80082E80 *)actor)->unk_25 << 6) - (tile_origin_y = ((EntityRec *)motion)->y.w.i - 0x20)) << 16) /
             ((S_801724E8_0 *)anim)->unk_9E.s;
         ((S_801724E8_0 *)anim)->unk_A0 =
             (-func_800644B8(((S_801724E8_0 *)anim)->unk_9E.s * 0x199)) << 9;
@@ -113,9 +112,9 @@ state_one:
 state_two:
     if (((S_801724E8_2 *)actor_state)->unk_1C.s & 0x08000000) {
         ((S_801724E8_0 *)anim)->unk_98 &= 0xFFF7;
-        ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0;
-        ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = 0;
-        ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
+        ((EntityRec *)motion)->flags14 = 0;
+        ((EntityRec *)motion)->unk_10 = 0;
+        ((EntityRec *)motion)->unk_0C = 0;
         func_800A2B04(motion, ((Rec_D_80082E80 *)actor)->unk_24, ((Rec_D_80082E80 *)actor)->unk_25);
         (*(void * *)((u8 *)actor + 0x2C)) = D_80174520;
         func_80047784(
@@ -129,9 +128,9 @@ update_countdown:
     move_frames = ((S_801724E8_0 *)anim)->unk_96 - 1;
     ((S_801724E8_0 *)anim)->unk_96 = move_frames;
     if ((s16)move_frames <= 0) {
-        ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0;
-        ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = 0;
-        ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
+        ((EntityRec *)motion)->flags14 = 0;
+        ((EntityRec *)motion)->unk_10 = 0;
+        ((EntityRec *)motion)->unk_0C = 0;
         func_800A2B04(motion, ((Rec_D_80082E80 *)actor)->unk_24, ((Rec_D_80082E80 *)actor)->unk_25);
         func_800AD594(actor_state, 4);
         func_800A4ACC(actor_state);
@@ -152,10 +151,9 @@ update_countdown:
             if (!(actor_flags & 0x20000)) {
                 goto check_collision;
             }
-            target_actor = D_80082E80;
             ((S_801724E8_2 *)actor_state)->unk_2A = func_800A0818(
                 ((Rec_D_80082E80 *)actor)->unk_24, ((Rec_D_80082E80 *)actor)->unk_25,
-                target_actor[0x24], target_actor[0x25], &facing_aux);
+                D_80082E80.tileX, D_80082E80.tileY, &facing_aux);
         }
 
 check_collision:

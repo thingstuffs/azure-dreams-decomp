@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity_objects.h"
 #include "shared/game_work.h"
 
 typedef struct S_8008BC58_0 {
@@ -37,7 +38,6 @@ extern void func_8008B620();
 extern u8 D_80072210[];
 extern u8 D_80072214[];
 extern s32 D_80082ABC;
-extern u8 D_80083780[];
 extern u8 D_8008BED8[];
 extern u8 D_800D2EA4[];
 extern u8 D_800FC418;
@@ -85,17 +85,15 @@ void func_8008BC58(u8 *object, S_8008BC58_2 *view_params, void *update_context)
             goto done;
         }
     } else if (state == 9) {
-        s16 *fixed_position;
         s32 x;
         s32 y;
 
         func_800478B8(update_context);
-        fixed_position = (s16 *)D_80083780;
         display_record = *(u8 **)object;
-        x = fixed_position[1] / 64 - 0x18;
+        x = D_80083780.x.w.i / 64 - 0x18;
         ((S_8008BC58_3 *)display_record)->unk_30 = x;
         display_record = *(u8 **)object;
-        y = fixed_position[3] / 64 - 0x40;
+        y = D_80083780.y.w.i / 64 - 0x40;
         ((S_8008BC58_3 *)display_record)->unk_34 = y;
         goto done;
     } else if (state == 10) {

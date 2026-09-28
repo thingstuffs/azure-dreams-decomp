@@ -2,7 +2,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 
 extern void func_80047784(void *, s32, s32);
@@ -64,7 +64,7 @@ state_0:
     if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
         ((S_80173080_0 *)action)->unk_9B = 3;
         ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x6000;
-        func_8009C12C(actor, sprite, ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16, 1);
+        func_8009C12C(actor, sprite, ((EntityRec *)actor)->facing, 1);
         return;
     }
     ((S_80173080_3 *)motion)->unk_14 = 0;
@@ -80,7 +80,7 @@ state_1:
 
         (*(u8 * *)((u8 *)sprite + (0x2C))) = direction_table;
         func_80047784(sprite,
-                     direction_table[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+                     direction_table[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
                      0);
 advance_state:
         ((S_80173080_0 *)action)->unk_96.u = 0;
@@ -93,7 +93,7 @@ state_2:
     timer = ((S_80173080_0 *)action)->unk_96.u + 1;
     ((S_80173080_0 *)action)->unk_96.u = timer;
     if (((s16)timer == 7) || (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
-        func_8009C12C(actor, sprite, ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16, 1);
+        func_8009C12C(actor, sprite, ((EntityRec *)actor)->facing, 1);
         ((S_80173080_0 *)action)->unk_96.u = 0;
         ((S_80173080_0 *)action)->unk_9B++;
     }
@@ -109,7 +109,7 @@ state_3:
         ((S_80173080_0 *)action)->unk_8C = D_801717F4;
         dungeonStatus.unk_0C = 0;
         func_800A4ACC(actor);
-        ((Rec_D_800E3D7C *)actor)->unk_44.at02_u16.v &= 0x7FFF;
+        ((EntityRec *)actor)->unk_46 &= 0x7FFF;
     }
 
 done:

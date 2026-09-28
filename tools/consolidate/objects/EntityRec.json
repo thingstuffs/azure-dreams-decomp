@@ -1,0 +1,1 @@
+{"base": "0x0", "var": "EntityRec", "kind": "entity", "recs": ["Rec_D_800E3D7C", "Rec_D_800814A8"], "syms": "Rec_D_800E3D7C|Rec_D_800814A8", "census": "entity_rows.jsonl", "header": "shared/entity.h", "fields": []}

@@ -1,6 +1,6 @@
 #include "common.h"
 #include "shared/object_flags.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 typedef s32 M2C_UNK;
 
 typedef struct S_81994800_0_pre {
@@ -45,18 +45,18 @@ void BODY_NAME(void *effect, void *unused_context, void *effect_params) {
     s32 scale;
     u16 ticks_left;
 
-    ticks_left = ((Rec_D_800E3D7C *)effect)->unk_2A.as_u16 - 1;
-    scale = (s32)((s32)(ticks_left << 0x10) >> 9) / (s16)((Rec_D_800E3D7C *)effect)->unk_2C;
+    ticks_left = ((u16)((EntityRec *)effect)->facing) - 1;
+    scale = (s32)((s32)(ticks_left << 0x10) >> 9) / (s16)((EntityRec *)effect)->unk_2C;
     D_80025384 = 1;
-    ((Rec_D_800E3D7C *)effect)->unk_2A.as_u16 = ticks_left;
+    ((EntityRec *)effect)->facing = ticks_left;
     ((S_81994800_1 *)effect_params)->unk_0D = (u8)(((S_81994800_1 *)effect_params)->unk_0D - 4);
     ((S_81994800_1 *)effect_params)->unk_0E = (s8)scale;
     ((S_81994800_1 *)effect_params)->unk_0C = (s8)scale;
     if (((S_81994800_1 *)effect_params)->unk_06 >= -6) {
         ((S_81994800_1 *)effect_params)->unk_06 = (s16)((u16)((S_81994800_1 *)effect_params)->unk_06 - 2);
     }
-    if ((s16)((Rec_D_800E3D7C *)effect)->unk_2A.as_u16 <= 0) {
-        ((S_81994800_2 *)(((((Rec_D_800E3D7C *)effect)->unk_32 * 2) + ((Rec_D_800E3D7C *)effect)->unk_60.as_s32)))->unk_46 = 0;
+    if ((s16)((u16)((EntityRec *)effect)->facing) <= 0) {
+        ((S_81994800_2 *)(((((EntityRec *)effect)->unk_32 * 2) + ((s32)((EntityRec *)effect)->target))))->unk_46 = 0;
         (*(u16 *)((u8 *)effect + -2)) = (u16)(((S_81994800_0_pre *)effect)[-1].unk_00 | 0x8000);
         objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
     }

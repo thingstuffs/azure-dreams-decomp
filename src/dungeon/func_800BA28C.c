@@ -1,12 +1,13 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity_objects.h"
+#include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 
 
-extern u8 D_80082E80[];
 extern s32 D_800835E8[];
-extern u8 D_80083780[];
 extern u16 D_800DDE84[];
 extern u8 D_800E131C[];
 
@@ -51,7 +52,7 @@ typedef struct S_800BF9EC_3 {
 } S_800BF9EC_3;   /* ((S_800BF9EC_2_pre *)node)[-1].unk_00 in func_800BF9EC */
 
 /* Applies an action to the target or eligible list nodes and updates action state. */
-s32 func_800BF9EC(Rec_D_800E3D7C *target, s32 action_id, s16 action_type, s32 action_param)
+s32 func_800BF9EC(EntityRec *target, s32 action_id, s16 action_type, s32 action_param)
 {
     S_800BF9EC_1 *head;
     void *node;
@@ -62,13 +63,13 @@ s32 func_800BF9EC(Rec_D_800E3D7C *target, s32 action_id, s16 action_type, s32 ac
 
     if (target == ((u8 *)D_800E3D7C)) {
         target->unk_110 = action_id;
-        func_8008D344(target, D_80083780, D_80082E80, target);
+        func_8008D344(target, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), target);
         return 0;
     }
 
     if ((u32)target <= 0x9FFFFFFF) {
         func_800A6480(target, action_id, action_type);
-        if (func_800AD6FC(target, D_800DDE84[target->unk_10.at03_u8.v] & 3, action_id) == 0) {
+        if (func_800AD6FC(target, D_800DDE84[(*(u8 *)((u8 *)&target->unk_10 + 3))] & 3, action_id) == 0) {
             func_800A5F38(target, action_id);
             return 1;
         }
@@ -82,7 +83,7 @@ s32 func_800BF9EC(Rec_D_800E3D7C *target, s32 action_id, s16 action_type, s32 ac
             do {
                 if (((((S_800BF9EC_2 *)node)->unk_1C & 0x2400) != 0x2000 ||
                      (func_80042900(node, 12) << 16) != 0) &&
-                    target->unk_10.at01_u8.v < 99) {
+                    (*(u8 *)((u8 *)&target->unk_10 + 1)) < 99) {
                     ((S_800BF9EC_2 *)node)->unk_18 = D_800835E8[((S_800BF9EC_2 *)node)->unk_11];
                     func_800A1D4C(node, 0);
                     if ((((S_800BF9EC_3 *)(((S_800BF9EC_2_pre *)node)[-1].unk_00))->unk_14 & 0x8000) == 0) {

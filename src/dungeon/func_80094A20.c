@@ -1,5 +1,5 @@
 #include "common.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 typedef struct S_8009A180_0 {
     u8 pad_00[0x1C];
@@ -29,22 +29,22 @@ s32 func_8009A180(void *entry, S_8009A180_0 *anchor) {
         return 0;
     }
 
-    state_flags = ((Rec_D_800E3D7C *)entry)->unk_1C.as_s32;
+    state_flags = ((EntityRec *)entry)->flags1C;
     if (state_flags < 0) {
         return 0;
     }
 
     prev_link = 0x80000000;
     state_flags |= prev_link;
-    ((Rec_D_800E3D7C *)entry)->unk_1C.as_s32 = state_flags;
+    ((EntityRec *)entry)->flags1C = state_flags;
     link_bits_2 = (u32)entry;
     func_8009A028((void *)link_bits_2);
 
     prev_link = anchor->unk_5C.s;
-    ((Rec_D_800E3D7C *)entry)->unk_5C = prev_link;
+    ((EntityRec *)entry)->unk_5C = prev_link;
     prev_node = (void *)(prev_link + 0x20);
     link_bits = (u32)prev_node->unk_58;
-    ((Rec_D_800E3D7C *)entry)->unk_58 = (void *)link_bits;
+    ((EntityRec *)entry)->unk_58 = (void *)link_bits;
     link_bits = (u32)((u8 *)entry - 0x20);
     prev_node->unk_58 = (void *)link_bits;
     anchor->unk_5C.u = (void *)link_bits;
