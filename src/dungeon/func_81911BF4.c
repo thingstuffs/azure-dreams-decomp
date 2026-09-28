@@ -34,8 +34,6 @@ extern s32 D_800814A0;
 /* Update the five orbiting points and advance the effect animation. */
 void func_800253F4(Obj81911BF4 *effect, s32 *position)
 {
-    Obj81911BF4 *obj = effect;
-    s32 *origin = position;
     s32 phase_offset;
     volatile Obj81911BF4 *point;
     s32 point_index;
@@ -47,159 +45,159 @@ void func_800253F4(Obj81911BF4 *effect, s32 *position)
     s32 signed_angle;
     register s32 angle_dividend ASM_REG("$9");
     s32 state;
+    s32 next_val;
 
-    ASM_KEEP(origin);
-    obj->inner->field14++;
-    obj->timer++;
+    effect->inner->field14++;
+    effect->timer++;
 
     point_index = 0;
-    point = obj;
+    point = effect;
     phase_offset = 0;
     loop_0: {
-        point->x[0] = origin[0] + (((func_800644B8(phase_offset + obj->angle) >> 4) * obj->scale) << 8);
-        point->y[0] = origin[1] + (((func_80064584(phase_offset + obj->angle) >> 4) * obj->scale) << 8);
+        point->x[0] = position[0] + (((func_800644B8(phase_offset + effect->angle) >> 4) * effect->scale) << 8);
+        point->y[0] = position[1] + (((func_80064584(phase_offset + effect->angle) >> 4) * effect->scale) << 8);
         point_index++;
         phase_offset += 0x333;
         point = (volatile Obj81911BF4 *)((u8 *)point + 4);
     } if (point_index < 5) goto loop_0;
 
-    state = obj->state;
+    state = effect->state;
     if ((u32)state >= 7U) {
         return;
     }
 
     switch (state) {
     case 0:
-        func_8002429C(obj, origin, obj->timer, obj->duration);
-        if (obj->timer < obj->duration) {
+        func_8002429C(effect, position, effect->timer, effect->duration);
+        if (effect->timer < effect->duration) {
             return;
         }
-        origin[2] = obj->field14 << 16;
+        position[2] = effect->field14 << 16;
         goto advance;
 
     case 1:
-        func_800246C0(obj, origin, obj->timer, obj->duration);
-        if (obj->timer < obj->duration) {
+        func_800246C0(effect, position, effect->timer, effect->duration);
+        if (effect->timer < effect->duration) {
             return;
         }
         {
             u16 next_duration = 4;
             ASM_KEEP(next_duration);
-            state_value = *(volatile u16 *)&obj->state;
-            obj->timer = 0;
-            obj->duration = next_duration;
-            obj->state = state_value + 1; return;
+            state_value = *(volatile u16 *)&effect->state;
+            effect->timer = 0;
+            effect->duration = next_duration;
+            effect->state = state_value + 1; return;
         }
         return;
 
     case 2:
-        func_800246C0(obj, origin, 0, 0);
-        func_80024ACC(obj, origin, obj->timer, obj->duration);
-        if (obj->timer < obj->duration) {
+        func_800246C0(effect, position, 0, 0);
+        func_80024ACC(effect, position, effect->timer, effect->duration);
+        if (effect->timer < effect->duration) {
             return;
         }
         {
             state_value = 3;
-            obj->field12 = state_value;
-            state_value = *(volatile u16 *)&obj->state;
-            effect = 0x10;
-            obj->timer = 0;
-            obj->duration = effect;
-            obj->state = state_value + 1; return;
+            effect->field12 = state_value;
+            state_value = *(volatile u16 *)&effect->state;
+            next_val = 0x10;
+            effect->timer = 0;
+            effect->duration = next_val;
+            effect->state = state_value + 1; return;
         }
         return;
 
     case 3:
-        obj->angle_step += 0x10;
-        obj->angle += obj->angle_step;
-        signed_angle = obj->angle;
-        obj->field10 += 0x10;
-        obj->angle = signed_angle % 0x1000;
-        func_800246C0(obj, origin, 0, 0);
-        func_80024ACC(obj, origin, 0, 0);
-        if (obj->timer < obj->duration) {
+        effect->angle_step += 0x10;
+        effect->angle += effect->angle_step;
+        signed_angle = effect->angle;
+        effect->field10 += 0x10;
+        effect->angle = signed_angle % 0x1000;
+        func_800246C0(effect, position, 0, 0);
+        func_80024ACC(effect, position, 0, 0);
+        if (effect->timer < effect->duration) {
             return;
         }
         goto advance;
 
     case 4:
-        angle_step = obj->angle_step;
-        angle_sum = (u16)obj->angle;
-        brightness = obj->field42;
+        angle_step = effect->angle_step;
+        angle_sum = (u16)effect->angle;
+        brightness = effect->field42;
         angle_step += 0x10;
         angle_sum += angle_step;
         signed_angle = (s16)angle_sum;
         angle_dividend = signed_angle;
         ASM_USE(angle_dividend);
-        scale = (u16)obj->scale;
+        scale = (u16)effect->scale;
         brightness += 0x0C;
-        obj->field42 = brightness;
-        obj->field41 = brightness;
-        obj->angle_step = angle_step;
-        obj->angle = angle_sum;
-        obj->scale = scale - 4;
-        obj->angle = signed_angle % 0x1000;
-        func_800246C0(obj, origin, 0, 0);
-        func_80024ACC(obj, origin, 0, 0);
-        if (obj->timer < obj->duration) {
+        effect->field42 = brightness;
+        effect->field41 = brightness;
+        effect->angle_step = angle_step;
+        effect->angle = angle_sum;
+        effect->scale = scale - 4;
+        effect->angle = signed_angle % 0x1000;
+        func_800246C0(effect, position, 0, 0);
+        func_80024ACC(effect, position, 0, 0);
+        if (effect->timer < effect->duration) {
             return;
         }
-        func_8002539C(obj);
+        func_8002539C(effect);
         {
-            state_value = *(volatile u16 *)&obj->state;
-            effect = 0x20;
-            obj->timer = 0;
-            obj->duration = effect;
-            obj->state = state_value + 1; return;
+            state_value = *(volatile u16 *)&effect->state;
+            next_val = 0x20;
+            effect->timer = 0;
+            effect->duration = next_val;
+            effect->state = state_value + 1; return;
         }
         return;
 
     case 5:
-        angle_step = obj->angle_step;
-        angle_sum = (u16)obj->angle;
-        brightness = obj->field42;
+        angle_step = effect->angle_step;
+        angle_sum = (u16)effect->angle;
+        brightness = effect->field42;
         angle_step += 0x10;
         angle_sum += angle_step;
         signed_angle = (s16)angle_sum;
         angle_dividend = signed_angle;
         ASM_USE(angle_dividend);
-        scale = (u16)obj->scale;
+        scale = (u16)effect->scale;
         brightness -= 6;
-        obj->field42 = brightness;
-        obj->field41 = brightness;
-        obj->field40 = brightness;
-        obj->angle_step = angle_step;
-        obj->angle = angle_sum;
-        obj->scale = scale + 0x0C;
-        obj->angle = signed_angle % 0x1000;
-        func_800246C0(obj, origin, 0, 0);
-        obj->scale = (u16)obj->scale * 2;
+        effect->field42 = brightness;
+        effect->field41 = brightness;
+        effect->field40 = brightness;
+        effect->angle_step = angle_step;
+        effect->angle = angle_sum;
+        effect->scale = scale + 0x0C;
+        effect->angle = signed_angle % 0x1000;
+        func_800246C0(effect, position, 0, 0);
+        effect->scale = (u16)effect->scale * 2;
 
         point_index = 0;
-        point = obj;
+        point = effect;
         phase_offset = 0;
         do {
-            point->x[0] = origin[0] + (((func_800644B8(phase_offset + obj->angle) >> 4) * obj->scale) << 9);
-            point->y[0] = origin[1] + (((func_80064584(phase_offset + obj->angle) >> 4) * obj->scale) << 9);
+            point->x[0] = position[0] + (((func_800644B8(phase_offset + effect->angle) >> 4) * effect->scale) << 9);
+            point->y[0] = position[1] + (((func_80064584(phase_offset + effect->angle) >> 4) * effect->scale) << 9);
             point_index++;
             phase_offset += 0x333;
             point = (volatile Obj81911BF4 *)((u8 *)point + 4);
         } while (point_index < 5);
 
-        func_80024ACC(obj, origin, 0, 0);
-        obj->scale = ((s32)(u16)obj->scale << 16) >> 17;
-        if (obj->timer < obj->duration) {
+        func_80024ACC(effect, position, 0, 0);
+        effect->scale = ((s32)(u16)effect->scale << 16) >> 17;
+        if (effect->timer < effect->duration) {
             return;
         }
 
 advance:
-        state_value = obj->state;
-        obj->timer = 0;
-        obj->state = state_value + 1;
+        state_value = effect->state;
+        effect->timer = 0;
+        effect->state = state_value + 1;
         return;
 
     case 6:
-        *(u16 *)((u8 *)obj - 2) |= 0x8000;
+        *(u16 *)((u8 *)effect - 2) |= 0x8000;
         D_800814A0 |= 0x8000;
         return;
     }

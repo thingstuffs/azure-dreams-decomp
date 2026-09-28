@@ -57,7 +57,7 @@ extern u16 D_80083462;
 /* Scan up to eight tiles ahead for a valid target and update the entity action state. */
 s32 func_80172504(void *action_state, void *transfer_data, void *origin, void *actor) {
     register void *state ASM_REG("$23") = action_state;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    u8 *x_delta_table;
+    u32 dir_index;
     register u32 initial_direction ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s16 *delta_x;
     s16 *delta_y;
@@ -74,7 +74,6 @@ s32 func_80172504(void *action_state, void *transfer_data, void *origin, void *a
     void *copy_dest;
     s16 next_height;
     u16 direction;
-    register u32 origin_or_direction ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     ((S_80172504_0 *)actor)->unk_71 &= 0x7F;
     if (D_80083462 & 0x2000) {
@@ -101,14 +100,12 @@ do {
     goto finish;
 
 initialize:
-    x_delta_table = (u8 *)&D_8006CCD8;
-    initial_direction = (((S_80172504_0 *)actor)->unk_2A.s >> 9) & 7;
-    direction_offset = initial_direction * 2;
-    origin_or_direction = (u32)origin;
-    tile_x = ((S_80172504_2 *)((void *)origin_or_direction))->unk_24;
-    tile_y = ((S_80172504_2 *)((void *)origin_or_direction))->unk_25;
-    delta_x = (s16 *)(x_delta_table + direction_offset);
-    direction = initial_direction;
+    dir_index = (((S_80172504_0 *)actor)->unk_2A.s >> 9) & 7;
+    direction_offset = dir_index * 2;
+    tile_x = ((S_80172504_2 *)origin)->unk_24;
+    tile_y = ((S_80172504_2 *)origin)->unk_25;
+    delta_x = (s16 *)((u8 *)&D_8006CCD8 + direction_offset);
+    direction = dir_index;
     if (0) {
     }
     ((S_80172504_1 *)state)->unk_A8 = tile_x;
@@ -119,10 +116,9 @@ loop:
     world_x = (signed_x << 6) & 0xFFC0;
     signed_y = (s16)tile_y;
     world_y = (signed_y << 6) & 0xFFC0;
-    origin_or_direction = direction;
     if ((func_800A44E0(world_x,
                        world_y,
-                       ((S_80172504_0 *)actor)->unk_88.s, origin_or_direction << 9) << 16) != 0) {
+                       ((S_80172504_0 *)actor)->unk_88.s, direction << 9) << 16) != 0) {
         goto finish_pinned;
     }
 

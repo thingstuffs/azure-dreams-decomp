@@ -192,7 +192,8 @@ void func_80167C74(void *effect_data, Rec_func_80167A98_arg1 *origin, S_80167C74
     s32 object_index;
     s32 sum_z;
     s32 history_offset;
-    register s32 limit_or_offset ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 limit_offset;
+    s32 table_offset;
     u8 *copy_row_offset;
     s32 clamp_pair;
     s32 copy_pair;
@@ -308,7 +309,7 @@ update_positions:
     if (move_z1 < 0) move_z1 += 0xFFFF;
     clamp_pair = 0;
     clamp_base = table_join;
-    limit_or_offset = 0x190;
+    limit_offset = 0x190;
     clamp_pair_stride = clamp_pair;
     pos_z1->unk_0A = (u16) (pos_z1->unk_0A + (move_z1 >> 0x10));
     do {
@@ -321,7 +322,7 @@ update_positions:
             clamp_index = clamp_index + (s32)clamp_base;
             clamp_index = clamp_pair_offset + clamp_index;
             clamp_coord = (s16 *)(clamp_axis_offset + clamp_index);
-            if (*clamp_coord >= 0x191) *clamp_coord = limit_or_offset;
+            if (*clamp_coord >= 0x191) *clamp_coord = limit_offset;
             clamp_row = ((Rec_func_80167A98_arg0 *)effect_data)->unk_1C;
             clamp_index = clamp_row * 0x60;
             clamp_index = clamp_index + (s32)clamp_base;
@@ -337,10 +338,10 @@ update_positions:
     } while (clamp_pair < 2);
     history_index = 7;
     table_base = (s32)((u8 *)D_80175DD8);
-    limit_or_offset = 0x54;
+    limit_offset = 0x54;
     loop_2: {
         copy_pair = 0;
-        copy_row_offset = (u8 *)limit_or_offset;
+        copy_row_offset = (u8 *)limit_offset;
         copy_pair_stride = copy_pair;
 copy_pairs:
         copy_axis = 0;
@@ -360,7 +361,7 @@ copy_pairs:
         copy_pair_stride += 6;
         if (copy_pair < 2) goto copy_pairs;
         history_index -= 1;
-        limit_or_offset -= 0xC;
+        limit_offset -= 0xC;
     } if (history_index > 0) goto loop_2;
     particle_count = 0xA;
     interp_base = (u8 *)D_80175DD8;
@@ -452,17 +453,17 @@ copy_pairs:
                 table_base = object_pair;
                 do {
                     object_axis = 0;
-                    limit_or_offset = table_base;
+                    table_offset = table_base;
                     object_prev_pos = copy_row_offset + 0x80;
                     object_pos = copy_row_offset + 0x74;
 copy_object_axes:
                     object_axis_offset = object_axis * 2;
-                    *object_pos = *(u16 *)(object_axis_offset + (limit_or_offset + (object_offset + ((((Rec_func_80167A98_arg0 *)effect_data)->unk_1C * 0x60) + (s32)object_base))));
+                    *object_pos = *(u16 *)(object_axis_offset + (table_offset + (object_offset + ((((Rec_func_80167A98_arg0 *)effect_data)->unk_1C * 0x60) + (s32)object_base))));
                     object_axis += 1;
                     object_pos += 1;
                     object_copy_index = object_offset + ((((Rec_func_80167A98_arg0 *)effect_data)->unk_1C * 0x60) + (s32)object_base);
                     object_copy_index += 0xC;
-                    object_axis_offset += limit_or_offset + object_copy_index;
+                    object_axis_offset += table_offset + object_copy_index;
                     *object_prev_pos = *(u16 *)object_axis_offset;
                     object_prev_pos += 1;
                     if (object_axis < 3) goto copy_object_axes;
