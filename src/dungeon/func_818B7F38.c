@@ -171,7 +171,6 @@ void func_80025738(void *state, void *motion_in, void *render) {
     s32 offset_x;
     s32 offset_y;
     register s32 table_base ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    s16 *table_y_entry;
     u16 *update_x_entry;
     u16 *update_y_entry;
     s32 probe_y;
@@ -336,11 +335,10 @@ do {
     probe_z -= 0x20;
     probe_z = (s16) probe_z;
     LOAD_TABLE_Y_BASE(table_base);
-    table_y_entry = (s16 *)((s32)probe_dir_offset + table_base);
-    ASM_USE(last_tile_x);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    probe_dir_offset = (s32)((s16 *)((s32)probe_dir_offset + table_base));
     probe_x = tile_x_signed + *((s16 *)table_x_entry);
     probe_x = ((probe_x << 6) + 0x20) & 0xFFE0;
-    probe_y = tile_y_signed + *table_y_entry;
+    probe_y = tile_y_signed + *((s16 *)probe_dir_offset);
     probe_y = ((probe_y << 6) + 0x20) & 0xFFE0;
     floor_z = func_800BCB04(probe_x, probe_y, probe_z);
     destination = &frame.out_x;
@@ -350,14 +348,13 @@ do {
     if ((s16) (floor_z - (u16) ((S_80025738_1 *)owner)->unk_88) < -0x3F) {
         goto build_path_endpoint;
     }
-    LOAD_TABLE_X_BASE(table_base);
+    table_base = (s32)D_8006CCD8;
     table_x_entry = (s16) ((S_80025738_0 *)state)->unk_0E;
     index += 1;
     table_x_entry *= 2;
     update_x_entry = (u16 *)((s32)table_x_entry + table_base);
-    LOAD_TABLE_Y_BASE(table_base);
+    table_base = (s32)D_8006CCE8;
     update_y_entry = (u16 *)((s32)table_x_entry + table_base);
-    ASM_KEEP(update_y_entry);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     probe_x = tile_x + *update_x_entry;
     tile_x = probe_x;
     next_tile_y = tile_y + *update_y_entry;

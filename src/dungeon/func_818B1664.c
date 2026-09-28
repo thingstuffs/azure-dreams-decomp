@@ -446,9 +446,10 @@ case_0:
     motion_arg->dx.word = (((Motion *)target)->x.word - motion_arg->x.word) / state_arg->duration;
     motion_arg->dy.word = (((Motion *)target)->y.word - motion_arg->y.word) / state_arg->duration;
     motion_arg->dz.word = (((Motion *)target)->z.word - motion_arg->z.word) / state_arg->duration;
-    ASM_SCHED_BARRIER();
-    next_state = 8;
-    goto reset_state;
+    state_arg->state = 8;
+    state_arg->timer = 0;
+    state_arg->timer2 = 0;
+    goto end;
 
 case_2:
     motion_arg->x.half.hi += motion_arg->dx.half.hi;

@@ -81,6 +81,22 @@ This round:
    them itself as artificial dead computation. Kept at `work/native_lane/r78_astra_f0/diag/rejected_clamps/`.
 4. "Page bases" that are symbol addresses (c7), literal scratchpad args are cse, not copies (c3).
 
+## Later in the round (2026-09-28 03:30Z - 04:40Z)
+
+- **Astra on the spill family** (r78_astra_sp12/sp13, 3 rows each, 367k + 504k C-tokens): 15 pins
+  (dungeon/func_8185CFD4 13 -> 3; four rows -1/-2). Codex weekly meter 3% -> 6% over Astra x2 + the Sol census:
+  ~5 pins per 1% of a quota otherwise idle. Decision: Astra becomes a production tier (2 concurrent lanes, 750k /
+  90 min caps) on rows Opus reduced or left near (different tier = not a repeat); r78_astra_n1/n2 launched.
+- **Cross-jump census** (r78_sol6_xjump, 184k C-tokens): of 43 live "basic-block layout" pins only **3** are
+  jump2 cross-jump blockers (dungeon/func_80BA9094:59, dungeon/func_8133AD74:626,643); 10 sched, 8 cse, 6 dbr,
+  5 combine, 5 rtl, ... A clean negative: no toolchain question to open. Four pins erase to listing distance 0
+  but are NOT byte-exact (verify totals 5-20): their effect is below the cc1 listing; not free removals.
+  11 UNRESOLVED comments sit on lines with no live pin (stale; listed in the census REPORT.md).
+- **Near-miss conversion** (r78_opus_c13): dungeon/func_800A1AD4 17 -> 7 by giving the NEIGHBOUR of a
+  combine-merged argument insn launch priority (single-set local, birthing_insn_p); brief paragraph
+  `near_miss.md`; c14/c15 apply it to the next highest-stake near misses (cutoff_report ranking).
+- Fresh never-served 3-7 lanes decayed: w1 9, w2 7, w3 5, w4 3, w5 2, w6 4 pins.
+
 ## Owner decisions queued (not taken while the owner is away)
 
 - **F0 discarded clamps**: land the reconstruction (5 of 6 pins on 11 clones, ~55 pins) with a visible comment

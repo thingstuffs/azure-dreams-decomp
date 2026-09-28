@@ -88,18 +88,20 @@ void func_800B9144(void *position, void *context, s32 depth, s16 draw_mode)
 
     {
         u16 *input = position;
-        register s32 x ASM_REG("$6");
-        register s32 y ASM_REG("$7");
+        s32 x;
+        s32 y;
+        s32 raw_x;
+        s32 raw_y;
         s32 x_component;
 
-        x = U16(input, 0);
-        S16(scratch, 0x00) = x;
-        y = U16(input, 2);
-        x = (s16)x;
-        S16(scratch, 0x02) = y;
+        raw_x = U16(input, 0);
+        S16(scratch, 0x00) = raw_x;
+        raw_y = U16(input, 2);
+        x = (s16)raw_x;
+        S16(scratch, 0x02) = raw_y;
         scratch_base = (u8 *)0x1F800000;
         x_component = U16(sprite, 0x1C);
-        y = (s16)y;
+        y = (s16)raw_y;
         S32(scratch, 0x30) = x_component;
         y_component = U16(sprite, 0x1E);
         x_component = 0x1000;

@@ -296,5 +296,15 @@
   "dungeon/func_80F5F040",
   "dungeon/func_80094DE0",
   "dungeon/func_81905C08"
+ ],
+ "r78_astra_n1": [
+  "dungeon/func_80098378",
+  "dungeon/func_8132B8AC",
+  "dungeon/func_8099F294"
+ ],
+ "r78_astra_n2": [
+  "dungeon/func_800BFE94",
+  "dungeon/func_8187A9A8",
+  "dungeon/func_818C3B90"
  ]
 }
