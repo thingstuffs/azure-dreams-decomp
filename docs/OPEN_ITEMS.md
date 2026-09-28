@@ -9,7 +9,6 @@ Newest first within each section. Evidence links point at the record that measur
 | # | item | why it matters | next step | evidence |
 |---|---|---|---|---|
 | 3 | generated Rec_D_800E3D7C.h still used (and Rec_D_800814A8.h by func_810AFA04, func_81324774 - pin-lane rows skipped as busy) by dungeon/func_8133AD74 (reads through a volatile view in the generated header) | EntityRec supersedes it | resolve that row's volatile view, then retire the header | phase-6 REPORT |
-| 4 | apply_names.py refuses data rows | data names are appended to names.tsv by hand in apply scripts | add an `apply_names.py --data` mode | pilot DESIGN |
 | 5 | F0 clone family (11 rows x 6 pins): Astra reproduced retail with discarded colour clamps, self-rejected | 66 pins | OWNER DECISION: accept a visible dead-clamp reconstruction or keep rejecting | evidence/r78_wave1_report.md; work/native_lane/r78_astra_f0/diag/rejected_clamps/ |
 | 6 | dungeon/func_800957B8 5 -> 1 held | exact only by reading a callee's 5th halfword from a spill slot (layout-dependent) | find the real 5-element record + source of tile_info[4] | work/native_lane/r78_opus_c16/held/README.md |
 | 7 | early constant call argument (gcc 2.7 calls.c loads constant register args last; retail loads some first) | 37 sites / 34 rows; 11-row `call_one` clone cluster | the 11-row `call_one` cluster IS the F0 family (item 5) - resolve there; the other ~23 rows: the measurement r78_opus_rx1 named (narrow `u8/u16 x = 1` passed as x after a label / in a loop, read .cse/.combine) | work/native_lane/r78_opus_rx1/REPORT.md |
@@ -19,15 +18,14 @@ Newest first within each section. Evidence links point at the record that measur
 | 12 | r77_opus_m6 site-for-pin trade on dungeon/func_81875B38 (4 -> 1) | pins | stage with a trade-ledger entry and review | HANDOVER round 77 |
 | 14 | tools/gate/match.py and tools/fidelity/probe_gp_module.py do not read config/slus_006.14.c_syms.txt | only the SLUS image gate + verify's module/partition gates prove a SLUS candidate naming a C-only symbol | teach both to read it | phase-6 REPORT |
 | 15 | evidence records keyed on the old pinned SLUS recipe sha read stale once (slus_module_evidence, certify_slus_module, prove_slus_ownership, pin_search) | expected after a recipe move | refresh on next use | phase-6 REPORT |
-| 16 | verify.py include_root cannot test a changed header from a lane (the scorer puts -I ROOT/include before the config flags, so the live include wins) | lane proof for header edits needs compiler-output identity against a full include copy (phase 8 tools/listing8.py) | make include_root take precedence (or document the listing8 method in the kit) | phase-8 REPORT |
 | 17 | D_80084808/0A/0C/10 stats group declared at different sizes in 8 SLUS rows | two spellings of one object | recover the group's type | phase-8 REPORT |
 | 18 | 11 D_8006DE24 rows build the address from the table base (struct form misses) | not migrated to DefEntry | a spelling that keeps the base formation | phase-8 REPORT |
-| 13 | lab.py Python API does not enforce the 60-variant cap | lane efficiency | enforce in the API as well as the CLI | r78_opus_sp11 report |
 
 ## Closed (round 78)
 
 | item | fix | commit |
 |---|---|---|
+| apply_names.py refused data rows; lab.py API ignored the 60-variant cap; verify.py include_root could not test a changed header | `apply_names.py --data [--rewrite]`; cap enforced in Lab.test/test_subs (`more=True` override); explicit include_root wins (overlay -isystem/-iquote ordering, SLUS -I before row flags) - 219 tests, whole-tree verify 6,767/6,767 exact with the new verify.py | this commit (r78_sol_tools, gpt-6-sol) |
 | stale UNRESOLVED pin comments on lines with no pin (the census found 11; tree-wide there were 262 in 135 files) | removed (comment-only diff, checked mechanically); 135 rows verify-exact, 118 windows + SLUS MATCH | this commit |
 | game.h struct S_80083178 overlapped GameWork | GameWork.view sub-structure; S_80083178 retired (3 genuine second declarations keep a local extern) | phase 8 (this commit) |
 | stale numbering text after the symbol-dump fix (names.tsv 125 rows, object_node.h, func_800C4D18.c) | corrected; func_800C4D18 verify-exact, SLUS MATCH | this commit |

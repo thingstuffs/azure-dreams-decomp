@@ -109,14 +109,20 @@ def verify_overlay(row, cfile, regions=False, include_root=None, diff=False):
     # the include root is passed as a USER include directory (-I), exactly as the window gate's
     # cc.sh does; C_INCLUDE_PATH would make it a system header and GCC then tolerates
     # redefinitions the gate rejects
-    cfg = row["cfg"] + (f" -I{Path(include_root).resolve()}" if include_root else "")
+    # match.py puts its ROOT/include before config flags as -I.  Mark that same
+    # directory -isystem so GCC drops the earlier -I occurrence; the explicit
+    # tree then wins for both quoted and angle includes.  -iquote also puts it
+    # ahead of the fallback for quoted project headers.
+    inc = Path(include_root).resolve() if include_root is not None else None
+    scorer_root = gate_root(False)
+    cfg = row["cfg"] + (f" -isystem{scorer_root / 'include'} -iquote{inc} -I{inc}" if inc is not None else "")
     cfile = normalise_definition(row, canonical_spelling(cfile))   # a renamed DEFINITION is scored under its func_ symbol; references are canonicalised inside the pipeline
     cmd = NICE + ["python3", "tools/aligned_score.py", "--func", row["func"],
                   "--overlay", row["container"], "--configs", cfg]
     cmd += ["--diff", str(cfile)] if diff else ["--regions", str(cfile)] if regions else ["--summary-json", str(cfile)]
     t0 = time.time()
     try:
-        r = subprocess.run(cmd, capture_output=True, text=True, timeout=900, cwd=gate_root(False), env=env)
+        r = subprocess.run(cmd, capture_output=True, text=True, timeout=900, cwd=scorer_root, env=env)
     except subprocess.TimeoutExpired:
         return {"status": "TIMEOUT", "exact": False, "secs": round(time.time() - t0, 2)}
     secs = round(time.time() - t0, 2)
@@ -357,7 +363,7 @@ def _compile_slus_source(row, cfile, outdir, inc, root=ROOT):
     outdir.mkdir(parents=True, exist_ok=True)
     cc_dir = COMPILERS / f"gcc-{row['cell']}"
     s_path = outdir / "a.s"; o_path = outdir / "a.o"
-    gcc = [str(cc_dir / "gcc"), f"-B{cc_dir}/", "-S", "-O2"] + row["flags"].split() + ["-I", str(inc), "-w", cfile.name, "-o", str(s_path)]
+    gcc = [str(cc_dir / "gcc"), f"-B{cc_dir}/", "-S", "-O2", "-I", str(inc)] + row["flags"].split() + ["-w", cfile.name, "-o", str(s_path)]
     r = subprocess.run(NICE + gcc, capture_output=True, text=True, cwd=cfile.parent, env=_env())
     if r.returncode != 0:
         return None, "gcc: " + (r.stderr or r.stdout)[-300:]
