@@ -23,7 +23,7 @@ void func_80053CFC(S_80053CFC *source, s32 packed_value)
 {
     s32 saved_value;
     s32 low_bits;
-    void *command;
+    s32 *command;
 
     do {
         saved_value = packed_value;
@@ -32,9 +32,8 @@ void func_80053CFC(S_80053CFC *source, s32 packed_value)
     D_8008156C = source->field_4;
     __asm__ volatile("" : "=r"(saved_value) : "0"(saved_value), "m"(D_80081568) : "memory");
     low_bits = saved_value & 0x7FFFFF;
-    command = (void *)&D_80081568;
-    D_80081568 = ((((u32)D_80081568 + 0x7FF) >> 11) << 23) | low_bits;
-    ASM_USE(command);
-    Control_CD(6, command, saved_value);
+    command = (s32 *)&D_80081568;
+    *command = ((((u32)*command + 0x7FF) >> 11) << 23) | low_bits;
+    Control_CD(6, (void *)command, saved_value);
     func_8003F320();
 }
