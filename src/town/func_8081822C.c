@@ -105,10 +105,9 @@ s32 func_8002222C(void *first_entry) {
             s32 page_x;
             s32 page_y;
             arena = *arena_ptr;
-            ASM_KEEP(arena);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+            line_packet = ((S_8002222C_0 *)arena)->unk_8D0;
             page_depth = 0;
             ASM_KEEP(page_depth);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-            line_packet = ((S_8002222C_0 *)arena)->unk_8D0;
             page_blend = page_depth;
             ((S_8002222C_0 *)arena)->unk_8D0 = line_packet + 0x14;
             arena = *arena_ptr;
