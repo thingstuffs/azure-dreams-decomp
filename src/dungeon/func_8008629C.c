@@ -106,7 +106,7 @@ void func_8008B9FC(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *sprit
 
         if (move_result != 4) {
             if ((D_80013714 & 2) ||
-                (((((s32)dungeon_state->unk_008) & 0x20) != 0) &&
+                (((dungeon_state->buttons & 0x20) != 0) &&
                  ((move_state->unk_A2 & 0x100) == 0) &&
                  func_800A5C70())) {
                 flags[1] |= 0x80;

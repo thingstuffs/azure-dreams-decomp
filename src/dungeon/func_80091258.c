@@ -37,7 +37,7 @@ void func_800969B8(void *object, s32 unused_1, s32 unused_2, s32 target) {
         goto apply_flag_done;
     }
     dispatch_target = saved_target;
-    if (!(((s32)gameWork.unk_008) & 0x20)) {
+    if (!(gameWork.buttons & 0x20)) {
         goto done;
     }
     dispatch_target = func_800A5C70(dispatch_target);

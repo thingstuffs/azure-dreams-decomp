@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
 
 typedef void (*Callback)(void *, void *, void *, void *);
 
-extern u8 D_8006CCF8[9];
 extern u8 D_80171058[];
 extern u8 D_80174880[9];
 extern Callback D_80174900[];
@@ -134,7 +134,7 @@ void func_80170A78(void *input_obj, void *input_motion, void *input_part)
                 ((S_80170A78_1 *)part)->unk_04);
             (*(s16 *)((u8 *)obj + 0x94)) = input_motion;
         }
-        value_bits = (u32)&D_8006CCF8[mode_or_dir];
+        value_bits = (u32)&dirSpriteFlag[mode_or_dir];
         direction_flag = *(u8 *)value_bits;
         if (direction_flag != 0) {
             value_bits = *(volatile u16 *)((u8 *)part + 0x14) | 1;

@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/record_ptrs.h"
+#include "shared/entity.h"
 
 #ifndef NULL
 #define NULL 0
@@ -23,11 +24,6 @@ typedef struct Child {
     u16 field38;
 } Child;
 
-typedef struct Source {
-    char pad00[0x88];
-    u16 field88;
-} Source;
-
 extern void *func_8003FD64(s32, void *);
 extern char D_800242D4[];
 extern char D_80024A8C[];
@@ -37,7 +33,7 @@ void func_8199AEF4(s32 node_value, s32 child_value)
 {
     Node *node;
     Child *child;
-    Source *source;
+    EntityRec *source;
     void *callback;
     u16 source_value;
 
@@ -46,11 +42,11 @@ void func_8199AEF4(s32 node_value, s32 child_value)
         child = (Child *)((char *)node + 0x20);
         node->field10 = D_800242D4;
         callback = D_80024A8C;
-        source = ((Source *)D_800814A8);
+        source = D_800814A8;
         child->field10 = callback;
         node->field20 = node_value;
         child->field04 = ((char *)(&D_80083498));
-        source_value = source->field88;
+        source_value = ((u16)source->unk_88);
         child->field0C = child_value;
         child->field08 = node;
         child->field38 = source_value;

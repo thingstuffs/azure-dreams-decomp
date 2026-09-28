@@ -73,7 +73,7 @@ void func_800917EC(Rec_func_80094268_arg0 *actor, S_800917EC_0 *position, M2C_UN
         func_800A895C(effect_pos, D_800D043C,
                       (func_800374F4(2) & 0xFFFF) + 2);
     }
-    state_flags = ((s32)state->unk_008);
+    state_flags = state->buttons;
     if ((state_flags & 0xF000) && (state_flags & 0x20)) {
         action_timer = actor->unk_3E.as_u16 - 1;
         actor->unk_3E.as_u16 = (u16)action_timer;

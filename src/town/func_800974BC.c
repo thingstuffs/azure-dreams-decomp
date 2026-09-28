@@ -9,7 +9,7 @@ extern s16 func_80094BC8(s32 a0, s16 a1);
 
 /* Stores the valid shared angle in the record at offset 0x10. */
 void func_80094C1C(void *record) {
-    s16 angle = func_80094BC8(((s32)gameWork.unk_008), gameWork.view.viewAngle);
+    s16 angle = func_80094BC8(gameWork.buttons, gameWork.view.viewAngle);
 
     if (angle != -1) {
         *(s16 *)((u8 *)record + 0x10) = angle;

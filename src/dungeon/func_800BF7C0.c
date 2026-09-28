@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/entity_objects.h"
 #include "shared/object_flags.h"
+#include "shared/entity.h"
 #include "m2c_compat.h"
 
 typedef struct S_800C4F20_10 {
@@ -65,15 +66,6 @@ typedef struct S_800C4F20_3 {
     u16 unk_1E;
 } S_800C4F20_3;   /* tail_ptr in func_800C4F20 */
 
-typedef struct S_800C4F20_4 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_800C4F20_4;   /* temp_s3 in func_800C4F20 */
-
 typedef struct S_800C4F20_5 {
     u8 pad_00[0x2];
     s16 unk_02;
@@ -99,10 +91,6 @@ typedef struct S_800C4F20_8 {
     u8 pad_00[0x14];
     s32 unk_14;
 } S_800C4F20_8;   /* temp_a0_7 in func_800C4F20 */
-
-typedef struct S_800C4F20_9 {
-    s32 unk_00;
-} S_800C4F20_9;   /* &D_800814A0 in func_800C4F20 */
 
 
 extern void *D_800893E4[];
@@ -145,7 +133,7 @@ void func_800C4F20(void *anim, S_800C4F20_5 *position, void *transform_in) {
     S_800C4F20_8 *owner;
     S_800C4F20_2 *grow_target;
     S_800C4F20_7 *shrink_target;
-    S_800C4F20_4 *orbit_center;
+    EntityRec *orbit_center;
 
     state_or_mode = ((S_800C4F20_0 *)anim)->unk_28.s;
     if ((u32) state_or_mode >= 0x12U) {
@@ -193,9 +181,9 @@ tick_grow:
     }
 jt_c1:
     orbit_offset = func_80064584(((S_800C4F20_0 *)anim)->unk_2E);
-    orbit_center = &D_80083780.x.v;
-    target_x = orbit_center->unk_02 + (orbit_offset >> 6);
-    target_y = orbit_center->unk_06 + (func_800644B8(((S_800C4F20_0 *)anim)->unk_2E) >> 6);
+    orbit_center = &D_80083780;
+    target_x = orbit_center->x.w.i + (orbit_offset >> 6);
+    target_y = orbit_center->y.w.i + (func_800644B8(((S_800C4F20_0 *)anim)->unk_2E) >> 6);
     x_delta = target_x - position->unk_02;
     if (x_delta >= 0) {
         goto move_orbit;
@@ -205,7 +193,7 @@ move_orbit:
     position->unk_02 = (s16) ((u16) position->unk_02 + (x_delta >> 2));
     position->unk_06 = (s16) ((u16) position->unk_06 + ((s32) (target_y - position->unk_06) / 4));
     orbit_offset = (func_800644B8(((S_800C4F20_0 *)anim)->unk_2C << 5, target_y) >> 6) + 0x40;
-    height_delta = orbit_center->unk_0A - position->unk_0A;
+    height_delta = orbit_center->z.w.i - position->unk_0A;
     position->unk_0A = (s16) ((u16) position->unk_0A + ((s32) (height_delta - orbit_offset) / 4));
     ((S_800C4F20_0 *)anim)->unk_2E = (s16) ((u16) ((S_800C4F20_0 *)anim)->unk_2E + 0x40 + (func_80069EF8(height_delta) & 0x1F));
     exit_mode = ((S_800C4F20_0 *)anim)->unk_36;
@@ -310,7 +298,7 @@ tick_finish:
     owner = ((S_800C4F20_0 *)anim)->unk_24;
     owner->unk_14 = (s32) (owner->unk_14 & 0xFFEFFFFF);
     ((S_800C4F20_0_pre *)anim)[-1].unk_00 = (u16) (((S_800C4F20_0_pre *)anim)[-1].unk_00 | 0x8000);
-    (*(s32 *)&objectFlagBlock.flags) = (s32) (((S_800C4F20_9 *)(&objectFlagBlock.flags))->unk_00 | 0x8000);
+    (*(s32 *)&objectFlagBlock.flags) = (s32) (objectFlagBlock.flags | 0x8000);
     return;
 jt_c4:
 jt_c5:

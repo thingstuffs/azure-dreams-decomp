@@ -6,11 +6,6 @@
 extern s32 func_80033BC0();
 extern u8 D_800E3548[];
 
-typedef struct S_800F6598_0 {
-    u8 pad_00[0x14];
-    s16 unk_14;
-} S_800F6598_0;   /* temp_s1 in func_800F6598 */
-
 typedef struct S_800F6598_1 {
     u8 pad_00[0x4];
     u16 unk_04;
@@ -63,7 +58,7 @@ s32 func_800F6598(void) {
     const s32 row_after = 0x21;
     s32 row_shift;
     s32 last_col_shift;
-    u8 *grid_state;
+    MapGrid *grid_state;
     s32 grid_base;
     S_800F6598_1 *cell_31_31;
     S_800F6598_2 *cell_31_32;
@@ -77,40 +72,40 @@ s32 func_800F6598(void) {
     u8 *reset_state;
     s32 result;
 
-    grid_state = ((u8 *)(&gameWork.unk_1DC));
-    grid_base = *(s32 *)grid_state;
+    grid_state = &gameWork.map;
+    grid_base = ((s32)grid_state->cells);
     if (func_80033BC0(0xA2) != 0) {
-        row_shift = ((S_800F6598_0 *)grid_state)->unk_14;
+        row_shift = grid_state->shiftX;
         row_shift = row_before << row_shift;
         cell_31_31 = (row_shift * 6) + grid_base + 0xBA;
         cell_31_31->unk_04 = (u16)(cell_31_31->unk_04 & 0x7FFF);
-        row_shift = ((S_800F6598_0 *)grid_state)->unk_14;
+        row_shift = grid_state->shiftX;
         row_shift = row_before << row_shift;
         cell_31_32 = (row_shift * 6) + grid_base + 0xC0;
         cell_31_32->unk_04 = (u16)(cell_31_32->unk_04 & 0x7FFF);
-        last_col_shift = ((S_800F6598_0 *)grid_state)->unk_14;
+        last_col_shift = grid_state->shiftX;
         cell_31_33 = ((row_before << last_col_shift) * 6) + grid_base + 0xC6;
         cell_31_33->unk_04 = (u16)(cell_31_33->unk_04 & 0x7FFF);
-        row_shift = ((S_800F6598_0 *)grid_state)->unk_14;
+        row_shift = grid_state->shiftX;
         row_shift = row_center << row_shift;
         cell_32_31 = (row_shift * 6) + grid_base + 0xBA;
         cell_32_31->unk_04 = (u16)(cell_32_31->unk_04 & 0x7FFF);
-        row_shift = ((S_800F6598_0 *)grid_state)->unk_14;
+        row_shift = grid_state->shiftX;
         row_shift = row_center << row_shift;
         cell_32_32 = (row_shift * 6) + grid_base + 0xC0;
         cell_32_32->unk_04 = (u16)(cell_32_32->unk_04 & 0x7FFF);
-        last_col_shift = ((S_800F6598_0 *)grid_state)->unk_14;
+        last_col_shift = grid_state->shiftX;
         cell_32_33 = ((row_center << last_col_shift) * 6) + grid_base + 0xC6;
         cell_32_33->unk_04 = (u16)(cell_32_33->unk_04 & 0x7FFF);
-        row_shift = ((S_800F6598_0 *)grid_state)->unk_14;
+        row_shift = grid_state->shiftX;
         row_shift = row_after << row_shift;
         cell_33_31 = (row_shift * 6) + grid_base + 0xBA;
         cell_33_31->unk_04 = (u16)(cell_33_31->unk_04 & 0x7FFF);
-        row_shift = ((S_800F6598_0 *)grid_state)->unk_14;
+        row_shift = grid_state->shiftX;
         row_shift = row_after << row_shift;
         cell_33_32 = (row_shift * 6) + grid_base + 0xC0;
         cell_33_32->unk_04 = (u16)(cell_33_32->unk_04 & 0x7FFF);
-        last_col_shift = ((S_800F6598_0 *)grid_state)->unk_14;
+        last_col_shift = grid_state->shiftX;
         cell_33_33 = ((row_after << last_col_shift) * 6) + grid_base + 0xC6;
         cell_33_33->unk_04 = (u16)(cell_33_33->unk_04 & 0x7FFF);
         return 1;

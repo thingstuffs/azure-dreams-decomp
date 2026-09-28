@@ -30,7 +30,7 @@ void func_80091114(s32 *value, S_80091114_1 *context, s32 update_arg) {
 
     if (previous_value == *value) {
         saved_update_arg = update_arg;
-        if (!(((s32)state->unk_008) & 0x20)) {
+        if (!(state->buttons & 0x20)) {
             func_80093D48(value, context, saved_update_arg);
             return;
         }

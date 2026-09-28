@@ -2,11 +2,6 @@
 #include "shared/game_work.h"
 
 typedef struct {
-    s8 pad[0x14];
-    s16 shift;
-} DungeonState;
-
-typedef struct {
     u16 active;
     s16 value;
     s16 unused;
@@ -16,12 +11,12 @@ extern DungeonCell D_800EA000[];
 
 // Sets the value of inactive dungeon cells in rows and columns 1 through 62.
 void func_80019A84(s16 value) {
-    DungeonState *state;
+    MapGrid *state;
     DungeonCell *cells;
     s32 row;
     s32 column;
 
-    state = ((DungeonState *)((u8 *)&gameWork + 476));
+    state = &gameWork.map;
     cells = D_800EA000;
     row = 1;
     do {
@@ -30,7 +25,7 @@ void func_80019A84(s16 value) {
             DungeonCell *cell;
             unsigned long cellAddress;
 
-            cellAddress = (column + (row << state->shift)) * 6;
+            cellAddress = (column + (row << state->shiftX)) * 6;
             cellAddress += (unsigned long)cells;
             cell = (DungeonCell *)cellAddress;
             if (cell->active == 0) {

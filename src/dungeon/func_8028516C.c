@@ -16,12 +16,6 @@ typedef struct DungeonRecord {
     u8 pad[12];
 } DungeonRecord;
 
-typedef struct DungeonState {
-    DungeonCell *cells;
-    u8 pad[16];
-    s16 shift;
-} DungeonState;
-
 
 s16 func_800BCB04(s32, s32, s32);
 
@@ -30,7 +24,7 @@ s32 func_8001816C(s16 record_id, s16 *out_x, s16 *out_y)
 {
     register s8 *records_base ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     DungeonRecord *record;
-    DungeonState *state;
+    MapGrid *state;
     s8 *records_page;
     register s32 record_index ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 record_addr;
@@ -58,7 +52,7 @@ s32 func_8001816C(s16 record_id, s16 *out_x, s16 *out_y)
     records_page = (s8 *)record_addr;
     rows_left = *(s16 *)(records_page + 6);
     y = *(u16 *)(records_page + 2);
-    state = ((DungeonState *)((u8 *)&gameWork + 476));
+    state = &gameWork.map;
 
     if (rows_left > 0) {
         register s16 *y_ptr ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -76,14 +70,14 @@ s32 func_8001816C(s16 record_id, s16 *out_x, s16 *out_y)
         record_addr = (s32)y << 16;
         row = record_addr >> 16;
         start_x = record->x;
-        row_offset = state->shift;
+        row_offset = state->shiftX;
         ASM_KEEP_DEP_NV(record, row_offset);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         row_width = record->count;
         x = start_x;
         ASM_KEEP_NV(start_x);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         row_offset = row << row_offset;
         record_addr = row_offset * sizeof(DungeonCell);
-        row_offset = (s32)state->cells;
+        row_offset = (s32)((DungeonCell *)state->cells);
         cells_left = row_width;
         row_offset += record_addr;
         record_addr = start_x * sizeof(DungeonCell);

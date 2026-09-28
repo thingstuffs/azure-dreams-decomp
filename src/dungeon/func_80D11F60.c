@@ -55,17 +55,6 @@ typedef struct S_80171760_2 {
 } S_80171760_2;   /* arg2 in func_80171760 */
 
 
-typedef struct S_80171760_4 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_80171760_4;   /* origin in func_80171760 */
-
-typedef struct S_80171760_5 {
-    u8 pad_00[0x9A];
-    u8 unk_9A;
-} S_80171760_5;   /* player in func_80171760 */
-
 /* Update the actor's dungeon behavior, facing, and directional animation. */
 void func_80171760(void *motion, void *render_ctx, void *map_entity, void *actor)
 {
@@ -205,7 +194,7 @@ jt_c5:
 jt_c6:
 jt_c7:
         {
-            void *player;
+            EntityRec *player;
             s16 facing_angle;
 
             facing_angle = func_800A0818(
@@ -214,7 +203,7 @@ jt_c7:
                 &direction_flags);
             player = D_800814A8;
             ((EntityRec *)actor)->facing = facing_angle;
-            if (((S_80171760_5 *)player)->unk_9A == 0x11) {
+            if (player->unk_9A == 0x11) {
                 goto case_123;
             }
         }

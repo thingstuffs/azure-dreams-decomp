@@ -1,12 +1,6 @@
 #include "common.h"
 #include "shared/entity_objects.h"
-
-typedef struct S_800C7930_0 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-} S_800C7930_0;   /* camera in func_800C7930 */
+#include "shared/entity.h"
 
 typedef struct S_800C7930_1 {
     u8 pad_00[0x2];
@@ -49,16 +43,16 @@ s32 func_800C7930(s32 object_addr, void *source_pos, s32 helper_arg)
     u16 y_offset;
     register u16 source_x ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     S_800C7930_2 *work;
-    register u8 *camera;
+    register EntityRec *camera;
     register u8 *destination ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register u8 *x_offsets;
     register u8 *y_offsets;
     register s32 object ASM_REG("$10") = object_addr;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     S_800C7930_1 *source = source_pos;
 
-    camera = ((u8 *)(&D_80083780.x.v));
+    camera = &D_80083780;
     ASM_CLOBBER("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    delta = ((S_800C7930_0 *)camera)->unk_02;
+    delta = camera->x.w.i;
     source_coord = source->unk_02.s;
     source_x = source->unk_02.u;
     delta -= source_coord;
@@ -66,7 +60,7 @@ s32 func_800C7930(s32 object_addr, void *source_pos, s32 helper_arg)
         delta = -delta;
     }
     if (delta < 0xC1) {
-        delta = ((S_800C7930_0 *)camera)->unk_06;
+        delta = camera->y.w.i;
         source_coord = source->unk_06.s;
         delta -= source_coord;
         if (delta < 0) {

@@ -20,7 +20,7 @@ void func_800911D4(s32 *value, M2C_UNK input_a, M2C_UNK input_b) {
     state = &gameWork;
     old_value = *value;
     func_80091000(value, input_a, input_b);
-    if ((old_value == *value) && !(((s32)state->unk_008) & 0x20)) {
+    if ((old_value == *value) && !(state->buttons & 0x20)) {
         func_80093D48(value, input_a, input_b);
     }
 }

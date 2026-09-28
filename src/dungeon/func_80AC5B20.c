@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
@@ -12,7 +13,6 @@ extern s32 func_800A9E70();
 extern void func_800AA36C();
 extern s16 func_800BCB04();
 
-extern u8 D_8006CCF8[8];
 extern s32 D_80171728;
 extern Callback D_80174E5C[];
 
@@ -104,7 +104,7 @@ void func_80171320(void *entity, S_80171320_2 *motion, void *monster)
             (*(s16 *)((u8 *)entity + 0x94)) = direction;
         }
 
-        if (D_8006CCF8[direction_copy] != 0) {
+        if (dirSpriteFlag[direction_copy] != 0) {
             ((S_80171320_0 *)monster)->unk_14 |= 1;
         } else {
             ((S_80171320_0 *)monster)->unk_14 &= 0xFFFE;

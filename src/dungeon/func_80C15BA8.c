@@ -18,17 +18,6 @@ typedef struct S_801713A8_2 {
 } S_801713A8_2;   /* arg2 in func_801713A8 */
 
 
-typedef struct S_801713A8_4 {
-    u8 pad_00[0x9A];
-    u8 unk_9A;
-} S_801713A8_4;   /* owner in func_801713A8 */
-
-typedef struct S_801713A8_5 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_801713A8_5;   /* map_base in func_801713A8 */
-
 
 
 
@@ -197,14 +186,14 @@ case_6:
 case_7:
         {
             s16 target_angle;
-            void *active_actor;
+            EntityRec *active_actor;
 
             target_angle = func_800A0818(
                 ((S_801713A8_2 *)sprite)->unk_24.at00.v, ((S_801713A8_2 *)sprite)->unk_24.at01.v,
                 D_80082E80.tileX, D_80082E80.tileY, &distance);
             active_actor = D_800814A8;
             ((EntityRec *)status)->facing = target_angle;
-            if (((S_801713A8_4 *)active_actor)->unk_9A != 0x11) {
+            if (active_actor->unk_9A != 0x11) {
                 goto case_12;
             }
         }

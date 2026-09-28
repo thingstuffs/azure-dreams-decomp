@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
 
 #define FLD(p, t, o) (*(t *)((u8 *)(p) + (o)))
 
-extern u8 D_8006CCF8[];
 extern s32 D_800E0334[];
 extern u8 D_800C9AAC;
 extern u8 D_800C9F34;
@@ -78,7 +78,7 @@ void *func_800C9850(u16 tile_x, u16 tile_z, u16 height) {
         FLD(state, s8, 0x71) = 0;
         state_tail = state;
         {
-            if (D_8006CCF8[((FLD(camera, s16, 0xC8) + FLD(state, s16, 0x2A) + 0x100) >> 9) & 7] != 0) {
+            if (dirSpriteFlag[((FLD(camera, s16, 0xC8) + FLD(state, s16, 0x2A) + 0x100) >> 9) & 7] != 0) {
                 FLD(sprite, u16, 0x14) |= 1;
             } else {
                 FLD(sprite, u16, 0x14) &= 0xFFFE;

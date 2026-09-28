@@ -1,13 +1,6 @@
 #include "common.h"
 #include "shared/game_work.h"
 
-typedef struct S_800B0490_0 {
-    u8 pad_00[0x8];
-    union { s32 s; volatile s32 u; } unk_08;   /* accessed as both */
-    u8 pad_0C[0x4];
-    s32 unk_10;
-} S_800B0490_0;   /* state in func_800B0490 */
-
 typedef struct S_800B0490_1 {
     u8 pad_00[0x4];
     s32 unk_04;
@@ -32,17 +25,17 @@ void func_800B0490(S_800B0490_1 *menu)
     s32 held_buttons;
     s32 repeat_buttons;
     s32 pressed_buttons;
-    u8 *pad_state;
+    GameWork *pad_state;
 
     direction = 0;
     move_mode = direction;
-    pad_state = ((u8 *)(&gameWork));
-    held_buttons = ((S_800B0490_0 *)pad_state)->unk_08.s;
+    pad_state = &gameWork;
+    held_buttons = pad_state->buttons;
     if (held_buttons == 0) {
         goto done;
     }
 
-    pressed_buttons = ((S_800B0490_0 *)pad_state)->unk_10;
+    pressed_buttons = ((s32)pad_state->unk_010);
     if (pressed_buttons & 0x20) {
         SD_Call(0x515, pad_state);
         func_800AE4D4(menu->unk_08);
@@ -76,7 +69,7 @@ void func_800B0490(S_800B0490_1 *menu)
     repeat_ticks = menu->unk_10;
     if (repeat_ticks >= 5) {
         menu->unk_10 = repeat_ticks - 3;
-        repeat_buttons = ((S_800B0490_0 *)pad_state)->unk_08.u;
+        repeat_buttons = pad_state->buttons;
         if (repeat_buttons & 0x4000) {
             direction = 1;
             move_mode = 4;

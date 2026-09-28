@@ -30,7 +30,7 @@ void func_80038A10(Func80038A10State *input_state) {
     D_80081448 = state;
 
     if (state->field87 == 0) {
-        if ((((u32)global->unk_008) & 0x20) != 0) {
+        if ((((u32)global->buttons) & 0x20) != 0) {
             if (state->field2E == 0) {
                 state->field2E = 1;
             }

@@ -120,7 +120,7 @@ void func_80091260(S_80091260_2 *actor, S_80091260_0 *position, s32 context) {
         return;
     }
 
-    input_flags = ((s32)input_state->unk_008);
+    input_flags = input_state->buttons;
     if (input_flags & 0x20) {
         if (actor->unk_16 == 1) {
             tile_id = func_8008C180(position->unk_02, position->unk_06);

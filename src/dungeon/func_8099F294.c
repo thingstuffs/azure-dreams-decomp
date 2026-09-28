@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
@@ -11,7 +12,6 @@ extern void func_800A020C(s32, void *);
 extern s32 func_800A9E70(void *, void *, void *, void *);
 extern void func_800AA36C(void *, void *, void *, void *);
 extern s32 func_800BCB04(s32, s32, s16);
-extern u8 D_8006CCF8[32];
 extern u8 D_801710EC[12];
 extern u8 D_80175E40[12];
 extern ActorCallback D_80175ED8[16];
@@ -87,7 +87,7 @@ void func_80170A94(void *actor_input, void *motion_input, void *sprite_input)
     func_80047738(sprite, *((u8 *) ((*((u8 **) (((u8 *) sprite) + 0x2C))) + direction_index)), *((s8 *) (((u8 *) sprite) + 4)));
     *((s16 *) (((u8 *) actor) + 0x94)) = bob_step;
   }
-  if (D_8006CCF8[direction_index] != 0)
+  if (dirSpriteFlag[direction_index] != 0)
   {
     sprite_flags = (*((u16 *) (((u8 *) sprite) + 0x14))) | 1;
   }

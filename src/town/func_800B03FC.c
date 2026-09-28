@@ -21,7 +21,7 @@ void func_800ADB5C(s32 *menu) {
     s32 row;
 
     pad_state = &gameWork;
-    held_buttons = ((s32)pad_state->unk_008);
+    held_buttons = pad_state->buttons;
     selection_step = 0;
     if (held_buttons == 0) {
         return;
@@ -79,7 +79,7 @@ close_shop:
         func_800B1778(menu[10], row, selection);
     }
     func_800B17C0(menu[10], selection);
-    if (((s32)pad_state->unk_008) & 0x40) {
+    if (pad_state->buttons & 0x40) {
         func_800ADA1C(menu);
     }
     func_800ADB04(menu);

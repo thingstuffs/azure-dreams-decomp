@@ -51,14 +51,6 @@ typedef struct S_func_8016C64C_3 {
     u16 unk_6A;
 } S_func_8016C64C_3;
 
-typedef struct S_func_8016C64C_4 {
-    u8 pad_00[0x10];
-    union {
-        u8 *ptr;
-        u32 u32_value;
-    } unk_10;
-} S_func_8016C64C_4;
-
 typedef struct S_func_8016C64C_5 {
     s16 unk_00;
 } S_func_8016C64C_5;
@@ -90,7 +82,7 @@ void func_8016C64C(S_func_8016C64C_0 *action, S_func_8016C64C_1 *motion, S_func_
     s32 offset_pos;
     u8 *anim_table;
     u8 *current_anim;
-    S_func_8016C64C_4 *world_state;
+    DungeonGlobalStatus *world_state;
 
     switch (action->unk_9B) {
     case 0:
@@ -253,9 +245,9 @@ void func_8016C64C(S_func_8016C64C_0 *action, S_func_8016C64C_1 *motion, S_func_
         motion->unk_10 = 0;
         motion->unk_0C = 0;
         func_800A2B04(motion, sprite->unk_24, sprite->unk_25);
-        world_state = (S_func_8016C64C_4 *)&dungeonStatus.unk_00;
-        if (world_state->unk_10.ptr == (u8 *)actor - 0x20) {
-            world_state->unk_10.u32_value &= 0x7FFFFFFF;
+        world_state = &dungeonStatus;
+        if (((u8 *)world_state->unk_10) == (u8 *)actor - 0x20) {
+            (*(u32 *)&world_state->unk_10) &= 0x7FFFFFFF;
         }
         action->unk_8C = D_8016A36C;
         return;

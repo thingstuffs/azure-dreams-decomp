@@ -26,18 +26,6 @@ typedef struct Sub {
 } Sub;
 
 /* View over the D_80083178 dispatch/blend record (fields not in game.h struct) */
-typedef struct G {
-    u8  pad0[0x98];
-    s16 f98;   /* 0x98 */
-    u8  pad9a[0xA4 - 0x9A];
-    s16 fA4;   /* 0xA4 */
-    s16 fA6;   /* 0xA6 */
-    s16 fA8;   /* 0xA8 */
-    u8  padAA[2];
-    s16 fAC;   /* 0xAC */
-    u8  padAE[2];
-    s16 fB0;   /* 0xB0 */
-} G;
 
 extern s16 D_800120A2;
 extern s16 D_800DD264[];
@@ -48,7 +36,7 @@ extern void func_800C77D0(void *a0, void *a1, s32 a2, s16 a3);
 /* Blend toward the entity target, then dispatch the next state. */
 void func_800C7B38(void *entity_data) {
     Entity *entity = entity_data;
-    G *blend = (G *)(&gameWork.view);
+    GameView *blend = &gameWork.view;
     s32 state = entity->unk18;
 
     if (state == 0) goto blend_state;
@@ -59,14 +47,14 @@ blend_state:
     if (entity->unk24 > 0) {
         s16 half_ticks;
         entity->unk10 -= entity->unk10 >> 2;
-        blend->f98 = entity->unk26 + (u16)entity->unk10;
-        blend->fAC = (u16)blend->fAC + (D_800DD264[D_800120A2] - blend->fAC) / entity->unk24;
-        blend->fB0 = (u16)blend->fB0 + (0 - blend->fB0) / entity->unk24;
-        blend->fA4 = (u16)blend->fA4 + (((Sub *)entity->unkC)->f2 - blend->fA4) / entity->unk24;
-        blend->fA6 = (u16)blend->fA6 + (((Sub *)entity->unkC)->f6 - blend->fA6) / entity->unk24;
+        blend->unk_098 = entity->unk26 + (u16)entity->unk10;
+        blend->unk_0AC = (u16)blend->unk_0AC + (D_800DD264[D_800120A2] - blend->unk_0AC) / entity->unk24;
+        blend->viewAngle = (u16)blend->viewAngle + (0 - blend->viewAngle) / entity->unk24;
+        blend->unk_0A4 = (u16)blend->unk_0A4 + (((Sub *)entity->unkC)->f2 - blend->unk_0A4) / entity->unk24;
+        blend->unk_0A6 = (u16)blend->unk_0A6 + (((Sub *)entity->unkC)->f6 - blend->unk_0A6) / entity->unk24;
         half_ticks = (s16)(u16)entity->unk24 / 2;
         if (half_ticks != 0) {
-            blend->fA8 = (u16)blend->fA8 + (((Sub *)entity->unkC)->fA - blend->fA8) / half_ticks;
+            blend->unk_0A8 = (u16)blend->unk_0A8 + (((Sub *)entity->unkC)->fA - blend->unk_0A8) / half_ticks;
         }
         {
             s16 ticks_left = (u16)entity->unk24 - 1;
@@ -76,9 +64,9 @@ blend_state:
             }
         }
     }
-    blend->fAC = (u16)D_800DD264[D_800120A2];
-    blend->fB0 = 0;
-    blend->f98 = entity->unk26;
+    blend->unk_0AC = (u16)D_800DD264[D_800120A2];
+    blend->viewAngle = 0;
+    blend->unk_098 = entity->unk26;
     entity->unk18 += 1;
     return;
 

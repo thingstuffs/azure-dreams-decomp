@@ -26,15 +26,10 @@ typedef struct S_800C3900_1 {
     u16 unk_0A;
 } S_800C3900_1;   /* var_v1 in func_800C3900 */
 
-typedef struct S_800C3900_2 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_800C3900_2;   /* counter_base in func_800C3900 */
-
 /* Processes an entity action, preserves its state flag, and updates the shared counter. */
 s32 func_800C3900(EntityRec *entity, s32 action, s16 action_param) {
     M2C_UNK *counter_page;
-    M2C_UNK *counter_base;
+    DungeonGlobalStatus *counter_base;
     s32 saved_flag;
     s32 flag_test;
     u32 flags;
@@ -82,7 +77,7 @@ s32 func_800C3900(EntityRec *entity, s32 action, s16 action_param) {
     func_80098B38(action);
     func_800997FC(&D_800E180E);
 decrement_counter:
-    counter_base = &dungeonStatus.unk_00;
-    ((S_800C3900_2 *)counter_base)->unk_0A = (u16) (((S_800C3900_2 *)counter_base)->unk_0A - 1);
+    counter_base = &dungeonStatus;
+    counter_base->unk_0A = (u16) (((u16)counter_base->unk_0A) - 1);
     return 1;
 }

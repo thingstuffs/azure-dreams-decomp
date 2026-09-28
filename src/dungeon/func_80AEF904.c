@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
@@ -13,7 +14,6 @@ extern s32 func_800A9E70(void *, void *, void *, void *);
 extern void func_800AA36C(void *, void *, void *, void *);
 extern s16 func_800BCB04(s32, s32, s32);
 
-extern u8 D_8006CCF8[8];
 extern u8 D_801717F4;
 extern u8 D_80175988[8];
 extern u8 D_801759A0[8];
@@ -203,7 +203,7 @@ compare_direction:
             (*(s16 *)((u8 *)actor + 0x94)) = old_direction;
         }
 
-        if (D_8006CCF8[view_index_copy] != 0) {
+        if (dirSpriteFlag[view_index_copy] != 0) {
             object_flags = ((S_80171104_0 *)object)->unk_14.n | 1;
             goto store_object_flags;
         }

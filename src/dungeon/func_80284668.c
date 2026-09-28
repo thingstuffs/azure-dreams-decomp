@@ -17,14 +17,14 @@ void func_80017668(s16 start_x, s16 y, s16 width, s32 height, u16 fill_value) {
     s32 start_x_shifted;
     s32 x;
     register s32 row_y;
-    s16 *grid_settings;
+    MapGrid *grid_settings;
     s16 next_rows_left;
     s32 cell_index;
     u16 *cell;
 
     rows_left = height;
     do { cell_value = fill_value; } while (0);
-    grid_settings = (s16 *)((u8 *)(&gameWork.unk_1DC));
+    grid_settings = &gameWork.map;
     span_left <<= 16;
     if (span_left > 0) {
         width_shifted = width << 16;
@@ -36,7 +36,7 @@ void func_80017668(s16 start_x, s16 y, s16 width, s32 height, u16 fill_value) {
                 row_y = y;
                 do {
                     span_left--;
-                    cell_index = grid_settings[10];
+                    cell_index = grid_settings->shiftX;
                     cell_index = row_y << cell_index;
                     cell_index += x;
                     x++;

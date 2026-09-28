@@ -62,7 +62,7 @@ state_zero:
 state_one:
     /* MATCH: Prevent propagation of the a3 copy into the a0 argument setup. */
     if ((dungeonStatus.flags & 4) == 0 && (arg0->flags & 0x10) != 0) {
-        guard = ((s32)ctx->unk_008) & 0x20;
+        guard = ctx->buttons & 0x20;
         callResource = arg3;
         if (guard != 0) {
             guard = func_800A5C70(callResource);

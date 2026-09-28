@@ -84,7 +84,7 @@ void func_8008C13C(void *controller, s32 actor_id, void *actor, void *actor_data
         if (move_result != 4) {
             if (D_80013714 & 2) {
                 dungeonStatus.flags |= 0x80;
-            } else if ((((s32)dungeon_state->unk_008) & 0x20) && func_800A5C70()) {
+            } else if ((dungeon_state->buttons & 0x20) && func_800A5C70()) {
                 dungeonStatus.flags |= 0x80;
             }
         }

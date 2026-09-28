@@ -114,7 +114,7 @@ void func_80092A84(Rec_func_80094268_arg0 *actor, EntityRec *body, M2C_UNK conte
         return;
     }
 
-    if (((s32)input_state->unk_008) & 0xF000) {
+    if (input_state->buttons & 0xF000) {
         position = actor->unk_3E.as_u16 - 1;
         actor->unk_3E.as_u16 = position;
         func_80094944(position, 0xC);

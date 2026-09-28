@@ -44,7 +44,7 @@ void func_800AA844(Obj800AD0E4 *timer_obj, Obj800AD0E4 *object, s32 action_arg) 
         return;
     }
 
-    if (((u32)state->unk_008) & 0xF000) {
+    if (((u32)state->buttons) & 0xF000) {
         func_80093ED8(timer_obj, object, action_arg);
         return;
     }

@@ -315,7 +315,7 @@ state_1:
 state_2:
 {
     s32 pressed_buttons;
-    if ((((s32)controls->unk_008) & 0x5000) != 0) {
+    if ((controls->buttons & 0x5000) != 0) {
         if (effect->timer-- < 0) {
             effect->timer = 0;
         }
@@ -323,7 +323,7 @@ state_2:
         effect->timer = 5;
     }
     if ((((s32)controls->unk_010) & 0x1000) == 0) {
-        if ((((s32)controls->unk_008) & 0x1000) == 0 || effect->timer > 0) {
+        if ((controls->buttons & 0x1000) == 0 || effect->timer > 0) {
             goto state_3_body;
         }
     }
@@ -337,7 +337,7 @@ state_2:
 state_3:
 state_3_body:
     if ((((s32)controls->unk_010) & 0x4000) == 0) {
-        if ((((s32)controls->unk_008) & 0x4000) == 0 || effect->timer > 0) {
+        if ((controls->buttons & 0x4000) == 0 || effect->timer > 0) {
             goto state_3_after_shake;
         }
     }

@@ -28,12 +28,12 @@ void func_800A573C(void *entity, void *transform, void *sprite) {
         void *entity_type;
 
         entity_type = *(void **)entity;
-        if (entity_type == (u8 *)&D_800A5A98 && (((s32)input_state->unk_008) & 0x2000)) {
+        if (entity_type == (u8 *)&D_800A5A98 && (input_state->buttons & 0x2000)) {
             target_angle = *(s16 *)((u8 *)entity + 0x10);
             current_angle = *(s16 *)((u8 *)entity + 0x18);
             target_angle -= 0x200;
             turn_step = 0x200;
-        } else if (entity_type == (u8 *)&D_800A5A98 && (((s32)input_state->unk_008) & 0x8000)) {
+        } else if (entity_type == (u8 *)&D_800A5A98 && (input_state->buttons & 0x8000)) {
             target_angle = *(s16 *)((u8 *)entity + 0x10);
             current_angle = *(s16 *)((u8 *)entity + 0x18);
             target_angle += 0x200;

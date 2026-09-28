@@ -39,7 +39,7 @@ void func_8002789C(void *menu)
     s32 selection_changed;
     s32 selection;
 
-    buttons = ((s32)gameWork.unk_008);
+    buttons = gameWork.buttons;
     selection_changed = 0;
     if (buttons != 0) {
         button_flags = ((s32)gameWork.unk_010);

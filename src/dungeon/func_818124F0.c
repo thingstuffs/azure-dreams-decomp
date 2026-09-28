@@ -60,7 +60,7 @@ void func_800274F0(S_800274F0_Arg *menu) {
     s32 repeat_buttons;
 
     input = &gameWork;
-    held_buttons = ((s32)input->unk_008);
+    held_buttons = input->buttons;
     if (held_buttons == 0)
         goto done;
     pressed_buttons = ((s32)input->unk_010);
@@ -119,7 +119,7 @@ direction_entry:
     if (repeat_ticks < 9)
         goto increment_done;
     menu->unkC = repeat_ticks - 1;
-    repeat_buttons = ((s32)input->unk_008);
+    repeat_buttons = input->buttons;
     if (repeat_buttons & 0x8000) {
         index_step = -1;
         goto direction_common;

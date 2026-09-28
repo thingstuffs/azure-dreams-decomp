@@ -222,7 +222,7 @@ state_3:
         entity->timer = (u16)entity->timer - 1;
         goto exit;
     }
-    if ((((s32)input->unk_008) & 0x2000) &&
+    if ((input->buttons & 0x2000) &&
         (entity->quantity < 10) &&
         ((u32)D_80012D5C >= 100U)) {
         SD_Call(0x502);
@@ -236,7 +236,7 @@ state_3:
         entity->state = (u16)entity->state - 1;
         goto exit;
     }
-    if ((((s32)input->unk_008) & 0x8000) &&
+    if ((input->buttons & 0x8000) &&
         (entity->quantity >= 2)) {
         s32 *money = &D_80012D5C;
 
@@ -290,10 +290,10 @@ state_100:
 
 state_101:
     {
-        s32 *global_flags = &objectFlagBlock.flags;
+        ObjectFlagBlock *global_flags = &objectFlagBlock;
 
         (*(u16 *)((u8 *)entity + -2)) |= 0x8000;
-        *global_flags |= 0x8000;
+        global_flags->flags |= 0x8000;
     }
     goto exit;
 

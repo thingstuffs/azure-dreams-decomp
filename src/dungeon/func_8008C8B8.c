@@ -47,11 +47,6 @@ typedef struct S_80092018_5 {
     s16 unk_04;
 } S_80092018_5;   /* temp_s4 in func_80092018 */
 
-typedef struct S_80092018_6 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-} S_80092018_6;   /* rmw_base in func_80092018 */
-
 typedef struct S_80092018_7 {
     u8 pad_00[0x60];
     void * unk_60;
@@ -238,11 +233,11 @@ block_26:
     func_80099F70(((S_80092018_2 *)model)->unk_5C);
     func_80099F04(((S_80092018_2 *)model)->unk_5C);
     {
-        void *action_status = &dungeonStatus.unk_00;
+        DungeonGlobalStatus *action_status = &dungeonStatus;
         u16 action_flags;
-        action_flags = ((S_80092018_6 *)action_status)->unk_02;
+        action_flags = action_status->flags;
         action_flags = (u16) (action_flags | 0x812);
-        ((S_80092018_6 *)action_status)->unk_02 = action_flags;
+        action_status->flags = action_flags;
     }
     ((S_80092018_0 *)actor)->unk_8C = &D_8008ACDC;
     return;

@@ -21,17 +21,6 @@ typedef struct S_8017406C_0 {
 
 
 
-typedef struct S_8017406C_4 {
-    u8 pad_00[0x8];
-    union { s16 s; u16 u; } unk_08;   /* accessed as both */
-} S_8017406C_4;   /* global_base in func_8017406C */
-
-typedef struct S_8017406C_5 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_8017406C_5;   /* map_base in func_8017406C */
-
 
 
 extern s32 func_800644B8(s32);
@@ -58,7 +47,7 @@ void func_8017406C(S_8017406C_0 *animation, EntityRec *motion, Rec_D_80082E80 *t
     s32 ticks_left;
     s32 actor_flags;
     s32 coord_result;
-    u8 *global_base;
+    DungeonGlobalStatus *global_base;
 
     state = animation->unk_9B;
     if (state == 1) {
@@ -144,9 +133,9 @@ decrement_timer:
     func_800AD594(actor, 4);
     func_800A4ACC(actor);
 
-    global_base = (u8 *)&dungeonStatus.unk_00;
-    if (((S_8017406C_4 *)global_base)->unk_08.s != 0) {
-        ((S_8017406C_4 *)global_base)->unk_08.u--;
+    global_base = &dungeonStatus;
+    if (global_base->unk_08 != 0) {
+        (*(u16 *)&global_base->unk_08)--;
     }
 
     actor_flags = actor->flags1C;

@@ -41,23 +41,6 @@ typedef struct S_80171138_2 {
 } S_80171138_2;   /* arg2 in func_80171138 */
 
 
-typedef struct S_80171138_4 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_80171138_4;   /* coord_origin in func_80171138 */
-
-typedef struct S_80171138_5 {
-    u8 pad_00[0x9A];
-    u8 unk_9A;
-} S_80171138_5;   /* player in func_80171138 */
-
-typedef struct S_80171138_6 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_80171138_6;   /* origin in func_80171138 */
-
 
 
 
@@ -237,7 +220,7 @@ case_5:
 case_6:
 case_7:
         {
-            void *player;
+            EntityRec *player;
             s16 facing_angle;
 
             facing_angle = func_800A0818(
@@ -246,7 +229,7 @@ case_7:
                 &angle_aux);
             player = D_800814A8;
             ((S_80171138_1 *)stats)->unk_2A = facing_angle;
-            if (((S_80171138_5 *)player)->unk_9A == 0x11) {
+            if (player->unk_9A == 0x11) {
                 goto call_aaf;
             }
         }

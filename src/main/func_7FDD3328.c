@@ -16,13 +16,6 @@ typedef struct Gfx
   u8 flags;
   u8 pad7;
 } Gfx;
-typedef struct Pad
-{
-  u8 pad0[8];
-  s32 held;
-  u8 padC[4];
-  s32 pressed;
-} Pad;
 typedef struct Menu
 {
   s16 pad0;
@@ -64,7 +57,7 @@ void func_8008A288(Menu *menu)
   s32 *levels;
   s32 level;
   s32 *volume_a;
-  s32 *settings_flags;
+  ObjectFlagBlock *settings_flags;
   s32 *volume_c;
   s32 *volume_b;
   s16 *color_base;
@@ -124,7 +117,7 @@ void func_8008A288(Menu *menu)
           menu->flags = new_flags;
         }
       }
-      buttons = ((s32)pad->unk_008);
+      buttons = pad->buttons;
       delta = -8;
       if (!(buttons & 0x8000))
       {
@@ -216,7 +209,7 @@ void func_8008A288(Menu *menu)
         color_base[7] = 0x100;
       }
     check_confirm:
-      if ((((s32)pad->unk_008) & 9) == 9)
+      if ((pad->buttons & 9) == 9)
       {
         if (((s32)pad->unk_010) & 2)
         {
@@ -312,11 +305,11 @@ void func_8008A288(Menu *menu)
         return;
       }
       func_80088BD0();
-      settings_flags = &objectFlagBlock.flags;
+      settings_flags = &objectFlagBlock;
       ((u16 *) menu)[-1] |= 0x8000;
       do
       {
-        *settings_flags |= 0x8000;
+        settings_flags->flags |= 0x8000;
       }
       while (0);
       if (((Gfx *) 0x80010000)->flags)

@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/dir_step.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
@@ -16,7 +17,6 @@ M2C_UNK func_800A020C(s32, void *);               /* extern */
 s32 func_800A9E70(void *, void *, void *, void *); /* extern */
 M2C_UNK func_800AA36C(void *, void *, void *, void *); /* extern */
 s16 func_800BCB04(s32, s32, s16);                 /* extern */
-extern u8 D_8006CCF8[12];
 extern M2C_UNK D_80171400[3];
 extern u8 D_80175140[12];
 extern u8 D_80175148[12];
@@ -151,7 +151,7 @@ update_height:
                 func_80047738(object_arg, *(((S_80170BF8_2 *)object_arg)->unk_2C + state_or_facing), ((S_80170BF8_2 *)object_arg)->unk_04);
                 ((S_80170BF8_0 *)actor_arg)->unk_94 = facing;
             }
-            if (D_8006CCF8[state_or_facing] != 0) {
+            if (dirSpriteFlag[state_or_facing] != 0) {
                 facing_flags = ((S_80170BF8_2 *)object_arg)->unk_14;
                 facing_flags |= 1;
             } else {

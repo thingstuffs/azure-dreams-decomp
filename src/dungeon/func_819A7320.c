@@ -1,8 +1,6 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
-struct S_80083160;
-typedef struct S_80083160 S_80083160;
 int abs(int);
 s32 func_80065420();
 M2C_UNK func_80066640();
@@ -47,7 +45,7 @@ s32 func_819A7320(void *node)
   s32 i;
   s32 mid_otz;
   s32 slot_offset;
-  S_80083160 *base;
+  GameWork *base;
   void *poly;
   void *parent;
   void *obj;
@@ -56,7 +54,7 @@ s32 func_819A7320(void *node)
   u8 colour_b;
   u8 colour_c;
   u8 colour_d;
-  base = ((S_80083160 *)&gameWork);
+  base = &gameWork;
   do
   {
     obj = node;

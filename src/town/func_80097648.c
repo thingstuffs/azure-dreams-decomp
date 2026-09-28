@@ -34,7 +34,7 @@ void func_80094DA8(TownObject *object) {
     s32 clamp_work_y;
     s32 clamp_abs_y;
 
-    direction = func_80094BC8(((s32)gameWork.unk_008), gameWork.view.viewAngle);
+    direction = func_80094BC8(gameWork.buttons, gameWork.view.viewAngle);
     if (direction != -1) {
         component_x = func_800644B8(direction);
         current_abs_x = object->x;

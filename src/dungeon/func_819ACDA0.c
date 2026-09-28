@@ -6,13 +6,6 @@
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 
-typedef struct S_819ACDA0_0 {
-    u8 pad_00[0x2A];
-    s16 unk_2A;
-    u8 pad_2C[0x5C];
-    u16 unk_88;
-} S_819ACDA0_0;   /* entity in func_819ACDA0 */
-
 typedef struct S_819ACDA0_1 {
     u8 pad_00[0x2C];
     volatile u16 unk_2C;
@@ -75,7 +68,7 @@ void func_819ACDA0(Motion *motion, Position *position, u8 *color)
 {
     Vec3u delta;
     Vec3u base;
-    register u8 *entity;
+    register EntityRec *entity;
     TileObject *source;
     u16 final_state;
     s32 index;
@@ -105,10 +98,10 @@ check_upper_states:
 initialize:
     base.x = D_80083780.x.w.i;
     base.y = D_80083780.y.w.i;
-    entity = ((u8 *)D_800E3D7C);
-    base.z = ((S_819ACDA0_0 *)entity)->unk_88 - 0x50;
+    entity = D_800E3D7C;
+    base.z = ((u16)entity->unk_88) - 0x50;
     index =
-        ((gameWork.view.viewAngle + ((S_819ACDA0_0 *)entity)->unk_2A + 0x100) >> 7) & 0x1C;
+        ((gameWork.view.viewAngle + entity->facing + 0x100) >> 7) & 0x1C;
 
     func_8003DE58(
         *(void **)(index + (s32)D_800E3D18),

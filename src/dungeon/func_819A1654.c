@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
+#include "shared/entity.h"
 
 typedef struct Coord {
     u8 pad0[2];
@@ -173,10 +174,10 @@ void func_80024E54(Entity *entity, void *saved_context, void *saved_data) {
     Coord *coord;
     Coord *start_origin;
     Coord *origin_loop;
-    Coord *origin_second;
+    EntityRec *origin_second;
     Coord *origin_path;
     register u8 *copy_page ASM_REG("$2");
-    World *world;
+    EntityRec *world;
     void *focus;
     Coord *focus_coord;
     s32 spawn_index;
@@ -204,11 +205,11 @@ void func_80024E54(Entity *entity, void *saved_context, void *saved_data) {
         goto *D_80024078[dispatch_state];
 
     case_0: {
-        World *start_world;
+        EntityRec *start_world;
         World *hit_world;
-        start_world = ((World *)D_800814A8);
-        start_world->fieldF4 = 0;
-        start_world->field96 = 20;
+        start_world = D_800814A8;
+        start_world->unk_F4 = 0;
+        start_world->unk_96 = 20;
         D_80082E86[0] = 6;
         entity->state++;
         start_origin = &D_80083780[0];
@@ -311,13 +312,13 @@ void func_80024E54(Entity *entity, void *saved_context, void *saved_data) {
                     burst_size = 96;
                     sprite = task->sprite;
                     burst_flags = sprite->flags;
-                    origin_second = (Coord *)&D_80083780;
+                    origin_second = &D_80083780;
                     sprite->field10 = burst_size;
                     sprite->flags = burst_flags | 0xC;
                     coord = task->coord;
-                    coord->x = entity->x + origin_second->x;
-                    coord->y = entity->y + origin_second->y;
-                    coord->z = entity->z + origin_second->z;
+                    coord->x = entity->x + origin_second->x.w.i;
+                    coord->y = entity->y + origin_second->y.w.i;
+                    coord->z = entity->z + origin_second->z.w.i;
                     sprite = task->sprite;
                     sprite->field1E = 0x1000;
                     sprite->field1C = 0x1000;
@@ -692,8 +693,8 @@ void func_80024E54(Entity *entity, void *saved_context, void *saved_data) {
             }
         }
 
-        world = ((World *)D_800814A8);
-        focus = world->focus;
+        world = D_800814A8;
+        focus = world->target;
         if (focus != 0 && entity->timer == 1) {
             task = func_8003FC64(0x212);
             effect = &task->effect;

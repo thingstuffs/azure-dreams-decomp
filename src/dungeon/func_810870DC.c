@@ -62,7 +62,7 @@ state_zero:
 
 state_one:
     {
-        s32 scene_flags = ((s32)scene_data->unk_008);
+        s32 scene_flags = scene_data->buttons;
 
         if (!(scene_flags & 0x100) && (scene_flags & 0xFFFF)) {
             animation->unk_2C = D_80175F10;

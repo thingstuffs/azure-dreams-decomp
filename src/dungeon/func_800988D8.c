@@ -68,28 +68,10 @@ typedef struct S_func_8009E038_3 {
     s32 unk_00;
 } S_func_8009E038_3;
 
-typedef struct S_func_8009E038_4 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-} S_func_8009E038_4;
-
-typedef struct S_func_8009E038_5 {
-    u8 pad_00[8];
-    s32 unk_08;
-    u8 pad_0C[4];
-    s32 unk_10;
-} S_func_8009E038_5;
-
 typedef struct S_func_8009E038_6 {
     u8 pad_00[0x296C];
     s32 unk_296C;
 } S_func_8009E038_6;
-
-typedef struct S_func_8009E038_7 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_func_8009E038_7;
 
 typedef struct S_func_8009E038_8 {
     u8 pad_00[0x3630];
@@ -257,7 +239,7 @@ tick_reset:
     transition->unk_1A = (s16) ((u16) transition->unk_1A + 1);
     goto apply_transition;
 check_move_start:
-    if (((s32)input->unk_008) & 0x100) {
+    if (input->buttons & 0x100) {
         goto apply_transition;
     }
     transition->unk_1C = 4;
@@ -305,8 +287,8 @@ jt_c16:
     target_scale = (u16) transition->unk_1E;
     render->unk_1E = target_scale;
     render->unk_1C = target_scale;
-    render->unk_20.s16 = (s16) ((S_func_8009E038_7 *)&D_80082E80.unk_000)->unk_24;
-    render->unk_22.s16 = (s16) ((S_func_8009E038_7 *)&D_80082E80.unk_000)->unk_25;
+    render->unk_20.s16 = (s16) D_80082E80.tileX;
+    render->unk_22.s16 = (s16) D_80082E80.tileY;
     target_left = (u16) transition->unk_0C;
     viewport_page = (S_func_8009E038_8 *)0x80010000;
     transition->unk_04 = (s16) target_left;
@@ -325,7 +307,7 @@ sync_offsets:
     render->unk_20.s16 = (s16) D_80082E80.tileX;
     render->unk_22.s16 = (s16) D_80082E80.tileY;
 check_scale_input:
-    if (!(((s32)input->unk_008) & 0x10)) {
+    if (!(input->buttons & 0x10)) {
         goto check_reset_input;
     }
     if (!(((s32)input->unk_010) & 8)) {
@@ -345,7 +327,7 @@ wrap_scale:
 start_scale_blend:
     transition->unk_1C = 4;
 check_reset_input:
-    if (!(((s32)input->unk_008) & 0x100)) {
+    if (!(input->buttons & 0x100)) {
         goto apply_transition;
     }
     if ((func_800A2C34(0) << 0x10) != 0) {

@@ -51,9 +51,9 @@ void func_80175F44(S_func_80D40744_0 *entity, s32 unused_1, s32 unused_2, s32 un
     initial_mode = (s16)initial_mode;
     entity->unk_71 = flags_71;
     if (initial_mode != 2) {
-        S_func_80D40744_1 *state = (S_func_80D40744_1 *)&dungeonStatus.unk_00;
+        DungeonGlobalStatus *state = &dungeonStatus;
 
-        state_or_flags = state->unk_02;
+        state_or_flags = state->flags;
         if (state_or_flags & 0x2000) {
             goto reject_saved;
         }
@@ -96,8 +96,8 @@ accepted:
         s32 mode = (s16)raw_mode;
 
         if (mode == 0) {
-            S_func_80D40744_1 *state = (S_func_80D40744_1 *)((u8 *)&dungeonStatus.flags - 2);
-            state->unk_0A.u16++;
+            DungeonGlobalStatus *state = &dungeonStatus;
+            (*(u16 *)&state->unk_0A)++;
         }
         entity->unk_8C = 0;
         entity->unk_9A.s8 = 0x19;

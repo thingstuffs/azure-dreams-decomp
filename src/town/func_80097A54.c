@@ -41,7 +41,7 @@ void func_800951B4(Actor *actor)
     Vec3 *position_ptr;
     Vec3 *call_result;
 
-    direction_index = func_80094BC8(((s32)gameWork.unk_008), gameWork.view.viewAngle);
+    direction_index = func_80094BC8(gameWork.buttons, gameWork.view.viewAngle);
     if (direction_index == -1) {
         return;
     }

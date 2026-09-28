@@ -49,28 +49,28 @@ void func_800AA5F8(void *controller, void *object, s32 update_arg) {
         return;
     }
 
-    if (((s32)buttons->unk_008) & 0x2000) {
+    if (buttons->buttons & 0x2000) {
         if (D_80100D80 < 0x100) {
             D_80100D80 = (u16)D_80100D80 + 8;
         } else {
             D_80100D80 = 0x100;
         }
     }
-    if (((s32)buttons->unk_008) & 0x8000) {
+    if (buttons->buttons & 0x8000) {
         if (D_80100D80 < -0xFF) {
             D_80100D80 = -0x100;
         } else {
             D_80100D80 = (u16)D_80100D80 - 8;
         }
     }
-    if (((s32)buttons->unk_008) & 0x4000) {
+    if (buttons->buttons & 0x4000) {
         if (D_80100D82 < 0x100) {
             D_80100D82 = (u16)D_80100D82 + 8;
         } else {
             D_80100D82 = 0x100;
         }
     }
-    if (((s32)buttons->unk_008) & 0x1000) {
+    if (buttons->buttons & 0x1000) {
         if (D_80100D82 < -0xFF) {
             D_80100D82 = -0x100;
         } else {

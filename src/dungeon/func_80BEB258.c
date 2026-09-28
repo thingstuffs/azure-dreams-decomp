@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
@@ -14,7 +15,6 @@ extern s32 func_800A9E70(void *, void *, void *, void *);
 extern void func_800AA36C(void *, void *, void *, void *);
 extern s32 func_800BCB04(s32, s32, s32);
 
-extern u8 D_8006CCF8[];
 extern u8 D_80171014[];
 extern u8 D_8017420C[];
 extern Callback D_8017426C[];
@@ -101,7 +101,7 @@ void func_80170A58(void *entity, S_80170A58_0 *motion, void *sprite)
                           ((Rec_D_80082E80 *)sprite)->unk_04.as_s8);
             (*(s16 *)((u8 *)entity + 0x94)) = view_dir;
         }
-        if (D_8006CCF8[dir_index] != 0) {
+        if (dirSpriteFlag[dir_index] != 0) {
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 1;
         } else {
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xFFFE;

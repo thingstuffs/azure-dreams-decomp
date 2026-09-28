@@ -5,13 +5,6 @@
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 
-typedef struct S_8004FAA4_0 {
-    u8 pad_00[0x8];
-    union { s32 s; volatile s32 u; } unk_08;   /* accessed as both */
-    u8 pad_0C[0x4];
-    s32 unk_10;
-} S_8004FAA4_0;   /* input in func_8004FAA4 */
-
 typedef struct S_8004FAA4_1 {
     u8 pad_00[0x24];
     s32 unk_24;
@@ -22,12 +15,6 @@ typedef struct S_8004FAA4_1 {
     s32 unk_38;
 } S_8004FAA4_1;   /* arg0 in func_8004FAA4 */
 
-typedef struct S_8004FAA4_2 {
-    u8 pad_00[0xAC];
-    s32 unk_AC;
-    s32 unk_B0;
-} S_8004FAA4_2;   /* D_800814A8[0] in func_8004FAA4 */
-
 
 M2C_UNK func_8004FA2C();
 s32 func_8004FD78();
@@ -36,22 +23,22 @@ M2C_UNK SD_Call();
 /* Update menu selection from directional and side-switch input, with key repeat and sound. */
 void func_8004FAA4(S_8004FAA4_1 *menu) {
     M2C_UNK target_side;
-    M2C_UNK *input;
+    GameWork *input;
     void *target_menu;
     s32 next_index;
     s32 repeat_ticks;
     s32 held_buttons;
     s32 index_delta;
 
-    input = ((M2C_UNK *)(&gameWork));
+    input = &gameWork;
     index_delta = 0;
-    if ((((S_8004FAA4_0 *)input)->unk_08.s != 0) && (menu->unk_24 >= 2)) {
-        if (((S_8004FAA4_0 *)input)->unk_08.s & 0xA000) {
-            if (((S_8004FAA4_0 *)input)->unk_10 & 0x2000) {
+    if ((input->buttons != 0) && (menu->unk_24 >= 2)) {
+        if (input->buttons & 0xA000) {
+            if (((s32)input->unk_010) & 0x2000) {
                 index_delta = 1;
                 goto start_repeat;
             }
-            if (((S_8004FAA4_0 *)input)->unk_10 & 0x8000) {
+            if (((s32)input->unk_010) & 0x8000) {
                 index_delta = -1;
 start_repeat:
                 menu->unk_38 = 0;
@@ -60,7 +47,7 @@ start_repeat:
                 repeat_ticks = menu->unk_38;
                 if (repeat_ticks >= 9) {
                     menu->unk_38 = (s32) (repeat_ticks - 2);
-                    held_buttons = ((S_8004FAA4_0 *)input)->unk_08.u;
+                    held_buttons = input->buttons;
                     if (held_buttons & 0x2000) {
                         index_delta = 1;
                         goto repeat_move;
@@ -76,13 +63,13 @@ repeat_move:
             }
         }
         if (index_delta == 0) {
-            if (((S_8004FAA4_0 *)input)->unk_10 & 1) {
+            if (((s32)input->unk_010) & 1) {
                 if (((s32)D_800814A8->unk_B0) != 0) {
                     target_menu = menu;
                     target_side = 1;
                     goto select_target;
                 }
-            } else if (((S_8004FAA4_0 *)input)->unk_10 & 2) {
+            } else if (((s32)input->unk_010) & 2) {
                 if (((s32)D_800814A8->unk_AC) != 0) {
                     target_menu = menu;
                     target_side = 0;

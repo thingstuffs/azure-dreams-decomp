@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "shared/dungeon_floor.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
@@ -6,7 +7,6 @@
 
 typedef void (*EntityCallback)(void *, void *, void *, void *);
 
-extern u8 D_8006CCF8[];
 extern u8 D_80170F74[];
 extern EntityCallback D_80173D90[];
 
@@ -124,7 +124,7 @@ void func_80170A8C(void *entity_state, void *entity_motion, void *entity_part)
                 S16_AT(entity_state, 0x94) = direction;
             }
 
-            direction_enabled = D_8006CCF8[direction];
+            direction_enabled = dirSpriteFlag[direction];
             if (direction_enabled != 0) {
                 U16_AT(entity_part, 0x14) |= 1;
             } else {

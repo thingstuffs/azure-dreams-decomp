@@ -49,7 +49,7 @@ handle_input:
         func_800942B0(controller, actor, context);
         return;
     }
-    if (((s32)input_state->unk_008) & 0xF000) {
+    if (input_state->buttons & 0xF000) {
         func_80094C1C(controller);
     }
 }

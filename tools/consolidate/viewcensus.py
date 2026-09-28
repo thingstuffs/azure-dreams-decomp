@@ -1,5 +1,5 @@
 """viewcensus.py: local struct typedefs (defined in a row's .c) cast onto a shared object's address/pointer, directly or
-   through a local pointer initialised from it.  -> census/views9.jsonl + a summary by object."""
+   through a local pointer initialised from it.  -> census/views10.jsonl + a summary by object."""
 import re, json, collections, sys
 from pathlib import Path
 LANE = Path(__file__).resolve().parent.parent; REPO = LANE.parent.parent.parent
@@ -29,7 +29,7 @@ for p in sorted((REPO / "src").glob("*/*.c")):
         out.append({"id": rid, "hits": [[o, ty, n] for (o, ty), n in hits.items()]})
         for (o, ty), n in hits.items(): summ[o][rid.split("/")[0]] += 1
 (LANE / "census").mkdir(exist_ok=True)
-with open(LANE / "census/views9.jsonl", "w") as fh:
+with open(LANE / "census/views10.jsonl", "w") as fh:
     for r in out: fh.write(json.dumps(r) + "\n")
 print(len(out), "rows")
 for o, c in sorted(summ.items(), key=lambda x: -sum(x[1].values())): print(o, sum(c.values()), dict(c))

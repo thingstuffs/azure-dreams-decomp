@@ -1,13 +1,6 @@
 #include "common.h"
 #include "shared/game_work.h"
 
-typedef struct S_800B260C_0 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    u8 pad_0C[0x4];
-    union { s32 s; volatile s32 u; } unk_10;   /* accessed as both */
-} S_800B260C_0;   /* base in func_800B260C */
-
 typedef struct S_800B260C_1 {
     u8 pad_00[0x10];
     union { s32 s; volatile s32 u; } unk_10;   /* accessed as both */
@@ -27,8 +20,8 @@ extern void func_800B2CE8(void *);
 
 /* Handles menu button actions and directional cursor movement with key repeat. */
 void func_800B260C(u8 *menu) {
-    u8 *pad_state = ((u8 *)(&gameWork));
-    s32 held_buttons = ((S_800B260C_0 *)pad_state)->unk_08;
+    GameWork *pad_state = &gameWork;
+    s32 held_buttons = pad_state->buttons;
     s32 pressed_buttons;
     s32 cursor_step = 0;
     s32 select_result;
@@ -39,7 +32,7 @@ void func_800B260C(u8 *menu) {
         goto finish;
     }
 
-    pressed_buttons = ((S_800B260C_0 *)pad_state)->unk_10.s;
+    pressed_buttons = ((s32)pad_state->unk_010);
     if (pressed_buttons & 0x20) {
         SD_Call(0x515);
         func_800B2CE8(menu - 0x20);
@@ -82,7 +75,7 @@ update:
 
     if (pressed_buttons & 0xF000) {
         ((S_800B260C_1 *)menu)->unk_10.s = 0;
-        pressed_buttons = ((S_800B260C_0 *)pad_state)->unk_10.u;
+        pressed_buttons = ((s32)pad_state->unk_010);
         if (pressed_buttons & 0x8000) {
             cursor_step = -5;
             goto apply;
@@ -110,7 +103,7 @@ update:
                 cursor_step = 5;
                 goto decrement;
             }
-            held_directions = ((S_800B260C_0 *)pad_state)->unk_08;
+            held_directions = pad_state->buttons;
             if (held_directions & 0x1000) {
                 cursor_step = -1;
                 goto decrement;

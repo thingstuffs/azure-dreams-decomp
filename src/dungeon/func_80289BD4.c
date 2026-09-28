@@ -41,7 +41,7 @@ s32 func_8001CBD4(s32 x, s32 y, s32 requested_dir)
     tiles_or_shift = (u32)D_800EA000;
     tile_or_turn = (s16)tile_or_turn;
     neighbor_x <<= 16;
-    row_work = ((GameWork *)config_or_dir)->unk_1F0;
+    row_work = ((GameWork *)config_or_dir)->map.shiftX;
     neighbor_x >>= 16;
     tile_or_turn = (tile_or_turn << row_work) + neighbor_x;
     if (*(u16 *)(tiles_or_shift + tile_or_turn * 6 + 4) != 0) {

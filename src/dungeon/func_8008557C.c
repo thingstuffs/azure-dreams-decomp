@@ -211,7 +211,7 @@ check_status:
         }
         if (!(dungeonStatus.flags & 4)) {
             if (((S_8008ACDC_4 *)stats)->unk_1C & 0x20) {
-                if (!((*(u16 *)0x80013714) & 1) && (((u32)input->unk_008) & 0x80)) {
+                if (!((*(u16 *)0x80013714) & 1) && (((u32)input->buttons) & 0x80)) {
                     ((S_8008ACDC_4 *)stats)->unk_8A = 2;
                     D_800E4940 = 2;
                     func_8008CF6C(actor, motion, sprite, &D_8004F5F4);
@@ -410,15 +410,15 @@ apply_target_action:
                             goto epilogue;
                         }
                     }
-                    if (((u32)input->unk_008) & 0x80) {
+                    if (((u32)input->buttons) & 0x80) {
                         func_8008CF6C(actor, motion, sprite, &D_80050CAC);
                         goto epilogue;
                     }
-                    if ((((u32)input->unk_008) & 0x10) || !(((u32)input->unk_008) & 3) || (func_8008D024(actor, motion, sprite, (((u32) ((u32)input->unk_008) >> 1) ^ 1) & 1, 0) == 0)) {
+                    if ((((u32)input->buttons) & 0x10) || !(((u32)input->buttons) & 3) || (func_8008D024(actor, motion, sprite, (((u32) ((u32)input->buttons) >> 1) ^ 1) & 1, 0) == 0)) {
                         input_angle = func_8009074C(((Rec_func_8008ACDC_arg0 *)actor)->unk_9E, actor + 0xA2, stats + 0x2A);
                         if (input_angle != 0xFFF) {
                             ((S_8008ACDC_4 *)stats)->unk_2A.s = (u16) input_angle;
-                            if (!(((u32)input->unk_008) & 0x10)) {
+                            if (!(((u32)input->buttons) & 0x10)) {
                                 move_flags = ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2;
                                 if (!(move_flags & 0x400)) {
                                     ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 = (u16) (move_flags & 0xFFFE);
@@ -436,7 +436,7 @@ apply_target_action:
                             goto check_buttons;
                         }
 check_buttons:
-                        button_bits = ((u32)input->unk_008);
+                        button_bits = ((u32)input->buttons);
                         if ((button_bits & 0x30) == 0x30) {
                             ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 = (u16) (((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 & 0xFFFE);
                             func_8008C7B4(actor, motion, sprite, stats);
@@ -454,7 +454,7 @@ check_buttons:
                         angle_or_flags = button_bits & 0x40;
                         if (angle_or_flags != 0) {
                             (*(u16 *)((u8 *)actor + 0xA2)) = (u16) (button_flags & 0xFFFE);
-                            if (!(((u32)input->unk_008) & 0x20)) {
+                            if (!(((u32)input->buttons) & 0x20)) {
                                 if ((func_8008C8BC(actor, motion, sprite, stats) << 0x10) != 0) {
                                     goto update_animation;
                                 }

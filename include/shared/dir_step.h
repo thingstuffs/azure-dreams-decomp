@@ -13,4 +13,13 @@
 extern short dirStepX[8];   /* s16; plain C types so the header needs no include order */
 extern short dirStepY[8];
 
+/* dirSpriteFlag: the per-direction table right after dirStepY, SLUS .data 0x8006CCF8 (r78 phase 10), retail bytes
+ *     { 1, 1, 0, 0, 0, 0, 0, 1 }   - set for directions 7, 0, 1 (the three whose dirStepX is +1).
+ * 51 rows (dungeon, town) index it by an object's view-relative 8-way sprite direction
+ * `(viewAngle + facing + 0x100) >> 9 & 7` and set bit 0 of the sprite's +0x14 flags word when it is non-zero,
+ * clear it otherwise (plausibly a horizontal mirror of the shared side views - unproven, so the name says only
+ * what it does).  Declared unsized: a -G8 row (func_812A524C) needs a declared size above 8 bytes (small data
+ * otherwise) and the extent past the eight direction bytes is unknown (0x8006CD00 holds s16 angle steps). */
+extern unsigned char dirSpriteFlag[];
+
 #endif

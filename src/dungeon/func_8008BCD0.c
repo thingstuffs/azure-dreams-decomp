@@ -203,11 +203,11 @@ update_selection:
 check_selection:
             selection = (*(void **)((u8 *)state + 0x104));
             if ((selection == (*(s32 *)((u8 *)state + 0xAC)))
-                ? !(((s32)dungeon_state->unk_008) & 2)
-                : ((selection != (*(s32 *)((u8 *)state + 0xB0))) || !(((s32)dungeon_state->unk_008) & 1))) {
-                if (((s32)dungeon_state->unk_008) & 3) {
+                ? !(dungeon_state->buttons & 2)
+                : ((selection != (*(s32 *)((u8 *)state + 0xB0))) || !(dungeon_state->buttons & 1))) {
+                if (dungeon_state->buttons & 3) {
                     candidate_slot = state + 0xAC;
-                    if (!(((s32)dungeon_state->unk_008) & 2)) {
+                    if (!(dungeon_state->buttons & 2)) {
                         candidate_slot = state + 0xB0;
                     }
                     candidate = *candidate_slot;

@@ -31,7 +31,7 @@ void func_8001784C(void) {
     s32 state;
     u8 x;
     u8 y;
-    register u8 *config ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register MapGrid *config ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     MapCell *map;
     s32 spawn_count;
     s32 slot_index;
@@ -43,8 +43,8 @@ void func_8001784C(void) {
         state_page = (u8 *)0x80010000;
         state = *(s32 *)(state_page + 0x2090);
     }
-    config = ((u8 *)(&gameWork.unk_1DC));
-    map = *(MapCell **)((u8 *)(&gameWork.unk_1DC));
+    config = &gameWork.map;
+    map = *(MapCell **)((u8 *)(&gameWork.map));
 
     if ((state == 2) || (D_8008146C != 0x28)) {
         spawn_count = 0;
@@ -114,15 +114,15 @@ retry:
             (*(s16 *)((u8 *)entry + 4)) = spawn_y;
 
             row_offset = y;
-            update_row_shift = *(s16 *)(config + 0x14);
+            update_row_shift = config->shiftX;
             cell_offset = x;
             cell_index = cell_offset + (row_offset << update_row_shift);
             map[cell_index].value -= 0x20;
 
-            copy_row_shift = *(s16 *)(config + 0x14);
+            copy_row_shift = config->shiftX;
             (*(s16 *)((u8 *)entry + 6)) = map[cell_offset + (row_offset << copy_row_shift)].value;
 
-            flags_row_shift = *(s16 *)(config + 0x14);
+            flags_row_shift = config->shiftX;
             cell_flags = 1;
             row_offset <<= flags_row_shift;
             cell_offset += row_offset;

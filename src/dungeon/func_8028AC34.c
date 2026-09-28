@@ -31,7 +31,7 @@ void func_8001DC34(void *region_data)
     s16 *cell;
     u8 *cell_tail;
     s32 row_shifted;
-    s16 *grid_config;
+    MapGrid *grid_config;
     u32 grid_base;
     s16 first_row;
     s16 next_row;
@@ -39,7 +39,7 @@ void func_8001DC34(void *region_data)
     s16 remaining;
     s32 row_width;
     region = region_data;
-    grid_config = (s16 *)((u8 *)(&gameWork.unk_1DC));
+    grid_config = &gameWork.map;
     region->unk_0A = 0;
     first_row = region->unk_02 - 1;
     row = first_row;
@@ -50,7 +50,7 @@ void func_8001DC34(void *region_data)
             do {
                 row_shifted = row << 16;
             } while (0);
-            cell = (s16 *)(((((row_shifted >> 16) << grid_config[10]) +
+            cell = (s16 *)(((((row_shifted >> 16) << grid_config->shiftX) +
                   region->unk_00) * 6) + grid_base);
             row_width = region->unk_04 + 2;
             cells_left = row_width;

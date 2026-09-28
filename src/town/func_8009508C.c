@@ -124,7 +124,7 @@ handle_input:
             D_800FE5D8 = &D_80093B00;
             return;
         }
-        if (((s32)input->unk_008) & 0xF000) {
+        if (input->buttons & 0xF000) {
             func_8009455C(actor, position, context);
         }
     }

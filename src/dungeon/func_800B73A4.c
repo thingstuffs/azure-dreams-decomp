@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct {
     s16 x;
@@ -48,23 +49,13 @@ typedef struct {
     WorkPair p3;
 } Work;
 
-typedef struct {
-    Cell *cells;
-    Primitive **primitives;
-    Vertex *vertices;
-    Vertex *vertices2;
-    u32 pad10;
-    s16 shift;
-} DungeonTables;
-
-extern DungeonTables D_8008333C;
 
 extern s32 func_800BCE7C(Work *);
 
 /* Finds the lowest surface height at (x, y) that meets the minimum height. */
 s32 func_800BCB04(s32 x, s32 y, s16 min_height) {
     Work *work = (Work *)0x1F800000;
-    DungeonTables *tables;
+    MapGrid *tables;
     Cell *cells;
     Vertex *vertices;
     Vertex *normals;
@@ -77,10 +68,10 @@ s32 func_800BCB04(s32 x, s32 y, s16 min_height) {
     work->y = y & 0x3F;
     work->limit = min_height;
     work->index = cell_x;
-    tables = &D_8008333C;
-    vertices = tables->vertices;
-    cells = tables->cells;
-    normals = tables->vertices2;
+    tables = &gameWork.map;
+    vertices = ((Vertex *)tables->unk_08);
+    cells = ((Cell *)tables->cells);
+    normals = ((Vertex *)tables->unk_0C);
     if (cell_x < 0) {
         work->index = 0;
         cell_y = y & 0xFFFF;
@@ -97,7 +88,7 @@ s32 func_800BCB04(s32 x, s32 y, s16 min_height) {
     } else if (cell_y >= 0x40) {
         work->best = 0x3F;
     }
-    work->index += work->best << tables->shift;
+    work->index += work->best << tables->shiftX;
     work->best = 0x400;
     {
         Cell *cell = (Cell *)(
@@ -109,7 +100,7 @@ s32 func_800BCB04(s32 x, s32 y, s16 min_height) {
         }
         work->offset = -cell->value;
     }
-    primitive = tables->primitives[
+    primitive = ((Primitive **)tables->unk_04)[
         cells[(s16)*(volatile u16 *)&work->index].first];
     goto next_primitive;
 

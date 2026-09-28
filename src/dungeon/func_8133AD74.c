@@ -1,9 +1,11 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/dir_step.h"
 #include "shared/entity_objects.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "shared/entity.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -81,11 +83,6 @@ typedef struct S_80171D74_11 {
     u16 unk_02;
 } S_80171D74_11;   /* sp2_base16 in func_80171D74 */
 
-typedef struct S_80171D74_12 {
-    u8 pad_00[0x14];
-    s16 unk_14;
-} S_80171D74_12;   /* base833c in func_80171D74 */
-
 typedef struct S_80171D74_13 {
     u8 pad_00[0x4];
     u16 unk_04;
@@ -160,7 +157,6 @@ void func_801677FC();                  /* extern */
 void func_8016F5D8();      /* extern */
 void func_8016F79C();      /* extern */
 void func_801715D0();                            /* extern */
-extern u8 D_8006CCF8[16];
 extern u16 D_80082E76[8];
 extern Table32 D_8016482C;
 extern Table32 D_80164AC0;
@@ -195,7 +191,7 @@ void func_80171D74(void *state_in, void *motion_in, void *sprite_in) {
     s16 facing_angle;
     s32 move_component;
     s32 speed;
-    s32 *map_info;
+    MapGrid *map_info;
     register s32 map_tiles;
     u8 tail_phase;
     u16 left_angle;
@@ -242,8 +238,8 @@ void func_80171D74(void *state_in, void *motion_in, void *sprite_in) {
 
     offset_table = *((Table32 *)(&D_8016482C));
     direction_table = *((Table32 *)(&D_80164AC0));
-    map_info = ((s32 *)(&gameWork.unk_1DC));
-    map_tiles = ((S_80171D74_0 *)((s32 *)(&gameWork.unk_1DC)))->unk_00;
+    map_info = &gameWork.map;
+    map_tiles = ((S_80171D74_0 *)((s32 *)(&gameWork.map)))->unk_00;
     owner_state = D_80175D54[0] + 0x20;
     func_800478B8(sprite_in);
     phase = ((S_80171D74_1 *)state_in)->unk_9A;
@@ -506,23 +502,23 @@ jt_c17:
 jt_c19:
         ((S_80171D74_1 *)state_in)->unk_96 = 0x14U;
         ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
-        tile_nw = ((0x1F << ((S_80171D74_12 *)map_info)->unk_14) * 6) + map_tiles + 0xBA;
+        tile_nw = ((0x1F << map_info->shiftX) * 6) + map_tiles + 0xBA;
         tile_nw->unk_04 = (u16) (tile_nw->unk_04 & 0x7FFF);
-        tile_n = ((0x1F << ((S_80171D74_12 *)map_info)->unk_14) * 6) + map_tiles + 0xC0;
+        tile_n = ((0x1F << map_info->shiftX) * 6) + map_tiles + 0xC0;
         tile_n->unk_04 = (u16) (tile_n->unk_04 & 0x7FFF);
-        tile_ne = ((0x1F << ((S_80171D74_12 *)map_info)->unk_14) * 6) + map_tiles + 0xC6;
+        tile_ne = ((0x1F << map_info->shiftX) * 6) + map_tiles + 0xC6;
         tile_ne->unk_04 = (u16) (tile_ne->unk_04 & 0x7FFF);
-        tile_w = ((0x20 << ((S_80171D74_12 *)map_info)->unk_14) * 6) + map_tiles + 0xBA;
+        tile_w = ((0x20 << map_info->shiftX) * 6) + map_tiles + 0xBA;
         tile_w->unk_04 = (u16) (tile_w->unk_04 & 0x7FFF);
-        tile_center = ((0x20 << ((S_80171D74_12 *)map_info)->unk_14) * 6) + map_tiles + 0xC0;
+        tile_center = ((0x20 << map_info->shiftX) * 6) + map_tiles + 0xC0;
         tile_center->unk_04 = (u16) (tile_center->unk_04 & 0x7FFF);
-        tile_e = ((0x20 << ((S_80171D74_12 *)map_info)->unk_14) * 6) + map_tiles + 0xC6;
+        tile_e = ((0x20 << map_info->shiftX) * 6) + map_tiles + 0xC6;
         tile_e->unk_04 = (u16) (tile_e->unk_04 & 0x7FFF);
-        tile_sw = ((0x21 << ((S_80171D74_12 *)map_info)->unk_14) * 6) + map_tiles + 0xBA;
+        tile_sw = ((0x21 << map_info->shiftX) * 6) + map_tiles + 0xBA;
         tile_sw->unk_04 = (u16) (tile_sw->unk_04 & 0x7FFF);
-        tile_s = ((0x21 << ((S_80171D74_12 *)map_info)->unk_14) * 6) + map_tiles + 0xC0;
+        tile_s = ((0x21 << map_info->shiftX) * 6) + map_tiles + 0xC0;
         tile_s->unk_04 = (u16) (tile_s->unk_04 & 0x7FFF);
-        tile_se = ((0x21 << ((S_80171D74_12 *)map_info)->unk_14) * 6) + map_tiles + 0xC6;
+        tile_se = ((0x21 << map_info->shiftX) * 6) + map_tiles + 0xC6;
         tile_se->unk_04 = (u16) (tile_se->unk_04 & 0x7FFF);
         ((S_80171D74_3 *)motion_in)->unk_0C.n = (s32) target_pos->unk_00.at00.v;
         ((S_80171D74_3 *)motion_in)->unk_10.n = (void *) target_pos->unk_04.at00.v;
@@ -841,7 +837,7 @@ update_sprite:
         }
         {
             u16 sprite_flags;
-            if ((*(u8 *)((u8 *)D_8006CCF8 + sprite_dir)) != 0) {
+            if ((*(u8 *)((u8 *)dirSpriteFlag + sprite_dir)) != 0) {
                 sprite_flags = ((S_80171D74_5 *)sprite_in)->unk_14 | 1;
             } else {
                 sprite_flags = ((S_80171D74_5 *)sprite_in)->unk_14 & 0xFFFE;

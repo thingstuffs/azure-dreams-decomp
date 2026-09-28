@@ -11,7 +11,7 @@ extern DungeonCell D_800EA000[];
 
 /* Returns the first nonzero field_4 in a rectangle, zero if none, or -1 for invalid bounds. */
 s32 func_80017584(s16 start_x, s16 start_y, s16 width, s16 height) {
-    s16 *config;
+    MapGrid *config;
     s32 shifted_x;
     s32 shifted_width;
     s32 row;
@@ -25,12 +25,12 @@ s32 func_80017584(s16 start_x, s16 start_y, s16 width, s16 height) {
     if ((shifted_x >> 16) <= 0) {
         goto ret_err;
     }
-    config = ((s16 *)(&gameWork.unk_1DC));
-    if (row + height >= (1 << config[11])) {
+    config = &gameWork.map;
+    if (row + height >= (1 << config->shiftY)) {
         return -1;
     }
     shifted_width = width << 16;
-    if ((shifted_x >> 16) + (shifted_width >> 16) >= (1 << config[10])) {
+    if ((shifted_x >> 16) + (shifted_width >> 16) >= (1 << config->shiftX)) {
     ret_err:
         return -1;
     }
@@ -44,7 +44,7 @@ s32 func_80017584(s16 start_x, s16 start_y, s16 width, s16 height) {
         while (cols_left > 0) {
             DungeonCell *cell;
 
-            cell = &D_800EA000[(row << config[10]) + x];
+            cell = &D_800EA000[(row << config->shiftX) + x];
             if (cell->field_4 != 0) {
                 return (s16)cell->field_4;
             }

@@ -77,17 +77,6 @@ typedef struct S_80170EE4_2 {
 } S_80170EE4_2;   /* arg2 in func_80170EE4 */
 
 
-typedef struct S_80170EE4_4 {
-    u8 pad_00[0x9A];
-    u8 unk_9A;
-} S_80170EE4_4;   /* actor in func_80170EE4 */
-
-typedef struct S_80170EE4_5 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_80170EE4_5;   /* origin in func_80170EE4 */
-
 /* Update dungeon actor behavior, facing, and directional animation. */
 void func_80170EE4(void *actor_state_in, void *update_context_in, void *map_object_in, void *actor_data_in)
 {
@@ -105,7 +94,7 @@ void func_80170EE4(void *actor_state_in, void *update_context_in, void *map_obje
     s16 facing_angle;
     u16 action_flags;
     u8 *animation_table;
-    void *target_actor;
+    EntityRec *target_actor;
 
     if (dungeon_flags & 0x1000) {
         ((S_80170EE4_0 *)actor_state_in)->unk_9A = 14;
@@ -237,7 +226,7 @@ jt_c7:
             D_80082E80.tileX, D_80082E80.tileY, &distance);
         target_actor = D_800814A8;
         ((S_80170EE4_1 *)actor_data)->unk_2A = facing_angle;
-        if (((S_80170EE4_4 *)target_actor)->unk_9A == 0x11) {
+        if (target_actor->unk_9A == 0x11) {
             goto jt_call;
         }
 

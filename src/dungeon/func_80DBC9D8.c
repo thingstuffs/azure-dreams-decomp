@@ -33,16 +33,6 @@ typedef struct S_801741D8_2 {
     s8 unk_6D;
 } S_801741D8_2;   /* arg3 in func_801741D8 */
 
-typedef struct S_801741D8_3 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_801741D8_3;   /* counter in func_801741D8 */
-
-typedef struct S_801741D8_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-} S_801741D8_4;   /* global_state in func_801741D8 */
-
 
 
 
@@ -74,7 +64,7 @@ void func_801741D8(void *controller_in, void *context_in, void *sprite_in, void 
     void *sprite = sprite_in;
     void *actor;
     u8 state;
-    u8 *global_state;
+    DungeonGlobalStatus *global_state;
     void *check_target;
     void *active_actor;
     s8 tile;
@@ -82,17 +72,17 @@ void func_801741D8(void *controller_in, void *context_in, void *sprite_in, void 
     state = ((S_801741D8_0 *)controller)->unk_9B;
     actor = actor_in;
     switch (state) {
-        register u8 *counter_m ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+        register DungeonGlobalStatus *counter_m ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     case 0:
         if (((S_801741D8_1 *)sprite)->unk_14 & 0xE000) {
-            u8 *counter;
+            DungeonGlobalStatus *counter;
 
             (*(void * *)((u8 *)sprite + 0x2C)) = D_80175404;
             func_80047784(sprite,
                 D_80175404[((gameWork.view.viewAngle + ((S_801741D8_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
                 0);
-            counter = (u8 *)&dungeonStatus.unk_00;
-            ((S_801741D8_3 *)counter)->unk_0A--;
+            counter = &dungeonStatus;
+            (*(u16 *)&counter->unk_0A)--;
             goto increment_state;
         }
         break;
@@ -102,8 +92,8 @@ void func_801741D8(void *controller_in, void *context_in, void *sprite_in, void 
             goto set_effect;
         }
 
-        global_state = (u8 *)&dungeonStatus.unk_00;
-        if (((S_801741D8_4 *)global_state)->unk_02 & 0x1000) {
+        global_state = &dungeonStatus;
+        if (global_state->flags & 0x1000) {
             break;
         }
 
@@ -114,7 +104,7 @@ void func_801741D8(void *controller_in, void *context_in, void *sprite_in, void 
         }
 
         if (((S_801741D8_2 *)actor)->unk_25 == 0) {
-            if (((S_801741D8_4 *)global_state)->unk_02 & 0x2008) {
+            if (global_state->flags & 0x2008) {
                 break;
             }
             func_800AA79C(controller, context, sprite, actor);
@@ -185,8 +175,8 @@ set_effect:
         if (((S_801741D8_1 *)sprite)->unk_14 & 0x8000) {
             goto set_owner;
         } else {
-            counter_m = (u8 *)&dungeonStatus.unk_00;
-            ((S_801741D8_3 *)counter_m)->unk_0A++;
+            counter_m = &dungeonStatus;
+            (*(u16 *)&counter_m->unk_0A)++;
         }
 
 increment_state:
@@ -195,8 +185,8 @@ increment_state:
 
     case 2:
         if (((S_801741D8_1 *)sprite)->unk_14 & 0xE000) {
-            counter_m = (u8 *)&dungeonStatus.unk_00;
-            ((S_801741D8_3 *)counter_m)->unk_0A--;
+            counter_m = &dungeonStatus;
+            (*(u16 *)&counter_m->unk_0A)--;
 set_owner:
             ((S_801741D8_0 *)controller)->unk_8C = D_80171E20;
         }

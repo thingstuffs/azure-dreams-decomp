@@ -3,8 +3,6 @@
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 
-struct S_8003E2D8;
-typedef struct S_8003E2D8 S_8003E2D8;
 extern u16 D_800DCE60[];
 extern u16 D_800120A2[5];
 extern s16 D_800DD264[];
@@ -23,7 +21,7 @@ s32 func_8004D294(s32 channel, void *settings, s32 apply);
 /* Config-screen input step: apply the pad's sound-setting changes and report whether input is still accepted. */
 s32 func_80096100(void *actor)
 {
-  S_8003E2D8 *base;
+  GameWork *base;
   short stopped;
   short result;
   s32 changed;
@@ -32,7 +30,7 @@ s32 func_80096100(void *actor)
   stopped = 0;
   result = 0;
   changed = 0;
-  base = ((struct S_8003E2D8 *)&gameWork);
+  base = &gameWork;
   if (D_800E296C & 0x40000)
   {
     stopped = 1;

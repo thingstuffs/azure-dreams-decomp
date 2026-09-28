@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
 #include "shared/entity.h"
@@ -294,7 +295,6 @@ s32 func_800F6D28();    /* extern */
 void *func_800F6DFC();                /* extern */
 extern u8 D_80010248[];
 extern u16 D_80013714[8];
-extern u8 D_8006CCF8[16];
 extern u8 D_8006EE9C[16];
 extern u8 D_8006F47A[16];
 extern u8 D_8006F50D[16];
@@ -593,7 +593,7 @@ block_27:
                                                         }
                                                     }
                                                 }
-                                                if ((((S_812A524C_39 *)((*(void * *)&((EntityRec *)D_800E3D7C)->x)))->unk_9A != 0x19) && (((s32)flag_base->unk_008) & 0x10)) {
+                                                if ((((S_812A524C_39 *)((*(void * *)&((EntityRec *)D_800E3D7C)->x)))->unk_9A != 0x19) && (flag_base->buttons & 0x10)) {
                                                     func_800353F4(&D_8006F50D);
                                                     ((S_812A524C_4 *)entity)->unk_6D = 0U;
                                                     ((S_812A524C_3 *)actor_in)->unk_9B = 0;
@@ -820,7 +820,7 @@ add_motion:
             func_80047738(sprite, ((S_812A524C_38 *)sprite)->unk_2C.p[sprite_facing], ((S_812A524C_38 *)sprite)->unk_04.s8);
             ((S_812A524C_3 *)actor_in)->unk_94 = facing;
         }
-        if (D_8006CCF8[sprite_facing] != 0) {
+        if (dirSpriteFlag[sprite_facing] != 0) {
             tail_value = ((S_812A524C_38 *)sprite)->unk_14.n;
             tail_value |= 1;
             ((S_812A524C_38 *)sprite)->unk_14.v = tail_value;

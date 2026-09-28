@@ -23,17 +23,6 @@ typedef struct S_80160B4C_0 {
 
 
 
-typedef struct S_80160B4C_4 {
-    u8 pad_00[0x8];
-    union { s16 s; u16 u; } unk_08;   /* accessed as both */
-} S_80160B4C_4;   /* global_base in func_80160B4C */
-
-typedef struct S_80160B4C_5 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_80160B4C_5;   /* map_base in func_80160B4C */
-
 
 
 extern void func_80047784(void *, s32, s32);
@@ -64,7 +53,7 @@ void func_80160B4C(void *action, void *motion, void *sprite, void *actor)
     s32 action_ticks;
     s32 actor_flags;
     s32 direction_work;
-    u8 *action_globals;
+    DungeonGlobalStatus *action_globals;
     u8 *idle_anims;
 
     state = ((S_80160B4C_0 *)action)->unk_9B;
@@ -188,9 +177,9 @@ decrement_timer:
     func_800AD594(actor, 3);
     func_800A4ACC(actor);
 
-    action_globals = (u8 *)&dungeonStatus.unk_00;
-    if (((S_80160B4C_4 *)action_globals)->unk_08.s != 0) {
-        ((S_80160B4C_4 *)action_globals)->unk_08.u--;
+    action_globals = &dungeonStatus;
+    if (action_globals->unk_08 != 0) {
+        (*(u16 *)&action_globals->unk_08)--;
     }
 
     actor_flags = ((EntityRec *)actor)->flags1C;

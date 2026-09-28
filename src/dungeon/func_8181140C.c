@@ -30,7 +30,7 @@ void func_8002640C(MenuState *menu) {
     s32 repeat_ticks;
     s32 selection;
 
-    if (((s32)gameWork.unk_008) != 0) {
+    if (gameWork.buttons != 0) {
         if (((s32)gameWork.unk_010) & 0xC) {
             menu->field4 = 0;
             buttons = ((s32)gameWork.unk_010);
@@ -39,11 +39,11 @@ void func_8002640C(MenuState *menu) {
             } else if (buttons & 8) {
                 direction = 1;
             }
-        } else if (((s32)gameWork.unk_008) & 0xC) {
+        } else if (gameWork.buttons & 0xC) {
             repeat_ticks = menu->field4;
             if (repeat_ticks >= 9) {
                 menu->field4 = repeat_ticks - 1;
-                buttons = ((s32)gameWork.unk_008);
+                buttons = gameWork.buttons;
                 if (buttons & 4) {
                     direction = -1;
                 } else if (buttons & 8) {

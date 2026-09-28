@@ -17,7 +17,7 @@ s32 func_800D112C(s16 scan_direction, s32 start_x, s32 start_y) {
     register s32 byte_offset;
     u8 *x_base;
     u16 *x_step;
-    u8 *bounds;
+    MapGrid *bounds;
     s16 x_acc;
     s16 y_acc;
     s16 x;
@@ -33,9 +33,9 @@ s32 func_800D112C(s16 scan_direction, s32 start_x, s32 start_y) {
     count = 0;
     x_acc = start_x - *x_step;
     x = (u16)x_acc;
-    bounds = ((u8 *)(&gameWork.unk_1DC));
+    bounds = &gameWork.map;
 
-    if (x < 0 || x >= (1 << *(s16 *)(bounds + 0x14))) {
+    if (x < 0 || x >= (1 << bounds->shiftX)) {
         return 0;
     }
 
@@ -51,7 +51,7 @@ s32 func_800D112C(s16 scan_direction, s32 start_x, s32 start_y) {
     if (y < 0) {
         return 0;
     }
-    if (y >= (1 << *(s16 *)(bounds + 0x16))) {
+    if (y >= (1 << bounds->shiftY)) {
         return 0;
     }
 
@@ -75,7 +75,7 @@ s32 func_800D112C(s16 scan_direction, s32 start_x, s32 start_y) {
             x_acc += *loop_x_step;
         }
         x = (s16)x_acc;
-        if (x < 0 || x >= (1 << *(s16 *)(bounds + 0x14))) {
+        if (x < 0 || x >= (1 << bounds->shiftX)) {
             break;
         }
 
@@ -89,7 +89,7 @@ s32 func_800D112C(s16 scan_direction, s32 start_x, s32 start_y) {
             y_acc += *loop_y_step;
         }
         y = (s16)y_acc;
-        if (y < 0 || y >= (1 << *(s16 *)(bounds + 0x16))) {
+        if (y < 0 || y >= (1 << bounds->shiftY)) {
             break;
         }
     } while (--remaining > 0);

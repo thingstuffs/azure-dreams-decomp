@@ -81,7 +81,7 @@ s32 func_800BABA8(DungeonObject *object, u16 *position) {
 
     object->count = 0;
     scratch = (Scratch *)0x1F800000;
-    scratch->base = *(u8 **)root_slot + 0xB0;
+    scratch->base = ((u8 *)root_slot->unk_000) + 0xB0;
     scratch->values[0] = position[1];
     scratch_94 = (u8 *)scratch;
     scratch->values[1] = position[3];

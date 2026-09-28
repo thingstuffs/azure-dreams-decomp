@@ -7,11 +7,6 @@
 #include "shared/dungeon_status.h"
 extern int abs(int);
 
-typedef struct S_800C0E88_0 {
-    u8 pad_00[0x110];
-    u8 * unk_110;
-} S_800C0E88_0;   /* equal_object in func_800C0E88 */
-
 typedef struct S_800C0E88_1 {
     u8 pad_00[0x2];
     union { s8 s; u8 u; } unk_02;   /* accessed as both */
@@ -48,22 +43,6 @@ typedef struct S_800C0E88_4 {
     u16 unk_0A;
 } S_800C0E88_4;   /* tail_status in func_800C0E88 */
 
-typedef struct S_800C0E88_5 {
-    u8 pad_00[0x98];
-    u16 unk_98;
-} S_800C0E88_5;   /* current in func_800C0E88 */
-
-typedef struct S_800C0E88_6 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-    void * unk_0C;
-} S_800C0E88_6;   /* status in func_800C0E88 */
-
-typedef struct S_800C0E88_7 {
-    u8 pad_00[0x98];
-    u16 unk_98;
-} S_800C0E88_7;   /* D_800814A8[0] in func_800C0E88 */
-
 
 
 extern s32 func_8003F270(void);
@@ -97,10 +76,10 @@ s32 func_800C0E88(u8 *object, u8 *data, s16 action, void *context)
 {
     u8 *slot_scan;
     u8 *object_record;
-    u8 *status;
-    u8 *current_object;
+    DungeonGlobalStatus *status;
+    EntityRec *current_object;
     u8 *tail_status;
-    u8 *active_object;
+    EntityRec *active_object;
     EntityRec *callback;
     u8 *message_table;
     s32 message_start;
@@ -116,12 +95,12 @@ s32 func_800C0E88(u8 *object, u8 *data, s16 action, void *context)
         return func_80098864(data, context);
     }
 
-    current_object = ((u8 *)D_800E3D7C);
+    current_object = D_800E3D7C;
     if (object == current_object) {
         callback = &D_80083780;
         data[3] |= 0x20;
-        active_object = ((u8 *)D_800E3D7C);
-        ((S_800C0E88_0 *)active_object)->unk_110 = data;
+        active_object = D_800E3D7C;
+        active_object->unk_110 = data;
         func_8008D344(active_object, callback, ((u8 *)(&D_80082E80)), active_object);
         return 0;
     }
@@ -202,7 +181,7 @@ decrement_status:
         goto return_one;
     }
 
-    ((S_800C0E88_5 *)current_object)->unk_98 &= 0xFF7F;
+    current_object->unk_98 &= 0xFF7F;
     ((S_800C0E88_2 *)object)->unk_09 = 0xFF;
 
     slot = (data[0] - 1) * 3;
@@ -242,8 +221,8 @@ decrement_status:
         return 0;
     }
 
-    status = ((u8 *)(&dungeonStatus));
-    ((S_800C0E88_6 *)status)->unk_0C = object;
+    status = &dungeonStatus;
+    status->unk_0C = object;
     D_800814A8->unk_98 |= 0x80;
     ((S_800C0E88_1 *)data)->unk_02.u--;
 
@@ -252,7 +231,7 @@ decrement_status:
     message_end = func_80099194(D_800E146F, message_end);
     func_80099290(message_end);
     func_800A5720(message_start);
-    ((S_800C0E88_6 *)status)->unk_0A--;
+    (*(u16 *)&status->unk_0A)--;
 return_one:
     return 1;
 }

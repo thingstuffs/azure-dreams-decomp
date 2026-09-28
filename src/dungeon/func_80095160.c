@@ -18,12 +18,6 @@ typedef struct {
 } FuncArg2;
 
 typedef struct {
-    u8 pad0c[0x0c];
-    u16 flags;
-    u8 tail[6];
-} FuncMonster;
-
-typedef struct {
     u16 value;
     u8 pad02[6];
 } StackU16;
@@ -52,7 +46,7 @@ s32 func_8009A8C0(u32 move_flags, FuncArg1 *actor, FuncArg2 *body, u16 height_of
     s32 result;
     register s32 coord_or_height ASM_REG("$3");
     s32 next_x;
-    s16 *map_limits;
+    MapGrid *map_limits;
     u16 *x_step;
     u16 *y_step;
     u16 height;
@@ -74,17 +68,17 @@ s32 func_8009A8C0(u32 move_flags, FuncArg1 *actor, FuncArg2 *body, u16 height_of
     offset_work = *x_step;
     direction_or_x = direction;
     target_x = coord_or_height + offset_work;
-    map_limits = ((s16 *)(&gameWork.unk_1DC));
+    map_limits = &gameWork.map;
     next_x = target_x & 0xFFFF;
     if (next_x != 0) {
-        if (((1 << map_limits[10]) - 1) >= next_x) {
+        if (((1 << map_limits->shiftX) - 1) >= next_x) {
             y_step = (u16 *)((u8 *)dirStepY + step_offset);
             coord_or_height = actor->y;
             offset_work = *y_step;
             coord_work = coord_or_height + offset_work;
             coord_or_height = coord_work & 0xFFFF;
             if (coord_or_height != 0) {
-                if (((1 << map_limits[11]) - 1) >= coord_or_height) {
+                if (((1 << map_limits->shiftY) - 1) >= coord_or_height) {
                     coord_or_height = *(volatile u8 *)&actor->x;
                     offset_work = *(volatile u8 *)&actor->y;
                     body_addr = (u32)body;

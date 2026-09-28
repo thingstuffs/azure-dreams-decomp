@@ -37,17 +37,6 @@ typedef struct S_801590EC_2 {
 } S_801590EC_2;   /* arg2 in func_801590EC */
 
 
-typedef struct S_801590EC_4 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_801590EC_4;   /* origin in func_801590EC */
-
-typedef struct S_801590EC_5 {
-    u8 pad_00[0x9A];
-    u8 unk_9A;
-} S_801590EC_5;   /* player in func_801590EC */
-
 
 
 
@@ -239,7 +228,7 @@ sw_case89:
 
 sw_case567:
         {
-            void *player;
+            EntityRec *player;
             s16 facing_angle;
 
             facing_angle = func_800A0818(
@@ -248,7 +237,7 @@ sw_case567:
                 &facing_aux);
             player = D_800814A8;
             ((EntityRec *)entity)->facing = facing_angle;
-            if (((S_801590EC_5 *)player)->unk_9A == 0x11) {
+            if (player->unk_9A == 0x11) {
                 goto case_123;
             }
         }

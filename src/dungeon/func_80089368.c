@@ -195,7 +195,7 @@ block_5:
     if ((((Rec_func_8008ACDC_arg0 *)arg0)->unk_124 != 0) && (((func_800A1C58(arg3) << 0x10) == 0) || (func_8008D1D0(arg0, arg1, arg2, arg3) == 0))) {
         if (!(dungeonStatus.flags & 4)) {
             if (((S_8008EAC8_1 *)arg3)->unk_1C & 0x20) {
-                if (!((*(u16 *)0x80013714) & 1) && (((u32)held_D_80083160->unk_008) & 0x80)) {
+                if (!((*(u16 *)0x80013714) & 1) && (((u32)held_D_80083160->buttons) & 0x80)) {
                     ((S_8008EAC8_1 *)arg3)->unk_8A = 2;
                     D_800E4940 = 2;
                     func_8008CF6C(arg0, arg1, arg2, &D_8004F5F4);
@@ -399,15 +399,15 @@ code_D8:
                         return;
                     }
                 }
-                if (((u32)held_D_80083160->unk_008) & 0x80) {
+                if (((u32)held_D_80083160->buttons) & 0x80) {
                     func_8008CF6C(arg0, arg1, arg2, &D_80050CAC);
                     return;
                 }
-                if ((((u32)held_D_80083160->unk_008) & 0x10) || !(((u32)held_D_80083160->unk_008) & 3) || (func_8008D024(arg0, arg1, arg2, (((u32) ((u32)held_D_80083160->unk_008) >> 1) ^ 1) & 1, 0) == 0)) {
+                if ((((u32)held_D_80083160->buttons) & 0x10) || !(((u32)held_D_80083160->buttons) & 3) || (func_8008D024(arg0, arg1, arg2, (((u32) ((u32)held_D_80083160->buttons) >> 1) ^ 1) & 1, 0) == 0)) {
                     temp_v0_3 = func_8009074C(((Rec_func_8008ACDC_arg0 *)arg0)->unk_9E, arg0 + 0xA2, arg3 + 0x2A);
                     if (temp_v0_3 != 0xFFF) {
                         ((S_8008EAC8_1 *)arg3)->unk_2A.u = (u16) temp_v0_3;
-                        if (!(((u32)held_D_80083160->unk_008) & 0x10)) {
+                        if (!(((u32)held_D_80083160->buttons) & 0x10)) {
                             temp_v1_6 = ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2;
                             if (!(temp_v1_6 & 0x400)) {
                                 ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 = (u16) (temp_v1_6 & 0xFFFE);
@@ -424,7 +424,7 @@ code_8:
                             }
                         }
                     }
-                    tail_data_flags = ((u32)held_D_80083160->unk_008);
+                    tail_data_flags = ((u32)held_D_80083160->buttons);
                     if ((tail_data_flags & 0x30) == 0x30) {
                         ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 = (u16) (((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 & 0xFFFE);
                         func_8008C7B4(arg0, arg1, arg2, arg3);

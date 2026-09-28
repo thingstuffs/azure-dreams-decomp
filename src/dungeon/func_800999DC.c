@@ -24,8 +24,8 @@ void func_8009F13C(void) {
     s32 y;
     s32 count;
 
-    mapPtr = (MapCell *)((void *)gameWork.unk_1DC);
-    shiftBase = (u8 *)((void * *)&gameWork.unk_1DC);
+    mapPtr = (MapCell *)((void *)gameWork.map.cells);
+    shiftBase = (u8 *)((void * *)&gameWork.map.cells);
     func_8009EEAC();
     count = 0;
     y = 1;

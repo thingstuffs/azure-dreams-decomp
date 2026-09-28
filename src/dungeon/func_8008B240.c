@@ -45,7 +45,7 @@ state_0:
     return;
 
 state_1:
-    if (*(u16 *)(&camera->unk_008) != 0) {
+    if (*(u16 *)(&camera->buttons) != 0) {
         *(u8 **)((u8 *)animation + 0x2C) = D_800DD010;
         func_80048A44(animation,
             D_800DD010[((camera->view.viewAngle +

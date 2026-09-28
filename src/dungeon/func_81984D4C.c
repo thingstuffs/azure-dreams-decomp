@@ -2,36 +2,9 @@
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 
-struct S_81984D4C_local {
-    /* 0x00 */ char pad0[0x94];
-    /* 0x94 */ u16 unk94;                           /* inferred */
-    /* 0x96 */ u16 unk96;                           /* inferred */
-    /* 0x98 */ s16 unk98;                           /* inferred */
-    /* 0x9A */ char pad9A[0xA];                     /* maybe part of unk98[6]? */
-    /* 0xA4 */ s16 unkA4;                           /* inferred */
-    /* 0xA6 */ s16 unkA6;                           /* inferred */
-    /* 0xA8 */ s16 unkA8;                           /* inferred */
-    /* 0xAA */ char padAA[0xA];                     /* maybe part of unkA8[6]? */
-    /* 0xB4 */ void (*callback)();
-    /* 0xB8 */ void *field_B8;
-    /* 0xBC */ char padBC[0x1C];                    /* maybe part of field_B8[8]? */
-    /* 0xD8 */ void *ptr;
-};                                                  /* size = 0xDC */
-
 extern u8 D_80026BE4[16];
 extern u8 D_800E3D20[16];
 
-
-typedef struct S_81984D4C_0 {
-    u8 pad_00[0x94];
-    u16 unk_94;
-    u16 unk_96;
-    union { u16 u; s16 s; } unk_98;   /* accessed as both */
-    u8 pad_9A[0xA];
-    union { u16 u; s16 s; } unk_A4;   /* accessed as both */
-    union { u16 u; s16 s; } unk_A6;   /* accessed as both */
-    union { u16 u; s16 s; } unk_A8;   /* accessed as both */
-} S_81984D4C_0;   /* state in func_81984D4C */
 
 typedef struct S_81984D4C_1 {
     union { u8 u; s8 s; } unk_00;   /* accessed as both */
@@ -58,14 +31,14 @@ void func_81984D4C(void *tracker) {
     s16 blend_ticks;
     s16 next_ticks;
     S_81984D4C_2 *target;
-    u8 *state;
+    GameView *state;
     u8 *timer;
     u8 *z_pending;
 
     blend_ticks = (*(s16 *)((u8 *)tracker + 0x24));
-    state = (u8 *)(&gameWork.view);
+    state = &gameWork.view;
     if (blend_ticks > 0) {
-        ((S_81984D4C_0 *)state)->unk_98.u = (u16) ((S_81984D4C_0 *)state)->unk_98.u + ((s32) ((*(s16 *)((u8 *)tracker + 0x26)) - ((S_81984D4C_0 *)state)->unk_98.s) / blend_ticks);
+        state->unk_098 = (u16) ((u16)state->unk_098) + ((s32) ((*(s16 *)((u8 *)tracker + 0x26)) - state->unk_098) / blend_ticks);
     }
     next_ticks = (u16) (*(s16 *)((u8 *)tracker + 0x24)) - 1;
     (*(s16 *)((u8 *)tracker + 0x24)) = next_ticks;
@@ -80,15 +53,15 @@ void func_81984D4C(void *tracker) {
     (*(u16 *)((u8 *)tracker + 4)) = (u16) ((S_81984D4C_4 *)((*(void **)((u8 *)tracker + 0xC))))->unk_02;
     (*(u16 *)((u8 *)tracker + 6)) = (u16) target->unk_06;
     (*(u16 *)((u8 *)tracker + 8)) = (u16) target->unk_0A;
-    ((S_81984D4C_0 *)state)->unk_A4.u = (u16) ((S_81984D4C_0 *)state)->unk_A4.u + ((s32) ((s16) (*(u16 *)((u8 *)tracker + 4)) - ((S_81984D4C_0 *)state)->unk_A4.s) >> 2);
-    ((S_81984D4C_0 *)state)->unk_A6.u = (u16) ((S_81984D4C_0 *)state)->unk_A6.u + ((s32) ((s16) (*(u16 *)((u8 *)tracker + 6)) - ((S_81984D4C_0 *)state)->unk_A6.s) >> 2);
+    state->unk_0A4 = (u16) ((u16)state->unk_0A4) + ((s32) ((s16) (*(u16 *)((u8 *)tracker + 4)) - state->unk_0A4) >> 2);
+    state->unk_0A6 = (u16) ((u16)state->unk_0A6) + ((s32) ((s16) (*(u16 *)((u8 *)tracker + 6)) - state->unk_0A6) >> 2);
     z_pending = D_80026BE4;
     if (((S_81984D4C_3 *)z_pending)->unk_00.u != 0) {
-        ((S_81984D4C_0 *)state)->unk_A8.u = (u16) ((S_81984D4C_0 *)state)->unk_A8.u + ((s32) ((s16) (*(u16 *)((u8 *)tracker + 8)) - ((S_81984D4C_0 *)state)->unk_A8.s) >> 2);
+        state->unk_0A8 = (u16) ((u16)state->unk_0A8) + ((s32) ((s16) (*(u16 *)((u8 *)tracker + 8)) - state->unk_0A8) >> 2);
     }
-    ((S_81984D4C_3 *)z_pending)->unk_00.s = (s8) (((S_81984D4C_0 *)state)->unk_A8.s != (s16) (*(u16 *)((u8 *)tracker + 8)));
-    ((S_81984D4C_0 *)state)->unk_94 = (u16) ((s32) (((S_81984D4C_0 *)state)->unk_94 << 0x10) >> 0x12);
-    ((S_81984D4C_0 *)state)->unk_96 = (u16) ((s32) (((S_81984D4C_0 *)state)->unk_96 << 0x10) >> 0x12);
+    ((S_81984D4C_3 *)z_pending)->unk_00.s = (s8) (state->unk_0A8 != (s16) (*(u16 *)((u8 *)tracker + 8)));
+    state->unk_094 = (u16) ((s32) (((u16)state->unk_094) << 0x10) >> 0x12);
+    state->unk_096 = (u16) ((s32) (((u16)state->unk_096) << 0x10) >> 0x12);
 }
 
 /* MECHANISM: Frameless leaf; tracker stays in a1 and D_80083178 in a2 across the CFG.

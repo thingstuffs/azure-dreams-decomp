@@ -20,17 +20,6 @@ typedef struct S_80172290_0 {
 
 
 
-typedef struct S_80172290_4 {
-    u8 pad_00[0x8];
-    union { s16 s; u16 u; } unk_08;   /* accessed as both */
-} S_80172290_4;   /* global_state in func_80172290 */
-
-typedef struct S_80172290_5 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_80172290_5;   /* map_state in func_80172290 */
-
 
 
 extern s16 func_800A0818(s32, s32, s32, s32, void *);
@@ -123,10 +112,10 @@ countdown:
         func_800A4ACC(entity);
 
         {
-            u8 *global_state = (u8 *)&dungeonStatus.unk_00;
+            DungeonGlobalStatus *global_state = &dungeonStatus;
 
-            if (((S_80172290_4 *)global_state)->unk_08.s != 0) {
-                ((S_80172290_4 *)global_state)->unk_08.u--;
+            if (global_state->unk_08 != 0) {
+                (*(u16 *)&global_state->unk_08)--;
             }
         }
 

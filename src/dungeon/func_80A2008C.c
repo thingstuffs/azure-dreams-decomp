@@ -32,18 +32,6 @@ typedef struct S_8017388C_2 {
     s8 unk_6D;
 } S_8017388C_2;   /* arg3 in func_8017388C */
 
-typedef struct S_8017388C_3 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x6];
-    u16 unk_0A;
-} S_8017388C_3;   /* system_base in func_8017388C */
-
-
-typedef struct S_8017388C_5 {
-    u8 pad_00[0x26];
-    s8 unk_26;
-} S_8017388C_5;   /* origin in func_8017388C */
 
 
 
@@ -93,15 +81,15 @@ state_ge_two:
 state_zero:
     if (((S_8017388C_1 *)in_sprite)->unk_14 & 0xE000) {
         u8 *direction_frames;
-        u8 *system_base;
+        DungeonGlobalStatus *system_base;
 
         direction_frames = D_80174860;
         (*(void * *)((u8 *)in_sprite + 0x2C)) = direction_frames;
         func_80047784(in_sprite,
             direction_frames[((gameWork.view.viewAngle + ((S_8017388C_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
-        system_base = (u8 *)&dungeonStatus.unk_00;
-        ((S_8017388C_3 *)system_base)->unk_0A--;
+        system_base = &dungeonStatus;
+        (*(u16 *)&system_base->unk_0A)--;
         ((S_8017388C_0 *)in_action)->unk_9B++;
     }
     return;
@@ -109,10 +97,10 @@ state_zero:
 state_one:
     if ((func_80042900(actor, 1) << 16) != 0) {
         s32 actor_flags;
-        u8 *system_base;
+        DungeonGlobalStatus *system_base;
 
-        system_base = (u8 *)&dungeonStatus.unk_00;
-        if (((S_8017388C_3 *)system_base)->unk_02 & 0x1000) {
+        system_base = &dungeonStatus;
+        if (system_base->flags & 0x1000) {
             return;
         }
 
@@ -122,7 +110,7 @@ state_one:
         }
 
         if (((S_8017388C_2 *)actor)->unk_25 == 0) {
-            if (((S_8017388C_3 *)system_base)->unk_02 & 0x2008) {
+            if (system_base->flags & 0x2008) {
                 return;
             }
             func_800AA79C(in_action, context, in_sprite, actor);
@@ -179,9 +167,9 @@ state_one:
     }
 
     if (!(((S_8017388C_1 *)in_sprite)->unk_14 & 0x8000)) {
-        u8 *system_base = (u8 *)&dungeonStatus.unk_00;
+        DungeonGlobalStatus *system_base = &dungeonStatus;
 
-        ((S_8017388C_3 *)system_base)->unk_0A++;
+        (*(u16 *)&system_base->unk_0A)++;
         ((S_8017388C_0 *)in_action)->unk_9B++;
         return;
     }
@@ -192,8 +180,8 @@ state_two:
         return;
     }
     {
-        u8 *system_base = (u8 *)&dungeonStatus.unk_00;
-        ((S_8017388C_3 *)system_base)->unk_0A--;
+        DungeonGlobalStatus *system_base = &dungeonStatus;
+        (*(u16 *)&system_base->unk_0A)--;
     }
 
 finish:

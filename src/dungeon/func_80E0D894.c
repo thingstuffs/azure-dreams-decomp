@@ -49,17 +49,6 @@ typedef struct S_80171094_2 {
 } S_80171094_2;   /* arg2 in func_80171094 */
 
 
-typedef struct S_80171094_4 {
-    u8 pad_00[0x9A];
-    u8 unk_9A;
-} S_80171094_4;   /* actor in func_80171094 */
-
-typedef struct S_80171094_5 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_80171094_5;   /* origin in func_80171094 */
-
 
 
 
@@ -286,9 +275,9 @@ jt_c7:
             s16 heading = func_800A0818(
                 ((S_80171094_2 *)sprite_arg)->unk_24.at00.v, ((S_80171094_2 *)sprite_arg)->unk_24.at01.v,
                 D_80082E80.tileX, D_80082E80.tileY, &distance);
-            void *player = D_800814A8;
+            EntityRec *player = D_800814A8;
             ((S_80171094_1 *)stats)->unk_2A.s = heading;
-            if (((S_80171094_4 *)player)->unk_9A == 0x11) {
+            if (player->unk_9A == 0x11) {
                 goto jt_call;
             }
         }

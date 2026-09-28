@@ -38,10 +38,6 @@ typedef struct S_800D81D4_2 {
     s16 unk_10;
 } S_800D81D4_2;   /* p2 in func_800D81D4 */
 
-typedef struct S_800D81D4_3 {
-    s32 unk_00;
-} S_800D81D4_3;   /* &D_800814A0 in func_800D81D4 */
-
 
 extern void *D_80089474[];
 void func_800478B8(void *);
@@ -139,7 +135,7 @@ jt_c5:
     goto update_position;
 jt_c6:
     ((S_800D81D4_0_pre *)effect)[-1].unk_00 = (u16) (((S_800D81D4_0_pre *)effect)[-1].unk_00 | 0x8000);
-    (*(s32 *)&objectFlagBlock.flags) = (s32) (((S_800D81D4_3 *)(&objectFlagBlock.flags))->unk_00 | 0x8000);
+    (*(s32 *)&objectFlagBlock.flags) = (s32) (objectFlagBlock.flags | 0x8000);
 update_position:
     motion->unk_02 = (s16) (effect->unk_0C + ((s32) (func_800644B8((s16) effect->unk_18) * effect->unk_1C.at02.v) >> 0xC));
     motion->unk_06 = (s16) (effect->unk_0E + ((s32) (func_80064584((s16) effect->unk_18) * effect->unk_1C.at02.v) >> 0xC));

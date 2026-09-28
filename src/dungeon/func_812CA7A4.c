@@ -37,17 +37,6 @@ typedef struct S_8014DFA4_2 {
 } S_8014DFA4_2;   /* arg2 in func_8014DFA4 */
 
 
-typedef struct S_8014DFA4_4 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_8014DFA4_4;   /* origin in func_8014DFA4 */
-
-typedef struct S_8014DFA4_5 {
-    u8 pad_00[0x9A];
-    u8 unk_9A;
-} S_8014DFA4_5;   /* player in func_8014DFA4 */
-
 
 
 
@@ -241,7 +230,7 @@ jt_c5:
 jt_c6:
 jt_c7:
         {
-            void *player;
+            EntityRec *player;
             s16 heading;
 
             heading = func_800A0818(
@@ -250,7 +239,7 @@ jt_c7:
                 &direction_aux);
             player = D_800814A8;
             ((EntityRec *)entity)->facing = heading;
-            if (((S_8014DFA4_5 *)player)->unk_9A == 0x11) {
+            if (player->unk_9A == 0x11) {
                 goto case_123;
             }
         }

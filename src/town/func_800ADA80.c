@@ -51,7 +51,7 @@ void func_800AB1E0(void *arg0, s32 arg1, Rec_D_80082E80 *arg2) {
     func_800AAFE0(buf, 0);
     if (buf[1] != D_80083780.x.w.i || buf[3] != D_80083780.y.w.i ||
         buf[5] != D_80083780.z.w.i || func_800352FC() != 0 ||
-        (((s32)base->unk_008) & 0xF000) != 0) {
+        (base->buttons & 0xF000) != 0) {
         func_800AAF5C();
         (*(s16 *)((u8 *)arg0 + (0x90))) = 0;
     } else {

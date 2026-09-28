@@ -66,12 +66,6 @@ typedef struct {
     Record *record;
 } Root;
 
-typedef struct {
-    Root *root;
-    u8 pad4[0x1E0];
-    struct TableEntry *table;
-} Globals;
-
 typedef struct TableEntry {
     s32 value;
     s32 pad;
@@ -97,7 +91,7 @@ void func_8196096C(s32 y_offset, Input *origin, Input *quad_data, s32 draw_depth
     Record *record;
     Record *quad_packet;
     Input *quad_input = quad_data;
-    Globals *globals;
+    GameWork *globals;
     TableEntry *vertex_table;
     Scratch *scratch;
     register void *rotation;
@@ -112,10 +106,10 @@ void func_8196096C(s32 y_offset, Input *origin, Input *quad_data, s32 draw_depth
     register s32 coord_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     do { record = root->record; } while (0);
-    globals = (Globals *)&gameWork.unk_000;
+    globals = &gameWork;
     scratch_words = (s32 *)0x1F800000;
     scratch_words[8] = draw_depth;
-    vertex_table = globals->table;
+    vertex_table = ((struct TableEntry *)globals->map.unk_08);
     func_800649A0();
     rotation = (void *)0x1F800028;
     matrix = (void *)0x1F800050;
@@ -213,5 +207,5 @@ void func_8196096C(s32 y_offset, Input *origin, Input *quad_data, s32 draw_depth
     func_8006658C(scratch->arg3, record);
     func_80064A40();
     record = (Record *)((u8 *)record + 0x28);
-    globals->root->record = record;
+    ((Root *)globals->unk_000)->record = record;
 }

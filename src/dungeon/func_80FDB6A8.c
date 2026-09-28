@@ -58,17 +58,6 @@ typedef struct S_80170EA8_2 {
 } S_80170EA8_2;   /* arg2 in func_80170EA8 */
 
 
-typedef struct S_80170EA8_4 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_80170EA8_4;   /* origin in func_80170EA8 */
-
-typedef struct S_80170EA8_5 {
-    u8 pad_00[0x9A];
-    u8 unk_9A;
-} S_80170EA8_5;   /* global in func_80170EA8 */
-
 /* Updates the entity action, facing direction, and animation from dungeon state. */
 void func_80170EA8(void *actor, void *context, void *sprite, void *entity)
 {
@@ -219,7 +208,7 @@ coords_case:
         case 7:
 #endif
         {
-            void *global_actor;
+            EntityRec *global_actor;
             s32 direction;
 
             direction = func_800A0818(
@@ -228,7 +217,7 @@ coords_case:
                 &direction_aux);
             global_actor = D_800814A8;
             ((EntityRec *)entity)->facing = direction;
-            if (((S_80170EA8_5 *)global_actor)->unk_9A == 0x11) {
+            if (global_actor->unk_9A == 0x11) {
                 goto aaf_cleanup;
             }
             goto special_cleanup;

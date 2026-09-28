@@ -97,10 +97,6 @@ typedef struct S_8009345C_5_pre {
     u16 unk_00;
 } S_8009345C_5_pre;   /* the 0x2 bytes before temp_v1_2 in func_8009345C, addressed as temp_v1_2[-1] */
 
-typedef struct S_8009345C_6 {
-    s32 unk_00;
-} S_8009345C_6;   /* &D_800814A0 in func_8009345C */
-
 typedef struct S_8009345C_7 {
     u8 unk_00;
     u8 pad_01[0x2];
@@ -263,7 +259,7 @@ show_removal:
     func_8009A028(((S_8009345C_2 *)context)->unk_60);
     removed_object = ((S_8009345C_2 *)context)->unk_60;
     ((S_8009345C_5_pre *)removed_object)[-1].unk_00 = (u16) (((S_8009345C_5_pre *)removed_object)[-1].unk_00 | 0x8000);
-    (*(s32 *)&objectFlagBlock.flags) = (s32) (((S_8009345C_6 *)(&objectFlagBlock.flags))->unk_00 | 0x8000);
+    (*(s32 *)&objectFlagBlock.flags) = (s32) (objectFlagBlock.flags | 0x8000);
     if (D_80082EB0[0] != NULL) {
         goto advance_state;
     }

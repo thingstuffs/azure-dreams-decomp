@@ -18,7 +18,7 @@ extern void func_80094F58(s16 arg0, s32 arg1, s32 arg2);
 /* Passes the valid shared angle, fixed value 0x120000, and context to func_80094F58. */
 void func_8009503C(s32 context)
 {
-    s16 angle = func_80094BC8(((s32)gameWork.unk_008), gameWork.view.viewAngle);
+    s16 angle = func_80094BC8(gameWork.buttons, gameWork.view.viewAngle);
 
     if (angle != -1) {
         func_80094F58(angle, 0x120000, context);

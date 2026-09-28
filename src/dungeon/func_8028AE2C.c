@@ -50,7 +50,7 @@ outer_loop:
 do {
             x = area->x;
             if (x < x_end) {
-                map_config_addr = (u32)((u8 *)(&gameWork.unk_1DC));
+                map_config_addr = (u32)((u8 *)(&gameWork.map));
                 x_loop_done:
                 ;
                 tile_id = (s16 *)&D_800EA000[((y << *(s16 *)(map_config_addr + 0x14)) + x) * 6];
@@ -107,7 +107,7 @@ check_x:
                 if (x >= x_end) {
                     goto next_y;
                 }
-                map_config_addr = (u32)((u8 *)(&gameWork.unk_1DC));
+                map_config_addr = (u32)((u8 *)(&gameWork.map));
                 goto x_loop_done;
             }
 next_y:

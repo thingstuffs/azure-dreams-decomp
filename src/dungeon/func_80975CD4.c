@@ -7,12 +7,6 @@
 #include "shared/entity.h"
 
 
-typedef struct DungeonRecord {
-    u8 pad0[0xC];
-    u16 flags;
-    u8 padE[6];
-} DungeonRecord;
-
 extern void func_80047784(void *, u8, s32);
 extern s32 func_8009A180(void *, void *);
 extern s8 func_8009FB34(u8, u8);
@@ -71,11 +65,6 @@ typedef struct S_801714D4_2 {
 } S_801714D4_2;   /* arg2 in func_801714D4 */
 
 
-typedef struct S_801714D4_4 {
-    u8 pad_00[0x9A];
-    u8 unk_9A;
-} S_801714D4_4;   /* owner in func_801714D4 */
-
 /* Updates actor behavior, animation, and facing from its status and current tile. */
 void func_801714D4(void *actor_arg, void *context_arg, void *sprite_arg, void *stats_arg)
 {
@@ -94,7 +83,7 @@ void func_801714D4(void *actor_arg, void *context_arg, void *sprite_arg, void *s
     s16 angle;
     u16 action_flags;
     void *callback;
-    void *owner;
+    EntityRec *owner;
     void *actor_tail;
 #define actor_arg actor_head
 #define context_arg context
@@ -232,7 +221,7 @@ jt_c7:
             D_80082E80.tileX, D_80082E80.tileY, &distance);
         owner = D_800814A8;
         ((EntityRec *)stats)->facing = angle;
-        if (((S_801714D4_4 *)owner)->unk_9A == 0x11) {
+        if (owner->unk_9A == 0x11) {
             goto jt_c1;
         }
 

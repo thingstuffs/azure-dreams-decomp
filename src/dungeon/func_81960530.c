@@ -16,15 +16,6 @@ typedef struct S_81960530_0 {
     union { struct { u32 v; } at00; struct { s16 v; } at00u; struct { u16 v; } at00p; struct { u8 pad[0x2]; s16 v; } at02; struct { u8 pad[0x2]; u16 v; } at02u; } unk_160;   /* overlapping accesses */
 } S_81960530_0;   /* scratch in func_81960530 */
 
-typedef struct S_81960530_1 {
-    u8 pad_00[0x4];
-    u8 ** unk_04;
-    u8 * unk_08;
-    u8 * unk_0C;
-    u8 pad_10[0x4];
-    s16 unk_14;
-} S_81960530_1;   /* pshift in func_81960530 */
-
 typedef struct S_81960530_2 {
     u16 unk_00;
     u16 unk_02;
@@ -88,7 +79,7 @@ void *func_81960530(s32 world_x, s32 world_y, s16 min_height) {
     u8 *map_entry;
     u8 *vertex;
     u8 *plane_vertex;
-    u8 *map_data;
+    MapGrid *map_data;
     u8 *plane;
     s16 cell_index;
     s32 height;
@@ -103,16 +94,16 @@ void *func_81960530(s32 world_x, s32 world_y, s16 min_height) {
 
     cell_index = (u16)world_x >> 6;
     ((S_81960530_0 *)scratch)->unk_150 = cell_index;
-    map_data = ((u8 *)(&gameWork.unk_1DC));
-    cell_index += ((u16)world_y >> 6) << ((S_81960530_1 *)map_data)->unk_14;
+    map_data = &gameWork.map;
+    cell_index += ((u16)world_y >> 6) << map_data->shiftX;
     (*(s16 *)((u8 *)scratch + 0x150)) = cell_index;
-    map_entry = (u8 *)((long)cell_index * 6 + (unsigned long)*(u8 **)((u8 *)(&gameWork.unk_1DC)));
-    vertices = ((S_81960530_1 *)map_data)->unk_08;
-    planes = ((S_81960530_1 *)map_data)->unk_0C;
+    map_entry = (u8 *)((long)cell_index * 6 + (unsigned long)*(u8 **)((u8 *)(&gameWork.map)));
+    vertices = ((u8 *)map_data->unk_08);
+    planes = ((u8 *)map_data->unk_0C);
     best_polygon = 0;
     if (((S_81960530_2 *)map_entry)->unk_00 != 0) {
         ((S_81960530_0 *)scratch)->unk_152.s = -((S_81960530_2 *)map_entry)->unk_02;
-        best_polygon = (*(u8 * *)((u8 *)(((S_81960530_1 *)map_data)->unk_04) + ((S_81960530_2 *)map_entry)->unk_00 * 4));
+        best_polygon = (*(u8 * *)((u8 *)(((u8 **)map_data->unk_04)) + ((S_81960530_2 *)map_entry)->unk_00 * 4));
         polygon = best_polygon;
         if (((S_81960530_8 *)(planes + ((S_81960530_3 *)best_polygon)->unk_10 * 8))->unk_04 < -0x7FF) {
             do {

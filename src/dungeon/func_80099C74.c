@@ -25,7 +25,7 @@ void *func_8009F3D4(s32 x, s32 y, s32 initial_value, s32 update_param, s32 mode)
     u8 *camera_config;
 
     alloc_flags = 2;
-    view_config = ((u8 *)(&gameWork.unk_1DC));
+    view_config = ((u8 *)(&gameWork.map));
     camera_config = view_config - 0x1C4;
     scratchpad = (u8 *)0x1F800000;
     if (mode != 0) {

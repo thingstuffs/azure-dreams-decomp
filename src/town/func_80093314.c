@@ -102,7 +102,7 @@ void func_80090A74(Rec_func_8009431C_arg0 *actor, EntityRec *record, M2C_UNK con
             func_800943B8(actor, record, context);
             return;
         }
-        page_base = (u8 *)(u32)(((s32)input_state->unk_008) & 0xF000);
+        page_base = (u8 *)(u32)(input_state->buttons & 0xF000);
         if (page_base != 0) {
             func_80093ED8(actor, record, context);
         }

@@ -52,11 +52,6 @@ typedef struct {
 } RenderContext;
 
 typedef struct {
-    RenderContext *ctx;
-    u8 pad4[12];
-} GlobalState;
-
-typedef struct {
     u8 pad0[0x52];
     s16 frame;
 } RenderRecord;
@@ -72,7 +67,7 @@ s32 func_818390F8(RenderRecord *render_record, PositionFields *position)
 {
     SVECTOR world_point;
     s16 screen[4];
-    GlobalState *render_state = ((GlobalState *)&gameWork);
+    GameWork *render_state = &gameWork;
     s16 *screen_base = screen;
     s32 half_width;
     s32 *projection_out = &half_width;
@@ -103,8 +98,8 @@ next_record:
         s32 tex_v;
         s32 ot_offset;
 
-        poly = (POLY_FT4 *)render_state->ctx->next_prim;
-        render_state->ctx->next_prim = (u8 *)poly + sizeof(POLY_FT4);
+        poly = (POLY_FT4 *)((RenderContext *)render_state->unk_000)->next_prim;
+        ((RenderContext *)render_state->unk_000)->next_prim = (u8 *)poly + sizeof(POLY_FT4);
         *(u32 *)&poly->r0 = 0x00808080;
         func_800666F4(poly);
         func_80066640(poly, 1);
@@ -127,10 +122,10 @@ next_record:
         poly->v1 = poly->v3 = tex_v - 97;
 
         poly->tag = (poly->tag & 0xFF000000) |
-                    (*(u32 *)((u8 *)render_state->ctx + 0xB0 + ot_offset) &
+                    (*(u32 *)((u8 *)((RenderContext *)render_state->unk_000) + 0xB0 + ot_offset) &
                      0x00FFFFFF);
-        *(u32 *)((u8 *)render_state->ctx + 0xB0 + ot_offset) =
-            (*(u32 *)((u8 *)render_state->ctx + 0xB0 + ot_offset) & 0xFF000000) |
+        *(u32 *)((u8 *)((RenderContext *)render_state->unk_000) + 0xB0 + ot_offset) =
+            (*(u32 *)((u8 *)((RenderContext *)render_state->unk_000) + 0xB0 + ot_offset) & 0xFF000000) |
             ((u32)poly & 0x00FFFFFF);
     }
 

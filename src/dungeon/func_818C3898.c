@@ -30,10 +30,6 @@ typedef struct S_818C3898_3 {
     s32 unk_14;
 } S_818C3898_3;   /* temp_arg1 in func_818C3898 */
 
-typedef struct S_818C3898_4 {
-    s32 unk_00;
-} S_818C3898_4;   /* temp_d in func_818C3898 */
-
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern void func_800478B8(void *arg0);
@@ -47,7 +43,7 @@ void func_818C3898(void *effect, void *motion_data, Rec_D_80082E80 *sprite) {
     u16 frame;
     S_818C3898_1 *owner;
     S_818C3898_3 *motion;
-    s32 *global_flags;
+    ObjectFlagBlock *global_flags;
 
     owner = ((S_818C3898_0 *)effect)->unk_00;
     motion = motion_data;
@@ -77,7 +73,7 @@ void func_818C3898(void *effect, void *motion_data, Rec_D_80082E80 *sprite) {
     motion->unk_08 = (s32) (motion->unk_08 + motion->unk_14);
     if ((s16) ((S_818C3898_0 *)effect)->unk_10 > ((S_818C3898_0 *)effect)->unk_14) {
         ((S_818C3898_0_pre *)effect)[-1].unk_00 = (u16) (((S_818C3898_0_pre *)effect)[-1].unk_00 | 0x8000);
-        global_flags = ((s32 *)(&objectFlagBlock));
-        ((S_818C3898_4 *)global_flags)->unk_00 = (s32) (((S_818C3898_4 *)global_flags)->unk_00 | 0x8000);
+        global_flags = &objectFlagBlock;
+        global_flags->flags = (s32) (global_flags->flags | 0x8000);
     }
 }

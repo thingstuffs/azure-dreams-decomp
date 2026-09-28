@@ -5,7 +5,7 @@
 s32 func_800A6D30(void) {
     u32 next_seed;
 
-    next_seed = (((u32)gameWork.unk_1FC) * 0x41C64E6D) + 0x3039;
-    gameWork.unk_1FC = next_seed;
+    next_seed = (((u32)gameWork.randSeed) * 0x41C64E6D) + 0x3039;
+    gameWork.randSeed = next_seed;
     return (next_seed >> 0x10) & 0x7FFF;
 }

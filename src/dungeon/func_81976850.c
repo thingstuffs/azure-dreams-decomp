@@ -4,6 +4,7 @@
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
+#include "shared/entity.h"
 
 typedef struct S_81976850_0 {
     void * unk_00;
@@ -53,13 +54,6 @@ typedef struct S_81976850_5 {
     s32 unk_04;
 } S_81976850_5;   /* target in func_81976850 */
 
-typedef struct S_81976850_6 {
-    u8 pad_00[0x2A];
-    s16 unk_2A;
-    u8 pad_2C[0x5C];
-    s16 unk_88;
-} S_81976850_6;   /* global in func_81976850 */
-
 typedef struct S_81976850_7 {
     void * unk_00;
 } S_81976850_7;   /* (void *)index in func_81976850 */
@@ -100,7 +94,7 @@ void func_81976850(void *effect, void *motion, void *visual)
     void *source;
     void *source_pos;
     void *target_pos;
-    void *scene;
+    EntityRec *scene;
     void *object;
     u8 *collision;
     s32 z_offset;
@@ -171,9 +165,9 @@ move_to_target:
 
     scene = D_800814A8;
     ((S_81976850_2 *)motion)->unk_14 =
-        (((S_81976850_6 *)scene)->unk_88 - 0x50) << 16;
+        (scene->unk_88 - 0x50) << 16;
 
-    table_entry = ((gameWork.view.viewAngle + ((S_81976850_6 *)scene)->unk_2A + 0x100) >> 7) & 0x1C;
+    table_entry = ((gameWork.view.viewAngle + scene->facing + 0x100) >> 7) & 0x1C;
     table_entry += (s32)D_800E3D18;
     if (func_8003DE58(
             ((S_81976850_7 *)((void *)table_entry))->unk_00,
