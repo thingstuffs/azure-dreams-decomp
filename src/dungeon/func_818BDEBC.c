@@ -78,9 +78,7 @@ extern void func_80024024(void *, u8, void *);
 
 
 /* Advance an effect toward its target or along its facing direction, then handle its timed states. */
-void func_800256BC(EffectState *effect, Motion *effect_motion, register ColorPart *part) {
-    EffectState *state = effect;
-    register Motion *motion ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+void func_800256BC(EffectState *state, Motion *motion, register ColorPart *part) {
     void *owner;
     u8 *color_part = (u8 *)part;
     void *owner_meta;
@@ -101,8 +99,6 @@ void func_800256BC(EffectState *effect, Motion *effect_motion, register ColorPar
     u16 ground_z;
     register s32 tile_x ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 tile_y;
-    u32 table_page;
-    register s32 table_base ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s16 *table_y_entry;
     u16 *update_x_entry;
     u16 *update_y_entry;
@@ -126,7 +122,6 @@ void func_800256BC(EffectState *effect, Motion *effect_motion, register ColorPar
     timer_value++;
     owner = state->owner;
     state->timer = timer_value;
-    motion = effect_motion;
 
     if ((u32)state_index >= 7) {
         goto case_6;
@@ -216,9 +211,7 @@ case_0:
     {
         void *tile_node;
         tile_node = PTR_AT(owner_meta, 0xC);
-        table_page = 0x80070000;
         tile_x = U8_AT(tile_node, 0x24);
-        ASM_KEEP(table_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         tile_y = U8_AT(tile_node, 0x25);
     }
     end_tile_x = tile_x;
@@ -232,17 +225,13 @@ case_0:
             break;
         }
 
-        table_base = (s32)D_8006CCD8;
         table_offset = (s16)state->direction;
         probe_z = U16_AT(owner, 0x88);
-        table_offset *= 2;
-        table_x_entry = (Position16 *)((s16 *)(table_offset + table_base));
+        table_x_entry = (Position16 *)&D_8006CCD8[table_offset];
         probe_z -= 0x20;
         probe_z = (u32)probe_z << 16;
         probe_z >>= 16;
-        table_base = (s32)D_8006CCE8;
-        table_y_entry = (s16 *)(table_offset + table_base);
-        ASM_KEEP(table_y_entry);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        table_y_entry = &D_8006CCE8[table_offset];
         ground_z = func_800BCB04(
             (((s16)tile_x + *((s16 *)table_x_entry)) << 6) + 0x20 & 0xFFE0,
             (((s16)tile_y + *table_y_entry) << 6) + 0x20 & 0xFFE0,
@@ -255,13 +244,10 @@ case_0:
             break;
         }
 
-        table_base = (s32)D_8006CCE8 - 0x10;
         update_offset = (s16)state->direction;
         index++;
-        update_offset *= 2;
-        update_x_entry = (u16 *)(update_offset + table_base);
-        table_base = (s32)D_8006CCD8 + 0x10;
-        update_y_entry = (u16 *)(update_offset + table_base);
+        update_x_entry = (u16 *)&D_8006CCD8[update_offset];
+        update_y_entry = (u16 *)&D_8006CCE8[update_offset];
         next_x = tile_x + *update_x_entry;
         tile_x = next_x;
         next_y = tile_y;
@@ -285,10 +271,8 @@ case_0:
     ((Position16 *)target_pos)->x = x_distance;
     x_distance = (s16)x_distance;
     ASM_KEEP(x_distance);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    table_base = end_tile_y;
     direction_index = (s16)state->direction;
-    ASM_KEEP_DEP_NV(table_base, direction_index);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    next_x = (u32)(u16)table_base << 16;
+    next_x = (u32)end_tile_y << 16;
     offset_y = ((s16 *)update_offset)[direction_index];
     next_x = (s32)next_x >> 10;
     next_x += (offset_y + 1) << 5;
@@ -320,13 +304,11 @@ case_0:
     }
 
     state->duration = x_distance;
-    loop_0: {
+    for (; index < 3; index++, color_part += 2) {
         if (S16_AT(color_part, 0x18) > state->duration) {
             state->duration = (u16)S16_AT(color_part, 0x18);
         }
-        index++;
-        color_part += 2;
-    } if (index < 3) goto loop_0;
+    }
     state->duration = (s16)state->duration >> 4;
     if (state->duration == 0) {
         state->duration = 1;
