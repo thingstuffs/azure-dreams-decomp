@@ -81,5 +81,16 @@
   "dungeon/func_80FC9000",
   "dungeon/func_81898EBC",
   "dungeon/func_80BC1528"
+ ],
+ "r78_opus_reg8": [
+  "slus/w_800500B4",
+  "town/func_8095563C",
+  "dungeon/func_800C92E4",
+  "dungeon/func_800CB068",
+  "slus/w_80041588"
+ ],
+ "r78_opus_c7": [
+  "dungeon/func_818AAE60",
+  "dungeon/func_8197C800"
  ]
 }
