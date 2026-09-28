@@ -115,14 +115,12 @@ extern s32 func_800666B8();
 extern s32 func_80067F20();
 
 extern u8 D_80083160[];
+static __inline__ s32 narrow_depth(s32 value) { return (s16)value; }
 
 /* Transform mesh triangles, shade visible vertices, and append draw packets to the ordering table. */
-void func_800C55F4(void *render_params, void *translation, void *mesh, s32 depth_offset)
+void func_800C55F4(u8 *params, u8 *record, void *mesh_data, s32 depth_offset)
 {
     u8 saved_matrix[0x20];
-    register u8 *params = render_params;
-    u8 *record = translation;
-    void *mesh_data = mesh;
     register s32 depth_bias ASM_REG("$17") = depth_offset;
     register u8 *scratch ASM_REG("$19");
     register u32 output_addr ASM_REG("$8");
@@ -194,8 +192,7 @@ void func_800C55F4(void *render_params, void *translation, void *mesh, s32 depth
     result = func_80065420(vector_arg, screen_arg,
                           (void *)0x1F800090, (void *)0x1F800094);
     vector_arg = saved_matrix;
-    ASM_USE_NV(vector_arg);
-    depth_bias = (s16)depth_bias;
+    depth_bias = narrow_depth(depth_bias);
     ((S_800C55F4_1 *)scratch)->unk_CC = result - depth_bias;
     func_80064AE0(vector_arg);
     func_80065820((u8 *)mesh_data + 0x16, scratch + 0x50);

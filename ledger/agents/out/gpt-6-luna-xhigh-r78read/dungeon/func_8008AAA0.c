@@ -1,0 +1,33 @@
+#include "common.h"
+#include "m2c_compat.h"
+#include "records/Rec_func_8008ACDC_arg0.h"
+#include "records/Rec_D_800E3D7C.h"
+
+
+
+
+M2C_UNK func_80048A44(); /* extern */
+M2C_UNK func_80094E34();                            /* extern */
+extern s16 D_80083228;
+extern u8 D_800DD0E8;
+
+/* Initialize the actor state and attach its shared effect data. */
+void func_80090200(void *actor, M2C_UNK unused_arg1, void *effect_context, void *world_state) {
+    /* MATCH: Keep the shared data pointer in a0 after the first call. */
+    u8 *shared_data;
+    s32 clear_mask;
+
+    ((Rec_func_8008ACDC_arg0 *)actor)->unk_9A.as_s8 = 0xD;
+    ((Rec_func_8008ACDC_arg0 *)actor)->unk_9B.as_s8 = 0;
+    ((Rec_func_8008ACDC_arg0 *)actor)->unk_8C.as_s32 = 0;
+    ((Rec_func_8008ACDC_arg0 *)actor)->unk_96.as_s16 = 0;
+    do {
+        func_80094E34(actor);
+    } while (0);
+    clear_mask = ~0x20;
+     /* MATCH: Emit the mask before loading the data pointer. */
+    shared_data = &D_800DD0E8;
+    ((Rec_D_800E3D7C *)world_state)->unk_1C.as_s32 = (s32) (((Rec_D_800E3D7C *)world_state)->unk_1C.as_s32 & clear_mask);
+    (*(M2C_UNK **)((u8 *)effect_context + 0x2C)) = shared_data;
+    func_80048A44(effect_context, *((((s32) (D_80083228 + ((Rec_D_800E3D7C *)world_state)->unk_2A.as_s16 + 0x100) >> 9) & 7) + shared_data), 0, 1);
+}
