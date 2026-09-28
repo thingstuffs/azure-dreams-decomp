@@ -276,9 +276,6 @@ shrink_sprite:
         void *model_table;
         void *selected_model;
 
-#ifdef NON_MATCHING
-#else
-#endif
         {
             s32 model_direction;
             s32 view_angle;

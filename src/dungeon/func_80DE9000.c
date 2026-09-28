@@ -115,7 +115,7 @@ void *func_8016A800(s32 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c)
     s32 kind;
 
     {
-    register void *arg3_part ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    void *arg3_part;
     void *arg2_work;
 
     opcode = 0x112;
