@@ -34,8 +34,6 @@ s32 func_800BE360(void *target, void *item, s16 action_type, s32 action_value) {
     DungeonItem *item_entries;
     u16 *selector_table;
     u8 *counter_base;
-    u8 *selector_page;
-    s32 selector_index;
     s32 selector;
     s16 item_flags;
     u16 selector_bits;
@@ -55,14 +53,7 @@ s32 func_800BE360(void *target, void *item, s16 action_type, s32 action_value) {
         item_entries = D_80073414[category_index].entries;
         item_flags = item_entries[item_index].flags;
         if (!(item_flags & 0x8000)) {
-            selector_page = (u8 *)0x800E0000;
-            ASM_KEEP(selector_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-            selector_index = *((u8 *)target + 0x13);
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-            selector_page -= 0x217C;
-            ASM_KEEP(selector_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-            selector_bits = ((u16 *)selector_page)[selector_index];
-            selector = selector_bits & 3;
+            selector = D_800DDE84[*((u8 *)target + 0x13)] & 3;
         } else {
             selector_table = D_800DDE84;
             selector_bits = selector_table[*((u8 *)target + 0x13)];

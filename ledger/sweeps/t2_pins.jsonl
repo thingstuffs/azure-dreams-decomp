@@ -21965,3 +21965,5 @@
 {"id":"town/func_8009DB64","transform":"t2_pins","in_sha":"f8983be3b353cd532186f063738aa04f0ab0b07676f857118b6eb5c049e557ec","from_clean":true,"size":400,"outcome":"refused","reason":"no pin sites","at":"2026-09-28T00:00:07Z"}
 {"id":"dungeon/func_808CB16C","transform":"t2_pins","in_sha":"8b15e98095038799fef7546fb04034631bb7cd1b6d0cfeb1310a505ef084f994","from_clean":true,"size":252,"outcome":"refused","reason":"no pin sites","at":"2026-09-28T00:00:07Z"}
 {"id":"slus/w_800589B8","transform":"t2_pins","in_sha":"e9953a58711a8c56ed177219ecd06f8898ecab76da5b5adea85bb3d0bf60bfc9","from_clean":true,"size":76,"outcome":"refused","reason":"no pin sites","at":"2026-09-28T00:00:07Z"}
+{"id":"dungeon/func_800B8C00","transform":"t2_pins","in_sha":"e05516fcfe855d654faf4232b64e1de4910ebc5ea212d2b736624262a5d312a2","from_clean":true,"size":392,"outcome":"refused","reason":"no pin sites","at":"2026-09-28T00:08:31Z"}
+{"id":"slus/w_8004DE88","transform":"t2_pins","in_sha":"094089e6b8fdee4d275e5043f122905ac8baa4974eac96036ec0aa6d7f3a0ad3","from_clean":true,"size":260,"outcome":"refused","reason":"no pin sites","at":"2026-09-28T00:08:31Z"}
