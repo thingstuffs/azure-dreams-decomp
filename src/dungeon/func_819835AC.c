@@ -263,7 +263,7 @@ void func_80024DAC(S_819835AC_1 *effect, S_819835AC_2 *motion, S_819835AC_3 *vis
     s16 height_frames;
     s32 height_numerator;
     s32 height_numerator_2;
-    register s32 history_index ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 history_index;
     s32 travel_turn_gap;
     s32 travel_gap_x;
     s32 travel_gap_y;
@@ -304,7 +304,7 @@ void func_80024DAC(S_819835AC_1 *effect, S_819835AC_2 *motion, S_819835AC_3 *vis
     S_819835AC_2 *related_motion;
     S_819835AC_6 *new_target;
     S_819835AC_6 *target;
-    register S_819835AC_4 *history ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    S_819835AC_4 *history;
     S_819835AC_6 *hit_actor;
     S_819835AC_2 *state0_move;
     S_819835AC_5 *state0_actor;
@@ -342,23 +342,11 @@ void func_80024DAC(S_819835AC_1 *effect, S_819835AC_2 *motion, S_819835AC_3 *vis
     s32 alternate_scale;
     u16 approach_frames;
 
-    history_index = 0;
-    history = (S_819835AC_4 *) effect;
     (*(s16 *)&D_800269F8) = (s16) (((S_819835AC_10 *) &D_800269F8)->unk_00 + 1);
-do {
-    {
-        s32 history_xy;
-        s32 history_z_pad;
-
-        history_xy = history->unk_48.a;
-        history_z_pad = history->unk_48.b;
-        history->unk_50.a = history_xy;
-        history->unk_50.b = history_z_pad;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    for (history_index = 0; history_index >= 0; history_index--) {
+        history = (S_819835AC_4 *) ((u8 *) effect + history_index * 8);
+        history->unk_50 = history->unk_48;
     }
-    history_index -= 1;
-    history = (S_819835AC_4 *) ((u8 *) history - 8);
-    } while (history_index >= 0);
     owner_ref = effect->unk_20;
     effect->unk_48 = (u16) motion->unk_00.half.unk_02.u16;
     effect->unk_4A = (u16) motion->unk_04.half.unk_06.u16;

@@ -110,10 +110,6 @@ typedef struct S_800AFFB4_4 {
 
 
 
-typedef struct ShortArg {
-    u16 value;
-} ShortArg;
-
 typedef struct TwelveByteEntry {
     u8 bytes[12];
 } TwelveByteEntry;
@@ -123,7 +119,7 @@ extern void func_8006658C();
 extern void func_8006671C();
 
 /* Projects depth strips and queues visible textured quad pairs with distance shading. */
-s32 func_800AFFB4(void *origin, void *unused, void *render_data_in, u8 *packet_buffer, volatile ShortArg texture_arg) {
+s32 func_800AFFB4(void *origin, void *unused, void *render_data_in, u8 *packet_buffer, s16 texture_arg) {
     s32 depth_step;
     s32 shade_uv;
     s32 shade_uv_2;
@@ -164,7 +160,7 @@ s32 func_800AFFB4(void *origin, void *unused, void *render_data_in, u8 *packet_b
     far_vertex = packet + 0x50;
     depth_flag = ((S_800AFFB4_0 *)origin)->unk_08.s;
     depth_flag = depth_flag < 0xE00;
-    texture_index = texture_arg.value;
+    texture_index = texture_arg;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     vertex_value = ((S_800AFFB4_0 *)origin)->unk_08.u;
     depth_flag ^= 1;
