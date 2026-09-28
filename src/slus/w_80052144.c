@@ -47,6 +47,7 @@ extern void func_80041094(s32, s32, s32, s32, s32);
 /* Advances the timed child sequence and retires the controller when all children finish. */
 void func_80052144(Controller *controller)
 {
+    s32 zero;
     s32 state;
     void **jump_table;
     u8 *event_page = (u8 *)0x80080000;
@@ -54,7 +55,7 @@ void func_80052144(Controller *controller)
         &&L_case_0, &&L_case_1, &&L_case_2, &&L_case_3,
         &&L_case_4, &&L_default
     };
-    register s32 third_zero ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s32 third_zero;
     (void)case_labels;
 
     controller->timer++;
@@ -160,7 +161,7 @@ L_case_4:
 #line 900 "x"
         {
             Shared82E60 *shared_state;
-            s32 zero;
+
             s32 notify_id;
             notify_id = 6;
             zero = 0;
@@ -176,8 +177,7 @@ L_case_4:
             func_80041094(notify_id, zero, third_zero, zero, shared_state->flags16 ^ 1);
         }
 #line 1000 "x"
-        ((u16 *)controller)[-1] |= 0x8000;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        *((u16 *)controller - 1) |= 0x8000;
         D_800814A0 |= 0x8000;
         return;
 
@@ -216,7 +216,7 @@ L_default:
 #line 900 "x"
         {
             Shared82E60 *shared_state;
-            s32 zero;
+
             s32 notify_id;
             notify_id = 6;
             zero = 0; ASM_USE_NV(zero); /* cross-jump boundary; MUST stay on this line -- see NOTES.md */
@@ -232,8 +232,7 @@ L_default:
             func_80041094(notify_id, zero, third_zero, zero, shared_state->flags16 ^ 1);
         }
 #line 1000 "x"
-        ((u16 *)controller)[-1] |= 0x8000;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        *((u16 *)controller - 1) |= 0x8000;
         D_800814A0 |= 0x8000;
         return;
 }

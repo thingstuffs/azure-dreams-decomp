@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-09-28T16:14:11Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-09-28T16:52:14Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -66,7 +66,7 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | m2c boilerplate block | 2332 | 515,092 | 20.1% | 0 | 0 | 0.0% |
 | M2C_FIELD raw offsets | 2950 | 1,457,076 | 57.0% | 0 | 0 | 0.0% |
 | m2c local names | 5182 | 2,172,128 | 84.9% | 789 | 310,932 | 12.2% |
-| ASM_ pins | 2135 | 1,465,048 | 57.3% | 737 | 732,632 | 28.6% |
+| ASM_ pins | 2135 | 1,465,048 | 57.3% | 736 | 732,396 | 28.6% |
 | goto | 1545 | 1,318,412 | 51.5% | 1597 | 1,364,660 | 53.3% |
 | computed-goto jump table | 317 | 437,288 | 17.1% | 315 | 435,848 | 17.0% |
 | inline asm outside macros | 362 | 256,260 | 10.0% | 267 | 226,416 | 8.9% |
@@ -77,9 +77,9 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,176 | 6.1% | 348 | 246,464 | 9.6% |
 | fake dependency x=(e)+a;x-=a / arg+v-v (scaffolding, pure C) | 1 | 408 | 0.0% | 2 | 820 | 0.0% |
 | local address-named struct | 633 | 346,988 | 13.6% | 3074 | 1,585,060 | 62.0% |
-| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,440 | 6.1% | 4277 | 830,328 | 32.5% |
+| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,440 | 6.1% | 4278 | 830,564 | 32.5% |
 
-Pin sites now: 2,800 in 736 rows; REG 1,343, KEEP 612, KEEP_NV 386, SCHED_BARRIER 141, KEEP_DEP_NV 72, USE_NV 45, CLOBBER 34, USE 34.  At the pin: 25,759; REG 12,778, KEEP 6,854, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
+Pin sites now: 2,791 in 735 rows; REG 1,341, KEEP 610, KEEP_NV 386, SCHED_BARRIER 139, KEEP_DEP_NV 72, USE_NV 45, USE 34, CLOBBER 31.  At the pin: 25,759; REG 12,778, KEEP 6,854, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
 
 Hidden scaffolding, not in the pin count (`pin_census.hidden_asm`): raw asm statements 3, calls of local asm wrappers 0, hand-written asm in function bodies 4 (C that is missing); symbol aliases 108 (a second typed name for one symbol: a missing type); file-scope asm directives 430.
 
@@ -104,7 +104,7 @@ Void callees (`config/void_callees.txt`, tiers read from its section-header comm
 
 On shared record headers (T7, `include/records/`): 918 rows, 482,052 bytes (18.8%); records used: 102.
 
-L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 736 rows (732,508 B), tail_jump 8 rows (2,392 B), not_in_module 6,745 rows (2,555,272 B).
+L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 735 rows (732,272 B), tail_jump 8 rows (2,392 B), not_in_module 6,745 rows (2,555,272 B).
 
 ## Naming and module evidence carried per row (docs/EVIDENCE.md, ledger/evidence/rows.jsonl)
 
