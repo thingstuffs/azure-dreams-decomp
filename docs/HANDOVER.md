@@ -41,6 +41,8 @@ now compiles current SLUS texts against the live include/ (e8874f3b). Open: 3 SL
 (docs/evidence/type_consolidation_phase5_open.md). Continue cold from the design doc's HOW TO CONTINUE section. Next objects are listed at the end of the design doc
 (D_80083178 fold into GameWork first). Preview page: https://claude.ai/artifact/LA63o6jeL9Xc5hHTXuw6LZ
 
+**Open items:** docs/OPEN_ITEMS.md (tracked list; fix when a safe moment arises, then move to Closed).
+
 **Next.** Remaining spill-family rows (~18 with 7-30 pins; `ASM_REG("$8"..)` census in the wave record);
 fresh-eyes on this round's reduced rows; jump2 cross-jump blocker question (c8); set-once/birthing rows from
 c11 (known r76 family: zero-init is deleted by flow there).
