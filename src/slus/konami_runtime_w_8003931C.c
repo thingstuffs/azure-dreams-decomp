@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_index_slots.h"
 
 #include "common.h"
 
@@ -38,7 +39,6 @@ typedef struct State {
     u8 timer;
 } State;
 
-extern Entry D_80082660[];
 extern u8 D_800C3174[];
 extern u8 D_800C321C[];
 extern ObjectBlock *ms_mot_accpt_ow(s32 arg0);

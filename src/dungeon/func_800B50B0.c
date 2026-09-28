@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/def_table.h"
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
 
@@ -33,7 +34,6 @@ typedef struct S_8006DE24_Entry {
     u8 type;
     u8 pad13;
 } S_8006DE24_Entry;
-extern S_8006DE24_Entry D_8006DE24[];
 void func_800BA764(u16, u16, s16, u32);      /* extern */
 s16 func_800BCB04();                   /* extern */
 typedef struct S_800B50B0_Entity {
@@ -152,7 +152,7 @@ update_tiles:
         }
         entry_value = (mode_index - 1) * 3;
         entry_id = *((u8 *) entity + entry_value + 8);
-        entry_type = D_8006DE24[entry_id].type;
+        entry_type = D_8006DE24[entry_id].kind;
         if (entry_type == 1) {
             forward_steps = D_800DF380[entry_id] & 0x1F;
             if (forward_steps > 0) {

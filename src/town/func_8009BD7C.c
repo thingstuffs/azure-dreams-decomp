@@ -1,8 +1,8 @@
 #include "common.h"
+#include "shared/object_index_slots.h"
 
 extern void func_80094984(void *, void *);
 extern s32 func_800A8184(s16, s16);
-extern u8 D_80082660[];
 extern u8 D_80097EA0[];
 extern u8 D_800D01C0[];
 
@@ -17,8 +17,8 @@ typedef struct {
 /* Initialize the town object, clear its slot flags, and apply its coordinates. */
 void func_800994DC(TownObject *object) {
     func_80094984(D_800D01C0, object);
-    D_80082660[8] = 0;
+    D_80082660[1].unk_00 = 0;
     object->unk4 = D_80097EA0;
-    D_80082660[9] = 0;
+    D_80082660[1].unk_01 = 0;
     func_800A8184(object->unk36, object->unk38);
 }
