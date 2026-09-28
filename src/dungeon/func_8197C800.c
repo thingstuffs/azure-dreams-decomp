@@ -95,11 +95,6 @@ typedef struct S_FUNC_8197C800_BODY_11 {
     u16 unk_0A;
 } S_FUNC_8197C800_BODY_11;   /* p in FUNC_8197C800_BODY */
 
-typedef struct S_FUNC_8197C800_BODY_12 {
-    u8 pad_00[0x14A8];
-    void * unk_14A8;
-} S_FUNC_8197C800_BODY_12;   /* page in FUNC_8197C800_BODY */
-
 typedef struct S_FUNC_8197C800_BODY_13 {
     u8 pad_00[0x24];
     u8 unk_24;
@@ -119,11 +114,6 @@ typedef struct S_FUNC_8197C800_BODY_15 {
     u8 pad_00[0x4];
     void * unk_04;
 } S_FUNC_8197C800_BODY_15;   /* template in FUNC_8197C800_BODY */
-
-typedef struct S_FUNC_8197C800_BODY_16 {
-    u8 pad_00[0x14A8];
-    void * unk_14A8;
-} S_FUNC_8197C800_BODY_16;   /* page2 in FUNC_8197C800_BODY */
 
 typedef struct S_FUNC_8197C800_BODY_17 {
     u8 pad_00[0x24];
@@ -160,12 +150,12 @@ typedef struct S_FUNC_8197C800_BODY_22 {
 typedef struct S_FUNC_8197C800_BODY_23 {
     u8 pad_00[0x2A];
     u16 unk_2A;
-} S_FUNC_8197C800_BODY_23;   /* ((S_FUNC_8197C800_BODY_12 *)page)->unk_14A8 in FUNC_8197C800_BODY */
+} S_FUNC_8197C800_BODY_23;   /* D_800814A8[0] in FUNC_8197C800_BODY */
 
 typedef struct S_FUNC_8197C800_BODY_24 {
     u8 pad_00[0x2A];
     u16 unk_2A;
-} S_FUNC_8197C800_BODY_24;   /* ((S_FUNC_8197C800_BODY_16 *)page2)->unk_14A8 in FUNC_8197C800_BODY */
+} S_FUNC_8197C800_BODY_24;   /* D_800814A8[0] in FUNC_8197C800_BODY */
 
 typedef struct S_FUNC_8197C800_BODY_25 {
     u8 pad_00[0xA];
@@ -230,7 +220,7 @@ void FUNC_8197C800_BODY(void *input, void *output)
     s16 offsets[3];
     s32 state;
     void *owner_data;
-    register void *owner ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    void *owner;
     void *particle_script;
     void **state_table;
     u8 *state_entry;
@@ -246,15 +236,13 @@ void FUNC_8197C800_BODY(void *input, void *output)
     s32 remaining;
     register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *particle_script_debris;
+    u8 *debris_origin;
     s32 height;
     s32 offset_index;
     s32 random_value;
     u16 angle;
     u16 tail_state;
     u16 tail_timer;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register u8 *scene_page ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    u8 *debris_scene_page;
-    u8 *debris_origin;
     u8 *burst_origin;
     u16 timer;
     s32 scaled_coord;
@@ -368,19 +356,14 @@ case_three:
     result = (s32)0x80080000;
     ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill (gcc folds the page base back into a single `la D_80083780` at the head of this block, and reorg then fills the preceding `beqz`'s slot with `remaining = 1` instead of retail's %hi); the source shape that makes it unnecessary has not been found */
     remaining = 1;
-    scene_page = (u8 *)0x80080000;
     {
         S_FUNC_8197C800_BODY_11 *reference_position;
         reference_position = (S_FUNC_8197C800_BODY_11 *)((u8 *)result + 0x3780);
-        result = func_800BCB04(reference_position->unk_02, reference_position->unk_06,
+        height = func_800BCB04(reference_position->unk_02, reference_position->unk_06,
                           (s16)(reference_position->unk_0A - 0x80));
-        height = (s16)((result << 16) >> 16);
     }
     particle_script = D_80024BB8;
-    ASM_KEEP(scene_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    result = (s32)0x80080000;
-    ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    burst_origin = (u8 *)result + 0x2E80;
+    burst_origin = D_80082E80;
     do {
         particle = func_8003FD64(0x312, D_80083498);
         if (particle != 0) {
@@ -389,7 +372,7 @@ case_three:
             sprite = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_0C;
             particle_data = (u8 *)particle + 0x20;
             random_value = func_80069EF8();
-            angle = ((S_FUNC_8197C800_BODY_23 *)(((S_FUNC_8197C800_BODY_12 *)scene_page)->unk_14A8))->unk_2A;
+            angle = ((S_FUNC_8197C800_BODY_23 *)(D_800814A8[0]))->unk_2A;
             offset_index = (s16)angle >> 9;
             result = (s32)(D_8006CCD8);
             {
@@ -409,7 +392,7 @@ case_three:
                 ((S_FUNC_8197C800_BODY_14 *)position)->unk_02 = result;
             }
             random_value = func_80069EF8();
-            angle = ((S_FUNC_8197C800_BODY_23 *)(((S_FUNC_8197C800_BODY_12 *)scene_page)->unk_14A8))->unk_2A;
+            angle = ((S_FUNC_8197C800_BODY_23 *)(D_800814A8[0]))->unk_2A;
             offset_index = (s16)angle >> 9;
             result = (s32)(D_8006CCE8);
             {
@@ -431,22 +414,18 @@ case_three:
             }
             {
                 u32 color;
-                void *sprite_template;
+                void *sprite_template = 0;
                 void *position;
                 color = 0x00600000u;
-                ASM_KEEP(color);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 position = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_08;
-                sprite_template = (void *)0x800E0000;
+                sprite_template = D_800DE9D0;
                 ((S_FUNC_8197C800_BODY_14 *)position)->unk_0A = height;
-                ASM_KEEP(sprite_template);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                 sprite->unk_1C = 0x1800;
                 sprite->unk_1E = 0x2000;
                 sprite->unk_10 = 0x60;
                 {
                     u16 flags;
                     flags = sprite->unk_14;
-                    result = (u8 *)sprite_template - 0x1630;
-                    sprite_template = result;
                     sprite->unk_00 = sprite_template;
                     flags |= 0xC;
                     sprite->unk_14 = flags;
@@ -465,7 +444,6 @@ case_three:
     remaining = 9;
     particle_script_debris = D_80024C68;
     debris_origin = D_80082E80;
-    debris_scene_page = (u8 *)0x80080000;
     do {
         particle = func_8003FD64(0x312, D_80083498);
         if (particle != 0) {
@@ -474,7 +452,7 @@ case_three:
             sprite = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_0C;
             particle_data = (u8 *)particle + 0x20;
             random_value = func_80069EF8();
-            angle = ((S_FUNC_8197C800_BODY_24 *)(((S_FUNC_8197C800_BODY_16 *)debris_scene_page)->unk_14A8))->unk_2A;
+            angle = ((S_FUNC_8197C800_BODY_24 *)(D_800814A8[0]))->unk_2A;
             offset_index = (s16)angle >> 9;
             result = (s32)(D_8006CCD8);
             {
@@ -486,7 +464,7 @@ case_three:
                 ((S_FUNC_8197C800_BODY_14 *)position)->unk_02 = result;
             }
             random_value = func_80069EF8();
-            angle = ((S_FUNC_8197C800_BODY_24 *)(((S_FUNC_8197C800_BODY_16 *)debris_scene_page)->unk_14A8))->unk_2A;
+            angle = ((S_FUNC_8197C800_BODY_24 *)(D_800814A8[0]))->unk_2A;
             offset_index = (s16)angle >> 9;
             result = (s32)(D_8006CCE8);
             {
@@ -502,23 +480,17 @@ case_three:
             result = func_80069EF8();
             {
                 u32 color;
-                void *sprite_template;
+                void *sprite_template = 0;
                 color = 0x00100000u;
-                ASM_KEEP(color);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 ((S_FUNC_8197C800_BODY_25 *)(((S_FUNC_8197C800_BODY_5 *)particle)->unk_08))->unk_14 =
                     (s32)0xFFE60000 - (result << 2);
                 sprite->unk_1E = 0x800;
                 sprite->unk_1C = 0x800;
-                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                result = (s32)((s16 *)(0x20));
-                sprite_template = (void *)0x800E0000;
-                ASM_KEEP(sprite_template);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                sprite->unk_10 = (s32)(s16 *)result;
+                sprite->unk_10 = 0x20;
                 {
                     u16 flags;
                     flags = sprite->unk_14;
-                    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                    sprite_template = (u8 *)sprite_template - 0x1400;
+                    sprite_template = D_800DEC00;
                     sprite->unk_00 = sprite_template;
                     flags |= 0xC;
                     sprite->unk_14 = flags;

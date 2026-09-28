@@ -151,20 +151,14 @@ void *func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distanc
     u8 kind_check;
     S_8009C12C_4 *target_data;
     s16 *opposite_x_ptr;
-    register u16 direction_value ASM_REG("$12");
+    u16 direction_value;
     register s32 effect_x ASM_REG("$4");
-    register s32 step_distance ASM_REG("$9");
     s32 x_offset;
     register s32 y_step ASM_REG("$10");
     register s32 x_step ASM_REG("$11");
     s32 effect_y;
+    s32 element_product;
     s32 zero;
-    register s32 element_product ASM_REG("$12");
-    struct {
-        volatile u16 arg2;
-        u8 gap[6];
-        u16 arg3;
-    } homes;
     void *target;
     void *blocked_actor;
     void *null_result;
@@ -175,10 +169,8 @@ void *func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distanc
 #endif
     ((S_8009C12C_0 *)attacker_in)->unk_73 = 0;
     ((S_8009C12C_0 *)attacker_in)->unk_72 = 0;
-    homes.arg2 = direction;
     target = ((S_8009C12C_0 *)attacker_in)->unk_60;
     message_state = modifier;
-    homes.arg3 = distance;
     if (target == NULL) {
         S_8009C12C_1 *entry_page;
         entry_page = (void *)0x800E0000;
@@ -326,11 +318,9 @@ void *func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distanc
         u16 attack_raw;
         void *bonus_actor;
         attack_value = (s16)((S_8009C12C_0 *)attacker_in)->unk_20.n;
-        ASM_KEEP(attack_value);
         element_product = attack_value * (scaled_modifier >> 0x10);
         bonus_actor = attacker_in;
         attack_raw = ((S_8009C12C_0 *)attacker_in)->unk_20.v;
-        ASM_KEEP4(bonus_actor, attack_raw, element_product, attack_value);
         attack_value = element_product >> 3;
         ((S_8009C12C_0 *)attacker_in)->unk_20.n = (u16)(attack_raw + attack_value);
         attack_bonus = func_800C82B8(bonus_actor);
@@ -339,8 +329,7 @@ void *func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distanc
         u16 bonus_base;
         bonus_base = ((S_8009C12C_0 *)attacker_in)->unk_20.n;
         scaled_modifier = (s32)(bonus_base << 0x10) >> 0x13;
-        element_product = scaled_modifier * attack_bonus;
-        ((S_8009C12C_0 *)attacker_in)->unk_20.n = (u16)(bonus_base + element_product);
+        ((S_8009C12C_0 *)attacker_in)->unk_20.n = (u16)(bonus_base + scaled_modifier * attack_bonus);
     }
     if (((S_8009C12C_0 *)attacker_in)->unk_1C & 0x01000000) {
         half_delta = (s32) ((s16) ((S_8009C12C_3 *)target)->unk_22.n - (s16) ((S_8009C12C_0 *)attacker_in)->unk_20.n) / 2;
@@ -358,15 +347,11 @@ void *func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distanc
     if (signed_value == 0) {
         message_cursor = func_80099734(target, message_cursor);
         {
-            void *attack_text;
             if (((S_8009C12C_0 *)attacker_in)->unk_14.s32 & 0x2000) {
-                attack_text = (void *)0x800E0000;
-                ASM_KEEP(attack_text);
-                attack_text += 0xDD0;
+                message_cursor = func_80099194(D_800E0000 + 0xDD0, message_cursor);
             } else {
-                attack_text = &D_800E0DDD;
+                message_cursor = func_80099194(&D_800E0DDD, message_cursor);
             }
-            message_cursor = func_80099194(attack_text, message_cursor);
         }
         {
             s32 display_damage;
@@ -391,9 +376,8 @@ void *func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distanc
     }
     {
         s32 one;
-        direction_value = *(volatile u16 *)&homes.arg3;
         one = 1;
-        scaled_modifier = (s16)direction_value;
+        scaled_modifier = distance;
         if (scaled_modifier == one) {
             func_800C7DEC(attacker_in, target);
         }
@@ -444,8 +428,8 @@ void *func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distanc
     }
     effect_elements = attack_elements << 0x10;
     effect_elements >>= 0x10;
-    direction_value = homes.arg2;
-    opposite_x_ptr = (s16 *)((s32)D_80070000 - 0x3328);
+    direction_value = direction;
+    opposite_x_ptr = D_8006CCD8;
     opposite_offset = (direction_value >> 9) & 7;
     direction_offset = opposite_offset * 2;
     scaled_modifier = (s32)((s16 *)(direction_offset + (s32)opposite_x_ptr));
@@ -453,14 +437,10 @@ void *func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distanc
     opposite_offset = (opposite_offset + 4) & 7;
     opposite_offset *= 2;
     opposite_x_ptr = (s16 *)(opposite_offset + (s32)opposite_x_ptr);
-    direction_value = homes.arg3;
-    ASM_KEEP(direction_value);
     effect_x = *(s16 *)scaled_modifier;
-    scaled_modifier = (s32)((s16 *)0x80070000);
-    ASM_KEEP(scaled_modifier);
-    step_distance = (s16)direction_value;
-    x_step = effect_x * step_distance;
-    scaled_modifier = (s32)((s16 *)((s32)(s16 *)scaled_modifier - 0x3318));
+    null_result = (void *)distance;
+    x_step = effect_x * ((s32)null_result);
+    scaled_modifier = (s32)D_8006CCE8;
     direction_offset += (s32)(s16 *)scaled_modifier;
     opposite_offset += (s32)(s16 *)scaled_modifier;
     x_offset = *opposite_x_ptr;
@@ -480,12 +460,12 @@ void *func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distanc
     effect_x <<= 6;
     effect_x += x_offset;
     effect_x = (s16)effect_x;
-    step_distance = y_step * step_distance;
-    effect_y += step_distance;
+    y_step *= (s32)null_result;
+    null_result = (void *)y_step;
+    effect_y += (s32)null_result;
     effect_y <<= 6;
     effect_y += opposite_offset;
     effect_y = (s16)effect_y;
     func_80099C58(effect_x, effect_y, direction_offset, effect_elements, (s32)(s16 *)scaled_modifier);
-    ASM_SET(y_step);
     return target;
 }

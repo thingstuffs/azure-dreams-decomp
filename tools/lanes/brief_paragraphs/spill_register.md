@@ -12,3 +12,10 @@ variable on the spill register pushes reload to the next one ($9: distance 26 on
 remaining allocation near-ties (loop counter initialisation placement, a narrower/wider local).
 First check with `why.py --pass greg` / `--pass lreg` whether the pinned pseudo is actually spilled on your row;
 if it is not, say so - that is a useful negative for this family.
+
+Second form (r78_opus_c6, dungeon/func_800BFE94 and func_8187A9A8): `lui $R; addiu $R,%lo(SYM); lw $x,0($R)` with
+ASM_REG($8/$10) + ASM_KEEP on a local pointer set to SYM just before use is reload REMATERIALISING a spilled
+pseudo whose REG_EQUIV is the symbol address, into the first call-clobbered register never live in the function
+($8 on one row, $10 on the other). RESOLVES: declare `T **ref = (T **)SYM;` once (function scope or outside the
+loop) and write `*ref` at each site; if that pseudo wins a callee-saved register, split it per site group so it
+spills. One ASM_REG variable reused for several packet pointers: split it into one local per packet.
