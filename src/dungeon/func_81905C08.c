@@ -108,41 +108,22 @@ void func_80025408(void *context, void *unused, void *effect_data) {
     *(s16 *)context = (u16)*(s16 *)context + 1;
     *(u16 *)((u8 *)effect_data + 0x14) &= 0xff7f;
 update_fade:
-    {
-        Box *call_rect;
-        register Point *call_center ASM_REG("$6");
-
-        call_rect = &mask_rect;
-        tile_column = &center;
-        call_center = tile_column;
-        tile_x = 0x340;
-        pixel_page = (u8 *)0x100;
-        ASM_KEEP_NV(call_rect);
-        ASM_KEEP_NV(call_center);
-        image_width = 0x60;
-        mask_rect.w = image_width;
-        mask_rect.x = tile_x;
-        mask_rect.y = (s32)pixel_page;
-        mask_rect.h = 0x54;
-        center.x = 0x370;
-        center.y = 0x148;
-        one = 1;
-        func_800B8FC8(*(void **)((u8 *)context + 0x44), call_rect, call_center, 0, one);
-    }
-    {
-        Box *call_rect;
-        Point *call_center;
-
-        call_rect = &image_rect;
-        call_center = tile_column;
-        image_rect.w = 0x60;
-        image_rect.x = tile_x;
-        image_rect.y = (s32)pixel_page;
-        image_rect.h = 0x54;
-        center.x = 0x370;
-        center.y = 0x12a;
-        func_80024B6C(*(void **)((u8 *)context + 0x48), call_rect, call_center, one, one);
-    }
+    image_width = 0x60;
+    mask_rect.x = 0x340;
+    mask_rect.y = 0x100;
+    mask_rect.w = image_width;
+    mask_rect.h = 0x54;
+    center.x = 0x370;
+    center.y = 0x148;
+    one = 1;
+    func_800B8FC8(*(void **)((u8 *)context + 0x44), &mask_rect, &center, 0, one);
+    image_rect.x = 0x340;
+    image_rect.y = 0x100;
+    image_rect.w = 0x60;
+    image_rect.h = 0x54;
+    center.x = 0x370;
+    center.y = 0x12a;
+    func_80024B6C(*(void **)((u8 *)context + 0x48), &image_rect, &center, one, one);
     frame = *(s16 *)((u8 *)context + 2);
     if (frame < 0x15) {
         *(s8 *)((u8 *)effect_data + 0xe) = (frame << 7) / 20;
