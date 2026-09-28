@@ -284,7 +284,7 @@ void func_8187A9A8(S_func_8187A9A8_4 *mesh, S_func_8187A9A8_2 *transform, S_func
     S_func_8187A9A8_1 *scratch = (S_func_8187A9A8_1 *)0x1F800000;
     register s32 raw_depth_bias ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     S_func_8187A9A8_8 *texture;
-    register u32 addr_mask ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    u32 addr_mask;
     u32 tag_mask;
     s32 depth_offset;
     u16 object_flags;
@@ -297,7 +297,8 @@ void func_8187A9A8(S_func_8187A9A8_4 *mesh, S_func_8187A9A8_2 *transform, S_func
     scratch->unk_24 = ot_base + 0xB0;
     scratch->unk_88 = transform->unk_02;
     scratch->unk_8C = transform->unk_06;
-    raw_depth_bias = depth_bias;
+    addr_mask = depth_bias;
+    raw_depth_bias = addr_mask;
     scratch->unk_90 = transform->unk_0A;
     addr_mask = 0x00FFFFFF;
     object_flags = object->unk_14;
