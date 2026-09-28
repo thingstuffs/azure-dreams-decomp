@@ -7,6 +7,11 @@ extern s32 func_80065590(void *, void *, void *, void *, void *, void *, void *,
 extern s16 func_80066460();
 
 typedef struct {
+    u32 addr : 24;
+    u32 len : 8;
+} Tag;
+
+typedef struct {
     u8 *ordering_table;
     s32 ordering_index;
     s16 input[20];
@@ -37,11 +42,8 @@ s32 func_81977230(s32 color0, s32 color1, s32 color2, s32 color3) {
     Poly *quad;
     Context *u_right;
     s16 texture_page;
-    register s32 tex_or_link ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 u_or_addr_mask;
     OffsetGlobal *offset_global;
     Scratch *scratch;
-    register s32 *ot_entry ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 *offsets;
     u16 *screen0;
     u16 *screen1;
@@ -53,7 +55,6 @@ s32 func_81977230(s32 color0, s32 color1, s32 color2, s32 color3) {
     void *vertex1;
     void *vertex2;
     void *vertex3;
-    register u32 depth_or_tag_mask ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     vertex0 = (void *)0;
     vertex1 = (void *)3;
@@ -76,14 +77,14 @@ s32 func_81977230(s32 color0, s32 color1, s32 color2, s32 color3) {
     screen3 = (u16 *)scratch;
     screen3 = (u16 *)((u32)screen3 | 0x7CU);
     quad->halfwords[0x1A / 2] = texture_page;
-    tex_or_link = 0x7DCF;
-    u_or_addr_mask = 0xC0;
-    quad->halfwords[0xE / 2] = tex_or_link;
-    tex_or_link = 0x40;
-    u_right = (Context *)0xFF;
-    quad->bytes[0xD] = tex_or_link;
-    quad->bytes[0x19] = tex_or_link;
+    quad->halfwords[0xE / 2] = 0x7DCF;
+    quad->bytes[0xC] = 0xC0;
+    quad->bytes[0xD] = 0x40;
+    quad->bytes[0x18] = 0xFF;
+    quad->bytes[0x19] = 0x40;
+    quad->bytes[0x24] = 0xC0;
     quad->bytes[0x25] = 0x7F;
+    quad->bytes[0x30] = 0xFF;
     quad->bytes[0x31] = 0x7F;
     quad->bytes[4] = (u8)(color0 >> 0x10);
     quad->bytes[5] = (u8)(color0 >> 8);
@@ -93,10 +94,6 @@ s32 func_81977230(s32 color0, s32 color1, s32 color2, s32 color3) {
     quad->bytes[0x1D] = (u8)(color2 >> 8);
     quad->bytes[0x28] = (u8)(color3 >> 0x10);
     quad->bytes[0x29] = (u8)(color3 >> 8);
-    quad->bytes[0xC] = (u8)u_or_addr_mask;
-    quad->bytes[0x18] = (u8)((s32)u_right);
-    quad->bytes[0x24] = (u8)u_or_addr_mask;
-    quad->bytes[0x30] = (u8)((s32)u_right);
     offset_global = &D_80026208;
     quad->bytes[6] = (u8)color0;
     quad->bytes[0x12] = (u8)color1;
@@ -136,18 +133,9 @@ s32 func_81977230(s32 color0, s32 color1, s32 color2, s32 color3) {
     quad->halfwords[0x22 / 2] = scratch->output[5];
     quad->halfwords[0x2C / 2] = scratch->output[6];
     quad->halfwords[0x2E / 2] = scratch->output[7];
-    depth_or_tag_mask = scratch->ordering_index;
-    if (depth_or_tag_mask < 0x1E0U) {
-        u_or_addr_mask = 0xFFFFFF;
-        tex_or_link = depth_or_tag_mask << 2;
-        ot_entry = (s32 *)(u32)scratch->ordering_table;
-        depth_or_tag_mask = 0xFF000000;
-        tex_or_link = tex_or_link + (u32)ot_entry;
-        quad->words[0] = (s32)((quad->words[0] & depth_or_tag_mask) | (*(u32 *)tex_or_link & u_or_addr_mask));
-        ot_entry = (s32 *)(u32)scratch->ordering_index;
-        ot_entry = (s32 *)((u32)ot_entry << 2);
-        ot_entry = (s32 *)((u32)ot_entry + (u32)scratch->ordering_table);
-        *ot_entry = (*ot_entry & depth_or_tag_mask) | ((s32) quad & u_or_addr_mask);
+    if ((u32)scratch->ordering_index < 0x1E0U) {
+        ((Tag *)quad)->addr = ((Tag *)((u32 *)scratch->ordering_table + scratch->ordering_index))->addr;
+        ((Tag *)((u32 *)scratch->ordering_table + scratch->ordering_index))->addr = (u32)quad;
     }
     return 0;
 }
