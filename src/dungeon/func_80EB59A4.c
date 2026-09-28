@@ -34,23 +34,6 @@ typedef struct S_801711A4_4 {
 } S_801711A4_4;   /* saved2 in func_801711A4 */
 
 
-typedef struct S_801711A4_6 {
-    u8 pad_00[0x9A];
-    u8 unk_9A;
-} S_801711A4_6;   /* temp_env in func_801711A4 */
-
-
-typedef struct DungeonRecord {
-    u8 pad0[0xC];
-    u16 flags;
-    u8 padE[6];
-} DungeonRecord;
-
-typedef struct DungeonEnv {
-    u8 pad0[0x24];
-    u8 x;
-    u8 y;
-} DungeonEnv;
 
 typedef struct EmptyArg {
 } EmptyArg;
@@ -96,7 +79,7 @@ void func_801711A4(void *actor, M2C_UNK context, void *sprite, void *status) {
     s8 room_id;
     s16 angle;
     u16 action_flags;
-    void *active_actor;
+    EntityRec *active_actor;
     M2C_UNK *direction_aux_ptr;
     EmptyArg empty_arg;
 
@@ -243,7 +226,7 @@ jt_c7:
     angle = func_800A0818(((S_801711A4_2 *)sprite)->unk_24.at00.v, ((S_801711A4_2 *)sprite)->unk_24.at01.v, D_80082E80.tileX, D_80082E80.tileY, &direction_aux);
     active_actor = D_800814A8;
     ((EntityRec *)status)->facing = angle;
-    if (((S_801711A4_6 *)active_actor)->unk_9A == 0x11) {
+    if (active_actor->unk_9A == 0x11) {
         next_handler = &D_801711A4;
         goto block_44;
     }

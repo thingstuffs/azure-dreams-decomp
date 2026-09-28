@@ -4,6 +4,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 #include "shared/dir_step.h"
+#include "shared/entity.h"
 #include "m2c_compat.h"
 
 M2C_UNK func_8002589C();        /* extern */
@@ -85,21 +86,6 @@ typedef struct S_80025C80_3 {
     u16 unk_88;
 } S_80025C80_3;   /* temp_v1_6 in func_80025C80 */
 
-typedef struct S_80025C80_4 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_80025C80_4;   /* case0_base in func_80025C80 */
-
-typedef struct S_80025C80_5 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80025C80_5;   /* var_a0 in func_80025C80 */
-
 typedef struct S_80025C80_6 {
     u8 pad_00[0x8];
     void * unk_08;
@@ -132,9 +118,9 @@ void func_80025C80(void *effect_in, void *motion_in, void *sprite_in) {
     s32 x_step;
     register s32 y_step ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 end_frame;
-    void *resident_sprite;
+    TileObject *resident_sprite;
     void *source_data;
-    void * source_data_2;
+    EntityRec *source_data_2;
     s16 *update_ptr;
     s16 *update_y_base;
     s16 *update_y_ptr;
@@ -144,7 +130,7 @@ void func_80025C80(void *effect_in, void *motion_in, void *sprite_in) {
     s32 motion_dy;
     s32 motion_damp_y;
     u16 linked_flags;
-    s32 *linked_global;
+    ObjectFlagBlock *linked_global;
     s16 frame_toggle;
     s16 fade_ticks;
     s16 next_z;
@@ -211,11 +197,11 @@ rise:
         ((S_80025C80_0 *)effect_in)->unk_38 = end_frame;
         ((S_80025C80_0 *)effect_in)->unk_36 = 0xF;
         ((S_80025C80_0 *)effect_in)->unk_32 = 1;
-        ((S_80025C80_0 *)effect_in)->unk_3A = (u16) ((S_80025C80_3 *)source_data_2)->unk_88;
-        ((S_80025C80_0 *)effect_in)->unk_40.u = (u16) (((u16) ((S_80025C80_3 *)source_data_2)->unk_2A >> 9) & 7);
-        resident_sprite = &D_80082E80.unk_000;
-        ((S_80025C80_0 *)effect_in)->unk_3C = ((S_80025C80_4 *)resident_sprite)->unk_24;
-        start_tile_y = ((S_80025C80_4 *)resident_sprite)->unk_25;
+        ((S_80025C80_0 *)effect_in)->unk_3A = (u16) ((u16)source_data_2->unk_88);
+        ((S_80025C80_0 *)effect_in)->unk_40.u = (u16) (((u16) ((u16)source_data_2->facing) >> 9) & 7);
+        resident_sprite = &D_80082E80;
+        ((S_80025C80_0 *)effect_in)->unk_3C = resident_sprite->tileX;
+        start_tile_y = resident_sprite->tileY;
         ((S_80025C80_0 *)effect_in)->unk_42 = end_frame;
         ((S_80025C80_0 *)effect_in)->unk_30.n = 3;
         ((S_80025C80_0 *)effect_in)->unk_2C = (s16) ((u16) ((S_80025C80_0 *)effect_in)->unk_2C + 1);
@@ -363,11 +349,10 @@ copy_linked_monster:
     if ((*(u16 *)((u8 *)linked_monster + 0x1E)) & 0x8000) {
 linked_flag_update:
         linked_flags = ((S_80025C80_0_pre *)effect_in)[-1].unk_00;
-        linked_global = &objectFlagBlock.flags;
+        linked_global = &objectFlagBlock;
         linked_flags |= 0x8000;
         ((S_80025C80_0_pre *)effect_in)[-1].unk_00 = linked_flags;
-        ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-        *linked_global |= 0x8000;
+        linked_global->flags |= 0x8000;
         return;
     }
     source_data = linked_monster->unk_08;

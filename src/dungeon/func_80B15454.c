@@ -23,17 +23,6 @@ typedef struct S_8014EC54_0 {
 
 
 
-typedef struct S_8014EC54_4 {
-    u8 pad_00[0x8];
-    union { s16 s; u16 u; } unk_08;   /* accessed as both */
-} S_8014EC54_4;   /* global_base in func_8014EC54 */
-
-typedef struct S_8014EC54_5 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_8014EC54_5;   /* map_base in func_8014EC54 */
-
 
 
 extern void func_80047784(void *, s32, s32);
@@ -64,7 +53,7 @@ void func_8014EC54(void *action, void *motion, void *sprite, void *entity)
     s32 action_timer;
     s32 entity_flags;
     s32 direction_aux;
-    u8 *global_base;
+    DungeonGlobalStatus *global_base;
 
     state = ((S_8014EC54_0 *)action)->unk_9B;
     if (state == 1) {
@@ -176,9 +165,9 @@ decrement_timer:
     func_800AD594(entity, 4);
     func_800A4ACC(entity);
 
-    global_base = (u8 *)&dungeonStatus.unk_00;
-    if (((S_8014EC54_4 *)global_base)->unk_08.s != 0) {
-        ((S_8014EC54_4 *)global_base)->unk_08.u--;
+    global_base = &dungeonStatus;
+    if (global_base->unk_08 != 0) {
+        (*(u16 *)&global_base->unk_08)--;
     }
 
     entity_flags = ((EntityRec *)entity)->flags1C;

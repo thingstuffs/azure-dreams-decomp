@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/entity_objects.h"
 #include "shared/game_work.h"
+#include "shared/entity.h"
 #include "m2c_compat.h"
 
 typedef struct S_800A5DF8_0 {
@@ -13,20 +14,6 @@ typedef struct S_800A5DF8_0 {
 typedef struct S_800A5DF8_1 {
     u8 unk_00;
 } S_800A5DF8_1;   /* &D_800CFCEF in func_800A5DF8 */
-
-typedef struct S_800A5DF8_2 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-} S_800A5DF8_2;   /* var_v0 in func_800A5DF8 */
-
-typedef struct S_800A5DF8_3 {
-    u8 pad_00[0xC4];
-    union { s16 s; u16 u; } unk_C4;   /* accessed as both */
-    u8 pad_C6[0x2];
-    s16 unk_C8;
-} S_800A5DF8_3;   /* var_s1 in func_800A5DF8 */
 
 typedef struct S_800A5DF8_4 {
     void * unk_00;
@@ -58,10 +45,10 @@ void func_800A5DF8(S_800A5DF8_4 *state, S_800A5DF8_0 *actor, M2C_UNK context) {
     s16 angle;
     s32 next_offset;
     u16 ticks_left;
-    register u8 *scene_state;
+    register GameWork *scene_state;
     register u8 *effect_data;
 
-    scene_state = ((u8 *)(&gameWork));
+    scene_state = &gameWork;
     func_80095C80(actor);
     effect_data = D_800FE488;
     threshold = func_80095978(actor, effect_data);
@@ -80,10 +67,10 @@ void func_800A5DF8(S_800A5DF8_4 *state, S_800A5DF8_0 *actor, M2C_UNK context) {
     }
     func_80095094(actor);
     func_80095094(actor);
-    angle = func_80094AA0(((S_800A5DF8_3 *)scene_state)->unk_C8, 0, 0x80);
-    ((S_800A5DF8_3 *)scene_state)->unk_C8 = angle;
+    angle = func_80094AA0(scene_state->view.viewAngle, 0, 0x80);
+    scene_state->view.viewAngle = angle;
     if ((angle & 0xFFF) < 0x80) {
-        ((S_800A5DF8_3 *)scene_state)->unk_C8 = 0;
+        scene_state->view.viewAngle = 0;
     }
     ticks_left = state->unk_0A.s - 1;
     state->unk_0A.s = ticks_left;
@@ -97,13 +84,13 @@ void func_800A5DF8(S_800A5DF8_4 *state, S_800A5DF8_0 *actor, M2C_UNK context) {
             state->unk_0A.u = 0;
         }
         next_offset = ticks > 0
-            ? (offset_step -= ((S_800A5DF8_3 *)scene_state)->unk_C4.s, offset_step /= ticks,
-               ((S_800A5DF8_3 *)scene_state)->unk_C4.u + offset_step)
+            ? (offset_step -= scene_state->view.unk_0AC, offset_step /= ticks,
+               ((u16)scene_state->view.unk_0AC) + offset_step)
             : -0x280;
-        ((S_800A5DF8_3 *)scene_state)->unk_C4.s = next_offset;
+        scene_state->view.unk_0AC = next_offset;
     }
     if ((state->unk_0A.u == 0) &&
-        (((S_800A5DF8_3 *)scene_state)->unk_C8 == 0)) {
+        (scene_state->view.viewAngle == 0)) {
         if (state->unk_08 != 0) {
             func_800A55CC(state, actor, context);
         } else {

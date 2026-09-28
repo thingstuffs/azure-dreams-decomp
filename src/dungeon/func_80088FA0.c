@@ -3,13 +3,6 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
-typedef struct {
-    u8 pad0[2];
-    u16 field2;
-    u8 pad4[6];
-    s16 fieldA;
-} D_80083460_t;
-
 extern void func_80048A44(void *a0, u8 a1, s32 a2, s32 a3);
 extern void func_80099F04(s32 a0);
 extern void func_80099F70(s32 a0);
@@ -113,7 +106,7 @@ update:
                     s32 heading;
                     s32 saved_state;
                     register s32 state_value ASM_REG("$2");
-                    D_80083460_t *dungeon_state;
+                    DungeonGlobalStatus *dungeon_state;
 
                     clear_mask = 0xFFEFFFFF;
                     anim_sprite = sprite;
@@ -128,12 +121,12 @@ update:
                     animations = D_800DCFD0;
 #endif
                     state_value &= clear_mask;
-                    dungeon_state = ((D_80083460_t *)&dungeonStatus);
+                    dungeon_state = &dungeonStatus;
                     *(s32 *)(entity + 0x1C) = state_value;
-                    clear_mask = *(u16 *)&dungeon_state->fieldA;
+                    clear_mask = *(u16 *)&dungeon_state->unk_0A;
                     state_value = clear_mask;
                     state_value++;
-                    *(u16 *)&dungeon_state->fieldA = state_value;
+                    *(u16 *)&dungeon_state->unk_0A = state_value;
                     *(u8 **)(anim_sprite + 0x2C) = animations;
                     state_value = gameWork.view.viewAngle;
                     heading = *(s16 *)(entity + 0x2A);

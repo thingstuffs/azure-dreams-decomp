@@ -27,17 +27,6 @@ typedef struct S_80170E54_2 {
 } S_80170E54_2;   /* arg2 in func_80170E54 */
 
 
-typedef struct S_80170E54_4 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_80170E54_4;   /* origin in func_80170E54 */
-
-typedef struct S_80170E54_5 {
-    u8 pad_00[0x9A];
-    u8 unk_9A;
-} S_80170E54_5;   /* player in func_80170E54 */
-
 
 typedef struct S_80170E54_7 {
     void * unk_00;
@@ -242,7 +231,7 @@ jt_c5:
 jt_c6:
 jt_c7:
         {
-            void *player;
+            EntityRec *player;
             s16 coordinate;
 
             coordinate = func_800A0818(
@@ -251,7 +240,7 @@ jt_c7:
                 &scratch);
             player = D_800814A8;
             ((EntityRec *)arg3)->facing = coordinate;
-            if (((S_80170E54_5 *)player)->unk_9A == 0x11) {
+            if (player->unk_9A == 0x11) {
                 goto case_123;
             }
         }

@@ -43,17 +43,6 @@ typedef struct S_80170E5C_2 {
 } S_80170E5C_2;   /* arg2 in func_80170E5C */
 
 
-typedef struct S_80170E5C_4 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_80170E5C_4;   /* origin in func_80170E5C */
-
-typedef struct S_80170E5C_5 {
-    u8 pad_00[0x9A];
-    u8 unk_9A;
-} S_80170E5C_5;   /* global in func_80170E5C */
-
 
 
 
@@ -221,7 +210,7 @@ handler_case:
 
 coords_case:
         {
-            void *global_actor;
+            EntityRec *global_actor;
             s32 direction;
 
             direction = func_800A0818(
@@ -230,7 +219,7 @@ coords_case:
                 &direction_aux);
             global_actor = D_800814A8;
             ((S_80170E5C_1 *)status)->unk_2A = direction;
-            if (((S_80170E5C_5 *)global_actor)->unk_9A == 0x11) {
+            if (global_actor->unk_9A == 0x11) {
                 goto aaf_cleanup;
             }
         }

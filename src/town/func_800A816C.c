@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/entity_objects.h"
 #include "shared/game_work.h"
+#include "shared/entity.h"
 #include "m2c_compat.h"
 
 typedef struct S_800A58CC_0 {
@@ -10,13 +11,6 @@ typedef struct S_800A58CC_0 {
     s32 unk_14;
 } S_800A58CC_0;   /* (void *) shared_s0 in func_800A58CC */
 
-typedef struct S_800A58CC_1 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-} S_800A58CC_1;   /* coords in func_800A58CC */
-
 typedef struct S_800A58CC_2 {
     void * unk_00;
     u8 pad_04[0x6];
@@ -24,13 +18,6 @@ typedef struct S_800A58CC_2 {
     u8 pad_0C[0x4];
     s16 unk_10;
 } S_800A58CC_2;   /* arg0 in func_800A58CC */
-
-typedef struct S_800A58CC_3 {
-    u8 pad_00[0xC4];
-    union { s16 s; u16 u; } unk_C4;   /* accessed as both */
-    u8 pad_C6[0x2];
-    s16 unk_C8;
-} S_800A58CC_3;   /* town in func_800A58CC */
 
 
 s32 func_8008C180();                        /* extern */
@@ -57,12 +44,12 @@ void func_800A58CC(S_800A58CC_2 *state_arg, void *object) {
     s32 yaw_delta;
     s32 pitch;
     u16 ticks;
-    u8 *town;
-    u8 *coords;
+    GameWork *town;
+    EntityRec *coords;
 
      /* MATCH: Order the s2 parameter copy before the s0 copy. */
     object_ref = (s32) object;
-    town = ((u8 *)(&gameWork));
+    town = &gameWork;
     func_80095C80((void *) object_ref);
     threshold = func_80095978((void *) object_ref, &D_800FE488);
     if (((S_800A58CC_0 *)((void *) object_ref))->unk_0A >= threshold) {
@@ -75,16 +62,16 @@ void func_800A58CC(S_800A58CC_2 *state_arg, void *object) {
             func_80095388((void *) object_ref, threshold);
         }
     }
-    coords = (u8 *)&D_80083780.x.v;
-    if (func_800C1D44(func_8008C180(((S_800A58CC_1 *)coords)->unk_02, ((S_800A58CC_1 *)coords)->unk_06) & 0xFFFF) != 0) {
+    coords = &D_80083780;
+    if (func_800C1D44(func_8008C180(coords->x.w.i, coords->y.w.i) & 0xFFFF) != 0) {
         pitch_step = ((S_800A58CC_0 *)((void *) object_ref))->unk_14 - func_800A5894((void *) object_ref);
         ((S_800A58CC_0 *)((void *) object_ref))->unk_14 = pitch_step;
     }
     func_80095094((void *) object_ref);
     func_80095094((void *) object_ref);
     target_yaw = (state_arg->unk_10 - 0x800) & 0xFFF;
-    yaw = func_80094AA0(((S_800A58CC_3 *)town)->unk_C8, target_yaw, 0x80);
-    ((S_800A58CC_3 *)town)->unk_C8 = yaw;
+    yaw = func_80094AA0(town->view.viewAngle, target_yaw, 0x80);
+    town->view.viewAngle = yaw;
     do {
         yaw_delta = (yaw & 0xFFF) - target_yaw;
     } while (0);
@@ -92,7 +79,7 @@ void func_800A58CC(S_800A58CC_2 *state_arg, void *object) {
         yaw_delta = 0 - yaw_delta;
     }
     if (yaw_delta < 0x80) {
-        ((S_800A58CC_3 *)town)->unk_C8 = target_yaw;
+        town->view.viewAngle = target_yaw;
     }
     ticks = state_arg->unk_0A.s - 1;
     state_arg->unk_0A.s = ticks;
@@ -106,12 +93,12 @@ void func_800A58CC(S_800A58CC_2 *state_arg, void *object) {
             state_arg->unk_0A.u = 0;
         }
         pitch = ticks_left > 0
-            ? (pitch_step -= ((S_800A58CC_3 *)town)->unk_C4.s, pitch_step /= ticks_left,
-               ((S_800A58CC_3 *)town)->unk_C4.u + pitch_step)
+            ? (pitch_step -= town->view.unk_0AC, pitch_step /= ticks_left,
+               ((u16)town->view.unk_0AC) + pitch_step)
             : -0x2B0;
-        ((S_800A58CC_3 *)town)->unk_C4.s = pitch;
+        town->view.unk_0AC = pitch;
     }
-    if ((state_arg->unk_0A.u == 0) && (((S_800A58CC_3 *)town)->unk_C8 == target_yaw)) {
+    if ((state_arg->unk_0A.u == 0) && (town->view.viewAngle == target_yaw)) {
         state_arg->unk_0A.u = 0;
         state_arg->unk_00 = &D_800A5A98;
     }

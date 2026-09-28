@@ -75,7 +75,6 @@ void func_80170BB8(void *actor_data, void *motion_data, void *entity_data)
     u8 *motion = motion_data;
     u8 *entity = entity_data;
     u8 *subject = actor;
-    register u8 *part ASM_REG("$20");   /* Byte-exact pin. */
     s32 state_index;
     u32 global_flags;
     u16 *global_flags_ptr = (u16 *)D_80080000;
@@ -87,14 +86,15 @@ void func_80170BB8(void *actor_data, void *motion_data, void *entity_data)
     s32 bob_offset;
     s16 floor_offset;
     s32 height_limit;
-    register u32 height_raw ASM_REG("$3");   /* Byte-exact pin. */
+    u16 height_raw;
     s32 height_offset;
     s32 ground_offset;
+    u32 loaded_height;
     s32 direction;
 
     part_base = (*(u8 * *)((u8 *)actor + 0xA4));
     global_flags = global_flags_ptr[0x1A31];
-    part = part_base + 0x20;
+    loaded_height = (u32)(part_base + 0x20);
 
     ASM_KEEP(actor);   /* Byte-exact pin. */
     ASM_KEEP(subject);   /* Byte-exact pin. */
@@ -169,7 +169,7 @@ void func_80170BB8(void *actor_data, void *motion_data, void *entity_data)
 
                 if (!(actor_flags & 0x8000)) {
                     (*(u16 *)((u8 *)actor + 0x98)) = actor_flags | 0xC000;
-                    ((S_80170BB8_3 *)part)->unk_04 |= 0x8000;
+                    ((S_80170BB8_3 *)((u8 *)loaded_height))->unk_04 |= 0x8000;
                     (*(u16 *)((u8 *)actor + 0xA0)) =
                         (func_80069EF8() & 7) + 0x10;
                 }
@@ -179,13 +179,13 @@ void func_80170BB8(void *actor_data, void *motion_data, void *entity_data)
         state_index = 0;
         if (--(*(s16 *)((u8 *)actor + 0xA0)) == 0) {
             (*(u16 *)((u8 *)actor + 0x98)) &= 0x7FFF;
-            ((S_80170BB8_3 *)part)->unk_04 &= 0x7FFF;
-            if (((S_80170BB8_3 *)part)->unk_02 > 0) {
+            ((S_80170BB8_3 *)((u8 *)loaded_height))->unk_04 &= 0x7FFF;
+            if (((S_80170BB8_3 *)((u8 *)loaded_height))->unk_02 > 0) {
                 do {
                     func_80047784((u8 *)direction, 0x1C, 0);
                     direction = (s32)(((u8 *)direction) + (0x30));
                     state_index++;
-                } while (state_index < ((S_80170BB8_3 *)part)->unk_02);
+                } while (state_index < ((S_80170BB8_3 *)((u8 *)loaded_height))->unk_02);
             }
         }
     } else {
@@ -199,7 +199,7 @@ void func_80170BB8(void *actor_data, void *motion_data, void *entity_data)
 
         if ((*(u16 *)((u8 *)actor + 0x98)) & 0x4000) {
             (*(u16 *)((u8 *)actor + 0x98)) &= 0x3FFF;
-            ((S_80170BB8_3 *)part)->unk_04 &= 0x7FFF;
+            ((S_80170BB8_3 *)((u8 *)loaded_height))->unk_04 &= 0x7FFF;
         }
 
         if ((*(u16 *)((u8 *)actor + 0x98)) & 0x1000) {
@@ -283,7 +283,8 @@ void func_80170BB8(void *actor_data, void *motion_data, void *entity_data)
                     (s16)(((S_80170BB8_1 *)subject)->unk_88 - 0x20)) -
                                          ((S_80170BB8_1 *)subject)->unk_88);
                 height_offset = (*(s16 *)((u8 *)actor + 0x92));
-                height_raw = (*(volatile u16 *)((u8 *)actor + 0x92));
+                loaded_height = (*(volatile u16 *)((u8 *)actor + 0x92));
+                height_raw = loaded_height;
                 height_limit = ground_offset - 0x18;
                 if (height_limit < height_offset) {
 
@@ -345,7 +346,8 @@ ground_reset:
                 (s16)(((S_80170BB8_1 *)subject)->unk_88 - 0x20)) -
                                      ((S_80170BB8_1 *)subject)->unk_88);
             height_offset = (*(s16 *)((u8 *)actor + 0x92));
-            height_raw = (*(volatile u16 *)((u8 *)actor + 0x92));
+            loaded_height = (*(volatile u16 *)((u8 *)actor + 0x92));
+            height_raw = loaded_height;
             height_limit = ground_offset - 0x18;
             if (height_limit < height_offset) {
 

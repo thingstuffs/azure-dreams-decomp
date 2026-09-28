@@ -19,12 +19,6 @@ typedef struct S_800A6994_2 {
 } S_800A6994_2;   /* temp_v0 in func_800A6994 */
 
 
-typedef struct S_800A6994_4 {
-    u8 pad_00[0x4];
-    s32 unk_04;
-    s32 unk_08;
-} S_800A6994_4;   /* temp_v0_2 in func_800A6994 */
-
 
 #define M2C_FIELD(expr, type_ptr, offset) \
     (*(type_ptr)((s8 *)(expr) + (offset)))
@@ -42,7 +36,7 @@ void func_800A6994(void *actor, M2C_UNK update_context, void *position, M2C_UNK 
     u32 heading;
     u8 *state;
     s32 *saved_position;
-    s32 *fixed_position;
+    EntityRec *fixed_position;
 
     state = ((u8 *)(&D_80083498));
     if (((S_800A6994_0 *)state)->unk_10 != &D_800A5638) {
@@ -57,10 +51,10 @@ void func_800A6994(void *actor, M2C_UNK update_context, void *position, M2C_UNK 
         heading += 0x200;
         heading &= 0xFC00;
     } else {
-        fixed_position = &D_80083780.x.v;
+        fixed_position = &D_80083780;
         ((EntityRec *)position)->x.v = D_80083780.x.v;
-        ((EntityRec *)position)->y.v = ((S_800A6994_4 *)fixed_position)->unk_04;
-        ((EntityRec *)position)->z.v = ((S_800A6994_4 *)fixed_position)->unk_08;
+        ((EntityRec *)position)->y.v = fixed_position->y.v;
+        ((EntityRec *)position)->z.v = fixed_position->z.v;
         heading = ((S_800A6994_0 *)state)->unk_38;
     }
     ((Rec_func_80094268_arg0 *)actor)->unk_72.as_u16 = heading;

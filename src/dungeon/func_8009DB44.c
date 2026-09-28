@@ -32,11 +32,6 @@ typedef struct S_800A32A4_5 {
     s32 unk_08;
 } S_800A32A4_5;   /* var_a2 in func_800A32A4 */
 
-typedef struct S_800A32A4_6 {
-    u8 pad_00[0x1C];
-    union { s16 s; u16 u; } unk_1C;   /* accessed as both */
-} S_800A32A4_6;   /* temp_a0_2 in func_800A32A4 */
-
 struct S_800E3E48 {
   u8 pad00[0x14];
   s32 unk14;
@@ -50,11 +45,6 @@ struct S_16 {
   s32 w8;
   s32 wC;
 };
-struct S_12 {
-  s32 w0;
-  s32 w4;
-  s32 w8;
-};
 typedef struct S_800E3E48 S_800E3E48;
 extern S_800E3E48 D_800E3E48[];
 extern s32 D_800E3DF0[];
@@ -65,7 +55,7 @@ extern M2C_UNK func_800A31D0();
 /* Detach a record from its slot, preserve its data, and update its count and state. */
 s32 func_800A32A4(void *record) {
     s16 update_mode;
-    s32 *counter_base;
+    DungeonGlobalStatus *counter_base;
     s32 slot_offset;
     s32 record_index;
     s32 state_flags;
@@ -145,16 +135,16 @@ update_count:
         if (!(state_flags & 0x4000)) {
             status_page = (u8 *)(state_flags & 0x2000);
             if (status_page) {
-                counter_base = ((s32 *)(&dungeonStatus));
-                if (((S_800A32A4_6 *)counter_base)->unk_1C.s != 0) {
-                    ((S_800A32A4_6 *)counter_base)->unk_1C.s = (s16)(((S_800A32A4_6 *)counter_base)->unk_1C.u - 1);
+                counter_base = &dungeonStatus;
+                if (counter_base->unk_1C != 0) {
+                    counter_base->unk_1C = (s16)(((u16)counter_base->unk_1C) - 1);
                 }
                 update_mode = 2;
             } else {
-                s32 *counter_base;
-                counter_base = ((s32 *)(&dungeonStatus));
-                if (((S_800A32A4_6 *)counter_base)->unk_1C.s != 0) {
-                    ((S_800A32A4_6 *)counter_base)->unk_1C.s = (s16)(((S_800A32A4_6 *)counter_base)->unk_1C.u - 1);
+                DungeonGlobalStatus *counter_base;
+                counter_base = &dungeonStatus;
+                if (counter_base->unk_1C != 0) {
+                    counter_base->unk_1C = (s16)(((u16)counter_base->unk_1C) - 1);
                 }
                 update_mode = 1;
             }

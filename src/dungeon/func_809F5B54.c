@@ -19,11 +19,6 @@ typedef struct S_80173354_1 {
 
 
 
-typedef struct S_80173354_4 {
-    u8 pad_00[0x10];
-    union { s32 s; u32 u; } unk_10;   /* accessed as both */
-} S_80173354_4;   /* base in func_80173354 */
-
 
 
 extern void func_80047784(void *, u8, s32);
@@ -165,10 +160,10 @@ state1_timer_done:
             0);
 
         {
-            u8 *global_state = (u8 *)&dungeonStatus.unk_00;
+            DungeonGlobalStatus *global_state = &dungeonStatus;
 
-            if (((S_80173354_4 *)global_state)->unk_10.s == (u8 *)actor - 0x20) {
-                ((S_80173354_4 *)global_state)->unk_10.u &= 0x7FFFFFFF;
+            if (((s32)global_state->unk_10) == (u8 *)actor - 0x20) {
+                (*(u32 *)&global_state->unk_10) &= 0x7FFFFFFF;
             }
         }
         ((S_80173354_1 *)action)->unk_8C = D_80171400;

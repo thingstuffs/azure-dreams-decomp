@@ -78,11 +78,6 @@ typedef struct S_80170E70_2 {
 } S_80170E70_2;   /* arg2 in func_80170E70 */
 
 
-typedef struct S_80170E70_4 {
-    u8 pad_00[0x9A];
-    u8 unk_9A;
-} S_80170E70_4;   /* owner in func_80170E70 */
-
 typedef struct S_80170E70_5 {
     u8 pad_00[0x10];
     s16 * unk_10;
@@ -114,7 +109,7 @@ void func_80170E70(void *entity_in, void *context_in, void *sprite_in, void *act
     s32 current_state;
     u16 action_flags;
     void *continuation;
-    void *owner;
+    EntityRec *owner;
 
     if (dungeonStatus.flags & 0x1000) {
         ((S_80170E70_0 *)entity)->unk_9A = 14;
@@ -245,7 +240,7 @@ jt_c7:
             D_80082E80.tileX, D_80082E80.tileY, &path_distance);
         owner = D_800814A8;
         ((S_80170E70_1 *)actor)->unk_2A = target_angle;
-        if (((S_80170E70_4 *)owner)->unk_9A == 0x11) {
+        if (owner->unk_9A == 0x11) {
             continuation = D_80170E70;
             goto jt_call;
         }

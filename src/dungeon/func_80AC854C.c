@@ -32,21 +32,6 @@ typedef struct S_80173D4C_2 {
     s8 unk_6D;
 } S_80173D4C_2;   /* arg3 in func_80173D4C */
 
-typedef struct S_80173D4C_3 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_80173D4C_3;   /* counter_base in func_80173D4C */
-
-typedef struct S_80173D4C_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-} S_80173D4C_4;   /* status in func_80173D4C */
-
-
-typedef struct S_80173D4C_6 {
-    u8 pad_00[0x26];
-    s8 unk_26;
-} S_80173D4C_6;   /* origin in func_80173D4C */
 
 
 
@@ -78,9 +63,9 @@ void func_80173D4C(void *action_in, void *context_in, void *sprite_in, void *act
     void *actor;
     s32 state;
     void *actor_to_check;
-    u8 *status;
+    DungeonGlobalStatus *status;
     s32 actor_flags;
-    register u8 *counter_base_m ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register DungeonGlobalStatus *counter_base_m ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
     action = action_in;
     context = context_in;
@@ -113,11 +98,11 @@ state_zero:
         D_80174E4C[((gameWork.view.viewAngle + ((S_80173D4C_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
         0);
     {
-        u8 *counter_base;
+        DungeonGlobalStatus *counter_base;
 
-        counter_base = (u8 *)&dungeonStatus.unk_00;
-        ((S_80173D4C_3 *)counter_base)->unk_0A =
-            ((S_80173D4C_3 *)counter_base)->unk_0A - 1;
+        counter_base = &dungeonStatus;
+        counter_base->unk_0A =
+            ((u16)counter_base->unk_0A) - 1;
     }
     goto increment_state;
 
@@ -125,8 +110,8 @@ active:
     if ((func_80042900(actor, 1) << 16) == 0) {
         goto update_table;
     }
-    status = (u8 *)&dungeonStatus.unk_00;
-    if (((S_80173D4C_4 *)status)->unk_02 & 0x1000) {
+    status = &dungeonStatus;
+    if (status->flags & 0x1000) {
         goto done;
     }
     if (((S_80173D4C_2 *)actor)->unk_64 != 0) {
@@ -135,7 +120,7 @@ active:
         }
     }
     if (((S_80173D4C_2 *)actor)->unk_25 == 0) {
-        if (((S_80173D4C_4 *)status)->unk_02 & 0x2008) {
+        if (status->flags & 0x2008) {
             goto done;
         }
         func_800AA79C(action, context, sprite, actor);
@@ -202,8 +187,8 @@ update_table:
     }
     {
 
-        counter_base_m = (u8 *)&dungeonStatus.unk_00;
-        ((S_80173D4C_3 *)counter_base_m)->unk_0A++;
+        counter_base_m = &dungeonStatus;
+        (*(u16 *)&counter_base_m->unk_0A)++;
     }
 
 increment_state:
@@ -216,8 +201,8 @@ state_two:
     }
     {
 
-        counter_base_m = (u8 *)&dungeonStatus.unk_00;
-        ((S_80173D4C_3 *)counter_base_m)->unk_0A--;
+        counter_base_m = &dungeonStatus;
+        (*(u16 *)&counter_base_m->unk_0A)--;
     }
 
 assign_owner:

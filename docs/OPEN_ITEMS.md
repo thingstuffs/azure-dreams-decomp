@@ -16,6 +16,7 @@ Newest first within each section. Evidence links point at the record that measur
 | 10 | 147 rows keep a `(u8 *)&gameWork` view pointer | readability | only where the local pointer is not retail's base register (128 miss when folded) | TYPE_CONSOLIDATION.md phase 4 |
 | 11 | goto readability debt (1,599 rows) and remaining address-named local views | readability | byte-exact control-flow work in family packs; views via type consolidation | evidence/r78_wave1_report.md |
 | 12 | r77_opus_m6 site-for-pin trade on dungeon/func_81875B38 (4 -> 1) | pins | stage with a trade-ledger entry and review | HANDOVER round 77 |
+| 22 | slus/w_8005F134: a real `switch` removes all 4 ASM_REG pins but leaves one word (`lw v0,32(at)` vs jtbl_8003329C+0): the jump table must be owned as this file's .rodata | 4 pins | SLUS data-ownership move of jtbl_8003329C into w_8005F134 (GP-ownership style: C-owned data, image gate, module/placement evidence) | r78_opus_w11 REPORT |
 | 14 | tools/gate/match.py and tools/fidelity/probe_gp_module.py do not read config/slus_006.14.c_syms.txt | only the SLUS image gate + verify's module/partition gates prove a SLUS candidate naming a C-only symbol | teach both to read it | phase-6 REPORT |
 | 15 | evidence records keyed on the old pinned SLUS recipe sha read stale once (slus_module_evidence, certify_slus_module, prove_slus_ownership, pin_search) | expected after a recipe move | refresh on next use | phase-6 REPORT |
 

@@ -21,11 +21,6 @@ typedef struct S_801724BC_2 {
 } S_801724BC_2;   /* arg2 in func_801724BC */
 
 
-typedef struct S_801724BC_4 {
-    u8 pad_00[0x9A];
-    u8 unk_9A;
-} S_801724BC_4;   /* temp_actor in func_801724BC */
-
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern void *const D_80170808[];
@@ -75,7 +70,7 @@ void func_801724BC(void *actor, M2C_UNK context, void *sprite, void *state) {
     s32 state_flags;
     s32 action_id;
     s32 heading;
-    void *player;
+    EntityRec *player;
     s8 room_id;
     u16 *flags_page;
     u16 action_flags;
@@ -333,7 +328,7 @@ jt_c7:
     }
     player = D_800814A8;
     ((EntityRec *)state)->facing = heading;
-    if (((S_801724BC_4 *)player)->unk_9A == 0x11) {
+    if (player->unk_9A == 0x11) {
         goto block_78;
     }
 jt_c12:

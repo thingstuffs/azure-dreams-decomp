@@ -13,16 +13,6 @@ typedef struct S_8017357C_0 {
 } S_8017357C_0;   /* arg0 in func_8017357C */
 
 
-typedef struct S_8017357C_2 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_8017357C_2;   /* global in func_8017357C */
-
-
-typedef struct S_8017357C_4 {
-    u8 pad_00[0x58];
-    void * unk_58;
-} S_8017357C_4;   /* owner in func_8017357C */
 
 
 extern void func_80047784(void *, u8, s32);
@@ -110,10 +100,10 @@ state_one:
         }
 
         if ((s16)func_800A2C34(actor) != 0) {
-            void *owner;
+            EntityRec *owner;
 
             owner = D_800814A8;
-            if ((s16)func_8009A180(actor, (u8 *)((S_8017357C_4 *)owner)->unk_58 + 0x20) != 0) {
+            if ((s16)func_8009A180(actor, (u8 *)owner->unk_58 + 0x20) != 0) {
                 return;
             }
         }

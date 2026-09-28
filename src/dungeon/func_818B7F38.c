@@ -90,10 +90,6 @@ typedef struct S_80025738_11 {
     union { s16 s; u16 u; } unk_18;   /* accessed as both */
 } S_80025738_11;   /* var_a2 in func_80025738 */
 
-typedef struct S_80025738_12 {
-    s32 unk_00;
-} S_80025738_12;   /* &D_800814A0 in func_80025738 */
-
 typedef struct S_80025738_13 {
     u8 pad_00[0x14];
     u16 unk_14;
@@ -466,7 +462,7 @@ phase_finish:
     }
     dungeonStatus.unk_0C = 0;
     (*(u16 *)((u8 *)state + -2)) = (u16) ((*(u16 *)((u8 *)state + -2)) | 0x8000);
-    (*(s32 *)&objectFlagBlock.flags) = (s32) (((S_80025738_12 *)(&objectFlagBlock.flags))->unk_00 | 0x8000);
+    (*(s32 *)&objectFlagBlock.flags) = (s32) (objectFlagBlock.flags | 0x8000);
     goto clear_update_flag;
 phase_move_path:
     ((S_80025738_5 *)motion_in)->unk_00.at00.v = (s32) (((S_80025738_5 *)motion_in)->unk_00.at00.v + ((S_80025738_5 *)motion_in)->unk_0C);

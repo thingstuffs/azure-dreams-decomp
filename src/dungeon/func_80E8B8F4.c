@@ -54,17 +54,6 @@ typedef struct S_801710F4_2 {
 } S_801710F4_2;   /* arg2 in func_801710F4 */
 
 
-typedef struct S_801710F4_4 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_801710F4_4;   /* origin in func_801710F4 */
-
-typedef struct S_801710F4_5 {
-    u8 pad_00[0x9A];
-    u8 unk_9A;
-} S_801710F4_5;   /* player in func_801710F4 */
-
 /* Updates dungeon actor behavior, facing, and animation from its current state. */
 void func_801710F4(void *actor_input, void *context_input, void *sprite_input, void *entity_input)
 {
@@ -218,7 +207,7 @@ jt_c5:
 jt_c6:
 jt_c7:
         {
-            void *player;
+            EntityRec *player;
             s16 facing_angle;
 
             facing_angle = func_800A0818(
@@ -227,7 +216,7 @@ jt_c7:
                 &distance);
             player = D_800814A8;
             ((EntityRec *)entity)->facing = facing_angle;
-            if (((S_801710F4_5 *)player)->unk_9A == 0x11) {
+            if (player->unk_9A == 0x11) {
                 goto aaf_cleanup;
             }
         }

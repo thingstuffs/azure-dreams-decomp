@@ -37,21 +37,6 @@ typedef struct S_8016CC70_2 {
     s8 unk_6D;
 } S_8016CC70_2;   /* actor in func_8016CC70 */
 
-typedef struct S_8016CC70_3 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_8016CC70_3;   /* counter_base in func_8016CC70 */
-
-typedef struct S_8016CC70_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-} S_8016CC70_4;   /* held_base in func_8016CC70 */
-
-
-typedef struct S_8016CC70_6 {
-    u8 pad_00[0x26];
-    s8 unk_26;
-} S_8016CC70_6;   /* room_base in func_8016CC70 */
 
 s32 func_80042900(void *, s32);
 void func_80042B68(void *, s32);
@@ -75,10 +60,10 @@ extern u8 D_80173AD0[];
 void func_8016CC70(void *obj_arg, s32 context_arg, void *target_arg, void *actor_arg) {
     void *target = target_arg;
     register void *actor ASM_REG("$17") = actor_arg;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    u8 *held_base;
+    DungeonGlobalStatus *held_base;
     void *callback;
     TileObject *room_base;
-    register u8 *counter_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    register DungeonGlobalStatus *counter_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     s32 action_state;
     s32 obj_kind;
     s32 actor_flags;
@@ -120,8 +105,8 @@ zero_setup:
     (*(u8 **)((u8 *)target + 0x2C)) = D_80173AC8;
     func_80047784(target, D_80173AC8[((gameWork.view.viewAngle + ((S_8016CC70_2 *)actor)->unk_2A + 0x100) >> 9) & 7], 0);
 decrement_counter:
-    counter_base = (u8 *)&dungeonStatus.unk_00;
-    ((S_8016CC70_3 *)counter_base)->unk_0A--;
+    counter_base = &dungeonStatus;
+    (*(u16 *)&counter_base->unk_0A)--;
     ((S_8016CC70_0 *)obj_arg)->unk_9B++;
     goto done;
 
@@ -158,8 +143,8 @@ call_check:
     goto high_kind;
 
 action_body:
-    held_base = &dungeonStatus.unk_00;
-    if (((S_8016CC70_4 *)held_base)->unk_02 & 0x1000) {
+    held_base = &dungeonStatus;
+    if (held_base->flags & 0x1000) {
         goto done;
     }
     if (((S_8016CC70_2 *)actor)->unk_64 != 0) {
@@ -168,7 +153,7 @@ action_body:
         }
     }
     if (((S_8016CC70_2 *)actor)->unk_25 == 0) {
-        if (((S_8016CC70_4 *)held_base)->unk_02 & 0x2008) {
+        if (held_base->flags & 0x2008) {
             goto done;
         }
         func_800AA79C(obj_arg, context_arg, target, actor);
@@ -238,8 +223,8 @@ after_tiles:
     if (((S_8016CC70_1 *)target)->unk_14 & 0x8000) {
         goto set_callback;
     }
-    counter_base = (u8 *)&dungeonStatus.unk_00;
-    ((S_8016CC70_3 *)counter_base)->unk_0A++;
+    counter_base = &dungeonStatus;
+    (*(u16 *)&counter_base->unk_0A)++;
 counter_changed:
     ((S_8016CC70_0 *)obj_arg)->unk_9B++;
     goto done;
@@ -248,8 +233,8 @@ state_two:
     if (!(((S_8016CC70_1 *)target)->unk_14 & 0xE000)) {
         goto done;
     }
-    counter_base = (u8 *)&dungeonStatus.unk_00;
-    ((S_8016CC70_3 *)counter_base)->unk_0A--;
+    counter_base = &dungeonStatus;
+    (*(u16 *)&counter_base->unk_0A)--;
 set_callback:
     callback = &D_8016A36C;
     ((S_8016CC70_0 *)obj_arg)->unk_8C = callback;

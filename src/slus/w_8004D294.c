@@ -3,28 +3,11 @@
 
 #include "common.h"
 
-typedef struct 
-{
-  char pad0[0xA4];
-  s16 f_A4;
-  s16 f_A6;
-  s16 f_A8;
-  s16 f_AA;
-  s16 f_AC;
-  s16 f_AE;
-  s16 f_B0;
-  s16 f_B2;
-  void *callback;
-  void *field_B8;
-  char pad_bc[0x140 - 0xBC];
-  void *field_140;
-  char pad_144[0x1C4 - 0x144];
-} S_80083178_local;
 extern void func_8004D1EC(void *a0, void *a1, u16 a2, void *a3);
 /* Set position and rotation targets, adjusting rotation components across the 12-bit wrap. */
 void func_8004D294(void *target_position, void *target_rotation, s32 transition_param)
 {
-  S_80083178_local *state = (S_80083178_local *)(&gameWork.view);
+  GameView *state = &gameWork.view;
   u16 angle_bits;
   s16 target_angle;
   s16 current_angle;
@@ -32,7 +15,7 @@ void func_8004D294(void *target_position, void *target_rotation, s32 transition_
   s32 within_half_turn;
   if (target_position != 0)
   {
-    func_8004D1EC(&state->field_B8, target_position, transition_param, &state->f_A4);
+    func_8004D1EC(&state->slot[0].unk_04, target_position, transition_param, &state->unk_0A4);
   }
   if (target_rotation != 0)
   {
@@ -47,7 +30,7 @@ void func_8004D294(void *target_position, void *target_rotation, s32 transition_
       target_angle = angle_bits & 0x7FF;
     }
     *((s16 *) (((u8 *) target_rotation) + 0)) = target_angle;
-    angle_bits = *((u16 *) (&state->f_AC));
+    angle_bits = *((u16 *) (&state->unk_0AC));
     if (angle_bits & 0x800)
     {
       current_angle = angle_bits | 0xF800;
@@ -56,7 +39,7 @@ void func_8004D294(void *target_position, void *target_rotation, s32 transition_
     {
       current_angle = angle_bits & 0x7FF;
     }
-    state->f_AC = current_angle;
+    state->unk_0AC = current_angle;
     {
       current_angle_wide_m = current_angle;
       angle_delta = (*((s16 *) (((u8 *) target_rotation) + 0))) - current_angle_wide_m;
@@ -81,7 +64,7 @@ void func_8004D294(void *target_position, void *target_rotation, s32 transition_
       target_angle = angle_bits & 0x7FF;
     }
     *((s16 *) (((u8 *) target_rotation) + 2)) = target_angle;
-    angle_bits = *((u16 *) (&state->f_AE));
+    angle_bits = *((u16 *) (&state->unk_0AE));
     if (angle_bits & 0x800)
     {
       current_angle = angle_bits | 0xF800;
@@ -90,7 +73,7 @@ void func_8004D294(void *target_position, void *target_rotation, s32 transition_
     {
       current_angle = angle_bits & 0x7FF;
     }
-    state->f_AE = current_angle;
+    state->unk_0AE = current_angle;
     {
       current_angle_wide_m = current_angle;
       angle_delta = (*((s16 *) (((u8 *) target_rotation) + 2))) - current_angle_wide_m;
@@ -115,7 +98,7 @@ void func_8004D294(void *target_position, void *target_rotation, s32 transition_
       target_angle = angle_bits & 0x7FF;
     }
     *((s16 *) (((u8 *) target_rotation) + 4)) = target_angle;
-    angle_bits = *((u16 *) (&state->f_B0));
+    angle_bits = *((u16 *) (&state->viewAngle));
     if (angle_bits & 0x800)
     {
       current_angle = angle_bits | 0xF800;
@@ -124,7 +107,7 @@ void func_8004D294(void *target_position, void *target_rotation, s32 transition_
     {
       current_angle = angle_bits & 0x7FF;
     }
-    state->f_B0 = current_angle;
+    state->viewAngle = current_angle;
     {
       current_angle_wide_m = current_angle;
       angle_delta = (*((s16 *) (((u8 *) target_rotation) + 4))) - current_angle_wide_m;
@@ -139,6 +122,6 @@ void func_8004D294(void *target_position, void *target_rotation, s32 transition_
     {
       *((s16 *) (((u8 *) target_rotation) + 4)) = (current_angle & 0xF000) | (angle_bits & 0xFFF);
     }
-    func_8004D1EC(&state->field_140, target_rotation, transition_param, &state->f_AC);
+    func_8004D1EC(&state->slot[2].unk_04, target_rotation, transition_param, &state->unk_0AC);
   }
 }

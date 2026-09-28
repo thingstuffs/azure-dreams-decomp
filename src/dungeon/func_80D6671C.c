@@ -67,17 +67,6 @@ typedef struct S_80171F1C_2 {
 } S_80171F1C_2;   /* arg2 in func_80171F1C */
 
 
-typedef struct S_80171F1C_4 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_80171F1C_4;   /* origin in func_80171F1C */
-
-typedef struct S_80171F1C_5 {
-    u8 pad_00[0x9A];
-    u8 unk_9A;
-} S_80171F1C_5;   /* player in func_80171F1C */
-
 /* Update actor movement, animation, and action handling for the dungeon turn. */
 void func_80171F1C(void *motion_arg, void *actor_index_arg, void *actor_arg, void *move_data_arg)
 {
@@ -246,7 +235,7 @@ flag_case:
 
 coords_case:
         {
-            void *player;
+            EntityRec *player;
             s16 heading;
 
             heading = func_800A0818(
@@ -255,7 +244,7 @@ coords_case:
                 &direction_flags);
             player = D_800814A8;
             ((EntityRec *)move_data)->facing = heading;
-            if (((S_80171F1C_5 *)player)->unk_9A == 0x11) {
+            if (player->unk_9A == 0x11) {
                 goto aaf_cleanup;
             }
         }
