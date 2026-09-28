@@ -7,13 +7,11 @@ extern u8 D_800E3DE0[];
 /* Selects a slot by type and ID, clearing flags for special IDs. */
 u8 *func_800A1618(s32 requested_id, s32 requested_type) {
     u8 *result;
-    register u8 *table ASM_REG("$3");
-    u8 *ram_base;
     s32 slot_type;
     s32 match_id;
     s32 short_id;
     s16 slot_id;
-    register s32 saved_type ASM_REG("$9");
+    s32 saved_type;
     s32 slot_index;
     u8 *entry_id;
     u8 *candidate;
@@ -25,26 +23,23 @@ u8 *func_800A1618(s32 requested_id, s32 requested_type) {
     short_id = requested_id;
     short_id = (s16)short_id;
     if (short_id == 0x38) {
+        u8 *table;
         table = D_800E3DB0;
         result = table + 0x10;
-        ram_base = (u8 *)0x800E0000;
-        ASM_KEEP4(result, table, ram_base, saved_type);
         table[0x11] = 0;
-        table = ram_base + 0x3DA0;
-        table[2] = 0;
-        goto clear_flags;
+        D_800E3DA0[2] = 0;
+        D_800E3DA0[1] = 0;
+        D_800E3DA0[0] = 0;
+        return result;
     }
     match_id = 0x31;
     if (short_id == 0x31) {
+        u8 *table;
         table = D_800E3DB0;
         result = table + 8;
-        ram_base = (u8 *)0x800E0000;
-        ASM_KEEP4(result, table, ram_base, saved_type);
         table[9] = 0;
-        table = ram_base + 0x3DA0;
-clear_flags:
-        table[1] = 0;
-        ram_base[0x3DA0] = 0;
+        D_800E3DA0[1] = 0;
+        D_800E3DA0[0] = 0;
         return result;
     }
     if (short_id == 0x39) slot_id = 2;
@@ -95,7 +90,6 @@ scan:
         slot_type = (s16)saved_type;
         type_one = 1;
         type_three = 3;
-        ASM_USE(saved_type);
         match_id = (s16)slot_id;
         type_two = 2;
         slot_ids = (s8 *)D_800E3DA0;

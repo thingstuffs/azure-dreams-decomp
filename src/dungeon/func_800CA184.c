@@ -227,6 +227,8 @@ void func_800CF8E4(void) {
     vertices = (u8 *)((S_800CF8E4_1 *)map)->unk_08;
     normals = (u8 *)((S_800CF8E4_1 *)map)->unk_0C;
     if (!(render_flags & 2)) {
+        s32 corner_arg;
+
         coord = func_800BCB04(((S_800CF8E4_2 *)view)->unk_A4, ((S_800CF8E4_2 *)view)->unk_A6, (s16) (((S_800CF8E4_2 *)view)->unk_A8 - 0x20));
         if (coord < 0x201) {
             *(s32 *)(ram_base + 0x158) = coord;
@@ -237,12 +239,10 @@ L_CF974:
         func_80064D50(((void **)((s8 *)((void **)((s8 *)view + 0x58)))));
         func_80064624(((S_800CF8E4_2 *)view)->unk_84, ((S_800CF8E4_2 *)view)->unk_88);
         func_80064D20(((void **)((s8 *)((void **)((s8 *)view + 0x38)))));
-        render_input = view;
-        ASM_KEEP(render_input);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        neighbor_row_step = (s32)(view_corners);
+        corner_arg = (s32)(view_corners);
         render_arg = *(s32 *)(ram_base + 0x158);
         ((S_800CF8E4_0 *)scene)->unk_1E = 0x1BA;
-        func_80046884(render_input, (void *)neighbor_row_step, render_arg);
+        func_80046884(view, (void *)corner_arg, render_arg);
         reset_page = (u8 *)0x800E0000;
         if (reset_page[-0x30A8] != 0) {
             corner_0_x = view_corners[0];
@@ -375,6 +375,8 @@ L_CF974:
         }
 L_CFB98:
         {
+            s32 setup_arg;
+            s32 setup_render;
             s32 setup_value;
             s32 setup_base;
             s32 width_shift_or_end;
@@ -385,9 +387,9 @@ L_CFB98:
             register s32 draw_mode ASM_REG("$12");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
             render_input = view + 8;
-            neighbor_row_step = (s32)(ram_base + 0x01C);
+            setup_arg = (s32)((u8 *)((u32)ram_base | 0x01C));
             setup_value = ((S_800CF8E4_2 *)view)->unk_90;
-            render_arg = (s32)((u8 *)((u32)ram_base | 0x174));
+            setup_render = (s32)((u8 *)((u32)ram_base | 0x174));
             *(s32 *)(ram_base + 0x000) = setup_value;
             setup_value = (s32)0x80010000;
             setup_base = (s32)((S_800CF8E4_0 *)scene)->unk_00;
@@ -427,7 +429,7 @@ L_CFB98:
             *(s32 *)(ram_base + 0x14C) = setup_value;
             *(s32 *)(ram_base + 0x17C) = width_shift_or_end;
             *(u16 *)(ram_base + 0x174) = 4U;
-            *(s32 *)(ram_base + 0x00C) = (s16)func_80046C20(render_input, (void *)neighbor_row_step, render_arg, (void *)width_shift_or_end);
+            *(s32 *)(ram_base + 0x00C) = (s16)func_80046C20(render_input, (void *)setup_arg, setup_render, (void *)width_shift_or_end);
         }
         if (*(u16 *)(ram_base + 0x174) != 0) {
             s32 address_mask;
