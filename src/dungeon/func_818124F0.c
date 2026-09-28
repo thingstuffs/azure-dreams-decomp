@@ -48,7 +48,7 @@ extern void func_80026CD8(void *);
 
 /* Handles menu actions and repeated grid navigation, updating the selection and page. */
 void func_800274F0(S_800274F0_Arg *menu) {
-    S_8003E2D8 *input;
+    GameWork *input;
     s32 held_buttons;
     s32 pressed_buttons;
     s32 index_step = 0;
@@ -59,11 +59,11 @@ void func_800274F0(S_800274F0_Arg *menu) {
     s32 remaining_items;
     s32 repeat_buttons;
 
-    input = ((S_8003E2D8 *)&gameWork);
-    held_buttons = input->unk8;
+    input = &gameWork;
+    held_buttons = ((s32)input->unk_008);
     if (held_buttons == 0)
         goto done;
-    pressed_buttons = input->unk10;
+    pressed_buttons = ((s32)input->unk_010);
     if (pressed_buttons & 0x20) {
         SD_Call(0x515, input);
         func_800274A8(menu);
@@ -97,7 +97,7 @@ direction_entry:
         goto direction_common;
     if (pressed_buttons & 0xF000) {
         menu->unkC = 0;
-        pressed_buttons = input->unk10;
+        pressed_buttons = ((s32)input->unk_010);
         if (pressed_buttons & 0x8000) {
             index_step = -1;
             goto direction_common;
@@ -119,7 +119,7 @@ direction_entry:
     if (repeat_ticks < 9)
         goto increment_done;
     menu->unkC = repeat_ticks - 1;
-    repeat_buttons = input->unk8;
+    repeat_buttons = ((s32)input->unk_008);
     if (repeat_buttons & 0x8000) {
         index_step = -1;
         goto direction_common;

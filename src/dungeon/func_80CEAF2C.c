@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/def_table.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/entity.h"
@@ -73,7 +74,6 @@ extern s32 func_800A94A0();
 extern void func_80171790();
 extern void func_80171928();
 
-extern u8 D_8006DE24[];
 extern s32 D_80083460;
 extern s32 D_8008346C;
 extern void *D_80170850[];
@@ -179,7 +179,7 @@ choice_ready:
             goto record_setup;
         }
 
-        if (D_8006DE24[*move * 20 + 0x12] == 2) {
+        if (D_8006DE24[*move].kind == 2) {
             target = ((S_8017472C_1 *)actor)->unk_60;
             if (target == 0) {
                 goto move_setup;

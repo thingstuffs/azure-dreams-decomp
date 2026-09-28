@@ -4,12 +4,6 @@
 #include "common.h"
 
 typedef struct {
-    u8 pad0[8];
-    u32 field8;
-    u8 padC[4];
-} Func80038128Global;
-
-typedef struct {
     u8 pad0[0x10];
     void (*func10)(void *);
     u8 pad14[4];
@@ -24,10 +18,10 @@ extern void func_80038A10(void *arg0);
 
 /* Advance to the next handler when the countdown expires or the global flag permits. */
 void func_80038128(Func80038128State *state) {
-    Func80038128Global *global = ((Func80038128Global *)&gameWork);
+    GameWork *global = &gameWork;
 
     if (state->field87 == 0) {
-        if ((global->field8 & 0x20) != 0) {
+        if ((((u32)global->unk_008) & 0x20) != 0) {
             if (state->field2E == 0) {
                 state->field2E = 1;
             }

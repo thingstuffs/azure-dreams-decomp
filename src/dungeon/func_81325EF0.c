@@ -82,7 +82,7 @@ typedef struct S_8016D6F0_9 {
 /* Advance the actor's action state, directional animation, and completion callback. */
 void func_8016D6F0(S_8016D6F0_0 *actor, s32 actor_id, Rec_D_80082E80 *sprite, void *entity)
 {
-    S_8016D6F0_7 *reference_pos;
+    TileObject *reference_pos;
     u8 *counter_base;
     u8 *flags_page;
     u8 *reference_base;
@@ -182,9 +182,9 @@ action_body:
     func_800A9A0C(entity);
     func_800A9A04(entity);
     if ((func_80042900(entity, 1) << 0x10) != 0) {
-        reference_pos = ((u8 *)(&D_80082E80));
+        reference_pos = &D_80082E80;
         room_id = sprite->unk_26.as_s8;
-        if ((room_id != reference_pos->unk_26) || (room_id < 0)) {
+        if ((room_id != reference_pos->unk_026) || (room_id < 0)) {
             if (func_8009FD40(reference_pos, sprite) >= 2) {
                 goto second_check;
             }

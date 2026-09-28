@@ -57,7 +57,7 @@ void func_800C5E5C(s16 x, s16 y, s16 z, s32 sprite_id, s16 play_sound) {
     s32 effect_offset;
     s32 size;
     S_800C5E5C_2 *sprite;
-    CounterBlock *counter;
+    DungeonGlobalStatus *counter;
     void *effect;
     S_800C5E5C_1 *transform;
     S_800C5E5C_3 *effect_state;
@@ -68,7 +68,7 @@ void func_800C5E5C(s16 x, s16 y, s16 z, s32 sprite_id, s16 play_sound) {
     }
     effect_index = 0xB;
     size = 0x20;
-    counter = ((CounterBlock *)&dungeonStatus);
+    counter = &dungeonStatus;
     effect_offset = 0xFFFA0000;
     do {
         object_type = 0x12;
@@ -107,7 +107,7 @@ void func_800C5E5C(s16 x, s16 y, s16 z, s32 sprite_id, s16 play_sound) {
             effect_state->unk_10 = size;
             effect_state->unk_0C = effect_index;
             if (effect_index == 0) {
-                counter->count = (u16) (counter->count + 1);
+                counter->unk_0A = (u16) (((u16)counter->unk_0A) + 1);
             }
         }
         effect_offset += 0x8000;

@@ -398,5 +398,13 @@
   "dungeon/func_81845068",
   "town/func_800CA590",
   "slus/w_80053858"
+ ],
+ "r78_astra_b8": [
+  "dungeon/func_8133A7A8",
+  "slus/w_800463EC"
+ ],
+ "r78_astra_b9": [
+  "dungeon/func_819602D8",
+  "slus/w_8003D0F0"
  ]
 }

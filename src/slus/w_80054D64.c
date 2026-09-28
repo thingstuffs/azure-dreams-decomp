@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sound_volume.h"
 
 /* Canonical status block shared across the D_800847D0 family (w_800540A8.c,
    w_80054C58.c, w_8005405C.c, w_800559B4.c). Only flags1 is touched here. */
@@ -42,21 +43,20 @@ typedef struct S_80084858 {
 
 extern S_800847D0 D_800847D0;
 extern S_80084858 D_80084858;
-extern s16 D_8008480C[8];
 
 extern void func_8005A56C(s32 arg0, s32 arg1, s32 arg2);
 
-/* Apply the scaled pitch bend to both channels when status flag 0x400 is set. */
+/* When status flag 0x400 is set: D_80084858's level, scaled by volume scale [2], goes to func_8005A56C (mode 0). */
 void func_80054D64(void) {
-    s16 pitch;
-    s32 scaled_pitch;
+    s16 level;
+    s32 scaled;
 
     if (D_800847D0.flags1 & 0x400) {
-        S_80084858 *pitch_task = &D_80084858;
+        S_80084858 *task = &D_80084858;
 
-        pitch = (pitch_task->field8 * D_8008480C[0]) / 32767;
-        scaled_pitch = pitch * pitch_task->field10;
-        pitch = scaled_pitch / 128;
-        func_8005A56C(0, pitch, pitch);
+        level = (task->field8 * volumeScale[2]) / 32767;
+        scaled = level * task->field10;
+        level = scaled / 128;
+        func_8005A56C(0, level, level);
     }
 }

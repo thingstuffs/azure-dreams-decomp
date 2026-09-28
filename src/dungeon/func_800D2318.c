@@ -90,8 +90,8 @@ void func_800D7A78(DungeonState *effect) {
     u16 position_offset[3];
 
     {
-        u8 *position_table = ((u8 *)(&D_80082E80));
-        if (func_8003DE58(*(s32 *)(position_table + 8), position_table, position_offset, 0) != 0) {
+        TileObject *position_table = &D_80082E80;
+        if (func_8003DE58(position_table->unk_008, position_table, position_offset, 0) != 0) {
             effect->x = ((u16)D_80083780.x.w.i) + position_offset[0];
             effect->y = ((u16)D_80083780.y.w.i) + position_offset[1];
             effect->z = ((u16)D_80083780.z.w.i) + position_offset[2] + 0x20;
@@ -121,14 +121,14 @@ spawn_objects:
     {
         s32 spawn_index = 7;
         u8 *object_data = D_800D7D30;
-        DungeonCounter *object_counter = (DungeonCounter *)((u8 *)(&dungeonStatus));
+        DungeonGlobalStatus *object_counter = &dungeonStatus;
         DungeonTemplate *object_template = (DungeonTemplate *)D_800DEA68;
 
         do {
             DungeonObject *object = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
             if (object != NULL) {
                 object->unk10 = (DungeonInner *)object_data;
-                object_counter->count += 1;
+                object_counter->unk_0A += 1;
                 func_8004491C(object, func_80045340);
                 {
                     DungeonInner *object_inner = object->unkC;

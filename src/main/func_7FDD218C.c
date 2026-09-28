@@ -25,13 +25,6 @@ typedef struct Obj {
     /* 0x26 */ u16 f26;
 } Obj;
 
-typedef struct {
-    s32 pad0[2]; /* 0x00 */
-    s32 a;       /* 0x08 */
-    s32 pad1;    /* 0x0c */
-    s32 b;       /* 0x10 */
-} S_80083160;
-
 extern u8 D_80080A84[];
 extern u8 D_80080A78[];
 extern u8 D_80088930[];
@@ -51,14 +44,14 @@ void func_800890EC(Obj *obj, s32 *position) {
     int slot;
     u16 next_state;
     void *child;
-    S_80083160 *input = ((S_80083160 *)&gameWork);
+    GameWork *input = &gameWork;
 
     frames_left = obj->counter - 1;
     obj->counter = frames_left;
 
     switch (obj->state) {
     case 0:
-        if (input->b != 0) {
+        if (((s32)input->unk_010) != 0) {
             obj->state = 16;
             return;
         }
@@ -69,7 +62,7 @@ void func_800890EC(Obj *obj, s32 *position) {
         return;
 
     case 1:
-        if (input->a != 0) {
+        if (((s32)input->unk_008) != 0) {
             obj->state = 16;
             return;
         }
@@ -83,7 +76,7 @@ void func_800890EC(Obj *obj, s32 *position) {
         return;
 
     case 2:
-        if (input->a != 0) {
+        if (((s32)input->unk_008) != 0) {
             obj->state = 19;
             return;
         }
@@ -101,7 +94,7 @@ void func_800890EC(Obj *obj, s32 *position) {
         return;
 
     case 3:
-        if (input->a != 0) {
+        if (((s32)input->unk_008) != 0) {
             obj->state = 19;
         }
         if ((s16) obj->counter > 0) {
@@ -112,15 +105,15 @@ void func_800890EC(Obj *obj, s32 *position) {
         return;
 
     case 4:
-        if (input->a != 0) {
+        if (((s32)input->unk_008) != 0) {
             obj->counter = 1800;
         }
-        if (input->b & 0x1000) {
+        if (((s32)input->unk_010) & 0x1000) {
             obj->f24 = (s16) ((obj->f24 + 2) % 3);
-        } else if (input->b & 0x4000) {
+        } else if (((s32)input->unk_010) & 0x4000) {
             obj->f24 = (s16) ((obj->f24 + 1) % 3);
         }
-        if (input->b & 0x840) {
+        if (((s32)input->unk_010) & 0x840) {
             func_80053da8(obj->f24 == 2 ? 1314 : 1306);
             obj->counter = 96;
             obj->state = 32;

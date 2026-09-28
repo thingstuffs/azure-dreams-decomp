@@ -82,8 +82,8 @@ extern s32 D_80100E18;
 /* Initialize the town scene and configure its object for the current mode. */
 void func_8008FFC8(void)
 {
-    ScenePos *scene;
-    RenderState *render;
+    EntityRec *scene;
+    TileObject *render;
     TownState *state;
     TownObject *object;
     TownWork *work;
@@ -95,13 +95,13 @@ void func_8008FFC8(void)
     u16 y_coord;
     u16 frame;
 
-    scene = ((ScenePos *)&D_80083780);
+    scene = &D_80083780;
     D_80100E18 = 0;
     D_80100DB0 = 0;
     func_8003DB4C(scene, 6);
-    render = ((RenderState *)&D_80082E80);
+    render = &D_80082E80;
     func_8003DB4C(render, 0xC);
-    render->source = D_80080A80;
+    render->unk_028 = D_80080A80;
     func_8008EF58();
 
     shared_data = D_800D0420;
@@ -124,9 +124,9 @@ void func_8008FFC8(void)
 
         object->callback = D_8008FFC0;
         coords = state->coords;
-        scene->x = state->x_offset + coords[0];
-        scene->y = state->y_offset + coords[1];
-        scene->angle = 0;
+        scene->x.w.i = state->x_offset + coords[0];
+        scene->y.w.i = state->y_offset + coords[1];
+        scene->z.w.i = 0;
         func_800A48B0(D_80100D98, scene);
         return;
     }
@@ -137,19 +137,19 @@ void func_8008FFC8(void)
         object->callback = D_800903FC;
         func_8004491C(object, D_800970FC);
         neutral_color = 0x808080;
-        render->scale1 = 0x1000;
-        render->scale0 = 0x1000;
+        render->unk_01E = 0x1000;
+        render->unk_01C = 0x1000;
 
         coords = state->coords;
         x_offset = state->x_offset;
         x_coord = coords[0];
-        render->color = neutral_color;
-        scene->x = x_offset + x_coord;
+        *(s32 *)(&render->unk_00C) = neutral_color;
+        scene->x.w.i = x_offset + x_coord;
         y_offset = state->y_offset;
         y_coord = coords[1];
-        scene->angle = -0x80;
-        scene->y = y_offset + y_coord;
-        scene->angle = func_800C2AE8(scene);
+        scene->z.w.i = -0x80;
+        scene->y.w.i = y_offset + y_coord;
+        scene->z.w.i = func_800C2AE8(scene);
         func_8008FF5C();
         func_8009550C(scene);
 
@@ -166,7 +166,7 @@ void func_8008FFC8(void)
             work->active = 1;
         }
 
-        render->source = D_80080A80;
+        render->unk_028 = D_80080A80;
         if ((D_8006ADD4 != 0xC) && (func_8009F830(2, 0x13) != 0)) {
             func_800AB084();
         }

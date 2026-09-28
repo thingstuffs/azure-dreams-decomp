@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/def_table.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -17,7 +18,6 @@ extern s32 func_800A94A0(void *, u8 *, s32, u16 *);
 extern void func_800BB044(void *);
 extern void func_80174BC8(void *, void *, void *);
 
-extern u8 D_8006DE24[];
 extern void *D_80170868[];
 extern M2C_UNK D_80170E94;
 extern u8 D_80175F10[8];
@@ -165,7 +165,7 @@ have_item:
         u8 item_id;
 
         item_id = *item;
-        if (D_8006DE24[item_id * 20 + 0x12] != 2) {
+        if (D_8006DE24[item_id].kind != 2) {
             goto spawn_object;
         }
     }

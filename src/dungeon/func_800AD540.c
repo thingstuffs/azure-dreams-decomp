@@ -127,14 +127,14 @@ after_delay:
 
 stop_motion:
     {
-        Global83460 *shared_state = ((Global83460 *)&dungeonStatus);
+        DungeonGlobalStatus *shared_state = &dungeonStatus;
         motion->unk14 = 0;
         motion->dy = 0;
         motion->dx = 0;
-        if (shared_state->value == (s32)((u8 *)entity - 0x20)) {
-            shared_state->value &= 0x7fffffff;
+        if (((s32)shared_state->unk_10) == (s32)((u8 *)entity - 0x20)) {
+            *(s32 *)&shared_state->unk_10 &= 0x7fffffff;
         }
-        shared_state->count++;
+        shared_state->unk_0A++;
         func_8009A028(entity, shared_state);
         ((u16 *)motion_state)[-1] |= 0x8000;
         objectFlagBlock.flags |= 0x8000;

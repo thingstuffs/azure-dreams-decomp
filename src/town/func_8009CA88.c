@@ -21,18 +21,6 @@ struct S_80083178_L
   void *ptr;
   char pad_dc[0x1C4 - 0xDC];
 };
-typedef struct 
-{
-  unsigned char data[24];
-} MonsterInitialStats_L;
-typedef struct 
-{
-  unsigned char data[12];
-} Trap_L;
-typedef struct 
-{
-  unsigned char data[8];
-} StatGrowth_L;
 extern int D_800814C8;
 extern int D_80081550;
 extern int D_80081558;
@@ -41,7 +29,6 @@ extern unsigned char D_80071298[];
 extern volatile int D_80071250[];
 extern int D_800712B4[];
 extern int D_80084130[3];
-extern short D_80084808[8];
 s32 func_8003BD84();
 M2C_UNK func_80098928();
 u16 func_800C2AE8();

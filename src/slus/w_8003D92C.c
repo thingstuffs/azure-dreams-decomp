@@ -1,13 +1,6 @@
 #include "common.h"
 #include "shared/game_work.h"
 
-typedef struct
-{
-  char pad0[8];
-  int field8;
-  char padC[4];
-  int field10;
-} S_8003D92C_80083160;
 extern u8 D_80082E6F[16];
 extern u8 D_80080A84;
 extern short D_80080ABC;
@@ -37,23 +30,23 @@ int func_8003D92C(void)
   int held_flags;
   int flags;
   int saved_setting;
-  S_8003D92C_80083160 *input_state;
-  input_state = ((S_8003D92C_80083160 *)&gameWork);
+  GameWork *input_state;
+  input_state = &gameWork;
   if (D_80082E6F[0] & 0x80)
   {
     return 0;
   }
-  trigger_flags = input_state->field10;
+  trigger_flags = ((int)input_state->unk_010);
   if (trigger_flags & 0x100)
   {
-    if (!(input_state->field8 & 0x800))
+    if (!(((int)input_state->unk_008) & 0x800))
     {
       D_80080ABE = 1;
     }
   }
   else if (trigger_flags & 0x800)
   {
-    if (input_state->field8 & 0x100)
+    if (((int)input_state->unk_008) & 0x100)
     {
       D_80080ABE = 1;
     }
@@ -64,7 +57,7 @@ int func_8003D92C(void)
       return 0;
     }
   }
-  held_flags = input_state->field8;
+  held_flags = ((int)input_state->unk_008);
   if (!(held_flags & 0x100))
   {
     D_80080ABE = 0;

@@ -1,6 +1,7 @@
 /* first_pass: swept 49 configs, best 2.7.2-cdk '-fno-delayed-branch' 89 words off — do NOT re-sweep by hand */
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "shared/entity.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 
@@ -76,13 +77,13 @@ repeat_move:
         }
         if (index_delta == 0) {
             if (((S_8004FAA4_0 *)input)->unk_10 & 1) {
-                if (((S_8004FAA4_2 *)(D_800814A8))->unk_B0 != 0) {
+                if (((s32)D_800814A8->unk_B0) != 0) {
                     target_menu = menu;
                     target_side = 1;
                     goto select_target;
                 }
             } else if (((S_8004FAA4_0 *)input)->unk_10 & 2) {
-                if (((S_8004FAA4_2 *)(D_800814A8))->unk_AC != 0) {
+                if (((s32)D_800814A8->unk_AC) != 0) {
                     target_menu = menu;
                     target_side = 0;
 select_target:

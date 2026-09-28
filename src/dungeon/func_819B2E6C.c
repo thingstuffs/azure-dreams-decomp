@@ -124,8 +124,8 @@ void func_8002466C(void *effect)
     s32 display_link;
     u16 frames_left;
     void *owner;
-    void *approach_target;
-    void *follow_target;
+    TileObject *approach_target;
+    TileObject *follow_target;
     void *particle;
     void *particle_state;
     void *sprite;
@@ -148,8 +148,8 @@ void func_8002466C(void *effect)
             ((S_8002466C_0 *)effect)->unk_4C.s = ((S_8002466C_0 *)effect)->unk_4C.u + 1;
         case 1:
             last_particle = 0xE;
-            approach_target = ((u8 *)(&D_80082E80));
-            if (func_8003DE58(((S_8002466C_2 *)approach_target)->unk_08, approach_target, target_pos, 0) != 0) {
+            approach_target = &D_80082E80;
+            if (func_8003DE58(((void *)approach_target->unk_008), approach_target, target_pos, 0) != 0) {
                 ((S_8002466C_0 *)effect)->unk_1C.at00.v +=
                     ((target_pos[0] + D_80083780.x.w.i) -
                      ((S_8002466C_0 *)effect)->unk_1C.at02.v) << 14;
@@ -174,8 +174,8 @@ void func_8002466C(void *effect)
                 last_particle = 4;
             }
             ((S_8002466C_0 *)effect)->unk_4E += 2;
-            follow_target = ((u8 *)(&D_80082E80));
-            if (func_8003DE58(((S_8002466C_4 *)follow_target)->unk_08, follow_target, target_pos, 0) != 0) {
+            follow_target = &D_80082E80;
+            if (func_8003DE58(((void *)follow_target->unk_008), follow_target, target_pos, 0) != 0) {
                 ((S_8002466C_0 *)effect)->unk_1C.at00.v +=
                     ((target_pos[0] + D_80083780.x.w.i) -
                      ((S_8002466C_0 *)effect)->unk_1C.at02.v) << 15;

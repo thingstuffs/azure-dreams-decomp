@@ -222,7 +222,7 @@ void func_80172F58(u8 *move_input, void *action_context, u8 *position_input, u8 
 
             target = (u8 *)(&D_80082E80.tileX) - 0x24;
             direction = (((S_80172F58_1 *)actor)->unk_45 +
-                         ((s32)(((u16)((EntityRec *)D_800814A8)->facing) << 16) >> 25)) & 7;
+                         ((s32)(((u16)D_800814A8->facing) << 16) >> 25)) & 7;
             target_x = ((S_80172F58_6 *)target)->unk_24 +
                        ((u16 *)((s8 *)dirStepX))[direction];
             target_y = ((S_80172F58_6 *)target)->unk_25 +
@@ -363,7 +363,7 @@ loop:
 
     if (attempt == 0) {
         if ((((S_80172F58_11 *)(((s8 *)&D_80082E80.tileX)))->unk_00 != ((S_80172F58_2 *)position)->unk_24.at00u.v) &&
-            ((s16)func_8009A180(actor, ((s32)((EntityRec *)D_800814A8)->unk_58) + 0x20) != 0)) {
+            ((s16)func_8009A180(actor, ((s32)D_800814A8->unk_58) + 0x20) != 0)) {
             goto end;
         }
     }

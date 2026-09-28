@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/def_table.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
@@ -101,7 +102,6 @@ extern void *func_80175858(void *, void *, void *);
 
 extern void *D_80170850[];
 extern void *D_80170870[];
-extern u8 D_8006DE24[];
 extern u8 D_80171094[];
 extern u8 D_80176460[];
 extern u8 D_80176490[];
@@ -197,7 +197,7 @@ apply_effect:
                 goto copy_effect;
             }
         }
-        if (D_8006DE24[*effect_id * 0x14 + 0x12] == 2) {
+        if (D_8006DE24[*effect_id].kind == 2) {
             effect = ((EntityRec *)actor)->target;
             if (effect != 0) {
 copy_effect:
