@@ -1,6 +1,6 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
-extern u8 *D_800E3D7C;
 
 /* Checks the entity or its two linked objects for the 0x20000000 state flag. */
 s32 func_800C7FFC(u8 *entity) {

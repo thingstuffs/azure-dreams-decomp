@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
 typedef struct S_8016ED98_0 {
@@ -24,7 +25,6 @@ extern void func_80099FDC(void *);
 
 extern u16 D_80013714[];
 extern s32 D_80175D50;
-extern s32 D_800E3D7C;
 
 /* End the floor: clear the visible flags, run the two teardown passes and release both resident objects. */
 void func_8016ED98(void)
@@ -41,7 +41,7 @@ void func_8016ED98(void)
     func_8016ECFC();
     i = 0;
     do {
-        value = ((S_8016ED98_2 *)(D_800E3D7C + i * 4))->unk_AC;
+        value = ((S_8016ED98_2 *)(((s32)D_800E3D7C) + i * 4))->unk_AC;
         if (value != 0) {
             func_80099FDC((void *)(value - 0x20));
         }

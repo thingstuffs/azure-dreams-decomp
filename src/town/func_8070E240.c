@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 extern void func_80016CC4(void);
 extern void func_80016DBC(void);
@@ -6,7 +7,6 @@ extern s32 func_8001991C(s32, s32);
 extern void func_80019988(void);
 extern void func_8001A5CC(s32);
 extern s32 func_8001A64C(s32);
-extern u8 D_80016000[0x10];
 
 typedef void (*Callback)(s32, s32);
 
@@ -23,6 +23,6 @@ s32 func_80017240(s32 kind, s32 value) {
         }
     }
 
-    (*(Callback *)((u8 *)((void **)*(void **)D_80016000)[8] + 0x2F8))(0xE, 0x200);
+    (*(Callback *)((u8 *)((void **)*(void **)((u8 *)(&D_80016000)))[8] + 0x2F8))(0xE, 0x200);
     return 0;
 }

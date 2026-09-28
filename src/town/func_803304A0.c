@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80016000.h"
 
@@ -16,7 +17,6 @@ typedef struct S_8001ACA0_4 {
 
 
 
-extern void *D_80016000;
 
 typedef struct S_8001ACA0_0 {
     u16 unk_00;

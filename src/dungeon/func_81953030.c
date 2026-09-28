@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 
-extern s32 D_800814A8[];
 extern void func_80024654(void *, s16, s16, s32, s32);
 extern s16 D_800249A4;
 extern u16 D_800249A6[5];
@@ -13,8 +13,8 @@ void func_80024830(void *state)
   u16 countdown;
   u16 *counter_base = D_800249A6;
   object_addr = ((s32) state) - 0x20;
-  func_80024654(object_addr, *((s16 *) (((u8 *) state) + 0x26)), *((s16 *) (((u8 *) state) + 0x30)), ((s32 *) D_800814A8[0])[0x18], (counter_base[0]++, 0));
-  func_80024654(object_addr, *((s16 *) (((u8 *) state) + 0x26)), *((s16 *) (((u8 *) state) + 0x30)), ((s32 *) D_800814A8[0])[0x18], 1);
+  func_80024654(object_addr, *((s16 *) (((u8 *) state) + 0x26)), *((s16 *) (((u8 *) state) + 0x30)), ((s32 *) ((s32)D_800814A8))[0x18], (counter_base[0]++, 0));
+  func_80024654(object_addr, *((s16 *) (((u8 *) state) + 0x26)), *((s16 *) (((u8 *) state) + 0x30)), ((s32 *) ((s32)D_800814A8))[0x18], 1);
   countdown = (*((u16 *) (((u8 *) state) + 0x2C))) - 1;
   *((u16 *) (((u8 *) state) + 0x2C)) = countdown;
   if ((((s16) countdown) < 0) || (D_800249A4 != 0))

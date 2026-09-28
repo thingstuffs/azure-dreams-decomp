@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct {
     char pad0[0xA4];
@@ -13,7 +14,7 @@ extern void func_800AC37C(void);
 
 // Refreshes state and conditionally dispatches two scaled angles with an angle-range flag.
 void func_800AC3EC(void) {
-    S_800AEC8C_state *state = (S_800AEC8C_state *)&D_80083178;
+    S_800AEC8C_state *state = (S_800AEC8C_state *)(&gameWork.unk_018);
     u32 firstScaledAngle;
     u32 secondScaledAngle;
     u32 controlAngle;

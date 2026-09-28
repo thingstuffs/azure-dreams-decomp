@@ -13,7 +13,6 @@ extern int D_80084130[3];
 extern short D_80084808[8];
 extern unsigned char D_80080000[];
 __asm__(".set D_80080000, 0x80080000");
-extern struct S_80083178 D_80083178;
 extern struct S_80083178State D_80083CE8;
 s32 func_80065420();
 s32 func_80066460();

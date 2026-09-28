@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
@@ -105,7 +106,6 @@ typedef struct Item {
 } Item;
 
 extern Item D_8006DE24[];
-extern void *D_800814A8;
 extern void *D_80170838[7];
 extern u8 D_80170920[];
 extern u8 D_8017102C[];

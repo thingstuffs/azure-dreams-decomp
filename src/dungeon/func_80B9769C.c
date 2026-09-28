@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800814A8.h"
@@ -86,7 +87,6 @@ M2C_UNK func_80171FC4();
 M2C_UNK func_801737C4();
 s32 func_80173A08();
 M2C_UNK func_801747D0();
-extern void *D_800814A8;
 extern RefPosition D_80082E80;
 extern u16 D_80082EA4;
 extern TerrainEntry D_800E2970[];

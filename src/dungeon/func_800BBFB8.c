@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 
 #ifndef NULL
@@ -38,7 +39,6 @@ typedef struct {
     s16 z;
 } RenderSource;
 
-extern u8 *D_800E3D7C[];
 
 extern void func_80042B68(void *obj, s8 index);
 extern void func_80041E70(void *obj);
@@ -86,7 +86,7 @@ mode_zero:
     object_index = 0;
     reset_marker = 0xff;
     do {
-        object_entry = *(void **)(D_800E3D7C[0] + object_index * 4 + 0xac);
+        object_entry = *(void **)(((u8 *)D_800E3D7C) + object_index * 4 + 0xac);
         if (object_entry != NULL) {
             object = object_entry;
             step_index = 1;

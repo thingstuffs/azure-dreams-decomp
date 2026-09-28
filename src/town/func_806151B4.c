@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 extern void func_80018B58(s32);
 extern void func_80018BD0(s32);
@@ -16,7 +17,6 @@ typedef struct Outer {
     Inner *inner;
 } Outer;
 
-extern Outer *D_80016000;
 
 /* Runs the conditional action or invokes the fallback callback. */
 s32 func_800169B4(void) {
@@ -36,7 +36,7 @@ s32 func_800169B4(void) {
     return 1;
 
 fallback:
-    callback_owner = D_80016000;
+    callback_owner = ((Outer *)D_80016000);
     callback_owner->inner->callback(0x10, 0x200);
     return 0;
 }

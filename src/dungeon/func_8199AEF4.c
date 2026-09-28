@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 #ifndef NULL
 #define NULL 0
@@ -30,7 +31,6 @@ extern void *func_8003FD64(s32, void *);
 extern char D_800242D4[];
 extern char D_80024A8C[];
 extern char D_80083498[];
-extern Source *D_800814A8[];
 
 /* Allocate a node and initialize its child with supplied values and shared source data. */
 void func_8199AEF4(s32 node_value, s32 child_value)
@@ -46,7 +46,7 @@ void func_8199AEF4(s32 node_value, s32 child_value)
         child = (Child *)((char *)node + 0x20);
         node->field10 = D_800242D4;
         callback = D_80024A8C;
-        source = D_800814A8[0];
+        source = ((Source *)D_800814A8);
         child->field10 = callback;
         node->field20 = node_value;
         child->field04 = D_80083498;

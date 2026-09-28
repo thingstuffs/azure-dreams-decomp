@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 #include "common.h"
 
@@ -14,7 +15,7 @@ extern u8 D_80083780[12];
 /* Initialize state fields from globals and clear associated state. */
 void func_8004D614(void)
 {
-    u8 *state = (u8 *)&D_80083178;
+    u8 *state = (u8 *)(&gameWork.unk_018);
 
     bzero(state + 0x9C, 8);
     *(s32 *)(state + 0x94) = D_80080B60;

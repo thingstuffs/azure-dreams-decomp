@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 typedef struct Vec3s { s16 x; s16 y; s16 z; s16 pad; } Vec3s;
 typedef void (*ReportValue)(const char *, const char *, s32);
 typedef struct TownDispatch { u8 pad_000[0x168]; ReportValue report_value; } TownDispatch;
 typedef struct TownRoot { u8 pad_00[0x1C]; s32 *result_values; TownDispatch *dispatch; } TownRoot;
 extern void func_8001A854(Vec3s *, s32);
 extern s32 func_8001A8DC(Vec3s *, Vec3s *, s32, s32, Vec3s *);
-extern TownRoot *D_80016000[];
 extern char D_8001610C[8];
 extern char D_80016118[8];
 extern char D_80016120[8];
@@ -23,7 +23,7 @@ void func_8001A9B8(s32 first_input, s32 second_input, s32 blend_weight, s32 rema
     func_8001A854(&s0, first_input);
     {
         ReportValue report;
-        report = D_80016000[0]->dispatch->report_value;
+        report = ((TownRoot *)D_80016000)->dispatch->report_value;
         first_format = D_8001610C;
         report(first_format, D_80016118, s0.x);
     }
@@ -31,7 +31,7 @@ void func_8001A9B8(s32 first_input, s32 second_input, s32 blend_weight, s32 rema
     func_8001A854(&s1, second_input);
     {
         ReportValue report;
-        report = D_80016000[0]->dispatch->report_value;
+        report = ((TownRoot *)D_80016000)->dispatch->report_value;
         second_format = D_8001610C;
         report(second_format, D_80016120, s1.x);
     }
@@ -39,11 +39,11 @@ void func_8001A9B8(s32 first_input, s32 second_input, s32 blend_weight, s32 rema
     func_8001A8DC(&s0, &s1, blend_weight, remaining_weight, &s);
     {
         ReportValue report;
-        report = D_80016000[0]->dispatch->report_value;
+        report = ((TownRoot *)D_80016000)->dispatch->report_value;
         result_format = D_8001610C;
         report(result_format, D_80016128, s.x);
     }
-    root = D_80016000[0];
+    root = ((TownRoot *)D_80016000);
     root->result_values[1] = s.x;
     root->result_values[2] = s.y;
 }

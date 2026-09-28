@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "records/Rec_D_80016000.h"
 
 
@@ -14,7 +15,6 @@ typedef struct S_80016D1C_2 {
 
 
 
-extern s8 D_80016000[];
 extern s32 D_80018FE0;
 extern s32 *D_8001917C;
 extern s32 D_8001C328;
@@ -28,9 +28,9 @@ void func_80016D1C(void) {
     D_8001917C = &D_80018FE0;
     if (func_80018B5C(0x5C2) != 0) {
         if (func_80018B5C(0x5BF) != 0) {
-            ((S_80016D1C_2 *)(((S_80016D1C_1 *)(((Rec_D_80016000 *)(&D_80016000))->unk_00.at00_ppv.v))->unk_1C))->unk_40 = &D_8001C328;
+            ((S_80016D1C_2 *)(((S_80016D1C_1 *)(((Rec_D_80016000 *)(((s8 *)(&D_80016000))))->unk_00.at00_ppv.v))->unk_1C))->unk_40 = &D_8001C328;
         } else {
-            ((S_80016D1C_2 *)(((S_80016D1C_1 *)(((Rec_D_80016000 *)(&D_80016000))->unk_00.at00_ppv.v))->unk_1C))->unk_40 = &D_8001C7C4;
+            ((S_80016D1C_2 *)(((S_80016D1C_1 *)(((Rec_D_80016000 *)(((s8 *)(&D_80016000))))->unk_00.at00_ppv.v))->unk_1C))->unk_40 = &D_8001C7C4;
         }
         func_80018ADC(0x5C2);
         return;

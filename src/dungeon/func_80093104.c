@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
 typedef struct S_80098864_0 {
@@ -23,7 +24,6 @@ M2C_UNK func_80098B38();
 M2C_UNK func_800990C8();
 s32 func_8009C12C();
 M2C_UNK func_8009C93C();
-extern s32 D_800E3D7C;
 
 /* Processes a record and updates its linked state on success. */
 s32 func_80098864(s32 request, void *record_data) {
@@ -39,7 +39,7 @@ s32 func_80098864(s32 request, void *record_data) {
     }
     linked_record = ((S_80098864_0 *)((u8 *)record_data - 0x14))->unk_74;
     if (linked_record != 0) {
-        linked_record->unk_60 = (s32) D_800E3D7C;
+        linked_record->unk_60 = (s32) ((s32)D_800E3D7C);
     }
     func_80098B38(request);
     return 1;

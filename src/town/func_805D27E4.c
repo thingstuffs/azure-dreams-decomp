@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 typedef struct S_800167E4_0 {
     u8 pad_00[0x18];
@@ -38,7 +39,6 @@ extern void func_800193E0(s32);
 extern void func_80019458(s32);
 extern s32 func_800194D8(s32);
 
-extern s8 D_80016000[];
 extern s16 D_80019676;
 extern s32 D_80019AFC;
 
@@ -48,7 +48,7 @@ s32 func_800167E4(S_800167E4_0 *entity, s32 action_arg)
     S_800167E4_1 *town;
     s32 flag_id;
 
-    town = *(void **)D_80016000;
+    town = *(void **)((s8 *)(&D_80016000));
     flag_id = entity->unk_18;
     D_80019AFC = ((S_800167E4_3 *)(town->unk_08 * 8 + town->unk_40))->unk_04;
 
@@ -57,7 +57,7 @@ s32 func_800167E4(S_800167E4_0 *entity, s32 action_arg)
             S_800167E4_2 *clear_town;
             s32 entry_index;
 
-            clear_town = *(void **)D_80016000;
+            clear_town = *(void **)((s8 *)(&D_80016000));
             entry_index = clear_town->unk_08;
             ((S_800167E4_4 *)(entry_index * 8 + clear_town->unk_40))->unk_04 = 0;
         }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 typedef void (*TownCallback)(s32);
 
@@ -22,7 +23,6 @@ typedef struct TownRoot {
     TownCallbacks *callbacks;
 } TownRoot;
 
-extern s8 D_80016000[];
 
 /* Invoke town callbacks and initialize state values with mode-dependent adjustments. */
 void func_800174E8(void) {
@@ -31,7 +31,7 @@ void func_800174E8(void) {
     TownRoot *root;
     TownState *state;
 
-    root_ptr = (TownRoot **) D_80016000;
+    root_ptr = (TownRoot **) ((s8 *)(&D_80016000));
     (*root_ptr)->callbacks->callback258(10);
     (*root_ptr)->callbacks->callback248(1);
     (*root_ptr)->callbacks->callback244(1);

@@ -102,3 +102,25 @@ SHA-1 MATCH, pin-neutral (350 migrated pinned rows re-tested; one pin, dungeon/f
   D_800814A8 (236), D_800E3D7C (199), D_80083780 (177), D_800E2970 (91), D_80013714 (81).
 - Totals after phase 3: 3,112 row migrations onto 5 shared headers (dir_step, dungeon_status, object_flags,
   game_work, slus_callbacks).
+
+## Phase 4 (2026-09-28): landed
+
+763 rows (40-row sample first; 11 SLUS rows that differ from their pinned object only in relocation symbol names -
+e.g. `D_80083160+24` for `D_80083178` - landed via the image gate + per-row rebaseline, as land_slus_rebaseline.sh).
+- **S_80083178 folded into GameWork** (gameWork + 0x18): 66/69 rows. state_94's four s16 xyz vectors are gameWork
+  0x0AC..0x0CB and v[3].z is viewAngle. game.h's S_80083178 stays for now: blocked by dungeon/func_800AFA68 (misses
+  by 9), slus/w_8004D5D0 (retail forms its base at 0x80083178 itself - a second declaration, keeps D_80083178),
+  slus/code2 (plural partition) and six rows that type a local pointer as `struct S_80083178 *`.
+- **Pointer globals typed onto the existing records** (include/shared/record_ptrs.h, forward-declared structs):
+  D_800814A8 (230 rows), D_800E3D7C (188), D_80016000 (294) are each ONE pointer (word lw/sw, element 0 only)
+  and are now `struct Rec_X *` onto include/records/Rec_*.h. Names stay D_ (D_800E3D7C looks like the player
+  entity - unproven).
+- **Pins freed by the type change** (m2c had declared these pointer globals as arrays, which moved gcc's
+  schedule; the pins compensated): slus/w_8004FAA4 (2 SCHED_BARRIER), slus/w_800492B0 (KEEP), slus/w_80042BDC
+  (KEEP_NV) - landed right after phase 4.
+- **Tooling fix found by phase 4:** verify.py compiled current SLUS texts against the frozen raw/include; 182 of
+  884 SLUS rows could not compile at all through the CLI (commit e8874f3b). The lander already passed the live
+  include, so no landing had been lost.
+- **Next:** a hand-recovered entity type superseding the union-heavy Rec_D_800E3D7C, then D_80082E80 (290),
+  D_80083498 (284), D_80083780 (177) and Rec_D_800814A8 onto it; D_80083120 (the 0x40 bytes before gameWork),
+  D_800E2970 (91), D_80013714 (81). Totals: 3,875 row migrations onto 6 shared headers.

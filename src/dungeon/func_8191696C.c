@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 
 
@@ -25,7 +26,7 @@ extern volatile s8 D_800E3D20[];
 
 /* Initializes a dispatch request and reports changes to its identifier and prior mode. */
 s32 func_8002416C(s32 unused, s32 request_id, s32 request_value, s16 request_param) {
-    struct S_80083178 *state = &D_80083178;
+    struct S_80083178 *state = ((void *)&gameWork.unk_018);
     S_8191696C_state *dispatch = (S_8191696C_state *)&state->field_B8;
     void *payload_start = (void *)((u8 *)&state->field_B8 + 4);
     s16 saved_value;

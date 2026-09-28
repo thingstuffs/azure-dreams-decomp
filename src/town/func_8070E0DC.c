@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "records/Rec_D_80016000.h"
 
 
@@ -21,7 +22,6 @@ extern M2C_UNK func_80019988();
 extern M2C_UNK func_8001A554();
 extern M2C_UNK func_8001A5CC();
 extern s32 func_8001A64C();
-extern Rec_D_80016000 *D_80016000;
 
 
 /* Advance the town scene: raise 0x94B, then hand back to the scene callback unless flag 0x943 and the step check both pass. */
@@ -30,12 +30,12 @@ s32 func_800170DC(s32 kind, M2C_UNK value) {
     func_80016DBC();
     func_8001A554(0x94B);
     if (func_8001A64C(0x943) == 0) {
-        ((S_800170DC_1 *)(D_80016000->unk_20))->unk_2F8(0xE, 0x200);
+        ((S_800170DC_1 *)(((Rec_D_80016000 *)D_80016000)->unk_20))->unk_2F8(0xE, 0x200);
         return 0;
     }
     func_80019988();
     if (func_8001991C(kind, value) == 0) {
-        ((S_800170DC_1 *)(D_80016000->unk_20))->unk_2F8(0xE, 0x200);
+        ((S_800170DC_1 *)(((Rec_D_80016000 *)D_80016000)->unk_20))->unk_2F8(0xE, 0x200);
         return 0;
     }
     func_8001A5CC(0x943);

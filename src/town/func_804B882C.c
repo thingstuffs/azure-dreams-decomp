@@ -1,6 +1,6 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
-extern void *D_80016000;
 
 /* Set the linked record's second and third values to 1696 and 800. */
 void func_8001702C(void) {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 
@@ -110,7 +111,6 @@ extern OffsetTable D_80024004;
 extern void *D_80024068[];
 extern u8 D_80020000[0x69C0];
 extern u8 D_80080000[0x37A0];
-extern DungeonStatePtr D_800814A8;
 extern SearchContext D_80082E80;
 extern S16Global D_80082E86;
 extern S16Global D_800269B4;
@@ -175,7 +175,7 @@ void func_8196C568(Work *work, s32 position_arg, s32 sprite_arg)
     goto *state_table[state];
 
 state0:
-    dungeon = *(DungeonState **)((u8 *)&D_800814A8);
+    dungeon = *(DungeonState **)((u8 *)(&D_800814A8));
     init_timer = 33;
     effect_page = (u8 *)0x80020000;
     *(s32 *)&dungeon->pad0[0xF4] = 0;
@@ -297,7 +297,7 @@ state1:
     return;
 
 state2:
-    if (D_800814A8.value->field60 != 0) {
+    if (((DungeonState *)D_800814A8)->field60 != 0) {
         if (work->timer >= 13) {
             if (func_8003DF74((&D_80082E80)->field8, &D_80082E80, &work->x, 0)) {
                 for (particle_index = 0; particle_index < 4; particle_index++) {

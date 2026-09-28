@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -72,7 +73,6 @@ extern u8 D_8002966E[12];
 extern s32 D_80029670[3];
 extern u16 D_800281F8[];
 extern u8 D_800281FC[12];
-extern void *D_800814A8;
 
 /* Advances the screen transition, updates fade timers, and releases completed state. */
 void func_80024078(State *ctx)

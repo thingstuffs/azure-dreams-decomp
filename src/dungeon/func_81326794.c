@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
 extern void func_8009A028(void *);
@@ -8,7 +9,6 @@ extern void func_8016A908(void *);
 extern u8 D_80082E80[];
 extern u16 D_800834E2;
 extern s8 D_800DCF4D;
-extern u8 *D_800E3D7C;
 extern u8 * volatile D_80174704;
 extern s32 D_801748C8[];
 extern s32 D_801749E0[];

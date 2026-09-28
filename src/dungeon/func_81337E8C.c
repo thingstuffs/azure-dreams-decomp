@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -43,7 +44,6 @@ extern s16 D_8001371A;
 extern s32 D_8001371C;
 extern M2C_UNK D_80083780;
 extern M2C_UNK D_800E296C;
-extern M2C_UNK D_800E3D7C;
 extern s32 D_80173C94;
 extern s32 D_80173D5C;
 extern s32 D_80175D50;
@@ -77,10 +77,10 @@ void func_8016EE8C(void) {
     ((S_8016EE8C_0 *)active_data)->unk_AB = 0;
     do {
         slot_offset = slot_index * 4;
-        object_data = ((S_8016EE8C_5 *)((slot_offset + ((Rec_D_800E3D7C *)(&D_800E3D7C))->unk_00.at00_s32.v)))->unk_AC;
+        object_data = ((S_8016EE8C_5 *)((slot_offset + ((Rec_D_800E3D7C *)(((M2C_UNK *)&D_800E3D7C)))->unk_00.at00_s32.v)))->unk_AC;
         if (object_data != 0) {
             func_8009A028(object_data);
-            object_header = ((S_8016EE8C_5 *)((slot_offset + ((Rec_D_800E3D7C *)(&D_800E3D7C))->unk_00.at00_s32.v)))->unk_AC - 0x20;
+            object_header = ((S_8016EE8C_5 *)((slot_offset + ((Rec_D_800E3D7C *)(((M2C_UNK *)&D_800E3D7C)))->unk_00.at00_s32.v)))->unk_AC - 0x20;
             ((S_8016EE8C_4 *)object_header)->unk_10 = (s32) (((S_8016EE8C_4 *)object_header)->unk_10 | 0x80000000);
         }
         slot_index += 1;

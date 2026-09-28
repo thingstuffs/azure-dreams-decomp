@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 #include "common.h"
 
@@ -57,7 +58,7 @@ extern void func_80041900(MATRIX *m);
 /* Build and install the combined rotation and translation from global transform state. */
 void func_8004D4AC(void)
 {
-  S_80083178_local *transform = (S_80083178_local *)&D_80083178;
+  S_80083178_local *transform = (S_80083178_local *)(&gameWork.unk_018);
   VECTOR rotated_pos;
   MATRIX base_mat;
   MATRIX combined_mat;

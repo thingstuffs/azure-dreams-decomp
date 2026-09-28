@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 typedef struct S_8001D188_3 {
     u8 pad_00[0x6000];
@@ -34,7 +35,6 @@ typedef struct S_8001D188_2 {
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern s32 func_8001D414(s32, s32, s32, s32);
-extern s8 D_80016000[];
 extern s8 D_8001902C[];
 
 /* Advance the group counter and prepend the entry to its twelve-entry history. */

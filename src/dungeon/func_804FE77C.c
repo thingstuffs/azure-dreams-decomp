@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
@@ -76,7 +77,6 @@ extern void func_8001E8E8(void);
 extern void func_8001E8B8(void);
 extern void func_8001E910(void);
 
-extern DispatchOuter *D_80016000[];
 extern u8 D_800190D4[];
 extern u8 D_800DDC7C[];
 extern u8 D_801C9E40[16];
@@ -109,7 +109,7 @@ void func_8001677C(void)
         func_8001886C(0x1202);
     }
 
-    D_80016000[0]->inner->callback(D_800190D4);
+    ((DispatchOuter *)D_80016000)->inner->callback(D_800190D4);
 
 #ifdef __mips__
     return_address = stack[4];

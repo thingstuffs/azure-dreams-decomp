@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -21,7 +22,6 @@ extern u8 D_80083780[];
 extern u8 D_80089374[];
 extern u16 D_800DDE84[];
 extern u8 D_800E11F5[];
-extern void *D_800E3D7C[];
 
 extern void func_8008D344(void *, void *, void *, void *);
 extern s32 func_80098864(s32, s32);
@@ -46,7 +46,7 @@ s32 func_800BF074(Rec_D_800E3D7C *entity, s32 action_id, s16 action_type, s32 ac
         return func_80098864(action_id, action_arg);
     }
 
-    if (entity == D_800E3D7C[0]) {
+    if (entity == D_800E3D7C) {
         entity->unk_110 = action_id;
         func_8008D344(entity, D_80083780, D_80082E80, entity);
         return 0;

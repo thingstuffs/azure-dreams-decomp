@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -25,7 +26,6 @@ extern void func_800A2B04();
 extern void func_800AAA54();
 extern void func_800AD4D0();
 
-extern u8 *D_800E3D7C;
 extern u8 D_80170F20[];
 extern u8 D_80173B98[];
 extern u8 D_80176318[];
@@ -58,7 +58,7 @@ void func_80172C10(S_80172C10_0 *state, Rec_D_800E3D7C *motion, Rec_D_80082E80 *
                 if (state->unk_A8 != 0) {
                     u8 *mark_base;
 
-                    mark_base = D_800E3D7C;
+                    mark_base = ((u8 *)D_800E3D7C);
                     mark_base += state->unk_A8;
                     mark_base[0xF9] = mark_value;
                 }
@@ -102,7 +102,7 @@ void func_80172C10(S_80172C10_0 *state, Rec_D_800E3D7C *motion, Rec_D_80082E80 *
             if (state->unk_A8 != 0) {
                 u8 *mark_base;
 
-                mark_base = D_800E3D7C;
+                mark_base = ((u8 *)D_800E3D7C);
                 mark_base += state->unk_A8;
                 mark_base[0xF9] = 1;
             }

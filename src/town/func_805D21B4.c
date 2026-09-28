@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80016000.h"
 
@@ -7,9 +8,8 @@ typedef struct S_805D21B4_1 {
     s8 unk_04;
 } S_805D21B4_1;   /* ((D_80016000->unk_08.at00_s32.v * 8) + D_80016000->unk_40.as_s32) in func_805D21B4 */
 
-extern Rec_D_80016000 *D_80016000;
 
 /* Clears the byte at offset 4 in the selected eight-byte entry. */
 void func_805D21B4(void) {
-    ((S_805D21B4_1 *)(((D_80016000->unk_08.at00_s32.v * 8) + D_80016000->unk_40.as_s32)))->unk_04 = 0;
+    ((S_805D21B4_1 *)(((((Rec_D_80016000 *)D_80016000)->unk_08.at00_s32.v * 8) + ((Rec_D_80016000 *)D_80016000)->unk_40.as_s32)))->unk_04 = 0;
 }

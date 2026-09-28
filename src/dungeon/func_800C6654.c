@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 
@@ -9,7 +11,6 @@ typedef struct {
     u16 count;
 } S_80083460;
 
-extern u8 *D_800E3D7C[];
 extern u8 D_800E1B08[];
 extern u8 D_800E1B2E[];
 
@@ -20,7 +21,7 @@ extern void func_800A56E0(s32);
 
 /* Advances a timed Z transition, waits for readiness, and marks completion. */
 void func_800CBDB4(s16 *transition) {
-    struct S_80083178 *state = &D_80083178;
+    struct S_80083178 *state = ((void *)&gameWork.unk_018);
     s16 phase = transition[1];
 
     if (phase == 1) {
@@ -59,7 +60,7 @@ wait_ready:
     {
         S_80083460 *settings = ((S_80083460 *)&dungeonStatus);
         if ((settings->flags & 0x10) &&
-            ((func_80042900(D_800E3D7C[0], 0x1C, state) << 16) == 0)) {
+            ((func_80042900(((u8 *)D_800E3D7C), 0x1C, state) << 16) == 0)) {
             transition[2] = 0x10;
             transition[1] = (u16)transition[1] + 1;
             settings->count = (u16)settings->count + 1;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
 extern u8 D_8008000A[];
@@ -9,7 +10,6 @@ extern u8 D_800E0F2D[];
 extern u8 D_800E0F44[];
 extern u8 D_800E0F65[];
 extern u8 D_800E0F85[];
-extern u8 *D_800E3D7C[3];
 
 extern void func_80041E70(void *);
 extern void func_8008D330(void *, void *, void *, void *);
@@ -34,7 +34,7 @@ s32 func_800BDC98(void *entity, s32 action_id, s16 action_arg) {
     u8 update_count;
 
     match_state = 0;
-    if (entity == D_800E3D7C[0]) {
+    if (entity == ((u8 *)D_800E3D7C)) {
         *(s32 *)((u8 *)entity + 0x110) = action_id;
         func_8008D330(entity, D_80083780, D_80082E80, entity);
         return 0;

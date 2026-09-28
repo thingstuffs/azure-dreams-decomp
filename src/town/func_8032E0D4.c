@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80016000.h"
 
@@ -11,10 +12,9 @@ typedef struct S_800188D4_1 {
 
 
 
-extern Rec_D_80016000 *D_80016000;
 
 
 /* Clears the byte at offset 0x114 in the linked record. */
 void func_800188D4(void) {
-    ((S_800188D4_1 *)(D_80016000->unk_40.as_pv))->unk_114 = 0;
+    ((S_800188D4_1 *)(((Rec_D_80016000 *)D_80016000)->unk_40.as_pv))->unk_114 = 0;
 }

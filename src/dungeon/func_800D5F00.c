@@ -10,7 +10,6 @@ extern volatile int D_80071250[];
 extern int D_800712B4[];
 extern int D_80084130[3];
 extern short D_80084808[8];
-extern struct S_80083178 D_80083178;
 extern struct S_80083178State D_80083CE8;
 typedef struct
 {

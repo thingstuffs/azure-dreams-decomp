@@ -1,6 +1,6 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
-extern u8 D_80016000[0x10];
 
 extern void func_80018ADC(s32);
 extern s32 func_80018B5C(s32);
@@ -14,7 +14,7 @@ s32 func_800173F0(void) {
             void *context;
             u8 *entry;
 
-            context = *(void **)D_80016000;
+            context = *(void **)((u8 *)(&D_80016000));
             entry = (u8 *)((*(s32 *)((u8 *)context + 8) << 3) + *(s32 *)((u8 *)context + 0x40));
             entry[1] -= 1;
         }
@@ -23,7 +23,7 @@ s32 func_800173F0(void) {
             void *context;
             u8 *entry;
 
-            context = *(void **)D_80016000;
+            context = *(void **)((u8 *)(&D_80016000));
             entry = (u8 *)((*(s32 *)((u8 *)context + 8) << 3) + *(s32 *)((u8 *)context + 0x40));
 
             if (entry[1] == 0) {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
@@ -41,12 +42,6 @@ typedef struct {
     u8 *unkac;
 } DungeonEntry;
 
-typedef struct {
-    DungeonEntry *entries;
-    unsigned char pad4[8];
-} DungeonEntryTable;
-
-extern DungeonEntryTable D_800E3D7C;
 extern u8 D_8016B778[];
 extern volatile u16 D_80013714;
 extern u8 D_801746B4[];
@@ -114,7 +109,7 @@ phase2:
 
 phase3:
     if (animation->flags & 0xE000) {
-        if (D_800E3D7C.entries->unk28 < 2) {
+        if (((DungeonEntry *)D_800E3D7C)->unk28 < 2) {
             s32 entry_index;
             s32 resource_flag;
             void *effect;
@@ -135,13 +130,13 @@ phase3:
                 DungeonEntry *entry;
                 u32 entry_addr;
 
-                entry_addr = (u32)(entry_index * 4) + (u32)D_800E3D7C.entries;
+                entry_addr = (u32)(entry_index * 4) + (u32)((DungeonEntry *)D_800E3D7C);
                 entry = (DungeonEntry *)entry_addr;
                 if (entry->unkac != 0) {
                     u32 *resource_header;
 
                     func_8016A908(entry->unkac);
-                    entry = (DungeonEntry *)((u32)(entry_index * 4) + (u32)D_800E3D7C.entries);
+                    entry = (DungeonEntry *)((u32)(entry_index * 4) + (u32)((DungeonEntry *)D_800E3D7C));
                     resource_header = (u32 *)(entry->unkac - 0x20);
                     resource_header[4] = resource_header[4] | resource_flag;
                 }

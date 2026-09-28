@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
@@ -55,7 +56,6 @@ typedef struct {
 extern DungeonTableEntry D_800E2970[];
 extern s16 D_8006CD00[];
 extern u16 D_80082E80[];
-extern int D_800814A8[4];
 M2C_UNK func_800A0E6C();
 M2C_UNK func_800A19E4();
 M2C_UNK func_800A9A0C();
@@ -164,7 +164,7 @@ calc_call:
         }
         goto state_done;
     }
-    if ((func_8009A180(actor, ((S_800CA444_4 *)(*D_800814A8))->unk_58 + 0x20) << 0x10) != 0) {
+    if ((func_8009A180(actor, ((S_800CA444_4 *)(((int)D_800814A8)))->unk_58 + 0x20) << 0x10) != 0) {
         goto done;
     }
     do {

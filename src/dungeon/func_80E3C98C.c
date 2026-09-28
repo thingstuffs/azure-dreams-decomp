@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "records/Rec_D_80082E80.h"
 
 #ifndef NULL
@@ -72,7 +73,6 @@ extern s32 func_800A7A38();
 extern void *func_800B23F8();
 extern s8 D_800E2968;
 extern u8 D_800E3548[];
-extern u8 *D_800E3D7C;
 
 /* Create an entity from spawn data and update its tracked reference. */
 void *func_80E3C98C(void *unused0, void *unused1, S_80E3C98C_1 *position, Rec_D_80082E80 *spawn_data) {
@@ -134,7 +134,7 @@ void *func_80E3C98C(void *unused0, void *unused1, S_80E3C98C_1 *position, Rec_D_
 update_reference:
         if (spawn_data->unk_14.at00_s32.v & 0x4000) {
             table_offset = func_800A1BD0(spawn_data);
-            table_base = D_800E3D7C;
+            table_base = ((u8 *)D_800E3D7C);
             table_entry = (void *)(((s32)(table_offset << 0x10) >> 0xE) +
                                (s32)table_base);
             

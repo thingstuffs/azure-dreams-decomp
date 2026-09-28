@@ -1,9 +1,9 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
 extern void func_800C78A0(void *, s32, s32, s32, s32, s32);
 extern u8 D_80082E80[];
-extern void *D_800E3D7C;
 
 /* Invokes the placement helper at the tile center using the current entity value. */
 void func_80170BC4(void) {

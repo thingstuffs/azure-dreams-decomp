@@ -1,8 +1,8 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 
 extern void func_8001ACA0(s16 *result);
-extern void *D_80016000[3];
 extern u8 D_8001F244[];
 extern u8 D_8001F288[];
 
@@ -34,7 +34,7 @@ void func_803334D4(s32 slot_id)
             mode = entry[1];
             x = (entry[0] << 6) + position[0] + 0x20;
             y = position[1] - 0x40;
-            (*(TownCallback *)((u8 *)(((S_803334D4_0 *)(D_80016000[0]))->unk_20) + 0x264))(
+            (*(TownCallback *)((u8 *)(((S_803334D4_0 *)(D_80016000))->unk_20) + 0x264))(
                 0xF,
                 mode,
                 x,

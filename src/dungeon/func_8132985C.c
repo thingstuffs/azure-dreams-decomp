@@ -1,9 +1,9 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 extern s32 D_80174CD8[3];
 extern s32 D_800E296C[3];
 extern u16 D_80013714[5];
-extern u8 *D_800E3D7C[3];
 
 extern void func_8009FAC4(void);
 extern void func_80173ED0(void);
@@ -25,7 +25,7 @@ void func_8017105C(void) {
 
     i = 0;
     do {
-        object = *(void **)(D_800E3D7C[0] + 0xAC + i * 4);
+        object = *(void **)(((u8 *)D_800E3D7C) + 0xAC + i * 4);
         if (object != 0) {
             func_80099FDC((u8 *)object - 0x20);
         }

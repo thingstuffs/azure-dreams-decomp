@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80016000.h"
 
@@ -16,7 +17,6 @@ typedef struct S_80016BD4_1 {
 } S_80016BD4_1;   /* temp_a0 in func_80016BD4 */
 
 
-extern Rec_D_80016000 *D_80016000;
 extern s32 D_80016E40;
 
 /* Dispatch the selected state callback with the current context value. */
@@ -24,7 +24,7 @@ void func_80016BD4(void) {
     u8 state_index;
     S_80016BD4_1 *state;
 
-    state = (D_80016000->unk_14 * 0x1C) + D_80016E40;
+    state = (((Rec_D_80016000 *)D_80016000)->unk_14 * 0x1C) + D_80016E40;
     state_index = state->unk_00;
-    ((S_80016BD4_2 *)(((state_index * 0x10) + state->unk_10)))->unk_04(state, state_index, D_80016000->unk_00.at00_s32.v);
+    ((S_80016BD4_2 *)(((state_index * 0x10) + state->unk_10)))->unk_04(state, state_index, ((Rec_D_80016000 *)D_80016000)->unk_00.at00_s32.v);
 }

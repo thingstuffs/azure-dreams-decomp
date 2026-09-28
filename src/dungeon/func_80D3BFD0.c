@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -50,7 +51,6 @@ typedef struct S_801717D0_6 {
 
 
 extern u8 D_8006DE24[];
-extern u8 *D_800E3D7C;
 
 extern void func_80047784(void *, u8, s32);
 extern s32 func_800A05A4(void *, u8, u8, s16, u8);
@@ -86,13 +86,13 @@ void func_801717D0(u8 *entity, s32 action_param, u8 *sprite, u8 *direction_frame
     if (((S_801717D0_0 *)self)->unk_1C & 0x2000) {
         if ((((S_801717D0_0 *)self)->unk_46 & 0x3FFF) >= 5) {
             special_action = 1;
-            if (((Rec_D_800E3D7C *)D_800E3D7C)->unk_A4.at02_u16.v == 2) {
+            if (((Rec_D_800E3D7C *)((u8 *)D_800E3D7C))->unk_A4.at02_u16.v == 2) {
                 counter = ((u16)dungeonStatus.unk_0A);
                 counter--;
                 dungeonStatus.unk_0A = counter;
             }
 
-            player = D_800E3D7C;
+            player = ((u8 *)D_800E3D7C);
             if ((((S_801717D0_3 *)player)->unk_98.s32 & 0x3000) == 0x2000 &&
                 ((S_801717D0_3 *)player)->unk_A6 != special_action) {
                 ((S_801717D0_3 *)player)->unk_A6 = special_action;

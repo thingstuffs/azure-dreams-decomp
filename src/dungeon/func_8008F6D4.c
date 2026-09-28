@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 typedef struct S_80094E34_0 {
     u8 pad_00[0x1C];
@@ -16,7 +17,6 @@ typedef struct S_80094E34_1 {
 
 extern volatile s32 D_80081484;
 extern s32 D_800E3540;
-extern void *D_800E3D7C;
 
 /* Clear the root and linked object flags, saving and resetting D_80081484 when the root flag is set. */
 void func_80094E34(void) {

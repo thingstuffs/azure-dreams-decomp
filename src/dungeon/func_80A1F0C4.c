@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -115,7 +116,6 @@ typedef struct S_801728C4_10 {
 
 extern void *D_80170858[];
 extern u8 D_8006DE24[20];
-extern u8 *D_800814A8;
 extern u8 D_80083498[16];
 extern u8 D_80170E84[];
 extern u8 D_80174820[];
@@ -247,7 +247,7 @@ selected:
     ((S_801728C4_0 *)action)->unk_98.s &= 0xFF7F;
     special_test = special_mode;
     if (special_test != 0) {
-        special_target = D_800814A8;
+        special_target = ((u8 *)D_800814A8);
         ((S_801728C4_1 *)actor)->unk_60 = special_target;
         target_sprite = ((S_801728C4_2_pre *)special_target)[-1].unk_00;
         goto copy_parent;
@@ -293,7 +293,7 @@ empty_anim:
     ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = 0;
     ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
     func_800A2B04(motion, ((S_801728C4_4 *)sprite)->unk_24, ((S_801728C4_4 *)sprite)->unk_25);
-    player_state = D_800814A8;
+    player_state = ((u8 *)D_800814A8);
     dungeonStatus.unk_0C = 0;
     ((S_801728C4_6 *)player_state)->unk_A6--;
     func_800A4ACC(actor);

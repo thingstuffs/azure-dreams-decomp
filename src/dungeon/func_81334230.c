@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "records/Rec_D_800814A8.h"
@@ -125,7 +126,6 @@ extern s16 func_800BCB04();
 extern s32 func_8016B954();
 
 extern s16 D_8006CD00;
-extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern s8 D_80082EA4;
 extern s8 D_800E2970[];

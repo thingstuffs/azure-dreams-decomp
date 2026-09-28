@@ -1,9 +1,9 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 typedef s32 (*Callback1)(s32);
 typedef s32 (*Callback2)(s32, void *);
 
-extern s8 D_80016000[];
 
 /* Runs object callbacks and adjusts a type-3 state value if it lies within the saved-value window. */
 s32 func_80017098(void) {
@@ -13,7 +13,7 @@ s32 func_80017098(void) {
     s32 saved_value;
     s32 current_value;
 
-    object_slot = D_80016000;
+    object_slot = ((s8 *)(&D_80016000));
     (*(Callback1 *)((s8 *)*(void **)((s8 *)*(void **)object_slot + 0x20) + 0x258))(15);
 
     {

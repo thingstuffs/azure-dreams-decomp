@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 
 typedef struct {
@@ -10,7 +11,6 @@ typedef void (*UseValue)(s16, s32);
 typedef void (*CallPair)(s32, s32);
 typedef s16 *(*GetHalfword)(s32, s32);
 
-extern s8 D_80016000[];
 extern LocalValues D_80019164;
 extern u8 *D_8001E950;
 extern s8 D_8001F2D4[];

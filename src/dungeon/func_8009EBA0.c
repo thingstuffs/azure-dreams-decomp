@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -6,7 +7,6 @@
 __asm__(".set D_80081470, 0x80081470");
 
 extern u8 D_80081470[];
-extern void *D_800814A8[];
 extern u8 D_800E3548[];
 extern u8 D_800E3648[];
 
@@ -32,11 +32,11 @@ void func_800A4300(Rec_D_80082E80 *entity, Rec_D_800E3D7C *search_state) {
     if ((lookup_code << 16) != 0) {
 #ifndef NON_MATCHING
         *(s16 *)D_80081470 = (s16)(lookup_code | 0x1400);
-        ((S_800A4300_2 *)(D_800814A8[0]))->unk_F0.i = 0;
+        ((S_800A4300_2 *)(D_800814A8))->unk_F0.i = 0;
         return;
 #else
         *(s16 *)D_80081470 = (s16)(lookup_code | 0x1400);
-        owner = *(void *volatile *)D_800814A8;
+        owner = *(void *volatile *)((void * *)(&D_800814A8));
 #endif
     } else {
         map_index_bits = (u32)func_800B500C(entity->unk_24,
@@ -48,10 +48,10 @@ void func_800A4300(Rec_D_80082E80 *entity, Rec_D_800E3D7C *search_state) {
             map_entry = map_base + map_index * 4;
             if (!(map_entry[3] & 0x40)) {
                 *(void **)D_80081470 = *(void **)map_entry;
-                ((S_800A4300_2 *)(D_800814A8[0]))->unk_F0.p = map_entry;
+                ((S_800A4300_2 *)(D_800814A8))->unk_F0.p = map_entry;
                 return;
             }
-            ((S_800A4300_2 *)(D_800814A8[0]))->unk_F0.i = 0;
+            ((S_800A4300_2 *)(D_800814A8))->unk_F0.i = 0;
             return;
         }
 
@@ -63,11 +63,11 @@ void func_800A4300(Rec_D_80082E80 *entity, Rec_D_800E3D7C *search_state) {
             floor_base = D_800E3548;
             floor_entry = floor_base + floor_index * 4;
             *(void **)D_80081470 = *(void **)floor_entry;
-            ((S_800A4300_2 *)(D_800814A8[0]))->unk_F0.p = floor_entry;
+            ((S_800A4300_2 *)(D_800814A8))->unk_F0.p = floor_entry;
             return;
         }
 
-        owner = D_800814A8[0];
+        owner = D_800814A8;
         *(void **)D_80081470 = 0;
     }
     ((S_800A4300_2 *)owner)->unk_F0.i = 0;

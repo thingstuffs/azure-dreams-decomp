@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 typedef struct {
     u8 pad[0x3C];
@@ -18,11 +19,10 @@ typedef struct {
     Data20 *data20;
 } State;
 
-extern State *D_80016000;
 extern s32 D_800183C8;
 
 /* Save the state value in D_800183C8 and invoke the state callback with 0. */
 void func_8065C2C4(void) {
-    D_800183C8 = D_80016000->data1C->value;
-    D_80016000->data20->callback(0);
+    D_800183C8 = ((State *)D_80016000)->data1C->value;
+    ((State *)D_80016000)->data20->callback(0);
 }

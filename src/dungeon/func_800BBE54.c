@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
-extern void *D_800E3D7C[];
 extern u8 D_80083780[];
 extern u8 D_80082E80[];
 extern u16 D_800DDE84[];
@@ -25,7 +25,7 @@ s32 func_800C15B4(void *target, s32 action_id, s16 action_type, s32 action_arg) 
     if (action_type == 0xD) {
         return func_80098864(action_id, action_arg);
     }
-    if (target == D_800E3D7C[0]) {
+    if (target == D_800E3D7C) {
         *(s32 *)((u8 *)target + 0x110) = action_id;
         func_8008D344(target, D_80083780, D_80082E80, 0);
         return 0;

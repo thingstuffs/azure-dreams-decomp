@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 extern u8 D_8001D7A0[];
 extern u8 D_8001D6B0[];
-extern u8 D_80016000[];
 
 typedef s32 (*Callback)(s32, s32);
 
@@ -26,14 +26,14 @@ s32 func_800182FC(s32 kind, void *param)
             void *ptr;
 
             func_8001A554(0x949);
-            ptr = *(void **)D_80016000;
+            ptr = *(void **)((u8 *)(&D_80016000));
             ptr = *(void **)((s8 *)ptr + 0x1C);
             *(void **)((s8 *)ptr + 0x40) = (s8 *)D_8001D6B0;
         } else {
             void *ptr;
 
             func_8001A554(0x949);
-            ptr = *(void **)D_80016000;
+            ptr = *(void **)((u8 *)(&D_80016000));
             ptr = *(void **)((s8 *)ptr + 0x1C);
             *(void **)((s8 *)ptr + 0x40) = (s8 *)D_8001D7A0;
         }
@@ -50,7 +50,7 @@ dispatch:
         void *ptr;
         s32 first_arg;
 
-        ptr = *(void **)D_80016000;
+        ptr = *(void **)((u8 *)(&D_80016000));
         ptr = *(void **)((s8 *)ptr + 0x20);
            /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         first_arg = 0xF;

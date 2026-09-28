@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 
 typedef struct {
@@ -24,11 +25,6 @@ typedef struct {
     u8 blue;
 } FadeColor;
 
-typedef struct {
-    void *ptr;
-    u8 pad[8];
-} DungeonPage;
-
 extern u16 D_80027330;
 extern u8 D_80027334[];
 extern FadeColor D_80027398;
@@ -36,7 +32,6 @@ extern u16 D_8002745C[];
 extern void *D_8002732C;
 extern u8 D_800273BE;
 extern s32 D_800273C0;
-extern DungeonPage D_800E3D7C;
 
 extern void func_8002592C(s16, s16, s16, s16, s32);
 extern void func_80026BA8(s32, s32, DungeonOrigin *);

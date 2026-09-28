@@ -1,6 +1,6 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
-extern void *D_800814A8;
 
 /* Updates the target offset from the global byte when it differs from the record value. */
 void func_800DC168(void *record, void *owner) {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "records/Rec_D_80016000.h"
 
 
@@ -16,7 +17,6 @@ typedef struct S_80016714_2 {
 
 
 
-extern void *D_80016000;
 extern u8 D_800189DC[16];
 extern u8 D_80018B94[16];
 extern u8 D_8001A3AE[];

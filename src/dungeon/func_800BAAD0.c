@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
 typedef struct Struct_80083460 {
@@ -6,7 +7,6 @@ typedef struct Struct_80083460 {
     u16 count;
 } Struct_80083460;
 
-extern u8 *D_800E3D7C;
 extern u8 D_80083780[];
 extern u8 D_80082E80[];
 extern u16 D_800DDE84[];
@@ -34,7 +34,7 @@ s32 func_800C0230(u8 *entity, s32 event, s16 target_type, s32 target_record) {
     if (target_type == 0xD) {
         return func_80098864(event, target_record);
     }
-    if ((void *)entity == D_800E3D7C) {
+    if ((void *)entity == ((u8 *)D_800E3D7C)) {
         *(s32 *)(entity + 0x110) = event;
         func_8008D344(entity, D_80083780, D_80082E80, 0);
         return 0;

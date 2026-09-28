@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
@@ -77,7 +78,7 @@ extern M2C_UNK D_800B7C14;
 /* Spawns an effect at the given position with variant-specific graphics and randomized motion. */
 void func_800B7D74(s32 pos_x, s32 pos_y, s32 pos_z, u32 variant) {
     static void *const jt_keep[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4 };
-    struct S_80083178 *game_state = &D_80083178;
+    struct S_80083178 *game_state = ((void *)&gameWork.unk_018);
     s32 velocity_y;
     S_800B7D74_3 *sprite;
     S_800B7D74_1 *motion;

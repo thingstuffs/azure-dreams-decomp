@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 typedef struct TownRoot {
     u8 pad_00[0x40];
@@ -16,7 +17,6 @@ extern s32 func_800168A0(void);
 extern void func_800168E0(void);
 extern void func_8001886C(s32);
 extern s32 func_80018964(s32);
-extern void *D_80016000;
 extern TownEntry D_80019088[7];
 
 /* Advance through town events and dispatch the next eligible entry. */

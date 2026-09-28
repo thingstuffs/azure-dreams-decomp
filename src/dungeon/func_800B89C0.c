@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
 typedef s32 M2C_UNK;
@@ -25,7 +26,6 @@ extern u8 D_8008935C[];
 extern u16 D_800DDE84[];
 extern u8 D_800E0FF4[];
 extern u8 D_800E100F[];
-extern s32 D_800E3D7C[];
 
 
 typedef struct S_800BE120_0 {
@@ -56,7 +56,7 @@ s32 func_800BE120(void *entity, S_800BE120_1 *data, s16 mode) {
     s32 context;
 
     stored = 0;
-    if (entity == D_800E3D7C[0]) {
+    if (entity == ((s32)D_800E3D7C)) {
         ((S_800BE120_0 *)entity)->unk_110 = (s32)data;
         func_8008D330(entity, &D_80083780, &D_80082E80, entity);
         return 0;

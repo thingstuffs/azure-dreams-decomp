@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 
 
@@ -17,12 +18,11 @@ typedef struct S_8001AEC8_1 {
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-extern void *D_80016000[];
 
 
 /* Invoke the callback at offset 0x30C with value 0x9000. */
 void func_8001AEC8(void) {
     do {
-        ((S_8001AEC8_1 *)(((S_8001AEC8_0 *)(D_80016000[0]))->unk_20))->unk_30C(0x9000);
+        ((S_8001AEC8_1 *)(((S_8001AEC8_0 *)(D_80016000))->unk_20))->unk_30C(0x9000);
     } while (0);
 }

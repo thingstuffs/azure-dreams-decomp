@@ -1,3 +1,4 @@
+#include "shared/record_ptrs.h"
 typedef int s32;
 typedef short s16;
 
@@ -19,7 +20,6 @@ typedef struct RuntimeRoot {
     RuntimeMethods *methods;
 } RuntimeRoot;
 
-extern RuntimeRoot *D_80016000;
 extern char D_80016080[];
 extern char D_800160A8[];
 
@@ -45,7 +45,7 @@ s32 func_8095013C(Entry *entries, s32 key)
         }
     }
 
-    D_80016000->methods->assert_fail(D_80016080, D_800160A8, 39);
-    D_80016000->methods->terminate(1);
+    ((RuntimeRoot *)D_80016000)->methods->assert_fail(D_80016080, D_800160A8, 39);
+    ((RuntimeRoot *)D_80016000)->methods->terminate(1);
     return index;
 }

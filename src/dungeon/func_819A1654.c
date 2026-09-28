@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
 typedef struct Coord {
@@ -134,7 +135,6 @@ typedef struct Blob24 {
 } __attribute__((packed)) Blob24;
 
 extern GlobalState D_800814A0[];
-extern World *D_800814A8[];
 extern LookupGlobal D_80082E80[];
 extern s16 D_80082E86[6];
 extern u16 D_80082E94[6];
@@ -206,7 +206,7 @@ void func_80024E54(Entity *entity, void *saved_context, void *saved_data) {
     case_0: {
         World *start_world;
         World *hit_world;
-        start_world = D_800814A8[0];
+        start_world = ((World *)D_800814A8);
         start_world->fieldF4 = 0;
         start_world->field96 = 20;
         D_80082E86[0] = 6;
@@ -692,7 +692,7 @@ void func_80024E54(Entity *entity, void *saved_context, void *saved_data) {
             }
         }
 
-        world = D_800814A8[0];
+        world = ((World *)D_800814A8);
         focus = world->focus;
         if (focus != 0 && entity->timer == 1) {
             task = func_8003FC64(0x212);

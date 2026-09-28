@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80016000.h"
 
@@ -11,12 +12,11 @@ typedef struct S_805D3D50_1 {
 
 
 
-extern Rec_D_80016000 *D_80016000;
 extern u8 D_80019B08;
 extern s32 D_80019B8C;
 
 
 /* Set the selected record index from the current object's lookup entry. */
 void func_805D3D50(void) {
-    D_80019B8C = (s32) *((((S_805D3D50_1 *)(D_80016000->unk_1C.as_pv))->unk_34 * 4) + &D_80019B08);
+    D_80019B8C = (s32) *((((S_805D3D50_1 *)(((Rec_D_80016000 *)D_80016000)->unk_1C.as_pv))->unk_34 * 4) + &D_80019B08);
 }

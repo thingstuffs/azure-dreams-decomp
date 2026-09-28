@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 typedef struct Inner {
     u8 pad[1];
@@ -11,13 +12,12 @@ typedef struct DungeonState {
 } DungeonState;
 
 extern u8 D_800DD8E7[];
-extern DungeonState *D_800E3D7C[];
 
 s32 func_800A9390(s16 index) {
     s32 compare;
 
     index = D_800DD8E7[index];
-    if (D_800E3D7C[0]->inner->flag != 0) {
+    if (((DungeonState *)D_800E3D7C)->inner->flag != 0) {
         compare = index;
         if (compare == 0x32) {
             return 0x33;

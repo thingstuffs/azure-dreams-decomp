@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 
@@ -98,7 +99,6 @@ typedef struct S_819AD81C_6 {
 } S_819AD81C_6;   /* link in func_819AD81C */
 
 
-extern int D_800814A8[4];
 M2C_UNK func_800257D0();
 M2C_UNK func_80025840();
 M2C_UNK func_8002590C();
@@ -226,7 +226,7 @@ block_10:
                         ((S_819AD81C_0 *)entity)->unk_2C.s = 3;
                         return;
                     }
-                    node = (void *) D_800814A8[0];
+                    node = (void *) ((int)D_800814A8);
                     head = node;
                     link = ((S_819AD81C_3 *)node)->unk_5C.p;
                     node = link + 0x20;
@@ -247,7 +247,7 @@ block_10:
                                 }
                             }
                             node = ((S_819AD81C_3 *)node)->unk_5C.i + 0x20;
-                        } while (node != (void *) D_800814A8[0]);
+                        } while (node != (void *) ((int)D_800814A8));
                     }
                     saved_x = ((S_819AD81C_0 *)entity)->unk_3C.at00p.v;
                     hits_left = ((S_819AD81C_0 *)entity)->unk_46.u;

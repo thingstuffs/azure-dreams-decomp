@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 typedef struct S_8001A678_0 {
     u8 pad_00[0x8];
@@ -26,12 +27,11 @@ typedef struct S_8001A678_3 {
 
 
 
-extern u8 *D_80016000;
 
 /* Set the position from coordinates scaled by 64 and the selected entry offsets. */
 void func_8001A678(s32 unused, u32 x, u32 y)
 {
-    u8 *root = D_80016000;
+    u8 *root = ((u8 *)D_80016000);
     S_8001A678_1 *entry_table;
     S_8001A678_3 *position;
     u32 entry_address;

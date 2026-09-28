@@ -1,8 +1,8 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "m2c_compat.h"
 
 extern s8 D_80082EA4;
-extern void *D_800E3D7C;
 
 typedef struct S_800F6738_0 {
     u8 pad_00[0x13];

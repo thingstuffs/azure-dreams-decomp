@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
@@ -20,7 +21,6 @@ extern M2C_UNK D_80082E80;
 extern u16 D_80082E94;
 extern u16 D_80083780[];
 extern M2C_UNK D_800C9034;
-extern void *D_800E3D7C;
 
 
 typedef struct S_80025C80_0_pre {

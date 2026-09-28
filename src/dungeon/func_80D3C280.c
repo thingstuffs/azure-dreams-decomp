@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -85,7 +86,6 @@ extern void func_80174A68(void *, void *, void *, void *);
 extern void func_801754AC(void *, void *, void *, void *);
 extern void func_80175F44(void *, void *, void *, s32, s32);
 
-extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern s8 D_80082EA4;
 extern u8 D_800E23E0[];
@@ -96,7 +96,6 @@ extern u8 D_800E2428[];
 extern s8 D_800E2970[];
 extern void *D_80170820[];
 extern u8 D_80171A80[];
-extern void *D_800E3D7C[];
 
 /* Updates dungeon actor animation, status, and action dispatch. */
 void func_80171A80(void *entity, void *context, void *sprite, void *actor)
@@ -296,7 +295,7 @@ coords_continue:
         }
 global_continue:
         {
-            void *leader = D_800E3D7C[0];
+            void *leader = D_800E3D7C;
 
             if (((S_80171A80_6 *)leader)->unk_A6 != 0) {
                 goto ordinary_cleanup;

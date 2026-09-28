@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
@@ -161,7 +162,6 @@ void func_801715D0();                            /* extern */
 extern u8 D_8006CCF8[16];
 extern u16 D_80082E76[8];
 extern s32 D_80083780[8192];
-extern s32 D_800E3D7C[3];
 extern Table32 D_8016482C;
 extern Table32 D_80164AC0;
 extern void *D_80164AE0[];
@@ -803,7 +803,7 @@ update_height:
 
 jt_c42:
 jt_c47:
-        func_800945E8(D_800E3D7C[0], target_state);
+        func_800945E8(((s32)D_800E3D7C), target_state);
         {
             s32 effect_arg_0;
             s32 effect_arg_1;

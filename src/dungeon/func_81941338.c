@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -16,7 +17,6 @@ typedef struct {
 
 extern volatile void *jtbl_80024048[];
 __asm__(".set jtbl_80024048, 0x80024048");
-extern void *D_800814A8[4];
 extern u8 D_80082E80[32];
 extern u8 D_80083780[32];
 extern u8 D_8002492C[16];
@@ -99,7 +99,7 @@ void func_81941338(void *effect, void *effect_pos, void *effect_data)
 init:
     enabled = 1;
     initial_color = 0x00808080;
-    F(D_800814A8[0], s32, 0xF4) = 0;
+    F(D_800814A8, s32, 0xF4) = 0;
     F(D_80082E80, u16, 6) = 6;
     F(effect_base, void *, 0x64) = func_800249F0(effect_base, position, effect_context, D_80025704,
                                                 enabled, 0x1000, 0x1000, initial_color);
@@ -115,12 +115,12 @@ wait_ready:
     }
     init_object = effect_base;
     {
-        void *actor = D_800814A8[0];
+        void *actor = D_800814A8;
         F(effect_base, u16, 0x20) = (u16)((u32)(0x14));
         F(actor, u16, 0xA6) = (u16)(F(actor, u16, 0xA6) - 1);
         F(actor, u8, 0xA8) = F(effect_base, u8, 8);
     }
-    component = F(D_800814A8[0], u16, 0x2A);
+    component = F(D_800814A8, u16, 0x2A);
     F(effect_base, u16, 0xA) = (u16)(F(effect_base, u16, 0xA) + 1);
     F(effect_base, u16, 0x26) = (u16)component;
     func_800243D8(init_object, position, effect_context);
@@ -179,7 +179,7 @@ emit_trail:
         particle_level = F(effect_base, s16, 0x26);
         particle_x = F(effect_base, s16, 0xC);
         particle_color |= 0x20F0;
-        func_80024798((u8 *)D_800814A8[0] - 0x20,
+        func_80024798((u8 *)D_800814A8 - 0x20,
                       particle_level, particle_color,
                       particle_alpha,
                       particle_x, F(effect_base, s16, 0xE),
@@ -267,7 +267,7 @@ emit_trail:
             particle_level = F(effect_base, s16, 0x26);
             particle_x = F(effect_base, s16, 0x18);
             particle_color |= 0x20F0;
-            func_80024798((u8 *)D_800814A8[0] - 0x20,
+            func_80024798((u8 *)D_800814A8 - 0x20,
                           particle_level, particle_color,
                           particle_alpha,
                           particle_x, F(effect_base, s16, 0x1A),
@@ -374,7 +374,7 @@ emit_flash:
         void *actor_position;
         F(sprite, u16, 0x10) = (u16)bits;
         F(sprite, u16, 6) = 8;
-        actor_position = D_800814A8[0];
+        actor_position = D_800814A8;
         F(sprite, u16, 0x14) = (u16)(F(sprite, u16, 0x14) | 0xC);
         position = F(particle, void *, 8);
         actor_position = F(actor_position, void *, -24);
@@ -466,7 +466,7 @@ emit_burst:
 fade_model:
     {
         s32 fade;
-        animation_m = F(D_800814A8[0], void *, 0x60);
+        animation_m = F(D_800814A8, void *, 0x60);
         if (animation_m != 0) {
             F(animation_m, u32, 0x1C) |= 0x10000000;
             {
@@ -494,7 +494,7 @@ fade_model:
 finish:
     if (F(D_8002571C, s16, 0) == 0) {
         void *actor_model =
-            F(D_800814A8[0], void *, 0x60);
+            F(D_800814A8, void *, 0x60);
         if (actor_model != 0) {
             bits = (u32)0xEFFFFFFF;
             neutral_color = 0x00808080;

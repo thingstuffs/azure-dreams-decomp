@@ -1,9 +1,9 @@
+#include "shared/record_ptrs.h"
 typedef signed char s8;
 typedef int s32;
 
 typedef s32 Callback(s32);
 
-extern void *D_80016000;
 
 /* Calls the callback with zero, then maps states 0, 1, and 2 to output values 1, 2, and 3. */
 void func_80614A10(void)

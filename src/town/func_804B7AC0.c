@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 typedef struct {
     u8 pad_00[8];
@@ -7,7 +8,6 @@ typedef struct {
     u8 *bytes;
 } TownState;
 
-extern TownState *D_80016000;
 extern void func_80017BA0(s32, s32);
 
 /* Call func_80017BA0 when the current entry byte is at least two, then clear it and return success. */
@@ -16,12 +16,12 @@ s32 func_804B7AC0(s32 first_input, s32 second_input)
     TownState *state_before;
     TownState *state_after;
 
-    state_before = D_80016000;
+    state_before = ((TownState *)D_80016000);
     if (state_before->bytes[state_before->index * 8] < 2U) {
         return 0;
     }
     func_80017BA0(first_input, second_input);
-    state_after = D_80016000;
+    state_after = ((TownState *)D_80016000);
     state_after->bytes[state_after->index * 8] = 0;
     return 1;
 }

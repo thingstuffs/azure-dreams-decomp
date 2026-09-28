@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -50,9 +51,7 @@ extern s16 D_800273BC;
 extern u8 D_800273BE;
 extern void *D_800273C0;
 extern s32 D_800274DC[];
-extern void *D_800814A8;
 extern u8 D_80082E80[];
-extern u8 *D_800E3D7C;
 extern void *D_80024008[];
 
 /* Advances the object's state and draws its 7-by-7 grid. */
@@ -124,7 +123,7 @@ jt_c0:
         } while (1);
 
         D_800273A8 = 0;
-        map_data = (u16 *)D_800E3D7C;
+        map_data = (u16 *)((u8 *)D_800E3D7C);
         direction_offset = (map_data[0x15] >> 8) & 0xE;
         func_80025AD8(
             (s16)(D_80082E80[0x24] +

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
 
@@ -26,7 +27,6 @@ extern u8 D_800893D4[];
 extern u8 D_800E1684[];
 extern u8 D_800E169A[];
 extern u8 D_800E39C8[];
-extern u8 D_800E3D7C[];
 
 
 typedef struct S_800C2CDC_0_pre {
@@ -75,7 +75,7 @@ s32 func_800C2CDC(void *actor, u8 *object_data, s16 action_type) {
     s32 handle;
     s16 entry_index;
 
-    if (actor == *(u8 **)D_800E3D7C) {
+    if (actor == *(u8 **)((u8 *)(&D_800E3D7C))) {
         ((S_800C2CDC_0 *)actor)->unk_110 = object_data;
         func_8008D344(actor, D_80083780, D_80082E80, actor);
         return 0;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 
 extern u8 D_80082E80[];
@@ -8,7 +9,6 @@ extern u8 D_800E3648[];
 extern u8 D_800E36C8[];
 extern u8 D_800E39C8[];
 extern u8 D_800E3CD8[];
-extern u8 *D_800E3D7C;
 
 extern s32 func_800644B8(s32);
 extern void func_8009DA70(s32, s32, u8 *, s32);
@@ -72,7 +72,7 @@ void func_8009DAD8(s32 draw_param) {
     register long loopFlagsPage ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
     system = &gameWork;
-    head = D_800E3D7C;
+    head = ((u8 *)D_800E3D7C);
 
     if (D_800E296C & 0x1000) {
         D_800E296C &= ~0x1000;

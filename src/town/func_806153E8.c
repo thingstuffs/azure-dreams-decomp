@@ -1,6 +1,6 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
-extern s8 D_80016000[];
 extern s32 D_8001C9F4;
 extern s32 func_80018BD0(s32);
 extern s32 func_80018C50(s32);
@@ -34,10 +34,10 @@ s32 func_80016BE8(void) {
     if (func_80018C50(0xFE8) == 0) {
         ((S_func_80016BE8_2 *)
             ((S_func_80016BE8_1 *)
-                ((S_func_80016BE8_0 *)D_80016000)->unk_00)->unk_1C)->unk_40 = &D_8001C9F4;
+                ((S_func_80016BE8_0 *)((s8 *)(&D_80016000)))->unk_00)->unk_1C)->unk_40 = &D_8001C9F4;
     }
     ((S_func_80016BE8_3 *)
         ((S_func_80016BE8_1 *)
-            ((S_func_80016BE8_0 *)D_80016000)->unk_00)->unk_20)->unk_2F8(0x10, 0x200);
+            ((S_func_80016BE8_0 *)((s8 *)(&D_80016000)))->unk_00)->unk_20)->unk_2F8(0x10, 0x200);
     return 0;
 }

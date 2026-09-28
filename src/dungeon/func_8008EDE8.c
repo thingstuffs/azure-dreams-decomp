@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "m2c_compat.h"
 
 typedef struct S_80094548_0 {
@@ -14,7 +15,6 @@ typedef struct S_80094548_1 {
 
 
 
-extern s32 D_800E3D7C;
 
 
 /* Store the value scaled by 512 in the indexed object's field. */
@@ -22,7 +22,7 @@ void func_80094548(s32 index, s32 value) {
     s32 entry_offset;
     s32 table_base;
 
-    table_base = D_800E3D7C;
+    table_base = ((s32)D_800E3D7C);
     entry_offset = (s32) (index << 0x10) >> 0xE;
     ((S_80094548_1 *)(((S_80094548_0 *)(entry_offset + table_base))->unk_AC))->unk_2A = (s16) (value << 9);
 }

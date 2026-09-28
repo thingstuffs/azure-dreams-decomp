@@ -1,8 +1,8 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 
 extern s32 func_800BCB04(u16, u16, s16, void *);
-extern void *D_800814A8[3];
 extern u8 D_800EA000[];
 
 /* Rounds the sampled or fallback height up to a 64-unit boundary relative to the cell height. */
@@ -31,7 +31,7 @@ s16 func_800D175C(s32 grid_x, s32 grid_y)
     if ((s16)height < 0x201) {
         biased_height = height + 0x3F;
     } else {
-        cell_table = *(u16 *)((u8 *)D_800814A8[0] + 0x88);
+        cell_table = *(u16 *)((u8 *)D_800814A8 + 0x88);
         biased_height = cell_table + 0x3F;
     }
     return (s16)(((cell_height + biased_height) & -0x40) - cell_height);

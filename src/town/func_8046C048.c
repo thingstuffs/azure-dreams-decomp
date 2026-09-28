@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80016000.h"
 
@@ -22,7 +23,6 @@ typedef struct S_8001D048_2 {
 
 s32 func_8001D280();                   /* extern */
 s32 func_8001E7E4();                         /* extern */
-extern Rec_D_80016000 *D_80016000;
 extern s16 D_8001902C[];
 
 /* Invoke the callback for nonzero row entries using the selected mode and bounds. */
@@ -45,7 +45,7 @@ void func_8001D048(void) {
     S_8001D048_3 *callback_base;
     M2C_UNK (*callback)(s32, u32, s32);
 
-    row_or_column = (long)D_80016000->unk_38.as_ps8;
+    row_or_column = (long)((Rec_D_80016000 *)D_80016000)->unk_38.as_ps8;
     mode_check = func_8001E7E4(1);
     mode = 0;
     if (mode_check != 0) {
@@ -81,7 +81,7 @@ process_entry:
             entry_value = ((S_8001D048_1 *)(row + row_or_column))->unk_3640;
             if (entry_value != 0) {
                 entry_result = func_8001D280(row_index, row_or_column, mode);
-                global_base = D_80016000;
+                global_base = ((Rec_D_80016000 *)D_80016000);
                 do {
                     callback_arg = entry_result;
                     ASM_KEEP(callback_arg);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */

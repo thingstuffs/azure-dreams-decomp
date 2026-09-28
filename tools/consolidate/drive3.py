@@ -13,7 +13,7 @@ from check import check
 LANE_ = Path(__file__).resolve().parent.parent
 NAMES = sys.argv[1].split(","); OBJS = {n: C.load(LANE_ / "objects" / (n + ".json")) for n in NAMES}
 ONLY = set(sys.argv[sys.argv.index("--only") + 1].split(",")) if "--only" in sys.argv else None
-busy = set(l.strip() for l in open(LANE_ / "BUSY_ROWS3.txt") if l.strip())
+busy = set(l.strip() for l in open(LANE_ / "BUSY_ROWS4.txt") if l.strip())
 R = row_index()
 ids = []
 for o in OBJS.values(): ids += [json.loads(l)["id"] for l in open(LANE_ / "census" / o["census"])]
@@ -69,7 +69,9 @@ def one(rid):
         seen.add(text)
         rec = check(r, text, score=True); rec.update(plan=plan, note=note, src_sha=sha, refusals=refusals)
         last = rec
-        if (rec.get("score") or {}).get("exact"):
+        if not (rec.get("score") or {}).get("exact") and rec.get("abs_listing") == "identical" and rec.get("listing") != "build-error":
+            rec["rebaseline_slus"] = True       # identical bytes after link; only relocation symbol names moved
+        if (rec.get("score") or {}).get("exact") or rec.get("rebaseline_slus"):
             d = LANE_ / os.environ.get("CANDDIR", "cand3") / r["container"]; d.mkdir(parents=True, exist_ok=True)
             (d / src.name).write_text(text); (d / (src.name + ".base_sha")).write_text(sha)
             rec.update(ok=True, path="%s/%s" % (r["container"], src.name), present=present); return rec

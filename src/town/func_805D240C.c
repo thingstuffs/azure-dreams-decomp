@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 typedef struct S_8001640C_0 {
     void * unk_00;
@@ -25,7 +26,6 @@ typedef struct S_8001640C_3 {
 
 
 
-extern s8 D_80016000[];
 extern s32 D_80019AFC;
 
 s32 func_80018618(void);
@@ -35,7 +35,7 @@ s32 func_8001640C(void) {
     void **pageSlot;
     s32 handlerResult;
 
-    pageSlot = (void **)D_80016000;
+    pageSlot = (void **)((s8 *)(&D_80016000));
     D_80019AFC = ((S_8001640C_2 *)((((S_8001640C_1 *)(((S_8001640C_0 *)pageSlot)->unk_00))->unk_08 * 8) +
             ((S_8001640C_1 *)(((S_8001640C_0 *)pageSlot)->unk_00))->unk_40))->unk_04;
     handlerResult = func_80018618();

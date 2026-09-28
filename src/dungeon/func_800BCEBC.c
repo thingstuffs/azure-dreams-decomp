@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
 typedef struct Entity {
@@ -14,7 +15,6 @@ typedef struct Struct_80083460 {
     u16 count;
 } Struct_80083460;
 
-extern Entity *D_800E3D7C;
 extern u8 D_80083780[];
 extern u8 D_80082E80[];
 extern s32 D_80012090;
@@ -39,7 +39,7 @@ s32 func_800C2C7C(Entity *);
 
 /* Handles an item's effect on an entity and updates the pending action count. */
 s32 func_800C261C(Entity *entity, s32 item, s16 action_type) {
-    if (entity == D_800E3D7C) {
+    if (entity == ((Entity *)D_800E3D7C)) {
         entity->unk_110 = item;
         func_8008D330(entity, D_80083780, D_80082E80, entity);
         return 0;

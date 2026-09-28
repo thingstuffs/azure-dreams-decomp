@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/game_work.h"
+#include "shared/dungeon_status.h"
 
 typedef struct S_801720EC_0 {
     u8 pad_00[0x2A];
@@ -41,8 +43,6 @@ extern s32 func_800C7930();
 
 extern u8 D_8006CCD8;
 extern u8 D_8006CCE8;
-extern s16 D_80083228;
-extern u16 D_80083462;
 extern u8 D_80174558[];
 
 /* Checks the tile ahead and updates the entity's action when the height permits. */
@@ -68,7 +68,7 @@ s32 func_801720EC(void *action_state, s32 update_arg, void *sprite, void *actor)
     register s32 step_y ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     ((S_801720EC_0 *)actor)->unk_71 &= 0x7f;
-    flags = D_80083462;
+    flags = dungeonStatus.flags;
     if (flags & 0x2000) {
         return -1;
     }
@@ -134,7 +134,7 @@ s32 func_801720EC(void *action_state, s32 update_arg, void *sprite, void *actor)
         ((S_801720EC_2 *)output)->unk_9A = 0x17;
         (*(u8 * *)((u8 *)sprite + 0x2c)) = D_80174558;
         func_80047784(sprite,
-                      D_80174558[((D_80083228 + ((S_801720EC_0 *)actor)->unk_2A.u + 0x100) >> 9) & 7],
+                      D_80174558[((gameWork.viewAngle + ((S_801720EC_0 *)actor)->unk_2A.u + 0x100) >> 9) & 7],
                       0);
         func_800A4ACC(actor);
         {

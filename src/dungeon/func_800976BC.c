@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
@@ -49,7 +50,6 @@ typedef struct S_8009CE1C_2 {
 } S_8009CE1C_2;   /* temp_t1 in func_8009CE1C */
 
 
-extern u8 *D_800E3D7C[];
 extern u8 D_800E3E41;
 M2C_UNK func_80094E34();
 s32 func_80098250();
@@ -89,7 +89,7 @@ void func_8009CE1C(void *target, s16 base_power, s16 power_bonus, s16 elements,
     affinity = 0;
     if ((target != NULL) && (func_8009D218(target, (u16) element_mask, source_flags) == 0)) {
         if (requested_bonus == 0xFF) {
-            bonus = ((S_8009CE1C_0 *)(*D_800E3D7C))->unk_11 * 4;
+            bonus = ((S_8009CE1C_0 *)(((u8 *)D_800E3D7C)))->unk_11 * 4;
             if (bonus >= 0x64) {
                 bonus = 0x63;
             }
@@ -188,7 +188,7 @@ apply_affinity:
             shown_damage = 0;
         }
         func_800B4C7C(3, target, shown_damage, 0);
-        if (target == *D_800E3D7C) {
+        if (target == ((u8 *)D_800E3D7C)) {
             D_800E3E41 = (u8) hit_kind;
             func_80094E34();
         }

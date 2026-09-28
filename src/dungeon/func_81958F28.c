@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 extern int abs(int);
@@ -48,7 +49,6 @@ extern u8 D_80082E80[];
 extern u8 D_80083780[];
 extern s32 D_800CEEFC;
 extern s32 *D_800E3D18;
-extern u8 *D_800E3D7C;
 
 /* Per-frame update for a following color effect: blend its position and shade toward a target node or a palette color, then fade it out over its lifetime. */
 void func_81958F28(AnimState *state, void *pos, void *tint) {
@@ -209,9 +209,9 @@ main_phase:
         s32 tableAddress;
         color.x = U16(base, 2);
         color.y = U16(base, 6);
-        color.z = U16(D_800E3D7C, 0x88) - 0x50;
+        color.z = U16(((u8 *)D_800E3D7C), 0x88) - 0x50;
         tableAddress =
-            ((gameWork.viewAngle + S16(D_800E3D7C, 0x2A) + 0x100) >> 7) & 0x1C;
+            ((gameWork.viewAngle + S16(((u8 *)D_800E3D7C), 0x2A) + 0x100) >> 7) & 0x1C;
         tableAddress += (s32)D_800E3D18;
         func_8003DE58(
             *(s32 *)tableAddress,

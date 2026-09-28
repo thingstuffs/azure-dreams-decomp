@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -73,7 +74,6 @@ extern void func_80171790();
 extern void func_80171928();
 
 extern u8 D_8006DE24[];
-extern void *D_800814A8;
 extern s32 D_80083460;
 extern s32 D_8008346C;
 extern void *D_80170850[];

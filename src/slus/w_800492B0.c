@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 #include "common.h"
-extern s32 D_800814A8[4];
 extern s32 D_800E3DF0[];
 extern int func_80049280(int arg0);
 extern int func_80021300(int a0);
@@ -13,8 +13,7 @@ int func_800492B0(int index)
   s32 value_code;
   if (func_80049280(index))
   {
-    ASM_KEEP(index);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-    value = *((s32 *) (((u8 *) D_800814A8[0]) + 0x124));
+    value = *((s32 *) (((u8 *) ((s32)D_800814A8)) + 0x124));
   }
   else
   {

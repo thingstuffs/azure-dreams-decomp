@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
 extern void func_80042B68();
@@ -17,7 +18,6 @@ extern u8 D_80082E80[12];
 extern u8 D_80083780[12];
 extern u16 D_800DDE84[];
 extern u8 D_800E188B[];
-extern void *D_800E3D7C[];
 
 /* Updates an entity and its effects, decrementing the shared counter on completion. */
 s32 func_800C4324(void *entity_arg, s32 amount_arg, s16 effect_arg)
@@ -26,7 +26,7 @@ s32 func_800C4324(void *entity_arg, s32 amount_arg, s16 effect_arg)
     s32 initial_id;
     s32 selected_id;
 
-    if (entity_arg == D_800E3D7C[0]) {
+    if (entity_arg == D_800E3D7C) {
         *(s32 *)((u8 *)entity_arg + 0x110) = amount;
         func_8008D330(((void *)(entity_arg)), D_80083780, D_80082E80, ((void *)(entity_arg)));
         return 0;

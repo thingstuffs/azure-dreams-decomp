@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -17,7 +18,6 @@ extern void func_80175DA4(void *);
 
 extern u8 D_80082E80[];
 extern u8 D_80083780[];
-extern u8 *D_800E3D7C;
 extern u8 D_80173B98;
 
 
@@ -106,19 +106,19 @@ state_1:
         register u8 *primary_table;
         register u8 *secondary_table;
 
-        saved_index = ((Rec_D_800E3D7C *)D_800E3D7C)->unk_8A.as_u16;
-        saved_actor = ((Rec_D_800E3D7C *)D_800E3D7C)->unk_60.as_pu8;
+        saved_index = ((Rec_D_800E3D7C *)((u8 *)D_800E3D7C))->unk_8A.as_u16;
+        saved_actor = ((Rec_D_800E3D7C *)((u8 *)D_800E3D7C))->unk_60.as_pu8;
         actor_index = func_800A1BD0(actor);
         primary_table = D_80083780;
         secondary_table = D_80082E80;
-        actor_map = D_800E3D7C;
+        actor_map = ((u8 *)D_800E3D7C);
         owner[0xA9] = actor_index;
         ASM_JALDELAY_PIN(actor);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        ((Rec_D_800E3D7C *)D_800E3D7C)->unk_60.as_pu8 = actor;
+        ((Rec_D_800E3D7C *)((u8 *)D_800E3D7C))->unk_60.as_pu8 = actor;
         ((S_80176028_2 *)actor_map)->unk_8A = actor_index;
-        func_80093E74(D_800E3D7C, primary_table, secondary_table, D_800E3D7C);
-        (*(u8 * *)((u8 *)D_800E3D7C + (0x60))) = saved_actor;
-        ((Rec_D_800E3D7C *)D_800E3D7C)->unk_8A.as_u16 = saved_index;
+        func_80093E74(((u8 *)D_800E3D7C), primary_table, secondary_table, ((u8 *)D_800E3D7C));
+        (*(u8 * *)((u8 *)((u8 *)D_800E3D7C) + (0x60))) = saved_actor;
+        ((Rec_D_800E3D7C *)((u8 *)D_800E3D7C))->unk_8A.as_u16 = saved_index;
         dungeonStatus.unk_0A--;
     }
 
@@ -138,7 +138,7 @@ state_2:
             goto done;
         }
 
-        map = D_800E3D7C;
+        map = ((u8 *)D_800E3D7C);
         *(u32 *)(map + 0xAC + owner[0xA9] * 4) = 0;
         *(u32 *)(map + 0xD0 + owner[0xA9] * 4) = 0;
         func_800A18E8(actor[0x13], 3);
@@ -153,7 +153,7 @@ state_2:
         {
             u8 *actor_slot;
 
-            actor_slot = D_800E3D7C + 0xFA;
+            actor_slot = ((u8 *)D_800E3D7C) + 0xFA;
             actor_slot[owner[0xA9]] = state;
         }
         owner[0xA8] = owner[0xA9] + 1;

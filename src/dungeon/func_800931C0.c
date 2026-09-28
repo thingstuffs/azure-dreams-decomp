@@ -7,13 +7,13 @@
  * retail (`j 0x98b10 / li v0,-1`). Config: 2.8.1.
  */
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
 extern s32 D_80082EB4[];
 
 extern u32 *D_800DD6B8[];
 extern u8 D_800E3648[];
-extern void *D_800E3D7C[];
 
 extern void func_80094E34(void);
 extern s16 func_80098C80(void *);
@@ -63,7 +63,7 @@ s32 func_80098920(void *actor, void *action, s16 dispatch_mode, s32 handler_para
             result = func_80098C80(action);
             if (result != 0x15) {
                 if (result == 0x16) {
-                    *(*(s32 **)((u8 *)D_800E3D7C[0] + 0xF0)) = 0;
+                    *(*(s32 **)((u8 *)D_800E3D7C + 0xF0)) = 0;
                 } else {
                     func_80094E34();
                 }
@@ -73,8 +73,8 @@ s32 func_80098920(void *actor, void *action, s16 dispatch_mode, s32 handler_para
             goto tail;
         }
     }
-    func_80099F70(*(s32 *)((u8 *)D_800E3D7C[0] + 0x5C));
-    func_80099F04(*(s32 *)((u8 *)D_800E3D7C[0] + 0x5C));
+    func_80099F70(*(s32 *)((u8 *)D_800E3D7C + 0x5C));
+    func_80099F04(*(s32 *)((u8 *)D_800E3D7C + 0x5C));
     dungeonStatus.flags |= 0x812;
 tail:
     handler(actor, action, dispatch_mode, handler_param);

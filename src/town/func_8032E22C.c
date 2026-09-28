@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80016000.h"
 
@@ -11,11 +12,10 @@ typedef struct S_80018A2C_1 {
 
 
 
-extern Rec_D_80016000 *D_80016000;
 extern u32 D_8001C368;
 
 
 /* Checks whether the stored value meets the D_8001C368 threshold. */
 s32 func_80018A2C(void) {
-    return (u32) ((S_80018A2C_1 *)(D_80016000->unk_38.as_pv))->unk_2D5C >= (u32) D_8001C368;
+    return (u32) ((S_80018A2C_1 *)(((Rec_D_80016000 *)D_80016000)->unk_38.as_pv))->unk_2D5C >= (u32) D_8001C368;
 }

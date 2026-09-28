@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 #define FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
@@ -18,7 +19,6 @@ extern s32 func_8001611C(s32, s32);
 extern s32 func_80018854(s32);
 extern s32 func_800188CC(s32);
 extern s32 func_8001894C(s32);
-extern void *D_80016000;
 extern s16 D_80018AEA;
 
 /* Update action flags from the active entry and check whether the action is allowed. */

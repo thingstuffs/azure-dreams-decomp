@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 
 #define F(base, type, off) (*(type *)((char *)(base) + (off)))
 
 extern void *D_800DF364[];
-extern void *D_800E3D7C[];
 
 extern void func_800A56E0(s32);
 extern void func_800478B8(void *, void *, void *);
@@ -27,7 +27,7 @@ void func_800B96C4(void *state, void *position_arg, void *marker_arg) {
             void *fallback_target;
             u16 phase;
             F(state, s16, 0xE) = 4;
-            fallback_target = D_800E3D7C[0];
+            fallback_target = D_800E3D7C;
             phase = F(state, u16, 0xC);
             D_800DF364[0] = fallback_target;
             F(state, u16, 0xC) = phase + 1;
@@ -58,7 +58,7 @@ void func_800B96C4(void *state, void *position_arg, void *marker_arg) {
         void *tracked_target = F(F(state, void *, 0), void *, 0);
         if (tracked_target == 0) {
             F(marker_arg, s32, 0xC) = 0x808080;
-        } else if (tracked_target == F(D_800E3D7C[0], void *, 0xAC)) {
+        } else if (tracked_target == F(D_800E3D7C, void *, 0xAC)) {
             F(marker_arg, s32, 0xC) = 0x101080;
         } else {
             F(marker_arg, s32, 0xC) = 0x801010;

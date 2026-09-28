@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 
 typedef struct S_8008D470_0_pre {
@@ -72,8 +73,6 @@ typedef struct S_8008D470_7 {
 
 
 
-extern void *D_800E3D7C[];
-extern s32 D_800814A8[];
 extern u8 D_80081484[];
 
 extern s32 func_8003DE58();
@@ -110,7 +109,7 @@ void func_8008D470(void *effect, S_8008D470_4 *position, S_8008D470_3 *visual) {
 
     target = ((S_8008D470_0 *)effect)->unk_90;
     if (func_8003DE58(target->unk_08, target, offsets, 0) != 0 &&
-        ((S_8008D470_2 *)(D_800E3D7C[0]))->unk_124 != 0) {
+        ((S_8008D470_2 *)(D_800E3D7C))->unk_124 != 0) {
         visual->unk_1C = 0x1000;
         steps_left = ((S_8008D470_0 *)effect)->unk_A4.s - 1;
         ((S_8008D470_0 *)effect)->unk_A4.s = steps_left;
@@ -172,10 +171,10 @@ update_light:
         expiry_mode = ((S_8008D470_0 *)effect)->unk_AC;
         ((S_8008D470_0 *)effect)->unk_A8.s = 0;
         if (expiry_mode == 1) {
-            spawn_handle = func_800A8E74(effect, position, visual, D_800814A8[0], ((S_8008D470_0 *)effect)->unk_9C, -1);
+            spawn_handle = func_800A8E74(effect, position, visual, ((s32)D_800814A8), ((S_8008D470_0 *)effect)->unk_9C, -1);
             if (spawn_handle != 0) {
                 entity = (void *)(spawn_handle + 0x20);
-                target = D_800E3D7C[0];
+                target = D_800E3D7C;
                 target->unk_124 = entity;
                 entity->unk_9C = D_80081484;
                 entity->unk_1C |= 0x80000;

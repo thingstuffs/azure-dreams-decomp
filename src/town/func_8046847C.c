@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 typedef s32 Callback(s32);
 
 extern s32 func_8001E670(s32 id);
 extern void func_800196A4(void);
 
-extern void *D_80016000[];
 extern s32 D_80018448[];
 extern u8 *D_8001E950;
 
@@ -16,7 +16,7 @@ s32 func_8001947C(void)
 
     if ((func_8001E670(0x1391) == 0) ||
         (func_8001E670(0xA2) != 0)) {
-        index = (*(Callback **)((u8 *)*(void **)((u8 *)D_80016000[0] + 0x20) + 0x2D4))(0);
+        index = (*(Callback **)((u8 *)*(void **)((u8 *)D_80016000 + 0x20) + 0x2D4))(0);
         return D_80018448[index];
     }
 

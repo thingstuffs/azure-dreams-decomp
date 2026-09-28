@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
@@ -62,7 +63,6 @@ extern void func_800A56E0(s32);
 extern void func_80164BA4(void *);
 
 extern u16 D_80013714;
-extern u8 D_800E3D7C[];
 extern u8 D_8016A36C[];
 extern u8 D_801739B8[];
 extern u8 D_80173A40[];
@@ -179,7 +179,7 @@ increment_state:
         return;
 
 jt_c5:
-        world = *(u8 **)D_800E3D7C;
+        world = *(u8 **)((u8 *)(&D_800E3D7C));
         if (((S_8016BE20_4 *)world)->unk_28 >= 2) {
             goto case5_failure;
         }
@@ -206,10 +206,10 @@ jt_c5:
         ((S_8016BE20_0 *)state)->unk_9B.n = 0;
 
         for (;;) {
-            object = (*(void * *)((u8 *)(*(u8 **)D_800E3D7C) + 0xAC + object_index * 4));
+            object = (*(void * *)((u8 *)(*(u8 **)((u8 *)(&D_800E3D7C))) + 0xAC + object_index * 4));
             if (object != 0) {
                 func_80164BA4(object);
-                object_header = (u8 *)(*(void * *)((u8 *)(*(u8 **)D_800E3D7C) + 0xAC + object_index * 4)) - 0x20;
+                object_header = (u8 *)(*(void * *)((u8 *)(*(u8 **)((u8 *)(&D_800E3D7C))) + 0xAC + object_index * 4)) - 0x20;
                 ((S_8016BE20_6 *)object_header)->unk_10 |= object_flag;
             }
             object_index++;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 typedef struct S_8001C7A0_0 {
     u8 pad_00[0x1C];
@@ -13,7 +14,6 @@ typedef struct S_8001C7A0_1 {
 
 
 extern s32 func_8001E670(s32);
-extern s8 D_80016000[];
 extern s16 D_80018740[];
 extern u8 D_80018748[];
 
@@ -45,7 +45,7 @@ check_record:
         } while (flag_index < 4);
 
         if (flag_index == 4) {
-            void *root = *(void **)D_80016000;
+            void *root = *(void **)((s8 *)(&D_80016000));
             void *owner = ((S_8001C7A0_0 *)root)->unk_1C;
 
             ((S_8001C7A0_1 *)owner)->unk_10.s = record->next;
@@ -59,7 +59,7 @@ check_record:
     }
 
     {
-        void *root = *(void **)D_80016000;
+        void *root = *(void **)((s8 *)(&D_80016000));
         void *owner = ((S_8001C7A0_0 *)root)->unk_1C;
 
         ((S_8001C7A0_1 *)owner)->unk_10.u = D_80018748;

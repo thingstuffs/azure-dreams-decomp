@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -100,7 +101,6 @@ s32 func_800A48F0();
 extern s32 D_800246B0;
 extern s16 D_8002992E;
 extern s32 D_800DE870;
-extern s32 D_800E3D7C;
 
 /* Shrink the effect, spawn inward-moving particles, and finish when its timer expires. */
 void func_800247C0(void *effect, void *origin)
@@ -213,7 +213,7 @@ void func_800247C0(void *effect, void *origin)
         object = ((S_800247C0_0 *)effect)->unk_20;
         func_800A48F0(object + 0x20, 0x18, 0x14);
         ((S_800247C0_7 *)effect_state)->unk_28 = 0;
-        completion_state = D_800E3D7C;
+        completion_state = ((s32)D_800E3D7C);
         ((S_800247C0_7 *)effect_state)->unk_64 = -1;
         ((S_800247C0_7 *)effect_state)->unk_60 = completion_state;
         (*(u16 *)((u8 *)effect + -2)) |= 0x8000;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -11,7 +12,6 @@
 #define PTR_AT(p, off) (*(void **)((u8 *)(p) + (off)))
 
 extern void *D_80024008[];
-extern u8 D_800814A8[12];
 extern u8 D_80024A64[];
 extern u16 D_80024A70[];
 extern u16 D_80082E94[];
@@ -28,7 +28,7 @@ extern void func_8002414C(void);
 extern void func_80024218(void);
 extern u8 D_80080000[];
 
-#define MANAGER_PTR() ((void *)(u32)U32_AT(D_800814A8, 0))
+#define MANAGER_PTR() ((void *)(u32)U32_AT(((u8 *)(&D_800814A8)), 0))
 
 #ifdef __mips__
 __asm__(".section .text.func_8199A800,\"a\",@progbits\n.globl func_8199A800\n.type func_8199A800,@function\nfunc_8199A800:");

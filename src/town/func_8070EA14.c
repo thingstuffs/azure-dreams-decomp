@@ -1,9 +1,9 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 __asm__(".set jtbl_800165A0, 0x800165A0");
 extern void *jtbl_800165A0[43];
 
-extern u8 D_80016000[0x10];
 extern char D_8001B14C[];
 extern char D_8001BFF8[];
 extern char D_8001C6D0[];

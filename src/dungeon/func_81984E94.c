@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 
 
@@ -25,7 +26,7 @@ extern volatile s8 D_800E3D20[];
 
 /* Reset shared state to mode 13 and report changes to its key and prior mode. */
 s32 func_81984E94(s32 unused, s32 state_key, s32 value, s16 secondary_value) {
-    struct S_80083178 *state = &D_80083178;
+    struct S_80083178 *state = ((void *)&gameWork.unk_018);
     S_8191696C_state *substate = (S_8191696C_state *)&state->field_B8;
     void *next_field = (void *)((u8 *)&state->field_B8 + 4);
     s16 saved_value;

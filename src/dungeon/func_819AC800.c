@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -41,7 +42,6 @@ extern u8 D_80028780[];
 extern s16 D_800287A0;
 extern u8 D_800287A2;
 extern s32 D_800287A4;
-extern void *D_800814A8;
 extern void *D_800814A8_count __asm__("D_800814A8");
 
 extern void *func_800244C4(void *, void *);

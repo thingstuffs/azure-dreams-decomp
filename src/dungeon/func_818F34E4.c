@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 
@@ -15,7 +17,6 @@ typedef union Product64 {
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern u8 D_80083780[12];
-extern int D_800814A8[4];
 s32 func_800644B8(s16);           /* extern */
 s16 func_800BCB04();              /* extern */
 extern s16 D_800259AC;
@@ -79,7 +80,7 @@ void func_80024CE4(void *effect, S_80024CE4_2 *position, S_80024CE4_1 *visual, s
     Product64 fade_product;
 
     D_800259AC = 1;
-    global_state = &D_80083178;
+    global_state = ((void *)&gameWork.unk_018);
     view_state = (u8 *) global_state + 0xB8;
     initialized = (*(s16 *)((u8 *)effect + 0));
     init_or_snapshot = (void *) (u32) (*(u16 *)((u8 *)effect + 0));
@@ -88,7 +89,7 @@ void func_80024CE4(void *effect, S_80024CE4_2 *position, S_80024CE4_1 *visual, s
         transform = ((S_80024CE4_3_pre *)((*(void **)((u8 *)effect + 0x2C))))[-1].unk_00;
         (*(Block24 *)((u8 *)effect + 0x44)) = (*(Block24 *)((u8 *)transform + 0));
         init_or_snapshot = effect + 0x44;
-        if ((view_state->unk_20 == D_80083780) && ((*(void **)((u8 *)effect + 0x2C)) == *D_800814A8)) {
+        if ((view_state->unk_20 == D_80083780) && ((*(void **)((u8 *)effect + 0x2C)) == ((int)D_800814A8))) {
             view_state->unk_20 = (u8 *) init_or_snapshot;
             (*(s16 *)((u8 *)effect + 0xA)) = 9;
         }

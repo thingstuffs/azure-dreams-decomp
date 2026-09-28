@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 typedef struct {
     u32 value;
@@ -11,7 +12,6 @@ extern void *D_80174AB4[3];
 extern s16 D_80174AB8[5];
 extern u8 D_80174B38[];
 extern void *D_80174CD8[3];
-extern void *D_800E3D7C[3];
 extern u32 D_800E296C[];
 extern Unaligned32 D_80174C58;
 
@@ -55,12 +55,12 @@ void func_801712C4(void)
     }
 
     for (entry_index = 0; entry_index < 2; entry_index++) {
-        void *entry = *(void **)((u8 *)D_800E3D7C[0] + entry_index * 4 + 0xAC);
+        void *entry = *(void **)((u8 *)D_800E3D7C + entry_index * 4 + 0xAC);
 
         if (entry != 0) {
             func_8016F140(entry);
-            func_8009A028(*(void **)((u8 *)D_800E3D7C[0] + entry_index * 4 + 0xAC));
-            entry_header = *(u8 **)((u8 *)D_800E3D7C[0] + entry_index * 4 + 0xAC);
+            func_8009A028(*(void **)((u8 *)D_800E3D7C + entry_index * 4 + 0xAC));
+            entry_header = *(u8 **)((u8 *)D_800E3D7C + entry_index * 4 + 0xAC);
             entry_header -= 0x20;
             *(u32 *)(entry_header + 0x10) |= 0x80000000;
         }

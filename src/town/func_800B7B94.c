@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "m2c_compat.h"
 
 M2C_UNK strcat(); /* extern */
 M2C_UNK *func_800A652C();                        /* extern */
 M2C_UNK func_800B5264(); /* extern */
-extern s32 D_800814A8;
 extern M2C_UNK D_800892C0;
 extern M2C_UNK D_800892C8;
 extern M2C_UNK D_800892CC;
@@ -28,7 +28,7 @@ void func_800B52F4(s32 text_id, S_800B52F4_1 *context) {
 
     text = &text_buffer;
     memcpy(text, &D_800892C0, 5);
-    strcat(text, D_800814A8 + 0x34);
+    strcat(text, ((s32)D_800814A8) + 0x34);
     strcat(text, &D_800892C8);
     strcat(text, &D_800892CC);
     strcat(text, &D_800892D8);

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 /* Update the four saved vectors and return 1 if any coordinate changed, otherwise return 0. */
 s32 func_80044724(void)
@@ -6,7 +7,7 @@ s32 func_80044724(void)
     struct S_80083178 *source;
     struct S_80083178State *saved;
 
-    source = &D_80083178;
+    source = ((void *)&gameWork.unk_018);
     saved = &D_80083CE8;
 
     if (source->state_94.v[0].x != saved->v[0].x) goto update;

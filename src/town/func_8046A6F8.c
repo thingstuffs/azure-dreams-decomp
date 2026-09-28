@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 typedef s32 (*Callback)(s32, void *);
 
@@ -13,7 +14,6 @@ typedef struct Dispatch {
 } Dispatch;
 
 extern s32 func_8001A2F0(void);
-extern Root *D_80016000;
 extern u8 *volatile D_8001E950;
 extern void *D_80018094[];
 extern void *D_800180B4[];
@@ -43,7 +43,7 @@ void *func_8001B6F8(s32 unused_a, s32 unused_b, s32 key)
 
         state1 = D_8001E950;
         if (state1[4] == 4) {
-            if (((Dispatch *)D_80016000->dispatch)->callback(0, table) == 2) {
+            if (((Dispatch *)((Root *)D_80016000)->dispatch)->callback(0, table) == 2) {
                 if (func_8001A2F0() >= 3) {
                     return D_80020F85;
                 }

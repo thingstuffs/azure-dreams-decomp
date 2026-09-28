@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 typedef struct TownSubState {
     s32 pad0;
@@ -11,10 +12,9 @@ typedef struct TownContext {
     TownSubState *sub;
 } TownContext;
 
-extern TownContext *D_80016000;
 
 /* Set the town substate values to 800 and 1184. */
 void func_80016ECC(void) {
-    D_80016000->sub->val4 = 800;
-    D_80016000->sub->val8 = 1184;
+    ((TownContext *)D_80016000)->sub->val4 = 800;
+    ((TownContext *)D_80016000)->sub->val8 = 1184;
 }

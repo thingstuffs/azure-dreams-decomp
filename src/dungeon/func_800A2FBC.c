@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
@@ -15,10 +16,8 @@ M2C_UNK func_800A7A7C();
 M2C_UNK func_800B66C8();
 s16 func_800BCB04();
 extern M2C_UNK D_80081484;
-extern void *D_800814A8;
 extern u8 D_800DD7DC[];
 extern s32 D_800E3540;
-extern void *D_800E3D7C[3];
 
 #ifdef NON_MATCHING
 #define DUNGEON_FLAGS_PAGE ((s8 *)((s32 *)(&objectFlagBlock)) - 0x14A0)

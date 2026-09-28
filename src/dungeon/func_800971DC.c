@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/dir_step.h"
 
 typedef struct Ent {
@@ -38,7 +39,6 @@ typedef struct {
 
 extern u16 D_800DCEAC[];
 extern u16 D_800DCEBC[];
-extern u8 *D_800E3D7C;
 
 extern s32 func_800A6D30();
 extern void func_800C78A0(void *, s32, s32, s32, s32, s32);
@@ -195,7 +195,7 @@ adjusted:
     }
     a->flags14 &= ~0x4000000;
     ent2->flags14 &= ~0x20000;
-    if ((u8 *)a == D_800E3D7C) {
+    if ((u8 *)a == ((u8 *)D_800E3D7C)) {
         func_8003E188(ent2->unk13, 0);
     }
     return ent2;

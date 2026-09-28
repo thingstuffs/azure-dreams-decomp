@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 typedef struct { u8 unk0; u8 unk1; s8 unk2; u8 unk3; } FuncData;
 typedef struct { u8 pad[0x1C]; s32 flags; } FuncState;
@@ -10,7 +11,6 @@ extern void *func_800992E8();
 extern u8 *D_800DD720;
 extern s32 D_800DD72C[];
 extern s32 D_800DD784[];
-extern FuncState *D_800E3D7C;
 
 /* Appends formatted data with type-specific affixes and a numeric value to the buffer. */
 u8 *func_80099368(FuncData *data, u8 *buffer) {
@@ -26,7 +26,7 @@ u8 *func_80099368(FuncData *data, u8 *buffer) {
     u8 *out;
 
     out = buffer;
-    if (!(D_800E3D7C->flags & 0x10)) {
+    if (!(((FuncState *)D_800E3D7C)->flags & 0x10)) {
         prefix_kind = data->unk1;
         prefix_id = D_800DD72C[prefix_kind];
         if ((prefix_id != 0) && ((prefix_kind != 0xF) || (data->unk0 < 0xEU))) {
@@ -34,7 +34,7 @@ u8 *func_80099368(FuncData *data, u8 *buffer) {
         }
     }
     out = func_800992E8(data, out, out);
-    if (D_800E3D7C->flags & 0x10) {
+    if (((FuncState *)D_800E3D7C)->flags & 0x10) {
         goto return_out;
     }
     suffix_kind = data->unk1;

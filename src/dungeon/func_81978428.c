@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
@@ -115,7 +116,6 @@ typedef struct {
 
 extern void *D_80024038[6];
 
-extern u8 D_800814A8[12];
 extern u8 D_80082E80[];
 extern u16 D_80082E94[5];
 extern Vec81978428 D_80083780;

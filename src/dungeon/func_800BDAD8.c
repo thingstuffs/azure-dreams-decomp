@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -14,11 +15,10 @@ s32 func_800C8900();
 extern u8 D_80082E80[];
 extern u8 D_80083780[];
 extern u16 D_800DDE84[];
-extern void *D_800E3D7C[];
 
 /* Handle item use on a target, deferring the player action or consuming the item. */
 s32 func_800C3238(Rec_D_800E3D7C *target, s32 item, s16 use_type) {
-    if (target == D_800E3D7C[0]) {
+    if (target == D_800E3D7C) {
         target->unk_110 = item;
         func_8008D330(target, D_80083780, D_80082E80, target);
         return 0;

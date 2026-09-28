@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 
@@ -25,11 +26,9 @@ extern void func_800F692C();
 extern void func_800F6B2C();
 extern void func_80170D2C();
 
-extern void *D_800814A8;
 extern Particle D_80082E80;
 extern u8 D_80083498[];
 extern u8 D_80083780[];
-extern void *D_800E3D7C;
 extern Copy8 D_80164A4C;
 extern u8 *D_80175D50;
 

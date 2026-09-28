@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 typedef struct {
     s32 v;
@@ -14,7 +15,6 @@ typedef struct S_func_8065C34C_1 {
     s32 (*unk_50)(UA32 *);
 } S_func_8065C34C_1;
 
-extern void *D_80016000;
 extern UA32 D_80016020;
 extern s32 D_80018340;
 extern s32 D_800183D0;

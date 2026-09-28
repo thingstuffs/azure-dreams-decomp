@@ -1,8 +1,8 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 typedef s32 (*StateQuery)(s32);
 
-extern void *D_80016000[];
 extern u8 *D_8001E950;
 
 extern s8 D_8001602A[];
@@ -68,7 +68,7 @@ s8 *func_8001C884(void) {
         }
     }
 
-    if ((u32)*(s32 *)((u8 *)*(void **)((u8 *)D_80016000[0] + 0x38) + 0x2D68) >= 10000U) {
+    if ((u32)*(s32 *)((u8 *)*(void **)((u8 *)D_80016000 + 0x38) + 0x2D68) >= 10000U) {
         if (func_8001E670(0x14C9) == 0) {
             return D_800164CC;
         }
@@ -77,7 +77,7 @@ s8 *func_8001C884(void) {
     {
         void *root;
 
-        root = D_80016000[0];
+        root = D_80016000;
         if ((u32)*(s32 *)((u8 *)*(void **)((u8 *)root + 0x38) + 0x2D68) >= 20000U) {
             if ((*(StateQuery *)((u8 *)*(void **)((u8 *)root + 0x20) + 0x2D4))(0) == 0) {
                 return D_8001688A;
@@ -85,9 +85,9 @@ s8 *func_8001C884(void) {
         }
     }
 
-    value = (*(StateQuery *)((u8 *)*(void **)((u8 *)D_80016000[0] + 0x20) + 0x2D4))(0);
+    value = (*(StateQuery *)((u8 *)*(void **)((u8 *)D_80016000 + 0x20) + 0x2D4))(0);
     if (value > 0) {
-        u8 *town = *(u8 **)((u8 *)D_80016000[0] + 0x38);
+        u8 *town = *(u8 **)((u8 *)D_80016000 + 0x38);
         if (town[0x33A8] != 0x12 && town[0x33A9] != 0x12) {
             if (func_8001E670(0xAE) == 0) {
                 func_8001E578(0xAE);
@@ -114,7 +114,7 @@ s8 *func_8001C884(void) {
         }
     }
 
-    if ((*(StateQuery *)((u8 *)*(void **)((u8 *)D_80016000[0] + 0x20) + 0x2D4))(0) == state_five) {
+    if ((*(StateQuery *)((u8 *)*(void **)((u8 *)D_80016000 + 0x20) + 0x2D4))(0) == state_five) {
         if (func_8001A5D0() >= 3) {
             return D_80016D77;
         }

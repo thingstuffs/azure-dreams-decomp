@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
@@ -69,7 +70,6 @@ extern u16 D_8008378A;
 extern s16 D_800DCED4[];
 extern u8 D_800E2348[];
 extern u8 D_800E2368[];
-extern u8 *D_800E3D7C;
 extern u8 D_80170940[];
 extern u8 D_80170950[];
 extern u8 D_80170988[];
@@ -183,7 +183,7 @@ state_0:
         if (((Rec_D_800E3D7C *)actor)->unk_10.at01_u8.v >= D_8008146C) {
             slot = 0;
             do {
-                companion = *(u8 **)(D_800E3D7C + 0xAC + slot * 4);
+                companion = *(u8 **)(((u8 *)D_800E3D7C) + 0xAC + slot * 4);
                 if ((companion != 0) && (companion != (u8 *)actor)) {
                     companion_type = func_800429E4(companion);
                     func_800C542C(companion, D_800DCED4[companion_type], (s16)slot, 0);
@@ -246,7 +246,7 @@ state_3:
     }
     ((S_80175CD8_0 *)action)->unk_9B++;
     {
-        u8 *player = D_800E3D7C;
+        u8 *player = ((u8 *)D_800E3D7C);
 
         ((S_80175CD8_0 *)action)->unk_96.s = 0;
         ((S_80175CD8_4 *)player)->unk_14 |= 0x100000;
@@ -287,7 +287,7 @@ state_5:
     goto done;
 
 state_6:
-    func_800945E8(D_800E3D7C);
+    func_800945E8(((u8 *)D_800E3D7C));
     func_800948BC();
     func_800A6780();
     {
@@ -321,7 +321,7 @@ state_6:
 
 state_7:
     {
-        u8 *player = D_800E3D7C;
+        u8 *player = ((u8 *)D_800E3D7C);
         u8 *scene;
         u32 player_flags;
         u16 height;

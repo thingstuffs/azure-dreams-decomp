@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 typedef void (*Callback)(void);
 
@@ -14,7 +15,6 @@ typedef struct Runtime {
     CallbackEntry *callbacks;
 } Runtime;
 
-extern Runtime *D_80016000;
 extern void func_80016128(s32 arg0, s32 arg1);
 
 void func_800160D0(s32 arg0, s32 arg1)
@@ -22,7 +22,7 @@ void func_800160D0(s32 arg0, s32 arg1)
     void *callback;
     s32 callbackIndex;
 
-    callback = D_80016000;
+    callback = ((Runtime *)D_80016000);
     
     callbackIndex = ((Runtime *)callback)->callbackIndex;
     callback = ((Runtime *)callback)->callbacks;

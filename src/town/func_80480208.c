@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "records/Rec_D_80016000.h"
 
 
@@ -10,7 +11,6 @@ typedef struct S_80480208_1 {
 
 
 
-extern void *D_80016000;
 
 /* Initialize the three context fields to 1, 11, and 3. */
 void func_80480208(void) {

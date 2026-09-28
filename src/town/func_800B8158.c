@@ -1,8 +1,8 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
 
-extern s32 D_800814A8;
 
 
 /* Collect nonzero record values, including the extra value for the selected record. */
@@ -23,7 +23,7 @@ void func_800B58B8(s32 *output, Rec_D_800E3D7C *record) {
         *write_ptr = second_value;
         write_ptr += 1;
     }
-    if (record == D_800814A8) {
+    if (record == ((s32)D_800814A8)) {
         extra_value = record->unk_D8;
         if (extra_value != 0) {
             *write_ptr = extra_value;

@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 extern void func_80017C64(void);
 extern void func_80017D04(void);
 extern void func_8001A490(s32);
 extern s32 func_8001A510(s32);
 
-extern s8 D_80016000[];
 extern s16 D_8001A91E;
 extern s32 D_8001AB94;
 extern s32 D_8001ABE8;
@@ -21,7 +21,7 @@ void func_80017D24(void)
         choices[0] = &D_8001AB94;
     } while (0);
     choices[1] = &D_8001ABE8;
-    town = *(void **)((s8 *)*(void **)D_80016000 + 0x40);
+    town = *(void **)((s8 *)*(void **)((s8 *)(&D_80016000)) + 0x40);
     func_80017C64();
     func_80017D04();
     if (func_8001A510(D_8001A91E) == 0) {

@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "m2c_compat.h"
 
-extern s32 D_800E3D7C;
 
 typedef struct S_800C82B8_0 {
     u8 pad_00[0xAC];
@@ -20,7 +20,7 @@ s32 func_800C82B8(void *entity) {
     void *slot_base;
 
     active_count = 0;
-    if (entity == D_800E3D7C) {
+    if (entity == ((s32)D_800E3D7C)) {
         slot_index = 1;
         slot_base = entity + 4;
         do {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 typedef struct S_800161C0_0 {
     u8 pad_00[0x24];
@@ -21,10 +22,9 @@ extern s32 func_8001ADE0();
 extern s32 func_8001B0E8();
 extern s32 func_8001B168();
 extern s32 func_8001DCD4();
-extern s8 D_80016000[];
 
 #define CURRENT_FLOOR() \
-    ((S_800161C0_2 *)(((S_800161C0_1 *)(((S_800161C0_0 *)(*(void **)D_80016000))->unk_24))->unk_74))->unk_2A
+    ((S_800161C0_2 *)(((S_800161C0_1 *)(((S_800161C0_0 *)(*(void **)((s8 *)(&D_80016000))))->unk_24))->unk_74))->unk_2A
 
 /* Advance the counter up to five and process the current floor unless an early exit applies. */
 s32 func_800161C0(s32 fallback_arg_a, s32 fallback_arg_b) {

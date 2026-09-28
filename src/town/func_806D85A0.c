@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80016000.h"
 extern u8 D_80018FD0[];
@@ -42,7 +43,6 @@ typedef struct S_806D85A0_6 {
 
 void *func_80017024();                 /* extern */
 s32 func_8001876C();                         /* extern */
-extern volatile M2C_UNK D_80016000;
 extern M2C_UNK D_80018FE0;
 
 /* Processes active entries for the selected variant and updates 2x2 cells for the first group. */
@@ -66,7 +66,7 @@ void func_806D85A0(void) {
     register void *position ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     void *group_flags;
 
-    entry_flags = ((S_806D85A0_5 *)(((Rec_D_80016000 *)(&D_80016000))->unk_00.at00_pv.v))->unk_38;
+    entry_flags = ((S_806D85A0_5 *)(((Rec_D_80016000 *)(((M2C_UNK *)&D_80016000)))->unk_00.at00_pv.v))->unk_38;
     if (func_8001876C(1) == 0) {
         second_variant_active = func_8001876C(2);
         variant = 2;
@@ -113,7 +113,7 @@ next_cell:
                         cell_value = x_offset + y_offset;
                         cell_x = ((S_806D85A0_4 *)position)->unk_00 + x_offset;
                         cell_y = ((S_806D85A0_4 *)position)->unk_02 + y_offset;
-                        ((S_806D85A0_6 *)(((S_806D85A0_5 *)(((Rec_D_80016000 *)(&D_80016000))->unk_00.at00_pv.v))->unk_20))->unk_2D0(cell_x, cell_y, cell_value);
+                        ((S_806D85A0_6 *)(((S_806D85A0_5 *)(((Rec_D_80016000 *)(((M2C_UNK *)&D_80016000)))->unk_00.at00_pv.v))->unk_20))->unk_2D0(cell_x, cell_y, cell_value);
                         y_offset += 1;
                         if (y_offset < 2) {
                             goto next_cell;

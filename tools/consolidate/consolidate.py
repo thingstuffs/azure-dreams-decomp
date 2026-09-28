@@ -44,31 +44,43 @@ def ctype_of(t):
     t = re.sub(r"\s+", " ", t)
     return t
 
-def parse_views(text):
-    """local `typedef struct [tag] { ... } Name;` -> {Name: {member: (off, size, signed, ctype, count)}}"""
-    views = {}
-    for m in re.finditer(r"typedef\s+struct\s*(\w*)\s*\{(.*?)\}\s*(\w+)\s*;", text, re.S):
-        tag, body, name = m.group(1), m.group(2), m.group(3); off = 0; mem = {}; ok = True
+def parse_views(text, known=None):
+    """struct definitions -> {Name: (members, start, end, size, align)}; members = {m: (off, elem_size, signed,
+    ctype, count, subview)}.  `typedef struct [tag] {...} Name;` is keyed Name and "struct tag"; a plain
+    `struct Tag {...};` is keyed "struct Tag".  Members may be earlier views (nested structs / arrays of them) or
+    function pointers.  `known` views (e.g. from a shared header) resolve member types too."""
+    views = dict(known or {})
+    rx = re.compile(r"typedef\s+struct\s*(\w*)\s*\{(.*?)\}\s*(\w+)\s*;|^struct\s+(\w+)\s*\{(.*?)\}\s*;", re.S | re.M)
+    for m in rx.finditer(text):
+        if m.group(3): tag, body, name = m.group(1), m.group(2), m.group(3)
+        else: tag, body, name = m.group(4), m.group(5), "struct " + m.group(4)
+        off = 0; mem = {}; ok = True; align = 1
         for d in re.sub(r"/\*.*?\*/|//[^\n]*", "", body, flags=re.S).split(";"):
-            d = d.strip()
+            d = re.sub(r"\s+", " ", d).strip()
             if not d: continue
-            mm = re.match(r"^((?:unsigned |signed )?\w+)\s*(\*?)\s*(\w+)\s*(?:\[\s*([^\]]+)\s*\])?$", d)
-            if not mm: ok = False; break
-            base, star, mname, cnt = mm.groups()
+            fp = re.match(r"^[\w ]+\(\s*\*\s*(\w+)\s*\)\s*\(.*\)$", d)
+            if fp: mm = None; base, star, mname, cnt = "void", "*", fp.group(1), None
+            else:
+                mm = re.match(r"^((?:unsigned |signed |struct )?\w+)\s*(\*?)\s*(\w+)\s*(?:\[\s*([^\]]+)\s*\])?$", d)
+                if not mm: ok = False; break
+                base, star, mname, cnt = mm.groups()
             try: n = eval(cnt, {}, {}) if cnt else 1
             except Exception: ok = False; break
-            sz = 4 if star else TSIZE.get(base)
-            if sz is None: ok = False; break
-            off = (off + sz - 1) // sz * sz
-            mem[mname] = (off, sz, base in SIGNED and not star, (base + " *") if star else base, n if cnt else None)
+            sub = None
+            if star: sz, al = 4, 4
+            elif base in TSIZE: sz = al = TSIZE[base]
+            elif base in views: sub = base; sz, al = views[base][3], views[base][4]
+            else: ok = False; break
+            off = (off + al - 1) // al * al; align = max(align, al)
+            mem[mname] = (off, sz, base in SIGNED and not star, (base + " *") if star else base, n if cnt else None, sub)
             off += sz * n
         if ok:
-            views[name] = (mem, m.start(), m.end())
-            if tag: views["struct " + tag] = (mem, m.start(), m.end())
-    # plain `struct Tag { ... };` definitions are views too, keyed "struct Tag"
-    for m in re.finditer(r"^struct\s+(\w+)\s*\{(.*?)\}\s*;", text, re.S | re.M):
-        sub = parse_views("typedef struct {%s} %s;" % (m.group(2), m.group(1)))
-        if m.group(1) in sub: views["struct " + m.group(1)] = (sub[m.group(1)][0], m.start(), m.end())
+            size = (off + align - 1) // align * align
+            views[name] = (mem, m.start(), m.end(), size, align)
+            if tag and m.group(3): views["struct " + tag] = views[name]
+    if known:
+        for k in known:
+            if views.get(k) is known[k]: views[k] = known[k]
     return views
 
 def field_at(obj, off, size):
@@ -108,6 +120,10 @@ def emit_field(obj, base, sep, off, size, signed, cty, s, start, end, addr, note
     same = (f[2] == "ptr" and cty.endswith("*")) or (f[2] != "ptr" and not cty.endswith("*") and (f[4] == signed))
     if addr:
         return ("&" + fexpr) if same else "((%s *)&%s)" % (cty, fexpr)
+    ptype = obj.get("ptype", {}).get(fx) if isinstance(obj.get("ptype"), dict) else None
+    if same and ptype and f[2] == "ptr" and not lv and re.sub(r"\s", "", cty) not in (re.sub(r"\s", "", ptype), "void*"):
+        # the row reads the pointer through its own record view: keep that view at the use
+        notes.append("0x%X:(%s)%s" % (off, cty, fx)); return "((%s)%s)" % (cty, fexpr)
     if same:
         notes.append("0x%X:%s" % (off, fx)); return fexpr
     if lv:
@@ -117,8 +133,28 @@ def emit_field(obj, base, sep, off, size, signed, cty, s, start, end, addr, note
         notes.append("0x%X:%s" % (off, fx)); return fexpr
     notes.append("0x%X:(%s)%s" % (off, cty, fx)); return "((%s)%s)" % (cty, fexpr)
 
+def agg_addr(obj, ty, off, var=None):
+    """the address of an inner aggregate view `ty` at object offset `off`.  A view the object's shared type
+    replaces (obj["drop_views"], e.g. game.h's struct S_80083178) is spelled as the address of the field there,
+    `(void *)&var.field`, so the row stops depending on the old type."""
+    var = var or obj["var"]
+    if ty in (obj.get("drop_views") or []):
+        fx, f = field_at(obj, off, 1)
+        for g in obj["fields"]:
+            if g[0] == off and g[1]: return "((void *)&%s.%s)" % (var, g[1])
+        return "((void *)((u8 *)&%s + %d))" % (var, off)
+    return "((%s *)((u8 *)&%s + %d))" % (ty, var, off)
+
+def collapse_casts(text, var):
+    """(T *)((V *)X) -> (T *)X for the view spellings this tool emits (pointer casts are no-ops in RTL)."""
+    pat = r"\(\s*((?:struct\s+)?\w+(?:\s+\w+)?\s*\*+)\s*\)\s*\(\s*\(\s*(?:(?:struct\s+)?\w+\s*\*|void\s*\*)\s*\)\s*(\(\s*u8\s*\*\s*\)\s*&%s\s*\+\s*\d+|&%s(?:\.\w+)?)\s*\)" % (var, var)
+    return sub_code(pat, lambda m: "(%s)(%s)" % (m.group(1), m.group(2)), text)
+
 def rewrite(text, obj):
-    var = obj["var"]; notes = []; symrx = obj["syms"]
+    notes = []; symrx = obj["syms"]
+    # an object that keeps its address name (a typed pointer global): substitute through a placeholder so the
+    # rewritten spelling is not rewritten again
+    var = "__CONSOLIDATE_VAR__" if re.fullmatch(symrx, obj["var"]) else obj["var"]
     DECL = re.compile(r"^[ \t]*extern[ \t]+((?:(?:const|volatile|unsigned|signed|struct)[ \t]+)*[A-Za-z_]\w*)[ \t]*(\*?)[ \t]*(%s)\b[ \t]*(\[[^\]]*\])?[ \t]*;[^\n]*\n" % symrx, re.M)
     decls = {}
     for d in DECL.finditer(text):
@@ -128,10 +164,15 @@ def rewrite(text, obj):
     code = "".join(text[a:b] for a, b in code_spans(text))
     used = set(re.findall(r"\b(%s)\b" % symrx, code))
     if not used: return None, "object not referenced in code"
+    for s_, d_ in (obj.get("global_decls") or {}).items():     # declared by a shared header (globals.h), not the row
+        if s_ in used and s_ not in decls: decls[s_] = tuple(d_)
     if used - set(decls): return None, "no local declaration of " + ",".join(sorted(used - set(decls)))
     if re.search(r"__asm__[^;]*\b(%s)\b" % symrx, text): notes.append("asm string keeps its D_ spelling")
     text = DECL.sub("", text)
-    views = parse_views(text)
+    known = {}
+    for h in obj.get("extra_views") or []:
+        known.update(parse_views(open(h).read()))
+    views = parse_views(text, known)
     for sym, (ty, star, arr) in decls.items():
         off0 = int(sym[2:], 16) - obj["base"]
         esz = 4 if star else TSIZE.get(ty)
@@ -141,18 +182,27 @@ def rewrite(text, obj):
             return emit_field(obj, var, ".", off, size, signed, cty, s, start, end, addr, notes)
         # S.member / S->member through a local view typedef (only for a scalar struct-typed declaration)
         if ty in views and not star and arr is None:
-            mem = views[ty][0]
             def mfix(m):
-                mm = mem.get(m.group(3))
-                if mm is None: raise ValueError("member %s not in view %s" % (m.group(3), ty))
-                o, sz, sg, cty, cnt = mm
-                if cnt: return "((%s *)((u8 *)&%s + %d))" % (cty, var, off0 + o)
-                return emit(off0 + o, sz, sg, cty, m.string, m.start(), m.end(), addr=bool(m.group(1)))
+                # a member chain: .a  .a.b  .a[k].b ... walked through nested views
+                cur, o = ty, 0; mm = None
+                for name, idx, _ in re.findall(r"\.\s*(\w+)(?:\s*\[\s*(%s)\s*\])?" % NUM, m.group(3)):
+                    if cur is None: raise ValueError("member of a scalar in " + m.group(3))
+                    mm = views[cur][0].get(name)
+                    if mm is None: raise ValueError("member %s not in view %s" % (name, cur))
+                    o += mm[0] + (int(idx, 0) * mm[1] if idx else 0)
+                    if mm[4] and not idx:          # a whole array member: its address
+                        cty = mm[5] or mm[3]
+                        return "((%s *)((u8 *)&%s + %d))" % (cty, var, off0 + o)
+                    cur = mm[5]
+                if cur is not None:                # the chain ends on an aggregate: only its address makes sense
+                    if not m.group(1): raise ValueError("aggregate member value " + m.group(3))
+                    return agg_addr(obj, cur, off0 + o, var)
+                return emit(off0 + o, mm[1], mm[2], mm[3], m.string, m.start(), m.end(), addr=bool(m.group(1)))
             try:
-                text = sub_code(r"(&\s*)?\b(%s)\s*\.\s*(\w+)\b" % sym, mfix, text)
+                text = sub_code(r"(&\s*)?\b(%s)((?:\s*\.\s*\w+(?:\s*\[\s*%s\s*\])?)+)" % (sym, NUM), mfix, text)
             except ValueError as e:
                 return None, str(e)
-            text = sub_code(r"&\s*%s\b" % sym, lambda m: "((%s *)&%s)" % (ty, var) if off0 == 0 else "((%s *)((u8 *)&%s + %d))" % (ty, var, off0), text)
+            text = sub_code(r"&\s*%s\b" % sym, lambda m: "((%s *)&%s)" % (ty, var) if off0 == 0 else agg_addr(obj, ty, off0, var), text)
             if re.search(r"\b%s\b" % sym, "".join(text[a:b] for a, b in code_spans(text))):
                 return None, "whole-view use of " + sym
             continue
@@ -190,10 +240,11 @@ def rewrite(text, obj):
         except ValueError as e:
             return None, str(e)
     # drop local view typedefs nothing uses any more
-    for name, (mem, a, b) in sorted(((k, v) for k, v in parse_views(text).items() if not k.startswith("struct ")), key=lambda x: -x[1][1]):
+    for name, (mem, a, b, *_) in sorted(((k, v) for k, v in parse_views(text).items() if not k.startswith("struct ")), key=lambda x: -x[1][1]):
         if name in {d[0] for d in decls.values()} and len(re.findall(r"\b%s\b" % name, text)) == 1:
             text = text[:a] + text[b:].lstrip("\n")
             notes.append("dropped view typedef " + name)
+    text = collapse_casts(text, var).replace("__CONSOLIDATE_VAR__", obj["var"])
     inc = '#include "%s"\n' % obj["header"]
     if inc not in text:
         m = re.search(r'^#include "common.h"[^\n]*\n', text, re.M)
@@ -233,6 +284,8 @@ def _bodies(text):
 def _addr_off(obj, rhs):
     """object offset if rhs (casts stripped) is &var or &var.field, else None"""
     e = _strip_casts(rhs)
+    m2 = re.fullmatch(r"\(\s*u8\s*\*\s*\)\s*&\s*\(?\s*%s\s*\)?\s*\+\s*%s" % (re.escape(obj["var"]), NUM), e)
+    if m2: return int(m2.group(1), 0)           # the view spelling of an inner aggregate: (u8 *)&var + k
     m = re.fullmatch(r"&\s*\(?\s*%s\s*\)?(?:\.(\w+))?" % re.escape(obj["var"]), e)
     if not m: return None
     if not m.group(1): return 0
@@ -244,7 +297,9 @@ def rewrite_pointers(text, obj, mode="direct", allow_pinned=False):
     """`T *p = &var; ... ((V *)p)->m ...` -> `var.field` (mode direct: p removed) or `Type *p = &var; p->field`
     (mode typed).  Every use of p must be a recognised object access, p must not be a pinned register variable,
     and every assignment to p must be the same object address.  Returns (text, notes) or (None, reason)."""
-    notes = []; views = parse_views(text); var = obj["var"]; changed = False
+    known = {}
+    for h in obj.get("extra_views") or []: known.update(parse_views(open(h).read()))
+    notes = []; views = parse_views(text, known); var = obj["var"]; changed = False
     for bs, be in reversed(_bodies(text)):
         body = text[bs:be]
         cands = {}
@@ -266,8 +321,9 @@ def rewrite_pointers(text, obj, mode="direct", allow_pinned=False):
             init = d.group(3) or ""
             if init.strip() and _addr_off(obj, init.strip().lstrip("=")) is None: return None, "%s initialised to something else" % p
             psize = TSIZE.get(ptype, 1 if ptype in ("void",) else None)
+            if ptype not in views and "struct " + ptype in views and ptype not in TSIZE: ptype = "struct " + ptype
             pview = views.get(ptype, (None,))[0] if ptype in views else None
-            if ptype == obj.get("type"): pview = {f[1]: (f[0], f[3], f[4], {"s16": "s16", "u16": "u16", "s32": "s32", "u8": "u8", "s8": "s8", "ptr": "void *"}[f[2]], None) for f in obj["fields"] if f[1]}
+            if ptype == obj.get("type"): pview = {f[1]: (f[0], f[3], f[4], {"s16": "s16", "u16": "u16", "s32": "s32", "u8": "u8", "s8": "s8", "ptr": "void *"}[f[2]], None, None) for f in obj["fields"] if f[1]}
             prefix, sep = (var, ".") if mode == "direct" else (p, "->")
             loc = []
             def em(off, size, signed, cty, s, st, en, addr=False):
@@ -277,7 +333,7 @@ def rewrite_pointers(text, obj, mode="direct", allow_pinned=False):
                 vw = (views.get(vn) or (None,))[0]
                 if vn == obj.get("type"): vw = pview
                 if vw is None or member not in vw: raise ValueError("view %s.%s unknown" % (vn, member))
-                o, sz, sg, cty, cnt = vw[member]
+                o, sz, sg, cty, cnt = vw[member][:5]
                 if cnt: raise ValueError("array member %s" % member)
                 return em(o, sz, sg, cty.replace(" *", "*").replace("*", " *") if "*" in cty else cty, s, st, en, addr)
             def cty_of(T):
@@ -338,7 +394,7 @@ def rewrite_pointers(text, obj, mode="direct", allow_pinned=False):
             body = new; changed = True; notes.append("%s: %s" % (p, ", ".join(dict.fromkeys(loc))))
         text = text[:bs] + body + text[be:]
     if not changed: return None, "no local pointer to the object"
-    for name, (mem, a, b) in sorted(((k, v) for k, v in parse_views(text).items() if not k.startswith("struct ")), key=lambda x: -x[1][1]):
+    for name, (mem, a, b, *_) in sorted(((k, v) for k, v in parse_views(text).items() if not k.startswith("struct ")), key=lambda x: -x[1][1]):
         if len(re.findall(r"\b%s\b" % name, text)) == 1 and re.search(r"/\*[^*]*in func_", text[b:b + 120]):
             text = text[:a] + text[b:].lstrip("\n"); notes.append("dropped view " + name)
     return text, "; ".join(notes)

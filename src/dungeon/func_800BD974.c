@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 
@@ -21,7 +22,6 @@ typedef struct S_800C30D4_1 {
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern u8 *D_800E3D7C[];
 extern u8 D_80083780[12];
 extern u8 D_80082E80[];
 extern u8 D_800DDE84[];
@@ -39,7 +39,7 @@ extern M2C_UNK D_800E1729;
 s32 func_800C30D4(void *entity, s32 item, s16 action_type) {
     S_800C30D4_1 *tile;
 
-    if (entity == *D_800E3D7C) {
+    if (entity == ((u8 *)D_800E3D7C)) {
         ((S_800C30D4_0 *)((u8 *)entity - 0x14))->unk_124 = item;
         func_8008D330(entity, D_80083780, D_80082E80, entity);
         return 0;

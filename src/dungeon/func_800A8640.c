@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
 typedef struct DungeonGateState {
@@ -13,7 +14,6 @@ typedef struct DungeonOwner {
     void *field58;
 } DungeonOwner;
 
-extern DungeonOwner *D_800814A8;
 
 extern s32 func_8009A180(void *, void *);
 extern s16 func_800ADE74(void *, void *, void *, s16, s16, s32);
@@ -28,7 +28,7 @@ s16 func_800ADDA0(void *context, void *position, void *entity,
         ((dungeonStatus.unk_08 != 0) ||
          ((dungeonStatus.flags & 0x2808) != 0)) &&
         ((s16)func_8009A180(entity,
-                           (u8 *)D_800814A8->field58 + 0x20) != 0)) {
+                           (u8 *)((DungeonOwner *)D_800814A8)->field58 + 0x20) != 0)) {
         register s16 failure = -1;
 
         entity_flags = *(u16 *)((u8 *)entity + 0x46);

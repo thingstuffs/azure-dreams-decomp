@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "m2c_compat.h"
 
-extern void *D_800E3D7C;
 
 typedef struct S_800CDE0C_0 {
     u8 pad_00[0x1C];

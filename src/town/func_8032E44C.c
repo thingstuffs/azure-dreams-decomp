@@ -1,8 +1,8 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 typedef s32 (*Callback)(void *);
 
-extern s8 D_80016000[];
 
 /* Sum callback results for flagged entries in a terminated four-byte entry list. */
 s32 func_80018C4C(void *entry, s32 callback_mode) {
@@ -17,13 +17,13 @@ s32 func_80018C4C(void *entry, s32 callback_mode) {
             if (callback_mode == 0) {
                 void *object;
 
-                object = *(void **)D_80016000;
+                object = *(void **)((s8 *)(&D_80016000));
                 object = *(void **)((u8 *)object + 0x20);
                 callback = *(Callback *)((u8 *)object + 0x50);
             } else {
                 void *object;
 
-                object = *(void **)D_80016000;
+                object = *(void **)((s8 *)(&D_80016000));
                 object = *(void **)((u8 *)object + 0x20);
                 callback = *(Callback *)((u8 *)object + 0x6C);
             }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 typedef struct {
     s8 pad[0x54];
@@ -10,7 +11,6 @@ typedef struct {
     TownCallback *callbacks;
 } TownState;
 
-extern TownState *D_80016000;
 extern s8 D_80018AF8[];
 extern u16 D_80019114;
 extern s8 *D_80019118;
@@ -24,13 +24,13 @@ void func_800169FC(void) {
     D_80019118 = D_80018AF8;
     D_80019114 = 0;
 
-    if (D_80016000->callbacks->callback(4) != 0) {
+    if (((TownState *)D_80016000)->callbacks->callback(4) != 0) {
         func_800185C0(0x9AC);
     } else {
         func_80018548(0x9AC);
     }
 
-    if (D_80016000->callbacks->callback(4) != 0) {
+    if (((TownState *)D_80016000)->callbacks->callback(4) != 0) {
         func_800185C0(0x9AD);
     } else {
         func_80018548(0x9AD);

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "records/Rec_D_80016000.h"
 
 
@@ -82,7 +83,6 @@ extern void *func_800196E4(void *, void *);
 extern void *func_8001976C(void *, void *, s32, s32);
 extern s32 func_80019F94(void *, s32);
 
-extern u8 D_80016000[];
 extern u8 D_80016094[];
 extern u8 D_800160A0[];
 extern u8 D_800160CC[];
@@ -182,7 +182,7 @@ void func_8001A044(s32 *records, void *ost_w, void *osel_w)
             }
         }
 
-        callbacks = ((S_8001A044_12 *)(((Rec_D_80016000 *)D_80016000)->unk_00.at00_pv.v))->unk_20;
+        callbacks = ((S_8001A044_12 *)(((Rec_D_80016000 *)((u8 *)(&D_80016000)))->unk_00.at00_pv.v))->unk_20;
         (*(TownCallback *)((u8 *)callbacks + 0x168))
             (D_80016094, D_800160A0,
              (u32)(p - (u8 *)ost_w) / 20);
@@ -224,7 +224,7 @@ build_group_list:
         }
     }
 
-    (*(TownCallback *)((u8 *)(((S_8001A044_12 *)(((Rec_D_80016000 *)D_80016000)->unk_00.at00_pv.v))->unk_20) + 0x168))
+    (*(TownCallback *)((u8 *)(((S_8001A044_12 *)(((Rec_D_80016000 *)((u8 *)(&D_80016000)))->unk_00.at00_pv.v))->unk_20) + 0x168))
         (D_80016094, D_800160CC, ((u32)pp - (u32)osel_w) >> 2);
 
     cd_header_entry = D_8001DC10;
@@ -235,6 +235,6 @@ build_group_list:
             cdhd_cnt += 1;
         } while (((S_8001A044_9 *)cd_header_entry)->unk_04 != 0);
     }
-    report_count = (*(TownCallback *)((u8 *)(((S_8001A044_12 *)(((Rec_D_80016000 *)D_80016000)->unk_00.at00_pv.v))->unk_20) + 0x168));
+    report_count = (*(TownCallback *)((u8 *)(((S_8001A044_12 *)(((Rec_D_80016000 *)((u8 *)(&D_80016000)))->unk_00.at00_pv.v))->unk_20) + 0x168));
     report_count(D_80016094, D_800160FC, cdhd_cnt);
 }

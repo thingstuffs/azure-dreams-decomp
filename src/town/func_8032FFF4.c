@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 typedef struct S_8001A7F4_0 {
     u8 pad_00[0x8];
@@ -14,7 +15,6 @@ typedef struct S_8001A7F4_1 {
 
 
 
-extern s8 D_80016000[];
 
 /* Scale and offset the two coordinates stored in the global destination. */
 void func_8001A7F4(s32 unused, s32 x, s32 y)
@@ -23,7 +23,7 @@ void func_8001A7F4(s32 unused, s32 x, s32 y)
     void *dst;
 
     (void)unused;
-    base = *(void **)D_80016000;
+    base = *(void **)((s8 *)(&D_80016000));
     dst = ((S_8001A7F4_0 *)base)->unk_1C;
     x <<= 6;
     do {

@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800814A8.h"
@@ -140,7 +141,6 @@ M2C_UNK func_8004491C();
 M2C_UNK func_800A56E0();
 M2C_UNK func_80165018();
 M2C_UNK func_80167A98();
-extern Rec_D_800814A8 *D_800814A8;
 extern M2C_UNK D_800DEAE0;
 extern M2C_UNK D_80166D14;
 extern M2C_UNK D_80167C30;
@@ -263,9 +263,9 @@ void func_80167C74(void *effect_data, Rec_func_80167A98_arg1 *origin, S_80167C74
         ((Rec_func_80167A98_arg0 *)effect_data)->unk_1E = phase_tick;
         if (phase_tick == 0xC) {
             func_80167A98(effect_data, origin, color);
-            D_800814A8->unk_10C = (u16) (D_800814A8->unk_10C | 1);
-            D_800814A8->unk_6A = (s16) (D_800814A8->unk_2A.as_u16 + 0x800);
-            func_800419EC(6, 0xC, D_800814A8);
+            ((Rec_D_800814A8 *)D_800814A8)->unk_10C = (u16) (((Rec_D_800814A8 *)D_800814A8)->unk_10C | 1);
+            ((Rec_D_800814A8 *)D_800814A8)->unk_6A = (s16) (((Rec_D_800814A8 *)D_800814A8)->unk_2A.as_u16 + 0x800);
+            func_800419EC(6, 0xC, ((Rec_D_800814A8 *)D_800814A8));
             func_800A56E0(0x601);
         }
         if ((s16) ((Rec_func_80167A98_arg0 *)effect_data)->unk_1E >= 0x10) {

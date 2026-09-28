@@ -1,8 +1,8 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 typedef s32 (*Callback)(void *);
 
-extern s8 D_80016000[];
 extern s32 D_80019B00;
 extern u8 D_80019B8C;
 
@@ -13,13 +13,13 @@ void func_805D38A0(void) {
     s32 handler_result;
     u8 kind;
 
-    slot = *(s8 **)(*(s8 **)D_80016000 + 0x40) +
-           (*(s32 *)(*(s8 **)D_80016000 + 8) * 8);
+    slot = *(s8 **)(*(s8 **)((s8 *)(&D_80016000)) + 0x40) +
+           (*(s32 *)(*(s8 **)((s8 *)(&D_80016000)) + 8) * 8);
     kind = D_80019B8C;
     request[1] = 0x19;
     request[0] = kind;
     *(u8 *)(slot + 6) = kind;
-    handler_result = (*(Callback *)(*(s8 **)(*(s8 **)D_80016000 + 0x20) + 0x50))(request);
+    handler_result = (*(Callback *)(*(s8 **)(*(s8 **)((s8 *)(&D_80016000)) + 0x20) + 0x50))(request);
     D_80019B00 = handler_result;
     *(s32 *)slot = handler_result;
 }

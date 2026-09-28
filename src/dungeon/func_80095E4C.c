@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/dir_step.h"
 
 typedef struct Source Source;
 typedef struct Spawned Spawned;
 
 extern u8 D_80081484[];
-extern Source *D_800814A8;
 extern u8 D_800E3548[];
 
 extern s32 func_8009A540(s32, s32, s32, s32);

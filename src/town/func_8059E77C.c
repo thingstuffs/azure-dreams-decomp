@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 typedef struct TownCallback {
     u8 pad_00[0x218];
@@ -13,7 +14,6 @@ typedef struct TownRoot {
 extern s32 func_80018964(s32);
 extern void func_800188E4(s32);
 extern void func_8001886C(s32);
-extern s8 D_80016000[];
 extern s32 D_800190D4;
 
 /* Dispatches state-dependent actions for two IDs, then invokes the town callback. */
@@ -35,6 +35,6 @@ void func_8001677C(void)
     }
 
     callback_arg = &D_800190D4;
-    town_root = *(TownRoot **)D_80016000;
+    town_root = *(TownRoot **)((s8 *)(&D_80016000));
     town_root->callback->callback(callback_arg);
 }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 typedef struct S_81984BF0_0 {
     u8 pad_00[0x5C];
@@ -11,7 +12,6 @@ typedef struct S_81984BF0_1 {
 } S_81984BF0_1;   /* object in func_81984BF0 */
 
 
-extern void *D_800814A8;
 
 
 /* Clears flag 0x2000 on every object in the circular list. */

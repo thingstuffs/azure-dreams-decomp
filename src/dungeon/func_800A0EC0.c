@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_80016000.h"
 
@@ -39,7 +40,6 @@ extern void func_8009A3D0(u8 arg0, u8 arg1, s32 arg2);
 extern s16 func_800A1BD0(void *arg0);
 extern void func_800A32A4(void *arg0);
 
-extern s32 D_800E3D7C;
 extern void *D_800E3DF0[];
 
 /* Removes the object from its slot, performs flagged cleanup, and releases its handle. */
@@ -70,7 +70,7 @@ s16 func_800A6620(void *handle, s32 extra_cleanup)
     if (((Rec_D_80016000 *)handle)->unk_00.at03_u8.v & 0x20) {
         index = func_800A1BD0(object);
         if (index >= 0) {
-            state_entry = (void *)(index * 4 + D_800E3D7C);
+            state_entry = (void *)(index * 4 + ((s32)D_800E3D7C));
             ((S_800A6620_2 *)state_entry)->unk_AC = 0;
             ((S_800A6620_2 *)state_entry)->unk_D0 = 0;
         }

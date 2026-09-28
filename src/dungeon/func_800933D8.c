@@ -1,3 +1,4 @@
+#include "shared/record_ptrs.h"
 typedef unsigned char u8;
 typedef short s16;
 typedef int s32;
@@ -20,7 +21,6 @@ typedef struct {
 
 extern u8 D_80081470[];
 extern u8 D_80081484[];
-extern DungeonState *D_800E3D7C[];
 extern u8 D_800E3548[];
 extern DungeonRecord D_800E36C8[];
 
@@ -40,19 +40,19 @@ void func_80098B38(s32 *slot) {
             return;
         }
         if ((u8 *)slot == D_80081484) {
-            DungeonState *state = D_800E3D7C[0];
+            DungeonState *state = ((DungeonState *)D_800E3D7C);
             state->unk_124 = 0;
             state->unk_1c &= 0xFFEFFFFF;
             return;
         }
-        if ((u8 *)slot == D_80081470 || slot == D_800E3D7C[0]->unk_f0) {
+        if ((u8 *)slot == D_80081470 || slot == ((DungeonState *)D_800E3D7C)->unk_f0) {
             s16 record_index;
             *(s32 *)D_80081470 = 0;
-            record_index = func_800422A8(D_800E3D7C[0]->unk_f0, D_800E3548, 4, 0x40);
+            record_index = func_800422A8(((DungeonState *)D_800E3D7C)->unk_f0, D_800E3548, 4, 0x40);
             if (record_index >= 0) {
                 func_8009A3D0(D_800E36C8[record_index].first, D_800E36C8[record_index].second, 0x800);
             }
-            *D_800E3D7C[0]->unk_f0 = 0;
+            *((DungeonState *)D_800E3D7C)->unk_f0 = 0;
         }
     }
 }

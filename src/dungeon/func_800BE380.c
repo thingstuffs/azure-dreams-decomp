@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
 extern void func_8008D330(void *, void *, void *, void *);
@@ -14,7 +15,6 @@ extern u8 D_80082E80[];
 extern u8 D_80083780[];
 extern u16 D_800DDE84[];
 extern u8 D_800E1827[];
-extern void *D_800E3D7C;
 
 /* Applies the item's status effect to the target and consumes the handled item. */
 s32 func_800C3AE0(void *target, s32 item, s16 use_kind)

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 typedef struct TownRuntime {
     u8 pad_00[0x28];
@@ -14,7 +15,6 @@ extern u8 D_8001C480[0x10];
 extern u8 D_8001DA10;
 extern u8 D_8001DC10;
 extern u8 D_8001DCD0;
-extern u8 D_80016000[0x10];
 
 extern void func_80019860(s32, s32, s32);
 extern void func_80016748(void);
@@ -43,7 +43,7 @@ void func_8001A484(void) {
     func_8001A044(resource_id, callback, resource_data);
     ASM_KEEP(address_base);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
-    runtime = *(TownRuntime **)D_80016000;
+    runtime = *(TownRuntime **)((u8 *)(&D_80016000));
     do {
         runtime->field_28 = address_base - 0x3B80;
     } while (0);

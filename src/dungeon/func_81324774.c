@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
@@ -98,7 +99,6 @@ typedef struct {
     u8 tail[6];
 } D_800E2970Entry;
 extern s16 D_8006CD00;
-extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern u16 D_80082EA4;
 extern D_800E2970Entry D_800E2970[];

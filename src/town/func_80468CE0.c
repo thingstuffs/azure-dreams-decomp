@@ -1,10 +1,10 @@
+#include "shared/record_ptrs.h"
 typedef signed char s8;
 typedef short s16;
 typedef int s32;
 
 typedef void (*Callback)();
 
-extern void *D_80016000;
 
 /* Invoke the callback and add two signed deltas to the current stats. */
 void func_80019CE0(void *stat_deltas)

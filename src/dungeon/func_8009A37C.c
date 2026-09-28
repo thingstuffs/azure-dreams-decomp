@@ -1,8 +1,8 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 extern void *D_80010248[];
 extern u8 D_80081484[];
-extern u8 *D_800E3D7C;
 
 /* Selects a table entry address, fixed buffer, or current data pointer by ID. */
 u8 *func_8009FADC(s32 selector_id) {
@@ -11,7 +11,7 @@ u8 *func_8009FADC(s32 selector_id) {
     if (selector_index < 0x14) {
         result = (u8 *)(0x80010248 + (selector_index * (s32)sizeof(void *)));
     } else if (selector_index != 0x14) {
-        result = *(u8 **)(D_800E3D7C + 0xF0);
+        result = *(u8 **)(((u8 *)D_800E3D7C) + 0xF0);
     } else {
         result = D_80081484;
     }

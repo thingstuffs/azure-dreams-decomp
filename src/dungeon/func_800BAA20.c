@@ -1,8 +1,8 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 extern s32 D_80083498;
 extern s16 D_800DCED4[];
-extern u8 *D_800E3D7C;
 
 extern s32 func_800429E4(void *);
 extern s32 func_800C07AC(s32 *);

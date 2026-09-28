@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "m2c_compat.h"
 
 
@@ -14,7 +15,6 @@ typedef struct {
     s32 _8;
 } M2C_PTR_GLOBAL;
 
-extern M2C_PTR_GLOBAL D_80016000;
 extern M2C_UNK D_80016178[3];
 extern M2C_UNK D_80017720[3];
 extern M2C_PTR_GLOBAL D_8001794C;
@@ -45,7 +45,7 @@ typedef struct S_8047E130_2 {
 void func_8047E130(void) {
     D_8001794C._0 = &D_80017720[0];
     {
-        S_8047E130_0 *context = D_80016000._0;
+        S_8047E130_0 *context = D_80016000;
         ((S_8047E130_1 *)(context->unk_1C))->unk_40 = &D_80017B88[0];
         ((S_8047E130_2 *)(context->unk_08 * 8 +
                   (s8 *)context->unk_40))->unk_00 = (M2C_ENTRY *)&D_80016178[0];

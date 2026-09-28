@@ -1,6 +1,6 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
-extern u8 D_80016000[0x10];
 extern s32 D_8001C368[];
 
 /* Store the step count and advance the state counter by twice that count plus one. */
@@ -10,7 +10,7 @@ void func_8001897C(s32 step_count) {
     s32 counter;
 
     do {
-        root = *(void **)D_80016000;
+        root = *(void **)((u8 *)(&D_80016000));
     } while (0);
     state = *(void **)((s8 *)root + 0x40);
     D_8001C368[0] = step_count;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -18,7 +19,6 @@ extern extern M2C_UNK D_80083460[3];
 extern M2C_UNK D_80083780;
 extern u16 D_800DDE84[];
 extern M2C_UNK D_800E0E69;
-extern void *D_800E3D7C[];
 
 
 typedef struct S_800BD45C_0_pre {
@@ -37,7 +37,7 @@ s32 func_800BD45C(void *entity, s32 item, s16 action) {
     u16 *type_flags;
     M2C_UNK *item_counts;
 
-    if (entity == D_800E3D7C[0]) {
+    if (entity == D_800E3D7C) {
         ((Rec_D_800E3D7C *)entity)->unk_110 = item;
         func_8008D330(entity, &D_80083780, &D_80082E80, entity);
         return 0;

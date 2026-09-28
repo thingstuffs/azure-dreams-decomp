@@ -1,8 +1,8 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/dir_step.h"
 #include "shared/dungeon_status.h"
 
-extern u8 *D_800E3D7C;
 extern u16 D_800DCE6C[];
 extern u16 D_800DCE8C[];
 
@@ -59,7 +59,7 @@ s32 func_8009B88C(u8 *entry, s16 target_x, s16 target_y, s16 *out_x, s16 *out_y)
         actor = entry;
         wrap_pending = 0;
     } else {
-        actor = D_800E3D7C;
+        actor = ((u8 *)D_800E3D7C);
         wrap_pending = 1;
         entry = *(u8 **)(actor + 88) + 32;
     }

@@ -33,13 +33,13 @@ void func_8016A9FC(void *effect) {
     u16 frames;
     u8 fade_green;
     u8 fade_blue;
-    u8 *fade_colors;
+    GameWork *fade_colors;
     s32 result;
     s32 first_result;
 
     state = ((S_8016A9FC_0 *)effect)->unk_12.s;
     state_arg = ((S_8016A9FC_0 *)effect)->unk_12.u;
-    fade_colors = ((u8 *)(&gameWork));
+    fade_colors = &gameWork;
 
     if (state == 1) {
         goto wait_frames;
@@ -59,10 +59,10 @@ check_fade_in:
     return;
 
 fade_out:
-    if (fade_colors[0xA8] >= 0x65) {
-        fade_colors[0xA8] -= 4;
-        fade_green = fade_colors[0xA9] - 4;
-        fade_blue = fade_colors[0xAA] - 4;
+    if (fade_colors->unk_0A8 >= 0x65) {
+        fade_colors->unk_0A8 -= 4;
+        fade_green = fade_colors->unk_0A9 - 4;
+        fade_blue = fade_colors->unk_0AA - 4;
         goto store_fades;
     }
     ((S_8016A9FC_0 *)effect)->unk_12.u = state_arg + 1;
@@ -94,19 +94,19 @@ wait_frames:
     return;
 
 fade_in:
-    result = fade_colors[0xA8];
+    result = fade_colors->unk_0A8;
     if ((u32)(result & 0xFF) < 0x80) {
-        fade_colors[0xA8] = result + 4;
-        fade_green = fade_colors[0xA9] + 4;
-        fade_blue = fade_colors[0xAA] + 4;
+        fade_colors->unk_0A8 = result + 4;
+        fade_green = fade_colors->unk_0A9 + 4;
+        fade_blue = fade_colors->unk_0AA + 4;
 store_fades:
-        fade_colors[0xA9] = fade_green;
-        fade_colors[0xAA] = fade_blue;
+        fade_colors->unk_0A9 = fade_green;
+        fade_colors->unk_0AA = fade_blue;
         return;
     }
-    fade_colors[0xAA] = 0x80;
-    fade_colors[0xA9] = 0x80;
-    fade_colors[0xA8] = 0x80;
+    fade_colors->unk_0AA = 0x80;
+    fade_colors->unk_0A9 = 0x80;
+    fade_colors->unk_0A8 = 0x80;
     dungeonStatus.unk_0A--;
     (*(u16 *)((u8 *)effect + (-2))) |= 0x8000;
     objectFlagBlock.flags |= 0x8000;

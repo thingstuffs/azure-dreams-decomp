@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
 typedef struct Entity Entity;
@@ -21,7 +22,6 @@ struct Entity {
 };
 
 extern volatile u16 D_800DCE68[];
-extern Entity *D_800E3D7C[];
 
 /* Mark owned entities of kind 0x1E and increment the dungeon counters. */
 void func_800A31D0(Entity *owner_entity) {
@@ -33,7 +33,7 @@ void func_800A31D0(Entity *owner_entity) {
     if (owner_entity->kind == 0x1E) {
         if (owner_entity->flags & 0x4000) {
             if (owner_entity->fieldAA != 0) {
-                sentinel = D_800E3D7C[0];
+                sentinel = ((Entity *)D_800E3D7C);
                 node = (Entity *)((u8 *)sentinel->next + 0x20);
                 if (node != sentinel) {
                     do {
@@ -50,7 +50,7 @@ void func_800A31D0(Entity *owner_entity) {
                             node->status = node_status;
                         }
                         node = (Entity *)((u8 *)node->next + 0x20);
-                    } while (node != D_800E3D7C[0]);
+                    } while (node != ((Entity *)D_800E3D7C));
                 }
             }
         }

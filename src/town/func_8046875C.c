@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 
 typedef void (*TownCallback)(s16, s16);
@@ -11,7 +12,6 @@ typedef struct S_8001975C_0 {
 
 extern void func_800198AC(s32);
 extern s16 *func_80019AFC(u8, u8);
-extern s8 D_80016000[];
 extern u8 *D_8001E950;
 
 /* Initializes the town event once, invokes its callback, and reports whether it ran. */
@@ -26,7 +26,7 @@ s32 func_8001975C(s32 init_arg) {
         D_8001E950[1]++;
         started = 1;
         event = func_80019AFC(D_8001E950[1], D_8001E950[5]);
-        town = ((S_8001975C_0 *)(*(void **)D_80016000))->unk_20;
+        town = ((S_8001975C_0 *)(*(void **)((s8 *)(&D_80016000))))->unk_20;
         callback = (*(TownCallback *)((u8 *)town + 0x2F8));
         callback(event[0], event[1]);
     } else {

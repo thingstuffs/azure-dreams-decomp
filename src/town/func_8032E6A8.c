@@ -1,8 +1,8 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "m2c_compat.h"
 
-extern s8 D_80016000[];
 
 typedef struct S_80018EA8_0 {
     u8 pad_00[0x38];
@@ -18,7 +18,7 @@ void func_80018EA8(void) {
     s32 removed_entry;
 
     write_index = 0;
-    entries = (s8 *)((S_80018EA8_0 *)(*(s8 **)D_80016000))->unk_38 + 0x29C;
+    entries = (s8 *)((S_80018EA8_0 *)(*(s8 **)((s8 *)(&D_80016000))))->unk_38 + 0x29C;
     read_index = write_index;
     removed_entry = -1;
 scan_entry:

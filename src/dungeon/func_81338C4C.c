@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 extern u8 D_80170000[];
@@ -77,7 +78,6 @@ M2C_UNK func_800A56E0();
 M2C_UNK func_80164ED0();
 void func_801655EC(void *, s32, s32, s32);
 extern u8 D_80082E80[64];
-extern u8 *D_800E3D7C[3];
 extern s16 D_80173AFC[16];
 extern void *D_80175D50[3];
 
@@ -120,7 +120,7 @@ void func_8016FC4C(void *effect, void *entity_data, void *object_data) {
     object = object_data;
     count = 1;
     heading = D_80175D50[0] + 0x20;
-    link_slot = D_800E3D7C[0] + 4;
+    link_slot = ((u8 *)D_800E3D7C) + 4;
     do {
         linked_entity = ((S_8016FC4C_0 *)link_slot)->unk_AC;
         if (linked_entity != NULL) {

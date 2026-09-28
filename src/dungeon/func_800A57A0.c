@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
@@ -66,7 +67,6 @@ extern s32 func_800A6D30();
 extern void func_800C77D0();
 
 extern u8 D_8006DE24[];
-extern u8 *D_800E3D7C;
 
 /* Updates the object action state and applies direction data to its target. */
 void func_800AAF00(void *actor, s32 effect_param, void *target, u8 *direction_table, s32 next_state) {
@@ -89,10 +89,10 @@ void func_800AAF00(void *actor, s32 effect_param, void *target, u8 *direction_ta
         if ((((S_800AAF00_0 *)object)->unk_1C & 0x2000) &&
             ((((S_800AAF00_0 *)object)->unk_46 & 0x3FFF) >= 5)) {
             special_action = 1;
-            if (((((S_800AAF00_2 *)D_800E3D7C)->unk_98.s32 & 0x3000) == 0x2000) &&
-                (((S_800AAF00_2 *)D_800E3D7C)->unk_A6 == 0)) {
-                ((S_800AAF00_2 *)D_800E3D7C)->unk_98.u16 |= 0x1000;
-                ((S_800AAF00_2 *)D_800E3D7C)->unk_A6++;
+            if (((((S_800AAF00_2 *)((u8 *)D_800E3D7C))->unk_98.s32 & 0x3000) == 0x2000) &&
+                (((S_800AAF00_2 *)((u8 *)D_800E3D7C))->unk_A6 == 0)) {
+                ((S_800AAF00_2 *)((u8 *)D_800E3D7C))->unk_98.u16 |= 0x1000;
+                ((S_800AAF00_2 *)((u8 *)D_800E3D7C))->unk_A6++;
                 dungeonStatus.unk_0A++;
 
                 goto shared_body;
@@ -141,7 +141,7 @@ shared_body:
                         }
                     }
                 } else {
-                    ((S_800AAF00_2 *)D_800E3D7C)->unk_11C = object;
+                    ((S_800AAF00_2 *)((u8 *)D_800E3D7C))->unk_11C = object;
                 }
 
                 ((S_800AAF00_3 *)actor)->unk_9A = 0x12;

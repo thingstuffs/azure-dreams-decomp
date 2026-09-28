@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "records/Rec_D_800E3D7C.h"
 
 
@@ -25,7 +26,6 @@ extern s16 func_800C8900();
 
 extern u8 D_800E18F5[];
 extern u8 D_800E195C[];
-extern u8 *D_800E3D7C;
 
 /* Checks status flags, advances eligible actor state, or performs the requested action. */
 u32 func_800C8150(Rec_D_800E3D7C *actor, s16 action_arg_1, s16 action_arg_2, s32 status_mask)

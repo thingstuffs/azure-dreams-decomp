@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 extern int abs(int);
 
@@ -81,7 +82,6 @@ extern s32 func_800AD6FC();
 
 extern u8 D_8006DE24[];
 extern u8 *D_80073470[];
-extern void *D_800814A8[];
 extern u8 D_80082E80[];
 extern u8 D_80083780[];
 extern u16 D_800DDE84[];
@@ -90,7 +90,6 @@ extern u8 D_800E1440[];
 extern u8 D_800E144C[];
 extern u8 D_800E1456[];
 extern u8 D_800E146F[];
-extern u8 *D_800E3D7C[];
 
 /* Applies data to an object, updates its slots, and handles delayed consumption. */
 s32 func_800C0E88(u8 *object, u8 *data, s16 action, void *context)
@@ -116,11 +115,11 @@ s32 func_800C0E88(u8 *object, u8 *data, s16 action, void *context)
         return func_80098864(data, context);
     }
 
-    current_object = D_800E3D7C[0];
+    current_object = ((u8 *)D_800E3D7C);
     if (object == current_object) {
         callback = D_80083780;
         data[3] |= 0x20;
-        active_object = D_800E3D7C[0];
+        active_object = ((u8 *)D_800E3D7C);
         ((S_800C0E88_0 *)active_object)->unk_110 = data;
         func_8008D344(active_object, callback, D_80082E80, active_object);
         return 0;
@@ -224,7 +223,7 @@ decrement_status:
 
     if (data[3] & 0x20) {
         if (func_800A94A0(object, object + 8, 0,
-                          D_800E3D7C[0] + 0x98) == 0) {
+                          ((u8 *)D_800E3D7C) + 0x98) == 0) {
             return 0;
         }
         D_800DF4B0[0] = 16;
@@ -244,7 +243,7 @@ decrement_status:
 
     status = ((u8 *)(&dungeonStatus));
     ((S_800C0E88_6 *)status)->unk_0C = object;
-    ((S_800C0E88_7 *)(D_800814A8[0]))->unk_98 |= 0x80;
+    ((S_800C0E88_7 *)(D_800814A8))->unk_98 |= 0x80;
     ((S_800C0E88_1 *)data)->unk_02.u--;
 
     message_start = func_800990FC();

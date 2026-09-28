@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
@@ -15,7 +16,6 @@
 #endif
 
 extern void func_80047784();
-extern u8 *D_800E3D7C[];
 extern void *D_80170838[];
 extern u8 D_801710EC[];
 extern u8 D_80175EB8[];
@@ -103,7 +103,7 @@ jt_c3:
                 table_page = DGN_TABLE_PAGE(D_80175EC8, 0x5EC8);
                 goto resolve_table;
             }
-            if (((S_80172480_4 *)(D_800E3D7C[0]))->unk_9A != 0x17) {
+            if (((S_80172480_4 *)(((u8 *)D_800E3D7C)))->unk_9A != 0x17) {
                 table_page = DGN_TABLE_PAGE(D_80175EC8, 0x5EC8);
                 goto resolve_table;
             }

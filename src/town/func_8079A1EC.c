@@ -1,6 +1,6 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
-extern void *D_80016000;
 extern s32 D_8001601C;
 extern s32 D_80016084;
 extern void *D_80017508;

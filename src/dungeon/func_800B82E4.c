@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -15,7 +16,6 @@ extern M2C_UNK D_80082E80;
 extern M2C_UNK D_80083780;
 extern u16 D_800DDE84[];
 extern M2C_UNK D_800E0EE1;
-extern s32 D_800E3D7C;
 
 
 typedef struct S_800BDA44_0_pre {
@@ -26,7 +26,7 @@ typedef struct S_800BDA44_0_pre {
 
 /* Apply the item effect to the target and consume the item on completion. */
 s32 func_800BDA44(void *target, s32 item, s16 use_type) {
-    if (target == D_800E3D7C) {
+    if (target == ((s32)D_800E3D7C)) {
         ((Rec_D_800E3D7C *)target)->unk_110 = item;
         func_8008D330(target, &D_80083780, &D_80082E80, target);
         return 0;

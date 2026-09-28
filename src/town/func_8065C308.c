@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80016000.h"
 
@@ -11,12 +12,11 @@ typedef struct S_8065C308_1 {
 
 
 
-extern Rec_D_80016000 *D_80016000;
 extern s32 D_800183C8;
 extern s32 D_800183D0;
 
 
 /* Call the context callback with the two global values. */
 void func_8065C308(void) {
-    ((S_8065C308_1 *)(D_80016000->unk_20))->unk_4C(D_800183C8, D_800183D0);
+    ((S_8065C308_1 *)(((Rec_D_80016000 *)D_80016000)->unk_20))->unk_4C(D_800183C8, D_800183D0);
 }

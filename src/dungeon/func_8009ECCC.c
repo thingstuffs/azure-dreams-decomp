@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 #ifndef NULL
 #define NULL 0
@@ -8,7 +9,6 @@
 __asm__(".set D_80081470, 0x80081470");
 
 extern u8 D_80081470[];
-extern void *D_800814A8;
 
 /* Return the stored pointer when available, otherwise the fallback data buffer. */
 u8 *func_800A442C(void) {

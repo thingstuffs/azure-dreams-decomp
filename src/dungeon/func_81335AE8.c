@@ -1,8 +1,8 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
 extern u16 D_80013714[5];
-extern u8 *D_800E3D7C[];
 extern u8 D_80175392[];
 
 extern void func_800353F4(void *, void *);
@@ -38,10 +38,10 @@ void func_8016CAE8(void *controller, void *unused_1, void *unused_2, u8 *active_
     *(void **)((u8 *)controller + 0x8C) = (void *)func_8016A36C;
 
     do {
-        object = *(u8 **)(D_800E3D7C[0] + (object_index * 4) + 0xAC);
+        object = *(u8 **)(((u8 *)D_800E3D7C) + (object_index * 4) + 0xAC);
         if (object != 0) {
             func_80164BA4(object);
-            object_header = *(u8 **)(D_800E3D7C[0] + (object_index * 4) + 0xAC) - 0x20;
+            object_header = *(u8 **)(((u8 *)D_800E3D7C) + (object_index * 4) + 0xAC) - 0x20;
             *(u32 *)(object_header + 0x10) |= 0x80000000;
         }
         object_index++;

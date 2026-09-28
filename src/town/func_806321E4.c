@@ -1,8 +1,8 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 typedef s32 (*TownCallback)(s8 *);
 
-extern void *D_80016000;
 extern s32 D_80017788;
 
 /* Pass the byte pair 0x12, 0x17 to the town callback and store its result. */

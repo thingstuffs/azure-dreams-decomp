@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 typedef struct {
     s32 unk0;
@@ -11,10 +12,9 @@ typedef struct {
     Inner *inner;
 } Outer;
 
-extern Outer *D_80016000;
 
 /* Set the inner object's unk4 and unk8 fields to 1248 and 1184. */
 void func_80016EF4(void) {
-    D_80016000->inner->unk4 = 1248;
-    D_80016000->inner->unk8 = 1184;
+    ((Outer *)D_80016000)->inner->unk4 = 1248;
+    ((Outer *)D_80016000)->inner->unk8 = 1184;
 }

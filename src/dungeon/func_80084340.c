@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
@@ -45,7 +46,6 @@ extern u8 D_8006CCF8[];
 extern s8 D_80080A88;
 extern M2C_UNK D_80080AA0;
 extern s16 D_80081468[3];
-extern void *D_800814A8;
 extern M2C_UNK D_8008ACDC;
 extern s16 D_800DCE60[];
 extern s8 D_800DCF4F;
@@ -59,7 +59,6 @@ extern u8 D_800E3CD0;
 extern s8 D_800E3D20;
 extern s32 D_800E3D70;
 extern s32 D_800E3D74;
-extern void *D_800E3D7C;
 extern void *D_800E3DE8;
 extern s32 D_800E4948;
 

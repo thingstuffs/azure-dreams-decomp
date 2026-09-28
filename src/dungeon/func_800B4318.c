@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -68,10 +69,8 @@ typedef struct GlobalObj {
     Entity *right;
 } GlobalObj;
 
-extern GlobalObj *D_800814A8[3];
 extern s16 D_800DCE66[5];
 extern u8 D_800DDC40[16];
-extern GlobalObj *D_800E3D7C[3];
 
 extern s32 func_800644B8();
 extern s32 func_80064584();
@@ -161,12 +160,12 @@ void func_800B9A78(Work *work, Out *out, Render *render_arg)
                 s32 new_timer;
                 GlobalObj *object;
                 Entity *left;
-                left = (*(GlobalObj **)D_800E3D7C)->left;
+                left = (*(GlobalObj **)((GlobalObj * *)(&D_800E3D7C)))->left;
                 if (func_800BA33C(left)) {
                     status_page = D_80080000;
                     if ((*(GlobalObj **)(status_page + 0x14A8))->left != work->node->entity) {
                         new_timer = 8;
-                        object = *(GlobalObj **)D_800E3D7C;
+                        object = *(GlobalObj **)((GlobalObj * *)(&D_800E3D7C));
                         work->timer = new_timer;
                         work->node = (Node *)&object->left;
                         if (work->mode == 2) {
@@ -180,12 +179,12 @@ void func_800B9A78(Work *work, Out *out, Render *render_arg)
                 s32 new_timer;
                 GlobalObj *object;
                 Entity *right;
-                right = (*(GlobalObj **)D_800E3D7C)->right;
+                right = (*(GlobalObj **)((GlobalObj * *)(&D_800E3D7C)))->right;
                 if (func_800BA33C(right)) {
                     status_page = D_80080000;
                     if ((*(GlobalObj **)(status_page + 0x14A8))->right != work->node->entity) {
                         new_timer = 8;
-                        object = *(GlobalObj **)D_800E3D7C;
+                        object = *(GlobalObj **)((GlobalObj * *)(&D_800E3D7C));
                         work->timer = new_timer;
                         work->node = (Node *)&object->right;
                         if (work->mode == 2) {
@@ -214,14 +213,14 @@ void func_800B9A78(Work *work, Out *out, Render *render_arg)
                     action = 0x48;
                     result = (s32)((u32)result << 16);
                     amount = result >> 16;
-                    object = *(GlobalObj **)D_800E3D7C;
+                    object = *(GlobalObj **)((GlobalObj * *)(&D_800E3D7C));
                     func_8009F644(object, action, amount, 0);
                 } else {
                     s32 amount;
                     GlobalObj *object;
                     result = func_80098C80((*(s32 *)((u8 *)work + 0x2C)));
                     amount = (s16)result;
-                    object = *(GlobalObj **)D_800E3D7C;
+                    object = *(GlobalObj **)((GlobalObj * *)(&D_800E3D7C));
                     func_8009F644(object, 0x50,
                                    work->node->entity == object->right, amount);
                 }

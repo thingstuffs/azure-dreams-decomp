@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 
 extern void func_80016CC4(void);
 extern void func_8001A554(s32);
 extern s32 func_8001A64C(s32);
 extern s32 func_8001A8EC(s32);
-extern s8 D_80016000[];
 
 typedef void (*TownCallback)(s32, s32);
 
@@ -28,7 +28,7 @@ s32 func_80017EF0(void) {
     }
 
     func_8001A554(0x942);
-    callback_owner = *(s8 **)(*(s8 **)D_80016000 + 0x20);
+    callback_owner = *(s8 **)(*(s8 **)((s8 *)(&D_80016000)) + 0x20);
     (*(TownCallback *)(callback_owner + 0x2F8))(0xE, 0x200);
     status = 0;
     goto done;

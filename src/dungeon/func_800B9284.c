@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
 extern void func_8008D330(void *, void *, void *, void *);
@@ -17,7 +18,6 @@ extern u8 D_80083780[];
 extern u16 D_800DDE84[];
 extern u8 D_800E10C0[];
 extern u8 D_800E10F2[];
-extern void *D_800E3D7C;
 
 /* Applies an item effect with randomized duration and handles item consumption. */
 s32 func_800BE9E4(void *target, s32 item, s16 message_kind)

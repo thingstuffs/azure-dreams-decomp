@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "m2c_compat.h"
 
 typedef struct S_8009BF7C_2 {
@@ -16,7 +17,6 @@ typedef struct S_8009BF7C_3 {
 
 void *func_8003FD64();                  /* extern */
 extern M2C_UNK D_8009BE2C;
-extern s32 D_800E3D7C;
 
 typedef struct S_8009BF7C_0 {
     u8 pad_00[0xC];
@@ -35,7 +35,7 @@ void func_8009BF7C(s32 flag, s8 value) {
     S_8009BF7C_1 *state;
     S_8009BF7C_0 *object;
 
-    object = func_8003FD64(0x212, D_800E3D7C - 0x20);
+    object = func_8003FD64(0x212, ((s32)D_800E3D7C) - 0x20);
     if (object != NULL) {
         state = object->unk_0C;
         object->unk_10 = &D_8009BE2C;
