@@ -34,11 +34,8 @@ void func_800249E4(s32 object_value, void *start_pos, void *end_pos, s16 setting
     s32 word_1;
     s32 word_2;
     s32 word_3;
-    s32 packed_word_0;
-    s32 packed_word_1;
     void *state;
-    register void *object ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register u8 *stack_base ASM_REG("$29");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *object;
 
     object = func_8003FC64(0x212);
     if (object != NULL) {
@@ -78,11 +75,7 @@ void func_800249E4(s32 object_value, void *start_pos, void *end_pos, s16 setting
         (*(s32 *)((u8 *)object + 0x80)) = word_1;
         (*(s32 *)((u8 *)object + 0x84)) = word_2;
         (*(s32 *)((u8 *)object + 0x88)) = word_3;
-        stack_base = (u8 *)&packed_params - 0x58;
-        packed_word_0 = (*(Packed4 *)((u8 *)stack_base + 0x58)).word;
-        packed_word_1 = (*(Packed4 *)((u8 *)stack_base + 0x5C)).word;
-        (*(Packed4 *)((u8 *)object + 0x8C)).word = packed_word_0;
-        (*(Packed4 *)((u8 *)object + 0x90)).word = packed_word_1;
+        *(Packed8 *)((u8 *)object + 0x8C) = packed_params;
     }
 }
 

@@ -35,14 +35,10 @@ typedef struct {
 
 extern SlotTable D_80129728;
 extern RecordTable D_80126A18;
-extern u8 D_80120000[9];
-
-__asm__(".set D_80120000, 0x80120000");
 
 /* Initialize 14 slots from records, applying part_8 defaults except for the last two slots. */
 void func_80123604(void) {
     SlotTable *slot_base;
-    u8 *record_base;
     Slot **slot;
     Record *record;
     s32 slot_index;
@@ -53,11 +49,8 @@ void func_80123604(void) {
     default_6 = 0x10;
     default_8 = 0xE0;
     slot_base = &D_80129728;
-    ASM_KEEP(slot_base);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     slot = slot_base->slots;
-    record_base = D_80120000;
-    ASM_KEEP(record_base);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    record = (Record *)(record_base + 0x6A18);
+    record = D_80126A18.records;
     do {
         (*slot)->part_0 = 0;
         (*slot)->part_4->value_8 = record->value_4;
@@ -71,18 +64,15 @@ void func_80123604(void) {
 
     {
         SlotTable *slots;
+        Record *records;
         Slot *current;
 
         slots = &D_80129728;
-        record = (Record *)D_80120000;
-        ASM_KEEP(slots);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+        records = D_80126A18.records;
         current = slots->slots[12];
-        do {
-            record = (Record *)((u8 *)record + 0x6A18);
-        } while (0);
-        current->part_8->value_6 = record[12].value_4;
-        slots->slots[12]->part_8->value_8 = record[12].value_6;
-        slots->slots[13]->part_8->value_6 = record[13].value_4;
-        slots->slots[13]->part_8->value_8 = record[13].value_6;
+        current->part_8->value_6 = records[12].value_4;
+        slots->slots[12]->part_8->value_8 = records[12].value_6;
+        slots->slots[13]->part_8->value_6 = records[13].value_4;
+        slots->slots[13]->part_8->value_8 = records[13].value_6;
     }
 }
