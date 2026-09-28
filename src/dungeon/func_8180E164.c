@@ -10,12 +10,6 @@ typedef union {
 
 typedef struct {
     u8 unk0[4];
-    u16 flags;
-    u8 unk6[4];
-} DungeonState;
-
-typedef struct {
-    u8 unk0[4];
     void *link;
     u8 unk8[0x5c];
     s16 state;
@@ -47,7 +41,7 @@ void func_80027164(Effect *effect, void *unused, Output *output) {
     u16 duration;
     s16 scale;
     Output *linked_output;
-    DungeonState *dungeon = ((DungeonState *)&gameWork);
+    GameWork *dungeon = &gameWork;
 
     if (effect->state == 0) {
         tick = effect->count - 1;
@@ -62,7 +56,7 @@ void func_80027164(Effect *effect, void *unused, Output *output) {
     }
 
     if (effect->state == 1) {
-        if (dungeon->flags & 1) {
+        if (dungeon->unk_004 & 1) {
             brightness = (u16)((s32)(effect->value.u << 0x10) >> 0x11);
         } else {
             if (effect->value.s < 0xc0) {
@@ -91,7 +85,7 @@ increment_state:
     goto update;
 
 state_other:
-    if (dungeon->flags & 1) {
+    if (dungeon->unk_004 & 1) {
         *(u32 *)&output->color[0] = 0;
     } else {
         if (effect->value.s > 0) {

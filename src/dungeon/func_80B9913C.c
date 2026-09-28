@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/def_table.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -15,7 +16,6 @@ extern void func_800A56E0(s32);
 extern s32 func_800A94A0(void *, u8 *, s32, void *);
 extern void func_800BB044(void *);
 
-extern u8 D_8006DE24[];
 extern void *D_80170850[];
 extern u8 D_80170E9C[];
 extern u8 D_80174EE0[];
@@ -147,7 +147,7 @@ selection_ready:
         u8 item_id;
 
         item_id = *item_slot;
-        if (D_8006DE24[item_id * 20 + 0x12] == 2) {
+        if (D_8006DE24[item_id].kind == 2) {
             target = (*(void * *)((u8 *)actor + 0x60));
             if (target != 0) {
 copy_active_coords:

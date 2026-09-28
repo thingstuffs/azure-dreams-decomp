@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/def_table.h"
 #include "shared/sys_flags.h"
 #include "shared/object_node.h"
 #include "shared/tile_object.h"
@@ -82,15 +83,6 @@ typedef struct S_800A94A0_9 {
 extern u8 D_800E3CC8[];
 extern u16 D_800DCEAC[];
 extern u16 D_800DCEBC[];
-struct S_8006DE24_Entry;
-typedef struct S_8006DE24_Entry S_8006DE24_Entry;
-struct S_8006DE24_Entry {
-    s32 unk0;
-    u8 pad4[4];
-    s32 unk8;
-    u8 padC[8];
-};
-extern S_8006DE24_Entry D_8006DE24[];
 
 void *func_8003FD64();
 M2C_UNK func_80069EF8();
@@ -213,15 +205,15 @@ set_effect_scale:
             message = func_80099194(&D_800E1C58, message);
             if (((u32)(u16)mode << 0x10) != 0) {
                 name_index = func_800A9400(((s32)effect_id << 0x10) >> 0x10);
-                name_text = D_8006DE24[name_index].unk8;
+                name_text = D_8006DE24[name_index].unk_08;
                 message = func_80099194(name_text, message);
             } else {
                 register s32 effect_index ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                S_8006DE24_Entry *name_table;
+                DefEntry *name_table;
                 effect_index = (s32)effect_id << 0x10;
                 name_table = D_8006DE24;
                 effect_index >>= 0x10;
-                name_text = name_table[effect_index].unk0;
+                name_text = name_table[effect_index].unk_00;
                 message = func_80099194(name_text, message);
             }
             func_80099290(func_80099194(&D_80089080, message));

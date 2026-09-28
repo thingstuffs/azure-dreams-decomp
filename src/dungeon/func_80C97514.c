@@ -143,8 +143,7 @@ void func_80C97514(void *state, EntityRec *position, Rec_D_80082E80 *entity, voi
     u8 status;
     u8 next_state;
     S_80C97514_4 *effect_data;
-    S_80C97514_3 *scene_color = ((M2C_UNK *)&gameWork.unk_000);
-    S_80C97514_11 *scene_state;
+    GameWork *scene_color = &gameWork;
     S_80C97514_7 *render_obj;
     S_80C97514_5 *effect;
     void *new_model;
@@ -204,9 +203,9 @@ jt_c3:
     return;
 blend_color:
     effect_data = ((void **)&D_800DCEEC)[func_800498A0(actor)];
-    scene_color->unk_A8 = (u8) (scene_color->unk_A8 + ((s32) (effect_data->unk_00 - scene_color->unk_A8) / (s16) ((S_80C97514_0 *)state)->unk_96));
-    scene_color->unk_A9 = (u8) (scene_color->unk_A9 + ((s32) (effect_data->unk_01 - scene_color->unk_A9) / (s16) ((S_80C97514_0 *)state)->unk_96));
-    scene_color->unk_AA = (u8) (scene_color->unk_AA + ((s32) (effect_data->unk_02 - scene_color->unk_AA) / (s16) ((S_80C97514_0 *)state)->unk_96));
+    scene_color->view.unk_090 = (u8) (scene_color->view.unk_090 + ((s32) (effect_data->unk_00 - scene_color->view.unk_090) / (s16) ((S_80C97514_0 *)state)->unk_96));
+    scene_color->view.unk_091 = (u8) (scene_color->view.unk_091 + ((s32) (effect_data->unk_01 - scene_color->view.unk_091) / (s16) ((S_80C97514_0 *)state)->unk_96));
+    scene_color->view.unk_092 = (u8) (scene_color->view.unk_092 + ((s32) (effect_data->unk_02 - scene_color->view.unk_092) / (s16) ((S_80C97514_0 *)state)->unk_96));
     return;
 jt_c4:
 {
@@ -288,8 +287,7 @@ jt_c8:
     ((S_80C97514_15 *)(((Rec_D_80082E80 *)actor)->unk_60.as_pv))->unk_2A = (u16) ((Rec_D_80082E80 *)actor)->unk_8A;
     ((S_80C97514_0_pre *)state)[-1].unk_00 = (u16) (((S_80C97514_0_pre *)state)[-1].unk_00 | 0x8000);
     (*(s32 *)&objectFlagBlock.flags) = (s32) (((S_80C97514_10 *)(&objectFlagBlock.flags))->unk_00 | 0x8000);
-    scene_state = &dungeonStatus.unk_00;
-    scene_state->unk_0A = (u16) (scene_state->unk_0A - 1);
+    dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
     ((Rec_D_80082E80 *)actor)->unk_6D = 0;
 done:
     return;

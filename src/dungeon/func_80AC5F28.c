@@ -174,7 +174,7 @@ void func_80171728(void *actor_in, void *context_in, void *sprite_in, void *crea
         if (!(((EntityRec *)creature_in)->unk_46 & 0x8000)) {
             if (dungeonStatus.flags & 0x2000) {
                 if ((func_8009A180(creature_in,
-                        (u8 *)((EntityRec *)D_800814A8)->unk_58 + 0x20) << 16) != 0) {
+                        (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
                     return;
                 }
             }

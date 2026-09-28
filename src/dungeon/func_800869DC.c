@@ -56,14 +56,13 @@ extern void func_800A67F4(void);
 /* Synthetic batch key: func_800869DC; true rowbase link symbol: func_8008C13C. */
 /* Attempts a move and updates the actor position, animation, and movement state. */
 void func_8008C13C(void *controller, s32 actor_id, void *actor, void *actor_data) {
-    u8 *dungeon_state;
-    D_80083460_s *move_state;
+    GameWork *dungeon_state;
     s16 move_result;
     u8 direction_index;
     u8 tile_x;
     u8 *x_offsets;
 
-    dungeon_state = ((u8 *)(&gameWork));
+    dungeon_state = &gameWork;
     move_result = func_8009ABA0(((EntityRec *)actor_data)->facing, actor_id, actor,
                            ((EntityRec *)actor_data)->unk_88, 0x20);
 
@@ -85,13 +84,12 @@ void func_8008C13C(void *controller, s32 actor_id, void *actor, void *actor_data
         if (move_result != 4) {
             if (D_80013714 & 2) {
                 dungeonStatus.flags |= 0x80;
-            } else if ((((S_8008C13C_3 *)dungeon_state)->unk_08 & 0x20) && func_800A5C70()) {
+            } else if ((((s32)dungeon_state->unk_008) & 0x20) && func_800A5C70()) {
                 dungeonStatus.flags |= 0x80;
             }
         }
 
-        move_state = ((D_80083460_s *)&dungeonStatus);
-        if ((move_state->flags & 0x80) || (move_result == 1)) {
+        if ((dungeonStatus.flags & 0x80) || (move_result == 1)) {
             if (((Rec_D_80082E80 *)actor)->unk_2C.as_pv != D_800DCFD8) {
                 (*(void * *)((u8 *)actor + 0x2C)) = D_800DCFD8;
                 direction_index = ((gameWork.view.viewAngle + ((EntityRec *)actor_data)->facing + 0x100) >> 9) & 7;
@@ -99,7 +97,7 @@ void func_8008C13C(void *controller, s32 actor_id, void *actor, void *actor_data
             }
             func_80099F70(((EntityRec *)actor_data)->unk_5C);
             func_80099F04(((EntityRec *)actor_data)->unk_5C);
-            move_state->value = 8;
+            dungeonStatus.unk_04 = 8;
             ((S_8008C13C_2 *)controller)->unk_9A = 0x1D;
         } else {
             ((S_8008C13C_2 *)controller)->unk_98 |= 0xC;
@@ -108,7 +106,7 @@ void func_8008C13C(void *controller, s32 actor_id, void *actor, void *actor_data
             if (move_result == 2) {
                 ((S_8008C13C_2 *)controller)->unk_9B = 8;
             }
-            move_state->value = 8;
+            dungeonStatus.unk_04 = 8;
             ((S_8008C13C_2 *)controller)->unk_9A = 0x1E;
             ((EntityRec *)actor_data)->flags1C |= 0x40000000;
             func_8009F644(actor_data, 8, 0, 0);
@@ -118,7 +116,7 @@ void func_8008C13C(void *controller, s32 actor_id, void *actor, void *actor_data
         func_8009F644(actor_data, 8, 0, 0);
     } else {
         ((Rec_D_80082E80 *)actor)->unk_2C.as_pv = D_800DD0B8;
-        direction_index = ((((S_8008C13C_3 *)dungeon_state)->unk_C8 + ((EntityRec *)actor_data)->facing + 0x100) >> 9) & 7;
+        direction_index = ((dungeon_state->view.viewAngle + ((EntityRec *)actor_data)->facing + 0x100) >> 9) & 7;
         func_80048A44(actor, D_800DD0B8[direction_index], 0, 1);
         ((S_8008C13C_2 *)controller)->unk_8C.u = D_8008EAC8;
         return;

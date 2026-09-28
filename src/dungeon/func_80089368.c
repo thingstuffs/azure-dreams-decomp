@@ -107,7 +107,6 @@ typedef struct S_8008EAC8_10 {
 
 void func_8008EAC8(void *arg0, void *arg1, void *arg2, void *arg3) {
     GameWork *held_D_80083160 = &gameWork;
-    DungeonGlobalStatus *held_D_80083460;
     s16 temp_v0_3;
     s16 temp_v1;
     s16 var_v0_2;
@@ -156,9 +155,8 @@ block_5:
         func_800A2B04(arg1, ((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25);
     }
     ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v = (u16) (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xF7FF);
-    held_D_80083460 = &dungeonStatus;
     ((Rec_func_8008ACDC_arg0 *)arg0)->unk_9B.as_s8 = 0;
-    held_D_80083460->flags = (u16) (held_D_80083460->flags & 0xFF7F);
+    dungeonStatus.flags = (u16) (dungeonStatus.flags & 0xFF7F);
     temp_v1 = ((S_8008EAC8_1 *)arg3)->unk_64;
     if ((temp_v1 < 0) || (((Rec_func_8008ACDC_arg0 *)arg0)->unk_10C & 1)) {
         func_8008CAA0(arg0, arg1, arg2, arg3);
@@ -195,7 +193,7 @@ block_5:
         return;
     }
     if ((((Rec_func_8008ACDC_arg0 *)arg0)->unk_124 != 0) && (((func_800A1C58(arg3) << 0x10) == 0) || (func_8008D1D0(arg0, arg1, arg2, arg3) == 0))) {
-        if (!(held_D_80083460->flags & 4)) {
+        if (!(dungeonStatus.flags & 4)) {
             if (((S_8008EAC8_1 *)arg3)->unk_1C & 0x20) {
                 if (!((*(u16 *)0x80013714) & 1) && (((u32)held_D_80083160->unk_008) & 0x80)) {
                     ((S_8008EAC8_1 *)arg3)->unk_8A = 2;
@@ -393,7 +391,7 @@ code_D8:
 
                 flag_200 = ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 & 0x200;
                 ((S_8008EAC8_10 *)(&D_800E3544))->unk_00 = 0;
-                if (flag_200 && ((func_800A2C34(arg3) << 0x10) == 0) && !(held_D_80083460->flags & 4)) {
+                if (flag_200 && ((func_800A2C34(arg3) << 0x10) == 0) && !(dungeonStatus.flags & 4)) {
                     ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 = (u16) (((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 & 0xFDFF);
                     if ((func_800A4474(((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25) << 0x10) != 0) {
                         func_8008CF6C(arg0, arg1, arg2, &D_800245A8);

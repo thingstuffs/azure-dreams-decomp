@@ -176,7 +176,7 @@ void func_80170F68(void *actor_arg, void *context_arg, void *map_object_arg, voi
         if (!(((S_80170F68_1 *)actor_state_arg)->unk_46 & 0x8000)) {
             if (dungeonStatus.flags & 0x2000) {
                 if ((s16)func_8009A180(actor_state_arg,
-                        (u8 *)((EntityRec *)D_800814A8)->unk_58 + 0x20) != 0) {
+                        (u8 *)D_800814A8->unk_58 + 0x20) != 0) {
                     return;
                 }
             }

@@ -19,11 +19,6 @@ extern s16 func_80095978();
 extern M2C_UNK func_80095A94();
 extern M2C_UNK func_80095C80();
 
-typedef struct {
-    u8 pad[0x10];
-    s32 field_10;
-} State80083160;
-
 extern void *D_800CFCC4[3];
 extern u8 D_800CFCEF[9];
 extern u8 D_800FE488[9];
@@ -37,7 +32,7 @@ typedef struct S_80092698_2 {
 void func_80092698(Rec_func_80094268_arg0 *controller, EntityRec *entity, M2C_UNK context) {
     s16 sampled_value;
     u16 countdown;
-    State80083160 *state = ((State80083160 *)&gameWork);
+    GameWork *state = &gameWork;
     u8 *samples;
     register M2C_UNK saved_context ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
@@ -68,7 +63,7 @@ void func_80092698(Rec_func_80094268_arg0 *controller, EntityRec *entity, M2C_UN
         func_8009451C(controller, entity, saved_context);
         return;
     }
-    if (state->field_10 & 0x10) {
+    if (((s32)state->unk_010) & 0x10) {
         func_800942B0(controller, entity, saved_context);
     }
 }

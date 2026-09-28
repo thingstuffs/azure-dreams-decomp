@@ -182,7 +182,7 @@ void func_80172810(void *action_state, void *position, void *sprite, void *actor
         ((EntityRec *)position)->unk_0C = 0;
         func_800A2B04(position, ((S_80172810_4 *)sprite)->unk_24, ((S_80172810_4 *)sprite)->unk_25);
         dungeonStatus.unk_0C = 0;
-        (*(u16 *)((u8 *)&((EntityRec *)D_800814A8)->unk_A4 + 2)) = (*(u16 *)((u8 *)D_800814A8 + 0xA6)) - 1;
+        (*(u16 *)((u8 *)&D_800814A8->unk_A4 + 2)) = (*(u16 *)((u8 *)D_800814A8 + 0xA6)) - 1;
         func_800A4ACC(actor);
         ((S_80172810_1 *)actor)->unk_6D.s = ((S_80172810_1 *)actor)->unk_6D.s - 1;
         ((S_80172810_0 *)action_state)->unk_8C = D_80170E54;

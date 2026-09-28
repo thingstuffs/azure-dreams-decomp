@@ -54,12 +54,6 @@ typedef struct {
     s16 timer_22;
 } State;
 
-typedef struct {
-    u8 pad_0[0xA];
-    u16 count_A;
-    s32 field_C;
-} GlobalState;
-
 extern s32 func_80040490(u8 *, Rect *);
 extern s32 func_8003F80C();
 extern void *func_80024578(void *, s32);
@@ -77,7 +71,7 @@ extern u8 D_800281FC[12];
 /* Advances the screen transition, updates fade timers, and releases completed state. */
 void func_80024078(State *ctx)
 {
-    u8 *screen = ((u8 *)(&gameWork));
+    GameWork *screen = &gameWork;
     switch (ctx->state) {
     case 0: {
         s32 rect_words[2];
@@ -100,7 +94,7 @@ void func_80024078(State *ctx)
         ((S_80024078_0 *)object)->unk_F4 = D_800281FC;
         ((S_80024078_0 *)object)->unk_96 = 0x14;
         ((S_80024078_0 *)object)->unk_A8 = ctx->field_8;
-        ((EntityRec *)D_800814A8)->unk_102 = 1;
+        D_800814A8->unk_102 = 1;
 
         ctx->state++;
         ASM_MEM_BARRIER();
@@ -138,7 +132,7 @@ void func_80024078(State *ctx)
         if (ctx->timer_1C >= 0xB) {
             break;
         }
-        (*(u16 *)((u8 *)&((EntityRec *)D_800814A8)->unk_A4 + 2))--;
+        (*(u16 *)((u8 *)&D_800814A8->unk_A4 + 2))--;
         func_800A56E0(func_80053EF0(4) != 2 ? 0x300 : 0x4300);
         goto advance_state;
 
@@ -152,14 +146,14 @@ void func_80024078(State *ctx)
         break;
 
     case 3:
-        screen[0xA9] += (0x80 - screen[0xA9]) / ctx->timer_1A;
-        screen[0xAA] += (0x80 - screen[0xAA]) / ctx->timer_1A;
+        screen->view.unk_091 += (0x80 - screen->view.unk_091) / ctx->timer_1A;
+        screen->view.unk_092 += (0x80 - screen->view.unk_092) / ctx->timer_1A;
         ctx->timer_1A--;
         if (ctx->timer_1A > 0) {
             break;
         }
-        screen[0xA9] = 0x80;
-        screen[0xAA] = 0x80;
+        screen->view.unk_091 = 0x80;
+        screen->view.unk_092 = 0x80;
 advance_state:
         ctx->state++;
         break;
@@ -168,9 +162,8 @@ advance_state:
         if ((s16)D_800281F8[0] != 0) {
             break;
         } else {
-            GlobalState *global_state = (GlobalState *)&dungeonStatus.unk_00;
-            global_state->field_C = 0;
-            global_state->count_A--;
+            dungeonStatus.unk_0C = 0;
+            dungeonStatus.unk_0A--;
         }
         (*(u16 *)((u8 *)ctx + -2)) |= 0x8000;
         objectFlagBlock.flags |= 0x8000;
@@ -183,8 +176,8 @@ advance_state:
     }
 
     if (ctx->phase_20 < 0) {
-        screen[0xA9] += (0x20 - screen[0xA9]) / ctx->timer_22;
-        screen[0xAA] += (0x20 - screen[0xAA]) / ctx->timer_22;
+        screen->view.unk_091 += (0x20 - screen->view.unk_091) / ctx->timer_22;
+        screen->view.unk_092 += (0x20 - screen->view.unk_092) / ctx->timer_22;
         ctx->timer_22--;
         if (ctx->timer_22 <= 0) {
             ctx->phase_20 = 0;

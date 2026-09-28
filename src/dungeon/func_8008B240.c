@@ -2,14 +2,6 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
-typedef struct {
-    u16 unk0;
-    u16 flags;
-    s32 unk4;
-    s16 unk8;
-    s16 unkA;
-} Status;
-
 typedef void (*StateFunc)(void *, void *, void *, void *);
 
 extern void func_80048A44(void *, u8, s32, s32);
@@ -24,9 +16,8 @@ extern StateFunc D_800DD168[];
 /* Advances the camera reset animation and resumes actor state handling. */
 void to_camera_zero_00(void *actor, void *context, void *animation, void *transform)
 {
-    u8 *camera = ((u8 *)(&gameWork));
+    GameWork *camera = &gameWork;
     s32 phase;
-    Status *status;
 
     phase = *(u8 *)((u8 *)actor + 0x9B);
     if (phase == 1) {
@@ -47,25 +38,24 @@ state_0:
     if (*(u16 *)((u8 *)animation + 0x14) & 0xE000) {
         *(u8 **)((u8 *)animation + 0x2C) = D_800DD008;
         func_80048A44(animation,
-            D_800DD008[((*(s16 *)(camera + 0xC8) +
+            D_800DD008[((camera->view.viewAngle +
                 *(s16 *)((u8 *)transform + 0x2A) + 0x100) >> 9) & 7], 0, 1);
         *(u8 *)((u8 *)actor + 0x9B) += 1;
     }
     return;
 
 state_1:
-    if (*(u16 *)(camera + 8) != 0) {
+    if (*(u16 *)(&camera->unk_008) != 0) {
         *(u8 **)((u8 *)animation + 0x2C) = D_800DD010;
         func_80048A44(animation,
-            D_800DD010[((*(s16 *)(camera + 0xC8) +
+            D_800DD010[((camera->view.viewAngle +
                 *(s16 *)((u8 *)transform + 0x2A) + 0x100) >> 9) & 7], 0, 1);
         *(u8 *)((u8 *)actor + 0x9B) += 1;
 
-        status = ((Status *)&dungeonStatus);
-        status->flags &= 0xFEFF;
+        dungeonStatus.flags &= 0xFEFF;
         if ((s16)func_80094EA4() != 0) {
-            if (status->unkA != 0) {
-                status->flags |= 4;
+            if (dungeonStatus.unk_0A != 0) {
+                dungeonStatus.flags |= 4;
             }
             func_8008ACDC(actor, context, animation, transform);
             if (*(u8 *)((u8 *)actor + 0x9A) != 0x17) {

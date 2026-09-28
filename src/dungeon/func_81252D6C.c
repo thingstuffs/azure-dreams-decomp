@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/def_table.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -16,7 +17,6 @@ extern void func_800A56E0();
 extern s32 func_800A94A0();
 extern void func_80170E18();
 
-extern u8 D_8006DE24[];
 extern void *D_80170838[];
 extern void *D_80170860[];
 extern M2C_UNK D_80171514;
@@ -188,7 +188,7 @@ kind_chosen:
     }
 
 
-    if (D_8006DE24[*action_entry * 20 + 0x12] == 2) {
+    if (D_8006DE24[*action_entry].kind == 2) {
         target_link = ((S_8017256C_1 *)actor)->unk_60.p2;
         if (target_link != 0) {
 state0_linked:

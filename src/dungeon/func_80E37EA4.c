@@ -194,7 +194,7 @@ active:
             u8 *turn_data;
             {
                 u8 *origin = D_80082E80_initial;
-                s32 direction = ((u16)((EntityRec *)D_800814A8)->facing);
+                s32 direction = ((u16)D_800814A8->facing);
                 s32 table_index =
                     ((((S_801716A4_1 *)actor_in)->unk_45 + ((s16)direction >> 9)) & 7) << 1;
                 target_x = origin[0x24] +
@@ -325,7 +325,7 @@ init_loop:
         if (turn_or_height == 0 &&
             *(u16 *)(&D_80082E80.tileX) != ((S_801716A4_2 *)tile_in)->unk_24.at00u.v) {
             if (func_8009A180(actor_in,
-                    (u8 *)((EntityRec *)D_800814A8)->unk_58 + 0x20) != 0) {
+                    (u8 *)D_800814A8->unk_58 + 0x20) != 0) {
                 return;
             }
         }

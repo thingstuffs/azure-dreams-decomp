@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "shared/entity.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
@@ -109,7 +110,7 @@ phase2:
 
 phase3:
     if (animation->flags & 0xE000) {
-        if (((DungeonEntry *)D_800E3D7C)->unk28 < 2) {
+        if (D_800E3D7C->unk_28 < 2) {
             s32 entry_index;
             s32 resource_flag;
             void *effect;

@@ -151,11 +151,11 @@ state_two:
         ((S_800240F0_2 *)motion)->unk_0C = ((S_800240F0_3 *)position)->unk_00.at00.v;
         ((S_800240F0_2 *)motion)->unk_10 = ((S_800240F0_3 *)position)->unk_04.at00.v;
     }
-    ((S_800240F0_2 *)motion)->unk_14 = (((EntityRec *)D_800814A8)->unk_88 - 0x50) << 16;
+    ((S_800240F0_2 *)motion)->unk_14 = (D_800814A8->unk_88 - 0x50) << 16;
 
     {
         s32 angle_index;
-        angle_index = (gameWork.view.viewAngle + ((EntityRec *)D_800814A8)->facing + 0x100) >> 7;
+        angle_index = (gameWork.view.viewAngle + D_800814A8->facing + 0x100) >> 7;
         if (func_8003DE58(*(void **)((angle_index & 0x1C) + (s32)D_800E3D18),
                           ((u8 *)(&D_80082E80)), offset, 0) != 0) {
             ((S_800240F0_2 *)motion)->unk_0C += ((s16 *)offset)[0] << 16;

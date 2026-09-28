@@ -3,6 +3,7 @@
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
 #include "shared/record_ptrs.h"
+#include "shared/entity.h"
 #include "shared/dungeon_status.h"
 extern int abs(int);
 
@@ -243,7 +244,7 @@ decrement_status:
 
     status = ((u8 *)(&dungeonStatus));
     ((S_800C0E88_6 *)status)->unk_0C = object;
-    ((S_800C0E88_7 *)(D_800814A8))->unk_98 |= 0x80;
+    D_800814A8->unk_98 |= 0x80;
     ((S_800C0E88_1 *)data)->unk_02.u--;
 
     message_start = func_800990FC();

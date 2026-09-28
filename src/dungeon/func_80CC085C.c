@@ -250,9 +250,9 @@ update_heading:
         void *first_master;
         void *second_master;
         ((Rec_func_800A9E70_arg0 *)context)->unk_A6 = 0;
-        first_master = ((EntityRec *)D_800814A8)->unk_AC;
+        first_master = D_800814A8->unk_AC;
         if (first_master != 0) {
-            second_master = ((EntityRec *)D_800814A8)->unk_B0;
+            second_master = D_800814A8->unk_B0;
             if (second_master != 0) {
                 goto follow_master;
             }
@@ -263,7 +263,7 @@ update_heading:
             s32 relative_angle;
             angle_delta = func_800A07D0(leader_pos[0x24], leader_pos[0x25],
                                   actor->unk_24.at00.v, actor->unk_24.at01.v);
-            relative_angle = (((u16)((EntityRec *)D_800814A8)->facing) + angle_delta) & 0xFFF;
+            relative_angle = (((u16)D_800814A8->facing) + angle_delta) & 0xFFF;
             if (relative_angle > 0x400 && relative_angle < 0xC00) {
                 ((S_8017405C_0 *)movement)->unk_45 = 3;
             } else if (relative_angle == 0x400 || relative_angle == 0xC00) {
@@ -410,7 +410,7 @@ try_heading:
             }
             if (move_index == 0 && D_80082EA4 != actor->unk_24.at00u.v) {
                 ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                if (func_8009A180(movement, ((EntityRec *)D_800814A8)->unk_58 + 0x20) != 0) {
+                if (func_8009A180(movement, D_800814A8->unk_58 + 0x20) != 0) {
                     return;
                 }
             }

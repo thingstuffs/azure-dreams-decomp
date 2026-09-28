@@ -263,8 +263,8 @@ void func_80167C74(void *effect_data, Rec_func_80167A98_arg1 *origin, S_80167C74
         ((Rec_func_80167A98_arg0 *)effect_data)->unk_1E = phase_tick;
         if (phase_tick == 0xC) {
             func_80167A98(effect_data, origin, color);
-            ((EntityRec *)D_800814A8)->unk_10C = (u16) (((EntityRec *)D_800814A8)->unk_10C | 1);
-            ((EntityRec *)D_800814A8)->unk_6A = (s16) (((u16)((EntityRec *)D_800814A8)->facing) + 0x800);
+            D_800814A8->unk_10C = (u16) (D_800814A8->unk_10C | 1);
+            D_800814A8->unk_6A = (s16) (((u16)D_800814A8->facing) + 0x800);
             func_800419EC(6, 0xC, ((EntityRec *)D_800814A8));
             func_800A56E0(0x601);
         }

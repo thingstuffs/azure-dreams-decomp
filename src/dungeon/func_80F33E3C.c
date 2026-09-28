@@ -194,7 +194,7 @@ active:
             u8 *move_flags;
             {
                 u8 *target_position = D_80082E80_initial;
-                s32 target_heading = ((u16)((EntityRec *)D_800814A8)->facing);
+                s32 target_heading = ((u16)D_800814A8->facing);
                 s32 table_index =
                     ((((S_8017163C_1 *)actor_in)->unk_45 + ((s16)target_heading >> 9)) & 7) << 1;
                 target_x = target_position[0x24] +
@@ -331,7 +331,7 @@ init_loop:
         if (turn_index == 0 &&
             *(u16 *)(&D_80082E80.tileX) != ((S_8017163C_2 *)position_in)->unk_24.at00u.v) {
             if (func_8009A180(actor_in,
-                    (u8 *)((EntityRec *)D_800814A8)->unk_58 + 0x20) != 0) {
+                    (u8 *)D_800814A8->unk_58 + 0x20) != 0) {
                 return;
             }
         }

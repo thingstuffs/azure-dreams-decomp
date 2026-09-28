@@ -197,7 +197,7 @@ state_two:
     target_pos[2] = (((S_800B8830_0 *)motion)->unk_32 - 0x50) << 16;
 
     entry_addr = ((((S_800B8830_6 *)D_80080000)->unk_3228 +
-              ((EntityRec *)D_800814A8)->facing + 0x100) >> 7) & 0x1C;
+              D_800814A8->facing + 0x100) >> 7) & 0x1C;
     entry_addr += (s32)D_800E3D18;
     entry = ((S_800B8830_8 *)((void *)entry_addr))->unk_00;
     if (func_8003DE58(entry, ((S_800B8830_12 *)(((S_800B8830_0 *)motion)->unk_04))->unk_0C, &delta, 0) != NULL) {

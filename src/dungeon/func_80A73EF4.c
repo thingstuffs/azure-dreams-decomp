@@ -160,7 +160,7 @@ state_one:
             if ((func_800A2C34(actor) << 16) != 0) {
                 if ((func_8009A180(
                          actor,
-                         ((s32)((EntityRec *)D_800814A8)->unk_58)
+                         ((s32)D_800814A8->unk_58)
                              + 0x20)
                      << 16)
                     != 0) {

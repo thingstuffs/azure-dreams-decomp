@@ -56,12 +56,6 @@ typedef struct S_80170E5C_5 {
 
 
 
-typedef struct {
-    u8 pad0[0xC];
-    u16 flags;
-    u8 padE[6];
-} DungeonRecord;
-
 extern void func_80047784(void *, s32, s32);
 extern s32 func_8009A180(void *, void *);
 extern s32 func_8009FB34(s32, s32);
@@ -192,7 +186,7 @@ void func_80170E5C(void *actor_in, void *context_in, void *sprite_in, void *stat
         if (!(((S_80170E5C_1 *)status)->unk_46 & 0x8000)) {
             if (dungeonStatus.flags & 0x2000) {
                 if ((s16)func_8009A180(status,
-                        (u8 *)((EntityRec *)D_800814A8)->unk_58 + 0x20) != 0) {
+                        (u8 *)D_800814A8->unk_58 + 0x20) != 0) {
                     return;
                 }
             }

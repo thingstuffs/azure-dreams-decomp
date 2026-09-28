@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "shared/entity.h"
 #include "shared/object_flags.h"
 
 typedef struct S_819598B4_0_pre {
@@ -119,7 +120,7 @@ state_1:
     if (((S_819598B4_0 *)arg0)->unk_38 != 0) {
         goto finish_state_1;
     }
-    if (func_80026384(((S_819598B4_0 *)arg0)->unk_1C, ((S_819598B4_0 *)arg0)->unk_1E, ((S_819598B4_0 *)arg0)->unk_20, ((S_819598B4_3 *)(D_800E3D7C))->unk_2A) == 0) {
+    if (func_80026384(((S_819598B4_0 *)arg0)->unk_1C, ((S_819598B4_0 *)arg0)->unk_1E, ((S_819598B4_0 *)arg0)->unk_20, D_800E3D7C->facing) == 0) {
         goto common;
     }
     func_80025604(((S_819598B4_0 *)arg0)->unk_1C, ((S_819598B4_0 *)arg0)->unk_1E, ((S_819598B4_0 *)arg0)->unk_20);

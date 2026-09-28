@@ -9,10 +9,16 @@
  *   [0] func_8005560C: the gain it passes to func_8005B4D0 (starts voices for a program's tones)
  *   [1] func_800552C8: D_800848F8's level -> func_8005B27C (two 7-bit values for sequence entry D_800847D0.field22)
  *   [2] func_80054D64: D_80084858's level -> func_8005A56C (mode 0, value * 256)
- * Declared unsized on purpose: retail never addresses it $gp-relative, and the 2.7.2-cdk -G8 rows
- * (func_80053E20, func_8005560C, ...) put a declaration of <= 8 bytes in .sbss/$gp (measured: 37 / 74 words off),
- * so the original declaration those TUs saw was > 8 bytes or unsized; `short [8]` (m2c's guess) would claim the
- * separate table D_80084810 that follows (reached only from its own base, by func_800550E8). */
-extern short volumeScale[];
+ * Declared size: retail proves only that every TU saw MORE than 8 bytes here (r78 phase 9, measured):
+ *   - <= 8 bytes (short[3] / short[4]) puts it in $gp small data at -G8: w_80053E20 37 words off, w_8005560C 74,
+ *     and the whole SLUS image 88,120 words off with slus/code's stock 2.7.2 store macros;
+ *   - UNSIZED also breaks slus/code (func_80053DCC / func_80053E14): with no `.extern` size the stock-2.7.2 store
+ *     macro is expanded through $at with a nop where retail (and any size > 8) schedules the store into the jal
+ *     delay slot - SLUS image 88,082 words off;
+ *   - short[5] and short[8] both reproduce retail (image MATCH).
+ * [8] is the size every declaration used before phase 9 (globals.h, the rows): the true extent is NOT known - it
+ * may be a larger block that also holds the table D_80084810 (w_800550E8 reaches that from %hi(D_80084810), which a
+ * field of one aggregate would also give), so do not read [8] as a claim that 0x80084810.. belongs to this array. */
+extern short volumeScale[8];
 
 #endif

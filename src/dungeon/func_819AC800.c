@@ -28,12 +28,6 @@ typedef struct {
     u8 flag102;
 } DungeonObject;
 
-typedef struct {
-    u8 pad00[0xA];
-    s16 state;
-    s32 result;
-} GlobalState;
-
 extern u8 D_80027452[16];
 extern s32 D_8002744C;
 extern void *D_80024008[];
@@ -73,10 +67,10 @@ BODY_LINKAGE void BODY_NAME(EventState *event) {
     };
 #endif
     s32 setup[2];
-    u8 *colors;
+    GameWork *colors;
     s32 state;
 
-    colors = ((u8 *)(&gameWork));
+    colors = &gameWork;
     state = event->state;
     if ((u32)state >= 6) {
         goto common_tail;
@@ -140,15 +134,15 @@ jt_c3:
 jt_c4: {
         s16 fade_ticks;
 
-        colors[0xA8] += (u8)((0x80 - colors[0xA8]) / event->timer1A);
-        colors[0xAA] += (u8)((0x80 - colors[0xAA]) / event->timer1A);
+        colors->view.unk_090 += (u8)((0x80 - colors->view.unk_090) / event->timer1A);
+        colors->view.unk_092 += (u8)((0x80 - colors->view.unk_092) / event->timer1A);
         fade_ticks = (s16)(event->timer1A - 1);
         event->timer1A = fade_ticks;
         if (fade_ticks > 0) {
             goto common_tail;
         }
-        colors[0xAA] = 0x80;
-        colors[0xA8] = 0x80;
+        colors->view.unk_092 = 0x80;
+        colors->view.unk_090 = 0x80;
     }
 advance_state:
         event->state++;
@@ -159,9 +153,8 @@ jt_c5:
             goto common_tail;
         }
         {
-            GlobalState *global_state = (GlobalState *)&dungeonStatus.unk_00;
-            global_state->result = 0;
-            global_state->state--;
+            dungeonStatus.unk_0C = 0;
+            dungeonStatus.unk_0A--;
         }
         *(u16 *)((u8 *)event - 2) |= 0x8000;
         objectFlagBlock.flags |= 0x8000;
@@ -170,8 +163,8 @@ common_tail:
     if (event->mode20 < 0) {
         s16 fade_ticks;
 
-        colors[0xA8] += (u8)((0x20 - colors[0xA8]) / event->timer22);
-        colors[0xAA] += (u8)((0x20 - colors[0xAA]) / event->timer22);
+        colors->view.unk_090 += (u8)((0x20 - colors->view.unk_090) / event->timer22);
+        colors->view.unk_092 += (u8)((0x20 - colors->view.unk_092) / event->timer22);
         fade_ticks = (s16)(event->timer22 - 1);
         event->timer22 = fade_ticks;
         if (fade_ticks <= 0) {

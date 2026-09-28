@@ -69,12 +69,6 @@ typedef struct S_80170E54_9 {
 
 
 
-typedef struct {
-    u8 pad0[0xC];
-    u16 flags;
-    u8 padE[6];
-} DungeonRecord;
-
 extern s32 func_8003DE58(void *, void *, void *, s32);
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
@@ -215,7 +209,7 @@ normal_state:
         if (!(((EntityRec *)arg3)->unk_46 & 0x8000)) {
             if (dungeonStatus.flags & 0x2000) {
                 if ((func_8009A180(arg3,
-                        (u8 *)((EntityRec *)D_800814A8)->unk_58 + 0x20) << 16) != 0) {
+                        (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
                     return;
                 }
             }

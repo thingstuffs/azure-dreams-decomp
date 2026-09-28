@@ -195,7 +195,7 @@ void func_8017140C(void *actor, void *actor_context, void *sprite, void *creatur
         if (!(((S_8017140C_1 *)creature)->unk_46 & 0x8000)) {
             if (dungeonStatus.flags & 0x2000) {
                 if ((func_8009A180(creature,
-                        (u8 *)((EntityRec *)D_800814A8)->unk_58 + 0x20) << 16) != 0) {
+                        (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
                     return;
                 }
             }

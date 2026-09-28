@@ -233,7 +233,7 @@ loop_top:
     target[1] = target_node->unk_04;
     target[2] = (((S_8199AAD4_0 *)self)->unk_38 - 0x50) << 16;
 
-    entry_offset = (gameWork.view.viewAngle + ((EntityRec *)D_800814A8)->facing + 0x100) >> 7;
+    entry_offset = (gameWork.view.viewAngle + D_800814A8->facing + 0x100) >> 7;
     delta_out = delta;
     entry_base = D_800E3D18;
     entry_offset &= 0x1C;

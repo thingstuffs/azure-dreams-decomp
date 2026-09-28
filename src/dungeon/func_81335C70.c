@@ -191,7 +191,7 @@ action_body:
         goto done;
     }
     if ((func_800A2C34(actor) << 0x10) != 0) {
-        if ((func_8009A180(actor, (u8 *)((EntityRec *)D_800814A8)->unk_58 + 0x20) << 0x10) != 0) {
+        if ((func_8009A180(actor, (u8 *)D_800814A8->unk_58 + 0x20) << 0x10) != 0) {
             goto done;
         }
     }

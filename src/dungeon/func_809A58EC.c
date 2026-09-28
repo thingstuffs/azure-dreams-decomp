@@ -203,7 +203,7 @@ void func_8016B0EC(void *actor, void *context, void *sprite, void *creature)
         if (!(((EntityRec *)creature)->unk_46 & 0x8000)) {
             if (dungeonStatus.flags & 0x2000) {
                 if ((func_8009A180(creature,
-                        (u8 *)((EntityRec *)D_800814A8)->unk_58 + 0x20) << 16) != 0) {
+                        (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
                     return;
                 }
             }
@@ -286,7 +286,7 @@ generic:
             }
         }
     } else if ((func_80042900(creature, 4) << 16) == 0) {
-        if (((EntityRec *)D_800814A8)->unk_9A == 0x17) {
+        if (D_800814A8->unk_9A == 0x17) {
             func_8016C358(actor, context, sprite, creature);
         }
     }

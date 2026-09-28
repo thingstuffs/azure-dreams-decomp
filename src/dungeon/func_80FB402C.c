@@ -313,7 +313,7 @@ state_two_active:
         }
         if ((s16)func_800A2C34(actor) != 0) {
             if ((s16)func_8009A180(
-                    actor, (u8 *)((EntityRec *)D_800814A8)->unk_58 + 0x20) != 0) {
+                    actor, (u8 *)D_800814A8->unk_58 + 0x20) != 0) {
                 goto done;
             }
         }

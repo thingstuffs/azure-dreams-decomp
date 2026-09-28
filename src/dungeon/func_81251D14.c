@@ -167,7 +167,7 @@ void func_80171514(void *obj, void *motion, void *part, void *state)
         if ((((S_80171514_0 *)state)->unk_46 & 0x8000) == 0) {
             if (dungeonStatus.flags & 0x2000) {
                 if ((s16)func_8009A180(
-                        state, (u8 *)((EntityRec *)D_800814A8)->unk_58 + 0x20) != 0) {
+                        state, (u8 *)D_800814A8->unk_58 + 0x20) != 0) {
                     return;
                 }
             }

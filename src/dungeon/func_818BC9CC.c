@@ -132,7 +132,7 @@ s32 func_818BC9CC(S_func_818BC9CC_0 *effect, S_func_818BC9CC_1 *position)
     S_func_818BC9CC_4 *draw_mode;
     S_func_818BC9CC_4 *draw_mode_2;
     S_func_818BC9CC_5 *render_ctx;
-    S_func_818BC9CC_6 *render_state;
+    GameWork *render_state;
     u32 tag_mask;
     u32 window_tag_mask;
     s32 page_depth;
@@ -153,9 +153,9 @@ s32 func_818BC9CC(S_func_818BC9CC_0 *effect, S_func_818BC9CC_1 *position)
     volatile s16 tile_window[4];
     volatile s16 full_window[4];
 
-    render_state = (S_func_818BC9CC_6 *)((u8 *)(&gameWork));
+    render_state = &gameWork;
     scratch = (S_func_818BC9CC_2 *)0x1F800000;
-    angle = render_state->unk_C8;
+    angle = render_state->view.viewAngle;
     scratch->unk_18 = (u8 *)((S_func_818BC9CC_6 *)((u8 *)(&gameWork)))->unk_00 + 0xB0;
     x_extent = (u32)((func_80064584(angle) >> 4) * effect->unk_08.as_s16) >> 8;
     y_extent = (u32)((func_800644B8(angle) >> 4) * effect->unk_08.as_s16) >> 8;
@@ -164,7 +164,7 @@ s32 func_818BC9CC(S_func_818BC9CC_0 *effect, S_func_818BC9CC_1 *position)
     quad_index = 0;
     addr_mask = 0x00FFFFFF;
     do {
-        render_ctx = render_state->unk_00;
+        render_ctx = render_state->unk_000;
         packet = render_ctx->unk_8D0;
         render_ctx->unk_8D0 = (u8 *)packet + 0x34;
 

@@ -114,10 +114,10 @@ void func_80173CEC(Rec_func_801732A4_arg0 *state, EntityRec *position, Rec_D_800
     S_80173CEC_4 *target_color;
     S_80173CEC_8 *effect_position;
     S_80173CEC_9 *effect_sprite;
-    S_80173CEC_3 *scene_color;
+    GameWork *scene_color;
     S_80173CEC_5 *effect;
 
-    scene_color = ((M2C_UNK *)&gameWork.unk_000);
+    scene_color = &gameWork;
     phase = state->unk_9B;
     if (phase >= 8U) {
         goto done;
@@ -172,9 +172,9 @@ jt_c3:
     return;
 blend_color:
     target_color = (*(void **)((u8 *)(&D_800DCEEC) + func_800498A0(model) * 4));
-    scene_color->unk_A8 = (u8) (scene_color->unk_A8 + ((s32) (target_color->unk_00 - scene_color->unk_A8) / (s16) state->unk_96));
-    scene_color->unk_A9 = (u8) (scene_color->unk_A9 + ((s32) (target_color->unk_01 - scene_color->unk_A9) / (s16) state->unk_96));
-    scene_color->unk_AA = (u8) (scene_color->unk_AA + ((s32) (target_color->unk_02 - scene_color->unk_AA) / (s16) state->unk_96));
+    scene_color->view.unk_090 = (u8) (scene_color->view.unk_090 + ((s32) (target_color->unk_00 - scene_color->view.unk_090) / (s16) state->unk_96));
+    scene_color->view.unk_091 = (u8) (scene_color->view.unk_091 + ((s32) (target_color->unk_01 - scene_color->view.unk_091) / (s16) state->unk_96));
+    scene_color->view.unk_092 = (u8) (scene_color->view.unk_092 + ((s32) (target_color->unk_02 - scene_color->view.unk_092) / (s16) state->unk_96));
     return;
 jt_c4:
     effect = func_8003FC64(0x12);

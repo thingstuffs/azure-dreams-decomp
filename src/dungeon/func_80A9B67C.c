@@ -10,12 +10,6 @@
 #include "shared/entity.h"
 
 
-typedef struct {
-    u8 pad0[0xC];
-    u16 flags;
-    u8 padE[6];
-} DungeonRecord;
-
 extern s32 func_8003DE58(void *, void *, void *, s32);
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
@@ -217,7 +211,7 @@ void func_80170E7C(void *actor, void *position, void *object, void *actor_data)
         if (!(((EntityRec *)actor_data)->unk_46 & 0x8000)) {
             if (dungeonStatus.flags & 0x2000) {
                 if ((func_8009A180(actor_data,
-                        (u8 *)((EntityRec *)D_800814A8)->unk_58 + 0x20) << 16) != 0) {
+                        (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
                     return;
                 }
             }

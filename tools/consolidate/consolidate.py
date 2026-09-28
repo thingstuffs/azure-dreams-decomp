@@ -370,7 +370,7 @@ def rewrite_pointers(text, obj, mode="direct", allow_pinned=False):
                                lambda m: vmember(m.group(2), m.group(3), m.string, m.start(), m.end(), bool(m.group(1))), new)
                 if pview is not None:
                     new = sub_code(r"(&\s*)?(?<![\w.>])%s\s*->\s*(\w+)" % p,
-                                   lambda m: vmember(ptype, m.group(2), m.string, m.start(), m.end(), bool(m.group(1))), new) if mode == "direct" else new
+                                   lambda m: vmember(ptype, m.group(2), m.string, m.start(), m.end(), bool(m.group(1))), new) if (mode == "direct" or ptype != obj.get("type")) else new   # p9: typed mode maps a local view's members too
                 # 3. *(T *)(p + k) / *(T *)((u8 *)p + k) / *(T *)p
                 def arith(m):
                     cty, sz, sg = cty_of(m.group(1)); inner = m.group(2).strip()

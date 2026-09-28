@@ -102,9 +102,9 @@ jt_c0:
         D_800273C0 = ((S_8002401C_0 *)object_bytes)->unk_00.s;
         D_8002732C = source_obj;
 
-        ((EntityRec *)D_800814A8)->unk_F4 = 0;
-        ((EntityRec *)D_800814A8)->unk_102 = 1;
-        ((EntityRec *)D_800814A8)->unk_A8 = ((S_8002401C_0 *)object_bytes)->unk_08;
+        D_800814A8->unk_F4 = 0;
+        D_800814A8->unk_102 = 1;
+        D_800814A8->unk_A8 = ((S_8002401C_0 *)object_bytes)->unk_08;
 
         clear_row = D_800274DC;
         do {

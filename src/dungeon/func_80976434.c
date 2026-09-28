@@ -194,7 +194,7 @@ active:
             u8 *turn_data;
             {
                 u8 *target_position = D_80082E80_initial;
-                s32 target_facing = ((u16)((EntityRec *)D_800814A8)->facing);
+                s32 target_facing = ((u16)D_800814A8->facing);
                 s32 offset_index =
                     ((((S_80171C34_1 *)actor_data)->unk_45 + ((s16)target_facing >> 9)) & 7) << 1;
                 target_x = target_position[0x24] +
@@ -329,7 +329,7 @@ init_loop:
         if (turn_index == 0 &&
             *(u16 *)(&D_80082E80.tileX) != ((S_80171C34_2 *)position_data)->unk_24.at00u.v) {
             if (func_8009A180(actor_data,
-                    (u8 *)((EntityRec *)D_800814A8)->unk_58 + 0x20) != 0) {
+                    (u8 *)D_800814A8->unk_58 + 0x20) != 0) {
                 do {
                     return;
                 } while (0);

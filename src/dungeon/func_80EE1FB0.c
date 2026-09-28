@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/def_table.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -42,7 +43,6 @@ typedef struct S_801737B0_6 {
 
 extern void *D_80170888[];
 extern void *D_801708A0[];
-extern u8 D_8006DE24[];
 extern u8 D_80171CE8[];
 extern u8 D_80174EB8[];
 
@@ -154,7 +154,7 @@ kind_ready:
         goto copy_facing;
     }
 
-    if (D_8006DE24[*action_data * 0x14 + 0x12] == 2) {
+    if (D_8006DE24[*action_data].kind == 2) {
         direction = (s32)(((EntityRec *)actor)->target);
         if (((void *)direction) != 0) {
 copy_facing:
