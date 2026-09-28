@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/dungeon_status.h"
 
 
@@ -13,7 +14,6 @@ typedef s32 M2C_UNK;
 
 void *func_8003FD64();
 M2C_UNK func_800A56E0();
-extern M2C_UNK D_80083498;
 extern M2C_UNK D_800C4C00;
 
 typedef struct S_800C4D78_0 {
@@ -35,7 +35,7 @@ void func_800C4D78(s32 payload, s16 trigger_event) {
     S_800C4D78_0 *object;
     s16 held_event = trigger_event;
 
-    object = func_8003FD64(0x200, &D_80083498);
+    object = func_8003FD64(0x200, ((M2C_UNK *)&D_80083498.next));
     if (object != NULL) {
         object->unk_26 = 0x20;
         object->unk_10 = &D_800C4C00;

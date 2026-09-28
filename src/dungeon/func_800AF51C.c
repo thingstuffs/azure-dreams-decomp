@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "m2c_compat.h"
 
-extern u8 D_80083498[];
 void *func_8003FD64();
 M2C_UNK func_8004E298();
 M2C_UNK func_8004E5A0();
@@ -100,7 +100,7 @@ void *func_800B4C7C(s32 flags, u8 *source_data, s16 value, u16 callback_mode) {
     void *anchor;
 
     text_stack.arg3 = callback_mode;
-    new_object = func_8003FD64(0x212, D_80083498);
+    new_object = func_8003FD64(0x212, ((u8 *)(&D_80083498)));
     saved_flags = (void *)(u32) flags;
     ASM_KEEP(saved_flags);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     object = new_object;

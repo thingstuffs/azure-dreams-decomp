@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 
 
 typedef void (*Callback)(void);
@@ -45,7 +46,6 @@ extern void func_80172F10(void);
 extern void func_80175258(void);
 extern void func_80175298(void);
 extern void func_80170F6C(void);
-extern u8 D_80083498[];
 
 #ifdef __mips__
 #define BODY_NAME composite_body_80170800
@@ -144,7 +144,7 @@ BODY_STORAGE void *BODY_NAME(void *arg0, s32 arg1, s8 arg2, s16 arg3)
     arg3_role = arg3;
     arg2_role = arg2;
     arg1 = 0x112;
-    created = func_8003FD64(arg1, D_80083498);
+    created = func_8003FD64(arg1, ((u8 *)(&D_80083498)));
     arg0_copy = (s32)arg0;
     if (created != 0) {
         void *init_arg0;

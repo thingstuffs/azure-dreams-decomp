@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/tile_object.h"
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
-#include "records/Rec_D_800814A8.h"
 
 
 typedef s32 M2C_UNK;
@@ -96,7 +96,6 @@ extern M2C_UNK D_80024648;
 extern M2C_UNK D_80024B20;
 extern M2C_UNK D_80024D58;
 extern void *D_80024008[];
-extern u8 D_80083498[];
 
 extern s32 func_8003DE58();
 extern void *func_8003FD64();
@@ -175,7 +174,7 @@ jt_c1: {
             ((S_81988800_4 *)actor)->unk_A6--;
             ((S_81988800_4 *)actor)->unk_A8 = ((S_81988800_0 *)state_data)->unk_08;
 
-            object = func_8003FD64(0x302, D_80083498);
+            object = func_8003FD64(0x302, ((u8 *)(&D_80083498)));
             if (object != 0) {
                 if (func_8003DE58(((S_81988800_12 *)(((S_81988800_3 *)work)->unk_0C))->unk_08,
                                    ((S_81988800_3 *)work)->unk_0C, offset, 0) == 0) {
@@ -229,7 +228,7 @@ jt_c3: {
         if (0) {
         }
         if (((S_81988800_0 *)state_data)->unk_50.s <= 0) {
-            object = func_8003FD64(0x302, D_80083498);
+            object = func_8003FD64(0x302, ((u8 *)(&D_80083498)));
             if (object != 0) {
                 ((S_81988800_5 *)object)->unk_10 = &D_80024B20;
                 func_8004491C(object, &D_80024D58);

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
 
@@ -51,7 +52,6 @@ extern void func_800AA36C();
 extern void func_80170E70(void);
 extern void func_80172654(void);
 
-extern u8 D_80083498[];
 extern u8 D_80170A58[];
 extern u8 D_80174820[];
 extern u8 D_80174860[];
@@ -130,7 +130,7 @@ void *func_80170884(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
     saved_arg1 = arg1;
     saved_arg3 = arg3;
     saved_arg2 = arg2;
-    obj = func_8003FD64(0x112, D_80083498);
+    obj = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((S_80170884_0 *)obj)->unk_10 = D_80170A58;

@@ -6,7 +6,11 @@
  * entity record is the map-grid position bytes at 0x24/0x25 (lbu 351/353: tile distances, func_8009FB34 map
  * lookups; the 0x24 pair is also read as one u16 - a view).  func_800A08A0 keeps new monster spawns more than 0x20
  * tiles away from it - plausibly the player's own record, not yet proven, so the object keeps its address name.
- * Layout generated from the access census (tools/layout.py); size at least 0x144 (last access 0x140). */
+ * Layout generated from the access census (tools/layout.py).  Size 0x40 (r78 phase 6): the next object is the
+ * 128-word table D_80082EC0 (0x80082EC0..0x800830C0; slus code2 func_8003F7E4 clears all 128 words, w_8003D8B0
+ * passes it with count 0x80, w_8003F80C stores (addr & 0xFFFFFF) | (width << 24) into it) - a separate SLUS
+ * object with its own D_ declaration, not a TileObject member (phase 5's unk_040 / unk_140 were that table's
+ * stores seen through the census address range).  No TileObject row reaches past 0x38. */
 typedef struct TileObject {
     /* 0x000 */ int unk_000;              /* lw 1 (1 rows) */
     /* 0x004 */ signed char unk_004;      /* lb 1, lbu 1 (2 rows) */
@@ -37,11 +41,7 @@ typedef struct TileObject {
     /* 0x034 */ int unk_034;              /* lw 10, sw 3 (6 rows) */
     /* 0x038 */ int unk_038;              /* lhu 1, lw 1, sw 9 (5 rows) */
     /* 0x03C */ unsigned char pad_03C[0x4];
-    /* 0x040 */ int unk_040;              /* sw 1 (1 rows) */
-    /* 0x044 */ unsigned char pad_044[0xFC];
-    /* 0x140 */ int unk_140;              /* sw 1 (1 rows) */
-    /* 0x144 */ unsigned char pad_144[0x0];
-} TileObject;
+} TileObject;                             /* 0x40: bounded by the separate table at 0x80082EC0 (below) */
 
 extern TileObject D_80082E80;
 

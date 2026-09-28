@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
@@ -82,7 +83,6 @@ typedef struct {
     s32 d;
 } Copy4;
 
-extern u8 D_80083498[];
 extern void *D_80170898[];
 extern M2C_UNK D_80173EB4;
 extern s32 func_8003DE58();
@@ -104,7 +104,7 @@ void func_80170B50(void *owner_data, S_80170B50_5 *base_position, void *sprite_t
     void *copy_src;
 
     saved_offset_id = offset_id;
-    object = func_8003FD64(0x112, D_80083498);
+    object = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
     if (object != NULL) {
         object_data = object + 0x20;
         ((S_80170B50_0 *)object)->unk_10 = D_80170898;

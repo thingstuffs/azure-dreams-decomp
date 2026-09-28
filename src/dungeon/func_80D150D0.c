@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -126,7 +127,6 @@ extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
 extern void func_800C8788(void *, void *);
 
-extern s32 D_80083498;
 extern s8 D_800DCECC[];
 extern u8 D_80170000[];
 extern u8 D_80170AD0[];
@@ -235,7 +235,7 @@ allocate_effect:
 #ifdef __mips__
     call_data = (void *)0x80080000;
 #else
-    call_data = (u8 *)&D_80083498 - 0x3498;
+    call_data = (u8 *)(&D_80083498.next) - 0x3498;
 #endif
     ASM_KEEP(call_data);
     call_data = (u8 *)call_data + 0x3498;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
 
@@ -49,7 +50,6 @@ typedef struct S_80158854_4 {
 } S_80158854_4;   /* actor in func_80158854 */
 
 
-extern u8 D_80083498[];
 extern u8 D_80158A8C[];
 extern u8 D_8015BD30[];
 extern u8 D_8015BD78[];
@@ -88,7 +88,7 @@ BODY_STORAGE void *func_80158854(s16 flags, s16 kind_id, s16 variant, s16 spawn_
 
     result = 0;
     mode = 1;
-    object = func_8003FD64(274, D_80083498);
+    object = func_8003FD64(274, ((u8 *)(&D_80083498)));
     if (object == 0) {
         goto done;
     }

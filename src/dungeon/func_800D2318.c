@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
@@ -76,7 +77,6 @@ typedef struct {
     u16 count;
 } DungeonCounter;
 
-extern u8 D_80083498[];
 extern u8 D_800DEA68[];
 extern u8 D_800D7D30[];
 
@@ -125,7 +125,7 @@ spawn_objects:
         DungeonTemplate *object_template = (DungeonTemplate *)D_800DEA68;
 
         do {
-            DungeonObject *object = func_8003FD64(0x312, D_80083498);
+            DungeonObject *object = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
             if (object != NULL) {
                 object->unk10 = (DungeonInner *)object_data;
                 object_counter->count += 1;

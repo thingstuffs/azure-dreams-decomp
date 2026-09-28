@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
 
@@ -49,7 +50,6 @@ typedef struct S_8015E854_4 {
 } S_8015E854_4;   /* temp_s3 in func_8015E854 */
 
 
-extern u8 D_80083498[];
 extern u8 D_8015EA8C[];
 extern u8 D_80161D30[];
 extern u8 D_80161D78[];
@@ -87,7 +87,7 @@ BODY_STORAGE void *func_8015E854(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
 
     var_s1 = 0;
     var_s5 = 1;
-    temp_v0 = func_8003FD64(274, D_80083498);
+    temp_v0 = func_8003FD64(274, ((u8 *)(&D_80083498)));
     if (temp_v0 == 0) {
         goto done;
     }

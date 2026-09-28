@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
 #ifndef NULL
@@ -94,7 +95,6 @@ extern u8 D_80026C54[];
 extern u8 D_80026F50[];
 extern s32 D_80053858[4];
 extern s32 D_80053A88;
-extern u8 D_80083498[];
 extern u8 D_800F7968[];
 
 extern void func_80026CE4(s32);
@@ -183,7 +183,7 @@ create_child:
     callback = D_80026B78;
     row_y = 0x2C;
     do {
-        object = func_8003FD64(1, D_80083498);
+        object = func_8003FD64(1, ((u8 *)(&D_80083498)));
         left_state = (u8 *)object + 0x20;
         if (object != NULL) {
             ((S_800254A4_0 *)object)->unk_10 = callback;
@@ -218,7 +218,7 @@ create_child:
     callback = D_80026BC4;
     row_y = 0x2C;
     do {
-        object = func_8003FD64(1, D_80083498);
+        object = func_8003FD64(1, ((u8 *)(&D_80083498)));
         right_state = (u8 *)object + 0x20;
         if (object != NULL) {
             ((S_800254A4_0 *)object)->unk_10 = callback;
@@ -250,7 +250,7 @@ next_right_row:
         row_y -= 0xC;
     } while (index >= 0);
 
-    object = func_8003FD64(1, D_80083498);
+    object = func_8003FD64(1, ((u8 *)(&D_80083498)));
     if (object != NULL) {
         ((S_800254A4_0 *)object)->unk_10 = D_80026C54;
         func_8004491C(object, &D_80053A88);

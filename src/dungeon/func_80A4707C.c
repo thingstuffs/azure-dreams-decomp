@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
 typedef struct S_8017087C_0 {
@@ -96,7 +97,6 @@ extern void *func_80170A7C(void);
 extern void func_80170BB8(void *, void *, void *);
 extern void func_8017140C(void *, void *, void *, void *);
 
-extern u8 D_80083498[];
 extern u8 D_800D71A8[];
 extern u8 D_8017586C[];
 extern u8 D_80175894[];
@@ -129,7 +129,7 @@ void *func_8017087C(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id)
     saved_x = tile_x;
     saved_part_id = part_id;
     saved_y = tile_y;
-    obj = func_8003FD64((s32)alloc_or_entry, D_80083498);
+    obj = func_8003FD64((s32)alloc_or_entry, ((u8 *)(&D_80083498)));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((S_8017087C_0 *)obj)->unk_10 = func_80170BB8;
@@ -196,7 +196,7 @@ init_parts:
         do {
             void *child_obj;
 
-            child_obj = func_8003FD64(274, D_80083498);
+            child_obj = func_8003FD64(274, ((u8 *)(&D_80083498)));
             ((S_8017087C_4 *)slot)->unk_A4 = child_obj;
             if (child_obj != 0) {
                 void *child_work = (u8 *)child_obj + 0x20;

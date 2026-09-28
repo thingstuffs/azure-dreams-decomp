@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
 #include "shared/object_flags.h"
@@ -63,7 +64,6 @@ typedef struct {
 } CopyDestination __attribute__((packed));
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern u8 D_80083498[];
 s32 func_8003DE58();       /* extern */
 void *func_8003FD64();                 /* extern */
 s32 func_800644B8(s32, s16 *); /* extern */
@@ -112,7 +112,7 @@ approach_target:
         effects_left = 0;
         position->unk_08.at00.v = (s32) (position->unk_08.at00.v - (func_800644B8(((s16) ((S_800244BC_0 *)object)->unk_48 << 0xB) / 10, ((s16 *)(&D_80083780))) << 9));
         do {
-            effect = func_8003FD64(0x302, D_80083498);
+            effect = func_8003FD64(0x302, ((u8 *)(&D_80083498)));
             effect_data = effect + 0x20;
             if (effect != NULL) {
                 ((S_800244BC_3 *)effect)->unk_10 = &D_80024E4C;

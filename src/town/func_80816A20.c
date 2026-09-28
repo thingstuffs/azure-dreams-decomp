@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
 typedef struct TownDraw24 {
@@ -77,7 +78,6 @@ extern void *D_80026F08[];
 extern s16 D_800272A0[];
 extern s16 D_800272B0[];
 extern s32 D_800272C0[];
-extern u8 D_80083498[];
 extern u8 D_800F2F28[];
 
 extern void func_800206F4(void *, TownDraw32 *);
@@ -112,13 +112,13 @@ s32 func_80020A20(void)
     func_8003E188(0x3D, root_part);
     func_8003E188(0x3E, root_part);
 
-    object = func_8003FD64(1, D_80083498);
+    object = func_8003FD64(1, ((u8 *)(&D_80083498)));
     if (object != 0) {
         root_part = &object->part;
         object->callback = func_8002191C;
     }
 
-    object = func_8003FD64(0x136, D_80083498);
+    object = func_8003FD64(0x136, ((u8 *)(&D_80083498)));
     root_part->child = object;
     if (object != 0) {
         object->callback = func_80020DF0;

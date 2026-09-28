@@ -6,7 +6,6 @@
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
-#include "records/Rec_D_800814A8.h"
 
 typedef struct S_8002401C_0 {
     union { void * s; u8 * u; } unk_00;   /* accessed as both */

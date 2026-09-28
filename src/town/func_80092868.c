@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
 
@@ -68,7 +69,6 @@ extern s16 func_800C2AE8(ScenePos *scene);
 extern TownState D_8006ADBC;
 extern s16 D_8006ADD4;
 extern s32 D_80080A80;
-extern u8 D_80083498[];
 extern u8 D_8008FFC0[];
 extern u8 D_800903FC[];
 extern u8 D_800970FC[];
@@ -115,7 +115,7 @@ void func_8008FFC8(void)
         return;
     }
 
-    object = func_8003FE78(0, D_80083498, 0x22);
+    object = func_8003FE78(0, ((u8 *)(&D_80083498)), 0x22);
     object->scene = scene;
     object->render = render;
 

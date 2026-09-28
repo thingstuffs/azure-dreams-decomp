@@ -1,6 +1,6 @@
 #include "common.h"
 #include "shared/dungeon_status.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 
@@ -28,7 +28,7 @@ s32 func_8016B954(Rec_func_800A9E70_arg0 *action_state, s32 action_id, Rec_D_800
     volatile u64 frame_pad;
     s32 target_direction;
 
-    ((Rec_D_800E3D7C *)actor)->unk_71.as_u8 &= 0x7F;
+    ((EntityRec *)actor)->unk_71 &= 0x7F;
 
     if (dungeonStatus.flags & 0x2000) {
         goto shared_failure;
@@ -38,7 +38,7 @@ s32 func_8016B954(Rec_func_800A9E70_arg0 *action_state, s32 action_id, Rec_D_800
         actor,
         target->unk_24,
         target->unk_25,
-        ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16);
+        ((EntityRec *)actor)->facing);
 
     if ((func_800A2CB8(actor, target_direction) << 16) == 0) {
         return 0;
@@ -48,7 +48,7 @@ s32 func_8016B954(Rec_func_800A9E70_arg0 *action_state, s32 action_id, Rec_D_800
         return -1;
     }
 
-    if (!(((Rec_D_800E3D7C *)actor)->unk_44.at02_u16.v & 0x8000) &&
+    if (!(((EntityRec *)actor)->unk_46 & 0x8000) &&
         (dungeonStatus.flags & 8)) {
         return -1;
     }
@@ -74,11 +74,11 @@ success:
     action_state->unk_9A.as_s8 = 0x11;
     action_state->unk_9B.as_s8 = 0;
     action_state->unk_8C = 0;
-    ((Rec_D_800E3D7C *)actor)->unk_84.as_u8 = 0x80;
-    ((Rec_D_800E3D7C *)actor)->unk_85.as_s8 = 32;
-    ((Rec_D_800E3D7C *)actor)->unk_6D.as_u8--;
+    *(unsigned char *)&((EntityRec *)actor)->unk_84 = 0x80;
+    ((EntityRec *)actor)->unk_85 = 32;
+    ((EntityRec *)actor)->unk_6D--;
 
-    func_8009C93C(actor, target, ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16, 1, 0);
+    func_8009C93C(actor, target, ((EntityRec *)actor)->facing, 1, 0);
     return 1;
 }
 

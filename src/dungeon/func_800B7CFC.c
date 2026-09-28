@@ -4,7 +4,6 @@
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_800E3D7C.h"
 
 M2C_UNK func_80042B68();             /* extern */
 M2C_UNK func_8008D330(); /* extern */

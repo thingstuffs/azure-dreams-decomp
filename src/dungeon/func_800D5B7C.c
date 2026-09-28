@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 
 
 
@@ -23,7 +24,6 @@ typedef struct S_800DB2DC_7 {
     (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern void *func_8003FD64();
-extern M2C_UNK D_80083498;
 extern M2C_UNK D_800DB420;
 
 typedef struct S_800DB2DC_0 {
@@ -103,7 +103,7 @@ void func_800DB2DC(S_800DB2DC_4 *position, S_800DB2DC_2 *source_visual, void *so
     do {
         effects_left = 3;
         do {
-            effect = func_8003FD64(0x312, &D_80083498, effect);
+            effect = func_8003FD64(0x312, ((M2C_UNK *)&D_80083498.next), effect);
             if (effect != 0) {
                 ((S_800DB2DC_0 *)effect)->unk_10 = callback;
                 visual = ((S_800DB2DC_0 *)effect)->unk_0C;

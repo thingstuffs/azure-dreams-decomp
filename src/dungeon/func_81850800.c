@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
@@ -11,7 +12,6 @@ extern void func_800A56E0(s32);
 extern s16 func_800BCB04(s32, s32, s32);
 
 extern u8 D_800247DC[];
-extern s32 D_80083498;
 extern u8 D_800DE9D0[];
 extern u8 D_800DEC28[];
 
@@ -239,7 +239,7 @@ BODY_STORAGE void BODY_NAME(S_81850800_0 *owner, S_81850800_7 *motion, S_8185080
     S_81850800_1 *target;
     union { S_81850800_11 * pointer; s32 value; } effect_data;
     S_81850800_5 *position;
-    u8 *spawn_cb;
+    ObjectNodeHeader *spawn_cb;
     S_81850800_10 *particle_anim;
     u8 *step_x_table;
     u8 *step_y_table;
@@ -416,7 +416,7 @@ state_1:
         motion->unk_08.unk_0A_view_u16.unk_0A_u16 =
             ((S_81850800_7 *)work->unk_08.unk_08_ptr)->unk_08.unk_0A_view_u16.unk_0A_u16;
     }
-    spawn_cb = (u8 *)&D_80083498;
+    spawn_cb = &D_80083498;
     obj = func_8003FD64(0x112, spawn_cb);
     if (obj == 0) {
         goto state_1_after_first;
@@ -506,7 +506,7 @@ state_1_loop_setup:
     effect_flags = D_800247DC;
     particle_anim = (S_81850800_10 *)D_800DEC28;
 loop_0: {
-    obj = func_8003FD64(0x312, &D_80083498);
+    obj = func_8003FD64(0x312, ((s32 *)&D_80083498.next));
     if (obj == 0) {
         goto state_1_loop_next;
     }

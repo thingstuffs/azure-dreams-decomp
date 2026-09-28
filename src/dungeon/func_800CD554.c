@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "m2c_compat.h"
 
 M2C_UNK func_8003DB94();  /* extern */
@@ -9,7 +10,6 @@ M2C_UNK func_8009A21C();             /* extern */
 s8 func_8009FB34();                           /* extern */
 M2C_UNK func_800A2B04();              /* extern */
 s16 func_800BCB04();                   /* extern */
-extern M2C_UNK D_80083498;
 extern M2C_UNK D_800D2E9C;
 extern M2C_UNK D_800D3140;
 extern M2C_UNK D_800D36D0;
@@ -84,7 +84,7 @@ void *func_800D2CB4(s16 object_kind, u16 tile_x, u16 tile_y, s16 height) {
     saved_x = tile_x;
     saved_height = height;
     saved_y = tile_y;
-    object = func_8003FD64(0x112, &D_80083498);
+    object = func_8003FD64(0x112, ((M2C_UNK *)&D_80083498.next));
     if (object != NULL) {
         state = object + 0x20;
         state->unk_13 = 0x34;

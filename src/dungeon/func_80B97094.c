@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
 typedef struct S_80170894_0 {
@@ -54,7 +55,6 @@ extern void func_80170E9C(void);
 extern void func_80174ED8(void);
 extern void func_80174F00(void);
 
-extern u8 D_80083498[];
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
 void *func_80170894(s32 spawn_flags, s8 attr_a, s16 attr_b, s16 attr_c)
@@ -69,13 +69,13 @@ void *func_80170894(s32 spawn_flags, s8 attr_a, s16 attr_b, s16 attr_c)
     void *part_a;
     s16 flags_copy;
     s32 call_id;
-    const void *call_target;
+    ObjectNodeHeader *call_target;
 
     held_flags = spawn_flags;
     work = 0;
     call_id = 0x112;
     held_a = attr_a;
-    call_target = D_80083498;
+    call_target = &D_80083498;
     held_c = attr_c;
     held_b = attr_b;
     obj = func_8003FD64(call_id, call_target);

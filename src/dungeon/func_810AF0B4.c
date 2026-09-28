@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/record_ptrs.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
@@ -6,7 +7,6 @@
 #include "m2c_compat.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
-#include "records/Rec_D_800814A8.h"
 
 typedef struct S_801728B4_0 {
     u8 pad_00[0x8C];
@@ -98,7 +98,6 @@ M2C_UNK func_800A56E0();
 s32 func_800A94A0(void *, u8 *, s32, void *);
 typedef struct { u8 pad[0x12]; u8 kind; u8 pad2; } ItemDef20;
 extern ItemDef20 D_8006DE24[];
-extern M2C_UNK D_80083498;
 extern M2C_UNK D_800D7960;
 extern M2C_UNK D_80170E54;
 extern u8 D_80173C6C[];
@@ -235,7 +234,7 @@ block_33:
     ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = (u16) (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xF7FF);
     func_800A56E0(0x703);
     ((S_801728B4_0 *)actor)->unk_9B = (u8) (((S_801728B4_0 *)actor)->unk_9B + 1);
-    new_effect = func_8003FD64(0x112, &D_80083498);
+    new_effect = func_8003FD64(0x112, ((M2C_UNK *)&D_80083498.next));
     ((S_801728B4_0 *)actor)->unk_A0 = new_effect;
     if (new_effect == NULL) {
         goto block_56;

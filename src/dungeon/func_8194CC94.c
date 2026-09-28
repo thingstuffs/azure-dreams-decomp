@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "shared/game_work.h"
 
 struct S_80083178
@@ -49,7 +50,6 @@ typedef int s32;
 typedef s32 M2C_UNK;
 extern void *func_8003FD64();
 extern M2C_UNK D_800240F0;
-extern M2C_UNK D_80083498;
 /* Allocate an effect and initialize its state and sprite. */
 void func_80024494(s32 effect_data, s32 effect_param, s32 render_param)
 {
@@ -57,7 +57,7 @@ void func_80024494(s32 effect_data, s32 effect_param, s32 render_param)
   void *effect;
   void *state;
   void *sprite;
-  effect = func_8003FD64(0x12, &D_80083498);
+  effect = func_8003FD64(0x12, ((M2C_UNK *)&D_80083498.next));
   if (effect != 0)
   {
     *((M2C_UNK **) (((s8 *) effect) + 0x10)) = &D_800240F0;
@@ -66,7 +66,7 @@ void func_80024494(s32 effect_data, s32 effect_param, s32 render_param)
     *((s16 *) (((s8 *) state) + 0xC)) = 0;
     *((s16 *) (((s8 *) state) + 0xE)) = 0;
     *((s32 *) (((s8 *) effect) + 0x20)) = effect_data;
-    *((M2C_UNK **) (((s8 *) state) + 4)) = &D_80083498;
+    *((M2C_UNK **) (((s8 *) state) + 4)) = ((M2C_UNK *)&D_80083498.next);
     *((s32 *) (((s8 *) state) + 8)) = effect_param;
     sprite = *((void **) (((s8 *) effect) + 0xC));
     *((s8 *) (((s8 *) sprite) + 0xE)) = color;

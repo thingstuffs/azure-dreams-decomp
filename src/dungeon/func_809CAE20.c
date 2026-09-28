@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -71,7 +72,6 @@ extern void func_800A4ACC(void *);
 extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
 
-extern u8 D_80083498[];
 extern u8 D_800D7960[];
 extern void *D_800E3DE8;
 extern u8 D_80170E54;
@@ -139,7 +139,7 @@ state_zero:
 state_one:
     if ((((Rec_D_80082E80 *)sprite)->unk_04.as_s8 == 2) &&
         (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x1000)) {
-        allocated_effect = func_8003FD64(0x112, D_80083498);
+        allocated_effect = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
         ((S_80172620_0 *)action)->unk_A4.s = allocated_effect;
         effect = allocated_effect;
         if (effect != 0) {

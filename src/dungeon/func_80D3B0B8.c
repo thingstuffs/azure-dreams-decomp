@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
 
@@ -80,7 +81,6 @@ extern void func_8004491C(void *, void *);
 extern void func_80047784(void *, u8, s32);
 extern void func_800BC26C(void *, s32, void *, void *);
 
-extern u8 D_80083498[];
 extern u8 D_800D5594[];
 extern s8 D_800DCECC[];
 extern u8 D_800E23F0[];
@@ -96,7 +96,7 @@ void func_80D3B0B8(u8 *owner_data, u8 *source_position, u8 *source_sprite) {
     Copy16 *copy_end;
     u8 *direction_table;
 
-    object = func_8003FD64(0x112, D_80083498);
+    object = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
     object_data = object + 0x20;
     if (object != 0) {
         ((S_80D3B0B8_0 *)object_data)->unk_96 = 0x78;

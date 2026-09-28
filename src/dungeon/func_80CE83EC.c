@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
 typedef struct S_80171BEC_0 {
@@ -64,7 +65,6 @@ extern s32 func_8003DE58(s32, void *, Offset3 *, s32);
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
 
-extern s32 D_80083498;
 extern u8 D_80171A38;
 extern Packed3 D_80175EE8;
 
@@ -77,7 +77,7 @@ void func_80171BEC(void *attachment, S_80171BEC_3 *base_position)
     void *owner;
     S_80171BEC_2 *position;
 
-    object = func_8003FD64(0x212, &D_80083498);
+    object = func_8003FD64(0x212, ((s32 *)&D_80083498.next));
     if (object != 0) {
         ((S_80171BEC_0 *)object)->unk_40 = attachment;
         ((S_80171BEC_0 *)object)->unk_10 = &D_80171A38;

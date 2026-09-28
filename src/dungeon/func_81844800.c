@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80016000.h"
@@ -157,7 +158,6 @@ typedef struct Vec3 {
 } Vec3;
 
 
-extern u8 D_80083498[];
 extern u8 D_800DEA68[];
 extern u8 D_800DECF8[];
 
@@ -271,7 +271,7 @@ BODY_STORAGE void BODY_NAME(void *effect, void *motion, void *source_render) {
         particles_left = 12;
         sprite_page = D_800DEA68;
         do {
-            spawned = func_8003FD64(0x312, &D_80083498);
+            spawned = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
             if (spawned != 0) {
                 particle_data = (u8 *)spawned + 0x20;
                 sprite = ((S_81844800_2 *)spawned)->unk_0C;
@@ -435,7 +435,7 @@ case2_nonzero:
 
 case3:
     if ((((S_81844800_0 *)effect)->unk_52.s & 0x7FFF) == 0) {
-        spawned = func_8003FD64(0x201, &D_80083498);
+        spawned = func_8003FD64(0x201, ((u8 *)(&D_80083498)));
         if (spawned != 0) {
             S_81844800_12 *burst_data = (u8 *)spawned + 0x20;
             ((S_81844800_2 *)spawned)->unk_10 = func_8002472C;
@@ -462,7 +462,7 @@ case3:
     }
     particles_left = 20;
     do {
-        spawned = func_8003FD64(0x312, &D_80083498);
+        spawned = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
         if (spawned != 0) {
             particle_data = (u8 *)spawned + 0x20;
             sprite = ((S_81844800_2 *)spawned)->unk_0C;

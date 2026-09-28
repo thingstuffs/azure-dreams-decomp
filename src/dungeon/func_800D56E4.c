@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
 
@@ -21,7 +22,6 @@ typedef struct S_800DAE44_4 {
 
 void *func_8003FD64();            /* extern */
 s16 func_800BCB04();                   /* extern */
-extern M2C_UNK D_80083498;
 extern M2C_UNK D_800DAEF4;
 
 typedef struct S_800DAE44_0 {
@@ -42,7 +42,7 @@ void func_800DAE44(EntityRec *source_pos, s16 initial_value) {
     S_800DAE44_2 *object_data;
     void *object;
 
-    object = func_8003FD64(0x312, &D_80083498);
+    object = func_8003FD64(0x312, ((M2C_UNK *)&D_80083498.next));
     if (object != NULL) {
         ((S_800DAE44_0 *)object)->unk_10 = &D_800DAEF4;
         ((S_800DAE44_4 *)(((S_800DAE44_3 *)object)->unk_08))->unk_02 = (u16) ((u16)source_pos->x.w.i);

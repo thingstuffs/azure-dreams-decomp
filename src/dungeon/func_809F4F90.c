@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -99,7 +100,6 @@ extern void func_800A4ACC(void *);
 extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
 
-extern s32 D_80083498;
 extern u8 D_800DEC28[];
 extern void *D_800E3DE8;
 extern u8 D_80171400[];
@@ -156,7 +156,7 @@ void func_80172790(void *action, void *motion, void *tile, void *actor)
         heading_byte = 15;
         particle_x_offset = (x_step << 5) - 8;
         do {
-            particle = func_8003FD64(0x312, &D_80083498);
+            particle = func_8003FD64(0x312, ((s32 *)&D_80083498.next));
             if (particle != NULL) {
                 func_8004491C(particle, func_80045340);
                 particle_motion = (u8 *)particle + 0x20;

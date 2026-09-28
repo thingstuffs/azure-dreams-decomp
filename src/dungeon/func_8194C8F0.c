@@ -5,7 +5,6 @@
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
-#include "records/Rec_D_800814A8.h"
 
 
 extern void func_8004491C(void *, void *);

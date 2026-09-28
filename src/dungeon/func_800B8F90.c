@@ -5,7 +5,6 @@
 #include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
-#include "records/Rec_D_800E3D7C.h"
 
 typedef struct S_800BE6F0_0_pre {
     void * unk_00;

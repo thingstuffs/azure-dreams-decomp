@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 
 #ifndef NULL
 #define NULL 0
@@ -34,7 +35,6 @@ typedef struct {
 
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
-extern u8 D_80083498[];
 extern void D_8002222C(void);
 
 __asm__(".set D_8002222C, 0x8002222C");
@@ -46,7 +46,7 @@ void func_80020948(s32 effect_param, Vec3s *vectors, Color *colors, s32 sub_para
     EffectSub *sub;
     s32 pair_index;
 
-    effect = func_8003FD64(1, D_80083498);
+    effect = func_8003FD64(1, ((u8 *)(&D_80083498)));
     if (effect != NULL) {
         sub = &effect->sub;
         sub->field24 = sub_param;

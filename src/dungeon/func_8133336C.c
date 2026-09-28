@@ -5,7 +5,6 @@
 #include "shared/dungeon_status.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "shared/entity.h"
-#include "records/Rec_D_800814A8.h"
 typedef s32 M2C_UNK;
 
 typedef struct S_8016A36C_0 {

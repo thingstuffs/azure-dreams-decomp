@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
 #include "shared/entity.h"
@@ -6,7 +7,6 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
-#include "records/Rec_D_800E3D7C.h"
 
 typedef struct S_80175CD8_0 {
     u8 pad_00[0x8C];
@@ -65,7 +65,6 @@ extern s32 D_80012090;
 extern s16 D_80081468[3];
 extern s16 D_8008146C;
 extern u8 D_80082E6B;
-extern u8 D_80083498[];
 extern s16 D_800DCED4[];
 extern u8 D_800E2348[];
 extern u8 D_800E2368[];
@@ -323,7 +322,7 @@ state_7:
 
         player_flags = ((S_80175CD8_6 *)player)->unk_14 & 0xFFEFFFFF;
         ASM_KEEP(player_flags);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        scene = D_80083498;
+        scene = ((u8 *)(&D_80083498));
         scene += 0x20;
         ((S_80175CD8_6 *)player)->unk_14 = player_flags;
         height = ((u16)D_80083780.z.w.i) - ((S_80175CD8_5 *)scene)->unk_88.s;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -19,7 +20,6 @@ extern s32 func_8009D218(s32, s32, void *);
 extern void func_800C8900(s32, s32, s32);
 
 
-extern u8 D_80083498[];
 extern u8 D_80024C7C[];
 extern u8 D_80024B60[];
 extern u8 D_80024798[];
@@ -108,7 +108,7 @@ state_other:
 set_distance:
         distance = count;
         while (distance >= 0) {
-            particle = (u8 *)func_8003FD64(786, D_80083498);
+            particle = (u8 *)func_8003FD64(786, ((u8 *)(&D_80083498)));
             if (particle != 0) {
                 func_8004491C(particle, func_80045340);
                 render_data = (u8 *)S32(particle, 12);
@@ -282,7 +282,7 @@ mode_2: {
             U16(effect, 82) = frame_counter;
             if (S16(effect, 80) == mode) {
                 if (S32(actor, 96) != 0) {
-                    particle = (u8 *)func_8003FD64(770, D_80083498);
+                    particle = (u8 *)func_8003FD64(770, ((u8 *)(&D_80083498)));
                     if (particle != 0) {
                         func_8004491C(particle, D_80024C7C);
                         S32(particle, 16) = (s32)D_80024B60;

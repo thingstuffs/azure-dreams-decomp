@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 
 typedef struct S_80170890_0 {
     u8 pad_00[0x8];
@@ -57,7 +58,6 @@ extern void func_800A9C18(void *, void *, void *, s32);
 extern void func_800672D8(void *, void *);
 extern void func_800AA36C(void *, void *, void *, void *);
 
-extern u8 D_80083498[];
 extern s32 D_80045340;
 extern u8 D_80170AE8[];
 extern u8 D_80176460[];
@@ -80,7 +80,7 @@ void *func_80170890(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
     s16 saved_spawn = spawn_value;
     s8 saved_variant = variant;
 
-    obj = func_8003FD64(274, D_80083498);
+    obj = func_8003FD64(274, ((u8 *)(&D_80083498)));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((S_80170890_0 *)obj)->unk_10 = D_80170AE8;

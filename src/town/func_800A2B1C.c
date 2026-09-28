@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "m2c_compat.h"
 
 void *func_8003FD64();            /* extern */
@@ -7,7 +8,6 @@ M2C_UNK func_8008F0D4();   /* extern */
 M2C_UNK func_8009B218(); /* extern */
 M2C_UNK func_800A022C(); /* extern */
 extern M2C_UNK D_8006E240;
-extern M2C_UNK D_80083498;
 extern M2C_UNK D_8009DEBC;
 extern M2C_UNK D_800D073C;
 extern M2C_UNK D_800D0754;
@@ -79,7 +79,7 @@ void *func_800A027C(S_800A027C_5 *config, S_800A027C_2 *position) {
     void *object;
     s32 graphic;
 
-    object = func_8003FD64(0x136, &D_80083498);
+    object = func_8003FD64(0x136, ((M2C_UNK *)&D_80083498.next));
     if (object == NULL) {
         return NULL;
     }

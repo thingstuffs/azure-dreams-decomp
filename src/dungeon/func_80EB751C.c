@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -81,7 +82,6 @@ extern void func_800A2B04(void *, s32, s32);
 extern void func_800AAA54(void *, void *, void *, void *);
 extern void func_800AD4D0(void *);
 
-extern u8 D_80083498[];
 extern u8 D_801711A4[];
 extern u8 D_8017406C[];
 extern u8 D_8017418C[];
@@ -114,7 +114,7 @@ void func_80172D1C(void *actor, void *motion, void *sprite, void *entity) {
         particle_or_dir_index = 6;
         particle_update = D_8017406C;
         do {
-            particle = func_8003FD64(0x312, D_80083498);
+            particle = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
             if (particle != 0) {
                 func_8004491C(particle, func_80045340);
                 particle_sprite = ((S_80172D1C_1 *)particle)->unk_0C;

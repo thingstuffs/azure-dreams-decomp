@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "m2c_compat.h"
 
 void *func_8003FD64();            /* extern */
 M2C_UNK func_8004491C();           /* extern */
 extern s32 D_80045C34[4];
-extern s32 D_80083498[4];
 extern s32 D_800C1718[4];
 extern s32 D_800DF3C0[4];
 
@@ -45,7 +45,7 @@ void *func_800C1A44(s32 tile_x, s32 tile_y, s32 z) {
     S_800C1A44_2 *render_state;
     S_800C1A44_3 *object_state;
 
-    object = func_8003FD64(0x12, &D_80083498[0]);
+    object = func_8003FD64(0x12, ((s32 *)&D_80083498.next));
     if (object != NULL) {
         ((S_800C1A44_0 *)object)->unk_10 = &D_800C1718[0];
         func_8004491C(object, &D_80045C34[0]);

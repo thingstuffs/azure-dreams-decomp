@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -7,7 +8,6 @@
 extern int abs(int);
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern u8 D_80083498[];
 extern u8 D_800DEA68[];
 extern u8 D_800DED70[];
 void *func_8003FD64();                     /* extern */
@@ -223,7 +223,7 @@ BODY_STORAGE void BODY_NAME(S_func_81832800_1 *effect, S_func_81832800_4 *positi
         particle_texture = (S_func_81832800_7 *) D_800DEA68;
         if (count >= 0) {
 first_spawn_loop:
-            object = func_8003FD64(0x312, D_80083498);
+            object = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
             if (object != NULL) {
                 void *callback;
                 S_func_81832800_4 *spawn_position;
@@ -391,7 +391,7 @@ state_3:
     count = 3;
     ground_height = (s16) func_800BCB04(position->unk_00.parts.unk_02.as_u16, position->unk_04.parts.unk_06.as_u16, (s16) (position->unk_08.parts.unk_0A.as_u16 - 0x30));
     do {
-        object = func_8003FD64(0x312, D_80083498);
+        object = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
         if (object != NULL) {
             void *callback;
             func_8004491C(object, func_80045340);

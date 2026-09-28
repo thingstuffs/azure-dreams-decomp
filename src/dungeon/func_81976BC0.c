@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 
 typedef struct S_81976BC0_0 {
     u8 pad_00[0xC];
@@ -39,7 +40,6 @@ extern void *func_8003FD64(s32, void *);
 extern s32 rand(void);
 extern u8 D_80024050[];
 extern s32 D_800261E4[];
-extern u8 D_80083498[];
 
 /* Create an object and initialize its fields and randomized child state. */
 void func_81976BC0(s32 object_value, s32 field_value)
@@ -49,7 +49,7 @@ void func_81976BC0(s32 object_value, s32 field_value)
     void *object;
     S_81976BC0_1 *fields;
 
-    object = func_8003FD64(0x12, D_80083498);
+    object = func_8003FD64(0x12, ((u8 *)(&D_80083498)));
     if (object != 0) {
         ((S_81976BC0_0 *)object)->unk_10 = D_80024050;
         fields = (u8 *)object + 0x20;
@@ -57,7 +57,7 @@ void func_81976BC0(s32 object_value, s32 field_value)
         fields->unk_0E = 0;
         fields->unk_10 = 0;
         ((S_81976BC0_0 *)object)->unk_20 = object_value;
-        fields->unk_04 = D_80083498;
+        fields->unk_04 = ((u8 *)(&D_80083498));
         fields->unk_08 = field_value;
         child = ((S_81976BC0_0 *)object)->unk_0C;
         child->unk_08 = D_800261E4[0];

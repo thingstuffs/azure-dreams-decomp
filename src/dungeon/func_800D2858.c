@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -77,7 +78,6 @@ typedef struct S_func_800D7FB8_7 {
     u16 unk_00;
 } S_func_800D7FB8_7;
 
-extern u8 D_80083498[];
 extern u8 D_800DEC00[];
 extern s32 D_800D81D4;
 
@@ -120,7 +120,7 @@ init_state:
     func_800A56E0(0x600);
     spawn_index = 0x96;
     do {
-        entry = func_8003FD64((void *)0x312, D_80083498);
+        entry = func_8003FD64((void *)0x312, ((u8 *)(&D_80083498)));
         if (entry != NULL) {
             entry_data = (S_func_800D7FB8_1 *)((u8 *)entry + 0x20);
             entry->d81d4 = (u8 *)&D_800D81D4;

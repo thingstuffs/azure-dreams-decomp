@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
 #include "shared/record_ptrs.h"
@@ -81,7 +82,6 @@ extern void func_800A56E0(s32);
 
 extern s32 D_8002445C[];
 extern s32 D_80024740[];
-extern s32 D_80083498[];
 
 /* Spawns a timed particle effect, processes its midpoint target, and marks completion. */
 void func_81934928(void *effect, void *output)
@@ -160,7 +160,7 @@ main_state:
     }
     if (spawn_index >= 0) {
         do {
-            particle = func_8003FD64(0x202, D_80083498);
+            particle = func_8003FD64(0x202, ((s32 *)(&D_80083498)));
             if (particle != NULL) {
                 ((S_81934928_2 *)particle)->unk_10 = D_8002445C;
                 func_8004491C(particle, D_80024740);

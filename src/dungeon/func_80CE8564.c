@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
 
@@ -56,7 +57,6 @@ extern s32 func_800A6D30();
 extern void func_800A9C18();
 extern void func_800AA36C();
 
-extern u8 D_80083498[];
 extern s8 D_800E2968;
 extern u8 D_801720B4[];
 extern u8 D_801724BC[];
@@ -96,7 +96,7 @@ void *func_80171D64(s32 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initial_hei
     result = 0;
     mode_or_object = 0x112;
     saved_x = sprite_x;
-    kind_or_position = (s32)D_80083498;
+    kind_or_position = (s32)((u8 *)(&D_80083498));
     saved_height = initial_height;
     saved_y = sprite_y;
     object = func_8003FD64(mode_or_object, (void *)kind_or_position);

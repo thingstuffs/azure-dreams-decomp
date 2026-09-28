@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
@@ -91,7 +92,6 @@ typedef struct S_8197D468_9 {
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern u8 D_80083498[];
 extern u8 D_800DED70[];
 void *func_8003FD64();                 /* extern */
 s32 func_80069EF8();                          /* extern */
@@ -199,7 +199,7 @@ state_2:
     if (((S_8197D468_3 *)motion)->unk_08.at02.v >= (ground_height - 0x20)) {
         particle_index = 4;
         do {
-            particle = func_8003FD64(0x312, D_80083498);
+            particle = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
             if (particle != NULL) {
                 ((S_8197D468_5 *)particle)->unk_10 = &D_80024BB8;
                 func_8004491C(particle, func_80045340);

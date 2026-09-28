@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
@@ -187,7 +188,6 @@ static const u32 func_8197C800_bank[] __asm__("func_8197C800")
 
 extern void *D_80024008[];
 extern void *D_800814A8[];
-extern u8 D_80083498[];
 extern u32 D_800246C0[];
 extern u8 D_80024BB8[];
 extern u8 D_80024C68[];
@@ -278,7 +278,7 @@ case_one:
     ((S_FUNC_8197C800_BODY_0 *)input)->unk_50.s = 10;
     scene->unk_A6 -= 1;
     scene->unk_A8 = ((S_FUNC_8197C800_BODY_0 *)input)->unk_08;
-    particle = func_8003FD64(0x312, D_80083498);
+    particle = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
     if (particle == 0) {
         goto case_one_tail;
     }
@@ -362,7 +362,7 @@ case_three:
     particle_script = D_80024BB8;
     burst_origin = &D_80082E80;
     do {
-        particle = func_8003FD64(0x312, D_80083498);
+        particle = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
         if (particle != 0) {
             ((S_FUNC_8197C800_BODY_5 *)particle)->unk_10 = particle_script;
             func_8004491C(particle, func_80045340);
@@ -442,7 +442,7 @@ case_three:
     particle_script_debris = D_80024C68;
     debris_origin = &D_80082E80;
     do {
-        particle = func_8003FD64(0x312, D_80083498);
+        particle = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
         if (particle != 0) {
             ((S_FUNC_8197C800_BODY_5 *)particle)->unk_10 = particle_script_debris;
             func_8004491C(particle, func_80045340);

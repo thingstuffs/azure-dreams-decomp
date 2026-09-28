@@ -1,8 +1,8 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
 
-extern u8 D_80083498[];
 extern s32 D_8014CA58;
 extern s32 D_8014D014;
 extern s32 D_8015020C;
@@ -74,7 +74,7 @@ void *func_8014C878(s16 init_flags, s16 grid_x, s16 grid_y, s16 type_id)
     saved_x = grid_x;
     saved_type = type_id;
     saved_y = grid_y;
-    object = func_8003FD64(0x112, D_80083498);
+    object = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
     if (object == 0) {
         goto done;
     }

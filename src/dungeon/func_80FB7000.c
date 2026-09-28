@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
 typedef void (*retfn)(void);
@@ -55,7 +56,6 @@ extern void func_800A9C18(void *, void *, void *, s16);
 extern void func_800AA36C(void *, void *, void *, void *);
 extern void func_800673A0(s16 *, s32, s32);
 
-extern u8 D_80083498[];
 extern u8 D_8016AB40[];
 extern u8 D_8016AF6C[];
 extern u8 D_8016F258[];
@@ -96,7 +96,7 @@ void *BODY_NAME(s32 spawn_flags, s16 pos_x, s16 pos_y, s16 part_a_value)
     void *work;
     void *obj;
     s32 object_type;
-    void *object_pool;
+    ObjectNodeHeader *object_pool;
     S_80FB7000_3 *part_b;
     void *part_a;
     s16 saved_flags;
@@ -119,7 +119,7 @@ void *BODY_NAME(s32 spawn_flags, s16 pos_x, s16 pos_y, s16 part_a_value)
     work = 0;
     object_type = 0x112;
     saved_part_value = part_a_value;
-    object_pool = D_80083498;
+    object_pool = &D_80083498;
     obj = func_8003FD64(object_type, object_pool);
     saved_flags = (s16)spawn_flags;
     if (obj != 0) {

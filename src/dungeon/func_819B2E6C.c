@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
@@ -111,7 +112,6 @@ extern s32 func_800644B8(s32);
 extern s32 rand(void);
 
 extern u8 D_80024ACC[];
-extern u8 D_80083498[];
 extern u8 D_800DEA68[];
 
 /* Update the animated effect, track its target, and spawn scattered particles. */
@@ -214,7 +214,7 @@ void func_8002466C(void *effect)
         particle_data = D_80024ACC;
         display = D_800DEA68;
         do {
-            particle = func_8003FD64(0x312, D_80083498);
+            particle = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
             if (particle != NULL) {
                 ((S_8002466C_6 *)particle)->unk_10 = particle_data;
                 func_8004491C(particle, func_80045340);

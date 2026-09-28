@@ -1,9 +1,9 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "m2c_compat.h"
 
 void *func_8003FD64();
 M2C_UNK func_8004491C();
-extern M2C_UNK D_80083498;
 extern M2C_UNK D_800BBBE0;
 extern M2C_UNK D_800BC054;
 
@@ -57,7 +57,7 @@ void *func_800BC0A8(s16 x, s16 y, s16 z, s16 angle, s16 value_50, s16 value_58, 
     void *object;
     S_800BC0A8_1 *position;
 
-    object = func_8003FD64(0x202, &D_80083498);
+    object = func_8003FD64(0x202, ((M2C_UNK *)&D_80083498.next));
     if (object != NULL) {
         ((S_800BC0A8_0 *)object)->unk_10 = &D_800BBBE0;
         func_8004491C(object, &D_800BC054);

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
 #ifndef NULL
@@ -53,7 +54,6 @@ extern void func_800A48F0(void *, s32, s32);
 extern void func_800A9C18(void *, void *, void *, s16);
 extern void func_800AA36C(void *, void *, void *, void *);
 
-extern u8 D_80083498[];
 extern u8 D_8016AA58[];
 extern u8 D_8016AE5C[];
 extern u8 D_8016E510[];
@@ -120,7 +120,7 @@ void *func_8016A800(s32 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c)
 
     opcode = 0x112;
     arg1_role = attr_a;
-    factory = D_80083498;
+    factory = ((u8 *)(&D_80083498));
     arg3_part = (void *)attr_c;
     arg2_work = (void *)attr_b;
     ASM_KEEP_DEP_NV(arg1_role, opcode);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */

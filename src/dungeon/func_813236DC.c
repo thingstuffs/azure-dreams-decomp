@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
 typedef struct S_8016AEDC_0 {
@@ -72,7 +73,6 @@ extern void func_800A9C18();
 extern void func_800AA36C();
 extern void *func_8016F160();
 
-extern u8 D_80083498[];
 extern u8 D_8016B0E8[];
 extern s32 D_8016B778;
 extern u8 D_8017467C[];
@@ -97,7 +97,7 @@ void *func_8016AEDC(s16 mode_flags, s32 config_24, s32 config_25, s32 config_0a)
     work = 0;
     saved_config_24 = config_24;
     saved_config_25 = config_25;
-    object = func_8003FD64(0x112, D_80083498);
+    object = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
     saved_config_0a = config_0a;
     if (object != 0) {
         work = object + 0x20;

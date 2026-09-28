@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
 
@@ -48,7 +49,6 @@ extern s32 func_800A6D30();
 extern void func_800A48F0();
 extern void func_800A9C18();
 extern void func_800AA36C();
-extern u8 D_80083498[];
 extern u8 D_80158A28[];
 extern M2C_UNK D_80158E54;
 extern u8 D_8015BC7C[];
@@ -75,7 +75,7 @@ void *func_80158854(s16 mode_flags, s16 attribute_24, s16 attribute_25, s16 attr
     saved_attribute_24 = attribute_24;
     saved_attribute_0a = attribute_0a;
     saved_attribute_25 = attribute_25;
-    obj = func_8003FD64(0x112, D_80083498);
+    obj = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((S_80158854_0 *)obj)->unk_10 = D_80158A28;

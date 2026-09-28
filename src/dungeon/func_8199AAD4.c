@@ -3,7 +3,6 @@
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
-#include "records/Rec_D_800814A8.h"
 
 #ifndef NULL
 #define NULL 0

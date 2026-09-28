@@ -4,7 +4,6 @@
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
-#include "records/Rec_D_800E3D7C.h"
 
 
 extern s32 D_800835E8[];

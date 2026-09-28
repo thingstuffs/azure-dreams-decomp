@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/record_ptrs.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
@@ -29,7 +30,6 @@ extern void func_800A56E0(s32);
 extern s32 func_800A94A0(void *, u8 *, s32, void *);
 
 extern ItemInfo D_8006DE24[];
-extern u8 D_80083498[];
 extern void *D_80170838[];
 extern u8 D_801708D4;
 extern u8 D_801714B8;
@@ -289,7 +289,7 @@ state_1:
     {
         u8 *effect_object;
 
-        effect_object = func_8003FD64(0x112, D_80083498);
+        effect_object = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
         if (effect_object != 0) {
             u8 *effect_state;
             u8 *effect_data;

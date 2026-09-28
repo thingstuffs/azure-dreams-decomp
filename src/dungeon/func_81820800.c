@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
@@ -17,7 +18,6 @@ M2C_UNK func_800A56E0();
 s16 func_800BCB04();
 extern M2C_UNK D_800245B4;
 extern M2C_UNK D_80024A1C;
-extern M2C_UNK D_80083498;
 
 extern void func_80024020(void);
 extern void func_80024148(void);
@@ -326,7 +326,7 @@ spawn_effects:
     effects_left = 2;
     distance_or_script = (s32)&D_800245B4;
 next_effect:
-    effect = func_8003FD64(0x201, &D_80083498);
+    effect = func_8003FD64(0x201, ((M2C_UNK *)&D_80083498.next));
     if (effect == NULL) {
         goto effect_spawned;
     }

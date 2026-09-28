@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -116,7 +117,6 @@ typedef struct S_801728C4_10 {
 
 extern void *D_80170858[];
 extern u8 D_8006DE24[20];
-extern u8 D_80083498[16];
 extern u8 D_80170E84[];
 extern u8 D_80174820[];
 extern u8 D_80174850[];
@@ -324,7 +324,7 @@ state_2:
         if (!(((S_801728C4_4 *)sprite)->unk_14 & 0x8000)) {
             flags = ((S_801728C4_0 *)action)->unk_98.s;
             ((S_801728C4_0 *)action)->unk_98.u = flags | 0x8000;
-            effect = func_8003FD64(0x112, D_80083498);
+            effect = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
             if (effect != 0) {
                 func_8004491C(effect, func_80045340);
                 effect_state = (u8 *)effect + 0x20;
@@ -362,7 +362,7 @@ state_2:
         particle_count = 7;
         callback = (void *)(callback_page + 0x40FC);
         do {
-            effect = func_8003FD64(0x112, D_80083498);
+            effect = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
             if (effect != 0) {
                 func_8004491C(effect, func_80045340);
                 ((S_801728C4_7 *)effect)->unk_10 = callback;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 
@@ -49,7 +50,6 @@ s32 func_80033BC0();
 void *func_8003FD64();
 void func_8004491C(void *, void *);
 s32 rand(void);
-extern M2C_UNK D_80083498;
 extern M2C_UNK D_800BFD14;
 extern M2C_UNK D_800BFFF4;
 
@@ -81,7 +81,7 @@ void func_800BFB8C(void *source)
     if (spawn_count >= 0) {
         kind = (u8 *)&D_800BFD14;
         do {
-            new_object = func_8003FD64((void *)0x202, &D_80083498);
+            new_object = func_8003FD64((void *)0x202, ((M2C_UNK *)&D_80083498.next));
             if (new_object != NULL) {
                 object = new_object;
                 callback = &D_800BFFF4;

@@ -5,7 +5,6 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_800E3D7C.h"
 extern int abs(int);
 
 typedef struct S_812A524C_0 {

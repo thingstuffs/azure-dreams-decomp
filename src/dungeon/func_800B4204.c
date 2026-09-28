@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/entity_objects.h"
 #include "shared/dungeon_status.h"
 
@@ -38,7 +39,6 @@ typedef struct EntityHdr {
     u16 f88;
 } EntityHdr;
 
-extern void *D_80083498;
 extern u8 D_80079444[];
 extern s16 D_800DCE66[5];
 
@@ -55,7 +55,7 @@ void *func_800B9964(EntityHdr **entity_ref) {
     SubA *transform;
     SubB *sprite;
 
-    object = func_8003FD64(18, &D_80083498);
+    object = func_8003FD64(18, &D_80083498.next);
     if (object != 0) {
         func_8004491C(object, (void *)func_80045C34);
         object->stateFn = func_800B96C4;

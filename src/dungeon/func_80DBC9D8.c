@@ -4,7 +4,6 @@
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
-#include "records/Rec_D_800814A8.h"
 #include "records/Rec_D_80082E80.h"
 
 typedef struct S_801741D8_0 {

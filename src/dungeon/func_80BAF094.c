@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
 typedef struct S_80158894_0 {
@@ -49,7 +50,6 @@ extern void func_800A48F0(void *, s32, s32);
 extern void func_800A9C18(void *, void *, void *, s16);
 extern void func_800AA36C(void *, void *, void *, void *);
 
-extern u8 D_80083498[];
 extern u8 D_80158E9C[];
 extern u8 D_8015CED8[];
 extern u8 D_8015CF00[];
@@ -67,7 +67,7 @@ void *func_80158894(s16 flags, s32 kind_id, s32 variant, s32 spawn_value)
     register s32 saved_kind_id ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s16 original_flags;
     register s32 create_kind ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    void *create_data;
+    ObjectNodeHeader *create_data;
     s32 kind;
 
     saved_flags = flags;
@@ -75,7 +75,7 @@ void *func_80158894(s16 flags, s32 kind_id, s32 variant, s32 spawn_value)
     create_kind = 0x112;
     saved_kind_id = kind_id;
     ASM_KEEP_DEP_NV(saved_kind_id, create_kind);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    create_data = D_80083498;
+    create_data = &D_80083498;
     part_ptr = spawn_value;
     ASM_KEEP_DEP_NV(part_ptr, create_data);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     actor_ptr = variant;

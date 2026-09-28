@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-09-28T10:55:10Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-09-28T11:52:55Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -102,7 +102,7 @@ Void callees (`config/void_callees.txt`, tiers read from its section-header comm
 | L4 | 0 | 0.0% |
 | L5 | 0 | 0.0% |
 
-On shared record headers (T7, `include/records/`): 1026 rows, 591,432 bytes (23.1%); records used: 102.
+On shared record headers (T7, `include/records/`): 918 rows, 482,052 bytes (18.8%); records used: 102.
 
 L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 744 rows (736,744 B), tail_jump 8 rows (2,392 B), not_in_module 6,745 rows (2,555,272 B).
 

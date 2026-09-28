@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
 
@@ -49,7 +50,6 @@ extern void func_800A48F0(void *, s32, s32);
 extern void func_800A9C18(void *, void *, void *, s16);
 extern void func_800AA36C(void *, void *, void *, void *);
 
-extern u8 D_80083498[];
 extern u8 D_8015EA58[];
 extern u8 D_80162820[];
 extern u8 D_80162860[];
@@ -97,7 +97,7 @@ void *BODY_NAME(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
     held_a = attr_a;
     held_c = attr_c;
     held_b = attr_b;
-    obj = func_8003FD64(0x112, D_80083498);
+    obj = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((S_80A2F000_0 *)obj)->unk_10 = D_8015EA58;

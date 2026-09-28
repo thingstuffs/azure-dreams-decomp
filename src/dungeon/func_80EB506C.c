@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
 typedef struct S_8017086C_0 {
@@ -91,7 +92,6 @@ extern void func_80047784();
 extern void func_800478E8();
 extern void func_800AA36C();
 
-extern u8 D_80083498[];
 extern u8 D_800D71A8[];
 extern u8 D_800D78C0[];
 extern u8 D_80170B64[];
@@ -127,7 +127,7 @@ void *func_8017086C(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
     work = 0;
     saved_arg2 = arg2;
     saved_arg0 = arg0;
-    obj = func_8003FD64(0x112, (saved_arg1 = arg1, D_80083498));
+    obj = func_8003FD64(0x112, (saved_arg1 = arg1, ((u8 *)(&D_80083498))));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((S_8017086C_0 *)obj)->unk_10 = D_80170B64;
@@ -191,7 +191,7 @@ call_actor_setup:
         current = actor;
         count = 0;
         do {
-            child_obj = func_8003FD64(0x112, D_80083498);
+            child_obj = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
             ((S_8017086C_5 *)current)->unk_A4 = child_obj;
             if (child_obj != 0) {
                 void *child;

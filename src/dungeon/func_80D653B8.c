@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/game_work.h"
 
 #ifndef NULL
@@ -78,7 +79,6 @@ extern void func_8004491C();
 extern void func_80045340(void);
 extern void func_80047784();
 
-extern u8 D_80083498[];
 extern u8 D_800D6FEC[];
 extern u8 D_800E23D0[];
 
@@ -95,7 +95,7 @@ void func_80D653B8(void *unused, S_80D653B8_5 *anchor, Block16 *object_template,
     S_80D653B8_0 *object_work;
 
     (void)unused;
-    object = func_8003FD64(0x112, D_80083498);
+    object = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
     if (object != NULL) {
         copy_src = object_template;
         object_work = (u8 *)object + 0x20;

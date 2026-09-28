@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
@@ -21,7 +22,6 @@ void *func_8003FD64();            /* extern */
 M2C_UNK func_8004491C();           /* extern */
 s32 func_800644B8();                             /* extern */
 s32 func_80064584();                             /* extern */
-extern M2C_UNK D_80083498;
 extern M2C_UNK D_800BC6CC;
 extern M2C_UNK D_800F15E4;
 
@@ -78,7 +78,7 @@ s32 func_800BC574(void *position, s16 angle) {
     S_800BC574_1 *data_ptr;
     s16 saved_angle;
 
-    effect = func_8003FD64(0x312, &D_80083498);
+    effect = func_8003FD64(0x312, ((M2C_UNK *)&D_80083498.next));
     if (effect != NULL) {
         saved_angle = angle;
         effect->unk_10 = &D_800BC6CC;

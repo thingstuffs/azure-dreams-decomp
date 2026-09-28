@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/tile_object.h"
 #include "shared/slus_callbacks.h"
 
@@ -64,7 +65,6 @@ extern u8 D_80023A00[];
 extern u8 D_80023C80[];
 extern Packed8 D_80024310[];
 extern u8 D_80046398[];
-extern u8 D_80083498[];
 extern u8 D_800F15E4[];
 extern s32 D_800135B4[];
 
@@ -99,13 +99,13 @@ s32 func_800212B8(void) {
     func_80033B9C(0x58E);
     func_8003E188(0xE, 0);
 
-    obj = func_8003FD64(1, D_80083498);
+    obj = func_8003FD64(1, ((u8 *)(&D_80083498)));
     if (obj != 0) {
         owner = obj + 0x20;
         AT(s16, owner, 0x2E) = 0x2D;
         AT(void *, obj, 0x10) = D_800218E4;
     }
-    AT(void *, D_80083498, 0x74) = owner;
+    AT(void *, ((u8 *)(&D_80083498)), 0x74) = owner;
     func_80023DA0(owner);
 
     panel_init.hC = 0x10;
@@ -252,7 +252,7 @@ value_loop: {
         frame_offset = 0xC;
         child_slot = owner + 8;
         do {
-            new_obj = func_8003FD64(0x136, D_80083498);
+            new_obj = func_8003FD64(0x136, ((u8 *)(&D_80083498)));
             AT(void *, child_slot, 0x20) = new_obj;
             obj = new_obj;
             if (obj != 0) {
@@ -280,7 +280,7 @@ value_loop: {
         } while (index >= 0);
     }
 
-    obj = func_8003FD64(0x136, D_80083498);
+    obj = func_8003FD64(0x136, ((u8 *)(&D_80083498)));
     if (obj != 0) {
         AT(void *, obj, 0x10) = D_80023A00;
         func_8004491C(obj, func_80045340);

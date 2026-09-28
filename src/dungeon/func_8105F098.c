@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 
 
 typedef void (*Callback)(void);
@@ -14,7 +15,6 @@ extern void D_8016AAA4(void);
 extern void D_8016DFB8(void);
 extern void D_8016E000(void);
 extern void D_8016AF68(void);
-extern s32 D_80083498[4];
 
 
 typedef struct S_8016A898_0 {
@@ -63,7 +63,7 @@ void *func_8016A898(s32 spawn_flags, s16 param_a, s32 param_b, s32 param_c)
     result = 0;
     held_c = param_c;
     held_b = param_b;
-    object = func_8003FD64(0x112, D_80083498);
+    object = func_8003FD64(0x112, ((s32 *)(&D_80083498)));
     if (object != 0) {
         do { flags_held = spawn_flags; } while (0);
         result = (u8 *)object + 0x20;

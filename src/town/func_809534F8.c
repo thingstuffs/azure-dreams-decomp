@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 
 typedef struct {
     s16 unk0;       /* 0x00 */
@@ -54,7 +55,6 @@ extern u8 D_800204AC[];
 extern u8 D_80020900[];
 extern s16 D_80024308[];
 extern s16 D_8002430A[];
-extern u8 D_80083498[];
 
 extern void func_800201C8();
 extern void func_8002025C();
@@ -82,7 +82,7 @@ void baken_uriba(void)
     buffer = 0;
     screen.text_words = D_80020010;
     screen.number_words = D_80020050;
-    allocation = func_8003FD64(1, D_80083498);
+    allocation = func_8003FD64(1, ((u8 *)(&D_80083498)));
     if (allocation != 0) {
         buffer = (u8 *)allocation + 0x20;
         *(void **)((u8 *)allocation + 0x10) = D_80020900;

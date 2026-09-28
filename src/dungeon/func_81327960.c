@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
 
@@ -9,7 +10,6 @@ extern void func_8004491C(void *, void *);
 extern void func_800A9C18(void *, void *, void *, s16);
 extern void func_800AA36C(void *, void *, void *, void *);
 
-extern s32 D_80083498;
 extern u8 D_8016F2E0[];
 extern M2C_UNK D_8016F78C;
 extern u8 D_80174A2C[];
@@ -76,7 +76,7 @@ void *func_8016F160(s16 mode, s16 config_24, s8 config_25, s16 config_0a)
     saved_config_24 = config_24;
     saved_config_0a = config_0a;
     saved_config_25 = config_25;
-    obj = func_8003FD64(0x112, &D_80083498);
+    obj = func_8003FD64(0x112, ((s32 *)&D_80083498.next));
     saved_mode = mode;
     if (obj != 0) {
         work = (u8 *)obj + 0x20;

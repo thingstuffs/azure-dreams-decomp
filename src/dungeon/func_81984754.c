@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/entity_objects.h"
 
 typedef struct Pos {
@@ -63,7 +64,6 @@ extern u8 D_80026B2C[];
 extern u8 D_80026BBC[];
 extern u8 D_80026BC8[];
 extern u8 D_80080010[];
-extern u8 D_80083498[];
 extern u8 D_800C9034[];
 
 extern void func_80026240(Entity *, void *);
@@ -121,7 +121,7 @@ void *func_81984754(s32 x, s32 y, s32 z, s32 angle)
         if (object_index != 0) {
             prev_object = object_slot[-1];
         } else {
-            prev_object = (Object *)D_80083498;
+            prev_object = (Object *)((u8 *)(&D_80083498));
         }
         *object_slot = func_8003FD64(2, prev_object);
         (*object_slot)->state = (void (*)(void *))D_80024DAC;

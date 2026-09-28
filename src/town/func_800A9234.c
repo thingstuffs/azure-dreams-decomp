@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/entity_objects.h"
 #include "shared/entity.h"
 #include "records/Rec_func_80094268_arg0.h"
@@ -31,7 +32,6 @@ typedef struct S_800A6994_4 {
 M2C_UNK func_8009BFD8();
 M2C_UNK func_800A6328();
 M2C_UNK func_800C2E84();
-extern u8 D_80083498[];
 extern M2C_UNK D_800A5638;
 extern s32 D_800D0C78;
 extern M2C_UNK D_800D0D54;
@@ -44,7 +44,7 @@ void func_800A6994(void *actor, M2C_UNK update_context, void *position, M2C_UNK 
     s32 *saved_position;
     s32 *fixed_position;
 
-    state = D_80083498;
+    state = ((u8 *)(&D_80083498));
     if (((S_800A6994_0 *)state)->unk_10 != &D_800A5638) {
         func_800A6328(&D_800D0D54, 0);
         D_800D0C78 = ((EntityRec *)position)->x.v;

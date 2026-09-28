@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 
 typedef void (*Callback)(void);
 
@@ -28,7 +29,6 @@ typedef struct S_func_800A1C94_2 {
 extern void *func_8003FD64(s32 kind, void *owner);
 extern void func_800A1D1C(void);
 extern void func_800A1F00(void);
-extern u8 D_80083498[];
 
 /* Creates a display object with callbacks and the supplied payload values. */
 void *func_800A1C94(s32 payload_word, s32 payload_halfword)
@@ -37,7 +37,7 @@ void *func_800A1C94(s32 payload_word, s32 payload_halfword)
     S_func_800A1C94_1 *display;
     S_func_800A1C94_2 *payload;
 
-    object = func_8003FD64(0x136, D_80083498);
+    object = func_8003FD64(0x136, ((u8 *)(&D_80083498)));
     if (object == 0) {
         return 0;
     }

@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "shared/game_work.h"
 
 struct S_80083178
@@ -55,7 +56,6 @@ typedef struct
 } S_800BE4BC;
 extern void func_80033B78(s32 arg0);
 extern void *func_8003FD64(s32 arg0, void *arg1);
-extern u8 D_80083498[16];
 extern u8 D_800BBCA0[16];
 /* Creates an object and initializes its data pointer and three input values. */
 s32 func_800BBC1C(s32 *values)
@@ -66,7 +66,7 @@ s32 func_800BBC1C(s32 *values)
   s32 *values_src;
   u8 (*init_data)[16];
   func_80033B78(0x97);
-  init_data = &D_80083498;
+  init_data = ((u8 *)(&D_80083498));
   object = func_8003FD64(0x312, init_data);
   created_object = object;
   if (created_object != 0)

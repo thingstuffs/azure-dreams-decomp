@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
 typedef struct S_8015E8A4_0 {
@@ -53,7 +54,6 @@ extern void func_800A48F0(void *, s32, s32);
 extern s32 func_800A6D30();
 extern void func_800A9C18(void *, void *, void *, s16);
 extern void func_800AA36C(void *, void *, void *, void *);
-extern u8 D_80083498[];
 extern u8 D_8015EB40[];
 extern u8 D_8015EF6C[];
 extern u8 D_80163258[];
@@ -87,7 +87,7 @@ void *func_8015E8A4(s32 flags, s16 kind_id, s16 variant, s16 spawn_value)
     void *work;
     void *obj;
     s32 call_id;
-    void *call_target;
+    ObjectNodeHeader *call_target;
     S_8015E8A4_3 *part_b;
     void *part_a;
     s16 saved_flags;
@@ -110,7 +110,7 @@ void *func_8015E8A4(s32 flags, s16 kind_id, s16 variant, s16 spawn_value)
     work = 0;
     call_id = 0x112;
     pin_arg3 = spawn_value;
-    call_target = D_80083498;
+    call_target = &D_80083498;
     obj = func_8003FD64(call_id, call_target);
     saved_flags = (s16)flags;
     if (obj != 0) {

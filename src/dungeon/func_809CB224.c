@@ -4,7 +4,6 @@
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
-#include "records/Rec_D_800814A8.h"
 
 typedef struct S_80172A24_0 {
     u8 pad_00[0x8C];

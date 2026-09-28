@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -7,7 +8,6 @@
 
 extern u8 D_800DEA68[];
 extern u8 D_800DE990[];
-extern u8 D_80083498[];
 extern u8 D_800247D8[];
 extern void *D_80024008[];
 
@@ -80,7 +80,7 @@ FUNC_8183E800_LINKAGE void FUNC_8183E800_BODY(u8 *self, u8 *motion)
         particles_left = 16;
         particle_texture = D_800DEA68;
         do {
-            particle = func_8003FD64(0x312, D_80083498);
+            particle = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
             if (particle != 0) {
                 particle_data = particle + 32;
                 child_data = F(particle, u8 *, 12);
@@ -202,7 +202,7 @@ state_4:
 state_5:
     timer = F(self, s16, 80);
     if (timer % 3 == 0) {
-        particle = func_8003FD64(0x312, D_80083498);
+        particle = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
         if (particle != 0) {
             F(particle, void *, 16) = D_800247D8;
             func_8004491C(particle, func_80045340);

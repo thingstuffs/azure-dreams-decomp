@@ -3,7 +3,6 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
-#include "records/Rec_D_800814A8.h"
 extern int abs(int);
 
 typedef struct S_80172AA8_0 {

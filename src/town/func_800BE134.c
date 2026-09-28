@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 
@@ -57,7 +58,6 @@ extern Object *func_8003FD64(s32, void *);
 extern void func_8004491C(Object *, void *);
 extern s32 rand(void);
 
-extern u8 D_80083498[];
 extern u8 D_800BBA98[];
 extern Resource D_800F162C[];
 
@@ -70,7 +70,7 @@ void func_800BB894(Self *self, Copy24 *origin) {
         Resource *resource;
 
         do {
-            Object *object = func_8003FD64(0x312, D_80083498);
+            Object *object = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
 
             if (object != NULL) {
                 Primitive *primitive;

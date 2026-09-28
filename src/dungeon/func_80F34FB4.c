@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
@@ -18,7 +19,6 @@ typedef struct {
 extern Vec3sTable D_80170838;
 extern Vec3sTable D_8017084C;
 extern u8 D_80174AA4[];
-extern u8 D_80083498[];
 extern u8 D_80174AAC[];
 extern u8 D_80170E94[];
 extern void *D_800E3DE8[];
@@ -175,7 +175,7 @@ translate_offset:
     ((S_801727B4_0 *)action)->unk_B0 = (u16) (((S_801727B4_0 *)action)->unk_B0 + ((u16)motion->z.w.i));
     goto update_timer;
 create_effect:
-    effect = func_8003FD64(1, D_80083498);
+    effect = func_8003FD64(1, ((u8 *)(&D_80083498)));
     if (effect == NULL) {
         goto update_timer;
     }

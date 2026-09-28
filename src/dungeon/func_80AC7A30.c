@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/record_ptrs.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
@@ -23,7 +24,6 @@ extern void func_800A56E0(s32);
 extern s32 func_800A94A0(void *, u8 *, s32, void *);
 
 extern u8 D_8006DE24[];
-extern u8 D_80083498[];
 extern void *D_80170850[];
 extern void *D_80170868[];
 extern u8 D_80171020[];
@@ -285,7 +285,7 @@ state_2:
         timer = ((S_80173230_0 *)action_in)->unk_96.u - 1;
         ((S_80173230_0 *)action_in)->unk_96.u = timer;
         if (timer == 0xB || (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
-            effect_handle = (s32)func_8003FD64(0x112, D_80083498);
+            effect_handle = (s32)func_8003FD64(0x112, ((u8 *)(&D_80083498)));
             if (effect_handle != 0) {
                 void *actor_model;
                 u8 animation_id;

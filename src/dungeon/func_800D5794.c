@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 
@@ -74,7 +75,6 @@ typedef struct S_800DAEF4_7 {
 extern void *func_8003FD64();
 extern void func_8004491C();
 extern s32 func_80069EF8(void);
-extern u8 D_80083498[];
 extern s32 D_800DB164;
 extern s32 D_800DEA68;
 
@@ -99,7 +99,7 @@ void func_800DAEF4(void *source_owner, void *spawn_params)
     remaining = 12;
     link = (u8 *)&D_800DEA68;
     do {
-        object = func_8003FD64(0x312, D_80083498);
+        object = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
         if (object != 0) {
             ((S_800DAEF4_0 *)object)->unk_10 = &D_800DB164;
             func_8004491C(object, func_80045340);

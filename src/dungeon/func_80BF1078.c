@@ -1,8 +1,8 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
 
-extern u8 D_80083498[];
 extern u8 D_8016AA58[];
 extern s32 D_8016B014;
 extern s32 D_8016E20C;
@@ -74,7 +74,7 @@ void *func_8016A878(s16 init_flags, s16 tile_x, s16 tile_y, s16 object_id)
     saved_x = tile_x;
     saved_id = object_id;
     saved_y = tile_y;
-    object = func_8003FD64(0x112, D_80083498);
+    object = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
     if (object == 0) {
         goto done;
     }

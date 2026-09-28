@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 
 #ifndef NULL
 #define NULL 0
@@ -56,7 +57,6 @@ typedef struct AcObject {
     AcSub sub;
 } AcObject;
 
-extern u8 D_80083498[];
 extern void *D_80073618[];
 extern u8 D_800B06F0[];
 extern u8 D_800B14FC[];
@@ -106,7 +106,7 @@ void func_800B1768(s16 icon, s32 value_a, s32 value_b, s32 style, s16 compact, u
     u8 tail_flags;
     u32 tail_field1c;
 
-    obj = func_8003FD64(0x12, D_80083498, (s32)cursor);
+    obj = func_8003FD64(0x12, ((u8 *)(&D_80083498)), (s32)cursor);
     if (obj != NULL) {
         meta = obj->meta;
         header = obj->header;

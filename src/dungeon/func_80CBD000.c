@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
 typedef struct S_80CBD000_0 {
@@ -52,7 +53,6 @@ extern s32 func_800A6D30(void);
 extern void func_800A9C18(void *, void *, void *, s16);
 extern void func_800AA36C(void *, void *, void *, void *);
 
-extern s32 D_80083498;
 extern u8 D_800E2968;
 extern u8 D_80170AE0[];
 extern u8 D_80170F20[];
@@ -93,7 +93,7 @@ void *BODY_NAME(s16 flags, s16 unused_kind_id, s16 variant, s16 unused_spawn)
     s32 random;
     s16 arg0_copy;
     s32 alloc_id;
-    void *alloc_base;
+    ObjectNodeHeader *alloc_base;
     void *part;
     void *work;
     S_80CBD000_2 *coord;

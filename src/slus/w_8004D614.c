@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity_objects.h"
 #include "shared/game_work.h"
 
 #include "common.h"
@@ -10,7 +11,6 @@ extern s32 D_80080B58;
 extern s32 D_80080B5C;
 extern s32 D_80080B60;
 extern s32 D_80080B64;
-extern u8 D_80083780[12];
 
 /* Initialize state fields from globals and clear associated state. */
 void func_8004D614(void)
@@ -27,5 +27,5 @@ void func_8004D614(void)
     *(s32 *)(state + 0x180) = 0;
     *(s32 *)(state + 0xB4) = 0;
     *(s32 *)(state + 0xF8) = 0;
-    func_8004D0C8(D_80083780);
+    func_8004D0C8(((u8 *)(&D_80083780)));
 }

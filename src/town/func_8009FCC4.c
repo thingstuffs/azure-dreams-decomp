@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 
 #define FIELD(base, type, offset) (*(type *)((u8 *)(base) + (offset)))
 
@@ -6,7 +7,6 @@ typedef void (*Callback)(void *, void *, void *);
 
 extern void *func_8003FD64(s32, void *);
 extern s16 func_800C2AE8(void *);
-extern u8 D_80083498[];
 extern u32 D_800D3950[];
 extern u16 D_800D5070[];
 
@@ -91,7 +91,7 @@ s32 func_8009D424(s32 callback_id, s32 angle_index, s32 state_94,
 
     saved_angle_index = angle_index;
     saved_state_94 = state_94;
-    object = func_8003FD64(0x136, D_80083498);
+    object = func_8003FD64(0x136, ((u8 *)(&D_80083498)));
     if (object == 0) {
         return 0;
     }

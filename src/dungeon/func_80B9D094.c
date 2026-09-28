@@ -1,6 +1,6 @@
 #include "common.h"
+#include "shared/object_node.h"
 
-extern u8 D_80083498[];
 
 extern u8 *func_8003FD64();
 extern void func_8004491C();
@@ -30,7 +30,7 @@ u8 *func_8016A894(s16 flags, u8 kind_id, u16 variant, s16 spawn_value)
 
     saved_flags = flags;
     result = 0;
-    allocation = func_8003FD64(0x112, D_80083498);
+    allocation = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
     if (allocation == 0) {
         goto done;
     }

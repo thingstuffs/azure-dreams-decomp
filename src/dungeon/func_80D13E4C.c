@@ -5,7 +5,6 @@
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
-#include "records/Rec_D_800814A8.h"
 
 typedef struct S_8017364C_0 {
     u8 pad_00[0x8C];

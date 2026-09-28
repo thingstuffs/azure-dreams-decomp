@@ -1,0 +1,11 @@
+/* SLUS data objects that only C names (tools/build/configure.py C_SYMS): the shared include/shared/ headers   */
+/* declare them for every binary, but no SLUS disassembly names their address, so splat's undefined_syms lacks */
+/* them.  One `D_<ADDR> = 0x<ADDR>;` line each; comments on their own line, no colons needed.                  */
+/* dir_step.h dirStepX (config/names.tsv) */
+D_8006CCD8 = 0x8006CCD8;
+/* dir_step.h dirStepY (config/names.tsv) */
+D_8006CCE8 = 0x8006CCE8;
+/* tile_object.h TileObject */
+D_80082E80 = 0x80082E80;
+/* object_node.h ObjectNodeHeader (r78 phase 6) */
+D_80083498 = 0x80083498;

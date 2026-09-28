@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
@@ -47,7 +48,6 @@ M2C_UNK func_80033CD8();
 M2C_UNK func_8003DB94();
 void *func_8003FD64();
 M2C_UNK func_800A7308();
-extern M2C_UNK D_80083498;
 extern M2C_UNK D_800A7338;
 extern s32 D_800D0DF0;
 
@@ -58,7 +58,7 @@ s32 func_800A71F0(void *position, s32 state_value, M2C_UNK graphic_id) {
     void *transform;
     void *sprite;
 
-    object = func_8003FD64(0x136, &D_80083498);
+    object = func_8003FD64(0x136, ((M2C_UNK *)&D_80083498.next));
     if (object == NULL) {
         return 0;
     }

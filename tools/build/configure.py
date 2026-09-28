@@ -41,6 +41,32 @@ if MODULES:
     MODULE_SYMS = f"{BUILDDIR}/{BASE}.undefined_syms.modules.txt"
     LDSCRIPTS = [UF, MODULE_SYMS]
 
+# Data symbols that only C references.  splat's undefined_syms (US) carries only the symbols its disassembly
+# names, so a SLUS TU that reaches a data object by name (a shared include/shared/ header) when no SLUS asm ever
+# named that address would not link.  config/{BASE}.c_syms.txt defines them at their address, one
+# `D_<ADDR> = 0x<ADDR>;` line each (the name spells its own address; /* */ comments on their own line).  The script
+# is linked only when the file exists (os.path.exists is False on mk_slus_root.sh's dangling link), so the recipe
+# is unchanged until the first such symbol, and no cc edge ever changes.  A module-owned symbol is refused: an
+# absolute assignment would override the module's real object.  A symbol US also defines (a later split whose asm
+# names it) is a same-value re-assignment, which ld accepts.
+C_SYMS = f"config/{BASE}.c_syms.txt"
+if os.path.exists(C_SYMS):
+    _c_names = []
+    for _n, _line in enumerate(open(C_SYMS, encoding="utf-8"), 1):
+        _s = re.sub(r"/\*.*?\*/", "", _line).strip()
+        if not _s:
+            continue
+        _m = re.fullmatch(r"(D_([0-9A-F]{8})) = 0x\2;", _s)
+        if not _m:
+            raise RuntimeError(f"{C_SYMS}:{_n}: expected `D_<ADDR> = 0x<ADDR>;`, got {_s!r}")
+        _c_names.append(_m.group(1))
+    if MODULES:
+        _owned = {d["symbol"] for _, _secs in module_support._unique_owned_data(MODULES)
+                  for _recs in _secs.values() for d in _recs}
+        if set(_c_names) & _owned:
+            raise RuntimeError(f"{C_SYMS}: module-owned symbol(s) {sorted(set(_c_names) & _owned)}")
+    LDSCRIPTS.append(C_SYMS)
+
 # Extra `c` subsegments in the splat yaml, i.e. every `c` segment that is NOT the main
 # `code` one (currently: konami_runtime, the carved 0x72a8 Konami/SN runtime block).
 # Each owns exactly one TU (src/<name>.c, splat-generated INCLUDE_ASM stubs) and gets its

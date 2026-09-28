@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -145,7 +146,6 @@ extern void func_800B8FC8(void *, void *, void *, s32, s32);
 extern s32 func_800BCB04(u16, u16, s16);
 extern void func_800C8CD8(void *, s32, s32);
 
-extern u8 D_80083498[];
 extern u8 D_800DEC50[];
 extern u32 D_800E3DE8[];
 extern u8 D_8017086C[];
@@ -228,7 +228,7 @@ init_effect:
     center.y = spawn.y + (spawn.dy >> 1);
     func_800B8FC8(effect, &spawn, &center, 1, 0);
 
-    effect_alloc = func_8003FD64(0x201, D_80083498);
+    effect_alloc = func_8003FD64(0x201, ((u8 *)(&D_80083498)));
     if (effect_alloc == 0) {
         goto done;
     }
@@ -256,7 +256,7 @@ emit_particles:
     if ((rotating_object != 0) && (effect->unk_96.s < 0x34)) {
         ((S_80174668_7 *)rotating_object)->unk_2A =
             (((S_80174668_7 *)rotating_object)->unk_2A + 0x200) & 0x3FFF;
-        effect_alloc = func_8003FD64(0x312, D_80083498);
+        effect_alloc = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
         if (effect_alloc == 0) {
             goto update_timer;
         }

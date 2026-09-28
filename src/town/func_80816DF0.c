@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
@@ -85,7 +86,6 @@ typedef struct S_80020DF0_8 {
 extern volatile u16 D_800135C0;
 extern u8 D_80022B80[];
 extern s16 D_800272A0[];
-extern u8 D_80083498[];
 extern void *D_800834B8;
 extern s32 D_800D0428;
 extern u8 D_80092698[];
@@ -351,7 +351,7 @@ void func_80020DF0(void *object, void *motion, void *sprite)
                     do {
                         void *particle;
 
-                        particle = func_8003FD64(0x136, D_80083498);
+                        particle = func_8003FD64(0x136, ((u8 *)(&D_80083498)));
                         if (particle != NULL) {
                             void *part;
                             void *link;

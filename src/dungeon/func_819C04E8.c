@@ -1,6 +1,6 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/object_flags.h"
-extern u8 D_80083498[];
 extern u8 D_80030000[];
 
 
@@ -118,7 +118,7 @@ s32 func_80025CE8(u16 x, u16 y, u16 z, u16 angle) {
             goto call_alloc;
         }
         alloc_page = (u8 *)0x80080000;
-        alloc_parent = (Object *)D_80083498;
+        alloc_parent = (Object *)((u8 *)(&D_80083498));
     call_alloc:
         new_object = func_8003FD64(0x12, alloc_parent);
         slot_offset = ((s32)(s16)object_index) << 2;
