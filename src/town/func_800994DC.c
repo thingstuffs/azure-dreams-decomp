@@ -10,7 +10,6 @@ void func_80096C3C(void) {
     s32 packed_065fffff;
     s32 packed_f0;
     s32 packed_09efffff;
-    s32 *state_page;
     s32 *state;
     u8 *mode_page;
     s32 *header;
@@ -24,16 +23,9 @@ void func_80096C3C(void) {
     header[2] = 0x01000000;
     header[1] = 0x1DA00000;
     header[3] = 0x1DA00000;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-#ifdef NON_MATCHING
-    state_page = D_800FE520 + 1720;
-#else
-    state_page = (s32 *)0x80100000;
-#endif
-    ASM_KEEP(state_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    state = D_800FE520;
     packed_f0 = 0xF0000000;
-    state = state_page - 1720;
-    state_page[-1720] = packed_f0;
+    state[0] = packed_f0;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     entry_value = 0x0FE00000;
     shared_value = 0x04000000;

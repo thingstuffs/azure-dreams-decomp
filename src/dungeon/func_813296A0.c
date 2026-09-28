@@ -57,12 +57,13 @@ extern void func_800478B8(Sub *);
 void func_80170EA0(void) {
     Extra *effect;
     Vec3 *position;
-    register Sub *sprite ASM_REG("$18");
+    Sub *sprite;
     Extra *direction_data;
     Node *node;
     s32 intensity;
     u16 elapsed;
     s32 state;
+    register s32 duration ASM_REG("$4");
 
     node = D_80174CDC;
     effect = (Extra *)((u8 *)node + 0x20);
@@ -110,25 +111,18 @@ delay:
     }
     goto update_sprite;
 
-fade: {
-    register s32 step_or_duration ASM_REG("$4") = position->field_0C;
-    s32 coordinate = position->field_00;
-    s32 step = step_or_duration;
-    coordinate += step_or_duration;
-    position->field_00 = coordinate;
-    ASM_KEEP(step);
-    step /= 2;
-    position->field_0C = step;
-    step_or_duration = effect->field_9E;
-    intensity = ((s32)(s16)(effect->field_96 - 1) << 7) / step_or_duration;
+fade:
+    position->field_00 += position->field_0C;
+    position->field_0C /= 2;
+    duration = effect->field_9E;
+    intensity = ((s32)(s16)(effect->field_96 - 1) << 7) / duration;
     effect->field_96--;
     sprite->field_0E = (s8)intensity;
     sprite->field_0D = (s8)intensity;
     sprite->field_0C = (s8)intensity;
     if ((s16)effect->field_96 <= 0) {
-        func_80170CE0(step_or_duration);
+        func_80170CE0(duration);
     }
-}
 
 update_sprite:
     func_800478B8(sprite);
