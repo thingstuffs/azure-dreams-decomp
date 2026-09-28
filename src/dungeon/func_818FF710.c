@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "m2c_compat.h"
 
 typedef struct { u8 bytes[8]; } Packed8 __attribute__((packed));
@@ -42,8 +43,6 @@ extern Packed12 D_80025E58;
 extern Packed12 D_80025E70;
 extern M2C_UNK D_80025E80;
 extern M2C_UNK D_80045340;
-extern u8 D_8006CCD8[];
-extern u8 D_8006CCE8[];
 extern M2C_UNK D_800814A0;
 extern s32 D_8008346C;
 extern u8 D_800DDC40[];
@@ -459,8 +458,8 @@ check_launch:
     target_pos_or_step = ((S_818FF710_7_pre *)flight_target)[-1].unk_00;
     (*(s16 *)((u8 *)effect + 0x78)) = (s16) (((S_818FF710_8 *)target_pos_or_step)->unk_0A - (D_800DDC40[((S_818FF710_7 *)flight_target)->unk_13] + 0x40));
     origin = ((S_818FF710_2_pre *)parent)[-1].unk_00;
-    (*(s8 *)((u8 *)effect + 0xA2)) = (s8) (origin->unk_24 + D_8006CCD8[(*(s16 *)((u8 *)effect + 0x7E)) * 2]);
-    (*(s8 *)((u8 *)effect + 0xA3)) = (s8) (origin->unk_25 + D_8006CCE8[(*(s16 *)((u8 *)effect + 0x7E)) * 2]);
+    (*(s8 *)((u8 *)effect + 0xA2)) = (s8) (origin->unk_24 + ((u8 *)dirStepX)[(*(s16 *)((u8 *)effect + 0x7E)) * 2]);
+    (*(s8 *)((u8 *)effect + 0xA3)) = (s8) (origin->unk_25 + ((u8 *)dirStepY)[(*(s16 *)((u8 *)effect + 0x7E)) * 2]);
     parent_tile = ((S_818FF710_2 *)parent)->unk_72;
     tile_distance = parent_tile;
     origin_tile = origin->unk_24;

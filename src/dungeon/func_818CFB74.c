@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 typedef struct {
     u16 unk0;
@@ -162,8 +163,6 @@ extern void *D_80024028[];
 extern D_80020000Page D_80020000;
 extern u8 D_800DEC00[12];
 extern PackedTemplate D_80025900;
-extern ByteEntry D_8006CCD8[];
-extern ByteEntry D_8006CCE8[];
 extern s32 D_8008346C[3];
 extern s32 D_800814A0[3];
 
@@ -298,7 +297,7 @@ create_spawn:
             ((SpawnData *)data_base)->variant16 = state->variant7E;
 
             room = (RoomData *)((EntityHeader *)((u8 *)entity - 0x20))->componentC;
-            table = D_8006CCD8;
+            table = ((ByteEntry *)dirStepX);
             ASM_KEEP_NV(table);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
             state->valueA0 = room->x24 + table[(s16)state->variant7E].value;
             ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */

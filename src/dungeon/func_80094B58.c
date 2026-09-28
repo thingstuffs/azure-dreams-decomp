@@ -1,7 +1,6 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
-extern u8 D_8006CCD8[];
-extern u8 D_8006CCE8[];
 extern u8 D_80083160[];
 
 /* Checks whether the adjacent tile has masked flags or a zero tile value. */
@@ -15,8 +14,8 @@ s32 func_8009A2B8(s16 origin_x, s16 origin_y, s32 direction) {
     dungeon = D_80083160;
     do {
     } while (0);
-    tile_index = origin_x + ((s16 *)D_8006CCD8)[(s16)direction];
-    tile_y = origin_y + ((s16 *)D_8006CCE8)[(s16)direction];
+    tile_index = origin_x + ((s16 *)((u8 *)dirStepX))[(s16)direction];
+    tile_y = origin_y + ((s16 *)((u8 *)dirStepY))[(s16)direction];
     tile_index += tile_y << *(s16 *)(dungeon + 0x1F0);
     tile = *(u8 **)(dungeon + 0x1DC) + tile_index * 6;
     result = *(u16 *)(tile + 4) & 0xF320;

@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 
 s32 func_800A2BDC();                          /* extern */
 M2C_UNK func_800A9A0C();                      /* extern */
 s32 func_800ADDA0(); /* extern */
 M2C_UNK func_80171C34(); /* extern */
-extern u16 D_80083462;
 
 typedef struct S_80172628_0 {
     u8 pad_00[0x46];
@@ -72,7 +72,7 @@ s32 func_80172628(void *entity_arg, M2C_UNK primary_context_arg, M2C_UNK seconda
         }
     reset_state:
         ((S_80172628_0 *)entity)->unk_71 = (u8) (((S_80172628_0 *)entity)->unk_71 & 0x7F);
-        if ((D_80083462 & 8) == 0) {
+        if ((dungeonStatus.flags & 8) == 0) {
             result = 1;
             goto done;
         }

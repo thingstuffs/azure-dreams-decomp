@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "m2c_compat.h"
 
 typedef s32 UnalignedS32 __attribute__((aligned(1)));
@@ -145,8 +146,6 @@ void *func_800A05A4();
 s32 func_800A45D8();
 s32 func_800A56E0();
 s16 func_800BCAD0();
-extern M2C_UNK D_8006CCD8;
-extern M2C_UNK D_8006CCE8;
 extern M2C_UNK D_800814A0;
 extern M2C_UNK D_800814A8;
 extern M2C_UNK D_80082E80;
@@ -298,10 +297,10 @@ block_12:
 block_14:
     target_pos = fallback_pos;
     step_count = 0;
-    x_steps = (u8 *)&D_8006CCD8;
+    x_steps = (u8 *)((M2C_UNK *)dirStepX);
     ((S_80024B54_7 *)target_pos)->unk_02.u = (u16)((((S_80024B54_4 *)tile_or_y_steps)->unk_24 << 6) + 0x20);
     tile_y = ((S_80024B54_4 *)tile_or_y_steps)->unk_25;
-    tile_or_y_steps = (u8 *)&D_8006CCE8;
+    tile_or_y_steps = (u8 *)((M2C_UNK *)dirStepY);
     ((S_80024B54_7 *)target_pos)->unk_06.u = (u16)((tile_y << 6) + 0x20);
 loop_15:
     actor_or_frame = ((S_80024B54_3 *)target_page)->unk_14A8;

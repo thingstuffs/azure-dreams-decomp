@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "records/Rec_D_800E3D7C.h"
 extern int abs(int);
 
@@ -80,8 +81,6 @@ extern void func_800A56E0(s32);
 extern s32 func_800A94A0(void *, void *, s32, void *);
 extern void func_800DAE44(void *, s32);
 
-extern s8 D_8006CCD8;
-extern s8 D_8006CCE8;
 extern u8 D_8006DE24[];
 extern void *D_800814A8;
 extern s16 D_80083228;
@@ -121,8 +120,8 @@ void func_80172D74(void *action, void *motion, void *sprite, void *actor)
 
         owner = ((S_80172D74_1 *)action)->unk_A4;
         owner_flags = (u8 *)owner + 0x20;
-        step_x = *(s16 *)(&D_8006CCD8 + direction_index);
-        step_z = *(s16 *)(&D_8006CCE8 + direction_index);
+        step_x = *(s16 *)(((s8 *)dirStepX) + direction_index);
+        step_z = *(s16 *)(((s8 *)dirStepY) + direction_index);
         owner_sprite = (u8 *)owner + 0x28;
     }
     ((S_80172D74_1 *)action)->unk_96.s--;

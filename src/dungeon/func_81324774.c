@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800814A8.h"
 
@@ -95,8 +96,6 @@ typedef struct {
     u16 flags;
     u8 tail[6];
 } D_800E2970Entry;
-extern M2C_UNK D_8006CCD8;
-extern M2C_UNK D_8006CCE8;
 extern s16 D_8006CD00;
 extern void *D_800814A8;
 extern u8 D_80082E80[];
@@ -217,8 +216,8 @@ void func_8016BF74(void *raw_motion, void *context, void *raw_position, void *ra
                     direction_offset = ((((S_8016BF74_1 *)actor)->unk_45 + ((s32) (((Rec_D_800814A8 *)D_800814A8)->unk_2A.as_u16 << 0x10) >> 0x19)) & 7) * 2;
                     world_x = D_80082E80[0x24];
                     world_y = D_80082E80[0x25];
-                    x_offset = (void *)(*(u16 *)((u8 *)(&D_8006CCD8) + direction_offset));
-                    y_offset = (*(u16 *)((u8 *)(&D_8006CCE8) + direction_offset));
+                    x_offset = (void *)(*(u16 *)((u8 *)(((M2C_UNK *)dirStepX)) + direction_offset));
+                    y_offset = (*(u16 *)((u8 *)(((M2C_UNK *)dirStepY)) + direction_offset));
                     current_x = (*(u8 *)((u8 *)position + 0x24));
                     target_x = world_x + ((s32)x_offset);
                     target_y = world_y + y_offset;
@@ -288,7 +287,7 @@ init_offsets:
 #ifdef __mips__
         offset_page = (s8 *)0x80070000;
 #else
-        offset_page = (s8 *)&D_8006CCD8 + 0x3328;
+        offset_page = (s8 *)((M2C_UNK *)dirStepX) + 0x3328;
 #endif
         ASM_KEEP(offset_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         x_offsets = (u8 *)(offset_page - 0x3328);
@@ -334,7 +333,7 @@ take_step:
             tile_x_or_offset = ((u16) ((S_8016BF74_1 *)actor)->unk_2A.u >> 8) & 0xE;
             x_offset_ptr = (u8 *)((u32) tile_x_or_offset + (u32) x_offsets);
             position->unk_24.at00.v = (u8) (position->unk_24.at00.v + *x_offset_ptr);
-            y_offsets = (u8 *)&D_8006CCE8;
+            y_offsets = (u8 *)((M2C_UNK *)dirStepY);
             y_offset_ptr = (u8 *)((u32) tile_x_or_offset + (u32) y_offsets);
             current_y = position->unk_24.at01.v;
             step_y = *y_offset_ptr;

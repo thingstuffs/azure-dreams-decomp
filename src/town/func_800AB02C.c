@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "m2c_compat.h"
 
 s32 func_800374F4();                         /* extern */
@@ -7,8 +8,6 @@ void *func_8003FC64(s32);               /* extern */
 M2C_UNK func_8004491C();           /* extern */
 s32 rand();                           /* extern */
 extern M2C_UNK D_80045340;
-extern s16 D_8006CCD8[8];
-extern s16 D_8006CCE8[8];
 extern M2C_UNK D_800A86BC;
 extern M2C_UNK D_800F15AC;
 
@@ -85,8 +84,8 @@ void *func_800A878C(S_800A878C_2 *source_motion, u32 flags) {
         ((S_800A878C_0 *)effect)->unk_10 = &D_800A86BC;
         func_8004491C(effect, &D_80045340);
         direction_index = direction;
-        motion->unk_02 = (s16) (source_motion->unk_02 - (D_8006CCD8[direction_index] * 0x10));
-        direction_y = &D_8006CCE8[direction_index];
+        motion->unk_02 = (s16) (source_motion->unk_02 - (dirStepX[direction_index] * 0x10));
+        direction_y = &dirStepY[direction_index];
         motion->unk_06 = (s16) (source_motion->unk_06 - (*direction_y * 0x10));
         motion->unk_0A = (u16) source_motion->unk_0A;
         velocity_x = 0 - (source_motion->unk_0C * ((rand(direction_y) & 1) + 2));

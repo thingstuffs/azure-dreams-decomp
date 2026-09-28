@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -52,8 +53,6 @@ extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
 extern s16 func_800BCB04(s32, s32, s16);
 
-extern s8 D_8006CCD8;
-extern s8 D_8006CCE8;
 extern s16 D_80083228;
 extern s32 D_8008346C;
 extern void *D_800E3DE8;
@@ -72,9 +71,9 @@ void func_801725D0(void *action, void *motion, void *sprite, void *actor)
     s32 height_delta;
 
     direction_offset = (((S_801725D0_0 *)actor)->unk_2A.s >> 8) & 0xE;
-    x_step = *(s16 *)((u8 *)&D_8006CCD8 + direction_offset);
+    x_step = *(s16 *)((u8 *)((s8 *)dirStepX) + direction_offset);
     ticks_left = ((S_801725D0_1 *)action)->unk_96.s - 1;
-    y_step = *(s16 *)((u8 *)&D_8006CCE8 + direction_offset);
+    y_step = *(s16 *)((u8 *)((s8 *)dirStepY) + direction_offset);
     state = ((S_801725D0_1 *)action)->unk_9B;
     ((S_801725D0_1 *)action)->unk_96.s = ticks_left;
 

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -12,8 +13,6 @@ extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
 extern void func_80174910(void *, void *);
 
-extern s8 D_8006CCD8;
-extern s8 D_8006CCE8;
 extern s16 D_80083228;
 extern s32 D_8008346C;
 extern void *D_80170850[];
@@ -78,10 +77,10 @@ L0:
 
 L1:
     ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 -=
-        *(s16 *)((u8 *)&D_8006CCD8 +
+        *(s16 *)((u8 *)((s8 *)dirStepX) +
                  (((u16)((S_801728A8_4 *)actor)->unk_2A.u >> 8) & 0xE)) << 14;
     ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v -=
-        *(s16 *)((u8 *)&D_8006CCE8 +
+        *(s16 *)((u8 *)((s8 *)dirStepY) +
                  (((u16)((S_801728A8_4 *)actor)->unk_2A.u >> 8) & 0xE)) << 14;
     ((S_801728A8_0 *)action)->unk_A0.at00.v += 0x60000;
     if (((S_801728A8_0 *)action)->unk_A0.at02.v >= 0x31) {
@@ -112,8 +111,8 @@ L2:
         s16 timer;
 
         direction_offset = ((u16)((S_801728A8_4 *)actor)->unk_2A.u >> 8) & 0xE;
-        step_x = *(s16 *)((u8 *)&D_8006CCD8 + direction_offset) << 16;
-        step_y = *(s16 *)((u8 *)&D_8006CCE8 + direction_offset) << 16;
+        step_x = *(s16 *)((u8 *)((s8 *)dirStepX) + direction_offset) << 16;
+        step_y = *(s16 *)((u8 *)((s8 *)dirStepY) + direction_offset) << 16;
         ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 += step_x;
         ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v += step_y;
         arc = -func_800644B8(((S_801728A8_0 *)action)->unk_96.s * 170);
@@ -149,10 +148,10 @@ L3:
         if (((S_801728A8_0 *)action)->unk_96.s == 10) {
             func_8009C12C(actor, sprite, ((S_801728A8_4 *)actor)->unk_2A.s, 1);
         }
-        directions_x = (s16 *)&D_8006CCD8;
+        directions_x = (s16 *)((s8 *)dirStepX);
         direction_offset = ((u16)((S_801728A8_4 *)actor)->unk_2A.u >> 8) & 0xE;
         direction_x_ptr = (s16 *)(direction_offset + (u8 *)directions_x);
-        directions_y = (s16 *)&D_8006CCE8;
+        directions_y = (s16 *)((s8 *)dirStepY);
         direction_y_ptr = (s16 *)(direction_offset + (u8 *)directions_y);
         direction_x_2 = *direction_x_ptr;
         arc = *direction_y_ptr;

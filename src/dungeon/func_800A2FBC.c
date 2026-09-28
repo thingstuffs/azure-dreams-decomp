@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/dir_step.h"
 #include "m2c_compat.h"
 
 s32 func_8003DE58();
@@ -11,8 +12,6 @@ M2C_UNK func_800A2B04();
 M2C_UNK func_800A7A7C();
 M2C_UNK func_800B66C8();
 s16 func_800BCB04();
-extern s8 D_8006CCD8;
-extern s8 D_8006CCE8;
 extern M2C_UNK D_80081484;
 extern s32 D_800814A0[3];
 extern void *D_800814A8;
@@ -118,7 +117,7 @@ typedef struct S_800A871C_13 {
 
 typedef struct S_800A871C_14 {
     u8 unk_00;
-} S_800A871C_14;   /* (u8 *)&D_8006CCE8 + temp_a0_8 in func_800A871C */
+} S_800A871C_14;   /* (u8 *)((s8 *)dirStepY) + temp_a0_8 in func_800A871C */
 
 typedef struct S_800A871C_15 {
     u8 pad_00[0x3D7C];
@@ -271,9 +270,9 @@ void func_800A871C(void *object_arg, void *motion_arg, void *tile_arg) {
             (*(s16 *)((u8 *)object_data + (0x6A))) = (s16) launch_heading;
             direction = (launch_heading >> 9) & 7;
             if (travel_steps != 0) {
-                s16 *x_steps = (s16 *)&D_8006CCD8;
+                s16 *x_steps = (s16 *)((s8 *)dirStepX);
                 dir_offset = direction * 2;
-                y_steps = (u8 *)&D_8006CCE8;
+                y_steps = (u8 *)((s8 *)dirStepY);
                 y_step = (u8 *)((unsigned long)dir_offset + (unsigned long)y_steps);
                 target_height = func_800BCB04((((((S_800A871C_4 *)tile)->unk_24.n + (*(s16 *)((u8 *)x_steps + dir_offset) * travel_steps)) << 6) + 0x20) & 0xFFE0, (((((S_800A871C_4 *)tile)->unk_25.n + (((S_800A871C_6 *)y_step)->unk_00 * travel_steps)) << 6) + 0x20) & 0xFFE0, ((S_800A871C_3 *)motion)->unk_08.at02.v);
                 if (target_height < 0x200) {
@@ -285,10 +284,10 @@ void func_800A871C(void *object_arg, void *motion_arg, void *tile_arg) {
                 }
                 ((S_800A871C_3 *)motion)->unk_14 = (s32) (height_delta << 0xF) / (s16) (*(u16 *)((u8 *)object_data + (0x8A)));
             }
-            launch_x_steps = (u8 *)&D_8006CCD8;
+            launch_x_steps = (u8 *)((s8 *)dirStepX);
             launch_dir_offset = direction * 2;
             ((S_800A871C_4 *)tile)->unk_24.n = (u8) (((S_800A871C_4 *)tile)->unk_24.n + ((S_800A871C_7 *)((u8 *)((unsigned long)launch_dir_offset + (unsigned long)launch_x_steps)))->unk_00);
-            launch_y_step = (u8 *)&D_8006CCE8 + launch_dir_offset;
+            launch_y_step = (u8 *)((s8 *)dirStepY) + launch_dir_offset;
             ((S_800A871C_4 *)tile)->unk_25.n = (u8) (((S_800A871C_4 *)tile)->unk_25.n + ((S_800A871C_8 *)launch_y_step)->unk_00);
             ((S_800A871C_1 *)object)->unk_A4 = 2;
             return;
@@ -311,13 +310,13 @@ void func_800A871C(void *object_arg, void *motion_arg, void *tile_arg) {
             }
             {
                 drop_source = (*(void **)((u8 *)object_data + (0x60)));
-                drop_x_steps = (u8 *)&D_8006CCD8;
+                drop_x_steps = (u8 *)((s8 *)dirStepX);
                 drop_heading = ((S_800A871C_11 *)drop_source)->unk_2A;
                 drop_sprite = ((S_800A871C_11_pre *)drop_source)[-1].unk_00;
                 (*(s16 *)((u8 *)object_data + (0x6A))) = (s16) drop_heading;
                 drop_dir_offset = (drop_heading >> 8) & 0xE;
                 ((S_800A871C_4 *)tile)->unk_24.n = (u8) (((S_800A871C_12 *)drop_sprite)->unk_24 + ((S_800A871C_13 *)((u8 *)((unsigned long)drop_dir_offset + (unsigned long)drop_x_steps)))->unk_00);
-                ((S_800A871C_4 *)tile)->unk_25.n = (u8) (((S_800A871C_12 *)drop_sprite)->unk_25 + ((S_800A871C_14 *)((u8 *)&D_8006CCE8 + drop_dir_offset))->unk_00);
+                ((S_800A871C_4 *)tile)->unk_25.n = (u8) (((S_800A871C_12 *)drop_sprite)->unk_25 + ((S_800A871C_14 *)((u8 *)((s8 *)dirStepY) + drop_dir_offset))->unk_00);
                 func_800A2B04(motion, ((S_800A871C_4 *)tile)->unk_24.v, ((S_800A871C_4 *)tile)->unk_25.v);
                 drop_height = func_800BCB04((((S_800A871C_4 *)tile)->unk_24.n << 6) | 0x20, (((S_800A871C_4 *)tile)->unk_25.n << 6) | 0x20, ((S_800A871C_3 *)motion)->unk_08.at02.v);
                 if (drop_height >= 0x201) {
@@ -390,10 +389,10 @@ finish_collision:
         (*(u16 *)((u8 *)object_data + (0x8A))) = steps_left;
         if ((steps_left << 0x10) > 0) {
             func_800A2B04(motion, ((S_800A871C_4 *)tile)->unk_24.n, ((S_800A871C_4 *)tile)->unk_25.n);
-            next_x_steps = (u8 *)&D_8006CCD8;
+            next_x_steps = (u8 *)((s8 *)dirStepX);
             next_dir_offset = ((u16) (*(s16 *)((u8 *)object_data + (0x6A))) >> 8) & 0xE;
-            ((S_800A871C_4 *)tile)->unk_24.n = (u8) (((S_800A871C_4 *)tile)->unk_24.n + ((S_800A871C_18 *)((u8 *)((unsigned long)next_dir_offset + (unsigned long)(u8 *)&D_8006CCD8)))->unk_00);
-            next_y_step = (u8 *)&D_8006CCE8 + next_dir_offset;
+            ((S_800A871C_4 *)tile)->unk_24.n = (u8) (((S_800A871C_4 *)tile)->unk_24.n + ((S_800A871C_18 *)((u8 *)((unsigned long)next_dir_offset + (unsigned long)(u8 *)((s8 *)dirStepX))))->unk_00);
+            next_y_step = (u8 *)((s8 *)dirStepY) + next_dir_offset;
             ((S_800A871C_4 *)tile)->unk_25.n = (u8) (((S_800A871C_4 *)tile)->unk_25.n + *next_y_step);
             ((S_800A871C_1 *)object)->unk_A4 = 2;
             goto advance_position;

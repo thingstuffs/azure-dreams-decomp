@@ -1,9 +1,8 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 extern s32 func_8009A350(s16, s16, s16, u16 *);
 extern s16 func_800D0DE0(s16, s16, s16);
-extern s16 D_8006CCD8[];
-extern s16 D_8006CCE8[];
 extern u8 D_8008333C[32];
 
 /* Counts flagged tiles along a direction for up to eleven steps. */
@@ -28,7 +27,7 @@ s32 func_800D112C(s16 scan_direction, s32 start_x, s32 start_y) {
 
     remaining = 11;
     direction = scan_direction;
-    x_base = (u8 *)D_8006CCD8;
+    x_base = (u8 *)dirStepX;
     byte_offset = direction * 2;
     x_step = (u16 *)(x_base + byte_offset);
     count = 0;
@@ -44,7 +43,7 @@ s32 func_800D112C(s16 scan_direction, s32 start_x, s32 start_y) {
         u8 *y_base;
         u16 *y_step;
 
-        y_base = (u8 *)D_8006CCE8;
+        y_base = (u8 *)dirStepY;
         y_step = (u16 *)(y_base + byte_offset);
         y_acc = start_y - *y_step;
     }
@@ -84,7 +83,7 @@ s32 func_800D112C(s16 scan_direction, s32 start_x, s32 start_y) {
             register u8 *loop_y_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             u16 *loop_y_step;
 
-            loop_y_base = (u8 *)D_8006CCE8;
+            loop_y_base = (u8 *)dirStepY;
             loop_x_step = (u16 *)(work.byte_offset);
             loop_y_step = (u16 *)(loop_y_base + (s32)loop_x_step);
             y_acc += *loop_y_step;

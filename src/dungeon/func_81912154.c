@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_80024170_arg0.h"
 extern int abs(int);
@@ -105,8 +106,6 @@ M2C_UNK func_8009CE1C(); /* extern */
 s32 func_800A44E0();              /* extern */
 s32 func_800A56E0();                     /* extern */
 s16 func_800BCB04();                   /* extern */
-extern s16 D_8006CCD8[];
-extern s16 D_8006CCE8[];
 extern M2C_UNK D_800814A0;
 extern s32 D_8008346C;
 extern u8 D_800DDC40[];
@@ -268,10 +267,10 @@ do {
     {
         direction = (s16) ((Rec_func_80024170_arg0 *)state)->unk_0E;
         height = (u16) ((S_80025954_1 *)owner)->unk_88;
-        entity = (void *)&D_8006CCD8[direction];
+        entity = (void *)&dirStepX[direction];
     }
     height = (s16) (height - 0x20);
-    y_lookup_first = &D_8006CCE8[direction];
+    y_lookup_first = &dirStepY[direction];
     floor_height = func_800BCB04(((((s16) tile_x + *((s16 *)entity)) << 6) + 0x20) & 0xFFE0, ((((s16) tile_y + *y_lookup_first) << 6) + 0x20) & 0xFFE0, height);
     ASM_CLOBBER("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     ASM_CLOBBER("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -284,8 +283,8 @@ do {
     }
     step_direction = (s16) ((Rec_func_80024170_arg0 *)state)->unk_0E;
     step_count += 1;
-    x_lookup_next = &D_8006CCD8[step_direction];
-    axis_delta = (s32)&D_8006CCE8[step_direction];
+    x_lookup_next = &dirStepX[step_direction];
+    axis_delta = (s32)&dirStepY[step_direction];
     source_coord = tile_x + (u16) *x_lookup_next;
     tile_x = source_coord;
     motion_value = tile_y + (u16) *(s16 *)axis_delta;
@@ -297,13 +296,13 @@ use_endpoint:
     destination = stack.motion;
 build_endpoint:
     axis_delta = (u32) end_tile_x << 0x10;
-    source_coord = (s32)(D_8006CCD8);
+    source_coord = (s32)(dirStepX);
     axis_delta >>= 0xA;
     ASM_KEEP(axis_delta);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     motion_value = (s16) ((Rec_func_80024170_arg0 *)state)->unk_0E;
     motion_value <<= 1;
     final_ptr = (s16 *) ((u8 *) (s16 *)source_coord + motion_value);
-    source_coord = (s32)(D_8006CCE8);
+    source_coord = (s32)(dirStepY);
     motion_value = *final_ptr;
     motion_value = (motion_value + 1) << 5;
     axis_delta += motion_value;

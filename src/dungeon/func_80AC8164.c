@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -21,8 +22,6 @@ extern void func_800A2B04(void *, s32, s32);
 extern void func_800AAA54(void *, void *, void *, void *);
 extern void func_800AD4D0(void *);
 
-extern s8 D_8006CCD8;
-extern s8 D_8006CCE8;
 extern s16 D_80083228;
 extern s32 D_80083460;
 extern s32 D_80171728;
@@ -81,10 +80,10 @@ state_1:
     timer = timer_bits;
     if (timer >= 11) {
         ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 =
-            *(s16 *)((u8 *)&D_8006CCD8 +
+            *(s16 *)((u8 *)((s8 *)dirStepX) +
                      ((((Rec_D_800E3D7C *)entity)->unk_6A.as_u16 >> 8) & 0xE)) << 20;
         ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v =
-            *(s16 *)((u8 *)&D_8006CCE8 +
+            *(s16 *)((u8 *)((s8 *)dirStepY) +
                      ((((Rec_D_800E3D7C *)entity)->unk_6A.as_u16 >> 8) & 0xE)) << 20;
         ((Rec_D_80082E80 *)actor)->unk_14.at00_u16.v |= 0x800;
         goto done;

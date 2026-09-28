@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 extern int abs(int);
 
 typedef union FixedWord {
@@ -98,8 +99,6 @@ typedef struct LargeScalar {
 } LargeScalar;
 
 extern void *D_80024028[10];
-extern s16 D_8006CCD8[8];
-extern s16 D_8006CCE8[8];
 extern LargeScalar D_800814A0;
 extern s32 D_8008346C[3];
 
@@ -349,7 +348,7 @@ case_0:
             break;
         }
 
-        table_addr = (s32)D_8006CCD8;
+        table_addr = (s32)dirStepX;
         table_offset = (s16)state_arg->direction;
         target = (u16)entity->height;
         table_offset *= 2;
@@ -357,7 +356,7 @@ case_0:
         target -= 32;
         target = (u32)target << 16;
         target >>= 16;
-        table_addr = (s32)D_8006CCE8;
+        table_addr = (s32)dirStepY;
         step_y = (s16 *)(table_offset + table_addr);
         ASM_KEEP(step_y);
         terrain_height = func_800BCB04(
@@ -369,12 +368,12 @@ case_0:
             break;
         }
 
-        table_addr = (s32)D_8006CCE8 - 0x10;
+        table_addr = (s32)dirStepY - 0x10;
         update_offset = (s16)state_arg->direction;
         index++;
         update_offset *= 2;
         update_x = (u16 *)(update_offset + table_addr);
-        table_addr = (s32)D_8006CCD8 + 0x10;
+        table_addr = (s32)dirStepX + 0x10;
         color = (s32)((s16 *)((u16 *)(update_offset + table_addr)));
         ASM_KEEP(color);
         target_y = tile_x + *update_x;
@@ -389,12 +388,12 @@ case_0:
     target = (s32)(&work.target);
     index = 1;
     target_x = (u32)final_x << 16;
-    color = (s32)(D_8006CCD8);
+    color = (s32)(dirStepX);
     target_x = (s32)target_x >> 10;
     direction_index = (s16)state_arg->direction;
     target_cursor = &work.target.x.half.hi;
     axis_step = ((s16 *)color)[direction_index];
-    color = (s32)(D_8006CCE8);
+    color = (s32)(dirStepY);
     target_x = target_x + ((axis_step + 1) << 5);
     (*(s16 *)((u8 *)((Motion *)target) + 2)) = target_x;
     target_x = (u32)target_x << 16;

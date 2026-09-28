@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 typedef union FixedWord {
     s32 word;
@@ -130,8 +131,6 @@ extern void *D_80024028[7];
 extern u8 D_80025100[16];
 extern Packed12 D_8002510C;
 extern volatile s16 D_80025118[5];
-extern u8 D_8006CCD8[16];
-extern u8 D_8006CCE8[16];
 extern s32 D_800814A0[3];
 extern s32 D_8008346C[3];
 extern u8 D_800E3D68[16];
@@ -289,7 +288,7 @@ state0:
         {
             u8 *lookup_base;
             u32 lookup;
-            lookup_base = D_8006CCD8;
+            lookup_base = ((u8 *)dirStepX);
             lookup = (u32)actor->direction << 1;
             aux = *(Aux **)((u8 *)entity - 0x14);
             lookup += (u32)lookup_base;

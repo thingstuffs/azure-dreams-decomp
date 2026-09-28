@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 typedef struct {
     u16 x;
@@ -86,8 +87,6 @@ typedef struct S_func_819615E4_6 {
     s16 unk_00;
 } S_func_819615E4_6;
 
-extern s8 D_8006CCD8;
-extern s8 D_8006CCE8;
 extern u16 D_80027330[];
 extern s32 D_800814A0;
 extern u8 D_80082E80[];
@@ -232,9 +231,9 @@ void func_819615E4(State *state, Target *target, S_func_819615E4_0 *color)
         direction_offset = ((((S_func_819615E4_2 *)D_800E3D7C)->unk_2A.u16_value >> 8) & 0xE);
         func_80025334(
             (s16)(((table->unk_24 +
-                    (((S_func_819615E4_5 *)((u8 *)&D_8006CCD8 + direction_offset))->unk_00 * 4)) << 6) + 0x20),
+                    (((S_func_819615E4_5 *)((u8 *)((s8 *)dirStepX) + direction_offset))->unk_00 * 4)) << 6) + 0x20),
             (s16)(((table->unk_25 +
-                    (((S_func_819615E4_6 *)((u8 *)&D_8006CCE8 + direction_offset))->unk_00 * 4)) << 6) + 0x20),
+                    (((S_func_819615E4_6 *)((u8 *)((s8 *)dirStepY) + direction_offset))->unk_00 * 4)) << 6) + 0x20),
             ((S_func_819615E4_2 *)D_800E3D7C)->unk_88.s16_value);
 finish:
         *(u16 *)((u8 *)state - 2) |= 0x8000;

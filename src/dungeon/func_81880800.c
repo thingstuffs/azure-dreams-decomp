@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 #define F(p, t, o) (*(t *)((u8 *)(p) + (o)))
 
@@ -8,8 +9,6 @@ extern u8 D_800257E8[];
 extern u8 D_80045340[];
 extern s16 D_800257CE[5];
 extern u8 D_800DDC40[];
-extern s16 D_8006CCD8[];
-extern s16 D_8006CCE8[];
 extern s32 D_8008346C[];
 extern s32 D_800814A0[];
 
@@ -167,14 +166,14 @@ initialize:
             s16 direction;
             direction = F(self, s16, 0x1A);
             source_data = F(owner, void *, -0x14);
-            tile_coord = F(source_data, u8, 0x24) + D_8006CCD8[direction];
+            tile_coord = F(source_data, u8, 0x24) + dirStepX[direction];
             F(self, u8, 0x20) = tile_coord;
             F(self, u8, 0x22) = tile_coord;
         }
         {
             s16 direction;
             direction = F(self, s16, 0x1A);
-            tile_coord = F(source_data, u8, 0x25) + D_8006CCE8[direction];
+            tile_coord = F(source_data, u8, 0x25) + dirStepY[direction];
             F(self, u8, 0x21) = tile_coord;
             F(self, u8, 0x23) = tile_coord;
         }
@@ -203,9 +202,9 @@ initialize:
     F(self, u16, 0x12) = F(motion, u16, 6);
     F(self, u16, 0x14) = F(owner, u16, 0x88) - 0x50;
 attach_done:
-    direction_step = D_8006CCD8[F(self, s16, 0x1A)];
+    direction_step = dirStepX[F(self, s16, 0x1A)];
     F(motion, s16, 0x0E) = direction_step << 3;
-    direction_step = D_8006CCE8[F(self, s16, 0x1A)];
+    direction_step = dirStepY[F(self, s16, 0x1A)];
     F(motion, s16, 0x12) = direction_step << 3;
     state_step = F(self, u16, 0xA);
     F(self, u16, 0x1C) = 0;

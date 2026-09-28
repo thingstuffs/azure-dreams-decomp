@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "records/Rec_D_800814A8.h"
@@ -78,8 +79,6 @@ s32 func_800A6D30(void);
 void func_800A9A0C(void *);
 extern void call_800A9A0C_top(void *) __asm__("func_800A9A0C");
 s16 func_800BCB04(s32, s32, s32);
-extern u8 D_8006CCD8[];
-extern u8 D_8006CCE8[];
 extern s16 D_8006CD00[];
 extern u8 *D_800814A8;
 extern u8 D_80082E80[];
@@ -155,11 +154,11 @@ void func_8016FCE4(void *move_state, void *unused, void *position_in, void *acto
                 u8 *x_table_base;
                 s32 dir_index;
 
-                x_table_base = D_8006CCD8;
+                x_table_base = ((u8 *)dirStepX);
                 heading_base = *heading_ref;
                 dir_index = ((((S_8016FCE4_0 *)actor_in)->unk_45 + ((s32) (((S_8016FCE4_4 *)heading_base)->unk_2A << 0x10) >> 0x19)) & 7) * 2;
                 target_x = position_base[0x24] + *(u16 *)(x_table_base + dir_index);
-                target_y = D_80082E80[0x25] + *(u16 *)(D_8006CCE8 + dir_index);
+                target_y = D_80082E80[0x25] + *(u16 *)(((u8 *)dirStepY) + dir_index);
                 if ((((S_8016FCE4_1 *)position_in)->unk_24.at00.v != (target_x & 0xFFFF)) || (((S_8016FCE4_1 *)position_in)->unk_24.at01.v != (target_y & 0xFFFF))) {
                     heading_state = move_state + 0x98;
                     target_heading = func_800A0818(((S_8016FCE4_1 *)position_in)->unk_24.at00.v, ((S_8016FCE4_1 *)position_in)->unk_24.at01.v, (s16) target_x, (s16) target_y, heading_state);
@@ -180,7 +179,7 @@ reset_turn_index:
             goto start_turn_search;
         }
 start_turn_search:
-        x_offsets = D_8006CCD8;
+        x_offsets = ((u8 *)dirStepX);
         turn_offsets = D_8006CD00;
         do {
         heading = ((S_8016FCE4_0 *)actor_in)->unk_2A.s;
@@ -210,7 +209,7 @@ take_step:
                 step_coord = ((u16) ((S_8016FCE4_0 *)actor_in)->unk_2A.u >> 8) & 0xE;
                 ((S_8016FCE4_1 *)position_in)->unk_24.at00.v = advance_tile(((S_8016FCE4_1 *)position_in)->unk_24.at00.v, x_offsets, step_coord);
                 y_address = step_coord;
-                y_address += (s32)D_8006CCE8;
+                y_address += (s32)((u8 *)dirStepY);
                 ((S_8016FCE4_1 *)position_in)->unk_24.at01.v = advance_tile(((S_8016FCE4_1 *)position_in)->unk_24.at01.v, (u8 *)y_address, 0);
                 step_coord = ((S_8016FCE4_1 *)position_in)->unk_24.at00.v;
                 tile_y = ((S_8016FCE4_1 *)position_in)->unk_24.at01.v;

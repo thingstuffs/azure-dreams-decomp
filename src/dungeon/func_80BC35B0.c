@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -9,8 +10,6 @@ extern void func_800A4ACC(void *);
 extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
 
-extern s8 D_8006CCD8;
-extern s8 D_8006CCE8;
 extern s16 D_80083228;
 extern s32 D_8008346C;
 extern u8 D_80170838[16];
@@ -101,9 +100,9 @@ windup:
     ((S_80172DB0_0 *)action)->unk_B0 = (s32)0xFFFE0000;
     ((S_80172DB0_0 *)action)->unk_9B++;
     ((S_80172DB0_3 *)motion)->unk_0C =
-        -*(s16 *)(&D_8006CCD8 + (((u16)((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 >> 8) & 0xE)) << 18;
+        -*(s16 *)(((s8 *)dirStepX) + (((u16)((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 >> 8) & 0xE)) << 18;
     ((S_80172DB0_3 *)motion)->unk_10 =
-        -*(s16 *)(&D_8006CCE8 + (((u16)((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 >> 8) & 0xE)) << 18;
+        -*(s16 *)(((s8 *)dirStepY) + (((u16)((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 >> 8) & 0xE)) << 18;
     return;
 
 jump:
@@ -111,9 +110,9 @@ jump:
     ((S_80172DB0_0 *)action)->unk_AC += ((S_80172DB0_0 *)action)->unk_B0;
     if (((S_80172DB0_0 *)action)->unk_96.s < 2) {
         ((S_80172DB0_3 *)motion)->unk_0C =
-            *(s16 *)(&D_8006CCD8 + (((u16)((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 >> 8) & 0xE)) << 19;
+            *(s16 *)(((s8 *)dirStepX) + (((u16)((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 >> 8) & 0xE)) << 19;
         ((S_80172DB0_3 *)motion)->unk_10 =
-            *(s16 *)(&D_8006CCE8 + (((u16)((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 >> 8) & 0xE)) << 19;
+            *(s16 *)(((s8 *)dirStepY) + (((u16)((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 >> 8) & 0xE)) << 19;
     }
     {
         u16 timer = ((S_80172DB0_0 *)action)->unk_96.u;

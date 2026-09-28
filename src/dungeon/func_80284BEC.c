@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "m2c_compat.h"
 
 s32 func_80017EBC();
@@ -6,8 +7,6 @@ s16 func_80017F88();
 s16 func_8001816C();
 s32 func_80018304();
 M2C_UNK func_800BCB04();
-extern s16 D_8006CCD8[];
-extern s16 D_8006CCE8[];
 
 typedef struct S_80017BEC_T {
     u8 pad_00[0x4];
@@ -24,8 +23,8 @@ extern S_80017BEC_M D_8008333C;
 
 /* Marks a path through neighboring tiles, retrying within the region when needed. */
 s32 func_80017BEC(s16 region_id) {
-    s16 *dx = D_8006CCD8;
-    s16 *dy = D_8006CCE8;
+    s16 *dx = dirStepX;
+    s16 *dy = dirStepY;
     s16 x;
     s16 y;
     S_80017BEC_M *map;

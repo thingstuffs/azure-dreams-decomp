@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "m2c_compat.h"
 
 typedef struct S_800CA1E0_0 {
@@ -27,9 +28,7 @@ typedef struct S_800CA1E0_3 {
 } S_800CA1E0_3;   /* (void *)temp_e_index in func_800CA1E0 */
 
 
-extern u16 D_8006CCD8[];
 extern u8 D_8008333C[32];
-extern u16 D_8006CCE8[];
 extern u16 D_800DCEAC[];
 extern u16 D_800DCEBC[];
 extern s8 D_800E2970[];
@@ -76,7 +75,7 @@ s32 func_800CA1E0(u32 action_flags, void *position, void *volatile object, u32 h
     lookup_arg = (action_flags >> 9) & 7;
     direction = lookup_arg;
     ASM_KEEP_NV(direction);
-    bounds_page_2 = (u32)((s32)(D_8006CCD8));
+    bounds_page_2 = (u32)((s32)(dirStepX));
     direction_offset = direction;
     direction_offset <<= 1;
     step_x = (u16 *)((u32)direction_offset + (u32)(u16 *)(s32)bounds_page_2);
@@ -97,7 +96,7 @@ s32 func_800CA1E0(u32 action_flags, void *position, void *volatile object, u32 h
     if (((1 << ((S_800CA1E0_1 *)bounds)->unk_14) - 1) < coord_value) {
         return -1;
     }
-    bounds_page = (u32)((s32)(D_8006CCE8));
+    bounds_page = (u32)((s32)(dirStepY));
     step_y = (u16 *)((u32)direction_offset + (u32)(u16 *)(s32)bounds_page);
     coord_value = coords->unk_25.s;
     bounds_page = (u32)(*step_y);

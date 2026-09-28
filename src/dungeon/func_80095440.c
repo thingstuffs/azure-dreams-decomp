@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 typedef struct {
     u8 pad0[2];
@@ -23,8 +24,6 @@ typedef struct {
     s16 value6e;
 } Func95440Object;
 
-extern s16 D_8006CCD8[];
-extern s16 D_8006CCE8[];
 extern s32 D_800814A8[4];
 extern s16 D_80083460[3];
 
@@ -58,8 +57,8 @@ s32 func_8009ABA0(u32 direction_bits, Func95440Input *position, Func95440Actor *
     }
     target_height = initial_height;
 
-    x += D_8006CCD8[direction] << 6;
-    y += D_8006CCE8[direction] << 6;
+    x += dirStepX[direction] << 6;
+    y += dirStepY[direction] << 6;
     if ((func_8009A350(actor->x, actor->y, direction, &tile_flags) << 16) == 0) {
         return 0;
     }

@@ -1,10 +1,9 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "m2c_compat.h"
 extern int abs(int);
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern u16 D_8006CCD8[];
-extern u16 D_8006CCE8[];
 extern u8 D_80083498[];
 extern u8 D_80045340[];
 extern u8 D_800DEA68[];
@@ -131,7 +130,7 @@ __asm__(".set func_80024004, 0x80024004");
  * table + body in one .text.<func> section).  Prior drafts modelled this word
  * as a dead `lb $v0, 0x4004($zero)` retained by a volatile-asm keep; that
  * keep is
- * a sched2 barrier and is what pinned the D_8006CCD8 %hi below the callee-save
+ * a sched2 barrier and is what pinned the dirStepX %hi below the callee-save
  * stores. */
 #ifdef __mips__
 static void (*const func_81832800_table[])(void)
@@ -202,7 +201,7 @@ BODY_STORAGE void BODY_NAME(S_func_81832800_1 *effect, S_func_81832800_4 *positi
     void *particle_callback;
     S_func_81832800_7 *particle_texture;
 
-    sprite_flags = (u32) D_8006CCD8;
+    sprite_flags = (u32) dirStepX;
     source = effect->unk_00;
     init_value = source->unk_2A;
     source_sprite = ((S_func_81832800_3 *) ((u8 *) source - 0x20))->unk_0C;
@@ -210,7 +209,7 @@ BODY_STORAGE void BODY_NAME(S_func_81832800_1 *effect, S_func_81832800_4 *positi
     spawn_value = count & 0xE;
     sprite_flags += spawn_value;
     step_x = (s32) ((S_func_81832800_8 *) (void *) sprite_flags)->unk_00;
-    spawn_value += (s32) D_8006CCE8;
+    spawn_value += (s32) dirStepY;
     step_y = (s32) ((S_func_81832800_8 *) (void *) spawn_value)->unk_00;
     spawn_state = effect->unk_0A;
     effect->unk_50 = (u16) (effect->unk_50 - 1);

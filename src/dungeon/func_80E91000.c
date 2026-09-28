@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "m2c_compat.h"
 
 #define M2C_BREAK() ((void)0)
@@ -12,8 +13,6 @@ extern s32 func_800C8310(void *, void *);
 
 extern s32 D_80010248[];
 extern s32 D_8001029C[];
-extern u8 D_8006CCD8[];
-extern u8 D_8006CCE8[];
 extern s32 D_800E3548[];
 extern s32 D_800E3D7C[];
 extern s32 D_8016EFE4[];
@@ -64,8 +63,8 @@ BODY_STORAGE s32 BODY_NAME(void *origin, void *actor)
 
     direction_offset = (*(u16 *)(actor_bytes + 0x2A) >> 8) & 0xE;
     ground_index = func_800A70E4(
-        (s16)(*(u8 *)(origin_bytes + 0x24) + *(u16 *)(D_8006CCD8 + direction_offset)),
-        (s16)(*(u8 *)(origin_bytes + 0x25) + *(u16 *)(D_8006CCE8 + direction_offset)),
+        (s16)(*(u8 *)(origin_bytes + 0x24) + *(u16 *)(((u8 *)dirStepX) + direction_offset)),
+        (s16)(*(u8 *)(origin_bytes + 0x25) + *(u16 *)(((u8 *)dirStepY) + direction_offset)),
         *(s16 *)(actor_bytes + 0x88));
     if (ground_index >= 0) {
         D_8016EFE4[0] = D_800E3548[ground_index];

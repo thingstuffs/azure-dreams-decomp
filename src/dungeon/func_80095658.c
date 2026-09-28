@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 typedef unsigned long uptr;
 
@@ -30,8 +31,6 @@ typedef struct {
 } DungeonState;
 
 extern DungeonState D_80083160;
-extern u16 D_8006CCD8[];
-extern u16 D_8006CCE8[];
 extern s16 func_800BCB04(s32, s32, s16);
 
 /* Checks the facing cell for valid terrain flags and an acceptable height. */
@@ -61,8 +60,8 @@ s32 func_8009ADB8(S_8009ADB8_0 *facing_state, S_8009ADB8_1 *attributes, s32 tile
         return 0;
     }
 
-    next_x = tile_x + D_8006CCD8[direction];
-    next_y_sum = tile_y + D_8006CCE8[direction];
+    next_x = tile_x + ((u16 *)dirStepX)[direction];
+    next_y_sum = tile_y + ((u16 *)dirStepY)[direction];
     next_y = (s16)next_y_sum;
     next_cell = (MapCell *)((uptr)((s16)(next_x +
         (next_y << ((S_8009ADB8_2 *)map_state)->unk_14)) * 6) + (uptr)map);

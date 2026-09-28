@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 #ifndef NULL
 #define NULL 0
@@ -75,8 +76,6 @@ extern s32 rand();
 extern s32 func_8003DB94();
 
 extern s32 D_80045340;
-extern s16 D_8006CCD8[8];
-extern s16 D_8006CCE8[8];
 extern s32 D_800ABB20;
 extern s32 D_800D1464;
 
@@ -102,8 +101,8 @@ void func_800ABC00(void *source_data, u32 angle)
         effect_state = &effect->sub20;
         effect->unk10 = &D_800ABB20;
         func_8004491C(effect, &D_80045340);
-        x_steps = D_8006CCD8;
-        y_step = &D_8006CCE8[direction];
+        x_steps = dirStepX;
+        y_step = &dirStepY[direction];
         motion->unk_02 =
             (s16)(source->unk_02 -
                   (x_steps[direction] * 0x10));

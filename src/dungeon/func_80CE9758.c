@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "records/Rec_D_800814A8.h"
 
 #ifndef NULL
@@ -120,8 +121,6 @@ extern void func_800A9A0C();
 extern s16 func_800BCB04();
 extern s32 func_80173734();
 
-extern s8 D_8006CCD8;
-extern s8 D_8006CCE8;
 extern s16 D_8006CD00;
 extern void *D_800814A8;
 extern u8 D_80082E80[];
@@ -226,9 +225,9 @@ void func_80172F58(u8 *move_input, void *action_context, u8 *position_input, u8 
             direction = (((S_80172F58_1 *)actor)->unk_45 +
                          ((s32)(((Rec_D_800814A8 *)D_800814A8)->unk_2A.as_u16 << 16) >> 25)) & 7;
             target_x = ((S_80172F58_6 *)target)->unk_24 +
-                       ((u16 *)&D_8006CCD8)[direction];
+                       ((u16 *)((s8 *)dirStepX))[direction];
             target_y = ((S_80172F58_6 *)target)->unk_25 +
-                       ((u16 *)&D_8006CCE8)[direction];
+                       ((u16 *)((s8 *)dirStepY))[direction];
             if ((((S_80172F58_2 *)position)->unk_24.at00.v == (u16)target_x) &&
                 (((S_80172F58_2 *)position)->unk_24.at01.v == (u16)target_y)) {
                 goto clear_history;
@@ -313,7 +312,7 @@ use_target:
 init_loop:
     attempt = 0;
 setup_loop:
-    x_offsets = (u8 *)&D_8006CCD8;
+    x_offsets = (u8 *)((s8 *)dirStepX);
     angle_offset = &D_8006CD00;
 
 loop:
@@ -352,7 +351,7 @@ loop:
         direction_offset = near_target;
         ((S_80172F58_2 *)position)->unk_24.at00.v +=
             *((u8 *)((u32)direction_offset + (u32)x_offsets));
-        ((S_80172F58_2 *)position)->unk_24.at01.v += *((u8 *)&D_8006CCE8 + direction_offset);
+        ((S_80172F58_2 *)position)->unk_24.at01.v += *((u8 *)((s8 *)dirStepY) + direction_offset);
         next_x = ((S_80172F58_2 *)position)->unk_24.at00.v;
         next_y = *(volatile u8 *)((u8 *)position + 0x25);
         tile_mask = 0x3000;

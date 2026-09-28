@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 typedef struct Ent {
     u8 pad0[3];        /* 0x00 */
@@ -35,8 +36,6 @@ typedef struct {
     u8 unk25;          /* 0x25 */
 } Pos;
 
-extern s16 D_8006CCD8[];
-extern s16 D_8006CCE8[];
 extern u16 D_800DCEAC[];
 extern u16 D_800DCEBC[];
 extern u8 *D_800E3D7C;
@@ -100,8 +99,8 @@ base_ready:
         if ((func_8009A540((a->unk2a >> 9) & 7, b->unk24, b->unk25,
                            (s16)(*(u16 *)&a->unk88 - 0x20)) << 16) != 0) {
             ent2 = func_8009B25C(a,
-                                 (u16)(b->unk24 + *(u16 *)((u8 *)D_8006CCD8 + off) * savedMult),
-                                 (u16)(b->unk25 + *(u16 *)((u8 *)D_8006CCE8 + off) * savedMult),
+                                 (u16)(b->unk24 + *(u16 *)((u8 *)dirStepX + off) * savedMult),
+                                 (u16)(b->unk25 + *(u16 *)((u8 *)dirStepY + off) * savedMult),
                                  a->unk88);
             a->unk60 = ent2;
             if (ent2 != 0) {

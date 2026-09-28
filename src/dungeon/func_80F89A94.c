@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 typedef struct S_80173294_0 {
     u8 pad_00[0x14];
@@ -46,8 +47,6 @@ extern void func_800A2FE0();
 extern void func_800A32A4();
 extern void func_800A56E0();
 extern void func_800ACF88();
-extern u8 D_8006CCD8;
-extern u8 D_8006CCE8;
 extern s32 D_800814A0;
 extern s32 D_80083460;
 extern s16 D_8008346A;
@@ -65,8 +64,8 @@ void func_80173294(void *effect_data, void *motion_data, void *sprite_data, void
     s32 is_low_state;
 
     direction_offset = (((S_80173294_0 *)object_data)->unk_6A >> 8) & 0xE;
-    direction_x = *(s16 *)((u8 *)&D_8006CCD8 + direction_offset);
-    direction_y = *(s16 *)((u8 *)&D_8006CCE8 + direction_offset);
+    direction_x = *(s16 *)((u8 *)((u8 *)dirStepX) + direction_offset);
+    direction_y = *(s16 *)((u8 *)((u8 *)dirStepY) + direction_offset);
     motion_step = 0xC000;
     motion_value = (((S_80173294_1 *)motion_data)->unk_14) + motion_step;
     ((S_80173294_1 *)motion_data)->unk_14 = motion_value;

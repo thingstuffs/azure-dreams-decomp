@@ -1,10 +1,9 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 extern s32 func_8009A350(s16, s16, s16, u16 *);
 extern s32 func_8009A540(u16, s16, s16, s16);
 extern s16 func_800BCB04(s32, s32, s16);
-extern s8 D_8006CCD8;
-extern s8 D_8006CCE8;
 
 /* Classify movement in a direction by tile flags and destination height. */
 s32 func_80018304(s32 input_x, s32 input_y, s32 current_height, s32 direction)
@@ -34,8 +33,8 @@ s32 func_80018304(s32 input_x, s32 input_y, s32 current_height, s32 direction)
         goto failure;
     }
 
-    next_x = raw_x + ((u16 *)&D_8006CCD8)[dir];
-    next_y = raw_y + ((u16 *)&D_8006CCE8)[dir];
+    next_x = raw_x + ((u16 *)((s8 *)dirStepX))[dir];
+    next_y = raw_y + ((u16 *)((s8 *)dirStepY))[dir];
     if (tile_flags & 0x8400) {
         goto failure;
     }

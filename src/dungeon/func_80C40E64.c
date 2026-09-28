@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 typedef struct S_80172664_0 {
     u8 pad_00[0x1C];
@@ -50,8 +51,6 @@ extern void func_800A4ACC(void *);
 extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
 
-extern s8 D_8006CCD8;
-extern s8 D_8006CCE8;
 extern s16 D_80083228;
 extern s32 D_8008346C;
 extern void *D_800E3DE8;
@@ -70,8 +69,8 @@ void func_80172664(void *animation, void *motion, void *sprite, void *actor)
     s32 next_state;
 
     direction_offset = ((u16)((S_80172664_0 *)actor)->unk_2A >> 8) & 0xE;
-    direction_x = *(s16 *)((u8 *)&D_8006CCD8 + direction_offset);
-    direction_y = *(s16 *)((u8 *)&D_8006CCE8 + direction_offset);
+    direction_x = *(s16 *)((u8 *)((s8 *)dirStepX) + direction_offset);
+    direction_y = *(s16 *)((u8 *)((s8 *)dirStepY) + direction_offset);
     ((S_80172664_1 *)animation)->unk_96.s--;
     state = ((S_80172664_1 *)animation)->unk_9B;
 

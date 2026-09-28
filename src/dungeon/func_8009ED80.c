@@ -1,7 +1,6 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
-extern s8 D_8006CCD8;
-extern s8 D_8006CCE8;
 
 s32 func_8009A350(s32 x, s32 y, s32 layer, s16 *height);
 s16 func_800BCB04(s32 x, s32 y, s32 height);
@@ -40,10 +39,10 @@ s32 func_800A44E0(u16 x, u16 y, s16 height, u32 flags)
     }
 
     probe_height = (s16)(saved_height - 0x20);
-    x_offsets = (u16 *)&D_8006CCD8;
+    x_offsets = (u16 *)((s8 *)dirStepX);
     layer_offset = layer * 2;
     layer_x_offset = (u16 *)((s8 *)x_offsets + layer_offset);
-    layer_y_offset = (u16 *)((s8 *)&D_8006CCE8 + layer_offset);
+    layer_y_offset = (u16 *)((s8 *)((s8 *)dirStepY) + layer_offset);
     offset_cell_x = *layer_x_offset + cell_x;
     offset_cell_y = *layer_y_offset + cell_y;
     offset_height = func_800BCB04(

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 extern int abs(int);
 #ifndef NULL
 #define NULL 0
@@ -6,8 +7,6 @@ extern int abs(int);
 
 /* ---- globals (declared array-style so every access stays %hi/%lo, never $gp) ---- */
 extern u16 D_80013714[];
-extern u16 D_8006CCD8[];
-extern u16 D_8006CCE8[];
 extern u8 D_80082E80[];
 extern u16 D_8008347E[];
 extern void *D_800814A8[];
@@ -64,8 +63,8 @@ extern s32 func_800C7F68();
         u16 facing = (*(u16 *)(creature + 0x2A) >> 9) & 7;                                  \
         direction = facing;                                                                 \
         neighbor_result = func_8009B25C(creature,                                           \
-            (u16)(position[0x24] + *(u16 *)((facing * 2) + (u8 *)D_8006CCD8)),              \
-            (u16)(position[0x25] + *(u16 *)((facing * 2) + (u8 *)D_8006CCE8)),              \
+            (u16)(position[0x24] + *(u16 *)((facing * 2) + (u8 *)dirStepX)),              \
+            (u16)(position[0x25] + *(u16 *)((facing * 2) + (u8 *)dirStepY)),              \
             *(s16 *)(creature + 0x88));                                                     \
     } while (0)
 
@@ -949,8 +948,8 @@ Lcase42:
         tile_x = position[0x24];
         tile_y = position[0x25];
         if ((distance << 16) > 0) {
-            u16 *x_steps = D_8006CCD8;
-            u16 *y_steps = D_8006CCE8;
+            u16 *x_steps = dirStepX;
+            u16 *y_steps = dirStepY;
             do {
                 s32 next_x, next_y;
                 s32 step_direction = *(s16 *)&direction;
@@ -1155,8 +1154,8 @@ check_forward_target:
         {
             u16 facing = (*(u16 *)(creature + 0x2A) >> 9) & 7;
             direction = facing;
-            tile_x = position[0x24] + *(u16 *)((facing * 2) + (u8 *)D_8006CCD8);
-            tile_y = position[0x25] + *(u16 *)((facing * 2) + (u8 *)D_8006CCE8);
+            tile_x = position[0x24] + *(u16 *)((facing * 2) + (u8 *)dirStepX);
+            tile_y = position[0x25] + *(u16 *)((facing * 2) + (u8 *)dirStepY);
         }
         target = NULL;
         if (creature[0xAC] == 0) {

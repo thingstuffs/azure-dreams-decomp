@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "m2c_compat.h"
 extern u8 D_800E0000[];
 
@@ -8,8 +9,6 @@ typedef struct {
     s16 height;
 } FuncArg1;
 
-extern u16 D_8006CCD8[];
-extern u16 D_8006CCE8[];
 extern u16 D_800DCEAC[];
 extern u16 D_800DCEBC[];
 extern void *D_800E3D7C;
@@ -80,7 +79,7 @@ s32 func_8009AF18(u32 direction_flags, FuncArg1 *origin, S_8009AF18_0 *start_til
     if ((max_steps << 0x10) > 0) {
         register u16 *tile_dx_reload ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         direction = direction_index;
-        tile_dx_base = (s32)D_8006CCD8;
+        tile_dx_base = (s32)dirStepX;
         direction_offset = direction << 1;
         tile_dx_ptr = (u16 *)(tile_dx_base + direction_offset);
 check_tile:
@@ -97,7 +96,7 @@ check_tile:
             ASM_KEEP_NV(tile_dx_reload);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             tile_x += *tile_dx_reload;
         }
-        tile_y += *(u16 *)((u8 *)D_8006CCE8 + direction_offset);
+        tile_y += *(u16 *)((u8 *)dirStepY + direction_offset);
         if (tile_info[0] & 0x3300) {
             {
                 S_8009AF18_1 *world;

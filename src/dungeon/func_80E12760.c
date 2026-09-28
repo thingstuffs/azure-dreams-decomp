@@ -1,3 +1,4 @@
+#include "shared/dir_step.h"
 
 struct S_80083178Vector
 {
@@ -68,8 +69,6 @@ extern void func_8004491C(void *object, void *callback);
 extern void func_80047784(void *object, s32 kind, s32 arg2);
 extern void *func_8003DE58(void *arg0, void *arg1, Vec3u16 *out, s32 arg3);
 extern s32 D_80045340;
-extern u8 D_8006CCD8;
-extern u8 D_8006CCE8;
 extern u8 D_80175978;
 /* Create a render object and initialize its position and motion toward a directional target. */
 void *func_80175F60(void *emitter, Copy24 *position, void *source)
@@ -91,8 +90,8 @@ void *func_80175F60(void *emitter, Copy24 *position, void *source)
   emitter_copy = emitter;
   target_position = *position_data;
   direction_offset = (direction_flags >> 8) & 0xE;
-  *((u16 *) (((u8 *) (&target_position)) + 2)) += ((*((s16 *) (((u8 *) (&D_8006CCD8)) + direction_offset))) * (*((s16 *) (((u8 *) emitter) + 0xB2)))) * 0x40;
-  *((u16 *) (((u8 *) (&target_position)) + 6)) += ((*((s16 *) (((u8 *) (&D_8006CCE8)) + direction_offset))) * (*((s16 *) (((u8 *) emitter_copy) + 0xB2)))) * 0x40;
+  *((u16 *) (((u8 *) (&target_position)) + 2)) += ((*((s16 *) (((u8 *) (((u8 *)dirStepX))) + direction_offset))) * (*((s16 *) (((u8 *) emitter) + 0xB2)))) * 0x40;
+  *((u16 *) (((u8 *) (&target_position)) + 6)) += ((*((s16 *) (((u8 *) (((u8 *)dirStepY))) + direction_offset))) * (*((s16 *) (((u8 *) emitter_copy) + 0xB2)))) * 0x40;
   object = func_8003FC64(0x312);
   if (object != 0)
   {

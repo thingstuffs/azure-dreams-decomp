@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "records/Rec_D_800814A8.h"
 
 typedef struct S_8017163C_0 {
@@ -95,8 +96,6 @@ extern void func_8009A21C(s32, s32, s32);
 extern s16 func_8009A180(void *, void *);
 extern s16 func_800BCB04(s32, s32, s16);
 
-extern s8 D_8006CCD8;
-extern s8 D_8006CCE8;
 extern s16 D_8006CD00[];
 extern void *D_800814A8;
 extern u8 D_80082E80[];
@@ -201,9 +200,9 @@ active:
                 s32 table_index =
                     ((((S_8017163C_1 *)actor_in)->unk_45 + ((s16)target_heading >> 9)) & 7) << 1;
                 target_x = target_position[0x24] +
-                    *(u16 *)((u8 *)&D_8006CCD8 + table_index);
+                    *(u16 *)((u8 *)((s8 *)dirStepX) + table_index);
                 target_y = target_position[0x25] +
-                    *(u16 *)((u8 *)&D_8006CCE8 + table_index);
+                    *(u16 *)((u8 *)((s8 *)dirStepY) + table_index);
             }
 
             if (((S_8017163C_2 *)position_in)->unk_24.at00.v == (u16)target_x &&
@@ -318,11 +317,11 @@ init_loop:
             {
                 u8 *x_step;
 
-                x_step = (u8 *)&D_8006CCD8;
+                x_step = (u8 *)((s8 *)dirStepX);
                 direction_offset = (((S_8017163C_1 *)actor_in)->unk_2A.u >> 8) & 0xE;
                 x_step += direction_offset;
                 ((S_8017163C_2 *)position_in)->unk_24.at00.v += *x_step;
-                ((S_8017163C_2 *)position_in)->unk_24.at01.v += *((u8 *)&D_8006CCE8 + direction_offset);
+                ((S_8017163C_2 *)position_in)->unk_24.at01.v += *((u8 *)((s8 *)dirStepY) + direction_offset);
             }
 
             func_8009A21C(

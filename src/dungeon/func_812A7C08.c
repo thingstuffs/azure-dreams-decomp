@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -12,8 +13,6 @@ extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
 extern void func_801753DC(void *, void *);
 
-extern s8 D_8006CCD8;
-extern s8 D_8006CCE8;
 extern s16 D_80083228;
 extern s32 D_8008346C;
 extern void *D_80170848[];
@@ -78,10 +77,10 @@ L0:
 
 L1:
     ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 -=
-        *(s16 *)((u8 *)&D_8006CCD8 +
+        *(s16 *)((u8 *)((s8 *)dirStepX) +
                  (((u16)((S_80173408_4 *)actor)->unk_2A.u >> 8) & 0xE)) << 14;
     ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v -=
-        *(s16 *)((u8 *)&D_8006CCE8 +
+        *(s16 *)((u8 *)((s8 *)dirStepY) +
                  (((u16)((S_80173408_4 *)actor)->unk_2A.u >> 8) & 0xE)) << 14;
     ((S_80173408_0 *)jump)->unk_A0.at00.v += 0x60000;
     if (((S_80173408_0 *)jump)->unk_A0.at02.v >= 0x31) {
@@ -114,10 +113,10 @@ L2:
         s32 arc;
         s16 timer;
 
-        x_table = (s16 *)&D_8006CCD8;
+        x_table = (s16 *)((s8 *)dirStepX);
         y_entry = (s16 *)(((u16)((S_80173408_4 *)actor)->unk_2A.u >> 8) & 0xE);
         x_entry = (s16 *)((s32)y_entry + (u8 *)x_table);
-        y_table = (s16 *)&D_8006CCE8;
+        y_table = (s16 *)((s8 *)dirStepY);
         y_entry = (s16 *)((s32)y_entry + (u8 *)y_table);
         arc = *x_entry;
         y_entry = (s16 *)(*y_entry);
@@ -159,10 +158,10 @@ L3:
         if ((*(s16 *)((u8 *)jump + 0x96)) == 10) {
             func_8009C12C(actor, sprite, ((S_80173408_4 *)actor)->unk_2A.s, 1);
         }
-        x_table = (s16 *)&D_8006CCD8;
+        x_table = (s16 *)((s8 *)dirStepX);
         dir_offset = ((u16)((S_80173408_4 *)actor)->unk_2A.u >> 8) & 0xE;
         x_entry = (s16 *)(dir_offset + (u8 *)x_table);
-        y_table = (s16 *)&D_8006CCE8;
+        y_table = (s16 *)((s8 *)dirStepY);
         y_entry = (s16 *)(dir_offset + (u8 *)y_table);
         direction_x = *x_entry;
         arc = *y_entry;

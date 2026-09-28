@@ -1,8 +1,7 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 extern u16 D_80013714[];
-extern u8 D_8006CCD8[];
-extern u8 D_8006CCE8[];
 extern u8 D_80083160[];
 extern s16 D_80083228;
 extern s32 D_80083460;
@@ -53,9 +52,9 @@ void func_80096C24(void *obj, s32 move_mode, void *actor, void *map)
             s16 step_index;
 
             step_index = (U16(map, 0x2A) >> 8) & 0xE;
-            x_offsets = D_8006CCD8;
+            x_offsets = ((u8 *)dirStepX);
             U8(actor, 0x24) = U8(actor, 0x24) + x_offsets[step_index];
-            U8(actor, 0x25) = U8(actor, 0x25) + D_8006CCE8[step_index];
+            U8(actor, 0x25) = U8(actor, 0x25) + ((u8 *)dirStepY)[step_index];
         }
         func_8009A21C(U8(actor, 0x24), U8(actor, 0x25), 0x300);
 

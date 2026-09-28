@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 typedef struct S_81978428_0 {
     u8 pad_00[0xF4];
@@ -118,8 +119,6 @@ extern u8 D_80082E80[];
 extern u16 D_80082E94[5];
 extern u8 D_80083460[16];
 extern Vec81978428 D_80083780;
-extern s16 D_8006CCD8[];
-extern s16 D_8006CCE8[];
 
 extern void func_800243C0(void *, void *);
 extern s32 func_80053EF0(s32);

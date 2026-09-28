@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -67,8 +68,6 @@ void func_800A4ACC(void *);
 void func_800A56E0(s32);
 void func_800AD594(void *, s32);
 s32 func_800BCB04(s32, s32, s16);
-extern s8 D_8006CCD8;
-extern s8 D_8006CCE8;
 extern s16 D_80083228;
 extern s32 D_8008346C;
 extern u8 D_80083498[];
@@ -95,8 +94,8 @@ void func_80172654(void *action, void *motion, void *entity, void *actor) {
 
     state = ((S_80172654_0 *)action)->unk_9B.s;
     dir_offset = (((S_80172654_1 *)actor)->unk_2A.s >> 8) & 0xE;
-    dir_x = *(s16 *)((u8 *)&D_8006CCD8 + dir_offset);
-    dir_y = *(s16 *)((u8 *)&D_8006CCE8 + dir_offset);
+    dir_x = *(s16 *)((u8 *)((s8 *)dirStepX) + dir_offset);
+    dir_y = *(s16 *)((u8 *)((s8 *)dirStepY) + dir_offset);
     timer = ((S_80172654_0 *)action)->unk_96.s - 1;
     ((S_80172654_0 *)action)->unk_96.s = timer;
 

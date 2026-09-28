@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -20,8 +21,6 @@ extern void func_800A2B04();
 extern void func_800AAA54();
 extern void func_800AD4D0();
 
-extern s8 D_8006CCD8;
-extern s8 D_8006CCE8;
 extern s32 D_80083460;
 extern u8 D_801710F4[];
 extern u8 D_80174F10[];
@@ -65,12 +64,12 @@ void func_80173420(S_80173420_0 *action, Rec_D_800E3D7C *motion, Rec_D_80082E80 
 
 init_motion:
     func_800AD4D0(entity);
-    directions_x = (s16 *)&D_8006CCD8;
+    directions_x = (s16 *)((s8 *)dirStepX);
     launch_offset = direction * 2;
     motion->unk_0C.as_s32 =
         *(s16 *)((u8 *)directions_x + launch_offset) << 0x12;
     motion->unk_10.at00_s32.v =
-        *(s16 *)((u8 *)&D_8006CCE8 + launch_offset) << 0x12;
+        *(s16 *)((u8 *)((s8 *)dirStepY) + launch_offset) << 0x12;
     action->unk_9B++;
 
     if (((Rec_D_800E3D7C *)entity)->unk_28 == 0) {
@@ -102,9 +101,9 @@ init_motion:
     motion->unk_10.at00_s32.v = velocity_y - (biased_velocity_y >> 2);
 
 decelerate:
-    directions_x = (s16 *)&D_8006CCD8;
+    directions_x = (s16 *)((s8 *)dirStepX);
     decel_offset = direction * 2;
-    direction_y = (s16 *)((u8 *)&D_8006CCE8 + decel_offset);
+    direction_y = (s16 *)((u8 *)((s8 *)dirStepY) + decel_offset);
     motion->unk_0C.as_s32 -=
         *(s16 *)((u8 *)directions_x + decel_offset) << 0xE;
     motion->unk_10.at00_s32.v -= *direction_y << 0xE;

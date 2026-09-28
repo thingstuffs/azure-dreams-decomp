@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 typedef struct {
     u8 pad0[0x8c];
@@ -44,8 +45,6 @@ typedef struct {
     s32 value;
 } Global83460;
 
-extern u8 D_8006CCD8[];
-extern u8 D_8006CCE8[];
 extern Global83460 D_80083460;
 extern s32 D_800814A0[];
 extern u8 D_800B2A60[];
@@ -80,8 +79,8 @@ void func_800B2CA0(StateObj *motion_state, Motion *motion, Params *params, Entit
 
 init_motion:
     func_800AD4D0(entity);
-    motion->dx = (-*(s16 *)(D_8006CCD8 + ((entity->key6a >> 8) & 0xe))) << 0xf;
-    motion->dy = (-*(s16 *)(D_8006CCE8 + ((entity->key6a >> 8) & 0xe))) << 0xf;
+    motion->dx = (-*(s16 *)(((u8 *)dirStepX) + ((entity->key6a >> 8) & 0xe))) << 0xf;
+    motion->dy = (-*(s16 *)(((u8 *)dirStepY) + ((entity->key6a >> 8) & 0xe))) << 0xf;
     motion_state->state++;
     if (params->flags & 0x8000) {
         if (entity->byte28 == 0) {

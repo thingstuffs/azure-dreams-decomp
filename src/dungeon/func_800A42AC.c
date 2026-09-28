@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -6,7 +7,6 @@ M2C_UNK func_800A4ACC();                      /* extern */
 M2C_UNK func_800AA53C();                      /* extern */
 M2C_UNK func_800AD594();             /* extern */
 extern u16 D_80013714;
-extern u16 D_80083462;
 
 
 /* Process an entity's pending updates and clear its update flags. */
@@ -15,7 +15,7 @@ void func_800A9A0C(Rec_D_800E3D7C *entity) {
     u8 entity_type;
 
     entity->unk_71.as_u8 = (u8) (entity->unk_71.as_u8 & 0x7F);
-    if (!(D_80083462 & 0x2800)) {
+    if (!(dungeonStatus.flags & 0x2800)) {
         if (entity->unk_6D.as_s8 != 0) {
             do {
                 if (!(D_80013714 & 8)) {

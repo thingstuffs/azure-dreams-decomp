@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 typedef s32 M2C_UNK;
 
 
@@ -11,8 +12,6 @@ M2C_UNK func_8004491C();
 M2C_UNK func_800478B8();
 s32 func_800BCB04();
 extern M2C_UNK D_80045340;
-extern u16 D_8006CCD8[8];
-extern u16 D_8006CCE8[8];
 extern M2C_UNK D_800DEEC0;
 extern M2C_UNK D_80174254;
 
@@ -101,8 +100,8 @@ s32 func_80DE6AAC(S_80DE6AAC_2 *source, void *initial_position, S_80DE6AAC_4 *ti
             s32 world_x;
 
             direction_offset = effect_state->unk_02 * 2;
-            world_x = (s32)((tile_origin->unk_24 + *(u16 *)((u8 *)D_8006CCD8 + direction_offset)) << 0x10) >> 0xA;
-            world_y = (s32)((tile_origin->unk_25 + *(u16 *)((u8 *)D_8006CCE8 + direction_offset)) << 0x10) >> 0xA;
+            world_x = (s32)((tile_origin->unk_24 + *(u16 *)((u8 *)dirStepX + direction_offset)) << 0x10) >> 0xA;
+            world_y = (s32)((tile_origin->unk_25 + *(u16 *)((u8 *)dirStepY + direction_offset)) << 0x10) >> 0xA;
             position->unk_02 = (s16)(world_x + 0x20);
             position->unk_06 = (s16)(world_y + 0x20);
             height_limit = func_800BCB04(world_x & 0xFFC0, world_y & 0xFFC0, (s16)(source->unk_88 - 0x20)) << 0x10;

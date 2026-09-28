@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -49,7 +50,6 @@ extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern u16 D_80082EA4;
 extern s16 D_80083228;
-extern u16 D_80083462;
 typedef struct {
     u8 pad0[0xC];
     u16 flags;
@@ -93,7 +93,7 @@ void func_801724BC(void *actor, M2C_UNK context, void *sprite, void *state) {
     s32 effect_mode;
     s32 rest_mode;
 
-    if (!(D_80083462 & 0x1000)) {
+    if (!(dungeonStatus.flags & 0x1000)) {
         goto block_2;
     }
     ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 0xEU;
@@ -303,7 +303,7 @@ block_64:
     if (((Rec_D_800E3D7C *)state)->unk_44.at02_u16.v & 0x8000) {
         goto block_72;
     }
-    if (!(D_80083462 & 0x2000)) {
+    if (!(dungeonStatus.flags & 0x2000)) {
         goto block_70;
     }
     if ((func_8009A180(state, ((Rec_D_800814A8 *)D_800814A8)->unk_58.as_s32 + 0x20) << 0x10) != 0) {
@@ -387,7 +387,7 @@ block_88:
 block_89:
     state_flags = ((Rec_D_800E3D7C *)state)->unk_1C.as_s32;
     if (state_flags & 0x2000) {
-        if (D_80083462 & 0x2000) {
+        if (dungeonStatus.flags & 0x2000) {
             goto block_109;
         }
         goto block_97;
@@ -396,14 +396,14 @@ block_89:
         goto block_92;
     }
     if (D_800E2970[room_id].flags & 2) {
-        if (D_80083462 & 0x2000) {
+        if (dungeonStatus.flags & 0x2000) {
             goto block_109;
         }
         goto block_97;
     }
 block_92:
     if (state_flags & 0x430) {
-        if (D_80083462 & 0x2000) {
+        if (dungeonStatus.flags & 0x2000) {
             goto block_109;
         }
         goto block_97;
@@ -416,7 +416,7 @@ block_92:
         ((Rec_D_800E3D7C *)state)->unk_2A.as_s16 = func_800A0818(((S_801724BC_2 *)sprite)->unk_24.at00.v, ((S_801724BC_2 *)sprite)->unk_24.at01.v, map[0x24], map[0x25], &path_info);
     }
 block_95:
-    if (D_80083462 & 0x2000) {
+    if (dungeonStatus.flags & 0x2000) {
         goto block_109;
     }
 block_97:

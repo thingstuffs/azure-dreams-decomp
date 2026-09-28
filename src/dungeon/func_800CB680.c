@@ -1,12 +1,11 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 typedef struct {
     u8 pad[4];
     u16 flags;
 } DungeonTile;
 
-extern u16 D_8006CCD8[8];
-extern u16 D_8006CCE8[8];
 extern s16 D_8008333C[16];
 extern DungeonTile D_800EA000[2];
 
@@ -24,10 +23,10 @@ s16 func_800D0DE0(s32 direction, s32 origin_x, s32 origin_y) {
     s16 minus_dir = (direction - 2) & 7;
     u16 first_count;
     u16 second_count;
-    s16 first_x = D_8006CCD8[(s16)direction] + origin_x;
-    s16 first_y = D_8006CCE8[(s16)direction] + origin_y;
-    s16 second_x = D_8006CCD8[minus_dir] + first_x;
-    s16 second_y = D_8006CCE8[minus_dir] + first_y;
+    s16 first_x = dirStepX[(s16)direction] + origin_x;
+    s16 first_y = dirStepY[(s16)direction] + origin_y;
+    s16 second_x = dirStepX[minus_dir] + first_x;
+    s16 second_y = dirStepY[minus_dir] + first_y;
     register s32 step = 0;
 
     first_count = second_count = 0;
@@ -53,8 +52,8 @@ s16 func_800D0DE0(s32 direction, s32 origin_x, s32 origin_y) {
                 func_800D169C((u16)first_x, (u16)first_y,
                               func_800D175C(first_x, first_y),
                               tile->flags & 8);
-                first_x += D_8006CCD8[plus_dir];
-                first_y += D_8006CCE8[plus_dir];
+                first_x += dirStepX[plus_dir];
+                first_y += dirStepY[plus_dir];
                 goto check_second;
             }
             first_stopped = 1;
@@ -81,8 +80,8 @@ check_second:
                 func_800D169C((u16)second_x, (u16)second_y,
                               func_800D175C(second_x, second_y),
                               tile->flags & 8);
-                second_x += D_8006CCD8[minus_dir];
-                second_y += D_8006CCE8[minus_dir];
+                second_x += dirStepX[minus_dir];
+                second_y += dirStepY[minus_dir];
                 goto next_iteration;
             }
             second_stopped = 1;

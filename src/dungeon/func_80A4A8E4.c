@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "m2c_compat.h"
 
 typedef struct S_801740E4_0 {
@@ -22,8 +23,6 @@ typedef struct S_801740E4_2 {
 
 
 s32 rand();
-extern s16 D_8006CCD8[];
-extern s16 D_8006CCE8[];
 extern s32 D_800814A0[3];
 
 /* Updates randomized movement, reduces speed, and flags completion when speed expires or a stop is requested. */
@@ -32,8 +31,8 @@ void func_801740E4(void *object_data, S_801740E4_0 *position, S_801740E4_2 *stat
     s32 random_value;
     s32 lowered_z;
 
-    position->unk_00 += ((D_8006CCD8[((S_801740E4_1 *)((u8 *)object_data - 0x2))->unk_16] * ((S_801740E4_1 *)((u8 *)object_data - 0x2))->unk_34) << 7) + (rand() & 0x7FFF);
-    position->unk_04 += ((D_8006CCE8[((S_801740E4_1 *)((u8 *)object_data - 0x2))->unk_16] * ((S_801740E4_1 *)((u8 *)object_data - 0x2))->unk_34) << 7) + (rand() & 0x7FFF);
+    position->unk_00 += ((dirStepX[((S_801740E4_1 *)((u8 *)object_data - 0x2))->unk_16] * ((S_801740E4_1 *)((u8 *)object_data - 0x2))->unk_34) << 7) + (rand() & 0x7FFF);
+    position->unk_04 += ((dirStepY[((S_801740E4_1 *)((u8 *)object_data - 0x2))->unk_16] * ((S_801740E4_1 *)((u8 *)object_data - 0x2))->unk_34) << 7) + (rand() & 0x7FFF);
     random_value = rand();
     lowered_z = position->unk_08 + (s32) 0xFFFE0000;
     position->unk_08 = lowered_z - (random_value & 0xFFF);

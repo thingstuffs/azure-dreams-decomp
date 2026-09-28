@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 typedef struct S_800259D8_0_pre {
     u16 unk_00;
@@ -233,8 +234,6 @@ extern u8 D_80024704[];
 extern u8 D_80025814[];
 extern u8 D_80024FD4[];
 extern u8 D_80025470[];
-extern u8 D_8006CCD8[];
-extern u8 D_8006CCE8[];
 extern u8 D_800DDC40[];
 extern s32 D_8008346C[3];
 extern s32 D_800814A0[3];
@@ -349,10 +348,10 @@ L0_adjust_z:
         }
         resident_work = ((S_800259D8_3_pre *)obj)[-1].unk_00;
         ((S_800259D8_0 *)arg0)->unk_AE = ((S_800259D8_6 *)resident_work)->unk_24 +
-            D_8006CCD8[((S_800259D8_0 *)arg0)->unk_80 << 1];
+            ((u8 *)dirStepX)[((S_800259D8_0 *)arg0)->unk_80 << 1];
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         ((S_800259D8_0 *)arg0)->unk_AF = ((S_800259D8_6 *)resident_work)->unk_25 +
-            D_8006CCE8[((S_800259D8_0 *)arg0)->unk_80 << 1];
+            ((u8 *)dirStepY)[((S_800259D8_0 *)arg0)->unk_80 << 1];
         entry = ((S_800259D8_15_pre *)(((S_800259D8_3 *)obj)->unk_60))[-1].unk_00;
         {
             if (((S_800259D8_3 *)obj)->unk_72 != ((S_800259D8_6 *)resident_work)->unk_24) {

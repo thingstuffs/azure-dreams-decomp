@@ -1,0 +1,2 @@
+{"tag": "r78_types_pilot", "at": "2026-09-28T07:13:33Z", "rows": 20, "names": ["dirStepX", "dirStepY", "dungeonStatus"], "headers": ["include/shared/dir_step.h", "include/shared/dungeon_status.h"], "how": "verify.py every row + gate_all + SLUS SHA-1 MATCH"}
+{"tag": "r78_types_pilot", "at": "2026-09-28T07:20:47Z", "rows": 223, "names": ["dirStepX", "dirStepY", "dungeonStatus"], "headers": ["include/shared/dir_step.h", "include/shared/dungeon_status.h"], "how": "verify.py every row + gate_all + SLUS SHA-1 MATCH"}

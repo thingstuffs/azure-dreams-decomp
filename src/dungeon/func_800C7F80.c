@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 
 extern s32 func_8003FA44();
@@ -10,8 +11,6 @@ extern s32 func_800A6D30(void *, s32, s32, s32);
 extern void func_800CD6AC();
 
 extern u8 D_80045C34[];
-extern s16 D_8006CCD8[];
-extern s16 D_8006CCE8[];
 extern u16 D_80083460[6];
 extern u8 D_800CD474[];
 extern u8 D_800E03E0[];
@@ -134,7 +133,7 @@ check_gate:
         effect_index = 0;
         update_callback = (void *)D_800CD474;
         effect_counts = D_80083460;
-        x_offsets = D_8006CCD8;
+        x_offsets = dirStepX;
         do {
             ((S_800CD6E0_2 *)((effect = func_8003FC64(2))))->unk_10 = update_callback;
             func_8004491C(effect, D_80045C34);
@@ -149,7 +148,7 @@ check_gate:
             owner_coord_2 <<= 6;
             spawn_roll = (spawn_roll << 5) + 0x20;
             owner_coord_2 += spawn_roll;
-            spawn_roll = (u32)D_8006CCE8;
+            spawn_roll = (u32)dirStepY;
             y_entry += spawn_roll;
             position->unk_02 = owner_coord_2;
             owner_coord = owner->unk_25;

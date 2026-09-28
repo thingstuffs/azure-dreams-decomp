@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -67,8 +68,6 @@ M2C_UNK func_80099F04();
 M2C_UNK func_80099F70();
 M2C_UNK func_800A2B04();
 M2C_UNK func_800B653C();
-extern u8 D_8006CCD8[];
-extern u8 D_8006CCE8[];
 extern s16 D_80083228;
 extern M2C_UNK D_80083460;
 extern M2C_UNK D_8008ACDC;
@@ -117,8 +116,8 @@ block_5:
     }
     goto block_28;
 jt_c16:
-    ((S_80092018_3 *)motion)->unk_0C.at02.v = (s16) (*((s16 *)(D_8006CCD8 + (((u16) ((S_80092018_2 *)model)->unk_2A >> 8) & 0xE))) * 8);
-    ((S_80092018_3 *)motion)->unk_10.at02.v = (s16) (*((s16 *)(D_8006CCE8 + (((u16) ((S_80092018_2 *)model)->unk_2A >> 8) & 0xE))) * 8);
+    ((S_80092018_3 *)motion)->unk_0C.at02.v = (s16) (*((s16 *)(((u8 *)dirStepX) + (((u16) ((S_80092018_2 *)model)->unk_2A >> 8) & 0xE))) * 8);
+    ((S_80092018_3 *)motion)->unk_10.at02.v = (s16) (*((s16 *)(((u8 *)dirStepY) + (((u16) ((S_80092018_2 *)model)->unk_2A >> 8) & 0xE))) * 8);
     start_frames_left = ((S_80092018_0 *)actor)->unk_96.s - 1;
     ((S_80092018_0 *)actor)->unk_96.s = start_frames_left;
     if ((start_frames_left << 0x10) > 0) {
@@ -150,7 +149,7 @@ block_13:
         s32 delta;
         s32 direction_offset;
         delta = ((Rec_D_80082E80 *)sprite)->unk_24 << 6;
-        direction_offset = *((s16 *)(D_8006CCD8 + (((u16) ((S_80092018_2 *)model)->unk_2A >> 8) & 0xE))) * 0x10;
+        direction_offset = *((s16 *)(((u8 *)dirStepX) + (((u16) ((S_80092018_2 *)model)->unk_2A >> 8) & 0xE))) * 0x10;
         direction_offset += 0x20;
         delta += direction_offset;
         delta -= heading_or_coord;
@@ -161,7 +160,7 @@ block_13:
         s32 delta;
         s32 direction_offset;
         delta = ((Rec_D_80082E80 *)sprite)->unk_25 << 6;
-        direction_offset = *((s16 *)(D_8006CCE8 + (((u16) ((S_80092018_2 *)model)->unk_2A >> 8) & 0xE))) * 0x10;
+        direction_offset = *((s16 *)(((u8 *)dirStepY) + (((u16) ((S_80092018_2 *)model)->unk_2A >> 8) & 0xE))) * 0x10;
         direction_offset += 0x20;
         delta += direction_offset;
         delta -= heading_or_coord;

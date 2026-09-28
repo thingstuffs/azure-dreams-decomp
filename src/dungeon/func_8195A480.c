@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "m2c_compat.h"
 
 M2C_UNK func_8002589C();        /* extern */
@@ -14,8 +15,6 @@ extern u16 D_800281F8;
 extern s16 D_8002966C[6];
 extern u8 D_8002966E;
 extern s32 D_80029670;
-extern s16 D_8006CCD8[];
-extern s16 D_8006CCE8[];
 extern s32 D_800814A0;
 extern M2C_UNK D_80082E80;
 extern u16 D_80082E94;
@@ -272,19 +271,19 @@ advance:
     }
 start_fade:
     ((S_80025C80_0 *)effect_in)->unk_2C = 0x10;
-    ((S_80025C80_2 *)((void *)(motion_in)))->unk_0C.at02.v = D_8006CCD8[((S_80025C80_0 *)effect_in)->unk_40.s] * 8;
-    ((S_80025C80_2 *)((void *)(motion_in)))->unk_10.at02.v = D_8006CCE8[((S_80025C80_0 *)effect_in)->unk_40.s] * 8;
+    ((S_80025C80_2 *)((void *)(motion_in)))->unk_0C.at02.v = dirStepX[((S_80025C80_0 *)effect_in)->unk_40.s] * 8;
+    ((S_80025C80_2 *)((void *)(motion_in)))->unk_10.at02.v = dirStepY[((S_80025C80_0 *)effect_in)->unk_40.s] * 8;
     x_step = 8;
     ((S_80025C80_2 *)((void *)(motion_in)))->unk_14.at02.v = x_step;
     ((S_80025C80_0 *)effect_in)->unk_30.n = x_step;
     goto move_to_tile;
 
 advance_tile:
-    update_ptr = &D_8006CCD8[((S_80025C80_0 *)effect_in)->unk_40.s];
+    update_ptr = &dirStepX[((S_80025C80_0 *)effect_in)->unk_40.s];
     update_x = (u16) ((S_80025C80_0 *)effect_in)->unk_3C;
     update_x += ((u16) *update_ptr);
     ((S_80025C80_0 *)effect_in)->unk_3C = update_x;
-    update_y_base = (s16 *)D_8006CCE8;
+    update_y_base = (s16 *)dirStepY;
     update_y_offset = ((S_80025C80_0 *)effect_in)->unk_40.s << 1;
     update_y_ptr = (s16 *) ((unsigned long) update_y_offset + (unsigned long) update_y_base);
     update_y = (u16) ((S_80025C80_0 *)effect_in)->unk_3E.v;

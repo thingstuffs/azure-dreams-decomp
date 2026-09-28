@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 extern int abs(int);
 
 #define F_S16(p, o) (*(s16 *)((u8 *)(p) + (o)))
@@ -12,8 +13,6 @@ extern void func_800478B8(void *);
 extern s32 rand(void);
 extern void func_8003DB94(void *, void *, s32);
 
-extern s16 D_8006CCD8[];
-extern s16 D_8006CCE8[];
 extern void *D_800D210C[];
 extern u8 D_800E9CD4[];
 extern u8 D_800E9CFC[];
@@ -126,8 +125,8 @@ case_0:
         goto finish_state;
     }
 
-    x_steps = D_8006CCD8;
-    y_steps = D_8006CCE8;
+    x_steps = dirStepX;
+    y_steps = dirStepY;
 random_direction:
     direction_index = rand() & 3;
     step_offset = direction_index * 4;
@@ -149,9 +148,9 @@ random_direction:
     do {
         walk_ticks = 0x40;
     } while (0);
-    step_x = D_8006CCD8;
+    step_x = dirStepX;
     step_x = (s16 *)((u8 *)step_x + step_offset);
-    step_y = D_8006CCE8;
+    step_y = dirStepY;
     step_y = (s16 *)((u8 *)step_y + step_offset);
     F_U16(actor, 0x6C) = walk_ticks;
     F_S16(actor, 0xA2) = (u16)F_S16(actor, 0xA2) + (u16)*step_x;

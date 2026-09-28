@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "m2c_compat.h"
 
 typedef struct S_8009CE1C_3_pre {
@@ -50,8 +51,6 @@ typedef struct S_8009CE1C_2 {
 extern u8 *D_800E3D7C[];
 extern u8 D_800E3E41;
 extern void *D_80083470[3];
-extern s16 D_8006CCD8[];
-extern s16 D_8006CCE8[];
 M2C_UNK func_80094E34();
 s32 func_80098250();
 M2C_UNK func_8009CFB4();
@@ -206,8 +205,8 @@ apply_affinity:
         position = ((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_00;
         direction_offset = ((u16) ((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_3E >> 8) & 0xE;
         func_80099C58(
-            (u16) ((position->unk_24 << 6) + ((D_8006CCD8[(u32) direction_offset >> 1] * 0x20) + 0x20)),
-            (u16) ((position->unk_25 << 6) + ((D_8006CCE8[(u32) direction_offset >> 1] * 0x20) + 0x20)),
+            (u16) ((position->unk_24 << 6) + ((dirStepX[(u32) direction_offset >> 1] * 0x20) + 0x20)),
+            (u16) ((position->unk_25 << 6) + ((dirStepY[(u32) direction_offset >> 1] * 0x20) + 0x20)),
             (s16) (((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_9C - 0x30),
             element_mask, (s32) (s16) hit_angle);
     }

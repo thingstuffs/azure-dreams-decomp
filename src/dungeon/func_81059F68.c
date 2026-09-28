@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 #define U8_AT(p, o)  (*(u8 *)((u8 *)(p) + (o)))
 #define S8_AT(p, o)  (*(s8 *)((u8 *)(p) + (o)))
@@ -23,8 +24,6 @@ extern void func_800A9A0C();
 extern s16 func_800BCB04();
 extern s32 func_80171F24();
 
-extern s8 D_8006CCD8;
-extern s8 D_8006CCE8;
 extern s16 D_8006CD00[8];
 extern void *D_800814A8;
 extern u8 D_80082E80[];
@@ -134,8 +133,8 @@ check_mode_2000:
         direction = (U8_AT(actor, 0x45) +
                      ((s32)(U16_AT(D_800814A8, 0x2A) << 16) >> 25)) & 7;
         offset = direction * 2;
-        target_x = U8_AT(target, 0x24) + U16_AT(&D_8006CCD8, offset);
-        target_y = U8_AT(target, 0x25) + U16_AT(&D_8006CCE8, offset);
+        target_x = U8_AT(target, 0x24) + U16_AT(((s8 *)dirStepX), offset);
+        target_y = U8_AT(target, 0x25) + U16_AT(((s8 *)dirStepY), offset);
         if ((U8_AT(position, 0x24) == (u16)target_x) &&
             (U8_AT(position, 0x25) == (u16)target_y)) {
             goto clear_path;
@@ -290,10 +289,10 @@ loop_setup:
 
             {
                 s32 move_offset = (U16_AT(actor, 0x2A) >> 8) & 0xE;
-                current_angle = (s32)((u8 *)&D_8006CCD8);
+                current_angle = (s32)((u8 *)((s8 *)dirStepX));
 
                 U8_AT(position, 0x24) += U8_AT(((u8 *)current_angle), move_offset);
-                U8_AT(position, 0x25) += U8_AT(&D_8006CCE8, move_offset);
+                U8_AT(position, 0x25) += U8_AT(((s8 *)dirStepY), move_offset);
             }
             func_8009A21C(
                 U8_AT(position, 0x24), U8_AT(position, 0x25),

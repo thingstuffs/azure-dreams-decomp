@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "records/Rec_D_80082E80.h"
@@ -6,8 +7,6 @@
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern s32 D_80083460[3];
-extern u16 D_8006CCD8[];
-extern u16 D_8006CCE8[];
 s32 func_8009B164();             /* extern */
 s32 func_8009B88C();      /* extern */
 void *func_8009C93C(); /* extern */
@@ -109,8 +108,8 @@ object_move_ok:
             steps_left = actor->unk_8A.as_u16 - 1;
             actor->unk_8A.as_u16 = steps_left;
             if ((steps_left << 0x10) > 0) {
-                tile_pos->unk_24 = (u8) (tile_pos->unk_24 + *(((u16) actor->unk_6A.as_s16 >> 9 & 7) + D_8006CCD8));
-                tile_pos->unk_25 = (u8) (tile_pos->unk_25 + *(((u16) actor->unk_6A.as_s16 >> 9 & 7) + D_8006CCE8));
+                tile_pos->unk_24 = (u8) (tile_pos->unk_24 + *(((u16) actor->unk_6A.as_s16 >> 9 & 7) + dirStepX));
+                tile_pos->unk_25 = (u8) (tile_pos->unk_25 + *(((u16) actor->unk_6A.as_s16 >> 9 & 7) + dirStepY));
                 ((Rec_func_800A9E70_arg0 *)move_state)->unk_96.as_s16 = 2;
                 goto movement_return;
             }

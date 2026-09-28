@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 typedef long long s64;
 typedef s32 M2C_UNK;
 
@@ -113,8 +114,6 @@ s32 func_800A56E0();
 void func_800AA53C();
 void func_800AD594();
 s16 func_800BCB04();
-extern u8 D_8006CCD8[];
-extern u8 D_8006CCE8[];
 extern s16 D_8008146E;
 extern u8 D_80082E80[];
 extern s16 D_80083228;
@@ -292,7 +291,7 @@ clear_sprite_tile:
     actor->unk_96 = 0xC;
     start_launch_done:
     ;
-    x_step_table = D_8006CCD8;
+    x_step_table = ((u8 *)dirStepX);
     step_offset = direction * 2;
     x_step_table = (u8 *) (step_offset + (u32) x_step_table);
     x_velocity = * (s16 *) x_step_table;
@@ -300,7 +299,7 @@ clear_sprite_tile:
     x_velocity <<= 0x16;
     x_velocity = x_velocity / launch_duration;
     motion->unk_0C = x_velocity;
-    y_step_table = D_8006CCE8;
+    y_step_table = ((u8 *)dirStepY);
     y_step_ptr = (s16 *) (step_offset + (u32) y_step_table);
     y_velocity = *y_step_ptr;
     y_velocity <<= 0x16;
@@ -392,7 +391,7 @@ prepare_tile_search:
     reverse_angle = (reverse_angle + 0x800) & 0xFFF;
     direction = reverse_angle >> 9;
     ASM_KEEP(direction);
-    search_x_steps = D_8006CCD8;
+    search_x_steps = ((u8 *)dirStepX);
     locals.sp16 = (s16) (u32)search_step_offset;
     search_step_offset = direction * 2;
     locals.sp18 = search_step_offset;
@@ -437,7 +436,7 @@ check_tile_path:
     search_step_offset = (s32)((u32)(locals.sp1C));
     sprite->unk_24 = (u8) (partner_sprite->unk_24 + *(u8 *)(u32)search_step_offset);
     ASM_SCHED_BARRIER();
-    y_step_value = (u32) D_8006CCE8;
+    y_step_value = (u32) ((u8 *)dirStepY);
     search_step_offset = (s32)((u32)((u8 *)((u32) locals.sp18)));
     landing_y = partner_sprite->unk_25;
     landing_x = sprite->unk_24;
@@ -532,7 +531,7 @@ set_return_motion:
         height_value = (u32)(8);
         motion->unk_14 = 0;
         actor->unk_96 = (s32)height_value;
-        height_value = (u32)((u32) D_8006CCD8);
+        height_value = (u32)((u32) ((u8 *)dirStepX));
         direction = angle_or_duration >> 8;
         return_step_offset = direction & 0xE;
         height_value = (u32)(return_step_offset + (s32)height_value);
@@ -542,7 +541,7 @@ set_return_motion:
         height_value = (u32)(0 - (s32)height_value);
         height_value = (u32)(((s32)height_value) / ((s32) angle_or_duration));
         motion->unk_0C = (s32)height_value;
-        height_value = (u32)((u32) D_8006CCE8);
+        height_value = (u32)((u32) ((u8 *)dirStepY));
         return_step_offset += (s32)height_value;
         height_value = (u32)(((S_func_81008664_10 *) return_step_offset)->unk_00);
         angle_or_duration = actor->unk_96;

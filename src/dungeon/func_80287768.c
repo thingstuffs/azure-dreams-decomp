@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 extern s32 D_8001F660;
 extern s32 D_8001F664;
@@ -6,8 +7,6 @@ extern s8 D_8001F66C[];
 extern u8 D_8001F6A0;
 extern s8 D_8001F6A4[];
 extern s8 D_8001F6E8[];
-extern u8 D_8006CCD8[];
-extern u8 D_8006CCE8[];
 
 extern s32 func_8001ABC8(s16 arg0, s16 arg1);
 extern s32 func_800A6D30(void);
@@ -47,14 +46,14 @@ s16 func_8001A768(u16 *facing, s32 origin_x, s32 origin_y, s8 *tiles, s32 search
     s8 *side_marks;
 
     facing_high = (s32)*facing << 16;
-    initial_x_steps = (s32)D_8006CCD8;
+    initial_x_steps = (s32)((u8 *)dirStepX);
     facing_offset = facing_high >> 15;
     start_x = origin_x;
     start_y = origin_y;
     saved_radius = radius;
     failures = 0;
     x = origin_x + *(u16 *)(initial_x_steps + facing_offset) * radius;
-    y = origin_y + *(u16 *)(D_8006CCE8 + facing_offset) * radius;
+    y = origin_y + *(u16 *)(((u8 *)dirStepY) + facing_offset) * radius;
     saved_filter = filter_arg;
 
     if (((s16)x >= 0) && ((s16)x < D_8001F660) && ((s16)y >= 0) &&
@@ -98,8 +97,8 @@ s16 func_8001A768(u16 *facing, s32 origin_x, s32 origin_y, s8 *tiles, s32 search
             }
             side_steps = search_radius - forward_steps;
             side = func_800A6D30() & 1;
-            x_steps_base = (s32)D_8006CCD8;
-            y_steps_base = (s32)D_8006CCE8;
+            x_steps_base = (s32)((u8 *)dirStepX);
+            y_steps_base = (s32)((u8 *)dirStepY);
             do {
                 forward_dir = *(s16 *)facing;
                 forward_offset = forward_dir * 2;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "records/Rec_D_800814A8.h"
 extern int abs(int);
 
@@ -102,8 +103,6 @@ extern void func_800A9A0C(void *);
 extern s16 func_800BCB04(s32, s32, s16);
 extern s16 func_80171EBC(void *, void *, void *, void *);
 
-extern s8 D_8006CCD8;
-extern s8 D_8006CCE8;
 extern s8 D_8006CD00;
 extern void *D_800814A8;
 extern u8 D_80082E80[];
@@ -209,8 +208,8 @@ void func_801715F4(void *move_state, void *caller_context, void *position_arg, v
                      7) *
                     2;
 
-                follow_x = leader[0x24] + *(u16 *)((u8 *)&D_8006CCD8 + follow_offset);
-                follow_y = leader[0x25] + *(u16 *)((u8 *)&D_8006CCE8 + follow_offset);
+                follow_x = leader[0x24] + *(u16 *)((u8 *)((s8 *)dirStepX) + follow_offset);
+                follow_y = leader[0x25] + *(u16 *)((u8 *)((s8 *)dirStepY) + follow_offset);
             }
             target_x = follow_x;
             target_y = follow_y;
@@ -397,12 +396,12 @@ loop_setup:
             {
                 u8 *x_step;
 
-                x_step = (u8 *)&D_8006CCD8;
+                x_step = (u8 *)((s8 *)dirStepX);
                 x_step += table_offset;
                 ((S_801715F4_2 *)position_arg)->unk_24.at00.v += *x_step;
             }
             ((S_801715F4_2 *)position_arg)->unk_24.at01.v +=
-                *(u8 *)((u8 *)&D_8006CCE8 + table_offset);
+                *(u8 *)((u8 *)((s8 *)dirStepY) + table_offset);
 
             func_8009A21C(((S_801715F4_2 *)position_arg)->unk_24.at00.v, ((S_801715F4_2 *)position_arg)->unk_24.at01.v,
                           (((S_801715F4_1 *)actor_arg)->unk_1C & 0x2000) ? 0x300 : 0x3000);

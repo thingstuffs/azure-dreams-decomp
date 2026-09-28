@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "records/Rec_D_80083160.h"
 
 typedef struct S_800253C0_0 {
@@ -147,8 +148,6 @@ typedef struct S_800253C0_19 {
 
 
 extern u8 D_80083160[];
-extern s8 D_8006CCD8[];
-extern s8 D_8006CCE8[];
 extern void *D_8006CD58[];
 extern s16 D_8008346A[1];
 extern u8 D_80083460[];
@@ -314,8 +313,8 @@ start_sequence:
             object_index_m = 0;
             object_slot = sequence;
             move_scene = D_80083160;
-            table_x = (s16 *)&D_8006CCD8;
-            table_y = (s16 *)&D_8006CCE8;
+            table_x = (s16 *)((s8 *)dirStepX);
+            table_y = (s16 *)((s8 *)dirStepY);
             ((S_800253C0_6 *)scene)->unk_A8 = brightness;
             ((u8 *)message_text)[1] = brightness;
             ((u8 *)message_text)[2] = brightness;
@@ -379,8 +378,8 @@ start_sequence:
                 ((S_800253C0_11 *)(u8 *)message_text)->unk_00 = 0x2C202020;
                 object_index_m = 0;
                 snap_scene = D_80083160;
-                snap_x = (s16 *)&D_8006CCD8;
-                snap_y = (s16 *)&D_8006CCE8;
+                snap_x = (s16 *)((s8 *)dirStepX);
+                snap_y = (s16 *)((s8 *)dirStepY);
                 final_slot = sequence;
                 do {
                     s32 table_index = (object_index_m << 11) - ((S_800253C0_13 *)snap_scene)->unk_C8;
@@ -522,9 +521,9 @@ animate_objects:
                             angle = ((S_800253C0_15 *)table_base)->unk_C8;
                             angle = -angle;
                             index = ((angle + 0x500) >> 8) & 0xE;
-                            table_base = (u8 *)&D_8006CCD8;
+                            table_base = (u8 *)((s8 *)dirStepX);
                             x = ((S_800253C0_8 *)actor)->unk_24 + *(s16 *)(table_base + index);
-                            table_base = (u8 *)&D_8006CCE8;
+                            table_base = (u8 *)((s8 *)dirStepY);
                             y = ((S_800253C0_8 *)actor)->unk_25 + *(s16 *)(table_base + index);
                             func_80027070((s16)((x << 6) + 0x20),
                                 (s16)((y << 6) + 0x20),
@@ -663,7 +662,7 @@ show_result:
         {
             s32 object_index = 0;
             u8 *restore_scene = D_80083160;
-            s16 *table_x = (s16 *)&D_8006CCD8;
+            s16 *table_x = (s16 *)((s8 *)dirStepX);
             loop_7: {
                 object_m =
                     ((S_800253C0_18 *)((void *)((object_index << 2) + (s32)sequence)))->unk_AC;
@@ -684,7 +683,7 @@ show_result:
                     x = ((S_800253C0_8 *)actor)->unk_24 + table_x[index >> 1];
                     ((S_800253C0_9 *)prim_m)->unk_02.s = (x << 6) + 0x20;
                     effect_size = 16;
-                    y_table = (u8 *)&D_8006CCE8;
+                    y_table = (u8 *)((s8 *)dirStepY);
                     y = ((S_800253C0_8 *)actor)->unk_25 + *(s16 *)((s32)(index + (s32)y_table));
                     ((S_800253C0_9 *)prim_m)->unk_06.s = (y << 6) + 0x20;
                     z = ((S_800253C0_10 *)position)->unk_0A.u;

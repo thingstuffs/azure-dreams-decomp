@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -19,8 +20,6 @@ extern void func_800A2B04();
 extern void func_800AAA54();
 extern void func_800AD4D0();
 
-extern s8 D_8006CCD8;
-extern s8 D_8006CCE8;
 extern s32 D_80083460;
 extern u8 D_800D8C64[];
 extern u8 D_8017586C[];
@@ -40,9 +39,9 @@ void func_800D9C7C(S_800D9C7C_1 *controller, Rec_D_800E3D7C *motion, Rec_D_80082
     case 0:
         func_800AD4D0(source);
         motion->unk_0C.as_s32 =
-            *(s16 *)((u8 *)&D_8006CCD8 + (direction * 2)) << 18;
+            *(s16 *)((u8 *)((s8 *)dirStepX) + (direction * 2)) << 18;
         motion->unk_10.at00_s32.v =
-            *(s16 *)((u8 *)&D_8006CCE8 + (direction * 2)) << 18;
+            *(s16 *)((u8 *)((s8 *)dirStepY) + (direction * 2)) << 18;
         controller->unk_9B++;
 
         if (((Rec_D_800E3D7C *)source)->unk_28 == 0) {
@@ -69,9 +68,9 @@ void func_800D9C7C(S_800D9C7C_1 *controller, Rec_D_800E3D7C *motion, Rec_D_80082
 
     case 1:
         motion->unk_0C.as_s32 -=
-            *(s16 *)((u8 *)&D_8006CCD8 + (direction * 2)) << 14;
+            *(s16 *)((u8 *)((s8 *)dirStepX) + (direction * 2)) << 14;
         motion->unk_10.at00_s32.v -=
-            *(s16 *)((u8 *)&D_8006CCE8 + (direction * 2)) << 14;
+            *(s16 *)((u8 *)((s8 *)dirStepY) + (direction * 2)) << 14;
         if (controller->unk_96.s > 0) {
             controller->unk_96.s = controller->unk_96.u - 1;
         } else if (entity->unk_14.at00_u16.v & 0x6000) {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 typedef struct S_80174428_0 {
     u8 pad_00[0x1C];
@@ -42,8 +43,6 @@ typedef struct S_80174428_3 {
     s32 unk_10;
 } S_80174428_3;   /* motion in func_80174428 */
 
-extern u8 D_8006CCD8[9];
-extern u8 D_8006CCE8[9];
 extern s16 D_80081468[3];
 extern u8 D_80082E80[];
 extern s16 D_80083228;
@@ -83,13 +82,13 @@ void func_80174428(void *state, void *motion, void *actor, void *object)
     u8 *world;
     s16 *level;
     u32 state_id;
-    x_step_ptr = (s16 *)&D_8006CCD8;
+    x_step_ptr = (s16 *)((u8 *)dirStepX);
     raw_direction = ((S_80174428_0 *)object)->unk_2A.s;
     direction_offset = raw_direction >> 8;
     direction_offset &= 0xE;
     state_id = ((S_80174428_1 *)state)->unk_9B;
     x_step_ptr = (s16 *)((u8 *)x_step_ptr + direction_offset);
-    direction_offset += (u32)&D_8006CCE8;
+    direction_offset += (u32)((u8 *)dirStepY);
     raw_direction = state_id < 6;
     x_step = *x_step_ptr;
     y_step = *(s16 *)direction_offset;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -23,8 +24,6 @@ extern void func_800A2B04();
 extern void func_800AAA54();
 extern void func_800AD4D0();
 
-extern s8 D_8006CCD8;
-extern s8 D_8006CCE8;
 extern s32 D_80083460;
 extern u8 *D_800E3D7C;
 extern u8 D_80170F20[];
@@ -44,10 +43,10 @@ void func_80172C10(S_80172C10_0 *state, Rec_D_800E3D7C *motion, Rec_D_80082E80 *
     case 0:
         func_800AD4D0(entity);
         motion->unk_0C.as_s32 =
-            *(s16 *)((u8 *)&D_8006CCD8 +
+            *(s16 *)((u8 *)((s8 *)dirStepX) +
                      ((((Rec_D_800E3D7C *)entity)->unk_6A.as_u16 >> 8) & 0xE)) << 19;
         motion->unk_10.at00_s32.v =
-            *(s16 *)((u8 *)&D_8006CCE8 +
+            *(s16 *)((u8 *)((s8 *)dirStepY) +
                      ((((Rec_D_800E3D7C *)entity)->unk_6A.as_u16 >> 8) & 0xE)) << 19;
         state->unk_9B++;
 

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 
 
@@ -17,8 +18,6 @@ extern void *func_8003FC64();
 extern M2C_UNK func_8004491C();
 extern s32 rand();
 extern M2C_UNK D_80045340;
-extern s8 D_8006CCD8;
-extern s8 D_8006CCE8;
 extern M2C_UNK D_800ABB20;
 extern M2C_UNK D_800D1464;
 
@@ -100,9 +99,9 @@ void *func_8009792C(S_8009792C_2 *source, u32 angle) {
         ((S_8009792C_0 *)effect)->unk_10 =
             (M2C_UNK *)&D_800ABB20;
         func_8004491C(init_object, init_data);
-        x_offsets = (s16 *)&D_8006CCD8;
+        x_offsets = (s16 *)((s8 *)dirStepX);
         offset_index = direction * 2;
-        y_offset = (s16 *)((u8 *)&D_8006CCE8 + offset_index);
+        y_offset = (s16 *)((u8 *)((s8 *)dirStepY) + offset_index);
         motion->unk_02 =
             (s16)(source->unk_02 -
                   (x_offsets[direction] * 0x10));

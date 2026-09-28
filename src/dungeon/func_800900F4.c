@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "m2c_compat.h"
 
 typedef struct S_80095854_0 {
@@ -33,8 +34,6 @@ void func_80094E34(void);                            /* extern */
 M2C_UNK func_8009A21C();           /* extern */
 M2C_UNK func_8009A3D0();           /* extern */
 s32 func_8009B88C();   /* extern */
-extern s8 D_8006CCD8;
-extern s8 D_8006CCE8;
 extern s32 D_80082EB0;
 extern s16 D_80083228;
 extern u8 D_800DD130;
@@ -68,8 +67,8 @@ s32 func_80095854(void *arg0, s32 arg1, void *arg2_in, s32 arg3_in) {
     func_80048A44(arg2, *((((s32) (D_80083228 + ((S_80095854_0 *)arg0)->unk_2A + 0x100) >> 9) & 7) + &D_800DD130), 0, 1);
     D_80082EB0 = arg3;
     temp_a2 = ((u16) (*(s16 *)((u8 *)arg0 + 0x2A)) >> 8) & 0xE;
-    ((S_80095854_0 *)arg0)->unk_72 = (s8) (((S_80095854_2 *)arg2)->unk_24 + *(temp_a2 + &D_8006CCD8));
-    temp_v0 = ((S_80095854_2 *)arg2)->unk_25 + *(temp_a2 + &D_8006CCE8);
+    ((S_80095854_0 *)arg0)->unk_72 = (s8) (((S_80095854_2 *)arg2)->unk_24 + *(temp_a2 + ((s8 *)dirStepX)));
+    temp_v0 = ((S_80095854_2 *)arg2)->unk_25 + *(temp_a2 + ((s8 *)dirStepY));
     ((S_80095854_0 *)arg0)->unk_73 = temp_v0;
     if ((func_8009B88C(0, ((S_80095854_0 *)arg0)->unk_72, temp_v0, &sp18, &sp1A) << 0x10) != 0) {
         temp_cmp = var_s1 << 0x10;

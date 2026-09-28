@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_func_800A9E70_arg0.h"
@@ -14,11 +15,6 @@ typedef struct S_80175E6C_2 {
     u8 pad_00[0x14];
     s32 unk_14;
 } S_80175E6C_2;   /* temp_v0 in func_80175E6C */
-
-typedef struct S_80175E6C_3 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_80175E6C_3;   /* base in func_80175E6C */
 
 
 typedef struct S_80175E6C_5 {
@@ -40,8 +36,6 @@ s32 func_800A2C34(void *);
 void func_800A9A0C(void *);
 void func_80175E14(void *);
 extern s16 D_80083228;
-extern u8 D_80083460[];
-extern u16 D_80083462;
 extern u8 *D_800E3D7C;
 extern u8 D_80176348[];
 
@@ -55,12 +49,11 @@ s32 func_80175E6C(void *action_state, void *unused, void *actor_pos_arg, void *a
     void *neighbor;
     void *target_pos;
     void *target;
-    u8 *global_state;
 
     target = NULL;
     ((Rec_D_800E3D7C *)actor)->unk_71.as_u8 = (u8) (((Rec_D_800E3D7C *)actor)->unk_71.as_u8 & 0x7F);
     reference_found = (s32) target;
-    if ((D_80083462 & 0x2008) || ((func_800A2C34(actor) << 0x10) != 0)) {
+    if ((dungeonStatus.flags & 0x2008) || ((func_800A2C34(actor) << 0x10) != 0)) {
         result = -1;
         goto done;
     }
@@ -84,9 +77,8 @@ next_direction:
     direction += 1;
     if (direction >= 8) {
         if ((target != NULL) && (reference_found & 0xFFFF)) {
-            global_state = D_80083460;
-            reference_found = (s16) (((S_80175E6C_3 *)global_state)->unk_0A + 1);
-            ((S_80175E6C_3 *)global_state)->unk_0A = reference_found;
+            reference_found = (s16) (dungeonStatus.unk_0A + 1);
+            dungeonStatus.unk_0A = reference_found;
             ((Rec_D_800E3D7C *)actor)->unk_60.as_pv = target;
             func_800A9A0C(target);
             ((Rec_func_800A9E70_arg0 *)action_state)->unk_9A.as_s8 = 0x17;

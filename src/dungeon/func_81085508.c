@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_80172D08_arg1.h"
 
@@ -57,8 +58,6 @@ extern void func_800AD594(void *, s32);
 extern s32 func_800BCB04(s32, s32, s16);
 extern void func_80174A6C(void *, void *, void *);
 
-extern s8 D_8006CCD8;
-extern s8 D_8006CCE8;
 extern s32 D_8008346C;
 extern u8 D_800DDC40[];
 extern u8 D_80170838[16];
@@ -99,9 +98,9 @@ state_zero: {
                                direction << 9) == 0) {
             terrain_height = func_800BCB04(
                 (((((Rec_D_80082E80 *)record)->unk_24 +
-                   ((s16 *)&D_8006CCD8)[direction]) << 6) + 0x20) & 0xFFE0,
+                   ((s16 *)((s8 *)dirStepX))[direction]) << 6) + 0x20) & 0xFFE0,
                 (((((Rec_D_80082E80 *)record)->unk_25 +
-                   ((s16 *)&D_8006CCE8)[direction]) << 6) + 0x20) & 0xFFE0,
+                   ((s16 *)((s8 *)dirStepY))[direction]) << 6) + 0x20) & 0xFFE0,
                 (s16)(((S_80172D08_2 *)actor)->unk_88.u - 0x20));
             if ((u16)(terrain_height - ((S_80172D08_2 *)actor)->unk_88.u + 0x3F) >= 0x7F) {
                 ((S_80172D08_0 *)action)->unk_AF = 1;
@@ -131,9 +130,9 @@ state_one: {
     if (((S_80172D08_0 *)action)->unk_AF == 0) {
         direction = (((S_80172D08_2 *)actor)->unk_2A.u >> 8) & 0xE;
         ((Rec_func_80172D08_arg1 *)motion)->unk_0C =
-            (((s16 *)&D_8006CCD8)[direction >> 1] << 22) / 8;
+            (((s16 *)((s8 *)dirStepX))[direction >> 1] << 22) / 8;
         ((Rec_func_80172D08_arg1 *)motion)->unk_10 =
-            (((s16 *)&D_8006CCE8)[direction >> 1] << 22) / 8;
+            (((s16 *)((s8 *)dirStepY))[direction >> 1] << 22) / 8;
     }
     ((S_80172D08_0 *)action)->unk_98 |= 0xC;
     ((S_80172D08_2 *)actor)->unk_1C &= 0xF7FFFFFF;
@@ -184,9 +183,9 @@ state_two: {
             direction = (((S_80172D08_2 *)actor)->unk_2A.u >> 8) & 0xE;
             terrain_height = func_800BCB04(
                 (((((Rec_D_80082E80 *)record)->unk_24 +
-                   ((s16 *)&D_8006CCD8)[direction >> 1]) << 6) + 0x20) & 0xFFE0,
+                   ((s16 *)((s8 *)dirStepX))[direction >> 1]) << 6) + 0x20) & 0xFFE0,
                 (((((Rec_D_80082E80 *)record)->unk_25 +
-                   ((s16 *)&D_8006CCE8)[direction >> 1]) << 6) + 0x20) & 0xFFE0,
+                   ((s16 *)((s8 *)dirStepY))[direction >> 1]) << 6) + 0x20) & 0xFFE0,
                 (s16)(((S_80172D08_2 *)actor)->unk_88.u - 0x20));
             arc_sample = func_800644B8(((S_80172D08_0 *)action)->unk_96.s << 7);
             signed_terrain_height = terrain_height << 16;
@@ -233,9 +232,9 @@ state_three: {
         if (((S_80172D08_0 *)action)->unk_AF == 0) {
             direction = (((S_80172D08_2 *)actor)->unk_2A.u >> 8) & 0xE;
             ((Rec_func_80172D08_arg1 *)motion)->unk_0C =
-                -((((s16 *)&D_8006CCD8)[direction >> 1] << 22) / 8);
+                -((((s16 *)((s8 *)dirStepX))[direction >> 1] << 22) / 8);
             ((Rec_func_80172D08_arg1 *)motion)->unk_10 =
-                -((((s16 *)&D_8006CCE8)[direction >> 1] << 22) / 8);
+                -((((s16 *)((s8 *)dirStepY))[direction >> 1] << 22) / 8);
         }
         ((S_80172D08_0 *)action)->unk_96.s = 8;
         ((S_80172D08_0 *)action)->unk_9B++;
@@ -284,9 +283,9 @@ state_four: {
             direction = (((S_80172D08_2 *)actor)->unk_2A.u >> 8) & 0xE;
             terrain_height = func_800BCB04(
                 (((((Rec_D_80082E80 *)record)->unk_24 +
-                   ((s16 *)&D_8006CCD8)[direction >> 1]) << 6) + 0x20) & 0xFFE0,
+                   ((s16 *)((s8 *)dirStepX))[direction >> 1]) << 6) + 0x20) & 0xFFE0,
                 (((((Rec_D_80082E80 *)record)->unk_25 +
-                   ((s16 *)&D_8006CCE8)[direction >> 1]) << 6) + 0x20) & 0xFFE0,
+                   ((s16 *)((s8 *)dirStepY))[direction >> 1]) << 6) + 0x20) & 0xFFE0,
                 (s16)(((S_80172D08_2 *)actor)->unk_88.u - 0x20));
             arc_sample = func_800644B8(((S_80172D08_0 *)action)->unk_96.s << 8);
             signed_terrain_height = terrain_height << 16;

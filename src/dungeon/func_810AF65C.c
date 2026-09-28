@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 typedef struct {
     u8 pad_00_8c[0x8c];
@@ -40,8 +41,6 @@ typedef struct {
 extern u8 D_80173C94[];
 extern s32 D_80083460[3];
 extern u8 D_80170E54[];
-extern s16 D_8006CCE8[];
-extern s16 D_8006CCD8[];
 
 extern void func_800A2B04(S810AF65C_1 *, u8, u8);
 extern void func_800AAA54(S810AF65C_0 *, S810AF65C_1 *, S810AF65C_2 *, u8 *);
@@ -104,8 +103,8 @@ state_1:
     if ((s16)animation->field_96 > 0) {
         goto done;
     }
-    motion->field_0c = (s16)D_8006CCD8[direction] << 18;
-    motion->field_10 = (s16)D_8006CCE8[direction] << 18;
+    motion->field_0c = (s16)dirStepX[direction] << 18;
+    motion->field_10 = (s16)dirStepY[direction] << 18;
     move_ticks = 5;
     if ((actor->field_1c & 0x228) != 0) {
         move_ticks = 8;
@@ -127,8 +126,8 @@ state_1:
     goto state_tail;
 
 state_2:
-    motion->field_0c = motion->field_0c - ((s16)D_8006CCD8[direction] << 15);
-    motion->field_10 = motion->field_10 - ((s16)D_8006CCE8[direction] << 15);
+    motion->field_0c = motion->field_0c - ((s16)dirStepX[direction] << 15);
+    motion->field_10 = motion->field_10 - ((s16)dirStepY[direction] << 15);
     if ((s16)animation->field_96 != 0) {
         goto done;
     }

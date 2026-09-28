@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 
 typedef struct Obj Obj;
@@ -53,8 +54,6 @@ typedef struct S_800255B8_3 {
 } S_800255B8_3;   /* tail in func_800255B8 */
 
 
-extern s16 D_8006CCD8[];
-extern s16 D_8006CCE8[];
 extern u8 D_80082E80[];
 extern u8 D_80083498[];
 extern u8 D_8002501C[];
@@ -104,12 +103,12 @@ void *func_800255B8(s32 x, s32 y, s16 z, u16 angle) {
 
     piece_index = 0;
 #ifdef NON_MATCHING
-    x_offsets = D_8006CCD8;
+    x_offsets = dirStepX;
     color_table = D_80082E80;
 #else
     {
 
-        x_offsets = D_8006CCD8;
+        x_offsets = dirStepX;
         color_table = D_80082E80;
     }
 #endif
@@ -152,11 +151,11 @@ loop:
         {
             s16 *y_offsets;
 #ifdef NON_MATCHING
-            y_offsets = D_8006CCE8;
+            y_offsets = dirStepY;
 #else
 #endif
 
-            y_offsets = D_8006CCE8;
+            y_offsets = dirStepY;
             y_offset = read_y_offset(y_offsets, offset_addr) << 5;
         }
         ((S_800255B8_1 *)component_data)->unk_0A = origin_z;

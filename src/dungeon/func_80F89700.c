@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -18,8 +19,6 @@ extern void func_800A2B04();
 extern void func_800AAA54();
 extern void func_800AD4D0();
 
-extern s8 D_8006CCD8;
-extern s8 D_8006CCE8;
 extern s16 D_80083228;
 extern s32 D_80083460;
 extern u8 D_80171138[];
@@ -75,9 +74,9 @@ state_0:
         u16 action_flags;
 
         ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 =
-            ((s16 *)&D_8006CCD8)[direction] << 18;
+            ((s16 *)((s8 *)dirStepX))[direction] << 18;
         ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v =
-            ((s16 *)&D_8006CCE8)[direction] << 18;
+            ((s16 *)((s8 *)dirStepY))[direction] << 18;
         ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0x20000;
 
         action_flags = ((S_80172F00_0 *)action)->unk_98;
@@ -112,8 +111,8 @@ state_0:
 
 state_1:
     ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 -=
-        ((s16 *)&D_8006CCD8)[direction] << 15;
-    ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v -= ((s16 *)&D_8006CCE8)[direction] << 15;
+        ((s16 *)((s8 *)dirStepX))[direction] << 15;
+    ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v -= ((s16 *)((s8 *)dirStepY))[direction] << 15;
 
     timer_signed = ((S_80172F00_0 *)action)->unk_96.s;
     timer = ((S_80172F00_0 *)action)->unk_96.u;

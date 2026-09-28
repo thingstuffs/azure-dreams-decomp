@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 typedef struct S_80172438_0 {
     u8 pad_00[0x2A];
@@ -42,8 +43,6 @@ extern void func_800C7930(void *, void *, s32, s32);
 extern void func_80047784(void *, u8, s32);
 extern void func_800A4ACC(void *);
 
-extern s8 D_8006CCD8;
-extern s8 D_8006CCE8;
 extern s16 D_80083228;
 extern u16 D_80083462;
 extern u8 D_801764A0[];
@@ -73,7 +72,7 @@ s32 func_80172438(void *action_state, void *action_context, void *sprite, void *
     step_offset = direction << 1;
     tile_x = ((S_80172438_1 *)sprite)->unk_24;
     tile_y = ((S_80172438_1 *)sprite)->unk_25;
-    x_step = (s16 *)((u8 *)&D_8006CCD8 + step_offset);
+    x_step = (s16 *)((u8 *)((s8 *)dirStepX) + step_offset);
     ((S_80172438_2 *)action_state)->unk_B2 = 0;
     call_direction = direction;
 
@@ -92,7 +91,7 @@ s32 func_80172438(void *action_state, void *action_context, void *sprite, void *
             return 2;
         }
 
-        floor_y = (s16 *)&D_8006CCE8;
+        floor_y = (s16 *)((s8 *)dirStepY);
         floor_x = (((try_x + *x_step) << 6) + 0x20) & 0xFFE0;
         y_step = (s16 *)(step_offset + (u8 *)floor_y);
         floor_y = (((try_y + *y_step) << 6) + 0x20) & 0xFFE0;

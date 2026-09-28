@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 typedef struct S_80172504_0 {
     u8 pad_00[0x2A];
@@ -50,8 +51,6 @@ extern s16 func_800BCB04();
 extern void func_800C77D0();
 extern void func_800C7930();
 
-extern s8 D_8006CCD8;
-extern s8 D_8006CCE8;
 extern u16 D_80083462;
 
 /* Scan up to eight tiles ahead for a valid target and update the entity action state. */
@@ -104,7 +103,7 @@ initialize:
     direction_offset = dir_index * 2;
     tile_x = ((S_80172504_2 *)origin)->unk_24;
     tile_y = ((S_80172504_2 *)origin)->unk_25;
-    delta_x = (s16 *)((u8 *)&D_8006CCD8 + direction_offset);
+    delta_x = (s16 *)((u8 *)((s8 *)dirStepX) + direction_offset);
     direction = dir_index;
     if (0) {
     }
@@ -123,7 +122,7 @@ loop:
     }
 
     next_world_x = (((signed_x + *delta_x) << 6) + 0x20) & 0xFFE0;
-    delta_y = (s16 *)((u8 *)&D_8006CCE8 + direction_offset);
+    delta_y = (s16 *)((u8 *)((s8 *)dirStepY) + direction_offset);
     next_height = func_800BCB04(
         next_world_x,
         (((signed_y + *delta_y) << 6) + 0x20) & 0xFFE0,

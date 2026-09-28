@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -10,8 +11,6 @@ extern void func_800A4ACC();
 extern void func_800A56E0();
 extern void func_800AD594();
 
-extern s8 D_8006CCD8;
-extern s8 D_8006CCE8;
 extern s16 D_80083228[];
 extern s32 D_8008346C[];
 extern void *D_800E3DE8[];
@@ -83,8 +82,8 @@ state0:
     }
     direction -= wrap_base & 0x18;
     motion->unk_0C.as_s32 =
-        (*(s16 *)((u8 *)(&D_8006CCD8) + (direction * 2))) * 0x60000;
-    direction_y = (*(s16 *)((u8 *)(&D_8006CCE8) + (direction * 2)));
+        (*(s16 *)((u8 *)(((s8 *)dirStepX)) + (direction * 2))) * 0x60000;
+    direction_y = (*(s16 *)((u8 *)(((s8 *)dirStepY)) + (direction * 2)));
     motion->unk_14.as_s32 = 0;
     motion->unk_10.at00_s32.v = direction_y * 0x60000;
     sprite->unk_2C.as_pv = &D_80174140;
@@ -126,9 +125,9 @@ state2:
     if (action->unk_96.s == 0x11) {
         func_800A56E0(0x808);
         direction = ((u16)((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 >> 9) & 7;
-        speed_component = (*(s16 *)((u8 *)(&D_8006CCD8) + (direction * 2))) * 0x30000;
+        speed_component = (*(s16 *)((u8 *)(((s8 *)dirStepX)) + (direction * 2))) * 0x30000;
         motion->unk_0C.as_s32 = speed_component + (speed_component >> 2);
-        speed_component = (*(s16 *)((u8 *)(&D_8006CCE8) + (direction * 2))) * 0x30000;
+        speed_component = (*(s16 *)((u8 *)(((s8 *)dirStepY)) + (direction * 2))) * 0x30000;
         motion->unk_10.at00_s32.v = speed_component + (speed_component >> 2);
     }
 

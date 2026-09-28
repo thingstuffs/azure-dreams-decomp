@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
@@ -12,8 +13,6 @@ M2C_UNK func_800B341C();        /* extern */
 M2C_UNK func_800B3D10();          /* extern */
 M2C_UNK func_800B4194();             /* extern */
 M2C_UNK func_800C77D0(); /* extern */
-extern s8 D_8006CCD8;
-extern s8 D_8006CCE8;
 extern s16 D_80083228;
 extern s32 D_80083460;
 extern s32 D_8008ACDC;
@@ -153,8 +152,8 @@ jt_2:
 jt_3:
         if (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0xE000) {
             launch_direction_offset = ((u16) ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 >> 8) & 0xE;
-            ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = (s32) (*(s16 *)((u8 *)&D_8006CCD8 + launch_direction_offset) << 0x11);
-            ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = (s32) (*(s16 *)((u8 *)&D_8006CCE8 + launch_direction_offset) << 0x11);
+            ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = (s32) (*(s16 *)((u8 *)((s8 *)dirStepX) + launch_direction_offset) << 0x11);
+            ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = (s32) (*(s16 *)((u8 *)((s8 *)dirStepY) + launch_direction_offset) << 0x11);
             ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0xFFEBC000;
             (*(u8 **)((u8 *)animation + 0x2C)) = D_800DD070;
             func_80048A44(animation, D_800DD070[((s32) (D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0, 1);
@@ -237,8 +236,8 @@ jt_6:
         D_800DF244[0] = vertical_velocity;
         if ((s16)mix_delay < 0) {
             resume_direction_offset = ((u16) ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 >> 8) & 0xE;
-            ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = (s32) (*(s16 *)((u8 *)&D_8006CCD8 + resume_direction_offset) << 0x11);
-            ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = (s32) (*(s16 *)((u8 *)&D_8006CCE8 + resume_direction_offset) << 0x11);
+            ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = (s32) (*(s16 *)((u8 *)((s8 *)dirStepX) + resume_direction_offset) << 0x11);
+            ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = (s32) (*(s16 *)((u8 *)((s8 *)dirStepY) + resume_direction_offset) << 0x11);
             ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = vertical_velocity;
             ((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v = (u16) (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0xF7FF);
             ((S_800B348C_0 *)action_state)->unk_96.u = 4U;

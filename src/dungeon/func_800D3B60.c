@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 
@@ -52,8 +53,6 @@ extern s32 D_80083460[3];
 extern int D_800814A8[4];
 extern u8 D_80082E80_initial[] __asm__("D_80082E80");
 extern u8 D_80082E80_later[] __asm__("D_80082E80");
-extern u16 D_8006CCD8[];
-extern u16 D_8006CCE8[];
 extern u8 D_8006CCD8_bytes[] __asm__("D_8006CCD8");
 extern u8 D_8006CCE8_bytes[] __asm__("D_8006CCE8");
 extern DungeonEntry D_800E2970[];
@@ -123,8 +122,8 @@ void func_800D92C0(void *move_state, void *context, S_800D92C0_2 *position, void
                     {
                         u8 *coord_base = D_80082E80_initial;
                         target_direction = (((S_800D92C0_0 *)actor)->unk_45 + ((s32) (((S_800D92C0_1 *)(*D_800814A8))->unk_2A << 0x10) >> 0x19)) & 7;
-                        target_x = coord_base[0x24] + D_8006CCD8[target_direction];
-                        target_y = coord_base[0x25] + D_8006CCE8[target_direction];
+                        target_x = coord_base[0x24] + ((u16 *)dirStepX)[target_direction];
+                        target_y = coord_base[0x25] + ((u16 *)dirStepY)[target_direction];
                     }
                     if ((position->unk_24.at00.v != (target_x & 0xFFFF)) || (position->unk_24.at01.v != (target_y & 0xFFFF))) {
                         turn_flags = move_state + 0x98;

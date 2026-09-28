@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
@@ -49,8 +50,6 @@ M2C_UNK func_80099F04();
 s32 func_8009C12C();
 M2C_UNK func_800A2B04();
 M2C_UNK func_800C77D0();
-extern s16 D_8006CCD8[8];
-extern s16 D_8006CCE8[8];
 extern s16 D_80083228;
 extern u8 D_80083460[16];
 extern M2C_UNK D_80096384;
@@ -77,8 +76,8 @@ jt_c0:
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = D_800DD294;
     func_8003DB94(sprite, *(M2C_UNK *)((u8 *)D_800DD294 + (((s32) (D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 7) & 0x1C)), 0);
     dir_offset = ((u16) ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 >> 8) & 0xE;
-    ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = (s32) (*(s16 *)((u8 *)D_8006CCD8 + dir_offset) << 0x11);
-    dir_y = *(s16 *)((u8 *)D_8006CCE8 + dir_offset);
+    ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = (s32) (*(s16 *)((u8 *)dirStepX + dir_offset) << 0x11);
+    dir_y = *(s16 *)((u8 *)dirStepY + dir_offset);
     ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0xFFEBC000;
     ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = (s32) (dir_y << 0x11);
     ((S_800974DC_0 *)action)->unk_96.s = 3U;

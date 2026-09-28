@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 extern int abs(int);
 
 typedef struct S_func_81886800_1 {
@@ -287,8 +288,6 @@ extern u8 D_80026344[];
 extern u8 D_80026470[];
 extern u8 D_80026474[];
 extern u8 D_80026878[];
-extern u8 D_8006CCD8[];
-extern u8 D_8006CCE8[];
 extern u8 D_800DDC40[];
 extern u8 D_800814A0[];
 extern u8 D_8008346C[];
@@ -443,7 +442,7 @@ case_0:
                 direction = effect->unk_16.s16;
                 target_data = ((S_func_81886800_13 *)((u8 *)(owner) - 0x14))->unk_00;
                 tile_coord = target_data->unk_24 +
-                        D_8006CCD8[(s32)direction * 2];
+                        ((u8 *)dirStepX)[(s32)direction * 2];
                 effect->unk_1C.parts.unk_1E.parts.unk_1E.u8 = tile_coord;
                 effect->unk_20.parts.unk_20 = tile_coord;
             }
@@ -452,7 +451,7 @@ case_0:
                 u8 tile_coord;
                 direction = effect->unk_16.s16;
                 tile_coord = target_data->unk_25 +
-                        D_8006CCE8[(s32)direction * 2];
+                        ((u8 *)dirStepY)[(s32)direction * 2];
                 effect->unk_1C.parts.unk_1E.parts.unk_1F.u8 = tile_coord;
                 effect->unk_20.parts.unk_21 = tile_coord;
             }
@@ -487,12 +486,12 @@ case_0_no_object:
     effect->unk_10.u16 = owner->unk_88.u16 - 80;
 motion_direction:
     {
-        u8 *x_offsets = D_8006CCD8;
+        u8 *x_offsets = ((u8 *)dirStepX);
         s16 direction = effect->unk_16.s16;
         motion->unk_0C.parts.unk_0E.u16 =
             ((S_func_81886800_14 *)(x_offsets + (s32)direction * 2))->unk_00 * 8;
         {
-            u8 *y_offsets = D_8006CCE8;
+            u8 *y_offsets = ((u8 *)dirStepY);
             s16 y_direction = effect->unk_16.s16;
             motion->unk_10.parts.unk_12.u16 =
                 ((S_func_81886800_14 *)(y_offsets + (s32)y_direction * 2))->unk_00 * 8;

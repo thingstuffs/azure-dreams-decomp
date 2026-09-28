@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -25,8 +26,6 @@ extern void func_800A2B04();
 extern void func_800AAA54();
 extern void func_800AD4D0();
 
-extern s8 D_8006CCD8;
-extern s8 D_8006CCE8;
 extern D_80083460_t D_80083460;
 extern u8 D_80170F74[];
 extern u8 D_80173D60[];
@@ -65,9 +64,9 @@ void func_80172F98(S_80172F98_0 *action, Rec_D_800E3D7C *motion, Rec_D_80082E80 
 state_0:
     func_800AD4D0(entity);
     motion->unk_0C.as_s32 =
-        ((s16 *)&D_8006CCD8)[direction] << 16;
+        ((s16 *)((s8 *)dirStepX))[direction] << 16;
     motion->unk_10.at00_s32.v =
-        ((s16 *)&D_8006CCE8)[direction] << 16;
+        ((s16 *)((s8 *)dirStepY))[direction] << 16;
     action->unk_9B++;
 
     if (((Rec_D_800E3D7C *)entity)->unk_28 == 0) {
@@ -101,9 +100,9 @@ state_0:
 
 state_1:
     motion->unk_0C.as_s32 -=
-        ((s16 *)&D_8006CCD8)[direction] << 13;
+        ((s16 *)((s8 *)dirStepX))[direction] << 13;
     motion->unk_10.at00_s32.v -=
-        ((s16 *)&D_8006CCE8)[direction] << 13;
+        ((s16 *)((s8 *)dirStepY))[direction] << 13;
 
     if (action->unk_96.s > 0) {
         action->unk_96.u = action->unk_96.u - 1;

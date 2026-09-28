@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -41,8 +42,6 @@ M2C_UNK func_80094E34();
 M2C_UNK func_8009A21C();
 M2C_UNK func_8009A3D0();
 s32 func_8009B88C();
-extern s8 D_8006CCD8;
-extern s8 D_8006CCE8;
 extern DungeonSlot *D_800E3DF0[];
 
 /* Check the forward tile and selected slot, then clear the actor action flags on success. */
@@ -68,8 +67,8 @@ s32 func_8009402C(void *actor, void *unused, void *position, s16 *out_x, s16 *ou
             return blocked_result;
         }
         direction_offset = ((u16) ((S_8009402C_0 *)actor)->unk_2A >> 8) & 0xE;
-        next_x = ((Rec_D_80082E80 *)position)->unk_24 + *(u16 *)(&D_8006CCD8 + direction_offset);
-        next_y = ((Rec_D_80082E80 *)position)->unk_25 + *(u16 *)(&D_8006CCE8 + direction_offset);
+        next_x = ((Rec_D_80082E80 *)position)->unk_24 + *(u16 *)(((s8 *)dirStepX) + direction_offset);
+        next_y = ((Rec_D_80082E80 *)position)->unk_25 + *(u16 *)(((s8 *)dirStepY) + direction_offset);
         if (((shifted_result = func_8009B88C(0, next_x, next_y, x_coord, out_y) << 0x10) == 0) ||
             ((((S_8009402C_0 *)actor)->unk_1C & 0x100000) &&
              (status = ((S_8009402C_0 *)actor)->unk_124, (status != NULL)) &&

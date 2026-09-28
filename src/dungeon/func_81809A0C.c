@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/dir_step.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -184,8 +185,6 @@ extern u8 D_80026864[16];
 extern s16 D_80027156[5];
 extern u16 D_80027158[5];
 extern s16 D_8002715C[5];
-extern u16 D_8006CCD8[8];
-extern u16 D_8006CCE8[8];
 extern u8 D_80080A87[16];
 extern s32 D_800814A0;
 extern u8 D_80083160[32];
@@ -314,12 +313,12 @@ handle_input:
                 s32 step_value;
                 s32 cell_coord;
 
-                step_value = (s32) D_8006CCD8;
+                step_value = (s32) ((u16 *)dirStepX);
                 x_step_ptr = (u16 *) (step_or_cell + step_value);
                 step_value = *x_step_ptr;
                 cell_coord = cell->unk_24;
                 base_x = cell_coord + step_value;
-                step_value = (s32) D_8006CCE8;
+                step_value = (s32) ((u16 *)dirStepY);
                 step_or_cell += step_value;
                 cell_coord = cell->unk_25;
                 ASM_KEEP(cell_coord);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
@@ -372,8 +371,8 @@ check_other_side:
 
                         step_or_cell = step_index & 0xFFFF;
                         ASM_KEEP_NV(step_or_cell);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                        x_value += D_8006CCD8[step_or_cell];
-                        y_step_value = y_value + D_8006CCE8[step_or_cell];
+                        x_value += ((u16 *)dirStepX)[step_or_cell];
+                        y_step_value = y_value + ((u16 *)dirStepY)[step_or_cell];
                         target_y = y_step_value;
                     }
                     x_in_bounds = (x_value & 0xFFFF) < 3U;

@@ -1,8 +1,7 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 extern s16 func_800ABEEC(s16, s32, s32);
-extern s8 D_8006CCD8[9];
-extern s8 D_8006CCE8[9];
 
 typedef struct {
     u8 *field0;
@@ -59,7 +58,7 @@ invalid_position:
     return 0;
 scan_start:
     direction_shifted = direction << 0x10;
-    x_steps = (u8 *)&D_8006CCD8;
+    x_steps = (u8 *)((s8 *)dirStepX);
     direction_offset = direction_shifted >> 0xF;
     x_step = (u16 *)(x_steps + direction_offset);
     step_one = 1;
@@ -74,7 +73,7 @@ scan_next:
         x = next_x;
         if (next_x >= 0) {
             if (next_x < (step_one << config->field14)) {
-                next_y = y + *(u16 *)((u8 *)&D_8006CCE8 + direction_offset);
+                next_y = y + *(u16 *)((u8 *)((s8 *)dirStepY) + direction_offset);
                 y = next_y;
                 if (next_y >= 0) {
                     if (next_y < (step_one << config->field16)) {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 typedef struct {
     s16 x;
@@ -18,8 +19,6 @@ typedef struct {
     s16 flags;
 } DungeonCell;
 
-extern s16 D_8006CCD8[];
-extern s16 D_8006CCE8[];
 extern DungeonCell D_800EA000[];
 extern u8 D_80083160[];
 
@@ -102,13 +101,13 @@ s32 func_8001C06C(Pos *start, Pos *dest, s16 rnd, s16 *outX, s16 *outY) {
 
         rr = (u16)func_800A6D30() % rangeX;
         *outX = rr;
-        wx = cx + rr * D_8006CCD8[dir] + D_8006CCD8[dir] * wx;
+        wx = cx + rr * dirStepX[dir] + dirStepX[dir] * wx;
         rr = (u16)func_800A6D30() % rangeY;
         *outY = rr;
-        wy = cy + rr * D_8006CCE8[dir] + D_8006CCE8[dir] * wy;
+        wy = cy + rr * dirStepY[dir] + dirStepY[dir] * wy;
     } else {
-        wx = cx + *outX * D_8006CCD8[dir] + D_8006CCD8[dir] * wx;
-        wy = cy + *outY * D_8006CCE8[dir] + D_8006CCE8[dir] * wy;
+        wx = cx + *outX * dirStepX[dir] + dirStepX[dir] * wx;
+        wy = cy + *outY * dirStepY[dir] + dirStepY[dir] * wy;
     }
 
     for (;;) {
@@ -123,12 +122,12 @@ s32 func_8001C06C(Pos *start, Pos *dest, s16 rnd, s16 *outX, s16 *outY) {
             break;
         }
         count++;
-        cx += D_8006CCD8[dir];
-        cy += D_8006CCE8[dir];
+        cx += dirStepX[dir];
+        cy += dirStepY[dir];
     }
 
     if (wx != dstX || wy != dstY) {
-        if (D_8006CCD8[dirSlot] != 0) {
+        if (dirStepX[dirSlot] != 0) {
             wy = dstY;
         } else {
             wx = dstX;
@@ -146,8 +145,8 @@ s32 func_8001C06C(Pos *start, Pos *dest, s16 rnd, s16 *outX, s16 *outY) {
                 break;
             }
             count++;
-            cx += D_8006CCD8[(r >> 9) & 6];
-            cy += D_8006CCE8[(r >> 9) & 6];
+            cx += dirStepX[(r >> 9) & 6];
+            cy += dirStepY[(r >> 9) & 6];
         }
     }
 
@@ -165,8 +164,8 @@ s32 func_8001C06C(Pos *start, Pos *dest, s16 rnd, s16 *outX, s16 *outY) {
                 break;
             }
             count++;
-            cx += D_8006CCD8[(r >> 9) & 6];
-            cy += D_8006CCE8[(r >> 9) & 6];
+            cx += dirStepX[(r >> 9) & 6];
+            cy += dirStepY[(r >> 9) & 6];
         }
     }
     return count;

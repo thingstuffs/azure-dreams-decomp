@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 #define FIELD_U8(p, o)  (*(u8 *)((u8 *)(p) + (o)))
 #define FIELD_S16(p, o) (*(s16 *)((u8 *)(p) + (o)))
@@ -9,8 +10,6 @@
 extern void func_800A2B04(void *, u8, u8);
 extern void func_800AAA54(void *, void *, void *, void *);
 extern void func_800AD4D0(void *);
-extern s16 D_8006CCD8[8];
-extern s16 D_8006CCE8[8];
 extern s32 D_80083460[];
 extern s32 D_801710EC[];
 extern u8 D_80175E90[];
@@ -57,9 +56,9 @@ start_motion:
         return;
     }
     FIELD_S32(motion, 0xC) =
-        (-*(s16 *)((u8 *)D_8006CCD8 + ((FIELD_U16(source, 0x6A) >> 8) & 0xE))) << 15;
+        (-*(s16 *)((u8 *)dirStepX + ((FIELD_U16(source, 0x6A) >> 8) & 0xE))) << 15;
     FIELD_S32(motion, 0x10) =
-        (-*(s16 *)((u8 *)D_8006CCE8 + ((FIELD_U16(source, 0x6A) >> 8) & 0xE))) << 15;
+        (-*(s16 *)((u8 *)dirStepY + ((FIELD_U16(source, 0x6A) >> 8) & 0xE))) << 15;
     motion_frames = -1;
     if (FIELD_S32(source, 0x1C) & 0x228) {
         motion_frames = 8;

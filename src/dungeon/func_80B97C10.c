@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 extern int D_800814C8;
 extern int D_80081550;
@@ -33,8 +34,6 @@ extern s32 func_800A6D30();
 extern void func_800A9A0C();
 extern s16 func_800BCB04();
 extern s32 func_80171E00();
-extern s8 D_8006CCD8;
-extern s8 D_8006CCE8;
 extern s16 D_8006CD00[8];
 extern void *D_800814A8;
 extern u8 D_80082E80[];
@@ -162,8 +161,8 @@ void func_80171410(u8 *object_arg, void *entry_context, u8 *tile_arg, u8 *actor_
     s32 target_y;
     direction += base_angle >> 9;
     direction_offset = (direction & 7) * 2;
-    target_x = (*(u8 *)(goal + 0x24)) + (*((u16 *) (((u8 *) (&D_8006CCD8)) + direction_offset)));
-    target_y = (*(u8 *)(goal + 0x25)) + (*((u16 *) (((u8 *) (&D_8006CCE8)) + direction_offset)));
+    target_x = (*(u8 *)(goal + 0x24)) + (*((u16 *) (((u8 *) (((s8 *)dirStepX))) + direction_offset)));
+    target_y = (*(u8 *)(goal + 0x25)) + (*((u16 *) (((u8 *) (((s8 *)dirStepY))) + direction_offset)));
     if (((*(u8 *)(tile + 0x24)) == ((u16) target_x)) && ((*(u8 *)(tile + 0x25)) == ((u16) target_y)))
     {
       goto strip_path;
@@ -284,9 +283,9 @@ void func_80171410(u8 *object_arg, void *entry_context, u8 *tile_arg, u8 *actor_
     func_8009A3D0(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), ((*(s32 *)(actor + 0x1C)) & 0x2000) ? (0x300) : (0x3000));
     {
       s32 direction = ((*(u16 *)(actor + 0x2A)) >> 8) & 0xE;
-      base_angle = (s32)(&D_8006CCD8);
+      base_angle = (s32)(((s8 *)dirStepX));
       *(u8 *)(tile + 0x24) += *(u8 *)((u8 *)base_angle + direction);
-      *(u8 *)(tile + 0x25) += *((u8 *) (((u8 *) (&D_8006CCE8)) + direction));
+      *(u8 *)(tile + 0x25) += *((u8 *) (((u8 *) (((s8 *)dirStepY))) + direction));
     }
     func_8009A21C(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), ((*(s32 *)(actor + 0x1C)) & 0x2000) ? (0x300) : (0x3000));
     goto check_counter_limit;

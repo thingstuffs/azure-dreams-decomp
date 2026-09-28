@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 typedef struct { u8 b[12]; } AggU12;
 extern u8 D_80020000[];
@@ -51,8 +52,6 @@ extern void func_80045340(void);
 extern void func_8002569C(void);
 extern void func_800257E0(void);
 extern void *D_80024098[];
-extern u8 D_8006CCD8;
-extern u8 D_8006CCE8;
 
 #define U8(p, o) (*(u8 *)((u8 *)(p) + (o)))
 #define S8(p, o) (*(s8 *)((u8 *)(p) + (o)))
@@ -191,7 +190,7 @@ await_launch:
         offset_value = (void *)(u32)U16(object, 0xA);
         table_value = (void **)((u32)table_value + 0x20);
         offset_value = (void *)((u32)offset_value - (u32)table_value);
-        table_value = (void **)&D_8006CCD8;
+        table_value = (void **)((u8 *)dirStepX);
         U16(effect, 0x78) = (u32)offset_value;
         offset_value = (void *)(s32)S16(effect, 0x7E);
         owner_sprite = PTR(owner, -0x14);
@@ -203,7 +202,7 @@ await_launch:
         U8(effect, 0xA4) = (u32)table_value;
 
         offset_value = (void *)(s32)S16(effect, 0x7E);
-        table_value = (void **)&D_8006CCE8;
+        table_value = (void **)((u8 *)dirStepY);
         offset_value = (void *)((s32)offset_value * 2);
         offset_value = (u8 *)offset_value + (u32)table_value;
         table_value = (void **)(u32)U8(owner_sprite, 0x25);

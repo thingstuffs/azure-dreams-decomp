@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 #define FIELD(ptr, type, offset) (*(type *)((u8 *)(ptr) + (offset)))
 
@@ -28,8 +29,6 @@ extern s32 func_8009B25C(FuncArg2 *, s32, s32, s16);
 extern s16 func_8009FB34(u16, u16);
 extern s32 func_800BCB04(s32, s32, s16);
 
-extern s16 D_8006CCD8[];
-extern s16 D_8006CCE8[];
 extern s16 D_800DCEAC[];
 extern s16 D_800DCEBC[];
 extern FuncMonster D_800E2970[];
@@ -77,9 +76,9 @@ s32 func_8009A66C(u32 move_flags, FuncArg1 *position, FuncArg2 *actor, s16 heigh
         if (position->flag < 0) {
             monster_index = func_8009FB34(
                 (u16)(position->x +
-                      *(u16 *)((u8 *)D_8006CCD8 + offset_or_height)),
+                      *(u16 *)((u8 *)dirStepX + offset_or_height)),
                 (u16)(position->y +
-                      *(u16 *)((u8 *)D_8006CCE8 + offset_or_height)));
+                      *(u16 *)((u8 *)dirStepY + offset_or_height)));
             if (monster_index >= 0 &&
                 (D_800E2970[monster_index].flags & 2) &&
                 !(actor->flags & 0x2000)) {

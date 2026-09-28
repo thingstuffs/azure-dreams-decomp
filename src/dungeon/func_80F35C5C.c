@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -19,8 +20,6 @@ extern void func_800A2B04();
 extern void func_800AAA54();
 extern void func_800AD4D0();
 
-extern s8 D_8006CCD8;
-extern s8 D_8006CCE8;
 extern s32 D_80083460;
 extern u8 D_80170E94;
 extern u8 D_80174ABC[];
@@ -39,8 +38,8 @@ void func_8017345C(S_8017345C_1 *action, Rec_D_800E3D7C *motion, Rec_D_80082E80 
     switch (action->unk_9B) {
     case 0:
         func_800AD4D0(entity);
-        motion->unk_0C.as_s32 = ((s16 *)&D_8006CCD8)[direction] << 17;
-        motion->unk_10.at00_s32.v = ((s16 *)&D_8006CCE8)[direction] << 17;
+        motion->unk_0C.as_s32 = ((s16 *)((s8 *)dirStepX))[direction] << 17;
+        motion->unk_10.at00_s32.v = ((s16 *)((s8 *)dirStepY))[direction] << 17;
         action->unk_9B++;
 
         if (((Rec_D_800E3D7C *)entity)->unk_28 == 0) {
@@ -63,9 +62,9 @@ void func_8017345C(S_8017345C_1 *action, Rec_D_800E3D7C *motion, Rec_D_80082E80 
 
     case 1:
         motion->unk_0C.as_s32 -=
-            ((s16 *)&D_8006CCD8)[direction] << 14;
+            ((s16 *)((s8 *)dirStepX))[direction] << 14;
         motion->unk_10.at00_s32.v -=
-            ((s16 *)&D_8006CCE8)[direction] << 14;
+            ((s16 *)((s8 *)dirStepY))[direction] << 14;
         if (action->unk_96.s > 0) {
             action->unk_96.s = action->unk_96.u - 1;
         } else if (tile->unk_14.at00_u16.v & 0x6000) {

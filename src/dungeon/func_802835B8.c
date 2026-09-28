@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 typedef struct S_800165B8_0 {
     u8 pad_00[0x8];
@@ -156,8 +157,6 @@ extern u8 D_80045340[];
 extern u8 D_80083780;
 extern u8 D_80082E80[];
 extern u8 D_80082E60[];
-extern s16 D_8006CCD8[];
-extern s16 D_8006CCE8[];
 extern u8 D_800DD078;
 extern volatile u8 D_800DD090;
 extern u8 D_800DD0A8;
@@ -264,7 +263,7 @@ retry_position:
         delta_page = (u8 *)0x80070000;
         ASM_KEEP(delta_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         delta_x = (s16 *)(delta_page - 0x3328);
-        delta_y = D_8006CCE8;
+        delta_y = dirStepY;
 check_neighbor:
         func_8009A350(pos_x, pos_y, (s16)direction, &flags);
         bind_state = (u8 *)(-0x400);

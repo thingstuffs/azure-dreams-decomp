@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 typedef struct {
     u16 x;
@@ -35,8 +36,6 @@ extern Packed12 D_80025624;
 extern s16 D_80025630[8];
 extern void *D_800246B4[3];
 extern u8 D_80045340[];
-extern u8 D_8006CCD8[];
-extern u8 D_8006CCE8[];
 extern u8 D_800DDC40[];
 extern u8 D_800E3D68[];
 extern s32 D_8008346C;
@@ -336,10 +335,10 @@ state1:
             owner_sprite = ((S_func_8190B2D0_2 *)((u8 *)owner - 32))->unk_C;
             effect->unk_A2 =
                 owner_sprite->unk_24 +
-                D_8006CCD8[(s16)effect->unk_7E.s16 * 2];
+                ((u8 *)dirStepX)[(s16)effect->unk_7E.s16 * 2];
             effect->unk_A3 =
                 owner_sprite->unk_25 +
-                D_8006CCE8[(s16)effect->unk_7E.s16 * 2];
+                ((u8 *)dirStepY)[(s16)effect->unk_7E.s16 * 2];
 
             if (owner->unk_72 != owner_sprite->unk_24) {
                 height_or_steps = owner->unk_72 - owner_sprite->unk_24;

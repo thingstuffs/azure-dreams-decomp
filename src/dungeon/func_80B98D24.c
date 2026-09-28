@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -12,8 +13,6 @@ M2C_UNK func_800A2B04();
 M2C_UNK func_800A4ACC();
 M2C_UNK func_800A56E0();
 M2C_UNK func_800AD594();
-extern u8 D_8006CCD8;
-extern u8 D_8006CCE8;
 extern s16 D_80083228;
 extern s32 D_8008346C;
 extern M2C_UNK D_80170E9C;
@@ -58,8 +57,8 @@ jt_c0:
     func_8009C12C(actor, sprite, ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16, 1);
     return;
 start_motion:
-    ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = (s32) (*(s16 *)(&D_8006CCD8 + (((u16) ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 >> 8) & 0xE)) << 0x14);
-    ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = (s32) (*(s16 *)(&D_8006CCE8 + (((u16) ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 >> 8) & 0xE)) << 0x14);
+    ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = (s32) (*(s16 *)(((u8 *)dirStepX) + (((u16) ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 >> 8) & 0xE)) << 0x14);
+    ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = (s32) (*(s16 *)(((u8 *)dirStepY) + (((u16) ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 >> 8) & 0xE)) << 0x14);
     goto advance_phase;
 jt_c1:
     ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = (s32) ((s32) ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 >> 1);

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
 
 typedef struct S_8008CD4C_0 {
@@ -38,8 +39,6 @@ s32 func_8009B25C();
 M2C_UNK func_8009F644();
 M2C_UNK func_800A56E0();
 
-extern s16 D_8006CCD8[];
-extern s16 D_8006CCE8[];
 extern s16 D_80083228[5];
 extern u8 D_80083460[9];
 extern u8 D_800DCFB8[];
@@ -64,9 +63,9 @@ void func_8008CD4C(Rec_func_8008ACDC_arg0 *action, M2C_UNK context, S_8008CD4C_0
 
     if ((s16)state != -2) {
         direction_offset = ((actor->unk_2A.s >> 8) & 0xE);
-        x_step = (u16 *)((u8 *)D_8006CCD8 + direction_offset);
+        x_step = (u16 *)((u8 *)dirStepX + direction_offset);
         next_x = sprite->unk_24 + *x_step;
-        y_step = (u16 *)((u8 *)D_8006CCE8 + direction_offset);
+        y_step = (u16 *)((u8 *)dirStepY + direction_offset);
         next_y = sprite->unk_25.s + *y_step;
         target = func_8009B25C(actor, next_x & 0xFFFF, next_y & 0xFFFF,
                             actor->unk_88);

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -206,8 +207,6 @@ __asm__(".globl func_80024000\n.size func_80024000,3396");
 #endif
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern s16 D_8006CCD8[];
-extern s16 D_8006CCE8[];
 extern u8 D_80045340[];
 extern u8 D_80083498[];
 extern u8 D_800DEC28[];
@@ -339,7 +338,7 @@ void BODY_NAME(void *effect, void *motion, void *sprite) {
 
     sprite_or_step_x = (s32) sprite;
 
-    direction_x_table = D_8006CCD8;
+    direction_x_table = dirStepX;
     owner = ((Rec_D_800E3D7C *)effect)->unk_00.at00_pv.v;
     state = ((Rec_D_800E3D7C *)effect)->unk_08.at02_s16.v;
     owner_sprite = ((S_8182C800_1_pre *)owner)[-1].unk_00;
@@ -348,7 +347,7 @@ void BODY_NAME(void *effect, void *motion, void *sprite) {
     direction_offset = motion_extent & 0xE;
     direction_x = *(s16 *)((u8 *)direction_x_table + direction_offset);
     owner_object = owner - 0x20;
-    target_sprite = (S_8182C800_9 *)(*(s16 *)((u8 *)D_8006CCE8 + direction_offset));
+    target_sprite = (S_8182C800_9 *)(*(s16 *)((u8 *)dirStepY + direction_offset));
     direction_y = (s32) ((s16)target_sprite);
     if ((u32) state >= 5) {
         return;

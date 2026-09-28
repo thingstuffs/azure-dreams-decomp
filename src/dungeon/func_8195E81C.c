@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "records/Rec_D_800814A8.h"
 
 typedef struct S_8002401C_0 {
@@ -46,8 +47,6 @@ extern s16 D_800273BC;
 extern u8 D_800273BE;
 extern void *D_800273C0;
 extern s32 D_800274DC[];
-extern s16 D_8006CCD8[];
-extern s16 D_8006CCE8[];
 extern s32 D_800814A0;
 extern void *D_800814A8;
 extern u8 D_80082E80[];
@@ -134,9 +133,9 @@ jt_c0:
         direction_offset = (map_data[0x15] >> 8) & 0xE;
         func_80025AD8(
             (s16)(D_80082E80[0x24] +
-                  (D_8006CCD8[direction_offset >> 1] * 4)),
+                  (dirStepX[direction_offset >> 1] * 4)),
             (s16)(D_80082E80[0x25] +
-                  (D_8006CCE8[direction_offset >> 1] * 4)));
+                  (dirStepY[direction_offset >> 1] * 4)));
         ((S_8002401C_0 *)object_bytes)->unk_0A.u++;
         /* fallthrough */
 

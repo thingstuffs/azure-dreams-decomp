@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 
 #define U8(p, o)  (*(u8 *)((u8 *)(p) + (o)))
 #define S8(p, o)  (*(s8 *)((u8 *)(p) + (o)))
@@ -14,8 +15,6 @@ extern void func_800A4ACC(void *);
 extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
 
-extern s16 D_8006CCD8[];
-extern s16 D_8006CCE8[];
 extern s16 D_80083228[];
 extern s32 D_8008346C[];
 extern u8 D_80171FA4[];
@@ -94,7 +93,7 @@ state_one:
     s32 signed_value;
 
     anim_table = U16(action, 0x96);
-    direction_base = (u8 *)&D_8006CCD8;
+    direction_base = (u8 *)&dirStepX;
     next_tick = anim_table + 1;
     anim_table -= 3;
     U16(action, 0x96) = next_tick;
@@ -102,7 +101,7 @@ state_one:
     anim_table = (u32)anim_table < 8U;
     direction_base = (u8 *)(direction_off + (s32)direction_base);
     delta_x = *(s16 *)direction_base;
-    direction_base_2 = (u8 *)&D_8006CCE8;
+    direction_base_2 = (u8 *)&dirStepY;
     signed_value = *(s16 *)((s32)(direction_off + (s32)direction_base_2));
     delta_x = -delta_x;
     delta_x <<= 16;
