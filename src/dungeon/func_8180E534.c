@@ -32,8 +32,6 @@ void *func_80027534(s16 pos_x, s16 pos_y, s16 pos_z)
   register s32 motion_angle ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
   s32 sample_index;
   s32 group_index;
-  register s16 held_y ASM_REG("$5") = pos_y;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-  register s16 held_z ASM_REG("$6") = pos_z;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
   register s32 setup_origin ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
   s32 setup_size;
   register void *setup_asset ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
@@ -43,11 +41,11 @@ void *func_80027534(s16 pos_x, s16 pos_y, s16 pos_z)
   s32 trig_result;
   void *effect_state;
   void *effect;
-  sp.sp1A = held_z;
+  *(u16 *)((u8 *)&sp + 0xA) = pos_z;
   setup_origin = 0x01800380;
   setup_size = 0x400040;
   setup_asset = D_8002888C;
-  sp.sp18 = held_y;
+  *(u16 *)((u8 *)&sp + 8) = pos_y;
   setup_data = (void *) (&sp.sp10);
   ASM_USE_G_NV(D_80083228);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
   sp.sp10 = setup_origin;

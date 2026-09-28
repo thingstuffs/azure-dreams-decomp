@@ -31,6 +31,8 @@ SLUS SHA-1 image MATCH (GATE_RC=0 each time). No census/reclassification change;
 | r78_opus_c7 | opus | 2 | 1 partial | 13 -> 3 | 269,283 A | 23 |
 | r78_opus_c1 | opus | 1 (F0) | 0 (mechanism) | - | 325,966 A | 33 |
 | r78_opus_c6 | opus | 2 | 0 (mechanism) | - | 298,150 A | 33 |
+| r78_opus_c8 | opus | 2 | 2 partial | 19 -> 6 | 338,035 A | 38 |
+| r78_opus_reg8 | opus | 5 | 1 + 1 partial | 9 -> 2 | 258,450 A | 22 |
 | r78_sol6_h10 | sol 6 | 5 | 2 partial | 7 -> 4 | 414,446 C (250,713 + extension) | 14 + ext |
 | r78_sol6_fresh1 | sol 6 | 3 | 0 | - | 255,552 C | 23 |
 | r78_luna6_red1 | luna 6 | 5 | 0 (cap misset) | - | 151,896 C | 12 |
@@ -103,4 +105,8 @@ This round:
 2. Continue H28 fresh-eyes on the remaining interrupted rows (h5-h8), and the reduced rows c3/c5/c7 left
    (800C9858 22, 81912154 11, 800969CC 8, 8197C800 3) - reduced source is a new state.
 3. c4's delay-slot rule: count rows with a constant call argument pinned next to a volatile store before a call.
-4. Sol/Luna: route to known-shape family packs (spill-register, symbol-page) rather than plateaued leftovers.
+4. **jump2 cross-jump blockers** (r78_opus_c8): the last fence on dungeon/func_80284BEC and the state_2
+   barrier on dungeon/func_818E6800 exist only to stop jump2 cross-jumping identical blocks retail keeps
+   separate. Check the census for fences whose erasure residue is a cross-jump merge, then test whether
+   the real toolchain's find_cross_jump differs (bounded experiment) before sending more C spellings.
+5. Sol/Luna: route to known-shape family packs (spill-register, symbol-page) rather than plateaued leftovers.

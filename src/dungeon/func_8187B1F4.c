@@ -82,14 +82,17 @@ extern s32 func_80066460(s32, s32, s32, s32);
 extern void func_80067F20(void *, s32, s32, u32, s32);
 extern GlobalState *D_80083160[];
 
+typedef struct GlobalRef {
+    GlobalState *cur;
+} GlobalRef;
+
 /* Projects points and adds brightness-scaled pixel primitives to the ordering table. */
 s32 func_8187B1F4(u8 *points, u8 *position, u8 *orientation) {
     s32 view_matrix[8];
-    void * volatile model_matrix;
+    void *model_matrix;
     u8 *scratch;
-    register u8 *model_matrix_ptr ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 *transform_matrix;
-    GlobalState **global;
+    GlobalRef *global;
     register GlobalState *state;
     GlobalState *tag_state;
     u8 *ordering_table;
@@ -109,23 +112,15 @@ s32 func_8187B1F4(u8 *points, u8 *position, u8 *orientation) {
     u8 *tail;
     u8 *tail_2;
     u32 tag_length_mask;
-    register u32 tag_addr_mask ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u32 tag_addr_mask;
 
-    global = (GlobalState **)&D_80083160;
-    ASM_KEEP_NV(global);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    global = (GlobalRef *)&D_80083160;
     scratch = (u8 *)0x1F800000;
+    model_matrix = (u8 *)((u32)scratch | 0x74);
+    transform_matrix = (u8 *)((u32)scratch | 0x54);
     ASM_KEEP_NV(scratch);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    model_matrix_ptr = scratch;
-    ASM_KEEP_NV(model_matrix_ptr);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    model_matrix_ptr = (u8 *)((u32)model_matrix_ptr | 0x74);
-    model_matrix = model_matrix_ptr;
-    transform_matrix = scratch;
-    ASM_KEEP_NV(transform_matrix);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    transform_matrix = (u8 *)((u32)transform_matrix | 0x54);
-    ASM_KEEP_NV(transform_matrix);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     tag_addr_mask = 0x00FFFFFF;
     tag_length_mask = 0xFF000000;
-    ASM_KEEP(tag_length_mask);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     do {
         VFIELD(scratch, s32, 0x88) = ((S_8187B1F4_0 *)position)->unk_02;
         VFIELD(scratch, s32, 0x8C) = ((S_8187B1F4_0 *)position)->unk_06;
@@ -144,7 +139,7 @@ s32 func_8187B1F4(u8 *points, u8 *position, u8 *orientation) {
         func_80064BC0(transform_matrix, scratch + 0x34);
         func_80064D80(transform_matrix);
         func_80064CF0(transform_matrix);
-        state = global[0];
+        state = global->cur;
         ordering_table = (u8 *)state;
         state = (GlobalState *)state->next;
         ordering_table += 0xB0;
@@ -158,7 +153,7 @@ s32 func_8187B1F4(u8 *points, u8 *position, u8 *orientation) {
                 VFIELD(scratch, u16, 6) = point_coords[0x22];
                 vertex = scratch + 4;
                 component = point_coords[0x39];
-                state = global[0];
+                state = global->cur;
                 depth_cue = scratch + 0xD0;
                 VFIELD(scratch, u16, 8) = component;
                 point_packet = state->next;
@@ -187,8 +182,8 @@ s32 func_8187B1F4(u8 *points, u8 *position, u8 *orientation) {
                         (((S_8187B1F4_6 *)tail)->unk_00 & tag_length_mask) |
                         ((u32)point_packet & tag_addr_mask);
                     ((S_8187B1F4_6 *)tail)->unk_00 = linked_tag;
-                    draw_mode_packet = global[0]->next;
-                    global[0]->next = draw_mode_packet + 0xC;
+                    draw_mode_packet = global->cur->next;
+                    global->cur->next = draw_mode_packet + 0xC;
                     func_80067F20(draw_mode_packet, 0, 0,
                                   func_80066460(0, 1, 0, 0) & 0xFFFF, 0);
                     ((S_8187B1F4_7 *)draw_mode_packet)->unk_00 =
@@ -209,7 +204,6 @@ s32 func_8187B1F4(u8 *points, u8 *position, u8 *orientation) {
                 point_coords += 1;
             } while (point_index < point_count);
         }
-        ASM_USE(transform_matrix);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         func_80064A40();
         tail_2 = ((S_8187B1F4_3_pre *)points)[-1].unk_00;
         points = tail_2 + 0x20;
