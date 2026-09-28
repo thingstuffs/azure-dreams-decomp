@@ -121,6 +121,15 @@ fields); those need understanding and byte-exact control-flow work (Opus/Astra f
 needs a header/type design decision - queued for the owner, not started. Staged Luna outputs remain in
 ledger/agents/out/gpt-6-luna-xhigh-r78read*/ (not landed).
 
+## Near-miss family paused (06:45Z)
+
+Near-miss conversion yield faded: c13 10, c15 7, c17 5, c16 4 (held), c19 2, c14 0, c18 0. Three rows share one
+unknown (r78_opus_c19): gcc 2.7 loads constant register arguments after all argument values (calls.c:1615, no
+PUSH_ARGS_REVERSED), while retail loads e.g. `li $4,530` first - a mechanism question for a bounded research lane,
+not more spellings. Parked after 2+ passes with recorded next measurements: 800AA49C, 80F5F040, 818571BC,
+800C9858, 81912154, 800957B8 (held candidate), 80BE5084 (F0). Next Opus capacity: the owner's type-consolidation
+pilot, then a fresh ranking.
+
 ## Owner decisions queued (not taken while the owner is away)
 
 - **F0 discarded clamps**: land the reconstruction (5 of 6 pins on 11 clones, ~55 pins) with a visible comment
