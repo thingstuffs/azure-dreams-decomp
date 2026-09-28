@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sys_flags.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
@@ -6,7 +7,6 @@
 
 struct S_8003E2D8; typedef struct S_8003E2D8 S_8003E2D8;
 extern void *D_8008ACDC[];
-extern volatile s16 D_80013714[8];
 extern u8 D_800E3CD0[9];
 extern u16 D_80082E76;
 M2C_UNK func_800945E8();
@@ -85,7 +85,7 @@ state_1:
         return;
     }
     ASM_KEEP(temp_v1);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    if ((u16) *D_80013714 & 4) {
+    if ((u16) *((s16 *)&D_80013714) & 4) {
         if (((S_8008E0C4_2 *)D_800E3CD0)->unk_00 == 0) {
             ((S_8008E0C4_2 *)D_800E3CD0)->unk_00 = temp_v1;
             func_80040AA0(3);

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sys_flags.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
 
@@ -15,7 +16,6 @@ typedef struct {
     u8 bytes[4];
 } Unaligned4;
 
-extern volatile s16 D_80013714[8];
 extern s32 D_800E3DF0[];
 extern S_800E3E48 D_800E3E48[];
 extern void *D_80010248[];

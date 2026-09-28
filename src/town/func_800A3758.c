@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/sys_flags.h"
 
 typedef struct S_80013714 {
     u16 flags;   /* 0x0 */
     u8 pad[8];   /* keep size > 8 to force %hi/%lo addressing */
 } S_80013714;
 
-extern S_80013714 D_80013714;
 extern s16 D_8008146C;
 extern u16 D_80082E76;
 
@@ -22,5 +22,5 @@ void into_dn_door_jobs(s32 arg0, s32 arg1, s32 arg2) {
     func_800C24FC();
     D_8008146C = 1;
     D_80082E76 = 0;
-    D_80013714.flags &= 0xFFF8;
+    D_80013714 &= 0xFFF8;
 }

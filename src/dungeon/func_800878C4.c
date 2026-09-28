@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
 #include "shared/game_work.h"
 #include "records/Rec_func_8008D024_arg0.h"
 #include "records/Rec_D_80082E80.h"
@@ -12,7 +13,6 @@ typedef struct {
     s16 field_2A;
 } Arg0;
 
-extern s32 D_800E296C[3];
 extern u8 D_800DD0B8[8];
 extern u8 D_800DCFB0[8];
 
@@ -61,7 +61,7 @@ s32 func_8008D024(Rec_func_8008D024_arg0 *actor, s32 context, Rec_D_80082E80 *di
                     func_800B1768(0x22, 0xF2, 0x98, 1, 0, 2);
                     func_800B1768(0x24, 0xCE, 0x98, 2, 1, 4);
                     func_800B1768(0x23, 0xE0, 0xAC, 3, 1, 6);
-                    D_800E296C[0] |= 0x2000;
+                    D_800E296C |= 0x2000;
                 }
                 if (actor->unk_1C & 0x100000) {
                     direction_frames = D_800DD0B8;

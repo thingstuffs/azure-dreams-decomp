@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
@@ -12,7 +13,6 @@ typedef struct TileEntry {
     u8 tail[6];
 } TileEntry;
 
-extern TileEntry D_800E2970[];
 extern void *D_80170808[];
 extern u8 D_80175F10[];
 extern u8 D_80175F20;

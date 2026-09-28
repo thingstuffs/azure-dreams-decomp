@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/sys_flags.h"
 #include "shared/record_ptrs.h"
 
 extern void func_80099FDC(void *);
 extern void func_8009FAC4(void);
 extern void func_800A48F0(void *, s32, s32);
 
-extern u16 D_80013714[5];
 extern u8 *D_80175D50[3];
 
 void func_8016F144(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
@@ -20,7 +20,7 @@ void func_8016F144(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     i = 0;
     p = D_80175D50[0] + 0x20;
     *(u16 *)(p + 0x46) &= 0x7FFF;
-    D_80013714[0] &= 0xFFF6;
+    D_80013714 &= 0xFFF6;
     func_8009FAC4();
     p[0xAF] = 0;
     p[0xB0] = 1;

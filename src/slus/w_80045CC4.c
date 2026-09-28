@@ -89,6 +89,9 @@ void func_80045CC4(void *context, s32 position, S_80045CC4_Arg2 *sprite, s16 dep
 {
     void (*callback)(void *, s32, S_80045CC4_Arg2 *, u8 *);
     s32 x;
+    s32 packet_addr;
+    s32 matrix_yy;
+    s32 matrix_xx;
     s32 y;
     s32 *packet;
     s32 *quad;
@@ -96,7 +99,7 @@ void func_80045CC4(void *context, s32 position, S_80045CC4_Arg2 *sprite, s16 dep
     s32 visible_0;
     s32 visible_1;
     s32 any_visible;
-    register u32 addr_mask ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    u32 addr_mask;
     s32 visible_3;
     u8 *entry;
     u8 *payload;
@@ -297,26 +300,29 @@ next_entry:
                     visible_3 = sprite->unk10;
                     if (visible_3 != 0) {
                         tpage = visible_3 + (((S_80045CC4_1_pre *)payload)[-1].unk_00 & 0xFF9F);
+                        ((S_80045CC4_0 *)quad)->unk_12 = tpage;
+                        ((S_80045CC4_0 *)quad)->unk_18.at00.v = SP_U16(0x14) + SP_U16(0x08);
+                        ((S_80045CC4_0 *)quad)->unk_20.at00.v = SP_U16(0x14) + SP_U16(0x10);
+                        matrix_xx = SP_U16(0x50);
                     } else {
                         tpage = ((S_80045CC4_1_pre *)payload)[-1].unk_00;
+                        ((S_80045CC4_0 *)quad)->unk_12 = tpage;
+                        ((S_80045CC4_0 *)quad)->unk_18.at00.v = SP_U16(0x14) + SP_U16(0x08);
+                        ((S_80045CC4_0 *)quad)->unk_20.at00.v = SP_U16(0x14) + SP_U16(0x10);
+                        matrix_xx = SP_U16(0x50);
                     }
-                    ((S_80045CC4_0 *)quad)->unk_12 = tpage;
                 }
-                ((S_80045CC4_0 *)quad)->unk_18.at00.v = SP_U16(0x14) + SP_U16(0x08);
-                ((S_80045CC4_0 *)quad)->unk_20.at00.v = SP_U16(0x14) + SP_U16(0x10);
-
                 {
-                    s32 matrix_xx = SP_U16(0x50);
-                    ASM_KEEP_NV(matrix_xx);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                     if (((matrix_xx << 16) >> 16) >= 0x1800) {
                         uv_edge = ((S_80045CC4_0 *)quad)->unk_20.at00u.v;
                         ((S_80045CC4_0 *)quad)->unk_20.at00u.v = uv_edge + 0xFF;
                         ((S_80045CC4_0 *)quad)->unk_10.u8 = uv_edge;
+                        matrix_yy = SP_U16(0x58);
+                    } else {
+                        matrix_yy = SP_U16(0x58);
                     }
                 }
                 {
-                    s32 matrix_yy = SP_U16(0x58);
-                    ASM_KEEP_NV(matrix_yy);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                     if (((matrix_yy << 16) >> 16) >= 0x1800) {
                         uv_edge = ((S_80045CC4_0 *)quad)->unk_20.at01.v;
                         ((S_80045CC4_0 *)quad)->unk_20.at01.v = uv_edge + 0xFF;
@@ -338,23 +344,29 @@ next_entry:
                 if (visible_3 & 8) {
                     if (visible_3 & 4) {
                         x = visible_2 | 2;
+                        ((S_80045CC4_2 *)sprite)->unk_0F = x;
                     } else {
                         x = visible_2 & 0xFD;
+                        ((S_80045CC4_2 *)sprite)->unk_0F = x;
                     }
-                    ((S_80045CC4_2 *)sprite)->unk_0F = x;
+                    visible_0 = 0xFF000000;
+                    quad[0] = sprite->unk0C;
+                    packet_addr = (u32)packet & addr_mask;
+                } else {
+                    visible_0 = 0xFF000000;
+                    quad[0] = sprite->unk0C;
+                    packet_addr = (u32)packet & addr_mask;
                 }
 
                 {
-                    s32 packet_addr = (u32)packet & addr_mask;
                     s32 *ot_bucket;
 
-                    quad[0] = sprite->unk0C;
                     quad += 10;
-                    *packet = (*packet & 0xFF000000) |
+                    *packet = (*packet & (u32)visible_0) |
                         (*(s32 *)(SP_S32(0xC0) * 4 + SP_S32(0x20)) & addr_mask);
                     ot_bucket = (s32 *)(SP_S32(0xC0) * 4 + SP_S32(0x20));
                     packet += 10;
-                    *ot_bucket = (*ot_bucket & 0xFF000000) | packet_addr;
+                    *ot_bucket = (*ot_bucket & (u32)visible_0) | packet_addr;
                 }
             }
         }

@@ -1,26 +1,15 @@
 #include "common.h"
-
-typedef struct {
-    s32 value;
-    s32 pad[2];
-} S32Global;
-
-typedef struct {
-    u16 value;
-    u16 pad[4];
-} U16Global;
-
-extern S32Global D_800E296C;
-extern U16Global D_80013714;
+#include "shared/sys_flags.h"
+#include "shared/dungeon_floor.h"
 
 extern void func_800A69E4(void);
 extern void func_8009FAC4(void);
 
 /* Clears global flag bits and calls func_800A69E4 and func_8009FAC4. */
 void func_81254374(void) {
-    D_800E296C.value = (s32)(D_800E296C.value & 0xEFFFFFFF);
+    D_800E296C = (s32)(D_800E296C & 0xEFFFFFFF);
     func_800A69E4();
-    D_80013714.value = (s16)(D_80013714.value & 0xFFF6);
+    D_80013714 = (s16)(D_80013714 & 0xFFF6);
     func_8009FAC4();
 }
 

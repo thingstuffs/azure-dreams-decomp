@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
 #include "shared/record_ptrs.h"
 
 typedef struct Actor {
@@ -13,11 +14,10 @@ typedef struct Slot {
     Actor *other;
 } Slot;
 
-extern s32 D_800E296C[3];
 
 /* Tests the global override or flag 0x20000 on the actor or its linked actors. */
 s32 func_800C7F68(Actor *actor) {
-    if (*D_800E296C & 0x10000000) {
+    if (D_800E296C & 0x10000000) {
         return 1;
     }
     if (actor->flags14 & 0x4000) {

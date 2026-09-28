@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/sys_flags.h"
+#include "shared/dungeon_floor.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
-extern s32 D_800E296C;
 extern u8  D_800DD0F8[];
-extern u16 D_80013714;
 extern s8  D_80080AA0;
 extern s8  D_80080A88;
 

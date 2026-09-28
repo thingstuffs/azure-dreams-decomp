@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
 #include "shared/dungeon_status.h"
 
 typedef struct DungeonRecord80285E80 {
@@ -35,7 +36,6 @@ extern u8 D_80081468[12];
 extern s16 D_8008146C[5];
 extern u8 D_80082E6B[9];
 extern u8 D_800DDC9C[4][8];
-extern s32 D_800E296C[3];
 extern u8 D_800E3648[12];
 extern u8 D_800E39C8[12];
 
@@ -94,7 +94,7 @@ after_initial:
         floor_group = (s16)(D_8008146C[0] / 5);
         if (D_8008146C[0] >= 0x28) {
             skip_floor_setup = 1;
-            D_800E296C[0] |= 0x10000000;
+            D_800E296C |= 0x10000000;
         }
 
         if (D_8008146C[0] == 0x28) {
@@ -116,7 +116,7 @@ after_initial:
 
         if (D_8008146C[0] == 2 && DUNGEON_GLOBALS->state_022c != 1) {
             floor_event = 2;
-            D_800E296C[0] |= 0x10000000;
+            D_800E296C |= 0x10000000;
             goto process_quotient;
         }
 
@@ -127,7 +127,7 @@ after_initial:
             D_800E3648[1] = 0x13;
             D_800E3648[3] = 0;
             D_800E3648[2] = 0x63;
-            D_800E296C[0] |= 0x10000000;
+            D_800E296C |= 0x10000000;
         }
 
 process_quotient:
@@ -163,7 +163,7 @@ finish_state_zero:
         skip_floor_setup = 1;
         if (state == 1) {
             floor_event = 9;
-            D_800E296C[0] |= 0x10000000;
+            D_800E296C |= 0x10000000;
             func_80019684(1, 1, 1);
             SD_Call(0x200);
             func_800542BC();

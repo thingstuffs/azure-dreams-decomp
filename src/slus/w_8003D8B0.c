@@ -1,16 +1,9 @@
 #include "common.h"
+#include "shared/sys_flags.h"
+#include "shared/transition_slots.h"
 
-typedef struct S_80083120 {
-    s16 field0;
-    s16 field2;
-    s16 field4;
-    s16 field6;
-} S_80083120;
-
-extern S_80083120 D_80083120[8];
 extern int D_80082EC0[128];
 extern int D_80083110[4];
-extern volatile s16 D_80013714[6];
 
 extern void func_8003DB4C(int *p, int n);
 extern void func_800499BC(void);
@@ -32,7 +25,7 @@ void func_8003D8B0(void)
         }
     }
 
-    D_80013714[0] = 0;
+    D_80013714 = 0;
 
     func_800499BC();
     func_8004437C(0x2A, 0);

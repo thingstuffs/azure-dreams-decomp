@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
 #include "shared/object_node.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
@@ -43,7 +44,6 @@ extern void func_80174470(void *, void *, void *, void *);
 
 extern u8 D_800D79B0[];
 extern u8 D_800DEA68[];
-extern DungeonRecord D_800E2970[];
 extern void *D_80170808[];
 extern u8 D_80170E7C;
 extern u8 D_80174C34[];

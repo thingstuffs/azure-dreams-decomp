@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
 #include "shared/entity.h"
@@ -8,7 +9,6 @@
 
 extern u16 D_800DDE84[];
 extern u8 D_800E11FD[];
-extern s32 D_800E296C;
 
 extern void func_8008D344(void *, void *, void *, void *);
 extern s32 func_80098864(s32, s32);

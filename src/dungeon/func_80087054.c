@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sys_flags.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
@@ -27,7 +28,6 @@ typedef struct S_8008C7B4_2 {
 extern M2C_UNK func_80048A44();
 extern M2C_UNK func_8009F644();
 extern s32 func_800A5C70(void *arg0, s32 arg1, void *arg2, void *arg3);
-extern u16 D_80013714;
 extern u8 D_800DCFB0;
 extern M2C_UNK D_800DD0B8;
 

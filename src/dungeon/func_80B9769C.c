@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
@@ -88,7 +89,6 @@ M2C_UNK func_80171FC4();
 M2C_UNK func_801737C4();
 s32 func_80173A08();
 M2C_UNK func_801747D0();
-extern TerrainEntry D_800E2970[];
 extern u8 D_80174EE0[];
 extern M2C_UNK D_80174EF8;
 extern M2C_UNK D_80174F00;

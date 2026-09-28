@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sys_flags.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
@@ -14,7 +15,6 @@ extern s32 func_800A1C58();
 extern M2C_UNK func_800CA0DC();
 extern M2C_UNK func_800CA93C();
 extern M2C_UNK func_800CAA94();
-extern u16 D_80013714;
 
 
 typedef struct S_800C9F34_0 {

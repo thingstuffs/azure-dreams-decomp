@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
 #include "shared/game_work.h"
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
@@ -131,7 +132,6 @@ extern M2C_UNK D_800E069D;
 extern M2C_UNK D_800E06BD;
 extern M2C_UNK D_800E06C0;
 extern M2C_UNK D_800E06E0;
-extern M2C_UNK D_800E296C;
 extern s32 D_800E3DF0[];
 extern M2C_UNK D_800E4938;
 

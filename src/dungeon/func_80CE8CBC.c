@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
@@ -53,7 +54,6 @@ typedef struct {
     u16 flags;
     u8 padE[6];
 } D_800E2970_entry;
-extern D_800E2970_entry D_800E2970[];
 extern M2C_UNK D_801724BC;
 extern M2C_UNK D_80175DF4;
 extern M2C_UNK D_80175DFC;

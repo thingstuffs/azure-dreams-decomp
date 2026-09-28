@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
 
 typedef struct DungeonWriteState {
     u8 pad0[4];
@@ -8,7 +9,6 @@ typedef struct DungeonWriteState {
     u8 *data;
 } DungeonWriteState;
 
-extern s32 D_800E296C[];
 extern void *D_80088D7C[];
 
 extern u8 *func_8009F9E8(s32 arg0, s32 arg1);
@@ -30,7 +30,7 @@ void func_8009F644(void *object_ptr, s32 action_code, s32 payload, s8 extra_byte
     s16 action_offset;
     u32 dispatch_index;
 
-    if (D_800E296C[0] & 0x10000000) {
+    if (D_800E296C & 0x10000000) {
         return;
     }
     if (state->flags & 1) {

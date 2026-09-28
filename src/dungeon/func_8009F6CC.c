@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
 
 typedef struct DungeonArea {
     u16 x;
@@ -13,7 +14,6 @@ typedef struct DungeonArea {
 extern s32 func_8009A350(s16 x, s16 y, s32 arg2, u16 *tile);
 extern s32 func_800A6D30(void);
 extern s16 D_80081468[3];
-extern s8 D_800E2970[];
 
 s32 func_800A4E2C(u8 *arg0, u8 *arg1)
 {

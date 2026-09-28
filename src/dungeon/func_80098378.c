@@ -1,9 +1,9 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 
-extern s32 D_800E296C;
 extern u8 D_800E3548[];
 extern u8 D_800E3648[];
 extern u8 D_800E36C8[];

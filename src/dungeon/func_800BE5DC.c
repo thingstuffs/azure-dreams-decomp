@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
 #include "shared/record_ptrs.h"
@@ -17,7 +18,6 @@ extern s32 func_800403BC();
 extern s32 func_800997FC();
 extern s32 func_80098B38();
 
-extern s32 D_800E296C;
 extern u8 D_800DDE84[];
 extern u8 D_800E3548[];
 extern u8 D_800E36C8[];

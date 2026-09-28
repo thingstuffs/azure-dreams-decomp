@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
 #include "shared/dir_step.h"
 
 #define FIELD(ptr, type, offset) (*(type *)((u8 *)(ptr) + (offset)))
@@ -31,7 +32,6 @@ extern s32 func_800BCB04(s32, s32, s16);
 
 extern s16 D_800DCEAC[];
 extern s16 D_800DCEBC[];
-extern FuncMonster D_800E2970[];
 
 /* Checks movement clearance and classifies the destination height relative to the actor. */
 s32 func_8009A66C(u32 move_flags, FuncArg1 *position, FuncArg2 *actor, s16 height_offset) {

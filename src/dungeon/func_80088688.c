@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
@@ -16,7 +17,6 @@ M2C_UNK func_800AD4D0();                      /* extern */
 extern M2C_UNK D_8008ACDC;
 extern u8 D_800DCFB0[8];
 extern u8 D_800DCFE0[8];
-extern s32 D_800E296C;
 
 
 typedef struct S_8008DDE8_4 {

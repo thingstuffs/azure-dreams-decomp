@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
 #include "m2c_compat.h"
 
-extern M2C_UNK D_800E2970;
 
 typedef struct S_80017560_0 {
     u8 pad_00[0xC];
@@ -13,7 +13,7 @@ void func_80017560(void) {
     s8 *entry;
     s32 remaining;
 
-    entry = &D_800E2970;
+    entry = D_800E2970;
     remaining = 0x24;
     do {
         ((S_80017560_0 *)entry)->unk_0C = 0;

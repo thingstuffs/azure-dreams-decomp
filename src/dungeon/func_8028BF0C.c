@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
 
 typedef void *(*SpawnFunc)(s32, s32, s32, s32);
 
@@ -48,7 +49,6 @@ extern SpawnTables D_800835E4[];
 extern s32 D_800835E8[];
 extern SpawnMeta D_800E3648[];
 extern SpawnPosition D_800E39C8[];
-extern s32 D_800E296C[];
 extern s32 D_800E3D6C[];
 extern u8 *D_800735C4[];
 extern u8 D_800DF258[];
@@ -184,7 +184,7 @@ void func_8001EF0C(void) {
                 trap_cost = (shifted_flag_bits >> 26) + 4;
                 if (trap_budget >= trap_cost) {
                     trap_budget -= trap_cost;
-                    if ((D_800E296C[0] & 0x20000000) ||
+                    if ((D_800E296C & 0x20000000) ||
                         ((u8)(trap_type - 0xF) >= 2)) {
                         meta[slot].state = trap_state;
                         meta[slot].type = store_type;

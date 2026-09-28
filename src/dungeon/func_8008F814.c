@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sys_flags.h"
 #include "shared/game_work.h"
 
 typedef struct Slot {
@@ -43,7 +44,6 @@ typedef struct Unit {
 } Unit;
 
 extern u8 D_80081485[16];
-extern u16 D_80013714[8];
 extern u16 D_80012094;
 extern u16 D_80012096;
 extern Slot D_800E3548[];
@@ -127,7 +127,7 @@ s32 func_80094F74(Ctx *ctx, char *text, Item *item, Unit *unit) {
     }
     free_slot = func_80098FB0();
     free_entry = func_80098FF8();
-    if ((D_80013714[0] & 1) == 0) {
+    if ((D_80013714 & 1) == 0) {
         if ((sys->f8 & 0x20) != 0) {
             func_8009F644(unit, 64, 0, 0);
             func_80099290(func_80099194(D_80088A80, func_80099368(&D_800E3548[item_id], func_80099194(D_800E0A83, message))));

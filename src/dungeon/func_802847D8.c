@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
 #include "m2c_compat.h"
 
-extern M2C_UNK D_800E2970[];
 extern M2C_UNK D_800E2C40[];
 
 typedef struct S_800177D8_0 {

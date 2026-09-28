@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sys_flags.h"
 
 #include "common.h"
 
@@ -17,7 +18,6 @@ typedef struct S_80013714 {
     u8 pad[8];      /* keep size > 8 to force %hi/%lo addressing */
 } S_80013714;
 
-extern S_80013714 D_80013714;
 
 extern void func_8003DB4C(int *p, int n);
 extern void *func_8003FB98(s32 a0, void *a1);
@@ -29,7 +29,7 @@ void *func_8003FD64(s32 flags, S_80081490 **list_head)
     S_80081490 *free_node;
     u8 *payload_cursor;
 
-    if ((D_80013714.flags & 0x2) && (flags & 0x200)) {
+    if ((D_80013714 & 0x2) && (flags & 0x200)) {
         return 0;
     }
 

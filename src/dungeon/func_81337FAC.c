@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/sys_flags.h"
+#include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
 #include "shared/dungeon_status.h"
 
@@ -21,13 +23,11 @@ extern u16 func_800A0818(u8, u8, u8, u8, s32 *);
 extern void func_80164BA4(void *);
 extern void func_8017394C(void);
 
-extern u16 D_80013714;
 extern s16 D_80013716;
 extern s16 D_80013718;
 extern s16 D_8001371A;
 extern void *D_8001371C;
 extern u16 D_800834E2;
-extern s32 D_800E296C;
 extern u8 D_80173C8C[];
 extern u8 D_80173D74[];
 extern u8 *D_80175D50;

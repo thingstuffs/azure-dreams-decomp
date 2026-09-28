@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
 #include "shared/game_work.h"
 
 typedef struct {
@@ -22,7 +23,6 @@ typedef struct {
 
 extern GlobalState D_80082E60;
 extern s8 D_800DCF5B[9];
-extern s32 D_800E296C[3];
 
 extern void func_80043B4C(void);
 
@@ -73,5 +73,5 @@ void func_807AF2F4(void)
     global_state->field12 = 0x39;
     D_800DCF5B[0] = 1;
     global_state->field16 |= 1;
-    D_800E296C[0] |= 0x10000000;
+    D_800E296C |= 0x10000000;
 }

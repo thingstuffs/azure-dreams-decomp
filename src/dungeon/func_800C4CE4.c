@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
@@ -54,7 +55,6 @@ typedef struct {
     u8 pad_0E[6];
 } DungeonTableEntry;
 
-extern DungeonTableEntry D_800E2970[];
 extern s16 D_8006CD00[];
 M2C_UNK func_800A0E6C();
 M2C_UNK func_800A19E4();

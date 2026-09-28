@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sys_flags.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
@@ -21,7 +22,6 @@ s32 func_800AA6B4(void *, s32, void *, void *);
 void func_800AA888(void *, s32, void *, void *);
 void func_8016DAA4(void *, s32, void *, void *);
 
-extern u16 D_80013714;
 extern u8 D_8016B778[];
 extern u8 D_801746A4[];
 extern u8 D_801746AC[];

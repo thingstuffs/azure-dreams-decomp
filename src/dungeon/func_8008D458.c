@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sys_flags.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
@@ -33,7 +34,6 @@ typedef struct {
     s16 coord;
 } S_arg3;
 
-extern volatile u16 D_80013714[];
 extern u8 D_800DD148[];
 extern u8 D_800DD150[];
 extern u8 D_8008ACDC[];
@@ -83,7 +83,7 @@ state0_body:
     return;
 
 state1_body:
-    if (*D_80013714 & 8) {
+    if (D_80013714 & 8) {
         if (actor->flags & 0x6000) {
             if (actor->field2c == D_800DD148) {
                 controller->state = 0x10;

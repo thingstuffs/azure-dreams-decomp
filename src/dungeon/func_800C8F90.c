@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
 
 extern s32 func_800CE4E8();
-extern s32 D_800E296C;
 
 /* Checks the entity at its linked coordinates unless a global override is set. */
 s32 func_800CE6F0(void *entity) {

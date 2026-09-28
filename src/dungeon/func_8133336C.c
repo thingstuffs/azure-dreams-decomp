@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/sys_flags.h"
+#include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
@@ -81,8 +83,6 @@ void func_8016D4B8();
 M2C_UNK func_8016D6F8();
 void func_8016DAC0();
 s32 func_801732A4();
-extern u16 D_80013714;
-extern DungeonEntry D_800E2970[];
 extern u8 D_801739A0;
 extern u8 D_801739A8;
 extern u8 D_801739B0;

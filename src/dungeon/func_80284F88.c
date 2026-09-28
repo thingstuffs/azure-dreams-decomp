@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
 #include "shared/game_work.h"
 
 typedef struct {
@@ -21,7 +22,6 @@ typedef struct {
     s16 shift;
 } DungeonState;
 
-extern DungeonRect D_800E2970[];
 extern s16 func_800BCB04(s32, s32, s32);
 
 /* Finds the eligible tile with the highest sampled value below 0x200 in a rectangle. */
@@ -40,13 +40,13 @@ s32 func_80017F88(s16 rect_index, s16 *out_x, s16 *out_y, s16 check_flags)
     DungeonState *state;
 
     best_value = -0x200;
-    rows_left = D_800E2970[rect_index].height;
+    rows_left = D_800E2970[rect_index].h;
     tile_y = D_800E2970[rect_index].y;
     state = ((DungeonState *)((u8 *)&gameWork + 476));
     cells = state->cells;
     if (rows_left > 0) {
         do {
-            cols_left = D_800E2970[rect_index].width;
+            cols_left = D_800E2970[rect_index].w;
             tile_x = D_800E2970[rect_index].x;
             if (cols_left > 0) {
                 row_index = (s16)tile_y;

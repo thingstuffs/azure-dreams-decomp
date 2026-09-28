@@ -1,9 +1,9 @@
 #include "common.h"
+#include "shared/sys_flags.h"
+#include "shared/dungeon_floor.h"
 #include "shared/record_ptrs.h"
 
 extern s32 D_80174CD8[3];
-extern s32 D_800E296C[3];
-extern u16 D_80013714[5];
 
 extern void func_8009FAC4(void);
 extern void func_80173ED0(void);
@@ -14,11 +14,11 @@ void func_8017105C(void) {
     s32 i;
     void *object;
     u8 *ptr;
-    u16 *flags = D_80013714;
+    u16 *flags = ((u16 *)&D_80013714);
 
     ptr = (u8 *)(D_80174CD8[0] + 0x20);
     *(u16 *)(ptr + 0x46) &= 0x7FFF;
-    D_800E296C[0] &= 0xF7FFFFFF;
+    D_800E296C &= 0xF7FFFFFF;
     flags[0] &= 0xFFF6;
     func_8009FAC4();
     func_80173ED0();

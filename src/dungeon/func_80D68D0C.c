@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -30,7 +31,6 @@ extern s16 func_800BCB04(u16, u16, s16);
 extern s32 func_8017165C(s32);
 
 extern u8 D_800E2368[];
-extern s32 D_800E296C;
 extern LocalTable D_8017088C;
 extern void *const D_801708B0[];
 extern void *const D_801708C8[];

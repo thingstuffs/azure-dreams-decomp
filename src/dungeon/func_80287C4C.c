@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
 #include "shared/game_work.h"
 #include "shared/dir_step.h"
 
@@ -31,7 +32,6 @@ typedef struct {
 } Room;
 
 extern s32 D_8001F660;
-extern Room D_800E2970[];
 extern DungeonCell D_800EA000[];
 
 extern void func_800177D8(s16, s16, s16, s32);
@@ -88,17 +88,17 @@ s32 func_8001AC4C(s16 src_dir, s16 dest_dir, s16 src_idx, s16 dest_idx, u8 *room
     func_8001CCEC((dest_dir + 4) & 6, &dest_offset_x, &dest_offset_y, dest_room);
     travel_dir = src_dir;
     saved_dir = src_dir;
-    if (D_800E2970[src_idx].active) {
+    if (D_800E2970[src_idx].unk_0A) {
         func_800177D8(src_idx, src_room->x + src_offset_x, src_room->y + src_offset_y, 0);
     }
-    if (D_800E2970[dest_idx].active) {
+    if (D_800E2970[dest_idx].unk_0A) {
         func_800177D8(dest_idx, dest_room->x + dest_offset_x, dest_room->y + dest_offset_y, 0);
     }
     func_800A6D60(1);
     start.x = src_room->x + src_offset_x;
     start.y = src_room->y + src_offset_y;
     start.dir = src_dir;
-    if (D_800E2970[src_idx].active) {
+    if (D_800E2970[src_idx].unk_0A) {
         start.x = start.x + dirStepX[travel_dir];
         start.y = start.y + dirStepY[travel_dir];
     }
@@ -108,7 +108,7 @@ s32 func_8001AC4C(s16 src_dir, s16 dest_dir, s16 src_idx, s16 dest_idx, u8 *room
     dest_grid_y = dest_idx / D_8001F660;
     for (;;) {
         if (cursor_x == dest_grid_x && cursor_y == dest_grid_y) {
-            if (D_800E2970[dest_idx].active) {
+            if (D_800E2970[dest_idx].unk_0A) {
                 end.x = dest_room->x + dest_offset_x;
                 end.y = dest_room->y + dest_offset_y;
             } else {
@@ -194,7 +194,7 @@ s32 func_8001AC4C(s16 src_dir, s16 dest_dir, s16 src_idx, s16 dest_idx, u8 *room
         inner_cell->value = inner_cell->value + 96;
     }
 
-    if (D_800E2970[dest_idx].active) {
+    if (D_800E2970[dest_idx].unk_0A) {
         back_dir = dest_dir;
         cursor_x = dest_x;
         cursor_y = dest_y;
@@ -238,12 +238,12 @@ s32 func_8001AC4C(s16 src_dir, s16 dest_dir, s16 src_idx, s16 dest_idx, u8 *room
 
     func_800A6D60(0);
     travel_dir = saved_dir;
-    if (D_800E2970[src_idx].active) {
+    if (D_800E2970[src_idx].unk_0A) {
         src_height = D_800EA000[((src_room->y + src_offset_y) << dungeon->stride) + src_room->x + src_offset_x].value;
     } else {
         src_height = D_800EA000[(src_room->y << dungeon->stride) + src_room->x].value;
     }
-    if (D_800E2970[dest_idx].active) {
+    if (D_800E2970[dest_idx].unk_0A) {
         dest_height = D_800EA000[((dest_room->y + dest_offset_y) << dungeon->stride) + dest_room->x + dest_offset_x].value;
     } else {
         dest_height = D_800EA000[(dest_room->y << dungeon->stride) + dest_room->x].value;
@@ -266,7 +266,7 @@ s32 func_8001AC4C(s16 src_dir, s16 dest_dir, s16 src_idx, s16 dest_idx, u8 *room
     start.x = src_room->x + src_offset_x;
     start.y = src_room->y + src_offset_y;
     start.dir = travel_dir;
-    if (D_800E2970[src_idx].active) {
+    if (D_800E2970[src_idx].unk_0A) {
         start.x = start.x + dirStepX[travel_dir];
         start.y = start.y + dirStepY[travel_dir];
     }
@@ -276,7 +276,7 @@ s32 func_8001AC4C(s16 src_dir, s16 dest_dir, s16 src_idx, s16 dest_idx, u8 *room
     dest_grid_y = dest_idx / D_8001F660;
     for (;;) {
         if (cursor_x == dest_grid_x && cursor_y == dest_grid_y) {
-            if (D_800E2970[dest_idx].active) {
+            if (D_800E2970[dest_idx].unk_0A) {
                 end.x = dest_room->x + dest_offset_x;
                 end.y = dest_room->y + dest_offset_y;
             } else {

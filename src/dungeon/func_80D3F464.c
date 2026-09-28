@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
 #include "records/Rec_D_80082E80.h"
 
 
@@ -13,7 +14,6 @@ extern void func_800A56E0(s32);
 extern s32 func_800BCB04(u16, u16, signed short);
 
 extern DirectionDelta D_800E2468[];
-extern s32 D_800E296C;
 extern void *D_80170888[];
 
 

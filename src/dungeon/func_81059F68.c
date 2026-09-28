@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
@@ -29,7 +30,6 @@ extern s32 func_80171F24();
 extern s16 D_8006CD00[8];
 extern u8 D_80082E80[];
 extern s8 D_80082EA4;
-extern s8 D_800E2970[];
 
 /* Updates actor movement, choosing a direction and recording its path. */
 void func_80171768(u8 *move_work, void *entry_context, u8 *position, u8 *actor)
@@ -175,7 +175,7 @@ check_tile_kind:
 
         tile_kind = S8_AT(position, 0x26);
         if (tile_kind >= 0) {
-            tile_table = (u8 *)&D_800E2970;
+            tile_table = (u8 *)D_800E2970;
             offset = tile_kind * 0x14;
             offset += (s32)tile_table;
             if (U16_AT((u8 *)offset, 0xC) & 2) {

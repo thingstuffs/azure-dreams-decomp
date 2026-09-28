@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
 #include "shared/record_ptrs.h"
 
-extern s32 D_800E296C;
 
 extern void func_8009A028(void *arg0);
 

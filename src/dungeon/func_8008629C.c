@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sys_flags.h"
 #include "shared/game_work.h"
 #include "shared/dir_step.h"
 #include "shared/entity.h"
@@ -47,7 +48,6 @@ typedef struct S_8008B9FC_7_pre {
 
 
 
-extern volatile u16 D_80013714[];
 extern u16 D_80083460[];
 extern s16 D_80083464[];
 extern u8 D_800DCFB0[];
@@ -105,7 +105,7 @@ void func_8008B9FC(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *sprit
         move_state->unk_8C.s = 0;
 
         if (move_result != 4) {
-            if ((D_80013714[0] & 2) ||
+            if ((D_80013714 & 2) ||
                 (((((s32)dungeon_state->unk_008) & 0x20) != 0) &&
                  ((move_state->unk_A2 & 0x100) == 0) &&
                  func_800A5C70())) {
@@ -178,7 +178,7 @@ finish_step:
     }
 
     if (move_result < 0) {
-        if ((D_80013714[0] & 1) ||
+        if ((D_80013714 & 1) ||
             (blocked_ticks = move_state->unk_96 + 1,
              move_state->unk_96 = blocked_ticks,
              (s16)blocked_ticks >= 0x15)) {
@@ -211,7 +211,7 @@ update_step:
     flags_2[1] |= 0x812;
     func_800A67F4();
     func_80094ED4(move_state, actor_id, sprite, actor);
-    if (!(D_80013714[0] & 8)) {
+    if (!(D_80013714 & 8)) {
         return;
     }
 

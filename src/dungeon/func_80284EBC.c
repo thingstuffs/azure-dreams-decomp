@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
 #include "shared/game_work.h"
 
 typedef struct {
@@ -21,7 +22,6 @@ typedef struct {
     s16 shift;
 } DungeonState;
 
-extern DungeonEntry D_800E2970[];
 
 /* Counts cells in the selected dungeon entry with no flags in mask 0x8500. */
 s16 func_80017EBC(s16 entry_index) {

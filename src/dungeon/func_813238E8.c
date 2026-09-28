@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/sys_flags.h"
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
@@ -18,7 +19,6 @@ void func_800AA36C(void *, void *, void *, void *); /* extern */
 s16 func_800BCB04(u16, u16, s16);                   /* extern */
 void func_8016A908(void *);                         /* extern */
 extern u8 D_80013610[0x3612];
-extern s16 D_80013714[5];
 extern u8 D_8006CCF8[256];
 extern u32 D_800835E4[64];
 extern u8 D_800F927E[16];
@@ -234,7 +234,7 @@ void func_8016B0E8(void *entity, void *motion, void *sprite) {
             ASM_KEEP(message);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             actor_index = 0;
             actors_page = (u8 *)0x800E0000;
-            (*(s16 *)D_80013714) = (s16) ((*(u16 *)D_80013714) | 8);
+            (*(s16 *)&D_80013714) = (s16) (D_80013714 | 8);
             inactive_mask = 0x80000000;
             func_800353F4(message);
             ((S_8016B0E8_2 *)actor)->unk_6D = 0U;
@@ -254,7 +254,7 @@ void func_8016B0E8(void *entity, void *motion, void *sprite) {
         }
     }
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    if ((*(u16 *)D_80013714) & 8) {
+    if (D_80013714 & 8) {
         actor_index = 1;
         slot_cursor = ((EntityRec *)(((u8 * *)(&D_800E3D7C))))->x.v + 4;
         do {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
@@ -75,7 +76,6 @@ typedef struct S_8017558C_7 {
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern s32 D_800E296C[3];
 extern u8 D_800E2438[];
 extern u8 D_80170A84[];
 extern s32 D_80045C34[3];
@@ -133,9 +133,9 @@ phase_start:
             func_8009D8A4();
         } while (0);
         finish_phase = 5;
-        global_flags = D_800E296C[0];
+        global_flags = D_800E296C;
         ((S_8017558C_0 *)action)->unk_96 = finish_phase;
-        D_800E296C[0] = global_flags | 0x800000;
+        D_800E296C = global_flags | 0x800000;
         ((S_8017558C_0 *)action)->unk_9B = finish_phase;
     }
     sprite->unk_14.at00_u16.v = (u16) (sprite->unk_14.at00_u16.v | 0x6000);

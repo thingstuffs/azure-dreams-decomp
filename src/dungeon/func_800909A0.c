@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
-extern s32 D_800E296C[3];
 
 struct S_8003E2D8;
 typedef struct S_8003E2D8 S_8003E2D8;
@@ -33,7 +33,7 @@ s32 func_80096100(void *actor)
   result = 0;
   changed = 0;
   base = ((struct S_8003E2D8 *)&gameWork);
-  if (D_800E296C[0] & 0x40000)
+  if (D_800E296C & 0x40000)
   {
     stopped = 1;
   }
@@ -95,7 +95,7 @@ s32 func_80096100(void *actor)
       {
         value = (s16) ((D_800120A0[0] + 1) & 3);
         D_800120A0[0] = value;
-        D_800E296C[0] |= 0x40;
+        D_800E296C |= 0x40;
         D_800DCE66[0] = D_800DD26C[(u16) value];
       }
     }

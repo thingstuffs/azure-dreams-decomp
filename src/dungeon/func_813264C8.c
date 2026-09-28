@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sys_flags.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 
@@ -9,7 +10,6 @@ extern void func_80099FDC();
 
 extern u8 *D_80174704;
 extern u8 D_80174684[];
-extern u16 D_80013714;
 
 void func_8016DCC8(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
 {

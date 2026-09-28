@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sys_flags.h"
 #include "shared/tile_object.h"
 #include "shared/dungeon_status.h"
 
@@ -29,7 +30,6 @@ extern s32 D_80012090;
 extern s16 D_8001209C;
 extern s16 D_80013624;
 extern s32 D_80013628;
-extern u16 D_80013714;
 extern s32 D_80080A80;
 extern s8 D_80080A88;
 extern s16 D_8008146C;

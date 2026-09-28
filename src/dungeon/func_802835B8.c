@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sys_flags.h"
 #include "shared/object_node.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
@@ -150,7 +151,6 @@ extern s16 D_8008146C;
 extern s32 D_80080A80;
 extern s8 D_800DCF5A;
 extern s8 D_80082A3B;
-extern u16 D_80013714;
 extern s32 D_800E3540;
 extern s32 D_80081484;
 extern s32 D_80081470;

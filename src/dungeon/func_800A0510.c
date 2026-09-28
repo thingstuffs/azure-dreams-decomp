@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/sys_flags.h"
+#include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 extern int abs(int);
 
 
-extern u16 D_80013714;
-extern s32 D_800E296C[];
 
 
 typedef struct S_800A5C70_0_pre {
@@ -50,7 +50,7 @@ s32 func_800A5C70(void) {
     if (buttons & 9) {
         return 0;
     }
-    if (D_800E296C[0] & 0x200000) {
+    if (D_800E296C & 0x200000) {
         return 0;
     }
 

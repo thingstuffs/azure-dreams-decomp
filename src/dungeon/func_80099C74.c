@@ -1,8 +1,8 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 
-extern s32 D_800E296C[3];
 
 void *func_8003FC64();
 M2C_UNK func_80064BC0();
@@ -66,7 +66,7 @@ void *func_8009F3D4(s32 x, s32 y, s32 initial_value, s32 update_param, s32 mode)
         *(s32 *)((u8 *)state + 0x28) = update_param;
         *(s16 *)((u8 *)state + 0x2E) = (s16)mode;
         if (mode == 0) {
-            D_800E296C[0] |= 0x40000;
+            D_800E296C |= 0x40000;
         }
     }
     return object;

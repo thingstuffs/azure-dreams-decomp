@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -26,7 +27,6 @@ typedef struct {
     s16 row_shift;
 } DungeonGrid;
 
-extern u32 D_800E296C;
 
 extern void func_8009D6F4(void);
 extern void func_800A56E0(s32);

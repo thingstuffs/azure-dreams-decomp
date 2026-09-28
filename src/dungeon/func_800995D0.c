@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
 #include "m2c_compat.h"
 
 typedef struct S_8009ED30_0 {
@@ -60,7 +61,6 @@ extern M2C_UNK D_8001363C;
 extern M2C_UNK D_8009E038;
 extern M2C_UNK D_8009E798;
 extern M2C_UNK D_800DD7E0;
-extern M2C_UNK D_800E296C;
 
 /* Create and initialize the type 0x12 object if it is not already active. */
 void func_8009ED30(void) {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sys_flags.h"
 #include "shared/entity_objects.h"
 #include "shared/game_work.h"
 
@@ -12,7 +13,6 @@ typedef struct S_8009F868_0 {
 } S_8009F868_0;   /* state in func_8009F868 */
 
 extern u8 D_800DCE60[16];
-extern u16 D_80013714;
 
 extern void func_8004D0C8(void *, void *);
 extern void func_8004D7A8(s32);

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
 #include "shared/object_node.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
@@ -23,7 +24,6 @@ extern Callback D_80083360[0x20];
 extern Entry *D_800833E0[0x20];
 extern Callback D_800DCF80[];
 extern Callback D_800DCFA4;
-extern s32 D_800E296C;
 extern u8 D_800E0000[];
 
 /* Dispatch eligible entry_m callbacks according to the current mode. */

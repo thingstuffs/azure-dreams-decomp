@@ -1,3 +1,4 @@
+#include "shared/dungeon_floor.h"
 #include "shared/game_work.h"
 struct S_80083178
 {
@@ -46,7 +47,6 @@ typedef short s16;
 typedef unsigned int u32;
 typedef int s32;
 typedef s8 M2C_UNK8;
-extern s32 D_800E296C[3];
 extern u8 D_800E3648[];
 s32 func_800A6D30(void *, s32, s32, s32);
 s32 func_800A6DA4();
@@ -64,7 +64,7 @@ void func_8001CFB8(void *room, s32 rng_arg1, s32 rng_arg2, s32 rng_arg3)
   s32 slot_index;
   int y_offset;
   u8 *slot_info;
-  if (!((*D_800E296C) & 0x10000000))
+  if (!((D_800E296C) & 0x10000000))
   {
     random_bonus = func_800A6D30(room, rng_arg1, rng_arg2, rng_arg3) & 7;
     room_area = (*((u16 *) (((s8 *) room) + 6))) * (*((u16 *) (((s8 *) room) + 4)));

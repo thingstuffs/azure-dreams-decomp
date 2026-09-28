@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sys_flags.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
@@ -40,7 +41,6 @@ M2C_UNK func_800A4ACC();
 extern void func_800CAA94(void *, M2C_UNK, void *);
 M2C_UNK func_800CAFDC();
 M2C_UNK func_800CB4C0();
-extern u16 D_80013714;
 extern u8 D_800C9F34;
 
 /* Advances the actor rotation and color effect through fading and cleanup. */

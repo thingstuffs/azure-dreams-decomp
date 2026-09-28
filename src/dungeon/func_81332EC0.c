@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sys_flags.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -21,7 +22,6 @@ extern void func_800AA36C();
 extern s32 func_800BCB04();
 extern void D_8016A36C();
 
-extern u16 D_80013714;
 extern Callback D_80173B94[];
 extern u8 D_80173DDC[];
 

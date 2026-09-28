@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
 #include "shared/game_work.h"
 
 typedef struct DungeonCell {
@@ -21,7 +22,6 @@ typedef struct DungeonState {
     s16 shift;
 } DungeonState;
 
-extern DungeonRecord D_800E2970[];
 
 s16 func_800BCB04(s32, s32, s32);
 

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sys_flags.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 
@@ -37,7 +38,6 @@ struct S_80082E60 {
 typedef struct S_80082E60 S_80082E60;
 extern s16 *D_800F8A44[];
 extern struct S_80082E60 D_80082E60;
-extern volatile s16 D_80013714[8];
 extern u8 D_80013720[];
 extern u8 D_800F6544[];
 extern u8 D_800F8A4C[];
