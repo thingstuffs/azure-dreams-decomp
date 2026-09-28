@@ -1,3 +1,32 @@
+# Handover (2026-09-28, round 78: restart-plan pickup) - start here
+
+**State.** 3,098 / 765 at pickup -> **2,982 / 752** at this note (plus staged partials the lander
+`land_finished2.sh`, pid 536862, lands every 15 min). Records: [decision](evidence/r78_restart_decision.md),
+[wave record](evidence/r78_wave1_report.md), rows per lane `evidence/r78_wave1_rows.json`. Codex weekly meter
+0% -> ~2% (resets 2026-10-03 23:05Z); Gemini usable; Claude unmetered.
+
+**What paid.** (1) Opus fresh-eyes continuations with evidence packets (`tools/lanes/continuation_notes.py`,
+brief paragraph `fresh_eyes`): 11 of 44 rows reduced, 54 pins beyond the prior floor; the interrupted H28 lanes
+paid in 5 of 7. (2) **Spill-register family** (`brief_paragraphs/spill_register.md`): ASM_REG on $8/$9/$10/$12
++ keeps imitating reload (spilled pseudos, REG_EQUIV rematerialisation) - use real params/tables/symbols, drop
+all bindings together; Opus family lanes ~40-50% of rows. Rules folded into
+`tools/learnings/pin_removal_possibilities.md`. (3) Gemini on 1-2 rows and known shapes: 3 of 5 lanes paid.
+**Did not pay:** extend arm (resumed codex session) 0/5; Sol 6 on plateaued rows 1 pin in 3 lanes; Luna 6
+0 in 3 lanes (paused; gpt-5.6-luna rescue lane r78_luna56_sp4b is the 6->5.6 observation).
+
+**New tooling.** `cutoff_report.py` (cut-off experiment: near-misses at cap/limit/interruption, extend vs
+fresh arms), `extend_lane.sh`, `continuation_notes.py`, `land_slus_rebaseline.sh` (SLUS rows exact after link
+but not per-object: image SHA-1 gate + per-row rebaseline), lockstep port-arm landing rule, price-scaled default
+caps (`config/lane_caps.json`), capped lanes landable (cap stub), agent lanes write reports via Bash heredoc.
+
+**Owner decisions queued.** F0 clone family (11 rows x 6 pins): Astra reproduced retail with discarded colour
+clamps (7 exact texts, self-rejected as artificial dead computation; `work/native_lane/r78_astra_f0/diag/
+rejected_clamps/`) - land as a visible reconstruction or not? r77_opus_m6 site-for-pin trade (81875B38).
+
+**Next.** Remaining spill-family rows (~18 with 7-30 pins; `ASM_REG("$8"..)` census in the wave record);
+fresh-eyes on this round's reduced rows; jump2 cross-jump blocker question (c8); set-once/birthing rows from
+c11 (known r76 family: zero-init is deleted by flow there).
+
 # Next restart (2026-09-27)
 
 Read [Claude / Codex restart plan](CLAUDE_CODEX_RESTART_PLAN_20260927.md) for the

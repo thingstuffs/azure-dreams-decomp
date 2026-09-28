@@ -155,5 +155,42 @@
   "dungeon/func_818BDEBC",
   "slus/w_80046C20",
   "town/func_8033077C"
+ ],
+ "r78_opus_c11": [
+  "dungeon/func_81337998",
+  "dungeon/func_81254460",
+  "town/func_800B998C",
+  "dungeon/func_80094DE0"
+ ],
+ "r78_opus_sp8": [
+  "slus/w_80042710",
+  "dungeon/func_80098378",
+  "town/func_800B9CC8",
+  "dungeon/func_818C3B90",
+  "dungeon/func_800C1C20"
+ ],
+ "r78_luna56_sp4b": [
+  "dungeon/func_81904990",
+  "dungeon/func_81811F54",
+  "dungeon/func_8195AB84",
+  "dungeon/func_800C21D0",
+  "dungeon/func_800AF51C"
+ ],
+ "r78_agy_g3": [
+  "slus/w_8003DE58",
+  "slus/konami_runtime_w_8003BAF8",
+  "town/func_800C2284",
+  "dungeon/func_800A2FBC",
+  "town/func_800B8934"
+ ],
+ "r78_opus_c12": [
+  "dungeon/func_800C9858",
+  "dungeon/func_81912154"
+ ],
+ "r78_opus_sp9": [
+  "town/func_8081FF68",
+  "dungeon/func_800957B8",
+  "dungeon/func_8009BEB8",
+  "dungeon/func_800A172C"
  ]
 }
