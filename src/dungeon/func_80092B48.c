@@ -51,10 +51,10 @@ extern u8 D_800DD2B4_index[] __asm__("D_800DD2B4");
 
 void func_800982A8(Arg0 *arg0, Item *arg1) {
     s32 temp_v0;
-    register s32 var_s1 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 var_s1;
     s32 var_s2;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register s32 tail_index ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-    s32 state;
+    s16 state;
     s32 item_b3;   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     Item *temp_s2;
     Item *var_s0;
@@ -64,6 +64,7 @@ void func_800982A8(Arg0 *arg0, Item *arg1) {
 
     var_s0 = arg1;
     var_s1 = 0;
+    state = 0;
     if (var_s0 != NULL) {
         if (var_s0->b1 == 0xF && var_s0->b0 >= 0xD) {
             func_800A56E0(0x506);
@@ -96,7 +97,7 @@ void func_800982A8(Arg0 *arg0, Item *arg1) {
         if (temp_s2 == var_s0) {
             var_s0 = NULL;
         }
-        var_s1 = 1;
+        state = 1;
     }
 
     if (var_s0 != NULL) {
@@ -118,8 +119,6 @@ void func_800982A8(Arg0 *arg0, Item *arg1) {
         }
         var_s0->b3 |= 0x20;
     } else {
-        state = var_s1;
-        ASM_KEEP_NV(state);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         if (state != 0) {
             var_s1 = func_800990FC();
             temp_v0 = func_8009929C(8, var_s1);

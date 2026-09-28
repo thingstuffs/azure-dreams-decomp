@@ -330,7 +330,7 @@ L3:
 L3Activate:
     {
         u16 tail_flags;
-        register u8 tail_state ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        s32 tail_state;
 
         motion->unk_0C.s = dir_x << 19;
         motion->unk_10.s = dir_y << 19;

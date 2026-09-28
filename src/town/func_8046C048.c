@@ -4,7 +4,7 @@
 
 typedef struct S_8001D048_3 {
     u8 pad_00[0x2D0];
-    M2C_UNK (*unk_2D0)(s32, u8, s32);
+    M2C_UNK (*unk_2D0)(s32, u32, s32);
 } S_8001D048_3;   /* callback_base in func_8001D048 */
 
 
@@ -33,35 +33,32 @@ void func_8001D048(void) {
     long row_or_column;
     unsigned long bounds_addr;
     s32 mode;
-    register s32 row_index ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 row_index;
     s32 row_offset;
     s32 check_offset;
     s32 mode_offset;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register u8 entry_value ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u32 entry_value;
     s8 *row;
     s8 *check_base;
     s16 *bounds;
     S_8001D048_2 *global_base;
     S_8001D048_3 *callback_base;
-    M2C_UNK (*callback)(s32, u8, s32);
+    M2C_UNK (*callback)(s32, u32, s32);
 
     row_or_column = (long)D_80016000->unk_38.as_ps8;
     mode_check = func_8001E7E4(1);
     mode = 0;
     if (mode_check != 0) {
-        row_index = 0;
         goto mode_done_done;
     }
     mode_check = func_8001E7E4(2);
     mode = 2;
     if (mode_check == 0) {
-        row_index = 0;
         goto mode_done_done;
     }
     mode = 1;
-    row_index = 0;
     mode_done_done:
-    ;
+    row_index = 0;
     do {
         row_offset = row_index;
     } while (0);
@@ -73,13 +70,13 @@ void func_8001D048(void) {
         check_base = (s8 *)D_8001902C;
         bounds_addr = (unsigned long)check_offset;
         bounds_addr += (unsigned long)check_base;
-        ASM_KEEP(bounds_addr);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         row_or_column = 0;
         if (*(s16 *)bounds_addr > 0) {
             bounds_addr = 0x80020000UL;
             ASM_KEEP(bounds_addr);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             bounds = (s16 *)(bounds_addr - 0x6FD4);
-            mode_offset = mode * 8;
+            bounds_addr = mode * 8;
+            mode_offset = bounds_addr;
 process_entry:
             entry_value = ((S_8001D048_1 *)(row + row_or_column))->unk_3640;
             if (entry_value != 0) {
