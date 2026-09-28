@@ -40,7 +40,7 @@ typedef struct S_8080E59C_1 {
 typedef struct S_8080E59C_2 {
     s32 unk_00;
     s32 unk_04;
-    union { s32 n; volatile s32 v; } unk_08;   /* accessed as both */
+    s32 unk_08;
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
@@ -70,7 +70,7 @@ extern void *func_800373DC();
 extern void func_8003BC18();
 extern void func_8006E590();
 extern void func_8006E8B8();
-extern void func_8023FA58(void *, void *, void *, void *);
+extern void func_8023FA58();
 
 extern u8 D_8003D588[];
 extern u8 D_8052643C[];
@@ -119,9 +119,7 @@ void func_8080E59C(void)
         setup_target = (u8 *)object + 0x2C;
         saved_state = (u8 *)object + 0x78;
         setup_table = D_805300DC;
-        do {
-            object_state = ((S_8080E59C_0 *)object)->unk_08;
-        } while (0);
+        object_state = ((S_8080E59C_0 *)object)->unk_08;
         render_part = ((S_8080E59C_0 *)object)->unk_0C;
         ((S_8080E59C_0 *)object)->unk_10 = D_80529AC4;
         ((S_8080E59C_0 *)object)->unk_20 = child_slots;
@@ -142,32 +140,10 @@ void func_8080E59C(void)
         render_part->unk_0C = color;
         object_state->unk_00 = 0x03600000;
         object_state->unk_04 = 0x03600000;
-        object_state->unk_08.n = 0;
-        ASM_KEEP(object_state);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        {
-            s32 first_word;
-            s32 second_word;
-            s32 third_word;
-            register s32 fourth_word ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-
-            first_word = object_state->unk_00;
-            second_word = object_state->unk_04;
-            third_word = object_state->unk_08.v;
-            fourth_word = object_state->unk_0C;
-   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            ((S_8080E59C_0 *)object)->unk_78 = first_word;
-            ((S_8080E59C_0 *)object)->unk_7C = second_word;
-            ((S_8080E59C_0 *)object)->unk_80 = third_word;
-            ((S_8080E59C_0 *)object)->unk_84 = fourth_word;
-            first_word = object_state->unk_10;
-            second_word = object_state->unk_14;
-            ((S_8080E59C_0 *)object)->unk_88 = first_word;
-            ((S_8080E59C_0 *)object)->unk_8C = second_word;
-            ASM_KEEP(first_word);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            ((S_8080E59C_0 *)object)->unk_74.p32 = shared_state;
-            func_8023FA58(setup_target, saved_state, setup_table, (void *)third_word);
-        }
+        object_state->unk_08 = 0;
+        *(Copy24 *)saved_state = *(Copy24 *)object_state;
+        ((S_8080E59C_0 *)object)->unk_74.p32 = shared_state;
+        func_8023FA58(setup_target, saved_state, setup_table);
     }
 
     child_index = 2;
@@ -177,21 +153,15 @@ void func_8080E59C(void)
         object = func_800373DC(0x136);
         ((S_8080E59C_3 *)child_slot)->unk_04 = object;
         if (object != 0) {
-            s32 color;
             void *setup_target;
-            void *handler;
             void *setup_table;
 
             setup_target = (u8 *)object + 0x28;
             func_8003BC18(object, D_8003D588);
-            color = 0x808080;
-            ASM_KEEP(color);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-            handler = D_8052AE20;
-            ASM_KEEP(handler);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
             object_state = ((S_8080E59C_0 *)object)->unk_08;
             render_part = ((S_8080E59C_0 *)object)->unk_0C;
             setup_table = D_805300C4;
-            ((S_8080E59C_0 *)object)->unk_10 = handler;
+            ((S_8080E59C_0 *)object)->unk_10 = D_8052AE20;
             ((S_8080E59C_0 *)object)->unk_24 = child_slots;
             ((S_8080E59C_0 *)object)->unk_74.s16 = child_index;
             render_part->unk_12 = 0;
@@ -206,12 +176,12 @@ void func_8080E59C(void)
             render_part->unk_1C = unit_scale;
             render_part->unk_1E = unit_scale;
             render_part->unk_20 = unit_scale;
-            render_part->unk_0C = color;
+            render_part->unk_0C = 0x808080;
             render_part->unk_08 = *(s32 *)((u8 *)D_805300C4 + 0x54 +
                 (((S_8080E59C_0 *)object)->unk_74.s16 << 2));
             object_state->unk_00 = (child_index << 23) + 0x04600000;
             object_state->unk_04 = 0x03600000;
-            object_state->unk_08.n = 0;
+            object_state->unk_08 = 0;
             ((S_8080E59C_0 *)object)->unk_70 = shared_state;
             func_8023FA58(setup_target, object_state, setup_table, render_part);
         }

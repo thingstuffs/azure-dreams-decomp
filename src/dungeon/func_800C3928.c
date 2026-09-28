@@ -128,13 +128,6 @@ typedef struct {
     s32 t[3];
 } MATRIX;
 
-typedef struct {
-    MATRIX matrix;
-    u16 saved_arg3;
-    u16 pad;
-    u32 reserved;
-} MATRIX_LOCAL;
-
 extern void func_80064840(void *, void *, void *);
 extern void func_800649A0(void);
 extern void func_80064A40(void);
@@ -156,16 +149,16 @@ extern u8 D_80083160[];
 /* Transform, shade, and enqueue visible textured quads for the model. */
 void func_800C9088(void *parent_matrix, void *translation, void *model, s16 depth_bias)
 {
-    u8 *record_end = parent_matrix;
+    u8 *record_end;
     u8 *packet_code = translation;
-    u8 *object = model;
-    register u8 *scratch ASM_REG("$18");
+    u8 *scratch;
     u8 *indices;
-    register u8 *positions ASM_REG("$20");
+    u8 *positions;
     u8 *normals;
     u8 *packet;
     u8 *base_color;
     u8 *state;
+    u8 **state_table = (u8 **)D_80083160;
     u8 *descriptor;
     u8 *vertex0;
     u8 *vertex1;
@@ -187,23 +180,22 @@ void func_800C9088(void *parent_matrix, void *translation, void *model, s16 dept
     s32 winding;
     s32 flags;
     u16 scale_x;
-    MATRIX_LOCAL saved_transform;
+    MATRIX saved_transform;
     s32 screen_xy0, screen_xy1, screen_xy2;
 
 
-    saved_transform.saved_arg3 = depth_bias;
     func_800649A0();
 
-    scale_x = ((S_800C9088_0 *)object)->unk_1C;
+    scale_x = ((S_800C9088_0 *)model)->unk_1C;
     scratch = (u8 *)0x1F800000;
     ((S_800C9088_1 *)scratch)->unk_30 = scale_x;
-    ((S_800C9088_1 *)scratch)->unk_34 = ((S_800C9088_0 *)object)->unk_1E;
-    ((S_800C9088_1 *)scratch)->unk_38 = ((S_800C9088_0 *)object)->unk_20;
+    ((S_800C9088_1 *)scratch)->unk_34 = ((S_800C9088_0 *)model)->unk_1E;
+    ((S_800C9088_1 *)scratch)->unk_38 = ((S_800C9088_0 *)model)->unk_20;
     ((S_800C9088_1 *)scratch)->unk_40 = ((S_800C9088_2 *)packet_code)->unk_02;
     ((S_800C9088_1 *)scratch)->unk_44 = ((S_800C9088_2 *)packet_code)->unk_06;
     ((S_800C9088_1 *)scratch)->unk_48 = ((S_800C9088_2 *)packet_code)->unk_0A;
 
-    func_80064AE0(&saved_transform.matrix);
+    func_80064AE0(&saved_transform);
 
     ((S_800C9088_1 *)scratch)->unk_60 = 0x1000;
     ((S_800C9088_1 *)scratch)->unk_58 = 0x1000;
@@ -215,33 +207,32 @@ void func_800C9088(void *parent_matrix, void *translation, void *model, s16 dept
     ((S_800C9088_1 *)scratch)->unk_54 = 0;
     ((S_800C9088_1 *)scratch)->unk_52 = 0;
 
-    func_80065AB0(((S_800C9088_0 *)object)->unk_16, scratch + 0x50);
-    func_80065DF0(((S_800C9088_0 *)object)->unk_1A, scratch + 0x50);
-    func_80065C50(((S_800C9088_0 *)object)->unk_18, scratch + 0x50);
+    func_80065AB0(((S_800C9088_0 *)model)->unk_16, scratch + 0x50);
+    func_80065DF0(((S_800C9088_0 *)model)->unk_1A, scratch + 0x50);
+    func_80065C50(((S_800C9088_0 *)model)->unk_18, scratch + 0x50);
 
-    packet_code = (u8 *)0x80080000;
-    if (((S_800C9088_0 *)object)->unk_14 & 1) {
+    if (((S_800C9088_0 *)model)->unk_14 & 1) {
         ((S_800C9088_1 *)scratch)->unk_30 = -((S_800C9088_1 *)scratch)->unk_30;
     }
-    if (((S_800C9088_0 *)object)->unk_14 & 2) {
+    if (((S_800C9088_0 *)model)->unk_14 & 2) {
         ((S_800C9088_1 *)scratch)->unk_34 = -((S_800C9088_1 *)scratch)->unk_34;
     }
 
     func_80064BC0(scratch + 0x50, scratch + 0x30);
     func_80064B90(scratch + 0x50, scratch + 0x40);
-    func_80064840(scratch + 0x50, record_end, scratch + 0xD0);
-    func_80064840(&saved_transform.matrix, scratch + 0xD0, scratch + 0x50);
+    func_80064840(scratch + 0x50, parent_matrix, scratch + 0xD0);
+    func_80064840(&saved_transform, scratch + 0xD0, scratch + 0x50);
     func_80064D80(scratch + 0x50);
     func_80064CF0(scratch + 0x50);
 
-    state = ((S_800C9088_2 *)packet_code)->unk_3160;
-    base_color = object + 0xC;
+    state = state_table[0];
+    base_color = (u8 *)model + 0xC;
     ((S_800C9088_1 *)scratch)->unk_20.s = state + 0xB0;
     packet = ((S_800C9088_3 *)state)->unk_8D0;
     packet_code = packet + 7;
-    ((S_800C9088_0 *)object)->unk_14 |= 0x8000;
+    ((S_800C9088_0 *)model)->unk_14 |= 0x8000;
 
-    descriptor = ((S_800C9088_0 *)object)->unk_08;
+    descriptor = ((S_800C9088_0 *)model)->unk_08;
     indices = ((S_800C9088_4 *)descriptor)->unk_00;
     positions = ((S_800C9088_4 *)descriptor)->unk_04;
     normals = ((S_800C9088_4 *)descriptor)->unk_08;
@@ -290,7 +281,7 @@ next_record:
                               scratch + 0x90, scratch + 0x94);
     ((S_800C9088_1 *)scratch)->unk_C0 = depth;
 
-    flags = ((S_800C9088_0 *)object)->unk_14 & 3;
+    flags = ((S_800C9088_0 *)model)->unk_14 & 3;
     if (flags == 1) {
         goto mirrored_x;
     }
@@ -329,14 +320,7 @@ check_winding:
     winding = func_80065480(screen_xy0, screen_xy1, screen_xy2);
     ((S_800C9088_1 *)scratch)->unk_114 = winding;
     if (((S_800C9088_1 *)scratch)->unk_114 > 0) {
-        register u16 raw_depth_bias ASM_REG("$8");
-        register s32 signed_depth_bias ASM_REG("$3");
-
-        raw_depth_bias = saved_transform.saved_arg3;
-        do {
-            signed_depth_bias = (s16)raw_depth_bias;
-            ((S_800C9088_1 *)scratch)->unk_C0 -= signed_depth_bias;
-        } while (0);
+        ((S_800C9088_1 *)scratch)->unk_C0 -= depth_bias;
         if ((u32)((S_800C9088_1 *)scratch)->unk_C0 < 0x1E0) {
             func_80065034(normals + (*(u16 *)((u8 *)record_end + -0xF)) * 8,
                           base_color, packet + 4);
@@ -348,18 +332,18 @@ check_winding:
                           base_color, packet + 0x28);
 
             (*(s32 *)((u8 *)packet_code + 5)) = (*(s32 *)((u8 *)record_end + -0x17));
-            (*(u16 *)((u8 *)packet_code + 7)) += ((S_800C9088_0 *)object)->unk_12;
+            (*(u16 *)((u8 *)packet_code + 7)) += ((S_800C9088_0 *)model)->unk_12;
             (*(s32 *)((u8 *)packet_code + 0x11)) = (*(s32 *)((u8 *)record_end + -0x13));
-            if (((S_800C9088_0 *)object)->unk_10 != 0) {
+            if (((S_800C9088_0 *)model)->unk_10 != 0) {
                 (*(u16 *)((u8 *)packet_code + 0x13)) =
                     ((*(u16 *)((u8 *)packet_code + 0x13)) & 0xFF9F) +
-                    ((S_800C9088_0 *)object)->unk_10;
+                    ((S_800C9088_0 *)model)->unk_10;
             }
             (*(u16 *)((u8 *)packet_code + 0x1D)) = (*(u16 *)((u8 *)record_end + -5));
             (*(u16 *)((u8 *)packet_code + 0x29)) = (*(u16 *)((u8 *)record_end + -3));
 
             func_8006671C(packet);
-            flags = ((S_800C9088_0 *)object)->unk_14;
+            flags = ((S_800C9088_0 *)model)->unk_14;
             if (flags & 8) {
                 if (flags & 4) {
                     ((S_800C9088_2 *)packet_code)->unk_00 |= 2;
@@ -373,7 +357,7 @@ check_winding:
                               ((S_800C9088_1 *)scratch)->unk_C0 * 4,
                           queued_packet);
             packet += 0x34;
-            ((S_800C9088_0 *)object)->unk_14 &= 0x7FFF;
+            ((S_800C9088_0 *)model)->unk_14 &= 0x7FFF;
         }
     }
 
@@ -384,9 +368,5 @@ check_winding:
     }
 
     func_80064A40();
-    {
-        register u8 *state_base ASM_REG("$8") = D_80083160;
-        ASM_KEEP(state_base);
-        ((S_800C9088_11 *)(*(u8 **)state_base))->unk_8D0 = packet;
-    }
+    ((S_800C9088_11 *)state_table[0])->unk_8D0 = packet;
 }
