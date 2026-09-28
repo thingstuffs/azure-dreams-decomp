@@ -212,3 +212,5 @@
 {"id":"dungeon/func_8196B2F8","transform":"t109_voidret","in_sha":"306a8f90cac35c9363195056a25f15818dd7bc5833e2b67a8c98da314e5a9f3d","from_clean":true,"size":428,"outcome":"refused","reason":"no pin sites","at":"2026-09-24T12:58:39Z"}
 {"id":"dungeon/func_80F87270","transform":"t109_voidret","in_sha":"475608ac4ccb0f23d3674121de5680ea5438eaaca4c4f6938e31f8bde0279127","from_clean":true,"size":1736,"outcome":"refused","reason":"no pin sites","at":"2026-09-24T13:16:26Z"}
 {"id":"dungeon/func_80F89A94","transform":"t109_voidret","in_sha":"4fa5a3d0bc51c26868e8143c92d309a3fd431b45e94d15ae5593e1a5d936d0ec","from_clean":true,"size":624,"outcome":"refused","reason":"no pin sites","at":"2026-09-24T13:16:26Z"}
+{"id":"town/func_8046FF64","transform":"t109_voidret","in_sha":"6a255a5789b55dc71e1df67c1c62522147174e99e859c4fb6379ba144be233cc","from_clean":true,"size":204,"outcome":"refused","reason":"no pin sites","at":"2026-09-27T23:50:41Z"}
+{"id":"dungeon/func_8194D1E4","transform":"t109_voidret","in_sha":"a685c47c95cc268a93c8f344533489fe51b0d1d1d0d9efc86b3c8ed78dd3b86d","from_clean":true,"size":368,"outcome":"refused","reason":"no pin sites","at":"2026-09-27T23:50:41Z"}

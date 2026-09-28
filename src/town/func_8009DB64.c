@@ -24,8 +24,8 @@ typedef struct {
     TownVtable *vtable;
 } TownObject;
 
-extern void func_8009C120(TownObject *arg0, void *arg1, void *arg2);
-extern void func_8009C148(TownObject *arg0, void *arg1, void *arg2);
+extern void func_8009C120(TownObject *arg0, void *arg1, void *arg2, void *arg3);
+extern void func_8009C148(TownObject *arg0, void *arg1, void *arg2, void *arg3);
 
 extern s32 D_800834B8;
 extern u8 D_80091F64[];
@@ -51,19 +51,17 @@ typedef struct S_8009B2C4_1 {
 
 
 /* Dispatches town object actions for the active script and owner state. */
-s32 func_8009B2C4(TownObject *object, void *owner, void *context) {
-    register TownControl *control ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+s32 func_8009B2C4(TownObject *object, void *owner, void *context, void *arg3) {
+    TownControl *control;
     TownControl *control_page;
     TownControl *owner_control;
-    register u8 *entry ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u8 *entry;
     s32 active_script;
 
-    entry = (u8 *)0x800D0000;
-    ASM_KEEP_NV(entry);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    control = (TownControl *)(entry - 0x34C);
+    control = &D_800CFCB4;
 
     if (control->field_10 == owner) {
-        register s32 index ASM_REG("$8") = control->index;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        s32 index = control->index;
         if (((S_8009B2C4_0 *)((u8 *)owner + D_800CFDD8[index]))->unk_3A != 0) {
             entry = (u8 *)(index + (s32)control);
             if (((S_8009B2C4_1 *)entry)->unk_3A == 1) {
@@ -73,12 +71,12 @@ s32 func_8009B2C4(TownObject *object, void *owner, void *context) {
                 }
             }
             if (D_800834B8 == (s32)&D_80092698) {
-                func_8009C120(object, owner, context);
+                func_8009C120(object, owner, context, arg3);
                 return 1;
             }
             if (D_800834B8 == (s32)&D_800927EC) {
                 if (D_800CFCCC == 0) {
-                    func_8009C148(object, owner, context);
+                    func_8009C148(object, owner, context, arg3);
                     return 1;
                 }
             }
