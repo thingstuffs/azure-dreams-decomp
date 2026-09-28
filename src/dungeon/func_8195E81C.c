@@ -72,7 +72,7 @@ void func_8002401C(void *object)
     s32 cell_value;
     s32 cell_size;
     s32 direction_offset;
-    u16 *map_data;
+    EntityRec *map_data;
     s16 *rect_arg;
     u8 config_byte;
     void *created_obj;
@@ -123,8 +123,8 @@ jt_c0:
         } while (1);
 
         D_800273A8 = 0;
-        map_data = (u16 *)((u8 *)D_800E3D7C);
-        direction_offset = (map_data[0x15] >> 8) & 0xE;
+        map_data = (u8 *)D_800E3D7C;
+        direction_offset = (((u16)map_data->facing) >> 8) & 0xE;
         func_80025AD8(
             (s16)(D_80082E80.tileX +
                   (dirStepX[direction_offset >> 1] * 4)),

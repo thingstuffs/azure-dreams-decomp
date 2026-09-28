@@ -20,11 +20,6 @@ typedef struct S_80172288_0 {
 
 
 
-typedef struct S_80172288_3 {
-    u8 pad_00[0x8];
-    union { s16 s; u16 u; } unk_08;   /* accessed as both */
-} S_80172288_3;   /* counter in func_80172288 */
-
 
 
 
@@ -60,7 +55,7 @@ void func_80172288(u8 *motion, u8 *position, u8 *sprite, u8 *actor)
     s32 actor_flags;
     s32 phase;
     u8 phase_value;
-    u8 *global_counter;
+    DungeonGlobalStatus *global_counter;
 
     frame_path = *(PathTable *)D_80170838;
     phase = ((S_80172288_0 *)motion)->unk_9B;
@@ -147,9 +142,9 @@ tick_timer:
         func_800AD594(actor, 4);
         func_800A4ACC(actor);
 
-        global_counter = (u8 *)&dungeonStatus.unk_00;
-        if (((S_80172288_3 *)global_counter)->unk_08.s != 0) {
-            ((S_80172288_3 *)global_counter)->unk_08.u--;
+        global_counter = &dungeonStatus;
+        if (global_counter->unk_08 != 0) {
+            (*(u16 *)&global_counter->unk_08)--;
         }
 
         actor_flags = ((EntityRec *)actor)->flags1C;

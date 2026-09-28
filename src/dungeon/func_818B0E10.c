@@ -22,11 +22,6 @@ typedef struct
   u8 pad0[0x8D0];
   u8 *nextPrim;
 } RenderState;
-typedef struct 
-{
-  RenderState *ctx;
-  u8 pad0[0x20];
-} GlobalState;
 /* Draw 16 shaded line segments and link them into the ordering table by depth. */
 s32 func_818B0E10(void *unused_0, void *origin, void *unused_2, s32 point_scale, s32 plane_z, s32 *points_addr, u8 intensity, s32 color_phase)
 {
@@ -43,7 +38,7 @@ s32 func_818B0E10(void *unused_0, void *origin, void *unused_2, s32 point_scale,
   register u8 *scratch ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
   u8 *line_prim;
   RenderState *initial_ctx;
-  GlobalState *render_state = ((GlobalState *)&gameWork);
+  GameWork *render_state = &gameWork;
   s32 depth;
   point = (s32 *) (((u8 *) point_base) + 0x3C);
   initial_ctx = *((RenderState **) (globals_page + 0x3160));
@@ -68,7 +63,7 @@ s32 func_818B0E10(void *unused_0, void *origin, void *unused_2, s32 point_scale,
     globals_page = (u8 *)(intensity << 16);
     div255_multiplier = (s32) 0x80808081U;
     wide_product.both = (s64) (s32)globals_page * div255_multiplier;
-    ctx = render_state->ctx;
+    ctx = ((RenderState *)render_state->unk_000);
     line_prim = ctx->nextPrim;
     ctx->nextPrim = line_prim + 0x14;
     line_prim[3] = 4;
@@ -156,8 +151,8 @@ s32 func_818B0E10(void *unused_0, void *origin, void *unused_2, s32 point_scale,
         old_tag = *((u32 *) ot_slot);
         *((u32 *) ot_slot) = (old_tag & tag_mask) | ((u32)(((u32) line_prim) & addr_mask));
       }
-      draw_mode_prim = render_state->ctx->nextPrim;
-      render_state->ctx->nextPrim = draw_mode_prim + 0xC;
+      draw_mode_prim = ((RenderState *)render_state->unk_000)->nextPrim;
+      ((RenderState *)render_state->unk_000)->nextPrim = draw_mode_prim + 0xC;
       func_80067F20(draw_mode_prim, 0, 0, func_80066460(0, 1, 0, 0) & 0xFFFF, 0);
       *((s32 *) draw_mode_prim) = ((*((s32 *) draw_mode_prim)) & tag_mask) | (((s32 *) (*((void **) (scratch + 0x18))))[*((s32 *) (scratch + 0xB4))] & addr_mask);
       *(((s32 *) (*((void **) (scratch + 0x18)))) + (*((s32 *) (scratch + 0xB4)))) = ((*(((s32 *) (*((void **) (scratch + 0x18)))) + (*((s32 *) (scratch + 0xB4))))) & tag_mask) | (((s32) draw_mode_prim) & addr_mask);

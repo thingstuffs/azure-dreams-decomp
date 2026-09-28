@@ -8,11 +8,6 @@ typedef struct {
     u8 *prim;
 } Ctx;
 
-typedef struct {
-    Ctx *ctx;
-    char pad4[0x1C0];
-} D80083160_t;
-
 
 typedef struct {
     u8 pad0[3];
@@ -30,14 +25,14 @@ typedef struct {
 /* Draw a shaded horizontal line with dimmer translucent lines above and below. */
 void func_80052774(s16 x, s16 y, s16 width, s16 shade_step)
 {
-    D80083160_t *render_state;
+    GameWork *render_state;
     LineF2 *center_line;
     LineF2 *upper_line;
     LineF2 *lower_line;
     s16 red_green;
     s16 blue;
 
-    render_state = ((D80083160_t *)&gameWork);
+    render_state = &gameWork;
     if (shade_step < 0x11) {
         blue = shade_step * 8 + 0x80;
         if (blue == 0x100) {
@@ -49,8 +44,8 @@ void func_80052774(s16 x, s16 y, s16 width, s16 shade_step)
         red_green = 0x100 - shade_step * 8;
     }
 
-    center_line = (LineF2 *)render_state->ctx->prim;
-    render_state->ctx->prim = (u8 *)center_line + 0x10;
+    center_line = (LineF2 *)((Ctx *)render_state->unk_000)->prim;
+    ((Ctx *)render_state->unk_000)->prim = (u8 *)center_line + 0x10;
     center_line->len = 3;
     center_line->code = 0x40;
     center_line->r0 = red_green;
@@ -67,16 +62,16 @@ void func_80052774(s16 x, s16 y, s16 width, s16 shade_step)
         center_line->x1 = x + width - 1;
         center_line->y1 = y;
     }
-    *(u32 *)center_line = (*(u32 *)center_line & 0xFF000000) | (render_state->ctx->ot & 0xFFFFFF);
-    render_state->ctx->ot = (render_state->ctx->ot & 0xFF000000) | ((u32)center_line & 0xFFFFFF);
+    *(u32 *)center_line = (*(u32 *)center_line & 0xFF000000) | (((Ctx *)render_state->unk_000)->ot & 0xFFFFFF);
+    ((Ctx *)render_state->unk_000)->ot = (((Ctx *)render_state->unk_000)->ot & 0xFF000000) | ((u32)center_line & 0xFFFFFF);
 
     blue = blue / 3;
     blue = blue * 2;
     red_green = red_green / 3;
     red_green = red_green * 2;
 
-    upper_line = (LineF2 *)render_state->ctx->prim;
-    render_state->ctx->prim = (u8 *)upper_line + 0x10;
+    upper_line = (LineF2 *)((Ctx *)render_state->unk_000)->prim;
+    ((Ctx *)render_state->unk_000)->prim = (u8 *)upper_line + 0x10;
     upper_line->len = 3;
     upper_line->code = 0x42;
     upper_line->r0 = red_green;
@@ -93,11 +88,11 @@ void func_80052774(s16 x, s16 y, s16 width, s16 shade_step)
         upper_line->x1 = x + width - 1;
         upper_line->y1 = y - 1;
     }
-    *(u32 *)upper_line = (*(u32 *)upper_line & 0xFF000000) | (render_state->ctx->ot & 0xFFFFFF);
-    render_state->ctx->ot = (render_state->ctx->ot & 0xFF000000) | ((u32)upper_line & 0xFFFFFF);
+    *(u32 *)upper_line = (*(u32 *)upper_line & 0xFF000000) | (((Ctx *)render_state->unk_000)->ot & 0xFFFFFF);
+    ((Ctx *)render_state->unk_000)->ot = (((Ctx *)render_state->unk_000)->ot & 0xFF000000) | ((u32)upper_line & 0xFFFFFF);
 
-    lower_line = (LineF2 *)render_state->ctx->prim;
-    render_state->ctx->prim = (u8 *)lower_line + 0x10;
+    lower_line = (LineF2 *)((Ctx *)render_state->unk_000)->prim;
+    ((Ctx *)render_state->unk_000)->prim = (u8 *)lower_line + 0x10;
     lower_line->len = 3;
     lower_line->code = 0x42;
     lower_line->r0 = red_green;
@@ -114,6 +109,6 @@ void func_80052774(s16 x, s16 y, s16 width, s16 shade_step)
         lower_line->x1 = x + width - 1;
         lower_line->y1 = y + 1;
     }
-    *(u32 *)lower_line = (*(u32 *)lower_line & 0xFF000000) | (render_state->ctx->ot & 0xFFFFFF);
-    render_state->ctx->ot = (render_state->ctx->ot & 0xFF000000) | ((u32)lower_line & 0xFFFFFF);
+    *(u32 *)lower_line = (*(u32 *)lower_line & 0xFF000000) | (((Ctx *)render_state->unk_000)->ot & 0xFFFFFF);
+    ((Ctx *)render_state->unk_000)->ot = (((Ctx *)render_state->unk_000)->ot & 0xFF000000) | ((u32)lower_line & 0xFFFFFF);
 }

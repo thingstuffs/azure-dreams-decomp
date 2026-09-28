@@ -4,6 +4,7 @@
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
+#include "shared/entity.h"
 extern int abs(int);
 
 #ifndef NULL
@@ -49,17 +50,6 @@ typedef struct S_80020DF0_3 {
     u8 pad_12[0x2];
     u16 unk_14;
 } S_80020DF0_3;   /* arg2 in func_80020DF0 */
-
-typedef struct S_80020DF0_4 {
-    s32 unk_00;
-    s32 unk_04;
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_08;   /* overlapping accesses */
-} S_80020DF0_4;   /* target in func_80020DF0 */
-
-typedef struct S_80020DF0_5 {
-    u8 pad_00[0x10];
-    s32 unk_10;
-} S_80020DF0_5;   /* world in func_80020DF0 */
 
 typedef struct S_80020DF0_6 {
     u8 pad_00[0xC];
@@ -231,16 +221,16 @@ void func_80020DF0(void *object, void *motion, void *sprite)
 
     case 6:
         {
-            u8 *target;
+            EntityRec *target;
             s32 target_height;
             s32 base_height;
 
-            target = ((u8 *)(&D_80083780));
+            target = &D_80083780;
             (*(s32 *)((u8 *)motion + 0xC)) =
-                (((S_80020DF0_4 *)target)->unk_00 - ((S_80020DF0_2 *)motion)->unk_00) >> 1;
+                (target->x.v - ((S_80020DF0_2 *)motion)->unk_00) >> 1;
             (*(s32 *)((u8 *)motion + 0x10)) =
-                (((S_80020DF0_4 *)target)->unk_04 - ((S_80020DF0_2 *)motion)->unk_04) >> 1;
-            target_height = ((S_80020DF0_4 *)target)->unk_08.at00.v + D_800D0428;
+                (target->y.v - ((S_80020DF0_2 *)motion)->unk_04) >> 1;
+            target_height = target->z.v + D_800D0428;
             base_height = ((S_80020DF0_2 *)motion)->unk_08.at00.v + 0x80000;
             ((S_80020DF0_2 *)motion)->unk_14 = (target_height - base_height) >> 1;
             func_8009539C(motion);
@@ -260,15 +250,15 @@ void func_80020DF0(void *object, void *motion, void *sprite)
     case 8:
     case 9:
         {
-            u8 *target;
+            EntityRec *target;
 
-            target = ((u8 *)(&D_80083780));
-            (*(s32 *)((u8 *)motion + 0)) = ((S_80020DF0_4 *)target)->unk_00;
-            (*(s32 *)((u8 *)motion + 4)) = ((S_80020DF0_4 *)target)->unk_04;
+            target = &D_80083780;
+            (*(s32 *)((u8 *)motion + 0)) = target->x.v;
+            (*(s32 *)((u8 *)motion + 4)) = target->y.v;
             (*(s32 *)((u8 *)motion + 8)) =
-                ((S_80020DF0_4 *)target)->unk_08.at00.v + D_800D0428 - 0x80000;
+                target->z.v + D_800D0428 - 0x80000;
             if (((s32)world->unk_010) & 0x40) {
-                if (((S_80020DF0_4 *)target)->unk_08.at02.v == 0) {
+                if (target->z.w.i == 0) {
                     if (((S_80020DF0_0 *)object)->unk_68.s == 9) {
                         ((S_80020DF0_1 *)actor)->unk_00 = 0x100000;
                         effect = D_800F2FE0;

@@ -406,5 +406,20 @@
  "r78_astra_b9": [
   "dungeon/func_819602D8",
   "slus/w_8003D0F0"
+ ],
+ "r78_astra_b10": [
+  "dungeon/func_8009E0EC",
+  "slus/w_80052144"
+ ],
+ "r78_astra_b11": [
+  "dungeon/func_80A473B8",
+  "slus/w_80044D24"
+ ],
+ "r78_opus_w11": [
+  "dungeon/func_800A21EC",
+  "dungeon/func_80A4707C",
+  "dungeon/func_800C7F80",
+  "town/func_8032E720",
+  "slus/w_8005F134"
  ]
 }

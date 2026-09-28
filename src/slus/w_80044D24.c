@@ -78,7 +78,6 @@ void func_80044D24(void *unused, void *sprite_data, s32 ot_depth)
 
     for (;;) {
         if (!(parts[0] & 0x20)) {
-            register s32 far_edge ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
             s16 flipped_offset;
             uv_start = U8_AT(part, 7);
             U32_AT(scratch, 8) = uv_start;
@@ -127,9 +126,8 @@ void func_80044D24(void *unused, void *sprite_data, s32 ot_depth)
                 }
                 S16_AT(scratch, 0x80) = offset;
                 S16_AT(scratch, 0x70) = offset;
-                far_edge = U16_AT(scratch, 0x10);
-                far_edge = offset + far_edge;
-                corner_x = far_edge;
+                offset += U16_AT(scratch, 0x10);
+                corner_x = offset;
             }
             S16_AT(scratch, 0x88) = corner_x;
             S16_AT(scratch, 0x78) = corner_x;
@@ -165,9 +163,8 @@ void func_80044D24(void *unused, void *sprite_data, s32 ot_depth)
                 }
                 S16_AT(scratch, 0x7A) = offset;
                 S16_AT(scratch, 0x72) = offset;
-                far_edge = U16_AT(scratch, 0x14);
-                far_edge = offset + far_edge;
-                corner_y = far_edge;
+                offset += U16_AT(scratch, 0x14);
+                corner_y = offset;
             }
             S16_AT(scratch, 0x8A) = corner_y;
             S16_AT(scratch, 0x82) = corner_y;

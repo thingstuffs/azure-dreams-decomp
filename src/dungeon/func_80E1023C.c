@@ -25,11 +25,6 @@ typedef struct S_80173A3C_1 {
 } S_80173A3C_1;   /* arg2 in func_80173A3C */
 
 
-typedef struct S_80173A3C_3 {
-    u8 pad_00[0x10];
-    union { void * p; u32 i; } unk_10;   /* accessed as both */
-} S_80173A3C_3;   /* global in func_80173A3C */
-
 typedef struct S_80173A3C_4 {
     u8 pad_00[0x2];
     s16 unk_02;
@@ -97,9 +92,9 @@ update_fade:
     }
 
     if ((((u32)((EntityRec *)entity)->flags14) & 0x20000000) == 0) {
-        u8 *entity_tracker = (u8 *)&dungeonStatus.unk_00;
-        if (((S_80173A3C_3 *)entity_tracker)->unk_10.p == (u8 *)entity - 0x20) {
-            ((S_80173A3C_3 *)entity_tracker)->unk_10.i &= 0x7FFFFFFF;
+        DungeonGlobalStatus *entity_tracker = &dungeonStatus;
+        if (entity_tracker->unk_10 == (u8 *)entity - 0x20) {
+            (*(u32 *)&entity_tracker->unk_10) &= 0x7FFFFFFF;
         }
     }
 

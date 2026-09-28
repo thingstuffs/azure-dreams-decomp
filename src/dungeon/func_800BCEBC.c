@@ -12,11 +12,6 @@ typedef struct Entity {
     s32 unk_110;
 } Entity;
 
-typedef struct Struct_80083460 {
-    u8 pad[10];
-    u16 count;
-} Struct_80083460;
-
 extern s32 D_80012090;
 extern s16 D_8008146C;
 extern u8 D_80089384[];
@@ -47,10 +42,10 @@ s32 func_800C261C(Entity *entity, s32 item, s16 action_type) {
     if (entity->flags & 0x4000) {
         if ((u32)(entity->unk_13 - 3) < 0x2B) {
             if (D_80012090 == 0 && D_8008146C == 0x28 && func_80033BC0(0xA2) == 0) {
-                Struct_80083460 *counter;
+                DungeonGlobalStatus *counter;
                 func_800997FC(D_800E15FE);
-                counter = ((Struct_80083460 *)&dungeonStatus);
-                counter->count--;
+                counter = &dungeonStatus;
+                (*(u16 *)&counter->unk_0A)--;
                 func_80098B38(item);
                 return 1;
             }
@@ -83,8 +78,8 @@ s32 func_800C261C(Entity *entity, s32 item, s16 action_type) {
     func_800A63B8(entity, item, action_type);
 finish_action:
     {
-        Struct_80083460 *counter = ((Struct_80083460 *)&dungeonStatus);
-        counter->count--;
+        DungeonGlobalStatus *counter = &dungeonStatus;
+        (*(u16 *)&counter->unk_0A)--;
     }
     return 1;
 }

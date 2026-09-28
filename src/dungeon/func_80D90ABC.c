@@ -30,11 +30,6 @@ typedef struct S_801722BC_2 {
 } S_801722BC_2;   /* arg3 in func_801722BC */
 
 
-typedef struct S_801722BC_4 {
-    u8 pad_00[0x8];
-    union { s16 s; u16 u; } unk_08;   /* accessed as both */
-} S_801722BC_4;   /* counter_base in func_801722BC */
-
 
 
 extern void func_80047784(void *, s32, s32);
@@ -66,7 +61,7 @@ void func_801722BC(void *anim, void *motion, void *entity, void *actor)
     s32 actor_flags;
     u16 remaining_ticks;
     s32 phase;
-    u8 *counter_base;
+    DungeonGlobalStatus *counter_base;
 
     phase = ((S_801722BC_0 *)anim)->unk_9B;
     if (phase == 1) {
@@ -161,9 +156,9 @@ update_timer:
         func_800AD594(actor, 4);
         func_800A4ACC(actor);
 
-        counter_base = (u8 *)&dungeonStatus.unk_00;
-        if (((S_801722BC_4 *)counter_base)->unk_08.s != 0) {
-            ((S_801722BC_4 *)counter_base)->unk_08.u--;
+        counter_base = &dungeonStatus;
+        if (counter_base->unk_08 != 0) {
+            (*(u16 *)&counter_base->unk_08)--;
         }
 
         actor_flags = ((S_801722BC_2 *)actor)->unk_1C.u;

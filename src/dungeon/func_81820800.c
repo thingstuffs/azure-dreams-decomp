@@ -152,10 +152,6 @@ typedef struct S_func_81820800_8 {
     u16 unk_0A;
 } S_func_81820800_8;
 
-typedef struct S_func_81820800_10 {
-    s32 unk_00;
-} S_func_81820800_10;
-
 BODY_STORAGE void BODY_NAME(void *state, S_func_81820800_2 *motion, void *source_data) BODY_ATTR;
 /* Moves an attack toward its target, spawns trailing effects, and applies the hit. */
 BODY_STORAGE void BODY_NAME(void *state, S_func_81820800_2 *motion, void *source_data) {
@@ -392,7 +388,7 @@ state_finish:
 finish:
     dungeonStatus.unk_0C = 0;
     *(u16 *)((u8 *)state_obj - 2) = (u16) (*(u16 *)((u8 *)state_obj - 2) | 0x8000);
-    ((S_func_81820800_10 *) &objectFlagBlock.flags)->unk_00 = (s32) (((S_func_81820800_10 *) &objectFlagBlock.flags)->unk_00 | 0x8000);
+    objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
 done:
     return;
 }

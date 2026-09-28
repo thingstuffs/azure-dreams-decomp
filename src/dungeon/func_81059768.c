@@ -68,17 +68,6 @@ typedef struct S_80170F68_2 {
 } S_80170F68_2;   /* arg2 in func_80170F68 */
 
 
-typedef struct S_80170F68_4 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_80170F68_4;   /* origin in func_80170F68 */
-
-typedef struct S_80170F68_5 {
-    u8 pad_00[0x9A];
-    u8 unk_9A;
-} S_80170F68_5;   /* global in func_80170F68 */
-
 /* Updates a dungeon actor's behavior, facing, and animation from its current state. */
 void func_80170F68(void *actor_arg, void *context_arg, void *map_object_arg, void *actor_state_arg)
 {
@@ -235,7 +224,7 @@ coords_case:
         case 7:
 #endif
         {
-            void *player;
+            EntityRec *player;
             s32 direction;
 
             direction = func_800A0818(
@@ -244,7 +233,7 @@ coords_case:
                 &distance);
             player = D_800814A8;
             ((S_80170F68_1 *)actor_state_arg)->unk_2A = direction;
-            if (((S_80170F68_5 *)player)->unk_9A == 0x11) {
+            if (player->unk_9A == 0x11) {
                 goto aaf_cleanup;
             }
             goto special_cleanup;

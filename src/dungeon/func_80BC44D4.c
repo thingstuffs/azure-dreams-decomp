@@ -41,21 +41,11 @@ typedef struct S_80173CD4_2 {
     s8 unk_6D;
 } S_80173CD4_2;   /* arg3 in func_80173CD4 */
 
-typedef struct S_80173CD4_3 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_80173CD4_3;   /* base in func_80173CD4 */
-
 typedef struct S_80173CD4_4 {
     u8 pad_00[0x2];
     u16 unk_02;
 } S_80173CD4_4;   /* global in func_80173CD4 */
 
-
-typedef struct S_80173CD4_6 {
-    u8 pad_00[0x26];
-    s8 unk_26;
-} S_80173CD4_6;   /* origin in func_80173CD4 */
 
 
 
@@ -87,7 +77,7 @@ void func_80173CD4(void *action_in, void *context_in, void *sprite_in, void *act
     void *sprite = sprite_in;
     void *actor;
     u8 *world_state;
-    register u8 *world_counters_m ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register DungeonGlobalStatus *world_counters_m ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     state = ((S_80173CD4_0 *)action)->unk_9B;
     actor = actor_in;
@@ -110,7 +100,7 @@ at_least_two:
 
 state_zero:
     {
-        u8 *world_counters;
+        DungeonGlobalStatus *world_counters;
         u8 *direction_anims;
         if (!(((S_80173CD4_1 *)sprite)->unk_14 & 0xE000)) {
             goto done;
@@ -120,8 +110,8 @@ state_zero:
         func_80047784(sprite,
             direction_anims[((gameWork.view.viewAngle + ((S_80173CD4_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
-        world_counters = (u8 *)&dungeonStatus.unk_00;
-        ((S_80173CD4_3 *)world_counters)->unk_0A--;
+        world_counters = &dungeonStatus;
+        (*(u16 *)&world_counters->unk_0A)--;
         goto increment_state;
     }
 
@@ -229,8 +219,8 @@ animate:
         }
 
         {
-            world_counters_m = (u8 *)&dungeonStatus.unk_00;
-            ((S_80173CD4_3 *)world_counters_m)->unk_0A++;
+            world_counters_m = &dungeonStatus;
+            (*(u16 *)&world_counters_m->unk_0A)++;
         }
     }
 
@@ -241,8 +231,8 @@ increment_state:
 state_two:
     if (((S_80173CD4_1 *)sprite)->unk_14 & 0xE000) {
 
-        world_counters_m = (u8 *)&dungeonStatus.unk_00;
-        ((S_80173CD4_3 *)world_counters_m)->unk_0A--;
+        world_counters_m = &dungeonStatus;
+        (*(u16 *)&world_counters_m->unk_0A)--;
         goto set_pointer;
     }
     goto done;

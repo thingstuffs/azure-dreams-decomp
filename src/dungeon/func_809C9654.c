@@ -51,17 +51,6 @@ typedef struct S_80170E54_2 {
 } S_80170E54_2;   /* arg2 in func_80170E54 */
 
 
-typedef struct S_80170E54_4 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_80170E54_4;   /* origin in func_80170E54 */
-
-typedef struct S_80170E54_5 {
-    u8 pad_00[0x9A];
-    u8 unk_9A;
-} S_80170E54_5;   /* global in func_80170E54 */
-
 /* Updates entity behavior, facing, and animation from dungeon and actor state. */
 void func_80170E54(void *input_controller, void *input_context, void *input_entity, void *input_actor_state)
 {
@@ -210,7 +199,7 @@ coords_case:
         case 7:
 #endif
         {
-            void *player_controller;
+            EntityRec *player_controller;
             s32 direction;
 
             direction = func_800A0818(
@@ -219,7 +208,7 @@ coords_case:
                 &direction_flags);
             player_controller = D_800814A8;
             ((EntityRec *)actor_state)->facing = direction;
-            if (((S_80170E54_5 *)player_controller)->unk_9A == 0x11) {
+            if (player_controller->unk_9A == 0x11) {
                 goto aaf_cleanup;
             }
             goto special_cleanup;
