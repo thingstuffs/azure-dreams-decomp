@@ -76,8 +76,6 @@ typedef struct S_80C96F24_7 {
     u16 unk_A4;
 } S_80C96F24_7;   /* arg0_counter in func_80C96F24 */
 
-
-
 typedef struct {
     u8 bytes[12];
 } Copy12;
@@ -87,7 +85,7 @@ extern u8 D_80174374[12];
 extern u8 D_80175330[12];
 
 extern void *func_8003FC64(s32);
-extern void func_8004491C(void *, void *, void *);
+extern void func_8004491C(void *, void *);
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 extern s32 func_80069EF8(void);
@@ -95,7 +93,7 @@ extern void *memcpy(void *, const void *, u32);
 
 /* Create three bands of eight effect segments around the supplied position. */
 void func_80C96F24(S_80C96F24_0 *owner, void *origin) {
-    volatile u16 band;
+    u16 band;
     register s32 shade_offset;
 
     owner->unk_A4 = 0;
@@ -104,31 +102,26 @@ void func_80C96F24(S_80C96F24_0 *owner, void *origin) {
     do {
         s32 band_index;
         s32 segment;
-        register s32 middle_band ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
         {
-            register s16 band_raw ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            register s32 band_shifted ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-            band_raw = band;
+            band_index = (s16)band;
             segment = 0;
-            band_shifted = band_raw << 16;
-            band_index = band_shifted >> 16;
         }
         shade_offset = band_index * 0x10;
 
         do {
-            s32 end_radius = 0;
-            s32 start_radius = 0;
+            s16 end_radius = 0;
+            s16 start_radius = 0;
             s32 last_band;
             void *effect;
 
             if (band_index == 0) {
                 start_radius = 0x18;
             }
-            middle_band = 1;
+
             last_band = 2;
-            if (band_index == middle_band) {
+            if (band_index == 1) {
                 start_radius = 0x18;
                 end_radius = 0x18;
             }
@@ -139,30 +132,25 @@ void func_80C96F24(S_80C96F24_0 *owner, void *origin) {
 
             effect = func_8003FC64(0x12);
             if (effect != 0) {
-                register void *effect_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 void *render_state;
-                register void *effect_data ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                void *owner_ref;
+                void *effect_data;
                 S_80C96F24_5 *position;
                 s16 init_value;
                 s16 angle_index;
                 s32 start_angle;
                 s32 end_angle;
 
-                effect_arg = effect;
                 effect_data = (u8 *)effect + 0x20;
 
                 ((S_80C96F24_1 *)effect_data)->unk_24 = 0x42;
                 init_value = 0x17;
                 ((S_80C96F24_1 *)effect_data)->unk_26 = 0;
                 ((S_80C96F24_1 *)effect_data)->unk_2A = segment;
-                ASM_SET(owner_ref);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-                owner_ref = owner;
-                ASM_KEEP_NV(owner_ref);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+
                 ((S_80C96F24_1 *)effect_data)->unk_2C =
-                    init_value - ((S_80C96F24_2 *)owner_ref)->unk_A4;
+                    init_value - ((S_80C96F24_2 *)owner)->unk_A4;
                 ((S_80C96F24_3 *)effect)->unk_10 = D_80174374;
-                func_8004491C(effect_arg, D_80174320, owner_ref);
+                func_8004491C(effect, D_80174320);
 
                 render_state = ((S_80C96F24_3 *)effect)->unk_0C;
                 ((S_80C96F24_4 *)render_state)->unk_10 = 0x20;
@@ -170,15 +158,13 @@ void func_80C96F24(S_80C96F24_0 *owner, void *origin) {
 
                 {
 
-                    ASM_SET(owner_ref);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                    owner_ref = origin;
                     position = ((S_80C96F24_3 *)effect)->unk_08;
                     position->unk_00 =
-                        ((S_80C96F24_6 *)owner_ref)->unk_00;
+                        ((S_80C96F24_6 *)origin)->unk_00;
                     position->unk_04 =
-                        ((S_80C96F24_6 *)owner_ref)->unk_04;
+                        ((S_80C96F24_6 *)origin)->unk_04;
                     position->unk_08 =
-                        ((S_80C96F24_6 *)owner_ref)->unk_08 + 0x200000;
+                        ((S_80C96F24_6 *)origin)->unk_08 + 0x200000;
                 }
 
                 render_state = ((S_80C96F24_3 *)effect)->unk_0C;
@@ -198,9 +184,7 @@ void func_80C96F24(S_80C96F24_0 *owner, void *origin) {
                 {
                     s32 segment_index = (s16)segment;
 
-                    ASM_SET(middle_band);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                    middle_band = 1;
-                    if ((segment_index == middle_band) || (segment_index == 6)) {
+                    if ((segment_index == 1) || (segment_index == 6)) {
                         ((S_80C96F24_3 *)effect)->unk_20 += 0x0A;
                         ((S_80C96F24_1 *)effect_data)->unk_01 += 0x0A;
                         ((S_80C96F24_1 *)effect_data)->unk_02 += 0x0A;
@@ -228,6 +212,7 @@ void func_80C96F24(S_80C96F24_0 *owner, void *origin) {
                     void *render_data;
                     u32 trig_angle;
                     s32 trig_value;
+                    s32 product;
 
                     angle_index = (s16)segment;
                     end_angle = (angle_index + 1) << 9;
@@ -235,33 +220,32 @@ void func_80C96F24(S_80C96F24_0 *owner, void *origin) {
                     render_data = effect_data + 0x7A;
                     ((S_80C96F24_4 *)render_state)->unk_08 = render_data;
 
-                    middle_band = start_radius * func_80064584(trig_angle);
+                    product = start_radius * func_80064584(trig_angle);
                     start_angle = angle_index << 9;
-                    owner_ref = middle_band >> 12;
-                    last_band = owner_ref;
+                    last_band = product >> 12;
                     ((S_80C96F24_1 *)effect_data)->unk_44 = last_band;
-                    middle_band = start_radius * func_80064584(start_angle);
-                    last_band = middle_band >> 12;
+                    product = start_radius * func_80064584(start_angle);
+                    last_band = product >> 12;
                     ((S_80C96F24_1 *)effect_data)->unk_4A = last_band;
                     trig_value = func_80064584(end_angle);
                     end_radius_copy = end_radius;
-                    middle_band = end_radius_copy * trig_value;
-                    last_band = middle_band >> 12;
+                    product = end_radius_copy * trig_value;
+                    last_band = product >> 12;
                     ((S_80C96F24_1 *)effect_data)->unk_50 = last_band;
-                    middle_band = end_radius_copy * func_80064584(start_angle);
-                    last_band = middle_band >> 12;
+                    product = end_radius_copy * func_80064584(start_angle);
+                    last_band = product >> 12;
                     ((S_80C96F24_1 *)effect_data)->unk_56 = last_band;
-                    middle_band = start_radius * func_800644B8(end_angle);
-                    last_band = middle_band >> 12;
+                    product = start_radius * func_800644B8(end_angle);
+                    last_band = product >> 12;
                     ((S_80C96F24_1 *)effect_data)->unk_46 = last_band;
-                    middle_band = start_radius * func_800644B8(start_angle);
-                    last_band = middle_band >> 12;
+                    product = start_radius * func_800644B8(start_angle);
+                    last_band = product >> 12;
                     ((S_80C96F24_1 *)effect_data)->unk_4C = last_band;
-                    middle_band = end_radius_copy * func_800644B8(end_angle);
-                    last_band = middle_band >> 12;
+                    product = end_radius_copy * func_800644B8(end_angle);
+                    last_band = product >> 12;
                     ((S_80C96F24_1 *)effect_data)->unk_52 = last_band;
-                    middle_band = end_radius_copy * func_800644B8(start_angle);
-                    last_band = middle_band >> 12;
+                    product = end_radius_copy * func_800644B8(start_angle);
+                    last_band = product >> 12;
                     ((S_80C96F24_1 *)effect_data)->unk_58 = last_band;
                 }
 
@@ -273,9 +257,9 @@ void func_80C96F24(S_80C96F24_0 *owner, void *origin) {
                     if (band_index == 0) {
                         start_z = -0x14;
                     }
-                    middle_band = 1;
+
                     last_band_z = 2;
-                    if (band_index == middle_band) {
+                    if (band_index == 1) {
                         start_z = -0x2E;
                         end_z = -0x14;
                     }
@@ -297,12 +281,12 @@ void func_80C96F24(S_80C96F24_0 *owner, void *origin) {
                 segment_step = segment + 1;
                 segment = segment_step;
                 segment_step <<= 16;
-                middle_band = (s32)(owner);
+
                 segment_step >>= 16;
-                effect_count = ((S_80C96F24_7 *)(void *)middle_band)->unk_A4;
+                effect_count = ((S_80C96F24_7 *)owner)->unk_A4;
                 segment_step = segment_step < 8;
                 effect_count++;
-                ((S_80C96F24_7 *)(void *)middle_band)->unk_A4 = effect_count;
+                ((S_80C96F24_7 *)owner)->unk_A4 = effect_count;
                 if (segment_step) {
                     continue;
                 }
@@ -313,9 +297,7 @@ void func_80C96F24(S_80C96F24_0 *owner, void *origin) {
         {
             s16 next_band;
 
-            middle_band = band;
-            next_band = (s16)(middle_band + 1);
-            ASM_USE2_NV(middle_band, next_band);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            next_band = (s16)(band + 1);
             band = (u16)next_band;
             if (next_band >= 3) {
                 break;

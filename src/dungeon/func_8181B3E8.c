@@ -257,13 +257,10 @@ extern u8 D_800DE9D0[];
 extern u8 D_80024028;
 
 /* Updates a projectile effect through travel, impact, particles, and cleanup. */
-void func_80024BE8(void *effect_data, void *motion_data, void *sprite_data) {
+void func_80024BE8(void *effect, void *motion, void *sprite) {
     s16 offset[3];
     PathBlock velocity_table;
-    void *effect = effect_data;
-    void *motion = motion_data;
-    void *sprite = sprite_data;
-    register void *source ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs source+offset); the source shape that makes it unnecessary has not been found */
+    void *source;
     s32 state;
     void *target_graphics;
     register s32 impact_position ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
@@ -272,8 +269,6 @@ void func_80024BE8(void *effect_data, void *motion_data, void *sprite_data) {
 
     source = ((S_80024BE8_0 *)effect)->unk_00;
     velocity_table = D_80024004;
-    ASM_KEEP(motion);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(sprite);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     {
         S_80024BE8_1 *task;
         S_80024BE8_6 *origin;
@@ -421,7 +416,7 @@ state_1:
         }
 
         particle_count_m = 0;
-        loop_0: {
+        do {
             s32 direction;
             s32 particle_color;
             register s32 intensity ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -433,14 +428,13 @@ state_1:
             particle_count_m++;
             direction = ((S_80024BE8_0 *)effect)->unk_7E.s;
             func_80024758((void *)color_mode, direction, particle_color, intensity, 0, 0, 0);
-        } if (particle_count_m < 4) goto loop_0;
+        } while (particle_count_m < 4);
 
         ((S_80024BE8_0 *)effect)->unk_7B--;
         if (((S_80024BE8_0 *)effect)->unk_7B > 0) {
             goto state_2;
         }
 
-        ASM_KEEP(effect);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         func_80044A50((u8 *)effect - 0x20);
         color_mode = 4;
         if (((S_80024BE8_3 *)source)->unk_60 != 0) {

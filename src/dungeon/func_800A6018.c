@@ -209,10 +209,8 @@ s32 func_800AB778(S_800AB778_1 *state, void *unused_context, S_800AB778_3 *visua
     S_800AB778_6 *actor_entry4;
     s16 template_index;
     u32 template_base;
-    void *event_actor;
     S_800AB778_8 *globals_page4;
     S_800AB778_14 *globals_page16;
-    void *event_script;
     S_800AB778_9 *globals4;
     S_800AB778_15 *globals16;
     u8 *state4_tail;
@@ -222,6 +220,7 @@ s32 func_800AB778(S_800AB778_1 *state, void *unused_context, S_800AB778_3 *visua
     s32 effect_actor_flags;
     register void *state4_event ASM_REG("$4"); /* MATCH: form each event address in the shared call argument register. */
     register s32 state4_result;
+    s32 flags_mask;
 
     actor_flags = ((Rec_D_80082E80 *)actor)->unk_14.at00_s32.v;
     if (actor_flags & 0x20000000) {
@@ -397,13 +396,9 @@ state4_emit:
 
 state_case16:
     ((Rec_D_80082E80 *)actor)->unk_14.at00_s32.v = actor_flags | 0x4000;
-    event_actor = actor;
-    ASM_KEEP(event_actor);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    event_script = &D_800E0C34;
-    ASM_KEEP(event_script);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    actor_flags &= 0x4000;
-    func_80099844(event_actor, event_script);
-    if (actor_flags == 0) {
+    flags_mask = actor_flags & 0x4000;
+    func_80099844(actor, &D_800E0C34);
+    if (flags_mask == 0) {
         ((Rec_D_80082E80 *)actor)->unk_14.at00_s32.v &= ~0x4000;
     }
     func_800A31D0(actor);
