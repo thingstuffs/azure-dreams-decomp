@@ -1,3 +1,26 @@
+# Handover (2026-09-29, round 79: short wave, paused for a Sonnet 5.5 restart) - start here
+
+**Why paused.** Owner (09-28 ~23:40Z): Sonnet 5.5 may be available in fresh Claude instances; if a restart is needed,
+let lanes wrap up, hand over, pause. The Agent-tool `sonnet` alias in this session resolved to **claude-sonnet-5**
+(lane r79_sonnet_s1 codex.log), so a restart is needed; the Sonnet 5 lane was stopped (STOPPED.txt; not a 5.5 probe).
+
+**State.** Record: [r79 wave record](evidence/r79_wave_report.md). RESULTS_PLACEHOLDER
+
+**Ready to launch on pickup (built, kitted, served-guard checked at build time; rebuild if the rows changed):**
+- `r79_astra_b4` (802835B8 24, 8008EE88 22), `r79_astra_b5` (800AFA68 20, 800C4A80 19), `r79_astra_b6` (80F36D0C 19,
+  81978428 19): `bash tools/lanes/launch_lane.sh r79_astra_bN astra` (caps default on: 750k / 90 min). Astra 2-row
+  big-row continuations paid in 11 of 12 round-78 lanes (2-16 pins each, ~250-500k tokens).
+- `r79_sonnet_s1`: the Sonnet 5.5 probe pack (5 never-served 3-7 rows; baseline Opus fresh 3-7 = 2.8 pins/lane).
+  In the fresh instance: remove STOPPED.txt, codex.log, lab_log.jsonl, experiments/ tmp/ out/ contents, then launch
+  with the agent prompt in AGENT_PROMPT.txt (Agent tool, model sonnet); STEP 0 must show a Sonnet 5.5 model ID -
+  if not, record the substitution and stop. The served guard may count this lane as a sonnet serve: use --repack /
+  a new lane name if a rebuild refuses.
+- `r79_types_p11`: phase-11 type consolidation BRIEF.md (EntityRec type propagation 55 rows, town root D_80016000
+  58 rows, D_80082E60 cross-binary). Launch as an Opus Agent lane after phase 10's full apply is committed:
+  "read BRIEF.md in work/native_lane/r79_types_p11 and follow it" (phase-10 prompt shape, AGENT_PROMPT in r78_types_p10).
+
+**Decisions taken this round (owner delegated):** F0 discarded clamps rejected under charter rule 3 (open items).
+
 # Handover (2026-09-28, round 78: restart-plan pickup) - start here
 
 **State.** 3,098 / 765 at pickup -> **2,982 / 752** at this note (plus staged partials the lander
