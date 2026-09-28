@@ -191,7 +191,7 @@ void func_80022F60(void *state_obj) {
 
     case 2:
         {
-            s32 raw;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            s32 raw;
 
             raw = ((S_80022F60_1 *)main_state)->unk_10.u + 0x200;
             state_obj = raw & 0xFFF;

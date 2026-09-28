@@ -70,7 +70,7 @@ void func_80173AD4(void *work_in, void *part_a, void *part_b_in, void *actor) {
     u8 call_a1;
     s32 call_flags;
     void *work;
-    void *part_b;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    void *part_b;
 
     flags71 = ((S_80173AD4_0 *)actor)->unk_71;
     work = work_in;

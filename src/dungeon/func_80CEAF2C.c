@@ -97,7 +97,7 @@ void func_8017472C(void *action, void *transform, void *sprite, void *actor)
     s32 target_x;
     s32 target_y;
     u16 ticks_left;
-    s32 step;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 step;
     u8 *anim_table;
     void *current_anim;
     s32 delay_slot;
@@ -238,7 +238,6 @@ state_1:
     func_800A56E0(0x703);
 
 state_2:
-       /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     step = 0;
     if (!(((S_8017472C_0 *)action)->unk_96.s & 1) &&
         ((S_8017472C_0 *)action)->unk_AE.s != 0) {

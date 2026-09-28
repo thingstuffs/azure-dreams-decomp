@@ -76,7 +76,7 @@ void func_80171498(
     void *parent, s16 initial_14, s32 unused, s16 initial_32,
     s16 offset_x, s16 offset_y, s16 offset_z)
 {
-    s16 held_offset_x = offset_x;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s16 held_offset_x = offset_x;
     s16 held_offset_y = offset_y;
     s16 held_offset_z = offset_z;
     volatile u16 source_offset_x;

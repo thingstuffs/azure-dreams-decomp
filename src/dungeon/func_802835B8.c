@@ -210,7 +210,7 @@ void func_800165B8(void) {
     DungeonGlobalStatus *map_state;
     s32 bind_count;
     register u8 *bind_state ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    u8 *bind_angle;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    u8 *bind_angle;
     u8 *defaults_page;
     u8 *status_page;
     s32 status_value;
@@ -336,7 +336,6 @@ initialize_position:
     {
 
         delta_page = (u8 *)((s32)((s32 *)((u8 *)&D_800E3D80)));
-           /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         entity_flags = ((S_800165B8_5 *)entity)->unk_14;
         reverse_entries = (s32 *)(s32)delta_page + 7;
         entity_flags &= entity_mask;

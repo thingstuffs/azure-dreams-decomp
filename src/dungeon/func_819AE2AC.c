@@ -56,7 +56,6 @@ s32 func_80025AAC(void *initial_state, s32 initial_value, Entry *initial_entry)
         state = (u8 *)entry_or_link + 0x20;
         value = *(s32 *)((u8 *)entry_or_link + 8);
         entry = *(Entry **)((u8 *)entry_or_link + 0xC);
-           /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         slot_index = 0;
     }
     return 0;

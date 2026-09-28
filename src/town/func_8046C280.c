@@ -91,8 +91,6 @@ void *func_8001D280(s32 group_index, s32 requested_index, s32 lookup_variant) {
 
         engine_b = *(u8 **)D_80016000;
         block_b = (u8 *)((Engine *)engine_b)->callbacks;
-           /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-           /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         dispatch_b = (u8 *)((CallbackBlock *)block_b)->callback;
         do {
             ((Callback)dispatch_b)(data_page - 0x6E94, &D_8001917C, head);
@@ -149,8 +147,6 @@ common:
 
         dispatch_ptr = *(u8 **)D_80016000;
         dispatch_ptr = (u8 *)((Engine *)dispatch_ptr)->callbacks;
-           /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-           /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         do {
             dispatch_ptr = (u8 *)((CallbackBlock *)dispatch_ptr)->callback;
         } while (0);

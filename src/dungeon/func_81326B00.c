@@ -22,7 +22,7 @@ void func_8016E300(Entity *entity, Position *pos)
 {
     u8 *context_base = D_80174704[0];
     s32 state = entity->state;
-    s32 expected_state;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 expected_state;
     u16 initial_state;
     u8 *context;
 

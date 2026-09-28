@@ -109,7 +109,6 @@ Lsecond_4:
     *(s16 *)D_80111FA8 = 0x330;
     rect[1] = 0x80;
     rect[2] = 8;
-       /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     rect[3] = 0x20;
     func_800672D8(rect, D_801118C8);
     goto Lafter_second;

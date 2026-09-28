@@ -77,7 +77,7 @@ void func_801715D0(void) {
     s32 owner_y;
     s32 tile_x;
     s32 tile_y;
-    S_801715D0_4 *object_pos;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    S_801715D0_4 *object_pos;
     S_801715D0_6 *owner_state;
     S_801715D0_5 *owner_pos;
     u8 *direction;

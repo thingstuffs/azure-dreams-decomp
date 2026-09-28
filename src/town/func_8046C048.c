@@ -36,7 +36,7 @@ void func_8001D048(void) {
     s32 row_index;
     s32 row_offset;
     s32 check_offset;
-    s32 mode_offset;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 mode_offset;
     u32 entry_value;
     s8 *row;
     s8 *check_base;

@@ -23,7 +23,7 @@ void func_80043914(S_80043914_Arg *input)
     if (entrySelector->field_0x00 == 0x16) {
         S_800E3E48 *entries = D_800E3E48;
         u8 entryCode = entries[entrySelector->field_0x03 & 0x1F].field_0x48;
-        u8 mappedCode;   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+        u8 mappedCode;
 
         if (entryCode == 0xD) {
             mappedCode = 0xF;

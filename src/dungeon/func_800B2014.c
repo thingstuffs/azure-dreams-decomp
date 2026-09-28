@@ -163,7 +163,7 @@ state_0:
         ((S_800B7774_2 *)monster)->unk_43 = 0xFE;
         func_800A48F0(monster, 0x1B, 0);
         {
-        s32 clamp_value;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        s32 clamp_value;
         u32 first_call_arg;
         s32 first_call_mode;
         s32 raw_first_result;

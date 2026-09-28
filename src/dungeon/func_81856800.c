@@ -243,7 +243,7 @@ BODY_STORAGE void FUNC_81856800_BODY(S_func_81856800_1 *action, void *motion_arg
     S_func_81856800_2 *motion;
 #endif
 #ifdef __mips__
-    S_func_81856800_3 *object;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    S_func_81856800_3 *object;
 #else
     S_func_81856800_3 *object;
 #endif
@@ -266,15 +266,15 @@ BODY_STORAGE void FUNC_81856800_BODY(S_func_81856800_1 *action, void *motion_arg
     s32 next_state;
     s32 next_timer;
     s32 page_or_magic;
-    s32 t1_reserve;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 t2_reserve;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 t3_reserve;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 t4_reserve;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 t5_reserve;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 t6_reserve;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 t7_reserve;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 t8_reserve;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 t9_reserve;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 t1_reserve;
+    s32 t2_reserve;
+    s32 t3_reserve;
+    s32 t4_reserve;
+    s32 t5_reserve;
+    s32 t6_reserve;
+    s32 t7_reserve;
+    s32 t8_reserve;
+    s32 t9_reserve;
     static void *const dispatch_labels[] = {
         &&case0, &&case1, &&case2, &&case3, &&case5, &&case4, &&done
     };
@@ -332,11 +332,6 @@ BODY_STORAGE void FUNC_81856800_BODY(S_func_81856800_1 *action, void *motion_arg
 
                         part->unk_10 = 32;
                         texture = D_800DEC70;
-                           /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                           /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                           /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                           /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                           /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                         part->unk_0C = 0x00404040;
                     }
                     part->unk_00 = texture;
@@ -344,13 +339,13 @@ BODY_STORAGE void FUNC_81856800_BODY(S_func_81856800_1 *action, void *motion_arg
                 } else {
 
                     {
-                        s32 size;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                        s32 size;
 
                         size = 96;
                         part->unk_10 = size;
                     }
                     {
-                        void *texture;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                        void *texture;
 
                         texture = D_800DEC50;
                         part->unk_00 = texture;
@@ -701,13 +696,5 @@ case4:
 }
 
 done:
-       /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-       /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-       /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-       /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-       /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-       /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-       /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-       /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     return;
 }

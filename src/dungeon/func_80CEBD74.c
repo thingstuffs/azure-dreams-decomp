@@ -75,7 +75,7 @@ void func_80175574(Obj0 *controller_arg, void *context_arg, Obj2 *animation_arg,
     register Obj0 *controller ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     void *context;
     Obj2 *animation;
-    Obj3 *actor;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    Obj3 *actor;
     s32 actor_kind;
     unsigned long table_entry;
     register u8 *counter_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */

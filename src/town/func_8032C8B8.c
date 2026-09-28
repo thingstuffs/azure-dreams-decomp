@@ -19,7 +19,6 @@ void *func_800170B8(void) {
     func_8001ACE8(0xD53);
 #ifndef NON_MATCHING
     dispatch_result = (u8 *)0x80020000;
-       /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     dispatch_result -= 0x1BFB;
     return (void *)dispatch_result;
 #else

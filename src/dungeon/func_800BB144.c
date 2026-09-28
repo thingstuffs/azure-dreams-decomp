@@ -109,7 +109,6 @@ main_path:
             external_entity_value = func_80099978(event_value);
             result = func_80099194(&D_80089378, external_entity_value);
             node_offset = external_entity_value - 2;
-               /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             external_entity_value = result;
             result = func_80099368(target, external_entity_value);
             {
@@ -134,7 +133,6 @@ main_path:
         external_entity_value = func_80099978(external_event_value);
         result = func_80099194(&D_80089378, external_entity_value);
         node_offset = external_entity_value - 2;
-           /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         external_entity_value = result;
         result = func_80099368(target, external_entity_value);
         {

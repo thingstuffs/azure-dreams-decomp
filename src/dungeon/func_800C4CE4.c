@@ -68,9 +68,9 @@ void func_800CA444(void *motion_input, s32 unused, void *tile_input, void *actor
     void *motion;
     S_800CA444_0 *tile;
     void *actor;
-    s16 next_heading;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s16 next_heading;
     s16 height;
-    s32 heading;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 heading;
     s32 heading_offset;
     register s32 scan_index ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s16 next_index;

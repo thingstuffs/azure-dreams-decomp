@@ -22,7 +22,7 @@ void func_800A9358(s32 shape, s32 source)
     s32 *segment_counts;
     u32 first_inner_xy;
     u32 first_middle_xy;
-    u32 first_outer_xy;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    u32 first_outer_xy;
     u32 next_color;
     u32 next_inner_xy;
     u32 next_middle_xy;
@@ -38,7 +38,6 @@ void func_800A9358(s32 shape, s32 source)
     u32 saved_color;
 
     angle_sum = 0;
-       /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     count_index = func_800B28A0();
     call_scratch = (u32 *)0x1F800000;
     ASM_KEEP_NV(call_scratch);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */

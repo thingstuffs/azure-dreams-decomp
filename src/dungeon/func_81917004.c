@@ -78,7 +78,6 @@ void *func_80024804(void *source, Copy24 *origin, s16 size_step)
 
     alloc_kind = 0x212;
     alloc_source = (u8 *)source - 0x20;
-       /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     effect = func_8003FD64(alloc_kind, alloc_source);
     if (effect == NULL) {
         goto null_result;

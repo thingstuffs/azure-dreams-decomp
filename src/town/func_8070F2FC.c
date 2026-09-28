@@ -52,7 +52,6 @@ dispatch:
 
         ptr = *(void **)((u8 *)(&D_80016000));
         ptr = *(void **)((s8 *)ptr + 0x20);
-           /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         first_arg = 0xF;
         ptr = *(void **)((s8 *)ptr + 0x2F8);
         ((Callback)ptr)(first_arg, 0x200);

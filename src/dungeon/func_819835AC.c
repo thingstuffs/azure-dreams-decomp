@@ -391,7 +391,7 @@ jt_c0:
     coord_delta -= 0x50;
     step_y += coord_delta;
     effect->unk_2C.u16 = (u16) step_y;
-    effect->unk_34.u16 = approach_frames;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    effect->unk_34.u16 = approach_frames;
     height_numerator_2 = (effect->unk_2C.s16 - motion->unk_08.half.unk_0A.s16) << 0x10;
     height_frames = 16;
     motion->unk_14.word = height_numerator_2 / height_frames;
@@ -580,7 +580,6 @@ block_52:
     coord_delta = motion->unk_08.word;
     boost_speed_x += step_y;
     coord_delta += step_z;
-       /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     motion->unk_04.word = boost_speed_x;
     state2_stage = (*(void **)((u8 *)&D_800814A8 + 0));
     motion->unk_08.word = coord_delta;

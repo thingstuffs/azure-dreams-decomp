@@ -11,7 +11,6 @@ void func_800DC078(void *record, s32 input_value) {
     } else {
         scaled_value = 0x40;
     }
-       /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     *(s8 *)((u8 *)record + 2) = 0x57 - scaled_value;
     *(s8 *)((u8 *)record + 0xA) = scaled_value;
 }

@@ -172,17 +172,13 @@ void func_80170F6C(void *arg0, void *arg1, void *arg2, void *arg3)
         return;
     }
 
-       /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-       /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-       /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     if (((S_80170F6C_1 *)arg3)->unk_25 == 0) {
         func_800AA79C(arg0, arg1, arg2, arg3);
         {
             void *current =
                 ((S_80170F6C_2 *)arg2)->unk_2C;
-            void *table;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-               /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+            void *table;
             table = (u8 *)&D_80175298;
             post_current = current;
             post_table = table;
@@ -212,7 +208,6 @@ void func_80170F6C(void *arg0, void *arg1, void *arg2, void *arg3)
         {
             u32 state;
             u32 current_state = ((S_80170F6C_0 *)arg0)->unk_9A;
-               /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             state = 0xE;
             if (current_state != state) {
                 if (((S_80170F6C_2 *)arg2)->unk_2C != D_80175258) {
@@ -328,7 +323,6 @@ sw1_case2: {
                     ((S_80170F6C_0 *)arg0)->unk_A6 = old_timer + 1;
                     if ((s16)old_timer >= 3) {
                     ((S_80170F6C_2 *)arg2)->unk_14 &= 0xF7FF;
-                       /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                     ((S_80170F6C_3 *)arg1)->unk_10 = 0;
                     ((S_80170F6C_3 *)arg1)->unk_0C = 0;
                     ((S_80170F6C_0 *)arg0)->unk_A6 = 4;
@@ -456,7 +450,6 @@ sw_case89:
             }
             ((S_80170F6C_0 *)arg0)->unk_98 = case_flags;
         }
-           /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         if ((func_80172314(arg0, arg1, arg2, arg3) << 16) != 0) {
             return;
         }

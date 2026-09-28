@@ -55,7 +55,6 @@ void func_80096C3C(void) {
     state[14] = 0;
     state[15] = packed_065fffff;
     state[16] = packed_f0;
-       /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     state[18] = shared_value;
     state[19] = packed_065fffff;
     state[21] = packed_30;

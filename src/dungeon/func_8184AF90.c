@@ -85,7 +85,6 @@ s32 func_80024790(S_80024790_1 *origin, s32 index) {
         ((S_80024790_0 *)effect)->unk_20 = (u16) origin->unk_02;
         state = effect + 0x20;
         state->unk_02 = (u16) origin->unk_06;
-           /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         index_high = index << 16;
         signed_index = index_high >> 16;
         angle = signed_index << 8;

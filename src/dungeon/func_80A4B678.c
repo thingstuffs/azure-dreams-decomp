@@ -165,7 +165,7 @@ void func_80174E78(Source *source, Vec3i *center)
         intensity = 128;
         prim->field_0C = intensity;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        held_intensity = hold_intensity(intensity);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        held_intensity = hold_intensity(intensity);
         prim->field_1E = 4096;
         prim->field_1C = 4096;
         prim->field_0D = base_level;

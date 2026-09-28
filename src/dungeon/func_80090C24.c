@@ -93,7 +93,7 @@ void func_80096384(void *actor, s32 actor_id, Rec_D_80082E80 *sprite, void *acto
     u8 *flags_ptr;
     S_80096384_5 *command;
     u8 *input = ((u8 *)(&gameWork));
-    u16 *flags_page;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u16 *flags_page;
     s32 command_flags;
     s32 idle_state = 0x32; /* MATCH: preserve retail register allocation after sharing the internal tails. */
     s32 command_state;

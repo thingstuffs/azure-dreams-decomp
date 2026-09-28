@@ -51,7 +51,6 @@ void func_808B3620(s8 *overlay_state) {
 
     loop_0: {
         word_0 = ((S_808B3620_0 *)src_words)->unk_00;
-           /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         word_1 = ((S_808B3620_0 *)src_words)->unk_04;
         overlay_state = ((S_808B3620_0 *)src_words)->unk_08;
         word_3 = ((S_808B3620_0 *)src_words)->unk_0C;

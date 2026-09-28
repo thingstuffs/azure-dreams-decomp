@@ -82,7 +82,6 @@ void func_8015EDA8(void *actor, void *motion, void *sprite)
         return;
     }
 
-       /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
     previous_state = (s8)(*(u8 *)((u8 *)actor + 0x6D));
     if (func_800A9E70(actor, motion, sprite, actor) != 0) {

@@ -129,7 +129,6 @@ void func_80172B00(void *parent_data, S_80172B00_6 *source_pos, void *sprite_tem
         ((S_80172B00_3 *)sprite)->unk_0C = 0x80;
         direction_index = gameWork.view.viewAngle;
         parent_angle = ((S_80172B00_2 *)parent_data)->unk_2A.u;
-   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         setup_mode = 0;
         direction_index += parent_angle;
         direction_index += 0x100;

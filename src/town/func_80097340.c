@@ -27,6 +27,5 @@ s32 func_80094AA0(s32 angle_delta, s32 target_angle, s32 step) {
         }
     }
 return_arg1:
-       /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     return target_angle;
 }

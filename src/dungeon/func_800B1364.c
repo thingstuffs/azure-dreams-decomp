@@ -659,7 +659,6 @@ restore_idle:
     }
     sprite->unk_14 = (u16) (final_flags & 0xFDFF);
     action->unk_8C = &D_8008ACDC;
-       /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 done:
     return;
 }

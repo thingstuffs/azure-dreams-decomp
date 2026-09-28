@@ -88,7 +88,6 @@ void func_80165F00(S_80165F00_0 *source)
             base_x + x_jitter;
         y_jitter = rand() & 0x3F;
         source_pos = source->unk_08;
-           /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         base_y = source_pos->unk_06 - 0x1A0;
         ((S_80165F00_5 *)((*(void **)((u8 *)effect + 8))))->unk_06 =
             base_y + y_jitter;

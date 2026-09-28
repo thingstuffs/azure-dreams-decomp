@@ -84,9 +84,7 @@ void *func_80024FD8(S_80024FD8_2 *source_pos, s16 effect_param, s16 size)
         signed_size = (s16)size;
         render_state->unk_18 = (signed_size << 8) - 0x400;
         render_code = 0x60;
-           /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         effect_state = (u8 *)object + 0x20;
-           /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         render_state->unk_10 = render_code;
         object_count = D_800257CC;
         render_state->unk_16 = 0x400;

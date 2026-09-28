@@ -41,8 +41,8 @@ s16 func_800A40AC(s32 records_addr, s32 item_kind)
         record = (u8 *)records + tripled_index;
         item = record[8];
         if (item != 0) {
-            s32 score;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            s32 prior_value;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+            s32 score;
+            s32 prior_value;
             s16 candidate_value;
 
             value = record[9];

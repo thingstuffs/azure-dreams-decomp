@@ -286,7 +286,6 @@ shrink_sprite:
             model_root = ((S_80172FC0_4 *)sprite)->unk_28;
             model_direction =
                 ((view_angle + actor_angle + 0x100) >> 9) & 7;
-               /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             model = *(void **)model_root;
             model_table = *(void **)model;
             selected_model =

@@ -61,7 +61,6 @@ void func_8008E0C4(S_8008E0C4_0 *arg0, void *unused, S_8008E0C4_1 *arg2, EntityR
         }
         return;
     }
-       /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     if (temp_v1 == 2) {
         return;
     }

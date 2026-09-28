@@ -93,7 +93,7 @@ s32 func_8080C324(void) {
     s16 *offset_entry;
     s32 remaining;
     s32 initial_offset;
-    s32 offset_addr;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 offset_addr;
     s32 clear_addr;
     s32 state_page;
     s32 initial_state;

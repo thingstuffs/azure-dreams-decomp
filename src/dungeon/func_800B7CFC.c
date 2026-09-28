@@ -57,13 +57,12 @@ s32 func_800BD45C(void *entity, s32 item, s16 action) {
     func_800C4AFC(((S_800BD45C_0_pre *)entity)[-1].unk_00, 0x802080, entity);
     if ((((EntityRec *)entity)->flags14 & 0x4000) && !(((EntityRec *)entity)->flags1C & 0x40)) {
         M2C_UNK *message_text;
-        s32 message_pos;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        s32 message_pos;
         s32 message_start;
         s32 message_end;
 
         message_end = func_800990FC();
         message_text = &D_800E0E69;
-           /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         message_pos = message_end;
         message_start = message_pos;
         message_end = func_80099194(message_text, message_pos);

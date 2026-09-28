@@ -348,7 +348,6 @@ diagonal_5:
         edge_x = zone_x - 0x100;
         edge_delta_m = edge_delta_m + edge_x;
         old_zone = edge_delta_m + zone_width;
-           /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         neg_x = actor->x;
         actor_y = actor->y;
         neg_x = -neg_x;
@@ -399,7 +398,6 @@ clamp_to_zone:
     {
         s32 scratch;
         s32 current_zone;
-           /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         current_zone = *zone_id;
         box_id = current_zone + 1;
     }

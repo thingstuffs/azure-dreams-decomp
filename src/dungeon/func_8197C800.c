@@ -239,7 +239,7 @@ void FUNC_8197C800_BODY(void *input, void *output)
     s32 random_value;
     u16 angle;
     u16 tail_state;
-    u16 tail_timer;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u16 tail_timer;
     TileObject *burst_origin;
     u16 timer;
     s32 scaled_coord;

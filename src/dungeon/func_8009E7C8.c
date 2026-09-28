@@ -41,7 +41,6 @@ void *func_800A3F28(s32 x, s32 y, void *end, void *owner)
     s32 distance_y;
 
     x_or_radius = x;
-       /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     target_y = y;
     sentinel = end;
     current = owner;

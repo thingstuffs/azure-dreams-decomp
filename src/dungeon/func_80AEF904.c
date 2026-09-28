@@ -86,7 +86,6 @@ void func_80171104(u8 *actor, u8 *motion, u8 *object)
         goto function_return;
     }
 
-       /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
     old_direction = (s8)(*(volatile u8 *)((u8 *)actor + 0x6D));
     if (func_800A9E70(actor, motion, object, actor) != 0) {

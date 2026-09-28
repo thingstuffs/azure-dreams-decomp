@@ -53,7 +53,7 @@ void func_80174D24(void *state, void *output, void *target)
     s32 object_id;
     s32 phase;
     u16 old_ticks;
-    s32 signed_ticks;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 signed_ticks;
     u16 target_flags;
 
     if (((S_80174D24_4 *)(((S_80174D24_0 *)state)->unk_08))->unk_2C != &D_80175F38) {

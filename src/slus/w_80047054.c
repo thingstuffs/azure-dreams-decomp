@@ -35,7 +35,7 @@ void func_80047054(void *data, s32 flagged_x_offset, s32 y_offset, s32 x_offset)
     u8 *entry;
     u8 *part;
     u8 *coords;
-    s32 part_entry_type;   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    s32 part_entry_type;
     u32 entries_end;
     u16 x_or_end_flag;
     u8 flags;

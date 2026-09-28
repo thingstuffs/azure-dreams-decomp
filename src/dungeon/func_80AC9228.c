@@ -80,7 +80,7 @@ void func_80174A28(void *action, void *motion, void *sprite, void *actor)
             s32 x_sum;
             s32 tile_x;
             s32 x_offset;
-            s32 y_offset;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            s32 y_offset;
             void *effect_actor;
 
             flags = ((S_80174A28_2 *)sprite)->unk_14;

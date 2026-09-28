@@ -13,12 +13,12 @@ extern DungeonCell D_800EA000[];
 void func_80017480(s32 start_x, s32 start_y, s32 rect_width, s32 rect_height, u16 mask)
 {
     s32 y;
-    s32 height;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 y_limit;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    s32 height;
+    s32 y_limit;
     s32 y_end;
     s32 x;
     s32 x_end;
-    s32 width;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 width;
     s16 *config;
     DungeonCell *cells;
 

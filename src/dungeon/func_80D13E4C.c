@@ -171,7 +171,6 @@ check_target_type:
         ability_table = (u8 *)D_8006DE24;
         ability_entry = ability_kind * 20;
         ability_entry += (u32)ability_table;
-           /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         if (((u8 *)ability_entry)[0x12] != 2) {
             goto find_target;
         }

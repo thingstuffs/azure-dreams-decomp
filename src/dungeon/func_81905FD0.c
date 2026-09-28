@@ -546,7 +546,6 @@ void func_800257D0(void *effect_data, void *motion_data, void *render_data)
                 rect_value = 340;
                 ((S_func_81905FD0_8 *)scratch)->unk_0A = rect_value;
                 rect_value = 96;
-                   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                 rect_height = 84;
                 dest_x = 880;
                 ((S_func_81905FD0_8 *)scratch)->unk_0C = rect_value;
@@ -580,7 +579,7 @@ void func_800257D0(void *effect_data, void *motion_data, void *render_data)
             register S_func_81905FD0_5 *upper_effect ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             S_func_81905FD0_5 *lower_effect;
             S_func_81905FD0_5 *ring_effect;
-            S_func_81905FD0_5 *control_effect;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+            S_func_81905FD0_5 *control_effect;
             S_func_81905FD0_7 *child_data;
             S_func_81905FD0_3 *child_render;
             S_func_81905FD0_2 *child_motion;

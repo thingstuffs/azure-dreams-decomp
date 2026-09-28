@@ -26,7 +26,7 @@ extern u8 D_80024734[];
 void func_80024798(Object *source, s32 state_14_value, s32 state_08_value, s32 state_32_value,
                    s16 x_offset, s16 y_offset, s16 z_offset) {
     Object *parent = source;
-    s16 held_x_offset = x_offset;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s16 held_x_offset = x_offset;
     s16 held_y_offset = y_offset;
     s16 held_z_offset = z_offset;
     s32 state_14 = state_14_value;

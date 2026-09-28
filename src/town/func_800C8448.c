@@ -13,7 +13,7 @@ extern void func_800C5C3C(void);
 /* Move coordinates halfway toward the target and advance state when the timer expires. */
 void func_800C5BA8(void *state, s32 *coords) {
     s32 target;
-    s32 value;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 value;
     s32 value2;
     u16 timer;
 

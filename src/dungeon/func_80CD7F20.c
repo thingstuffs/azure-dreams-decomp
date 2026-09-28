@@ -16,7 +16,7 @@ extern u8 D_8015E360[];
 void func_8015B720(void *owner_arg, void *context, void *anim_obj_arg, void *state_arg) {
     void *owner = owner_arg;
     void *anim_obj = anim_obj_arg;
-    void *state = state_arg;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    void *state = state_arg;
     void *current_table;
 
     if (func_800AC82C(owner_arg, context, anim_obj_arg, state_arg) != 0) {

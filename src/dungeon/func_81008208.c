@@ -147,7 +147,6 @@ state_two:
     }
 
     entity_mask = 0x08000000;
-       /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ((S_80173A08_0 *)action)->unk_90 = 0;
     ((S_80173A08_0 *)action)->unk_98 &= 0xFFF7;
     ((EntityRec *)entity)->flags1C |= entity_mask;
