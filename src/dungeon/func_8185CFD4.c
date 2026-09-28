@@ -82,7 +82,10 @@ s32 func_800247D4(void *effect_data)
     u8 *effect = effect_data;
     u8 *initial_render_ctx = *(u8 **)D_80083160;
     u8 *render_ctx;
-    register u32 constant_or_count ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    u8 **ctx_ref = (u8 **)D_80083160;
+    s32 red_scale = 15;
+    s32 blue_scale = 23;
+    s32 red_cap = 0x7F;
     s32 color_base;
     s32 delta_mask;
     s32 radial_step;
@@ -110,23 +113,16 @@ s32 func_800247D4(void *effect_data)
     };
 
     (void)stage_labels;
-    ASM_USE_NV(initial_render_ctx);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    constant_or_count = 7;
+    lines_left = 7;
     delta_mask = 0xFFFF0000;
     color_base = 0x40;
-    ASM_USE2_NV(delta_mask, color_base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     radial_step = 0x15;
     scratch = (u8 *)0x1F800000;
-    ASM_KEEP(constant_or_count);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    lines_left = (s32)constant_or_count;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ((S_800247D4_0 *)scratch)->unk_18 = initial_render_ctx + 0xB0;
 
     do {
-        register s32 red ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        constant_or_count = (u32)D_80083160;
-        ASM_KEEP(constant_or_count);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        render_ctx = *(u8 **)constant_or_count;
+        s32 red;
+        render_ctx = *ctx_ref;
         packet = ((S_800247D4_1 *)render_ctx)->unk_8D0;
         ((S_800247D4_1 *)render_ctx)->unk_8D0 = packet + 0x14;
 
@@ -183,13 +179,11 @@ case_early:
         ((S_800247D4_0 *)scratch)->unk_70 = start_or_fade + (fixed_delta >> 16);
 
         start_or_fade = ((S_800247D4_3 *)effect)->unk_10;
-        constant_or_count = 15;
         {
-            register s32 red_offset ASM_REG("$9") =
-                (start_or_fade + 1) * (s32)constant_or_count;
+            s32 red_offset =
+                (start_or_fade + 1) * red_scale;
 
-            constant_or_count = 23;
-            y_or_blue = (start_or_fade + 1) * (s32)constant_or_count;
+            y_or_blue = (start_or_fade + 1) * blue_scale;
             ((S_800247D4_2 *)packet)->unk_04 = color_base;
             ((S_800247D4_2 *)packet)->unk_05 = color_base;
             ((S_800247D4_2 *)packet)->unk_06 = color_base;
@@ -205,14 +199,12 @@ case_early:
     }
 
 case_middle:
-        constant_or_count = 0x7F;
-        end_or_blue = 0xFF;
         ((S_800247D4_2 *)packet)->unk_04 = color_base;
         ((S_800247D4_2 *)packet)->unk_05 = color_base;
         ((S_800247D4_2 *)packet)->unk_06 = color_base;
-        ((S_800247D4_2 *)packet)->unk_0C = (u8)constant_or_count;
+        ((S_800247D4_2 *)packet)->unk_0C = (u8)red_cap;
         ((S_800247D4_2 *)packet)->unk_0D = 0;
-        ((S_800247D4_2 *)packet)->unk_0E = (u8)end_or_blue;
+        ((S_800247D4_2 *)packet)->unk_0E = 0xFF;
         goto shared;
 
 case_late:
@@ -251,19 +243,15 @@ case_late:
 
         start_or_fade = ((S_800247D4_3 *)effect)->unk_10;
         color_step = start_or_fade - 7;
-        constant_or_count = 15;
         {
-            register s32 red_offset ASM_REG("$9") =
-                color_step * (s32)constant_or_count;
+            s32 red_offset =
+                color_step * red_scale;
 
-            constant_or_count = 23;
-            y_or_blue = color_step * (s32)constant_or_count;
+            y_or_blue = color_step * blue_scale;
             ((S_800247D4_2 *)packet)->unk_0D = 0;
-            constant_or_count = 0x7F;
             color_step = 0xFF;
-            ((S_800247D4_2 *)packet)->unk_0C = (u8)constant_or_count;
-            constant_or_count = 15;
-            start_or_fade = (constant_or_count - start_or_fade) * 8;
+            ((S_800247D4_2 *)packet)->unk_0C = (u8)red_cap;
+            start_or_fade = (red_scale - start_or_fade) * 8;
             ((S_800247D4_2 *)packet)->unk_0E = (u8)color_step;
             {
                 red = 0x40 + red_offset;
@@ -333,12 +321,9 @@ shared:
             }
         }
 
-        constant_or_count = (u32)lines_left;
-        ASM_KEEP(constant_or_count);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         radial_step -= 3;
-        constant_or_count -= 1;
-        lines_left = (s32)constant_or_count;
-    } while ((s32)constant_or_count >= 0);
+        lines_left -= 1;
+    } while (lines_left >= 0);
 
     return 0;
 }

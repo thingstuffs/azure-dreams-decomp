@@ -298,7 +298,6 @@ void func_800218E4(void *game_in, s32 sound_param, void *sound_data, M2C_UNK sou
     s32 other_speed_y;
     s32 other_forward_y_gap;
     s32 reverse_y_gap;
-    s32 other_speed_x;
     s32 other_reverse_y_gap;
     u16 settle_timer;
     u16 exit_timer;
@@ -768,14 +767,11 @@ do {
                         do {
                             collision_value |= 0xFFFF;
                         } while (0);
-                        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                         other_speed_y = ((S_800218E4_23 *)pair_value)->unk_0C;
-                        other_speed_x = ((S_800218E4_23 *)pair_value)->unk_10;
-                        if (other_speed_y < 0) {
-                            other_speed_y = 0 - other_speed_y;
-                        }
-                        other_speed_x = abs(other_speed_x);
-                        if ((other_speed_y + other_speed_x) <= collision_value) {
+                        pair_value = ((S_800218E4_23 *)pair_value)->unk_10;
+                        other_speed_y = abs(other_speed_y);
+                        pair_value = abs(pair_value);
+                        if ((other_speed_y + pair_value) <= collision_value) {
                             ((S_800218E4_29 *)(((S_800218E4_17 *)partner_slot)->unk_00))->unk_0C = (s32) (func_80064584(*((S_800218E4_17 *)partner_slot)->unk_10, (void *) bounce_y, y_step, other_y) << 6);
                             ((S_800218E4_29 *)(((S_800218E4_17 *)partner_slot)->unk_00))->unk_10 = (s32) (func_800644B8(*((S_800218E4_17 *)partner_slot)->unk_10) << 6);
                         }

@@ -57,8 +57,6 @@ s32 func_800BF7FC(void *target, u8 *item, s16 action, s32 action_param)
     u8 *record_obj;
     s32 random_value;
     s32 event_value;
-    u8 *message;
-    register s32 message_value ASM_REG("$5");   /* Required for matching register allocation. */
     s8 record_index;
 
     if (action == 13) {
@@ -94,12 +92,9 @@ s32 func_800BF7FC(void *target, u8 *item, s16 action, s32 action_param)
             record->flags |= 2;
             func_800C4D78(0x20C0C0, 1);
             random_value = func_800990FC();
-            message = D_800E12D6;
-            ASM_KEEP(message);   /* Required for matching instruction order. */
-            message_value = random_value;
-            ASM_KEEP_NV(message_value);   /* Required for matching register allocation. */
-            func_80099290(func_80099194(message,
-                                      event_value = message_value));
+            event_value = random_value;
+            random_value = func_80099194(D_800E12D6, random_value);
+            func_80099290(random_value);
             func_800A5720(event_value);
         } else {
             func_800997FC(D_800E1303);

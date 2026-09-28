@@ -228,7 +228,7 @@ void func_8002520C(void *menu_in, void *motion_in, void *appearance_in) {
     S_8002520C_1 *motion;
     S_8002520C_14 *actor;
     void *side_object;
-    register void *side_count ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    s32 side_count;
     void *side_cursor;
     u8 *state_base;
     S_8002520C_2 *appearance;
@@ -481,7 +481,7 @@ check_other_side:
     }
     goto done;
 wait_for_sides:
-    side_count = NULL;
+    side_count = 0;
     side_cursor = menu;
 check_side:
     side_object = ((S_8002520C_15 *)side_cursor)->unk_0C;
@@ -496,7 +496,7 @@ animate_exit:
             exit_ticks = ((S_8002520C_0 *)menu)->unk_22;
             if (exit_ticks != 0) {
                 motion->unk_02 = (s16) ((u16) motion->unk_02 + ((s32) (-0x480 - motion->unk_02) / exit_ticks));
-                motion->unk_0A.u = (u16) (motion->unk_0A.u + func_800644B8(((S_8002520C_0 *)menu)->unk_22 << 5, (s32) side_count));
+                motion->unk_0A.u = (u16) (motion->unk_0A.u + func_800644B8(((S_8002520C_0 *)menu)->unk_22 << 5));
                 exit_scale = appearance->unk_16;
                 appearance->unk_16 = (u16) (exit_scale + ((s32) (0x1000 - exit_scale) / (s16) ((S_8002520C_0 *)menu)->unk_22));
                 exit_shade = appearance->unk_0E;
@@ -514,7 +514,6 @@ animate_exit:
             ((S_8002520C_0 *)menu)->unk_22 = exit_left;
             if ((exit_left << 0x10) <= 0) {
                 s32 object_or_flags;
-                s32 index_or_object;
                 s32 flags_or_page;
                 s32 object_or_state;
                 s32 *flags_page;
@@ -528,7 +527,7 @@ animate_exit:
                 if (object_or_state != 0) {
                     ((S_8002520C_18 *)((void *) object_or_state))->unk_1E = (u16) (((S_8002520C_18 *)((void *) object_or_state))->unk_1E | 0x8000);
                 }
-                index_or_object = 0;
+                side_count = 0;
                 ASM_KEEP_NV(side_ptr);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 flags_page = side_ptr;
                 side_ptr = (s32 *) menu;
@@ -543,17 +542,17 @@ animate_exit:
                         ((S_8002520C_8 *)((void *) object_or_flags))->unk_1E = (u16) flags_or_page;
                         ((S_8002520C_19 *)flags_page)->unk_14A0 = object_or_state;
                     }
-                    index_or_object += 1;
+                    side_count += 1;
                     side_ptr += 1;
-                } while (index_or_object < 2);
-                index_or_object = (s32) ((S_8002520C_0 *)menu)->unk_14;
-                if (index_or_object != 0) {
+                } while (side_count < 2);
+                side_count = (s32) ((S_8002520C_0 *)menu)->unk_14;
+                if (side_count != 0) {
                     flags_or_page = (s32) 0x80080000;
-                    object_or_state = ((S_8002520C_20 *)((void *) index_or_object))->unk_1E;
+                    object_or_state = ((S_8002520C_20 *)((void *) side_count))->unk_1E;
                     object_or_flags = ((S_8002520C_21 *)((s32 *) flags_or_page))->unk_14A0;
                     object_or_state |= 0x8000;
                     object_or_flags |= 0x8000;
-                    ((S_8002520C_20 *)((void *) index_or_object))->unk_1E = (u16) object_or_state;
+                    ((S_8002520C_20 *)((void *) side_count))->unk_1E = (u16) object_or_state;
                     ((S_8002520C_21 *)((s32 *) flags_or_page))->unk_14A0 = object_or_flags;
                 }
             }
