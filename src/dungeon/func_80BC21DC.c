@@ -84,17 +84,6 @@ typedef struct S_801719DC_2 {
 } S_801719DC_2;   /* arg2 in func_801719DC */
 
 
-typedef struct S_801719DC_4 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_801719DC_4;   /* origin in func_801719DC */
-
-typedef struct S_801719DC_5 {
-    u8 pad_00[0x9A];
-    u8 unk_9A;
-} S_801719DC_5;   /* player in func_801719DC */
-
 /* Update actor animation, facing, and action dispatch from dungeon state. */
 void func_801719DC(void *motion_in, void *context_in, void *entity_in, void *actor_in)
 {
@@ -258,7 +247,7 @@ jt_c5:
 jt_c6:
 jt_c7:
         {
-            void *player;
+            EntityRec *player;
             s16 heading;
 
             heading = func_800A0818(
@@ -267,7 +256,7 @@ jt_c7:
                 &direction_aux);
             player = D_800814A8;
             ((S_801719DC_1 *)actor_in)->unk_2A = heading;
-            if (((S_801719DC_5 *)player)->unk_9A == 0x11) {
+            if (player->unk_9A == 0x11) {
                 goto case_123;
             }
         }

@@ -16,7 +16,7 @@ s32 func_80039884(S_80039884_Arg *state)
     GameWork *global = &gameWork;
 
     if (state->field87 == 0) {
-        if ((((s32)global->unk_008) & 0x60) != 0) {
+        if ((global->buttons & 0x60) != 0) {
             goto done;
         }
     }

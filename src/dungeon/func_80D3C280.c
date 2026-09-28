@@ -37,17 +37,6 @@ typedef struct S_80171A80_2 {
 } S_80171A80_2;   /* arg2 in func_80171A80 */
 
 
-typedef struct S_80171A80_4 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_80171A80_4;   /* origin in func_80171A80 */
-
-typedef struct S_80171A80_5 {
-    u8 pad_00[0x9A];
-    u8 unk_9A;
-} S_80171A80_5;   /* player in func_80171A80 */
-
 typedef struct S_80171A80_6 {
     u8 pad_00[0xA6];
     u16 unk_A6;
@@ -260,7 +249,7 @@ jt_c5:
 jt_c6:
 jt_c7:
         if (((S_80171A80_0 *)entity)->unk_B5 == 0) {
-            void *player;
+            EntityRec *player;
             s16 facing;
 
             facing = func_800A0818(
@@ -269,7 +258,7 @@ jt_c7:
                 &distance);
             player = D_800814A8;
             ((EntityRec *)actor)->facing = facing;
-            if (((S_80171A80_5 *)player)->unk_9A == 0x11) {
+            if (player->unk_9A == 0x11) {
                 goto coords_continue;
             }
         } else {

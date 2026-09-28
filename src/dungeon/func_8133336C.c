@@ -9,13 +9,6 @@
 #include "shared/entity.h"
 typedef s32 M2C_UNK;
 
-typedef struct S_8016A36C_0 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x6];
-    u16 unk_0A;
-} S_8016A36C_0;   /* state in func_8016A36C */
-
 
 
 typedef struct S_8016A36C_3 {
@@ -28,33 +21,7 @@ typedef struct S_8016A36C_3 {
     union { M2C_UNK * p; u8 * p2; } unk_2C;   /* accessed as both */
 } S_8016A36C_3;   /* arg2 in func_8016A36C */
 
-typedef struct S_8016A36C_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x6];
-    u16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-} S_8016A36C_4;   /* late_state in func_8016A36C */
 
-
-typedef struct S_8016A36C_6 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_8016A36C_6;   /* home in func_8016A36C */
-
-typedef struct S_8016A36C_7 {
-    u8 pad_00[0x9A];
-    u8 unk_9A;
-} S_8016A36C_7;   /* owner in func_8016A36C */
-
-
-typedef struct DungeonEntry {
-    u8 pad00[0xC];
-    u16 flags;
-    u8 pad0E[6];
-} DungeonEntry;
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
@@ -447,9 +414,9 @@ jt_c6:
 jt_c7:
     {
         s32 angle = func_800A0818(((S_8016A36C_3 *)sprite)->unk_24.at00.v, ((S_8016A36C_3 *)sprite)->unk_24.at01.v, D_80082E80.tileX, D_80082E80.tileY, &distance);
-        void *owner = D_800814A8;
+        EntityRec *owner = D_800814A8;
         ((EntityRec *)entity)->facing = (s16)angle;
-        if (((S_8016A36C_7 *)owner)->unk_9A == 0x11) {
+        if (owner->unk_9A == 0x11) {
             goto block_95;
         }
     }

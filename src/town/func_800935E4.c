@@ -25,7 +25,7 @@ void func_80090D44(void *record, void *context, s32 update_arg) {
     saved_value = ((Rec_func_80090C68_arg0 *)record)->unk_00;
     func_80090A74(record, context, update_arg);
     if ((saved_value == ((Rec_func_80090C68_arg0 *)record)->unk_00) &&
-        (((s32)state_words->unk_008) & 0x80)) {
+        (state_words->buttons & 0x80)) {
         func_80099754(context);
         func_8009550C(context);
         if (func_80094B0C((u8 *)record - 0x20) != 0) {

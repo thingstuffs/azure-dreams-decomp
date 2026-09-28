@@ -16,8 +16,8 @@ s32 func_8009A2B8(s16 origin_x, s16 origin_y, s32 direction) {
     } while (0);
     tile_index = origin_x + ((s16 *)((u8 *)dirStepX))[(s16)direction];
     tile_y = origin_y + ((s16 *)((u8 *)dirStepY))[(s16)direction];
-    tile_index += tile_y << dungeon->unk_1F0;
-    tile = ((u8 *)dungeon->unk_1DC) + tile_index * 6;
+    tile_index += tile_y << dungeon->map.shiftX;
+    tile = ((u8 *)dungeon->map.cells) + tile_index * 6;
     result = *(u16 *)(tile + 4) & 0xF320;
     if (result != 0) {
         result = 1;

@@ -80,11 +80,6 @@ typedef struct S_801733BC_8 {
     u16 unk_18;
 } S_801733BC_8;   /* projectilePart in func_801733BC */
 
-typedef struct S_801733BC_9 {
-    u8 pad_00[0x10];
-    union { void * p; u32 i; } unk_10;   /* accessed as both */
-} S_801733BC_9;   /* effectList in func_801733BC */
-
 typedef struct S_801733BC_10 {
     u8 pad_00[0x2];
     u16 unk_02;
@@ -137,7 +132,7 @@ void func_801733BC(void *effect_state, void *position, void *render_part, void *
     void *particle_render;
     void *projectile_state;
 
-    u8 *effect_list;
+    DungeonGlobalStatus *effect_list;
     s32 random_offset;
     u32 frames_left;
     u16 projectile_y;
@@ -289,9 +284,9 @@ void func_801733BC(void *effect_state, void *position, void *render_part, void *
         if ((s16)frames_left > 0) {
             break;
         }
-        effect_list = ((u8 *)(&dungeonStatus));
-        if (((S_801733BC_9 *)effect_list)->unk_10.p == (u8 *)entity - 0x20) {
-            ((S_801733BC_9 *)effect_list)->unk_10.i &= 0x7FFFFFFF;
+        effect_list = &dungeonStatus;
+        if (effect_list->unk_10 == (u8 *)entity - 0x20) {
+            (*(u32 *)&effect_list->unk_10) &= 0x7FFFFFFF;
         }
         func_800A2FE0(entity);
         func_800A32A4(entity);

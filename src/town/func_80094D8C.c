@@ -83,7 +83,7 @@ void func_800924EC(void *context, void *entity, s32 update_arg)
     }
     else
     {
-        if (((s32)state->unk_008) & 0xF000)
+        if (state->buttons & 0xF000)
         {
             func_80094C1C(context);
             if (func_8009567C(&D_800CFCB4) > 0)

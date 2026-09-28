@@ -47,11 +47,6 @@ typedef struct S_80170E9C_2 {
 } S_80170E9C_2;   /* arg2 in func_80170E9C */
 
 
-typedef struct S_80170E9C_4 {
-    u8 pad_00[0x9A];
-    u8 unk_9A;
-} S_80170E9C_4;   /* case_entity in func_80170E9C */
-
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
@@ -88,7 +83,7 @@ void func_80170E9C(void *entity, M2C_UNK context, void *sprite, void *state) {
     static void *const action_labels[] = { &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8, &&jt_c9, &&jt_c10, &&jt_c11, &&jt_c12 };
     M2C_UNK direction_aux;
     M2C_UNK *resume_handler;
-    void *reference_entity;
+    EntityRec *reference_entity;
     s16 target_angle;
     s32 idle_flags;
     s32 action_id;
@@ -232,7 +227,7 @@ jt_c7:
     target_angle = func_800A0818(((S_80170E9C_2 *)sprite)->unk_24.at00.v, ((S_80170E9C_2 *)sprite)->unk_24.at01.v, D_80082E80.tileX, D_80082E80.tileY, &direction_aux);
     reference_entity = D_800814A8;
     ((S_80170E9C_1 *)state)->unk_2A = target_angle;
-    if (((S_80170E9C_4 *)reference_entity)->unk_9A == 0x11) {
+    if (reference_entity->unk_9A == 0x11) {
         goto jt_c1;
     }
 jt_c12:

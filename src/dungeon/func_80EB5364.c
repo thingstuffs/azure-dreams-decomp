@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
@@ -11,7 +12,6 @@ M2C_UNK func_800A020C();
 s32 func_800A9E70();
 M2C_UNK func_800AA36C();
 s32 func_800BCB04();
-extern u8 D_8006CCF8[];
 extern M2C_UNK D_801711A4[];
 extern M2C_UNK D_80174174[];
 extern M2C_UNK D_8017418C[];
@@ -142,7 +142,7 @@ void func_80170B64(void *actor_arg, void *motion_arg, void *sprite_arg)
                     ((S_80170B64_2 *)sprite_arg)->unk_04.s8);
                 ((S_80170B64_0 *)actor)->unk_94 = view_direction;
             }
-            if (D_8006CCF8[view_direction] != 0) {
+            if (dirSpriteFlag[view_direction] != 0) {
                 ((S_80170B64_2 *)sprite_arg)->unk_14 |= 1;
             } else {
                 ((S_80170B64_2 *)sprite_arg)->unk_14 &= 0xFFFE;

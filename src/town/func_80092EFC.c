@@ -70,7 +70,7 @@ inactive_callback:
     if (D_8006ADD4[0] != 12) {
         goto movement_path;
     }
-    initial_flags = ((s32)base->unk_008);
+    initial_flags = base->buttons;
     if (initial_flags & 8) {
         base->view.viewAngle -= 0x20;
         if (base->view.viewAngle < -0x1E0) {
@@ -101,7 +101,7 @@ low_height:
             (((u16)base->view.viewAngle) + 8) & 0xFFF0;
     }
     movement /= 0x10000;
-    flags = ((s32)base->unk_008);
+    flags = base->buttons;
     if (flags & 8) {
         base->view.viewAngle -= 0x10 + movement;
     }

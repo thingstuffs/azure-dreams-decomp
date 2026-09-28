@@ -11,11 +11,6 @@ typedef struct {
 } Pos;
 
 typedef struct {
-    s16 unused[10];
-    s16 stride;
-} DungeonState;
-
-typedef struct {
     s16 kind;
     s16 value;
     u16 flags;
@@ -63,7 +58,7 @@ s32 func_8001AC4C(s16 src_dir, s16 dest_dir, s16 src_idx, s16 dest_idx, u8 *room
     s16 path_length;
     s16 saved_dir;
     Room *dest_room;
-    DungeonState *dungeon;
+    MapGrid *dungeon;
     DungeonCell *edge_cell;
     DungeonCell *inner_cell;
     s16 travel_dir;
@@ -80,7 +75,7 @@ s32 func_8001AC4C(s16 src_dir, s16 dest_dir, s16 src_idx, s16 dest_idx, u8 *room
     s32 height_delta;
     s32 height_gap;
 
-    dungeon = ((DungeonState *)((u8 *)&gameWork + 476));
+    dungeon = &gameWork.map;
     src_room = &D_800E2970[src_idx];
     dest_room = &D_800E2970[dest_idx];
     path_length = 0;
@@ -158,8 +153,8 @@ s32 func_8001AC4C(s16 src_dir, s16 dest_dir, s16 src_idx, s16 dest_idx, u8 *room
     back_dir = (travel_dir + 4) & 7;
     src_x = src_room->x + src_offset_x;
     src_y = src_room->y + src_offset_y;
-    edge_cell = &D_800EA000[(src_y << dungeon->stride) + src_x];
-    inner_cell = &D_800EA000[((src_y + dirStepY[back_dir]) << dungeon->stride) + src_x + dirStepX[back_dir]];
+    edge_cell = &D_800EA000[(src_y << dungeon->shiftX) + src_x];
+    inner_cell = &D_800EA000[((src_y + dirStepY[back_dir]) << dungeon->shiftX) + src_x + dirStepX[back_dir]];
     dest_x = dest_room->x + dest_offset_x;
     dest_y = dest_room->y + dest_offset_y;
     if (func_8001CE14(edge_cell->kind, 15, 18)) {
@@ -178,8 +173,8 @@ s32 func_8001AC4C(s16 src_dir, s16 dest_dir, s16 src_idx, s16 dest_idx, u8 *room
 
     cursor_x = src_x + dirStepX[(travel_dir + 2) & 7];
     cursor_y = src_y + dirStepY[(travel_dir + 2) & 7];
-    edge_cell = &D_800EA000[(cursor_y << dungeon->stride) + cursor_x];
-    inner_cell = &D_800EA000[((cursor_y + dirStepY[back_dir]) << dungeon->stride) + cursor_x + dirStepX[back_dir]];
+    edge_cell = &D_800EA000[(cursor_y << dungeon->shiftX) + cursor_x];
+    inner_cell = &D_800EA000[((cursor_y + dirStepY[back_dir]) << dungeon->shiftX) + cursor_x + dirStepX[back_dir]];
     if (func_8001CE14(edge_cell->kind, 15, 18)) {
         edge_cell->kind = (inner_cell->flags >> 1) + (travel_dir / 2) * 5 + 79;
         edge_cell->value = inner_cell->value - ((inner_cell->flags & 1) << 5);
@@ -198,10 +193,10 @@ s32 func_8001AC4C(s16 src_dir, s16 dest_dir, s16 src_idx, s16 dest_idx, u8 *room
         back_dir = dest_dir;
         cursor_x = dest_x;
         cursor_y = dest_y;
-        edge_cell = &D_800EA000[(cursor_y << dungeon->stride) + cursor_x];
+        edge_cell = &D_800EA000[(cursor_y << dungeon->shiftX) + cursor_x];
         cursor_x = cursor_x + dirStepX[dest_dir];
         cursor_y = cursor_y + dirStepY[dest_dir];
-        inner_cell = &D_800EA000[(cursor_y << dungeon->stride) + cursor_x];
+        inner_cell = &D_800EA000[(cursor_y << dungeon->shiftX) + cursor_x];
         entry_dir = (dest_dir + 4) & 6;
         if (func_8001CE14(edge_cell->kind, 15, 18)) {
             edge_cell->kind = (inner_cell->flags >> 1) + (entry_dir / 2) * 5 + 79;
@@ -219,8 +214,8 @@ s32 func_8001AC4C(s16 src_dir, s16 dest_dir, s16 src_idx, s16 dest_idx, u8 *room
 
         cursor_x = dest_x + dirStepX[(entry_dir - 2) & 7];
         cursor_y = dest_y + dirStepY[(entry_dir - 2) & 7];
-        edge_cell = &D_800EA000[(cursor_y << dungeon->stride) + cursor_x];
-        inner_cell = &D_800EA000[((cursor_y + dirStepY[back_dir]) << dungeon->stride) + cursor_x + dirStepX[back_dir]];
+        edge_cell = &D_800EA000[(cursor_y << dungeon->shiftX) + cursor_x];
+        inner_cell = &D_800EA000[((cursor_y + dirStepY[back_dir]) << dungeon->shiftX) + cursor_x + dirStepX[back_dir]];
         if (func_8001CE14(edge_cell->kind, 15, 18)) {
             edge_cell->kind = (inner_cell->flags >> 1) + (entry_dir / 2) * 5 + 79;
             edge_cell->value = inner_cell->value - ((inner_cell->flags & 1) << 5);
@@ -239,14 +234,14 @@ s32 func_8001AC4C(s16 src_dir, s16 dest_dir, s16 src_idx, s16 dest_idx, u8 *room
     func_800A6D60(0);
     travel_dir = saved_dir;
     if (D_800E2970[src_idx].unk_0A) {
-        src_height = D_800EA000[((src_room->y + src_offset_y) << dungeon->stride) + src_room->x + src_offset_x].value;
+        src_height = D_800EA000[((src_room->y + src_offset_y) << dungeon->shiftX) + src_room->x + src_offset_x].value;
     } else {
-        src_height = D_800EA000[(src_room->y << dungeon->stride) + src_room->x].value;
+        src_height = D_800EA000[(src_room->y << dungeon->shiftX) + src_room->x].value;
     }
     if (D_800E2970[dest_idx].unk_0A) {
-        dest_height = D_800EA000[((dest_room->y + dest_offset_y) << dungeon->stride) + dest_room->x + dest_offset_x].value;
+        dest_height = D_800EA000[((dest_room->y + dest_offset_y) << dungeon->shiftX) + dest_room->x + dest_offset_x].value;
     } else {
-        dest_height = D_800EA000[(dest_room->y << dungeon->stride) + dest_room->x].value;
+        dest_height = D_800EA000[(dest_room->y << dungeon->shiftX) + dest_room->x].value;
     }
     if (path_length == 0) {
         path_length = 1;

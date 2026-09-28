@@ -16,19 +16,13 @@ typedef struct {
     u16 flags;
 } DungeonCell;
 
-typedef struct {
-    DungeonCell *cells;
-    u8 pad4[0x10];
-    s16 shift;
-} DungeonState;
-
 
 /* Counts cells in the selected dungeon entry with no flags in mask 0x8500. */
 s16 func_80017EBC(s16 entry_index) {
     s16 count = 0;
     u8 *entry_base = (u8 *)D_800E2970;
     DungeonEntry *region = (DungeonEntry *)(entry_base + (entry_index * 20));
-    DungeonState *state = ((DungeonState *)((u8 *)&gameWork + 476));
+    MapGrid *state = &gameWork.map;
     s16 height = region->height;
     u16 y = region->y;
     s16 rows_left = height;
@@ -37,7 +31,7 @@ s16 func_80017EBC(s16 entry_index) {
         DungeonEntry *entry = region;
 
         while (rows_left > 0) {
-            DungeonCell *cell = (DungeonCell *)((u8 *)state->cells + (((s16)y << state->shift) * 6) + (entry->x * 6));
+            DungeonCell *cell = (DungeonCell *)((u8 *)((DungeonCell *)state->cells) + (((s16)y << state->shiftX) * 6) + (entry->x * 6));
             s16 cols_left = entry->width;
 
             while (cols_left > 0) {

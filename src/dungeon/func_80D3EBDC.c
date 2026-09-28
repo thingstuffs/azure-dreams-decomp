@@ -3,6 +3,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 
 typedef struct S_801743DC_0 {
@@ -32,26 +33,6 @@ typedef struct S_801743DC_2 {
     s8 unk_6D;
 } S_801743DC_2;   /* arg3 in func_801743DC */
 
-typedef struct S_801743DC_3 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_801743DC_3;   /* counter_base in func_801743DC */
-
-typedef struct S_801743DC_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-} S_801743DC_4;   /* global_base in func_801743DC */
-
-typedef struct S_801743DC_5 {
-    u8 pad_00[0x58];
-    void * unk_58;
-} S_801743DC_5;   /* owner in func_801743DC */
-
-typedef struct S_801743DC_6 {
-    u8 pad_00[0x26];
-    s8 unk_26;
-} S_801743DC_6;   /* origin in func_801743DC */
-
 
 
 extern s32 func_80042900(void *, s32);
@@ -79,7 +60,7 @@ void func_801743DC(void *action, void *context, void *sprite, void *entity)
     s32 entity_flags;
     u16 action_value;
     u16 value_offset;
-    u8 *global_base;
+    DungeonGlobalStatus *global_base;
     s32 phase;
 
     phase = ((S_801743DC_0 *)action)->unk_9B;
@@ -106,16 +87,16 @@ state_zero:
         D_800E2428[((gameWork.view.viewAngle + ((S_801743DC_2 *)entity)->unk_2A + 0x100) >> 9) & 7],
         0);
     {
-        u8 *counter_base = (u8 *)&dungeonStatus.unk_00;
+        DungeonGlobalStatus *counter_base = &dungeonStatus;
 
-        ((S_801743DC_3 *)counter_base)->unk_0A--;
+        (*(u16 *)&counter_base->unk_0A)--;
     }
     ((S_801743DC_0 *)action)->unk_9B++;
     goto done;
 
 state_one:
-    global_base = (u8 *)&dungeonStatus.unk_00;
-    if (((S_801743DC_4 *)global_base)->unk_02 & 0x1000) {
+    global_base = &dungeonStatus;
+    if (global_base->flags & 0x1000) {
         goto done;
     }
     if (((S_801743DC_2 *)entity)->unk_64 != 0) {
@@ -124,7 +105,7 @@ state_one:
         }
     }
     if (((S_801743DC_2 *)entity)->unk_25 == 0) {
-        if (((S_801743DC_4 *)global_base)->unk_02 & 0x2008) {
+        if (global_base->flags & 0x2008) {
             goto done;
         }
         func_800AA79C(action, context, sprite, entity);
@@ -152,10 +133,10 @@ state_one:
         goto done;
     }
     if ((func_800A2C34(entity) << 16) != 0) {
-        void *owner = D_800814A8;
+        EntityRec *owner = D_800814A8;
 
         if ((func_8009A180(entity,
-                (u8 *)((S_801743DC_5 *)owner)->unk_58 + 0x20) << 16) != 0) {
+                (u8 *)owner->unk_58 + 0x20) << 16) != 0) {
             goto done;
         }
     }
@@ -184,10 +165,10 @@ state_one:
         goto set_callback;
     }
     {
-        u8 *counter_base = (u8 *)&dungeonStatus.unk_00;
+        DungeonGlobalStatus *counter_base = &dungeonStatus;
 
         ((S_801743DC_0 *)action)->unk_9B++;
-        ((S_801743DC_3 *)counter_base)->unk_0A++;
+        (*(u16 *)&counter_base->unk_0A)++;
     }
     goto done;
 
@@ -196,12 +177,12 @@ state_two:
         goto done;
     }
     {
-        u8 *counter_base;
+        DungeonGlobalStatus *counter_base;
 
         do {
-            counter_base = (u8 *)&dungeonStatus.unk_00;
+            counter_base = &dungeonStatus;
         } while (0);
-        ((S_801743DC_3 *)counter_base)->unk_0A--;
+        (*(u16 *)&counter_base->unk_0A)--;
     }
 
 set_callback:

@@ -62,7 +62,7 @@ void func_800890EC(Obj *obj, s32 *position) {
         return;
 
     case 1:
-        if (((s32)input->unk_008) != 0) {
+        if (input->buttons != 0) {
             obj->state = 16;
             return;
         }
@@ -76,7 +76,7 @@ void func_800890EC(Obj *obj, s32 *position) {
         return;
 
     case 2:
-        if (((s32)input->unk_008) != 0) {
+        if (input->buttons != 0) {
             obj->state = 19;
             return;
         }
@@ -94,7 +94,7 @@ void func_800890EC(Obj *obj, s32 *position) {
         return;
 
     case 3:
-        if (((s32)input->unk_008) != 0) {
+        if (input->buttons != 0) {
             obj->state = 19;
         }
         if ((s16) obj->counter > 0) {
@@ -105,7 +105,7 @@ void func_800890EC(Obj *obj, s32 *position) {
         return;
 
     case 4:
-        if (((s32)input->unk_008) != 0) {
+        if (input->buttons != 0) {
             obj->counter = 1800;
         }
         if (((s32)input->unk_010) & 0x1000) {

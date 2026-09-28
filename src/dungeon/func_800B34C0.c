@@ -2,6 +2,7 @@
 #include "shared/object_node.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
+#include "shared/entity.h"
 
 typedef struct Child {
     u8 pad0[8];
@@ -27,11 +28,6 @@ typedef struct Object {
     Tail tail;
 } Object;
 
-typedef struct EntityHeader {
-    u8 pad0[0x88];
-    u16 value88;
-} EntityHeader;
-
 extern u8 D_800B8830[];
 extern u8 D_800DF2F8[];
 extern u8 D_800DF334[];
@@ -45,7 +41,7 @@ void func_800B8C20(void *owner, s32 value, void *child_data, void *tail_data)
     Child *child;
     void *descriptor;
     u8 *descriptor_page;
-    EntityHeader *header;
+    EntityRec *header;
 
     {
         u8 *call_page;
@@ -78,11 +74,11 @@ void func_800B8C20(void *owner, s32 value, void *child_data, void *tail_data)
         }
         descriptor_page = (u8 *)0x80080000;
         ASM_KEEP(descriptor_page);
-        header = ((EntityHeader *)D_800814A8);
+        header = D_800814A8;
         descriptor = descriptor_page + 0x3498;
         ((Tail *)object)->owner = owner;
         ((Tail *)object)->descriptor = descriptor;
-        ((Tail *)object)->value32 = header->value88;
+        ((Tail *)object)->value32 = ((u16)header->unk_88);
         ((Tail *)object)->value8 = value;
     }
 }

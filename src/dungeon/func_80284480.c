@@ -19,11 +19,11 @@ void func_80017480(s32 start_x, s32 start_y, s32 rect_width, s32 rect_height, u1
     s32 x;
     s32 x_end;
     s32 width;
-    s16 *config;
+    MapGrid *config;
     DungeonCell *cells;
 
     y = (s16)start_y;
-    config = ((s16 *)(&gameWork.unk_1DC));
+    config = &gameWork.map;
     cells = D_800EA000;
     height = (s16)rect_height;
     y_limit = y + height;
@@ -38,7 +38,7 @@ void func_80017480(s32 start_x, s32 start_y, s32 rect_width, s32 rect_height, u1
             if (x < x + width) {
                 x_end = x + (rect_width >> 16);
                 do {
-                    cells[x + (y << config[10])].field_4 &= mask;
+                    cells[x + (y << config->shiftX)].field_4 &= mask;
                     x++;
                 } while (x < x_end);
             }

@@ -10,21 +10,6 @@
 
 
 
-typedef struct S_801736F4_3 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_801736F4_3;   /* counter in func_801736F4 */
-
-typedef struct S_801736F4_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-} S_801736F4_4;   /* status in func_801736F4 */
-
-
-typedef struct S_801736F4_6 {
-    u8 pad_00[0x26];
-    s8 unk_26;
-} S_801736F4_6;   /* room_base in func_801736F4 */
 
 
 
@@ -51,7 +36,7 @@ extern u8 D_80174190[];
 /* Updates actor actions and directional animations through a three-state sequence. */
 void func_801736F4(void *controller, s32 actor_index, void *sprite, void *actor)
 {
-    u8 *dungeon_status;
+    DungeonGlobalStatus *dungeon_status;
     s32 actor_flags;
     s32 state;
 
@@ -84,9 +69,9 @@ state_zero:
             0);
     }
     {
-        u8 *dungeon_counters;
-        dungeon_counters = ((u8 *)(&dungeonStatus));
-        ((S_801736F4_3 *)dungeon_counters)->unk_0A--;
+        DungeonGlobalStatus *dungeon_counters;
+        dungeon_counters = &dungeonStatus;
+        (*(u16 *)&dungeon_counters->unk_0A)--;
     }
     ((Rec_func_801736F4_arg0 *)controller)->unk_9B++;
     goto exit;
@@ -122,19 +107,19 @@ state_one:
             goto exit;
         }
         {
-            u8 *dungeon_counters = ((u8 *)(&dungeonStatus));
-            ((S_801736F4_3 *)dungeon_counters)->unk_0A++;
+            DungeonGlobalStatus *dungeon_counters = &dungeonStatus;
+            (*(u16 *)&dungeon_counters->unk_0A)++;
         }
         ((Rec_func_801736F4_arg0 *)controller)->unk_9B++;
         goto exit;
     } else {
-        dungeon_status = ((u8 *)(&dungeonStatus));
-        if (!(((S_801736F4_4 *)dungeon_status)->unk_02 & 0x1000)
+        dungeon_status = &dungeonStatus;
+        if (!(dungeon_status->flags & 0x1000)
             && ((((EntityRec *)actor)->unk_64 == 0)
                 || (func_800AA6B4(controller, actor_index, sprite, 0) == 0))) {
 
             if (((EntityRec *)actor)->tileY == 0) {
-                if (((S_801736F4_4 *)dungeon_status)->unk_02 & 0x2008) {
+                if (dungeon_status->flags & 0x2008) {
                     goto exit;
                 }
                 func_800AA79C(controller, actor_index, sprite, actor);
@@ -199,8 +184,8 @@ state_one:
                 goto exit;
             }
             {
-                u8 *dungeon_counters = ((u8 *)(&dungeonStatus));
-                ((S_801736F4_3 *)dungeon_counters)->unk_0A++;
+                DungeonGlobalStatus *dungeon_counters = &dungeonStatus;
+                (*(u16 *)&dungeon_counters->unk_0A)++;
             }
             ((Rec_func_801736F4_arg0 *)controller)->unk_9B++;
             goto exit;
@@ -213,9 +198,9 @@ state_two:
         goto exit;
     }
     {
-        u8 *dungeon_counters;
-        dungeon_counters = ((u8 *)(&dungeonStatus));
-        ((S_801736F4_3 *)dungeon_counters)->unk_0A--;
+        DungeonGlobalStatus *dungeon_counters;
+        dungeon_counters = &dungeonStatus;
+        (*(u16 *)&dungeon_counters->unk_0A)--;
     }
     ((EntityRec *)actor)->flags1C &= ~0x200;
     (*(void * *)((u8 *)sprite + 0x2C)) = D_80174188;

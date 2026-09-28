@@ -7,17 +7,6 @@ typedef struct MapCell {
     s16 flags;
 } MapCell;
 
-typedef struct DungeonCfg {
-    MapCell *cells;
-    u8 pad04[16];
-    s16 shift_x;
-    s16 shift_y;
-    s16 mask_x;
-    s16 mask_y;
-    s16 span_x;
-    s16 span_y;
-} DungeonCfg;
-
 typedef struct Room {
     u16 x;
     u16 y;
@@ -105,7 +94,7 @@ extern u8 D_800EA000[];
 /* Loads a predefined dungeon layout with rooms, elevators, map cells, and placed records. */
 void func_80018464(s16 layout_number)
 {
-    DungeonCfg *cfg;
+    MapGrid *cfg;
     MapCell *map;
     RecB *placed_record;
     u8 *data;
@@ -123,20 +112,20 @@ void func_80018464(s16 layout_number)
     data_2 = D_8008148C;
     D_80081480 = data_2;
     layout_id = D_8001F604[layout_index];
-    cfg = ((DungeonCfg *)((u8 *)&gameWork + 476));
-    map = cfg->cells;
+    cfg = &gameWork.map;
+    map = ((MapCell *)cfg->cells);
     Control_CD(6, layout_id, 0);
     func_8003F320();
     entry_index = 0;
 
     room_header = (u16 *)(data_2 + 4);
-    cfg->shift_x = ((u16 *)data_2)[0];
-    cfg->mask_x = (1 << cfg->shift_x) - 1;
+    cfg->shiftX = ((u16 *)data_2)[0];
+    cfg->maskX = (1 << cfg->shiftX) - 1;
     shift_y = ((u16 *)data_2)[1];
-    cfg->span_x = 64 << cfg->shift_x;
-    cfg->shift_y = shift_y;
-    cfg->mask_y = (1 << cfg->shift_y) - 1;
-    cfg->span_y = 64 << cfg->shift_y;
+    cfg->spanX = 64 << cfg->shiftX;
+    cfg->shiftY = shift_y;
+    cfg->maskY = (1 << cfg->shiftY) - 1;
+    cfg->spanY = 64 << cfg->shiftY;
 
     while (room_header[2] != 0) {
         D_800E2970[entry_index].active = 1;
@@ -167,11 +156,11 @@ void func_80018464(s16 layout_number)
         D_800E3CD8[entry_index].kind = data[2] + 2;
         D_800E3CD8[entry_index].x = data[0];
         D_800E3CD8[entry_index].y = data[1];
-        tile_value = map[data[0] + (data[1] << cfg->shift_x)].value - 32;
-        map[data[0] + (data[1] << cfg->shift_x)].value = tile_value;
+        tile_value = map[data[0] + (data[1] << cfg->shiftX)].value - 32;
+        map[data[0] + (data[1] << cfg->shiftX)].value = tile_value;
         D_800E3CD8[entry_index].value = tile_value;
         if (D_800E3CD8[entry_index].kind == 2) {
-            map[data[0] + (data[1] << cfg->shift_x)].kind = 1;
+            map[data[0] + (data[1] << cfg->shiftX)].kind = 1;
         }
         func_8009A21C(data[0], data[1], 32);
         entry_index++;

@@ -7,7 +7,7 @@ extern s32 func_80094B58(s32);
 s32 func_80094BC8(s32 unused, s32 angle_offset) {
     s32 base_angle;
 
-    base_angle = func_80094B58(((s32)gameWork.unk_008));
+    base_angle = func_80094B58(gameWork.buttons);
     if ((s16)base_angle == -1) {
         return -1;
     }

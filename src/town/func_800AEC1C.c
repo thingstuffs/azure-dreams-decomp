@@ -9,16 +9,16 @@ void func_800AC37C(void) {
     u8 *coordinateEntry;
     u16 *cell;
     u16 cellFlags;
-    u8 *gridDescriptor;
+    MapGrid *gridDescriptor;
     u8 *gridBase;
 
-    gridDescriptor = ((u8 *)(&gameWork.unk_1DC));
+    gridDescriptor = &gameWork.map;
     coordinateEntry = D_80081508;
-    gridBase = *(u8 **)gridDescriptor;
+    gridBase = ((u8 *)gridDescriptor->cells);
     if (*coordinateEntry != 0) {
         do {
             cell = (u16 *)(gridBase +
-                (coordinateEntry[0] + (coordinateEntry[1] << *(s16 *)(gridDescriptor + 0x14))) * 2);
+                (coordinateEntry[0] + (coordinateEntry[1] << gridDescriptor->shiftX)) * 2);
             cellFlags = *cell;
             coordinateEntry += 4;
             *cell = cellFlags & 0xBFFF;

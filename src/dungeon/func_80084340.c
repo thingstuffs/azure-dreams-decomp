@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "shared/sys_flags.h"
 #include "shared/dungeon_floor.h"
 #include "shared/record_ptrs.h"
@@ -43,7 +44,6 @@ M2C_UNK func_800B66C8();                      /* extern */
 s32 func_800BCB04();                   /* extern */
 M2C_UNK func_800C6AB0();                            /* extern */
 s32 func_800C77D0();    /* extern */
-extern u8 D_8006CCF8[];
 extern s8 D_80080A88;
 extern M2C_UNK D_80080AA0;
 extern s16 D_80081468[3];
@@ -60,11 +60,6 @@ extern s32 D_800E3D70;
 extern s32 D_800E3D74;
 extern void *D_800E3DE8;
 extern s32 D_800E4948;
-
-typedef struct S_80089AA0_0 {
-    u8 pad_00[0x10];
-    s32 unk_10;
-} S_80089AA0_0;   /* base_83160 in func_80089AA0 */
 
 typedef struct S_80089AA0_1 {
     u8 pad_00[0x8];
@@ -121,13 +116,6 @@ typedef struct S_80089AA0_7_pre {
     u8 pad_02[0x6];
 } S_80089AA0_7_pre;   /* the 0x8 bytes before copy_dst in func_80089AA0, addressed as copy_dst[-1] */
 
-typedef struct S_80089AA0_8 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x1A];
-    u16 unk_1E;
-} S_80089AA0_8;   /* status_or_base in func_80089AA0 */
-
 typedef struct S_80089AA0_9 {
     s32 unk_00;
 } S_80089AA0_9;   /* &D_800E3D70 in func_80089AA0 */
@@ -145,11 +133,6 @@ typedef struct S_80089AA0_11 {
     u8 unk_29;
 } S_80089AA0_11;   /* temp_a1_2 in func_80089AA0 */
 
-typedef struct S_80089AA0_12 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-} S_80089AA0_12;   /* callback_status in func_80089AA0 */
-
 typedef struct S_80089AA0_13 {
     u32 unk_00;
 } S_80089AA0_13;   /* &D_800DD160 in func_80089AA0 */
@@ -162,17 +145,6 @@ typedef struct S_80089AA0_14 {
     u8 pad_6E[0x3];
     u8 unk_71;
 } S_80089AA0_14;   /* var_a0 in func_80089AA0 */
-
-typedef struct S_80089AA0_15 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x4];
-    s16 unk_08;
-    s16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-    s16 unk_14;
-} S_80089AA0_15;   /* reset_base in func_80089AA0 */
 
 typedef struct S_80089AA0_16 {
     u8 pad_00[0x4];
@@ -239,18 +211,6 @@ typedef struct S_80089AA0_21 {
     s16 unk_14;
 } S_80089AA0_21;   /* early_status in func_80089AA0 */
 
-typedef struct S_80089AA0_22 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-} S_80089AA0_22;   /* var_v0_3 in func_80089AA0 */
-
-typedef struct S_80089AA0_23 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0xC];
-    s32 unk_10;
-} S_80089AA0_23;   /* tail_status in func_80089AA0 */
-
 typedef struct S_80089AA0_24 {
     u8 pad_00[0x2];
     u16 unk_02;
@@ -288,7 +248,7 @@ void func_80089AA0(void *in_actor, void *in_motion, void *in_sprite) {
     M2C_UNK (*current_callback)(void *, void *, void *, void *);
     M2C_UNK *record_or_page;
     M2C_UNK *early_status;
-    M2C_UNK *turn_status;
+    DungeonGlobalStatus *turn_status;
     M2C_UNK *loop_status;
     M2C_UNK *input_status;
     s32 facing;
@@ -337,8 +297,8 @@ void func_80089AA0(void *in_actor, void *in_motion, void *in_sprite) {
     S_80089AA0_2 *world_object;
     void *companion_counters;
     S_80089AA0_3 *status_base;
-    register void *callback_status ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    S_80089AA0_23 *tail_status;
+    register DungeonGlobalStatus *callback_status ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    DungeonGlobalStatus *tail_status;
     void *input_snapshot;
     void *next_record;
     register u8 *next_record_page ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
@@ -453,7 +413,7 @@ snapshot_input:
                                     ((S_80089AA0_7_pre *)input_snapshot)[-1].unk_00 = (s16) state_or_address;
                                 }
                                 if (!(D_80013714 & 8)) {
-                                    ((S_80089AA0_8 *)&dungeonStatus.unk_00)->unk_1E = (u16) (((S_80089AA0_8 *)&dungeonStatus.unk_00)->unk_1E + 1);
+                                    dungeonStatus.unk_1E = (u16) (dungeonStatus.unk_1E + 1);
                                     actor_fraction = ((S_80089AA0_9 *)(&D_800E3D70))->unk_00 + (*(u8 *)((u8 *)actor + 0x29));
                                     D_800E3D70 = (s32)actor_fraction;
                                     turn_sign = (*(u8 *)((u8 *)actor + 0x28));
@@ -518,7 +478,7 @@ update_actor_state:
                                     if ((func_80042900(actor, 0xA) << 0x10) == 0) {
 
                                         state_or_address = (s32)&D_8008ACDC;
-                                        callback_status = &dungeonStatus.unk_00;
+                                        callback_status = &dungeonStatus;
                                         (*(Callback4 *)((u8 *)linked_actor + 0x8C)) = (Callback4)state_or_address;
                                         goto mark_callback_change;
                                     }
@@ -527,7 +487,7 @@ update_actor_state:
 
                                 if (current_callback == (Callback4)&D_8008ACDC) {
                                     if ((func_80042900(actor, 0xA) << 0x10) != 0) {
-                                        callback_status = (u8 *)&dungeonStatus.unk_00;
+                                        callback_status = &dungeonStatus;
                                         (*(Callback4 *)((u8 *)linked_actor + 0x8C)) = (Callback4)D_80096384;
                                         goto mark_callback_change;
                                     }
@@ -538,13 +498,13 @@ update_actor_state:
                                 goto clear_turn_flags;
                             }
 mark_callback_change:
-                            ((S_80089AA0_12 *)callback_status)->unk_02 =
-                                (u16)(((S_80089AA0_12 *)callback_status)->unk_02 | 4);
+                            callback_status->flags =
+                                (u16)(callback_status->flags | 4);
 clear_turn_flags:
 
-                            callback_status = &dungeonStatus.unk_00;
-                            ((S_80089AA0_12 *)callback_status)->unk_02 =
-                                (u16)(((S_80089AA0_12 *)callback_status)->unk_02 & 0xBFFB);
+                            callback_status = &dungeonStatus;
+                            callback_status->flags =
+                                (u16)(callback_status->flags & 0xBFFB);
                             (*(u32 *)((u8 *)actor + 0x14)) &= 0x7FFE7FFF;
                             goto after_status_or;
                         }
@@ -560,7 +520,7 @@ clear_turn_flags:
     }
 mark_input_entry:
 mark_input_active:
-    ((S_80089AA0_8 *)&dungeonStatus.unk_00)->unk_02 = (u16) (((S_80089AA0_8 *)&dungeonStatus.unk_00)->unk_02 | 4);
+    dungeonStatus.flags = (u16) (dungeonStatus.flags | 4);
 after_status_or:
     if (!(D_80013714 & 8)) {
         if (((*(u8 *)((u8 *)linked_actor + 0x9A)) != 0x17) && (D_800DCF4F == 0) && ((u32) ((S_80089AA0_13 *)(&D_800DD160))->unk_00 >= 0x385U)) {
@@ -572,14 +532,14 @@ after_status_or:
                 reset_actor = reset_actor->unk_5C + 0x20;
             } while (reset_actor != D_800E3D7C);
             {
-                S_80089AA0_15 *reset_base;
-                reset_base = &dungeonStatus.unk_00;
+                DungeonGlobalStatus *reset_base;
+                reset_base = &dungeonStatus;
                 reset_base->unk_08 = 0;
                 reset_base->unk_0A = 0;
                 reset_base->unk_14 = 0;
                 reset_base->unk_0C = 0;
                 reset_base->unk_10 = 0;
-                reset_base->unk_02 = 0U;
+                reset_base->flags = 0U;
             }
         }
         if (!((*(u16 *)0x80013714) & 8) && (!(dungeonStatus.flags & 4) || (((S_80089AA0_6 *)(&D_800E296C))->unk_00 & 0x40) || ((*(u8 *)((u8 *)linked_actor + 0x9A)) == 0x17))) {
@@ -621,7 +581,7 @@ run_actor_callbacks:
         func_800489F4(sprite_or_root, ((u8 *)((S_80089AA0_16 *)sprite_or_root)->unk_2C)[facing], ((S_80089AA0_16 *)sprite_or_root)->unk_04, 1);
 store_facing:
         (*(s16 *)((u8 *)linked_actor + 0x94)) = facing;
-        if (((*(u8 *)((u8 *)linked_actor + 0x9A)) != 0x22) && (D_8006CCF8[facing] != 0)) {
+        if (((*(u8 *)((u8 *)linked_actor + 0x9A)) != 0x22) && (dirSpriteFlag[facing] != 0)) {
             ((S_80089AA0_16 *)sprite_or_root)->unk_14 = (u16)(((S_80089AA0_16 *)sprite_or_root)->unk_14 | 1);
             goto update_room;
         }
@@ -763,8 +723,8 @@ clear_linked_flags:
             }
         }
     }
-    turn_status = &dungeonStatus.unk_00;
-    phase_flags = ((S_80089AA0_22 *)turn_status)->unk_02;
+    turn_status = &dungeonStatus;
+    phase_flags = turn_status->flags;
     if (!(phase_flags & 0x400)) {
         if (phase_flags & 0x2000) {
             if ((func_800A2C34(0) << 0x10) == 0) {
@@ -806,11 +766,11 @@ clear_linked_flags:
                         linked_actor = ((S_80089AA0_19 *)linked_actor)->unk_5C.i + 0x20;
                     } while (linked_actor != sprite_or_root);
                 }
-                ((S_80089AA0_8 *)&dungeonStatus.unk_00)->unk_02 =
-                    (u16)((((S_80089AA0_8 *)&dungeonStatus.unk_00)->unk_02 & 0xDFFF) | 0x1000);
+                dungeonStatus.flags =
+                    (u16)((dungeonStatus.flags & 0xDFFF) | 0x1000);
                 goto process_turns;
             }
-            ((S_80089AA0_22 *)turn_status)->unk_02 = (u16) (((S_80089AA0_22 *)turn_status)->unk_02 & 0xDFFF);
+            turn_status->flags = (u16) (turn_status->flags & 0xDFFF);
             linked_actor = (*(void **)((u8 *)actor + 0x5C)) + 0x20;
             if (linked_actor != actor) {
                 do {
@@ -824,14 +784,14 @@ clear_linked_flags:
                     linked_actor = (u8 *)D_800E3DE8 + 0x20;
                 } while (linked_actor != actor);
             }
-            ((S_80089AA0_8 *)&dungeonStatus.unk_00)->unk_02 =
-                (u16) (((S_80089AA0_8 *)&dungeonStatus.unk_00)->unk_02 | 0x2000);
+            dungeonStatus.flags =
+                (u16) (dungeonStatus.flags | 0x2000);
             goto process_turns;
         }
     }
 process_turns:
-    tail_status = &dungeonStatus.unk_00;
-    if (tail_status->unk_10 > 0) {
+    tail_status = &dungeonStatus;
+    if (((s32)tail_status->unk_10) > 0) {
         tail_status->unk_10 = 0;
     }
     companion_index = 0;
@@ -841,7 +801,7 @@ process_turns:
         next_record_page = (u8 *)0x800E0000;
     } while (0);
     repeat_pass = 0;
-    next_flags = tail_status->unk_02 | 1;
+    next_flags = tail_status->flags | 1;
     loop_status = tail_status;
 store_loop_flags:
     ((S_80089AA0_24 *)loop_status)->unk_02 = next_flags;

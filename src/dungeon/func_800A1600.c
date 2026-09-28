@@ -9,8 +9,8 @@ void func_800A6D60(s32 save_seed) {
     s32 save_flag = save_seed << 16;
 
     if (save_flag != 0) {
-        D_800DD87C[0] = rng_state->unk_1FC;
+        D_800DD87C[0] = rng_state->randSeed;
         return;
     }
-    rng_state->unk_1FC = D_800DD87C[0];
+    rng_state->randSeed = D_800DD87C[0];
 }

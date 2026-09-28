@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "shared/tile_object.h"
 
 typedef struct S_80025A14_0 {
@@ -62,7 +63,6 @@ extern void func_800489F4(void *, u8, s8, s32);
 extern void func_80048AC8(void *, s32);
 extern s16 D_8002715A;
 extern u16 D_8002715C;
-extern u8 D_8006CCF8[];
 extern u8 D_800DD008[];
 
 /* Updates the object fade and selects its animation and render flags by direction. */
@@ -178,7 +178,7 @@ final_update:
                        ((S_80025A14_2 *)obj_arg)->unk_04, 2);
     }
     func_80048AC8(obj_arg, 2);
-    if (D_8006CCF8[direction] != 0) {
+    if (dirSpriteFlag[direction] != 0) {
         render_flags = ((S_80025A14_2 *)obj_arg)->unk_14 | 1;
     } else {
         render_flags = ((S_80025A14_2 *)obj_arg)->unk_14 & 0xFFFE;

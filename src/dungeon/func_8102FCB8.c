@@ -91,17 +91,6 @@ typedef struct S_801714B8_2 {
 } S_801714B8_2;   /* arg2 in func_801714B8 */
 
 
-typedef struct S_801714B8_4 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_801714B8_4;   /* origin in func_801714B8 */
-
-typedef struct S_801714B8_5 {
-    u8 pad_00[0x9A];
-    u8 unk_9A;
-} S_801714B8_5;   /* player in func_801714B8 */
-
 typedef struct S_801714B8_6 {
     u8 pad_00[0x8];
     void * unk_08;
@@ -294,7 +283,7 @@ coords_case:
         case 7:
 #endif
         {
-            void *player;
+            EntityRec *player;
             s16 heading;
 
             heading = func_800A0818(
@@ -303,7 +292,7 @@ coords_case:
                 &distance);
             player = D_800814A8;
             ((S_801714B8_1 *)stats)->unk_2A.s = heading;
-            if (((S_801714B8_5 *)player)->unk_9A == 0x11) {
+            if (player->unk_9A == 0x11) {
                 goto aaf_cleanup;
             }
             goto special_cleanup;

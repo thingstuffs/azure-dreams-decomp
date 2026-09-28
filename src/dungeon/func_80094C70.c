@@ -23,8 +23,8 @@ void func_8009A3D0(s32 x, s32 y, s32 flag_mask)
     register DungeonCell *cell ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     flags = flag_mask;
-    cells = ((DungeonCell *)gameWork.unk_1DC);
-    config = (s8 *)((DungeonCell * *)&gameWork.unk_1DC);
+    cells = ((DungeonCell *)gameWork.map.cells);
+    config = (s8 *)((DungeonCell * *)&gameWork.map.cells);
 
     matched_flags = flags & 0x8832;
     if (matched_flags) {

@@ -154,15 +154,6 @@ typedef struct S_8197192C_9 {
     s16 unk_50;
 } S_8197192C_9;   /* dst in func_8197192C */
 
-typedef struct S_8197192C_10 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_8197192C_10;   /* gbase3 in func_8197192C */
-
 typedef struct S_8197192C_11 {
     u8 pad_00[0x4C];
     s16 unk_4C;
@@ -174,12 +165,6 @@ typedef struct S_8197192C_12 {
     u8 pad_00[0x2E94];
     u16 unk_2E94;
 } S_8197192C_12;   /* status_page in func_8197192C */
-
-typedef struct S_8197192C_13 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-    s32 unk_0C;
-} S_8197192C_13;   /* cleanup_obj in func_8197192C */
 
 typedef struct S_8197192C_14 {
     u16 unk_00;
@@ -327,7 +312,7 @@ case_2:
                           (u8 *)effect + 0x2E, 0) != 0) {
             void *effect_obj;
             u8 *sprite;
-            u8 *world_pos;
+            EntityRec *world_pos;
 
             effect_obj = func_8003FC64(0x212);
             if (effect_obj != 0) {
@@ -337,16 +322,16 @@ case_2:
                 ((S_8197192C_1 *)effect_obj)->unk_10.at00.v = (void *)&D_80024D10;
                 func_8004491C(effect_obj, func_80045340);
                 sprite = ((S_8197192C_1 *)effect_obj)->unk_0C;
-                world_pos = ((u8 *)(&D_80083780));
+                world_pos = &D_80083780;
                 ((S_8197192C_8 *)sprite)->unk_10 = 0x60;
                 ((S_8197192C_8 *)sprite)->unk_14 = ((S_8197192C_8 *)sprite)->unk_14 | 0x0C;
                 position = ((S_8197192C_1 *)effect_obj)->unk_08;
                 ((S_8197192C_9 *)position)->unk_02 = ((S_8197192C_0 *)effect)->unk_2E.u +
-                                      ((S_8197192C_3 *)world_pos)->unk_02;
+                                      ((u16)world_pos->x.w.i);
                 ((S_8197192C_9 *)position)->unk_06 = ((S_8197192C_0 *)effect)->unk_30.u +
-                                      ((S_8197192C_3 *)world_pos)->unk_06;
+                                      ((u16)world_pos->y.w.i);
                 ((S_8197192C_9 *)position)->unk_0A = ((S_8197192C_0 *)effect)->unk_32.u +
-                                       ((S_8197192C_3 *)world_pos)->unk_0A;
+                                       ((u16)world_pos->z.w.i);
                 sprite = ((S_8197192C_1 *)effect_obj)->unk_0C;
                 ((S_8197192C_8 *)sprite)->unk_1E = 0x1000;
                 ((S_8197192C_8 *)sprite)->unk_1C = 0x1000;
@@ -365,7 +350,7 @@ case_3:
     s32 segment;
     s32 point_index;
     s32 step;
-    u8 *world_pos;
+    EntityRec *world_pos;
     u8 *outer_point;
     if (((S_8197192C_0 *)effect)->unk_2C.u >= 10) {
         goto done;
@@ -406,25 +391,25 @@ case_3:
             shifted_x <<= 16;
             half_x = (s32)shifted_x >> 16;
             half_x += shifted_x >> 31;
-            world_pos = ((u8 *)(&D_80083780));
+            world_pos = &D_80083780;
             half_x >>= 1;
             ((S_8197192C_9 *)outer_point)->unk_4C = (s16)(half_x +
-                (((S_8197192C_10 *)world_pos)->unk_02 - origin_x) / 2);
+                (world_pos->x.w.i - origin_x) / 2);
         }
         ((S_8197192C_9 *)outer_point)->unk_4E = (s16)(((s16)((S_8197192C_0 *)effect)->unk_30.u) / 2 +
-            (((S_8197192C_10 *)world_pos)->unk_06 - ((S_8197192C_0 *)effect)->unk_7E.u) / 2);
+            (world_pos->y.w.i - ((S_8197192C_0 *)effect)->unk_7E.u) / 2);
         ((S_8197192C_9 *)outer_point)->unk_50 = (s16)(((s16)((S_8197192C_0 *)effect)->unk_32.u) / 2 +
-            (((S_8197192C_10 *)world_pos)->unk_0A - ((S_8197192C_0 *)effect)->unk_80.u) / 2);
+            (world_pos->z.w.i - ((S_8197192C_0 *)effect)->unk_80.u) / 2);
     }
 
     {
         u8 *inner_point = (u8 *)effect + (((point_index << 1) + point_index) << 1);
         ((S_8197192C_11 *)inner_point)->unk_4C = (s16)(((s16)((S_8197192C_0 *)effect)->unk_2E.u) / 4 +
-            (((S_8197192C_10 *)world_pos)->unk_02 - ((S_8197192C_0 *)effect)->unk_7C.u) / 2);
+            (world_pos->x.w.i - ((S_8197192C_0 *)effect)->unk_7C.u) / 2);
         ((S_8197192C_11 *)inner_point)->unk_4E = (s16)(((s16)((S_8197192C_0 *)effect)->unk_30.u) / 4 +
-            (((S_8197192C_10 *)world_pos)->unk_06 - ((S_8197192C_0 *)effect)->unk_7E.u) / 2);
+            (world_pos->y.w.i - ((S_8197192C_0 *)effect)->unk_7E.u) / 2);
         ((S_8197192C_11 *)inner_point)->unk_50 = (s16)(((s16)((S_8197192C_0 *)effect)->unk_32.u) / 4 +
-            (((S_8197192C_10 *)world_pos)->unk_0A - ((S_8197192C_0 *)effect)->unk_80.u) / 2);
+            (world_pos->z.w.i - ((S_8197192C_0 *)effect)->unk_80.u) / 2);
     }
 
 after_coords:

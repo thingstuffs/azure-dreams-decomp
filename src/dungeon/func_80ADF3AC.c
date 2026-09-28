@@ -23,17 +23,6 @@ typedef struct S_80ADF3AC_0 {
 
 
 
-typedef struct S_80ADF3AC_4 {
-    u8 pad_00[0x8];
-    union { s16 s; u16 u; } unk_08;   /* accessed as both */
-} S_80ADF3AC_4;   /* global_base in func_80ADF3AC */
-
-typedef struct S_80ADF3AC_5 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_80ADF3AC_5;   /* map_base in func_80ADF3AC */
-
 
 
 extern void func_80047784(void *, s32, s32);
@@ -64,7 +53,7 @@ void func_80ADF3AC(void *action, void *motion, void *sprite, void *entity)
     s32 action_timer;
     s32 entity_flags;
     s32 target_distance;
-    u8 *shared_state;
+    DungeonGlobalStatus *shared_state;
 
     phase = ((S_80ADF3AC_0 *)action)->unk_9B;
     if (phase == 1) {
@@ -176,9 +165,9 @@ decrement_timer:
     func_800AD594(entity, 4);
     func_800A4ACC(entity);
 
-    shared_state = (u8 *)&dungeonStatus.unk_00;
-    if (((S_80ADF3AC_4 *)shared_state)->unk_08.s != 0) {
-        ((S_80ADF3AC_4 *)shared_state)->unk_08.u--;
+    shared_state = &dungeonStatus;
+    if (shared_state->unk_08 != 0) {
+        (*(u16 *)&shared_state->unk_08)--;
     }
 
     entity_flags = ((EntityRec *)entity)->flags1C;

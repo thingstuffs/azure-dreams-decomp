@@ -4,6 +4,7 @@
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
+#include "shared/entity.h"
 #include "m2c_compat.h"
 
 s32 func_8003DE58();
@@ -88,11 +89,6 @@ typedef struct S_800A871C_9 {
     u8 pad_00[0x8];
     s32 unk_08;
 } S_800A871C_9;   /* temp_a1_2 in func_800A871C */
-
-typedef struct S_800A871C_10 {
-    u8 pad_00[0x88];
-    u16 unk_88;
-} S_800A871C_10;   /* temp_global_814A8 in func_800A871C */
 
 typedef struct S_800A871C_11_pre {
     void * unk_00;
@@ -231,7 +227,7 @@ void func_800A871C(void *object_arg, void *motion_arg, void *tile_arg) {
     s32 target_height;
     s32 height_delta;
     u8 *world_page;
-    void *height_source;
+    EntityRec *height_source;
     s32 source_height;
     s32 dungeon_flags;
     s32 height;
@@ -299,7 +295,7 @@ void func_800A871C(void *object_arg, void *motion_arg, void *tile_arg) {
             source_height = ((S_800A871C_21 *)(((S_800A871C_1 *)object)->unk_8C))->unk_0A + offset[2];
             height_source = D_800814A8;
             ((S_800A871C_3 *)motion)->unk_08.at02.v = (s16) (source_height + 8);
-            (*(u16 *)((u8 *)object_data + (0x88))) = ((S_800A871C_10 *)height_source)->unk_88;
+            (*(u16 *)((u8 *)object_data + (0x88))) = ((u16)height_source->unk_88);
             goto load_world_page;
         }
         if (((S_800A871C_1 *)object)->unk_A2 != 0) {

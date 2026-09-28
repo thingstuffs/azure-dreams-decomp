@@ -65,7 +65,7 @@ void func_800930E4(void *self_arg, void *target_arg, M2C_UNK context_arg) {
         countdown = ((S_800930E4_2 *)self_arg)->unk_0A - 1;
         ((S_800930E4_2 *)self_arg)->unk_0A = countdown;
         if ((s16) countdown >= 0) {
-            if (((s32)state->unk_008) & 0xF000) {
+            if (state->buttons & 0xF000) {
                 func_80093ED8(self_arg, target, context);
                 return;
             }

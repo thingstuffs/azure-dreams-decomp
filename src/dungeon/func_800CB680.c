@@ -16,7 +16,7 @@ extern s16 func_800D175C(s16, s16);
 
 /* Marks and processes up to ten eligible tiles in each perpendicular direction, returning the total. */
 s16 func_800D0DE0(s32 direction, s32 origin_x, s32 origin_y) {
-    register s16 *settings = ((s16 *)(&gameWork.unk_1DC));
+    register MapGrid *settings = &gameWork.map;
     s16 second_stopped = 0;
     s16 first_stopped = 0;
     s16 plus_dir = (direction + 2) & 7;
@@ -32,10 +32,10 @@ s16 func_800D0DE0(s32 direction, s32 origin_x, s32 origin_y) {
     first_count = second_count = 0;
 
     do {
-        if (first_x < 0 || first_x >= (1 << settings[10])) {
+        if (first_x < 0 || first_x >= (1 << settings->shiftX)) {
             first_stopped = 1;
         }
-        if (first_y < 0 || first_y >= (1 << settings[11])) {
+        if (first_y < 0 || first_y >= (1 << settings->shiftY)) {
             first_stopped = 1;
         }
         {
@@ -45,7 +45,7 @@ s16 func_800D0DE0(s32 direction, s32 origin_x, s32 origin_y) {
             }
         }
         {
-            DungeonTile *tile = &D_800EA000[first_x + (first_y << settings[10])];
+            DungeonTile *tile = &D_800EA000[first_x + (first_y << settings->shiftX)];
             if (tile->flags & 4) {
                 first_count++;
                 tile->flags |= 0x80;
@@ -60,10 +60,10 @@ s16 func_800D0DE0(s32 direction, s32 origin_x, s32 origin_y) {
         }
 
 check_second:
-        if (second_x < 0 || second_x >= (1 << settings[10])) {
+        if (second_x < 0 || second_x >= (1 << settings->shiftX)) {
             second_stopped = 1;
         }
-        if (second_y < 0 || second_y >= (1 << settings[11])) {
+        if (second_y < 0 || second_y >= (1 << settings->shiftY)) {
             second_stopped = 1;
         }
         {
@@ -73,7 +73,7 @@ check_second:
             }
         }
         {
-            DungeonTile *tile = &D_800EA000[second_x + (second_y << settings[10])];
+            DungeonTile *tile = &D_800EA000[second_x + (second_y << settings->shiftX)];
             if (tile->flags & 4) {
                 second_count++;
                 tile->flags |= 0x80;

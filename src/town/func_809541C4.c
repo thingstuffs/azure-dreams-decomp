@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 
 extern void func_80047738(void *, u8, s8);
 extern void func_80047784(void *, u8, s32);
-extern u8 D_8006CCF8[];
 
 typedef struct S_800211C4_0 {
     u8 pad_00[0x2A];
@@ -48,7 +48,7 @@ void func_800211C4(S_800211C4_0 *orientation, void *state_ptr, Rec_D_80082E80 *r
     flags_page = (u8 *)0x80070000;
 update_flags:
     flags_base = (s32)flags_page - 0x3308;
-    direction_data = D_8006CCF8 + direction;
+    direction_data = dirSpriteFlag + direction;
     if (direction_data[0] != 0) {
         flags = record->unk_14.at00_u16.v | 1;
     } else {

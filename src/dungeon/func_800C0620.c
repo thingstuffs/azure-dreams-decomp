@@ -20,15 +20,6 @@ typedef struct S_800C5D80_2 {
     s16 unk_12;
 } S_800C5D80_2;   /* arg0 in func_800C5D80; pointer addresses record offset 0x2 */
 
-typedef struct S_800C5D80_3 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_800C5D80_3;   /* global in func_800C5D80 */
-
-typedef struct S_800C5D80_4 {
-    s32 unk_00;
-} S_800C5D80_4;   /* &D_800814A0 in func_800C5D80 */
-
 
 M2C_UNK func_800478B8();                      /* extern */
 
@@ -52,7 +43,7 @@ void func_800C5D80(void *effect_data, S_800C5D80_0 *motion, Rec_D_80082E80 *prim
             dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
         }
         ((S_800C5D80_2 *)((u8 *)effect_data - 0x2))->unk_00 = (u16) (((S_800C5D80_2 *)((u8 *)effect_data - 0x2))->unk_00 | 0x8000);
-        ((S_800C5D80_4 *)(&objectFlagBlock.flags))->unk_00 = (s32) (((S_800C5D80_4 *)(&objectFlagBlock.flags))->unk_00 | 0x8000);
+        objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
     }
 }
 

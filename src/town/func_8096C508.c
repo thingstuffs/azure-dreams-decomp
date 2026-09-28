@@ -138,7 +138,7 @@ matched_five:
         goto end;
     }
 
-    input_flags = ((u32)input_state->unk_008);
+    input_flags = ((u32)input_state->buttons);
     if (input_flags & 0x1000) {
         if (object->field_F == 3) {
             goto reset_four;

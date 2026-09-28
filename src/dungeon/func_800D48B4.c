@@ -15,18 +15,6 @@ typedef struct S_800DA014_0 {
 
 
 
-typedef struct S_800DA014_3 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x6];
-    u16 unk_0A;
-} S_800DA014_3;   /* system_base in func_800DA014 */
-
-
-typedef struct S_800DA014_5 {
-    u8 pad_00[0x26];
-    s8 unk_26;
-} S_800DA014_5;   /* origin in func_800DA014 */
 
 
 
@@ -74,15 +62,15 @@ state_ge_two:
 state_zero:
     if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) {
         u8 *direction_table;
-        u8 *system_base;
+        DungeonGlobalStatus *system_base;
 
         direction_table = D_800E262C;
         (*(void * *)((u8 *)sprite + 0x2C)) = direction_table;
         func_8003DB94(sprite,
             *(void **)(direction_table + (((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 7) & 28)),
             0);
-        system_base = (u8 *)&dungeonStatus.unk_00;
-        ((S_800DA014_3 *)system_base)->unk_0A--;
+        system_base = &dungeonStatus;
+        (*(u16 *)&system_base->unk_0A)--;
         ((S_800DA014_0 *)controller)->unk_9B++;
     }
     return;
@@ -90,10 +78,10 @@ state_zero:
 state_one:
     {
         s32 actor_flags;
-        u8 *system_base;
+        DungeonGlobalStatus *system_base;
 
-        system_base = (u8 *)&dungeonStatus.unk_00;
-        if (((S_800DA014_3 *)system_base)->unk_02 & 0x1000) {
+        system_base = &dungeonStatus;
+        if (system_base->flags & 0x1000) {
             return;
         }
 
@@ -103,7 +91,7 @@ state_one:
         }
 
         if (((EntityRec *)actor)->tileY == 0) {
-            if (((S_800DA014_3 *)system_base)->unk_02 & 0x2008) {
+            if (system_base->flags & 0x2008) {
                 return;
             }
             func_800AA79C(controller, action_context, sprite, actor);
@@ -168,9 +156,9 @@ state_one:
     }
 
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
-        u8 *system_base = (u8 *)&dungeonStatus.unk_00;
+        DungeonGlobalStatus *system_base = &dungeonStatus;
 
-        ((S_800DA014_3 *)system_base)->unk_0A++;
+        (*(u16 *)&system_base->unk_0A)++;
         ((S_800DA014_0 *)controller)->unk_9B++;
         return;
     }
@@ -181,8 +169,8 @@ state_two:
         return;
     }
     {
-        u8 *system_base = (u8 *)&dungeonStatus.unk_00;
-        ((S_800DA014_3 *)system_base)->unk_0A--;
+        DungeonGlobalStatus *system_base = &dungeonStatus;
+        (*(u16 *)&system_base->unk_0A)--;
     }
 
 finish:

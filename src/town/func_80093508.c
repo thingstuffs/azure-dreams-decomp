@@ -22,7 +22,7 @@ void func_80090C68(void *record, M2C_UNK context, M2C_UNK update_arg) {
     previous_state = ((Rec_func_80090C68_arg0 *)record)->unk_00;
     func_80090A74(record, context, update_arg);
     if (previous_state == ((Rec_func_80090C68_arg0 *)record)->unk_00) {
-        if (((s32)global_state->unk_008) & 0x80) {
+        if (global_state->buttons & 0x80) {
             func_80099754(context);
             func_8009550C(context);
             if (func_80094B0C(record - 0x20) != 0) {

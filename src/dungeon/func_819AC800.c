@@ -3,6 +3,7 @@
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
+#include "shared/entity.h"
 
 typedef struct {
     u8 pad00[0xA];
@@ -79,7 +80,7 @@ BODY_LINKAGE void BODY_NAME(EventState *event) {
     goto *D_80024008[(u32)state];
 
 jt_c0: {
-        DungeonObject *object;
+        EntityRec *object;
         u8 event_option;
 
         setup[0] = 0x010003A0;
@@ -92,9 +93,9 @@ jt_c0: {
         D_8002744C = 0;
         D_800287A2 = event_option;
         D_800287A4 = *(s32 *)event;
-        object->resultF4 = 0;
-        object->colorA8 = ((u8 *)event)[8];
-        ((DungeonObject *)D_800814A8)->flag102 = 1;
+        object->unk_F4 = 0;
+        object->unk_A8 = ((u8 *)event)[8];
+        D_800814A8->unk_102 = 1;
         event->state++;
     }
 jt_c1:

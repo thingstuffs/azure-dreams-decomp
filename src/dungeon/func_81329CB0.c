@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "shared/game_work.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -13,7 +14,6 @@ typedef struct S_801714B0_1 {
 } S_801714B0_1;   /* arg0 in func_801714B0 */
 
 
-extern u8 D_8006CCF8[];
 extern void *D_80174CDC[3];
 
 extern void func_80047738(void *, u8, s8);
@@ -41,7 +41,7 @@ void func_801714B0(S_801714B0_1 *state, void *unused, Rec_D_80082E80 *record)
             state->unk_94 = calculated_direction;
         }
 
-        direction_flags = D_8006CCF8;
+        direction_flags = dirSpriteFlag;
         if (direction_flags[direction] != 0) {
             record->unk_14.at00_u16.v |= 1;
         } else {

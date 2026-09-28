@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dir_step.h"
 
 typedef struct {
@@ -25,7 +26,6 @@ typedef struct {
 } Walker;
 
 extern DungeonCell D_800EA000[];
-extern DungeonState D_8008333C;
 extern DungeonState D_80083160;
 
 extern s32 func_800A6D30(void);
@@ -49,10 +49,10 @@ s32 func_8001C5E4(Pos *start, Pos *dest, s16 rnd, s16 *out_x, s16 *out_y,
     s32 delta2;
     s32 icy;
     DungeonState *dead;
-    DungeonState *st;
+    MapGrid *st;
     u32 r;
 
-    st = &D_8008333C;
+    st = &gameWork.map;
     count = 0;
     cy = start->y;
     delta2 = start->x;
@@ -126,7 +126,7 @@ s32 func_8001C5E4(Pos *start, Pos *dest, s16 rnd, s16 *out_x, s16 *out_y,
 
         tile = walker->tile & 0xFFE0;
         iy = cy;
-        cell = &D_800EA000[(iy << st->stride) + (ix = cx)];
+        cell = &D_800EA000[(iy << st->shiftX) + (ix = cx)];
         if (cell->value != 16384) {
             d = cell->value - (s16)tile;
             if (d < 0) {
@@ -162,7 +162,7 @@ s32 func_8001C5E4(Pos *start, Pos *dest, s16 rnd, s16 *out_x, s16 *out_y,
 
             tile = walker->tile & 0xFFE0;
             iy = cy;
-            cell = &D_800EA000[(iy << st->stride) + (ix = cx)];
+            cell = &D_800EA000[(iy << st->shiftX) + (ix = cx)];
             if (cell->value != 16384) {
                 d = cell->value - (s16)tile;
                 if (d < 0) {
@@ -194,7 +194,7 @@ s32 func_8001C5E4(Pos *start, Pos *dest, s16 rnd, s16 *out_x, s16 *out_y,
 
             tile = walker->tile & 0xFFE0;
             iy = cy;
-            cell = &D_800EA000[(iy << st->stride) + (ix = cx)];
+            cell = &D_800EA000[(iy << st->shiftX) + (ix = cx)];
             if (cell->value != 16384) {
                 d = cell->value - (s16)tile;
                 if (d < 0) {

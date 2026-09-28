@@ -10,13 +10,6 @@
 #define NULL 0
 #endif
 
-typedef struct S_80172F58_0 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x8];
-    void * unk_0C;
-} S_80172F58_0;   /* state in func_80172F58 */
-
 typedef struct S_80172F58_1 {
     u8 pad_00[0x12];
     u8 unk_12;
@@ -60,24 +53,6 @@ typedef struct S_80172F58_4 {
 } S_80172F58_4;   /* object in func_80172F58 */
 
 
-typedef struct S_80172F58_6 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_80172F58_6;   /* target in func_80172F58 */
-
-typedef struct S_80172F58_7 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_80172F58_7;   /* retry_target in func_80172F58 */
-
-typedef struct S_80172F58_8 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_80172F58_8;   /* check_target in func_80172F58 */
-
 typedef struct S_80172F58_9 {
     u8 pad_00[0xC];
     u16 unk_0C;
@@ -93,11 +68,6 @@ typedef struct S_80172F58_10 {
 typedef struct S_80172F58_11 {
     u16 unk_00;
 } S_80172F58_11;   /* &D_80082EA4 in func_80172F58 */
-
-typedef struct S_80172F58_12 {
-    u8 pad_00[0x8];
-    u16 unk_08;
-} S_80172F58_12;   /* loop_state in func_80172F58 */
 
 typedef struct S_80172F58_13 {
     u8 pad_00[0x74];
@@ -218,14 +188,14 @@ void func_80172F58(u8 *move_input, void *action_context, u8 *position_input, u8 
             s16 target_x;
             s32 target_y;
             s16 new_angle;
-            u8 *target;
+            TileObject *target;
 
-            target = (u8 *)(&D_80082E80.tileX) - 0x24;
+            target = &D_80082E80;
             direction = (((S_80172F58_1 *)actor)->unk_45 +
                          ((s32)(((u16)D_800814A8->facing) << 16) >> 25)) & 7;
-            target_x = ((S_80172F58_6 *)target)->unk_24 +
+            target_x = target->tileX +
                        ((u16 *)((s8 *)dirStepX))[direction];
-            target_y = ((S_80172F58_6 *)target)->unk_25 +
+            target_y = target->tileY +
                        ((u16 *)((s8 *)dirStepY))[direction];
             if ((((S_80172F58_2 *)position)->unk_24.at00.v == (u16)target_x) &&
                 (((S_80172F58_2 *)position)->unk_24.at01.v == (u16)target_y)) {
@@ -235,19 +205,19 @@ void func_80172F58(u8 *move_input, void *action_context, u8 *position_input, u8 
                                       target_x, (s16)target_y, move_input + 0x98);
             ((S_80172F58_1 *)actor)->unk_2A.u = new_angle;
             if ((func_8009A66C(new_angle, position, actor, 0x20) << 16) <= 0) {
-                u8 *retry_target = ((u8 *)(&D_80082E80));
+                TileObject *retry_target = &D_80082E80;
 
                 ((S_80172F58_1 *)actor)->unk_2A.u = func_800A0818(
                     ((S_80172F58_2 *)position)->unk_24.at00.v, ((S_80172F58_2 *)position)->unk_24.at01.v,
-                    ((S_80172F58_7 *)retry_target)->unk_24, ((S_80172F58_7 *)retry_target)->unk_25,
+                    retry_target->tileX, retry_target->tileY,
                     move_input + 0x98);
             }
             {
-                u8 *check_target = ((u8 *)(&D_80082E80));
+                TileObject *check_target = &D_80082E80;
 
                 if ((func_8009FD7C(((S_80172F58_2 *)position)->unk_24.at00.v, ((S_80172F58_2 *)position)->unk_24.at01.v,
-                                   ((S_80172F58_8 *)check_target)->unk_24,
-                                   ((S_80172F58_8 *)check_target)->unk_25) << 16) != 0) {
+                                   check_target->tileX,
+                                   check_target->tileY) << 16) != 0) {
                     near_target = 1;
                 }
             }
@@ -283,12 +253,12 @@ void func_80172F58(u8 *move_input, void *action_context, u8 *position_input, u8 
         goto clear_history;
     }
     if (((S_80172F58_1 *)actor)->unk_1C & 0x20000) {
-        u8 *target = ((u8 *)(&D_80082E80));
+        TileObject *target = &D_80082E80;
         ((S_80172F58_1 *)actor)->unk_2A.u = func_800A0818(
             ((S_80172F58_2 *)position)->unk_24.at00.v, ((S_80172F58_2 *)position)->unk_24.at01.v,
-            ((S_80172F58_6 *)target)->unk_24, ((S_80172F58_6 *)target)->unk_25, move_input + 0x98);
+            target->tileX, target->tileY, move_input + 0x98);
         if ((func_8009FD7C(((S_80172F58_2 *)position)->unk_24.at00.v, ((S_80172F58_2 *)position)->unk_24.at01.v,
-                           ((S_80172F58_6 *)target)->unk_24, ((S_80172F58_6 *)target)->unk_25) << 16) != 0) {
+                           target->tileX, target->tileY) << 16) != 0) {
             if (func_800A0134(D_800814A8, actor) < 0x81) {
                 direction_clear = func_8009A540(
                     ((s32)(((S_80172F58_1 *)actor)->unk_2A.u << 16) >> 25) & 0xFFFF,

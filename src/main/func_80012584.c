@@ -37,7 +37,7 @@ void func_80025584(u8 *menu)
     s32 buttons;
 
     selection_delta = 0;
-    if (((s32)gameWork.unk_008) != 0) {
+    if (gameWork.buttons != 0) {
         if (((s32)gameWork.unk_010) & 0x20) {
             SD_Call(0x515);
             ((S_80025584_0_pre *)menu)[-1].unk_00 = &D_80024FFC;
@@ -48,7 +48,7 @@ void func_80025584(u8 *menu)
             func_800254E4(menu);
             goto finish_input;
         }
-        if (((s32)gameWork.unk_008) & 0x5000) {
+        if (gameWork.buttons & 0x5000) {
             if (buttons & 0x5000) {
                 ((S_80025584_0 *)menu)->unk_30 = 0;
                 buttons = ((s32)gameWork.unk_010);
@@ -61,7 +61,7 @@ void func_80025584(u8 *menu)
                 repeat_timer = ((S_80025584_0 *)menu)->unk_30;
                 if (repeat_timer >= 13) {
                     ((S_80025584_0 *)menu)->unk_30 = repeat_timer - 2;
-                    buttons = ((s32)gameWork.unk_008);
+                    buttons = gameWork.buttons;
                     if (buttons & 0x1000) {
                         selection_delta = -1;
                     } else if (buttons & 0x4000) {

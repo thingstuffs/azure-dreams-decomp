@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/dir_step.h"
 #include "shared/sys_flags.h"
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
@@ -19,7 +20,6 @@ void func_800AA36C(void *, void *, void *, void *); /* extern */
 s16 func_800BCB04(u16, u16, s16);                   /* extern */
 void func_8016A908(void *);                         /* extern */
 extern u8 D_80013610[0x3612];
-extern u8 D_8006CCF8[256];
 extern u32 D_800835E4[64];
 extern u8 D_800F927E[16];
 extern void D_8016B778(void);
@@ -312,7 +312,7 @@ void func_8016B0E8(void *entity, void *motion, void *sprite) {
                 }
                 ((S_8016B0E8_0 *)entity)->unk_94 = view_direction;
             }
-            facing_flip = D_8006CCF8[direction_index];
+            facing_flip = dirSpriteFlag[direction_index];
             if (facing_flip != 0) {
                 facing_flags = ((S_8016B0E8_14 *)sprite)->unk_14.n | 1;
             } else {

@@ -22,11 +22,6 @@ typedef struct S_801722BC_0 {
 
 
 
-typedef struct S_801722BC_4 {
-    u8 pad_00[0x8];
-    union { s16 s; u16 u; } unk_08;   /* accessed as both */
-} S_801722BC_4;   /* global in func_801722BC */
-
 
 
 extern void func_80047784(void *, u8, s32);
@@ -52,7 +47,7 @@ void func_801722BC(void *action, void *motion, void *sprite, void *actor)
     s32 actor_flags;
     s32 tile_delta;
     s32 axis_pos;
-    s32 *action_counter;
+    DungeonGlobalStatus *action_counter;
 
     phase = ((S_801722BC_0 *)action)->unk_9B;
     switch (phase) {
@@ -136,9 +131,9 @@ void func_801722BC(void *action, void *motion, void *sprite, void *actor)
         func_800AD594(actor, 4);
         func_800A4ACC(actor);
 
-        action_counter = &dungeonStatus.unk_00;
-        if (((S_801722BC_4 *)action_counter)->unk_08.s != 0) {
-            ((S_801722BC_4 *)action_counter)->unk_08.u--;
+        action_counter = &dungeonStatus;
+        if (action_counter->unk_08 != 0) {
+            (*(u16 *)&action_counter->unk_08)--;
         }
 
         actor_flags = ((EntityRec *)actor)->flags1C;

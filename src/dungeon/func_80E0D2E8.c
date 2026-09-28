@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
@@ -56,7 +57,6 @@ struct Entity {
     u8 *data;
 };
 
-extern u8 D_8006CCF8[8];
 extern u8 D_80171094;
 extern u8 D_80176460[8];
 extern u8 D_80176490[8];
@@ -117,7 +117,7 @@ void func_80170AE8(Actor *input_actor, Motion *input_motion, Entity *input_entit
         {
             u16 updated_flags;
 
-            if (input_entity->data == D_80176490 && D_8006CCF8[direction_index] != 0) {
+            if (input_entity->data == D_80176490 && dirSpriteFlag[direction_index] != 0) {
                 updated_flags = input_entity->flags14 | 1;
                 goto store_entity_flags;
             }

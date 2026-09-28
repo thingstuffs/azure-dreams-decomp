@@ -20,7 +20,7 @@ s32 func_8009074C(s16 direction_offset, u16 *flags, u16 *angle) {
     u32 input_state;
     u32 input_direction;
 
-    input_state = ((u16)gameWork.unk_008);
+    input_state = ((u16)gameWork.buttons);
     result_angle = -1;
     direction_mask = input_state & 0xF000;
     if (input_state & 0x10) {

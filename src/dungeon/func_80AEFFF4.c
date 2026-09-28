@@ -52,17 +52,6 @@ typedef struct S_801717F4_2 {
 } S_801717F4_2;   /* arg2 in func_801717F4 */
 
 
-typedef struct S_801717F4_4 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_801717F4_4;   /* origin in func_801717F4 */
-
-typedef struct S_801717F4_5 {
-    u8 pad_00[0x9A];
-    u8 unk_9A;
-} S_801717F4_5;   /* player in func_801717F4 */
-
 /* Updates actor animation and dispatches dungeon actions from entity state. */
 void func_801717F4(void *actor_arg, void *context_arg, void *sprite_arg, void *entity_arg)
 {
@@ -216,7 +205,7 @@ jt_c5:
 jt_c6:
 jt_c7:
         {
-            void *player;
+            EntityRec *player;
             s16 direction;
 
             direction = func_800A0818(
@@ -225,7 +214,7 @@ jt_c7:
                 &direction_aux);
             player = D_800814A8;
             ((EntityRec *)entity_arg)->facing = direction;
-            if (((S_801717F4_5 *)player)->unk_9A == 0x11) {
+            if (player->unk_9A == 0x11) {
                 goto aaf_cleanup;
             }
             goto special_cleanup;

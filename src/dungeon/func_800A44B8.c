@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "shared/game_work.h"
 
 extern void func_80047784();
@@ -13,7 +14,6 @@ extern void func_800A34BC();
 extern void func_800BC26C();
 extern s32 func_800BCB04();
 
-extern u8 D_8006CCF8[];
 extern u8 D_80080100[];
 extern s32 D_80081488[];
 extern s8 D_800DCF4D[];
@@ -82,7 +82,7 @@ void func_800A9C18(void *entity, void *position, void *sprite, s32 init_flags)
     *(s32 *)(entity_data + 0x1C) |= 0x40000000;
     func_800BC26C(entity, 0, (u8 *)sprite + 0x2C, entity_data + 0x2A);
 
-    if (D_8006CCF8[
+    if (dirSpriteFlag[
             ((gameWork.view.viewAngle + *(s16 *)(entity_data + 0x2A) + 0x100) >> 9) & 7] != 0) {
         *(u16 *)((u8 *)sprite + 0x14) |= 1;
         return;

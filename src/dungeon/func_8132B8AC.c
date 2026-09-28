@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 
@@ -24,7 +25,6 @@ M2C_UNK func_80172A14();      /* extern */
 M2C_UNK func_80172B00();      /* extern */
 M2C_UNK func_80172CC8(); /* extern */
 M2C_UNK func_80172F44(); /* extern */
-extern u8 D_8006CCF8[];
 extern InitBlock D_8016A894;
 extern u8 D_80174C64[];
 extern u8 D_80174C6C[];
@@ -600,7 +600,7 @@ block_98:
     func_80047738(sprite, sprite->unk_2C[sprite_direction], sprite->unk_04);
     actor->unk_94 = sprite_direction;
 block_101:
-    if (D_8006CCF8[sprite_direction] != 0) {
+    if (dirSpriteFlag[sprite_direction] != 0) {
         tail_test = sprite->unk_14 | 1;
     } else {
 block_104:

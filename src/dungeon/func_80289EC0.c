@@ -20,7 +20,7 @@ extern u8 D_800EA000[];
 /* Adjust tile heights and flags where both coordinates match a random parity. */
 void func_8001CEC0(Rect *rect, s32 rng_input_1, s32 rng_input_2, s32 rng_input_3)
 {
-    u8 *dungeon = ((u8 *)(&gameWork.unk_1DC));
+    MapGrid *dungeon = &gameWork.map;
     s32 parity;
     s32 x_end;
     s32 y_end;
@@ -53,7 +53,7 @@ void func_8001CEC0(Rect *rect, s32 rng_input_1, s32 rng_input_2, s32 rng_input_3
                 do {
                     if (((x & 1) == parity) && (y_parity == parity)) {
                         tile = (volatile Tile *) (D_800EA000 +
-                            (((y << *(s16 *)(dungeon + 0x14)) + x) * 6));
+                            (((y << dungeon->shiftX) + x) * 6));
                         flags = tile->flags;
                         saved_flags = tile->flags;
                         tile->height = (flags >> 1) + 0x63;

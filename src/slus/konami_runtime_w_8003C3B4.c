@@ -20,7 +20,7 @@ void func_8003C3B4(void *entry, void *output, void *context) {
     }
 
     func_8003C0C8(entry, context);
-    field_value = ((u32)runtime_state->unk_008) & 0x10;
+    field_value = ((u32)runtime_state->buttons) & 0x10;
     if (field_value != 0) {
         field_value = 5;
     } else {

@@ -5,10 +5,6 @@ typedef struct S_81814A80_0 {
     u16 unk_00;
 } S_81814A80_0;   /* state in func_81814A80; pointer addresses record offset 0x2 */
 
-typedef struct S_81814A80_1 {
-    s32 unk_00;
-} S_81814A80_1;   /* &D_800814A0 in func_81814A80 */
-
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
@@ -56,11 +52,11 @@ void func_81814A80(State *state, s32 *sum, Flags *flags) {
             if (state->unk18 != 0) {
                 if ((s16) state->unk02 <= 0) {
                     ((S_81814A80_0 *)((u8 *)state - 0x2))->unk_00 = ((S_81814A80_0 *)((u8 *)state - 0x2))->unk_00 | 0x8000;
-                    ((S_81814A80_1 *)(&objectFlagBlock.flags))->unk_00 = ((S_81814A80_1 *)(&objectFlagBlock.flags))->unk_00 | 0x8000;
+                    objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
                 }
                 if (flags->unk14 & 0x8000) {
                     ((S_81814A80_0 *)((u8 *)state - 0x2))->unk_00 = ((S_81814A80_0 *)((u8 *)state - 0x2))->unk_00 | 0x8000;
-                    ((S_81814A80_1 *)(&objectFlagBlock.flags))->unk_00 = ((S_81814A80_1 *)(&objectFlagBlock.flags))->unk_00 | 0x8000;
+                    objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
                 }
                 return;
             }
@@ -69,11 +65,11 @@ void func_81814A80(State *state, s32 *sum, Flags *flags) {
         if (state->unk18 != 2) {
             if ((s16) state->unk02 <= 0) {
                 ((S_81814A80_0 *)((u8 *)state - 0x2))->unk_00 = ((S_81814A80_0 *)((u8 *)state - 0x2))->unk_00 | 0x8000;
-                ((S_81814A80_1 *)(&objectFlagBlock.flags))->unk_00 = ((S_81814A80_1 *)(&objectFlagBlock.flags))->unk_00 | 0x8000;
+                objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
             }
             if (flags->unk14 & 0x8000) {
                 ((S_81814A80_0 *)((u8 *)state - 0x2))->unk_00 = ((S_81814A80_0 *)((u8 *)state - 0x2))->unk_00 | 0x8000;
-                ((S_81814A80_1 *)(&objectFlagBlock.flags))->unk_00 = ((S_81814A80_1 *)(&objectFlagBlock.flags))->unk_00 | 0x8000;
+                objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
             }
             return;
         }
@@ -86,11 +82,11 @@ mode0:
     func_800478B8(flags);
     if ((s16) state->unk02 <= 0) {
         ((S_81814A80_0 *)((u8 *)state - 0x2))->unk_00 = ((S_81814A80_0 *)((u8 *)state - 0x2))->unk_00 | 0x8000;
-        ((S_81814A80_1 *)(&objectFlagBlock.flags))->unk_00 = ((S_81814A80_1 *)(&objectFlagBlock.flags))->unk_00 | 0x8000;
+        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
     }
     if (flags->unk14 & 0x8000) {
         ((S_81814A80_0 *)((u8 *)state - 0x2))->unk_00 = ((S_81814A80_0 *)((u8 *)state - 0x2))->unk_00 | 0x8000;
-        ((S_81814A80_1 *)(&objectFlagBlock.flags))->unk_00 = ((S_81814A80_1 *)(&objectFlagBlock.flags))->unk_00 | 0x8000;
+        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
     }
     return;
 
@@ -119,10 +115,10 @@ done:
 
     if ((s16) state->unk02 <= 0) {
         ((S_81814A80_0 *)((u8 *)state - 0x2))->unk_00 = ((S_81814A80_0 *)((u8 *)state - 0x2))->unk_00 | 0x8000;
-        ((S_81814A80_1 *)(&objectFlagBlock.flags))->unk_00 = ((S_81814A80_1 *)(&objectFlagBlock.flags))->unk_00 | 0x8000;
+        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
     }
     if (flags->unk14 & 0x8000) {
         ((S_81814A80_0 *)((u8 *)state - 0x2))->unk_00 = ((S_81814A80_0 *)((u8 *)state - 0x2))->unk_00 | 0x8000;
-        ((S_81814A80_1 *)(&objectFlagBlock.flags))->unk_00 = ((S_81814A80_1 *)(&objectFlagBlock.flags))->unk_00 | 0x8000;
+        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
     }
 }

@@ -3,12 +3,6 @@
 #include "shared/game_work.h"
 
 typedef struct {
-    u8 *field0;
-    u8 pad04[0x10];
-    s16 field14;
-} DungeonState;
-
-typedef struct {
     s32 field0;
     u16 flags;
 } DungeonCell;
@@ -29,42 +23,42 @@ extern void func_80043B4C(void);
 /* Mark fixed dungeon cells and initialize global coordinates and flags. */
 void func_807AF2F4(void)
 {
-    DungeonState *dungeon;
+    MapGrid *dungeon;
     u8 *cells;
     GlobalState *global_state;
     s32 coord;
 
-    dungeon = ((DungeonState *)((u8 *)&gameWork + 476));
-    cells = dungeon->field0;
+    dungeon = &gameWork.map;
+    cells = ((u8 *)dungeon->cells);
 
     coord = 0x10;
     do {
-        ((DungeonCell *)(cells + (coord + (0x11 << dungeon->field14)) * 6))->flags |= 0x8000;
+        ((DungeonCell *)(cells + (coord + (0x11 << dungeon->shiftX)) * 6))->flags |= 0x8000;
         coord++;
     } while (coord < 0x1D);
 
     coord = 0x23;
     do {
-        ((DungeonCell *)(cells + (coord + (0x11 << dungeon->field14)) * 6))->flags |= 0x8000;
+        ((DungeonCell *)(cells + (coord + (0x11 << dungeon->shiftX)) * 6))->flags |= 0x8000;
         coord++;
     } while (coord < 0x30);
 
     coord = 0x12;
     do {
-        ((DungeonCell *)(cells + (coord << dungeon->field14) * 6 + 0x60))->flags |= 0x8000;
-        ((DungeonCell *)(cells + (coord << dungeon->field14) * 6 + 0x11A))->flags |= 0x8000;
+        ((DungeonCell *)(cells + (coord << dungeon->shiftX) * 6 + 0x60))->flags |= 0x8000;
+        ((DungeonCell *)(cells + (coord << dungeon->shiftX) * 6 + 0x11A))->flags |= 0x8000;
         coord++;
     } while (coord < 0x20);
 
     coord = 0x10;
     do {
-        ((DungeonCell *)(cells + (coord + (0x20 << dungeon->field14)) * 6))->flags |= 0x8000;
-        ((DungeonCell *)(cells + (coord + (0x21 << dungeon->field14)) * 6))->flags |= 0x8000;
+        ((DungeonCell *)(cells + (coord + (0x20 << dungeon->shiftX)) * 6))->flags |= 0x8000;
+        ((DungeonCell *)(cells + (coord + (0x21 << dungeon->shiftX)) * 6))->flags |= 0x8000;
         coord++;
     } while (coord < 0x30);
 
-    ((DungeonCell *)(cells + (0x23 << dungeon->field14) * 6 + 0xBA))->flags |= 0x8000;
-    ((DungeonCell *)(cells + (0x23 << dungeon->field14) * 6 + 0xC0))->flags |= 0x8000;
+    ((DungeonCell *)(cells + (0x23 << dungeon->shiftX) * 6 + 0xBA))->flags |= 0x8000;
+    ((DungeonCell *)(cells + (0x23 << dungeon->shiftX) * 6 + 0xC0))->flags |= 0x8000;
 
     func_80043B4C();
 

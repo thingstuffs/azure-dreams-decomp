@@ -21,7 +21,7 @@ void func_80038128(Func80038128State *state) {
     GameWork *global = &gameWork;
 
     if (state->field87 == 0) {
-        if ((((u32)global->unk_008) & 0x20) != 0) {
+        if ((((u32)global->buttons) & 0x20) != 0) {
             if (state->field2E == 0) {
                 state->field2E = 1;
             }

@@ -11,17 +11,6 @@ typedef struct {
     u16 flags;
 } Entry;
 
-typedef struct {
-    Entry *entries;
-    u8 pad4[0x10];
-    s16 shift;
-} DungeonGrid;
-
-typedef struct {
-    u8 pad0[0x1DC];
-    DungeonGrid grid;
-} SharedState;
-
 
 /* Returns the grid entry value at the selected offset and writes its flags. */
 s16 func_8009A350(s16 x, s16 y, s16 offset_index, u16 *flags)
@@ -29,15 +18,15 @@ s16 func_8009A350(s16 x, s16 y, s16 offset_index, u16 *flags)
     s32 grid_x;
     s32 grid_y;
     s32 entry_index;
-    SharedState *state;
+    GameWork *state;
     Entry *entry;
 
     grid_x = x + dirStepX[offset_index];
-    state = ((SharedState *)&gameWork);
+    state = &gameWork;
     grid_y = y + dirStepY[offset_index];
-    entry_index = grid_x + (grid_y << state->grid.shift);
+    entry_index = grid_x + (grid_y << state->map.shiftX);
     entry = (Entry *)((entry_index * sizeof(Entry)) +
-                      (unsigned long)state->grid.entries);
+                      (unsigned long)((Entry *)state->map.cells));
     *flags = entry->flags;
     return entry->value;
 }

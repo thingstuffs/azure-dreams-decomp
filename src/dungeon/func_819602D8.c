@@ -20,7 +20,7 @@ typedef struct S_819602D8_0 {
 
 /* Sample a 7 by 7 area around the given tile and flag the tiles found there. */
 void func_819602D8(u16 center_x, s32 center_y) {
-    s16 *width_ref = (s16 *)&gameWork.unk_1DC;
+    MapGrid *width_ref = &gameWork.map;
     s16 *height_ref = D_8008333C_second;
     s32 one = 1;
     s16 tile_x;
@@ -67,7 +67,7 @@ void func_819602D8(u16 center_x, s32 center_y) {
             }
             {
                 s32 width_check;
-                width_check = width_ref[10];
+                width_check = width_ref->shiftX;
                 width_check = one << width_check;
                 width_check = sample_x < width_check;
                 if (!width_check) {

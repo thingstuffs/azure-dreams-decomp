@@ -106,16 +106,6 @@ typedef struct S_func_800B1364_7 {
     s32 unk_10;
 } S_func_800B1364_7;
 
-typedef struct S_func_800B1364_8 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x6];
-    union {
-        u16 u16;
-        s16 s16;
-    } unk_0A;
-} S_func_800B1364_8;
-
 typedef struct S_func_800B1364_9 {
     u8 unk_00;
     s8 unk_01;
@@ -261,7 +251,7 @@ void func_800B6AC4(S_func_800B1364_1 *action, S_func_800B1364_2 *position, S_fun
     u8 species;
     u8 next_state;
     S_func_800B1364_2 *creature_pos;
-    S_func_800B1364_8 *summon_state;
+    DungeonGlobalStatus *summon_state;
     S_func_800B1364_9 *item_entry;
     S_func_800B1364_5 *stored_creature;
     S_func_800B1364_5 *finished_creature;
@@ -343,8 +333,8 @@ handle_item_input:
         goto set_input_anim_flags;
     }
     {
-        S_func_800B1364_8 *control_state = (S_func_800B1364_8 *)&dungeonStatus.unk_00;
-        control_state->unk_02 = (u16) (control_state->unk_02 | 4);
+        DungeonGlobalStatus *control_state = &dungeonStatus;
+        control_state->flags = (u16) (control_state->flags | 4);
     }
     goto check_input_ready;
 set_input_anim_flags:
@@ -534,11 +524,11 @@ init_creature_stats:
     }
     {
         u16 summon_count;
-        S_func_800B1364_8 *summon_control;
+        DungeonGlobalStatus *summon_control;
         D_800DCF4F = 1;
-        summon_control = (S_func_800B1364_8 *)&dungeonStatus.unk_00;
-        summon_count = summon_control->unk_0A.u16;
-        summon_control->unk_0A.u16 = (u16) (summon_count + 1);
+        summon_control = &dungeonStatus;
+        summon_count = ((u16)summon_control->unk_0A);
+        summon_control->unk_0A = (u16) (summon_count + 1);
     }
 build_spawn_message:
     message_start = func_800990FC();
@@ -555,18 +545,18 @@ show_spawn_message:
     if ((*(u16 *)(&D_80013714)) & 1) {
         goto decrement_summon_count;
     }
-    summon_state = (S_func_800B1364_8 *)&dungeonStatus.unk_00;
-    if ((s16) summon_state->unk_0A.u16 < 2) {
+    summon_state = &dungeonStatus;
+    if ((s16) ((u16)summon_state->unk_0A) < 2) {
         goto done;
     }
-    summon_state->unk_0A.u16 = (u16) (summon_state->unk_0A.u16 - 1);
+    summon_state->unk_0A = (u16) (((u16)summon_state->unk_0A) - 1);
     return;
 decrement_summon_count:
-    summon_state = (S_func_800B1364_8 *)&dungeonStatus.unk_00;
-    if (summon_state->unk_0A.s16 <= 0) {
+    summon_state = &dungeonStatus;
+    if (summon_state->unk_0A <= 0) {
         goto done;
     }
-    summon_state->unk_0A.s16 = (s16) ((u16) summon_state->unk_0A.s16 - 1);
+    summon_state->unk_0A = (s16) ((u16) summon_state->unk_0A - 1);
     return;
 wait_spawn:
     if (dungeonStatus.unk_0A != 0) {

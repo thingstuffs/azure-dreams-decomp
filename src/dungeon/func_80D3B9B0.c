@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
 
 typedef void (*Callback)(void *, void *, void *, void *);
 
-extern u8 D_8006CCF8[];
 extern u8 D_800E23E0[];
 extern u8 D_80171A80[];
 extern Callback D_80176374[];
@@ -133,7 +133,7 @@ void func_801711B0(void *object_arg, void *motion_arg, void *part_arg)
             (*(s16 *)((u8 *)object_arg + (0x94))) = direction;
         }
 
-        if (D_8006CCF8[state_or_dir] != 0) {
+        if (dirSpriteFlag[state_or_dir] != 0) {
             update_value = ((S_801711B0_1 *)part_arg)->unk_14;
             update_value |= 1;
         } else {

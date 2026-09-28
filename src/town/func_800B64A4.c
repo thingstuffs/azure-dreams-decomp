@@ -17,7 +17,7 @@ s32 func_800B3C04(s32 *choice_values)
     s32 selected_value;
 
     choice = -1;
-    if (((s32)gameWork.unk_008) != 0) {
+    if (gameWork.buttons != 0) {
         town_flags = ((s32)gameWork.unk_010);
         if (town_flags & 0x40) {
             choice = 2;

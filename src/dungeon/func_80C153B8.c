@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
@@ -6,7 +7,6 @@
 
 typedef void (*EntityCallback)(void *, void *, void *, void *);
 
-extern u8 D_8006CCF8[];
 extern u8 D_801713A8[];
 extern u8 D_80174494[];
 extern u8 D_8017449C[];
@@ -132,7 +132,7 @@ void func_80170BB8(void *actor_arg, void *motion_arg, void *object_arg)
         }
         {
             u32 flip_flags;
-            if (D_8006CCF8[direction] != 0) {
+            if (dirSpriteFlag[direction] != 0) {
                 flip_flags = ((S_80170BB8_1 *)object)->unk_14 | 1;
             } else {
                 flip_flags = ((S_80170BB8_1 *)object)->unk_14 & 0xFFFE;

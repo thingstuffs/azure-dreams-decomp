@@ -3,6 +3,7 @@
 #include "shared/entity_objects.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
+#include "shared/entity.h"
 #include "m2c_compat.h"
 
 typedef struct { s32 a, b; } __attribute__((packed)) M2C_PACKED_PAIR;
@@ -306,7 +307,7 @@ void func_80024DAC(S_819835AC_1 *effect, S_819835AC_2 *motion, S_819835AC_3 *vis
     S_819835AC_6 *target;
     S_819835AC_4 *history;
     S_819835AC_6 *hit_actor;
-    S_819835AC_2 *state0_move;
+    EntityRec *state0_move;
     S_819835AC_5 *state0_actor;
     S_819835AC_5 *state0_height_actor;
     s32 state0_delta_x;
@@ -316,7 +317,7 @@ void func_80024DAC(S_819835AC_1 *effect, S_819835AC_2 *motion, S_819835AC_3 *vis
     s32 step_z;
     S_819835AC_6 *state1_global;
     s32 target_coord;
-    S_819835AC_2 *state1_move;
+    EntityRec *state1_move;
     S_819835AC_6 *state1_actor;
     S_819835AC_6 *state2_stage;
     u8 tile_x;
@@ -324,8 +325,8 @@ void func_80024DAC(S_819835AC_1 *effect, S_819835AC_2 *motion, S_819835AC_3 *vis
     u8 tile_y;
     s32 tile_div;
     TileObject *state34_base;
-    S_819835AC_2 *state34_move;
-    S_819835AC_2 *state34_emit;
+    EntityRec *state34_move;
+    EntityRec *state34_emit;
     S_819835AC_5 *state2_actor;
     u32 state2_angle;
     TileObject *tile_base;
@@ -363,10 +364,10 @@ jt_c0:
     func_8003DE58(*(M2C_UNK *)((((s32) (gameWork.view.viewAngle + ((S_819835AC_5 *) ((S_819835AC_11 *) &D_800E3D7C)->unk_00)->unk_2A.s16 + 0x100) >> 7) & 0x1C) + D_800E3D18), &D_80082E80.unk_000, (u8 *) effect + 0x28, 0);
     heading_or_owner = func_80064584(((S_819835AC_5 *) (*(void **)&D_800E3D7C))->unk_2A.s16);
     boost_speed_x = func_80064584(((S_819835AC_5 *) (*(void **)&D_800E3D7C))->unk_2A.s16 - 0x400);
-    state0_move = (S_819835AC_2 *) &D_80083780.x.v;
+    state0_move = &D_80083780;
     ASM_KEEP(state0_move);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     heading_or_owner >>= 4;
-    state0_delta_x = state0_move->unk_00.half.unk_02.u16;
+    state0_delta_x = ((u16)state0_move->x.w.i);
     boost_speed_x >>= 4;
     state0_delta_x -= heading_or_owner;
     state0_delta_x += boost_speed_x;
@@ -378,7 +379,7 @@ jt_c0:
     boost_speed_x = func_800644B8(((S_819835AC_5 *) (*(void **)&D_800E3D7C))->unk_2A.s16 - 0x400);
     heading_or_owner >>= 4;
     boost_speed_x >>= 4;
-    state0_delta_y = state0_move->unk_04.half.unk_06.u16;
+    state0_delta_y = ((u16)state0_move->y.w.i);
     coord_delta = effect->unk_2A.u16;
     state0_delta_y -= heading_or_owner;
     state0_delta_y += boost_speed_x;
@@ -490,13 +491,13 @@ block_24:
         goto block_129;
     }
     func_8003DE58(*(M2C_UNK *)((((s32) (gameWork.view.viewAngle + ((S_819835AC_5 *) ((S_819835AC_11 *) &D_800E3D7C)->unk_00)->unk_2A.s16 + 0x100) >> 7) & 0x1C) + D_800E3D18), &D_80082E80.unk_000, (u8 *) effect + 0x28, 0);
-    state1_move = (S_819835AC_2 *) &D_80083780.x.v;
+    state1_move = &D_80083780;
     boost_speed_x = effect->unk_28.u16;
-    coord_delta = state1_move->unk_00.half.unk_02.u16;
+    coord_delta = ((u16)state1_move->x.w.i);
     boost_speed_x += coord_delta;
     effect->unk_28.u16 = boost_speed_x;
     boost_speed_x = effect->unk_2A.u16;
-    coord_delta = state1_move->unk_04.half.unk_06.u16;
+    coord_delta = ((u16)state1_move->y.w.i);
     state1_actor = ((S_819835AC_11 *) &D_800814A8)->unk_00;
     boost_speed_x += coord_delta;
     effect->unk_2A.u16 = boost_speed_x;
@@ -624,12 +625,12 @@ jt_c4:
     if (effect->unk_30 != 3) {
         goto block_62;
     }
-    state34_move = (S_819835AC_2 *) &D_80083780.x.v;
-    func_800B8D64(state34_move->unk_00.half.unk_02.s16 + emit_offset.x, state34_move->unk_04.half.unk_06.s16 + emit_offset.y, state34_move->unk_08.half.unk_0A.s16 + emit_offset.z);
+    state34_move = &D_80083780;
+    func_800B8D64(state34_move->x.w.i + emit_offset.x, state34_move->y.w.i + emit_offset.y, state34_move->z.w.i + emit_offset.z);
     effect->unk_30 = (s16) ((u16) effect->unk_30 + 1);
 block_62:
-    state34_emit = (S_819835AC_2 *) &D_80083780.x.v;
-    func_80024B2C((s16) (state34_emit->unk_00.half.unk_02.u16 + (u16) emit_offset.x), (s16) (state34_emit->unk_04.half.unk_06.u16 + (u16) emit_offset.y), (s16) (state34_emit->unk_08.half.unk_0A.u16 + (u16) emit_offset.z), ((S_819835AC_5 *) ((S_819835AC_11 *) &D_800E3D7C)->unk_00)->unk_2A.s16, 0);
+    state34_emit = &D_80083780;
+    func_80024B2C((s16) (((u16)state34_emit->x.w.i) + (u16) emit_offset.x), (s16) (((u16)state34_emit->y.w.i) + (u16) emit_offset.y), (s16) (((u16)state34_emit->z.w.i) + (u16) emit_offset.z), ((S_819835AC_5 *) ((S_819835AC_11 *) &D_800E3D7C)->unk_00)->unk_2A.s16, 0);
 block_63:
     motion->unk_0C.word = (s32) (func_80064584((s16) effect->unk_38) << 8);
     motion->unk_10.word = (s32) (func_800644B8((s16) effect->unk_38) << 8);

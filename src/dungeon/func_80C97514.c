@@ -45,13 +45,6 @@ typedef struct S_80C97514_2 {
     u8 unk_00;
 } S_80C97514_2;   /* &D_801753A9 in func_80C97514 */
 
-typedef struct S_80C97514_3 {
-    u8 pad_00[0xA8];
-    u8 unk_A8;
-    u8 unk_A9;
-    u8 unk_AA;
-} S_80C97514_3;   /* temp_base in func_80C97514 */
-
 typedef struct S_80C97514_4 {
     u8 unk_00;
     u8 unk_01;
@@ -89,15 +82,6 @@ typedef struct S_80C97514_9 {
     u8 pad_00[0x2A];
     u16 unk_2A;
 } S_80C97514_9;   /* temp_v1_3 in func_80C97514 */
-
-typedef struct S_80C97514_10 {
-    s32 unk_00;
-} S_80C97514_10;   /* &D_800814A0 in func_80C97514 */
-
-typedef struct S_80C97514_11 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_80C97514_11;   /* temp_base2 in func_80C97514 */
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
@@ -286,7 +270,7 @@ jt_c8:
     }
     ((S_80C97514_15 *)(((Rec_D_80082E80 *)actor)->unk_60.as_pv))->unk_2A = (u16) ((Rec_D_80082E80 *)actor)->unk_8A;
     ((S_80C97514_0_pre *)state)[-1].unk_00 = (u16) (((S_80C97514_0_pre *)state)[-1].unk_00 | 0x8000);
-    (*(s32 *)&objectFlagBlock.flags) = (s32) (((S_80C97514_10 *)(&objectFlagBlock.flags))->unk_00 | 0x8000);
+    (*(s32 *)&objectFlagBlock.flags) = (s32) (objectFlagBlock.flags | 0x8000);
     dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
     ((Rec_D_80082E80 *)actor)->unk_6D = 0;
 done:

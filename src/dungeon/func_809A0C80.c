@@ -98,7 +98,7 @@ jt_c2:
         goto done;
 jt_c3:
         {
-            u16 scene_status = ((u16)scene_state->unk_008);
+            u16 scene_status = ((u16)scene_state->buttons);
             if (scene_status != 0) {
                 table_page = DGN_TABLE_PAGE(D_80175EC8, 0x5EC8);
                 goto resolve_table;

@@ -5,15 +5,6 @@
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 
-typedef struct S_80024078_0 {
-    u8 pad_00[0x96];
-    s16 unk_96;
-    u8 pad_98[0x10];
-    u8 unk_A8;
-    u8 pad_A9[0x4B];
-    void * unk_F4;
-} S_80024078_0;   /* object in func_80024078 */
-
 
 typedef struct S_80024078_2_pre {
     void * unk_00;
@@ -78,7 +69,7 @@ void func_80024078(State *ctx)
         s32 phase;
         s32 fade_duration;
         void *parent;
-        void *object;
+        EntityRec *object;
         void *child;
         s16 previous_state;
 
@@ -91,9 +82,9 @@ void func_80024078(State *ctx)
         D_80029670[0] = (s32)ctx->field_0;
 
         object = D_800814A8;
-        ((S_80024078_0 *)object)->unk_F4 = D_800281FC;
-        ((S_80024078_0 *)object)->unk_96 = 0x14;
-        ((S_80024078_0 *)object)->unk_A8 = ctx->field_8;
+        object->unk_F4 = D_800281FC;
+        object->unk_96 = 0x14;
+        object->unk_A8 = ctx->field_8;
         D_800814A8->unk_102 = 1;
 
         ctx->state++;

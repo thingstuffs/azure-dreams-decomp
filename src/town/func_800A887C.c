@@ -9,24 +9,6 @@ typedef struct S_800A5FDC_0 {
     union { u16 s; s16 u; } unk_0A;   /* accessed as both */
 } S_800A5FDC_0;   /* state in func_800A5FDC */
 
-typedef struct S_800A5FDC_1 {
-    u8 pad_00[0x4];
-    u16 unk_04;
-    u8 pad_06[0x2];
-    s32 unk_08;
-    u8 pad_0C[0x4];
-    s32 unk_10;
-    u8 pad_14[0xB4];
-    union { s16 s; u16 u; } unk_C8;   /* accessed as both */
-} S_800A5FDC_1;   /* globals in func_800A5FDC */
-
-
-typedef struct S_800A5FDC_3 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-} S_800A5FDC_3;   /* coordinates in func_800A5FDC */
 
 
 extern s32 func_800374F4();
@@ -58,7 +40,7 @@ extern s32 D_80100E20[];
 void func_800A5FDC(u8 *state, u8 *table, void *action_context)
 {
     u8 *context;
-    u8 *globals;
+    GameWork *globals;
     s32 random_choice;
     s32 tile_id;
     s32 speed;
@@ -70,7 +52,7 @@ void func_800A5FDC(u8 *state, u8 *table, void *action_context)
     s16 ground_height;
 
     context = action_context;
-    globals = ((u8 *)(&gameWork));
+    globals = &gameWork;
     func_80095C80(table);
 
     ((S_800A5FDC_0 *)state)->unk_0A.s--;
@@ -80,11 +62,11 @@ void func_800A5FDC(u8 *state, u8 *table, void *action_context)
         func_80097844(table, (u16)random_choice + 2);
     }
 
-    input_flags = ((S_800A5FDC_1 *)globals)->unk_08;
+    input_flags = globals->buttons;
     if (input_flags & 0xF000) {
         func_80094C1C(state);
-        direction = func_80094BC8(((S_800A5FDC_1 *)globals)->unk_08,
-                               ((S_800A5FDC_1 *)globals)->unk_C8.s);
+        direction = func_80094BC8(globals->buttons,
+                               globals->view.viewAngle);
         if (direction != -1) {
             func_80094F58(direction, D_80100E20[0], table);
         }
@@ -124,33 +106,33 @@ coordinates_ready:
     if (D_80100E20[0] != 0) {
         speed_delta = abs(D_80100E20[0] - speed);
         sound_interval = (s32)((u32)speed_delta * 7U) / D_80100E20[0];
-        if ((((S_800A5FDC_1 *)globals)->unk_04 % (sound_interval + 2)) == 0) {
+        if ((globals->unk_004 % (sound_interval + 2)) == 0) {
             SD_Call(0x60A);
         }
     }
 
     if (speed == 0) {
-        ((S_800A5FDC_1 *)globals)->unk_C8.u =
-            (((S_800A5FDC_1 *)globals)->unk_C8.u + 8) & 0xFFF0;
+        globals->view.viewAngle =
+            (((u16)globals->view.viewAngle) + 8) & 0xFFF0;
     }
 
     speed /= 0x10000;
-    if (((S_800A5FDC_1 *)globals)->unk_08 & 4) {
-        turn_angle = ((S_800A5FDC_1 *)globals)->unk_C8.u + 0x10;
-        ((S_800A5FDC_1 *)globals)->unk_C8.u = turn_angle + speed;
+    if (globals->buttons & 4) {
+        turn_angle = ((u16)globals->view.viewAngle) + 0x10;
+        globals->view.viewAngle = turn_angle + speed;
     }
-    if (((S_800A5FDC_1 *)globals)->unk_08 & 8) {
-        turn_angle = ((S_800A5FDC_1 *)globals)->unk_C8.u - 0x10;
-        ((S_800A5FDC_1 *)globals)->unk_C8.u = turn_angle - speed;
+    if (globals->buttons & 8) {
+        turn_angle = ((u16)globals->view.viewAngle) - 0x10;
+        globals->view.viewAngle = turn_angle - speed;
     }
 
-    if ((((S_800A5FDC_1 *)globals)->unk_10 & 0x10) &&
+    if ((((s32)globals->unk_010) & 0x10) &&
         (D_800CFCEE[0] == 0)) {
         func_800A55CC(state, table, context);
         goto done;
     }
 
-    if (((S_800A5FDC_1 *)globals)->unk_10 & 0x100) {
+    if (((s32)globals->unk_010) & 0x100) {
         ((S_800A5FDC_0 *)state)->unk_00 = (s32)&D_800A58CC;
         ((S_800A5FDC_0 *)state)->unk_0A.u = 8;
     }

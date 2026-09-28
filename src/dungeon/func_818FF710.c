@@ -299,10 +299,6 @@ typedef struct S_818FF710_28 {
     s32 unk_14;
 } S_818FF710_28;   /* temp_a0_3 in func_80024F10 */
 
-typedef struct S_818FF710_29 {
-    s32 unk_00;
-} S_818FF710_29;   /* &D_800814A0 in func_80024F10 */
-
 typedef struct S_818FF710_30 {
     u8 pad_00[0x14];
     u16 unk_14;
@@ -871,7 +867,7 @@ jt_c8:
     }
     dungeonStatus.unk_0C = 0;
     (*(u16 *)((u8 *)effect + -2)) = (u16) ((*(u16 *)((u8 *)effect + -2)) | 0x8000);
-    (*(s32 *)&objectFlagBlock.flags) = (s32) (((S_818FF710_29 *)(&objectFlagBlock.flags))->unk_00 | 0x8000);
+    (*(s32 *)&objectFlagBlock.flags) = (s32) (objectFlagBlock.flags | 0x8000);
     goto done;
 clear_active:
     (*(s16 *)&D_80025E80) = 0;

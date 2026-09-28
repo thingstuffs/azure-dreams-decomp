@@ -3,6 +3,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "shared/entity.h"
 
 typedef struct S_801734B0_0 {
     u8 pad_00[0x8C];
@@ -33,16 +34,6 @@ typedef struct S_801734B0_2 {
     s8 unk_6D;
 } S_801734B0_2;   /* arg3 in func_801734B0 */
 
-typedef struct S_801734B0_3 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_801734B0_3;   /* counter_base in func_801734B0 */
-
-typedef struct S_801734B0_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-} S_801734B0_4;   /* global_base in func_801734B0 */
-
 typedef struct S_801734B0_5 {
     u8 pad_00[0x92];
     u16 unk_92;
@@ -50,16 +41,6 @@ typedef struct S_801734B0_5 {
     u16 unk_B6;
     u16 unk_B8;
 } S_801734B0_5;   /* copy_arg0 in func_801734B0 */
-
-typedef struct S_801734B0_6 {
-    u8 pad_00[0x58];
-    void * unk_58;
-} S_801734B0_6;   /* owner in func_801734B0 */
-
-typedef struct S_801734B0_7 {
-    u8 pad_00[0x26];
-    s8 unk_26;
-} S_801734B0_7;   /* origin in func_801734B0 */
 
 
 
@@ -188,10 +169,10 @@ state_one_active:
             goto done;
         }
         if ((func_800A2C34(in_entity) << 16) != 0) {
-            void *owner = D_800814A8;
+            EntityRec *owner = D_800814A8;
 
             if ((func_8009A180(in_entity,
-                    (u8 *)((S_801734B0_6 *)owner)->unk_58 + 0x20) << 16) != 0) {
+                    (u8 *)owner->unk_58 + 0x20) << 16) != 0) {
                 goto done;
             }
         }

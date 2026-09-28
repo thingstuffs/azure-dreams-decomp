@@ -113,12 +113,34 @@ typedef struct GameView {
     /* 0x0B4 */ ViewSlot slot[4];
 } GameView;
 
+/* MapGrid: gameWork+0x1DC..0x1FB (0x20 bytes; r78 phase 10), the current map's cell grid.  A real sub-object like
+ * `view`: retail forms its address (0x8008333C) as a base register in dungeon, town and SLUS code (func_800A0548,
+ * func_80017EBC, ...), and several TUs declared it on their own (`extern ... D_8008333C;`).  The map loader
+ * func_80018464 sets shiftX / shiftY from the map data, maskX = (1 << shiftX) - 1, spanX = 64 << shiftX (the same
+ * for y); cells are 6 bytes and cell (x, y) is cells + (x + (y << shiftX)) * 6 (func_80017EBC counts free cells,
+ * the cell's flags word is at +4); func_800A0548 bounds-checks x < 1 << shiftX and y < 1 << shiftY.  World
+ * coordinates are 64 units per cell (EntityRec: tile * 64 + 32), so span is the map size in world units. */
+typedef struct MapGrid {
+    /* 0x00 */ void * cells;         /* the cell array (6-byte cells, row length 1 << shiftX); lw 48 */
+    /* 0x04 */ void * unk_04;        /* read as a primitive-pointer table by func_800BCB04; lw 13 */
+    /* 0x08 */ void * unk_08;        /* read as a vertex array by func_800BCB04; lw 13 */
+    /* 0x0C */ void * unk_0C;        /* read as a second vertex array (normals) by func_800BCB04; lw 12 */
+    /* 0x10 */ int unk_10;           /* lw 1, sw 1 */
+    /* 0x14 */ short shiftX;         /* log2 of the map width in cells (row stride); lh 175 */
+    /* 0x16 */ short shiftY;         /* log2 of the map height in cells */
+    /* 0x18 */ short maskX;          /* (1 << shiftX) - 1 */
+    /* 0x1A */ short maskY;          /* (1 << shiftY) - 1 */
+    /* 0x1C */ short spanX;          /* 64 << shiftX: the map width in world units */
+    /* 0x1E */ short spanY;          /* 64 << shiftY: the map height in world units */
+} MapGrid;
+
 /* gameWork: the global work block at 0x80083160 (SLUS .bss), used by every binary (1,095 rows reference an address
  * in 0x80083160..0x8008335F).  ONE object: rows reach offsets 0x000..0x1FC from one lui/addiu base of 0x80083160
  * (census/g83160w.jsonl, r78 phase 3).  Field widths/signs are the retail access widths (lh => signed; an lhu-only
  * slot is unsigned; store-only slots default to signed).  Fields stay unk_ until their meaning is proven.
  *   0x000/0x008/0x010: pointers (lw; 0x000 is the "current state" pointer slus/w_80045340 follows to +0x8D0).
  *   0x018..0x1DB: `view` (GameView above; game.h's old struct S_80083178 described the same bytes).
+ *   0x1DC..0x1FB: `map` (MapGrid above); 0x1FC: randSeed.
  *   Union sites (a wider or narrower access than the field; reached through a view at the use): 0x004 (2 lbu),
  *   0x008 (1 lhu), view.0x090 (lw/sw over the three bytes), view.0x094/0x098/0x0AC/0x0B0 (a word copy).
  * Size: at least 0x200 (last access 0x1FC); never small data at any -G. */
@@ -126,23 +148,19 @@ typedef struct GameWork {
     /* 0x000 */ void * unk_000;          /* lw 523, sw 7 (171 rows) */
     /* 0x004 */ unsigned short unk_004;  /* lbu 2, lhu 15 (14 rows) */
     /* 0x006 */ unsigned char pad_006[0x2];
-    /* 0x008 */ void * unk_008;          /* lhu 1, lw 118, sw 2 (77 rows) */
+    /* 0x008 */ int buttons;             /* the controller button bits, PS1 pad layout (r78 phase 10): rows test 0x1000 / 0x2000 /
+                                          * 0x4000 / 0x8000 (d-pad up / right / down / left; 0xF000 any direction), 0x10 / 0x20 /
+                                          * 0x40 / 0x80 (triangle / circle / cross / square), 0x100 select, 0x800 start, 1 / 2 / 4 / 8
+                                          * (shoulder buttons); held vs newly pressed not established.  103 reads cast it to s32
+                                          * (it was declared void *); lw 118, lhu 1 (a view), sw 2 (77 rows) */
     /* 0x00C */ int unk_00C;             /* lw 1, sw 1 (1 rows) */
     /* 0x010 */ void * unk_010;          /* lw 102, sw 1 (66 rows) */
     /* 0x014 */ unsigned char pad_014[0x4];
     /* 0x018 */ GameView view;
-    /* 0x1DC */ int unk_1DC;             /* lw 48, sw 3 (49 rows) */
-    /* 0x1E0 */ int unk_1E0;             /* lw 13, sw 1 (14 rows) */
-    /* 0x1E4 */ int unk_1E4;             /* lw 13, sw 1 (14 rows) */
-    /* 0x1E8 */ int unk_1E8;             /* lw 12, sw 1 (13 rows) */
-    /* 0x1EC */ int unk_1EC;             /* lw 1, sw 1 (2 rows) */
-    /* 0x1F0 */ short unk_1F0;           /* lh 175, lhu 2, sh 5 (78 rows) */
-    /* 0x1F2 */ short unk_1F2;           /* lh 29, sh 5 (24 rows) */
-    /* 0x1F4 */ short unk_1F4;           /* lh 2, lhu 10, sh 5 (17 rows) */
-    /* 0x1F6 */ short unk_1F6;           /* lh 4, lhu 8, sh 5 (17 rows) */
-    /* 0x1F8 */ short unk_1F8;           /* lh 1, lhu 1, sh 5 (6 rows) */
-    /* 0x1FA */ short unk_1FA;           /* lh 1, lhu 1, sh 5 (6 rows) */
-    /* 0x1FC */ int unk_1FC;             /* lw 2, sw 1 (2 rows) */
+    /* 0x1DC */ MapGrid map;
+    /* 0x1FC */ int randSeed;            /* lw 2, sw 1: the dungeon overlay's rand() state (func_800A6D30 steps it as
+                                          * seed * 0x41C64E6D + 0x3039 and returns (seed >> 16) & 0x7FFF; func_800A6D60
+                                          * saves / restores it through D_800DD87C) - r78 phase 10 */
     /* 0x200 */ unsigned char pad_200[0x0];
 } GameWork;
 

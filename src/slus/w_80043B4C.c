@@ -10,24 +10,18 @@ typedef struct S_80043B4C_entry {
     /* 0x04 */ u16 flags;
 } S_80043B4C_entry;
 
-typedef struct S_8008333C {
-    /* 0x00 */ u8 *field0;
-    /* 0x04 */ u8 unk04[0x10];
-    /* 0x14 */ s16 field14;
-} S_8008333C;
-
 
 /* Sets flag 0x8000 in four sub-tables at scaled indices 10 and 11. */
 void func_80043B4C(void)
 {
-    S_8008333C *table = ((S_8008333C *)((u8 *)&gameWork + 476));
-    u8 *entries = table->field0;
+    MapGrid *table = &gameWork.map;
+    u8 *entries = ((u8 *)table->cells);
     s32 slot;
 
     for (slot = 10; slot < 12; slot++) {
-        ((S_80043B4C_entry *)(entries + (slot << table->field14) * 6 + 0x78))->flags |= 0x8000;
-        ((S_80043B4C_entry *)(entries + (slot << table->field14) * 6 + 0x7E))->flags |= 0x8000;
-        ((S_80043B4C_entry *)(entries + (slot << table->field14) * 6 + 0xFC))->flags |= 0x8000;
-        ((S_80043B4C_entry *)(entries + (slot << table->field14) * 6 + 0x102))->flags |= 0x8000;
+        ((S_80043B4C_entry *)(entries + (slot << table->shiftX) * 6 + 0x78))->flags |= 0x8000;
+        ((S_80043B4C_entry *)(entries + (slot << table->shiftX) * 6 + 0x7E))->flags |= 0x8000;
+        ((S_80043B4C_entry *)(entries + (slot << table->shiftX) * 6 + 0xFC))->flags |= 0x8000;
+        ((S_80043B4C_entry *)(entries + (slot << table->shiftX) * 6 + 0x102))->flags |= 0x8000;
     }
 }

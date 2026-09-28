@@ -1,0 +1,187 @@
+#!/bin/bash
+# r78 type consolidation PHASE 10 (lane work/native_lane/r78_types_p10, DESIGN.md / REPORT.md there):
+#   A. UPD  include/shared/dir_step.h + config/names.tsv data alias dirSpriteFlag -> D_8006CCF8 (payload10/names_add10.tsv):
+#           the per-direction sprite flag table after dirStepY (51 rows declared it locally; now `extern unsigned char
+#           dirSpriteFlag[];` - unsized: a -G8 row needs > 8 bytes).  Full mode only.
+#      UPD  include/shared/game_work.h (payload10/, UPDATES.tsv): GameWork 0x1DC..0x1FB becomes `MapGrid map` (the map cell
+#           grid: cells, shiftX/Y, maskX/Y, spanX/Y), 0x1FC `randSeed` (rand() state), 0x008 `int buttons` (was `void *unk_008`:
+#           the controller button bits).  Offsets and sizes unchanged (gameWork stays 0x200 bytes).  Full mode only, with its
+#           `hdr` rows (every row that spells the new members; the old flat names no longer exist).
+#   B. Rows (cand10/MANIFEST.tsv): `opt` rows compile against either header (local m2c views folded onto EntityRec /
+#      DungeonGlobalStatus / GameWork / GameView / TileObject / ObjectFlagBlock fields, fold10.py); `hdr` rows need A
+#      (respell10: gameWork.unk_1DC.. -> gameWork.map.*, unk_1FC -> randSeed, ((s32)gameWork.unk_008) -> gameWork.buttons;
+#      pre8333C: a TU's own `extern V D_8008333C;` -> gameWork.map; views onto the map grid -> MapGrid fields).
+#      `post` rows need A but their old src still compiles after it (dirSpriteFlag, map-grid folds): full run, skipped when
+#      busy / stale.  dungeon/func_8195A480 also drops one ASM_MEM_BARRIER (freed by the typed objectFlagBlock access; pins2).
+#   C. Verify: tools/verify.py on EVERY row in full mode (game_work.h / dir_step.h reach every binary), on the landed rows in --no-hdr
+#      mode.  gate_all (isolated build_ovl_gate) + SLUS SHA-1 MATCH on the unchanged pinned recipe.  ANY failure restores
+#      everything (REVERTED).  One names.tsv row (full mode), no recipe change, no rebaseline row.
+#   bash work/native_lane/r78_types_p10/apply10.sh [--dry-run] [--rows FILE] [--no-hdr]
+#   --no-hdr: SAMPLE mode - `opt` rows only (--rows filters them); game_work.h untouched.
+#   Recommended: `--no-hdr --rows work/native_lane/r78_types_p10/sample10_rows.txt`, then the full run (VERIFY_WORKERS=16).
+#   Busy = BUSY_ROWS10.txt + any row with a work/native_lane/r78_*/out/<row>.c.base_sha newer than 60 minutes: skipped
+#   (opt) / refused (hdr).  Stale (src changed since the lane verified it): skipped (opt) / refused (hdr).  The full run
+#   also refuses while any src row outside the landing still spells a renamed GameWork member (respell10 would change it).
+#   Resumable: an update already at its post sha counts as done; a row whose src equals its candidate is skipped.
+#   VERIFY_WORKERS (default 12).  LAND_ISOLATED (default 1) as land_lanes.sh.
+# Run ONCE by the orchestrator from any directory, under build_ovl/work/land.lock.  Modelled on apply9.sh.
+set -u
+LANE="$(cd "$(dirname "$0")" && pwd)"; cd "$LANE/../../.."; ROOT="$PWD"
+DRY=0; ROWS=""; NOHDR=0
+while [ $# -gt 0 ]; do case "$1" in --dry-run) DRY=1;; --no-hdr) NOHDR=1;; --rows) ROWS="$(cd "$(dirname "$2")" && pwd)/$(basename "$2")"; shift;; *) echo "unknown arg $1"; exit 1;; esac; shift; done
+ISO=${LAND_ISOLATED:-1}; VW=${VERIFY_WORKERS:-12}
+if [ "$DRY" = 0 ]; then mkdir -p build_ovl/work; exec 9>build_ovl/work/land.lock; flock 9; fi   # dry run takes no lock
+PLAN=$(mktemp); BK=$(mktemp -d)
+python3 - "$LANE" "$PLAN" "$ROWS" "$NOHDR" <<'PY' || { echo "preflight refused"; rm -rf "$PLAN" "$BK"; exit 1; }
+import hashlib, re, sys, time, collections
+from pathlib import Path
+lane, plan, rowsf, nohdr = Path(sys.argv[1]), sys.argv[2], sys.argv[3], sys.argv[4] == "1"
+only = {l.strip() for l in open(rowsf) if l.strip()} if rowsf else None
+sys.path.insert(0, "tools")
+from pin_census import sites_of
+sha = lambda p: hashlib.sha256(Path(p).read_bytes()).hexdigest()
+bad = []
+for line in open(lane / "payload10/UPDATES.tsv"):
+    path, pre, post = line.rstrip("\n").split("\t")
+    p = Path(path)
+    if nohdr and pre != "NEW": continue
+    if pre == "NEW":
+        if p.exists() and sha(p) != post: bad.append("%s exists with other content" % path)
+    elif not p.is_file(): bad.append("%s missing" % path)
+    elif sha(p) not in (pre, post): bad.append("%s changed since the lane read it (sha %s)" % (path, sha(p)[:12]))
+    if sha(lane / "payload10" / path) != post: bad.append("payload %s does not match UPDATES.tsv" % path)
+code = lambda t: re.sub(r"//[^\n]*", "", re.sub(r"/\*.*?\*/", "", t, flags=re.S))
+man = {}
+for line in open(lane / "cand10/MANIFEST.tsv"):
+    if line.startswith("#") or not line.strip(): continue
+    rid, cpath, vsha, planv, flag = line.rstrip("\n").split("\t")
+    man[rid] = (cpath, vsha, planv, flag.split(","))
+if not nohdr:        # the names row (dirSpriteFlag -> D_8006CCF8) lands with dir_step.h in the full run
+    table = open("config/names.tsv").read()
+    for addr, old, new, _ in (l.rstrip("\n").split("\t") for l in open(lane / "payload10/names_add10.tsv") if l.strip()):
+        if re.search(r"^%s\t%s\t%s\t" % (re.escape(addr), re.escape(old), re.escape(new)), table, re.M): continue   # landed by an earlier run
+        if re.search(r"^[^#\n]*\t%s\t" % re.escape(new), table, re.M) or re.search(r"^[^#\n]*\t%s\t" % re.escape(old), table, re.M):
+            bad.append("names.tsv already maps %s/%s" % (old, new))
+        for p in list(Path("src").glob("*/*.c")) + list(Path("include").rglob("*.h")):
+            if p.name == "dir_step.h": continue
+            if new in set(re.findall(r"\b[A-Za-z_][A-Za-z0-9_]*\b", code(p.read_text(errors="replace")))) and not (str(p).startswith("src/") and str(p)[4:-2] in man):
+                bad.append("identifier %s already used in %s" % (new, p))
+if bad:
+    print("\n".join(bad)); sys.exit(1)
+busy = {l.strip() for l in open(lane / "BUSY_ROWS10.txt") if l.strip()} if (lane / "BUSY_ROWS10.txt").exists() else set()
+for p in Path("work/native_lane").glob("r78_*/out/*/*.c.base_sha"):
+    if time.time() - p.stat().st_mtime < 3600 and p.parts[2] != lane.name:
+        busy.add("%s/%s" % (p.parent.name, p.name[:-len(".c.base_sha")]))
+scaf = re.compile(r"ASM_[A-Z0-9_]+(?=\()|while\s*\(\s*0\s*\)|__asm__|\bvolatile\b")
+kinds = lambda t: collections.Counter(m.group(0).replace(" ", "") for m in scaf.finditer(re.sub(r"/\*.*?\*/", "", t, flags=re.S)))
+grows = lambda c, s: len(sites_of(c)) > len(sites_of(s)) or any(kinds(c)[k] > kinds(s)[k] for k in kinds(c))
+out, refuse = [], []
+n = collections.Counter()
+for rid, (cpath, vsha, planv, flags) in sorted(man.items()):
+    flag = flags[0]; reb = "rebaseline" in flags
+    if flag in ("hdr", "post") and nohdr: continue
+    if flag in ("opt", "post") and only is not None and rid not in only: continue
+    src = Path("src") / (rid + ".c"); cand = lane / "cand10" / cpath
+    if not src.is_file():
+        (refuse if flag == "hdr" else print)("%s: src missing" % rid); n["skip"] += 1; continue
+    s = src.read_text(errors="replace"); c = cand.read_text()
+    if s == c: print("skip", rid, "already landed"); n["done"] += 1; continue
+    if rid in busy:
+        if flag == "hdr": refuse.append("%s is busy in another lane" % rid)
+        else: print("skip", rid, "busy"); n["skip"] += 1
+        continue
+    if sha(src) != vsha:
+        if flag == "hdr": refuse.append("%s changed since the lane verified it: re-derive in the lane (tools/build10.py && tools/manifest10.py)" % rid)
+        else: print("skip", rid, "stale: src changed since it was verified"); n["skip"] += 1
+        continue
+    if grows(c, s):
+        if flag == "hdr": refuse.append("%s: scaffolding would grow" % rid)
+        else: print("skip", rid, "scaffolding would grow"); n["skip"] += 1
+        continue
+    out.append((rid, src, cand, "rebaseline" if reb else flag)); n[flag + ("+rebaseline" if reb else "")] += 1
+# the header update renames GameWork members: no src row outside this landing may still spell an old one
+if not nohdr:
+    sys.path.insert(0, str(lane / "tools"))
+    from respell10 import respell
+    landing = {rid for rid, *_ in out}
+    for p in sorted(Path("src").glob("*/*.c")):
+        rid = "%s/%s" % (p.parent.name, p.stem)
+        if rid in landing or rid in man and (lane / "cand10" / man[rid][0]).read_text() == p.read_text(errors="replace"): continue
+        t = p.read_text(errors="replace")
+        if re.search(r"gameWork|GameWork", t) and respell(t)[1]:
+            refuse.append("%s spells a renamed GameWork member and is not in this landing" % rid)
+if refuse:
+    print("REFUSED:\n  " + "\n  ".join(refuse)); sys.exit(1)
+with open(plan, "w") as fh:
+    for rid, src, cand, flag in out: fh.write("%s\t%s\t%s\t%s\n" % (rid, src, cand, flag))
+print("preflight: %d rows to land (%s)" % (len(out), dict(n)))
+PY
+if [ "$DRY" = 1 ]; then echo "dry run: nothing written"; rm -rf "$PLAN" "$BK"; exit 0; fi
+# ---- back up every file this run may touch
+UPD="include/shared/game_work.h include/shared/dir_step.h"; [ "$NOHDR" = 1 ] && UPD=""
+NEWH=""
+NEWF=""; for f in $NEWH; do [ -e "$f" ] || NEWF="$NEWF $f"; done
+mkdir -p "$BK/upd/include/shared" "$BK/src"
+for f in $UPD; do cp "$f" "$BK/upd/$f"; done
+cp config/names.tsv "$BK/names.tsv"
+while IFS=$'\t' read -r rid src cand flag; do mkdir -p "$BK/src/$(dirname "$rid")"; cp "$src" "$BK/src/$rid.c"; done < "$PLAN"
+restore() {
+  for f in $UPD; do cp "$BK/upd/$f" "$f"; done
+  for f in $NEWF; do rm -f "$f"; done
+  cp "$BK/names.tsv" config/names.tsv
+  while IFS=$'\t' read -r rid src cand flag; do cp "$BK/src/$rid.c" "$src"; done < "$PLAN"
+  bash tools/build/build_slus.sh -j 8 >/dev/null 2>&1
+  rm -rf "$PLAN" "$BK"; echo REVERTED; exit 1
+}
+trap 'echo "interrupted"; restore' INT TERM
+# ---- A. header   B. rows
+for f in $UPD $NEWH; do cp "$LANE/payload10/$f" "$f"; done
+if [ "$NOHDR" = 0 ]; then python3 -c "
+import sys; p='config/names.tsv'; t=open(p).read()
+have={tuple(l.split(chr(9))[:3]) for l in t.splitlines()}
+add=[l for l in open(sys.argv[1]).read().splitlines() if l.strip() and tuple(l.split(chr(9))[:3]) not in have]
+open(p,'w').write(t.rstrip(chr(10)) + chr(10) + ''.join(a + chr(10) for a in add))" "$LANE/payload10/names_add10.tsv" || restore; fi
+while IFS=$'\t' read -r rid src cand flag; do cp "$cand" "$src"; done < "$PLAN"
+# resync build_slus (headers, sources) before verify.py's module/partition gates
+bash tools/build/mk_slus_root.sh >/dev/null || restore
+# ---- C. verify (EVERY row when game_work.h changed; the landed rows otherwise).  rebaseline rows wait for the image gate.
+python3 - "$PLAN" "$VW" "$NOHDR" <<'PY' || restore
+import sys
+from concurrent.futures import ThreadPoolExecutor
+sys.path.insert(0, "tools")
+from common import rows, ROOT
+from verify import verify
+R = {r["id"]: r for r in rows()}
+plan = {l.split("\t")[0]: l.rstrip("\n").split("\t")[3] for l in open(sys.argv[1]) if l.strip()}
+todo = sorted(R) if sys.argv[3] == "0" else sorted(set(plan) & set(R))
+def one(rid):
+    return rid, verify(R[rid], ROOT / "src" / R[rid]["container"] / (rid.split("/", 1)[1] + ".c"), include_root=ROOT / "include")
+bad = []; wait = 0
+with ThreadPoolExecutor(int(sys.argv[2])) as ex:
+    for rid, v in ex.map(one, todo):
+        if v.get("exact"): continue
+        if plan.get(rid) == "rebaseline" and v.get("status") == "ok": wait += 1; continue
+        bad.append((rid, v.get("status"), v.get("total"), (v.get("err") or "")[-160:]))
+print("verify: %d rows (%s), %d not exact, %d rebaseline rows wait for the image gate" % (len(todo), "all" if sys.argv[3] == "0" else "landed rows; game_work.h unchanged", len(bad), wait))
+for b in bad[:30]: print("  NOT EXACT", b)
+sys.exit(1 if bad else 0)
+PY
+# ---- covering windows + SLUS image (MATCH on the unchanged pinned recipe)
+if [ "$ISO" = 1 ]; then
+  EXP=gate SRCROOT="$PWD/src" bash tools/build/mk_ovl_root.sh >/dev/null && GATE_BUILD_ROOT=build_ovl_gate python3 tools/build/gate_all.py --workers 8 || restore
+else
+  bash tools/build/mk_ovl_root.sh >/dev/null && python3 tools/build/gate_all.py --workers 8 || restore
+fi
+bash tools/build/mk_slus_root.sh >/dev/null || restore
+bash tools/build/build_slus.sh -j 8 && tail -1 ledger/gate_slus.jsonl | grep -q '"result":"MATCH".*"recipe_vs_pinned":"identical"' || { echo "SLUS gate not MATCH on the pinned recipe"; restore; }
+# ---- SLUS rows whose relocations name another symbol for the same address: re-derive their reference (tools/lanes/land_slus_rebaseline.sh)
+while IFS=$'\t' read -r rid src cand flag; do
+  [ "$flag" = rebaseline ] || continue
+  python3 tools/verify.py --rebaseline-slus "$rid" && python3 tools/verify.py "$rid" "$src" | grep -q '"exact": true' || { echo "rebaseline failed: $rid"; restore; }
+done < "$PLAN"
+python3 tools/levels.py >/dev/null; python3 tools/status.py >/dev/null
+N=$(wc -l < "$PLAN")
+HL='"include/shared/game_work.h", "include/shared/dir_step.h"'; NM='"dirSpriteFlag"'; [ "$NOHDR" = 1 ] && HL="" && NM=""
+echo "{\"tag\": \"r78_types_phase10\", \"at\": \"$(date -u +%FT%TZ)\", \"rows\": $N, \"names\": [$NM], \"headers\": [$HL], \"how\": \"verify.py ($( [ "$NOHDR" = 1 ] && echo landed rows || echo every row )) + gate_all + SLUS SHA-1 MATCH (recipe unchanged)\"}" >> ledger/type_consolidation.jsonl
+grep -o "Pin sites now: [0-9,]* in [0-9,]* rows" STATUS.md
+trap - INT TERM; rm -rf "$PLAN" "$BK"; echo LANDED

@@ -43,8 +43,8 @@ s32 func_8009ADB8(S_8009ADB8_0 *facing_state, S_8009ADB8_1 *attributes, s32 tile
     MapCell *next_cell;
 
     height_hint = initial_height;
-    map = ((MapCell *)gameWork.unk_1DC);
-    map_state = (u8 *)((MapCell * *)&gameWork.unk_1DC);
+    map = ((MapCell *)gameWork.map.cells);
+    map_state = (u8 *)((MapCell * *)&gameWork.map.cells);
     direction = (facing_state->unk_2A >> 9) & 7;
     if (!(attributes->unk_14 & 0x100) ||
         (height = func_800BCB04(

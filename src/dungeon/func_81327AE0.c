@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "shared/sys_flags.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
@@ -15,7 +16,6 @@ extern s32 func_800A9E70();
 extern void func_800AA36C();
 extern s32 func_800BCB04();
 
-extern u8 D_8006CCF8[8];
 extern u8 D_800F8BBC[9];
 extern u8 D_8016F78C[9];
 extern Callback D_80174AD4[];
@@ -167,7 +167,7 @@ void func_8016F2E0(void *actor_arg, void *motion_arg, void *sprite_arg)
             (*(s16 *)((u8 *)entity + (0x94))) = old_direction;
         }
 
-        tile_slot = D_8006CCF8 + direction_copy;
+        tile_slot = dirSpriteFlag + direction_copy;
         if (*tile_slot != 0) {
             facing_flags = ((S_8016F2E0_4 *)sprite)->unk_14.n;
             facing_flags |= 1;

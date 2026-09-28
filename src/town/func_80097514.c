@@ -28,7 +28,7 @@ void func_80094C74(Func97514Object *object) {
     s32 old_magnitude;
     s32 new_magnitude;
 
-    angle = func_80094BC8(((s32)gameWork.unk_008), gameWork.view.viewAngle);
+    angle = func_80094BC8(gameWork.buttons, gameWork.view.viewAngle);
     if (angle != -1) {
         delta_x = func_800644B8(angle) << 6;
         delta_y = func_80064584(angle) << 6;

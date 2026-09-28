@@ -62,7 +62,7 @@ void func_800AF9C4(TownObject *obj)
     TownInner *selection;
     TownInner *refreshed_inner;
 
-    held_buttons = ((s32)gameWork.unk_008);
+    held_buttons = gameWork.buttons;
     move_step = 0;
     if (held_buttons == 0) {
         return;

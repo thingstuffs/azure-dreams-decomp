@@ -16,7 +16,7 @@ typedef struct {
 s32 func_800AC1B0(s16 direction, s16 start_x, s16 start_y, s32 unused) {
     u16 *tiles;
     u16 *tile_data;
-    Config *config;
+    MapGrid *config;
     s32 bounds_one;
     s16 next_x;
     s16 next_y;
@@ -38,20 +38,20 @@ s32 func_800AC1B0(s16 direction, s16 start_x, s16 start_y, s32 unused) {
     y = start_y;
     steps_left = 0xA;
     flagged_count = 0;
-    config = ((Config *)((u8 *)&gameWork + 476));
+    config = &gameWork.map;
     tile_data = *(u16 **)((Config *)((u8 *)&gameWork + 476));
     tiles = tile_data;
     if (start_x < 0) {
         goto invalid_position;
     }
     bounds_one = 1;
-    if (start_x >= (bounds_one << config->field14)) {
+    if (start_x >= (bounds_one << config->shiftX)) {
         goto invalid_position;
     }
     if (start_y < 0) {
         return 0;
     }
-    if (start_y < (bounds_one << config->field16)) {
+    if (start_y < (bounds_one << config->shiftY)) {
         goto scan_start;
     }
 invalid_position:
@@ -66,17 +66,17 @@ scan_next:
     x_shifted = x << 0x10;
     tile_x = x_shifted >> 0x10;
     if (!(*(u16 *)((u8 *)tiles +
-                  ((tile_x + (y << config->field14)) << 1)) & 0x8000) ||
+                  ((tile_x + (y << config->shiftX)) << 1)) & 0x8000) ||
         (flagged_count += 1,
          (func_800ABEEC((s16)(direction_shifted >> 0x10), tile_x, y) < 2))) {
         next_x = x + *x_step;
         x = next_x;
         if (next_x >= 0) {
-            if (next_x < (step_one << config->field14)) {
+            if (next_x < (step_one << config->shiftX)) {
                 next_y = y + *(u16 *)((u8 *)((s8 *)dirStepY) + direction_offset);
                 y = next_y;
                 if (next_y >= 0) {
-                    if (next_y < (step_one << config->field16)) {
+                    if (next_y < (step_one << config->shiftY)) {
                         steps_left -= 1;
                         if (steps_left <= 0) {
                             goto scan_done;

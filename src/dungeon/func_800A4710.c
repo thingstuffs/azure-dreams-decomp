@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
@@ -13,7 +14,6 @@ extern void func_800ACB98(void *arg0, s32 arg1, void *arg2, void *arg3);
 extern void func_800ACD74(void *arg0, s32 arg1, void *arg2, void *arg3);
 
 extern s16 D_800DCE68;
-extern u8 D_8006CCF8[8];
 
 typedef struct S_800A9E70_2 {
     u8 pad_00[0x4];
@@ -55,7 +55,7 @@ s32 func_800A9E70(Rec_func_800A9E70_arg0 *anim, s32 action_arg, S_800A9E70_2 *sp
                 anim->unk_94 = direction;
             }
         }
-        if (D_8006CCF8[direction] != 0) {
+        if (dirSpriteFlag[direction] != 0) {
             sprite->unk_14 |= 1;
         } else {
             sprite->unk_14 &= 0xFFFE;

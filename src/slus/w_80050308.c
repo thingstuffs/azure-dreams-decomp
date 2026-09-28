@@ -51,7 +51,7 @@ void func_80050308(void *object)
     s32 action_flags;
     s32 direction;
 
-    if (((s32)gameWork.unk_008) != 0) {
+    if (gameWork.buttons != 0) {
         action_flags = ((s32)gameWork.unk_010);
         if (action_flags & 0x20) {
             SD_Call(0x515);
@@ -67,7 +67,7 @@ void func_80050308(void *object)
             } else {
                 func_80050EA8((char *)obj - 0x20);
             }
-        } else if (((s32)gameWork.unk_008) & 0x5000) {
+        } else if (gameWork.buttons & 0x5000) {
             direction = 0;
             if (action_flags & 0x4000) {
                 direction = 1;
@@ -89,7 +89,7 @@ void func_80050308(void *object)
                 s32 repeat_flags;
 
                 obj->unk0C = obj->unk0C - 1;
-                repeat_flags = ((s32)gameWork.unk_008);
+                repeat_flags = gameWork.buttons;
                 if (repeat_flags & 0x4000) {
                     direction = 1;
                 } else if (repeat_flags & 0x1000) {

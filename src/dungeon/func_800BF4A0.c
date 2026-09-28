@@ -12,32 +12,25 @@ typedef struct S_800C4C00_0 {
     union { s16 s; u16 u; } unk_06;   /* accessed as both */
 } S_800C4C00_0;   /* arg0 in func_800C4C00 */
 
-typedef struct S_800C4C00_1 {
-    u8 pad_00[0x90];
-    u8 unk_90;
-    u8 unk_91;
-    u8 unk_92;
-} S_800C4C00_1;   /* state in func_800C4C00 */
-
 
 
 
 /* Fades the color toward the target, then back to neutral, and marks completion. */
 void func_800C4C00(void *fade)
 {
-    u8 *color_state;
+    GameView *color_state;
     u16 frames_left;
 
-    color_state = (u8 *)(&gameWork.view);
+    color_state = &gameWork.view;
     if (((S_800C4C00_0 *)fade)->unk_04.s == 0) {
-        ((S_800C4C00_1 *)color_state)->unk_90 +=
-            (((S_800C4C00_0 *)fade)->unk_00 - ((S_800C4C00_1 *)color_state)->unk_90) /
+        color_state->unk_090 +=
+            (((S_800C4C00_0 *)fade)->unk_00 - color_state->unk_090) /
             ((S_800C4C00_0 *)fade)->unk_06.s;
-        ((S_800C4C00_1 *)color_state)->unk_91 +=
-            (((S_800C4C00_0 *)fade)->unk_01 - ((S_800C4C00_1 *)color_state)->unk_91) /
+        color_state->unk_091 +=
+            (((S_800C4C00_0 *)fade)->unk_01 - color_state->unk_091) /
             ((S_800C4C00_0 *)fade)->unk_06.s;
-        ((S_800C4C00_1 *)color_state)->unk_92 +=
-            (((S_800C4C00_0 *)fade)->unk_02 - ((S_800C4C00_1 *)color_state)->unk_92) /
+        color_state->unk_092 +=
+            (((S_800C4C00_0 *)fade)->unk_02 - color_state->unk_092) /
             ((S_800C4C00_0 *)fade)->unk_06.s;
         frames_left = ((S_800C4C00_0 *)fade)->unk_06.u - 1;
         ((S_800C4C00_0 *)fade)->unk_06.u = frames_left;
@@ -46,21 +39,21 @@ void func_800C4C00(void *fade)
             ((S_800C4C00_0 *)fade)->unk_04.u++;
         }
     } else {
-        ((S_800C4C00_1 *)color_state)->unk_90 +=
-            (0x80 - ((S_800C4C00_1 *)color_state)->unk_90) /
+        color_state->unk_090 +=
+            (0x80 - color_state->unk_090) /
             ((S_800C4C00_0 *)fade)->unk_06.s;
-        ((S_800C4C00_1 *)color_state)->unk_91 +=
-            (0x80 - ((S_800C4C00_1 *)color_state)->unk_91) /
+        color_state->unk_091 +=
+            (0x80 - color_state->unk_091) /
             ((S_800C4C00_0 *)fade)->unk_06.s;
-        ((S_800C4C00_1 *)color_state)->unk_92 +=
-            (0x80 - ((S_800C4C00_1 *)color_state)->unk_92) /
+        color_state->unk_092 +=
+            (0x80 - color_state->unk_092) /
             ((S_800C4C00_0 *)fade)->unk_06.s;
         frames_left = ((S_800C4C00_0 *)fade)->unk_06.u - 1;
         ((S_800C4C00_0 *)fade)->unk_06.u = frames_left;
         if ((s16)frames_left <= 0) {
-            ((S_800C4C00_1 *)color_state)->unk_90 = 0x80;
-            ((S_800C4C00_1 *)color_state)->unk_91 = 0x80;
-            ((S_800C4C00_1 *)color_state)->unk_92 = 0x80;
+            color_state->unk_090 = 0x80;
+            color_state->unk_091 = 0x80;
+            color_state->unk_092 = 0x80;
             dungeonStatus.unk_0A--;
             (*(u16 *)((u8 *)fade + -2)) |= 0x8000;
             objectFlagBlock.flags |= 0x8000;

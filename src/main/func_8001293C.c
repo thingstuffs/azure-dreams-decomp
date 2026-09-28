@@ -27,7 +27,7 @@ void func_8002593C(u8 *object)
     s32 needs_refresh;
     s32 update_status;
 
-    held_buttons = ((s32)gameWork.unk_008);
+    held_buttons = gameWork.buttons;
     selection_step = 0;
     needs_refresh = selection_step;
     if (held_buttons != 0) {
@@ -61,7 +61,7 @@ void func_8002593C(u8 *object)
                 repeat_ticks = ((Rec_func_80025030_arg0 *)object)->unk_30;
                 if (repeat_ticks >= 13) {
                     ((Rec_func_80025030_arg0 *)object)->unk_30 = repeat_ticks - 4;
-                    repeat_buttons = ((s32)gameWork.unk_008);
+                    repeat_buttons = gameWork.buttons;
                     if (repeat_buttons & 0x1000) {
                         selection_step = -1;
                     } else if (repeat_buttons & 0x4000) {

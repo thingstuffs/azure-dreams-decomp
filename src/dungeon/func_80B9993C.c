@@ -28,26 +28,6 @@ typedef struct S_8017313C_1 {
 } S_8017313C_1;   /* arg2 in func_8017313C */
 
 
-typedef struct S_8017313C_3 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_8017313C_3;   /* counter_base in func_8017313C */
-
-typedef struct S_8017313C_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-} S_8017313C_4;   /* global_base in func_8017313C */
-
-typedef struct S_8017313C_5 {
-    u8 pad_00[0x58];
-    void * unk_58;
-} S_8017313C_5;   /* owner in func_8017313C */
-
-typedef struct S_8017313C_6 {
-    u8 pad_00[0x26];
-    s8 unk_26;
-} S_8017313C_6;   /* origin in func_8017313C */
-
 
 
 extern s32 func_80042900(void *, s32);
@@ -165,7 +145,7 @@ state_one:
         goto done;
     }
     if ((func_800A2C34(entity) << 16) != 0) {
-        S_8017313C_5 *owner = D_800814A8;
+        EntityRec *owner = D_800814A8;
 
         if ((func_8009A180(entity,
                 (u8 *)owner->unk_58 + 0x20) << 16) != 0) {

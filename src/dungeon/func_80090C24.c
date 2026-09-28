@@ -37,13 +37,6 @@ extern s32 D_800E4940[];
 
 
 
-typedef struct S_80096384_2 {
-    u8 pad_00[0x8];
-    union { s32 s; u32 u; } unk_08;   /* accessed as both */
-    u8 pad_0C[0xBC];
-    s16 unk_C8;
-} S_80096384_2;   /* temp_s5 in func_80096384 */
-
 typedef struct S_80096384_3 {
     u8 pad_00[0x14];
     s32 unk_14;
@@ -56,11 +49,6 @@ typedef struct S_80096384_3 {
     u8 pad_66[0x24];
     s16 unk_8A;
 } S_80096384_3;   /* arg3 in func_80096384 */
-
-typedef struct S_80096384_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-} S_80096384_4;   /* temp_s4 in func_80096384 */
 
 typedef struct S_80096384_5 {
     u8 unk_00;
@@ -92,7 +80,7 @@ void func_80096384(void *actor, s32 actor_id, Rec_D_80082E80 *sprite, void *acto
     u16 tail_flags;
     u8 *flags_ptr;
     S_80096384_5 *command;
-    u8 *input = ((u8 *)(&gameWork));
+    GameWork *input = &gameWork;
     u16 *flags_page;
     s32 command_flags;
     s32 idle_state = 0x32; /* MATCH: preserve retail register allocation after sharing the internal tails. */
@@ -102,7 +90,7 @@ void func_80096384(void *actor, s32 actor_id, Rec_D_80082E80 *sprite, void *acto
         sprite->unk_2C.as_pv = D_800DD274;
         func_8003DB94(sprite,
             *(void **)((u8 *)D_800DD274 +
-                ((((s32)(((S_80096384_2 *)input)->unk_C8 +
+                ((((s32)(input->view.viewAngle +
                     ((S_80096384_3 *)actor_data)->unk_2A.s + 0x100)) >> 7) & 0x1C)),
             0);
         ((Rec_func_8008ACDC_arg0 *)actor)->unk_9A.as_u8 = idle_state;
@@ -255,7 +243,7 @@ dispatch_command:
                     return;
                 }
 
-                if (((S_80096384_2 *)input)->unk_08.s & 0x80) {
+                if (input->buttons & 0x80) {
                     ((S_80096384_3 *)actor_data)->unk_8A = 2;
                     D_800E4940[0] = 2;
                     func_8008CF6C(actor, actor_id, sprite, D_8004F5F4);
@@ -266,7 +254,7 @@ dispatch_command:
                 }
 
                 flags_ptr = (u8 *)actor + 0xA2;
-                if (((S_80096384_2 *)input)->unk_08.s & 3) {
+                if (input->buttons & 3) {
                     func_800A56E0(0x506, flags_ptr);
                     return;
                 }
@@ -275,7 +263,7 @@ dispatch_command:
                     flags_ptr, (u8 *)actor_data + 0x2A);
                 if (input_angle != 0xFFF) {
                     ((S_80096384_3 *)actor_data)->unk_2A.s = input_angle;
-                    if (!(((S_80096384_2 *)input)->unk_08.s & 0x10)) {
+                    if (!(input->buttons & 0x10)) {
                         move_flags = ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2;
                         if (!(move_flags & 0x400)) {
                             ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 = move_flags & 0xFFFE;
@@ -295,7 +283,7 @@ dispatch_command:
                 }
 
 check_actions:
-                input_flags = ((S_80096384_2 *)input)->unk_08.u;
+                input_flags = ((u32)input->buttons);
                 if ((input_flags & 0x30) == 0x30) {
                     ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 &= 0xFFFE;
                     func_800969B8(actor, actor_id, sprite, actor_data);

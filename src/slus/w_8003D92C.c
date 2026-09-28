@@ -39,14 +39,14 @@ int func_8003D92C(void)
   trigger_flags = ((int)input_state->unk_010);
   if (trigger_flags & 0x100)
   {
-    if (!(((int)input_state->unk_008) & 0x800))
+    if (!(input_state->buttons & 0x800))
     {
       D_80080ABE = 1;
     }
   }
   else if (trigger_flags & 0x800)
   {
-    if (((int)input_state->unk_008) & 0x100)
+    if (input_state->buttons & 0x100)
     {
       D_80080ABE = 1;
     }
@@ -57,7 +57,7 @@ int func_8003D92C(void)
       return 0;
     }
   }
-  held_flags = ((int)input_state->unk_008);
+  held_flags = input_state->buttons;
   if (!(held_flags & 0x100))
   {
     D_80080ABE = 0;

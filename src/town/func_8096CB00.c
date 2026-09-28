@@ -56,7 +56,7 @@ void func_80124F98(TownState *state)
         goto done;
     }
 
-    buttons = ((u32)gameWork.unk_008);
+    buttons = ((u32)gameWork.buttons);
     if (buttons & 0x1000) {
         u8 *selection = D_801269F8;
 

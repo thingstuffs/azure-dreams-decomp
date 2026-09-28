@@ -31,7 +31,7 @@ void func_800265B8(u8 *menu)
     s32 status;
     s32 repeat_ticks;
 
-    held_buttons = ((s32)gameWork.unk_008);
+    held_buttons = gameWork.buttons;
     status = 0;
     if (held_buttons != 0) {
         pressed_buttons = ((s32)gameWork.unk_010);
@@ -57,7 +57,7 @@ void func_800265B8(u8 *menu)
                 repeat_ticks = ((S_800265B8_0 *)menu)->unk_30;
                 if (repeat_ticks >= 13) {
                     ((S_800265B8_0 *)menu)->unk_30 = repeat_ticks - 4;
-                    repeat_buttons = ((s32)gameWork.unk_008);
+                    repeat_buttons = gameWork.buttons;
                     if (repeat_buttons & 0x1000) {
                         status = -1;
                     } else if (repeat_buttons & 0x4000) {

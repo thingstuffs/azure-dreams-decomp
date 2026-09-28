@@ -49,30 +49,10 @@ typedef struct S_8016D6F0_2 {
 } S_8016D6F0_2;   /* base8008 in func_8016D6F0 */
 
 
-typedef struct S_8016D6F0_4 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_8016D6F0_4;   /* counter_base in func_8016D6F0 */
-
 typedef struct S_8016D6F0_5 {
     u8 pad_00[0x3714];
     u16 unk_3714;
 } S_8016D6F0_5;   /* base8001 in func_8016D6F0 */
-
-typedef struct S_8016D6F0_6 {
-    u8 pad_00[0x10];
-    s32 unk_10;
-} S_8016D6F0_6;   /* clear_base in func_8016D6F0 */
-
-typedef struct S_8016D6F0_7 {
-    u8 pad_00[0x26];
-    s8 unk_26;
-} S_8016D6F0_7;   /* room_base in func_8016D6F0 */
-
-typedef struct S_8016D6F0_8 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_8016D6F0_8;   /* update_base in func_8016D6F0 */
 
 typedef struct S_8016D6F0_9 {
     u8 pad_00[0x58];
@@ -83,11 +63,11 @@ typedef struct S_8016D6F0_9 {
 void func_8016D6F0(S_8016D6F0_0 *actor, s32 actor_id, Rec_D_80082E80 *sprite, void *entity)
 {
     TileObject *reference_pos;
-    u8 *counter_base;
+    DungeonGlobalStatus *counter_base;
     u8 *flags_page;
-    u8 *reference_base;
+    DungeonGlobalStatus *reference_base;
     void *action_actor;
-    register u8 *counter_update ASM_REG("$2");
+    register DungeonGlobalStatus *counter_update ASM_REG("$2");
     s32 state;
     s32 entity_flags;
     s32 action_flag;
@@ -122,8 +102,8 @@ state_zero:
                     ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
             0);
     }
-    counter_base = ((u8 *)(&dungeonStatus));
-    ((S_8016D6F0_4 *)counter_base)->unk_0A--;
+    counter_base = &dungeonStatus;
+    (*(u16 *)&counter_base->unk_0A)--;
     goto advance_state;
 
 state_one:
@@ -145,10 +125,10 @@ state_one:
         }
     }
     if (((EntityRec *)entity)->unk_64 != 0) {
-        reference_base = (u8 *)((u8 *)(&dungeonStatus));
-        if (((S_8016D6F0_6 *)reference_base)->unk_10 ==
+        reference_base = &dungeonStatus;
+        if (((s32)reference_base->unk_10) ==
             (u32)((u8 *)entity - 0x20)) {
-            ((S_8016D6F0_6 *)reference_base)->unk_10 &= 0x7FFFFFFF;
+            (*(s32 *)&reference_base->unk_10) &= 0x7FFFFFFF;
         }
     }
 
@@ -212,8 +192,8 @@ post_actions:
     if (sprite->unk_14.at00_u16.v & 0x8000) {
         goto set_callback;
     }
-    counter_update = ((u8 *)(&dungeonStatus));
-    ((S_8016D6F0_8 *)counter_update)->unk_0A++;
+    counter_update = &dungeonStatus;
+    (*(u16 *)&counter_update->unk_0A)++;
 advance_state:
     actor->unk_9B++;
     return;
@@ -222,8 +202,8 @@ state_two:
     if (!(sprite->unk_14.at00_u16.v & 0xE000)) {
         goto done;
     }
-    counter_update = ((u8 *)(&dungeonStatus));
-    ((S_8016D6F0_8 *)counter_update)->unk_0A--;
+    counter_update = &dungeonStatus;
+    (*(u16 *)&counter_update->unk_0A)--;
 
 set_callback:
     actor->unk_8C = D_8016B778;

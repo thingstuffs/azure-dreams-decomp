@@ -15,9 +15,9 @@ s16 func_800BCA68(s32 xCoord, s32 yCoord) {
     u32 cellIndex;
     u8 *cellEntry;
 
-    cellIndex = (((u32) (yCoord & 0xFFFF) >> 6) << gridState->unk_1F0) & 0xFFFF;
+    cellIndex = (((u32) (yCoord & 0xFFFF) >> 6) << gridState->map.shiftX) & 0xFFFF;
     cellIndex += (u32) (xCoord & 0xFFFF) >> 6;
-    cellEntry = (u8 *) ((u32) (cellIndex * 6) + (u32) ((u8 *)gridState->unk_1DC));
+    cellEntry = (u8 *) ((u32) (cellIndex * 6) + (u32) ((u8 *)gridState->map.cells));
     if (*(u16 *) cellEntry != 0) {
         return (s16) (0 - *(u16 *) (cellEntry + 2));
     }

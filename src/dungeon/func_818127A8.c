@@ -19,13 +19,6 @@ extern M2C_UNK D_80027E10;
 extern M2C_UNK D_80027E84;
 
 
-typedef struct S_800277A8_0 {
-    u8 pad_00[0x8];
-    union { s32 n; volatile s32 v; } unk_08;   /* accessed as both */
-    u8 pad_0C[0x4];
-    volatile s32 unk_10;
-} S_800277A8_0;   /* input in func_800277A8 */
-
 typedef struct S_800277A8_1_pre {
     M2C_UNK * unk_00;
     u8 pad_04[0xC];
@@ -50,7 +43,7 @@ typedef struct S_800277A8_1 {
 
 /* Handle menu buttons and move the selection, refreshing the page when needed. */
 void func_800277A8(void *menu) {
-    u8 *input = ((u8 *)(&gameWork));
+    GameWork *input = &gameWork;
     s32 held_buttons;
     s32 buttons;
     s32 cursor_step = 0;
@@ -60,12 +53,12 @@ void func_800277A8(void *menu) {
     s32 row_count;
     s32 rows_left;
 
-    held_buttons = ((S_800277A8_0 *)input)->unk_08.n;
+    held_buttons = input->buttons;
     if (held_buttons == 0) {
         return;
     }
 
-    buttons = ((S_800277A8_0 *)input)->unk_10;
+    buttons = ((s32)input->unk_010);
     if (buttons & 0x20) {
         SD_Call(0x515);
         ((S_800277A8_1_pre *)menu)[-1].unk_00 = &D_80027E10;
@@ -99,7 +92,7 @@ void func_800277A8(void *menu) {
 
     if (buttons & 0x5000) {
         ((S_800277A8_1 *)menu)->unk_0C = 0;
-        buttons = ((S_800277A8_0 *)input)->unk_10;
+        buttons = ((s32)input->unk_010);
         if (buttons & 0x1000) {
             goto dispatch_negative;
         }
@@ -112,7 +105,7 @@ void func_800277A8(void *menu) {
     }
 
     ((S_800277A8_1 *)menu)->unk_0C = repeat_count - 1;
-    buttons = ((S_800277A8_0 *)input)->unk_08.v;
+    buttons = input->buttons;
     if (!(buttons & 0x1000)) {
         goto test_positive;
     }

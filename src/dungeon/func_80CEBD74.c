@@ -13,11 +13,6 @@ typedef struct S_80175574_0 {
 } S_80175574_0;   /* arg0 in func_80175574 */
 
 
-typedef struct S_80175574_2 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_80175574_2;   /* counter_base in func_80175574 */
-
 
 
 
@@ -78,7 +73,7 @@ void func_80175574(Obj0 *controller_arg, void *context_arg, Obj2 *animation_arg,
     Obj3 *actor;
     s32 actor_kind;
     unsigned long table_entry;
-    register u8 *counter_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register DungeonGlobalStatus *counter_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     controller = controller_arg;
     context = context_arg;
@@ -94,9 +89,9 @@ void func_80175574(Obj0 *controller_arg, void *context_arg, Obj2 *animation_arg,
             return;
         }
         {
-            counter_base = (u8 *)&dungeonStatus.unk_00;
+            counter_base = &dungeonStatus;
 
-            ((S_80175574_2 *)counter_base)->unk_0A--;
+            (*(u16 *)&counter_base->unk_0A)--;
         }
         {
 
@@ -278,9 +273,9 @@ second_table_15:
 
 increment_counter:
         {
-            counter_base = (u8 *)&dungeonStatus.unk_00;
+            counter_base = &dungeonStatus;
 
-            ((S_80175574_2 *)counter_base)->unk_0A++;
+            (*(u16 *)&counter_base->unk_0A)++;
         }
 increment_state:
         ((S_80175574_0 *)controller)->unk_9B++;
@@ -291,9 +286,9 @@ increment_state:
             return;
         }
         {
-            counter_base = (u8 *)&dungeonStatus.unk_00;
+            counter_base = &dungeonStatus;
 
-            ((S_80175574_2 *)counter_base)->unk_0A--;
+            (*(u16 *)&counter_base->unk_0A)--;
         }
         ((S_80175574_0 *)controller)->unk_8C = D_801724BC;
         return;

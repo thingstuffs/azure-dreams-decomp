@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dir_step.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
@@ -13,7 +14,6 @@ extern s32 func_800A9E70();
 extern void func_800AA36C();
 extern s16 func_800BCB04();
 
-extern u8 D_8006CCF8[8];
 extern s32 D_801719DC;
 extern u8 D_80174634[8];
 extern u8 D_80174644[8];
@@ -123,7 +123,7 @@ void func_801713A8(void *entity, S_801713A8_0 *motion, void *sprite)
         {
             u32 facing_flags;
 
-            if (D_8006CCF8[direction] != 0) {
+            if (dirSpriteFlag[direction] != 0) {
                 facing_flags = ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v | 1;
             } else {
                 facing_flags = ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xFFFE;

@@ -84,10 +84,6 @@ typedef struct S_80025954_12 {
     s32 unk_00;
 } S_80025954_12;   /* stack.motion in func_80025954 */
 
-typedef struct S_80025954_13 {
-    s32 unk_00;
-} S_80025954_13;   /* &D_800814A0 in func_80025954 */
-
 typedef struct S_80025954_14 {
     u8 pad_00[0x14];
     u16 unk_14;
@@ -392,7 +388,7 @@ jt_c5:
     }
     dungeonStatus.unk_0C = 0;
     (*(u16 *)((u8 *)state + -2)) = (u16) ((*(u16 *)((u8 *)state + -2)) | 0x8000);
-    (*(s32 *)&objectFlagBlock.flags) = (s32) (((S_80025954_13 *)(&objectFlagBlock.flags))->unk_00 | 0x8000);
+    (*(s32 *)&objectFlagBlock.flags) = (s32) (objectFlagBlock.flags | 0x8000);
     goto finish;
 jt_c6:
     ((S_80025954_5 *)motion)->unk_00.at00.v = (s32) (((S_80025954_5 *)motion)->unk_00.at00.v + ((S_80025954_5 *)motion)->unk_0C);

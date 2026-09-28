@@ -55,17 +55,6 @@ typedef struct S_801716F4_2 {
 } S_801716F4_2;   /* arg2 in func_801716F4 */
 
 
-typedef struct S_801716F4_4 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_801716F4_4;   /* origin in func_801716F4 */
-
-typedef struct S_801716F4_5 {
-    u8 pad_00[0x9A];
-    u8 unk_9A;
-} S_801716F4_5;   /* player in func_801716F4 */
-
 /* Updates a dungeon actor's behavior, facing, and directional animation. */
 void func_801716F4(void *actor_arg, void *context_arg, void *sprite_arg, void *entity_arg)
 {
@@ -218,7 +207,7 @@ jt_c5:
 jt_c6:
 jt_c7:
         {
-            void *player;
+            EntityRec *player;
             s16 heading;
 
             heading = func_800A0818(
@@ -227,7 +216,7 @@ jt_c7:
                 &distance);
             player = D_800814A8;
             ((EntityRec *)entity_arg)->facing = heading;
-            if (((S_801716F4_5 *)player)->unk_9A == 0x11) {
+            if (player->unk_9A == 0x11) {
                 goto case_123;
             }
         }

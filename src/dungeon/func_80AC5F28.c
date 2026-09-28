@@ -53,17 +53,6 @@ typedef struct S_80171728_2 {
 } S_80171728_2;   /* arg2 in func_80171728 */
 
 
-typedef struct S_80171728_4 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_80171728_4;   /* origin in func_80171728 */
-
-typedef struct S_80171728_5 {
-    u8 pad_00[0x9A];
-    u8 unk_9A;
-} S_80171728_5;   /* player in func_80171728 */
-
 /* Updates creature behavior, facing, and animation from dungeon and action state. */
 void func_80171728(void *actor_in, void *context_in, void *sprite_in, void *creature_in)
 {
@@ -211,7 +200,7 @@ jt_c5:
 jt_c6:
 jt_c7:
         {
-            void *player;
+            EntityRec *player;
             s16 heading;
 
             heading = func_800A0818(
@@ -220,7 +209,7 @@ jt_c7:
                 &distance);
             player = D_800814A8;
             ((EntityRec *)creature_in)->facing = heading;
-            if (((S_80171728_5 *)player)->unk_9A == 0x11) {
+            if (player->unk_9A == 0x11) {
                 goto case_123;
             }
         }

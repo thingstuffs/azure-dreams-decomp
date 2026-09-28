@@ -15,7 +15,7 @@ extern D_800EA000_Record D_800EA000[];
 /* Returns the minimum signed value along a stepped sequence of grid records. */
 s16 func_8001DD84(s32 x, s32 y, s32 count, s16 x_step, s16 y_step) {
     s32 remaining = count - 1;
-    s16 row_shift = gameWork.unk_1F0;
+    s16 row_shift = gameWork.map.shiftX;
     s16 row_step;
     u16 min_value;
     D_800EA000_Record *record;

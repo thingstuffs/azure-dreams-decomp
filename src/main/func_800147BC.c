@@ -15,7 +15,7 @@ void func_800277BC(void *state) {
     s32 callback_index;
     void *callback;
 
-    if ((((s32)gameWork.unk_008) != 0) && (((s32)gameWork.unk_010) & 0x20)) {
+    if ((gameWork.buttons != 0) && (((s32)gameWork.unk_010) & 0x20)) {
         func_800209C4();
         *(s32 *)((u8 *)state + 0x38) = 0;
         *(void **)((u8 *)state - 0x10) = D_8002789C;

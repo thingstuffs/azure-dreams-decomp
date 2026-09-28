@@ -2,6 +2,7 @@
 #include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
+#include "shared/entity.h"
 
 #ifndef NULL
 #define NULL 0
@@ -66,18 +67,6 @@ typedef struct S_80022768_0 {
     u16 unk_62;
     u16 unk_64;
 } S_80022768_0;   /* state in func_80022768 */
-
-typedef struct S_80022768_1 {
-    u8 pad_00[0x8];
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_08;   /* overlapping accesses */
-} S_80022768_1;   /* angles in func_80022768 */
-
-typedef struct S_80022768_2 {
-    u8 pad_00[0x8];
-    u32 unk_08;
-    u8 pad_0C[0x4];
-    u32 unk_10;
-} S_80022768_2;   /* global in func_80022768 */
 
 typedef struct S_80022768_3 {
     u8 pad_00[0x4C];
@@ -178,19 +167,19 @@ void func_80022768(State8081FF68 *state, void *position)
     payout_callback = D_80020224;
 
     if ((u32)((u16)((S_80022768_0 *)state)->unk_5C.u - 2) < 5U) {
-        s16 *angles = (s16 *)((u8 *)(&D_80083780));
+        EntityRec *angles = &D_80083780;
 
         angle = func_800C2AE8(angles);
         if (angle > 0) {
-            ((S_80022768_1 *)angles)->unk_08.at00.v = 0xFFEE0000;
+            angles->z.v = 0xFFEE0000;
             angle = func_800C2AE8(angles);
         } else {
-            s16 current_angle = ((S_80022768_1 *)angles)->unk_08.at02.v;
+            s16 current_angle = angles->z.w.i;
             angle_delta = angle - current_angle;
             index = angle_delta >> 1;
             {
                 angle_delta = angle - index;
-                ((S_80022768_1 *)angles)->unk_08.at02.v = angle_delta;
+                angles->z.w.i = angle_delta;
             }
         }
     }
@@ -233,7 +222,7 @@ sw_0:
     return;
 
 sw_1:
-    if ((((u32)input->unk_008) & 0x5000) != 0) {
+    if ((((u32)input->buttons) & 0x5000) != 0) {
         u16 timer = ((S_80022768_0 *)state)->unk_5E.u;
         ((S_80022768_0 *)state)->unk_5E.u = (u16)(timer - 1);
         if ((s16)timer < 0) {
@@ -244,7 +233,7 @@ sw_1:
     }
 
     if ((((u32)input->unk_010) & 0x1000) != 0 ||
-        ((((u32)input->unk_008) & 0x1000) != 0 &&
+        ((((u32)input->buttons) & 0x1000) != 0 &&
         (s16)((S_80022768_0 *)state)->unk_5E.s <= 0)) {
         if (((S_80022768_0 *)state)->unk_64 < 3) {
             SD_Call(0x502);
@@ -258,7 +247,7 @@ sw_1:
     }
 
     if ((((u32)input->unk_010) & 0x4000) != 0 ||
-        ((((u32)input->unk_008) & 0x4000) != 0 &&
+        ((((u32)input->buttons) & 0x4000) != 0 &&
         (s16)((S_80022768_0 *)state)->unk_5E.s <= 0)) {
         if (((S_80022768_0 *)state)->unk_64 >= 2) {
             SD_Call(0x502);

@@ -6,5 +6,5 @@
 
 /* Returns the current value of D_80083168. */
 s32 func_8003AAC4(void) {
-    return ((s32)gameWork.unk_008);
+    return gameWork.buttons;
 }

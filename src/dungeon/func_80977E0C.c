@@ -3,6 +3,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 
 typedef struct S_8017360C_0 {
@@ -33,23 +34,6 @@ typedef struct S_8017360C_2 {
     u8 pad_66[0x7];
     s8 unk_6D;
 } S_8017360C_2;   /* arg3 in func_8017360C */
-
-typedef struct S_8017360C_3 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x6];
-    u16 unk_0A;
-} S_8017360C_3;   /* global in func_8017360C */
-
-typedef struct S_8017360C_4 {
-    u8 pad_00[0x58];
-    void * unk_58;
-} S_8017360C_4;   /* owner in func_8017360C */
-
-typedef struct S_8017360C_5 {
-    u8 pad_00[0x26];
-    s8 unk_26;
-} S_8017360C_5;   /* room_base in func_8017360C */
 
 
 extern s32 func_80042900(void *, s32);
@@ -97,7 +81,7 @@ state_0:
     {
         u8 *local_table_0;
     {
-        u8 *dungeon_state;
+        DungeonGlobalStatus *dungeon_state;
         if ((((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v & 0xE000) == 0) {
             return;
         }
@@ -109,8 +93,8 @@ state_0:
         effect_entry &= 7;
         effect_entry += (s32)local_table_0;
         func_80047784(entity, *(u8 *)effect_entry, 0);
-        dungeon_state = (u8 *)&dungeonStatus.unk_00;
-        ((S_8017360C_3 *)dungeon_state)->unk_0A--;
+        dungeon_state = &dungeonStatus;
+        (*(u16 *)&dungeon_state->unk_0A)--;
         next_state = ((S_8017360C_0 *)action)->unk_9B + 1;
         goto store_state;
     }
@@ -159,10 +143,10 @@ state_3:
     {
         u8 *local_table_3;
         if ((func_80042900(actor, 1) << 16) != 0) {
-            u8 *dungeon_state = (u8 *)&dungeonStatus.unk_00;
+            DungeonGlobalStatus *dungeon_state = &dungeonStatus;
             s32 actor_flags;
 
-            if ((((S_8017360C_3 *)dungeon_state)->unk_02 & 0x1000) != 0) {
+            if ((dungeon_state->flags & 0x1000) != 0) {
                 return;
             }
 
@@ -172,7 +156,7 @@ state_3:
             }
 
             if (((S_8017360C_2 *)actor)->unk_25 == 0) {
-                if ((((S_8017360C_3 *)dungeon_state)->unk_02 & 0x2008) != 0) {
+                if ((dungeon_state->flags & 0x2008) != 0) {
                     return;
                 }
                 func_800AA79C(action, context, entity, actor);
@@ -210,10 +194,10 @@ state_3:
             }
 
             if ((s16)func_800A2C34(actor) != 0) {
-                void *owner = D_800814A8;
+                EntityRec *owner = D_800814A8;
 
                 if ((s16)func_8009A180(actor,
-                        (u8 *)((S_8017360C_4 *)owner)->unk_58 + 0x20) != 0) {
+                        (u8 *)owner->unk_58 + 0x20) != 0) {
                     return;
                 }
             }
@@ -253,8 +237,8 @@ final_check:
         }
         ((S_8017360C_0 *)action)->unk_9B++;
         {
-            u8 *dungeon_state = (u8 *)&dungeonStatus.unk_00;
-            ((S_8017360C_3 *)dungeon_state)->unk_0A++;
+            DungeonGlobalStatus *dungeon_state = &dungeonStatus;
+            (*(u16 *)&dungeon_state->unk_0A)++;
         }
         goto done;
 
@@ -303,8 +287,8 @@ state_5:
         effect_entry += (s32)local_table_5;
         func_80047784(entity, *(u8 *)effect_entry, 0);
         {
-            u8 *dungeon_state = (u8 *)&dungeonStatus.unk_00;
-            ((S_8017360C_3 *)dungeon_state)->unk_0A--;
+            DungeonGlobalStatus *dungeon_state = &dungeonStatus;
+            (*(u16 *)&dungeon_state->unk_0A)--;
         }
 
     }

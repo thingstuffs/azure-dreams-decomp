@@ -27,7 +27,7 @@ void func_80097C78(void *controller, s32 move_state, void *entity, void *actor)
         func_8008CBA0(controller, move_state, entity, actor);
     }
 
-    if (!(D_80013714 & 1) && (((s32)input_state->unk_008) & 0x80)) {
+    if (!(D_80013714 & 1) && (input_state->buttons & 0x80)) {
         *(s16 *)((u8 *)actor + 0x8A) = 2;
         D_800E4940 = 2;
         func_8008CF6C(controller, move_state, entity, D_8004F5F4);

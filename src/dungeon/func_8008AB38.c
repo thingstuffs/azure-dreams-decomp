@@ -69,7 +69,7 @@ void func_80090298(Arg0Struct *controller, void *unused, Arg2Struct *animation, 
             func_800A56E0(event_code);
         }
         if (!(dungeonStatus.flags & 4) && (controller->flagsa2 & 0x10)) {
-            if ((((s32)scene->unk_008) & 0x20) && (func_800A5C70() != 0)) {
+            if ((scene->buttons & 0x20) && (func_800A5C70() != 0)) {
                 dungeonStatus.flags |= 0x80;
             }
             if ((func_80042900(actor, 1) << 0x10) == 0) {

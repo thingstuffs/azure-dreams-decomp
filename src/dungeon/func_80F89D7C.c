@@ -24,21 +24,6 @@ typedef struct S_8017357C_3 {
     u16 unk_0A;
 } S_8017357C_3;   /* counter_base in func_8017357C */
 
-typedef struct S_8017357C_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-} S_8017357C_4;   /* global_base in func_8017357C */
-
-typedef struct S_8017357C_5 {
-    u8 pad_00[0x58];
-    void * unk_58;
-} S_8017357C_5;   /* owner in func_8017357C */
-
-typedef struct S_8017357C_6 {
-    u8 pad_00[0x26];
-    s8 unk_26;
-} S_8017357C_6;   /* origin in func_8017357C */
-
 
 
 
@@ -142,10 +127,10 @@ state_one:
         goto done;
     }
     if ((func_800A2C34(actor) << 16) != 0) {
-        void *owner = D_800814A8;
+        EntityRec *owner = D_800814A8;
 
         if ((func_8009A180(actor,
-                (u8 *)((S_8017357C_5 *)owner)->unk_58 + 0x20) << 16) != 0) {
+                (u8 *)owner->unk_58 + 0x20) << 16) != 0) {
             goto done;
         }
     }

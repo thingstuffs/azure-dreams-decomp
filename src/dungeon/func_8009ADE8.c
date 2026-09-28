@@ -1,22 +1,16 @@
 #include "common.h"
 #include "shared/game_work.h"
 
-typedef struct {
-    u8 pad0[0x14];
-    s16 field14;
-    s16 field16;
-} DungeonBounds;
-
 
 /* Return whether the coordinates are outside the dungeon bounds. */
 s32 func_800A0548(s16 x, s16 y)
 {
-    DungeonBounds *bounds = ((DungeonBounds *)((u8 *)&gameWork + 476));
+    MapGrid *bounds = &gameWork.map;
 
-    if (x < 0 || x >= (1 << bounds->field14)) {
+    if (x < 0 || x >= (1 << bounds->shiftX)) {
         return 1;
     }
-    if (y < 0 || y >= (1 << bounds->field16)) {
+    if (y < 0 || y >= (1 << bounds->shiftY)) {
         return 1;
     }
     return 0;

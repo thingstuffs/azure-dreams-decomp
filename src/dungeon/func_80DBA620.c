@@ -41,17 +41,6 @@ typedef struct S_80171E20_2 {
 } S_80171E20_2;   /* arg2 in func_80171E20 */
 
 
-typedef struct S_80171E20_4 {
-    u8 pad_00[0x9A];
-    u8 unk_9A;
-} S_80171E20_4;   /* actor in func_80171E20 */
-
-typedef struct S_80171E20_5 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_80171E20_5;   /* origin in func_80171E20 */
-
 
 
 
@@ -100,7 +89,7 @@ void func_80171E20(void *actor_in, void *actor_data_in, void *sprite_in, void *s
     s16 facing;
     u16 action_flags;
     u8 *anim_table;
-    void *player;
+    EntityRec *player;
 
     if (initial_flags & 0x1000) {
         ((S_80171E20_0 *)actor_in)->unk_9A = 14;
@@ -234,7 +223,7 @@ jt_c7:
             D_80082E80.tileX, D_80082E80.tileY, &distance);
         player = D_800814A8;
         ((S_80171E20_1 *)status_in)->unk_2A = facing;
-        if (((S_80171E20_4 *)player)->unk_9A == 0x11) {
+        if (player->unk_9A == 0x11) {
             goto jt_call;
         }
 

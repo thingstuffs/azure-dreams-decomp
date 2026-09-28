@@ -5,22 +5,8 @@
 typedef struct {
     u16 x;
     u16 y;
-    s16 width;
-    s16 height;
-    u8 pad[12];
-} DungeonRect;
-
-typedef struct {
-    u16 x;
-    u16 y;
     u16 flags;
 } DungeonCell;
-
-typedef struct {
-    DungeonCell *cells;
-    u8 pad[16];
-    s16 shift;
-} DungeonState;
 
 extern s16 func_800BCB04(s32, s32, s32);
 
@@ -37,13 +23,13 @@ s32 func_80017F88(s16 rect_index, s16 *out_x, s16 *out_y, s16 check_flags)
     u16 flags;
     s32 tile_center_y;
     DungeonCell *cells;
-    DungeonState *state;
+    MapGrid *state;
 
     best_value = -0x200;
     rows_left = D_800E2970[rect_index].h;
     tile_y = D_800E2970[rect_index].y;
-    state = ((DungeonState *)((u8 *)&gameWork + 476));
-    cells = state->cells;
+    state = &gameWork.map;
+    cells = ((DungeonCell *)state->cells);
     if (rows_left > 0) {
         do {
             cols_left = D_800E2970[rect_index].w;
@@ -53,7 +39,7 @@ s32 func_80017F88(s16 rect_index, s16 *out_x, s16 *out_y, s16 check_flags)
                 tile_center_y = (row_index << 6) + 0x20;
                 do {
                     flags = cells[(s16)tile_x
-                        + (row_index << state->shift)].flags;
+                        + (row_index << state->shiftX)].flags;
                     if (!(flags & 0x8400)
                         && ((check_flags == 0)
                         || ((flags & 0x300) == 0x200))) {

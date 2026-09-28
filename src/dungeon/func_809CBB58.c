@@ -32,18 +32,6 @@ typedef struct S_80173358_2 {
     s8 unk_6D;
 } S_80173358_2;   /* arg3 in func_80173358 */
 
-typedef struct S_80173358_3 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x6];
-    u16 unk_0A;
-} S_80173358_3;   /* system_base in func_80173358 */
-
-
-typedef struct S_80173358_5 {
-    u8 pad_00[0x26];
-    s8 unk_26;
-} S_80173358_5;   /* origin in func_80173358 */
 
 
 
@@ -95,15 +83,15 @@ state_ge_two:
 state_zero:
     if (((S_80173358_1 *)sprite)->unk_14 & 0xE000) {
         u8 *direction_anims;
-        u8 *system_base;
+        DungeonGlobalStatus *system_base;
 
         direction_anims = D_80173CDC;
         (*(void * *)((u8 *)sprite + 0x2C)) = direction_anims;
         func_80047784(sprite,
             direction_anims[((gameWork.view.viewAngle + ((S_80173358_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
-        system_base = (u8 *)&dungeonStatus.unk_00;
-        ((S_80173358_3 *)system_base)->unk_0A--;
+        system_base = &dungeonStatus;
+        (*(u16 *)&system_base->unk_0A)--;
         ((S_80173358_0 *)in_controller)->unk_9B++;
     }
     return;
@@ -111,10 +99,10 @@ state_zero:
 state_one:
     if ((func_80042900(actor, 1) << 16) != 0) {
         s32 actor_flags;
-        u8 *system_base;
+        DungeonGlobalStatus *system_base;
 
-        system_base = (u8 *)&dungeonStatus.unk_00;
-        if (((S_80173358_3 *)system_base)->unk_02 & 0x1000) {
+        system_base = &dungeonStatus;
+        if (system_base->flags & 0x1000) {
             return;
         }
 
@@ -124,7 +112,7 @@ state_one:
         }
 
         if (((S_80173358_2 *)actor)->unk_25 == 0) {
-            if (((S_80173358_3 *)system_base)->unk_02 & 0x2008) {
+            if (system_base->flags & 0x2008) {
                 return;
             }
             func_800AA79C(in_controller, context, sprite, actor);
@@ -191,9 +179,9 @@ state_one:
     }
 
     if (!(((S_80173358_1 *)sprite)->unk_14 & 0x8000)) {
-        u8 *system_base = (u8 *)&dungeonStatus.unk_00;
+        DungeonGlobalStatus *system_base = &dungeonStatus;
 
-        ((S_80173358_3 *)system_base)->unk_0A++;
+        (*(u16 *)&system_base->unk_0A)++;
         ((S_80173358_0 *)in_controller)->unk_9B++;
         return;
     }
@@ -204,8 +192,8 @@ state_two:
         return;
     }
     {
-        u8 *system_base = (u8 *)&dungeonStatus.unk_00;
-        ((S_80173358_3 *)system_base)->unk_0A--;
+        DungeonGlobalStatus *system_base = &dungeonStatus;
+        (*(u16 *)&system_base->unk_0A)--;
     }
 
 finish:
