@@ -33,12 +33,13 @@ Gemini = 1-2 rows. Meters at 06:00Z: Claude 13%, Codex 10%. Lander now also land
 prototypes - naming is nearly done; the real debt is gotos (1,599 rows) and address-named local struct types
 (3,140) - needs a type/header design decision before a campaign.
 
-**Type consolidation (owner rulings 2026-09-28, docs/TYPE_CONSOLIDATION.md):** pilot + phases 2-5 landed 4,660 row
-migrations onto 9 include/shared/ headers incl. the hand-recovered EntityRec (entity.h), every row
+**Type consolidation (owner rulings 2026-09-28, docs/TYPE_CONSOLIDATION.md):** pilot + phases 2-8 landed 6,009 row
+migrations onto 15 include/shared/ headers (EntityRec, GameWork with its view sub-structure, ObjectNodeHeader, ...), every row
 verify-exact with full window/SLUS gates; tools in tools/consolidate/ (run from a lane copy), per-object specs
 in tools/consolidate/objects/. Mostly pin-neutral directly; phase 4 freed 4 SLUS pins (pointer globals m2c had declared as arrays). verify.py
-now compiles current SLUS texts against the live include/ (e8874f3b). Open: 3 SLUS rows need a SLUS symbol for D_80082E80
-(docs/evidence/type_consolidation_phase5_open.md). Continue cold from the design doc's HOW TO CONTINUE section. Next objects are listed at the end of the design doc
+now compiles current SLUS texts against the live include/ (e8874f3b). SLUS C-only data symbols: config/slus_006.14.c_syms.txt (configure.py C_SYMS). Script symbol dump parse fixed
+(c54f8361: records are name then value; call number n = entry n). Continue cold from the latest phase design doc's
+HOW TO CONTINUE (docs/evidence/type_consolidation_phase8_design.md); phase 9 running. Next objects are listed at the end of the design doc
 (D_80083178 fold into GameWork first). Preview page: https://claude.ai/artifact/LA63o6jeL9Xc5hHTXuw6LZ
 
 **Open items:** docs/OPEN_ITEMS.md (tracked list; fix when a safe moment arises, then move to Closed).
