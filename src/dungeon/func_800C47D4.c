@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_800814A8.h"
 #include "records/Rec_func_800C9F34_arg0.h"
@@ -15,8 +16,6 @@ extern M2C_UNK func_800CA93C();
 extern M2C_UNK func_800CAA94();
 extern u16 D_80013714;
 extern void *D_800814A8;
-extern M2C_UNK D_80083460;
-extern u16 D_80083462;
 
 
 typedef struct S_800C9F34_0 {
@@ -39,7 +38,7 @@ typedef struct S_800C9F34_3 {
 
 /* Updates entity action state and dispatches the appropriate handler. */
 void func_800C9F34(Rec_func_800C9F34_arg0 *actor_state, M2C_UNK context, S_800C9F34_3 *position, void *entity) {
-    void *action_state = &D_80083460;
+    void *action_state = &dungeonStatus.unk_00;
 
     if (((S_800C9F34_0 *)action_state)->unk_02 & 0x1000) {
         actor_state->unk_9A.as_s8 = 0xE;
@@ -80,7 +79,7 @@ update_tile:
     position->unk_26 = func_8009FB34(
         position->unk_24, position->unk_25);
     if ((((Rec_D_800E3D7C *)entity)->unk_6D.as_s8 > 0) &&
-        (!(D_80083462 & 0x2000) ||
+        (!(dungeonStatus.flags & 0x2000) ||
          ((func_8009A180(entity,
             ((Rec_D_800814A8 *)D_800814A8)->unk_58.as_s32 + 0x20) << 0x10) == 0))) {
         func_800CA93C(actor_state, context, position);

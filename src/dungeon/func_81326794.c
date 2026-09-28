@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 extern void func_8009A028(void *);
 extern u16 func_800A0818(u8, u8, u8, u8, s32 *);
 extern void func_8016A908(void *);
 
 extern u8 D_80082E80[];
-extern u8 D_80083460[];
 extern u16 D_800834E2;
 extern s8 D_800DCF4D;
 extern u8 *D_800E3D7C;
@@ -43,7 +43,7 @@ void func_8016DF94(void) {
     *(s16 *)(state_page + 0x371A) = 0;
     *(s16 *)(state_page + 0x3718) = 0;
     *(s16 *)(state_page + 0x3716) = 0;
-    status = D_80083460;
+    status = ((u8 *)(&dungeonStatus));
     status_count = *(u16 *)(status + 0xA);
     state_flags = *(u16 *)(state_page + 0x3714);
     ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */

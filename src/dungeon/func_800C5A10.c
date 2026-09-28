@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 
 typedef struct {
     u8 pad_00[0x96];
@@ -24,8 +26,6 @@ typedef struct {
     u16 value_1e;
 } Motion;
 
-extern u16 D_80083460[];
-extern s32 D_800814A0[];
 
 extern s32 func_800644B8(s32 arg0);
 extern s32 func_8009A028(void *arg0);
@@ -58,7 +58,7 @@ void func_800CB170(State *state, Position *position, Motion *motion, void *objec
 state_zero:
     if ((func_800A2C78(object) << 16) == 0) {
         u16 *active_counts;
-        active_counts = &D_80083460[0];
+        active_counts = ((u16 *)&dungeonStatus.unk_00);
         active_counts[5] = active_counts[5] + 1;
         state->value_b2 = 4;
         state->value_96 = 0;
@@ -96,12 +96,12 @@ state_two:
     motion->pad_0c = shade;
     if ((s16)motion->value_1c <= 0) {
         u16 *active_counts;
-        active_counts = &D_80083460[0];
+        active_counts = ((u16 *)&dungeonStatus.unk_00);
         active_counts[5] = active_counts[5] - 1;
         func_800A32A4(object);
         func_8009A028(object);
         ((u16 *)object)[-1] = ((u16 *)object)[-1] | 0x8000;
-        D_800814A0[0] = D_800814A0[0] | 0x8000;
+        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
     }
 
 done:

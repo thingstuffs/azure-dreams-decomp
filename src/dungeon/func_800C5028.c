@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef struct S_800CA788_0 {
     u8 pad_00[0x2];
@@ -27,7 +28,6 @@ typedef struct S_800CA788_3 {
 
 
 
-extern s32 D_80083460;
 
 extern s32 func_8009B4B0(void *, u8, u8);
 extern void func_8009C93C(void *, void *, s32, s32, s32);
@@ -51,7 +51,7 @@ s32 func_800CA788(void *object_ptr, void *action_context, void *target_ptr, void
     actor = actor_ptr;
     actor[0x71] &= 0x7F;
     context = action_context;
-    global_state = (u8 *)&D_80083460;
+    global_state = (u8 *)&dungeonStatus.unk_00;
     if (((S_800CA788_0 *)global_state)->unk_02 & 0x2000) {
         goto return_negative;
     }

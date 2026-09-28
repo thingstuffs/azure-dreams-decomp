@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct StructInner {
     s8 pad0[0x52];
@@ -17,12 +18,6 @@ typedef struct StructA2 {
     u16 unk1E;
 } StructA2;
 
-typedef struct {
-    s32 v;
-    s32 pad[2];
-} D_800814A0_t;
-
-extern D_800814A0_t D_800814A0;
 extern void func_800478B8(void *arg0);
 
 /* Decreases paired state values by 0x80, invokes the state handler, and sets flags. */
@@ -36,6 +31,6 @@ void func_81833060(StructA0 *owner, void *unused, StructA2 *state) {
     func_800478B8(state);
     if (state->unk14 & 0x6000) {
         ((u16 *)owner)[-1] |= 0x8000;
-        D_800814A0.v |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

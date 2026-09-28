@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 #define F(p, t, o) (*(t *)((u8 *)(p) + (o)))
 
@@ -8,7 +9,6 @@ typedef struct TileEntry {
     u8 tail[6];
 } TileEntry;
 
-extern u16 D_80083462;
 extern s16 D_80083228;
 extern void *D_800814A8;
 extern u8 D_80082E80[];
@@ -68,7 +68,7 @@ void func_80170E94(void *actor, void *context, void *sprite, void *stats) {
         &&case_9, &&case_default, &&case_11, &&case_12,
     };
 
-    if ((F(actor, u8, 0xAE) == 0) && (D_80083462 & 0x1000)) {
+    if ((F(actor, u8, 0xAE) == 0) && (dungeonStatus.flags & 0x1000)) {
         F(actor, u8, 0x9A) = 14;
         func_801716B4(actor, context, sprite, stats);
         goto done;
@@ -98,7 +98,7 @@ void func_80170E94(void *actor, void *context, void *sprite, void *stats) {
         }
     }
 
-    if (!(D_80083462 & 0x2000)) {
+    if (!(dungeonStatus.flags & 0x2000)) {
         if (F(stats, u32, 0x1C) & 0x100) {
             func_800AA258(actor, context, sprite, stats);
             goto done;
@@ -171,7 +171,7 @@ state_done:
     }
 
     if (!(F(stats, u16, 0x46) & 0x8000)) {
-        if (D_80083462 & 0x2000) {
+        if (dungeonStatus.flags & 0x2000) {
             if ((s16)func_8009A180(stats,
                     (u8 *)F(D_800814A8, void *, 0x58) + 0x20) != 0) {
                 goto done;
@@ -304,7 +304,7 @@ flag_2000:
     }
 
 final_checks:
-    if (D_80083462 & 0x2000) {
+    if (dungeonStatus.flags & 0x2000) {
         goto done;
     }
     if (F(sprite, u16, 0x14) & 0x40) {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800814A8.h"
 
 typedef struct S_8017140C_0 {
@@ -86,7 +87,6 @@ extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern s8 D_80082EA4;
 extern s16 D_80083228;
-extern u16 D_80083462;
 extern s8 D_800E2970[];
 extern u8 D_8017586C[];
 extern u8 D_80175874[];
@@ -101,7 +101,7 @@ void func_8017140C(void *actor, void *actor_context, void *sprite, void *creatur
     s8 room_id;
     u16 behavior_flags;
 
-    if (D_80083462 & 0x1000) {
+    if (dungeonStatus.flags & 0x1000) {
         ((S_8017140C_0 *)actor)->unk_9A = 0xE;
         func_80171964(actor, actor_context);
         return;
@@ -135,7 +135,7 @@ void func_8017140C(void *actor, void *actor_context, void *sprite, void *creatur
         }
     }
 
-    if (!(D_80083462 & 0x2000)) {
+    if (!(dungeonStatus.flags & 0x2000)) {
         void *current_animation;
         u8 *animation_table;
 
@@ -199,7 +199,7 @@ void func_8017140C(void *actor, void *actor_context, void *sprite, void *creatur
             goto generic;
         }
         if (!(((S_8017140C_1 *)creature)->unk_46 & 0x8000)) {
-            if (D_80083462 & 0x2000) {
+            if (dungeonStatus.flags & 0x2000) {
                 if ((func_8009A180(creature,
                         (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) << 16) != 0) {
                     return;

@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 
 typedef s32 M2C_UNK;
 
@@ -192,8 +194,6 @@ extern u8 D_800DEC70[];
 extern u8 D_800249BC[];
 extern u8 D_80024F40[];
 extern u8 D_80024C40[];
-extern s32 D_8008346C[];
-extern s32 D_800814A0[];
 extern void *D_80024008[];
 
 #ifdef __mips__
@@ -695,9 +695,9 @@ case4:
         action->unk_52.u16_52 &= 0x7FFF;
         goto done;
     }
-    D_8008346C[0] = 0;
+    dungeonStatus.unk_0C = 0;
     ((S_func_81856800_9 *)((u8 *)action - 2))->unk_00 |= 0x8000;
-    D_800814A0[0] |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
 }
 
 done:

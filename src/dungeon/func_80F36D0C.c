@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
 typedef union {
@@ -75,7 +76,6 @@ typedef struct {
 } CounterBlock;
 
 extern s16 D_80083228[];
-extern CounterBlock D_80083460[];
 extern PackedRecord D_800E3548[];
 extern TileRecord D_800E36C8[];
 extern u8 D_80174A74[];
@@ -290,7 +290,7 @@ void func_80F36D0C(Entity *entity_arg, Motion *motion_arg, Effect *effect_arg, O
         motion->velocity_x = 0;
         func_800AD594(object, 0x100);
         entity->callback = func_80170E94;
-        D_80083460[0].count--;
+        ((CounterBlock *)&dungeonStatus)[0].count--;
         func_800A4ACC(object);
         data_page = (s32)((u8 *)0x800E0000);
         if (object->flag6D == 0) {

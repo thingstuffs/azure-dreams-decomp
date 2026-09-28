@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_800A9E70_arg0.h"
@@ -16,7 +17,6 @@ extern s32 func_800A2B5C();
 extern s32 func_800A2CB8();
 extern s32 func_800C7930();
 extern s16 D_80083228;
-extern volatile u16 D_80083460[];
 extern u8 D_8017386C[];
 
 /* Attempt an actor transition and update its state and sprite on success. */
@@ -27,7 +27,7 @@ s32 func_80171D80(void *state, s32 action_id, void *sprite, void *actor)
     s32 target;
 
     ((Rec_D_800E3D7C *)actor)->unk_71.as_u8 &= 0x7F;
-    status = D_80083460;
+    status = ((u16 *)(&dungeonStatus));
     transitioned = 0;
     if (((volatile u16 *)status)[1] & 0x2000) {
         goto abort_transition;

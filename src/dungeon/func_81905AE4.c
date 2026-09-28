@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 extern s16 D_800267B8[5];
-extern s32 D_800814A0[3];
 
 /* Updates a timed brightness pulse and clears the linked object flag on completion. */
 void func_800252E4(u8 *effect, void *unused, u8 *target)
@@ -17,7 +17,7 @@ void func_800252E4(u8 *effect, void *unused, u8 *target)
     D_800267B8[0] = 1;
     if ((u32)(object[0x13] - 0x33) < 4U) {
         *(u16 *)(effect - 2) |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         return;
     }
 
@@ -41,11 +41,11 @@ void func_800252E4(u8 *effect, void *unused, u8 *target)
 
     if (*(s16 *)(effect + 2) <= 0) {
         *(u16 *)(effect - 2) |= 0x8000;
-        global_flags = D_800814A0[0];
+        global_flags = objectFlagBlock.flags;
         linked_flags = *(u16 *)(linked_object + 0x14);
         global_flags |= 0x8000;
         linked_flags &= 0xFF7F;
-        D_800814A0[0] = global_flags;
+        objectFlagBlock.flags = global_flags;
         *(u16 *)(linked_object + 0x14) = linked_flags;
     }
 }

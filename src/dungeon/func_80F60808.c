@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern s32 D_80083460[3];
 extern s16 D_80083228[5];
 s32 func_800A2BDC();                          /* extern */
 M2C_UNK func_800A48F0();    /* extern */
@@ -23,7 +23,7 @@ typedef struct S_80F60808_1 {
 
 /* Start the actor's directional animation and update its action state when allowed. */
 void func_80F60808(S_80F60808_1 *action_state, void *unused, Rec_D_80082E80 *sprite, Rec_D_800E3D7C *actor) {
-    u16 *dungeon_state = (u16 *)D_80083460;
+    u16 *dungeon_state = (u16 *)((s32 *)(&dungeonStatus));
     actor->unk_71.as_u8 = (u8) (actor->unk_71.as_u8 & 0x7F);
     if (!(dungeon_state[1] & 0x2000) && ((func_800A2BDC(actor) << 0x10) == 0)) {
         action_state->unk_9A = 0xD;

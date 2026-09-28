@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 extern int abs(int);
 
 typedef struct S_800C0E88_0 {
@@ -82,7 +83,6 @@ extern u8 D_8006DE24[];
 extern u8 *D_80073470[];
 extern void *D_800814A8[];
 extern u8 D_80082E80[];
-extern u8 D_80083460[];
 extern u8 D_80083780[];
 extern u16 D_800DDE84[];
 extern u16 D_800DF4B0[];
@@ -195,7 +195,7 @@ normal_finish:
 
     if (((S_800C0E88_1 *)data)->unk_02.s == 0) {
         func_800997FC(D_800E1456);
-        tail_status = D_80083460;
+        tail_status = ((u8 *)(&dungeonStatus));
         data[3] &= 0xDF;
 decrement_status:
         ((S_800C0E88_4 *)tail_status)->unk_0A--;
@@ -242,7 +242,7 @@ decrement_status:
         return 0;
     }
 
-    status = D_80083460;
+    status = ((u8 *)(&dungeonStatus));
     ((S_800C0E88_6 *)status)->unk_0C = object;
     ((S_800C0E88_7 *)(D_800814A8[0]))->unk_98 |= 0x80;
     ((S_800C0E88_1 *)data)->unk_02.u--;

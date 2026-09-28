@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -15,7 +16,6 @@ typedef struct S_809750E8_0 {
 #define M2C_BREAK() ((void)0)
 #define M2C_SYNC() ((void)0)
 
-extern s32 D_800814A0[3];
 
 /* Applies countdown-scaled intensity and sets completion flags when the countdown expires. */
 void func_809750E8(void *record_data, void *unused, Rec_D_80082E80 *color_target) {
@@ -31,6 +31,6 @@ void func_809750E8(void *record_data, void *unused, Rec_D_80082E80 *color_target
     ((S_809750E8_0 *)((u8 *)record_data - 0x2))->unk_98 = remaining_ticks;
     if ((remaining_ticks << 0x10) <= 0) {
         ((S_809750E8_0 *)((u8 *)record_data - 0x2))->unk_00 = (u16) (((S_809750E8_0 *)((u8 *)record_data - 0x2))->unk_00 | 0x8000);
-        D_800814A0[0] = D_800814A0[0] | 0x8000;
+        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
     }
 }

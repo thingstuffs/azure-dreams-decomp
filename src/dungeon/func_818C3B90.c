@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 extern int abs(int);
 
@@ -69,8 +71,6 @@ typedef struct StackLocals {
     u16 accum_y;
 } StackLocals;
 
-extern s32 D_8008346C[3];
-extern LargeInt D_800814A0;
 extern void *D_80024008[];
 
 extern s32 func_8003DE58(void *, Lookup *, s16 *, s32);
@@ -358,9 +358,9 @@ bump_state:
 
 jt_c5:
     if (action->fieldC == 0) {
-        D_8008346C[0] = 0;
+        dungeonStatus.unk_0C = 0;
         *(u16 *)((u8 *)action - 2) |= 0x8000;
-        D_800814A0.value |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
     goto done;
 

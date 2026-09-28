@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 
 typedef struct S_80173450_0 {
@@ -27,9 +29,6 @@ typedef struct S_80173450_3 {
 
 
 
-extern s32 D_800814A0;
-extern s32 D_80083460;
-extern u8 D_8008346A;
 
 void func_8009A028(void *);
 void func_8009A3D0(s32, s32, s32);
@@ -70,7 +69,7 @@ state_ge_2:
     goto end;
 
 state_zero:
-    if (*(s16 *)&D_8008346A != 0) {
+    if (*(s16 *)((u8 *)&dungeonStatus.unk_0A) != 0) {
         goto end;
     }
     ((S_80173450_0 *)action)->unk_9B = 1;
@@ -107,7 +106,7 @@ update:
         }
     }
 
-    entity_globals = &D_80083460;
+    entity_globals = &dungeonStatus.unk_00;
     tracked_entity = ((S_80173450_3 *)entity_globals)->unk_10;
     if (tracked_entity == (s32)((u8 *)entity - 0x20)) {
         ((S_80173450_3 *)entity_globals)->unk_10 = tracked_entity & 0x7FFFFFFF;
@@ -124,7 +123,7 @@ update:
     func_8009A3D0(tile_x, tile_y, tile_mask);
     func_8009A028(entity);
     (*(u16 *)((u8 *)entity + -2)) |= 0x8000;
-    D_800814A0 |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
 
 end:
     return;

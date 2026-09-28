@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef struct DungeonState {
     u8 pad0[0xA];
     u16 counter;
 } DungeonState;
 
-extern DungeonState D_80083460;
 extern u8 D_800E0458[];
 extern u8 D_800E0C78[];
 

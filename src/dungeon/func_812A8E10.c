@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
 typedef struct { u8 pad0[0x8C]; void *field8c; u8 pad90[6]; s16 count96; u8 pad98[3]; u8 state9b; } S_A;
@@ -6,7 +7,6 @@ typedef struct { u8 pad0[2]; s16 x2; u8 pad4[2]; s16 y6; u8 pad8[4]; s32 dxC; s3
 typedef struct { u8 pad0[0x14]; u16 flags14; u8 pad16[0x0E]; u8 x24; u8 y25; } S_C;
 typedef struct { u8 pad0[0x28]; u8 flag28; u8 pad29[0x41]; u16 index6A; } S_D;
 
-extern s32 D_80083460[3];
 extern u8 D_80171FA4[];
 extern void func_800A2B04(S_B *, u8, u8);
 extern void func_800AD4D0(S_D *);
@@ -81,7 +81,7 @@ reach_target:
             motion->dy10 = 0;
             motion->dxC = 0;
             func_800A2B04(motion, target->x24, target->y25);
-            selection_state = D_80083460;
+            selection_state = ((s32 *)(&dungeonStatus));
             if (selection_state[4] == (s32)((u8 *)actor - 0x20)) {
                 selection_state[4] &= 0x7FFFFFFF;
                 motion_state->field8c = D_80171FA4;

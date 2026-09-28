@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_func_800AD058_arg0.h"
 
@@ -6,10 +8,7 @@ typedef s32 M2C_UNK;
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-extern s16 D_8008346A[];
 extern u8 D_80083780[12];
-extern s32 D_80083460[3];
-extern s32 D_800814A0[3];
 s32 func_800644B8(s32);
 s32 func_80064584(s32);
 M2C_UNK func_8009A028();
@@ -93,7 +92,7 @@ s32 func_800AD058(u8 *state, s32 *position, u8 *sprite, u8 *entity_data) {
 
     switch (((Rec_func_800AD058_arg0 *)state)->unk_9B) {
     case 0:
-        if (*D_8008346A != 0) {
+        if (dungeonStatus.unk_0A != 0) {
             return 0;
         }
         ((Rec_func_800AD058_arg0 *)state)->unk_9B = 1U;
@@ -131,7 +130,7 @@ update_fade:
     ((Rec_func_800AD058_arg0 *)state)->unk_96 = fade_ticks;
     if (((fade_ticks << 0x10) <= 0) || (finished = 0, ((((S_800AD058_1 *)sprite)->unk_14 & 0x8000) != 0))) {
         if (!(((S_800AD058_2 *)entity)->unk_14 & 0x20000000)) {
-            s32 *shared_state = D_80083460;
+            s32 *shared_state = ((s32 *)(&dungeonStatus));
             if (shared_state[4] == (s32) (entity - 0x20)) {
                 shared_state[4] = (s32) (shared_state[4] & 0x7FFFFFFF);
             }
@@ -168,7 +167,7 @@ update_fade:
         }
         func_8009A028(entity);
         ((S_800AD058_2_pre *)entity)[-1].unk_00 = (u16) (((S_800AD058_2_pre *)entity)[-1].unk_00 | 0x8000);
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         func_800A56E0(0x609);
         return 1;
     }
@@ -195,7 +194,7 @@ update_spiral:
     ((Rec_func_800AD058_arg0 *)state)->unk_96 = spiral_ticks;
     finished = 0;
     if ((spiral_ticks << 0x10) <= 0) {
-        register s32 *shared_state ASM_REG("$2") = D_80083460;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        register s32 *shared_state ASM_REG("$2") = ((s32 *)(&dungeonStatus));   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
         ((S_800AD058_5 *)shared_state)->unk_0A = (u16) (((S_800AD058_5 *)shared_state)->unk_0A - 1);
         func_800A2FE0(entity);
@@ -218,6 +217,6 @@ finish_removal:
     func_8009A028(entity);
     ((S_800AD058_2_pre *)entity)[-1].unk_00 = (u16) (((S_800AD058_2_pre *)entity)[-1].unk_00 | 0x8000);
     finished = 1;
-    D_800814A0[0] |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
     return finished;
 }

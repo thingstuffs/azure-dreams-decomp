@@ -1,9 +1,9 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern volatile s16 D_80013714[8];
-extern s32 D_80083460[3];
 s32 func_800644B8();                             /* extern */
 s32 func_80064584();                             /* extern */
 s32 rand();                                /* extern */
@@ -107,7 +107,7 @@ void func_800172A0(S_800172A0_0 *source, s16 base_offset) {
         state_offset = base_offset + ((((S_800172A0_3 *)effect)->unk_24 + 1) * 0x30);
         ((S_800172A0_1 *)state)->unk_98 = state_offset;
         ((S_800172A0_3 *)effect)->unk_10 = (s32) state_offset;
-        counter = (u16 *)D_80083460;
+        counter = (u16 *)((s32 *)(&dungeonStatus));
         ((S_800172A0_4 *)counter)->unk_0A = (u16) (((S_800172A0_4 *)counter)->unk_0A + 1);
     }
 }

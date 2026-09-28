@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -44,7 +45,6 @@ extern s32 func_800AD9B4(void *, void *);
 
 extern u8 D_80082E80[];
 extern s16 D_80083228;
-extern s32 D_80083460;
 extern u8 D_80170E68[];
 extern u8 D_80173884[];
 extern u8 D_8017388C[];
@@ -161,7 +161,7 @@ update_timer:
         func_800AD594(actor, 4);
         func_800A4ACC(actor);
 
-        counter_base = (u8 *)&D_80083460;
+        counter_base = (u8 *)&dungeonStatus.unk_00;
         if (((S_801722BC_4 *)counter_base)->unk_08.s != 0) {
             ((S_801722BC_4 *)counter_base)->unk_08.u--;
         }

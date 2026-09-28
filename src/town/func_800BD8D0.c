@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_800BB030_0_pre {
     u16 unk_00;
@@ -18,7 +19,6 @@ typedef struct S_800BB030_0 {
 
 
 extern s32 func_8009CFE0(void *, void *);
-extern s32 D_800814A0[];
 
 /* Updates a four-phase animation and clears its activity flag on completion. */
 void func_800BB030(void *entity, void *context) {
@@ -34,7 +34,7 @@ void func_800BB030(void *entity, void *context) {
             *activity_flag = 0;
         }
         ((S_800BB030_0_pre *)entity)[-1].unk_00 |= 0x8000;
-        D_800814A0[0] = D_800814A0[0] | 0x8000;
+        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
         goto end;
     }
 

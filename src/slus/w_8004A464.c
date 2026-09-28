@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 #include "common.h"
 
@@ -16,7 +17,6 @@ typedef struct ObjA464 {
 } ObjA464;
 
 extern void func_8004B530(s32 arg0);
-extern s32 D_800814A0[3];
 extern s32 D_800814A0_store;
 __asm__(".set D_800814A0_store, 0x800814A0");
 
@@ -28,7 +28,7 @@ void func_8004A464(ObjA464 *obj)
     if (obj != 0) {
         obj->flags |= 0x8000;
         inner = &obj->inner;
-        D_800814A0_store = D_800814A0[0] | 0x8000;
+        D_800814A0_store = objectFlagBlock.flags | 0x8000;
         func_8004B530(inner->field_8);
         func_8004B530(inner->field_18);
     }

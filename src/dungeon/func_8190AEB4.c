@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_8190AEB4_0 {
     union { s16 s; volatile u16 u; u16 p; } unk_00;   /* accessed as both */
@@ -39,7 +40,6 @@ extern s16 D_80025630;
 extern s32 D_80025638[4];
 extern u8 D_80025648[48];
 extern u8 D_80025678[44];
-extern s32 D_800814A0;
 
 extern s32 func_80024590(s32);
 extern void func_800672D8(Rect *, s32 *);
@@ -209,7 +209,7 @@ store_xy:
         }
         ((S_8190AEB4_2 *)(((S_8190AEB4_0 *)effect)->unk_34))->unk_90 = 1;
         (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         break;
     }
     }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct {
     u16 x;
@@ -71,7 +72,6 @@ typedef struct {
     s16 pad1A;
 } LocalPacket;
 
-extern s32 D_800814A0;
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 extern s32 func_80069EF8(void);
@@ -142,7 +142,7 @@ after_color:
 
     if (obj->z < (s32)0xFFD00000 || obj->state == 3) {
         *((u16 *)obj - 1) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 
     if (obj->state == 0) {

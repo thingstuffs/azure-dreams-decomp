@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 
 
@@ -9,7 +10,6 @@ M2C_UNK func_800A4ACC();
 s32 func_800AB1C0();
 M2C_UNK func_800AD594();
 s32 func_800AD9B4();
-extern u16 D_80083462;
 extern M2C_UNK D_80171514;
 
 typedef struct S_80172474_0 {
@@ -38,7 +38,7 @@ void func_80172474(void *entity_ptr, M2C_UNK unused, M2C_UNK check_arg, M2C_UNK 
         entity->unk_8C = &D_80171514;
     } while (0);
 check_flag:
-    if (D_80083462 & 0x80) {
+    if (dungeonStatus.flags & 0x80) {
         entity->unk_92 = -0x20;
     }
 }

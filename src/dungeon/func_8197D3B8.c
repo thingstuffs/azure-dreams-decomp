@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
 
 typedef struct S_8197D3B8_0 {
@@ -27,7 +28,6 @@ typedef struct S_8197D3B8_2 {
 
 
 extern void func_800478B8(void *);
-extern s32 D_800814A0[3];
 
 /* Applies motion deltas, marks the primitive, and propagates status flags. */
 void func_8197D3B8(void *render_entry, S_8197D3B8_0 *motion, Rec_D_80082E80 *status)
@@ -48,6 +48,6 @@ void func_8197D3B8(void *render_entry, S_8197D3B8_0 *motion, Rec_D_80082E80 *sta
     func_800478B8(status);
     if (status->unk_14.at00_u16.v & 0x6000) {
         ((S_8197D3B8_1_pre *)render_entry)[-1].unk_00 |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

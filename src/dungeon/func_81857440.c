@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct {
     u16 x;
@@ -29,7 +30,6 @@ extern s16 func_80066460(s32, s32, s32, s32);
 extern s16 func_8006649C(s32, s32);
 extern s32 rand();
 extern u8 D_800249BC[];
-extern u32 D_800814A0;
 
 /* Initializes, animates, and retires a jittering five-point effect. */
 void func_80024C40(Entity *entity)

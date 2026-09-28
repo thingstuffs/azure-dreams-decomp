@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "records/Rec_D_800814A8.h"
 
@@ -103,13 +104,12 @@ extern u8 D_80082E80_initial[] __asm__("D_80082E80");
 extern u8 D_80082E80_fallback[] __asm__("D_80082E80");
 extern u8 D_80082E80_check[] __asm__("D_80082E80");
 extern s8 D_80082EA4;
-extern s32 D_80083460;
 extern s8 D_800E2970[];
 
 /* Updates an actor's movement path, trying alternate directions around obstacles. */
 void func_8017163C(void *move_ctx_in, void *action_ctx, void *position_in, void *actor_in)
 {
-    u8 *dungeon_state = (u8 *)&D_80083460;
+    u8 *dungeon_state = (u8 *)&dungeonStatus.unk_00;
     u16 dungeon_flags = ((S_8017163C_0 *)dungeon_state)->unk_02;
     s32 near_target = 0;
     register s16 stop_turning;
@@ -349,7 +349,7 @@ loop_test:
     }
 
     {
-        u8 *dungeon_counters = (u8 *)&D_80083460;
+        u8 *dungeon_counters = (u8 *)&dungeonStatus.unk_00;
         ((S_8017163C_1 *)actor_in)->unk_46 &= 0x7FFF;
         ((S_8017163C_5 *)move_ctx_in)->unk_9C.u = ((S_8017163C_2 *)position_in)->unk_26.u;
         ((S_8017163C_1 *)actor_in)->unk_6D.u--;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef struct Struct_80083460 {
     u8 pad[10];
@@ -11,7 +12,6 @@ extern u8 D_80082E80[];
 extern u16 D_800DDE84[];
 extern s32 D_80012090;
 extern s16 D_8008146C;
-extern Struct_80083460 D_80083460[];
 extern u8 D_800C0180[];
 extern u8 D_800DF45C[];
 extern u8 D_800E1375[];
@@ -45,12 +45,12 @@ s32 func_800C0230(u8 *entity, s32 event, s16 target_type, s32 target_record) {
             func_800A5F38(entity, event);
             return 1;
         }
-        D_80083460->count--;
+        ((Struct_80083460 *)&dungeonStatus)->count--;
         goto block_update;
     }
     if (*(s32 *)0x80012090 == 0 && D_8008146C == 0x28 && func_80033BC0(0xA2) == 0) {
         func_800997FC(D_800E1375);
-        D_80083460->count--;
+        ((Struct_80083460 *)&dungeonStatus)->count--;
         func_80098B38(event);
         return 1;
     }
@@ -61,7 +61,7 @@ s32 func_800C0230(u8 *entity, s32 event, s16 target_type, s32 target_record) {
         return 0;
     }
     func_800997FC(D_800E13B7);
-    D_80083460->count++;
+    ((Struct_80083460 *)&dungeonStatus)->count++;
 
 block_update:
     func_80098B38(event);

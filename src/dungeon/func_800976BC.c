@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
 
@@ -50,7 +51,6 @@ typedef struct S_8009CE1C_2 {
 
 extern u8 *D_800E3D7C[];
 extern u8 D_800E3E41;
-extern void *D_80083470[3];
 M2C_UNK func_80094E34();
 s32 func_80098250();
 M2C_UNK func_8009CFB4();
@@ -193,7 +193,7 @@ apply_affinity:
             func_80094E34();
         }
         ((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_74 = source_flags;
-        D_80083470[0] = target - 0x20;
+        dungeonStatus.unk_10 = target - 0x20;
         if (!(((S_8009CE1C_4 *)(((S_8009CE1C_3_pre *)target)[-1].unk_00))->unk_14 & 0x8000)) {
             func_800419EC(8, 0x10);
         }

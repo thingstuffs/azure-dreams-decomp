@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
 #define F(p, t, o) (*(t *)((u8 *)(p) + (o)))
@@ -9,8 +11,6 @@ extern u8 D_800257E8[];
 extern u8 D_80045340[];
 extern s16 D_800257CE[5];
 extern u8 D_800DDC40[];
-extern s32 D_8008346C[];
-extern s32 D_800814A0[];
 
 extern void func_800B835C(void *, s32 *, s32, s32);
 extern void *func_8003DF74(void *, void *, s16 *, s32);
@@ -365,9 +365,9 @@ cleanup:
     if (D_800257CE[0] != 0) {
         goto finish;
     }
-    D_8008346C[0] = 0;
+    dungeonStatus.unk_0C = 0;
     F(self, u16, -2) |= 0x8000;
-    D_800814A0[0] |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
 
 finish:
     D_800257CE[0] = 0;

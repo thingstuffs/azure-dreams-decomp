@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef struct {
     u8 pad00[0x8C];
@@ -25,12 +26,11 @@ typedef struct {
 extern s32 func_800A2BDC(State *state);
 extern void func_80047784(Object *object, u8 value, s32 arg2);
 extern s16 D_80083228[];
-extern u16 D_80083460[];
 extern u8 D_80174F08[];
 
 /* Clears the state flag and, when allowed, resets the entity and selects a directional object value. */
 void func_80174B14(Entity *entity, s32 unused, Object *object, State *state) {
-    u16 *flags = D_80083460;
+    u16 *flags = ((u16 *)(&dungeonStatus));
 
     state->unk71 &= 0x7F;
     if (!(flags[1] & 0x2000) && ((func_800A2BDC(state) << 16) == 0)) {

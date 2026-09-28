@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 extern int abs(int);
 
 typedef struct S_80172AB4_0 {
@@ -82,8 +83,6 @@ extern void func_800DA840(u16 *, s32);
 extern u8 D_8006DE24[];
 extern void *D_800814A8;
 extern s16 D_80083228;
-extern s32 D_80083460;
-extern s32 D_8008346C;
 extern void *D_80170838[];
 extern u8 D_80170E7C;
 extern u8 D_80174D4C[];
@@ -245,7 +244,7 @@ apply_move:
     ((S_80172AB4_5 *)motion)->unk_10 = 0;
     ((S_80172AB4_5 *)motion)->unk_0C = 0;
     func_800A2B04(motion, ((S_80172AB4_4 *)sprite)->unk_24, ((S_80172AB4_4 *)sprite)->unk_25);
-    D_8008346C = 0;
+    dungeonStatus.unk_0C = 0;
     (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
     func_800A4ACC(actor);
     ((S_80172AB4_1 *)actor)->unk_6D.s--;
@@ -348,7 +347,7 @@ state_ff:
             0);
     }
     {
-        u8 *move_globals = (u8 *)&D_80083460;
+        u8 *move_globals = (u8 *)&dungeonStatus.unk_00;
 
         if (((S_80172AB4_6 *)move_globals)->unk_0C != 0) {
             goto done;

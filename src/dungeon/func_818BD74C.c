@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_func_818BD74C_0 {
     void *unk_00;
@@ -44,7 +45,6 @@ typedef struct S_func_818BD74C_4 {
     u8 unk_13;
 } S_func_818BD74C_4;
 
-extern s32 D_800814A0;
 extern u8 D_800DDC40[];
 extern void func_800247B0(void *, void *, s16);
 extern void func_800249C4(void *, void *, s16, s32);
@@ -175,8 +175,8 @@ state2:
     *(u16 *)((u8 *)effect - 2) = (u16)(*(u16 *)((u8 *)effect - 2) | 0x8000);
     final_state = *(volatile u16 *)((u8 *)effect + 0xE);
     {
-        s32 global_flags = D_800814A0;
+        s32 global_flags = objectFlagBlock.flags;
         *(volatile u16 *)((u8 *)effect + 0xE) = (u16)(final_state + 1);
-        D_800814A0 = global_flags | 0x8000;
+        objectFlagBlock.flags = global_flags | 0x8000;
     }
 }

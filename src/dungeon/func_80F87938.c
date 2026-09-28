@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800814A8.h"
 
 typedef struct S_80171138_0 {
@@ -87,7 +88,6 @@ extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern s8 D_80082EA4;
 extern s16 D_80083228;
-extern u16 D_80083462;
 extern s8 D_800E2970[];
 extern void *const D_80170808[];
 extern u8 D_80171138[];
@@ -113,7 +113,7 @@ void func_80171138(void *actor_in, void *context_in, void *sprite_in, void *stat
     s32 status_flags;
     s8 tile_index;
     u16 action_state;
-    u32 dungeon_flags = D_80083462;
+    u32 dungeon_flags = dungeonStatus.flags;
 
     actor = actor_in;
     context = context_in;
@@ -151,7 +151,7 @@ void func_80171138(void *actor_in, void *context_in, void *sprite_in, void *stat
         }
     }
 
-    if (!(D_80083462 & 0x2000)) {
+    if (!(dungeonStatus.flags & 0x2000)) {
         if (((S_80171138_1 *)stats)->unk_1C & 0x100) {
             func_800AA258(actor, context, sprite, stats);
             return;
@@ -202,7 +202,7 @@ void func_80171138(void *actor_in, void *context_in, void *sprite_in, void *stat
         }
         action_state = ((S_80171138_1 *)stats)->unk_46;
         if (!(action_state & 0x8000)) {
-            if (D_80083462 & 0x2000) {
+            if (dungeonStatus.flags & 0x2000) {
                 if ((func_8009A180(stats,
                         (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) << 16) != 0) {
                     return;

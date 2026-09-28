@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct {
     s32 x;
@@ -9,7 +10,6 @@ typedef struct {
     s32 dz;
 } Motion;
 
-extern s32 D_800814A0;
 
 /* Advance and damp motion, fade the primitive, and flag the effect when its timer expires. */
 void func_80D65B84(void *effect, Motion *motion, void *primitive) {
@@ -33,6 +33,6 @@ void func_80D65B84(void *effect, Motion *motion, void *primitive) {
     *(s16 *)((u8 *)effect + 0xC) = ticks_left;
     if ((ticks_left << 16) <= 0) {
         *(u16 *)((u8 *)effect - 2) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_800A9E70_arg0.h"
@@ -85,8 +86,6 @@ extern u8 D_80082E80[];
 extern u8 D_80082E80_b[] __asm__("D_80082E80");
 extern u8 D_80082E80_c[] __asm__("D_80082E80");
 extern u16 D_80082EA4;
-extern u16 D_80083462;
-extern u8 D_80083460[];
 
 static __inline__ u8 advance_tile(u8 tile, const u8 *table, u16 index) { return tile + *(const u8 *)((u32)index + (u32)table); }
 
@@ -113,11 +112,11 @@ void func_8016FCE4(void *move_state, void *unused, void *position_in, void *acto
     S_8016FCE4_3 *target_position;
 
     limit_turns = 0;
-    if ((D_80083462 & 0x4000) || (((S_8016FCE4_0 *)actor_in)->unk_71.s >= 0)) {
+    if ((dungeonStatus.flags & 0x4000) || (((S_8016FCE4_0 *)actor_in)->unk_71.s >= 0)) {
         call_800A9A0C_top(actor_in);
         return;
     }
-    if (D_80083462 & 0x2000) {
+    if (dungeonStatus.flags & 0x2000) {
         func_800A19E4(position_in, actor_in, 3, 6, move_state + 0x9C);
         move_flags = ((S_8016FCE4_0 *)actor_in)->unk_1C;
         if (move_flags & 0x410) {
@@ -241,7 +240,7 @@ check_step:
                 ((S_8016FCE4_0 *)actor_in)->unk_46 = (u16) (((S_8016FCE4_0 *)actor_in)->unk_46 & 0x7FFF);
                 ((Rec_func_800A9E70_arg0 *)move_state)->unk_9C.as_s8 = (s8) ((S_8016FCE4_1 *)position_in)->unk_26;
                 ((S_8016FCE4_0 *)actor_in)->unk_6D.u = (u8) (((S_8016FCE4_0 *)actor_in)->unk_6D.u - 1);
-                counter_base = D_80083460;
+                counter_base = ((u8 *)(&dungeonStatus));
                 ((S_8016FCE4_7 *)counter_base)->unk_08 = (u16) (((S_8016FCE4_7 *)counter_base)->unk_08 + 1);
                 if (((S_8016FCE4_0 *)actor_in)->unk_6D.s != 0) {
                     goto update_height;

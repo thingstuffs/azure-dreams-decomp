@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -39,7 +40,6 @@ extern void func_800AD594();
 extern s32 func_800AD9B4();
 
 extern u8 D_80082E80[];
-extern s32 D_80083460;
 extern u8 D_80170E54;
 
 /* Advances a jump toward the target tile and finishes movement when the timer expires. */
@@ -124,7 +124,7 @@ tick_timer:
         func_800AD594(entity, 5);
         func_800A4ACC(entity);
 
-        action_counters = (u8 *)&D_80083460;
+        action_counters = (u8 *)&dungeonStatus.unk_00;
         if (((S_80172374_4 *)action_counters)->unk_08 != 0) {
             ((S_80172374_4 *)action_counters)->unk_08 = (u16)((S_80172374_4 *)action_counters)->unk_08 - 1;
         }

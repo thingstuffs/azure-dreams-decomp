@@ -1,6 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
-extern s32 D_800814A0;
 extern void *D_80164900[];
 
 extern s32 rand(void);
@@ -159,7 +159,7 @@ increment_short:
         *(u16 *)(effect + 0x18) = next_frame;
         if (!within_duration) {
             *(u16 *)(effect - 2) |= 0x8000;
-            D_800814A0 |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
         }
     }
 

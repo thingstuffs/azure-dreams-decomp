@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef struct S_80171590_0 {
     u8 pad_00[0x1C];
@@ -49,7 +50,6 @@ extern s16 func_800A0818();
 extern s32 func_80171F58();
 
 extern s16 D_80083228;
-extern u16 D_80083462;
 extern u8 D_801752AC[];
 
 /* Advances the entity along its stored path and updates movement state. */
@@ -113,7 +113,7 @@ void func_80171590(void *motion_arg, s32 update_arg, void *entity_arg, void *sta
     ((S_80171590_0 *)state)->unk_2A = heading;
 
     if (move_result == 2) {
-        if (D_80083462 & 0x80) {
+        if (dungeonStatus.flags & 0x80) {
             goto failure;
         }
         if (((S_80171590_1 *)entity)->unk_14 & 0x8000) {
@@ -124,7 +124,7 @@ void func_80171590(void *motion_arg, s32 update_arg, void *entity_arg, void *sta
         if (move_result != 3) {
             goto failure;
         }
-        if (D_80083462 & 0x80) {
+        if (dungeonStatus.flags & 0x80) {
             goto failure;
         }
         if (((S_80171590_1 *)entity)->unk_14 & 0x8000) {
@@ -141,7 +141,7 @@ failure:
 finish_step:
     ((S_80171590_2 *)motion)->unk_8C = 0;
     (*(u32 *)((u8 *)state + 0x1C)) |= 0x40000000;
-    if (D_80083462 & 0x80) {
+    if (dungeonStatus.flags & 0x80) {
         ((S_80171590_2 *)motion)->unk_96 = 0;
         return;
     }

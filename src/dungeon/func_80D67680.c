@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_800A9E70_arg0.h"
@@ -24,8 +25,6 @@ s32 func_800A2CB8();
 M2C_UNK func_800C7930();
 
 extern s16 D_80083228;
-extern s32 D_80083460;
-extern u16 D_80083462;
 extern u8 D_800E2378;
 
 /* Checks action readiness and initializes the actor state and directional animation. */
@@ -38,7 +37,7 @@ s32 func_80172E80(void *action_state, M2C_UNK action_param, void *sprite, void *
     u8 *anim_table;
 
     ((Rec_D_800E3D7C *)actor)->unk_71.as_u8 &= 0x7F;
-    global_flags = &D_80083460;
+    global_flags = &dungeonStatus.unk_00;
     action_ready = 0;
     if (((S_80172E80_1 *)global_flags)->unk_02 & 0x2000) {
         goto return_minus_one;
@@ -69,7 +68,7 @@ s32 func_80172E80(void *action_state, M2C_UNK action_param, void *sprite, void *
 
     action_ready = 1;
     if (!(((Rec_D_800E3D7C *)actor)->unk_44.at02_u16.v & 0x8000)) {
-        if (D_80083462 & 8) {
+        if (dungeonStatus.flags & 8) {
             return -1;
         }
     }

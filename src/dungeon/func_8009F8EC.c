@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 
 #ifndef NULL
 #define NULL 0
@@ -166,10 +168,8 @@ extern u8 D_8003E140[];
 extern u8 *D_80080A90;
 extern s32 D_80081488;
 extern u8 D_8008149C[];
-extern s32 D_800814A0;
 extern u8 *D_800814A8;
 extern s16 D_80083228;
-extern DungeonState D_80083460;
 extern s8 D_800DCF5C;
 extern u8 D_800DCF5E_page[0x30A3] __asm__("D_800DCF5E");
 extern u8 D_800E3DF0[];
@@ -181,7 +181,7 @@ extern u8 D_800E0000[];
 s32 func_800A504C(s32 unused, void *source_entity)
 {
     register u8 *entity ASM_REG("$19") = source_entity;
-    u8 *base = (u8 *)&D_80083460;
+    u8 *base = (u8 *)((DungeonState *)&dungeonStatus);
     s32 count = ((S_800A504C_0 *)base)->unk_0A.s;
     s32 offset;
     s32 load_result;
@@ -440,9 +440,9 @@ spawn_replacement:
     D_800DCF5C = count;
     ((S_800A504C_0 *)base)->unk_0A.s = (s16)(remaining_count - 1);
     (*(u16 *)((u8 *)entity + -2)) |= 0x8000;
-    global_flags = D_800814A0;
+    global_flags = objectFlagBlock.flags;
     ((S_800A504C_1 *)entity)->unk_90 = 0;
-    D_800814A0 = global_flags | 0x8000;
+    objectFlagBlock.flags = global_flags | 0x8000;
 
 done:
     return 0;

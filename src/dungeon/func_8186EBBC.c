@@ -1,9 +1,9 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 extern s32 rand(void);
 extern s16 func_800BCB04(s32, s32, s32);
 extern s16 D_80025308;
-extern s32 D_800814A0[];
 
 typedef struct {
     u16 unk0;
@@ -35,6 +35,6 @@ void func_8186EBBC(u8 *state, UnkArg1 *position)
     *(u16 *)(state + 0x32) = countdown;
     if ((s32)(countdown << 16) <= 0) {
         *(u16 *)(state - 2) |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -10,7 +11,6 @@ M2C_UNK func_800A63B8();            /* extern */
 s32 func_800AD6FC();            /* extern */
 M2C_UNK func_800D4FC8();    /* extern */
 extern M2C_UNK D_80082E80[];
-extern s32 D_80083460;
 extern M2C_UNK D_80083780[];
 extern u16 D_800DDE84[];
 extern u8 D_800E1843[];
@@ -49,7 +49,7 @@ s32 func_800C3C08(void *entity, s32 event, s16 event_type) {
     }
     func_800D4FC8(entity - 0x20, 0x202020, 0x616);
     func_80098B38(event);
-    counter_base = (u8 *)&D_80083460;
+    counter_base = (u8 *)&dungeonStatus.unk_00;
 
     ((S_800C3C08_1 *)counter_base)->unk_0A = (u16) (((S_800C3C08_1 *)counter_base)->unk_0A - 1);
     return 1;

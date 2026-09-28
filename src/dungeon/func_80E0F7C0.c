@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 extern int abs(int);
 #include "records/Rec_D_800E3D7C.h"
 
@@ -98,12 +100,9 @@ extern void *func_80175858(void *, void *, void *);
 extern void *D_80170850[];
 extern void *D_80170870[];
 extern u8 D_8006DE24[];
-extern s32 D_800814A0[3];
 extern void *D_800814A8[3];
 extern s16 D_80083160[];
 extern s16 D_80083228;
-extern u8 D_80083460[];
-extern s32 D_8008346C;
 extern u8 D_80171094[];
 extern u8 D_80176460[];
 extern u8 D_80176490[];
@@ -238,7 +237,7 @@ copy_effect:
     ((S_80172FC0_5 *)transform_arg)->unk_0C = 0;
     func_800A2B04(transform_arg, ((S_80172FC0_4 *)sprite)->unk_24, ((S_80172FC0_4 *)sprite)->unk_25);
     main_actor = D_800814A8[0];
-    D_8008346C = 0;
+    dungeonStatus.unk_0C = 0;
     (*(u16 *)((u8 *)main_actor + 0xA6))--;
     func_800A4ACC(actor);
     ((Rec_D_800E3D7C *)actor)->unk_6D.as_u8--;
@@ -447,7 +446,7 @@ restore_sprite:
     {
         u8 *dungeon_state;
 
-        dungeon_state = D_80083460;
+        dungeon_state = ((u8 *)(&dungeonStatus));
         if (((S_80172FC0_8 *)dungeon_state)->unk_0C != 0) {
             return;
         }

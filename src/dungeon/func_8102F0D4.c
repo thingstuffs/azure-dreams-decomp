@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
 typedef long long M2C_S64;
 
@@ -38,7 +39,6 @@ typedef struct S_8102F0D4_2 {
 
 extern s8 D_800DCECC[];
 extern s16 D_80083228[5];
-extern s32 D_800814A0[3];
 s32 func_80065420();
 extern s32 func_800478B8();
 
@@ -70,6 +70,6 @@ void func_8102F0D4(void *state, S_8102F0D4_0 *position, Rec_D_80082E80 *entity) 
     ((S_8102F0D4_1 *)state)->unk_96 = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
         ((S_8102F0D4_1_pre *)state)[-1].unk_00 = (u16) (((S_8102F0D4_1_pre *)state)[-1].unk_00 | 0x8000);
-        D_800814A0[0] = D_800814A0[0] | 0x8000;
+        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
     }
 }

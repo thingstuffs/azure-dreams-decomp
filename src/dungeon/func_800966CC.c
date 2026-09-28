@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80083160.h"
 
@@ -42,7 +43,6 @@ typedef struct S_8009BE2C_6 {
 /* cfail-repair: tf7-phase1-cache-v3 */
 struct S_8003E2D8; typedef struct S_8003E2D8 S_8003E2D8;
 extern struct S_8003E2D8 D_80083160;
-extern s32 D_800814A0[3];
 M2C_UNK func_8006658C();              /* extern */
 M2C_UNK func_800667A8();                  /* extern */
 
@@ -89,6 +89,6 @@ set_done:
     fade->unk_05 = frames_left;
     if ((frames_left << 0x18) == 0) {
         ((S_8009BE2C_4_pre *)effect)[-1].unk_00 = (u16) (((S_8009BE2C_4_pre *)effect)[-1].unk_00 | 0x8000);
-        D_800814A0[0] = D_800814A0[0] | 0x8000;
+        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
     }
 }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_80174934_0 {
     u8 pad_00[0x16];
@@ -72,7 +73,6 @@ extern s32 func_80069EF8(void);
 extern void func_80174214(void *, s32, s32, s32, s32, s32, s32);
 extern void *memcpy(void *, const void *, u32);
 
-extern s32 D_800814A0;
 extern u8 D_8017489C[12];
 extern u8 D_801748F0[12];
 extern u8 D_80175910[12];
@@ -246,7 +246,7 @@ build_objects:
     ((S_80174934_0 *)effect)->unk_1A.s = frames_left;
     if (frames_left <= 0) {
         (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
     return;
 }

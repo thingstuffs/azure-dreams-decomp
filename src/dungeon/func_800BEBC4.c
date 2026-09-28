@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 extern void func_80042B68();
 extern void func_8008D330();
@@ -13,7 +14,6 @@ extern s32 func_800AD6FC();
 extern void func_800C4AFC();
 
 extern u8 D_80082E80[12];
-extern u8 D_80083460[12];
 extern u8 D_80083780[12];
 extern u16 D_800DDE84[];
 extern u8 D_800E188B[];
@@ -62,7 +62,7 @@ s32 func_800C4324(void *entity_arg, s32 amount_arg, s16 effect_arg)
     }
     func_80042B68(entity_arg, 3);
     func_80098B38(amount);
-    counter_base = D_80083460;
+    counter_base = ((u8 *)(&dungeonStatus));
     *(u16 *)(counter_base + 0xA) = *(u16 *)(counter_base + 0xA) - 1;
     return 1;
 }

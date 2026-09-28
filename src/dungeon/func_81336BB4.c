@@ -1,9 +1,9 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 extern u8 D_80083780[12];
 extern u8 *D_800814A8;
 extern s16 D_80083228[];
-extern s32 D_8008346C[];
 extern u8 D_8016A36C[];
 extern s16 D_801760D8[];
 extern u8 D_801739A0[];
@@ -146,7 +146,7 @@ jt_c5:
     actor[0x73] = 0;
     actor[0x72] = 0;
     *(u8 **)(sequence + 0x8C) = D_8016A36C;
-    D_8008346C[0] = 0;
+    dungeonStatus.unk_0C = 0;
     *(u16 *)(actor + 0x46) &= 0x7FFF;
 
 epilogue:

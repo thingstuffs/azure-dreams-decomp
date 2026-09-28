@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 
 
@@ -8,7 +9,6 @@ extern ItemDef20 D_8006DE24[];
 extern u8 D_80080A84;
 extern void *D_800814A8;
 extern s16 D_80083228;
-extern s32 D_80083460;
 extern u8 D_800DCF50;
 extern s32 D_800DDAB8[];
 extern void *D_80170880[];
@@ -276,7 +276,7 @@ check_high_flags:
         func_80047784(sprite, D_80175E40[direction], 0);
     }
     {
-        s32 *action_status = &D_80083460;
+        s32 *action_status = &dungeonStatus.unk_00;
         if (action_status[3] != 0) {
             return;
         }

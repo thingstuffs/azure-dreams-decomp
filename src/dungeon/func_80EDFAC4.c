@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_801712C4_0 {
     union { struct { s32 v; } at00; struct { u8 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; struct { u8 pad[0x2]; u8 v; } at02; } unk_00;   /* overlapping accesses */
@@ -24,7 +25,6 @@ typedef struct S_801712C4_1 {
 
 
 extern void func_801710B8(void *, void *, s32);
-extern s32 D_800814A0;
 
 /* Advance the effect, then move and fade it until its timer expires. */
 void func_801712C4(void *effect, void *position, s32 update_param)
@@ -73,7 +73,7 @@ state_one:
 
     if (((S_801712C4_0 *)effect)->unk_32.s <= 0) {
         (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 
 done:

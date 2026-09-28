@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -43,7 +44,6 @@ extern void func_800AD594(void *, s32);
 
 extern u8 D_80082E80[];
 extern s16 D_80083228;
-extern s32 D_80083460;
 extern u8 D_80171058[];
 extern u8 D_801748A0[];
 extern u8 D_801748A8[];
@@ -185,7 +185,7 @@ tick:
     func_800AD594(entity, 4);
     func_800A4ACC(entity);
 
-    global_base = (u8 *)&D_80083460;
+    global_base = (u8 *)&dungeonStatus.unk_00;
     if (((S_80173A08_4 *)global_base)->unk_08.s != 0) {
         ((S_80173A08_4 *)global_base)->unk_08.u--;
     }

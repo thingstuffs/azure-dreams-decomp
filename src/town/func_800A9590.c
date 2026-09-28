@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 /* Global 32-bit "used"/flags word, same one touched by func_8004B530 /
  * func_8004F52C / func_800510DC family. Declared as an array (>8B) so gcc
  * uses %hi/%lo addressing with a SINGLE shared base register across the
  * read and write halves of the |= (see w_800510DC.c), matching retail's
  * one lui reused for both the load and the store. */
-extern int D_800814A0[3];
 
 extern int func_8009CFE0(void *, void *);
 extern void func_8008F134(void *arg0);
@@ -27,7 +27,7 @@ void func_800A6CF0(void *object, void *input, void *context)
         }
         func_80033D08(object);
         *(u16 *)((u8 *)object - 2) |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         return;
     }
     callback = *(S_800A9590_Callback *)((u8 *)object + 0x50);

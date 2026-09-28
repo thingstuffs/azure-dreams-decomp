@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -31,7 +32,6 @@ extern void func_800AD594(void *, s32);
 extern s32 func_800AD9B4(void *, void *);
 
 extern u8 D_80082E80[];
-extern s32 D_80083460;
 extern M2C_UNK D_80170E94;
 
 /* Advance the actor's hop to its tile and finish the motion when its timer expires. */
@@ -111,7 +111,7 @@ check_landing:
     func_800A4ACC(actor);
 
     {
-        s16 *global_counters = (s16 *)&D_80083460;
+        s16 *global_counters = (s16 *)&dungeonStatus.unk_00;
 
         if (global_counters[4] != 0) {
             ((u16 *)global_counters)[4]--;

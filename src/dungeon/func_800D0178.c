@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -77,7 +78,6 @@ M2C_UNK func_8004491C();           /* extern */
 M2C_UNK func_80047738();              /* extern */
 M2C_UNK func_800478B8();                      /* extern */
 extern s32 D_80045340[];
-extern s32 D_800814A0;
 extern s16 D_80083228[];
 extern s32 D_800D586C[];
 extern s32 D_800DE870[];
@@ -132,7 +132,7 @@ void func_800D58D8(void *state, void *position, void *sprite) {
             func_8003DB94(((S_800D58D8_2 *)effect)->unk_0C, &D_800DE870, 0);
         }
         (*(u16 *)((u8 *)state + -2)) = (u16) (((S_800D58D8_0_pre *)state)[-1].unk_12 | 0x8000);
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }
 

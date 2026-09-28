@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_8187BB80_0 {
     u8 pad_00[0x2];
@@ -43,7 +44,6 @@ typedef struct S_8187BB80_1 {
 
 
 extern s16 D_8002694C;
-extern s32 D_800814A0;
 extern void *D_80024038[];
 
 
@@ -175,6 +175,6 @@ jt_c8:
 
     if (((S_8187BB80_0 *)effect_data)->unk_02.s <= 0) {
         (*(u16 *)((u8 *)effect_data + -2)) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

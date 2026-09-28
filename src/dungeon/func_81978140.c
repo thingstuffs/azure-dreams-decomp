@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct {
     u8 pad[0x1A];
@@ -26,7 +27,6 @@ typedef struct {
 extern void *jtbl_80024020[5];
 __asm__(".set jtbl_80024020, 0x80024020");
 extern S_81978140_global *D_800814A8;
-extern s32 D_800814A0[3];
 
 extern void func_800257B8(void);
 
@@ -105,7 +105,7 @@ bump:
 
 L8:
     entity[-1].timer |= 0x8000;
-    D_800814A0[0] |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
 
 epilogue:
     (void)retained_labels;

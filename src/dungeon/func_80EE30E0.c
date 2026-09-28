@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 #define U8_AT(p, o)  (*(u8 *)((u8 *)(p) + (o)))
 #define S8_AT(p, o)  (*(s8 *)((u8 *)(p) + (o)))
@@ -15,7 +16,6 @@ extern Copy32 D_80170808;
 extern u8 D_80045340;
 extern u8 D_80077C50[];
 extern s16 D_80083228;
-extern s32 D_8008346C;
 extern u8 D_801708BC[];
 extern s32 D_80171CE8;
 extern u8 D_80174EB8[];
@@ -173,7 +173,7 @@ state_3:
     if (S16_AT(action_work, 0xA4) != 0x4D) {
         func_800AD594(actor, 0x2000);
         PTR_AT(action_work, 0x8C) = &D_80171CE8;
-        D_8008346C = 0;
+        dungeonStatus.unk_0C = 0;
         U16_AT(actor, 0x46) &= 0x7FFF;
     }
 

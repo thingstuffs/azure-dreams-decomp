@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80083460.h"
@@ -12,7 +13,6 @@ extern u16 D_80013714;
 extern s32 D_8007359C;
 extern s8 D_80080A88;
 extern s8 D_80080AA0;
-extern M2C_UNK D_80083460;
 extern s32 D_800E296C;
 
 
@@ -39,7 +39,7 @@ s32 func_800AAB10(s32 buffer_addr, M2C_UNK source, M2C_UNK unused, Rec_D_800E3D7
 
     eligible = 0;
     if (D_800E296C & 0x100000) {
-        state = (u8 *)&D_80083460;
+        state = (u8 *)&dungeonStatus.unk_00;
         if (((S_800AAB10_0 *)state)->unk_0C != 0) {
             if (((S_800AAB10_0 *)state)->unk_0C == record) {
                 if (((S_800AAB10_0 *)state)->unk_0A == 0) {
@@ -72,7 +72,7 @@ s32 func_800AAB10(s32 buffer_addr, M2C_UNK source, M2C_UNK unused, Rec_D_800E3D7
 return_zero:
     return 0;
 clear_state:
-    ((Rec_D_80083460 *)(&D_80083460))->unk_0C = 0;
+    ((Rec_D_80083460 *)(&dungeonStatus.unk_00))->unk_0C = 0;
 return_result:
     return eligible;
 }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_819598B4_0_pre {
     u16 unk_00;
@@ -51,7 +52,6 @@ extern s32 func_80026384();
 
 extern u16 D_800281F8[];
 extern u8 D_80028220[];
-extern s32 D_800814A0[];
 extern void *D_800E3D7C[];
 
 void func_819598B4(void *arg0, S_819598B4_2 *arg1, S_819598B4_1 *arg2) {
@@ -140,7 +140,7 @@ state_2:
         goto common;
     }
     ((S_819598B4_0_pre *)arg0)[-1].unk_00 |= 0x8000;
-    D_800814A0[0] |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
 
 common:
     if (((S_819598B4_0 *)arg0)->unk_38 != 0) {

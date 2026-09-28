@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_8187BE9C_0_pre {
     u16 unk_00;
@@ -30,7 +31,6 @@ typedef struct S_8187BE9C_1 {
 
 
 extern s16 D_8002694C[5];
-extern s32 D_800814A0[3];
 
 /* Advance the effect fade, scale primitive colors, and flag completion. */
 void func_8187BE9C(void *effect, s32 unused, S_8187BE9C_1 *primitive)
@@ -71,11 +71,11 @@ tail:
 
     if (((S_8187BE9C_0 *)effect)->unk_02.u <= 0) {
         ((S_8187BE9C_0_pre *)effect)[-1].unk_00 |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 
     if (primitive->unk_14 & 0x8000) {
         ((S_8187BE9C_0_pre *)effect)[-1].unk_00 |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

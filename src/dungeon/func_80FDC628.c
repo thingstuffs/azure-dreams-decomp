@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef struct {
     u8 pad_00[0x84];
@@ -47,8 +48,6 @@ typedef struct {
     u8 pad_04[0x08];
 } Global83460;
 
-extern Global83460 D_80083460;
-extern u16 D_80083462[5];
 extern u8 D_80174038[];
 extern s16 D_80083228[5];
 
@@ -69,7 +68,7 @@ s32 func_80171E28(Arg0 *action_state, s32 action_id, Arg2 *sprite, Arg3 *actor) 
     s32 result;
 
     actor->field_71 &= 0x7F;
-    flags_base = (Global83460 *)((u8 *)D_80083462 - 2);
+    flags_base = (Global83460 *)((u8 *)((u16 *)(&dungeonStatus.flags)) - 2);
     result = 0;
     if (flags_base->flags & 0x2000) {
         return -1;

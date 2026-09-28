@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "records/Rec_D_800814A8.h"
 
 #ifndef NULL
@@ -95,7 +96,6 @@ typedef struct Vec3s {
 
 extern u8 D_80024AE0;
 extern u16 D_80024A70;
-extern s32 D_800814A0;
 extern void *D_800814A8;
 extern s16 D_80083228;
 extern void *D_800E3D18;

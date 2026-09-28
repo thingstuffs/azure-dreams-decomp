@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct TownObject {
     void (*callback)(void);
@@ -6,7 +7,6 @@ typedef struct TownObject {
     u8 *field_40;
 } TownObject;
 
-extern s32 D_800814A0[];
 extern u8 D_80083160[0xAB];
 
 /* Flags inactive objects; otherwise copies shared bytes and invokes the callback. */
@@ -17,7 +17,7 @@ void func_800A2338(TownObject *object, s32 unused, u8 *output) {
     if (active_flag != 0) {
         if (*active_flag == 0) {
             ((u16 *)object)[-1] |= 0x8000;
-            D_800814A0[0] |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
             return;
         }
     }

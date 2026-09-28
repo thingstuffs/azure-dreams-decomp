@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 
 #ifndef NULL
 #define NULL 0
@@ -97,8 +99,6 @@ s32 func_800A48F0();
 extern s32 D_800246B0;
 extern s16 D_8002992E;
 extern s32 D_80045340;
-extern s32 D_800814A0;
-extern s32 D_80083460;
 extern s32 D_800DE870;
 extern s32 D_800E3D7C;
 
@@ -207,7 +207,7 @@ void func_800247C0(void *effect, void *origin)
     next_timer = timer - 1;
     ((S_800247C0_0 *)effect)->unk_28 = next_timer;
     if ((next_timer << 0x10) <= 0) {
-        effect_globals = (u8 *)&D_80083460;
+        effect_globals = (u8 *)&dungeonStatus.unk_00;
         ((S_800247C0_0 *)effect)->unk_28 = timer;
         if (((S_800247C0_6 *)effect_globals)->unk_10 == NULL) {
             ((S_800247C0_6 *)effect_globals)->unk_10 = ((S_800247C0_0 *)effect)->unk_20;
@@ -219,6 +219,6 @@ void func_800247C0(void *effect, void *origin)
         ((S_800247C0_7 *)effect_state)->unk_64 = -1;
         ((S_800247C0_7 *)effect_state)->unk_60 = completion_state;
         (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

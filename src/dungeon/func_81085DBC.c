@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -12,7 +13,6 @@ extern void func_800AD594(void *, s32);
 extern s32 func_8017589C(void *, void *, void *);
 
 extern s16 D_80083228;
-extern s32 D_8008346C;
 extern u8 D_80170850[20];
 extern M2C_UNK D_80170E94;
 extern u8 D_80175F10[8];
@@ -146,7 +146,7 @@ Lgate:
     func_800AD594(actor, 0x800);
     ((S_801735BC_1 *)actor)->unk_46 &= 0x7FFF;
     (*(M2C_UNK * *)((u8 *)arg0 + (0x8C))) = &D_80170E94;
-    D_8008346C = 0;
+    dungeonStatus.unk_0C = 0;
 }
 
 /* MECHANISM: two edits closed this from the prior aligned-3 plateau.

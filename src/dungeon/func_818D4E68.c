@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
 typedef union FixedWord {
@@ -131,8 +133,6 @@ extern void *D_80024028[7];
 extern u8 D_80025100[16];
 extern Packed12 D_8002510C;
 extern volatile s16 D_80025118[5];
-extern s32 D_800814A0[3];
-extern s32 D_8008346C[3];
 extern u8 D_800E3D68[16];
 
 extern s32 func_8003DF74(void *, void *, s16 *, s32);

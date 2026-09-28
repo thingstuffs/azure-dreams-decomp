@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 
 typedef struct S_80026748_0_pre {
@@ -29,7 +30,6 @@ typedef struct S_80026748_3 {
 } S_80026748_3;   /* arg2 in func_80026748 */
 
 
-extern s32 D_800814A0[3];
 
 /* Advance effect motion and shrink its scale, marking completion at the threshold. */
 void func_80026748(void *effect, S_80026748_1 *motion, S_80026748_3 *transform) {
@@ -46,6 +46,6 @@ void func_80026748(void *effect, S_80026748_1 *motion, S_80026748_3 *transform) 
     if ((u32) (scale & 0xFFFF) < 0x201U) {
         render_state->unk_58 = (u16) (render_state->unk_58 & 0xFFFE);
         ((S_80026748_0_pre *)effect)[-1].unk_00 = (u16) (((S_80026748_0_pre *)effect)[-1].unk_00 | 0x8000);
-        D_800814A0[0] = (s32) (D_800814A0[0] | 0x8000);
+        objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
     }
 }

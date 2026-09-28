@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 #ifndef NULL
 #define NULL 0
@@ -66,7 +67,6 @@ typedef struct S_800B490C_5 {
 extern void *D_800892E4[];
 s32 func_8004491C();
 extern s32 D_80044C54;
-extern s32 D_800814A0[];
 
 /* Update an attached effect with damped vertical motion, fading, shrinking, and flashing. */
 void func_800B490C(void *effect, S_800B490C_2 *motion, S_800B490C_4 *sprite) {
@@ -171,7 +171,7 @@ jt_c4:
     goto update_motion;
 finish_effect:
     ((S_800B490C_0_pre *)effect)[-1].unk_00 = (u16) (((S_800B490C_0_pre *)effect)[-1].unk_00 | 0x8000);
-    D_800814A0[0] |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
 jt_c2:
 update_motion:
     motion->unk_08.at00.v = (s32) (motion->unk_08.at00.v + motion->unk_14);

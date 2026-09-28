@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef struct S_801721A4_0 {
     u8 pad_00[0x14];
@@ -48,8 +49,6 @@ extern void func_800A56E0(s32);
 extern s32 func_800A6D30(void);
 
 extern s16 D_80083228;
-extern u8 D_80083460[12];
-extern u16 D_80083462;
 extern u8 D_80173D88[9];
 
 /* Start the actor's reaction step: clear its 0x71 busy bit and, when the global 0x2000 mode is off and the ready query says 0, randomise its facing, arm state 0x17, cue 0x811 and point the part at the direction table. */
@@ -58,7 +57,7 @@ void func_801721A4(S_801721A4_1 *owner, void *unused, S_801721A4_2 *part, S_8017
     u8 *state;
 
     actor->unk_71 &= 0x7F;
-    if (!(D_80083462 & 0x2000) &&
+    if (!(dungeonStatus.flags & 0x2000) &&
         ((func_800A2BDC(actor) << 16) == 0)) {
         if (actor->unk_1C & 0x400) {
             s32 link;
@@ -80,7 +79,7 @@ void func_801721A4(S_801721A4_1 *owner, void *unused, S_801721A4_2 *part, S_8017
 
         part->unk_14 |= 0xC;
         part->unk_12 -= 0x80;
-        state = D_80083460;
+        state = ((u8 *)(&dungeonStatus));
         ((S_801721A4_3 *)state)->unk_0A++;
         actor->unk_6D--;
         part->unk_2C = D_80173D88;

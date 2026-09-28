@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_818DAE84_0_pre {
     u16 unk_00;
@@ -18,7 +19,6 @@ typedef struct S_818DAE84_1 {
 
 
 
-extern s32 D_800814A0[];
 
 /* Updates progress from a countdown and sets completion flags when it expires. */
 void func_818DAE84(void *state) {
@@ -45,6 +45,6 @@ void func_818DAE84(void *state) {
     ((S_818DAE84_0 *)state)->unk_10 = next_remaining;
     if ((next_remaining << 16) <= 0) {
         ((S_818DAE84_0_pre *)state)[-1].unk_00 = (u16)(((S_818DAE84_0_pre *)state)[-1].unk_00 | 0x8000);
-        D_800814A0[0] = D_800814A0[0] | 0x8000;
+        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
     }
 }

@@ -1,3 +1,4 @@
+#include "shared/object_flags.h"
 
 struct S_80083178Vector
 {
@@ -74,7 +75,6 @@ typedef struct
   u16 f1e;
 } Arg2;
 extern u16 D_800269F8[5];
-extern s32 D_800814A0[3];
 /* Move, fade, and expand the effect, marking it finished when its timer expires. */
 void func_800245F8(void *effect_data, void *motion_data, void *sprite_data)
 {
@@ -111,6 +111,6 @@ void func_800245F8(void *effect_data, void *motion_data, void *sprite_data)
   if ((frames_left << 0x10) <= zero)
   {
     *((u16 *) (((s8 *) effect) + (-2))) = (u16) ((*((u16 *) (((s8 *) effect) + (-2)))) | 0x8000);
-    D_800814A0[zero] = (s32) (D_800814A0[0] | 0x8000);
+    ((s32 *)(&objectFlagBlock))[zero] = (s32) (objectFlagBlock.flags | 0x8000);
   }
 }

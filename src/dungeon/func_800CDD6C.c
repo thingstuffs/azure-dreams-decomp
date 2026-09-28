@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -39,9 +41,6 @@ M2C_UNK func_8009A3D0();             /* extern */
 void func_800A32A4(void *);                 /* extern */
 M2C_UNK func_800A56C0();                            /* extern */
 M2C_UNK func_800A56E0();                     /* extern */
-extern M2C_UNK D_800814A0;
-extern M2C_UNK D_80083460;
-extern s16 D_8008346A;
 
 void func_800D34CC(void *arg0, void *arg1, void *arg2, void *arg3) {
     M2C_UNK *var_v0;
@@ -64,7 +63,7 @@ void func_800D34CC(void *arg0, void *arg1, void *arg2, void *arg3) {
         if (temp_v1 == 1) {
             goto block_6;
         }
-    } else if (D_8008346A == 0) {
+    } else if (dungeonStatus.unk_0A == 0) {
         ((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 = (s32) (((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 | 0x10000000);
         func_800A56E0(0x805);
         ((S_800D34CC_2 *)arg2)->unk_0C.at00.v = 0x808080;
@@ -86,7 +85,7 @@ block_6:
         temp_v0_2 = (u16) ((S_800D34CC_0 *)arg0)->unk_96 - 1;
         ((S_800D34CC_0 *)arg0)->unk_96 = temp_v0_2;
         if (((temp_v0_2 << 0x10) <= 0) || ((((S_800D34CC_2 *)arg2)->unk_14 & 0x8000) != 0)) {
-            var_v0 = &D_80083460;
+            var_v0 = &dungeonStatus.unk_00;
             temp_v1_4 = ((S_800D34CC_3 *)var_v0)->unk_10;
             if (temp_v1_4 == (arg3 - 0x20)) {
                 ((S_800D34CC_3 *)var_v0)->unk_10 = (s32) (temp_v1_4 & 0x7FFFFFFF);
@@ -103,7 +102,7 @@ block_6:
             }
             func_8009A028(arg3);
             (*(u16 *)((u8 *)arg3 + -2)) = (u16) (((S_800D34CC_1_pre *)arg3)[-1].unk_00 | 0x8000);
-            D_800814A0 |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
             func_800A56C0();
         }
     }

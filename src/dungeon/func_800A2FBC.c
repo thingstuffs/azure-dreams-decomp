@@ -1,5 +1,7 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
 
@@ -13,15 +15,13 @@ M2C_UNK func_800A7A7C();
 M2C_UNK func_800B66C8();
 s16 func_800BCB04();
 extern M2C_UNK D_80081484;
-extern s32 D_800814A0[3];
 extern void *D_800814A8;
-extern u16 D_80083460[6];
 extern u8 D_800DD7DC[];
 extern s32 D_800E3540;
 extern void *D_800E3D7C[3];
 
 #ifdef NON_MATCHING
-#define DUNGEON_FLAGS_PAGE ((s8 *)D_800814A0 - 0x14A0)
+#define DUNGEON_FLAGS_PAGE ((s8 *)((s32 *)(&objectFlagBlock)) - 0x14A0)
 #else
 #define DUNGEON_FLAGS_PAGE ((s8 *)0x80080000)
 #endif
@@ -324,9 +324,9 @@ void func_800A871C(void *object_arg, void *motion_arg, void *tile_arg) {
                 }
                 func_800A7A7C(((S_800A871C_4 *)tile)->unk_24.n, ((S_800A871C_4 *)tile)->unk_25.n, drop_height, ((S_800A871C_4 *)tile)->unk_08, ((S_800A871C_1 *)object)->unk_9C);
                 ((S_800A871C_1_pre *)object)[-1].unk_00 = (u16) (((S_800A871C_1_pre *)object)[-1].unk_00 | 0x8000);
-                dungeon_flags = D_800814A0[0];
+                dungeon_flags = objectFlagBlock.flags;
                 height = ((S_800A871C_3 *)motion)->unk_08.at02.v;
-                D_800814A0[0] = (s32) (dungeon_flags | 0x8000);
+                objectFlagBlock.flags = (s32) (dungeon_flags | 0x8000);
                 ((S_800A871C_3 *)motion)->unk_08.at02.v = func_800BCB04((((S_800A871C_4 *)tile)->unk_24.n << 6) | 0x20, (((S_800A871C_4 *)tile)->unk_25.n << 6) | 0x20, height);
                 func_800B66C8(motion);
                 func_8009A028(object_data);
@@ -378,9 +378,9 @@ update_motion:
         if (func_80098920(hit_object, ((S_800A871C_1 *)object)->unk_9C, 0xD, object_data) != 0) {
 finish_collision:
             ((S_800A871C_1_pre *)object)[-1].unk_00 = (u16) (((S_800A871C_1_pre *)object)[-1].unk_00 | 0x8000);
-            D_800814A0[0] = (s32) (D_800814A0[0] | 0x8000);
+            objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
             func_8009A028(object_data);
-            D_80083460[5] = (u16) (D_80083460[5] - 1);
+            dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
             return;
         }
     }
@@ -404,9 +404,9 @@ finish_collision:
     }
     func_800A7A7C(((S_800A871C_4 *)tile)->unk_24.n, ((S_800A871C_4 *)tile)->unk_25.n, land_height, ((S_800A871C_4 *)tile)->unk_08, ((S_800A871C_1 *)object)->unk_9C);
     ((S_800A871C_1_pre *)object)[-1].unk_00 = (u16) (((S_800A871C_1_pre *)object)[-1].unk_00 | 0x8000);
-    D_800814A0[0] = (s32) (D_800814A0[0] | 0x8000);
+    objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
     func_8009A028(object_data);
-    D_80083460[5] = (u16) (D_80083460[5] - 1);
+    dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
 advance_position:
     ((S_800A871C_3 *)motion)->unk_00.at00.v = (s32) (((S_800A871C_3 *)motion)->unk_00.at00.v + ((S_800A871C_3 *)motion)->unk_0C);
     ((S_800A871C_3 *)motion)->unk_04.at00.v = (s32) (((S_800A871C_3 *)motion)->unk_04.at00.v + ((S_800A871C_3 *)motion)->unk_10);

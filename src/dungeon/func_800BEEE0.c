@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct EffectState EffectState;
 typedef struct EffectWork EffectWork;
@@ -36,7 +37,6 @@ struct EffectColor {
     u16 value_1e;
 };
 
-extern s32 D_800814A0[3];
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 extern s32 rand(void);
@@ -134,7 +134,7 @@ type2:
 
         flags = ((u16 *)state) - 1;
         *flags |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 
 common:

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef struct {
     u8 pad0[0x9B];
@@ -7,16 +8,6 @@ typedef struct {
     s16 h100;
 } Actor;
 
-typedef struct {
-    u8 pad0[2];
-    u16 f2;
-    u8 pad4[8];
-    u32 fC;
-    u8 pad10[4];
-    u16 f14;
-} StructA;
-
-extern StructA D_80083460;
 extern u8 D_800E3648[];
 extern u8 D_800E0B39[];
 extern u8 D_80088B14[];
@@ -48,7 +39,7 @@ void func_80095DFC(Actor *actor, s32 context_a, s32 context_b, s32 target_arg) {
         if (state != 0) {
             return;
         }
-        if (D_80083460.f2 & 0x1000) {
+        if (dungeonStatus.flags & 0x1000) {
             return;
         }
         if ((s16) func_800A2B5C(target) != 0) {
@@ -57,9 +48,9 @@ void func_80095DFC(Actor *actor, s32 context_a, s32 context_b, s32 target_arg) {
         entry = &D_800E3648[actor->h100 * 4];
         if (entry[0] == 0) {
             func_80096088(actor, target);
-            D_80083460.fC = 0;
-            D_80083460.f14--;
-            D_80083460.f2 &= 0xFFF7;
+            dungeonStatus.unk_0C = 0;
+            dungeonStatus.unk_14--;
+            dungeonStatus.flags &= 0xFFF7;
             return;
         }
         if (!(entry[3] & 0x40)) {
@@ -84,16 +75,16 @@ void func_80095DFC(Actor *actor, s32 context_a, s32 context_b, s32 target_arg) {
     }
     if (D_800E3648[actor->h100 * 4] == 0) {
         func_80096088(actor, target);
-        D_80083460.fC = 0;
-        D_80083460.f14--;
-        D_80083460.f2 &= 0xFFF7;
+        dungeonStatus.unk_0C = 0;
+        dungeonStatus.unk_14--;
+        dungeonStatus.flags &= 0xFFF7;
         return;
     } else {
         s16 result = (s16) func_800B627C(D_800E3648[actor->h100 * 4], target, actor->h100, 0);
         if (result != 0) {
-            D_80083460.fC = 0;
-            D_80083460.f14--;
-            D_80083460.f2 &= 0xFFF7;
+            dungeonStatus.unk_0C = 0;
+            dungeonStatus.unk_14--;
+            dungeonStatus.flags &= 0xFFF7;
             if (result > 0) {
                 func_80096088(actor, target);
             }

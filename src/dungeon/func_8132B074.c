@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "records/Rec_D_800E3D7C.h"
 
 typedef struct S_80172874_0_pre {
@@ -58,7 +59,6 @@ typedef struct S_80172874_7 {
 
 
 
-extern s32 D_800814A0;
 extern u8 D_80174C8C[];
 extern s32 D_80174CE0;
 

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 
@@ -8,7 +9,6 @@ extern void func_80047784();
 extern void func_8009C93C();
 
 extern s16 D_80083228;
-extern u16 D_80083462;
 extern u8 D_8017386C[];
 
 /* Update actor action state and select its directional animation. */
@@ -16,7 +16,7 @@ void func_80171F90(void *action_state, s32 update_arg, void *sprite, void *actor
 {
     ((Rec_D_800E3D7C *)actor)->unk_71.as_u8 &= 0x7F;
 
-    if (!(D_80083462 & 0x2000) &&
+    if (!(dungeonStatus.flags & 0x2000) &&
         ((func_800A2B5C(actor) << 0x10) == 0) &&
         (func_800C7930((u8 *)actor - 0x20, update_arg, 8, 0x300),
          ((func_800A2B5C(actor) << 0x10) == 0))) {

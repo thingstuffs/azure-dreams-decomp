@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct {
     s32 field0;
@@ -10,7 +11,6 @@ typedef struct {
 } S_8081C8DC;
 
 extern void func_800478B8(void *arg0, void *arg1);
-extern s32 D_800814A0;
 
 /* Advances the position and propagates flags from the processed result. */
 void func_800268DC(void *object_data, S_8081C8DC *motion, S_8081C8DC *result)
@@ -26,6 +26,6 @@ void func_800268DC(void *object_data, S_8081C8DC *motion, S_8081C8DC *result)
     func_800478B8(result, motion);
     if (*(u16 *)((u8 *)result + 0x14) & 0x6000) {
         *(u16 *)((u8 *)object_data - 2) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_80024398_0_pre {
     u16 unk_00;
@@ -23,7 +24,6 @@ typedef struct S_80024398_2 {
 } S_80024398_2;   /* node in func_80024398 */
 
 extern s16 D_8002992E[5];
-extern s32 D_800814A0[3];
 
 /* Adjusts node scale by countdown phase, restoring unity and setting completion flags at the end. */
 void func_80024398(void *effect)
@@ -117,7 +117,7 @@ update_timer:
             node->unk_1E = 0x1000U;
             node->unk_1C = 0x1000U;
             ((S_80024398_0_pre *)effect)[-1].unk_00 |= 0x8000;
-            D_800814A0[0] |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
         }
         return;
     }

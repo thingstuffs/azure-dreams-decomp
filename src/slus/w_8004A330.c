@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 #include "common.h"
 
@@ -28,7 +29,6 @@ extern void func_8004A24C(S_8004A330_Sub20 *a0, s32 a1, s32 a2,
 extern void func_8004491C(void *a0, void *a1);
 extern void func_8004CAA0(void);
 extern void func_80049F2C(void *a0);
-extern s32 D_800814A0;
 #ifndef NON_MATCHING
 extern s32 D_800814A0_load[3];
 __asm__(".set D_800814A0_load, 0x800814A0");
@@ -68,7 +68,7 @@ S_8004A330_Entity *func_8004A330(s32 style_flags, s16 start_x, s16 start_y, s16 
 #ifndef NON_MATCHING
             global_flags = D_800814A0_load[0];
 #else
-            global_flags = D_800814A0;
+            global_flags = objectFlagBlock.flags;
 #endif
             entity = 0;
             global_flags |= 0x8000;
@@ -76,7 +76,7 @@ S_8004A330_Entity *func_8004A330(s32 style_flags, s16 start_x, s16 start_y, s16 
             global_page = (s32 *)0x80080000;
             global_page[0x528] = global_flags;
 #else
-            D_800814A0 = global_flags;
+            objectFlagBlock.flags = global_flags;
 #endif
         }
     }

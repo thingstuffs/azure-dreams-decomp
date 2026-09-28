@@ -1,6 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
-extern s32 D_800814A0[3];
 
 /* Counts down a delay, then dims the effect color until completion. */
 void func_80173F38(void *effect) {
@@ -27,7 +27,7 @@ countdown:
 
 fade:
     {
-        s32 *flags = D_800814A0;
+        s32 *flags = ((s32 *)(&objectFlagBlock));
 
         if (*(u8 *)((u8 *)effect + 8) >= 0x11) {
             goto dim_color;

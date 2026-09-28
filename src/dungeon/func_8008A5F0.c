@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
@@ -18,7 +19,6 @@ extern s32 func_80094F74(void *, void *, void *, void *);
 extern void func_800A2B04(void *, u8, u8);
 
 extern s16 D_80083228;
-extern State D_80083460;
 extern M2C_UNK D_8008EAC8;
 extern u8 D_800DD0E0[];
 
@@ -28,7 +28,7 @@ void func_8008FD50(void *actor, void *motion, void *sprite, void *facing) {
     register State *state;
     u16 ticks_left;
 
-    state = &D_80083460;
+    state = ((State *)&dungeonStatus);
     if (state->flags & 0x80) {
         state->timer = 0;
     }
@@ -48,7 +48,7 @@ void func_8008FD50(void *actor, void *motion, void *sprite, void *facing) {
             func_80048A44(sprite, anim_table[((s32) (D_80083228 + ((Rec_D_800E3D7C *)facing)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0, 1);
         }
     }
-    timer_state = &D_80083460;
+    timer_state = ((State *)&dungeonStatus);
     ticks_left = timer_state->timer - 1;
     timer_state->timer = ticks_left;
     if ((ticks_left << 0x10) <= 0) {

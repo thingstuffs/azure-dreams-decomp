@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef struct S_800AAF00_0 {
     u8 pad_00[0x14];
@@ -65,7 +66,6 @@ extern void func_800C77D0();
 
 extern u8 D_8006DE24[];
 extern s16 D_80083228;
-extern s32 D_80083460;
 extern u8 *D_800E3D7C;
 
 /* Updates the object action state and applies direction data to its target. */
@@ -84,7 +84,7 @@ void func_800AAF00(void *actor, s32 effect_param, void *target, u8 *direction_ta
 
     object = actor;
     ((S_800AAF00_0 *)object)->unk_71 &= 0x7F;
-    action_state = (u8 *)&D_80083460;
+    action_state = (u8 *)&dungeonStatus.unk_00;
     input_flags = ((S_800AAF00_1 *)action_state)->unk_02;
     special_action = 0;
 
@@ -157,7 +157,7 @@ shared_body:
                         direction_table[((D_80083228 + ((S_800AAF00_0 *)object)->unk_2A.s + 0x100) >> 9) & 7],
                         0);
                 }
-                updated_state = (u8 *)&D_80083460;
+                updated_state = (u8 *)&dungeonStatus.unk_00;
                 ((S_800AAF00_4 *)target)->unk_14 |= 0x800;
                 ((S_800AAF00_5 *)updated_state)->unk_0A++;
             }

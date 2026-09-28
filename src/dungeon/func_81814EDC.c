@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 
 typedef struct S_81814EDC_0_pre {
@@ -128,7 +129,6 @@ typedef struct S_81814EDC_12_pre {
 extern u8 D_80045340[];
 extern u8 D_800DE938[];
 extern u8 D_800DE870[9];
-extern s32 D_800814A0[3];
 M2C_UNK func_800245BC();
 void *func_8003FC64();
 M2C_UNK func_8004491C();
@@ -358,7 +358,7 @@ update_fade:
             }
 finish_effect:
             ((S_81814EDC_0_pre *)effect)[-1].unk_00 = (u16) (((S_81814EDC_0_pre *)effect)[-1].unk_00 | 0x8000);
-            D_800814A0[0] |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
         }
     }
 }

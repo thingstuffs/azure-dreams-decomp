@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 extern int abs(int);
 
 #define FIELD(p, type, off) (*(type *)((u8 *)(p) + (off)))
@@ -42,7 +43,6 @@ extern void func_8003DE58(s32, u8 *, Vec3s *, s32);
 extern void func_8004491C(void *, void *);
 
 extern u16 D_800281F8;
-extern s32 D_800814A0;
 extern u8 D_80082E80[];
 extern s16 D_80083228;
 extern u8 D_80083780[];
@@ -325,6 +325,6 @@ fade_phase:
     U16(state, 0x30)--;
     if (S16(state, 0x30) <= 0) {
         U16(state, -2) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

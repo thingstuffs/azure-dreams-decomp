@@ -1,6 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
-extern s32 D_800814A0[3];
 
 typedef struct {
     u8 red;
@@ -31,6 +31,6 @@ void func_80170E2C(FadeState *fade, s32 unused, FadeOutput *output)
 
     if ((s16)fade->remaining <= 0) {
         *(u16 *)((u8 *)fade - 2) |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

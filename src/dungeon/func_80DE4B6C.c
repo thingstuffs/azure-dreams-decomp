@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 
 
@@ -17,13 +18,12 @@ extern s32 func_800A2B5C();
 extern s32 func_800A4ACC();
 extern s32 func_800C7930();
 extern s16 D_80083228;
-extern u16 D_80083462;
 extern s32 D_80174558;
 
 /* Updates actor flags and starts a directional animation when the actor is ready. */
 void func_8017236C(void *actor_state, s32 action_param, void *sprite, void *actor) {
     ((Rec_D_800E3D7C *)actor)->unk_71.as_u8 = ((Rec_D_800E3D7C *)actor)->unk_71.as_u8 & 0x7F;
-    if (!(D_80083462 & 0x2000) && ((func_800A2B5C(actor) << 0x10) == 0)) {
+    if (!(dungeonStatus.flags & 0x2000) && ((func_800A2B5C(actor) << 0x10) == 0)) {
         func_800C7930((u8 *)actor - 0x20, action_param, 8, 0x300);
         if ((func_800A2B5C(actor) << 0x10) == 0) {
             ((S_8017236C_1 *)actor_state)->unk_9A = 0x18;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef s32 M2C_UNK;
 
@@ -22,7 +23,6 @@ typedef struct S_80026E3C_1 {
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-extern s32 D_800814A0[3];
 
 /* Alternate the effect shade, decay its intensity, and flag expiration. */
 void func_80026E3C(void *effect, M2C_UNK ticks_left, S_80026E3C_1 *color)
@@ -54,6 +54,6 @@ void func_80026E3C(void *effect, M2C_UNK ticks_left, S_80026E3C_1 *color)
     if ((ticks_left << 0x10) <= 0) {
         ((S_80026E3C_0_pre *)effect)[-1].unk_00 =
             (u16)(((S_80026E3C_0_pre *)effect)[-1].unk_00 | 0x8000);
-        D_800814A0[0] = (s32)(D_800814A0[0] | 0x8000);
+        objectFlagBlock.flags = (s32)(objectFlagBlock.flags | 0x8000);
     }
 }

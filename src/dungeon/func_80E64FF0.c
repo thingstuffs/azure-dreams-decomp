@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_801747F0_0 {
     u8 pad_00[0x1C];
@@ -56,7 +57,6 @@ typedef struct S_801747F0_3 {
 
 extern void *D_80170870[];
 extern u8 D_801755E0[16];
-extern s32 D_800814A0;
 
 extern s32 func_800A45D8(u16, u16, s16);
 extern s32 func_800A7234(s8, s8, s16, s16 *, s16 *, s16 *);
@@ -198,7 +198,7 @@ fall:
             ((S_801747F0_1 *)position)->unk_08.at00u.v = 0;
 finished:
             (*(u16 *)((u8 *)motion + -2)) |= 0x8000;
-            D_800814A0 |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
             return;
         }
     }

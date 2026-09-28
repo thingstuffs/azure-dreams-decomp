@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_func_800AD058_arg2.h"
 
@@ -11,7 +12,6 @@ extern void func_800AD594(void *, s32);
 extern void func_80174D48(void *, void *, void *);
 
 extern s16 D_80083228[];
-extern u8 D_80083460[];
 extern u8 D_801710F4[];
 extern u8 D_80174F00[];
 
@@ -65,7 +65,7 @@ active:
     }
 
     entity_arg = entity;
-    active_count = D_80083460;
+    active_count = ((u8 *)(&dungeonStatus));
     ((S_80174BF8_3 *)active_count)->unk_0A--;
     animation->unk_2C = D_80174F00;
     func_800AD594(entity_arg, 0x200);

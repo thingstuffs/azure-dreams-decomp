@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
@@ -69,7 +70,6 @@ M2C_UNK func_80099F70();
 M2C_UNK func_800A2B04();
 M2C_UNK func_800B653C();
 extern s16 D_80083228;
-extern M2C_UNK D_80083460;
 extern M2C_UNK D_8008ACDC;
 extern u8 D_800DD018[];
 extern u8 D_800DD020[];
@@ -140,7 +140,7 @@ jt_c17:
     ((S_80092018_0 *)actor)->unk_9B = (u8) (((S_80092018_0 *)actor)->unk_9B + 1);
 jt_c18:
 block_13:
-    move_state = &D_80083460;
+    move_state = &dungeonStatus.unk_00;
     if (((S_80092018_5 *)move_state)->unk_04 == 0) {
         goto block_15;
     }
@@ -238,7 +238,7 @@ block_26:
     func_80099F70(((S_80092018_2 *)model)->unk_5C);
     func_80099F04(((S_80092018_2 *)model)->unk_5C);
     {
-        void *action_status = &D_80083460;
+        void *action_status = &dungeonStatus.unk_00;
         u16 action_flags;
         action_flags = ((S_80092018_6 *)action_status)->unk_02;
         action_flags = (u16) (action_flags | 0x812);

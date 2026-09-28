@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_800203D8_0_pre {
     u16 unk_00;
@@ -18,7 +19,6 @@ typedef struct S_800203D8_1 {
 
 
 
-extern s32 D_800814A0[3];
 
 /* Waits for the linked object flag, then dims the color and sets completion flags. */
 void func_800203D8(void *fade) {
@@ -43,7 +43,7 @@ void func_800203D8(void *fade) {
         ((S_800203D8_0 *)fade)->unk_08 = color;
         if (color <= 0x80808) {
             ((S_800203D8_0_pre *)fade)[-1].unk_00 |= 0x8000;
-            D_800814A0[0] |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
         }
         break;
     }

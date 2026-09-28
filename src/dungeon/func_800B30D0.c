@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "records/Rec_D_800814A8.h"
 
 #ifndef NULL
@@ -13,7 +14,6 @@ typedef struct ShortVec {
 } ShortVec;
 
 extern s32 D_80045340;
-extern s32 D_800814A0;
 extern void *D_800814A8;
 extern s16 D_80083228[5];
 extern void *D_800E3D18;

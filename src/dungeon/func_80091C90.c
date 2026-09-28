@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef struct {
     u8 pad00[0x8C];
@@ -27,7 +28,6 @@ typedef struct {
     Actor *field0C;
 } DungeonState;
 
-extern DungeonState D_80083460;
 extern void func_8009C93C(Actor *, s32, s16, s32, s32);
 extern s32 func_800A6D30(void);
 extern void func_80099F70(u32);
@@ -44,7 +44,7 @@ s32 func_800973F0(Entity *entity, s32 unused, s32 action_param, Actor *actor) {
         actor->field2A = (u16)actor->field2A + (func_800A6D30() & 0xE00);
     }
     entity->field9A = 0x37;
-    state = &D_80083460;
+    state = ((DungeonState *)&dungeonStatus);
     entity->field9B = 0;
     entity->field8C = 0;
     state->field0C = actor;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -12,7 +13,6 @@ M2C_UNK func_8008CBD4(); /* extern */
 M2C_UNK func_800A2B04();              /* extern */
 M2C_UNK func_800AD4D0();                      /* extern */
 extern s16 D_80083228;
-extern M2C_UNK D_80083460;
 extern M2C_UNK D_8008ACDC;
 extern u8 D_800DCFB0[8];
 extern u8 D_800DCFE0[8];
@@ -75,7 +75,7 @@ void func_8008DDE8(void *state, void *motion, void *sprite, void *actor) {
         anim_table = D_800DCFB0;
         (*(u8 **)((u8 *)sprite + (0x2C))) = anim_table;
         func_80048A44(sprite, anim_table[((s32) (D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0, 1);
-        global_state = (s32 *)&D_80083460;
+        global_state = (s32 *)&dungeonStatus.unk_00;
         if (((S_8008DDE8_4 *)global_state)->unk_10 == (actor - 0x20)) {
             ((S_8008DDE8_4 *)global_state)->unk_10 = (s32) (((S_8008DDE8_4 *)global_state)->unk_10 & 0x7FFFFFFF);
         }

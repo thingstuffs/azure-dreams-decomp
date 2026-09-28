@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct DungeonFade {
     u8 r;
@@ -15,7 +16,6 @@ typedef struct DungeonFade {
     s16 divisor;
 } DungeonFade;
 
-extern s32 D_800814A0[3];
 
 /* Update the fade color and mark completion when its countdown ends. */
 void func_80171CC0(DungeonFade *fade, void *progress) {
@@ -30,6 +30,6 @@ void func_80171CC0(DungeonFade *fade, void *progress) {
     fade->value = *(s32 *)&fade->scaled_r;
     if ((steps_left << 16) <= 0) {
         *(u16 *)((u8 *)fade - 2) |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

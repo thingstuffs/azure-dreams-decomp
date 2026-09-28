@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800814A8.h"
 
 typedef struct S_801738E0_0 {
@@ -58,7 +59,6 @@ extern void func_80173C34(void *, void *, void *, void *);
 
 extern void *D_800814A8;
 extern s16 D_80083228;
-extern s32 D_80083460;
 extern s32 D_8017140C;
 extern u8 D_80175894[];
 extern u8 D_8017588C[];
@@ -95,7 +95,7 @@ state_zero:
             goto done;
         }
 
-        scene_state = &D_80083460;
+        scene_state = &dungeonStatus.unk_00;
         ((S_801738E0_2 *)scene_state)->unk_0A--;
         direction_anims = D_80175894;
         (*(void * *)((u8 *)anim + 0x2C)) = direction_anims;
@@ -118,12 +118,12 @@ state_one:
                 D_8017588C[((D_80083228 + ((S_801738E0_3 *)actor)->unk_2A + 0x100) >> 9) & 7],
                 0);
             ((S_801738E0_3 *)actor)->unk_1C |= 0x40000;
-            scene_state = &D_80083460;
+            scene_state = &dungeonStatus.unk_00;
             ((S_801738E0_2 *)scene_state)->unk_0A++;
             goto increment_state;
         }
 
-        scene_state = (u8 *)&D_80083460;
+        scene_state = (u8 *)&dungeonStatus.unk_00;
         if (((S_801738E0_4 *)scene_state)->unk_02 & 0x1000) {
             goto done;
         }
@@ -190,7 +190,7 @@ state_two:
     if (((S_801738E0_1 *)anim)->unk_14 & 0xE000) {
         s32 *scene_state;
 
-        scene_state = &D_80083460;
+        scene_state = &dungeonStatus.unk_00;
         ((S_801738E0_2 *)scene_state)->unk_0A--;
         ((S_801738E0_3 *)actor)->unk_1C &= ~0x208;
         ((S_801738E0_0 *)entity)->unk_8C = &D_8017140C;

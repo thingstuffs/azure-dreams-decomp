@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
 typedef struct S_func_8016C64C_0 {
@@ -68,7 +69,6 @@ extern void func_800A2B04(void *, u8, u8);
 
 extern u8 D_80082E80[];
 extern s16 D_80083228;
-extern s32 D_80083460;
 extern u8 D_8016A36C[];
 extern u8 D_801739A0[];
 extern u8 D_801739A8[];
@@ -253,7 +253,7 @@ void func_8016C64C(S_func_8016C64C_0 *action, S_func_8016C64C_1 *motion, S_func_
         motion->unk_10 = 0;
         motion->unk_0C = 0;
         func_800A2B04(motion, sprite->unk_24, sprite->unk_25);
-        world_state = (S_func_8016C64C_4 *)&D_80083460;
+        world_state = (S_func_8016C64C_4 *)&dungeonStatus.unk_00;
         if (world_state->unk_10.ptr == (u8 *)actor - 0x20) {
             world_state->unk_10.u32_value &= 0x7FFFFFFF;
         }

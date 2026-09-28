@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef struct S_80171A18_0 {
     u8 pad_00[0x1C];
@@ -53,7 +54,6 @@ extern s32 func_8009A3D0();
 extern s16 func_800A0818();
 
 extern s16 D_80083228;
-extern u16 D_80083462;
 extern u8 D_801740E0[];
 extern u8 D_801740E8[];
 
@@ -125,7 +125,7 @@ finish_move:
     ((S_80171A18_3 *)motion)->unk_8C = 0;
     (*(u32 *)((u8 *)move_state + 0x1C)) |= 0x40000000;
 
-    if (D_80083462 & 0x80) {
+    if (dungeonStatus.flags & 0x80) {
         ((S_80171A18_3 *)motion)->unk_96 = 0;
         return;
     }

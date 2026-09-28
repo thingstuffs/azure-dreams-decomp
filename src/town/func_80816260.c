@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_80020260_0 {
     union { s16 s; u16 u; } unk_00;   /* accessed as both */
@@ -18,7 +19,6 @@ typedef struct S_80020260_1 {
 
 
 
-extern s32 D_800814A0;
 
 /* Fades an effect in and out around an object event, then marks completion. */
 void func_80020260(void *effect) {
@@ -71,7 +71,7 @@ state_2:
     ((S_80020260_0 *)effect)->unk_08 = faded_color;
     if (faded_color <= 0x80808) {
         (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 
 done:

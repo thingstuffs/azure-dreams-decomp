@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 extern int abs(int);
 
@@ -12,7 +13,6 @@ M2C_UNK func_800A56E0();                     /* extern */
 M2C_UNK func_800D4AB0();      /* extern */
 extern u8 D_80025B38[9];
 extern s16 D_80025B60;
-extern s32 D_800814A0;
 extern u8 D_800DDC40[];
 
 
@@ -344,7 +344,7 @@ update_impact:
 destroy:
     ((S_80024E5C_5 *)(((S_80024E5C_0 *)effect)->unk_8C))->unk_86 = completion_state;
     (*(u16 *)((u8 *)effect + (-2))) = (u16) (((S_80024E5C_0_pre *)effect)[-1].unk_00 | 0x8000);
-    D_800814A0 |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
     return;
 normal_return:
     func_800478B8(sprite);

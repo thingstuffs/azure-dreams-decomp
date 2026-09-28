@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef struct {
     u8 pad[0x9B];
@@ -16,14 +17,7 @@ typedef struct {
     u16 unk14;
 } StructArg2;
 
-typedef struct {
-    u8 pad[0xA];
-    u16 unk0A;
-    u8 pad2[4];
-} StructD80083460;
-
 extern u8 D_80045340[0x10];
-extern StructD80083460 D_80083460;
 
 void func_80044A50(void *);
 void func_8004491C(void *, void *);
@@ -80,8 +74,8 @@ countdown:
     effect->unk12 += 0x80;
     effect->unk14 &= 0xFFF3;
     func_8004491C(owner, D_80045340);
-    effect_count = D_80083460.unk0A;
+    effect_count = ((u16)dungeonStatus.unk_0A);
     effect_count--;
-    D_80083460.unk0A = effect_count;
+    dungeonStatus.unk_0A = effect_count;
     return 1;
 }

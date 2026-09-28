@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 
 typedef struct S_80024810_2 {
@@ -48,7 +49,6 @@ typedef struct S_80024810_1 {
 /* micro-lane E 2026-08-14: true base 0x80024810 (delta 0x7E65D800) */
 extern s16 D_80083780[];
 extern s32 D_80082E80[];
-extern s32 D_800814A0[3];
 s32 func_8003DE58();       /* extern */
 s32 rand();                                /* extern */
 
@@ -104,7 +104,7 @@ void func_80024810(void *effect) {
     case 2:
         if ((s16) ((S_80024810_0 *)effect)->unk_3E >= 8) {
             ((S_80024810_0_pre *)effect)[-1].unk_00 = (u16) (((S_80024810_0_pre *)effect)[-1].unk_00 | 0x8000);
-            D_800814A0[0] = (s32) (D_800814A0[0] | 0x8000);
+            objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
         }
         break;
     }

@@ -1,3 +1,4 @@
+#include "shared/object_flags.h"
 
 struct S_80083178
 {
@@ -53,7 +54,6 @@ extern void func_800478B8(void *);
 extern s32 func_800644B8(s32);
 extern s32 rand(void);
 extern s32 D_80045340;
-extern s32 D_800814A0;
 extern M2C_UNK D_800DECF8;
 /* Updates a rotating effect through movement, fading, and deactivation. */
 void func_800240D8(void *effect, void *position, void *sprite)
@@ -154,7 +154,7 @@ void func_800240D8(void *effect, void *position, void *sprite)
     default:
     deactivate:
       *(u16 *)((u8 *) effect + (-2)) |= 0x8000;
-      D_800814A0 |= 0x8000;
+      objectFlagBlock.flags |= 0x8000;
       break;
   }
 }

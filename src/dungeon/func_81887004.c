@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 
 typedef struct {
@@ -38,7 +39,6 @@ extern void *D_80024050[5];
 extern u8 D_80026470[];
 extern u8 D_80026474[];
 extern u8 D_80080A87[];
-extern s32 D_800814A0[];
 
 extern void func_8002596C(s32, s32, s32);
 extern void func_80026010(void);
@@ -174,7 +174,7 @@ jt_4: {
         flags &= clear_effect_mask;
         fade_object->flags = flags;
         ((u16 *)effect)[-1] |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
     goto end;
 }

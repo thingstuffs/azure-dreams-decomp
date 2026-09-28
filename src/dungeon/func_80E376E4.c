@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800814A8.h"
 
 
@@ -35,7 +36,6 @@ extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern s8 D_80082EA4;
 extern s16 D_80083228;
-extern u16 D_80083462;
 extern s8 D_800E2970[];
 extern void *D_80170808[];
 extern u8 D_80170EE4[];
@@ -103,7 +103,7 @@ void func_80170EE4(void *actor_state_in, void *update_context_in, void *map_obje
     };
     void *map_object = map_object_in;
     register void *actor_data ASM_REG("$18") = actor_data_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    u32 dungeon_flags = D_80083462;
+    u32 dungeon_flags = dungeonStatus.flags;
     s16 distance;
     s32 status_flags;
     s32 action_index;
@@ -147,7 +147,7 @@ void func_80170EE4(void *actor_state_in, void *update_context_in, void *map_obje
         }
     }
 
-    if ((D_80083462 & 0x2000) == 0) {
+    if ((dungeonStatus.flags & 0x2000) == 0) {
         if (((S_80170EE4_1 *)actor_data)->unk_1C & 0x100) {
             func_800AA258(actor_state_in, update_context_in, map_object, actor_data);
             return;
@@ -198,7 +198,7 @@ void func_80170EE4(void *actor_state_in, void *update_context_in, void *map_obje
         }
         action_flags = ((S_80170EE4_1 *)actor_data)->unk_46;
         if ((action_flags & 0x8000) == 0) {
-            if (D_80083462 & 0x2000) {
+            if (dungeonStatus.flags & 0x2000) {
                 if ((s16)func_8009A180(
                         actor_data, (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) != 0) {
                     return;
@@ -284,7 +284,7 @@ jt_default:
         }
     }
 
-    if (D_80083462 & 0x2000) {
+    if (dungeonStatus.flags & 0x2000) {
         return;
     }
     if (((S_80170EE4_2 *)map_object)->unk_14 & 0x40) {

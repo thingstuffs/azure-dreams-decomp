@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
 
 typedef struct S_80172DFC_0_pre {
@@ -28,7 +29,6 @@ typedef struct S_80172DFC_1 {
 
 
 extern void func_800478B8(void *);
-extern s32 D_800814A0[3];
 
 /* Advance effect motion and animation, and flag completion when its lifetime ends. */
 void func_80172DFC(void *effect, S_80172DFC_1 *position, Rec_D_80082E80 *animation) {
@@ -52,10 +52,10 @@ void func_80172DFC(void *effect, S_80172DFC_1 *position, Rec_D_80082E80 *animati
     ((S_80172DFC_0 *)effect)->unk_16 = remaining_ticks;
     if ((remaining_ticks << 0x10) <= 0) {
         ((S_80172DFC_0_pre *)effect)[-1].unk_00 = ((S_80172DFC_0_pre *)effect)[-1].unk_00 | 0x8000;
-        D_800814A0[0] = D_800814A0[0] | 0x8000;
+        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
     }
     if (animation->unk_14.at00_u16.v & 0x8000) {
         ((S_80172DFC_0_pre *)effect)[-1].unk_00 = ((S_80172DFC_0_pre *)effect)[-1].unk_00 | 0x8000;
-        D_800814A0[0] = D_800814A0[0] | 0x8000;
+        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
     }
 }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 
 #define M2C_BREAK() ((void)0)
@@ -8,7 +9,6 @@
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern u8 D_80045340[];
-extern s32 D_800814A0[];
 s32 func_800478B8();
 s32 func_80069EF8();
 
@@ -121,7 +121,7 @@ fade:
             if (fade_step >= effect->limit) {
                 *(s32 *)((u8 *)effect + 0xC) = 0;
                 *((u16 *)((u8 *)object - 2)) |= 0x8000;
-                D_800814A0[0] |= 0x8000;
+                objectFlagBlock.flags |= 0x8000;
                 return;
             } else {
                 u8 fade_value = effect->value_e - fade_step;

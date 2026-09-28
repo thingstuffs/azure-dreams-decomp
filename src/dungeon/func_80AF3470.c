@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 
 typedef struct {
@@ -15,7 +16,6 @@ typedef struct {
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 
-extern s32 D_800814A0;
 extern LocalTable D_80170874;
 extern void *D_80170898[27];
 
@@ -103,7 +103,7 @@ case_15_25:
 
 case_26:
     (*(u16 *)((u8 *)effect + (-2))) |= 0x8000;
-    D_800814A0 |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
     goto done;
 
 common:

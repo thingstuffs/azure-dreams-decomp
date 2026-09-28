@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_8016F99C_0_pre {
     u16 unk_00;
@@ -22,7 +23,6 @@ typedef struct S_8016F99C_1 {
 
 
 
-extern s32 D_800814A0[3];
 extern void *D_801649E8[];
 extern void *D_80175D58[];
 extern void *D_80175D5C[];

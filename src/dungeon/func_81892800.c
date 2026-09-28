@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct Link {
     u8 pad_00[0x14];
@@ -27,7 +28,6 @@ typedef struct Aux {
     u16 angle;
 } Aux;
 
-extern s32 D_800814A0[3];
 
 #ifdef __mips__
 extern void func_80024C74(void);
@@ -80,6 +80,6 @@ void func_81892800(Entity *entity, Motion *motion, Aux *aux) {
     entity->timer = timer;
     if (entity->limit < timer) {
         entity[-1].limit |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

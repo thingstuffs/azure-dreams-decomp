@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 
 typedef struct S_800C2824_0 {
@@ -133,7 +134,6 @@ s32 func_800A6620();
 M2C_UNK func_800B8FC8();
 s32 func_800BBA40(u8, u8, s16, void *, s32, s32, void *);
 void func_800BC318();
-extern M2C_UNK D_800814A0;
 extern u8 D_80082E80[];
 extern M2C_UNK D_800C0180;
 extern M2C_UNK D_800C27F0;

@@ -1,6 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
-extern int D_800814A0[];
 extern void func_8008C28C(s32);
 extern s32 D_800CFCA8;
 
@@ -14,6 +14,6 @@ void func_8008C304(void *counterPtr) {
     if (nextCounter >= 0x80) {
         ((u16 *)counterPtr)[-1] |= 0x8000;
         D_800CFCA8 = 0;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

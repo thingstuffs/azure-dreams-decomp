@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -48,7 +49,6 @@ extern void func_801708B8(void *, void *, void *);
 
 extern u8 D_80082E80[];
 extern s16 D_80083228;
-extern s32 D_80083460;
 extern u8 D_800E23E0[];
 extern u8 D_800E2458[];
 extern u8 D_800E2460[];
@@ -190,7 +190,7 @@ done:
     func_800AD594(actor, 0x10);
     func_800A4ACC(actor);
     {
-        u8 *global_state = (u8 *)&D_80083460;
+        u8 *global_state = (u8 *)&dungeonStatus.unk_00;
 
         if (((S_801730C4_4 *)global_state)->unk_08 != 0) {
             ((S_801730C4_4 *)global_state)->unk_08 = (u16)((S_801730C4_4 *)global_state)->unk_08 - 1;

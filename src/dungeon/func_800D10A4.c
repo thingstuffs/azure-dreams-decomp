@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_800D6804_0 {
     u8 pad_00[0x8];
@@ -20,7 +21,6 @@ typedef struct S_800D6804_1 {
 } S_800D6804_1;   /* arg0 in func_800D6804 */
 
 
-extern s32 D_800814A0;
 
 /* Advance the state with a decaying delta and fade the effect color until its timer expires. */
 void func_800D6804(void *effect, void *state_data)
@@ -67,6 +67,6 @@ void func_800D6804(void *effect, void *state_data)
     ((S_800D6804_1 *)effect)->unk_08 = ((S_800D6804_1 *)effect)->unk_04.at00u.v;
     if ((frames_left << 16) <= 0) {
         (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

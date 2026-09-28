@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 
 typedef struct {
@@ -62,8 +63,6 @@ M2C_UNK func_800A5720();                         /* extern */
 s32 func_800A6D30();                                /* extern */
 void *func_80170908();                /* extern */
 extern s16 D_80083228;
-extern M2C_UNK D_80083460;
-extern u16 D_80083462;
 extern M2C_UNK D_8017089C;
 extern M2C_UNK D_801708AC;
 extern M2C_UNK D_801708B8;
@@ -79,7 +78,7 @@ void func_80174234(S_80174234_0 *owner, void *unused, S_80174234_1 *part, S_8017
     S_80174234_3 *counters;
 
     actor->unk_71 = (u8) (actor->unk_71 & 0x7F);
-    if (!(D_80083462 & 0x2000) && ((func_800A2BDC(actor) << 0x10) == 0)) {
+    if (!(dungeonStatus.flags & 0x2000) && ((func_800A2BDC(actor) << 0x10) == 0)) {
         if (actor->unk_1C & 0x400) {
             link_flags = actor->unk_14;
             if (!(link_flags & 0x80000000)) {
@@ -108,7 +107,7 @@ void func_80174234(S_80174234_0 *owner, void *unused, S_80174234_1 *part, S_8017
         owner->unk_9B = 0;
         *(u8 **)((s8 *)part + 0x2C) = D_80174F58;   /* the struct-member form `part->unk_2C = ...` is NOT byte-exact here: reorder-only 4 (same-multiset, one addiu+sw pair drifts) */
         func_80047784(part, D_80174F58[((D_80083228 + (s16) actor->unk_2A + 0x100) >> 9) & 7], 0);
-        counters = (S_80174234_3 *) &D_80083460;
+        counters = (S_80174234_3 *) &dungeonStatus.unk_00;
         actor->unk_6D = (u8) (actor->unk_6D - 1);
         counters->unk_0A = (u16) (counters->unk_0A + 1);
     }

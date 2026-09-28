@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 extern int abs(int);
 
@@ -63,7 +64,6 @@ typedef struct {
 extern ItemInfo D_8006DE24[];
 extern void *D_800814A8;
 extern s16 D_80083228;
-extern u8 D_80083460[0x18];
 extern void *D_80170838[5];
 extern void *D_80170850[7];
 extern u8 D_80170EE4[8];
@@ -254,7 +254,7 @@ L4:
     ((Rec_D_800E3D7C *)item)->unk_10.at00_s32.v = 0;
     ((Rec_D_800E3D7C *)item)->unk_0C.as_s32 = 0;
     func_800A2B04(item, ((S_801728E4_4 *)sprite)->unk_24, ((S_801728E4_4 *)sprite)->unk_25);
-    source_sprite = D_80083460;
+    source_sprite = ((u8 *)(&dungeonStatus));
     if (((S_801728E4_5 *)source_sprite)->unk_0C != 0) {
         return;
     }

@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 extern s16 D_80025384;
-extern s32 D_800814A0;
 
 /* Fade the primitive and flag the effect when its countdown expires. */
 void func_800244F0(void *effect, s32 unused, u8 *primitive) {
@@ -27,6 +27,6 @@ void func_800244F0(void *effect, s32 unused, u8 *primitive) {
 
     if (*(s16 *)((u8 *)effect + 0x2A) <= 0) {
         *(u16 *)((u8 *)effect - 2) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

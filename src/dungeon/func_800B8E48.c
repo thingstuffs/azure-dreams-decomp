@@ -1,9 +1,5 @@
 #include "common.h"
-
-typedef struct {
-    u8 pad[0xA];
-    u16 fieldA;
-} D_80083460_t;
+#include "shared/dungeon_status.h"
 
 extern void func_8008D330(void *, void *, void *, void *);
 extern void func_80098B38(s32);
@@ -16,7 +12,6 @@ extern s32 func_800AD6FC(void *, s32, s32);
 extern void func_800D5460(void *, s32, s32);
 
 extern u8 D_80082E80[];
-extern D_80083460_t D_80083460;
 extern u8 D_80083780[];
 extern u16 D_800DDE84[];
 extern u8 D_800E104E[];
@@ -50,6 +45,6 @@ s32 func_800BE5A8(void *target, s32 item, s16 message_kind)
         func_800997FC(D_800E107C);
     }
     func_80098B38(item);
-    D_80083460.fieldA--;
+    dungeonStatus.unk_0A--;
     return 1;
 }

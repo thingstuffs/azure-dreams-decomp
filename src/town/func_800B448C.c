@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_800B1BEC_0 {
     u8 pad_00[0x8];
@@ -28,7 +29,6 @@ extern void func_8004491C(void *, void *);
 extern void func_800B1890(void);
 
 extern u8 D_8004CAA0[];
-extern u32 D_800814A0;
 
 /* Create an object with two buffers and initialize its state and position. */
 void *func_800B1BEC(s32 setup_value, s32 x, s32 y)
@@ -57,9 +57,9 @@ void *func_800B1BEC(s32 setup_value, s32 x, s32 y)
             func_8004B1A4(part->unk_08);
             func_8004B1A4(part->unk_0C);
             object_flags = ((S_800B1BEC_1 *)object)->unk_1E | 0x8000;
-            global_flags = D_800814A0 | 0x8000;
+            global_flags = ((u32)objectFlagBlock.flags) | 0x8000;
             ((S_800B1BEC_1 *)object)->unk_1E = object_flags;
-            D_800814A0 = global_flags;
+            objectFlagBlock.flags = global_flags;
         }
     }
     return object;

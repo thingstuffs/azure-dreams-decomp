@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -35,7 +36,6 @@ typedef struct {
 } State1;
 
 M2C_UNK func_800478B8();                      /* extern */
-extern s32 D_800814A0[3];
 
 /* Update effect motion, size and brightness, then mark it finished. */
 s32 func_800BC00C(void *effect_fields, S_800BC00C_2 *position, Rec_D_80082E80 *sprite) {
@@ -100,7 +100,7 @@ fade:
 
 finished:
     ((S_800BC00C_0 *)((u8 *)effect_fields - 0x2))->unk_00 = (u16) (((S_800BC00C_0 *)((u8 *)effect_fields - 0x2))->unk_00 | 0x8000);
-    global_flags = D_800814A0[0] | 0x8000;
-    D_800814A0[0] = global_flags;
+    global_flags = objectFlagBlock.flags | 0x8000;
+    objectFlagBlock.flags = global_flags;
     return global_flags;
 }

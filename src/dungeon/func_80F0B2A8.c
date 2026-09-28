@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_800814A8.h"
 extern int abs(int);
@@ -80,8 +81,6 @@ extern void func_800DA840(void *, s16);
 extern u8 D_8006DE24[];
 extern void *D_800814A8;
 extern s16 D_80083228;
-extern s32 D_80083460;
-extern s32 D_8008346C;
 extern u8 D_80170F74[];
 extern u8 D_80173D30[];
 
@@ -184,7 +183,7 @@ void func_80172AA8(void *motion_state, void *transform, void *sprite, void *acto
         ((Rec_D_800E3D7C *)transform)->unk_10.at00_s32.v = 0;
         ((Rec_D_800E3D7C *)transform)->unk_0C.as_s32 = 0;
         func_800A2B04(transform, ((S_80172AA8_4 *)sprite)->unk_24, ((S_80172AA8_4 *)sprite)->unk_25);
-        D_8008346C = 0;
+        dungeonStatus.unk_0C = 0;
         ((Rec_D_800814A8 *)D_800814A8)->unk_A6 = (*(u16 *)((u8 *)D_800814A8 + 0xA6)) - 1;
         func_800A4ACC(actor);
         ((S_80172AA8_1 *)actor)->unk_6D.s = ((S_80172AA8_1 *)actor)->unk_6D.s - 1;
@@ -232,7 +231,7 @@ void func_80172AA8(void *motion_state, void *transform, void *sprite, void *acto
                     0);
             }
         }
-        action_state = (u8 *)&D_80083460;
+        action_state = (u8 *)&dungeonStatus.unk_00;
         if (((S_80172AA8_7 *)action_state)->unk_0C != 0) {
             return;
         }

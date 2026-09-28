@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 
 typedef s32 M2C_UNK;
@@ -20,14 +21,13 @@ extern M2C_UNK func_8009C93C();
 extern s32 func_800A2B5C();
 extern M2C_UNK func_800C7930();
 extern s16 D_80083228;
-extern u16 D_80083462;
 extern u8 D_80175258[];
 
 /* Reset actor action state and select a facing-dependent animation when status checks pass. */
 void func_80172514(void *action_state, M2C_UNK action_context, void *sprite, void *actor) {
     ((Rec_D_800E3D7C *)actor)->unk_71.as_u8 &= 0x7F;
 
-    if (!(D_80083462 & 0x2000) &&
+    if (!(dungeonStatus.flags & 0x2000) &&
         ((func_800A2B5C(actor) << 16) == 0) &&
         (func_800C7930((u8 *)actor - 0x20, action_context, 8, 0x300),
          ((func_800A2B5C(actor) << 16) == 0))) {

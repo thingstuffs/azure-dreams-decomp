@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 __asm__(".set jtbl_800898AC, 0x800898AC");
 extern void *jtbl_800898AC[6];
@@ -52,7 +53,6 @@ extern s32 rand(void);
 extern void func_800BF15C(void);
 
 extern u8 D_80045340[];
-extern s32 D_800814A0[];
 extern u8 D_800D231C[];
 extern u8 D_800D2324[];
 extern u8 D_800F15AC[];
@@ -234,7 +234,7 @@ L_case5:
     func_800672D8(D_800D231C, D_80113138);
     func_80067014(0);
     *(u16 *)((u8 *)state - 2) |= 0x8000;
-    D_800814A0[0] |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
 L_epilogue:
     ;
 }

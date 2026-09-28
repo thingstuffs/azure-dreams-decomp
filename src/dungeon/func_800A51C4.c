@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef struct {
     u16 unk0;
@@ -7,14 +8,13 @@ typedef struct {
     u16 count;
 } DungeonState;
 
-extern DungeonState D_80083460;
 extern s16 D_80083228[];
 extern void func_80047784(void *, s32, s32);
 
 /* Resets actor action state and selects a sprite frame for its facing direction. */
 s32 func_800AA924(void *actor, s32 unused, void *sprite, u8 *direction_frames)
 {
-    DungeonState *state = &D_80083460;
+    DungeonState *state = ((DungeonState *)&dungeonStatus);
 
     *(u8 *)((u8 *)actor + 0x71) &= 0x7F;
     if (state->flags & 0x2008) {

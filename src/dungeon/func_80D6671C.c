@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_800814A8.h"
 
@@ -36,7 +37,6 @@ extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern s8 D_80082EA4;
 extern s16 D_80083228;
-extern u16 D_80083462;
 extern u8 D_800DCF5B;
 extern u8 D_800E2348[];
 extern u8 D_800E2358[];
@@ -101,7 +101,7 @@ void func_80171F1C(void *motion_arg, void *actor_index_arg, void *actor_arg, voi
     s32 direction_flags;
     s8 room_id;
     u16 action_state;
-    u32 initial_flags = D_80083462;
+    u32 initial_flags = dungeonStatus.flags;
 
     move_data = move_data_arg;
 
@@ -140,7 +140,7 @@ void func_80171F1C(void *motion_arg, void *actor_index_arg, void *actor_arg, voi
         }
     }
 
-    if (!(D_80083462 & 0x2000)) {
+    if (!(dungeonStatus.flags & 0x2000)) {
         if (((Rec_D_800E3D7C *)move_data)->unk_1C.as_u32 & 0x100) {
             func_800AA258(motion_arg, actor_index_arg, actor_arg, move_data);
             return;
@@ -205,7 +205,7 @@ void func_80171F1C(void *motion_arg, void *actor_index_arg, void *actor_arg, voi
             goto ordinary_cleanup;
         }
         if (!(((Rec_D_800E3D7C *)move_data)->unk_44.at02_u16.v & 0x8000)) {
-            if (D_80083462 & 0x2000) {
+            if (dungeonStatus.flags & 0x2000) {
                 if ((func_8009A180(move_data,
                         (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) << 16) != 0) {
                     return;

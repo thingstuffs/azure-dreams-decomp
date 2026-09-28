@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 extern int abs(int);
 
 #ifndef NULL
@@ -82,7 +83,6 @@ extern volatile u16 D_800135C0;
 extern u8 D_80022B80[];
 extern s16 D_800272A0[];
 extern u8 D_80045340[];
-extern s32 D_800814A0;
 extern u8 D_80083160[];
 extern u8 D_80083498[];
 extern void *D_800834B8;
@@ -543,7 +543,7 @@ increment_state:
     case 0x109:
         func_8008F134(object);
         (*(u16 *)((u8 *)object + -2)) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         goto done;
 
     default:

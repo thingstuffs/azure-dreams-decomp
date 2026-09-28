@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 
 typedef struct {
@@ -207,12 +209,8 @@ extern M2C_UNK D_80013714;
 #define D_80010000_PTR ((D_80010000_T *)0x80010000)
 extern s32 D_8007359C;
 extern s32 D_80081484;
-extern M2C_UNK D_800814A0;
 extern M2C_UNK D_80083160;
 extern s16 D_80083228;
-extern M2C_UNK D_80083460;
-extern u16 D_80083462;
-extern s16 D_8008346A;
 extern u32 D_800835E4[];
 extern M2C_UNK D_8008ACDC;
 extern M2C_UNK D_800B69DC;
@@ -345,14 +343,14 @@ handle_item_input:
         goto set_input_anim_flags;
     }
     {
-        S_func_800B1364_8 *control_state = (S_func_800B1364_8 *)&D_80083460;
+        S_func_800B1364_8 *control_state = (S_func_800B1364_8 *)&dungeonStatus.unk_00;
         control_state->unk_02 = (u16) (control_state->unk_02 | 4);
     }
     goto check_input_ready;
 set_input_anim_flags:
     sprite->unk_14 = (u16) (sprite_flags | 0x6800);
 check_input_ready:
-    if (D_80083462 & 4) {
+    if (dungeonStatus.flags & 4) {
         goto done;
     }
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
@@ -436,7 +434,7 @@ wait_use_anim:
     if (!(sprite->unk_14 & 0xE000)) {
         goto done;
     }
-    global_state = (S_func_800B1364_7 *)&D_80083460;
+    global_state = (S_func_800B1364_7 *)&dungeonStatus.unk_00;
     if (global_state->unk_02 & 2) {
         goto resume_input;
     }
@@ -538,7 +536,7 @@ init_creature_stats:
         u16 summon_count;
         S_func_800B1364_8 *summon_control;
         D_800DCF4F = 1;
-        summon_control = (S_func_800B1364_8 *)&D_80083460;
+        summon_control = (S_func_800B1364_8 *)&dungeonStatus.unk_00;
         summon_count = summon_control->unk_0A.u16;
         summon_control->unk_0A.u16 = (u16) (summon_count + 1);
     }
@@ -557,21 +555,21 @@ show_spawn_message:
     if ((*(u16 *)&D_80013714) & 1) {
         goto decrement_summon_count;
     }
-    summon_state = (S_func_800B1364_8 *)&D_80083460;
+    summon_state = (S_func_800B1364_8 *)&dungeonStatus.unk_00;
     if ((s16) summon_state->unk_0A.u16 < 2) {
         goto done;
     }
     summon_state->unk_0A.u16 = (u16) (summon_state->unk_0A.u16 - 1);
     return;
 decrement_summon_count:
-    summon_state = (S_func_800B1364_8 *)&D_80083460;
+    summon_state = (S_func_800B1364_8 *)&dungeonStatus.unk_00;
     if (summon_state->unk_0A.s16 <= 0) {
         goto done;
     }
     summon_state->unk_0A.s16 = (s16) ((u16) summon_state->unk_0A.s16 - 1);
     return;
 wait_spawn:
-    if (D_8008346A != 0) {
+    if (dungeonStatus.unk_0A != 0) {
         goto done;
     }
     wait_timer = action->unk_96 - 1;

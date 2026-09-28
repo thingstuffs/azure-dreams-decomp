@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct {
     s32 x;
@@ -6,7 +7,6 @@ typedef struct {
     s32 z;
 } Vec3_32;
 
-extern s32 D_800814A0;
 
 extern s32 func_800644B8(s32 angle);
 extern s32 func_80064584(s32 angle);
@@ -22,7 +22,7 @@ void func_800C6CE4(void *object, Vec3_32 *out_pos)
     if (func_800C648C(linked_object) == 0) {
         func_80033D08(object);
         *(u16 *)((u8 *)object - 2) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         return;
     }
     out_pos->x = base_pos->x + func_800644B8(*(s16 *)((u8 *)*(void **)((u8 *)object + 0x9C) + 0x72)) * 0x140;

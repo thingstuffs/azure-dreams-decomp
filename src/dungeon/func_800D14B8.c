@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 
 typedef struct S_800D6C18_0_pre {
@@ -36,7 +37,6 @@ typedef struct S_800D6C18_3 {
 
 
 M2C_UNK func_800D6AD4(); /* extern */
-extern M2C_UNK D_800814A0;
 
 /* Updates effect size and offsets, emits a sequence, and flags expiration. */
 void func_800D6C18(void *effect, S_800D6C18_2 *size_state) {

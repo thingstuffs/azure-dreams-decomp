@@ -1,13 +1,13 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 
 
 extern void func_8009A21C(s32, s32, s32);
 extern void func_800A4300(void *, s32);
 extern s16 func_800A71F4(void);
 
-extern s32 D_800814A0;
 extern s32 D_80082E80;
-extern u16 D_80083460[];
 extern s32 D_800E3548[];
 typedef struct {
     u8 x;
@@ -77,12 +77,12 @@ void func_800A77AC(FuncObj *obj, FuncVec *pos, FuncVec *target) {
             func_8009A21C(obj->fieldAA, obj->fieldAC, 0x800);
             func_800A4300(&D_80082E80, D_800E3D7C);
         }
-        D_80083460[5]--;
+        dungeonStatus.unk_0A--;
         /* the u16 two bytes BEFORE the object: a negative offset, which the field-typing
            pass (tools/xform/t4_fields.py) refuses to fold into a struct; a `_pre` struct
            spelling was tried here and costs 9 words (const-remat), so it stays an explicit cast */
         *(u16 *)((u8 *)obj - 2) |= 0x8000;
-        D_800814A0 = D_800814A0 | 0x8000;
+        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
     }
 }
 

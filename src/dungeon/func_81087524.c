@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
 
 typedef struct {
     s32 words[6];
 } Copy24;
 
-extern s32 D_800814A0;
 extern s32 D_80175F38;
 
 s32 func_8003DE58(s32, void *, s16 *, s32);
@@ -58,7 +58,7 @@ void func_80174D24(void *state, void *output, void *target)
 
     if (((S_80174D24_4 *)(((S_80174D24_0 *)state)->unk_08))->unk_2C != &D_80175F38) {
         (*(u16 *)((u8 *)state + -2)) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         goto out;
     }
 

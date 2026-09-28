@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef struct S_80173CE0_0 {
     u8 pad_00[0x8C];
@@ -24,7 +25,6 @@ extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
 extern void func_80174084(void *, s32, void *);
 extern void func_801744B8(void *);
-extern s32 D_8008346C;
 extern s32 D_80170E5C;
 
 /* Advance the action state and update the entity when action flags permit. */
@@ -77,7 +77,7 @@ state_two:
         func_800AD594(entity, 0x400);
         func_800A2B04(entity_id, ((S_80173CE0_1 *)action)->unk_24, ((S_80173CE0_1 *)action)->unk_25);
         ((S_80173CE0_0 *)state_ctx)->unk_8C = &D_80170E5C;
-        D_8008346C = 0;
+        dungeonStatus.unk_0C = 0;
         (*(u16 *)((u8 *)entity + 0x46)) &= 0x7FFF;
     }
 

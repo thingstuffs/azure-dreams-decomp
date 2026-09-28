@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 
 typedef void (*ActorCallback)(void *, void *, void *, void *);
@@ -13,7 +14,6 @@ extern s16 func_800BCB04(s32, s32, s32);
 
 extern u8 D_8006CCF8[8];
 extern s16 D_80083228;
-extern u16 D_80083462;
 extern u8 D_801717F4;
 extern u8 D_80175988[8];
 extern u8 D_801759A0[8];
@@ -72,7 +72,7 @@ void func_80171104(u8 *actor, u8 *motion, u8 *object)
 
     actor_copy = actor;
 
-    if (D_80083462 & 0x2000) {
+    if (dungeonStatus.flags & 0x2000) {
         ActorCallback early_callback;
         void *early_actor;
 

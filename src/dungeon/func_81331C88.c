@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 #ifndef NULL
 #define NULL 0
@@ -119,7 +120,6 @@ typedef struct S_80168C88_14 {
 
 extern void *func_8003FC64();
 extern void func_8004491C();
-extern s32 D_800814A0;
 extern u8 D_80166914[];
 extern u8 D_80167C30[];
 extern u8 D_80173B4C[];
@@ -359,6 +359,6 @@ copy_coord:
     ((S_80168C88_0 *)effect)->unk_18.s = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
         (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

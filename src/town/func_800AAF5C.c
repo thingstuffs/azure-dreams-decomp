@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
 
 typedef struct S_800A86BC_0 {
@@ -25,7 +26,6 @@ typedef struct S_800A86BC_1 {
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern void func_800478B8();
-extern s32 D_800814A0[];
 
 /* Update effect motion, fade its primitive, and flag expiration when its timer ends. */
 void func_800A86BC(void *effect, S_800A86BC_0 *motion, Rec_D_80082E80 *primitive) {
@@ -48,6 +48,6 @@ void func_800A86BC(void *effect, S_800A86BC_0 *motion, Rec_D_80082E80 *primitive
     ((S_800A86BC_1 *)effect)->unk_02 = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
         ((S_800A86BC_1_pre *)effect)[-1].unk_00 = ((S_800A86BC_1_pre *)effect)[-1].unk_00 | 0x8000;
-        D_800814A0[0] = D_800814A0[0] | 0x8000;
+        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
     }
 }

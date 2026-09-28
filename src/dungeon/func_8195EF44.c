@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 #ifndef NULL
 #define NULL 0
@@ -9,7 +10,6 @@ extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *);
 extern s32 D_80024648;
 extern s32 D_80046398;
-extern s32 D_800814A0;
 extern u8 D_8008333C[32];
 
 

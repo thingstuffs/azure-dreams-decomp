@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80016000.h"
 
@@ -81,7 +82,6 @@ typedef struct S_8183EFD8_9 {
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern u8 D_80083498[];
 extern u8 D_800DECF8[];
-extern s32 D_800814A0[];
 void *func_8003FD64();                 /* extern */
 s32 func_80069EF8();                          /* extern */
 extern u8 D_80024688[];
@@ -187,7 +187,7 @@ fade_out:
     if (count_or_step >= (s32) sprite->unk_0C.at00.v) {
         sprite->unk_0C.at00u.v = 0;
         ((S_8183EFD8_0_pre *)effect_arg)[-1].unk_00 = (u16) (((S_8183EFD8_0_pre *)effect_arg)[-1].unk_00 | 0x8000);
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         return;
     }
     fade_level = sprite->unk_0C.at02.v - 0x10;

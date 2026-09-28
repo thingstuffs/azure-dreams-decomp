@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_func_800AA258_arg2.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_800814A8.h"
@@ -34,7 +35,6 @@ extern void func_80173E00(void *, void *, void *, void *);
 
 extern void *D_800814A8;
 extern s16 D_80083228;
-extern s32 D_80083460;
 extern s32 D_801714D4;
 extern u8 D_80174158[];
 extern u8 D_80174160[];
@@ -71,7 +71,7 @@ state_zero:
             goto done;
         }
 
-        shared_state = &D_80083460;
+        shared_state = &dungeonStatus.unk_00;
         ((S_80173AAC_2 *)shared_state)->unk_0A--;
         direction_anims = D_80174158;
         (*(void * *)((u8 *)animation + 0x2C)) = direction_anims;
@@ -94,12 +94,12 @@ state_one:
                 D_80174160[((D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7],
                 0);
             ((Rec_D_800E3D7C *)entity)->unk_1C.as_u32 |= 0x40000;
-            shared_state = &D_80083460;
+            shared_state = &dungeonStatus.unk_00;
             ((S_80173AAC_2 *)shared_state)->unk_0A++;
             goto increment_state;
         }
 
-        shared_state_bytes = (u8 *)&D_80083460;
+        shared_state_bytes = (u8 *)&dungeonStatus.unk_00;
         if (((S_80173AAC_4 *)shared_state_bytes)->unk_02 & 0x1000) {
             goto done;
         }
@@ -166,7 +166,7 @@ state_two:
     if (((Rec_func_800AA258_arg2 *)animation)->unk_14 & 0xE000) {
         s32 *shared_state;
 
-        shared_state = &D_80083460;
+        shared_state = &dungeonStatus.unk_00;
         ((S_80173AAC_2 *)shared_state)->unk_0A--;
         ((Rec_D_800E3D7C *)entity)->unk_1C.as_u32 &= ~8;
         ((Rec_func_8017360C_arg0 *)actor)->unk_8C.as_pv = &D_801714D4;

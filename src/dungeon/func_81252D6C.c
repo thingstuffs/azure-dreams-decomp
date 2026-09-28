@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 extern int abs(int);
 
 
@@ -16,8 +17,6 @@ extern void func_80170E18();
 extern u8 D_8006DE24[];
 extern void *D_800814A8;
 extern s16 D_80083228;
-extern s32 D_80083460;
-extern s32 D_8008346C;
 extern void *D_80170838[];
 extern void *D_80170860[];
 extern M2C_UNK D_80171514;
@@ -233,7 +232,7 @@ state0_empty:
     ((S_8017256C_5 *)motion)->unk_10 = 0;
     ((S_8017256C_5 *)motion)->unk_0C = 0;
     func_800A2B04(motion, ((S_8017256C_4 *)sprite)->unk_24, ((S_8017256C_4 *)sprite)->unk_25);
-    D_8008346C = 0;
+    dungeonStatus.unk_0C = 0;
     (*(u16 *)((u8 *)D_800814A8 + (0xA6)))--;
     func_800A4ACC(actor);
     ((S_8017256C_1 *)actor)->unk_6D--;
@@ -338,7 +337,7 @@ state7:
 
 state8:
     {
-        u8 *action_status = (u8 *)&D_80083460;
+        u8 *action_status = (u8 *)&dungeonStatus.unk_00;
 
         if (((S_8017256C_6 *)action_status)->unk_0C != 0) {
             return;

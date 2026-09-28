@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef struct S_func_819A6800_1 {
     void *unk_00;
@@ -118,7 +119,6 @@ extern u8 D_80024810[];
 extern u8 D_80024B20[];
 extern u8 D_800DEE38[];
 extern u16 D_80082E94[];
-extern u8 D_80083460[];
 extern u32 D_800814A0[];
 
 #define GLOBAL_OBJECT (*(void **)D_800814A8)
@@ -357,7 +357,7 @@ state7:
         }
     }
     {
-        S_func_819A6800_10 *globals = (S_func_819A6800_10 *)D_80083460;
+        S_func_819A6800_10 *globals = (S_func_819A6800_10 *)((u8 *)(&dungeonStatus));
         globals->unk_0C = 0;
         globals->unk_0A--;
     }

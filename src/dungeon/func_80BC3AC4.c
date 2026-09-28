@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -24,8 +25,6 @@ extern s32 D_80045340;
 extern u8 D_8006DE24[];
 extern void *D_800814A8;
 extern s16 D_80083228;
-extern s32 D_80083460;
-extern s32 D_8008346C;
 extern void *D_80170850[];
 extern void *D_80170868[];
 extern u8 D_80171080[];
@@ -246,7 +245,7 @@ empty_selection:
     ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = 0;
     ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
     func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
-    D_8008346C = 0;
+    dungeonStatus.unk_0C = 0;
     (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
     func_800A4ACC(actor);
     (*(u8 *)((u8 *)actor + 0x6D))--;
@@ -386,7 +385,7 @@ state_4:
     {
         s16 timer;
 
-        if (D_8008346C == 0) {
+        if (((s32)dungeonStatus.unk_0C) == 0) {
             ((S_801732C4_0 *)action)->unk_96.u = 0;
         }
         timer = ((S_801732C4_0 *)action)->unk_96.u - 1;
@@ -432,7 +431,7 @@ state_5:
     {
         u8 *effect_state;
 
-        effect_state = (u8 *)&D_80083460;
+        effect_state = (u8 *)&dungeonStatus.unk_00;
         if (((S_801732C4_8 *)effect_state)->unk_0C != 0) {
             goto end;
         }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 /* Sub-record living at offset 0x20 of the allocated node (same node type
  * allocated by func_8003FC64, size class 0x124 per src/w_8003FC64.c /
@@ -26,7 +27,6 @@ extern void func_8004491C(void *a0, void *a1);
 extern void func_8004CAA0(void);
 extern void func_8004B248(u16 **a0);
 
-extern int D_800814A0;
 
 /* Allocate and initialize a paged item-list node, returning null on failure. */
 void *func_800B14B0(s32 parent, s32 selected_index, s32 item_count, s32 page_index, s32 last_page, s32 item_base, s32 display_mode)
@@ -46,7 +46,7 @@ void *func_800B14B0(s32 parent, s32 selected_index, s32 item_count, s32 page_ind
         func_8004B248((u16 **)((u8 *)node + 0xF0));
         node->flags |= 0x8000;
         node = 0;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
     return node;
 }

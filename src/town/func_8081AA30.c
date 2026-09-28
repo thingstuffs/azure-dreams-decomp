@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_80024A30_0_pre {
     u16 unk_00;
@@ -18,7 +19,6 @@ typedef struct S_80024A30_1 {
 
 
 
-extern s32 D_800814A0[3];
 
 /* Waits for a trigger flag, then decreases the level and sets completion flags. */
 void func_80024A30(void *state) {
@@ -43,7 +43,7 @@ void func_80024A30(void *state) {
         ((S_80024A30_0 *)state)->unk_08 = level;
         if (level <= 0x80808) {
             ((S_80024A30_0_pre *)state)[-1].unk_00 |= 0x8000;
-            D_800814A0[0] |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
         }
         break;
     }

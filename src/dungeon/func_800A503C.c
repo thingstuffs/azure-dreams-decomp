@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef struct {
     u16 unk0;
@@ -7,12 +8,11 @@ typedef struct {
     u16 count;
 } DungeonState;
 
-extern DungeonState D_80083460;
 extern void func_800ACB98(void *, s32, void *, void *);
 
 /* Update actor state and dungeon count, or dispatch special handling. */
 s32 func_800AA79C(void *actor_state, s32 action, void *status, void *actor) {
-    DungeonState *state = &D_80083460;
+    DungeonState *state = ((DungeonState *)&dungeonStatus);
 
     *(u8 *)((u8 *)actor + 0x71) &= 0x7F;
     if (state->flags & 0x2008) {

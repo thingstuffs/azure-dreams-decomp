@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_81952B4C_0 {
     s32 unk_00;
@@ -44,7 +45,6 @@ extern s32 func_80064584(s32);
 
 extern s16 D_800249A4;
 extern u16 D_800249A6;
-extern s32 D_800814A0;
 
 /* Updates a spiraling effect's growth, motion, and fade-out. */
 void func_8002434C(void *effect, void *position, void *sprite)
@@ -148,9 +148,9 @@ fade_out:
     }
 
     (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-    global_flags = D_800814A0 | 0x8000;
+    global_flags = objectFlagBlock.flags | 0x8000;
     ((S_81952B4C_0 *)effect)->unk_24.u++;
-    D_800814A0 = global_flags;
+    objectFlagBlock.flags = global_flags;
     return;
 
 move:

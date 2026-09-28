@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 #ifndef NULL
 #define NULL ((void *)0)
@@ -25,7 +26,6 @@ extern void func_800AD594();
 extern void func_800C8150();
 
 extern s16 D_80083228;
-extern s32 D_80083460;
 extern u8 D_80083498[];
 extern Record10 D_80170868;
 extern Record10 D_80170874;
@@ -154,7 +154,7 @@ state_two:
         func_80047784(animation_input,
             D_80174ACC[((D_80083228 + S16_AT(actor_input, 0x2A) + 0x100) >> 9) & 7],
             0);
-        global_counts = (u16 *)&D_80083460;
+        global_counts = (u16 *)&dungeonStatus.unk_00;
         global_counts[5]--;
         func_800A4ACC(actor_input);
         U8_AT(actor_input, 0x6D) = 0;

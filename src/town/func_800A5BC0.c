@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct Obj800A5BC0 {
     u8 pad0[8];
@@ -11,7 +12,6 @@ typedef struct Obj800A5BC0 {
     s16 value;
 } Obj800A5BC0;
 
-extern s32 D_800814A0[3];
 extern void func_800A2FCC(void *ctx, s32 x, s32 y, s32 value);
 
 /* Advance the object's motion and timer-scaled value, or mark it expired. */
@@ -20,7 +20,7 @@ void func_800A3320(Obj800A5BC0 *obj, void *ctx)
     obj->timer--;
     if (obj->timer < 0) {
         *(u16 *)((u8 *)obj - 2) |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         return;
     }
 

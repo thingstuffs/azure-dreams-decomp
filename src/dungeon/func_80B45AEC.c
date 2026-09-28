@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 
 typedef struct {
     u8 pad0[0x96];
@@ -41,9 +43,7 @@ extern void func_800A32A4(Object *);
 extern void func_800A56E0(s32);
 extern void func_800ACF88(Object *);
 
-extern s32 D_800814A0;
 extern s16 D_80083228;
-extern u8 D_80083460[];
 extern u8 D_80175AA4[];
 
 /* Advances the entity fade effect, updates its countdown, and cleans up when fading ends. */
@@ -80,7 +80,7 @@ void func_801732EC(EffectState *effect, void *unused, Entity *entity, Object *ob
     return;
 
 wait_ready:
-    if (*(s16 *)(D_80083460 + 0xA) != 0) {
+    if (*(s16 *)(((u8 *)(&dungeonStatus)) + 0xA) != 0) {
         goto done;
     }
     effect->state = 1;
@@ -140,7 +140,7 @@ countdown_done:
         func_80047784(entity, entity->table[direction_index], 0);
     }
     if ((u8)entity->value < 0x11) {
-        global_data = D_80083460;
+        global_data = ((u8 *)(&dungeonStatus));
         if (*(s32 *)(global_data + 0x10) == (s32)((u8 *)object - 0x20)) {
             *(s32 *)(global_data + 0x10) &= 0x7FFFFFFF;
         }
@@ -155,7 +155,7 @@ countdown_done:
         func_8009A3D0(x, y, strength);
         func_8009A028(object);
         *(u16 *)((u8 *)object - 2) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 
 done:

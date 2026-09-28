@@ -177,3 +177,118 @@ Evidence is from 836 rows that touch 0x80083460-0x8008347F: "base" = reached fro
 - **Readability pass afterwards.** The step rows still carry m2c byte arithmetic
   (`*(s16 *)((u8 *)dirStepX + direction * 2)`). Now that the type is shared, a generator can turn those into
   `dirStepX[direction]`, verified per row.
+
+---
+
+# Phase 2 (r78, owner-approved progression): the view generator, the rest of dungeonStatus, and 0x800814A0
+
+## 7. The generator: `tools/consolidate.py`, one object spec per object
+
+`objects/<var>.json` describes each object:
+- `base`: its address
+- `var`: the readable name
+- `header`: its shared header
+- `syms`: a regex matching every address-named symbol inside the object
+- `fields`: `[off, name, ctype, size, signed(, count)]`; a field named `""` makes a scalar object
+
+`consolidate.rewrite(text, obj)` removes the row's local `extern` declarations of those symbols. It then rewrites
+every use to the field it addresses, computing the offset as `addr(sym) - base + k*sizeof(declared element)`. It
+handles these spellings:
+- `S[k]` with a literal index
+- scalar `S`, and `*S` on a decayed array (as `S[0]`)
+- `&S...`
+- `S.member` through a LOCAL view typedef, which it lays out itself
+
+It spells each result as follows:
+
+| case | spelling |
+|---|---|
+| same size and sign | `var.field` |
+| a read of a differently-signed view | `(T)var.field` |
+| a simple store | `var.field = x` |
+| a compound op across the int/pointer boundary | `*(T *)&var.field` |
+| no field of that size (a union site) | `*(T *)((u8 *)&var.field + d)` |
+| decayed array / computed index | `((T *)&var)` (view) |
+
+It then drops any local view typedef nothing uses any more and includes the header. Strings and comments are
+never rewritten; asm strings keep their D_ spelling, which still links.
+
+- `tools/drive3.py OBJ1,OBJ2`: every row that spells any of the objects by address gets all of their rewrites in
+  one text, verified once. The fallbacks are the phase-1 view spelling for dungeonStatus, and each object alone.
+- `tools/pins2.py`: the pin check for migrated rows.
+- To run a new object: census the pinned listings (`tools/census.py TAG REGEX`; `tools/flow.py` now also records
+  `%gp_rel`), write the spec, then run drive3.
+
+## 8. dungeonStatus finished (0x80083460)
+
+- 825 more rows are exact, all dungeon, for 845 rows in total with the 20 from phase 1.
+  - 669 are pure field accesses.
+  - 26 keep a cast at a sign-view read (e.g. `(u16)dungeonStatus.unk_0A`) or an int view of a pointer field.
+  - 130 keep a pointer-cast view. These are m2c's `u8 *state = D_80083460; ((S *)state)->unk_0A` pointer-variable
+    idioms.
+- Misses:
+  - 2 rows miss even with the phase-1 view spelling: func_8008629C (13) and func_80CEAF2C (26).
+  - 5 rows have no local declaration of the symbol and are left as they are.
+- New union evidence: func_800CCA6C does `unk_10 &= 0x7FFFFFFF` after comparing it with an entity pointer, so bit
+  31 of the pointer field is a tag. That site is exact through `*(s32 *)&dungeonStatus.unk_10`, and the field
+  stays `void *`.
+- Next generator step: turn the 130 pointer-variable rows into direct field access
+  (`state->unk_0A` -> `dungeonStatus.unk_0A`). Not attempted here, because the local pointer is often what shapes
+  the retail base register.
+
+## 9. 0x800814A0 -> `ObjectFlagBlock objectFlagBlock` (include/shared/object_flags.h)
+
+- **Census.** 1,083 rows reference 0x80081438-0x800814B8; 724 of them use 0x800814A0/A4/AC in C.
+  - 0x800814A0 is only ever a direct word: lw 725 / sw 723 sites in 677 rows. `|= 0x8000` covers essentially
+    every write, right after `obj[-1] |= 0x8000`.
+  - 0x800814A4 and 0x800814AC are bytes (lbu/sb, 2 rows each: slus + main).
+  - 0x800814A8 is a pointer (lw, 228 rows).
+  - It is never reached from a shared base, and no C row tests the flag bits.
+- **Name.** `flags` is proven by use. The object is named for what the code does with it: the 0x8000 mark of
+  objects, collected. The name asserts nothing more.
+- **Declared size: 8 < size <= 16**, from per-row A/B at the registered recipes.
+  - -G8 split rows are exact with 12, 16 or an unknown size, and miss with 4 or 8 ($gp).
+  - -G16 SLUS rows are exact with 4..16, and miss with 20 or an unknown size (bare-macro vs split form).
+  - All 45 -G8 split rows are also exact at -G0 with their pinned text, so the lower bound depends on the recipe.
+- **Aggregate vs scalar.** Both kinds of declaration existed in the original TUs.
+  - Declared as a scalar `int`: 473 rows are exact and 196 miss. The array/struct rows depend on the aggregate's
+    MEM_IN_STRUCT alias class, which moves the schedule and the register choice.
+  - Declared as the 16-byte struct: 681 rows are exact, and 21 miss. 19 of those 21 are exact as a scalar. They
+    are SLUS stock-2.7.2 -G0 rows plus a few MAIN/TOWN/DUNGEON rows, and in each of them every aggregate spelling
+    turns a direct `lw D`/`sw D` into `la` + `0($r)`.
+  - The shared type is therefore the aggregate. The scalar-TU rows keep `extern int D_800814A0;` (listed in
+    REPORT).
+  - Consolidating these needs either a second readable alias (`int` at the same address) or leaving them alone.
+    That is an owner decision: one address declared two ways.
+- **0x800814A8 is not a field.** As `void *unk_08`, 23 of the 38 functions that use both A0 and A8 hold
+  `&objectFlagBlock` in an extra callee-saved register and miss. Retail declared A8 separately. The struct reserves
+  its bytes (`unk_08[4]`) and D_800814A8 stays its own symbol; it is the next object.
+- **-G hazard.** It is handled by the size, not the recipe: 16 bytes satisfies both -G8 (> 8, never $gp) and -G16
+  (<= 16, the macro form).
+
+## 10. Pins (phase 2)
+
+- All 256 migrated rows that still carry pins were tested: each pin erased alone, then all pins together,
+  byte-scored on the migrated text.
+- No pin becomes removable. The type change is pin-neutral: the pins hold register/schedule decisions that the
+  declaration does not reach.
+- The two pins that phase 1 found removable (func_800A065C, func_800A4DA8) came from a recipe/coherence change, not
+  from the declaration alone.
+
+## 11. Next objects
+
+Rows referencing each symbol, not yet consolidated:
+
+| symbol | rows | containers | note |
+|---|---|---|---|
+| D_80083228 | 578 | dungeon, town | |
+| D_80045340 | 442 | dungeon, town | |
+| D_80083160 | 403 | all five | |
+| D_80016000 | 313 | dungeon, slus, town | |
+| D_80082E80 | 290 | dungeon, town | |
+| D_80083498 | 284 | dungeon, town | passed by address; its layout comes from the callees |
+| D_800814A8 | 236 | dungeon, slus, town | pointer, next to objectFlagBlock |
+| D_800E3D7C | 199 | dungeon, slus | Rec_D_800E3D7C exists |
+| D_80083780 | 177 | dungeon, slus, town | |
+| D_80013714 | 81 | all but ovmovie | |
+| D_80083178 | 69 | all but ovmovie | game.h already has a provisional struct S_80083178 |

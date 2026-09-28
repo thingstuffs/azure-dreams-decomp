@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "records/Rec_D_800814A8.h"
 
@@ -103,13 +104,12 @@ extern u8 D_80082E80_initial[] __asm__("D_80082E80");
 extern u8 D_80082E80_fallback[] __asm__("D_80082E80");
 extern u8 D_80082E80_check[] __asm__("D_80082E80");
 extern s8 D_80082EA4;
-extern s32 D_80083460;
 extern s8 D_800E2970[];
 
 /* Selects and applies an actor movement step, updating its path and remaining movement. */
 void func_801716A4(void *move_data_in, void *context, void *tile_in, void *actor_in)
 {
-    u8 *dungeon_state = (u8 *)&D_80083460;
+    u8 *dungeon_state = (u8 *)&dungeonStatus.unk_00;
     u16 dungeon_flags = ((S_801716A4_0 *)dungeon_state)->unk_02;
     s32 stop_on_wide_turn = 0;
     s16 stop_turn;
@@ -343,7 +343,7 @@ loop_test:
     }
 
     {
-        u8 *move_counter = (u8 *)&D_80083460;
+        u8 *move_counter = (u8 *)&dungeonStatus.unk_00;
         ((S_801716A4_1 *)actor_in)->unk_46 &= 0x7FFF;
         ((S_801716A4_5 *)move_data_in)->unk_9C.u = ((S_801716A4_2 *)tile_in)->unk_26.u;
         ((S_801716A4_1 *)actor_in)->unk_6D.u--;

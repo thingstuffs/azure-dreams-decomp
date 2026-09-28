@@ -1,9 +1,9 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 extern s32 D_800834B8[2];
 extern s32 D_80097D2C;
 extern s32 D_80097EA0;
-extern s32 D_800814A0[3];
 extern s32 D_80083780[3];
 extern s32 D_800D0428;
 
@@ -18,7 +18,7 @@ void func_800A8248(void *object, s32 *out_vector)
         (state_refs[1] != (s32)&D_80097EA0)) {
         func_80033D08(object);
         *(u16 *)((u8 *)object - 2) |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         return;
     }
 

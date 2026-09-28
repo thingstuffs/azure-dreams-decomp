@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
 typedef struct {
@@ -79,8 +80,6 @@ typedef struct {
 extern s32 D_80045340;
 extern u16 D_8006CCD8_success[] __asm__("D_8006CCD8");
 extern s16 D_80083228;
-extern s32 D_80083460;
-extern s16 D_8008347C;
 extern u8 *D_800E3D7C;
 extern s32 *D_80174CCC;
 extern s8 D_801766F0[];
@@ -126,7 +125,7 @@ void func_8017516C(u8 *owner_data, Position *position_arg, Source *source_arg, C
         }
     }
 
-    if (D_8008347C >= 32) {
+    if (dungeonStatus.unk_1C >= 32) {
         goto exit;
     }
     if (!func_800A1618(context->f13, 1) && !func_800A1618(context->f13, 3)) {
@@ -251,7 +250,7 @@ allocate:
     work->context = context;
     work->owner_byte = owner_byte;
 
-    object_counts = (u16 *)&D_80083460;
+    object_counts = (u16 *)&dungeonStatus.unk_00;
     object_counts[5]++;
 
 exit:

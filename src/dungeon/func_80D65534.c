@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
 
 typedef struct S_80D65534_0 {
@@ -34,7 +35,6 @@ typedef struct S_80D65534_1 {
 extern void func_800478B8(void *arg0);
 extern s32 func_800A45D8(u16 arg0, u16 arg1, s16 arg2);
 extern s16 func_800BCB04(u16 arg0, u16 arg1, s16 arg2);
-extern s32 D_800814A0[3];
 
 /* Updates effect motion, terrain collisions, visual properties, and lifetime. */
 void func_80D65534(void *effect, S_80D65534_0 *position, Rec_D_80082E80 *visual)
@@ -125,6 +125,6 @@ void func_80D65534(void *effect, S_80D65534_0 *position, Rec_D_80082E80 *visual)
     ((S_80D65534_1 *)effect)->unk_0C.u = life_left;
     if ((life_left << 16) <= 0) {
         ((S_80D65534_1_pre *)effect)[-1].unk_00 |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

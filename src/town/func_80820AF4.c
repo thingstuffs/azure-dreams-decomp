@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_800232F4_0 {
     union { s16 s; u16 u; } unk_00;   /* accessed as both */
@@ -18,7 +19,6 @@ typedef struct S_800232F4_1 {
 
 
 extern void func_800537D0(s32, s32, void *);
-extern s32 D_800814A0;
 
 /* Updates the display value, then moves the object outward and flags it when out of bounds. */
 void func_800232F4(void *object)
@@ -72,7 +72,7 @@ state_one:
     *position = position_value;
     if ((u16)(position_value + 8) >= 249) {
         (*(u16 *)((u8 *)obj + -2)) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 
 done:

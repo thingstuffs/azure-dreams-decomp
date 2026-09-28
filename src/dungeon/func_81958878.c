@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800814A8.h"
 
 typedef struct S_80024078_0 {
@@ -69,10 +71,8 @@ extern u8 D_8002966E[12];
 extern s32 D_80029670[3];
 extern u16 D_800281F8[];
 extern u8 D_800281FC[12];
-extern s32 D_800814A0;
 extern void *D_800814A8;
 extern u8 D_80083160[];
-extern s32 D_80083460;
 
 /* Advances the screen transition, updates fade timers, and releases completed state. */
 void func_80024078(State *ctx)
@@ -168,12 +168,12 @@ advance_state:
         if ((s16)D_800281F8[0] != 0) {
             break;
         } else {
-            GlobalState *global_state = (GlobalState *)&D_80083460;
+            GlobalState *global_state = (GlobalState *)&dungeonStatus.unk_00;
             global_state->field_C = 0;
             global_state->count_A--;
         }
         (*(u16 *)((u8 *)ctx + -2)) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         break;
 
     case 5:

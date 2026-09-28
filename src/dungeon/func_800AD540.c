@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
 typedef struct {
@@ -45,8 +47,6 @@ typedef struct {
     s32 value;
 } Global83460;
 
-extern Global83460 D_80083460;
-extern s32 D_800814A0[];
 extern u8 D_800B2A60[];
 
 extern void func_8009A028(Entity *, Global83460 *);
@@ -127,7 +127,7 @@ after_delay:
 
 stop_motion:
     {
-        Global83460 *shared_state = &D_80083460;
+        Global83460 *shared_state = ((Global83460 *)&dungeonStatus);
         motion->unk14 = 0;
         motion->dy = 0;
         motion->dx = 0;
@@ -137,7 +137,7 @@ stop_motion:
         shared_state->count++;
         func_8009A028(entity, shared_state);
         ((u16 *)motion_state)[-1] |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         goto done;
     }
 
@@ -174,8 +174,8 @@ approach_target:
     motion->dx = 0;
     func_800A2B04(motion, params->x, params->y);
     {
-        if (D_80083460.value == (s32)((u8 *)entity - 0x20)) {
-            D_80083460.value &= 0x7fffffff;
+        if (((s32)dungeonStatus.unk_10) == (s32)((u8 *)entity - 0x20)) {
+            *(s32 *)&dungeonStatus.unk_10 &= 0x7fffffff;
         }
         motion_state->next = D_800B2A60;
     }

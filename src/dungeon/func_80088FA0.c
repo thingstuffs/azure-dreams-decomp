@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef struct {
     u8 pad0[2];
@@ -17,7 +18,6 @@ extern void func_800A56E0(s32 a0);
 extern u16 D_80013714[5];
 extern s32 D_80081484[3];
 extern s16 D_80083228[5];
-extern D_80083460_t D_80083460;
 extern s32 D_8008ACDC;
 extern u8 D_8008EAC8[];
 extern u8 D_800DCFD0[8];
@@ -128,7 +128,7 @@ update:
                     animations = D_800DCFD0;
 #endif
                     state_value &= clear_mask;
-                    dungeon_state = &D_80083460;
+                    dungeon_state = ((D_80083460_t *)&dungeonStatus);
                     *(s32 *)(entity + 0x1C) = state_value;
                     clear_mask = *(u16 *)&dungeon_state->fieldA;
                     state_value = clear_mask;
@@ -155,11 +155,11 @@ update:
 
 finish:
     if ((*(u16 *)(sprite + 0x14) & 0x6000) &&
-        (D_80083460.fieldA == 0)) {
+        (dungeonStatus.unk_0A == 0)) {
         entity_flags = *(s32 *)(entity + 0x1C);
         if (entity_flags & 0x200000) {
             *(s32 *)(entity + 0x1C) = entity_flags & 0xFFDFFFFF;
-            D_80083460.field2 |= 0x412;
+            dungeonStatus.flags |= 0x412;
             func_80099F70(*(s32 *)(entity + 0x5C));
             func_80099F04(*(s32 *)(entity + 0x5C));
         }

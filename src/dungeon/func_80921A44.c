@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -17,7 +18,6 @@ typedef struct S_80921A44_2_pre {
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern s32 D_800814A0;
 extern void func_800478B8(void *, void *, s32, s32);
 /* Advance position, damp horizontal motion, and propagate object status flags. */
 void func_80921A44(void *entry, void *motion, void *object) {
@@ -38,6 +38,6 @@ void func_80921A44(void *entry, void *motion, void *object) {
     func_800478B8(object, motion, (s32) (velocity_y * 4) >> 0x1F, (s32) (velocity_x * 4) >> 0x1F);
     if (((Rec_D_80082E80 *)object)->unk_14.at00_u16.v & 0x6000) {
         (*(u16 *)((u8 *)entry + -2)) = (u16) (((S_80921A44_2_pre *)entry)[-1].unk_00 | 0x8000);
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

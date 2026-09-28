@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
@@ -16,7 +17,6 @@ typedef struct S_801730E0_0 {
 
 
 
-extern s32 D_80083460[3];
 extern u8 D_8017102C[];
 extern M2C_UNK D_801752E4;
 extern void func_800A2B04(void *, u8, u8);
@@ -106,7 +106,7 @@ finish_action:
         motion->unk_10.at00_s32.v = 0;
         motion->unk_0C.as_s32 = 0;
         func_800A2B04(motion, action->unk_24, action->unk_25);
-        entity_slots = D_80083460;
+        entity_slots = ((s32 *)(&dungeonStatus));
         if (entity_slots[4] == (entity - 0x20)) {
             entity_slots[4] = entity_slots[4] & 0x7FFFFFFF;
         }

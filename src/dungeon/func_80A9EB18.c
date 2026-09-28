@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 extern void func_801741D0(void *, s32, s32, s8, s32);
-extern s32 D_800814A0;
 
 /* Update a timed effect and flag completion when its countdown expires. */
 void func_80174318(void *effect, s32 x, s32 y)
@@ -22,7 +22,7 @@ void func_80174318(void *effect, s32 x, s32 y)
         *(volatile s16 *)((u8 *)effect + 0x1A) = next_ticks;
         if ((next_ticks << 16) <= 0) {
             *(u16 *)((u8 *)effect - 2) |= 0x8000;
-            D_800814A0 |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
         }
     }
 }

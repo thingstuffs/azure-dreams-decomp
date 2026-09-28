@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_81910844_0_pre {
     u16 unk_00;
@@ -41,7 +42,6 @@ typedef struct S_81910844_3 {
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-extern s32 D_800814A0[3];
 s32 func_800644B8(s32);
 
 /* Advance motion and visual animation, flagging completion after the duration. */
@@ -86,6 +86,6 @@ void func_81910844(void *state, S_81910844_2 *motion, S_81910844_3 *visual) {
     if (elapsed > duration) {
         ((S_81910844_0_pre *)state)[-1].unk_00 =
             ((S_81910844_0_pre *)state)[-1].unk_00 | 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

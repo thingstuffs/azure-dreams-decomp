@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_80171A38_0_pre {
     u16 unk_00;
@@ -67,7 +68,6 @@ typedef struct {
 
 extern s32 func_8003DE58(void *, void *, Vec3s *, s32);
 
-extern s32 D_800814A0[3];
 extern u8 D_80175E54[];
 extern u8 D_80175E5C[];
 extern u8 D_80175E64[];
@@ -132,5 +132,5 @@ void func_80171A38(void *object, S_80171A38_4 *position, S_80171A38_3 *part_stat
 
 mark_used:
     ((S_80171A38_0_pre *)object)[-1].unk_00 |= 0x8000;
-    D_800814A0[0] |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
 }

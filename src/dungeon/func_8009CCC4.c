@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef s32 M2C_UNK;
 
@@ -18,7 +19,6 @@ extern s32 func_800B4C7C();
 extern u16 D_80013714[];
 extern u8 D_8006D168[];
 extern u8 D_8006DE24[];
-extern u16 D_80083460[];
 extern s32 D_800835E8[];
 extern M2C_UNK D_80089000;
 extern s8 D_800DCF4F[];
@@ -306,7 +306,7 @@ s32 func_800A2424(void *entity_data, s32 show_message) {
     {
         if (!(*(volatile u16 *)D_80013714 & 1)) {
             D_800DCF4F[0] = 1;
-            D_80083460[5]++;
+            dungeonStatus.unk_0A++;
         }
         func_800B4C7C(0x8003, entity, -3, 1);
         func_800A56E0(0x615);

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef struct S_804FE87C_0 {
     u8 pad_00[0x38];
@@ -77,7 +78,6 @@ extern void func_8001E910(void);
 extern DispatchOuter *D_80016000[];
 extern u8 D_800190D4[];
 extern u8 D_80083160[];
-extern void *D_80083478;
 extern u8 D_800DDC7C[];
 extern u8 D_801C9E40[16];
 extern u8 D_801DA714[16];
@@ -216,7 +216,7 @@ static void func_804FE87C(void)
     ((S_804FE87C_1 *)render_data)->unk_1A = -0x88;
     ((S_804FE87C_1 *)render_data)->unk_1C = 0x172;
     ((S_804FE87C_1 *)render_data)->unk_1E = 0x19A;
-    D_80083478 = D_800DDC7C;
+    dungeonStatus.unk_18 = D_800DDC7C;
 }
 
 #ifdef __mips__

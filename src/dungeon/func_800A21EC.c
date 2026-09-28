@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef struct S_800A794C_0 {
     u8 pad_00[0x8];
@@ -36,7 +37,6 @@ extern void *func_800A8608(void *, void *, s32, s32, s32);
 
 extern s32 D_80083498;
 extern s32 D_800A77AC;
-extern s32 D_80083460;
 
 /* Create an object at the tile center, initialize its fields, and increment the object count. */
 s32 func_800A794C(s32 tile_x, s32 tile_y, s32 height, s32 *payload_ptr,
@@ -75,7 +75,7 @@ s32 func_800A794C(s32 tile_x, s32 tile_y, s32 height, s32 *payload_ptr,
         ((S_800A794C_2 *)fields)->unk_AC = (s16)field_ac;
         stored_ae = field_ae;
         ((S_800A794C_2 *)fields)->unk_98 = payload;
-        state = (u8 *)&D_80083460;
+        state = (u8 *)&dungeonStatus.unk_00;
         ((S_800A794C_2 *)fields)->unk_AE = (s16)stored_ae;
         object_count = ((S_800A794C_3 *)state)->unk_0A;
         result = (s32)object;

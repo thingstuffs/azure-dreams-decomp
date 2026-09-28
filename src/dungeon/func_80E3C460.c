@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_80175C60_0 {
     s32 unk_00;
@@ -24,7 +25,6 @@ typedef struct S_80175C60_2 {
 } S_80175C60_2;   /* arg2 in func_80175C60 */
 
 
-extern s32 D_800814A0;
 extern s16 D_80083228;
 
 
@@ -53,7 +53,7 @@ void func_80175C60(void *object, void *motion_data, void *rotation)
     ((S_80175C60_1 *)object)->unk_20 = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
         (*(u16 *)((u8 *)object + -2)) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         return;
     }
     ((S_80175C60_2 *)rotation)->unk_1C += 0x80;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 
 typedef struct S_80089608_0_pre {
@@ -73,7 +74,6 @@ M2C_UNK func_8004491C();           /* extern */
 s32 func_800644B8();                             /* extern */
 s32 func_80064584();                             /* extern */
 extern M2C_UNK D_80044BB0;
-extern s32 D_800814A0;
 extern M2C_UNK D_80088790;
 extern M2C_UNK D_800887B8;
 extern M2C_UNK D_800887CC;
@@ -203,7 +203,7 @@ pre_spawn_angle:
 
 error_mode:
     (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_80089608_0_pre *)effect)[-1].unk_00 | 0x8000);
-    D_800814A0 |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
     goto epilogue;
 set_spawn_count:
     color_step_or_index = 9;

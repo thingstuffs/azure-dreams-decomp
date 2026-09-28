@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -119,10 +121,8 @@ M2C_UNK func_80174724();      /* extern */
 extern M2C_UNK D_8003E140;
 extern M2C_UNK D_80045340;
 extern s32 D_8006CD58;
-extern M2C_UNK D_800814A0;
 extern M2C_UNK D_80083160;
 extern s16 D_80083228;
-extern M2C_UNK D_80083460;
 extern M2C_UNK D_800DCEEC;
 extern M2C_UNK D_800DCF5C;
 extern M2C_UNK D_8014A000;
@@ -288,8 +288,8 @@ jt_c8:
     }
     ((S_80C97514_15 *)(((Rec_D_80082E80 *)actor)->unk_60.as_pv))->unk_2A = (u16) ((Rec_D_80082E80 *)actor)->unk_8A;
     ((S_80C97514_0_pre *)state)[-1].unk_00 = (u16) (((S_80C97514_0_pre *)state)[-1].unk_00 | 0x8000);
-    (*(s32 *)&D_800814A0) = (s32) (((S_80C97514_10 *)(&D_800814A0))->unk_00 | 0x8000);
-    scene_state = &D_80083460;
+    (*(s32 *)&objectFlagBlock.flags) = (s32) (((S_80C97514_10 *)(&objectFlagBlock.flags))->unk_00 | 0x8000);
+    scene_state = &dungeonStatus.unk_00;
     scene_state->unk_0A = (u16) (scene_state->unk_0A - 1);
     ((Rec_D_80082E80 *)actor)->unk_6D = 0;
 done:

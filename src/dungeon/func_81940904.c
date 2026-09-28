@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_80024104_0 {
     u8 pad_00[0x2A];
@@ -69,7 +70,6 @@ extern RectTable D_80024004;
 extern u8 D_8002405C[];
 extern PackedVec3 D_800256E0;
 extern u8 D_80045340[];
-extern s32 D_800814A0;
 extern void *D_800814A8;
 
 extern void *func_8003FC64(u32);
@@ -166,6 +166,6 @@ slot_loop:
     (*(u16 *)((u8 *)owner + 0x2A)) = timer;
     if ((s16)timer <= 0) {
         (*(u16 *)((u8 *)owner + -2)) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

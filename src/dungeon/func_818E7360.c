@@ -1,11 +1,5 @@
 #include "common.h"
-
-typedef struct {
-    s32 value;
-    s32 pad[2];
-} GlobalFlags;
-
-extern GlobalFlags D_800814A0;
+#include "shared/object_flags.h"
 
 #define S16_AT(p, o) (*(s16 *)((u8 *)(p) + (o)))
 #define U16_AT(p, o) (*(u16 *)((u8 *)(p) + (o)))
@@ -64,7 +58,7 @@ update_counter:
 check_completion:
     if ((s16)timer >= 0xF) {
         U16_AT(effect, -2) |= 0x8000;
-        D_800814A0.value |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 
 update_position:

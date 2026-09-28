@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef long long s64;
 
@@ -49,7 +50,6 @@ typedef struct S_80D29000_3 {
 extern void func_800478B8(void *);
 extern s32 func_80065420(void *, void *, void *, void *);
 
-extern s32 D_800814A0;
 extern s16 D_80083228;
 extern s8 D_800DCECC[8];
 
@@ -135,6 +135,6 @@ void BODY_NAME(void *effect, void *motion, void *sprite)
     ((S_80D29000_2 *)effect)->unk_96.u = next_life;
     if ((next_life << 16) <= 0) {
         (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

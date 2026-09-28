@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -14,7 +15,6 @@ extern void func_800AD594(void *, s32);
 extern void func_8017586C(void *, void *, void *);
 
 extern s16 D_80083228;
-extern s32 D_8008346C;
 extern void *D_80170860[6];
 extern u8 D_80171FA4[9];
 extern u8 D_80175C68[8];
@@ -176,7 +176,7 @@ L5:
     func_800A2B04(velocity, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
     func_800AD594(actor, 0x100);
     ((S_80173930_0 *)motion)->unk_8C = D_80171FA4;
-    D_8008346C = 0;
+    dungeonStatus.unk_0C = 0;
     func_800A4ACC(actor);
     ((Rec_D_800E3D7C *)actor)->unk_44.at02_u16.v &= 0x7FFF;
 }

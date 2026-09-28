@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_80026FB0_0 {
     u8 pad_00[0x64];
@@ -15,7 +16,6 @@ typedef struct S_80026FB0_1 {
 
 
 
-extern s32 D_800814A0;
 
 /* Waits, then fades the color channels toward 0x80 and flags completion. */
 void func_80026FB0(void *effect, s32 unused, void *color)
@@ -48,7 +48,7 @@ void func_80026FB0(void *effect, s32 unused, void *color)
         ((S_80026FB0_0 *)effect)->unk_66 = frames_left;
         if ((frames_left << 16) <= 0) {
             (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-            D_800814A0 |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
         }
         break;
 

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -26,7 +27,6 @@ typedef struct S_800DB164_2 {
 
 M2C_UNK func_800478B8();                      /* extern */
 s32 rand();                             /* extern */
-extern s32 D_800814A0;
 
 /* Updates a timed effect's animation and motion, marking it for removal when finished. */
 void func_800DB164(void *effect, void *motion, void *visual) {
@@ -82,7 +82,7 @@ advance_phase:
 case_2:
     if ((ticks_left << 0x10) <= 0) {
         (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_800DB164_0_pre *)effect)[-1].unk_00 | 0x8000);
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 
 update_motion:

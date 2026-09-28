@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 
 typedef struct S_func_818DA800_1 {
     void *unk_00;
@@ -146,8 +148,6 @@ extern u8 D_800DEAE0[];
 extern u8 D_80024684[];
 extern u8 D_80024714[];
 extern u8 D_800E3D68[];
-extern s32 D_8008346C[];
-extern s32 D_800814A0[];
 extern void *jtbl_80024008[];
 
 __asm__(".set jtbl_80024008, 0x80024008");
@@ -453,9 +453,9 @@ case5:
     if (effect_state->unk_50.as_s16 > 0) {
         goto finish;
     }
-    D_8008346C[0] = 0;
+    dungeonStatus.unk_0C = 0;
     ((S_func_818DA800_11 *)((u8 *)effect_state - 4))->unk_02 |= 0x8000;
-    D_800814A0[0] |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
     goto finish;
 
 finish:

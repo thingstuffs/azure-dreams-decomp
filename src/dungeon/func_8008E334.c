@@ -1,9 +1,9 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern u16 D_80082E94;
-extern s32 D_800814A0[3];
 extern M2C_UNK D_800DD140;
 extern void func_80048AC8(void *, s32);
 
@@ -95,7 +95,7 @@ increment_tail:
     goto epilogue;
 set_high:
     *(u16 *)(obj - 2) |= 0x8000;
-    D_800814A0[0] = D_800814A0[0] | 0x8000;
+    objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
 epilogue:
     return;
 }

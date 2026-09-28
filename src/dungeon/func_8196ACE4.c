@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -45,7 +46,6 @@ s32 rand();                                /* extern */
 s32 func_800A45D8();                   /* extern */
 s16 func_800BCB04();                   /* extern */
 extern s16 D_800269B4[];
-extern M2C_UNK D_800814A0;
 
 /* Update effect motion, collisions, sprite fading and growth, and expiration. */
 void func_8196ACE4(void *effect, S_8196ACE4_0 *position, Rec_D_80082E80 *sprite) {

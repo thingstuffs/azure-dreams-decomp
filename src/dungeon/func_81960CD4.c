@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 
 typedef struct S_81960CD4_0 {
@@ -93,7 +94,6 @@ typedef struct S_81960CD4_3 {
 } S_81960CD4_3;   /* arg2 in func_81960CD4 */
 
 extern u16 D_80027330[5];
-extern s32 D_800814A0[3];
 M2C_UNK func_800649A0();
 M2C_UNK func_80064A40();
 M2C_UNK func_80064CF0();
@@ -211,7 +211,7 @@ M2C_UNK func_81960CD4(void *quad, S_81960CD4_2 *motion, S_81960CD4_3 *effect) {
                 }
             }
             ((S_81960CD4_1_pre *)quad)[-1].unk_00 = (u16)(((S_81960CD4_1_pre *)quad)[-1].unk_00 | 0x8000);
-            D_800814A0[0] = D_800814A0[0] | 0x8000;
+            objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
         }
     }
 }

@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 
 
@@ -19,8 +21,6 @@ typedef struct S_800C5A64_2 {
 
 
 extern void func_800478B8(void *);
-extern s32 D_800814A0;
-extern s32 D_80083460;
 
 /* Advance and damp effect motion, fade its primitive, and mark it expired when its lifetime ends. */
 void func_800C5A64(void *effect, s32 *motion, void *primitive)
@@ -45,10 +45,10 @@ void func_800C5A64(void *effect, s32 *motion, void *primitive)
     if ((remaining << 16) <= 0) {
         if ((((S_800C5A64_1 *)effect)->unk_0C == 0) &&
             (((S_800C5A64_1 *)effect)->unk_1C == 0)) {
-            counter_base = (u8 *)&D_80083460;
+            counter_base = (u8 *)&dungeonStatus.unk_00;
             ((S_800C5A64_2 *)counter_base)->unk_0A--;
         }
         (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

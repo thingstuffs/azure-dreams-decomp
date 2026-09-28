@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082D58.h"
@@ -23,7 +24,6 @@ M2C_UNK func_8008F664();             /* extern */
 M2C_UNK func_8009539C();                      /* extern */
 M2C_UNK itm_mon_koyaw_set(); /* extern */
 M2C_UNK func_800C0C88();                            /* extern */
-extern s32 D_800814A0[];
 typedef struct {
     s32 words[0x15];
 } Record84;
@@ -51,7 +51,7 @@ void func_8009ED7C(void *object, M2C_UNK context, void *motion) {
         func_8008F134(object);
         func_80033D08(object);
         ticks_or_flags = ((S_8009ED7C_2_pre *)object)[-1].unk_00;
-        global_flags = D_800814A0;
+        global_flags = ((s32 *)(&objectFlagBlock));
         (*(u16 *)((u8 *)object + -2)) = (u16) (ticks_or_flags | 0x8000);
         *global_flags = *global_flags | 0x8000;
         func_800C0C88();

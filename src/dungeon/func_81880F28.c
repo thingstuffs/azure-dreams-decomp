@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 
 typedef struct EffectColor {
@@ -10,7 +11,6 @@ typedef struct EffectColor {
 
 extern u16 D_800257CE[5];
 extern s16 D_800257CC[5];
-extern s32 D_800814A0;
 
 void func_80024A98(void *);
 
@@ -125,7 +125,7 @@ restore_color:
     if (D_800257CC[0] == 0) {
         ((S_81880F28_1 *)((S_81880F28_0 *)effect)->unk_00)->unk_1C &= ~0x10000000;
         (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 
 update_motion:

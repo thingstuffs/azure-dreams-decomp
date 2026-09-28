@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
 typedef struct S_func_818C8FD0_1 {
@@ -108,8 +110,6 @@ typedef struct OffsetTable {
 extern OffsetTable D_80024004;
 extern void D_80024270(void);
 extern s16 D_80024D04[5];
-extern s32 D_800814A0[3];
-extern s32 D_8008346C[3];
 extern u8 D_800DEC00[];
 
 extern void func_8003DB94(void *, void *, s32);
@@ -351,9 +351,9 @@ finish:
 
             state->unk_84.u16 = old_timer;
             if (active_flag == 0) {
-                D_8008346C[0] = 0;
+                dungeonStatus.unk_0C = 0;
                 ((S_func_818C8FD0_10 *)((u8 *)state - 2))->unk_00 |= 0x8000;
-                D_800814A0[0] |= 0x8000;
+                objectFlagBlock.flags |= 0x8000;
                 return;
             } else {
                 D_80024D04[0] = 0;

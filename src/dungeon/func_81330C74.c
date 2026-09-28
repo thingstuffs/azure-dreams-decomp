@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800814A8.h"
 #include "records/Rec_func_80167A98_arg0.h"
@@ -139,7 +140,6 @@ M2C_UNK func_8004491C();
 M2C_UNK func_800A56E0();
 M2C_UNK func_80165018();
 M2C_UNK func_80167A98();
-extern s32 D_800814A0[3];
 extern Rec_D_800814A8 *D_800814A8;
 extern M2C_UNK D_800DEAE0;
 extern M2C_UNK D_80166D14;
@@ -480,6 +480,6 @@ copy_object_axes:
     ((Rec_func_80167A98_arg0 *)effect_data)->unk_18 = life_left;
     if ((life_left << 0x10) <= 0) {
         ((S_80167C74_0_pre *)effect_data)[-1].unk_00 = (u16) (((S_80167C74_0_pre *)effect_data)[-1].unk_00 | 0x8000);
-        D_800814A0[0] = (s32) (D_800814A0[0] | 0x8000);
+        objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
     }
 }

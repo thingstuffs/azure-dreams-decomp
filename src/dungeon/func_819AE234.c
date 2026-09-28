@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 extern u8 D_80027452[16];
-extern u8 D_800814A0[16];
 
 /* Fade RGB toward black and set flags when red falls below eight. */
 void func_80025A34(void *owner, s32 unused, void *color_data) {
@@ -18,6 +18,6 @@ void func_80025A34(void *owner, s32 unused, void *color_data) {
     *((u8 *)color_data + 0xE) = blue - (blue >> 1);
     if (*((u8 *)color_data + 0xC) < 8) {
         *((u16 *)owner - 1) |= 0x8000;
-        *(u32 *)D_800814A0 |= 0x8000;
+        *(u32 *)((u8 *)(&objectFlagBlock)) |= 0x8000;
     }
 }

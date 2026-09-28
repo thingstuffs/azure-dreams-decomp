@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
 
 typedef struct S_818E0D94_0_pre {
@@ -55,7 +56,6 @@ extern void func_800478B8(void *);
 extern s32 func_800644B8(s32);
 extern s32 rand(void);
 extern void func_800DBA90(void *);
-extern u32 D_800814A0;
 
 /* Advances effect motion and sprite appearance, marking completion after 32 ticks. */
 void func_818E0D94(void *effect, S_818E0D94_3 *position, Rec_D_80082E80 *sprite)

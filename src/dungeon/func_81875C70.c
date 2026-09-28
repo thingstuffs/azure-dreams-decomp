@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 extern s32 func_80069EF8(void);
 extern void func_80025338(void *, s32, s32, s32, s32, s32, s32);
@@ -10,7 +11,6 @@ typedef struct {
 
 extern UnkCopy12 D_80026658;
 extern s16 D_80026664;
-extern s32 D_800814A0;
 
 /* Per-state particle step: the c4 state spawns 0x20 randomised sparks in one do-while. */
 void func_81875C70(u8 *arg0, void *arg1, u8 *arg2)
@@ -171,7 +171,7 @@ jt_c7:
             return;
         }
         *(u16 *)(p - 2) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         return;
     return;
 }

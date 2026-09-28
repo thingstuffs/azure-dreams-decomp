@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 
 M2C_UNK func_8003DB94();  /* extern */
@@ -7,7 +8,6 @@ M2C_UNK func_8004491C();           /* extern */
 s32 rand();                                /* extern */
 M2C_UNK func_800A56E0();                     /* extern */
 extern M2C_UNK D_80045340;
-extern M2C_UNK D_80083460;
 extern M2C_UNK D_800C5A64;
 extern M2C_UNK D_800DEA68;
 
@@ -72,7 +72,7 @@ void *func_800C5BBC(s16 x, s16 y, s16 z, s32 sprite_data, u16 sprite_id, s16 pla
     particle_index = 0;
     remaining = (rand() & 0xF) | 0x10;
     if (remaining >= 0) {
-        effect_state = &D_80083460;
+        effect_state = &dungeonStatus.unk_00;
         do {
             alloc_flags = 0x12;
             if (particle_index != 0) {

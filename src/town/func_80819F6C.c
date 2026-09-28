@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_80023F6C_0 {
     union { s16 s; u16 u; } unk_00;   /* accessed as both */
@@ -13,7 +14,6 @@ typedef struct S_80023F6C_1 {
 
 
 
-extern s32 D_800814A0;
 
 /* Wait for the linked object to clear, then reduce the level and set completion flags. */
 void func_80023F6C(void *entry) {
@@ -38,7 +38,7 @@ void func_80023F6C(void *entry) {
         ((S_80023F6C_0 *)entry)->unk_08 = level;
         if (level <= 0x80808) {
             (*(u16 *)((u8 *)entry + -2)) |= 0x8000;
-            D_800814A0 |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
         }
         break;
 

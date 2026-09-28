@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_func_800D4BD4_arg1.h"
 #include "records/Rec_func_800D4BD4_arg2.h"
 
@@ -62,8 +64,6 @@ typedef struct S_800D4DE8_8 {
 extern void *func_8003FC64(s32);
 extern s32 rand(void);
 extern void func_800D4BD4(void *, void *, void *, s32);
-extern s32 D_800814A0;
-extern u8 D_80083460[];
 extern u8 D_800D4CB0[];
 extern u8 D_800DDC40[];
 
@@ -118,8 +118,8 @@ void func_800D4DE8(void *emitter, Rec_func_800D4BD4_arg2 *position, s32 init_par
     ((Rec_func_800D4BD4_arg1 *)emitter)->unk_1E = life_left;
     if ((life_left << 0x10) <= 0) {
         ((S_800D4DE8_0_pre *)emitter)[-1].unk_00 = ((S_800D4DE8_0_pre *)emitter)[-1].unk_00 | 0x8000;
-        D_800814A0 |= 0x8000;
-        effect_state = D_80083460;
+        objectFlagBlock.flags |= 0x8000;
+        effect_state = ((u8 *)(&dungeonStatus));
         ((S_800D4DE8_6 *)effect_state)->unk_0A = ((S_800D4DE8_6 *)effect_state)->unk_0A - 1;
     }
 }

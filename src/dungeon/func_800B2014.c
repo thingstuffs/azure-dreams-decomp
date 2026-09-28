@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -11,12 +13,10 @@ typedef struct {
     u16 z;
 } Coord;
 
-extern s32 D_80083460[3];
 extern u8 *D_800E3D7C;
 extern s32 D_800835E8[];
 struct S_8003E2D8; typedef struct S_8003E2D8 S_8003E2D8;
 extern struct S_8003E2D8 D_80083160;
-extern s32 D_800814A0;
 M2C_UNK func_8003E188();
 M2C_UNK func_80042640();
 M2C_UNK func_800424E0();
@@ -143,12 +143,12 @@ void func_800B7774(void *egg_bomb, Coord *position, void *effect) {
 state_0:
     if ((func_8009B88C(0, (u16) coord_arg->x >> 6, (u16) coord_arg->y >> 6, &spawn_x, &spawn_y) << 0x10) == 0) {
         {
-        u8 *controls_base = (u8 *)&D_80083460;
+        u8 *controls_base = (u8 *)((s32 *)(&dungeonStatus));
         ((S_800B7774_1 *)controls_base)->unk_0A = (u16) (((S_800B7774_1 *)controls_base)->unk_0A - 1);
         }
         func_800997FC(&D_800E0A42);
         (*(u16 *)((u8 *)egg_bomb + (-2))) = (u16) (((S_800B7774_0_pre *)egg_bomb)[-1].unk_00 | 0x8000);
-        D_800814A0 = D_800814A0 | 0x8000;
+        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
         return;
     }
     held_x = spawn_x;
@@ -219,7 +219,7 @@ state_2:
     if (((S_800B7774_0 *)egg_bomb)->unk_0E == 0) {
         ((S_800B7774_2 *)monster)->unk_60 = func_800A3D18(((S_800B7774_2_pre *)monster)[-1].unk_00, monster, 2);
         {
-        u8 *controls_base = (u8 *)&D_80083460;
+        u8 *controls_base = (u8 *)((s32 *)(&dungeonStatus));
         ((S_800B7774_1 *)controls_base)->unk_02 = (u16) (((S_800B7774_1 *)controls_base)->unk_02 | 2);
         }
         action_data = ((S_800B7774_2 *)monster)->unk_60;
@@ -235,11 +235,11 @@ state_2:
     ((Rec_D_800E3D7C *)D_800E3D7C)->unk_110 = 0;
     (*(s32 *)((u8 *)monster + (0x1C))) = (s32) (((S_800B7774_2 *)monster)->unk_1C | 0x400000);
     {
-    u8 *controls_base = (u8 *)&D_80083460;
+    u8 *controls_base = (u8 *)((s32 *)(&dungeonStatus));
     ((S_800B7774_1 *)controls_base)->unk_0A = (u16) (((S_800B7774_1 *)controls_base)->unk_0A - 1);
     }
     (*(u16 *)((u8 *)egg_bomb + (-2))) = (u16) (((S_800B7774_0_pre *)egg_bomb)[-1].unk_00 | 0x8000);
-    D_800814A0 = D_800814A0 | 0x8000;
+    objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
 block_30:
     tracked_monster = ((S_800B7774_0 *)egg_bomb)->unk_04;
     if ((tracked_monster != NULL) && (((S_800B7774_6_pre *)tracked_monster)[-1].unk_00 & 0x8000)) {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 
 typedef struct S_800B328C_0_pre {
@@ -45,7 +46,6 @@ typedef struct S_800B328C_4 {
 
 s32 func_8003DE58();     /* extern */
 M2C_UNK func_800B8EA8(); /* extern */
-extern M2C_UNK D_800814A0;
 
 /* Update the position from a base and offset, and mark completion or timeout. */
 void func_800B328C(void *state, void *position) {
@@ -90,6 +90,6 @@ void func_800B328C(void *state, void *position) {
     if (ticks_left = ((S_800B328C_0 *)state)->unk_8E - 1, ((S_800B328C_0 *)state)->unk_8E = ticks_left, ((s16) ticks_left < 0)) {
 mark_finished:
         (*(u16 *)((u8 *)state + -2)) = (u16) (((S_800B328C_0_pre *)state)[-1].unk_00 | 0x8000);
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

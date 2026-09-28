@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct {
     u8 pad_00[0x38];
@@ -14,7 +15,6 @@ extern s32 func_800DCBE4(void *, s32);
 extern void func_800DCCF4(void *, s32);
 extern s32 D_800133A0[];
 extern u8 D_8004CAA0[];
-extern s32 D_800814A0;
 extern u8 D_800DC8F8[];
 extern void *D_800E5910[];
 

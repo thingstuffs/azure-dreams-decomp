@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 #ifndef NULL
 #define NULL 0
@@ -28,7 +29,6 @@ M2C_UNK func_80126620();
 
 extern M2C_UNK D_8004CAA0;
 extern s8 D_80080A84;
-extern int D_800814A0;
 extern s32 D_80083200;
 extern M2C_UNK D_80126704;
 
@@ -56,9 +56,9 @@ void func_801267B8(void) {
             return;
         }
         func_8004B248((u8 *)obj + 0x7C);
-        global_flags = D_800814A0;
+        global_flags = objectFlagBlock.flags;
         object_flags = ((S_801267B8_0 *)obj)->unk_1E;
         ((S_801267B8_0 *)obj)->unk_1E = object_flags | 0x8000;
-        D_800814A0 = global_flags | 0x8000;
+        objectFlagBlock.flags = global_flags | 0x8000;
     }
 }

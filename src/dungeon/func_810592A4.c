@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 
 typedef void (*EntityCallback)(void *, void *, void *, void *);
@@ -13,7 +14,6 @@ extern void func_800AA36C();
 extern s32 func_800BCB04();
 extern u8 D_8006CCF8[];
 extern s16 D_80083228;
-extern u16 D_80083462;
 extern s32 D_80170F68;
 extern EntityCallback D_80174018[];
 
@@ -79,7 +79,7 @@ void func_80170AA4(void *entity_input, void *motion_input, void *part_input)
     u16 new_part_flags;
     u8 direction_flag;
 
-    if (D_80083462 & 0x2000) {
+    if (dungeonStatus.flags & 0x2000) {
         callback = (*(EntityCallback *)((u8 *)actor + 0x8C));
         if (callback == (EntityCallback)&D_80170F68) {
             call_self = entity_input;

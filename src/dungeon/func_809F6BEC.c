@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
 
 typedef struct S_801743EC_0 {
@@ -45,7 +46,6 @@ typedef struct {
 
 extern void func_800478B8(void *);
 extern void func_800DBA90(void *);
-extern u32 D_800814A0;
 
 /* Update the effect trajectory and sprite, then flag completion when its animation ends. */
 void func_801743EC(void *effect, void *position, void *sprite)
@@ -95,7 +95,7 @@ state_zero:
 
 state_one:
     (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-    D_800814A0 |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
 
 done:
     return;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 #ifndef NULL
 #define NULL 0
@@ -15,7 +16,6 @@ typedef struct Func8180F0F4_Obj {
     s32 field54;
 } Func8180F0F4_Obj;
 
-extern s16 D_8008347E;
 
 /* Selects an object by flags and comparison keys and writes the resolved low-bit mask. */
 void *func_800280F4(Func8180F0F4_Obj *first, Func8180F0F4_Obj *second, s16 *out_mask) {
@@ -45,7 +45,7 @@ void *func_800280F4(Func8180F0F4_Obj *first, Func8180F0F4_Obj *second, s16 *out_
                     (first_key = first->field18,
                      second_key = second->field18,
                      (first_key == second_key))) {
-                    choose_first = D_8008347E & 1;
+                    choose_first = ((s16)dungeonStatus.unk_1E) & 1;
                 } else {
                     choose_first = second_key < first_key;
                 }

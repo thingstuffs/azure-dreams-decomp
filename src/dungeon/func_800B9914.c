@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 
 
@@ -14,14 +15,8 @@ typedef struct S_800BF074_2 {
 
 
 
-typedef struct {
-    u8 pad[0xA];
-    u16 field_A;
-} D_80083460_t;
-
 extern u8 D_80082E80[];
 extern s32 D_80082EB0[];
-extern D_80083460_t D_80083460;
 extern u8 D_80083780[];
 extern u8 D_80089374[];
 extern u16 D_800DDE84[];
@@ -74,7 +69,7 @@ s32 func_800BF074(Rec_D_800E3D7C *entity, s32 action_id, s16 action_type, s32 ac
         func_800A5720(saved_message_pos);
     }
 
-    D_80083460.field_A--;
+    dungeonStatus.unk_0A--;
     func_80098B38(action_id);
     return 1;
 }

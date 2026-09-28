@@ -1,6 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
-extern u32 D_800814A0[3];
 extern void func_800478B8(void *arg0);
 extern void func_80047784(void *arg0, s32 arg1, s32 arg2);
 
@@ -16,7 +16,7 @@ void func_80175480(u16 *anim_state, u32 *motion, u16 *sprite) {
     frame = step_bits >> 16;
     if (frame >= 8) {
         anim_state[-1] |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         return;
     }
     if (frame >= 6) {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -29,15 +30,12 @@ typedef struct S_8016B778_5 {
 } S_8016B778_5;   /* entry in func_8016B778 */
 
 
-extern u16 D_80083462[5];
 extern u8 D_801746A4[];
 extern u8 D_80174684[];
 extern s16 D_80083228[5];
 extern volatile s16 D_80013714[8];
 extern u8 D_801746C4[];
-extern s32 D_80083460[3];
 extern u8 D_8017467C[];
-extern s32 D_8008346C[];
 extern u16 D_80082EA4[8];
 extern int D_800814A8[4];
 extern u8 D_80082E80[];
@@ -84,7 +82,7 @@ void func_8016B778(Rec_func_800A9E70_arg0 *actor, M2C_UNK context, S_8016B778_2 
     u8 *tile_entry;
     u8 *active_actor;
     s32 *dungeon_state;
-    if (!(*D_80083462 & 0x1000)) {
+    if (!(dungeonStatus.flags & 0x1000)) {
         goto block_3;
     }
     actor->unk_9A.as_u8 = 0xEU;
@@ -108,7 +106,7 @@ block_7:
         goto block_65;
     }
 block_8:
-    if (*D_80083462 & 0x2000) {
+    if (dungeonStatus.flags & 0x2000) {
         goto block_33;
     }
     state_flags = ((Rec_D_800E3D7C *)entity)->unk_1C.as_s32;
@@ -155,7 +153,7 @@ block_25:
     if (((Rec_D_800E3D7C *)entity)->unk_64.as_s16 == 0) {
         goto block_28;
     }
-    dungeon_state = D_80083460;
+    dungeon_state = ((s32 *)(&dungeonStatus));
     if (dungeon_state[4] != (entity - 0x20)) {
         goto block_28;
     }
@@ -175,7 +173,7 @@ block_31:
         goto block_33;
     }
     ((Rec_D_800E3D7C *)entity)->unk_18 = 0;
-    *D_8008346C = 0;
+    dungeonStatus.unk_0C = 0;
 block_33:
     tile_index = func_8009FB34(map_actor->unk_24.at00.v, map_actor->unk_24.at01.v);
     map_actor->unk_26 = tile_index;
@@ -191,7 +189,7 @@ block_33:
     if (((Rec_D_800E3D7C *)entity)->unk_44.at02_u16.v & 0x8000) {
         goto block_44;
     }
-    if (!(*D_80083462 & 0x2000)) {
+    if (!(dungeonStatus.flags & 0x2000)) {
         goto block_39;
     }
     if ((func_8009A180(entity, ((S_8016B778_3 *)(*D_800814A8))->unk_58 + 0x20) << 0x10) != 0) {

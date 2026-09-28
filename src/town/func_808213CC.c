@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 
 extern void func_800672D8();
@@ -7,7 +8,6 @@ extern u8 D_80024640[];
 extern u8 D_80024660[];
 extern u8 D_80024680[];
 extern u8 D_800246C0[];
-extern s32 D_800814A0[];
 
 
 typedef struct S_80023BCC_0_pre {

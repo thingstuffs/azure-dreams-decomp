@@ -1,8 +1,8 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 extern s16 func_800BCB04(u16, u16, s16);
 extern s16 D_8002694C;
-extern s32 D_800814A0[3];
 
 /* Conditionally advances the position and decrements a counter, setting flags when it expires. */
 void func_8187B7F0(void *object, s16 *position)
@@ -19,6 +19,6 @@ void func_8187B7F0(void *object, s16 *position)
     object_fields[8] = counter;
     if ((counter << 16) <= 0) {
         ((u16 *)object_fields)[-1] |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

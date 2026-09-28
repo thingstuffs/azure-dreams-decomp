@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 extern void *D_80088848[];
 void func_80048A44();
@@ -7,8 +8,6 @@ s32 func_80099F04();
 s32 func_80099F70();
 s32 func_800A2B04();
 extern s16 D_80083228;
-extern s32 D_80083460;
-extern s16 D_80083464;
 extern s32 D_8008ACDC;
 extern s32 D_8008EAC8;
 extern u8 D_800DD040[];
@@ -65,7 +64,7 @@ block_10:
     *(u8 **)((u8 *)sprite + 0x2C) = anim_table;
     func_80099F70(*(s32 *)((u8 *)actor + 0x5C));
     func_80099F04(*(s32 *)((u8 *)actor + 0x5C));
-    move_flags = (u16 *)&D_80083460;
+    move_flags = (u16 *)&dungeonStatus.unk_00;
     move_flags[1] = (u16) (move_flags[1] | 0x812);
     *(u16 *)((u8 *)entity + 0x98) = (u16) (*(u16 *)((u8 *)entity + 0x98) & 0xFFF3);
     func_80048A44(sprite, *(*(u8 **)((u8 *)sprite + 0x2C) + (((s32) (D_80083228 + *(s16 *)((u8 *)actor + 0x2A) + 0x100) >> 9) & 7)), 0, 1);
@@ -74,7 +73,7 @@ block_10:
 jt_c1:
 jt_c9:
 jt_c11:
-    move_state = (s16 *)&D_80083460;
+    move_state = (s16 *)&dungeonStatus.unk_00;
     if (move_state[2] != 0) {
         s32 target_x;
         s32 start_x;
@@ -117,7 +116,7 @@ jt_c12:
     if (!(*(u16 *)((u8 *)sprite + 0x14) & 0x6000)) {
         goto block_25;
     }
-    D_80083464 = 0;
+    dungeonStatus.unk_04 = 0;
 block_22:
     if ((func_80094F74(entity, motion, sprite, actor) << 0x10) <= 0) {
         goto block_25;

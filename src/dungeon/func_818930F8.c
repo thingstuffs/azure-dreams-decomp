@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 
 typedef struct S_818930F8_0_pre {
@@ -19,7 +20,6 @@ typedef struct S_818930F8_1 {
 
 extern M2C_UNK func_80024824();
 extern M2C_UNK func_800478B8();
-extern s32 D_800814A0[3];
 
 /* Advance the object counters, apply the initial frame offset, and flag completion. */
 void func_818930F8(void *state, M2C_UNK draw_context, M2C_UNK update_context) {
@@ -36,6 +36,6 @@ void func_818930F8(void *state, M2C_UNK draw_context, M2C_UNK update_context) {
     }
     if ((s16) ((S_818930F8_0 *)state)->unk_04 > ((S_818930F8_0 *)state)->unk_06) {
         ((S_818930F8_0_pre *)state)[-1].unk_00 = (u16) (((S_818930F8_0_pre *)state)[-1].unk_00 | 0x8000);
-        D_800814A0[0] = (s32) (D_800814A0[0] | 0x8000);
+        objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
     }
 }

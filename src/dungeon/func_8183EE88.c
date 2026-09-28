@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct {
     s32 f0;
@@ -9,7 +10,6 @@ typedef struct {
 } StateBlock;
 
 extern u8 D_80045340[];
-extern s32 D_800814A0[3];
 extern void func_8004491C(void *, void *);
 extern void func_800478B8(void *);
 
@@ -54,7 +54,7 @@ update_sprite:
     if ((s32)*(u8 *)((u8 *)sprite + 0xC) <= *(s16 *)((u8 *)effect + 0x4A)) {
         *(s32 *)((u8 *)sprite + 0xC) = 0;
         *(u16 *)((u8 *)effect - 2) |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         return;
     }
 

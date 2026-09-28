@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 extern u8 *D_800E3D7C[];
 extern u8 D_80083780[12];
 extern u8 D_80082E80[];
 extern u16 D_800DDE84[];
-extern s32 D_80083460[3];
 extern void func_80041E70(void *);
 extern void func_80042B68(void *, s8);
 extern void func_8008D330(void *, u8 *, u8 *, void *);
@@ -71,7 +71,7 @@ s32 func_800BD86C(void *actor, s32 cause, s16 amount)
   *((s32 *) (((s8 *) actor) + 0x1C)) = (s32) ((*((s32 *) (((s8 *) actor) + 0x1C))) & 0xFBFFE10F);
   func_80041E70(actor);
   func_80098B38(cause);
-  counters = (u8 *) D_80083460;
+  counters = (u8 *) ((s32 *)(&dungeonStatus));
   *((u16 *) (((s8 *) counters) + 0xA)) = (u16) ((*((u16 *) (((s8 *) counters) + 0xA))) - 1);
   return 1;
 }

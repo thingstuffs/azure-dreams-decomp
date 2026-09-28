@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
 typedef struct S_FUNC_8197C800_BODY_0_pre {
@@ -192,8 +194,6 @@ extern u8 D_80082E80[];
 extern u8 D_800DEDB0[];
 extern u8 D_800DE9D0[];
 extern u8 D_800DEC00[];
-extern u8 D_80083460[];
-extern s32 D_800814A0[];
 extern u16 D_80082E94[];
 
 extern void *func_8003FD64(s32, void *);
@@ -529,11 +529,11 @@ case_four:
     func_8009CE1C(((S_FUNC_8197C800_BODY_1 *)(D_800814A8[0]))->unk_60, 8,
                   ((S_FUNC_8197C800_BODY_0 *)input)->unk_09, 10,
                   ((S_FUNC_8197C800_BODY_18 *)owner_data)->unk_2A, owner_data, 2);
-    status = D_80083460;
+    status = ((u8 *)(&dungeonStatus));
     status->unk_0C = 0;
     status->unk_0A -= 1;
     ((S_FUNC_8197C800_BODY_0_pre *)input)[-1].unk_00 |= 0x8000;
-    D_800814A0[0] |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
 }
 
 #ifdef __mips__

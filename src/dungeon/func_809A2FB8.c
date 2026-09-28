@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 
-extern s32 D_800814A0[3];
 
 
 typedef struct S_801747B8_0 {
@@ -75,7 +75,7 @@ void func_801747B8(void *effect, S_801747B8_1 *position, S_801747B8_0 *primitive
 
 mark_finished:
     (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-    D_800814A0[0] |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
 
 update_history:
     position->unk_02 = (*(u16 *)((u8 *)effect + 0x20));

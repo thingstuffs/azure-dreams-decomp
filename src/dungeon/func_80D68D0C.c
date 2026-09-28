@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 
 
 typedef struct {
@@ -26,10 +28,8 @@ extern void func_800ACF88(void *);
 extern s16 func_800BCB04(u16, u16, s16);
 extern s32 func_8017165C(s32);
 
-extern s32 D_800814A0;
 extern u8 D_80083160[];
 extern s16 D_80083228;
-extern s32 D_80083460;
 extern u8 D_800E2368[];
 extern s32 D_800E296C;
 extern LocalTable D_8017088C;
@@ -360,7 +360,7 @@ state_4:
 
 cleanup:
 {
-    u8 *cleanup_base = (u8 *)&D_80083460;
+    u8 *cleanup_base = (u8 *)&dungeonStatus.unk_00;
     u32 tracked_actor;
     s32 tile_flags;
 
@@ -380,6 +380,6 @@ cleanup:
     func_8009A3D0(tile_x, tile_y, tile_flags);
     func_8009A028((void *)actor);
     (*(u16 *)((u8 *)actor + (-2))) |= 0x8000;
-    D_800814A0 |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
 }
 }

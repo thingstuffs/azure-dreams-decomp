@@ -1,11 +1,6 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
-typedef struct {
-    u8 pad00[0xA];
-    u16 fieldA;
-} D_80083460_t;
-
-extern D_80083460_t D_80083460;
 extern s32 func_800A2B04();
 
 /* Follows the linked position until the countdown expires, then resets and marks completion. */
@@ -32,6 +27,6 @@ s32 func_800AB378(void *state, void *transform, void *config, void *object) {
     func_800A2B04(transform, *((u8 *)config + 0x24), *((u8 *)config + 0x25));
     *(u16 *)((u8 *)state + 0x98) &= 0xFFF7;
     *(s32 *)((u8 *)object + 0x1C) |= 0x40000000;
-    D_80083460.fieldA -= 1;
+    dungeonStatus.unk_0A -= 1;
     return 1;
 }

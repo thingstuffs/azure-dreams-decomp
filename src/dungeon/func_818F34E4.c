@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 
 typedef struct Block24 {
@@ -15,7 +16,6 @@ typedef union Product64 {
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern u8 D_80083780[12];
 extern int D_800814A8[4];
-extern s32 D_800814A0[3];
 s32 func_800644B8(s16);           /* extern */
 s16 func_800BCB04();              /* extern */
 extern s16 D_800259AC;
@@ -164,7 +164,7 @@ void func_80024CE4(void *effect, S_80024CE4_2 *position, S_80024CE4_1 *visual, s
             view_state->unk_20 = D_80083780;
         }
         (*(u16 *)((u8 *)effect + -2)) = (u16) ((*(u16 *)((u8 *)effect + -2)) | 0x8000);
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }
 /* Warning: struct S_80083178 is not defined (only forward-declared) */

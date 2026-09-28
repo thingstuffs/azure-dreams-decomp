@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 
 
@@ -18,7 +19,6 @@ extern void func_800A5720();
 extern void *func_800A8608(void *, void *, s32, s32, s32);
 
 extern s16 D_80083228[12];
-extern u8 D_80083460[12];
 extern u8 D_8008ACDC[12];
 extern u8 D_8008D470[12];
 extern u8 D_800DD0B8[8];
@@ -264,7 +264,7 @@ state_two:
         }
         func_80099F70(actor->unk_5C);
         func_80099F04(actor->unk_5C);
-        flags_base = D_80083460;
+        flags_base = ((u8 *)(&dungeonStatus));
            /* Pin: removal changes the whole function shape. */
         ((S_800927E4_11 *)flags_base)->unk_02 |= 0x812;
         ((S_800927E4_0 *)action)->unk_8C = D_8008ACDC;

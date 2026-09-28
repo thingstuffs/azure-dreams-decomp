@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -19,7 +20,6 @@ extern void func_800A2B04();
 extern void func_800AAA54();
 extern void func_800AD4D0();
 
-extern s32 D_80083460;
 extern s32 D_801719DC;
 extern s32 D_8017466C;
 
@@ -97,7 +97,7 @@ increment_state:
         motion->unk_0C.as_s32 = 0;
         func_800A2B04(motion, action_info->unk_24, action_info->unk_25);
 
-        global_state = &D_80083460;
+        global_state = &dungeonStatus.unk_00;
         tracked_actor = global_state[4];
         if (tracked_actor == (s32)((u8 *)actor_data - 0x20)) {
             global_state[4] = tracked_actor & 0x7FFFFFFF;

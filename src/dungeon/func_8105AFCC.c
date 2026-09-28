@@ -1,9 +1,9 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 
 extern s16 D_80083228[5];
 extern s32 D_80170F68;
-extern s32 D_8008346C[];
 extern void *D_800E3DE8[];
 extern u8 D_80173FE8[];
 extern u8 D_80174010[];
@@ -100,7 +100,7 @@ state_ff:
         volume = 0x800;
     func_800AD594(actor, volume);
     action->field8C = &D_80170F68;
-    *D_8008346C = 0;
+    dungeonStatus.unk_0C = 0;
     func_800A4ACC(actor);
     if (actor->field6D == 0) {
         actor->field46 &= 0x7FFF;

@@ -1,13 +1,8 @@
 #include "common.h"
-
-typedef struct {
-    u8 pad[0xA];
-    u16 field_A;
-} D_80083460_t;
+#include "shared/dungeon_status.h"
 
 extern u8 D_8008000A[];
 extern u8 D_80082E80[];
-extern D_80083460_t D_80083460;
 extern u8 D_80083780[];
 extern u16 D_800DDE84[];
 extern u8 D_800E0F2D[];
@@ -93,7 +88,7 @@ s32 func_800BDC98(void *entity, s32 action_id, s16 action_arg) {
         func_800997FC(D_800E0F85);
         func_800A56E0(0x506);
     }
-    D_80083460.field_A--;
+    dungeonStatus.unk_0A--;
     return 1;
 }
 

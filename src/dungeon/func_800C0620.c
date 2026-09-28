@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -29,8 +31,6 @@ typedef struct S_800C5D80_4 {
 
 
 M2C_UNK func_800478B8();                      /* extern */
-extern M2C_UNK D_800814A0;
-extern M2C_UNK D_80083460;
 
 /* Advance effect motion, fade its color, and mark it finished when its timer expires. */
 void func_800C5D80(void *effect_data, S_800C5D80_0 *motion, Rec_D_80082E80 *primitive) {
@@ -48,12 +48,12 @@ void func_800C5D80(void *effect_data, S_800C5D80_0 *motion, Rec_D_80082E80 *prim
     ((S_800C5D80_2 *)((u8 *)effect_data - 0x2))->unk_12 = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
         if (((S_800C5D80_2 *)((u8 *)effect_data - 0x2))->unk_0E == 0) {
-            S_800C5D80_3 *effect_counts = &D_80083460;
+            S_800C5D80_3 *effect_counts = &dungeonStatus.unk_00;
 
             effect_counts->unk_0A = (u16) (effect_counts->unk_0A - 1);
         }
         ((S_800C5D80_2 *)((u8 *)effect_data - 0x2))->unk_00 = (u16) (((S_800C5D80_2 *)((u8 *)effect_data - 0x2))->unk_00 | 0x8000);
-        ((S_800C5D80_4 *)(&D_800814A0))->unk_00 = (s32) (((S_800C5D80_4 *)(&D_800814A0))->unk_00 | 0x8000);
+        ((S_800C5D80_4 *)(&objectFlagBlock.flags))->unk_00 = (s32) (((S_800C5D80_4 *)(&objectFlagBlock.flags))->unk_00 | 0x8000);
     }
 }
 

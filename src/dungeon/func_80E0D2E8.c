@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef struct Actor Actor;
 typedef struct Motion Motion;
@@ -56,7 +57,6 @@ struct Entity {
 
 extern u8 D_8006CCF8[8];
 extern s16 D_80083228;
-extern u16 D_80083462;
 extern u8 D_80171094;
 extern u8 D_80176460[8];
 extern u8 D_80176490[8];
@@ -86,7 +86,7 @@ void func_80170AE8(Actor *input_actor, Motion *input_motion, Entity *input_entit
     s16 ground;
     s32 correction;
 
-    if (D_80083462 & 0x2000) {
+    if (dungeonStatus.flags & 0x2000) {
         special_callback = input_actor->callback;
         if (special_callback == (ActorCallback)&D_80171094) {
             special_callback(((Actor *)(input_actor)), input_motion, input_entity, ((Actor *)(input_actor)));

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct {
     u8 pad00[0x3A];
@@ -16,7 +17,6 @@ typedef struct {
 } Obj;
 
 extern s16 D_800261B0[];
-extern s32 D_800814A0[];
 
 /* Decrement the count, update the object angle and components, and flag completion. */
 void func_819A13D0(Work *work, s32 unused, Obj *obj) {
@@ -37,5 +37,5 @@ void func_819A13D0(Work *work, s32 unused, Obj *obj) {
         return;
     }
     *(u16 *)((u8 *)work - 2) |= 0x8000;
-    D_800814A0[0] |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
 }

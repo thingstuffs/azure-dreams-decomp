@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800814A8.h"
 
 
@@ -35,7 +36,6 @@ extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern s8 D_80082EA4;
 extern s16 D_80083228;
-extern u16 D_80083462;
 extern s8 D_800E2970[];
 extern void *D_80170808[];
 extern u8 D_80170E70[];
@@ -122,7 +122,7 @@ void func_80170E70(void *entity_in, void *context_in, void *sprite_in, void *act
     void *continuation;
     void *owner;
 
-    if (D_80083462 & 0x1000) {
+    if (dungeonStatus.flags & 0x1000) {
         ((S_80170E70_0 *)entity)->unk_9A = 14;
         func_801713D4(entity);
         return;
@@ -158,7 +158,7 @@ void func_80170E70(void *entity_in, void *context_in, void *sprite_in, void *act
         }
     }
 
-    if ((D_80083462 & 0x2000) == 0) {
+    if ((dungeonStatus.flags & 0x2000) == 0) {
         if (((S_80170E70_1 *)actor)->unk_1C & 0x100) {
             func_800AA258(entity, context, sprite, actor);
             return;
@@ -212,7 +212,7 @@ void func_80170E70(void *entity_in, void *context_in, void *sprite_in, void *act
 
         action_flags = ((S_80170E70_1 *)actor)->unk_46;
         if ((action_flags & 0x8000) == 0) {
-            if (D_80083462 & 0x2000) {
+            if (dungeonStatus.flags & 0x2000) {
                 if ((s16)func_8009A180(
                         actor, (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) != 0) {
                     return;
@@ -303,7 +303,7 @@ jt_default:
         }
     }
 
-    if (D_80083462 & 0x2000) {
+    if (dungeonStatus.flags & 0x2000) {
         return;
     }
     if (((S_80170E70_2 *)sprite)->unk_14 & 0x40) {

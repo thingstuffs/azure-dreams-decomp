@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef struct {
     u8 pad[0x3714];
@@ -25,7 +26,6 @@ extern s16 D_80013718;
 extern s16 D_8001371A;
 extern void *D_8001371C;
 extern u8 D_80082E80[];
-extern DungeonCounters D_80083460;
 extern u16 D_800834E2;
 extern s32 D_800E296C;
 extern u8 D_80173C8C[];
@@ -59,7 +59,7 @@ void func_8016EFAC(void)
     sys_work->f371A = 0;
     sys_work->f3718 = 0;
     sys_work->f3716 = 0;
-    counters = &D_80083460;
+    counters = ((DungeonCounters *)&dungeonStatus);
     counters->counter -= 1;
     active_object = D_80175D50;
     sys_work->flags = (sys_work->flags | 9) & 0xFFEF;

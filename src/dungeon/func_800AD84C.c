@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -20,8 +22,6 @@ M2C_UNK func_8009A028();                      /* extern */
 M2C_UNK func_8009A3D0();             /* extern */
 M2C_UNK func_800A2DB8();                      /* extern */
 M2C_UNK func_800A32A4();                      /* extern */
-extern M2C_UNK D_800814A0;
-extern M2C_UNK D_80083460;
 
 /* Update a flagged target and its tile state, then mark it dirty. */
 void func_800B2FAC(void *unused_0, void *unused_1, void *source, void *target) {
@@ -32,7 +32,7 @@ void func_800B2FAC(void *unused_0, void *unused_1, void *source, void *target) {
     s32 *global_state;
 
     if (((S_800B2FAC_0 *)source)->unk_14 & 0xE000) {
-        global_state = &D_80083460;
+        global_state = &dungeonStatus.unk_00;
         if (global_state[4] == (target - 0x20)) {
             global_state[4] = global_state[4] & 0x7FFFFFFF;
         }
@@ -48,6 +48,6 @@ void func_800B2FAC(void *unused_0, void *unused_1, void *source, void *target) {
         func_8009A3D0(tile_x, tile_y, update_mask);
         func_8009A028(target);
         (*(u16 *)((u8 *)target + -2)) = (u16) (((S_800B2FAC_1_pre *)target)[-1].unk_00 | 0x8000);
-        D_800814A0 = D_800814A0 | 0x8000;
+        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
     }
 }

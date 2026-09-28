@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef struct Entity {
     u8 pad[0x13];
@@ -18,7 +19,6 @@ extern u8 D_80083780[];
 extern u8 D_80082E80[];
 extern s32 D_80012090;
 extern s16 D_8008146C;
-extern Struct_80083460 D_80083460;
 extern u8 D_80089384[];
 extern u8 D_800E15FE[];
 extern u8 D_800E1677[];
@@ -49,7 +49,7 @@ s32 func_800C261C(Entity *entity, s32 item, s16 action_type) {
             if (D_80012090 == 0 && D_8008146C == 0x28 && func_80033BC0(0xA2) == 0) {
                 Struct_80083460 *counter;
                 func_800997FC(D_800E15FE);
-                counter = &D_80083460;
+                counter = ((Struct_80083460 *)&dungeonStatus);
                 counter->count--;
                 func_80098B38(item);
                 return 1;
@@ -83,7 +83,7 @@ s32 func_800C261C(Entity *entity, s32 item, s16 action_type) {
     func_800A63B8(entity, item, action_type);
 finish_action:
     {
-        Struct_80083460 *counter = &D_80083460;
+        Struct_80083460 *counter = ((Struct_80083460 *)&dungeonStatus);
         counter->count--;
     }
     return 1;

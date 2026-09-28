@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
 typedef struct S_80172438_0 {
@@ -44,7 +45,6 @@ extern void func_80047784(void *, u8, s32);
 extern void func_800A4ACC(void *);
 
 extern s16 D_80083228;
-extern u16 D_80083462;
 extern u8 D_801764A0[];
 
 /* Searches up to four tiles ahead for a target and starts the actor's action. */
@@ -63,7 +63,7 @@ s32 func_80172438(void *action_state, void *action_context, void *sprite, void *
     register s32 target ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 
     ((S_80172438_0 *)actor)->unk_71 &= 0x7F;
-    if (D_80083462 & 0x2000) {
+    if (dungeonStatus.flags & 0x2000) {
         return -1;
     }
 
@@ -126,10 +126,10 @@ s32 func_80172438(void *action_state, void *action_context, void *sprite, void *
     if ((func_800A2CB8(actor) << 16) == 0) {
         return 0;
     }
-    if (D_80083462 & 0x2000) {
+    if (dungeonStatus.flags & 0x2000) {
         return -1;
     }
-    if (!(((S_80172438_0 *)actor)->unk_46 & 0x8000) && (D_80083462 & 8)) {
+    if (!(((S_80172438_0 *)actor)->unk_46 & 0x8000) && (dungeonStatus.flags & 8)) {
         return -1;
     }
     if ((func_800A2B5C(actor) << 16) != 0) {

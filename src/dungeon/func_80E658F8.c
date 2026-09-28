@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef struct S_801750F8_0 {
     u8 pad_00[0x8C];
@@ -41,7 +42,6 @@ extern void func_800AD594(void *, s32);
 extern void func_80174D98(void *, void *, void *, void *);
 
 extern s16 D_80083228;
-extern s32 D_80083460;
 extern void *D_80170888[];
 extern u8 D_801716F4[];
 extern u8 D_8017555C[];
@@ -212,7 +212,7 @@ L4:
 
 L5:
     {
-        u8 *action_counters = (u8 *)&D_80083460;
+        u8 *action_counters = (u8 *)&dungeonStatus.unk_00;
 
         ((S_801750F8_3 *)action_counters)->unk_0A--;
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_8017555C;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_800251F0_0 {
     u8 pad_00[0x2];
@@ -23,7 +24,6 @@ typedef struct S_800251F0_1 {
 
 
 extern void *D_80024028[8];
-extern s32 D_800814A0;
 extern u8 D_80020000[];
 
 /* Advance object counters and animation values, and flag expiration. */
@@ -92,6 +92,6 @@ case_2:
 done:
     if (((S_800251F0_0 *)object_bytes)->unk_02.u <= 0) {
         (*(u16 *)((u8 *)object_bytes + -2)) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 
 typedef struct S_80F8ADE0_0_pre {
@@ -15,7 +16,6 @@ typedef struct S_80F8ADE0_0 {
 } S_80F8ADE0_0;   /* arg0 in func_80F8ADE0 */
 
 
-extern s32 D_800814A0[3];
 
 /* Advances a timed state sequence and sets flags when it reaches stage 15. */
 void func_80F8ADE0(void *state) {
@@ -38,6 +38,6 @@ void func_80F8ADE0(void *state) {
     }
     if (((S_80F8ADE0_0 *)state)->unk_4C == 0xF) {
         ((S_80F8ADE0_0_pre *)state)[-1].unk_00 = (u16) (((S_80F8ADE0_0_pre *)state)[-1].unk_00 | 0x8000);
-        D_800814A0[0] = (s32) (D_800814A0[0] | 0x8000);
+        objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
     }
 }

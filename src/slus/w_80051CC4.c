@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 #include "common.h"
 typedef struct S_80071A68
@@ -6,7 +7,6 @@ typedef struct S_80071A68
   s32 field_0x00;
 } S_80071A68;
 extern S_80071A68 D_80071A68[];
-extern u32 D_800814A0;
 typedef struct S_80051CC4_Owner
 {
   u8 unk00[0x6];
@@ -112,7 +112,7 @@ void func_80051CC4(S_80051CC4_Sub *state, void *unused_arg, S_80051CC4_Ptr *visu
       state->owner->field_0x14 = 0;
       state->owner->field_0x06 = state->owner->field_0x06 + 1;
       *((u16 *) (((u8 *) state) - 2)) |= 0x8000;
-      flags = D_800814A0;
+      flags = ((u32)objectFlagBlock.flags);
       flags |= 0x8000;
       flags_page = (u8 *) 0x80080000;
       *((u32 *) (flags_page + 0x14A0)) = flags;

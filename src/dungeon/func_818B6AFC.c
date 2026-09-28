@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 
 typedef struct S_818B6AFC_0_pre {
@@ -60,7 +61,6 @@ typedef struct S_818B6AFC_8_pre {
 
 
 M2C_UNK func_80024154();
-extern M2C_UNK D_800814A0;
 
 #ifdef NON_MATCHING
 #define do {  register s32 implicit_hi ASM_REG("hi");  ASM_CLOBBER("hi");  (dst) = implicit_hi;   ASM_CLOBBER("hi");  } while (0) \
@@ -270,5 +270,5 @@ void func_800242FC(void *effect_data, M2C_UNK render_arg, void *color_out) {
     finished_target = ((S_818B6AFC_0 *)effect)->unk_10;
     ((S_818B6AFC_7 *)finished_target)->unk_1C = (s32) (((S_818B6AFC_7 *)finished_target)->unk_1C & 0xEFFFFFFF);
     (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_818B6AFC_0_pre *)effect)[-1].unk_00 | 0x8000);
-    D_800814A0 = D_800814A0 | 0x8000;
+    objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
 }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 extern u8 D_80020000[];
 
 typedef struct S_819A1034_0 {
@@ -25,7 +26,6 @@ typedef struct S_819A1034_2 {
 
 
 extern s16 D_800261B0;
-extern s32 D_800814A0;
 
 
 /* Decrement the fade timer, scale four colors, and flag completion at zero. */
@@ -64,6 +64,6 @@ void func_819A1034(void *fade_data)
     } while (color_index < 4);
     if (((S_819A1034_0 *)fade)->unk_3A.u <= 0) {
         (*(u16 *)((u8 *)fade + -2)) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_func_800AA258_arg2.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_800814A8.h"
@@ -45,7 +46,6 @@ extern void func_80174520(void *, void *, void *, void *);
 
 extern void *D_800814A8;
 extern s16 D_80083228;
-extern s32 D_80083460;
 extern s32 D_80171094;
 extern u8 D_80176470[];
 extern u8 D_80176478[];
@@ -82,7 +82,7 @@ state_zero:
             goto done;
         }
 
-        counter_state = &D_80083460;
+        counter_state = &dungeonStatus.unk_00;
         ((S_801741CC_2 *)counter_state)->unk_0A--;
         direction_anims = D_80176470;
         (*(void * *)((u8 *)anim + 0x2C)) = direction_anims;
@@ -105,12 +105,12 @@ state_one:
                 D_80176478[((D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7],
                 0);
             ((Rec_D_800E3D7C *)entity)->unk_1C.as_u32 |= 0x40000;
-            counter_state = &D_80083460;
+            counter_state = &dungeonStatus.unk_00;
             ((S_801741CC_2 *)counter_state)->unk_0A++;
             goto increment_state;
         }
 
-        dungeon_state = (u8 *)&D_80083460;
+        dungeon_state = (u8 *)&dungeonStatus.unk_00;
         if (((S_801741CC_4 *)dungeon_state)->unk_02 & 0x1000) {
             goto done;
         }
@@ -177,7 +177,7 @@ state_two:
     if (((Rec_func_800AA258_arg2 *)anim)->unk_14 & 0xE000) {
         s32 *counter_state;
 
-        counter_state = &D_80083460;
+        counter_state = &dungeonStatus.unk_00;
         ((S_801741CC_2 *)counter_state)->unk_0A--;
         ((Rec_D_800E3D7C *)entity)->unk_1C.as_u32 &= ~8;
         ((S_801741CC_0 *)actor)->unk_8C = &D_80171094;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
 typedef struct S_80174428_0 {
@@ -46,7 +47,6 @@ typedef struct S_80174428_3 {
 extern s16 D_80081468[3];
 extern u8 D_80082E80[];
 extern s16 D_80083228;
-extern u16 D_80083460[6];
 extern u8 D_801710F4[];
 extern u8 D_80174EF8[];
 extern u8 D_80174F00[];
@@ -225,7 +225,7 @@ case_5:
                 return;
             }
         }
-        D_80083460[5]--;
+        dungeonStatus.unk_0A--;
         func_800AA53C(object);
         height = func_800BCB04((((S_80174428_2 *)actor)->unk_24 << 6) | 0x20,
             (((S_80174428_2 *)actor)->unk_25 << 6) | 0x20,

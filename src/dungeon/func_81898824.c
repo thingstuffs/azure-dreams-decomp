@@ -1,6 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
-extern s32 D_800814A0[3];
 
 /* Advance motion, rotation, and counters, flagging completion after the time limit. */
 void func_81898824(void *state, void *motion, void *transform)
@@ -24,6 +24,6 @@ void func_81898824(void *state, void *motion, void *transform)
     if (*(s16 *)((s8 *)state + 0x12) < (s16)tick_count) {
         *(u16 *)((s8 *)state - 2) =
             (u16)(*(u16 *)((s8 *)state - 2) | 0x8000);
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

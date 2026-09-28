@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct {
     void *child;
@@ -32,7 +33,6 @@ typedef struct {
 extern u16 D_800135C2[];
 extern s16 D_800272C8[];
 extern s16 D_800272CA[];
-extern s32 D_800814A0[];
 extern TownTarget D_80083780[];
 extern u8 D_800D0138[];
 
@@ -211,7 +211,7 @@ set_state_ff:
 
     case 0xFF: {
         u16 *object_flags = (u16 *)obj - 1;
-        s32 *global_flags_ptr = D_800814A0;
+        s32 *global_flags_ptr = ((s32 *)(&objectFlagBlock));
         s32 updated_flags;
 
         *object_flags |= 0x8000;

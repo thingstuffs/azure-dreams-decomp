@@ -1,10 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
-typedef struct {
-  s32 val;
-  s32 pad[2];
-} S_800814A0;
-extern S_800814A0 D_800814A0;
 extern void *func_8003FD64(s32, void *);
 extern s32 func_8004491C(void *, void *);
 extern u8 D_80045340[9];
@@ -116,7 +112,7 @@ state_3:
 
 state_ff:
   *((u16 *) (((u8 *) object) + (-2))) |= 0x8000;
-  D_800814A0.val |= 0x8000;
+  objectFlagBlock.flags |= 0x8000;
 
 epilogue:
   return;

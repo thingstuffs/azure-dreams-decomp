@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 
 
@@ -13,18 +14,10 @@ typedef struct S_801720D8_1 {
 } S_801720D8_1;   /* work in func_801720D8 */
 
 
-typedef struct {
-    u8 pad[0xA];
-    u16 counter;
-} State;
-
-
 extern void func_80047784(void *, u8, s32);
 extern s32 func_800A2BDC(void *);
 extern s32 func_800A6D30(void);
 extern s16 D_80083228;
-extern State D_80083460;
-extern u16 D_80083462;
 extern u8 D_80174AE4[];
 
 /* Start the actor's hit reaction: clear its flags, give it a random spin and arm the matching sprite frame. */
@@ -32,7 +25,7 @@ void func_801720D8(void *work, void *part_a, void *part_b, void *actor) {
     s32 value;
 
     ((Rec_D_800E3D7C *)actor)->unk_71.as_u8 = (u8)(((Rec_D_800E3D7C *)actor)->unk_71.as_u8 & 0x7F);
-    if (!(D_80083462 & 0x2000) && ((func_800A2BDC(actor) << 16) == 0)) {
+    if (!(dungeonStatus.flags & 0x2000) && ((func_800A2BDC(actor) << 16) == 0)) {
         ((S_801720D8_1 *)work)->unk_8C = 0;
         ((S_801720D8_1 *)work)->unk_9A = 0x17;
         ((S_801720D8_1 *)work)->unk_9B = 0;
@@ -45,7 +38,7 @@ void func_801720D8(void *work, void *part_a, void *part_b, void *actor) {
             }
         }
         ((S_801720D8_1 *)work)->unk_96 = 0;
-        D_80083460.counter = (u16)(D_80083460.counter + 1);
+        dungeonStatus.unk_0A = (u16)(((u16)dungeonStatus.unk_0A) + 1);
         ((Rec_D_800E3D7C *)actor)->unk_6D.as_u8 = (u8)(((Rec_D_800E3D7C *)actor)->unk_6D.as_u8 - 1);
         (*(void * *)((u8 *)part_b + 0x2C)) = D_80174AE4;
         func_80047784(part_b, D_80174AE4[((D_80083228 + (s16)((Rec_D_800E3D7C *)actor)->unk_2A.as_u16 + 0x100) >> 9) & 7], 0);

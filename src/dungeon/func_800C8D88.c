@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 #ifndef NULL
 #define NULL 0
@@ -35,7 +36,6 @@ extern s32 func_800A6DA4(s32, s32);
 extern s32 func_800BCA68(s32, s32);
 
 extern u8 D_800CE028[];
-extern s32 D_80083460;
 extern s32 D_800E296C;
 
 /* Creates a dungeon object with two 5x5 value grids and sets its effect flags. */
@@ -109,7 +109,7 @@ s32 func_800CE4E8(s32 center_x, s32 center_y, s16 unused_value, void *unused_dat
         } else {
             D_800E296C |= 0x40080000;
         }
-        global_base = (u8 *)&D_80083460;
+        global_base = (u8 *)&dungeonStatus.unk_00;
         ((S_800CE4E8_1 *)global_base)->unk_0A++;
     }
     return (s32)object;

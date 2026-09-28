@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 
 typedef struct {
     u8 bytes[8];
@@ -23,11 +25,9 @@ extern void func_800F692C();
 extern void func_800F6B2C();
 extern void func_80170D2C();
 
-extern s32 D_800814A0;
 extern void *D_800814A8;
 extern Particle D_80082E80;
 extern u8 D_80083498[];
-extern s32 D_8008346C;
 extern u8 D_80083780[];
 extern void *D_800E3D7C;
 extern Copy8 D_80164A4C;
@@ -202,9 +202,9 @@ advance_state:
     goto end;
 
 finish:
-    D_8008346C = 0;
+    dungeonStatus.unk_0C = 0;
     U16_AT(effect, -2) |= 0x8000;
-    D_800814A0 |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
 
 end:
     return;

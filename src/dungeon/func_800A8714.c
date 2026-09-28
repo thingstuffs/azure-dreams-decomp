@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 extern int abs(int);
 #ifndef NULL
@@ -8,7 +9,6 @@ extern int abs(int);
 /* ---- globals (declared array-style so every access stays %hi/%lo, never $gp) ---- */
 extern u16 D_80013714[];
 extern u8 D_80082E80[];
-extern u16 D_8008347E[];
 extern void *D_800814A8[];
 extern s32 D_800E296C[];
 typedef struct D_800E2970Entry {
@@ -231,7 +231,7 @@ Lcase0:
             }
             scan_index = 0;
 idle_ally_scan:
-            ally_index = D_8008347E[0] & 1;
+            ally_index = dungeonStatus.unk_1E & 1;
             do {
                 ally_offset = ally_index * 4;
                 ally = *(void **)((ally_offset + (s32)D_800814A8[0]) + 0xAC);
@@ -317,7 +317,7 @@ Lcase1:
             }
             scan_index = 0;
 follow_ally_scan:
-            ally_index = D_8008347E[0] & 1;
+            ally_index = dungeonStatus.unk_1E & 1;
             do {
                 ally_offset = ally_index * 4;
                 ally = *(void **)((ally_offset + (s32)D_800814A8[0]) + 0xAC);
@@ -407,7 +407,7 @@ Lcase2:
         }
         scan_index = 0;
 assist_ally_scan:
-        ally_index = D_8008347E[0] & 1;
+        ally_index = dungeonStatus.unk_1E & 1;
         do {
             ally_offset = ally_index * 4;
             ally = *(void **)((ally_offset + (s32)D_800814A8[0]) + 0xAC);

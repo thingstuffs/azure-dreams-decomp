@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -22,7 +23,6 @@ typedef struct S_8182718C_1 {
 
 
 
-extern int D_800814A0[];
 extern u8 D_80045340[];
 
 /* Advance a timed two-state action and propagate target status flags. */
@@ -70,7 +70,7 @@ one_state:
         }
         if (target->unk_14.at00_u16.v & 0x6000) {
             ((S_8182718C_0_pre *)state_data)[-1].unk_00 = (u16) (((S_8182718C_0_pre *)state_data)[-1].unk_00 | 0x8000);
-            D_800814A0[0] = (s32) (D_800814A0[0] | 0x8000);
+            objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
         }
     }
 }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
 #define F8(p, o) (*(u8 *)((u8 *)(p) + (o)))
@@ -9,7 +10,6 @@
 #define FPTR(p, o) (*(void **)((u8 *)(p) + (o)))
 
 extern s16 D_80083228;
-extern s32 D_8008346C;
 extern void *D_800E3DE8;
 extern u8 D_801713A8[];
 extern u8 D_8017449C[];
@@ -181,7 +181,7 @@ state_ff:
     func_800A2B04(motion, F8(sprite, 0x24), F8(sprite, 0x25));
     func_800AD594(actor, 0x100);
     FPTR(action, 0x8C) = D_801713A8;
-    D_8008346C = 0;
+    dungeonStatus.unk_0C = 0;
     func_800A4ACC(actor);
     FPTR(sprite, 0x2C) = D_8017449C;
     result = (D_80083228 + FS16(actor, 0x2A) + 0x100) >> 9;

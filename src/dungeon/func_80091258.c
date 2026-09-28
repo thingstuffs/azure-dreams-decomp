@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef struct S_80013714 {
     u16 flags;
@@ -13,7 +14,6 @@ typedef struct D_80083460_S {
 
 extern S_80013714 D_80013714;
 extern s32 D_80083168[4];
-extern D_80083460_S D_80083460;
 
 extern s32 func_800A5C70(s32 arg0);
 extern void func_8009F644(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
@@ -33,7 +33,7 @@ void func_800969B8(void *object, s32 unused_1, s32 unused_2, s32 target) {
     } while (0);
 
     if (D_80013714.flags & 2) {
-        D_80083460.unk2 |= 0x80;
+        dungeonStatus.flags |= 0x80;
         goto apply_flag_done;
     }
     dispatch_target = saved_target;
@@ -47,7 +47,7 @@ void func_800969B8(void *object, s32 unused_1, s32 unused_2, s32 target) {
         goto done;
     }
 
-    D_80083460.unk2 |= 0x80;
+    dungeonStatus.flags |= 0x80;
     apply_flag_done:
     ;
     dispatch_target = saved_target;

@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 extern s16 D_800269B4;
-extern s32 D_800814A0;
 
 /* Dim the effect's color and flag completion when its countdown expires. */
 void func_8196B25C(void *effect, s32 unused, u8 *primitive) {
@@ -27,6 +27,6 @@ void func_8196B25C(void *effect, s32 unused, u8 *primitive) {
 
     if (*(s16 *)((u8 *)effect + 0x2C) <= 0) {
         *(u16 *)((u8 *)effect - 2) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 
 typedef struct S_800C30D4_0 {
@@ -24,7 +25,6 @@ extern u8 *D_800E3D7C[];
 extern u8 D_80083780[12];
 extern u8 D_80082E80[];
 extern u8 D_800DDE84[];
-extern s32 D_80083460[3];
 M2C_UNK func_8008D330(void *arg0, void *arg1, void *arg2, void *arg3);          /* extern */
 M2C_UNK func_80098B38();                         /* extern */
 M2C_UNK func_80099844();           /* extern */
@@ -58,7 +58,7 @@ s32 func_800C30D4(void *entity, s32 item, s16 action_type) {
     }
     func_80098B38(item);
     {
-        u16 *counter_base = (u16 *)D_80083460;
+        u16 *counter_base = (u16 *)((s32 *)(&dungeonStatus));
         counter_base[5] = (u16) (counter_base[5] - 1);
     }
     return 1;

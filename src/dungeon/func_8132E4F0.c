@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_801654F0_0 {
     s32 unk_00;
@@ -26,7 +27,6 @@ typedef struct S_801654F0_1 {
 
 
 
-extern s32 D_800814A0[3];
 
 /* Advance effect motion, copy its color, and flag expiration when its lifetime ends. */
 void func_801654F0(void *effect, S_801654F0_0 *motion)
@@ -44,6 +44,6 @@ void func_801654F0(void *effect, S_801654F0_0 *motion)
     ((S_801654F0_1 *)effect)->unk_08 = ((S_801654F0_1 *)effect)->unk_04.at00u.v;
     if ((life_left << 0x10) <= 0) {
         ((S_801654F0_1_pre *)effect)[-1].unk_00 |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

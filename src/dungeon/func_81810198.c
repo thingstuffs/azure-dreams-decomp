@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 
 extern M2C_UNK func_800250B4();
@@ -11,7 +12,6 @@ extern void *func_8003FC64();
 extern s32 func_8004A330();
 extern M2C_UNK func_800DBF38();
 extern s32 D_80029498;
-extern s32 D_800814A0;
 extern u8 D_80082E6A;
 
 

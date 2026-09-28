@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct {
     u8 pad00[0x1A];
@@ -22,7 +23,6 @@ typedef struct {
 } EffectColor;
 
 extern u16 D_80026326[5];
-extern s32 D_800814A0[3];
 extern void func_800478B8(void *arg0);
 
 __asm__(".set D_80026326, 0x80026326");
@@ -58,6 +58,6 @@ void func_80025868(Actor *actor, Motion *motion, EffectColor *color)
     actor->timer = timer;
     if ((s16)timer <= 0) {
         *(u16 *)((u8 *)actor - 2) |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

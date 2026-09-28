@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 extern s32 func_8003DB94();
 extern s32 func_8009A180();
@@ -14,15 +15,6 @@ extern void *D_800814A8;
 extern s16 D_80083228;
 extern u8 D_800D8C64[];
 extern void *D_800E262C[];
-
-typedef struct {
-    u16 unk0;
-    u16 flags;
-    u8 pad4[6];
-    u16 count;
-} DungeonState;
-
-extern DungeonState D_80083460;
 
 #define U8_AT(p, n)  (*(u8 *)((u8 *)(p) + (n)))
 #define S8_AT(p, n)  (*(s8 *)((u8 *)(p) + (n)))
@@ -58,7 +50,7 @@ state_zero:
     if (!(U16_AT(sprite, 0x14) & 0xE000)) {
         goto done;
     }
-    D_80083460.count--;
+    dungeonStatus.unk_0A--;
     PTR_AT(sprite, 0x2C) = D_800E262C;
     func_8003DB94(sprite,
         *(void **)((u8 *)D_800E262C +
@@ -67,7 +59,7 @@ state_zero:
     goto advance_state;
 
 state_one:
-    if (D_80083460.flags & 0x1000) {
+    if (dungeonStatus.flags & 0x1000) {
         goto done;
     }
     if (S16_AT(actor, 0x64) != 0) {
@@ -111,7 +103,7 @@ permitted:
             (((D_80083228 + S16_AT(actor, 0x2A) + 0x100) >> 7) & 0x1C)),
         0);
     S32_AT(actor, 0x1C) |= 0x40000;
-    D_80083460.count++;
+    dungeonStatus.unk_0A++;
 
 advance_state:
     U8_AT(controller, 0x9B)++;
@@ -121,7 +113,7 @@ state_two:
     if (!(U16_AT(sprite, 0x14) & 0xE000)) {
         goto done;
     }
-    D_80083460.count--;
+    dungeonStatus.unk_0A--;
     S32_AT(actor, 0x1C) &= ~0x208;
     PTR_AT(controller, 0x8C) = D_800D8C64;
 

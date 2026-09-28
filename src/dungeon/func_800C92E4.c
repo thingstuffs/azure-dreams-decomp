@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 
 typedef void *(*SpawnFunc)(s32, s32, s32, s32);
 
@@ -19,9 +21,7 @@ typedef struct AreaRecord {
     u8 pad[12];
 } AreaRecord;
 
-extern s32 D_800814A0;
 extern u8 D_80082EA6;
-extern s32 D_80083460;
 extern u32 D_800835E4[];
 extern u8 D_800E1C3A;
 extern s8 D_800E2968;
@@ -92,7 +92,7 @@ do {
         }
 
         random_value = func_800A6D30();
-        entry_table = (u8 *)&D_80083460;
+        entry_table = (u8 *)&dungeonStatus.unk_00;
         monster_entry = *(u8 **)(entry_table + 0x18) + (random_value & 0x1E);
         monster_type = monster_entry[0];
         monster_level = monster_entry[1];
@@ -196,11 +196,11 @@ other_state:
         SD_Call(0x200);
         *(s32 *)(D_800E3648 + *(s16 *)(den_event + 0xC) * 4) = 0;
         {
-            u8 *global_base = (u8 *)&D_80083460;
+            u8 *global_base = (u8 *)&dungeonStatus.unk_00;
 
             *(u16 *)(global_base + 0xA) -= 1;
         }
         *(u16 *)(den_event - 2) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

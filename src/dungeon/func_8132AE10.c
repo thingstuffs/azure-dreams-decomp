@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_80172610_0 {
     u8 pad_00[0x2A];
@@ -85,7 +86,6 @@ extern void func_80047784(void *, s32, s32);
 extern void func_800478B8(void *);
 extern void func_800A020C(void *, void *);
 
-extern s32 D_800814A0;
 extern u8 D_80083160[];
 extern s16 D_80083228;
 extern s8 D_800DCECC[];
@@ -167,14 +167,14 @@ void func_80172610(void *actor_data, void *output_data, void *context_data)
 
     if (((S_80172610_1 *)owner)->unk_1E & 0x8000) {
         (*(u16 *)((u8 *)actor + -2)) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 
     if (((S_80172610_8 *)saved_base)->unk_9A == 0x13) {
         ((S_80172610_0 *)actor)->unk_9A++;
         (*(u16 *)((u8 *)actor + -2)) |= 0x8000;
-        global_flags = D_800814A0;
+        global_flags = objectFlagBlock.flags;
         ((S_80172610_0 *)actor)->unk_96 = 0;
-        D_800814A0 = global_flags | 0x8000;
+        objectFlagBlock.flags = global_flags | 0x8000;
     }
 }

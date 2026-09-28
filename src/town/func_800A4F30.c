@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_800A2690_0 {
     u8 pad_00[0x4];
@@ -52,7 +53,6 @@ typedef struct S_800A2690_4 {
 
 
 
-extern s32 D_800814A0;
 extern u8 D_80083160[];
 
 extern s32 func_800644B8(s32);
@@ -103,7 +103,7 @@ void func_800A2690(void *effect)
 
     if ((ticks_left << 16) <= 0) {
         (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     } else {
         render_state = *(u8 **)D_80083160;
         triangle = ((S_800A2690_2 *)render_state)->unk_8D0;

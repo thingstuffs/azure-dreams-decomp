@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct Prim81916C1C {
     u8 pad0[4];
@@ -28,7 +29,6 @@ typedef struct Arg81916C1C {
 } Arg81916C1C;
 
 extern State81916C1C *D_80083160[3];
-extern s32 D_800814A0;
 extern void func_800667A8(Prim81916C1C *, s32);
 extern void func_8006658C(void *, Prim81916C1C *);
 
@@ -63,6 +63,6 @@ void func_8002441C(void *context, s32 unused, Arg81916C1C *countdown)
     countdown->count = remaining;
     if ((remaining << 24) == 0) {
         *(u16 *)((u8 *)context - 2) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

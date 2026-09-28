@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
@@ -10,7 +11,6 @@ extern void func_800A2B04(void *, u8, u8);
 
 extern u16 D_80013714;
 extern s16 D_80083228;
-extern s32 D_80083460;
 extern s32 D_8008ACDC;
 extern u8 D_800DD050[];
 
@@ -27,7 +27,7 @@ typedef struct S_8008DBE8_5 {
 
 /* Move toward the target tile, update the animation, and finish when the timer expires. */
 void func_8008DBE8(void *entity, void *motion, void *sprite, void *facing) {
-    void *status = &D_80083460;
+    void *status = &dungeonStatus.unk_00;
     void *late_status;
     u32 status_page;
     s32 frames_left;
@@ -79,7 +79,7 @@ continue_update:
         }
     }
 
-    status_page = (u32)&D_80083460;
+    status_page = (u32)&dungeonStatus.unk_00;
     late_status = (void *)status_page;
     timer = ((S_8008DBE8_5 *)late_status)->unk_04 - 1;
     ((S_8008DBE8_5 *)late_status)->unk_04 = timer;

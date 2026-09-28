@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct {
     u16 x;
@@ -41,7 +42,6 @@ extern LocalPoints D_80024004;
 extern s32 D_80028630;
 extern s16 D_8002992C;
 extern s16 D_8002992E[5];
-extern s32 D_800814A0;
 extern u8 *D_800814A8;
 
 /* Updates an owner-following effect or its fade, wait, and rising phases. */
@@ -207,7 +207,7 @@ state_done:
         if (U16_AT(owner, 0x1E) & 0x8000) {
 object_dead:
             U16_AT(effect_in, -2) |= 0x8000;
-            D_800814A0 |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
             goto function_done;
         }
 

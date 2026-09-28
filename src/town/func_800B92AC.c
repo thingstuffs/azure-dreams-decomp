@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 
 void *func_8003FC64();                       /* extern */
@@ -8,7 +9,6 @@ s32 func_800B677C();                             /* extern */
 M2C_UNK func_800B691C(); /* extern */
 s32 func_800B6990();                 /* extern */
 extern M2C_UNK D_8004CAA0;
-extern M2C_UNK D_800814A0;
 extern M2C_UNK D_800B6754;
 
 
@@ -45,7 +45,7 @@ void *func_800B6A0C(s32 resource_id, M2C_UNK slot_index, M2C_UNK x, s32 y, s32 z
         func_8004B248(object + 0xBC);
         ((S_800B6A0C_0 *)object)->unk_1E = (u16) (((S_800B6A0C_0 *)object)->unk_1E | 0x8000);
         object = NULL;
-        D_800814A0 = (s32) (D_800814A0 | 0x8000);
+        objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
     }
     return object;
 }

@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
-extern u16 D_8008347E;
 s32 func_8009A540(s32, u8, u8, s16);
 s32 func_8009B25C(void *, u16, u16, s16);
 s32 func_800A2CB8(void *, s32);
@@ -24,7 +24,7 @@ s32 func_800A03C4(void *entity, u16 x, u16 y) {
     x_offsets = dirStepX;
     y_offsets = dirStepY;
     entity_data = *(void **)((s8 *)entity_ptr - 0x14);
-    direction = D_8008347E & 7;
+    direction = dungeonStatus.unk_1E & 7;
     for (attempt = 0; attempt < 8; attempt++, direction = (direction + 1) & 7) {
         candidate = func_8009B25C(entity_ptr, (origin_x + x_offsets[direction]) & 0xFFFF, (origin_y + y_offsets[direction]) & 0xFFFF, *(s16 *)((s8 *)entity_ptr + 0x88));
         if (candidate != 0 && ((func_800A2CB8(entity_ptr, candidate) << 16) != 0)) {

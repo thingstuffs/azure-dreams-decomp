@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct GlobalState {
     s32 pad0;
@@ -7,7 +8,6 @@ typedef struct GlobalState {
 } GlobalState;
 
 extern GlobalState D_80083160;
-extern s32 D_800814A0[3];
 
 extern s32 func_800644B8(s32);
 
@@ -64,7 +64,7 @@ void func_800A5828(void *effect, s32 unused, void *render_state)
             U8_AT(linked_prim, 0xD) = 0x80;
             U8_AT(linked_prim, 0xE) = 0x80;
             U16_AT(effect, -2) |= 0x8000;
-            D_800814A0[0] |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
             return;
         }
     }

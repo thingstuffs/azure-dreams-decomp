@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 
 typedef struct S_800CD474_0_pre {
     u16 unk_00;
@@ -35,8 +37,6 @@ typedef struct S_800CD474_3 {
 extern s32 func_800419EC();
 extern s32 func_800A56E0();
 extern s32 func_800CD6AC();
-extern s32 D_800814A0;
-extern s32 D_80083460;
 
 /* Advance a falling effect through impact, flashing, and fade-out. */
 void func_800CD474(void *effect, S_800CD474_1 *motion, S_800CD474_2 *primitive) {
@@ -97,8 +97,8 @@ void func_800CD474(void *effect, S_800CD474_1 *motion, S_800CD474_2 *primitive) 
         ((S_800CD474_0 *)effect)->unk_06 = fade_timer;
         if ((fade_timer << 16) <= 0) {
             ((S_800CD474_0_pre *)effect)[-1].unk_00 |= 0x8000;
-            D_800814A0 |= 0x8000;
-            effect_counts = &D_80083460;
+            objectFlagBlock.flags |= 0x8000;
+            effect_counts = &dungeonStatus.unk_00;
             ((S_800CD474_3 *)effect_counts)->unk_0A -= 1;
         }
     }

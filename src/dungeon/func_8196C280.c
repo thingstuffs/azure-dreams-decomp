@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_8196C280_0 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -43,7 +44,6 @@ extern s32 func_80024AF8();
 extern s32 func_800A45D8();
 extern s16 func_800BCB04();
 extern s16 D_800269B4;
-extern s32 D_800814A0;
 extern PositionRef D_80083780;
 
 /* Move the effect with collision checks, shrink its sprite, and expire it when finished. */
@@ -123,10 +123,10 @@ void func_8196C280(void *effect, void *position, void *sprite) {
     ((S_8196C280_1 *)effect)->unk_2C = life_left;
     if ((life_left << 0x10) <= 0) {
         (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
     if (((S_8196C280_2 *)sprite)->unk_14 & 0x8000) {
         (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

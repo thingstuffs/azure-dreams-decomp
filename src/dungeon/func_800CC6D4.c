@@ -1,9 +1,9 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 
 typedef void (*EntityCallback)(void *, void *, void *, void *);
 
-extern u16 D_80083462;
 extern EntityCallback D_800E21C0[];
 
 extern void func_800478B8(void *arg0);
@@ -47,7 +47,7 @@ void func_800D1E34(void *object_arg, void *motion_arg, void *entity_arg)
     EntityCallback callback;
     s16 floor_height;
     u16 entity_flags;
-    u16 global_flags = D_80083462;
+    u16 global_flags = dungeonStatus.flags;
 
     if (global_flags & 0x2000) {
         (*(u8 *)((u8 *)object_base + (0x71))) &= 0x7F;

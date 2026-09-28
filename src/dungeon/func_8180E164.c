@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef union {
     s16 s;
@@ -36,7 +37,6 @@ typedef struct {
 } Link;
 
 extern DungeonState D_80083160;
-extern s32 D_800814A0[3];
 extern s32 func_800644B8(s32);
 
 /* Advance the effect fades, animate its scale and phase, and pulse the linked output brightness. */
@@ -106,7 +106,7 @@ state_other:
     effect->count = tick;
     if ((tick << 0x10) <= 0) {
         ((u16 *)effect)[-1] = ((u16 *)effect)[-1] | 0x8000;
-        D_800814A0[0] = D_800814A0[0] | 0x8000;
+        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
     }
 
 update:

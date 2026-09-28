@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef struct {
     u8 pad0[0x92];
@@ -38,12 +39,6 @@ typedef struct {
     s16 field88;
 } FuncArg3;
 
-typedef struct {
-    u8 pad0[0xA];
-    u16 fieldA;
-} D80083460;
-
-extern D80083460 D_80083460;
 extern u8 D_800DCF58[9];
 
 extern void func_8009A21C(u8, u8, s32);
@@ -119,7 +114,7 @@ state3:
     func_8009A21C(tile->field24, tile->field25,
                   (actor->field1C & 0x2000) ? 0x300 : 0x3000);
     flags_mask = 0xFFFEFFFF;
-    D_80083460.fieldA--;
+    dungeonStatus.unk_0A--;
     actor_flags = actor->field1C & flags_mask;
     actor->field2A = actor->field6A;
     actor->field1C = actor_flags;

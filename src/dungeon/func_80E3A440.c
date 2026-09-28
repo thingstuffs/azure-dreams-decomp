@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 
 
@@ -6,7 +7,6 @@ extern void func_80047784();
 extern s32 func_800A2BDC();
 
 extern s16 D_80083228;
-extern u8 D_80083460[12];
 extern u8 D_80176670[16];
 
 
@@ -30,7 +30,7 @@ typedef struct S_80173C40_2 {
 
 /* Initialize the entity action and select its directional animation when ready. */
 void func_80173C40(void *action, void *unused, void *animation, void *entity) {
-    u8 *state = D_80083460;
+    u8 *state = ((u8 *)(&dungeonStatus));
 
     if (((S_80173C40_0 *)state)->unk_02 & 0x2000) {
         ((Rec_D_800E3D7C *)entity)->unk_71.as_u8 &= 0x7F;

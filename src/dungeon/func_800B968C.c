@@ -1,9 +1,5 @@
 #include "common.h"
-
-typedef struct {
-    u8 pad[0xA];
-    u16 fieldA;
-} D_80083460_t;
+#include "shared/dungeon_status.h"
 
 extern s32 func_8008D344();
 extern s32 func_8008D368();
@@ -23,7 +19,6 @@ extern s32 func_800A6480();
 extern s32 func_800AD6FC();
 
 extern u8 D_80082E80[];
-extern D_80083460_t D_80083460;
 extern u8 D_80083780[];
 extern u8 D_8008936C[];
 extern u8 D_80089370[];
@@ -68,7 +63,7 @@ s32 func_800BEDEC(u32 target_addr, u8 *used_item, s16 effect_type, s32 effect_va
             func_800A5F38(target, item);
             return 1;
         }
-        D_80083460.fieldA--;
+        dungeonStatus.unk_0A--;
         func_80098B38(item);
         return 1;
     }
@@ -122,7 +117,7 @@ s32 func_800BEDEC(u32 target_addr, u8 *used_item, s16 effect_type, s32 effect_va
     } else {
         func_800997FC(D_800E11D7, effect_value, effect_type);
     }
-    D_80083460.fieldA--;
+    dungeonStatus.unk_0A--;
     func_80098B38(item);
     return 1;
 }

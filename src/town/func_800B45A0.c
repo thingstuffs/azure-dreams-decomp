@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct Inner_800B45A0 {
     u8 pad0[8];
@@ -18,7 +19,6 @@ typedef struct Obj_800B45A0 {
 
 extern void func_8004E994(void *arg0, void *arg1);
 extern void func_8004B1A4(void *arg0);
-extern s32 D_800814A0[3];
 
 /* Advance the inner value and mark completion when it exceeds the object's threshold. */
 void func_800B1D00(Obj_800B45A0 *obj)
@@ -43,6 +43,6 @@ void func_800B1D00(Obj_800B45A0 *obj)
         func_8004B1A4(obj->field8);
         func_8004B1A4(obj->fieldC);
         *(u16 *)((u8 *)obj - 2) |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

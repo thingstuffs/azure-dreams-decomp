@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_8196BE48_0_pre {
     u16 unk_00;
@@ -25,7 +26,6 @@ typedef struct S_8196BE48_1 {
 
 
 extern s16 D_800269B4;
-extern s32 D_800814A0;
 
 /* Advance the effect animation, offset its sprite, and mark it expired when its lifetime ends. */
 void func_8196BE48(void *effect_data, s32 unused, void *sprite) {
@@ -56,6 +56,6 @@ void func_8196BE48(void *effect_data, s32 unused, void *sprite) {
     }
     if ((s16)((S_8196BE48_0 *)effect)->unk_2C <= 0) {
         (*(u16 *)((u8 *)effect + -2)) = (u16)(((S_8196BE48_0_pre *)effect)[-1].unk_00 | 0x8000);
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct TownObject {
     u8 pad0[0x70];
@@ -23,7 +24,6 @@ typedef struct TownState {
 extern u16 D_800135BE;
 extern void *D_80020164[6];
 extern u8 D_80026F80[];
-extern int D_800814A0;
 extern u8 D_80082E80[];
 extern u32 D_80082E8C;
 extern u8 D_80083160[];
@@ -219,7 +219,7 @@ case_4:
         func_800483AC(2);
         D_80082E8C = 0x00808080;
         *(u16 *)((u8 *)state - 2) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         goto cleanup;
     }
 

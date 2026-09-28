@@ -1,10 +1,5 @@
 #include "common.h"
-
-typedef struct {
-    int val;
-    int pad[2];
-} S_800814A0;
-extern S_800814A0 D_800814A0;
+#include "shared/object_flags.h"
 
 /* Load an indexed value divided by four and propagate the source flag. */
 void func_7FDD3B24(void *entry) {
@@ -16,6 +11,6 @@ void func_7FDD3B24(void *entry) {
     *(s16 *)((u8 *) entry + 0x10) = scaled_value;
     if (*(s16 *)(value_data + 0x16) & 0x8000) {
         *(u16 *)((u8 *) entry - 2) = *(u16 *)((u8 *) entry - 2) | 0x8000;
-        D_800814A0.val |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

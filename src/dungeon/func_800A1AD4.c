@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
-extern u16 D_8008347E[];
 s32 func_8009A350();
 s32 func_800BCB04();
 extern u16 D_800DCE6C[];
@@ -86,7 +86,7 @@ scan_start:
     shifted_y = base_y << 0x10;
     inner_y = shifted_y >> 0x10;
     inner_count = 0;
-    dir_seed = D_8008347E[0];
+    dir_seed = dungeonStatus.unk_1E;
     inner_dir = dir_seed & 7;
 scan_inner:
     call_x = inner_x;
@@ -113,7 +113,7 @@ next_inner:
 
     outer_count = 0;
     outer_x = (base_x << 0x10) >> 0x10;
-    dir_seed = D_8008347E[0];
+    dir_seed = dungeonStatus.unk_1E;
     probe_x = (base_y << 0x10) >> 0x10;
     outer_dir = dir_seed & 0xF;
     tab_ox = D_800DCE6C;

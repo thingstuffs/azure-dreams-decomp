@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 
 
@@ -15,7 +16,6 @@
 extern void func_80047784();
 extern u8 D_80083160[];
 extern s16 D_80083228[];
-extern u16 D_80083460[];
 extern u8 *D_800E3D7C[];
 extern void *D_80170838[];
 extern u8 D_801710EC[];
@@ -139,7 +139,7 @@ jt_c4:
             actor->unk_8C = D_801710EC;
             transform->unk_2A = (u16) actor->unk_B0;
             actor->unk_B2 = 0;
-            D_80083460[5] = (u16) (D_80083460[5] - 1);
+            dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
         }
 done:
         return;

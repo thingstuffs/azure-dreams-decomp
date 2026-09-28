@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_81876014_0 {
     u8 pad_00[0xA];
@@ -64,7 +65,6 @@ typedef struct S_81876014_6 {
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 extern s16 D_80026664;
-extern s32 D_800814A0;
 
 /* Update the effect quad, copy its position and color, and flag completion based on owner state. */
 void func_81876014(void *effect, void *position_out, void *color_out) {
@@ -138,6 +138,6 @@ void func_81876014(void *effect, void *position_out, void *color_out) {
     } else {
 mark_finished:
         (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_818F9E48_0 {
     union { s16 s; u16 u; } unk_00;   /* accessed as both */
@@ -83,7 +84,6 @@ typedef struct EffectState {
 
 extern PackedVector D_8002400C;
 extern s16 D_800266BC;
-extern s32 D_800814A0;
 
 extern void func_80024CD4();
 
@@ -188,7 +188,7 @@ state_done:
         ((S_818F9E48_5 *)motion)->unk_14 &= 0xFF7F;
         ((S_818F9E48_6 *)(((S_818F9E48_0 *)state)->unk_30))->unk_9C = one;
         (*(u16 *)((u8 *)state + -2)) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }
 

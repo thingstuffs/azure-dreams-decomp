@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 
 typedef struct S_80173C20_0 {
@@ -48,7 +49,6 @@ extern void func_800A5720(s32);
 extern void func_800AD594(void *, s32);
 
 extern s16 D_80083228;
-extern s32 D_8008346C;
 extern void *D_800E3DE8;
 extern u8 D_80170854[];
 extern u8 D_80170874[];
@@ -166,7 +166,7 @@ void func_80173C20(void *arg0, void *arg1, void *arg2, void *arg3)
         ((S_80173C20_3 *)arg1)->unk_0C = 0;
         func_800AD594(arg3, 0x1000);
         ((S_80173C20_0 *)arg0)->unk_8C = &D_80170EA8;
-        D_8008346C = 0;
+        dungeonStatus.unk_0C = 0;
         func_800A4ACC(arg3);
 
         if (((S_80173C20_0 *)arg0)->unk_98 & 0x4000) {

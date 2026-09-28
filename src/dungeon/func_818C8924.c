@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_818C8924_0_pre {
     u16 unk_00;
@@ -29,7 +30,6 @@ typedef struct {
 
 extern void func_800478B8(void *);
 extern s16 D_80024D04;
-extern s32 D_800814A0[3];
 
 /* Advance effect motion and lifetime, updating its object and marking completion. */
 void func_818C8924(EffectState *effect, s32 *position, EffectObject *object)
@@ -58,10 +58,10 @@ void func_818C8924(EffectState *effect, s32 *position, EffectObject *object)
     effect->life = life;
     if ((life << 16) <= 0) {
         ((S_818C8924_0_pre *)effect)[-1].unk_00 |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
     if (object->flags & 0x8000) {
         ((S_818C8924_0_pre *)effect)[-1].unk_00 |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

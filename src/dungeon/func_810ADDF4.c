@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "records/Rec_D_800814A8.h"
 extern int abs(int);
@@ -109,7 +110,6 @@ extern u8 D_80082E80[];
 extern u8 D_80082E80_b[];
 __asm__(".set D_80082E80_b, 0x80082E80");
 extern s8 D_80082EA4;
-extern s32 D_80083460;
 extern s8 D_800E2970[];
 
 /* Chooses a movement direction, advances the actor, and updates its movement history. */
@@ -127,7 +127,7 @@ void func_801715F4(void *move_state, void *caller_context, void *position_arg, v
     s32 dy;
     u32 table_offset;
     void *angle;
-    u8 *dungeon_state = (u8 *)&D_80083460;
+    u8 *dungeon_state = (u8 *)&dungeonStatus.unk_00;
     u8 *angle_context;
     u8 *leader_position;
     u8 *follow_context;
@@ -437,7 +437,7 @@ after_loop:
     ((S_801715F4_8 *)move_state)->unk_9C.u = ((S_801715F4_2 *)position_arg)->unk_26.u;
     ((S_801715F4_1 *)actor_arg)->unk_6D.u--;
     {
-        u8 *counter_state = (u8 *)&D_80083460;
+        u8 *counter_state = (u8 *)&dungeonStatus.unk_00;
 
         ((S_801715F4_9 *)counter_state)->unk_08++;
     }

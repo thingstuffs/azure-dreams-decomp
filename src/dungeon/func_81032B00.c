@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_80174300_0 {
     u8 pad_00[0x1E];
@@ -23,7 +24,6 @@ typedef struct S_80174300_1 {
 extern s32 func_800478B8();
 extern s32 func_800A45D8();
 extern s16 func_800BCB04();
-extern s32 D_800814A0;
 
 /* Advance motion, resolve collisions, and flag expired movement. */
 void func_80174300(void *motion, void *position, s32 update_arg) {
@@ -60,6 +60,6 @@ void func_80174300(void *motion, void *position, s32 update_arg) {
     }
     if ((s16)((S_80174300_0 *)motion)->unk_1E <= 0) {
         (*(u16 *)((u8 *)motion + -2)) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "records/Rec_D_800E3D7C.h"
 extern int abs(int);
@@ -84,8 +85,6 @@ extern void func_800DAE44(void *, s32);
 extern u8 D_8006DE24[];
 extern void *D_800814A8;
 extern s16 D_80083228;
-extern s32 D_80083460;
-extern s32 D_8008346C;
 extern void *D_80170838[];
 extern void *D_80170880[];
 extern u8 D_80171400[];
@@ -254,7 +253,7 @@ empty_slot:
     {
         void *entity = D_800814A8;
 
-        D_8008346C = 0;
+        dungeonStatus.unk_0C = 0;
         (*(u16 *)((u8 *)entity + 0xA6))--;
     }
     func_800A4ACC(actor);
@@ -346,7 +345,7 @@ state16:
         }
     }
     {
-        u8 *global_state = (u8 *)&D_80083460;
+        u8 *global_state = (u8 *)&dungeonStatus.unk_00;
 
         if (((S_80172D74_8 *)global_state)->unk_0C != 0) {
             return;

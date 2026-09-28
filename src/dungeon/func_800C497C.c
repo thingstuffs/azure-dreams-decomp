@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_func_800C9F34_arg0.h"
 
 
 extern s16 func_800A0818(s32, s32, s32, s32, void *);
 
-extern u16 D_80083462;
 
 
 typedef struct S_800CA0DC_0 {
@@ -61,7 +61,7 @@ void func_800CA0DC(void *motion, s32 unused, void *position, void *path)
     ((Rec_func_800C9F34_arg0 *)motion)->unk_9A.as_u8 = 0xF;
     (*(s32 *)((u8 *)motion + (0x8C))) = 0;
 
-    if (D_80083462 & 0x80) {
+    if (dungeonStatus.flags & 0x80) {
         ((Rec_func_800C9F34_arg0 *)motion)->unk_96 = 0;
         return;
     }

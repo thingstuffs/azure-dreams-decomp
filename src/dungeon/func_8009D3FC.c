@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef struct S_800A2B5C_0 {
     u8 pad_00[0x2];
@@ -12,11 +13,10 @@ typedef struct S_800A2B5C_0 {
 
 
 extern u16 func_800A2B28();
-extern u8 D_80083460[0x14];
 
 /* Sets or reuses the requested value and calls func_800A2B28 when state permits. */
 s16 func_800A2B5C(s32 requested_value) {
-    u8 *state = D_80083460;
+    u8 *state = ((u8 *)(&dungeonStatus));
     s32 current_value = ((S_800A2B5C_0 *)state)->unk_0C;
 
     if (current_value == requested_value) {

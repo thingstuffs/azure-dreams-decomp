@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
@@ -30,7 +31,6 @@ extern void func_800AAA54(void *, void *, void *, void *);
 extern void func_800AD4D0(void *);
 
 extern s16 D_80083228;
-extern s32 D_80083460;
 extern u8 D_80171400[];
 extern u8 D_80175148[];
 extern u8 D_80175158[];
@@ -165,7 +165,7 @@ state1_timer_done:
             0);
 
         {
-            u8 *global_state = (u8 *)&D_80083460;
+            u8 *global_state = (u8 *)&dungeonStatus.unk_00;
 
             if (((S_80173354_4 *)global_state)->unk_10.s == (u8 *)actor - 0x20) {
                 ((S_80173354_4 *)global_state)->unk_10.u &= 0x7FFFFFFF;

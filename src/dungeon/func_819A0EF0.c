@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
 
 typedef struct S_800246F0_0_pre {
@@ -27,7 +28,6 @@ typedef struct S_800246F0_3 {
 
 extern void func_800478B8(void *);
 extern s16 D_800261B0[8];
-extern u8 D_800814A0[];
 
 
 /* Fade and move the effect, marking it finished when its countdown expires. */
@@ -57,6 +57,6 @@ void func_800246F0(void *effect, S_800246F0_2 *motion, Rec_D_80082E80 *primitive
     motion->unk_04 = y + dy;
     if (((S_800246F0_0 *)effect)->unk_3A.u <= 0) {
         ((S_800246F0_0_pre *)effect)[-1].unk_00 |= 0x8000;
-        ((S_800246F0_3 *)D_800814A0)->unk_00 |= 0x8000;
+        ((S_800246F0_3 *)((u8 *)(&objectFlagBlock)))->unk_00 |= 0x8000;
     }
 }

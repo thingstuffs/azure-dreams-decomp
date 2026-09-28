@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef struct { u8 b0; u8 b1; u8 b2; u8 b3; } Elem;
 typedef struct { u8 pad0[0xE]; s16 fieldE; u8 pad1[4]; } E2970;
@@ -6,7 +7,6 @@ typedef struct { u8 pad0[0xE]; s16 fieldE; u8 pad1[4]; } E2970;
 extern E2970 D_800E2970[];
 extern s16 D_8006CD00[];
 extern s16 D_8006CD02[];
-extern u16 D_8008347E;
 extern u16 D_800DCEAC[];
 extern u16 D_800DCEBC[];
 
@@ -158,7 +158,7 @@ L_B9A8:
         if (s1 == 0) {
             goto L_RET0;
         }
-        s0 = D_8008347E;
+        s0 = dungeonStatus.unk_1E;
         ct2 = D_800E2970;
         if (c3 = ct2[*(s8 *)(actor_held + 0x26)].fieldE, type = actor_held[0x26], c3 > 0) {
             i = 0;

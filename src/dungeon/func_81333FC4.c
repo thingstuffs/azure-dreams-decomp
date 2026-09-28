@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -38,7 +39,6 @@ extern s32 func_8009A66C();
 extern s16 func_800A0818();
 
 extern s16 D_80083228;
-extern u16 D_80083462;
 extern u8 D_801739C0[8];
 extern u8 D_801739C8[8];
 extern u8 D_801739D0[8];
@@ -128,7 +128,7 @@ void func_8016AFC4(void *actor, s32 unused, void *sprite, void *movement)
     ((Rec_func_800A9E70_arg0 *)actor)->unk_8C = 0;
     (*(s32 *)((u8 *)movement + 0x1C)) |= 0x40000000;
 
-    if (D_80083462 & 0x80) {
+    if (dungeonStatus.flags & 0x80) {
         ((Rec_func_800A9E70_arg0 *)actor)->unk_96.as_s16 = 0;
         return;
     }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_8196BF24_0_pre {
     u16 unk_00;
@@ -20,7 +21,6 @@ typedef struct S_8196BF24_1 {
 
 
 
-extern s32 D_800814A0[3];
 
 /* Advance the effect animation and flag completion when its countdown expires. */
 void func_8196BF24(void *effect, s32 unused, S_8196BF24_1 *transform) {
@@ -37,6 +37,6 @@ void func_8196BF24(void *effect, s32 unused, S_8196BF24_1 *transform) {
     }
     if (((S_8196BF24_0 *)effect)->unk_2C.u <= 0) {
         ((S_8196BF24_0_pre *)effect)[-1].unk_00 = (u16)(((S_8196BF24_0_pre *)effect)[-1].unk_00 | 0x8000);
-        D_800814A0[0] = (s32)(D_800814A0[0] | 0x8000);
+        objectFlagBlock.flags = (s32)(objectFlagBlock.flags | 0x8000);
     }
 }

@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 
 
@@ -13,9 +15,7 @@ extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
 extern void func_80175DA4(void *);
 
-extern s32 D_800814A0;
 extern u8 D_80082E80[];
-extern s32 D_80083460;
 extern u8 D_80083780[];
 extern u8 *D_800E3D7C;
 extern u8 D_80173B98;
@@ -120,7 +120,7 @@ state_1:
         func_80093E74(D_800E3D7C, primary_table, secondary_table, D_800E3D7C);
         (*(u8 * *)((u8 *)D_800E3D7C + (0x60))) = saved_actor;
         ((Rec_D_800E3D7C *)D_800E3D7C)->unk_8A.as_u16 = saved_index;
-        counter = (u8 *)&D_80083460;
+        counter = (u8 *)&dungeonStatus.unk_00;
         ((S_80176028_3 *)counter)->unk_0A--;
     }
 
@@ -151,7 +151,7 @@ state_2:
         func_8009A3D0(x, y, tile_mask);
         func_8009A028(actor);
         (*(u16 *)((u8 *)actor + (-2))) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         {
             u8 *actor_slot;
 

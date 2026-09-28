@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -18,7 +19,6 @@ typedef struct {
     u16 fieldA;
 } D_80083460_t;
 extern M2C_UNK D_80082E80;
-extern D_80083460_t D_80083460;
 extern M2C_UNK D_80083780;
 extern u16 D_800DDE84[];
 extern M2C_UNK D_800E0E82;
@@ -69,7 +69,7 @@ s32 func_800BD5C4(void *entity, s32 update_value, s16 mode) {
     }
     func_80042B68(entity, 2);
     func_80098B38(update_value);
-    state = &D_80083460;
+    state = ((D_80083460_t *)&dungeonStatus);
     state->fieldA = (u16) (state->fieldA - 1);
     return 1;
 }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef struct DungeonCell {
     s16 flags;
@@ -34,7 +35,6 @@ typedef struct Other {
 } Other;
 
 extern DungeonGroup D_80073414[];
-extern void *D_80083470;
 extern u8 D_800E3E41;
 extern void func_800A56E0(s32);
 extern void func_800A5A18(void *, Object *, void *);
@@ -85,7 +85,7 @@ s32 func_800C7DEC(Object *object, Other *source) {
             }
         }
         *(volatile u16 *)&object->value64 = adjustment;
-        D_80083470 = (u8 *)object - 0x20;
+        dungeonStatus.unk_10 = (u8 *)object - 0x20;
         object->value60 = 0;
         func_800A5A18(*(void **)((u8 *)object - 0x18), object, target_item);
         func_800A56E0(0x60F);

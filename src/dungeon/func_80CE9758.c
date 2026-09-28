@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "records/Rec_D_800814A8.h"
 
@@ -125,7 +126,6 @@ extern s16 D_8006CD00;
 extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern s8 D_80082EA4;
-extern s32 D_80083460;
 extern s8 D_800E2970[];
 
 /* Select a movement direction, move the actor, and update its path history and height. */
@@ -151,7 +151,7 @@ void func_80172F58(u8 *move_input, void *action_context, u8 *position_input, u8 
     void *found_target;
     u8 *object;
 
-    dungeon_state = (u8 *)&D_80083460;
+    dungeon_state = (u8 *)&dungeonStatus.unk_00;
     state_flags = ((S_80172F58_0 *)dungeon_state)->unk_02;
     ASM_KEEP(position);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     near_target = 0;
@@ -383,7 +383,7 @@ after_loop:
         func_800A9A0C(actor);
         goto end;
     }
-    turn_state = (u8 *)&D_80083460;
+    turn_state = (u8 *)&dungeonStatus.unk_00;
     ((S_80172F58_1 *)actor)->unk_46 &= 0x7FFF;
     ((S_80172F58_10 *)move_input)->unk_9C.u = ((S_80172F58_2 *)position)->unk_26.u;
     ((S_80172F58_1 *)actor)->unk_6D.u--;

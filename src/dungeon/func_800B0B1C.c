@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 
 #define M2C_BREAK() 0
@@ -9,13 +10,6 @@ typedef s32 (*D_800DF2A8_fn)(void *, s16, s32);
 extern D_800DF2A8_fn D_800DF2A8[];
 extern u8 D_800E3D40[16];
 
-typedef struct {
-    u16 pad0;
-    u16 field2;
-    u8 pad2[8];
-} D_80083460_t;
-
-extern D_80083460_t D_80083460;
 extern u8 D_800E3648[16];
 extern s32 D_800DF258[16];
 
@@ -51,7 +45,7 @@ s32 func_800B627C(s32 handler_id, void *object_ptr, s32 slot_id, s8 update_state
         if (state[0] != 0) {
             func_80099F70(object->unk5C);
             func_80099F04(object->unk5C);
-            D_80083460.field2 |= 0x812;
+            dungeonStatus.flags |= 0x812;
         }
         slot_base = (u8 *) D_800E39C8;
         status = (StatusEntry *) (slot_base + slot_index * 0x18);

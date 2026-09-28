@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 extern int abs(int);
 
 typedef struct S_818CF0E8_0_pre {
@@ -133,7 +134,6 @@ extern Vec12 D_8002590C;
 extern Vec12 D_80025918;
 extern u8 D_800DE870[];
 extern u8 D_800DEC00[];
-extern s32 D_800814A0[3];
 extern u8 D_800E3D68[];
 
 /* Per-frame chasing-star step: drift toward the player, steer around the map and spawn the two trailing sprites. */
@@ -484,7 +484,7 @@ after_axes:
 finish:
             ((S_818CF0E8_9 *)(((S_818CF0E8_0 *)entity)->unk_34))->unk_86 = 1;
             ((S_818CF0E8_0_pre *)entity)[-1].unk_00 |= 0x8000;
-            D_800814A0[0] |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
             return;
         }
     }

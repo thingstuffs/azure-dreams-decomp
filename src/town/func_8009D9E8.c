@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "records/Rec_D_80082D58.h"
 
 
@@ -9,7 +10,6 @@ M2C_UNK func_8008F134();
 s32 func_80096FF4();
 M2C_UNK func_800970AC();
 s32 func_8009CFE0(void *, M2C_UNK);
-extern s32 D_800814A0[];
 
 
 typedef struct S_8009B148_0_pre {
@@ -33,7 +33,7 @@ void func_8009B148(void *object, M2C_UNK event, M2C_UNK event_data)
         func_80033D08(object);
         ((S_8009B148_0_pre *)object)[-1].unk_00 =
             (u16)(((S_8009B148_0_pre *)object)[-1].unk_00 | 0x8000);
-        D_800814A0[0] = D_800814A0[0] | 0x8000;
+        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
         return;
     }
     ((Rec_D_80082D58 *)object)->unk_50.as_x151a23(

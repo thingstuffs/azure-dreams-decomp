@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 
 typedef struct S_818FEDEC_0_pre {
@@ -33,7 +34,6 @@ typedef struct {
 
 extern s16 D_80025E80[5];
 extern u8 D_80020000[];
-extern s32 D_800814A0;
 extern void *D_80024008[];
 
 /* Advances an eight-frame animation and flags expiration when its countdown ends. */
@@ -91,7 +91,7 @@ block_10:
         goto block_12;
     }
     (*(u16 *)((u8 *)anim_state + -2)) = (u16) (((S_818FEDEC_0_pre *)anim_state)[-1].unk_00 | 0x8000);
-    D_800814A0 = D_800814A0 | 0x8000;
+    objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
 block_12:
     return;
 }

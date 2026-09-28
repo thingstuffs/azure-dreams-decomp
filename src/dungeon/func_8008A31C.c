@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 extern u8 D_800E0000[];
 
 
@@ -16,7 +17,6 @@ extern s16 func_8009AF18(s16, void *, void *, s32);
 
 extern s32 D_80081484[3];
 extern s16 D_80083228[];
-extern D_80083460_t D_80083460;
 extern s32 D_8008ACDC;
 extern u8 D_8008EAC8[];
 extern u8 D_800DCFB0[8];
@@ -226,7 +226,7 @@ state_1:
         entity_flags &= mask_or_base;
         mask_or_base = 0x80080000;
         saved_value = ((S_8008FA7C_7 *)((u8 *)mask_or_base))->unk_1484;
-        object_or_base = (u32)&D_80083460;
+        object_or_base = (u32)((D_80083460_t *)&dungeonStatus);
         ((S_8008FA7C_7 *)((u8 *)mask_or_base))->unk_1484 = 0;
         mask_or_base = 0x800E0000;
         ASM_KEEP(mask_or_base);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
@@ -253,7 +253,7 @@ state_1:
         ((S_8008FA7C_2 *)entity)->unk_1C &= clear_mask;
         saved_value = D_80081484[0];
         D_80081484[0] = 0;
-        D_80083460.fieldA++;
+        dungeonStatus.unk_0A++;
         active_table = D_800DCFD0;
         ((S_8008FA7C_8 *)active_anim)->unk_2C = active_table;
         D_800E3540[0] = saved_value;
@@ -298,10 +298,10 @@ state_2:
     }
 
 state_3:
-    if (D_80083460.fieldA != 0) {
+    if (dungeonStatus.unk_0A != 0) {
         return;
     }
-    D_80083460.field2 |= 0x412;
+    dungeonStatus.flags |= 0x412;
     func_80099F70(((S_8008FA7C_2 *)entity)->unk_5C);
     func_80099F04(((S_8008FA7C_2 *)entity)->unk_5C);
     if (((S_8008FA7C_2 *)entity)->unk_1C & 0x100000) {

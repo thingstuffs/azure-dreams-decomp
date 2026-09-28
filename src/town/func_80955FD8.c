@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct {
     u8 bytes[7];
@@ -13,7 +14,6 @@ typedef struct {
 } Entry;
 
 extern Copy7 D_80020198;
-extern volatile s32 D_800814A0;
 extern void func_800537D0(s32 value, s32 mode, void *dst);
 
 /* Format an inactive entry's value in units of 30 and propagate its status flag. */
@@ -48,7 +48,7 @@ void func_80022FD8(Entry *entry)
     if (text[5] == 0x20) {
         text[5] = 0x30;
     }
-    global_flags = &D_800814A0;
+    global_flags = &objectFlagBlock.flags;
     if (*(u16 *)(status + 0x3A) & 0x8000) {
         *(volatile u16 *)((u8 *)entry - 2) |= 0x8000;
         *global_flags |= 0x8000;

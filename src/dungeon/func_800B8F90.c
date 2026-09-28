@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 
 typedef struct S_800BE6F0_0_pre {
@@ -61,9 +63,7 @@ s32 func_800A90E8();
 s32 func_800B8228();
 
 extern u8 D_80010980[];
-extern s32 D_800814A0[4];
 extern u8 D_80082E80[];
-extern s32 D_80083460[5];
 extern u8 D_80083780[];
 extern u8 D_80089360[];
 extern u8 D_800E1095[0x1E];
@@ -189,7 +189,7 @@ s32 func_800BE6F0(void *entity, s32 source, s16 reason)
 
 success_cleanup:
     func_80098B38(source);
-    dungeon_state = D_80083460;
+    dungeon_state = ((s32 *)(&dungeonStatus));
     ASM_KEEP(dungeon_state);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     ((S_800BE6F0_5 *)dungeon_state)->unk_0A--;
     return 1;

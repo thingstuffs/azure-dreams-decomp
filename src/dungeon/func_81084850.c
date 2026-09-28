@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef struct S_80172050_0 {
     u8 pad_00[0x2A];
@@ -44,7 +45,6 @@ extern s32 func_800A2CB8(void *, s32);
 extern void func_800C7930(void *, s32, s32, s32);
 
 extern s16 D_80083228;
-extern s32 D_80083460;
 extern u8 D_80175F48;
 
 /* Attempts an actor action and initializes its output and directional display on success. */
@@ -59,7 +59,7 @@ s32 func_80172050(void *action_out, s32 action_param, void *actor_info, void *ac
     u16 state_flags;
 
     ((S_80172050_0 *)acting_actor)->unk_71 &= 0x7F;
-    global_state = (u16 *)&D_80083460;
+    global_state = (u16 *)&dungeonStatus.unk_00;
     if (global_state[1] & 0x2000) {
         result = -1;
         goto done;

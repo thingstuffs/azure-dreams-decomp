@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 extern s16 D_80025924;
-extern s32 D_800814A0;
 
 /* Decrement the record counter and set completion flags when it reaches zero. */
 void func_818CED78(void *record)
@@ -15,7 +15,7 @@ void func_818CED78(void *record)
     *(u16 *)(record_bytes + 2) = counter;
     if ((counter << 16) <= 0) {
         *(u16 *)(record_bytes - 2) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }
 

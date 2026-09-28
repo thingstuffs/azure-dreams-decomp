@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_800814A8.h"
 #include "records/Rec_func_80173204_arg0.h"
@@ -57,7 +58,6 @@ extern void func_80173A20(void *, s32, void *, void *);
 extern void *D_800814A8;
 extern s32 D_80082E80;
 extern s16 D_80083228[];
-extern u8 D_80083460[];
 extern u8 D_80170E54;
 extern u8 D_80173C9C[];
 extern u8 D_80173CA4[];
@@ -108,7 +108,7 @@ state_0:
         sprite,
         D_80173C9C[((D_80083228[0] + entity->unk_2A.as_s16 + 0x100) >> 9) & 7],
         0);
-    counter_base = D_80083460;
+    counter_base = ((u8 *)(&dungeonStatus));
     ((S_80173204_3 *)counter_base)->unk_0A =
         ((S_80173204_3 *)counter_base)->unk_0A - 1;
     controller->unk_9B++;
@@ -209,7 +209,7 @@ increment_counter:
     {
         u8 *counter;
 
-        counter = D_80083460;
+        counter = ((u8 *)(&dungeonStatus));
         ((S_80173204_7 *)counter)->unk_0A++;
     }
 
@@ -224,7 +224,7 @@ state_2:
         }
     }
     {
-        u8 *counter = D_80083460;
+        u8 *counter = ((u8 *)(&dungeonStatus));
         ((S_80173204_7 *)counter)->unk_0A--;
     }
     entity->unk_1C.as_s32 &= 0xEFFFFFFF;

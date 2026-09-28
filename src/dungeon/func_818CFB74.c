@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
 typedef struct {
@@ -163,8 +165,6 @@ extern void *D_80024028[];
 extern D_80020000Page D_80020000;
 extern u8 D_800DEC00[12];
 extern PackedTemplate D_80025900;
-extern s32 D_8008346C[3];
-extern s32 D_800814A0[3];
 
 extern void func_8003DB94(Graphic *, void *, s32);
 extern s32 func_8003DF74(void *, Component *, ShortVec *, s32);

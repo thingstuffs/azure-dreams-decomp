@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 
 typedef struct S_800ADB8C_0_pre {
@@ -10,12 +11,11 @@ typedef struct S_800ADB8C_0 {
 } S_800ADB8C_0;   /* arg0 in func_800ADB8C */
 
 
-extern s32 D_800814A0[];
 
 /* Sets the record and global 0x8000 flags when the referenced byte is nonzero. */
 void func_800ADB8C(void *record) {
     if (*((S_800ADB8C_0 *)record)->unk_00 != 0) {
         ((S_800ADB8C_0_pre *)record)[-1].unk_00 = (u16) (((S_800ADB8C_0_pre *)record)[-1].unk_00 | 0x8000);
-        D_800814A0[0] = D_800814A0[0] | 0x8000;
+        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
     }
 }

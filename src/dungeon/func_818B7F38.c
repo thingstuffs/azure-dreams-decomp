@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
 extern int abs(int);
@@ -117,8 +119,6 @@ s32 func_8003DE58();     /* extern */
 s32 func_800A44E0();              /* extern */
 M2C_UNK func_800A56E0();                /* extern */
 s16 func_800BCB04();                   /* extern */
-extern M2C_UNK D_800814A0;
-extern s32 D_8008346C;
 
 #ifdef NON_MATCHING
 #define LOAD_TABLE_X_BASE(v) ((v) = (s32)dirStepX)
@@ -465,9 +465,9 @@ phase_finish:
     if (((S_80025738_0 *)state)->unk_14 != 0) {
         goto clear_update_flag;
     }
-    D_8008346C = 0;
+    dungeonStatus.unk_0C = 0;
     (*(u16 *)((u8 *)state + -2)) = (u16) ((*(u16 *)((u8 *)state + -2)) | 0x8000);
-    (*(s32 *)&D_800814A0) = (s32) (((S_80025738_12 *)(&D_800814A0))->unk_00 | 0x8000);
+    (*(s32 *)&objectFlagBlock.flags) = (s32) (((S_80025738_12 *)(&objectFlagBlock.flags))->unk_00 | 0x8000);
     goto clear_update_flag;
 phase_move_path:
     ((S_80025738_5 *)motion_in)->unk_00.at00.v = (s32) (((S_80025738_5 *)motion_in)->unk_00.at00.v + ((S_80025738_5 *)motion_in)->unk_0C);

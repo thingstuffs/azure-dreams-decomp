@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 
 typedef struct S_807AFB48_3 {
@@ -44,7 +45,6 @@ typedef struct S_807AFB48_2 {
 } S_807AFB48_2;   /* arg2 in func_807AFB48 */
 
 
-extern s32 D_800814A0[3];
 
 /* Advances position and selected color channels toward their targets and flags completion. */
 void func_807AFB48(void *transition, S_807AFB48_0 *position, S_807AFB48_2 *color) {
@@ -70,6 +70,6 @@ void func_807AFB48(void *transition, S_807AFB48_0 *position, S_807AFB48_2 *color
     ((S_807AFB48_1 *)((u8 *)transition - 0x2))->unk_0E = steps_left;
     if ((steps_left << 0x10) <= 0) {
         ((S_807AFB48_1 *)((u8 *)transition - 0x2))->unk_00 = (u16) (((S_807AFB48_1 *)((u8 *)transition - 0x2))->unk_00 | 0x8000);
-        D_800814A0[0] = (s32) (D_800814A0[0] | 0x8000);
+        objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
     }
 }

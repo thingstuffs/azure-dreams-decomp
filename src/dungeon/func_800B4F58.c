@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 
 typedef struct S_800BA6B8_0_pre {
@@ -21,7 +22,6 @@ typedef struct S_800BA6B8_1 {
 
 
 s32 func_800644B8();                             /* extern */
-extern M2C_UNK D_800814A0;
 extern u16 D_80083164;
 extern u16 D_800DF37C;
 
@@ -31,7 +31,7 @@ void func_800BA6B8(void *channel_config, void *unused, void *output) {
 
     if (D_800DF37C != 0) {
         (*(u16 *)((u8 *)channel_config + -2)) = (u16) (((S_800BA6B8_0_pre *)channel_config)[-1].unk_00 | 0x8000);
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
     channel_value = (func_800644B8(D_80083164 << 8) >> 7) - 0x80;
     if (((S_800BA6B8_0 *)channel_config)->unk_30 != 0) {

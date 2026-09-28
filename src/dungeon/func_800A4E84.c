@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
@@ -16,7 +17,6 @@ typedef struct {
     u16 counter;
 } DungeonState;
 
-extern DungeonState D_80083460;
 
 
 /* Resets entity state, selects a new position, and increments the dungeon counter. */
@@ -50,6 +50,6 @@ retry_position:
     }
     ((Rec_D_80082E80 *)position)->unk_26.as_s8 = func_8009FB34(((Rec_D_80082E80 *)position)->unk_24, ((Rec_D_80082E80 *)position)->unk_25);
     func_800AA53C(entity_state);
-    state = &D_80083460;
+    state = ((DungeonState *)&dungeonStatus);
     state->counter = state->counter + 1;
 }

@@ -1,6 +1,6 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
-extern u8 D_80083460[];
 extern u8 D_800CEA44[];
 extern u8 D_800E3648[];
 
@@ -24,9 +24,9 @@ unsigned int func_800CEE0C(void *object, s16 entry_index)
         result = 1;
     } else {
 #ifdef NON_MATCHING
-        state_page = D_80083460 - 0x3460;
+        state_page = ((u8 *)(&dungeonStatus)) - 0x3460;
 #endif
-        state = (u16 *)D_80083460;
+        state = (u16 *)((u8 *)(&dungeonStatus));
         entries = D_800E3648;
         entry = (u8 *)(((s32)(entry_index << 0x10) >> 0xE) + (u32)entries);
         if ((s16)(state[14] + *(s8 *)(entry + 2)) >= 0x21) {

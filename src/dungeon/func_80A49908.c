@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 
 #define U8(p, o)  (*(u8 *)((u8 *)(p) + (o)))
 #define U16(p, o) (*(u16 *)((u8 *)(p) + (o)))
@@ -7,9 +9,7 @@
 #define S32(p, o) (*(s32 *)((u8 *)(p) + (o)))
 #define PTR(p, o) (*(void **)((u8 *)(p) + (o)))
 
-extern s32 D_800814A0;
 extern s16 D_80083228;
-extern s32 D_80083460;
 extern u8 D_8017588C[];
 
 extern void func_80047784(void *, u8, s32);
@@ -32,7 +32,7 @@ void func_80173108(void *actor, s32 unused, void *sprite, void *entity)
     sprite_group = 0;
     switch (state) {
     case 0:
-        if (S16(&D_80083460, 0xA) != 0) {
+        if (S16(&dungeonStatus.unk_00, 0xA) != 0) {
             break;
         }
         U8(actor, 0x9B) = 1;
@@ -131,7 +131,7 @@ void func_80173108(void *actor, s32 unused, void *sprite, void *entity)
         if (U8(sprite, 0xC) != 0) {
             break;
         }
-        dungeon_state = (u8 *)&D_80083460;
+        dungeon_state = (u8 *)&dungeonStatus.unk_00;
         if (U32(dungeon_state, 0x10) == (u32)((u8 *)entity - 0x20)) {
             U32(dungeon_state, 0x10) &= 0x7FFFFFFF;
         }
@@ -146,7 +146,7 @@ void func_80173108(void *actor, s32 unused, void *sprite, void *entity)
         func_8009A3D0(tile_x, tile_y, effect_id);
         func_8009A028(entity);
         U16(entity, -2) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         break;
     }
     }

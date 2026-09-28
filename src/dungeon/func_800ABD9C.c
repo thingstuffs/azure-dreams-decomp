@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_800B14FC_0 {
     u8 pad_00[0x20];
@@ -29,7 +30,6 @@ typedef struct S_800B14FC_3_pre {
 
 
 extern s32 (*D_800DF030[])(void);
-extern s32 D_800814A0;
 
 extern void func_8004E994(void *arg0);
 
@@ -171,7 +171,7 @@ fade_out:
             }
         }
         (*(u16 *)((u8 *)effect_base + -2)) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         return;
     }
 }

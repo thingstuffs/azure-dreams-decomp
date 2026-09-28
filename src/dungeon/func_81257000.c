@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_81257000_0_pre {
     u16 unk_00;
@@ -72,7 +73,6 @@ extern s32 func_8003DE58(s32, void *, s16 *, s16);
 extern void func_800478B8(void *);
 extern void func_800A56E0(s32);
 
-extern s32 D_800814A0[3];
 
 #ifdef __mips__
 
@@ -186,7 +186,7 @@ void BODY_NAME(void *root_arg, void *out_pos_arg, void *dst_part_arg)
     func_800478B8(dst_part);
     if (owner->unk_1E & 0x8000) {
         ((S_81257000_0_pre *)root)[-1].unk_00 |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }
 

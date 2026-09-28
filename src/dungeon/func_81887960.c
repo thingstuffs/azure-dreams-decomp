@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_80025160_0_pre {
     u16 unk_00;
@@ -58,7 +59,6 @@ extern void func_8002569C(s32, s32, s32, s32, void *);
 extern u8 D_80020000[0x10000];
 extern Global26326 D_80026326;
 extern Global26328 D_80026328;
-extern Global814A0 D_800814A0;
 
 /* Advances the effect state, updates its motion, and sets its display color. */
 void func_80025160(void *effect, s32 context, S_80025160_1 *visual) {

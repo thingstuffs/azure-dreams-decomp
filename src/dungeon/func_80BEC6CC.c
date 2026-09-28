@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 
@@ -20,7 +21,6 @@ extern s32 func_800A2B5C();
 extern s32 func_800A2CB8();
 extern s32 func_800C7930();
 extern s16 D_80083228;
-extern s32 D_80083460;
 extern u8 D_80174214[];
 
 /* Check the actor's transition conditions and initialize the action and source animation. */
@@ -31,7 +31,7 @@ s32 func_80171ECC(void *action_state, s32 action_id, void *source_obj, void *act
     volatile long long frame_pad;
 
     ((Rec_D_800E3D7C *)actor)->unk_71.as_u8 &= 0x7F;
-    status = (u16 *)&D_80083460;
+    status = (u16 *)&dungeonStatus.unk_00;
     if (status[1] & 0x2000) {
         goto abort_transition;
     }

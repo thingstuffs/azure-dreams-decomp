@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef struct {
     u8 pad00[8];
@@ -38,7 +39,6 @@ typedef struct {
 
 extern S_global83160 D_80083160;
 extern s16 D_80083228[5];
-extern s16 D_8008346A[];
 extern volatile u16 D_80013714[];
 extern u8 D_800DD148[];
 extern u8 D_800DD150[];
@@ -104,7 +104,7 @@ state1_body:
     return;
 
 state2_body:
-    if ((actor->flags & 0x8000) || (*D_8008346A < 2)) {
+    if ((actor->flags & 0x8000) || (dungeonStatus.unk_0A < 2)) {
         if (controller->field110 != 0) {
             func_80091934(controller, context, actor);
             return;

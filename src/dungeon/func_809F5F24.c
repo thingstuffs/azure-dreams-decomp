@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
@@ -12,9 +14,6 @@ M2C_UNK func_800A2FE0();
 M2C_UNK func_800A32A4();
 M2C_UNK func_800A56E0();
 M2C_UNK func_800ACF88();
-extern s32 D_800814A0[3];
-extern M2C_UNK D_80083460;
-extern s16 D_8008346A;
 
 
 typedef struct S_80173724_0 {
@@ -111,7 +110,7 @@ jt_c0:
     }
 jt_c1:
     (*(s32 *)((u8 *)motion + (0x14))) += 0x1C000;
-    if (D_8008346A != 0) {
+    if (dungeonStatus.unk_0A != 0) {
         goto block_20;
     }
     ((S_80173724_0 *)anim_state)->unk_9B = ((S_80173724_0 *)anim_state)->unk_9B + 1;
@@ -148,7 +147,7 @@ jt_c4:
     if ((s16)next_brightness >= 0x18) {
         goto block_20;
     }
-    world_state = &D_80083460;
+    world_state = &dungeonStatus.unk_00;
     if (((S_80173724_4 *)world_state)->unk_10 != (entity - 0x20)) {
         goto block_17;
     }
@@ -167,7 +166,7 @@ block_19:
     func_8009A3D0(sound_x, sound_y, sound_flags);
     func_8009A028(entity);
     ((S_80173724_1_pre *)entity)[-1].unk_00 |= 0x8000;
-    D_800814A0[0] |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
 block_20:
     return;
 }

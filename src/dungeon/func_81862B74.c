@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -20,7 +21,6 @@ typedef struct S_81862B74_1 {
 
 M2C_UNK func_8002425C();             /* extern */
 M2C_UNK func_800478B8();                      /* extern */
-extern s32 D_800814A0[3];
 
 /* Increment counters, call func_8002425C at ten, and propagate target status flags. */
 void func_81862B74(void *state, M2C_UNK context, Rec_D_80082E80 *target) {
@@ -37,6 +37,6 @@ void func_81862B74(void *state, M2C_UNK context, Rec_D_80082E80 *target) {
     }
     if (target->unk_14.at00_u16.v & 0x6000) {
         ((S_81862B74_0_pre *)state)[-1].unk_00 = (u16) (((S_81862B74_0_pre *)state)[-1].unk_00 | 0x8000);
-        D_800814A0[0] = (s32) (D_800814A0[0] | 0x8000);
+        objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
     }
 }

@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct {
     s32 words[6];
 } CopyRecord;
 
 extern void func_800478B8(s32);
-extern s32 D_800814A0;
 
 /* Copies an entry's record, decrements its count, and flags exhaustion. */
 void func_80022B80(u8 *entry, CopyRecord *out_record, s32 update_arg)
@@ -21,6 +21,6 @@ void func_80022B80(u8 *entry, CopyRecord *out_record, s32 update_arg)
     *(u16 *)(entry + 2) = remaining;
     if ((remaining << 16) <= 0) {
         *(u16 *)(entry - 2) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

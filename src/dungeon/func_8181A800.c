@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_8181A800_0 {
     u16 unk_00;
@@ -27,7 +28,6 @@ __asm__(".globl func_8181A800\n.size func_8181A800, 192");
 
 extern void func_800478B8(void *);
 extern s16 D_80025914[9];
-extern s32 D_800814A0[3];
 
 #ifdef __mips__
 static void BODY_NAME(void *record_data, void *unused, void *update_data)
@@ -47,6 +47,6 @@ static void BODY_NAME(void *record_data, void *unused, void *update_data) {
     if (((S_8181A800_0 *)((u8 *)record_data - 0x2))->unk_04 <= 0) {
         ((S_8181A800_0 *)((u8 *)record_data - 0x2))->unk_00 =
             (u16)(((S_8181A800_0 *)((u8 *)record_data - 0x2))->unk_00 | 0x8000);
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

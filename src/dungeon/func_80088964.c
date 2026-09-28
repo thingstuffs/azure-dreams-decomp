@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
 
 struct S_8003E2D8; typedef struct S_8003E2D8 S_8003E2D8;
 extern struct S_8003E2D8 D_80083160;
 extern void *D_8008ACDC[];
-extern s32 D_80083460[3];
 extern volatile s16 D_80013714[8];
 extern u8 D_800E3CD0[9];
 extern u16 D_80082E76;
@@ -103,7 +103,7 @@ state_1:
 
 state_16:
     if (arg2->unk_14 & 0xE000) {
-        counter_base = D_80083460;
+        counter_base = ((s32 *)(&dungeonStatus));
         arg3->unk_28 = arg3->unk_29;
         arg3->unk_2A.as_s16 = 0x400 - ((global_base->unk_C8 + 0x100) & 0xE00);
         arg0->unk_8C = D_8008ACDC;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_818BDCE0_0_pre {
     u16 unk_00;
@@ -33,7 +34,6 @@ typedef struct S_818BDCE0_3 {
 
 
 
-extern s32 D_800814A0[];
 
 /* Advance effect counters, motion, and rotation, and flag expiry when its timer exceeds the limit. */
 void func_818BDCE0(void *effect, S_818BDCE0_3 *motion, S_818BDCE0_2 *rotation)
@@ -51,6 +51,6 @@ void func_818BDCE0(void *effect, S_818BDCE0_3 *motion, S_818BDCE0_2 *rotation)
 
     if (((S_818BDCE0_0 *)effect)->unk_10.u > ((S_818BDCE0_0 *)effect)->unk_14) {
         ((S_818BDCE0_0_pre *)effect)[-1].unk_00 |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

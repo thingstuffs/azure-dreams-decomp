@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
@@ -69,7 +70,6 @@ void func_800A56E0(s32);
 void func_800AD594(void *, s32);
 s32 func_800BCB04(s32, s32, s16);
 extern s16 D_80083228;
-extern s32 D_8008346C;
 extern u8 D_80083498[];
 extern void *D_800E3DE8;
 extern u8 D_80170E70;
@@ -217,7 +217,7 @@ state_255:
                      ((Rec_D_80082E80 *)entity)->unk_25);
         func_800AD594(actor, 0x100);
         ((S_80172654_0 *)action)->unk_8C = &D_80170E70;
-        D_8008346C = 0;
+        dungeonStatus.unk_0C = 0;
         func_800A4ACC(actor);
         if (((S_80172654_1 *)actor)->unk_6D == 0) {
             ((S_80172654_1 *)actor)->unk_46 &= 0x7FFF;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800814A8.h"
 
 typedef s32 M2C_UNK;
@@ -88,7 +89,6 @@ extern void *D_800814A8;
 extern RefPosition D_80082E80;
 extern u16 D_80082EA4;
 extern s16 D_80083228;
-extern u16 D_80083462;
 extern TerrainEntry D_800E2970[];
 extern u8 D_80174EE0[];
 extern M2C_UNK D_80174EF8;
@@ -113,7 +113,7 @@ void func_80170E9C(void *entity, M2C_UNK context, void *sprite, void *state) {
     u16 action_flags;
     u32 idle_mode;
 
-    if (!(D_80083462 & 0x1000)) {
+    if (!(dungeonStatus.flags & 0x1000)) {
         goto block_3;
     }
     ((S_80170E9C_0 *)entity)->unk_9A = 0xEU;
@@ -153,7 +153,7 @@ block_11:
     ((S_80170E9C_1 *)state)->unk_1C |= 0x10000000;
     return;
 block_14:
-    if (D_80083462 & 0x2000) {
+    if (dungeonStatus.flags & 0x2000) {
         goto block_30;
     }
     if (!(state_flags & 0x100)) {
@@ -212,7 +212,7 @@ block_30:
     if (((S_80170E9C_1 *)state)->unk_46 & 0x8000) {
         goto block_38;
     }
-    if (!(D_80083462 & 0x2000)) {
+    if (!(dungeonStatus.flags & 0x2000)) {
         goto block_36;
     }
     if ((func_8009A180(state, ((Rec_D_800814A8 *)D_800814A8)->unk_58.as_s32 + 0x20) << 0x10) != 0) {
@@ -291,7 +291,7 @@ block_55:
     ((S_80170E9C_1 *)state)->unk_2A = func_800A0818(((S_80170E9C_2 *)sprite)->unk_24.at00.v, ((S_80170E9C_2 *)sprite)->unk_24.at01.v, idle_target->x, idle_target->y, &direction_aux);
 block_58:
 block_59:
-    if (D_80083462 & 0x2000) {
+    if (dungeonStatus.flags & 0x2000) {
         goto block_63;
     }
     if (((S_80170E9C_2 *)sprite)->unk_14 & 0x40) {

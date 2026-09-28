@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 
 typedef struct {
     u8 pad0[2];
@@ -54,17 +56,10 @@ typedef struct {
     void *field10;
 } FuncItem;
 
-typedef struct {
-    u8 pad0[0xA];
-    u16 fieldA;
-} FuncTable;
-
 extern u8 D_80045340[];
 extern u8 D_800DDC40[];
 extern u8 D_800C4640[];
 extern u8 D_800DF564[];
-extern s32 D_800814A0[3];
-extern FuncTable D_80083460;
 
 extern s32 rand(void);
 extern void *func_8003FC64(s32);
@@ -137,8 +132,8 @@ void func_800C4944(FuncArg *source) {
             u16 *source_flags;
             source_flags = (u16 *)source - 1;
             *source_flags = *source_flags | 0x8000;
-            D_800814A0[0] = D_800814A0[0] | 0x8000;
-            D_80083460.fieldA = D_80083460.fieldA - 1;
+            objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
+            dungeonStatus.unk_0A = ((u16)dungeonStatus.unk_0A) - 1;
         }
     }
 }

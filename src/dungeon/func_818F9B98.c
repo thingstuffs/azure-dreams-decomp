@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_80025398_0 {
     union { s16 s; volatile u16 u; u16 p; } unk_00;   /* accessed as both */
@@ -46,7 +47,6 @@ typedef struct Pair16 {
 
 extern PackedVector D_80024004;
 extern s16 D_800266BC[5];
-extern s32 D_800814A0;
 
 extern void func_80024CD4();
 
@@ -147,6 +147,6 @@ render:
     ((S_80025398_0 *)effect)->unk_04.u = next_frame;
     if (next_frame == ((S_80025398_0 *)effect)->unk_02) {
         (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

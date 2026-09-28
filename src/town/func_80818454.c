@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 
 typedef struct S_80022454_1 {
@@ -17,12 +18,11 @@ typedef struct S_80022454_0 {
 } S_80022454_0;   /* arg0 in func_80022454; pointer addresses record offset 0x2 */
 
 
-extern s32 D_800814A0[3];
 
 /* Set record and global flags when the linked object has state 8. */
 void func_80022454(void *record) {
     if (((S_80022454_2 *)(((S_80022454_1 *)record)->unk_04))->unk_36 == 8) {
         ((S_80022454_0 *)((u8 *)record - 0x2))->unk_00 = (u16) (((S_80022454_0 *)((u8 *)record - 0x2))->unk_00 | 0x8000);
-        D_800814A0[0] = (s32) (D_800814A0[0] | 0x8000);
+        objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
     }
 }

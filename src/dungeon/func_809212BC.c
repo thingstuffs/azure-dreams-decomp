@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 
 typedef struct S_800F62BC_0_pre {
@@ -22,7 +23,6 @@ typedef struct S_800F62BC_1 {
 
 
 s32 func_800644B8();                             /* extern */
-extern s32 D_800814A0;
 extern u8 D_80173AF8;
 
 /* Pulses the actor color, then fades it out and marks completion. */
@@ -56,7 +56,7 @@ void func_800F62BC(void *state_data, s32 unused, void *actor_data) {
         ((S_800F62BC_0 *)state)->unk_02 = fade_ticks;
         if ((fade_ticks << 0x10) <= 0) {
             (*(u16 *)((u8 *)state + -2)) = (u16) (((S_800F62BC_0_pre *)state)[-1].unk_00 | 0x8000);
-            D_800814A0 |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
         }
     }
     ((S_800F62BC_1 *)actor)->unk_1A = (u16) (((S_800F62BC_1 *)actor)->unk_1A + 0x40);

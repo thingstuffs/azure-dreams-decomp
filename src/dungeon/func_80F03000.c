@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 
 typedef struct Packed32 {
@@ -9,7 +10,6 @@ extern void func_800A7A7C(s16, s16, s16, void *, void *);
 extern s16 func_800A45D8(u16, u16, s16);
 extern s16 func_800BCB04(s32, s32, s16);
 extern s16 func_800A7234(s8, s8, s16, void *, void *, void *);
-extern s32 D_800814A0[3];
 
 extern void *D_8014C828[];
 extern Packed32 D_8014C808;
@@ -285,7 +285,7 @@ state_two_check: do {
 state_two_finish:
         ((S_80F03000_3 *)(((S_80F03000_0 *)actor)->unk_40))->unk_A4 = 0;
         ((S_80F03000_0_pre *)actor)[-1].unk_00 |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         goto done;
     }
     } while (((S_80F03000_2 *)effect)->unk_14 & 0x8000);

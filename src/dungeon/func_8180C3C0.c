@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "records/Rec_D_80083160.h"
 
@@ -149,8 +150,6 @@ typedef struct S_800253C0_19 {
 
 extern u8 D_80083160[];
 extern void *D_8006CD58[];
-extern s16 D_8008346A[1];
-extern u8 D_80083460[];
 extern u8 D_800DD148[];
 extern u8 D_800DD150[];
 extern u8 D_8008ACDC[];
@@ -272,7 +271,7 @@ start_sequence:
         goto advance_state;
 
     case 3:
-        if (D_8008346A[0] != 0) {
+        if (dungeonStatus.unk_0A != 0) {
             goto done;
         }
         {
@@ -824,7 +823,7 @@ store_next_state:
         {
             u8 *scene_flags;
             u16 value;
-            scene_flags = D_80083460;
+            scene_flags = ((u8 *)(&dungeonStatus));
             value = ((S_800253C0_15 *)scene_flags)->unk_02;
             ((S_800253C0_15 *)scene_flags)->unk_0C = 0;
             ((S_800253C0_15 *)scene_flags)->unk_02 = value | 0x812;

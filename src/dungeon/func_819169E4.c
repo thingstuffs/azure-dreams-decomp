@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef s32 M2C_UNK;
 M2C_UNK func_800478B8();
 s32 func_800644B8();
 s32 func_80064584();
-extern M2C_UNK D_800814A0;
 /* Advance motion counters and position, and set completion flags past the lifetime. */
 void func_800241E4(void *motion, void *position, M2C_UNK update_context)
 {

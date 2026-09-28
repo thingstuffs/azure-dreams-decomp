@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_80020618_0 {
     union { s16 s; u16 u; } unk_00;   /* accessed as both */
@@ -19,7 +20,6 @@ typedef struct S_80020618_1 {
 
 extern void func_800537D0();
 extern s32 strlen();
-extern s32 D_800814A0;
 
 /* Displays a timed message and signals completion when its owner is ready. */
 void func_80020618(void *message)
@@ -48,7 +48,7 @@ void func_80020618(void *message)
     case 1:
         if (((S_80020618_1 *)owner)->unk_2A & 1) {
             (*(u16 *)((u8 *)message + -2)) |= 0x8000;
-            D_800814A0 |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
         }
         break;
     }

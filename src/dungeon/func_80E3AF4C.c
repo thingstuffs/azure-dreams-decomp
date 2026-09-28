@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_8017474C_0 {
     u8 pad_00[0x4];
@@ -91,7 +92,6 @@ extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 extern s32 func_800BCB04(u16, u16, s16);
 
-extern s32 D_800814A0;
 extern u8 D_8017398C[];
 
 /* Updates effect position and animated scales, flagging invalid or fully expanded effects. */
@@ -239,7 +239,7 @@ active:
 
 failure:
     (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-    D_800814A0 |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
     goto done;
 
 active_continue:

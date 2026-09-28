@@ -1,6 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
-extern u32 D_800814A0[];
 extern u32 D_800E296C[];
 extern volatile u32 D_800E296C_reload[] __asm__("D_800E296C");
 
@@ -24,6 +24,6 @@ void func_800A6194(void *ramp) {
     if (!(current_flags & 0x01000000)) {
         D_800E296C_reload[0] = current_flags & 0xFDFFFFFF;
         *(s16 *)((s8 *)ramp - 2) |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

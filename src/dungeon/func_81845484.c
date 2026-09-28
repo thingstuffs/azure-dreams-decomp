@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct {
     s32 x, y, z;
@@ -11,7 +12,6 @@ typedef struct S_800814A0 {
 } S_800814A0;
 
 extern u8 D_80045340[];
-extern S_800814A0 D_800814A0;
 
 extern void func_8004491C(void *, u8 *);
 extern void func_800478B8(void *);
@@ -60,7 +60,7 @@ fade_sprite:
     if (*(u8 *)((s8 *)sprite + 0xC) <= *(s16 *)((s8 *)effect + 0x4A)) {
         *(u32 *)((s8 *)sprite + 0xC) = 0;
         *(u16 *)((s8 *)effect - 2) |= 0x8000;
-        D_800814A0.val |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         return;
     }
     {

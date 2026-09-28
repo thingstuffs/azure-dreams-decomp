@@ -1,11 +1,8 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 
 M2C_UNK func_800478B8();                      /* extern */
-typedef struct { s32 v; s32 pad[2]; } S_800814A0;
-extern S_800814A0 D_800814A0;
-
-
 typedef struct S_800CB374_0_pre {
     u16 unk_00;
 } S_800CB374_0_pre;   /* the 0x2 bytes before arg0 in func_800CB374, addressed as arg0[-1] */
@@ -71,6 +68,6 @@ void func_800CB374(void *effect, void *unused, S_800CB374_1 *primitive) {
     if (((S_800CB374_3 *)(((S_800CB374_0 *)effect)->unk_A8))->unk_1E & 0x8000) {
 mark_complete:
         ((S_800CB374_0_pre *)effect)[-1].unk_00 = (u16) (((S_800CB374_0_pre *)effect)[-1].unk_00 | 0x8000);
-        D_800814A0.v |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

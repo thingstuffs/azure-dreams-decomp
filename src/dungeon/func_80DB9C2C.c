@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
 
 typedef struct S_8017142C_0 {
@@ -30,7 +31,6 @@ typedef struct S_8017142C_1 {
 extern s32 func_800478B8();
 extern s32 func_800A45D8();
 extern s16 func_800BCB04();
-extern s32 D_800814A0;
 
 /* Update effect motion, collisions, sprite growth, and timed fading. */
 void func_8017142C(void *effect, void *position, void *sprite) {
@@ -100,7 +100,7 @@ void func_8017142C(void *effect, void *position, void *sprite) {
         }
         if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
             (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-            D_800814A0 |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
         }
     }
     phase = ((S_8017142C_0 *)effect)->unk_00;
@@ -142,7 +142,7 @@ void func_8017142C(void *effect, void *position, void *sprite) {
         ((S_8017142C_0 *)effect)->unk_24 = fade_ticks_left;
         if ((fade_ticks_left << 0x10) <= 0) {
             (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-            D_800814A0 |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
         }
     }
 }

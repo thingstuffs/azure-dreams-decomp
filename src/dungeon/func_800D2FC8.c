@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef void (*Callback)();
 
@@ -12,7 +13,6 @@ extern s16 func_800BCB04();
 
 extern u8 D_8006CCF8[];
 extern s16 D_80083228;
-extern u16 D_80083462;
 extern u8 D_800D8C64;
 extern u8 D_800E260C[];
 extern Callback D_800E264C[];
@@ -111,7 +111,7 @@ void func_800D8728(void *entity_data, void *motion_data, void *monster_data)
     actor = entity;
     *(u16 *)((u8 *)monster + 0x12) = 0;
 
-    if (D_80083462 & 0x2000) {
+    if (dungeonStatus.flags & 0x2000) {
         Callback special_callback = entity->unk_8C;
         if (special_callback == (Callback)&D_800D8C64) {
             special_callback(entity, motion, monster, self);

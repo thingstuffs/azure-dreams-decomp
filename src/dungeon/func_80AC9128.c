@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 
@@ -11,13 +12,12 @@ extern s32 func_800A2B5C();
 extern s32 func_800A4ACC();
 extern s32 func_800C7930();
 extern s16 D_80083228;
-extern u16 D_80083462;
 extern s32 D_80174E3C;
 
 /* Clear the actor flag and apply an effect and animation change when allowed. */
 void func_80174928(void *action_state, s32 effect_arg, void *anim_state, void *actor) {
     ((Rec_D_800E3D7C *)actor)->unk_71.as_u8 = ((Rec_D_800E3D7C *)actor)->unk_71.as_u8 & 0x7F;
-    if (!(D_80083462 & 0x2000) && ((func_800A2B5C(actor) << 0x10) == 0)) {
+    if (!(dungeonStatus.flags & 0x2000) && ((func_800A2B5C(actor) << 0x10) == 0)) {
         func_800C7930((u8 *)actor - 0x20, effect_arg, 8, 0x300);
         if ((func_800A2B5C(actor) << 0x10) == 0) {
             ((Rec_func_800A9E70_arg0 *)action_state)->unk_9A.as_s8 = 0x17;

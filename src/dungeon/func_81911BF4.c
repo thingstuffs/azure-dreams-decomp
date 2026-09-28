@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct Inner81911BF4 {
     u8 pad00[0x14];
@@ -29,7 +30,6 @@ extern void func_8002429C(Obj81911BF4 *, s32 *, s32, s32);
 extern void func_800246C0(Obj81911BF4 *, s32 *, s32, s32);
 extern void func_80024ACC(Obj81911BF4 *, s32 *, s32, s32);
 extern void func_8002539C(Obj81911BF4 *);
-extern s32 D_800814A0;
 
 /* Update the five orbiting points and advance the effect animation. */
 void func_800253F4(Obj81911BF4 *effect, s32 *position)
@@ -198,7 +198,7 @@ advance:
 
     case 6:
         *(u16 *)((u8 *)effect - 2) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         return;
     }
 }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
@@ -11,7 +12,6 @@ s32 func_800A2B5C(void *);
 s32 func_800A2CB8(void *, s32);
 void func_800C7930(void *, s32, s32, s32);
 void func_80175F44(void *, s32, void *, s32, s32);
-extern s32 D_80083460;
 extern u8 D_80080000[];
 
 

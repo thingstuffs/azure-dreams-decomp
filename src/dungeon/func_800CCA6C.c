@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
 typedef struct {
@@ -37,7 +38,6 @@ typedef struct {
     u16 code;
 } CcaAnim;
 
-extern s32 D_80083460[];
 extern u8 D_800D20D8[];
 
 extern void func_800A2B04(CcaMotion *, u8, u8);
@@ -143,8 +143,8 @@ align_to_tile:
         motion->dy = 0;
         motion->dx = 0;
         func_800A2B04(motion, info->x, info->y);
-        if (D_80083460[4] == (s32)((u8 *)anim - 0x20)) {
-            D_80083460[4] &= 0x7FFFFFFF;
+        if (((s32)dungeonStatus.unk_10) == (s32)((u8 *)anim - 0x20)) {
+            *(s32 *)&dungeonStatus.unk_10 &= 0x7FFFFFFF;
         }
         state->next = D_800D20D8;
         state->kind = 0xE;

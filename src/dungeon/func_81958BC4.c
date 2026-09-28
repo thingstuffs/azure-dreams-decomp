@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "records/Rec_func_800243C4_arg1.h"
 
 
@@ -18,7 +19,6 @@ typedef struct FlagsView {
 
 extern CounterView D_800281F8;
 extern u8 D_80045340[];
-extern FlagsView D_800814A0;
 
 
 typedef struct S_800243C4_0_pre {
@@ -115,7 +115,7 @@ void func_800243C4(void *effect, Rec_func_800243C4_arg1 *position, S_800243C4_4 
         color->unk_0C.u32 += 0xFFFBFBFC;
         if (color->unk_0C.u8 == 0) {
             ((S_800243C4_0_pre *)effect)[-1].unk_00 |= 0x8000;
-            D_800814A0.value |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
         }
     }
 end:

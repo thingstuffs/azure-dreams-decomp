@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct {
     s32 x;
@@ -23,7 +24,6 @@ typedef struct {
 } Effect;
 
 extern u16 D_80027330;
-extern s32 D_800814A0[3];
 
 /* Advance motion, fade the effect, and flag expiry when its timer runs out. */
 void func_8195FC60(u16 *state, Motion *motion, Effect *effect)
@@ -49,6 +49,6 @@ void func_8195FC60(u16 *state, Motion *motion, Effect *effect)
     state[0x26] = ticks_left;
     if ((ticks_left << 16) <= 0) {
         state[-1] |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

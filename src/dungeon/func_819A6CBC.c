@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 
 typedef struct S_800244BC_0_pre {
@@ -61,7 +62,6 @@ typedef struct {
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern s16 D_80083780[];
-extern s32 D_800814A0[3];
 extern s32 D_80082E80[];
 extern u8 D_80083498[];
 s32 func_8003DE58();       /* extern */
@@ -148,6 +148,6 @@ settle_target:
     }
     if ((s16) ((S_800244BC_0 *)object)->unk_48 <= 0) {
         ((S_800244BC_0_pre *)object)[-1].unk_00 = (u16) (((S_800244BC_0_pre *)object)[-1].unk_00 | 0x8000);
-        D_800814A0[0] = (s32) (D_800814A0[0] | 0x8000);
+        objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
     }
 }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "records/Rec_func_80173D78_arg0.h"
 
@@ -52,7 +53,6 @@ typedef struct S_80173D78_5 {
 
 
 extern void *D_801708A0[];
-extern s32 D_80083460;
 extern M2C_UNK D_800C6AEC;
 extern M2C_UNK D_8017086C;
 extern M2C_UNK D_80170898;
@@ -178,7 +178,7 @@ jt_c1:
 
         func_800A9A0C(actor);
         ((Rec_func_80173D78_arg0 *)action)->unk_8C = &D_80170EE4;
-        counter_base = &D_80083460;
+        counter_base = &dungeonStatus.unk_00;
         ((S_80173D78_4 *)counter_base)->unk_0A =
             ((S_80173D78_4 *)counter_base)->unk_0A - 1;
         actor->unk_1C &= 0xEFFFFFFF;
@@ -259,7 +259,7 @@ jt_c3:
     ((Rec_func_80173D78_arg0 *)action)->unk_9A = 0x18;
     ((Rec_func_80173D78_arg0 *)action)->unk_9B = 0;
     ((Rec_func_80173D78_arg0 *)action)->unk_8C = &D_8017398C;
-    counter_base = &D_80083460;
+    counter_base = &dungeonStatus.unk_00;
     ((S_80173D78_4 *)counter_base)->unk_0A =
         ((S_80173D78_4 *)counter_base)->unk_0A - 1;
     actor->unk_6D = 0;

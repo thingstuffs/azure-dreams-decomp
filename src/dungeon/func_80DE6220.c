@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "records/Rec_func_80173204_arg0.h"
 #include "records/Rec_D_80082E80.h"
@@ -40,8 +42,6 @@ extern void func_80174084(void *, void *, void *);
 extern void *func_801742AC(void *, void *, void *);
 extern void func_80174460(void *);
 
-extern s32 D_800814A0;
-extern s32 D_8008346C;
 extern u8 D_80170E5C[];
 
 /* Advance the actor state and spawn an adjacent object when entity flags allow. */
@@ -95,10 +95,10 @@ void func_80173A20(void *actor, void *context, void *entity, void *creature)
         shadow = ((Rec_func_80173204_arg0 *)actor)->unk_A4;
         ((S_80173A20_2 *)shadow)->unk_1E |= 0x8000;
 
-        global_flags = D_800814A0;
+        global_flags = objectFlagBlock.flags;
         direction_bits = ((S_80173A20_3 *)creature)->unk_2A >> 8;
         creature_height = ((S_80173A20_3 *)creature)->unk_88.s;
-        D_800814A0 = global_flags | 0x8000;
+        objectFlagBlock.flags = global_flags | 0x8000;
 
         x_offsets = (u8 *)((s8 *)dirStepX);
         offset_index = direction_bits & 0xE;
@@ -134,7 +134,7 @@ void func_80173A20(void *actor, void *context, void *entity, void *creature)
         func_800A2B04(context, ((Rec_D_80082E80 *)entity)->unk_24,
                      ((Rec_D_80082E80 *)entity)->unk_25);
         ((Rec_func_80173204_arg0 *)actor)->unk_8C.as_pv = D_80170E5C;
-        D_8008346C = 0;
+        dungeonStatus.unk_0C = 0;
         (*(u16 *)((u8 *)creature + 0x46)) &= 0x7FFF;
         return;
     }

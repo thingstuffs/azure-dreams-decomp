@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 
 typedef struct S_8017360C_0 {
@@ -66,7 +67,6 @@ extern void func_80173E00(void *, void *, void *, void *);
 extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern s16 D_80083228;
-extern s32 D_80083460;
 extern void *D_801708D0[];
 extern u8 D_801714D4[];
 extern u8 D_801740F0[];
@@ -109,7 +109,7 @@ state_0:
         effect_entry &= 7;
         effect_entry += (s32)local_table_0;
         func_80047784(entity, *(u8 *)effect_entry, 0);
-        dungeon_state = (u8 *)&D_80083460;
+        dungeon_state = (u8 *)&dungeonStatus.unk_00;
         ((S_8017360C_3 *)dungeon_state)->unk_0A--;
         next_state = ((S_8017360C_0 *)action)->unk_9B + 1;
         goto store_state;
@@ -159,7 +159,7 @@ state_3:
     {
         u8 *local_table_3;
         if ((func_80042900(actor, 1) << 16) != 0) {
-            u8 *dungeon_state = (u8 *)&D_80083460;
+            u8 *dungeon_state = (u8 *)&dungeonStatus.unk_00;
             s32 actor_flags;
 
             if ((((S_8017360C_3 *)dungeon_state)->unk_02 & 0x1000) != 0) {
@@ -253,7 +253,7 @@ final_check:
         }
         ((S_8017360C_0 *)action)->unk_9B++;
         {
-            u8 *dungeon_state = (u8 *)&D_80083460;
+            u8 *dungeon_state = (u8 *)&dungeonStatus.unk_00;
             ((S_8017360C_3 *)dungeon_state)->unk_0A++;
         }
         goto done;
@@ -303,7 +303,7 @@ state_5:
         effect_entry += (s32)local_table_5;
         func_80047784(entity, *(u8 *)effect_entry, 0);
         {
-            u8 *dungeon_state = (u8 *)&D_80083460;
+            u8 *dungeon_state = (u8 *)&dungeonStatus.unk_00;
             ((S_8017360C_3 *)dungeon_state)->unk_0A--;
         }
 

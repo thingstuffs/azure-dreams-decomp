@@ -1,15 +1,10 @@
 #include "common.h"
-
-typedef struct {
-    s8 pad00[0xA];
-    u16 fieldA;
-} D_80083460_t;
+#include "shared/dungeon_status.h"
 
 extern void func_80048A44(void *, u8, s32, s32);
 extern void func_80094E34(void);
 extern s32 func_800A2B04();
 extern s16 D_80083228;
-extern D_80083460_t D_80083460;
 extern u8 D_800DD120[];
 
 /* Set the facing animation, reset actor state, and update the map entry. */
@@ -24,5 +19,5 @@ void func_8008CBD4(void *actor_state, void *map_entry, void *sprite, void *entit
     *(s32 *)((s8 *)map_entry + 0x10) = 0;
     *(s32 *)((s8 *)map_entry + 0xC) = 0;
     func_800A2B04(map_entry, *(u8 *)((s8 *)sprite + 0x24), *(u8 *)((s8 *)sprite + 0x25));
-    D_80083460.fieldA += 1;
+    dungeonStatus.unk_0A += 1;
 }

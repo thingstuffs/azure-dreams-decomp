@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 #define FIELD(base, type, offset) (*(type)((u8 *)(base) + (offset)))
 
@@ -12,7 +13,6 @@ typedef struct {
     void *record;
 } D_80082660_entry;
 
-extern s32 D_800814A0[3];
 extern D_80082660_entry D_80082660[];
 
 typedef struct S_func_800AA760_0 {
@@ -75,7 +75,7 @@ void func_800A7EC0(S_func_800AA760_0 *object, S_func_800AA760_1 *out_position)
         }
         func_80033D08(object);
         ((S_func_800AA760_5 *)((u8 *)object - 2))->unk_00 |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         return;
     }
 

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_func_800D6DC0_arg2.h"
 
 typedef struct S_80175594_0 {
@@ -48,7 +49,6 @@ typedef struct S_80175594_3 {
 
 extern u8 D_80082E80[];
 extern s16 D_80083228;
-extern s32 D_8008346C;
 extern u8 D_800E2348[];
 extern u8 D_800E23B8[];
 extern u8 D_800E23C0[];
@@ -278,7 +278,7 @@ coordinates_ready:
     func_800AA53C(object);
     func_800AD594(object, 0x1000);
     ((S_80175594_0 *)motion)->unk_8C = &D_80171F1C;
-    D_8008346C = 0;
+    dungeonStatus.unk_0C = 0;
     ((S_80175594_1 *)position)->unk_14 = 0;
     ((S_80175594_1 *)position)->unk_10 = 0;
     ((S_80175594_1 *)position)->unk_0C = 0;

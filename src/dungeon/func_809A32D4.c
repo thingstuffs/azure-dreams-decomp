@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_80174AD4_0 {
     u8 pad_00[0x8D0];
@@ -83,7 +84,6 @@ extern void func_80067E2C(void *, void *);
 extern void func_80174FC0(void *, s32, s32);
 extern void func_801750E4(s32, s32, s32, s32, s32, s32, void *, void *, void *, s32, s32);
 
-extern s32 D_800814A0;
 typedef struct {
     u8 *ptr;
 } PagePtr;
@@ -179,7 +179,7 @@ void func_80174AD4(u8 *actor_data, u8 *output_data, u8 *effect_data)
             ((S_80174AD4_4 *)effect_data)->unk_0C = decay_level;
             if (decay_level == 0) {
                 (*(u16 *)((u8 *)actor + -2)) |= 0x8000;
-                D_800814A0 |= 0x8000;
+                objectFlagBlock.flags |= 0x8000;
             }
         }
         goto update_output;

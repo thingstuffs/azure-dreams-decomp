@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef s32 M2C_UNK;
 
@@ -175,7 +176,6 @@ void *func_8003FC64(s32);
 void func_8004491C(void *, void *);
 s32 func_800644B8(s32);
 s32 func_80064584(s32);
-extern M2C_UNK D_800814A0;
 extern M2C_UNK D_80174954;
 extern M2C_UNK D_801749A8;
 
@@ -548,7 +548,7 @@ advance_ring_sector:
         ((S_801749EC_1 *)(void *)state_m)->unk_08 = remaining_ticks;
         if ((remaining_ticks << 0x10) <= 0) {
             (*(u16 *)((u8 *)(void *)state_m + -2)) = (u16) (((S_801749EC_1_pre *)(void *)state_m)[-1].unk_00 | 0x8000);
-            D_800814A0 = D_800814A0 | 0x8000;
+            objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
         }
         return;
     }

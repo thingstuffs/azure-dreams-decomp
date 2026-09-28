@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef s32 M2C_UNK;
 
@@ -17,7 +18,6 @@ extern s32 func_800B4C7C();
 extern u16 D_80013714[];
 extern u8 D_8006D168[];
 extern u8 D_8006DE24[];
-extern u16 D_80083460[];
 extern M2C_UNK D_80089000;
 extern s8 D_800DCF4F[];
 extern u8 D_800DDCBC[];
@@ -322,7 +322,7 @@ s32 func_800A1D4C(void *entity_data, s32 show_message) {
         if ((show_message << 0x10) != 0) {
             if (!(D_80013714[0] & 1)) {
                 D_800DCF4F[0] = 1;
-                D_80083460[5]++;
+                dungeonStatus.unk_0A++;
             }
             effect_id = 0x8003;
             if ((*(s32 *)(((u8 *)entity_data) + 0x14) & 0x2000) != 0) {

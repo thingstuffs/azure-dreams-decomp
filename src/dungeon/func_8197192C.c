@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800814A8.h"
 
 typedef struct S_8197192C_0_pre {
@@ -210,11 +212,9 @@ extern u8 D_800DDC40[];
 
 extern void *D_800814A8[3];
 extern void *D_800814A8_case0[3] __asm__("D_800814A8");
-extern s32 D_800814A0[3];
 extern u16 D_80082E86[5];
 extern u16 D_80082E94[5];
 extern void *D_80082E80[10];
-extern u8 D_80083460[];
 extern u8 D_80083780[12];
 extern s16 D_80025FF4[5];
 
@@ -692,13 +692,13 @@ cleanup:
     void *cleanup_obj;
     u16 cleanup_count;
     if (D_80025FF4[0] == 0) {
-        cleanup_obj = D_80083460;
+        cleanup_obj = ((u8 *)(&dungeonStatus));
         cleanup_count = ((S_8197192C_13 *)cleanup_obj)->unk_0A;
         ((S_8197192C_13 *)cleanup_obj)->unk_0C = 0;
         D_80082E86[0] = 0;
         ((S_8197192C_13 *)cleanup_obj)->unk_0A = cleanup_count - 1;
         ((S_8197192C_0_pre *)effect)[-1].unk_00 = ((S_8197192C_0_pre *)effect)[-1].unk_00 | 0x8000;
-        D_800814A0[0] = D_800814A0[0] | 0x8000;
+        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
         return;
     }
     D_80025FF4[0] = 0;

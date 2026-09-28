@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -31,7 +32,6 @@ typedef struct S_818330F0_3 {
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern s32 D_800814A0;
 /* Ease the position toward its target, brighten the primitive, and flag completion. */
 void func_818330F0(void *effect, void *position, void *primitive) {
     s16 target_z;
@@ -49,6 +49,6 @@ void func_818330F0(void *effect, void *position, void *primitive) {
     func_800478B8(primitive);
     if ((u8) ((Rec_D_80082E80 *)primitive)->unk_0C.at00_s32.v >= 0x91U) {
         (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_818330F0_1_pre *)effect)[-1].unk_00 | 0x8000);
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

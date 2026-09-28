@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_80016000.h"
 
 typedef struct S_81844800_0_pre {
@@ -158,8 +160,6 @@ typedef struct Vec3 {
 extern u8 D_80083498[];
 extern u8 D_800DEA68[];
 extern u8 D_800DECF8[];
-extern s32 D_8008346C[];
-extern s32 D_800814A0[];
 
 extern void *jtbl_80024008[];
 __asm__(".set jtbl_80024008, 0x80024008");
@@ -526,9 +526,9 @@ case5:
             ((S_81844800_0 *)effect)->unk_52.s = effect_count;
             return;
         }
-        D_8008346C[0] = 0;
+        dungeonStatus.unk_0C = 0;
         ((S_81844800_0_pre *)effect)[-1].unk_00 |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 
 done:

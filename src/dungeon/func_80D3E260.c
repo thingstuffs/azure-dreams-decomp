@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -29,8 +30,6 @@ extern ItemInfo D_8006DE24[];
 extern void *D_800814A8;
 extern u8 D_80083160[];
 extern s16 D_80083228;
-extern u8 D_80083460[];
-extern s32 D_8008346C;
 extern u8 D_80083498[];
 extern u8 D_800D58D8[];
 extern s8 D_800DCECC[];
@@ -221,7 +220,7 @@ L_copy_linked:
         ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = 0;
         ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
         func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
-        D_8008346C = 0;
+        dungeonStatus.unk_0C = 0;
         (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
         func_800A4ACC(actor);
         (*(u8 *)((u8 *)actor + 0x6D))--;
@@ -329,7 +328,7 @@ L_copy_linked:
         {
             u8 *action_status;
 
-            action_status = D_80083460;
+            action_status = ((u8 *)(&dungeonStatus));
             if (((S_80173A60_9 *)action_status)->unk_0C != 0) {
                 return;
             }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 #ifndef NULL
 #define NULL 0
@@ -74,7 +75,6 @@ extern void func_800A6508();
 extern s32 func_800A6D30(void);
 
 extern u8 D_80045340;
-extern u8 D_80083460[];
 extern u8 D_800CCDA0;
 extern u8 D_800DDC40[];
 extern u8 D_800DFD0C[];
@@ -157,7 +157,7 @@ s32 func_800CD004(void *source, s32 rng_arg_1, s32 rng_arg_2, s32 rng_arg_3)
         ((S_800CD004_1 *)effect)->unk_20 = source;
         effect_state->unk_06 = 0xC;
 
-        counter = D_80083460;
+        counter = ((u8 *)(&dungeonStatus));
         ((S_800CD004_6 *)counter)->unk_0A = ((S_800CD004_6 *)counter)->unk_0A + 1;
         func_800A56E0(0x50D);
         goto return_object;

@@ -1,12 +1,11 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 extern int abs(int);
 
 typedef void *(*SpawnFunc)(s32, s32, s32, s32);
 
-extern s32 D_800814A0;
 extern u8 D_80082E80[];
-extern u8 D_80083478[];
-extern s16 D_8008347C;
 extern u32 D_800835E4[];
 extern u8 D_800E2968;
 extern s32 D_800E296C;
@@ -50,7 +49,7 @@ void func_800A08A0(s32 spawn_mode) {
     if (D_800E296C & 0x10000000) {
         return;
     }
-    if (D_8008347C >= 0x20) {
+    if (dungeonStatus.unk_1C >= 0x20) {
         return;
     }
 
@@ -93,7 +92,7 @@ void func_800A08A0(s32 spawn_mode) {
             entry_offset = (mode < 2) ?
                              ((func_800A6D30() & 0xF) * 2) : fixed_entry_offset;
             {
-                u8 **spawn_table_addr = (u8 **)&D_80083478;
+                u8 **spawn_table_addr = (u8 **)((u8 *)(&dungeonStatus.unk_18));
                 s32 signed_entry_offset = entry_offset;
                 u8 *spawn_table = *spawn_table_addr;
                 spawn_entry = (u8 *)(signed_entry_offset + (s32)spawn_table);
@@ -131,7 +130,7 @@ void func_800A08A0(s32 spawn_mode) {
             func_800A32A4(monster);
             func_8009A028(monster);
             *(u16 *)((u8 *)monster - 2) |= 0x8000;
-            D_800814A0 |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
             return;
         }
 

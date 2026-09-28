@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
 
 typedef struct S_80170D58_0 {
@@ -28,7 +29,6 @@ typedef struct S_80170D58_1 {
 extern void func_800478B8(void *arg0);
 extern s32 func_800A45D8(u16 arg0, u16 arg1, s16 arg2);
 extern s16 func_800BCB04(u16 arg0, u16 arg1, s16 arg2);
-extern s32 D_800814A0;
 
 /* Update motion with collision checks, grow the sprite, and flag expired objects. */
 void func_80170D58(void *motion, void *position, void *sprite)
@@ -99,11 +99,11 @@ void func_80170D58(void *motion, void *position, void *sprite)
     ((S_80170D58_1 *)motion)->unk_26.u = life_ticks;
     if ((s16)life_ticks <= 0) {
         (*(u16 *)((u8 *)motion + -2)) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 
     if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
         (*(u16 *)((u8 *)motion + -2)) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

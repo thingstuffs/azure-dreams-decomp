@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 
 typedef struct S_800CCDA0_0 {
     s32 unk_00;
@@ -40,15 +42,8 @@ extern s32 func_80064584(s32);
 extern void func_8009CE1C(s32, s32, s32, s32, s32, s32, s32);
 extern void func_800A56E0(s32);
 
-extern s32 D_800814A0;
 extern u8 D_80083160[];
 
-typedef struct {
-    u8 pad[0xA];
-    u16 fieldA;
-} D_80083460_t;
-
-extern D_80083460_t D_80083460;
 extern u8 *D_800E3D7C;
 
 /* Updates a bouncing effect's motion, rotation, and fading until its lifetime expires. */
@@ -115,9 +110,9 @@ void func_800CCDA0(void *effect, void *motion, void *sprite)
         ticks_or_angle = ((S_800CCDA0_0 *)effect)->unk_06.s - 1;
         ((S_800CCDA0_0 *)effect)->unk_06.s = ticks_or_angle;
         if ((ticks_or_angle << 16) == 0) {
-            D_80083460.fieldA--;
+            dungeonStatus.unk_0A--;
             (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-            D_800814A0 |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
         }
     }
 

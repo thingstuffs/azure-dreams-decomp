@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 extern int abs(int);
 
@@ -15,8 +16,6 @@ extern void func_800DAE44(void *, s32);
 extern u8 D_8006DE24[];
 extern void *D_800814A8;
 extern s16 D_80083228;
-extern s32 D_80083460;
-extern s32 D_8008346C;
 extern u8 D_80170838[16];
 extern u8 D_80171138[];
 extern u8 D_80174AD4[];
@@ -230,7 +229,7 @@ move_setup:
     ((Rec_D_800E3D7C *)motion_input)->unk_10.at00_s32.v = 0;
     ((Rec_D_800E3D7C *)motion_input)->unk_0C.as_s32 = 0;
     func_800A2B04(motion_input, ((S_80172A40_4 *)actor_input)->unk_24, ((S_80172A40_4 *)actor_input)->unk_25);
-    D_8008346C = 0;
+    dungeonStatus.unk_0C = 0;
     (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
     func_800A4ACC(object);
     ((S_80172A40_1 *)object)->unk_6D.u--;
@@ -278,7 +277,7 @@ state_two:
                       ((S_80172A40_0 *)owner_input)->unk_A0);
     }
 
-    status = (u8 *)&D_80083460;
+    status = (u8 *)&dungeonStatus.unk_00;
     if (((S_80172A40_6 *)status)->unk_0C != 0) {
         return;
     }

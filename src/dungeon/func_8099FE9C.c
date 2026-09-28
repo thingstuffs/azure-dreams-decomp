@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef struct S_8017169C_0 {
     u8 pad_00[0x1C];
@@ -41,7 +42,6 @@ extern s32 func_8009A3D0();
 extern s16 func_800A0818();
 
 extern s16 D_80083228;
-extern u16 D_80083462;
 extern u8 D_80175E40[];
 
 /* Advance the actor along its path and update its facing and movement timing. */
@@ -99,7 +99,7 @@ void func_8017169C(void *motion, s32 unused, void *actor, void *path_state)
     ((S_8017169C_2 *)motion)->unk_9A = 0xF;
     (*(s32 *)((u8 *)motion + 0x8C)) = 0;
 
-    if (D_80083462 & 0x80) {
+    if (dungeonStatus.flags & 0x80) {
         ((S_8017169C_2 *)motion)->unk_96 = 0;
         return;
     }

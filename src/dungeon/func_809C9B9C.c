@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 
 
@@ -10,7 +11,6 @@ extern s16 func_800A0818();
 extern s32 func_80171D3C();
 
 extern s16 D_80083228;
-extern u16 D_80083462;
 extern u8 D_80173C74[];
 
 
@@ -104,7 +104,7 @@ void func_8017139C(void *controller, void *context, void *entity, void *path_sta
 
     ((S_8017139C_0 *)state)->unk_2A = direction;
     if (move_result == 3) {
-        if (!(D_80083462 & 0x80) && !(((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v & 0x8000)) {
+        if (!(dungeonStatus.flags & 0x80) && !(((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v & 0x8000)) {
             func_80171D3C(controller, context, entity, state);
         } else {
             ((S_8017139C_2 *)controller)->unk_9A = 0xF;
@@ -117,7 +117,7 @@ void func_8017139C(void *controller, void *context, void *entity, void *path_sta
     }
     ((S_8017139C_2 *)controller)->unk_8C = 0;
     (*(s32 *)((u8 *)state + (0x1C))) |= 0x40000000;
-    if (D_80083462 & 0x80) {
+    if (dungeonStatus.flags & 0x80) {
         ((S_8017139C_2 *)controller)->unk_96 = 0;
         return;
     }

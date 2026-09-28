@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 #ifndef NULL
 #define NULL 0
@@ -53,7 +54,6 @@ typedef struct WorkBlock {
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-extern s32 D_800814A0[3];
 extern s32 func_800644B8();
 extern s32 func_80066460();
 extern void func_800DBA90(WorkBlock *);
@@ -171,7 +171,7 @@ fade_out:
     if (((S_800DAB50_0 *)effect_data)->unk_10.at00.v < 0) {
         ((S_800DAB50_0 *)effect_data)->unk_10.at00.v = 0;
         ((S_800DAB50_0_pre *)effect_data)[-1].unk_00 = (u16)(((S_800DAB50_0_pre *)effect_data)[-1].unk_00 | 0x8000);
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 
 

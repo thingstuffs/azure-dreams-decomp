@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 
-extern s32 D_800814A0[3];
 extern s32 D_80083170[3];
 
 
@@ -88,7 +88,7 @@ void func_800A5AF0(void *transition, S_800A5AF0_1 *output, S_800A5AF0_2 *appeara
         ((S_800A5AF0_0 *)transition)->unk_06 = timer;
         if ((timer << 16) <= 0) {
             ((S_800A5AF0_0_pre *)transition)[-1].unk_00 |= 0x8000;
-            D_800814A0[0] |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
         }
     }
 end:

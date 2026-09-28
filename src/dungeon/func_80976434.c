@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "records/Rec_D_800814A8.h"
 
@@ -103,13 +104,12 @@ extern u8 D_80082E80_initial[] __asm__("D_80082E80");
 extern u8 D_80082E80_fallback[] __asm__("D_80082E80");
 extern u8 D_80082E80_check[] __asm__("D_80082E80");
 extern s8 D_80082EA4;
-extern s32 D_80083460;
 extern s8 D_800E2970[];
 
 /* Selects a movement direction and updates the actor's position and movement state. */
 void func_80171C34(void *move_data, void *context, void *position_data, void *actor_data)
 {
-    u8 *dungeon_state = (u8 *)&D_80083460;
+    u8 *dungeon_state = (u8 *)&dungeonStatus.unk_00;
     u16 dungeon_flags = ((S_80171C34_0 *)dungeon_state)->unk_02;
     s32 limit_detour = 0;
     s16 detour_check;
@@ -353,7 +353,7 @@ loop_test:
     }
 
     {
-        u8 *dungeon_stats = (u8 *)&D_80083460;
+        u8 *dungeon_stats = (u8 *)&dungeonStatus.unk_00;
         ((S_80171C34_1 *)actor_data)->unk_46 &= 0x7FFF;
         ((S_80171C34_5 *)move_data)->unk_9C.u = ((S_80171C34_2 *)position_data)->unk_26.u;
         ((S_80171C34_1 *)actor_data)->unk_6D.u--;

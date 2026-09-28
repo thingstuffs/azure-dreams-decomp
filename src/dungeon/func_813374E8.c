@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 #ifndef NULL
 #define NULL 0
@@ -81,7 +82,6 @@ extern void func_800A56E0(s32);
 extern void *memcpy(void *, const void *, u32);
 extern void *D_801649D0[];
 
-extern s32 D_800814A0;
 extern u8 D_8016E450[];
 extern u8 D_8016E4A4[];
 extern Data12 D_80173B4C;
@@ -165,7 +165,7 @@ increment_state_reload:
 
 jt_c4:
         (*(u16 *)((u8 *)animation + -2)) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         return;
 
 jt_default:

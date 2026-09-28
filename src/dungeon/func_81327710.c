@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef struct S_8016EF10_0 {
     u8 pad_00[0x14];
@@ -39,7 +40,6 @@ extern s32 func_8016A928();
 extern s32 func_8016BF74();
 
 extern s16 D_80083228[];
-extern s32 D_80083460[];
 extern u8 D_800DF45C[];
 extern u8 D_8016EEBC[];
 extern u8 D_8017467C[];
@@ -128,7 +128,7 @@ s32 func_8016EF10(u8 *actor_arg, s32 action_context, u8 *entity_arg) {
             ((S_8016EF10_1 *)actor)->unk_96 = 0;
             ((S_8016EF10_1 *)actor)->unk_9B++;
             {
-                u8 *global_base = (u8 *)D_80083460;
+                u8 *global_base = (u8 *)((s32 *)(&dungeonStatus));
                 ((S_8016EF10_2 *)global_base)->unk_0A += 2;
             }
         }

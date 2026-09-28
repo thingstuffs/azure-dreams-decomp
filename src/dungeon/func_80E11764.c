@@ -1,9 +1,9 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 extern void func_800478B8(void *);
 extern s32 func_800644B8(s16);
 extern s32 func_80064584(s16);
-extern s32 D_800814A0[];
 
 /* Updates radial position or sets completion flags based on the object state. */
 void func_80174F64(u16 *motion, s32 *position, u8 *object)
@@ -14,7 +14,7 @@ void func_80174F64(u16 *motion, s32 *position, u8 *object)
     func_800478B8(object);
     if (*(u16 *)(object + 0x14) & 0x6000) {
         motion[-1] |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         return;
     }
 

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 #ifndef NULL
 #define NULL 0
@@ -169,7 +170,6 @@ extern s32 D_80025C94[];
 extern s32 D_8002663C[];
 extern s16 D_8002715A;
 extern s16 D_8002715C;
-extern s32 D_800814A0;
 extern s8 D_80083160[];
 extern u8 *D_800E3D7C;
 
@@ -224,7 +224,7 @@ void func_80026190(void *owner_arg)
     if (state == stop_state) {
         if (D_8002715C == 0) {
             (*(u16 *)((u8 *)owner + -2)) |= 0x8000;
-            D_800814A0 |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
         }
         D_8002715C = 0;
         goto done;
@@ -266,10 +266,10 @@ void func_80026190(void *owner_arg)
         alloc_container = ((S_80026190_0 *)owner)->unk_00;
         alloc_bits = ((S_80026190_6_pre *)alloc_container)[-1].unk_00;
         (*(u16 *)((u8 *)alloc_container + -2)) = alloc_bits | 0x8000;
-        alloc_flags = D_800814A0;
+        alloc_flags = objectFlagBlock.flags;
         ((S_80026190_0 *)owner)->unk_00 = NULL;
         alloc_flags |= 0x8000;
-        D_800814A0 = alloc_flags;
+        objectFlagBlock.flags = alloc_flags;
         goto done;
     }
 

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 
 typedef struct S_819AD81C_0_pre {
@@ -98,7 +99,6 @@ typedef struct S_819AD81C_6 {
 
 
 extern int D_800814A8[4];
-extern s32 D_800814A0;
 M2C_UNK func_800257D0();
 M2C_UNK func_80025840();
 M2C_UNK func_8002590C();
@@ -274,7 +274,7 @@ cleanup:
         if (((S_819AD81C_5 *)attached)->unk_1E & 0x8000) {
 remove_object:
             (*(u16 *)((u8 *)entity + -2)) = (u16) (((S_819AD81C_0_pre *)entity)[-1].unk_00 | 0x8000);
-            D_800814A0 |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
             return;
         }
         link = ((S_819AD81C_5 *)attached)->unk_08;

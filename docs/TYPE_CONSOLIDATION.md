@@ -61,3 +61,23 @@ dungeon/func_800A4DA8 is NOT (8 words vs retail at cdk: genuine == maspsx != ret
 Indirectly, yes: many round-78 pin removals were typed spellings (symbol arrays, real struct fields, shared
 bases, unsized array externs); shared types give future pin lanes those spellings ready-made. Pin lane briefs
 should point at include/shared/ once more objects are consolidated.
+
+## Phase 2 (2026-09-28): landed
+
+1,382 rows (44-row cross-binary sample first), every row verify-exact, 734 overlay windows + SLUS SHA-1 MATCH,
+pin-neutral (256 migrated pinned rows re-tested: no pin became removable).
+- **dungeonStatus** finished: 845 rows total (669 pure field accesses, 26 keep a cast at the use, 130 keep m2c's
+  local-pointer idiom - the next generator step). Not migrated: func_8008629C, func_80CEAF2C (miss), and five rows
+  without a local declaration. New evidence: func_800CCA6C masks unk_10 with 0x7FFFFFFF (bit 31 is a tag).
+- **ObjectFlagBlock objectFlagBlock** at 0x800814A0 (include/shared/object_flags.h), 681/724 rows: `flags`
+  is ORed with 0x8000 whenever an object header gets its 0x8000 mark. Declared size bound to 9..16 bytes by
+  per-row evidence (-G8 rows need > 8, -G16 SLUS rows need <= 16). 0x800814A8 stays its own symbol (retail
+  declared it separately: 23 of 38 functions using both miss as a field).
+- **Decision taken (owner away, revisitable):** 22 rows (SLUS stock 2.7.2 -G0, MAIN, TOWN) only match against a
+  SCALAR `int` at 0x800814A0 - the original declared that address two ways. They keep `extern int D_800814A0;`
+  rather than a second readable name for one address (list: work/native_lane/r78_types_pilot/scalar_rows.txt).
+- **Tools:** tools/consolidate/consolidate.py (one spec per object in tools/consolidate/objects/*.json: maps
+  S[k], scalar S, *S, &S and local view-typedef members onto fields; casts only where sign/int-pointer disagree)
+  and drive3.py (several objects in one verified text). Apply scripts: the pilot lane's apply.sh / apply2.sh.
+- **Next objects:** D_80083228 (578 rows), D_80045340 (442), D_80083160 (403, all binaries), D_80016000 (313),
+  D_80082E80 (290), D_80083498 (284, passed by address), D_800814A8 (236), D_800E3D7C (199), D_80083780 (177).

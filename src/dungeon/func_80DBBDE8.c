@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
 
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 extern u8 D_80171E20[];
-extern s32 D_8008346C[];
 extern s16 D_80083228[5];
 extern void func_8009C12C(void *, void *, s16, s32);
 extern void func_800A4ACC(void *);
@@ -103,7 +103,7 @@ state3:
     if (animation->unk_14.at00_u16.v & 0xE000) {
         func_800AD594(actor, 0x100);
         action->unk_8C = D_80171E20;
-        *D_8008346C = 0;
+        dungeonStatus.unk_0C = 0;
         func_800A4ACC(actor);
         actor->unk_44.at02_u16.v = (u16) (actor->unk_44.at02_u16.v & 0x7FFF);
     }

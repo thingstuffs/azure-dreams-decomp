@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -83,7 +84,6 @@ extern u8 D_800E2448[];
 extern u8 D_800E23E0[];
 extern u8 D_800E2488[];
 extern u8 D_80171A80[];
-extern s32 D_8008346C[];
 extern void *D_801708A0[];
 void *func_8003FD64();               /* extern */
 M2C_UNK func_8004491C();               /* extern */
@@ -319,7 +319,7 @@ phase_finish:
     sprite->unk_06.as_s16 = 0;
     func_800AD594(actor, 0x1000);
     ((S_8017558C_0 *)action)->unk_8C = D_80171A80;
-    *D_8008346C = 0;
+    dungeonStatus.unk_0C = 0;
     actor->unk_44.at02_u16.v = (u16) (actor->unk_44.at02_u16.v & 0x7FFF);
 done:
     return;

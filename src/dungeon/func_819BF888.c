@@ -1,8 +1,8 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 extern void func_800478B8(void *arg0);
 extern s16 D_8002992E[5];
-extern s32 D_800814A0[3];
 
 /* Updates motion and rotation and marks the object finished when flagged or expired. */
 void func_80025088(void *state, void *position, void *render_state) {
@@ -48,6 +48,6 @@ void func_80025088(void *state, void *position, void *render_state) {
                             *(u16 *)((u8 *)state + 0x28) = ticks_left,
                             ((ticks_left << 16) <= 0))) {
         *(u16 *)((u8 *)state - 2) |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

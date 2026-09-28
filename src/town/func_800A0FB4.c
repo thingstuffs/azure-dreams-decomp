@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef s32 M2C_UNK;
 
@@ -28,7 +29,6 @@ extern M2C_UNK func_800478B8();
 extern s32 func_800644B8();
 extern s32 func_8009D20C(void *, M2C_UNK);
 extern M2C_UNK D_80045340;
-extern s32 D_800814A0[3];
 
 /* Updates an object's pulse brightness and handles its completion state. */
 void func_8009E714(S_func_8009E714_0 *object, M2C_UNK context, S_func_8009E714_1 *primitive) {
@@ -46,7 +46,7 @@ void func_8009E714(S_func_8009E714_0 *object, M2C_UNK context, S_func_8009E714_1
         }
         func_80033D08(object);
         ((S_func_8009E714_2 *)object)[-1].unk_00 |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         return;
     }
     if (status_match == 2) {

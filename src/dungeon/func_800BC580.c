@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 extern u8 *D_800E3D7C[];
 extern u8 D_80083780[12];
 extern u8 D_80082E80[];
 extern u16 D_800DDE84[];
-extern s32 D_80083460[3];
 extern u8 D_800E1532[];
 
 extern void func_8008D344(void *, u8 *, u8 *, void *);
@@ -74,7 +74,7 @@ s32 func_800C1CE0(void *target, s32 action, s16 action_type, s32 action_arg) {
         func_800A5720(message_start);
     }
 
-    counter_page = (u8 *)D_80083460;
+    counter_page = (u8 *)((s32 *)(&dungeonStatus));
     (*(u16 *)(counter_page + 0xA))--;
     func_80098B38(action);
     return 1;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 
 typedef struct S_80026B00_0 {
@@ -17,7 +18,6 @@ typedef struct S_80026B00_1 {
 } S_80026B00_1;   /* arg0 in func_80026B00; pointer addresses record offset 0x2 */
 
 
-extern s32 D_800814A0[3];
 
 /* Advance the position and flag the record and global state when its timer expires. */
 void func_80026B00(void *record_data, S_80026B00_0 *motion) {
@@ -30,6 +30,6 @@ void func_80026B00(void *record_data, S_80026B00_0 *motion) {
     ((S_80026B00_1 *)((u8 *)record_data - 0x2))->unk_10 = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
         ((S_80026B00_1 *)((u8 *)record_data - 0x2))->unk_00 = (u16) (((S_80026B00_1 *)((u8 *)record_data - 0x2))->unk_00 | 0x8000);
-        D_800814A0[0] = (s32) (D_800814A0[0] | 0x8000);
+        objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
     }
 }

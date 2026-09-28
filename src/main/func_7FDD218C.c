@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 #ifndef NULL
 #define NULL 0
@@ -35,7 +36,6 @@ extern u8 D_80080A84[];
 extern u8 D_80080A78[];
 extern u8 D_80088930[];
 extern u8 D_80012094[];
-extern s32 D_800814A0[];
 
 extern s32 func_80053428();
 extern s32 func_80053604();
@@ -213,7 +213,7 @@ void func_800890EC(Obj *obj, s32 *position) {
     case 253:
         D_80080A84[0] = 2;
         ((u16 *) obj)[-1] |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         return;
 
     case 254: {

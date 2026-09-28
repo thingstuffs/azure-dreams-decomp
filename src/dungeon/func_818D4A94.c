@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 int abs(int);
 
 typedef struct S_818D4A94_0 {
@@ -27,7 +28,6 @@ typedef struct S_818D4A94_1 {
 
 
 extern s16 D_80025118[5];
-extern s32 D_800814A0[3];
 
 /* Advance position and velocity, and flag completion near the target or when the countdown expires. */
 void func_818D4A94(void *motion, S_818D4A94_0 *position)
@@ -46,7 +46,7 @@ void func_818D4A94(void *motion, S_818D4A94_0 *position)
     D_80025118[0] = 1;
     if (updated_value) {
         ((S_818D4A94_1_pre *)motion)[-1].unk_00 |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 
     countdown = ((S_818D4A94_1 *)motion)->unk_32;
@@ -55,6 +55,6 @@ void func_818D4A94(void *motion, S_818D4A94_0 *position)
     countdown <<= 16;
     if (countdown <= 0) {
         ((S_818D4A94_1_pre *)motion)[-1].unk_00 |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

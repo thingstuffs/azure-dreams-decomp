@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_func_800A9E70_arg0.h"
-extern u8 D_80083460[];
 
 typedef struct S_80171F9C_0 {
     u8 pad_00[0x24];
@@ -42,7 +42,7 @@ s32 func_80171F9C(Rec_func_800A9E70_arg0 *action_state, s32 action_param, void *
 
         ((volatile u8 *)actor)[113] = status & 0x7F;
         flags_page = (u8 *)0x80080000;
-        global_flags = (u16 *)D_80083460;
+        global_flags = (u16 *)((u8 *)(&dungeonStatus));
         action_mode = 0;
         if (global_flags[1] & 0x2000) {
             return -1;

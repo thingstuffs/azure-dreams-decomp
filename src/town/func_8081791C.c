@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_8002191C_0 {
     u8 pad_00[0x4];
@@ -107,7 +108,6 @@ extern u8 D_80022454[];
 extern u8 D_80022C2C[];
 extern s16 D_800272A0[];
 extern s16 D_800272B0[];
-extern s32 D_800814A0;
 extern u8 D_80082E80[];
 extern s32 D_800834B8;
 extern u8 D_80083780[];
@@ -466,7 +466,7 @@ void func_8002191C(void *scene)
     case 0x100:
         func_80033B78(0xA5);
         (*(u16 *)((u8 *)scene + -2)) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         goto finish;
 
     default:

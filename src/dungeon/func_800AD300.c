@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 extern s32 func_80042900(void *, s32);
 extern s8 func_8009FB34(u8, u8);
@@ -10,8 +11,6 @@ extern s32 func_800AA6B4(void *, s32, void *, s32);
 extern void func_800AA888(void *, s32, void *, void *);
 extern void func_800ACB98();
 extern void func_800B318C(void *, s32, void *, void *);
-extern u16 D_80083460[];
-extern u16 D_80083462;
 
 /* Dispatch an entity action and update the actor and destination state. */
 void func_800B2A60(u8 *actor, s32 action_context, u8 *destination, u8 *target)
@@ -19,7 +18,7 @@ void func_800B2A60(u8 *actor, s32 action_context, u8 *destination, u8 *target)
     u8 *entity;
     s32 context = action_context;
     u8 *position = destination;
-    u16 *flags = D_80083460;
+    u16 *flags = ((u16 *)(&dungeonStatus));
     u8 *idle_actor = actor;
 
     ASM_KEEP(actor);
@@ -65,7 +64,7 @@ void func_800B2A60(u8 *actor, s32 action_context, u8 *destination, u8 *target)
             if (*(s8 *)(entity + 0x6D) <= 0) {
                 goto done;
             }
-            if (D_80083462 & 0x1000) {
+            if (dungeonStatus.flags & 0x1000) {
                 goto done;
             }
             if ((func_800A2C34(0) << 16) != 0) {

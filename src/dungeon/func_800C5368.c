@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 
 extern s32 func_800AB1C0(void);
@@ -6,7 +7,6 @@ extern void func_800A4ACC(void *);
 extern void func_800CAA94(void *, s32, s32);
 
 extern u16 D_80013714;
-extern u16 D_80083462;
 extern u8 D_800C9F34;
 
 
@@ -59,7 +59,7 @@ set_callback:
     ((S_800CAAC8_0 *)entity_ptr)->unk_8C = &D_800C9F34;
 
 check_flag:
-    if (D_80083462 & 0x80) {
+    if (dungeonStatus.flags & 0x80) {
         ((S_800CAAC8_0 *)entity_ptr)->unk_92 = -0x20;
     }
 }

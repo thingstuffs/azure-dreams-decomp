@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef struct S_800AD594_0 {
     u8 pad_00[0x13];
@@ -23,7 +24,6 @@ typedef struct S_800AD594_1 {
 extern s32 func_80042900(void *, s32);
 extern void func_80094E34(void);
 extern s32 D_80012090[];
-extern s32 D_80083460;
 
 /* Apply a modified reduction to an entity's stored amount and handle a drop to zero. */
 void func_800AD594(S_800AD594_0 *entity, s32 base_reduction) {
@@ -74,7 +74,7 @@ void func_800AD594(S_800AD594_0 *entity, s32 base_reduction) {
                 func_80094E34();
             }
             if (initial_level != 0) {
-                counter_base = (u8 *)&D_80083460;
+                counter_base = (u8 *)&dungeonStatus.unk_00;
                 ((S_800AD594_1 *)counter_base)->unk_0A =
                     ((S_800AD594_1 *)counter_base)->unk_0A + 1;
             }

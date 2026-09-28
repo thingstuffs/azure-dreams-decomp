@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
 typedef struct { u8 b[32]; } AggU32;
@@ -38,8 +40,6 @@ extern u8 D_800252FC[12];
 extern s16 D_80025308[6];
 extern u8 D_800DDC40[];
 extern u8 D_800DEAE0[];
-extern s32 D_8008346C[3];
-extern s32 D_800814A0[3];
 
 /* Updates a moving effect, its particles, target color animation, and cleanup. */
 void func_800248C4(u8 *effect_data, u8 *effect_pos, u8 *effect_display) {
@@ -470,9 +470,9 @@ state8:
                 s32 effect_active = D_80025308[0];
                 U16_AT(effect_data, 0x82) = old_frame;
                 if (effect_active == 0) {
-                    D_8008346C[0] = 0;
+                    dungeonStatus.unk_0C = 0;
                     U16_AT(effect_data, -2) |= 0x8000;
-                    D_800814A0[0] |= 0x8000;
+                    objectFlagBlock.flags |= 0x8000;
                 } else {
                     D_80025308[0] = 0;
                 }

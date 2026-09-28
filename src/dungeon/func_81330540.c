@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -13,7 +14,6 @@ typedef struct S_80167540_0 {
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern s32 D_800814A0[3];
 s32 rand();                   /* extern */
 s16 func_80167088();                         /* extern */
 
@@ -55,6 +55,6 @@ void func_80167540(void *effect_data, void *unused, Rec_D_80082E80 *effect) {
     func_800478B8(effect);
     if (((S_80167540_0 *)((u8 *)effect_data - 0x2))->unk_1A <= 0) {
         ((S_80167540_0 *)((u8 *)effect_data - 0x2))->unk_00 = (u16) (((S_80167540_0 *)((u8 *)effect_data - 0x2))->unk_00 | 0x8000);
-        D_800814A0[0] = D_800814A0[0] | 0x8000;
+        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
     }
 }

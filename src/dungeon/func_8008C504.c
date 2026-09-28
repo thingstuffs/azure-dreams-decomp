@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -46,8 +47,6 @@ s32 func_80064584();
 M2C_UNK func_800A2B04();
 M2C_UNK func_800A56E0();
 extern s16 D_80083228;
-extern M2C_UNK D_80083460;
-extern s32 D_8008346C;
 extern M2C_UNK D_8008ACDC;
 extern M2C_UNK D_8008EAC8;
 extern u8 D_800DD038[];
@@ -107,7 +106,7 @@ tick_hop:
     ((S_80091C64_0 *)motion)->unk_9B++;
     return;
 jt_c2:
-    if (D_8008346C != 0) {
+    if (((s32)dungeonStatus.unk_0C) != 0) {
         goto done;
     }
     (*(u8 **)((u8 *)entity + 0x2C)) = D_800DD038;
@@ -149,7 +148,7 @@ tick_return:
     func_80048A44(entity, D_800DD058[((s32) (D_80083228 + ((S_80091C64_1 *)actor)->unk_2A + 0x100) >> 9) & 7], 0, 1);
     return;
 jt_c4:
-    action_tracker = &D_80083460;
+    action_tracker = &dungeonStatus.unk_00;
     ((S_80091C64_4 *)action_tracker)->unk_0A = (u16) (((S_80091C64_4 *)action_tracker)->unk_0A - 1);
     ((S_80091C64_1 *)actor)->unk_2A = (s16) ((S_80091C64_0 *)motion)->unk_11A;
     if (!(((S_80091C64_1 *)actor)->unk_1C & 0x100000)) {

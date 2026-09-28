@@ -1,9 +1,9 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_80024600_arg1.h"
 
-extern s32 D_800814A0[3];
 extern s32 D_800DEDB0[3];
 M2C_UNK func_80024600();
 s32 func_8003DB94();

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct {
     u8 pad0[0x12];
@@ -14,7 +15,6 @@ typedef struct {
 
 extern u8 *D_80174704[];
 extern u8 *D_80174CC8[];
-extern u32 D_800814A0[];
 extern void func_800A56E0(s32, Position *, u16, u8 *);
 
 /* Lowers the entity in two timed stages, then flags completion and clears the active pointer. */
@@ -69,7 +69,7 @@ state_2:
         u8 *active_context = D_80174CC8[0] + 0x20;
         *(u16 *)(active_context - 2) |= 0x8000;
         D_80174CC8[0] = 0;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 
 epilogue:

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef struct S_8016BE20_0 {
     u8 pad_00[0x8C];
@@ -61,8 +62,6 @@ extern void func_80164BA4(void *);
 
 extern u16 D_80013714;
 extern s16 D_80083228;
-extern s32 D_80083460;
-extern s32 D_8008346C;
 extern u8 D_800E3D7C[];
 extern u8 D_8016A36C[];
 extern u8 D_801739B8[];
@@ -191,7 +190,7 @@ jt_c5:
 
         setup_data = D_80175392;
         ((S_8016BE20_0 *)state)->unk_8C = D_8016A36C;
-        control = (u8 *)&D_80083460;
+        control = (u8 *)&dungeonStatus.unk_00;
         control_count = ((S_8016BE20_5 *)control)->unk_0A;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         object_index = 0;
@@ -223,7 +222,7 @@ jt_c5:
 
 case5_failure:
         ((S_8016BE20_0 *)state)->unk_8C = D_8016A36C;
-        D_8008346C = 0;
+        dungeonStatus.unk_0C = 0;
         func_800A4ACC(ctx);
         ((S_8016BE20_2 *)ctx)->unk_46 &= 0x7FFF;
         return;

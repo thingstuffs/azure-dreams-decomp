@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 extern void func_800982A8(void *, void *, void *);
-extern s32 D_800814A0[];
 extern u8 *D_800E3D7C;
 extern s16 D_80173AFC[];
 extern u8 *D_80175D54;
@@ -38,6 +38,6 @@ void func_801714AC(void *action, void *position)
         message[3] = 0;
         func_800982A8(D_800E3D7C, message, object_data);
         ((u16 *)action)[-1] |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

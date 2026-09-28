@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
@@ -135,10 +137,8 @@ s32 func_800C77D0(); /* extern */
 void func_80174800(); /* extern */
 extern M2C_UNK D_8003E140;
 extern s32 D_8006CD58;
-extern M2C_UNK D_800814A0;
 extern M2C_UNK D_80083160;
 extern s16 D_80083228;
-extern M2C_UNK D_80083460;
 extern void *D_800DCEEC[];
 extern M2C_UNK D_800DCF5C;
 extern u8 D_8014A000[];
@@ -334,7 +334,7 @@ jt_c8:
         goto done;
     }
     globals_base = (void *)0x80080000;
-    effect_pool = &D_80083460;
+    effect_pool = &dungeonStatus.unk_00;
     ((S_80174B20_16 *)(((S_80174B20_14 *)actor)->unk_60))->unk_2A = (u16) ((S_80174B20_1 *)actor)->unk_8A;
     ((S_80174B20_0_pre *)state)[-1].unk_00 = (u16) (((S_80174B20_0_pre *)state)[-1].unk_00 | 0x8000);
     global_flags = globals_base->unk_14A0;

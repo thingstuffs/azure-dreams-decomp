@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef struct {
     u8 pad0[2];
@@ -8,7 +9,6 @@ typedef struct {
 } DungeonState;
 
 extern s32 func_800A2BDC(void *arg0);
-extern DungeonState D_80083460;
 extern s16 D_800DCF5E;
 extern u8 D_80174948[12];
 
@@ -17,7 +17,7 @@ void func_80174948(void *entity_data, s32 unused_1, s32 unused_2, void *other_da
 {
     u8 *entity = entity_data;
     u8 *other = other_data;
-    DungeonState *state = &D_80083460;
+    DungeonState *state = ((DungeonState *)&dungeonStatus);
     s32 kind = 0x17;
 
     other[0x71] &= 0x7F;

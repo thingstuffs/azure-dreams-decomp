@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -20,7 +21,6 @@ typedef struct {
     s8 pad[0xA];
     u16 field_0xA;
 } D_80083460_t;
-extern D_80083460_t D_80083460;
 extern u8 D_80175F20;
 
 /* Advance the timer and reset the state and directional sprite after 60 ticks. */
@@ -30,7 +30,7 @@ void func_80172334(void *state, M2C_UNK unused, void *sprite, void *orientation)
     ticks = ((S_80172334_0 *)state)->unk_A6 + 1;
     ((S_80172334_0 *)state)->unk_A6 = ticks;
     if ((u32) (ticks & 0xFFFF) >= 0x3DU) {
-        D_80083460_t *counters = &D_80083460;
+        D_80083460_t *counters = ((D_80083460_t *)&dungeonStatus);
         u8 *direction_table = &D_80175F20;
 
         ((S_80172334_0 *)state)->unk_A6 = 0x3CU;

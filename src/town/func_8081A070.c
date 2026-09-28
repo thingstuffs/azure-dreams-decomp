@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 
 typedef struct S_80024070_0_pre {
@@ -11,12 +12,11 @@ typedef struct S_80024070_0 {
 } S_80024070_0;   /* arg0 in func_80024070 */
 
 
-extern s32 D_800814A0[3];
 
 /* Set record and global flags when the linked value is zero. */
 void func_80024070(void *record) {
     if (*((S_80024070_0 *)record)->unk_0C == 0) {
         ((S_80024070_0_pre *)record)[-1].unk_00 = (u16) (((S_80024070_0_pre *)record)[-1].unk_00 | 0x8000);
-        D_800814A0[0] = (s32) (D_800814A0[0] | 0x8000);
+        objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
     }
 }

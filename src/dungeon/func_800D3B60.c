@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_800A9E70_arg0.h"
@@ -49,7 +50,6 @@ typedef struct {
     u8 padE[6];
 } DungeonEntry;
 
-extern s32 D_80083460[3];
 extern int D_800814A8[4];
 extern u8 D_80082E80_initial[] __asm__("D_80082E80");
 extern u8 D_80082E80_later[] __asm__("D_80082E80");
@@ -89,7 +89,7 @@ void func_800D92C0(void *move_state, void *context, S_800D92C0_2 *position, void
     s8 room_id;
     s16 turn_index;
     u8 *turn_offsets;
-    u16 *state = (u16 *)D_80083460;
+    u16 *state = (u16 *)((s32 *)(&dungeonStatus));
 
     limit_turn = 0;
     if ((state[1] & 0x4000) || (((S_800D92C0_0 *)actor)->unk_71 >= 0)) {
@@ -243,7 +243,7 @@ post_loop:
             ((Rec_func_800A9E70_arg0 *)move_state)->unk_9C.as_s8 = (s8) (u8) position->unk_26;
             ((S_800D92C0_0 *)actor)->unk_6D.u = (u8) (((S_800D92C0_0 *)actor)->unk_6D.u - 1);
             {
-                u16 *end_state = (u16 *)D_80083460;
+                u16 *end_state = (u16 *)((s32 *)(&dungeonStatus));
                 end_state[4] = (u16)(end_state[4] + 1);
             }
             if (((S_800D92C0_0 *)actor)->unk_6D.s != 0) {

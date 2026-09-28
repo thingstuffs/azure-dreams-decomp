@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct {
     u8 bytes[0x20];
@@ -32,7 +33,6 @@ extern LocalPoints D_80024004;
 extern PackedVector D_8002400C;
 extern s16 D_800267B8;
 extern u8 D_80026820[];
-extern s32 D_800814A0;
 
 /* Builds an inverted pixel mask and updates a timed fade effect. */
 void func_80025408(void *context, void *unused, void *effect_data) {
@@ -142,7 +142,7 @@ update_fade:
         *(s16 *)context = (u16)*(s16 *)context + 1;
         *(s16 *)(*(u8 **)((u8 *)context + 0x40) + 0x9c) = one;
         *(u16 *)((u8 *)context - 2) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 update_visibility:
     if ((u32)(*(u8 *)(*(u8 **)((u8 *)context + 0x3c) + 0x13) - 0x33) < 4U) {

@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
 
@@ -15,8 +17,6 @@ M2C_UNK func_800A56E0();
 s16 func_800BCB04();
 extern M2C_UNK D_800245B4;
 extern M2C_UNK D_80024A1C;
-extern M2C_UNK D_800814A0;
-extern s32 D_8008346C;
 extern M2C_UNK D_80083498;
 
 extern void func_80024020(void);
@@ -390,9 +390,9 @@ state_finish:
     state_obj->unk_52 = (s16) ((u16) state_obj->unk_52 & 0x7FFF);
     return;
 finish:
-    D_8008346C = 0;
+    dungeonStatus.unk_0C = 0;
     *(u16 *)((u8 *)state_obj - 2) = (u16) (*(u16 *)((u8 *)state_obj - 2) | 0x8000);
-    ((S_func_81820800_10 *) &D_800814A0)->unk_00 = (s32) (((S_func_81820800_10 *) &D_800814A0)->unk_00 | 0x8000);
+    ((S_func_81820800_10 *) &objectFlagBlock.flags)->unk_00 = (s32) (((S_func_81820800_10 *) &objectFlagBlock.flags)->unk_00 | 0x8000);
 done:
     return;
 }

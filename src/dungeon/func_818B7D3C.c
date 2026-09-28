@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct {
     s32 x;
@@ -28,7 +29,6 @@ typedef struct {
 } EntityState;
 
 extern void func_800478B8(void *);
-extern s32 D_800814A0[];
 
 /* Advance counters, rotation, and position, and set flags when the counter exceeds its limit. */
 void func_818B7D3C(OwnerState *owner, VecState *vec, EntityState *entity)
@@ -44,6 +44,6 @@ void func_818B7D3C(OwnerState *owner, VecState *vec, EntityState *entity)
 
     if ((s16)owner->counter > owner->limit) {
         ((u16 *)owner)[-1] |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

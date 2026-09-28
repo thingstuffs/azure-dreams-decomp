@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -28,8 +29,6 @@ extern s32 D_80045340;
 extern ItemInfo D_8006DE24[];
 extern void *D_800814A8;
 extern s16 D_80083228;
-extern s32 D_80083460;
-extern s32 D_8008346C;
 extern u8 D_80083498[];
 extern void *D_80170838[];
 extern u8 D_801708D4;
@@ -268,7 +267,7 @@ empty_selection:
         void *active;
 
         active = D_800814A8;
-        D_8008346C = 0;
+        dungeonStatus.unk_0C = 0;
         (*(u16 *)((u8 *)active + 0xA6))--;
     }
     func_800A4ACC(actor);
@@ -355,7 +354,7 @@ state_3:
         u8 *action_status;
         u16 timer;
 
-        action_status = (u8 *)&D_80083460;
+        action_status = (u8 *)&dungeonStatus.unk_00;
         if (((S_801730E4_10 *)action_status)->unk_0C == 0) {
             ((S_801730E4_0 *)action)->unk_96 = 0;
         }

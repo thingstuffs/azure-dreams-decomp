@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 typedef struct {
@@ -26,7 +27,6 @@ typedef struct {
     u8 *data2c;
 } D_800DB420_Effect;
 
-extern s32 D_800814A0[3];
 extern u8 D_80045340[];
 extern s16 D_80083228[5];
 extern void func_8004491C(void *, void *);
@@ -58,7 +58,7 @@ void func_800DB420(D_800DB420_Obj *state, D_800DB420_RngOut *position, D_800DB42
             *(u16 *)((u8 *)state + 6) = remaining;
             if ((remaining << 0x10) <= 0) {
                 *(u16 *)((u8 *)state - 2) |= 0x8000;
-                D_800814A0[0] = D_800814A0[0] | 0x8000;
+                objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
             }
         }
     default:

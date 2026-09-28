@@ -1,6 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
-extern s32 D_800814A0[3];
 
 __asm__(".set func_800A6B68, 0x800A6B68");
 
@@ -13,7 +13,7 @@ void func_800A6B10(void *record, s32 unused, void *effect) {
     intensity -= 0x10;
     if (intensity < 0) {
         *(u16 *)((u8 *)record - 2) |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         return;
     }
 

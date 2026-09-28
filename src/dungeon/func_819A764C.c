@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_819A764C_0_pre {
     u16 unk_00;
@@ -42,7 +43,6 @@ typedef struct S_819A764C_3 {
 } S_819A764C_3;   /* (void *)page_base in func_819A764C */
 
 extern u8 D_80024B20[];
-extern s32 D_800814A0[3];
 extern void func_8004491C();
 extern s16 func_8006649C();
 extern s32 func_80069EF8(void);
@@ -114,5 +114,5 @@ state_one:
 state_two:
 
     ((S_819A764C_0_pre *)self)[-1].unk_00 |= 0x8000;
-    D_800814A0[0] |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
 }

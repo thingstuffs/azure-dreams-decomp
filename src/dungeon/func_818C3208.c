@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct {
     void *unk0;
@@ -6,7 +7,6 @@ typedef struct {
 } State;
 
 extern void func_800478B8(void *);
-extern s32 D_800814A0[];
 
 /* Updates effect motion and fading, marking completion when the timer expires. */
 void func_818C3208(State *state, void *position, void *visual) {
@@ -38,6 +38,6 @@ void func_818C3208(State *state, void *position, void *visual) {
     }
 
     *(u16 *)((u8 *)state - 2) |= 0x8000;
-    D_800814A0[0] |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
     return;
 }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 
 typedef struct S_80171570_0 {
@@ -39,7 +40,6 @@ extern s16 func_800A0818(s32, s32, s32, s32, void *);
 extern void func_80171EFC(void *, s32, void *, void *);
 
 extern s16 D_80083228;
-extern u16 D_80083462;
 extern u8 D_80174138[];
 
 /* Advances the entity along its stored path and updates movement timing. */
@@ -100,7 +100,7 @@ void func_80171570(void *action, s32 action_id, void *entity, void *move_state) 
     func_8009A21C(new_x, new_y, tile_mask);
     ((S_80171570_0 *)state)->unk_2A = direction;
 
-    if (move_result == 3 && !(D_80083462 & 0x80) && !(((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v & 0x8000)) {
+    if (move_result == 3 && !(dungeonStatus.flags & 0x80) && !(((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v & 0x8000)) {
         func_80171EFC(action, action_id, entity, state);
         ((S_80171570_2 *)action)->unk_8C = 0;
     } else {
@@ -108,7 +108,7 @@ void func_80171570(void *action, s32 action_id, void *entity, void *move_state) 
         ((S_80171570_2 *)action)->unk_8C = 0;
     }
     (*(s32 *)((u8 *)state + 0x1C)) |= 0x40000000;
-    if (D_80083462 & 0x80) {
+    if (dungeonStatus.flags & 0x80) {
         ((S_80171570_2 *)action)->unk_96 = 0;
         return;
     }

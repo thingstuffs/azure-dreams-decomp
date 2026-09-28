@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct Inner {
     u8 pad0[2];
@@ -19,7 +20,6 @@ typedef struct Outer {
 } Outer;
 
 extern u16 D_800281F8[];
-extern s32 D_800814A0[];
 
 void func_80025AC4(void *arg0, Inner *arg1, Inner *arg2)
 {
@@ -32,7 +32,7 @@ void func_80025AC4(void *arg0, Inner *arg1, Inner *arg2)
     D_800281F8[0]++;
     if (flagged != 0) {
         ((u16 *)arg0)[-1] |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         return;
     }
     arg2->fieldC = outer->innerC->fieldC;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 
 
@@ -14,7 +15,6 @@ extern s32 func_800BCB04(s32, s32, s32);
 
 extern u8 D_8006CCF8[];
 extern s16 D_80083228;
-extern u16 D_80083462;
 extern u8 D_80171014[];
 extern u8 D_8017420C[];
 extern Callback D_8017426C[];
@@ -57,7 +57,7 @@ void func_80170A58(void *entity, S_80170A58_0 *motion, void *sprite)
     Callback gated_callback;
     Callback update_callback;
 
-    if (D_80083462 & 0x2000) {
+    if (dungeonStatus.flags & 0x2000) {
         gated_callback = (*(Callback *)((u8 *)entity + 0x8C));
         if (gated_callback == (Callback)D_80171014) {
             gated_callback(entity, motion, sprite, entity);

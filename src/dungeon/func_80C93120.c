@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_80170920_0 {
     u8 pad_00[0x1C];
@@ -23,7 +24,6 @@ typedef struct S_80170920_1 {
 
 
 
-extern s32 D_800814A0;
 
 /* Expands and brightens the effect, then shrinks and fades it until expiration. */
 void func_80170920(void *effect, void *unused, void *visual)
@@ -87,6 +87,6 @@ update:
     ((S_80170920_1 *)visual)->unk_1A += 0x190;
     if (((S_80170920_0 *)effect)->unk_24.u <= 0) {
         (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

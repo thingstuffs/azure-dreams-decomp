@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef s32 M2C_UNK;
 
@@ -15,7 +16,6 @@ typedef struct S_func_800A6C4C_1 {
 
 extern s32 func_8009CFE0(void *, M2C_UNK);
 extern void func_80033D08(void *arg0);
-extern s32 D_800814A0[3];
 
 /* Clears and marks a handled object, or dispatches to its callback. */
 void func_800A6C4C(S_func_800A6C4C_0 *object, M2C_UNK input, M2C_UNK callback_data) {
@@ -29,7 +29,7 @@ void func_800A6C4C(S_func_800A6C4C_0 *object, M2C_UNK input, M2C_UNK callback_da
         }
         func_80033D08(object);
         ((S_func_800A6C4C_1 *)((u8 *)object - 2))->unk_00 = (u16) (((S_func_800A6C4C_1 *)((u8 *)object - 2))->unk_00 | 0x8000);
-        D_800814A0[0] = (s32) (D_800814A0[0] | 0x8000);
+        objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
         return;
     }
 

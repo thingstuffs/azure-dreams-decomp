@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_800814A8.h"
@@ -58,7 +59,6 @@ extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern s8 D_80082EA4;
 extern s16 D_80083228;
-extern u16 D_80083462;
 extern s8 D_800E2970[];
 extern void *D_80170808[];
 extern u8 D_80174494[];
@@ -84,7 +84,7 @@ void func_801713A8(void *actor, void *context, void *sprite, void *status)
     void *resume_handler;
     u8 *target_position;
 
-    if (D_80083462 & 0x1000) {
+    if (dungeonStatus.flags & 0x1000) {
         ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 14;
         func_801718D0(actor);
         return;
@@ -116,7 +116,7 @@ void func_801713A8(void *actor, void *context, void *sprite, void *status)
         }
     }
 
-    if ((D_80083462 & 0x2000) == 0) {
+    if ((dungeonStatus.flags & 0x2000) == 0) {
         if (((Rec_D_800E3D7C *)status)->unk_1C.as_u32 & 0x100) {
             func_800AA258(actor, context, sprite, status);
             return;
@@ -169,7 +169,7 @@ void func_801713A8(void *actor, void *context, void *sprite, void *status)
         }
         action_flags = ((Rec_D_800E3D7C *)status)->unk_44.at02_u16.v;
         if ((action_flags & 0x8000) == 0) {
-            if (D_80083462 & 0x2000) {
+            if (dungeonStatus.flags & 0x2000) {
                 if ((s16)func_8009A180(
                         status, (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) != 0) {
                     return;

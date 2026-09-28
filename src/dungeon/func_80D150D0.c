@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 
 typedef struct S_801748D0_0 {
@@ -125,7 +126,6 @@ extern void func_800C8788(void *, void *);
 
 extern u8 D_80045340;
 extern s16 D_80083228;
-extern s32 D_8008346C;
 extern s32 D_80083498;
 extern s8 D_800DCECC[];
 extern u8 D_80170000[];
@@ -441,7 +441,7 @@ finish_effect:
 #ifdef __mips__
     linked_body = (void *)0x80080000;
 #else
-    linked_body = (u8 *)&D_8008346C - 0x346C;
+    linked_body = (u8 *)((s32 *)&dungeonStatus.unk_0C) - 0x346C;
 #endif
     ASM_KEEP(linked_body);
     ((S_801748D0_6 *)linked_body)->unk_346C = 0;

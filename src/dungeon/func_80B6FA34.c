@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 
 extern void func_8009A028(void *arg0);
 extern void func_8009A3D0(s32 arg0, s32 arg1, s32 arg2);
@@ -7,9 +9,6 @@ extern void func_800A32A4(void *arg0);
 extern void func_800A56E0(s32 arg0);
 extern void func_800ACF88(void *arg0);
 
-extern s32 D_800814A0;
-extern s32 D_80083460;
-extern s16 D_8008346A;
 
 /* Advance the action phase and process the actor when the tile flags are set. */
 void func_80173234(u8 *action, s32 unused, u8 *tile, u8 *actor)
@@ -30,7 +29,7 @@ void func_80173234(u8 *action, s32 unused, u8 *tile, u8 *actor)
         goto active;
     }
 
-    if (D_8008346A == 0) {
+    if (dungeonStatus.unk_0A == 0) {
         status_flags = *(s32 *)(actor + 0x14);
         if (status_flags & 0x4000) {
             if (!(status_flags & 0x20000000)) {
@@ -43,7 +42,7 @@ void func_80173234(u8 *action, s32 unused, u8 *tile, u8 *actor)
 
 active:
         if (*(u16 *)(tile + 0x14) & 0xE000) {
-            global_state = &D_80083460;
+            global_state = &dungeonStatus.unk_00;
             if (global_state[4] == (s32)(actor - 0x20)) {
                 global_state[4] &= 0x7FFFFFFF;
             }
@@ -62,7 +61,7 @@ active:
             func_8009A028(actor);
 
             *(u16 *)(actor - 2) |= 0x8000;
-            D_800814A0 |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
         }
     }
 }

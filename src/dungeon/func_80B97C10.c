@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
 extern int D_800814C8;
@@ -38,7 +39,6 @@ extern s16 D_8006CD00[8];
 extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern s8 D_80082EA4;
-extern s32 D_80083460;
 extern DungeonTileRecordLocal D_800E2970[];
 /* Updates actor movement, recording the path and refreshing the tile position and height. */
 void func_80171410(u8 *object_arg, void *entry_context, u8 *tile_arg, u8 *actor_arg)
@@ -46,7 +46,7 @@ void func_80171410(u8 *object_arg, void *entry_context, u8 *tile_arg, u8 *actor_
   register u8 *object ASM_REG("$21") = object_arg;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
   register u8 *tile ASM_REG("$19") = tile_arg;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
   u8 *actor = actor_arg;
-  u8 *state = (u8 *) (&D_80083460);
+  u8 *state = (u8 *) (&dungeonStatus.unk_00);
   s32 actor_flags;
     register s32 base_angle ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
   s32 random_turn;
@@ -322,7 +322,7 @@ void func_80171410(u8 *object_arg, void *entry_context, u8 *tile_arg, u8 *actor_
   *(u8 *)(object + 0x9C) = *(u8 *)(tile + 0x26);
   (*(u8 *)(actor + 0x6D))--;
   {
-    u8 *move_state = (u8 *) (&D_80083460);
+    u8 *move_state = (u8 *) (&dungeonStatus.unk_00);
     (*(u16 *)(move_state + 8))++;
   }
   if ((*(s8 *)(actor + 0x6D)) != 0)

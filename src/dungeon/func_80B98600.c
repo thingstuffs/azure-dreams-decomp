@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
@@ -27,7 +28,6 @@ s32 func_800A2B5C();                          /* extern */
 s32 func_800A2CB8();                     /* extern */
 M2C_UNK func_800C7930(); /* extern */
 extern s16 D_80083228;
-extern s32 D_80083460;
 extern u8 D_80174F28;
 
 /* Check movement conditions and initialize the actor action and directional animation. */
@@ -39,7 +39,7 @@ s32 func_80171E00(void *action_state, M2C_UNK action_ctx, void *sprite, void *ac
     u16 flags;
 
     ((Rec_D_800E3D7C *)actor)->unk_71.as_u8 = (u8) (((Rec_D_800E3D7C *)actor)->unk_71.as_u8 & 0x7F);
-    flags_base = (u8 *) &D_80083460;
+    flags_base = (u8 *) &dungeonStatus.unk_00;
     if (((S_80171E00_1 *)flags_base)->unk_02 & 0x2000) {
         goto return_minus_one;
     }

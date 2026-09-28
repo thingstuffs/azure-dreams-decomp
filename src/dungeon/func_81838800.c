@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 extern int abs(int);
 
@@ -114,8 +116,6 @@ extern u8 D_80024008[];
 extern u8 D_80024B58[];
 extern u8 D_800248F8[];
 extern u8 D_80083498[];
-extern s32 D_8008346C[];
-extern s32 D_800814A0[3];
 extern u8 D_800DEA68[];
 __asm__(".set D_800DEA68, 0x800DEA68");
 
@@ -404,9 +404,9 @@ cleanup:
     if (effect->unk_50.s > 0) {
         goto done;
     }
-    D_8008346C[0] = 0;
+    dungeonStatus.unk_0C = 0;
     ((S_func_81838800_8 *)((u8 *)effect - 0x20))->unk_1E |= 0x8000;
-    D_800814A0[0] |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
 done:
     return;
 }

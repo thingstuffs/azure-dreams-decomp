@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_81976850_0 {
     void * unk_00;
@@ -83,7 +84,6 @@ typedef struct Vec16 {
 } Vec16;
 
 extern s32 D_80045340;
-extern s32 D_800814A0;
 extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern s16 D_80083228;
@@ -205,7 +205,7 @@ move_to_target:
         ((S_81976850_2 *)motion)->unk_04.at00.v = ((S_81976850_2 *)motion)->unk_10;
         ((S_81976850_2 *)motion)->unk_08.at00.v = ((S_81976850_2 *)motion)->unk_14;
         (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         return;
     }
 

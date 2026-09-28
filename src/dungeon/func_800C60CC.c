@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800287A4.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -82,8 +84,6 @@ typedef struct S_800CB82C_7 {
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern u8 D_80045340[];
-extern s32 D_800814A0[3];
-extern s32 D_80083460[3];
 void *func_8003FC64();                       /* extern */
 M2C_UNK func_8004491C();                /* extern */
 M2C_UNK func_80099FDC();                      /* extern */
@@ -133,13 +133,13 @@ void *func_800CB82C(void *spawn_pos, void *source_state, void *owner) {
         ((S_800CB82C_4 *)object_state)->unk_90 = (s32) ((S_800CB82C_2 *)spawn_pos)->unk_08.at00.v;
         if (func_800A94A0(object_state, object + 0x28, 0, object + 0xB8) == 0) {
             object_flags = ((S_800CB82C_0 *)object)->unk_1E | 0x8000;
-            global_flags = D_800814A0[0] | 0x8000;
+            global_flags = objectFlagBlock.flags | 0x8000;
             ((S_800CB82C_0 *)object)->unk_1E = object_flags;
-            D_800814A0[0] = global_flags;
+            objectFlagBlock.flags = global_flags;
             return NULL;
         }
         func_80099FDC(object);
-        object_counts = (u16 *)D_80083460;
+        object_counts = (u16 *)((s32 *)(&dungeonStatus));
         object_count = object_counts[5];
         object_count = (u16) (object_count + 1);
         object_counts[5] = object_count;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 #include "common.h"
 typedef struct S_80083120
@@ -10,11 +11,10 @@ typedef struct S_80083120
 } S_80083120;
 extern S_80083120 D_80083120[8];
 extern s8 D_80080A86;
-extern s32 D_800814A0;
 #ifdef NON_MATCHING
 #define D_80080A86_store D_80080A86
-#define D_800814A0_load (&D_800814A0)
-#define D_800814A0_store D_800814A0
+#define D_800814A0_load (&objectFlagBlock.flags)
+#define D_800814A0_store objectFlagBlock.flags
 #else
 #define D_80080A86_store (*(s8 *)0x80080A86)
 extern s32 D_800814A0_load[3];

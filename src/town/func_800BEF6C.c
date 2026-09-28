@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -17,7 +18,6 @@ typedef struct S_800BC6CC_2_pre {
 
 
 extern int func_800478B8();
-extern int D_800814A0;
 
 /* Advance the two coordinates and propagate status flags to the object and global state. */
 void func_800BC6CC(void *object_data, void *motion, void *status) {
@@ -26,6 +26,6 @@ void func_800BC6CC(void *object_data, void *motion, void *status) {
     ((S_800BC6CC_0 *)motion)->unk_04 = (s32) (((S_800BC6CC_0 *)motion)->unk_04 + ((S_800BC6CC_0 *)motion)->unk_10);
     if (((Rec_D_80082E80 *)status)->unk_14.at00_u16.v & 0x6000) {
         (*(u16 *)((u8 *)object_data + -2)) = (u16) (((S_800BC6CC_2_pre *)object_data)[-1].unk_00 | 0x8000);
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "records/Rec_D_80016000.h"
 
@@ -138,8 +139,6 @@ extern void *D_800814A8[3];
 extern u8 D_80082E80[];
 extern s8 D_80082EA4[16];
 extern s16 D_80083228[5];
-extern u16 D_80083460[];
-extern u16 D_80083462[5];
 extern u8 D_80083498[];
 extern u8 D_800DEA68[];
 extern DungeonRecord D_800E2970[];
@@ -162,7 +161,7 @@ void func_80170F6C(void *arg0, void *arg1, void *arg2, void *arg3)
         &&sw1_case0, &&sw1_case1, &&sw1_case2,
         &&sw1_case3, &&sw1_case4
     };
-    u16 initial_flags = D_80083462[0];
+    u16 initial_flags = dungeonStatus.flags;
     void *post_current;
     u8 *post_table;
     s32 scratch;
@@ -205,7 +204,7 @@ void func_80170F6C(void *arg0, void *arg1, void *arg2, void *arg3)
         }
     }
 
-    if (!(D_80083462[0] & 0x2000)) {
+    if (!(dungeonStatus.flags & 0x2000)) {
         if (((S_80170F6C_1 *)arg3)->unk_1C & 0x100) {
             func_800AA258(arg0, arg1, arg2, arg3);
             goto epilogue;
@@ -241,7 +240,7 @@ void func_80170F6C(void *arg0, void *arg1, void *arg2, void *arg3)
             }
 sw1_case0:
                 if (((S_80170F6C_2 *)arg2)->unk_2C != D_801752A0) {
-                    D_80083460[5]++;
+                    dungeonStatus.unk_0A++;
                     ((S_80170F6C_0 *)arg0)->unk_AA = ((S_80170F6C_1 *)arg3)->unk_2A.u;
                     ((S_80170F6C_1 *)arg3)->unk_2A.s =
                         (((S_80170F6C_1 *)arg3)->unk_6A + 0x800) & 0xFFF;
@@ -257,7 +256,7 @@ sw1_case1: {
                 ((S_80170F6C_0 *)arg0)->unk_A6 = timer;
                 if (((s32)timer << 16) <= 0 ||
                     ((S_80170F6C_1 *)arg3)->unk_64 != 0) {
-                    D_80083460[5]--;
+                    dungeonStatus.unk_0A--;
                     ((S_80170F6C_3 *)arg1)->unk_10 = 0;
                     ((S_80170F6C_3 *)arg1)->unk_0C = 0;
                     func_800A2B04(arg1,
@@ -376,7 +375,7 @@ sw1_case4: {
                 timer = ((S_80170F6C_0 *)arg0)->unk_A6 - 1;
                 ((S_80170F6C_0 *)arg0)->unk_A6 = timer;
                 if (((s32)timer << 16) <= 0) {
-                    D_80083460[5]--;
+                    dungeonStatus.unk_0A--;
                     ((S_80170F6C_3 *)arg1)->unk_10 = 0;
                     ((S_80170F6C_3 *)arg1)->unk_0C = 0;
                     func_800A2B04(arg1,
@@ -421,7 +420,7 @@ sw1_case4: {
             goto sw_generic;
         }
         if (!(((S_80170F6C_1 *)arg3)->unk_46 & 0x8000)) {
-            if ((D_80083462[0] & 0x2000) &&
+            if ((dungeonStatus.flags & 0x2000) &&
                 ((func_8009A180(arg3,
                     (u8 *)((S_80170F6C_8 *)(D_800814A8[0]))->unk_58 + 0x20) << 16) != 0)) {
                 return;
@@ -517,7 +516,7 @@ sw_generic:
     }
     }
 
-    if (!(D_80083462[0] & 0x2000) &&
+    if (!(dungeonStatus.flags & 0x2000) &&
         !(((S_80170F6C_2 *)arg2)->unk_14 & 0x40)) {
         post_current =
             ((S_80170F6C_2 *)arg2)->unk_2C;

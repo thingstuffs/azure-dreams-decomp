@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct {
     u8 value0;
@@ -31,7 +32,6 @@ typedef struct {
 
 extern u8 D_80044BB0[];
 extern E296C D_800E296C;
-extern s32 D_800814A0[3];
 extern void func_8004491C(void *, u8 *);
 extern void func_800A56E0(s32);
 
@@ -81,7 +81,7 @@ void func_8009F21C(InterpState *state, void *unused, InterpTarget *target) {
             merged_flags = prior_flags | state_flags;
             global_state->first = merged_flags;
             *(u16 *)((u8 *)state - 2) |= 0x8000;
-            status_flags = D_800814A0;
+            status_flags = ((s32 *)(&objectFlagBlock));
             status_flags[0] |= 0x8000;
             if (state->mode == 0) {
                 cleared_flags = merged_flags & 0xFFFBFFFF;

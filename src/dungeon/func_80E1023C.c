@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 
 typedef struct S_80173A3C_0 {
@@ -46,9 +48,6 @@ extern void func_8009A3D0(s32, s32, s32);
 extern void func_8009A028(void *);
 extern void func_800ACF88(void *);
 
-extern s32 D_800814A0;
-extern s32 D_80083460;
-extern s16 D_8008346A;
 
 /* Fades and reshapes the sprite, then removes the entity when the effect ends. */
 void func_80173A3C(void *fade_state, void *position, void *sprite, void *entity)
@@ -66,7 +65,7 @@ void func_80173A3C(void *fade_state, void *position, void *sprite, void *entity)
     return;
 
 begin_fade:
-    if (D_8008346A != 0) {
+    if (dungeonStatus.unk_0A != 0) {
         return;
     }
 
@@ -98,7 +97,7 @@ update_fade:
     }
 
     if ((((Rec_D_800E3D7C *)entity)->unk_14.as_u32 & 0x20000000) == 0) {
-        u8 *entity_tracker = (u8 *)&D_80083460;
+        u8 *entity_tracker = (u8 *)&dungeonStatus.unk_00;
         if (((S_80173A3C_3 *)entity_tracker)->unk_10.p == (u8 *)entity - 0x20) {
             ((S_80173A3C_3 *)entity_tracker)->unk_10.i &= 0x7FFFFFFF;
         }
@@ -124,7 +123,7 @@ update_fade:
         }
         func_8009A028(entity);
         (*(u16 *)((u8 *)entity + -2)) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         return;
     }
 
@@ -145,6 +144,6 @@ update_fade:
     }
     func_8009A028(entity);
     (*(u16 *)((u8 *)entity + -2)) |= 0x8000;
-    D_800814A0 |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
     func_800A56E0(0x609);
 }

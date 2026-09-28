@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 
 typedef struct S_8002017C_0_pre {
@@ -20,7 +21,6 @@ typedef struct S_8002017C_1 {
 } S_8002017C_1;   /* sub in func_8002017C */
 
 
-extern s32 D_800814A0;
 
 /* Advance a delayed fade after the linked object signals, then flag completion. */
 void func_8002017C(void *effect) {
@@ -62,7 +62,7 @@ void func_8002017C(void *effect) {
         ((S_8002017C_0 *)effect)->unk_08 = fade_rgb;
         if (fade_rgb <= 0x80808) {
             (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_8002017C_0_pre *)effect)[-1].unk_00 | 0x8000);
-            D_800814A0 |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
         }
         break;
     }

@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 extern s8 D_80083160[];
-extern s32 D_800814A0[];
 
 /* Decrease three state bytes, or set entry and global flags below the threshold. */
 void func_801701CC(u16 *entry)
@@ -16,5 +16,5 @@ void func_801701CC(u16 *entry)
     }
 
     entry[-1] |= 0x8000;
-    D_800814A0[0] |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
 }

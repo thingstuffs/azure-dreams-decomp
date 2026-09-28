@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
 typedef struct S_81978428_0 {
@@ -114,10 +116,8 @@ typedef struct {
 extern void *D_80024038[6];
 
 extern u8 D_800814A8[12];
-extern s32 D_800814A0[3];
 extern u8 D_80082E80[];
 extern u16 D_80082E94[5];
-extern u8 D_80083460[16];
 extern Vec81978428 D_80083780;
 
 extern void func_800243C0(void *, void *);

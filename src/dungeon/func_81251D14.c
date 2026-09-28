@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800814A8.h"
 
 
@@ -27,7 +28,6 @@ extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern s8 D_80082EA4;
 extern s16 D_80083228;
-extern u16 D_80083462;
 extern s8 D_800E2970[];
 extern void *D_80170808[];
 extern u8 D_80171514;
@@ -74,7 +74,7 @@ void func_80171514(void *obj, void *motion, void *part, void *state)
     static void *const dispatch_labels[] = {
         &&case_stop, &&case_callback, &&case_action, &&case_default
     };
-    u32 entry_status = D_80083462;
+    u32 entry_status = dungeonStatus.flags;
     s32 state_flags;
     s32 query_result;
     s32 action_kind;
@@ -106,7 +106,7 @@ void func_80171514(void *obj, void *motion, void *part, void *state)
         }
     }
 
-    if ((D_80083462 & 0x2000) == 0) {
+    if ((dungeonStatus.flags & 0x2000) == 0) {
         if (((S_80171514_0 *)state)->unk_1C & 0x100) {
             func_800AA258(obj, motion, part, state);
             return;
@@ -167,7 +167,7 @@ void func_80171514(void *obj, void *motion, void *part, void *state)
         }
 
         if ((((S_80171514_0 *)state)->unk_46 & 0x8000) == 0) {
-            if (D_80083462 & 0x2000) {
+            if (dungeonStatus.flags & 0x2000) {
                 if ((s16)func_8009A180(
                         state, (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) != 0) {
                     return;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
@@ -6,7 +7,6 @@
 M2C_UNK func_80048A44(); /* extern */
 s16 func_800A0818();       /* extern */
 extern s16 D_80083228;
-extern M2C_UNK D_80083460;
 extern u8 D_800DD030[];
 
 
@@ -46,7 +46,7 @@ void func_80091B5C(void *action, void *unused, void *actor, void *motion) {
         ((S_80091B5C_1 *)motion)->unk_14 &= 0xFFFDFFFF;
         return;
     }
-    action_context = &D_80083460;
+    action_context = &dungeonStatus.unk_00;
     ((Rec_func_8008ACDC_arg0 *)action)->unk_9A.as_s8 = 0x2A;
     ((Rec_func_8008ACDC_arg0 *)action)->unk_9B.as_s8 = 0;
     (*(s32 *)((u8 *)action + (0x8C))) = 0;

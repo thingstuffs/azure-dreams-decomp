@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef struct S_8017352C_0 {
     u8 pad_00[0x8C];
@@ -90,7 +91,6 @@ extern void func_80173D10(void *, void *, void *, void *);
 extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern s16 D_80083228;
-extern s32 D_80083460;
 extern u8 D_801711A4[];
 extern u8 D_80174184[];
 extern u8 D_801741CC[];
@@ -151,7 +151,7 @@ state_zero:
     func_80047784(sprite,
         D_801741CC[((D_80083228 + ((S_8017352C_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
         0);
-    state_zero_counter_base = (u8 *)&D_80083460;
+    state_zero_counter_base = (u8 *)&dungeonStatus.unk_00;
     ((S_8017352C_0 *)entity)->unk_96 = 0;
     count = ((S_8017352C_3 *)state_zero_counter_base)->unk_0A - 1;
     ((S_8017352C_3 *)state_zero_counter_base)->unk_0A = count;
@@ -162,7 +162,7 @@ state_one:
     if ((func_80042900(actor, 1) << 16) == 0) {
         goto animate;
     }
-    global_base = (u8 *)&D_80083460;
+    global_base = (u8 *)&dungeonStatus.unk_00;
     if (((S_8017352C_4 *)global_base)->unk_02 & 0x1000) {
         goto done;
     }
@@ -244,7 +244,7 @@ animate:
     animate_counter_base = (u8 *)3;
     ((S_8017352C_0 *)entity)->unk_96 = (s32)animate_counter_base;
     ((S_8017352C_0 *)entity)->unk_98 &= 0xBFFF;
-    animate_counter_base = (u8 *)&D_80083460;
+    animate_counter_base = (u8 *)&dungeonStatus.unk_00;
     count = ((S_8017352C_3 *)animate_counter_base)->unk_0A + 1;
     ((S_8017352C_3 *)animate_counter_base)->unk_0A = count;
     ((S_8017352C_0 *)entity)->unk_9B++;
@@ -260,7 +260,7 @@ state_two:
     if (!(((S_8017352C_1 *)sprite)->unk_14 & 0xE000)) {
         goto done;
     }
-    state_two_counter_base = (u8 *)&D_80083460;
+    state_two_counter_base = (u8 *)&dungeonStatus.unk_00;
     ((S_8017352C_9 *)motion)->unk_14 = 0;
     ((S_8017352C_0 *)entity)->unk_A8 = 0;
     ((S_8017352C_3 *)state_two_counter_base)->unk_0A--;

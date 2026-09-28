@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800814A8.h"
 
 
@@ -40,7 +41,6 @@ extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern s8 D_80082EA4;
 extern s16 D_80083228;
-extern u16 D_80083462;
 extern u8 D_800DEA68[];
 extern s8 D_800E2970[];
 extern void *D_80170808[];
@@ -148,7 +148,7 @@ void func_801714B8(void *actor_arg, void *context_arg, void *sprite_arg, void *s
     s32 room_id;
     s32 distance;
     u16 spawn_offset[3];
-    u32 initial_flags = D_80083462;
+    u32 initial_flags = dungeonStatus.flags;
 
     actor = actor_arg;
     context = context_arg;
@@ -189,7 +189,7 @@ void func_801714B8(void *actor_arg, void *context_arg, void *sprite_arg, void *s
         }
     }
 
-    if (!(D_80083462 & 0x2000)) {
+    if (!(dungeonStatus.flags & 0x2000)) {
         if (((S_801714B8_1 *)stats)->unk_1C & 0x100) {
             func_800AA258(actor, context, sprite, stats);
             return;
@@ -240,7 +240,7 @@ void func_801714B8(void *actor_arg, void *context_arg, void *sprite_arg, void *s
             goto ordinary_cleanup;
         }
         if (!(((S_801714B8_1 *)stats)->unk_46 & 0x8000)) {
-            if (D_80083462 & 0x2000) {
+            if (dungeonStatus.flags & 0x2000) {
                 if ((s16)func_8009A180(stats,
                         (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) != 0) {
                     return;
@@ -357,7 +357,7 @@ ordinary_cleanup:
         }
     }
 
-    if (D_80083462 & 0x2000) {
+    if (dungeonStatus.flags & 0x2000) {
         return;
     }
     if (((S_801714B8_2 *)sprite)->unk_14 & 0x40) {

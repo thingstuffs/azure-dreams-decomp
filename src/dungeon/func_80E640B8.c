@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
 typedef struct S_801738B8_0 {
@@ -49,7 +50,6 @@ extern void func_800AAA54(void *, void *, void *, void *);
 extern void func_800AD4D0(void *);
 
 extern s16 D_80083228;
-extern s32 D_80083460;
 extern u8 D_801716F4[];
 extern u8 D_80175554[];
 extern u8 D_80175564[];
@@ -161,7 +161,7 @@ start_action:
                 D_80175554[((D_80083228 + ((S_801738B8_1 *)room)->unk_2A + 0x100)
                     >> 9) & 7], 0);
         }
-        global_state = &D_80083460;
+        global_state = &dungeonStatus.unk_00;
         room_ref = global_state[4];
         if (room_ref == (s32)((u8 *)room - 0x20)) {
             global_state[4] = room_ref & 0x7FFFFFFF;

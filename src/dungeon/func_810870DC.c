@@ -1,9 +1,9 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 extern void func_80047784();
 
 extern u8 D_80083160[];
-extern s32 D_80083460;
 extern u8 D_80170E94[];
 extern u8 D_80175F10[];
 extern u8 D_80175F28[];
@@ -72,7 +72,7 @@ state_one:
                     orientation->unk_2A + 0x100) >> 9) & 7], 0);
             entity->unk_8C = D_80170E94;
             entity->unk_A6 = 0;
-            counters = (u16 *)&D_80083460;
+            counters = (u16 *)&dungeonStatus.unk_00;
             counters[5]--;
         }
     }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_80024888_0 {
     s32 unk_00;
@@ -27,7 +28,6 @@ typedef struct S_80024888_2 {
 
 
 extern u16 D_800269F8[];
-extern s32 D_800814A0[];
 
 
 /* Advance effect motion, fade its color, and flag it when its lifetime expires. */
@@ -56,6 +56,6 @@ void func_80024888(void *effect, S_80024888_0 *motion, S_80024888_1 *color) {
     ((S_80024888_2 *)effect)->unk_30 = life_left;
     if ((life_left << 0x10) <= 0) {
         ((S_80024888_2_pre *)effect)[-1].unk_00 = ((S_80024888_2_pre *)effect)[-1].unk_00 | 0x8000;
-        D_800814A0[0] |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

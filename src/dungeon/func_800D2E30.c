@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef struct S_800D8590_0 {
     u8 pad_00[0xC];
@@ -44,7 +45,6 @@ extern void bzero();
 extern void func_80094E34();
 
 extern s16 D_80083228;
-extern s32 D_80083460;
 extern u8 D_800D8728[];
 extern u8 D_800D8C64[];
 extern void *D_800E262C[];
@@ -66,7 +66,7 @@ void *func_800D8590(void *entity)
     s32 frame_index;
 
     entity_arg = entity;
-    object_state = &D_80083460;
+    object_state = &dungeonStatus.unk_00;
     parent = entity - 0x20;
     if ((u8 *)object_state[4] == parent) {
         object_state[4] = (s32)parent & 0x7FFFFFFF;

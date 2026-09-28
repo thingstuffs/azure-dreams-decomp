@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 #define U8(p, o) (*(u8 *)((u8 *)(p) + (o)))
 #define S8(p, o) (*(s8 *)((u8 *)(p) + (o)))
@@ -15,7 +16,6 @@ extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
 
 extern s16 D_80083228;
-extern s32 D_8008346C;
 extern void *D_800E3DE8;
 extern u8 D_80170E68;
 extern u8 D_80173894[];
@@ -82,7 +82,7 @@ finish_action:
     func_800A2B04(motion, U8(sprite, 0x24), U8(sprite, 0x25));
     func_800AD594(actor, 0x100);
     PTR(action, 0x8C) = &D_80170E68;
-    D_8008346C = 0;
+    dungeonStatus.unk_0C = 0;
     func_800A4ACC(actor);
     if (S8(actor, 0x6D) == 0) {
         U16(actor, 0x46) &= 0x7FFF;

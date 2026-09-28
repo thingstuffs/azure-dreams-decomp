@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
@@ -6,7 +7,6 @@
 
 M2C_UNK func_80095DD0(); /* extern */
 M2C_UNK func_800A2B04();              /* extern */
-extern M2C_UNK D_80083460;
 extern M2C_UNK D_80096384;
 
 typedef struct S_8009704C_0 {
@@ -19,7 +19,7 @@ typedef struct S_8009704C_0 {
 void func_8009704C(Rec_func_8008ACDC_arg0 *actor, Rec_D_800E3D7C *motion, Rec_D_80082E80 *destination, M2C_UNK context) {
     s16 frames_left;
     u16 actor_flags;
-    register s8 *move_state = (s8 *)&D_80083460;
+    register s8 *move_state = (s8 *)&dungeonStatus.unk_00;
     M2C_UNK saved_context;
     saved_context = context;
 

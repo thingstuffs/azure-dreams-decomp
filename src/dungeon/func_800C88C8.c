@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 
 typedef struct {
     s16 x;
@@ -23,17 +25,8 @@ typedef struct {
     s16 row_shift;
 } DungeonGrid;
 
-typedef struct {
-    u16 field_00;
-    u16 flags;
-    u8 pad_04[6];
-    u16 count;
-} DungeonState;
-
 extern u8 D_8008333C[32];
-extern DungeonState D_80083460;
 extern u32 D_800E296C;
-extern u32 D_800814A0;
 
 extern void func_8009D6F4(void);
 extern void func_800A56E0(s32);
@@ -131,17 +124,17 @@ snap_target_tile:
                 snap_target_base += 0xA;
             } while (target_row < 5);
             func_8009D6F4();
-            D_80083460.count--;
+            dungeonStatus.unk_0A--;
             D_800E296C &= 0xFFF7FFFF;
             effect->state++;
             goto end;
         }
     } else if (state == 1) {
-        if (D_80083460.flags & 0x10) {
+        if (dungeonStatus.flags & 0x10) {
             delay_ticks = (u16)effect->delay - 1;
             effect->delay = delay_ticks;
             if ((delay_ticks << 16) <= 0) {
-                D_80083460.count++;
+                dungeonStatus.unk_0A++;
                 effect->timer = 0x20;
                 func_800419EC(0x20, 8);
                 effect->state++;
@@ -205,7 +198,7 @@ snap_initial_tile:
                 snap_initial_base += 0xA;
             } while (restore_row < 5);
             func_8009D6F4();
-            D_80083460.count--;
+            dungeonStatus.unk_0A--;
             x_or_mask = 0xBFF70000;
             if (effect->flag == 0) {
                 x_or_mask = 0x7FF70000;
@@ -213,7 +206,7 @@ snap_initial_tile:
             x_or_mask |= 0xFFFF;
             D_800E296C &= x_or_mask;
             *(u16 *)((u8 *)effect - 2) |= 0x8000;
-            D_800814A0 |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
         }
         func_800CDE0C();
     }

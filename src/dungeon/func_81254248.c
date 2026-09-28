@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 extern u8 *D_80174710;
-extern s32 D_800814A0;
 
 extern void func_800A32A4(void *arg0);
 extern void func_8009A3D0(s32 arg0, s32 arg1, s32 arg2);
@@ -32,6 +32,6 @@ void func_81254248(void) {
         func_8009A028(obj_state);
         *(u16 *)(obj_state - 2) |= 0x8000;
         *active_slot = 0;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct S_80022514_0 {
     union { s16 s; u16 u; } unk_00;   /* accessed as both */
@@ -9,7 +10,6 @@ typedef struct S_80022514_0 {
 
 
 
-extern s32 D_800814A0;
 
 /* Advances a timed color fade and sets completion flags at the final threshold. */
 void func_80022514(void *effect) {
@@ -86,7 +86,7 @@ mode_two:
     ((S_80022514_0 *)effect)->unk_08 = color;
     if (color <= 0x80808) {
         (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }
 

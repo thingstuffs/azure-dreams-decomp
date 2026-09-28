@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef struct SubA {
     u8 pad0[2];
@@ -71,7 +72,6 @@ extern s32 D_80045340;
 extern u8 D_80045C34[];
 extern u8 D_80079444[];
 extern void *D_800814A8;
-extern s32 D_80083460;
 extern D_80083780_t D_80083780;
 extern u8 D_800B9A78[];
 extern s16 D_800DCE66[5];
@@ -194,7 +194,7 @@ next:
     } while (part_index < 3);
 
     {
-        u8 *counter_base = (u8 *)&D_80083460;
+        u8 *counter_base = (u8 *)&dungeonStatus.unk_00;
         *(u16 *)(counter_base + 0xA) += 1;
     }
     func_800B1768(0, 0x27, 0x40, 0x209, 0, 0);

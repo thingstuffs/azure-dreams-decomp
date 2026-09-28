@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -46,7 +47,6 @@ extern M2C_UNK D_80050CAC;
 extern s32 D_80082EB0;
 extern s8 D_80083160[];
 extern s16 D_80083228;
-extern M2C_UNK D_80083460;
 extern M2C_UNK D_8008ACDC;
 extern M2C_UNK D_800DCFB0;
 extern u8 D_800DD0B8[];
@@ -157,7 +157,7 @@ block_5:
         func_800A2B04(arg1, ((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25);
     }
     ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v = (u16) (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xF7FF);
-    held_D_80083460 = (u8 *) &D_80083460;
+    held_D_80083460 = (u8 *) &dungeonStatus.unk_00;
     ((Rec_func_8008ACDC_arg0 *)arg0)->unk_9B.as_s8 = 0;
     ((S_8008EAC8_4 *)held_D_80083460)->unk_02 = (u16) (((S_8008EAC8_4 *)held_D_80083460)->unk_02 & 0xFF7F);
     temp_v1 = ((S_8008EAC8_1 *)arg3)->unk_64;

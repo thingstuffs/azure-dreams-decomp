@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "m2c_compat.h"
 
 typedef struct S_80024CD4_0_pre {
@@ -46,16 +47,10 @@ typedef struct {
     u8 pad[8];
 } Flag;
 
-typedef struct {
-    s32 value;
-    u8 pad[8];
-} Flags;
-
 void func_8002522C();
 void func_800262AC();
 extern Counter D_80026472;
 extern Flag D_80026474;
-extern Flags D_800814A0;
 
 /* Advance the effect state, update its ramp and color, and apply its transform. */
 void func_80024CD4(void *effect, S_80024CD4_2 *transform, S_80024CD4_1 *visual) {
@@ -149,7 +144,7 @@ ramp_out:
     visual->unk_06.s = final_ramp;
     if ((s16) final_ramp >= 0) {
         ((S_80024CD4_0_pre *)effect)[-1].unk_00 |= 0x8000;
-        D_800814A0.value |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 
 set_red:

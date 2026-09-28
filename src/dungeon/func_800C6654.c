@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 
 typedef struct {
     u16 unk0;
@@ -7,8 +9,6 @@ typedef struct {
     u16 count;
 } S_80083460;
 
-extern S_80083460 D_80083460;
-extern u32 D_800814A0[3];
 extern u8 *D_800E3D7C[];
 extern u8 D_800E1B08[];
 extern u8 D_800E1B2E[];
@@ -46,7 +46,7 @@ move_out:
             goto done;
         }
         {
-            S_80083460 *settings = &D_80083460;
+            S_80083460 *settings = ((S_80083460 *)&dungeonStatus);
             transition[1] = (u16)transition[1] + 1;
             state->state_94.v[1].z = -0x800;
             settings->count = (u16)settings->count - 1;
@@ -57,7 +57,7 @@ move_out:
 
 wait_ready:
     {
-        S_80083460 *settings = &D_80083460;
+        S_80083460 *settings = ((S_80083460 *)&dungeonStatus);
         if ((settings->flags & 0x10) &&
             ((func_80042900(D_800E3D7C[0], 0x1C, state) << 16) == 0)) {
             transition[2] = 0x10;
@@ -75,13 +75,13 @@ move_back:
         u16 frames_left = (u16)transition[2] - 1;
         transition[2] = frames_left;
         if ((s32)(frames_left << 16) <= 0) {
-            S_80083460 *settings = &D_80083460;
+            S_80083460 *settings = ((S_80083460 *)&dungeonStatus);
             u8 *message = D_800E1B2E;
             settings->count = (u16)settings->count - 1;
             state->state_94.v[1].z = 0;
             func_800997FC(message);
             ((u16 *)transition)[-1] = ((u16 *)transition)[-1] | 0x8000;
-            D_800814A0[0] = D_800814A0[0] | 0x8000;
+            objectFlagBlock.flags = ((u32)objectFlagBlock.flags) | 0x8000;
         }
     }
 

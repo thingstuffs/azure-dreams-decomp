@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 
 typedef struct S_800C08A4_0 {
@@ -33,7 +34,6 @@ extern u8 *D_800E3D7C;
 extern u8 D_80083780[12];
 extern u8 D_80082E80[];
 extern u16 D_800DDE84[];
-extern s32 D_80083460[3];
 M2C_UNK func_8008D344();
 M2C_UNK func_80098864();
 M2C_UNK func_80098B38();
@@ -148,7 +148,7 @@ main_path:
     func_800A5720(script);
 decrement:
     {
-        u8 *counter_base = (u8 *) D_80083460;
+        u8 *counter_base = (u8 *) ((s32 *)(&dungeonStatus));
         ((S_800C08A4_2 *)counter_base)->unk_0A = (u16) (((S_800C08A4_2 *)counter_base)->unk_0A - 1);
     }
     return 1;

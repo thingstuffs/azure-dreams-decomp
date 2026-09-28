@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -34,8 +35,6 @@ extern void func_801737DC(void *, void *, void *, void *);
 
 extern void *D_800814A8;
 extern s16 D_80083228;
-extern s32 D_80083460;
-extern u16 D_80083462;
 extern u8 D_80170E5C[];
 extern u8 D_80174520[];
 extern u8 D_80174538[];
@@ -66,7 +65,7 @@ state_zero:
             return;
         }
 
-        dungeon_state = (u8 *)&D_80083460;
+        dungeon_state = (u8 *)&dungeonStatus.unk_00;
         initial_effect = D_80174538;
         ((S_8017357C_2 *)dungeon_state)->unk_0A--;
         (*(void * *)((u8 *)sprite + 0x2C)) = initial_effect;
@@ -78,7 +77,7 @@ state_zero:
 
 state_one:
     if (((Rec_D_800E3D7C *)actor)->unk_24.at01_u8.v == 0) {
-        if (D_80083462 & 0x1000) {
+        if (dungeonStatus.flags & 0x1000) {
             return;
         }
 

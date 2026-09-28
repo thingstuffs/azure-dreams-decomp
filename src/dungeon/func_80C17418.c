@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef struct {
     u8 pad00[4];
@@ -91,8 +92,6 @@ extern void *D_80170838[];
 extern ItemInfo D_8006DE24[];
 extern MainObj *D_800814A8;
 extern s16 D_80083228[];
-extern Global83460 D_80083460;
-extern s32 D_8008346C[];
 extern u8 D_801713A8[];
 extern u8 D_801744E4[];
 extern u8 D_801744DC[];
@@ -264,7 +263,7 @@ copy_link:
         MainObj *main_obj;
 
         main_obj = D_800814A8;
-        D_8008346C[0] = 0;
+        dungeonStatus.unk_0C = 0;
         main_obj->fA6--;
     }
     func_800A4ACC(ent);
@@ -344,7 +343,7 @@ no_flag4000:
     {
         Global83460 *action_status;
 
-        action_status = &D_80083460;
+        action_status = ((Global83460 *)&dungeonStatus);
         if (action_status->fC != 0) {
             goto end;
         }

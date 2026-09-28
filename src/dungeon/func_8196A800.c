@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 #ifdef __mips__
 /* Proven 31-word literal/pointer prefix; this is row data, not C code. */
@@ -26,7 +27,6 @@ __asm__(".globl func_8196A800\n"
 #endif
 
 extern s16 D_800269B4;
-extern s32 D_800814A0;
 
 BODY_STORAGE void BODY_NAME(void *state, void *unused, void *visual) BODY_ATTR;
 
@@ -56,6 +56,6 @@ BODY_STORAGE void BODY_NAME(void *state, void *unused, void *visual) {
         owner_slot = (s16 *)(slot_offset + owner_addr + 0x64);
         *owner_slot = 0;
         *(u16 *)((u8 *)state - 2) |= 0x8000;
-        D_800814A0 = D_800814A0 | 0x8000;
+        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
     }
 }

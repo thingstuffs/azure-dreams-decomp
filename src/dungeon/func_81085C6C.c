@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 
 typedef s32 M2C_UNK;
@@ -7,7 +8,6 @@ typedef s32 M2C_UNK;
 
 extern M2C_UNK func_800A2B04();
 extern M2C_UNK func_800A56E0();
-extern s32 D_8008346C;
 extern M2C_UNK D_80170E94;
 
 
@@ -68,6 +68,6 @@ apply_action:
         motion->unk_0C.as_s32 = 0;
         func_800A2B04(motion, action->unk_24, action->unk_25);
         actor->unk_8C = &D_80170E94;
-        D_8008346C = 0;
+        dungeonStatus.unk_0C = 0;
     }
 }

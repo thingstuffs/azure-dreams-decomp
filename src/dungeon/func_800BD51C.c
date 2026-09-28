@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_status.h"
 
 typedef struct {
     u8 pad00[0x10];
@@ -7,13 +8,7 @@ typedef struct {
     s32 field20;
 } S_800BD51C_node;
 
-typedef struct {
-    u8 pad00[0x0A];
-    u16 fieldA;
-} S_800BD51C_state;
-
 extern void *func_8003FC64(s32 size);
-extern S_800BD51C_state D_80083460;
 extern u8 D_800C2824[];
 
 /* Create an object with the supplied value and increment the global object count. */
@@ -24,7 +19,7 @@ void *func_800C2C7C(s32 value) {
     if (object != 0) {
         object->field10 = D_800C2824;
         object->field20 = value;
-        D_80083460.fieldA += 1;
+        dungeonStatus.unk_0A += 1;
     }
     return object;
 }

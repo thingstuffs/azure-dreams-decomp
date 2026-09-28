@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 
 typedef struct S_80174CCC_0_pre {
@@ -99,9 +101,7 @@ typedef struct S_80174CCC_11 {
 
 
 
-extern s32 D_800814A0;
 extern s16 D_80083228;
-extern s32 D_80083460;
 extern s8 D_800E2968;
 extern u8 D_80176668[];
 
@@ -203,7 +203,7 @@ state_one:
         goto done;
     }
 
-    counter_base = (u8 *)&D_80083460;
+    counter_base = (u8 *)&dungeonStatus.unk_00;
     spawn_kind = 4;
     ((S_80174CCC_3 *)counter_base)->unk_0A--;
     used_page = 0x80080000;

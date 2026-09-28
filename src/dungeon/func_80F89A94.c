@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
 typedef struct S_80173294_0 {
@@ -47,9 +49,6 @@ extern void func_800A2FE0();
 extern void func_800A32A4();
 extern void func_800A56E0();
 extern void func_800ACF88();
-extern s32 D_800814A0;
-extern s32 D_80083460;
-extern s16 D_8008346A;
 
 /* Advance the object removal animation, fade its sprite, and release it when finished. */
 void func_80173294(void *effect_data, void *motion_data, void *sprite_data, void *object_data) {
@@ -92,7 +91,7 @@ state_0:
     motion_value = direction_y << 16;
     (*(s32 *)((u8 *)motion_data + 0x10)) = motion_value;
     (*(s32 *)((u8 *)motion_data + 0x14)) = state;
-    if (D_8008346A != 0) goto done;
+    if (dungeonStatus.unk_0A != 0) goto done;
     ((S_80173294_2 *)effect_data)->unk_9B++;
 
 state_1:
@@ -160,7 +159,7 @@ state_3:
         fade_level = ((S_80173294_2 *)effect_data)->unk_96.u16 - 0x10;
         ((S_80173294_2 *)effect_data)->unk_96.u16 = fade_level;
         if ((s16)fade_level >= 0x10) goto done;
-        link_base = &D_80083460;
+        link_base = &dungeonStatus.unk_00;
         linked_object = link_base[4];
         if (linked_object == (s32)(object_data - 0x20)) link_base[4] = linked_object & 0x7FFFFFFF;
         func_800A2FE0(object_data);
@@ -173,7 +172,7 @@ state_3:
         func_8009A3D0(tile_x, tile_y, tile_mask);
         func_8009A028(object_data);
         (*(u16 *)((u8 *)object_data + -2)) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 
 done:

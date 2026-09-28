@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
 
@@ -15,7 +16,6 @@ extern u16 D_800281F8;
 extern s16 D_8002966C[6];
 extern u8 D_8002966E;
 extern s32 D_80029670;
-extern s32 D_800814A0;
 extern M2C_UNK D_80082E80;
 extern u16 D_80082E94;
 extern u16 D_80083780[];
@@ -366,7 +366,7 @@ copy_linked_monster:
     if ((*(u16 *)((u8 *)linked_monster + 0x1E)) & 0x8000) {
 linked_flag_update:
         linked_flags = ((S_80025C80_0_pre *)effect_in)[-1].unk_00;
-        linked_global = &D_800814A0;
+        linked_global = &objectFlagBlock.flags;
         linked_flags |= 0x8000;
         ((S_80025C80_0_pre *)effect_in)[-1].unk_00 = linked_flags;
         ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */

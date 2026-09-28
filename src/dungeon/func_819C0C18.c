@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
 
 typedef struct {
     s16 x;
@@ -71,12 +73,10 @@ extern void *D_80024048[];
 extern s16 D_8002992E;
 extern u8 D_8006E8A0[];
 extern u8 D_8006EE50[];
-extern s32 D_800814A0;
 extern GlobalObj *D_800814A8[3];
 extern u16 D_80082E86;
 extern u16 D_80082E94;
 extern u8 D_80083160[];
-extern u8 D_80083460[];
 extern Position D_80083780;
 
 extern void func_80024BA0(void);
@@ -276,7 +276,7 @@ case_4:
         colors->unk_A9 = 0x80;
         colors->unk_A8 = 0x80;
         {
-            S_func_819C0C18_1 *dungeon_state = (S_func_819C0C18_1 *)D_80083460;
+            S_func_819C0C18_1 *dungeon_state = (S_func_819C0C18_1 *)((u8 *)(&dungeonStatus));
 
             dungeon_state->unk_0C = 0;
             dungeon_state->unk_0A =
@@ -284,7 +284,7 @@ case_4:
         }
         D_80082E86 = 0;
         *(u16 *)((u8 *)effect - 2) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         return;
     }
 
