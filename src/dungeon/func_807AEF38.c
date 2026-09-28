@@ -1,8 +1,8 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "m2c_compat.h"
 
-extern s8 D_80082EA4;
 
 typedef struct S_800F6738_0 {
     u8 pad_00[0x13];
@@ -25,5 +25,5 @@ void func_800F6738(void) {
         }
         entity = entity->unk_5C + 0x20;
     } while (entity != first_entity);
-    D_80082EA4 = 0x1F;
+    D_80082E80.tileX = 0x1F;
 }

@@ -2,7 +2,7 @@
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 
 #ifndef NULL
@@ -138,7 +138,7 @@ typedef struct S_80174704_11 {
 } S_80174704_11;   /* ((S_80174704_1 *)arg3)->unk_60 in func_80174704 */
 
 /* Updates an actor transition through turning, color fading, effects, and replacement. */
-void func_80174704(void *action, Rec_D_800E3D7C *position, Rec_D_80082E80 *entity, void *actor) {
+void func_80174704(void *action, EntityRec *position, Rec_D_80082E80 *entity, void *actor) {
     static void *const state_labels[] = {
         &&start, &&init_turn, &&wait_turn, &&fade_color, &&create_effect,
         &&animate_effect, &&wait_motion, &&create_replacement, &&finish_transition
@@ -239,12 +239,12 @@ create_effect:
     func_8004491C(object, D_80173F68);
     color = 0x00808080;
     ((S_80174704_0 *)action)->unk_AC.p = object;
-    ((S_80174704_10 *)(((S_80174704_3 *)object)->unk_08))->unk_00 = position->unk_00.at00_s32.v;
-    ((S_80174704_10 *)(((S_80174704_3 *)object)->unk_08))->unk_04 = position->unk_04.at00_s32.v;
-    ((S_80174704_10 *)(((S_80174704_3 *)object)->unk_08))->unk_08 = position->unk_08.at00_s32.v;
+    ((S_80174704_10 *)(((S_80174704_3 *)object)->unk_08))->unk_00 = position->x.v;
+    ((S_80174704_10 *)(((S_80174704_3 *)object)->unk_08))->unk_04 = position->y.v;
+    ((S_80174704_10 *)(((S_80174704_3 *)object)->unk_08))->unk_08 = position->z.v;
     {
         S_80174704_6 *effect_pos = ((S_80174704_3 *)object)->unk_08;
-        s32 pos_z = position->unk_08.at00_s32.v;
+        s32 pos_z = position->z.v;
 
         D_80174E38[0] = -0x10;
         effect_pos->unk_08 = pos_z;

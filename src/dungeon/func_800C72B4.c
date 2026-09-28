@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
@@ -94,6 +95,6 @@ void func_800CCA14(u16 x, u16 y, u16 z) {
     } while (part_index >= 0);
     target = func_8009B390(effect->unk_20, effect->unk_22, (s16) effect->unk_24);
     if (target != 0) {
-        func_8009CE1C(target, 0xC, ((Rec_D_800E3D7C *)D_800E3D7C)->unk_10.at01_u8.v, 9, 0x400, 0, 3);
+        func_8009CE1C(target, 0xC, (*(u8 *)((u8 *)&((EntityRec *)D_800E3D7C)->unk_10 + 1)), 9, 0x400, 0, 3);
     }
 }

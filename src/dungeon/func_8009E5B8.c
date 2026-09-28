@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -161,7 +162,7 @@ done:
             best = special;
             goto out;
         }
-        if ((((Rec_D_800E3D7C *)((u8 *)D_800E3D7C))->unk_128 + ((S_800A3D18_1 *)candidate)->unk_43) & 3) {
+        if ((((EntityRec *)((u8 *)D_800E3D7C))->unk_128 + ((S_800A3D18_1 *)candidate)->unk_43) & 3) {
             goto out;
         }
         best = special;

@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity_objects.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
@@ -75,9 +77,6 @@ extern void *D_80024048[];
 extern s16 D_8002992E;
 extern u8 D_8006E8A0[];
 extern u8 D_8006EE50[];
-extern u16 D_80082E86;
-extern u16 D_80082E94;
-extern Position D_80083780;
 
 extern void func_80024BA0(void);
 extern void func_80025CE8(s32, s32, s32, s32);
@@ -114,7 +113,7 @@ case_0:
         ChildObj *child;
         u16 state;
 
-        func_800C77D0((u8 *)((GlobalObj *)D_800814A8) - 0x20, &D_80083780, 8, 0x400);
+        func_800C77D0((u8 *)((GlobalObj *)D_800814A8) - 0x20, ((Position *)&D_80083780), 8, 0x400);
         rect_xy = 0x010003A0;
         rect_size = 0x00400020;
         ((GlobalObj *)D_800814A8)->unk_102 = 1;
@@ -168,7 +167,7 @@ case_1:
 
         particle_index = 0;
         if (effect->unk_28.s == 0x4A) {
-            Position *effect_position = &D_80083780;
+            Position *effect_position = ((Position *)&D_80083780);
 
             func_80025CE8((s16)effect_position->x,
                           (s16)effect_position->y,
@@ -177,7 +176,7 @@ case_1:
         }
 
         effect->unk_24 = (((GlobalObj *)D_800814A8)->unk2A >> 9) & 7;
-        position = &D_80083780;
+        position = ((Position *)&D_80083780);
         offset_base = offsets.entries;
         do {
             s32 spread_y;
@@ -246,7 +245,7 @@ case_3:
             colors->unk_A9 += 10;
             colors->unk_AA += 10;
         }
-        if ((D_80082E94 & 0x8000) == 0) {
+        if ((D_80082E80.unk_014 & 0x8000) == 0) {
             effect->unk_1C.u = effect->unk_1C.u - 1;
             if (effect->unk_1C.s >= 0) {
                 return;
@@ -282,7 +281,7 @@ case_4:
             dungeon_state->unk_0A =
                 dungeon_state->unk_0A - 1;
         }
-        D_80082E86 = 0;
+        D_80082E80.unk_006 = 0;
         *(u16 *)((u8 *)effect - 2) |= 0x8000;
         objectFlagBlock.flags |= 0x8000;
         return;

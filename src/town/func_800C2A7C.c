@@ -1,6 +1,8 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity_objects.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 extern void *func_8003FE78();
 extern M2C_UNK func_8008EF58();
@@ -11,9 +13,7 @@ extern M2C_UNK func_8009550C();
 extern s16 func_800C2AE8();
 
 extern M2C_UNK D_8006ADBC;
-extern M2C_UNK D_80082E80;
 extern M2C_UNK D_80083498;
-extern M2C_UNK D_80083780;
 extern M2C_UNK D_800C02C4;
 extern M2C_UNK D_800CFCB4;
 extern M2C_UNK D_800D0420;
@@ -42,12 +42,12 @@ void func_800C01DC(void) {
     D_800D0438 = 0;
     object = func_8003FE78(0, &D_80083498, 0x22);
     object->unk_10 = &D_800C02C4;
-    object->unk_0C = &D_80082E80;
-    object->unk_08 = &D_80083780;
+    object->unk_0C = &D_80082E80.unk_000;
+    object->unk_08 = &D_80083780.x.v;
     func_8008EF58();
-    func_8008F01C(&D_800CFCB4, &D_80083780, &D_800D0420);
+    func_8008F01C(&D_800CFCB4, &D_80083780.x.v, &D_800D0420);
     func_8008FCE0();
-    func_8008FD48(&D_800FE490, &D_80083780, &D_800D0420);
+    func_8008FD48(&D_800FE490, &D_80083780.x.v, &D_800D0420);
     {
         s8 *position_data;
         u16 *position_entry;
@@ -55,10 +55,10 @@ void func_800C01DC(void) {
         position_data = (s8 *) &D_8006ADBC;
         position_entry = ((S_800C01DC_1 *)position_data)->unk_10;
         do {
-            ((Rec_D_800E3D7C *)(&D_80083780))->unk_00.at02_s16.v = (s16) (((S_800C01DC_1 *)position_data)->unk_14 + position_entry[0]);
+            ((EntityRec *)(&D_80083780.x.v))->x.w.i = (s16) (((S_800C01DC_1 *)position_data)->unk_14 + position_entry[0]);
         } while (0);
-        ((Rec_D_800E3D7C *)(&D_80083780))->unk_04.at02_s16.v = (s16) (((S_800C01DC_1 *)position_data)->unk_16 + position_entry[1]);
-        ((Rec_D_800E3D7C *)(&D_80083780))->unk_08.at02_s16.v = func_800C2AE8(&D_80083780, position_entry);
+        ((EntityRec *)(&D_80083780.x.v))->y.w.i = (s16) (((S_800C01DC_1 *)position_data)->unk_16 + position_entry[1]);
+        ((EntityRec *)(&D_80083780.x.v))->z.w.i = func_800C2AE8(&D_80083780.x.v, position_entry);
     }
-    func_8009550C(&D_80083780);
+    func_8009550C(&D_80083780.x.v);
 }

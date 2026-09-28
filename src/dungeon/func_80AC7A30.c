@@ -4,7 +4,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 
 typedef struct {
@@ -255,9 +255,9 @@ invoke_item:
     return;
 
 empty_selection:
-    ((Rec_D_800E3D7C *)motion_in)->unk_14.as_s32 = 0;
-    ((Rec_D_800E3D7C *)motion_in)->unk_10.at00_s32.v = 0;
-    ((Rec_D_800E3D7C *)motion_in)->unk_0C.as_s32 = 0;
+    ((EntityRec *)motion_in)->flags14 = 0;
+    ((EntityRec *)motion_in)->unk_10 = 0;
+    ((EntityRec *)motion_in)->unk_0C = 0;
     func_800A2B04(motion_in, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
     dungeonStatus.unk_0C = 0;
     (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
@@ -314,9 +314,9 @@ state_2:
                 item_slot = ((S_80173230_6 *)((void *)effect_handle))->unk_08;
                 if (func_8003DE58(
                         ((S_80173230_9 *)actor_model)->unk_08, actor_model, effect_offset, 1) != 0) {
-                    ((S_80173230_7 *)item_slot)->unk_02 = ((Rec_D_800E3D7C *)motion_in)->unk_00.at02_u16.v;
-                    ((S_80173230_7 *)item_slot)->unk_06 = ((Rec_D_800E3D7C *)motion_in)->unk_04.at02_u16.v;
-                    ((S_80173230_7 *)item_slot)->unk_0A = ((Rec_D_800E3D7C *)motion_in)->unk_08.at02_u16.v;
+                    ((S_80173230_7 *)item_slot)->unk_02 = ((u16)((EntityRec *)motion_in)->x.w.i);
+                    ((S_80173230_7 *)item_slot)->unk_06 = ((u16)((EntityRec *)motion_in)->y.w.i);
+                    ((S_80173230_7 *)item_slot)->unk_0A = ((u16)((EntityRec *)motion_in)->z.w.i);
                     ((S_80173230_7 *)item_slot)->unk_02 += effect_offset[0];
                     ((S_80173230_7 *)item_slot)->unk_06 += effect_offset[1];
                     ((S_80173230_7 *)item_slot)->unk_0A += effect_offset[2];
@@ -378,9 +378,9 @@ state_4:
             goto end;
         }
 
-        ((Rec_D_800E3D7C *)motion_in)->unk_14.as_s32 = 0;
-        ((Rec_D_800E3D7C *)motion_in)->unk_10.at00_s32.v = 0;
-        ((Rec_D_800E3D7C *)motion_in)->unk_0C.as_s32 = 0;
+        ((EntityRec *)motion_in)->flags14 = 0;
+        ((EntityRec *)motion_in)->unk_10 = 0;
+        ((EntityRec *)motion_in)->unk_0C = 0;
         func_800A2B04(motion_in, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
         ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xFEFF;
         ((Rec_D_80082E80 *)sprite)->unk_12.at00_u16.v = ((S_80173230_0 *)action_in)->unk_AC;

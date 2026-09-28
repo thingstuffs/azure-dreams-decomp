@@ -1,6 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 M2C_UNK func_80099754();                      /* extern */
 extern M2C_UNK D_80097F9C;
@@ -12,8 +12,8 @@ typedef struct S_80098B30_0 {
 
 
 /* Assign the state table, initialize the record, and set its secondary value to -0x40000. */
-void func_80098B30(S_80098B30_0 *state, Rec_D_800E3D7C *record) {
+void func_80098B30(S_80098B30_0 *state, EntityRec *record) {
     state->unk_04 = &D_80097F9C;
     func_80099754(record);
-    record->unk_14.as_s32 = 0xFFFC0000;
+    record->flags14 = 0xFFFC0000;
 }

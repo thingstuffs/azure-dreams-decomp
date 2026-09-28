@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
@@ -68,7 +69,6 @@ extern void func_800A56E0(s32);
 extern void func_800AAA54(void *, void *, void *, void *);
 extern void func_800A2B04(void *, u8, u8);
 
-extern u8 D_80082E80[];
 extern u8 D_8016A36C[];
 extern u8 D_801739A0[];
 extern u8 D_801739A8[];
@@ -103,7 +103,7 @@ void func_8016C64C(S_func_8016C64C_0 *action, S_func_8016C64C_1 *motion, S_func_
         }
         actor->unk_2A = func_800A0818(
             sprite->unk_24, sprite->unk_25,
-            D_80082E80[0x24], D_80082E80[0x25], &target_distance);
+            D_80082E80.tileX, D_80082E80.tileY, &target_distance);
         action->unk_94 = 1;
         return;
 

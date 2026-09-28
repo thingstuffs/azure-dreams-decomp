@@ -1,14 +1,14 @@
 #include "common.h"
+#include "shared/entity_objects.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_func_800AD058_arg0.h"
 
 typedef s32 M2C_UNK;
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-extern u8 D_80083780[12];
 s32 func_800644B8(s32);
 s32 func_80064584(s32);
 M2C_UNK func_8009A028();
@@ -175,15 +175,15 @@ update_fade:
 
 update_spiral:
     orbit_offset = (((Rec_func_800AD058_arg0 *)state)->unk_96 * func_80064584(((S_800AD058_1 *)sprite)->unk_27 << 7)) << 5;
-    ((S_800AD058_3 *)position)->unk_00.at00.v += (s32) ((((Rec_D_800E3D7C *)D_80083780)->unk_00.at00_s32.v + orbit_offset - ((S_800AD058_3 *)position)->unk_00.at00.v) >> 2);
+    ((S_800AD058_3 *)position)->unk_00.at00.v += (s32) ((((EntityRec *)((u8 *)(&D_80083780)))->x.v + orbit_offset - ((S_800AD058_3 *)position)->unk_00.at00.v) >> 2);
     orbit_offset = (((Rec_func_800AD058_arg0 *)state)->unk_96 * func_800644B8(((S_800AD058_1 *)sprite)->unk_27 << 7)) << 5;
-    ((S_800AD058_3 *)position)->unk_04.at00.v += (s32) ((((Rec_D_800E3D7C *)D_80083780)->unk_04.at00_s32.v + orbit_offset - ((S_800AD058_3 *)position)->unk_04.at00.v) >> 2);
+    ((S_800AD058_3 *)position)->unk_04.at00.v += (s32) ((((EntityRec *)((u8 *)(&D_80083780)))->y.v + orbit_offset - ((S_800AD058_3 *)position)->unk_04.at00.v) >> 2);
     {
         s32 vertical_step;
 
         vertical_step = func_800644B8(((Rec_func_800AD058_arg0 *)state)->unk_96 * 8) >> 6;
         ((S_800AD058_2 *)entity)->unk_88 = (s16) ((u16) ((S_800AD058_2 *)entity)->unk_88 +
-            ((((Rec_D_800E3D7C *)D_80083780)->unk_08.at02_s16.v - vertical_step - ((S_800AD058_2 *)entity)->unk_88) >> 4));
+            ((((EntityRec *)((u8 *)(&D_80083780)))->z.w.i - vertical_step - ((S_800AD058_2 *)entity)->unk_88) >> 4));
     }
     scale_x = ((S_800AD058_1 *)sprite)->unk_1C;
     scale_y = ((S_800AD058_1 *)sprite)->unk_1E;

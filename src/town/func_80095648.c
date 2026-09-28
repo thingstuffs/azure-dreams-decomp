@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 M2C_UNK func_8009451C();        /* extern */
 M2C_UNK func_80094714();        /* extern */
@@ -24,7 +24,7 @@ typedef struct S_80092DA8_0 {
 
 
 /* Updates a town object based on its threshold and the global update flag. */
-void func_80092DA8(s32 object_id, Rec_D_800E3D7C *object, M2C_UNK update_context) {
+void func_80092DA8(s32 object_id, EntityRec *object, M2C_UNK update_context) {
     s16 update_threshold;
     GameWork *town_state;
 
@@ -36,7 +36,7 @@ void func_80092DA8(s32 object_id, Rec_D_800E3D7C *object, M2C_UNK update_context
         func_80094714(object_id, object, update_context);
     }
     update_threshold = func_80095978(object, &D_800FE488);
-    if (object->unk_08.at02_s16.v >= update_threshold) {
+    if (object->z.w.i >= update_threshold) {
         func_80094910();
         func_80095A94(object, update_threshold, &D_800FE488);
         func_800ABD74(object);
@@ -47,7 +47,7 @@ void func_80092DA8(s32 object_id, Rec_D_800E3D7C *object, M2C_UNK update_context
         goto no_update;
     }
     func_80094910();
-    object->unk_14.as_s32 = 0;
+    object->flags14 = 0;
     func_800954F4(object);
 
 shared_update:

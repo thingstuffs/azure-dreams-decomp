@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity_objects.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
@@ -15,8 +17,6 @@ typedef struct Struct_80083460 {
     u16 count;
 } Struct_80083460;
 
-extern u8 D_80083780[];
-extern u8 D_80082E80[];
 extern s32 D_80012090;
 extern s16 D_8008146C;
 extern u8 D_80089384[];
@@ -41,7 +41,7 @@ s32 func_800C2C7C(Entity *);
 s32 func_800C261C(Entity *entity, s32 item, s16 action_type) {
     if (entity == ((Entity *)D_800E3D7C)) {
         entity->unk_110 = item;
-        func_8008D330(entity, D_80083780, D_80082E80, entity);
+        func_8008D330(entity, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), entity);
         return 0;
     }
     if (entity->flags & 0x4000) {

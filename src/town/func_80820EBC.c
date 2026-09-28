@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity_objects.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_800206D0_arg1.h"
@@ -40,7 +41,6 @@ extern Vec3 D_80020278;
 extern u8 D_80024488[];
 extern s32 D_800244DC[];
 extern s32 D_80024628[];
-extern u8 D_80083780[];
 extern M2C_UNK D_800D0420;
 
 /* Updates a bouncing pickup, awards its value on collision, and expires it. */
@@ -144,7 +144,7 @@ state_2:
     ((Rec_func_800206D0_arg1 *)motion)->unk_14 = -((Rec_func_800206D0_arg1 *)motion)->unk_14 >> 1;
 state_2_collision:
     collision_addr = (u32)&D_80024488;
-    if (func_8008FD9C((void *)collision_addr, motion, &D_800D0420, D_80083780) == 0) {
+    if (func_8008FD9C((void *)collision_addr, motion, &D_800D0420, ((u8 *)(&D_80083780))) == 0) {
         return;
     }
     SD_Call(0x516);
@@ -162,7 +162,7 @@ state_3:
         ((S_800236BC_1 *)object)->unk_06.s = 31;
         ((S_800236BC_1 *)object)->unk_04.u++;
     }
-    if (func_8008FD9C(D_80024488, motion, &D_800D0420, D_80083780) == 0) {
+    if (func_8008FD9C(D_80024488, motion, &D_800D0420, ((u8 *)(&D_80083780))) == 0) {
         return;
     }
     SD_Call(0x516);
@@ -183,7 +183,7 @@ collision_reward:
     return;
 
 state_4:
-    if (func_8008FD9C(D_80024488, motion, &D_800D0420, D_80083780) != 0) {
+    if (func_8008FD9C(D_80024488, motion, &D_800D0420, ((u8 *)(&D_80083780))) != 0) {
         SD_Call(0x516);
         reward_amount = reward_table[((S_800236BC_1 *)object)->unk_54] * 100;
         D_80012D5C[0] += reward_amount;

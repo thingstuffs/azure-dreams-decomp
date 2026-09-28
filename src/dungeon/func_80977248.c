@@ -2,7 +2,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 
 extern s32 func_8003F270(void);
@@ -220,9 +220,9 @@ invoke_item:
     }
     ((S_80172A48_0 *)action)->unk_96.u = 0;
     ((S_80172A48_0 *)action)->unk_9B++;
-    ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0;
-    ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = 0;
-    ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
+    ((EntityRec *)motion)->flags14 = 0;
+    ((EntityRec *)motion)->unk_10 = 0;
+    ((EntityRec *)motion)->unk_0C = 0;
     if ((u32)(*effect_slot - 0x2E) >= 3) {
         goto end;
     }
@@ -233,9 +233,9 @@ invoke_item:
     return;
 
 empty_selection:
-    ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0;
-    ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = 0;
-    ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
+    ((EntityRec *)motion)->flags14 = 0;
+    ((EntityRec *)motion)->unk_10 = 0;
+    ((EntityRec *)motion)->unk_0C = 0;
     func_800A2B04(motion, ((S_80172A48_3 *)actor)->unk_24, ((S_80172A48_3 *)actor)->unk_25);
     dungeonStatus.unk_0C = 0;
     (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
@@ -338,9 +338,9 @@ state_7:
     if (!(((S_80172A48_3 *)actor)->unk_14 & 0xE000)) {
         goto end;
     }
-    ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0;
-    ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = 0;
-    ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
+    ((EntityRec *)motion)->flags14 = 0;
+    ((EntityRec *)motion)->unk_10 = 0;
+    ((EntityRec *)motion)->unk_0C = 0;
     func_800A2B04(motion, ((S_80172A48_3 *)actor)->unk_24, ((S_80172A48_3 *)actor)->unk_25);
     ((S_80172A48_0 *)action)->unk_9B++;
     if (((S_80172A48_3 *)actor)->unk_2C == D_801740E0) {

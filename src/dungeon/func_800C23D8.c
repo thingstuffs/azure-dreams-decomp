@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity_objects.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -40,7 +41,6 @@ typedef struct G {
 
 extern s16 D_800120A2;
 extern s16 D_800DD264[];
-extern u8  D_80083780[];
 extern s16 D_800DCE66[5];
 
 extern void func_800C77D0(void *a0, void *a1, s32 a2, s16 a3);
@@ -83,6 +83,6 @@ blend_state:
     return;
 
 dispatch_state:
-    func_800C77D0((void *)(((s32)D_800E3D7C) - 0x20), D_80083780, 8, D_800DCE66[0]);
+    func_800C77D0((void *)(((s32)D_800E3D7C) - 0x20), ((u8 *)(&D_80083780)), 8, D_800DCE66[0]);
     dungeonStatus.unk_0A = dungeonStatus.unk_0A - 1;
 }

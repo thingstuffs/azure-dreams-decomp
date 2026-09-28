@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
@@ -213,7 +214,7 @@ void func_8016BF74(void *raw_motion, void *context, void *raw_position, void *ra
             turn_index = 0;
             if (!(((S_8016BF74_1 *)actor)->unk_46 & 0x8000)) {
                 if (actor_flags & 0x20000) {
-                    direction_offset = ((((S_8016BF74_1 *)actor)->unk_45 + ((s32) (((Rec_D_800814A8 *)D_800814A8)->unk_2A.as_u16 << 0x10) >> 0x19)) & 7) * 2;
+                    direction_offset = ((((S_8016BF74_1 *)actor)->unk_45 + ((s32) (((u16)((EntityRec *)D_800814A8)->facing) << 0x10) >> 0x19)) & 7) * 2;
                     world_x = D_80082E80[0x24];
                     world_y = D_80082E80[0x25];
                     x_offset = (void *)(*(u16 *)((u8 *)(((M2C_UNK *)dirStepX)) + direction_offset));
@@ -350,7 +351,7 @@ take_step:
 finish_search:
             goto finish_path;
         }
-        if ((turn_index != 0) || (D_80082EA4 == position->unk_24.at00u.v) || (result = func_8009A180(actor, ((Rec_D_800814A8 *)D_800814A8)->unk_58.as_s32 + 0x20) << 0x10, (result == 0))) {
+        if ((turn_index != 0) || (D_80082EA4 == position->unk_24.at00u.v) || (result = func_8009A180(actor, ((s32)((EntityRec *)D_800814A8)->unk_58) + 0x20) << 0x10, (result == 0))) {
             turn_index += 1;
             angle_offsets += 2;
             if (turn_index >= 8) {

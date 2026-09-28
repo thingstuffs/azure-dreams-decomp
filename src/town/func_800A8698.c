@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity_objects.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 
@@ -46,7 +47,6 @@ M2C_UNK func_80095C80();                      /* extern */
 s32 func_800A5894();                          /* extern */
 M2C_UNK func_800A55CC();                         /* extern */
 s32 func_800C1D44();                             /* extern */
-extern u8 D_80083780[];
 extern u8 D_800CFCEF;
 extern u8 D_800FE488[];
 extern u8 D_800A5FDC[];
@@ -58,7 +58,6 @@ void func_800A5DF8(S_800A5DF8_4 *state, S_800A5DF8_0 *actor, M2C_UNK context) {
     s16 angle;
     s32 next_offset;
     u16 ticks_left;
-    u8 *position;
     register u8 *scene_state;
     register u8 *effect_data;
 
@@ -74,9 +73,8 @@ void func_800A5DF8(S_800A5DF8_4 *state, S_800A5DF8_0 *actor, M2C_UNK context) {
     } else {
         func_80095388(actor, threshold);
     }
-    position = D_80083780;
 
-    if (func_800C1D44(func_8008C180(((S_800A5DF8_2 *)position)->unk_02, ((S_800A5DF8_2 *)position)->unk_06) & 0xFFFF) != 0) {
+    if (func_800C1D44(func_8008C180(D_80083780.x.w.i, D_80083780.y.w.i) & 0xFFFF) != 0) {
         offset_step = actor->unk_14 - func_800A5894(actor);
         actor->unk_14 = offset_step;
     }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity_objects.h"
 #include "shared/game_work.h"
 
 typedef struct {
@@ -56,7 +57,6 @@ extern void func_8001E96C(void);
 extern void func_8001F32C(void);
 extern void file_load_com();
 
-extern u8 D_80083780[];
 extern u16 D_80082E76;
 extern s32 D_800E3D6C;
 extern s16 D_800E3CD8[8];
@@ -110,14 +110,14 @@ void func_80018A70(void) {
             D_80081468.level = ((LevelPage *)0x80010000)->level;
             fl &= 0xFFFC;
             state->flags = fl;
-            func_8004D0C8(D_80083780);
+            func_8004D0C8(((u8 *)(&D_80083780)));
             bzero((void *)0x80013720, 0x2000);
         } else if (entry_flags & 1) {
             state->field8 = 0;
             state->fieldA = 0;
             D_80081468.seed = state->seed;
             D_80081468.level = ((LevelPage *)0x80010000)->level;
-            func_8004D0C8(D_80083780);
+            func_8004D0C8(((u8 *)(&D_80083780)));
         } else {
             u32 hi;
 
@@ -129,7 +129,7 @@ void func_80018A70(void) {
             state->field11 = 0;
             state->field10 = 0;
             state->seed = D_80081468.seed = (value | (hi << 16)) ^ xor_base->unk_004;
-            func_8004D0C8(D_80083780);
+            func_8004D0C8(((u8 *)(&D_80083780)));
             bzero((void *)0x80013720, 0x2000);
         }
     }

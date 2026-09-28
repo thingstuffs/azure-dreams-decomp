@@ -1,6 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_D_800CFCB4.h"
 
 s32 func_800374F4();                         /* extern */
@@ -16,12 +16,12 @@ typedef struct S_8009F374_2 {
 } S_8009F374_2;   /* arg3 in func_8009F374 */
 
 /* Jitter the position and pulse the scale until the countdown expires. */
-void func_8009F374(Rec_D_800CFCB4 *state, M2C_UNK context, Rec_D_800E3D7C *position, S_8009F374_2 *scale) {
+void func_8009F374(Rec_D_800CFCB4 *state, M2C_UNK context, EntityRec *position, S_8009F374_2 *scale) {
     s16 ticks_left;
     s32 scale_x_wave;
     s32 scale_y_wave;
 
-    position->unk_08.at00_s32.v = (s32) (state->unk_A0 + (((func_800374F4(0x10) & 0xFFFF) - 8) << 0x10));
+    position->z.v = (s32) (state->unk_A0 + (((func_800374F4(0x10) & 0xFFFF) - 8) << 0x10));
     scale_x_wave = func_800644B8(state->unk_6C.as_s16 * 0x199);
     if (scale_x_wave < 0) {
         scale_x_wave += 3;

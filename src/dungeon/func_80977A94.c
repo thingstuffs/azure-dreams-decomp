@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 
 typedef struct S_80173294_0 {
@@ -26,7 +26,7 @@ extern u8 D_801714D4;
 extern u8 D_80174148;
 
 /* Slows directional motion, then recenters the entity on its tile. */
-void func_80173294(S_80173294_0 *motion_state, Rec_D_800E3D7C *motion, Rec_D_80082E80 *tile_state, void *entity)
+void func_80173294(S_80173294_0 *motion_state, EntityRec *motion, Rec_D_80082E80 *tile_state, void *entity)
 {
     s16 timer;
     s32 x_speed_or_entity;
@@ -52,15 +52,15 @@ void func_80173294(S_80173294_0 *motion_state, Rec_D_800E3D7C *motion, Rec_D_800
 
 start_motion:
     func_800AD4D0(entity);
-    motion->unk_0C.as_s32 =
+    motion->unk_0C =
         -*(s16 *)((u8 *)((s8 *)dirStepX) +
-            ((((Rec_D_800E3D7C *)entity)->unk_6A.as_u16 >> 8) & 0xE)) << 15;
-    motion->unk_10.at00_s32.v =
+            ((((EntityRec *)entity)->unk_6A >> 8) & 0xE)) << 15;
+    motion->unk_10 =
         -*(s16 *)((u8 *)((s8 *)dirStepY) +
-            ((((Rec_D_800E3D7C *)entity)->unk_6A.as_u16 >> 8) & 0xE)) << 15;
+            ((((EntityRec *)entity)->unk_6A >> 8) & 0xE)) << 15;
     motion_state->unk_9B++;
 
-    if (((Rec_D_800E3D7C *)entity)->unk_28 == 0) {
+    if (((EntityRec *)entity)->unk_28 == 0) {
         goto reset_motion;
     }
     if (tile_state->unk_14.at00_u16.v & 0x8000) {
@@ -69,25 +69,25 @@ start_motion:
         return;
     }
     timer = -1;
-    if (((Rec_D_800E3D7C *)entity)->unk_1C.as_s32 & 0x228) {
+    if (((EntityRec *)entity)->flags1C & 0x228) {
         timer = 8;
     }
     motion_state->unk_96.s = timer;
 
 slow_motion:
-    x_speed_or_entity = motion->unk_0C.as_s32;
+    x_speed_or_entity = motion->unk_0C;
     rounded_velocity = x_speed_or_entity;
     if (x_speed_or_entity < 0) {
         rounded_velocity = x_speed_or_entity + 3;
     }
-    velocity_z = motion->unk_10.at00_s32.v;
-    motion->unk_0C.as_s32 = x_speed_or_entity - (rounded_velocity >> 2);
+    velocity_z = motion->unk_10;
+    motion->unk_0C = x_speed_or_entity - (rounded_velocity >> 2);
 
     rounded_velocity = velocity_z;
     if (velocity_z < 0) {
         rounded_velocity = velocity_z + 3;
     }
-    motion->unk_10.at00_s32.v = velocity_z - (rounded_velocity >> 2);
+    motion->unk_10 = velocity_z - (rounded_velocity >> 2);
 
     if (motion_state->unk_96.s > 0) {
         motion_state->unk_96.u = motion_state->unk_96.u - 1;
@@ -98,14 +98,14 @@ slow_motion:
     if (motion_state->unk_96.s != 0) {
         return;
     }
-    if (((Rec_D_800E3D7C *)entity)->unk_28 != 0) {
+    if (((EntityRec *)entity)->unk_28 != 0) {
         goto start_centering;
     }
 
 reset_motion:
-    motion->unk_14.as_s32 = 0;
-    motion->unk_10.at00_s32.v = 0;
-    motion->unk_0C.as_s32 = 0;
+    motion->flags14 = 0;
+    motion->unk_10 = 0;
+    motion->unk_0C = 0;
     func_800AAA54(motion_state, motion, tile_state, &D_80174148);
     return;
 
@@ -121,14 +121,14 @@ center_on_tile:
         s32 offset_coord;
 
         tile_coord = tile_state->unk_24 << 6;
-        offset_coord = motion->unk_00.at02_s16.v;
+        offset_coord = motion->x.w.i;
         offset_coord -= 0x20;
-        motion->unk_0C.as_s32 = ((tile_coord - offset_coord) << 15) / timer;
+        motion->unk_0C = ((tile_coord - offset_coord) << 15) / timer;
 
-        offset_coord = motion->unk_04.at02_s16.v;
+        offset_coord = motion->y.w.i;
         offset_coord -= 0x20;
         tile_coord = tile_state->unk_25 << 6;
-        motion->unk_10.at00_s32.v =
+        motion->unk_10 =
             ((tile_coord - offset_coord) << 15) / motion_state->unk_96.s;
     }
 
@@ -138,9 +138,9 @@ center_on_tile:
         return;
     }
 
-    motion->unk_14.as_s32 = 0;
-    motion->unk_10.at00_s32.v = 0;
-    motion->unk_0C.as_s32 = 0;
+    motion->flags14 = 0;
+    motion->unk_10 = 0;
+    motion->unk_0C = 0;
     func_800A2B04(motion, tile_state->unk_24,
         tile_state->unk_25);
     {

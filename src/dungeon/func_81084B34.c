@@ -2,7 +2,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 typedef struct S_80172334_0 {
     u8 pad_00[0x8C];
@@ -38,6 +38,6 @@ void func_80172334(void *state, M2C_UNK unused, void *sprite, void *orientation)
         ((S_80172334_0 *)state)->unk_9A = 0x17;
         ((S_80172334_0 *)state)->unk_9B = 0;
         (*(u8 **)((u8 *)sprite + 0x2C)) = direction_table;
-        func_80047784(sprite, *((((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)orientation)->unk_2A.as_s16 + 0x100) >> 9) & 7) + direction_table), 0);
+        func_80047784(sprite, *((((s32) (gameWork.viewAngle + ((EntityRec *)orientation)->facing + 0x100) >> 9) & 7) + direction_table), 0);
     }
 }

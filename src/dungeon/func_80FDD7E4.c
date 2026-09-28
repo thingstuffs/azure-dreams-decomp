@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 
 typedef struct S_80172FE4_0 {
@@ -26,7 +26,7 @@ extern s32 D_80174068;
 
 
 /* Updates directional movement, then stops or returns the entity to its grid position. */
-void func_80172FE4(S_80172FE4_0 *action, Rec_D_800E3D7C *motion, Rec_D_80082E80 *entity, void *source)
+void func_80172FE4(S_80172FE4_0 *action, EntityRec *motion, Rec_D_80082E80 *entity, void *source)
 {
     s16 timer;
     s32 current_x;
@@ -37,15 +37,15 @@ void func_80172FE4(S_80172FE4_0 *action, Rec_D_800E3D7C *motion, Rec_D_80082E80 
     switch (action->unk_9B) {
     case 0:
         func_800AD4D0(source);
-        motion->unk_0C.as_s32 =
+        motion->unk_0C =
             -*(s16 *)((u8 *)((s8 *)dirStepX) +
-                      ((((Rec_D_800E3D7C *)source)->unk_6A.as_u16 >> 8) & 0xE)) << 15;
-        motion->unk_10.at00_s32.v =
+                      ((((EntityRec *)source)->unk_6A >> 8) & 0xE)) << 15;
+        motion->unk_10 =
             -*(s16 *)((u8 *)((s8 *)dirStepY) +
-                      ((((Rec_D_800E3D7C *)source)->unk_6A.as_u16 >> 8) & 0xE)) << 15;
+                      ((((EntityRec *)source)->unk_6A >> 8) & 0xE)) << 15;
         action->unk_9B++;
 
-        if (((Rec_D_800E3D7C *)source)->unk_28 == 0) {
+        if (((EntityRec *)source)->unk_28 == 0) {
             goto start_action;
         }
         if (entity->unk_14.at00_u16.v & 0x8000) {
@@ -53,27 +53,27 @@ void func_80172FE4(S_80172FE4_0 *action, Rec_D_800E3D7C *motion, Rec_D_80082E80 
             action->unk_9B = 2;
             return;
         }
-        if (((Rec_D_800E3D7C *)source)->unk_1C.as_s32 & 0x228) {
+        if (((EntityRec *)source)->flags1C & 0x228) {
             timer = 8;
         } else {
             timer = -1;
         }
         action->unk_96.s = timer;
-        motion->unk_0C.as_s32 -= motion->unk_0C.as_s32 / 4;
-        motion->unk_10.at00_s32.v -= motion->unk_10.at00_s32.v / 4;
+        motion->unk_0C -= motion->unk_0C / 4;
+        motion->unk_10 -= motion->unk_10 / 4;
         /* fall through */
 
     case 1:
-        motion->unk_0C.as_s32 +=
+        motion->unk_0C +=
             *(s16 *)((u8 *)((s8 *)dirStepX) +
-                     ((((Rec_D_800E3D7C *)source)->unk_6A.as_u16 >> 8) & 0xE)) << 14;
+                     ((((EntityRec *)source)->unk_6A >> 8) & 0xE)) << 14;
         {
             s16 table_offset;
             u8 *y_table;
 
-            table_offset = (((Rec_D_800E3D7C *)source)->unk_6A.as_u16 >> 8) & 0xE;
+            table_offset = (((EntityRec *)source)->unk_6A >> 8) & 0xE;
             y_table = (u8 *)((s8 *)dirStepY);
-            motion->unk_10.at00_s32.v +=
+            motion->unk_10 +=
                 *(s16 *)(y_table + table_offset) << 14;
         }
         if (action->unk_96.s > 0) {
@@ -84,15 +84,15 @@ void func_80172FE4(S_80172FE4_0 *action, Rec_D_800E3D7C *motion, Rec_D_80082E80 
         if (action->unk_96.s != 0) {
             return;
         }
-        if (((Rec_D_800E3D7C *)source)->unk_28 != 0) {
+        if (((EntityRec *)source)->unk_28 != 0) {
             goto increment_state;
         }
         goto start_action;
 
 start_action:
-        motion->unk_14.as_s32 = 0;
-        motion->unk_10.at00_s32.v = 0;
-        motion->unk_0C.as_s32 = 0;
+        motion->flags14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
         func_800AAA54(action, motion, entity, &D_80174068);
         return;
 
@@ -104,12 +104,12 @@ increment_state:
     case 2:
         if (action->unk_96.s != 0) {
             target_x = entity->unk_24 << 6;
-            current_x = motion->unk_00.at02_s16.v - 0x20;
-            current_y = motion->unk_04.at02_s16.v - 0x20;
-            motion->unk_0C.as_s32 =
+            current_x = motion->x.w.i - 0x20;
+            current_y = motion->y.w.i - 0x20;
+            motion->unk_0C =
                 ((target_x - current_x) << 15) /
                 action->unk_96.s;
-            motion->unk_10.at00_s32.v =
+            motion->unk_10 =
                 (((entity->unk_25 << 6) - current_y) << 15) /
                 action->unk_96.s;
         }
@@ -118,9 +118,9 @@ increment_state:
         if ((s32)(timer << 16) > 0) {
             return;
         }
-        motion->unk_14.as_s32 = 0;
-        motion->unk_10.at00_s32.v = 0;
-        motion->unk_0C.as_s32 = 0;
+        motion->flags14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
         func_800A2B04(motion, entity->unk_24, entity->unk_25);
 
         tracked_addr = ((s32)dungeonStatus.unk_10);

@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity_objects.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
@@ -233,8 +235,6 @@ extern s16 D_80027C94;
 extern u8 D_80027C96;
 extern s32 D_80027C98;
 extern void *D_800814A8;
-extern M2C_UNK D_80082E80;
-extern M2C_UNK D_80083780;
 extern s32 D_800E3D18;
 extern M2C_UNK D_800E3D7C;
 
@@ -360,10 +360,10 @@ void func_80024DAC(S_819835AC_1 *effect, S_819835AC_2 *motion, S_819835AC_3 *vis
     }
     (void)state_labels; goto *D_80024020[(u32)(state)];
 jt_c0:
-    func_8003DE58(*(M2C_UNK *)((((s32) (gameWork.viewAngle + ((S_819835AC_5 *) ((S_819835AC_11 *) &D_800E3D7C)->unk_00)->unk_2A.s16 + 0x100) >> 7) & 0x1C) + D_800E3D18), &D_80082E80, (u8 *) effect + 0x28, 0);
+    func_8003DE58(*(M2C_UNK *)((((s32) (gameWork.viewAngle + ((S_819835AC_5 *) ((S_819835AC_11 *) &D_800E3D7C)->unk_00)->unk_2A.s16 + 0x100) >> 7) & 0x1C) + D_800E3D18), &D_80082E80.unk_000, (u8 *) effect + 0x28, 0);
     heading_or_owner = func_80064584(((S_819835AC_5 *) (*(void **)&D_800E3D7C))->unk_2A.s16);
     boost_speed_x = func_80064584(((S_819835AC_5 *) (*(void **)&D_800E3D7C))->unk_2A.s16 - 0x400);
-    state0_move = (S_819835AC_2 *) &D_80083780;
+    state0_move = (S_819835AC_2 *) &D_80083780.x.v;
     ASM_KEEP(state0_move);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     heading_or_owner >>= 4;
     state0_delta_x = state0_move->unk_00.half.unk_02.u16;
@@ -489,8 +489,8 @@ block_24:
     if (__builtin_abs(approach_gap_z) >= 0x40) {
         goto block_129;
     }
-    func_8003DE58(*(M2C_UNK *)((((s32) (gameWork.viewAngle + ((S_819835AC_5 *) ((S_819835AC_11 *) &D_800E3D7C)->unk_00)->unk_2A.s16 + 0x100) >> 7) & 0x1C) + D_800E3D18), &D_80082E80, (u8 *) effect + 0x28, 0);
-    state1_move = (S_819835AC_2 *) &D_80083780;
+    func_8003DE58(*(M2C_UNK *)((((s32) (gameWork.viewAngle + ((S_819835AC_5 *) ((S_819835AC_11 *) &D_800E3D7C)->unk_00)->unk_2A.s16 + 0x100) >> 7) & 0x1C) + D_800E3D18), &D_80082E80.unk_000, (u8 *) effect + 0x28, 0);
+    state1_move = (S_819835AC_2 *) &D_80083780.x.v;
     boost_speed_x = effect->unk_28.u16;
     coord_delta = state1_move->unk_00.half.unk_02.u16;
     boost_speed_x += coord_delta;
@@ -618,18 +618,18 @@ block_57:
     goto block_128;
 jt_c3:
 jt_c4:
-    state34_base = (S_819835AC_7 *) &D_80082E80;
+    state34_base = (S_819835AC_7 *) &D_80082E80.unk_000;
     if (func_8003DE58(state34_base->unk_08, state34_base, &emit_offset, 0) == 0) {
         goto block_63;
     }
     if (effect->unk_30 != 3) {
         goto block_62;
     }
-    state34_move = (S_819835AC_2 *) &D_80083780;
+    state34_move = (S_819835AC_2 *) &D_80083780.x.v;
     func_800B8D64(state34_move->unk_00.half.unk_02.s16 + emit_offset.x, state34_move->unk_04.half.unk_06.s16 + emit_offset.y, state34_move->unk_08.half.unk_0A.s16 + emit_offset.z);
     effect->unk_30 = (s16) ((u16) effect->unk_30 + 1);
 block_62:
-    state34_emit = (S_819835AC_2 *) &D_80083780;
+    state34_emit = (S_819835AC_2 *) &D_80083780.x.v;
     func_80024B2C((s16) (state34_emit->unk_00.half.unk_02.u16 + (u16) emit_offset.x), (s16) (state34_emit->unk_04.half.unk_06.u16 + (u16) emit_offset.y), (s16) (state34_emit->unk_08.half.unk_0A.u16 + (u16) emit_offset.z), ((S_819835AC_5 *) ((S_819835AC_11 *) &D_800E3D7C)->unk_00)->unk_2A.s16, 0);
 block_63:
     motion->unk_0C.word = (s32) (func_80064584((s16) effect->unk_38) << 8);
@@ -649,7 +649,7 @@ block_65:
     if ((launch_ticks << 0x10) > 0) {
         goto block_129;
     }
-    tile_base = (S_819835AC_7 *) &D_80082E80;
+    tile_base = (S_819835AC_7 *) &D_80082E80.unk_000;
     tile_coord = tile_base->unk_24;
     tile_call_arg = 0x300;
     effect->unk_40 = (s16) tile_coord;
@@ -881,7 +881,7 @@ block_117:
     if ((search_ticks << 0x10) > 0) {
         goto block_121;
     }
-    new_target = func_80026444(&D_80082E80);
+    new_target = func_80026444(&D_80082E80.unk_000);
     effect->unk_9C = new_target;
     if (new_target != NULL) {
         goto block_120;

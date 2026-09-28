@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
 
 typedef struct EffectState {
@@ -50,7 +51,6 @@ extern Effect *func_8003FC64(s32);
 extern void func_8004491C(Effect *, void *);
 extern s32 rand(void);
 extern u8 D_800244E4[];
-extern Vec3u16 D_80083780;
 extern u8 D_800DE870[];
 
 /* Creates an effect with randomized position offsets and initializes its rendering state. */
@@ -79,9 +79,9 @@ void func_8196B2F8(s32 unused_0, s32 unused_1, s32 unused_2, s16 x, s16 y, s16 z
         position->x = x;
         position->y = y;
         position->z = z;
-        position->x += D_80083780.x;
-        position->y += D_80083780.y;
-        position->z += D_80083780.z;
+        position->x += ((u16)D_80083780.x.w.i);
+        position->y += ((u16)D_80083780.y.w.i);
+        position->z += ((u16)D_80083780.z.w.i);
         jitter = rand() & 0x1F;
         position->x -= 0x10;
         position->x += jitter;

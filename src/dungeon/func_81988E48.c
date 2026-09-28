@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 
@@ -74,9 +76,7 @@ typedef struct GlobalFlag {
     s32 pad04[2];
 } GlobalFlag;
 
-extern u8 D_80082E80[];
 extern u8 D_80083498[];
-extern s16 D_80083780[];
 extern s32 D_80024AA4;
 extern u8 D_800DEC00[];
 
@@ -137,11 +137,11 @@ state_0:
         obj->state++;
 state_1:
         state_count = 14;
-        call_data = D_80082E80;
+        call_data = ((u8 *)(&D_80082E80));
         if (func_8003DE58(*(void **)(call_data + 8), call_data, hit, 0)) {
-            obj->x += (hit[0] + D_80083780[1] - *(s16 *)((u8 *)obj + 0x1E)) << 14;
-            obj->y += (hit[1] + D_80083780[3] - *(s16 *)((u8 *)obj + 0x22)) << 14;
-            obj->z += (hit[2] + D_80083780[5] - *(s16 *)((u8 *)obj + 0x26)) << 14;
+            obj->x += (hit[0] + D_80083780.x.w.i - *(s16 *)((u8 *)obj + 0x1E)) << 14;
+            obj->y += (hit[1] + D_80083780.y.w.i - *(s16 *)((u8 *)obj + 0x22)) << 14;
+            obj->z += (hit[2] + D_80083780.z.w.i - *(s16 *)((u8 *)obj + 0x26)) << 14;
             obj->z -= func_800644B8((obj->age << 11) / 10) << 9;
         }
         if (obj->age >= 10) {
@@ -157,11 +157,11 @@ state_2:
             state_count = 4;
         }
         obj->angle += 2;
-        call_data = D_80082E80;
+        call_data = ((u8 *)(&D_80082E80));
         if (func_8003DE58(*(void **)(call_data + 8), call_data, hit, 0)) {
-            obj->x += (hit[0] + D_80083780[1] - *(s16 *)((u8 *)obj + 0x1E)) << 15;
-            obj->y += (hit[1] + D_80083780[3] - *(s16 *)((u8 *)obj + 0x22)) << 15;
-            obj->z += (hit[2] + D_80083780[5] - *(s16 *)((u8 *)obj + 0x26)) << 15;
+            obj->x += (hit[0] + D_80083780.x.w.i - *(s16 *)((u8 *)obj + 0x1E)) << 15;
+            obj->y += (hit[1] + D_80083780.y.w.i - *(s16 *)((u8 *)obj + 0x22)) << 15;
+            obj->z += (hit[2] + D_80083780.z.w.i - *(s16 *)((u8 *)obj + 0x26)) << 15;
         }
         if (obj->age >= 13) {
             obj->age = 8;

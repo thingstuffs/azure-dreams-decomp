@@ -2,7 +2,7 @@
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 
 
@@ -26,7 +26,7 @@ void func_80090200(void *arg0, M2C_UNK arg1, void *arg2, void *arg3) {
     mask = ~0x20;
      /* MATCH: Emit the mask before loading the data pointer. */
     data = &D_800DD0E8;
-    ((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 = (s32) (((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 & mask);
+    ((EntityRec *)arg3)->flags1C = (s32) (((EntityRec *)arg3)->flags1C & mask);
     (*(M2C_UNK **)((u8 *)arg2 + 0x2C)) = data;
-    func_80048A44(arg2, *((((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7) + data), 0, 1);
+    func_80048A44(arg2, *((((s32) (gameWork.viewAngle + ((EntityRec *)arg3)->facing + 0x100) >> 9) & 7) + data), 0, 1);
 }

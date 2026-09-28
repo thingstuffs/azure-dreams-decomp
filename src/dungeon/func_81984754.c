@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity_objects.h"
 
 typedef struct Pos {
     u8 pad0[2];
@@ -63,7 +64,6 @@ extern u8 D_80026BBC[];
 extern u8 D_80026BC8[];
 extern u8 D_80080010[];
 extern u8 D_80083498[];
-extern u8 D_80083780[];
 extern u8 D_800C9034[];
 
 extern void func_80026240(Entity *, void *);
@@ -81,7 +81,7 @@ void *func_81984754(s32 x, s32 y, s32 z, s32 angle)
     u16 spawn_y;
     u16 spawn_z;
     s32 spawn_angle;
-    u8 *target_pos;
+    EntityRec *target_pos;
     Object **object_base;
     Object **object_slot;
     Pos *pos;
@@ -110,7 +110,7 @@ void *func_81984754(s32 x, s32 y, s32 z, s32 angle)
 
     object_index = 0;
     object_base = &objects[object_index];
-    target_pos = D_80083780;
+    target_pos = &D_80083780;
     object_slot = object_base;
     do {
 #ifdef NON_MATCHING
@@ -167,8 +167,8 @@ void *func_81984754(s32 x, s32 y, s32 z, s32 angle)
         }
 
         target_angle = func_800A07D0(pos->x, pos->y,
-                              *(s16 *)(target_pos + 2),
-                              *(s16 *)(target_pos + 6));
+                              target_pos->x.w.i,
+                              target_pos->y.w.i);
 
         angle_bits = (u16)entity->angle;
         entity->angle = (angle_bits & 0x800)

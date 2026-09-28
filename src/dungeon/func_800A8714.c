@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
@@ -9,7 +10,6 @@ extern int abs(int);
 
 /* ---- globals (declared array-style so every access stays %hi/%lo, never $gp) ---- */
 extern u16 D_80013714[];
-extern u8 D_80082E80[];
 extern s32 D_800E296C[];
 typedef struct D_800E2970Entry {
     u8 pad_00[0xC];
@@ -103,12 +103,12 @@ s32 func_800ADE74(s32 unused, u8 *position_arg, u8 *creature_arg, s32 lower_limi
     s32 ally_offset;
     s32 behavior;
     u8 behavior_byte;
-    u8 *idle_player_pos;
-    u8 *follow_player_pos;
-    u8 *assist_player_pos;
-    u8 *near_player_pos;
-    u8 *ranged_player_pos;
-    u8 *flee_player_pos;
+    TileObject *idle_player_pos;
+    TileObject *follow_player_pos;
+    TileObject *assist_player_pos;
+    TileObject *near_player_pos;
+    TileObject *ranged_player_pos;
+    TileObject *flee_player_pos;
     u8 *neighbor;
     u8 *target;
     u8 *target_pos;
@@ -210,7 +210,7 @@ Lcase0:
         slot_or_distance = found_slot;
         if ((found_slot << 16) >= 0) {
             if (*(s32 *)(creature + 0x1C) & 0x20000) {
-                idle_player_pos = D_80082E80;
+                idle_player_pos = &D_80082E80;
                 idle_player_dist = func_8009FD40(position, idle_player_pos);
                 idle_player_range = func_800A35A4(creature, slot_or_distance);
                 if ((idle_player_dist << 16) < (idle_player_range << 16)) {
@@ -220,7 +220,7 @@ Lcase0:
                         *(u16 *)(creature + 0x46) = (*(u16 *)&slot_or_distance + 1) | 0x8000;
                         *(u16 *)(creature + 0x2A) = func_800A0818(
                             position[0x24], position[0x25],
-                            idle_player_pos[0x24], idle_player_pos[0x25], &slot_or_distance);
+                            idle_player_pos->tileX, idle_player_pos->tileY, &slot_or_distance);
                         player_target = D_800814A8;
                         result = 4;
                         *(void **)(creature + 0x60) = player_target;
@@ -296,7 +296,7 @@ Lcase1:
         slot_or_distance = found_slot;
         if ((found_slot << 16) >= 0) {
             if (*(s32 *)(creature + 0x1C) & 0x20000) {
-                follow_player_pos = D_80082E80;
+                follow_player_pos = &D_80082E80;
                 follow_player_dist = func_8009FD40(position, follow_player_pos);
                 follow_player_range = func_800A35A4(creature, slot_or_distance);
                 if ((follow_player_dist << 16) < (follow_player_range << 16)) {
@@ -306,7 +306,7 @@ Lcase1:
                         *(u16 *)(creature + 0x46) = (*(u16 *)&slot_or_distance + 1) | 0x8000;
                         target_direction = func_800A0818(
                             position[0x24], position[0x25],
-                            follow_player_pos[0x24], follow_player_pos[0x25], &slot_or_distance);
+                            follow_player_pos->tileX, follow_player_pos->tileY, &slot_or_distance);
                         player_target = D_800814A8;
                         *(u16 *)(creature + 0x2A) = target_direction;
                         *(void **)(creature + 0x60) = player_target;
@@ -381,7 +381,7 @@ Lcase2:
             goto check_player_action;
         }
         if (*(s32 *)(creature + 0x1C) & 0x20000) {
-            assist_player_pos = D_80082E80;
+            assist_player_pos = &D_80082E80;
             assist_player_dist = func_8009FD40(position, assist_player_pos);
             assist_player_range = func_800A35A4(creature, slot_or_distance);
             if ((assist_player_dist << 16) < (assist_player_range << 16)) {
@@ -395,7 +395,7 @@ Lcase2:
                         *(u16 *)(creature + 0x46) = (*(u16 *)&slot_or_distance + 1) | 0x8000;
                         target_direction = func_800A0818(
                             position[0x24], position[0x25],
-                            assist_player_pos[0x24], assist_player_pos[0x25], &slot_or_distance);
+                            assist_player_pos->tileX, assist_player_pos->tileY, &slot_or_distance);
                         player_target = D_800814A8;
                         *(u16 *)(creature + 0x2A) = target_direction;
                         *(void **)(creature + 0x60) = player_target;
@@ -466,7 +466,7 @@ check_player_action:
                             *(u16 *)(creature + 0x46) = action_code;
                             *(u16 *)(creature + 0x2A) = func_800A0818(
                                 position[0x24], position[0x25],
-                                D_80082E80[0x24], D_80082E80[0x25], &action_or_flags);
+                                D_80082E80.tileX, D_80082E80.tileY, &action_or_flags);
                             return 3;
                         }
                     }
@@ -579,7 +579,7 @@ Lcase22:
     if (!(*(s32 *)(creature + 0x1C) & 0x20000)) {
         goto wander;
     }
-    near_player_pos = D_80082E80;
+    near_player_pos = &D_80082E80;
     if ((s16)func_8009FD40(near_player_pos, position) >= 0xB) {
         goto wander;
     }
@@ -592,7 +592,7 @@ Lcase22:
     *(u16 *)(creature + 0x46) = 0x8008;
     *(u16 *)(creature + 0x2A) = func_800A0818(
         position[0x24], position[0x25],
-        near_player_pos[0x24], near_player_pos[0x25], &action_or_flags);
+        near_player_pos->tileX, near_player_pos->tileY, &action_or_flags);
     return 1;
 
 Lcase44:
@@ -603,7 +603,7 @@ Lcase44:
     if (!(*(s32 *)(creature + 0x1C) & 0x20000)) {
         goto wander;
     }
-    ranged_player_pos = D_80082E80;
+    ranged_player_pos = &D_80082E80;
     ranged_distance = func_8009FD40(ranged_player_pos, position);
     if ((u32)((ranged_distance - 2) & 0xFFFF) >= 7) {
         goto wander;
@@ -631,7 +631,7 @@ Lcase44:
     *(u16 *)(creature + 0x46) = 0x8009;
     *(u16 *)(creature + 0x2A) = func_800A0818(
         position[0x24], position[0x25],
-        ranged_player_pos[0x24], ranged_player_pos[0x25], &action_or_flags);
+        ranged_player_pos->tileX, ranged_player_pos->tileY, &action_or_flags);
     return 5;
 
 Lcase43:
@@ -651,7 +651,7 @@ Lcase43:
     *(u16 *)(creature + 0x46) = 0x8009;
     *(u16 *)(creature + 0x2A) = func_800A0818(
         position[0x24], position[0x25],
-        D_80082E80[0x24], D_80082E80[0x25], &action_or_flags);
+        D_80082E80.tileX, D_80082E80.tileY, &action_or_flags);
     return 5;
 
 Lcase34:
@@ -823,13 +823,13 @@ Lcase32:
         func_800A0E6C(position, *(s8 *)(creature + 0x9C), creature, creature + 0x98);
         goto return_wait;
     }
-    flee_player_pos = D_80082E80;
+    flee_player_pos = &D_80082E80;
     if ((s16)func_8009FD40(position, flee_player_pos) != 1) {
         goto return_wait;
     }
     *(u16 *)(creature + 0x2A) = func_800A0818(
         position[0x24], position[0x25],
-        flee_player_pos[0x24], flee_player_pos[0x25], creature + 0x98) + 0x800;
+        flee_player_pos->tileX, flee_player_pos->tileY, creature + 0x98) + 0x800;
     goto return_wait;
 
 Lcase36:
@@ -894,7 +894,7 @@ Lcase37:
     return 5;
 
 Lcase24:
-    if ((s16)func_8009FD40(position, D_80082E80) < 2) {
+    if ((s16)func_8009FD40(position, ((u8 *)(&D_80082E80))) < 2) {
         goto check_active_ability;
     }
     if (creature[0xB5] != 0) {
@@ -919,7 +919,7 @@ check_occupied_tile:
     }
     *(u16 *)(creature + 0x2A) = func_800A0818(
         position[0x24], position[0x25],
-        D_80082E80[0x24], D_80082E80[0x25], creature + 0x98);
+        D_80082E80.tileX, D_80082E80.tileY, creature + 0x98);
     goto return_wait;
 
 Lcase42:
@@ -931,7 +931,7 @@ Lcase42:
         goto wander;
     }
     {
-        u8 *player_pos = D_80082E80;
+        TileObject *player_pos = &D_80082E80;
         u16 height;
         if (func_800A365C(position, player_pos) == 0) {
             goto wander;
@@ -943,7 +943,7 @@ Lcase42:
         }
         height = *(u16 *)(creature + 0x88);
         scan_index = 0;
-        direction = ((u32)func_800A0818(position[0x24], position[0x25], player_pos[0x24], player_pos[0x25], &action_or_flags) >> 9) & 7;
+        direction = ((u32)func_800A0818(position[0x24], position[0x25], player_pos->tileX, player_pos->tileY, &action_or_flags) >> 9) & 7;
         tile_x = position[0x24];
         tile_y = position[0x25];
         if ((distance << 16) > 0) {
@@ -1054,9 +1054,9 @@ Lcase28:
     }
     {
         s16 *tile_flags_out = &action_or_flags;
-        u8 *player_pos = D_80082E80;
+        TileObject *player_pos = &D_80082E80;
         u16 player_direction;
-        player_direction = ((u32)func_800A0818(position[0x24], position[0x25], player_pos[0x24], player_pos[0x25], tile_flags_out) >> 9) & 7;
+        player_direction = ((u32)func_800A0818(position[0x24], position[0x25], player_pos->tileX, player_pos->tileY, tile_flags_out) >> 9) & 7;
         direction = player_direction;
         if ((func_8009A350(position[0x24], position[0x25], player_direction, tile_flags_out) << 16) == 0) {
             goto wander;
@@ -1117,7 +1117,7 @@ Lcase21:
     *(u16 *)(creature + 0x46) = 0x8009;
     *(u16 *)(creature + 0x2A) = func_800A0818(
         position[0x24], position[0x25],
-        D_80082E80[0x24], D_80082E80[0x25], &action_or_flags);
+        D_80082E80.tileX, D_80082E80.tileY, &action_or_flags);
     return 5;
 
 wander:
@@ -1191,7 +1191,7 @@ aim_at_player:
     *(u16 *)(creature + 0x46) = 0x8009;
     *(u16 *)(creature + 0x2A) = func_800A0818(
         position[0x24], position[0x25],
-        D_80082E80[0x24], D_80082E80[0x25], &action_or_flags);
+        D_80082E80.tileX, D_80082E80.tileY, &action_or_flags);
     return 5;
 
 save_ability_target:

@@ -1,5 +1,5 @@
 #include "common.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 typedef struct S_800C7674_0 {
     u8 pad_00[0x72];
@@ -35,7 +35,7 @@ extern s32 D_800D5008[4];
 extern s32 D_800D5018[4];
 
 /* Advance motion, clamp it to the directional bound, and update velocity. */
-void func_800C7674(S_800C7674_0 *entity, Rec_D_800E3D7C *motion_state, s32 context)
+void func_800C7674(S_800C7674_0 *entity, EntityRec *motion_state, s32 context)
 {
     s32 quadrant;
     s32 angle;
@@ -80,26 +80,26 @@ void func_800C7674(S_800C7674_0 *entity, Rec_D_800E3D7C *motion_state, s32 conte
     goto case_three;
 
 case_zero:
-    if (entity->unk_84.s + entity->unk_8C.s < motion_state->unk_00.at02_s16.v) {
-        motion_state->unk_00.at02_s16.v = entity->unk_84.u + entity->unk_8C.u;
+    if (entity->unk_84.s + entity->unk_8C.s < motion_state->x.w.i) {
+        motion_state->x.w.i = entity->unk_84.u + entity->unk_8C.u;
         goto position_clamped;
     }
     goto apply_velocity;
 case_one:
-    if (entity->unk_86.s + entity->unk_8E.s < motion_state->unk_04.at02_s16.v) {
-        motion_state->unk_04.at02_s16.v = entity->unk_86.u + entity->unk_8E.u;
+    if (entity->unk_86.s + entity->unk_8E.s < motion_state->y.w.i) {
+        motion_state->y.w.i = entity->unk_86.u + entity->unk_8E.u;
         goto position_clamped;
     }
     goto apply_velocity;
 case_two:
-    if (motion_state->unk_00.at02_s16.v < entity->unk_84.s - entity->unk_8C.s) {
-        motion_state->unk_00.at02_s16.v = entity->unk_84.u - entity->unk_8C.u;
+    if (motion_state->x.w.i < entity->unk_84.s - entity->unk_8C.s) {
+        motion_state->x.w.i = entity->unk_84.u - entity->unk_8C.u;
         goto position_clamped;
     }
     goto apply_velocity;
 case_three:
-    if (motion_state->unk_04.at02_s16.v < entity->unk_86.s - entity->unk_8E.s) {
-        motion_state->unk_04.at02_s16.v = entity->unk_86.u - entity->unk_8E.u;
+    if (motion_state->y.w.i < entity->unk_86.s - entity->unk_8E.s) {
+        motion_state->y.w.i = entity->unk_86.u - entity->unk_8E.u;
         goto position_clamped;
     }
     goto apply_velocity;
@@ -108,14 +108,14 @@ position_clamped:
     return;
 apply_velocity:
     step_x = 0x20000;
-    speed = motion_state->unk_0C.as_s32 + D_800D4FE8[quadrant];
-    motion_state->unk_0C.as_s32 = speed;
+    speed = motion_state->unk_0C + D_800D4FE8[quadrant];
+    motion_state->unk_0C = speed;
     speed = abs(speed);
     speed = step_x < speed;
-    if (speed != 0) motion_state->unk_0C.as_s32 = D_800D4FF8[quadrant];
-    speed = motion_state->unk_10.at00_s32.v + D_800D5008[quadrant];
-    motion_state->unk_10.at00_s32.v = speed;
+    if (speed != 0) motion_state->unk_0C = D_800D4FF8[quadrant];
+    speed = motion_state->unk_10 + D_800D5008[quadrant];
+    motion_state->unk_10 = speed;
     speed = abs(speed);
     speed = step_x < speed;
-    if (speed != 0) motion_state->unk_10.at00_s32.v = D_800D5018[quadrant];
+    if (speed != 0) motion_state->unk_10 = D_800D5018[quadrant];
 }

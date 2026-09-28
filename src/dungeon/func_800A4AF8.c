@@ -2,7 +2,7 @@
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_800A9E70_arg0.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 
 
@@ -22,7 +22,7 @@ extern struct {
 } D_80083460;
 
 /* Move the position one step in the actor's direction and update movement state. */
-void func_800AA258(Rec_func_800A9E70_arg0 *state, void *unused, S_800AA258_2 *position, Rec_D_800E3D7C *actor) {
+void func_800AA258(Rec_func_800A9E70_arg0 *state, void *unused, S_800AA258_2 *position, EntityRec *actor) {
     s32 next_x;
     s32 direction_index;
     s32 tile_mask;
@@ -32,18 +32,18 @@ void func_800AA258(Rec_func_800A9E70_arg0 *state, void *unused, S_800AA258_2 *po
     state->unk_9B.as_s8 = 0;
     state->unk_8C = 0;
     move_mask = 0x3000;
-    if (actor->unk_1C.as_s32 & 0x2000) {
+    if (actor->flags1C & 0x2000) {
         move_mask = 0x300;
     }
     tile_mask = move_mask & 0xFFFF;
     func_8009A3D0(position->unk_24, position->unk_25.s, tile_mask);
-    direction_index = ((u16) actor->unk_6A.as_u16 >> 8) & 0xE;
+    direction_index = ((u16) actor->unk_6A >> 8) & 0xE;
     next_x = position->unk_24 + (u8) *(direction_index + ((s8 *)dirStepX));
     next_x = (u8) next_x;
     position->unk_24 = next_x;
     position->unk_25.s = (u8) (position->unk_25.s + *(direction_index + ((s8 *)dirStepY)));
     func_8009A21C(position->unk_24, position->unk_25.u, tile_mask);
-    actor->unk_1C.as_s32 = (s32) (actor->unk_1C.as_s32 & ~0x100);
+    actor->flags1C = (s32) (actor->flags1C & ~0x100);
     state->unk_96.as_s16 = 0x21;
     state->unk_98 = (u16) (state->unk_98 | 8);
     D_80083460.field_0x0A = (u16)(D_80083460.field_0x0A + 1);

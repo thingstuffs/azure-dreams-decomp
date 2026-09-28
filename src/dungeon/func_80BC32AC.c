@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 M2C_UNK func_8009C93C(); /* extern */
 s32 func_800A2B5C();                          /* extern */
@@ -18,17 +18,17 @@ typedef struct S_80172AAC_1 {
 
 /* Clears an actor flag, applies a conditional effect, and updates its action state. */
 void func_80172AAC(S_80172AAC_1 *action_state, M2C_UNK effect_context, M2C_UNK action_context, void *actor) {
-    ((Rec_D_800E3D7C *)actor)->unk_71.as_u8 = (u8) (((Rec_D_800E3D7C *)actor)->unk_71.as_u8 & 0x7F);
+    ((EntityRec *)actor)->unk_71 = (u8) (((EntityRec *)actor)->unk_71 & 0x7F);
     if (!(dungeonStatus.flags & 0x2000) && ((func_800A2B5C(actor) << 0x10) == 0)) {
         func_800C7930(actor - 0x20, effect_context, 8, 0x300);
         if ((func_800A2B5C(actor) << 0x10) == 0) {
             action_state->unk_8C = 0;
             action_state->unk_9A = 0x11;
             action_state->unk_9B = 0;
-            ((Rec_D_800E3D7C *)actor)->unk_6D.as_u8 = (u8) (((Rec_D_800E3D7C *)actor)->unk_6D.as_u8 - 1);
-            func_8009C93C(actor, action_context, ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16, 1, 0);
-            ((Rec_D_800E3D7C *)actor)->unk_84.as_s8 = 0x7C;
-            ((Rec_D_800E3D7C *)actor)->unk_85.as_s8 = 4;
+            ((EntityRec *)actor)->unk_6D = (u8) (((u8)((EntityRec *)actor)->unk_6D) - 1);
+            func_8009C93C(actor, action_context, ((EntityRec *)actor)->facing, 1, 0);
+            ((EntityRec *)actor)->unk_84 = 0x7C;
+            ((EntityRec *)actor)->unk_85 = 4;
         }
     }
 }

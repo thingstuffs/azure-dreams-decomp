@@ -1,8 +1,9 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 
 typedef struct S_801704A0_0 {
@@ -36,12 +37,11 @@ typedef struct {
     u8 pad[8];
     s16 count;
 } Global83460;
-extern Global82E80 D_80082E80;
 extern u8 D_8016F78C[];
 extern u8 D_80174A2C[];
 
 /* Updates movement toward a tile and completes the timed action. */
-void func_801704A0(S_801704A0_0 *action, Rec_D_800E3D7C *motion, Rec_D_80082E80 *tile, Rec_D_800E3D7C *entity) {
+void func_801704A0(S_801704A0_0 *action, EntityRec *motion, Rec_D_80082E80 *tile, EntityRec *entity) {
     M2C_UNK facing_aux;
     s32 frames_left;
     s32 next_frame;
@@ -52,7 +52,6 @@ void func_801704A0(S_801704A0_0 *action, Rec_D_800E3D7C *motion, Rec_D_80082E80 
     s32 entity_flags;
     u16 action_timer;
     s32 phase;
-    Global82E80 *target_tile;
 
     phase = action->unk_9B;
     if (phase == 1) {
@@ -75,7 +74,7 @@ check_later_phase:
     goto update_timer;
 start_motion:
     action->unk_98 = (u16) (action->unk_98 | 8);
-    entity->unk_1C.as_s32 = (s32) (entity->unk_1C.as_s32 & 0xF7FFFFFF);
+    entity->flags1C = (s32) (entity->flags1C & 0xF7FFFFFF);
     action->unk_9E.s = 5;
     action->unk_A4 = 0;
     action->unk_9B = (u8) (action->unk_9B + 1);
@@ -86,14 +85,14 @@ update_motion:
         s32 x_offset;
         x_step = tile->unk_24;
 
-        x_offset = motion->unk_00.at02_s16.v;
+        x_offset = motion->x.w.i;
         x_step <<= 6;
         x_offset -= 0x20;
 
         x_step = (s32) ((x_step - x_offset) << 0x10) / frames_left;
-        y_offset = motion->unk_04.at02_s16.v - 0x20;
-        motion->unk_0C.as_s32 = x_step;
-        motion->unk_10.at00_s32.v = (s32) ((s32) (((tile->unk_25 << 6) - y_offset) << 0x10) / (s16) action->unk_9E.s);
+        y_offset = motion->y.w.i - 0x20;
+        motion->unk_0C = x_step;
+        motion->unk_10 = (s32) ((s32) (((tile->unk_25 << 6) - y_offset) << 0x10) / (s16) action->unk_9E.s);
         action->unk_A4 = (s32) ((0 - func_800644B8(action->unk_9E.s * 0x199)) << 0xA);
     }
     height = action->unk_90;
@@ -105,46 +104,46 @@ update_motion:
     if ((next_frame << 0x10) < 0) {
         action->unk_90 = 0;
         action->unk_98 = (u16) (action->unk_98 & 0xFFF7);
-        entity->unk_1C.as_s32 = (s32) (entity->unk_1C.as_s32 | 0x08000000);
+        entity->flags1C = (s32) (entity->flags1C | 0x08000000);
         action->unk_9B = (u8) (action->unk_9B + 1);
     }
 check_landing:
-    if (!(entity->unk_1C.as_s32 & 0x08000000)) {
+    if (!(entity->flags1C & 0x08000000)) {
         goto update_timer;
     }
     action->unk_98 = (u16) (action->unk_98 & 0xFFF7);
-    motion->unk_14.as_s32 = 0;
-    motion->unk_10.at00_s32.v = 0;
-    motion->unk_0C.as_s32 = 0;
+    motion->flags14 = 0;
+    motion->unk_10 = 0;
+    motion->unk_0C = 0;
     func_800A2B04(motion, tile->unk_24, tile->unk_25);
     action->unk_9B = action->unk_9B + 1;
     goto update_timer;
 update_animation:
     if (tile->unk_2C.as_pu8 != D_80174A2C) {
         tile->unk_2C.as_pu8 = D_80174A2C;
-        func_80047784(tile, D_80174A2C[((s32) (gameWork.viewAngle + entity->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
+        func_80047784(tile, D_80174A2C[((s32) (gameWork.viewAngle + entity->facing + 0x100) >> 9) & 7], 0);
     }
 update_timer:
     action_timer = action->unk_96 - 1;
     action->unk_96 = action_timer;
     if ((action_timer << 0x10) <= 0) {
-        motion->unk_14.as_s32 = 0;
-        motion->unk_10.at00_s32.v = 0;
-        motion->unk_0C.as_s32 = 0;
+        motion->flags14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
         func_800A2B04(motion, tile->unk_24, tile->unk_25);
         func_800A4ACC(entity);
         if (dungeonStatus.unk_08 != 0) {
             dungeonStatus.unk_08 = (u16) dungeonStatus.unk_08 - 1;
         }
-        entity_flags = entity->unk_1C.as_s32;
+        entity_flags = entity->flags1C;
         if (!(entity_flags & 0x2000)) {
             goto check_facing;
         }
-        status_flags = entity->unk_44.at02_u16.v;
+        status_flags = entity->unk_46;
         if (!(status_flags & 0x8000)) {
             goto finish_action;
         }
-        entity->unk_44.at02_u16.v = status_flags & 0x7FFF;
+        entity->unk_46 = status_flags & 0x7FFF;
         goto finish_action;
 check_facing:
         if (entity_flags & 0x410) {
@@ -153,8 +152,7 @@ check_facing:
         if (!(entity_flags & 0x20000)) {
             goto finish_action;
         }
-        target_tile = &D_80082E80;
-        entity->unk_2A.as_s16 = func_800A0818(tile->unk_24, tile->unk_25, target_tile->x, target_tile->y, &facing_aux);
+        entity->facing = func_800A0818(tile->unk_24, tile->unk_25, D_80082E80.tileX, D_80082E80.tileY, &facing_aux);
 finish_action:
         if ((func_800AD9B4(tile, entity) << 0x10) > 0) {
             action->unk_8C = D_8016F78C;

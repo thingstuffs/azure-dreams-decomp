@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/entity_objects.h"
 #include "shared/game_work.h"
 
-extern s16 D_80083780[];
 extern u8 D_800C75D0[];
 extern s8 D_800E3D20[];
 
@@ -15,7 +15,7 @@ s32 func_800C77D0(s32 slot_id, void *target, s32 target_id, s16 slot_value) {
     u8 *slot;
     s32 new_target_id;
 
-    distance = D_80083780[1];
+    distance = D_80083780.x.w.i;
     target_coord = *(s16 *)((u8 *)target + 2);
     distance -= target_coord;
     if (distance < 0) distance = -distance;
@@ -24,7 +24,7 @@ s32 func_800C77D0(s32 slot_id, void *target, s32 target_id, s16 slot_value) {
     }
     new_target_id = target_id;
     ASM_KEEP(new_target_id);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    distance = D_80083780[3];
+    distance = D_80083780.y.w.i;
     target_coord = *(s16 *)((u8 *)target + 6);
     distance -= target_coord;
     if (distance < 0) distance = -distance;

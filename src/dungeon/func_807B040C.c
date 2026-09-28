@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity_objects.h"
 extern int abs(int);
 
 typedef struct S_807B040C_0 {
@@ -86,8 +88,6 @@ typedef struct DirectionOffsets {
     u16 y7;
 } __attribute__((packed)) DirectionOffsets;
 
-extern u8 D_80082E80[];
-extern u8 D_80083780[];
 extern u8 D_800F6050[sizeof(DirectionOffsets)];
 extern s32 D_800FBE1C;
 
@@ -121,8 +121,8 @@ s32 func_807B040C(void) {
     u8 tile_x;
     u8 tile_y;
     s16 *direction_offset;
-    u8 *room;
-    u8 *collision;
+    TileObject *room;
+    EntityRec *collision;
     register s32 distance_y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
     if (state == 1) {
@@ -152,22 +152,22 @@ s32 func_807B040C(void) {
 begin_move:
     {
         u8 *room_page;
-        u8 *nearby_room;
+        TileObject *nearby_room;
         s32 target_coord;
         s32 room_distance_y;
 
 #ifdef NON_MATCHING
-        room_page = D_80082E80 - 0x2E80;
+        room_page = ((u8 *)(&D_80082E80)) - 0x2E80;
 #else
         room_page = (u8 *)0x80080000;
 #endif
-        nearby_room = D_80082E80;
-        dx = ((S_807B040C_2 *)nearby_room)->unk_24;
+        nearby_room = &D_80082E80;
+        dx = nearby_room->tileX;
         target_coord = ((S_807B040C_3 *)target)->unk_24;
         dx -= target_coord;
         dx = abs(dx);
         if (dx < 3) {
-            room_distance_y = ((S_807B040C_2 *)nearby_room)->unk_25;
+            room_distance_y = nearby_room->tileY;
             target_coord = ((S_807B040C_3 *)target)->unk_25;
             room_distance_y -= target_coord;
             room_distance_y = abs(room_distance_y);
@@ -190,23 +190,23 @@ begin_move:
     if (direction >= 8) {
         direction -= 8;
     }
-    room = D_80082E80;
-    collision = D_80083780;
+    room = &D_80082E80;
+    collision = &D_80083780;
 
 find_direction:
-    func_8009A350(((S_807B040C_4 *)room)->unk_24, ((S_807B040C_4 *)room)->unk_25,
+    func_8009A350(room->tileX, room->tileY,
                   (s16)direction, &collision_flags);
     if (collision_flags & 0xB400) {
         goto next_direction;
     }
 
     direction_offset = (s16 *)&offsets + direction * 2;
-    ((S_807B040C_1 *)entity)->unk_AA.s16 = ((S_807B040C_4 *)room)->unk_24 + (u16)direction_offset[0];
-    ((S_807B040C_1 *)entity)->unk_AE.s16 = ((S_807B040C_4 *)room)->unk_25 + (u16)direction_offset[1];
+    ((S_807B040C_1 *)entity)->unk_AA.s16 = room->tileX + (u16)direction_offset[0];
+    ((S_807B040C_1 *)entity)->unk_AE.s16 = room->tileY + (u16)direction_offset[1];
     if ((s16)func_800A45D8(
             ((((S_807B040C_1 *)entity)->unk_AA.s16 << 6) + 0x20) & 0xFFE0,
             ((((S_807B040C_1 *)entity)->unk_AE.s16 << 6) + 0x20) & 0xFFE0,
-            ((S_807B040C_5 *)collision)->unk_0A) != 0) {
+            collision->z.w.i) != 0) {
 next_direction:
         direction++;
         if (direction < 8) {

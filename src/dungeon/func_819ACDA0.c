@@ -1,4 +1,7 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity_objects.h"
+#include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
@@ -68,10 +71,8 @@ typedef struct {
     u16 z;
 } Vec3u;
 
-extern u8 D_80082E80[];
 extern u16 D_80027450;
 extern u8 D_80027452[16];
-extern Origin D_80083780;
 extern void **D_800E3D18;
 
 extern void func_800255B8(s16, s16, s16, s16);
@@ -84,7 +85,6 @@ void func_819ACDA0(Motion *motion, Position *position, u8 *color)
 {
     Vec3u delta;
     Vec3u base;
-    register Origin *origin;
     register u8 *entity;
     register u8 *source;
     u16 final_state;
@@ -113,9 +113,8 @@ check_upper_states:
     return;
 
 initialize:
-    origin = &D_80083780;
-    base.x = origin->x;
-    base.y = origin->y;
+    base.x = D_80083780.x.w.i;
+    base.y = D_80083780.y.w.i;
     entity = ((u8 *)D_800E3D7C);
     base.z = ((S_819ACDA0_0 *)entity)->unk_88 - 0x50;
     index =
@@ -123,7 +122,7 @@ initialize:
 
     func_8003DE58(
         *(void **)(index + (s32)D_800E3D18),
-        D_80082E80, &delta, 0);
+        ((u8 *)(&D_80082E80)), &delta, 0);
 
     base.x += delta.x;
     motion->target_x = base.x;
@@ -193,13 +192,13 @@ fade:
     goto finish;
 
 effect:
-    source = D_80082E80;
+    source = ((u8 *)(&D_80082E80));
     if (func_8003DE58(*(void **)(source + 8), source, &base, 0) != 0) {
         func_8002614C(
-            D_80083780.x + base.x,
-            D_80083780.y + base.y,
-            D_80083780.z + base.z,
-            ((Rec_D_800E3D7C *)((u8 *)D_800E3D7C))->unk_2A.as_s16, 0);
+            D_80083780.x.w.i + base.x,
+            D_80083780.y.w.i + base.y,
+            D_80083780.z.w.i + base.z,
+            ((EntityRec *)((u8 *)D_800E3D7C))->facing, 0);
     }
 
     motion->effect_timer--;
@@ -207,10 +206,10 @@ effect:
         return;
     }
     func_800255B8(
-        D_80083780.x,
-        D_80083780.y,
-        D_80083780.z - 0x20,
-        ((Rec_D_800E3D7C *)((u8 *)D_800E3D7C))->unk_2A.as_s16);
+        D_80083780.x.w.i,
+        D_80083780.y.w.i,
+        D_80083780.z.w.i - 0x20,
+        ((EntityRec *)((u8 *)D_800E3D7C))->facing);
 
 finish:
     (*(u16 *)((u8 *)motion + -2)) |= 0x8000;

@@ -1,5 +1,5 @@
 #include "common.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
@@ -38,21 +38,21 @@ s32 func_800CD1A4(void *actor) {
         chance = 0x400;
     }
     if (func_800C8ABC(actor, chance, 0x10) == 0) {
-        if (((Rec_D_800E3D7C *)actor)->unk_10.at03_u8.v == 0) {
+        if ((*(u8 *)((u8 *)&((EntityRec *)actor)->unk_10 + 3)) == 0) {
             func_800A6508();
             return 1;
         }
         return 1;
     }
     func_80099844(actor, &D_800E1BF3);
-    if (((Rec_D_800E3D7C *)actor)->unk_10.at03_u8.v == 0) {
+    if ((*(u8 *)((u8 *)&((EntityRec *)actor)->unk_10 + 3)) == 0) {
         func_800DC1B8(D_800DCF0C);
     }
     owner = ((S_800CD1A4_0_pre *)actor)[-1].unk_00;
     if (!(owner->unk_14 & 0x8000)) {
         func_800C5BBC((owner->unk_24 << 6) | 0x20,
                       (owner->unk_25 << 6) | 0x20,
-                      ((Rec_D_800E3D7C *)actor)->unk_88.as_s16, 0x808080, 0x20, 0);
+                      ((EntityRec *)actor)->unk_88, 0x808080, 0x20, 0);
         func_800A56E0(0x520);
     }
     return 1;

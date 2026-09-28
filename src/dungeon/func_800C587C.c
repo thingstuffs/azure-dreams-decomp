@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 
 typedef struct S_800CAFDC_5 {
@@ -62,7 +62,7 @@ typedef struct S_800CAFDC_3 {
 } S_800CAFDC_3;   /* temp_s0 in func_800CAFDC */
 
 /* Spawns two salam particles near the source with randomized positions and velocities. */
-void func_800CAFDC(Rec_D_800E3D7C *source, s16 effect_param, s32 render_param) {
+void func_800CAFDC(EntityRec *source, s16 effect_param, s32 render_param) {
     s16 angle;
     s32 remaining;
     S_800CAFDC_3 *effect_state;
@@ -77,9 +77,9 @@ void func_800CAFDC(Rec_D_800E3D7C *source, s16 effect_param, s32 render_param) {
             ((S_800CAFDC_0 *)particle)->unk_10 = &D_800CAED0;
             func_8004491C(particle, func_80045340);
             motion = ((S_800CAFDC_0 *)particle)->unk_08;
-            motion->unk_02 = (s16) ((((S_800CAFDC_5 *)(source->unk_08.at00_pv.v))->unk_02 + (rand() & 0x3F)) - 0x20);
-            motion->unk_06 = (s16) ((((S_800CAFDC_5 *)(source->unk_08.at00_pv.v))->unk_06 + (rand() & 0x3F)) - 0x20);
-            motion->unk_0A = (s16) ((((S_800CAFDC_5 *)(source->unk_08.at00_pv.v))->unk_0A + (rand() & 0x3F)) - 0x20);
+            motion->unk_02 = (s16) ((((S_800CAFDC_5 *)((*(void * *)&source->z)))->unk_02 + (rand() & 0x3F)) - 0x20);
+            motion->unk_06 = (s16) ((((S_800CAFDC_5 *)((*(void * *)&source->z)))->unk_06 + (rand() & 0x3F)) - 0x20);
+            motion->unk_0A = (s16) ((((S_800CAFDC_5 *)((*(void * *)&source->z)))->unk_0A + (rand() & 0x3F)) - 0x20);
             angle = rand();
             motion->unk_0C = (s32) (func_80064584(angle) << 5);
             motion->unk_10 = (s32) (func_800644B8(angle) << 5);

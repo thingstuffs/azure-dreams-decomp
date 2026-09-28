@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity_objects.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -22,8 +24,6 @@ extern u8 D_800E36C8[];
 extern u8 D_800E3648[];
 extern u8 D_800E39C8[];
 extern u8 D_800E1863;
-extern u8 D_80083780[];
-extern u8 D_80082E80[];
 extern u8 D_800CE028[];
 
 #define U8(p, o)  (*(u8  *)((u8 *)(p) + (o)))
@@ -59,7 +59,7 @@ s32 func_800C3D3C(void *target, s32 effect_arg, s16 effect_id, s32 context) {
     }
     if (target == D_800E3D7C) {
         S32(target, 0x110) = effect_value;
-        func_8008D344(target, D_80083780, D_80082E80, target);
+        func_8008D344(target, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), target);
         return 0;
     }
     if ((u32) target <= 0x9FFFFFFFU) {

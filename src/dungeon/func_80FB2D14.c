@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 typedef s32 M2C_UNK;
 
@@ -25,7 +25,7 @@ extern u8 D_80175258[];
 
 /* Reset actor action state and select a facing-dependent animation when status checks pass. */
 void func_80172514(void *action_state, M2C_UNK action_context, void *sprite, void *actor) {
-    ((Rec_D_800E3D7C *)actor)->unk_71.as_u8 &= 0x7F;
+    ((EntityRec *)actor)->unk_71 &= 0x7F;
 
     if (!(dungeonStatus.flags & 0x2000) &&
         ((func_800A2B5C(actor) << 16) == 0) &&
@@ -36,20 +36,20 @@ void func_80172514(void *action_state, M2C_UNK action_context, void *sprite, voi
 
         if (((S_80172514_1 *)action_state)->unk_98 & 0x8000) {
             ((S_80172514_1 *)action_state)->unk_9A = 0x17;
-            ((Rec_D_800E3D7C *)actor)->unk_84.as_u8 = 0x28;
-            ((Rec_D_800E3D7C *)actor)->unk_85.as_u8 = 0x10;
+            ((EntityRec *)actor)->unk_84 = 0x28;
+            ((EntityRec *)actor)->unk_85 = 0x10;
         } else {
             ((S_80172514_1 *)action_state)->unk_9A = 0x11;
-            ((Rec_D_800E3D7C *)actor)->unk_84.as_u8 = 0x7C;
-            ((Rec_D_800E3D7C *)actor)->unk_85.as_u8 = 0;
+            ((EntityRec *)actor)->unk_84 = 0x7C;
+            ((EntityRec *)actor)->unk_85 = 0;
         }
 
         (*(void * *)((u8 *)sprite + 0x2C)) = D_80175258;
         func_80047784(
             sprite,
-            D_80175258[((s32)(gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            D_80175258[((s32)(gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
-        ((Rec_D_800E3D7C *)actor)->unk_6D.as_u8--;
-        func_8009C93C(actor, sprite, ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16, 1, 0);
+        ((EntityRec *)actor)->unk_6D--;
+        func_8009C93C(actor, sprite, ((EntityRec *)actor)->facing, 1, 0);
     }
 }

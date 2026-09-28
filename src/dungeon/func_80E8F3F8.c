@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_func_800AD058_arg2.h"
 
 
@@ -33,7 +33,7 @@ typedef struct S_80174BF8_3 {
 } S_80174BF8_3;   /* counter in func_80174BF8 */
 
 /* Initialize a timed action, then restore animation and clear the entity flags. */
-void func_80174BF8(S_80174BF8_0 *action, void *context, Rec_func_800AD058_arg2 *animation, Rec_D_800E3D7C *entity)
+void func_80174BF8(S_80174BF8_0 *action, void *context, Rec_func_800AD058_arg2 *animation, EntityRec *entity)
 {
     void *entity_arg;
     u16 ticks_left;
@@ -50,8 +50,8 @@ void func_80174BF8(S_80174BF8_0 *action, void *context, Rec_func_800AD058_arg2 *
     func_800A56E0(0x50C);
     action->unk_96 = 10;
     func_80174D48(context, animation, entity);
-    entity->unk_48.at00_s8.v = 0;
-    entity->unk_48.at01_s8.v = 0;
+    entity->unk_48 = 0;
+    entity->unk_49 = 0;
     action->unk_9B++;
 
 active:
@@ -68,10 +68,10 @@ active:
     animation->unk_2C = D_80174F00;
     func_800AD594(entity_arg, 0x200);
     func_80047784(animation,
-        animation->unk_2C[((gameWork.viewAngle + entity->unk_2A.as_s16 + 0x100) >> 9) & 7],
+        animation->unk_2C[((gameWork.viewAngle + entity->facing + 0x100) >> 9) & 7],
         0);
     action->unk_8C = D_801710F4;
     func_800A4ACC(entity);
-    entity->unk_6D.as_s8 = 0;
-    entity->unk_44.at02_u16.v &= 0x7FFF;
+    entity->unk_6D = 0;
+    entity->unk_46 &= 0x7FFF;
 }

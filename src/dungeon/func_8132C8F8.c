@@ -1,6 +1,6 @@
 #include "common.h"
 #include "shared/game_work.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 
 extern void func_80047784(void *, s32, s32);
@@ -104,9 +104,9 @@ check_done:
         goto end;
     }
     ((S_801740F8_0 *)actor)->unk_98 &= 0xFFF7;
-    ((Rec_D_800E3D7C *)transform)->unk_14.as_s32 = 0;
-    ((Rec_D_800E3D7C *)transform)->unk_10.at00_s32.v = 0;
-    ((Rec_D_800E3D7C *)transform)->unk_0C.as_s32 = 0;
+    ((EntityRec *)transform)->flags14 = 0;
+    ((EntityRec *)transform)->unk_10 = 0;
+    ((EntityRec *)transform)->unk_0C = 0;
     func_800A2B04(transform, ((S_801740F8_1 *)animation)->unk_24, ((S_801740F8_1 *)animation)->unk_25);
     ((S_801740F8_0 *)actor)->unk_9B++;
     return;

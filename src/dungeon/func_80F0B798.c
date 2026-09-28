@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 
 typedef struct S_80172F98_0 {
@@ -26,7 +26,7 @@ extern u8 D_80170F74[];
 extern u8 D_80173D60[];
 
 /* Updates directional movement and returns the entity to its target tile. */
-void func_80172F98(S_80172F98_0 *action, Rec_D_800E3D7C *motion, Rec_D_80082E80 *target, void *entity)
+void func_80172F98(S_80172F98_0 *action, EntityRec *motion, Rec_D_80082E80 *target, void *entity)
 {
     s16 return_timer;
     s16 next_timer;
@@ -43,7 +43,7 @@ void func_80172F98(S_80172F98_0 *action, Rec_D_800E3D7C *motion, Rec_D_80082E80 
     u8 state;
 
     state = action->unk_9B;
-    direction = (((Rec_D_800E3D7C *)entity)->unk_6A.as_u16 >> 9) & 7;
+    direction = (((EntityRec *)entity)->unk_6A >> 9) & 7;
 
     switch (state) {
     case 0:
@@ -58,13 +58,13 @@ void func_80172F98(S_80172F98_0 *action, Rec_D_800E3D7C *motion, Rec_D_80082E80 
 
 state_0:
     func_800AD4D0(entity);
-    motion->unk_0C.as_s32 =
+    motion->unk_0C =
         ((s16 *)((s8 *)dirStepX))[direction] << 16;
-    motion->unk_10.at00_s32.v =
+    motion->unk_10 =
         ((s16 *)((s8 *)dirStepY))[direction] << 16;
     action->unk_9B++;
 
-    if (((Rec_D_800E3D7C *)entity)->unk_28 == 0) {
+    if (((EntityRec *)entity)->unk_28 == 0) {
         goto reset_and_start;
     }
     if (target->unk_14.at00_u16.v & 0x8000) {
@@ -74,29 +74,29 @@ state_0:
     }
 
     initial_timer = -1;
-    if (((Rec_D_800E3D7C *)entity)->unk_1C.as_u32 & 0x228) {
+    if (((u32)((EntityRec *)entity)->flags1C) & 0x228) {
         initial_timer = 8;
     }
     action->unk_96.s = initial_timer;
 
-    velocity_x = motion->unk_0C.as_s32;
+    velocity_x = motion->unk_0C;
     biased_x = velocity_x;
     if (velocity_x < 0) {
         biased_x = velocity_x + 3;
     }
-    motion->unk_0C.as_s32 = velocity_x - (biased_x >> 2);
+    motion->unk_0C = velocity_x - (biased_x >> 2);
 
-    velocity_y = motion->unk_10.at00_s32.v;
+    velocity_y = motion->unk_10;
     biased_y = velocity_y;
     if (velocity_y < 0) {
         biased_y = velocity_y + 3;
     }
-    motion->unk_10.at00_s32.v = velocity_y - (biased_y >> 2);
+    motion->unk_10 = velocity_y - (biased_y >> 2);
 
 state_1:
-    motion->unk_0C.as_s32 -=
+    motion->unk_0C -=
         ((s16 *)((s8 *)dirStepX))[direction] << 13;
-    motion->unk_10.at00_s32.v -=
+    motion->unk_10 -=
         ((s16 *)((s8 *)dirStepY))[direction] << 13;
 
     if (action->unk_96.s > 0) {
@@ -111,14 +111,14 @@ timer_done:
     if (action->unk_96.s != 0) {
         goto end;
     }
-    if (((Rec_D_800E3D7C *)entity)->unk_28 != 0) {
+    if (((EntityRec *)entity)->unk_28 != 0) {
         goto continue_state;
     }
 
 reset_and_start:
-    motion->unk_14.as_s32 = 0;
-    motion->unk_10.at00_s32.v = 0;
-    motion->unk_0C.as_s32 = 0;
+    motion->flags14 = 0;
+    motion->unk_10 = 0;
+    motion->unk_0C = 0;
     func_800AAA54(action, motion, target, D_80173D60);
     goto end;
 
@@ -131,12 +131,12 @@ state_2:
     return_timer = action->unk_96.s;
     if (return_timer != 0) {
         target_x = target->unk_24 << 6;
-        origin_x = motion->unk_00.at02_s16.v - 0x20;
-        motion->unk_0C.as_s32 =
+        origin_x = motion->x.w.i - 0x20;
+        motion->unk_0C =
             ((target_x - origin_x) << 15) / return_timer;
         target_y = target->unk_25 << 6;
-        origin_y = motion->unk_04.at02_s16.v - 0x20;
-        motion->unk_10.at00_s32.v =
+        origin_y = motion->y.w.i - 0x20;
+        motion->unk_10 =
             ((target_y - origin_y) << 15) /
             action->unk_96.s;
     }
@@ -147,9 +147,9 @@ state_2:
         goto end;
     }
 
-    motion->unk_14.as_s32 = 0;
-    motion->unk_10.at00_s32.v = 0;
-    motion->unk_0C.as_s32 = 0;
+    motion->flags14 = 0;
+    motion->unk_10 = 0;
+    motion->unk_0C = 0;
     func_800A2B04(motion, target->unk_24, target->unk_25);
 
     if (((s32)dungeonStatus.unk_10) == (s32)entity - 0x20) {

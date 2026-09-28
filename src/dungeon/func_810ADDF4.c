@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
@@ -106,10 +108,8 @@ extern s16 func_800BCB04(s32, s32, s16);
 extern s16 func_80171EBC(void *, void *, void *, void *);
 
 extern s8 D_8006CD00;
-extern u8 D_80082E80[];
 extern u8 D_80082E80_b[];
 __asm__(".set D_80082E80_b, 0x80082E80");
-extern s8 D_80082EA4;
 extern s8 D_800E2970[];
 
 /* Chooses a movement direction, advances the actor, and updates its movement history. */
@@ -129,7 +129,6 @@ void func_801715F4(void *move_state, void *caller_context, void *position_arg, v
     void *angle;
     DungeonGlobalStatus *dungeon_state = &dungeonStatus;
     u8 *angle_context;
-    u8 *leader_position;
     u8 *follow_context;
     s16 *turn_table;
 
@@ -198,18 +197,16 @@ void func_801715F4(void *move_state, void *caller_context, void *position_arg, v
 
         if (flags & 0x20000) {
             {
-                u8 *leader;
                 u32 follow_offset;
 
-                leader = D_80082E80;
                 follow_offset =
                     ((((S_801715F4_1 *)actor_arg)->unk_45 +
-                      ((s32)(((Rec_D_800814A8 *)D_800814A8)->unk_2A.as_u16 << 16) >> 25)) &
+                      ((s32)(((u16)((EntityRec *)D_800814A8)->facing) << 16) >> 25)) &
                      7) *
                     2;
 
-                follow_x = leader[0x24] + *(u16 *)((u8 *)((s8 *)dirStepX) + follow_offset);
-                follow_y = leader[0x25] + *(u16 *)((u8 *)((s8 *)dirStepY) + follow_offset);
+                follow_x = D_80082E80.tileX + *(u16 *)((u8 *)((s8 *)dirStepX) + follow_offset);
+                follow_y = D_80082E80.tileY + *(u16 *)((u8 *)((s8 *)dirStepY) + follow_offset);
             }
             target_x = follow_x;
             target_y = follow_y;
@@ -272,15 +269,14 @@ void func_801715F4(void *move_state, void *caller_context, void *position_arg, v
 
     if (((S_801715F4_1 *)actor_arg)->unk_1C & 0x20000) {
         follow_context = (u8 *)move_state + 0x98;
-        leader_position = D_80082E80;
         ((S_801715F4_1 *)actor_arg)->unk_2A.u = func_800A0818(
             ((S_801715F4_2 *)position_arg)->unk_24.at00.v, ((S_801715F4_2 *)position_arg)->unk_24.at01.v,
-            ((S_801715F4_7 *)leader_position)->unk_24, ((S_801715F4_7 *)leader_position)->unk_25,
+            D_80082E80.tileX, D_80082E80.tileY,
             follow_context);
         if ((s16)func_8009FD7C(((S_801715F4_2 *)position_arg)->unk_24.at00.v,
                                 ((S_801715F4_2 *)position_arg)->unk_24.at01.v,
-                                ((S_801715F4_7 *)leader_position)->unk_24,
-                                ((S_801715F4_7 *)leader_position)->unk_25) == 0) {
+                                D_80082E80.tileX,
+                                D_80082E80.tileY) == 0) {
             goto reset_turn_index;
         }
         if (func_800A0134(D_800814A8, actor_arg) >= 0x81) {
@@ -409,11 +405,11 @@ loop_setup:
         }
 
         if (turn_index == 0) {
-            if (*(u16 *)&D_80082EA4 != ((S_801715F4_2 *)position_arg)->unk_24.at00u.v) {
+            if (*(u16 *)(&D_80082E80.tileX) != ((S_801715F4_2 *)position_arg)->unk_24.at00u.v) {
                 ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                 if ((s16)func_8009A180(
                         actor_arg,
-                        (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) != 0) {
+                        (u8 *)((EntityRec *)D_800814A8)->unk_58 + 0x20) != 0) {
                     goto end;
                 }
             }

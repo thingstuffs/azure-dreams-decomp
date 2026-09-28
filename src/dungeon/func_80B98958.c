@@ -1,8 +1,9 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 typedef struct S_80172158_0 {
     u8 pad_00[0x8C];
@@ -45,7 +46,6 @@ extern void func_800A9A04(void *);
 extern void func_800AD594(void *, s32);
 extern s32 func_800AD9B4(void *, void *);
 
-extern u8 D_80082E80[];
 extern u8 D_80170E9C[];
 extern u8 D_80174EE0[];
 
@@ -97,14 +97,14 @@ update_move:
         ((S_80172158_0 *)action)->unk_90 - ((S_80172158_0 *)action)->unk_A0;
     if (move_ticks != 0) {
         x_delta = ((Rec_D_80082E80 *)sprite)->unk_24;
-        axis_pos = ((Rec_D_800E3D7C *)motion)->unk_00.at02_s16.v;
+        axis_pos = ((EntityRec *)motion)->x.w.i;
         x_delta <<= 6;
         axis_pos -= 0x20;
         x_delta -= axis_pos;
         x_delta <<= 16;
-        ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = x_delta / move_ticks;
-        axis_pos = ((Rec_D_800E3D7C *)motion)->unk_04.at02_s16.v - 0x20;
-        ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v =
+        ((EntityRec *)motion)->unk_0C = x_delta / move_ticks;
+        axis_pos = ((EntityRec *)motion)->y.w.i - 0x20;
+        ((EntityRec *)motion)->unk_10 =
             (((((Rec_D_80082E80 *)sprite)->unk_25 << 6) - axis_pos) << 16) /
             (s16)((S_80172158_0 *)action)->unk_9E;
         ((S_80172158_0 *)action)->unk_A0 =
@@ -122,9 +122,9 @@ update_move:
 finish_move:
     if (((S_80172158_2 *)actor)->unk_1C.s & 0x08000000) {
         ((S_80172158_0 *)action)->unk_98 &= 0xFFF7;
-        ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0;
-        ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = 0;
-        ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
+        ((EntityRec *)motion)->flags14 = 0;
+        ((EntityRec *)motion)->unk_10 = 0;
+        ((EntityRec *)motion)->unk_0C = 0;
         func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80174EE0;
         func_80047784(
@@ -138,9 +138,9 @@ update_timer:
     action_ticks = ((S_80172158_0 *)action)->unk_96 - 1;
     ((S_80172158_0 *)action)->unk_96 = action_ticks;
     if ((action_ticks << 16) <= 0) {
-        ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0;
-        ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = 0;
-        ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
+        ((EntityRec *)motion)->flags14 = 0;
+        ((EntityRec *)motion)->unk_10 = 0;
+        ((EntityRec *)motion)->unk_0C = 0;
         func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
         func_800AD594(actor, 3);
         func_800A4ACC(actor);
@@ -165,7 +165,7 @@ update_timer:
         }
         ((S_80172158_2 *)actor)->unk_2A = func_800A0818(
             ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25,
-            D_80082E80[0x24], D_80082E80[0x25], &facing_aux);
+            D_80082E80.tileX, D_80082E80.tileY, &facing_aux);
 
 check_followup:
         if ((func_800AD9B4(sprite, actor) << 16) > 0) {

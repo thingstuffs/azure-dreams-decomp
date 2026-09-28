@@ -2,7 +2,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 extern int abs(int);
 
 typedef struct S_801728C4_0 {
@@ -274,9 +274,9 @@ copy_parent:
     }
 
 object_ready:
-    pos[0] = ((Rec_D_800E3D7C *)motion)->unk_00.at02_u16.v;
-    pos[1] = ((Rec_D_800E3D7C *)motion)->unk_04.at02_u16.v;
-    pos[2] = ((Rec_D_800E3D7C *)motion)->unk_08.at02_u16.v;
+    pos[0] = ((u16)((EntityRec *)motion)->x.w.i);
+    pos[1] = ((u16)((EntityRec *)motion)->y.w.i);
+    pos[2] = ((u16)((EntityRec *)motion)->z.w.i);
     if (func_800A94A0(actor, anim, special_mode, (u8 *)action + 0x98) != 0) {
         ((S_801728C4_4 *)sprite)->unk_14 &= 0xF7FF;
         func_800A56E0(0x703);
@@ -289,9 +289,9 @@ object_ready:
     goto done;
 
 empty_anim:
-    ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0;
-    ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = 0;
-    ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
+    ((EntityRec *)motion)->flags14 = 0;
+    ((EntityRec *)motion)->unk_10 = 0;
+    ((EntityRec *)motion)->unk_0C = 0;
     func_800A2B04(motion, ((S_801728C4_4 *)sprite)->unk_24, ((S_801728C4_4 *)sprite)->unk_25);
     player_state = ((u8 *)D_800814A8);
     dungeonStatus.unk_0C = 0;
@@ -330,11 +330,11 @@ state_2:
                 effect_state = (u8 *)effect + 0x20;
                 ((S_801728C4_7 *)effect)->unk_10 = func_801740FC;
                 ((S_801728C4_10 *)(((S_801728C4_7 *)effect)->unk_08))->unk_02 =
-                    ((Rec_D_800E3D7C *)motion)->unk_00.at02_u16.v + delta[0];
+                    ((u16)((EntityRec *)motion)->x.w.i) + delta[0];
                 ((S_801728C4_10 *)(((S_801728C4_7 *)effect)->unk_08))->unk_06 =
-                    ((Rec_D_800E3D7C *)motion)->unk_04.at02_u16.v + delta[1];
+                    ((u16)((EntityRec *)motion)->y.w.i) + delta[1];
                 ((S_801728C4_10 *)(((S_801728C4_7 *)effect)->unk_08))->unk_0A =
-                    ((Rec_D_800E3D7C *)motion)->unk_08.at02_u16.v + delta[2];
+                    ((u16)((EntityRec *)motion)->z.w.i) + delta[2];
                 ((S_801728C4_8 *)effect_state)->unk_A4 = 0;
                 ((S_801728C4_8 *)effect_state)->unk_96 = 4;
                 target_sprite = ((S_801728C4_7 *)effect)->unk_0C;
@@ -367,11 +367,11 @@ state_2:
                 func_8004491C(effect, func_80045340);
                 ((S_801728C4_7 *)effect)->unk_10 = callback;
                 ((S_801728C4_10 *)(((S_801728C4_7 *)effect)->unk_08))->unk_02 =
-                    ((Rec_D_800E3D7C *)motion)->unk_00.at02_u16.v + delta[0] + (func_80069EF8() & 0xF) - 8;
+                    ((u16)((EntityRec *)motion)->x.w.i) + delta[0] + (func_80069EF8() & 0xF) - 8;
                 ((S_801728C4_10 *)(((S_801728C4_7 *)effect)->unk_08))->unk_06 =
-                    ((Rec_D_800E3D7C *)motion)->unk_04.at02_u16.v + delta[1] + (func_80069EF8() & 0xF) - 8;
+                    ((u16)((EntityRec *)motion)->y.w.i) + delta[1] + (func_80069EF8() & 0xF) - 8;
                 ((S_801728C4_10 *)(((S_801728C4_7 *)effect)->unk_08))->unk_0A =
-                    ((Rec_D_800E3D7C *)motion)->unk_08.at02_u16.v + delta[2] + (func_80069EF8() & 0xF) - 8;
+                    ((u16)((EntityRec *)motion)->z.w.i) + delta[2] + (func_80069EF8() & 0xF) - 8;
                 ((S_801728C4_10 *)(((S_801728C4_7 *)effect)->unk_08))->unk_0C =
                     ((func_80069EF8() & 0xFF) - 0x80) << 11;
                 ((S_801728C4_10 *)(((S_801728C4_7 *)effect)->unk_08))->unk_10 =
@@ -412,9 +412,9 @@ state_3:
     if (!(((S_801728C4_4 *)sprite)->unk_14 & 0xE000)) {
         goto done;
     }
-    ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0;
-    ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = 0;
-    ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
+    ((EntityRec *)motion)->flags14 = 0;
+    ((EntityRec *)motion)->unk_10 = 0;
+    ((EntityRec *)motion)->unk_0C = 0;
     func_800A2B04(motion, ((S_801728C4_4 *)sprite)->unk_24, ((S_801728C4_4 *)sprite)->unk_25);
     if (((S_801728C4_4 *)sprite)->unk_2C != D_80174820) {
         (*(void * *)((u8 *)sprite + 0x2C)) = D_80174820;

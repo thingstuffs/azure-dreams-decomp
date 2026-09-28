@@ -2,7 +2,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 typedef struct S_80174764_0 {
     u8 pad_00[0x8C];
@@ -54,25 +54,25 @@ void func_80174764(void *action, void *scene, void *sprite, void *actor)
         sprite_flags = ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v;
         if (sprite_flags & 0x8000) {
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = sprite_flags | 0x6000;
-            if (((Rec_D_800E3D7C *)actor)->unk_14.as_s32 & 0x4000) {
-                target = ((Rec_D_800E3D7C *)actor)->unk_60.as_pv;
+            if (((EntityRec *)actor)->flags14 & 0x4000) {
+                target = ((EntityRec *)actor)->target;
                 if (!func_80176258(target))
                     goto state0_cc_false;
-                func_801763CC(1, ((Rec_D_800E3D7C *)actor)->unk_60.as_pv);
+                func_801763CC(1, ((EntityRec *)actor)->target);
                 goto state0_done;
 state0_cc_false:
-                func_801763CC(0, ((Rec_D_800E3D7C *)actor)->unk_60.as_pv);
+                func_801763CC(0, ((EntityRec *)actor)->target);
                 goto state0_done;
             }
 
-            target = ((Rec_D_800E3D7C *)actor)->unk_60.as_pv;
+            target = ((EntityRec *)actor)->target;
             if (((S_80174764_3 *)target)->unk_14 & 0x4000) {
                 if (!func_801761AC(target))
                     goto state0_330_false;
-                func_80176330(1, ((Rec_D_800E3D7C *)actor)->unk_60.as_pv);
+                func_80176330(1, ((EntityRec *)actor)->target);
                 goto state0_done;
 state0_330_false:
-                func_80176330(0, ((Rec_D_800E3D7C *)actor)->unk_60.as_pv);
+                func_80176330(0, ((EntityRec *)actor)->target);
                 goto state0_done;
             }
             func_801761AC(target);
@@ -92,9 +92,9 @@ state0_done:
         }
 
         func_80175AF4(action, scene, sprite);
-        if (((Rec_D_800E3D7C *)actor)->unk_14.as_s32 & 0x4000) {
+        if (((EntityRec *)actor)->flags14 & 0x4000) {
             func_801762A4(1, actor);
-        } else if (((S_80174764_4 *)(((Rec_D_800E3D7C *)actor)->unk_60.as_pv))->unk_14 & 0x4000) {
+        } else if (((S_80174764_4 *)(((EntityRec *)actor)->target))->unk_14 & 0x4000) {
             func_801762A4(0, actor);
         }
         func_800A56E0(0x708);
@@ -107,24 +107,24 @@ state0_done:
         timer = ((S_80174764_0 *)action)->unk_96 - 1;
         ((S_80174764_0 *)action)->unk_96 = timer;
         if ((timer << 16) == 0 || (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
-            if (((Rec_D_800E3D7C *)actor)->unk_14.as_s32 & 0x4000) {
-                target = ((Rec_D_800E3D7C *)actor)->unk_60.as_pv;
+            if (((EntityRec *)actor)->flags14 & 0x4000) {
+                target = ((EntityRec *)actor)->target;
                 if (!func_80176258(target))
                     goto state1_cc_false;
-                func_801763CC(1, ((Rec_D_800E3D7C *)actor)->unk_60.as_pv);
+                func_801763CC(1, ((EntityRec *)actor)->target);
                 goto state1_done;
 state1_cc_false:
-                func_801763CC(0, ((Rec_D_800E3D7C *)actor)->unk_60.as_pv);
+                func_801763CC(0, ((EntityRec *)actor)->target);
                 goto state1_done;
             } else {
-                target = ((Rec_D_800E3D7C *)actor)->unk_60.as_pv;
+                target = ((EntityRec *)actor)->target;
                 if (((S_80174764_3 *)target)->unk_14 & 0x4000) {
                     if (!func_801761AC(target))
                         goto state1_330_false;
-                    func_80176330(1, ((Rec_D_800E3D7C *)actor)->unk_60.as_pv);
+                    func_80176330(1, ((EntityRec *)actor)->target);
                     goto state1_done;
 state1_330_false:
-                    func_80176330(0, ((Rec_D_800E3D7C *)actor)->unk_60.as_pv);
+                    func_80176330(0, ((EntityRec *)actor)->target);
                     goto state1_done;
                 } else {
                     func_801761AC(target);
@@ -153,7 +153,7 @@ state1_done:
         s32 direction;
 
         (*(void * *)((u8 *)sprite + 0x2C)) = D_80176460;
-        direction = (gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9;
+        direction = (gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9;
         func_80047784(sprite, D_80176460[direction & 7], 0);
         ((S_80174764_0 *)action)->unk_98 &= 0xFFF7;
     }

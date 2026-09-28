@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 s32 func_800A2B5C();                          /* extern */
 M2C_UNK func_800A4ACC();                      /* extern */
@@ -20,7 +20,7 @@ typedef struct S_80174824_1 {
 
 /* Clears an entity flag and resets its action state after processing completes. */
 void func_80174824(S_80174824_1 *action_state, M2C_UNK context, M2C_UNK unused, void *entity) {
-    ((Rec_D_800E3D7C *)entity)->unk_71.as_u8 = (u8) (((Rec_D_800E3D7C *)entity)->unk_71.as_u8 & 0x7F);
+    ((EntityRec *)entity)->unk_71 = (u8) (((EntityRec *)entity)->unk_71 & 0x7F);
     if (!(dungeonStatus.flags & 0x2000) && ((func_800A2B5C(entity) << 0x10) == 0)) {
         func_800C7930(entity - 0x20, context, 8, 0x300);
         if ((func_800A2B5C(entity) << 0x10) == 0) {
@@ -28,7 +28,7 @@ void func_80174824(S_80174824_1 *action_state, M2C_UNK context, M2C_UNK unused, 
             action_state->unk_9A = 0x17;
             action_state->unk_9B = 0;
             func_800A4ACC(entity);
-            ((Rec_D_800E3D7C *)entity)->unk_6D.as_u8 = (u8) (((Rec_D_800E3D7C *)entity)->unk_6D.as_u8 - 1);
+            ((EntityRec *)entity)->unk_6D = (u8) (((u8)((EntityRec *)entity)->unk_6D) - 1);
             action_state->unk_96 = 0;
         }
     }

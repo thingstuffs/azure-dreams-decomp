@@ -1,6 +1,6 @@
 #include "common.h"
 #include "shared/game_work.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_func_80094268_arg0.h"
 
 
@@ -34,7 +34,7 @@ typedef struct S_80092698_2 {
 } S_80092698_2;   /* D_800CFCC4[0] in func_80092698 */
 
 /* Update the entity and dispatch its next action from the sampled value, countdown, and global state. */
-void func_80092698(Rec_func_80094268_arg0 *controller, Rec_D_800E3D7C *entity, M2C_UNK context) {
+void func_80092698(Rec_func_80094268_arg0 *controller, EntityRec *entity, M2C_UNK context) {
     s16 sampled_value;
     u16 countdown;
     State80083160 *state = ((State80083160 *)&gameWork);
@@ -46,7 +46,7 @@ void func_80092698(Rec_func_80094268_arg0 *controller, Rec_D_800E3D7C *entity, M
     func_80095094(entity);
     samples = D_800FE488;
     sampled_value = func_80095978(entity, samples);
-    if ((sampled_value - entity->unk_08.at02_s16.v) >= 4) {
+    if ((sampled_value - entity->z.w.i) >= 4) {
         if (D_800CFCEF[0] == 0) {
             func_80094378(controller, entity, saved_context);
             return;

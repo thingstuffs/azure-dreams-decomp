@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -85,8 +87,6 @@ extern s32 func_80172550(void *, void *, void *, s32);
 extern void func_80173C34(void *, void *, void *, void *);
 extern void func_80175068(void *, void *, void *, void *);
 
-extern u8 D_80082E80[];
-extern s8 D_80082EA4;
 extern s8 D_800E2970[];
 extern u8 D_8017586C[];
 extern u8 D_80175874[];
@@ -195,13 +195,13 @@ void func_8017140C(void *actor, void *actor_context, void *sprite, void *creatur
         if (((S_8017140C_1 *)creature)->unk_1C & 0x20) {
             goto case_12;
         }
-        if (((S_8017140C_2 *)sprite)->unk_24.at00u.v == *(u16 *)&D_80082EA4) {
+        if (((S_8017140C_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
             goto generic;
         }
         if (!(((S_8017140C_1 *)creature)->unk_46 & 0x8000)) {
             if (dungeonStatus.flags & 0x2000) {
                 if ((func_8009A180(creature,
-                        (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) << 16) != 0) {
+                        (u8 *)((EntityRec *)D_800814A8)->unk_58 + 0x20) << 16) != 0) {
                     return;
                 }
             }
@@ -237,13 +237,12 @@ sw_case89:
 
 sw_case567:
         {
-            u8 *player_position = D_80082E80;
             void *player;
             s16 facing_angle;
 
             facing_angle = func_800A0818(
                 ((S_8017140C_2 *)sprite)->unk_24.at00.v, ((S_8017140C_2 *)sprite)->unk_24.at01.v,
-                ((S_8017140C_4 *)player_position)->unk_24, ((S_8017140C_4 *)player_position)->unk_25,
+                D_80082E80.tileX, D_80082E80.tileY,
                 &distance);
             player = D_800814A8;
             ((S_8017140C_1 *)creature)->unk_2A = facing_angle;
@@ -271,14 +270,13 @@ generic:
         if ((room_index < 0) ||
             !(((DungeonRecord *)D_800E2970)[room_index].flags & 2)) {
             if (!(((S_8017140C_1 *)creature)->unk_1C & 0x430)) {
-                u8 *player_position = D_80082E80;
 
                 if ((func_8009FD7C(
                         ((S_8017140C_2 *)sprite)->unk_24.at00.v, ((S_8017140C_2 *)sprite)->unk_24.at01.v,
-                        ((S_8017140C_4 *)player_position)->unk_24, ((S_8017140C_4 *)player_position)->unk_25) << 16) != 0) {
+                        D_80082E80.tileX, D_80082E80.tileY) << 16) != 0) {
                     ((S_8017140C_1 *)creature)->unk_2A = func_800A0818(
                         ((S_8017140C_2 *)sprite)->unk_24.at00.v, ((S_8017140C_2 *)sprite)->unk_24.at01.v,
-                        ((S_8017140C_4 *)player_position)->unk_24, ((S_8017140C_4 *)player_position)->unk_25,
+                        D_80082E80.tileX, D_80082E80.tileY,
                         &distance);
                 }
             }

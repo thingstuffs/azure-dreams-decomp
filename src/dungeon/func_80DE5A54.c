@@ -1,9 +1,10 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_D_800814A8.h"
 
 
@@ -22,7 +23,6 @@ extern void func_800AA79C(void *, void *, void *, void *);
 extern void func_800AA888(void *, void *, void *, void *);
 extern void func_801737DC(void *, void *, void *, void *);
 
-extern u8 D_80082E80[];
 extern u8 D_80170E5C[];
 extern u8 D_80174520[];
 extern u8 D_80174538[];
@@ -76,7 +76,7 @@ state_zero:
         direction_anims = D_80174538;
         (*(void * *)((u8 *)sprite + 0x2C)) = direction_anims;
         func_80047784(sprite,
-            direction_anims[((gameWork.viewAngle + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            direction_anims[((gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
             0);
         dungeonStatus.unk_0A--;
         ((S_80173254_0 *)action)->unk_9B++;
@@ -93,12 +93,12 @@ state_one:
                 return;
             }
 
-            if ((((Rec_D_800E3D7C *)entity)->unk_64.as_s16 != 0) &&
+            if ((((EntityRec *)entity)->unk_64 != 0) &&
                 (func_800AA6B4(action, context, sprite, 0) != 0)) {
                 return;
             }
 
-            if (((Rec_D_800E3D7C *)entity)->unk_24.at01_u8.v == 0) {
+            if (((EntityRec *)entity)->tileY == 0) {
                 if (dungeonStatus.flags & 0x2008) {
                     return;
                 }
@@ -110,7 +110,7 @@ state_one:
                 return;
             }
 
-            entity_flags = ((Rec_D_800E3D7C *)entity)->unk_1C.as_s32;
+            entity_flags = ((EntityRec *)entity)->flags1C;
             if (entity_flags & 0x100) {
                 func_800AA258(action, context, sprite, entity);
                 return;
@@ -122,13 +122,13 @@ state_one:
                 return;
             }
 
-            if (((Rec_D_800E3D7C *)entity)->unk_6D.as_s8 == 0) {
+            if (((EntityRec *)entity)->unk_6D == 0) {
                 return;
             }
 
             if ((func_800A2C34(entity) << 16) != 0) {
                 if ((func_8009A180(entity,
-                        (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) << 16) != 0) {
+                        (u8 *)((EntityRec *)D_800814A8)->unk_58 + 0x20) << 16) != 0) {
                     return;
                 }
             }
@@ -137,12 +137,12 @@ state_one:
             func_800A9A04(entity);
 
             if ((func_80042900(entity, 1) << 16) != 0) {
-                u8 *origin;
+                TileObject *origin;
                 s8 coordinate;
 
-                origin = D_80082E80;
+                origin = &D_80082E80;
                 coordinate = ((Rec_D_80082E80 *)sprite)->unk_26.as_s8;
-                if ((((coordinate == ((S_80173254_5 *)origin)->unk_26) &&
+                if ((((coordinate == origin->unk_026) &&
                             (coordinate >= 0)) ||
                         (func_8009FD40(origin, sprite) < 2)) &&
                     ((func_800A6D30() & 7) == 0)) {
@@ -162,9 +162,9 @@ state_one:
         direction_anims = D_80174520;
         (*(void * *)((u8 *)sprite + 0x2C)) = direction_anims;
         func_80047784(sprite,
-            direction_anims[((gameWork.viewAngle + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            direction_anims[((gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
             0);
-        ((Rec_D_800E3D7C *)entity)->unk_1C.as_s32 &= ~0x200;
+        ((EntityRec *)entity)->flags1C &= ~0x200;
         ((S_80173254_0 *)action)->unk_8C = D_80170E5C;
     }
 }

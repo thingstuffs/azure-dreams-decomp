@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 
 extern s32 func_800A9E38(void *arg0);
@@ -35,15 +35,15 @@ typedef struct S_800A9E70_3 {
 } S_800A9E70_3;   /* state in func_800A9E70 */
 
 /* Updates entity facing and applies pending animation changes. */
-s32 func_800A9E70(Rec_func_800A9E70_arg0 *anim, s32 action_arg, S_800A9E70_2 *sprite, Rec_D_800E3D7C *entity) {
+s32 func_800A9E70(Rec_func_800A9E70_arg0 *anim, s32 action_arg, S_800A9E70_2 *sprite, EntityRec *entity) {
     void *active_entity;
     s32 entity_flags;
     s32 direction;
     s32 action_type;
     u16 action_flags;
 
-    if (entity->unk_14.as_s32 & 0x100000) {
-        direction = ((gameWork.viewAngle + entity->unk_2A.as_s16 + 0x100) >> 9) & 7;
+    if (entity->flags14 & 0x100000) {
+        direction = ((gameWork.viewAngle + entity->facing + 0x100) >> 9) & 7;
         if (anim->unk_94 != direction) {
             if (func_800A9E38(entity) != 0) {
                 func_8003DB94(sprite, sprite->unk_2C.p[direction],
@@ -64,13 +64,13 @@ s32 func_800A9E70(Rec_func_800A9E70_arg0 *anim, s32 action_arg, S_800A9E70_2 *sp
         return 1;
     }
 
-    if (entity->unk_1C.as_s32 & 0x400) {
-        action_flags = entity->unk_44.at02_u16.v;
+    if (entity->flags1C & 0x400) {
+        action_flags = entity->unk_46;
         if (action_flags & 0x8000) {
             if (!(action_flags & 0x4000)) {
                 action_type = action_flags & 0x3FFF;
                 if (((u32)(action_type - 5) < 3U) || (action_type == 0xC)) {
-                    entity->unk_44.at02_u16.v = action_flags & 0x7FFF;
+                    entity->unk_46 = action_flags & 0x7FFF;
                 }
             }
         }
@@ -78,7 +78,7 @@ s32 func_800A9E70(Rec_func_800A9E70_arg0 *anim, s32 action_arg, S_800A9E70_2 *sp
 
     if (!(sprite->unk_14 & 0x8000)) {
         if (anim->unk_98 & 0x400) {
-            direction = ((gameWork.viewAngle + entity->unk_2A.as_s16 + 0x100) >> 9) & 7;
+            direction = ((gameWork.viewAngle + entity->facing + 0x100) >> 9) & 7;
             if (func_800A9E38(entity) != 0) {
                 func_8003DB94(sprite, sprite->unk_2C.p[direction],
                               sprite->unk_04);
@@ -92,10 +92,10 @@ s32 func_800A9E70(Rec_func_800A9E70_arg0 *anim, s32 action_arg, S_800A9E70_2 *sp
         anim->unk_98 |= 0x400;
     }
 
-    if ((entity->unk_1C.as_s32 & 0x2000) ||
-        (entity->unk_14.as_s32 & 0x4000)) {
+    if ((entity->flags1C & 0x2000) ||
+        (entity->flags14 & 0x4000)) {
         if ((u32)(anim->unk_9A.as_u8 - 0x13) >= 2U) {
-            if (entity->unk_6D.as_s8 == 0) {
+            if (entity->unk_6D == 0) {
                 if (D_800DCE68 == 0) {
                     if ((func_800A2BDC(entity) << 0x10) != 0) {
                         return 0;
@@ -115,16 +115,16 @@ s32 func_800A9E70(Rec_func_800A9E70_arg0 *anim, s32 action_arg, S_800A9E70_2 *sp
                 check_active_entity:
                     if (entity->unk_43 == 0xFD) {
                     update_anim:
-                        if (entity->unk_1C.as_s32 & 0x400000) {
+                        if (entity->flags1C & 0x400000) {
                             anim->unk_8C = 0;
-                            entity_flags = entity->unk_14.as_s32;
-                            entity->unk_1C.as_s32 &= 0xFFBFFFFF;
+                            entity_flags = entity->flags14;
+                            entity->flags1C &= 0xFFBFFFFF;
                             if (entity_flags & 0x20000000) {
-                                entity->unk_14.as_s32 = entity_flags | 0x400000;
+                                entity->flags14 = entity_flags | 0x400000;
                                 func_800ACB98(anim, action_arg, sprite, entity);
                                 return 0;
                             }
-                            entity->unk_14.as_s32 = entity_flags & 0xFFBFFFFF;
+                            entity->flags14 = entity_flags & 0xFFBFFFFF;
                             {
                                 u32 next_anim = entity_flags & 0x4000;
                                 if (next_anim) {
@@ -136,11 +136,11 @@ s32 func_800A9E70(Rec_func_800A9E70_arg0 *anim, s32 action_arg, S_800A9E70_2 *sp
                             }
                             goto reset_anim_step;
                         }
-                        if (entity->unk_1C.as_s32 & 0x02000000) {
+                        if (entity->flags1C & 0x02000000) {
                             anim->unk_8C = 0;
-                            entity->unk_71.as_u8 = 0;
-                            entity->unk_1C.as_s32 &= 0xFDFFFFFF;
-                            if (entity->unk_14.as_s32 & 0x20000000) {
+                            entity->unk_71 = 0;
+                            entity->flags1C &= 0xFDFFFFFF;
+                            if (entity->flags14 & 0x20000000) {
                                 func_800ACD74(anim, action_arg, sprite, entity);
                                 return 0;
                             }

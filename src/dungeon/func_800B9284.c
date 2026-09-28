@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity_objects.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
@@ -13,8 +15,6 @@ extern s32 func_800A6D30(void);
 extern s32 func_800AD6FC(void *, s32, s32);
 extern void func_800D5460(void *, s32, s32);
 
-extern u8 D_80082E80[];
-extern u8 D_80083780[];
 extern u16 D_800DDE84[];
 extern u8 D_800E10C0[];
 extern u8 D_800E10F2[];
@@ -26,7 +26,7 @@ s32 func_800BE9E4(void *target, s32 item, s16 message_kind)
 
     if (target == D_800E3D7C) {
         *(s32 *)((u8 *)target + 0x110) = item;
-        func_8008D330(target, D_80083780, D_80082E80, target);
+        func_8008D330(target, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), target);
         return 0;
     }
 

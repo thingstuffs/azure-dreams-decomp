@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity_objects.h"
 
 typedef struct {
     s32 unk0;
@@ -13,7 +14,6 @@ typedef struct {
 } TownState;
 
 extern ObjectEntry D_80082660[];
-extern s16 D_80083780[];
 extern TownState D_800CFCB4;
 extern s16 D_800D5078[];
 
@@ -30,5 +30,5 @@ s16 func_800C2BE8(void *object, s32 lookup_mode)
         return D_800D5078[state->object_index];
     }
 
-    return func_800C2B88(D_80083780[1], D_80083780[3], lookup_mode);
+    return func_800C2B88(D_80083780.x.w.i, D_80083780.y.w.i, lookup_mode);
 }

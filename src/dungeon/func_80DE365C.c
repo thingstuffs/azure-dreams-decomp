@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -84,8 +86,6 @@ extern void func_8017236C(void *, void *, void *, void *);
 extern void func_801737DC(void *, void *, void *, void *);
 extern s32 func_80173E48(void *, void *, void *, s32);
 
-extern u8 D_80082E80[];
-extern s8 D_80082EA4;
 extern DungeonRecord D_800E2970[];
 extern void *const D_80170808[];
 extern u8 D_80174520[];
@@ -187,13 +187,13 @@ void func_80170E5C(void *actor_in, void *context_in, void *sprite_in, void *stat
         if (((S_80170E5C_1 *)status)->unk_1C & 0x20) {
             goto special_cleanup;
         }
-        if (((S_80170E5C_2 *)sprite_in)->unk_24.at00u.v == *(u16 *)&D_80082EA4) {
+        if (((S_80170E5C_2 *)sprite_in)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
             goto ordinary_cleanup;
         }
         if (!(((S_80170E5C_1 *)status)->unk_46 & 0x8000)) {
             if (dungeonStatus.flags & 0x2000) {
                 if ((s16)func_8009A180(status,
-                        (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) != 0) {
+                        (u8 *)((EntityRec *)D_800814A8)->unk_58 + 0x20) != 0) {
                     return;
                 }
             }
@@ -249,13 +249,12 @@ movement_case:
 
 coords_case:
         {
-            u8 *origin = D_80082E80;
             void *active_actor;
             s32 direction;
 
             direction = func_800A0818(
                 ((S_80170E5C_2 *)sprite_in)->unk_24.at00.v, ((S_80170E5C_2 *)sprite_in)->unk_24.at01.v,
-                ((S_80170E5C_4 *)origin)->unk_24, ((S_80170E5C_4 *)origin)->unk_25,
+                D_80082E80.tileX, D_80082E80.tileY,
                 &direction_aux);
             active_actor = D_800814A8;
             ((S_80170E5C_1 *)status)->unk_2A.s = direction;
@@ -280,14 +279,13 @@ ordinary_cleanup:
 
         if ((record_index < 0) || !(D_800E2970[record_index].flags & 2)) {
             if (!(((S_80170E5C_1 *)status)->unk_1C & 0x430)) {
-                u8 *origin = D_80082E80;
 
                 if ((s16)func_8009FD7C(((S_80170E5C_2 *)sprite_in)->unk_24.at00.v,
-                        ((S_80170E5C_2 *)sprite_in)->unk_24.at01.v, ((S_80170E5C_4 *)origin)->unk_24,
-                        ((S_80170E5C_4 *)origin)->unk_25) != 0) {
+                        ((S_80170E5C_2 *)sprite_in)->unk_24.at01.v, D_80082E80.tileX,
+                        D_80082E80.tileY) != 0) {
                     ((S_80170E5C_1 *)status)->unk_2A.s = func_800A0818(
                         ((S_80170E5C_2 *)sprite_in)->unk_24.at00.v, ((S_80170E5C_2 *)sprite_in)->unk_24.at01.v,
-                        ((S_80170E5C_4 *)origin)->unk_24, ((S_80170E5C_4 *)origin)->unk_25,
+                        D_80082E80.tileX, D_80082E80.tileY,
                         &direction_aux);
                 }
             }

@@ -2,7 +2,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 typedef struct S_801503C4_0 {
     u8 pad_00[0x8C];
@@ -75,23 +75,23 @@ start_animation:
     }
     ((S_801503C4_0 *)action)->unk_96.s = 0;
     ((S_801503C4_0 *)action)->unk_9B++;
-    switch (((Rec_D_800E3D7C *)actor)->unk_48.at00_u8.v) {
+    switch (((EntityRec *)actor)->unk_48) {
     case 13:
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80151DDC;
         func_80047784(sprite,
-            D_80151DDC[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            D_80151DDC[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
         goto done;
     case 14:
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80151DE4;
         func_80047784(sprite,
-            D_80151DE4[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            D_80151DE4[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
         goto done;
     case 15:
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80151DEC;
         func_80047784(sprite,
-            D_80151DEC[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            D_80151DEC[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
         ((S_801503C4_0 *)action)->unk_9B = 5;
         func_800A56E0(0x60C);
@@ -104,7 +104,7 @@ wait_action:
     timer = ((S_801503C4_0 *)action)->unk_96.s + 1;
     ((S_801503C4_0 *)action)->unk_96.s = timer;
     if ((timer == 5) || (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
-        func_8009C12C(actor, sprite, ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16, 1);
+        func_8009C12C(actor, sprite, ((EntityRec *)actor)->facing, 1);
         ((S_801503C4_0 *)action)->unk_96.s = 0;
         ((S_801503C4_0 *)action)->unk_9B++;
     }
@@ -120,7 +120,7 @@ finish_action:
         ((S_801503C4_0 *)action)->unk_8C = D_8014E4BC;
         dungeonStatus.unk_0C = 0;
         func_800A4ACC(actor);
-        ((Rec_D_800E3D7C *)actor)->unk_44.at02_u16.v &= 0x7FFF;
+        ((EntityRec *)actor)->unk_46 &= 0x7FFF;
     }
     goto done;
 
@@ -135,7 +135,7 @@ special_action:
     }
     if ((((S_801503C4_0 *)action)->unk_96.u == 12) ||
         (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
-        func_8009C12C(actor, sprite, ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16,
+        func_8009C12C(actor, sprite, ((EntityRec *)actor)->facing,
             ((S_801503C4_0 *)action)->unk_AA);
     }
     if ((((S_801503C4_0 *)action)->unk_96.u != 20) &&

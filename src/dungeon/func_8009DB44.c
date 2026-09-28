@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 
 typedef struct S_800A32A4_1 {
@@ -90,7 +90,7 @@ s32 func_800A32A4(void *record) {
     func_80042B68(record, 0x1A);
     func_80042B68(record, 0x1C);
     func_80042B68(record, 0x1D);
-    if (!(((Rec_D_800E3D7C *)record)->unk_14.as_s32 & 0x20000000)) {
+    if (!(((EntityRec *)record)->flags14 & 0x20000000)) {
         func_800A31D0(record);
         slot_index = 0;
         page_base = (u8 *)0x80080000;
@@ -103,12 +103,12 @@ scan_slots:
         slot = slot_offset + ((S_800A32A4_1 *)page_base)->unk_14A8;
         slot_index += 1;
         if (slot->unk_AC == record) {
-            ((Rec_D_800E3D7C *)record)->unk_14.as_s32 = (s32)(((Rec_D_800E3D7C *)record)->unk_14.as_s32 & (s32)copy_src);
+            ((EntityRec *)record)->flags14 = (s32)(((EntityRec *)record)->flags14 & (s32)copy_src);
             slot->unk_AC = 0;
-            state_flags = ((Rec_D_800E3D7C *)record)->unk_1C.as_s32;
+            state_flags = ((EntityRec *)record)->flags1C;
             state_flags |= 0x04000000;
             state_flags |= 0x00020000;
-            ((Rec_D_800E3D7C *)record)->unk_1C.as_s32 = state_flags;
+            ((EntityRec *)record)->flags1C = state_flags;
             entry = slot->unk_D0;
             entry->unk_03 = (u8)(entry->unk_03 & 0xDF);
             dest_base = (void *)((u32)slot_offset + ((S_800A32A4_1 *)page_base)->unk_14A8);
@@ -140,7 +140,7 @@ scan_slots:
     }
 update_count:
     if (update_mode == 0) {
-        state_flags = ((Rec_D_800E3D7C *)record)->unk_14.as_s32;
+        state_flags = ((EntityRec *)record)->flags14;
         update_mode = 3;
         if (!(state_flags & 0x4000)) {
             status_page = (u8 *)(state_flags & 0x2000);
@@ -160,8 +160,8 @@ update_count:
             }
         }
     }
-    if (!(((Rec_D_800E3D7C *)record)->unk_14.as_s32 & 0x20000000)) {
-        func_800A18E8(((Rec_D_800E3D7C *)record)->unk_10.at03_u8.v, update_mode);
+    if (!(((EntityRec *)record)->flags14 & 0x20000000)) {
+        func_800A18E8((*(u8 *)((u8 *)&((EntityRec *)record)->unk_10 + 3)), update_mode);
     }
     return (s32)entry;
 }

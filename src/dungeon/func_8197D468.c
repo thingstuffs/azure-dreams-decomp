@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
@@ -90,7 +91,6 @@ typedef struct S_8197D468_9 {
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern u16 D_8008378A;
 extern u8 D_80083498[];
 extern u8 D_800DED70[];
 void *func_8003FD64();                 /* extern */
@@ -195,7 +195,7 @@ state_2:
     if ((u8) ((S_8197D468_2 *)sprite)->unk_0C.u8 < 0x80) {
         ((S_8197D468_2 *)sprite)->unk_0C.s32 = (s32) ((s32) ((S_8197D468_2 *)sprite)->unk_0C.s32 + 0x40404);
     }
-    ground_height = func_800BCB04(((S_8197D468_3 *)motion)->unk_00.at02.v, ((S_8197D468_3 *)motion)->unk_04.at02.v, (s16) (D_8008378A - 0x80));
+    ground_height = func_800BCB04(((S_8197D468_3 *)motion)->unk_00.at02.v, ((S_8197D468_3 *)motion)->unk_04.at02.v, (s16) (((u16)D_80083780.z.w.i) - 0x80));
     if (((S_8197D468_3 *)motion)->unk_08.at02.v >= (ground_height - 0x20)) {
         particle_index = 4;
         do {

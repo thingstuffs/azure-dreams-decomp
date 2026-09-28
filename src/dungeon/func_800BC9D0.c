@@ -1,4 +1,7 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity_objects.h"
+#include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -17,16 +20,13 @@ extern void func_800A6480();
 extern s32 func_800AD6FC();
 extern void func_800C4D78();
 
-extern s32 D_80082E80;
-extern s8 D_80082EA6;
-extern s32 D_80083780;
 extern u8 D_800DDE84[];
 extern u8 D_800E1567[];
 extern u8 D_800E3648[];
 
 
 /* Apply an entity event or mark eligible slots, then finish the event. */
-s32 func_800C2130(Rec_D_800E3D7C *entity, s32 event, s16 event_type, s32 event_arg) {
+s32 func_800C2130(EntityRec *entity, s32 event, s16 event_type, s32 event_arg) {
     s32 message_arg;
     volatile u8 *slot;
     u8 *event_state;
@@ -41,14 +41,14 @@ s32 func_800C2130(Rec_D_800E3D7C *entity, s32 event, s16 event_type, s32 event_a
     }
     if (entity == ((u8 *)D_800E3D7C)) {
         entity->unk_110 = event;
-        func_8008D344(entity, &D_80083780, &D_80082E80, entity);
+        func_8008D344(entity, &D_80083780.x.v, &D_80082E80.unk_000, entity);
         return 0;
     }
     if ((u32)entity <= 0x9FFFFFFF) {
         func_800A6480(entity, event);
         if (func_800AD6FC(
                 entity,
-                ((u16 *)D_800DDE84)[entity->unk_10.at03_u8.v] & 3,
+                ((u16 *)D_800DDE84)[(*(u8 *)((u8 *)&entity->unk_10 + 3))] & 3,
                 event) == 0) {
             func_800A5F38(entity, event);
             return 1;
@@ -60,7 +60,7 @@ s32 func_800C2130(Rec_D_800E3D7C *entity, s32 event, s16 event_type, s32 event_a
     message_buf = func_800990FC();
 
     message_arg = message_buf;
-    if (D_80082EA6 >= 0) {
+    if (D_80082E80.unk_026 >= 0) {
         slot_index = 0;
         slot = D_800E3648;
         do {

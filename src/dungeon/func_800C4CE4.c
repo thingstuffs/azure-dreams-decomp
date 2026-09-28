@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
@@ -55,7 +56,6 @@ typedef struct {
 
 extern DungeonTableEntry D_800E2970[];
 extern s16 D_8006CD00[];
-extern u16 D_80082E80[];
 M2C_UNK func_800A0E6C();
 M2C_UNK func_800A19E4();
 M2C_UNK func_800A9A0C();
@@ -78,7 +78,7 @@ void func_800CA444(void *motion_input, s32 unused, void *tile_input, void *actor
     M2C_UNK direction_index;
     s8 tile_type;
     s16 *heading_offsets;
-    u16 *map_state;
+    TileObject *map_state;
     void *scan_tile;
     unsigned long x_step_addr;
     u32 trail_count;
@@ -125,14 +125,14 @@ scan_start:
     if (((S_800CA444_1 *)actor)->unk_46 & 0x8000) {
         scan_result = 0;
         heading_offsets = D_8006CD00;
-        map_state = D_80082E80;
+        map_state = &D_80082E80;
     } else {
         scan_tile = tile;
 scan_call:
         func_800A0E6C(scan_tile, ((S_800CA444_2 *)motion)->unk_9C, actor, motion + 0x98);
         scan_result = 0;
         heading_offsets = D_8006CD00;
-        map_state = D_80082E80;
+        map_state = &D_80082E80;
     }
 scan_loop:
     heading = ((S_800CA444_1 *)actor)->unk_2A;
@@ -156,7 +156,7 @@ calc_call:
         }
         goto state_done;
     }
-    if (map_state[0x12] == tile->unk_24.at00u.v) {
+    if (*(u16 *)(&map_state->tileX) == tile->unk_24.at00u.v) {
         next_index = scan_result + 1;
         scan_result = next_index;
         if (next_index < 8) {

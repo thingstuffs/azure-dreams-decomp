@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "records/Rec_D_80082E80.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_func_8008D024_arg0.h"
 
 
@@ -31,7 +31,7 @@ extern void func_800A9024(s32);
 
 extern void func_80094E34(Rec_func_8008D024_arg0 *);
 /* Initializes action state and animation, then handles the current tile type. */
-void func_8008D9F0(Rec_func_8008D024_arg0 *state, s32 unused, Rec_D_80082E80 *entity, Rec_D_800E3D7C *actor) {
+void func_8008D9F0(Rec_func_8008D024_arg0 *state, s32 unused, Rec_D_80082E80 *entity, EntityRec *actor) {
     s16 tile_type;
     s16 slot_index;
 
@@ -41,7 +41,7 @@ void func_8008D9F0(Rec_func_8008D024_arg0 *state, s32 unused, Rec_D_80082E80 *en
     func_80094E34(state);
     if (func_80042900(actor, 0xA) == 0) {
         entity->unk_2C.as_pu8 = D_800DCFB0;
-        func_80048A44(entity, D_800DCFB0[((s32)(gameWork.viewAngle + actor->unk_2A.as_s16 + 0x100) >> 9) & 7], 0, 1);
+        func_80048A44(entity, D_800DCFB0[((s32)(gameWork.viewAngle + actor->facing + 0x100) >> 9) & 7], 0, 1);
     }
     tile_type = func_800A4474(entity->unk_24, entity->unk_25);
     if (tile_type == 3) {

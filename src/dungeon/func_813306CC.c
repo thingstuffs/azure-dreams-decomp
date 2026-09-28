@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern M2C_UNK D_80167540[3];
@@ -53,7 +53,7 @@ typedef struct S_801676CC_5 {
 } S_801676CC_5;   /* temp_a0_3 in func_801676CC */
 
 /* Creates sixteen effects at the given position with increasing sprite scales. */
-void func_801676CC(Rec_D_800E3D7C *origin) {
+void func_801676CC(EntityRec *origin) {
     s16 scale_x;
     s16 scale_y;
     s32 effect_index;
@@ -82,9 +82,9 @@ void func_801676CC(Rec_D_800E3D7C *origin) {
             render_params->unk_10 = 0x60;
             render_params->unk_14 = (u16) (render_params->unk_14 | 0xC);
             position = ((S_801676CC_1 *)effect)->unk_08;
-            position->unk_00 = (s32) origin->unk_00.at00_s32.v;
-            position->unk_04 = (s32) origin->unk_04.at00_s32.v;
-            position->unk_08 = (s32) (origin->unk_08.at00_s32.v + 0xFFC00000);
+            position->unk_00 = (s32) origin->x.v;
+            position->unk_04 = (s32) origin->y.v;
+            position->unk_08 = (s32) (origin->z.v + 0xFFC00000);
             sprite = ((S_801676CC_1 *)effect)->unk_0C;
             sprite->unk_1C = scale_x;
             sprite->unk_1E = scale_y;

@@ -3,7 +3,7 @@
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_800A9E70_arg0.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 typedef struct EarlyCallData {
     u8 pad0[8];
@@ -67,7 +67,7 @@ typedef struct S_800AC82C_7 {
 } S_800AC82C_7;   /* (*(void **)((u8 *)arg3 + 0x60)) in func_800AC82C */
 
 /* Updates the actor's position and facing relative to its parent. */
-s32 func_800AC82C(Rec_func_800A9E70_arg0 *state, Rec_D_800E3D7C *position, Rec_D_80082E80 *tile, void *actor) {
+s32 func_800AC82C(Rec_func_800A9E70_arg0 *state, EntityRec *position, Rec_D_80082E80 *tile, void *actor) {
     u16 offset[3];
     u16 dest_x;
     u16 dest_y;
@@ -116,15 +116,15 @@ update_position:
         tile->unk_24 = (u8) parent_data->unk_24;
         tile->unk_25 = (u8) parent_data->unk_25;
         if (!((*(s32 *)((u8 *)actor + 0x1C)) & 0x80000)) {
-            position->unk_10.at00_s32.v = 0;
-            position->unk_0C.as_s32 = 0;
+            position->unk_10 = 0;
+            position->unk_0C = 0;
             state->unk_98 = (u16) (state->unk_98 & 0xFFF7);
             facing = ((S_800AC82C_7 *)((*(void **)((u8 *)actor + 0x60))))->unk_2A;
             (*(u16 *)((u8 *)actor + 0x6A)) = facing;
             tile->unk_24 = (u8) (parent_data->unk_24 + *(u8 *) &dirStepX[(facing >> 9) & 7]);
             tile->unk_25 = (u8) (parent_data->unk_25 + *(u8 *) &dirStepY[((u16) (*(u16 *)((u8 *)actor + 0x6A)) >> 9) & 7]);
             func_800A2B04(position, tile->unk_24, tile->unk_25);
-            ground_height = func_800BCB04(position->unk_00.at02_u16.v, position->unk_04.at02_u16.v, (s16) ((*(u16 *)((u8 *)actor + 0x88)) - 0x20));
+            ground_height = func_800BCB04(((u16)position->x.w.i), ((u16)position->y.w.i), (s16) ((*(u16 *)((u8 *)actor + 0x88)) - 0x20));
             if (ground_height < 0x200) {
                 state->unk_90.at02_s16.v = 0;
                 (*(u16 *)((u8 *)actor + 0x88)) = (u16) ground_height;
@@ -150,8 +150,8 @@ update_position:
             return 0;
         }
         if (func_8003DE58(parent_data->unk_08, parent_data, offset, 0) != 0) {
-            position->unk_00.at02_u16.v = (u16) ((u16) *D_800E3DA8 + (parent_position->unk_02 + offset[0]));
-            position->unk_04.at02_u16.v = (u16) ((u16) D_800E3DA8[1] + (parent_position->unk_06 + offset[1]));
+            position->x.w.i = (u16) ((u16) *D_800E3DA8 + (parent_position->unk_02 + offset[0]));
+            position->y.w.i = (u16) ((u16) D_800E3DA8[1] + (parent_position->unk_06 + offset[1]));
             parent_height = ((S_800AC82C_7 *)((*(void **)((u8 *)actor + 0x60))))->unk_88;
             (*(u16 *)((u8 *)actor + 0x88)) = parent_height;
             state->unk_90.at02_s16.v = (s16) (((parent_position->unk_0A + offset[2]) - parent_height) + 8);

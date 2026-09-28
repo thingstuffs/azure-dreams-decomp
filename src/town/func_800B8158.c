@@ -1,24 +1,24 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 
 
 /* Collect nonzero record values, including the extra value for the selected record. */
-void func_800B58B8(s32 *output, Rec_D_800E3D7C *record) {
+void func_800B58B8(s32 *output, EntityRec *record) {
     s32 *write_ptr;
     s32 extra_value;
     s32 first_value;
     s32 second_value;
 
     write_ptr = output;
-    first_value = record->unk_4C.as_s32;
+    first_value = ((s32)record->unk_4C);
     if (first_value != 0) {
         *write_ptr = first_value;
         write_ptr += 1;
     }
-    second_value = record->unk_50.at00_s32.v;
+    second_value = (*(s32 *)&record->unk_50);
     if (second_value != 0) {
         *write_ptr = second_value;
         write_ptr += 1;

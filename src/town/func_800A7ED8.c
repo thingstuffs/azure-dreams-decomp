@@ -1,6 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_func_8009431C_arg0.h"
 
 M2C_UNK func_8008F664();           /* extern */
@@ -25,7 +25,7 @@ typedef struct S_800A5638_0_pre {
 
 
 /* Updates the record, invokes its handler, clamps values, and dispatches follow-up processing. */
-void func_800A5638(void *handler, Rec_D_800E3D7C *record, M2C_UNK context) {
+void func_800A5638(void *handler, EntityRec *record, M2C_UNK context) {
     func_800953D0(record);
     func_80095910(&D_800FE490);
     func_8009539C(record);
@@ -34,11 +34,11 @@ void func_800A5638(void *handler, Rec_D_800E3D7C *record, M2C_UNK context) {
     func_8008F664(&D_800CFCB4, record);
     ((Rec_func_8009431C_arg0 *)handler)->unk_00.as_x78b360(handler, record, context);
     if (!(((S_800A5638_0_pre *)handler)[-1].unk_0E & 0x8000)) {
-        if (record->unk_04.at00_s32.v <= 0x06500000) {
-            record->unk_04.at00_s32.v = 0x06500000;
-            record->unk_10.at00_s32.v = 0x180000;
-            if (record->unk_08.at00_s32.v > 0) {
-                record->unk_08.at00_s32.v = 0;
+        if (record->y.v <= 0x06500000) {
+            record->y.v = 0x06500000;
+            record->unk_10 = 0x180000;
+            if (record->z.v > 0) {
+                record->z.v = 0;
             }
         }
         if (((S_800A5638_0_pre *)handler)[-1].unk_00 == &D_800903FC) {

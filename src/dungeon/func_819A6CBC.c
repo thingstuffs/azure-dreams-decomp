@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity_objects.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 
@@ -61,8 +63,6 @@ typedef struct {
 } CopyDestination __attribute__((packed));
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern s16 D_80083780[];
-extern s32 D_80082E80[];
 extern u8 D_80083498[];
 s32 func_8003DE58();       /* extern */
 void *func_8003FD64();                 /* extern */
@@ -104,13 +104,13 @@ init_motion:
     ((S_800244BC_0 *)object)->unk_4C = (s16) ((u16) ((S_800244BC_0 *)object)->unk_4C + 1);
 
 approach_target:
-    if (func_8003DE58(D_80082E80[2], D_80082E80, target_pos, 0) != 0) {
+    if (func_8003DE58(D_80082E80.unk_008, ((s32 *)(&D_80082E80)), target_pos, 0) != 0) {
         func_800478B8(context);
-        position->unk_00.at00.v = (s32) (position->unk_00.at00.v + (((target_pos[0] + D_80083780[1]) - position->unk_00.at02.v) << 0xE));
-        position->unk_04.at00.v = (s32) (position->unk_04.at00.v + (((target_pos[1] + D_80083780[3]) - position->unk_04.at02.v) << 0xE));
-        position->unk_08.at00.v = (s32) (position->unk_08.at00.v + (((target_pos[2] + D_80083780[5]) - position->unk_08.at02.v) << 0xE));
+        position->unk_00.at00.v = (s32) (position->unk_00.at00.v + (((target_pos[0] + D_80083780.x.w.i) - position->unk_00.at02.v) << 0xE));
+        position->unk_04.at00.v = (s32) (position->unk_04.at00.v + (((target_pos[1] + D_80083780.y.w.i) - position->unk_04.at02.v) << 0xE));
+        position->unk_08.at00.v = (s32) (position->unk_08.at00.v + (((target_pos[2] + D_80083780.z.w.i) - position->unk_08.at02.v) << 0xE));
         effects_left = 0;
-        position->unk_08.at00.v = (s32) (position->unk_08.at00.v - (func_800644B8(((s16) ((S_800244BC_0 *)object)->unk_48 << 0xB) / 10, D_80083780) << 9));
+        position->unk_08.at00.v = (s32) (position->unk_08.at00.v - (func_800644B8(((s16) ((S_800244BC_0 *)object)->unk_48 << 0xB) / 10, ((s16 *)(&D_80083780))) << 9));
         do {
             effect = func_8003FD64(0x302, D_80083498);
             effect_data = effect + 0x20;
@@ -140,11 +140,11 @@ approach_target:
     return;
 
 settle_target:
-    if (func_8003DE58(D_80082E80[2], D_80082E80, target_pos, 0) != 0) {
+    if (func_8003DE58(D_80082E80.unk_008, ((s32 *)(&D_80082E80)), target_pos, 0) != 0) {
         func_800478B8(context);
-        position->unk_00.at00.v = (s32) (position->unk_00.at00.v + (((target_pos[0] + D_80083780[1]) - position->unk_00.at02.v) << 0xF));
-        position->unk_04.at00.v = (s32) (position->unk_04.at00.v + (((target_pos[1] + D_80083780[3]) - position->unk_04.at02.v) << 0xF));
-        position->unk_08.at00.v = (s32) (position->unk_08.at00.v + (((target_pos[2] + D_80083780[5]) - position->unk_08.at02.v) << 0xF));
+        position->unk_00.at00.v = (s32) (position->unk_00.at00.v + (((target_pos[0] + D_80083780.x.w.i) - position->unk_00.at02.v) << 0xF));
+        position->unk_04.at00.v = (s32) (position->unk_04.at00.v + (((target_pos[1] + D_80083780.y.w.i) - position->unk_04.at02.v) << 0xF));
+        position->unk_08.at00.v = (s32) (position->unk_08.at00.v + (((target_pos[2] + D_80083780.z.w.i) - position->unk_08.at02.v) << 0xF));
     }
     if ((s16) ((S_800244BC_0 *)object)->unk_48 <= 0) {
         ((S_800244BC_0_pre *)object)[-1].unk_00 = (u16) (((S_800244BC_0_pre *)object)[-1].unk_00 | 0x8000);

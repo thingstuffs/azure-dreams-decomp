@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
@@ -14,7 +15,6 @@
 extern void *D_80024008[];
 extern u8 D_80024A64[];
 extern u16 D_80024A70[];
-extern u16 D_80082E94[];
 
 extern void func_800246F4(void *, void *);
 extern s32 func_80053EF0(s32);
@@ -123,7 +123,7 @@ case_2:
         }
         U32_AT(child, 0x0C) = tint;
     }
-    if ((U16_AT(D_80082E94, 0) & 0x8000) == 0) {
+    if ((U16_AT(((u16 *)(&D_80082E80.unk_014)), 0) & 0x8000) == 0) {
         U16_AT(state, 0x18)--;
         if ((s16)U16_AT(state, 0x18) >= 0) {
             goto default_case;

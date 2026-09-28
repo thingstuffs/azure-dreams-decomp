@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity_objects.h"
 
 typedef struct {
     s16 unk0;
@@ -8,42 +9,39 @@ typedef struct {
     s32 unk8;
 } DungeonPoint;
 
-extern DungeonPoint D_80083780;
 
 /* Return the direction from the global point to the target, or 9 if coincident. */
 s32 func_8016F4FC(DungeonPoint *target)
 {
-    DungeonPoint *origin;
 
-    if (D_80083780.x == target->x && D_80083780.y == target->y) {
+    if (D_80083780.x.w.i == target->x &&D_80083780.y.w.i == target->y) {
         return 9;
     }
 
-    origin = &D_80083780;
-    if (origin->x < target->x) {
-        if (origin->y < target->y) {
+    if (D_80083780.x.w.i < target->x) {
+        if (D_80083780.y.w.i < target->y) {
             return 1;
         }
-        if (target->y < origin->y) {
+        if (target->y < D_80083780.y.w.i) {
             return 7;
         }
         return 0;
     }
 
-    if (target->x < origin->x) {
-        if (origin->y < target->y) {
+    if (target->x < D_80083780.x.w.i) {
+        if (D_80083780.y.w.i < target->y) {
             return 3;
         }
-        if (target->y < origin->y) {
+        if (target->y < D_80083780.y.w.i) {
             return 5;
         }
         return 4;
     }
 
-    if (origin->y < target->y) {
+    if (D_80083780.y.w.i < target->y) {
         return 2;
     }
-    if (target->y < origin->y) {
+    if (target->y < D_80083780.y.w.i) {
         return 6;
     }
     return 0;

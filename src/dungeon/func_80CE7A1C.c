@@ -1,6 +1,6 @@
 #include "common.h"
 #include "records/Rec_func_8017121C_arg1.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 #ifndef NULL
 #define NULL 0
@@ -99,7 +99,7 @@ extern u8 D_80170D40[];
 extern s16 D_80175EBC[];
 
 /* Creates an effect and sets its movement toward a tracked target or grid position. */
-void func_8017121C(void *source_handle, Rec_func_8017121C_arg1 *origin, s32 unused, Rec_D_800E3D7C *target)
+void func_8017121C(void *source_handle, Rec_func_8017121C_arg1 *origin, s32 unused, EntityRec *target)
 {
     Vec3u16 offset;
     void *effect;
@@ -174,14 +174,14 @@ void func_8017121C(void *source_handle, Rec_func_8017121C_arg1 *origin, s32 unus
 
     ((S_8017121C_0 *)effect_state)->unk_02 = part->unk_0E;
 
-    if (target->unk_60.as_pv == NULL) {
+    if (target->target == NULL) {
         ((S_8017121C_0 *)effect_state)->unk_60 = 0;
         ((S_8017121C_0 *)effect_state)->unk_5C = 0;
         ((S_8017121C_0 *)effect_state)->unk_58 = 0;
-        grid_axis = target->unk_73.as_u8;
+        grid_axis = ((u8)target->unk_73);
         goto no_tracked_done;
     }
-    target_flags = target->unk_14.as_u32;
+    target_flags = ((u32)target->flags14);
     untracked_mask = 0x04000000;
     if ((target_flags & untracked_mask) == 0) {
         direction_table = D_80175EBC;
@@ -189,8 +189,8 @@ void func_8017121C(void *source_handle, Rec_func_8017121C_arg1 *origin, s32 unus
         ((S_8017121C_0 *)effect_state)->unk_5C = 0;
         ((S_8017121C_0 *)effect_state)->unk_58 = 0;
 
-        x_table_addr = target->unk_2A.as_u16;
-        coord_delta = (s32)(target->unk_60.as_pv);
+        x_table_addr = ((u16)target->facing);
+        coord_delta = (s32)(target->target);
         effect_x = coords->unk_02.u;
         x_table_addr = (x_table_addr >> 7) & 0x1C;
         x_table_addr += (u32)direction_table;
@@ -204,7 +204,7 @@ void func_8017121C(void *source_handle, Rec_func_8017121C_arg1 *origin, s32 unus
         coord_delta -= x_offset;
         ((S_8017121C_0 *)effect_state)->unk_5A = coord_delta / 2;
 
-        y_table_addr = target->unk_2A.as_u16;
+        y_table_addr = ((u16)target->facing);
         y_delta = target_coords->unk_06;
         effect_z = coords->unk_06.u;
         y_table_addr = (y_table_addr >> 7) & 0x1C;
@@ -219,7 +219,7 @@ void func_8017121C(void *source_handle, Rec_func_8017121C_arg1 *origin, s32 unus
         effect_z = coords->unk_0A.u;
         y_offset = target_coords->unk_0A - effect_z;
         coord_delta = y_offset;
-        coord_delta -= D_800DDC40[((S_8017121C_10 *)(target->unk_60.as_pv))->unk_13] >> 1;
+        coord_delta -= D_800DDC40[((S_8017121C_10 *)(target->target))->unk_13] >> 1;
         ((S_8017121C_0 *)effect_state)->unk_62 = coord_delta / 2;
         return;
     }
@@ -228,10 +228,10 @@ void func_8017121C(void *source_handle, Rec_func_8017121C_arg1 *origin, s32 unus
     ((S_8017121C_0 *)effect_state)->unk_5C = 0;
     ((S_8017121C_0 *)effect_state)->unk_58 = 0;
 
-    grid_axis = target->unk_73.as_u8;
+    grid_axis = ((u8)target->unk_73);
     no_tracked_done:
     ;
-    grid_x_bits = target->unk_72.as_u8;
+    grid_x_bits = ((u8)target->unk_72);
     grid_axis <<= 24;
     grid_y = grid_axis >> 24;
     grid_x_bits <<= 24;

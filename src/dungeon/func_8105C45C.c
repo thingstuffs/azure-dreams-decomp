@@ -3,7 +3,7 @@
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 typedef struct S_80173C5C_0 {
     u8 pad_00[0x8C];
@@ -42,7 +42,7 @@ extern u8 D_80173FD8;
 extern M2C_UNK D_80173FE0;
 
 /* Run the actor's eight-step sink animation, advancing its state and swapping the sprite each step. */
-void func_80173C5C(S_80173C5C_0 *work, Rec_D_800E3D7C *part_a, Rec_D_80082E80 *part_b, Rec_D_800E3D7C *actor) {
+void func_80173C5C(S_80173C5C_0 *work, EntityRec *part_a, Rec_D_80082E80 *part_b, EntityRec *actor) {
     static void *const jt_keep[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6, &&jt_c7 };
     u8 *unused_ptr;
     s32 value;
@@ -72,10 +72,10 @@ block_5:
         goto block_20;
     }
     part_b->unk_2C.as_pu8 = &D_80173FD8;
-    func_80047784(part_b, (&D_80173FD8)[((s32) (gameWork.viewAngle + actor->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
+    func_80047784(part_b, (&D_80173FD8)[((s32) (gameWork.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
     work->unk_98 = (u16) (work->unk_98 | 8);
-    part_a->unk_14.as_s32 = 0xFFF00000;
-    actor->unk_1C.as_s32 = (s32) (actor->unk_1C.as_s32 & 0xF7FFFFFF);
+    part_a->flags14 = 0xFFF00000;
+    actor->flags1C = (s32) (actor->flags1C & 0xF7FFFFFF);
     work->unk_A0 = 0;
     state_now = work->unk_9B;
     state = 10;
@@ -91,9 +91,9 @@ jt_c5:
         goto block_10;
     }
     accum = value;
-    value = part_a->unk_14.as_s32;
+    value = part_a->flags14;
     work->unk_A0 = (s32) (accum + value);
-    part_a->unk_14.as_s32 = (s32) (part_a->unk_14.as_s32 + 0x30000);
+    part_a->flags14 = (s32) (part_a->flags14 + 0x30000);
 block_10:
     accum = work->unk_90;
     value = work->unk_A0;
@@ -104,24 +104,24 @@ block_10:
     }
     work->unk_90 = 0;
     work->unk_98 = (u16) (work->unk_98 & 0xFFF7);
-    actor->unk_1C.as_s32 = (s32) (actor->unk_1C.as_s32 | 0x8000000);
+    actor->flags1C = (s32) (actor->flags1C | 0x8000000);
     goto block_e5c;
 jt_c2:
 jt_c6:
     work->unk_98 = (u16) (work->unk_98 & 0xFFF7);
-    part_a->unk_14.as_s32 = 0;
-    part_a->unk_10.at00_s32.v = 0;
-    part_a->unk_0C.as_s32 = 0;
+    part_a->flags14 = 0;
+    part_a->unk_10 = 0;
+    part_a->unk_0C = 0;
     func_800A2B04(part_a, part_b->unk_24, part_b->unk_25);
     part_b->unk_2C.as_pu8 = &D_80173FE0;
-    func_80047784(part_b, ((u8 *) ((u32) ((((s32) (gameWork.viewAngle + actor->unk_2A.as_s16 + 0x100) >> 9) & 7) + (u32) &D_80173FE0)))[0], 0);
+    func_80047784(part_b, ((u8 *) ((u32) ((((s32) (gameWork.viewAngle + actor->facing + 0x100) >> 9) & 7) + (u32) &D_80173FE0)))[0], 0);
     goto block_e5c;
 jt_c3:
     if (!(part_b->unk_14.at00_u16.v & 0xE000)) {
         goto block_20;
     }
     part_b->unk_2C.as_pu8 = D_80173FD0;
-    func_80047784(part_b, D_80173FD0[((s32) (gameWork.viewAngle + actor->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
+    func_80047784(part_b, D_80173FD0[((s32) (gameWork.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
     block_e5c:
     state_now = work->unk_9B;
     block_e60:
@@ -132,11 +132,11 @@ jt_c7:
         goto block_20;
     }
     part_b->unk_2C.as_pu8 = D_80173FB8;
-    func_80047784(part_b, D_80173FB8[((s32) (gameWork.viewAngle + actor->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
+    func_80047784(part_b, D_80173FB8[((s32) (gameWork.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
     dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
     func_800A4ACC(actor);
-    actor->unk_6D.as_s8 = 0;
-    actor->unk_44.at02_u16.v = (u16) (actor->unk_44.at02_u16.v & 0x7FFF);
+    actor->unk_6D = 0;
+    actor->unk_46 = (u16) (actor->unk_46 & 0x7FFF);
     work->unk_8C = &D_80170F68;
     work->unk_98 = (u16) (work->unk_98 | 0x8000);
     work->unk_AE = (s16) ((func_800A6D30() & 7) + 8);

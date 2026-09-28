@@ -1,4 +1,7 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity_objects.h"
+#include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -18,8 +21,6 @@ extern s32 func_800A6D30();
 extern s16 func_800AD6FC();
 extern void func_800C4AFC();
 
-extern s32 D_80082E80;
-extern s32 D_80083780;
 extern s32 D_800893E0;
 extern u8 D_800DDE84[];
 extern s32 D_800E18A4;
@@ -39,8 +40,8 @@ s32 func_800C4490(void *target, s32 source, s16 effect_mode) {
     s32 message_context;
 
     if (target == ((s32)D_800E3D7C)) {
-        ((Rec_D_800E3D7C *)target)->unk_110 = source;
-        func_8008D330(target, &D_80083780, &D_80082E80, target);
+        ((EntityRec *)target)->unk_110 = source;
+        func_8008D330(target, &D_80083780.x.v, &D_80082E80.unk_000, target);
         return 0;
     }
 
@@ -48,7 +49,7 @@ s32 func_800C4490(void *target, s32 source, s16 effect_mode) {
         func_800A63B8(target, source, effect_mode);
         if (func_800AD6FC(target,
                          (*(u16 *)(D_800DDE84 +
-                                   ((Rec_D_800E3D7C *)target)->unk_10.at03_u8.v * 2) >> 6) & 3,
+                                   (*(u8 *)((u8 *)&((EntityRec *)target)->unk_10 + 3)) * 2) >> 6) & 3,
                          source) == 0) {
             func_800A5F38(target, source);
             return 1;
@@ -60,13 +61,13 @@ s32 func_800C4490(void *target, s32 source, s16 effect_mode) {
         stat_gain = 0xFF;
     }
 
-    stat_gap = ((Rec_D_800E3D7C *)target)->unk_29 - ((Rec_D_800E3D7C *)target)->unk_28;
+    stat_gap = ((EntityRec *)target)->unk_29 - ((EntityRec *)target)->unk_28;
     if (stat_gap < stat_gain) {
         stat_gain = stat_gap;
     }
-    ((Rec_D_800E3D7C *)target)->unk_64.as_s16 = stat_gain;
+    ((EntityRec *)target)->unk_64 = stat_gain;
 
-    if (((Rec_D_800E3D7C *)target)->unk_14.as_s32 & 0x4000) {
+    if (((EntityRec *)target)->flags14 & 0x4000) {
         effect_text = func_800990FC();
         {
             void *message_target;
@@ -79,7 +80,7 @@ s32 func_800C4490(void *target, s32 source, s16 effect_mode) {
         }
         func_80099290(func_80099194(
             &D_800893E0,
-            func_8003AD08(((Rec_D_800E3D7C *)target)->unk_64.as_s16,
+            func_8003AD08(((EntityRec *)target)->unk_64,
                           func_80099194(&D_800E18A4, effect_text))));
         func_800A5720(message_context);
     }

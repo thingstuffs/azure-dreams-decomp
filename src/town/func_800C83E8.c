@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/entity_objects.h"
 #include "m2c_compat.h"
 
-extern s32 D_80083788;
 extern M2C_UNK D_800C5BA8;
 extern s32 D_800D0428;
 
@@ -23,7 +23,7 @@ void func_800C5B48(S_800C5B48_1 *actor, S_800C5B48_0 *motion) {
     u16 ticks_left;
 
     current_value = motion->unk_08;
-    motion->unk_08 = (s32) (current_value + ((s32) ((D_80083788 + D_800D0428) - current_value) / 2));
+    motion->unk_08 = (s32) (current_value + ((s32) ((D_80083780.z.v + D_800D0428) - current_value) / 2));
     ticks_left = actor->unk_6C - 1;
     actor->unk_6C = ticks_left;
     if ((ticks_left << 0x10) <= 0) {

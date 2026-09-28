@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
@@ -86,7 +87,6 @@ typedef struct Vec16 {
     s16 z;
 } Vec16;
 
-extern u8 D_80082E80[];
 extern u8 *D_800E3D18;
 
 extern s32 func_8003DE58(void *, void *, Vec16 *, s16);

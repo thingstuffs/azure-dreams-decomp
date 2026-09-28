@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity_objects.h"
 
 
 typedef struct Obj {
@@ -35,7 +36,6 @@ extern EntryPair D_800898C4;
 extern void *D_800898D4[];
 extern u8 D_80011F81[];
 extern Counter D_80012D5C;
-extern s32 D_80083780[];
 
 extern int abs(int);
 
@@ -79,7 +79,7 @@ state0:
 state3:
     {
         x_range_check = 0x3FFFFF;
-        current_x = D_80083780[0];
+        current_x = D_80083780.x.v;
         target_x = position->x;
         {
             s32 x_distance = abs((s32)((u32)current_x - (u32)target_x));
@@ -101,8 +101,8 @@ state3:
     return;
 
 state1:
-    if (D_80083780[1] < position->y + 0x800000) {
-        D_80083780[1] += 0x40000;
+    if (D_80083780.y.v < position->y + 0x800000) {
+        D_80083780.y.v += 0x40000;
     }
     {
         register s32 cursor = cursor_data->cursor;

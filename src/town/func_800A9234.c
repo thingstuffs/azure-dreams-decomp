@@ -1,5 +1,6 @@
 #include "common.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity_objects.h"
+#include "shared/entity.h"
 #include "records/Rec_func_80094268_arg0.h"
 
 
@@ -31,7 +32,6 @@ M2C_UNK func_8009BFD8();
 M2C_UNK func_800A6328();
 M2C_UNK func_800C2E84();
 extern u8 D_80083498[];
-extern s32 D_80083780;
 extern M2C_UNK D_800A5638;
 extern s32 D_800D0C78;
 extern M2C_UNK D_800D0D54;
@@ -47,9 +47,9 @@ void func_800A6994(void *actor, M2C_UNK update_context, void *position, M2C_UNK 
     state = D_80083498;
     if (((S_800A6994_0 *)state)->unk_10 != &D_800A5638) {
         func_800A6328(&D_800D0D54, 0);
-        D_800D0C78 = ((Rec_D_800E3D7C *)position)->unk_00.at00_s32.v;
+        D_800D0C78 = ((EntityRec *)position)->x.v;
         saved_position = &D_800D0C78;
-        (*(s32 *)((u8 *)saved_position + 4)) = ((Rec_D_800E3D7C *)position)->unk_04.at00_s32.v;
+        (*(s32 *)((u8 *)saved_position + 4)) = ((EntityRec *)position)->y.v;
         ((S_800A6994_2 *)saved_position)->unk_08 = (*(s32 *)((u8 *)position + 8));
         func_800C2E84(actor, setup_context, D_80100E24);
         func_8009BFD8(actor, update_context, position, setup_context);
@@ -57,10 +57,10 @@ void func_800A6994(void *actor, M2C_UNK update_context, void *position, M2C_UNK 
         heading += 0x200;
         heading &= 0xFC00;
     } else {
-        fixed_position = &D_80083780;
-        ((Rec_D_800E3D7C *)position)->unk_00.at00_s32.v = D_80083780;
-        ((Rec_D_800E3D7C *)position)->unk_04.at00_s32.v = ((S_800A6994_4 *)fixed_position)->unk_04;
-        ((Rec_D_800E3D7C *)position)->unk_08.at00_s32.v = ((S_800A6994_4 *)fixed_position)->unk_08;
+        fixed_position = &D_80083780.x.v;
+        ((EntityRec *)position)->x.v = D_80083780.x.v;
+        ((EntityRec *)position)->y.v = ((S_800A6994_4 *)fixed_position)->unk_04;
+        ((EntityRec *)position)->z.v = ((S_800A6994_4 *)fixed_position)->unk_08;
         heading = ((S_800A6994_0 *)state)->unk_38;
     }
     ((Rec_func_80094268_arg0 *)actor)->unk_72.as_u16 = heading;

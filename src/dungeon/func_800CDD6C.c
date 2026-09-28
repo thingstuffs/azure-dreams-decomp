@@ -2,7 +2,7 @@
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 typedef struct S_800D34CC_0 {
     u8 pad_00[0x96];
@@ -63,7 +63,7 @@ void func_800D34CC(void *arg0, void *arg1, void *arg2, void *arg3) {
             goto block_6;
         }
     } else if (dungeonStatus.unk_0A == 0) {
-        ((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 = (s32) (((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 | 0x10000000);
+        ((EntityRec *)arg3)->flags1C = (s32) (((EntityRec *)arg3)->flags1C | 0x10000000);
         func_800A56E0(0x805);
         ((S_800D34CC_2 *)arg2)->unk_0C.at00.v = 0x808080;
         ((S_800D34CC_0 *)arg0)->unk_96 = 0x10;
@@ -93,7 +93,7 @@ block_6:
                 temp_a0_2 = ((S_800D34CC_2 *)arg2)->unk_24;
                 temp_a1_2 = ((S_800D34CC_2 *)arg2)->unk_25;
                 var_a2 = 0x3000;
-                if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 & 0x2000) {
+                if (((EntityRec *)arg3)->flags1C & 0x2000) {
                     var_a2 = 0x300;
                 }
                 func_8009A3D0(temp_a0_2, temp_a1_2, var_a2);

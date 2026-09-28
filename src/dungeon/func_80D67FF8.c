@@ -2,7 +2,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 
 extern void func_80047784(void *, s32, s32);
@@ -62,14 +62,14 @@ initialize:
     if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
         ((S_801737F8_0 *)action)->unk_9B = 4;
         ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x6000;
-        func_8009C12C(actor, sprite, ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16, 1);
+        func_8009C12C(actor, sprite, ((EntityRec *)actor)->facing, 1);
         return;
     }
     if (((S_801737F8_0 *)action)->unk_92.s !=
         (s16)(func_800BCB04(((S_801737F8_1 *)motion)->unk_02,
                             ((S_801737F8_1 *)motion)->unk_06,
-                            (s16)(((Rec_D_800E3D7C *)actor)->unk_88.as_u16 - 0x20)) -
-              ((Rec_D_800E3D7C *)actor)->unk_88.as_u16)) {
+                            (s16)(((u16)((EntityRec *)actor)->unk_88) - 0x20)) -
+              ((u16)((EntityRec *)actor)->unk_88))) {
         return;
     }
     ((S_801737F8_0 *)action)->unk_9B++;
@@ -80,7 +80,7 @@ initialize:
 start_animation:
     (*(u8 **)((u8 *)sprite + 0x2C)) = D_800E2380;
     func_80047784(sprite,
-        D_800E2380[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+        D_800E2380[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
         0);
     ((S_801737F8_0 *)action)->unk_96.u = 0;
     ((S_801737F8_0 *)action)->unk_9B++;
@@ -93,7 +93,7 @@ advance_timer:
 
         ((S_801737F8_0 *)action)->unk_96.u = timer;
         if ((s16)timer == duration || (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
-            func_8009C12C(actor, sprite, ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16, 1);
+            func_8009C12C(actor, sprite, ((EntityRec *)actor)->facing, 1);
             ((S_801737F8_0 *)action)->unk_96.u = duration;
             ((S_801737F8_0 *)action)->unk_9B++;
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x0800;
@@ -117,7 +117,7 @@ finish_animation:
         ((S_801737F8_0 *)action)->unk_98 |= 8;
         (*(u8 **)((u8 *)sprite + 0x2C)) = D_800E2388;
         func_80047784(sprite,
-            D_800E2388[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            D_800E2388[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
         return;
     }
@@ -135,8 +135,8 @@ lower_actor:
     ((S_801737F8_0 *)action)->unk_8C = &D_80171F1C;
     dungeonStatus.unk_0C = 0;
     func_800A4ACC(actor);
-    ((Rec_D_800E3D7C *)actor)->unk_44.at02_u16.v &= 0x7FFF;
-    ((Rec_D_800E3D7C *)actor)->unk_1C.as_u32 |= 0x40000;
+    ((EntityRec *)actor)->unk_46 &= 0x7FFF;
+    ((EntityRec *)actor)->flags1C |= 0x40000;
     ((S_801737F8_0 *)action)->unk_98 |= 8;
     ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xFFF3;
 }

@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dir_step.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 
 
@@ -73,7 +73,7 @@ extern s32 func_800A5C70();
 extern void func_800A67F4();
 
 /* Update movement state, position, and animation from the movement result. */
-void func_8008B9FC(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *sprite, Rec_D_800E3D7C *actor) {
+void func_8008B9FC(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *sprite, EntityRec *actor) {
     GameWork *dungeon_state = &gameWork;
     u8 *alt_anim;
     u16 *flags;
@@ -85,12 +85,12 @@ void func_8008B9FC(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *sprit
     s32 actor_flags;
     u16 blocked_ticks;
 
-    move_result = func_8009ABA0(actor->unk_2A.as_s16, actor_id, sprite,
-                            actor->unk_88.as_s16, 0x20);
+    move_result = func_8009ABA0(actor->facing, actor_id, sprite,
+                            actor->unk_88, 0x20);
     if (move_result > 0) {
         move_state->unk_9B = 0;
         func_8009A3D0(sprite->unk_24, sprite->unk_25, 0x300);
-        direction_index = ((u16)actor->unk_2A.as_s16 >> 8) & 0xE;
+        direction_index = ((u16)actor->facing >> 8) & 0xE;
         {
             u8 x = sprite->unk_24;
             u8 *movement_x = ((u8 *)dirStepX);
@@ -115,7 +115,7 @@ void func_8008B9FC(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *sprit
                     func_80048A44(
                         sprite,
                         D_800DCFC0[((s32)(dungeon_state->viewAngle +
-                                         actor->unk_2A.as_s16 + 0x100) >> 9) & 7],
+                                         actor->facing + 0x100) >> 9) & 7],
                         0, 1);
                 }
             }
@@ -134,7 +134,7 @@ void func_8008B9FC(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *sprit
                     func_80048A44(
                         anim_sprite,
                         D_800DCFB8[((s32)(gameWork.viewAngle +
-                                         actor->unk_2A.as_s16 + 0x100) >> 9) & 7],
+                                         actor->facing + 0x100) >> 9) & 7],
                         0, 1);
                 }
             }
@@ -158,7 +158,7 @@ void func_8008B9FC(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *sprit
             sprite->unk_2C.as_pu8 = D_800DD030;
             func_80048A44(
                 sprite,
-                D_800DD030[((s32)(gameWork.viewAngle + actor->unk_2A.as_s16 +
+                D_800DD030[((s32)(gameWork.viewAngle + actor->facing +
                                   0x100) >> 9) & 7],
                 0, 1);
         }
@@ -184,7 +184,7 @@ finish_step:
              (s16)blocked_ticks >= 0x15)) {
             func_8008CD4C(move_state, actor_id, sprite, actor, (s32)move_result);
             if (move_state->unk_9B >= 0x10) {
-                actor->unk_1C.as_s32 |= 0x40000000;
+                actor->flags1C |= 0x40000000;
                 return;
             }
         }
@@ -198,15 +198,15 @@ finish_step:
         func_80048A44(
             idle_sprite,
             D_800DCFB0[((s32)(dungeon_state->viewAngle +
-                              actor->unk_2A.as_s16 + 0x100) >> 9) & 7],
+                              actor->facing + 0x100) >> 9) & 7],
             0, 1);
     }
     move_state->unk_8C.u = D_8008ACDC;
     return;
 
 update_step:
-    actor_flags = actor->unk_1C.as_s32 | update_mask;
-    actor->unk_1C.as_s32 = actor_flags;
+    actor_flags = actor->flags1C | update_mask;
+    actor->flags1C = actor_flags;
     flags_2 = D_80083460;
     flags_2[1] |= 0x812;
     func_800A67F4();
@@ -227,7 +227,7 @@ update_step:
                 turn_sprite,
                 *(volatile u8 *)(D_800DCFC0 +
                     (((s32)(((S_8008B9FC_7_pre *)D_80083464)[-1].unk_00 +
-                              actor->unk_2A.as_s16 + 0x100) >> 9) & 7)),
+                              actor->facing + 0x100) >> 9) & 7)),
                 0, 1);
         }
         flags_2[2] = (s16)flags_2[2] >> 1; return;
@@ -243,7 +243,7 @@ update_step:
         sprite->unk_2C.as_pu8 = alt_anim;
         func_80048A44(
             sprite,
-            alt_anim[((s32)(gameWork.viewAngle + actor->unk_2A.as_s16 +
+            alt_anim[((s32)(gameWork.viewAngle + actor->facing +
                                  0x100) >> 9) & 7],
             0, 1);
         flags_2[2] = (s16)flags_2[2] >> 1; return;
@@ -253,11 +253,11 @@ update_step:
         sprite->unk_2C.as_pu8 = D_800DCFE8;
         func_80048A44(
             sprite,
-            D_800DCFE8[((s32)(gameWork.viewAngle + actor->unk_2A.as_s16 +
+            D_800DCFE8[((s32)(gameWork.viewAngle + actor->facing +
                                0x100) >> 9) & 7],
             1, 1);
         func_8009A3D0(sprite->unk_24, sprite->unk_25, 0x300);
-        direction_index = ((u16)actor->unk_2A.as_s16 >> 8) & 0xE;
+        direction_index = ((u16)actor->facing >> 8) & 0xE;
         sprite->unk_24 -= ((s16 *)(void *)((u8 *)dirStepX))[direction_index / 2] * 2;
         sprite->unk_25 -= ((s16 *)(void *)((u8 *)dirStepY))[direction_index / 2] * 2;
         func_8009A21C(sprite->unk_24, sprite->unk_25, 0x300);
@@ -269,11 +269,11 @@ update_step:
         sprite->unk_2C.as_pu8 = D_800DD0D0;
         func_80048A44(
             sprite,
-            D_800DD0D0[((s32)(gameWork.viewAngle + actor->unk_2A.as_s16 +
+            D_800DD0D0[((s32)(gameWork.viewAngle + actor->facing +
                                0x100) >> 9) & 7],
             1, 1);
         func_8009A3D0(sprite->unk_24, sprite->unk_25, 0x300);
-        direction_index = ((u16)actor->unk_2A.as_s16 >> 8) & 0xE;
+        direction_index = ((u16)actor->facing >> 8) & 0xE;
         {
             u8 x = sprite->unk_24;
             u8 *movement_x = ((u8 *)dirStepX);

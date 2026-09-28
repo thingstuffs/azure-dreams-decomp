@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity_objects.h"
 #include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -108,17 +110,8 @@ typedef struct {
     u8 pad0C[8];
 } Scratch81978428;
 
-typedef struct {
-    s32 x;
-    s32 y;
-    s32 z;
-} Vec81978428;
-
 extern void *D_80024038[6];
 
-extern u8 D_80082E80[];
-extern u16 D_80082E94[5];
-extern Vec81978428 D_80083780;
 
 extern void func_800243C0(void *, void *);
 extern s32 func_80053EF0(s32);

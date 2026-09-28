@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -73,7 +75,6 @@ extern void func_800AA79C(void *, void *, void *, void *);
 extern void func_800AA888(void *, void *, void *, void *);
 extern void func_801743F0(void *, void *, void *, void *);
 
-extern u8 D_80082E80[];
 extern s32 D_801719DC;
 extern u8 D_80174684[];
 extern u8 D_8017468C[];
@@ -188,7 +189,7 @@ state_one:
         }
         if ((func_800A2C34(actor) << 16) != 0) {
             if ((func_8009A180(actor,
-                    (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) << 16) != 0) {
+                    (u8 *)((EntityRec *)D_800814A8)->unk_58 + 0x20) << 16) != 0) {
                 goto done;
             }
         }
@@ -196,12 +197,12 @@ state_one:
         func_800A9A0C(actor);
         func_800A9A04(actor);
         if ((func_80042900(actor, 1) << 16) != 0) {
-            u8 *reference_pos;
+            TileObject *reference_pos;
             s8 room_id;
 
-            reference_pos = D_80082E80;
+            reference_pos = &D_80082E80;
             room_id = ((S_80173CD4_1 *)sprite)->unk_26;
-            if ((((room_id == ((S_80173CD4_6 *)reference_pos)->unk_26) &&
+            if ((((room_id == reference_pos->unk_026) &&
                     (room_id >= 0)) ||
                     (func_8009FD40(reference_pos, sprite) < 2)) &&
                     !(func_800A6D30() & 7)) {

@@ -2,7 +2,7 @@
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 
 
@@ -127,7 +127,7 @@ typedef struct S_80175270_10 {
 } S_80175270_10;   /* ((S_80175270_7 *)obj)->unk_2C + index in func_80175270 */
 
 /* Advances an actor's transition sequence, updating effects and restoring its child's angle. */
-void func_80175270(void *action, Rec_D_800E3D7C *position, Rec_D_80082E80 *entity, void *actor)
+void func_80175270(void *action, EntityRec *position, Rec_D_80082E80 *entity, void *actor)
 {
     static void *const state_labels[] = {
         &&case_0, &&case_1, &&case_2, &&case_3, &&case_4,
@@ -221,13 +221,13 @@ case_3:
     work->unk_10.p = D_80175114;
     func_8004491C(work, D_80173E08);
     color = 0x00808080;
-    work->unk_08[0] = position->unk_00.at00_s32.v;
+    work->unk_08[0] = position->x.v;
     position_y_dst = work->unk_08;
-    position_y = position->unk_04.at00_s32.v;
+    position_y = position->y.v;
     D_80175924[0] = work;
     position_y_dst[1] = position_y;
     position_z_dst = work->unk_08;
-    position_z = position->unk_08.at00_s32.v;
+    position_z = position->z.v;
     D_8017591C[0] = -12;
     position_z_dst[2] = position_z;
     work = work->unk_0C.p;

@@ -1,5 +1,5 @@
 #include "common.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 #ifndef NULL
 #define NULL 0
@@ -12,7 +12,7 @@ typedef struct S_8009CD58_1 {
 } S_8009CD58_1;   /* temp_a0_3 in func_8009CD58 */
 
 /* Returns masked record flags augmented by the selected kind. */
-s32 func_8009CD58(Rec_D_800E3D7C *record, s32 mask, s32 mode) {
+s32 func_8009CD58(EntityRec *record, s32 mask, s32 mode) {
     s32 shifted_mode;
     s32 base_flags;
     s32 flags;
@@ -21,11 +21,11 @@ s32 func_8009CD58(Rec_D_800E3D7C *record, s32 mask, s32 mode) {
     s32 kind;
     S_8009CD58_1 *detail;
 
-    base_flags = record->unk_14.as_u16 & mask;
+    base_flags = (*(u16 *)&record->flags14) & mask;
     shifted_mode = mode << 16;
     flags = base_flags;
     if (shifted_mode != 0) {
-        detail = record->unk_4C.as_pv;
+        detail = record->unk_4C;
         if (detail != NULL) {
             if (detail->unk_01 == 15) {
                 kind = detail->unk_00;
@@ -54,7 +54,7 @@ s32 func_8009CD58(Rec_D_800E3D7C *record, s32 mask, s32 mode) {
         }
         return flags;
     }
-    kind_ptr = record->unk_50.at00_pu8.v;
+    kind_ptr = (*(u8 * *)&record->unk_50);
     if (kind_ptr != NULL) {
         kind = *kind_ptr;
         if (kind == 8) {

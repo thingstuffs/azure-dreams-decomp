@@ -2,7 +2,7 @@
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 typedef struct S_801748D0_0 {
     u8 pad_00[0x8C];
@@ -152,7 +152,7 @@ typedef struct {
 } Copy16;
 
 /* Advances a timed actor effect, spawning and positioning its visual object before cleanup. */
-void func_801748D0(void *effect_state, Rec_D_800E3D7C *position, void *source_mesh, Rec_D_800E3D7C *actor)
+void func_801748D0(void *effect_state, EntityRec *position, void *source_mesh, EntityRec *actor)
 {
     LocalFrame frame;
     register void *effect_body ASM_REG("$18");
@@ -203,9 +203,9 @@ void func_801748D0(void *effect_state, Rec_D_800E3D7C *position, void *source_me
     goto done;
 
 wait_start:
-    position->unk_14.as_s32 = 0;
-    position->unk_10.at00_s32.v = 0;
-    position->unk_0C.as_s32 = 0;
+    position->flags14 = 0;
+    position->unk_10 = 0;
+    position->unk_0C = 0;
     timer = ((S_801748D0_0 *)effect_state)->unk_96 - 1;
     ((S_801748D0_0 *)effect_state)->unk_96 = timer;
     if (((s32)(timer << 16) <= 0) ||
@@ -248,7 +248,7 @@ allocate_effect:
     ((S_801748D0_3 *)effect_body)->unk_96 = 0x2D;
     ((S_801748D0_3 *)effect_body)->unk_9E = 0x2D;
     ((S_801748D0_4 *)((void *)object_or_height))->unk_10 = D_80170AD0;
-    linked_body = actor->unk_60.as_pv;
+    linked_body = actor->target;
     if (linked_body == 0) {
         ((S_801748D0_3 *)effect_body)->unk_A8 = position;
         ((S_801748D0_3 *)effect_body)->unk_A2 = 0;
@@ -257,7 +257,7 @@ allocate_effect:
         ((S_801748D0_3 *)effect_body)->unk_A2 = 1;
         ((S_801748D0_3 *)effect_body)->unk_A8 = linked_owner;
     }
-    ((S_801748D0_3 *)effect_body)->unk_94 = actor->unk_2A.as_s16;
+    ((S_801748D0_3 *)effect_body)->unk_94 = actor->facing;
     effect_mesh = ((S_801748D0_4 *)((void *)object_or_height))->unk_0C;
     anchor_pos = ((S_801748D0_3 *)effect_body)->unk_A8;
     copy_src = source_mesh;
@@ -300,7 +300,7 @@ allocate_effect:
     ((S_801748D0_4 *)((void *)object_or_height))->unk_06 = ((S_801748D0_9 *)anchor_pos)->unk_06;
     anchor_z = ((S_801748D0_9 *)anchor_pos)->unk_0A;
     ((S_801748D0_4 *)((void *)object_or_height))->unk_08.at02.v = anchor_z;
-    if (actor->unk_60.as_pv == 0) {
+    if (actor->target == 0) {
         frame_ptr = frame.owner;
         owner_link = ((S_801748D0_10 *)frame_ptr)->unk_0C;
         if (func_8003DE58(owner_link->unk_08, owner_link, frame.delta, 0) != 0) {
@@ -382,7 +382,7 @@ wait_finish:
             tex_base = (u8 *)&gameWork.viewAngle - 0x3228;
 #endif
             timer = ((((S_801748D0_8 *)tex_base)->unk_3228 +
-                      actor->unk_2A.as_s16 + 0x100) >> 9) & 7;
+                      actor->facing + 0x100) >> 9) & 7;
             call_target = source_mesh;
             lookup_value = (s32)((S_801748D0_2 *)source_mesh)->unk_2C;
             call_data = (void *)(s32)((S_801748D0_14 *)((void *)(lookup_value + timer)))->unk_00;
@@ -397,9 +397,9 @@ wait_finish:
             goto done;
         }
     }
-    position->unk_14.as_s32 = 0;
-    position->unk_10.at00_s32.v = 0;
-    position->unk_0C.as_s32 = 0;
+    position->flags14 = 0;
+    position->unk_10 = 0;
+    position->unk_0C = 0;
     func_800A2B04(position, ((S_801748D0_2 *)source_mesh)->unk_24, ((S_801748D0_2 *)source_mesh)->unk_25);
 #ifdef __mips__
     tex_base = (void *)0x80170000;
@@ -418,7 +418,7 @@ wait_finish:
         tex_base = (u8 *)&gameWork.viewAngle - 0x3228;
 #endif
         timer = ((((S_801748D0_8 *)tex_base)->unk_3228 +
-                  actor->unk_2A.as_s16 + 0x100) >> 9) & 7;
+                  actor->facing + 0x100) >> 9) & 7;
         call_target = source_mesh;
         lookup_value = (s32)((S_801748D0_2 *)source_mesh)->unk_2C;
         call_data = (void *)(s32)((S_801748D0_14 *)((void *)(lookup_value + timer)))->unk_00;
@@ -432,7 +432,7 @@ increment_state_loaded:
     goto done;
 
 finish_effect:
-    owner_link = actor->unk_60.as_pv;
+    owner_link = actor->target;
     if (owner_link != 0) {
         func_800C8788(actor, owner_link);
     }
@@ -445,7 +445,7 @@ finish_effect:
 #endif
     ASM_KEEP(linked_body);
     ((S_801748D0_6 *)linked_body)->unk_346C = 0;
-    actor->unk_44.at02_u16.v &= 0x7FFF;
+    actor->unk_46 &= 0x7FFF;
 
 done:
     return;

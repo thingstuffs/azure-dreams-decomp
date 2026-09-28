@@ -1,4 +1,7 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity_objects.h"
+#include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
@@ -212,10 +215,6 @@ extern Data12 D_80025FDC;
 extern u8 D_800DDC40[];
 
 extern void *D_800814A8_case0[3] __asm__("D_800814A8");
-extern u16 D_80082E86[5];
-extern u16 D_80082E94[5];
-extern void *D_80082E80[10];
-extern u8 D_80083780[12];
 extern s16 D_80025FF4[5];
 
 extern s32 func_80053EF0(s32);
@@ -261,8 +260,8 @@ case_0:
     u16 heading;
     ((S_8197192C_1 *)player)->unk_F4 = 0;
     ((S_8197192C_1 *)player)->unk_96 = 20;
-    ((S_8197192C_2 *)D_80082E86)->unk_00 = 6;
-    state = D_80083780;
+    ((S_8197192C_2 *)((u16 *)(&D_80082E80.unk_006)))->unk_00 = 6;
+    state = ((u8 *)(&D_80083780));
     ((S_8197192C_0 *)effect)->unk_0A.u = ((S_8197192C_0 *)effect)->unk_0A.u + 1;
     ((S_8197192C_0 *)effect)->unk_7C.s = ((S_8197192C_3 *)state)->unk_02;
     ((S_8197192C_0 *)effect)->unk_7E.s = ((S_8197192C_3 *)state)->unk_06;
@@ -307,13 +306,13 @@ case_2:
 {
     s32 step;
     if ((u16)(((S_8197192C_0 *)effect)->unk_2C.s - 5) < 19) {
-        void *map_base = (void *)D_80082E80;
+        void *map_base = (void *)((void * *)(&D_80082E80));
         if (func_8003DF74(
             ((S_8197192C_5 *)map_base)->unk_08, map_base,
             (u8 *)effect + 0x2E, 0) != 0) {
             step = 0;
             do {
-                func_800248A8((u8 *)((Rec_D_800814A8 *)((void * *)(&D_800814A8)))->unk_00.as_pv - 0x20, 0,
+                func_800248A8((u8 *)(*(void * *)&((EntityRec *)((void * *)(&D_800814A8)))->x) - 0x20, 0,
                               0xE04040, (func_80069EF8() & 0x3F) | 0x40,
                               ((S_8197192C_0 *)effect)->unk_2E.s,
                               ((S_8197192C_0 *)effect)->unk_30.s,
@@ -324,7 +323,7 @@ case_2:
     }
 
     if (((S_8197192C_0 *)effect)->unk_2C.u == 24) {
-        void *map_base = (void *)D_80082E80;
+        void *map_base = (void *)((void * *)(&D_80082E80));
         if (func_8003DF74(((S_8197192C_5 *)map_base)->unk_08, map_base,
                           (u8 *)effect + 0x2E, 0) != 0) {
             void *effect_obj;
@@ -339,7 +338,7 @@ case_2:
                 ((S_8197192C_1 *)effect_obj)->unk_10.at00.v = (void *)&D_80024D10;
                 func_8004491C(effect_obj, func_80045340);
                 sprite = ((S_8197192C_1 *)effect_obj)->unk_0C;
-                world_pos = D_80083780;
+                world_pos = ((u8 *)(&D_80083780));
                 ((S_8197192C_8 *)sprite)->unk_10 = 0x60;
                 ((S_8197192C_8 *)sprite)->unk_14 = ((S_8197192C_8 *)sprite)->unk_14 | 0x0C;
                 position = ((S_8197192C_1 *)effect_obj)->unk_08;
@@ -386,7 +385,7 @@ case_3:
         segment = 3;
     }
     {
-        void *map_base = (void *)D_80082E80;
+        void *map_base = (void *)((void * *)(&D_80082E80));
         if (func_8003DF74(((S_8197192C_5 *)map_base)->unk_08, map_base,
                           (u8 *)effect + 0x2E, 0) == 0) {
             goto after_coords;
@@ -408,7 +407,7 @@ case_3:
             shifted_x <<= 16;
             half_x = (s32)shifted_x >> 16;
             half_x += shifted_x >> 31;
-            world_pos = D_80083780;
+            world_pos = ((u8 *)(&D_80083780));
             half_x >>= 1;
             ((S_8197192C_9 *)outer_point)->unk_4C = (s16)(half_x +
                 (((S_8197192C_10 *)world_pos)->unk_02 - origin_x) / 2);
@@ -653,7 +652,7 @@ case_4:
         status_page = (u8 *)0x80080000;
         goto case_4_global_use;
     }
-    source_obj = ((S_8197192C_15 *)(((Rec_D_800814A8 *)((void * *)(&D_800814A8)))->unk_00.as_pv))->unk_60;
+    source_obj = ((S_8197192C_15 *)((*(void * *)&((EntityRec *)((void * *)(&D_800814A8)))->x)))->unk_60;
     if (source_obj != 0) {
         angle_table = D_800DDC40;
         angle_count = angle_table[((S_8197192C_1 *)source_obj)->unk_10.at03.v];
@@ -693,7 +692,7 @@ cleanup:
     if (D_80025FF4[0] == 0) {
         cleanup_count = ((u16)dungeonStatus.unk_0A);
         dungeonStatus.unk_0C = 0;
-        D_80082E86[0] = 0;
+        D_80082E80.unk_006 = 0;
         dungeonStatus.unk_0A = cleanup_count - 1;
         ((S_8197192C_0_pre *)effect)[-1].unk_00 = ((S_8197192C_0_pre *)effect)[-1].unk_00 | 0x8000;
         objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;

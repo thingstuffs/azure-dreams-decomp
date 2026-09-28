@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 
 void *func_8003FD64();                  /* extern */
@@ -47,7 +47,7 @@ typedef struct S_80093D8C_3 {
 
 
 /* Create a sprite effect at the supplied position and attach it to its owner. */
-void func_80093D8C(s32 sort_order, Rec_D_800E3D7C *source_pos, Rec_D_80082E80 *owner) {
+void func_80093D8C(s32 sort_order, EntityRec *source_pos, Rec_D_80082E80 *owner) {
     S_80093D8C_3 *sprite;
     S_80093D8C_0 *effect;
     S_80093D8C_1 *position;
@@ -56,9 +56,9 @@ void func_80093D8C(s32 sort_order, Rec_D_800E3D7C *source_pos, Rec_D_80082E80 *o
     if (effect != NULL) {
         position = effect->unk_08;
         effect->unk_10 = &D_80093A94;
-        position->unk_02 = (u16) source_pos->unk_00.at02_u16.v;
-        position->unk_06 = (u16) source_pos->unk_04.at02_u16.v;
-        position->unk_0A = (u16) source_pos->unk_08.at02_u16.v;
+        position->unk_02 = (u16) ((u16)source_pos->x.w.i);
+        position->unk_06 = (u16) ((u16)source_pos->y.w.i);
+        position->unk_0A = (u16) ((u16)source_pos->z.w.i);
         sprite = effect->unk_0C;
         sprite->unk_28 = (s32) owner->unk_28.at00_s32.v;
         sprite->unk_1E = 0x1000;

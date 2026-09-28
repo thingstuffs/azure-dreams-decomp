@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/game_work.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
 
@@ -14,7 +15,6 @@ extern void func_80048A44(void *, u8, s32, s32);
 extern s32 func_80098C80(s32);
 extern void func_8009F644(void *, s32, s16, s32);
 
-extern s32 D_80082EB0;
 extern u8 D_800DD130[];
 
 /* Initializes object state and its directional display, then dispatches an action. */
@@ -43,8 +43,8 @@ void func_8008DB0C(void *obj, s32 unused, void *display, s32 mode, u16 variant) 
         s32 field_value;
         register s32 action_arg;
 
-        if (D_80082EB0 != 0) {
-            lookup_result = func_80098C80(D_80082EB0);
+        if (D_80082E80.unk_030 != 0) {
+            lookup_result = func_80098C80(D_80082E80.unk_030);
             action_obj = obj;
             action_kind = 0x68;
             field_value = ((Rec_func_8008ACDC_arg0 *)obj)->unk_8A;

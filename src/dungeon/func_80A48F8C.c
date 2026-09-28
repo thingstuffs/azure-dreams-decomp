@@ -3,7 +3,7 @@
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern u8 D_8017140C[];
@@ -29,7 +29,7 @@ typedef struct S_8017278C_0 {
 
 
 /* Advances an actor action through animation setup, delay, and completion. */
-void func_8017278C(S_8017278C_0 *action, Rec_D_800E3D7C *motion, Rec_D_80082E80 *sprite, void *actor) {
+void func_8017278C(S_8017278C_0 *action, EntityRec *motion, Rec_D_80082E80 *sprite, void *actor) {
     u16 ticks_left;
     s32 initial_state;
     s32 state;
@@ -62,17 +62,17 @@ state_1:
     if (sprite->unk_14.at00_u16.v & 0x8000) {
         action->unk_9B = 3U;
         sprite->unk_14.at00_u16.v = (u16) (sprite->unk_14.at00_u16.v | 0x6000);
-        func_8009C12C(actor, sprite, ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16, 1);
+        func_8009C12C(actor, sprite, ((EntityRec *)actor)->facing, 1);
         goto cleanup;
     }
 
 state_0:
     direction_frames = &D_8017587C;
-    motion->unk_14.as_s32 = 0;
-    motion->unk_10.at00_s32.v = 0;
-    motion->unk_0C.as_s32 = 0;
+    motion->flags14 = 0;
+    motion->unk_10 = 0;
+    motion->unk_0C = 0;
     sprite->unk_2C.as_pu8 = direction_frames;
-    func_80047784(sprite, direction_frames[((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
+    func_80047784(sprite, direction_frames[((s32) (gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7], 0);
     action->unk_96 = 9;
     action->unk_9B++;
     goto cleanup;
@@ -84,7 +84,7 @@ state_2:
         goto cleanup;
     }
     func_800A56E0(0x804);
-    func_8009C12C(actor, sprite, ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16, 1);
+    func_8009C12C(actor, sprite, ((EntityRec *)actor)->facing, 1);
     action->unk_9B++;
     goto cleanup;
 
@@ -95,8 +95,8 @@ state_3:
         action->unk_8C = D_8017140C;
         dungeonStatus.unk_0C = 0;
         func_800A4ACC(actor);
-        if (((Rec_D_800E3D7C *)actor)->unk_6D.as_s8 == 0) {
-            ((Rec_D_800E3D7C *)actor)->unk_44.at02_u16.v = (u16) (((Rec_D_800E3D7C *)actor)->unk_44.at02_u16.v & 0x7FFF);
+        if (((EntityRec *)actor)->unk_6D == 0) {
+            ((EntityRec *)actor)->unk_46 = (u16) (((EntityRec *)actor)->unk_46 & 0x7FFF);
         } else {
             *D_800E3DE8 = actor - 0x20;
         }

@@ -2,7 +2,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 
 
@@ -49,7 +49,7 @@ void func_80172D24(void *action, void *motion, void *sprite, void *entity)
     s32 tracked_entity;
     u8 state;
 
-    direction = (((Rec_D_800E3D7C *)entity)->unk_6A.as_u16 >> 9) & 7;
+    direction = (((EntityRec *)entity)->unk_6A >> 9) & 7;
     state = ((S_80172D24_1 *)action)->unk_9B;
 
     switch (state) {
@@ -67,7 +67,7 @@ void func_80172D24(void *action, void *motion, void *sprite, void *entity)
 
 state_0:
     func_800AD4D0(entity);
-    if (((Rec_D_800E3D7C *)entity)->unk_28 == 0) {
+    if (((EntityRec *)entity)->unk_28 == 0) {
         goto start_action;
     }
     if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
@@ -87,34 +87,34 @@ state_1:
 
     (*(void * *)((u8 *)sprite + 0x2C)) = D_80173874;
     func_80047784(sprite,
-        D_80173874[((gameWork.viewAngle + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+        D_80173874[((gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
         0);
 
     direction_x_table = (s16 *)((s8 *)dirStepX);
     launch_offset = direction * 2;
-    ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 =
+    ((EntityRec *)motion)->unk_0C =
         *(s16 *)((u8 *)direction_x_table + launch_offset) << 19;
-    ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v =
+    ((EntityRec *)motion)->unk_10 =
         *(s16 *)((u8 *)((s8 *)dirStepY) + launch_offset) << 19;
 
     duration = -1;
-    if (((Rec_D_800E3D7C *)entity)->unk_1C.as_s32 & 0x228) {
+    if (((EntityRec *)entity)->flags1C & 0x228) {
         duration = 8;
     }
     ((S_80172D24_1 *)action)->unk_96.s = duration;
 
-    velocity_x = ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32;
+    velocity_x = ((EntityRec *)motion)->unk_0C;
     rounded_velocity_x = velocity_x;
     if (velocity_x < 0) {
         rounded_velocity_x = velocity_x + 3;
     }
-    velocity_y = ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v;
-    ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = velocity_x - (rounded_velocity_x >> 2);
+    velocity_y = ((EntityRec *)motion)->unk_10;
+    ((EntityRec *)motion)->unk_0C = velocity_x - (rounded_velocity_x >> 2);
     rounded_velocity_y = velocity_y;
     if (velocity_y < 0) {
         rounded_velocity_y = velocity_y + 3;
     }
-    ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = velocity_y - (rounded_velocity_y >> 2);
+    ((EntityRec *)motion)->unk_10 = velocity_y - (rounded_velocity_y >> 2);
     timer_or_state = ((S_80172D24_1 *)action)->unk_9B + 1;
     goto store_state;
 
@@ -122,9 +122,9 @@ state_2:
     direction_x_table = (s16 *)((s8 *)dirStepX);
     decel_offset = direction * 2;
     direction_y = (s16 *)((u8 *)((s8 *)dirStepY) + decel_offset);
-    ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 -=
+    ((EntityRec *)motion)->unk_0C -=
         *(s16 *)((u8 *)direction_x_table + decel_offset) << 16;
-    ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v -= *direction_y << 16;
+    ((EntityRec *)motion)->unk_10 -= *direction_y << 16;
 
     if (((S_80172D24_1 *)action)->unk_96.u > 0) {
         ((S_80172D24_1 *)action)->unk_96.s--;
@@ -134,15 +134,15 @@ state_2:
     if (((S_80172D24_1 *)action)->unk_96.u != 0) {
         return;
     }
-    if (((Rec_D_800E3D7C *)entity)->unk_28 != 0) {
+    if (((EntityRec *)entity)->unk_28 != 0) {
         duration = 8;
         goto increment_state;
     }
 
 start_action:
-    ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0;
-    ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = 0;
-    ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
+    ((EntityRec *)motion)->flags14 = 0;
+    ((EntityRec *)motion)->unk_10 = 0;
+    ((EntityRec *)motion)->unk_0C = 0;
     func_800AAA54(action, motion, sprite, D_80173874);
     return;
 
@@ -158,12 +158,12 @@ state_3:
     frames_left = ((S_80172D24_1 *)action)->unk_96.u;
     if (frames_left != 0) {
         target_x = ((Rec_D_80082E80 *)sprite)->unk_24 << 6;
-        position_x = ((Rec_D_800E3D7C *)motion)->unk_00.at02_s16.v - 0x20;
-        ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = ((target_x - position_x) << 15) / frames_left;
+        position_x = ((EntityRec *)motion)->x.w.i - 0x20;
+        ((EntityRec *)motion)->unk_0C = ((target_x - position_x) << 15) / frames_left;
 
         target_y = ((Rec_D_80082E80 *)sprite)->unk_25 << 6;
-        position_y = ((Rec_D_800E3D7C *)motion)->unk_04.at02_s16.v - 0x20;
-        ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v =
+        position_y = ((EntityRec *)motion)->y.w.i - 0x20;
+        ((EntityRec *)motion)->unk_10 =
             ((target_y - position_y) << 15) / ((S_80172D24_1 *)action)->unk_96.u;
     }
 
@@ -173,9 +173,9 @@ state_3:
         return;
     }
 
-    ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0;
-    ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = 0;
-    ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
+    ((EntityRec *)motion)->flags14 = 0;
+    ((EntityRec *)motion)->unk_10 = 0;
+    ((EntityRec *)motion)->unk_0C = 0;
     func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
 
     tracked_entity = ((s32)dungeonStatus.unk_10);

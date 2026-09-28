@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity_objects.h"
 #include "shared/dungeon_status.h"
 
 typedef struct SubA {
@@ -37,17 +38,7 @@ typedef struct EntityHdr {
     u16 f88;
 } EntityHdr;
 
-typedef struct {
-    u8 pad0[2];
-    u16 f2;
-    u8 pad4[2];
-    u16 f6;
-    u8 pad8[2];
-    u16 fA;
-} D_80083780_t;
-
 extern void *D_80083498;
-extern D_80083780_t D_80083780;
 extern u8 D_80079444[];
 extern s16 D_800DCE66[5];
 
@@ -71,8 +62,8 @@ void *func_800B9964(EntityHdr **entity_ref) {
 
         transform = object->sub1;
         sprite = object->sub2;
-        transform->f2 = D_80083780.f2;
-        transform->f6 = D_80083780.f6;
+        transform->f2 = ((u16)D_80083780.x.w.i);
+        transform->f6 = ((u16)D_80083780.y.w.i);
         transform->fA = (*entity_ref)->f88;
         func_8003DB94(sprite, D_80079444, 0);
 

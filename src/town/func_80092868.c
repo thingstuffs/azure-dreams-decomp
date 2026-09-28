@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity_objects.h"
 
 typedef struct ScenePos {
     s16 pad0;
@@ -66,9 +68,7 @@ extern s16 func_800C2AE8(ScenePos *scene);
 extern TownState D_8006ADBC;
 extern s16 D_8006ADD4;
 extern s32 D_80080A80;
-extern RenderState D_80082E80;
 extern u8 D_80083498[];
-extern ScenePos D_80083780;
 extern u8 D_8008FFC0[];
 extern u8 D_800903FC[];
 extern u8 D_800970FC[];
@@ -95,11 +95,11 @@ void func_8008FFC8(void)
     u16 y_coord;
     u16 frame;
 
-    scene = &D_80083780;
+    scene = ((ScenePos *)&D_80083780);
     D_80100E18 = 0;
     D_80100DB0 = 0;
     func_8003DB4C(scene, 6);
-    render = &D_80082E80;
+    render = ((RenderState *)&D_80082E80);
     func_8003DB4C(render, 0xC);
     render->source = D_80080A80;
     func_8008EF58();

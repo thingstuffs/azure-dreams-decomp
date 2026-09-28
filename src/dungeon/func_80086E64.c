@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dir_step.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 extern u8 D_80080000[];
 
 typedef s32 M2C_UNK;
@@ -61,7 +61,7 @@ typedef struct S_8008C5C4_6 {
 } S_8008C5C4_6;   /* ((S_8008C5C4_2 *)arg0)->unk_124 in func_8008C5C4 */
 
 /* Find a target ahead of the actor and initialize the interaction state. */
-s32 func_8008C5C4(S_8008C5C4_2 *action, void *unused, S_8008C5C4_1 *position, Rec_D_800E3D7C *actor) {
+s32 func_8008C5C4(S_8008C5C4_2 *action, void *unused, S_8008C5C4_1 *position, EntityRec *actor) {
     s32 target;
     s32 target_result;
     s32 direction_offset;
@@ -71,7 +71,7 @@ s32 func_8008C5C4(S_8008C5C4_2 *action, void *unused, S_8008C5C4_1 *position, Re
     s32 mode;
     register s32 target_kind;
 
-    direction_offset = ((u16)actor->unk_2A.as_u16 >> 8) & 0xE;
+    direction_offset = ((u16)((u16)actor->facing) >> 8) & 0xE;
     target_result = func_8009B5AC(
         actor,
         (s16)(position->unk_24 + *(u16 *)(((u8 *)dirStepX) + direction_offset)),
@@ -104,7 +104,7 @@ s32 func_8008C5C4(S_8008C5C4_2 *action, void *unused, S_8008C5C4_1 *position, Re
                 }
                 target = action->unk_124;
                 ((S_8008C5C4_5 *)target)->unk_1C |= 0x80000;
-                actor->unk_1C.as_s32 |= 0x100000;
+                actor->flags1C |= 0x100000;
                 ((S_8008C5C4_6 *)(action->unk_124))->unk_60 = actor;
                 func_8009F644(actor, 0x20, 0, 0);
                 func_800A56E0(0x511);
@@ -116,7 +116,7 @@ s32 func_8008C5C4(S_8008C5C4_2 *action, void *unused, S_8008C5C4_1 *position, Re
             func_80048A44(
                 position,
                 D_800DCFC8[((s32)(gameWork.viewAngle +
-                                 (s16)actor->unk_2A.as_u16 + 0x100) >> 9) & 7],
+                                 (s16)((u16)actor->facing) + 0x100) >> 9) & 7],
                 0, 1);
             tail_result = 1;
             return tail_result;

@@ -296,3 +296,53 @@ its unions), then those three objects and Rec_D_800814A8 onto it.
 
 ## Tool calls
 Phase 4 used about 45 tool calls.
+
+---
+
+# Phase 5 report (r78)
+
+Model: claude-opus-5-5[1m]. No edits to src/include/config/tools, no git, no landers. Busy rows: `BUSY_ROWS5.txt`
+plus the live one-hour rule in apply5.sh.
+
+## Deliverables
+- `apply5.sh` + `payload5/`:
+  - New headers: `include/shared/entity.h` (EntityRec, Fixed1616), `include/shared/entity_objects.h`
+    (`extern EntityRec D_80083780;`) and `include/shared/tile_object.h` (TileObject, `extern TileObject D_80082E80;`).
+  - Other headers unchanged; no names.tsv rows.
+  - Resumable; `rebaseline` handling as in apply4.
+  - The collision check covers EntityRec / Fixed1616 / TileObject.
+  - Dry run: `preflight: 788 rows to land, 0 skipped`.
+- `cand5f/<container>/*.c` + `.base_sha` and `cand5f/MANIFEST.tsv`: 788 rows (dungeon 666, town 118, slus 4),
+  2 of them SLUS rebaseline rows.
+- `p5_sample_rows.txt`: 40 rows (slus 4, town 21, dungeon 15). No main row touches these objects.
+- `pins5/README.txt`: no pin candidates this phase.
+
+## Rows
+| object | rows exact | not migrated |
+|---|---|---|
+| EntityRec (Rec_D_800E3D7C + Rec_D_800814A8 spellings) | 577 of 580 | dungeon/func_81334954 (miss 1, a sign view); func_80E11860 (no member access); func_8133AD74 (volatile variant: hidden scaffolding) |
+| D_80083780 as EntityRec | 178 of 184 | 6 (listed in results) |
+| D_80082E80 as TileObject | 312 | 8 misses (all objects together: 8, listed in results/p3_EntityRec_D_80083780_D_80082E80_final.jsonl) |
+| D_80083498 | not done | not an EntityRec; layout needed from its callees |
+
+Casts and views left at the use (EntityRec rows, after the statement-level rule): 91 views (0x13 byte 40, pointer
+at 0x08 14, ...). The largest cast groups are (u16) on x/y/z integer halves (~110) and (u32)flags1C (72).
+
+## Pins
+155 pinned migrated rows were tested; none falls (results/pins5.jsonl).
+
+## Tool write-back (lane -> tools/consolidate/)
+- New: `tools/entity.py`, `tools/drive_entity.py`, `tools/layout.py` (if not already synced).
+- `tools/consolidate.py`: `repo_path` (repo-relative spec paths); the emit_field size check (a field starting at
+  the offset but of another size becomes a view).
+- `tools/drive3.py`: the entity pseudo-object (kind "entity"); BUSY_ROWS5.
+- `tools/check.py`: recursive shared-header inlining; names_add5.
+- `tools/cc.py`: REPO/LANE derived from the file location (no home path).
+- `objects/EntityRec.json`, `objects/D_80083780.json`, `objects/D_80082E80.json`, and `objects/gameWork.json`
+  (extra_views now repo-relative).
+
+## Handoff
+DESIGN.md "HOW TO CONTINUE" is the cold-start guide: workflow, entry points, hazards and the ranked next objects.
+
+## Tool calls
+Phase 5 used about 60 tool calls.

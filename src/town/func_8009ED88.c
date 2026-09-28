@@ -1,9 +1,9 @@
 #include "common.h"
 #include "shared/object_flags.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 
-extern s32 func_80033D08(void *, Rec_D_800E3D7C *);
+extern s32 func_80033D08(void *, EntityRec *);
 extern s32 func_80095388();
 extern s32 func_8009539C();
 extern s16 func_800C2AE8();
@@ -35,7 +35,7 @@ typedef struct S_8009C4E8_2 {
 } S_8009C4E8_2;   /* arg2 in func_8009C4E8 */
 
 /* Updates a timed object, expiring it or stopping its motion at the height limit. */
-void func_8009C4E8(void *object, Rec_D_800E3D7C *motion, S_8009C4E8_2 *appearance) {
+void func_8009C4E8(void *object, EntityRec *motion, S_8009C4E8_2 *appearance) {
     s16 height_limit;
     u16 timer;
 
@@ -51,11 +51,11 @@ void func_8009C4E8(void *object, Rec_D_800E3D7C *motion, S_8009C4E8_2 *appearanc
     func_80095388(motion);
     func_8009539C(motion);
     height_limit = func_800C2AE8(motion);
-    if (motion->unk_08.at02_s16.v > height_limit) {
-        motion->unk_08.at02_s16.v = height_limit;
-        motion->unk_0C.as_s32 = 0;
-        motion->unk_10.at00_s32.v = 0;
-        motion->unk_14.as_s32 = 0;
+    if (motion->z.w.i > height_limit) {
+        motion->z.w.i = height_limit;
+        motion->unk_0C = 0;
+        motion->unk_10 = 0;
+        motion->flags14 = 0;
         appearance->unk_0E = 0x40;
         appearance->unk_0D = 0x40;
         appearance->unk_0C = 0x40;

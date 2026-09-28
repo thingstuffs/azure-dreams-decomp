@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "records/Rec_D_80082EB0.h"
 
 typedef struct S_80091958_0 {
@@ -23,7 +24,6 @@ typedef struct S_80091958_3 {
 
 
 
-extern s32 D_80082EB0;
 extern s32 D_8008ACDC;
 extern u8 D_8008EAC8[];
 
@@ -36,7 +36,7 @@ void func_80091958(S_80091958_0 *state, s32 unused_1, s32 unused_2, S_80091958_2
 
     switch (state->unk_9B) {
     case 0:
-        operation = func_800BA074(D_80082EB0);
+        operation = func_800BA074(D_80082E80.unk_030);
         state->unk_C8 = operation;
         if (operation == 0) {
             break;
@@ -49,7 +49,7 @@ void func_80091958(S_80091958_0 *state, s32 unused_1, s32 unused_2, S_80091958_2
         }
         break;
     case 2:
-        ((Rec_D_80082EB0 *)(&D_80082EB0))->unk_08 = 0;
+        ((Rec_D_80082EB0 *)(&D_80082E80.unk_030))->unk_08 = 0;
         if (context->unk_1C & 0x100000) {
             state->unk_8C = D_8008EAC8;
         } else {

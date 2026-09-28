@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 extern int abs(int);
 
 typedef void *(*SpawnFunc)(s32, s32, s32, s32);
 
-extern u8 D_80082E80[];
 extern u32 D_800835E4[];
 extern u8 D_800E2968;
 extern s32 D_800E296C;
@@ -34,7 +34,7 @@ void func_800A08A0(s32 spawn_mode) {
     register u8 raw_variant;
     s16 attempt;
     s32 distance;
-    u8 *reference_object;
+    TileObject *reference_object;
     s32 fixed_entry_offset;
     s32 spawn_height;
     s32 dx;
@@ -54,7 +54,7 @@ void func_800A08A0(s32 spawn_mode) {
     }
 
     attempt = 0;
-    reference_object = D_80082E80;
+    reference_object = &D_80082E80;
     mode = (s16)spawn_mode;
     fixed_entry_offset = (mode - 2) * 2;
 
@@ -69,13 +69,13 @@ void func_800A08A0(s32 spawn_mode) {
             {
                 s32 x_value;
                 do {
-                    dx = reference_object[0x24];
+                    dx = reference_object->tileX;
                     x_value = tile_x;
                 } while (0);
                 tile_y_value = tile_y;
                 dx -= x_value;
             }
-            dy = reference_object[0x25];
+            dy = reference_object->tileY;
             dx = abs(dx);
             dy -= tile_y_value;
             dy = abs(dy);

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
 
@@ -21,7 +22,6 @@ typedef struct S_80094270_5 {
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern s32 D_80082EB0[];
 extern s32 D_800E3DF0[];
 s16 func_8009402C(); /* extern */
 s32 func_80094208();                         /* extern */
@@ -108,7 +108,7 @@ s32 func_80094270(void *actor, M2C_UNK param_a, M2C_UNK param_b, S_80094270_2 *i
                 goto call_290;
             }
             func_80094E34();
-            *D_80082EB0 = 0;
+            D_80082E80.unk_030 = 0;
             func_8008DB0C(actor, param_a, param_b, 0, 0);
             ((Rec_func_8008ACDC_arg0 *)actor)->unk_60 = 0;
             goto return_zero;
@@ -168,7 +168,7 @@ s32 func_80094270(void *actor, M2C_UNK param_a, M2C_UNK param_b, S_80094270_2 *i
             return 1;
         }
         ((Rec_func_8008ACDC_arg0 *)actor)->unk_C8 = 0;
-        *D_80082EB0 = (s32) item;
+        D_80082E80.unk_030 = (s32) item;
         func_8008DB0C(actor, param_a, param_b, out_a, (s32) out_b);
         func_80094E34();
     return_zero:

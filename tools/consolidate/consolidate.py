@@ -23,6 +23,14 @@ SIGNED = {"s8", "char", "signed char", "s16", "short", "signed short", "s32", "i
 STR = re.compile(r'"(?:[^"\\\n]|\\.)*"|/\*.*?\*/|//[^\n]*', re.S)
 NUM = r"(0x[0-9A-Fa-f]+|\d+)"
 
+def repo_path(rel):
+    """a spec path relative to the repository root (specs stay path-relative: the scrub hook refuses home paths)."""
+    from pathlib import Path
+    if Path(rel).is_absolute(): return str(rel)
+    for up in Path(__file__).resolve().parents:
+        if (up / rel).exists(): return str(up / rel)
+    return rel
+
 def load(path):
     o = json.load(open(path)); o["base"] = int(o["base"], 16); return o
 
@@ -106,6 +114,8 @@ def emit_field(obj, base, sep, off, size, signed, cty, s, start, end, addr, note
     base/sep: ("dungeonStatus", ".") for the object itself, ("p", "->") through a typed pointer."""
     whole = ("&" + base) if sep == "." else base
     fx, f = field_at(obj, off, size)
+    if f is not None and len(f) <= 5 and f[3] != size and f[1] != "":
+        fx, f = None, None          # a field starts here but is wider/narrower: a view (union site)
     lv = lvalue_after(s, end) or lvalue_before(s, start)
     if f is None:
         f2 = None
@@ -171,7 +181,7 @@ def rewrite(text, obj):
     text = DECL.sub("", text)
     known = {}
     for h in obj.get("extra_views") or []:
-        known.update(parse_views(open(h).read()))
+        known.update(parse_views(open(repo_path(h)).read()))
     views = parse_views(text, known)
     for sym, (ty, star, arr) in decls.items():
         off0 = int(sym[2:], 16) - obj["base"]
@@ -298,7 +308,7 @@ def rewrite_pointers(text, obj, mode="direct", allow_pinned=False):
     (mode typed).  Every use of p must be a recognised object access, p must not be a pinned register variable,
     and every assignment to p must be the same object address.  Returns (text, notes) or (None, reason)."""
     known = {}
-    for h in obj.get("extra_views") or []: known.update(parse_views(open(h).read()))
+    for h in obj.get("extra_views") or []: known.update(parse_views(open(repo_path(h)).read()))
     notes = []; views = parse_views(text, known); var = obj["var"]; changed = False
     for bs, be in reversed(_bodies(text)):
         body = text[bs:be]

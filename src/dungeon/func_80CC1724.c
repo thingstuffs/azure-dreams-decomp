@@ -1,7 +1,8 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 typedef struct S_80174F24_0 {
     u8 pad_00[0x8C];
@@ -48,7 +49,6 @@ extern void func_800A9A04(void *);
 extern void func_800AD594(void *, s32);
 extern s32 func_800AD9B4(void *, void *);
 
-extern u8 D_80082E80[];
 extern s32 D_80173B98;
 extern u8 D_80176338[];
 extern u8 D_80176340[];
@@ -67,10 +67,10 @@ void func_80174F24(void *action, void *motion_arg, void *unit, void *actor)
 
             (*(u8 * *)((u8 *)unit + 0x2C)) = direction_table;
             func_80047784(unit,
-                direction_table[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+                direction_table[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
                 0);
             ((S_80174F24_0 *)action)->unk_98 |= 8;
-            ((Rec_D_800E3D7C *)actor)->unk_1C.as_u32 &= ~0x08000000;
+            ((EntityRec *)actor)->flags1C &= ~0x08000000;
             ((S_80174F24_0 *)action)->unk_9E.s = 5;
             ((S_80174F24_0 *)action)->unk_A0 = 0;
             ((S_80174F24_0 *)action)->unk_9B++;
@@ -114,14 +114,14 @@ void func_80174F24(void *action, void *motion_arg, void *unit, void *actor)
             }
             ((S_80174F24_0 *)action)->unk_90 = 0;
             ((S_80174F24_0 *)action)->unk_98 &= 0xFFF7;
-            ((Rec_D_800E3D7C *)actor)->unk_1C.as_u32 |= 0x08000000;
+            ((EntityRec *)actor)->flags1C |= 0x08000000;
             ((S_80174F24_0 *)action)->unk_9B++;
         }
         /* fall through */
 
     case 2:
 check_landing:
-        if (((Rec_D_800E3D7C *)actor)->unk_1C.as_u32 & 0x08000000) {
+        if (((u32)((EntityRec *)actor)->flags1C) & 0x08000000) {
             u8 *direction_table;
 
             ((S_80174F24_0 *)action)->unk_98 &= 0xFFF7;
@@ -133,7 +133,7 @@ check_landing:
             direction_table = D_80176340;
             (*(u8 * *)((u8 *)unit + 0x2C)) = direction_table;
             func_80047784(unit,
-                direction_table[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+                direction_table[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
                 0);
             ((S_80174F24_0 *)action)->unk_9B++;
         }
@@ -166,10 +166,10 @@ check_timeout:
             dungeonStatus.unk_08--;
         }
 
-        actor_flags = ((Rec_D_800E3D7C *)actor)->unk_1C.as_u32;
+        actor_flags = ((u32)((EntityRec *)actor)->flags1C);
         if (actor_flags & 0x2000) {
-            if (((Rec_D_800E3D7C *)actor)->unk_44.at02_u16.v & 0x8000) {
-                ((Rec_D_800E3D7C *)actor)->unk_44.at02_u16.v &= 0x7FFF;
+            if (((EntityRec *)actor)->unk_46 & 0x8000) {
+                ((EntityRec *)actor)->unk_46 &= 0x7FFF;
             }
             goto update_actor;
         }
@@ -177,9 +177,9 @@ check_timeout:
             goto update_actor;
         }
         if (actor_flags & 0x20000) {
-            ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 = func_800A0818(
+            ((EntityRec *)actor)->facing = func_800A0818(
                 ((S_80174F24_1 *)unit)->unk_24, ((S_80174F24_1 *)unit)->unk_25,
-                D_80082E80[0x24], D_80082E80[0x25], &direction_aux);
+                D_80082E80.tileX, D_80082E80.tileY, &direction_aux);
         }
 
 update_actor:

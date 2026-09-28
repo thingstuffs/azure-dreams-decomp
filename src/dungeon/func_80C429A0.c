@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 
 typedef struct S_801741A0_0_pre {
@@ -32,16 +32,16 @@ s32 rand();                                /* extern */
 M2C_UNK func_8017406C();      /* extern */
 
 /* Update the effect's orbit and height, fade its color, and mark it for removal when its life expires. */
-void func_801741A0(void *effect, Rec_D_800E3D7C *position, Rec_D_80082E80 *primitive) {
+void func_801741A0(void *effect, EntityRec *position, Rec_D_80082E80 *primitive) {
     s16 life;
     s16 angle;
     s16 next_life;
 
     angle = ((S_801741A0_0 *)effect)->unk_1E - 0x12C;
     ((S_801741A0_0 *)effect)->unk_1E = (u16) angle;
-    position->unk_00.at00_s32.v = (s32) (((S_801741A0_0 *)effect)->unk_40 + (func_80064584(angle) * 0x280));
-    position->unk_04.at00_s32.v = (s32) (((S_801741A0_0 *)effect)->unk_44 + (func_800644B8((s16) ((S_801741A0_0 *)effect)->unk_1E) * 0x280));
-    position->unk_08.at00_s32.v = (s32) (position->unk_08.at00_s32.v + 0xFFF60000);
+    position->x.v = (s32) (((S_801741A0_0 *)effect)->unk_40 + (func_80064584(angle) * 0x280));
+    position->y.v = (s32) (((S_801741A0_0 *)effect)->unk_44 + (func_800644B8((s16) ((S_801741A0_0 *)effect)->unk_1E) * 0x280));
+    position->z.v = (s32) (position->z.v + 0xFFF60000);
     func_800478B8(primitive);
     if ((((S_801741A0_0 *)effect)->unk_1A < 0x11) && (((S_801741A0_0 *)effect)->unk_20 == 0) && !(rand() & 0xF)) {
         func_8017406C(effect, position, primitive);

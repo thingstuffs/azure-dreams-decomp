@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
@@ -6,7 +7,6 @@ extern void func_8009A028(void *);
 extern u16 func_800A0818(u8, u8, u8, u8, s32 *);
 extern void func_8016A908(void *);
 
-extern u8 D_80082E80[];
 extern u16 D_800834E2;
 extern s8 D_800DCF4D;
 extern u8 * volatile D_80174704;
@@ -59,7 +59,7 @@ void func_8016DF94(void) {
     D_800DCF4D = -1;
     map_data = ((u8 *)map_base) + 0x20;
     coord_result = func_800A0818(map_object[0x24], map_object[0x25],
-                           D_80082E80[0x24], D_80082E80[0x25], &coord_aux);
+                           D_80082E80.tileX, D_80082E80.tileY, &coord_aux);
     *(u16 *)(map_data + 0x2A) = coord_result;
     D_80174CD0 = 0;
     D_80174CCC = (s32 *)D_801749E0[(coord_result >> 9) & 7];

@@ -1,6 +1,6 @@
 #include "common.h"
 #include "shared/game_work.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 
 typedef struct S_800924EC_1 {
@@ -43,7 +43,7 @@ void func_800924EC(void *context, void *entity, s32 update_arg)
     func_80095C80(entity);
     func_80095094(entity);
     reference_value = func_80095978(entity, D_800FE488);
-    if ((reference_value - ((Rec_D_800E3D7C *)entity)->unk_08.at02_s16.v) >= 4)
+    if ((reference_value - ((EntityRec *)entity)->z.w.i) >= 4)
     {
         if (D_800CFCEF == 0)
         {

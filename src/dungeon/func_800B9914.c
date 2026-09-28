@@ -1,4 +1,7 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity_objects.h"
+#include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -16,9 +19,6 @@ typedef struct S_800BF074_2 {
 
 
 
-extern u8 D_80082E80[];
-extern s32 D_80082EB0[];
-extern u8 D_80083780[];
 extern u8 D_80089374[];
 extern u16 D_800DDE84[];
 extern u8 D_800E11F5[];
@@ -37,7 +37,7 @@ extern void func_800A90E8(void *);
 extern s32 func_800AD6FC(void *, s32, s32);
 
 /* Dispatches an entity action and updates state after handling it. */
-s32 func_800BF074(Rec_D_800E3D7C *entity, s32 action_id, s16 action_type, s32 action_arg) {
+s32 func_800BF074(EntityRec *entity, s32 action_id, s16 action_type, s32 action_arg) {
     s32 *entity_state;
     s32 message_pos;
     s32 saved_message_pos;
@@ -48,19 +48,19 @@ s32 func_800BF074(Rec_D_800E3D7C *entity, s32 action_id, s16 action_type, s32 ac
 
     if (entity == D_800E3D7C) {
         entity->unk_110 = action_id;
-        func_8008D344(entity, D_80083780, D_80082E80, entity);
+        func_8008D344(entity, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), entity);
         return 0;
     }
 
     if ((u32)entity <= 0x9FFFFFFF) {
         func_800A6480(entity, action_id);
-        if (func_800AD6FC(entity, D_800DDE84[entity->unk_10.at03_u8.v] & 3, action_id) == 0) {
+        if (func_800AD6FC(entity, D_800DDE84[(*(u8 *)((u8 *)&entity->unk_10 + 3))] & 3, action_id) == 0) {
             func_800A5F38(entity, action_id);
             return 1;
         }
     } else {
         message_pos = func_800990FC();
-        entity_state = D_80082EB0;
+        entity_state = ((s32 *)(&D_80082E80.unk_030));
         saved_message_pos = message_pos;
         message_pos = func_80099194(D_800E11F5, func_80099368(((S_800BF074_1 *)entity_state)->unk_04, message_pos));
         ((S_800BF074_2 *)(((S_800BF074_1 *)entity_state)->unk_04))->unk_03 &= 0x7F;

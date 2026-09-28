@@ -1,5 +1,5 @@
 #include "common.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 typedef struct S_800CBCA0_0_pre {
     void * unk_00;
@@ -33,10 +33,10 @@ s32 func_800CBCA0(void *entity, s32 input_a, s32 input_b, s32 input_c)
     s32 random_value;
     void *rng_entity = entity;
 
-    if (((Rec_D_800E3D7C *)entity)->unk_10.at03_u8.v == 0) {
+    if ((*(u8 *)((u8 *)&((EntityRec *)entity)->unk_10 + 3)) == 0) {
         goto check_global;
     }
-    if (!(((Rec_D_800E3D7C *)entity)->unk_14.as_s32 & 0x4000)) {
+    if (!(((EntityRec *)entity)->flags14 & 0x4000)) {
         goto check_global;
     }
     ASM_KEEP(entity);   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
@@ -46,8 +46,8 @@ s32 func_800CBCA0(void *entity, s32 input_a, s32 input_b, s32 input_c)
 check_global:
     if (D_800E3D40 == 0) {
         random_value = (u16)func_800A6D30(rng_entity, input_a, input_b, input_c);
-        if (((Rec_D_800E3D7C *)entity)->unk_00.at03_u8.v != 0) {
-            divisor = random_value % ((Rec_D_800E3D7C *)entity)->unk_00.at03_u8.v;
+        if ((*(u8 *)((u8 *)&((EntityRec *)entity)->x + 3)) != 0) {
+            divisor = random_value % (*(u8 *)((u8 *)&((EntityRec *)entity)->x + 3));
             goto value_ready2;
         }
     }
@@ -61,9 +61,9 @@ value_ready:
         parent = ((S_800CBCA0_0_pre *)entity)[-1].unk_00;
         action_result = func_800CBB98(parent->unk_24,
                                parent->unk_25,
-                               ((Rec_D_800E3D7C *)entity)->unk_88.as_s16, entity);
+                               ((EntityRec *)entity)->unk_88, entity);
         if (action_result != 0) {
-            if (((Rec_D_800E3D7C *)entity)->unk_10.at03_u8.v == 0) {
+            if ((*(u8 *)((u8 *)&((EntityRec *)entity)->unk_10 + 3)) == 0) {
                 func_80094E34();
                 func_80099844(entity, D_800E1AE6);
             }
@@ -71,7 +71,7 @@ value_ready:
         return action_result != 0;
     }
 
-    if (((Rec_D_800E3D7C *)entity)->unk_10.at03_u8.v == 0) {
+    if ((*(u8 *)((u8 *)&((EntityRec *)entity)->unk_10 + 3)) == 0) {
         func_800A6508();
     }
     return 1;

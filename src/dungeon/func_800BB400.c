@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity_objects.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
@@ -15,8 +17,6 @@ extern void func_80099290();
 extern void func_800A5720();
 extern void func_80098B38();
 
-extern u8 D_80083780[];
-extern u8 D_80082E80[];
 extern u16 D_800DDE84[];
 extern u8 D_8006DE24[];
 extern u8 D_800E13FB[];
@@ -43,7 +43,7 @@ s32 func_800C0B60(u8 *target, u8 *event_data, s32 value)
     if (entity == ((u8 *)D_800E3D7C)) {
         *(u8 **)(entity + 0x110) = event;
         ASM_KEEP_NV(target_copy);
-        func_8008D330(target_copy, D_80083780, D_80082E80, target_copy);
+        func_8008D330(target_copy, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), target_copy);
         do {
             return 0;
         } while (0);

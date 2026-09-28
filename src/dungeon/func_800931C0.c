@@ -7,10 +7,10 @@
  * retail (`j 0x98b10 / li v0,-1`). Config: 2.8.1.
  */
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
-extern s32 D_80082EB4[];
 
 extern u32 *D_800DD6B8[];
 extern u8 D_800E3648[];
@@ -59,7 +59,7 @@ s32 func_80098920(void *actor, void *action, s16 dispatch_mode, s32 handler_para
         func_800BCFBC(handler_tag - 1, handler_tag, action_index);
     }
     if ((s16)dispatch_mode != 0x15) {
-        if (D_80082EB4[0] == 0) {
+        if (D_80082E80.unk_034 == 0) {
             result = func_80098C80(action);
             if (result != 0x15) {
                 if (result == 0x16) {

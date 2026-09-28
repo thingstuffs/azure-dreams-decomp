@@ -1,6 +1,7 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/dungeon_status.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 
 typedef struct S_80172374_0 {
@@ -39,11 +40,10 @@ extern void func_800A9A04();
 extern void func_800AD594();
 extern s32 func_800AD9B4();
 
-extern u8 D_80082E80[];
 extern u8 D_80170E54;
 
 /* Advances a jump toward the target tile and finishes movement when the timer expires. */
-void func_80172374(S_80172374_0 *motion, Rec_D_800E3D7C *position, Rec_D_80082E80 *target_tile, Rec_D_800E3D7C *entity) {
+void func_80172374(S_80172374_0 *motion, EntityRec *position, Rec_D_80082E80 *target_tile, EntityRec *entity) {
     s32 direction_aux;
     s32 jump_state;
     s32 frames_left;
@@ -70,8 +70,8 @@ begin_jump:
         goto tick_timer;
     }
     motion->unk_98 |= 8;
-    position->unk_14.as_s32 = 0xFFEE0000;
-    entity->unk_1C.as_s32 &= 0xF7FFFFFF;
+    position->flags14 = 0xFFEE0000;
+    entity->flags1C &= 0xF7FFFFFF;
     motion->unk_A4 = 0;
     motion->unk_9B++;
 
@@ -83,31 +83,31 @@ advance_jump:
         s32 axis_origin;
 
         coord = target_tile->unk_24 << 6;
-        axis_origin = position->unk_00.at02_s16.v - 0x20;
+        axis_origin = position->x.w.i - 0x20;
         do {
             coord = ((coord - axis_origin) << 16) / frames_left;
         } while (0);
-        axis_origin = position->unk_04.at02_s16.v - 0x20;
-        position->unk_0C.as_s32 = coord;
+        axis_origin = position->y.w.i - 0x20;
+        position->unk_0C = coord;
         coord = target_tile->unk_25 << 6;
-        position->unk_10.at00_s32.v = ((coord - axis_origin) << 16) / motion->unk_96;
-        motion->unk_A4 += position->unk_14.as_s32;
-        position->unk_14.as_s32 += 0x40000;
+        position->unk_10 = ((coord - axis_origin) << 16) / motion->unk_96;
+        motion->unk_A4 += position->flags14;
+        position->flags14 += 0x40000;
     }
     motion->unk_90 += motion->unk_A4;
     if (motion->unk_96 < 3) {
         motion->unk_90 = 0;
         motion->unk_98 &= 0xFFF7;
-        entity->unk_1C.as_s32 |= 0x08000000;
+        entity->flags1C |= 0x08000000;
         motion->unk_9B++;
     }
 
 land:
-    if (entity->unk_1C.as_s32 & 0x08000000) {
+    if (entity->flags1C & 0x08000000) {
         motion->unk_98 &= 0xFFF7;
-        position->unk_14.as_s32 = 0;
-        position->unk_10.at00_s32.v = 0;
-        position->unk_0C.as_s32 = 0;
+        position->flags14 = 0;
+        position->unk_10 = 0;
+        position->unk_0C = 0;
         func_800A2B04(position, target_tile->unk_24, target_tile->unk_25);
         motion->unk_9B++;
     }
@@ -116,9 +116,9 @@ tick_timer:
     next_frames = (u16)motion->unk_96 - 1;
     motion->unk_96 = next_frames;
     if ((next_frames << 16) <= 0) {
-        position->unk_14.as_s32 = 0;
-        position->unk_10.at00_s32.v = 0;
-        position->unk_0C.as_s32 = 0;
+        position->flags14 = 0;
+        position->unk_10 = 0;
+        position->unk_0C = 0;
         func_800A2B04(position, target_tile->unk_24, target_tile->unk_25);
         func_800AD594(entity, 5);
         func_800A4ACC(entity);
@@ -127,20 +127,19 @@ tick_timer:
             dungeonStatus.unk_08 = (u16)dungeonStatus.unk_08 - 1;
         }
 
-        entity_flags = entity->unk_1C.as_s32;
+        entity_flags = entity->flags1C;
         if (entity_flags & 0x2000) {
-            if (entity->unk_44.at02_u16.v & 0x8000) {
-                entity->unk_44.at02_u16.v &= 0x7FFF;
+            if (entity->unk_46 & 0x8000) {
+                entity->unk_46 &= 0x7FFF;
             }
             goto update_entity;
         }
         if (!(entity_flags & 0x410)) {
             if (entity_flags & 0x20000) {
-                u8 *reference_tile = D_80082E80;
 
-                entity->unk_2A.as_s16 = func_800A0818(
+                entity->facing = func_800A0818(
                     target_tile->unk_24, target_tile->unk_25,
-                    ((S_80172374_5 *)reference_tile)->unk_24, ((S_80172374_5 *)reference_tile)->unk_25, &direction_aux);
+                    D_80082E80.tileX, D_80082E80.tileY, &direction_aux);
             }
         }
 

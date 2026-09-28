@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/game_work.h"
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
@@ -15,7 +16,6 @@ struct S_8003E2D8 {
     s32 field_10;
 };
 typedef struct S_8003E2D8 S_8003E2D8;
-extern u8 D_80082E80[];
 extern s8 D_800E2970[];
 extern u8 D_800E50A8[];
 extern void func_800672D8(void *, u8 *);
@@ -61,7 +61,7 @@ void func_8009D3B0(void) {
     u8 *tile_or_map;
     u8 *grid_config;
     register s32 tile_index_or_level ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    u8 *status_base;
+    TileObject *status_base;
     u8 *region_table;
     s8 region_index;
     register s32 packed_levels ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -70,8 +70,8 @@ void func_8009D3B0(void) {
     map_params = *(UA64 *)tile_or_map;
     tile_index_or_level = (s32)((struct S_8003E2D8 *)&gameWork);
     grid_config = (u8 *)tile_index_or_level + 0x1DC;
-    status_base = D_80082E80;
-    region_index = ((s8 *)status_base)[0x26];
+    status_base = &D_80082E80;
+    region_index = status_base->unk_026;
     if (region_index >= 0) {
         register u8 *region ASM_REG("$11");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         u8 *grid;

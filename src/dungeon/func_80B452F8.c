@@ -2,7 +2,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_D_800814A8.h"
 extern int abs(int);
 
@@ -165,9 +165,9 @@ void func_80172AF8(void *action, void *transform, void *sprite, void *actor)
             ((S_80172AF8_1 *)actor)->unk_72.s = abs(((S_80172AF8_1 *)actor)->unk_72.u);
             ((S_80172AF8_1 *)actor)->unk_73.s = abs(((S_80172AF8_1 *)actor)->unk_73.u);
         step_motion:
-            saved_pos[0] = ((Rec_D_800E3D7C *)transform)->unk_00.at02_u16.v;
-            saved_pos[1] = ((Rec_D_800E3D7C *)transform)->unk_04.at02_u16.v;
-            saved_pos[2] = ((Rec_D_800E3D7C *)transform)->unk_08.at02_u16.v;
+            saved_pos[0] = ((u16)((EntityRec *)transform)->x.w.i);
+            saved_pos[1] = ((u16)((EntityRec *)transform)->y.w.i);
+            saved_pos[2] = ((u16)((EntityRec *)transform)->z.w.i);
             transform = (void *)func_800A94A0(actor, motion, special_motion, (u8 *)action + 0x98);
             if (transform == 0) {
                 return;
@@ -179,12 +179,12 @@ void func_80172AF8(void *action, void *transform, void *sprite, void *actor)
             return;
         }
 
-        ((Rec_D_800E3D7C *)transform)->unk_14.as_s32 = 0;
-        ((Rec_D_800E3D7C *)transform)->unk_10.at00_s32.v = 0;
-        ((Rec_D_800E3D7C *)transform)->unk_0C.as_s32 = 0;
+        ((EntityRec *)transform)->flags14 = 0;
+        ((EntityRec *)transform)->unk_10 = 0;
+        ((EntityRec *)transform)->unk_0C = 0;
         func_800A2B04(transform, ((S_80172AF8_4 *)sprite)->unk_24, ((S_80172AF8_4 *)sprite)->unk_25);
         dungeonStatus.unk_0C = 0;
-        ((Rec_D_800814A8 *)D_800814A8)->unk_A6 = (*(u16 *)((u8 *)D_800814A8 + 0xA6)) - 1;
+        (*(u16 *)((u8 *)&((EntityRec *)D_800814A8)->unk_A4 + 2)) = (*(u16 *)((u8 *)D_800814A8 + 0xA6)) - 1;
         func_800A4ACC(actor);
         ((S_80172AF8_1 *)actor)->unk_6D.s = ((S_80172AF8_1 *)actor)->unk_6D.s - 1;
         ((S_80172AF8_0 *)action)->unk_8C = D_80170E70;
@@ -217,9 +217,9 @@ void func_80172AF8(void *action, void *transform, void *sprite, void *actor)
         if ((((S_80172AF8_4 *)sprite)->unk_14 & 0xE000) == 0) {
             return;
         }
-        ((Rec_D_800E3D7C *)transform)->unk_14.as_s32 = 0;
-        ((Rec_D_800E3D7C *)transform)->unk_10.at00_s32.v = 0;
-        ((Rec_D_800E3D7C *)transform)->unk_0C.as_s32 = 0;
+        ((EntityRec *)transform)->flags14 = 0;
+        ((EntityRec *)transform)->unk_10 = 0;
+        ((EntityRec *)transform)->unk_0C = 0;
         func_800A2B04(transform, ((S_80172AF8_4 *)sprite)->unk_24, ((S_80172AF8_4 *)sprite)->unk_25);
         {
             u8 *idle_frames = D_80175A54;

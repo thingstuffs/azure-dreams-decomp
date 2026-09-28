@@ -1,5 +1,5 @@
 #include "common.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 
 
@@ -79,7 +79,7 @@ typedef struct S_800D6AD4_5 {
 } S_800D6AD4_5;   /* temp_s0 in func_800D6AD4 */
 
 /* Creates an object at an offset from its parent and initializes its motion and state. */
-void func_800D6AD4(Rec_D_800E3D7C *parent, s32 state_value, s32 x_offset, s32 y_offset, s32 z_offset,
+void func_800D6AD4(EntityRec *parent, s32 state_value, s32 x_offset, s32 y_offset, s32 z_offset,
                    s32 motion_scale) {
     s32 saved_z_offset = z_offset;
     s32 saved_motion_scale = motion_scale;
@@ -95,11 +95,11 @@ void func_800D6AD4(Rec_D_800E3D7C *parent, s32 state_value, s32 x_offset, s32 y_
     if (object != 0) {
         ((S_800D6AD4_0 *)object)->unk_10 = D_800D6804;
         ((S_800D6AD4_8 *)(((S_800D6AD4_6 *)object)->unk_08))->unk_02 =
-            (u16)((S_800D6AD4_9 *)(parent->unk_08.at00_pv.v))->unk_02;
+            (u16)((S_800D6AD4_9 *)((*(void * *)&parent->z)))->unk_02;
         ((S_800D6AD4_8 *)(((S_800D6AD4_6 *)object)->unk_08))->unk_06 =
-            (u16)((S_800D6AD4_9 *)(parent->unk_08.at00_pv.v))->unk_06;
+            (u16)((S_800D6AD4_9 *)((*(void * *)&parent->z)))->unk_06;
         ((S_800D6AD4_8 *)(((S_800D6AD4_6 *)object)->unk_08))->unk_0A =
-            (u16)((S_800D6AD4_9 *)(parent->unk_08.at00_pv.v))->unk_0A;
+            (u16)((S_800D6AD4_9 *)((*(void * *)&parent->z)))->unk_0A;
         x_position = ((S_800D6AD4_0 *)object)->unk_08;
         x_position->unk_02 =
             (u16)(x_position->unk_02 + x_offset);

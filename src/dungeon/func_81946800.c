@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
@@ -31,7 +32,6 @@ extern void func_80047784(void *, u8, s32);
 extern s32 func_80053EF0(s32, void *);
 extern void func_800A56E0(s32);
 extern s32 D_80024374;
-extern u16 D_80082E94;
 extern u8 D_80083498[];
 #ifdef __mips__
 void func_81946800(void *action_in, void *saved_position) __asm__("func_81946800_body")
@@ -178,7 +178,7 @@ void func_81946800(void *action, void *saved_position)
   (*((u16 *) (((u8 *) action) + 0xA)))++;
   return;
   state_3:
-  if (((D_80082E94 & 0x8000) == 0) && (((s32) (timer << 16)) >= 0))
+  if (((D_80082E80.unk_014 & 0x8000) == 0) && (((s32) (timer << 16)) >= 0))
   {
     return;
   }

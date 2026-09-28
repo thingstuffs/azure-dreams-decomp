@@ -124,3 +124,26 @@ e.g. `D_80083160+24` for `D_80083178` - landed via the image gate + per-row reba
 - **Next:** a hand-recovered entity type superseding the union-heavy Rec_D_800E3D7C, then D_80082E80 (290),
   D_80083498 (284), D_80083780 (177) and Rec_D_800814A8 onto it; D_80083120 (the 0x40 bytes before gameWork),
   D_800E2970 (91), D_80013714 (81). Totals: 3,875 row migrations onto 6 shared headers.
+
+## Phase 5 (2026-09-28): landed - the entity type
+
+785 rows (sample first), every row verify-exact (2 SLUS rows via image gate + rebaseline), 475 windows + SLUS
+SHA-1 MATCH, pin-neutral (155 migrated pinned rows re-tested).
+- **EntityRec** (include/shared/entity.h): the actor/entity record, hand-recovered; supersedes the generated
+  Rec_D_800E3D7C.h and Rec_D_800814A8.h (the second turned out to be another view of the same 0x12C-byte record).
+  Positions are 16.16 fixed point (`Fixed1616`: whole word and integer half; world coords are tile*64+32). Named
+  where every use agrees: x/y/z, tileX/tileY (+0x24/+0x25, paired with dirStepX/Y), facing (+0x2A, with viewAngle
+  picks the 8-way sprite), target (+0x60), flags14, flags1C; the rest unk_. Objects carry a 0x20-byte header
+  before the record (callers pass `record - 0x20`). 577/580 rows exact.
+- **D_80083780** is an EntityRec instance (include/shared/entity_objects.h), 178/184 rows.
+- **D_80082E80 is not an entity** (4-byte words where EntityRec has bytes): its own TileObject type
+  (include/shared/tile_object.h), 312 rows; name stays D_ (possibly the player's record - unproven).
+- **Open item:** three SLUS rows (w_8003D8B0, w_8003F80C, w_8004D614) were excluded: their candidates name
+  D_80082E80, which has no entry in the SLUS symbol file (no SLUS source named it before), so the SLUS link
+  failed; apply5 reverted cleanly both times. Fix: define it for the SLUS link, gate, re-run apply5 for them
+  (details: work/native_lane/r78_types_pilot/PHASE5_OPEN.md).
+- **How to continue:** docs/evidence/type_consolidation_pilot_design.md ends with a cold-start "HOW TO CONTINUE"
+  section (workflow, tool entry points in tools/consolidate/, every measured hazard, ranked next objects:
+  retype record_ptrs.h onto EntityRec and retire the generated Rec headers; D_80083498 (284); remove game.h's
+  S_80083178; D_80083120; D_800E2970/D_800E296C; D_80013714).
+- Totals: **4,660 row migrations onto 9 shared headers.**

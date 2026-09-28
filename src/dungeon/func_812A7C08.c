@@ -3,7 +3,7 @@
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "records/Rec_D_80082E80.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 
 extern void func_80047784(void *, s32, s32);
@@ -76,10 +76,10 @@ L0:
     }
 
 L1:
-    ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 -=
+    ((EntityRec *)motion)->unk_0C -=
         *(s16 *)((u8 *)((s8 *)dirStepX) +
                  (((u16)((S_80173408_4 *)actor)->unk_2A.u >> 8) & 0xE)) << 14;
-    ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v -=
+    ((EntityRec *)motion)->unk_10 -=
         *(s16 *)((u8 *)((s8 *)dirStepY) +
                  (((u16)((S_80173408_4 *)actor)->unk_2A.u >> 8) & 0xE)) << 14;
     ((S_80173408_0 *)jump)->unk_A0.at00.v += 0x60000;
@@ -89,9 +89,9 @@ L1:
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000)) {
         return;
     }
-    ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0;
-    ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = 0;
-    ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
+    ((EntityRec *)motion)->flags14 = 0;
+    ((EntityRec *)motion)->unk_10 = 0;
+    ((EntityRec *)motion)->unk_0C = 0;
     if (((S_80173408_0 *)jump)->unk_A0.at02.v < 0x30) {
         return;
     }
@@ -122,8 +122,8 @@ L2:
         y_entry = (s16 *)(*y_entry);
         step_x = arc << 16;
         step_y = (s32)y_entry << 16;
-        ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 += step_x;
-        ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v += step_y;
+        ((EntityRec *)motion)->unk_0C += step_x;
+        ((EntityRec *)motion)->unk_10 += step_y;
         arc = -func_800644B8(((S_80173408_0 *)jump)->unk_96.s * 170);
         ((S_80173408_0 *)jump)->unk_A0.at00.v = ((arc * 5) << 8) + 0x300000;
         timer = ((S_80173408_0 *)jump)->unk_96.u + 1;
@@ -167,8 +167,8 @@ L3:
         arc = *y_entry;
         step_x = direction_x << 16;
         step_y = arc << 16;
-        ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 += step_x;
-        ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v += step_y;
+        ((EntityRec *)motion)->unk_0C += step_x;
+        ((EntityRec *)motion)->unk_10 += step_y;
         arc = -func_800644B8(((S_80173408_0 *)jump)->unk_96.s * 170);
         ((S_80173408_0 *)jump)->unk_A0.at00.v = ((arc * 5) << 8) + 0x300000;
         timer = ((S_80173408_0 *)jump)->unk_96.u + 1;
@@ -184,22 +184,22 @@ L3:
         velocity_x = -*(s16 *)((u8 *)x_table +
             (((u16)((S_80173408_4 *)actor)->unk_2A.u >> 8) & 0xE)) << 18;
         velocity_x += velocity_x >> 2;
-        ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = velocity_x;
+        ((EntityRec *)motion)->unk_0C = velocity_x;
 
         velocity_y = -*(s16 *)((u8 *)y_table +
             (((u16)((S_80173408_4 *)actor)->unk_2A.u >> 8) & 0xE)) << 18;
         velocity_y += velocity_y >> 2;
-        ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = velocity_y;
-        ((S_80173408_0 *)jump)->unk_A8 = ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 / 24;
-        ((S_80173408_0 *)jump)->unk_AC = ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v / 24;
+        ((EntityRec *)motion)->unk_10 = velocity_y;
+        ((S_80173408_0 *)jump)->unk_A8 = ((EntityRec *)motion)->unk_0C / 24;
+        ((S_80173408_0 *)jump)->unk_AC = ((EntityRec *)motion)->unk_10 / 24;
     }
     ((S_80173408_0 *)jump)->unk_96.s = 12;
     ((S_80173408_0 *)jump)->unk_9B.n++;
     return;
 
 L4:
-    ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 -= ((S_80173408_0 *)jump)->unk_A8;
-    ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v -= ((S_80173408_0 *)jump)->unk_AC;
+    ((EntityRec *)motion)->unk_0C -= ((S_80173408_0 *)jump)->unk_A8;
+    ((EntityRec *)motion)->unk_10 -= ((S_80173408_0 *)jump)->unk_AC;
     if (((S_80173408_0 *)jump)->unk_A0.at02.v > 0) {
         ((S_80173408_0 *)jump)->unk_A0.at02u.v -= 0x10;
     } else {
@@ -208,9 +208,9 @@ L4:
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
         return;
     }
-    ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0;
-    ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = 0;
-    ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
+    ((EntityRec *)motion)->flags14 = 0;
+    ((EntityRec *)motion)->unk_10 = 0;
+    ((EntityRec *)motion)->unk_0C = 0;
     func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
     func_800AD594(actor, 0x100);
     ((S_80173408_0 *)jump)->unk_8C = &D_80171FA4;

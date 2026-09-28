@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -33,7 +34,6 @@ typedef struct {
 } Entry;
 
 extern s16 D_800DCED4[];
-extern u8 D_80082E80[];
 extern u8 D_800C1EC4;
 
 extern void *func_8003FC64(s32);
@@ -56,7 +56,6 @@ void *func_800C1F28(void *object, s16 action_arg) {
     u8 *position;
     u8 *task_data;
     void *task;
-    u8 *search_origin;
     s32 object_index;
     u8 old_x;
     u8 old_y;
@@ -75,8 +74,7 @@ void *func_800C1F28(void *object, s16 action_arg) {
             tile_mask = 0x300;
         }
         func_8009A3D0(old_x, old_y, tile_mask);
-        search_origin = D_80082E80;
-        if ((func_8009B88C(0, search_origin[0x24], search_origin[0x25], &tile_x, &tile_y) << 16) == 0) {
+        if ((func_8009B88C(0, D_80082E80.tileX, D_80082E80.tileY, &tile_x, &tile_y) << 16) == 0) {
             tile_x = ((Coord *)position)->coord0;
             source_height = ((ArgObj *)object)->value;
             source_y = ((Coord *)position)->coord1;

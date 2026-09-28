@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -87,8 +89,6 @@ M2C_UNK func_80171FC4();
 M2C_UNK func_801737C4();
 s32 func_80173A08();
 M2C_UNK func_801747D0();
-extern RefPosition D_80082E80;
-extern u16 D_80082EA4;
 extern TerrainEntry D_800E2970[];
 extern u8 D_80174EE0[];
 extern M2C_UNK D_80174EF8;
@@ -102,8 +102,6 @@ void func_80170E9C(void *entity, M2C_UNK context, void *sprite, void *state) {
     M2C_UNK direction_aux;
     M2C_UNK *resume_handler;
     void *reference_entity;
-    RefPosition *action_target;
-    RefPosition *idle_target;
     s16 target_angle;
     s32 idle_flags;
     s32 action_id;
@@ -206,7 +204,7 @@ block_30:
     if (((S_80170E9C_1 *)state)->unk_1C & 0x20) {
         goto block_44;
     }
-    if (((S_80170E9C_2 *)sprite)->unk_24.at00u.v == D_80082EA4) {
+    if (((S_80170E9C_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
         goto block_50;
     }
     if (((S_80170E9C_1 *)state)->unk_46 & 0x8000) {
@@ -215,7 +213,7 @@ block_30:
     if (!(dungeonStatus.flags & 0x2000)) {
         goto block_36;
     }
-    if ((func_8009A180(state, ((Rec_D_800814A8 *)D_800814A8)->unk_58.as_s32 + 0x20) << 0x10) != 0) {
+    if ((func_8009A180(state, ((s32)((EntityRec *)D_800814A8)->unk_58) + 0x20) << 0x10) != 0) {
         goto block_63;
     }
 block_36:
@@ -244,8 +242,7 @@ jt_c9:
 jt_c5:
 jt_c6:
 jt_c7:
-    action_target = &D_80082E80;
-    target_angle = func_800A0818(((S_80170E9C_2 *)sprite)->unk_24.at00.v, ((S_80170E9C_2 *)sprite)->unk_24.at01.v, action_target->x, action_target->y, &direction_aux);
+    target_angle = func_800A0818(((S_80170E9C_2 *)sprite)->unk_24.at00.v, ((S_80170E9C_2 *)sprite)->unk_24.at01.v, D_80082E80.tileX, D_80082E80.tileY, &direction_aux);
     reference_entity = D_800814A8;
     ((S_80170E9C_1 *)state)->unk_2A = target_angle;
     if (((S_80170E9C_4 *)reference_entity)->unk_9A == 0x11) {
@@ -284,11 +281,10 @@ block_55:
     if (idle_flags & 0x430) {
         goto block_59;
     }
-    idle_target = &D_80082E80;
-    if ((func_8009FD7C(((S_80170E9C_2 *)sprite)->unk_24.at00.v, ((S_80170E9C_2 *)sprite)->unk_24.at01.v, idle_target->x, idle_target->y) << 0x10) == 0) {
+    if ((func_8009FD7C(((S_80170E9C_2 *)sprite)->unk_24.at00.v, ((S_80170E9C_2 *)sprite)->unk_24.at01.v, D_80082E80.tileX, D_80082E80.tileY) << 0x10) == 0) {
         goto block_58;
     }
-    ((S_80170E9C_1 *)state)->unk_2A = func_800A0818(((S_80170E9C_2 *)sprite)->unk_24.at00.v, ((S_80170E9C_2 *)sprite)->unk_24.at01.v, idle_target->x, idle_target->y, &direction_aux);
+    ((S_80170E9C_1 *)state)->unk_2A = func_800A0818(((S_80170E9C_2 *)sprite)->unk_24.at00.v, ((S_80170E9C_2 *)sprite)->unk_24.at01.v, D_80082E80.tileX, D_80082E80.tileY, &direction_aux);
 block_58:
 block_59:
     if (dungeonStatus.flags & 0x2000) {

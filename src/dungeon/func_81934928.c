@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity_objects.h"
 #include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -79,9 +81,7 @@ extern void func_800A56E0(s32);
 
 extern s32 D_8002445C[];
 extern s32 D_80024740[];
-extern u8 D_80082E80[];
 extern s32 D_80083498[];
-extern Copy24 D_80083780;
 
 /* Spawns a timed particle effect, processes its midpoint target, and marks completion. */
 void func_81934928(void *effect, void *output)
@@ -122,7 +122,7 @@ state_zero:
             s32 copy_word_1;
             s32 copy_word_2;
 #ifdef NON_MATCHING
-            copy_page = (u8 *)&D_80083780 - 0x3780;
+            copy_page = (u8 *)(&D_80083780) - 0x3780;
 #else
             copy_page = (u8 *)0x80080000;
 #endif
@@ -206,7 +206,7 @@ main_state:
             s32 lookup_key_b;
             void *lookup_origin = search_origin;
 #ifdef NON_MATCHING
-            search_page = D_80082E80 - 0x2E80;
+            search_page = ((u8 *)(&D_80082E80)) - 0x2E80;
 #else
             search_page = (u8 *)0x80080000;
 #endif

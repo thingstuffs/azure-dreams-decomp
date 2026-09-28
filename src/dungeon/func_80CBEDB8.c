@@ -2,7 +2,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 typedef struct S_801725B8_0 {
     u8 pad_00[0x8C];
@@ -39,7 +39,7 @@ void func_801725B8(void *action, void *motion, void *anim, void *actor)
         if (((Rec_D_80082E80 *)anim)->unk_14.at00_u16.v & 0x8000) {
             ((S_801725B8_0 *)action)->unk_9B = 2;
             ((Rec_D_80082E80 *)anim)->unk_14.at00_u16.v |= 0x6000;
-            func_8009C12C(actor, anim, ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16, 1);
+            func_8009C12C(actor, anim, ((EntityRec *)actor)->facing, 1);
             return;
         }
         {
@@ -51,7 +51,7 @@ void func_801725B8(void *action, void *motion, void *anim, void *actor)
             direction_table = D_801762E8;
             (*(u8 * *)((u8 *)anim + 0x2C)) = direction_table;
             func_80047784(anim,
-                direction_table[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+                direction_table[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
                 0);
             ((S_801725B8_0 *)action)->unk_9B++;
         }
@@ -65,7 +65,7 @@ void func_801725B8(void *action, void *motion, void *anim, void *actor)
               (((Rec_D_80082E80 *)anim)->unk_14.at00_u16.v & 0xE000))) {
             return;
         }
-        func_8009C12C(actor, anim, ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16, 1);
+        func_8009C12C(actor, anim, ((EntityRec *)actor)->facing, 1);
         ((S_801725B8_0 *)action)->unk_9B++;
         /* fallthrough */
     case 2:

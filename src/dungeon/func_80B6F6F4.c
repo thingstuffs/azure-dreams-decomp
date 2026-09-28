@@ -2,7 +2,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 
 
@@ -47,20 +47,20 @@ void func_80172EF4(void *action, void *motion, void *sprite, void *actor)
     s32 offset_y;
     s32 actor_ref;
 
-    direction = (((Rec_D_800E3D7C *)actor)->unk_6A.as_u16 >> 9) & 7;
+    direction = (((EntityRec *)actor)->unk_6A >> 9) & 7;
 
     switch (((S_80172EF4_1 *)action)->unk_9B) {
     case 0:
         func_800AD4D0(actor);
         x_steps = (s16 *)((s8 *)dirStepX);
         initial_step_offset = direction * 2;
-        ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 =
+        ((EntityRec *)motion)->unk_0C =
             *(s16 *)((u8 *)x_steps + initial_step_offset) << 0x12;
-        ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v =
+        ((EntityRec *)motion)->unk_10 =
             *(s16 *)((u8 *)((s8 *)dirStepY) + initial_step_offset) << 0x12;
         ((S_80172EF4_1 *)action)->unk_9B++;
 
-        if (((Rec_D_800E3D7C *)actor)->unk_28 == 0) {
+        if (((EntityRec *)actor)->unk_28 == 0) {
             goto start_action;
         }
         if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
@@ -70,32 +70,32 @@ void func_80172EF4(void *action, void *motion, void *sprite, void *actor)
         }
 
         timer = -1;
-        if (((Rec_D_800E3D7C *)actor)->unk_1C.as_s32 & 0x228) {
+        if (((EntityRec *)actor)->flags1C & 0x228) {
             timer = 8;
         }
         ((S_80172EF4_1 *)action)->unk_96.s = timer;
 
-        velocity_x = ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32;
+        velocity_x = ((EntityRec *)motion)->unk_0C;
         biased_velocity_x = velocity_x;
         if (velocity_x < 0) {
             biased_velocity_x = velocity_x + 3;
         }
-        velocity_y = ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v;
-        ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = velocity_x - (biased_velocity_x >> 2);
+        velocity_y = ((EntityRec *)motion)->unk_10;
+        ((EntityRec *)motion)->unk_0C = velocity_x - (biased_velocity_x >> 2);
         biased_velocity_y = velocity_y;
         if (velocity_y < 0) {
             biased_velocity_y = velocity_y + 3;
         }
-        ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = velocity_y - (biased_velocity_y >> 2);
+        ((EntityRec *)motion)->unk_10 = velocity_y - (biased_velocity_y >> 2);
         /* fall through */
 
     case 1:
         x_steps = (s16 *)((s8 *)dirStepX);
         brake_step_offset = direction * 2;
         y_step = (s16 *)((u8 *)((s8 *)dirStepY) + brake_step_offset);
-        ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 -=
+        ((EntityRec *)motion)->unk_0C -=
             *(s16 *)((u8 *)x_steps + brake_step_offset) << 0xF;
-        ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v -= *y_step << 0xF;
+        ((EntityRec *)motion)->unk_10 -= *y_step << 0xF;
 
         if (((S_80172EF4_1 *)action)->unk_96.s > 0) {
             ((S_80172EF4_1 *)action)->unk_96.s = ((S_80172EF4_1 *)action)->unk_96.u - 1;
@@ -105,14 +105,14 @@ void func_80172EF4(void *action, void *motion, void *sprite, void *actor)
         if (((S_80172EF4_1 *)action)->unk_96.s != 0) {
             return;
         }
-        if (((Rec_D_800E3D7C *)actor)->unk_28 != 0) {
+        if (((EntityRec *)actor)->unk_28 != 0) {
             goto increment_state;
         }
 
 start_action:
-        ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0;
-        ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = 0;
-        ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
+        ((EntityRec *)motion)->flags14 = 0;
+        ((EntityRec *)motion)->unk_10 = 0;
+        ((EntityRec *)motion)->unk_0C = 0;
         func_800AAA54(action, motion, sprite, &D_80173D24);
         return;
 
@@ -124,11 +124,11 @@ increment_state:
     case 2:
         if (((S_80172EF4_1 *)action)->unk_96.s != 0) {
             target_x = ((Rec_D_80082E80 *)sprite)->unk_24 << 6;
-            offset_x = ((Rec_D_800E3D7C *)motion)->unk_00.at02_s16.v - 0x20;
-            ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = (target_x - offset_x) << 0x10 >> 1;
+            offset_x = ((EntityRec *)motion)->x.w.i - 0x20;
+            ((EntityRec *)motion)->unk_0C = (target_x - offset_x) << 0x10 >> 1;
             target_y = ((Rec_D_80082E80 *)sprite)->unk_25 << 6;
-            offset_y = ((Rec_D_800E3D7C *)motion)->unk_04.at02_s16.v - 0x20;
-            ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = (target_y - offset_y) << 0x10 >> 1;
+            offset_y = ((EntityRec *)motion)->y.w.i - 0x20;
+            ((EntityRec *)motion)->unk_10 = (target_y - offset_y) << 0x10 >> 1;
         }
 
         timer = ((S_80172EF4_1 *)action)->unk_96.u - 1;
@@ -137,14 +137,14 @@ increment_state:
             return;
         }
 
-        ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0;
-        ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = 0;
-        ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
+        ((EntityRec *)motion)->flags14 = 0;
+        ((EntityRec *)motion)->unk_10 = 0;
+        ((EntityRec *)motion)->unk_0C = 0;
         func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
 
         (*(void * *)((u8 *)sprite + 0x2C)) = D_80173D0C;
         func_80047784(sprite,
-            D_80173D0C[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            D_80173D0C[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
 
         actor_ref = ((s32)dungeonStatus.unk_10);

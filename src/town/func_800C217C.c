@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/entity_objects.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082D58.h"
 
 s32 func_800352FC(s32 arg0, s32 *arg1, s32 arg2, s32 arg3); /* extern */
 M2C_UNK SD_Call();                     /* extern */
 s32 func_800C2AB4();                          /* extern */
-extern u8 D_80083780[];
 
 /* Advance the actor state on nearby activation or release, playing the activation sound. */
 void func_800BF8DC(Rec_D_80082D58 *actor, s32 *position, s32 check_param, s32 check_mode) {
@@ -33,7 +33,7 @@ check_distance:
             s32 threshold;
             s32 distance;
 
-            distance = *(s32 *)D_80083780;
+            distance = *(s32 *)((u8 *)(&D_80083780));
             check_value = *position;
             distance -= check_value;
             threshold = 0x3FFFFF;

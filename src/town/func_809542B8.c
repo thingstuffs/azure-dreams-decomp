@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/slus_callbacks.h"
 
 typedef struct {
@@ -63,8 +64,6 @@ extern u8 D_80023A00[];
 extern u8 D_80023C80[];
 extern Packed8 D_80024310[];
 extern u8 D_80046398[];
-extern u8 D_80082E80[];
-extern s32 D_80082EA8[];
 extern u8 D_80083498[];
 extern u8 D_800F15E4[];
 extern s32 D_800135B4[];
@@ -244,10 +243,10 @@ value_loop: {
 
     {
         u8 *new_obj;
-        u8 *sprite_state;
+        TileObject *sprite_state;
         s16 frame_offset;
         u8 *child_slot;
-        sprite_state = D_80082E80;
+        sprite_state = &D_80082E80;
         index = 2;
         ASM_KEEP_DEP_NV(index, sprite_state);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         frame_offset = 0xC;
@@ -293,7 +292,7 @@ value_loop: {
         AT(s16, AT(u8 *, obj, 8), 0xA) = template_page;
         AT(s16, sprite, 0x1E) = 0x1000;
         AT(s16, sprite, 0x1C) = 0x1000;
-        AT(s32, sprite, 0x28) = D_80082EA8[0];
+        AT(s32, sprite, 0x28) = D_80082E80.unk_028;
         AT(s16, child_data, 0x2A) = 0x800;
         func_8003DB94(sprite, D_800F15E4, 0);
         AT(s32, sprite, 0xC) = 0x808080;

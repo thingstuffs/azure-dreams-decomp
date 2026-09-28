@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -163,7 +164,7 @@ state_one:
         }
         if ((func_800A2C34(actor) << 16) != 0) {
             if ((func_8009A180(actor,
-                    (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) << 16) != 0) {
+                    (u8 *)((EntityRec *)D_800814A8)->unk_58 + 0x20) << 16) != 0) {
                 goto done;
             }
         }

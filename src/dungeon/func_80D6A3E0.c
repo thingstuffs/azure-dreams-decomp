@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 s32 func_800A2B5C();                          /* extern */
 M2C_UNK func_800A4ACC();                      /* extern */
@@ -24,8 +24,8 @@ typedef struct S_80175BE0_1 {
 
 
 /* Reset motion and transfer the pending amount after the entity checks pass. */
-void func_80175BE0(S_80175BE0_1 *state, Rec_D_800E3D7C *motion, M2C_UNK unused, void *entity) {
-    ((Rec_D_800E3D7C *)entity)->unk_71.as_u8 = (u8) (((Rec_D_800E3D7C *)entity)->unk_71.as_u8 & 0x7F);
+void func_80175BE0(S_80175BE0_1 *state, EntityRec *motion, M2C_UNK unused, void *entity) {
+    ((EntityRec *)entity)->unk_71 = (u8) (((EntityRec *)entity)->unk_71 & 0x7F);
     if (!(dungeonStatus.flags & 0x2000) && ((func_800A2B5C(entity) << 0x10) == 0)) {
         func_800C7930(entity - 0x20, motion, 8, 0x300);
         if ((func_800A2B5C(entity) << 0x10) == 0) {
@@ -33,15 +33,15 @@ void func_80175BE0(S_80175BE0_1 *state, Rec_D_800E3D7C *motion, M2C_UNK unused, 
             state->unk_9A = 0x18;
             state->unk_9B = 0;
             state->unk_96 = 0;
-            motion->unk_14.as_s32 = 0;
-            motion->unk_10.at00_s32.v = 0;
-            motion->unk_0C.as_s32 = 0;
-            state->unk_92 = (u16) (state->unk_92 + ((Rec_D_800E3D7C *)entity)->unk_88.as_u16);
-            state->unk_B4 = (u16) ((Rec_D_800E3D7C *)entity)->unk_88.as_u16;
-            ((Rec_D_800E3D7C *)entity)->unk_88.as_u16 = 0U;
+            motion->flags14 = 0;
+            motion->unk_10 = 0;
+            motion->unk_0C = 0;
+            state->unk_92 = (u16) (state->unk_92 + ((u16)((EntityRec *)entity)->unk_88));
+            state->unk_B4 = (u16) ((u16)((EntityRec *)entity)->unk_88);
+            ((EntityRec *)entity)->unk_88 = 0U;
             state->unk_98 = (u16) (state->unk_98 | 8);
             func_800A4ACC(entity);
-            ((Rec_D_800E3D7C *)entity)->unk_6D.as_u8 = (u8) (((Rec_D_800E3D7C *)entity)->unk_6D.as_u8 - 1);
+            ((EntityRec *)entity)->unk_6D = (u8) (((u8)((EntityRec *)entity)->unk_6D) - 1);
         }
     }
 }

@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 
 typedef struct S_80174C44_0 {
@@ -33,7 +33,7 @@ extern void func_800AAA54(void *, void *, void *, void *);
 extern void func_800AD4D0(void *);
 
 /* Updates timed movement toward the entity's tile and selects the next behavior. */
-void func_80174C44(S_80174C44_0 *controller, Rec_D_800E3D7C *transform, Rec_D_80082E80 *entity, void *actor)
+void func_80174C44(S_80174C44_0 *controller, EntityRec *transform, Rec_D_80082E80 *entity, void *actor)
 {
     s32 state;
     s32 actor_kind;
@@ -64,14 +64,14 @@ state_0:
     func_800AD4D0(actor);
     controller->unk_96.s = 6;
     controller->unk_9B = controller->unk_9B + 1;
-    if (((Rec_D_800E3D7C *)actor)->unk_28 != 0) {
+    if (((EntityRec *)actor)->unk_28 != 0) {
         goto state_0_active;
     }
 
-    transform->unk_14.as_s32 = 0;
-    transform->unk_10.at00_s32.v = 0;
-    transform->unk_0C.as_s32 = 0;
-    actor_kind = ((Rec_D_800E3D7C *)actor)->unk_48.at00_u8.v;
+    transform->flags14 = 0;
+    transform->unk_10 = 0;
+    transform->unk_0C = 0;
+    actor_kind = ((EntityRec *)actor)->unk_48;
     if (actor_kind == 14) {
         goto kind_14;
     }
@@ -98,37 +98,37 @@ state_1:
         goto state_1_nonpositive;
     }
 
-    transform->unk_0C.as_s32 =
+    transform->unk_0C =
         *(s16 *)((u8 *)((s8 *)dirStepX) +
-            ((((Rec_D_800E3D7C *)actor)->unk_6A.as_u16 >> 8) & 0xE)) << 18;
-    transform->unk_10.at00_s32.v =
+            ((((EntityRec *)actor)->unk_6A >> 8) & 0xE)) << 18;
+    transform->unk_10 =
         *(s16 *)((u8 *)((s8 *)dirStepY) +
-            ((((Rec_D_800E3D7C *)actor)->unk_6A.as_u16 >> 8) & 0xE)) << 18;
+            ((((EntityRec *)actor)->unk_6A >> 8) & 0xE)) << 18;
     goto done;
 
 state_1_nonpositive:
     if (timer != 0) {
         goto done;
     }
-    transform->unk_0C.as_s32 =
+    transform->unk_0C =
         *(s16 *)((u8 *)((s8 *)dirStepX) +
-            ((((Rec_D_800E3D7C *)actor)->unk_6A.as_u16 >> 8) & 0xE)) << 18;
-    transform->unk_10.at00_s32.v =
+            ((((EntityRec *)actor)->unk_6A >> 8) & 0xE)) << 18;
+    transform->unk_10 =
         *(s16 *)((u8 *)((s8 *)dirStepY) +
-            ((((Rec_D_800E3D7C *)actor)->unk_6A.as_u16 >> 8) & 0xE)) << 18;
+            ((((EntityRec *)actor)->unk_6A >> 8) & 0xE)) << 18;
     controller->unk_96.s = 12;
     controller->unk_9B = controller->unk_9B + 1;
     goto done;
 
 state_2:
-    if (((Rec_D_800E3D7C *)actor)->unk_28 != 0) {
+    if (((EntityRec *)actor)->unk_28 != 0) {
         goto state_2_active;
     }
 
-    transform->unk_14.as_s32 = 0;
-    transform->unk_10.at00_s32.v = 0;
-    transform->unk_0C.as_s32 = 0;
-    actor_kind = ((Rec_D_800E3D7C *)actor)->unk_48.at00_u8.v;
+    transform->flags14 = 0;
+    transform->unk_10 = 0;
+    transform->unk_0C = 0;
+    actor_kind = ((EntityRec *)actor)->unk_48;
     if (actor_kind == 14) {
         goto kind_14;
     }
@@ -168,17 +168,17 @@ state_2_active:
     timer = controller->unk_96.s;
     if (timer != 0) {
         axis_step = entity->unk_24;
-        axis_pos = transform->unk_00.at02_s16.v;
+        axis_pos = transform->x.w.i;
         axis_step <<= 6;
         axis_pos -= 0x20;
         axis_step -= axis_pos;
         axis_step = (axis_step << 16) / timer;
-        axis_pos = transform->unk_04.at02_s16.v;
-        transform->unk_0C.as_s32 = axis_step;
+        axis_pos = transform->y.w.i;
+        transform->unk_0C = axis_step;
         axis_pos -= 0x20;
         axis_step = (entity->unk_25 << 6) - axis_pos;
         axis_step = (axis_step << 16) / controller->unk_96.s;
-        transform->unk_10.at00_s32.v = axis_step;
+        transform->unk_10 = axis_step;
     }
 
     old_timer = controller->unk_96.u;
@@ -186,16 +186,16 @@ state_2_active:
     if ((s32)(old_timer << 16) > 0) {
         goto done;
     }
-    transform->unk_14.as_s32 = 0;
-    transform->unk_10.at00_s32.v = 0;
-    transform->unk_0C.as_s32 = 0;
+    transform->flags14 = 0;
+    transform->unk_10 = 0;
+    transform->unk_0C = 0;
     controller->unk_9B = controller->unk_9B + 1;
     goto done;
 
 state_3:
-    transform->unk_14.as_s32 = 0;
-    transform->unk_10.at00_s32.v = 0;
-    transform->unk_0C.as_s32 = 0;
+    transform->flags14 = 0;
+    transform->unk_10 = 0;
+    transform->unk_0C = 0;
     func_800A2B04(transform, entity->unk_24, entity->unk_25);
     if (((s32)dungeonStatus.unk_10) == (s32)actor - 0x20) {
         *(s32 *)&dungeonStatus.unk_10 &= 0x7FFFFFFF;

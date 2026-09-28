@@ -7,7 +7,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 from cc import *
 TAG, PAT = sys.argv[1], sys.argv[2]
 LANE_ = Path(__file__).resolve().parent.parent
-busy = set(l.strip() for l in open(LANE_ / "BUSY_ROWS4.txt") if l.strip())
+busy = set(l.strip() for l in open(LANE_ / "BUSY_ROWS5.txt") if l.strip())
 R = row_index()
 files = {}
 for c in ("slus", "main", "town", "dungeon", "ovmovie"):

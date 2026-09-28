@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
@@ -28,7 +29,6 @@ extern s32 func_800A6D30(void);
 extern u16 D_80013714[];
 extern u8 D_800245A8[];
 extern u8 D_8004F5F4[];
-extern s32 D_80082EB0[];
 extern void *D_800DD274[];
 extern void (*D_800DD830[])();
 extern u8 D_800E3544[];
@@ -259,7 +259,7 @@ dispatch_command:
                     ((S_80096384_3 *)actor_data)->unk_8A = 2;
                     D_800E4940[0] = 2;
                     func_8008CF6C(actor, actor_id, sprite, D_8004F5F4);
-                    D_80082EB0[0] = 0;
+                    D_80082E80.unk_030 = 0;
                     ((Rec_func_8008ACDC_arg0 *)actor)->unk_C8 = 0;
                     ((Rec_func_8008ACDC_arg0 *)actor)->unk_104 = 0;
                     return;

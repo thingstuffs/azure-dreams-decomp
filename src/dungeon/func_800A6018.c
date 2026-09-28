@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
@@ -264,7 +265,7 @@ state_case0:
                 goto return_tail;
             }
         } else {
-            ((S_800AB778_21 *)(((Rec_D_800E3D7C *)(((M2C_UNK *)&D_800E3D7C)))->unk_00.at00_pv.v))->unk_110 = 0;
+            ((S_800AB778_21 *)((*(void * *)&((EntityRec *)(((M2C_UNK *)&D_800E3D7C)))->x)))->unk_110 = 0;
         }
         dungeonStatus.unk_0A++;
         next_state = 3;
@@ -286,7 +287,7 @@ state_case3:
         ASM_KEEP_NV(event_mode);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         func_800C542C(state4_event,
             D_800DCED4[event_index],
-            (s32)state4_event == ((S_800AB778_21 *)(((Rec_D_800E3D7C *)(((M2C_UNK *)&D_800E3D7C)))->unk_00.at00_pv.v))->unk_AC, event_mode);
+            (s32)state4_event == ((S_800AB778_21 *)((*(void * *)&((EntityRec *)(((M2C_UNK *)&D_800E3D7C)))->x)))->unk_AC, event_mode);
         state->unk_96.s = 0;
         state->unk_9B = 0x10;
         goto return_zero;
@@ -346,7 +347,7 @@ state4_emit:
     if (actor_slot4 >= 0) {
         void *actor_base4;
 
-        actor_base4 = ((Rec_D_800E3D7C *)(((M2C_UNK *)&D_800E3D7C)))->unk_00.at00_pv.v;
+        actor_base4 = (*(void * *)&((EntityRec *)(((M2C_UNK *)&D_800E3D7C)))->x);
         actor_entry4 = (void *)((actor_slot4 * 4) + (s32)actor_base4);
         actor_entry4->unk_AC = 0;
         actor_entry4->unk_D0 = 0;
@@ -408,7 +409,7 @@ state_case16:
     if (actor_slot16 >= 0) {
         void *actor_base16;
 
-        actor_base16 = ((Rec_D_800E3D7C *)(((M2C_UNK *)&D_800E3D7C)))->unk_00.at00_pv.v;
+        actor_base16 = (*(void * *)&((EntityRec *)(((M2C_UNK *)&D_800E3D7C)))->x);
         actor_entry16 = (void *)((actor_slot16 * 4) + (s32)actor_base16);
         actor_entry16->unk_AC = 0;
         actor_entry16->unk_D0 = 0;

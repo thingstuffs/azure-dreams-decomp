@@ -1,9 +1,9 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity_objects.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
-extern u8 D_80083780[12];
-extern u8 D_80082E80[];
 extern u16 D_800DDE84[];
 extern void func_80041E70(void *);
 extern void func_80042B68(void *, s8);
@@ -32,7 +32,7 @@ s32 func_800BD86C(void *actor, s32 cause, s16 amount)
   if (actor == (((u8 *)D_800E3D7C)))
   {
     *((s32 *) (((s8 *) actor) + 0x110)) = cause;
-    func_8008D330(actor, D_80083780, D_80082E80, actor);
+    func_8008D330(actor, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), actor);
     return 0;
   }
   if (((u32) actor) <= 0x9FFFFFFFU)

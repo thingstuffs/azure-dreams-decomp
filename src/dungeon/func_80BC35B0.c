@@ -3,7 +3,7 @@
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "records/Rec_D_80082E80.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 
 extern void func_80047784(void *, s32, s32);
@@ -64,7 +64,7 @@ start:
         ((S_80172DB0_0 *)action)->unk_9B = 5;
         ((S_80172DB0_0 *)action)->unk_96.u = 0;
         ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x6000;
-        func_8009C12C(actor, sprite, ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16, 1);
+        func_8009C12C(actor, sprite, ((EntityRec *)actor)->facing, 1);
         return;
     }
     ((S_80172DB0_3 *)motion)->unk_14 = 0;
@@ -75,7 +75,7 @@ start:
     }
     (*(u8 * *)((u8 *)sprite + (0x2C))) = D_8017464C;
     func_80047784(sprite,
-        D_8017464C[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+        D_8017464C[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
         0);
     ((S_80172DB0_0 *)action)->unk_96.u = 8;
     ((S_80172DB0_0 *)action)->unk_9B++;
@@ -92,7 +92,7 @@ windup:
     }
     (*(u8 * *)((u8 *)sprite + (0x2C))) = D_80174654;
     func_80047784(sprite,
-        D_80174654[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+        D_80174654[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
         0);
     func_800A56E0(0x707);
     ((S_80172DB0_0 *)action)->unk_96.u = 6;
@@ -100,9 +100,9 @@ windup:
     ((S_80172DB0_0 *)action)->unk_B0 = (s32)0xFFFE0000;
     ((S_80172DB0_0 *)action)->unk_9B++;
     ((S_80172DB0_3 *)motion)->unk_0C =
-        -*(s16 *)(((s8 *)dirStepX) + (((u16)((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 >> 8) & 0xE)) << 18;
+        -*(s16 *)(((s8 *)dirStepX) + (((u16)((EntityRec *)actor)->facing >> 8) & 0xE)) << 18;
     ((S_80172DB0_3 *)motion)->unk_10 =
-        -*(s16 *)(((s8 *)dirStepY) + (((u16)((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 >> 8) & 0xE)) << 18;
+        -*(s16 *)(((s8 *)dirStepY) + (((u16)((EntityRec *)actor)->facing >> 8) & 0xE)) << 18;
     return;
 
 jump:
@@ -110,9 +110,9 @@ jump:
     ((S_80172DB0_0 *)action)->unk_AC += ((S_80172DB0_0 *)action)->unk_B0;
     if (((S_80172DB0_0 *)action)->unk_96.s < 2) {
         ((S_80172DB0_3 *)motion)->unk_0C =
-            *(s16 *)(((s8 *)dirStepX) + (((u16)((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 >> 8) & 0xE)) << 19;
+            *(s16 *)(((s8 *)dirStepX) + (((u16)((EntityRec *)actor)->facing >> 8) & 0xE)) << 19;
         ((S_80172DB0_3 *)motion)->unk_10 =
-            *(s16 *)(((s8 *)dirStepY) + (((u16)((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 >> 8) & 0xE)) << 19;
+            *(s16 *)(((s8 *)dirStepY) + (((u16)((EntityRec *)actor)->facing >> 8) & 0xE)) << 19;
     }
     {
         u16 timer = ((S_80172DB0_0 *)action)->unk_96.u;
@@ -122,7 +122,7 @@ jump:
             return;
         }
     }
-    func_8009C12C(actor, sprite, ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16, 1);
+    func_8009C12C(actor, sprite, ((EntityRec *)actor)->facing, 1);
     ((S_80172DB0_0 *)action)->unk_9B++;
     func_800A56E0(0x804);
     return;
@@ -135,7 +135,7 @@ land:
     }
     (*(u8 * *)((u8 *)sprite + (0x2C))) = D_8017465C;
     func_80047784(sprite,
-        D_8017465C[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+        D_8017465C[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
         0);
     ((S_80172DB0_0 *)action)->unk_9B++;
     ((S_80172DB0_3 *)motion)->unk_10 = 0;
@@ -149,7 +149,7 @@ recenter:
     }
     (*(u8 * *)((u8 *)sprite + (0x2C))) = D_80174664;
     func_80047784(sprite,
-        D_80174664[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+        D_80174664[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
         0);
     ((S_80172DB0_0 *)action)->unk_96.u = 4;
     ((S_80172DB0_0 *)action)->unk_A4 = 0;
@@ -202,5 +202,5 @@ finish:
     ((S_80172DB0_3 *)motion)->unk_0C = 0;
     ((S_80172DB0_3 *)motion)->unk_02 = (((Rec_D_80082E80 *)sprite)->unk_24 << 6) + 0x20;
     ((S_80172DB0_3 *)motion)->unk_06 = (((Rec_D_80082E80 *)sprite)->unk_25 << 6) + 0x20;
-    ((Rec_D_800E3D7C *)actor)->unk_44.at02_u16.v &= 0x7FFF;
+    ((EntityRec *)actor)->unk_46 &= 0x7FFF;
 }

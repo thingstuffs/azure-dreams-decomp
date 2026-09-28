@@ -1,8 +1,9 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_D_800814A8.h"
 
 
@@ -35,8 +36,6 @@ extern void func_8017531C(void *, void *, void *, void *);
 extern void func_801754F0(void *, void *, void *, void *);
 extern void func_80175BE0(void *, void *, void *, void *);
 
-extern u8 D_80082E80[];
-extern s8 D_80082EA4;
 extern u8 D_800DCF5B;
 extern u8 D_800E2348[];
 extern u8 D_800E2358[];
@@ -112,7 +111,7 @@ void func_80171F1C(void *motion_arg, void *actor_index_arg, void *actor_arg, voi
     }
 
 
-    if (((Rec_D_800E3D7C *)move_data)->unk_24.at01_u8.v == 0) {
+    if (((EntityRec *)move_data)->tileY == 0) {
         void *anim_table;
 
         func_800AA79C(motion_arg, actor_index_arg, actor_arg, move_data);
@@ -122,17 +121,17 @@ void func_80171F1C(void *motion_arg, void *actor_index_arg, void *actor_arg, voi
         anim_table = D_800E23A0;
         (*(void * *)((u8 *)actor_arg + (0x2C))) = anim_table;
         func_80047784(actor_arg,
-            ((u8 *)anim_table)[((gameWork.viewAngle + ((Rec_D_800E3D7C *)move_data)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            ((u8 *)anim_table)[((gameWork.viewAngle + ((EntityRec *)move_data)->facing + 0x100) >> 9) & 7],
             0);
         return;
     }
 
-    if (((Rec_D_800E3D7C *)move_data)->unk_1C.as_u32 & 0x200) {
+    if (((u32)((EntityRec *)move_data)->flags1C) & 0x200) {
         if (((S_80171F1C_2 *)actor_arg)->unk_2C == D_800E23A8) {
             ((S_80171F1C_0 *)motion_arg)->unk_9A = 0xD;
             ((S_80171F1C_0 *)motion_arg)->unk_9B = 1;
             ((S_80171F1C_0 *)motion_arg)->unk_8C = 0;
-            ((Rec_D_800E3D7C *)move_data)->unk_1C.as_u32 &= 0xFFFBFFFF;
+            ((EntityRec *)move_data)->flags1C &= 0xFFFBFFFF;
             return;
         }
         if (func_800AA924(motion_arg, actor_index_arg, actor_arg, D_800E23A0) != 0) {
@@ -141,7 +140,7 @@ void func_80171F1C(void *motion_arg, void *actor_index_arg, void *actor_arg, voi
     }
 
     if (!(dungeonStatus.flags & 0x2000)) {
-        if (((Rec_D_800E3D7C *)move_data)->unk_1C.as_u32 & 0x100) {
+        if (((u32)((EntityRec *)move_data)->flags1C) & 0x100) {
             func_800AA258(motion_arg, actor_index_arg, actor_arg, move_data);
             return;
         }
@@ -160,7 +159,7 @@ void func_80171F1C(void *motion_arg, void *actor_index_arg, void *actor_arg, voi
             if (current_anim != anim_table) {
                 (*(void * *)((u8 *)actor_arg + (0x2C))) = anim_table;
                 func_80047784(actor_arg,
-                    ((u8 *)anim_table)[((gameWork.viewAngle + ((Rec_D_800E3D7C *)move_data)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+                    ((u8 *)anim_table)[((gameWork.viewAngle + ((EntityRec *)move_data)->facing + 0x100) >> 9) & 7],
                     0);
                 ((S_80171F1C_2 *)actor_arg)->unk_05 = 1;
                 ((S_80171F1C_0 *)motion_arg)->unk_A2.s = 0;
@@ -168,16 +167,16 @@ void func_80171F1C(void *motion_arg, void *actor_index_arg, void *actor_arg, voi
             }
         }
 
-        ((Rec_D_800E3D7C *)move_data)->unk_1C.as_u32 |= 0x40000;
+        ((EntityRec *)move_data)->flags1C |= 0x40000;
         ((S_80171F1C_0 *)motion_arg)->unk_98 &= 0xFFF7;
 
-        if (((Rec_D_800E3D7C *)move_data)->unk_64.as_s16 != 0) {
+        if (((EntityRec *)move_data)->unk_64 != 0) {
             if (func_800AA6B4(motion_arg, actor_index_arg, actor_arg, D_800E2358) != 0) {
                 return;
             }
         }
 
-        if (((Rec_D_800E3D7C *)move_data)->unk_1C.as_u32 & 0x80000) {
+        if (((u32)((EntityRec *)move_data)->flags1C) & 0x80000) {
             s16 base_height;
 
             func_800AA888(motion_arg, actor_index_arg, actor_arg, move_data);
@@ -197,31 +196,31 @@ void func_80171F1C(void *motion_arg, void *actor_index_arg, void *actor_arg, voi
     room_id = func_8009FB34(((S_80171F1C_2 *)actor_arg)->unk_24.at00.v, ((S_80171F1C_2 *)actor_arg)->unk_24.at01.v);
     ((S_80171F1C_2 *)actor_arg)->unk_26 = room_id;
 
-    if (((Rec_D_800E3D7C *)move_data)->unk_6D.as_s8 > 0) {
-        if (((Rec_D_800E3D7C *)move_data)->unk_1C.as_u32 & 0x20) {
+    if (((EntityRec *)move_data)->unk_6D > 0) {
+        if (((u32)((EntityRec *)move_data)->flags1C) & 0x20) {
             goto special_cleanup;
         }
-        if (((S_80171F1C_2 *)actor_arg)->unk_24.at00u.v == *(u16 *)&D_80082EA4) {
+        if (((S_80171F1C_2 *)actor_arg)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
             goto ordinary_cleanup;
         }
-        if (!(((Rec_D_800E3D7C *)move_data)->unk_44.at02_u16.v & 0x8000)) {
+        if (!(((EntityRec *)move_data)->unk_46 & 0x8000)) {
             if (dungeonStatus.flags & 0x2000) {
                 if ((func_8009A180(move_data,
-                        (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) << 16) != 0) {
+                        (u8 *)((EntityRec *)D_800814A8)->unk_58 + 0x20) << 16) != 0) {
                     return;
                 }
             }
             if ((func_801731DC(motion_arg, actor_index_arg, actor_arg, 0) << 16) == 0) {
                 return;
             }
-            action_state = ((Rec_D_800E3D7C *)move_data)->unk_44.at02_u16.v | 0x4000;
-            ((Rec_D_800E3D7C *)move_data)->unk_44.at02_u16.v = action_state;
+            action_state = ((EntityRec *)move_data)->unk_46 | 0x4000;
+            ((EntityRec *)move_data)->unk_46 = action_state;
             if (!(action_state & 0x8000)) {
                 goto ordinary_cleanup;
             }
         }
 
-        action_state = ((Rec_D_800E3D7C *)move_data)->unk_44.at02_u16.v & 0x3FFF;
+        action_state = ((EntityRec *)move_data)->unk_46 & 0x3FFF;
         {
             u32 idx = action_state - 1;
             if (idx >= 12) {
@@ -246,7 +245,7 @@ guard_case:
         return;
 
 flag_case:
-        if (!(((Rec_D_800E3D7C *)move_data)->unk_1C.as_u32 & 0x20000)) {
+        if (!(((u32)((EntityRec *)move_data)->flags1C) & 0x20000)) {
             goto special_cleanup;
         }
         func_80175BE0(motion_arg, actor_index_arg, actor_arg, move_data);
@@ -254,16 +253,15 @@ flag_case:
 
 coords_case:
         {
-            u8 *origin = D_80082E80;
             void *player;
             s16 heading;
 
             heading = func_800A0818(
                 ((S_80171F1C_2 *)actor_arg)->unk_24.at00.v, ((S_80171F1C_2 *)actor_arg)->unk_24.at01.v,
-                ((S_80171F1C_4 *)origin)->unk_24, ((S_80171F1C_4 *)origin)->unk_25,
+                D_80082E80.tileX, D_80082E80.tileY,
                 &direction_flags);
             player = D_800814A8;
-            ((Rec_D_800E3D7C *)move_data)->unk_2A.as_s16 = heading;
+            ((EntityRec *)move_data)->facing = heading;
             if (((S_80171F1C_5 *)player)->unk_9A == 0x11) {
                 goto aaf_cleanup;
             }
@@ -285,19 +283,18 @@ ordinary_cleanup:
         return;
     }
 
-    if (!(((Rec_D_800E3D7C *)move_data)->unk_1C.as_u32 & 0x2000)) {
+    if (!(((u32)((EntityRec *)move_data)->flags1C) & 0x2000)) {
         s32 room_index = room_id;
 
         if ((room_index < 0) || !(D_800E2970[room_index].flags & 2)) {
-            if (!(((Rec_D_800E3D7C *)move_data)->unk_1C.as_u32 & 0x430)) {
-                u8 *origin = D_80082E80;
+            if (!(((u32)((EntityRec *)move_data)->flags1C) & 0x430)) {
 
                 if ((func_8009FD7C(
                         ((S_80171F1C_2 *)actor_arg)->unk_24.at00.v, ((S_80171F1C_2 *)actor_arg)->unk_24.at01.v,
-                        ((S_80171F1C_4 *)origin)->unk_24, ((S_80171F1C_4 *)origin)->unk_25) << 16) != 0) {
-                    ((Rec_D_800E3D7C *)move_data)->unk_2A.as_s16 = func_800A0818(
+                        D_80082E80.tileX, D_80082E80.tileY) << 16) != 0) {
+                    ((EntityRec *)move_data)->facing = func_800A0818(
                         ((S_80171F1C_2 *)actor_arg)->unk_24.at00.v, ((S_80171F1C_2 *)actor_arg)->unk_24.at01.v,
-                        ((S_80171F1C_4 *)origin)->unk_24, ((S_80171F1C_4 *)origin)->unk_25,
+                        D_80082E80.tileX, D_80082E80.tileY,
                         &direction_flags);
                 }
             }

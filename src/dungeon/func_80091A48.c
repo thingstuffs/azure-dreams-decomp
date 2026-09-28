@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 
 
@@ -19,7 +19,7 @@ extern void func_800A2B04(void *, u8, u8);
 extern void func_800A56E0(s32);
 
 /* Advances timed movement toward a destination and handles completion. */
-void func_800971A8(Rec_func_8008ACDC_arg0 *action, Rec_D_800E3D7C *motion, Rec_D_80082E80 *destination, Rec_D_800E3D7C *actor) {
+void func_800971A8(Rec_func_8008ACDC_arg0 *action, EntityRec *motion, Rec_D_80082E80 *destination, EntityRec *actor) {
     u16 delay;
     u8 state;
     s32 vertical_speed;
@@ -45,7 +45,7 @@ case_a:
     if (state == vertical_speed) vertical_speed = 0xFFF80000;
     else vertical_speed = 0xFFEC0000;
 store_selected:
-    motion->unk_14.as_s32 = vertical_speed;
+    motion->flags14 = vertical_speed;
     func_80099F70(actor->unk_5C);
     func_80099F04(actor->unk_5C);
     dungeonStatus.flags |= 0x812;
@@ -58,17 +58,17 @@ case_b:
     {
         s32 target_x, current_x, current_y;
         target_x = destination->unk_24 << 6;
-        current_x = motion->unk_00.at02_s16.v - 0x20;
-        motion->unk_0C.as_s32 = ((target_x - current_x) << 16) / dungeonStatus.unk_04;
-        current_y = motion->unk_04.at02_s16.v - 0x20;
-        motion->unk_10.at00_s32.v = (((destination->unk_25 << 6) - current_y) << 16) / dungeonStatus.unk_04;
+        current_x = motion->x.w.i - 0x20;
+        motion->unk_0C = ((target_x - current_x) << 16) / dungeonStatus.unk_04;
+        current_y = motion->y.w.i - 0x20;
+        motion->unk_10 = (((destination->unk_25 << 6) - current_y) << 16) / dungeonStatus.unk_04;
     }
 after_div:
     dungeonStatus.unk_04--;
     if (dungeonStatus.unk_04 > 0) goto done;
     dungeonStatus.unk_04 = 0;
-    motion->unk_10.at00_s32.v = 0;
-    motion->unk_0C.as_s32 = 0;
+    motion->unk_10 = 0;
+    motion->unk_0C = 0;
     func_800A2B04(motion, destination->unk_24, destination->unk_25);
     if (action->unk_9B.as_u8 >= 10) {
         dungeonStatus.unk_04 = 1;

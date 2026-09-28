@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
@@ -111,7 +112,6 @@ extern u16 D_80013714;
 extern M2C_UNK D_800245A8;
 extern M2C_UNK D_8004F5F4;
 extern M2C_UNK D_80050CAC;
-extern s32 D_80082EB0;
 extern u8 D_800DCFB0[8];
 extern u8 D_800DD058[];
 extern M2C_UNK D_800DD148;
@@ -217,7 +217,7 @@ check_status:
                     ((S_8008ACDC_4 *)stats)->unk_8A = 2;
                     D_800E4940 = 2;
                     func_8008CF6C(actor, motion, sprite, &D_8004F5F4);
-                    D_80082EB0 = 0;
+                    D_80082E80.unk_030 = 0;
                     ((Rec_func_8008ACDC_arg0 *)actor)->unk_C8 = 0;
                     ((Rec_func_8008ACDC_arg0 *)actor)->unk_104 = 0;
                     goto epilogue;

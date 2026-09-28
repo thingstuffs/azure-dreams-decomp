@@ -2,7 +2,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 typedef s32 M2C_UNK;
 
@@ -183,9 +183,9 @@ copy_existing:
         }
 
 object_ready:
-        position[0] = ((Rec_D_800E3D7C *)motion)->unk_00.at02_u16.v;
-        position[1] = ((Rec_D_800E3D7C *)motion)->unk_04.at02_u16.v;
-        position[2] = ((Rec_D_800E3D7C *)motion)->unk_08.at02_u16.v;
+        position[0] = ((u16)((EntityRec *)motion)->x.w.i);
+        position[1] = ((u16)((EntityRec *)motion)->y.w.i);
+        position[2] = ((u16)((EntityRec *)motion)->z.w.i);
         if (func_800A94A0(object, item_slot, is_special, (u8 *)action + 0x98)) {
             ((S_80172CE8_3 *)actor)->unk_14 &= 0xF7FF;
             func_800A56E0(0x703);
@@ -195,9 +195,9 @@ object_ready:
         goto end;
 
 no_item:
-        ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0;
-        ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = 0;
-        ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
+        ((EntityRec *)motion)->flags14 = 0;
+        ((EntityRec *)motion)->unk_10 = 0;
+        ((EntityRec *)motion)->unk_0C = 0;
         func_800A2B04(motion, ((S_80172CE8_3 *)actor)->unk_24, ((S_80172CE8_3 *)actor)->unk_25);
         dungeonStatus.unk_0C = 0;
         {
@@ -256,9 +256,9 @@ increment_state:
             goto end;
         }
 
-        ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0;
-        ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = 0;
-        ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
+        ((EntityRec *)motion)->flags14 = 0;
+        ((EntityRec *)motion)->unk_10 = 0;
+        ((EntityRec *)motion)->unk_0C = 0;
         func_800A2B04(motion, ((S_80172CE8_3 *)actor)->unk_24, ((S_80172CE8_3 *)actor)->unk_25);
 
         if (((S_80172CE8_3 *)actor)->unk_2C != D_80174C3C) {

@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -74,8 +76,6 @@ typedef struct {
     u16 count;
 } DungeonCounter;
 
-extern u8 D_80082E80[];
-extern u8 D_80083780[12];
 extern u8 D_80083498[];
 extern u8 D_800DEA68[];
 extern u8 D_800D7D30[];
@@ -90,12 +90,11 @@ void func_800D7A78(DungeonState *effect) {
     u16 position_offset[3];
 
     {
-        u8 *position_table = D_80082E80;
+        u8 *position_table = ((u8 *)(&D_80082E80));
         if (func_8003DE58(*(s32 *)(position_table + 8), position_table, position_offset, 0) != 0) {
-            u8 *position_base = D_80083780;
-            effect->x = *(u16 *)(position_base + 2) + position_offset[0];
-            effect->y = *(u16 *)(position_base + 6) + position_offset[1];
-            effect->z = *(u16 *)(position_base + 0xA) + position_offset[2] + 0x20;
+            effect->x = ((u16)D_80083780.x.w.i) + position_offset[0];
+            effect->y = ((u16)D_80083780.y.w.i) + position_offset[1];
+            effect->z = ((u16)D_80083780.z.w.i) + position_offset[2] + 0x20;
         }
     }
 

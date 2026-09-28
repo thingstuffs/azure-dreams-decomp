@@ -1,6 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 
 
@@ -41,7 +41,7 @@ __asm__(".globl func_80921000\n"
 #endif
 
 /* Advance the animation and handle delayed object spawning. */
-void BODY_NAME(Rec_D_800E3D7C *state) {
+void BODY_NAME(EntityRec *state) {
     ByteBuf spawn_data;
     CoordBuf spawn_tile;
     s16 spawn_height;
@@ -51,33 +51,33 @@ void BODY_NAME(Rec_D_800E3D7C *state) {
     u16 anim_offset;
 
     M2C_ERROR(/* Read from unset register $at */) << 0;
-    anim_ticks = state->unk_00.at02_u16.v - 1;
-    state->unk_00.at02_u16.v = anim_ticks;
+    anim_ticks = ((u16)state->x.w.i) - 1;
+    state->x.w.i = anim_ticks;
     if ((anim_ticks << 0x10) <= 0) {
-        state->unk_00.at02_u16.v = 1U;
-        anim_offset = state->unk_04.at02_u16.v + 8;
-        state->unk_04.at02_u16.v = anim_offset;
+        state->x.w.i = 1U;
+        anim_offset = ((u16)state->y.w.i) + 8;
+        state->y.w.i = anim_offset;
         if ((s16) anim_offset >= 0x70) {
-            state->unk_04.at02_u16.v = 0U;
+            state->y.w.i = 0U;
         }
-        func_8003F80C(D_800F6D48 + ((s16) state->unk_04.at02_u16.v * 4), 0x7380, 1, 2);
+        func_8003F80C(D_800F6D48 + ((s16) ((u16)state->y.w.i) * 4), 0x7380, 1, 2);
     }
     if ((func_80033BC0(0xA2) != 0) && ((func_800F61BC(6, 3) << 0x10) == 0) && ((func_800F6208(6, 3) << 0x10) == 0)) {
         u8 *mode;
         mode = D_80081484;
         if ((mode[0] != 3) || (mode[1] != 6)) {
-            if (state->unk_08.at00_s16.v == 0) {
-                state->unk_08.at00_s16.v = 0x40;
+            if ((*(s16 *)&state->z) == 0) {
+                (*(s16 *)&state->z) = 0x40;
                 goto check_spawn_delay;
             }
             goto decrement_spawn_delay;
         }
     }
 check_spawn_delay:
-    if (state->unk_08.at00_s16.v != 0) {
+    if ((*(s16 *)&state->z) != 0) {
 decrement_spawn_delay:
-        spawn_delay = (u16) state->unk_08.at00_s16.v - 1;
-        state->unk_08.at00_s16.v = spawn_delay;
+        spawn_delay = (u16) (*(s16 *)&state->z) - 1;
+        (*(s16 *)&state->z) = spawn_delay;
         if ((spawn_delay << 0x10) == 0) {
             spawn_data.a = 3;
             spawn_data.b = 6;

@@ -1,7 +1,9 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 
 typedef struct {
@@ -47,10 +49,8 @@ extern void *D_800201B0[27];
 
 extern u8 D_800220A8[];
 extern u8 D_80024450[];
-extern u8 D_80082E80[];
 extern u8 D_80083498[];
 extern u8 D_800834B8[];
-extern u8 D_80083780[];
 extern s32 D_80012D5C[3];
 extern s32 D_80024558[3];
 extern s32 D_80100E18[3];
@@ -283,7 +283,7 @@ state0_inner:
 
 state_1:
 {
-    u8 *motion;
+    EntityRec *motion;
     s32 handle;
     s32 payout_scale;
     if (effect->phase == 3) {
@@ -295,10 +295,10 @@ state_1:
     D_80024558[0] = handle;
     ((S_800211A4_3 *)effect)->unk_10 = payout_scale;
     if (func_800352FC(payout_scale) == 0) {
-        motion = D_80083780;
-        ((S_800211A4_4 *)motion)->unk_14 = 0;
-        ((S_800211A4_4 *)motion)->unk_10 = 0;
-        ((S_800211A4_4 *)motion)->unk_0C = 0;
+        motion = &D_80083780;
+        motion->flags14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
         ((S_800211A4_5 *)primitive)->unk_10 = 0;
         func_80093CEC(D_800D0078);
         ((S_800211A4_5 *)primitive)->unk_00 = D_80097D2C;
@@ -358,7 +358,7 @@ state_3_after_shake:
         if (effect->amount > 0) {
             effect->state = 3;
             effect->timer = 9;
-            ((Rec_D_800E3D7C *)D_80083780)->unk_14.as_s32 = -0x240000;
+            ((EntityRec *)((u8 *)(&D_80083780)))->flags14 = -0x240000;
             goto common_done;
         }
         goto common_done;
@@ -375,7 +375,7 @@ state_3_after_shake:
 
 state_4:
 {
-    u8 *motion;
+    EntityRec *motion;
     u16 *prim_angle;
     s16 *timer_ptr;
     s32 *motion_words;
@@ -387,7 +387,7 @@ state_4:
     prim_angle[8] = (prim_angle[8] + 0x200) & 0xFFF;
     if (--*timer_ptr <= 0) {
         *timer_ptr = 10;
-        motion = D_80083780;
+        motion = &D_80083780;
         motion_words = (s32 *)motion;
         target_y = 0x02A00000;
         x_speed = (0x03600000 - motion_words[0]) / effect->timer;
@@ -410,11 +410,11 @@ state_5:
     timer_left = *timer_ptr - 1;
     *timer_ptr = (s16)timer_left;
     if ((s16)timer_left <= 0) {
-        ((Rec_D_800E3D7C *)D_80083780)->unk_00.at00_s32.v = 0x03600000;
-        ((Rec_D_800E3D7C *)D_80083780)->unk_04.at00_s32.v = 0x02A00000;
-        ((Rec_D_800E3D7C *)D_80083780)->unk_10.at00_s32.v = 0;
-        ((Rec_D_800E3D7C *)D_80083780)->unk_0C.as_s32 = 0;
-        ((Rec_D_800E3D7C *)D_80083780)->unk_14.as_s32 = 0x00180000;
+        ((EntityRec *)((u8 *)(&D_80083780)))->x.v = 0x03600000;
+        ((EntityRec *)((u8 *)(&D_80083780)))->y.v = 0x02A00000;
+        ((EntityRec *)((u8 *)(&D_80083780)))->unk_10 = 0;
+        ((EntityRec *)((u8 *)(&D_80083780)))->unk_0C = 0;
+        ((EntityRec *)((u8 *)(&D_80083780)))->flags14 = 0x00180000;
         effect->state = 12;
     }
     goto common_done;
@@ -422,33 +422,33 @@ state_5:
 
 state_6:
 {
-    u8 *motion;
+    EntityRec *motion;
     s32 angle;
-    motion = D_80083780;
+    motion = &D_80083780;
     angle = (((S_800211A4_5 *)primitive)->unk_10 + 0x200) & 0xFFF;
     ((S_800211A4_5 *)primitive)->unk_10 = angle;
-    if (((S_800211A4_4 *)motion)->unk_08 < (s32)0xFF000000 || angle != 0) {
+    if (motion->z.v < (s32)0xFF000000 || angle != 0) {
         goto common_done;
     }
-    ((S_800211A4_4 *)motion)->unk_08 = (s32)0xFF000000;
+    motion->z.v = (s32)0xFF000000;
     effect->state = 4;
-    func_80093D48(primitive, motion, D_80082E80, (s32)0xFF000000);
+    func_80093D48(primitive, motion, ((u8 *)(&D_80082E80)), (s32)0xFF000000);
     func_80093C70();
     goto common_done;
 }
 
 state_7:
 {
-    u8 *motion;
+    EntityRec *motion;
     if ((((s32)controls->unk_010) & 0x40) == 0 ||
         ((S_800211A4_6 *)child)->unk_70 != 2) {
         goto common_done;
     }
     SD_Call(0x50A);
     func_80093CEC(D_800D00A0);
-    motion = D_80083780;
-    ((S_800211A4_4 *)motion)->unk_10 = 0x48000;
-    ((S_800211A4_4 *)motion)->unk_14 = (s32)0xFFF40000;
+    motion = &D_80083780;
+    motion->unk_10 = 0x48000;
+    motion->flags14 = (s32)0xFFF40000;
     effect->count = 0;
     effect->state = 5;
     goto common_done;
@@ -456,16 +456,16 @@ state_7:
 
 state_8:
 {
-    u8 *motion;
+    EntityRec *motion;
     s32 old_count;
     s32 z_speed_limit;
     s32 frame_index;
     z_speed_limit = 0x9FFFF;
-    motion = D_80083780;
-    ((S_800211A4_4 *)motion)->unk_04 += ((S_800211A4_4 *)motion)->unk_10;
-    ((S_800211A4_4 *)motion)->unk_08 += ((S_800211A4_4 *)motion)->unk_14;
-    if (((S_800211A4_4 *)motion)->unk_14 <= z_speed_limit) {
-        ((S_800211A4_4 *)motion)->unk_14 += 0x20000;
+    motion = &D_80083780;
+    motion->y.v += motion->unk_10;
+    motion->z.v += motion->flags14;
+    if (motion->flags14 <= z_speed_limit) {
+        motion->flags14 += 0x20000;
     }
     old_count = (u16)effect->count;
     effect->count = (s16)(old_count + 1);
@@ -487,10 +487,10 @@ counter_c:
     {
         s32 y_speed = 0x18000;
         u8 *animation = D_800D0078;
-        u8 *motion;
-        motion = D_80083780;
-        ((S_800211A4_9 *)motion)->unk_14 = (s32)0xFFF40000;
-        ((S_800211A4_9 *)motion)->unk_10 = y_speed;
+        EntityRec *motion;
+        motion = &D_80083780;
+        motion->flags14 = (s32)0xFFF40000;
+        motion->unk_10 = y_speed;
         func_80093CEC(animation);
     }
     goto counter_done;
@@ -504,21 +504,21 @@ counter_f:
     SD_Call(0x508);
     {
         u8 *animation = D_800D0078;
-        u8 *motion;
-        motion = D_80083780;
-        ((S_800211A4_9 *)motion)->unk_14 = (s32)0xFFF80000;
-        ((S_800211A4_9 *)motion)->unk_10 = 0x20000;
+        EntityRec *motion;
+        motion = &D_80083780;
+        motion->flags14 = (s32)0xFFF80000;
+        motion->unk_10 = 0x20000;
         func_80093CEC(animation);
     }
     goto counter_done;
 counter_g:
     SD_Call(0x508);
-    ((Rec_D_800E3D7C *)D_80083780)->unk_14.as_s32 = (s32)0xFFFC0000;
+    ((EntityRec *)((u8 *)(&D_80083780)))->flags14 = (s32)0xFFFC0000;
     func_80093CEC(D_800D0078);
     goto counter_done;
 counter_h:
     SD_Call(0x508);
-    ((Rec_D_800E3D7C *)D_80083780)->unk_14.as_s32 = (s32)0xFFFC8000;
+    ((EntityRec *)((u8 *)(&D_80083780)))->flags14 = (s32)0xFFFC8000;
     func_80093CEC(D_800D0078);
 
 counter_done:
@@ -527,11 +527,11 @@ counter_done:
     }
     {
         u8 *animation = D_800D0078;
-        u8 *motion;
-        motion = D_80083780;
-        ((S_800211A4_9 *)motion)->unk_14 = (s32)0xFFFB0000;
-        ((S_800211A4_9 *)motion)->unk_10 = 0;
-        ((S_800211A4_9 *)motion)->unk_08 = (s32)0xFFC00000;
+        EntityRec *motion;
+        motion = &D_80083780;
+        motion->flags14 = (s32)0xFFFB0000;
+        motion->unk_10 = 0;
+        motion->z.v = (s32)0xFFC00000;
         func_80093CEC(animation);
     }
     effect->count = 0;
@@ -541,13 +541,13 @@ counter_done:
 
 state_9:
 {
-    u8 *motion;
+    EntityRec *motion;
     s32 *motion_words;
     s32 old_count;
     s32 count_or_addr;
     s32 frame_index;
 
-    motion = D_80083780;
+    motion = &D_80083780;
     motion_words = (s32 *)motion;
     motion_words[2] += motion_words[5];
     motion_words[5] += 0x10000;
@@ -569,7 +569,7 @@ counter_j:
     goto counter9_done;
 counter_k:
     SD_Call(0x508);
-    ((Rec_D_800E3D7C *)D_80083780)->unk_14.as_s32 = (s32)0xFFFC0000;
+    ((EntityRec *)((u8 *)(&D_80083780)))->flags14 = (s32)0xFFFC0000;
     func_80093CEC(D_800D0078);
     goto counter9_done;
 counter_l:
@@ -588,11 +588,11 @@ counter9_done:
     }
     {
         u8 *animation = D_800D0078;
-        u8 *motion;
+        EntityRec *motion;
         ((S_800211A4_6 *)child)->unk_70 = 4;
-        motion = D_80083780;
-        ((S_800211A4_9 *)motion)->unk_14 = 0;
-        ((S_800211A4_9 *)motion)->unk_08 = (s32)0xFFC00000;
+        motion = &D_80083780;
+        motion->flags14 = 0;
+        motion->z.v = (s32)0xFFC00000;
         func_80093CEC(animation);
     }
     effect->count = 3;
@@ -603,12 +603,12 @@ counter9_done:
 state_10:
 {
     s32 orbit_component;
-    u8 *motion;
+    EntityRec *motion;
     s32 *motion_words;
     s16 *timer_ptr;
     orbit_component = effect->timer;
     orbit_component = func_800644B8(0x1000 - orbit_component);
-    motion = D_80083780;
+    motion = &D_80083780;
     motion_words = (s32 *)motion;
     motion_words[0] = (s32)((u32)(orbit_component * 5) << 9) + 0x03600000;
     timer_ptr = (s16 *)((u8 *)effect + 0x1A);
@@ -752,7 +752,7 @@ state_12_amount:
     effect->ticks = 0;
     effect->state = 0;
     effect->flags |= 0xA;
-    func_80093D48(primitive, D_80083780, D_80082E80);
+    func_80093D48(primitive, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)));
 }
 
 common_done:

@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/game_work.h"
 
 typedef struct ActionActor { u8 pad[0x8C]; s32 action; } ActionActor;
 
 extern u16 D_80013714[];
-extern s32 D_80082EB8;
 extern s32 D_800E296C;
 extern s32 D_800E4938[];
 
@@ -24,7 +24,7 @@ void func_8008CF6C(void *actor, s32 unused_1, s32 unused_2, s32 action_value) {
             D_800E4938[0] = action_value;
             *(u8 *)((u8 *)actor + 0x9B) = 0;
             ((ActionActor *)actor)->action = 0;
-            D_80082EB8 = 0;
+            D_80082E80.unk_038 = 0;
             D_800E296C |= 0x2000;
         }
     }

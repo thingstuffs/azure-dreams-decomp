@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 
@@ -21,7 +22,6 @@ typedef struct AreaRecord {
     u8 pad[12];
 } AreaRecord;
 
-extern u8 D_80082EA6;
 extern u32 D_800835E4[];
 extern u8 D_800E1C3A;
 extern s8 D_800E2968;
@@ -73,7 +73,7 @@ void func_800CEA44(void *den_event) {
         {
             u32 area_byte;
 
-            area_byte = D_80082EA6;
+            area_byte = ((u8)D_80082E80.unk_026);
             area_index = (s8)area_byte;
             if ((s32)(area_byte << 24) < 0) {
                 goto initial_done;

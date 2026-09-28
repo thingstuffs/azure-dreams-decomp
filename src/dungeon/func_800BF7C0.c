@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity_objects.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 
@@ -109,7 +110,6 @@ s32 func_800644B8();
 s32 func_80064584();
 s32 func_80069EF8();
 M2C_UNK func_800A56E0();
-extern M2C_UNK D_80083780;
 
 /* Updates an object's staged scale and position animation. */
 void func_800C4F20(void *anim, S_800C4F20_5 *position, void *transform_in) {
@@ -193,7 +193,7 @@ tick_grow:
     }
 jt_c1:
     orbit_offset = func_80064584(((S_800C4F20_0 *)anim)->unk_2E);
-    orbit_center = &D_80083780;
+    orbit_center = &D_80083780.x.v;
     target_x = orbit_center->unk_02 + (orbit_offset >> 6);
     target_y = orbit_center->unk_06 + (func_800644B8(((S_800C4F20_0 *)anim)->unk_2E) >> 6);
     x_delta = target_x - position->unk_02;

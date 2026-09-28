@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
@@ -57,7 +58,6 @@ extern u8 D_8006CCD8_bytes[] __asm__("D_8006CCD8");
 extern u8 D_8006CCE8_bytes[] __asm__("D_8006CCE8");
 extern DungeonEntry D_800E2970[];
 extern s16 D_8006CD00[];
-extern u16 D_80082EA4[8];
 M2C_UNK func_8009A3D0();
 s32 func_8009A180();
 s32 func_8009A21C();
@@ -212,7 +212,7 @@ try_heading:
                     next_index = turn_index + 1;
                     goto increment_index;
                 }
-                if (*D_80082EA4 == position->unk_24.at00u.v) {
+                if (*(u16 *)(&D_80082E80.tileX) == position->unk_24.at00u.v) {
                     next_index = turn_index + 1;
                     goto increment_index;
                 }

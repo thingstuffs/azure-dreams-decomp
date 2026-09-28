@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/dungeon_status.h"
 
 typedef struct {
@@ -25,7 +26,6 @@ extern s16 D_80013716;
 extern s16 D_80013718;
 extern s16 D_8001371A;
 extern void *D_8001371C;
-extern u8 D_80082E80[];
 extern u16 D_800834E2;
 extern s32 D_800E296C;
 extern u8 D_80173C8C[];
@@ -68,7 +68,7 @@ void func_8016EFAC(void)
     D_800E296C |= 0x200000;
     object_state = active_object + 0x20;
     direction = func_800A0818(position_data[0x24], position_data[0x25],
-                           D_80082E80[0x24], D_80082E80[0x25], &unused_result);
+                           D_80082E80.tileX, D_80082E80.tileY, &unused_result);
     *(u16 *)(object_state + 0x2A) = direction;
     direction >>= 7;
     D_80175DC8 = 0;

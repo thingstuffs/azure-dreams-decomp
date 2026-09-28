@@ -1,8 +1,9 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_D_800814A8.h"
 #include "records/Rec_func_80173204_arg0.h"
 
@@ -57,20 +58,19 @@ extern void func_800AA79C(void *, s32, void *, void *);
 extern void func_800AA888(void *, s32, void *, void *);
 extern void func_80173A20(void *, s32, void *, void *);
 
-extern s32 D_80082E80;
 extern u8 D_80170E54;
 extern u8 D_80173C9C[];
 extern u8 D_80173CA4[];
 
 /* Updates entity state, directional animation, and color fading. */
-void func_80173204(Rec_func_80173204_arg0 *controller, s32 update_mode, S_80173204_1 *sprite, Rec_D_800E3D7C *entity)
+void func_80173204(Rec_func_80173204_arg0 *controller, s32 update_mode, S_80173204_1 *sprite, EntityRec *entity)
 {
     s32 state;
     s32 flags;
     s8 floor;
     register u8 *status ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *counter_base;
-    u8 *floor_base;
+    TileObject *floor_base;
     u8 *status_page;
 
     if (controller->unk_9B < 2U) {
@@ -99,14 +99,14 @@ dispatch:
     goto done;
 
 state_0:
-    entity->unk_1C.as_s32 |= 0x10000000;
+    entity->flags1C |= 0x10000000;
     if (!(sprite->unk_14 & 0xE000)) {
         goto done;
     }
     sprite->unk_2C = D_80173C9C;
     func_80047784(
         sprite,
-        D_80173C9C[((gameWork.viewAngle + entity->unk_2A.as_s16 + 0x100) >> 9) & 7],
+        D_80173C9C[((gameWork.viewAngle + entity->facing + 0x100) >> 9) & 7],
         0);
     counter_base = ((u8 *)(&dungeonStatus));
     ((S_80173204_3 *)counter_base)->unk_0A =
@@ -119,11 +119,11 @@ state_1:
         sprite->unk_2C = D_80173CA4;
         func_80047784(
             sprite,
-            D_80173CA4[((gameWork.viewAngle + entity->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            D_80173CA4[((gameWork.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         if (sprite->unk_14 & 0x8000) {
-            entity->unk_1C.as_s32 &= ~0x200;
-            entity->unk_1C.as_s32 &= 0xEFFFFFFF;
+            entity->flags1C &= ~0x200;
+            entity->flags1C &= 0xEFFFFFFF;
             sprite->unk_0C.s32 = 0x808080;
             controller->unk_8C.as_pu8 = &D_80170E54;
             goto done;
@@ -138,12 +138,12 @@ state_1:
     if (((S_80173204_4 *)status)->unk_02 & 0x1000) {
         goto done;
     }
-    if (entity->unk_64.as_s16 != 0) {
+    if (entity->unk_64 != 0) {
         if (func_800AA6B4(controller, update_mode, sprite, 0) != 0) {
             goto done;
         }
     }
-    if (entity->unk_24.at01_u8.v == 0) {
+    if (entity->tileY == 0) {
         if (((S_80173204_4 *)status)->unk_02 & 0x2008) {
             goto done;
         }
@@ -154,7 +154,7 @@ state_1:
         goto done;
     }
 
-    flags = entity->unk_1C.as_s32;
+    flags = entity->flags1C;
     if (flags & 0x100) {
         func_800AA258(controller, update_mode, sprite, entity);
         goto done;
@@ -164,22 +164,22 @@ state_1:
         func_80173A20(controller, update_mode, sprite, entity);
         goto done;
     }
-    if (entity->unk_6D.as_s8 == 0) {
+    if (entity->unk_6D == 0) {
         goto done;
     }
     if ((func_800A2C34(entity) << 16) != 0) {
         if ((func_8009A180(
                  entity,
-                 ((Rec_D_800814A8 *)D_800814A8)->unk_58.as_s32 + 0x20) << 16) != 0) {
+                 ((s32)((EntityRec *)D_800814A8)->unk_58) + 0x20) << 16) != 0) {
             goto done;
         }
     }
     func_800A9A0C(entity);
     func_800A9A04(entity);
     if ((func_80042900(entity, 1) << 16) != 0) {
-        floor_base = (u8 *)&D_80082E80;
+        floor_base = &D_80082E80;
         floor = sprite->unk_26;
-        if (!((floor == ((S_80173204_6 *)floor_base)->unk_26) && (floor >= 0))) {
+        if (!((floor == floor_base->unk_026) && (floor >= 0))) {
             if (func_8009FD40(floor_base, sprite) >= 2) {
                 goto second_check;
             }
@@ -196,11 +196,11 @@ second_check:
     sprite->unk_2C = D_80173CA4;
     func_80047784(
         sprite,
-        D_80173CA4[((gameWork.viewAngle + entity->unk_2A.as_s16 + 0x100) >> 9) & 7],
+        D_80173CA4[((gameWork.viewAngle + entity->facing + 0x100) >> 9) & 7],
         0);
     if (sprite->unk_14 & 0x8000) {
-        entity->unk_1C.as_s32 &= ~0x200;
-        entity->unk_1C.as_s32 &= 0xEFFFFFFF;
+        entity->flags1C &= ~0x200;
+        entity->flags1C &= 0xEFFFFFFF;
         sprite->unk_0C.s32 = 0x808080;
         controller->unk_8C.as_pu8 = &D_80170E54;
         goto done;
@@ -227,9 +227,9 @@ state_2:
         u8 *counter = ((u8 *)(&dungeonStatus));
         ((S_80173204_7 *)counter)->unk_0A--;
     }
-    entity->unk_1C.as_s32 &= 0xEFFFFFFF;
+    entity->flags1C &= 0xEFFFFFFF;
     sprite->unk_0C.s32 = 0x808080;
-    entity->unk_1C.as_s32 &= ~0x200;
+    entity->flags1C &= ~0x200;
     controller->unk_8C.as_pu8 = &D_80170E54;
 
 done:

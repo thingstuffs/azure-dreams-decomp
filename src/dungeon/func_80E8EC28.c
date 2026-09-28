@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
@@ -46,7 +47,6 @@ typedef struct S_80174428_3 {
 } S_80174428_3;   /* motion in func_80174428 */
 
 extern s16 D_80081468[3];
-extern u8 D_80082E80[];
 extern u8 D_801710F4[];
 extern u8 D_80174EF8[];
 extern u8 D_80174F00[];
@@ -79,7 +79,7 @@ void func_80174428(void *state, void *motion, void *actor, void *object)
     register u32 raw_direction;
     s16 height;
     register s32 attempts_left ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    u8 *world;
+    TileObject *world;
     s16 *level;
     u32 state_id;
     x_step_ptr = (s16 *)((u8 *)dirStepX);
@@ -119,7 +119,7 @@ case_0:
     ((S_80174428_3 *)motion)->unk_0C = 0;
     (*(u8 * *)((u8 *)actor + 0x2C)) = D_80174F58;
     func_80047784(actor,
-        D_80174F58[((*(s16 *)(D_80082E80 + 0x3A8) +
+        D_80174F58[((*(s16 *)(((u8 *)(&D_80082E80)) + 0x3A8) +
             ((S_80174428_0 *)object)->unk_2A.u + 0x100) >> 9) & 7], 0);
     ((S_80174428_1 *)state)->unk_96.s = 0;
     ((S_80174428_3 *)motion)->unk_0C = (-x_step) << 18;
@@ -169,7 +169,7 @@ case_4:
     }
     func_80047784(actor, 0x38, 0);
     attempts_left = 0x40;
-    world = D_80082E80;
+    world = &D_80082E80;
     level = D_80081468;
     ((S_80174428_1 *)state)->unk_96.s = 0;
     x_step = ((S_80174428_2 *)actor)->unk_24;
@@ -188,7 +188,7 @@ case_4_check:
             goto case_4_check;
         }
         attempts_left++;
-        if (direction_offset != (s8)world[0x26]) {
+        if (direction_offset != (s8)((u8)world->unk_026)) {
             goto case_4_position;
         }
         attempts_left--;

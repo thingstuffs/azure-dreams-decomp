@@ -1,4 +1,7 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity_objects.h"
+#include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -12,21 +15,19 @@ M2C_UNK func_800A5F38();
 M2C_UNK func_800A63B8();
 s32 func_800AD6FC();
 s32 func_800C8900();
-extern u8 D_80082E80[];
-extern u8 D_80083780[];
 extern u16 D_800DDE84[];
 
 /* Handle item use on a target, deferring the player action or consuming the item. */
-s32 func_800C3238(Rec_D_800E3D7C *target, s32 item, s16 use_type) {
+s32 func_800C3238(EntityRec *target, s32 item, s16 use_type) {
     if (target == D_800E3D7C) {
         target->unk_110 = item;
-        func_8008D330(target, D_80083780, D_80082E80, target);
+        func_8008D330(target, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), target);
         return 0;
     }
     if ((s32)target <= 0x9FFFFFFFU) {
         func_800A63B8(target, item, use_type);
         if (func_800AD6FC(target,
-                         (D_800DDE84[target->unk_10.at03_u8.v] >> 6) & 3,
+                         (D_800DDE84[(*(u8 *)((u8 *)&target->unk_10 + 3))] >> 6) & 3,
                          0) == 0) {
             func_800A5F38(target, item);
             return 1;

@@ -1,12 +1,12 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity_objects.h"
+#include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 
 
-extern u8 D_80082E80[];
-extern s32 D_80082EB0[];
-extern u8 D_80083780[];
 extern u16 D_800DDE84[];
 extern u8 D_800E14D8[];
 extern u8 D_800E14EB[];
@@ -39,7 +39,7 @@ typedef struct S_800C1B1C_2 {
 } S_800C1B1C_2;   /* ((S_800C1B1C_1 *)base)->unk_04 in func_800C1B1C */
 
 /* Apply a target action or update the current item and display its result message. */
-s32 func_800C1B1C(Rec_D_800E3D7C *target, s32 action, s16 action_type, s32 action_arg)
+s32 func_800C1B1C(EntityRec *target, s32 action, s16 action_type, s32 action_arg)
 {
     s32 *item_state;
     s32 message;
@@ -51,20 +51,20 @@ s32 func_800C1B1C(Rec_D_800E3D7C *target, s32 action, s16 action_type, s32 actio
 
     if (target == ((u8 *)D_800E3D7C)) {
         target->unk_110 = action;
-        func_8008D344(target, D_80083780, D_80082E80, target);
+        func_8008D344(target, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), target);
         return 0;
     }
 
     if ((u32)target <= 0x9FFFFFFF) {
         func_800A6480(target, action, action_type);
         if (func_800AD6FC(
-                target, D_800DDE84[target->unk_10.at03_u8.v] & 3, 0) == 0) {
+                target, D_800DDE84[(*(u8 *)((u8 *)&target->unk_10 + 3))] & 3, 0) == 0) {
             func_800A5F38(target, action);
             return 1;
         }
     } else {
         message = func_800990FC();
-        item_state = D_80082EB0;
+        item_state = ((s32 *)(&D_80082E80.unk_030));
         if (((S_800C1B1C_2 *)(((S_800C1B1C_1 *)item_state)->unk_04))->unk_01 == 4) {
             message_end = func_80099194(
                 D_800E14EB,

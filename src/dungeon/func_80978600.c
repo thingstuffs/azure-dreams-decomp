@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "records/Rec_func_800AA258_arg2.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_func_8017360C_arg0.h"
 
 
@@ -30,7 +30,7 @@ void func_80173E00(s32 controller, s32 update_arg, void *sprite, void *actor)
             func_80047784(
                 sprite,
                 D_801740E8[
-                    ((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+                    ((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
                 0);
         }
         goto update_actor;
@@ -45,7 +45,7 @@ void func_80173E00(s32 controller, s32 update_arg, void *sprite, void *actor)
     func_80047784(
         sprite,
         D_801740E0[
-            ((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            ((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
         0);
 
 update_actor:
@@ -54,11 +54,11 @@ update_actor:
             ((Rec_func_8017360C_arg0 *)controller)->unk_8C.as_pu8 = &D_801714D4;
         }
     } else if ((((Rec_func_800AA258_arg2 *)sprite)->unk_2C.as_pu8 == D_80174158) &&
-               !(((Rec_D_800E3D7C *)actor)->unk_1C.as_s32 & 0x208)) {
+               !(((EntityRec *)actor)->flags1C & 0x208)) {
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801740E0;
         func_80047784(
             sprite,
-            D_801740E0[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            D_801740E0[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
     }
 }

@@ -1,6 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 typedef struct S_80171020_4 {
     u8 pad_00[0x8];
@@ -70,7 +70,7 @@ typedef struct S_80171020_3 {
 } S_80171020_3;   /* temp_a2_2 in func_80171020 */
 
 /* Spawns an effect at an offset from its parent with randomized velocity. */
-void func_80171020(Rec_D_800E3D7C *parent, s16 effect_id, s32 effect_param, s32 unused, volatile s32 x_offset, volatile s32 y_offset, volatile s32 z_offset) {
+void func_80171020(EntityRec *parent, s16 effect_id, s32 effect_param, s32 unused, volatile s32 x_offset, volatile s32 y_offset, volatile s32 z_offset) {
     register s32 offset_x = x_offset;
     register s32 offset_y = y_offset;
     register s32 offset_z = z_offset;
@@ -86,9 +86,9 @@ void func_80171020(Rec_D_800E3D7C *parent, s16 effect_id, s32 effect_param, s32 
         return;
     }
     ((S_80171020_0 *)effect)->unk_10 = &D_80170F0C;
-    ((S_80171020_6 *)(((S_80171020_4 *)effect)->unk_08))->unk_02 = (s16) (((S_80171020_7 *)(parent->unk_08.at00_pv.v))->unk_02 + offset_x);
-    ((S_80171020_6 *)(((S_80171020_4 *)effect)->unk_08))->unk_06 = (s16) (((S_80171020_7 *)(parent->unk_08.at00_pv.v))->unk_06 + offset_y);
-    ((S_80171020_6 *)(((S_80171020_4 *)effect)->unk_08))->unk_0A = (s16) (((S_80171020_7 *)(parent->unk_08.at00_pv.v))->unk_0A + offset_z);
+    ((S_80171020_6 *)(((S_80171020_4 *)effect)->unk_08))->unk_02 = (s16) (((S_80171020_7 *)((*(void * *)&parent->z)))->unk_02 + offset_x);
+    ((S_80171020_6 *)(((S_80171020_4 *)effect)->unk_08))->unk_06 = (s16) (((S_80171020_7 *)((*(void * *)&parent->z)))->unk_06 + offset_y);
+    ((S_80171020_6 *)(((S_80171020_4 *)effect)->unk_08))->unk_0A = (s16) (((S_80171020_7 *)((*(void * *)&parent->z)))->unk_0A + offset_z);
     effect_state = effect + 0x20;
     effect_state->unk_40 = (s32) (((rand() & 0x7FFF) - 0x4000) * 0x10);
     effect_state->unk_44 = (s32) (((rand() & 0x7FFF) - 0x4000) * 0x10);

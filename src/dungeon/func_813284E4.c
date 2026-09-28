@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
@@ -82,10 +84,8 @@ void func_800A9A0C(void *);
 extern void call_800A9A0C_top(void *) __asm__("func_800A9A0C");
 s16 func_800BCB04(s32, s32, s32);
 extern s16 D_8006CD00[];
-extern u8 D_80082E80[];
 extern u8 D_80082E80_b[] __asm__("D_80082E80");
 extern u8 D_80082E80_c[] __asm__("D_80082E80");
-extern u16 D_80082EA4;
 
 static __inline__ u8 advance_tile(u8 tile, const u8 *table, u16 index) { return tile + *(const u8 *)((u32)index + (u32)table); }
 
@@ -147,7 +147,7 @@ void func_8016FCE4(void *move_state, void *unused, void *position_in, void *acto
         if (!(((S_8016FCE4_0 *)actor_in)->unk_46 & 0x8000)) {
             if (move_flags & 0x20000) {
                 u8 **heading_ref = &D_800814A8;
-                register u8 *position_base = D_80082E80;
+                TileObject *position_base = &D_80082E80;
                 u8 *heading_base;
                 u8 *x_table_base;
                 s32 dir_index;
@@ -155,8 +155,8 @@ void func_8016FCE4(void *move_state, void *unused, void *position_in, void *acto
                 x_table_base = ((u8 *)dirStepX);
                 heading_base = *heading_ref;
                 dir_index = ((((S_8016FCE4_0 *)actor_in)->unk_45 + ((s32) (((S_8016FCE4_4 *)heading_base)->unk_2A << 0x10) >> 0x19)) & 7) * 2;
-                target_x = position_base[0x24] + *(u16 *)(x_table_base + dir_index);
-                target_y = D_80082E80[0x25] + *(u16 *)(((u8 *)dirStepY) + dir_index);
+                target_x = position_base->tileX + *(u16 *)(x_table_base + dir_index);
+                target_y = D_80082E80.tileY + *(u16 *)(((u8 *)dirStepY) + dir_index);
                 if ((((S_8016FCE4_1 *)position_in)->unk_24.at00.v != (target_x & 0xFFFF)) || (((S_8016FCE4_1 *)position_in)->unk_24.at01.v != (target_y & 0xFFFF))) {
                     heading_state = move_state + 0x98;
                     target_heading = func_800A0818(((S_8016FCE4_1 *)position_in)->unk_24.at00.v, ((S_8016FCE4_1 *)position_in)->unk_24.at01.v, (s16) target_x, (s16) target_y, heading_state);
@@ -220,7 +220,7 @@ take_step:
                 goto check_step;
             }
         }
-        if ((turn_index != 0) || (D_80082EA4 == ((S_8016FCE4_1 *)position_in)->unk_24.at00u.v) || ((func_8009A180(actor_in, ((Rec_D_800814A8 *)((u8 *)D_800814A8))->unk_58.as_s32 + 0x20) << 0x10) == 0)) {
+        if ((turn_index != 0) || (*(u16 *)(&D_80082E80.tileX) == ((S_8016FCE4_1 *)position_in)->unk_24.at00u.v) || ((func_8009A180(actor_in, ((s32)((EntityRec *)((u8 *)D_800814A8))->unk_58) + 0x20) << 0x10) == 0)) {
             turn_index += 1;
             turn_offsets += 1;
         } else {

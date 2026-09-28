@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_func_800D6DC0_arg2.h"
@@ -48,7 +49,6 @@ typedef struct S_80175594_3 {
 
 
 
-extern u8 D_80082E80[];
 extern u8 D_800E2348[];
 extern u8 D_800E23B8[];
 extern u8 D_800E23C0[];
@@ -87,7 +87,6 @@ void func_80175594(void *motion, void *position, void *entity, void *object_in)
     s32 entity_y;
     u8 old_x;
     u8 old_y;
-    u8 *reference_entity;
     u8 *animations;
 
 
@@ -229,7 +228,6 @@ case_7:
     func_8009A3D0(((Rec_func_800D6DC0_arg2 *)entity)->unk_24, ((Rec_func_800D6DC0_arg2 *)entity)->unk_25,
         (((S_80175594_3 *)object)->unk_1C & 0x2000) ? 0x300 : 0x3000);
     tries_left = 0x20;
-    reference_entity = D_80082E80;
     old_x = ((Rec_func_800D6DC0_arg2 *)entity)->unk_24;
     old_y = ((Rec_func_800D6DC0_arg2 *)entity)->unk_25;
     do {
@@ -237,11 +235,11 @@ case_7:
             tile_result = func_800A4E2C((u8 *)entity + 0x24, (u8 *)entity + 0x25);
         } if (tile_result < 0) goto loop_3;
 
-        dx = reference_entity[0x24];
+        dx = D_80082E80.tileX;
         dy = ((Rec_func_800D6DC0_arg2 *)entity)->unk_24;
         entity_y = ((Rec_func_800D6DC0_arg2 *)entity)->unk_25;
         dx -= dy;
-        dy = reference_entity[0x25];
+        dy = D_80082E80.tileY;
         if (dx < 0) {
             dx = -dx;
         }

@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 extern int abs(int);
 
 
 extern u16 D_80013714;
-extern u8 D_80082E80[];
 extern s32 D_800E296C[];
 
 
@@ -35,7 +35,7 @@ typedef struct S_800A5C70_2 {
 /* Checks buttons and state, rejecting eligible entries within four tiles on both axes. */
 s32 func_800A5C70(void) {
     u16 buttons;
-    u8 *origin_coords;
+    TileObject *origin_coords;
     void **entry_addr;
     void *entry;
     void *first_entry;
@@ -54,7 +54,7 @@ s32 func_800A5C70(void) {
         return 0;
     }
 
-    origin_coords = D_80082E80;
+    origin_coords = &D_80082E80;
     first_entry = entry;
     do {
         if (!(((S_800A5C70_0 *)entry)->unk_1C & 0x2208)) {
@@ -63,9 +63,9 @@ s32 func_800A5C70(void) {
             s32 abs_axis_distance_2;
 
             entry_coords = ((S_800A5C70_0_pre *)entry)[-1].unk_00;
-            abs_axis_distance = abs((((S_800A5C70_1 *)origin_coords)->unk_24) - (entry_coords->unk_24));
+            abs_axis_distance = abs((origin_coords->tileX) - (entry_coords->unk_24));
             if (abs_axis_distance < 5) {
-                abs_axis_distance_2 = abs((((S_800A5C70_1 *)origin_coords)->unk_25) - (entry_coords->unk_25));
+                abs_axis_distance_2 = abs((origin_coords->tileY) - (entry_coords->unk_25));
                 if (abs_axis_distance_2 < 5) {
                     return 0;
                 }

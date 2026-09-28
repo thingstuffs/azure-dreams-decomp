@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
@@ -124,8 +126,6 @@ extern s16 func_800BCB04();
 extern s32 func_80173734();
 
 extern s16 D_8006CD00;
-extern u8 D_80082E80[];
-extern s8 D_80082EA4;
 extern s8 D_800E2970[];
 
 /* Select a movement direction, move the actor, and update its path history and height. */
@@ -221,9 +221,9 @@ void func_80172F58(u8 *move_input, void *action_context, u8 *position_input, u8 
             s16 new_angle;
             u8 *target;
 
-            target = (u8 *)&D_80082EA4 - 0x24;
+            target = (u8 *)(&D_80082E80.tileX) - 0x24;
             direction = (((S_80172F58_1 *)actor)->unk_45 +
-                         ((s32)(((Rec_D_800814A8 *)D_800814A8)->unk_2A.as_u16 << 16) >> 25)) & 7;
+                         ((s32)(((u16)((EntityRec *)D_800814A8)->facing) << 16) >> 25)) & 7;
             target_x = ((S_80172F58_6 *)target)->unk_24 +
                        ((u16 *)((s8 *)dirStepX))[direction];
             target_y = ((S_80172F58_6 *)target)->unk_25 +
@@ -236,7 +236,7 @@ void func_80172F58(u8 *move_input, void *action_context, u8 *position_input, u8 
                                       target_x, (s16)target_y, move_input + 0x98);
             ((S_80172F58_1 *)actor)->unk_2A.u = new_angle;
             if ((func_8009A66C(new_angle, position, actor, 0x20) << 16) <= 0) {
-                u8 *retry_target = D_80082E80;
+                u8 *retry_target = ((u8 *)(&D_80082E80));
 
                 ((S_80172F58_1 *)actor)->unk_2A.u = func_800A0818(
                     ((S_80172F58_2 *)position)->unk_24.at00.v, ((S_80172F58_2 *)position)->unk_24.at01.v,
@@ -244,7 +244,7 @@ void func_80172F58(u8 *move_input, void *action_context, u8 *position_input, u8 
                     move_input + 0x98);
             }
             {
-                u8 *check_target = D_80082E80;
+                u8 *check_target = ((u8 *)(&D_80082E80));
 
                 if ((func_8009FD7C(((S_80172F58_2 *)position)->unk_24.at00.v, ((S_80172F58_2 *)position)->unk_24.at01.v,
                                    ((S_80172F58_8 *)check_target)->unk_24,
@@ -284,7 +284,7 @@ void func_80172F58(u8 *move_input, void *action_context, u8 *position_input, u8 
         goto clear_history;
     }
     if (((S_80172F58_1 *)actor)->unk_1C & 0x20000) {
-        u8 *target = D_80082E80;
+        u8 *target = ((u8 *)(&D_80082E80));
         ((S_80172F58_1 *)actor)->unk_2A.u = func_800A0818(
             ((S_80172F58_2 *)position)->unk_24.at00.v, ((S_80172F58_2 *)position)->unk_24.at01.v,
             ((S_80172F58_6 *)target)->unk_24, ((S_80172F58_6 *)target)->unk_25, move_input + 0x98);
@@ -363,8 +363,8 @@ loop:
     }
 
     if (attempt == 0) {
-        if ((((S_80172F58_11 *)(&D_80082EA4))->unk_00 != ((S_80172F58_2 *)position)->unk_24.at00u.v) &&
-            ((s16)func_8009A180(actor, ((Rec_D_800814A8 *)D_800814A8)->unk_58.as_s32 + 0x20) != 0)) {
+        if ((((S_80172F58_11 *)(((s8 *)&D_80082E80.tileX)))->unk_00 != ((S_80172F58_2 *)position)->unk_24.at00u.v) &&
+            ((s16)func_8009A180(actor, ((s32)((EntityRec *)D_800814A8)->unk_58) + 0x20) != 0)) {
             goto end;
         }
     }

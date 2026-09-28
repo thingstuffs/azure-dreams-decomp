@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
@@ -99,11 +101,9 @@ extern s16 func_8009A180(void *, void *);
 extern s16 func_800BCB04(s32, s32, s16);
 
 extern s16 D_8006CD00[];
-extern u8 D_80082E80[];
 extern u8 D_80082E80_initial[] __asm__("D_80082E80");
 extern u8 D_80082E80_fallback[] __asm__("D_80082E80");
 extern u8 D_80082E80_check[] __asm__("D_80082E80");
-extern s8 D_80082EA4;
 extern s8 D_800E2970[];
 
 /* Updates an actor's movement path, trying alternate directions around obstacles. */
@@ -195,7 +195,7 @@ active:
             u8 *move_flags;
             {
                 u8 *target_position = D_80082E80_initial;
-                s32 target_heading = ((Rec_D_800814A8 *)D_800814A8)->unk_2A.as_u16;
+                s32 target_heading = ((u16)((EntityRec *)D_800814A8)->facing);
                 s32 table_index =
                     ((((S_8017163C_1 *)actor_in)->unk_45 + ((s16)target_heading >> 9)) & 7) << 1;
                 target_x = target_position[0x24] +
@@ -217,11 +217,11 @@ active:
             if (func_8009A66C(target_angle, position_in, actor_in, 0x20) <= 0) {
                 ((S_8017163C_1 *)actor_in)->unk_2A.s = func_800A0818(
                     ((S_8017163C_2 *)position_in)->unk_24.at00.v, ((S_8017163C_2 *)position_in)->unk_24.at01.v,
-                    D_80082E80[0x24], D_80082E80[0x25], move_flags);
+                    D_80082E80.tileX, D_80082E80.tileY, move_flags);
             }
             if (func_8009FD7C(
                     ((S_8017163C_2 *)position_in)->unk_24.at00.v, ((S_8017163C_2 *)position_in)->unk_24.at01.v,
-                    D_80082E80[0x24], D_80082E80[0x25]) != 0) {
+                    D_80082E80.tileX, D_80082E80.tileY) != 0) {
                 near_target = 1;
             }
             goto init_loop;
@@ -257,7 +257,7 @@ active:
     }
 
     if (((S_8017163C_1 *)actor_in)->unk_1C & 0x20000) {
-        u8 *target_position = D_80082E80;
+        u8 *target_position = ((u8 *)(&D_80082E80));
         ((S_8017163C_1 *)actor_in)->unk_2A.s = func_800A0818(
             ((S_8017163C_2 *)position_in)->unk_24.at00.v, ((S_8017163C_2 *)position_in)->unk_24.at01.v,
             target_position[0x24], target_position[0x25], (u8 *)move_ctx_in + 0x98);
@@ -330,9 +330,9 @@ init_loop:
         }
 
         if (turn_index == 0 &&
-            *(u16 *)&D_80082EA4 != ((S_8017163C_2 *)position_in)->unk_24.at00u.v) {
+            *(u16 *)(&D_80082E80.tileX) != ((S_8017163C_2 *)position_in)->unk_24.at00u.v) {
             if (func_8009A180(actor_in,
-                    (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) != 0) {
+                    (u8 *)((EntityRec *)D_800814A8)->unk_58 + 0x20) != 0) {
                 return;
             }
         }

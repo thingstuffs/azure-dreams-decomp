@@ -1,8 +1,9 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 typedef struct S_801730C4_0 {
     u8 pad_00[0x8C];
@@ -48,7 +49,6 @@ extern void func_800AD594(void *, s32);
 extern s32 func_800AD9B4(void *, void *);
 extern void func_801708B8(void *, void *, void *);
 
-extern u8 D_80082E80[];
 extern u8 D_800E23E0[];
 extern u8 D_800E2458[];
 extern u8 D_800E2460[];
@@ -108,16 +108,16 @@ state_one:
             s32 axis_pos;
 
             tile_delta = ((Rec_D_80082E80 *)sprite)->unk_24 << 6;
-            axis_pos = ((Rec_D_800E3D7C *)motion)->unk_00.at02_s16.v;
+            axis_pos = ((EntityRec *)motion)->x.w.i;
             axis_pos -= 0x20;
             tile_delta -= axis_pos;
-            ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = (tile_delta << 16) / move_ticks;
+            ((EntityRec *)motion)->unk_0C = (tile_delta << 16) / move_ticks;
 
-            axis_pos = ((Rec_D_800E3D7C *)motion)->unk_04.at02_s16.v;
+            axis_pos = ((EntityRec *)motion)->y.w.i;
             tile_delta = ((Rec_D_80082E80 *)sprite)->unk_25 << 6;
             axis_pos -= 0x20;
             tile_delta -= axis_pos;
-            ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v =
+            ((EntityRec *)motion)->unk_10 =
                 (tile_delta << 16) / ((S_801730C4_0 *)action)->unk_A8;
             ((S_801730C4_0 *)action)->unk_A4 =
                 -func_800644B8(((S_801730C4_0 *)action)->unk_A8 * 0x199) << 9;
@@ -140,9 +140,9 @@ state_two:
         goto done;
     }
     ((S_801730C4_0 *)action)->unk_98 &= 0xFFF7;
-    ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0;
-    ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = 0;
-    ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
+    ((EntityRec *)motion)->flags14 = 0;
+    ((EntityRec *)motion)->unk_10 = 0;
+    ((EntityRec *)motion)->unk_0C = 0;
     func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
     {
         u8 *anim_table = D_800E2460;
@@ -183,9 +183,9 @@ done:
         }
     }
 
-    ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0;
-    ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = 0;
-    ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
+    ((EntityRec *)motion)->flags14 = 0;
+    ((EntityRec *)motion)->unk_10 = 0;
+    ((EntityRec *)motion)->unk_0C = 0;
     func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
     func_800AD594(actor, 0x10);
     func_800A4ACC(actor);
@@ -208,7 +208,7 @@ done:
             if (actor_flags & 0x20000) {
                 ((S_801730C4_2 *)actor)->unk_2A = func_800A0818(
                     ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25,
-                    D_80082E80[0x24], D_80082E80[0x25], &target_distance);
+                    D_80082E80.tileX, D_80082E80.tileY, &target_distance);
             }
         }
     }

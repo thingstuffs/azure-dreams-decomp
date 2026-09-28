@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity_objects.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 
@@ -42,7 +43,6 @@ M2C_UNK func_80095A94();      /* extern */
 M2C_UNK func_80095C80();                      /* extern */
 s32 func_800A5894();                          /* extern */
 s32 func_800C1D44();                             /* extern */
-extern M2C_UNK D_80083780;
 extern s32 D_800A5A98;
 extern M2C_UNK D_800FE488;
 extern u8 D_800D0000[];
@@ -75,7 +75,7 @@ void func_800A58CC(S_800A58CC_2 *state_arg, void *object) {
             func_80095388((void *) object_ref, threshold);
         }
     }
-    coords = (u8 *)&D_80083780;
+    coords = (u8 *)&D_80083780.x.v;
     if (func_800C1D44(func_8008C180(((S_800A58CC_1 *)coords)->unk_02, ((S_800A58CC_1 *)coords)->unk_06) & 0xFFFF) != 0) {
         pitch_step = ((S_800A58CC_0 *)((void *) object_ref))->unk_14 - func_800A5894((void *) object_ref);
         ((S_800A58CC_0 *)((void *) object_ref))->unk_14 = pitch_step;

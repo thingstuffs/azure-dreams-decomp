@@ -1,5 +1,5 @@
 #include "common.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 #ifndef NULL
 #define NULL 0
@@ -58,7 +58,7 @@ extern void func_800248EC(void);
 
 /* Creates an object with randomized position offsets and initializes its state and callbacks. */
 void func_80024BBC(
-    Rec_D_800E3D7C *source, s16 field_14_value, void *payload, s16 field_32_value,
+    EntityRec *source, s16 field_14_value, void *payload, s16 field_32_value,
     s16 x_offset, s16 y_offset, s16 z_offset)
 {
     s16 held_x_offset = x_offset;
@@ -82,19 +82,19 @@ void func_80024BBC(
         ((S_80024BBC_0 *)object)->unk_10 = func_80024B6C;
 
         x_jitter = rand() & 0x1F;
-        x_pos = ((S_80024BBC_6 *)(source->unk_08.at00_pv.v))->unk_02;
+        x_pos = ((S_80024BBC_6 *)((*(void * *)&source->z)))->unk_02;
         x_dest = ((S_80024BBC_0 *)object)->unk_08;
         x_pos += x_jitter;
         x_dest->unk_02 = (s16)x_pos + (s16)(held_x_offset - 0x10);
         y_jitter = rand() & 0x1F;
-        y_pos = ((S_80024BBC_6 *)(source->unk_08.at00_pv.v))->unk_06;
+        y_pos = ((S_80024BBC_6 *)((*(void * *)&source->z)))->unk_06;
         y_dest = ((S_80024BBC_0 *)object)->unk_08;
         y_pos += y_jitter;
         y_dest->unk_06 = (s16)y_pos + (s16)(held_y_offset - 0x10);
 
         state = (u8 *)object + 0x20;
         z_jitter = rand() & 0x1F;
-        z_pos = ((S_80024BBC_6 *)(source->unk_08.at00_pv.v))->unk_0A;
+        z_pos = ((S_80024BBC_6 *)((*(void * *)&source->z)))->unk_0A;
         z_dest = ((S_80024BBC_0 *)object)->unk_08;
         z_pos += z_jitter;
         z_dest->unk_0A = (s16)z_pos + (s16)(held_z_offset - 0x10);

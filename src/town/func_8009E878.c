@@ -1,6 +1,6 @@
 #include "common.h"
 #include "records/Rec_func_80094268_arg0.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 
 extern s32 func_8008C180();
@@ -15,7 +15,7 @@ typedef struct S_8009BFD8_3 {
 } S_8009BFD8_3;   /* ((Rec_func_80094268_arg0 *)arg0)->unk_7C.as_pv in func_8009BFD8 */
 
 /* Selects one of three object values using a position-based table difference. */
-void func_8009BFD8(Rec_func_80094268_arg0 *object, void *context, Rec_D_800E3D7C *position, Rec_D_80082E80 *output)
+void func_8009BFD8(Rec_func_80094268_arg0 *object, void *context, EntityRec *position, Rec_D_80082E80 *output)
 {
     s32 table_index;
     s16 table_delta;
@@ -26,9 +26,9 @@ void func_8009BFD8(Rec_func_80094268_arg0 *object, void *context, Rec_D_800E3D7C
     }
 
     table_index = func_800C1D44(
-        func_8008C180(position->unk_00.at02_s16.v, position->unk_04.at02_s16.v) & 0xFFFF);
+        func_8008C180(position->x.w.i, position->y.w.i) & 0xFFFF);
     if (table_index != 0) {
-        table_delta = position->unk_08.at02_u16.v - D_800D45AA[table_index];
+        table_delta = ((u16)position->z.w.i) - D_800D45AA[table_index];
         if (table_delta >= 0x19) {
             if (table_delta < 0x29) {
                 output->unk_08 =

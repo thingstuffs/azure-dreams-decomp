@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity_objects.h"
 
 typedef struct S_800C7930_0 {
     u8 pad_00[0x2];
@@ -32,7 +33,6 @@ typedef struct S_800C7930_3 {
 
 
 
-extern u8 D_80083780;
 extern u16 D_800DCEAC;
 extern u16 D_800DCEBC;
 extern u8 D_800E58F8;
@@ -56,7 +56,7 @@ s32 func_800C7930(s32 object_addr, void *source_pos, s32 helper_arg)
     register s32 object ASM_REG("$10") = object_addr;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     S_800C7930_1 *source = source_pos;
 
-    camera = &D_80083780;
+    camera = ((u8 *)(&D_80083780.x.v));
     ASM_CLOBBER("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     delta = ((S_800C7930_0 *)camera)->unk_02;
     source_coord = source->unk_02.s;

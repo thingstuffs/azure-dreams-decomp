@@ -4,7 +4,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 
 typedef struct Copy48 {
@@ -259,9 +259,9 @@ active_ready:
     return;
 
 empty_selection:
-    ((Rec_D_800E3D7C *)position)->unk_14.as_s32 = 0;
-    ((Rec_D_800E3D7C *)position)->unk_10.at00_s32.v = 0;
-    ((Rec_D_800E3D7C *)position)->unk_0C.as_s32 = 0;
+    ((EntityRec *)position)->flags14 = 0;
+    ((EntityRec *)position)->unk_10 = 0;
+    ((EntityRec *)position)->unk_0C = 0;
     func_800A2B04(position, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
     {
         void *active;
@@ -319,9 +319,9 @@ state_1:
             owner_sprite = ((S_801730E4_8 *)owner_object)->unk_0C;
             effect_data = ((S_801730E4_6 *)effect_object)->unk_08;
             if (func_8003DE58(((S_801730E4_9 *)owner_sprite)->unk_08, owner_sprite, position_delta, 0) != 0) {
-                ((S_801730E4_7 *)effect_data)->unk_02 = ((Rec_D_800E3D7C *)position)->unk_00.at02_u16.v;
-                ((S_801730E4_7 *)effect_data)->unk_06 = ((Rec_D_800E3D7C *)position)->unk_04.at02_u16.v;
-                ((S_801730E4_7 *)effect_data)->unk_0A = ((Rec_D_800E3D7C *)position)->unk_08.at02_u16.v;
+                ((S_801730E4_7 *)effect_data)->unk_02 = ((u16)((EntityRec *)position)->x.w.i);
+                ((S_801730E4_7 *)effect_data)->unk_06 = ((u16)((EntityRec *)position)->y.w.i);
+                ((S_801730E4_7 *)effect_data)->unk_0A = ((u16)((EntityRec *)position)->z.w.i);
                 ((S_801730E4_7 *)effect_data)->unk_02 += position_delta[0];
                 ((S_801730E4_7 *)effect_data)->unk_06 += position_delta[1];
                 ((S_801730E4_7 *)effect_data)->unk_0A += position_delta[2];
@@ -366,9 +366,9 @@ state_3:
             return;
         }
 
-        ((Rec_D_800E3D7C *)position)->unk_14.as_s32 = 0;
-        ((Rec_D_800E3D7C *)position)->unk_10.at00_s32.v = 0;
-        ((Rec_D_800E3D7C *)position)->unk_0C.as_s32 = 0;
+        ((EntityRec *)position)->flags14 = 0;
+        ((EntityRec *)position)->unk_10 = 0;
+        ((EntityRec *)position)->unk_0C = 0;
         func_800A2B04(position, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
         if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 != D_8017609C) {
             s32 direction_index;

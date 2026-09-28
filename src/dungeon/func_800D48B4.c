@@ -1,9 +1,10 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_D_800814A8.h"
 
 typedef struct S_800DA014_0 {
@@ -45,7 +46,6 @@ extern void func_800AA79C(void *, void *, void *, void *);
 extern void func_800AA888(void *, void *, void *, void *);
 extern void func_800DA660(void *, void *, void *, void *);
 
-extern u8 D_80082E80[];
 extern u8 D_800D8C64[];
 extern u8 D_800E262C[];
 
@@ -80,7 +80,7 @@ state_zero:
         direction_table = D_800E262C;
         (*(void * *)((u8 *)sprite + 0x2C)) = direction_table;
         func_8003DB94(sprite,
-            *(void **)(direction_table + (((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 7) & 28)),
+            *(void **)(direction_table + (((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 7) & 28)),
             0);
         system_base = (u8 *)&dungeonStatus.unk_00;
         ((S_800DA014_3 *)system_base)->unk_0A--;
@@ -98,12 +98,12 @@ state_one:
             return;
         }
 
-        if ((((Rec_D_800E3D7C *)actor)->unk_64.as_s16 != 0) &&
+        if ((((EntityRec *)actor)->unk_64 != 0) &&
             (func_800AA6B4(controller, action_context, sprite, 0) != 0)) {
             return;
         }
 
-        if (((Rec_D_800E3D7C *)actor)->unk_24.at01_u8.v == 0) {
+        if (((EntityRec *)actor)->tileY == 0) {
             if (((S_800DA014_3 *)system_base)->unk_02 & 0x2008) {
                 return;
             }
@@ -115,7 +115,7 @@ state_one:
             return;
         }
 
-        actor_flags = ((Rec_D_800E3D7C *)actor)->unk_1C.as_s32;
+        actor_flags = ((EntityRec *)actor)->flags1C;
         if (actor_flags & 0x100) {
             func_800AA258(controller, action_context, sprite, actor);
             return;
@@ -127,13 +127,13 @@ state_one:
             return;
         }
 
-        if (((Rec_D_800E3D7C *)actor)->unk_6D.as_s8 == 0) {
+        if (((EntityRec *)actor)->unk_6D == 0) {
             return;
         }
 
         if ((func_800A2C34(actor) << 16) != 0) {
             if ((func_8009A180(actor,
-                    (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) << 16) != 0) {
+                    (u8 *)((EntityRec *)D_800814A8)->unk_58 + 0x20) << 16) != 0) {
                 return;
             }
         }
@@ -142,12 +142,12 @@ state_one:
         func_800A9A04(actor);
 
         if ((func_80042900(actor, 1) << 16) != 0) {
-            u8 *reference_sprite;
+            TileObject *reference_sprite;
             s8 coordinate;
 
-            reference_sprite = D_80082E80;
+            reference_sprite = &D_80082E80;
             coordinate = ((Rec_D_80082E80 *)sprite)->unk_26.as_s8;
-            if ((((coordinate == ((S_800DA014_5 *)reference_sprite)->unk_26) &&
+            if ((((coordinate == reference_sprite->unk_026) &&
                         (coordinate >= 0)) ||
                     (func_8009FD40(reference_sprite, sprite) < 2)) &&
                 ((func_800A6D30() & 7) == 0)) {
@@ -161,7 +161,7 @@ state_one:
             direction_table = D_800E262C;
             (*(void * *)((u8 *)sprite + 0x2C)) = direction_table;
             func_8003DB94(sprite,
-                *(void **)(direction_table + (((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 7) & 28)),
+                *(void **)(direction_table + (((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 7) & 28)),
                 0);
         } else {
             return;
@@ -187,6 +187,6 @@ state_two:
     }
 
 finish:
-    ((Rec_D_800E3D7C *)actor)->unk_1C.as_s32 &= ~0x200;
+    ((EntityRec *)actor)->flags1C &= ~0x200;
     ((S_800DA014_0 *)controller)->unk_8C = D_800D8C64;
 }

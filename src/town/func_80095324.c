@@ -1,6 +1,6 @@
 #include "common.h"
 #include "shared/game_work.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_func_80094268_arg0.h"
 
 M2C_UNK func_80035208();
@@ -52,7 +52,7 @@ typedef struct S_80092A84_4 {
 } S_80092A84_4;   /* base in func_80092A84 */
 
 /* Updates the actor's position and dispatches town actions from input and interaction state. */
-void func_80092A84(Rec_func_80094268_arg0 *actor, Rec_D_800E3D7C *body, M2C_UNK context) {
+void func_80092A84(Rec_func_80094268_arg0 *actor, EntityRec *body, M2C_UNK context) {
     GameWork *input_state;
     u8 *position_data;
     s32 *interaction_ctrl;
@@ -69,7 +69,7 @@ void func_80092A84(Rec_func_80094268_arg0 *actor, Rec_D_800E3D7C *body, M2C_UNK 
 
     position_data = D_800FE488;
     position = func_80095978(body, position_data);
-    if ((position - body->unk_08.at02_s16.v) >= 4) {
+    if ((position - body->z.w.i) >= 4) {
         if (D_800CFCEF == 0) {
             func_80094660(actor, body, context);
             return;

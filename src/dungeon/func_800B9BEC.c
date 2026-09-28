@@ -1,11 +1,12 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity_objects.h"
+#include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 
 
-extern u8 D_80082E80[];
-extern u8 D_80083780[];
 extern u16 D_800DDE84[];
 extern u8 D_800E1224[];
 extern s32 D_800E296C;
@@ -19,7 +20,7 @@ extern void func_800A6480(void *, s32, s16);
 extern s32 func_800AD6FC(void *, s32, s32);
 
 /* Dispatch an action by type and target, updating the shared action state. */
-s32 func_800BF34C(Rec_D_800E3D7C *target, s32 action_id, s16 action_type, s32 action_param)
+s32 func_800BF34C(EntityRec *target, s32 action_id, s16 action_type, s32 action_param)
 {
     if (action_type == 13) {
         return func_80098864(action_id, action_param);
@@ -27,14 +28,14 @@ s32 func_800BF34C(Rec_D_800E3D7C *target, s32 action_id, s16 action_type, s32 ac
 
     if (target == ((u8 *)D_800E3D7C)) {
         target->unk_110 = action_id;
-        func_8008D344(target, D_80083780, D_80082E80, target);
+        func_8008D344(target, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), target);
         return 0;
     }
 
     if ((u32)target <= 0x9FFFFFFF) {
         func_800A6480(target, action_id, action_type);
         if (func_800AD6FC(target,
-                          D_800DDE84[target->unk_10.at03_u8.v] & 3,
+                          D_800DDE84[(*(u8 *)((u8 *)&target->unk_10 + 3))] & 3,
                           action_id) == 0) {
             func_800A5F38(target, action_id);
             return 1;

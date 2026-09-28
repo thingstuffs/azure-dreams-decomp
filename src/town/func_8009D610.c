@@ -1,6 +1,6 @@
 #include "common.h"
 #include "records/Rec_func_80094268_arg0.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 
 
@@ -41,8 +41,8 @@ void func_8009AD70(Rec_func_80094268_arg0 *state, Position *position, s32 contex
         position->z = target[2];
         func_80099754(position);
 
-        state->unk_30 = ((Rec_D_800E3D7C *)position)->unk_00.at02_u16.v;
-        state->unk_32 = ((Rec_D_800E3D7C *)position)->unk_04.at02_u16.v;
+        state->unk_30 = ((u16)((EntityRec *)position)->x.w.i);
+        state->unk_32 = ((u16)((EntityRec *)position)->y.w.i);
         func_80094984(D_800D0078, state, context);
 
         state->unk_04.as_pv = D_8009AE88;

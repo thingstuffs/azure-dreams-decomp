@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
 
 typedef s32 M2C_UNK;
@@ -31,7 +32,6 @@ extern void *func_8003FC64();
 extern M2C_UNK func_8004491C();
 extern M2C_UNK SD_Call();
 extern M2C_UNK D_8007789C;
-extern s32 D_80083780;
 extern M2C_UNK D_800BEBA4;
 
 /* event_pool_clean_in: creates the pool cleaning object and initializes its motion and display. */
@@ -54,8 +54,8 @@ s32 event_pool_clean_in(void)
         ASM_KEEP(object_part);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         (*(s16 *)((u8 *)object_part + 2)) = 0x10;
         color = 0x00800000;
-        motion[0] = D_80083780;
-        origin = &D_80083780;
+        motion[0] = D_80083780.x.v;
+        origin = &D_80083780.x.v;
         motion[1] = origin[1];
         color |= 0x8080;
         origin_z = origin[2];

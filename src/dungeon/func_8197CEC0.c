@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 extern int abs(int);
@@ -67,21 +69,10 @@ typedef struct {
 } Actor;
 
 typedef struct {
-    u8 pad0[2];
-    s16 x;
-    u8 pad4[2];
-    s16 y;
-    u8 pad8[2];
-    s16 z;
-} Origin;
-
-typedef struct {
     u8 pad0[8];
     void *entry;
 } EntryTable;
 
-extern Origin D_80083780;
-extern EntryTable D_80082E80;
 extern u8 D_80083498[];
 extern s32 D_800DEA68[];
 extern s32 D_80024BB8[3];
@@ -113,10 +104,10 @@ void func_8197CEC0(Actor *actor, Vec3 *target, Sprite *sprite) {
             sprite->bottom = sprite->bottom + 0x78;
             sprite->top = sprite->bottom;
         }
-        if (func_8003DE58(D_80082E80.entry, &D_80082E80, entry_pos, 0) != 0) {
-            target->x.word += ((((s16)entry_pos[0] + D_80083780.x) - (s16)target->x.half.coord) << 14);
-            target->y.word += ((((s16)entry_pos[1] + D_80083780.y) - (s16)target->y.half.coord) << 14);
-            target->z.word += ((((s16)entry_pos[2] + D_80083780.z) - (s16)target->z.half.coord) << 14);
+        if (func_8003DE58(((void *)D_80082E80.unk_008), ((EntryTable *)&D_80082E80), entry_pos, 0) != 0) {
+            target->x.word += ((((s16)entry_pos[0] + D_80083780.x.w.i) - (s16)target->x.half.coord) << 14);
+            target->y.word += ((((s16)entry_pos[1] + D_80083780.y.w.i) - (s16)target->y.half.coord) << 14);
+            target->z.word += ((((s16)entry_pos[2] + D_80083780.z.w.i) - (s16)target->z.half.coord) << 14);
             target->z.word -= (func_800644B8(((s16)actor->counter << 11) / 10) << 9);
         }
         if ((s16)actor->counter >= 10) {
@@ -125,10 +116,10 @@ void func_8197CEC0(Actor *actor, Vec3 *target, Sprite *sprite) {
         }
         break;
     case 1:
-        if (func_8003DE58(D_80082E80.entry, &D_80082E80, entry_pos, 0) != 0) {
-            target->x.word += ((((s16)entry_pos[0] + D_80083780.x) - (s16)target->x.half.coord) << 15);
-            target->y.word += ((((s16)entry_pos[1] + D_80083780.y) - (s16)target->y.half.coord) << 15);
-            target->z.word += ((((s16)entry_pos[2] + D_80083780.z) - (s16)target->z.half.coord) << 15);
+        if (func_8003DE58(((void *)D_80082E80.unk_008), ((EntryTable *)&D_80082E80), entry_pos, 0) != 0) {
+            target->x.word += ((((s16)entry_pos[0] + D_80083780.x.w.i) - (s16)target->x.half.coord) << 15);
+            target->y.word += ((((s16)entry_pos[1] + D_80083780.y.w.i) - (s16)target->y.half.coord) << 15);
+            target->z.word += ((((s16)entry_pos[2] + D_80083780.z.w.i) - (s16)target->z.half.coord) << 15);
         }
         if ((s16)actor->counter >= 0x12) {
             sprite->flags = sprite->flags & 0xF7FF;

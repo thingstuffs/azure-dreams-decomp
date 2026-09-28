@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 extern int abs(int);
@@ -20,8 +22,6 @@ extern void SD_Call();
 extern s32 rand();
 
 extern u8 D_80026748[];
-extern u8 D_80082E80[16];
-extern s32 D_80083784;
 extern u8 D_800F7950[];
 extern u8 D_800F795C[];
 
@@ -46,7 +46,7 @@ void func_8002614C(void *state_data, void *position_data, void *sprite_data)
     u8 *effect_state;
     u8 *effect_position;
     u8 *effect_sprite;
-    u8 *color_state;
+    TileObject *color_state;
 
     object = PTR(state, 0);
     U16(object, 0x58) |= 1;
@@ -100,7 +100,7 @@ void func_8002614C(void *state_data, void *position_data, void *sprite_data)
         *position = next_x;
         if (next_x <= 0x427FFFF) {
             S16(state, 0xE) = 6;
-            color_state = D_80082E80;
+            color_state = &D_80082E80;
             if (U8(color_state, 0xC) >= 9) {
                 S32(color_state, 0xC) -= 0x80808;
             }
@@ -109,7 +109,7 @@ void func_8002614C(void *state_data, void *position_data, void *sprite_data)
             S16(state, 0xC) = 2;
             break;
         }
-        y_distance = D_80083784 - position[1];
+        y_distance = D_80083780.y.v - position[1];
         y_distance = abs(y_distance);
         if (y_distance > 0x200000 || next_x > 0x43FFFFF || (U16(state, 0x10) & 4)) {
             break;

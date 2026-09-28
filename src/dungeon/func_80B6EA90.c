@@ -1,6 +1,7 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/dungeon_status.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 
 typedef struct S_80172290_0 {
@@ -39,11 +40,10 @@ extern void func_800A9A04(void *);
 extern void func_800AD594(void *, s32);
 extern s32 func_800AD9B4(void *, void *);
 
-extern u8 D_80082E80[];
 extern s32 D_80170E5C;
 
 /* Advance arcing movement toward the destination tile and finalize the landing. */
-void func_80172290(S_80172290_0 *animation, Rec_D_800E3D7C *motion, Rec_D_80082E80 *destination, Rec_D_800E3D7C *entity) {
+void func_80172290(S_80172290_0 *animation, EntityRec *motion, Rec_D_80082E80 *destination, EntityRec *entity) {
     s32 query_output;
     s32 frames_left;
     s32 entity_flags;
@@ -69,8 +69,8 @@ high_state:
 
 initialize:
     animation->unk_98 |= 8;
-    motion->unk_14.as_s32 = 0xFFEE0000;
-    entity->unk_1C.as_s32 &= 0xF7FFFFFF;
+    motion->flags14 = 0xFFEE0000;
+    entity->flags1C &= 0xF7FFFFFF;
     animation->unk_A0 = 0;
     animation->unk_9B++;
 
@@ -80,44 +80,44 @@ movement:
     if (frames_left != 0) {
         {
             s32 target_x = destination->unk_24 << 6;
-            s32 current_x = motion->unk_00.at02_s16.v - 0x20;
+            s32 current_x = motion->x.w.i - 0x20;
 
-            motion->unk_0C.as_s32 = ((target_x - current_x) << 16) / frames_left;
+            motion->unk_0C = ((target_x - current_x) << 16) / frames_left;
         }
         {
             s32 target_y = destination->unk_25 << 6;
-            s32 current_y = motion->unk_04.at02_s16.v - 0x20;
+            s32 current_y = motion->y.w.i - 0x20;
 
-            motion->unk_10.at00_s32.v =
+            motion->unk_10 =
                 ((target_y - current_y) << 16) / animation->unk_96.s;
         }
-        animation->unk_A0 += motion->unk_14.as_s32;
-        motion->unk_14.as_s32 += 0x40000;
+        animation->unk_A0 += motion->flags14;
+        motion->flags14 += 0x40000;
     }
 
     animation->unk_90 += animation->unk_A0;
     if (animation->unk_96.s < 2) {
         animation->unk_90 = 0;
         animation->unk_98 &= 0xFFF7;
-        entity->unk_1C.as_s32 |= 0x08000000;
+        entity->flags1C |= 0x08000000;
         animation->unk_9B++;
     }
 
 check_flag:
-    if (entity->unk_1C.as_s32 & 0x08000000) {
+    if (entity->flags1C & 0x08000000) {
         animation->unk_98 &= 0xFFF7;
-        motion->unk_14.as_s32 = 0;
-        motion->unk_10.at00_s32.v = 0;
-        motion->unk_0C.as_s32 = 0;
+        motion->flags14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
         func_800A2B04(motion, destination->unk_24, destination->unk_25);
         animation->unk_9B++;
     }
 
 countdown:
     if ((s16)--animation->unk_96.u <= 0) {
-        motion->unk_14.as_s32 = 0;
-        motion->unk_10.at00_s32.v = 0;
-        motion->unk_0C.as_s32 = 0;
+        motion->flags14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
         func_800A2B04(motion, destination->unk_24, destination->unk_25);
         func_800AD594(entity, 4);
         func_800A4ACC(entity);
@@ -130,12 +130,12 @@ countdown:
             }
         }
 
-        entity_flags = entity->unk_1C.as_s32;
+        entity_flags = entity->flags1C;
         if (!(entity_flags & 0x2000)) {
             goto low_flags;
         }
-        if (entity->unk_44.at02_u16.v & 0x8000) {
-            entity->unk_44.at02_u16.v &= 0x7FFF;
+        if (entity->unk_46 & 0x8000) {
+            entity->unk_46 &= 0x7FFF;
         }
         goto call_entity;
 
@@ -144,11 +144,10 @@ low_flags:
             goto call_entity;
         }
         if (entity_flags & 0x20000) {
-            u8 *map_state = D_80082E80;
 
-            entity->unk_2A.as_s16 = func_800A0818(
+            entity->facing = func_800A0818(
                 destination->unk_24, destination->unk_25,
-                ((S_80172290_5 *)map_state)->unk_24, ((S_80172290_5 *)map_state)->unk_25, &query_output);
+                D_80082E80.tileX, D_80082E80.tileY, &query_output);
         }
 
 call_entity:

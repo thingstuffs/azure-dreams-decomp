@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -8,7 +9,6 @@ extern void func_8009A21C(s32, s32, s32);
 extern void func_800A4300(void *, s32);
 extern s16 func_800A71F4(void);
 
-extern s32 D_80082E80;
 extern s32 D_800E3548[];
 typedef struct {
     u8 x;
@@ -75,7 +75,7 @@ void func_800A77AC(FuncObj *obj, FuncVec *pos, FuncVec *target) {
             entry->value4 = height;
             entry->value8 = target->z;
             func_8009A21C(obj->fieldAA, obj->fieldAC, 0x800);
-            func_800A4300(&D_80082E80, ((s32)D_800E3D7C));
+            func_800A4300(&D_80082E80.unk_000, ((s32)D_800E3D7C));
         }
         dungeonStatus.unk_0A--;
         /* the u16 two bytes BEFORE the object: a negative offset, which the field-typing

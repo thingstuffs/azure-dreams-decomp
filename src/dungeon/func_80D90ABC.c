@@ -1,8 +1,9 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 typedef struct S_801722BC_0 {
     u8 pad_00[0x8C];
@@ -44,7 +45,6 @@ extern void func_800A9A04(void *);
 extern void func_800AD594(void *, s32);
 extern s32 func_800AD9B4(void *, void *);
 
-extern u8 D_80082E80[];
 extern u8 D_80170E68[];
 extern u8 D_80173884[];
 extern u8 D_8017388C[];
@@ -94,7 +94,7 @@ start_motion:
         0);
     ((S_801722BC_0 *)anim)->unk_98 |= 8;
     ((S_801722BC_2 *)actor)->unk_1C.s &= 0xF7FFFFFF;
-    ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0xFFF00000;
+    ((EntityRec *)motion)->flags14 = 0xFFF00000;
     ((S_801722BC_0 *)anim)->unk_A0 = 0;
     ((S_801722BC_0 *)anim)->unk_9B++;
 
@@ -104,22 +104,22 @@ update_motion:
         ((S_801722BC_0 *)anim)->unk_90 - ((S_801722BC_0 *)anim)->unk_A0;
     if (move_ticks != 0) {
         target_x = ((Rec_D_80082E80 *)entity)->unk_24 << 6;
-        origin_x = ((Rec_D_800E3D7C *)motion)->unk_00.at02_s16.v - 0x20;
-        origin_y = ((Rec_D_800E3D7C *)motion)->unk_04.at02_s16.v - 0x20;
-        ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 =
+        origin_x = ((EntityRec *)motion)->x.w.i - 0x20;
+        origin_y = ((EntityRec *)motion)->y.w.i - 0x20;
+        ((EntityRec *)motion)->unk_0C =
             ((target_x - origin_x) << 16) /
             move_ticks;
-        ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v =
+        ((EntityRec *)motion)->unk_10 =
             (((((Rec_D_80082E80 *)entity)->unk_25 << 6) - origin_y) << 16) /
             (s16)((S_801722BC_0 *)anim)->unk_A4.s;
         do {
             arc_ticks = ((S_801722BC_0 *)anim)->unk_A4.s;
         } while (0);
-        vertical_speed = ((Rec_D_800E3D7C *)motion)->unk_14.as_s32;
+        vertical_speed = ((EntityRec *)motion)->flags14;
         acceleration =
             (arc_ticks << 15) + (arc_ticks << 13);
         vertical_speed += acceleration;
-        ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = vertical_speed;
+        ((EntityRec *)motion)->flags14 = vertical_speed;
         ((S_801722BC_0 *)anim)->unk_A0 += vertical_speed;
     }
     height = ((S_801722BC_0 *)anim)->unk_90;
@@ -138,9 +138,9 @@ update_motion:
 check_landing:
     if (((S_801722BC_2 *)actor)->unk_1C.s & 0x08000000) {
         ((S_801722BC_0 *)anim)->unk_98 &= 0xFFF7;
-        ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0;
-        ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = 0;
-        ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
+        ((EntityRec *)motion)->flags14 = 0;
+        ((EntityRec *)motion)->unk_10 = 0;
+        ((EntityRec *)motion)->unk_0C = 0;
         func_800A2B04(motion, ((Rec_D_80082E80 *)entity)->unk_24, ((Rec_D_80082E80 *)entity)->unk_25);
         (*(u8 * *)((u8 *)entity + 0x2C)) = D_8017388C;
         func_80047784(
@@ -154,9 +154,9 @@ update_timer:
     remaining_ticks = ((S_801722BC_0 *)anim)->unk_96 - 1;
     ((S_801722BC_0 *)anim)->unk_96 = remaining_ticks;
     if ((remaining_ticks << 16) <= 0) {
-        ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0;
-        ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = 0;
-        ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
+        ((EntityRec *)motion)->flags14 = 0;
+        ((EntityRec *)motion)->unk_10 = 0;
+        ((EntityRec *)motion)->unk_0C = 0;
         func_800A2B04(motion, ((Rec_D_80082E80 *)entity)->unk_24, ((Rec_D_80082E80 *)entity)->unk_25);
         func_800AD594(actor, 4);
         func_800A4ACC(actor);
@@ -181,7 +181,7 @@ update_timer:
         }
         ((S_801722BC_2 *)actor)->unk_2A = func_800A0818(
             ((Rec_D_80082E80 *)entity)->unk_24, ((Rec_D_80082E80 *)entity)->unk_25,
-            D_80082E80[0x24], D_80082E80[0x25], &direction_aux);
+            D_80082E80.tileX, D_80082E80.tileY, &direction_aux);
 
 check_followup:
         if ((func_800AD9B4(entity, actor) << 16) > 0) {

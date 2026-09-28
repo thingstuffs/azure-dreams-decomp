@@ -4,7 +4,7 @@
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 typedef struct S_8182C800_0_pre {
     u16 unk_00;
@@ -339,8 +339,8 @@ void BODY_NAME(void *effect, void *motion, void *sprite) {
     sprite_or_step_x = (s32) sprite;
 
     direction_x_table = dirStepX;
-    owner = ((Rec_D_800E3D7C *)effect)->unk_00.at00_pv.v;
-    state = ((Rec_D_800E3D7C *)effect)->unk_08.at02_s16.v;
+    owner = (*(void * *)&((EntityRec *)effect)->x);
+    state = ((EntityRec *)effect)->z.w.i;
     owner_sprite = ((S_8182C800_1_pre *)owner)[-1].unk_00;
 
     motion_extent = (u16) ((S_8182C800_1 *)owner)->unk_2A.s >> 8;
@@ -360,7 +360,7 @@ void BODY_NAME(void *effect, void *motion, void *sprite) {
         goto *D_80024008[(u32) state];
     }
 state_launch:
-        if (*((Rec_D_800E3D7C *)effect)->unk_04.at00_pu16.v & 0x80) {
+        if (*(*(u16 * *)&((EntityRec *)effect)->y) & 0x80) {
             target_x = owner_object->unk_0C;
             if (func_8003DE58(target_x->unk_08, target_x, &frame.sp38, 0) == 0) {
                 frame.sp3A = 0;
@@ -417,8 +417,8 @@ state_launch:
                 object = target - 0x20;
                 target_sprite = ((S_8182C800_8 *)object)->unk_0C;
                 if ((target_sprite->unk_14 & 0x8000) && (((S_8182C800_6 *)sprite_or_step_x)->unk_14 & 0x8000)) {
-                    func_8009CE1C(((S_8182C800_1 *)owner)->unk_60, 8, ((Rec_D_800E3D7C *)effect)->unk_08.at01_u8.v, 2, (s32) ((S_8182C800_1 *)owner)->unk_2A.u, owner, 2);
-                    ((Rec_D_800E3D7C *)effect)->unk_08.at02_s16.v = 4;
+                    func_8009CE1C(((S_8182C800_1 *)owner)->unk_60, 8, (*(u8 *)((u8 *)&((EntityRec *)effect)->z + 1)), 2, (s32) ((S_8182C800_1 *)owner)->unk_2A.u, owner, 2);
+                    ((EntityRec *)effect)->z.w.i = 4;
                     goto done;
                 }
                 ((S_8182C800_1 *)owner)->unk_72.s = (u8) target_sprite->unk_24;
@@ -456,17 +456,17 @@ state_launch:
             }
             covered_distance = 0;
             distance_fixed = distance_sum << 0x10;
-            ((Rec_D_800E3D7C *)effect)->unk_50.at00_u16.v = 0U;
+            ((EntityRec *)effect)->unk_50 = 0U;
             if (distance_fixed > 0) {
                 do {
                     effect_alias = effect;
                     effect = effect_alias;
                     covered_distance += 0xD6666;
-                    ((Rec_D_800E3D7C *)effect)->unk_50.at00_u16.v = (u16) (((Rec_D_800E3D7C *)effect)->unk_50.at00_u16.v + 1);
+                    ((EntityRec *)effect)->unk_50 = (u16) (((EntityRec *)effect)->unk_50 + 1);
                 } while (covered_distance < distance_fixed);
             }
             distance_sum = 0;
-            step_count = (s16) ((Rec_D_800E3D7C *)effect)->unk_50.at00_u16.v;
+            step_count = (s16) ((EntityRec *)effect)->unk_50;
             step_index = 1;
             if (step_count > 0) {
                 step_limit = step_count;
@@ -474,20 +474,20 @@ state_launch:
                     distance_sum += step_index;
                 } while (step_limit >= ++step_index);
             }
-            base_travel = (s16) ((Rec_D_800E3D7C *)effect)->unk_50.at00_u16.v * 0x66666;
+            base_travel = (s16) ((EntityRec *)effect)->unk_50 * 0x66666;
             travel_x = direction_x * base_travel;
             accel_x = (s32) ((distance_x << 0x10) - travel_x) / distance_sum;
-            ((Rec_D_800E3D7C *)effect)->unk_44.at00_s32.v = accel_x;
-            base_travel = (s16) ((Rec_D_800E3D7C *)effect)->unk_50.at00_u16.v * 0x66666;
+            (*(s32 *)&((EntityRec *)effect)->unk_44) = accel_x;
+            base_travel = (s16) ((EntityRec *)effect)->unk_50 * 0x66666;
             accel_y = (s32) ((s32) ((motion_extent << 0x10) - (direction_y * base_travel)) / distance_sum);
-            ((Rec_D_800E3D7C *)effect)->unk_48.at00_s32.v = accel_y;
-            ((Rec_D_800E3D7C *)effect)->unk_4C.as_s32 = (s32) ((s32) ((s32) frame.u28.sp28 - ((S_8182C800_5 *)motion)->unk_08) / distance_sum);
-            ((S_8182C800_5 *)motion)->unk_0C = (s32) ((direction_x * 0x66666) + ((s16) ((Rec_D_800E3D7C *)effect)->unk_50.at00_u16.v * ((Rec_D_800E3D7C *)effect)->unk_44.at00_s32.v));
-            ((S_8182C800_5 *)motion)->unk_10 = (s32) ((direction_y * 0x66666) + ((s16) ((Rec_D_800E3D7C *)effect)->unk_50.at00_u16.v * ((Rec_D_800E3D7C *)effect)->unk_48.at00_s32.v));
-            ((S_8182C800_5 *)motion)->unk_14 = (s32) ((s16) ((Rec_D_800E3D7C *)effect)->unk_50.at00_u16.v * ((Rec_D_800E3D7C *)effect)->unk_4C.as_s32);
-            ((Rec_D_800E3D7C *)effect)->unk_50.at02_u16.v = (u16) ((Rec_D_800E3D7C *)effect)->unk_50.at00_u16.v;
+            (*(s32 *)&((EntityRec *)effect)->unk_48) = accel_y;
+            ((EntityRec *)effect)->unk_4C = (s32) ((s32) ((s32) frame.u28.sp28 - ((S_8182C800_5 *)motion)->unk_08) / distance_sum);
+            ((S_8182C800_5 *)motion)->unk_0C = (s32) ((direction_x * 0x66666) + ((s16) ((EntityRec *)effect)->unk_50 * (*(s32 *)&((EntityRec *)effect)->unk_44)));
+            ((S_8182C800_5 *)motion)->unk_10 = (s32) ((direction_y * 0x66666) + ((s16) ((EntityRec *)effect)->unk_50 * (*(s32 *)&((EntityRec *)effect)->unk_48)));
+            ((S_8182C800_5 *)motion)->unk_14 = (s32) ((s16) ((EntityRec *)effect)->unk_50 * ((s32)((EntityRec *)effect)->unk_4C));
+            ((EntityRec *)effect)->unk_52 = (u16) ((EntityRec *)effect)->unk_50;
             func_800A56E0(0x300, accel_x);
-            ((Rec_D_800E3D7C *)effect)->unk_08.at02_s16.v += 1;
+            ((EntityRec *)effect)->z.w.i += 1;
             goto done;
         }
         goto done;
@@ -504,7 +504,7 @@ spawn_trail:
             frame.sp62 = 0;
             frame.sp40 = &frame.sp60;
             frame.sp44 = &frame.sp60;
-            elapsed_steps = (s16) ((Rec_D_800E3D7C *)effect)->unk_50.at02_u16.v - (s16) ((Rec_D_800E3D7C *)effect)->unk_50.at00_u16.v;
+            elapsed_steps = (s16) ((EntityRec *)effect)->unk_52 - (s16) ((EntityRec *)effect)->unk_50;
             spread_decay = elapsed_steps * 8;
             spread_base = 0x300 - spread_decay;
             motion_extent = spread_base - (elapsed_steps << 5);
@@ -565,9 +565,9 @@ spawn_trail:
 next_trail:
         trail_count -= 1;
         if (trail_count < 0) {
-            ((S_8182C800_5 *)motion)->unk_0C = (s32) (((S_8182C800_5 *)motion)->unk_0C - ((Rec_D_800E3D7C *)effect)->unk_44.at00_s32.v);
-            ((S_8182C800_5 *)motion)->unk_10 = (s32) (((S_8182C800_5 *)motion)->unk_10 - ((Rec_D_800E3D7C *)effect)->unk_48.at00_s32.v);
-            ((S_8182C800_5 *)motion)->unk_14 = (s32) (((S_8182C800_5 *)motion)->unk_14 - ((Rec_D_800E3D7C *)effect)->unk_4C.as_s32);
+            ((S_8182C800_5 *)motion)->unk_0C = (s32) (((S_8182C800_5 *)motion)->unk_0C - (*(s32 *)&((EntityRec *)effect)->unk_44));
+            ((S_8182C800_5 *)motion)->unk_10 = (s32) (((S_8182C800_5 *)motion)->unk_10 - (*(s32 *)&((EntityRec *)effect)->unk_48));
+            ((S_8182C800_5 *)motion)->unk_14 = (s32) (((S_8182C800_5 *)motion)->unk_14 - ((s32)((EntityRec *)effect)->unk_4C));
             ((S_8182C800_5 *)motion)->unk_00.at00.v = (s32) (((S_8182C800_5 *)motion)->unk_00.at00.v + ((S_8182C800_5 *)motion)->unk_0C);
             ((S_8182C800_5 *)motion)->unk_04.at00.v = (s32) (((S_8182C800_5 *)motion)->unk_04.at00.v + ((S_8182C800_5 *)motion)->unk_10);
             ((S_8182C800_5 *)motion)->unk_08 = (s32) (((S_8182C800_5 *)motion)->unk_08 + ((S_8182C800_5 *)motion)->unk_14);
@@ -582,8 +582,8 @@ next_trail:
                 ((S_8182C800_6 *)sprite_or_step_x)->unk_05 = 0;
                 ((S_8182C800_6 *)sprite_or_step_x)->unk_08 = flight_tpage;
             }
-            steps_left = ((Rec_D_800E3D7C *)effect)->unk_50.at00_u16.v - 1;
-            ((Rec_D_800E3D7C *)effect)->unk_50.at00_u16.v = steps_left;
+            steps_left = ((EntityRec *)effect)->unk_50 - 1;
+            ((EntityRec *)effect)->unk_50 = steps_left;
             coord = ((S_8182C800_5 *)motion)->unk_00.at02.v;
             if (coord < 0) {
                 coord += 0x3F;
@@ -599,10 +599,10 @@ next_trail:
                 goto arrive;
             }
 check_timeout:
-            if ((s16) ((Rec_D_800E3D7C *)effect)->unk_50.at00_u16.v < -0x20) {
+            if ((s16) ((EntityRec *)effect)->unk_50 < -0x20) {
 arrive:
                 if (((S_8182C800_1 *)owner)->unk_60 == 0) {
-                    ((Rec_D_800E3D7C *)effect)->unk_08.at02_s16.v = 3;
+                    ((EntityRec *)effect)->z.w.i = 3;
                     goto done;
                 }
                 hit_texture = (u8 *) &D_800DEB70;
@@ -621,7 +621,7 @@ arrive:
                 ((S_8182C800_5 *)motion)->unk_10 = 0;
                 ((S_8182C800_5 *)motion)->unk_0C = 0;
                 ((S_8182C800_5 *)motion)->unk_04.at02.v = (s16) ((target_tile_y << 6) + 0x20);
-                ((Rec_D_800E3D7C *)effect)->unk_08.at02_s16.v += 1;
+                ((EntityRec *)effect)->z.w.i += 1;
                 goto done;
             }
         } else {
@@ -632,7 +632,7 @@ state_hit:
         func_800478B8((void *) sprite_or_step_x);
         if (((S_8182C800_6 *)sprite_or_step_x)->unk_14 & 0x6000) {
             if (((S_8182C800_1 *)owner)->unk_60 != 0) {
-                func_8009CE1C(((S_8182C800_1 *)owner)->unk_60, 0xA, ((Rec_D_800E3D7C *)effect)->unk_08.at01_u8.v, 2, (s32) ((S_8182C800_1 *)owner)->unk_2A.u, owner, 2);
+                func_8009CE1C(((S_8182C800_1 *)owner)->unk_60, 0xA, (*(u8 *)((u8 *)&((EntityRec *)effect)->z + 1)), 2, (s32) ((S_8182C800_1 *)owner)->unk_2A.u, owner, 2);
                 burst_count = 0x50;
                 do {
                     object = func_8003FD64(0x312, D_80083498);
@@ -665,21 +665,21 @@ state_hit:
                     burst_count -= 1;
                 } while (burst_count >= 0);
             }
-            ((Rec_D_800E3D7C *)effect)->unk_08.at02_s16.v += 1;
+            ((EntityRec *)effect)->z.w.i += 1;
             goto done;
         }
         goto done;
 state_fade:
         ((S_8182C800_6 *)sprite_or_step_x)->unk_0C = (s32) (((S_8182C800_6 *)sprite_or_step_x)->unk_0C + 0xFFEFEFF0);
         if ((u8) ((S_8182C800_6 *)sprite_or_step_x)->unk_0C == 0) {
-            ((Rec_D_800E3D7C *)effect)->unk_08.at02_s16.v += 1;
+            ((EntityRec *)effect)->z.w.i += 1;
             goto done;
         }
         goto done;
 state_finish:
-        effect_flags = ((Rec_D_800E3D7C *)effect)->unk_0C.as_s32;
+        effect_flags = ((EntityRec *)effect)->unk_0C;
         if (effect_flags & 0x8000) {
-            ((Rec_D_800E3D7C *)effect)->unk_0C.as_s32 = effect_flags & 0xFFFF7FFF;
+            ((EntityRec *)effect)->unk_0C = effect_flags & 0xFFFF7FFF;
             goto done;
         }
         dungeonStatus.unk_0C = 0;

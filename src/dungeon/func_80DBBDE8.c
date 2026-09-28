@@ -2,7 +2,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
@@ -33,7 +33,7 @@ typedef struct S_801735E8_3 {
 } S_801735E8_3;   /* arg1 in func_801735E8 */
 
 /* Advances the actor's staged animation sequence and handles completion. */
-void func_801735E8(void *action_data, S_801735E8_3 *motion, Rec_D_80082E80 *animation, Rec_D_800E3D7C *actor) {
+void func_801735E8(void *action_data, S_801735E8_3 *motion, Rec_D_80082E80 *animation, EntityRec *actor) {
     S_801735E8_0 *action;
     u16 phase_value;
     u16 elapsed_ticks;
@@ -62,7 +62,7 @@ state0:
     if (animation->unk_14.at00_u16.v & 0x8000) {
         action->unk_9B = 3U;
         animation->unk_14.at00_u16.v = (u16) (animation->unk_14.at00_u16.v | 0x6000);
-        func_8009C12C(actor, animation, actor->unk_2A.as_s16, 1);
+        func_8009C12C(actor, animation, actor->facing, 1);
         goto done;
     }
     motion->unk_14 = 0;
@@ -80,7 +80,7 @@ state1:
         goto done;
     }
     animation->unk_2C.as_pm = &D_801753E4;
-    func_80047784(animation, D_801753E4[(((s32) (gameWork.viewAngle + actor->unk_2A.as_s16 + 0x100) >> 9) & 7)], 0);
+    func_80047784(animation, D_801753E4[(((s32) (gameWork.viewAngle + actor->facing + 0x100) >> 9) & 7)], 0);
     func_800A56E0(0x808);
     phase_value = action->unk_9B;
     action->unk_96 = 0U;
@@ -93,7 +93,7 @@ state2:
     if ((s16) phase_value != 4 && !(animation->unk_14.at00_u16.v & 0xE000)) {
         goto done;
     }
-    func_8009C12C(actor, animation, actor->unk_2A.as_s16, 1);
+    func_8009C12C(actor, animation, actor->facing, 1);
     phase_value = action->unk_9B;
     action->unk_96 = 0U;
     action->unk_9B = (u8) (phase_value + 1);
@@ -105,7 +105,7 @@ state3:
         action->unk_8C = D_80171E20;
         dungeonStatus.unk_0C = 0;
         func_800A4ACC(actor);
-        actor->unk_44.at02_u16.v = (u16) (actor->unk_44.at02_u16.v & 0x7FFF);
+        actor->unk_46 = (u16) (actor->unk_46 & 0x7FFF);
     }
 
 done:

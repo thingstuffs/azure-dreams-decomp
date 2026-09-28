@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity_objects.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
@@ -31,8 +33,6 @@ typedef struct S_800C08A4_2 {
 } S_800C08A4_2;   /* counter_base in func_800C08A4 */
 
 
-extern u8 D_80083780[12];
-extern u8 D_80082E80[];
 extern u16 D_800DDE84[];
 M2C_UNK func_8008D344();
 M2C_UNK func_80098864();
@@ -80,7 +80,7 @@ main_path:
     compare_ptr = ((u8 *)D_800E3D7C);
     if (entity == compare_ptr) {
         ((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_128 = target;
-        func_8008D344(entity, D_80083780, D_80082E80, entity);
+        func_8008D344(entity, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), entity);
         return 0;
     }
     compare_ptr = (u8 *) 0x9FFFFFFF;

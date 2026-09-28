@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 
 
@@ -26,22 +26,22 @@ extern s32 D_80175268;
 
 
 /* Updates directional motion, then recenters the entity on its tile and finishes the action. */
-void func_801732B4(S_801732B4_1 *action, Rec_D_800E3D7C *motion, Rec_D_80082E80 *tile, void *entity)
+void func_801732B4(S_801732B4_1 *action, EntityRec *motion, Rec_D_80082E80 *tile, void *entity)
 {
     s16 timer;
     s32 tracked_entity;
     s32 direction;
 
-    direction = (((Rec_D_800E3D7C *)entity)->unk_6A.as_u16 >> 9) & 7;
+    direction = (((EntityRec *)entity)->unk_6A >> 9) & 7;
 
     switch (action->unk_9B) {
     case 0:
         func_800AD4D0(entity);
-        motion->unk_0C.as_s32 = ((s16 *)((s8 *)dirStepX))[direction] << 17;
-        motion->unk_10.at00_s32.v = ((s16 *)((s8 *)dirStepY))[direction] << 17;
+        motion->unk_0C = ((s16 *)((s8 *)dirStepX))[direction] << 17;
+        motion->unk_10 = ((s16 *)((s8 *)dirStepY))[direction] << 17;
         action->unk_9B++;
 
-        if (((Rec_D_800E3D7C *)entity)->unk_28 == 0) {
+        if (((EntityRec *)entity)->unk_28 == 0) {
             goto start_action;
         }
         if (tile->unk_14.at00_u16.v & 0x8000) {
@@ -49,20 +49,20 @@ void func_801732B4(S_801732B4_1 *action, Rec_D_800E3D7C *motion, Rec_D_80082E80 
             action->unk_9B = 2;
             return;
         }
-        if (((Rec_D_800E3D7C *)entity)->unk_1C.as_s32 & 0x228) {
+        if (((EntityRec *)entity)->flags1C & 0x228) {
             timer = 8;
         } else {
             timer = -1;
         }
         action->unk_96.s = timer;
 
-        motion->unk_0C.as_s32 -= motion->unk_0C.as_s32 / 4;
-        motion->unk_10.at00_s32.v -= motion->unk_10.at00_s32.v / 4;
+        motion->unk_0C -= motion->unk_0C / 4;
+        motion->unk_10 -= motion->unk_10 / 4;
         /* fall through */
 
     case 1:
-        motion->unk_0C.as_s32 -= ((s16 *)((s8 *)dirStepX))[direction] << 14;
-        motion->unk_10.at00_s32.v -= ((s16 *)((s8 *)dirStepY))[direction] << 14;
+        motion->unk_0C -= ((s16 *)((s8 *)dirStepX))[direction] << 14;
+        motion->unk_10 -= ((s16 *)((s8 *)dirStepY))[direction] << 14;
         if (action->unk_96.s > 0) {
             action->unk_96.s = action->unk_96.u - 1;
         } else if (tile->unk_14.at00_u16.v & 0x6000) {
@@ -71,15 +71,15 @@ void func_801732B4(S_801732B4_1 *action, Rec_D_800E3D7C *motion, Rec_D_80082E80 
         if (action->unk_96.s != 0) {
             return;
         }
-        if (((Rec_D_800E3D7C *)entity)->unk_28 != 0) {
+        if (((EntityRec *)entity)->unk_28 != 0) {
             goto increment_state;
         }
         goto start_action;
 
 start_action:
-        motion->unk_14.as_s32 = 0;
-        motion->unk_10.at00_s32.v = 0;
-        motion->unk_0C.as_s32 = 0;
+        motion->flags14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
         func_800AAA54(action, motion, tile, &D_80175268);
         return;
 
@@ -95,8 +95,8 @@ increment_state:
                 s32 current_x;
 
                 target_x = tile->unk_24 << 6;
-                current_x = motion->unk_00.at02_s16.v - 0x20;
-                motion->unk_0C.as_s32 =
+                current_x = motion->x.w.i - 0x20;
+                motion->unk_0C =
                     ((target_x - current_x) << 15) >> 1;
             }
             {
@@ -104,8 +104,8 @@ increment_state:
                 s32 current_z;
 
                 target_z = tile->unk_25 << 6;
-                current_z = motion->unk_04.at02_s16.v - 0x20;
-                motion->unk_10.at00_s32.v =
+                current_z = motion->y.w.i - 0x20;
+                motion->unk_10 =
                     ((target_z - current_z) << 15) >> 1;
             }
         }
@@ -114,9 +114,9 @@ increment_state:
         if ((s32)(timer << 16) > 0) {
             return;
         }
-        motion->unk_14.as_s32 = 0;
-        motion->unk_10.at00_s32.v = 0;
-        motion->unk_0C.as_s32 = 0;
+        motion->flags14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
         func_800A2B04(motion, tile->unk_24, tile->unk_25);
 
         tracked_entity = ((s32)dungeonStatus.unk_10);

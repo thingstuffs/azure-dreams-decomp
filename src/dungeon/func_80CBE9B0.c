@@ -1,8 +1,9 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_func_800A5DFC_arg1.h"
 
 typedef struct S_801721B0_0 {
@@ -39,7 +40,6 @@ extern void func_800A9A04(void *);
 extern void func_800AD594(void *, s32);
 extern s32 func_800AD9B4(void *, void *);
 
-extern u8 D_80082E80[];
 extern u8 D_80170F20[];
 extern u8 D_801762D8[];
 extern u8 D_801762E0[];
@@ -78,12 +78,12 @@ state_zero:
         (*(void * *)((u8 *)sprite + 0x2C)) = D_801762D8;
         func_80047784(
             sprite,
-            D_801762D8[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >>
+            D_801762D8[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >>
                          9) &
                         7],
             0);
         ((S_801721B0_0 *)action)->unk_98 |= 8;
-        ((Rec_D_800E3D7C *)actor)->unk_1C.as_s32 &= 0xF7FFFFFF;
+        ((EntityRec *)actor)->flags1C &= 0xF7FFFFFF;
         ((S_801721B0_0 *)action)->unk_9E.s = 5;
         ((S_801721B0_0 *)action)->unk_A0 = 0;
         ((S_801721B0_0 *)action)->unk_9B++;
@@ -116,12 +116,12 @@ state_one:
     if ((s16)next_hop_frame < 0) {
         ((S_801721B0_0 *)action)->unk_90 = 0;
         ((S_801721B0_0 *)action)->unk_98 &= 0xFFF7;
-        ((Rec_D_800E3D7C *)actor)->unk_1C.as_s32 |= 0x08000000;
+        ((EntityRec *)actor)->flags1C |= 0x08000000;
         ((S_801721B0_0 *)action)->unk_9B++;
     }
 
 state_two:
-    if (((Rec_D_800E3D7C *)actor)->unk_1C.as_s32 & 0x08000000) {
+    if (((EntityRec *)actor)->flags1C & 0x08000000) {
         ((S_801721B0_0 *)action)->unk_98 &= 0xFFF7;
         ((Rec_func_800A5DFC_arg1 *)motion)->unk_14 = 0;
         ((Rec_func_800A5DFC_arg1 *)motion)->unk_10 = 0;
@@ -131,7 +131,7 @@ state_two:
         (*(void * *)((u8 *)sprite + 0x2C)) = D_801762E0;
         func_80047784(
             sprite,
-            D_801762E0[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >>
+            D_801762E0[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >>
                          9) &
                         7],
             0);
@@ -152,13 +152,13 @@ common_update:
         if (dungeonStatus.unk_08 != 0) {
             dungeonStatus.unk_08 = (u16)dungeonStatus.unk_08 - 1;
         }
-        actor_flags = ((Rec_D_800E3D7C *)actor)->unk_1C.as_s32;
+        actor_flags = ((EntityRec *)actor)->flags1C;
         if (actor_flags & 0x2000) {
             u16 status_flags;
 
-            status_flags = ((Rec_D_800E3D7C *)actor)->unk_44.at02_u16.v;
+            status_flags = ((EntityRec *)actor)->unk_46;
             if (status_flags & 0x8000) {
-                ((Rec_D_800E3D7C *)actor)->unk_44.at02_u16.v = status_flags & 0x7FFF;
+                ((EntityRec *)actor)->unk_46 = status_flags & 0x7FFF;
             }
             goto coordinate_done;
         }
@@ -168,9 +168,9 @@ common_update:
         if (!(actor_flags & 0x20000)) {
             goto coordinate_done;
         }
-        ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 = func_800A0818(
+        ((EntityRec *)actor)->facing = func_800A0818(
             ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25,
-            D_80082E80[0x24], D_80082E80[0x25], &target_distance);
+            D_80082E80.tileX, D_80082E80.tileY, &target_distance);
 
 coordinate_done:
         func_800A5DFC(actor, motion);

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
@@ -109,7 +110,7 @@ initialize:
     func_8003F80C(&D_80027C74, 0x7AC0, 1, 2);
     D_80027C94 = 1;
     transition_kind = ((S_80024064_0 *)transition)->unk_09;
-    active_state = ((Rec_D_800814A8 *)((int *)(&D_800814A8)))->unk_00.as_pv;
+    active_state = (*(void * *)&((EntityRec *)((int *)(&D_800814A8)))->x);
     D_800269D0 = 0;
     D_80027C96 = transition_kind;
     source_data = (*(void **)((u8 *)transition + 0));
@@ -118,7 +119,7 @@ initialize:
     ((S_80024064_2 *)active_state)->unk_A8 = (u8) ((S_80024064_0 *)transition)->unk_08;
     func_800263F0(active_state);
     ((S_80024064_6 *)((*(void **)((u8 *)((int *)(&D_800814A8)) + 0))))->unk_96 = 0x14;
-    ((S_80024064_7 *)(((Rec_D_800814A8 *)((int *)(&D_800814A8)))->unk_00.as_pv))->unk_102 = 1;
+    ((S_80024064_7 *)((*(void * *)&((EntityRec *)((int *)(&D_800814A8)))->x)))->unk_102 = 1;
     ((S_80024064_0 *)transition)->unk_0A.s = (s16) ((u16) ((S_80024064_0 *)transition)->unk_0A.s + 1);
 wait_for_ready:
     if (!(*((S_80024064_0 *)transition)->unk_04 & 0x80)) {

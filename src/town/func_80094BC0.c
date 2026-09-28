@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_func_80094268_arg0.h"
 
 s32 func_80033B2C();                         /* extern */
@@ -35,7 +35,7 @@ typedef struct S_80092320_2 {
 
 
 /* Update the actor and select an action from the reference value, state flags, and timer. */
-void func_80092320(Rec_func_80094268_arg0 *action, Rec_D_800E3D7C *actor, M2C_UNK context) {
+void func_80092320(Rec_func_80094268_arg0 *action, EntityRec *actor, M2C_UNK context) {
     GameWork *state = &gameWork;
     s16 reference_value;
     s32 action_result;
@@ -45,7 +45,7 @@ void func_80092320(Rec_func_80094268_arg0 *action, Rec_D_800E3D7C *actor, M2C_UN
     func_80094C1C(action);
     func_80095094(actor);
     reference_value = func_80095978(actor, &D_800FE488);
-    if ((reference_value - actor->unk_08.at02_s16.v) >= 4) {
+    if ((reference_value - actor->z.w.i) >= 4) {
         if (((S_80092320_1 *)(&D_800CFCEF))->unk_00 == 0) {
             func_80094378(action, actor, context);
             goto done;

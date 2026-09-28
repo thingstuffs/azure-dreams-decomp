@@ -1,6 +1,7 @@
 #include "common.h"
+#include "shared/entity_objects.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 typedef struct S_800C4F6C_5 {
     u8 pad_00[0x80];
@@ -45,7 +46,6 @@ M2C_UNK func_800A47A8();                     /* extern */
 M2C_UNK func_800A48B0();            /* extern */
 M2C_UNK func_800C3050(); /* extern */
 M2C_UNK func_800C5214();                      /* extern */
-extern u8 D_80083780[];
 extern M2C_UNK D_800C5064;
 extern M2C_UNK D_800D50DC;
 extern M2C_UNK D_800D50F0;
@@ -56,7 +56,7 @@ extern M2C_UNK D_80100D98;
 
 /* Initialize object resources and display state, then copy its position to shared state. */
 void func_800C4F6C(void *object, S_800C4F6C_0 *position, S_800C4F6C_2 *display_state) {
-    s32 *shared_position;
+    EntityRec *shared_position;
 
     func_800C3050(object, 0x1D, &D_800D5120, &D_800D5124,
                  &D_800D50F0, &D_800D50F8);
@@ -71,9 +71,9 @@ void func_800C4F6C(void *object, S_800C4F6C_0 *position, S_800C4F6C_2 *display_s
     display_state->unk_1E = 0x800;
     display_state->unk_1C = 0x800;
     position->unk_04 = 0x04300000;
-    ((Rec_D_800E3D7C *)D_80083780)->unk_00.at00_s32.v = position->unk_00;
-    shared_position = (s32 *)D_80083780;
-    ((S_800C4F6C_4 *)shared_position)->unk_04 = (s32) position->unk_04;
-    ((S_800C4F6C_4 *)shared_position)->unk_08 = (s32) position->unk_08;
+    ((EntityRec *)((u8 *)(&D_80083780)))->x.v = position->unk_00;
+    shared_position = &D_80083780;
+    shared_position->y.v = (s32) position->unk_04;
+    shared_position->z.v = (s32) position->unk_08;
     func_800A48B0(&D_80100D98, shared_position);
 }

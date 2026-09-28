@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -34,8 +36,6 @@ extern s32 func_801720B4(void *, void *, void *, s32);
 extern void func_80173D64(void *, void *, void *, void *);
 extern void func_8017526C(void *, void *, void *, void *);
 
-extern u8 D_80082E80[];
-extern s8 D_80082EA4;
 extern s8 D_800E2970[];
 extern void *D_80170808[];
 extern u8 D_80170E70[];
@@ -206,7 +206,7 @@ void func_80170E70(void *entity_in, void *context_in, void *sprite_in, void *act
         if (((S_80170E70_1 *)actor)->unk_1C & 0x20) {
             goto jt_c12;
         }
-        if (((S_80170E70_2 *)sprite)->unk_24.at00u.v == *(u16 *)&D_80082EA4) {
+        if (((S_80170E70_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
             goto jt_default;
         }
 
@@ -214,7 +214,7 @@ void func_80170E70(void *entity_in, void *context_in, void *sprite_in, void *act
         if ((action_flags & 0x8000) == 0) {
             if (dungeonStatus.flags & 0x2000) {
                 if ((s16)func_8009A180(
-                        actor, (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) != 0) {
+                        actor, (u8 *)((EntityRec *)D_800814A8)->unk_58 + 0x20) != 0) {
                     return;
                 }
             }
@@ -248,7 +248,7 @@ jt_c6:
 jt_c7:
         target_angle = func_800A0818(
             ((S_80170E70_2 *)sprite)->unk_24.at00.v, ((S_80170E70_2 *)sprite)->unk_24.at01.v,
-            D_80082E80[0x24], D_80082E80[0x25], &path_distance);
+            D_80082E80.tileX, D_80082E80.tileY, &path_distance);
         owner = D_800814A8;
         ((S_80170E70_1 *)actor)->unk_2A = target_angle;
         if (((S_80170E70_4 *)owner)->unk_9A == 0x11) {
@@ -282,7 +282,7 @@ jt_default:
         if ((tile_id < 0) ||
             ((((DungeonRecord *)D_800E2970)[tile_id].flags & 2) == 0)) {
             if ((actor_flags & 0x430) == 0) {
-                entity = (void *)((u32)&D_80082E80);
+                entity = (void *)((u32)((u8 *)(&D_80082E80)));
                 if ((s16)func_8009FD7C(
                         ((S_80170E70_2 *)sprite)->unk_24.at00.v, ((S_80170E70_2 *)sprite)->unk_24.at01.v,
                         ((S_80170E70_0 *)entity)->unk_24, ((S_80170E70_0 *)entity)->unk_25) != 0) {

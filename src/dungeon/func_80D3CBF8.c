@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
@@ -40,9 +41,7 @@ extern s32 func_80172BB0();
 extern u8 D_8006CCD8[16];
 extern u8 D_8006CCE8[16];
 extern s16 D_8006CD00[8];
-extern u8 D_80082E80[];
 extern FallbackCenter D_80082E80_center[] __asm__("D_80082E80");
-extern u16 D_80082EA4;
 extern u8 D_800E2970[];
 
 /* Choose a movement direction, move the actor, and update its path history and height. */
@@ -138,10 +137,10 @@ void func_801723F8(void *work_data, void *action_context, void *position_data, v
 
         if (movement_flags & 0x20000) {
             s16 path_angle;
-            u8 *path_center;
+            TileObject *path_center;
             u8 *path_work;
 
-            path_center = D_80082E80;
+            path_center = &D_80082E80;
             direction = (U8_AT(actor, 0x45) + (S16_AT(D_800814A8, 0x2A) >> 9)) & 7;
             target_x = U8_AT(path_center, 0x24) +
                        *(u16 *)(D_8006CCD8 + (direction * 2));
@@ -208,9 +207,9 @@ void func_801723F8(void *work_data, void *action_context, void *position_data, v
     }
 
     if (S32_AT(actor, 0x1C) & 0x20000) {
-        u8 *move_center;
+        TileObject *move_center;
 
-        move_center = D_80082E80;
+        move_center = &D_80082E80;
         U16_AT(actor, 0x2A) = func_800A0818(
             U8_AT(position, 0x24), U8_AT(position, 0x25),
             U8_AT(move_center, 0x24), U8_AT(move_center, 0x25),
@@ -312,7 +311,7 @@ loop_head:
     if (attempt != 0) {
         goto loop_increment;
     }
-    if (D_80082EA4 == U16_AT(position, 0x24)) {
+    if (*(u16 *)(&D_80082E80.tileX) == U16_AT(position, 0x24)) {
         goto loop_increment;
     }
     if ((func_8009A180(actor, S32_AT(D_800814A8, 0x58) + 0x20) << 16) != 0) {

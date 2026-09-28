@@ -2,7 +2,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_D_80083460.h"
 
 typedef struct S_80173280_0 {
@@ -233,9 +233,9 @@ invoke_move:
         goto done;
     }
 
-    ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0;
-    ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = 0;
-    ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
+    ((EntityRec *)motion)->flags14 = 0;
+    ((EntityRec *)motion)->unk_10 = 0;
+    ((EntityRec *)motion)->unk_0C = 0;
     func_800A2B04(motion, ((S_80173280_3 *)tile_arg)->unk_24, ((S_80173280_3 *)tile_arg)->unk_25);
     {
         u8 *active_actor = D_800814A8;
@@ -302,9 +302,9 @@ state_3:
     if (!(((S_80173280_3 *)tile_arg)->unk_14 & 0xE000)) {
         goto done;
     }
-    ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0;
-    ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = 0;
-    ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
+    ((EntityRec *)motion)->flags14 = 0;
+    ((EntityRec *)motion)->unk_10 = 0;
+    ((EntityRec *)motion)->unk_0C = 0;
     func_800A2B04(motion, ((S_80173280_3 *)tile_arg)->unk_24, ((S_80173280_3 *)tile_arg)->unk_25);
     if (((S_80173280_3 *)tile_arg)->unk_2C != D_80175988) {
         u8 *frame_table = D_80175988;

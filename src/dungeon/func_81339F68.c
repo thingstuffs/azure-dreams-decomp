@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity_objects.h"
 #include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -28,7 +29,6 @@ extern void func_80170D2C();
 
 extern Particle D_80082E80;
 extern u8 D_80083498[];
-extern u8 D_80083780[];
 extern Copy8 D_80164A4C;
 extern u8 *D_80175D50;
 
@@ -147,7 +147,7 @@ brighten:
             ramp_count--;
             ramp_x = (s16)((rand() & 0x3F) - 0x20);
             ramp_y = (s16)((rand() & 0x3F) - 0x20);
-            func_800F692C(D_80083780, ramp_x, ramp_y,
+            func_800F692C(((u8 *)(&D_80083780)), ramp_x, ramp_y,
                 (s16)(-(rand() & 0x3F) - 0x10));
         } while (ramp_count > 0);
     }
@@ -167,7 +167,7 @@ fade:
             late_count--;
             late_x = (s16)((rand() & 0x3F) - 0x20);
             late_y = (s16)((rand() & 0x3F) - 0x20);
-            func_800F6B2C(D_80083780, late_x, late_y,
+            func_800F6B2C(((u8 *)(&D_80083780)), late_x, late_y,
                 (s16)(-(rand() & 0x1F) - 0x18));
         } while (late_count > 0);
     }
@@ -177,7 +177,7 @@ fade:
             early_count--;
             early_x = (s16)((rand() & 0x3F) - 0x20);
             early_y = (s16)((rand() & 0x3F) - 0x20);
-            func_800F692C(D_80083780, early_x, early_y,
+            func_800F692C(((u8 *)(&D_80083780)), early_x, early_y,
                 (s16)(-(rand() & 0x3F) - 0x10));
         } while (early_count > 0);
     } else {

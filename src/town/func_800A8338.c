@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity_objects.h"
 #include "shared/game_work.h"
 
 typedef struct S_800A5A98_0 {
@@ -30,15 +31,6 @@ typedef struct {
     s32 value;
 } Actor;
 
-typedef struct {
-    u8 pad00[2];
-    s16 first;
-    u8 pad06[2];
-    s16 second;
-    u8 tail[4];
-} World;
-
-extern World D_80083780;
 extern u8 D_800CFCEE;
 extern u8 D_800FE488[];
 extern s32 D_80100E20;
@@ -104,7 +96,7 @@ after_second_update:
     } else {
         func_80095388(actor, height_limit);
     }
-    world_value = func_8008C180(D_80083780.first, D_80083780.second);
+    world_value = func_8008C180(D_80083780.x.w.i, D_80083780.y.w.i);
     if (func_800C1D44((u16)world_value) != 0) {
         actor->value -= func_800A5894(actor);
     }

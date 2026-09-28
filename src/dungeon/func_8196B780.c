@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
 
 typedef struct S_8196B780_0 {
@@ -77,7 +78,6 @@ extern s16 rand();
 
 extern LocalPoints D_80024004;
 extern u8 D_80024874[];
-extern u8 D_80083780[];
 extern u8 D_800DECF8[];
 
 /* Spawns an effect with randomized position and direction-based motion. */
@@ -89,7 +89,6 @@ void func_8196B780(S_8196B780_5 *source, s16 unused_1, s16 unused_2, s16 x, s16 
     S_8196B780_0 *motion;
     S_8196B780_2 *sprite;
     S_8196B780_3 *position;
-    u8 *position_base;
     LocalPoint *point_base;
     LocalPoint *point;
     s32 point_index;
@@ -112,13 +111,12 @@ void func_8196B780(S_8196B780_5 *source, s16 unused_1, s16 unused_2, s16 x, s16 
         sprite->unk_06 = 0;
 
         position = ((S_8196B780_1 *)effect)->unk_08;
-        position_base = D_80083780;
         position->unk_02 = x;
         position->unk_06 = offset_y;
         position->unk_0A = offset_z;
-        position->unk_02 += ((S_8196B780_4 *)position_base)->unk_02;
-        position->unk_06 += ((S_8196B780_4 *)position_base)->unk_06;
-        position->unk_0A += ((S_8196B780_4 *)position_base)->unk_0A;
+        position->unk_02 += ((u16)D_80083780.x.w.i);
+        position->unk_06 += ((u16)D_80083780.y.w.i);
+        position->unk_0A += ((u16)D_80083780.z.w.i);
 
         position->unk_02 += (rand() & 0x3F) - 0x20;
         position->unk_06 += (rand() & 0x3F) - 0x20;

@@ -1,5 +1,5 @@
 #include "common.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_func_80094268_arg0.h"
 
 /* Unknown field access, like `*(type_ptr) &expr->unk_offset` */
@@ -20,14 +20,14 @@ extern M2C_UNK D_800FE488;
 
 
 /* Update the entity, handle a large value change, and advance the state countdown. */
-void func_80091BD8(Rec_func_80094268_arg0 *state, Rec_D_800E3D7C *entity, M2C_UNK context) {
+void func_80091BD8(Rec_func_80094268_arg0 *state, EntityRec *entity, M2C_UNK context) {
     s16 sampled_value;
     s16 ticks_left;
 
     func_80095C80(entity);
     func_80095094(entity);
     sampled_value = func_80095978(entity, &D_800FE488);
-    if ((sampled_value - entity->unk_08.at02_s16.v) >= 4) {
+    if ((sampled_value - entity->z.w.i) >= 4) {
         if (D_800CFCEF == 0) {
             func_80094378(state, entity, context);
             return;

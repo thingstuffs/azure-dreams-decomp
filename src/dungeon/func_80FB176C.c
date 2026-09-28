@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -137,8 +138,6 @@ extern s32 func_80172658(void *, void *, void *, s32);
 extern void func_80174250(void *, void *, void *, void *);
 
 extern void *D_800814A8[3];
-extern u8 D_80082E80[];
-extern s8 D_80082EA4[16];
 extern u8 D_80083498[];
 extern u8 D_800DEA68[];
 extern DungeonRecord D_800E2970[];
@@ -416,7 +415,7 @@ sw1_case4: {
         if (((S_80170F6C_1 *)arg3)->unk_1C & 0x20) {
             goto sw_case12;
         }
-        if (((S_80170F6C_2 *)arg2)->unk_24.at00u.v == *(u16 *)&D_80082EA4[0]) {
+        if (((S_80170F6C_2 *)arg2)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
             goto sw_generic;
         }
         if (!(((S_80170F6C_1 *)arg3)->unk_46 & 0x8000)) {
@@ -468,11 +467,10 @@ sw_case567:
         {
             s16 next_position;
             void *status_object;
-            u8 *map_base = D_80082E80;
 
             next_position = func_800A0818(
             ((S_80170F6C_2 *)arg2)->unk_24.at00.v, ((S_80170F6C_2 *)arg2)->unk_24.at01.v,
-            ((S_80170F6C_9 *)map_base)->unk_24, ((S_80170F6C_9 *)map_base)->unk_25,
+            D_80082E80.tileX, D_80082E80.tileY,
             &scratch);
             status_object = D_800814A8[0];
             ((S_80170F6C_1 *)arg3)->unk_2A.s = next_position;
@@ -501,14 +499,13 @@ sw_generic:
                 u32 final_mask =
                     final_flags & 0x430;
                 if (!final_mask) {
-                u8 *map_base = D_80082E80;
 
                 if ((func_8009FD7C(
                         ((S_80170F6C_2 *)arg2)->unk_24.at00.v, ((S_80170F6C_2 *)arg2)->unk_24.at01.v,
-                        ((S_80170F6C_9 *)map_base)->unk_24, ((S_80170F6C_9 *)map_base)->unk_25) << 16) != 0) {
+                        D_80082E80.tileX, D_80082E80.tileY) << 16) != 0) {
                     ((S_80170F6C_1 *)arg3)->unk_2A.s = func_800A0818(
                         ((S_80170F6C_2 *)arg2)->unk_24.at00.v, ((S_80170F6C_2 *)arg2)->unk_24.at01.v,
-                        ((S_80170F6C_9 *)map_base)->unk_24, ((S_80170F6C_9 *)map_base)->unk_25,
+                        D_80082E80.tileX, D_80082E80.tileY,
                         &scratch);
                 }
             }

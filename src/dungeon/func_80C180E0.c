@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -71,7 +73,6 @@ extern void func_800AA79C(void *, void *, void *, void *);
 extern void func_800AA888(void *, void *, void *, void *);
 extern void func_80174250(void *, void *, void *, void *);
 
-extern u8 D_80082E80[];
 extern void *D_80170858[];
 extern u8 D_801713A8[];
 extern u8 D_8017449C[];
@@ -223,7 +224,7 @@ state_two:
     }
     if ((func_800A2C34(entity) << 16) != 0) {
         if ((func_8009A180(
-                 entity, (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20)
+                 entity, (u8 *)((EntityRec *)D_800814A8)->unk_58 + 0x20)
              << 16) != 0) {
             goto done;
         }
@@ -231,10 +232,10 @@ state_two:
     func_800A9A0C(entity);
     func_800A9A04(entity);
     if ((func_80042900(entity, 1) << 16) != 0) {
-        u8 *origin = D_80082E80;
+        TileObject *origin = &D_80082E80;
         s8 coordinate = ((S_801738E0_1 *)sprite)->unk_26;
 
-        if ((((coordinate == ((S_801738E0_5 *)origin)->unk_26) && (coordinate >= 0)) ||
+        if ((((coordinate == origin->unk_026) && (coordinate >= 0)) ||
              (func_8009FD40(origin, sprite) < 2)) &&
             ((func_800A6D30() & 7) == 0)) {
             func_80042B68(entity, 1);

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
@@ -100,7 +101,7 @@ void func_80024078(State *ctx)
         ((S_80024078_0 *)object)->unk_F4 = D_800281FC;
         ((S_80024078_0 *)object)->unk_96 = 0x14;
         ((S_80024078_0 *)object)->unk_A8 = ctx->field_8;
-        ((Rec_D_800814A8 *)D_800814A8)->unk_102 = 1;
+        ((EntityRec *)D_800814A8)->unk_102 = 1;
 
         ctx->state++;
         ASM_MEM_BARRIER();
@@ -138,7 +139,7 @@ void func_80024078(State *ctx)
         if (ctx->timer_1C >= 0xB) {
             break;
         }
-        ((Rec_D_800814A8 *)D_800814A8)->unk_A6--;
+        (*(u16 *)((u8 *)&((EntityRec *)D_800814A8)->unk_A4 + 2))--;
         func_800A56E0(func_80053EF0(4) != 2 ? 0x300 : 0x4300);
         goto advance_state;
 

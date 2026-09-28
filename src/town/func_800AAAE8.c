@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/entity_objects.h"
 #include "shared/object_flags.h"
 
 extern s32 D_800834B8[2];
 extern s32 D_80097D2C;
 extern s32 D_80097EA0;
-extern s32 D_80083780[3];
 extern s32 D_800D0428;
 
 extern void func_80033D08(void *arg0);
@@ -22,7 +22,7 @@ void func_800A8248(void *object, s32 *out_vector)
         return;
     }
 
-    out_vector[0] = D_80083780[0];
-    out_vector[1] = D_80083780[1];
-    out_vector[2] = D_80083780[2] + D_800D0428;
+    out_vector[0] = D_80083780.x.v;
+    out_vector[1] = D_80083780.y.v;
+    out_vector[2] = D_80083780.z.v + D_800D0428;
 }

@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -86,8 +88,6 @@ extern s32 func_80172258(void *, void *, void *, s32);
 extern void func_80173D38(void *, void *, void *, void *);
 extern void func_801740F4(void *, void *, void *, void *);
 
-extern u8 D_80082E80[];
-extern s8 D_80082EA4;
 extern s8 D_800E2970[];
 extern void *const D_80170808[];
 extern u8 D_80171138[];
@@ -197,14 +197,14 @@ void func_80171138(void *actor_in, void *context_in, void *sprite_in, void *stat
         if (((S_80171138_1 *)stats)->unk_1C & 0x20) {
             goto case_12;
         }
-        if (((S_80171138_2 *)sprite)->unk_24.at00u.v == *(u16 *)&D_80082EA4) {
+        if (((S_80171138_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
             goto default_case;
         }
         action_state = ((S_80171138_1 *)stats)->unk_46;
         if (!(action_state & 0x8000)) {
             if (dungeonStatus.flags & 0x2000) {
                 if ((func_8009A180(stats,
-                        (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) << 16) != 0) {
+                        (u8 *)((EntityRec *)D_800814A8)->unk_58 + 0x20) << 16) != 0) {
                     return;
                 }
             }
@@ -243,13 +243,12 @@ case_5:
 case_6:
 case_7:
         {
-            u8 *target_pos = D_80082E80;
             void *player;
             s16 facing_angle;
 
             facing_angle = func_800A0818(
                 ((S_80171138_2 *)sprite)->unk_24.at00.v, ((S_80171138_2 *)sprite)->unk_24.at01.v,
-                ((S_80171138_4 *)target_pos)->unk_24, ((S_80171138_4 *)target_pos)->unk_25,
+                D_80082E80.tileX, D_80082E80.tileY,
                 &angle_aux);
             player = D_800814A8;
             ((S_80171138_1 *)stats)->unk_2A = facing_angle;
@@ -291,14 +290,13 @@ default_case:
     }
 
     {
-        u8 *target_pos = D_80082E80;
 
         if ((func_8009FD7C(
                 ((S_80171138_2 *)sprite)->unk_24.at00.v, ((S_80171138_2 *)sprite)->unk_24.at01.v,
-                ((S_80171138_6 *)target_pos)->unk_24, ((S_80171138_6 *)target_pos)->unk_25) << 16) != 0) {
+                D_80082E80.tileX, D_80082E80.tileY) << 16) != 0) {
             ((S_80171138_1 *)stats)->unk_2A = func_800A0818(
                 ((S_80171138_2 *)sprite)->unk_24.at00.v, ((S_80171138_2 *)sprite)->unk_24.at01.v,
-                ((S_80171138_6 *)target_pos)->unk_24, ((S_80171138_6 *)target_pos)->unk_25, &angle_aux);
+                D_80082E80.tileX, D_80082E80.tileY, &angle_aux);
         }
     }
     return;

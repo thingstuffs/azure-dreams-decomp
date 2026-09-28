@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -56,7 +57,6 @@ typedef struct Scratch {
 #define result scratch.result
 #define map_flags scratch.map_flags
 
-extern u8 D_80082E80[];
 extern s16 D_8006CCD8_early[] __asm__("D_8006CCD8");
 extern s16 D_8006CCE8_early[] __asm__("D_8006CCE8");
 extern void *D_800814A8_early[4] __asm__("D_800814A8");
@@ -147,24 +147,24 @@ void func_80024C74(EffectState *effect_state, Motion *effect_motion, ColorPart *
         target_pos = scratch.work;
         /* This expression is intentionally kept in its retail form. */
         if ((U16_AT(owner_data, 0x1E) | 0x2000) != 0) {
-            u8 *position_base = D_80082E80;
+            TileObject *position_base = &D_80082E80;
             void *direction_node = D_800814A8;
 
             {
                 u8 *x_table = (u8 *)dirStepX;
                 direction_bits = U16_AT(direction_node, 0x2A);
-                state->x = position_base[0x24] +
+                state->x = position_base->tileX +
                     ((s16 *)(x_table + (((u32)direction_bits >> 8) & 0xE)))[0];
             }
             {
                 u8 *y_table = (u8 *)dirStepY;
                 direction_bits = U16_AT(direction_node, 0x2A);
-                state->y = position_base[0x25] +
+                state->y = position_base->tileY +
                     ((s16 *)(y_table + (((u32)direction_bits >> 8) & 0xE)))[0];
             }
         } else {
-            state->x = D_80082E80[0x24] + dirStepX[state->direction];
-            state->y = D_80082E80[0x25] + dirStepY[state->direction];
+            state->x = D_80082E80.tileX + dirStepX[state->direction];
+            state->y = D_80082E80.tileY + dirStepY[state->direction];
         }
         {
             void *height_node;

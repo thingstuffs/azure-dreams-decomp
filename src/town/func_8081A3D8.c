@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 
@@ -23,7 +24,6 @@ extern u8 D_80024B48[];
 extern s32 D_80053858[4];
 extern s32 D_80053A88;
 extern u8 D_80083498[];
-extern u8 D_80083780[];
 extern u8 D_800F7DFC[];
 
 extern void func_80033B78(s32);
@@ -84,7 +84,6 @@ void func_800243D8(State8081A3D8 *controller)
     u16 best_score;
     s32 state;
     s32 dialog_zero;
-    s32 *position;
     static void *const state_labels[6] = {
         &&case_0, &&case_1, &&case_2, &&case_3, &&case_4, &&case_5
     };
@@ -96,9 +95,8 @@ void func_800243D8(State8081A3D8 *controller)
         spawn_interval = 16;
     }
 
-    position = (s32 *)D_80083780;
-    if (position[1] > 0x03200000) {
-        position[1] = 0x03200000;
+    if (D_80083780.y.v > 0x03200000) {
+        D_80083780.y.v = 0x03200000;
     }
 
     state = controller->state;

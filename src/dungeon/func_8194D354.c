@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity_objects.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
@@ -150,9 +152,6 @@ void *func_800A05A4();
 s32 func_800A45D8();
 s32 func_800A56E0();
 s16 func_800BCAD0();
-extern M2C_UNK D_80082E80;
-extern u16 D_80082E94;
-extern s32 D_80083780;
 extern M2C_UNK D_800DE5DC;
 extern s32 D_800E3D18;
 
@@ -254,8 +253,8 @@ jt_c2:
     }
     rounded_phase = ((s32)actor_or_frame) + 0xFFF;
 block_10:
-    origin = &D_80083780;
-    step_value = (s32)D_80083780;
+    origin = &D_80083780.x.v;
+    step_value = (s32)D_80083780.x.v;
     ASM_CLOBBER("$19");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     target_page = (u8 *)0x80080000;
     (*(s32 *)((u8 *)source_pos + 0)) = step_value;

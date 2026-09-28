@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/slus_callbacks.h"
 #include "shared/dungeon_status.h"
 
@@ -112,13 +113,11 @@ typedef struct S_func_819A6800_10 {
 
 extern void *D_80024008[];
 extern u8 D_800814A8[16];
-extern u8 D_80082E80[];
 extern u8 D_80083498[];
 extern u8 D_800244BC[];
 extern u8 D_80024810[];
 extern u8 D_80024B20[];
 extern u8 D_800DEE38[];
-extern u16 D_80082E94[];
 extern u32 D_800814A0[];
 
 #define GLOBAL_OBJECT (*(void **)D_800814A8)
@@ -204,8 +203,8 @@ state2:
         ((S_func_819A6800_5 *)(out_position))->unk_08.u = ((S_func_819A6800_5 *)(owner_object->unk_08))->unk_08.u;
 
         new_object = func_800A05A4(reloaded_object,
-                                D_80082E80[0x24],
-                                D_80082E80[0x25],
+                                D_80082E80.tileX,
+                                D_80082E80.tileY,
                                 reloaded_object->unk_2A,
                                 7);
         owner->unk_60.p = new_object;
@@ -325,7 +324,7 @@ state5:
                       owner,
                       2);
     }
-    if ((D_80082E94[0] & 0x8000) == 0 &&
+    if ((D_80082E80.unk_014 & 0x8000) == 0 &&
         SELF->unk_50.s >= 0) {
         goto return_done;
     }

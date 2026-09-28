@@ -1,6 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 typedef struct {
     s8 x;
@@ -21,7 +21,7 @@ extern M2C_UNK D_80089304;
 
 
 /* Formats two pairs of stat values with comparison indicators. */
-void *func_800B557C(void *text, Rec_D_800E3D7C *stats) {
+void *func_800B557C(void *text, EntityRec *stats) {
     M2C_UNK format_buf[3];
     s32 first_indicator;
     s32 second_indicator;

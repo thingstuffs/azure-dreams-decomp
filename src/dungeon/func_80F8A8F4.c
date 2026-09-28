@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 
 
@@ -40,25 +40,25 @@ void func_801740F4(void *work, void *part_a, void *part_b, void *actor) {
     s32 field_60;
     u8 *table_base;
 
-    ((Rec_D_800E3D7C *)actor)->unk_71.as_u8 = (u8)(((Rec_D_800E3D7C *)actor)->unk_71.as_u8 & 0x7F);
+    ((EntityRec *)actor)->unk_71 = (u8)(((EntityRec *)actor)->unk_71 & 0x7F);
     if (!(dungeonStatus.flags & 0x2000) && ((func_800A2BDC(actor) << 0x10) == 0)) {
         ((S_801740F4_1 *)work)->unk_8C = 0;
         ((S_801740F4_1 *)work)->unk_9A = 0x17;
         ((S_801740F4_1 *)work)->unk_9B = 0;
-        if (((Rec_D_800E3D7C *)actor)->unk_1C.as_s32 & 0x400) {
-            flags = ((Rec_D_800E3D7C *)actor)->unk_14.as_s32;
+        if (((EntityRec *)actor)->flags1C & 0x400) {
+            flags = ((EntityRec *)actor)->flags14;
             if (!(flags & 0x80000000)) {
                 flags |= 0x80000000;
-                ((Rec_D_800E3D7C *)actor)->unk_14.as_s32 = (s32)flags;
-                ((Rec_D_800E3D7C *)actor)->unk_2A.as_u16 = (u16)(((Rec_D_800E3D7C *)actor)->unk_2A.as_u16 + ((func_800A6D30() & 7) << 9));
+                ((EntityRec *)actor)->flags14 = (s32)flags;
+                ((EntityRec *)actor)->facing = (u16)(((u16)((EntityRec *)actor)->facing) + ((func_800A6D30() & 7) << 9));
             }
         }
-        field_60 = func_800A04F0(actor, ((Rec_D_80082E80 *)part_b)->unk_24, ((Rec_D_80082E80 *)part_b)->unk_25, (s16)((Rec_D_800E3D7C *)actor)->unk_2A.as_u16);
+        field_60 = func_800A04F0(actor, ((Rec_D_80082E80 *)part_b)->unk_24, ((Rec_D_80082E80 *)part_b)->unk_25, (s16)((u16)((EntityRec *)actor)->facing));
         table_base = D_80174B0C;
-        ((Rec_D_800E3D7C *)actor)->unk_60.as_s32 = field_60;
+        ((EntityRec *)actor)->target = field_60;
         (*(u8 **)((u8 *)part_b + 0x2C)) = table_base;
-        func_80047784(part_b, table_base[((s32)(gameWork.viewAngle + (s16)((Rec_D_800E3D7C *)actor)->unk_2A.as_u16 + 0x100) >> 9) & 7], 0);
-        ((Rec_D_800E3D7C *)actor)->unk_6D.as_u8 = (u8)(((Rec_D_800E3D7C *)actor)->unk_6D.as_u8 - 1);
+        func_80047784(part_b, table_base[((s32)(gameWork.viewAngle + (s16)((u16)((EntityRec *)actor)->facing) + 0x100) >> 9) & 7], 0);
+        ((EntityRec *)actor)->unk_6D = (u8)(((u8)((EntityRec *)actor)->unk_6D) - 1);
         dungeonStatus.unk_0A = (u16)(((u16)dungeonStatus.unk_0A) + 1);
         raw_result = func_800990FC();
         call_arg = actor;

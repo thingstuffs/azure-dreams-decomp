@@ -3,7 +3,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 extern int abs(int);
 
 typedef struct S_80172D74_0 {
@@ -246,9 +246,9 @@ ready_item:
     return;
 
 empty_slot:
-    ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0;
-    ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = 0;
-    ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
+    ((EntityRec *)motion)->flags14 = 0;
+    ((EntityRec *)motion)->unk_10 = 0;
+    ((EntityRec *)motion)->unk_0C = 0;
     func_800A2B04(motion, ((S_80172D74_4 *)sprite)->unk_24, ((S_80172D74_4 *)sprite)->unk_25);
     {
         void *entity = D_800814A8;
@@ -290,8 +290,8 @@ increment_state:
 
 state3:
     if (((S_80172D74_1 *)action)->unk_96.u < 4) {
-        ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = -step_x << 18;
-        ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = -step_z << 18;
+        ((EntityRec *)motion)->unk_0C = -step_x << 18;
+        ((EntityRec *)motion)->unk_10 = -step_z << 18;
     }
     if (((S_80172D74_1 *)action)->unk_96.u > 0) {
         return;
@@ -306,23 +306,23 @@ set_state:
 state16:
     {
         s32 target_x = ((S_80172D74_4 *)sprite)->unk_24 << 6;
-        s32 current_x = ((Rec_D_800E3D7C *)motion)->unk_00.at02_s16.v - 0x20;
+        s32 current_x = ((EntityRec *)motion)->x.w.i - 0x20;
 
-        ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = (target_x - current_x) << 14;
+        ((EntityRec *)motion)->unk_0C = (target_x - current_x) << 14;
     }
     {
         s32 target_z = ((S_80172D74_4 *)sprite)->unk_25 << 6;
-        s32 current_z = ((Rec_D_800E3D7C *)motion)->unk_04.at02_s16.v - 0x20;
+        s32 current_z = ((EntityRec *)motion)->y.w.i - 0x20;
 
-        ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = (target_z - current_z) << 14;
+        ((EntityRec *)motion)->unk_10 = (target_z - current_z) << 14;
     }
     if (!(((S_80172D74_7 *)owner_sprite)->unk_14 & 0x8000) &&
         ((S_80172D74_1 *)action)->unk_96.u > 0) {
         return;
     }
-    ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0;
-    ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = 0;
-    ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
+    ((EntityRec *)motion)->flags14 = 0;
+    ((EntityRec *)motion)->unk_10 = 0;
+    ((EntityRec *)motion)->unk_0C = 0;
     func_800A2B04(motion, ((S_80172D74_4 *)sprite)->unk_24, ((S_80172D74_4 *)sprite)->unk_25);
     {
         u8 *animation = ((S_80172D74_4 *)sprite)->unk_2C;

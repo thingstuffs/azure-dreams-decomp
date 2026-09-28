@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -58,7 +59,6 @@ extern void func_800AA888(void *, void *, void *, void *);
 extern void func_80174520(void *, void *, void *, void *);
 extern void func_80175060(void *, void *);
 
-extern u8 D_80082E80[];
 extern u8 D_80171094[];
 extern u8 D_80176470[];
 extern u8 D_80176478[];
@@ -156,10 +156,10 @@ state_one:
         func_800A9A0C(actor);
         func_800A9A04(actor);
         if ((func_80042900(actor, 1) << 16) != 0) {
-            u8 *origin = D_80082E80;
+            TileObject *origin = &D_80082E80;
             s8 tile = ((Rec_D_80082E80 *)object)->unk_26.as_s8;
 
-            if (((tile == ((S_80173DD4_6 *)origin)->unk_26) && (tile >= 0)) ||
+            if (((tile == origin->unk_026) && (tile >= 0)) ||
                 ((s16)func_8009FD40(origin, object) < 2)) {
                 if (!(func_800A6D30() & 7)) {
                     func_80042B68(actor, 1);

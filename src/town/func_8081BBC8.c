@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity_objects.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 
@@ -25,10 +27,7 @@ typedef struct TownState {
 extern u16 D_800135BE;
 extern void *D_80020164[6];
 extern u8 D_80026F80[];
-extern u8 D_80082E80[];
-extern u32 D_80082E8C;
 extern s16 D_800834C8[1];
-extern s32 D_80083780[];
 
 extern void func_800252B8(s32, s32, s32, s32);
 extern void func_80033B78(s32);
@@ -169,17 +168,16 @@ case_3:
     }
     state->timer--;
     if (state->timer >= 0) {
-        u8 *color_data = D_80082E80;
 
         loop_index = 7;
-        color_data[0xE] += (0x90 - color_data[0xE]) >> 1;
-        color_data[0xD] = color_data[0xE];
-        color_data[0xC] = color_data[0xE];
+        D_80082E80.unk_00E += (0x90 - D_80082E80.unk_00E) >> 1;
+        D_80082E80.unk_00D = D_80082E80.unk_00E;
+        D_80082E80.unk_00C = D_80082E80.unk_00E;
         do {
-            particle_x = D_80083780[0] +
+            particle_x = D_80083780.x.v +
                 (((rand() & 0x3F) - 0x20) << 16);
             func_800252B8(0xF0F0F0, particle_x,
-                          D_80083780[1] +
+                          D_80083780.y.v +
                               (((rand() & 0x3F) - 0x20) << 16),
                           0);
             loop_index--;
@@ -217,7 +215,7 @@ case_4:
             func_80033B78(0xAE4);
         }
         func_800483AC(2);
-        D_80082E8C = 0x00808080;
+        *(u32 *)(&D_80082E80.unk_00C) = 0x00808080;
         *(u16 *)((u8 *)state - 2) |= 0x8000;
         objectFlagBlock.flags |= 0x8000;
         goto cleanup;

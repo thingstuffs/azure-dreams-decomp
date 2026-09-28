@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082EB0.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
@@ -30,7 +31,6 @@ M2C_UNK func_800982A8();              /* extern */
 M2C_UNK func_80098614();              /* extern */
 s32 func_80098920(); /* extern */
 s32 func_8009FADC();                             /* extern */
-extern M2C_UNK D_80082EB0;
 
 /* Dispatches an item effect or equipment update according to the item type. */
 s32 func_80095538(Rec_func_8008ACDC_arg0 *actor, s16 item_id, s16 other_item_id) {
@@ -46,26 +46,26 @@ s32 func_80095538(Rec_func_8008ACDC_arg0 *actor, s16 item_id, s16 other_item_id)
     saved_x = ((S_80095538_0 *)((u8 *)actor_base - 0x18))->unk_00;
     saved_y = ((S_80095538_0 *)((u8 *)actor_base - 0x18))->unk_04;
     result = 1;
-    ((S_80095538_1 *)(&D_80082EB0))->unk_00.s = func_8009FADC(item_id);
+    ((S_80095538_1 *)(&D_80082E80.unk_030))->unk_00.s = func_8009FADC(item_id);
     if (other_item_id != 0) {
-        ((S_80095538_1 *)(&D_80082EB0))->unk_04 = func_8009FADC(other_item_id);
+        ((S_80095538_1 *)(&D_80082E80.unk_030))->unk_04 = func_8009FADC(other_item_id);
     } else {
-        ((S_80095538_1 *)(&D_80082EB0))->unk_04 = 0;
+        ((S_80095538_1 *)(&D_80082E80.unk_030))->unk_04 = 0;
     }
-    item_type = ((S_80095538_4 *)(((Rec_D_80082EB0 *)(&D_80082EB0))->unk_00.as_pv))->unk_01;
+    item_type = ((S_80095538_4 *)(((Rec_D_80082EB0 *)(&D_80082E80.unk_030))->unk_00.as_pv))->unk_01;
     switch (item_type) {
     case 15:
     case 16:
         equipment_item = NULL;
-        if (((S_80095538_1 *)(&D_80082EB0))->unk_00.u != ((S_80095538_0 *)((u8 *)actor_base - 0x18))->unk_64) {
-            equipment_item = ((S_80095538_1 *)(&D_80082EB0))->unk_00.u;
+        if (((S_80095538_1 *)(&D_80082E80.unk_030))->unk_00.u != ((S_80095538_0 *)((u8 *)actor_base - 0x18))->unk_64) {
+            equipment_item = ((S_80095538_1 *)(&D_80082E80.unk_030))->unk_00.u;
         }
         func_800982A8(actor_base, equipment_item);
         goto shift_result;
     case 17:
         accessory_item = NULL;
-        if (((S_80095538_1 *)(&D_80082EB0))->unk_00.u != ((S_80095538_0 *)((u8 *)actor_base - 0x18))->unk_68) {
-            accessory_item = ((S_80095538_1 *)(&D_80082EB0))->unk_00.u;
+        if (((S_80095538_1 *)(&D_80082E80.unk_030))->unk_00.u != ((S_80095538_0 *)((u8 *)actor_base - 0x18))->unk_68) {
+            accessory_item = ((S_80095538_1 *)(&D_80082E80.unk_030))->unk_00.u;
         }
         func_80098614(actor_base, accessory_item);
         goto shift_result;
@@ -83,10 +83,10 @@ s32 func_80095538(Rec_func_8008ACDC_arg0 *actor, s16 item_id, s16 other_item_id)
     case 12:
     case 13:
     case 14:
-        result = func_80098920(actor_base, ((S_80095538_1 *)(&D_80082EB0))->unk_00.u, 3, 0);
+        result = func_80098920(actor_base, ((S_80095538_1 *)(&D_80082E80.unk_030))->unk_00.u, 3, 0);
         goto shift_result;
     case 18:
-        actor->unk_BC = (void *) ((S_80095538_1 *)(&D_80082EB0))->unk_00.u;
+        actor->unk_BC = (void *) ((S_80095538_1 *)(&D_80082E80.unk_030))->unk_00.u;
         func_8008D388(actor, saved_x, saved_y, actor_base);
         goto shift_result;
     case 19:

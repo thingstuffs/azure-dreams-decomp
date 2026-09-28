@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -66,7 +68,6 @@ s32 func_800AA6B4(void *, s32, void *, s32);
 void func_800AA79C(void *, s32, void *, void *);
 void func_800AA888(void *, s32, void *, void *);
 void func_8016D4B8(void *, s32, void *, void *);
-extern M2C_UNK D_80082E80;
 extern M2C_UNK D_8016A36C;
 extern u8 D_80173AC8[];
 extern u8 D_80173AD0[];
@@ -77,7 +78,7 @@ void func_8016CC70(void *obj_arg, s32 context_arg, void *target_arg, void *actor
     register void *actor ASM_REG("$17") = actor_arg;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 *held_base;
     void *callback;
-    void *room_base;
+    TileObject *room_base;
     register u8 *counter_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     s32 action_state;
     s32 obj_kind;
@@ -191,7 +192,7 @@ action_body:
         goto done;
     }
     if ((func_800A2C34(actor) << 0x10) != 0) {
-        if ((func_8009A180(actor, (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) << 0x10) != 0) {
+        if ((func_8009A180(actor, (u8 *)((EntityRec *)D_800814A8)->unk_58 + 0x20) << 0x10) != 0) {
             goto done;
         }
     }
@@ -200,7 +201,7 @@ action_body:
     if ((func_80042900(actor, 1) << 0x10) != 0) {
         room_base = &D_80082E80;
         target_room = ((S_8016CC70_1 *)target)->unk_26;
-        if ((target_room != ((S_8016CC70_6 *)room_base)->unk_26) || (target_room < 0)) {
+        if ((target_room != room_base->unk_026) || (target_room < 0)) {
             if (func_8009FD40(room_base, target) >= 2) {
                 goto second_check;
             }

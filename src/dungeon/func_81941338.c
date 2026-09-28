@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity_objects.h"
 #include "shared/record_ptrs.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
@@ -17,8 +19,6 @@ typedef struct {
 
 extern volatile void *jtbl_80024048[];
 __asm__(".set jtbl_80024048, 0x80024048");
-extern u8 D_80082E80[32];
-extern u8 D_80083780[32];
 extern u8 D_8002492C[16];
 extern u8 D_80025704[16];
 extern u8 D_80025710[16];
@@ -67,7 +67,7 @@ void func_81941338(void *effect, void *effect_pos, void *effect_data)
     s32 enabled;
     void *sprite;
     void *particle;
-    u8 *world_offset;
+    EntityRec *world_offset;
     u8 *spawn_data;
     u8 *particle_script;
     s32 particle_index;
@@ -100,7 +100,7 @@ init:
     enabled = 1;
     initial_color = 0x00808080;
     F(D_800814A8, s32, 0xF4) = 0;
-    F(D_80082E80, u16, 6) = 6;
+    F(((u8 *)(&D_80082E80)), u16, 6) = 6;
     F(effect_base, void *, 0x64) = func_800249F0(effect_base, position, effect_context, D_80025704,
                                                 enabled, 0x1000, 0x1000, initial_color);
     F(effect_base, void *, 0x68) = func_800249F0(effect_base, position, effect_context, D_80025710,
@@ -165,7 +165,7 @@ emit_trail:
         goto emit_flash;
     }
     {
-        u8 *dungeon = D_80082E80;
+        u8 *dungeon = ((u8 *)(&D_80082E80));
         if (func_8003DF74(F(dungeon, void *, 8), dungeon,
                           (u8 *)effect_base + 0xC, 0) == 0) {
             goto emit_flash;
@@ -188,7 +188,7 @@ emit_trail:
     } if (particle_index < 4) goto loop_0;
     particle_index = 0;
     spawn_data = D_8002492C;
-    world_offset = D_80083780;
+    world_offset = &D_80083780;
     effect_context = 0x80;
     loop_1: {
         particle = func_8003FC64(0x212);
@@ -276,7 +276,7 @@ emit_trail:
         } while (particle_index < 4);
         particle_index = 0;
         spawn_data = D_8002492C;
-        world_offset = D_80083780;
+        world_offset = &D_80083780;
         effect_context = 0x80;
         do {
             particle = func_8003FC64(0x212);
@@ -383,7 +383,7 @@ emit_flash:
         F(position, u32, 8) = F(actor_position, u32, 8);
     }
     {
-        u8 *dungeon = D_80082E80;
+        u8 *dungeon = ((u8 *)(&D_80082E80));
         if (func_8003DF74(F(dungeon, void *, 8), dungeon,
                           (u8 *)effect_base + 0xC, 0) != 0) {
             F(position, u32, 0) += (u32)(F(effect_base, s16, 0xC) << 16);
@@ -407,8 +407,8 @@ emit_burst:
     }
     particle_index = 0;
     particle_script = D_8002492C;
-    spawn_data = D_80082E80;
-    world_offset = D_80083780;
+    spawn_data = ((u8 *)(&D_80082E80));
+    world_offset = &D_80083780;
     effect_context = 0x80;
     do {
         particle = func_8003FC64(0x212);
@@ -482,7 +482,7 @@ fade_model:
             }
         }
     }
-    if ((F(D_80082E80, u16, 0x14) & 0x8000) == 0) {
+    if ((F(((u8 *)(&D_80082E80)), u16, 0x14) & 0x8000) == 0) {
         F(effect_base, u16, 0x20) = (u16)(F(effect_base, u16, 0x20) - 1);
         if (F(effect_base, s16, 0x20) >= 0) {
             return;
@@ -508,7 +508,7 @@ finish:
             D_80083460_t *dungeon_state = ((D_80083460_t *)&dungeonStatus);
             bits_2 = dungeon_state->fieldA;
             F(dungeon_state, u32, 0xC) = 0;
-            F(D_80082E80, u16, 6) = 0;
+            F(((u8 *)(&D_80082E80)), u16, 6) = 0;
             dungeon_state->fieldA = (u16)(bits_2 - 1);
         }
         F(effect_base, u16, -2) = (u16)(F(effect_base, u16, -2) | 0x8000);

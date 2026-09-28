@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/entity_objects.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -161,7 +162,6 @@ void func_8016F79C();      /* extern */
 void func_801715D0();                            /* extern */
 extern u8 D_8006CCF8[16];
 extern u16 D_80082E76[8];
-extern s32 D_80083780[8192];
 extern Table32 D_8016482C;
 extern Table32 D_80164AC0;
 extern void *D_80164AE0[];
@@ -421,12 +421,12 @@ jt_c15:
         /* fallthrough */
 jt_c16:
         {
-            s32 target_x = ((Rec_D_800E3D7C *)(&D_80083780))->unk_00.at00_vs32.v;
+            s32 target_x = ((Rec_D_800E3D7C *)(((s32 *)(&D_80083780))))->unk_00.at00_vs32.v;
             move_component = ((S_80171D74_3 *)motion_in)->unk_00.at00u.v;
             ((S_80171D74_3 *)motion_in)->unk_0C.n = (target_x - move_component) / (s16) ((S_80171D74_1 *)state_in)->unk_96;
         }
         {
-            s32 next_y = (((Rec_D_800E3D7C *)(&D_80083780))->unk_04.at00_s32.v - ((S_80171D74_3 *)motion_in)->unk_04.at00.v) / (s16) ((S_80171D74_1 *)state_in)->unk_96;
+            s32 next_y = (((Rec_D_800E3D7C *)(((s32 *)(&D_80083780))))->unk_04.at00_s32.v - ((S_80171D74_3 *)motion_in)->unk_04.at00.v) / (s16) ((S_80171D74_1 *)state_in)->unk_96;
             s32 vel_x = ((S_80171D74_3 *)motion_in)->unk_0C.v;
             s32 pos_y = ((S_80171D74_3 *)motion_in)->unk_04.at00u.v;
             s32 next_x;
@@ -750,9 +750,8 @@ jt_c34: {
             ((S_80171D74_1 *)state_in)->unk_96 = 0U;
             ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
             {
-                u16 *reset_base = (u16 *)D_80083780;
-                ((S_80171D74_3 *)motion_in)->unk_00.at02.v = reset_base[1];
-                ((S_80171D74_3 *)motion_in)->unk_04.at02u.v = reset_base[3];
+                ((S_80171D74_3 *)motion_in)->unk_00.at02.v = ((u16)D_80083780.x.w.i);
+                ((S_80171D74_3 *)motion_in)->unk_04.at02u.v = ((u16)D_80083780.y.w.i);
             }
             goto update_height;
         }

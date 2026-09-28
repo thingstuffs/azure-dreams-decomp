@@ -2,7 +2,7 @@
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 
 void func_80048A44(void *, u8, s32, s32);
@@ -66,7 +66,7 @@ typedef struct S_8009255C_7 {
 } S_8009255C_7;   /* temp_v1_3 in func_8009255C */
 
 /* Turn the actor, spawn the action object and message, and handle completion. */
-void func_8009255C(void *controller, s32 action_id, Rec_D_80082E80 *actor, Rec_D_800E3D7C *transform) {
+void func_8009255C(void *controller, s32 action_id, Rec_D_80082E80 *actor, EntityRec *transform) {
     s32 text_start;
     s32 text_cursor;
     s32 state;
@@ -94,12 +94,12 @@ void func_8009255C(void *controller, s32 action_id, Rec_D_80082E80 *actor, Rec_D
 
 state_0:
     if ((((gameWork.viewAngle +
-             transform->unk_2A.as_s16 + 0x100) >> 9) & 7) == 2) {
+             transform->facing + 0x100) >> 9) & 7) == 2) {
         animation_actor = actor;
         animation_table = D_800DD100;
         animation_actor->unk_2C = animation_table;
         animation_entry = (u8 *)((s32)(((gameWork.viewAngle +
-                                transform->unk_2A.as_s16 + 0x100) >> 9) &
+                                transform->facing + 0x100) >> 9) &
                               7) +
                        (s32)animation_table);
         func_80048A44(
@@ -110,8 +110,8 @@ state_0:
         ((Rec_func_8008ACDC_arg0 *)controller)->unk_9B.as_u8++;
         goto end;
     }
-    transform->unk_2A.as_s16 =
-        (u16)transform->unk_2A.as_s16 + 0x200;
+    transform->facing =
+        (u16)transform->facing + 0x200;
     goto end;
 
 state_1:
@@ -132,7 +132,7 @@ state_1:
         position->unk_06 =
             (actor->unk_25 << 6) + 0x20;
         position->unk_0A =
-            transform->unk_88.as_u16 - 0x30;
+            ((u16)transform->unk_88) - 0x30;
         spawned_state = spawned + 0x20;
         spawned_state->unk_A8 = 0x1E;
         spawned_state->unk_AA = 2;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
@@ -55,7 +56,6 @@ M2C_UNK func_800A56E0();
 extern M2C_UNK D_80010000;
 extern u16 D_8001371A;
 extern s32 D_8006CD58;
-extern u8 D_80082EA5;
 
 /* Dispatch the CD-audio fade state machine, then step the actor's shake counter and raise the finished flag. */
 void func_807AE960(u8 *state, u8 *actor, u8 *target) {
@@ -193,7 +193,7 @@ block_33:
     if (((S_807AE960_1 *)state)->unk_00.u != 0) {
         goto block_37;
     }
-    if ((u8) D_80082EA5 >= 0x3DU) {
+    if ((u8) D_80082E80.tileY >= 0x3DU) {
         goto block_37;
     }
     if (((S_807AE960_1 *)state)->unk_0A == (s16) ((S_807AE960_1 *)state)->unk_02) {

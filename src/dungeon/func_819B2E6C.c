@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 
@@ -109,9 +111,7 @@ extern s32 func_800644B8(s32);
 extern s32 rand(void);
 
 extern u8 D_80024ACC[];
-extern u8 D_80082E80[];
 extern u8 D_80083498[];
-extern u8 D_80083780[];
 extern u8 D_800DEA68[];
 
 /* Update the animated effect, track its target, and spawn scattered particles. */
@@ -126,8 +126,6 @@ void func_8002466C(void *effect)
     void *owner;
     void *approach_target;
     void *follow_target;
-    void *approach_origin;
-    void *follow_origin;
     void *particle;
     void *particle_state;
     void *sprite;
@@ -150,17 +148,16 @@ void func_8002466C(void *effect)
             ((S_8002466C_0 *)effect)->unk_4C.s = ((S_8002466C_0 *)effect)->unk_4C.u + 1;
         case 1:
             last_particle = 0xE;
-            approach_target = D_80082E80;
+            approach_target = ((u8 *)(&D_80082E80));
             if (func_8003DE58(((S_8002466C_2 *)approach_target)->unk_08, approach_target, target_pos, 0) != 0) {
-                approach_origin = D_80083780;
                 ((S_8002466C_0 *)effect)->unk_1C.at00.v +=
-                    ((target_pos[0] + ((S_8002466C_3 *)approach_origin)->unk_02) -
+                    ((target_pos[0] + D_80083780.x.w.i) -
                      ((S_8002466C_0 *)effect)->unk_1C.at02.v) << 14;
                 ((S_8002466C_0 *)effect)->unk_20.at00.v +=
-                    ((target_pos[1] + ((S_8002466C_3 *)approach_origin)->unk_06) -
+                    ((target_pos[1] + D_80083780.y.w.i) -
                      ((S_8002466C_0 *)effect)->unk_20.at02.v) << 14;
                 ((S_8002466C_0 *)effect)->unk_24.at00.v +=
-                    ((target_pos[2] + ((S_8002466C_3 *)approach_origin)->unk_0A) -
+                    ((target_pos[2] + D_80083780.z.w.i) -
                      ((S_8002466C_0 *)effect)->unk_24.at02.v) << 14;
                 ((S_8002466C_0 *)effect)->unk_24.at00.v -=
                     func_800644B8((((S_8002466C_0 *)effect)->unk_48.u << 11) / 10) << 9;
@@ -177,17 +174,16 @@ void func_8002466C(void *effect)
                 last_particle = 4;
             }
             ((S_8002466C_0 *)effect)->unk_4E += 2;
-            follow_target = D_80082E80;
+            follow_target = ((u8 *)(&D_80082E80));
             if (func_8003DE58(((S_8002466C_4 *)follow_target)->unk_08, follow_target, target_pos, 0) != 0) {
-                follow_origin = D_80083780;
                 ((S_8002466C_0 *)effect)->unk_1C.at00.v +=
-                    ((target_pos[0] + ((S_8002466C_5 *)follow_origin)->unk_02) -
+                    ((target_pos[0] + D_80083780.x.w.i) -
                      ((S_8002466C_0 *)effect)->unk_1C.at02.v) << 15;
                 ((S_8002466C_0 *)effect)->unk_20.at00.v +=
-                    ((target_pos[1] + ((S_8002466C_5 *)follow_origin)->unk_06) -
+                    ((target_pos[1] + D_80083780.y.w.i) -
                      ((S_8002466C_0 *)effect)->unk_20.at02.v) << 15;
                 ((S_8002466C_0 *)effect)->unk_24.at00.v +=
-                    ((target_pos[2] + ((S_8002466C_5 *)follow_origin)->unk_0A) -
+                    ((target_pos[2] + D_80083780.z.w.i) -
                      ((S_8002466C_0 *)effect)->unk_24.at02.v) << 15;
             }
             if (((S_8002466C_0 *)effect)->unk_48.u >= 0xD) {

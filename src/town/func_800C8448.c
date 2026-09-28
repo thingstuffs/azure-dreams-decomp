@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity_objects.h"
 
 typedef struct {
     u8 pad0;
@@ -6,7 +7,6 @@ typedef struct {
     u8 pad2[6];
 } Slot;
 
-extern s32 D_80083780[];
 extern Slot D_80082660[];
 extern void func_800C5C3C(void);
 
@@ -17,10 +17,10 @@ void func_800C5BA8(void *state, s32 *coords) {
     s32 value2;
     u16 timer;
 
-    target = D_80083780[0];
+    target = D_80083780.x.v;
     value = coords[0];
     coords[0] = value + ((target - value) / 2);
-    target = D_80083780[1];
+    target = D_80083780.y.v;
     value2 = coords[1];
     coords[1] = value2 + ((target - value2) / 2);
 

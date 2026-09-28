@@ -4,7 +4,7 @@
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "records/Rec_D_80082E80.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 typedef struct S_80172D1C_0 {
     u8 pad_00[0x8C];
@@ -163,7 +163,7 @@ void func_80172D1C(void *actor, void *motion, void *sprite, void *entity) {
         } while (particle_or_dir_index >= 0);
     }
 
-    particle_or_dir_index = (((Rec_D_800E3D7C *)entity)->unk_6A.as_u16 >> 9) & 7;
+    particle_or_dir_index = (((EntityRec *)entity)->unk_6A >> 9) & 7;
     state = ((S_80172D1C_0 *)actor)->unk_9B;
     if (state == 1) {
         goto state_1;
@@ -184,7 +184,7 @@ check_state_2:
 
 state_0:
     func_800AD4D0(entity);
-    if (((Rec_D_800E3D7C *)entity)->unk_28 == 0) {
+    if (((EntityRec *)entity)->unk_28 == 0) {
         ((S_80172D1C_2 *)motion)->unk_14 = 0;
         ((S_80172D1C_2 *)motion)->unk_10.s = 0;
         ((S_80172D1C_2 *)motion)->unk_0C.s = 0;
@@ -201,7 +201,7 @@ state_0:
     ((S_80172D1C_2 *)motion)->unk_10.s = dirStepY[particle_or_dir_index] << 18;
     ((S_80172D1C_0 *)actor)->unk_9B++;
     state_timer = -1;
-    if (((Rec_D_800E3D7C *)entity)->unk_1C.as_s32 & 0x228) {
+    if (((EntityRec *)entity)->flags1C & 0x228) {
         state_timer = 8;
     }
     ((S_80172D1C_0 *)actor)->unk_96.s = state_timer;
@@ -227,7 +227,7 @@ timer_join:
     if (((S_80172D1C_0 *)actor)->unk_96.s != 0) {
         goto end;
     }
-    if (((Rec_D_800E3D7C *)entity)->unk_28 == 0) {
+    if (((EntityRec *)entity)->unk_28 == 0) {
         ((S_80172D1C_0 *)actor)->unk_9B = 0;
         ((S_80172D1C_2 *)motion)->unk_14 = 0;
         ((S_80172D1C_2 *)motion)->unk_10.s = 0;
@@ -277,7 +277,7 @@ state_2:
     func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
     (*(void * *)((u8 *)sprite + 0x2C)) = D_8017418C;
     func_80047784(sprite,
-                  D_8017418C[((gameWork.viewAngle + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+                  D_8017418C[((gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
                   0);
     if (((s32)dungeonStatus.unk_10) == (s32)((u8 *)entity - 0x20)) {
         *(s32 *)&dungeonStatus.unk_10 &= 0x7FFFFFFF;

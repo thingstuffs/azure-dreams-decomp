@@ -1,5 +1,5 @@
 #include "common.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 typedef struct S_800B22F0_0 {
     u8 pad_00[0xC];
@@ -37,7 +37,7 @@ extern void func_8009A21C(u8, u8, s32);
 extern void func_800BC26C(void *, s32, void *, void *);
 
 /* Initialize the entity sprite position, scale, color, and active state. */
-void func_800B22F0(void *entity, Rec_D_800E3D7C *position, void *sprite)
+void func_800B22F0(void *entity, EntityRec *position, void *sprite)
 {
     u8 *state = (u8 *)entity + 0x20;
 
@@ -46,8 +46,8 @@ void func_800B22F0(void *entity, Rec_D_800E3D7C *position, void *sprite)
     func_800A2B04(position, ((S_800B22F0_0 *)sprite)->unk_24, ((S_800B22F0_0 *)sprite)->unk_25);
 
     ((S_800B22F0_1 *)state)->unk_88 =
-        func_800BCB04(position->unk_00.at02_u16.v, position->unk_04.at02_u16.v,
-                      (s16)(position->unk_08.at02_u16.v - 0x20));
+        func_800BCB04(((u16)position->x.w.i), ((u16)position->y.w.i),
+                      (s16)(((u16)position->z.w.i) - 0x20));
 
     ((S_800B22F0_0 *)sprite)->unk_1E = 0x1000;
     ((S_800B22F0_0 *)sprite)->unk_1C = 0x1000;

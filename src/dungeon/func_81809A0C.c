@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
@@ -286,7 +287,7 @@ handle_input:
     }
     if (D_80027156[0] == 0) {
         register S_8002520C_6 *cell ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        input_angle = func_8009074C(((u16) appearance->unk_1A >> 9) & 7, ((Rec_D_800E3D7C *)(((u8 *)(&D_800E3D7C))))->unk_00.at00_s32.v + 0xA2, 0) & 0xFFFF;
+        input_angle = func_8009074C(((u16) appearance->unk_1A >> 9) & 7, ((EntityRec *)(((u8 *)(&D_800E3D7C))))->x.v + 0xA2, 0) & 0xFFFF;
         if ((input_angle != 0xFFF) && (((s32)state_base->unk_010) & 0xF000)) {
             s32 step_index;
             s32 step_or_cell;

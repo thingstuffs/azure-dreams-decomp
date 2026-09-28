@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity_objects.h"
 #include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -102,23 +104,14 @@ typedef struct {
     u8 pad2[10];
 } S16Global;
 
-typedef struct {
-    u16 value;
-    u8 pad2[10];
-} U16Global;
-
 extern OffsetTable D_80024004;
 extern void *D_80024068[];
 extern u8 D_80020000[0x69C0];
 extern u8 D_80080000[0x37A0];
-extern SearchContext D_80082E80;
-extern S16Global D_80082E86;
 extern S16Global D_800269B4;
-extern Position D_80083780;
 extern Template12 D_80026990;
 extern Template12 D_8002699C;
 extern Template12 D_800269A8;
-extern U16Global D_80082E94;
 
 extern s32 func_8003DF74(void *, void *, void *, s32);
 extern Effect *func_8003FC64(s32);
@@ -211,7 +204,7 @@ state0:
 
 state1:
     if (work->timer < 39) {
-        if (func_8003DF74((&D_80082E80)->field8, &D_80082E80, &work->x, 0)) {
+        if (func_8003DF74((((SearchContext *)&D_80082E80))->field8, ((SearchContext *)&D_80082E80), &work->x, 0)) {
             if (work->timer == 38) {
                 effect = func_8003FC64(0x212);
                 if (effect != 0) {
@@ -227,9 +220,9 @@ state1:
                     local_y = work->y;
                     pos->y = local_y;
                     pos->z = work->z;
-                    pos->x += (&D_80083780)->x;
-                    pos->y += (&D_80083780)->y;
-                    pos->z += (&D_80083780)->z;
+                    pos->x += (((Position *)&D_80083780))->x;
+                    pos->y += (((Position *)&D_80083780))->y;
+                    pos->z += (((Position *)&D_80083780))->z;
                     sprite->scale_x = 0x900;
                     sprite->scale_y = 0x604;
                     sprite->b = 0x80;
@@ -255,9 +248,9 @@ state1:
                     local_y = work->y;
                     pos->y = local_y;
                     pos->z = work->z;
-                    pos->x += (&D_80083780)->x;
-                    pos->y += (&D_80083780)->y;
-                    pos->z += (&D_80083780)->z;
+                    pos->x += (((Position *)&D_80083780))->x;
+                    pos->y += (((Position *)&D_80083780))->y;
+                    pos->z += (((Position *)&D_80083780))->z;
                     sprite->scale_x = 0x1800;
                     sprite->scale_y = 0x1000;
                     sprite->b = 0x80;
@@ -299,7 +292,7 @@ state1:
 state2:
     if (((DungeonState *)D_800814A8)->field60 != 0) {
         if (work->timer >= 13) {
-            if (func_8003DF74((&D_80082E80)->field8, &D_80082E80, &work->x, 0)) {
+            if (func_8003DF74((((SearchContext *)&D_80082E80))->field8, ((SearchContext *)&D_80082E80), &work->x, 0)) {
                 for (particle_index = 0; particle_index < 4; particle_index++) {
                     func_80024CA4(work, position_arg, sprite_arg, work->x, work->y, work->z);
                 }
@@ -333,9 +326,9 @@ state2:
                         local_y = work->y;
                         pos->y = local_y;
                         pos->z = work->z - 16;
-                        pos->x += (&D_80083780)->x;
-                        pos->y += (&D_80083780)->y;
-                        pos->z += (&D_80083780)->z;
+                        pos->x += (((Position *)&D_80083780))->x;
+                        pos->y += (((Position *)&D_80083780))->y;
+                        pos->z += (((Position *)&D_80083780))->z;
                         sprite->scale_y = 0x1000;
                         sprite->scale_x = 0x1000;
                         sprite->b = 0x80;
@@ -370,9 +363,9 @@ state2:
                             local_y = work->y;
                             pos->y = local_y;
                             pos->z = work->z - 16;
-                            pos->x += (&D_80083780)->x;
-                            pos->y += (&D_80083780)->y;
-                            pos->z += (&D_80083780)->z;
+                            pos->x += (((Position *)&D_80083780))->x;
+                            pos->y += (((Position *)&D_80083780))->y;
+                            pos->z += (((Position *)&D_80083780))->z;
                             sprite->scale_y = 0x1000;
                             sprite->scale_x = 0x1000;
                             sprite->b = 0x80;
@@ -403,9 +396,9 @@ state2:
                 local_y = work->y;
                 pos->y = local_y;
                 pos->z = work->z;
-                pos->x += (&D_80083780)->x;
-                pos->y += (&D_80083780)->y;
-                pos->z += (&D_80083780)->z;
+                pos->x += (((Position *)&D_80083780))->x;
+                pos->y += (((Position *)&D_80083780))->y;
+                pos->z += (((Position *)&D_80083780))->z;
                 sprite->scale_x = 0x1800;
                 sprite->scale_y = 0x1000;
                 sprite->b = 0x80;
@@ -424,7 +417,7 @@ state2:
     }
 
 flag_check:
-    if ((D_80082E94.value & 0x8000) == 0) {
+    if ((D_80082E80.unk_014 & 0x8000) == 0) {
         work->timer--;
         if (work->timer >= 0) {
             return;
@@ -436,7 +429,7 @@ flag_check:
 state4:
     if (D_800269B4.value == 0) {
         dungeonStatus.unk_0C = 0;
-        D_80082E86.value = 0;
+        D_80082E80.unk_006 = 0;
         dungeonStatus.unk_0A--;
         ((u16 *)work)[-1] |= 0x8000;
         objectFlagBlock.flags |= 0x8000;

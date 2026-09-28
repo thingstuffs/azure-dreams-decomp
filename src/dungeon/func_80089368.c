@@ -1,9 +1,10 @@
 #include "common.h"
+#include "shared/tile_object.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 
 M2C_UNK func_8002534C(); /* extern */
@@ -45,7 +46,6 @@ extern u16 D_80013714_second __asm__("D_80013714");
 extern M2C_UNK D_800245A8;
 extern M2C_UNK D_8004F5F4;
 extern M2C_UNK D_80050CAC;
-extern s32 D_80082EB0;
 extern M2C_UNK D_8008ACDC;
 extern M2C_UNK D_800DCFB0;
 extern u8 D_800DD0B8[];
@@ -151,8 +151,8 @@ block_5:
     ((Rec_func_8008ACDC_arg0 *)arg0)->unk_9A.as_u8 = 0xEU;
     if (!(((S_8008EAC8_1 *)arg3)->unk_14 & 0x100000)) {
         func_800A4300(arg2, arg3);
-        ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
-        ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
+        ((EntityRec *)arg1)->unk_10 = 0;
+        ((EntityRec *)arg1)->unk_0C = 0;
         func_800A2B04(arg1, ((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25);
     }
     ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v = (u16) (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xF7FF);
@@ -203,7 +203,7 @@ block_5:
                     ((S_8008EAC8_1 *)arg3)->unk_8A = 2;
                     D_800E4940 = 2;
                     func_8008CF6C(arg0, arg1, arg2, &D_8004F5F4);
-                    D_80082EB0 = 0;
+                    D_80082E80.unk_030 = 0;
                     ((Rec_func_8008ACDC_arg0 *)arg0)->unk_C8 = 0;
                     ((Rec_func_8008ACDC_arg0 *)arg0)->unk_104 = 0;
                     return;

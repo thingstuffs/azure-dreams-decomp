@@ -1,5 +1,5 @@
 #include "common.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 typedef struct S_80023158_0 {
     void * unk_00;
@@ -20,7 +20,7 @@ extern s32 rand(void *);
 extern void func_800ABD74(void *);
 
 /* Runs a 24-tick value decrease with random callbacks, then waits to reset. */
-void func_80023158(S_80023158_0 *sequence, Rec_D_800E3D7C *target)
+void func_80023158(S_80023158_0 *sequence, EntityRec *target)
 {
     s16 state;
     s32 ticks_left;
@@ -43,7 +43,7 @@ void func_80023158(S_80023158_0 *sequence, Rec_D_800E3D7C *target)
     }
 
     case 1:
-        target->unk_04.at00_s32.v += 0xFFF00000;
+        target->y.v += 0xFFF00000;
         if (!(rand(owner) & 7)) {
             func_800ABD74(target);
         }
@@ -62,7 +62,7 @@ increment_state:
     case 2:
         if (owner->unk_2C < 3) {
             sequence->unk_18.s = 0;
-            target->unk_04.at00_s32.v += 0x01400000;
+            target->y.v += 0x01400000;
         }
         break;
     }

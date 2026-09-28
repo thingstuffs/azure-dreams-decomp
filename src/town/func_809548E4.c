@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/entity_objects.h"
 #include "m2c_compat.h"
 extern int abs(int);
 
@@ -235,7 +236,6 @@ extern s32 D_80012D5C[0xB58];
 extern u8 D_80022514[0x100];
 extern s32 D_80024338[3];
 extern u8 D_800834B8[0x100];
-extern u8 D_80083780[0x100];
 extern s16 D_80113158[8];
 extern s32 D_8011315C[0xC58];
 
@@ -350,7 +350,7 @@ void func_800218E4(void *game_in, s32 sound_param, void *sound_data, M2C_UNK sou
         init_slot = game + 8;
         ((S_800218E4_0 *)game)->unk_46 = -1;
         ((S_800218E4_0 *)game)->unk_44 = -1;
-        ((S_800218E4_0 *)game)->unk_00 = &D_80083780;
+        ((S_800218E4_0 *)game)->unk_00 = ((u8 *)(&D_80083780));
         ((S_800218E4_0 *)game)->unk_10 = (void *) (base_object + 0x10);
         loop_1: {
             init_object = ((S_800218E4_2 *)init_slot)->unk_20;

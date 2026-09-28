@@ -1,6 +1,6 @@
 #include "common.h"
+#include "shared/entity_objects.h"
 
-extern s16 D_80083780[6];
 extern s16 D_800E58F8[];
 extern void func_800C77D0();
 
@@ -12,7 +12,6 @@ void func_800C7A3C(volatile u8 *start_obj, volatile u8 *end_obj, s16 start_heigh
     s32 x_distance;
     s32 y_adjust;
     s16 *midpoint;
-    s16 *ref_pos;
 
     coord = (start_obj[0x24] << 6) + 0x20;
     mid_coord = (end_obj[0x24] << 6) + 0x20;
@@ -20,8 +19,7 @@ void func_800C7A3C(volatile u8 *start_obj, volatile u8 *end_obj, s16 start_heigh
     mid_coord = mid_coord >> 1;
     coord = coord + mid_coord;
     mid_coord = coord;
-    ref_pos = D_80083780;
-    x_distance = ref_pos[1] - mid_coord;
+    x_distance = D_80083780.x.w.i - mid_coord;
     if (x_distance < 0) {
         x_distance = -x_distance;
     }
@@ -36,7 +34,7 @@ void func_800C7A3C(volatile u8 *start_obj, volatile u8 *end_obj, s16 start_heigh
         mid_coord = mid_coord >> 1;
         coord = coord + mid_coord;
         mid_coord = coord;
-        y_adjust = ref_pos[3] - mid_coord;
+        y_adjust = D_80083780.y.w.i - mid_coord;
         if (y_adjust < 0) {
             y_adjust = -y_adjust;
         }

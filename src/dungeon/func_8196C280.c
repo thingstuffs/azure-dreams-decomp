@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity_objects.h"
 #include "shared/object_flags.h"
 
 typedef struct S_8196C280_0 {
@@ -44,7 +45,6 @@ extern s32 func_80024AF8();
 extern s32 func_800A45D8();
 extern s16 func_800BCB04();
 extern s16 D_800269B4;
-extern PositionRef D_80083780;
 
 /* Move the effect with collision checks, shrink its sprite, and expire it when finished. */
 void func_8196C280(void *effect, void *position, void *sprite) {
@@ -116,9 +116,9 @@ void func_8196C280(void *effect, void *position, void *sprite) {
         ((S_8196C280_2 *)sprite)->unk_1E = next_scale_y;
     }
     func_80024AF8(effect, position, sprite,
-        (s16)(((S_8196C280_0 *)position)->unk_00.at02.v - D_80083780.x),
-        (s16)(((S_8196C280_0 *)position)->unk_04.at02.v - D_80083780.y),
-        (s16)(((S_8196C280_0 *)position)->unk_08.at02u.v - D_80083780.z));
+        (s16)(((S_8196C280_0 *)position)->unk_00.at02.v - ((u16)D_80083780.x.w.i)),
+        (s16)(((S_8196C280_0 *)position)->unk_04.at02.v - ((u16)D_80083780.y.w.i)),
+        (s16)(((S_8196C280_0 *)position)->unk_08.at02u.v - ((u16)D_80083780.z.w.i)));
     life_left = ((S_8196C280_1 *)effect)->unk_2C - 1;
     ((S_8196C280_1 *)effect)->unk_2C = life_left;
     if ((life_left << 0x10) <= 0) {

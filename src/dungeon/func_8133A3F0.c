@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
 
 typedef struct S_func_8133A3F0_0 {
@@ -33,7 +34,6 @@ typedef struct S_func_8133A3F0_2 {
 
 extern void *func_8003FC64();
 extern s32 func_8004491C();
-extern u16 D_80083780[];
 extern s32 D_80170F68;
 extern s8 D_80175DC1;
 
@@ -51,9 +51,9 @@ void func_801713F0(void) {
         func_8004491C(object, func_80045340);
         position = object->unk_08;
         render_state->unk_14 = (u16)(render_state->unk_14 | 0x80);
-        position->unk_02 = D_80083780[1];
-        position->unk_06 = D_80083780[3];
-        position->unk_0A = D_80083780[5];
+        position->unk_02 = ((u16)D_80083780.x.w.i);
+        position->unk_06 = ((u16)D_80083780.y.w.i);
+        position->unk_0A = ((u16)D_80083780.z.w.i);
         render_state->unk_1E = 0x1000;
         render_state->unk_1C = 0x1000;
         render_state->unk_0E = 0x80;

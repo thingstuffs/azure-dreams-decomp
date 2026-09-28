@@ -2,7 +2,7 @@
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 #include "records/Rec_func_801732A4_arg0.h"
 
 typedef struct S_80173CEC_11 {
@@ -94,7 +94,7 @@ extern M2C_UNK D_801742E5;
 extern s32 D_801742E8;
 
 /* Advance the actor effect sequence through rotation, color blending, and particle spawning. */
-void func_80173CEC(Rec_func_801732A4_arg0 *state, Rec_D_800E3D7C *position, Rec_D_80082E80 *actor, void *model) {
+void func_80173CEC(Rec_func_801732A4_arg0 *state, EntityRec *position, Rec_D_80082E80 *actor, void *model) {
     static void *const state_labels[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6, &&jt_c7 };
     s16 next_spawn;
     s16 next_trail;
@@ -186,10 +186,10 @@ jt_c4:
     color = 0x808080;
     state->unk_AC = effect;
     effect_model = model;
-    ((S_80173CEC_12 *)(((S_80173CEC_11 *)effect)->unk_08))->unk_00 = (s32) position->unk_00.at00_s32.v;
-    ((S_80173CEC_12 *)(((S_80173CEC_11 *)effect)->unk_08))->unk_04 = (s32) position->unk_04.at00_s32.v;
+    ((S_80173CEC_12 *)(((S_80173CEC_11 *)effect)->unk_08))->unk_00 = (s32) position->x.v;
+    ((S_80173CEC_12 *)(((S_80173CEC_11 *)effect)->unk_08))->unk_04 = (s32) position->y.v;
     effect_position = effect->unk_08;
-    effect_value_2 = position->unk_08.at00_s32.v;
+    effect_value_2 = position->z.v;
     D_801742E0 = -8;
     effect_position->unk_08 = effect_value_2;
     effect_sprite = effect->unk_0C;

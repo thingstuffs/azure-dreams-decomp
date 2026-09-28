@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/tile_object.h"
+#include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -26,8 +28,6 @@ extern void func_801736B8(void *, void *, void *, void *);
 extern void func_80173D6C(void *, void *, void *);
 
 extern u16 D_80013714;
-extern u8 D_80082E80[];
-extern s8 D_80082EA4;
 extern s8 D_800E2970[];
 extern void *D_80170808[];
 extern u8 D_80171514;
@@ -82,7 +82,6 @@ void func_80171514(void *obj, void *motion, void *part, void *state)
     s32 entry_index;
     u8 *entry_base;
     u8 *entry;
-    u8 *target_part;
     s16 distance;
     void *callback_state;
 
@@ -162,14 +161,14 @@ void func_80171514(void *obj, void *motion, void *part, void *state)
             goto case_stop;
         }
 
-        if (((S_80171514_1 *)part)->unk_24.at00u.v == *(u16 *)&D_80082EA4) {
+        if (((S_80171514_1 *)part)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
             goto case_default;
         }
 
         if ((((S_80171514_0 *)state)->unk_46 & 0x8000) == 0) {
             if (dungeonStatus.flags & 0x2000) {
                 if ((s16)func_8009A180(
-                        state, (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) != 0) {
+                        state, (u8 *)((EntityRec *)D_800814A8)->unk_58 + 0x20) != 0) {
                     return;
                 }
             }
@@ -234,13 +233,12 @@ case_default:
             }
         }
         if ((state_flags & 0x430) == 0) {
-            target_part = D_80082E80;
             if ((s16)func_8009FD7C(
                     ((S_80171514_1 *)part)->unk_24.at00.v, ((S_80171514_1 *)part)->unk_24.at01.v,
-                    target_part[0x24], target_part[0x25]) != 0) {
+                    D_80082E80.tileX, D_80082E80.tileY) != 0) {
                 query_result = func_800A0818(
                     ((S_80171514_1 *)part)->unk_24.at00.v, ((S_80171514_1 *)part)->unk_24.at01.v,
-                    target_part[0x24], target_part[0x25], &distance);
+                    D_80082E80.tileX, D_80082E80.tileY, &distance);
                 ((S_80171514_0 *)state)->unk_2A = query_result;
             }
         }

@@ -1,6 +1,6 @@
 #include "common.h"
 #include "shared/dungeon_status.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 typedef s32 M2C_UNK;
 
@@ -37,7 +37,7 @@ typedef struct S_8017346C_3 {
 } S_8017346C_3;   /* arg3 in func_8017346C */
 
 /* Initialize actor motion and transition its handler when action flags are set. */
-void func_8017346C(S_8017346C_0 *actor, Rec_D_800E3D7C *motion, S_8017346C_1 *action, S_8017346C_3 *status) {
+void func_8017346C(S_8017346C_0 *actor, EntityRec *motion, S_8017346C_1 *action, S_8017346C_3 *status) {
     u8 phase;
 
     phase = actor->unk_9B;
@@ -52,9 +52,9 @@ void func_8017346C(S_8017346C_0 *actor, Rec_D_800E3D7C *motion, S_8017346C_1 *ac
         action->unk_14 |= 0x6000;
         return;
     }
-    motion->unk_14.as_s32 = 0;
-    motion->unk_10.at00_s32.v = 0;
-    motion->unk_0C.as_s32 = 0;
+    motion->flags14 = 0;
+    motion->unk_10 = 0;
+    motion->unk_0C = 0;
     actor->unk_9B = (u8) (actor->unk_9B + 1);
 apply_action:
     if (((action->unk_04 == 5) && (action->unk_14 & 0x1000)) || (action->unk_14 & 0x8000)) {
@@ -63,9 +63,9 @@ apply_action:
     if (action->unk_14 & 0xE000) {
         actor->unk_AE = 1;
         status->unk_14 = (s32) (status->unk_14 | 0x40000000);
-        motion->unk_14.as_s32 = 0;
-        motion->unk_10.at00_s32.v = 0;
-        motion->unk_0C.as_s32 = 0;
+        motion->flags14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
         func_800A2B04(motion, action->unk_24, action->unk_25);
         actor->unk_8C = &D_80170E94;
         dungeonStatus.unk_0C = 0;

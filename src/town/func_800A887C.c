@@ -1,6 +1,7 @@
 #include "common.h"
+#include "shared/entity_objects.h"
 #include "shared/game_work.h"
-#include "records/Rec_D_800E3D7C.h"
+#include "shared/entity.h"
 
 typedef struct S_800A5FDC_0 {
     s32 unk_00;
@@ -47,7 +48,6 @@ extern s32 func_800A5894();
 extern s32 func_800C1D44();
 extern int abs(int);
 
-extern u8 D_80083780[];
 extern s32 D_800A58CC;
 extern u8 D_800CFCEE[];
 extern u8 D_800FE488[];
@@ -59,7 +59,6 @@ void func_800A5FDC(u8 *state, u8 *table, void *action_context)
 {
     u8 *context;
     u8 *globals;
-    u8 *coordinates;
     s32 random_choice;
     s32 tile_id;
     s32 speed;
@@ -101,30 +100,27 @@ void func_800A5FDC(u8 *state, u8 *table, void *action_context)
 
 after_updates:
     ground_height = func_80095978(table, D_800FE488);
-    if (((Rec_D_800E3D7C *)table)->unk_08.at02_s16.v >= ground_height) {
+    if (((EntityRec *)table)->z.w.i >= ground_height) {
         func_80095A94(table, ground_height, D_800FE488);
-        coordinates = D_80083780;
         goto coordinates_ready;
     }
 
     if (D_800CFCEE[1] != 0) {
-        ((Rec_D_800E3D7C *)table)->unk_14.as_s32 = 0;
+        ((EntityRec *)table)->flags14 = 0;
         func_800954F4(table);
-        coordinates = D_80083780;
         goto coordinates_ready;
     }
 
     func_80095388(table);
-    coordinates = D_80083780;
 coordinates_ready:
-    tile_id = func_8008C180(((S_800A5FDC_3 *)coordinates)->unk_02,
-                          ((S_800A5FDC_3 *)coordinates)->unk_06);
+    tile_id = func_8008C180(D_80083780.x.w.i,
+                          D_80083780.y.w.i);
     if (func_800C1D44((u16)tile_id) != 0) {
-        ((Rec_D_800E3D7C *)table)->unk_14.as_s32 -= func_800A5894(table);
+        ((EntityRec *)table)->flags14 -= func_800A5894(table);
     }
 
-    speed = func_8003BD84(((Rec_D_800E3D7C *)table)->unk_0C.as_s32,
-                          ((Rec_D_800E3D7C *)table)->unk_10.at00_s32.v);
+    speed = func_8003BD84(((EntityRec *)table)->unk_0C,
+                          ((EntityRec *)table)->unk_10);
     if (D_80100E20[0] != 0) {
         speed_delta = abs(D_80100E20[0] - speed);
         sound_interval = (s32)((u32)speed_delta * 7U) / D_80100E20[0];

@@ -1,3 +1,4 @@
+#include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -85,8 +86,6 @@ extern void func_801721B8(void *, void *, void *, void *);
 extern void func_801722E0(void *, void *, void *, void *);
 extern s32 func_80172414(void *, void *, void *, s32);
 extern void func_80173834(void *, void *, void *, void *);
-extern u8 D_80082E80[];
-extern s8 D_80082EA4;
 extern u8 D_80174880[];
 extern u8 D_80174890[];
 extern u8 D_801748C8;
@@ -203,7 +202,7 @@ void func_80171058(void *actor, void *context, void *sprite_arg, void *creature)
     {
       goto special_cleanup;
     }
-    if ((*((u16 *) (((u8 *) sprite) + 0x24))) == (*((u16 *) (&D_80082EA4))))
+    if ((*((u16 *) (((u8 *) sprite) + 0x24))) == (*((u16 *) (((s8 *)&D_80082E80.tileX)))))
     {
       goto ordinary_cleanup;
     }
@@ -300,7 +299,7 @@ void func_80171058(void *actor, void *context, void *sprite_arg, void *creature)
     goto done;
     face_player:
     {
-      u8 *player_pos = D_80082E80;
+      u8 *player_pos = ((u8 *)(&D_80082E80));
       void *player;
       s16 facing_angle;
       facing_angle = func_800A0818(*((u8 *) (((u8 *) sprite) + 0x24)), *((u8 *) (((u8 *) sprite) + 0x25)), *((u8 *) (((u8 *) player_pos) + 0x24)), *((u8 *) (((u8 *) player_pos) + 0x25)), &direction_aux);
@@ -332,7 +331,7 @@ void func_80171058(void *actor, void *context, void *sprite_arg, void *creature)
     {
       if (!((*((u32 *) (((u8 *) creature) + 0x1C))) & 0x430))
       {
-        u8 *player_pos = D_80082E80;
+        u8 *player_pos = ((u8 *)(&D_80082E80));
         if ((func_8009FD7C(*((u8 *) (((u8 *) sprite) + 0x24)), *((u8 *) (((u8 *) sprite) + 0x25)), *((u8 *) (((u8 *) player_pos) + 0x24)), *((u8 *) (((u8 *) player_pos) + 0x25))) << 16) != 0)
         {
           *((s16 *) (((u8 *) creature) + 0x2A)) = func_800A0818(*((u8 *) (((u8 *) sprite) + 0x24)), *((u8 *) (((u8 *) sprite) + 0x25)), *((u8 *) (((u8 *) player_pos) + 0x24)), *((u8 *) (((u8 *) player_pos) + 0x25)), &direction_aux);

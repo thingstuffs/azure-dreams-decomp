@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/entity_objects.h"
 
 
 
 typedef s32 M2C_UNK;
 extern M2C_UNK D_80083498;
-extern u8 D_80083780[12];
 extern u8 *D_80175D50[3];
 extern s16 func_8016F428(void *arg);
 
@@ -35,7 +35,7 @@ void func_8016F79C(void *unused_0, u8 *record, void *unused_2) {
         ((S_8016F79C_0 *)target_data)->unk_2A = (u16)(decoded_value << 9);
     }
     {
-        register volatile u16 *default_words = (volatile u16 *)D_80083780;
+        register volatile u16 *default_words = (volatile u16 *)((u8 *)(&D_80083780));
         *(u16 *)(record + 2) = default_words[1];
         *(u16 *)(record + 6) = default_words[3];
     }
