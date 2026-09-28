@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 typedef struct {
     u32 addr : 24;
     u32 len : 8;
@@ -72,7 +73,6 @@ typedef struct {
     u32 data;
 } Packet800248EC;
 
-extern u8 D_80083160[];
 extern u32 func_80065420(void *, void *, void *, void *);
 extern s32 func_80066460(s32, s32, s32, s32);
 extern void func_80067F20(void *, s32, s32, s32, s32);
@@ -82,9 +82,9 @@ s32 func_800248EC(void *first_point, void *first_position)
 {
     void *point = first_point;
     void *position = first_position;
-    u8 *render_state = D_80083160;
+    GameWork *render_state = &gameWork;
     u32 addr_mask = 0x00FFFFFF;
-    u8 *render_ctx = *(u8 **)D_80083160;
+    u8 *render_ctx = *(u8 **)((u8 *)(&gameWork));
     u8 *packet_start;
     u32 tag_mask = 0xFF000000;
     Scratch800248EC *scratch =
@@ -168,7 +168,7 @@ s32 func_800248EC(void *first_point, void *first_position)
         break;
     }
 
-    final_render_ctx = *(u8 **)render_state;
+    final_render_ctx = render_state->unk_000;
     ((S_800248EC_5 *)final_render_ctx)->unk_8D0 = scratch->cursor;
     return 0;
 }

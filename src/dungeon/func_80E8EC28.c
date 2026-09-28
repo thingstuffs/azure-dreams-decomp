@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
@@ -46,7 +47,6 @@ typedef struct S_80174428_3 {
 
 extern s16 D_80081468[3];
 extern u8 D_80082E80[];
-extern s16 D_80083228;
 extern u8 D_801710F4[];
 extern u8 D_80174EF8[];
 extern u8 D_80174F00[];
@@ -103,7 +103,7 @@ case_0:
         (((S_80174428_0 *)object)->unk_1C & 0x2000) ? 0x300 : 0x3000);
     (*(u8 * *)((u8 *)actor + 0x2C)) = D_80174EF8;
     func_80047784(actor,
-        D_80174EF8[((D_80083228 + ((S_80174428_0 *)object)->unk_2A.u + 0x100) >> 9) & 7], 0);
+        D_80174EF8[((gameWork.viewAngle + ((S_80174428_0 *)object)->unk_2A.u + 0x100) >> 9) & 7], 0);
     ((S_80174428_3 *)motion)->unk_0C = (x_step << 19) + (x_step << 18);
     ((S_80174428_3 *)motion)->unk_10 = (y_step << 19) + (y_step << 18);
     ((S_80174428_1 *)state)->unk_96.s = 4;
@@ -134,7 +134,7 @@ case_1:
     ((S_80174428_3 *)motion)->unk_0C = 0;
     (*(u8 * *)((u8 *)actor + 0x2C)) = D_80174F00;
     func_80047784(actor,
-        D_80174F00[((D_80083228 + ((S_80174428_0 *)object)->unk_2A.u + 0x100) >> 9) & 7], 0);
+        D_80174F00[((gameWork.viewAngle + ((S_80174428_0 *)object)->unk_2A.u + 0x100) >> 9) & 7], 0);
     if (((S_80174428_0 *)object)->unk_1C & 0x2000) {
         ((S_80174428_1 *)state)->unk_96.s = 7;
         ((S_80174428_1 *)state)->unk_9B = 5;
@@ -234,7 +234,7 @@ case_5:
         ((S_80174428_2 *)actor)->unk_2C = D_80174F00;
         func_800AD594(object, 0x200);
         func_80047784(actor,
-            ((S_80174428_2 *)actor)->unk_2C[((D_80083228 + ((S_80174428_0 *)object)->unk_2A.u + 0x100) >> 9) & 7], 0);
+            ((S_80174428_2 *)actor)->unk_2C[((gameWork.viewAngle + ((S_80174428_0 *)object)->unk_2A.u + 0x100) >> 9) & 7], 0);
         func_8009A21C(((S_80174428_2 *)actor)->unk_24, ((S_80174428_2 *)actor)->unk_25,
             (((S_80174428_0 *)object)->unk_1C & 0x2000) ? 0x300 : 0x3000);
         func_800A2B04(motion, ((S_80174428_2 *)actor)->unk_24, ((S_80174428_2 *)actor)->unk_25);

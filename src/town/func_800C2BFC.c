@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_80100D98.h"
@@ -104,7 +105,6 @@ __asm__(".set jtbl_80089978, 0x80089978");
 extern s32 D_800135B4;
 __asm__(".set D_800135B4, 0x800135B4");
 extern M2C_UNK D_8006CCF8;
-extern M2C_UNK D_80083160;
 extern M2C_UNK D_80089960;
 extern u8 D_800CFCEE;
 extern M2C_UNK D_800FE490;
@@ -137,7 +137,7 @@ void func_800C035C(void *actor, S_800C035C_1 *motion, Rec_D_80082E80 *sprite) {
     S_800C035C_4 *progress;
     S_800C035C_2 *course;
 
-    controls = &D_80083160;
+    controls = ((M2C_UNK *)&gameWork.unk_000);
     course = ((S_800C035C_0 *)actor)->unk_54;
     progress = (s8 *)actor + 0x50;
     func_800953D0(motion);

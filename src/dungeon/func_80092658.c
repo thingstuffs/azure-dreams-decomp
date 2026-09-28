@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
 typedef struct {
@@ -24,7 +25,6 @@ typedef struct {
     u16 flags;
 } Object;
 
-extern D83160 D_80083160;
 extern u8 D_80096384[];
 extern u8 D_80097C78;
 extern s32 func_80042900(void *, s32);
@@ -44,7 +44,7 @@ void func_80097DB8(Object *arg0, s32 arg1, s32 arg2, Resource *arg3) {
     Resource *callResource;
 
     state = arg0->state;
-    ctx = &D_80083160;
+    ctx = ((D83160 *)&gameWork);
     if (state == 1) {
         goto state_one;
     }

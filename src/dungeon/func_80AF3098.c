@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
 typedef struct S_80174898_0 {
@@ -44,7 +45,6 @@ typedef struct OffsetTable {
     OffsetPair entries[8];
 } OffsetTable;
 
-extern s16 D_80083228;
 extern OffsetTable D_80170854;
 extern s32 D_801717F4;
 extern u8 D_80175988[];
@@ -138,7 +138,7 @@ void func_80174898(void *action, void *position, void *sprite, void *entity)
                 ((S_80174898_2 *)sprite)->unk_2C = D_80175988;
                 ((S_80174898_2 *)sprite)->unk_14 &= 0xF7FF;
                 func_80047784(sprite,
-                    ((S_80174898_2 *)sprite)->unk_2C[((D_80083228 +
+                    ((S_80174898_2 *)sprite)->unk_2C[((gameWork.viewAngle +
                         ((S_80174898_3 *)entity)->unk_2A.u + 0x100) >> 9) & 7],
                     0);
                 ((S_80174898_0 *)action)->unk_9B++;

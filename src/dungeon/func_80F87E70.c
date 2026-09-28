@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
 typedef struct S_80171670_0 {
@@ -43,7 +44,6 @@ extern s32 func_8009A21C();
 extern s32 func_8009A3D0();
 extern s16 func_800A0818();
 
-extern s16 D_80083228;
 extern u8 D_80174AD4[];
 
 /* Advance the entity along its stored path and update its movement state. */
@@ -68,7 +68,7 @@ void func_80171670(void *motion, s32 unused, void *entity, void *path_state)
         (*(u8 * *)((u8 *)entity + 0x2C)) = D_80174AD4;
         func_80047784(
             entity,
-            D_80174AD4[((D_80083228 + ((S_80171670_0 *)path_state)->unk_2A + 0x100) >> 9) & 7],
+            D_80174AD4[((gameWork.viewAngle + ((S_80171670_0 *)path_state)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((S_80171670_2 *)motion)->unk_A0 = 0;
     }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 
 typedef struct {
@@ -16,7 +17,6 @@ extern void *func_8003FC64();
 extern void func_8004491C();
 extern void func_80047784();
 
-extern s32 D_80045340;
 extern u8 D_800DDC40[];
 extern s32 D_80175978;
 
@@ -98,7 +98,7 @@ void *func_80E122F4(S_80E122F4_0 *owner, void *transform, void *source)
     obj = func_8003FC64(0x312);
     if (obj != 0) {
         (*(s32 * *)((u8 *)obj + 0x10)) = &D_80175978;
-        func_8004491C(obj, &D_80045340);
+        func_8004491C(obj, func_80045340);
 
         child = (*(void * *)((u8 *)obj + 0xC));
         child->unk_28 = source_obj->unk_28;

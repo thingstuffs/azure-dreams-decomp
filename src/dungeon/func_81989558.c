@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct S_80024D58_0 {
     u8 pad_00[0x2];
@@ -111,7 +112,6 @@ extern void func_800666F4();
 extern void func_80066640();
 extern s16 func_80066460();
 extern s16 func_8006649C();
-extern void *D_80083160[3];
 
 /* Build a textured quad grid for each object in the linked list. */
 s32 func_80024D58(void *node) {
@@ -136,7 +136,7 @@ s32 func_80024D58(void *node) {
     source_points = frame.space;
     rotated_points = frame.space + 128;
     grid = frame.space + 256;
-    render_context = &D_80083160[0];
+    render_context = &gameWork.unk_000;
     grid_origin = -720;
     for (;;) {
     object = node;

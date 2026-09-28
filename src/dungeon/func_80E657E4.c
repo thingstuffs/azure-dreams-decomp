@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
 #if !defined(NON_MATCHING) && __GNUC__ < 3
@@ -10,7 +11,6 @@ extern void func_80047784(void *, s32, s32);
 extern void func_80099EA4(void *);
 extern void func_800A4ACC(void *);
 
-extern s16 D_80083228[];
 extern u8 D_801755B4[];
 extern u8 D_80175660[];
 
@@ -39,7 +39,7 @@ void func_80174FE4(void *action_state, void *unused, void *animation, void *obje
             *(s16 *)((u8 *)action_state + 0x96) = 0;
 
             *(u8 **)((u8 *)animation + 0x2C) = direction_table;
-            data_page = (D_80083228[0] + *(s16 *)((u8 *)object + 0x2A) + 0x100) >> 9;
+            data_page = (gameWork.viewAngle + *(s16 *)((u8 *)object + 0x2A) + 0x100) >> 9;
             func_80047784(animation, direction_table[data_page & 7], 0);
             func_800A4ACC(object);
             *(u8 *)((u8 *)object + 0x6D) -= 1;

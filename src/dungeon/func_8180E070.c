@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
 void *func_8003FD64();            /* extern */
 M2C_UNK func_8004491C();           /* extern */
 extern M2C_UNK D_80026FB0;
 extern u8 D_80028808;
-extern M2C_UNK D_80045340;
 extern M2C_UNK D_80083498;
 
 typedef struct S_80027070_0 {
@@ -53,7 +53,7 @@ void *func_80027070(s16 x, s16 y, s16 z, s16 graphic_index, s32 state_value) {
     object = func_8003FD64(0x12, &D_80083498);
     if (object != NULL) {
         ((S_80027070_0 *)object)->unk_10 = &D_80026FB0;
-        func_8004491C(object, &D_80045340);
+        func_8004491C(object, func_80045340);
         position = ((S_80027070_0 *)object)->unk_08;
         position->unk_02 = x;
         position->unk_06 = y;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 typedef struct S_80171780_0 {
     u8 pad_00[0x8];
@@ -49,7 +50,6 @@ extern s32 func_800A6D30();
 extern void func_800A48F0();
 extern void func_800A9C18();
 extern void func_800AA36C();
-extern u8 D_80045340;
 extern s32 D_80083498;
 extern u8 D_800E2348[];
 extern u8 D_800E23A8[];
@@ -81,7 +81,7 @@ void *func_80171780(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
         work = (u8 *)obj + 0x20;
         ((S_80171780_0 *)obj)->unk_10 = D_80171964;
         work->unk_13 = 0x19;
-        func_8004491C(obj, &D_80045340);
+        func_8004491C(obj, func_80045340);
 
         part_a = ((S_80171780_0 *)obj)->unk_08;
         part_a->unk_0A = saved_spawn;

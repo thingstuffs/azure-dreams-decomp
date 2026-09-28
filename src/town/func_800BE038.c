@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "m2c_compat.h"
 
 void *func_8003FD64();            /* extern */
 s32 func_800644B8();                             /* extern */
 s32 func_80064584();                             /* extern */
-extern u8 D_80083160[];
 extern M2C_UNK D_80083498;
 extern M2C_UNK D_800BB894;
 
@@ -41,21 +41,19 @@ s32 func_800BB798(S_800BB798_0 *spawn_data, s16 state_48, s16 state_4a) {
     s32 angle;
     s32 radius_fixed;
     s32 radius;
-    u8 *angle_state;
     s32 component;
     s32 trig_factor;
     void *object;
     S_800BB798_3 *object_state;
     void *object_data;
 
-    angle_state = D_80083160;
-    angle = spawn_data->unk_10 + ((S_800BB798_1 *)angle_state)->unk_C8;
+    angle = spawn_data->unk_10 + gameWork.viewAngle;
     radius_fixed = spawn_data->unk_0C;
     trig_factor = func_80064584(angle);
     radius = radius_fixed >> 0xC;
     component = radius * trig_factor;
     spawn_data->unk_0C = component;
-    angle = spawn_data->unk_10 + ((S_800BB798_1 *)angle_state)->unk_C8;
+    angle = spawn_data->unk_10 + gameWork.viewAngle;
     trig_factor = func_800644B8(angle);
 
     component = radius * trig_factor;

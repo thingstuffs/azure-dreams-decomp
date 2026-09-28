@@ -174,13 +174,11 @@ jt_c1:
     }
 
     if (actor->unk_60.i == 0) {
-        void *counter_base;
 
         func_800A9A0C(actor);
         ((Rec_func_80173D78_arg0 *)action)->unk_8C = &D_80170EE4;
-        counter_base = &dungeonStatus.unk_00;
-        ((S_80173D78_4 *)counter_base)->unk_0A =
-            ((S_80173D78_4 *)counter_base)->unk_0A - 1;
+        dungeonStatus.unk_0A =
+            ((u16)dungeonStatus.unk_0A) - 1;
         actor->unk_1C &= 0xEFFFFFFF;
         goto jt_c4;
     }
@@ -254,14 +252,12 @@ advance_state:
 
 jt_c3:
 {
-    void *counter_base;
 
     ((Rec_func_80173D78_arg0 *)action)->unk_9A = 0x18;
     ((Rec_func_80173D78_arg0 *)action)->unk_9B = 0;
     ((Rec_func_80173D78_arg0 *)action)->unk_8C = &D_8017398C;
-    counter_base = &dungeonStatus.unk_00;
-    ((S_80173D78_4 *)counter_base)->unk_0A =
-        ((S_80173D78_4 *)counter_base)->unk_0A - 1;
+    dungeonStatus.unk_0A =
+        ((u16)dungeonStatus.unk_0A) - 1;
     actor->unk_6D = 0;
     actor->unk_1C &= 0xEFFFFFFF;
     actor->unk_46 &= 0x7FFF;

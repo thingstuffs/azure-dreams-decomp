@@ -65,7 +65,6 @@ void func_800172A0(S_800172A0_0 *source, s16 base_offset) {
     void *effect;
     s32 random_angle;
     S_800172A0_2 *bounds;
-    u16 *counter;
     s16 rotation_step;
     s32 random_bits;
 
@@ -107,8 +106,7 @@ void func_800172A0(S_800172A0_0 *source, s16 base_offset) {
         state_offset = base_offset + ((((S_800172A0_3 *)effect)->unk_24 + 1) * 0x30);
         ((S_800172A0_1 *)state)->unk_98 = state_offset;
         ((S_800172A0_3 *)effect)->unk_10 = (s32) state_offset;
-        counter = (u16 *)((s32 *)(&dungeonStatus));
-        ((S_800172A0_4 *)counter)->unk_0A = (u16) (((S_800172A0_4 *)counter)->unk_0A + 1);
+        dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) + 1);
     }
 }
 /* Warning: struct S_80083178 is not defined (only forward-declared) */

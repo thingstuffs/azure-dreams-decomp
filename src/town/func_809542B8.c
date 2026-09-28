@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 typedef struct {
     s32 v[5];
@@ -61,7 +62,6 @@ extern u8 D_80023260[];
 extern u8 D_80023A00[];
 extern u8 D_80023C80[];
 extern Packed8 D_80024310[];
-extern u8 D_80045340[];
 extern u8 D_80046398[];
 extern u8 D_80082E80[];
 extern s32 D_80082EA8[];
@@ -226,7 +226,7 @@ value_loop: {
     do {
         obj = func_8003FC64(0x136);
         if (obj != 0) {
-            func_8004491C(obj, D_80045340);
+            func_8004491C(obj, func_80045340);
             sprite = AT(u8 *, obj, 0xC);
             AT(void *, obj, 0x10) = D_80023158;
             AT(s16, sprite, 0x1E) = 0x1000;
@@ -259,7 +259,7 @@ value_loop: {
             if (obj != 0) {
                 obj = obj;
                 AT(void *, obj, 0x10) = D_80023260;
-                func_8004491C(obj, D_80045340);
+                func_8004491C(obj, func_80045340);
                 sprite = AT(u8 *, obj, 0xC);
                 AT(s32, AT(u8 *, obj, 8), 0) = 0x10000000;
                 AT(s32, AT(u8 *, obj, 8), 4) = (index << 22) + 0x04200000;
@@ -284,7 +284,7 @@ value_loop: {
     obj = func_8003FD64(0x136, D_80083498);
     if (obj != 0) {
         AT(void *, obj, 0x10) = D_80023A00;
-        func_8004491C(obj, D_80045340);
+        func_8004491C(obj, func_80045340);
         sprite = AT(u8 *, obj, 0xC);
         AT(s32, AT(u8 *, obj, 8), 0) = 0x10000000;
         AT(s32, AT(u8 *, obj, 8), 4) = 0x03E00000;

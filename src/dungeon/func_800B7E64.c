@@ -37,7 +37,6 @@ s32 func_800BD5C4(void *entity, s32 update_value, s16 mode) {
     void *call_arg;
     s32 context_arg;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 saved_context;
-    D_80083460_t *state;
     s32 type_index;
     s32 effect_result;
 
@@ -69,7 +68,6 @@ s32 func_800BD5C4(void *entity, s32 update_value, s16 mode) {
     }
     func_80042B68(entity, 2);
     func_80098B38(update_value);
-    state = ((D_80083460_t *)&dungeonStatus);
-    state->fieldA = (u16) (state->fieldA - 1);
+    dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
     return 1;
 }

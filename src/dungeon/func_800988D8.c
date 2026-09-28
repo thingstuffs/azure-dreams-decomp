@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "m2c_compat.h"
 
 extern void *D_80088CB8[];
@@ -9,7 +10,6 @@ M2C_UNK func_800A67F4();
 extern s16 D_80013630[4];
 extern M2C_UNK D_8001363C;
 extern M2C_UNK D_80082E80;
-extern M2C_UNK D_80083160;
 extern M2C_UNK D_800E296C;
 extern void *D_800E3D7C;
 
@@ -140,7 +140,7 @@ void func_8009E038(S_func_8009E038_0 *transition, S_func_8009E038_1 *center, S_f
     register s32 shared_flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
     render = render_params;
-    input = (S_func_8009E038_5 *)&D_80083160;
+    input = (S_func_8009E038_5 *)((M2C_UNK *)&gameWork.unk_000);
     if (!(((S_func_8009E038_3 *)&D_800E296C)->unk_00 & 0x2000)) {
         goto check_reset;
     }

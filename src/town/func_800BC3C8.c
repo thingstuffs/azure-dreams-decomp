@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct {
     u32 unk0;
@@ -23,12 +24,10 @@ typedef struct {
 
 extern void func_8004491C(void *, void *);
 extern u8 D_80046398[];
-extern u8 D_80083160[];
 extern u8 D_800B9998[];
 
 /* Initializes object data, transform, color, and rendering defaults. */
 void func_800B9B28(u8 *object, u8 *render_data, FuncData *state) {
-    u8 *colors;
     u8 blue;
 
     *(void **)(object - 0x10) = D_800B9998;
@@ -38,7 +37,6 @@ void func_800B9B28(u8 *object, u8 *render_data, FuncData *state) {
     state->unk1C = 0x1000;
     state->unk1E = 0x1000;
     state->unk20 = 0x1000;
-    colors = D_80083160;
     state->unk12 = 0;
     state->unk14 = 0;
     state->unk10 = 0;
@@ -48,9 +46,9 @@ void func_800B9B28(u8 *object, u8 *render_data, FuncData *state) {
     state->unk0 = 0;
     state->unk4 = 0;
     state->unk5 = 0;
-    state->unkC = colors[0xA8];
-    state->unkD = colors[0xA9];
-    blue = colors[0xAA];
+    state->unkC = gameWork.unk_0A8;
+    state->unkD = gameWork.unk_0A9;
+    blue = gameWork.unk_0AA;
     state->unk8 = 0x1F;
     state->unkE = blue;
     *(s32 *)(render_data + 8) = 0xFF600000;

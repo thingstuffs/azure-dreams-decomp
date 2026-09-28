@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 #include "common.h"
 
@@ -20,7 +21,6 @@ typedef struct {
     u32 field8;
 } Func80038A10Global;
 
-extern Func80038A10Global D_80083160;
 extern Func80038A10State *D_80081448;
 extern s32 func_80038AB8(Func80038A10State *, void *);
 extern void func_80038A10(Func80038A10State *);
@@ -28,7 +28,7 @@ extern void func_80038A10(Func80038A10State *);
 /* Processes the current state until processing stops or its handler changes. */
 void func_80038A10(Func80038A10State *input_state) {
     Func80038A10State *state = input_state;
-    Func80038A10Global *global = &D_80083160;
+    Func80038A10Global *global = ((Func80038A10Global *)&gameWork);
     void *context = input_state->field80;
     void (*handler)(Func80038A10State *);
 

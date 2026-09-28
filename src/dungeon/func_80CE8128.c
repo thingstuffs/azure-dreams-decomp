@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
 typedef struct {
@@ -35,7 +36,6 @@ typedef struct {
     Blob12 blob;
 } Object;
 
-extern u8 D_80045340[];
 extern void *func_8003FC64(s32 size);
 extern void func_8004491C(Object *object, u8 *data);
 extern u8 D_80170EF4[];
@@ -54,7 +54,7 @@ void func_80171928(void *unused, s32 *position) {
         header->value18 = 0x1C;
         header->value1a = 0x1C;
         object->field10 = &D_80170EF4;
-        func_8004491C(object, D_80045340);
+        func_8004491C(object, func_80045340);
         child = object->child;
         child->value10 = 0x60;
         child->flags14 |= 0xC;

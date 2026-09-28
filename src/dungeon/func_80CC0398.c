@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -62,7 +63,6 @@ s32 func_80175E6C(void *arg0, M2C_UNK arg1, void *arg2, void *arg3);
 extern void *D_800814A8;
 extern M2C_UNK D_80082E80;
 extern u16 D_80082EA4;
-extern s16 D_80083228;
 extern DungeonTile D_800E2970[];
 extern u8 D_80176320[];
 extern M2C_UNK D_80176358;
@@ -71,7 +71,7 @@ extern M2C_UNK D_80176370;
 
 static __inline__ void set_map(void *sprite, void *creature, u8 *direction_map) {
     (*(void **)((u8 *)sprite + 0x2C)) = (void *)direction_map;
-    func_80047784(sprite, direction_map[((s32) (D_80083228 + ((S_set_map_0 *)creature)->unk_2A + 0x100) >> 9) & 7], 0);
+    func_80047784(sprite, direction_map[((s32) (gameWork.viewAngle + ((S_set_map_0 *)creature)->unk_2A + 0x100) >> 9) & 7], 0);
 }
 
 /* Updates dungeon creature actions, facing direction, and animation. */

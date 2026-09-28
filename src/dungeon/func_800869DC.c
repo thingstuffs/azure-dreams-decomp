@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -36,8 +37,6 @@ typedef struct D_80013714_s {
 } D_80013714_s;
 
 extern D_80013714_s D_80013714;
-extern u8 D_80083160[];
-extern s16 D_80083228;
 extern u8 D_8008EAC8[];
 extern u8 D_800DCFD8[8];
 extern u8 D_800DD0B8[8];
@@ -64,7 +63,7 @@ void func_8008C13C(void *controller, s32 actor_id, void *actor, void *actor_data
     u8 tile_x;
     u8 *x_offsets;
 
-    dungeon_state = D_80083160;
+    dungeon_state = ((u8 *)(&gameWork));
     move_result = func_8009ABA0(((Rec_D_800E3D7C *)actor_data)->unk_2A.as_s16, actor_id, actor,
                            ((Rec_D_800E3D7C *)actor_data)->unk_88.as_s16, 0x20);
 
@@ -95,7 +94,7 @@ void func_8008C13C(void *controller, s32 actor_id, void *actor, void *actor_data
         if ((move_state->flags & 0x80) || (move_result == 1)) {
             if (((Rec_D_80082E80 *)actor)->unk_2C.as_pv != D_800DCFD8) {
                 (*(void * *)((u8 *)actor + 0x2C)) = D_800DCFD8;
-                direction_index = ((D_80083228 + ((Rec_D_800E3D7C *)actor_data)->unk_2A.as_s16 + 0x100) >> 9) & 7;
+                direction_index = ((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor_data)->unk_2A.as_s16 + 0x100) >> 9) & 7;
                 func_80048A44(actor, D_800DCFD8[direction_index], 0, 1);
             }
             func_80099F70(((Rec_D_800E3D7C *)actor_data)->unk_5C);

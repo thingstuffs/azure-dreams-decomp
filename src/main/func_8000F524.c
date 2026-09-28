@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct S_80022524_0 {
     s32 unk_00;
@@ -16,7 +17,6 @@ extern void SD_Call(s32 code);
 extern s32 func_800231E4(s32 mode);
 extern s32 func_80049E1C(s32 current, s32 direction, u8 entry);
 extern void func_80022488(void *arg0);
-extern s32 D_80083160[];
 extern u8 D_800280B4[];
 
 /* Handles menu exit buttons and repeated left/right selection changes. */
@@ -30,7 +30,7 @@ void func_80022524(S_80022524_0 *menu)
     s32 next_delay;
     volatile s32 *input;
 
-    input = D_80083160;
+    input = ((s32 *)(&gameWork));
     direction = 0;
     held_buttons = input[2];
     if (held_buttons == 0) {

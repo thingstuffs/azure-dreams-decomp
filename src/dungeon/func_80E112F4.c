@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern u8 D_80171094[];
 extern u8 D_80176460[8];
-extern s16 D_80083228[5];
 typedef struct Obj0 {
     u8 pad04[4];
     s8 field04;
@@ -136,7 +136,7 @@ state2:
 common:
     if (object->field14 & 0xE000) {
         object->field2c = D_80176460;
-        func_80047784(object, D_80176460[((D_80083228[0] + actor->field2a + 0x100) >> 9) & 7], 0);
+        func_80047784(object, D_80176460[((gameWork.viewAngle + actor->field2a + 0x100) >> 9) & 7], 0);
         controller->field98 &= 0xFFF7;
     }
 

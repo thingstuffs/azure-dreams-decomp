@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
@@ -43,7 +44,6 @@ extern void func_800AD594(void *, s32);
 extern s32 func_800AD9B4(void *, void *);
 
 extern u8 D_80082E80[];
-extern s16 D_80083228;
 extern u8 D_800E2348[];
 extern u8 D_800E2368[];
 extern u8 D_800E2370[];
@@ -83,7 +83,7 @@ state_zero:
     }
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_800E2368;
     func_80047784(sprite,
-        D_800E2368[((D_80083228 + ((S_801733B4_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+        D_800E2368[((gameWork.viewAngle + ((S_801733B4_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
         0);
     ((S_801733B4_0 *)motion)->unk_98 |= 8;
     ((S_801733B4_1 *)actor)->unk_1C.s &= 0xF7FFFFFF;
@@ -124,7 +124,7 @@ state_two:
         func_800A2B04(position, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_800E2370;
         func_80047784(sprite,
-            D_800E2370[((D_80083228 + ((S_801733B4_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            D_800E2370[((gameWork.viewAngle + ((S_801733B4_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((S_801733B4_0 *)motion)->unk_9B++;
         goto update_timer;
@@ -135,7 +135,7 @@ state_three:
     if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 != D_800E2348) {
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_800E2348;
         func_80047784(sprite,
-            D_800E2348[((D_80083228 + ((S_801733B4_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            D_800E2348[((gameWork.viewAngle + ((S_801733B4_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((S_801733B4_0 *)motion)->unk_9E = 0;
     }
@@ -145,7 +145,6 @@ update_timer:
     ((S_801733B4_0 *)motion)->unk_96 = timer_value;
     if (((s32)timer_value << 16) <= 0) {
         s32 actor_flags;
-        s16 *global_counters;
 
         ((Rec_D_800E3D7C *)position)->unk_14.as_s32 = 0;
         ((Rec_D_800E3D7C *)position)->unk_10.at00_s32.v = 0;
@@ -153,9 +152,8 @@ update_timer:
         func_800A2B04(position, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
         func_800AD594(actor, 4);
         func_800A4ACC(actor);
-        global_counters = (s16 *)&dungeonStatus.unk_00;
-        if (global_counters[4] != 0) {
-            ((u16 *)global_counters)[4]--;
+        if (dungeonStatus.unk_08 != 0) {
+            dungeonStatus.unk_08--;
         }
         actor_flags = ((S_801733B4_1 *)actor)->unk_1C.u;
         if (actor_flags & 0x2000) {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct S_81988C1C_0 {
     u8 pad_00[0x1E];
@@ -86,7 +87,6 @@ typedef struct {
 #define READ_ZERO(var) ASM_UNDEF(var)
 #endif
 
-extern S_800A1600_D80083160 D_80083160;
 extern s32 func_80065420();
 extern void func_80066640();
 extern void func_800666F4();
@@ -97,7 +97,7 @@ s32 func_81988C1C(void *first_item) {
     u8 screen_points[8];
     s32 projection_scratch;
     void *node = first_item;
-    S_800A1600_D80083160 *render_state = &D_80083160;
+    S_800A1600_D80083160 *render_state = ((S_800A1600_D80083160 *)&gameWork);
     void *screen_base = screen_points;
     void *next_node;
 

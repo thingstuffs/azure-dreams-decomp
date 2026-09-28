@@ -1,11 +1,11 @@
 /* cfail-repair: unary-star-typing; preserve the warm source shape */
 #include "common.h"
+#include "shared/game_work.h"
 #include "m2c_compat.h"
 
 struct S_8003E2D8 {
     u8 byte_0;
 };
-extern struct S_8003E2D8 D_80083160;
 
 typedef struct S_8008C134_0 {
     u8 pad_00[0x14];
@@ -25,7 +25,7 @@ s32 func_8008C134(s32 tile_x, s32 tile_y) {
     u8 *map_state;
     u8 *map_layout;
 
-    map_state = (u8 *)&D_80083160;
+    map_state = (u8 *)((struct S_8003E2D8 *)&gameWork);
     map_layout = map_state + 0x1DC;
     return *(u16 *)(((s32) (((((S_8008C134_0 *)map_layout)->unk_18 & tile_x) + ((s16) (((S_8008C134_0 *)map_layout)->unk_1A & tile_y) << ((S_8008C134_0 *)map_layout)->unk_14)) << 0x10) >> 0xF) + ((S_8008C134_1 *)map_state)->unk_1DC) & 0x3FFF;
 }

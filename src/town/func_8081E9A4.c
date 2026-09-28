@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
+#include "shared/game_work.h"
 #include "records/Rec_D_800E3D7C.h"
 
 
@@ -45,10 +47,8 @@ extern void *D_800201B0[27];
 
 extern u8 D_800220A8[];
 extern u8 D_80024450[];
-extern u8 D_80045340[];
 extern u8 D_80082E80[];
 extern u8 D_80083498[];
-extern u8 D_80083160[];
 extern u8 D_800834B8[];
 extern u8 D_80083780[];
 extern s32 D_80012D5C[3];
@@ -175,7 +175,7 @@ typedef struct S_800211A4_13 {
 /* Updates the betting effect, handling input, animation, payouts, and refunds. */
 void func_800211A4(TownEffect *input)
 {
-    u8 *controls;
+    GameWork *controls;
     u8 *primitive;
     u8 *child;
     TownEffect *effect = input;
@@ -197,7 +197,7 @@ void func_800211A4(TownEffect *input)
         &&counter_i, &&counter_j, &&counter_k, &&counter_l
     };
 
-    controls = D_80083160;
+    controls = &gameWork;
     child = (u8 *)effect->child + 0x20;
     state = effect->state;
     primitive = D_800834B8;
@@ -263,7 +263,7 @@ state0_inner:
             object_child = ((S_800211A4_0 *)object)->unk_0C;
             ((S_800211A4_0 *)object)->unk_10 = D_800220A8;
             object_link = (u8 *)object + 0x20;
-            func_8004491C(object, D_80045340);
+            func_8004491C(object, func_80045340);
             ((S_800211A4_13 *)(((S_800211A4_0 *)object)->unk_08))->unk_00 =
                 (column << 23) + 0x04600000;
             ((S_800211A4_13 *)(((S_800211A4_0 *)object)->unk_08))->unk_04 = 0x03600000;
@@ -315,15 +315,15 @@ state_1:
 state_2:
 {
     s32 pressed_buttons;
-    if ((((S_800211A4_7 *)controls)->unk_08 & 0x5000) != 0) {
+    if ((((s32)controls->unk_008) & 0x5000) != 0) {
         if (effect->timer-- < 0) {
             effect->timer = 0;
         }
     } else {
         effect->timer = 5;
     }
-    if ((((S_800211A4_7 *)controls)->unk_10 & 0x1000) == 0) {
-        if ((((S_800211A4_7 *)controls)->unk_08 & 0x1000) == 0 || effect->timer > 0) {
+    if ((((s32)controls->unk_010) & 0x1000) == 0) {
+        if ((((s32)controls->unk_008) & 0x1000) == 0 || effect->timer > 0) {
             goto state_3_body;
         }
     }
@@ -336,8 +336,8 @@ state_2:
 
 state_3:
 state_3_body:
-    if ((((S_800211A4_7 *)controls)->unk_10 & 0x4000) == 0) {
-        if ((((S_800211A4_7 *)controls)->unk_08 & 0x4000) == 0 || effect->timer > 0) {
+    if ((((s32)controls->unk_010) & 0x4000) == 0) {
+        if ((((s32)controls->unk_008) & 0x4000) == 0 || effect->timer > 0) {
             goto state_3_after_shake;
         }
     }
@@ -350,9 +350,9 @@ state_3_body:
 state_3_after_shake:
     effect->ticks = effect->amount / 100;
     if (effect->ticks != 0) {
-        pressed_buttons = ((S_800211A4_7 *)controls)->unk_10;
+        pressed_buttons = ((s32)controls->unk_010);
     } else {
-        pressed_buttons = ((S_800211A4_7 *)controls)->unk_10;
+        pressed_buttons = ((s32)controls->unk_010);
     }
     if ((pressed_buttons & 0x40) != 0) {
         if (effect->amount > 0) {
@@ -440,7 +440,7 @@ state_6:
 state_7:
 {
     u8 *motion;
-    if ((((S_800211A4_7 *)controls)->unk_10 & 0x40) == 0 ||
+    if ((((s32)controls->unk_010) & 0x40) == 0 ||
         ((S_800211A4_6 *)child)->unk_70 != 2) {
         goto common_done;
     }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
@@ -83,7 +84,6 @@ typedef struct S_800CB82C_7 {
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern u8 D_80045340[];
 void *func_8003FC64();                       /* extern */
 M2C_UNK func_8004491C();                /* extern */
 M2C_UNK func_80099FDC();                      /* extern */
@@ -101,13 +101,12 @@ void *func_800CB82C(void *spawn_pos, void *source_state, void *owner) {
     void *position;
     void *object;
     void *owner_map;
-    u16 *object_counts;
     u16 object_count;
 
     object = func_8003FC64(0x102);
     if (object != NULL) {
         ((S_800CB82C_0 *)object)->unk_10 = &D_800CB600;
-        func_8004491C(object, D_80045340);
+        func_8004491C(object, func_80045340);
         position = ((S_800CB82C_0 *)object)->unk_08;
         ((S_800CB82C_1 *)position)->unk_02 = (u16) ((S_800CB82C_2 *)spawn_pos)->unk_02;
         ((S_800CB82C_1 *)position)->unk_06 = (u16) ((S_800CB82C_2 *)spawn_pos)->unk_06;
@@ -139,10 +138,9 @@ void *func_800CB82C(void *spawn_pos, void *source_state, void *owner) {
             return NULL;
         }
         func_80099FDC(object);
-        object_counts = (u16 *)((s32 *)(&dungeonStatus));
-        object_count = object_counts[5];
+        object_count = ((u16)dungeonStatus.unk_0A);
         object_count = (u16) (object_count + 1);
-        object_counts[5] = object_count;
+        dungeonStatus.unk_0A = object_count;
     }
     return object;
 }

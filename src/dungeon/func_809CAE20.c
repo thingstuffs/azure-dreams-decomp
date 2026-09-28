@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -69,8 +71,6 @@ extern void func_800A4ACC(void *);
 extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
 
-extern s32 D_80045340;
-extern s16 D_80083228;
 extern u8 D_80083498[];
 extern u8 D_800D7960[];
 extern void *D_800E3DE8;
@@ -124,14 +124,14 @@ state_zero:
         (*(s32 *)((u8 *)action + 0xA4)) = 0;
         func_80047784(sprite,
             ((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8
-                [((D_80083228 + ((S_80172620_2 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
+                [((gameWork.viewAngle + ((S_80172620_2 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
             0);
         ((S_80172620_0 *)action)->unk_9B = 3;
         goto done;
     }
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80173CA4;
     func_80047784(sprite,
-        D_80173CA4[((D_80083228 + ((S_80172620_2 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
+        D_80173CA4[((gameWork.viewAngle + ((S_80172620_2 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
         0);
     ((S_80172620_0 *)action)->unk_9B++;
     goto done;
@@ -146,7 +146,7 @@ state_one:
             s32 sprite_link;
             s32 sprite_data;
 
-            func_8004491C(effect, &D_80045340);
+            func_8004491C(effect, func_80045340);
             ((S_80172620_3 *)effect)->unk_10 = D_800D7960;
             effect_transform = ((S_80172620_3 *)effect)->unk_08;
             *(Copy24 *)effect_transform = *(Copy24 *)transform;
@@ -164,7 +164,7 @@ state_one:
             ((S_80172620_4 *)effect_sprite)->unk_2C = D_80173CB4;
             ((S_80172620_4 *)effect_sprite)->unk_0C = sprite_data;
             func_80047784(effect_sprite,
-                D_80173CB4[((D_80083228 + ((S_80172620_2 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
+                D_80173CB4[((gameWork.viewAngle + ((S_80172620_2 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
                 0);
         }
     }
@@ -174,7 +174,7 @@ state_one:
     }
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80173CAC;
     func_80047784(sprite,
-        D_80173CAC[((D_80083228 + ((S_80172620_2 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
+        D_80173CAC[((gameWork.viewAngle + ((S_80172620_2 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
         0);
     ((S_80172620_0 *)action)->unk_9B++;
     goto done;
@@ -185,7 +185,7 @@ state_two:
 
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80173CBC;
         func_80047784(sprite,
-            D_80173CBC[((D_80083228 + ((S_80172620_2 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
+            D_80173CBC[((gameWork.viewAngle + ((S_80172620_2 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
             0);
         active_effect = ((S_80172620_0 *)action)->unk_A4.s;
         if (active_effect != 0) {

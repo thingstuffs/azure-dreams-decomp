@@ -1,9 +1,9 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
+#include "shared/game_work.h"
 #include "m2c_compat.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern u8 D_80045340[];
-extern u32 D_80083208[3];
 extern u8 D_800DEAE0[];
 void *func_8003FC64();                       /* extern */
 M2C_UNK func_8004491C();                /* extern */
@@ -48,9 +48,9 @@ void func_800F6090(s16 x, s16 y) {
     object = func_8003FC64(0x16);
     if (object != NULL) {
         object->unk_10 = &D_800F6070;
-        func_8004491C(object, D_80045340);
+        func_8004491C(object, func_80045340);
         render_state = object->unk_0C;
-        render_config = (u32) *D_80083208;
+        render_config = (u32) *((u32 *)(&gameWork.unk_0A8));
         render_state->unk_1E = 0x1000;
         render_state->unk_1C = 0x1000;
         render_state->unk_0C = render_config;

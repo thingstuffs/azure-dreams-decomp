@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct Child {
     u8 unk00[0x22];
@@ -23,16 +24,15 @@ struct Object {
     Child *child;
 };
 
-extern u8 D_80083160[];
 extern void func_800364BC(Object *arg0);
 extern void func_8003661C(Object *arg0);
 
 /* Decrement the countdown, restoring the callback on expiry or updating the selection from state flags. */
 void func_80036574(Object *object) {
     u16 ticks_left;
-    u8 *state;
+    GameWork *state;
 
-    state = D_80083160;
+    state = &gameWork;
     ticks_left = object->unk64 - 1;
     object->unk64 = ticks_left;
     if ((s16)ticks_left <= 0) {
@@ -41,10 +41,10 @@ void func_80036574(Object *object) {
         object->child->unk27 = object->child->unk26;
         object->unk68 = func_800364BC;
     } else {
-        if ((*(u32 *)(state + 0x10)) & 0x20) {
+        if ((((u32)state->unk_010)) & 0x20) {
             object->unk4d = object->child->unk26 - 1;
             func_8003661C(object);
-        } else if ((*(u32 *)(state + 0x10)) & 0x40) {
+        } else if ((((u32)state->unk_010)) & 0x40) {
             object->unk4d = 0;
             func_8003661C(object);
         }

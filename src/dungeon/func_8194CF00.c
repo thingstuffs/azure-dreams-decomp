@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 typedef s32 M2C_UNK;
 
@@ -24,7 +25,6 @@ extern M2C_UNK func_80064A40();
 extern M2C_UNK func_80064B30();
 
 extern M2C_UNK D_8002455C[];
-extern s32 D_80045340;
 extern u8 D_800DE938[];
 
 
@@ -103,7 +103,7 @@ void func_80024700(void *source_object)
         ((S_80024700_1 *)primitive)->unk_1E = value;
         ((S_80024700_1 *)primitive)->unk_1C = value;
         scale_component = data->unk_24;
-        resource = (u8 *)&D_80045340;
+        resource = (u8 *)func_80045340;
         ((S_80024700_1 *)primitive)->unk_14.at02.v = scale_component >> 12;
         scale_component = data->unk_26;
         flags_14 = ((S_80024700_1 *)primitive)->unk_14.at00.v;

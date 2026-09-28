@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 typedef unsigned long uptr;
 typedef long long s64_local;
@@ -25,7 +26,6 @@ extern s32 func_80064584();
 extern s32 func_80069EF8();
 
 extern u8 D_80024710[];
-extern u8 D_80045340[];
 extern u8 D_800DEC70[];
 
 
@@ -157,7 +157,7 @@ s32 func_818C2FAC(void *data_addr, Copy24 *position_addr, s32 direction)
         ((S_818C2FAC_2 *)((void *)render_or_radius))->unk_1A = random_value - ((biased_random >> 12) << 12);
         ((S_818C2FAC_2 *)((void *)render_or_radius))->unk_1E = 0x1000;
         ((S_818C2FAC_2 *)((void *)render_or_radius))->unk_1C = 0x1000;
-        func_8004491C((void *)effect, D_80045340);
+        func_8004491C((void *)effect, func_80045340);
 
         data_addr = ((S_818C2FAC_0 *)((void *)effect))->unk_08;
         divisor_reciprocal = (s32)position_addr;

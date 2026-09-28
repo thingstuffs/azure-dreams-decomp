@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800814A8.h"
@@ -66,7 +67,6 @@ void func_800AA888(void *, s32, void *, void *);
 void func_8016D4B8(void *, s32, void *, void *);
 extern void *D_800814A8;
 extern M2C_UNK D_80082E80;
-extern s16 D_80083228;
 extern M2C_UNK D_8016A36C;
 extern u8 D_80173AC8[];
 extern u8 D_80173AD0[];
@@ -118,7 +118,7 @@ state_zero:
     }
 zero_setup:
     (*(u8 **)((u8 *)target + 0x2C)) = D_80173AC8;
-    func_80047784(target, D_80173AC8[((D_80083228 + ((S_8016CC70_2 *)actor)->unk_2A + 0x100) >> 9) & 7], 0);
+    func_80047784(target, D_80173AC8[((gameWork.viewAngle + ((S_8016CC70_2 *)actor)->unk_2A + 0x100) >> 9) & 7], 0);
 decrement_counter:
     counter_base = (u8 *)&dungeonStatus.unk_00;
     ((S_8016CC70_3 *)counter_base)->unk_0A--;
@@ -142,7 +142,7 @@ state_one:
 one_setup:
     if (((S_8016CC70_1 *)target)->unk_2C != D_80173AC8) {
         (*(u8 **)((u8 *)target + 0x2C)) = D_80173AC8;
-        func_80047784(target, D_80173AC8[((D_80083228 + ((S_8016CC70_2 *)actor)->unk_2A + 0x100) >> 9) & 7], 0);
+        func_80047784(target, D_80173AC8[((gameWork.viewAngle + ((S_8016CC70_2 *)actor)->unk_2A + 0x100) >> 9) & 7], 0);
     }
 call_check:
     if ((func_80042900(actor, 1) << 0x10) != 0) {
@@ -232,7 +232,7 @@ high_kind:
     }
 update_tiles:
     (*(u8 **)((u8 *)target + 0x2C)) = D_80173AD0;
-    func_80047784(target, D_80173AD0[((D_80083228 + ((S_8016CC70_2 *)actor)->unk_2A + 0x100) >> 9) & 7], 0);
+    func_80047784(target, D_80173AD0[((gameWork.viewAngle + ((S_8016CC70_2 *)actor)->unk_2A + 0x100) >> 9) & 7], 0);
 
 after_tiles:
     if (((S_8016CC70_1 *)target)->unk_14 & 0x8000) {

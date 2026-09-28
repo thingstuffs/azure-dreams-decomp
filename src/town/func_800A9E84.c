@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 #ifndef NULL
 #define NULL 0
@@ -46,7 +47,6 @@ typedef struct {
 
 extern void func_80033CD8();
 extern void *func_8009C390();
-extern s32 D_80045340;
 extern EntryRecord D_80082660[];
 extern u8 D_800A76F0;
 extern s32 D_800D0E24[];
@@ -87,7 +87,7 @@ void fukidasi_set(s32 entry_index, s32 part_index, s32 body_index, s32 body_valu
         part = ((S_800A75E4_1 *)object)->unk_08;
         part_data = ((S_800A75E4_1 *)object)->unk_0C;
         part_data->unk_08 = *value_slot;
-        func_80033CD8(entry_or_body, &D_80045340, part_data);
+        func_80033CD8(entry_or_body, func_80045340, part_data);
         part->unk_0A = part->unk_0A - 0x62;
         ((S_800A75E4_4 *)body)->unk_90 = 0xA;
         ((S_800A75E4_4 *)body)->unk_6C = body_value;

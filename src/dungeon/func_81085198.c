@@ -111,10 +111,9 @@ check_landing:
     func_800A4ACC(actor);
 
     {
-        s16 *global_counters = (s16 *)&dungeonStatus.unk_00;
 
-        if (global_counters[4] != 0) {
-            ((u16 *)global_counters)[4]--;
+        if (dungeonStatus.unk_08 != 0) {
+            dungeonStatus.unk_08--;
         }
     }
 

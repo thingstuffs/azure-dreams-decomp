@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 #ifndef NULL
 #define NULL 0
@@ -62,7 +63,6 @@ extern void func_8003DB94(RenderState *, void *, s16);
 extern EffectObject *func_8003FC64(s32);
 extern void func_8004491C(EffectObject *, void *);
 
-extern u8 D_80045340;
 extern u8 D_800DEAE0[];
 extern LocalPositionTable D_8016484C;
 extern u8 D_80167C74[];
@@ -98,7 +98,7 @@ void func_801685CC(EffectSource *source, Vec3 *origin, void *unused,
         payload->color_mode = color_mode;
         payload->effect_data = effect_data;
         object->callback = D_80167C74;
-        func_8004491C(object, &D_80045340);
+        func_8004491C(object, func_80045340);
 
         render = object->render;
         intensity = 0x60;

@@ -27,12 +27,10 @@ extern void func_800C7930(void *, s32, s32, s32);
 s32 func_8016B954(Rec_func_800A9E70_arg0 *action_state, s32 action_id, Rec_D_80082E80 *target, void *actor) {
     volatile u64 frame_pad;
     s32 target_direction;
-    s32 *global_flags;
 
     ((Rec_D_800E3D7C *)actor)->unk_71.as_u8 &= 0x7F;
-    global_flags = &dungeonStatus.unk_00;
 
-    if (((S_8016B954_1 *)global_flags)->unk_02 & 0x2000) {
+    if (dungeonStatus.flags & 0x2000) {
         goto shared_failure;
     }
 
@@ -46,12 +44,12 @@ s32 func_8016B954(Rec_func_800A9E70_arg0 *action_state, s32 action_id, Rec_D_800
         return 0;
     }
 
-    if (((S_8016B954_1 *)global_flags)->unk_02 & 0x2000) {
+    if (dungeonStatus.flags & 0x2000) {
         return -1;
     }
 
     if (!(((Rec_D_800E3D7C *)actor)->unk_44.at02_u16.v & 0x8000) &&
-        (((S_8016B954_1 *)global_flags)->unk_02 & 8)) {
+        (dungeonStatus.flags & 8)) {
         return -1;
     }
 

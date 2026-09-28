@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef u32 OT_TYPE;
 
@@ -24,7 +25,6 @@ typedef struct OrderingTable {
 extern State16 D_80082E60;
 extern volatile State12 D_8008148C;
 extern volatile State12 D_80081480;
-extern State16 D_80083160;
 extern FrameData D_801C9E40;
 extern OrderingTable D_801DA784;
 
@@ -48,11 +48,11 @@ void func_80041A10(void)
     } while (0);
     func_8003FAD4(saved_state);
     func_800410FC();
-    D_80083160.field0 = (s32)&D_801C9E40;
+    gameWork.unk_000 = (s32)&D_801C9E40;
     ClearOTagR((OT_TYPE *)(D_801C9E40.raw + 0x70), 0x218);
     ClearOTagR(D_801DA784.ot, 0x218);
     {
-        u8 *frame_data = (u8 *)D_80083160.field0;
+        u8 *frame_data = (u8 *)((s32)gameWork.unk_000);
         *(void **)(frame_data + 0x8D0) = frame_data + 0x8D4;
     }
     SetDispMask(1);

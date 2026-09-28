@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
@@ -106,7 +107,6 @@ typedef struct {
     s16 y;
 } Point;
 
-extern s32 D_80045340;
 extern u8 D_80083498[];
 extern Rect D_80170874;
 extern u8 D_801740FC[];
@@ -153,7 +153,7 @@ void func_801733BC(void *effect_state, void *position, void *render_part, void *
         do {
             spawned_object = func_8003FD64(0x112, D_80083498);
             if (spawned_object != 0) {
-                func_8004491C(spawned_object, &D_80045340);
+                func_8004491C(spawned_object, func_80045340);
                 ((S_801733BC_2 *)spawned_object)->unk_10 = particle_callback;
 
                 random_offset = func_80069EF8();

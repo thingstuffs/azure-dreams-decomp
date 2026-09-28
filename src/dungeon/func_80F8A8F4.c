@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
@@ -26,7 +27,6 @@ extern s32 func_800A2BDC();
 extern s32 func_800A5720();
 extern s32 func_800A6D30(void);
 
-extern s16 D_80083228;
 extern M2C_UNK D_80170854;
 extern u8 D_80174B0C[];
 
@@ -57,7 +57,7 @@ void func_801740F4(void *work, void *part_a, void *part_b, void *actor) {
         table_base = D_80174B0C;
         ((Rec_D_800E3D7C *)actor)->unk_60.as_s32 = field_60;
         (*(u8 **)((u8 *)part_b + 0x2C)) = table_base;
-        func_80047784(part_b, table_base[((s32)(D_80083228 + (s16)((Rec_D_800E3D7C *)actor)->unk_2A.as_u16 + 0x100) >> 9) & 7], 0);
+        func_80047784(part_b, table_base[((s32)(gameWork.viewAngle + (s16)((Rec_D_800E3D7C *)actor)->unk_2A.as_u16 + 0x100) >> 9) & 7], 0);
         ((Rec_D_800E3D7C *)actor)->unk_6D.as_u8 = (u8)(((Rec_D_800E3D7C *)actor)->unk_6D.as_u8 - 1);
         dungeonStatus.unk_0A = (u16)(((u16)dungeonStatus.unk_0A) + 1);
         raw_result = func_800990FC();

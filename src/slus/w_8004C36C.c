@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 #define U8_AT(p, o)  (*(u8 *)((u8 *)(p) + (o)))
 #define S8_AT(p, o)  (*(s8 *)((u8 *)(p) + (o)))
@@ -18,7 +19,6 @@ extern void SetTransMatrix(void *m);
 extern s32 func_8004C010(void *dst, void *tint);
 extern void *func_8004C080(void *t0, void *t1, void *packet, void *record,
                            void *cmd, s32 *count);
-extern void *D_80083160[3];
 
 /* Transform and tint sprites from node lists, then link their packets into the ordering table. */
 void func_8004C36C(u8 *parent, u8 *node)
@@ -41,8 +41,8 @@ void func_8004C36C(u8 *parent, u8 *node)
     node_matrix = work_buf + 0xE4;
     sprite_matrix = work_buf + 0x7C;
     addr_mask = 0xFFFFFF;
-    render_state = (u8 **)D_80083160;
-    render_ctx = (u8 *)D_80083160[0];
+    render_state = (u8 **)((void * *)(&gameWork));
+    render_ctx = (u8 *)gameWork.unk_000;
     size_mask = 0xFF000000;
     work = work_buf;
     packet = *(u8 **)(render_ctx + 0x8D0);

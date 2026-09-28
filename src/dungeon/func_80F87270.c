@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
 
@@ -13,7 +14,6 @@ extern void func_800AA36C(void *, void *, void *, void *);
 extern s32 func_800BCB04(u16, u16, s16);
 
 extern u8 D_8006CCF8[];
-extern s16 D_80083228;
 extern u8 D_80171138[];
 extern Callback D_80174B1C[];
 
@@ -107,7 +107,7 @@ void func_80170A70(void *entity, void *motion_arg, void *sprite_arg)
     sprite_flags = ((S_80170A70_1 *)sprite_arg)->unk_14;
 
     if (!(sprite_flags & 0x8000)) {
-        facing = ((D_80083228 + object->unk_2A + 0x100) >> 9) & 7;
+        facing = ((gameWork.viewAngle + object->unk_2A + 0x100) >> 9) & 7;
         state_or_facing = facing;
         if ((*(s16 *)((u8 *)entity + (0x94))) != state_or_facing) {
             func_80047738(sprite_arg,

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -32,7 +33,6 @@ typedef struct S_807B0238_6 {
 void *func_8003FD64();               /* extern */
 M2C_UNK func_8004491C();           /* extern */
 s32 rand();                                /* extern */
-extern M2C_UNK D_80045340;
 extern M2C_UNK D_800F7910;
 extern M2C_UNK D_800FBE24;
 
@@ -68,7 +68,7 @@ void func_807B0238(Rec_D_800E3D7C *source, s16 state_value, s32 render_value) {
     effect = func_8003FD64(0x212, source);
     if (effect != NULL) {
         ((S_807B0238_0 *)effect)->unk_10 = &D_800F7910;
-        func_8004491C(effect, &D_80045340);
+        func_8004491C(effect, func_80045340);
         ((S_807B0238_5 *)(((S_807B0238_3 *)effect)->unk_08))->unk_02 = (s16) ((((S_807B0238_6 *)(source->unk_08.at00_pv.v))->unk_02 + (rand() & 0x3F)) - 0x20);
         ((S_807B0238_5 *)(((S_807B0238_3 *)effect)->unk_08))->unk_06 = (s16) ((((S_807B0238_6 *)(source->unk_08.at00_pv.v))->unk_06 + (rand() & 0x3F)) - 0x20);
         ((S_807B0238_5 *)(((S_807B0238_3 *)effect)->unk_08))->unk_0A = (s16) ((((S_807B0238_6 *)(source->unk_08.at00_pv.v))->unk_0A + (rand() & 0x3F)) - 0x20);

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
 #define FIELD(base, type, offset) (*(type *)((u8 *)(base) + (offset)))
@@ -6,7 +7,6 @@
 typedef void (*EntityCallback)(void *, void *, void *, void *);
 
 extern u8 D_8006CCF8[];
-extern s16 D_80083228;
 extern u8 D_801713A8[];
 extern u8 D_80174494[];
 extern u8 D_8017449C[];
@@ -122,7 +122,7 @@ void func_80170BB8(void *actor_arg, void *motion_arg, void *object_arg)
 
     if (!(status_flags & 0x8000)) {
         {
-            ground_offset = (D_80083228 + ((S_80170BB8_2 *)actor_state)->unk_2A + 0x100) >> 9;
+            ground_offset = (gameWork.viewAngle + ((S_80170BB8_2 *)actor_state)->unk_2A + 0x100) >> 9;
             direction = ground_offset & 7;
         }
         if ((*(s16 *)((u8 *)actor + (0x94))) != direction) {
@@ -162,13 +162,13 @@ void func_80170BB8(void *actor_arg, void *motion_arg, void *object_arg)
                     if (animation_table == D_8017449C) {
                         (*(u8 * *)((u8 *)object + (0x2C))) = D_80174494;
                         func_80047784(object,
-                            D_80174494[((D_80083228 + ((S_if_0 *)actor_state)->unk_2A + 0x100) >> 9) & 7],
+                            D_80174494[((gameWork.viewAngle + ((S_if_0 *)actor_state)->unk_2A + 0x100) >> 9) & 7],
                             0);
                     }
                     else if (animation_table == D_80174494) {
                         (*(u8 * *)((u8 *)object + (0x2C))) = D_8017449C;
                         func_80047784(object,
-                            D_8017449C[((D_80083228 + ((S_if_0 *)actor_state)->unk_2A + 0x100) >> 9) & 7],
+                            D_8017449C[((gameWork.viewAngle + ((S_if_0 *)actor_state)->unk_2A + 0x100) >> 9) & 7],
                             0);
                     }
                 }
@@ -253,12 +253,12 @@ void func_80170BB8(void *actor_arg, void *motion_arg, void *object_arg)
                 if (animation_table == D_8017449C) {
                     (*(u8 * *)((u8 *)object + (0x2C))) = D_80174494;
                     func_80047784(object,
-                        D_80174494[((D_80083228 + ((S_80170BB8_2 *)actor_state)->unk_2A + 0x100) >> 9) & 7],
+                        D_80174494[((gameWork.viewAngle + ((S_80170BB8_2 *)actor_state)->unk_2A + 0x100) >> 9) & 7],
                         0);
                 } else if (animation_table == D_80174494) {
                     (*(u8 * *)((u8 *)object + (0x2C))) = D_8017449C;
                     func_80047784(object,
-                        D_8017449C[((D_80083228 + ((S_80170BB8_2 *)actor_state)->unk_2A + 0x100) >> 9) & 7],
+                        D_8017449C[((gameWork.viewAngle + ((S_80170BB8_2 *)actor_state)->unk_2A + 0x100) >> 9) & 7],
                         0);
                 }
             }

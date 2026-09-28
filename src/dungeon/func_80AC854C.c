@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800814A8.h"
 
@@ -64,7 +65,6 @@ extern void func_801743E8(void *, void *, void *, void *);
 
 extern void *D_800814A8;
 extern u8 D_80082E80[];
-extern s16 D_80083228;
 extern s32 D_80171728;
 extern u8 D_80174E4C[];
 extern u8 D_80174E54[];
@@ -110,7 +110,7 @@ state_zero:
     }
     (*(void * *)((u8 *)sprite + 0x2C)) = D_80174E4C;
     func_80047784(sprite,
-        D_80174E4C[((D_80083228 + ((S_80173D4C_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+        D_80174E4C[((gameWork.viewAngle + ((S_80173D4C_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
         0);
     {
         u8 *counter_base;
@@ -195,7 +195,7 @@ final_check_call:
 update_table:
     (*(void * *)((u8 *)sprite + 0x2C)) = D_80174E54;
     func_80047784(sprite,
-        D_80174E54[((D_80083228 + ((S_80173D4C_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+        D_80174E54[((gameWork.viewAngle + ((S_80173D4C_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
         0);
     if (((S_80173D4C_1 *)sprite)->unk_14 & 0x8000) {
         goto assign_owner;

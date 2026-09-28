@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 
@@ -22,7 +23,6 @@ extern u8 D_8002492C[16];
 extern u8 D_80025704[16];
 extern u8 D_80025710[16];
 extern u16 D_8002571C[8];
-extern u8 D_80045340[16];
 extern u8 D_800256EC[16];
 extern u8 D_800DED28[];
 extern u8 D_800DEB28[];
@@ -195,7 +195,7 @@ emit_trail:
         if (particle != 0) {
             F(particle, s16, 0x4A) = 8;
             F(particle, void *, 0x10) = spawn_data;
-            func_8004491C(particle, D_80045340);
+            func_8004491C(particle, func_80045340);
             sprite = F(particle, void *, 0xC);
             F(sprite, u16, 0x14) = (u16)(F(sprite, u16, 0x14) | 0xC);
             position = F(particle, void *, 8);
@@ -283,7 +283,7 @@ emit_trail:
             if (particle != 0) {
                 F(particle, s16, 0x4A) = 8;
                 F(particle, void *, 0x10) = spawn_data;
-                func_8004491C(particle, D_80045340);
+                func_8004491C(particle, func_80045340);
                 sprite = F(particle, void *, 0xC);
                 F(sprite, u16, 0x14) = (u16)(F(sprite, u16, 0x14) | 0xC);
                 position = F(particle, void *, 8);
@@ -364,7 +364,7 @@ emit_flash:
         return;
     }
     init_object = particle;
-    animation_m = D_80045340;
+    animation_m = func_80045340;
     F(particle, s16, 0x4A) = 6;
     F(particle, void *, 0x10) = (void *)((u32)&D_800248B8);
     func_8004491C(init_object, animation_m);
@@ -413,7 +413,7 @@ emit_burst:
     do {
         particle = func_8003FC64(0x212);
         if (particle != 0) {
-            effect_context = prepare_burst(particle, particle_script, D_80045340);
+            effect_context = prepare_burst(particle, particle_script, func_80045340);
             sprite = F(particle, void *, 0xC);
             F(sprite, u16, 0x14) = (u16)(F(sprite, u16, 0x14) | 0xC);
             F(sprite, u16, 0x10) = 0x60;

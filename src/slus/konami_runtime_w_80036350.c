@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 #include "common.h"
 
@@ -19,7 +20,6 @@ typedef struct CursorState {
     CursorInfo *info_74;
 } CursorState;
 
-extern RuntimeState D_80083160;
 extern void SD_Call(u32);
 extern void func_80036434(CursorState *, s32, s32);
 
@@ -30,7 +30,7 @@ void func_80036350(CursorState *cursor, s32 action_arg1, s32 action_arg2)
     u32 next_cursor;
     u32 flags_or_count;
 
-    runtime = &D_80083160;
+    runtime = ((RuntimeState *)&gameWork);
     flags_or_count = runtime->flags_10;
     if (flags_or_count & 0x4000) {
         SD_Call(0x502);

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -23,7 +24,6 @@ extern void func_800A2B04(void *, s32, s32);
 extern void func_800AAA54(void *, void *, void *, void *);
 extern void func_800AD4D0(void *);
 
-extern s16 D_80083228;
 extern s32 D_80171728;
 extern u8 D_80174DEC[];
 extern u8 D_80174DFC[];
@@ -41,7 +41,6 @@ void func_80173964(void *action, void *motion, void *actor, void *entity)
     s32 target_y;
     s32 current_y;
     s32 tracked_entity;
-    s32 *entity_globals;
 
     state = ((S_80173964_0 *)action)->unk_9B;
     if (state == 1) {
@@ -156,13 +155,12 @@ state_3:
         (*(void * *)((u8 *)actor + 0x2C)) = D_80174DEC;
         func_80047784(
             actor,
-            D_80174DEC[((D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            D_80174DEC[((gameWork.viewAngle + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
     }
-    entity_globals = &dungeonStatus.unk_00;
-    tracked_entity = entity_globals[4];
+    tracked_entity = ((s32)dungeonStatus.unk_10);
     if (tracked_entity == (s32)((u8 *)entity - 0x20)) {
-        entity_globals[4] = tracked_entity & 0x7FFFFFFF;
+        dungeonStatus.unk_10 = tracked_entity & 0x7FFFFFFF;
     }
     ((S_80173964_0 *)action)->unk_8C = &D_80171728;
 

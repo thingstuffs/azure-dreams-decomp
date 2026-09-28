@@ -28,7 +28,6 @@ s32 func_800C1CE0(void *target, s32 action, s16 action_type, s32 action_arg) {
     s32 message_start;
     s32 slot_entry;
     u8 *global_page;
-    u8 *counter_page;
 
     if (action_type == 0xD) {
         return func_80098864(action, action_arg);
@@ -74,8 +73,7 @@ s32 func_800C1CE0(void *target, s32 action, s16 action_type, s32 action_arg) {
         func_800A5720(message_start);
     }
 
-    counter_page = (u8 *)((s32 *)(&dungeonStatus));
-    (*(u16 *)(counter_page + 0xA))--;
+    (((u16)dungeonStatus.unk_0A))--;
     func_80098B38(action);
     return 1;
 }

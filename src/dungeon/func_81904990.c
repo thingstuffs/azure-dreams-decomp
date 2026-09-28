@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/game_work.h"
 #include "m2c_compat.h"
 typedef u8 *(*FnPtr)(void *, s32, void *, void *, u8 *);
 typedef struct { s32 w0, w1, w2, w3; } Blk16;
@@ -208,7 +209,7 @@ typedef struct S_func_81904990_9 {
     s16 unk_C8;
 } S_func_81904990_9;
 
-#define D_FIELD(type_ptr, offset) (*(type_ptr)(D_80083160 + (offset)))
+#define D_FIELD(type_ptr, offset) (*(type_ptr)(((u8 *)(&gameWork)) + (offset)))
 #define D_LITERAL(type_ptr, offset) (*(type_ptr)((u8 *)0x80083160 + (offset)))
 
 M2C_UNK func_80064840();
@@ -221,7 +222,6 @@ M2C_UNK func_800654B0();
 M2C_UNK func_80065820();
 M2C_UNK func_80067EF4();
 extern M2C_UNK D_8006CD10[3];
-extern u8 D_80083160[];
 
 /* Build textured sprite strips and append their packets to the ordering table. */
 void func_81904990(void *screen_pos, void *sprite, s32 *ordering_table, s32 draw_mode) {
@@ -282,14 +282,14 @@ void func_81904990(void *screen_pos, void *sprite, s32 *ordering_table, s32 draw
     s32 length_mask;
     register S_func_81904990_4 *scratch ASM_REG("$18");
     void *sprite_base;
-    u8 *state_page;
+    GameWork *state_page;
 
     setup_arg = screen_pos;
     sprite_base = sprite;
     frame = ((S_func_81904990_1 *)((u8 *)sprite_base - 0x18))->unk_04;
     {
         void **state_ptr;
-        state_page = D_80083160;
+        state_page = &gameWork;
         state_ptr = (void **)state_page;
         ASM_CLOBBER("$2");
         callback_arg = ((S_func_81904990_1 *)((u8 *)sprite_base - 0x18))->unk_00;
@@ -328,15 +328,15 @@ void func_81904990(void *screen_pos, void *sprite, s32 *ordering_table, s32 draw
     length_mask = 0xFF000000;
     ASM_KEEP_NV(length_mask);
     view_matrix = (S_func_81904990_8 *)D_8006CD10;
-    view_matrix->unk_1C = (s32) ((S_func_81904990_9 *)state_page)->unk_A0;
+    view_matrix->unk_1C = (s32) state_page->unk_0A0;
     func_800649A0((s32) setup_arg, matrix_arg);
     {
         s32 view_x;
         s32 view_y;
         s32 view_z;
-        view_x = ((S_func_81904990_9 *)state_page)->unk_C4;
-        view_y = ((S_func_81904990_9 *)state_page)->unk_C6;
-        view_z = ((S_func_81904990_9 *)state_page)->unk_C8;
+        view_x = state_page->unk_0C4;
+        view_y = state_page->unk_0C6;
+        view_z = state_page->viewAngle;
         scratch->unk_30 = view_x;
         scratch->unk_34 = view_y;
         scratch->unk_38 = view_z;

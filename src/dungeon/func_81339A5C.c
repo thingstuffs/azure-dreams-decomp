@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 #ifndef NULL
 #define NULL 0
@@ -46,7 +47,6 @@ typedef struct S_func_81339A5C_3 {
 
 extern void *func_8003FD64();
 extern void func_8004491C();
-extern s32 D_80045340;
 extern s32 D_8006E240;
 extern s32 D_8017085C;
 extern void *D_80175D50;
@@ -72,7 +72,7 @@ void func_80170A5C(void)
     if (object != NULL) {
         object->unk_10 = &D_8017085C;
         object_data = (S_func_81339A5C_2 *)((u8 *)object + 0x20);
-        func_8004491C(object, &D_80045340);
+        func_8004491C(object, func_80045340);
         render_flags = object->unk_0C;
         render_flags->unk_14 =
             (u16)(render_flags->unk_14 & 0xFFF3);

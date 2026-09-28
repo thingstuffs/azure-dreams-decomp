@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_800814A8.h"
@@ -79,7 +80,6 @@ extern void func_8016E574(void *, void *, void *, void *);
 extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern s8 D_80082EA4;
-extern s16 D_80083228;
 extern s8 D_800E2970[];
 extern u8 D_8016FE40[];
 extern u8 D_8016FE48[];
@@ -111,7 +111,7 @@ void func_8016B0EC(void *actor, void *context, void *sprite, void *creature)
         anim_table = D_8016FEB0;
         (*(void * *)((u8 *)sprite + 0x2C)) = anim_table;
         func_80047784(sprite,
-            anim_table[((D_80083228 + ((Rec_D_800E3D7C *)creature)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            anim_table[((gameWork.viewAngle + ((Rec_D_800E3D7C *)creature)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
         return;
     }
@@ -151,7 +151,7 @@ void func_8016B0EC(void *actor, void *context, void *sprite, void *creature)
 
                     (*(void * *)((u8 *)sprite + 0x2C)) = reset_anims;
                     func_80047784(sprite,
-                        reset_anims[((D_80083228 + ((Rec_D_800E3D7C *)creature)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+                        reset_anims[((gameWork.viewAngle + ((Rec_D_800E3D7C *)creature)->unk_2A.as_s16 + 0x100) >> 9) & 7],
                         0);
                     ((S_8016B0EC_2 *)sprite)->unk_05 = 1;
                     ((S_8016B0EC_0 *)actor)->unk_A2.s = 0;
@@ -162,7 +162,7 @@ void func_8016B0EC(void *actor, void *context, void *sprite, void *creature)
                 if (current_anims != anim_table) {
                     (*(void * *)((u8 *)sprite + 0x2C)) = anim_table;
                     func_80047784(sprite,
-                        anim_table[((D_80083228 + ((Rec_D_800E3D7C *)creature)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+                        anim_table[((gameWork.viewAngle + ((Rec_D_800E3D7C *)creature)->unk_2A.as_s16 + 0x100) >> 9) & 7],
                         0);
                     ((S_8016B0EC_2 *)sprite)->unk_05 = 1;
                     ((S_8016B0EC_0 *)actor)->unk_A2.s = 0;

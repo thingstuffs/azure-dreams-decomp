@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct S_func_80174228_0 {
     u8 pad_00[4];
@@ -108,7 +109,6 @@ extern void func_80066640();
 extern void func_800666F4(void *);
 extern void func_800DBA90();
 
-extern u8 D_80083160[0x8D4];
 extern u8 D_8017087C[];
 
 /* Render linked items as shaded textured strips using projected bounds and a mirrored height profile. */
@@ -164,7 +164,7 @@ s32 func_80174228(u8 *item_data)
     S_func_80174228_2 *render_state;
     register S_func_80174228_0 *profile_storage ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
-    render_state = (S_func_80174228_2 *)D_80083160;
+    render_state = (S_func_80174228_2 *)((u8 *)(&gameWork));
     __builtin_memcpy(storage, D_8017087C, 8);
     depth = 0;
     vertices = storage + 8;

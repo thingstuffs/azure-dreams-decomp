@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -9,7 +10,6 @@ extern void func_800A4ACC(void *);
 extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
 
-extern s16 D_80083228[5];
 extern void *D_80170838[];
 extern u8 D_801714D4[];
 extern u8 D_80174108[];
@@ -72,7 +72,7 @@ state_1:
     sprite->unk_2C.as_pu8 = D_80174108;
     func_80047784(
         sprite,
-        D_80174108[((D_80083228[0] + ((S_80172864_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+        D_80174108[((gameWork.viewAngle + ((S_80172864_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
         0);
     state = ((S_80172864_0 *)action)->unk_9B.n;
     ((S_80172864_0 *)action)->unk_96.u = 0;

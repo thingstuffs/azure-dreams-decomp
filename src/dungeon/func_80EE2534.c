@@ -30,7 +30,6 @@ extern s32 D_80171CE8;
 /* Advance a timed entity state transition, clearing motion and updating its handler. */
 void func_80173D34(S_80173D34_0 *controller, Rec_D_800E3D7C *motion, Rec_D_80082E80 *actor, void *entity_data)
 {
-    DungeonGlobal *global;
     s32 state;
     s32 timer_signed;
     s32 timer_unsigned;
@@ -108,9 +107,8 @@ state_two:
     motion->unk_0C.as_s32 = 0;
     func_800A2B04(motion, actor->unk_24, actor->unk_25);
 
-    global = ((DungeonGlobal *)&dungeonStatus);
-    if (global->field_10 == (s32)((u8 *)entity_data - 0x20)) {
-        global->field_10 &= 0x7FFFFFFF;
+    if (((s32)dungeonStatus.unk_10) == (s32)((u8 *)entity_data - 0x20)) {
+        *(s32 *)&dungeonStatus.unk_10 &= 0x7FFFFFFF;
     }
     controller->unk_8C = &D_80171CE8;
 

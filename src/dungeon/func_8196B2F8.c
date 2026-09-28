@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 typedef struct EffectState {
     u8 pad_00[0x2C];
@@ -49,7 +50,6 @@ extern Effect *func_8003FC64(s32);
 extern void func_8004491C(Effect *, void *);
 extern s32 rand(void);
 extern u8 D_800244E4[];
-extern u8 D_80045340[];
 extern Vec3u16 D_80083780;
 extern u8 D_800DE870[];
 
@@ -69,7 +69,7 @@ void func_8196B2F8(s32 unused_0, s32 unused_1, s32 unused_2, s16 x, s16 y, s16 z
         state->size_x = size;
         state->size_y = size;
         effect->handler = D_800244E4;
-        func_8004491C(effect, D_80045340);
+        func_8004491C(effect, func_80045340);
         render = effect->render;
         render->flags |= 0xC;
         render->unk_10 = 0x60;

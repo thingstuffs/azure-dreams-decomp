@@ -89,14 +89,13 @@ void func_800D92C0(void *move_state, void *context, S_800D92C0_2 *position, void
     s8 room_id;
     s16 turn_index;
     u8 *turn_offsets;
-    u16 *state = (u16 *)((s32 *)(&dungeonStatus));
 
     limit_turn = 0;
-    if ((state[1] & 0x4000) || (((S_800D92C0_0 *)actor)->unk_71 >= 0)) {
+    if ((dungeonStatus.flags & 0x4000) || (((S_800D92C0_0 *)actor)->unk_71 >= 0)) {
         func_800A9A0C(actor);
         return;
     }
-    if (state[1] & 0x2000) {
+    if (dungeonStatus.flags & 0x2000) {
         room_cache = move_state + 0x9C;
         func_800A19E4(position, actor, 3, 6, room_cache);
         flags_or_heading = ((S_800D92C0_0 *)actor)->unk_1C;
@@ -114,7 +113,7 @@ void func_800D92C0(void *move_state, void *context, S_800D92C0_2 *position, void
             }
             goto init_loop;
         }
-        if ((((S_800D92C0_0 *)actor)->unk_71 < 0) && (state[1] & 0x2000)) {
+        if ((((S_800D92C0_0 *)actor)->unk_71 < 0) && (dungeonStatus.flags & 0x2000)) {
             func_800A19E4(position, actor, 3, 6, room_cache);
             actor_flags = ((S_800D92C0_0 *)actor)->unk_1C;
             if (actor_flags & 0x2000) {
@@ -243,8 +242,7 @@ post_loop:
             ((Rec_func_800A9E70_arg0 *)move_state)->unk_9C.as_s8 = (s8) (u8) position->unk_26;
             ((S_800D92C0_0 *)actor)->unk_6D.u = (u8) (((S_800D92C0_0 *)actor)->unk_6D.u - 1);
             {
-                u16 *end_state = (u16 *)((s32 *)(&dungeonStatus));
-                end_state[4] = (u16)(end_state[4] + 1);
+                dungeonStatus.unk_08 = (u16)(((u16)dungeonStatus.unk_08) + 1);
             }
             if (((S_800D92C0_0 *)actor)->unk_6D.s != 0) {
                 goto final_update;

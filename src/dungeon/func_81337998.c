@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -62,7 +63,6 @@ void *func_8003FC64();                       /* extern */
 M2C_UNK func_8004491C();           /* extern */
 s32 func_800644B8();                             /* extern */
 s32 func_80064584();                        /* extern */
-extern M2C_UNK D_80045340;
 extern M2C_UNK D_8016E4E8;
 extern void *D_80175D78;
 
@@ -104,7 +104,7 @@ void func_8016E998(Rec_D_800E3D7C *origin) {
             effect_data->unk_18 = (s16) initial_count;
             effect_data->unk_1A = (s16) initial_count;
             ((S_8016E998_1 *)effect)->unk_10 = effect_handler;
-            func_8004491C(init_effect, &D_80045340);
+            func_8004491C(init_effect, func_80045340);
             origin_z = (s32)(((S_8016E998_1 *)effect)->unk_0C);
             render_flags = ((S_8016E998_2 *)origin_z)->unk_14 | 0xC;
             ((S_8016E998_2 *)origin_z)->unk_14 = render_flags;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 typedef struct 
 {
   u8 *value;
@@ -13,7 +14,6 @@ typedef struct
 } TableEntry;
 extern s16 D_8002632A;
 extern u8 D_80026478[];
-extern Global83160 D_80083160;
 extern s32 func_80065420(void *, void *, void *, void *);
 extern s32 func_80066460(s32, s32, s32, s32);
 extern void func_8006658C(void *, void *);
@@ -22,7 +22,7 @@ extern void func_80067F20(void *, s32, s32, s32, s32);
 s32 func_80025340(void *first_owner, void *first_vertices, void *first_line)
 {
   {
-    u8 *render_data = D_80083160.value;
+    u8 *render_data = gameWork.unk_000;
     void *owner = first_owner;
     void *vertex_data = first_vertices;
     void *line_data = first_line;
@@ -36,7 +36,7 @@ s32 func_80025340(void *first_owner, void *first_vertices, void *first_line)
     s16 blend;
     s32 point_index;
     s32 color_word;
-    register u8 **render_state = (u8 **) &D_80083160;
+    register u8 **render_state = (u8 **) ((Global83160 *)&gameWork);
     *(u8 **)(scratch + 0x18) = *(u8 **)(render_data + 0x8D0);
     *(u8 **)(scratch + 0x20) = render_data + 0xB0;
     for (;;)

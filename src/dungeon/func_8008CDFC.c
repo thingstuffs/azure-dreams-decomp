@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -18,7 +19,6 @@ void func_800A56E0(s32);
 void func_800A5720(s32);
 void *func_800A8608(void *, s32, s32, s32, s32);
 extern s32 D_80081484;
-extern s16 D_80083160[];
 extern s32 D_8008ACDC;
 extern s32 D_8008D470;
 extern u8 D_800DD100[];
@@ -73,7 +73,6 @@ void func_8009255C(void *controller, s32 action_id, Rec_D_80082E80 *actor, Rec_D
     void *spawned;
     S_8009255C_6 *position;
     S_8009255C_7 *spawned_state;
-    volatile s16 *view_data;
     S_8009255C_3 *animation_actor;
     u8 *animation_entry;
     u8 *animation_table;
@@ -94,13 +93,12 @@ void func_8009255C(void *controller, s32 action_id, Rec_D_80082E80 *actor, Rec_D
     goto end;
 
 state_0:
-    view_data = (volatile s16 *)((void *)&D_80083160);
-    if ((((((S_8009255C_1 *)view_data)->unk_C8 +
+    if ((((gameWork.viewAngle +
              transform->unk_2A.as_s16 + 0x100) >> 9) & 7) == 2) {
         animation_actor = actor;
         animation_table = D_800DD100;
         animation_actor->unk_2C = animation_table;
-        animation_entry = (u8 *)((s32)(((((S_8009255C_1 *)view_data)->unk_C8 +
+        animation_entry = (u8 *)((s32)(((gameWork.viewAngle +
                                 transform->unk_2A.as_s16 + 0x100) >> 9) &
                               7) +
                        (s32)animation_table);

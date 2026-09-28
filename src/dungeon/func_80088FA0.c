@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
 typedef struct {
@@ -17,7 +18,6 @@ extern void func_800A56E0(s32 a0);
 
 extern u16 D_80013714[5];
 extern s32 D_80081484[3];
-extern s16 D_80083228[5];
 extern s32 D_8008ACDC;
 extern u8 D_8008EAC8[];
 extern u8 D_800DCFD0[8];
@@ -61,7 +61,7 @@ start:
             *(u8 **)(sprite + 0x2C) = D_800DD048;
         }
         anim_sprite = sprite;
-        direction = ((D_80083228[0] + *(s16 *)(entity + 0x2A) + 0x100) >> 9) & 7;
+        direction = ((gameWork.viewAngle + *(s16 *)(entity + 0x2A) + 0x100) >> 9) & 7;
         func_80048A44(anim_sprite, (*(u8 **)(anim_sprite + 0x2C))[direction], 0, 1);
         action[0x9B]++;
     }
@@ -84,7 +84,7 @@ update:
         anim_sprite = sprite;
         animations = D_800DD060;
         *(u8 **)(anim_sprite + 0x2C) = animations;
-        direction = D_80083228[0];
+        direction = gameWork.viewAngle;
         heading = *(s16 *)(entity + 0x2A);
         direction = ((direction + heading + 0x100) >> 9) & 7;
         func_80048A44(anim_sprite, animations[direction], 0, 1);
@@ -135,7 +135,7 @@ update:
                     state_value++;
                     *(u16 *)&dungeon_state->fieldA = state_value;
                     *(u8 **)(anim_sprite + 0x2C) = animations;
-                    state_value = D_80083228[0];
+                    state_value = gameWork.viewAngle;
                     heading = *(s16 *)(entity + 0x2A);
                     D_800E3540[0] = saved_state;
                     state_value = ((state_value + heading + 0x100) >> 9) & 7;

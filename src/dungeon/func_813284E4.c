@@ -104,7 +104,6 @@ void func_8016FCE4(void *move_state, void *unused, void *position_in, void *acto
     s32 move_result;
     s32 move_flags;
     s32 heading;
-    u8 *counter_base;
     register s32 turn_index ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 limit_turns;
     u8 *x_offsets;
@@ -240,8 +239,7 @@ check_step:
                 ((S_8016FCE4_0 *)actor_in)->unk_46 = (u16) (((S_8016FCE4_0 *)actor_in)->unk_46 & 0x7FFF);
                 ((Rec_func_800A9E70_arg0 *)move_state)->unk_9C.as_s8 = (s8) ((S_8016FCE4_1 *)position_in)->unk_26;
                 ((S_8016FCE4_0 *)actor_in)->unk_6D.u = (u8) (((S_8016FCE4_0 *)actor_in)->unk_6D.u - 1);
-                counter_base = ((u8 *)(&dungeonStatus));
-                ((S_8016FCE4_7 *)counter_base)->unk_08 = (u16) (((S_8016FCE4_7 *)counter_base)->unk_08 + 1);
+                dungeonStatus.unk_08 = (u16) (((u16)dungeonStatus.unk_08) + 1);
                 if (((S_8016FCE4_0 *)actor_in)->unk_6D.s != 0) {
                     goto update_height;
                 }

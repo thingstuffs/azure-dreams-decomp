@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -81,7 +82,6 @@ typedef struct {
 
 extern Record12 D_800242D8[];
 extern s32 D_80081458[];
-extern s16 D_80083228;
 extern u8 D_800D2388[];
 
 /* Updates path following, turning, sprite state, and ground movement. */
@@ -179,12 +179,12 @@ init_sprite:
     directions = D_800D2388;
     ((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 = directions;
     ((Rec_D_80082E80 *)sprite)->unk_28.at00_s32.v = sprite_config;
-    func_80047784(sprite, D_800D2388[((D_80083228 + ((S_80023260_0 *)actor)->unk_2A + 0x100) >> 9) & 7], 0);
+    func_80047784(sprite, D_800D2388[((gameWork.viewAngle + ((S_80023260_0 *)actor)->unk_2A + 0x100) >> 9) & 7], 0);
     ((S_80023260_0 *)actor)->unk_18.p = (u16) (((S_80023260_0 *)actor)->unk_18.p + 1);
     goto update_motion;
 reset_sprite:
     (*(u8 **)((u8 *)sprite + 0x2C)) = D_800D2388 - 8;
-    func_80047784(sprite, (D_800D2388 - 8)[((D_80083228 + ((S_80023260_0 *)actor)->unk_2A + 0x100) >> 9) & 7], 0);
+    func_80047784(sprite, (D_800D2388 - 8)[((gameWork.viewAngle + ((S_80023260_0 *)actor)->unk_2A + 0x100) >> 9) & 7], 0);
     ((S_80023260_0 *)actor)->unk_18.p = idle_state;
     goto update_motion;
 follow_path:

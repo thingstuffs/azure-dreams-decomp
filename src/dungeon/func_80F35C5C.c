@@ -30,7 +30,6 @@ void func_8017345C(S_8017345C_1 *action, Rec_D_800E3D7C *motion, Rec_D_80082E80 
 {
     s16 timer;
     s32 tracked_entity;
-    s32 *global_state;
     s32 direction;
 
     direction = (((Rec_D_800E3D7C *)entity)->unk_6A.as_u16 >> 9) & 7;
@@ -118,10 +117,9 @@ increment_state:
         func_800A2B04(motion, tile->unk_24,
                       tile->unk_25);
 
-        global_state = &dungeonStatus.unk_00;
-        tracked_entity = global_state[4];
+        tracked_entity = ((s32)dungeonStatus.unk_10);
         if (tracked_entity == (s32)((u8 *)entity - 0x20)) {
-            global_state[4] = tracked_entity & 0x7FFFFFFF;
+            dungeonStatus.unk_10 = tracked_entity & 0x7FFFFFFF;
         }
         action->unk_8C = &D_80170E94;
         return;

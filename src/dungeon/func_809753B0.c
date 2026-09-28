@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 typedef struct S_80170BB0_0 {
     u8 pad_00[0x8];
@@ -54,7 +55,6 @@ extern void func_800A48F0(void *, s32, s32);
 extern void func_800A9C18(void *, void *, void *, s16);
 extern void func_800AA36C(void *, void *, void *, void *);
 
-extern u8 D_80045340[16];
 extern u8 D_80083498[16];
 extern u8 D_80170DA8[16];
 extern u8 D_801714D4[16];
@@ -80,7 +80,7 @@ void *func_80170BB0(s16 arg0, s16 arg1, s16 arg2, s32 arg3)
         actor = (S_80170BB0_1 *)((u8 *)actor + 0x20);
         ((S_80170BB0_0 *)object)->unk_10 = D_80170DA8;
         actor->unk_13 = 1;
-        func_8004491C(object, D_80045340);
+        func_8004491C(object, func_80045340);
 
         part_a = ((S_80170BB0_0 *)object)->unk_08;
         handler = D_801740E0;

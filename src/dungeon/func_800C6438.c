@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 
@@ -6,7 +7,6 @@ M2C_UNK func_8003DB94();
 void *func_8003FC64();
 M2C_UNK func_8004491C();
 M2C_UNK func_800A56E0();
-extern M2C_UNK D_80045340;
 extern M2C_UNK D_800CB9DC;
 extern u8 D_800DF650[];
 
@@ -55,14 +55,13 @@ void *func_800CBB98(s16 tile_x, u16 tile_y, s16 height, void *owner) {
     S_800CBB98_2 *sprite;
     S_800CBB98_0 *effect;
     S_800CBB98_1 *position;
-    u8 *effect_state;
     u32 tile_x_low;
     u32 tile_y_low;
 
     effect = func_8003FC64(2);
     if (effect != NULL) {
         effect->unk_10 = &D_800CB9DC;
-        func_8004491C(effect, &D_80045340);
+        func_8004491C(effect, func_80045340);
         position = effect->unk_08;
         tile_x_low = (u32)saved_tile_x & 0xFFFFU;
         position->unk_02 = (s16) (tile_x_low * 64 + 0x20);
@@ -77,8 +76,7 @@ void *func_800CBB98(s16 tile_x, u16 tile_y, s16 height, void *owner) {
         effect->unk_20 = saved_owner;
         saved_owner->unk_14 = (s32) (saved_owner->unk_14 | 0x100000);
         func_800A56E0(0x614);
-        effect_state = ((u8 *)(&dungeonStatus));
-        ((S_800CBB98_4 *)effect_state)->unk_0A = (u16) (((S_800CBB98_4 *)effect_state)->unk_0A + 1);
+        dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) + 1);
     }
     return effect;
 }

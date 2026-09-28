@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
 #define F(p, t, o) (*(t *)((u8 *)(p) + (o)))
@@ -9,7 +10,6 @@ typedef struct TileEntry {
     u8 tail[6];
 } TileEntry;
 
-extern s16 D_80083228;
 extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern s8 D_80082EA4;
@@ -116,7 +116,7 @@ void func_80170E94(void *actor, void *context, void *sprite, void *stats) {
                 func_80174EB4(actor, context, sprite);
                 F(sprite, void *, 0x2C) = active_table;
                 func_80047784(sprite,
-                    active_table[((D_80083228 + F(stats, s16, 0x2A) + 0x100) >> 9) & 7],
+                    active_table[((gameWork.viewAngle + F(stats, s16, 0x2A) + 0x100) >> 9) & 7],
                     0);
             }
             F(actor, u8, 0x9A) = active_state;
@@ -131,7 +131,7 @@ state_check_14:
                 if (F(sprite, void *, 0x2C) != idle_table) {
                     F(sprite, void *, 0x2C) = idle_table;
                     func_80047784(sprite,
-                        idle_table[((D_80083228 + F(stats, s16, 0x2A) + 0x100) >> 9) & 7],
+                        idle_table[((gameWork.viewAngle + F(stats, s16, 0x2A) + 0x100) >> 9) & 7],
                         0);
                 }
                 F(actor, u8, 0x9A) = idle_state;
@@ -202,7 +202,7 @@ case_12:
     next_anims = D_80175F10;
     F(sprite, void *, 0x2C) = next_anims;
     func_80047784(sprite,
-        next_anims[((D_80083228 + F(stats, s16, 0x2A) + 0x100) >> 9) & 7], 0);
+        next_anims[((gameWork.viewAngle + F(stats, s16, 0x2A) + 0x100) >> 9) & 7], 0);
     goto kill;
 
 case_11:
@@ -318,7 +318,7 @@ final_checks:
         func_80174EB4(actor, context, sprite);
         F(sprite, void *, 0x2C) = active_anims;
         anim_sprite = sprite;
-        anim_entry = active_anims + (((D_80083228 + F(stats, s16, 0x2A) + 0x100) >> 9) & 7);
+        anim_entry = active_anims + (((gameWork.viewAngle + F(stats, s16, 0x2A) + 0x100) >> 9) & 7);
     } else {
         void *current_anims;
         u8 *idle_anims;
@@ -334,7 +334,7 @@ set_anims:
         F(sprite, void *, 0x2C) = next_anims;
         anim_sprite = sprite;
         anim_entry = (u8 *)((unsigned long)
-            (((D_80083228 + F(stats, s16, 0x2A) + 0x100) >> 9) & 7) +
+            (((gameWork.viewAngle + F(stats, s16, 0x2A) + 0x100) >> 9) & 7) +
             (unsigned long)next_anims);
     }
 

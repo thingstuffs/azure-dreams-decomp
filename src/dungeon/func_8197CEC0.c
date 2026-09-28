@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 extern int abs(int);
 
@@ -82,7 +83,6 @@ typedef struct {
 extern Origin D_80083780;
 extern EntryTable D_80082E80;
 extern u8 D_80083498[];
-extern u8 D_80045340[];
 extern s32 D_800DEA68[];
 extern s32 D_80024BB8[3];
 
@@ -193,7 +193,7 @@ void func_8197CEC0(Actor *actor, Vec3 *target, Sprite *sprite) {
                     u16 start_y_bits;
 
                     spawn->callback = particle_callback;
-                    func_8004491C(spawn, D_80045340);
+                    func_8004491C(spawn, func_80045340);
                     state = spawn->state;
                     coord_term = (s16)target->x.half.coord;
                     coord_term -= (s16)start_pos[0];

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
 typedef s32 M2C_UNK;
@@ -80,7 +81,6 @@ M2C_UNK func_801759A0();
 
 extern u8 *D_800814A8[];
 extern u8 D_80082E80[];
-extern s16 D_80083228[];
 extern u8 D_801724BC[];
 extern u8 D_80175E54[];
 extern u8 D_80175E5C[];
@@ -95,7 +95,6 @@ void func_80175050(M2C_UNK *task, M2C_UNK task_id, void *sprite_in, M2C_UNK *act
     u8 *next_anim_table;
     u8 *old_anim_table;
     M2C_UNK *starting_task;
-    M2C_UNK *turn_state;
     M2C_UNK *actor;
     s32 flags;
     s32 state;
@@ -133,7 +132,7 @@ state0_kind_15:
         anim_table = D_80175E64;
 state0_notify:
         ((S_80175050_1 *)sprite_in)->unk_2C = anim_table;
-        func_80047784(sprite_in, ((S_80175050_3 *)((((D_80083228[0] + ((S_80175050_2 *)actor)->unk_2A + 0x100) >> 9) & 7) + (unsigned long)anim_table))->unk_00, 0);
+        func_80047784(sprite_in, ((S_80175050_3 *)((((gameWork.viewAngle + ((S_80175050_2 *)actor)->unk_2A + 0x100) >> 9) & 7) + (unsigned long)anim_table))->unk_00, 0);
         starting_task = task;
         goto state0_decrement;
 state0_default_low:
@@ -168,7 +167,7 @@ state0_decrement:
 state1_maybe_update:
         if (old_anim_table != next_anim_table) {
             ((S_80175050_1 *)sprite_in)->unk_2C = next_anim_table;
-            func_80047784(sprite_in, ((S_80175050_3 *)((((D_80083228[0] + ((S_80175050_2 *)actor)->unk_2A + 0x100) >> 9) & 7) + (unsigned long)next_anim_table))->unk_00, 0);
+            func_80047784(sprite_in, ((S_80175050_3 *)((((gameWork.viewAngle + ((S_80175050_2 *)actor)->unk_2A + 0x100) >> 9) & 7) + (unsigned long)next_anim_table))->unk_00, 0);
         }
 
 state1_check:
@@ -189,15 +188,14 @@ state1_check:
             }
         }
 
-        turn_state = (M2C_UNK *)((u8 *)(&dungeonStatus));
-        if (((S_80175050_5 *)turn_state)->unk_02 & 0x1000) {
+        if (dungeonStatus.flags & 0x1000) {
             goto done;
         }
         if (((S_80175050_2 *)actor)->unk_64 != 0 && func_800AA6B4(task, task_id, sprite_in, 0) != 0) {
             goto done;
         }
         if (((S_80175050_2 *)actor)->unk_25 == 0) {
-            if (((S_80175050_5 *)turn_state)->unk_02 & 0x2008) {
+            if (dungeonStatus.flags & 0x2008) {
                 goto done;
             }
             func_800AA79C(task, task_id, sprite_in, actor);
@@ -270,7 +268,7 @@ kind_15:
         anim_table = D_80175E7C;
 state1_notify:
         ((S_80175050_1 *)sprite_in)->unk_2C = anim_table;
-        func_80047784(sprite_in, ((S_80175050_3 *)((((D_80083228[0] + ((S_80175050_2 *)actor)->unk_2A + 0x100) >> 9) & 7) + (unsigned long)anim_table))->unk_00, 0);
+        func_80047784(sprite_in, ((S_80175050_3 *)((((gameWork.viewAngle + ((S_80175050_2 *)actor)->unk_2A + 0x100) >> 9) & 7) + (unsigned long)anim_table))->unk_00, 0);
 
 suffix:
         if (((S_80175050_1 *)sprite_in)->unk_14 & 0x8000) {

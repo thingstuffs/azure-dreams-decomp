@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 typedef struct S_80022C8C_0 {
     u8 pad_00[0x8];
@@ -37,7 +38,6 @@ extern s32 D_8002390C;
 extern s32 D_80023920;
 extern s32 D_800240B0;
 extern s32 D_80026F0C;
-extern s32 D_80045340;
 extern s32 D_800F9B40;
 
 extern void *func_8003FC64(s32);
@@ -117,7 +117,7 @@ s32 func_80022C8C(void)
     object_or_slot = (s32)func_8003FC64(0x136);
     if (object_or_slot != 0) {
         ((S_80022C8C_0 *)((void *)object_or_slot))->unk_10 = &D_800240B0;
-        func_8004491C((void *)object_or_slot, &D_80045340);
+        func_8004491C((void *)object_or_slot, func_80045340);
 
         render_record = ((S_80022C8C_0 *)((void *)object_or_slot))->unk_0C;
         render_record->unk_1E = 0x1000;

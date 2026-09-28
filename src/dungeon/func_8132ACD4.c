@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 typedef struct {
     u8 bytes[12];
 } Blob12;
 
 extern void **D_80174CD8[];
-extern u8 D_80045340[];
 void *func_8003FC64(s32);
 void func_8004491C(void *, void *);
 extern s32 D_801723D0;
@@ -26,7 +26,7 @@ void func_801724D4(void) {
         *(s16 *)(effect_state + 0x16) = 0x1E;
         *(s16 *)(effect_state + 0x18) = 0x1E;
         *(void **)(effect + 0x10) = &D_801723D0;
-        func_8004491C(effect, D_80045340);
+        func_8004491C(effect, func_80045340);
         sprite = *(u8 **)(effect + 0xC);
         *(s16 *)(sprite + 0x10) = 0x20;
         *(s16 *)(sprite + 6) = 0;

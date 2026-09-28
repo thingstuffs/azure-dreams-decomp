@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
 #include "records/Rec_D_80082E80.h"
@@ -28,8 +29,6 @@ extern u16 D_80013714[];
 extern u8 D_800245A8[];
 extern u8 D_8004F5F4[];
 extern s32 D_80082EB0[];
-extern u8 D_80083160[];
-extern s16 D_80083228[];
 extern void *D_800DD274[];
 extern void (*D_800DD830[])();
 extern u8 D_800E3544[];
@@ -93,8 +92,7 @@ void func_80096384(void *actor, s32 actor_id, Rec_D_80082E80 *sprite, void *acto
     u16 tail_flags;
     u8 *flags_ptr;
     S_80096384_5 *command;
-    u8 *input = D_80083160;
-    u8 *control;
+    u8 *input = ((u8 *)(&gameWork));
     u16 *flags_page;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 command_flags;
     s32 idle_state = 0x32; /* MATCH: preserve retail register allocation after sharing the internal tails. */
@@ -115,8 +113,7 @@ void func_80096384(void *actor, s32 actor_id, Rec_D_80082E80 *sprite, void *acto
         func_800A4300(sprite, actor_data);
     }
 
-    control = ((u8 *)(&dungeonStatus));
-    ((S_80096384_4 *)control)->unk_02 &= 0xFF7F;
+    dungeonStatus.flags &= 0xFF7F;
     status_value = ((S_80096384_3 *)actor_data)->unk_64;
     if (status_value < 0) {
         func_80097898(actor, actor_id, sprite, actor_data);
@@ -143,7 +140,7 @@ void func_80096384(void *actor, s32 actor_id, Rec_D_80082E80 *sprite, void *acto
         return;
     }
 
-    if (!(((S_80096384_4 *)control)->unk_02 & 4)) {
+    if (!(dungeonStatus.flags & 4)) {
         if (!(status_flags & 0x20)) {
             flags_page = (u16 *)0x80010000;
             command_flags = flags_page[0x1B8A];
@@ -250,7 +247,7 @@ dispatch_command:
 
                 if ((((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 & 0x200) &&
                     ((func_800A2C34(actor_data) << 16) == 0) &&
-                    !(((S_80096384_4 *)control)->unk_02 & 4) &&
+                    !(dungeonStatus.flags & 4) &&
                     ((func_800A4474(sprite->unk_24,
                         sprite->unk_25) << 16) != 0)) {
                     ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 &= 0xFDFF;
@@ -337,7 +334,7 @@ update_sprite:
             sprite->unk_2C.as_pv = D_800DD274;
             func_8003DB94(sprite,
                 *(void **)((u8 *)D_800DD274 +
-                    ((((s32)(D_80083228[0] + ((S_80096384_3 *)actor_data)->unk_2A.s +
+                    ((((s32)(gameWork.viewAngle + ((S_80096384_3 *)actor_data)->unk_2A.s +
                         0x100)) >> 7) & 0x1C)),
                 0);
         }

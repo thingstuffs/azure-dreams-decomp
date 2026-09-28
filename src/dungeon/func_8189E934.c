@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 
 
@@ -24,7 +25,6 @@ typedef struct Tail {
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-extern u8 D_80045340[];
 extern u8 D_80024020[];
 extern u8 D_80024C78[];
 
@@ -88,7 +88,7 @@ s32 func_80024134(s32 stored_value, void *input, s16 stored_tag) {
         display->unk_1A = (s16) (random_or_w2 - ((rounded_random >> 0xC) << 0xC));
         display->unk_1E = 0x800;
         display->unk_1C = 0x800;
-        func_8004491C(object, D_80045340);
+        func_8004491C(object, func_80045340);
         input_copy = ((S_80024134_0 *)object)->unk_08;
         *(Input6 *)input_copy = *(Input6 *)input;
         random_or_w2 = *(volatile s32 *)((s8 *)input_copy + 8);

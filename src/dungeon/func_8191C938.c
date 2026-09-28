@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 
 
@@ -13,7 +14,6 @@ extern void *func_8003FC64(u32);
 extern s32 func_8004491C(void *, void *);
 extern s32 rand(void);
 extern u8 D_80024048[];
-extern u8 D_80045340[];
 extern u8 D_800DED70[];
 
 typedef struct CopyBlock {
@@ -96,7 +96,7 @@ void *func_8191C938(S_8191C938_3 *source)
         func_8003DB94(render_data, D_800DED70, 0);
         render_data->unk_1E = 0x1000;
         render_data->unk_1C = 0x1000;
-        func_8004491C(object, D_80045340);
+        func_8004491C(object, func_80045340);
         object_block = ((S_8191C938_0 *)object)->unk_08;
         source_block = source->unk_20;
         *object_block = *source_block;

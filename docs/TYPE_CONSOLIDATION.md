@@ -81,3 +81,24 @@ pin-neutral (256 migrated pinned rows re-tested: no pin became removable).
   and drive3.py (several objects in one verified text). Apply scripts: the pilot lane's apply.sh / apply2.sh.
 - **Next objects:** D_80083228 (578 rows), D_80045340 (442), D_80083160 (403, all binaries), D_80016000 (313),
   D_80082E80 (290), D_80083498 (284, passed by address), D_800814A8 (236), D_800E3D7C (199), D_80083780 (177).
+
+## Phase 3 (2026-09-28): landed
+
+1,487 rows (40-row sample across all five binaries first), every row verify-exact, 834 overlay windows + SLUS
+SHA-1 MATCH, pin-neutral (350 migrated pinned rows re-tested; one pin, dungeon/func_80DE9000's
+`arg3_part ASM_REG("17")`, is byte-exact erased on the tree text anyway - landed separately).
+- **Local-pointer fold** (`consolidate.rewrite_pointers`): m2c's `u8 *s = &var; ((V *)s)->m` becomes `var.field`
+  (direct) or `Type *s = &var; s->field` (typed); refused for register-pinned, address-taken or reassigned pointers.
+- **GameWork gameWork** at 0x80083160 (include/shared/game_work.h), 0x200 bytes, one object used by every binary:
+  967 rows. It absorbs D_80083228 as `gameWork.viewAngle` (0x0C8): read-only, added to an object's angle to pick its
+  8-way directional sprite (the view's rotation); as a stand-alone scalar 60 rows miss, as the aggregate 575/576
+  are exact. Other fields stay unk_ with access counts. game.h's S_80083178 is gameWork + 0x18 (D_80083178, 69
+  rows) - folding it in is the next step.
+- **D_80045340 was code, not data**: a function passed as a callback to func_8004491C by 442 rows; they now name
+  `func_80045340` with one shared prototype (include/shared/slus_callbacks.h). 434/442 exact.
+- Not migrated: 36 non-exact rows (mostly SLUS 2.7.2-cdk rows declaring `void *D_80083160[3]`), 147 rows keep a
+  `(u8 *)&gameWork` view pointer the fold could not take.
+- **Next objects:** D_80083178 (69, fold into GameWork), D_80016000 (313), D_80082E80 (290), D_80083498 (284),
+  D_800814A8 (236), D_800E3D7C (199), D_80083780 (177), D_800E2970 (91), D_80013714 (81).
+- Totals after phase 3: 3,112 row migrations onto 5 shared headers (dir_step, dungeon_status, object_flags,
+  game_work, slus_callbacks).

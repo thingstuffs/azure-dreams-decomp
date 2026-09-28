@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 #include "common.h"
 
@@ -19,12 +20,11 @@ typedef struct {
     s8 field87;
 } Func80038128State;
 
-extern Func80038128Global D_80083160;
 extern void func_80038A10(void *arg0);
 
 /* Advance to the next handler when the countdown expires or the global flag permits. */
 void func_80038128(Func80038128State *state) {
-    Func80038128Global *global = &D_80083160;
+    Func80038128Global *global = ((Func80038128Global *)&gameWork);
 
     if (state->field87 == 0) {
         if ((global->field8 & 0x20) != 0) {

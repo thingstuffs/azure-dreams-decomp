@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 typedef struct Sprite {
     u8 pad0[2];
@@ -46,7 +47,6 @@ extern u8 D_80025AC4[12];
 extern u8 D_800281FC[12];
 extern u8 D_80028238[12];
 extern u8 D_80028250[12];
-extern u8 D_80045340[12];
 
 /* Creates an object at its owner's position and initializes its sprite and angle. */
 void func_8195A35C(Object *owner, s16 angle) {
@@ -58,7 +58,7 @@ void func_8195A35C(Object *owner, s16 angle) {
     spawned = func_8003FD64(0x212, owner);
     if (spawned != 0) {
         spawned->field10 = D_80025AC4;
-        func_8004491C(spawned, D_80045340);
+        func_8004491C(spawned, func_80045340);
         spawned->sprite->x = owner->sprite->x;
         spawned->sprite->y = owner->sprite->y;
         spawned->sprite->z = owner->sprite->z;

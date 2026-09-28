@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
@@ -51,7 +52,6 @@ M2C_UNK func_80099F04();
 s32 func_8009C12C();
 M2C_UNK func_800A2B04();
 M2C_UNK func_800C77D0();
-extern s16 D_80083228;
 extern M2C_UNK D_80096384;
 extern M2C_UNK D_800DD274[8];
 extern M2C_UNK D_800DD294[8];
@@ -64,7 +64,6 @@ void func_800974DC(void *action, void *motion, void *sprite, void *actor) {
     s32 dir_y;
     u8 phase;
     void *linked_object;
-    u8 *status;
 
     phase = ((S_800974DC_0 *)action)->unk_9B;
     if (phase >= 5U) {
@@ -74,7 +73,7 @@ void func_800974DC(void *action, void *motion, void *sprite, void *actor) {
 jt_c0:
     func_800C77D0(actor - 0x20, motion, 8, 0x300);
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = D_800DD294;
-    func_8003DB94(sprite, *(M2C_UNK *)((u8 *)D_800DD294 + (((s32) (D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 7) & 0x1C)), 0);
+    func_8003DB94(sprite, *(M2C_UNK *)((u8 *)D_800DD294 + (((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 7) & 0x1C)), 0);
     dir_offset = ((u16) ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 >> 8) & 0xE;
     ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = (s32) (*(s16 *)((u8 *)dirStepX + dir_offset) << 0x11);
     dir_y = *(s16 *)((u8 *)dirStepY + dir_offset);
@@ -119,7 +118,7 @@ block_12:
         goto block_15;
     }
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = D_800DD274;
-    func_8003DB94(sprite, *(M2C_UNK *)((u8 *)D_800DD274 + (((s32) (D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 7) & 0x1C)), 0);
+    func_8003DB94(sprite, *(M2C_UNK *)((u8 *)D_800DD274 + (((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 7) & 0x1C)), 0);
     ((S_800974DC_0 *)action)->unk_9B = (u8) (((S_800974DC_0 *)action)->unk_9B + 1);
 jt_c2:
 block_15:
@@ -133,7 +132,7 @@ block_15:
         goto block_23;
     }
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = D_800DD274;
-    func_8003DB94(sprite, *(M2C_UNK *)((u8 *)D_800DD274 + (((s32) (D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 7) & 0x1C)), 0);
+    func_8003DB94(sprite, *(M2C_UNK *)((u8 *)D_800DD274 + (((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 7) & 0x1C)), 0);
     ((S_800974DC_0 *)action)->unk_9B = 3U;
     return;
 jt_c3: {
@@ -169,10 +168,9 @@ block_22:
     ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
     func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
     func_80099F04(((Rec_D_800E3D7C *)actor)->unk_5C);
-    status = ((u8 *)(&dungeonStatus));
-    ((S_800974DC_5 *)status)->unk_02 = (u16) (((S_800974DC_5 *)status)->unk_02 | 0x412);
+    dungeonStatus.flags = (u16) (dungeonStatus.flags | 0x412);
     ((S_800974DC_0 *)action)->unk_8C = &D_80096384;
-    ((S_800974DC_5 *)status)->unk_0C = 0;
+    dungeonStatus.unk_0C = 0;
     ((S_800974DC_0 *)action)->unk_96.s = 0U;
 block_23:
     return;

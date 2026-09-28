@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 
@@ -25,7 +26,6 @@ typedef struct {
     s16 row_shift;
 } DungeonGrid;
 
-extern u8 D_8008333C[32];
 extern u32 D_800E296C;
 
 extern void func_8009D6F4(void);
@@ -68,7 +68,7 @@ void func_800CE028(DungeonEffect *effect) {
 
     state = effect->state;
     if (state == 0) {
-        grid = (DungeonGrid *)D_8008333C;
+        grid = (DungeonGrid *)((u8 *)(&gameWork.unk_1DC));
         tiles = grid->tiles;
         target_row = 0;
         target_row_base = effect;
@@ -142,7 +142,7 @@ snap_target_tile:
             }
         }
     } else {
-        grid = (DungeonGrid *)D_8008333C;
+        grid = (DungeonGrid *)((u8 *)(&gameWork.unk_1DC));
         tiles = grid->tiles;
         restore_row = 0;
         initial_row_base = effect;

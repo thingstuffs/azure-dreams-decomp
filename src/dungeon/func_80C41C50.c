@@ -43,7 +43,6 @@ void func_80173450(void *action, void *unused, void *sprite, void *entity)
     s32 state;
     s32 entity_flags;
     u16 fade_delay;
-    s32 *entity_globals;
     s32 tracked_entity;
     s32 tile_x;
     s32 tile_y;
@@ -106,10 +105,9 @@ update:
         }
     }
 
-    entity_globals = &dungeonStatus.unk_00;
-    tracked_entity = ((S_80173450_3 *)entity_globals)->unk_10;
+    tracked_entity = ((s32)dungeonStatus.unk_10);
     if (tracked_entity == (s32)((u8 *)entity - 0x20)) {
-        ((S_80173450_3 *)entity_globals)->unk_10 = tracked_entity & 0x7FFFFFFF;
+        dungeonStatus.unk_10 = tracked_entity & 0x7FFFFFFF;
     }
     func_800A2FE0(entity);
     func_800A32A4(entity);

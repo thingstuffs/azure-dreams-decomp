@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
 typedef struct S_8002443C_0 {
@@ -50,7 +51,6 @@ s32 func_800644B8();
 s32 func_80064584();
 s32 func_80069EF8();
 extern M2C_UNK D_800242E0;
-extern M2C_UNK D_80045340;
 extern M2C_UNK D_800DEC70;
 
 /* Creates a sprite node with a randomized offset from the supplied origin. */
@@ -89,7 +89,7 @@ s32 func_8002443C(s32 owner, void *origin, s16 motion, s32 frame) {
         func_8003DB94(sprite, &D_800DEC70, (s16)frame_index % 16, (s16)frame_index);
         sprite->unk_1E = 0x1000;
         sprite->unk_1C = 0x1000;
-        func_8004491C(node, &D_80045340);
+        func_8004491C(node, func_80045340);
         position = ((S_8002443C_0 *)node)->unk_08;
         angle = func_80069EF8() % 0x1000;
         ((S_8002443C_2 *)position)->unk_02.u = (s16) (((S_8002443C_1 *)owner)->unk_08 + ((s32) (func_800644B8(angle) * 2) >> 8));

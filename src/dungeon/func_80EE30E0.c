@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
 #define U8_AT(p, o)  (*(u8 *)((u8 *)(p) + (o)))
@@ -13,9 +15,7 @@ typedef struct {
 } __attribute__((packed)) Copy32;
 
 extern Copy32 D_80170808;
-extern u8 D_80045340;
 extern u8 D_80077C50[];
-extern s16 D_80083228;
 extern u8 D_801708BC[];
 extern s32 D_80171CE8;
 extern u8 D_80174EB8[];
@@ -74,7 +74,7 @@ state_0:
     animations = D_80174F18;
     PTR_AT(sprite, 0x2C) = animations;
     func_80047784(sprite,
-        animations[((D_80083228 + S16_AT(actor, 0x2A) + 0x100) >> 9) & 7], 0);
+        animations[((gameWork.viewAngle + S16_AT(actor, 0x2A) + 0x100) >> 9) & 7], 0);
     U16_AT(action_work, 0x96) = 0x14;
     U8_AT(action_work, 0x9B) = U8_AT(action_work, 0x9B) + 1;
 
@@ -87,7 +87,7 @@ state_1:
         if (spawned_actor != 0) {
             PTR_AT(spawned_actor, 0x10) = D_801708BC;
             spawned_work = (u8 *)spawned_actor + 0x20;
-            func_8004491C(spawned_actor, &D_80045340);
+            func_8004491C(spawned_actor, func_80045340);
             spawned_sprite = PTR_AT(spawned_actor, 0x0C);
             U16_AT(spawned_sprite, 0x14) &= 0xFFF3;
             PTR_AT(spawned_work, 0x40) = action_work;
@@ -164,7 +164,7 @@ state_2:
     }
     PTR_AT(sprite, 0x2C) = D_80174EB8;
     U16_AT(sprite, 0x14) &= 0xF7FF;
-    direction_index = ((D_80083228 + S16_AT(actor, 0x2A) + 0x100) >> 9) & 7;
+    direction_index = ((gameWork.viewAngle + S16_AT(actor, 0x2A) + 0x100) >> 9) & 7;
     func_80047784(sprite, U8_AT(PTR_AT(sprite, 0x2C), direction_index), 0);
     U8_AT(action_work, 0x9B) = U8_AT(action_work, 0x9B) + 1;
     goto done;

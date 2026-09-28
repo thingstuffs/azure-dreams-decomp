@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 extern u8 D_800E0000[];
@@ -67,7 +68,6 @@ typedef struct GlobalObj {
     Entity *right;
 } GlobalObj;
 
-extern u8 D_80083160[];
 extern GlobalObj *D_800814A8[3];
 extern s16 D_800DCE66[5];
 extern u8 D_800DDC40[16];
@@ -86,8 +86,8 @@ extern void func_800C77D0();
 void func_800B9A78(Work *work, Out *out, Render *render_arg)
 {
     register Render *render;
-    u8 *controls;
-    u8 *counter_base;
+    GameWork *controls;
+    DungeonGlobalStatus *counter_base;
     u8 *counter_base_2;
     s32 result;
     s32 height_step;
@@ -97,7 +97,7 @@ void func_800B9A78(Work *work, Out *out, Render *render_arg)
     Entity *entity;
 
     render = render_arg;
-    controls = D_80083160;
+    controls = &gameWork;
 
     {
         Node *node;
@@ -156,7 +156,7 @@ void func_800B9A78(Work *work, Out *out, Render *render_arg)
 
     if (work->state == 0) {
         if (work->timer == 0) {
-            if ((*(u32 *)(controls + 0x10) & 2) != 0) {
+            if ((((u32)controls->unk_010) & 2) != 0) {
                 u8 *status_page;
                 s32 new_timer;
                 GlobalObj *object;
@@ -175,7 +175,7 @@ void func_800B9A78(Work *work, Out *out, Render *render_arg)
                     }
                 }
             }
-            if ((*(u32 *)(controls + 0x10) & 1) != 0) {
+            if ((((u32)controls->unk_010) & 1) != 0) {
                 u8 *status_page;
                 s32 new_timer;
                 GlobalObj *object;
@@ -196,7 +196,7 @@ void func_800B9A78(Work *work, Out *out, Render *render_arg)
             }
         }
 
-        input = *(u32 *)(controls + 0x10);
+        input = ((u32)controls->unk_010);
         if (input & 0x20) {
             if (work->mode != 0) {
                 goto finish;
@@ -245,8 +245,8 @@ void func_800B9A78(Work *work, Out *out, Render *render_arg)
                 goto done;
             }
 decrement_counter:
-            counter_base = ((u8 *)(&dungeonStatus));
-            (*(s16 *)(counter_base + 10))--;
+            counter_base = &dungeonStatus;
+            (counter_base->unk_0A)--;
         }
 finish:
         {
@@ -278,9 +278,9 @@ finish:
     if (render->primitive != 0) {
         func_800478B8(render);
     }
-    trig_value = func_80064584(*(s16 *)(controls + 0xC8));
+    trig_value = func_80064584(controls->viewAngle);
     *(s16 *)((u8 *)out + 2) = (trig_value * work->amp >> 11) + *(u16 *)((u8 *)&work->cur_x + 2);
-    trig_value = func_800644B8(*(s16 *)(controls + 0xC8));
+    trig_value = func_800644B8(controls->viewAngle);
     out->y = (trig_value * work->amp >> 11) + *(u16 *)((u8 *)&work->cur_y + 2);
     out->z = work->x + work->y.whole + (work->bias << 15);
 done:

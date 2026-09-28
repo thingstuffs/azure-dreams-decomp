@@ -24,7 +24,6 @@ void func_800971A8(Rec_func_8008ACDC_arg0 *action, Rec_D_800E3D7C *motion, Rec_D
     u8 state;
     s32 vertical_speed;
     void *fallback_data;
-    D_80083460_t *move_control;
     static void *const state_labels[] = {
         &&case_a, &&case_b, &&done, &&done, &&done, &&done, &&done,
         &&done, &&case_a, &&case_b, &&case_a, &&case_b, &&case_c
@@ -55,25 +54,24 @@ store_selected:
     func_800A56E0(0x50A);
     return;
 case_b:
-    move_control = ((D_80083460_t *)&dungeonStatus);
-    if (move_control->field4 == 0) goto after_div;
+    if (dungeonStatus.unk_04 == 0) goto after_div;
     {
         s32 target_x, current_x, current_y;
         target_x = destination->unk_24 << 6;
         current_x = motion->unk_00.at02_s16.v - 0x20;
-        motion->unk_0C.as_s32 = ((target_x - current_x) << 16) / move_control->field4;
+        motion->unk_0C.as_s32 = ((target_x - current_x) << 16) / dungeonStatus.unk_04;
         current_y = motion->unk_04.at02_s16.v - 0x20;
-        motion->unk_10.at00_s32.v = (((destination->unk_25 << 6) - current_y) << 16) / move_control->field4;
+        motion->unk_10.at00_s32.v = (((destination->unk_25 << 6) - current_y) << 16) / dungeonStatus.unk_04;
     }
 after_div:
-    move_control->field4--;
-    if (move_control->field4 > 0) goto done;
-    move_control->field4 = 0;
+    dungeonStatus.unk_04--;
+    if (dungeonStatus.unk_04 > 0) goto done;
+    dungeonStatus.unk_04 = 0;
     motion->unk_10.at00_s32.v = 0;
     motion->unk_0C.as_s32 = 0;
     func_800A2B04(motion, destination->unk_24, destination->unk_25);
     if (action->unk_9B.as_u8 >= 10) {
-        move_control->field4 = 1;
+        dungeonStatus.unk_04 = 1;
         action->unk_9B.as_u8++;
         return;
     }

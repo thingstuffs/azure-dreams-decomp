@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
@@ -18,7 +19,6 @@ void func_8016A908(void *);                         /* extern */
 extern u8 D_80013610[0x3612];
 extern s16 D_80013714[5];
 extern u8 D_8006CCF8[256];
-extern s16 D_80083228[5];
 extern u32 D_800835E4[64];
 extern u8 *D_800E3D7C[3];
 extern u8 D_800F927E[16];
@@ -188,8 +188,6 @@ void func_8016B0E8(void *entity, void *motion, void *sprite) {
     register u32 *exp_table;
     register u32 *exp_limits;
     register u32 *level_limits;
-    register u8 *scene_state;
-    register u8 *countdown_state;
     u8 *message;
     void *actor_slot;
     register void *linked_entry;
@@ -228,11 +226,10 @@ void func_8016B0E8(void *entity, void *motion, void *sprite) {
         }
     }
     if (((S_8016B0E8_0 *)entity)->unk_B4 != 0) {
-        scene_state = ((u8 *)(&dungeonStatus));
-        if ((((S_8016B0E8_3 *)scene_state)->unk_0C != 0) || (((S_8016B0E8_3 *)scene_state)->unk_0A != 1)) {
+        if ((((s32)dungeonStatus.unk_0C) != 0) || (dungeonStatus.unk_0A != 1)) {
             goto done;
         }
-        if (((S_8016B0E8_0 *)entity)->unk_B4 == ((S_8016B0E8_3 *)scene_state)->unk_0A) {
+        if (((S_8016B0E8_0 *)entity)->unk_B4 == dungeonStatus.unk_0A) {
             message = D_800F927E;
             ASM_KEEP(message);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             actor_index = 0;
@@ -276,8 +273,7 @@ void func_8016B0E8(void *entity, void *motion, void *sprite) {
         if (!(countdown & 0xFF)) {
             ((S_8016B0E8_2 *)actor)->unk_14 = (s32) (((S_8016B0E8_2 *)actor)->unk_14 & 0xFFEFFFFF);
             ((S_8016B0E8_0 *)entity)->unk_B0.v = 0U;
-            countdown_state = ((u8 *)(&dungeonStatus));
-            ((S_8016B0E8_11 *)countdown_state)->unk_0A = (s16) ((u16) ((S_8016B0E8_11 *)countdown_state)->unk_0A - 1);
+            dungeonStatus.unk_0A = (s16) ((u16) dungeonStatus.unk_0A - 1);
             status_record = ((S_8016B0E8_0 *)entity)->unk_A4;
             ((S_8016B0E8_12 *)status_record)->unk_1E = (u16) (((S_8016B0E8_12 *)status_record)->unk_1E | 0x8000);
             objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
@@ -305,7 +301,7 @@ void func_8016B0E8(void *entity, void *motion, void *sprite) {
         sprite_flags = ((S_8016B0E8_14 *)sprite)->unk_14.n;
         mode_bits = sprite_flags & 0x8000;
         if (!mode_bits) {
-            view_direction = ((s32) (D_80083228[0] + ((S_8016B0E8_2 *)actor)->unk_2A + 0x100) >> 9) & 7;
+            view_direction = ((s32) (gameWork.viewAngle + ((S_8016B0E8_2 *)actor)->unk_2A + 0x100) >> 9) & 7;
             prior_direction = ((S_8016B0E8_0 *)entity)->unk_94;
             direction_index = view_direction;
             if (prior_direction != direction_index) {

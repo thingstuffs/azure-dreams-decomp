@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/game_work.h"
 #include "m2c_compat.h"
 extern u8 D_80170000[];
 extern u8 D_80080000[];
@@ -76,7 +77,6 @@ M2C_UNK func_800A56E0();
 M2C_UNK func_80164ED0();
 void func_801655EC(void *, s32, s32, s32);
 extern u8 D_80082E80[64];
-extern s16 D_80083228[8];
 extern u8 *D_800E3D7C[3];
 extern s16 D_80173AFC[16];
 extern void *D_80175D50[3];

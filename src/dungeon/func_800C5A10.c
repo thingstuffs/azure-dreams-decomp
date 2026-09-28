@@ -57,9 +57,7 @@ void func_800CB170(State *state, Position *position, Motion *motion, void *objec
 
 state_zero:
     if ((func_800A2C78(object) << 16) == 0) {
-        u16 *active_counts;
-        active_counts = ((u16 *)&dungeonStatus.unk_00);
-        active_counts[5] = active_counts[5] + 1;
+        dungeonStatus.unk_0A = ((u16)dungeonStatus.unk_0A) + 1;
         state->value_b2 = 4;
         state->value_96 = 0;
         state->state_9b = state->state_9b + 1;
@@ -95,9 +93,7 @@ state_two:
     motion->pad_0d = shade;
     motion->pad_0c = shade;
     if ((s16)motion->value_1c <= 0) {
-        u16 *active_counts;
-        active_counts = ((u16 *)&dungeonStatus.unk_00);
-        active_counts[5] = active_counts[5] - 1;
+        dungeonStatus.unk_0A = ((u16)dungeonStatus.unk_0A) - 1;
         func_800A32A4(object);
         func_8009A028(object);
         ((u16 *)object)[-1] = ((u16 *)object)[-1] | 0x8000;

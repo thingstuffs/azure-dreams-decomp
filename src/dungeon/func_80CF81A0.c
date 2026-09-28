@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct {
     u8 pad00[0x8c];
@@ -21,7 +22,6 @@ typedef struct {
     u8 kind48;
 } Obj3;
 
-extern s16 D_80083228;
 extern u8 D_801664BC[];
 extern s32 D_80169DC4;
 extern s32 D_80169DCC;
@@ -104,7 +104,7 @@ kind15_alternate:
 first_join:
     if (current_table != selected_table) {
         *(u32 * volatile)((u8 *)sprite + 0x2c) = selected_table;
-        direction_index = (D_80083228 + entity->value2a + 0x100) >> 9;
+        direction_index = (gameWork.viewAngle + entity->value2a + 0x100) >> 9;
         func_80047784(sprite, *(u8 *)((direction_index & 7) + selected_table), 0);
     }
 
@@ -123,7 +123,7 @@ after_first_update:
             return;
         }
         *(u32 * volatile)((u8 *)sprite + 0x2c) = (u32)&D_80169DC4;
-        direction_index = (D_80083228 + entity->value2a + 0x100) >> 9;
+        direction_index = (gameWork.viewAngle + entity->value2a + 0x100) >> 9;
         func_80047784(sprite, *(u8 *)((direction_index & 7) + (u32)&D_80169DC4), 0);
         return;
     case 14:
@@ -132,7 +132,7 @@ after_first_update:
             return;
         }
         *(u32 * volatile)((u8 *)sprite + 0x2c) = (u32)&D_80169DCC;
-        direction_index = (D_80083228 + entity->value2a + 0x100) >> 9;
+        direction_index = (gameWork.viewAngle + entity->value2a + 0x100) >> 9;
         func_80047784(sprite, *(u8 *)((direction_index & 7) + (u32)&D_80169DCC), 0);
         return;
     case 15:
@@ -141,7 +141,7 @@ after_first_update:
             return;
         }
         *(u32 * volatile)((u8 *)sprite + 0x2c) = (u32)&D_80169DD4;
-        direction_index = (D_80083228 + entity->value2a + 0x100) >> 9;
+        direction_index = (gameWork.viewAngle + entity->value2a + 0x100) >> 9;
         func_80047784(sprite, *(u8 *)((direction_index & 7) + (u32)&D_80169DD4), 0);
         return;
     default:

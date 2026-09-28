@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
@@ -142,7 +144,6 @@ extern void func_800A6C00(void *);
 extern s32 D_80012090;
 extern s16 D_8008146C;
 extern s32 D_80080A80;
-extern s16 D_80083228;
 extern s8 D_800DCF5A;
 extern s8 D_80082A3B;
 extern u16 D_80013714;
@@ -154,7 +155,6 @@ extern u8 *D_800E3D7C;
 extern void *D_800E3D18;
 extern u8 D_80083498[];
 extern u8 D_80089AA0[];
-extern u8 D_80045340[];
 extern u8 D_80083780;
 extern u8 D_80082E80[];
 extern u8 D_80082E60[];
@@ -168,7 +168,6 @@ extern void *D_800DD274[];
 extern u8 D_800DCFB0[];
 extern u16 D_800DD264[];
 extern u16 D_800DD26C[];
-extern u8 D_80083160[];
 extern u8 D_800DCE60[];
 extern s32 D_800E4938[];
 
@@ -209,7 +208,7 @@ void func_800165B8(void) {
     u8 *settings_page;
     u8 *display_page;
     u8 *display_state;
-    u8 *map_state;
+    DungeonGlobalStatus *map_state;
     s32 bind_count;
     register u8 *bind_state ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     u8 *bind_angle;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
@@ -226,7 +225,7 @@ void func_800165B8(void) {
     D_800DCF5A = 1;
     allocation = func_8003FE78(0, D_80083498, 0x53);
     ((S_800165B8_0 *)allocation)->unk_10 = D_80089AA0;
-    func_8004491C(allocation, D_80045340);
+    func_8004491C(allocation, func_80045340);
     actor_storage = &D_80083780;
     ((S_800165B8_0 *)allocation)->unk_08 = actor_storage;
     actor = actor_storage;
@@ -382,7 +381,7 @@ load_entries:
         (*(void * *)((u8 *)state + 0x2C)) = D_800DD274;
         func_8003DB94(state,
             *(void **)((u8 *)D_800DD274 +
-                (((D_80083228 + (*(s16 *)((u8 *)entity + 0x2A)) + 0x100) >> 7) & 0x1C)),
+                (((gameWork.viewAngle + (*(s16 *)((u8 *)entity + 0x2A)) + 0x100) >> 7) & 0x1C)),
             0);
         call_target = D_80083498;
     } else {
@@ -397,7 +396,7 @@ load_entries:
     delta_page = (u8 *)(-1);
     (*(s16 *)((u8 *)obj + 0x94)) = (s32)delta_page;
     (*(s16 *)((u8 *)obj + 0x118)) = 0;
-    ((S_800165B8_5 *)entity)->unk_2A = 0x400 - (((u16)D_80083228 + 0x100) & 0xE00);
+    ((S_800165B8_5 *)entity)->unk_2A = 0x400 - (((u16)gameWork.viewAngle + 0x100) & 0xE00);
     func_800BC26C(call_target, bind_count, bind_state, bind_angle);
     {
         s32 clear_flag_mask;
@@ -452,7 +451,7 @@ load_entries:
         tile_y = ((S_800165B8_3 *)state)->unk_25;
         ASM_KEEP_DEP_NV(display_index, tile_y);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         display_setting = ((u16 *)neutral_color)[(s16)display_index];
-        map_state = ((u8 *)(&dungeonStatus));
+        map_state = &dungeonStatus;
         ((S_800165B8_7 *)table_base)->unk_C4 = display_setting;
         height_index = *(u16 *)(settings_page + 0x20A0);
         *(u16 *)(display_page - 0x31A0) = display_setting;
@@ -464,7 +463,7 @@ load_entries:
         D_800E4938[0] = 0;
         *(void **)&D_800E4938[1] = allocation;
         D_800E4938[2] = 0;
-        ((S_800165B8_9 *)map_state)->unk_02 |= 2;
+        map_state->flags |= 2;
         ((S_800165B8_8 *)display_state)->unk_06.s = lift_height;
         ((S_800165B8_3 *)state)->unk_26 =
             func_8009FB34(tile_x, tile_y, map_state, lift_height);

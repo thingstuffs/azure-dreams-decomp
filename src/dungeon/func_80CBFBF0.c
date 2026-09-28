@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_func_800AA258_arg2.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -37,7 +38,6 @@ extern void func_800AA888(void *, void *, void *, void *);
 extern void func_80173720(void *, void *, void *, void *);
 
 extern void *D_800814A8;
-extern s16 D_80083228;
 extern u8 D_80170F20[];
 extern u8 D_80173B98[];
 extern u8 D_80176300[];
@@ -54,14 +54,12 @@ void func_801733F0(S_801733F0_0 *actor, void *context, Rec_func_800AA258_arg2 *s
     switch (state) {
     case 0:
     {
-        u8 *dungeon_state;
 
         if ((sprite->unk_14 & 0xE000) == 0) {
             return;
         }
 
-        dungeon_state = (u8 *)&dungeonStatus.unk_00;
-        ((S_801733F0_2 *)dungeon_state)->unk_0A--;
+        dungeonStatus.unk_0A--;
         if (actor->unk_A7 != 0) {
             sprite->unk_2C.as_pv = D_80176360;
         } else {
@@ -70,7 +68,7 @@ void func_801733F0(S_801733F0_0 *actor, void *context, Rec_func_800AA258_arg2 *s
         func_80047784(
             sprite,
             ((u8 *)sprite->unk_2C.as_pv)[
-                ((D_80083228 + entity->unk_2A.as_s16 + 0x100) >> 9) & 7],
+                ((gameWork.viewAngle + entity->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
         goto increment_state;
     }
@@ -136,13 +134,11 @@ void func_801733F0(S_801733F0_0 *actor, void *context, Rec_func_800AA258_arg2 *s
         func_80047784(
             sprite,
             ((u8 *)sprite->unk_2C.as_pv)[
-                ((D_80083228 + entity->unk_2A.as_s16 + 0x100) >> 9) & 7],
+                ((gameWork.viewAngle + entity->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
         {
-            u8 *dungeon_state;
 
-            dungeon_state = (u8 *)&dungeonStatus.unk_00;
-            ((S_801733F0_2 *)dungeon_state)->unk_0A++;
+            dungeonStatus.unk_0A++;
         }
 
 increment_state:
@@ -151,14 +147,12 @@ increment_state:
 
     case 2:
     {
-        u8 *dungeon_state;
 
         if ((sprite->unk_14 & 0xE000) == 0) {
             return;
         }
 
-        dungeon_state = (u8 *)&dungeonStatus.unk_00;
-        ((S_801733F0_2 *)dungeon_state)->unk_0A--;
+        dungeonStatus.unk_0A--;
         entity->unk_1C.as_u32 &= ~0x200;
         if (actor->unk_A7 != 0) {
             actor->unk_8C = D_80173B98;

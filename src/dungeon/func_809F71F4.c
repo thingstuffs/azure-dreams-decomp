@@ -1,17 +1,17 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 
 extern void func_80044A50(void *arg0);
 extern void func_800478B8();
 
-extern u8 D_80083160[0xAB];
 extern s32 D_80175220;
 
 /* Processes input, then blends three state channels toward 0x80 and marks completion. */
 void func_801749F4(u8 *task, void *context, u8 *input)
 {
     s16 frames_left;
-    u8 *fade_state = D_80083160;
+    GameWork *fade_state = &gameWork;
 
     if (task[0x9A] == 0) {
         D_80175220 = *(s32 *)(input + 8);
@@ -23,12 +23,12 @@ void func_801749F4(u8 *task, void *context, u8 *input)
             return;
         }
     } else {
-        fade_state[0xA8] = (u8)(fade_state[0xA8] +
-            ((s32)(0x80 - fade_state[0xA8]) / *(s16 *)(task + 0x96)));
-        fade_state[0xA9] = (u8)(fade_state[0xA9] +
-            ((s32)(0x80 - fade_state[0xA9]) / *(s16 *)(task + 0x96)));
-        fade_state[0xAA] = (u8)(fade_state[0xAA] +
-            ((s32)(0x80 - fade_state[0xAA]) / *(s16 *)(task + 0x96)));
+        fade_state->unk_0A8 = (u8)(fade_state->unk_0A8 +
+            ((s32)(0x80 - fade_state->unk_0A8) / *(s16 *)(task + 0x96)));
+        fade_state->unk_0A9 = (u8)(fade_state->unk_0A9 +
+            ((s32)(0x80 - fade_state->unk_0A9) / *(s16 *)(task + 0x96)));
+        fade_state->unk_0AA = (u8)(fade_state->unk_0AA +
+            ((s32)(0x80 - fade_state->unk_0AA) / *(s16 *)(task + 0x96)));
 
         frames_left = *(u16 *)(task + 0x96) - 1;
         *(s16 *)(task + 0x96) = frames_left;

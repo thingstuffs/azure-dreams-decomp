@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #ifndef NULL
 #define NULL 0
@@ -38,10 +39,8 @@ typedef struct {
     u16 flagsa2;
 } Arg0Struct;
 
-extern S_80083160 D_80083160;
 extern void *D_8008ACDC[];
 extern u8 D_800DD0F8[];
-extern s16 D_80083228[5];
 extern void *D_8008B870;
 extern u8 D_800DD0F0;
 
@@ -55,7 +54,7 @@ extern s32 func_800A5C70(void);
 /* Advances actor animation states, periodic events, and handler transitions. */
 void func_80090298(Arg0Struct *controller, void *unused, Arg2Struct *animation, Arg3Struct *actor) {
     s32 event_code;
-    S_80083160 *scene = &D_80083160;
+    S_80083160 *scene = ((S_80083160 *)&gameWork);
 
     (void)unused;
     switch (controller->state) {
@@ -82,7 +81,7 @@ void func_80090298(Arg0Struct *controller, void *unused, Arg2Struct *animation, 
             }
             if ((func_80042900(actor, 1) << 0x10) == 0) {
                 animation->table = D_800DD0F8;
-                func_80048A44(animation, D_800DD0F8[((s32)(*D_80083228 + actor->angle + 0x100) >> 9) & 7], 0, 1);
+                func_80048A44(animation, D_800DD0F8[((s32)(gameWork.viewAngle + actor->angle + 0x100) >> 9) & 7], 0, 1);
                 controller->handler = NULL;
                 dungeonStatus.unk_0A += 1;
                 controller->state += 1;

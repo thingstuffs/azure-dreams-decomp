@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -13,7 +14,6 @@ M2C_UNK func_8009F644();
 s32 func_800A44E0();
 s32 func_800A7234();
 extern u8 D_80081485;
-extern s16 D_80083228;
 extern u8 D_800DD0D0[];
 
 /* Updates actor state and animation when the position checks succeed. */
@@ -40,7 +40,7 @@ void func_8008F6EC(void *state, void *target, void *sprite, u32 actor_or_can) {
         ((Rec_func_8008ACDC_arg0 *)state)->unk_9B.as_s8 = 0;
         ((Rec_func_8008ACDC_arg0 *)state)->unk_8C.as_s32 = 0;
         (*(u8 **)((u8 *)sprite + 0x2C)) = D_800DD0D0;
-        func_80048A44(sprite, D_800DD0D0[(((s32) (D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100)) >> 9) & 7], 0, 1);
+        func_80048A44(sprite, D_800DD0D0[(((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100)) >> 9) & 7], 0, 1);
         dungeonStatus.unk_0A = ((u16)dungeonStatus.unk_0A) + 1;
         func_8009F644(actor, 0x28, 0, 0);
     }

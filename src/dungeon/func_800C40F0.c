@@ -1,14 +1,14 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
+#include "shared/game_work.h"
 
 #define FLD(p, t, o) (*(t *)((u8 *)(p) + (o)))
 
 extern void *D_80083498;
-extern u8 D_80083160[];
 extern u8 D_8006CCF8[];
 extern s32 D_800E0334[];
 extern u8 D_800C9AAC;
 extern u8 D_800C9F34;
-extern u8 D_80045340;
 
 typedef struct {
     s32 f0;
@@ -37,7 +37,7 @@ void *func_800C9850(u16 tile_x, u16 tile_z, u16 height) {
     void *entity;
     void *state;
     void *sprite;
-    u8 *camera;
+    GameWork *camera;
     void *state_tail;
     s32 direction_entry;
     D80089430_t *result_base;
@@ -65,7 +65,7 @@ void *func_800C9850(u16 tile_x, u16 tile_z, u16 height) {
         FLD(sprite, s32, 0xC) = 0x2c808080;
         FLD(state, void *, 0xA4) = D_800E0334;
         FLD(sprite, void *, 0x2C) = D_800E0334;
-        camera = D_80083160;
+        camera = &gameWork;
         direction_entry = ((FLD(camera, s16, 0xC8) + FLD(state, s16, 0x2A) + 0x100) >> 7) & 0x1C;
         direction_entry += (s32)FLD(state, void *, 0xA4);
         func_8003DB94(sprite, FLD((void *)direction_entry, s32, 0), 0);
@@ -95,7 +95,7 @@ void *func_800C9850(u16 tile_x, u16 tile_z, u16 height) {
         FLD(state_tail, s16, 0x92) = -0x20;
         FLD(state_tail, s32, 0xAC) = tint;
         func_800CB4C0((void *)result_word4, tint_arg);
-        func_8004491C(entity, &D_80045340);
+        func_8004491C(entity, func_80045340);
         func_800A48F0(state, 0x1B, 0);
     }
     return state;

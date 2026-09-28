@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
@@ -58,7 +59,6 @@ struct Scratch {
     s32 length;
 };
 
-extern u8 D_80083160[];
 
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
@@ -69,9 +69,9 @@ extern s16 func_80069EF8(void);
 
 /* Advances particle levels and queues colored quads in the dungeon ordering table. */
 s32 func_807AF648(DungeonObject *object, u16 *origin) {
-    DungeonRoot *dungeon = *(DungeonRoot **)D_80083160;
+    DungeonRoot *dungeon = *(DungeonRoot **)((u8 *)(&gameWork));
     s32 packet_cursor = dungeon->cursor;
-    void *root_slot = (void *)D_80083160;
+    GameWork *root_slot = &gameWork;
     Scratch *scratch;
     s16 particle_index = 0;
     u8 *projection_param = (u8 *)0x1F800090;
@@ -80,7 +80,7 @@ s32 func_807AF648(DungeonObject *object, u16 *origin) {
 
     object->count = 0;
     scratch = (Scratch *)0x1F800000;
-    scratch->base = *(u8 **)D_80083160 + 0xB0;
+    scratch->base = *(u8 **)((u8 *)(&gameWork)) + 0xB0;
     scratch->values[0] = origin[1];
     projection_flags = (u8 *)scratch;
     scratch->values[1] = origin[3];
@@ -167,6 +167,6 @@ s32 func_807AF648(DungeonObject *object, u16 *origin) {
             }
         }
     } while (1);
-    ((S_807AF648_1 *)(*(DungeonRoot **)root_slot))->unk_8D0 = packet_cursor;
+    ((S_807AF648_1 *)(root_slot->unk_000))->unk_8D0 = packet_cursor;
     return 0;
 }

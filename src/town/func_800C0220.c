@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
 void func_8003DB94(void *, void *, s32, void *);
 void *func_8003FD64(s32, void *);
 void func_8004491C(void *, void *);
-extern M2C_UNK D_80045340;
 extern M2C_UNK D_80083498;
 extern M2C_UNK D_800BD688;
 extern M2C_UNK D_800BD898;
@@ -77,7 +77,7 @@ s32 event_tori_in(void *source) {
             s32 y_offset;
             s32 z_offset;
 
-            func_8004491C(object, &D_80045340);
+            func_8004491C(object, func_80045340);
             motion_base = 0xFFF88000;
             color = 0x800000;
             transform = (*(void **)((u8 *)object + 8));

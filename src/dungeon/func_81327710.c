@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
 typedef struct S_8016EF10_0 {
@@ -39,7 +40,6 @@ extern s32 func_800BBA40();
 extern s32 func_8016A928();
 extern s32 func_8016BF74();
 
-extern s16 D_80083228[];
 extern u8 D_800DF45C[];
 extern u8 D_8016EEBC[];
 extern u8 D_8017467C[];
@@ -97,7 +97,7 @@ s32 func_8016EF10(u8 *actor_arg, s32 action_context, u8 *entity_arg) {
     case 0x10:
         if (((S_8016EF10_0 *)entity)->unk_2C != D_8017467C) {
             ((S_8016EF10_0 *)entity)->unk_2C = D_8017467C;
-            direction_index = ((D_80083228[0] + ((S_8016EF10_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
+            direction_index = ((gameWork.viewAngle + ((S_8016EF10_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
             func_80047784(entity, D_8017467C[direction_index], 0);
         }
         break;
@@ -105,7 +105,7 @@ s32 func_8016EF10(u8 *actor_arg, s32 action_context, u8 *entity_arg) {
     case 0xF8:
         if (((S_8016EF10_0 *)entity)->unk_2C != D_801746FC) {
             ((S_8016EF10_0 *)entity)->unk_2C = D_801746FC;
-            direction_index = ((D_80083228[0] + ((S_8016EF10_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
+            direction_index = ((gameWork.viewAngle + ((S_8016EF10_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
             func_80047784(entity, D_801746FC[direction_index], 0);
         }
         break;
@@ -115,7 +115,7 @@ s32 func_8016EF10(u8 *actor_arg, s32 action_context, u8 *entity_arg) {
             ((S_8016EF10_1 *)actor)->unk_2A = func_8016A928(action_context) << 9;
             if (((S_8016EF10_0 *)entity)->unk_2C != D_80174694) {
                 ((S_8016EF10_0 *)entity)->unk_2C = D_80174694;
-                direction_index = ((D_80083228[0] + ((S_8016EF10_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
+                direction_index = ((gameWork.viewAngle + ((S_8016EF10_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
                 func_80047784(entity, D_80174694[direction_index], 0);
             }
             if (func_800BBA40(((S_8016EF10_0 *)entity)->unk_24,
@@ -128,8 +128,7 @@ s32 func_8016EF10(u8 *actor_arg, s32 action_context, u8 *entity_arg) {
             ((S_8016EF10_1 *)actor)->unk_96 = 0;
             ((S_8016EF10_1 *)actor)->unk_9B++;
             {
-                u8 *global_base = (u8 *)((s32 *)(&dungeonStatus));
-                ((S_8016EF10_2 *)global_base)->unk_0A += 2;
+                dungeonStatus.unk_0A += 2;
             }
         }
         break;

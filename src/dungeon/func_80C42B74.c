@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "records/Rec_func_80173CFC_arg1.h"
 
 typedef struct S_80174374_0 {
@@ -52,7 +53,6 @@ extern s32 func_800644B8(s32);
 extern s32 rand(void);
 extern void func_8003DB94(void *, void *, s32);
 
-extern u8 D_80045340;
 extern s32 D_800DEC00;
 extern u8 D_801741A0;
 
@@ -71,7 +71,7 @@ void func_80174374(void *unused_context, Rec_func_80173CFC_arg1 *origin, s32 unu
         effect_state->unk_1A = 0x14;
         effect_state->unk_1E = angle;
         ((S_80174374_1 *)effect)->unk_10 = &D_801741A0;
-        func_8004491C(effect, &D_80045340);
+        func_8004491C(effect, func_80045340);
 
         sprite = ((S_80174374_1 *)effect)->unk_0C;
         ((S_80174374_2 *)sprite)->unk_10 = 0x20;

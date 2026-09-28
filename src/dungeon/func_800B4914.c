@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "shared/dungeon_status.h"
 
 typedef struct SubA {
@@ -68,7 +69,6 @@ extern s32 func_800BA33C(s32);
 extern void func_800B1768(s32, s32, s32, s32, s32, s32);
 extern void func_800B1B10(void *, s32, s32, s32, s16, s32);
 
-extern s32 D_80045340;
 extern u8 D_80045C34[];
 extern u8 D_80079444[];
 extern void *D_800814A8;
@@ -132,7 +132,7 @@ do {
             Obj *object;
             void *state_def;
             object = *object_slot;
-            state_def = &D_80045340;
+            state_def = func_80045340;
             func_8004491C(object, state_def);
         }
     after_call:
@@ -194,8 +194,7 @@ next:
     } while (part_index < 3);
 
     {
-        u8 *counter_base = (u8 *)&dungeonStatus.unk_00;
-        *(u16 *)(counter_base + 0xA) += 1;
+        dungeonStatus.unk_0A += 1;
     }
     func_800B1768(0, 0x27, 0x40, 0x209, 0, 0);
     func_800B1B10(selection_data, 0x4C, 0x50, 0x200, 0, 2);

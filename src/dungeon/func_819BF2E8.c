@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
 void *func_8003FC64();                       /* extern */
 M2C_UNK func_8004491C();           /* extern */
 extern M2C_UNK D_800247C0;
-extern M2C_UNK D_80045340;
 
 typedef struct S_80024AE8_0 {
     u8 pad_00[0x20];
@@ -52,7 +52,7 @@ void func_80024AE8(s32 effect_value, S_80024AE8_3 *position) {
         effect_state->unk_2A = 0x1E;
         effect_state->unk_20 = effect_value;
         ((S_80024AE8_1 *)effect)->unk_10 = &D_800247C0;
-        func_8004491C(effect, &D_80045340);
+        func_8004491C(effect, func_80045340);
         effect_position = ((S_80024AE8_1 *)effect)->unk_08;
         effect_position->unk_00 = (s32) position->unk_00;
         effect_position->unk_04 = (s32) position->unk_04;

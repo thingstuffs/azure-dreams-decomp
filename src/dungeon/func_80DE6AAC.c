@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "shared/dir_step.h"
 typedef s32 M2C_UNK;
 
@@ -11,7 +12,6 @@ void *func_8003FC64();
 M2C_UNK func_8004491C();
 M2C_UNK func_800478B8();
 s32 func_800BCB04();
-extern M2C_UNK D_80045340;
 extern M2C_UNK D_800DEEC0;
 extern M2C_UNK D_80174254;
 
@@ -90,7 +90,7 @@ s32 func_80DE6AAC(S_80DE6AAC_2 *source, void *initial_position, S_80DE6AAC_4 *ti
         func_800478B8(sprite);
         sprite->unk_1E = 0x800;
         sprite->unk_1C = 0x800;
-        func_8004491C(effect, &D_80045340);
+        func_8004491C(effect, func_80045340);
         position = ((S_80DE6AAC_0 *)effect)->unk_08;
         *(Copy24 *)position = *(Copy24 *)initial_position;
         {

@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
@@ -77,9 +79,7 @@ typedef struct {
     u16 owner_byte;
 } Work;
 
-extern s32 D_80045340;
 extern u16 D_8006CCD8_success[] __asm__("D_8006CCD8");
-extern s16 D_80083228;
 extern u8 *D_800E3D7C;
 extern s32 *D_80174CCC;
 extern s8 D_801766F0[];
@@ -105,7 +105,6 @@ void func_8017516C(u8 *owner_data, Position *position_arg, Source *source_arg, C
     Work *work;
     u8 *special_data;
     s32 offset_x_index;
-    u16 *object_counts;
     s32 owner_byte;
     s32 offset_y_index;
     u32 initial_result;
@@ -224,9 +223,9 @@ allocate:
     display->f28 = source_arg->f28;
     display->f12 = source_arg->f12;
 
-    offset_x_index = ((D_80083228 + context->f2A + 0x100) >> 8) & 0xE;
+    offset_x_index = ((gameWork.viewAngle + context->f2A + 0x100) >> 8) & 0xE;
     local_offset.x = D_801766F0[offset_x_index];
-    offset_y_index = ((D_80083228 + context->f2A + 0x100) >> 8) & 0xE;
+    offset_y_index = ((gameWork.viewAngle + context->f2A + 0x100) >> 8) & 0xE;
     local_offset.y = D_801766F0[offset_y_index + 1];
     local_offset.z = 0;
     func_8003E02C(&local_offset, &world_offset);
@@ -235,7 +234,7 @@ allocate:
     object->position->y = position_arg->y + world_offset.y;
     object->position->z = position_arg->z + world_offset.z;
     func_80047784(display, 0x41, 0);
-    func_8004491C(object, &D_80045340);
+    func_8004491C(object, func_80045340);
 
     object->field20 = &context->f2A;
     work->f20 = 8;
@@ -250,8 +249,7 @@ allocate:
     work->context = context;
     work->owner_byte = owner_byte;
 
-    object_counts = (u16 *)&dungeonStatus.unk_00;
-    object_counts[5]++;
+    dungeonStatus.unk_0A++;
 
 exit:
     return;

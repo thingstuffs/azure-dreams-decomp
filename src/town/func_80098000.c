@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct S_80095760_0 {
     u8 pad_00[0x3A];
@@ -17,14 +18,6 @@ typedef struct S_80095760_2 {
 
 
 
-typedef struct {
-    u8 pad_00[8];
-    s32 field_08;
-    u8 pad_0C[0xBC];
-    s16 field_C8;
-} SharedState;
-
-extern SharedState D_80083160;
 extern s16 D_800D0464;
 extern s32 D_800D046C;
 
@@ -43,7 +36,7 @@ s32 func_80095760(void *entries)
     s32 entry_index;
     S_80095760_2 *entry;
 
-    angle = func_80094BC8(D_80083160.field_08, D_80083160.field_C8);
+    angle = func_80094BC8(((s32)gameWork.unk_008), gameWork.viewAngle);
     if (angle != -1) {
         entry_index = 0;
         direction = ((angle + 0x100) / 0x200) & 7;

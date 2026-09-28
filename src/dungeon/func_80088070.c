@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #ifndef NULL
 #define NULL 0
 #endif
@@ -7,7 +8,6 @@ extern void func_80048A44(void *a0, s16 a1, s16 a2, s32 a3);
 extern void *func_800A8608(void *a0, void *a1, s32 a2, s32 a3, s32 a4);
 extern void func_800A56E0(s32 a0);
 
-extern s16 D_80083228;
 extern u8 D_800DD0B8[8];
 extern s32 D_8008D470;
 extern s32 D_8008ACDC;
@@ -30,7 +30,7 @@ void func_8008D7D0(u8 *actor, s32 effect_arg, u8 *target, u8 *source) {
 
     *(u8 **)(target + 0x2C) = &D_800DD0B8[0];
 
-    direction = ((D_80083228 + *(s16 *)(source + 0x2A) + 0x100) >> 9) & 7;
+    direction = ((gameWork.viewAngle + *(s16 *)(source + 0x2A) + 0x100) >> 9) & 7;
     func_80048A44(target, D_800DD0B8[direction], 0, 1);
 
     effect = func_800A8608(actor - 0x20, *(void **)(actor + 0xBC), 0, 0, 0);

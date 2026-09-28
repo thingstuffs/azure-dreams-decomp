@@ -82,7 +82,6 @@ void func_801731FC(S_801731FC_0 *state, S_801731FC_2 *motion, S_801731FC_3 *spri
     u32 sound_x;
     u32 sound_y;
     u8 brightness;
-    S_801731FC_4 *entity_tracker;
 
     phase = state->unk_9B;
     direction_offset = ((u16) ((S_801731FC_1 *)entity)->unk_6A >> 8) & 0xE;
@@ -161,11 +160,10 @@ fade_out:
     if ((s16)next_brightness >= 0x18) {
         goto done;
     }
-    entity_tracker = &dungeonStatus.unk_00;
-    if (entity_tracker->unk_10 != (entity - 0x20)) {
+    if (((s32)dungeonStatus.unk_10) != (entity - 0x20)) {
         goto remove_entity;
     }
-    entity_tracker->unk_10 &= 0x7FFFFFFF;
+    *(s32 *)&dungeonStatus.unk_10 &= 0x7FFFFFFF;
 remove_entity:
     func_800A2FE0(entity, phase, velocity_x, velocity_y);
     func_800A32A4(entity);

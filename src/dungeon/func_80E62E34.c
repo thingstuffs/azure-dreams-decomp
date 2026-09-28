@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct {
     u8 pad00[0x1E];
@@ -20,7 +21,6 @@ typedef struct {
     s16 field9E;
 } First;
 
-extern s16 D_80083228[];
 extern u8 D_8017556C[];
 extern void func_80047784(Obj *, u8, s32);
 
@@ -32,7 +32,7 @@ void func_80172634(First *state, s32 unused, Obj *object, Other *angle_source)
     state->field9E = 2;
     object->field2C = D_8017556C;
     func_80047784(object,
-                  D_8017556C[((D_80083228[0] + angle_source->field2A + 0x100) >> 9) & 7],
+                  D_8017556C[((gameWork.viewAngle + angle_source->field2A + 0x100) >> 9) & 7],
                   0);
     object->field1E = 0xC00;
 }

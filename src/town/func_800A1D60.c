@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_80094268_arg0.h"
 
@@ -41,7 +42,6 @@ M2C_UNK memset(); /* extern */
 M2C_UNK func_8009DC8C();    /* extern */
 extern M2C_UNK D_80010A80;
 extern M2C_UNK D_80010AB4;
-extern M2C_UNK D_80045340;
 extern M2C_UNK D_8009F374;
 extern M2C_UNK D_80100A10;
 extern struct TownCopy84 D_80100AF8;
@@ -74,7 +74,7 @@ void func_8009F4C0(Rec_func_80094268_arg0 *entity, M2C_UNK unused_arg1, M2C_UNK 
     void *data_base;
 
     slot_index = entity->unk_95;
-    func_80033CD8(entity, &D_80045340);
+    func_80033CD8(entity, func_80045340);
     slot_state = (slot_index * 4) + 0x80010000;
     slot_state->unk_981 = 0x13;
     memset(&D_80100A10, 0, 0x54);

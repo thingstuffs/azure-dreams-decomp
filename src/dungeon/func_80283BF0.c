@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct S_80016BF0_0 {
     u8 pad_00[0x10];
@@ -36,7 +37,6 @@ typedef struct S_80016BF0_4 {
 
 
 
-extern u8 D_80083160[];
 
 /* Apply tile type flags to a map rectangle and mark adjacent tiles where required. */
 void func_80016BF0(s16 start_x, s16 start_y, s16 width, s16 height)
@@ -58,7 +58,7 @@ void func_80016BF0(s16 start_x, s16 start_y, s16 width, s16 height)
     S_80016BF0_3 *tile_above;
     S_80016BF0_4 *tile_below;
 
-    state = D_80083160;
+    state = ((u8 *)(&gameWork));
     map = state + 0x1DC;
     flag_table = map->unk_10;
     if (flag_table != 0) {

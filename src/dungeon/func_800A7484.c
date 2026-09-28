@@ -43,7 +43,6 @@ void func_800ACBE4(void *actor_data, s32 unused, void *visual, void *current_act
     s32 actor_status;
     s32 actor_flags;
     s32 effect_size;
-    s32 *actor_globals;
     u8 state;
     u8 brightness;
     u8 effect_x;
@@ -81,9 +80,8 @@ state_one:
         goto done;
     }
 
-    actor_globals = &dungeonStatus.unk_00;
-    if (actor_globals[4] == (s32)((u8 *)actor - 0x20)) {
-        actor_globals[4] &= 0x7FFFFFFF;
+    if (((s32)dungeonStatus.unk_10) == (s32)((u8 *)actor - 0x20)) {
+        *(s32 *)&dungeonStatus.unk_10 &= 0x7FFFFFFF;
     }
     func_800A32A4(actor);
     actor_status = ((S_800ACBE4_2 *)actor)->unk_1C;

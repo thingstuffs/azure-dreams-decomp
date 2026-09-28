@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_func_800AA258_arg2.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -50,7 +51,6 @@ extern void func_800AA888();
 extern void func_80174A68();
 
 extern void *D_800814A8;
-extern s16 D_80083228;
 extern u8 D_800E2428[];
 extern u8 D_800E2430[];
 extern u8 D_80171A80[];
@@ -62,7 +62,6 @@ void func_80174788(void *action, s32 actor_index, void *sprite, void *actor)
     u16 reset_offset;
     u16 value_before_reset;
     s32 actor_flags;
-    u8 *shared_state;
 
     action_state = ((S_80174788_0 *)action)->unk_9B;
     if (action_state == 1) {
@@ -84,20 +83,17 @@ state_zero:
         goto done;
     }
     {
-        u8 *animation_counters;
 
-        animation_counters = (u8 *)&dungeonStatus.unk_00;
-        ((S_80174788_2 *)animation_counters)->unk_0A--;
+        dungeonStatus.unk_0A--;
     }
     (*(void * *)((u8 *)sprite + 0x2C)) = D_800E2428;
     func_80047784(sprite,
-                  D_800E2428[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+                  D_800E2428[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
                   0);
     goto increment_state;
 
 state_one:
-    shared_state = (u8 *)&dungeonStatus.unk_00;
-    if (((S_80174788_4 *)shared_state)->unk_02 & 0x1000) {
+    if (dungeonStatus.flags & 0x1000) {
         goto done;
     }
     if (((Rec_D_800E3D7C *)actor)->unk_64.as_s16 != 0) {
@@ -138,10 +134,10 @@ state_one:
     }
     (*(void * *)((u8 *)sprite + 0x2C)) = D_800E2430;
     func_80047784(sprite,
-                  D_800E2430[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+                  D_800E2430[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
                   0);
     ((Rec_D_800E3D7C *)actor)->unk_1C.as_s32 |= 0x40000;
-    ((S_80174788_4 *)shared_state)->unk_0A++;
+    dungeonStatus.unk_0A++;
 
 increment_state:
     ((S_80174788_0 *)action)->unk_9B++;
@@ -152,10 +148,8 @@ state_two:
         goto done;
     }
     {
-        u8 *animation_counters;
 
-        animation_counters = (u8 *)&dungeonStatus.unk_00;
-        ((S_80174788_6 *)animation_counters)->unk_0A--;
+        dungeonStatus.unk_0A--;
     }
     ((Rec_D_800E3D7C *)actor)->unk_1C.as_s32 &= ~8;
     ((S_80174788_0 *)action)->unk_8C = D_80171A80;

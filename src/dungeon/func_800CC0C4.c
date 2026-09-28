@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct S_800D1824_0 {
     u8 pad_00[0x20];
@@ -70,7 +71,6 @@ typedef struct S_800D1824_6 {
 
 
 
-extern u8 D_80083160[];
 extern void func_80065034(void *arg0, void *arg1, void *arg2);
 extern void func_8006658C(s32 arg0, void *arg1);
 
@@ -78,7 +78,7 @@ extern void func_8006658C(s32 arg0, void *arg1);
 void func_800D1824(u8 *tiles)
 {
     register u8 *scratch ASM_REG("$16") = (u8 *)0x1F800000;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    u8 *globals = D_80083160;
+    u8 *globals = ((u8 *)(&gameWork));
     u8 *tile = tiles;
     u8 *style;
     register u8 *prim ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */

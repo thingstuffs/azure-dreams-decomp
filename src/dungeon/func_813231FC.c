@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 
@@ -9,7 +10,6 @@ extern void func_80099290(s32);
 extern s32 func_8009929C(s32, s32);
 extern void func_800A5720(s32);
 
-extern u8 D_80083160[];
 extern u8 D_8016A808[];
 
 
@@ -34,13 +34,12 @@ void func_8016A9FC(void *effect) {
     u8 fade_green;
     u8 fade_blue;
     u8 *fade_colors;
-    u8 *effect_counts;
     s32 result;
     s32 first_result;
 
     state = ((S_8016A9FC_0 *)effect)->unk_12.s;
     state_arg = ((S_8016A9FC_0 *)effect)->unk_12.u;
-    fade_colors = D_80083160;
+    fade_colors = ((u8 *)(&gameWork));
 
     if (state == 1) {
         goto wait_frames;
@@ -108,8 +107,7 @@ store_fades:
     fade_colors[0xAA] = 0x80;
     fade_colors[0xA9] = 0x80;
     fade_colors[0xA8] = 0x80;
-    effect_counts = ((u8 *)(&dungeonStatus));
-    ((S_8016A9FC_1 *)effect_counts)->unk_0A--;
+    dungeonStatus.unk_0A--;
     (*(u16 *)((u8 *)effect + (-2))) |= 0x8000;
     objectFlagBlock.flags |= 0x8000;
 

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct S_800A2E30_0 {
     u8 pad_00[0x8D0];
@@ -49,7 +50,6 @@ typedef struct OutputPair {
     u32 pad;
 } OutputPair;
 
-extern u8 D_80083160[];
 
 extern s32 func_800654B0(InputPair *, InputPair *, InputPair *, InputPair *,
                         OutputPair *, OutputPair *, OutputPair *, OutputPair *,
@@ -77,7 +77,7 @@ void func_800A2E30(InputPair vertex_0, InputPair vertex_1, InputPair vertex_2,
     {
         u8 *quad_ctx;
 
-        quad_ctx = *(u8 **)D_80083160;
+        quad_ctx = *(u8 **)((u8 *)(&gameWork));
         packet = ((S_800A2E30_0 *)quad_ctx)->unk_8D0;
         ((S_800A2E30_0 *)quad_ctx)->unk_8D0 = packet + 0x24;
         ((S_800A2E30_1 *)packet)->unk_16 = shade;
@@ -112,13 +112,13 @@ void func_800A2E30(InputPair vertex_0, InputPair vertex_1, InputPair vertex_2,
         depth_or_page = 0x1DF;
     }
 
-    func_8006658C(*(u8 **)D_80083160 + 0xD8, packet + depth_or_page - depth_or_page);
+    func_8006658C(*(u8 **)((u8 *)(&gameWork)) + 0xD8, packet + depth_or_page - depth_or_page);
 
-    draw_ctx = *(u8 **)D_80083160;
+    draw_ctx = *(u8 **)((u8 *)(&gameWork));
     packet = ((S_800A2E30_2 *)draw_ctx)->unk_8D0;
     ((S_800A2E30_2 *)draw_ctx)->unk_8D0 = packet + 0xC;
     depth_or_page = func_80066460(0, 1, 0x140, 0);
     func_80067F20(packet, 0, 0, (u16)depth_or_page, 0);
 
-    func_8006658C(*(u8 **)D_80083160 + 0xD8, packet);
+    func_8006658C(*(u8 **)((u8 *)(&gameWork)) + 0xD8, packet);
 }

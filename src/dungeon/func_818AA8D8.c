@@ -1,3 +1,4 @@
+#include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 
 struct S_80083178
@@ -53,7 +54,6 @@ extern void func_8004491C(void *, void *);
 extern void func_800478B8(void *);
 extern s32 func_800644B8(s32);
 extern s32 rand(void);
-extern s32 D_80045340;
 extern M2C_UNK D_800DECF8;
 /* Updates a rotating effect through movement, fading, and deactivation. */
 void func_800240D8(void *effect, void *position, void *sprite)
@@ -82,7 +82,7 @@ void func_800240D8(void *effect, void *position, void *sprite)
       *(u16 *)((u8 *) effect + 0x36) = 0;
       state++;
       *(u16 *)((u8 *) effect + 0x34) = state;
-      func_8004491C(((u8 *) effect) - 0x20, &D_80045340);
+      func_8004491C(((u8 *) effect) - 0x20, func_80045340);
       return;
 
     case 1:

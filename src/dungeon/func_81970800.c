@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/game_work.h"
 #include "m2c_compat.h"
 
 
@@ -24,7 +25,6 @@ extern s32 func_80065590(void *, void *, void *, void *, void *, void *, void *,
 extern void func_80065820(void *, void *);
 extern u16 func_80066460(s32, s32, s32, s32);
 extern void func_80067F20(void *, s32, s32, u16, s32);
-extern u8 D_80083160[];
 
 #ifdef __mips__
 static const u32 func_81970800_prefix[] __asm__("func_81970800")
@@ -187,10 +187,10 @@ void BODY_NAME(S_func_81970800_4 *quad, S_func_81970800_2 *position, S_func_8197
     s32 depth;
     u16 draw_flags;
     u8 tex_flags;
-    u8 **render_context_ref = (u8 **)D_80083160;
+    u8 **render_context_ref = (u8 **)((u8 *)(&gameWork));
     MATRIX matrix;
 
-    scratch->unk_24 = (u32 *)(*(u8 **)D_80083160 + 0xB0);
+    scratch->unk_24 = (u32 *)(*(u8 **)((u8 *)(&gameWork)) + 0xB0);
     scratch->unk_88 = position->unk_02;
     scratch->unk_8C = position->unk_06;
     scratch->unk_90 = position->unk_0A;
@@ -214,19 +214,19 @@ void BODY_NAME(S_func_81970800_4 *quad, S_func_81970800_2 *position, S_func_8197
     texture = object->unk_08;
     scratch->unk_28 = object->unk_14;
 
-    packet = (S_func_81970800_5 *)((S_func_81970800_6 *)*(u8 **)D_80083160)->unk_8D0;
-    ((S_func_81970800_6 *)*(u8 **)D_80083160)->unk_8D0 = (u8 *)packet + 0xC;
+    packet = (S_func_81970800_5 *)((S_func_81970800_6 *)*(u8 **)((u8 *)(&gameWork)))->unk_8D0;
+    ((S_func_81970800_6 *)*(u8 **)((u8 *)(&gameWork)))->unk_8D0 = (u8 *)packet + 0xC;
     func_80067F20(packet, 0, 0, func_80066460(0, 0, 0, 0) & 0xFFFF, 0);
     (*(u32 *)((u8 *)packet + 0)) = (packet->unk_00.unk_00 & 0xFF000000) |
-        (((S_func_81970800_6 *)*(u8 **)D_80083160)->unk_B0 & 0x00FFFFFF);
-    (*(u32 *)((u8 *)*(u8 **)D_80083160 + 0xB0)) =
-        (((S_func_81970800_6 *)*(u8 **)D_80083160)->unk_B0 & 0xFF000000) |
+        (((S_func_81970800_6 *)*(u8 **)((u8 *)(&gameWork)))->unk_B0 & 0x00FFFFFF);
+    (*(u32 *)((u8 *)*(u8 **)((u8 *)(&gameWork)) + 0xB0)) =
+        (((S_func_81970800_6 *)*(u8 **)((u8 *)(&gameWork)))->unk_B0 & 0xFF000000) |
         ((u32)packet & 0x00FFFFFF);
 
     {
         S_func_81970800_6 *render_context;
 
-        render_context = (S_func_81970800_6 *)*(u8 * volatile *)D_80083160;
+        render_context = (S_func_81970800_6 *)*(u8 * volatile *)((u8 *)(&gameWork));
         packet = (S_func_81970800_5 *)render_context->unk_8D0;
         render_context->unk_8D0 = (u8 *)packet + 0x24;
     }

@@ -150,9 +150,7 @@ message_join:
 
     func_80098B38(event);
     {
-        u8 *event_state;
-        event_state = ((u8 *)(&dungeonStatus));
-        *(u16 *)(event_state + 0xA) -= 1;
+        dungeonStatus.unk_0A -= 1;
     }
     return 1;
 }

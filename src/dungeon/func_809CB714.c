@@ -33,7 +33,6 @@ void func_80172F14(S_80172F14_1 *controller, Rec_D_800E3D7C *motion, Rec_D_80082
     s32 direction;
     s32 speed_limit;
     s32 tracked_object;
-    s32 *global_state;
 
     direction = (((Rec_D_800E3D7C *)source)->unk_6A.as_u16 >> 9) & 7;
 
@@ -165,10 +164,9 @@ check_timer:
         func_800A2B04(motion, entity->unk_24,
                       entity->unk_25);
 
-        global_state = &dungeonStatus.unk_00;
-        tracked_object = global_state[4];
+        tracked_object = ((s32)dungeonStatus.unk_10);
         if (tracked_object == (s32)((u8 *)source - 0x20)) {
-            global_state[4] = tracked_object & 0x7FFFFFFF;
+            dungeonStatus.unk_10 = tracked_object & 0x7FFFFFFF;
         }
         controller->unk_8C = &D_80170E54;
         return;

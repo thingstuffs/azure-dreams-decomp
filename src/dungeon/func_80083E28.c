@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80083160.h"
 
@@ -33,7 +34,6 @@ typedef struct S_80089588_2 {
 
 
 struct S_8003E2D8; typedef struct S_8003E2D8 S_8003E2D8;
-extern struct S_8003E2D8 *D_80083160;
 extern u8 D_801C9E40[16];
 M2C_UNK func_8006658C(void *, void *);
 M2C_UNK func_80067E2C();
@@ -50,16 +50,16 @@ void func_80089588(void) {
     void *packet;
     register u32 context_slot ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
-    alternate_buffer = (s32) D_80083160 != (s32) D_801C9E40;
-    packet = ((Rec_D_80083160 *)D_80083160)->unk_8D0;
-    func_80067E2C(packet, D_80083160);
-    func_8006658C((u8 *)D_80083160 + 0x7B0, packet);
+    alternate_buffer = (s32) gameWork.unk_000 != (s32) D_801C9E40;
+    packet = ((Rec_D_80083160 *)gameWork.unk_000)->unk_8D0;
+    func_80067E2C(packet, gameWork.unk_000);
+    func_8006658C((u8 *)gameWork.unk_000 + 0x7B0, packet);
     packet += 0xC;
-    func_80067E2C(packet, D_80083160);
-    func_8006658C((u8 *)D_80083160 + 0x830, packet);
+    func_80067E2C(packet, gameWork.unk_000);
+    func_8006658C((u8 *)gameWork.unk_000 + 0x830, packet);
     packet += 0xC;
     func_80067EF4(packet, 0, 0);
-    func_8006658C((u8 *)D_80083160 + 0x830, packet);
+    func_8006658C((u8 *)gameWork.unk_000 + 0x830, packet);
     packet += 0xC;
     {
         s32 cmd_value;
@@ -72,7 +72,7 @@ void func_80089588(void) {
         (*(s16 *)((u8 *)packet + 0x14)) = cmd_value;
         (*(s16 *)((u8 *)packet + 0xC)) = cmd_value;
     }
-    context_slot = (u32) &D_80083160;
+    context_slot = (u32) &gameWork.unk_000;
     saved_alternate = alternate_buffer;
     {
         register s32 strip_top;

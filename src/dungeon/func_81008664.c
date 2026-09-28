@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 typedef long long s64;
@@ -117,7 +118,6 @@ void func_800AD594();
 s16 func_800BCB04();
 extern s16 D_8008146E;
 extern u8 D_80082E80[];
-extern s16 D_80083228;
 extern u8 D_800DDC40[];
 extern M2C_UNK D_80171058;
 extern u8 D_80174888[];
@@ -175,7 +175,6 @@ void func_81008664(void *actor_arg, void *motion_arg, void *sprite_arg, void *vo
     void *finish_entity;
     u32 saved_handler;
     M2C_UNK *next_handler;
-    S_func_81008664_8 *dungeon_state;
     u32 active_count;
     register u32 height_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u32 height_offset;
@@ -309,7 +308,7 @@ clear_sprite_tile:
     partner->unk_1C = (s32) (partner->unk_1C & 0xFFFBFFFF);
     partner_actor->unk_98 = (u16) (partner_actor->unk_98 | 0xC);
     animation_table = D_801748F0;
-    angle_or_count = &D_80083228;
+    angle_or_count = &gameWork.viewAngle;
     *(u8 **)((u8 *)sprite + 0x2C) = animation_table;
     {
         u32 anim_flags;
@@ -353,7 +352,7 @@ check_launch_end:
         animation_table = D_801748F8;
         actor->unk_96 = fall_anim;
     }
-    angle_or_count = &D_80083228;
+    angle_or_count = &gameWork.viewAngle;
     *(u8 **)((u8 *)sprite + 0x2C) = animation_table;
     search_step_offset = (s32)((S_func_81008664_5 *)(entity));
     fall_anim = ((s32) (*angle_or_count + (s16) ((S_func_81008664_3 *)(S_func_81008664_5 *)search_step_offset)->unk_2A + 0x100) >> 9) & 7;
@@ -481,7 +480,7 @@ place_actors:
     search_step_offset = (s32)((S_func_81008664_5 *)(entity));
     motion->unk_14 = (s32) ((s32) ((((S_func_81008664_3 *)(S_func_81008664_5 *)search_step_offset)->unk_88 << 0x10) - motion->unk_08.unk_08) / (s16) actor->unk_96);
     animation_table = D_801748F8;
-    angle_or_count = &D_80083228;
+    angle_or_count = &gameWork.viewAngle;
     *(u8 **)((u8 *)sprite + 0x2C) = animation_table;
     rise_anim = ((s32) (*angle_or_count + (s16) ((S_func_81008664_3 *)(S_func_81008664_5 *)search_step_offset)->unk_2A + 0x100) >> 9) & 7;
     rise_anim = rise_anim + (u32) animation_table;
@@ -577,12 +576,11 @@ finish_movement:
     partner_actor->unk_8C = saved_handler;
     func_800AD594(reset_entity, 0x100);
     next_handler = &D_80171058;
-    dungeon_state = (S_func_81008664_8 *) ((u8 *)(&dungeonStatus));
     actor->unk_8C = next_handler;
-    active_count = dungeon_state->unk_0A;
+    active_count = ((u16)dungeonStatus.unk_0A);
     finish_entity = entity;
     active_count -= 1;
-    dungeon_state->unk_0A = active_count;
+    dungeonStatus.unk_0A = active_count;
     func_800A4ACC(finish_entity);
     *(u16 *)((u8 *)actor + 0x98) = (u16) (actor->unk_98 & 0xFFF3);
     search_step_offset = (s32)((S_func_81008664_5 *)(entity));
@@ -626,7 +624,7 @@ restore_partner_tile:
         func_8009A21C(restore_x, restore_y, restore_partner_mask);
     }
     animation_table = D_80174888;
-    angle_or_count = &D_80083228;
+    angle_or_count = &gameWork.viewAngle;
     *(u8 **)((u8 *)sprite + 0x2C) = animation_table;
     search_step_offset = (s32)((S_func_81008664_5 *)(entity));
     idle_anim = ((s32) (*angle_or_count + (s16) ((S_func_81008664_3 *)(S_func_81008664_5 *)search_step_offset)->unk_2A + 0x100) >> 9) & 7;

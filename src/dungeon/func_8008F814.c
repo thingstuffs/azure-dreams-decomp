@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct Slot {
     u8 b0;
@@ -41,7 +42,6 @@ typedef struct Unit {
     s16 id;
 } Unit;
 
-extern Sys D_80083160;
 extern u8 D_80081485[16];
 extern u16 D_80013714[8];
 extern u16 D_80012094;
@@ -108,7 +108,7 @@ s32 func_80094F74(Ctx *ctx, char *text, Item *item, Unit *unit) {
     Ent *entities;
     s32 item_kind;
 
-    sys = &D_80083160;
+    sys = ((Sys *)&gameWork);
     item_lookup = func_800A70E4(item->kind, item->sub, unit->id);
     item_id = item_lookup;
     if (item_id < 0) {

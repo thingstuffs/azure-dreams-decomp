@@ -148,8 +148,7 @@ main_path:
     func_800A5720(script);
 decrement:
     {
-        u8 *counter_base = (u8 *) ((s32 *)(&dungeonStatus));
-        ((S_800C08A4_2 *)counter_base)->unk_0A = (u16) (((S_800C08A4_2 *)counter_base)->unk_0A - 1);
+        dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
     }
     return 1;
 }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
@@ -44,7 +45,6 @@ M2C_UNK func_8009A21C();             /* extern */
 M2C_UNK func_8009A3D0();             /* extern */
 M2C_UNK func_8009A66C(); /* extern */
 s16 func_800A0818();             /* extern */
-extern s16 D_80083228;
 extern u8 D_80176460[8];
 
 /* Advance the entity along its stored path and update its heading and movement timing. */
@@ -64,7 +64,7 @@ void func_801716D8(void *motion, void *unused, void *entity, void *path_state) {
     if ((((S_801716D8_0 *)state)->unk_71 > 0) && ((s32) (u8) ((S_801716D8_0 *)state)->unk_71 > ((S_801716D8_0 *)state)->unk_8A)) {
         if (((Rec_D_80082E80 *)entity)->unk_2C.as_pv != D_80176460) {
             (*(void **)((u8 *)entity + 0x2C)) = D_80176460;
-            func_80047784(entity, D_80176460[((D_80083228 + ((S_801716D8_0 *)state)->unk_2A + 0x100) >> 9) & 7], 0);
+            func_80047784(entity, D_80176460[((gameWork.viewAngle + ((S_801716D8_0 *)state)->unk_2A + 0x100) >> 9) & 7], 0);
         }
         old_x = ((Rec_D_80082E80 *)entity)->unk_24;
         old_y = ((Rec_D_80082E80 *)entity)->unk_25;

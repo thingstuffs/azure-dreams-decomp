@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "records/Rec_D_80082E80.h"
@@ -14,7 +15,6 @@ extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
 extern void func_8017586C(void *, void *, void *);
 
-extern s16 D_80083228;
 extern void *D_80170860[6];
 extern u8 D_80171FA4[9];
 extern u8 D_80175C68[8];
@@ -74,7 +74,7 @@ L1:
         (*(u8 * *)((u8 *)sprite + (0x2C))) = D_80175C68;
         func_80047784(
             sprite,
-            D_80175C68[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            D_80175C68[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
         ((S_80173930_0 *)motion)->unk_9B++;
     }
@@ -138,7 +138,7 @@ L3:
         (*(u8 * *)((u8 *)sprite + (0x2C))) = D_80175C70;
         func_80047784(
             sprite,
-            D_80175C70[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            D_80175C70[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
 
         ((Rec_D_800E3D7C *)velocity)->unk_0C.as_s32 =

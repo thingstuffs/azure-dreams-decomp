@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -8,7 +9,6 @@ M2C_UNK func_80047784();         /* extern */
 M2C_UNK func_8009C93C(); /* extern */
 s32 func_800A2B5C();                          /* extern */
 M2C_UNK func_800C7930(); /* extern */
-extern s16 D_80083228;
 extern u8 D_80174038[];
 
 /* Updates the actor's action state and directional animation when it can act. */
@@ -35,7 +35,7 @@ void func_8017208C(void *action_state, M2C_UNK context, void *sprite, void *acto
             ((Rec_D_800E3D7C *)actor)->unk_85.as_s8 = 8;
         } while (0);
         (*(u8 **)((u8 *)sprite + 0x2C)) = D_80174038;
-        func_80047784(sprite, D_80174038[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
+        func_80047784(sprite, D_80174038[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
         ((Rec_D_800E3D7C *)actor)->unk_6D.as_u8 = (u8) (((Rec_D_800E3D7C *)actor)->unk_6D.as_u8 - 1);
         func_8009C93C(actor, sprite, ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16, 1, 0);
         if (!(((Rec_func_800A9E70_arg0 *)action_state)->unk_98 & 0x8000)) {

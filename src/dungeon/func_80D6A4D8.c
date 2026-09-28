@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -61,7 +62,6 @@ extern s16 D_80081468[3];
 extern s16 D_8008146C;
 extern u8 D_80082E6B;
 extern u8 D_80082E80[];
-extern s16 D_80083228;
 extern u8 D_80083498[];
 extern u8 D_80083780[];
 extern s32 D_80083788;
@@ -228,7 +228,7 @@ state_1:
 
 state_2:
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_800E2368;
-    facing = (D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9;
+    facing = (gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9;
     func_80047784(sprite, D_800E2368[facing & 7], 0);
     ((S_80175CD8_0 *)action)->unk_96.s = 0;
     ((S_80175CD8_0 *)action)->unk_9B++;
@@ -409,7 +409,7 @@ state_9:
     ((Rec_D_800E3D7C *)actor)->unk_1C.as_u32 |= 0x40000;
     (*(u16 *)((u8 *)action + 0x98)) &= 0xFFF7;
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_800E2348;
-    facing = (D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9;
+    facing = (gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9;
     func_80047784(sprite, D_800E2348[facing & 7], 0);
     ((Rec_D_80082E80 *)sprite)->unk_05.as_u8 = 1;
     ((S_80175CD8_0 *)action)->unk_A2.s = 0;

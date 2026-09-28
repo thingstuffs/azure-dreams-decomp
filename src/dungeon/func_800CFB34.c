@@ -66,7 +66,6 @@ void func_800D5294(void *emitter, Rec_func_800D4BD4_arg2 *position, M2C_UNK spaw
     s16 particle_size;
     S_800D5294_5 *parent;
     S_800D5294_4 *particle_motion;
-    u16 *effect_counters;
     M2C_UNK *particle_data;
     void *particle;
     S_800D5294_2 *particle_state;
@@ -110,7 +109,6 @@ void func_800D5294(void *emitter, Rec_func_800D4BD4_arg2 *position, M2C_UNK spaw
     if ((life_left << 0x10) <= 0) {
         ((S_800D5294_0_pre *)emitter)[-1].unk_00 = (u16) (((S_800D5294_0_pre *)emitter)[-1].unk_00 | 0x8000);
         objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
-        effect_counters = ((u16 *)(&dungeonStatus));
-        effect_counters[5] = effect_counters[5] - 1;
+        dungeonStatus.unk_0A = ((u16)dungeonStatus.unk_0A) - 1;
     }
 }

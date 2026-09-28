@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "records/Rec_D_80082E80.h"
@@ -14,7 +15,6 @@ extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
 extern void func_801753DC(void *, void *);
 
-extern s16 D_80083228;
 extern void *D_80170848[];
 extern s32 D_80171FA4;
 extern u8 D_80175C48[];
@@ -97,7 +97,7 @@ L1:
     }
     (*(u8 * *)((u8 *)sprite + (0x2C))) = D_80175C48;
     func_80047784(sprite,
-        D_80175C48[((D_80083228 + ((S_80173408_4 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
+        D_80175C48[((gameWork.viewAngle + ((S_80173408_4 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
         0);
     func_801753DC((u8 *)jump - 0x20, (u8 *)actor + 0x2A);
     state = ((S_80173408_0 *)jump)->unk_9B.v;
@@ -134,7 +134,7 @@ L2:
     }
     (*(u8 * *)((u8 *)sprite + (0x2C))) = D_80175C50;
     func_80047784(sprite,
-        D_80175C50[((D_80083228 + ((S_80173408_4 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
+        D_80175C50[((gameWork.viewAngle + ((S_80173408_4 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
         0);
     func_800A56E0(0x808);
     state = ((S_80173408_0 *)jump)->unk_9B.n;
@@ -178,7 +178,7 @@ L3:
         }
         (*(u8 * *)((u8 *)sprite + (0x2C))) = D_80175C58;
         func_80047784(sprite,
-            D_80175C58[((D_80083228 + ((S_80173408_4 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
+            D_80175C58[((gameWork.viewAngle + ((S_80173408_4 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
             0);
 
         velocity_x = -*(s16 *)((u8 *)x_table +

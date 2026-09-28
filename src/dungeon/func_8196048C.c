@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct {
     u16 *tiles;
@@ -9,7 +10,6 @@ typedef struct {
 extern u16 D_800273CC[8];
 extern u8 D_8002744C[9];
 extern u8 D_8002744D[9];
-extern u8 D_80083160[0x200];
 
 /* Copies a 7-by-7 tile region from the source grid into the dungeon map around the current coordinates. */
 void func_8196048C(void)
@@ -26,7 +26,7 @@ void func_8196048C(void)
     u8 center_row;
     u8 center_column;
 
-    dungeon_state = D_80083160;
+    dungeon_state = ((u8 *)(&gameWork));
     map = (DungeonMap *)(dungeon_state + 0x1DC);
     rows_copied = 0;
     source_row = D_800273CC;

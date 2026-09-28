@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
 typedef struct S_8181B1A0_4 {
@@ -23,7 +24,6 @@ M2C_UNK func_8004491C();           /* extern */
 s32 rand();                                /* extern */
 extern M2C_UNK D_80024878;
 extern M2C_UNK D_80025908[];
-extern M2C_UNK D_80045340;
 
 typedef struct S_8181B1A0_0 {
     u8 pad_00[0x2];
@@ -77,7 +77,7 @@ void func_8181B1A0(void *source, s32 offset_x, s32 offset_y, s32 offset_z, s32 e
         state->unk_02 = (s16) saved_value;
         state->unk_60 = (s32) ((rand() & 0x1FFFF) + 0x10000);
         ((S_8181B1A0_1 *)effect)->unk_10 = &D_80024878;
-        func_8004491C(effect, &D_80045340);
+        func_8004491C(effect, func_80045340);
         render = ((S_8181B1A0_1 *)effect)->unk_0C;
         render->unk_14 = (u16) (render->unk_14 | 0xC);
         position = ((S_8181B1A0_1 *)effect)->unk_08;

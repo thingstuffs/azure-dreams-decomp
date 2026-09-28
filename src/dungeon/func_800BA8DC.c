@@ -27,7 +27,6 @@ typedef struct S_800C003C_1 {
 /* Update entity state and counters, with special handling for the primary entity. */
 s32 func_800C003C(void *entity, s32 event_id, s16 event_param) {
     u8 update_count;
-    s8 *global_base;
 
     if (entity == D_800E3D7C[0]) {
         ((Rec_D_800E3D7C *)entity)->unk_110 = event_id;
@@ -51,8 +50,7 @@ s32 func_800C003C(void *entity, s32 event_id, s16 event_param) {
     }
     func_800D4FC8(entity - 0x20, 0xF02020, 0x616);
     func_80098B38(event_id);
-    global_base = (s8 *) &dungeonStatus.unk_00;
-    ((S_800C003C_1 *)global_base)->unk_0A = (u16) (((S_800C003C_1 *)global_base)->unk_0A - 1);
+    dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
     return 1;
 }
 

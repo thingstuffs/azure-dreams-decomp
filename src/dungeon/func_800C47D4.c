@@ -38,14 +38,13 @@ typedef struct S_800C9F34_3 {
 
 /* Updates entity action state and dispatches the appropriate handler. */
 void func_800C9F34(Rec_func_800C9F34_arg0 *actor_state, M2C_UNK context, S_800C9F34_3 *position, void *entity) {
-    void *action_state = &dungeonStatus.unk_00;
 
-    if (((S_800C9F34_0 *)action_state)->unk_02 & 0x1000) {
+    if (dungeonStatus.flags & 0x1000) {
         actor_state->unk_9A.as_s8 = 0xE;
         func_800CA0DC(actor_state);
         return;
     }
-    if (((S_800C9F34_0 *)action_state)->unk_02 & 0x2000) {
+    if (dungeonStatus.flags & 0x2000) {
         goto update_tile;
     }
     actor_state->unk_9A.as_s8 = 0xE;
@@ -66,11 +65,11 @@ check_entity:
     if ((func_800A1C58(entity) << 0x10) == 0) {
         goto update_tile;
     }
-    if ((((S_800C9F34_0 *)action_state)->unk_0C == entity) &&
-        (((S_800C9F34_0 *)action_state)->unk_0A == 0) &&
-        !(((S_800C9F34_0 *)action_state)->unk_02 & 8)) {
+    if ((dungeonStatus.unk_0C == entity) &&
+        (dungeonStatus.unk_0A == 0) &&
+        !(dungeonStatus.flags & 8)) {
         ((Rec_D_800E3D7C *)entity)->unk_18 = 0;
-        ((S_800C9F34_0 *)action_state)->unk_0C = 0;
+        dungeonStatus.unk_0C = 0;
         return;
     }
     return;

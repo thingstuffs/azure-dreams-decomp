@@ -102,7 +102,6 @@ void func_8195281C(void *effect, void *color_data) {
     s32 stage;
     void *model;
     S_8195281C_6 *model_colors;
-    u8 *effect_manager;
     S_8195281C_3 *actor_state;
     u16 ready_stage;
     u16 actor_param;
@@ -210,9 +209,8 @@ jt_c4:
     if (D_800249A6 != 0) {
         goto block_28;
     }
-    effect_manager = (u8 *) ((s32 *)(&dungeonStatus));
-    ((S_8195281C_8 *)effect_manager)->unk_0C = 0;
-    ((S_8195281C_8 *)effect_manager)->unk_0A = (u16) (((S_8195281C_8 *)effect_manager)->unk_0A - 1);
+    dungeonStatus.unk_0C = 0;
+    dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
     ((S_8195281C_0_pre *)effect)[-1].unk_00 = (u16) (((S_8195281C_0_pre *)effect)[-1].unk_00 | 0x8000);
     ((S_8195281C_9 *)((s32 *)(&objectFlagBlock)))->unk_00 = (s32) (((S_8195281C_9 *)((s32 *)(&objectFlagBlock)))->unk_00 | 0x8000);
 block_27:

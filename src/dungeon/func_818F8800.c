@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/game_work.h"
 #include "m2c_compat.h"
 
 extern s32 func_800644B8(s32);
@@ -13,7 +14,6 @@ extern void func_800654B0(void *, void *, void *, void *, void *, void *, void *
 extern void func_80065820(void *, void *);
 extern void func_80067EF4(void *, s32, s32);
 extern M2C_UNK D_8006CD10[8];
-extern struct S_8003E2D8 *D_80083160;
 
 typedef struct Quad40 {
     s32 w0;
@@ -125,7 +125,7 @@ void func_8002405C(void *screen_pos, u8 *wave, void *context, s32 *ordering_tabl
     s32 wave_index;
     Scratchpad *scratch;
     screen_link = screen_pos;
-    globals = (u8 *) (&D_80083160);
+    globals = (u8 *) (&gameWork.unk_000);
     sprite = *((void **) (((s8 *) context) + (-0x14)));
     part = *((void **) (((s8 *) sprite) + 8));
     callback_arg = *((s32 *) (((s8 *) context) + (-0x18)));
@@ -135,7 +135,7 @@ void func_8002405C(void *screen_pos, u8 *wave, void *context, s32 *ordering_tabl
     *((u16 *) (((u8 *) scratch) + 0x84)) = 0;
     *((u16 *) (((u8 *) scratch) + 0x7C)) = 0;
     *((u16 *) (((u8 *) scratch) + 0x74)) = 0;
-    packet = *((s32 **) (((s8 *) D_80083160) + 0x8D0));
+    packet = *((s32 **) (((s8 *) gameWork.unk_000) + 0x8D0));
     *((s32 *) (((u8 *) scratch) + 0x20)) = (s32) ordering_table;
     *((s32 *) (((u8 *) scratch) + 0xC0)) = 0;
     *((u16 *) (((u8 *) scratch) + 0xB8)) = (u16) ((*((u16 *) (((s8 *) screen_link) + 0))) - 0xA0);

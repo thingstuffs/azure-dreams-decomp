@@ -1,9 +1,9 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 
 extern void *func_8003FD64(s32, void *);
 extern s32 func_8004491C(void *, void *);
-extern u8 D_80045340[9];
 extern u8 D_80083498[9];
 extern u8 D_800BFF7C[9];
 extern u8 D_800F15AC[9];
@@ -77,7 +77,7 @@ state_2:
   if (effect != 0)
   {
     *((void **) (((u8 *) effect) + 0x10)) = D_800BFF7C;
-    func_8004491C(effect, D_80045340);
+    func_8004491C(effect, func_80045340);
     effect_sprite = *((void **) (((u8 *) effect) + 0xC));
     *((s32 *) (((u8 *) (*((void **) (((u8 *) effect) + 8)))) + 0)) = *((s32 *) (((u8 *) object) + 0x1C));
     *((s32 *) (((u8 *) (*((void **) (((u8 *) effect) + 8)))) + 4)) = *((s32 *) (((u8 *) object) + 0x20));

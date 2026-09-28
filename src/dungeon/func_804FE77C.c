@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
 typedef struct S_804FE87C_0 {
@@ -77,7 +78,6 @@ extern void func_8001E910(void);
 
 extern DispatchOuter *D_80016000[];
 extern u8 D_800190D4[];
-extern u8 D_80083160[];
 extern u8 D_800DDC7C[];
 extern u8 D_801C9E40[16];
 extern u8 D_801DA714[16];
@@ -173,7 +173,7 @@ static void func_804FE87C(void) ROW_ATTR;
 /* Initializes lighting, projection, and viewport state and selects the floor monster table. */
 static void func_804FE87C(void)
 {
-    u8 *render_data = D_80083160;
+    u8 *render_data = ((u8 *)(&gameWork));
     u8 *render_state = render_data + 0x18;
     void *light_matrix;
 

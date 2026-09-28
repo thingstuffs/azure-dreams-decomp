@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "records/Rec_func_80090C68_arg0.h"
 
 typedef s32 M2C_UNK;
@@ -17,7 +18,6 @@ typedef struct {
     s32 flags;
 } D_80083160_t;
 
-extern D_80083160_t D_80083160;
 
 /* Updates the record, then handles a flagged action or countdown if its state is unchanged. */
 void func_80090C68(void *record, M2C_UNK context, M2C_UNK update_arg) {
@@ -25,7 +25,7 @@ void func_80090C68(void *record, M2C_UNK context, M2C_UNK update_arg) {
     D_80083160_t *global_state;
     u16 ticks_left;
 
-    global_state = &D_80083160;
+    global_state = ((D_80083160_t *)&gameWork);
     previous_state = ((Rec_func_80090C68_arg0 *)record)->unk_00;
     func_80090A74(record, context, update_arg);
     if (previous_state == ((Rec_func_80090C68_arg0 *)record)->unk_00) {

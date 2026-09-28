@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -8,8 +9,6 @@
 extern void *D_80170858[];
 extern s32 D_8003E140[];
 extern s32 D_8006CD58[];
-extern u8 D_80083160[];
-extern s16 D_80083228;
 extern void *D_800DCEEC[];
 extern s32 D_800DCF5C[];
 extern u8 D_8014A000[200000];
@@ -139,7 +138,7 @@ void func_80174648(void *effect_state, Rec_D_800E3D7C *position, Rec_D_80082E80 
         &&case_4, &&case_6, &&case_7, &&case_8
     };
     u8 state;
-    S_80174648_2 *effect_work = D_80083160;
+    S_80174648_2 *effect_work = ((u8 *)(&gameWork));
     state = ((S_80174648_0 *)effect_state)->unk_9B;
     if (state >= 9) {
         return;
@@ -166,7 +165,7 @@ case_1:
         saved_angle = ((S_80174648_1 *)actor)->unk_2A.u;
     } while (0);
     ((S_80174648_1 *)actor)->unk_8A = saved_angle;
-    direction = ((D_80083228 + ((S_80174648_1 *)actor)->unk_2A.s + 0x100) >> 9) & 7;
+    direction = ((gameWork.viewAngle + ((S_80174648_1 *)actor)->unk_2A.s + 0x100) >> 9) & 7;
     mode = ((u8 *)D_80174D1C)[-4];
     angle = ((S_80174648_1 *)actor)->unk_2A.u;
     if ((mode == 0) || (direction != 2)) {
@@ -294,7 +293,7 @@ case_7:
     child_or_angle = ((S_80174648_1 *)actor)->unk_60.i;
     child_sprite = ((S_80174648_6_pre *)((void *)child_or_angle))[-1].unk_00;
     child_or_angle = ((S_80174648_6 *)((void *)child_or_angle))->unk_2A;
-    direction = (D_80083228 + child_or_angle + 0x100) >> 9;
+    direction = (gameWork.viewAngle + child_or_angle + 0x100) >> 9;
     direction &= 7;
     func_80047738(child_sprite, ((S_80174648_11 *)(child_sprite->unk_2C + direction))->unk_00, child_sprite->unk_04);
     child_sprite->unk_14 &= 0xFFFE;
@@ -302,7 +301,6 @@ case_7:
 
 case_8:
   {
-    u8 *effect_counts;
 
     ((S_80174648_0 *)effect_state)->unk_96.u--;
     if (((S_80174648_0 *)effect_state)->unk_96.s > 0) {
@@ -311,8 +309,7 @@ case_8:
     ((S_80174648_10 *)(((S_80174648_1 *)actor)->unk_60.p))->unk_2A = ((S_80174648_1 *)actor)->unk_8A;
     ((S_80174648_0_pre *)effect_state)[-1].unk_00 |= 0x8000;
     objectFlagBlock.flags |= 0x8000;
-    effect_counts = (u8 *)((s32 *)(&dungeonStatus));
-    ((S_80174648_8 *)effect_counts)->unk_0A--;
+    dungeonStatus.unk_0A--;
     ((S_80174648_1 *)actor)->unk_6D = 0;
   }
 }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 typedef struct S_8002082C_0 {
     u8 pad_00[0x8];
@@ -50,7 +51,6 @@ typedef struct {
 
 extern s32 D_80022698[3];
 extern D_80026DE0Entry D_80026DE0[3][8];
-extern s32 D_80045340;
 extern s32 D_80083498[3];
 extern s32 D_800F29B4[3];
 
@@ -69,7 +69,7 @@ void func_8002082C(void *owner) {
         slot_offset = slot_index * 4;
         if (object != 0) {
             object->unk_10 = D_80022698;
-            func_8004491C(object, &D_80045340);
+            func_8004491C(object, func_80045340);
             object->unk_20 = owner;
             image = object->unk_08;
             object_data = object->unk_0C;

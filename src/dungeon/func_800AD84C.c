@@ -29,12 +29,10 @@ void func_800B2FAC(void *unused_0, void *unused_1, void *source, void *target) {
     s32 target_flags;
     u8 tile_x;
     u8 tile_y;
-    s32 *global_state;
 
     if (((S_800B2FAC_0 *)source)->unk_14 & 0xE000) {
-        global_state = &dungeonStatus.unk_00;
-        if (global_state[4] == (target - 0x20)) {
-            global_state[4] = global_state[4] & 0x7FFFFFFF;
+        if (((s32)dungeonStatus.unk_10) == (target - 0x20)) {
+            dungeonStatus.unk_10 = ((s32)dungeonStatus.unk_10) & 0x7FFFFFFF;
         }
         func_800A2DB8(target);
         func_800A32A4(target);

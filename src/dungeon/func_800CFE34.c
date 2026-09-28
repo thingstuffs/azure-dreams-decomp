@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 
 extern void func_800A020C(void *, void *);
@@ -6,8 +7,6 @@ extern void func_800478B8(void *);
 extern void func_80047784(void *, s32, s32);
 extern s32 func_80042900(void *, s32);
 
-extern u8 D_80083160[];
-extern s16 D_80083228;
 extern s8 D_800DCECC[];
 extern u8 D_800E23F8[];
 extern u8 D_800E2400[];
@@ -34,7 +33,7 @@ void func_800D5594(void *owner_data, void *position_data, void *entity_data)
     u8 *appearance;
     u8 *coords;
     void *effect_data;
-    u8 *angle_table;
+    GameWork *angle_table;
     register s32 facing_index ASM_REG("$16");
     s32 facing_check;
     u8 *saved_effect;
@@ -67,11 +66,11 @@ void func_800D5594(void *owner_data, void *position_data, void *entity_data)
         U16(((u8 *)(owner_data)), 0x2A) = facing_check;
         func_80047784(
             entity,
-            PTR(entity, 0x2C)[(D_80083228 + effect_angle + 0x100) >> 9 & 7],
+            PTR(entity, 0x2C)[(gameWork.viewAngle + effect_angle + 0x100) >> 9 & 7],
             0);
     }
 
-    angle_table = D_80083160;
+    angle_table = &gameWork;
     angle_sector =
         (S16(angle_table, 0xC8) + S16(((u8 *)(owner_data)), 0x2A) + 0x100) >> 9;
     facing_index = angle_sector & 7;

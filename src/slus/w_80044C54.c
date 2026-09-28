@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 #include "common.h"
 
@@ -12,7 +13,6 @@ typedef struct {
 extern void RotTransPers(void *a0, void *a1, void *a2, void *a3);
 extern void func_80044D24(void *a0, Entry80044C54 *a1, s32 a2);
 extern s32 func_80045310(u32 a0);
-extern void *D_80083160[3];
 
 /* Projects coordinates and processes linked entries whose 0x80 flag is clear. */
 s32 func_80044C54(u8 *first_data, void *first_coords, Entry80044C54 *first_entry)
@@ -30,7 +30,7 @@ s32 func_80044C54(u8 *first_data, void *first_coords, Entry80044C54 *first_entry
             *(u16 *)(scratch + 0x74) = *(u16 *)((u8 *)coords + 0xA);
             RotTransPers(scratch + 0x70, scratch, scratch + 0x90, scratch + 0x94);
             func_80044D24(node_data, entry, entry->unk06);
-            if (func_80045310(*(u32 *)((u8 *)D_80083160[0] + 0x8D0))) {
+            if (func_80045310(*(u32 *)((u8 *)gameWork.unk_000 + 0x8D0))) {
                 return 0;
             }
         }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 #ifndef NULL
 #define NULL 0
@@ -62,7 +63,6 @@ extern s32 func_80064584(s32);
 extern s32 func_800644B8(s32);
 extern void func_8003DB94(void *, void *, s32);
 
-extern u8 D_80045340;
 extern u8 D_800DEC70[];
 extern u8 D_80173738;
 
@@ -99,7 +99,7 @@ void func_80173904(
     if (object != NULL) {
         angle_work = angle;
         target_2 = object;
-        object_data = &D_80045340;
+        object_data = func_80045340;
         state = (u8 *)object + 0x20;
         state->unk_1A = 0x14;
         state->unk_20 = 0x14;

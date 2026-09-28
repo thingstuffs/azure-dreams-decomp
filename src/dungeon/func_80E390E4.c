@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 extern int abs(int);
@@ -63,7 +64,6 @@ typedef struct {
 
 extern ItemInfo D_8006DE24[];
 extern void *D_800814A8;
-extern s16 D_80083228;
 extern void *D_80170838[5];
 extern void *D_80170850[7];
 extern u8 D_80170EE4[8];
@@ -215,7 +215,7 @@ L2:
     }
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80176648;
     func_80047784(sprite,
-        *(u8 *)((uptr)(((D_80083228 + ((S_801728E4_1 *)act)->unk_2A + 0x100) >> 9) & 7) +
+        *(u8 *)((uptr)(((gameWork.viewAngle + ((S_801728E4_1 *)act)->unk_2A + 0x100) >> 9) & 7) +
                 (uptr)D_80176648),
         0);
     ((S_801728E4_0 *)action)->unk_9B++;
@@ -236,7 +236,7 @@ L3:
 
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80176668;
     func_80047784(sprite,
-        *(u8 *)((uptr)(((D_80083228 + ((S_801728E4_1 *)act)->unk_2A + 0x100) >> 9) & 7) +
+        *(u8 *)((uptr)(((gameWork.viewAngle + ((S_801728E4_1 *)act)->unk_2A + 0x100) >> 9) & 7) +
                 (uptr)D_80176668),
         0);
 AdvanceState:
@@ -247,7 +247,7 @@ L4:
     if (((S_801728E4_4 *)sprite)->unk_14 & 0xE000) {
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801765D8;
         func_80047784(sprite,
-            D_801765D8[((D_80083228 + ((S_801728E4_1 *)act)->unk_2A + 0x100) >> 9) & 7],
+            D_801765D8[((gameWork.viewAngle + ((S_801728E4_1 *)act)->unk_2A + 0x100) >> 9) & 7],
             0);
     }
     ((Rec_D_800E3D7C *)item)->unk_14.as_s32 = 0;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct {
     void **images;
@@ -32,14 +33,12 @@ extern void func_801237A4(TownState *);
 extern void func_801248C0(TownState *);
 extern void func_80124908(TownState *);
 
-extern u8 D_80083160[];
 extern u8 D_801269F8[];
 extern ImageList D_801278B0[];
 
 /* Handles selection navigation, scrolling, transitions, and the idle toggle timer. */
 void func_80124F98(TownState *state)
 {
-    u8 *input;
     u32 buttons;
     s32 max_scroll;
     u8 current_index;
@@ -48,8 +47,7 @@ void func_80124F98(TownState *state)
     u8 side_choice;
     u16 toggle_timer;
 
-    input = D_80083160;
-    if (*(u32 *)(input + 0x10) & 0x20) {
+    if (((u32)gameWork.unk_010) & 0x20) {
         SD_Call(0x702);
         func_801248C0(state);
         state->state = 9;
@@ -58,7 +56,7 @@ void func_80124F98(TownState *state)
         goto done;
     }
 
-    buttons = *(u32 *)(input + 8);
+    buttons = ((u32)gameWork.unk_008);
     if (buttons & 0x1000) {
         u8 *selection = D_801269F8;
 

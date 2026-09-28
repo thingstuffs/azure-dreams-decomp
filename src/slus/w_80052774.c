@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct {
     char pad0[0x230];
@@ -12,7 +13,6 @@ typedef struct {
     char pad4[0x1C0];
 } D80083160_t;
 
-extern D80083160_t D_80083160;
 
 typedef struct {
     u8 pad0[3];
@@ -37,7 +37,7 @@ void func_80052774(s16 x, s16 y, s16 width, s16 shade_step)
     s16 red_green;
     s16 blue;
 
-    render_state = &D_80083160;
+    render_state = ((D80083160_t *)&gameWork);
     if (shade_step < 0x11) {
         blue = shade_step * 8 + 0x80;
         if (blue == 0x100) {

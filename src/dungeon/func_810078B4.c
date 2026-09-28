@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
 typedef struct S_801730B4_0 {
@@ -76,7 +77,6 @@ extern void func_80173834(void *, void *, void *, void *);
 
 extern void *D_800814A8;
 extern u8 D_80082E80[];
-extern s16 D_80083228;
 extern u8 D_80171058[];
 extern u8 D_801748E0[];
 extern u8 D_801748E8[];
@@ -89,7 +89,6 @@ void func_801730B4(void *actor_in, void *context_in, void *sprite_in, void *enti
     u16 current_value;
     u16 value_adjustment;
     u8 *page_base;
-    u8 *global_base;
     s32 state;
 
     state = ((S_801730B4_0 *)actor_in)->unk_9B;
@@ -113,15 +112,14 @@ state_zero:
     }
     (*(void * *)((u8 *)sprite_in + 0x2C)) = D_801748E0;
     func_80047784(sprite_in,
-        D_801748E0[((D_80083228 + ((S_801730B4_2 *)entity_in)->unk_2A + 0x100) >> 9) & 7],
+        D_801748E0[((gameWork.viewAngle + ((S_801730B4_2 *)entity_in)->unk_2A + 0x100) >> 9) & 7],
         0);
     {
-        u8 *counter_base = (u8 *)&dungeonStatus.unk_00;
         u16 counter_value;
 
-        counter_value = ((S_801730B4_3 *)counter_base)->unk_0A;
+        counter_value = ((u16)dungeonStatus.unk_0A);
         counter_value--;
-        ((S_801730B4_3 *)counter_base)->unk_0A = counter_value;
+        dungeonStatus.unk_0A = counter_value;
     }
     ((S_801730B4_0 *)actor_in)->unk_9B++;
     goto done;
@@ -133,15 +131,14 @@ state_one:
     }
     (*(void * *)((u8 *)sprite_in + 0x2C)) = D_801748E8;
     func_80047784(sprite_in,
-        D_801748E8[((D_80083228 + ((S_801730B4_2 *)entity_in)->unk_2A + 0x100) >> 9) & 7],
+        D_801748E8[((gameWork.viewAngle + ((S_801730B4_2 *)entity_in)->unk_2A + 0x100) >> 9) & 7],
         0);
     ((S_801730B4_2 *)entity_in)->unk_1C.s |= 0x40000;
     if (!(((S_801730B4_1 *)sprite_in)->unk_14 & 0x8000)) {
-        u8 *counter_base = (u8 *)&dungeonStatus.unk_00;
 
-        state = ((S_801730B4_3 *)counter_base)->unk_0A;
+        state = ((u16)dungeonStatus.unk_0A);
         state++;
-        ((S_801730B4_3 *)counter_base)->unk_0A = state;
+        dungeonStatus.unk_0A = state;
         ((S_801730B4_0 *)actor_in)->unk_9B++;
         goto done;
     }
@@ -150,9 +147,8 @@ state_one:
     goto done;
 
 state_one_active:
-    global_base = (u8 *)&dungeonStatus.unk_00;
     {
-        if (((S_801730B4_4 *)global_base)->unk_02 & 0x1000) {
+        if (dungeonStatus.flags & 0x1000) {
             goto done;
         }
         if (((S_801730B4_2 *)entity_in)->unk_64 != 0) {
@@ -161,7 +157,7 @@ state_one_active:
             }
         }
         if (((S_801730B4_2 *)entity_in)->unk_25 == 0) {
-            if (((S_801730B4_4 *)global_base)->unk_02 & 0x2008) {
+            if (dungeonStatus.flags & 0x2008) {
                 goto done;
             }
             func_800AA79C(actor_in, context, sprite_in, entity_in);
@@ -216,7 +212,7 @@ state_one_active:
     }
     (*(void * *)((u8 *)sprite_in + 0x2C)) = D_801748E8;
     func_80047784(sprite_in,
-        D_801748E8[((D_80083228 + ((S_801730B4_2 *)entity_in)->unk_2A + 0x100) >> 9) & 7],
+        D_801748E8[((gameWork.viewAngle + ((S_801730B4_2 *)entity_in)->unk_2A + 0x100) >> 9) & 7],
         0);
     {
         u32 updated_flags;
@@ -232,11 +228,10 @@ state_one_active:
     }
 
     {
-        u8 *counter_base = (u8 *)&dungeonStatus.unk_00;
 
-        state = ((S_801730B4_3 *)counter_base)->unk_0A;
+        state = ((u16)dungeonStatus.unk_0A);
         state++;
-        ((S_801730B4_3 *)counter_base)->unk_0A = state;
+        dungeonStatus.unk_0A = state;
     }
 
     ((S_801730B4_0 *)actor_in)->unk_9B++;
@@ -247,9 +242,8 @@ state_two:
         goto done;
     }
     {
-        u8 *counter_base = (u8 *)&dungeonStatus.unk_00;
 
-        ((S_801730B4_3 *)counter_base)->unk_0A--;
+        dungeonStatus.unk_0A--;
     }
 
 clear_callback:

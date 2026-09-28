@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -124,8 +126,6 @@ extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
 extern void func_800C8788(void *, void *);
 
-extern u8 D_80045340;
-extern s16 D_80083228;
 extern s32 D_80083498;
 extern s8 D_800DCECC[];
 extern u8 D_80170000[];
@@ -269,7 +269,7 @@ allocate_effect:
         copy_dst = (u8 *)copy_dst + 0x10;
     } while (copy_src != copy_end);
     call_target = ((void *)object_or_height);
-    call_data = &D_80045340;
+    call_data = func_80045340;
     mesh_flags = effect_mesh->unk_14;
     effect_mesh->unk_1E = 0x400;
     effect_mesh->unk_1C = 0x400;
@@ -328,7 +328,7 @@ allocate_effect:
 #ifdef __mips__
         lookup_value = 0x80080000;
 #else
-        lookup_value = (s32)((u8 *)&D_80083228 - 0x3228);
+        lookup_value = (s32)((u8 *)&gameWork.viewAngle - 0x3228);
 #endif
         ASM_KEEP(lookup_value);
         direction_entry = ((S_801748D0_12 *)((void *)lookup_value))->unk_3228;
@@ -379,7 +379,7 @@ wait_finish:
 #ifdef __mips__
             tex_base = (void *)0x80080000;
 #else
-            tex_base = (u8 *)&D_80083228 - 0x3228;
+            tex_base = (u8 *)&gameWork.viewAngle - 0x3228;
 #endif
             timer = ((((S_801748D0_8 *)tex_base)->unk_3228 +
                       actor->unk_2A.as_s16 + 0x100) >> 9) & 7;
@@ -415,7 +415,7 @@ wait_finish:
 #ifdef __mips__
         tex_base = (void *)0x80080000;
 #else
-        tex_base = (u8 *)&D_80083228 - 0x3228;
+        tex_base = (u8 *)&gameWork.viewAngle - 0x3228;
 #endif
         timer = ((((S_801748D0_8 *)tex_base)->unk_3228 +
                   actor->unk_2A.as_s16 + 0x100) >> 9) & 7;

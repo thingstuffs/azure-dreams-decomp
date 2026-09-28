@@ -1,8 +1,8 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 
-extern s16 D_80083228[5];
 extern s32 D_80170F68;
 extern void *D_800E3DE8[];
 extern u8 D_80173FE8[];
@@ -79,7 +79,7 @@ state_zero:
         ticks_left = 4;
     }
     action->field96 = ticks_left;
-    func_80047784(sprite, sprite->field2C[(((s32) (D_80083228[0] + actor->field2A + 0x100) >> 9) & 7)], 0);
+    func_80047784(sprite, sprite->field2C[(((s32) (gameWork.viewAngle + actor->field2A + 0x100) >> 9) & 7)], 0);
     action->field9B++;
     goto done;
 

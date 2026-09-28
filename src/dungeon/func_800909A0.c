@@ -1,11 +1,10 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "m2c_compat.h"
 extern s32 D_800E296C[3];
 
-extern s32 D_800832B4[3];
 struct S_8003E2D8;
 typedef struct S_8003E2D8 S_8003E2D8;
-extern struct S_8003E2D8 D_80083160;
 extern u16 D_800DCE60[];
 extern u16 D_800120A2[5];
 extern s16 D_800DD264[];
@@ -33,7 +32,7 @@ s32 func_80096100(void *actor)
   stopped = 0;
   result = 0;
   changed = 0;
-  base = &D_80083160;
+  base = ((struct S_8003E2D8 *)&gameWork);
   if (D_800E296C[0] & 0x40000)
   {
     stopped = 1;
@@ -57,7 +56,7 @@ s32 func_80096100(void *actor)
   }
   if (stopped == 0)
   {
-    if (D_800832B4[0] == 0)
+    if (gameWork.unk_154 == 0)
     {
       if (((*((s32 *) (((s8 *) base) + 8))) & 0x10) == 0)
       {
@@ -85,7 +84,7 @@ s32 func_80096100(void *actor)
       }
       if (changed != 0)
       {
-        D_800832B4[0] = 0;
+        gameWork.unk_154 = 0;
         func_8004D7A8(1);
         func_8004D294(0, D_800DCE60, 1);
       }

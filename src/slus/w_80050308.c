@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 /* Sparse view of the shared global state struct D_80083160: only the two
  * fields this function reads (offsets 0x8 and 0x10). Declared >8 bytes so
@@ -11,7 +12,6 @@ typedef struct {
     s32 unk10;
 } S_80050308_D80083160;
 
-extern S_80050308_D80083160 D_80083160;
 
 /* Object struct for this function's argument. The object is embedded 0x20
  * bytes into a larger allocation (base = (char*)obj - 0x20, passed to the
@@ -48,12 +48,11 @@ extern void func_800500B4(s32 a0, void *a1);
 void func_80050308(void *object)
 {
     S_80050308 *obj = (S_80050308 *)object;
-    S_80050308_D80083160 *input_state = &D_80083160;
     s32 action_flags;
     s32 direction;
 
-    if (input_state->unk08 != 0) {
-        action_flags = input_state->unk10;
+    if (((s32)gameWork.unk_008) != 0) {
+        action_flags = ((s32)gameWork.unk_010);
         if (action_flags & 0x20) {
             SD_Call(0x515);
             func_80050DA8((char *)obj - 0x20);
@@ -68,7 +67,7 @@ void func_80050308(void *object)
             } else {
                 func_80050EA8((char *)obj - 0x20);
             }
-        } else if (input_state->unk08 & 0x5000) {
+        } else if (((s32)gameWork.unk_008) & 0x5000) {
             direction = 0;
             if (action_flags & 0x4000) {
                 direction = 1;
@@ -90,7 +89,7 @@ void func_80050308(void *object)
                 s32 repeat_flags;
 
                 obj->unk0C = obj->unk0C - 1;
-                repeat_flags = input_state->unk08;
+                repeat_flags = ((s32)gameWork.unk_008);
                 if (repeat_flags & 0x4000) {
                     direction = 1;
                 } else if (repeat_flags & 0x1000) {

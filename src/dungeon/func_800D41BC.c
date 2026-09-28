@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -29,7 +30,6 @@ M2C_UNK func_800A9A04();                      /* extern */
 M2C_UNK func_800AD594();             /* extern */
 s32 func_800AD9B4();                  /* extern */
 extern M2C_UNK D_80082E80;
-extern s16 D_80083228;
 extern M2C_UNK D_800D8C64;
 extern void *D_800E262C[];
 
@@ -37,7 +37,6 @@ extern void *D_800E262C[];
 void func_800D991C(void *motion_state, void *transform, void *map_entity, void *actor) {
     M2C_UNK direction_aux;
     void **animation_table;
-    s16 *global_counters;
     u8 *reference_entity;
     s32 frames_left;
     s16 next_timer;
@@ -95,7 +94,7 @@ check_landing:
         func_800A2B04(transform, ((Rec_D_80082E80 *)map_entity)->unk_24, ((Rec_D_80082E80 *)map_entity)->unk_25);
         animation_table = D_800E262C;
         (*(void **)((u8 *)map_entity + 0x2C)) = animation_table;
-        func_8003DB94(map_entity, *(void **)((u8 *)animation_table + (((s32) (D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 7) & 0x1C)), 0);
+        func_8003DB94(map_entity, *(void **)((u8 *)animation_table + (((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 7) & 0x1C)), 0);
         ((S_800D991C_0 *)motion_state)->unk_9B = (u8) (((S_800D991C_0 *)motion_state)->unk_9B + 1);
     }
 tick_timer:
@@ -108,9 +107,8 @@ tick_timer:
         func_800A2B04(transform, ((Rec_D_80082E80 *)map_entity)->unk_24, ((Rec_D_80082E80 *)map_entity)->unk_25);
         func_800AD594(actor, 4);
         func_800A4ACC(actor);
-        global_counters = (s16 *)&dungeonStatus.unk_00;
-        if (global_counters[4] != 0) {
-            global_counters[4] = (s16) ((u16) global_counters[4] - 1);
+        if (dungeonStatus.unk_08 != 0) {
+            dungeonStatus.unk_08 = (s16) ((u16) dungeonStatus.unk_08 - 1);
         }
         actor_flags = ((Rec_D_800E3D7C *)actor)->unk_1C.as_s32;
         if (actor_flags & 0x2000) {

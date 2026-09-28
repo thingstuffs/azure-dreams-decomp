@@ -151,7 +151,6 @@ fade_out:
         u32 sound_y;
         u16 next_brightness;
         u8 brightness;
-        S_func_80C17E14_4 *dungeon_state;
 
         entity->unk_1C |= 0x10000000;
         brightness = action->unk_96.unk_00_u8;
@@ -164,9 +163,8 @@ fade_out:
             goto done;
         }
 
-        dungeon_state = (S_func_80C17E14_4 *)&dungeonStatus.unk_00;
-        if (dungeon_state->unk_10 == (s32)((u8 *)entity - 0x20)) {
-            dungeon_state->unk_10 &= 0x7FFFFFFF;
+        if (((s32)dungeonStatus.unk_10) == (s32)((u8 *)entity - 0x20)) {
+            *(s32 *)&dungeonStatus.unk_10 &= 0x7FFFFFFF;
         }
         func_800A2FE0(entity);
         func_800A32A4(entity);

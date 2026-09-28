@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "records/Rec_func_80173CFC_arg1.h"
 
 
@@ -10,7 +11,6 @@ extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *);
 extern s32 rand(void);
 
-extern u8 D_80045340;
 extern u8 D_80173C0C;
 extern u8 D_80175324[12];
 
@@ -63,7 +63,7 @@ void func_80173CFC(void *unused_context, Rec_func_80173CFC_arg1 *source_pos, s32
         effect_part = (u8 *)effect + 0x20;
         effect_part->unk_24 = 5;
         (*(void * *)((u8 *)effect + 0x10)) = &D_80173C0C;
-        func_8004491C(effect, &D_80045340);
+        func_8004491C(effect, func_80045340);
         effect_data = (*(void * *)((u8 *)effect + 0xC));
         effect_data->unk_10 = 0x60;
         effect_data->unk_14 |= 0xC;

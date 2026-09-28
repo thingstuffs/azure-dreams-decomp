@@ -13,18 +13,18 @@ void func_800F6544(void *data)
     s16 *state_ptr;
     s16 state;
     s32 slot_index;
-    u16 *flags;
+    DungeonGlobalStatus *flags;
 
     if (*(s32 *)0x80013718 == 3) {
         slot_index = 1;
-        flags = ((u16 *)(&dungeonStatus));
+        flags = &dungeonStatus;
         state_table = D_800F8A44;
         state_slot = state_table + 1;
         do {
             state_ptr = *state_slot;
             if (state_ptr != 0) {
                 state = 4;
-                if (flags[1] & 0x80) {
+                if (flags->flags & 0x80) {
                     state = 0x14;
                 }
                 *state_ptr = state;

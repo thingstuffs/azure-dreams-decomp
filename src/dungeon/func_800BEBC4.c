@@ -25,7 +25,6 @@ s32 func_800C4324(void *entity_arg, s32 amount_arg, s16 effect_arg)
     s32 amount = amount_arg;
     s32 initial_id;
     s32 selected_id;
-    u8 *counter_base;
 
     if (entity_arg == D_800E3D7C[0]) {
         *(s32 *)((u8 *)entity_arg + 0x110) = amount;
@@ -62,7 +61,6 @@ s32 func_800C4324(void *entity_arg, s32 amount_arg, s16 effect_arg)
     }
     func_80042B68(entity_arg, 3);
     func_80098B38(amount);
-    counter_base = ((u8 *)(&dungeonStatus));
-    *(u16 *)(counter_base + 0xA) = *(u16 *)(counter_base + 0xA) - 1;
+    dungeonStatus.unk_0A = ((u16)dungeonStatus.unk_0A) - 1;
     return 1;
 }

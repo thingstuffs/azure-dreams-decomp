@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
@@ -52,7 +53,6 @@ extern void func_800A4ACC(void *);
 extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
 
-extern s16 D_80083228;
 extern void *D_800E3DE8;
 extern u8 D_80170E7C;
 extern u8 D_80174D7C;
@@ -109,7 +109,7 @@ state_0:
     func_80047784(
         sprite,
         *(&D_80174D7C +
-          (((D_80083228 + ((S_80172664_0 *)actor)->unk_2A + 0x100) >> 9) & 7)),
+          (((gameWork.viewAngle + ((S_80172664_0 *)actor)->unk_2A + 0x100) >> 9) & 7)),
         0);
     {
         s32 shifted_x = direction_x << 19;
@@ -136,7 +136,7 @@ state_1:
     func_80047784(
         sprite,
         *(&D_80174D84 +
-          (((D_80083228 + ((S_80172664_0 *)actor)->unk_2A + 0x100) >> 9) & 7)),
+          (((gameWork.viewAngle + ((S_80172664_0 *)actor)->unk_2A + 0x100) >> 9) & 7)),
         0);
     next_state = ((S_80172664_1 *)animation)->unk_9B;
     ((S_80172664_1 *)animation)->unk_96.s = 8;
@@ -189,7 +189,7 @@ state_4:
     func_80047784(
         sprite,
         *(&D_80174D8C +
-          (((D_80083228 + ((S_80172664_0 *)actor)->unk_2A + 0x100) >> 9) & 7)),
+          (((gameWork.viewAngle + ((S_80172664_0 *)actor)->unk_2A + 0x100) >> 9) & 7)),
         0);
     ((S_80172664_3 *)motion)->unk_14 = 0;
     ((S_80172664_1 *)animation)->unk_90 = 0;

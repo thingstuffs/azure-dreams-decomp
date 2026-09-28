@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 extern int abs(int);
 
 #define S16_AT(p, o) (*(s16 *)((u8 *)(p) + (o)))
@@ -13,7 +14,6 @@ extern void func_8004491C(void *, void *);
 extern void *D_80020284[5];
 extern u8 D_80024334[16];
 extern u16 D_80024500[8];
-extern u8 D_80045340[];
 extern u8 D_800F8E9C[16];
 
 /* Initialize two child objects, blink their color, and ease their positions toward active or resting targets. */
@@ -85,7 +85,7 @@ alloc_loop:
         child_obj = func_8003FC64(0x136);
         if (child_obj != 0) {
             PTR_AT(child_obj, 0x10) = object_data;
-            func_8004491C(child_obj, D_80045340);
+            func_8004491C(child_obj, func_80045340);
             render_part = PTR_AT(child_obj, 0xC);
             S16_AT(render_part, 0x14) = 0xC;
             color = 0x00808080;

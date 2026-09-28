@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
@@ -12,7 +13,6 @@ M2C_UNK func_8008CAA0(); /* extern */
 M2C_UNK func_8008CBD4(); /* extern */
 M2C_UNK func_800A2B04();              /* extern */
 M2C_UNK func_800AD4D0();                      /* extern */
-extern s16 D_80083228;
 extern M2C_UNK D_8008ACDC;
 extern u8 D_800DCFB0[8];
 extern u8 D_800DCFE0[8];
@@ -34,7 +34,6 @@ void func_8008DDE8(void *state, void *motion, void *sprite, void *actor) {
     u16 next_timer;
     u32 velocity_x;
     u8 *anim_table;
-    s32 *global_state;
 
     if (((Rec_func_8008ACDC_arg0 *)state)->unk_9B.as_u8 == 0) {
         func_800AD4D0(actor);
@@ -51,7 +50,7 @@ void func_8008DDE8(void *state, void *motion, void *sprite, void *actor) {
         anim_frames = ((Rec_func_8008ACDC_arg0 *)state)->unk_96.as_u16 - 1;
         ((Rec_func_8008ACDC_arg0 *)state)->unk_96.as_u16 = anim_frames;
         if ((anim_frames << 0x10) > 0) {
-            func_80048A44(sprite, ((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8[((s32) (D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0, 1);
+            func_80048A44(sprite, ((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8[((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0, 1);
         }
     }
     frames_left = (s16) ((Rec_func_8008ACDC_arg0 *)state)->unk_96.as_u16;
@@ -74,10 +73,9 @@ void func_8008DDE8(void *state, void *motion, void *sprite, void *actor) {
     if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) {
         anim_table = D_800DCFB0;
         (*(u8 **)((u8 *)sprite + (0x2C))) = anim_table;
-        func_80048A44(sprite, anim_table[((s32) (D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0, 1);
-        global_state = (s32 *)&dungeonStatus.unk_00;
-        if (((S_8008DDE8_4 *)global_state)->unk_10 == (actor - 0x20)) {
-            ((S_8008DDE8_4 *)global_state)->unk_10 = (s32) (((S_8008DDE8_4 *)global_state)->unk_10 & 0x7FFFFFFF);
+        func_80048A44(sprite, anim_table[((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0, 1);
+        if (((s32)dungeonStatus.unk_10) == (actor - 0x20)) {
+            dungeonStatus.unk_10 = (s32) (((s32)dungeonStatus.unk_10) & 0x7FFFFFFF);
         }
         if (((Rec_D_800E3D7C *)actor)->unk_28 == 0) {
             if (D_800E296C & 0x08000000) {

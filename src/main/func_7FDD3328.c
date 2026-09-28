@@ -1,3 +1,4 @@
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 
 struct S_80083178Vector
@@ -85,7 +86,6 @@ typedef struct Menu
   u16 shade;
   u16 flags;
 } Menu;
-extern Pad D_80083160;
 extern u8 D_80080A84;
 extern u8 D_80080A8A;
 extern s32 D_80080A94;
@@ -128,7 +128,7 @@ void func_8008A288(Menu *menu)
   s32 blue;
   s32 scaled_b;
   D_80080A84 = 1;
-  pad = &D_80083160;
+  pad = ((Pad *)&gameWork);
   switch (menu->state)
   {
     case 0:

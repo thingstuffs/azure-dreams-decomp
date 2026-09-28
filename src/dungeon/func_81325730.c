@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
 typedef struct {
@@ -48,7 +49,6 @@ typedef struct {
 extern DungeonEntryTable D_800E3D7C;
 extern u8 D_8016B778[];
 extern volatile u16 D_80013714;
-extern s16 D_80083228[];
 extern u8 D_801746B4[];
 extern u8 D_800F93AA[];
 
@@ -97,7 +97,7 @@ phase1:
     state->unk96 = 0;
     state->unk9b = state->unk9b + 1;
     animation->unk2c = D_801746B4;
-    func_80047784(animation, D_801746B4[(((s32)D_80083228[0] + actor->unk2a + 0x100) >> 9) & 7], 0);
+    func_80047784(animation, D_801746B4[(((s32)gameWork.viewAngle + actor->unk2a + 0x100) >> 9) & 7], 0);
 
 phase2:
     state->unk96 = state->unk96 + 1;

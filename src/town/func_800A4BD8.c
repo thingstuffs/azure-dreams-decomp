@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 
 typedef struct TownObject {
@@ -7,7 +8,6 @@ typedef struct TownObject {
     u8 *field_40;
 } TownObject;
 
-extern u8 D_80083160[0xAB];
 
 /* Flags inactive objects; otherwise copies shared bytes and invokes the callback. */
 void func_800A2338(TownObject *object, s32 unused, u8 *output) {
@@ -22,8 +22,8 @@ void func_800A2338(TownObject *object, s32 unused, u8 *output) {
         }
     }
 
-    output[0xC] = D_80083160[0xA8];
-    output[0xD] = D_80083160[0xA9];
-    output[0xE] = D_80083160[0xAA];
+    output[0xC] = gameWork.unk_0A8;
+    output[0xD] = gameWork.unk_0A9;
+    output[0xE] = gameWork.unk_0AA;
     object->callback();
 }

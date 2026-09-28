@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "records/Rec_func_80024170_arg0.h"
 
 typedef struct S_80024170_0 {
@@ -54,7 +55,6 @@ extern void *func_8003FC64(s32);
 extern s32 func_8004491C(void *, void *);
 extern s32 rand(void);
 extern u8 D_80024044[9];
-extern u8 D_80045340[9];
 extern u8 D_800DE720[9];
 
 /* Creates an effect at the supplied position with a randomized sprite angle. */
@@ -90,7 +90,7 @@ s32 func_80024170(Rec_func_80024170_arg0 *owner, void *source_position)
         sprite->unk_1A = random_value - ((rounded_random >> 0xC) << 0xC);
         sprite->unk_1E = 0x400;
         sprite->unk_1C = 0x400;
-        func_8004491C(effect, D_80045340);
+        func_8004491C(effect, func_80045340);
         position = ((S_80024170_0 *)effect)->unk_08;
         *(Copy6 *)position = *(Copy6 *)source_position;
         initial_z = position->unk_08;

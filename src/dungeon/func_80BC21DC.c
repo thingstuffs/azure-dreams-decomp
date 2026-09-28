@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800814A8.h"
 
@@ -33,7 +34,6 @@ extern void func_801743F0(void *, void *, void *, void *);
 extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern s8 D_80082EA4;
-extern s16 D_80083228;
 extern s8 D_800E2970[];
 extern void *D_80170808[];
 extern s32 D_801719DC;
@@ -128,7 +128,7 @@ void func_801719DC(void *motion_in, void *context_in, void *entity_in, void *act
         anim_table = D_8017467C;
         (*(void * *)((u8 *)entity_in + (0x2C))) = anim_table;
         func_80047784(entity_in,
-            ((u8 *)anim_table)[((D_80083228 + ((S_801719DC_1 *)actor_in)->unk_2A + 0x100) >> 9) & 7],
+            ((u8 *)anim_table)[((gameWork.viewAngle + ((S_801719DC_1 *)actor_in)->unk_2A + 0x100) >> 9) & 7],
             0);
         return;
     }
@@ -168,7 +168,7 @@ void func_801719DC(void *motion_in, void *context_in, void *entity_in, void *act
                 if (current_anim != anim_table) {
                     (*(void * *)((u8 *)entity_in + (0x2C))) = anim_table;
                     func_80047784(entity_in,
-                        ((u8 *)anim_table)[((D_80083228 + ((S_801719DC_1 *)actor_in)->unk_2A + 0x100) >> 9) & 7],
+                        ((u8 *)anim_table)[((gameWork.viewAngle + ((S_801719DC_1 *)actor_in)->unk_2A + 0x100) >> 9) & 7],
                         1);
                     ((S_801719DC_2 *)entity_in)->unk_05 = 1;
                     motion_value = ((S_801719DC_0 *)motion_in)->unk_A4.at00.v;
@@ -332,7 +332,7 @@ generic:
         if (((S_801719DC_2 *)entity_in)->unk_2C != anim_table) {
             (*(void * *)((u8 *)entity_in + (0x2C))) = anim_table;
             func_80047784(entity_in,
-                ((u8 *)anim_table)[((D_80083228 + ((S_801719DC_1 *)actor_in)->unk_2A + 0x100) >> 9) & 7],
+                ((u8 *)anim_table)[((gameWork.viewAngle + ((S_801719DC_1 *)actor_in)->unk_2A + 0x100) >> 9) & 7],
                 1);
             ((S_801719DC_2 *)entity_in)->unk_05 = 1;
             motion_value = ((S_801719DC_0 *)motion_in)->unk_A4.at00.v;

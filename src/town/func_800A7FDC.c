@@ -1,6 +1,6 @@
 #include "common.h"
+#include "shared/game_work.h"
 
-extern u8 D_80083160[];
 extern s32 D_800A5A98;
 extern s16 D_800D01F8[];
 extern u8 D_80100D98[];
@@ -14,7 +14,7 @@ extern void func_800A48B0(void *, void *);
 
 /* Turn the entity toward its target angle and update its directional sprite. */
 void func_800A573C(void *entity, void *transform, void *sprite) {
-    u8 *input_state;
+    GameWork *input_state;
     void *transform_arg;
     s32 direction;
     s32 current_angle;
@@ -22,18 +22,18 @@ void func_800A573C(void *entity, void *transform, void *sprite) {
     s32 turn_step;
 
     transform_arg = transform;
-    input_state = D_80083160;
+    input_state = &gameWork;
     func_80095544(transform_arg);
     {
         void *entity_type;
 
         entity_type = *(void **)entity;
-        if (entity_type == (u8 *)&D_800A5A98 && (*(s32 *)(input_state + 8) & 0x2000)) {
+        if (entity_type == (u8 *)&D_800A5A98 && (((s32)input_state->unk_008) & 0x2000)) {
             target_angle = *(s16 *)((u8 *)entity + 0x10);
             current_angle = *(s16 *)((u8 *)entity + 0x18);
             target_angle -= 0x200;
             turn_step = 0x200;
-        } else if (entity_type == (u8 *)&D_800A5A98 && (*(s32 *)(input_state + 8) & 0x8000)) {
+        } else if (entity_type == (u8 *)&D_800A5A98 && (((s32)input_state->unk_008) & 0x8000)) {
             target_angle = *(s16 *)((u8 *)entity + 0x10);
             current_angle = *(s16 *)((u8 *)entity + 0x18);
             target_angle += 0x200;

@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 
@@ -23,7 +24,6 @@ __asm__(".set D_80080000, 0x80080000");
 void func_800489F4(); /* extern */
 extern void *D_800814A8[3];
 extern u8 D_80082E80[];
-extern s16 D_80083228[5];
 extern u8 D_80080000[];
 
 /* Applies a direction-indexed table entry in state 2 and sets record and global flags. */
@@ -37,7 +37,7 @@ void func_80170A54(void *record_data) {
         if (((S_80170A54_0 *)state_data)->unk_04 != 2)
             goto done;
         direction_entry = ((u8 **)state_data)[0xB][
-                 (((s32) (D_80083228[0] +
+                 (((s32) (gameWork.viewAngle +
                           active_object->unk_2A +
                           0x100) >> 9) & 7)];
         func_800489F4(state_data, direction_entry,

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_800A9E70_arg0.h"
@@ -49,7 +50,6 @@ void func_801759A0(); /* extern */
 extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern u16 D_80082EA4;
-extern s16 D_80083228;
 typedef struct {
     u8 pad0[0xC];
     u16 flags;
@@ -125,21 +125,21 @@ block_9:
         goto block_109;
     }
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80175E84;
-    func_80047784(sprite, ((u8 *)&D_80175E84)[((s32) (D_80083228 + ((Rec_D_800E3D7C *)state)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
+    func_80047784(sprite, ((u8 *)&D_80175E84)[((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)state)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
     return;
 block_11:
     if (((S_801724BC_2 *)sprite)->unk_2C == &D_80175E5C) {
         goto block_109;
     }
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80175E8C;
-    func_80047784(sprite, ((u8 *)&D_80175E8C)[((s32) (D_80083228 + ((Rec_D_800E3D7C *)state)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
+    func_80047784(sprite, ((u8 *)&D_80175E8C)[((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)state)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
     return;
 block_13:
     if (((S_801724BC_2 *)sprite)->unk_2C == &D_80175E64) {
         goto block_109;
     }
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80175E94;
-    func_80047784(sprite, ((u8 *)&D_80175E94)[((s32) (D_80083228 + ((Rec_D_800E3D7C *)state)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
+    func_80047784(sprite, ((u8 *)&D_80175E94)[((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)state)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
     return;
 block_15:
     if (!(((Rec_D_800E3D7C *)state)->unk_1C.as_s32 & 0x200)) {
@@ -220,19 +220,19 @@ block_36:
     case 0xD:
         if (((S_801724BC_2 *)sprite)->unk_2C != &D_80175E24) {
             (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80175E24;
-            func_80047784(sprite, ((u8 *)&D_80175E24)[((s32) (D_80083228 + ((Rec_D_800E3D7C *)state)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
+            func_80047784(sprite, ((u8 *)&D_80175E24)[((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)state)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
         }
         break;
     case 0xE:
         if (((S_801724BC_2 *)sprite)->unk_2C != &D_80175E2C) {
             (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80175E2C;
-            func_80047784(sprite, ((u8 *)&D_80175E2C)[((s32) (D_80083228 + ((Rec_D_800E3D7C *)state)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
+            func_80047784(sprite, ((u8 *)&D_80175E2C)[((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)state)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
         }
         break;
     case 0xF:
         if (((S_801724BC_2 *)sprite)->unk_2C != &D_80175E34) {
             (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80175E34;
-            func_80047784(sprite, ((u8 *)&D_80175E34)[((s32) (D_80083228 + ((Rec_D_800E3D7C *)state)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
+            func_80047784(sprite, ((u8 *)&D_80175E34)[((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)state)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
         }
         break;
     default:
@@ -456,7 +456,7 @@ block_107:
     }
 block_108:
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = next_row;
-    func_80047784(sprite, *(u8 *)((unsigned long)(((s32) (D_80083228 + ((Rec_D_800E3D7C *)state)->unk_2A.as_s16 + 0x100) >> 9) & 7) + (unsigned long)next_row), 0);
+    func_80047784(sprite, *(u8 *)((unsigned long)(((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)state)->unk_2A.as_s16 + 0x100) >> 9) & 7) + (unsigned long)next_row), 0);
 block_109:
     return;
 }

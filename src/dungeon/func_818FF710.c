@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
@@ -44,7 +45,6 @@ extern Packed12 D_80025E40;
 extern Packed12 D_80025E58;
 extern Packed12 D_80025E70;
 extern M2C_UNK D_80025E80;
-extern M2C_UNK D_80045340;
 extern u8 D_800DDC40[];
 extern u8 D_800E3D68;
 
@@ -438,7 +438,7 @@ set_launch_position:
     if ((*(u8 *)((u8 *)effect + 0x7A)) & 4) {
         goto check_launch;
     }
-    func_8004491C(effect - 0x20, &D_80045340);
+    func_8004491C(effect - 0x20, func_80045340);
     ((S_818FF710_1 *)sprite)->unk_10 = 0x60;
     ((S_818FF710_1 *)sprite)->unk_0C.at02.v = 0x14;
     ((S_818FF710_1 *)sprite)->unk_0C.at01.v = 0x14;
@@ -646,7 +646,7 @@ check_spawn_tick:
     }
     child_effect->unk_02 = 0x78;
     (*(M2C_UNK **)((u8 *)first_object + 0x10)) = &D_800246F8;
-    func_8004491C(first_object, &D_80045340);
+    func_8004491C(first_object, func_80045340);
     first_sprite = (*(void **)((u8 *)first_object + 0xC));
     first_sprite->unk_06 = 0;
     first_sprite->unk_14 |= 0xC;
@@ -678,7 +678,7 @@ spawn_second:
     }
     child_effect->unk_02 = 0x78;
     (*(M2C_UNK **)((u8 *)second_object + 0x10)) = &D_80024780;
-    func_8004491C(second_object, &D_80045340);
+    func_8004491C(second_object, func_80045340);
     second_sprite = (*(void **)((u8 *)second_object + 0xC));
     second_sprite->unk_14 &= 0xFFF3;
     second_sprite->unk_10 = 0x20;
@@ -712,7 +712,7 @@ spawn_third:
     }
     child_effect->unk_02 = 0x78;
     (*(M2C_UNK **)((u8 *)third_object + 0x10)) = &D_800245EC;
-    func_8004491C(third_object, &D_80045340);
+    func_8004491C(third_object, func_80045340);
     second_sprite = (S_818FF710_18 *)(*(void **)((u8 *)third_object + 0xC));
     ((S_818FF710_21 *)((void *)second_sprite))->unk_06 = 0;
     ((S_818FF710_21 *)((void *)second_sprite))->unk_14 &= 0xFFF3;
@@ -741,7 +741,7 @@ spawn_fourth:
         goto finish_spawn;
     }
     particle_owner = fourth_object;
-    sprite_resource = (void *) &D_80045340;
+    sprite_resource = (void *) func_80045340;
     ASM_KEEP_NV(sprite_resource);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     child_effect->unk_2C = parent;
     linked_target = ((S_818FF710_2 *)parent)->unk_60;

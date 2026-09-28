@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 #define U8_AT(p, o)  (*(u8 *)((u8 *)(p) + (o)))
 #define S8_AT(p, o)  (*(s8 *)((u8 *)(p) + (o)))
@@ -16,7 +17,6 @@ extern void SetTransMatrix(void *m);
 extern void RotTransSV(void *in, void *out, void *flag);
 extern void DrawPrim(void *p);
 extern u8 D_800777AC[];
-extern void *D_80083160[3];
 
 /* Draw the sprite list as textured quads with optional horizontal and vertical flips. */
 void func_8003D0F0(void)
@@ -37,10 +37,10 @@ void func_8003D0F0(void)
     s32 height;
 
     transform_flag = (u8 *)0x1F800094;
-    context = (u8 *)D_80083160[0];
+    context = (u8 *)gameWork.unk_000;
     scratch = (u8 *)0x1F800000;
     prim = *(u8 **)(context + 0x8D0);
-    contexts = (u8 **)D_80083160;
+    contexts = (u8 **)((void * *)(&gameWork));
     U32_AT(scratch, 0x48) = 0;
     U16_AT(scratch, 0x8C) = 0;
     U16_AT(scratch, 0x84) = 0;

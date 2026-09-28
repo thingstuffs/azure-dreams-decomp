@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 typedef s32 M2C_UNK;
 
@@ -7,7 +8,6 @@ extern void *func_8003FC64();
 extern M2C_UNK func_8004491C();
 extern s32 rand();
 extern M2C_UNK D_8002418C;
-extern M2C_UNK D_80045340;
 extern M2C_UNK D_800DEDB0[3];
 
 /* Creates and initializes an effect with a randomized offset from the source position. */
@@ -37,7 +37,7 @@ void func_8185CA1C(s32 effect_param, void *source_pos)
             (u16)(*((u16 *)(((s8 *)sprite) + 0x10)) | 0x60);
         *((u16 *)(((s8 *)sprite) + 0x14)) =
             (u16)(*((u16 *)(((s8 *)sprite) + 0x14)) | 0x10C);
-        func_8004491C(effect, &D_80045340);
+        func_8004491C(effect, func_80045340);
         effect_pos = *((void **)(((s8 *)effect) + 8));
         rand();
         *((u16 *)(((s8 *)effect_pos) + 2)) =

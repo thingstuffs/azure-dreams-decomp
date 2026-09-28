@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
 
 
@@ -14,7 +15,6 @@ extern s32 func_80098C80(s32);
 extern void func_8009F644(void *, s32, s16, s32);
 
 extern s32 D_80082EB0;
-extern s16 D_80083228;
 extern u8 D_800DD130[];
 
 /* Initializes object state and its directional display, then dispatches an action. */
@@ -30,7 +30,7 @@ void func_8008DB0C(void *obj, s32 unused, void *display, s32 mode, u16 variant) 
     saved_mode = mode;
     func_80048A44(
         display,
-        direction_table[((D_80083228 + ((Rec_func_8008ACDC_arg0 *)obj)->unk_2A + 0x100) >> 9) & 7],
+        direction_table[((gameWork.viewAngle + ((Rec_func_8008ACDC_arg0 *)obj)->unk_2A + 0x100) >> 9) & 7],
         0,
         1);
 

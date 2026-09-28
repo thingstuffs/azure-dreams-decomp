@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct S_8008E94C_Sub {
     s32 f0;
@@ -14,12 +15,11 @@ typedef struct S_80083160_View {
     S_8008E94C_Sub sub;
 } S_80083160_View;
 
-extern S_80083160_View D_80083160;
 
 /* Compute the map entry address from masked tile coordinates. */
 s32 func_8008C0AC(s32 tile_x, s32 tile_y)
 {
-    S_80083160_View *map_state = &D_80083160;
+    S_80083160_View *map_state = ((S_80083160_View *)&gameWork);
     S_8008E94C_Sub *map_layout = &map_state->sub;
     s32 tile_index;
 

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -11,7 +12,6 @@ extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
 extern s16 func_800BCB04(u16, u16, s16);
 
-extern s16 D_80083228;
 extern u8 D_800E2380[8];
 extern u8 D_800E2388[8];
 extern u8 D_80170838[16];
@@ -80,7 +80,7 @@ initialize:
 start_animation:
     (*(u8 **)((u8 *)sprite + 0x2C)) = D_800E2380;
     func_80047784(sprite,
-        D_800E2380[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+        D_800E2380[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
         0);
     ((S_801737F8_0 *)action)->unk_96.u = 0;
     ((S_801737F8_0 *)action)->unk_9B++;
@@ -117,7 +117,7 @@ finish_animation:
         ((S_801737F8_0 *)action)->unk_98 |= 8;
         (*(u8 **)((u8 *)sprite + 0x2C)) = D_800E2388;
         func_80047784(sprite,
-            D_800E2388[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            D_800E2388[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
         return;
     }

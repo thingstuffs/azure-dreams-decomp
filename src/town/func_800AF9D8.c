@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 
-extern u8 D_80083160[];
 extern s16 func_80046C20(s16 *, s32 *, u16 *);
 extern void func_8006658C(void *, void *);
 extern void func_80067F20(void *, s32, s32, s32, void *);
@@ -139,11 +139,11 @@ void func_800AD138(u32 packet_limit)
 
     (*(s16 *)((u8 *)scratch + 0x180)) = -0x1000;
 
-    state = D_80083160;
+    state = ((u8 *)(&gameWork));
     map_bounds = state + 0x1DC;
     (*(s16 *)((u8 *)scratch + 0x17C)) = 0;
     (*(s16 *)((u8 *)scratch + 0x17E)) = 0;
-    render_state = *(u8 **)D_80083160;
+    render_state = *(u8 **)((u8 *)(&gameWork));
     x_shift = ((S_800AD138_0 *)map_bounds)->unk_14;
     initial_size = 0x01000100;
     y_shift = ((S_800AD138_0 *)map_bounds)->unk_16;

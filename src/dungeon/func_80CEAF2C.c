@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "records/Rec_D_800E3D7C.h"
 
 typedef struct S_8017472C_0 {
@@ -73,7 +74,6 @@ extern void func_80171928();
 
 extern u8 D_8006DE24[];
 extern void *D_800814A8;
-extern s16 D_80083228;
 extern s32 D_80083460;
 extern s32 D_8008346C;
 extern void *D_80170850[];
@@ -314,7 +314,7 @@ table_ready:
         (*(u8 * *)((u8 *)sprite + 0x2C)) = anim_table;
         func_80047784(
             sprite,
-            *(u8 *)((((D_80083228 + ((S_8017472C_1 *)actor)->unk_2A + 0x100) >> 9) & 7) + (u32)anim_table),
+            *(u8 *)((((gameWork.viewAngle + ((S_8017472C_1 *)actor)->unk_2A + 0x100) >> 9) & 7) + (u32)anim_table),
             0);
     }
 

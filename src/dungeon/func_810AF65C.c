@@ -57,7 +57,6 @@ void func_80172E5C(S810AF65C_0 *animation, S810AF65C_1 *motion,
     s32 velocity_x;
     s32 velocity_y;
     s32 biased_y;
-    s32 *global_state;
 
     timer = animation->field_96 - 1;
     direction = ((u16)actor->field_6a >> 9) & 7;
@@ -173,9 +172,8 @@ reset:
     motion->field_10 = 0;
     motion->field_0c = 0;
     func_800A2B04(motion, tile->field_24, tile->field_25);
-    global_state = ((s32 *)(&dungeonStatus));
-    if (global_state[4] == (s32)((u8 *)actor - 0x20)) {
-        global_state[4] = global_state[4] & 0x7fffffff;
+    if (((s32)dungeonStatus.unk_10) == (s32)((u8 *)actor - 0x20)) {
+        dungeonStatus.unk_10 = ((s32)dungeonStatus.unk_10) & 0x7fffffff;
     }
     animation->field_8c = D_80170E54;
 

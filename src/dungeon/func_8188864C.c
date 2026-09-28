@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct S_80025E4C_0 {
     u8 pad_00[0x18];
@@ -68,11 +69,10 @@ typedef struct GlobalState {
     void *next;
 } GlobalState;
 
-extern GlobalState *D_80083160[];
 
 /* Project linked quads and queue their shaded primitives and draw modes by depth. */
 s32 func_80025E4C(void *quad) {
-    GlobalState **render_states = D_80083160;
+    GlobalState **render_states = ((GlobalState * *)(&gameWork));
     u8 *scratch = (u8 *)0x1F800000;
     void *packet;
     u32 depth_bucket;

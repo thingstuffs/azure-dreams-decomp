@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 typedef struct S_80024A98_0 {
     u8 pad_00[0x8];
@@ -45,7 +46,6 @@ extern void func_800254C4();
 extern s16 rand();
 
 extern u8 D_80024A00[];
-extern u8 D_80045340[];
 extern u8 D_800DE938[];
 
 /* Creates a visual node at the supplied coordinates with 16 evenly spaced radial effects. */
@@ -60,7 +60,7 @@ void *func_80024A98(S_80024A98_2 *source_coords)
     node = func_8003FC64(0x202);
     if (node != 0) {
         node->unk_10 = D_80024A00;
-        func_8004491C(node, D_80045340);
+        func_8004491C(node, func_80045340);
         coords = node->unk_08;
         coords->unk_02 = source_coords->unk_02;
         coords->unk_06 = source_coords->unk_06;

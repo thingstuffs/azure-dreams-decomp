@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct {
     s16 unk0;
@@ -13,12 +14,11 @@ typedef struct {
     s16 mapShift;
 } DungeonState;
 
-extern DungeonState D_80083160;
 
 /* Sets map cell flags or cycles the selected flag fields. */
 void func_8009A21C(s16 x, s16 y, u16 flags)
 {
-    DungeonState *state = &D_80083160;
+    DungeonState *state = ((DungeonState *)&gameWork);
     MapCell *cell;
     u16 cycled_flags;
     u16 new_flags;

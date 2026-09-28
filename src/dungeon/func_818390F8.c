@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct {
     s16 x;
@@ -60,7 +61,6 @@ typedef struct {
     s16 frame;
 } RenderRecord;
 
-extern GlobalState D_80083160;
 extern s32 func_80065420(SVECTOR *, s16 *, s32 *, s32 *);
 extern void func_800666F4(POLY_FT4 *);
 extern void func_80066640(POLY_FT4 *, s32);
@@ -72,7 +72,7 @@ s32 func_818390F8(RenderRecord *render_record, PositionFields *position)
 {
     SVECTOR world_point;
     s16 screen[4];
-    GlobalState *render_state = &D_80083160;
+    GlobalState *render_state = ((GlobalState *)&gameWork);
     s16 *screen_base = screen;
     s32 half_width;
     s32 *projection_out = &half_width;

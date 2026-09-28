@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
 
@@ -7,7 +8,6 @@ M2C_UNK func_8003DB94();  /* extern */
 void *func_8003FC64(s32);               /* extern */
 M2C_UNK func_8004491C();           /* extern */
 s32 rand();                           /* extern */
-extern M2C_UNK D_80045340;
 extern M2C_UNK D_800A86BC;
 extern M2C_UNK D_800F15AC;
 
@@ -82,7 +82,7 @@ void *func_800A878C(S_800A878C_2 *source_motion, u32 flags) {
         motion = ((S_800A878C_0 *)effect)->unk_08;
         sprite = ((S_800A878C_0 *)effect)->unk_0C;
         ((S_800A878C_0 *)effect)->unk_10 = &D_800A86BC;
-        func_8004491C(effect, &D_80045340);
+        func_8004491C(effect, func_80045340);
         direction_index = direction;
         motion->unk_02 = (s16) (source_motion->unk_02 - (dirStepX[direction_index] * 0x10));
         direction_y = &dirStepY[direction_index];

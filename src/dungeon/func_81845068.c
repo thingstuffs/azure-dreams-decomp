@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct Packed8 {
     u32 word0;
@@ -16,7 +17,6 @@ typedef union Scratch {
     u8 byte;
 } Scratch;
 
-extern u8 D_80083160[];
 
 extern s32 func_80065420(Packed8 *, Coord *, Coord *, Coord *);
 extern s32 func_80066460(s32, s32, s32, s32);
@@ -40,7 +40,7 @@ s32 func_81845068(u8 *first_node)
     u8 *node;
     u8 *effect_node;
     u8 *next_link;
-    u8 *render_state;
+    GameWork *render_state;
     u8 *alloc_ctx;
     u8 *alloc_ctx_2;
     u8 *ot_ctx;
@@ -65,7 +65,7 @@ s32 func_81845068(u8 *first_node)
 
     u32 tag_mask;
     node = first_node;
-    render_state = D_80083160;
+    render_state = &gameWork;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     uv_choices[0] = 0xA0;
     do { uv_choices[1] = 0x80; } while (0);

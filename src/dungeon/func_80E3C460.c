@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 
 typedef struct S_80175C60_0 {
@@ -25,7 +26,6 @@ typedef struct S_80175C60_2 {
 } S_80175C60_2;   /* arg2 in func_80175C60 */
 
 
-extern s16 D_80083228;
 
 
 /* Advance motion and rotation, update facing, and flag the object when its timer expires. */
@@ -62,7 +62,7 @@ void func_80175C60(void *object, void *motion_data, void *rotation)
     {
         u16 facing_test;
 
-        facing = ((((s32)(D_80083228 + *((S_80175C60_1 *)object)->unk_00 + 0x100) >> 9) & 7) + 2) << 9;
+        facing = ((((s32)(gameWork.viewAngle + *((S_80175C60_1 *)object)->unk_00 + 0x100) >> 9) & 7) + 2) << 9;
         facing_test = facing;
         ((S_80175C60_2 *)rotation)->unk_18 = facing;
         if ((facing_test == 0x400) || (facing_test == 0xC00)) {

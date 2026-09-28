@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 extern s16 D_8006ADD4[5];
-extern u8 D_80083160[];
 extern s32 D_80090A64;
 extern s32 D_80091260;
 extern s32 D_80091528;
@@ -24,7 +24,7 @@ extern void func_80096868(void *, void *, void *);
 extern void func_800A48B0(void *, void *);
 
 void func_8009065C(void *arg0, void *arg1, void *arg2) {
-    u8 *base = D_80083160;
+    GameWork *base = &gameWork;
     void *callback;
     s32 initial_flags;
     s32 flags;
@@ -36,8 +36,8 @@ void func_8009065C(void *arg0, void *arg1, void *arg2) {
     if (D_80100DB0[0] != 0) {
         goto after_initial;
     }
-    if (*(u16 *)(base + 0xC8) >= 0x800) {
-        *(s16 *)(base + 0xC8) |= 0xF000;
+    if (((u16)base->viewAngle) >= 0x800) {
+        base->viewAngle |= 0xF000;
     }
 
     callback = *(void **)arg0;
@@ -70,17 +70,17 @@ inactive_callback:
     if (D_8006ADD4[0] != 12) {
         goto movement_path;
     }
-    initial_flags = *(s32 *)(base + 8);
+    initial_flags = ((s32)base->unk_008);
     if (initial_flags & 8) {
-        *(s16 *)(base + 0xC8) -= 0x20;
-        if (*(s16 *)(base + 0xC8) < -0x1E0) {
-            *(s16 *)(base + 0xC8) = -0x1E0;
+        base->viewAngle -= 0x20;
+        if (base->viewAngle < -0x1E0) {
+            base->viewAngle = -0x1E0;
             goto after_initial;
         }
     } else if (initial_flags & 4) {
-        *(s16 *)(base + 0xC8) += 0x20;
-        if (*(s16 *)(base + 0xC8) > 0x1E0) {
-            *(s16 *)(base + 0xC8) = 0x1E0;
+        base->viewAngle += 0x20;
+        if (base->viewAngle > 0x1E0) {
+            base->viewAngle = 0x1E0;
             goto after_initial;
         }
     } else {
@@ -97,16 +97,16 @@ low_height:
     movement = func_8003BD84(*(s32 *)((u8 *)arg1 + 0xC),
                              *(s32 *)((u8 *)arg1 + 0x10));
     if (movement == 0) {
-        *(s16 *)(base + 0xC8) =
-            (*(u16 *)(base + 0xC8) + 8) & 0xFFF0;
+        base->viewAngle =
+            (((u16)base->viewAngle) + 8) & 0xFFF0;
     }
     movement /= 0x10000;
-    flags = *(s32 *)(base + 8);
+    flags = ((s32)base->unk_008);
     if (flags & 8) {
-        *(s16 *)(base + 0xC8) -= 0x10 + movement;
+        base->viewAngle -= 0x10 + movement;
     }
     if (flags & 4) {
-        *(s16 *)(base + 0xC8) += 0x10 + movement;
+        base->viewAngle += 0x10 + movement;
     }
 
 after_initial:

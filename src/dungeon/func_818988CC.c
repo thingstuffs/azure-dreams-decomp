@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 typedef struct S_800240CC_0 {
     u8 pad_00[0xC];
@@ -36,7 +37,6 @@ extern void func_8004491C(void *, void *);
 
 extern u8 D_80024024[];
 extern u8 D_80024E88[];
-extern u8 D_80045340[];
 
 /* Creates a sprite object with random rotation and copies its initial data. */
 void *func_800240CC(void *context, Copy24 *copy_src, s16 initial_value)
@@ -65,7 +65,7 @@ void *func_800240CC(void *context, Copy24 *copy_src, s16 initial_value)
         sprite->scale_y = 0x800;
         sprite->scale_x = 0x800;
 
-        func_8004491C(obj, D_80045340);
+        func_8004491C(obj, func_80045340);
         dst = obj->dst;
         *dst = *copy_src;
         return obj;

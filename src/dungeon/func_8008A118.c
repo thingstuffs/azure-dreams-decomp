@@ -77,7 +77,6 @@ void func_8008F878(S_8008F878_0 *action, void *unused, S_8008F878_1 *action_data
     s32 saved_value;
     S_8008F878_3 *target;
     S_8008F878_4 *target_flags;
-    S_8008F878_7 *shared_state;
 
     state = action->unk_9B;
     if (state == 1) {
@@ -114,15 +113,14 @@ void func_8008F878(S_8008F878_0 *action, void *unused, S_8008F878_1 *action_data
 state_1:
     if (action_data->unk_14 & 0x6000) {
         action->unk_9B = 2U;
-        shared_state = &dungeonStatus.unk_00;
-        shared_state->unk_02 = (u16) (shared_state->unk_02 | 0x412);
+        dungeonStatus.flags = (u16) (dungeonStatus.flags | 0x412);
         func_80099F70(actor->unk_5C);
         func_80099F04(actor->unk_5C);
         if (((S_8008F878_2 *)(&D_800DD25C))->unk_00.p != NULL) {
             ((S_8008F878_8 *)(((S_8008F878_2 *)(&D_800DD25C))->unk_00.p))->unk_6D = 0;
         }
         action->unk_8C = &D_8008ACDC;
-        shared_state->unk_0A = (u16) (shared_state->unk_0A - 1);
+        dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
     }
 done:
     return;

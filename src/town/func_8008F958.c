@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct Vec8 {
     u32 xy;
@@ -53,7 +54,6 @@ typedef struct TargetGlobal {
     TargetMap map;
 } TargetGlobal;
 
-extern TargetGlobal D_80083160;
 extern u8 D_800CFCAC[];
 extern s32 D_800FE480;
 extern s32 D_800FE484;
@@ -98,7 +98,7 @@ s32 func_8008D0B8(u32 query_x, u32 query_y, s16 query_height, void **plane_out)
     scratch->best = 0x400;
     scratch->result = (void *)D_800CFCAC;
     masked_y = query_y & 0x3F;
-    globals = &D_80083160;
+    globals = ((TargetGlobal *)&gameWork);
     world = &globals->map;
     {
         u32 masked_x;

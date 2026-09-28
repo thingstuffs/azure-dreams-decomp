@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct {
     u16 field_0;
@@ -6,7 +7,6 @@ typedef struct {
     u16 field_4;
 } DungeonCell;
 
-extern s16 D_8008333C[12];
 extern DungeonCell D_800EA000[];
 
 /* Returns the first nonzero field_4 in a rectangle, zero if none, or -1 for invalid bounds. */
@@ -25,7 +25,7 @@ s32 func_80017584(s16 start_x, s16 start_y, s16 width, s16 height) {
     if ((shifted_x >> 16) <= 0) {
         goto ret_err;
     }
-    config = D_8008333C;
+    config = ((s16 *)(&gameWork.unk_1DC));
     if (row + height >= (1 << config[11])) {
         return -1;
     }

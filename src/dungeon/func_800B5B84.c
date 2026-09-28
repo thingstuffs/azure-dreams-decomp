@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct S_800BB2E4_0 {
     u8 pad_00[0x8D0];
@@ -31,7 +32,6 @@ extern s32 func_80067E2C();
 extern s32 func_80067EF4();
 extern s32 func_800B8FC8();
 
-extern u8 D_80083160[];
 extern u8 D_801C9E40[16];
 
 
@@ -48,8 +48,8 @@ void func_800BB2E4(s32 *line_start, s32 *line_end, u8 *rect, s16 fill, s32 conte
     s32 y;
     s16 odd;
 
-    state_addr = (u8 **)D_80083160;
-    state = *(u8 **)D_80083160;
+    state_addr = (u8 **)((u8 *)(&gameWork));
+    state = *(u8 **)((u8 *)(&gameWork));
     ordering_table = state + 0x8B0;
     odd = state != D_801C9E40;
 
@@ -62,7 +62,7 @@ void func_800BB2E4(s32 *line_start, s32 *line_end, u8 *rect, s16 fill, s32 conte
         bottom_center.x = ((S_800BB2E4_1 *)rect)->unk_00 + (s16)((S_800BB2E4_1 *)rect)->unk_04 / 2;
         bottom_center.y = ((S_800BB2E4_1 *)rect)->unk_02.u + ((S_800BB2E4_1 *)rect)->unk_06;
         func_800B8FC8(content_id, rect, &bottom_center, 0, 0);
-        buf = *(u8 **)D_80083160;
+        buf = *(u8 **)((u8 *)(&gameWork));
         primitive = ((S_800BB2E4_0 *)buf)->unk_8D0;
         ((S_800BB2E4_0 *)buf)->unk_8D0 = primitive + 0xC;
         func_80067EF4(primitive, 1, 0);
@@ -81,7 +81,7 @@ void func_800BB2E4(s32 *line_start, s32 *line_end, u8 *rect, s16 fill, s32 conte
         ((S_800BB2E4_2 *)packet)->unk_04.at03.v = 0x40;
         func_8006658C(ordering_table, packet);
 
-        buf = *(u8 **)D_80083160;
+        buf = *(u8 **)((u8 *)(&gameWork));
         primitive = ((S_800BB2E4_0 *)buf)->unk_8D0;
         ((S_800BB2E4_0 *)buf)->unk_8D0 = primitive + 0xC;
         func_80067EF4(primitive, 0, 0);

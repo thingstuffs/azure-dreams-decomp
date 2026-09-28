@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
 typedef void (*Callback)();
@@ -12,7 +13,6 @@ extern void func_800AA36C();
 extern s16 func_800BCB04();
 
 extern u8 D_8006CCF8[];
-extern s16 D_80083228;
 extern u8 D_800D8C64;
 extern u8 D_800E260C[];
 extern Callback D_800E264C[];
@@ -140,7 +140,7 @@ void func_800D8728(void *entity_data, void *motion_data, void *monster_data)
 
     model_flags = monster->unk_14;
     if (!(model_flags & 0x8000)) {
-        direction_sector = (D_80083228 + entity->unk_2A + 0x100) >> 9;
+        direction_sector = (gameWork.viewAngle + entity->unk_2A + 0x100) >> 9;
         state_direction = direction_sector & 7;
         lookup_direction = state_direction;
         compare_direction = state_direction;
@@ -190,7 +190,7 @@ void func_800D8728(void *entity_data, void *motion_data, void *monster_data)
             s32 hop_direction_offset;
             entity->unk_98 |= 1;
             *(u8 **)((u8 *)monster + 0x2C) = D_800E260C;
-            hop_direction_offset = ((D_80083228 + actor->unk_2A + 0x100) >> 7) & 0x1C;
+            hop_direction_offset = ((gameWork.viewAngle + actor->unk_2A + 0x100) >> 7) & 0x1C;
             func_8003DB94(monster, *(void **)(D_800E260C + hop_direction_offset), 0);
         }
 

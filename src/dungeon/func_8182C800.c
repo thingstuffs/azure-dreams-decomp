@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
@@ -209,7 +210,6 @@ __asm__(".globl func_80024000\n.size func_80024000,3396");
 #endif
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern u8 D_80045340[];
 extern u8 D_80083498[];
 extern u8 D_800DEC28[];
 extern u8 D_800DEC00[];
@@ -375,7 +375,7 @@ state_launch:
             ((S_8182C800_5 *)motion)->unk_04.at00.v = (s32) (((S_8182C800_23 *)(owner_object->unk_08))->unk_04 + (frame.sp3A << 0x10));
             ((S_8182C800_5 *)motion)->unk_08 = (s32) (((S_8182C800_23 *)(owner_object->unk_08))->unk_08.at00.v + (frame.sp3C << 0x10));
             object = effect - 0x20;
-            func_8004491C(object, D_80045340);
+            func_8004491C(object, func_80045340);
             ((S_8182C800_6 *)sprite_or_step_x)->unk_1E = 0x1000;
             ((S_8182C800_6 *)sprite_or_step_x)->unk_1C = 0x1000;
             launch_texture = &D_800DEBD8;

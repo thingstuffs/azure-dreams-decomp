@@ -76,7 +76,6 @@ void func_80173724(void *anim_state, void *motion, void *sprite, void *entity) {
     u32 sound_x;
     u32 sound_y;
     u8 brightness;
-    void *world_state;
 
     phase = ((S_80173724_0 *)anim_state)->unk_9B;
     direction_offset = ((u16) ((S_80173724_1 *)entity)->unk_6A >> 8) & 0xE;
@@ -147,11 +146,10 @@ jt_c4:
     if ((s16)next_brightness >= 0x18) {
         goto block_20;
     }
-    world_state = &dungeonStatus.unk_00;
-    if (((S_80173724_4 *)world_state)->unk_10 != (entity - 0x20)) {
+    if (((s32)dungeonStatus.unk_10) != (entity - 0x20)) {
         goto block_17;
     }
-    ((S_80173724_4 *)world_state)->unk_10 &= 0x7FFFFFFF;
+    *(s32 *)&dungeonStatus.unk_10 &= 0x7FFFFFFF;
 block_17:
     func_800A2FE0(entity, phase, direction_x, direction_y);
     func_800A32A4(entity);

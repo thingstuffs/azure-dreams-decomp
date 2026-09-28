@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 typedef struct S_80158894_0 {
     u8 pad_00[0x13];
@@ -49,7 +50,6 @@ extern void func_800A9C18(void *, void *, void *, s16);
 extern void func_800AA36C(void *, void *, void *, void *);
 
 extern u8 D_80083498[];
-extern u8 D_80045340[];
 extern u8 D_80158E9C[];
 extern u8 D_8015CED8[];
 extern u8 D_8015CF00[];
@@ -86,7 +86,7 @@ void *func_80158894(s16 flags, s32 kind_id, s32 variant, s32 spawn_value)
     }
     result = (u8 *)created + 0x20;
     ((S_80158894_0 *)result)->unk_13 = 0xE;
-    func_8004491C(created, D_80045340);
+    func_8004491C(created, func_80045340);
 
     position = ((S_80158894_1 *)created)->unk_08;
     ((S_80158894_2 *)position)->unk_0A = part_ptr;

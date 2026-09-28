@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -16,7 +17,6 @@ s32 func_800A04F0(void *, u8, u8, s16);
 s32 func_800A2B5C(void *);
 s32 func_800A2CB8(void *, s32);
 void func_800C7930(void *, s32, s32, s32);
-extern s16 D_80083228;
 extern u8 D_80173FB8[];
 
 /* Checks action eligibility and updates the actor state and directional animation on success. */
@@ -89,7 +89,7 @@ success:
     ASM_KEEP(state_flag);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     (*(u8 **)((u8 *)sprite + 0x2C)) = D_80173FB8;
     func_80047784(sprite,
-        D_80173FB8[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+        D_80173FB8[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
         0);
     ((Rec_D_800E3D7C *)actor)->unk_6D.as_u8 = (u8) (((Rec_D_800E3D7C *)actor)->unk_6D.as_u8 - 1);
     func_8009C93C(actor, sprite, ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16, 1, 0);

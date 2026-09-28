@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct {
     s32 unk0;
@@ -16,7 +17,6 @@ typedef struct {
 
 extern void func_80094984(void *arg0, Entity *arg1);
 
-extern u8 D_80083160[];
 extern u8 D_800D0190[];
 extern u8 D_800D0088[];
 extern s32 D_800D0620;
@@ -26,7 +26,7 @@ extern u8 D_8009B014[];
 /* Update the entity state and handler from global flags and the signed counter. */
 void func_8009AE88(Entity *input_entity, s32 unused_1, s32 unused_2) {
     Entity *entity = input_entity;
-    GlobalState *state = (GlobalState *)D_80083160;
+    GlobalState *state = (GlobalState *)((u8 *)(&gameWork));
     s32 state_or_handler;
     s32 adjustment;
 

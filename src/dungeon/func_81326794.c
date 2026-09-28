@@ -29,7 +29,6 @@ void func_8016DF94(void) {
     u8 *map_data;
     u8 *entry;
     u8 *entry_page;
-    u8 *status;
     u8 *state_page;
 
     entry_slot = 0;
@@ -43,14 +42,13 @@ void func_8016DF94(void) {
     *(s16 *)(state_page + 0x371A) = 0;
     *(s16 *)(state_page + 0x3718) = 0;
     *(s16 *)(state_page + 0x3716) = 0;
-    status = ((u8 *)(&dungeonStatus));
-    status_count = *(u16 *)(status + 0xA);
+    status_count = ((u16)dungeonStatus.unk_0A);
     state_flags = *(u16 *)(state_page + 0x3714);
     ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     map_base = (s32)D_80174704;
     status_count--;
     state_flags |= 9;
-    *(u16 *)(status + 0xA) = status_count;
+    dungeonStatus.unk_0A = status_count;
     lookup_key = D_800834E2;
     state_flags &= 0xFFEF;
     state_value = D_801748C8[(lookup_key >> 9) & 7];

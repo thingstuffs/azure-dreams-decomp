@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_func_800A9E70_arg0.h"
@@ -11,7 +12,6 @@ extern void func_800478B8(void *arg0);
 extern void func_800ACB98(void *arg0, s32 arg1, void *arg2, void *arg3);
 extern void func_800ACD74(void *arg0, s32 arg1, void *arg2, void *arg3);
 
-extern s16 D_80083228;
 extern s16 D_800DCE68;
 extern u8 D_8006CCF8[8];
 
@@ -36,7 +36,6 @@ typedef struct S_800A9E70_3 {
 
 /* Updates entity facing and applies pending animation changes. */
 s32 func_800A9E70(Rec_func_800A9E70_arg0 *anim, s32 action_arg, S_800A9E70_2 *sprite, Rec_D_800E3D7C *entity) {
-    u8 *interaction_state;
     void *active_entity;
     s32 entity_flags;
     s32 direction;
@@ -44,7 +43,7 @@ s32 func_800A9E70(Rec_func_800A9E70_arg0 *anim, s32 action_arg, S_800A9E70_2 *sp
     u16 action_flags;
 
     if (entity->unk_14.as_s32 & 0x100000) {
-        direction = ((D_80083228 + entity->unk_2A.as_s16 + 0x100) >> 9) & 7;
+        direction = ((gameWork.viewAngle + entity->unk_2A.as_s16 + 0x100) >> 9) & 7;
         if (anim->unk_94 != direction) {
             if (func_800A9E38(entity) != 0) {
                 func_8003DB94(sprite, sprite->unk_2C.p[direction],
@@ -79,7 +78,7 @@ s32 func_800A9E70(Rec_func_800A9E70_arg0 *anim, s32 action_arg, S_800A9E70_2 *sp
 
     if (!(sprite->unk_14 & 0x8000)) {
         if (anim->unk_98 & 0x400) {
-            direction = ((D_80083228 + entity->unk_2A.as_s16 + 0x100) >> 9) & 7;
+            direction = ((gameWork.viewAngle + entity->unk_2A.as_s16 + 0x100) >> 9) & 7;
             if (func_800A9E38(entity) != 0) {
                 func_8003DB94(sprite, sprite->unk_2C.p[direction],
                               sprite->unk_04);
@@ -103,14 +102,13 @@ s32 func_800A9E70(Rec_func_800A9E70_arg0 *anim, s32 action_arg, S_800A9E70_2 *sp
                     }
                     goto update_anim;
                 }
-                interaction_state = ((u8 *)(&dungeonStatus));
-                active_entity = ((S_800A9E70_3 *)interaction_state)->unk_0C;
+                active_entity = dungeonStatus.unk_0C;
                 if (active_entity != entity) {
-                    if ((((S_800A9E70_3 *)interaction_state)->unk_10 == 0) && (active_entity == 0) &&
-                        (((S_800A9E70_3 *)interaction_state)->unk_08 == 0) &&
-                        !(((S_800A9E70_3 *)interaction_state)->unk_02 & 0x2008) &&
+                    if ((((s32)dungeonStatus.unk_10) == 0) && (active_entity == 0) &&
+                        (dungeonStatus.unk_08 == 0) &&
+                        !(dungeonStatus.flags & 0x2008) &&
                         (entity->unk_43 == 0xFD)) {
-                        ((S_800A9E70_3 *)interaction_state)->unk_0C = entity;
+                        dungeonStatus.unk_0C = entity;
                         goto check_active_entity;
                     }
                 } else {

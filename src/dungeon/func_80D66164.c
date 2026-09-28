@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
 
@@ -13,7 +14,6 @@ extern void func_800AA36C(void *, void *, void *, void *);
 extern s16 func_800BCB04(u16, u16, s16);
 
 extern u8 D_8006CCF8[];
-extern s16 D_80083228[];
 extern u8 D_800E2348[];
 extern void D_80171F1C(void *, void *, void *, void *);
 extern Callback D_8017664C[];
@@ -114,7 +114,7 @@ void func_80171964(void *object_arg, void *motion_arg, void *part_arg)
         s16 page_index;
         u8 *page_table;
 
-        view_direction = (D_80083228[0] + ((S_80171964_2 *)base)->unk_2A + 0x100) >> 9;
+        view_direction = (gameWork.viewAngle + ((S_80171964_2 *)base)->unk_2A + 0x100) >> 9;
         direction_index = view_direction & 7;
         page_index = direction_index;
         if ((*(s16 *)((u8 *)object_arg + (0x94))) != (s16)page_index) {

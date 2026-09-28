@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 typedef struct S_800244BC_0 {
     u8 pad_00[0x20];
@@ -44,7 +45,6 @@ typedef struct S_800244BC_4 {
 extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *);
 extern s32 D_80024398[];
-extern s32 D_80045340[];
 
 /* Creates an object at the supplied position and initializes its state and appearance. */
 void func_800244BC(s32 state_value, S_800244BC_3 *source_pos)
@@ -62,7 +62,7 @@ void func_800244BC(s32 state_value, S_800244BC_3 *source_pos)
         state->unk_2A = 0x27;
         state->unk_20 = state_value;
         ((S_800244BC_1 *)object)->unk_10 = D_80024398;
-        func_8004491C(object, D_80045340);
+        func_8004491C(object, func_80045340);
         position = ((S_800244BC_1 *)object)->unk_08;
         position->unk_00 = source_pos->unk_00;
         position->unk_04 = source_pos->unk_04;

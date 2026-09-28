@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -23,7 +24,6 @@ extern void func_800A2B04();
 extern void func_800AAA54();
 extern void func_800AD4D0();
 
-extern s16 D_80083228;
 extern u8 D_80170E5C[];
 extern u8 D_80173D0C[];
 extern s32 D_80173D24;
@@ -46,7 +46,6 @@ void func_80172EF4(void *action, void *motion, void *sprite, void *actor)
     s32 target_y;
     s32 offset_y;
     s32 actor_ref;
-    s32 *global_state;
 
     direction = (((Rec_D_800E3D7C *)actor)->unk_6A.as_u16 >> 9) & 7;
 
@@ -145,13 +144,12 @@ increment_state:
 
         (*(void * *)((u8 *)sprite + 0x2C)) = D_80173D0C;
         func_80047784(sprite,
-            D_80173D0C[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            D_80173D0C[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
 
-        global_state = &dungeonStatus.unk_00;
-        actor_ref = global_state[4];
+        actor_ref = ((s32)dungeonStatus.unk_10);
         if (actor_ref == (s32)((u8 *)actor - 0x20)) {
-            global_state[4] = actor_ref & 0x7FFFFFFF;
+            dungeonStatus.unk_10 = actor_ref & 0x7FFFFFFF;
         }
         ((S_80172EF4_1 *)action)->unk_8C = D_80170E5C;
         return;

@@ -109,8 +109,7 @@ extern s8 D_800E2970[];
 /* Updates an actor's movement path, trying alternate directions around obstacles. */
 void func_8017163C(void *move_ctx_in, void *action_ctx, void *position_in, void *actor_in)
 {
-    u8 *dungeon_state = (u8 *)&dungeonStatus.unk_00;
-    u16 dungeon_flags = ((S_8017163C_0 *)dungeon_state)->unk_02;
+    u16 dungeon_flags = dungeonStatus.flags;
     s32 near_target = 0;
     register s16 stop_turning;
     s32 actor_flags;
@@ -141,7 +140,7 @@ reject_state:
     return;
 
 accept_state:
-    if (((S_8017163C_0 *)dungeon_state)->unk_0C == actor_in) {
+    if (dungeonStatus.unk_0C == actor_in) {
         ((S_8017163C_1 *)actor_in)->unk_46 = 0xC008;
     }
     return;
@@ -349,11 +348,10 @@ loop_test:
     }
 
     {
-        u8 *dungeon_counters = (u8 *)&dungeonStatus.unk_00;
         ((S_8017163C_1 *)actor_in)->unk_46 &= 0x7FFF;
         ((S_8017163C_5 *)move_ctx_in)->unk_9C.u = ((S_8017163C_2 *)position_in)->unk_26.u;
         ((S_8017163C_1 *)actor_in)->unk_6D.u--;
-        ((S_8017163C_6 *)dungeon_counters)->unk_08++;
+        dungeonStatus.unk_08++;
     }
     if (((S_8017163C_1 *)actor_in)->unk_6D.s == 0) {
 success:

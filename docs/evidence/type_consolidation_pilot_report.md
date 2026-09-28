@@ -161,3 +161,65 @@ D_80016000 313, D_80082E80 290, D_80083498 284, D_800814A8 236, D_800E3D7C 199, 
 
 ## Tool calls
 Phase 2 used about 50 tool calls.
+
+---
+
+# Phase 3 report (r78)
+
+Model: claude-opus-5-5[1m]. No edits to src/include/config/tools, no git, no landers. Busy rows are the 3
+listed in `BUSY_ROWS3.txt` plus the live one-hour rule in apply3.sh.
+
+## Deliverables
+- `apply3.sh` + `payload3/`:
+  - `include/shared/game_work.h` and `include/shared/slus_callbacks.h` are new; the earlier headers are
+    unchanged.
+  - `names_add.tsv`: `D_80083160 -> gameWork`.
+- `cand3f/<container>/*.c` + `.base_sha` and `cand3f/MANIFEST.tsv`: 1,487 rows, each verify-exact in the lane.
+  - By binary: dungeon 1,274, town 159, slus 42, main 11, ovmovie 1.
+  - apply3.sh is resumable in the same way as apply2.
+  - Dry run: `preflight: 1487 rows to land, 0 skipped`.
+- `p3_sample_rows.txt`: 40 rows across all five binaries (slus 6, main 6, ovmovie 1, town 12, dungeon 15),
+  covering every plan kind. Use `apply3.sh --rows work/native_lane/r78_types_pilot/p3_sample_rows.txt`.
+- Tools, written back to the lane (sync into tools/consolidate/):
+  - `tools/consolidate.py`: `emit_field`, `rewrite_pointers`, `rewrite_funcaddr`, struct-tag and opaque views
+  - `tools/drive3.py`: the pointer fold in every plan, and the ptr-only rows
+  - `tools/layout.py`: layout from a census
+  - `tools/drive_ptr.py`
+  - `tools/pins2.py`: now takes PINRES/PINCAND/PINOUT
+  - `objects/gameWork.json`, `objects/func_80045340.json`, `objects/dungeonStatus.json` (+type)
+- Evidence:
+  - `census/g83160w.jsonl`, `census/g83160_layout.json`, `census/g45340.jsonl`, `census/g83228.jsonl`
+  - `results/p3_*.jsonl`
+  - `results/pins3.jsonl`
+
+## Rows
+| work item | rows exact | notes |
+|---|---|---|
+| local-pointer fold onto dungeonStatus | 313 (287 direct, 26 typed) | 22 rows keep their pointer (a use the fold does not understand, several different assignments, or a register pin) |
+| GameWork gameWork (0x80083160..0x8008335F, incl. D_80083228 -> gameWork.viewAngle, D_800832B4 -> unk_154, D_80083350 -> unk_1F0, ...) | 967 (dungeon 803, town 110, slus 42, main 11, ovmovie 1); 110 of them also fold a gameWork pointer (78 typed, 32 direct) | 147 still hold a `(u8 *)&gameWork` view pointer the fold could not take |
+| D_80045340 -> func_80045340 | 434 of 442 | 1 register-allocation miss (dungeon/func_80E0D090, by 9); 1 combined declaration line (town/func_800CB660); 2 index/arithmetic uses; 3 no local declaration |
+
+Not migrated:
+- 36 rows verified not exact are listed in `p3_miss_rows.txt`: mostly SLUS 2.7.2-cdk rows declaring
+  `void *D_80083160[3]` and friends, D_8008333C views, and 2 D_80083178 mixes.
+- 235 rows were refused: 215 have no code reference; the rest have no local declaration, an unparsed foreign view
+  (GridInfo, Palette, GlobalSlot, ...), or a combined declaration.
+
+**No clean two-declarations case.** Unlike 0x800814A0, the gameWork misses do not split into a scalar class, and
+the aggregate/scalar A/B on 0x80083228 found no row that needs the scalar. Nothing is kept on D_ for that reason.
+
+## Pins
+- **dungeon/func_80DE9000** (2.7.2-cdk-G0): `register void *arg3_part ASM_REG("17")` (line 118). Erased alone, the
+  row is byte-exact at its registered cell, on the migrated text and on the current tree text alike. It is
+  removable today, independent of the type change. Evidence: `results/pins3.jsonl` (`tree_also_exact: true`).
+  Cell-only checking does not apply.
+- No other pin in the 350 pinned migrated rows falls, singly or all together.
+- Folding a register-pinned pointer to the object removed no pin.
+
+## Next objects
+See DESIGN section 16. First: D_80083178, which is gameWork + 0x18 and would retire game.h's provisional
+S_80083178. Then D_80016000 (313), D_80082E80 (290), D_80083498 (284), D_800814A8 (236), D_800E3D7C (199) and
+D_80083780 (177).
+
+## Tool calls
+Phase 3 used about 75 tool calls.

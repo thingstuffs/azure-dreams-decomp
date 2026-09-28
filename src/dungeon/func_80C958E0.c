@@ -30,7 +30,6 @@ void func_801730E0(S_801730E0_0 *state, Rec_D_800E3D7C *motion, Rec_D_80082E80 *
     s16 phase;
     u16 ticks_left;
     s16 wait_ticks;
-    s32 *entity_slots;
     u8 *next_script;
 
     phase = state->unk_9B;
@@ -106,9 +105,8 @@ finish_action:
         motion->unk_10.at00_s32.v = 0;
         motion->unk_0C.as_s32 = 0;
         func_800A2B04(motion, action->unk_24, action->unk_25);
-        entity_slots = ((s32 *)(&dungeonStatus));
-        if (entity_slots[4] == (entity - 0x20)) {
-            entity_slots[4] = entity_slots[4] & 0x7FFFFFFF;
+        if (((s32)dungeonStatus.unk_10) == (entity - 0x20)) {
+            dungeonStatus.unk_10 = ((s32)dungeonStatus.unk_10) & 0x7FFFFFFF;
         }
         next_script = D_8017102C;
         state->unk_8C = next_script;

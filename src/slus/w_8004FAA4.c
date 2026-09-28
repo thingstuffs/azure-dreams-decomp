@@ -1,5 +1,6 @@
 /* first_pass: swept 49 configs, best 2.7.2-cdk '-fno-delayed-branch' 89 words off — do NOT re-sweep by hand */
 #include "common.h"
+#include "shared/game_work.h"
 #include "m2c_compat.h"
 
 typedef struct S_8004FAA4_0 {
@@ -30,7 +31,6 @@ M2C_UNK func_8004FA2C();
 s32 func_8004FD78();
 M2C_UNK SD_Call();
 extern void *D_800814A8[];
-extern M2C_UNK D_80083160[8];
 
 /* Update menu selection from directional and side-switch input, with key repeat and sound. */
 void func_8004FAA4(S_8004FAA4_1 *menu) {
@@ -42,7 +42,7 @@ void func_8004FAA4(S_8004FAA4_1 *menu) {
     s32 held_buttons;
     s32 index_delta;
 
-    input = D_80083160;
+    input = ((M2C_UNK *)(&gameWork));
     index_delta = 0;
     if ((((S_8004FAA4_0 *)input)->unk_08.s != 0) && (menu->unk_24 >= 2)) {
         if (((S_8004FAA4_0 *)input)->unk_08.s & 0xA000) {

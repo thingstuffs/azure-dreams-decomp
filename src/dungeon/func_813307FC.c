@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 #ifndef NULL
 #define NULL 0
@@ -15,7 +16,6 @@ typedef struct {
 extern M2C_UNK func_8003DB94();
 extern void *func_8003FC64();
 extern M2C_UNK func_8004491C();
-extern M2C_UNK D_80045340;
 extern u8 D_800DEAE0[];
 extern LocalTable D_8016482C;
 extern M2C_UNK D_80167540[3];
@@ -105,7 +105,7 @@ void func_801677FC(void)
             effect_state->unk_18 = 0xE;
             effect_state->unk_1A = 0xE;
             ((S_801677FC_2 *)effect)->unk_10 = D_80167540;
-            func_8004491C(effect, &D_80045340);
+            func_8004491C(effect, func_80045340);
             render_flags = ((S_801677FC_2 *)effect)->unk_0C;
             render_flags->unk_10 = 0x60;
             render_flags->unk_14 =

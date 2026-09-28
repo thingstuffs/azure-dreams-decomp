@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
@@ -80,12 +82,9 @@ typedef struct S_801749A8_7 {
 } S_801749A8_7;   /* temp_s0_2 in func_801749A8 */
 
 
-extern s16 D_80083228[5];
 extern s32 D_8006CD58[];
 extern s32 D_8003E140[];
 struct S_8003E2D8; typedef struct S_8003E2D8 S_8003E2D8;
-extern struct S_8003E2D8 D_80083160;
-extern u8 D_80045340[];
 extern u8 D_8014A000[];
 extern s16 D_80174F48[];
 extern void *D_80170870[];
@@ -134,9 +133,8 @@ void func_801749A8(void *sequence, Rec_D_800E3D7C *position, Rec_D_80082E80 *act
     S_801749A8_2 *object;
     S_801749A8_7 *sprite;
     void *model;
-    u16 *effect_counts;
 
-    object = &D_80083160;
+    object = ((struct S_8003E2D8 *)&gameWork);
     state = ((S_801749A8_0 *)sequence)->unk_9B;
     ready = state < 9U;
     if (ready == 0) {
@@ -152,7 +150,7 @@ jt_c1:
     ((S_801749A8_0 *)sequence)->unk_9B = (u8) (((S_801749A8_0 *)sequence)->unk_9B + 1);
     ((Rec_D_80082E80 *)target)->unk_8A = (u16) ((Rec_D_80082E80 *)target)->unk_28.at02_u16.v;
 jt_c2:
-    direction = ((s32) (*D_80083228 + (s16) ((Rec_D_80082E80 *)target)->unk_28.at02_u16.v + 0x100) >> 9) & 7;
+    direction = ((s32) (gameWork.viewAngle + (s16) ((Rec_D_80082E80 *)target)->unk_28.at02_u16.v + 0x100) >> 9) & 7;
     if (D_80174FCC[0] == 0) {
         goto turn_target;
     }
@@ -202,7 +200,7 @@ jt_c4:
         goto done;
     }
     object->unk_10.s = &D_8017487C;
-    func_8004491C(object, D_80045340);
+    func_8004491C(object, func_80045340);
     ((S_801749A8_0 *)sequence)->unk_A4 = object;
     ((S_801749A8_10 *)(((S_801749A8_8 *)object)->unk_08))->unk_00 = (s32) position->unk_00.at00_s32.v;
     ((S_801749A8_10 *)(((S_801749A8_8 *)object)->unk_08))->unk_04 = (s32) position->unk_04.at00_s32.v;
@@ -259,7 +257,7 @@ jt_c7:
     ((S_801749A8_11 *)(((Rec_D_80082E80 *)target)->unk_60.as_pv))->unk_2A = (u16) ((Rec_D_80082E80 *)target)->unk_28.at02_u16.v;
     model = ((Rec_D_80082E80 *)target)->unk_60.as_pv;
     sprite = ((S_801749A8_6_pre *)model)[-1].unk_00;
-    func_80047738(sprite, *(sprite->unk_2C + (((s32) (*D_80083228 + (s16) ((S_801749A8_6 *)model)->unk_2A + 0x100) >> 9) & 7)), sprite->unk_04);
+    func_80047738(sprite, *(sprite->unk_2C + (((s32) (gameWork.viewAngle + (s16) ((S_801749A8_6 *)model)->unk_2A + 0x100) >> 9) & 7)), sprite->unk_04);
     sprite->unk_14 = (u16) (sprite->unk_14 & 0xFFFE);
 jt_c8:
     ticks_left = ((S_801749A8_0 *)sequence)->unk_96 - 1;
@@ -270,8 +268,7 @@ jt_c8:
     ((S_801749A8_11 *)(((Rec_D_80082E80 *)target)->unk_60.as_pv))->unk_2A = (u16) ((Rec_D_80082E80 *)target)->unk_8A;
     ((S_801749A8_0_pre *)sequence)[-1].unk_00 = (u16) (((S_801749A8_0_pre *)sequence)[-1].unk_00 | 0x8000);
     objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
-    effect_counts = (u16 *)((s32 *)(&dungeonStatus));
-    effect_counts[5] = (u16)(effect_counts[5] - 1);
+    dungeonStatus.unk_0A = (u16)(((u16)dungeonStatus.unk_0A) - 1);
     ((Rec_D_80082E80 *)target)->unk_6D = 0;
 done:
     return;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 
 extern void *func_8003FD64(s32, void *);
@@ -10,7 +11,6 @@ extern void func_800AA36C(void *, void *, void *, void *);
 extern void func_80170A94(void);
 extern void func_801710EC(void);
 
-extern s32 D_80045340;
 extern u8 D_80083498[];
 extern u8 D_801708B4[];
 extern u8 D_801714C8[];
@@ -113,7 +113,7 @@ void *func_801708B4(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 height)
         entity_data = (u8 *)entity + 0x20;
         ((S_801708B4_0 *)entity)->unk_10 = func_80170A94;
         ((S_801708B4_1 *)entity_data)->unk_13 = 2;
-        func_8004491C(entity, &D_80045340);
+        func_8004491C(entity, func_80045340);
 
         position = ((S_801708B4_0 *)entity)->unk_08;
         position->unk_0A = saved_height;

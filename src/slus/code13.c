@@ -1,3 +1,4 @@
+#include "shared/game_work.h"
 /* gcc 2.8.1 -O2 — own TU (func_8004D09C: callback fwd-decl conflict) */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -20,21 +21,12 @@ typedef struct {
 } InStruct;
 
 /* Destination global struct; only offsets 0xBC/0xBE/0xC0 are written. Size forces hi/lo access. */
-typedef struct {
-    u8 pad[0xBC];
-    u16 unkBC;
-    u16 unkBE;
-    u16 unkC0;
-} D_80083160_t;
-
-extern D_80083160_t D_80083160;
-
 /* Copies three nested 16-bit fields into the global state. */
 void func_8004D09C(InStruct *object)
 {
     SrcStruct *source = object->unk20;
 
-    D_80083160.unkBC = source->unk2;
-    D_80083160.unkBE = source->unk6;
-    D_80083160.unkC0 = source->unkA;
+    gameWork.unk_0BC = source->unk2;
+    gameWork.unk_0BE = source->unk6;
+    gameWork.unk_0C0 = source->unkA;
 }

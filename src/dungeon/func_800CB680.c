@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dir_step.h"
 
 typedef struct {
@@ -6,7 +7,6 @@ typedef struct {
     u16 flags;
 } DungeonTile;
 
-extern s16 D_8008333C[16];
 extern DungeonTile D_800EA000[2];
 
 extern s16 func_800D0FBC(void);
@@ -16,7 +16,7 @@ extern s16 func_800D175C(s16, s16);
 
 /* Marks and processes up to ten eligible tiles in each perpendicular direction, returning the total. */
 s16 func_800D0DE0(s32 direction, s32 origin_x, s32 origin_y) {
-    register s16 *settings = D_8008333C;
+    register s16 *settings = ((s16 *)(&gameWork.unk_1DC));
     s16 second_stopped = 0;
     s16 first_stopped = 0;
     s16 plus_dir = (direction + 2) & 7;

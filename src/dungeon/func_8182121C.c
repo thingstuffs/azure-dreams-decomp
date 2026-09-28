@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct S_8182121C_0 {
     u32 unk_00;
@@ -42,7 +43,6 @@ typedef struct {
     u8 *cur;
 } RenderCtx;
 
-extern u8 D_80083160[];
 
 extern s32 func_80065420();
 extern s32 func_80066460();
@@ -70,7 +70,7 @@ s32 func_8182121C(void *first_item)
     u32 ot_tag;
 
     list_item = first_item;
-    render_context = (RenderCtx *)D_80083160;
+    render_context = (RenderCtx *)((u8 *)(&gameWork));
 
     do {
         item_data = list_item;

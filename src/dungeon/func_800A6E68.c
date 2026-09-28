@@ -122,10 +122,8 @@ state_2:
     }
     func_8009A21C(tile_x, tile_y, force);
     {
-        D_80083460_t *status;
 
-        status = ((D_80083460_t *)&dungeonStatus);
-        status->field_A--;
+        dungeonStatus.unk_0A--;
     }
     {
         u16 saved_angle;

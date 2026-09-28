@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 
 #ifndef NULL
@@ -108,7 +109,6 @@ extern s32 func_800644B8(s32);
 extern s32 rand(void);
 
 extern u8 D_80024ACC[];
-extern u8 D_80045340[];
 extern u8 D_80082E80[];
 extern u8 D_80083498[];
 extern u8 D_80083780[];
@@ -221,7 +221,7 @@ void func_8002466C(void *effect)
             particle = func_8003FD64(0x312, D_80083498);
             if (particle != NULL) {
                 ((S_8002466C_6 *)particle)->unk_10 = particle_data;
-                func_8004491C(particle, D_80045340);
+                func_8004491C(particle, func_80045340);
                 sprite = ((S_8002466C_6 *)particle)->unk_0C;
                 ((S_8002466C_10 *)(((S_8002466C_6 *)particle)->unk_08))->unk_00 =
                     ((S_8002466C_0 *)effect)->unk_1C.at00.v +

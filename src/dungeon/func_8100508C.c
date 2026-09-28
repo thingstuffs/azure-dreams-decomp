@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 
 typedef s32 M2C_UNK;
@@ -49,7 +50,6 @@ extern s32 func_800A6D30(void);
 extern void func_800A48F0();
 extern void func_800A9C18();
 extern void func_800AA36C();
-extern s32 D_80045340;
 extern u8 D_80083498[];
 extern u8 D_80170A78[];
 extern M2C_UNK D_80171058;
@@ -80,7 +80,7 @@ void *func_8017088C(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
         work = (u8 *)obj + 0x20;
         ((S_8017088C_0 *)obj)->unk_10 = D_80170A78;
         work->unk_13 = 0x29;
-        func_8004491C(obj, &D_80045340);
+        func_8004491C(obj, func_80045340);
 
         part_a = ((S_8017088C_0 *)obj)->unk_08;
         part_a->unk_0A = saved_arg3;

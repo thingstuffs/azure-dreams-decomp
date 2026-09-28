@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct Scratch
 {
@@ -32,7 +33,6 @@ typedef struct Arg1
   u8 pad8[2];
   u16 unkA;
 } Arg1;
-extern u8 D_80083160[];
 extern u32 func_80065420();
 extern u32 func_80066460();
 extern void func_80067F20();
@@ -42,9 +42,9 @@ s32 func_81875828(Arg0 *node, Arg1 *coords)
   Arg1 *input = coords;
   u32 high_mask = 0xFF000000;
   register Scratch *scratch ASM_REG("$17") = (Scratch *) 0x1F800000;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-  u8 **state_slot = (u8 **) D_80083160;
+  u8 **state_slot = (u8 **) ((u8 *)(&gameWork));
   u32 low_mask = 0x00FFFFFF;
-  u8 *state = *((u8 **) D_80083160);
+  u8 *state = *((u8 **) ((u8 *)(&gameWork)));
   u8 *initial_current;
   u16 second_coord;
   u16 third_coord;

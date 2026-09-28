@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "m2c_compat.h"
 
 typedef struct S_800F65CC_0 {
@@ -35,7 +36,6 @@ struct S_80082E60 {
 };
 typedef struct S_80082E60 S_80082E60;
 extern s16 *D_800F8A44[];
-extern struct S_8003E2D8 D_80083160;
 extern struct S_80082E60 D_80082E60;
 extern volatile s16 D_80013714[8];
 extern u8 D_80013720[];
@@ -61,7 +61,7 @@ void func_800F65CC(void) {
     S_800F65CC_0 *effect;
     S_800F65CC_2 *entry;
 
-    world_state = &D_80083160;
+    world_state = ((struct S_8003E2D8 *)&gameWork);
     entry_info = (s16 *)((u8 *)world_state + 0x1DC);
     entries_base = world_state->field_1DC;
     index = 1;

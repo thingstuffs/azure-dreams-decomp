@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 /* D_80083160: shared state table (own view here); only the s16 field at
  * +0xC8 is read via this view. */
@@ -7,12 +8,11 @@ struct S_800C56BC {
     s16 unkC8;
 };
 
-extern struct S_800C56BC D_80083160;
 
 /* Quantizes the wrapped angle from the shared heading plus a quarter turn into sectors. */
 s32 func_800C2E1C(s32 referenceAngle, s16 sectorCount)
 {
-    struct S_800C56BC *sharedState = &D_80083160;
+    struct S_800C56BC *sharedState = ((struct S_800C56BC *)&gameWork);
     s16 effectiveSectorCount;
     s32 sectorAngle;
     s32 roundedAngle;

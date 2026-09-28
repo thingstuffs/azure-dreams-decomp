@@ -26,7 +26,6 @@ extern void func_800478B8(void *);
 void func_800C5A64(void *effect, s32 *motion, void *primitive)
 {
     s16 remaining;
-    u8 *counter_base;
 
     motion[0] += motion[3];
     motion[1] += motion[4];
@@ -45,8 +44,7 @@ void func_800C5A64(void *effect, s32 *motion, void *primitive)
     if ((remaining << 16) <= 0) {
         if ((((S_800C5A64_1 *)effect)->unk_0C == 0) &&
             (((S_800C5A64_1 *)effect)->unk_1C == 0)) {
-            counter_base = (u8 *)&dungeonStatus.unk_00;
-            ((S_800C5A64_2 *)counter_base)->unk_0A--;
+            dungeonStatus.unk_0A--;
         }
         (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
         objectFlagBlock.flags |= 0x8000;

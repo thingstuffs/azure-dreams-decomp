@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 #ifndef NULL
 #define NULL 0
@@ -58,7 +59,6 @@ extern void *func_8003FC64();
 extern void func_8004491C();
 extern s32 rand();
 extern u8 D_80026B00[];
-extern u8 D_80045340[];
 extern u8 D_800F7944[];
 
 /* Spawns a gray sprite effect at a randomized offset from the origin. */
@@ -77,7 +77,7 @@ void func_80026978(S_80026978_1 *origin)
     effect = func_8003FC64(0x136);
     if (effect != NULL) {
         ((S_80026978_0 *)effect)->unk_10 = D_80026B00;
-        func_8004491C(effect, D_80045340);
+        func_8004491C(effect, func_80045340);
         transform = ((S_80026978_0 *)effect)->unk_08;
         sprite = ((S_80026978_0 *)effect)->unk_0C;
         effect_state = (S_80026978_3 *)((u8 *)effect + 0x20);

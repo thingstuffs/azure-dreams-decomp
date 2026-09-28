@@ -5,6 +5,7 @@
 #endif
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/game_work.h"
 #include "m2c_compat.h"
 extern u8 D_8006CD10[];
 
@@ -36,7 +37,6 @@ M2C_UNK func_8006658C();         /* extern */
 M2C_UNK func_800666F4();                 /* extern */
 u16 func_800BCB04();                   /* extern */
 extern M2C_UNK D_8006CD30[8];
-extern struct S_8003E2D8 D_80083160;
 extern s32 D_800E296C[3];
 extern u8 D_800E3648[128];
 typedef struct DebugEntry {
@@ -133,9 +133,9 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void * volatile render_params)
   void *part_header;
   void *entry_flags;
   void *render_state;
-  ASM_KEEP_MEM_NV(transform_flags, *((void **) (((s8 *) (&D_80083160)) + 0)));   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+  ASM_KEEP_MEM_NV(transform_flags, *((void **) (((s8 *) (((struct S_8003E2D8 *)&gameWork))) + 0)));   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
   scratch = (u8 *) 0x1F800000;
-  render_state = *((void **) (((s8 *) (&D_80083160)) + 0));
+  render_state = *((void **) (((s8 *) (((struct S_8003E2D8 *)&gameWork))) + 0));
   camera_state = ((u8 *) (&D_80083178)) - 0x18;
   ASM_KEEP(scratch);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
   sprite_yaw = *((u16 *) (((s8 *) camera_state) + 0xC4));
@@ -321,7 +321,7 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void * volatile render_params)
         camera_state = (u8 *)(render_params);
         *((u16 *) (scratch + 0x100)) = (s16) ((*((u16 *) (((s8 *) (void *)camera_state) + 0x16))) + (((s32) (pitch_bits << 0x10)) >> 0x11));
         sprite_yaw = *((u16 *) (((s8 *) (void *)camera_state) + 0x1A));
-        camera_state = (u8 *)&D_80083160;
+        camera_state = (u8 *)((struct S_8003E2D8 *)&gameWork);
         ASM_USE_NV(camera_state);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         view_yaw = camera_yaw;
         *((u16 *) (scratch + 0x104)) = (s16) ((*((u16 *) (((s8 *) camera_state) + 0xB8))) + (sprite_yaw - view_yaw));
@@ -462,7 +462,7 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void * volatile render_params)
               }
               transform_dst = scratch + 0x100;
               world_matrix_arg = rotation_matrix;
-              camera_state = (u8 *) (&D_80083160);
+              camera_state = (u8 *) (((struct S_8003E2D8 *)&gameWork));
               scale_component = shadow_scale[2];
               *((u16 *) (scratch + 0x102)) = 0U;
               shadow_yaw = camera_yaw;
@@ -546,7 +546,7 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void * volatile render_params)
 
   if (entry_index >= 0x20)
   {
-    camera_state = (u8 *) (&D_80083160);
+    camera_state = (u8 *) (((struct S_8003E2D8 *)&gameWork));
     ASM_KEEP(camera_state);
     *((void **) (((s8 *) (*((void **) (((s8 *) camera_state) + 0)))) + 0x8D0)) = (void *) (*((u8 **) (scratch + 0x018)));
     return 0;

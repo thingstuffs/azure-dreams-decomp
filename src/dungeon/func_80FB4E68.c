@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80016000.h"
 
@@ -143,8 +145,6 @@ extern void func_800B8FC8(void *, void *, void *, s32, s32);
 extern s32 func_800BCB04(u16, u16, s16);
 extern void func_800C8CD8(void *, s32, s32);
 
-extern u8 D_80045340[];
-extern s16 D_80083228[];
 extern u8 D_80083498[];
 extern u8 D_800DEC50[];
 extern u32 D_800E3DE8[];
@@ -198,7 +198,7 @@ init_effect:
     direction_table = D_80175258;
     sprite->unk_2C = direction_table;
     func_80047784(sprite,
-        direction_table[((D_80083228[0] + ((S_80174668_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+        direction_table[((gameWork.viewAngle + ((S_80174668_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
         0);
     if (sprite->unk_14 & 0x8000) {
         effect->unk_9B = 2;
@@ -260,7 +260,7 @@ emit_particles:
         if (effect_alloc == 0) {
             goto update_timer;
         }
-        func_8004491C(effect_alloc, D_80045340);
+        func_8004491C(effect_alloc, func_80045340);
         effect_data = effect_alloc + 0x20;
         tile = ((S_80174668_5 *)effect_alloc)->unk_0C;
         ((S_80174668_5 *)effect_alloc)->unk_10 = D_80175174;

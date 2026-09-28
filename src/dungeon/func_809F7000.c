@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "records/Rec_D_800E3D7C.h"
 
 
@@ -10,7 +11,6 @@ extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *);
 extern s32 rand(void);
 
-extern u8 D_80045340;
 extern u8 D_80174600;
 extern u8 D_8017520C[12];
 
@@ -63,7 +63,7 @@ void func_80174800(void *unused_ptr, Rec_D_800E3D7C *source_pos, s32 unused_valu
         part = (u8 *)node + 0x20;
         part->unk_1A = 65;
         (*(void * *)((u8 *)node + 0x10)) = &D_80174600;
-        func_8004491C(node, &D_80045340);
+        func_8004491C(node, func_80045340);
         data = (*(void * *)((u8 *)node + 0xC));
         data->unk_10 = 0x60;
         data->unk_14 |= 0xC;

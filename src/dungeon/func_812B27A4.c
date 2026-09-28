@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_800814A8.h"
@@ -77,7 +78,6 @@ extern void func_80169078(void *, void *, void *, void *);
 extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern s8 D_80082EA4;
-extern s16 D_80083228;
 extern s8 D_800E2970[];
 extern void *D_80164818[];
 extern u8 D_80165FA4[];
@@ -115,7 +115,7 @@ void func_80165FA4(void *actor, void *actor_aux, void *sprite, void *actor_data)
         anim_table = D_80169CA0;
         (*(void * *)((u8 *)sprite + 0x2C)) = anim_table;
         func_80047784(sprite,
-            ((u8 *)anim_table)[((D_80083228 + ((Rec_D_800E3D7C *)actor_data)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            ((u8 *)anim_table)[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor_data)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
         return;
     }
@@ -156,7 +156,7 @@ void func_80165FA4(void *actor, void *actor_aux, void *sprite, void *actor_data)
                 }
                 (*(void * *)((u8 *)sprite + 0x2C)) = D_80169C30;
                 func_80047784(sprite,
-                    D_80169C30[((D_80083228 + ((Rec_D_800E3D7C *)actor_data)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+                    D_80169C30[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor_data)->unk_2A.as_s16 + 0x100) >> 9) & 7],
                     0);
             } else {
                 anim_table = D_80169C30;
@@ -165,7 +165,7 @@ void func_80165FA4(void *actor, void *actor_aux, void *sprite, void *actor_data)
                 }
                 (*(void * *)((u8 *)sprite + 0x2C)) = anim_table;
                 func_80047784(sprite,
-                    *(u8 *)((((D_80083228 + ((Rec_D_800E3D7C *)actor_data)->unk_2A.as_s16 + 0x100) >> 9) & 7) + (u32)anim_table),
+                    *(u8 *)((((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor_data)->unk_2A.as_s16 + 0x100) >> 9) & 7) + (u32)anim_table),
                     0);
             }
             ((S_80165FA4_2 *)sprite)->unk_05 = 1;

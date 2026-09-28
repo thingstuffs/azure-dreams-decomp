@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800814A8.h"
@@ -72,12 +73,11 @@ extern s32 D_80029670[3];
 extern u16 D_800281F8[];
 extern u8 D_800281FC[12];
 extern void *D_800814A8;
-extern u8 D_80083160[];
 
 /* Advances the screen transition, updates fade timers, and releases completed state. */
 void func_80024078(State *ctx)
 {
-    u8 *screen = D_80083160;
+    u8 *screen = ((u8 *)(&gameWork));
     switch (ctx->state) {
     case 0: {
         s32 rect_words[2];

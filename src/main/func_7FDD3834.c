@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct S_Ctx {
     u8 pad0[0x82C];
@@ -7,7 +8,6 @@ typedef struct S_Ctx {
     void *cur;
 } S_Ctx;
 
-extern S_Ctx *D_80083160;
 
 extern void func_80066758(void *prim);
 extern void func_80066640(void *prim, s32 flag);
@@ -35,7 +35,7 @@ s32 func_8008A794(void *node_data, void *scroll_state)
     void *next_node;
     S_Ctx *ctx;
 
-    ctx_ptr = &D_80083160;
+    ctx_ptr = &gameWork.unk_000;
     addr_mask = 0xFFFFFF;
     tag_mask = 0xFF000000;
 

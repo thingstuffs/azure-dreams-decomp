@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
 
@@ -86,7 +87,6 @@ extern s16 D_80027156;
 extern s16 D_80027158;
 extern s16 D_8002715A;
 extern u16 D_8002715C;
-extern s8 D_80083160[];
 extern u16 D_800DCEAC[];
 extern u16 D_800DCEBC[];
 
@@ -127,7 +127,7 @@ void func_80025C94(void *object_arg, void *position_arg, void *sprite_arg) {
     sprite = sprite_arg;
     object = motion;
     D_8002715C = update_count + 1;
-    render_context = D_80083160;
+    render_context = ((s8 *)(&gameWork));
     state = object->unk_72.s;
     switch (state) {
     case 0:

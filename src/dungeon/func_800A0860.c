@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "records/Rec_D_80083160.h"
 typedef s32 M2C_UNK;
 
@@ -38,7 +39,6 @@ typedef struct S_800A5FC0_5 {
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-extern void *D_80083160[];
 extern M2C_UNK func_8006658C();
 extern M2C_UNK func_80066640();
 extern M2C_UNK func_800666E0();
@@ -53,12 +53,12 @@ s32 func_800A5FC0(S_800A5FC0_2 *state) {
     S_800A5FC0_0 *render_ctx;
     void **render_ctx_ref;
 
-    render_ctx = D_80083160[0];
+    render_ctx = gameWork.unk_000;
     draw_mode = render_ctx->unk_8D0;
     render_ctx->unk_8D0 = (void *) (draw_mode + 0xC);
-    quad = ((S_800A5FC0_5 *)(((Rec_D_80083160 *)(&D_80083160))->unk_00.as_pv))->unk_8D0;
-    ((S_800A5FC0_5 *)(((Rec_D_80083160 *)(&D_80083160))->unk_00.as_pv))->unk_8D0 = (void *) (quad + 0x18);
-    render_ctx_ref = (void **)&D_80083160;
+    quad = ((S_800A5FC0_5 *)(((Rec_D_80083160 *)(((void * *)(&gameWork))))->unk_00.as_pv))->unk_8D0;
+    ((S_800A5FC0_5 *)(((Rec_D_80083160 *)(((void * *)(&gameWork))))->unk_00.as_pv))->unk_8D0 = (void *) (quad + 0x18);
+    render_ctx_ref = (void **)((void * *)(&gameWork));
     func_80067F20(draw_mode, 0, 0, state->unk_04, 0);
     ((S_800A5FC0_3 *)quad)->unk_04 = (s32) state->unk_00;
     func_800666E0(quad);

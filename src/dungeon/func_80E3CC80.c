@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 #ifndef NULL
 #define NULL 0
@@ -61,7 +62,6 @@ extern void *func_8003FC64(s32 size);
 extern void func_8004491C(void *object, void *data);
 extern void func_80047784(void *object, s32 arg1, s32 arg2);
 extern s32 rand(void);
-extern u8 D_80045340[];
 extern u8 D_801763D0[];
 
 /* Spawns up to sixteen particles with randomized offsets and velocities. */
@@ -79,7 +79,7 @@ void func_80E3CC80(S_80E3CC80_4 *origin, S_80E3CC80_2 *source_sprite) {
         particle = func_8003FC64(0x300);
         if (particle != NULL) {
             particle->unk_10 = D_801763D0;
-            func_8004491C(particle, D_80045340);
+            func_8004491C(particle, func_80045340);
             sprite = particle->unk_0C;
             sprite->unk_1E = 0x800;
             sprite->unk_1C = 0x800;

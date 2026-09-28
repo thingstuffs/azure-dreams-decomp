@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 typedef struct S_80170D2C_0 {
     u8 pad_00[0x18];
@@ -55,7 +56,6 @@ typedef struct S_80170D2C_4 {
 
 extern void *func_8003FC64();
 extern s32 func_8004491C();
-extern s32 D_80045340;
 extern u8 D_80083780[];
 extern u8 D_80170BB0[];
 extern u8 D_80173B88[];
@@ -81,7 +81,7 @@ void func_80170D2C(s32 unused, s16 duration, s32 offset_x, s32 offset_y, s32 off
         work = obj + 0x20;
         ((S_80170D2C_0 *)work)->unk_18 = duration;
         ((S_80170D2C_1 *)obj)->unk_10 = D_80170BB0;
-        func_8004491C(obj, &D_80045340);
+        func_8004491C(obj, func_80045340);
         packet = ((S_80170D2C_1 *)obj)->unk_0C;
         ((S_80170D2C_2 *)packet)->unk_10 = 0x20;
         ((S_80170D2C_2 *)packet)->unk_06 = 0;

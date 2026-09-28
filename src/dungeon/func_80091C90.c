@@ -36,7 +36,6 @@ extern s32 func_800A5C70(void);
 
 /* Reset the entity state and initialize the active dungeon actor. */
 s32 func_800973F0(Entity *entity, s32 unused, s32 action_param, Actor *actor) {
-    DungeonState *state;
 
     entity->field98 |= 0x2000;
     func_8009C93C(actor, action_param, actor->field2A, 1, 0);
@@ -44,15 +43,14 @@ s32 func_800973F0(Entity *entity, s32 unused, s32 action_param, Actor *actor) {
         actor->field2A = (u16)actor->field2A + (func_800A6D30() & 0xE00);
     }
     entity->field9A = 0x37;
-    state = ((DungeonState *)&dungeonStatus);
     entity->field9B = 0;
     entity->field8C = 0;
-    state->field0C = actor;
+    dungeonStatus.unk_0C = actor;
     entity->fieldA6 = 0;
     func_80099F70(actor->field5C);
     func_8009F644(actor, 0x18, 0, 0);
     if (func_800A5C70() != 0) {
-        state->field2 |= 0x80;
+        dungeonStatus.flags |= 0x80;
     }
     return 0;
 }

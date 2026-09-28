@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_800814A8.h"
 
@@ -13,9 +15,7 @@ typedef struct ShortVec {
     s16 z;
 } ShortVec;
 
-extern s32 D_80045340;
 extern void *D_800814A8;
-extern s16 D_80083228[5];
 extern void *D_800E3D18;
 
 extern void *func_8003DE58(void *, void *, ShortVec *, s16);
@@ -146,7 +146,7 @@ state_zero:
         render_flags = render->unk_14;
         render->unk_1C = render->unk_1E = 0x1000;
         render->unk_14 = render_flags | 0xC;
-        func_8004491C((u8 *)motion - 0x20, &D_80045340);
+        func_8004491C((u8 *)motion - 0x20, func_80045340);
         ((S_800B8830_0 *)motion)->unk_20.u++;
     }
 

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
 void *func_8003FD64();
@@ -7,7 +8,6 @@ M2C_UNK func_800A9C18();
 M2C_UNK func_800AA36C();
 M2C_UNK func_80170B50();
 M2C_UNK func_80173C30();
-extern M2C_UNK D_80045340;
 extern M2C_UNK D_80083498;
 extern u16 D_8008378A;
 extern M2C_UNK D_8017112C;
@@ -80,7 +80,7 @@ void *func_80170F84(s16 entity_id, s32 tile_x, s16 tile_y, u16 initial_height) {
         D_80174710 = entity;
         ((S_80170F84_0 *)entity)->unk_10 = &D_8017112C;
         entity_state->unk_13 = 0x37;
-        func_8004491C(entity, &D_80045340);
+        func_8004491C(entity, func_80045340);
         world_state = ((S_80170F84_0 *)entity)->unk_08;
         world_state->unk_0A = saved_height;
         tile_state = ((S_80170F84_0 *)entity)->unk_0C;

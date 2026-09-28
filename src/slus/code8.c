@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 /* --- gcc 2.7.2-cdk (cygnus SN32.3.7.0004) translation unit: zero-frame shared-tail
    epilogue that the -psx builds don't reproduce. See tools/compiler_notes.md. --- */
@@ -76,7 +77,6 @@ void func_80053CD0(void)
 
 /* size >8B to force %hi/%lo (not gp_rel) codegen for all three globals */
 extern u32 D_80081478[3];
-extern void *D_80083160[3];
 extern u8 D_801C9E40[16];
 
 /* Return whether the state-selected table value is below the unsigned limit. */
@@ -85,7 +85,7 @@ s32 func_80045310(u32 limit)
     u32 *values = &D_80081478[0];
     u32 *selected_value = values;
 
-    if (D_80083160[0] != (void *)D_801C9E40) {
+    if (gameWork.unk_000 != (void *)D_801C9E40) {
         selected_value = values + 1;
     }
     return *selected_value < limit;

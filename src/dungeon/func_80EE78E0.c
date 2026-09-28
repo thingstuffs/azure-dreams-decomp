@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -40,7 +41,6 @@ extern void func_800AD594(void *, s32);
 extern s32 func_800AD9B4(void *, void *);
 
 extern u8 D_80082E80[];
-extern s16 D_80083228;
 extern s32 D_8016BCE8;
 extern u8 D_8016EEB8[];
 extern u8 D_8016EED0[];
@@ -57,7 +57,6 @@ void func_8016D0E0(void *action, void *motion, void *sprite, void *actor)
     s32 position_x;
     s32 position_y;
     s16 phase_timer;
-    s16 *counters;
     u16 action_timer;
     u8 *anim_table;
 
@@ -89,7 +88,7 @@ state_zero:
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_8016EED0;
     func_80047784(
         sprite,
-        D_8016EED0[((D_80083228 + ((S_8016D0E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+        D_8016EED0[((gameWork.viewAngle + ((S_8016D0E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
         0);
     ((S_8016D0E0_0 *)action)->unk_98 |= 8;
     ((S_8016D0E0_1 *)actor)->unk_1C.s &= 0xF7FFFFFF;
@@ -137,7 +136,7 @@ state_two:
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_8016EED8;
         func_80047784(
             sprite,
-            D_8016EED8[((D_80083228 + ((S_8016D0E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            D_8016EED8[((gameWork.viewAngle + ((S_8016D0E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((S_8016D0E0_0 *)action)->unk_9B++;
     }
@@ -149,7 +148,7 @@ state_three:
         (*(u8 * *)((u8 *)sprite + 0x2C)) = anim_table;
         func_80047784(
             sprite,
-            anim_table[((D_80083228 + ((S_8016D0E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            anim_table[((gameWork.viewAngle + ((S_8016D0E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
     }
 
@@ -167,9 +166,8 @@ update_countdown:
     func_800AD594(actor, 4);
     func_800A4ACC(actor);
 
-    counters = (s16 *)&dungeonStatus.unk_00;
-    if (counters[4] != 0) {
-        counters[4]--;
+    if (dungeonStatus.unk_08 != 0) {
+        dungeonStatus.unk_08--;
     }
 
     actor_flags = ((S_8016D0E0_1 *)actor)->unk_1C.u;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct S_8187B1F4_0 {
     u8 pad_00[0x2];
@@ -80,7 +81,6 @@ extern u32 func_80065420(void *, void *, void *, void *);
 extern void func_80065820(void *, void *);
 extern s32 func_80066460(s32, s32, s32, s32);
 extern void func_80067F20(void *, s32, s32, u32, s32);
-extern GlobalState *D_80083160[];
 
 typedef struct GlobalRef {
     GlobalState *cur;
@@ -114,7 +114,7 @@ s32 func_8187B1F4(u8 *points, u8 *position, u8 *orientation) {
     u32 tag_length_mask;
     u32 tag_addr_mask;
 
-    global = (GlobalRef *)&D_80083160;
+    global = (GlobalRef *)((GlobalState * *)(&gameWork));
     scratch = (u8 *)0x1F800000;
     model_matrix = (u8 *)((u32)scratch | 0x74);
     transform_matrix = (u8 *)((u32)scratch | 0x54);

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_func_80094268_arg0.h"
@@ -25,7 +26,6 @@ M2C_UNK func_800988C8();     /* extern */
 M2C_UNK func_80099754();                      /* extern */
 s32 func_8009FF50();                                /* extern */
 s32 func_800A9D74();                     /* extern */
-extern u8 D_80083160[];
 extern M2C_UNK D_80093B00;
 extern M2C_UNK D_8009B828;
 extern M2C_UNK D_8009B8E8;
@@ -60,7 +60,7 @@ typedef struct S_800927EC_5 {
 
 /* Update the actor and dispatch town movement and interaction input. */
 void func_800927EC(void *actor, Rec_D_800E3D7C *position, M2C_UNK context) {
-    u8 *input = D_80083160;
+    GameWork *input = &gameWork;
     M2C_UNK *interaction;
     s16 ground_height;
     s32 interaction_result;
@@ -81,11 +81,11 @@ void func_800927EC(void *actor, Rec_D_800E3D7C *position, M2C_UNK context) {
         func_80095A94(position, ground_height, &D_800FE488);
     }
 handle_input:
-    if (((S_800927EC_1 *)input)->unk_10 & 0x10) {
+    if (((s32)input->unk_010) & 0x10) {
         func_800945B8(actor, position, context);
         return;
     }
-    if (((S_800927EC_1 *)input)->unk_10 & 0x80) {
+    if (((s32)input->unk_010) & 0x80) {
         if ((D_800CFCC4 != NULL) && (((Rec_D_800CFCC4 *)D_800CFCC4)->unk_14 == 4)) {
             func_8009550C(position);
             func_80094774(actor, position, context);
@@ -100,7 +100,7 @@ handle_input:
             return;
         }
     } else {
-        if (((S_800927EC_1 *)input)->unk_10 & 0x40) {
+        if (((s32)input->unk_010) & 0x40) {
             func_800946A0(actor, position, context);
             return;
         }
@@ -124,7 +124,7 @@ handle_input:
             D_800FE5D8 = &D_80093B00;
             return;
         }
-        if (((S_800927EC_1 *)input)->unk_08 & 0xF000) {
+        if (((s32)input->unk_008) & 0xF000) {
             func_8009455C(actor, position, context);
         }
     }

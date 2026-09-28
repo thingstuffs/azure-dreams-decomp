@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
@@ -37,7 +38,6 @@ extern Packed12 D_80025618;
 extern Packed12 D_80025624;
 extern s16 D_80025630[8];
 extern void *D_800246B4[3];
-extern u8 D_80045340[];
 extern u8 D_800DDC40[];
 extern u8 D_800E3D68[];
 
@@ -312,7 +312,7 @@ state1:
 
         if (((S_func_8190B2D0_8 *)effect->unk_4)->unk_0 & 0x80) {
             if (!(effect->unk_7A & 4)) {
-                func_8004491C((u8 *)effect - 32, D_80045340);
+                func_8004491C((u8 *)effect - 32, func_80045340);
                 sprite->unk_C.at_E_u8.unk_E = 20;
                 sprite->unk_C.at_D_u8.unk_D = 20;
                 sprite->unk_C.u8 = 20;
@@ -486,7 +486,7 @@ state3:
                 ((S_func_8190B2D0_7 *)child_data)->unk_30 = owner->unk_60;
                 ((S_func_8190B2D0_7 *)child_data)->unk_34 = effect;
                 motion_or_child->unk_10.ptr = D_800246B4;
-                func_8004491C(child_object, D_80045340);
+                func_8004491C(child_object, func_80045340);
                 sprite = motion_or_child->unk_C.ptr;
                 sprite->unk_10 = 32;
                 sprite->unk_6 = 6;

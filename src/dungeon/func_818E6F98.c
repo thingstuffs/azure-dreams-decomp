@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct Primitive {
     u32 tag;
@@ -36,7 +37,6 @@ typedef union WorkOutput {
     s32 w[2];
 } WorkOutput;
 
-extern u8 D_80083160[];
 extern s32 func_80065420(void *, void *, void *, void *);
 extern s16 func_80066460(s32, s32, s32, s32);
 extern s16 func_8006649C(s32, s32);
@@ -68,7 +68,7 @@ s32 func_818E6F98(void *sprite_data, void *position)
     u16 center_x;
     u32 table_offset;
 
-    state_address = (DungeonState **)D_80083160;
+    state_address = (DungeonState **)((u8 *)(&gameWork));
     screen_base = screen_points;
     scratch_base = &scratch;
 loop:

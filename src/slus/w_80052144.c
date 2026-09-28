@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct Child {
     u8 pad00[0x1E];
@@ -28,7 +29,6 @@ typedef struct Shared82E60 {
     u16 flags16;
 } Shared82E60;
 
-extern Shared83160 D_80083160;
 extern Shared82E60 D_80082E60;
 extern s32 D_800814A0;
 

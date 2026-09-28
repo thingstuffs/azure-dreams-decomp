@@ -136,8 +136,8 @@ void func_80172F58(u8 *move_input, void *action_context, u8 *position_input, u8 
     register s32 attempt ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     register s16 *angle_offset;
     register u8 *x_offsets;
-    u8 *dungeon_state;
-    u8 *turn_state;
+    DungeonGlobalStatus *dungeon_state;
+    DungeonGlobalStatus *turn_state;
     u32 state_flags;
     u32 actor_flags;
     s32 direction_clear;
@@ -151,8 +151,8 @@ void func_80172F58(u8 *move_input, void *action_context, u8 *position_input, u8 
     void *found_target;
     u8 *object;
 
-    dungeon_state = (u8 *)&dungeonStatus.unk_00;
-    state_flags = ((S_80172F58_0 *)dungeon_state)->unk_02;
+    dungeon_state = &dungeonStatus;
+    state_flags = dungeon_state->flags;
     ASM_KEEP(position);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     near_target = 0;
 
@@ -162,7 +162,7 @@ void func_80172F58(u8 *move_input, void *action_context, u8 *position_input, u8 
             func_800A9A0C(actor);
             goto end;
         }
-        if (((S_80172F58_0 *)dungeon_state)->unk_0C != actor) {
+        if (dungeon_state->unk_0C != actor) {
             goto end;
         }
         ((S_80172F58_1 *)actor)->unk_46 = 0xC008;
@@ -383,11 +383,11 @@ after_loop:
         func_800A9A0C(actor);
         goto end;
     }
-    turn_state = (u8 *)&dungeonStatus.unk_00;
+    turn_state = &dungeonStatus;
     ((S_80172F58_1 *)actor)->unk_46 &= 0x7FFF;
     ((S_80172F58_10 *)move_input)->unk_9C.u = ((S_80172F58_2 *)position)->unk_26.u;
     ((S_80172F58_1 *)actor)->unk_6D.u--;
-    ((S_80172F58_12 *)turn_state)->unk_08++;
+    turn_state->unk_08++;
     if (((S_80172F58_1 *)actor)->unk_6D.s != 0) {
         goto update_height;
     }

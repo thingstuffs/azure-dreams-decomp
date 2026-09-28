@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 /* S_80045C34: the "flags/value" record pointed to by a2. Only two fields are
  * accessed by this function: a signed 16-bit value at 0x6 and a 16-bit flags
@@ -15,7 +16,6 @@ extern s32 func_80045310(u32 a0);
 
 /* D_80083160[0] points at a large shared-state struct; only the pointer field
  * at offset 0x8D0 is read here. */
-extern void *D_80083160[3];
 
 /* Processes unflagged list entries until the list ends or a stop is requested; returns zero. */
 s32 func_80045C34(u8 *first_data, s32 link_value, S_80045C34 *value_record)
@@ -26,7 +26,7 @@ s32 func_80045C34(u8 *first_data, s32 link_value, S_80045C34 *value_record)
     do {
         if (!(value_record->unk14 & 0x80)) {
             func_80045CC4(link_data, link_value, value_record, value_record->unk6);
-            if (func_80045310(*(u32 *)((u8 *)D_80083160[0] + 0x8D0))) {
+            if (func_80045310(*(u32 *)((u8 *)gameWork.unk_000 + 0x8D0))) {
                 return 0;
             }
         }

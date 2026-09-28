@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_80094268_arg0.h"
 
@@ -47,7 +48,6 @@ M2C_UNK D_8009E714();         /* extern */
 M2C_UNK func_80033CD8();           /* extern */
 M2C_UNK func_800374F4();                     /* extern */
 M2C_UNK func_8009DC8C();     /* extern */
-extern M2C_UNK D_80045340;
 extern M2C_UNK D_8006E240;
 extern s32 D_800D09C8[];
 
@@ -76,7 +76,7 @@ void func_8009E85C(void *entity, S_8009E85C_1 *placement, S_8009E85C_2 *state) {
     } else {
         func_8009DC8C(entity, state, ((Rec_func_80094268_arg0 *)entity)->unk_4C, ((S_8009E85C_6 *)(table_page + ((table_page[(((Rec_func_80094268_arg0 *)entity)->unk_95 * 4) + 0x983] & 0x3F) * 0x54)))->unk_A94);
     }
-    func_80033CD8(entity, &D_80045340);
+    func_80033CD8(entity, func_80045340);
     init_flags = 0x20;
     active_base = (s32 *)0x800D0000;
     state->unk_10 = init_flags;

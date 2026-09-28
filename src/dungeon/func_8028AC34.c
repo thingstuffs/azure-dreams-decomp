@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct S_8001DC34_0 {
     u16 unk_00;
@@ -19,7 +20,6 @@ typedef struct S_8001DC34_1 {
 
 
 
-extern u8 D_8008333C[32];
 extern u8 D_800E9FFA[];
 
 /* Clear a padded rectangle of grid entries and reset the region state. */
@@ -39,7 +39,7 @@ void func_8001DC34(void *region_data)
     s16 remaining;
     s32 row_width;
     region = region_data;
-    grid_config = (s16 *)D_8008333C;
+    grid_config = (s16 *)((u8 *)(&gameWork.unk_1DC));
     region->unk_0A = 0;
     first_row = region->unk_02 - 1;
     row = first_row;

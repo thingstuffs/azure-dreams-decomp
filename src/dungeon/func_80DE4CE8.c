@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -40,7 +41,6 @@ extern void func_800AD594(void *, s32);
 extern s32 func_800AD9B4(void *, void *);
 
 extern u8 D_80082E80[];
-extern s16 D_80083228;
 extern u8 D_80170E5C[];
 extern u8 D_80174520[];
 
@@ -54,7 +54,6 @@ void func_801724E8(void *anim, void *motion, void *actor, void *actor_state)
     s32 phase;
     s32 actor_flags;
     s32 tile_origin_y;
-    s16 *move_counters;
     u8 *target_actor;
 
     phase = ((S_801724E8_0 *)anim)->unk_9B;
@@ -121,7 +120,7 @@ state_two:
         (*(void * *)((u8 *)actor + 0x2C)) = D_80174520;
         func_80047784(
             actor,
-            D_80174520[((D_80083228 + ((S_801724E8_2 *)actor_state)->unk_2A + 0x100) >> 9) & 7],
+            D_80174520[((gameWork.viewAngle + ((S_801724E8_2 *)actor_state)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((S_801724E8_0 *)anim)->unk_9B++;
     }
@@ -137,9 +136,8 @@ update_countdown:
         func_800AD594(actor_state, 4);
         func_800A4ACC(actor_state);
 
-        move_counters = (s16 *)&dungeonStatus.unk_00;
-        if (move_counters[4] != 0) {
-            move_counters[4]--;
+        if (dungeonStatus.unk_08 != 0) {
+            dungeonStatus.unk_08--;
         }
 
         actor_flags = ((S_801724E8_2 *)actor_state)->unk_1C.u;

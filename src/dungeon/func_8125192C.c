@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 extern int abs(int);
 
@@ -27,7 +28,6 @@ extern void func_800AA36C();
 extern s16 func_800BCB04();
 
 extern u16 D_80013714;
-extern s16 D_80083228;
 extern u8 *D_800E3D7C[];
 extern M2C_UNK D_80171514;
 extern Callback D_80173EF4[];
@@ -174,7 +174,7 @@ void func_8017112C(void *entity_arg, void *motion_arg, void *monster_arg)
     ((S_8017112C_4 *)motion_arg)->unk_00 += ((S_8017112C_4 *)motion_arg)->unk_0C;
     (*(s32 *)((u8 *)motion_arg + (4))) += ((S_8017112C_4 *)motion_arg)->unk_10;
 
-    view_angle = D_80083228 + ((S_8017112C_0 *)actor)->unk_2A + 0x100;
+    view_angle = gameWork.viewAngle + ((S_8017112C_0 *)actor)->unk_2A + 0x100;
     state_direction = (view_angle >> 9) & 7;
     if ((*(s16 *)((u8 *)entity_arg + (0x94))) != state_direction) {
         func_80047738(monster_arg,

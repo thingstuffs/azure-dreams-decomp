@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 
 #ifndef NULL
@@ -10,7 +11,6 @@ extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *);
 extern s32 D_80024648;
 extern s32 D_80046398;
-extern u8 D_8008333C[32];
 
 
 typedef struct S_8195EF44_0 {

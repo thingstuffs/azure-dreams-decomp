@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
@@ -77,8 +79,6 @@ void *func_8003FC64();                       /* extern */
 M2C_UNK func_8004491C();           /* extern */
 M2C_UNK func_80047738();              /* extern */
 M2C_UNK func_800478B8();                      /* extern */
-extern s32 D_80045340[];
-extern s16 D_80083228[];
 extern s32 D_800D586C[];
 extern s32 D_800DE870[];
 
@@ -93,7 +93,7 @@ void func_800D58D8(void *state, void *position, void *sprite) {
     void *effect_pos;
     void *effect;
 
-    facing = ((s32) (D_80083228[0] + ((S_800D58D8_0 *)state)->unk_2A + 0x100) >> 9) & 7;
+    facing = ((s32) (gameWork.viewAngle + ((S_800D58D8_0 *)state)->unk_2A + 0x100) >> 9) & 7;
     if (((S_800D58D8_0 *)state)->unk_94 != facing) {
         direction_frames = ((Rec_D_80082E80 *)sprite)->unk_2C.as_s32;
         if (direction_frames != 0) {
@@ -107,7 +107,7 @@ void func_800D58D8(void *state, void *position, void *sprite) {
     if ((ticks_left << 0x10) <= 0) {
         effect = func_8003FC64(0x12);
         if (effect != NULL) {
-            func_8004491C(effect, &D_80045340);
+            func_8004491C(effect, func_80045340);
             effect_render = ((S_800D58D8_2 *)effect)->unk_0C;
             ((S_800D58D8_3 *)effect_render)->unk_10 = 0x20;
             ((S_800D58D8_3 *)effect_render)->unk_14 = (u16) (((S_800D58D8_3 *)effect_render)->unk_14 | 0xC);

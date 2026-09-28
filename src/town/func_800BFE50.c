@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 typedef struct Func800BFE50Object {
     u8 pad00[0x48];
@@ -17,7 +18,6 @@ typedef struct Func800BFE50Object {
 extern void func_8003DB94(void *, void *, s32);
 extern void func_8004491C(void *, void *);
 extern void func_8008F074(void *, void *, void *);
-extern u8 D_80045340[];
 extern u8 D_800BCE78[];
 extern u8 D_800D20CC[];
 extern s32 D_800D2130;
@@ -29,7 +29,7 @@ void func_800BD5B0(Func800BFE50Object *object, s32 *params, void *dispatch_conte
 
     *(void **)((u8 *)object - 0x10) = D_800BCE78;
     object->field50 = 0;
-    func_8004491C((u8 *)object - 0x20, D_80045340);
+    func_8004491C((u8 *)object - 0x20, func_80045340);
 
     object->fieldA0 = params[0];
     object->fieldA4 = params[1];

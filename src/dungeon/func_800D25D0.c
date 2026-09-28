@@ -112,8 +112,7 @@ void func_800D7D30(void *effect, void *motion, void *sprite) {
 
 retire:
     {
-        u16 *counters = ((u16 *)(&dungeonStatus));
-        counters[5]--;
+        dungeonStatus.unk_0A--;
     }
     (*(u16 *)((u8 *)effect + (-2))) |= 0x8000;
     objectFlagBlock.flags |= 0x8000;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct {
     u8 pad[0x8D0];
@@ -36,7 +37,6 @@ typedef struct {
 extern u32 func_80065420(void *, void *, void *, void *);
 extern s32 func_80066460(s32, s32, s32, s32);
 extern void func_80067F20(void *, s32, s32, s32, s32);
-extern Context *D_80083160;
 
 /* Projects a point and queues a semitransparent pixel and its drawing mode. */
 s32 func_80AEF12C(Input0 *object_data, Input1 *position_data) {
@@ -44,9 +44,9 @@ s32 func_80AEF12C(Input0 *object_data, Input1 *position_data) {
     u8 *position_bytes = (u8 *)position_data;
 
     {
-        u8 *context_addr = (u8 *)&D_80083160;
+        u8 *context_addr = (u8 *)&gameWork.unk_000;
         register u32 address_mask ASM_REG("$18") = 0x00FFFFFF;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        Context *context = D_80083160;
+        Context *context = gameWork.unk_000;
         u32 length_mask = 0xFF000000;
         Scratch *scratch = (Scratch *)0x1F800000;
         register u8 red ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct {
     s32 seed;
@@ -55,7 +56,6 @@ extern void func_8001E96C(void);
 extern void func_8001F32C(void);
 extern void file_load_com();
 
-extern u8 D_80083160[];
 extern u8 D_80083780[];
 extern u16 D_80082E76;
 extern s32 D_800E3D6C;
@@ -88,12 +88,12 @@ void func_80018A70(void) {
     s32 action;
     s32 i;
     {
-        u8 *xor_base;
+        GameWork *xor_base;
         u16 entry_flags;
 
         state = (State13710 *)0x80013710;
         entry_flags = state->flags;
-        xor_base = D_80083160;
+        xor_base = &gameWork;
 
         if (entry_flags & 2) {
             u32 r;
@@ -128,7 +128,7 @@ void func_80018A70(void) {
             state->field6 = 0;
             state->field11 = 0;
             state->field10 = 0;
-            state->seed = D_80081468.seed = (value | (hi << 16)) ^ ((State13710 *)xor_base)->flags;
+            state->seed = D_80081468.seed = (value | (hi << 16)) ^ xor_base->unk_004;
             func_8004D0C8(D_80083780);
             bzero((void *)0x80013720, 0x2000);
         }

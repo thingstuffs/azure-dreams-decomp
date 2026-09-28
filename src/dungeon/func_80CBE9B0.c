@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -39,7 +40,6 @@ extern void func_800AD594(void *, s32);
 extern s32 func_800AD9B4(void *, void *);
 
 extern u8 D_80082E80[];
-extern s16 D_80083228;
 extern u8 D_80170F20[];
 extern u8 D_801762D8[];
 extern u8 D_801762E0[];
@@ -54,7 +54,6 @@ void func_801721B0(void *action, void *motion, void *sprite, void *actor)
     s32 actor_flags;
     u16 action_timer;
     s32 phase;
-    u8 *dungeon_state;
 
     phase = ((S_801721B0_0 *)action)->unk_9B;
     if (phase == 1) {
@@ -79,7 +78,7 @@ state_zero:
         (*(void * *)((u8 *)sprite + 0x2C)) = D_801762D8;
         func_80047784(
             sprite,
-            D_801762D8[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >>
+            D_801762D8[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >>
                          9) &
                         7],
             0);
@@ -132,7 +131,7 @@ state_two:
         (*(void * *)((u8 *)sprite + 0x2C)) = D_801762E0;
         func_80047784(
             sprite,
-            D_801762E0[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >>
+            D_801762E0[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >>
                          9) &
                         7],
             0);
@@ -150,9 +149,8 @@ common_update:
                      ((Rec_D_80082E80 *)sprite)->unk_25);
         func_800AD594(actor, 4);
         func_800A4ACC(actor);
-        dungeon_state = (u8 *)&dungeonStatus.unk_00;
-        if (((S_801721B0_4 *)dungeon_state)->unk_08 != 0) {
-            ((S_801721B0_4 *)dungeon_state)->unk_08 = (u16)((S_801721B0_4 *)dungeon_state)->unk_08 - 1;
+        if (dungeonStatus.unk_08 != 0) {
+            dungeonStatus.unk_08 = (u16)dungeonStatus.unk_08 - 1;
         }
         actor_flags = ((Rec_D_800E3D7C *)actor)->unk_1C.as_s32;
         if (actor_flags & 0x2000) {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct {
     u8 pad0[0x14];
@@ -6,12 +7,11 @@ typedef struct {
     s16 field16;
 } DungeonBounds;
 
-extern DungeonBounds D_8008333C;
 
 /* Return whether the coordinates are outside the dungeon bounds. */
 s32 func_800A0548(s16 x, s16 y)
 {
-    DungeonBounds *bounds = &D_8008333C;
+    DungeonBounds *bounds = ((DungeonBounds *)((u8 *)&gameWork + 476));
 
     if (x < 0 || x >= (1 << bounds->field14)) {
         return 1;

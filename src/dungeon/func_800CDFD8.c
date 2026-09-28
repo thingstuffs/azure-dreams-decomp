@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/game_work.h"
 #include "m2c_compat.h"
 
 #define M2C_BREAK() 0
@@ -20,7 +21,6 @@ M2C_UNK func_800D3B28();
 M2C_UNK func_800D3D40();
 M2C_UNK func_800D3D90();
 extern M2C_UNK D_8006CD30[];
-extern u8 D_80083160[];
 
 typedef struct S_func_800CDFD8_1 {
     u16 unk_00;
@@ -285,10 +285,10 @@ void func_800D3738(void *unused, void *position_in, void *sprite_in, s16 depth_b
         screen_pos = (void *) ((u32) screen_pos | 0xB8);
         depth_out = world_pos;
         ASM_KEEP_NV(depth_out);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        ASM_KEEP_MEMDEP_NV(world_pos, page_dependency, *(void **)D_80083160);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP_MEMDEP_NV(world_pos, page_dependency, *(void **)((u8 *)(&gameWork)));   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         scratch = (S_func_800CDFD8_1 *)world_pos;
         ASM_KEEP_NV(scratch);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        render_root = *(void **)D_80083160;
+        render_root = *(void **)((u8 *)(&gameWork));
         depth_out = (void *) ((u32) depth_out | 0x90);
         scratch->unk_EC = 0;
         scratch->unk_8C = 0;
@@ -299,9 +299,9 @@ void func_800D3738(void *unused, void *position_in, void *sprite_in, s16 depth_b
         coord = ((S_func_800CDFD8_2 *)texture_right)->unk_02;
         projection_flags = world_pos;
         scratch->unk_00 = coord;
-        ASM_KEEP_MEMDEP_NV(scratch, page_dependency, *(void **)D_80083160);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP_MEMDEP_NV(scratch, page_dependency, *(void **)((u8 *)(&gameWork)));   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 #ifdef NON_MATCHING
-        globals_page = D_80083160 - 0x3160;
+        globals_page = ((u8 *)(&gameWork)) - 0x3160;
 #else
         ASM_SET(globals_page);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
 #endif

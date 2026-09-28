@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct {
     s8 pad[0x14];
@@ -11,7 +12,6 @@ typedef struct {
     s16 unused;
 } DungeonCell;
 
-extern DungeonState D_8008333C;
 extern DungeonCell D_800EA000[];
 
 // Sets the value of inactive dungeon cells in rows and columns 1 through 62.
@@ -21,7 +21,7 @@ void func_80019A84(s16 value) {
     s32 row;
     s32 column;
 
-    state = &D_8008333C;
+    state = ((DungeonState *)((u8 *)&gameWork + 476));
     cells = D_800EA000;
     row = 1;
     do {

@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -13,7 +14,6 @@ void func_80047784();
 M2C_UNK func_8009C93C();
 s32 func_800A2B5C();
 M2C_UNK func_800C7930();
-extern s16 D_80083228[];
 
 
 
@@ -27,7 +27,7 @@ void func_80172434(Rec_func_800A9E70_arg0 *action_state, M2C_UNK context, Rec_D_
             action_state->unk_9A.as_s8 = 0x11;
             action_state->unk_8C = 0;
             action_state->unk_9B.as_s8 = 0;
-            func_80047784(animation, *(animation->unk_2C.as_pu8 + (((s32) (D_80083228[0] + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7)), 0);
+            func_80047784(animation, *(animation->unk_2C.as_pu8 + (((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7)), 0);
             ((Rec_D_800E3D7C *)entity)->unk_6D.as_u8 = (u8) (((Rec_D_800E3D7C *)entity)->unk_6D.as_u8 - 1);
             func_8009C93C(entity, animation, ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16, 1, 0);
             action_state->unk_98 = (u16) (action_state->unk_98 | 8);

@@ -31,7 +31,6 @@ void func_801730B8(S_801730B8_1 *action, Rec_D_800E3D7C *motion, Rec_D_80082E80 
     s16 timer;
     s32 direction;
     s32 tracked_addr;
-    s32 *tracking_state;
 
     direction = (((Rec_D_800E3D7C *)source)->unk_6A.as_u16 >> 9) & 7;
     switch (action->unk_9B) {
@@ -116,10 +115,9 @@ increment_state:
         motion->unk_0C.as_s32 = 0;
         func_800A2B04(motion, entity->unk_24, entity->unk_25);
 
-        tracking_state = &dungeonStatus.unk_00;
-        tracked_addr = tracking_state[4];
+        tracked_addr = ((s32)dungeonStatus.unk_10);
         if (tracked_addr == (s32)((u8 *)source - 0x20)) {
-            tracking_state[4] = tracked_addr & 0x7FFFFFFF;
+            dungeonStatus.unk_10 = tracked_addr & 0x7FFFFFFF;
         }
         action->unk_8C = &D_80170E84;
         return;

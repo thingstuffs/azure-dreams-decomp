@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 #ifndef NULL
 #define NULL 0
@@ -55,7 +56,6 @@ typedef struct {
     FuncTail tail;
 } FuncTemp;
 
-extern u8 D_80045340[];
 extern u32 D_801751C4;
 extern FuncTemp *func_8003FC64(u32);
 extern void func_8004491C(FuncTemp *, u8 *);
@@ -73,7 +73,7 @@ s32 func_801752EC(FuncArg0 *source, FuncArg1 *initial_motion, FuncArg2 *render_s
     effect = func_8003FC64(0x312);
     if (effect != NULL) {
         effect->field10 = &D_801751C4;
-        func_8004491C(effect, D_80045340);
+        func_8004491C(effect, func_80045340);
         angle = source->field2A;
         direction_state = &effect->tail;
         biased_angle = angle;

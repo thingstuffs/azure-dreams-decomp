@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #ifndef NULL
 #define NULL 0
@@ -7,7 +8,6 @@
 extern void func_80094E34(u8 *a0);
 extern void func_80048A44(void *a0, s16 a1, s16 a2, s32 a3);
 
-extern s16 D_80083228;
 extern u8 D_800DCFF0[8];
 
 void func_8008D94C(u8 *arg0, s32 arg1, u8 *arg2, u8 *arg3) {
@@ -26,6 +26,6 @@ void func_8008D94C(u8 *arg0, s32 arg1, u8 *arg2, u8 *arg3) {
     table = &D_800DCFF0[0];
     *(u8 **)(arg2 + 0x2C) = table;
 
-    idx = ((D_80083228 + *(s16 *)(arg3 + 0x2A) + 0x100) >> 9) & 7;
+    idx = ((gameWork.viewAngle + *(s16 *)(arg3 + 0x2A) + 0x100) >> 9) & 7;
     func_80048A44(arg2, table[idx], 0, 1);
 }

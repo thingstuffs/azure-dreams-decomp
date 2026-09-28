@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
@@ -8,7 +9,6 @@
 extern void *D_80024008[];
 extern u8 D_800257D0[];
 extern u8 D_800257E8[];
-extern u8 D_80045340[];
 extern s16 D_800257CE[5];
 extern u8 D_800DDC40[];
 
@@ -138,7 +138,7 @@ initialize:
         goto finish;
     }
     if ((F(self, u8, 0x16) & 4) == 0) {
-        func_8004491C((u8 *)self - 0x20, &D_80045340);
+        func_8004491C((u8 *)self - 0x20, func_80045340);
         F(part, u16, 0x10) = 0x20;
         F(part, u8, 0x0E) = 0x80;
         F(part, u8, 0x0D) = 0x80;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 
@@ -7,7 +8,6 @@ void *func_8003FC64();                       /* extern */
 M2C_UNK func_8004491C();           /* extern */
 s32 rand();                                /* extern */
 M2C_UNK func_800A56E0();                     /* extern */
-extern M2C_UNK D_80045340;
 extern M2C_UNK D_800C5A64;
 extern M2C_UNK D_800DEA68;
 
@@ -63,7 +63,6 @@ void *func_800C5BBC(s16 x, s16 y, s16 z, s32 sprite_data, u16 sprite_id, s16 pla
     void *particle;
     S_800C5BBC_3 *particle_state;
     void *first_particle;
-    S_800C5BBC_4 *effect_state;
 
     first_particle = NULL;
     if (play_sound != 0) {
@@ -72,7 +71,6 @@ void *func_800C5BBC(s16 x, s16 y, s16 z, s32 sprite_data, u16 sprite_id, s16 pla
     particle_index = 0;
     remaining = (rand() & 0xF) | 0x10;
     if (remaining >= 0) {
-        effect_state = &dungeonStatus.unk_00;
         do {
             alloc_flags = 0x12;
             if (particle_index != 0) {
@@ -81,7 +79,7 @@ void *func_800C5BBC(s16 x, s16 y, s16 z, s32 sprite_data, u16 sprite_id, s16 pla
             particle = func_8003FC64(alloc_flags);
             if (particle != NULL) {
                 ((S_800C5BBC_0 *)particle)->unk_10 = &D_800C5A64;
-                func_8004491C(particle, &D_80045340);
+                func_8004491C(particle, func_80045340);
                 position = ((S_800C5BBC_0 *)particle)->unk_08;
                 position->unk_02 = (u16) x;
                 position->unk_06 = y;
@@ -102,7 +100,7 @@ void *func_800C5BBC(s16 x, s16 y, s16 z, s32 sprite_data, u16 sprite_id, s16 pla
                 particle_state->unk_0C = particle_index;
                 if (particle_index == 0) {
                     first_particle = particle;
-                    effect_state->unk_0A = (u16) (effect_state->unk_0A + 1);
+                    dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) + 1);
                 }
             }
             remaining -= 1;

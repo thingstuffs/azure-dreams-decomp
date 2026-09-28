@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct S_8008896C_0 {
     u8 pad_00[0x4];
@@ -55,7 +56,6 @@ typedef struct MainState {
     RenderState *render_state;
 } MainState;
 
-extern MainState D_80083160;
 
 extern s32 func_80066460(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern s16 func_8006649C(s32 arg0, s32 arg1);
@@ -76,7 +76,7 @@ s32 func_8008896C(u8 *entry_data, u8 *scroll_data)
     s32 texture_x;
     s32 base_y;
 
-    main_state = &D_80083160;
+    main_state = ((MainState *)&gameWork);
     for (;;) {
         row = 0;
         do {

@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/game_work.h"
 #include "m2c_compat.h"
 
 M2C_UNK func_80064840();
@@ -18,7 +19,6 @@ M2C_UNK func_80170DF8();
 M2C_UNK func_80170E48();
 M2C_UNK func_80170F78();
 extern M2C_UNK D_8006CD30[];
-extern struct S_8003E2D8 D_80083160;
 
 typedef struct S_80DB9000_1 {
     u8 pad_00[0x4E];
@@ -274,7 +274,7 @@ void BODY_NAME(void *size_arg, void *position_arg, void *sprite_arg, s32 depth_b
     register u8 *state_page ASM_REG("$8") = (u8 *)0x80080000;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register S_80DB9000_4 *scratch_page;
     register u8 *projection_flags;
-    ASM_KEEP_MEMDEP_NV(position, load_dependency, ((S_80DB9000_5 *)&D_80083160)->unk_00);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_MEMDEP_NV(position, load_dependency, ((S_80DB9000_5 *)((struct S_8003E2D8 *)&gameWork))->unk_00);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     scratch_page = (S_80DB9000_4 *)0x1F800000;
     ASM_KEEP_NV(work_aux);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     ASM_KEEP_NV(sprite_size);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
@@ -282,7 +282,7 @@ void BODY_NAME(void *size_arg, void *position_arg, void *sprite_arg, s32 depth_b
     ASM_KEEP_NV(depth_bias);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     work_aux = (u8 *)((u32)work_aux | 0xD0);
-    uv_right = (u32)(((S_80DB9000_5 *)&D_80083160)->unk_00);
+    uv_right = (u32)(((S_80DB9000_5 *)((struct S_8003E2D8 *)&gameWork))->unk_00);
     scratch_page->unk_90 = 0;
     scratch_page->unk_CC = 0;
     scratch_page->unk_C4 = 0;
@@ -291,7 +291,7 @@ void BODY_NAME(void *size_arg, void *position_arg, void *sprite_arg, s32 depth_b
     scratch_page->unk_24 = (u8 *)(S_80DB9000_6 *)uv_right + 0xB0;
     scratch_page->unk_04 = position->unk_02;
     projection_flags = (u8 *)scratch_page;
-    ASM_KEEP_MEMDEP_NV(scratch_page, load_dependency, ((S_80DB9000_5 *)&D_80083160)->unk_00);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_MEMDEP_NV(scratch_page, load_dependency, ((S_80DB9000_5 *)((struct S_8003E2D8 *)&gameWork))->unk_00);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     ASM_SET(state_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     ASM_KEEP_NV(projection_flags);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     scratch_page->unk_06 = position->unk_06;

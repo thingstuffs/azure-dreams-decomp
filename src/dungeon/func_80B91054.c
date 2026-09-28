@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 
 typedef s32 M2C_UNK;
@@ -49,7 +50,6 @@ extern s32 func_800A6D30(void);
 extern void func_800A48F0();
 extern void func_800A9C18();
 extern void func_800AA36C();
-extern s32 D_80045340;
 extern u8 D_80083498[];
 extern u8 D_8014CA30[];
 extern M2C_UNK D_8014CE5C;
@@ -85,7 +85,7 @@ void *func_8014C854(s16 arg0, s8 arg1, s16 arg2, s16 arg3)
         actor = work;
         ((S_8014C854_0 *)obj)->unk_10 = D_8014CA30;
         work->unk_13 = 0xD;
-        func_8004491C(obj, &D_80045340);
+        func_8004491C(obj, func_80045340);
 
 #ifdef __mips__
         initial_callback = 0x80150000;

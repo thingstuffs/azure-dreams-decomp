@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -18,7 +19,6 @@ extern void func_80170F2C(void *, s32, s32, s32, s32, s32, s32);
 typedef struct { u8 pad[0x12]; u8 kind; u8 pad2; } ItemDef20;
 extern ItemDef20 D_8006DE24[];
 extern void *D_800814A8;
-extern s16 D_80083228;
 extern void *D_80170850[];
 extern void *D_80170868[];
 extern u8 D_80171650[];
@@ -292,11 +292,9 @@ state_3:
     }
 state_4:
     {
-        u8 *effect_state;
         s16 timer;
 
-        effect_state = (u8 *)&dungeonStatus.unk_00;
-        if (((S_80173078_5 *)effect_state)->unk_0C == 0) {
+        if (((s32)dungeonStatus.unk_0C) == 0) {
             ((S_80173078_0 *)action)->unk_96.u = 0;
         }
         timer = ((S_80173078_0 *)action)->unk_96.u - 1;
@@ -318,13 +316,13 @@ state_4:
 
             animation_table = D_801742C8;
             (*(u8 * *)((u8 *)sprite + 0x2C)) = animation_table;
-            direction = ((D_80083228 + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7;
+            direction = ((gameWork.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7;
             func_80047784(sprite, animation_table[direction], 0);
         }
-        if (((S_80173078_5 *)effect_state)->unk_0C != 0) {
+        if (((s32)dungeonStatus.unk_0C) != 0) {
             goto end;
         }
-        ((S_80173078_5 *)effect_state)->unk_0A--;
+        dungeonStatus.unk_0A--;
         ((S_80173078_0 *)action)->unk_8C = D_80171650;
         func_800A4ACC(actor);
         (*(u8 *)((u8 *)actor + 0x73)) = 0;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct QuadVertex {
     u32 xy;
@@ -64,7 +65,6 @@ typedef struct RenderState {
     u8 *packet;
 } RenderState;
 
-extern RenderState *D_80083160[];
 extern s32 func_800654B0();
 extern s32 func_8006658C();
 extern s32 func_800666F4();
@@ -86,7 +86,7 @@ s32 func_819611CC(Quad *quad, s32 unused, Material *material)
     u16 z;
     u16 z3;
 
-    slot = D_80083160;
+    slot = ((RenderState * *)(&gameWork));
     packet = (PolyFT4 *)(*slot)->packet;
     scratch = SCRATCH;
     scratch->ot_base = (u32)*slot + 0xB0;

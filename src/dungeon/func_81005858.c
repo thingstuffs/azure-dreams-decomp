@@ -1,3 +1,4 @@
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
 struct S_80083178Vector
@@ -87,7 +88,6 @@ extern void func_80173834(void *, void *, void *, void *);
 extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern s8 D_80082EA4;
-extern s16 D_80083228;
 extern u8 D_80174880[];
 extern u8 D_80174890[];
 extern u8 D_801748C8;
@@ -120,7 +120,7 @@ void func_80171058(void *actor, void *context, void *sprite_arg, void *creature)
     }
     anim_table = D_801748D8;
     *((void **) (((u8 *) sprite_arg) + 0x2C)) = anim_table;
-    func_80047784(sprite_arg, ((u8 *) anim_table)[(((D_80083228 + (*((s16 *) (((u8 *) creature) + 0x2A)))) + 0x100) >> 9) & 7], 0);
+    func_80047784(sprite_arg, ((u8 *) anim_table)[(((gameWork.viewAngle + (*((s16 *) (((u8 *) creature) + 0x2A)))) + 0x100) >> 9) & 7], 0);
     goto done;
   }
   sprite = sprite_arg;
@@ -165,7 +165,7 @@ void func_80171058(void *actor, void *context, void *sprite_arg, void *creature)
       if (current_anim != anim_table)
       {
         *((void **) (((u8 *) sprite) + 0x2C)) = anim_table;
-        func_80047784(sprite, ((u8 *) anim_table)[(((D_80083228 + (*((s16 *) (((u8 *) creature) + 0x2A)))) + 0x100) >> 9) & 7], 0);
+        func_80047784(sprite, ((u8 *) anim_table)[(((gameWork.viewAngle + (*((s16 *) (((u8 *) creature) + 0x2A)))) + 0x100) >> 9) & 7], 0);
         *((u8 *) (((u8 *) sprite) + 5)) = 1;
         *((s16 *) (((u8 *) actor) + 0xA6)) = 0;
         *((s16 *) (((u8 *) actor) + 0xB2)) = 0;

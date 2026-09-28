@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
 typedef struct S_818BD1C4_0 {
@@ -42,7 +43,6 @@ M2C_UNK func_8004491C();           /* extern */
 s32 func_80069EF8();                                /* extern */
 extern M2C_UNK D_800248C0;
 extern M2C_UNK D_80025E04;
-extern M2C_UNK D_80045340;
 
 /* Creates a colored object, copies its transform, and applies a vertical offset. */
 s32 func_818BD1C4(s32 *owner_id, void *transform, s16 color_index, s32 y_offset) {
@@ -118,7 +118,7 @@ after_data_ptr:
         visual->unk_1A = (s16) (phase_value - ((phase_rounded >> 0xC) << 0xC));
         visual->unk_1E = 0x2000;
         visual->unk_1C = 0x2000;
-        func_8004491C(object, &D_80045340);
+        func_8004491C(object, func_80045340);
         transform_ptr = ((S_818BD1C4_0 *)object)->unk_08;
         (*(Copy24 *)((u8 *)transform_ptr + 0)) =
             (*(Copy24 *)((u8 *)transform + 0));

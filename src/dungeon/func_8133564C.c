@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
@@ -68,7 +69,6 @@ extern void func_800AAA54(void *, void *, void *, void *);
 extern void func_800A2B04(void *, u8, u8);
 
 extern u8 D_80082E80[];
-extern s16 D_80083228;
 extern u8 D_8016A36C[];
 extern u8 D_801739A0[];
 extern u8 D_801739A8[];
@@ -158,7 +158,7 @@ void func_8016C64C(S_func_8016C64C_0 *action, S_func_8016C64C_1 *motion, S_func_
             *(u8 **)((u8 *)sprite + 0x2C) = anim_table;
             func_80047784(
                 sprite,
-                anim_table[((D_80083228 + actor->unk_2A + 0x100) >> 9) & 7],
+                anim_table[((gameWork.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
                 0);
             return;
         case 1:
@@ -170,7 +170,7 @@ void func_8016C64C(S_func_8016C64C_0 *action, S_func_8016C64C_1 *motion, S_func_
             *(u8 **)((u8 *)sprite + 0x2C) = anim_table;
             func_80047784(
                 sprite,
-                anim_table[((D_80083228 + actor->unk_2A + 0x100) >> 9) & 7],
+                anim_table[((gameWork.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
                 0);
             return;
         case 2:
@@ -182,7 +182,7 @@ void func_8016C64C(S_func_8016C64C_0 *action, S_func_8016C64C_1 *motion, S_func_
             *(u8 **)((u8 *)sprite + 0x2C) = anim_table;
             func_80047784(
                 sprite,
-                anim_table[((D_80083228 + actor->unk_2A + 0x100) >> 9) & 7],
+                anim_table[((gameWork.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
                 0);
             return;
         case 3:
@@ -193,7 +193,7 @@ void func_8016C64C(S_func_8016C64C_0 *action, S_func_8016C64C_1 *motion, S_func_
             *(u8 **)((u8 *)sprite + 0x2C) = anim_table;
             func_80047784(
                 sprite,
-                anim_table[((D_80083228 + actor->unk_2A + 0x100) >> 9) & 7],
+                anim_table[((gameWork.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
                 0);
             return;
         default:

@@ -1,9 +1,9 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
 extern void func_80047784();
 
-extern u8 D_80083160[];
 extern u8 D_80170E94[];
 extern u8 D_80175F10[];
 extern u8 D_80175F28[];
@@ -39,7 +39,7 @@ typedef struct S_func_810870DC_3 {
 /* Updates directional animation and entity state when the transition flags allow. */
 void func_801748DC(S_func_810870DC_0 *entity, void *unused, S_func_810870DC_1 *animation, S_func_810870DC_2 *orientation)
 {
-    S_func_810870DC_3 *scene_data = (S_func_810870DC_3 *)D_80083160;
+    S_func_810870DC_3 *scene_data = (S_func_810870DC_3 *)((u8 *)(&gameWork));
     u16 *counters;
     u8 state = entity->unk_9B;
 

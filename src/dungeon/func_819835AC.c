@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 
@@ -233,7 +234,6 @@ extern u8 D_80027C96;
 extern s32 D_80027C98;
 extern void *D_800814A8;
 extern M2C_UNK D_80082E80;
-extern s16 D_80083228;
 extern M2C_UNK D_80083780;
 extern s32 D_800E3D18;
 extern M2C_UNK D_800E3D7C;
@@ -360,7 +360,7 @@ void func_80024DAC(S_819835AC_1 *effect, S_819835AC_2 *motion, S_819835AC_3 *vis
     }
     (void)state_labels; goto *D_80024020[(u32)(state)];
 jt_c0:
-    func_8003DE58(*(M2C_UNK *)((((s32) (D_80083228 + ((S_819835AC_5 *) ((S_819835AC_11 *) &D_800E3D7C)->unk_00)->unk_2A.s16 + 0x100) >> 7) & 0x1C) + D_800E3D18), &D_80082E80, (u8 *) effect + 0x28, 0);
+    func_8003DE58(*(M2C_UNK *)((((s32) (gameWork.viewAngle + ((S_819835AC_5 *) ((S_819835AC_11 *) &D_800E3D7C)->unk_00)->unk_2A.s16 + 0x100) >> 7) & 0x1C) + D_800E3D18), &D_80082E80, (u8 *) effect + 0x28, 0);
     heading_or_owner = func_80064584(((S_819835AC_5 *) (*(void **)&D_800E3D7C))->unk_2A.s16);
     boost_speed_x = func_80064584(((S_819835AC_5 *) (*(void **)&D_800E3D7C))->unk_2A.s16 - 0x400);
     state0_move = (S_819835AC_2 *) &D_80083780;
@@ -489,7 +489,7 @@ block_24:
     if (__builtin_abs(approach_gap_z) >= 0x40) {
         goto block_129;
     }
-    func_8003DE58(*(M2C_UNK *)((((s32) (D_80083228 + ((S_819835AC_5 *) ((S_819835AC_11 *) &D_800E3D7C)->unk_00)->unk_2A.s16 + 0x100) >> 7) & 0x1C) + D_800E3D18), &D_80082E80, (u8 *) effect + 0x28, 0);
+    func_8003DE58(*(M2C_UNK *)((((s32) (gameWork.viewAngle + ((S_819835AC_5 *) ((S_819835AC_11 *) &D_800E3D7C)->unk_00)->unk_2A.s16 + 0x100) >> 7) & 0x1C) + D_800E3D18), &D_80082E80, (u8 *) effect + 0x28, 0);
     state1_move = (S_819835AC_2 *) &D_80083780;
     boost_speed_x = effect->unk_28.u16;
     coord_delta = state1_move->unk_00.half.unk_02.u16;

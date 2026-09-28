@@ -292,3 +292,99 @@ Rows referencing each symbol, not yet consolidated:
 | D_80083780 | 177 | dungeon, slus, town | |
 | D_80013714 | 81 | all but ovmovie | |
 | D_80083178 | 69 | all but ovmovie | game.h already has a provisional struct S_80083178 |
+
+---
+
+# Phase 3 (r78): the local-pointer fold, GameWork (0x80083160), and a function address declared as data
+
+## 12. The local-pointer fold: `consolidate.rewrite_pointers(text, obj, mode)`
+
+m2c often spells an object as a local pointer:
+
+    u8 *state = &D_80083460;   /* or (u8 *)(&dungeonStatus) */
+    ((S_x *)state)->unk_0A ...
+
+The fold finds every local `p` whose assignments are ALL the same object address (`&var` or `&var.field`,
+through any casts). It refuses unless every other use of `p` is a recognised object access:
+- `((V *)p)->m`, where V is a local view the tool lays out itself, keyed by typedef name and struct tag
+- `p->m`
+- `*(T *)(p + k)` and `*(T *)((u8 *)p + k)`
+- `((T *)p)[k]`, `p[k]` and `*p`
+
+It also refuses a register-pinned `p` and any `p` whose address is taken. Then it rewrites in one of two modes:
+- **direct**: `p` and its assignments go, and each access becomes `var.field`.
+- **typed**: `Type *p = &var;` and each access becomes `p->field`. This keeps the pointer variable, which is
+  sometimes what forms retail's base register.
+
+Both modes use the same emitter as phase 2 (`emit_field`: casts only at sign or int/pointer mismatches, a view at
+union sites). Several identical declarations of `p` are the matching and NON_MATCHING arms of one function, and
+they are edited in lockstep. `drive3.py` now tries every plan with the fold (direct, then typed) before it tries
+the plan without it.
+
+The fold also handles two more cases:
+- An opaque view (an incomplete `struct S` whose address is all the row takes) becomes `((struct S *)&var)`.
+- Plain `struct Tag {...};` definitions count as views too.
+
+## 13. `GameWork gameWork` at 0x80083160 (include/shared/game_work.h), which absorbs 0x80083228
+
+- **One object.** The census covers 1,095 rows touching 0x80083160..0x8008335F (`census/g83160w.jsonl`,
+  `tools/layout.py`). Rows reach every offset from 0x000 to 0x1FC from one lui/addiu base of 0x80083160. That
+  includes 0x0C8, which is **D_80083228**: 57 rows read it through the base, and 567 rows read it on its own.
+- **0x80083228 is a field, not an object.** Declared as a stand-alone `short`, 60 rows miss. As a stand-alone
+  10-byte aggregate, 575 of 576 rows are exact. That already said "aggregate (MEM_IN_STRUCT)"; the base census says
+  which aggregate. The field is `viewAngle`.
+  - It is read-only in C (lh 1,134 sites).
+  - `(viewAngle + obj->angle + 0x100) >> 9 & 7` picks an object's 8-way directional sprite, so it is the view's
+    rotation (0x1000 = one turn).
+- **Layout.** 112 fields, generated from the access census:
+  - width is the majority access width
+  - lh => signed; lhu-only => unsigned; store-only => signed
+  - unaccessed gaps become `pad_XXX`
+  - pointers where lw and the declarations say so (0x000, 0x008, 0x010, 0x0CC, 0x0D0, 0x0F0)
+  - union sites (a wider or narrower access) are reached through views at the use:
+    - 0x004: 2 lbu over a u16
+    - 0x008: 1 lhu over a pointer
+    - 0x0A8: lw/sw over three bytes
+    - 0x0AC/0x0B0/0x0C4/0x0C8: one word copy
+- **game.h's `struct S_80083178` is gameWork + 0x18.** Its callback (0xB4), field_B8 and ptr (0xD8) land on
+  0x0CC/0x0D0/0x0F0. Its provisional `state_94` vectors cover 0x0AC..0x0CB, which is where retail keeps viewAngle.
+  - D_80083178 (69 rows) stays on the game.h view in this phase: game.h is in every TU through common.h.
+  - Folding S_80083178 into GameWork (and deleting it from game.h) is the next step for this object.
+- **Size.** At least 0x200 bytes, so it is never small data at any -G; there is no -G hazard.
+
+## 14. D_80045340 is code: `func_80045340` (include/shared/slus_callbacks.h)
+
+- 442 dungeon/town rows declare `extern u8 D_80045340[];` (or s32/M2C_UNK) and only ever take its address; the
+  census has no load or store through it.
+- The retail bytes at 0x80045340 are code (addiu $sp,-32 / sw $s0...), and slus/w_80045340 defines func_80045340.
+- Every row hands it to func_8004491C (effect/particle registration) as a callback.
+- `consolidate.rewrite_funcaddr` swaps the data declaration for the function designator, with one shared
+  prototype. 434 of 442 rows are exact.
+- This is a type fix rather than a data consolidation. The function keeps its func_ name until its behaviour
+  earns a readable one (names.tsv).
+
+## 15. Pins (phase 3)
+
+- All 350 migrated rows that still carry pins were tested: each pin erased alone, then all together, byte-scored
+  at the registered cell. Only one erasure is exact, and it is exact on the tree text too, so it is independent of
+  the type change: **dungeon/func_80DE9000**, `ASM_REG("17")` on `void *arg3_part` (line 118).
+- Folding a register-pinned object pointer (`register T *p ASM_REG(...) = &var`) removed no pin in any row tried (every row with a pinned pointer to either object).
+  Every exact fold kept the pin count, so no pin became removable.
+- No result above is exact only at another cell, so tools/fidelity/cell_retail_check.py was not needed.
+
+## 16. Next objects
+
+Rows referencing each symbol, not yet consolidated:
+
+| symbol | rows | containers | note |
+|---|---|---|---|
+| D_80083178 | 69 | all but ovmovie | = gameWork + 0x18: fold game.h's S_80083178 into GameWork |
+| D_80016000 | 313 | dungeon, slus, town | Rec_D_80016000 exists |
+| D_80082E80 | 290 | dungeon, town | |
+| D_80083498 | 284 | dungeon, town | passed by address |
+| D_800814A8 | 236 | dungeon, slus, town | pointer next to objectFlagBlock |
+| D_800E3D7C | 199 | dungeon, slus | overlay .bss; Rec_D_800E3D7C exists |
+| D_80083780 | 177 | dungeon, slus, town | |
+| D_80083120 | ~26 | slus, dungeon | S_80083120[8], the 0x40 bytes before gameWork |
+| D_800E2970 | 91 | dungeon | |
+| D_80013714 | 81 | all but ovmovie | |

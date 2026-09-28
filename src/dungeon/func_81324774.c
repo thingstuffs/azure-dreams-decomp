@@ -130,7 +130,7 @@ void func_8016BF74(void *raw_motion, void *context, void *raw_position, void *ra
     s32 direction_offset;
     s32 result;
     s8 tile_index;
-    s8 *state;
+    DungeonGlobalStatus *state;
     s32 state_flags;
     S_8016BF74_4 *target_position;
     void *x_offset;
@@ -157,16 +157,16 @@ void func_8016BF74(void *raw_motion, void *context, void *raw_position, void *ra
     motion = raw_motion;
     position = raw_position;
     actor = raw_actor;
-    state = (s8 *)&dungeonStatus.unk_00;
+    state = &dungeonStatus;
     ASM_KEEP(motion);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    state_flags = ((S_8016BF74_0 *)state)->unk_02;
+    state_flags = state->flags;
     near_target = 0;
     if ((state_flags & 0x4000) || (((S_8016BF74_1 *)actor)->unk_71.s >= 0)) {
         if (((u8) ((S_8016BF74_1 *)actor)->unk_12 >= 2U) || ((func_8016C720(motion, context, position, actor) << 0x10) == 0)) {
             func_800A9A0C(actor);
             return;
         }
-        active_actor = ((S_8016BF74_0 *)state)->unk_0C;
+        active_actor = ((s32)state->unk_0C);
         if ((void *)active_actor == actor) {
             path_status = 0xC008;
             ((S_8016BF74_1 *)actor)->unk_46 = (u16) path_status;
@@ -354,7 +354,7 @@ finish_search:
             turn_index += 1;
             angle_offsets += 2;
             if (turn_index >= 8) {
-                s8 *step_state;
+                DungeonGlobalStatus *step_state;
 
 complete_step:
                 result = turn_index < 8;
@@ -367,8 +367,8 @@ complete_step:
                 ((S_8016BF74_1 *)actor)->unk_46 = (u16) (((S_8016BF74_1 *)actor)->unk_46 & 0x7FFF);
                 ((S_8016BF74_5 *)motion)->unk_9C = (s8) (u8) position->unk_26;
                 ((S_8016BF74_1 *)actor)->unk_6D.u = (u8) (((S_8016BF74_1 *)actor)->unk_6D.u - 1);
-                step_state = (s8 *)&dungeonStatus.unk_00;
-                ((S_8016BF74_8 *)step_state)->unk_08 = (u16) (((S_8016BF74_8 *)step_state)->unk_08 + 1);
+                step_state = &dungeonStatus;
+                step_state->unk_08 = (u16) (((u16)step_state->unk_08) + 1);
                 if (((S_8016BF74_1 *)actor)->unk_6D.s == 0) {
 finish_path:
                     ((S_8016BF74_1 *)actor)->unk_71.u &= 0x7F;

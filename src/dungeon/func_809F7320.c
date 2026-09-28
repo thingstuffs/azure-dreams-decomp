@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
@@ -137,8 +138,6 @@ s32 func_800C77D0(); /* extern */
 void func_80174800(); /* extern */
 extern M2C_UNK D_8003E140;
 extern s32 D_8006CD58;
-extern M2C_UNK D_80083160;
-extern s16 D_80083228;
 extern void *D_800DCEEC[];
 extern M2C_UNK D_800DCF5C;
 extern u8 D_8014A000[];
@@ -181,7 +180,7 @@ void func_80174B20(void *state, Rec_D_800E3D7C *position, Rec_D_80082E80 *entity
     void *new_actor;
     void *replacement;
 
-    scene_color = &D_80083160;
+    scene_color = ((M2C_UNK *)&gameWork.unk_000);
     phase = ((Rec_func_80174800_arg0 *)state)->unk_9B;
     if (phase >= 9U) {
         goto done;
@@ -197,7 +196,7 @@ jt_c1:
     ((S_80174B20_1 *)actor)->unk_8A = (u16) ((S_80174B20_1 *)actor)->unk_2A;
     ((S_80174B20_1 *)actor)->unk_1C = (s32) (((S_80174B20_1 *)actor)->unk_1C & 0xFFFBFFFF);
 jt_c2:
-    direction = ((s32) (D_80083228 + (s16) ((S_80174B20_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
+    direction = ((s32) (gameWork.viewAngle + (s16) ((S_80174B20_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
     if ((*(u8 *)&D_8017521C) == 0) {
         goto turn_actor;
     }
@@ -325,7 +324,7 @@ jt_c7:
     ((S_80174B20_16 *)(((S_80174B20_14 *)actor)->unk_60))->unk_2A = (u16) ((S_80174B20_1 *)actor)->unk_2A;
     replacement = ((S_80174B20_1 *)actor)->unk_60;
     sprite = ((S_80174B20_11_pre *)replacement)[-1].unk_00;
-    func_80047738(sprite, sprite->unk_2C[((s32) (D_80083228 + (s16) ((S_80174B20_11 *)replacement)->unk_2A + 0x100) >> 9) & 7], sprite->unk_04);
+    func_80047738(sprite, sprite->unk_2C[((s32) (gameWork.viewAngle + (s16) ((S_80174B20_11 *)replacement)->unk_2A + 0x100) >> 9) & 7], sprite->unk_04);
     sprite->unk_14 = (u16) (sprite->unk_14 & 0xFFFE);
 jt_c8:
     finish_ticks = ((Rec_func_80174800_arg0 *)state)->unk_96 - 1;

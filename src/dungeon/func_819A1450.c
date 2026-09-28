@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 typedef struct S_819A1450_0 {
     u8 pad_00[0x3A];
@@ -68,7 +69,6 @@ extern s16 rand();
 
 extern LocalTable D_80024034;
 extern u8 D_800246F0[];
-extern s32 D_80045340;
 extern u8 D_800DEC00[];
 
 /* Creates an effect at an offset from the source with direction-based motion. */
@@ -89,7 +89,7 @@ void func_819A1450(S_819A1450_4 *source, s32 unused_1, s32 unused_2, s16 offset_
         ((S_819A1450_0 *)setup)->unk_3A = 5;
         ((S_819A1450_0 *)setup)->unk_3C = 5;
         ((S_819A1450_1 *)node)->unk_10 = D_800246F0;
-        func_8004491C(node, &D_80045340);
+        func_8004491C(node, func_80045340);
 
         part = ((S_819A1450_1 *)node)->unk_0C;
         part->unk_10 = 0x20;

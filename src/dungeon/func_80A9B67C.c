@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -37,11 +39,9 @@ extern s32 func_80172280(void *, void *, void *, s32);
 extern void func_80173F20(void *, void *, void *, void *);
 extern void func_80174470(void *, void *, void *, void *);
 
-extern s32 D_80045340;
 extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern s8 D_80082EA4;
-extern s16 D_80083228;
 extern u8 D_80083498[];
 extern u8 D_800D79B0[];
 extern u8 D_800DEA68[];
@@ -140,7 +140,7 @@ void func_80170E7C(void *actor, void *position, void *object, void *actor_data)
         }
         (*(void * *)((u8 *)object + (0x2C))) = D_80174C84;
         func_80047784(object,
-            D_80174C84[((D_80083228 + ((Rec_D_800E3D7C *)actor_data)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            D_80174C84[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor_data)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
         return;
     }
@@ -174,7 +174,7 @@ void func_80170E7C(void *actor, void *position, void *object, void *actor_data)
                 if (((S_80170E7C_2 *)object)->unk_2C != anim_table) {
                     (*(void * *)((u8 *)object + (0x2C))) = anim_table;
                     func_80047784(object,
-                        anim_table[((D_80083228 + ((Rec_D_800E3D7C *)actor_data)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+                        anim_table[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor_data)->unk_2A.as_s16 + 0x100) >> 9) & 7],
                         0);
                 }
                 ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = idle_state;
@@ -194,7 +194,7 @@ void func_80170E7C(void *actor, void *position, void *object, void *actor_data)
             func_80173F20(actor, position, object, actor_data);
             (*(void * *)((u8 *)object + (0x2C))) = D_80174C34;
             func_80047784(object,
-                D_80174C34[((D_80083228 + ((Rec_D_800E3D7C *)actor_data)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+                D_80174C34[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor_data)->unk_2A.as_s16 + 0x100) >> 9) & 7],
                 0);
             return;
         }
@@ -321,7 +321,7 @@ generic:
         (((S_80170E7C_2 *)object)->unk_2C != D_80174C34)) {
         (*(void * *)((u8 *)object + (0x2C))) = anim_table;
         func_80047784(object,
-            anim_table[((D_80083228 + ((Rec_D_800E3D7C *)actor_data)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            anim_table[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor_data)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
         ((Rec_func_800A9E70_arg0 *)actor)->unk_AA = 1;
     } else if (((S_80170E7C_2 *)object)->unk_14 & 0x6000) {
@@ -340,7 +340,7 @@ generic:
         ((S_80170E7C_2 *)object)->unk_2C = next_anim;
         func_80047784(object,
             ((u8 *)*(u8 * volatile *)((u8 *)object + 0x2C))[
-                ((D_80083228 + ((Rec_D_800E3D7C *)actor_data)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+                ((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor_data)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
     }
 
@@ -363,7 +363,7 @@ generic:
         if (object == 0) {
             return;
         }
-        func_8004491C(object, &D_80045340);
+        func_8004491C(object, func_80045340);
         tint = (void *)0x00808080;
         ((S_80170E7C_2 *)object)->unk_10 = D_800D79B0;
         ((S_80170E7C_9 *)(((S_80170E7C_2 *)object)->unk_08))->unk_02 =

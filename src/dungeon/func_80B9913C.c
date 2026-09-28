@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -15,7 +16,6 @@ extern void func_800BB044(void *);
 
 extern u8 D_8006DE24[];
 extern void *D_800814A8;
-extern s16 D_80083228;
 extern void *D_80170850[];
 extern u8 D_80170E9C[];
 extern u8 D_80174EE0[];
@@ -240,7 +240,7 @@ state_2:
 
         direction_frames = D_80174EE0;
         (*(u8 * *)((u8 *)sprite + 0x2C)) = direction_frames;
-        direction = ((D_80083228 + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7;
+        direction = ((gameWork.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7;
         func_80047784(sprite, direction_frames[direction], 0);
     }
     {

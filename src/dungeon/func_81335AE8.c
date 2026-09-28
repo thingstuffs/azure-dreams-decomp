@@ -18,17 +18,17 @@ void func_8016CAE8(void *controller, void *unused_1, void *unused_2, u8 *active_
     u8 *object_header;
     u8 *object;
     u8 *flags_page;
-    u8 *state;
+    DungeonGlobalStatus *state;
 
     flags_page = (u8 *)0x80010000;
-    state = ((u8 *)(&dungeonStatus));
+    state = &dungeonStatus;
     
     state_flags = *(u16 *)(flags_page + 0x3714);
-    update_count = *(u16 *)(state + 0xA);
+    update_count = ((u16)state->unk_0A);
     *(u16 *)(flags_page + 0x3714) = state_flags | 8;
-    *(u16 *)(state + 0xA) = update_count + 1;
-    if (*(u32 *)(state + 0x10) == (u32)(active_object - 0x20)) {
-        *(u32 *)(state + 0x10) &= 0x7FFFFFFF;
+    state->unk_0A = update_count + 1;
+    if (((u32)state->unk_10) == (u32)(active_object - 0x20)) {
+        *(u32 *)&state->unk_10 &= 0x7FFFFFFF;
     }
 
     func_800353F4(D_80175392, state);

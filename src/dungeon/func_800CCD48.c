@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
 typedef struct S_800D24A8_0 {
@@ -56,7 +57,6 @@ M2C_UNK func_8009A21C();             /* extern */
 s8 func_8009FB34();                           /* extern */
 M2C_UNK func_800A2B04();              /* extern */
 s16 func_800BCB04();                   /* extern */
-extern M2C_UNK D_80045340;
 extern M2C_UNK D_80083498;
 extern M2C_UNK D_800D2664;
 extern M2C_UNK D_800D28E4;
@@ -91,7 +91,7 @@ void *func_800D24A8(s16 object_kind, u16 tile_x, u16 tile_y, s16 height) {
             state->unk_14 = (s32) (state->unk_14 | 0x2000);
             state->unk_1C = (s32) (state->unk_1C | 0x2000);
         }
-        func_8004491C(object, &D_80045340);
+        func_8004491C(object, func_80045340);
         position = ((S_800D24A8_1 *)object)->unk_08;
         position->unk_0A = saved_height;
         sprite = ((S_800D24A8_1 *)object)->unk_0C;

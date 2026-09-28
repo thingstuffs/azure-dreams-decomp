@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 
@@ -98,7 +99,6 @@ s32 func_80069EF8();
 s32 func_800A48F0();
 extern s32 D_800246B0;
 extern s16 D_8002992E;
-extern s32 D_80045340;
 extern s32 D_800DE870;
 extern s32 D_800E3D7C;
 
@@ -124,7 +124,6 @@ void func_800247C0(void *effect, void *origin)
     void *particle_state;
     void *sprite;
     void *object;
-    u8 *effect_globals;
 
     D_8002992E = 1;
     offset_x = (func_80069EF8() & 0x3F) - 0x20;
@@ -165,7 +164,7 @@ void func_800247C0(void *effect, void *origin)
             particle_state = object + 0x20;
             ((S_800247C0_5 *)particle_state)->unk_28 = 0x14;
             ((S_800247C0_1 *)object)->unk_10 = &D_800246B0;
-            func_8004491C(object, &D_80045340);
+            func_8004491C(object, func_80045340);
             sprite = ((S_800247C0_1 *)object)->unk_0C;
             ((S_800247C0_4 *)sprite)->unk_10 = 0x20;
             ((S_800247C0_4 *)sprite)->unk_14 |= 0xC;
@@ -207,10 +206,9 @@ void func_800247C0(void *effect, void *origin)
     next_timer = timer - 1;
     ((S_800247C0_0 *)effect)->unk_28 = next_timer;
     if ((next_timer << 0x10) <= 0) {
-        effect_globals = (u8 *)&dungeonStatus.unk_00;
         ((S_800247C0_0 *)effect)->unk_28 = timer;
-        if (((S_800247C0_6 *)effect_globals)->unk_10 == NULL) {
-            ((S_800247C0_6 *)effect_globals)->unk_10 = ((S_800247C0_0 *)effect)->unk_20;
+        if (dungeonStatus.unk_10 == NULL) {
+            dungeonStatus.unk_10 = ((S_800247C0_0 *)effect)->unk_20;
         }
         object = ((S_800247C0_0 *)effect)->unk_20;
         func_800A48F0(object + 0x20, 0x18, 0x14);

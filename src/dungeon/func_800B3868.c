@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct {
     u16 x;
@@ -17,7 +18,6 @@ typedef struct {
 extern void func_8006658C(void *, void *);
 extern void func_80067E2C(void *, void *);
 extern void func_800B9144(Position *, s32, void *, s16);
-extern s8 D_80083160[];
 extern u8 D_801C9E40[16];
 
 /* Queue a clipped sprite with an optional black background, adjusting Y for the active buffer. */
@@ -33,13 +33,13 @@ void func_800B8FC8(s32 sprite, Position *clip_rect, Position *screen_pos, s32 cl
     s32 saved_draw_flags;
     s32 y;
 
-    context = *(s8 **)D_80083160;
+    context = *(s8 **)((s8 *)(&gameWork));
     saved_clear_bg = clear_bg;
     shift_y = context != (s8 *)D_801C9E40;
     area_packet = *(Packet **)(context + 0x8D0);
     ordering_table = context + 0x8B0;
     *(Packet **)(context + 0x8D0) = (Packet *)((u8 *)area_packet + 0xC);
-    draw_context = *(void * volatile *)D_80083160;
+    draw_context = *(void * volatile *)((s8 *)(&gameWork));
     saved_draw_flags = draw_flags;
     ASM_KEEP_DEP_NV(area_packet, saved_draw_flags);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     func_80067E2C(area_packet, draw_context);
@@ -53,7 +53,7 @@ void func_800B8FC8(s32 sprite, Position *clip_rect, Position *screen_pos, s32 cl
         if (shift_y) {
             y -= 0xE0;
         }
-        context_slot = (s8 **)D_80083160;
+        context_slot = (s8 **)((s8 *)(&gameWork));
         draw_pos.y = y;
         func_800B9144(&draw_pos, sprite, ordering_table, (s16)saved_draw_flags);
 

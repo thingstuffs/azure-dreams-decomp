@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 
@@ -9,7 +10,6 @@
 #define S32(p, o) (*(s32 *)((u8 *)(p) + (o)))
 #define PTR(p, o) (*(void **)((u8 *)(p) + (o)))
 
-extern s16 D_80083228;
 extern u8 D_8017588C[];
 
 extern void func_80047784(void *, u8, s32);
@@ -107,7 +107,7 @@ void func_80173108(void *actor, s32 unused, void *sprite, void *entity)
         if (U16(sprite_group, 0x1C) & 0x6000) {
             PTR(sprite, 0x2C) = D_8017588C;
             func_80047784(sprite,
-                D_8017588C[((D_80083228 + S16(entity, 0x2A) + 0x100) >> 9) & 7],
+                D_8017588C[((gameWork.viewAngle + S16(entity, 0x2A) + 0x100) >> 9) & 7],
                 0);
             U16(actor, 0x96) = 0x80;
             U8(actor, 0x9B) = U8(actor, 0x9B) + 1;
@@ -120,7 +120,7 @@ void func_80173108(void *actor, s32 unused, void *sprite, void *entity)
         u8 tile_x;
         u8 tile_y;
         s32 effect_id;
-        u8 *dungeon_state;
+        DungeonGlobalStatus *dungeon_state;
 
         U32(entity, 0x1C) |= 0x10000000;
         brightness = U8(actor, 0x96);
@@ -131,7 +131,7 @@ void func_80173108(void *actor, s32 unused, void *sprite, void *entity)
         if (U8(sprite, 0xC) != 0) {
             break;
         }
-        dungeon_state = (u8 *)&dungeonStatus.unk_00;
+        dungeon_state = &dungeonStatus;
         if (U32(dungeon_state, 0x10) == (u32)((u8 *)entity - 0x20)) {
             U32(dungeon_state, 0x10) &= 0x7FFFFFFF;
         }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "shared/dir_step.h"
 
 
@@ -17,7 +18,6 @@ extern void func_8004491C(void *object, void *callback);
 extern void func_80047784(void *object, s32 kind, s32 arg2);
 extern void *func_8003DE58(void *arg0, void *arg1, Vec3u16 *out, s32 arg3);
 
-extern s32 D_80045340;
 extern u8 D_80175978;
 
 
@@ -104,7 +104,7 @@ void *func_80175D04(S_80175D04_0 *actor, Copy24 *start_pos, S_80175D04_3 *source
     object = func_8003FC64(0x312);
     if (object != 0) {
         (*(void * *)((u8 *)object + 0x10)) = &D_80175978;
-        func_8004491C(object, &D_80045340);
+        func_8004491C(object, func_80045340);
 
         render = (*(void * *)((u8 *)object + 0xC));
         render->unk_28 = source->unk_28;

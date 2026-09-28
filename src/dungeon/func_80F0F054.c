@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 
 typedef s32 M2C_UNK;
@@ -48,7 +49,6 @@ typedef struct S_8016A854_4 {
 } S_8016A854_4;   /* work_copy in func_8016A854 */
 
 
-extern u8 D_80045340[];
 extern u8 D_80083498[];
 extern u8 D_8016AA8C[];
 extern u8 D_8016DD30[];
@@ -96,7 +96,7 @@ BODY_STORAGE void *func_8016A854(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 at
     work = (u8 *)object + 0x20;
     ((S_8016A854_0 *)object)->unk_10 = D_8016AA8C;
     work->unk_13 = 0x23;
-    func_8004491C(object, D_80045340);
+    func_8004491C(object, func_80045340);
     part_a = ((S_8016A854_0 *)object)->unk_08;
     part_a->unk_0A = attr_c;
     part_b = ((S_8016A854_0 *)object)->unk_0C;

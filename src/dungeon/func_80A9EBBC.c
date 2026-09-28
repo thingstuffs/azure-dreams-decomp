@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
 
 void *func_8003FC64();                       /* extern */
 M2C_UNK func_8004491C();           /* extern */
-extern M2C_UNK D_80045340;
 extern M2C_UNK D_80174318;
 
 typedef struct S_801743BC_0 {
@@ -48,7 +48,7 @@ void func_801743BC(M2C_UNK unused, Rec_D_800E3D7C *source_pos) {
     if (effect != NULL) {
         effect->unk_3A = 0x2D;
         effect->unk_10 = &D_80174318;
-        func_8004491C(effect, &D_80045340);
+        func_8004491C(effect, func_80045340);
         effect_pos = effect->unk_08;
         effect_pos->unk_02 = (u16) source_pos->unk_00.at02_u16.v;
         effect_pos->unk_06 = (u16) source_pos->unk_04.at02_u16.v;

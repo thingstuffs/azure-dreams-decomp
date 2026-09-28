@@ -144,12 +144,10 @@ align_to_tile:
     func_800A2B04(motion, tile->unk_24,
         tile->unk_25);
     {
-        s32 *entity_globals;
 
-        entity_globals = &dungeonStatus.unk_00;
-        velocity_or_entity = entity_globals[4];
+        velocity_or_entity = ((s32)dungeonStatus.unk_10);
         if (velocity_or_entity == (s32)((u8 *)entity - 0x20)) {
-            entity_globals[4] = velocity_or_entity & 0x7FFFFFFF;
+            dungeonStatus.unk_10 = velocity_or_entity & 0x7FFFFFFF;
         }
     }
     motion_state->unk_8C = &D_80171094;

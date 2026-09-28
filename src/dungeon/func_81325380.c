@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -11,7 +12,6 @@ extern void func_800A4ACC(void *);
 extern void func_800A9A04(void *);
 extern s32 func_800AD9B4(void *, void *);
 extern u8 D_80082E80[];
-extern s16 D_80083228;
 extern u8 D_8016B778[];
 extern u8 D_8017467C[];
 extern u8 D_80174684[];
@@ -62,7 +62,6 @@ void func_8016CB80(void *state, void *motion_arg, void *actor_arg, void *entity_
     u16 action_ticks;
     u16 status_flags;
     s32 phase;
-    u8 *action_counter;
     register void *current_anims;
     u8 *anims;
 
@@ -126,14 +125,14 @@ update_animation:
         anims = (u8 *)&D_8017467C;
         if (current_anims != anims) {
             (*(u8 **)((u8 *)actor + 0x2C)) = anims;
-            func_80047784(actor, *(u8 *)((((s32) (D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7) + (u32)anims), 0);
+            func_80047784(actor, *(u8 *)((((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7) + (u32)anims), 0);
         }
     } else {
         current_anims = ((S_8016CB80_2 *)actor)->unk_2C.p;
         anims = D_80174684;
         if (current_anims != anims) {
             (*(u8 **)((u8 *)actor + 0x2C)) = anims;
-            func_80047784(actor, *(u8 *)((((s32) (D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7) + (u32)anims), 0);
+            func_80047784(actor, *(u8 *)((((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7) + (u32)anims), 0);
         }
     }
 update_timer:
@@ -145,9 +144,8 @@ update_timer:
         ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
         func_800A2B04(motion, ((S_8016CB80_2 *)actor)->unk_24, ((S_8016CB80_2 *)actor)->unk_25);
         func_800A4ACC(entity);
-        action_counter = ((u8 *)(&dungeonStatus));
-        if (((S_8016CB80_4 *)action_counter)->unk_08 != 0) {
-            ((S_8016CB80_4 *)action_counter)->unk_08 = (s16) ((u16) ((S_8016CB80_4 *)action_counter)->unk_08 - 1);
+        if (dungeonStatus.unk_08 != 0) {
+            dungeonStatus.unk_08 = (s16) ((u16) dungeonStatus.unk_08 - 1);
         }
         entity_flags = ((Rec_D_800E3D7C *)entity)->unk_1C.as_s32;
         if (entity_flags & 0x2000) {

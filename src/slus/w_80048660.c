@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 /* S_80083164: state/generation counter global; only offset 0 (u16) is
  * ever read across the sibling family (func_80047338/func_80047468/
@@ -9,7 +10,6 @@ struct S_80083164 {
     u8 pad2[0xA];
 };
 
-extern struct S_80083164 D_80083164;
 
 static u16 D_80081530;
 u16 D_80080B10 = 0;
@@ -33,11 +33,11 @@ void func_80048660(struct S_80048660 *state)
     s32 row_step;
     s32 col_step;
 
-    if (D_80083164.field_0 != D_80081530) {
+    if (gameWork.unk_004 != D_80081530) {
         D_80080B14 = 0;
         D_80080B12 = 0;
         D_80080B10 = 0;
-        D_80081530 = D_80083164.field_0;
+        D_80081530 = gameWork.unk_004;
     }
 
     row_step = (s32)(state->field_A + 1) >> 1;

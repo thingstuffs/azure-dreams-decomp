@@ -56,7 +56,6 @@ s32 func_800BEB30(u32 target, u8 *action, s16 action_kind, s32 context) {
     u32 choice_index;
     s32 call_context = context;
     s32 value_arg;
-    u8 *counter_base;
     s32 result_value;
     u8 item_type;
 
@@ -132,8 +131,7 @@ other:
     func_800997FC(D_800E116E, call_context, action_kind);
 
 decrement:
-    counter_base = (u8 *)&dungeonStatus.unk_00;
-    ((S_800BEB30_2 *)counter_base)->unk_0A--;
+    dungeonStatus.unk_0A--;
     func_80098B38(action);
     return 1;
 }

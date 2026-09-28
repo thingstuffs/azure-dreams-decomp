@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 extern int abs(int);
@@ -19,7 +20,6 @@ extern void func_800C8900(s32, s32, s32);
 
 
 extern u8 D_80083498[];
-extern u8 D_80045340[];
 extern u8 D_80024C7C[];
 extern u8 D_80024B60[];
 extern u8 D_80024798[];
@@ -110,7 +110,7 @@ set_distance:
         while (distance >= 0) {
             particle = (u8 *)func_8003FD64(786, D_80083498);
             if (particle != 0) {
-                func_8004491C(particle, D_80045340);
+                func_8004491C(particle, func_80045340);
                 render_data = (u8 *)S32(particle, 12);
                 S32(particle, 16) = (s32)spawn_callback;
                 U16(S32(particle, 8), 2) = (u16)(U16(motion, 2) +

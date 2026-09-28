@@ -68,7 +68,6 @@ void func_800CB600(void *effect, S_800CB600_2 *position, S_800CB600_1 *appearanc
     u16 grown_scale;
     u16 shrunk_scale;
     S_800CB600_3 *owner;
-    D_80083460_t *state;
 
     next_brightness = ((S_800CB600_0 *)effect)->unk_94.u + 1;
     ((S_800CB600_0 *)effect)->unk_94.u = next_brightness;
@@ -107,19 +106,18 @@ void func_800CB600(void *effect, S_800CB600_2 *position, S_800CB600_1 *appearanc
             return;
         }
 
-        state = ((D_80083460_t *)&dungeonStatus);
         ((S_800CB600_0 *)effect)->unk_96.u = 0;
-        if (state->fieldC != 0) {
+        if (dungeonStatus.unk_0C != 0) {
             return;
         }
-        if (state->field10 != 0) {
+        if (dungeonStatus.unk_10 != 0) {
             return;
         }
-        if (state->flags & 8) {
+        if (dungeonStatus.flags & 8) {
             return;
         }
 
-        state->fieldC = effect;
+        dungeonStatus.unk_0C = effect;
         ((S_800CB600_0 *)effect)->unk_98 |= 0x80;
         ((S_800CB600_0 *)effect)->unk_9A++;
         return;

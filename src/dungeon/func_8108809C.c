@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "records/Rec_D_80082E80.h"
 
 #ifndef NULL
@@ -15,7 +16,6 @@ extern void func_8004491C(void *, void *);
 extern s32 rand(void);
 extern void func_80047784(void *, s32, s32);
 extern s32 func_8003DE58(s32, void *, u16 *, s32);
-extern u8 D_80045340;
 extern u8 D_80175018;
 
 
@@ -85,7 +85,7 @@ void *func_8017589C(s32 allocation_param, Copy24 *initial_data, Rec_D_80082E80 *
     object = func_8003FD64(0x312, allocation_param - 0x20);
     if (object != NULL) {
         ((S_8017589C_0 *)object)->unk_10 = &D_80175018;
-        func_8004491C(object, &D_80045340);
+        func_8004491C(object, func_80045340);
         work = (u8 *)object + 0x20;
 
         random_value = rand();

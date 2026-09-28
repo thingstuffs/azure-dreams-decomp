@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 extern int D_800814C8;
 extern int D_80081550;
@@ -84,7 +85,6 @@ typedef struct
   u8 pad830[0xA0];
   Primitive *next_primitive;
 } Dungeon;
-extern u8 D_80083160[];
 extern s32 func_800644B8(s32);
 extern s32 func_800654B0(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
 extern void func_80066640(Primitive *, s32);
@@ -108,7 +108,7 @@ s32 func_800DB660(Item *item)
   s32 z_phase;
   s32 address_mask;
   Dungeon **dungeon_ptr;
-  dungeon_ptr = (Dungeon **) D_80083160;
+  dungeon_ptr = (Dungeon **) ((u8 *)(&gameWork));
   address_mask = 0x00FFFFFF;
   for (;;)
   {

@@ -3,6 +3,7 @@
  * TRUE-space name func_801663AC; the j->0x8017xxxx words are its own local
  * if/else joins (gap probe 5). No pins, no noreturn scaffolding. */
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct S_801663AC_0 {
     u8 pad_00[0xC];
@@ -139,7 +140,6 @@ extern void func_80064D80(void *);
 extern s32 func_80065590(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
 extern void func_80065820(void *, void *);
 extern void func_8006671C(void *);
-extern u8 D_80083160[];
 
 /* Transform a textured quad and add it to the ordering table if visible. */
 void func_801663AC(void *quad, void *position, void *render_state, s16 depth_bias)
@@ -152,7 +152,7 @@ void func_801663AC(void *quad, void *position, void *render_state, s16 depth_bia
     u8 tex_flags;
     MATRIX view_matrix;
 
-    ((S_801663AC_0 *)scratch)->unk_24.p = *(u8 **)D_80083160 + 0xB0;
+    ((S_801663AC_0 *)scratch)->unk_24.p = *(u8 **)((u8 *)(&gameWork)) + 0xB0;
     ((S_801663AC_0 *)scratch)->unk_88 = ((S_801663AC_1 *)position)->unk_02;
     ((S_801663AC_0 *)scratch)->unk_8C = ((S_801663AC_1 *)position)->unk_06;
     ((S_801663AC_0 *)scratch)->unk_90 = ((S_801663AC_1 *)position)->unk_0A;
@@ -179,8 +179,8 @@ void func_801663AC(void *quad, void *position, void *render_state, s16 depth_bia
     ((S_801663AC_0 *)scratch)->unk_10.s32 = texture[9];
     (*(s32 *)((u8 *)scratch + 0x14)) = texture[0xA];
     ((S_801663AC_0 *)scratch)->unk_18.s32 = texture[0xB];
-    packet = ((S_801663AC_3 *)(*(u8 **)D_80083160))->unk_8D0;
-    ((S_801663AC_3 *)(*(u8 **)D_80083160))->unk_8D0 = packet + 0x34;
+    packet = ((S_801663AC_3 *)(*(u8 **)((u8 *)(&gameWork))))->unk_8D0;
+    ((S_801663AC_3 *)(*(u8 **)((u8 *)(&gameWork))))->unk_8D0 = packet + 0x34;
 
     ((S_801663AC_0 *)scratch)->unk_B0 = ((S_801663AC_4 *)quad)->unk_74;
     ((S_801663AC_0 *)scratch)->unk_B8 = ((S_801663AC_4 *)quad)->unk_7A;

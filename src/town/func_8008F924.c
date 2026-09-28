@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct {
     s8 pad[0x14];
@@ -6,7 +7,6 @@ typedef struct {
     s16 unk16;
 } TownViewState;
 
-extern u8 D_80083160[0x1DC];
 extern s32 D_800FE480[];
 extern s32 D_800FE484[];
 
@@ -15,7 +15,7 @@ void func_8008D084(void)
 {
     TownViewState *state;
 
-    state = (TownViewState *)D_80083160;
+    state = (TownViewState *)((u8 *)(&gameWork));
     
     state = (TownViewState *)((u8 *)state + 0x1DC);
 

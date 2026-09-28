@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 typedef s32 M2C_UNK;
 
@@ -43,7 +44,6 @@ extern M2C_UNK func_8003DB94();
 extern void *func_8003FC64();
 extern M2C_UNK func_8004491C();
 extern M2C_UNK D_80024374;
-extern M2C_UNK D_80045340;
 extern M2C_UNK D_800DE870;
 
 /* Creates a type 0x212 object, initializes its appearance, and copies the supplied components. */
@@ -63,7 +63,7 @@ void *func_800243E0(S_800243E0_3 *source) {
         func_8003DB94(appearance, &D_800DE870, 0);
         appearance->unk_1E = 0x2000;
         appearance->unk_1C = 0x2000;
-        func_8004491C(object, &D_80045340);
+        func_8004491C(object, func_80045340);
         components = object->unk_08;
         components->unk_02 = source->unk_02;
         components->unk_06 = source->unk_06;

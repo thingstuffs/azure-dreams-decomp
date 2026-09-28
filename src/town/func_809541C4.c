@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 
 extern void func_80047738(void *, u8, s8);
 extern void func_80047784(void *, u8, s32);
 extern u8 D_8006CCF8[];
-extern s16 D_80083228[];
 
 typedef struct S_800211C4_0 {
     u8 pad_00[0x2A];
@@ -31,7 +31,7 @@ void func_800211C4(S_800211C4_0 *orientation, void *state_ptr, Rec_D_80082E80 *r
 
     angle = (orientation->unk_2A + 0x2000) & 0xFFF;
     orientation->unk_2A = angle;
-    angle_sector = (s32)(D_80083228[0] + angle + 0x100) >> 9;
+    angle_sector = (s32)(gameWork.viewAngle + angle + 0x100) >> 9;
     direction = angle_sector & 7;
     if (record->unk_14.at00_u16.v & 0x6000) {
         func_80047784(record, *((u8 *)record->unk_2C.as_s32 + direction), 0);

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 typedef struct S_8002470C_0 {
     u8 pad_00[0x2];
@@ -42,7 +43,6 @@ extern s32 func_80064584(s32);
 extern s32 func_800644B8(s32);
 extern void func_8003DB94(void *, void *, s32);
 extern void func_800245F8(void);
-extern u8 D_80045340[];
 extern u8 D_80026AB0[];
 
 
@@ -63,7 +63,7 @@ void *func_8002470C(s16 x, s16 y, s16 z, s16 heading, s16 count)
             u8 *extra;
 
             particle->callback = func_800245F8;
-            func_8004491C(particle, D_80045340);
+            func_8004491C(particle, func_80045340);
             motion = particle->dst;
             motion->unk_02 = (s16)x;
             motion->unk_06 = (s16)y;

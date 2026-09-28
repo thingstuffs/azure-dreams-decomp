@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dir_step.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
@@ -47,8 +48,6 @@ typedef struct S_8008B9FC_7_pre {
 
 
 extern volatile u16 D_80013714[];
-extern u8 D_80083160[];
-extern s16 D_80083228[];
 extern u16 D_80083460[];
 extern s16 D_80083464[];
 extern u8 D_800DCFB0[];
@@ -75,7 +74,7 @@ extern void func_800A67F4();
 
 /* Update movement state, position, and animation from the movement result. */
 void func_8008B9FC(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *sprite, Rec_D_800E3D7C *actor) {
-    u8 *dungeon_state = D_80083160;
+    GameWork *dungeon_state = &gameWork;
     u8 *alt_anim;
     u16 *flags;
     u16 *flags_2;
@@ -107,7 +106,7 @@ void func_8008B9FC(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *sprit
 
         if (move_result != 4) {
             if ((D_80013714[0] & 2) ||
-                (((((S_8008B9FC_3 *)dungeon_state)->unk_08 & 0x20) != 0) &&
+                (((((s32)dungeon_state->unk_008) & 0x20) != 0) &&
                  ((move_state->unk_A2 & 0x100) == 0) &&
                  func_800A5C70())) {
                 flags[1] |= 0x80;
@@ -115,7 +114,7 @@ void func_8008B9FC(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *sprit
                     sprite->unk_2C.as_pu8 = D_800DCFC0;
                     func_80048A44(
                         sprite,
-                        D_800DCFC0[((s32)(((S_8008B9FC_3 *)dungeon_state)->unk_C8 +
+                        D_800DCFC0[((s32)(dungeon_state->viewAngle +
                                          actor->unk_2A.as_s16 + 0x100) >> 9) & 7],
                         0, 1);
                 }
@@ -134,7 +133,7 @@ void func_8008B9FC(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *sprit
                     sprite->unk_2C.as_pu8 = D_800DCFB8;
                     func_80048A44(
                         anim_sprite,
-                        D_800DCFB8[((s32)(D_80083228[0] +
+                        D_800DCFB8[((s32)(gameWork.viewAngle +
                                          actor->unk_2A.as_s16 + 0x100) >> 9) & 7],
                         0, 1);
                 }
@@ -159,7 +158,7 @@ void func_8008B9FC(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *sprit
             sprite->unk_2C.as_pu8 = D_800DD030;
             func_80048A44(
                 sprite,
-                D_800DD030[((s32)(D_80083228[0] + actor->unk_2A.as_s16 +
+                D_800DD030[((s32)(gameWork.viewAngle + actor->unk_2A.as_s16 +
                                   0x100) >> 9) & 7],
                 0, 1);
         }
@@ -198,7 +197,7 @@ finish_step:
         ((S_8008B9FC_5 *)idle_sprite)->unk_2C = D_800DCFB0;
         func_80048A44(
             idle_sprite,
-            D_800DCFB0[((s32)(((S_8008B9FC_3 *)dungeon_state)->unk_C8 +
+            D_800DCFB0[((s32)(dungeon_state->viewAngle +
                               actor->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0, 1);
     }
@@ -244,7 +243,7 @@ update_step:
         sprite->unk_2C.as_pu8 = alt_anim;
         func_80048A44(
             sprite,
-            alt_anim[((s32)(D_80083228[0] + actor->unk_2A.as_s16 +
+            alt_anim[((s32)(gameWork.viewAngle + actor->unk_2A.as_s16 +
                                  0x100) >> 9) & 7],
             0, 1);
         flags_2[2] = (s16)flags_2[2] >> 1; return;
@@ -254,7 +253,7 @@ update_step:
         sprite->unk_2C.as_pu8 = D_800DCFE8;
         func_80048A44(
             sprite,
-            D_800DCFE8[((s32)(D_80083228[0] + actor->unk_2A.as_s16 +
+            D_800DCFE8[((s32)(gameWork.viewAngle + actor->unk_2A.as_s16 +
                                0x100) >> 9) & 7],
             1, 1);
         func_8009A3D0(sprite->unk_24, sprite->unk_25, 0x300);
@@ -270,7 +269,7 @@ update_step:
         sprite->unk_2C.as_pu8 = D_800DD0D0;
         func_80048A44(
             sprite,
-            D_800DD0D0[((s32)(D_80083228[0] + actor->unk_2A.as_s16 +
+            D_800DD0D0[((s32)(gameWork.viewAngle + actor->unk_2A.as_s16 +
                                0x100) >> 9) & 7],
             1, 1);
         func_8009A3D0(sprite->unk_24, sprite->unk_25, 0x300);

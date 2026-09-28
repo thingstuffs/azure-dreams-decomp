@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 
 typedef struct GlobalState {
@@ -7,7 +8,6 @@ typedef struct GlobalState {
     u8 pad6[6];
 } GlobalState;
 
-extern GlobalState D_80083160;
 
 extern s32 func_800644B8(s32);
 
@@ -25,7 +25,7 @@ void func_800A5828(void *effect, s32 unused, void *render_state)
     s16 current_brightness;
     u16 tilt;
     void *linked_prim;
-    GlobalState *global_state = &D_80083160;
+    GlobalState *global_state = ((GlobalState *)&gameWork);
 
     if (S16_AT(effect, 0x64) == 0) {
         if (global_state->flags & 1) {

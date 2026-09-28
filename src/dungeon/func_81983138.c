@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
 void *func_8003FC64();
@@ -8,7 +9,6 @@ s32 func_80064584();
 extern M2C_UNK D_80024888;
 extern u8 D_80020000[];
 extern M2C_UNK D_800269EC;
-extern M2C_UNK D_80045340;
 
 typedef struct S_80024938_0 {
     u8 pad_00[0x8];
@@ -67,7 +67,7 @@ void *func_80024938(s16 x, s16 y, s16 z, s16 angle) {
         particle = func_8003FC64(0x202);
         if (particle != NULL) {
             ((S_80024938_0 *)particle)->unk_10 = &D_80024888;
-            func_8004491C(particle, &D_80045340);
+            func_8004491C(particle, func_80045340);
             motion = ((S_80024938_0 *)particle)->unk_08;
             motion->unk_02 = x;
             motion->unk_06 = y;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
 typedef struct {
@@ -16,7 +17,6 @@ extern void func_80064EE0(s32, s32, s32);
 extern void func_80064F00(s32, s32);
 extern void func_80064F20(s32);
 
-extern u8 D_80083160[];
 extern u8 D_800DDC7C;
 extern ColorState D_801C9E40;
 extern ColorState D_801DA714;
@@ -50,7 +50,7 @@ void BODY_NAME(void) {
     s32 light_coeff_a;
     s32 light_coeff_b;
 
-    render_data = D_80083160;
+    render_data = ((u8 *)(&gameWork));
     view_state = render_data + 0x18;
     default_scale = 0x200;
     *(s32 *)(view_state + 0x88) = default_scale;

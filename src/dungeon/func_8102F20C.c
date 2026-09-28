@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 
@@ -46,7 +47,6 @@ typedef struct {
 } Stack3;
 
 extern s8 D_800DCECC[];
-extern s16 D_80083228[5];
 extern s32 func_80065420(void *, void *, void *, void *);
 extern void func_800478B8(void *, s32);
 
@@ -71,7 +71,7 @@ void func_8102F20C(void *entity, S_8102F20C_0 *position, void *output) {
     coords.x1 = base_position->unk_06;
     coords.x2 = base_position->unk_0A;
     depth_delta = depth_delta - func_80065420(&coords.x0, &screen_xy, &depth_cue, &projection_flags);
-    depth_bias = D_800DCECC[((s32) (*D_80083228 + ((S_8102F20C_1 *)entity)->unk_1C + 0x100) >> 9) & 7] * 2;
+    depth_bias = D_800DCECC[((s32) (gameWork.viewAngle + ((S_8102F20C_1 *)entity)->unk_1C + 0x100) >> 9) & 7] * 2;
     depth_delta = depth_delta + depth_bias;
     result->unk_14 = (u16) (result->unk_14 & 0xFF7F);
     result->unk_06 = depth_delta;

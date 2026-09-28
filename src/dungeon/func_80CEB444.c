@@ -41,7 +41,6 @@ void func_80174C44(S_80174C44_0 *controller, Rec_D_800E3D7C *transform, Rec_D_80
     u16 old_timer;
     s32 axis_pos;
     s32 axis_step;
-    S_80174C44_4 *tracking;
 
     state = controller->unk_9B;
     if (state == 1) {
@@ -198,9 +197,8 @@ state_3:
     transform->unk_10.at00_s32.v = 0;
     transform->unk_0C.as_s32 = 0;
     func_800A2B04(transform, entity->unk_24, entity->unk_25);
-    tracking = &dungeonStatus.unk_00;
-    if (tracking->unk_10 == (s32)actor - 0x20) {
-        tracking->unk_10 &= 0x7FFFFFFF;
+    if (((s32)dungeonStatus.unk_10) == (s32)actor - 0x20) {
+        *(s32 *)&dungeonStatus.unk_10 &= 0x7FFFFFFF;
     }
     controller->unk_8C = D_801724BC;
 

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -44,7 +45,6 @@ extern void func_800AD594(void *, s32);
 extern s32 func_800AD9B4(void *, void *);
 
 extern u8 D_80082E80[];
-extern s16 D_80083228;
 extern u8 D_801714B8;
 extern u8 D_801760BC;
 extern u8 D_801760C4;
@@ -91,7 +91,7 @@ state_zero:
     func_80047784(
         sprite,
         *(&D_801760BC +
-          (((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7)),
+          (((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7)),
         0);
     ((S_80172AD8_0 *)action)->unk_98 |= 8;
     ((Rec_D_800E3D7C *)actor)->unk_1C.as_s32 &= 0xF7FFFFFF;
@@ -148,7 +148,7 @@ state_two:
         func_80047784(
             sprite,
             *(&D_801760C4 +
-              (((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7)),
+              (((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7)),
             0);
         ((S_80172AD8_0 *)action)->unk_9B++;
         goto decrement_timer;

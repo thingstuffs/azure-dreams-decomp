@@ -1,8 +1,8 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
 #include "records/Rec_D_800E3D7C.h"
 
-extern s16 D_80083228;
 extern u8 D_800DD050[];
 extern u8 D_800DD0E0[];
 
@@ -29,7 +29,7 @@ void func_8008C468(void *entity, void *unused, void *animation, void *state) {
         if (current_page != page) {
             entity = animation;
             (*(u8 * *)((u8 *)entity + 0x2C)) = page;
-            func_80048A44(entity, *(u8 *)((((D_80083228 + ((Rec_D_800E3D7C *)state)->unk_2A.as_s16 + 0x100) >> 9) & 7) + (u32)page), 0, 1);
+            func_80048A44(entity, *(u8 *)((((gameWork.viewAngle + ((Rec_D_800E3D7C *)state)->unk_2A.as_s16 + 0x100) >> 9) & 7) + (u32)page), 0, 1);
         }
     }
 }

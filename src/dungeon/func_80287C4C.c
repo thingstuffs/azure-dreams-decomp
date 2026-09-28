@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dir_step.h"
 
 typedef struct {
@@ -30,7 +31,6 @@ typedef struct {
 } Room;
 
 extern s32 D_8001F660;
-extern DungeonState D_8008333C;
 extern Room D_800E2970[];
 extern DungeonCell D_800EA000[];
 
@@ -80,7 +80,7 @@ s32 func_8001AC4C(s16 src_dir, s16 dest_dir, s16 src_idx, s16 dest_idx, u8 *room
     s32 height_delta;
     s32 height_gap;
 
-    dungeon = &D_8008333C;
+    dungeon = ((DungeonState *)((u8 *)&gameWork + 476));
     src_room = &D_800E2970[src_idx];
     dest_room = &D_800E2970[dest_idx];
     path_length = 0;

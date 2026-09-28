@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
@@ -41,8 +42,6 @@ extern void *D_80170908[];
 
 extern s32 D_8003E140[];
 extern s32 D_8006CD58[];
-extern u8 D_80083160[];
-extern s16 D_80083228;
 extern u8 *D_800DCEEC[];
 extern u8 D_800DCF5C[];
 extern u8 D_8014A000[200000];
@@ -150,7 +149,7 @@ void func_80175398(void *transition, void *position, Rec_D_80082E80 *record, voi
         &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4,
         &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8
     };
-    u8 *object_data = D_80083160;
+    u8 *object_data = ((u8 *)(&gameWork));
     u8 state;
     u32 next_state;
 
@@ -176,7 +175,7 @@ jt_c2:
         s32 direction;
         u16 angle;
 
-        direction = ((D_80083228 + ((S_80175398_1 *)actor)->unk_2A.s + 0x100) >> 9) & 7;
+        direction = ((gameWork.viewAngle + ((S_80175398_1 *)actor)->unk_2A.s + 0x100) >> 9) & 7;
         angle = ((S_80175398_1 *)actor)->unk_2A.u;
         if (D_80175A80[0] == 0) {
             goto direction_not_ready;
@@ -320,7 +319,7 @@ jt_c7:
             u8 *direction_frames;
 
             object_data = ((S_80175398_5_pre *)linked_state)[-1].unk_00;
-            direction = ((D_80083228 + ((S_80175398_5 *)linked_state)->unk_2A + 0x100) >> 9) & 7;
+            direction = ((gameWork.viewAngle + ((S_80175398_5 *)linked_state)->unk_2A + 0x100) >> 9) & 7;
             direction_frames = ((S_80175398_2 *)object_data)->unk_2C;
             func_80047738(object_data, direction_frames[direction], ((S_80175398_2 *)object_data)->unk_04);
         }
@@ -335,13 +334,11 @@ jt_c8:
             goto done;
         }
         {
-            register u8 *counters;
 
             ((S_80175398_7 *)(((S_80175398_1 *)actor)->unk_60))->unk_2A = ((S_80175398_1 *)actor)->unk_8A;
             ((S_80175398_0_pre *)transition)[-1].unk_00 |= 0x8000;
             objectFlagBlock.flags |= 0x8000;
-            counters = ((u8 *)(&dungeonStatus));
-            ((S_80175398_6 *)counters)->unk_0A--;
+            dungeonStatus.unk_0A--;
         }
     }
     ((S_80175398_1 *)actor)->unk_6D = 0;

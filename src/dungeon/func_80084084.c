@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef s32 (*Callback)(void *, s32, s32);
 
@@ -17,7 +18,6 @@ typedef struct Entry {
 extern s32 func_80045310(s32);
 
 extern void *D_800814A8;
-extern void *D_80083160[];
 extern Callback D_80083360[0x20];
 extern Entry *D_800833E0[0x20];
 extern Entry D_80083498;
@@ -169,7 +169,7 @@ loop_third:
                 if (!(entry_m->flags & 0x800)) {
                     callback(entry_m->data, entry_m->arg1, entry_m->arg2);
                     stop_dispatch = func_80045310(
-                        *(s32 *)((u8 *)D_80083160[0] + 0x8D0));
+                        *(s32 *)((u8 *)gameWork.unk_000 + 0x8D0));
                     if (stop_dispatch == 0) {
                         callback_slot++;
                         goto third_advance;

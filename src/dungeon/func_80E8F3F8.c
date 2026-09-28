@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_func_800AD058_arg2.h"
@@ -11,7 +12,6 @@ extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
 extern void func_80174D48(void *, void *, void *);
 
-extern s16 D_80083228[];
 extern u8 D_801710F4[];
 extern u8 D_80174F00[];
 
@@ -36,7 +36,6 @@ typedef struct S_80174BF8_3 {
 void func_80174BF8(S_80174BF8_0 *action, void *context, Rec_func_800AD058_arg2 *animation, Rec_D_800E3D7C *entity)
 {
     void *entity_arg;
-    u8 *active_count;
     u16 ticks_left;
     u8 state;
 
@@ -65,12 +64,11 @@ active:
     }
 
     entity_arg = entity;
-    active_count = ((u8 *)(&dungeonStatus));
-    ((S_80174BF8_3 *)active_count)->unk_0A--;
+    dungeonStatus.unk_0A--;
     animation->unk_2C = D_80174F00;
     func_800AD594(entity_arg, 0x200);
     func_80047784(animation,
-        animation->unk_2C[((D_80083228[0] + entity->unk_2A.as_s16 + 0x100) >> 9) & 7],
+        animation->unk_2C[((gameWork.viewAngle + entity->unk_2A.as_s16 + 0x100) >> 9) & 7],
         0);
     action->unk_8C = D_801710F4;
     func_800A4ACC(entity);

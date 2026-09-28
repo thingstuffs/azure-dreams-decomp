@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct {
     s32 x;
@@ -19,7 +20,6 @@ typedef struct {
     s16 fieldC8;
 } TownState;
 
-extern TownState D_80083160;
 extern s16 func_80094BC8(s32, s16);
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
@@ -37,13 +37,11 @@ void func_800951B4(Actor *actor)
     s32 fixed_coord;
     s32 step_x;
     s32 step_y;
-    TownState *town;
     Vec3 *direction_ptr;
     Vec3 *position_ptr;
     Vec3 *call_result;
 
-    town = &D_80083160;
-    direction_index = func_80094BC8(town->field8, town->fieldC8);
+    direction_index = func_80094BC8(((s32)gameWork.unk_008), gameWork.viewAngle);
     if (direction_index == -1) {
         return;
     }

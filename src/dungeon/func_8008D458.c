@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
 typedef struct {
@@ -32,13 +33,6 @@ typedef struct {
     s16 coord;
 } S_arg3;
 
-typedef struct {
-    u8 pad00[0xc8];
-    s16 fieldc8;
-} S_global83160;
-
-extern S_global83160 D_80083160;
-extern s16 D_80083228[5];
 extern volatile u16 D_80013714[];
 extern u8 D_800DD148[];
 extern u8 D_800DD150[];
@@ -75,12 +69,12 @@ void func_80092BB8(S_8003E2D8 *controller, void *context, S_arg2 *actor, S_arg3 
     goto done;
 
 state0_body:
-    if ((s32)((((s32)D_80083160.fieldc8 + facing->coord + 0x100) >> 9) & 7) == 2) {
+    if ((s32)((((s32)gameWork.viewAngle + facing->coord + 0x100) >> 9) & 7) == 2) {
         u8 *animation_table;
 
         animation_table = controller->table;
         actor->field2c = animation_table;
-        direction = (((s32)D_80083160.fieldc8 + facing->coord + 0x100) >> 9) & 7;
+        direction = (((s32)gameWork.viewAngle + facing->coord + 0x100) >> 9) & 7;
         func_80048A44(actor, animation_table[direction], controller->field10e, 1);
         controller->state++;
     } else {
@@ -110,7 +104,7 @@ state2_body:
             return;
         }
         actor->field2c = D_800DD150;
-        func_80048A44(actor, D_800DD150[(((s32)D_80083228[0] + facing->coord + 0x100) >> 9) & 7], 2, 1);
+        func_80048A44(actor, D_800DD150[(((s32)gameWork.viewAngle + facing->coord + 0x100) >> 9) & 7], 2, 1);
         goto state2_store;
     }
     goto done;

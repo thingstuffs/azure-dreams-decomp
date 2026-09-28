@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
@@ -45,8 +46,6 @@ extern M2C_UNK D_800245A8;
 extern M2C_UNK D_8004F5F4;
 extern M2C_UNK D_80050CAC;
 extern s32 D_80082EB0;
-extern s8 D_80083160[];
-extern s16 D_80083228;
 extern M2C_UNK D_8008ACDC;
 extern M2C_UNK D_800DCFB0;
 extern u8 D_800DD0B8[];
@@ -107,8 +106,8 @@ typedef struct S_8008EAC8_10 {
 } S_8008EAC8_10;   /* &D_800E3544 in func_8008EAC8 */
 
 void func_8008EAC8(void *arg0, void *arg1, void *arg2, void *arg3) {
-    s8 *held_D_80083160 = D_80083160;
-    u8 *held_D_80083460;
+    GameWork *held_D_80083160 = &gameWork;
+    DungeonGlobalStatus *held_D_80083460;
     s16 temp_v0_3;
     s16 temp_v1;
     s16 var_v0_2;
@@ -157,9 +156,9 @@ block_5:
         func_800A2B04(arg1, ((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25);
     }
     ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v = (u16) (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xF7FF);
-    held_D_80083460 = (u8 *) &dungeonStatus.unk_00;
+    held_D_80083460 = &dungeonStatus;
     ((Rec_func_8008ACDC_arg0 *)arg0)->unk_9B.as_s8 = 0;
-    ((S_8008EAC8_4 *)held_D_80083460)->unk_02 = (u16) (((S_8008EAC8_4 *)held_D_80083460)->unk_02 & 0xFF7F);
+    held_D_80083460->flags = (u16) (held_D_80083460->flags & 0xFF7F);
     temp_v1 = ((S_8008EAC8_1 *)arg3)->unk_64;
     if ((temp_v1 < 0) || (((Rec_func_8008ACDC_arg0 *)arg0)->unk_10C & 1)) {
         func_8008CAA0(arg0, arg1, arg2, arg3);
@@ -198,9 +197,9 @@ block_5:
         return;
     }
     if ((((Rec_func_8008ACDC_arg0 *)arg0)->unk_124 != 0) && (((func_800A1C58(arg3) << 0x10) == 0) || (func_8008D1D0(arg0, arg1, arg2, arg3) == 0))) {
-        if (!(((S_8008EAC8_4 *)held_D_80083460)->unk_02 & 4)) {
+        if (!(held_D_80083460->flags & 4)) {
             if (((S_8008EAC8_1 *)arg3)->unk_1C & 0x20) {
-                if (!((*(u16 *)0x80013714) & 1) && (((S_8008EAC8_5 *)held_D_80083160)->unk_08 & 0x80)) {
+                if (!((*(u16 *)0x80013714) & 1) && (((u32)held_D_80083160->unk_008) & 0x80)) {
                     ((S_8008EAC8_1 *)arg3)->unk_8A = 2;
                     D_800E4940 = 2;
                     func_8008CF6C(arg0, arg1, arg2, &D_8004F5F4);
@@ -397,7 +396,7 @@ code_D8:
 
                 flag_200 = ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 & 0x200;
                 ((S_8008EAC8_10 *)(&D_800E3544))->unk_00 = 0;
-                if (flag_200 && ((func_800A2C34(arg3) << 0x10) == 0) && !(((S_8008EAC8_4 *)held_D_80083460)->unk_02 & 4)) {
+                if (flag_200 && ((func_800A2C34(arg3) << 0x10) == 0) && !(held_D_80083460->flags & 4)) {
                     ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 = (u16) (((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 & 0xFDFF);
                     if ((func_800A4474(((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25) << 0x10) != 0) {
                         func_8008CF6C(arg0, arg1, arg2, &D_800245A8);
@@ -406,15 +405,15 @@ code_D8:
                         return;
                     }
                 }
-                if (((S_8008EAC8_5 *)held_D_80083160)->unk_08 & 0x80) {
+                if (((u32)held_D_80083160->unk_008) & 0x80) {
                     func_8008CF6C(arg0, arg1, arg2, &D_80050CAC);
                     return;
                 }
-                if ((((S_8008EAC8_5 *)held_D_80083160)->unk_08 & 0x10) || !(((S_8008EAC8_5 *)held_D_80083160)->unk_08 & 3) || (func_8008D024(arg0, arg1, arg2, (((u32) ((S_8008EAC8_5 *)held_D_80083160)->unk_08 >> 1) ^ 1) & 1, 0) == 0)) {
+                if ((((u32)held_D_80083160->unk_008) & 0x10) || !(((u32)held_D_80083160->unk_008) & 3) || (func_8008D024(arg0, arg1, arg2, (((u32) ((u32)held_D_80083160->unk_008) >> 1) ^ 1) & 1, 0) == 0)) {
                     temp_v0_3 = func_8009074C(((Rec_func_8008ACDC_arg0 *)arg0)->unk_9E, arg0 + 0xA2, arg3 + 0x2A);
                     if (temp_v0_3 != 0xFFF) {
                         ((S_8008EAC8_1 *)arg3)->unk_2A.u = (u16) temp_v0_3;
-                        if (!(((S_8008EAC8_5 *)held_D_80083160)->unk_08 & 0x10)) {
+                        if (!(((u32)held_D_80083160->unk_008) & 0x10)) {
                             temp_v1_6 = ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2;
                             if (!(temp_v1_6 & 0x400)) {
                                 ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 = (u16) (temp_v1_6 & 0xFFFE);
@@ -431,7 +430,7 @@ code_8:
                             }
                         }
                     }
-                    tail_data_flags = ((S_8008EAC8_5 *)held_D_80083160)->unk_08;
+                    tail_data_flags = ((u32)held_D_80083160->unk_008);
                     if ((tail_data_flags & 0x30) == 0x30) {
                         ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 = (u16) (((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 & 0xFFFE);
                         func_8008C7B4(arg0, arg1, arg2, arg3);
@@ -478,7 +477,7 @@ block_153:
             data = D_800DD0B8;
 block_154:
             (*(u8 **)((u8 *)call_arg + (0x2C))) = data;
-            func_80048A44(call_arg, *((u8 *) (((s32) (D_80083228 + (s16) ((S_8008EAC8_1 *)arg3)->unk_2A.u + 0x100) >> 9) & 7) + (u32) data), 0, 1);
+            func_80048A44(call_arg, *((u8 *) (((s32) (gameWork.viewAngle + (s16) ((S_8008EAC8_1 *)arg3)->unk_2A.u + 0x100) >> 9) & 7) + (u32) data), 0, 1);
         }
     }
 }

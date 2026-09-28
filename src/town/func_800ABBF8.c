@@ -1,9 +1,9 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 extern void func_800A8CA8(void *, s32, s32, s32);
 extern void func_800A8EE8(void *);
 extern s32 func_800B28A0(void);
-extern s32 D_80083160;
 extern s32 D_800D0E48[];
 extern s32 D_80100E30;
 
@@ -53,7 +53,7 @@ void func_800A9358(s32 shape, s32 source)
     count_base = (u8 *)0x80100000;
     ASM_KEEP_NV(count_base);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     *(s32 *)(count_base + 0xE30) = segment_count;
-    ot_addr = D_80083160;
+    ot_addr = ((s32)gameWork.unk_000);
     ASM_KEEP_NV(ot_addr);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     scratch = call_scratch;
     ot_addr += 0xB0;

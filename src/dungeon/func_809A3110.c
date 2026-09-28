@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
 typedef struct S_80174910_6 {
@@ -37,7 +38,6 @@ typedef struct S_80174910_10 {
 void *func_8003FD64();               /* extern */
 M2C_UNK func_8004491C();           /* extern */
 M2C_UNK func_800672D8();              /* extern */
-extern M2C_UNK D_80045340;
 extern M2C_UNK D_801747B8;
 
 typedef struct S_80174910_0 {
@@ -132,7 +132,7 @@ void func_80174910(S_80174910_2 *source, s32 effect_param) {
             scale_state = ((S_80174910_0 *)object)->unk_0C;
             scale_state->unk_1E = 0x1000;
             scale_state->unk_1C = 0x1000;
-            func_8004491C(object, &D_80045340);
+            func_8004491C(object, func_80045340);
             if (object_index == 0) {
                 texture_entry = ((S_80174910_9 *)(((S_80174910_6 *)source)->unk_0C))->unk_08;
                 do {

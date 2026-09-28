@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct {
     s32 unk0;
@@ -18,7 +19,6 @@ typedef struct {
     s32 field70;
 } MenuState;
 
-extern PadState D_80083160;
 extern void func_80026370(s32, s32);
 extern s32 func_80026388(s32, s32, s32);
 extern s16 SD_Call(s32);
@@ -29,22 +29,21 @@ void func_8002640C(MenuState *menu) {
     s32 buttons;
     s32 repeat_ticks;
     s32 selection;
-    PadState *pad = &D_80083160;
 
-    if (pad->field8 != 0) {
-        if (pad->field10 & 0xC) {
+    if (((s32)gameWork.unk_008) != 0) {
+        if (((s32)gameWork.unk_010) & 0xC) {
             menu->field4 = 0;
-            buttons = pad->field10;
+            buttons = ((s32)gameWork.unk_010);
             if (buttons & 4) {
                 direction = -1;
             } else if (buttons & 8) {
                 direction = 1;
             }
-        } else if (pad->field8 & 0xC) {
+        } else if (((s32)gameWork.unk_008) & 0xC) {
             repeat_ticks = menu->field4;
             if (repeat_ticks >= 9) {
                 menu->field4 = repeat_ticks - 1;
-                buttons = pad->field8;
+                buttons = ((s32)gameWork.unk_008);
                 if (buttons & 4) {
                     direction = -1;
                 } else if (buttons & 8) {

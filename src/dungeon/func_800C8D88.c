@@ -56,7 +56,6 @@ s32 func_800CE4E8(s32 center_x, s32 center_y, s16 unused_value, void *unused_dat
     u8 *grid_data;
     DungeonObject *object;
     u8 *row_data;
-    u8 *global_base;
     u8 *row_base;
 
     object = func_8003FC64(2);
@@ -109,8 +108,7 @@ s32 func_800CE4E8(s32 center_x, s32 center_y, s16 unused_value, void *unused_dat
         } else {
             D_800E296C |= 0x40080000;
         }
-        global_base = (u8 *)&dungeonStatus.unk_00;
-        ((S_800CE4E8_1 *)global_base)->unk_0A++;
+        dungeonStatus.unk_0A++;
     }
     return (s32)object;
 }

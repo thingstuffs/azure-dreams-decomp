@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -61,7 +62,6 @@ extern void func_800DA840(u16 *, s32);
 typedef struct { u8 pad[0x12]; u8 kind; u8 pad2; } ItemDef20;
 extern ItemDef20 D_8006DE24[];
 extern void *D_800814A8;
-extern s16 D_80083228;
 extern void *D_80170858[];
 extern u8 D_80171058[];
 extern u8 D_80174888[];
@@ -249,16 +249,15 @@ state_2_ready:
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80174888;
         func_80047784(
             sprite,
-            D_80174888[((D_80083228 + ((S_80172834_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            D_80174888[((gameWork.viewAngle + ((S_80172834_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
     }
     {
-        s32 *globals = &dungeonStatus.unk_00;
 
-        if (((S_80172834_6 *)globals)->unk_0C != 0) {
+        if (((s32)dungeonStatus.unk_0C) != 0) {
             goto done;
         }
-        ((S_80172834_6 *)globals)->unk_0A--;
+        dungeonStatus.unk_0A--;
     }
     ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
     ((S_80172834_0 *)action_state)->unk_8C = D_80171058;

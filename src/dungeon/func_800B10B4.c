@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 #ifndef NULL
 #define NULL 0
@@ -66,7 +67,6 @@ extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 extern s32 rand(void);
 
-extern s32 D_80045340;
 extern s32 D_800B63A8;
 extern s32 D_800DEC00;
 
@@ -95,7 +95,7 @@ void func_800B6814(S_800B6814_2 *origin)
                 motion = ((S_800B6814_0 *)particle)->unk_08;
                 sprite = ((S_800B6814_0 *)particle)->unk_0C;
                 ((S_800B6814_0 *)particle)->unk_10 = &D_800B63A8;
-                func_8004491C(particle, &D_80045340);
+                func_8004491C(particle, func_80045340);
                 motion->unk_02 =
                     origin->unk_02 + (func_80064584(angle) >> 11);
                 motion->unk_06 =

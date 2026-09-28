@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
@@ -44,7 +45,6 @@ extern void func_800C7930(void *, void *, s32, s32);
 extern void func_80047784(void *, u8, s32);
 extern void func_800A4ACC(void *);
 
-extern s16 D_80083228;
 extern u8 D_801764A0[];
 
 /* Searches up to four tiles ahead for a target and starts the actor's action. */
@@ -146,7 +146,7 @@ s32 func_80172438(void *action_state, void *action_context, void *sprite, void *
     ((S_80172438_2 *)action_state)->unk_9A = 0x17;
     (*(void * *)((u8 *)sprite + 0x2C)) = D_801764A0;
     func_80047784(sprite,
-                  D_801764A0[((D_80083228 + ((S_80172438_0 *)actor)->unk_2A.u + 0x100) >> 9) & 7],
+                  D_801764A0[((gameWork.viewAngle + ((S_80172438_0 *)actor)->unk_2A.u + 0x100) >> 9) & 7],
                   0);
     func_800A4ACC(actor);
     ((S_80172438_0 *)actor)->unk_6D--;

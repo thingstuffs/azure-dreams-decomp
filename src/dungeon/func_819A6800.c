@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "shared/dungeon_status.h"
 
 typedef struct S_func_819A6800_1 {
@@ -113,7 +114,6 @@ extern void *D_80024008[];
 extern u8 D_800814A8[16];
 extern u8 D_80082E80[];
 extern u8 D_80083498[];
-extern u8 D_80045340[];
 extern u8 D_800244BC[];
 extern u8 D_80024810[];
 extern u8 D_80024B20[];
@@ -240,7 +240,7 @@ state2:
             position_offset[0] = 0;
         }
         record->unk_10 = D_800244BC;
-        func_8004491C(record, D_80045340);
+        func_8004491C(record, func_80045340);
         sprite = record->unk_0C;
 
         ((S_func_819A6800_5 *)(record->unk_08))->unk_00.s =
@@ -357,9 +357,8 @@ state7:
         }
     }
     {
-        S_func_819A6800_10 *globals = (S_func_819A6800_10 *)((u8 *)(&dungeonStatus));
-        globals->unk_0C = 0;
-        globals->unk_0A--;
+        dungeonStatus.unk_0C = 0;
+        dungeonStatus.unk_0A--;
     }
     ((S_func_819A6800_6 *)((u8 *)SELF - 2))->unk_00 |= 0x8000;
     D_800814A0[0] |= 0x8000;

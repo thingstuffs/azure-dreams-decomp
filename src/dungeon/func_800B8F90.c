@@ -87,7 +87,7 @@ s32 func_800BE6F0(void *entity, s32 source, s16 reason)
     S_800BE6F0_3 *map_position;
     u8 *message;
     s32 *selection_state;
-    s32 *dungeon_state;
+    DungeonGlobalStatus *dungeon_state;
     s32 *state_page;
     s32 *entity_table;
     s32 *flags_page;
@@ -189,9 +189,9 @@ s32 func_800BE6F0(void *entity, s32 source, s16 reason)
 
 success_cleanup:
     func_80098B38(source);
-    dungeon_state = ((s32 *)(&dungeonStatus));
+    dungeon_state = &dungeonStatus;
     ASM_KEEP(dungeon_state);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    ((S_800BE6F0_5 *)dungeon_state)->unk_0A--;
+    dungeon_state->unk_0A--;
     return 1;
 }
 

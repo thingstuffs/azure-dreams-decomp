@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 #ifndef NULL
 #define NULL 0
@@ -54,7 +55,6 @@ void func_8004491C();
 s32 rand();
 
 extern u8 D_800268DC[];
-extern u8 D_80045340[];
 extern u8 D_800F1564[];
 
 /* Creates a sprite effect offset from the source with randomized motion. */
@@ -66,7 +66,7 @@ void func_800267DC(S_800267DC_2 *source) {
     effect = func_8003FC64(0x136);
     if (effect != NULL) {
         effect->unk_10 = D_800268DC;
-        func_8004491C(effect, D_80045340);
+        func_8004491C(effect, func_80045340);
         motion = effect->unk_08;
         sprite = effect->unk_0C;
         motion->unk_00 = source->unk_00 + 0xFFF90000;

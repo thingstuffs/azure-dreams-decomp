@@ -77,7 +77,6 @@ s32 func_8008C8BC(void *actor_state_arg, void *unused, void *position_arg, void 
     s32 direction;
     u8 *page_or_entity;
     s32 target;
-    u8 *action_state;
 
     direction = ((u16) ((S_8008C8BC_0 *)entity)->unk_2A >> 9) & 7;
     if ((func_8009A540(direction, ((S_8008C8BC_1 *)position_arg)->unk_24, ((S_8008C8BC_1 *)position_arg)->unk_25, (s16) (((S_8008C8BC_0 *)entity)->unk_88 - 0x20)) << 0x10) != 0) {
@@ -95,17 +94,16 @@ s32 func_8008C8BC(void *actor_state_arg, void *unused, void *position_arg, void 
         ((S_8008C8BC_0 *)entity)->unk_60.p = NULL;
     }
     ((S_8008C8BC_4 *)actor_state_arg)->unk_9A = 0x11;
-    action_state = ((u8 *)(&dungeonStatus));
     ((S_8008C8BC_4 *)actor_state_arg)->unk_9B = 0;
     ((S_8008C8BC_4 *)actor_state_arg)->unk_8C = 0;
-    ((S_8008C8BC_5 *)action_state)->unk_0C = entity;
+    dungeonStatus.unk_0C = entity;
     ((S_8008C8BC_4 *)actor_state_arg)->unk_A6 = 0;
     ((S_8008C8BC_4 *)actor_state_arg)->unk_98 = (u16) ((((S_8008C8BC_4 *)actor_state_arg)->unk_98 | 0x2000) & 0xEFFF);
-    ((S_8008C8BC_5 *)action_state)->unk_02 = (u16) (((S_8008C8BC_5 *)action_state)->unk_02 | 0x400);
+    dungeonStatus.flags = (u16) (dungeonStatus.flags | 0x400);
     func_80099F70(((S_8008C8BC_0 *)entity)->unk_5C);
     func_8009F644(entity, 0x18, 0, 0);
     if (func_800A5C70() != 0) {
-        ((S_8008C8BC_5 *)action_state)->unk_02 = (u16) (((S_8008C8BC_5 *)action_state)->unk_02 | 0x80);
+        dungeonStatus.flags = (u16) (dungeonStatus.flags | 0x80);
     }
     ((S_8008C8BC_4 *)actor_state_arg)->unk_96 = 6;
     ((S_8008C8BC_4 *)actor_state_arg)->unk_102 = 0;

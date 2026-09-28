@@ -72,7 +72,6 @@ extern u16 D_800DCEBC[];
 s32 func_80173734(void *action_state, s32 facing, void *origin, void *actor)
 {
     void *initial_target;
-    s32 *global_flags = &dungeonStatus.unk_00;
     s32 result = 0;
     s32 range_left;
     s32 next_x;
@@ -81,7 +80,7 @@ s32 func_80173734(void *action_state, s32 facing, void *origin, void *actor)
     u8 origin_y;
 
     ((S_80173734_0 *)actor)->unk_71 &= 0x7F;
-    if (((S_80173734_1 *)global_flags)->unk_02 & 0x2000) {
+    if (dungeonStatus.flags & 0x2000) {
         return -1;
     }
 
@@ -91,11 +90,11 @@ s32 func_80173734(void *action_state, s32 facing, void *origin, void *actor)
     if ((func_800A2CB8(actor, initial_target) << 16) == 0) {
         return 0;
     }
-    if (((S_80173734_1 *)global_flags)->unk_02 & 0x2000) {
+    if (dungeonStatus.flags & 0x2000) {
         return -1;
     }
     if (!(((S_80173734_0 *)actor)->unk_46 & 0x8000) &&
-        (((S_80173734_1 *)global_flags)->unk_02 & 8)) {
+        (dungeonStatus.flags & 8)) {
         return -1;
     }
     if ((u16)(-func_800A0134(initial_target, actor) + 0x40) >= 0x81) {

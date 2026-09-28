@@ -49,7 +49,6 @@ extern void func_800C7930(void *, void *, s32, s32);
 s32 func_8017237C(S_8017237C_2 *action, void *effect, S_8017237C_1 *target, void *actor_data)
 {
     void *actor = actor_data;
-    u16 *global_flags;
     s32 action_ready;
     s32 target_code;
     u8 actor_flags;
@@ -59,10 +58,9 @@ s32 func_8017237C(S_8017237C_2 *action, void *effect, S_8017237C_1 *target, void
 
         actor_flags = (u8)(actor_flags & 0x7F);
         ((S_8017237C_0 *)actor)->unk_71 = actor_flags;
-        global_flags = (u16 *)&dungeonStatus.unk_00;
         action_ready = 0;
 
-        if (global_flags[1] & 0x2000) {
+        if (dungeonStatus.flags & 0x2000) {
             return -1;
         }
 
@@ -76,11 +74,11 @@ s32 func_8017237C(S_8017237C_2 *action, void *effect, S_8017237C_1 *target, void
             if (func_800A2CB8(check_actor, result) == 0) {
                 return action_ready;
             }
-            if (global_flags[1] & 0x2000) {
+            if (dungeonStatus.flags & 0x2000) {
                 return -1;
             }
             if ((((S_8017237C_0 *)actor)->unk_46 & 0x8000) == 0) {
-                if (global_flags[1] & 8) {
+                if (dungeonStatus.flags & 8) {
                     return -1;
                 }
             }

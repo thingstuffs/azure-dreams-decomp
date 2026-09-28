@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 extern s32 Control_CD(s32, s32, s32);
 extern void func_8003F320(void);
@@ -21,7 +22,6 @@ extern void func_8017797C(s32);
 
 extern s8 D_80080A88;
 extern s32 D_80082E60;
-extern void *D_80083160;
 extern s32 D_801781E0;
 extern s32 D_801781E4;
 extern s32 D_80189394;

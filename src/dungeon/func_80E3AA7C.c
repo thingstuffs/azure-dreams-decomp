@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "shared/dungeon_status.h"
 
 typedef struct S_8017427C_0 {
@@ -53,7 +54,6 @@ extern void func_800A48F0(void *, s32, s32);
 extern void func_800AAA54(void *, void *, void *, void *);
 extern void func_80174B90(void *, void *, void *, void *);
 
-extern s32 D_80045340;
 extern u8 D_80082E80[];
 extern u8 D_80083780[];
 extern s32 D_800C6AEC;
@@ -73,7 +73,6 @@ void func_8017427C(void *actor_state, void *context, S_8017427C_1 *sprite, void 
     u8 tile_x;
     u8 tile_y;
     s16 fade_ticks;
-    u16 *global_state;
 
     state = ((S_8017427C_0 *)actor_state)->unk_9B;
     switch (state) {
@@ -110,7 +109,7 @@ void func_8017427C(void *actor_state, void *context, S_8017427C_1 *sprite, void 
             break;
         }
         func_80044A50(actor_base);
-        func_8004491C(actor_base, &D_80045340);
+        func_8004491C(actor_base, func_80045340);
         sprite->unk_0C.at00.v = 0x00808080;
         sprite->unk_10 = 0;
         sprite->unk_12 += 0x80;
@@ -134,10 +133,9 @@ advance_state:
             }
             func_8009A21C(tile_x, tile_y, tile_mask);
         }
-        global_state = (u16 *)&dungeonStatus.unk_00;
-        global_state[5]--;
+        dungeonStatus.unk_0A--;
         if (((S_8017427C_2 *)actor_data)->unk_28 == 0) {
-            ((S_8017427C_3 *)global_state)->unk_10 = (u8 *)actor_data - 0x20;
+            dungeonStatus.unk_10 = (u8 *)actor_data - 0x20;
             func_800AAA54(actor_state, context, sprite, D_80176640);
             break;
         }

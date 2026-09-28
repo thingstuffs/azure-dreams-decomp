@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_func_80094268_arg0.h"
 
@@ -22,7 +23,6 @@ M2C_UNK func_800988C8();
 s32 func_8009FF50();
 s32 func_800A9D74();
 
-extern u8 D_80083160[];
 extern M2C_UNK D_80093B00;
 extern M2C_UNK D_8009B828;
 extern M2C_UNK D_8009B8E8;
@@ -53,7 +53,7 @@ typedef struct S_80092A84_4 {
 
 /* Updates the actor's position and dispatches town actions from input and interaction state. */
 void func_80092A84(Rec_func_80094268_arg0 *actor, Rec_D_800E3D7C *body, M2C_UNK context) {
-    u8 *input_state;
+    GameWork *input_state;
     u8 *position_data;
     s32 *interaction_ctrl;
     s16 position;
@@ -63,7 +63,7 @@ void func_80092A84(Rec_func_80094268_arg0 *actor, Rec_D_800E3D7C *body, M2C_UNK 
     void *handler;
     S_80092A84_4 *interaction_state;
 
-    input_state = D_80083160;
+    input_state = &gameWork;
     func_80095C80(body);
     func_80095094(body);
 
@@ -78,7 +78,7 @@ void func_80092A84(Rec_func_80094268_arg0 *actor, Rec_D_800E3D7C *body, M2C_UNK 
         func_80095A94(body, position, position_data);
     }
 
-    input_flags = ((S_80092A84_1 *)input_state)->unk_10;
+    input_flags = ((s32)input_state->unk_010);
     if (input_flags & 0x10) {
         func_800945B8(actor, body, context);
         return;
@@ -114,7 +114,7 @@ void func_80092A84(Rec_func_80094268_arg0 *actor, Rec_D_800E3D7C *body, M2C_UNK 
         return;
     }
 
-    if (((S_80092A84_1 *)input_state)->unk_08 & 0xF000) {
+    if (((s32)input_state->unk_008) & 0xF000) {
         position = actor->unk_3E.as_u16 - 1;
         actor->unk_3E.as_u16 = position;
         func_80094944(position, 0xC);

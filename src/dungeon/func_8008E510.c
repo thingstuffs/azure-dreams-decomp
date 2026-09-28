@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
@@ -47,7 +48,6 @@ typedef struct S_80093C70_5 {
 void *func_8003FD64();                  /* extern */
 M2C_UNK func_8004491C();           /* extern */
 M2C_UNK func_80048A44(); /* extern */
-extern M2C_UNK D_80045340;
 extern u16 D_80082E94;
 extern M2C_UNK D_80093A94;
 
@@ -78,7 +78,7 @@ void func_80093C70(s32 priority, Rec_D_800E3D7C *source_pos, Rec_D_80082E80 *own
             sprite->unk_14.u = (u16) (sprite->unk_14.u | 1);
         }
         func_80048A44(sprite, 0xCE, 0, 3);
-        func_8004491C(effect, &D_80045340);
+        func_8004491C(effect, func_80045340);
         effect_state = effect + 0x20;
         ((S_80093C70_0 *)effect)->unk_20 = owner;
         effect_state->unk_06 = 0x10;

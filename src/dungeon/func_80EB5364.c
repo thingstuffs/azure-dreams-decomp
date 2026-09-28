@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
 typedef s32 M2C_UNK;
@@ -11,7 +12,6 @@ s32 func_800A9E70();
 M2C_UNK func_800AA36C();
 s32 func_800BCB04();
 extern u8 D_8006CCF8[];
-extern s16 D_80083228[];
 extern M2C_UNK D_801711A4[];
 extern M2C_UNK D_80174174[];
 extern M2C_UNK D_8017418C[];
@@ -135,7 +135,7 @@ void func_80170B64(void *actor_arg, void *motion_arg, void *sprite_arg)
             ((S_80170B64_1 *)motion)->unk_14;
         sprite_flags = ((S_80170B64_2 *)sprite_arg)->unk_14;
         if (!(sprite_flags & 0x8000)) {
-            view_direction = ((D_80083228[0] + ((S_80170B64_3 *)actor_base)->unk_2A + 0x100) >> 9) & 7;
+            view_direction = ((gameWork.viewAngle + ((S_80170B64_3 *)actor_base)->unk_2A + 0x100) >> 9) & 7;
             if (((S_80170B64_0 *)actor)->unk_94 != view_direction) {
                 func_80047738(sprite_arg,
                     *(((u8 *)((S_80170B64_2 *)sprite_arg)->unk_2C.p) + view_direction),

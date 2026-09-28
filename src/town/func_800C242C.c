@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 
 #ifndef NULL
@@ -48,7 +49,6 @@ s32 func_80033BC0();
 void *func_8003FD64();
 void func_8004491C(void *, void *);
 s32 rand(void);
-extern M2C_UNK D_80083160;
 extern M2C_UNK D_80083498;
 extern M2C_UNK D_800BFD14;
 extern M2C_UNK D_800BFFF4;
@@ -65,7 +65,7 @@ void func_800BFB8C(void *source)
     register s32 random_coord ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 base_coord;
     u16 next_value;
-    u8 *town;
+    GameWork *town;
     u8 *kind;
     void *coords;
     void *new_object;
@@ -77,7 +77,7 @@ void func_800BFB8C(void *source)
     count_bits = ((S_800BFB8C_0 *)source)->unk_0E;
     count_bits <<= 0x10;
     spawn_count = count_bits >> 0x11;
-    town = (u8 *)&D_80083160;
+    town = &gameWork;
     if (spawn_count >= 0) {
         kind = (u8 *)&D_800BFD14;
         do {
@@ -90,7 +90,7 @@ void func_800BFB8C(void *source)
                 func_8004491C(object, callback);
                 random_coord = rand();
                 random_value = random_coord;
-                coord_term = ((S_800BFB8C_2 *)town)->unk_BC;
+                coord_term = town->unk_0BC;
                 if (random_value >= 0) {
                     random_coord = random_coord >> 0xA;
                 } else {

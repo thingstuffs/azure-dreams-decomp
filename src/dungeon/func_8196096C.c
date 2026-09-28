@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef union {
     s32 w;
@@ -76,7 +77,6 @@ typedef struct TableEntry {
     s32 pad;
 } TableEntry;
 
-extern Root *D_80083160;
 extern u8 D_80027374[12];
 extern u8 D_800273A8;
 
@@ -93,7 +93,7 @@ extern void func_800666F4(Record *record);
 
 /* Builds and submits a shaded textured quad at the requested screen position. */
 void func_8196096C(s32 y_offset, Input *origin, Input *quad_data, s32 draw_depth) {
-    Root *root = D_80083160;
+    Root *root = gameWork.unk_000;
     Record *record;
     Record *quad_packet;
     Input *quad_input = quad_data;
@@ -112,7 +112,7 @@ void func_8196096C(s32 y_offset, Input *origin, Input *quad_data, s32 draw_depth
     register s32 coord_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     do { record = root->record; } while (0);
-    globals = (Globals *)&D_80083160;
+    globals = (Globals *)&gameWork.unk_000;
     scratch_words = (s32 *)0x1F800000;
     scratch_words[8] = draw_depth;
     vertex_table = globals->table;

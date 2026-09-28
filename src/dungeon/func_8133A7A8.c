@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct {
     u8 pad_00[0x12];
@@ -28,7 +29,6 @@ extern u8 *D_80175D50;
 extern u16 D_800DCE60[4];
 extern s16 D_801760E0[4];
 extern s16 D_801760E8[4];
-extern u8 D_80083160[];
 extern s16 D_80083780[];
 
 extern void func_8004D294(void *, void *, s32);
@@ -151,7 +151,7 @@ jt_c4: {
 jt_case0_tail:
     *(volatile s16 *)&focus_pos[1] = coord_sum;
     focus_pos[2] = actor->z;
-    globals = D_80083160;
+    globals = ((u8 *)(&gameWork));
     *(s32 *)(globals + 0x154) = 0;
     *(s32 *)(globals + 0xCC) = 0;
     func_8004D7A8(camera_mode);
@@ -187,7 +187,7 @@ jt_c6: {
     coord_sum += camera[3];
     D_801760E8[1] = coord_sum / 2;
     D_801760E8[2] = actor->z;
-    globals = D_80083160;
+    globals = ((u8 *)(&gameWork));
     *(s32 *)(globals + 0x154) = 0;
     *(s32 *)(globals + 0xCC) = 0;
     func_8004D7A8(camera_mode);
@@ -223,7 +223,7 @@ jt_c20: {
         coord_sum += camera[3];
         D_801760E8[1] = coord_sum / 2;
         D_801760E8[2] = actor->z;
-        globals = D_80083160;
+        globals = ((u8 *)(&gameWork));
         *(s32 *)(globals + 0x154) = 0;
         *(s32 *)(globals + 0xCC) = 0;
         func_8004D7A8(camera_mode);

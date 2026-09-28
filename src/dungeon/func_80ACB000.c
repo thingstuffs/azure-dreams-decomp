@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/game_work.h"
 #include "records/Rec_D_80083160.h"
 
 
@@ -58,7 +59,6 @@ typedef struct S_80ACB000_8 {
 extern u32 func_80065420(void *, void *, void *, void *);
 extern s32 func_80066460(s32, s32, s32, s32);
 extern void func_80067F20(void *, s32, s32, s32, s32);
-extern void *D_80083160;
 
 #ifdef __mips__
 /* The row starts with a typed constant/jump table; the routine follows it. */
@@ -102,9 +102,9 @@ BODY_STORAGE s32 BODY_NAME(void *render_data_in, void *position_in)
     void *next_node;
     void *render_data = render_data_in;
     register void *position = position_in;
-    void **render_state_ptr = &D_80083160;
+    void **render_state_ptr = &gameWork.unk_000;
     u32 address_mask = 0x00FFFFFFU;
-    void *render_state = ((Rec_D_80083160 *)(&D_80083160))->unk_00.as_pv;
+    void *render_state = ((Rec_D_80083160 *)(&gameWork.unk_000))->unk_00.as_pv;
     register u32 length_mask ASM_REG("$20") = 0xFF000000U;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 *scratch = (u8 *)0x1F800000;
 

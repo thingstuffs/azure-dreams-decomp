@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct Vec_8008EA20 {
     s16 x;
@@ -62,7 +63,6 @@ typedef struct Scratch_8008EA20 {
     s16 quad[8];
 } Scratch_8008EA20;
 
-extern Global_8008EA20 D_80083160;
 extern s32 D_800FE480;
 extern s32 D_800FE484;
 
@@ -77,7 +77,7 @@ s32 func_8008EA20(s32 world_x, s32 world_z, s32 world_y)
     s16 query_y = world_y;
     s32 z_base;
     s32 tile_mask;
-    Global_8008EA20 *global = &D_80083160;
+    Global_8008EA20 *global = ((Global_8008EA20 *)&gameWork);
     Map_8008EA20 *map = &global->map;
     u16 *tiles;
     Vec_8008EA20 *vertices;

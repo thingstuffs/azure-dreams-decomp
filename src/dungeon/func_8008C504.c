@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
@@ -46,7 +47,6 @@ s32 func_800644B8();
 s32 func_80064584();
 M2C_UNK func_800A2B04();
 M2C_UNK func_800A56E0();
-extern s16 D_80083228;
 extern M2C_UNK D_8008ACDC;
 extern M2C_UNK D_8008EAC8;
 extern u8 D_800DD038[];
@@ -56,7 +56,6 @@ extern u8 D_800DD058[];
 void func_80091C64(void *motion, void *position, void *entity, void *actor) {
     static void *const jt_keep[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4 };
     M2C_UNK *next_behavior;
-    M2C_UNK *action_tracker;
     s16 frames_left;
     u8 phase;
     u16 return_duration;
@@ -82,7 +81,7 @@ jt_c0:
         goto done;
     }
     (*(u8 **)((u8 *)entity + 0x2C)) = D_800DD038;
-    func_80048A44(entity, D_800DD038[((s32) (D_80083228 + ((S_80091C64_1 *)actor)->unk_2A + 0x100) >> 9) & 7], 0, 1);
+    func_80048A44(entity, D_800DD038[((s32) (gameWork.viewAngle + ((S_80091C64_1 *)actor)->unk_2A + 0x100) >> 9) & 7], 0, 1);
     ((S_80091C64_0 *)motion)->unk_98 = (u16) (((S_80091C64_0 *)motion)->unk_98 | 0xC);
     ((S_80091C64_0 *)motion)->unk_9B = (u8) (((S_80091C64_0 *)motion)->unk_9B + 1);
     func_800A56E0(0x701);
@@ -101,7 +100,7 @@ tick_hop:
         goto done;
     }
     (*(u8 **)((u8 *)entity + 0x2C)) = D_800DD058;
-    func_80048A44(entity, D_800DD058[((s32) (D_80083228 + ((S_80091C64_1 *)actor)->unk_2A + 0x100) >> 9) & 7], 0, 1);
+    func_80048A44(entity, D_800DD058[((s32) (gameWork.viewAngle + ((S_80091C64_1 *)actor)->unk_2A + 0x100) >> 9) & 7], 0, 1);
     ((S_80091C64_0 *)motion)->unk_92 = 0;
     ((S_80091C64_0 *)motion)->unk_9B++;
     return;
@@ -110,7 +109,7 @@ jt_c2:
         goto done;
     }
     (*(u8 **)((u8 *)entity + 0x2C)) = D_800DD038;
-    func_80048A44(entity, D_800DD038[((s32) (D_80083228 + ((S_80091C64_1 *)actor)->unk_2A + 0x100) >> 9) & 7], 0, 1);
+    func_80048A44(entity, D_800DD038[((s32) (gameWork.viewAngle + ((S_80091C64_1 *)actor)->unk_2A + 0x100) >> 9) & 7], 0, 1);
     return_duration = 8U;
     ((S_80091C64_0 *)motion)->unk_96.s = return_duration;
     ((S_80091C64_0 *)motion)->unk_9B++;
@@ -145,11 +144,10 @@ tick_return:
     ((S_80091C64_0 *)motion)->unk_92 = 0;
     ((S_80091C64_0 *)motion)->unk_9B = (u8) (((S_80091C64_0 *)motion)->unk_9B + 1);
     (*(u8 **)((u8 *)entity + 0x2C)) = D_800DD058;
-    func_80048A44(entity, D_800DD058[((s32) (D_80083228 + ((S_80091C64_1 *)actor)->unk_2A + 0x100) >> 9) & 7], 0, 1);
+    func_80048A44(entity, D_800DD058[((s32) (gameWork.viewAngle + ((S_80091C64_1 *)actor)->unk_2A + 0x100) >> 9) & 7], 0, 1);
     return;
 jt_c4:
-    action_tracker = &dungeonStatus.unk_00;
-    ((S_80091C64_4 *)action_tracker)->unk_0A = (u16) (((S_80091C64_4 *)action_tracker)->unk_0A - 1);
+    dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
     ((S_80091C64_1 *)actor)->unk_2A = (s16) ((S_80091C64_0 *)motion)->unk_11A;
     if (!(((S_80091C64_1 *)actor)->unk_1C & 0x100000)) {
         goto default_behavior;

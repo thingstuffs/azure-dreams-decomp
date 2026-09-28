@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 #include "common.h"
 
@@ -14,7 +15,6 @@ typedef struct Entry {
 } Entry;
 
 extern s32 func_80045310(s32);
-extern Entry *D_80083160[];
 extern Callback D_80083360[0x20];
 extern Entry *D_800833E0[0x20];
 
@@ -38,7 +38,7 @@ loop:
         if (entry != 0) {
             if (!(entry->flags & 0x800)) {
                 callback(entry->data, entry->arg1, entry->arg2);
-                stop_requested = func_80045310(*(s32 *)((u8 *)D_80083160[0] + 0x8D0));
+                stop_requested = func_80045310(*(s32 *)((u8 *)gameWork.unk_000 + 0x8D0));
                 ASM_KEEP(stop_requested);
                 callback_slot++;
                 if (stop_requested == 0) {

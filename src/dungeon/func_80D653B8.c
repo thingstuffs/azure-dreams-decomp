@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 #ifndef NULL
 #define NULL 0
@@ -77,7 +78,6 @@ extern void func_8004491C();
 extern void func_80045340(void);
 extern void func_80047784();
 
-extern s16 D_80083228[];
 extern u8 D_80083498[];
 extern u8 D_800D6FEC[];
 extern u8 D_800E23D0[];
@@ -128,7 +128,7 @@ void func_80D653B8(void *unused, S_80D653B8_5 *anchor, Block16 *object_template,
 
             object_data->unk_2C = direction_table;
             func_80047784(object_data,
-                direction_table[((D_80083228[0] + facing_source->unk_2A + 0x100) >> 9) & 7],
+                direction_table[((gameWork.viewAngle + facing_source->unk_2A + 0x100) >> 9) & 7],
                 0);
         }
 

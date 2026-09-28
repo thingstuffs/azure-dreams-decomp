@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
+#include "shared/game_work.h"
 
 #ifndef NULL
 #define NULL 0
@@ -18,7 +20,6 @@ typedef struct State8081FF68 {
 
 extern u8 D_80020224[];
 extern void *D_80020244[8];
-extern u8 D_80083160[];
 extern u8 D_80083780[];
 extern s32 D_80012D5C[];
 extern s32 D_80024638[];
@@ -27,7 +28,6 @@ extern s16 D_800244E8[16];
 extern u8 D_800244B8[0x30];
 extern u8 D_80024488[0x10];
 extern u8 D_80024470[];
-extern u8 D_80045340[];
 extern u8 D_800236BC[];
 extern u8 D_80023BCC[];
 extern u8 D_8007947C[];
@@ -165,7 +165,7 @@ void func_80022768(State8081FF68 *state, void *position)
         &&sw_0, &&sw_1, &&sw_2, &&sw_3,
         &&sw_4, &&sw_5, &&sw_6, &&sw_7
     };
-    u8 *input = D_80083160;
+    GameWork *input = &gameWork;
     u8 *payout_callback;
     s32 index;
     s32 angle;
@@ -233,7 +233,7 @@ sw_0:
     return;
 
 sw_1:
-    if ((((S_80022768_2 *)input)->unk_08 & 0x5000) != 0) {
+    if ((((u32)input->unk_008) & 0x5000) != 0) {
         u16 timer = ((S_80022768_0 *)state)->unk_5E.u;
         ((S_80022768_0 *)state)->unk_5E.u = (u16)(timer - 1);
         if ((s16)timer < 0) {
@@ -243,8 +243,8 @@ sw_1:
         ((S_80022768_0 *)state)->unk_5E.u = 5;
     }
 
-    if ((((S_80022768_2 *)input)->unk_10 & 0x1000) != 0 ||
-        ((((S_80022768_2 *)input)->unk_08 & 0x1000) != 0 &&
+    if ((((u32)input->unk_010) & 0x1000) != 0 ||
+        ((((u32)input->unk_008) & 0x1000) != 0 &&
         (s16)((S_80022768_0 *)state)->unk_5E.s <= 0)) {
         if (((S_80022768_0 *)state)->unk_64 < 3) {
             SD_Call(0x502);
@@ -257,8 +257,8 @@ sw_1:
         }
     }
 
-    if ((((S_80022768_2 *)input)->unk_10 & 0x4000) != 0 ||
-        ((((S_80022768_2 *)input)->unk_08 & 0x4000) != 0 &&
+    if ((((u32)input->unk_010) & 0x4000) != 0 ||
+        ((((u32)input->unk_008) & 0x4000) != 0 &&
         (s16)((S_80022768_0 *)state)->unk_5E.s <= 0)) {
         if (((S_80022768_0 *)state)->unk_64 >= 2) {
             SD_Call(0x502);
@@ -268,13 +268,13 @@ sw_1:
         }
     }
 
-    if ((((S_80022768_2 *)input)->unk_10 & 0x20) != 0) {
+    if ((((u32)input->unk_010) & 0x20) != 0) {
         ((S_80022768_0 *)state)->unk_5E.u = 10;
         ((S_80022768_0 *)state)->unk_5C.s = 3;
         return;
     }
 
-    if ((((S_80022768_2 *)input)->unk_10 & 0x40) == 0 ||
+    if ((((u32)input->unk_010) & 0x40) == 0 ||
         ((S_80022768_0 *)state)->unk_64 == 0) {
         return;
     }
@@ -338,7 +338,7 @@ sw_4:
         if ((s16)timer <= 0)
             ((S_80022768_0 *)state)->unk_60.u = 0;
     }
-    if ((((S_80022768_2 *)input)->unk_10 & 0x40) != 0 &&
+    if ((((u32)input->unk_010) & 0x40) != 0 &&
         ((S_80022768_0 *)state)->unk_60.s == 0) {
         void *reel;
         SD_Call(0x522);
@@ -577,7 +577,7 @@ sw_7:
             ((S_80022768_8 *)primitive)->unk_0C = 0;
             ((S_80022768_14 *)(((S_80022768_4 *)coin)->unk_08.p))->unk_14 = 0x40000;
             payout_state = (u8 *)coin + 0x20;
-            func_8004491C(payout_obj, D_80045340);
+            func_8004491C(payout_obj, func_80045340);
             sprite = ((S_80022768_4 *)coin)->unk_0C;
             ((S_80022768_9 *)sprite)->unk_1E = 0x1000;
             ((S_80022768_9 *)sprite)->unk_1C = 0x1000;

@@ -1,9 +1,9 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
 M2C_UNK func_80033CD8();           /* extern */
 void *func_8009C390();       /* extern */
-extern M2C_UNK D_80045340;
 extern M2C_UNK D_800A7C0C;
 
 typedef struct S_800A7B98_0 {
@@ -42,7 +42,7 @@ void func_800A7B98(s32 ownerDataAddress, M2C_UNK creationParam, S_800A7B98_2 *so
         objectData = ((S_800A7B98_0 *)createdObject)->unk_0C;
         objectData->unk_08 = (s32) sourceData->unk_08;
         objectData->unk_14 = (u16) sourceData->unk_14;
-        func_80033CD8(objectState, &D_80045340);
+        func_80033CD8(objectState, func_80045340);
         objectState->unk_6C = 5;
     }
 }

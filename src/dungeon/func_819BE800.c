@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct S_FUNC_80024000_BODY_0 {
     u8 pad_00[0x140];
@@ -73,7 +74,6 @@ typedef struct S_FUNC_80024000_BODY_9 {
 } S_FUNC_80024000_BODY_9;   /* planes + ((S_FUNC_80024000_BODY_4 *)current)->unk_10 * 8 in FUNC_80024000_BODY */
 
 
-extern u8 D_8008333C[32];
 extern s32 func_800BCE7C(void *);
 
 
@@ -117,11 +117,11 @@ void *FUNC_80024000_BODY(s32 world_x, s32 world_y, s16 min_height) {
 
     cell_index = (u16)world_x >> 6;
     ((S_FUNC_80024000_BODY_0 *)scratch)->unk_150 = cell_index;
-    map_data = D_8008333C;
+    map_data = ((u8 *)(&gameWork.unk_1DC));
     cell_index += ((u16)world_y >> 6) << ((S_FUNC_80024000_BODY_1 *)map_data)->unk_14;
     (*(s16 *)((u8 *)scratch + 0x150)) = cell_index;
     map_entry = (u8 *)((long)cell_index * 6 +
-                       (unsigned long)*(u8 **)D_8008333C);
+                       (unsigned long)*(u8 **)((u8 *)(&gameWork.unk_1DC)));
     vertices = ((S_FUNC_80024000_BODY_1 *)map_data)->unk_08;
     planes = ((S_FUNC_80024000_BODY_1 *)map_data)->unk_0C;
     best_polygon = 0;

@@ -17,7 +17,6 @@ void func_80174610(S_A *motion_state, S_B *motion, S_C *target, S_D *actor) {
     s32 target_pos;
     s32 current_pos;
     u16 next_count;
-    s32 *selection_state;
     s32 active_flag;
     s32 state;
 
@@ -81,9 +80,8 @@ reach_target:
             motion->dy10 = 0;
             motion->dxC = 0;
             func_800A2B04(motion, target->x24, target->y25);
-            selection_state = ((s32 *)(&dungeonStatus));
-            if (selection_state[4] == (s32)((u8 *)actor - 0x20)) {
-                selection_state[4] &= 0x7FFFFFFF;
+            if (((s32)dungeonStatus.unk_10) == (s32)((u8 *)actor - 0x20)) {
+                *(s32 *)&dungeonStatus.unk_10 &= 0x7FFFFFFF;
                 motion_state->field8c = D_80171FA4;
             } else {
                 motion_state->field8c = D_80171FA4;

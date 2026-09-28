@@ -43,7 +43,6 @@ M2C_UNK func_800A56C0();                            /* extern */
 M2C_UNK func_800A56E0();                     /* extern */
 
 void func_800D34CC(void *arg0, void *arg1, void *arg2, void *arg3) {
-    M2C_UNK *var_v0;
     M2C_UNK var_a2;
     s16 temp_a1;
     s16 temp_v0_2;
@@ -85,10 +84,9 @@ block_6:
         temp_v0_2 = (u16) ((S_800D34CC_0 *)arg0)->unk_96 - 1;
         ((S_800D34CC_0 *)arg0)->unk_96 = temp_v0_2;
         if (((temp_v0_2 << 0x10) <= 0) || ((((S_800D34CC_2 *)arg2)->unk_14 & 0x8000) != 0)) {
-            var_v0 = &dungeonStatus.unk_00;
-            temp_v1_4 = ((S_800D34CC_3 *)var_v0)->unk_10;
+            temp_v1_4 = ((s32)dungeonStatus.unk_10);
             if (temp_v1_4 == (arg3 - 0x20)) {
-                ((S_800D34CC_3 *)var_v0)->unk_10 = (s32) (temp_v1_4 & 0x7FFFFFFF);
+                dungeonStatus.unk_10 = (s32) (temp_v1_4 & 0x7FFFFFFF);
             }
             func_800A32A4(arg3);
             if ((func_80042900(arg3, 0x1B) << 0x10) == 0) {

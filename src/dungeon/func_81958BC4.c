@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 #include "records/Rec_func_800243C4_arg1.h"
 
@@ -18,7 +19,6 @@ typedef struct FlagsView {
 } FlagsView;
 
 extern CounterView D_800281F8;
-extern u8 D_80045340[];
 
 
 typedef struct S_800243C4_0_pre {
@@ -100,7 +100,7 @@ void func_800243C4(void *effect, Rec_func_800243C4_arg1 *position, S_800243C4_4 
         position->unk_0A.as_s16 =
             base_position->unk_0A + ((S_800243C4_0 *)effect)->unk_28.u;
         if (func_80024ED4(position) != 0) {
-            func_8004491C((u8 *)effect - 0x20, D_80045340);
+            func_8004491C((u8 *)effect - 0x20, func_80045340);
             ((S_800243C4_0 *)effect)->unk_2C.u = ((S_800243C4_0 *)effect)->unk_2C.u + 1;
             return;
         }

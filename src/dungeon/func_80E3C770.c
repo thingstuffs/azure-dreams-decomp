@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 
 typedef s32 M2C_UNK;
@@ -8,7 +9,6 @@ typedef s32 M2C_UNK;
 #define U16_AT(p, off) (*(u16 *)((u8 *)(p) + (off)))
 #define U32_AT(p, off) (*(u32 *)((u8 *)(p) + (off)))
 
-extern s32 D_80045340;
 extern M2C_UNK D_800C6AEC;
 
 extern void func_8004491C();
@@ -41,7 +41,7 @@ void func_80175F70(u8 *effect_state, s32 unused, u8 *render_data) {
         func_80044A50(effect);
         U16_AT(render_data, 0x12) += 0x80;
         U16_AT(render_data, 0x14) &= 0xFFF3;
-        func_8004491C(effect, &D_80045340);
+        func_8004491C(effect, func_80045340);
         goto advance_state;
 
     case 2:

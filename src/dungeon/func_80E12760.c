@@ -1,3 +1,4 @@
+#include "shared/slus_callbacks.h"
 #include "shared/dir_step.h"
 
 struct S_80083178Vector
@@ -68,7 +69,6 @@ extern void *func_8003FC64(s32 size);
 extern void func_8004491C(void *object, void *callback);
 extern void func_80047784(void *object, s32 kind, s32 arg2);
 extern void *func_8003DE58(void *arg0, void *arg1, Vec3u16 *out, s32 arg3);
-extern s32 D_80045340;
 extern u8 D_80175978;
 /* Create a render object and initialize its position and motion toward a directional target. */
 void *func_80175F60(void *emitter, Copy24 *position, void *source)
@@ -96,7 +96,7 @@ void *func_80175F60(void *emitter, Copy24 *position, void *source)
   if (object != 0)
   {
     *((void **) (((u8 *) object) + 0x10)) = &D_80175978;
-    func_8004491C(object, &D_80045340);
+    func_8004491C(object, func_80045340);
     render = *((void **) (((u8 *) object) + 0xC));
     *((s32 *) (((u8 *) render) + 0x28)) = *((s32 *) (((u8 *) source_copy) + 0x28));
     *((s16 *) (((u8 *) render) + 0x1E)) = 0x800;

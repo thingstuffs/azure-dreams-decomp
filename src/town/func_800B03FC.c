@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 extern s32 func_80049E1C(s32 arg0, s32 arg1, s32 arg2);
 extern void SD_Call(s32 arg0);
@@ -10,36 +11,35 @@ extern void func_800B1778(s32 arg0, s32 arg1, s32 arg2);
 extern void func_800B17C0(s32 arg0, s32 arg1);
 
 extern s32 D_80082AB8;
-extern s32 D_80083160[5];
 
 /* Handles twin shop input and updates the selected item and row. */
 void func_800ADB5C(s32 *menu) {
-    s32 *pad_state;
+    GameWork *pad_state;
     s32 held_buttons;
     s32 selection_step;
     s32 selection;
     s32 row;
 
-    pad_state = D_80083160;
-    held_buttons = pad_state[2];
+    pad_state = &gameWork;
+    held_buttons = ((s32)pad_state->unk_008);
     selection_step = 0;
     if (held_buttons == 0) {
         return;
     }
 
-    if (pad_state[4] & 0x10) {
+    if (((s32)pad_state->unk_010) & 0x10) {
         SD_Call(0x514);
         func_800AD8CC(menu);
         goto close_shop;
     }
-    if (pad_state[4] & 0x20) {
+    if (((s32)pad_state->unk_010) & 0x20) {
         SD_Call(0x515);
         D_80082AB8 = 0;
 close_shop:
         close_twin_shop((s8 *)menu - 0x20);
         return;
     }
-    if (pad_state[4] & 0x40) {
+    if (((s32)pad_state->unk_010) & 0x40) {
         func_800ADA1C(menu);
         return;
     }
@@ -47,12 +47,12 @@ close_shop:
         return;
     }
 
-    if (pad_state[4] & 0xF000) {
+    if (((s32)pad_state->unk_010) & 0xF000) {
         menu[5] = 0;
-        if (pad_state[4] & 0x8000) selection_step = -5;
-        else if (pad_state[4] & 0x2000) selection_step = 5;
-        else if (pad_state[4] & 0x1000) selection_step = -1;
-        else if (pad_state[4] & 0x4000) selection_step = 1;
+        if (((s32)pad_state->unk_010) & 0x8000) selection_step = -5;
+        else if (((s32)pad_state->unk_010) & 0x2000) selection_step = 5;
+        else if (((s32)pad_state->unk_010) & 0x1000) selection_step = -1;
+        else if (((s32)pad_state->unk_010) & 0x4000) selection_step = 1;
     } else {
         if (menu[5] >= 9) {
             if (held_buttons & 0x8000) selection_step = -5;
@@ -79,7 +79,7 @@ close_shop:
         func_800B1778(menu[10], row, selection);
     }
     func_800B17C0(menu[10], selection);
-    if (pad_state[2] & 0x40) {
+    if (((s32)pad_state->unk_008) & 0x40) {
         func_800ADA1C(menu);
     }
     func_800ADB04(menu);

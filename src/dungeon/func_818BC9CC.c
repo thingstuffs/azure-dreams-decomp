@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct S_func_818BC9CC_0 {
     u8 pad_00[0x4];
@@ -122,7 +123,6 @@ extern u32 func_80065590(void *, void *, void *, void *, void *, void *,
                          void *, void *, void *, void *);
 extern u16 func_80066460(s32, s32, s32, s32);
 extern void func_80067F20(void *, s32, s32, u16, void *);
-extern u8 D_80083160[];
 
 /* Draw four shaded textured quads around the given position. */
 s32 func_818BC9CC(S_func_818BC9CC_0 *effect, S_func_818BC9CC_1 *position)
@@ -153,10 +153,10 @@ s32 func_818BC9CC(S_func_818BC9CC_0 *effect, S_func_818BC9CC_1 *position)
     volatile s16 tile_window[4];
     volatile s16 full_window[4];
 
-    render_state = (S_func_818BC9CC_6 *)D_80083160;
+    render_state = (S_func_818BC9CC_6 *)((u8 *)(&gameWork));
     scratch = (S_func_818BC9CC_2 *)0x1F800000;
     angle = render_state->unk_C8;
-    scratch->unk_18 = (u8 *)((S_func_818BC9CC_6 *)D_80083160)->unk_00 + 0xB0;
+    scratch->unk_18 = (u8 *)((S_func_818BC9CC_6 *)((u8 *)(&gameWork)))->unk_00 + 0xB0;
     x_extent = (u32)((func_80064584(angle) >> 4) * effect->unk_08.as_s16) >> 8;
     y_extent = (u32)((func_800644B8(angle) >> 4) * effect->unk_08.as_s16) >> 8;
     texture_v = (effect->unk_04 % 4) << 3;

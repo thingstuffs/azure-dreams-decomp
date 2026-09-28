@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 
 typedef struct Prim81916C1C {
@@ -28,7 +29,6 @@ typedef struct Arg81916C1C {
     s8 count;
 } Arg81916C1C;
 
-extern State81916C1C *D_80083160[3];
 extern void func_800667A8(Prim81916C1C *, s32);
 extern void func_8006658C(void *, Prim81916C1C *);
 
@@ -44,7 +44,7 @@ void func_8002441C(void *context, s32 unused, Arg81916C1C *countdown)
 
     tick_state = *(Inner81916C1C **)context;
     tick_state->counter++;
-    render_state = D_80083160[0];
+    render_state = gameWork.unk_000;
     prim = render_state->next;
     render_state->next = prim + 1;
     prim->x3 = 0x140;
@@ -58,7 +58,7 @@ void func_8002441C(void *context, s32 unused, Arg81916C1C *countdown)
     prim->x0 = x_value;
     func_800667A8(prim, step);
     prim->flags |= 2;
-    func_8006658C((u8 *)D_80083160[0] + 0xB0, prim);
+    func_8006658C((u8 *)gameWork.unk_000 + 0xB0, prim);
     remaining = (u8)countdown->count - 1;
     countdown->count = remaining;
     if ((remaining << 24) == 0) {

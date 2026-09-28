@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -25,10 +27,8 @@ extern void func_800A4ACC(void *);
 extern void func_800A56E0(s32);
 extern s32 func_800A94A0(void *, u8 *, s32, void *);
 
-extern s32 D_80045340;
 extern LocalItemInfo D_8006DE24[];
 extern void *D_800814A8;
-extern s16 D_80083228;
 extern void *D_80170850[];
 extern u8 D_80171030[];
 extern u8 D_801716F4[];
@@ -243,7 +243,7 @@ invoke_item:
 
         animations = D_801755CC;
         (*(u8 * *)((u8 *)sprite + 0x2C)) = animations;
-        direction = ((D_80083228 + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7;
+        direction = ((gameWork.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7;
         func_80047784(sprite, animations[direction], 0);
     }
     next_state = ((S_801731C8_0 *)action)->unk_9B + 1;
@@ -293,7 +293,7 @@ state_2:
             animations = D_80175594;
             ((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 = animations;
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
-            direction = ((D_80083228 + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7;
+            direction = ((gameWork.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7;
             func_80047784(sprite, animations[direction], 0);
         }
         if (((S_801731C8_0 *)action)->unk_96.s < 2) {
@@ -325,7 +325,7 @@ state_2:
 
                 ((S_801731C8_5 *)particle)->unk_22 = 8;
                 ((S_801731C8_5 *)particle)->unk_10 = particle_script;
-                func_8004491C(particle, &D_80045340);
+                func_8004491C(particle, func_80045340);
                 particle_part = ((S_801731C8_5 *)particle)->unk_0C;
                 ((S_801731C8_6 *)particle_part)->unk_10 = low_color;
                 ((S_801731C8_6 *)particle_part)->unk_14 |= 0xC;
@@ -397,11 +397,9 @@ state_2:
 
 state_3:
     {
-        u8 *effect_state;
         s16 timer;
 
-        effect_state = (u8 *)&dungeonStatus.unk_00;
-        if (((S_801731C8_7 *)effect_state)->unk_0C == 0) {
+        if (((s32)dungeonStatus.unk_0C) == 0) {
             ((S_801731C8_0 *)action)->unk_96.u = 0;
         }
         timer = ((S_801731C8_0 *)action)->unk_96.u - 1;
@@ -423,14 +421,14 @@ state_3:
 
             animations = D_80175554;
             (*(u8 * *)((u8 *)sprite + 0x2C)) = animations;
-            direction = ((D_80083228 + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7;
+            direction = ((gameWork.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7;
             func_80047784(sprite, animations[direction], 0);
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
         }
-        if (((S_801731C8_7 *)effect_state)->unk_0C != 0) {
+        if (((s32)dungeonStatus.unk_0C) != 0) {
             goto end;
         }
-        ((S_801731C8_7 *)effect_state)->unk_0A--;
+        dungeonStatus.unk_0A--;
         ((S_801731C8_0 *)action)->unk_8C = D_801716F4;
         func_800A4ACC(actor);
         (*(u8 *)((u8 *)actor + 0x73)) = 0;

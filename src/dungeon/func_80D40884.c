@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
@@ -38,7 +39,6 @@ extern M2C_UNK func_800A56E0();
 extern M2C_UNK func_800AA36C();
 extern M2C_UNK func_801708B8();
 
-extern s16 D_80083228;
 extern u8 D_800E23E0[];
 extern u8 D_800E2448[];
 extern u8 D_80171A80[];
@@ -71,7 +71,7 @@ void func_80176084(void *state, void *motion, void *sprite, void *entity) {
     } while (0);
     ((S_80176084_0 *)state)->unk_96 = 4U;
     (*(M2C_UNK * *)((u8 *)sprite + 0x2C)) = (M2C_UNK *)D_800E2448;
-    func_80047784(sprite, D_800E2448[((s32)(D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
+    func_80047784(sprite, D_800E2448[((s32)(gameWork.viewAngle + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
     if ((((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) ||
         (func_800A56E0(0x801), ((((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) != 0))) {
 update_start:
@@ -86,7 +86,7 @@ update_start:
             ((S_80176084_0 *)state)->unk_B5 = 0;
             ((S_80176084_0 *)state)->unk_98 |= 8;
             (*(M2C_UNK * *)((u8 *)sprite + 0x2C)) = (M2C_UNK *)D_800E23E0;
-            func_80047784(sprite, D_800E23E0[((s32)(D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
+            func_80047784(sprite, D_800E23E0[((s32)(gameWork.viewAngle + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
             ((S_80176084_0 *)state)->unk_96 = 5U;
             ((S_80176084_0 *)state)->unk_9B++;
             ((S_80176084_0 *)state)->unk_B1++;
@@ -104,9 +104,8 @@ update_finish:
                 ((S_80176084_0 *)state)->unk_8C = (M2C_UNK *)D_80171A80;
                 func_80042B68(entity, 0x1B);
                 if (((S_80176084_0 *)state)->unk_B4 == 0) {
-                    u8 *shared_state = (u8 *)&dungeonStatus.unk_00;
-                    ((S_80176084_4 *)shared_state)->unk_0C = 0;
-                    ((S_80176084_4 *)shared_state)->unk_0A--;
+                    dungeonStatus.unk_0C = 0;
+                    dungeonStatus.unk_0A--;
                     ((Rec_D_800E3D7C *)entity)->unk_44.at02_u16.v &= 0x7FFF;
                 }
                 func_800AA36C(state, motion, sprite, entity);

@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 extern void func_8004491C(void *, void *);
-extern u8 D_80045340[];
 
 #ifdef __mips__
 extern void func_8015EA5C(void);
@@ -74,7 +74,7 @@ void FUNC_80CA5000_BODY(void *object, s32 init_value, void *source_coords) {
     void *coords;
 
     *(s32 *)((u8 *)object + 0x60) = init_value;
-    func_8004491C(object, D_80045340);
+    func_8004491C(object, func_80045340);
 
     prim = *(void **)((u8 *)object + 0xC);
     *(s16 *)((u8 *)prim + 0x10) = 0x20;

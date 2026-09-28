@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 extern int abs(int);
 
 
@@ -18,7 +19,6 @@ extern void func_80064D80(void *);
 extern s32 func_80065590(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
 extern void func_80065820(void *, void *);
 extern void func_800666E0(void *);
-extern u8 D_80083160[];
 
 
 typedef struct S_800D6170_0 {
@@ -98,7 +98,7 @@ typedef struct S_800D6170_4 {
 void func_800D6170(void *geometry, S_800D6170_1 *position, S_800D6170_2 *render_state, s16 depth_bias)
 {
     u8 *scratch = (u8 *)0x1F800000;
-    u8 **render_context = (u8 **)D_80083160;
+    u8 **render_context = (u8 **)((u8 *)(&gameWork));
     u8 *packet;
     s32 ot_index;
     s32 depth_span;

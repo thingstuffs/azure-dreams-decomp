@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -27,8 +28,6 @@ extern M2C_UNK func_80048A44();
 extern M2C_UNK func_8009F644();
 extern s32 func_800A5C70(void *arg0, s32 arg1, void *arg2, void *arg3);
 extern u16 D_80013714;
-extern M2C_UNK D_80083160;
-extern s16 D_80083228;
 extern u8 D_800DCFB0;
 extern M2C_UNK D_800DD0B8;
 
@@ -40,7 +39,7 @@ void func_8008C7B4(void *state, s32 mode, void *sprite, void *entity) {
     u8 *flags;
     s32 initial_state;
 #else
-    M2C_UNK *flags = &D_80083160;
+    M2C_UNK *flags = ((M2C_UNK *)&gameWork.unk_000);
 #endif
 
 #ifndef NON_MATCHING
@@ -74,9 +73,8 @@ void func_8008C7B4(void *state, s32 mode, void *sprite, void *entity) {
     }
 set_control:
     {
-        M2C_UNK *control = &dungeonStatus.unk_00;
 
-        ((S_8008C7B4_2 *)control)->unk_02 = (u16)(((S_8008C7B4_2 *)control)->unk_02 | 0x80);
+        dungeonStatus.flags = (u16)(dungeonStatus.flags | 0x80);
     }
      /* MATCH: keep the control arm's a0 reload after its store. */
     do {
@@ -107,12 +105,12 @@ after_control:
         {
             u8 *direction_entry;
 
-            initial_state = ((s32)(D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7;
+            initial_state = ((s32)(gameWork.viewAngle + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7;
             direction_entry = direction_table + initial_state;
             func_80048A44(sprite, *direction_entry, 0, 1);
         }
 #else
-        func_80048A44(sprite, direction_table[((s32)(D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0, 1);
+        func_80048A44(sprite, direction_table[((s32)(gameWork.viewAngle + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0, 1);
 #endif
     }
 }

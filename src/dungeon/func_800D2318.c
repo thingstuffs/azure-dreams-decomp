@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 
@@ -76,7 +77,6 @@ typedef struct {
 extern u8 D_80082E80[];
 extern u8 D_80083780[12];
 extern u8 D_80083498[];
-extern u8 D_80045340[];
 extern u8 D_800DEA68[];
 extern u8 D_800D7D30[];
 
@@ -130,7 +130,7 @@ spawn_objects:
             if (object != NULL) {
                 object->unk10 = (DungeonInner *)object_data;
                 object_counter->count += 1;
-                func_8004491C(object, D_80045340);
+                func_8004491C(object, func_80045340);
                 {
                     DungeonInner *object_inner = object->unkC;
                     DungeonObjectTail *object_tail = (DungeonObjectTail *)((u8 *)object + 0x20);

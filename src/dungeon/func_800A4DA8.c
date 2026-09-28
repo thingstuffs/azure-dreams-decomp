@@ -6,12 +6,12 @@
 void func_800AA508(void *entity) {
     u16 *update_count;
     s8 *state_bytes;
-    s32 *global_state;
+    DungeonGlobalStatus *global_state;
 
     do {
         *(s8 *)((s8 *)entity + 0x9A) = 3;
         *(s32 *)((s8 *)entity + 0x8C) = (*(s8 *)((s8 *)entity - -0x9B) = 0);
-        global_state = &dungeonStatus.unk_00;
+        global_state = &dungeonStatus;
         state_bytes = (s8 *)global_state;
         update_count = (u16 *)(state_bytes + 0xA);
         *(s16 *)((s8 *)entity + 0x96) = 4;

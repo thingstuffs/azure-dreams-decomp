@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
 typedef struct S_8016BE20_0 {
@@ -61,7 +62,6 @@ extern void func_800A56E0(s32);
 extern void func_80164BA4(void *);
 
 extern u16 D_80013714;
-extern s16 D_80083228;
 extern u8 D_800E3D7C[];
 extern u8 D_8016A36C[];
 extern u8 D_801739B8[];
@@ -80,7 +80,6 @@ void func_8016BE20(void *state_arg, void *work_arg, void *actor_arg, void *ctx_a
     void *ctx = ctx_arg;
     u8 *world;
     u8 *anim_table;
-    u8 *control;
     u8 *object_header;
     void *object;
     register void *setup_data ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
@@ -118,7 +117,7 @@ jt_c1:
             ((S_8016BE20_0 *)state)->unk_9B.n++;
             (*(u8 * *)((u8 *)actor + 0x2C)) = D_80173A40;
             func_80047784(actor,
-                D_80173A40[((D_80083228 + ((S_8016BE20_2 *)ctx)->unk_2A + 0x100) >> 9) & 7],
+                D_80173A40[((gameWork.viewAngle + ((S_8016BE20_2 *)ctx)->unk_2A + 0x100) >> 9) & 7],
                 0);
         } else {
             if (D_80175DC0 == 0) {
@@ -129,7 +128,7 @@ jt_c1:
             func_800A56E0(0x300);
             (*(u8 * *)((u8 *)actor + 0x2C)) = D_80173A40;
             func_80047784(actor,
-                D_80173A40[((D_80083228 + ((S_8016BE20_2 *)ctx)->unk_2A + 0x100) >> 9) & 7],
+                D_80173A40[((gameWork.viewAngle + ((S_8016BE20_2 *)ctx)->unk_2A + 0x100) >> 9) & 7],
                 0);
         }
         return;
@@ -157,7 +156,7 @@ jt_c3:
         if (((S_8016BE20_3 *)actor)->unk_2C != anim_table) {
             (*(u8 * *)((u8 *)actor + 0x2C)) = anim_table;
             func_80047784(actor,
-                anim_table[((D_80083228 + ((S_8016BE20_2 *)ctx)->unk_2A + 0x100) >> 9) & 7],
+                anim_table[((gameWork.viewAngle + ((S_8016BE20_2 *)ctx)->unk_2A + 0x100) >> 9) & 7],
                 0);
         }
         if (D_80175DC1 != 0) {
@@ -190,13 +189,12 @@ jt_c5:
 
         setup_data = D_80175392;
         ((S_8016BE20_0 *)state)->unk_8C = D_8016A36C;
-        control = (u8 *)&dungeonStatus.unk_00;
-        control_count = ((S_8016BE20_5 *)control)->unk_0A;
+        control_count = ((u16)dungeonStatus.unk_0A);
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         object_index = 0;
-        ((S_8016BE20_5 *)control)->unk_0C = 0;
+        dungeonStatus.unk_0C = 0;
         control_count++;
-        ((S_8016BE20_5 *)control)->unk_0A = control_count;
+        dungeonStatus.unk_0A = control_count;
         ((S_8016BE20_2 *)ctx)->unk_46 &= 0x7FFF;
         global_flags = D_80013714;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */

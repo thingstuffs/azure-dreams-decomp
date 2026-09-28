@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "records/Rec_func_800247B8_arg0.h"
 
 #define UNALIGNED32(expr) (expr)
@@ -9,7 +10,6 @@ typedef struct {
 
 extern void *func_8003FC64();
 extern s32 func_8004491C();
-extern s32 D_80045340;
 extern s32 D_800D4954;
 extern Block12 D_800E233C;
 
@@ -77,7 +77,7 @@ void func_800D4AB0(Rec_func_800247B8_arg0 *owner) {
         effect_state->unk_5C = 0x78;
         effect_state->unk_88 = owner->unk_88;
         (*(s32 * *)((u8 *)effect + 0x10)) = &D_800D4954;
-        func_8004491C(effect, &D_80045340);
+        func_8004491C(effect, func_80045340);
         render_data = (*(void * *)((u8 *)effect + 0xC));
         render_data->unk_10 = 0x60;
         render_data->unk_06 = 0;

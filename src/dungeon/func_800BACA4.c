@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct {
     u8 pad0[0x8D0];
@@ -52,13 +53,11 @@ typedef struct {
     s16 field22;
 } StackData;
 
-extern RenderState *D_80083160;
 extern u8 D_801C9E40[16];
 extern u8 D_80083780[12];
 extern u8 D_80082E80[];
 extern void *D_800E3D7C[];
 extern u8 D_800DD0F8[];
-extern s16 D_80083228[5];
 extern s16 D_800814E8;
 extern u8 D_80083120[];
 extern u16 D_80082E76;
@@ -92,7 +91,7 @@ void func_800C0404(DungeonObject *obj, MotionState *motion, EffectState *effect)
     area_origin = 0x01800340;
     draw_data.field18 = area_origin;
     draw_data.field1C = 0x00400040;
-    render_state_slot = &D_80083160;
+    render_state_slot = &gameWork.unk_000;
     render_state = *render_state_slot;
     prim = (Primitive *)render_state->nextPrim;
     prim_list = (u8 *)render_state;
@@ -101,7 +100,7 @@ void func_800C0404(DungeonObject *obj, MotionState *motion, EffectState *effect)
     render_state->nextPrim = (u8 *)prim + 0xC;
     buffer_diff = (u32)render_state ^ (u32)D_801C9E40;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    call_state = *(RenderState *volatile *)&D_80083160;
+    call_state = *(RenderState *volatile *)&gameWork.unk_000;
     use_alt_buffer = buffer_diff != 0;
     func_80067E2C(first_prim, call_state, render_state);
     func_8006658C(prim_list, prim);
@@ -166,7 +165,7 @@ void func_800C0404(DungeonObject *obj, MotionState *motion, EffectState *effect)
                     *(u8 * volatile *)(D_80082E80 + 0x2C) = D_800DD0F8;
                     func_80048A44(
                         D_80082E80,
-                        D_800DD0F8[((s32)(*D_80083228 + *(s16 *)(dungeon_state + 0x2A)) + 0x100 >> 9) & 7],
+                        D_800DD0F8[((s32)(gameWork.viewAngle + *(s16 *)(dungeon_state + 0x2A)) + 0x100 >> 9) & 7],
                         1,
                         1);
                 }

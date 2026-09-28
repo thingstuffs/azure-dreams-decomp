@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
@@ -49,7 +50,6 @@ extern void func_800A2B04(void *, s32, s32);
 extern void func_800AAA54(void *, void *, void *, void *);
 extern void func_800AD4D0(void *);
 
-extern s16 D_80083228;
 extern u8 D_801716F4[];
 extern u8 D_80175554[];
 extern u8 D_80175564[];
@@ -65,7 +65,6 @@ void func_801738B8(void *object_arg, void *motion_arg, void *actor_arg, void *ro
     s16 timer;
     u16 old_timer;
     s32 room_ref;
-    s32 *global_state;
 
     switch (((S_801738B8_0 *)object)->unk_9B) {
     case 0:
@@ -158,13 +157,12 @@ start_action:
         if (((S_801738B8_2 *)actor)->unk_2C == D_80175564) {
             (*(void * *)((u8 *)actor + 0x2C)) = D_80175554;
             func_80047784(actor,
-                D_80175554[((D_80083228 + ((S_801738B8_1 *)room)->unk_2A + 0x100)
+                D_80175554[((gameWork.viewAngle + ((S_801738B8_1 *)room)->unk_2A + 0x100)
                     >> 9) & 7], 0);
         }
-        global_state = &dungeonStatus.unk_00;
-        room_ref = global_state[4];
+        room_ref = ((s32)dungeonStatus.unk_10);
         if (room_ref == (s32)((u8 *)room - 0x20)) {
-            global_state[4] = room_ref & 0x7FFFFFFF;
+            dungeonStatus.unk_10 = room_ref & 0x7FFFFFFF;
         }
         ((S_801738B8_0 *)object)->unk_8C = D_801716F4;
         ((S_801738B8_0 *)object)->unk_9A = 0xE;

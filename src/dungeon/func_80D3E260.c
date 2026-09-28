@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -25,11 +27,8 @@ extern void func_800A56E0(s32);
 extern s32 func_800A94A0(void *, u8 *, s32, u16 *);
 extern void func_801708B8(void *, void *, void *);
 
-extern s32 D_80045340;
 extern ItemInfo D_8006DE24[];
 extern void *D_800814A8;
-extern u8 D_80083160[];
-extern s16 D_80083228;
 extern u8 D_80083498[];
 extern u8 D_800D58D8[];
 extern s8 D_800DCECC[];
@@ -253,7 +252,6 @@ L_copy_linked:
                 if (effect != 0) {
                     u8 *effect_state;
                     u8 *effect_sprite;
-                    u8 *camera;
                     u8 *effect_pos;
                     u8 *anim_table;
                     u8 *anim_entry;
@@ -272,17 +270,16 @@ L_copy_linked:
                     ((S_80173A60_6 *)effect_sprite)->unk_0E = 0x80;
                     ((S_80173A60_6 *)effect_sprite)->unk_0D = 0x80;
                     ((S_80173A60_6 *)effect_sprite)->unk_0C = 0x80;
-                    func_8004491C(effect, &D_80045340);
+                    func_8004491C(effect, func_80045340);
 
                     anim_table = D_800E2410;
                     ((S_80173A60_6 *)effect_sprite)->unk_2C = anim_table;
-                    camera = D_80083160;
-                    anim_entry = (u8 *)((u32)(((((S_80173A60_7 *)camera)->unk_C8 +
+                    anim_entry = (u8 *)((u32)(((gameWork.viewAngle +
                               (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7) + (u32)anim_table);
                     func_80047784(effect_sprite, *anim_entry, 0);
                     ((S_80173A60_6 *)effect_sprite)->unk_14 &= 0xFFF3;
 
-                    direction_index = ((((S_80173A60_7 *)camera)->unk_C8 +
+                    direction_index = ((gameWork.viewAngle +
                               ((S_80173A60_0 *)actor_state)->unk_2A.s + 0x100) >> 9) & 7;
                     height_offsets = D_800DCECC;
                     ((S_80173A60_6 *)effect_sprite)->unk_06 = -(height_offsets[direction_index] * 4);
@@ -303,7 +300,7 @@ L_copy_linked:
 
                 anim_table = D_800E23E0;
                 (*(void * *)((u8 *)sprite + 0x2C)) = anim_table;
-                direction_index = ((D_80083228 + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7;
+                direction_index = ((gameWork.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7;
                 func_80047784(sprite, anim_table[direction_index], 3);
                 if (((S_80173A60_0 *)actor_state)->unk_B0 == 0) {
                     func_801708B8(actor_state, motion, sprite);

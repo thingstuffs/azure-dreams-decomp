@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 
 typedef struct {
@@ -28,7 +29,6 @@ typedef struct {
     u8 pad19[0x43];
 } Object;
 
-extern GlobalState D_80083160;
 extern u8 D_80082E6B;
 extern s8 D_80080A84;
 extern s8 D_80129728;
@@ -43,7 +43,7 @@ extern void func_801231DC(void);
 /* Handles input to update object selections, action states, and exit behavior. */
 void func_801249A0(Object *object)
 {
-    GlobalState *input_state = &D_80083160;
+    GlobalState *input_state = ((GlobalState *)&gameWork);
     u32 input_flags;
     u32 side_value;
     u8 active_value;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_func_800AA258_arg2.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -43,7 +44,6 @@ extern void func_80173EF4(void *, s32, void *, void *);
 
 extern void *D_800814A8;
 extern u8 D_80082E80[];
-extern s16 D_80083228;
 extern u8 D_80170E54;
 extern u8 D_80174140[];
 extern u8 D_80174188[];
@@ -79,7 +79,7 @@ state_zero:
         (*(void * *)((u8 *)sprite + 0x2C)) = D_80174190;
         func_80047784(
             sprite,
-            D_80174190[((D_80083228
+            D_80174190[((gameWork.viewAngle
                          + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100)
                         >> 9) & 7],
             0);
@@ -104,7 +104,7 @@ state_one:
         func_80047784(
             sprite,
             ((u8 *)((Rec_func_800AA258_arg2 *)sprite)->unk_2C.as_pv)
-                [((D_80083228
+                [((gameWork.viewAngle
                    + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100)
                   >> 9) & 7],
             0);
@@ -114,7 +114,7 @@ state_one:
         (*(void * *)((u8 *)sprite + 0x2C)) = D_80174188;
         func_80047784(
             sprite,
-            D_80174188[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100)
+            D_80174188[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100)
                         >> 9) & 7],
             0);
         if (((Rec_func_800AA258_arg2 *)sprite)->unk_14 & 0x8000) {
@@ -191,7 +191,7 @@ state_one:
             (*(void * *)((u8 *)sprite + 0x2C)) = D_80174188;
             func_80047784(
                 sprite,
-                D_80174188[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100)
+                D_80174188[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100)
                             >> 9) & 7],
                 0);
             if (((Rec_func_800AA258_arg2 *)sprite)->unk_14 & 0x8000) {
@@ -222,7 +222,7 @@ state_two:
     (*(void * *)((u8 *)sprite + 0x2C)) = D_80174188;
     func_80047784(
         sprite,
-        D_80174188[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100)
+        D_80174188[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100)
                     >> 9) & 7],
         0);
     ((Rec_func_801736F4_arg0 *)controller)->unk_8C = &D_80170E54;

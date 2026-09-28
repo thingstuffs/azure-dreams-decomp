@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -18,7 +19,6 @@ typedef struct S_8017380C_0 {
 
 
 
-extern s16 D_80083228;
 extern u8 D_801717F4;
 extern u8 D_80175988[];
 extern u8 D_80175998[];
@@ -144,17 +144,15 @@ finish_movement:
         direction_table = D_80175988;
         (*(void * *)((u8 *)entity + 0x2C)) = direction_table;
         func_80047784(entity,
-            direction_table[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            direction_table[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
     }
     {
-        s32 *entity_refs;
         s32 entity_ref;
 
-        entity_refs = &dungeonStatus.unk_00;
-        entity_ref = entity_refs[4];
+        entity_ref = ((s32)dungeonStatus.unk_10);
         if (entity_ref == (s32)((u8 *)actor - 0x20)) {
-            entity_refs[4] = entity_ref & 0x7FFFFFFF;
+            dungeonStatus.unk_10 = entity_ref & 0x7FFFFFFF;
         }
     }
     ((S_8017380C_0 *)action)->unk_8C = &D_801717F4;

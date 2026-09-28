@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -6,7 +7,6 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 extern u8 D_80171E20[];
-extern s16 D_80083228[5];
 extern void func_8009C12C(void *, void *, s16, s32);
 extern void func_800A4ACC(void *);
 extern void func_800A56E0(s32);
@@ -80,7 +80,7 @@ state1:
         goto done;
     }
     animation->unk_2C.as_pm = &D_801753E4;
-    func_80047784(animation, D_801753E4[(((s32) (*D_80083228 + actor->unk_2A.as_s16 + 0x100) >> 9) & 7)], 0);
+    func_80047784(animation, D_801753E4[(((s32) (gameWork.viewAngle + actor->unk_2A.as_s16 + 0x100) >> 9) & 7)], 0);
     func_800A56E0(0x808);
     phase_value = action->unk_9B;
     action->unk_96 = 0U;

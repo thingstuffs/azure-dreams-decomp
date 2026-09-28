@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dir_step.h"
 
 typedef struct {
@@ -20,7 +21,6 @@ typedef struct {
 } DungeonCell;
 
 extern DungeonCell D_800EA000[];
-extern u8 D_80083160[];
 
 extern s32 func_800A6D30(void);
 extern u32 func_800A07D0(s16 x0, s16 y0, s16 x1, s16 y1);
@@ -57,7 +57,7 @@ s32 func_8001C06C(Pos *start, Pos *dest, s16 rnd, s16 *outX, s16 *outY) {
         delta = -delta;
     }
     rangeX = delta - 4;
-    dead = (DungeonState *)D_80083160;
+    dead = (DungeonState *)((u8 *)(&gameWork));
     dirSlot = dir;
     dstY = dest->y;
     st = (DungeonState *)((u8 *)dead + 476);

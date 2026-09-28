@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dir_step.h"
 #include "records/Rec_D_800E3D7C.h"
 extern u8 D_80080000[];
@@ -12,8 +13,6 @@ extern M2C_UNK func_8009F644();
 extern M2C_UNK func_800A56E0();
 extern s32 D_80012090[];
 extern s32 D_80081484[];
-extern s32 D_80083170[];
-extern s16 D_80083228[];
 extern u8 D_8008ACDC[];
 extern u8 D_800DCFC8[];
 extern u8 D_800E0495[];
@@ -89,7 +88,7 @@ s32 func_8008C5C4(S_8008C5C4_2 *action, void *unused, S_8008C5C4_1 *position, Re
                 if (mode == 1) {
                     target_kind = ((S_8008C5C4_3 *)target_result)->unk_13;
                     if ((target_kind == 0x39) || (target_kind == 2)) {
-                        if (D_80083170[0] & 0x40) {
+                        if (((s32)gameWork.unk_010) & 0x40) {
                             func_800A56E0(0x506);
                             func_80099844(action->unk_124, &D_800E0495);
                             tail_result = 0;
@@ -116,7 +115,7 @@ s32 func_8008C5C4(S_8008C5C4_2 *action, void *unused, S_8008C5C4_1 *position, Re
             position->unk_2C = D_800DCFC8;
             func_80048A44(
                 position,
-                D_800DCFC8[((s32)(D_80083228[0] +
+                D_800DCFC8[((s32)(gameWork.viewAngle +
                                  (s16)actor->unk_2A.as_u16 + 0x100) >> 9) & 7],
                 0, 1);
             tail_result = 1;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 typedef struct {
     u8 bytes[12];
@@ -35,7 +36,6 @@ typedef struct {
     Packed12 blob;
 } Subobject;
 
-extern u8 D_80045340[];
 extern u8 D_80173B40[12];
 extern u8 D_80166D68[];
 extern u8 D_80166E48[];
@@ -60,7 +60,7 @@ void func_80166F3C(u32 *source_pos, s16 variant) {
         } else {
             object->field10 = D_80166E48;
         }
-        func_8004491C(object, D_80045340);
+        func_8004491C(object, func_80045340);
         child = object->child;
         child->field10 = 0x20;
         child->field6 = 0;

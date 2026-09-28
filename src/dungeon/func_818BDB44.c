@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 typedef struct S_818BDB44_0 {
     u8 pad_00[0x8];
@@ -66,7 +67,6 @@ extern void func_8004491C(void *, void *);
 
 extern u8 D_80024F4C[];
 extern u8 D_80025DF8[];
-extern u8 D_80045340[];
 
 /* Allocate and initialize a randomized object from the source and initial data. */
 s32 func_818BDB44(S_818BDB44_2 *source, S_818BDB44_4 *init_data)
@@ -112,7 +112,7 @@ s32 func_818BDB44(S_818BDB44_2 *source, S_818BDB44_4 *init_data)
             scale = 0x400;
             part->unk_1E = scale;
             part->unk_1C = scale;
-            func_8004491C(setup_object, D_80045340);
+            func_8004491C(setup_object, func_80045340);
         }
 
         {

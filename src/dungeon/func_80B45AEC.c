@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 
@@ -43,7 +44,6 @@ extern void func_800A32A4(Object *);
 extern void func_800A56E0(s32);
 extern void func_800ACF88(Object *);
 
-extern s16 D_80083228;
 extern u8 D_80175AA4[];
 
 /* Advances the entity fade effect, updates its countdown, and cleans up when fading ends. */
@@ -58,7 +58,6 @@ void func_801732EC(EffectState *effect, void *unused, Entity *entity, Object *ob
     u16 timer;
     u8 x;
     u8 y;
-    u8 *global_data;
 
     state = effect->state;
     if (state == 1) {
@@ -110,7 +109,7 @@ wait_transition:
     entity->table = D_80175AA4;
     effect->timer = 0x80;
     *(volatile u16 *)&effect->countdown = 0;
-    direction_index = ((D_80083228 + object->angle + 0x100) >> 9) & 7;
+    direction_index = ((gameWork.viewAngle + object->angle + 0x100) >> 9) & 7;
     func_80047784(entity, entity->table[direction_index], 0);
 advance_state:
     effect->state++;
@@ -136,13 +135,12 @@ finish_fade:
     effect->countdown = (u16)((s32)(timer << 16) >> 24);
 countdown_done:
     if ((entity->type == 2) && (entity->flags & 0x1000)) {
-        direction_index = ((D_80083228 + object->angle + 0x100) >> 9) & 7;
+        direction_index = ((gameWork.viewAngle + object->angle + 0x100) >> 9) & 7;
         func_80047784(entity, entity->table[direction_index], 0);
     }
     if ((u8)entity->value < 0x11) {
-        global_data = ((u8 *)(&dungeonStatus));
-        if (*(s32 *)(global_data + 0x10) == (s32)((u8 *)object - 0x20)) {
-            *(s32 *)(global_data + 0x10) &= 0x7FFFFFFF;
+        if (((s32)dungeonStatus.unk_10) == (s32)((u8 *)object - 0x20)) {
+            *(s32 *)&dungeonStatus.unk_10 &= 0x7FFFFFFF;
         }
         func_800A2FE0(object);
         func_800A32A4(object);

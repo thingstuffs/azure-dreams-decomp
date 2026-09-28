@@ -40,7 +40,6 @@ void func_800ACF88(void *);
 
 /* Fades out an entity, then removes it and updates its tile flags. */
 void func_801735B8(void *fade_state, void *unused, void *visual_data, void *entity) {
-    M2C_UNK *world;
     s32 state;
     s32 entity_flags;
     s32 tracked_entity;
@@ -92,10 +91,9 @@ void func_801735B8(void *fade_state, void *unused, void *visual_data, void *enti
             }
         }
 
-        world = &dungeonStatus.unk_00;
-        tracked_entity = ((S_801735B8_4 *)world)->unk_10;
+        tracked_entity = ((s32)dungeonStatus.unk_10);
         if (tracked_entity == (s32)((u8 *)entity - 0x20)) {
-            ((S_801735B8_4 *)world)->unk_10 =
+            dungeonStatus.unk_10 =
                 tracked_entity & 0x7FFFFFFF;
         }
         func_800A2FE0(entity);

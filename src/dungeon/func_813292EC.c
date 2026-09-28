@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 typedef struct Node {
     u8 pad0[8];
@@ -11,7 +12,6 @@ extern Node *func_8003FC64(s32);
 extern void func_8004491C(Node *, void *);
 extern void func_8003DB94(void *, void *, s32);
 
-extern u8 D_80045340[9];
 extern u32 D_80083780[3];
 extern u8 D_800DE870[9];
 extern u8 D_80170A54[9];
@@ -31,7 +31,7 @@ void func_80170AEC(void)
         node_params[11] = 0x1E;
         node_params[12] = 0x1E;
         node->data10 = D_80170A54;
-        func_8004491C(node, D_80045340);
+        func_8004491C(node, func_80045340);
 
         effect = node->partC;
         *(s16 *)((u8 *)effect + 6) = 0;

@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -25,10 +27,8 @@ extern void func_800A4ACC(void *);
 extern void func_800A56E0(s32);
 extern s32 func_800A94A0(void *, u8 *, s32, void *);
 
-extern s32 D_80045340;
 extern ItemInfo D_8006DE24[];
 extern void *D_800814A8;
-extern s16 D_80083228;
 extern u8 D_80083498[];
 extern void *D_80170838[];
 extern u8 D_801708D4;
@@ -308,7 +308,7 @@ state_1:
             ((S_801730E4_7 *)effect_data)->unk_0E = 0x80;
             ((S_801730E4_7 *)effect_data)->unk_0D = 0x80;
             ((S_801730E4_7 *)effect_data)->unk_0C = 0x80;
-            func_8004491C(effect_object, &D_80045340);
+            func_8004491C(effect_object, func_80045340);
             animation_id = D_801760FC[0];
             ((S_801730E4_7 *)effect_data)->unk_2C = D_801760FC;
             func_80047784(effect_data, animation_id, 0);
@@ -351,11 +351,9 @@ state_3:
         ((S_801730E4_0 *)action)->unk_96 = 0x14;
     }
     {
-        u8 *action_status;
         u16 timer;
 
-        action_status = (u8 *)&dungeonStatus.unk_00;
-        if (((S_801730E4_10 *)action_status)->unk_0C == 0) {
+        if (((s32)dungeonStatus.unk_0C) == 0) {
             ((S_801730E4_0 *)action)->unk_96 = 0;
         }
         timer = ((S_801730E4_0 *)action)->unk_96 - 1;
@@ -376,14 +374,14 @@ state_3:
             s32 direction_index;
 
             (*(u8 * *)((u8 *)sprite + 0x2C)) = D_8017609C;
-            direction_index = ((D_80083228 + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7;
+            direction_index = ((gameWork.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7;
             func_80047784(sprite, D_8017609C[direction_index], 0);
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
         }
-        if (((S_801730E4_10 *)action_status)->unk_0C != 0) {
+        if (((s32)dungeonStatus.unk_0C) != 0) {
             return;
         }
-        ((S_801730E4_10 *)action_status)->unk_0A--;
+        dungeonStatus.unk_0A--;
     }
     ((S_801730E4_0 *)action)->unk_8C = &D_801714B8;
     func_800A4ACC(actor);

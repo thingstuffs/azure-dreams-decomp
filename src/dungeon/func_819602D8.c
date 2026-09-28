@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "m2c_compat.h"
 
 extern u16 D_800273CC[8];
 extern u8 D_8002744C[9];
 extern u8 D_8002744D[9];
 extern u8 *D_800E3D7C[];
-extern u8 D_8008333C[32];
 extern s16 D_8008333C_second[16] __asm__("D_8008333C");
 extern s32 D_800274DC[7][8];
 s32 func_80025D30(s32, s32, s32);
@@ -83,7 +83,7 @@ do {
     {
         s32 width_check;
         {
-            width_info = (s16 *)D_8008333C;
+            width_info = (s16 *)((u8 *)(&gameWork.unk_1DC));
             width_check = width_info[10];
             ASM_USE_NV(width_info);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         }

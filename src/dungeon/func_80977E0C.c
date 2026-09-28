@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -66,7 +67,6 @@ extern void func_80173E00(void *, void *, void *, void *);
 
 extern void *D_800814A8;
 extern u8 D_80082E80[];
-extern s16 D_80083228;
 extern void *D_801708D0[];
 extern u8 D_801714D4[];
 extern u8 D_801740F0[];
@@ -105,7 +105,7 @@ state_0:
         local_table_0 = D_801740F8;
         
         (*(void * *)((u8 *)entity + 0x2C)) = local_table_0;
-        effect_entry = (D_80083228 + ((S_8017360C_2 *)actor)->unk_2A + 0x100) >> 9;
+        effect_entry = (gameWork.viewAngle + ((S_8017360C_2 *)actor)->unk_2A + 0x100) >> 9;
         effect_entry &= 7;
         effect_entry += (s32)local_table_0;
         func_80047784(entity, *(u8 *)effect_entry, 0);
@@ -126,7 +126,7 @@ state_1:
         local_table_1 = D_80174150;
         
                 (*(void * *)((u8 *)entity + 0x2C)) = local_table_1;
-        effect_entry = (D_80083228 + ((S_8017360C_2 *)actor)->unk_2A + 0x100) >> 9;
+        effect_entry = (gameWork.viewAngle + ((S_8017360C_2 *)actor)->unk_2A + 0x100) >> 9;
         effect_entry &= 7;
         effect_entry += (s32)local_table_1;
         func_80047784(entity, *(u8 *)effect_entry, 0);
@@ -145,7 +145,7 @@ state_2:
         local_table_2 = D_80174158;
         
                 (*(void * *)((u8 *)entity + 0x2C)) = local_table_2;
-        effect_entry = (D_80083228 + ((S_8017360C_2 *)actor)->unk_2A + 0x100) >> 9;
+        effect_entry = (gameWork.viewAngle + ((S_8017360C_2 *)actor)->unk_2A + 0x100) >> 9;
         effect_entry &= 7;
         effect_entry += (s32)local_table_2;
         func_80047784(entity, *(u8 *)effect_entry, 0);
@@ -244,7 +244,7 @@ final_check:
         local_table_3 = D_80174160;
         
         (*(void * *)((u8 *)entity + 0x2C)) = local_table_3;
-        effect_entry = (D_80083228 + ((S_8017360C_2 *)actor)->unk_2A + 0x100) >> 9;
+        effect_entry = (gameWork.viewAngle + ((S_8017360C_2 *)actor)->unk_2A + 0x100) >> 9;
         effect_entry &= 7;
         effect_entry += (s32)local_table_3;
         func_80047784(entity, *(u8 *)effect_entry, 0);
@@ -277,7 +277,7 @@ state_4:
         ((S_8017360C_2 *)actor)->unk_1C.u = phase_flags;
 effect_common:
         (*(void * *)((u8 *)entity + 0x2C)) = local_table_4;
-        effect_entry = (D_80083228 + ((S_8017360C_2 *)actor)->unk_2A + 0x100) >> 9;
+        effect_entry = (gameWork.viewAngle + ((S_8017360C_2 *)actor)->unk_2A + 0x100) >> 9;
         effect_entry &= 7;
         effect_entry += (s32)local_table_4;
         func_80047784(entity, *(u8 *)effect_entry, 0);
@@ -298,7 +298,7 @@ state_5:
         local_table_5 = D_801740F0;
         
         (*(void * *)((u8 *)entity + 0x2C)) = local_table_5;
-        effect_entry = (D_80083228 + ((S_8017360C_2 *)actor)->unk_2A + 0x100) >> 9;
+        effect_entry = (gameWork.viewAngle + ((S_8017360C_2 *)actor)->unk_2A + 0x100) >> 9;
         effect_entry &= 7;
         effect_entry += (s32)local_table_5;
         func_80047784(entity, *(u8 *)effect_entry, 0);

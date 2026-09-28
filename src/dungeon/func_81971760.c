@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
-extern u8 D_80045340[];
 void *func_8003FC64();
 M2C_UNK func_8004491C();
 s32 func_80069EF8();
@@ -88,7 +88,7 @@ void func_81971760(void *unused_0, void *origin_data, s32 unused_2, s32 offset_x
         effect_state->unk_48 = (u16) initial_z;
         effect_state->unk_40 = origin;
         ((S_81971760_1 *)effect)->unk_10 = &D_800249E0;
-        func_8004491C(effect_arg, D_80045340);
+        func_8004491C(effect_arg, func_80045340);
         render_data = ((S_81971760_1 *)effect)->unk_0C;
         render_data->unk_10 = 0x20;
         render_data->unk_06 = 6;

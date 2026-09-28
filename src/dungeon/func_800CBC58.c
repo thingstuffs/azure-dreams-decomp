@@ -1,8 +1,8 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
 
-extern s8 D_80083160[];
 s32 func_80044724();
 M2C_UNK func_800D112C();
 M2C_UNK func_800D1338();
@@ -40,7 +40,7 @@ void func_800D13B8(void) {
     u16 *x_step;
     u16 *diagonal_x_step;
 
-    state = D_80083160;
+    state = ((s8 *)(&gameWork));
     direction_work = state + 0x18;
     if (func_80044724() != 0) {
         facing = 2 - ((s32) (((S_800D13B8_0 *)state)->unk_C8 + 0x100) >> 9);

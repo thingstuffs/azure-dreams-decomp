@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
@@ -37,7 +38,6 @@ s32 func_800AD9B4();                  /* extern */
 M2C_UNK func_800B66C8();                      /* extern */
 s16 func_800BCB04();                   /* extern */
 extern M2C_UNK D_80082E80;
-extern s16 D_80083228;
 extern u8 D_8017102C[];
 extern u8 D_801752CC[];
 extern u8 D_801752D4[];
@@ -50,7 +50,6 @@ void func_80172458(void *action, void *motion, void *map_entry, void *actor) {
     s16 height_frame;
     s32 actor_flags;
     s32 scaled_height_delta;
-    s16 *global_state;
     u8 *reference_map_entry;
     s32 move_value;
     s32 flags_mask;
@@ -77,7 +76,7 @@ check_settling:
 start_movement:
     if (((Rec_D_80082E80 *)map_entry)->unk_14.at00_u16.v & 0x6000) {
         (*(u8 **)((u8 *)map_entry + 0x2C)) = D_801752CC;
-        func_80047784(map_entry, D_801752CC[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
+        func_80047784(map_entry, D_801752CC[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
         ((S_80172458_0 *)action)->unk_98 = (u16) (((S_80172458_0 *)action)->unk_98 | 8);
         ((Rec_D_800E3D7C *)actor)->unk_1C.as_s32 = (s32) (((Rec_D_800E3D7C *)actor)->unk_1C.as_s32 & 0xF7FFFFFF);
         ((S_80172458_0 *)action)->unk_9E = 5;
@@ -173,7 +172,7 @@ finish_movement:
         ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
         func_800A2B04(motion, ((Rec_D_80082E80 *)map_entry)->unk_24, ((Rec_D_80082E80 *)map_entry)->unk_25);
         (*(u8 **)((u8 *)map_entry + 0x2C)) = D_801752D4;
-        func_80047784(map_entry, D_801752D4[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
+        func_80047784(map_entry, D_801752D4[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
         func_800419EC(4, 8);
         func_800B66C8(motion);
         ((S_80172458_0 *)action)->unk_9B = 3U;
@@ -188,9 +187,8 @@ update_timer:
         func_800A2B04(motion, ((Rec_D_80082E80 *)map_entry)->unk_24, ((Rec_D_80082E80 *)map_entry)->unk_25);
         func_800AD594(actor, 4);
         func_800A4ACC(actor);
-        global_state = (s16 *)&dungeonStatus.unk_00;
-        if (global_state[4] != 0) {
-            global_state[4] = (s16) ((u16) global_state[4] - 1);
+        if (dungeonStatus.unk_08 != 0) {
+            dungeonStatus.unk_08 = (s16) ((u16) dungeonStatus.unk_08 - 1);
         }
         actor_flags = ((Rec_D_800E3D7C *)actor)->unk_1C.as_s32;
         if (actor_flags & 0x2000) {

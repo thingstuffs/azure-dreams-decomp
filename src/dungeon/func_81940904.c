@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 
 typedef struct S_80024104_0 {
@@ -69,7 +70,6 @@ typedef struct {
 extern RectTable D_80024004;
 extern u8 D_8002405C[];
 extern PackedVec3 D_800256E0;
-extern u8 D_80045340[];
 extern void *D_800814A8;
 
 extern void *func_8003FC64(u32);
@@ -136,7 +136,7 @@ slot_loop:
             ((S_80024104_0 *)effect_work)->unk_32 = slot;
             ((S_80024104_0 *)effect_work)->unk_60 = owner;
             ((S_80024104_1 *)effect)->unk_10 = D_8002405C;
-            func_8004491C(effect, D_80045340);
+            func_8004491C(effect, func_80045340);
 
             display = ((S_80024104_1 *)effect)->unk_0C;
             display->field6 = 4;

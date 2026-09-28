@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct State_80083160 {
     char pad0[0x8d0];
@@ -28,7 +29,6 @@ typedef struct Arg2_800AFBFC {
     u16 flags;
 } Arg2_800AFBFC;
 
-extern State_80083160 *D_80083160[3];
 extern u8 D_80083160_bytes[] __asm__("D_80083160");
 extern s32 func_800644B8(s32 value);
 extern s32 func_80064584(s32 value);
@@ -57,8 +57,8 @@ s32 func_800AFBFC(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *segment) {
     s32 offset_x;
     s32 offset_y;
 
-    state = D_80083160[0];
-    ASM_KEEP_MEMDEP(state, state_dep, D_80083160[0]);
+    state = gameWork.unk_000;
+    ASM_KEEP_MEMDEP(state, state_dep, gameWork.unk_000);
     last_result = state->value;
     *(void **)((u8 *)scratch + 0x20) = (u8 *)state + 0x8b0;
     ASM_SET(view);

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
@@ -24,7 +25,6 @@ s32 func_800A2B5C();
 s32 func_800A2CB8();
 M2C_UNK func_800C7930();
 
-extern s16 D_80083228;
 extern u8 D_800E2378;
 
 /* Checks action readiness and initializes the actor state and directional animation. */
@@ -33,13 +33,11 @@ s32 func_80172E80(void *action_state, M2C_UNK action_param, void *sprite, void *
     s32 action_ready;
     s32 direction;
     s32 action_flags;
-    s32 *global_flags;
     u8 *anim_table;
 
     ((Rec_D_800E3D7C *)actor)->unk_71.as_u8 &= 0x7F;
-    global_flags = &dungeonStatus.unk_00;
     action_ready = 0;
-    if (((S_80172E80_1 *)global_flags)->unk_02 & 0x2000) {
+    if (dungeonStatus.flags & 0x2000) {
         goto return_minus_one;
     }
 
@@ -52,7 +50,7 @@ s32 func_80172E80(void *action_state, M2C_UNK action_param, void *sprite, void *
     }
 
     result = -1;
-    action_flags = ((S_80172E80_1 *)global_flags)->unk_02;
+    action_flags = dungeonStatus.flags;
     if (action_flags & 0x2000) {
         return result;
     }
@@ -94,7 +92,7 @@ return_minus_one:
         anim_table = &D_800E2378;
         (*(u8 **)((u8 *)sprite + 0x2C)) = anim_table;
         func_80047784(sprite,
-                      anim_table[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+                      anim_table[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
                       0);
         ((Rec_D_800E3D7C *)actor)->unk_6D.as_u8--;
         func_8009C93C(actor, sprite, ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16, 1, 0);

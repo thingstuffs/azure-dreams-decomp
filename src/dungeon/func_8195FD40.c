@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct S_8195FD40_0 {
     u8 pad_00[0x20];
@@ -108,14 +109,13 @@ extern void func_80064CF0(void *);
 extern void func_80064D80(void *);
 extern s32 func_80065590(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
 extern void func_80065820(void *, void *);
-extern u8 D_80083160[];
 
 /* Transform a textured quad and add it to the ordering table if visible. */
 void func_8195FD40(s32 unused, S_8195FD40_1 *position, S_8195FD40_3 *quad, s16 depth_bias)
 {
     s32 view_matrix[8];
     u8 *scratch = (u8 *)0x1F800000;
-    u8 **render_context = (u8 **)D_80083160;
+    u8 **render_context = (u8 **)((u8 *)(&gameWork));
     s32 *ot_entry;
     s32 packet_addr;
     s32 corner0_visible;

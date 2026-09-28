@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 
 extern u8 D_80081468[];
 extern u16 D_8008146C;
 extern u8 D_80082E6B;
-extern u8 D_80083160[];
 extern s16 D_800DCED4[];
 extern u8 D_800DCF4F;
 extern u8 D_800E0458[];
@@ -60,8 +60,6 @@ void func_800C5FA8(u8 *w) {
     u8 *o;
     u8 *q;
     u8 *p;
-    u8 *st2;
-    u8 *st3;
     s16 *tbl;
     s32 phase0;
     s32 phase;
@@ -81,7 +79,7 @@ void func_800C5FA8(u8 *w) {
     u16 f;
     u16 a;
 
-    ctx = D_80083160;
+    ctx = ((u8 *)(&gameWork));
     phase0 = *(s16 *)w;
     cells = *(u8 **)(ctx + 0x1DC);
     fld = ctx + 0x1DC;
@@ -291,8 +289,7 @@ void func_800C5FA8(u8 *w) {
                     }
                     func_8009A3D0(ea, eb, mode);
                     if ((*(u32 *)(o + 20) & 0x20000000) && *(u8 *)(o + 19) == 30) {
-                        st2 = ((u8 *)(&dungeonStatus));
-                        *(u16 *)(st2 + 10) = *(u16 *)(st2 + 10) + 1;
+                        dungeonStatus.unk_0A = ((u16)dungeonStatus.unk_0A) + 1;
                     }
                     func_800A32A4(o);
                     func_8009A028(o);
@@ -374,9 +371,8 @@ void func_800C5FA8(u8 *w) {
             return;
         }
         if (*(s16 *)(w + 18) == 0) {
-            st3 = ((u8 *)(&dungeonStatus));
             *(s16 *)w = 0;
-            *(u16 *)(st3 + 10) = *(u16 *)(st3 + 10) - 1;
+            dungeonStatus.unk_0A = ((u16)dungeonStatus.unk_0A) - 1;
             return;
         }
         *(u32 *)(ctx + 204) = 0;

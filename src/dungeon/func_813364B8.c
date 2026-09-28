@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct {
     u8 pad_00[0x8C];
@@ -21,7 +22,6 @@ extern u8 D_801739A0[];
 extern u8 D_801739A8[];
 extern u8 D_801739B0[];
 extern u8 D_801739B8[];
-extern s16 D_80083228[5];
 extern u8 D_8016A36C[];
 
 extern void func_80047784(void *, s32, s32);
@@ -70,7 +70,7 @@ mode_3:
 update_table:
     if (current_table != mode_table) {
         state->field_2C = mode_table;
-        func_80047784(state, *(u8 *)((((s32) (*D_80083228 + input->field_2A + 0x100) >> 9) & 7) + (u32) mode_table), 0);
+        func_80047784(state, *(u8 *)((((s32) (gameWork.viewAngle + input->field_2A + 0x100) >> 9) & 7) + (u32) mode_table), 0);
     }
 
 call_common:

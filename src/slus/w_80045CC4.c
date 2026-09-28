@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 #ifndef NULL
 #define NULL 0
@@ -69,7 +70,6 @@ typedef struct {
     u16 unk22;
 } S_80045CC4_Arg2;
 
-extern void *D_80083160[3];
 
 extern void PushMatrix(void);
 extern void PopMatrix(void);
@@ -106,7 +106,7 @@ void func_80045CC4(void *context, s32 position, S_80045CC4_Arg2 *sprite, s16 dep
     u8 uv_edge;
     s32 visible_2;
 
-    global_slots = D_80083160;
+    global_slots = ((void * *)(&gameWork));
     global_base = global_slots[0];
     scratchpad = (u8 *)0x1F800000;
     SP_S32_VOL(0x20) = (s32)((u8 *)global_base + 0xB0);

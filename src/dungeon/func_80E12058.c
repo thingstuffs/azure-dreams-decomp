@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
+#include "shared/game_work.h"
 
 #ifndef NULL
 #define NULL 0
@@ -51,8 +53,6 @@ typedef struct {
 void *func_8003FC64(s32);
 void func_8004491C(void *, void *);
 void func_80047784(void *, u8, s32);
-extern u8 D_80045340;
-extern s16 D_80083228;
 extern u8 D_8017573C;
 extern u8 D_80176498[];
 
@@ -70,7 +70,7 @@ void *func_80175858(void *direction_src, Copy24 *initial_data, void *render_src)
     object = func_8003FC64(0x312);
     if (object != NULL) {
         ((S_80175858_0 *)object)->unk_10 = &D_8017573C;
-        func_8004491C(object, &D_80045340);
+        func_8004491C(object, func_80045340);
         object_state = object + 0x20;
         ((S_80175858_1 *)object_state)->unk_04.s =
             (u16)((S_80175858_2 *)direction_ref)->unk_2A;
@@ -85,7 +85,7 @@ void *func_80175858(void *direction_src, Copy24 *initial_data, void *render_src)
         func_80047784(
             render_data,
             D_80176498[
-                ((D_80083228 + ((S_80175858_1 *)object_state)->unk_04.u + 0x100) >> 9) &
+                ((gameWork.viewAngle + ((S_80175858_1 *)object_state)->unk_04.u + 0x100) >> 9) &
                 7],
             0);
         data_dst = ((S_80175858_0 *)object)->unk_08;

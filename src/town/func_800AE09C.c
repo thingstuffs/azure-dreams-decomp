@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "m2c_compat.h"
 
 M2C_UNK func_80064624();                /* extern */
@@ -9,7 +10,6 @@ M2C_UNK func_80064EE0();   /* extern */
 M2C_UNK func_80064F00();            /* extern */
 M2C_UNK func_80064F20();                     /* extern */
 extern M2C_UNK D_8006ADBC;
-extern u8 D_80083160[];
 extern u8 D_801C9E40[16];
 extern u8 D_801DA714[];
 
@@ -73,7 +73,7 @@ void func_800AB7FC(void) {
     s32 ambient_green;
     s32 ambient_blue;
 
-    render_data = D_80083160;
+    render_data = ((u8 *)(&gameWork));
     view_state = render_data + 0x18;
     screen_distance = 0x200;
     view_state->unk_88 = screen_distance;

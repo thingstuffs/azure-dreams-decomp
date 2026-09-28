@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 
@@ -52,7 +53,6 @@ typedef struct S_81839358_4 {
 
 void func_8004491C(void *, void *);           /* extern */
 void func_800478B8(void *);                 /* extern */
-extern M2C_UNK D_80045340;
 extern u8 D_800DEC70[];
 extern M2C_UNK D_800DED28;
 
@@ -115,7 +115,7 @@ state_0:
     if (timer_shift > 0) {
         return;
     }
-    func_8004491C(effect - 0x20, &D_80045340);
+    func_8004491C(effect - 0x20, func_80045340);
     ((S_81839358_1 *)effect)->unk_4C.u = ((S_81839358_1 *)effect)->unk_4C.u + 1;
     return;
 state_1:

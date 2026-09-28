@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
@@ -111,8 +112,6 @@ extern M2C_UNK D_800245A8;
 extern M2C_UNK D_8004F5F4;
 extern M2C_UNK D_80050CAC;
 extern s32 D_80082EB0;
-extern u8 D_80083160[];
-extern s16 D_80083228;
 extern u8 D_800DCFB0[8];
 extern u8 D_800DD058[];
 extern M2C_UNK D_800DD148;
@@ -157,10 +156,10 @@ void func_8008ACDC(void *actor, void *motion, register void *sprite, void *stats
     void *call_motion;
     void *call_sprite;
     u32 button_bits;
-    u8 *input;
-    u8 *dungeon_status;
+    GameWork *input;
+    DungeonGlobalStatus *dungeon_status;
 
-    input = D_80083160;
+    input = &gameWork;
     action_state = ((Rec_func_8008ACDC_arg0 *)actor)->unk_9A.as_u8;
     if (action_state != 0xE) {
         if (action_state != 0x17) {
@@ -184,8 +183,8 @@ reset_action:
         goto check_status;
     }
 check_status:
-    dungeon_status = ((u8 *)(&dungeonStatus));
-    ((S_8008ACDC_3 *)dungeon_status)->unk_02 = (u16) (((S_8008ACDC_3 *)dungeon_status)->unk_02 & 0xFF7F);
+    dungeon_status = &dungeonStatus;
+    dungeon_status->flags = (u16) (dungeon_status->flags & 0xFF7F);
     status_count = ((S_8008ACDC_4 *)stats)->unk_64;
     if ((status_count < 0) || (((Rec_func_8008ACDC_arg0 *)actor)->unk_10C & 1)) {
         func_8008CAA0(actor, motion, sprite, stats);
@@ -212,9 +211,9 @@ check_status:
             func_8008D7D0(actor, motion, sprite, stats);
             goto epilogue;
         }
-        if (!(((S_8008ACDC_3 *)dungeon_status)->unk_02 & 4)) {
+        if (!(dungeon_status->flags & 4)) {
             if (((S_8008ACDC_4 *)stats)->unk_1C & 0x20) {
-                if (!((*(u16 *)0x80013714) & 1) && (((S_8008ACDC_5 *)input)->unk_08 & 0x80)) {
+                if (!((*(u16 *)0x80013714) & 1) && (((u32)input->unk_008) & 0x80)) {
                     ((S_8008ACDC_4 *)stats)->unk_8A = 2;
                     D_800E4940 = 2;
                     func_8008CF6C(actor, motion, sprite, &D_8004F5F4);
@@ -406,22 +405,22 @@ apply_target_action:
                     if ((func_80094EA4(input_flags) << 0x10) != 0) {
                         ((Rec_func_8008ACDC_arg0 *)actor)->unk_A4.as_u16 = 0U;
                     }
-                    if ((((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 & 0x200) && ((func_800A2C34(stats) << 0x10) == 0) && !(((S_8008ACDC_3 *)dungeon_status)->unk_02 & 4)) {
+                    if ((((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 & 0x200) && ((func_800A2C34(stats) << 0x10) == 0) && !(dungeon_status->flags & 4)) {
                         ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 = (u16) (((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 & 0xFDFF);
                         if ((func_800A4474(((S_8008ACDC_1 *)sprite)->unk_24, ((S_8008ACDC_1 *)sprite)->unk_25) << 0x10) != 0) {
                             func_8008CF6C(actor, motion, sprite, &D_800245A8);
                             goto epilogue;
                         }
                     }
-                    if (((S_8008ACDC_5 *)input)->unk_08 & 0x80) {
+                    if (((u32)input->unk_008) & 0x80) {
                         func_8008CF6C(actor, motion, sprite, &D_80050CAC);
                         goto epilogue;
                     }
-                    if ((((S_8008ACDC_5 *)input)->unk_08 & 0x10) || !(((S_8008ACDC_5 *)input)->unk_08 & 3) || (func_8008D024(actor, motion, sprite, (((u32) ((S_8008ACDC_5 *)input)->unk_08 >> 1) ^ 1) & 1, 0) == 0)) {
+                    if ((((u32)input->unk_008) & 0x10) || !(((u32)input->unk_008) & 3) || (func_8008D024(actor, motion, sprite, (((u32) ((u32)input->unk_008) >> 1) ^ 1) & 1, 0) == 0)) {
                         input_angle = func_8009074C(((Rec_func_8008ACDC_arg0 *)actor)->unk_9E, actor + 0xA2, stats + 0x2A);
                         if (input_angle != 0xFFF) {
                             ((S_8008ACDC_4 *)stats)->unk_2A.s = (u16) input_angle;
-                            if (!(((S_8008ACDC_5 *)input)->unk_08 & 0x10)) {
+                            if (!(((u32)input->unk_008) & 0x10)) {
                                 move_flags = ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2;
                                 if (!(move_flags & 0x400)) {
                                     ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 = (u16) (move_flags & 0xFFFE);
@@ -439,7 +438,7 @@ apply_target_action:
                             goto check_buttons;
                         }
 check_buttons:
-                        button_bits = ((S_8008ACDC_5 *)input)->unk_08;
+                        button_bits = ((u32)input->unk_008);
                         if ((button_bits & 0x30) == 0x30) {
                             ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 = (u16) (((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 & 0xFFFE);
                             func_8008C7B4(actor, motion, sprite, stats);
@@ -457,7 +456,7 @@ check_buttons:
                         angle_or_flags = button_bits & 0x40;
                         if (angle_or_flags != 0) {
                             (*(u16 *)((u8 *)actor + 0xA2)) = (u16) (button_flags & 0xFFFE);
-                            if (!(((S_8008ACDC_5 *)input)->unk_08 & 0x20)) {
+                            if (!(((u32)input->unk_008) & 0x20)) {
                                 if ((func_8008C8BC(actor, motion, sprite, stats) << 0x10) != 0) {
                                     goto update_animation;
                                 }
@@ -489,12 +488,12 @@ update_facing:
             if (turn_flags & 1) {
                 ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 = (u16) (turn_flags & 0xFFFE);
                 (*(u8 **)((u8 *)sprite + 0x2C)) = D_800DD058;
-                func_80048A44(sprite, D_800DD058[((s32) (D_80083228 + (s16) ((S_8008ACDC_4 *)stats)->unk_2A.s + 0x100) >> 9) & 7], 0, 1);
+                func_80048A44(sprite, D_800DD058[((s32) (gameWork.viewAngle + (s16) ((S_8008ACDC_4 *)stats)->unk_2A.s + 0x100) >> 9) & 7], 0, 1);
             }
 update_animation:
             if (((S_8008ACDC_1 *)sprite)->unk_14 & 0xE000) {
                 (*(u8 **)((u8 *)sprite + 0x2C)) = D_800DCFB0;
-                func_80048A44(sprite, D_800DCFB0[((s32) (D_80083228 + (s16) ((S_8008ACDC_4 *)stats)->unk_2A.s + 0x100) >> 9) & 7], 0, 1);
+                func_80048A44(sprite, D_800DCFB0[((s32) (gameWork.viewAngle + (s16) ((S_8008ACDC_4 *)stats)->unk_2A.s + 0x100) >> 9) & 7], 0, 1);
             }
         }
     }

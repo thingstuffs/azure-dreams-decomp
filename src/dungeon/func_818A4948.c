@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 typedef struct S_func_818A4948_0 {
     u8 pad_00[0x8];
@@ -36,7 +37,6 @@ extern void func_8003DB94(void *, void *, s16);
 extern s32 func_8004491C(void *, s32);
 extern u8 D_800240C4[];
 extern u8 D_80025238[];
-extern u8 D_80045340[];
 
 /* Creates and initializes an object with the supplied data and coordinates. */
 void *func_818A4948(s32 user_data, S_func_818A4948_2 *source_coords) {
@@ -57,7 +57,7 @@ void *func_818A4948(s32 user_data, S_func_818A4948_2 *source_coords) {
         render_data->unk_1C = 0x800;
         render_data->unk_12 = 0x7E07;
         render_data->unk_14 |= 0x100;
-        func_8004491C(obj, (s32) D_80045340);
+        func_8004491C(obj, (s32) func_80045340);
         coords = obj->unk_08;
         coords->unk_02 = source_coords->unk_02;
         coords->unk_06 = source_coords->unk_06;

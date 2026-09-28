@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct {
     u8 pad0[4];
@@ -24,7 +25,6 @@ typedef struct {
 
 extern void func_80047270(void *a0, S_80047270_hdr *a1);
 
-extern u16 D_80083164[];
 
 extern u16 D_80081518;
 extern u16 D_8008151A;
@@ -38,11 +38,11 @@ void func_80047338(S_80047338_hdr *texture, S_80047338_rec *record, s32 data_off
     u32 unsigned_width;
     s32 width_words;
 
-    if (D_80083164[0] != D_8008151E) {
+    if (gameWork.unk_004 != D_8008151E) {
         D_8008151C = 0;
         D_8008151A = 0;
         D_80081518 = 0;
-        D_8008151E = D_80083164[0];
+        D_8008151E = gameWork.unk_004;
     }
 
     width_words = (texture->unkA + 3) / 4;

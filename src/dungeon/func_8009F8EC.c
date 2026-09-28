@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 
@@ -169,7 +170,6 @@ extern u8 *D_80080A90;
 extern s32 D_80081488;
 extern u8 D_8008149C[];
 extern u8 *D_800814A8;
-extern s16 D_80083228;
 extern s8 D_800DCF5C;
 extern u8 D_800DCF5E_page[0x30A3] __asm__("D_800DCF5E");
 extern u8 D_800E3DF0[];
@@ -430,7 +430,7 @@ spawn_replacement:
     func_80042560(spawned);
     angle = ((S_800A504C_1 *)entity)->unk_2A;
     (*(u16 *)((u8 *)spawned + 0x2A)) = angle;
-    offset = ((D_80083228 + (s16)angle + 0x100) >> 9) & 7;
+    offset = ((gameWork.viewAngle + (s16)angle + 0x100) >> 9) & 7;
     func_80047738(entity_data, ((u8 *)((S_800A504C_2 *)entity_data)->unk_2C)[offset],
                   ((S_800A504C_2 *)entity_data)->unk_04);
     data_flags = ((S_800A504C_2 *)entity_data)->unk_14;

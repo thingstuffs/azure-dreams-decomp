@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct S_800247D4_0 {
     u8 pad_00[0x18];
@@ -67,7 +68,6 @@ typedef struct S_800247D4_4 {
 
 
 
-extern u8 D_80083160[];
 extern void *D_80024008[];
 
 extern s32 func_800644B8(s32);
@@ -80,9 +80,9 @@ static __inline__ s32 endpoint_delta(u16 end, u16 start) { return (end - start) 
 s32 func_800247D4(void *effect_data)
 {
     u8 *effect = effect_data;
-    u8 *initial_render_ctx = *(u8 **)D_80083160;
+    u8 *initial_render_ctx = *(u8 **)((u8 *)(&gameWork));
     u8 *render_ctx;
-    u8 **ctx_ref = (u8 **)D_80083160;
+    u8 **ctx_ref = (u8 **)((u8 *)(&gameWork));
     s32 red_scale = 15;
     s32 blue_scale = 23;
     s32 red_cap = 0x7F;

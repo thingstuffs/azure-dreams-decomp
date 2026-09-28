@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct MapCell {
     s16 kind;
@@ -89,7 +90,6 @@ extern s16 D_8001F586;
 extern u8 *D_8008148C;
 extern u8 *D_80081480;
 extern s16 D_8008146E;
-extern DungeonCfg D_8008333C;
 extern s32 D_800DF258[];
 extern Room D_800E2970[];
 extern s32 D_800E296C;
@@ -123,7 +123,7 @@ void func_80018464(s16 layout_number)
     data_2 = D_8008148C;
     D_80081480 = data_2;
     layout_id = D_8001F604[layout_index];
-    cfg = &D_8008333C;
+    cfg = ((DungeonCfg *)((u8 *)&gameWork + 476));
     map = cfg->cells;
     Control_CD(6, layout_id, 0);
     func_8003F320();

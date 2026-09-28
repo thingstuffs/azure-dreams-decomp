@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct S_80173E40_0 {
     u8 pad_00[0x24];
@@ -129,7 +130,6 @@ extern void func_80065820(void *, void *);
 extern u16 func_80066460(s32, s32, s32, s32);
 extern void func_80066708(void *);
 extern void func_80067F20(void *, s32, s32, u16, s32);
-extern u8 D_80083160[];
 
 /* Projects a quad and adds it to the ordering table when visible. */
 void func_80173E40(void *quad, void *position, void *render_info, s16 depth_bias)
@@ -140,10 +140,10 @@ void func_80173E40(void *quad, void *position, void *render_info, s16 depth_bias
     s32 ot_index;
     u16 render_flags;
     u8 texture_flags;
-    u8 *render_state_ptr = D_80083160;
+    GameWork *render_state_ptr = &gameWork;
     MATRIX current_matrix;
 
-    ((S_80173E40_0 *)scratch)->unk_24.p = *(u8 **)D_80083160 + 0xB0;
+    ((S_80173E40_0 *)scratch)->unk_24.p = *(u8 **)((u8 *)(&gameWork)) + 0xB0;
     ((S_80173E40_0 *)scratch)->unk_88 = ((S_80173E40_1 *)position)->unk_02;
     ((S_80173E40_0 *)scratch)->unk_8C = ((S_80173E40_1 *)position)->unk_06;
     ((S_80173E40_0 *)scratch)->unk_90 = ((S_80173E40_1 *)position)->unk_0A;
@@ -166,18 +166,18 @@ void func_80173E40(void *quad, void *position, void *render_info, s16 depth_bias
 
     texture = (*(u8 * *)((u8 *)render_info + 8));
     ((S_80173E40_0 *)scratch)->unk_28 = ((S_80173E40_2 *)render_info)->unk_14;
-    packet = ((S_80173E40_3 *)(*(u8 **)D_80083160))->unk_8D0;
-    ((S_80173E40_3 *)(*(u8 **)D_80083160))->unk_8D0 = packet + 0xC;
+    packet = ((S_80173E40_3 *)(*(u8 **)((u8 *)(&gameWork))))->unk_8D0;
+    ((S_80173E40_3 *)(*(u8 **)((u8 *)(&gameWork))))->unk_8D0 = packet + 0xC;
     func_80067F20(packet, 0, 0, func_80066460(0, 0, 0, 0), 0);
 
     (*(u32 *)((u8 *)packet + 0)) = (((S_80173E40_4 *)packet)->unk_00 & 0xFF000000) |
-        (((S_80173E40_3 *)(*(u8 **)D_80083160))->unk_B0 & 0x00FFFFFF);
-    (*(u32 *)((u8 *)(*(u8 **)D_80083160) + 0xB0)) =
-        (((S_80173E40_3 *)(*(u8 **)D_80083160))->unk_B0 & 0xFF000000) |
+        (((S_80173E40_3 *)(*(u8 **)((u8 *)(&gameWork))))->unk_B0 & 0x00FFFFFF);
+    (*(u32 *)((u8 *)(*(u8 **)((u8 *)(&gameWork))) + 0xB0)) =
+        (((S_80173E40_3 *)(*(u8 **)((u8 *)(&gameWork))))->unk_B0 & 0xFF000000) |
         ((u32)packet & 0x00FFFFFF);
 
     {
-        u8 *render_state = *(u8 * volatile *)D_80083160;
+        u8 *render_state = *(u8 * volatile *)((u8 *)(&gameWork));
         packet = ((S_80173E40_5 *)render_state)->unk_8D0;
         ((S_80173E40_5 *)render_state)->unk_8D0 = packet + 0x24;
     }
@@ -233,8 +233,8 @@ void func_80173E40(void *quad, void *position, void *render_info, s16 depth_bias
                 ((*(u32 *)((u8 *)(((S_80173E40_0 *)scratch)->unk_24.p2) + ((S_80173E40_0 *)scratch)->unk_100 * 4)) & 0xFF000000) |
                 ((u32)packet & 0x00FFFFFF);
 
-            packet = ((S_80173E40_7 *)(*(u8 **)render_state_ptr))->unk_8D0;
-            ((S_80173E40_7 *)(*(u8 **)render_state_ptr))->unk_8D0 = packet + 0xC;
+            packet = ((S_80173E40_7 *)(render_state_ptr->unk_000))->unk_8D0;
+            ((S_80173E40_7 *)(render_state_ptr->unk_000))->unk_8D0 = packet + 0xC;
             func_80067F20(packet, 0, 0, func_80066460(0, 1, 0, 0), 0);
             ((S_80173E40_4 *)packet)->unk_00 = (((S_80173E40_4 *)packet)->unk_00 & 0xFF000000) |
                 ((*(u32 *)((u8 *)(((S_80173E40_0 *)scratch)->unk_24.p2) + ((S_80173E40_0 *)scratch)->unk_100 * 4)) & 0x00FFFFFF);

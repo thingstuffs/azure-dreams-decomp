@@ -37,7 +37,7 @@ void func_80171768(u8 *move_work, void *entry_context, u8 *position, u8 *actor)
     s32 limit_turn;
     s16 step_index;
     s16 *angle_steps;
-    u8 *state;
+    DungeonGlobalStatus *state;
     void *target_link;
     u16 state_flags;
     s32 actor_flags;
@@ -46,7 +46,7 @@ void func_80171768(u8 *move_work, void *entry_context, u8 *position, u8 *actor)
     s32 trial_angle;
     s32 turn_flags;
 
-    state = (u8 *)&dungeonStatus.unk_00;
+    state = &dungeonStatus;
     state_flags = U16_AT(state, 2);
     limit_turn = 0;
 
@@ -320,7 +320,7 @@ post_loop_test:
     U8_AT(move_work, 0x9C) = U8_AT(position, 0x26);
     U8_AT(actor, 0x6D)--;
     {
-        u8 *move_state = (u8 *)&dungeonStatus.unk_00;
+        DungeonGlobalStatus *move_state = &dungeonStatus;
 
         U16_AT(move_state, 8)++;
     }

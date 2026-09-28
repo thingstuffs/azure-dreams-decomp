@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
 typedef struct S_8107D000_0 {
@@ -54,7 +55,6 @@ M2C_UNK func_800A48F0();
 s32 func_800A6D30();
 M2C_UNK func_800A9C18();
 M2C_UNK func_800AA36C();
-extern M2C_UNK D_80045340;
 extern M2C_UNK D_80083498;
 extern M2C_UNK D_8014CAA4;
 extern M2C_UNK D_8014CF68;
@@ -109,7 +109,7 @@ void *BODY_NAME(s16 arg0, s16 arg1, s16 arg2, s16 arg3) {
         var_s0 = temp_v0 + 0x20;
         ((S_8107D000_0 *)temp_v0)->unk_10 = &D_8014CAA4;
         var_s0->unk_13 = 0x2B;
-        func_8004491C(temp_v0, &D_80045340);
+        func_8004491C(temp_v0, func_80045340);
         temp_s4 = ((S_8107D000_0 *)temp_v0)->unk_08;
         temp_s4->unk_0A = saved_arg3;
         temp_s2 = ((S_8107D000_0 *)temp_v0)->unk_0C;

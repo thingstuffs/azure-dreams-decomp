@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 typedef struct S_80024130_0 {
     u8 pad_00[0x8];
@@ -45,7 +46,6 @@ extern void *func_8003FC64();
 extern s32 func_8004491C();
 extern s32 rand();
 extern u8 D_80024048[9];
-extern u8 D_80045340[9];
 extern u8 D_800DE8E8[9];
 
 /* Creates an object with the given context and position and randomized rotation. */
@@ -76,7 +76,7 @@ s32 func_80024130(s32 context, S_80024130_3 *position)
             rounded_value = random_value + 0xFFF;
         }
         visual->unk_1A = random_value - ((rounded_value >> 0xC) << 0xC);
-        func_8004491C(object, D_80045340);
+        func_8004491C(object, func_80045340);
         object_pos = object->unk_08;
         object_pos->unk_02 = position->unk_02;
         object_pos->unk_06 = position->unk_06;

@@ -44,15 +44,13 @@ s32 func_800CA788(void *object_ptr, void *action_context, void *target_ptr, void
     u8 *actor;
     void *context;
     void *target;
-    u8 *global_state;
     u16 global_flags;
 
     object = object_ptr;
     actor = actor_ptr;
     actor[0x71] &= 0x7F;
     context = action_context;
-    global_state = (u8 *)&dungeonStatus.unk_00;
-    if (((S_800CA788_0 *)global_state)->unk_02 & 0x2000) {
+    if (dungeonStatus.flags & 0x2000) {
         goto return_negative;
     }
     target = target_ptr;
@@ -63,7 +61,7 @@ s32 func_800CA788(void *object_ptr, void *action_context, void *target_ptr, void
     clear_action_flag = ~0x2000;
     ((S_800CA788_1 *)actor)->unk_14 &= clear_action_flag;
     ((S_800CA788_1 *)actor)->unk_1C &= clear_action_flag;
-    global_flags = ((S_800CA788_0 *)global_state)->unk_02;
+    global_flags = dungeonStatus.flags;
     if (!(global_flags & 0x2000)) {
         goto check_flag_8;
     }

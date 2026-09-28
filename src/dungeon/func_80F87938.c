@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800814A8.h"
 
@@ -87,7 +88,6 @@ extern void func_801740F4(void *, void *, void *, void *);
 extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern s8 D_80082EA4;
-extern s16 D_80083228;
 extern s8 D_800E2970[];
 extern void *const D_80170808[];
 extern u8 D_80171138[];
@@ -133,7 +133,7 @@ void func_80171138(void *actor_in, void *context_in, void *sprite_in, void *stat
         }
         (*(void * *)((u8 *)sprite + 0x2C)) = D_80174AF4;
         func_80047784(sprite,
-            D_80174AF4[((D_80083228 + ((S_80171138_1 *)stats)->unk_2A + 0x100) >> 9) & 7],
+            D_80174AF4[((gameWork.viewAngle + ((S_80171138_1 *)stats)->unk_2A + 0x100) >> 9) & 7],
             0);
         return;
     }
@@ -165,7 +165,7 @@ void func_80171138(void *actor_in, void *context_in, void *sprite_in, void *stat
             ((S_80171138_0 *)actor)->unk_A0 = 0;
             (*(void * *)((u8 *)sprite + 0x2C)) = D_80174AD4;
             func_80047784(sprite,
-                D_80174AD4[((D_80083228 + ((S_80171138_1 *)stats)->unk_2A + 0x100) >> 9) & 7],
+                D_80174AD4[((gameWork.viewAngle + ((S_80171138_1 *)stats)->unk_2A + 0x100) >> 9) & 7],
                 ((S_80171138_0 *)actor)->unk_A0);
         }
 

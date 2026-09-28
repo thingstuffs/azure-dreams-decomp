@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
@@ -42,7 +43,6 @@ typedef struct {
 } Func812A5000Entity;
 
 extern u8 D_80083498[];
-extern u8 D_80045340[];
 extern u8 D_80175C30[];
 extern u8 D_80171FA4[];
 void *func_8003FD64();                 /* extern */
@@ -69,7 +69,7 @@ void *func_812A50AC(s16 entity_id, s16 tile_x, u16 tile_y, u16 height) {
         entity = (Func812A5000Entity *)((u8 *)parent + 0x20);
         parent->field10 = D_80170A4C;
         entity->field13 = 0x39;
-        func_8004491C(parent, D_80045340);
+        func_8004491C(parent, func_80045340);
         tile_state = parent->child0;
         position = parent->child1;
         tile_state->field24 = tile_x;

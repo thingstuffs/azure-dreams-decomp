@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "records/Rec_D_80082E80.h"
 
 typedef struct S_801714B0_0 {
@@ -12,7 +13,6 @@ typedef struct S_801714B0_1 {
 } S_801714B0_1;   /* arg0 in func_801714B0 */
 
 
-extern s16 D_80083228;
 extern u8 D_8006CCF8[];
 extern void *D_80174CDC[3];
 
@@ -31,7 +31,7 @@ void func_801714B0(S_801714B0_1 *state, void *unused, Rec_D_80082E80 *record)
     func_800478B8(record);
     if (D_80174CDC[0] != 0) {
         calculated_direction =
-            ((D_80083228 + entity->unk_2A + 0x100) >> 9) & 7;
+            ((gameWork.viewAngle + entity->unk_2A + 0x100) >> 9) & 7;
         direction = calculated_direction;
 
         if (state->unk_94 != direction) {

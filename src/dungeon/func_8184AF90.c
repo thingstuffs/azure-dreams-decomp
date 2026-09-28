@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
 M2C_UNK func_8003DB94();      /* extern */
@@ -7,7 +8,6 @@ M2C_UNK func_8004491C();           /* extern */
 s32 func_800644B8();                             /* extern */
 s32 func_80064584();                             /* extern */
 extern M2C_UNK D_800246AC;
-extern M2C_UNK D_80045340;
 extern M2C_UNK D_800DEB28;
 extern u8 D_800E0000[];
 
@@ -112,7 +112,7 @@ s32 func_80024790(S_80024790_1 *origin, s32 index) {
         sprite->unk_1C = scale;
         sprite->unk_10 = (u16) (sprite->unk_10 | 0x20);
         sprite->unk_14 = (u16) (sprite->unk_14 | 0xC);
-        func_8004491C(effect, &D_80045340);
+        func_8004491C(effect, func_80045340);
         position = ((S_80024790_0 *)effect)->unk_08;
         position->unk_02 = (s16) (((S_80024790_0 *)effect)->unk_20 + ((s32) (func_800644B8(state->unk_08) * 2) >> 8));
         position->unk_06 = (s16) (state->unk_02 + ((s32) (func_80064584(state->unk_08) * 2) >> 8));

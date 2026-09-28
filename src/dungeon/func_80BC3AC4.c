@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -21,10 +23,8 @@ extern s32 func_800A94A0(void *, u8 *, s32, void *);
 extern void func_80170D28(void *, s32, s32, s32, s32, s32, s32);
 extern void func_80170F2C(void *, s32, s32, s32, s32, s32, s32);
 
-extern s32 D_80045340;
 extern u8 D_8006DE24[];
 extern void *D_800814A8;
-extern s16 D_80083228;
 extern void *D_80170850[];
 extern void *D_80170868[];
 extern u8 D_80171080[];
@@ -335,7 +335,7 @@ particle_done:
         ((S_801732C4_5 *)object_base)->unk_1A = 0x19;
         ((S_801732C4_5 *)object_base)->unk_1C = 0x19;
         (*(void * *)((u8 *)object + 0x10)) = D_80171080;
-        func_8004491C(object, &D_80045340);
+        func_8004491C(object, func_80045340);
         transform = (*(void * *)((u8 *)object + 8));
         ((S_801732C4_6 *)transform)->unk_02 = ((Rec_D_800E3D7C *)motion)->unk_00.at02_u16.v;
         ((S_801732C4_6 *)transform)->unk_06 = ((Rec_D_800E3D7C *)motion)->unk_04.at02_u16.v;
@@ -418,7 +418,7 @@ state_5:
 
         anim_table = D_80174634;
         (*(u8 * *)((u8 *)sprite + 0x2C)) = anim_table;
-        direction = ((D_80083228 + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7;
+        direction = ((gameWork.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7;
         func_80047784(sprite, anim_table[direction], 2);
         ((Rec_D_80082E80 *)sprite)->unk_05.as_u8 = 1;
         saved_a4 = ((S_801732C4_0 *)action)->unk_A4.at00.v;
@@ -429,13 +429,11 @@ state_5:
         ((S_801732C4_0 *)action)->unk_A8 = saved_a4;
     }
     {
-        u8 *effect_state;
 
-        effect_state = (u8 *)&dungeonStatus.unk_00;
-        if (((S_801732C4_8 *)effect_state)->unk_0C != 0) {
+        if (((s32)dungeonStatus.unk_0C) != 0) {
             goto end;
         }
-        ((S_801732C4_8 *)effect_state)->unk_0A--;
+        dungeonStatus.unk_0A--;
         ((S_801732C4_0 *)action)->unk_8C = &D_801719DC;
         func_800A4ACC(actor);
         (*(u8 *)((u8 *)actor + 0x73)) = 0;

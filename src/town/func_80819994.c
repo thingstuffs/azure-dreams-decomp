@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "records/Rec_D_800E3D7C.h"
 
 typedef struct S_80023994_0 {
@@ -29,7 +30,6 @@ extern u16 D_80026F24[];
 extern s16 D_800272C8;
 extern s16 D_800272CA;
 extern u16 D_80082E94;
-extern u8 D_80083160[];
 extern Unk83780 D_80083780;
 extern s32 D_8008378C;
 extern u8 D_800D00C0[];
@@ -39,10 +39,10 @@ extern u8 D_800D0128[];
 /* Updates the three-choice selection and the object's vertical motion. */
 void func_80023994(void *unused, Rec_D_800E3D7C *object)
 {
-    u8 *button_base;
+    GameWork *button_base;
     s32 height_limit;
 
-    button_base = D_80083160;
+    button_base = &gameWork;
     height_limit = (s16)func_800C2AE8(object);
     if (D_800272CA > 0) {
         D_800272CA--;
@@ -59,7 +59,7 @@ void func_80023994(void *unused, Rec_D_800E3D7C *object)
         record_base = (u8 *)&D_80083780;
         choice_index = D_800272C8;
         choice_id = D_80026F24[choice_index];
-        buttons = ((S_80023994_0 *)button_base)->unk_10;
+        buttons = ((s32)button_base->unk_010);
 
         ((S_80023994_1 *)record_base)->unk_0C = 0;
         ((S_80023994_1 *)record_base)->unk_02 = choice_id;
@@ -71,7 +71,7 @@ void func_80023994(void *unused, Rec_D_800E3D7C *object)
             goto update_height;
         }
     }
-    if ((((S_80023994_0 *)button_base)->unk_10 & 0x2000) && D_800272C8 < 2) {
+    if ((((s32)button_base->unk_010) & 0x2000) && D_800272C8 < 2) {
         D_800272C8++;
         D_8008378C = 0x300000;
         D_800272CA = 3;

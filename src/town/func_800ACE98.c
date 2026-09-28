@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 extern s32 func_80064584(s32 arg0);
 extern void func_80094378(void *arg0, void *arg1, s32 arg2);
@@ -9,7 +10,6 @@ extern void func_80095C80(void *arg1);
 extern void func_800A9F14(void *arg1);
 extern void func_800AAA58(void *arg0, void *arg1, s32 arg2);
 
-extern u8 D_80083160[];
 extern u8 D_800CFCEF;
 extern s32 D_800D0B14;
 extern u8 D_800FE488[];
@@ -22,14 +22,14 @@ extern s16 D_80100D82;
 /* Updates input-driven motion and handles object action transitions. */
 void func_800AA5F8(void *controller, void *object, s32 update_arg) {
     s32 saved_arg;
-    u8 *buttons;
+    GameWork *buttons;
     u8 *position;
     s16 angle;
     s32 wave;
     s32 rise;
 
     saved_arg = update_arg;
-    buttons = D_80083160;
+    buttons = &gameWork;
     func_80095C80(object);
     func_80095094(object);
     angle = func_80095978(object, D_800FE488);
@@ -43,34 +43,34 @@ void func_800AA5F8(void *controller, void *object, s32 update_arg) {
         func_80095A94(object, angle, D_800FE488);
     }
 
-    if ((*(s32 *)(buttons + 0x10) & 0x40) && D_80100D1C >= 0x800) {
+    if ((((s32)buttons->unk_010) & 0x40) && D_80100D1C >= 0x800) {
         func_800AAA58(controller, object, saved_arg);
         D_800D0B14 = 0;
         return;
     }
 
-    if (*(s32 *)(buttons + 8) & 0x2000) {
+    if (((s32)buttons->unk_008) & 0x2000) {
         if (D_80100D80 < 0x100) {
             D_80100D80 = (u16)D_80100D80 + 8;
         } else {
             D_80100D80 = 0x100;
         }
     }
-    if (*(s32 *)(buttons + 8) & 0x8000) {
+    if (((s32)buttons->unk_008) & 0x8000) {
         if (D_80100D80 < -0xFF) {
             D_80100D80 = -0x100;
         } else {
             D_80100D80 = (u16)D_80100D80 - 8;
         }
     }
-    if (*(s32 *)(buttons + 8) & 0x4000) {
+    if (((s32)buttons->unk_008) & 0x4000) {
         if (D_80100D82 < 0x100) {
             D_80100D82 = (u16)D_80100D82 + 8;
         } else {
             D_80100D82 = 0x100;
         }
     }
-    if (*(s32 *)(buttons + 8) & 0x1000) {
+    if (((s32)buttons->unk_008) & 0x1000) {
         if (D_80100D82 < -0xFF) {
             D_80100D82 = -0x100;
         } else {

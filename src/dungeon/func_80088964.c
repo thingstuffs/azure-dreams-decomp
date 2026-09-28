@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
 
 struct S_8003E2D8; typedef struct S_8003E2D8 S_8003E2D8;
-extern struct S_8003E2D8 D_80083160;
 extern void *D_8008ACDC[];
 extern volatile s16 D_80013714[8];
 extern u8 D_800E3CD0[9];
@@ -50,7 +50,7 @@ void func_8008E0C4(S_8008E0C4_0 *arg0, void *unused, S_8008E0C4_1 *arg2, Rec_D_8
     u16 temp_v0;
     s32 temp_v1;
 
-    global_base = &D_80083160;
+    global_base = ((struct S_8003E2D8 *)&gameWork);
     temp_v1 = arg0->unk_9B;
     if (temp_v1 == 1) {
         goto state_1;

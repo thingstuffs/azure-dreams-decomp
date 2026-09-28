@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 
@@ -76,7 +77,6 @@ extern u8 D_8006EE50[];
 extern GlobalObj *D_800814A8[3];
 extern u16 D_80082E86;
 extern u16 D_80082E94;
-extern u8 D_80083160[];
 extern Position D_80083780;
 
 extern void func_80024BA0(void);
@@ -97,7 +97,7 @@ void func_819C0C18(S_func_819C0C18_0 *effect)
     };
     s32 rect[2];
     OffsetTable offsets = D_80024028;
-    S_func_819C0C18_3 *colors = (S_func_819C0C18_3 *)D_80083160;
+    S_func_819C0C18_3 *colors = (S_func_819C0C18_3 *)((u8 *)(&gameWork));
     s32 state;
 
     state = effect->unk_0A.s;

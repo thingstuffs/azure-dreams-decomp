@@ -1,6 +1,6 @@
 #include "common.h"
+#include "shared/game_work.h"
 
-extern s16 D_80083350[5];
 extern u8 D_800E50A8[];
 
 /* Returns the masked nibble at the given grid coordinates. */
@@ -16,9 +16,9 @@ s32 func_8009EE4C(s16 x, s16 y) {
 
 #ifndef NON_MATCHING
     shift_page = (s16 *)0x80080000;
-    row_shift = *(s16 *)&D_80083350;
+    row_shift = *(s16 *)((s16 *)(&gameWork.unk_1F0));
 #else
-    row_shift = D_80083350[0];
+    row_shift = gameWork.unk_1F0;
 #endif
     cell_index = (y << row_shift) + x;
     cell_pair = ((s32)((cell_index + (cell_index >> 31)) << 15) >> 16) + D_800E50A8;

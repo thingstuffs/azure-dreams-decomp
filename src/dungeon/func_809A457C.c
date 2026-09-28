@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 
 
@@ -13,7 +14,6 @@ typedef struct Pair {
 extern void *func_8003FD64();
 extern void func_8004491C();
 extern void func_800B835C();
-extern u8 D_80045340[12];
 extern u8 D_80175B1C[12];
 extern u8 D_80175FA8[12];
 extern u8 D_80175FB4[12];
@@ -58,7 +58,7 @@ void func_80175D7C(void *parent_state) {
     child = func_8003FD64(514, (u8 *)parent_state - 0x20);
     if (child != 0) {
         ((S_80175D7C_0 *)child)->unk_10 = D_80175B1C;
-        func_8004491C(child, D_80045340);
+        func_8004491C(child, func_80045340);
         pair_first = 0x01000340;
         pair_second = 0x200020;
         pair_ptr = &pair;

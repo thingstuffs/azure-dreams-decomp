@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_800A9E70_arg0.h"
@@ -32,7 +33,6 @@ typedef struct S_8016B778_5 {
 
 extern u8 D_801746A4[];
 extern u8 D_80174684[];
-extern s16 D_80083228[5];
 extern volatile s16 D_80013714[8];
 extern u8 D_801746C4[];
 extern u8 D_8017467C[];
@@ -81,7 +81,6 @@ void func_8016B778(Rec_func_800A9E70_arg0 *actor, M2C_UNK context, S_8016B778_2 
     u8 *tile_table;
     u8 *tile_entry;
     u8 *active_actor;
-    s32 *dungeon_state;
     if (!(dungeonStatus.flags & 0x1000)) {
         goto block_3;
     }
@@ -128,7 +127,7 @@ block_12:
         }
         if (current_anim != idle_anim) {
             map_actor->unk_2C.p = idle_anim;
-            action_data = (u8 *)(((s32) (*D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7);
+            action_data = (u8 *)(((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7);
             action_data += (u32)idle_anim;
             func_80047784(map_actor, *action_data, 0);
         }
@@ -153,11 +152,10 @@ block_25:
     if (((Rec_D_800E3D7C *)entity)->unk_64.as_s16 == 0) {
         goto block_28;
     }
-    dungeon_state = ((s32 *)(&dungeonStatus));
-    if (dungeon_state[4] != (entity - 0x20)) {
+    if (((s32)dungeonStatus.unk_10) != (entity - 0x20)) {
         goto block_28;
     }
-    dungeon_state[4] &= 0x7FFFFFFF;
+    *(s32 *)&dungeonStatus.unk_10 &= 0x7FFFFFFF;
 block_28:
     if (!(((Rec_D_800E3D7C *)entity)->unk_1C.as_s32 & 0x80000)) {
         goto block_31;
@@ -165,7 +163,7 @@ block_28:
     func_800AA888(actor, context, map_actor, entity);
     func_8016DAA4(actor, context, map_actor, entity);
     map_actor->unk_2C.p = D_8017467C;
-    func_80047784(map_actor, D_8017467C[((s32) (*D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
+    func_80047784(map_actor, D_8017467C[((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
     actor->unk_90.at00_s32.v = 0;
     return;
 block_31:

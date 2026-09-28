@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct S_800A51CC_0 {
     union { struct { s32 v; } at00; struct { u16 v; } at00u; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -20,7 +21,6 @@ typedef struct S_800A51CC_1 {
 
 
 
-extern u8 D_80083160[0xB2];
 extern u8 D_800A526C[16];
 
 /* Update current and saved coordinates from the reference, or set state 9 if they differ. */
@@ -30,7 +30,7 @@ void func_800A51CC(S_800A51CC_0 *object)
     s32 position_pair;
     u16 coord;
 
-    reference = D_80083160;
+    reference = ((u8 *)(&gameWork));
     position_pair = object->unk_00.at00.v;
     if ((position_pair != ((S_800A51CC_1 *)reference)->unk_AC.at00.v) ||
         (object->unk_04.s != ((S_800A51CC_1 *)reference)->unk_B0.s)) {

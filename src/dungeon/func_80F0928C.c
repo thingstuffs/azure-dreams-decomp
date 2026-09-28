@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
 typedef void (*EntityCallback)(void *, void *, void *, void *);
 
-extern s32 D_80045340;
 extern u8 D_8006CCF8[];
-extern s16 D_80083228;
 extern s32 D_800E296C;
 extern u8 D_80170F74[];
 extern EntityCallback D_80173D90[];
@@ -96,7 +96,7 @@ void func_80170A8C(void *entity_state, void *entity_motion, void *entity_part)
                 S16_AT(entity_state, 0xA4) = 0;
                 S16_AT(entity_state, 0xA6) = 0;
                 S32_AT(entity_part, 0xC) = 0;
-                func_8004491C((u8 *)entity_state - 0x20, &D_80045340);
+                func_8004491C((u8 *)entity_state - 0x20, func_80045340);
             }
         }
 
@@ -114,7 +114,7 @@ void func_80170A8C(void *entity_state, void *entity_motion, void *entity_part)
 
         part_flags = U16_AT(entity_part, 0x14);
         if (!(part_flags & 0x8000)) {
-            view_direction = (D_80083228 + S16_AT(state_alias, 0x2A) + 0x100) >> 9;
+            view_direction = (gameWork.viewAngle + S16_AT(state_alias, 0x2A) + 0x100) >> 9;
             direction = view_direction & 7;
             if (S16_AT(entity_state, 0x94) != direction) {
                 direction_frames = PTR_AT(entity_part, 0x2C);

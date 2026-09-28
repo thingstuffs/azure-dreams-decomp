@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -45,7 +46,6 @@ extern void func_800DA660(void *, void *, void *, void *);
 
 extern void *D_800814A8;
 extern u8 D_80082E80[];
-extern s16 D_80083228;
 extern u8 D_800D8C64[];
 extern u8 D_800E262C[];
 
@@ -80,7 +80,7 @@ state_zero:
         direction_table = D_800E262C;
         (*(void * *)((u8 *)sprite + 0x2C)) = direction_table;
         func_8003DB94(sprite,
-            *(void **)(direction_table + (((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 7) & 28)),
+            *(void **)(direction_table + (((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 7) & 28)),
             0);
         system_base = (u8 *)&dungeonStatus.unk_00;
         ((S_800DA014_3 *)system_base)->unk_0A--;
@@ -161,7 +161,7 @@ state_one:
             direction_table = D_800E262C;
             (*(void * *)((u8 *)sprite + 0x2C)) = direction_table;
             func_8003DB94(sprite,
-                *(void **)(direction_table + (((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 7) & 28)),
+                *(void **)(direction_table + (((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 7) & 28)),
                 0);
         } else {
             return;

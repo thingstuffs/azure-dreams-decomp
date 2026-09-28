@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 typedef struct S_80175180_0 {
     u8 pad_00[0x8];
@@ -48,7 +49,6 @@ typedef struct S_80175180_5 {
 
 extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *);
-extern u8 D_80045340[];
 extern u8 D_801749EC[];
 
 /* Creates and initializes an effect at an offset from the supplied position. */
@@ -70,7 +70,7 @@ void func_80175180(void *source_arg, void *spawn_pos_arg)
         ((S_80175180_0 *)state)->unk_0A = ((S_80175180_1 *)source)->unk_96;
         ((S_80175180_0 *)state)->unk_0C = 0;
         ((S_80175180_2 *)effect)->unk_10 = D_801749EC;
-        func_8004491C(effect, D_80045340);
+        func_8004491C(effect, func_80045340);
         render_part = ((S_80175180_2 *)effect)->unk_0C;
         render_part->unk_10 = 0x20;
         render_flags = VFIELD(render_part, u16, 0x14);

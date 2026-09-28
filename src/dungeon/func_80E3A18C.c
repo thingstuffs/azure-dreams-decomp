@@ -21,8 +21,6 @@ void func_8017398C(u8 *owner, s32 object_id, u8 *dest_object, u8 *dest_state)
     u8 *state_slot;
     u8 *state_table;
     u8 *kind_entry;
-    u8 *counter_data;
-    u8 *active_data;
     s32 call_result;
     u8 kind_unlisted;
     u8 can_release;
@@ -58,8 +56,7 @@ void func_8017398C(u8 *owner, s32 object_id, u8 *dest_object, u8 *dest_state)
         }
 
         if ((linked_state[0x13] != 0x1E) && (linked_state[0x28] == 0)) {
-            counter_data = (u8 *)&dungeonStatus.unk_00;
-            (*(u16 *)(counter_data + 0xA))++;
+            (((u16)dungeonStatus.unk_0A))++;
         }
 
         *(s32 *)(dest_state + 0x14) = 0;
@@ -109,9 +106,8 @@ void func_8017398C(u8 *owner, s32 object_id, u8 *dest_object, u8 *dest_state)
         return;
     }
 
-    active_data = (u8 *)&dungeonStatus.unk_00;
-    if (*(u8 **)(active_data + 0xC) == linked_state) {
-        *(u8 **)(active_data + 0xC) = 0;
+    if (dungeonStatus.unk_0C == linked_state) {
+        dungeonStatus.unk_0C = 0;
     }
     func_800ACB98(linked_state, *(s32 *)(linked_state - 0x18),
                   *(s32 *)(linked_state - 0x14), linked_state);

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 
@@ -64,7 +65,6 @@ extern void func_801737C4(void *, void *, void *, void *);
 
 extern void *D_800814A8;
 extern u8 D_80082E80[];
-extern s16 D_80083228;
 extern u8 D_80170E9C[];
 extern u8 D_80174F00[];
 
@@ -73,7 +73,6 @@ void func_8017313C(S_8017313C_0 *controller, void *context, S_8017313C_1 *sprite
 {
     s32 entity_flags;
     u16 fade_ticks;
-    u8 *global_base;
     s32 state;
     u8 shade;
 
@@ -106,12 +105,11 @@ state_zero:
     sprite->unk_0C = 0x40;
     func_80047784(sprite,
         sprite->unk_2C.u[
-            ((D_80083228 + entity->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            ((gameWork.viewAngle + entity->unk_2A.as_s16 + 0x100) >> 9) & 7],
         0);
     {
-        u8 *counter_base = (u8 *)&dungeonStatus.unk_00;
 
-        ((S_8017313C_3 *)counter_base)->unk_0A--;
+        dungeonStatus.unk_0A--;
     }
     {
         u8 next_state = controller->unk_9B + 1;
@@ -135,8 +133,7 @@ state_one:
         }
         goto advance_state_one;
     }
-    global_base = (u8 *)&dungeonStatus.unk_00;
-    if (((S_8017313C_4 *)global_base)->unk_02 & 0x1000) {
+    if (dungeonStatus.flags & 0x1000) {
         goto done;
     }
     if (entity->unk_64.as_s16 != 0) {
@@ -145,7 +142,7 @@ state_one:
         }
     }
     if (entity->unk_24.at01_u8.v == 0) {
-        if (((S_8017313C_4 *)global_base)->unk_02 & 0x2008) {
+        if (dungeonStatus.flags & 0x2008) {
             goto done;
         }
         func_800AA79C(controller, context, sprite, entity);
@@ -206,9 +203,8 @@ state_one:
 
 advance_state_one:
     {
-        u8 *counter_base = (u8 *)&dungeonStatus.unk_00;
 
-        ((S_8017313C_3 *)counter_base)->unk_0A++;
+        dungeonStatus.unk_0A++;
     }
     controller->unk_96 = 6;
     {
@@ -232,9 +228,8 @@ state_two:
             goto done;
         }
         {
-            u8 *counter_base = (u8 *)&dungeonStatus.unk_00;
 
-            ((S_8017313C_3 *)counter_base)->unk_0A--;
+            dungeonStatus.unk_0A--;
         }
         sprite->unk_0E = 0x80;
         sprite->unk_0D = 0x80;

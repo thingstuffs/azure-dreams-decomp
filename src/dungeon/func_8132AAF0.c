@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80174CD8.h"
 
@@ -47,7 +48,6 @@ void *func_8003FC64();
 M2C_UNK func_8004491C();
 M2C_UNK func_8003DB94();
 M2C_UNK func_800A56E0();
-extern M2C_UNK D_80045340;
 extern M2C_UNK D_800DE870;
 extern M2C_UNK D_80172274;
 extern Rec_D_80174CD8 *D_80174CD8;
@@ -64,7 +64,7 @@ void func_801722F0(void) {
     source_pos = D_80174CD8->unk_08;
     effect = func_8003FC64(0x212);
     if (effect != NULL) {
-        setup_data = &D_80045340;
+        setup_data = func_80045340;
         effect_params = effect + 0x20;
         effect_params->unk_16 = 0x1E;
         effect_params->unk_18 = 0x1E;

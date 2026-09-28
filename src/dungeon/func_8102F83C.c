@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
 
@@ -13,7 +14,6 @@ extern void func_800AA36C();
 extern s16 func_800BCB04();
 
 extern u8 D_8006CCF8[8];
-extern s16 D_80083228;
 extern u8 D_801714B8;
 extern Callback D_80176138[];
 
@@ -111,7 +111,7 @@ void func_8017103C(void *entity_arg, void *motion_arg, void *monster_arg)
 
     monster_flags = ((S_8017103C_0 *)monster)->unk_14;
     if (!(monster_flags & 0x8000)) {
-        facing_angle = D_80083228 + (*(s16 *)((u8 *)entity_arg + 0x2A)) + 0x100;
+        facing_angle = gameWork.viewAngle + (*(s16 *)((u8 *)entity_arg + 0x2A)) + 0x100;
         direction = (facing_angle >> 9) & 7;
         direction_copy = direction;
         direction_index = direction;

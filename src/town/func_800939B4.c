@@ -1,9 +1,9 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 
 extern void func_80093D48(void *, void *, s32);
 extern void func_80093E98(void *, void *, s32);
-extern u8 D_80083160[];
 
 
 typedef struct S_80091114_0 {
@@ -23,14 +23,14 @@ extern void func_80091000(s32 *, S_80091114_1 *, s32);
 void func_80091114(s32 *value, S_80091114_1 *context, s32 update_arg) {
     s32 saved_update_arg ;   /* Required for the retail saved-register set and frame layout. */
     s32 previous_value;
-    register u8 *state = D_80083160;
+    GameWork *state = &gameWork;
 
     previous_value = *value;
     func_80091000(value, context, update_arg);
 
     if (previous_value == *value) {
         saved_update_arg = update_arg;
-        if (!(((S_80091114_0 *)state)->unk_08 & 0x20)) {
+        if (!(((s32)state->unk_008) & 0x20)) {
             func_80093D48(value, context, saved_update_arg);
             return;
         }

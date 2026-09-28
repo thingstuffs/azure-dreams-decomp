@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
 #define U8(p, o) (*(u8 *)((u8 *)(p) + (o)))
@@ -15,7 +16,6 @@ extern void func_800A4ACC(void *);
 extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
 
-extern s16 D_80083228;
 extern void *D_800E3DE8;
 extern u8 D_80170E68;
 extern u8 D_80173894[];
@@ -55,7 +55,7 @@ begin_action:
     S32(motion, 0x0C) = 0;
     PTR(sprite, 0x2C) = D_80173894;
     func_80047784(sprite,
-        D_80173894[((D_80083228 + S16(actor, 0x2A) + 0x100) >> 9) & 7],
+        D_80173894[((gameWork.viewAngle + S16(actor, 0x2A) + 0x100) >> 9) & 7],
         0);
     loaded_phase = U8(action, 0x9B);
     U16(action, 0x96) = 0;

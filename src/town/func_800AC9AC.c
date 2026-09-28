@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct S_func_800AC9AC_0 {
     u8 *unk_00;
@@ -46,7 +47,6 @@ typedef struct S_func_800AC9AC_3 {
 
 #define OTSLOT() (*(u32 *)((u8 *)scratch->unk_24 + scratch->unk_C4 * 4))
 
-extern u8 *D_80083160[3];
 
 extern void func_800649A0(void);
 extern void func_80064A40(void);
@@ -83,7 +83,7 @@ void func_800AA10C(S_func_800AC9AC_0 *mesh, void *transform)
 
     quad_indices = mesh->unk_04;
     vertices = mesh->unk_00;
-    render_state_ptr = D_80083160;
+    render_state_ptr = ((u8 * *)(&gameWork));
     initial_state = *render_state_ptr;
     color_masks = mesh->unk_20;
     scratch = (S_func_800AC9AC_1 *)0x1F800000;

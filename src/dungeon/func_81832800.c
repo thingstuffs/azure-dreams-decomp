@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
@@ -7,7 +8,6 @@ extern int abs(int);
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern u8 D_80083498[];
-extern u8 D_80045340[];
 extern u8 D_800DEA68[];
 extern u8 D_800DED70[];
 void *func_8003FD64();                     /* extern */
@@ -227,7 +227,7 @@ first_spawn_loop:
             if (object != NULL) {
                 void *callback;
                 S_func_81832800_4 *spawn_position;
-                func_8004491C(object, D_80045340);
+                func_8004491C(object, func_80045340);
                 sprite = object->unk_0C;
                 spawn_position = object->unk_08;
                 callback = particle_callback;
@@ -394,7 +394,7 @@ state_3:
         object = func_8003FD64(0x312, D_80083498);
         if (object != NULL) {
             void *callback;
-            func_8004491C(object, D_80045340);
+            func_8004491C(object, func_80045340);
             particle_data = (S_func_81832800_6 *) ((u8 *) object + 0x20);
             sprite = object->unk_0C;
             callback = &D_800248F0;

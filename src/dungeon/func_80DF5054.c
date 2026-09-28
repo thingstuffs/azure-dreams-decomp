@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 
 typedef s32 M2C_UNK;
@@ -43,7 +44,6 @@ typedef struct S_8015E854_4 {
 } S_8015E854_4;   /* actor in func_8015E854 */
 
 
-extern u8 D_80045340[];
 extern u8 D_80083498[];
 extern u8 D_8015EA58[];
 extern u8 D_8015EE5C[];
@@ -82,7 +82,7 @@ void *func_8015E854(s32 flags, s8 kind_id, s16 variant, s16 spawn_value)
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((S_8015E854_0 *)work)->unk_13 = 0x1C;
-        func_8004491C(obj, D_80045340);
+        func_8004491C(obj, func_80045340);
 
         part_a = ((S_8015E854_1 *)obj)->unk_08;
         ((S_8015E854_2 *)part_a)->unk_0A = saved_spawn;

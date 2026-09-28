@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 extern s32 func_80049E1C(s32 arg0, s32 arg1, s32 arg2);
 extern void SD_Call(s32 arg0);
@@ -7,7 +8,6 @@ extern void close_twin_shop(void *arg0);
 extern void func_800B1778(s32 arg0, s32 arg1, s32 arg2);
 extern void func_800B17C0(s32 arg0, s32 arg1);
 extern s32 D_80082AB8;
-extern s32 D_80083160[5];
 
 /* Handles grid menu navigation, confirmation, and cancellation. */
 void func_800ADD80(s32 *menu) {
@@ -19,7 +19,7 @@ void func_800ADD80(s32 *menu) {
     s32 selection;
     s32 row;
     u8 *selected_entry;
-    pad_state = D_80083160;
+    pad_state = ((s32 *)(&gameWork));
     held_buttons = pad_state[2];
     selection_step = 0;
     if (held_buttons == 0) return;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 extern void func_80047784();
 extern s32 func_80047D44();
@@ -15,7 +16,6 @@ extern s32 func_800BCB04();
 extern u8 D_8006CCF8[];
 extern u8 D_80080100[];
 extern s32 D_80081488[];
-extern s32 D_80083160[];
 extern s8 D_800DCF4D[];
 extern u8 D_800E8000[];
 
@@ -26,7 +26,6 @@ void func_800A9C18(void *entity, void *position, void *sprite, s32 init_flags)
     s32 mode;
     s32 entity_kind;
     u8 *entity_data;
-    s16 *world_state;
 
     entity_data = (u8 *)entity + 0x20;
     extra_flags = init_flags & ~3;
@@ -65,10 +64,9 @@ void func_800A9C18(void *entity, void *position, void *sprite, s32 init_flags)
     *(s32 *)((u8 *)sprite + 0xC) = 0x2C808080;
     *(u16 *)((u8 *)sprite + 0x14) |= 0x8000;
 
-    world_state = (s16 *)D_80083160;
     func_80047784(sprite,
                   (*(u8 **)((u8 *)sprite + 0x2C))[
-                      ((world_state[0x64] + *(s16 *)(entity_data + 0x2A) + 0x100) >> 9) & 7],
+                      ((gameWork.viewAngle + *(s16 *)(entity_data + 0x2A) + 0x100) >> 9) & 7],
                   0);
 
     func_80099FDC(entity);
@@ -85,7 +83,7 @@ void func_800A9C18(void *entity, void *position, void *sprite, s32 init_flags)
     func_800BC26C(entity, 0, (u8 *)sprite + 0x2C, entity_data + 0x2A);
 
     if (D_8006CCF8[
-            ((world_state[0x64] + *(s16 *)(entity_data + 0x2A) + 0x100) >> 9) & 7] != 0) {
+            ((gameWork.viewAngle + *(s16 *)(entity_data + 0x2A) + 0x100) >> 9) & 7] != 0) {
         *(u16 *)((u8 *)sprite + 0x14) |= 1;
         return;
     }

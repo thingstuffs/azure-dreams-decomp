@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80083160.h"
@@ -42,7 +43,6 @@ typedef struct S_8009BE2C_6 {
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 struct S_8003E2D8; typedef struct S_8003E2D8 S_8003E2D8;
-extern struct S_8003E2D8 D_80083160;
 M2C_UNK func_8006658C();              /* extern */
 M2C_UNK func_800667A8();                  /* extern */
 
@@ -54,15 +54,15 @@ void func_8009BE2C(void *effect, s32 unused, S_8009BE2C_2 *fade) {
     void *packet;
     void **render_context;
 
-    packet = ((S_8009BE2C_5 *)(((Rec_D_80083160 *)(&D_80083160))->unk_00.as_pv))->unk_8D0;
-    ((S_8009BE2C_5 *)(((Rec_D_80083160 *)(&D_80083160))->unk_00.as_pv))->unk_8D0 = (void *) (packet + 0x10);
+    packet = ((S_8009BE2C_5 *)(((Rec_D_80083160 *)(((struct S_8003E2D8 *)&gameWork)))->unk_00.as_pv))->unk_8D0;
+    ((S_8009BE2C_5 *)(((Rec_D_80083160 *)(((struct S_8003E2D8 *)&gameWork)))->unk_00.as_pv))->unk_8D0 = (void *) (packet + 0x10);
     ((S_8009BE2C_1 *)packet)->unk_0C = 0x140;
     ((S_8009BE2C_1 *)packet)->unk_08 = 0;
     ((S_8009BE2C_1 *)packet)->unk_0A = 0;
     ((S_8009BE2C_1 *)packet)->unk_0E = 0xE0;
     intensity = (0xC0 / (s16) fade->unk_06) * fade->unk_05;
     color_value = intensity;
-    render_context = (void **)&D_80083160;
+    render_context = (void **)((struct S_8003E2D8 *)&gameWork);
     if (fade->unk_04 == 0) {
         goto set_word;
     }

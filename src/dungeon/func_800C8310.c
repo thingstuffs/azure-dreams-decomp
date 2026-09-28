@@ -60,8 +60,7 @@ loop_2:
                         *(s16 *)((u8 *)object + 0x88), D_800DF820, 0);
                     func_800A56E0(0x613);
                     {
-                        u8 *counter_base = (u8 *)((s32 *)(&dungeonStatus));
-                        (*(u16 *)(counter_base + 0xA))++;
+                        (((u16)dungeonStatus.unk_0A))++;
                     }
                     return -1;
                 }

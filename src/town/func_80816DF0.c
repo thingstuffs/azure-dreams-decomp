@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 extern int abs(int);
 
@@ -82,8 +84,6 @@ typedef struct S_80020DF0_8 {
 extern volatile u16 D_800135C0;
 extern u8 D_80022B80[];
 extern s16 D_800272A0[];
-extern u8 D_80045340[];
-extern u8 D_80083160[];
 extern u8 D_80083498[];
 extern void *D_800834B8;
 extern u8 D_80083780[];
@@ -123,13 +123,13 @@ void func_80020DF0(void *object, void *motion, void *sprite)
     s32 ground_height;
     s16 state;
     u16 state_bits;
-    u8 *world;
+    GameWork *world;
     void **music;
     s32 index;
 
     effect = NULL;
     actor = NULL;
-    world = D_80083160;
+    world = &gameWork;
     music = &D_800834B8;
 
     ground_height = (s16)func_800C2AE8(motion);
@@ -267,7 +267,7 @@ void func_80020DF0(void *object, void *motion, void *sprite)
             (*(s32 *)((u8 *)motion + 4)) = ((S_80020DF0_4 *)target)->unk_04;
             (*(s32 *)((u8 *)motion + 8)) =
                 ((S_80020DF0_4 *)target)->unk_08.at00.v + D_800D0428 - 0x80000;
-            if (((S_80020DF0_5 *)world)->unk_10 & 0x40) {
+            if (((s32)world->unk_010) & 0x40) {
                 if (((S_80020DF0_4 *)target)->unk_08.at02.v == 0) {
                     if (((S_80020DF0_0 *)object)->unk_68.s == 9) {
                         ((S_80020DF0_1 *)actor)->unk_00 = 0x100000;
@@ -357,7 +357,7 @@ void func_80020DF0(void *object, void *motion, void *sprite)
                             void *link;
 
                             part = ((S_80020DF0_6 *)particle)->unk_0C;
-                            func_8004491C(particle, D_80045340);
+                            func_8004491C(particle, func_80045340);
                             link = (u8 *)particle + 0x20;
                             ((S_80020DF0_7 *)part)->unk_0C = 0x00808080;
                             ((S_80020DF0_7 *)part)->unk_1E = scale;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 #define U8_AT(p, o)  (*(u8 *)((u8 *)(p) + (o)))
 #define S16_AT(p, o) (*(s16 *)((u8 *)(p) + (o)))
@@ -22,7 +23,6 @@ typedef struct GfxContext {
     u8 *cursor;
 } GfxContext;
 
-extern GfxContext *D_80083160[3];
 
 extern u32 func_80065590(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
 extern s32 func_80066460(s32, s32, s32, s32);

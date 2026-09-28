@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 
 #ifdef NON_MATCHING
@@ -44,7 +45,6 @@ typedef struct
   u16 unk1A;
   u16 unk1C;
 } S_80053858_rec;
-extern S_80083160_t D_80083160;
 extern void func_8004E21C(u8 *, u8);
 extern s32 SetSprt(S_80053858_prim *);
 extern void SetSemiTrans(S_80053858_prim *, s32);
@@ -54,7 +54,7 @@ extern void SetDrawMode(S_80053858_prim *, s32, s32, s32, s32);
 s32 func_80053858(S_80053858_rec *first_text)
 {
   S_80053858_rec *text_record = first_text;
-  S_80083160_t *render_state = &D_80083160;
+  S_80083160_t *render_state = ((S_80083160_t *)&gameWork);
   S_80053858_rec *text;
   int texture_page;
   register S_80053858_rec *next_node ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */

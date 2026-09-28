@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "shared/dungeon_status.h"
 
 typedef struct {
@@ -17,7 +18,6 @@ typedef struct {
     u16 unk14;
 } StructArg2;
 
-extern u8 D_80045340[0x10];
 
 void func_80044A50(void *);
 void func_8004491C(void *, void *);
@@ -73,7 +73,7 @@ countdown:
     func_80044A50(owner);
     effect->unk12 += 0x80;
     effect->unk14 &= 0xFFF3;
-    func_8004491C(owner, D_80045340);
+    func_8004491C(owner, func_80045340);
     effect_count = ((u16)dungeonStatus.unk_0A);
     effect_count--;
     dungeonStatus.unk_0A = effect_count;

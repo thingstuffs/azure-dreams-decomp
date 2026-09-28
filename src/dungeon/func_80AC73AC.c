@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -44,7 +45,6 @@ extern void func_800AD594(void *, s32);
 extern s32 func_800AD9B4(void *, void *);
 
 extern u8 D_80082E80[];
-extern s16 D_80083228;
 extern s32 D_80171728;
 extern u8 D_80174DEC[];
 extern u8 D_80174E0C[];
@@ -92,7 +92,7 @@ state_zero:
     (*(u8 * *)((u8 *)map_entity + 0x2C)) = D_80174E0C;
     func_80047784(
         map_entity,
-        D_80174E0C[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+        D_80174E0C[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
         0);
     ((S_80172BAC_0 *)action)->unk_98 |= 8;
     ((Rec_D_800E3D7C *)actor)->unk_1C.as_s32 &= 0xF7FFFFFF;
@@ -147,7 +147,7 @@ state_two:
         (*(u8 * *)((u8 *)map_entity + 0x2C)) = D_80174E14;
         func_80047784(
             map_entity,
-            D_80174E14[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            D_80174E14[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
         ((S_80172BAC_0 *)action)->unk_9B++;
     }
@@ -160,7 +160,7 @@ state_three:
     (*(u8 * *)((u8 *)map_entity + 0x2C)) = D_80174DEC;
     func_80047784(
         map_entity,
-        D_80174DEC[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+        D_80174DEC[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
         0);
 
 decrement_timer:

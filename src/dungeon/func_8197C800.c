@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
@@ -185,7 +186,6 @@ static const u32 func_8197C800_bank[] __asm__("func_8197C800")
 extern void *D_80024008[];
 extern void *D_800814A8[];
 extern u8 D_80083498[];
-extern u8 D_80045340[];
 extern u8 D_80083780[];
 extern u32 D_800246C0[];
 extern u8 D_80024BB8[];
@@ -230,7 +230,6 @@ void FUNC_8197C800_BODY(void *input, void *output)
     S_FUNC_8197C800_BODY_7 *dst_position;
     S_FUNC_8197C800_BODY_7 *dst_position_3;
     S_FUNC_8197C800_BODY_7 *dst_position_2;
-    S_FUNC_8197C800_BODY_19 *status;
     void *particle_data;
     s32 remaining;
     register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -292,7 +291,7 @@ case_one:
     }
     particle_data = (u8 *)particle + 0x20;
     ((S_FUNC_8197C800_BODY_5 *)particle)->unk_10 = D_800246C0;
-    func_8004491C(particle, D_80045340);
+    func_8004491C(particle, func_80045340);
     random_value = 0x00800000u;
     sprite = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_0C;
     offset_index = offsets[0];
@@ -367,7 +366,7 @@ case_three:
         particle = func_8003FD64(0x312, D_80083498);
         if (particle != 0) {
             ((S_FUNC_8197C800_BODY_5 *)particle)->unk_10 = particle_script;
-            func_8004491C(particle, D_80045340);
+            func_8004491C(particle, func_80045340);
             sprite = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_0C;
             particle_data = (u8 *)particle + 0x20;
             random_value = func_80069EF8();
@@ -447,7 +446,7 @@ case_three:
         particle = func_8003FD64(0x312, D_80083498);
         if (particle != 0) {
             ((S_FUNC_8197C800_BODY_5 *)particle)->unk_10 = particle_script_debris;
-            func_8004491C(particle, D_80045340);
+            func_8004491C(particle, func_80045340);
             sprite = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_0C;
             particle_data = (u8 *)particle + 0x20;
             random_value = func_80069EF8();
@@ -529,9 +528,8 @@ case_four:
     func_8009CE1C(((S_FUNC_8197C800_BODY_1 *)(D_800814A8[0]))->unk_60, 8,
                   ((S_FUNC_8197C800_BODY_0 *)input)->unk_09, 10,
                   ((S_FUNC_8197C800_BODY_18 *)owner_data)->unk_2A, owner_data, 2);
-    status = ((u8 *)(&dungeonStatus));
-    status->unk_0C = 0;
-    status->unk_0A -= 1;
+    dungeonStatus.unk_0C = 0;
+    dungeonStatus.unk_0A -= 1;
     ((S_FUNC_8197C800_BODY_0_pre *)input)[-1].unk_00 |= 0x8000;
     objectFlagBlock.flags |= 0x8000;
 }

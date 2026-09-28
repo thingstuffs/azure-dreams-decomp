@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
@@ -97,8 +99,6 @@ extern void func_800A4ACC(void *);
 extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
 
-extern u8 D_80045340;
-extern s16 D_80083228;
 extern s32 D_80083498;
 extern u8 D_800DEC28[];
 extern void *D_800E3DE8;
@@ -158,7 +158,7 @@ void func_80172790(void *action, void *motion, void *tile, void *actor)
         do {
             particle = func_8003FD64(0x312, &D_80083498);
             if (particle != NULL) {
-                func_8004491C(particle, &D_80045340);
+                func_8004491C(particle, func_80045340);
                 particle_motion = (u8 *)particle + 0x20;
                 ((S_80172790_2 *)particle)->unk_10 = D_801743EC;
                 sprite = ((S_80172790_2 *)particle)->unk_0C;
@@ -220,7 +220,7 @@ void func_80172790(void *action, void *motion, void *tile, void *actor)
         if (flags & 0xE000) {
             move_frames = D_80175160;
             (*(void * *)((u8 *)tile + 0x2C)) = move_frames;
-            move_angle = D_80083228 + ((S_80172790_0 *)actor)->unk_2A.u;
+            move_angle = gameWork.viewAngle + ((S_80172790_0 *)actor)->unk_2A.u;
             move_direction = ((move_angle + 0x100) >> 9) & 7;
             func_80047784(tile, move_frames[move_direction], 0);
             ((S_80172790_4 *)motion)->unk_0C = (-x_step) << 0x12;
@@ -318,7 +318,7 @@ advance:
         ((S_80172790_1 *)action)->unk_A8 = 7;
         idle_frames = D_80175148;
         (*(void * *)((u8 *)tile + 0x2C)) = idle_frames;
-        idle_angle = D_80083228 + ((S_80172790_0 *)actor)->unk_2A.u;
+        idle_angle = gameWork.viewAngle + ((S_80172790_0 *)actor)->unk_2A.u;
         idle_direction = ((idle_angle + 0x100) >> 9) & 7;
         func_80047784(tile, idle_frames[idle_direction], 2);
         if (((S_80172790_0 *)actor)->unk_6D == 0) {

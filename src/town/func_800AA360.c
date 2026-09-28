@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
 typedef struct S_800A7AC0_0 {
@@ -8,7 +9,6 @@ typedef struct S_800A7AC0_0 {
 
 M2C_UNK func_80033CD8();           /* extern */
 M2C_UNK func_800C2CB0(); /* extern */
-extern M2C_UNK D_80045340;
 extern M2C_UNK D_800A7B14;
 extern M2C_UNK D_800F838C;
 
@@ -16,5 +16,5 @@ extern M2C_UNK D_800F838C;
 void func_800A7AC0(void *object, M2C_UNK unused, M2C_UNK context) {
     ((S_800A7AC0_0 *)((u8 *)object - 0x10))->unk_00 = &D_800A7B14;
     func_800C2CB0(object, context, &D_800F838C, 0);
-    func_80033CD8(object, &D_80045340);
+    func_80033CD8(object, func_80045340);
 }

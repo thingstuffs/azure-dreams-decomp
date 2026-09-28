@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct {
     u8 pad[0x6C];
@@ -24,7 +25,6 @@ typedef struct {
     s16 transition;
 } GameState;
 
-extern GameState D_80083160;
 extern TownState D_80083498;
 
 extern void func_800CA774(Object *, Position *, void *, GameState *);
@@ -34,7 +34,7 @@ extern void SD_Call(s32);
 void func_800CA214(Object *object, Position *position, void *context)
 {
     s16 ticks_left;
-    GameState *game = &D_80083160;
+    GameState *game = ((GameState *)&gameWork);
 
     if (object->timer == 8) {
         game->transition = 0x10;

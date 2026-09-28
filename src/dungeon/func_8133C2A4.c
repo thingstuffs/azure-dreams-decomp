@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 #ifdef NON_MATCHING
 #define SEQUENCE_INDEX_ADVANCE(index, base) ((void)0)
@@ -53,7 +54,6 @@ extern void func_80170510(void);
 extern void func_80170838(void);
 
 extern u8 D_80082E80[];
-extern s16 D_80083228;
 extern u8 D_801739A0[];
 extern u8 D_801739A8[];
 extern u8 D_801739B0[];
@@ -227,7 +227,7 @@ sequence_join:
         if (old_sequence == sequence) {
             goto common;
         }
-        angle_base = &D_80083228;
+        angle_base = &gameWork.viewAngle;
         (*(u8 **)((u8 *)aux + 0x2C)) = sequence;
         sequence_index = ((*angle_base + actor->angle + 0x100) >> 9) & 7;
         SEQUENCE_INDEX_ADVANCE(sequence_index, sequence);
@@ -257,7 +257,7 @@ case_F8_state0:
         if (old_sequence == start_sequence) {
             goto common;
         }
-        angle_base = &D_80083228;
+        angle_base = &gameWork.viewAngle;
         (*(u8 **)((u8 *)aux + 0x2C)) = start_sequence;
         sequence_index = ((*angle_base + actor->angle + 0x100) >> 9) & 7;
         SEQUENCE_INDEX_ADVANCE(sequence_index, start_sequence);
@@ -276,7 +276,7 @@ case_F8_state1:
             goto common;
         }
         entity->animation = 2;
-        angle_base = &D_80083228;
+        angle_base = &gameWork.viewAngle;
         sequence = ((*(u8 **)((u8 *)aux + 0x2C)) = D_801739B0);
         sequence_index = ((*angle_base + actor->angle + 0x100) >> 9) & 7;
         SEQUENCE_INDEX_ADVANCE(sequence_index, sequence);
@@ -307,7 +307,7 @@ case_E0_state0:
         if (aux->sequence == event_sequence) {
             goto common;
         }
-        angle_base = &D_80083228;
+        angle_base = &gameWork.viewAngle;
         (*(u8 **)((u8 *)aux + 0x2C)) = event_sequence;
         sequence_index = ((*angle_base + actor->angle + 0x100) >> 9) & 7;
         SEQUENCE_INDEX_ADVANCE(sequence_index, event_sequence);
@@ -335,7 +335,7 @@ case_E0_state1:
             goto common;
         }
         entity->animation = 3;
-        angle_base = &D_80083228;
+        angle_base = &gameWork.viewAngle;
         sequence = ((*(u8 **)((u8 *)aux + 0x2C)) = D_801739B8);
         sequence_index = ((*angle_base + actor->angle + 0x100) >> 9) & 7;
         SEQUENCE_INDEX_ADVANCE(sequence_index, sequence);
@@ -416,7 +416,7 @@ case_C8_state1:
         actor->angle = func_800A0818(aux->x24, aux->y25,
             D_80082E80[0x24], D_80082E80[0x25], angle_out);
         idle_sequence = D_801739A0;
-        angle_base = &D_80083228;
+        angle_base = &gameWork.viewAngle;
         entity->animation = 0;
         (*(u8 **)((u8 *)aux + 0x2C)) = idle_sequence;
         sequence_index = ((*angle_base + actor->angle + 0x100) >> 9) & 7;

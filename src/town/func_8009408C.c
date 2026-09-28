@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "records/Rec_func_80094268_arg0.h"
 
 
@@ -16,7 +17,6 @@ s16 func_80095978();
 M2C_UNK func_80095A94();
 M2C_UNK func_80095C80();
 M2C_UNK func_800A895C();
-extern u8 D_80083160[];
 extern u8 D_800CFCEF[];
 extern u8 D_800D043C[];
 extern u8 D_800FE488[];
@@ -43,7 +43,7 @@ typedef struct S_800917EC_3 {
 
 /* Updates actor height, emits periodic effects, and handles the active state. */
 void func_800917EC(Rec_func_80094268_arg0 *actor, S_800917EC_0 *position, M2C_UNK context) {
-    u8 *state = D_80083160;
+    GameWork *state = &gameWork;
     s16 surface_height;
     s16 action_timer;
     s32 *effect_pos;
@@ -73,7 +73,7 @@ void func_800917EC(Rec_func_80094268_arg0 *actor, S_800917EC_0 *position, M2C_UN
         func_800A895C(effect_pos, D_800D043C,
                       (func_800374F4(2) & 0xFFFF) + 2);
     }
-    state_flags = ((S_800917EC_3 *)state)->unk_08;
+    state_flags = ((s32)state->unk_008);
     if ((state_flags & 0xF000) && (state_flags & 0x20)) {
         action_timer = actor->unk_3E.as_u16 - 1;
         actor->unk_3E.as_u16 = (u16)action_timer;

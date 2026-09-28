@@ -1,8 +1,8 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/game_work.h"
 #include "m2c_compat.h"
 
-extern u8 D_80083160[];
 
 typedef struct S_800BDDD0_0 {
     u8 pad_00[0x14];
@@ -26,7 +26,7 @@ void func_800BDDD0(s32 start_x, s16 start_y) {
     s32 cells_addr;
 
     x = (s16)start_x;
-    state = D_80083160;
+    state = ((u8 *)(&gameWork));
     grid = state + 0x1DC;
     cells_addr = *(s32 *)(state + 0x1DC);
     origin_x = start_x;

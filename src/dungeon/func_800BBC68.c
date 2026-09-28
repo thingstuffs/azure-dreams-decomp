@@ -43,7 +43,6 @@ extern void *D_800E3D7C[];
 /* Handles an object operation and updates its state or triggers its effect. */
 s32 func_800C13C8(void *object, s32 value, s16 operation, M2C_UNK context) {
     S_800C13C8_2 *object_data;
-    S_800C13C8_1 *state;
     s32 result;
 
     if (operation == 0xD) {
@@ -60,9 +59,8 @@ s32 func_800C13C8(void *object, s32 value, s16 operation, M2C_UNK context) {
             func_800A5F38(object, value);
             return 1;
         }
-        state = &dungeonStatus.unk_00;
 
-        state->unk_0A--;
+        dungeonStatus.unk_0A--;
         goto shared;
     }
     object_data = ((S_800C13C8_0 *)((u8 *)object - 0x14))->unk_00;

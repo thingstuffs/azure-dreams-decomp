@@ -19,7 +19,6 @@ extern M2C_UNK D_800C6AEC;
 /* Resets object state, runs object setup, and updates property and status flags. */
 void func_800ACD74(void *object_state, void *unused_context, Rec_D_80082E80 *properties, Rec_D_800E3D7C *status) {
     void *object;
-    u16 *global_state;
 
     ((Rec_func_800A9E70_arg0 *)object_state)->unk_9A.as_s8 = 0x13;
     ((Rec_func_800A9E70_arg0 *)object_state)->unk_9B.as_s8 = 0;
@@ -27,8 +26,7 @@ void func_800ACD74(void *object_state, void *unused_context, Rec_D_80082E80 *pro
     properties->unk_14.at00_u16.v = (u16)(properties->unk_14.at00_u16.v & 0xF7FF);
     ((Rec_func_800A9E70_arg0 *)object_state)->unk_96.as_s16 = 0;
     object = object_state - 0x20;
-    global_state = (u16 *)&dungeonStatus.unk_00;
-    global_state[5] = (u16)(global_state[5] + 1);
+    dungeonStatus.unk_0A = (u16)(((u16)dungeonStatus.unk_0A) + 1);
     func_80044A50(object);
     func_8004491C(object, &D_800C6AEC);
     properties->unk_0C.at03_s8.v = 0;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 
 typedef void (*Callback)(s32, void *, void *, void *);
@@ -14,7 +15,6 @@ extern s32 func_80065590(void *, void *, void *, void *, void *, void *, void *,
 extern void func_80065820(void *, void *);
 extern void func_8006658C(void *, void *);
 
-extern u8 *D_80083160[3];
 
 
 typedef struct S_800D07C8_0 {
@@ -139,7 +139,7 @@ void func_800D07C8(s32 context, u8 *position, u8 *sprite, s16 depth_bias) {
     u16 sprite_flags;
     u8 part_command;
     u8 draw_command;
-    u8 **table = D_80083160;
+    u8 **table = ((u8 * *)(&gameWork));
     Callback callback;
 
     ((S_800D07C8_0 *)scratch)->unk_20.p = table[0] + 0xB0;

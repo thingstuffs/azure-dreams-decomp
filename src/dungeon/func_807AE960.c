@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 
@@ -55,7 +56,6 @@ extern M2C_UNK D_80010000;
 extern u16 D_8001371A;
 extern s32 D_8006CD58;
 extern u8 D_80082EA5;
-extern M2C_UNK D_80083160;
 
 /* Dispatch the CD-audio fade state machine, then step the actor's shake counter and raise the finished flag. */
 void func_807AE960(u8 *state, u8 *actor, u8 *target) {
@@ -73,7 +73,7 @@ void func_807AE960(u8 *state, u8 *actor, u8 *target) {
     u8 *dungeon_data;
     S_807AE960_6 *entry;
 
-    dungeon_data = (u8 *)&D_80083160;
+    dungeon_data = (u8 *)((M2C_UNK *)&gameWork.unk_000);
     global_end = dungeon_data + 0x1DC;
     table_base = ((S_807AE960_0 *)dungeon_data)->unk_1DC;
     dispatch_index = (s16)(((S_807AE960_1 *)state)->unk_00.s - 1);

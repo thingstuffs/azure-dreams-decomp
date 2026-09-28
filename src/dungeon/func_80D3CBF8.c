@@ -49,7 +49,7 @@ extern u8 D_800E2970[];
 void func_801723F8(void *work_data, void *action_context, void *position_data, void *actor_data) {
     register u8 *position ASM_REG("$20") = position_data;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *actor = actor_data;
-    u8 *turn_state;
+    DungeonGlobalStatus *turn_state;
     u16 turn_flags;
     s32 movement_flags;
     s32 limit_turn;
@@ -67,7 +67,7 @@ void func_801723F8(void *work_data, void *action_context, void *position_data, v
     void *node;
     void *parent;
 
-    turn_state = (u8 *)&dungeonStatus.unk_00;
+    turn_state = &dungeonStatus;
     turn_flags = U16_AT(turn_state, 2);
     ASM_KEEP(position);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     limit_turn = turn_flags & 0;
@@ -338,7 +338,7 @@ loop_done:
     S8_AT(work_data, 0x9C) = U8_AT(position, 0x26);
     U8_AT(actor, 0x6D)--;
     {
-        u8 *turn_state_tail = (u8 *)&dungeonStatus.unk_00;
+        DungeonGlobalStatus *turn_state_tail = &dungeonStatus;
 
         U16_AT(turn_state_tail, 8)++;
     }

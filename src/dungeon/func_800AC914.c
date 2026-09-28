@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "m2c_compat.h"
 
 void *func_8003FC64(s32);
@@ -6,7 +7,6 @@ void func_8004491C(void *, void *);
 void func_800A56E0(s32, void *);
 extern M2C_UNK D_80046398;
 extern void *D_800814A8;
-extern s8 D_80083160[];
 extern s8 D_800B1F34[];
 
 typedef struct S_800B2074_0 {
@@ -71,14 +71,12 @@ void func_800B2074(s32 world_x, s32 world_z) {
 
     S_800B2074_5 *state_fields;
     u16 inherited_value;
-    s8 *map_state;
     S_800B2074_3 *transform;
     S_800B2074_2 *render_state;
 
     pos_x = world_x;
     pos_z = world_z;
-    map_state = D_80083160;
-    tile_addr = ((S_800B2074_0 *)map_state)->unk_1DC;
+    tile_addr = gameWork.unk_1DC;
     object = func_8003FC64(0x12);
     if (object != NULL) {
         init_object = object;
@@ -98,7 +96,7 @@ void func_800B2074(s32 world_x, s32 world_z) {
         transform->unk_16 = 6;
         transform->unk_02 = pos_x;
         transform->unk_06 = pos_z;
-        tile_addr += (((s32) (pos_x << 0xA) >> 0x10) + (((s32) (pos_z << 0xA) >> 0x10) << ((S_800B2074_0 *)map_state)->unk_1F0)) * 6;
+        tile_addr += (((s32) (pos_x << 0xA) >> 0x10) + (((s32) (pos_z << 0xA) >> 0x10) << gameWork.unk_1F0)) * 6;
         ((S_800B2074_1 *)object)->unk_20 = (u16 *) (tile_addr + 2);
         ((S_800B2074_4 *)tile_addr)->unk_00 = 3;
         transform->unk_0A = (s16) (0 - *((S_800B2074_1 *)object)->unk_20);

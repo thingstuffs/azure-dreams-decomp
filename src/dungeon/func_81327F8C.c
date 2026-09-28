@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -19,7 +20,6 @@ M2C_UNK func_8017092C(); /* extern */
 M2C_UNK func_80174320();     /* extern */
 extern u16 D_80013714;
 extern void *D_800814A8;
-extern s16 D_80083228;
 extern u8 D_80174A2C[];
 extern u8 D_80174A64[];
 
@@ -53,7 +53,7 @@ void func_8016F78C(void *actor, M2C_UNK context, void *sprite, void *entity) {
         if (current_state != next_state) {
             if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 != D_80174A2C) {
                 (*(u8 **)((u8 *)sprite + (0x2C))) = D_80174A2C;
-                func_80047784(sprite, D_80174A2C[((D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
+                func_80047784(sprite, D_80174A2C[((gameWork.viewAngle + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
             }
             ((S_8016F78C_0 *)actor)->unk_9A.n = next_state;
         }
@@ -63,7 +63,7 @@ void func_8016F78C(void *actor, M2C_UNK context, void *sprite, void *entity) {
                 func_800AA888(actor, context, sprite, entity);
                 func_8017092C(actor, context, sprite, entity);
                 (*(u8 **)((u8 *)sprite + (0x2C))) = D_80174A2C;
-                func_80047784(sprite, D_80174A2C[((D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
+                func_80047784(sprite, D_80174A2C[((gameWork.viewAngle + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
                 ((S_8016F78C_0 *)actor)->unk_90 = 0;
                 return;
             }

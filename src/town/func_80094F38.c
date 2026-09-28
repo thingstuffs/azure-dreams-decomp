@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_func_80094268_arg0.h"
 
@@ -23,7 +24,6 @@ typedef struct {
     s32 field_10;
 } State80083160;
 
-extern State80083160 D_80083160;
 extern void *D_800CFCC4[3];
 extern u8 D_800CFCEF[9];
 extern u8 D_800FE488[9];
@@ -37,7 +37,7 @@ typedef struct S_80092698_2 {
 void func_80092698(Rec_func_80094268_arg0 *controller, Rec_D_800E3D7C *entity, M2C_UNK context) {
     s16 sampled_value;
     u16 countdown;
-    State80083160 *state = &D_80083160;
+    State80083160 *state = ((State80083160 *)&gameWork);
     u8 *samples;
     register M2C_UNK saved_context ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 

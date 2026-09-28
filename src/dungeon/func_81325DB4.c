@@ -29,13 +29,12 @@ void func_8016D5B4(void *object, s32 unused_1, s32 unused_2, s32 state_base)
             return;
         }
     } else if (count >= 5) {
-        DungeonState *dungeon = ((DungeonState *)&dungeonStatus);
 
         *(u8 *)((u8 *)object + 0x9B) = previous_count;
-        if (dungeon->field_A == 0) {
+        if (dungeonStatus.unk_0A == 0) {
             func_8016AD00();
             *(s8 *)((u8 *)object + 0xB4) = 1;
-            dungeon->field_A = (u16)dungeon->field_A + 1;
+            dungeonStatus.unk_0A = (u16)dungeonStatus.unk_0A + 1;
             *(u8 *)((u8 *)object + 0x9B) = 0;
             *(u8 **)((u8 *)object + 0x8C) = D_8016B778;
         }

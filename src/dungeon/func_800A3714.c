@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 #ifndef NULL
 #define NULL 0
@@ -52,7 +53,6 @@ typedef struct {
     u8 pad6[6];
 } DungeonTile;
 
-extern u8 D_80045340[];
 extern u8 D_800A871C[];
 extern DungeonTile D_800E36C8[];
 
@@ -95,7 +95,7 @@ void *func_800A8E74(s32 object_key, DungeonCoords *source_coords, s32 unused,
             coords->fieldA = source_coords->fieldA;
             data->field88 = source_data->field88;
         }
-        func_8004491C(object, D_80045340);
+        func_8004491C(object, func_80045340);
         state->fieldE = 0x80;
         state->fieldD = 0x80;
         state->fieldC = 0x80;

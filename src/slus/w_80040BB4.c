@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 /* D_80082E60: global state struct. field_8 is read as a byte (arg to
  * func_80040CBC / copied into field_B), then cleared as a halfword;
@@ -33,7 +34,6 @@ struct S_80083160 {
     u32 field_198;
 };
 
-extern struct S_80083160 D_80083160;
 
 extern void func_80040CBC(s16 a0);
 
@@ -48,8 +48,8 @@ void func_80040BB4(void)
     D_80082E60.field_E = 0;
     D_80082E60.field_8.h = 0;
 
-    D_80083160.field_154 = 0;
-    D_80083160.field_198 = 0;
-    D_80083160.field_CC = 0;
-    D_80083160.field_110 = 0;
+    gameWork.unk_154 = 0;
+    gameWork.unk_198 = 0;
+    gameWork.unk_0CC = 0;
+    gameWork.unk_110 = 0;
 }

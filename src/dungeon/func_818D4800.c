@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct DungeonState818D4800 {
     u8 pad0[0x8D0];
@@ -25,7 +26,6 @@ typedef struct PrimTag818D4800 {
     u32 len : 8;
 } PrimTag818D4800;
 
-extern u8 D_80083160[];
 extern u32 func_80065420(void *arg0, void *arg1, void *arg2, void *arg3);
 extern s32 func_80066460(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern void func_80067F20(void *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
@@ -51,9 +51,9 @@ s32 BODY_NAME(void *object_data, void *position_data)
 {
     u8 *object = object_data;
     u8 *position = position_data;
-    u8 *state_slot = D_80083160;
+    u8 *state_slot = ((u8 *)(&gameWork));
     DungeonState818D4800 *state =
-        *(DungeonState818D4800 **)D_80083160;
+        *(DungeonState818D4800 **)((u8 *)(&gameWork));
     Scratch818D4800 *scratch = (Scratch818D4800 *)0x1F800000;
     register u8 *prim;
     u32 draw_mode;

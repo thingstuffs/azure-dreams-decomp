@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "m2c_compat.h"
 
 extern int D_800814C8;
@@ -28,7 +29,6 @@ typedef struct
   RenderState *ctx;
   u8 pad0[0x20];
 } GlobalState;
-extern GlobalState D_80083160;
 /* Draw 16 shaded line segments and link them into the ordering table by depth. */
 s32 func_818B0E10(void *unused_0, void *origin, void *unused_2, s32 point_scale, s32 plane_z, s32 *points_addr, u8 intensity, s32 color_phase)
 {
@@ -45,7 +45,7 @@ s32 func_818B0E10(void *unused_0, void *origin, void *unused_2, s32 point_scale,
   register u8 *scratch ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
   u8 *line_prim;
   RenderState *initial_ctx;
-  GlobalState *render_state = &D_80083160;
+  GlobalState *render_state = ((GlobalState *)&gameWork);
   s32 depth;
   point = (s32 *) (((u8 *) point_base) + 0x3C);
   initial_ctx = *((RenderState **) (globals_page + 0x3160));

@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 #if 0 /* rowbase_rename_reverify precondition marker: dead declaration, never
          seen by the real compiler; satisfies the tool's textual defines()
@@ -53,7 +54,6 @@ M2C_UNK func_800A48F0();
 s32 func_800A6D30();
 M2C_UNK func_800A9C18();
 M2C_UNK func_800AA36C();
-extern M2C_UNK D_80045340;
 extern M2C_UNK D_80083498;
 extern u8 D_8015EA7C[];
 extern M2C_UNK D_8015EEA8;
@@ -172,7 +172,7 @@ void *BODY_NAME(s32 setup_bits, s8 grid_x, s8 grid_y, s16 placement_value) {
         state = (DungeonSub1 *)((u8 *)node + 0x20);
         node->field10 = &D_8015EA7C;
         state->field13 = 0x28;
-        func_8004491C(node, &D_80045340);
+        func_8004491C(node, func_80045340);
         node_data = node->field08;
         *(s16 *)((u8 *)node_data + 0x0a) = saved_placement;
         placement = node->field0c;

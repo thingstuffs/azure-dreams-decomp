@@ -1,5 +1,5 @@
 #include "common.h"
-extern u8 D_80083160[];
+#include "shared/game_work.h"
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 extern s32 func_80065420(void *, void *, void *, void *);
@@ -13,20 +13,20 @@ void func_8002429C(void *effect_data, void *origin, s16 step_index, s16 scale_fa
   u32 addr_mask;
   register s32 angle ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
   register u8 *scratch ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-  u8 *render_global;
+  GameWork *render_global;
   u8 *line_packet;
   void *projection_param;
   u8 *flags_or_mode;
   s32 ray_index = 0;
   s32 prev_step;
-  render_global = (u8 *) D_80083160;
+  render_global = &gameWork;
   scale = (s16) scale_factor;
   step = (s16) step_index;
   prev_step = step - 1;
   addr_mask = 0x00FFFFFF;
   angle = 0;
   scratch = (u8 *) 0x1F800000;
-  *((void **) (((u8 *) scratch) + 0x18)) = (*((u8 **) D_80083160)) + 0xB0;
+  *((void **) (((u8 *) scratch) + 0x18)) = (*((u8 **) ((u8 *)(&gameWork)))) + 0xB0;
   do
   {
     void **render_ptr = (void **) render_global;

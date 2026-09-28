@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 
 
@@ -14,7 +15,6 @@ extern s32 func_800374F4();
 extern M2C_UNK func_8003DB94();
 extern void *func_8003FC64();
 extern M2C_UNK func_8004491C();
-extern M2C_UNK D_80045340;
 extern M2C_UNK D_800A8440;
 extern M2C_UNK D_800D1464;
 
@@ -75,7 +75,7 @@ void *func_800A84D0(S_800A84D0_2 *source_position) {
         position = ((S_800A84D0_0 *)object)->unk_08;
         sprite = ((S_800A84D0_0 *)object)->unk_0C;
         ((S_800A84D0_0 *)object)->unk_10 = &D_800A8440;
-        func_8004491C(object, &D_80045340);
+        func_8004491C(object, func_80045340);
         position->unk_02 = (u16) source_position->unk_02;
         position->unk_06 = (u16) source_position->unk_06;
         position->unk_0A = (u16) source_position->unk_0A;

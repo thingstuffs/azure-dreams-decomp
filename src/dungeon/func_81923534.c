@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "records/Rec_func_800247B8_arg1.h"
 
 typedef struct S_80024D34_0 {
@@ -53,7 +54,6 @@ extern s32 rand(void);
 extern void func_8003DB94();
 
 extern u8 D_80024C0C[16];
-extern u8 D_80045340[16];
 extern u8 D_800DE870[16];
 
 /* Creates and initializes an effect at a random offset from the given position. */
@@ -73,7 +73,7 @@ void func_80024D34(void *unused, Rec_func_800247B8_arg1 *origin)
         effect_data->unk_5A = 0xE;
         effect_data->unk_5C = 0xE;
         ((S_80024D34_1 *)effect)->unk_10 = D_80024C0C;
-        func_8004491C(effect, D_80045340);
+        func_8004491C(effect, func_80045340);
 
         render_control = ((S_80024D34_1 *)effect)->unk_0C;
         render_control->unk_10 = 0x60;

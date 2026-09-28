@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct 
 {
@@ -25,7 +26,6 @@ typedef struct
   u8 pad[0x8D0];
   u8 * volatile cursor;
 } DungeonState;
-extern u8 D_80083160[];
 extern s32 func_800644B8(s32 value);
 extern s32 func_80064584(s32 value);
 extern void func_8006658C(s32 arg0, u8 *arg1);
@@ -50,7 +50,7 @@ void func_800B84E4(DungeonPosition *position, DungeonParameters *parameters, s32
   u8 *quad_packet;
   s32 packet_order;
   register s32 scratch ASM_REG("$8");
-  packet_order = (s32)(D_80083160 - 0x3160);
+  packet_order = (s32)(((u8 *)(&gameWork)) - 0x3160);
   cursor = (*((DungeonState **) (((u8 *)packet_order) + 0x3160)))->cursor;
   scratchpad = (volatile u8 *) 0x1F800000;
   *((volatile u16 *) (((volatile u8 *) scratchpad) + 0x74)) = 0;
@@ -154,7 +154,7 @@ void func_800B84E4(DungeonPosition *position, DungeonParameters *parameters, s32
       cursor += 52;
     } if (segment < parameters->count) goto loop_0;
   }
-  scratch = (s32) D_80083160;
+  scratch = (s32) ((u8 *)(&gameWork));
   ASM_KEEP(scratch);
   (*((DungeonState **) scratch))->cursor = cursor;
 }

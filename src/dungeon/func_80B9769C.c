@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800814A8.h"
 
@@ -88,7 +89,6 @@ M2C_UNK func_801747D0();
 extern void *D_800814A8;
 extern RefPosition D_80082E80;
 extern u16 D_80082EA4;
-extern s16 D_80083228;
 extern TerrainEntry D_800E2970[];
 extern u8 D_80174EE0[];
 extern M2C_UNK D_80174EF8;
@@ -128,7 +128,7 @@ block_3:
         return;
     }
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80174EF8;
-    func_80047784(sprite, *(u8 *)((((s32)(D_80083228 + ((S_80170E9C_1 *)state)->unk_2A + 0x100) >> 9) & 7) + (u32)&D_80174EF8), 0);
+    func_80047784(sprite, *(u8 *)((((s32)(gameWork.viewAngle + ((S_80170E9C_1 *)state)->unk_2A + 0x100) >> 9) & 7) + (u32)&D_80174EF8), 0);
     return;
 block_7:
     state_flags = ((S_80170E9C_1 *)state)->unk_1C;
@@ -171,7 +171,7 @@ block_18:
         goto block_21;
     }
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = D_80174EE0;
-    func_80047784(sprite, D_80174EE0[((s32)(D_80083228 + ((S_80170E9C_1 *)state)->unk_2A + 0x100) >> 9) & 7], 0);
+    func_80047784(sprite, D_80174EE0[((s32)(gameWork.viewAngle + ((S_80170E9C_1 *)state)->unk_2A + 0x100) >> 9) & 7], 0);
 block_21:
     ((S_80170E9C_0 *)entity)->unk_9A = idle_mode;
 block_22:
@@ -301,7 +301,7 @@ block_59:
         goto block_63;
     }
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = (M2C_UNK *)D_80174EE0;
-    func_80047784(sprite, D_80174EE0[((s32)(D_80083228 + ((S_80170E9C_1 *)state)->unk_2A + 0x100) >> 9) & 7], 0);
+    func_80047784(sprite, D_80174EE0[((s32)(gameWork.viewAngle + ((S_80170E9C_1 *)state)->unk_2A + 0x100) >> 9) & 7], 0);
 block_63:
     return;
 }

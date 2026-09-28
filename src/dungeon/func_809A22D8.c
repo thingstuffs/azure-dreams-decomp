@@ -24,7 +24,6 @@ void func_80173AD8(void *action, void *motion, void *actor, void *source) {
     s32 z_rounding;
     s32 tile_coord;
     s32 center_offset;
-    s32 *entity_refs;
     s16 motion_frames;
     s32 align_frames;
     s16 next_frames;
@@ -127,9 +126,8 @@ align_motion:
     FIELD_S32(motion, 0x10) = 0;
     FIELD_S32(motion, 0xC) = 0;
     func_800A2B04(motion, FIELD_U8(actor, 0x24), FIELD_U8(actor, 0x25));
-    entity_refs = ((s32 *)(&dungeonStatus));
-    if (entity_refs[4] == (s32)((u8 *)source - 0x20)) {
-        entity_refs[4] &= 0x7FFFFFFF;
+    if (((s32)dungeonStatus.unk_10) == (s32)((u8 *)source - 0x20)) {
+        *(s32 *)&dungeonStatus.unk_10 &= 0x7FFFFFFF;
     }
     FIELD_PTR(action, 0x8C) = D_801710EC;
 }

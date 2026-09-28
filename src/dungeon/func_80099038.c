@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "records/Rec_D_80083160.h"
 
 typedef struct S_8009E798_0 {
@@ -146,7 +147,6 @@ extern void func_800666F4(void *);
 extern void func_80067E2C(void *, void *);
 extern void func_80067F20(void *, s32, s32, s32, s32);
 
-extern u8 D_80083160[];
 extern u8 D_801C9E40[16];
 
 /* Build and enqueue transformed sprite quads and restore the drawing area. */
@@ -154,7 +154,7 @@ s32 func_8009E798(void *draw_area, void *placement, void *sprite)
 {
     register u8 *area_source ASM_REG("$20") = draw_area;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register u8 *sprite_or_copy ASM_REG("$18") = sprite;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    u8 **state_ptr = (u8 **)D_80083160;
+    u8 **state_ptr = (u8 **)((u8 *)(&gameWork));
     u8 *state = *state_ptr;
     u8 *scratch = (u8 *)0x1F800000;
     u8 *packet = ((S_8009E798_0 *)state)->unk_8D0;
@@ -184,7 +184,7 @@ s32 func_8009E798(void *draw_area, void *placement, void *sprite)
 
     ((S_8009E798_1 *)scratch)->unk_98 = 0;
     ((S_8009E798_1 *)scratch)->unk_9A = 0;
-    ((S_8009E798_1 *)scratch)->unk_9C = ((Rec_D_80083160 *)D_80083160)->unk_C8.as_u16;
+    ((S_8009E798_1 *)scratch)->unk_9C = ((Rec_D_80083160 *)((u8 *)(&gameWork)))->unk_C8.as_u16;
     func_80065820(scratch + 0x98, scratch + 0xD0);
     func_80064BC0(scratch + 0xD0, scratch + 0x30);
 

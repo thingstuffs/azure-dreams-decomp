@@ -34,7 +34,6 @@ typedef struct S_800AC480_4 {
 s32 func_800AC480(S_800AC480_0 *move_state, Rec_D_800E3D7C *motion, S_800AC480_1 *target_tile, S_800AC480_3 *height_state) {
     s32 delta;
     s32 coord;
-    s32 *global_base;
     s32 x_step;
     s16 ticks_left;
     s16 next_ticks;
@@ -66,8 +65,7 @@ s32 func_800AC480(S_800AC480_0 *move_state, Rec_D_800E3D7C *motion, S_800AC480_1
             move_state->unk_92 = (u16) (move_state->unk_92 + (height_state->unk_88 - target_height));
             height_state->unk_88 = (u16) target_height;
         }
-        global_base = ((s32 *)(&dungeonStatus));
-        ((S_800AC480_4 *)global_base)->unk_0A = (u16) (((S_800AC480_4 *)global_base)->unk_0A - 1);
+        dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
         return 1;
     }
     return 0;

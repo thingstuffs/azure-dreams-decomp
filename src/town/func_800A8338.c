@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct S_800A5A98_0 {
     u8 pad_00[0x4];
@@ -37,7 +38,6 @@ typedef struct {
     u8 tail[4];
 } World;
 
-extern u8 D_80083160[];
 extern World D_80083780;
 extern u8 D_800CFCEE;
 extern u8 D_800FE488[];
@@ -62,14 +62,14 @@ extern s32 func_800C1D44();
 
 /* Update actor movement, height, turning, and action state from input. */
 void func_800A5A98(State *state, Actor *actor) {
-    u8 *input;
+    GameWork *input;
     s32 speed;
     s16 height_limit;
     s32 direction;
     s32 world_value;
     s32 sound_period;
 
-    input = D_80083160;
+    input = &gameWork;
     func_80095C80(actor);
 
     state->timer--;
@@ -78,17 +78,17 @@ void func_800A5A98(State *state, Actor *actor) {
         func_80097844(actor, (u16)func_800374F4(2) + 2);
     }
 
-    direction = (((S_800A5A98_0 *)input)->unk_C8 + 0x800) & 0xFFF;
+    direction = (((u16)input->viewAngle) + 0x800) & 0xFFF;
     *(volatile u16 *)((u8 *)state + 0x10) = direction;
 
-    if (((S_800A5A98_0 *)input)->unk_08 & 0x20) {
+    if (((u32)input->unk_008) & 0x20) {
         func_80094F58(direction, D_80100E20, actor);
         func_80097844(actor, (u16)func_800374F4(1));
     }
 
-    if (((S_800A5A98_0 *)input)->unk_08 & 0x10) {
+    if (((u32)input->unk_008) & 0x10) {
         func_80095094(actor);
-        if ((((S_800A5A98_0 *)input)->unk_08 & 0x30) != 0x20) {
+        if ((((u32)input->unk_008) & 0x30) != 0x20) {
             goto after_second_update;
         }
     }
@@ -118,7 +118,7 @@ after_second_update:
         }
         {
             u16 tick_count;
-            tick_count = ((S_800A5A98_0 *)input)->unk_04;
+            tick_count = input->unk_004;
             if ((tick_count % sound_period) == 0) {
                 SD_Call(0x60A);
             }
@@ -126,9 +126,9 @@ after_second_update:
     }
 
     if (speed == 0) {
-        ((S_800A5A98_0 *)input)->unk_C8 = (((S_800A5A98_0 *)input)->unk_C8 + 8) & 0xFFF0;
+        input->viewAngle = (((u16)input->viewAngle) + 8) & 0xFFF0;
     } else {
-        if ((((S_800A5A98_0 *)input)->unk_08 & 0x30) == 0x10) {
+        if ((((u32)input->unk_008) & 0x30) == 0x10) {
             speed = (D_80100E20 * 3) / 2;
         }
     }
@@ -146,10 +146,10 @@ after_second_update:
     if ((*(volatile u32 *)((u8 *)input + 8)) & 0x2000) {
         {
             s32 angle;
-            angle = ((S_800A5A98_0 *)input)->unk_C8;
+            angle = ((u16)input->viewAngle);
             angle = angle - 0x10;
             angle = angle - speed;
-            ((S_800A5A98_0 *)input)->unk_C8 = angle;
+            input->viewAngle = angle;
         }
         func_80097844(actor, (u16)func_800374F4(1));
     }
@@ -157,22 +157,22 @@ after_second_update:
     if ((*(volatile u32 *)((u8 *)input + 8)) & 0x8000) {
         {
             s32 angle;
-            angle = ((S_800A5A98_0 *)input)->unk_C8;
+            angle = ((u16)input->viewAngle);
             angle = angle + 0x10;
             angle = angle + speed;
-            ((S_800A5A98_0 *)input)->unk_C8 = angle;
+            input->viewAngle = angle;
         }
         func_80097844(actor, (u16)func_800374F4(1));
     }
 
-    if ((((S_800A5A98_0 *)input)->unk_10 & 0x10) && (D_800CFCEE == 0)) {
+    if ((((u32)input->unk_010) & 0x10) && (D_800CFCEE == 0)) {
         state->callback = &D_800A5DF8;
         state->timer = 8;
         state->mode = 1;
         return;
     }
 
-    if (((S_800A5A98_0 *)input)->unk_10 & 0x100) {
+    if (((u32)input->unk_010) & 0x100) {
         state->callback = &D_800A5DF8;
         state->timer = 8;
         state->mode = 0;

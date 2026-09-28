@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 
 
@@ -13,7 +14,6 @@ typedef struct Pair {
 extern void *func_8003FD64();
 extern void func_8004491C();
 extern void func_800B835C();
-extern u8 D_80045340[12];
 extern u8 D_800F75EC[12];
 extern u8 D_800FBE30[12];
 extern u8 D_800FBE3C[12];
@@ -58,7 +58,7 @@ void func_807B004C(void *parent_data) {
     child = func_8003FD64(2, (u8 *)parent_data - 0x20);
     if (child != 0) {
         ((S_807B004C_0 *)child)->unk_10 = D_800F75EC;
-        func_8004491C(child, D_80045340);
+        func_8004491C(child, func_80045340);
         rect_origin = 0x01000340;
         rect_size = 0x200020;
         rect_ptr = &texture_rect;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 
 #ifndef NULL
@@ -56,7 +57,6 @@ extern Object *func_8003FD64(s32, void *);
 extern void func_8004491C(Object *, void *);
 extern s32 rand(void);
 
-extern u8 D_80045340[];
 extern u8 D_80083498[];
 extern u8 D_800BBA98[];
 extern Resource D_800F162C[];
@@ -76,7 +76,7 @@ void func_800BB894(Self *self, Copy24 *origin) {
                 Primitive *primitive;
 
                 object->callback = callback;
-                func_8004491C(object, D_80045340);
+                func_8004491C(object, func_80045340);
                 primitive = object->primitive;
                 *object->position = *origin;
 

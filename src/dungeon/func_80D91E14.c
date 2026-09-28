@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
 #define U8(p, o) (*(u8 *)((u8 *)(p) + (o)))
@@ -20,7 +21,6 @@ extern void func_800A5720(s32);
 extern void func_800AD594(void *, s32);
 extern void func_800C8A3C(void *, s32, s32);
 
-extern s16 D_80083228;
 extern void *D_800E3DE8;
 extern u8 D_80170854[];
 extern u8 D_80170E68;
@@ -55,7 +55,7 @@ state_zero:
     PTR(actor, 0x60) = object;
     PTR(part_b, 0x2C) = D_801738A4;
     func_80047784(part_b,
-        D_801738A4[((D_80083228 + S16(actor, 0x2A) + 0x100) >> 9) & 7],
+        D_801738A4[((gameWork.viewAngle + S16(actor, 0x2A) + 0x100) >> 9) & 7],
         0);
     func_800A56E0(0x812);
     U8(work, 0x9B) = U8(work, 0x9B) + 1;

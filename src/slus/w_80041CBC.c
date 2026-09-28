@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 #include "common.h"
 
@@ -25,7 +26,6 @@ extern u8 D_80080A85;
 extern s8 D_80080A87;
 extern s32 D_80081480;
 extern s32 D_8008148C;
-extern void *D_80083160;
 extern u8 D_801C9E40;
 
 /* Present the frame, switch draw buffers, and synchronize frame timing. */
@@ -40,10 +40,10 @@ void func_80041CBC(void)
     s32 frame_ticks;
     u16 sync_flags;
 
-    PutDispEnv((u8 *)D_80083160 + 0x5C);
-    PutDrawEnv(D_80083160);
+    PutDispEnv((u8 *)gameWork.unk_000 + 0x5C);
+    PutDrawEnv(gameWork.unk_000);
     if (!(D_80013714 & 2)) {
-        DrawOTag((u8 *)D_80083160 + 0x8CC);
+        DrawOTag((u8 *)gameWork.unk_000 + 0x8CC);
     }
     func_8003E758();
     func_800542BC();
@@ -62,10 +62,10 @@ void func_80041CBC(void)
 
 #ifdef NON_MATCHING
     next_buffer = &D_801C9E40;
-    current_buffer = D_80083160;
+    current_buffer = gameWork.unk_000;
 #else
     buffer_page = (u8 *)0x801D0000;
-    current_buffer = D_80083160;
+    current_buffer = gameWork.unk_000;
     ASM_KEEP(buffer_page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     buffer_page -= 0x61C0;
     next_buffer = buffer_page;
@@ -75,10 +75,10 @@ void func_80041CBC(void)
         next_buffer += 0x108D4;
         ordering_table = next_buffer + 0x70;
     }
-    D_80083160 = next_buffer;
+    gameWork.unk_000 = next_buffer;
     ClearOTagR(ordering_table, 0x218);
-    *(void **)((u8 *)D_80083160 + 0x8D0) =
-        (u8 *)D_80083160 + 0x8D4;
+    *(void **)((u8 *)gameWork.unk_000 + 0x8D0) =
+        (u8 *)gameWork.unk_000 + 0x8D4;
     func_8003F6F4();
     func_800894A0();
     if (!(D_80013714 & 2)) {

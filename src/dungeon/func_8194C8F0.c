@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
+#include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_800814A8.h"
 
@@ -7,10 +9,8 @@ extern void func_8004491C(void *, void *);
 extern s32 func_8003DE58(void *, void *, void *, s32);
 extern s32 func_800644B8(s32);
 
-extern s32 D_80045340;
 extern void *D_800814A8;
 extern u8 D_80082E80[];
-extern s16 D_80083228;
 extern s32 *D_800E3D18;
 
 
@@ -98,7 +98,7 @@ void func_800240F0(void *effect, void *motion, void *sprite)
     goto tick;
 
 state_zero:
-    func_8004491C((u8 *)effect - 0x20, &D_80045340);
+    func_8004491C((u8 *)effect - 0x20, func_80045340);
     ((S_800240F0_0 *)effect)->unk_0C.n2 = ((S_800240F0_0 *)effect)->unk_0C.n2 + 1;
 state_one:
     {
@@ -155,7 +155,7 @@ state_two:
 
     {
         s32 angle_index;
-        angle_index = (D_80083228 + ((Rec_D_800814A8 *)D_800814A8)->unk_2A.as_s16 + 0x100) >> 7;
+        angle_index = (gameWork.viewAngle + ((Rec_D_800814A8 *)D_800814A8)->unk_2A.as_s16 + 0x100) >> 7;
         if (func_8003DE58(*(void **)((angle_index & 0x1C) + (s32)D_800E3D18),
                           D_80082E80, offset, 0) != 0) {
             ((S_800240F0_2 *)motion)->unk_0C += ((s16 *)offset)[0] << 16;

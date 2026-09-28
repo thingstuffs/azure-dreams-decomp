@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct RenderState
 {
@@ -66,7 +67,6 @@ extern u8 D_8006A84C[32];
 extern u8 D_8006CD10[32];
 extern u8 D_8006CD30[32];
 extern s32 D_8006CD4C[];
-extern RenderPool *D_80083160[];
 
 /* Renders linked textured sprites with dimmed offset copies near the screen center. */
 s32 func_800345B8(u8 *node_data, u8 *position, u8 *render_state)
@@ -121,12 +121,12 @@ s32 func_800345B8(u8 *node_data, u8 *position, u8 *render_state)
   copy_matrix_a = D_8006A84C;
   copy_matrix_b = D_8006CD10;
   scratch = (u8 *) 0x1F800000;
-  render_pool = D_80083160[0];
+  render_pool = gameWork.unk_000;
   next_prim = render_pool->next_prim;
   *((volatile s32 *) (scratch + 0x24)) = (s32) (((u8 *) render_pool) + 0xB0);
   *((volatile s32 *) (scratch + 0xE4)) = 0;
   *((volatile s32 *) (scratch + 0x1C)) = (s32) next_prim;
-  render_pools = D_80083160;
+  render_pools = ((RenderPool * *)(&gameWork));
   fixed_matrix = (void *) 0x1F8000C8;
   do
   {

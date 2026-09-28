@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 typedef unsigned long uptr;
 
@@ -90,7 +91,6 @@ extern void func_800AA36C(void *, void *, void *, void *);
 extern void func_80047784(void *, s32, s32);
 extern void func_800478E8(void *, void *, s32);
 
-extern s32 D_80045340;
 extern s16 D_80083228;
 extern u8 D_80083498[];
 extern u8 D_800D71A8[];
@@ -139,7 +139,7 @@ void *func_8015889C(s32 kind, s32 part_value_24, s32 part_value_25, s32 copy_val
 
         object = (u8 *)allocated + 0x20;
         init_root = allocated;
-        setup = &D_80045340;
+        setup = func_80045340;
         ((S_8015889C_0 *)init_root)->unk_10 = D_80158BB8;
         ((S_8015889C_1 *)object)->unk_13 = 17;
         func_8004491C(init_root, setup);

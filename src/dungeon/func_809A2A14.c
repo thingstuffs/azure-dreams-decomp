@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_func_800AA258_arg2.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -16,7 +17,6 @@ extern void func_800AA888(void *, void *, void *, void *);
 extern void func_80174574(void *, void *, void *, void *);
 
 extern void *D_800814A8;
-extern s16 D_80083228;
 extern s32 D_801710EC;
 extern u8 D_80175EA0[];
 extern u8 D_80175EC0[];
@@ -75,20 +75,18 @@ at_least_two:
 
 state_zero:
     {
-        s32 *action_counts;
         u8 *direction_anims;
 
         if (!(((Rec_func_800AA258_arg2 *)animation)->unk_14 & 0xE000)) {
             goto done;
         }
 
-        action_counts = &dungeonStatus.unk_00;
-        ((S_80174214_2 *)action_counts)->unk_0A--;
+        dungeonStatus.unk_0A--;
         direction_anims = D_80175EA0;
         if (((Rec_func_800AA258_arg2 *)animation)->unk_2C.as_pv != direction_anims) {
             (*(void * *)((u8 *)animation + (0x2C))) = direction_anims;
             func_80047784(animation,
-                direction_anims[((D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+                direction_anims[((gameWork.viewAngle + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7],
                 0);
             goto increment_state;
         }
@@ -97,24 +95,20 @@ state_zero:
 
 state_one:
     {
-        u8 *action_status;
         u32 entity_flags;
 
         if (((Rec_D_800E3D7C *)entity)->unk_24.at01_u8.v != 0) {
-            s32 *action_counts;
 
             (*(void * *)((u8 *)animation + (0x2C))) = D_80175EC0;
             func_80047784(animation,
-                D_80175EC0[((D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+                D_80175EC0[((gameWork.viewAngle + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7],
                 0);
             ((Rec_D_800E3D7C *)entity)->unk_1C.as_u32 |= 0x40000;
-            action_counts = &dungeonStatus.unk_00;
-            ((S_80174214_2 *)action_counts)->unk_0A++;
+            dungeonStatus.unk_0A++;
             goto increment_state;
         }
 
-        action_status = (u8 *)&dungeonStatus.unk_00;
-        if (((S_80174214_4 *)action_status)->unk_02 & 0x1000) {
+        if (dungeonStatus.flags & 0x1000) {
             goto done;
         }
 
@@ -166,10 +160,10 @@ state_one:
 
         (*(void * *)((u8 *)animation + (0x2C))) = D_80175EC0;
         func_80047784(animation,
-            D_80175EC0[((D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            D_80175EC0[((gameWork.viewAngle + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
         ((Rec_D_800E3D7C *)entity)->unk_1C.as_u32 |= 0x40000;
-        ((S_80174214_4 *)action_status)->unk_0A++;
+        dungeonStatus.unk_0A++;
     }
 
 increment_state:
@@ -178,10 +172,8 @@ increment_state:
 
 state_two:
     if (((Rec_func_800AA258_arg2 *)animation)->unk_14 & 0xE000) {
-        s32 *action_counts;
 
-        action_counts = &dungeonStatus.unk_00;
-        ((S_80174214_2 *)action_counts)->unk_0A--;
+        dungeonStatus.unk_0A--;
         ((Rec_D_800E3D7C *)entity)->unk_1C.as_u32 &= ~8;
         ((S_80174214_0 *)actor)->unk_8C = &D_801710EC;
     }

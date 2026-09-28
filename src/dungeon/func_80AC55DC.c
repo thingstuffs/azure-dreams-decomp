@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 typedef struct S_80AC55DC_0 {
     u8 pad_00[0x8];
@@ -77,7 +78,6 @@ extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *);
 extern void func_8003DB94(void *, void *, s32);
 
-extern s32 D_80045340;
 extern u8 D_800DEC70[];
 extern u8 D_80170A84[];
 
@@ -157,7 +157,7 @@ void func_80AC55DC(
         work->unk_14 = effect_id;
         work->unk_32 = duration;
         work->unk_34 = duration;
-        func_8004491C(node, &D_80045340);
+        func_8004491C(node, func_80045340);
 
         sprite_data = D_800DEC70;
         ASM_KEEP(sprite_data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */

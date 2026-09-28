@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 
@@ -8,7 +9,6 @@
 #define FIELD(p, type, off) (*(type *)((u8 *)(p) + (off)))
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern u8 D_80045340[];
 s32 func_800478B8();
 s32 func_80069EF8();
 
@@ -103,7 +103,7 @@ countdown: {
         u16 ticks_left = object->count - 1;
         object->count = ticks_left;
         if ((ticks_left << 0x10) <= 0) {
-            func_8004491C((u8 *)object - 0x20, D_80045340);
+            func_8004491C((u8 *)object - 0x20, func_80045340);
             object->kind++;
             return;
         }

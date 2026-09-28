@@ -21,7 +21,6 @@ void func_80098B38(s32);
 /* Dispatches a target action according to its type and address. */
 s32 func_800C15B4(void *target, s32 action_id, s16 action_type, s32 action_arg) {
     void *target_data;
-    u8 *counter_state;
 
     if (action_type == 0xD) {
         return func_80098864(action_id, action_arg);
@@ -37,8 +36,7 @@ s32 func_800C15B4(void *target, s32 action_id, s16 action_type, s32 action_arg) 
             func_800A5F38(target, action_id);
             return 1;
         }
-        counter_state = ((u8 *)(&dungeonStatus));
-        *(u16 *)(counter_state + 10) = *(u16 *)(counter_state + 10) - 1;
+        dungeonStatus.unk_0A = ((u16)dungeonStatus.unk_0A) - 1;
         goto finish_action;
     }
     target_data = *(void **)((u8 *)target - 0x14);

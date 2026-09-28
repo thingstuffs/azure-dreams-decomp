@@ -1,11 +1,11 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/game_work.h"
 #include "m2c_compat.h"
 
 extern u32 func_80065420(void *, void *, void *, void *);
 extern s32 func_80066460(s32, s32, s32, s32);
 extern void func_80067F20(void *, s32, s32, s32, s32);
-extern u8 D_80083160[];
 
 
 #ifdef __mips__
@@ -78,7 +78,7 @@ typedef struct S_80AD7000_6 {
 s32 BODY_NAME(void *object_ptr, void *position_ptr) {
     void *object = object_ptr;
     S_80AD7000_1 *position = position_ptr;
-    void **context_slot = (void **)D_80083160;
+    void **context_slot = (void **)((u8 *)(&gameWork));
     void *render_ctx = *context_slot;
     u32 address_mask = 0xFF0000;
     u32 length_mask;

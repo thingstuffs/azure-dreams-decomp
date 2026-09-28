@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct {
     u8 bytes[8];
@@ -50,7 +51,6 @@ extern void func_80066640(void *, s32);
 extern void func_800667D0(void *);
 extern void func_80067F20(void *, s32, s32, u16, s32);
 extern void func_800DBA90(void *);
-extern u8 D_80083160[];
 
 #define desc       (frame.desc)
 #define points     (frame.points)
@@ -140,7 +140,7 @@ s32 func_80173FDC(u8 *node)
     s32 sin_angle;
     s32 cos_angle;
     s32 addr_mask;
-    u8 **display_root = (u8 **)D_80083160;
+    u8 **display_root = (u8 **)((u8 *)(&gameWork));
 
     screen_xy = (u8 *)0x1F800000;
     vertex_depths = (u8 *)0x1F800100;

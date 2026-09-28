@@ -1,8 +1,8 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "m2c_compat.h"
 
 extern void *D_80088880[];
-extern u16 D_80083168[];
 
 /* Converts directional input to an angle, optionally stepping from the current angle, and updates flags. */
 s32 func_8009074C(s16 direction_offset, u16 *flags, u16 *angle) {
@@ -20,7 +20,7 @@ s32 func_8009074C(s16 direction_offset, u16 *flags, u16 *angle) {
     u32 input_state;
     u32 input_direction;
 
-    input_state = D_80083168[0];
+    input_state = ((u16)gameWork.unk_008);
     result_angle = -1;
     direction_mask = input_state & 0xF000;
     if (input_state & 0x10) {

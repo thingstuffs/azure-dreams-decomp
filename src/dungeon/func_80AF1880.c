@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
@@ -10,7 +11,6 @@ extern void func_800A4ACC(void *);
 extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
 
-extern s16 D_80083228;
 extern u8 D_801717F4[];
 extern u8 D_801759C0[];
 
@@ -80,7 +80,7 @@ state_1:
 
         (*(u8 * *)((u8 *)sprite + (0x2C))) = direction_table;
         func_80047784(sprite,
-                     direction_table[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+                     direction_table[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
                      0);
 advance_state:
         ((S_80173080_0 *)action)->unk_96.u = 0;

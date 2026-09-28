@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct S_81892C5C_0 {
     u8 pad_00[0x18];
@@ -83,7 +84,6 @@ typedef struct S_81892C5C_7 {
 struct OtCtxS { void *cur; };
 
 
-extern u8 D_80083160[];
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 extern s32 func_80065530(void *, void *, void *, void *, void *, void *, void *, void *);
@@ -103,7 +103,7 @@ s32 func_81892C5C(void *effect, S_81892C5C_2 *center)
     s32 angle_step;
     void **ot_ctx;
 
-    ot_ctx = (void **)D_80083160;
+    ot_ctx = (void **)((u8 *)(&gameWork));
     initial_context = *ot_ctx;
     addr_mask = 0x00FF0000;
     addr_mask |= 0xFFFF;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
 typedef s32 M2C_UNK;
@@ -18,7 +19,6 @@ extern M2C_UNK func_800A5720();
 extern s16 func_800A6DA4();
 
 extern s32 D_80081484;
-extern s16 D_80083228;
 extern s32 D_8008ACDC;
 extern u8 D_8008EAC8[];
 extern u8 D_800DCFB0[8];
@@ -116,7 +116,7 @@ use_effect:
             ((S_8008F428_0 *)effect_state)->unk_8C = D_8008EAC8;
             (*(u8 * *)((u8 *)effect_target + (0x2C))) = D_800DD0B8;
             func_80048A44(effect_target,
-                D_800DD0B8[((D_80083228 + ((S_8008F428_4 *)owner)->unk_2A + 0x100) >> 9) & 7],
+                D_800DD0B8[((gameWork.viewAngle + ((S_8008F428_4 *)owner)->unk_2A + 0x100) >> 9) & 7],
                 0, 1);
             return;
         }
@@ -156,9 +156,8 @@ use_effect:
         }
 
         {
-            u8 *flags_base = ((u8 *)(&dungeonStatus));
 
-            ((S_8008F428_5 *)flags_base)->unk_02 |= 0x412;
+            dungeonStatus.flags |= 0x412;
         }
         func_80099F70(((S_8008F428_4 *)owner)->unk_5C);
         func_80099F04(((S_8008F428_4 *)owner)->unk_5C);
@@ -200,7 +199,7 @@ reset_effect:
         ((S_8008F428_0 *)effect_state)->unk_8C = (u8 *)&D_8008ACDC;
         (*(u8 * *)((u8 *)target + (0x2C))) = D_800DCFB0;
         func_80048A44(target,
-            D_800DCFB0[((D_80083228 + ((S_8008F428_4 *)owner)->unk_2A + 0x100) >> 9) & 7],
+            D_800DCFB0[((gameWork.viewAngle + ((S_8008F428_4 *)owner)->unk_2A + 0x100) >> 9) & 7],
             0, 1);
     }
 }

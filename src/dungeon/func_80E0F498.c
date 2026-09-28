@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
@@ -30,7 +31,6 @@ extern void func_800AD594(void *, s32);
 extern void func_801752EC(void *, void *, void *);
 extern void func_801755A8(void *, void *, void *);
 
-extern s16 D_80083228;
 extern u8 D_80171094[];
 extern u8 D_80176488[];
 
@@ -93,7 +93,7 @@ state_one:
         (*(u8 * *)((u8 *)animation + 0x2C)) = direction_anims;
         func_80047784(
             animation,
-            direction_anims[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            direction_anims[((gameWork.viewAngle + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
         ((S_80172C98_0 *)action)->unk_AE.s = 6;
         ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 =

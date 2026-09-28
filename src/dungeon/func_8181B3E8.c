@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
+#include "shared/dungeon_status.h"
 
 typedef struct S_80024BE8_0_pre {
     u16 unk_00;
@@ -246,12 +248,10 @@ extern u8 D_8002443C[];
 extern u8 D_80024B14[];
 extern u8 D_800258FC[];
 extern s16 D_80025914[8];
-extern u8 D_80045340[];
 extern u8 D_80045C34[];
 extern u8 D_8006CCD8[];
 extern u8 D_8006CCE8[];
 extern s32 D_800814A0[3];
-extern s32 D_8008346C[3];
 extern u8 D_800DE870[];
 extern u8 D_800DE9D0[];
 extern u8 D_80024028;
@@ -337,7 +337,7 @@ state_0:
 
                 if (*((S_80024BE8_0 *)effect)->unk_04 & 0x80) {
                     if (!(((S_80024BE8_0 *)effect)->unk_7A & 4)) {
-                        func_8004491C((u8 *)effect - 0x20, D_80045340);
+                        func_8004491C((u8 *)effect - 0x20, func_80045340);
                         ((S_80024BE8_2 *)sprite)->unk_10 = 0x60;
                         ((S_80024BE8_2 *)sprite)->unk_14 |= 0xC;
                         ((S_80024BE8_0 *)effect)->unk_7A |= 4;
@@ -590,7 +590,7 @@ state_4:
         if (particle != 0) {
             ((S_80024BE8_15 *)particle)->unk_22 = 0x1E;
             ((S_80024BE8_15 *)particle)->unk_10 = D_8002443C;
-            func_8004491C(particle, D_80045340);
+            func_8004491C(particle, func_80045340);
             particle_sprite = ((S_80024BE8_15 *)particle)->unk_0C;
             ((S_80024BE8_16 *)particle_sprite)->unk_10 = 0;
             ((S_80024BE8_16 *)particle_sprite)->unk_14 |= 0xC;
@@ -726,7 +726,7 @@ state_8:
             active = D_80025914[0];
             ((S_80024BE8_0 *)effect)->unk_82 = elapsed;
             if (active == 0) {
-                D_8008346C[0] = 0;
+                dungeonStatus.unk_0C = 0;
                 ((S_80024BE8_0_pre *)effect)[-1].unk_00 |= 0x8000;
                 D_800814A0[0] |= 0x8000;
             } else {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 
 
@@ -17,7 +18,6 @@ M2C_UNK func_8003DB94();
 void *func_8003FD64();
 M2C_UNK func_8004491C();
 extern M2C_UNK D_8002457C;
-extern M2C_UNK D_80045340;
 extern M2C_UNK D_800DEC50;
 
 typedef struct S_80024600_0 {
@@ -63,7 +63,7 @@ void *func_80024600(s32 *owner_data, Copy24 *initial_data) {
         func_8003DB94(render_state, &D_800DEC50, 0);
         render_state->unk_1E = 0x1000;
         render_state->unk_1C = 0x1000;
-        func_8004491C(object, &D_80045340);
+        func_8004491C(object, func_80045340);
         object_data = object->unk_08;
         *object_data = *initial_data;
         return object;

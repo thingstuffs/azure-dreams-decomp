@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 typedef struct S_800BA414_0 {
     u8 pad_00[0x20];
@@ -64,7 +65,6 @@ extern void func_80065820(void *, void *);
 extern void func_8006658C(void *, void *);
 extern void func_800666E0(void *);
 extern void func_80067F20(void *, s32, s32, s32, s32);
-extern s8 D_80083160[];
 
 /* Project a quad and enqueue it with its draw mode when depth and screen bounds allow. */
 void func_800BA414(void *unused, S_800BA414_1 *position, void *owner_data, s16 depth_bias)
@@ -97,7 +97,7 @@ void func_800BA414(void *unused, S_800BA414_1 *position, void *owner_data, s16 d
     s32 corner_visible;
 
     (void)unused;
-    state = *(u8 **)D_80083160;
+    state = *(u8 **)((s8 *)(&gameWork));
     scratch = (u8 *)0x1F800000;
     owner = owner_data;
     depth_offset = depth_bias;
@@ -106,7 +106,7 @@ void func_800BA414(void *unused, S_800BA414_1 *position, void *owner_data, s16 d
     ((S_800BA414_0 *)scratch)->unk_E8 = position->unk_06;
     ((S_800BA414_0 *)scratch)->unk_EC = position->unk_0A;
     prim = ((S_800BA414_2 *)state)->unk_8D0;
-    state_slot = (u8 **)D_80083160;
+    state_slot = (u8 **)((s8 *)(&gameWork));
 
     func_800649A0();
     rotation = scratch;

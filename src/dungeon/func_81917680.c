@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 #include "records/Rec_func_80024E80_arg1.h"
 
 typedef struct S_80024E80_0 {
@@ -68,7 +69,6 @@ extern s16 func_80065F90();
 extern s32 rand();
 
 extern u8 D_80024C0C[];
-extern s32 D_80045340;
 extern u8 D_800DE39C[];
 
 
@@ -105,7 +105,7 @@ void *func_80024E80(void *owner, Rec_func_80024E80_arg1 *start_pos) {
         render->unk_1E = 0x400;
         render->unk_1C = 0x400;
 
-        func_8004491C(effect, &D_80045340);
+        func_8004491C(effect, func_80045340);
 
         endpoints = ((S_80024E80_0 *)effect)->unk_08;
         *(SixWords *)endpoints = *(SixWords *)start_pos;

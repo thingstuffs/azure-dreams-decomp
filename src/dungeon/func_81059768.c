@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "records/Rec_D_800814A8.h"
@@ -36,7 +37,6 @@ extern void func_80173AD4(void *, void *, void *, void *);
 extern void *D_800814A8;
 extern u8 D_80082E80[];
 extern s8 D_80082EA4;
-extern s16 D_80083228;
 extern s8 D_800E2970[];
 extern void *D_80170808[];
 extern s32 D_80170F68;
@@ -111,7 +111,7 @@ void func_80170F68(void *actor_arg, void *context_arg, void *map_object_arg, voi
             inactive_anims = D_80173FF8;
             (*(void * *)((u8 *)map_object_arg + (0x2C))) = inactive_anims;
             func_80047784(map_object_arg,
-                inactive_anims[((D_80083228 + ((S_80170F68_1 *)actor_state_arg)->unk_2A + 0x100) >> 9) & 7],
+                inactive_anims[((gameWork.viewAngle + ((S_80170F68_1 *)actor_state_arg)->unk_2A + 0x100) >> 9) & 7],
                 0);
         }
         ((Rec_func_800A9E70_arg0 *)actor_arg)->unk_AE = 0;
@@ -145,7 +145,7 @@ void func_80170F68(void *actor_arg, void *context_arg, void *map_object_arg, voi
             if (((S_80170F68_2 *)map_object_arg)->unk_2C != anim_table) {
                 (*(void * *)((u8 *)map_object_arg + (0x2C))) = anim_table;
                 func_80047784(map_object_arg,
-                    anim_table[((D_80083228 + ((S_80170F68_1 *)actor_state_arg)->unk_2A + 0x100) >> 9) & 7],
+                    anim_table[((gameWork.viewAngle + ((S_80170F68_1 *)actor_state_arg)->unk_2A + 0x100) >> 9) & 7],
                     0);
             }
             ((Rec_func_800A9E70_arg0 *)actor_arg)->unk_9A.as_u8 = next_state;
@@ -314,6 +314,6 @@ ordinary_cleanup:
     }
     (*(void * *)((u8 *)map_object_arg + (0x2C))) = anim_table;
     func_80047784(map_object_arg,
-        ((((D_80083228 + ((S_80170F68_1 *)actor_state_arg)->unk_2A + 0x100) >> 9) & 7) + anim_table)[0],
+        ((((gameWork.viewAngle + ((S_80170F68_1 *)actor_state_arg)->unk_2A + 0x100) >> 9) & 7) + anim_table)[0],
         0);
 }

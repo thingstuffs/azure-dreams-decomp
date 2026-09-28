@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 #define U8(p, o) (*(u8 *)((u8 *)(p) + (o)))
 #define VU8(p, o) (*(volatile u8 *)((u8 *)(p) + (o)))
@@ -42,7 +43,6 @@ typedef struct {
     u8 bytes[12];
 } Record;
 
-extern Root *D_80083160[];
 
 extern void func_800649A0(void);
 extern void func_80064A40(void);
@@ -63,9 +63,9 @@ void func_800B9144(void *position, void *context, s32 depth, s16 draw_mode)
     u8 *sprite = P32(context, -0x14);
     s32 callback_arg = S32(context, -0x18);
     s16 saved_mode = draw_mode;
-    Root *root = D_80083160[0];
+    Root *root = gameWork.unk_000;
     Record *part = P32(sprite, 8);
-    Root **global_slot = D_80083160;
+    Root **global_slot = ((Root * *)(&gameWork));
     u8 *scratch_base;
     u8 *packet;
     s32 mode_bits;

@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "records/Rec_D_80016000.h"
@@ -134,11 +136,9 @@ extern void func_80172514(void *, void *, void *, void *);
 extern s32 func_80172658(void *, void *, void *, s32);
 extern void func_80174250(void *, void *, void *, void *);
 
-extern u8 D_80045340[];
 extern void *D_800814A8[3];
 extern u8 D_80082E80[];
 extern s8 D_80082EA4[16];
-extern s16 D_80083228[5];
 extern u8 D_80083498[];
 extern u8 D_800DEA68[];
 extern DungeonRecord D_800E2970[];
@@ -219,7 +219,7 @@ void func_80170F6C(void *arg0, void *arg1, void *arg2, void *arg3)
                 if (((S_80170F6C_2 *)arg2)->unk_2C != D_80175258) {
                     ((S_80170F6C_2 *)arg2)->unk_2C = D_80175258;
                     func_80047784(arg2,
-                        D_80175258[((D_80083228[0] + ((S_80170F6C_1 *)arg3)->unk_2A.s + 0x100) >> 9) & 7],
+                        D_80175258[((gameWork.viewAngle + ((S_80170F6C_1 *)arg3)->unk_2A.s + 0x100) >> 9) & 7],
                         0);
                 }
                 ((S_80170F6C_0 *)arg0)->unk_9A = state;
@@ -269,7 +269,7 @@ sw1_case1: {
                     ((S_80170F6C_0 *)arg0)->unk_A8.u++;
                     ((S_80170F6C_2 *)arg2)->unk_2C = D_801752A0;
                     func_80047784(arg2,
-                        D_801752A0[((D_80083228[0] + ((S_80170F6C_1 *)arg3)->unk_2A.s + 0x100) >> 9) & 7],
+                        D_801752A0[((gameWork.viewAngle + ((S_80170F6C_1 *)arg3)->unk_2A.s + 0x100) >> 9) & 7],
                         0);
                     ((S_80170F6C_0 *)arg0)->unk_A6 = 0;
                     goto epilogue;
@@ -299,7 +299,7 @@ sw1_case2: {
 
                 object = func_8003FD64(0x312, D_80083498);
                 if (object != 0) {
-                    func_8004491C(object, D_80045340);
+                    func_8004491C(object, func_80045340);
                     payload = object->unk_08;
                     object->unk_10 = D_80175174;
                     part = object->unk_0C;
@@ -384,7 +384,7 @@ sw1_case4: {
                     ((S_80170F6C_1 *)arg3)->unk_2A.s = ((S_80170F6C_0 *)arg0)->unk_AA;
                     ((S_80170F6C_2 *)arg2)->unk_2C = D_80175258;
                     func_80047784(arg2,
-                        D_80175258[((D_80083228[0] + ((S_80170F6C_1 *)arg3)->unk_2A.s + 0x100) >> 9) & 7],
+                        D_80175258[((gameWork.viewAngle + ((S_80170F6C_1 *)arg3)->unk_2A.s + 0x100) >> 9) & 7],
                         0);
                     ((S_80170F6C_0 *)arg0)->unk_A8.u = 0;
                     goto epilogue;
@@ -526,7 +526,7 @@ post_compare:
             u32 post_index;
 
             ((S_80170F6C_2 *)arg2)->unk_2C = post_table;
-            post_index = ((D_80083228[0] +
+            post_index = ((gameWork.viewAngle +
                 ((S_80170F6C_1 *)arg3)->unk_2A.s + 0x100) >> 9) & 7;
             func_80047784(arg2,
                 *(u8 *)((unsigned long)post_index +

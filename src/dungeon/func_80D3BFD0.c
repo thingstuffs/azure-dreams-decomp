@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_func_800A9E70_arg0.h"
@@ -49,7 +50,6 @@ typedef struct S_801717D0_6 {
 
 
 extern u8 D_8006DE24[];
-extern s16 D_80083228;
 extern u8 *D_800E3D7C;
 
 extern void func_80047784(void *, u8, s32);
@@ -67,8 +67,6 @@ void func_801717D0(u8 *entity, s32 action_param, u8 *sprite, u8 *direction_frame
     u8 *self;
     u8 *player;
     u8 *action_slot;
-    u8 *counter_base;
-    u8 * counter_base_2;
     u8 *action_table;
     u8 *action_entry;
     volatile u16 *action_flags;
@@ -89,10 +87,9 @@ void func_801717D0(u8 *entity, s32 action_param, u8 *sprite, u8 *direction_frame
         if ((((S_801717D0_0 *)self)->unk_46 & 0x3FFF) >= 5) {
             special_action = 1;
             if (((Rec_D_800E3D7C *)D_800E3D7C)->unk_A4.at02_u16.v == 2) {
-                counter_base_2 = (u8 *)&dungeonStatus.unk_00;
-                counter = ((S_801717D0_2 *)counter_base_2)->unk_0A;
+                counter = ((u16)dungeonStatus.unk_0A);
                 counter--;
-                ((S_801717D0_2 *)counter_base_2)->unk_0A = counter;
+                dungeonStatus.unk_0A = counter;
             }
 
             player = D_800E3D7C;
@@ -100,8 +97,7 @@ void func_801717D0(u8 *entity, s32 action_param, u8 *sprite, u8 *direction_frame
                 ((S_801717D0_3 *)player)->unk_A6 != special_action) {
                 ((S_801717D0_3 *)player)->unk_A6 = special_action;
                 ((S_801717D0_3 *)player)->unk_98.u16 |= 0x1000;
-                counter_base = (u8 *)&dungeonStatus.unk_00;
-                ((S_801717D0_2 *)counter_base)->unk_0A++;
+                dungeonStatus.unk_0A++;
                 goto process;
             }
 
@@ -161,7 +157,7 @@ process:
 
     if (frame_table != 0) {
         (*(u8 * *)((u8 *)action_sprite + 0x2C)) = frame_table;
-        selection_index = (D_80083228 + ((S_801717D0_0 *)self)->unk_2A.s + 0x100) >> 9;
+        selection_index = (gameWork.viewAngle + ((S_801717D0_0 *)self)->unk_2A.s + 0x100) >> 9;
         func_80047784(action_sprite, frame_table[selection_index & 7], 0);
         ASM_KEEP(frame_table);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     }

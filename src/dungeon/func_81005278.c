@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
 
 typedef void (*Callback)(void *, void *, void *, void *);
 
 extern u8 D_8006CCF8[9];
-extern s16 D_80083228[5];
 extern u8 D_80171058[];
 extern u8 D_80174880[9];
 extern Callback D_80174900[];

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
@@ -26,7 +27,6 @@ M2C_UNK func_80099F04();                         /* extern */
 M2C_UNK func_80099F70();                         /* extern */
 M2C_UNK func_800A2B04();              /* extern */
 M2C_UNK func_800A56E0();                     /* extern */
-extern s16 D_80083228;
 extern void *D_80088810[];
 extern M2C_UNK D_8008ACDC;
 extern u8 D_800DD040[];
@@ -43,8 +43,6 @@ void func_8008E264(void *actor, void *motion, void *sprite, void *model) {
     s32 coord_or_ticks;
     s32 motion_value;
     u32 state_index;
-    u8 *move_flags;
-    u8 *move_timer;
     u8 state;
     s32 launch_state;
 
@@ -75,11 +73,10 @@ apply_launch:
 launch_ready:
             func_80099F70(((Rec_D_800E3D7C *)model)->unk_5C);
             func_80099F04(((Rec_D_800E3D7C *)model)->unk_5C);
-            move_flags = (u8 *)&dungeonStatus.unk_00;
-            ((S_8008E264_4 *)move_flags)->unk_02 = (u16) (((S_8008E264_4 *)move_flags)->unk_02 | 0x812);
+            dungeonStatus.flags = (u16) (dungeonStatus.flags | 0x812);
             ((Rec_func_8008ACDC_arg0 *)actor)->unk_98 = (u16) (((Rec_func_8008ACDC_arg0 *)actor)->unk_98 & 0xFFF3);
             (*(u8 **)((u8 *)sprite + 0x2C)) = D_800DD040;
-            func_80048A44(sprite, D_800DD040[((s32) (D_80083228 + ((Rec_D_800E3D7C *)model)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0, 1);
+            func_80048A44(sprite, D_800DD040[((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)model)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0, 1);
             ((Rec_func_8008ACDC_arg0 *)actor)->unk_9B.as_u8 = (u8) (((Rec_func_8008ACDC_arg0 *)actor)->unk_9B.as_u8 + 1);
             func_800A56E0(0x50A);
             return;
@@ -87,34 +84,33 @@ launch_ready:
 done:
         return;
 update_move:
-        move_timer = (u8 *)&dungeonStatus.unk_00;
-        if (((S_8008E264_5 *)move_timer)->unk_04 != 0) {
+        if (dungeonStatus.unk_04 != 0) {
             motion_value = ((Rec_D_80082E80 *)sprite)->unk_24 << 6;
             coord_or_ticks = ((Rec_D_800E3D7C *)motion)->unk_00.at02_s16.v;
             coord_or_ticks -= 0x20;
             motion_value = (motion_value - coord_or_ticks) << 0x10;
-            ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = motion_value / ((S_8008E264_5 *)move_timer)->unk_04;
+            ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = motion_value / dungeonStatus.unk_04;
             coord_or_ticks = ((Rec_D_800E3D7C *)motion)->unk_04.at02_s16.v;
             motion_value = ((Rec_D_80082E80 *)sprite)->unk_25;
             coord_or_ticks -= 0x20;
             motion_value <<= 6;
             motion_value -= coord_or_ticks;
-            coord_or_ticks = ((S_8008E264_5 *)move_timer)->unk_04;
+            coord_or_ticks = dungeonStatus.unk_04;
             motion_value <<= 0x10;
             ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = motion_value / coord_or_ticks;
         }
-        ticks_left = (u16) ((S_8008E264_5 *)move_timer)->unk_04 - 1;
-        ((S_8008E264_5 *)move_timer)->unk_04 = ticks_left;
+        ticks_left = (u16) dungeonStatus.unk_04 - 1;
+        dungeonStatus.unk_04 = ticks_left;
         if ((ticks_left << 0x10) <= 0) {
-            ((S_8008E264_5 *)move_timer)->unk_04 = 0;
+            dungeonStatus.unk_04 = 0;
             ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = 0;
             ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
             func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
             if ((u8) ((Rec_func_8008ACDC_arg0 *)actor)->unk_9B.as_u8 >= 0xAU) {
                 (*(u8 **)((u8 *)sprite + 0x2C)) = D_800DD058;
-                func_80048A44(sprite, D_800DD058[((s32) (D_80083228 + ((Rec_D_800E3D7C *)model)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0, 1);
+                func_80048A44(sprite, D_800DD058[((s32) (gameWork.viewAngle + ((Rec_D_800E3D7C *)model)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0, 1);
                 ((Rec_func_8008ACDC_arg0 *)actor)->unk_9B.as_u8 = (u8) (((Rec_func_8008ACDC_arg0 *)actor)->unk_9B.as_u8 + 1);
-                ((S_8008E264_5 *)move_timer)->unk_04 = 1;
+                dungeonStatus.unk_04 = 1;
                 return;
             }
             goto finish_move;

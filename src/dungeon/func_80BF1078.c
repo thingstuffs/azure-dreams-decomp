@@ -1,9 +1,9 @@
 #include "common.h"
+#include "shared/slus_callbacks.h"
 
 
 extern u8 D_80083498[];
 extern u8 D_8016AA58[];
-extern u8 D_80045340[];
 extern s32 D_8016B014;
 extern s32 D_8016E20C;
 extern s32 D_8016E25C;
@@ -81,7 +81,7 @@ void *func_8016A878(s16 init_flags, s16 tile_x, s16 tile_y, s16 object_id)
     state = object + 0x20;
     ((S_8016A878_0 *)object)->unk_10 = D_8016AA58;
     state->unk_13 = 0x10;
-    func_8004491C(object, D_80045340);
+    func_8004491C(object, func_80045340);
     object_data = ((S_8016A878_0 *)object)->unk_08;
     object_data->unk_0A = saved_id;
     placement = ((S_8016A878_0 *)object)->unk_0C;
