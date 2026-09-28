@@ -155,15 +155,12 @@ void func_800CEFB8(void *unused, void *endpoints, void *sprite, s16 depth_bias, 
     register u8 packet_code ASM_REG("$4");
     u8 right_u;
     u8 bottom_v;
-    register u8 blend_code ASM_REG("$2");
     void *draw_packet;
     void *global_base;
     register u8 *global_page ASM_REG("$8") = (u8 *)0x80080000;
     register u8 *scratch_base ASM_REG("$4");
-    register u8 *screen_out ASM_REG("$5");
+    u8 *screen_out;
     register u8 *depth_out ASM_REG("$6");
-    u8 *second_vertex;
-    u8 *clip_out;
     void *quad;
     void *part_data;
     register void *part ASM_REG("$20");
@@ -215,27 +212,15 @@ void func_800CEFB8(void *unused, void *endpoints, void *sprite, s16 depth_bias, 
                                  screen_out,
                                  depth_out,
                                  (void *)0x1F800094);
-    ASM_KEEP_NV(scratch);
-    second_vertex = scratch;
-    ASM_KEEP_NV(second_vertex);
-    screen_out = second_vertex;
-    ASM_KEEP_NV(screen_out);
-    screen_out = (u8 *)((u32)screen_out | 0xF0);
-    depth_out = second_vertex;
     SP32(0xC0) = start_depth;
     second_coord = ((S_800CEFB8_2 *)endpoints)->unk_0E;
-    ASM_KEEP_DEP_NV(depth_out, second_coord);
-    depth_out = (u8 *)((u32)depth_out | 0x90);
     SP16(0x00) = second_coord;
     second_coord = ((S_800CEFB8_2 *)endpoints)->unk_12;
-    ASM_KEEP_DEP_NV(second_vertex, second_coord);
-    clip_out = second_vertex;
-    ASM_KEEP_NV(clip_out);
     SP16(0x02) = second_coord;
     second_coord = ((S_800CEFB8_2 *)endpoints)->unk_16;
-    clip_out = (u8 *)((u32)clip_out | 0x94);
     SP16(0x04) = second_coord;
-    end_depth = func_80065420(second_vertex, screen_out, depth_out, clip_out);
+    end_depth = func_80065420(scratch, (void *)0x1F8000F0, (void *)0x1F800090, (void *)0x1F800094);
+    ASM_KEEP_NV(scratch);
     end_y = SP16(0xF2);
     start_y = SP16(0xBA);
     end_x = SP16(0xF0);
@@ -289,19 +274,16 @@ void func_800CEFB8(void *unused, void *endpoints, void *sprite, s16 depth_bias, 
         }
         {
             s32 rotation_y;
-            scratch_base = (u8 *)((void *)0x1F800100);
             SP16(0x104) = rotation_z;
             rotation_y = ((S_800CEFB8_1 *)sprite_data)->unk_18;
             SP16(0x102) = (s16) ((((u16) SP32(0x38) + 0x100) & 0x1FF) + (s16) (rotation_y - 0x100));
-            screen_out = (u8 *)0x1F800000;
             origin_x = ((S_800CEFB8_1 *)sprite_data)->unk_20;
-            screen_out = (u8 *)((u32)screen_out | 0xD0);
             SP32(0xE4) = (s32) origin_x;
             SP16(0x108) = origin_x;
             origin_y = ((S_800CEFB8_1 *)sprite_data)->unk_22;
             SP32(0xE8) = (s32) origin_y;
             SP16(0x10A) = origin_y;
-            func_80065820((void *)scratch_base, screen_out);
+            func_80065820((void *)0x1F800100, (void *)0x1F8000D0);
             quad = packet_next + 4;
         }
         {
@@ -519,11 +501,11 @@ continuation_texture:
                 sprite_flags = SP16(0x24);
                 if (sprite_flags & 8) {
                     if (sprite_flags & 4) {
-                        blend_code = packet_code | 2;
+                        coord_work = packet_code | 2;
                     } else {
-                        blend_code = packet_code & 0xFD;
+                        coord_work = packet_code & 0xFD;
                     }
-                    ((S_800CEFB8_1 *)sprite_data)->unk_0C.at03.v = blend_code;
+                    ((S_800CEFB8_1 *)sprite_data)->unk_0C.at03.v = coord_work;
                 }
                 draw_packet = packet_next;
                 packet_next += 0x28;

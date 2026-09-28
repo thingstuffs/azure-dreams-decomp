@@ -114,11 +114,10 @@ extern u8 D_800DDC40[];
 typedef struct LocalStack {
     u8 motion[0x18];
     u16 distance[4];
-    u16 saved_y;
 } LocalStack;
 
 /* Updates movement toward a target or along a direction and advances the action phases. */
-void func_80025954(void *state, void *motion_in, void *appearance) {
+void func_80025954(void *state, void *motion, void *appearance) {
     static void *const phase_labels[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6 };
     LocalStack stack;
     s8 *distance_cursor;
@@ -144,12 +143,11 @@ void func_80025954(void *state, void *motion_in, void *appearance) {
     void *target;
     void *origin;
     void *entity;
-    register void *motion ASM_REG("$22") = motion_in;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s16 *y_lookup_first;
     s16 *x_lookup_next;
-    register s32 height ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 height;
     s16 *final_ptr;
-    register u32 end_tile_y ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u16 end_tile_y;
     void *motion_out;
 
     phase = ((Rec_func_80024170_arg0 *)state)->unk_0A;
@@ -197,10 +195,10 @@ store_origin_z:
         goto finish;
     }
     target = ((S_80025954_1 *)owner)->unk_60;
-    step_count = 1;
     if (target == NULL) {
         goto trace_direction;
     }
+    step_count = 1;
     destination = ((S_80025954_7_pre *)target)[-1].unk_00;
     x_distance = ((S_80025954_8 *)destination)->unk_00.at02.v;
     x_distance -= ((S_80025954_5 *)motion)->unk_00.at02u.v;
@@ -266,22 +264,18 @@ trace_direction:
     tile_x = ((S_80025954_9 *)entity)->unk_24;
     tile_y = ((S_80025954_9 *)entity)->unk_25;
     end_tile_x = tile_x;
-    stack.saved_y = (u16) tile_y;
+    end_tile_y = tile_y;
 do {
     if ((func_800A44E0(((s16) tile_x << 6) & 0xFFC0, ((s16) tile_y << 6) & 0xFFC0, ((S_80025954_1 *)owner)->unk_88, (s16) (((Rec_func_80024170_arg0 *)state)->unk_0E << 9)) << 0x10) != 0) {
         goto use_endpoint;
     }
     {
-        end_tile_y = (u32)(D_8006CCD8);
         direction = (s16) ((Rec_func_80024170_arg0 *)state)->unk_0E;
         height = (u16) ((S_80025954_1 *)owner)->unk_88;
-        entity = (void *)((s16 *) ((direction << 1) + (u32) (s16 *)end_tile_y));
+        entity = (void *)&D_8006CCD8[direction];
     }
     height = (s16) (height - 0x20);
-    {
-        end_tile_y = (u32)(D_8006CCE8);
-        y_lookup_first = (s16 *) ((direction << 1) + (u32) (s16 *)end_tile_y);
-    }
+    y_lookup_first = &D_8006CCE8[direction];
     floor_height = func_800BCB04(((((s16) tile_x + *((s16 *)entity)) << 6) + 0x20) & 0xFFE0, ((((s16) tile_y + *y_lookup_first) << 6) + 0x20) & 0xFFE0, height);
     ASM_CLOBBER("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     ASM_CLOBBER("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -292,32 +286,15 @@ do {
     if ((s16) (floor_height - (u16) ((S_80025954_1 *)owner)->unk_88) < -0x3F) {
         goto build_endpoint;
     }
-    {
-        register s16 *lookup_base ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-#ifdef NON_MATCHING
-        lookup_base = D_8006CCD8;
-#else
-        lookup_base = (s16 *)((u8 *)D_8006CCE8 - 0x10);
-#endif
-        step_direction = (s16) ((Rec_func_80024170_arg0 *)state)->unk_0E;
-        step_count += 1;
-        x_lookup_next = (s16 *) ((step_direction << 1) + (u32) lookup_base);
-    }
-    {
-        register s16 *lookup_base ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-#ifdef NON_MATCHING
-        lookup_base = D_8006CCE8;
-#else
-        lookup_base = (s16 *)((u8 *)D_8006CCD8 + 0x10);
-#endif
-        axis_delta = (s32)((s16 *) ((step_direction << 1) + (u32) lookup_base));
-        ASM_KEEP(axis_delta);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    }
+    step_direction = (s16) ((Rec_func_80024170_arg0 *)state)->unk_0E;
+    step_count += 1;
+    x_lookup_next = &D_8006CCD8[step_direction];
+    axis_delta = (s32)&D_8006CCE8[step_direction];
     source_coord = tile_x + (u16) *x_lookup_next;
     tile_x = source_coord;
     motion_value = tile_y + (u16) *(s16 *)axis_delta;
     tile_y = motion_value;
-    stack.saved_y = (u16) motion_value;
+    end_tile_y = motion_value;
     end_tile_x = source_coord;
     } while (step_count < 8);
 use_endpoint:
@@ -326,7 +303,7 @@ build_endpoint:
     axis_delta = (u32) end_tile_x << 0x10;
     source_coord = (s32)(D_8006CCD8);
     axis_delta >>= 0xA;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(axis_delta);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     motion_value = (s16) ((Rec_func_80024170_arg0 *)state)->unk_0E;
     motion_value <<= 1;
     final_ptr = (s16 *) ((u8 *) (s16 *)source_coord + motion_value);
@@ -336,7 +313,7 @@ build_endpoint:
     axis_delta += motion_value;
     ((S_80025954_8 *)destination)->unk_00.at02.v = axis_delta;
     axis_delta = (u32) axis_delta << 0x10;
-    end_tile_y = stack.saved_y;
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     motion_value = (s16) ((Rec_func_80024170_arg0 *)state)->unk_0E;
     model = (u32) end_tile_y << 0x10;
     motion_value <<= 1;
