@@ -30,7 +30,7 @@ extern s16 func_80042900();
 extern void func_8009A350();
 extern s32 func_8009A540();
 extern s16 func_8009FD40();
-extern u16 func_800A0818();
+extern s32 func_800A0818();
 extern s32 func_800A35D8();
 extern u16 func_800A365C();
 extern s32 func_800A6D30();
@@ -53,7 +53,7 @@ s16 func_800A384C(Actor *actor, Actor *target, u16 *out_angle, s32 prefer_abilit
   s32 effect_id;
   s32 obstacles;
   s32 distance;
-  s16 target_angle;
+  s32 target_angle;
   register s16 slot ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
   s32 effect_blocked;
   register s32 slot_offset ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -69,7 +69,7 @@ s16 func_800A384C(Actor *actor, Actor *target, u16 *out_angle, s32 prefer_abilit
   s32 flags;
   s32 ability_flags;
   register s32 direction_shifted ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-  s16 direction;
+  s32 direction;
   u16 facing_angle;
   register u16 *x_step ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
   facing_angle = actor->field2a;
@@ -89,7 +89,10 @@ s16 func_800A384C(Actor *actor, Actor *target, u16 *out_angle, s32 prefer_abilit
   x_steps_base = (s32) (((s8 *)dirStepX));
   line_valid = func_800A365C(actor_entity, target_entity);
   distance = func_8009FD40(target_entity, actor_entity);
-  target_angle = func_800A0818(actor_entity->x, actor_entity->y, target_entity->x, target_entity->y, &tile_flags);
+  target_angle = actor_entity->x;
+  effect_id = actor_entity->y;
+  direction = target_entity->x;
+  target_angle = func_800A0818(target_angle, effect_id, direction, target_entity->y, &tile_flags);
   *out_angle = target_angle;
   if ((prefer_ability == 0) && (distance == 1))
   {
@@ -194,9 +197,6 @@ s16 func_800A384C(Actor *actor, Actor *target, u16 *out_angle, s32 prefer_abilit
         goto accept_done;
       }
       ASM_SET(direction_shifted);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-      ASM_CLOBBER("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-      ASM_CLOBBER("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-      ASM_CLOBBER("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
       direction_shifted = direction << 16;
       effect_blocked = ((u32) direction_shifted) >> 15;
       x_step = (u16 *) (effect_blocked + x_steps_base);
