@@ -68,7 +68,7 @@ void func_8009DAD8(s32 draw_param) {
     s32 firstContext;
     s32 distance;
     register long pageOrTwo ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register long callPage ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u8 *callPage = (u8 *)0x80080000;
     register long flagsPage ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     register long loopFlagsPage ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
@@ -137,10 +137,8 @@ void func_8009DAD8(s32 draw_param) {
                 if (*(s8 *)(object + 0x26) < 0 ||
                     *(s8 *)(object + 0x26) != *(s8 *)(playerLater + 0x26)) {
                     a0Value = (long)object;
-                    callPage = 0x80080000;
-                    ASM_KEEP(callPage);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                     distance = func_8009FD40((u8 *)a0Value,
-                                             (u8 *)(callPage + 0x2e80));
+                                             callPage + 0x2e80);
                     if ((s16)distance >= 4) {
                         goto next_entry;
                     }

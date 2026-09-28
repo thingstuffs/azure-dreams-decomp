@@ -1,13 +1,5 @@
 #include "common.h"
 
-#ifdef NON_MATCHING
-#define PAGE_8008 ((u8 *)&D_8008333C)
-#define OFF_333C 0
-#else
-/* ADDR_ALIAS: split page base lets the flag store precede the state store. */
-#define PAGE_8008 ((u8 *)0x80080000)
-#define OFF_333C 0x333C
-#endif
 struct S_8006CE80_ptr
 {
   s32 *f0;
@@ -42,7 +34,7 @@ struct S_pad9
   s32 pad4;
   s32 pad8;
 };
-extern struct S_pad9 D_8008333C;
+extern struct S_pad9 D_8008333C[];
 extern s32 D_80080A7C[3];
 extern s32 D_8008148C[3];
 extern s32 D_80189394[3];
@@ -63,14 +55,8 @@ void func_80040CBC(s16 entry_index)
   int request_b[2];
   entry = &D_8006CE80[entry_index];
   resource_type = entry->field0;
-  {
-    u8 *state_page;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-    state_page = PAGE_8008;
-    ASM_KEEP_NV(state_page);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-    D_80080A86[0] = 0;
-    *(s32 *)(state_page + OFF_333C) = 0;
-  }
+  D_80080A86[0] = 0;
+  D_8008333C[0].field0 = 0;
   if (resource_type != 0)
   {
     if (resource_type != 4)

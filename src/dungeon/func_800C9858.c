@@ -130,9 +130,8 @@ void func_800CEFB8(void *unused, void *endpoints, void *sprite, s16 depth_bias, 
     s32 rotation_z;
     s32 visible_abc;
     s32 visible_ab;
-    s32 draw_mode;
+    s16 draw_mode;
     s32 mean_depth;
-    s32 depth_offset;
     s32 sort_depth;
     s32 coord_work;
     register s32 coord_end ASM_REG("$3");
@@ -141,7 +140,6 @@ void func_800CEFB8(void *unused, void *endpoints, void *sprite, s16 depth_bias, 
     s32 visible_b;
     s32 visible_d;
     u16 end_y;
-    u16 start_y;
     u16 end_x;
     u16 start_x;
     u16 second_coord;
@@ -152,7 +150,7 @@ void func_800CEFB8(void *unused, void *endpoints, void *sprite, s16 depth_bias, 
     u16 sprite_flags;
     register u16 segment_angle ASM_REG("$2");
     s32 texture_override;
-    register u8 packet_code ASM_REG("$4");
+    u16 packet_code;
     u8 right_u;
     u8 bottom_v;
     void *draw_packet;
@@ -222,11 +220,11 @@ void func_800CEFB8(void *unused, void *endpoints, void *sprite, s16 depth_bias, 
     end_depth = func_80065420(scratch, (void *)0x1F8000F0, (void *)0x1F800090, (void *)0x1F800094);
     ASM_KEEP_NV(scratch);
     end_y = SP16(0xF2);
-    start_y = SP16(0xBA);
+    packet_code = SP16(0xBA);
     end_x = SP16(0xF0);
     start_x = SP16(0xB8);
     SP32(0xC0) = (s32)(SP32(0xC0) + end_depth) >> 1;
-    SP16(0x10E) = func_80065F90((s16)end_y - (s16)start_y,
+    SP16(0x10E) = func_80065F90((s16)end_y - (s16)packet_code,
                                 (s16)end_x - (s16)start_x,
                                 (s16)end_x);
     {
@@ -234,15 +232,12 @@ void func_800CEFB8(void *unused, void *endpoints, void *sprite, s16 depth_bias, 
         ASM_KEEP_NV(coord_end);
         coeff_base = (s32 *)((u8 *)coord_end - 0x32D0);
     }
-    depth_offset = sort_bias;
-    ASM_SCHED_BARRIER();
     mean_depth = SP32(0xC0);
     ((S_800CEFB8_3 *)coeff_base)->unk_1C = (s32) (mean_depth * 4);
-    sort_depth = mean_depth - depth_offset;
+    sort_depth = mean_depth - sort_bias;
     SP32(0xC0) = sort_depth;
+    draw_mode = orient_mode;
     if ((u32) sort_depth < 0x1E0U) {
-        draw_mode = orient_mode;
-        ASM_KEEP(draw_mode);
         func_800649A0();
         {
             u16 screen_coord;

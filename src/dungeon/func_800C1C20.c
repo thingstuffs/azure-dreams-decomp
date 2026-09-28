@@ -41,13 +41,6 @@ typedef struct {
 } DungeonState;
 
 typedef struct {
-    s32 arg1;
-    u16 arg3_low;
-    s32 arg3;
-    s32 arg4;
-} DungeonHomes;
-
-typedef struct {
     u8 pad0[8];
     DungeonCoord *coord;
     DungeonRender *render;
@@ -70,8 +63,7 @@ extern u8 D_800D0774[];
 extern u8 D_800DF3B4[];
 
 /* Creates a dungeon effect with a central object and up to eleven surrounding children. */
-DungeonObject *func_800C7380(s16 tile_x, s32 tile_y, u16 z, s32 height, s32 speed) {
-    DungeonHomes homes;
+DungeonObject *func_800C7380(s16 tile_x, s16 tile_y, u16 z, s16 height, s16 speed) {
     s32 color;
     DungeonObject *parent;
     DungeonObject *child;
@@ -86,17 +78,9 @@ DungeonObject *func_800C7380(s16 tile_x, s32 tile_y, u16 z, s32 height, s32 spee
     s16 shade;
     s32 remaining;
     s32 angle;
-    register u32 setup_word ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    void *callback_fn;
 
-    ASM_KEEP_NV(z);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    center.word = (u32) tile_y;
-    homes.arg1 = center.word;
-    setup_word = speed;
-    homes.arg4 = (s32) setup_word;
-    homes.arg3 = height;
     parent = func_8003FD64(0x12, D_80083498);
-    setup_word = (u16) homes.arg3;
-    homes.arg3_low = (u16) setup_word;
     if (parent != NULL) {
         s16 frame;
         u16 state_limit;
@@ -109,10 +93,8 @@ DungeonObject *func_800C7380(s16 tile_x, s32 tile_y, u16 z, s32 height, s32 spee
         center.coord = parent->coord;
         center.coord->x = (s16) (((s32) (tile_x << 0x10) >> 0xA) + 0x20);
         angle = 0xEA7;
-        setup_word = homes.arg1;
+        center.coord->y = (s16) (((s32) (tile_y << 0x10) >> 0xA) + 0x20);
         center.coord->z = z;
-        center.coord->y = (s16) (((s32) (setup_word << 0x10) >> 0xA) + 0x20);
-        ASM_USE(setup_word);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         render = parent->render;
         render->image = D_800777E8;
         render->limit = 0x1800;
@@ -124,26 +106,20 @@ DungeonObject *func_800C7380(s16 tile_x, s32 tile_y, u16 z, s32 height, s32 spee
         render->blend = (s16) (render->blend | 0xC);
         frame = 0x37;
         state->mode = tile_x;
-        do {
-            setup_word = (u16) homes.arg1;
-        } while (0);
         state_limit = 0x14;
-        state->value = (u16) setup_word;
-        setup_word = (u16) homes.arg3;
+        state->value = tile_y;
+        state->height = height;
         state->limit = state_limit;
-        state->height = (u16) setup_word;
-        setup_word = (u16) homes.arg4;
-        state->speed = (u16) setup_word;
+        state->speed = speed;
+        callback_fn = D_800BB14C;
         do {
             child = func_8003FD64(0x12, parent);
             if (child != NULL) {
-                register DungeonObject *init_child ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                register void *child_resource ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                DungeonObject *init_child;
+                void *child_resource;
                 init_child = child;
                 child_resource = D_800D0774;
-                setup_word = (u32) D_800BB14C;
-                ASM_KEEP(setup_word);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                child->callback = (void *) setup_word;
+                child->callback = callback_fn;
                 func_8004491C(init_child, child_resource);
                 child_coord = child->coord;
                 child_coord->x = (s16) (center.coord->x + (func_80064584(angle) >> 7));
@@ -158,8 +134,7 @@ DungeonObject *func_800C7380(s16 tile_x, s32 tile_y, u16 z, s32 height, s32 spee
                 }
                 state = &child->state;
                 image_data = (void *) ((u8 *) child + 0x24);
-                setup_word = homes.arg3_low;
-                state->height = (u16) setup_word;
+                state->height = height;
                 render->image = image_data;
                 func_8003DB6C(image_data, D_800DF3B4, 3);
                 state->angle = (s8) (frame & 0xBF);
