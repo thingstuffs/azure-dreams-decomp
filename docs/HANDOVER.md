@@ -33,10 +33,11 @@ Gemini = 1-2 rows. Meters at 06:00Z: Claude 13%, Codex 10%. Lander now also land
 prototypes - naming is nearly done; the real debt is gotos (1,599 rows) and address-named local struct types
 (3,140) - needs a type/header design decision before a campaign.
 
-**Type consolidation (owner rulings 2026-09-28, docs/TYPE_CONSOLIDATION.md):** pilot + phases 2-3 landed 3,112 row
-migrations onto include/shared/ (dir_step, dungeon_status, object_flags, game_work, slus_callbacks), every row
+**Type consolidation (owner rulings 2026-09-28, docs/TYPE_CONSOLIDATION.md):** pilot + phases 2-4 landed 3,875 row
+migrations onto include/shared/ (dir_step, dungeon_status, object_flags, game_work, slus_callbacks, record_ptrs), every row
 verify-exact with full window/SLUS gates; tools in tools/consolidate/ (run from a lane copy), per-object specs
-in tools/consolidate/objects/. Pin-neutral directly. Next objects are listed at the end of the design doc
+in tools/consolidate/objects/. Mostly pin-neutral directly; phase 4 freed 4 SLUS pins (pointer globals m2c had declared as arrays). verify.py
+now compiles current SLUS texts against the live include/ (e8874f3b). Phase 5 (entity type) in progress. Next objects are listed at the end of the design doc
 (D_80083178 fold into GameWork first). Preview page: https://claude.ai/artifact/LA63o6jeL9Xc5hHTXuw6LZ
 
 **Next.** Remaining spill-family rows (~18 with 7-30 pins; `ASM_REG("$8"..)` census in the wave record);
