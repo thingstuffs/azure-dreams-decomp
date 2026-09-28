@@ -322,6 +322,12 @@ def postprocess_slus(assembly, names_only=False, root=None):
 
 def compile_slus(row, cfile, outdir, include_root=None):
     inc = Path(include_root).resolve() if include_root else RAW / "include"
+    # round 78: a CURRENT text (anything but the frozen raw/ file) compiles against the live include/, as the SLUS
+    # build does.  The raw/include default made 182 SLUS rows fail to compile at all (m2c_compat.h and the
+    # include/shared/ type headers are not in the frozen snapshot); measured over all 884 SLUS rows: live include
+    # 884 exact, frozen include 702, no row exact only with the frozen one.
+    if include_root is None and Path(cfile).resolve() != raw_path(row).resolve():
+        inc = ROOT / "include"
     # compile from the source's own directory by basename: the ELF FILE symbol records the path
     # as given, and the object hash must not depend on where the candidate lives
     from slus_module_context import compilation_source, membership
