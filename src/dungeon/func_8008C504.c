@@ -81,7 +81,7 @@ jt_c0:
         goto done;
     }
     (*(u8 **)((u8 *)entity + 0x2C)) = D_800DD038;
-    func_80048A44(entity, D_800DD038[((s32) (gameWork.viewAngle + ((S_80091C64_1 *)actor)->unk_2A + 0x100) >> 9) & 7], 0, 1);
+    func_80048A44(entity, D_800DD038[((s32) (gameWork.view.viewAngle + ((S_80091C64_1 *)actor)->unk_2A + 0x100) >> 9) & 7], 0, 1);
     ((S_80091C64_0 *)motion)->unk_98 = (u16) (((S_80091C64_0 *)motion)->unk_98 | 0xC);
     ((S_80091C64_0 *)motion)->unk_9B = (u8) (((S_80091C64_0 *)motion)->unk_9B + 1);
     func_800A56E0(0x701);
@@ -100,7 +100,7 @@ tick_hop:
         goto done;
     }
     (*(u8 **)((u8 *)entity + 0x2C)) = D_800DD058;
-    func_80048A44(entity, D_800DD058[((s32) (gameWork.viewAngle + ((S_80091C64_1 *)actor)->unk_2A + 0x100) >> 9) & 7], 0, 1);
+    func_80048A44(entity, D_800DD058[((s32) (gameWork.view.viewAngle + ((S_80091C64_1 *)actor)->unk_2A + 0x100) >> 9) & 7], 0, 1);
     ((S_80091C64_0 *)motion)->unk_92 = 0;
     ((S_80091C64_0 *)motion)->unk_9B++;
     return;
@@ -109,7 +109,7 @@ jt_c2:
         goto done;
     }
     (*(u8 **)((u8 *)entity + 0x2C)) = D_800DD038;
-    func_80048A44(entity, D_800DD038[((s32) (gameWork.viewAngle + ((S_80091C64_1 *)actor)->unk_2A + 0x100) >> 9) & 7], 0, 1);
+    func_80048A44(entity, D_800DD038[((s32) (gameWork.view.viewAngle + ((S_80091C64_1 *)actor)->unk_2A + 0x100) >> 9) & 7], 0, 1);
     return_duration = 8U;
     ((S_80091C64_0 *)motion)->unk_96.s = return_duration;
     ((S_80091C64_0 *)motion)->unk_9B++;
@@ -144,7 +144,7 @@ tick_return:
     ((S_80091C64_0 *)motion)->unk_92 = 0;
     ((S_80091C64_0 *)motion)->unk_9B = (u8) (((S_80091C64_0 *)motion)->unk_9B + 1);
     (*(u8 **)((u8 *)entity + 0x2C)) = D_800DD058;
-    func_80048A44(entity, D_800DD058[((s32) (gameWork.viewAngle + ((S_80091C64_1 *)actor)->unk_2A + 0x100) >> 9) & 7], 0, 1);
+    func_80048A44(entity, D_800DD058[((s32) (gameWork.view.viewAngle + ((S_80091C64_1 *)actor)->unk_2A + 0x100) >> 9) & 7], 0, 1);
     return;
 jt_c4:
     dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);

@@ -59,10 +59,10 @@ check_fade_in:
     return;
 
 fade_out:
-    if (fade_colors->unk_0A8 >= 0x65) {
-        fade_colors->unk_0A8 -= 4;
-        fade_green = fade_colors->unk_0A9 - 4;
-        fade_blue = fade_colors->unk_0AA - 4;
+    if (fade_colors->view.unk_090 >= 0x65) {
+        fade_colors->view.unk_090 -= 4;
+        fade_green = fade_colors->view.unk_091 - 4;
+        fade_blue = fade_colors->view.unk_092 - 4;
         goto store_fades;
     }
     ((S_8016A9FC_0 *)effect)->unk_12.u = state_arg + 1;
@@ -94,19 +94,19 @@ wait_frames:
     return;
 
 fade_in:
-    result = fade_colors->unk_0A8;
+    result = fade_colors->view.unk_090;
     if ((u32)(result & 0xFF) < 0x80) {
-        fade_colors->unk_0A8 = result + 4;
-        fade_green = fade_colors->unk_0A9 + 4;
-        fade_blue = fade_colors->unk_0AA + 4;
+        fade_colors->view.unk_090 = result + 4;
+        fade_green = fade_colors->view.unk_091 + 4;
+        fade_blue = fade_colors->view.unk_092 + 4;
 store_fades:
-        fade_colors->unk_0A9 = fade_green;
-        fade_colors->unk_0AA = fade_blue;
+        fade_colors->view.unk_091 = fade_green;
+        fade_colors->view.unk_092 = fade_blue;
         return;
     }
-    fade_colors->unk_0AA = 0x80;
-    fade_colors->unk_0A9 = 0x80;
-    fade_colors->unk_0A8 = 0x80;
+    fade_colors->view.unk_092 = 0x80;
+    fade_colors->view.unk_091 = 0x80;
+    fade_colors->view.unk_090 = 0x80;
     dungeonStatus.unk_0A--;
     (*(u16 *)((u8 *)effect + (-2))) |= 0x8000;
     objectFlagBlock.flags |= 0x8000;

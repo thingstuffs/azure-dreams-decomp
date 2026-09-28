@@ -150,7 +150,7 @@ void func_8016F2E0(void *actor_arg, void *motion_arg, void *sprite_arg)
     sprite_flags = ((S_8016F2E0_4 *)sprite)->unk_14.n;
     updated_flags = sprite_flags & 0x8000;
     if (updated_flags == 0) {
-        old_direction = ((gameWork.viewAngle + ((S_8016F2E0_3 *)actor)->unk_2A + 0x100) >> 9) & 7;
+        old_direction = ((gameWork.view.viewAngle + ((S_8016F2E0_3 *)actor)->unk_2A + 0x100) >> 9) & 7;
         previous_direction = (*(s16 *)((u8 *)entity + (0x94)));
         ASM_SCHED_BARRIER();
         direction_value = old_direction;

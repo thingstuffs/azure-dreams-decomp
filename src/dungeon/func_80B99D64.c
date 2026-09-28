@@ -67,7 +67,7 @@ state_zero:
         initial_effects = D_80174F00;
         dungeonStatus.unk_0A--;
         (*(void * *)((u8 *)sprite + 0x2C)) = initial_effects;
-        direction = (gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9;
+        direction = (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9;
         func_80047784(sprite, initial_effects[direction & 7], 0);
         ((S_80173564_0 *)controller)->unk_9B++;
         return;
@@ -121,7 +121,7 @@ state_one:
 
     effect_table = D_80174EE0;
     (*(void * *)((u8 *)sprite + 0x2C)) = effect_table;
-    direction = (gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9;
+    direction = (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9;
     func_80047784(sprite, effect_table[direction & 7], 0);
     ((EntityRec *)actor)->flags1C &= ~0x200;
     ((S_80173564_0 *)controller)->unk_8C = D_80170E9C;

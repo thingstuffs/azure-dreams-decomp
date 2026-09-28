@@ -56,7 +56,7 @@ s32 func_80096100(void *actor)
   }
   if (stopped == 0)
   {
-    if (gameWork.unk_154 == 0)
+    if (gameWork.view.slot[2].callback == 0)
     {
       if (((*((s32 *) (((s8 *) base) + 8))) & 0x10) == 0)
       {
@@ -84,7 +84,7 @@ s32 func_80096100(void *actor)
       }
       if (changed != 0)
       {
-        gameWork.unk_154 = 0;
+        gameWork.view.slot[2].callback = 0;
         func_8004D7A8(1);
         func_8004D294(0, D_800DCE60, 1);
       }

@@ -64,7 +64,7 @@ start_jump:
         (*(u8 * *)((u8 *)map_actor + 0x2C)) = D_80175A6C;
         func_80047784(
             map_actor,
-            D_80175A6C[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            D_80175A6C[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
         ((S_80172290_0 *)action)->unk_98 |= 8;
         ((EntityRec *)motion)->flags14 = 0xFFF00000;
@@ -113,7 +113,7 @@ check_landing:
         (*(u8 * *)((u8 *)map_actor + 0x2C)) = D_80175A74;
         func_80047784(
             map_actor,
-            D_80175A74[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            D_80175A74[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
         ((S_80172290_0 *)action)->unk_9B++;
     }

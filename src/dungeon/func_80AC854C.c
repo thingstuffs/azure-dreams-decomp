@@ -110,7 +110,7 @@ state_zero:
     }
     (*(void * *)((u8 *)sprite + 0x2C)) = D_80174E4C;
     func_80047784(sprite,
-        D_80174E4C[((gameWork.viewAngle + ((S_80173D4C_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+        D_80174E4C[((gameWork.view.viewAngle + ((S_80173D4C_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
         0);
     {
         u8 *counter_base;
@@ -195,7 +195,7 @@ final_check_call:
 update_table:
     (*(void * *)((u8 *)sprite + 0x2C)) = D_80174E54;
     func_80047784(sprite,
-        D_80174E54[((gameWork.viewAngle + ((S_80173D4C_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+        D_80174E54[((gameWork.view.viewAngle + ((S_80173D4C_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
         0);
     if (((S_80173D4C_1 *)sprite)->unk_14 & 0x8000) {
         goto assign_owner;

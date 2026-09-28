@@ -29,7 +29,7 @@ void func_801721C0(void *action_state, M2C_UNK action_ctx, void *sprite, void *a
             (*(s32 *)((u8 *)action_state + 0x8C)) = 0;
             ((S_801721C0_1 *)action_state)->unk_9B = 0;
             (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80176480;
-            func_80047784(sprite, *((((s32) (gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7) + &D_80176480), 0);
+            func_80047784(sprite, *((((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7) + &D_80176480), 0);
             ((EntityRec *)actor)->unk_6D = (u8) (((u8)((EntityRec *)actor)->unk_6D) - 1);
             ((S_801721C0_1 *)action_state)->unk_98 = (u16) (((S_801721C0_1 *)action_state)->unk_98 | 8);
             ((EntityRec *)actor)->unk_84 = 0x7C;

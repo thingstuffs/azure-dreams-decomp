@@ -125,7 +125,7 @@ void func_801716F4(void *actor_arg, void *context_arg, void *sprite_arg, void *e
             if (((S_801716F4_2 *)sprite)->unk_2C != anim_table) {
                 (*(void * *)((u8 *)sprite + (0x2C))) = anim_table;
                 func_80047784(sprite,
-                    anim_table[((gameWork.viewAngle + ((EntityRec *)entity_arg)->facing + 0x100) >> 9) & 7],
+                    anim_table[((gameWork.view.viewAngle + ((EntityRec *)entity_arg)->facing + 0x100) >> 9) & 7],
                     0);
             }
             ((Rec_func_800A9E70_arg0 *)actor_arg)->unk_9E.as_s16 = 0;
@@ -150,7 +150,7 @@ void func_801716F4(void *actor_arg, void *context_arg, void *sprite_arg, void *e
             func_8017430C(actor_arg, context_arg, sprite, entity_arg);
             event_table = D_8017555C;
             (*(void * *)((u8 *)sprite + (0x2C))) = event_table;
-            direction_index = ((gameWork.viewAngle + ((EntityRec *)entity_arg)->facing + 0x100) >> 9) & 7;
+            direction_index = ((gameWork.view.viewAngle + ((EntityRec *)entity_arg)->facing + 0x100) >> 9) & 7;
             anim_sprite = sprite;
 #ifdef __mips__
             anim_entry = (u8 *)((u32)direction_index + (u32)event_table);
@@ -284,7 +284,7 @@ generic:
 set_table:
     (*(void * *)((u8 *)sprite + (0x2C))) = next_table;
     {
-        s32 direction_index = ((gameWork.viewAngle + ((EntityRec *)entity_arg)->facing + 0x100) >> 9) & 7;
+        s32 direction_index = ((gameWork.view.viewAngle + ((EntityRec *)entity_arg)->facing + 0x100) >> 9) & 7;
         u8 *anim_entry;
 #ifdef __mips__
         anim_entry = (u8 *)((u32)direction_index + (u32)next_table);

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/def_table.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -72,7 +73,6 @@ extern void func_800A56E0(s32);
 extern s32 func_800A94A0(void *, u8 *, s32, void *);
 extern void D_80170CF8(void *, s32, s32, s32, s32, s32, s32);
 
-extern u8 D_8006DE24[];
 extern u8 D_80170838[16];
 extern u8 D_801717F4[];
 extern u8 D_80175988[];
@@ -183,7 +183,7 @@ use_kind:
             u8 *kind_entry;
 
             kind = *kind_data;
-            kind_table = (u8 *)&D_8006DE24;
+            kind_table = (u8 *)D_8006DE24;
             kind_entry = (u8 *)((u32)(kind * 20) + (u32)kind_table);
                /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
@@ -310,7 +310,7 @@ state_3:
         u8 *frame_table = D_80175988;
         (*(u8 * *)((u8 *)tile_arg + 0x2C)) = frame_table;
         func_80047784(tile_arg,
-            frame_table[((gameWork.viewAngle + ((S_80173280_1 *)action)->unk_2A + 0x100) >> 9) & 7],
+            frame_table[((gameWork.view.viewAngle + ((S_80173280_1 *)action)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((S_80173280_3 *)tile_arg)->unk_14 &= 0xF7FF;
     }

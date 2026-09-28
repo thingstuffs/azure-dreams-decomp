@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/def_table.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -84,7 +85,6 @@ extern void func_800A56E0(s32);
 extern s32 func_800A94A0(void *, void *, s32, void *);
 extern void func_800DAE44(void *, s32);
 
-extern u8 D_8006DE24[];
 extern void *D_80170838[];
 extern void *D_80170880[];
 extern u8 D_80171400[];
@@ -232,7 +232,7 @@ ready_item:
     ((S_80172D74_5 *)owner_flags)->unk_04 &= 0x7FFF;
     (*(u8 * *)((u8 *)owner_sprite + 0x2C)) = D_80175168;
     func_80047784(owner_sprite,
-        D_80175168[((gameWork.viewAngle + ((S_80172D74_0 *)actor)->unk_2A + 0x100) >> 9) & 7],
+        D_80175168[((gameWork.view.viewAngle + ((S_80172D74_0 *)actor)->unk_2A + 0x100) >> 9) & 7],
         0);
     if (!func_800A94A0(actor, item_slot, special_item, (u8 *)action + 0x98)) {
         return;
@@ -339,7 +339,7 @@ state16:
                 }
                 (*(u8 * *)((u8 *)sprite + 0x2C)) = next_animation;
                 func_80047784(sprite,
-                    next_animation[((gameWork.viewAngle + ((S_80172D74_0 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                    next_animation[((gameWork.view.viewAngle + ((S_80172D74_0 *)actor)->unk_2A + 0x100) >> 9) & 7],
                     0);
             }
         }

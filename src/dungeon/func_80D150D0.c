@@ -328,7 +328,7 @@ allocate_effect:
 #ifdef __mips__
         lookup_value = 0x80080000;
 #else
-        lookup_value = (s32)((u8 *)&gameWork.viewAngle - 0x3228);
+        lookup_value = (s32)((u8 *)&gameWork.view.viewAngle - 0x3228);
 #endif
         ASM_KEEP(lookup_value);
         direction_entry = ((S_801748D0_12 *)((void *)lookup_value))->unk_3228;
@@ -379,7 +379,7 @@ wait_finish:
 #ifdef __mips__
             tex_base = (void *)0x80080000;
 #else
-            tex_base = (u8 *)&gameWork.viewAngle - 0x3228;
+            tex_base = (u8 *)&gameWork.view.viewAngle - 0x3228;
 #endif
             timer = ((((S_801748D0_8 *)tex_base)->unk_3228 +
                       actor->facing + 0x100) >> 9) & 7;
@@ -415,7 +415,7 @@ wait_finish:
 #ifdef __mips__
         tex_base = (void *)0x80080000;
 #else
-        tex_base = (u8 *)&gameWork.viewAngle - 0x3228;
+        tex_base = (u8 *)&gameWork.view.viewAngle - 0x3228;
 #endif
         timer = ((((S_801748D0_8 *)tex_base)->unk_3228 +
                   actor->facing + 0x100) >> 9) & 7;

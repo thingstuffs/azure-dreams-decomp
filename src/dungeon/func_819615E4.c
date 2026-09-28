@@ -127,7 +127,7 @@ void func_819615E4(State *state, Target *target, S_func_819615E4_0 *color)
         position.x = ((u16)D_80083780.x.w.i);
         position.y = ((u16)D_80083780.y.w.i);
         position.z = ((S_func_819615E4_2 *)((u8 *)D_800E3D7C))->unk_88.u16_value - 0x50;
-        transform_offset = ((gameWork.viewAngle + ((S_func_819615E4_2 *)((u8 *)D_800E3D7C))->unk_2A.s16_value + 0x100) >> 7) & 0x1C;
+        transform_offset = ((gameWork.view.viewAngle + ((S_func_819615E4_2 *)((u8 *)D_800E3D7C))->unk_2A.s16_value + 0x100) >> 7) & 0x1C;
         func_8003DE58(((S_func_819615E4_3 *)((s32)transform_offset + (s32)D_800E3D18))->unk_00, ((u8 *)(&D_80082E80)),
                       &position_offset, 0);
         position.x += position_offset.x;

@@ -128,7 +128,7 @@ void func_80170E54(void *input_controller, void *input_context, void *input_enti
             if (((S_80170E54_2 *)entity)->unk_2C != anim_table) {
                 (*(void * *)((u8 *)entity + (0x2C))) = anim_table;
                 func_80047784(entity,
-                    anim_table[((gameWork.viewAngle + ((EntityRec *)actor_state)->facing + 0x100) >> 9) & 7],
+                    anim_table[((gameWork.view.viewAngle + ((EntityRec *)actor_state)->facing + 0x100) >> 9) & 7],
                     0);
             }
             ((Rec_func_800A9E70_arg0 *)controller)->unk_9A.as_u8 = control_state;
@@ -288,6 +288,6 @@ update_table:
     anim_table = next_table;
     (*(void * *)((u8 *)entity + (0x2C))) = anim_table;
     func_80047784(entity,
-        *(u8 *)((u32)(((gameWork.viewAngle + ((EntityRec *)actor_state)->facing + 0x100) >> 9) & 7) + (u32)anim_table),
+        *(u8 *)((u32)(((gameWork.view.viewAngle + ((EntityRec *)actor_state)->facing + 0x100) >> 9) & 7) + (u32)anim_table),
         0);
 }

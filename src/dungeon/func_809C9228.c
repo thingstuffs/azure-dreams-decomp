@@ -104,7 +104,7 @@ void func_80170A28(void *entity, S_80170A28_2 *motion, void *part)
 
     part_flags = ((S_80170A28_0 *)part)->unk_14.n;
     if (!(part_flags & 0x8000)) {
-        rounded_angle = gameWork.viewAngle + (*(s16 *)((u8 *)entity + 0x2A)) + 0x100;
+        rounded_angle = gameWork.view.viewAngle + (*(s16 *)((u8 *)entity + 0x2A)) + 0x100;
         state_or_direction = (rounded_angle >> 9) & 7;
         direction_index = state_or_direction;
         direction_copy = state_or_direction;

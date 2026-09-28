@@ -26,6 +26,6 @@ void func_8008D94C(u8 *arg0, s32 arg1, u8 *arg2, u8 *arg3) {
     table = &D_800DCFF0[0];
     *(u8 **)(arg2 + 0x2C) = table;
 
-    idx = ((gameWork.viewAngle + *(s16 *)(arg3 + 0x2A) + 0x100) >> 9) & 7;
+    idx = ((gameWork.view.viewAngle + *(s16 *)(arg3 + 0x2A) + 0x100) >> 9) & 7;
     func_80048A44(arg2, table[idx], 0, 1);
 }

@@ -79,7 +79,7 @@ state_zero:
         direction_table = D_800E262C;
         (*(void * *)((u8 *)sprite + 0x2C)) = direction_table;
         func_8003DB94(sprite,
-            *(void **)(direction_table + (((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 7) & 28)),
+            *(void **)(direction_table + (((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 7) & 28)),
             0);
         system_base = (u8 *)&dungeonStatus.unk_00;
         ((S_800DA014_3 *)system_base)->unk_0A--;
@@ -160,7 +160,7 @@ state_one:
             direction_table = D_800E262C;
             (*(void * *)((u8 *)sprite + 0x2C)) = direction_table;
             func_8003DB94(sprite,
-                *(void **)(direction_table + (((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 7) & 28)),
+                *(void **)(direction_table + (((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 7) & 28)),
                 0);
         } else {
             return;

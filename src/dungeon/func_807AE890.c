@@ -50,7 +50,7 @@ void func_800F6090(s16 x, s16 y) {
         object->unk_10 = &D_800F6070;
         func_8004491C(object, func_80045340);
         render_state = object->unk_0C;
-        render_config = (u32) *((u32 *)(&gameWork.unk_0A8));
+        render_config = (u32) *((u32 *)(&gameWork.view.unk_090));
         render_state->unk_1E = 0x1000;
         render_state->unk_1C = 0x1000;
         render_state->unk_0C = render_config;

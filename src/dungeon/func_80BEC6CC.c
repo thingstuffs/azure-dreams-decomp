@@ -67,7 +67,7 @@ transition_ok:
     (*(u8 * *)((u8 *)source_obj + 0x2C)) = D_80174214;
     func_80047784(
         source_obj,
-        D_80174214[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+        D_80174214[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
         0);
     func_8009C93C(actor, source_obj, ((EntityRec *)actor)->facing, 1, 0);
     ((EntityRec *)actor)->unk_6D--;

@@ -86,7 +86,7 @@ void func_801721A4(S_801721A4_1 *owner, void *unused, S_801721A4_2 *part, S_8017
         func_800A56E0(0x811);
         func_80047784(part,
             part->unk_2C[
-                ((gameWork.viewAngle + actor->unk_2A.u + 0x100) >> 9) & 7],
+                ((gameWork.view.viewAngle + actor->unk_2A.u + 0x100) >> 9) & 7],
             0);
     }
 }

@@ -22,8 +22,8 @@ void func_800A2338(TownObject *object, s32 unused, u8 *output) {
         }
     }
 
-    output[0xC] = gameWork.unk_0A8;
-    output[0xD] = gameWork.unk_0A9;
-    output[0xE] = gameWork.unk_0AA;
+    output[0xC] = gameWork.view.unk_090;
+    output[0xD] = gameWork.view.unk_091;
+    output[0xE] = gameWork.view.unk_092;
     object->callback();
 }

@@ -78,7 +78,7 @@ state_zero:
         (*(void * *)((u8 *)sprite + 0x2C)) = D_80174190;
         func_80047784(
             sprite,
-            D_80174190[((gameWork.viewAngle
+            D_80174190[((gameWork.view.viewAngle
                          + ((EntityRec *)actor)->facing + 0x100)
                         >> 9) & 7],
             0);
@@ -103,7 +103,7 @@ state_one:
         func_80047784(
             sprite,
             ((u8 *)((Rec_func_800AA258_arg2 *)sprite)->unk_2C.as_pv)
-                [((gameWork.viewAngle
+                [((gameWork.view.viewAngle
                    + ((EntityRec *)actor)->facing + 0x100)
                   >> 9) & 7],
             0);
@@ -113,7 +113,7 @@ state_one:
         (*(void * *)((u8 *)sprite + 0x2C)) = D_80174188;
         func_80047784(
             sprite,
-            D_80174188[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100)
+            D_80174188[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100)
                         >> 9) & 7],
             0);
         if (((Rec_func_800AA258_arg2 *)sprite)->unk_14 & 0x8000) {
@@ -190,7 +190,7 @@ state_one:
             (*(void * *)((u8 *)sprite + 0x2C)) = D_80174188;
             func_80047784(
                 sprite,
-                D_80174188[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100)
+                D_80174188[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100)
                             >> 9) & 7],
                 0);
             if (((Rec_func_800AA258_arg2 *)sprite)->unk_14 & 0x8000) {
@@ -221,7 +221,7 @@ state_two:
     (*(void * *)((u8 *)sprite + 0x2C)) = D_80174188;
     func_80047784(
         sprite,
-        D_80174188[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100)
+        D_80174188[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100)
                     >> 9) & 7],
         0);
     ((Rec_func_801736F4_arg0 *)controller)->unk_8C = &D_80170E54;

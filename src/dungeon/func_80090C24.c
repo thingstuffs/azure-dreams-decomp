@@ -334,7 +334,7 @@ update_sprite:
             sprite->unk_2C.as_pv = D_800DD274;
             func_8003DB94(sprite,
                 *(void **)((u8 *)D_800DD274 +
-                    ((((s32)(gameWork.viewAngle + ((S_80096384_3 *)actor_data)->unk_2A.s +
+                    ((((s32)(gameWork.view.viewAngle + ((S_80096384_3 *)actor_data)->unk_2A.s +
                         0x100)) >> 7) & 0x1C)),
                 0);
         }

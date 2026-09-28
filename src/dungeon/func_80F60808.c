@@ -29,7 +29,7 @@ void func_80F60808(S_80F60808_1 *action_state, void *unused, Rec_D_80082E80 *spr
         action_state->unk_8C = 0;
         action_state->unk_9B = 0;
         sprite->unk_2C.as_pm = &D_801741D4;
-        func_80047784(sprite, D_801741D4[(((s32) (gameWork.viewAngle + actor->facing + 0x100) >> 9) & 7)], 0);
+        func_80047784(sprite, D_801741D4[(((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7)], 0);
         actor->flags1C = (s32) (actor->flags1C | 0x200);
         func_800A48F0(actor, 1, 4);
         actor->unk_46 = (u16) (actor->unk_46 & 0x7FFF);

@@ -125,7 +125,7 @@ block_12:
         }
         if (current_anim != idle_anim) {
             map_actor->unk_2C.p = idle_anim;
-            action_data = (u8 *)(((s32) (gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7);
+            action_data = (u8 *)(((s32) (gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7);
             action_data += (u32)idle_anim;
             func_80047784(map_actor, *action_data, 0);
         }
@@ -161,7 +161,7 @@ block_28:
     func_800AA888(actor, context, map_actor, entity);
     func_8016DAA4(actor, context, map_actor, entity);
     map_actor->unk_2C.p = D_8017467C;
-    func_80047784(map_actor, D_8017467C[((s32) (gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7], 0);
+    func_80047784(map_actor, D_8017467C[((s32) (gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7], 0);
     actor->unk_90.at00_s32.v = 0;
     return;
 block_31:

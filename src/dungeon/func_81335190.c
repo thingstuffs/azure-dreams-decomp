@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/def_table.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -64,7 +65,6 @@ extern void func_800A4ACC(void *);
 extern void func_800A56E0(s32);
 extern s32 func_800A94A0(void *, u8 *, s32, u16 *);
 
-extern u8 D_8006DE24[];
 extern u8 D_8016A36C[];
 extern u8 D_801739A0[];
 extern u8 D_801739A8[];
@@ -257,7 +257,7 @@ set_from_object:
             (*(u8 * *)((u8 *)sprite + 0x2C)) = direction_table;
             func_80047784(
                 sprite,
-                *(u8 *)((unsigned long)(((gameWork.viewAngle +
+                *(u8 *)((unsigned long)(((gameWork.view.viewAngle +
                     ((S_8016C190_1 *)actor)->unk_2A + 0x100) >> 9) & 7) +
                     (unsigned long)direction_table),
                 0);

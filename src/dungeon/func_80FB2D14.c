@@ -47,7 +47,7 @@ void func_80172514(void *action_state, M2C_UNK action_context, void *sprite, voi
         (*(void * *)((u8 *)sprite + 0x2C)) = D_80175258;
         func_80047784(
             sprite,
-            D_80175258[((s32)(gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            D_80175258[((s32)(gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
         ((EntityRec *)actor)->unk_6D--;
         func_8009C93C(actor, sprite, ((EntityRec *)actor)->facing, 1, 0);

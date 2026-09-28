@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/def_table.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -66,7 +67,6 @@ extern void func_800A4ACC();
 extern s32 func_800A6D30();
 extern void func_800C77D0();
 
-extern u8 D_8006DE24[];
 
 /* Updates the object action state and applies direction data to its target. */
 void func_800AAF00(void *actor, s32 effect_param, void *target, u8 *direction_table, s32 next_state) {
@@ -151,7 +151,7 @@ shared_body:
                     (*(u8 * *)((u8 *)target + 0x2C)) = direction_table;
                     func_80047784(
                         target,
-                        direction_table[((gameWork.viewAngle + ((S_800AAF00_0 *)object)->unk_2A.s + 0x100) >> 9) & 7],
+                        direction_table[((gameWork.view.viewAngle + ((S_800AAF00_0 *)object)->unk_2A.s + 0x100) >> 9) & 7],
                         0);
                 }
                 ((S_800AAF00_4 *)target)->unk_14 |= 0x800;

@@ -105,12 +105,12 @@ after_control:
         {
             u8 *direction_entry;
 
-            initial_state = ((s32)(gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7;
+            initial_state = ((s32)(gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7;
             direction_entry = direction_table + initial_state;
             func_80048A44(sprite, *direction_entry, 0, 1);
         }
 #else
-        func_80048A44(sprite, direction_table[((s32)(gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7], 0, 1);
+        func_80048A44(sprite, direction_table[((s32)(gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7], 0, 1);
 #endif
     }
 }

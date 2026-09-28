@@ -64,7 +64,7 @@ block_10:
     func_80099F04(*(s32 *)((u8 *)actor + 0x5C));
     dungeonStatus.flags = (u16) (dungeonStatus.flags | 0x812);
     *(u16 *)((u8 *)entity + 0x98) = (u16) (*(u16 *)((u8 *)entity + 0x98) & 0xFFF3);
-    func_80048A44(sprite, *(*(u8 **)((u8 *)sprite + 0x2C) + (((s32) (gameWork.viewAngle + *(s16 *)((u8 *)actor + 0x2A) + 0x100) >> 9) & 7)), 0, 1);
+    func_80048A44(sprite, *(*(u8 **)((u8 *)sprite + 0x2C) + (((s32) (gameWork.view.viewAngle + *(s16 *)((u8 *)actor + 0x2A) + 0x100) >> 9) & 7)), 0, 1);
     *(u8 *)(entity + 0x9B) = (u8) (*(u8 *)(entity + 0x9B) + 1);
     return;
 jt_c1:
@@ -103,7 +103,7 @@ block_17:
         goto block_22;
     }
     *(u8 **)((u8 *)sprite + 0x2C) = D_800DD058;
-    func_80048A44(sprite, *(*(u8 **)((u8 *)sprite + 0x2C) + (((s32) (gameWork.viewAngle + *(s16 *)((u8 *)actor + 0x2A) + 0x100) >> 9) & 7)), 0, 1);
+    func_80048A44(sprite, *(*(u8 **)((u8 *)sprite + 0x2C) + (((s32) (gameWork.view.viewAngle + *(s16 *)((u8 *)actor + 0x2A) + 0x100) >> 9) & 7)), 0, 1);
     dungeonStatus.unk_04 = 1;
 block_19:
     *(u8 *)(entity + 0x9B) = (u8) (*(u8 *)(entity + 0x9B) + 1);

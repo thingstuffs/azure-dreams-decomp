@@ -52,7 +52,7 @@ void func_801722E0(void *owner, void *unused, void *part, void *actor) {
         (*(u8 * *)((u8 *)part + 0x2C)) = table;
         func_80047784(
             part,
-            table[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            table[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
         ((EntityRec *)actor)->unk_6D = (u8)(((u8)((EntityRec *)actor)->unk_6D) - 1);
         dungeonStatus.unk_0A = (u16)(((u16)dungeonStatus.unk_0A) + 1);

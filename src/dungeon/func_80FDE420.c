@@ -114,7 +114,7 @@ void func_80173C20(void *arg0, void *arg1, void *arg2, void *arg3)
         }
 
         (*(void * *)((u8 *)arg2 + 0x2C)) = D_80174090;
-        index = (gameWork.viewAngle + ((S_80173C20_1 *)arg3)->unk_2A.u + 0x100) >> 9;
+        index = (gameWork.view.viewAngle + ((S_80173C20_1 *)arg3)->unk_2A.u + 0x100) >> 9;
         func_80047784(arg2, D_80174090[index & 7], 0);
         ((S_80173C20_0 *)arg0)->unk_90 = 0;
         ((S_80173C20_0 *)arg0)->unk_98 |= 8;
@@ -131,7 +131,7 @@ void func_80173C20(void *arg0, void *arg1, void *arg2, void *arg3)
         }
 
         (*(void * *)((u8 *)arg2 + 0x2C)) = D_80174098;
-        index = (gameWork.viewAngle + ((S_80173C20_1 *)arg3)->unk_2A.u + 0x100) >> 9;
+        index = (gameWork.view.viewAngle + ((S_80173C20_1 *)arg3)->unk_2A.u + 0x100) >> 9;
         func_80047784(arg2, D_80174098[index & 7], 0);
         ((S_80173C20_0 *)arg0)->unk_96 = 8;
         ((S_80173C20_0 *)arg0)->unk_98 &= 0xFFF7;
@@ -150,7 +150,7 @@ void func_80173C20(void *arg0, void *arg1, void *arg2, void *arg3)
         }
 
         (*(void * *)((u8 *)arg2 + 0x2C)) = D_801740A0;
-        index = (gameWork.viewAngle + ((S_80173C20_1 *)arg3)->unk_2A.u + 0x100) >> 9;
+        index = (gameWork.view.viewAngle + ((S_80173C20_1 *)arg3)->unk_2A.u + 0x100) >> 9;
         func_80047784(arg2, D_801740A0[index & 7], 0);
 
     increment_state:

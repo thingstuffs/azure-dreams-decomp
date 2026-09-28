@@ -149,7 +149,7 @@ jt_c0:
         goto done;
     }
     (*(M2C_UNK **)((u8 *)animation + 0x2C)) = D_800DD138;
-    func_80048A44(animation, *((((s32) (gameWork.viewAngle + ((S_80095A10_2 *)context)->unk_2A + 0x100) >> 9) & 7) + D_800DD138), 0, 1);
+    func_80048A44(animation, *((((s32) (gameWork.view.viewAngle + ((S_80095A10_2 *)context)->unk_2A + 0x100) >> 9) & 7) + D_800DD138), 0, 1);
     ((S_80095A10_1 *)animation)->unk_14 = (u16) (((S_80095A10_1 *)animation)->unk_14 | 0x200);
     func_80093C70(actor, position, animation);
     func_80093D8C(actor, position, animation);
@@ -217,7 +217,7 @@ jt_c4:
         goto done;
     }
     (*(M2C_UNK **)((u8 *)animation + 0x2C)) = D_800DD140;
-    func_80048A44(animation, *((((s32) (gameWork.viewAngle + ((S_80095A10_2 *)context)->unk_2A + 0x100) >> 9) & 7) + D_800DD140), 0, 1);
+    func_80048A44(animation, *((((s32) (gameWork.view.viewAngle + ((S_80095A10_2 *)context)->unk_2A + 0x100) >> 9) & 7) + D_800DD140), 0, 1);
     goto advance_state;
 jt_c5:
     animation_flags = ((S_80095A10_1 *)animation)->unk_14;
@@ -228,7 +228,7 @@ jt_c5:
     ((S_80095A10_1 *)animation)->unk_14 = (u16) (animation_flags & 0xFDFF);
 set_animation:
     (*(M2C_UNK **)((u8 *)animation + 0x2C)) = animation_table;
-    func_80048A44(animation, *((((s32) (gameWork.viewAngle + ((S_80095A10_2 *)context)->unk_2A + 0x100) >> 9) & 7) + animation_table), 0, 1);
+    func_80048A44(animation, *((((s32) (gameWork.view.viewAngle + ((S_80095A10_2 *)context)->unk_2A + 0x100) >> 9) & 7) + animation_table), 0, 1);
 advance_state:
     previous_state = ((S_80095A10_0 *)actor)->unk_9B;
 store_next_state:

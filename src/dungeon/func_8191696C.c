@@ -26,9 +26,9 @@ extern volatile s8 D_800E3D20[];
 
 /* Initializes a dispatch request and reports changes to its identifier and prior mode. */
 s32 func_8002416C(s32 unused, s32 request_id, s32 request_value, s16 request_param) {
-    struct S_80083178 *state = ((void *)&gameWork.unk_018);
-    S_8191696C_state *dispatch = (S_8191696C_state *)&state->field_B8;
-    void *payload_start = (void *)((u8 *)&state->field_B8 + 4);
+    GameView *state = &gameWork.view;
+    S_8191696C_state *dispatch = (S_8191696C_state *)&state->slot[0].unk_04;
+    void *payload_start = (void *)((u8 *)&state->slot[0].unk_04 + 4);
     s16 saved_value;
     s32 prev_request_id;
     s32 change_flags;
@@ -45,7 +45,7 @@ s32 func_8002416C(s32 unused, s32 request_id, s32 request_value, s16 request_par
     dispatch->unkCC = 0xC;
     dispatch->unkD0 = 0;
     dispatch->unkDE = request_param;
-    state->callback = D_80024024;
+    state->slot[0].callback = D_80024024;
     if (change_flags & 1) {
         D_800E3D20[0] = saved_value;
     }

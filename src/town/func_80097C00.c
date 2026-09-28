@@ -7,7 +7,7 @@ u32 func_80095360(s32 angle) {
     s32 angle_delta;
 
     angle -= 0x500;
-    angle_delta = (gameWork.viewAngle - angle) & 0xFFF;
+    angle_delta = (gameWork.view.viewAngle - angle) & 0xFFF;
     if (angle_delta < 0) {
         angle_delta += 0x1FF;
     }

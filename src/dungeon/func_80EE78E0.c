@@ -88,7 +88,7 @@ state_zero:
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_8016EED0;
     func_80047784(
         sprite,
-        D_8016EED0[((gameWork.viewAngle + ((S_8016D0E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+        D_8016EED0[((gameWork.view.viewAngle + ((S_8016D0E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
         0);
     ((S_8016D0E0_0 *)action)->unk_98 |= 8;
     ((S_8016D0E0_1 *)actor)->unk_1C.s &= 0xF7FFFFFF;
@@ -136,7 +136,7 @@ state_two:
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_8016EED8;
         func_80047784(
             sprite,
-            D_8016EED8[((gameWork.viewAngle + ((S_8016D0E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            D_8016EED8[((gameWork.view.viewAngle + ((S_8016D0E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((S_8016D0E0_0 *)action)->unk_9B++;
     }
@@ -148,7 +148,7 @@ state_three:
         (*(u8 * *)((u8 *)sprite + 0x2C)) = anim_table;
         func_80047784(
             sprite,
-            anim_table[((gameWork.viewAngle + ((S_8016D0E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            anim_table[((gameWork.view.viewAngle + ((S_8016D0E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
     }
 

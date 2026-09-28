@@ -144,7 +144,7 @@ increment_state:
 
         (*(void * *)((u8 *)sprite + 0x2C)) = D_80173D0C;
         func_80047784(sprite,
-            D_80173D0C[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            D_80173D0C[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
 
         actor_ref = ((s32)dungeonStatus.unk_10);

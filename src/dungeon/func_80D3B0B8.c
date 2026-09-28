@@ -119,7 +119,7 @@ void func_80D3B0B8(u8 *owner_data, u8 *source_position, u8 *source_sprite) {
         direction_table = D_800E23F0;
         ((S_80D3B0B8_3 *)sprite)->unk_2C = direction_table;
         func_80047784(sprite,
-            direction_table[((gameWork.viewAngle +
+            direction_table[((gameWork.view.viewAngle +
                 ((S_80D3B0B8_2 *)owner_data)->unk_2A.u + 0x100) >> 9) & 7], 0);
 
         position = ((S_80D3B0B8_1 *)object)->unk_08;
@@ -139,7 +139,7 @@ void func_80D3B0B8(u8 *owner_data, u8 *source_position, u8 *source_sprite) {
             ((S_80D3B0B8_3 *)sprite)->unk_1E = sprite_field_1e;
         }
         ((S_80D3B0B8_3 *)sprite)->unk_06 =
-            D_800DCECC[((gameWork.viewAngle +
+            D_800DCECC[((gameWork.view.viewAngle +
                 ((S_80D3B0B8_2 *)owner_data)->unk_2A.u + 0x100) >> 9) & 7] * 4;
         ((S_80D3B0B8_2 *)owner_data)->unk_B0++;
         func_800BC26C(object, 0, sprite + 0x2C, object_data + 0x2A);

@@ -89,7 +89,7 @@ success:
     ASM_KEEP(state_flag);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     (*(u8 **)((u8 *)sprite + 0x2C)) = D_80173FB8;
     func_80047784(sprite,
-        D_80173FB8[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+        D_80173FB8[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
         0);
     ((EntityRec *)actor)->unk_6D = (u8) (((u8)((EntityRec *)actor)->unk_6D) - 1);
     func_8009C93C(actor, sprite, ((EntityRec *)actor)->facing, 1, 0);

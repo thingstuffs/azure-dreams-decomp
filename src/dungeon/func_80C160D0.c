@@ -62,7 +62,7 @@ void func_801718D0(void *motion, s32 unused, void *entity, void *path_state)
         (*(u8 * *)((u8 *)entity + 0x2C)) = D_8017449C;
         func_80047784(
             entity,
-            D_8017449C[((gameWork.viewAngle + ((S_801718D0_0 *)path_state)->unk_2A + 0x100) >> 9) & 7],
+            D_8017449C[((gameWork.view.viewAngle + ((S_801718D0_0 *)path_state)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((Rec_func_800A9E70_arg0 *)motion)->unk_A8 = 0;
     }

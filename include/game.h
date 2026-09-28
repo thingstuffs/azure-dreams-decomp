@@ -7,8 +7,9 @@
  * names are not copyrightable); no code was copied. Layouts marked "provisional"
  * still need exact field offsets confirmed from the disassembly / ref/adrando. */
 
-/* Global dispatch/callback state record at D_80083178 (unified from the
- * func_8004D0C8 / func_8004D110 accessors). */
+/* Four x,y,z,pad short vectors: the layout of gameWork.view.unk_094..0x0B3 (include/shared/game_work.h,
+ * GameView); D_80083CE8 (globals.h) is a saved copy of them (slus/w_80044724 compares and copies them).
+ * The old struct S_80083178 (the whole gameWork+0x18 block) is shared/game_work.h's GameView since r78 phase 8. */
 struct S_80083178Vector {
     short x;
     short y;
@@ -18,21 +19,6 @@ struct S_80083178Vector {
 
 struct S_80083178State {
     struct S_80083178Vector v[4];
-};
-
-struct S_80083178 {
-    char pad0[2];
-    unsigned short unk2;                 /* 0x2   (func_800C6654: 0x10 state-flag bit) */
-    char pad4[6];
-    unsigned short unkA;                 /* 0xA   (func_800C6654: dispatch-slot counter) */
-    char padC[0x94 - 0xC];
-    struct S_80083178State state_94;      /* 0x94: four padded xyz vectors */
-    void (*callback)(void);              /* 0xB4 */
-    void *field_B8;                      /* 0xB8 */
-    char pad_bc[0xD8 - 0xB8 - 4];
-    void *ptr;                           /* 0xD8 */
-    char pad_dc[0x1C4 - 0xDC];           /* table extends to 0x1C4: 0x44-byte dispatch slots at
-                                            0xB4/0xF8/0x13C/0x180 (func_8004D7A8/func_8004D7E8 use byte offsets) */
 };
 
 /* Monster initial-stats table  = D_8006D168  (adrando initialStatsTable, 24B/record).

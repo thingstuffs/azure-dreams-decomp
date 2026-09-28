@@ -195,7 +195,7 @@ wait:
         goto done;
     }
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80174EB8;
-    func_80047784(sprite, D_80174EB8[((s32) (gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7], 0);
+    func_80047784(sprite, D_80174EB8[((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7], 0);
 
 advance:
     ((S_80172FFC_0 *)action)->unk_96 = 0U;
@@ -214,7 +214,7 @@ emit:
     }
     if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) {
         (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80174E90;
-        func_80047784(sprite, D_80174E90[((s32) (gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7], 0);
+        func_80047784(sprite, D_80174E90[((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7], 0);
     }
     spawn_tick = ((S_80172FFC_0 *)action)->unk_96;
     if ((u32) (spawn_tick - 9) < 5U) {
@@ -286,7 +286,7 @@ emit:
                 position[0] = ((S_80172FFC_3 *)motion)->unk_02;
                 position[1] = ((S_80172FFC_3 *)motion)->unk_06;
                 position[2] = ((S_80172FFC_3 *)motion)->unk_0A;
-                ((S_80172FFC_6 *)effect_sprite)->unk_06 = (s16) ((effect_depth - func_80065420(position_ptr, screen_pos, &projection_aux, &projection_flags)) - (D_800DCECC[((s32) (gameWork.viewAngle + (s16) ((S_80172FFC_4 *)effect_data)->unk_94 + 0x100) >> 9) & 7] * 2));
+                ((S_80172FFC_6 *)effect_sprite)->unk_06 = (s16) ((effect_depth - func_80065420(position_ptr, screen_pos, &projection_aux, &projection_flags)) - (D_800DCECC[((s32) (gameWork.view.viewAngle + (s16) ((S_80172FFC_4 *)effect_data)->unk_94 + 0x100) >> 9) & 7] * 2));
             }
             next_count = spawn_count + 1;
             spawn_count = next_count;

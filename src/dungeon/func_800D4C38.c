@@ -54,7 +54,7 @@ state_zero:
     PTR_AT(sprite, 0x2C) = D_800E262C;
     func_8003DB94(sprite,
         *(void **)((u8 *)D_800E262C +
-            (((gameWork.viewAngle + S16_AT(actor, 0x2A) + 0x100) >> 7) & 0x1C)),
+            (((gameWork.view.viewAngle + S16_AT(actor, 0x2A) + 0x100) >> 7) & 0x1C)),
         0);
     goto advance_state;
 
@@ -100,7 +100,7 @@ permitted:
     PTR_AT(sprite, 0x2C) = D_800E262C;
     func_8003DB94(sprite,
         *(void **)((u8 *)D_800E262C +
-            (((gameWork.viewAngle + S16_AT(actor, 0x2A) + 0x100) >> 7) & 0x1C)),
+            (((gameWork.view.viewAngle + S16_AT(actor, 0x2A) + 0x100) >> 7) & 0x1C)),
         0);
     S32_AT(actor, 0x1C) |= 0x40000;
     dungeonStatus.unk_0A++;

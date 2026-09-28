@@ -140,7 +140,7 @@ void func_80174A28(void *action, void *motion, void *sprite, void *actor)
                 ((S_80174A28_2 *)sprite)->unk_2C = D_80174DEC;
                 ((S_80174A28_2 *)sprite)->unk_14 &= 0xF7FF;
                 func_80047784(sprite,
-                    ((S_80174A28_2 *)sprite)->unk_2C[((gameWork.viewAngle +
+                    ((S_80174A28_2 *)sprite)->unk_2C[((gameWork.view.viewAngle +
                         ((S_80174A28_3 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
                     0);
                 ((S_80174A28_0 *)action)->unk_9B++;

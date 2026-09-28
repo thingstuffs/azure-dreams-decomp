@@ -72,7 +72,7 @@ continue_update:
             *(u8 **)((u8 *)sprite + 0x2C) = D_800DD050;
             func_80048A44(
                 sprite,
-                D_800DD050[((gameWork.viewAngle + ((EntityRec *)facing)->facing + 0x100) >> 9) & 7],
+                D_800DD050[((gameWork.view.viewAngle + ((EntityRec *)facing)->facing + 0x100) >> 9) & 7],
                 0,
                 1);
         }

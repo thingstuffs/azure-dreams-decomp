@@ -161,7 +161,7 @@ check_height:
         goto update_effect;
     }
     sprite->unk_2C.as_pu8 = D_800E2438;
-    func_80047784(sprite, D_800E2438[((s32) (gameWork.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+    func_80047784(sprite, D_800E2438[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
     func_800A56E0(0x800);
     ((S_8017558C_0 *)action)->unk_96 = 2U;
     ((S_8017558C_0 *)action)->unk_9B = (u8) (((S_8017558C_0 *)action)->unk_9B + 1);
@@ -210,7 +210,7 @@ phase_wait:
     }
 start_windup:
     sprite->unk_2C.as_pu8 = D_800E2440;
-    func_80047784(sprite, D_800E2440[((s32) (gameWork.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+    func_80047784(sprite, D_800E2440[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
     ((S_8017558C_0 *)action)->unk_96 = 3U;
     ((S_8017558C_0 *)action)->unk_9B = (u8) (((S_8017558C_0 *)action)->unk_9B + 1);
     ((S_8017558C_0 *)action)->unk_B6 = (u16) ((u16)position->x.w.i);
@@ -264,7 +264,7 @@ restore_position:
     actor->unk_88 = (u16) ((S_8017558C_0 *)action)->unk_BA;
     saved_angle = ((S_8017558C_0 *)action)->unk_A6;
     actor->facing = (s16) saved_angle;
-    view_dir = ((s32) (gameWork.viewAngle + (s16) saved_angle + 0x100) >> 9) & 7;
+    view_dir = ((s32) (gameWork.view.viewAngle + (s16) saved_angle + 0x100) >> 9) & 7;
     func_80047738(sprite, sprite->unk_2C.as_pu8[view_dir], sprite->unk_04.as_s8);
     ((S_8017558C_0 *)action)->unk_94 = view_dir;
 wait_restore:
@@ -284,7 +284,7 @@ wait_pause:
     ((S_8017558C_0 *)action)->unk_96 = 0U;
     ((S_8017558C_0 *)action)->unk_B1 = (u8) (((S_8017558C_0 *)action)->unk_B1 + 1);
     sprite->unk_2C.as_pu8 = D_800E2448;
-    func_80047784(sprite, D_800E2448[((s32) (gameWork.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+    func_80047784(sprite, D_800E2448[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
     sprite->unk_14.at00_u16.v = (u16) (sprite->unk_14.at00_u16.v & 0x9F7F);
     func_800A56E0(0x801);
     goto done;
@@ -302,7 +302,7 @@ finish_restore:
         goto done;
     }
     sprite->unk_2C.as_pu8 = D_800E23E0;
-    func_80047784(sprite, D_800E23E0[((s32) (gameWork.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+    func_80047784(sprite, D_800E23E0[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
     ((S_8017558C_0 *)action)->unk_96 = 5U;
     ((S_8017558C_0 *)action)->unk_9B = (u8) (((S_8017558C_0 *)action)->unk_9B + 1);
     if (((S_8017558C_0 *)action)->unk_B0 != 0) {

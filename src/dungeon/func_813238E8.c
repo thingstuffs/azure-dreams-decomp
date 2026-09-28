@@ -301,7 +301,7 @@ void func_8016B0E8(void *entity, void *motion, void *sprite) {
         sprite_flags = ((S_8016B0E8_14 *)sprite)->unk_14.n;
         mode_bits = sprite_flags & 0x8000;
         if (!mode_bits) {
-            view_direction = ((s32) (gameWork.viewAngle + ((S_8016B0E8_2 *)actor)->unk_2A + 0x100) >> 9) & 7;
+            view_direction = ((s32) (gameWork.view.viewAngle + ((S_8016B0E8_2 *)actor)->unk_2A + 0x100) >> 9) & 7;
             prior_direction = ((S_8016B0E8_0 *)entity)->unk_94;
             direction_index = view_direction;
             if (prior_direction != direction_index) {

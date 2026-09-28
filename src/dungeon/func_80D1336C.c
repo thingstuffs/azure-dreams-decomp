@@ -94,7 +94,7 @@ L_state_0: {
             goto L_update_96;
         sprite->ptr_2c = D_80174EA8;
         func_80047784(sprite,
-                      D_80174EA8[((gameWork.viewAngle + actor->value_2a + 0x100) >> 9) & 7],
+                      D_80174EA8[((gameWork.view.viewAngle + actor->value_2a + 0x100) >> 9) & 7],
                       0);
         state->flags_98 |= 8;
         actor->flags_1c &= 0xf7ffffff;
@@ -188,7 +188,7 @@ L_flagged:
         sprite->value_1c = 0x1000;
         sprite->ptr_2c = D_80174EB0;
         func_80047784(sprite,
-                      D_80174EB0[((gameWork.viewAngle + actor->value_2a + 0x100) >> 9) & 7],
+                      D_80174EB0[((gameWork.view.viewAngle + actor->value_2a + 0x100) >> 9) & 7],
                       0);
         state->state_9b += 1;
         goto L_update_96;

@@ -138,7 +138,7 @@ void func_80174898(void *action, void *position, void *sprite, void *entity)
                 ((S_80174898_2 *)sprite)->unk_2C = D_80175988;
                 ((S_80174898_2 *)sprite)->unk_14 &= 0xF7FF;
                 func_80047784(sprite,
-                    ((S_80174898_2 *)sprite)->unk_2C[((gameWork.viewAngle +
+                    ((S_80174898_2 *)sprite)->unk_2C[((gameWork.view.viewAngle +
                         ((S_80174898_3 *)entity)->unk_2A.u + 0x100) >> 9) & 7],
                     0);
                 ((S_80174898_0 *)action)->unk_9B++;

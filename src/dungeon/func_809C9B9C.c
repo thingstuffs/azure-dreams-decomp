@@ -65,7 +65,7 @@ void func_8017139C(void *controller, void *context, void *entity, void *path_sta
         (*(u8 * *)((u8 *)entity + (0x2C))) = D_80173C74;
         func_80047784(
             entity,
-            D_80173C74[((gameWork.viewAngle + ((S_8017139C_0 *)state)->unk_2A + 0x100) >> 9) & 7],
+            D_80173C74[((gameWork.view.viewAngle + ((S_8017139C_0 *)state)->unk_2A + 0x100) >> 9) & 7],
             0);
     }
 

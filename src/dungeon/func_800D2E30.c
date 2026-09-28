@@ -102,7 +102,7 @@ void *func_800D8590(void *entity)
         ((S_800D8590_2 *)object)->unk_8C = D_800D8C64;
         (*(void ** *)((u8 *)child + 0x2C)) = D_800E262C;
 
-        frame_index = (gameWork.viewAngle + ((S_800D8590_1 *)entity)->unk_2A + 0x100) >> 7;
+        frame_index = (gameWork.view.viewAngle + ((S_800D8590_1 *)entity)->unk_2A + 0x100) >> 7;
         func_8003DB94(child,
                       *(void **)((u8 *)D_800E262C + (frame_index & 0x1C)), 0);
         ((S_800D8590_2 *)object)->unk_A0 = 0x14;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_index_slots.h"
 
 typedef struct TownEntry {
     u8 pad0[2];
@@ -22,7 +23,6 @@ extern void func_80094984();
 extern void func_80099754();
 extern u8 D_800983BC;
 extern u8 D_800D0158;
-extern TownEntry D_80082660[];
 extern u16 D_800D5070[];
 
 /* Set the object's handler, state, and entry-specific value, then update the table target. */

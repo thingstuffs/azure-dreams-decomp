@@ -91,7 +91,7 @@ state_zero:
         goto tick;
     }
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801748A0;
-    facing_index = (gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
+    facing_index = (gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
     func_80047784(sprite, D_801748A0[facing_index & 7], 0);
     ((S_80173A08_0 *)action)->unk_98 |= 8;
     ((EntityRec *)entity)->flags1C &= 0xF7FFFFFF;
@@ -106,7 +106,7 @@ state_one:
         goto tick;
     }
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801748A8;
-    facing_index = (gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
+    facing_index = (gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
     func_80047784(sprite, D_801748A8[facing_index & 7], 0);
     ((S_80173A08_0 *)action)->unk_98 |= 8;
     ((EntityRec *)entity)->flags1C &= 0xF7FFFFFF;
@@ -152,7 +152,7 @@ state_two:
     ((S_80173A08_0 *)action)->unk_98 &= 0xFFF7;
     ((EntityRec *)entity)->flags1C |= entity_mask;
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801748B0;
-    facing_index = (gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
+    facing_index = (gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
     func_80047784(sprite, D_801748B0[facing_index & 7], 0);
     ((S_80173A08_0 *)action)->unk_9B++;
 
@@ -166,7 +166,7 @@ state_three:
     ((EntityRec *)motion)->unk_0C = 0;
     func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801748B0;
-    facing_index = (gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
+    facing_index = (gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
     func_80047784(sprite, D_801748B0[facing_index & 7], 0);
     ((S_80173A08_0 *)action)->unk_9B++;
 

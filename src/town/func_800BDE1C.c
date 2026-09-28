@@ -42,9 +42,9 @@ void func_800BB57C(s32 object_id, void *object, FuncData *state) {
     state->unk1C = 0x1000;
     state->unk1E = 0x1000;
     state->unk20 = 0x1000;
-    state->unkC = gameWork.unk_0A8;
-    state->unkD = gameWork.unk_0A9;
-    state->unkE = gameWork.unk_0AA;
+    state->unkC = gameWork.view.unk_090;
+    state->unkD = gameWork.view.unk_091;
+    state->unkE = gameWork.view.unk_092;
     *(s32 *)((u8 *)object + 8) += 0x200000;
 
     func_8008F104(object_id, object, D_800D1BDC);

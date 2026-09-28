@@ -61,9 +61,9 @@ void *func_800A2000(s32 object_key, s32 payload_value, s32 payload_param, s32 pa
     display->unk_12 = 0;
     display->unk_14 = 0;
     display->unk_10 = 0;
-    display->unk_0C = gameWork.unk_0A8;
-    display->unk_0D = gameWork.unk_0A9;
-    display->unk_0E = gameWork.unk_0AA;
+    display->unk_0C = gameWork.view.unk_090;
+    display->unk_0D = gameWork.view.unk_091;
+    display->unk_0E = gameWork.view.unk_092;
     display->unk_14 = 0;
     return obj;
 }

@@ -118,7 +118,7 @@ state_one:
     }
     sprite->unk_2C = D_800DD058;
     func_80048A44(sprite,
-        D_800DD058[((gameWork.viewAngle + entity->unk_2A + 0x100) >> 9) & 7],
+        D_800DD058[((gameWork.view.viewAngle + entity->unk_2A + 0x100) >> 9) & 7],
         0, 1);
     sprite->unk_14 = (u16)(sprite->unk_14 | 0x800);
     actor->unk_9B = (u8)(actor->unk_9B + 1);

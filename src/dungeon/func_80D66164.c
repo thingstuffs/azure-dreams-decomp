@@ -114,7 +114,7 @@ void func_80171964(void *object_arg, void *motion_arg, void *part_arg)
         s16 page_index;
         u8 *page_table;
 
-        view_direction = (gameWork.viewAngle + ((S_80171964_2 *)base)->unk_2A + 0x100) >> 9;
+        view_direction = (gameWork.view.viewAngle + ((S_80171964_2 *)base)->unk_2A + 0x100) >> 9;
         direction_index = view_direction & 7;
         page_index = direction_index;
         if ((*(s16 *)((u8 *)object_arg + (0x94))) != (s16)page_index) {

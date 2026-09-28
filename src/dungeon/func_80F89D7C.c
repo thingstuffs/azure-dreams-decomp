@@ -89,7 +89,7 @@ state_zero:
     }
     (*(void * *)((u8 *)sprite + 0x2C)) = D_80174AFC;
     func_80047784(sprite,
-        D_80174AFC[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+        D_80174AFC[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
         0);
     ((S_8017357C_3 *)(u8 *)&dungeonStatus.unk_00)->unk_0A = ((S_8017357C_3 *)(u8 *)&dungeonStatus.unk_00)->unk_0A - 1;
     ((S_8017357C_0 *)controller)->unk_9B++;
@@ -99,7 +99,7 @@ state_one:
     if ((func_80042900(actor, 1) << 16) == 0) {
         (*(void * *)((u8 *)sprite + 0x2C)) = D_80174B04;
         func_80047784(sprite,
-            D_80174B04[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            D_80174B04[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
         actor_flags = ((EntityRec *)actor)->flags1C | 0x40000;
         ((EntityRec *)actor)->flags1C = actor_flags;
@@ -167,7 +167,7 @@ state_one:
     }
     (*(void * *)((u8 *)sprite + 0x2C)) = D_80174B04;
     func_80047784(sprite,
-        D_80174B04[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+        D_80174B04[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
         0);
     actor_flags = ((EntityRec *)actor)->flags1C | 0x40000;
     ((EntityRec *)actor)->flags1C = actor_flags;
@@ -195,7 +195,7 @@ state_two:
     ((S_8017357C_0 *)controller)->unk_A0 = 0;
     (*(void * *)((u8 *)sprite + 0x2C)) = D_80174AD4;
     func_80047784(sprite,
-        D_80174AD4[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+        D_80174AD4[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
         0);
     {
 

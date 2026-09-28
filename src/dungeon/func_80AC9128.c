@@ -25,7 +25,7 @@ void func_80174928(void *action_state, s32 effect_arg, void *anim_state, void *a
             ((Rec_func_800A9E70_arg0 *)action_state)->unk_9B.as_s8 = 0;
             (*(s32 * *)((u8 *)anim_state + 0x2C)) = &D_80174E3C;
             func_80047784(anim_state,
-                         *((((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7)
+                         *((((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7)
                            + (u8 *)&D_80174E3C),
                          0);
             func_800A4ACC(actor);

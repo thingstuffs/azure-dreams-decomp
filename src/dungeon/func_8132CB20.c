@@ -177,7 +177,7 @@ block_anim:
     if (old_anim != anim) {
         (*(u8 * *)((u8 *)entity + 0x2C)) = anim;
         func_80047784(entity,
-            *(u8 *)((((gameWork.viewAngle + ((S_80174320_1 *)obj)->unk_2A + 0x100) >> 9) & 7) + (u32)anim),
+            *(u8 *)((((gameWork.view.viewAngle + ((S_80174320_1 *)obj)->unk_2A + 0x100) >> 9) & 7) + (u32)anim),
             0);
         goto block_common;
     }
@@ -189,7 +189,7 @@ block_E8:
     if (old_anim != anim) {
         (*(u8 * *)((u8 *)entity + 0x2C)) = anim;
         func_80047784(entity,
-            anim[((gameWork.viewAngle + ((S_80174320_1 *)obj)->unk_2A + 0x100) >> 9) & 7],
+            anim[((gameWork.view.viewAngle + ((S_80174320_1 *)obj)->unk_2A + 0x100) >> 9) & 7],
             0);
         func_80171594(((S_80174320_0 *)entity)->unk_24, ((S_80174320_0 *)entity)->unk_25,
             ((S_80174320_2 *)context_arg)->unk_0A);
@@ -204,7 +204,7 @@ block_D8:
     if (old_anim != anim) {
         (*(u8 * *)((u8 *)entity + 0x2C)) = anim;
         func_80047784(entity,
-            anim[((gameWork.viewAngle + ((S_80174320_1 *)obj)->unk_2A + 0x100) >> 9) & 7],
+            anim[((gameWork.view.viewAngle + ((S_80174320_1 *)obj)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((S_80174320_0 *)entity)->unk_14 |= 0x800;
         goto block_common;
@@ -225,7 +225,7 @@ block_E0:
     if (((S_80174320_0 *)entity)->unk_2C.u != anim) {
         (*(u8 * *)((u8 *)entity + 0x2C)) = anim;
         func_80047784(entity,
-            anim[((gameWork.viewAngle + ((S_80174320_1 *)obj)->unk_2A + 0x100) >> 9) & 7],
+            anim[((gameWork.view.viewAngle + ((S_80174320_1 *)obj)->unk_2A + 0x100) >> 9) & 7],
             0);
         func_801724D4();
         audio_x = ((S_80174320_0 *)entity)->unk_24;

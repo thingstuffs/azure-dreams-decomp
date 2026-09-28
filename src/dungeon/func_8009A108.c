@@ -40,7 +40,7 @@ void *func_8009F868(void)
         ((S_8009F868_0 *)state)->unk_0A = 0;
         ((S_8009F868_0 *)state)->unk_04 &= 0xC;
         func_8004D0C8(((u8 *)(&D_80083780)), state);
-        gameWork.unk_154 = 0;
+        gameWork.view.slot[2].callback = 0;
         func_8004D7A8(1);
         func_8004D294(0, D_800DCE60, 8);
         return 0;

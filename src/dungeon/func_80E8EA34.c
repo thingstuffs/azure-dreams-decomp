@@ -105,7 +105,7 @@ void func_80174234(S_80174234_0 *owner, void *unused, S_80174234_1 *part, S_8017
         owner->unk_8C = 0;
         owner->unk_9B = 0;
         *(u8 **)((s8 *)part + 0x2C) = D_80174F58;   /* the struct-member form `part->unk_2C = ...` is NOT byte-exact here: reorder-only 4 (same-multiset, one addiu+sw pair drifts) */
-        func_80047784(part, D_80174F58[((gameWork.viewAngle + (s16) actor->unk_2A + 0x100) >> 9) & 7], 0);
+        func_80047784(part, D_80174F58[((gameWork.view.viewAngle + (s16) actor->unk_2A + 0x100) >> 9) & 7], 0);
         actor->unk_6D = (u8) (actor->unk_6D - 1);
         dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) + 1);
     }

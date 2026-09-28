@@ -223,9 +223,9 @@ allocate:
     display->f28 = source_arg->f28;
     display->f12 = source_arg->f12;
 
-    offset_x_index = ((gameWork.viewAngle + context->f2A + 0x100) >> 8) & 0xE;
+    offset_x_index = ((gameWork.view.viewAngle + context->f2A + 0x100) >> 8) & 0xE;
     local_offset.x = D_801766F0[offset_x_index];
-    offset_y_index = ((gameWork.viewAngle + context->f2A + 0x100) >> 8) & 0xE;
+    offset_y_index = ((gameWork.view.viewAngle + context->f2A + 0x100) >> 8) & 0xE;
     local_offset.y = D_801766F0[offset_y_index + 1];
     local_offset.z = 0;
     func_8003E02C(&local_offset, &world_offset);

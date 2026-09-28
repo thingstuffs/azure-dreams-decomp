@@ -83,7 +83,7 @@ state_zero:
     }
     (*(void * *)((u8 *)sprite + 0x2C)) = D_8017419C;
     func_80047784(sprite,
-        D_8017419C[((gameWork.viewAngle + ((S_801724F4_0 *)actor)->unk_2A.u + 0x100) >> 9) & 7],
+        D_8017419C[((gameWork.view.viewAngle + ((S_801724F4_0 *)actor)->unk_2A.u + 0x100) >> 9) & 7],
         0);
     goto increment_state;
 
@@ -91,7 +91,7 @@ state_one:
     if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) {
         (*(void * *)((u8 *)sprite + 0x2C)) = D_801741A4;
         func_80047784(sprite,
-            D_801741A4[((gameWork.viewAngle + ((S_801724F4_0 *)actor)->unk_2A.u + 0x100) >> 9) & 7],
+            D_801741A4[((gameWork.view.viewAngle + ((S_801724F4_0 *)actor)->unk_2A.u + 0x100) >> 9) & 7],
             0);
         ((EntityRec *)motion)->unk_0C = (dir_x << 18) + (dir_x << 17);
         ((EntityRec *)motion)->unk_10 = (dir_y << 18) + (dir_y << 17);

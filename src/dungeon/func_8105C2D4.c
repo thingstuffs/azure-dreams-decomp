@@ -98,7 +98,7 @@ void func_80173AD4(void *work_in, void *part_a, void *part_b_in, void *actor) {
         ((S_80173AD4_0 *)actor)->unk_1C = (s32) (((S_80173AD4_0 *)actor)->unk_1C & ~0x2000);
         func_8009A21C(((S_80173AD4_3 *)part_b)->unk_24, ((S_80173AD4_3 *)part_b)->unk_25, 0x3000);
         (*(u8 **)((u8 *)part_b + 0x2C)) = D_80173FD0;
-        func_80047784(part_b, D_80173FD0[((gameWork.viewAngle + ((S_80173AD4_0 *)actor)->unk_2A + 0x100) >> 9) & 7], 0);
+        func_80047784(part_b, D_80173FD0[((gameWork.view.viewAngle + ((S_80173AD4_0 *)actor)->unk_2A + 0x100) >> 9) & 7], 0);
         msg = func_800990FC();
         msg_actor = actor;
         msg_handle = msg;

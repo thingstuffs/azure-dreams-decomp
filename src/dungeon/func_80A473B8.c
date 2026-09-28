@@ -232,7 +232,7 @@ void func_80170BB8(void *actor_data, void *motion_data, void *entity_data)
             s32 view_angle;
 
             view_angle =
-                gameWork.viewAngle + ((S_80170BB8_1 *)subject)->unk_2A + 0x100;
+                gameWork.view.viewAngle + ((S_80170BB8_1 *)subject)->unk_2A + 0x100;
             state_index = (view_angle >> 9) & 7;
         }
         {

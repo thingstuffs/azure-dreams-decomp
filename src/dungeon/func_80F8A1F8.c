@@ -81,7 +81,7 @@ void func_801739F8(void *controller, void *context, void *sprite, void *entity)
 #endif
         ((S_801739F8_2 *)activity_counts)->unk_0A--;
         (*(void * *)((u8 *)sprite + 0x2C)) = D_80174AFC;
-        direction = (gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
+        direction = (gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
         func_80047784(sprite, D_80174AFC[direction & 7], 0);
         ((S_801739F8_0 *)controller)->unk_9B++;
         goto increment_state_done;
@@ -92,7 +92,7 @@ void func_801739F8(void *controller, void *context, void *sprite, void *entity)
             register u8 *activity_counts;
 
             (*(void * *)((u8 *)sprite + 0x2C)) = D_80174AF4;
-            direction = (gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
+            direction = (gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
             func_80047784(sprite, D_80174AF4[direction & 7], 0);
             (*(u32 *)((u8 *)entity + 0x1C)) |= 0x40000;
             activity_counts = (u8 *)&dungeonStatus.unk_00;
@@ -149,7 +149,7 @@ void func_801739F8(void *controller, void *context, void *sprite, void *entity)
         }
 
         (*(void * *)((u8 *)sprite + 0x2C)) = D_80174AF4;
-        direction = (gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
+        direction = (gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
         func_80047784(sprite, D_80174AF4[direction & 7], 0);
         ((EntityRec *)entity)->flags1C |= 0x40000;
         ((S_801739F8_4 *)dungeon_state)->unk_0A++;

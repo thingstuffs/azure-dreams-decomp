@@ -144,7 +144,7 @@ finish_movement:
         direction_table = D_80175988;
         (*(void * *)((u8 *)entity + 0x2C)) = direction_table;
         func_80047784(entity,
-            direction_table[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            direction_table[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
     }
     {

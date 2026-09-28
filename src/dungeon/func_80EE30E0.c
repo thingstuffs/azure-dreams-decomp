@@ -74,7 +74,7 @@ state_0:
     animations = D_80174F18;
     PTR_AT(sprite, 0x2C) = animations;
     func_80047784(sprite,
-        animations[((gameWork.viewAngle + S16_AT(actor, 0x2A) + 0x100) >> 9) & 7], 0);
+        animations[((gameWork.view.viewAngle + S16_AT(actor, 0x2A) + 0x100) >> 9) & 7], 0);
     U16_AT(action_work, 0x96) = 0x14;
     U8_AT(action_work, 0x9B) = U8_AT(action_work, 0x9B) + 1;
 
@@ -164,7 +164,7 @@ state_2:
     }
     PTR_AT(sprite, 0x2C) = D_80174EB8;
     U16_AT(sprite, 0x14) &= 0xF7FF;
-    direction_index = ((gameWork.viewAngle + S16_AT(actor, 0x2A) + 0x100) >> 9) & 7;
+    direction_index = ((gameWork.view.viewAngle + S16_AT(actor, 0x2A) + 0x100) >> 9) & 7;
     func_80047784(sprite, U8_AT(PTR_AT(sprite, 0x2C), direction_index), 0);
     U8_AT(action_work, 0x9B) = U8_AT(action_work, 0x9B) + 1;
     goto done;

@@ -289,7 +289,7 @@ state_4:
 
     if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pv != D_80174EB8) {
         (*(void * *)((u8 *)sprite + 0x2C)) = D_80174EB8;
-        direction = ((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7;
+        direction = ((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7;
         func_80047784(sprite, D_80174EB8[direction], 0);
     }
     if (((s32)dungeonStatus.unk_0C) != 0) {

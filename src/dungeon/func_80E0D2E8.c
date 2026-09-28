@@ -104,7 +104,7 @@ void func_80170AE8(Actor *input_actor, Motion *input_motion, Entity *input_entit
 
     entity_flags = input_entity->flags14;
     if (!(entity_flags & 0x8000)) {
-        direction = ((gameWork.viewAngle + input_actor->angle + 0x100) >> 9) & 7;
+        direction = ((gameWork.view.viewAngle + input_actor->angle + 0x100) >> 9) & 7;
         direction_index = direction;
 
         if (input_actor->direction94 != direction) {

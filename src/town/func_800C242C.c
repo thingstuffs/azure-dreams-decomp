@@ -90,7 +90,7 @@ void func_800BFB8C(void *source)
                 func_8004491C(object, callback);
                 random_coord = rand();
                 random_value = random_coord;
-                coord_term = town->unk_0BC;
+                coord_term = town->view.unk_0A4;
                 if (random_value >= 0) {
                     random_coord = random_coord >> 0xA;
                 } else {

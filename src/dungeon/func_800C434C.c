@@ -114,7 +114,7 @@ void func_800C9AAC(void *state, void *object_motion, void *object_part)
     part_flags = ((S_800C9AAC_0 *)part)->unk_14;
     adjusted_flags = part_flags & 0x8000;
     if (!adjusted_flags) {
-        direction = ((gameWork.viewAngle + ((S_800C9AAC_2 *)secondary)->unk_2A + 0x100) >> 9);
+        direction = ((gameWork.view.viewAngle + ((S_800C9AAC_2 *)secondary)->unk_2A + 0x100) >> 9);
         direction &= 7;
         direction_index = direction;
         if ((*(s16 *)((u8 *)state + (0x94))) != direction_index) {

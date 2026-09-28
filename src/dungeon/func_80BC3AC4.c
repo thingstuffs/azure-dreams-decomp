@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/def_table.h"
 #include "shared/record_ptrs.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
@@ -24,7 +25,6 @@ extern s32 func_800A94A0(void *, u8 *, s32, void *);
 extern void func_80170D28(void *, s32, s32, s32, s32, s32, s32);
 extern void func_80170F2C(void *, s32, s32, s32, s32, s32, s32);
 
-extern u8 D_8006DE24[];
 extern void *D_80170850[];
 extern void *D_80170868[];
 extern u8 D_80171080[];
@@ -418,7 +418,7 @@ state_5:
 
         anim_table = D_80174634;
         (*(u8 * *)((u8 *)sprite + 0x2C)) = anim_table;
-        direction = ((gameWork.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7;
+        direction = ((gameWork.view.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7;
         func_80047784(sprite, anim_table[direction], 2);
         ((Rec_D_80082E80 *)sprite)->unk_05.as_u8 = 1;
         saved_a4 = ((S_801732C4_0 *)action)->unk_A4.at00.v;

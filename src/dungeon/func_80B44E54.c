@@ -123,7 +123,7 @@ state_0:
     ((S_80172654_4 *)motion)->unk_14 = 0;
     (*(void **)((u8 *)entity + 0x2C)) = D_80175A4C;
     func_80047784(entity,
-        D_80175A4C[((gameWork.viewAngle + ((S_80172654_1 *)actor)->unk_2A.u + 0x100) >> 9) & 7],
+        D_80175A4C[((gameWork.view.viewAngle + ((S_80172654_1 *)actor)->unk_2A.u + 0x100) >> 9) & 7],
         0);
     next_state = ((S_80172654_0 *)action)->unk_9B.u;
     timer = 8;
@@ -137,7 +137,7 @@ state_1:
     ((S_80172654_4 *)motion)->unk_0C = 0;
     (*(void **)((u8 *)entity + 0x2C)) = D_80175A8C;
     func_80047784(entity,
-        D_80175A8C[((gameWork.viewAngle + ((S_80172654_1 *)actor)->unk_2A.u + 0x100) >> 9) & 7],
+        D_80175A8C[((gameWork.view.viewAngle + ((S_80172654_1 *)actor)->unk_2A.u + 0x100) >> 9) & 7],
         0);
     goto increment_state;
 
@@ -195,7 +195,7 @@ state_4:
     if ((timer << 16) > 0) goto done;
     (*(void **)((u8 *)entity + 0x2C)) = D_80175A4C;
     func_80047784(entity,
-        D_80175A4C[((gameWork.viewAngle + ((S_80172654_1 *)actor)->unk_2A.u + 0x100) >> 9) & 7],
+        D_80175A4C[((gameWork.view.viewAngle + ((S_80172654_1 *)actor)->unk_2A.u + 0x100) >> 9) & 7],
         0);
     ((S_80172654_0 *)action)->unk_96.s = state;
     ((S_80172654_0 *)action)->unk_9B.s = 0xFF;

@@ -70,7 +70,7 @@ void func_800A5A98(State *state, Actor *actor) {
         func_80097844(actor, (u16)func_800374F4(2) + 2);
     }
 
-    direction = (((u16)input->viewAngle) + 0x800) & 0xFFF;
+    direction = (((u16)input->view.viewAngle) + 0x800) & 0xFFF;
     *(volatile u16 *)((u8 *)state + 0x10) = direction;
 
     if (((u32)input->unk_008) & 0x20) {
@@ -118,7 +118,7 @@ after_second_update:
     }
 
     if (speed == 0) {
-        input->viewAngle = (((u16)input->viewAngle) + 8) & 0xFFF0;
+        input->view.viewAngle = (((u16)input->view.viewAngle) + 8) & 0xFFF0;
     } else {
         if ((((u32)input->unk_008) & 0x30) == 0x10) {
             speed = (D_80100E20 * 3) / 2;
@@ -138,10 +138,10 @@ after_second_update:
     if ((*(volatile u32 *)((u8 *)input + 8)) & 0x2000) {
         {
             s32 angle;
-            angle = ((u16)input->viewAngle);
+            angle = ((u16)input->view.viewAngle);
             angle = angle - 0x10;
             angle = angle - speed;
-            input->viewAngle = angle;
+            input->view.viewAngle = angle;
         }
         func_80097844(actor, (u16)func_800374F4(1));
     }
@@ -149,10 +149,10 @@ after_second_update:
     if ((*(volatile u32 *)((u8 *)input + 8)) & 0x8000) {
         {
             s32 angle;
-            angle = ((u16)input->viewAngle);
+            angle = ((u16)input->view.viewAngle);
             angle = angle + 0x10;
             angle = angle + speed;
-            input->viewAngle = angle;
+            input->view.viewAngle = angle;
         }
         func_80097844(actor, (u16)func_800374F4(1));
     }

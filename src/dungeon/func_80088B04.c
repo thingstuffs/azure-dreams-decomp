@@ -76,7 +76,7 @@ launch_ready:
             dungeonStatus.flags = (u16) (dungeonStatus.flags | 0x812);
             ((Rec_func_8008ACDC_arg0 *)actor)->unk_98 = (u16) (((Rec_func_8008ACDC_arg0 *)actor)->unk_98 & 0xFFF3);
             (*(u8 **)((u8 *)sprite + 0x2C)) = D_800DD040;
-            func_80048A44(sprite, D_800DD040[((s32) (gameWork.viewAngle + ((EntityRec *)model)->facing + 0x100) >> 9) & 7], 0, 1);
+            func_80048A44(sprite, D_800DD040[((s32) (gameWork.view.viewAngle + ((EntityRec *)model)->facing + 0x100) >> 9) & 7], 0, 1);
             ((Rec_func_8008ACDC_arg0 *)actor)->unk_9B.as_u8 = (u8) (((Rec_func_8008ACDC_arg0 *)actor)->unk_9B.as_u8 + 1);
             func_800A56E0(0x50A);
             return;
@@ -108,7 +108,7 @@ update_move:
             func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
             if ((u8) ((Rec_func_8008ACDC_arg0 *)actor)->unk_9B.as_u8 >= 0xAU) {
                 (*(u8 **)((u8 *)sprite + 0x2C)) = D_800DD058;
-                func_80048A44(sprite, D_800DD058[((s32) (gameWork.viewAngle + ((EntityRec *)model)->facing + 0x100) >> 9) & 7], 0, 1);
+                func_80048A44(sprite, D_800DD058[((s32) (gameWork.view.viewAngle + ((EntityRec *)model)->facing + 0x100) >> 9) & 7], 0, 1);
                 ((Rec_func_8008ACDC_arg0 *)actor)->unk_9B.as_u8 = (u8) (((Rec_func_8008ACDC_arg0 *)actor)->unk_9B.as_u8 + 1);
                 dungeonStatus.unk_04 = 1;
                 return;

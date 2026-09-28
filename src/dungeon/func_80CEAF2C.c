@@ -314,7 +314,7 @@ table_ready:
         (*(u8 * *)((u8 *)sprite + 0x2C)) = anim_table;
         func_80047784(
             sprite,
-            *(u8 *)((((gameWork.viewAngle + ((S_8017472C_1 *)actor)->unk_2A + 0x100) >> 9) & 7) + (u32)anim_table),
+            *(u8 *)((((gameWork.view.viewAngle + ((S_8017472C_1 *)actor)->unk_2A + 0x100) >> 9) & 7) + (u32)anim_table),
             0);
     }
 

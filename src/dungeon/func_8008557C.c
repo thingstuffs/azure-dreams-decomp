@@ -488,12 +488,12 @@ update_facing:
             if (turn_flags & 1) {
                 ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 = (u16) (turn_flags & 0xFFFE);
                 (*(u8 **)((u8 *)sprite + 0x2C)) = D_800DD058;
-                func_80048A44(sprite, D_800DD058[((s32) (gameWork.viewAngle + (s16) ((S_8008ACDC_4 *)stats)->unk_2A.s + 0x100) >> 9) & 7], 0, 1);
+                func_80048A44(sprite, D_800DD058[((s32) (gameWork.view.viewAngle + (s16) ((S_8008ACDC_4 *)stats)->unk_2A.s + 0x100) >> 9) & 7], 0, 1);
             }
 update_animation:
             if (((S_8008ACDC_1 *)sprite)->unk_14 & 0xE000) {
                 (*(u8 **)((u8 *)sprite + 0x2C)) = D_800DCFB0;
-                func_80048A44(sprite, D_800DCFB0[((s32) (gameWork.viewAngle + (s16) ((S_8008ACDC_4 *)stats)->unk_2A.s + 0x100) >> 9) & 7], 0, 1);
+                func_80048A44(sprite, D_800DCFB0[((s32) (gameWork.view.viewAngle + (s16) ((S_8008ACDC_4 *)stats)->unk_2A.s + 0x100) >> 9) & 7], 0, 1);
             }
         }
     }

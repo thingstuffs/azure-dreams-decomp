@@ -51,7 +51,7 @@ case_13:
     }
     display->unk_2C.as_pu8 = direction_table;
     func_80047784(display,
-                  direction_table[((gameWork.viewAngle + entity->unk_2A + 0x100) >> 9) & 7],
+                  direction_table[((gameWork.view.viewAngle + entity->unk_2A + 0x100) >> 9) & 7],
                   0);
     return;
 case_14:
@@ -62,7 +62,7 @@ case_14:
     }
     display->unk_2C.as_pu8 = direction_table;
     func_80047784(display,
-                  direction_table[((gameWork.viewAngle + entity->unk_2A + 0x100) >> 9) & 7],
+                  direction_table[((gameWork.view.viewAngle + entity->unk_2A + 0x100) >> 9) & 7],
                   0);
     return;
 case_15:
@@ -73,6 +73,6 @@ case_15:
     }
     display->unk_2C.as_pu8 = direction_table;
     func_80047784(display,
-                  direction_table[((gameWork.viewAngle + entity->unk_2A + 0x100) >> 9) & 7],
+                  direction_table[((gameWork.view.viewAngle + entity->unk_2A + 0x100) >> 9) & 7],
                   0);
 }

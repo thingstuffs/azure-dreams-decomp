@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/def_table.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -57,7 +58,6 @@ M2C_UNK func_800A4ACC();                      /* extern */
 M2C_UNK func_800A56E0();                     /* extern */
 s32 func_800A94A0();       /* extern */
 void func_80171020(); /* extern */
-extern M2C_UNK D_8006DE24;
 extern M2C_UNK D_80171760;
 extern u8 D_80174E88[9];
 
@@ -168,7 +168,7 @@ check_target_type:
         u32 ability_entry;
 
         ability_kind = *ability;
-        ability_table = (u8 *)&D_8006DE24;
+        ability_table = (u8 *)D_8006DE24;
         ability_entry = ability_kind * 20;
         ability_entry += (u32)ability_table;
            /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -291,7 +291,7 @@ check_animation:
         goto check_completion;
     }
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = D_80174E88;
-    func_80047784(sprite, D_80174E88[((s32) (gameWork.viewAngle + ((S_8017364C_1 *)actor)->unk_2A + 0x100) >> 9) & 7], 0);
+    func_80047784(sprite, D_80174E88[((s32) (gameWork.view.viewAngle + ((S_8017364C_1 *)actor)->unk_2A + 0x100) >> 9) & 7], 0);
     ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = (u16) (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xF7FF);
 check_completion:
     if (((s32)dungeonStatus.unk_0C) != 0) {

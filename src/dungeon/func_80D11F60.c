@@ -90,7 +90,7 @@ void func_80171760(void *motion, void *render_ctx, void *map_entity, void *actor
         if (((S_80171760_2 *)map_entity)->unk_2C != D_80174EF0) {
             (*(void * *)((u8 *)map_entity + (0x2C))) = D_80174EE8;
             func_80047784(map_entity,
-                *(u8 *)((((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7) + (u32)D_80174EE8),
+                *(u8 *)((((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7) + (u32)D_80174EE8),
                 0);
             return;
         }
@@ -127,7 +127,7 @@ void func_80171760(void *motion, void *render_ctx, void *map_entity, void *actor
                 if (((S_80171760_2 *)map_entity)->unk_2C != anim_table) {
                     (*(void * *)((u8 *)map_entity + (0x2C))) = anim_table;
                     func_80047784(map_entity,
-                        anim_table[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+                        anim_table[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
                         0);
                 }
                 ((Rec_func_800A9E70_arg0 *)motion)->unk_9E.as_s16 = 0;
@@ -269,6 +269,6 @@ generic:
 update_common:
     (*(void * *)((u8 *)map_entity + (0x2C))) = anim_table;
     func_80047784(map_entity,
-        *(u8 *)((((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7) + (u32)anim_table),
+        *(u8 *)((((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7) + (u32)anim_table),
         0);
 }

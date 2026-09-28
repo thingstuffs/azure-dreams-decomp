@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_index_slots.h"
 
 typedef struct {
     u8 active;
@@ -7,7 +8,6 @@ typedef struct {
     u8 unk3[5];
 } TownSlot;
 
-extern TownSlot D_80082660[];
 extern u16 D_800D5070[];
 extern void func_800C41D4(void *, void *, void *, void *);
 

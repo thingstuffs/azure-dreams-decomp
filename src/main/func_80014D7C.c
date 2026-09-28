@@ -10,7 +10,7 @@ M2C_UNK func_80064F20();                     /* extern */
 /* Set up the request with scale 512 and center (160, 120), then dispatch in mode 0. */
 void func_80027D7C(s32 request) {
     func_80027C60();
-    gameWork.unk_0A0 = 0x200;
+    gameWork.view.unk_088 = 0x200;
     func_80064F20(0x200);
     func_80064F00(0xA0, 0x78);
     func_80027AFC(request, 0);

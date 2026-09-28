@@ -63,7 +63,7 @@ void func_81984D4C(void *tracker) {
     u8 *z_pending;
 
     blend_ticks = (*(s16 *)((u8 *)tracker + 0x24));
-    state = (u8 *)(&gameWork.unk_018);
+    state = (u8 *)(&gameWork.view);
     if (blend_ticks > 0) {
         ((S_81984D4C_0 *)state)->unk_98.u = (u16) ((S_81984D4C_0 *)state)->unk_98.u + ((s32) ((*(s16 *)((u8 *)tracker + 0x26)) - ((S_81984D4C_0 *)state)->unk_98.s) / blend_ticks);
     }

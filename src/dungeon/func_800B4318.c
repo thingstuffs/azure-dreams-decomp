@@ -277,9 +277,9 @@ finish:
     if (render->primitive != 0) {
         func_800478B8(render);
     }
-    trig_value = func_80064584(controls->viewAngle);
+    trig_value = func_80064584(controls->view.viewAngle);
     *(s16 *)((u8 *)out + 2) = (trig_value * work->amp >> 11) + *(u16 *)((u8 *)&work->cur_x + 2);
-    trig_value = func_800644B8(controls->viewAngle);
+    trig_value = func_800644B8(controls->view.viewAngle);
     out->y = (trig_value * work->amp >> 11) + *(u16 *)((u8 *)&work->cur_y + 2);
     out->z = work->x + work->y.whole + (work->bias << 15);
 done:

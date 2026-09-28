@@ -103,7 +103,7 @@ state_zero:
     }
     (*(void * *)((u8 *)sprite + 0x2C)) = D_800E2428;
     func_80047784(sprite,
-        D_800E2428[((gameWork.viewAngle + ((S_801743DC_2 *)entity)->unk_2A + 0x100) >> 9) & 7],
+        D_800E2428[((gameWork.view.viewAngle + ((S_801743DC_2 *)entity)->unk_2A + 0x100) >> 9) & 7],
         0);
     {
         u8 *counter_base = (u8 *)&dungeonStatus.unk_00;
@@ -177,7 +177,7 @@ state_one:
     }
     (*(void * *)((u8 *)sprite + 0x2C)) = D_800E2430;
     func_80047784(sprite,
-        D_800E2430[((gameWork.viewAngle + ((S_801743DC_2 *)entity)->unk_2A + 0x100) >> 9) & 7],
+        D_800E2430[((gameWork.view.viewAngle + ((S_801743DC_2 *)entity)->unk_2A + 0x100) >> 9) & 7],
         0);
     ((S_801743DC_2 *)entity)->unk_1C.u |= 0x40000;
     if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {

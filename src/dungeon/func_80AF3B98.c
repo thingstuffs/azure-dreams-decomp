@@ -175,7 +175,7 @@ jt_c2:
         s32 direction;
         u16 angle;
 
-        direction = ((gameWork.viewAngle + ((S_80175398_1 *)actor)->unk_2A.s + 0x100) >> 9) & 7;
+        direction = ((gameWork.view.viewAngle + ((S_80175398_1 *)actor)->unk_2A.s + 0x100) >> 9) & 7;
         angle = ((S_80175398_1 *)actor)->unk_2A.u;
         if (D_80175A80[0] == 0) {
             goto direction_not_ready;
@@ -319,7 +319,7 @@ jt_c7:
             u8 *direction_frames;
 
             object_data = ((S_80175398_5_pre *)linked_state)[-1].unk_00;
-            direction = ((gameWork.viewAngle + ((S_80175398_5 *)linked_state)->unk_2A + 0x100) >> 9) & 7;
+            direction = ((gameWork.view.viewAngle + ((S_80175398_5 *)linked_state)->unk_2A + 0x100) >> 9) & 7;
             direction_frames = ((S_80175398_2 *)object_data)->unk_2C;
             func_80047738(object_data, direction_frames[direction], ((S_80175398_2 *)object_data)->unk_04);
         }

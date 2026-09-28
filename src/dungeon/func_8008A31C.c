@@ -142,7 +142,7 @@ state_0:
         s32 init_entry;
         u8 init_frame;
 
-        init_entry = ((gameWork.viewAngle + ((S_8008FA7C_2 *)entity)->unk_2A + 0x100) >> 9) & 7;
+        init_entry = ((gameWork.view.viewAngle + ((S_8008FA7C_2 *)entity)->unk_2A + 0x100) >> 9) & 7;
         init_entry += (u32)D_800DD0C8;
         {
             init_frame = *(u8 *)init_entry;
@@ -153,7 +153,7 @@ state_0:
 #else
         u8 *frame_ptr;
         u8 frame;
-        direction = ((gameWork.viewAngle + ((S_8008FA7C_2 *)entity)->unk_2A + 0x100) >> 9) & 7;
+        direction = ((gameWork.view.viewAngle + ((S_8008FA7C_2 *)entity)->unk_2A + 0x100) >> 9) & 7;
         frame_ptr = &D_800DD0C8[direction];
         frame = *frame_ptr;
         func_80048A44(init_anim, frame, 0, 1);
@@ -236,7 +236,7 @@ state_1:
         countdown++;
         ((S_8008FA7C_6 *)((u8 *)object_or_base))->unk_0A = countdown;
         ((S_8008FA7C_8 *)active_anim)->unk_2C = (u8 *)mask_or_base;
-        active_entry = gameWork.viewAngle;
+        active_entry = gameWork.view.viewAngle;
         entity_angle = ((S_8008FA7C_2 *)entity)->unk_2A;
         do {
             object_or_base = (u32)D_800E0000;
@@ -257,7 +257,7 @@ state_1:
         active_table = D_800DCFD0;
         ((S_8008FA7C_8 *)active_anim)->unk_2C = active_table;
         D_800E3540[0] = saved_value;
-        direction = ((gameWork.viewAngle + ((S_8008FA7C_2 *)entity)->unk_2A + 0x100) >> 9) & 7;
+        direction = ((gameWork.view.viewAngle + ((S_8008FA7C_2 *)entity)->unk_2A + 0x100) >> 9) & 7;
         frame_ptr = &active_table[direction];
         func_80048A44(active_anim, *frame_ptr, 5, 1);
         actor[0x9B]++;
@@ -282,13 +282,13 @@ state_2:
 #ifndef NON_MATCHING
             s32 next_entry;
 
-            next_entry = ((gameWork.viewAngle + ((S_8008FA7C_2 *)entity)->unk_2A + 0x100) >> 9) & 7;
+            next_entry = ((gameWork.view.viewAngle + ((S_8008FA7C_2 *)entity)->unk_2A + 0x100) >> 9) & 7;
             next_entry += (u32)D_800DD060;
             func_80048A44(next_anim, *(u8 *)next_entry, 0, 1);
             actor[0x9B]++;
 #else
             u8 *frame_ptr;
-            direction = ((gameWork.viewAngle + ((S_8008FA7C_2 *)entity)->unk_2A + 0x100) >> 9) & 7;
+            direction = ((gameWork.view.viewAngle + ((S_8008FA7C_2 *)entity)->unk_2A + 0x100) >> 9) & 7;
             frame_ptr = &D_800DD060[direction];
             func_80048A44(next_anim, *frame_ptr, 0, 1);
             actor[0x9B]++;
@@ -316,7 +316,7 @@ state_3:
         ((S_8008FA7C_3 *)actor)->unk_8C.p2 = &D_8008ACDC;
         (*(u8 * *)((u8 *)animation + (0x2C))) = D_800DCFB0;
     }
-    direction = ((gameWork.viewAngle + ((S_8008FA7C_2 *)entity)->unk_2A + 0x100) >> 9) & 7;
+    direction = ((gameWork.view.viewAngle + ((S_8008FA7C_2 *)entity)->unk_2A + 0x100) >> 9) & 7;
     func_80048A44(animation, (*(u8 * volatile *)((u8 *)animation + (0x2C)))[direction], 0, 1);
     goto increment_state;
 

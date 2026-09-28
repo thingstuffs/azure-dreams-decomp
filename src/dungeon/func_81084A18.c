@@ -24,7 +24,7 @@ void func_80172218(void *action_state, M2C_UNK action_context, void *sprite, voi
             ((Rec_func_800A9E70_arg0 *)action_state)->unk_9B.as_s8 = 0;
             ((Rec_func_800A9E70_arg0 *)action_state)->unk_8C = 0;
             (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80175F48;
-            func_80047784(sprite, *((((s32) (gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7) + &D_80175F48), 0);
+            func_80047784(sprite, *((((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7) + &D_80175F48), 0);
             ((EntityRec *)actor)->unk_84 = 0x7C;
             ((EntityRec *)actor)->unk_85 = 4;
             ((EntityRec *)actor)->unk_6D = (u8) (((u8)((EntityRec *)actor)->unk_6D) - 1);

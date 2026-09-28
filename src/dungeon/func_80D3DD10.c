@@ -79,7 +79,7 @@ init:
         animation_ids = D_800E23E0;
         (*(u8 * *)((u8 *)record + (0x2C))) = animation_ids;
         func_80047784(record,
-            animation_ids[((gameWork.viewAngle + ((S_80173510_2 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
+            animation_ids[((gameWork.view.viewAngle + ((S_80173510_2 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
             0);
         if (((S_80173510_0 *)action)->unk_B0 != 0) {
             return;
@@ -141,7 +141,7 @@ move:
             animation_ids = D_800E2400;
             (*(u8 * *)((u8 *)record + (0x2C))) = animation_ids;
             func_80047784(record,
-                animation_ids[((gameWork.viewAngle + ((S_80173510_2 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
+                animation_ids[((gameWork.view.viewAngle + ((S_80173510_2 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
                 1);
 
             direction_x = (s16 *)((s8 *)dirStepX);
@@ -202,7 +202,7 @@ stop:
             animation_ids = D_800E23E0;
             (*(u8 * *)((u8 *)record + (0x2C))) = animation_ids;
             func_80047784(record,
-                animation_ids[((gameWork.viewAngle + ((S_80173510_2 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
+                animation_ids[((gameWork.view.viewAngle + ((S_80173510_2 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
                 0);
             ((S_80173510_0 *)action)->unk_92 = -0x20;
             if (((S_80173510_0 *)action)->unk_B0 == 0) {

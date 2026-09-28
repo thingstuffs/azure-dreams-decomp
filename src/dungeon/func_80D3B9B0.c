@@ -124,7 +124,7 @@ void func_801711B0(void *object_arg, void *motion_arg, void *part_arg)
     part_flags = ((S_801711B0_1 *)part_arg)->unk_14;
 
     if (!(part_flags & 0x8000)) {
-        direction = ((gameWork.viewAngle + ((S_801711B0_2 *)base)->unk_2A + 0x100) >> 9) & 7;
+        direction = ((gameWork.view.viewAngle + ((S_801711B0_2 *)base)->unk_2A + 0x100) >> 9) & 7;
         state_or_dir = direction;
         if ((*(s16 *)((u8 *)object_arg + (0x94))) != state_or_dir) {
             func_80047738(part_arg,

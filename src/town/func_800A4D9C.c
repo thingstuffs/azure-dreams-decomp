@@ -25,11 +25,11 @@ extern void func_800A25CC(State *);
 /* Updates state from global values and triggers a refresh every 15 calls. */
 void func_800A24FC(State *state) {
 
-    state->field_8 = (func_80064584(gameWork.viewAngle) + 0x1000) / 2;
-    state->field_0 = -func_80064584(gameWork.viewAngle) / 24;
+    state->field_8 = (func_80064584(gameWork.view.viewAngle) + 0x1000) / 2;
+    state->field_0 = -func_80064584(gameWork.view.viewAngle) / 24;
     state->field_2 = func_80065F90(state->field_0, 160);
-    state->field_4 = ((u16)gameWork.unk_0BC);
-    state->field_6 = ((u16)gameWork.unk_0BE);
+    state->field_4 = ((u16)gameWork.view.unk_0A4);
+    state->field_6 = ((u16)gameWork.view.unk_0A6);
 
     if (--state->field_C <= 0) {
         state->field_C = 15;

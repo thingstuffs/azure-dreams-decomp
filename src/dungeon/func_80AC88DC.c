@@ -84,7 +84,7 @@ state_zero:
         shared_counter->unk_0A--;
     }
     (*(void * *)((u8 *)target + 0x2C)) = D_80174E4C;
-    direction = (gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
+    direction = (gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
     func_80047784(target, D_80174E4C[direction & 7], 0);
     goto increment_state;
 
@@ -93,7 +93,7 @@ state_one:
         DungeonGlobalStatus *shared_counter;
 
         (*(void * *)((u8 *)target + 0x2C)) = D_80174E54;
-        direction = (gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
+        direction = (gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
         func_80047784(target, D_80174E54[direction & 7], 0);
         shared_counter = &dungeonStatus;
         shared_counter->unk_0A++;
@@ -139,7 +139,7 @@ state_one:
         goto done;
     }
     (*(void * *)((u8 *)target + 0x2C)) = D_80174E54;
-    direction = (gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
+    direction = (gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
     func_80047784(target, D_80174E54[direction & 7], 0);
     shared_state->unk_0A++;
 

@@ -135,7 +135,7 @@ void func_801714FC(void *source_object, void *source_pos, void *sprite_template,
     func_8004491C(effect, func_80045340);
     (*(void * *)((u8 *)effect_data + 0x2c)) = (void *)&D_80175EB4;
     func_80047784(effect_data,
-        ((u8 *)&D_80175EB4)[(((s32)gameWork.viewAngle + (s32)((S_801714FC_0 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
+        ((u8 *)&D_80175EB4)[(((s32)gameWork.view.viewAngle + (s32)((S_801714FC_0 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
         0);
     effect_data = ((S_801714FC_2 *)effect)->unk_08;
     if (((S_801714FC_0 *)actor)->unk_60.i != 0 && (((S_801714FC_0 *)actor)->unk_14 & 0x04000000) == 0) {

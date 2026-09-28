@@ -94,7 +94,7 @@ void func_80170A58(void *entity, S_80170A58_0 *motion, void *sprite)
 
     part_flags = ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v;
     if (!(part_flags & 0x8000)) {
-        view_dir = ((gameWork.viewAngle + state->unk_2A + 0x100) >> 9) & 7;
+        view_dir = ((gameWork.view.viewAngle + state->unk_2A + 0x100) >> 9) & 7;
         dir_index = view_dir;
         if ((*(s16 *)((u8 *)entity + 0x94)) != dir_index) {
             func_80047738(sprite, ((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8[dir_index],

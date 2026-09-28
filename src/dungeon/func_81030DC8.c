@@ -13,6 +13,6 @@ void func_801725C8(void *object, void *unused, void *sprite, void *orientationSo
     *(u8 **)((u8 *)sprite + 0x2C) = &D_801760B4;
     func_80047784(
         sprite,
-        *(&D_801760B4 + (((gameWork.viewAngle + *(s16 *)((u8 *)orientationSource + 0x2A) + 0x100) >> 9) & 7)),
+        *(&D_801760B4 + (((gameWork.view.viewAngle + *(s16 *)((u8 *)orientationSource + 0x2A) + 0x100) >> 9) & 7)),
         0);
 }

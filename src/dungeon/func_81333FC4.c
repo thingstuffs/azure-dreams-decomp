@@ -71,7 +71,7 @@ void func_8016AFC4(void *actor, s32 unused, void *sprite, void *movement)
         if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 != D_801739C0) {
             (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801739C0;
             func_80047784(sprite,
-                D_801739C0[((gameWork.viewAngle + ((S_8016AFC4_0 *)movement)->unk_2A + 0x100) >> 9) & 7],
+                D_801739C0[((gameWork.view.viewAngle + ((S_8016AFC4_0 *)movement)->unk_2A + 0x100) >> 9) & 7],
                 0);
         }
         break;
@@ -79,7 +79,7 @@ void func_8016AFC4(void *actor, s32 unused, void *sprite, void *movement)
         if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 != D_801739C8) {
             (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801739C8;
             func_80047784(sprite,
-                D_801739C8[((gameWork.viewAngle + ((S_8016AFC4_0 *)movement)->unk_2A + 0x100) >> 9) & 7],
+                D_801739C8[((gameWork.view.viewAngle + ((S_8016AFC4_0 *)movement)->unk_2A + 0x100) >> 9) & 7],
                 0);
         }
         break;
@@ -87,7 +87,7 @@ void func_8016AFC4(void *actor, s32 unused, void *sprite, void *movement)
         if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 != D_801739D0) {
             (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801739D0;
             func_80047784(sprite,
-                D_801739D0[((gameWork.viewAngle + ((S_8016AFC4_0 *)movement)->unk_2A + 0x100) >> 9) & 7],
+                D_801739D0[((gameWork.view.viewAngle + ((S_8016AFC4_0 *)movement)->unk_2A + 0x100) >> 9) & 7],
                 0);
         }
         break;
@@ -95,7 +95,7 @@ void func_8016AFC4(void *actor, s32 unused, void *sprite, void *movement)
         if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 != D_801739D8) {
             (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801739D8;
             func_80047784(sprite,
-                D_801739D8[((gameWork.viewAngle + ((S_8016AFC4_0 *)movement)->unk_2A + 0x100) >> 9) & 7],
+                D_801739D8[((gameWork.view.viewAngle + ((S_8016AFC4_0 *)movement)->unk_2A + 0x100) >> 9) & 7],
                 0);
         }
         break;

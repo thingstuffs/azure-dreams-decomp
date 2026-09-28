@@ -28,7 +28,7 @@ void func_80097934(Rec_func_8008ACDC_arg0 *state, EntityRec *motion, Rec_D_80082
         func_8003DB94(
             sprite,
             D_800DD274[
-                ((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+                ((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
 
         tracked_addr = ((s32)dungeonStatus.unk_10);

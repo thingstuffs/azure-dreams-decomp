@@ -154,7 +154,7 @@ scan_zero_done:
         (*(u8 * *)((u8 *)sprite + 0x2C)) = direction_table;
         func_80047784(
             sprite,
-            direction_table[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            direction_table[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
 
         dungeonStatus.unk_0A--;
@@ -246,7 +246,7 @@ scan_two_done:
         (*(u8 * *)((u8 *)sprite + 0x2C)) = direction_table;
         func_80047784(
             sprite,
-            direction_table[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            direction_table[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
 
         effect = func_8003FD64(0x10, ((u8 *)(&D_80083498)));
@@ -349,7 +349,7 @@ second_call:
         (*(u8 * *)((u8 *)sprite + 0x2C)) = exit_table;
         func_80047784(
             sprite,
-            exit_table[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            exit_table[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
 
         effect = func_8003FD64(0x10, ((u8 *)(&D_80083498)));

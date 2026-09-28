@@ -51,7 +51,7 @@ void func_801725B8(void *action, void *motion, void *anim, void *actor)
             direction_table = D_801762E8;
             (*(u8 * *)((u8 *)anim + 0x2C)) = direction_table;
             func_80047784(anim,
-                direction_table[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+                direction_table[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
                 0);
             ((S_801725B8_0 *)action)->unk_9B++;
         }

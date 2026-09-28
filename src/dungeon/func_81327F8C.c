@@ -52,7 +52,7 @@ void func_8016F78C(void *actor, M2C_UNK context, void *sprite, void *entity) {
         if (current_state != next_state) {
             if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 != D_80174A2C) {
                 (*(u8 **)((u8 *)sprite + (0x2C))) = D_80174A2C;
-                func_80047784(sprite, D_80174A2C[((gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7], 0);
+                func_80047784(sprite, D_80174A2C[((gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7], 0);
             }
             ((S_8016F78C_0 *)actor)->unk_9A.n = next_state;
         }
@@ -62,7 +62,7 @@ void func_8016F78C(void *actor, M2C_UNK context, void *sprite, void *entity) {
                 func_800AA888(actor, context, sprite, entity);
                 func_8017092C(actor, context, sprite, entity);
                 (*(u8 **)((u8 *)sprite + (0x2C))) = D_80174A2C;
-                func_80047784(sprite, D_80174A2C[((gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7], 0);
+                func_80047784(sprite, D_80174A2C[((gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7], 0);
                 ((S_8016F78C_0 *)actor)->unk_90 = 0;
                 return;
             }

@@ -47,13 +47,13 @@ s32 func_800BB798(S_800BB798_0 *spawn_data, s16 state_48, s16 state_4a) {
     S_800BB798_3 *object_state;
     void *object_data;
 
-    angle = spawn_data->unk_10 + gameWork.viewAngle;
+    angle = spawn_data->unk_10 + gameWork.view.viewAngle;
     radius_fixed = spawn_data->unk_0C;
     trig_factor = func_80064584(angle);
     radius = radius_fixed >> 0xC;
     component = radius * trig_factor;
     spawn_data->unk_0C = component;
-    angle = spawn_data->unk_10 + gameWork.viewAngle;
+    angle = spawn_data->unk_10 + gameWork.view.viewAngle;
     trig_factor = func_800644B8(angle);
 
     component = radius * trig_factor;

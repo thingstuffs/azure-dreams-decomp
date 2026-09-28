@@ -331,7 +331,7 @@ final_flags:
         ((S_801757E0_1 *)animation)->unk_14 &= 0xF7FF;
         func_80047784(animation,
             ((S_801757E0_1 *)animation)->unk_2C.p2
-                [((gameWork.viewAngle + ((S_801757E0_8 *)entity)->unk_2A.s + 0x100) >> 9) & 7],
+                [((gameWork.view.viewAngle + ((S_801757E0_8 *)entity)->unk_2A.s + 0x100) >> 9) & 7],
             0);
     }
     ((S_801757E0_0 *)actor)->unk_96.u = 0;
@@ -381,7 +381,7 @@ state_4:
     ((S_801757E0_0 *)actor)->unk_9B++;
     (*(void * *)((u8 *)animation + 0x2C)) = D_801760A4;
     func_80047784(animation,
-        D_801760A4[((gameWork.viewAngle + ((S_801757E0_8 *)entity)->unk_2A.s + 0x100) >> 9) & 7],
+        D_801760A4[((gameWork.view.viewAngle + ((S_801757E0_8 *)entity)->unk_2A.s + 0x100) >> 9) & 7],
         0);
     goto end;
 
@@ -393,7 +393,7 @@ state_5:
     if (((S_801757E0_1 *)animation)->unk_14 & 0xE000) {
         (*(void * *)((u8 *)animation + 0x2C)) = D_8017609C;
         func_80047784(animation,
-            D_8017609C[((gameWork.viewAngle + ((S_801757E0_8 *)entity)->unk_2A.s + 0x100) >> 9) & 7],
+            D_8017609C[((gameWork.view.viewAngle + ((S_801757E0_8 *)entity)->unk_2A.s + 0x100) >> 9) & 7],
             0);
         goto bump_state;
     }

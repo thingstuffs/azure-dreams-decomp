@@ -48,7 +48,7 @@ void func_801724B0(void *motion, s32 actor_index, void *actor, void *move_data) 
             (*(u8 * *)((u8 *)actor + 0x2C)) = D_800E2348;
             func_80047784(
                 actor,
-                D_800E2348[((gameWork.viewAngle + ((S_801724B0_0 *)move_data)->unk_2A + 0x100) >> 9) & 7],
+                D_800E2348[((gameWork.view.viewAngle + ((S_801724B0_0 *)move_data)->unk_2A + 0x100) >> 9) & 7],
                 0);
             ((Rec_func_801724B0_arg0 *)motion)->unk_9E = 0;
         }

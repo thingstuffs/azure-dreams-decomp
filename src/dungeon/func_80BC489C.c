@@ -89,7 +89,7 @@ state_zero:
         direction_frames = D_80174684;
         (*(void * *)((u8 *)animation + 0x2C)) = direction_frames;
         func_80047784(animation,
-            direction_frames[((gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
+            direction_frames[((gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
             0);
         goto increment_state;
     }
@@ -104,7 +104,7 @@ state_one:
 
             (*(void * *)((u8 *)animation + 0x2C)) = D_8017468C;
             func_80047784(animation,
-                D_8017468C[((gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
+                D_8017468C[((gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
                 0);
             ((EntityRec *)entity)->flags1C |= 0x40000;
             dungeon_state = &dungeonStatus.unk_00;
@@ -170,7 +170,7 @@ state_one:
 
         (*(void * *)((u8 *)animation + 0x2C)) = D_8017468C;
         func_80047784(animation,
-            D_8017468C[((gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
+            D_8017468C[((gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
             0);
         (*(u32 *)((u8 *)entity + 0x1C)) |= 0x40000;
         ((S_8017409C_4 *)dungeon_state)->unk_0A++;

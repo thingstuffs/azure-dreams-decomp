@@ -26,7 +26,7 @@ void func_8017272C(void *action_state, s32 action_param, void *sprite, void *act
             *((s8 *)action_state + 0x9B) = 0;
             frame_table = &D_8014A000[D_801764A0_OFF];
             *(void **)((u8 *)sprite + 0x2C) = frame_table;
-            direction = ((*(s16 *)((u8 *)((s16 *)(&gameWork.unk_0A8)) + 0x20) + *(s16 *)((u8 *)actor + 0x2A) + 0x100) >> 9) & 7;
+            direction = ((gameWork.view.viewAngle + *(s16 *)((u8 *)actor + 0x2A) + 0x100) >> 9) & 7;
             func_80047784(sprite, frame_table[direction], 0);
             func_800A4ACC(actor);
             *((u8 *)actor + 0x6D) = (u8)(*((u8 *)actor + 0x6D) - 1);

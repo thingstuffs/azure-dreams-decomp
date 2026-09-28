@@ -68,7 +68,7 @@ void func_801733F0(S_801733F0_0 *actor, void *context, Rec_func_800AA258_arg2 *s
         func_80047784(
             sprite,
             ((u8 *)sprite->unk_2C.as_pv)[
-                ((gameWork.viewAngle + entity->facing + 0x100) >> 9) & 7],
+                ((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         goto increment_state;
     }
@@ -134,7 +134,7 @@ void func_801733F0(S_801733F0_0 *actor, void *context, Rec_func_800AA258_arg2 *s
         func_80047784(
             sprite,
             ((u8 *)sprite->unk_2C.as_pv)[
-                ((gameWork.viewAngle + entity->facing + 0x100) >> 9) & 7],
+                ((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         {
 

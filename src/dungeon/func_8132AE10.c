@@ -139,11 +139,11 @@ void func_80172610(void *actor_data, void *output_data, void *context_data)
     new_angle_bits = ((S_80172610_2 *)base)->unk_2A.u;
     if (old_angle != new_angle) {
         (*(u16 *)((u8 *)actor + 0x2A)) = new_angle_bits;
-        facing_index = ((gameWork.viewAngle + new_angle + 0x100) >> 9) & 7;
+        facing_index = ((gameWork.view.viewAngle + new_angle + 0x100) >> 9) & 7;
         func_80047784(context, (*(u8 *)((u8 *)(((S_80172610_4 *)context)->unk_2C) + facing_index)), 0);
     }
 
-    direction_index = ((gameWork.viewAngle + ((S_80172610_0 *)actor)->unk_2A + 0x100) >> 9) & 7;
+    direction_index = ((gameWork.view.viewAngle + ((S_80172610_0 *)actor)->unk_2A + 0x100) >> 9) & 7;
     direction_short = direction_index;
     if (((S_80172610_0 *)actor)->unk_94.s != direction_short) {
         func_80047784(context, (*(u8 *)((u8 *)(((S_80172610_4 *)context)->unk_2C) + direction_short)), 0);
@@ -155,7 +155,7 @@ void func_80172610(void *actor_data, void *output_data, void *context_data)
     ((S_80172610_6 *)output)->unk_06 = ((S_80172610_7 *)source)->unk_06;
     ((S_80172610_6 *)output)->unk_0A = ((S_80172610_7 *)source)->unk_0A;
 
-    effect_index = ((gameWork.viewAngle + ((S_80172610_0 *)actor)->unk_2A + 0x100) >> 9) & 7;
+    effect_index = ((gameWork.view.viewAngle + ((S_80172610_0 *)actor)->unk_2A + 0x100) >> 9) & 7;
     effect = D_800DCECC[effect_index];
     ((S_80172610_4 *)context)->unk_06 = effect << 2;
     ((S_80172610_4 *)context)->unk_1C = ((S_80172610_3 *)linked)->unk_1C;

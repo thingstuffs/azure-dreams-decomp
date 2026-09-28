@@ -67,9 +67,9 @@ void func_800CCDA0(void *effect, void *motion, void *sprite)
 
             ((S_800CCDA0_1 *)motion)->unk_14 = -((S_800CCDA0_1 *)motion)->unk_14;
             ((S_800CCDA0_1 *)motion)->unk_0C =
-                func_80064584(gameWork.viewAngle) << 8;
+                func_80064584(gameWork.view.viewAngle) << 8;
             ((S_800CCDA0_1 *)motion)->unk_10 =
-                func_800644B8(gameWork.viewAngle) << 8;
+                func_800644B8(gameWork.view.viewAngle) << 8;
 
             ((S_800CCDA0_3 *)sprite)->unk_14 |= 0xC;
             ((S_800CCDA0_0 *)effect)->unk_06.s = 12;

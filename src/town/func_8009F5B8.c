@@ -14,9 +14,9 @@ void func_8009CD18(s32 slot_id, void *object, s32 object_id)
     *(s16 *)((u8 *)object + 0x12) = 0;
     *(s16 *)((u8 *)object + 0x14) = 0;
     *(s16 *)((u8 *)object + 0x10) = 0;
-    *(u8 *)((u8 *)object + 0xC) = gameWork.unk_0A8;
-    *(u8 *)((u8 *)object + 0xD) = gameWork.unk_0A9;
-    *(u8 *)((u8 *)object + 0xE) = gameWork.unk_0AA;
+    *(u8 *)((u8 *)object + 0xC) = gameWork.view.unk_090;
+    *(u8 *)((u8 *)object + 0xD) = gameWork.view.unk_091;
+    *(u8 *)((u8 *)object + 0xE) = gameWork.view.unk_092;
     *(s16 *)((u8 *)object + 0x14) = 0;
     *(s16 *)((u8 *)object + 0x1A) = 0;
     *(s16 *)((u8 *)object + 0x18) = 0;

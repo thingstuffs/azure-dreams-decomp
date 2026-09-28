@@ -270,8 +270,8 @@ jt_c17:
 block_25:
     goto block_26;
 block_26:
-    gameWork.unk_0CC = 0;
-    gameWork.unk_154 = 0;
+    gameWork.view.slot[0].callback = 0;
+    gameWork.view.slot[2].callback = 0;
     (*(s32 *)&D_800E296C) = (s32) (((S_800930F0_6 *)(&D_800E296C))->unk_00 | 0x40000);
     return;
 }

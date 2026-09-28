@@ -95,8 +95,8 @@ s32 func_800BC574(void *position, s16 angle) {
 
             angle_short = (s16) saved_angle;
             data_ptr->unk_08 = position_z;
-            ((S_800BC574_7 *)(((S_800BC574_6 *)effect)->unk_08))->unk_0C = (s32) (func_80064584(angle_short + world_state->viewAngle) * 0x30);
-            ((S_800BC574_7 *)(((S_800BC574_6 *)effect)->unk_08))->unk_10 = (s32) (func_800644B8(angle_short + world_state->viewAngle) * 0x30);
+            ((S_800BC574_7 *)(((S_800BC574_6 *)effect)->unk_08))->unk_0C = (s32) (func_80064584(angle_short + world_state->view.viewAngle) * 0x30);
+            ((S_800BC574_7 *)(((S_800BC574_6 *)effect)->unk_08))->unk_10 = (s32) (func_800644B8(angle_short + world_state->view.viewAngle) * 0x30);
         }
         {
             register s32 init_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */

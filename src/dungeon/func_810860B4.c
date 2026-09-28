@@ -264,7 +264,7 @@ state_3:
     if (((S_801738B4_2 *)entity)->unk_2C != D_80175F10) {
         (*(u8 * *)((u8 *)entity + 0x2C)) = D_80175F10;
         func_80047784(entity,
-            D_80175F10[((gameWork.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7],
+            D_80175F10[((gameWork.view.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7],
             0);
     }
 

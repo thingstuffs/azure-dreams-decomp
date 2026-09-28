@@ -130,7 +130,7 @@ state_2:
 common:
     if (sprite->flags & 0xE000) {
         sprite->field_2C = D_80176460;
-        func_80047784(sprite, D_80176460[(((gameWork.viewAngle + actor->value_2A + 0x100) >> 9) & 7)], 0);
+        func_80047784(sprite, D_80176460[(((gameWork.view.viewAngle + actor->value_2A + 0x100) >> 9) & 7)], 0);
         action->field_98 &= 0xFFF7;
     }
 

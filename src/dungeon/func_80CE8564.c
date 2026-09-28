@@ -255,7 +255,7 @@ select_f:
     }
 table_store:
     (*(void * *)((u8 *)((void *)height_or_sprite) + 0x2C)) = frame_table;
-    default_frames = ((gameWork.viewAngle + ((S_80171D64_1 *)result)->unk_2A + 0x100) >> 9) & 7;
+    default_frames = ((gameWork.view.viewAngle + ((S_80171D64_1 *)result)->unk_2A + 0x100) >> 9) & 7;
     func_80047784((void *)height_or_sprite,
         *(u8 *)((u32)default_frames + (u32)frame_table),
         0);

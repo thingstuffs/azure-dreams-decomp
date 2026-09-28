@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_index_slots.h"
 
 typedef struct S_800C4D80_0 {
     u8 pad_00[0x10];
@@ -31,7 +32,6 @@ typedef struct {
     void *object;
 } TownEntry;
 
-extern TownEntry D_80082660[];
 extern u8 D_800C3174[];
 extern u8 D_800C321C[];
 extern u16 D_800D5070[];

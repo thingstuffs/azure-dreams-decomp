@@ -10,8 +10,9 @@
  * (a node's `next` slot is the head of the list linked behind it), town/func_800C438C clears flag 0x2000 at +0x1E
  * before handing it to func_8004EE50 (object task).  Its record half, D_800834B8 (= +0x20), keeps its own D_
  * declaration: town rows form their base AT 0x800834B8 and reach this header at -0x18/-0x14/-0x10, so the original
- * declared the record separately there.  Name stays D_: docs/SYMBOLS.md's script slot 26 V_item_type_data points
- * at 0x80083498, which does not fit a list-head node, so it is not adopted.  Other fields stay unk_. */
+ * declared the record separately there.  Script variable slot 26 is V_pobj and points at 0x80083498, consistent
+ * with an object-list head (docs/SYMBOLS.md; the earlier V_item_type_data reading was the symbol-dump misparse fixed
+ * 2026-09-28).  Name stays D_ until V_pobj's meaning is proven.  Other fields stay unk_. */
 typedef struct ObjectNodeHeader {
     /* 0x00 */ struct ObjectNodeHeader *next;    /* list link (func_8003FD64) */
     /* 0x04 */ struct ObjectNodeHeader **pprev;  /* the slot that points at this node (func_8003FD64) */

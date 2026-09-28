@@ -77,7 +77,7 @@ void func_80171590(void *motion_arg, s32 update_arg, void *entity_arg, void *sta
         (*(u8 * *)((u8 *)entity + 0x2C)) = D_801752AC;
         func_80047784(
             entity,
-            D_801752AC[((gameWork.viewAngle + ((S_80171590_0 *)state)->unk_2A + 0x100) >> 9) & 7],
+            D_801752AC[((gameWork.view.viewAngle + ((S_80171590_0 *)state)->unk_2A + 0x100) >> 9) & 7],
             0);
     }
 

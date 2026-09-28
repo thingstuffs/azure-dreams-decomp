@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/def_table.h"
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
@@ -50,7 +51,6 @@ typedef struct S_801717D0_6 {
 
 
 
-extern u8 D_8006DE24[];
 
 extern void func_80047784(void *, u8, s32);
 extern s32 func_800A05A4(void *, u8, u8, s16, u8);
@@ -157,7 +157,7 @@ process:
 
     if (frame_table != 0) {
         (*(u8 * *)((u8 *)action_sprite + 0x2C)) = frame_table;
-        selection_index = (gameWork.viewAngle + ((S_801717D0_0 *)self)->unk_2A.s + 0x100) >> 9;
+        selection_index = (gameWork.view.viewAngle + ((S_801717D0_0 *)self)->unk_2A.s + 0x100) >> 9;
         func_80047784(action_sprite, frame_table[selection_index & 7], 0);
         ASM_KEEP(frame_table);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     }

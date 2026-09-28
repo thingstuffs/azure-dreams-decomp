@@ -36,5 +36,5 @@ void func_80097898(void *arg0, M2C_UNK arg1, void *arg2, void *arg3) {
     }
     temp = D_800DD294;
     (*(u8 **)((u8 *)saved2 + (0x2C))) = temp;
-    func_8003DB94(saved2, (*(s32 *)((u8 *)temp + (((s32) (gameWork.viewAngle + ((S_80097898_1 *)saved)->unk_2A + 0x100) >> 7) & 0x1C))), 0);
+    func_8003DB94(saved2, (*(s32 *)((u8 *)temp + (((s32) (gameWork.view.viewAngle + ((S_80097898_1 *)saved)->unk_2A + 0x100) >> 7) & 0x1C))), 0);
 }

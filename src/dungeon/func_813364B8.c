@@ -70,7 +70,7 @@ mode_3:
 update_table:
     if (current_table != mode_table) {
         state->field_2C = mode_table;
-        func_80047784(state, *(u8 *)((((s32) (gameWork.viewAngle + input->field_2A + 0x100) >> 9) & 7) + (u32) mode_table), 0);
+        func_80047784(state, *(u8 *)((((s32) (gameWork.view.viewAngle + input->field_2A + 0x100) >> 9) & 7) + (u32) mode_table), 0);
     }
 
 call_common:

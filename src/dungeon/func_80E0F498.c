@@ -93,7 +93,7 @@ state_one:
         (*(u8 * *)((u8 *)animation + 0x2C)) = direction_anims;
         func_80047784(
             animation,
-            direction_anims[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            direction_anims[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
         ((S_80172C98_0 *)action)->unk_AE.s = 6;
         ((EntityRec *)motion)->unk_0C =

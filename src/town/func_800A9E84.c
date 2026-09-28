@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_index_slots.h"
 #include "shared/slus_callbacks.h"
 
 #ifndef NULL
@@ -47,7 +48,6 @@ typedef struct {
 
 extern void func_80033CD8();
 extern void *func_8009C390();
-extern EntryRecord D_80082660[];
 extern u8 D_800A76F0;
 extern s32 D_800D0E24[];
 extern s32 D_800D0E3C[];
@@ -67,7 +67,7 @@ void fukidasi_set(s32 entry_index, s32 part_index, s32 body_index, s32 body_valu
     entry_or_body = NULL;
     entry_data = entry_or_body;
     if (entry_index != 0) {
-        entry = D_80082660[entry_index].value;
+        entry = D_80082660[entry_index].object;
         if (entry != NULL) {
             entry_or_body = entry;
             entry_data = entry->unk_08;

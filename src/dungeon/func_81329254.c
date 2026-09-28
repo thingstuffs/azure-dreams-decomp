@@ -37,7 +37,7 @@ void func_80170A54(void *record_data) {
         if (state_data->unk_004 != 2)
             goto done;
         direction_entry = ((u8 *)state_data->unk_02C)[
-                 (((s32) (gameWork.viewAngle +
+                 (((s32) (gameWork.view.viewAngle +
                           active_object->unk_2A +
                           0x100) >> 9) & 7)];
         func_800489F4(state_data, direction_entry,

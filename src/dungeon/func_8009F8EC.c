@@ -430,7 +430,7 @@ spawn_replacement:
     func_80042560(spawned);
     angle = ((S_800A504C_1 *)entity)->unk_2A;
     (*(u16 *)((u8 *)spawned + 0x2A)) = angle;
-    offset = ((gameWork.viewAngle + (s16)angle + 0x100) >> 9) & 7;
+    offset = ((gameWork.view.viewAngle + (s16)angle + 0x100) >> 9) & 7;
     func_80047738(entity_data, ((u8 *)((S_800A504C_2 *)entity_data)->unk_2C)[offset],
                   ((S_800A504C_2 *)entity_data)->unk_04);
     data_flags = ((S_800A504C_2 *)entity_data)->unk_14;

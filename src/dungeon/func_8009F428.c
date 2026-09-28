@@ -144,7 +144,7 @@ block_23:
     func_80096088(object, object);
     update_state = &D_80082E80;
     (((M2C_UNK *)update_state->unk_02C)) = D_800DD274;
-    func_8003DB94(update_state, *(s32 *)(D_800DD274 + ((((s32) (gameWork.viewAngle + (*(s16 *)((u8 *)object + 0x2A)) + 0x100) >> 7) & 0x1C))), 0);
+    func_8003DB94(update_state, *(s32 *)(D_800DD274 + ((((s32) (gameWork.view.viewAngle + (*(s16 *)((u8 *)object + 0x2A)) + 0x100) >> 7) & 0x1C))), 0);
     reset_index = 3;
     reset_slot = D_80083110;
     reset_slot += 3;

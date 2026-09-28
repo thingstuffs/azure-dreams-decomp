@@ -27,7 +27,7 @@ void func_8008CAA0(void *action, s32 unused, void *sprite, void *actor) {
     (*(u8 **)((u8 *)sprite + 0x2C)) = direction_table;
     {
         u8 *direction_entry;
-        direction_entry = direction_table + (((s32) (gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7);
+        direction_entry = direction_table + (((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7);
         func_80048A44(sprite, *direction_entry, 0, 1);
     }
     ((Rec_func_8008ACDC_arg0 *)action)->unk_9A.as_s8 = 7;

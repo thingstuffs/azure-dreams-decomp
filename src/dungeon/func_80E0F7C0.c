@@ -281,7 +281,7 @@ shrink_sprite:
             s32 view_angle;
             s32 actor_angle;
 
-            view_angle = gameWork.viewAngle;
+            view_angle = gameWork.view.viewAngle;
             actor_angle = ((EntityRec *)actor)->facing;
             model_root = ((S_80172FC0_4 *)sprite)->unk_28;
             model_direction =
@@ -320,7 +320,7 @@ shrink_sprite:
         ((S_80172FC0_0 *)anim)->unk_98 |= 8;
         ((EntityRec *)actor)->flags1C &= 0xBFFFFFFF;
         ((S_80172FC0_4 *)sprite)->unk_2C = D_80176490;
-        direction = ((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7;
+        direction = ((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7;
         frame = D_80176490[direction];
         func_80047784(sprite, frame, 0);
         ((S_80172FC0_4 *)sprite)->unk_1E = 0x800;
@@ -433,7 +433,7 @@ restore_sprite:
         s32 direction;
 
         (*(void * *)((u8 *)sprite + 0x2C)) = D_80176460;
-        direction = ((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7;
+        direction = ((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7;
         func_80047784(sprite, D_80176460[direction], 0);
     }
     {

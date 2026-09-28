@@ -91,7 +91,7 @@ state_zero:
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801519A8;
     func_80047784(
         sprite,
-        D_801519A8[((gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
+        D_801519A8[((gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
         0);
     ((S_8014EC54_0 *)action)->unk_98 |= 8;
     ((EntityRec *)entity)->flags1C &= 0xF7FFFFFF;
@@ -146,7 +146,7 @@ state_two:
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801519B8;
         func_80047784(
             sprite,
-            D_801519B8[((gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
+            D_801519B8[((gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
             0);
         ((S_8014EC54_0 *)action)->unk_9B++;
     }
@@ -159,7 +159,7 @@ state_three:
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80151988;
     func_80047784(
         sprite,
-        D_80151988[((gameWork.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
+        D_80151988[((gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
         0);
 
 decrement_timer:

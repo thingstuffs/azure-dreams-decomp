@@ -3,53 +3,6 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
-struct S_80083178Vector
-{
-  short x;
-  short y;
-  short z;
-  short pad;
-};
-struct S_80083178State
-{
-  struct S_80083178Vector v[4];
-};
-struct S_80083178
-{
-  char pad0[2];
-  unsigned short unk2;
-  char pad4[6];
-  unsigned short unkA;
-  char padC[0x94 - 0xC];
-  struct S_80083178State state_94;
-  void (*callback)(void);
-  void *field_B8;
-  char pad_bc[(0xD8 - 0xB8) - 4];
-  void *ptr;
-  char pad_dc[0x1C4 - 0xDC];
-};
-typedef struct 
-{
-  unsigned char data[24];
-} MonsterInitialStats;
-typedef struct 
-{
-  unsigned char data[12];
-} Trap;
-typedef struct 
-{
-  unsigned char data[8];
-} StatGrowth;
-extern int D_800814C8;
-extern int D_80081550;
-extern int D_80081558;
-extern int D_80081554;
-extern unsigned char D_80071298[];
-extern volatile int D_80071250[];
-extern int D_800712B4[];
-extern int D_80084130[3];
-extern short D_80084808[8];
-extern struct S_80083178State D_80083CE8;
 typedef unsigned char u8;
 typedef signed char s8;
 typedef unsigned short u16;
@@ -118,7 +71,7 @@ void func_80171058(void *actor, void *context, void *sprite_arg, void *creature)
     }
     anim_table = D_801748D8;
     *((void **) (((u8 *) sprite_arg) + 0x2C)) = anim_table;
-    func_80047784(sprite_arg, ((u8 *) anim_table)[(((gameWork.viewAngle + (*((s16 *) (((u8 *) creature) + 0x2A)))) + 0x100) >> 9) & 7], 0);
+    func_80047784(sprite_arg, ((u8 *) anim_table)[(((gameWork.view.viewAngle + (*((s16 *) (((u8 *) creature) + 0x2A)))) + 0x100) >> 9) & 7], 0);
     goto done;
   }
   sprite = sprite_arg;
@@ -163,7 +116,7 @@ void func_80171058(void *actor, void *context, void *sprite_arg, void *creature)
       if (current_anim != anim_table)
       {
         *((void **) (((u8 *) sprite) + 0x2C)) = anim_table;
-        func_80047784(sprite, ((u8 *) anim_table)[(((gameWork.viewAngle + (*((s16 *) (((u8 *) creature) + 0x2A)))) + 0x100) >> 9) & 7], 0);
+        func_80047784(sprite, ((u8 *) anim_table)[(((gameWork.view.viewAngle + (*((s16 *) (((u8 *) creature) + 0x2A)))) + 0x100) >> 9) & 7], 0);
         *((u8 *) (((u8 *) sprite) + 5)) = 1;
         *((s16 *) (((u8 *) actor) + 0xA6)) = 0;
         *((s16 *) (((u8 *) actor) + 0xB2)) = 0;

@@ -211,7 +211,7 @@ main_phase:
         color.y = U16(base, 6);
         color.z = U16(((u8 *)D_800E3D7C), 0x88) - 0x50;
         tableAddress =
-            ((gameWork.viewAngle + S16(((u8 *)D_800E3D7C), 0x2A) + 0x100) >> 7) & 0x1C;
+            ((gameWork.view.viewAngle + S16(((u8 *)D_800E3D7C), 0x2A) + 0x100) >> 7) & 0x1C;
         tableAddress += (s32)D_800E3D18;
         func_8003DE58(
             *(s32 *)tableAddress,

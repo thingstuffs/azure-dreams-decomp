@@ -276,7 +276,7 @@ state2:
     (*(u8 * *)((u8 *)sprite + (0x2C))) = D_80173EDC;
     func_80047784(
         sprite,
-        D_80173EDC[((gameWork.viewAngle + ((S_8017256C_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+        D_80173EDC[((gameWork.view.viewAngle + ((S_8017256C_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
         0);
     return;
 
@@ -329,7 +329,7 @@ state7:
     (*(u8 * *)((u8 *)sprite + (0x2C))) = D_80173E8C;
     func_80047784(
         sprite,
-        D_80173E8C[((gameWork.viewAngle + ((S_8017256C_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+        D_80173E8C[((gameWork.view.viewAngle + ((S_8017256C_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
         0);
     ((S_8017256C_0 *)action)->unk_9E = 0;
     ((S_8017256C_0 *)action)->unk_92 = -0x20;

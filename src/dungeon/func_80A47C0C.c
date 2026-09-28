@@ -111,7 +111,7 @@ void func_8017140C(void *actor, void *actor_context, void *sprite, void *creatur
         animation_table = D_8017588C;
         (*(void * *)((u8 *)sprite + 0x2C)) = animation_table;
         func_80047784(sprite,
-            animation_table[((gameWork.viewAngle + ((S_8017140C_1 *)creature)->unk_2A + 0x100) >> 9) & 7],
+            animation_table[((gameWork.view.viewAngle + ((S_8017140C_1 *)creature)->unk_2A + 0x100) >> 9) & 7],
             0);
         return;
     }
@@ -147,7 +147,7 @@ void func_8017140C(void *actor, void *actor_context, void *sprite, void *creatur
         if (current_animation != animation_table) {
             (*(void * *)((u8 *)sprite + 0x2C)) = animation_table;
             func_80047784(sprite,
-                animation_table[((gameWork.viewAngle + ((S_8017140C_1 *)creature)->unk_2A + 0x100) >> 9) & 7],
+                animation_table[((gameWork.view.viewAngle + ((S_8017140C_1 *)creature)->unk_2A + 0x100) >> 9) & 7],
                 0);
             ((S_8017140C_2 *)sprite)->unk_05 = 1;
             ((S_8017140C_0 *)actor)->unk_B6.s = 0;

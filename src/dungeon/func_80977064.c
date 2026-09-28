@@ -72,7 +72,7 @@ state_1:
     sprite->unk_2C.as_pu8 = D_80174108;
     func_80047784(
         sprite,
-        D_80174108[((gameWork.viewAngle + ((S_80172864_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+        D_80174108[((gameWork.view.viewAngle + ((S_80172864_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
         0);
     state = ((S_80172864_0 *)action)->unk_9B.n;
     ((S_80172864_0 *)action)->unk_96.u = 0;

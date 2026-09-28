@@ -7,10 +7,10 @@
 void func_801701CC(u16 *entry)
 {
 
-    if (gameWork.unk_0A8 >= 0x3D) {
-        gameWork.unk_0A8 -= 2;
-        gameWork.unk_0A9 -= 2;
-        gameWork.unk_0AA -= 2;
+    if (gameWork.view.unk_090 >= 0x3D) {
+        gameWork.view.unk_090 -= 2;
+        gameWork.view.unk_091 -= 2;
+        gameWork.view.unk_092 -= 2;
         return;
     }
 

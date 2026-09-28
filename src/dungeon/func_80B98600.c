@@ -74,7 +74,7 @@ success:
     ((EntityRec *)actor)->unk_85 = 0;
     direction_table = &D_80174F28;
     (*(u8 **)((u8 *)sprite + 0x2C)) = direction_table;
-    func_80047784(sprite, direction_table[((s32) (gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7], 0);
+    func_80047784(sprite, direction_table[((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7], 0);
     ((EntityRec *)actor)->unk_6D = (u8) (((u8)((EntityRec *)actor)->unk_6D) - 1);
     func_8009C93C(actor, sprite, ((EntityRec *)actor)->facing, 1, 0);
     return 1;

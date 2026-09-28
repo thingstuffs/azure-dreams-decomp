@@ -88,7 +88,7 @@ state0:
     motion->unk_10 = direction_y * 0x60000;
     sprite->unk_2C.as_pv = &D_80174140;
     func_80047784(sprite,
-        (*(u8 *)((u8 *)(&D_80174140) + (((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7))),
+        (*(u8 *)((u8 *)(&D_80174140) + (((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7))),
         0);
     action->unk_96.s = 0;
     action->unk_9B += 1;
@@ -102,7 +102,7 @@ state1:
     if (sprite->unk_14.at00_u16.v & 0xE000) {
         sprite->unk_2C.as_pv = &D_80174170;
         func_80047784(sprite,
-            (*(u8 *)((u8 *)(&D_80174170) + (((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7))),
+            (*(u8 *)((u8 *)(&D_80174170) + (((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7))),
             0);
         action->unk_96.s = 0x14;
         action->unk_9B += 1;

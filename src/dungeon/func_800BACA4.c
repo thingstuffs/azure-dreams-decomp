@@ -165,7 +165,7 @@ void func_800C0404(DungeonObject *obj, MotionState *motion, EffectState *effect)
                     *(u8 * volatile *)(((u8 *)(&D_80082E80)) + 0x2C) = D_800DD0F8;
                     func_80048A44(
                         ((u8 *)(&D_80082E80)),
-                        D_800DD0F8[((s32)(gameWork.viewAngle + *(s16 *)(dungeon_state + 0x2A)) + 0x100 >> 9) & 7],
+                        D_800DD0F8[((s32)(gameWork.view.viewAngle + *(s16 *)(dungeon_state + 0x2A)) + 0x100 >> 9) & 7],
                         1,
                         1);
                 }

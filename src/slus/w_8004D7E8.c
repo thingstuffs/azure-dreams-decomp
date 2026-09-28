@@ -6,7 +6,7 @@ extern void func_8004D75C(void *dst, void *src);
 /* Moves the selected 0x44-byte dispatch record back to its callback slot and clears the source callback. */
 void func_8004D7E8(void *record_selector)
 {
-    char *dispatch_table = (char *)(&gameWork.unk_018);
+    char *dispatch_table = (char *)(&gameWork.view);
     void *dst;
     void *src;
 

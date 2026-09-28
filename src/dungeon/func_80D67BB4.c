@@ -83,7 +83,7 @@ state_zero:
     }
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_800E2368;
     func_80047784(sprite,
-        D_800E2368[((gameWork.viewAngle + ((S_801733B4_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+        D_800E2368[((gameWork.view.viewAngle + ((S_801733B4_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
         0);
     ((S_801733B4_0 *)motion)->unk_98 |= 8;
     ((S_801733B4_1 *)actor)->unk_1C.s &= 0xF7FFFFFF;
@@ -124,7 +124,7 @@ state_two:
         func_800A2B04(position, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_800E2370;
         func_80047784(sprite,
-            D_800E2370[((gameWork.viewAngle + ((S_801733B4_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            D_800E2370[((gameWork.view.viewAngle + ((S_801733B4_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((S_801733B4_0 *)motion)->unk_9B++;
         goto update_timer;
@@ -135,7 +135,7 @@ state_three:
     if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 != D_800E2348) {
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_800E2348;
         func_80047784(sprite,
-            D_800E2348[((gameWork.viewAngle + ((S_801733B4_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            D_800E2348[((gameWork.view.viewAngle + ((S_801733B4_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((S_801733B4_0 *)motion)->unk_9E = 0;
     }

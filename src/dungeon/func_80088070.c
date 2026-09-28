@@ -30,7 +30,7 @@ void func_8008D7D0(u8 *actor, s32 effect_arg, u8 *target, u8 *source) {
 
     *(u8 **)(target + 0x2C) = &D_800DD0B8[0];
 
-    direction = ((gameWork.viewAngle + *(s16 *)(source + 0x2A) + 0x100) >> 9) & 7;
+    direction = ((gameWork.view.viewAngle + *(s16 *)(source + 0x2A) + 0x100) >> 9) & 7;
     func_80048A44(target, D_800DD0B8[direction], 0, 1);
 
     effect = func_800A8608(actor - 0x20, *(void **)(actor + 0xBC), 0, 0, 0);

@@ -75,7 +75,7 @@ void func_8017240C(State *action, Motion *motion, Actor *actor, Entity *entity)
             goto end_state;
         }
         *(u8 * volatile *)((u8 *)actor + 0x2C) = D_80174050;
-        direction_index = (gameWork.viewAngle + entity->direction2A + 0x100) >> 9;
+        direction_index = (gameWork.view.viewAngle + entity->direction2A + 0x100) >> 9;
         func_80047784(actor, D_80174050[direction_index & 7], 0);
         action->flags98 |= 8;
         entity->flags1C &= 0xF7FFFFFF;
@@ -122,7 +122,7 @@ state_two:
         motion->dxC = 0;
         func_800A2B04(motion, actor->x24, actor->y25);
         *(u8 * volatile *)((u8 *)actor + 0x2C) = D_80174058;
-        direction_index = (gameWork.viewAngle + entity->direction2A + 0x100) >> 9;
+        direction_index = (gameWork.view.viewAngle + entity->direction2A + 0x100) >> 9;
         func_80047784(actor, D_80174058[direction_index & 7], 0);
         action->state9B++;
         break;

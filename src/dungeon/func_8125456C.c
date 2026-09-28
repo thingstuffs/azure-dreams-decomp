@@ -63,7 +63,7 @@ type_10:
     if (*(u8 **)(sprite + 0x2C) != D_80173E94) {
         *(u8 **)(sprite + 0x2C) = D_80173E94;
         func_80047784(sprite,
-                      D_80173E94[((gameWork.viewAngle +
+                      D_80173E94[((gameWork.view.viewAngle +
                                    *(s16 *)(saved_actor + 0x2A) + 0x100) >> 9) & 7],
                       *(s8 *)(sprite + 4));
     }

@@ -93,7 +93,7 @@ void func_800D58D8(void *state, void *position, void *sprite) {
     void *effect_pos;
     void *effect;
 
-    facing = ((s32) (gameWork.viewAngle + ((S_800D58D8_0 *)state)->unk_2A + 0x100) >> 9) & 7;
+    facing = ((s32) (gameWork.view.viewAngle + ((S_800D58D8_0 *)state)->unk_2A + 0x100) >> 9) & 7;
     if (((S_800D58D8_0 *)state)->unk_94 != facing) {
         direction_frames = ((Rec_D_80082E80 *)sprite)->unk_2C.as_s32;
         if (direction_frames != 0) {

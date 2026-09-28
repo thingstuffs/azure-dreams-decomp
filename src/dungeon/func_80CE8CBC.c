@@ -123,21 +123,21 @@ block_9:
         goto block_109;
     }
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80175E84;
-    func_80047784(sprite, ((u8 *)&D_80175E84)[((s32) (gameWork.viewAngle + ((EntityRec *)state)->facing + 0x100) >> 9) & 7], 0);
+    func_80047784(sprite, ((u8 *)&D_80175E84)[((s32) (gameWork.view.viewAngle + ((EntityRec *)state)->facing + 0x100) >> 9) & 7], 0);
     return;
 block_11:
     if (((S_801724BC_2 *)sprite)->unk_2C == &D_80175E5C) {
         goto block_109;
     }
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80175E8C;
-    func_80047784(sprite, ((u8 *)&D_80175E8C)[((s32) (gameWork.viewAngle + ((EntityRec *)state)->facing + 0x100) >> 9) & 7], 0);
+    func_80047784(sprite, ((u8 *)&D_80175E8C)[((s32) (gameWork.view.viewAngle + ((EntityRec *)state)->facing + 0x100) >> 9) & 7], 0);
     return;
 block_13:
     if (((S_801724BC_2 *)sprite)->unk_2C == &D_80175E64) {
         goto block_109;
     }
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80175E94;
-    func_80047784(sprite, ((u8 *)&D_80175E94)[((s32) (gameWork.viewAngle + ((EntityRec *)state)->facing + 0x100) >> 9) & 7], 0);
+    func_80047784(sprite, ((u8 *)&D_80175E94)[((s32) (gameWork.view.viewAngle + ((EntityRec *)state)->facing + 0x100) >> 9) & 7], 0);
     return;
 block_15:
     if (!(((EntityRec *)state)->flags1C & 0x200)) {
@@ -218,19 +218,19 @@ block_36:
     case 0xD:
         if (((S_801724BC_2 *)sprite)->unk_2C != &D_80175E24) {
             (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80175E24;
-            func_80047784(sprite, ((u8 *)&D_80175E24)[((s32) (gameWork.viewAngle + ((EntityRec *)state)->facing + 0x100) >> 9) & 7], 0);
+            func_80047784(sprite, ((u8 *)&D_80175E24)[((s32) (gameWork.view.viewAngle + ((EntityRec *)state)->facing + 0x100) >> 9) & 7], 0);
         }
         break;
     case 0xE:
         if (((S_801724BC_2 *)sprite)->unk_2C != &D_80175E2C) {
             (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80175E2C;
-            func_80047784(sprite, ((u8 *)&D_80175E2C)[((s32) (gameWork.viewAngle + ((EntityRec *)state)->facing + 0x100) >> 9) & 7], 0);
+            func_80047784(sprite, ((u8 *)&D_80175E2C)[((s32) (gameWork.view.viewAngle + ((EntityRec *)state)->facing + 0x100) >> 9) & 7], 0);
         }
         break;
     case 0xF:
         if (((S_801724BC_2 *)sprite)->unk_2C != &D_80175E34) {
             (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80175E34;
-            func_80047784(sprite, ((u8 *)&D_80175E34)[((s32) (gameWork.viewAngle + ((EntityRec *)state)->facing + 0x100) >> 9) & 7], 0);
+            func_80047784(sprite, ((u8 *)&D_80175E34)[((s32) (gameWork.view.viewAngle + ((EntityRec *)state)->facing + 0x100) >> 9) & 7], 0);
         }
         break;
     default:
@@ -452,7 +452,7 @@ block_107:
     }
 block_108:
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = next_row;
-    func_80047784(sprite, *(u8 *)((unsigned long)(((s32) (gameWork.viewAngle + ((EntityRec *)state)->facing + 0x100) >> 9) & 7) + (unsigned long)next_row), 0);
+    func_80047784(sprite, *(u8 *)((unsigned long)(((s32) (gameWork.view.viewAngle + ((EntityRec *)state)->facing + 0x100) >> 9) & 7) + (unsigned long)next_row), 0);
 block_109:
     return;
 }

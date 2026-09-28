@@ -91,7 +91,7 @@ void func_8016BD14(void *actor, void *action, void *entity, void *path_arg) {
         (*(u8 * *)((u8 *)entity + (0x2C))) = D_80174674;
         func_80047784(
             entity,
-            D_80174674[((gameWork.viewAngle + ((S_8016BD14_0 *)path)->unk_2A + 0x100) >> 9) & 7],
+            D_80174674[((gameWork.view.viewAngle + ((S_8016BD14_0 *)path)->unk_2A + 0x100) >> 9) & 7],
             0);
     }
 

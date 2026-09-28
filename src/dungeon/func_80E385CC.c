@@ -29,5 +29,5 @@ void func_80171DCC(State *state, s32 unused, Context *context, IndexSource *inde
     state->unk9B = 0;
     state->unk9E = 3;
     context->unk2C = D_801765E8;
-    func_80047784(context, D_801765E8[((gameWork.viewAngle + indexSource->unk2A + 0x100) >> 9) & 7], 0);
+    func_80047784(context, D_801765E8[((gameWork.view.viewAngle + indexSource->unk2A + 0x100) >> 9) & 7], 0);
 }

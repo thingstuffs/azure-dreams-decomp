@@ -71,7 +71,7 @@ void func_80172480(S_80172480_0 *actor, s32 unused, Rec_D_80082E80 *animation, S
 jt_c0:
         heading = transform->unk_2A & 0xFFF;
         transform->unk_2A = heading;
-        if (((0x400 - ((((u16)scene_state->viewAngle) + 0x100) & 0xE00)) & 0xE00) != heading) {
+        if (((0x400 - ((((u16)scene_state->view.viewAngle) + 0x100) & 0xE00)) & 0xE00) != heading) {
             transform->unk_2A = heading + 0x200;
             return;
         }
@@ -118,7 +118,7 @@ start_animation:
             animation_table = (u8 *)table_page;
             animation->unk_2C.as_pm = animation_table;
             {
-                unsigned long animation_entry = (unsigned long)(((s32) (gameWork.viewAngle + (s16) transform->unk_2A + 0x100) >> 9) & 7);
+                unsigned long animation_entry = (unsigned long)(((s32) (gameWork.view.viewAngle + (s16) transform->unk_2A + 0x100) >> 9) & 7);
                 animation_entry += (unsigned long)animation_table;
                 func_80047784(animation, *(u8 *)animation_entry, 0);
             }
@@ -133,7 +133,7 @@ jt_c4:
             {
                 u8 *animation_table = D_80175EB8;
                 animation->unk_2C.as_pm = animation_table;
-                func_80047784(animation, animation_table[((s32) (gameWork.viewAngle + (s16) transform->unk_2A + 0x100) >> 9) & 7], 0);
+                func_80047784(animation, animation_table[((s32) (gameWork.view.viewAngle + (s16) transform->unk_2A + 0x100) >> 9) & 7], 0);
             }
             actor->unk_8C = D_801710EC;
             transform->unk_2A = (u16) actor->unk_B0;

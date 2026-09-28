@@ -93,7 +93,7 @@ check_landing:
         func_800A2B04(transform, ((Rec_D_80082E80 *)map_entity)->unk_24, ((Rec_D_80082E80 *)map_entity)->unk_25);
         animation_table = D_800E262C;
         (*(void **)((u8 *)map_entity + 0x2C)) = animation_table;
-        func_8003DB94(map_entity, *(void **)((u8 *)animation_table + (((s32) (gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 7) & 0x1C)), 0);
+        func_8003DB94(map_entity, *(void **)((u8 *)animation_table + (((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 7) & 0x1C)), 0);
         ((S_800D991C_0 *)motion_state)->unk_9B = (u8) (((S_800D991C_0 *)motion_state)->unk_9B + 1);
     }
 tick_timer:

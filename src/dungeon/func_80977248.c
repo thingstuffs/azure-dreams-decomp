@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/def_table.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -15,7 +16,6 @@ extern s32 func_800A94A0(void *, u8 *, s32, void *);
 extern void func_80170A44(void *, void *, void *, void *);
 
 typedef struct { u8 pad[0x12]; u8 kind; u8 pad2; } ItemDef20;
-extern ItemDef20 D_8006DE24[];
 extern void *D_80170850[];
 extern void *D_801708B0[];
 extern s32 D_801714D4[];
@@ -289,7 +289,7 @@ state_3:
     func_800A56E0(0x703);
     (*(void * *)((u8 *)actor + 0x2C)) = D_80174110;
     func_80047784(actor,
-        *((u8 *)((((gameWork.viewAngle + (*(s16 *)((u8 *)item + 0x2A)) + 0x100) >> 9) & 7) + (u32)D_80174110)),
+        *((u8 *)((((gameWork.view.viewAngle + (*(s16 *)((u8 *)item + 0x2A)) + 0x100) >> 9) & 7) + (u32)D_80174110)),
         0);
     return;
 
@@ -351,7 +351,7 @@ state_7:
 
         (*(void * *)((u8 *)actor + 0x2C)) = model;
         func_80047784(actor,
-            model[((gameWork.viewAngle + (*(s16 *)((u8 *)item + 0x2A)) + 0x100) >> 9) & 7],
+            model[((gameWork.view.viewAngle + (*(s16 *)((u8 *)item + 0x2A)) + 0x100) >> 9) & 7],
             0);
     }
     ((S_80172A48_0 *)action)->unk_9E = 0;
@@ -418,7 +418,7 @@ state_18:
     /* MATCH: the preceding eight-byte model table uses a distinct address expression in this arm. */
     (*(void * *)((u8 *)actor + 0x2C)) = (u8 *)((u32)D_80174118 - 8);
     func_80047784(actor,
-        *((u8 *)((((gameWork.viewAngle + (*(s16 *)((u8 *)item + 0x2A)) + 0x100) >> 9) & 7) + (u32)(u8 *)((u32)D_80174118 - 8))),
+        *((u8 *)((((gameWork.view.viewAngle + (*(s16 *)((u8 *)item + 0x2A)) + 0x100) >> 9) & 7) + (u32)(u8 *)((u32)D_80174118 - 8))),
         0);
     return;
 
@@ -471,7 +471,7 @@ state_21:
 
         (*(void * *)((u8 *)actor + 0x2C)) = D_80174118;
         func_80047784(actor,
-            *((u8 *)((((gameWork.viewAngle + (*(s16 *)((u8 *)item + 0x2A)) + 0x100) >> 9) & 7) + (u32)D_80174118)),
+            *((u8 *)((((gameWork.view.viewAngle + (*(s16 *)((u8 *)item + 0x2A)) + 0x100) >> 9) & 7) + (u32)D_80174118)),
             0);
     }
     return;

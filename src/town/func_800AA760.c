@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_index_slots.h"
 #include "shared/object_flags.h"
 
 #define FIELD(base, type, offset) (*(type)((u8 *)(base) + (offset)))
@@ -13,7 +14,6 @@ typedef struct {
     void *record;
 } D_80082660_entry;
 
-extern D_80082660_entry D_80082660[];
 
 typedef struct S_func_800AA760_0 {
     u8 pad_00[0x60];
@@ -80,7 +80,7 @@ void func_800A7EC0(S_func_800AA760_0 *object, S_func_800AA760_1 *out_position)
     }
 
     if (link_index != 0) {
-        linked_record = D_80082660[link_index].record;
+        linked_record = D_80082660[link_index].object;
         linked_entity = (S_func_800AA760_3 *)((u8 *)linked_record + 0x20);
         if (linked_record != 0) {
             linked_position = linked_record->unk_08;

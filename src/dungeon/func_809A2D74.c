@@ -38,7 +38,7 @@ void func_80174574(Actor *actor, s32 action, Entity *entity, MapObject *map_obje
                !(map_object->unk_1C & 0x208)) {
         entity->unk_2C = D_80175E40;
         func_80047784(entity,
-                     D_80175E40[((gameWork.viewAngle + map_object->unk_2A + 0x100) >> 9) & 7],
+                     D_80175E40[((gameWork.view.viewAngle + map_object->unk_2A + 0x100) >> 9) & 7],
                      0);
     }
 }

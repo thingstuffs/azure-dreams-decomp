@@ -66,7 +66,7 @@ void func_800D5594(void *owner_data, void *position_data, void *entity_data)
         U16(((u8 *)(owner_data)), 0x2A) = facing_check;
         func_80047784(
             entity,
-            PTR(entity, 0x2C)[(gameWork.viewAngle + effect_angle + 0x100) >> 9 & 7],
+            PTR(entity, 0x2C)[(gameWork.view.viewAngle + effect_angle + 0x100) >> 9 & 7],
             0);
     }
 

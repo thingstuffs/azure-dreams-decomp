@@ -21,7 +21,7 @@ extern void func_800A56E0(s32);
 
 /* Advances a timed Z transition, waits for readiness, and marks completion. */
 void func_800CBDB4(s16 *transition) {
-    struct S_80083178 *state = ((void *)&gameWork.unk_018);
+    GameView *state = &gameWork.view;
     s16 phase = transition[1];
 
     if (phase == 1) {
@@ -39,7 +39,7 @@ void func_800CBDB4(s16 *transition) {
     goto done;
 
 move_out:
-    state->state_94.v[1].z = state->state_94.v[1].z + (0x800 - state->state_94.v[1].z) / transition[2];
+    state->unk_0A0 = state->unk_0A0 + (0x800 - state->unk_0A0) / transition[2];
     {
         u16 frames_left = (u16)transition[2] - 1;
         transition[2] = frames_left;
@@ -49,7 +49,7 @@ move_out:
         {
             S_80083460 *settings = ((S_80083460 *)&dungeonStatus);
             transition[1] = (u16)transition[1] + 1;
-            state->state_94.v[1].z = -0x800;
+            state->unk_0A0 = -0x800;
             settings->count = (u16)settings->count - 1;
             func_800997FC(D_800E1B08, settings, state);
         }
@@ -71,7 +71,7 @@ wait_ready:
     goto done;
 
 move_back:
-    state->state_94.v[1].z = state->state_94.v[1].z + (0 - state->state_94.v[1].z) / transition[2];
+    state->unk_0A0 = state->unk_0A0 + (0 - state->unk_0A0) / transition[2];
     {
         u16 frames_left = (u16)transition[2] - 1;
         transition[2] = frames_left;
@@ -79,7 +79,7 @@ move_back:
             S_80083460 *settings = ((S_80083460 *)&dungeonStatus);
             u8 *message = D_800E1B2E;
             settings->count = (u16)settings->count - 1;
-            state->state_94.v[1].z = 0;
+            state->unk_0A0 = 0;
             func_800997FC(message);
             ((u16 *)transition)[-1] = ((u16 *)transition)[-1] | 0x8000;
             objectFlagBlock.flags = ((u32)objectFlagBlock.flags) | 0x8000;

@@ -149,7 +149,7 @@ state_zero:
     }
     (*(void * *)((u8 *)sprite + 0x2C)) = D_801741CC;
     func_80047784(sprite,
-        D_801741CC[((gameWork.viewAngle + ((S_8017352C_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+        D_801741CC[((gameWork.view.viewAngle + ((S_8017352C_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
         0);
     state_zero_counter_base = (u8 *)&dungeonStatus.unk_00;
     ((S_8017352C_0 *)entity)->unk_96 = 0;
@@ -234,7 +234,7 @@ state_one:
 animate:
     (*(void * *)((u8 *)sprite + 0x2C)) = D_80174184;
     func_80047784(sprite,
-        D_80174184[((gameWork.viewAngle + ((S_8017352C_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+        D_80174184[((gameWork.view.viewAngle + ((S_8017352C_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
         0);
     ((S_8017352C_2 *)actor)->unk_1C.u |= 0x40000;
     ((S_8017352C_5 *)body_part)->unk_04 |= 0x8000;

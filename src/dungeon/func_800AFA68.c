@@ -6,6 +6,9 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "shared/game_work.h"
+
+/* gameWork.view declared on its own: this row forms its camera base as D_80083178 - 0x18 (as gameWork it misses). */
+extern GameView D_80083178;
 #include "m2c_compat.h"
 extern u8 D_8006CD10[];
 

@@ -80,7 +80,7 @@ void func_80024CE4(void *effect, S_80024CE4_2 *position, S_80024CE4_1 *visual, s
     Product64 fade_product;
 
     D_800259AC = 1;
-    global_state = ((void *)&gameWork.unk_018);
+    global_state = ((void *)&gameWork.view);
     view_state = (u8 *) global_state + 0xB8;
     initialized = (*(s16 *)((u8 *)effect + 0));
     init_or_snapshot = (void *) (u32) (*(u16 *)((u8 *)effect + 0));

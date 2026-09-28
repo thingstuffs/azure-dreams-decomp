@@ -265,7 +265,7 @@ state_one:
     owner->unk_12 = ((S_80174CCC_0 *)motion)->unk_3A;
     func_80047784(owner,
         owner->unk_2C.u
-            [((gameWork.viewAngle + ((S_80174CCC_6 *)created)->unk_2A + 0x100) >> 9) & 7],
+            [((gameWork.view.viewAngle + ((S_80174CCC_6 *)created)->unk_2A + 0x100) >> 9) & 7],
         0);
     func_800A152C(0x1E, 1);
 

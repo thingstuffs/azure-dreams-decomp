@@ -36,7 +36,7 @@ s32 func_80095760(void *entries)
     s32 entry_index;
     S_80095760_2 *entry;
 
-    angle = func_80094BC8(((s32)gameWork.unk_008), gameWork.viewAngle);
+    angle = func_80094BC8(((s32)gameWork.unk_008), gameWork.view.viewAngle);
     if (angle != -1) {
         entry_index = 0;
         direction = ((angle + 0x100) / 0x200) & 7;

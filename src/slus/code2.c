@@ -1,4 +1,9 @@
 #include "common.h"
+#include "shared/game_work.h"
+
+/* gameWork.view declared on its own: func_8004D0C8 / func_8004D110 form their base at 0x80083178 (as gameWork the
+ * offsets and the schedule change: cc1 listing differs). */
+extern GameView D_80083178;
 
 /* --- gcc 2.8.x translation unit (address-caching CSE; see PLAN.md multi-compiler finding) --- */
 
@@ -59,8 +64,8 @@ void func_8004D09C(void);
 /* Registers the state pointer and the default callback func_8004D09C. */
 void func_8004D0C8(void *state)
 {
-    D_80083178.ptr = state;
-    D_80083178.callback = func_8004D09C;
+    D_80083178.slot[0].unk_24 = state;
+    D_80083178.slot[0].callback = func_8004D09C;
 }
 
 /* func_800419EC — gcc 2.8.1 */
@@ -91,8 +96,8 @@ void func_8004D0E4(void);
 /* Registers the state pointer and the default callback func_8004D0E4. */
 void func_8004D110(void *state)
 {
-    D_80083178.field_B8 = state;
-    D_80083178.callback = func_8004D0E4;
+    D_80083178.slot[0].unk_04 = state;
+    D_80083178.slot[0].callback = func_8004D0E4;
 }
 
 extern unsigned char D_8007382A[16];

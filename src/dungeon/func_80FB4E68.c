@@ -198,7 +198,7 @@ init_effect:
     direction_table = D_80175258;
     sprite->unk_2C = direction_table;
     func_80047784(sprite,
-        direction_table[((gameWork.viewAngle + ((S_80174668_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+        direction_table[((gameWork.view.viewAngle + ((S_80174668_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
         0);
     if (sprite->unk_14 & 0x8000) {
         effect->unk_9B = 2;

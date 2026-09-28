@@ -93,12 +93,12 @@ void func_8009255C(void *controller, s32 action_id, Rec_D_80082E80 *actor, Entit
     goto end;
 
 state_0:
-    if ((((gameWork.viewAngle +
+    if ((((gameWork.view.viewAngle +
              transform->facing + 0x100) >> 9) & 7) == 2) {
         animation_actor = actor;
         animation_table = D_800DD100;
         animation_actor->unk_2C = animation_table;
-        animation_entry = (u8 *)((s32)(((gameWork.viewAngle +
+        animation_entry = (u8 *)((s32)(((gameWork.view.viewAngle +
                                 transform->facing + 0x100) >> 9) &
                               7) +
                        (s32)animation_table);

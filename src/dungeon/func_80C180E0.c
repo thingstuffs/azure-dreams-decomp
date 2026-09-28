@@ -113,7 +113,7 @@ state_zero:
         func_80047784(
             sprite,
             D_801744FC[
-                ((gameWork.viewAngle + ((S_801738E0_2 *)entity)->unk_2A + 0x100) >> 9) & 7],
+                ((gameWork.view.viewAngle + ((S_801738E0_2 *)entity)->unk_2A + 0x100) >> 9) & 7],
             0);
         goto state_to_two;
     }
@@ -131,7 +131,7 @@ state_zero:
     (*(void * *)((u8 *)sprite + 0x2C)) = anim_table;
     func_80047784(
         sprite,
-        *(u8 *)((((gameWork.viewAngle + ((S_801738E0_2 *)entity)->unk_2A + 0x100) >> 9) & 7) + (u32)anim_table),
+        *(u8 *)((((gameWork.view.viewAngle + ((S_801738E0_2 *)entity)->unk_2A + 0x100) >> 9) & 7) + (u32)anim_table),
         0);
     ((S_801738E0_0 *)actor)->unk_9B++;
     goto done;
@@ -149,7 +149,7 @@ state_one:
     func_80047784(
         sprite,
         D_801744FC[
-            ((gameWork.viewAngle + ((S_801738E0_2 *)entity)->unk_2A + 0x100) >> 9) & 7],
+            ((gameWork.view.viewAngle + ((S_801738E0_2 *)entity)->unk_2A + 0x100) >> 9) & 7],
         0);
     func_800A9A0C(entity);
 
@@ -169,7 +169,7 @@ state_two:
         func_80047784(
             sprite,
             D_801744F4[
-                ((gameWork.viewAngle + ((S_801738E0_2 *)entity)->unk_2A + 0x100) >> 9) & 7],
+                ((gameWork.view.viewAngle + ((S_801738E0_2 *)entity)->unk_2A + 0x100) >> 9) & 7],
             0);
         entity_flags = ((S_801738E0_2 *)entity)->unk_1C | 0x40000;
         ((S_801738E0_2 *)entity)->unk_1C = entity_flags;
@@ -248,7 +248,7 @@ state_two:
     func_80047784(
         sprite,
         D_801744F4[
-            ((gameWork.viewAngle + ((S_801738E0_2 *)entity)->unk_2A + 0x100) >> 9) & 7],
+            ((gameWork.view.viewAngle + ((S_801738E0_2 *)entity)->unk_2A + 0x100) >> 9) & 7],
         0);
     entity_flags = ((S_801738E0_2 *)entity)->unk_1C | 0x40000;
     ((S_801738E0_2 *)entity)->unk_1C = entity_flags;
@@ -272,7 +272,7 @@ state_three:
 
     func_80047784(
         sprite,
-        D_801744EC[((gameWork.viewAngle + ((S_801738E0_2 *)entity)->unk_2A + 0x100) >> 9) & 7],
+        D_801744EC[((gameWork.view.viewAngle + ((S_801738E0_2 *)entity)->unk_2A + 0x100) >> 9) & 7],
         0);
 
 advance_state:
@@ -290,7 +290,7 @@ state_four:
     func_80047784(
         sprite,
         D_8017449C[
-            ((gameWork.viewAngle + ((S_801738E0_2 *)entity)->unk_2A + 0x100) >> 9) & 7],
+            ((gameWork.view.viewAngle + ((S_801738E0_2 *)entity)->unk_2A + 0x100) >> 9) & 7],
         0);
     ((S_801738E0_0 *)actor)->unk_98 |= 8;
     ((S_801738E0_2 *)entity)->unk_1C &= 0xF7FFFFFF;

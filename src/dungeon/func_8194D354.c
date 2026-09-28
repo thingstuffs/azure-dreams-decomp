@@ -272,7 +272,7 @@ block_10:
     effect_data = offset;
     step_value = (step_value - 0x50) << 0x10;
     (*(s32 *)((u8 *)source_pos + 8)) = step_value;
-    step_value = gameWork.viewAngle;
+    step_value = gameWork.view.viewAngle;
     state_or_heading = ((S_80024B54_1 *)actor_value)->unk_2A.s;
     offset_mode = 0;
     step_value = ((step_value + state_or_heading + 0x100) >> 7) & 0x1C;

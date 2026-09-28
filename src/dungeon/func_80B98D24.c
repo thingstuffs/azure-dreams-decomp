@@ -67,7 +67,7 @@ jt_c1:
         goto done;
     }
     (*(M2C_UNK **)((u8 *)sprite + (0x2C))) = (M2C_UNK *)&D_80174F30;
-    func_80047784(sprite, *(u8 *)((((s32) (gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7) + (u32)&D_80174F30), 0);
+    func_80047784(sprite, *(u8 *)((((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7) + (u32)&D_80174F30), 0);
     goto advance_phase;
 jt_c2:
     ((EntityRec *)motion)->unk_0C = (s32) ((s32) ((EntityRec *)motion)->unk_0C >> 1);
@@ -77,7 +77,7 @@ jt_c2:
     }
     func_800A56E0(0x808);
     (*(M2C_UNK **)((u8 *)sprite + (0x2C))) = (M2C_UNK *)&D_80174F38;
-    func_80047784(sprite, *(u8 *)((((s32) (gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7) + (u32)&D_80174F38), 0);
+    func_80047784(sprite, *(u8 *)((((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7) + (u32)&D_80174F38), 0);
     goto advance_phase;
 jt_c3:
     if (((Rec_D_80082E80 *)sprite)->unk_04.as_s8 != 2) {
@@ -98,7 +98,7 @@ check_animation:
         goto done;
     }
     (*(M2C_UNK **)((u8 *)sprite + (0x2C))) = &D_80174F40;
-    func_80047784(sprite, *((((s32) (gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7) + &D_80174F40), 0);
+    func_80047784(sprite, *((((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7) + &D_80174F40), 0);
     func_8009C12C(actor, sprite, ((EntityRec *)actor)->facing, 1);
     ((S_80172524_0 *)action)->unk_9B.n = 5U;
     ((S_80172524_0 *)action)->unk_96.u = 0;
@@ -129,7 +129,7 @@ check_move_done:
         goto done;
     }
     (*(M2C_UNK **)((u8 *)sprite + (0x2C))) = (M2C_UNK *)&D_80174F40;
-    func_80047784(sprite, *(u8 *)((((s32) (gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7) + (u32)&D_80174F40), 0);
+    func_80047784(sprite, *(u8 *)((((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7) + (u32)&D_80174F40), 0);
 advance_phase:
     ((S_80172524_0 *)action)->unk_9B.n += 1;
     return;

@@ -103,7 +103,7 @@ selected_kind:
     if (current_table != direction_table) {
         (*(u8 * *)((u8 *)actor + 0x2C)) = direction_table;
         direction_addr =
-            ((gameWork.viewAngle + ((S_80172CC0_0 *)state)->unk_2A + 0x100) >> 9) & 7;
+            ((gameWork.view.viewAngle + ((S_80172CC0_0 *)state)->unk_2A + 0x100) >> 9) & 7;
         direction_addr += (unsigned long)direction_table;
         func_80047784(actor, *(u8 *)direction_addr, 0);
     }

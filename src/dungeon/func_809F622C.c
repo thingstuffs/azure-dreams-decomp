@@ -103,7 +103,7 @@ state_zero:
     }
     (*(void * *)((u8 *)sprite + 0x2C)) = D_80175188;
     func_80047784(sprite,
-        D_80175188[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+        D_80175188[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
         0);
     {
 
@@ -116,7 +116,7 @@ state_one:
     if ((func_80042900(actor, 1) << 16) == 0) {
         (*(void * *)((u8 *)sprite + 0x2C)) = D_80175190;
         func_80047784(sprite,
-            D_80175190[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            D_80175190[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
         actor_flags = ((EntityRec *)actor)->flags1C | 0x40000;
         ((EntityRec *)actor)->flags1C = actor_flags;
@@ -184,7 +184,7 @@ state_one:
     }
     (*(void * *)((u8 *)sprite + 0x2C)) = D_80175190;
     func_80047784(sprite,
-        D_80175190[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+        D_80175190[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
         0);
     actor_flags = ((EntityRec *)actor)->flags1C | 0x40000;
     ((EntityRec *)actor)->flags1C = actor_flags;
@@ -217,7 +217,7 @@ state_two:
     ((S_80173A2C_0 *)controller_in)->unk_A8 = 0;
     (*(void * *)((u8 *)sprite + 0x2C)) = D_80175140;
     func_80047784(sprite,
-        D_80175140[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+        D_80175140[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
         0);
     {
 

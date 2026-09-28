@@ -39,7 +39,7 @@ void func_80174B14(Entity *entity, s32 unused, Object *object, State *state) {
         entity->unk9B = 0;
         object->unk2C = D_80174F08;
         func_80047784(object,
-                      D_80174F08[((gameWork.viewAngle + state->unk2A + 0x100) >> 9) & 7],
+                      D_80174F08[((gameWork.view.viewAngle + state->unk2A + 0x100) >> 9) & 7],
                       0);
         state->unk6D--;
         flags->unk_0A++;

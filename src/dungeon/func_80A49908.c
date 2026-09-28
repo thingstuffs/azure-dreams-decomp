@@ -107,7 +107,7 @@ void func_80173108(void *actor, s32 unused, void *sprite, void *entity)
         if (U16(sprite_group, 0x1C) & 0x6000) {
             PTR(sprite, 0x2C) = D_8017588C;
             func_80047784(sprite,
-                D_8017588C[((gameWork.viewAngle + S16(entity, 0x2A) + 0x100) >> 9) & 7],
+                D_8017588C[((gameWork.view.viewAngle + S16(entity, 0x2A) + 0x100) >> 9) & 7],
                 0);
             U16(actor, 0x96) = 0x80;
             U8(actor, 0x9B) = U8(actor, 0x9B) + 1;

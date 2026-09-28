@@ -128,7 +128,7 @@ s32 func_818C29D4(S_818C29D4_6 *sprite, S_818C29D4_4 *position)
     s32 blend_mode;
     s32 page_x;
 
-    angle = gameWork.viewAngle;
+    angle = gameWork.view.viewAngle;
     ((S_818C29D4_2 *)scratch)->unk_18.p = ((Rec_D_80083160 *)((u8 *)(&gameWork)))->unk_00.as_pu8 + 0xB0;
     axis_offset = ((func_80064584(angle) >> 4) * 36) >> 8;
     vertex_coord = position->unk_02 - axis_offset;

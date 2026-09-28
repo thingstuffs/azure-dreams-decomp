@@ -80,7 +80,7 @@ state_0:
     (*(u8 * *)((u8 *)sprite + 0x2C)) = &D_80174F30;
     func_80047784(sprite,
         *(&D_80174F30 +
-          (((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7)),
+          (((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7)),
         0);
     goto bump_state;
 

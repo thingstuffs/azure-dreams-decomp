@@ -122,7 +122,7 @@ void func_80170EE4(void *actor_state_in, void *update_context_in, void *map_obje
         (*(u8 * *)((u8 *)map_object + (0x2C))) = D_80176678;
         func_80047784(
             map_object,
-            D_80176678[((gameWork.viewAngle + ((S_80170EE4_1 *)actor_data)->unk_2A + 0x100) >> 9) & 7],
+            D_80176678[((gameWork.view.viewAngle + ((S_80170EE4_1 *)actor_data)->unk_2A + 0x100) >> 9) & 7],
             0);
         return;
     }
@@ -153,7 +153,7 @@ void func_80170EE4(void *actor_state_in, void *update_context_in, void *map_obje
                     (*(u8 * *)((u8 *)map_object + (0x2C))) = D_801765D8;
                     func_80047784(
                         map_object,
-                        D_801765D8[((gameWork.viewAngle + ((S_80170EE4_1 *)actor_data)->unk_2A + 0x100) >> 9) & 7],
+                        D_801765D8[((gameWork.view.viewAngle + ((S_80170EE4_1 *)actor_data)->unk_2A + 0x100) >> 9) & 7],
                         0);
                 }
                 ((S_80170EE4_0 *)actor_state_in)->unk_9A = default_state;
@@ -289,6 +289,6 @@ jt_default:
     (*(u8 * *)((u8 *)map_object + (0x2C))) = animation_table;
     func_80047784(
         map_object,
-        *(u8 *)((((gameWork.viewAngle + ((S_80170EE4_1 *)actor_data)->unk_2A + 0x100) >> 9) & 7) + (u32)animation_table),
+        *(u8 *)((((gameWork.view.viewAngle + ((S_80170EE4_1 *)actor_data)->unk_2A + 0x100) >> 9) & 7) + (u32)animation_table),
         0);
 }

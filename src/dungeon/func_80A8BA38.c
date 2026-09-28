@@ -116,7 +116,7 @@ continue_state_one:
     (*(u8 * *)((u8 *)map_actor + 0x2C)) = D_8015C150;
     func_80047784(
         map_actor,
-        D_8015C150[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+        D_8015C150[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
         0);
     ((S_8015B238_1 *)motion_state)->unk_9B++;
     goto done;
@@ -131,7 +131,7 @@ state_two:
     (*(u8 * *)((u8 *)map_actor + 0x2C)) = D_8015C150;
     func_80047784(
         map_actor,
-        D_8015C150[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+        D_8015C150[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
         0);
     ((S_8015B238_1 *)motion_state)->unk_96.s = 8;
     ((S_8015B238_1 *)motion_state)->unk_9B++;

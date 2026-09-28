@@ -196,7 +196,7 @@ jt_c1:
     ((S_80174B20_1 *)actor)->unk_8A = (u16) ((S_80174B20_1 *)actor)->unk_2A;
     ((S_80174B20_1 *)actor)->unk_1C = (s32) (((S_80174B20_1 *)actor)->unk_1C & 0xFFFBFFFF);
 jt_c2:
-    direction = ((s32) (gameWork.viewAngle + (s16) ((S_80174B20_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
+    direction = ((s32) (gameWork.view.viewAngle + (s16) ((S_80174B20_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
     if ((*(u8 *)&D_8017521C) == 0) {
         goto turn_actor;
     }
@@ -324,7 +324,7 @@ jt_c7:
     ((S_80174B20_16 *)(((S_80174B20_14 *)actor)->unk_60))->unk_2A = (u16) ((S_80174B20_1 *)actor)->unk_2A;
     replacement = ((S_80174B20_1 *)actor)->unk_60;
     sprite = ((S_80174B20_11_pre *)replacement)[-1].unk_00;
-    func_80047738(sprite, sprite->unk_2C[((s32) (gameWork.viewAngle + (s16) ((S_80174B20_11 *)replacement)->unk_2A + 0x100) >> 9) & 7], sprite->unk_04);
+    func_80047738(sprite, sprite->unk_2C[((s32) (gameWork.view.viewAngle + (s16) ((S_80174B20_11 *)replacement)->unk_2A + 0x100) >> 9) & 7], sprite->unk_04);
     sprite->unk_14 = (u16) (sprite->unk_14 & 0xFFFE);
 jt_c8:
     finish_ticks = ((Rec_func_80174800_arg0 *)state)->unk_96 - 1;

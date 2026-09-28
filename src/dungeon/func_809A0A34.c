@@ -29,7 +29,7 @@ void func_809A0A34(void *controller, M2C_UNK action_context, void *sprite, void 
             (*(s32 *)((u8 *)controller + 0x8C)) = 0;
             ((S_809A0A34_1 *)controller)->unk_9B = 0;
             (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80175E70;
-            func_80047784(sprite, *((((s32) (gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7) + &D_80175E70), 0);
+            func_80047784(sprite, *((((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7) + &D_80175E70), 0);
             ((EntityRec *)actor)->unk_6D = (u8) (((u8)((EntityRec *)actor)->unk_6D) - 1);
             ((S_809A0A34_1 *)controller)->unk_98 = (u16) (((S_809A0A34_1 *)controller)->unk_98 | 8);
             func_8009C93C(actor, sprite, ((EntityRec *)actor)->facing, 1, 0);

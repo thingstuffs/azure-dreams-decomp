@@ -29,5 +29,5 @@ void func_80172664(State *state, s32 unused, Context *context, IndexSource *sour
     state->unk9B = 0;
     state->unk9E = 2;
     context->unk2C = D_80174EA0;
-    func_80047784(context, D_80174EA0[((gameWork.viewAngle + source->unk2A + 0x100) >> 9) & 7], 0);
+    func_80047784(context, D_80174EA0[((gameWork.view.viewAngle + source->unk2A + 0x100) >> 9) & 7], 0);
 }

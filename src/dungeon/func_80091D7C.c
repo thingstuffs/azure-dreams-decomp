@@ -73,7 +73,7 @@ void func_800974DC(void *action, void *motion, void *sprite, void *actor) {
 jt_c0:
     func_800C77D0(actor - 0x20, motion, 8, 0x300);
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = D_800DD294;
-    func_8003DB94(sprite, *(M2C_UNK *)((u8 *)D_800DD294 + (((s32) (gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 7) & 0x1C)), 0);
+    func_8003DB94(sprite, *(M2C_UNK *)((u8 *)D_800DD294 + (((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 7) & 0x1C)), 0);
     dir_offset = ((u16) ((EntityRec *)actor)->facing >> 8) & 0xE;
     ((EntityRec *)motion)->unk_0C = (s32) (*(s16 *)((u8 *)dirStepX + dir_offset) << 0x11);
     dir_y = *(s16 *)((u8 *)dirStepY + dir_offset);
@@ -118,7 +118,7 @@ block_12:
         goto block_15;
     }
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = D_800DD274;
-    func_8003DB94(sprite, *(M2C_UNK *)((u8 *)D_800DD274 + (((s32) (gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 7) & 0x1C)), 0);
+    func_8003DB94(sprite, *(M2C_UNK *)((u8 *)D_800DD274 + (((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 7) & 0x1C)), 0);
     ((S_800974DC_0 *)action)->unk_9B = (u8) (((S_800974DC_0 *)action)->unk_9B + 1);
 jt_c2:
 block_15:
@@ -132,7 +132,7 @@ block_15:
         goto block_23;
     }
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = D_800DD274;
-    func_8003DB94(sprite, *(M2C_UNK *)((u8 *)D_800DD274 + (((s32) (gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 7) & 0x1C)), 0);
+    func_8003DB94(sprite, *(M2C_UNK *)((u8 *)D_800DD274 + (((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 7) & 0x1C)), 0);
     ((S_800974DC_0 *)action)->unk_9B = 3U;
     return;
 jt_c3: {

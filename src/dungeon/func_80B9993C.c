@@ -105,7 +105,7 @@ state_zero:
     sprite->unk_0C = 0x40;
     func_80047784(sprite,
         sprite->unk_2C.u[
-            ((gameWork.viewAngle + entity->facing + 0x100) >> 9) & 7],
+            ((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
         0);
     {
 

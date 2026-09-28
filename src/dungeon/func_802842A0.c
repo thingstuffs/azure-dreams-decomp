@@ -69,7 +69,7 @@ void func_800172A0(S_800172A0_0 *source, s16 base_offset) {
     s16 rotation_step;
     s32 random_bits;
 
-    state = (u8 *)(&gameWork.unk_018);
+    state = (u8 *)(&gameWork.view);
     bounds = state + 0x1C4;
     effect = state + 0xB8;
     random_angle = (rand() & 0x1FFF) - 0x1000;

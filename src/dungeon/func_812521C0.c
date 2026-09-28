@@ -82,7 +82,7 @@ void func_801719C0(void *motion, s32 unused, void *sprite, void *path)
         (*(u8 * *)((u8 *)sprite + (0x2C))) = D_80173E8C;
         func_80047784(
             sprite,
-            D_80173E8C[((gameWork.viewAngle + ((S_801719C0_0 *)path)->unk_2A + 0x100) >> 9) & 7],
+            D_80173E8C[((gameWork.view.viewAngle + ((S_801719C0_0 *)path)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((S_801719C0_1 *)sprite)->unk_05 = 1;
         ((S_801719C0_2 *)motion)->unk_A2 = 0;

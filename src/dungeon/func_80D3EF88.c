@@ -87,7 +87,7 @@ state_zero:
     }
     (*(void * *)((u8 *)sprite + 0x2C)) = D_800E2428;
     func_80047784(sprite,
-                  D_800E2428[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+                  D_800E2428[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
                   0);
     goto increment_state;
 
@@ -133,7 +133,7 @@ state_one:
     }
     (*(void * *)((u8 *)sprite + 0x2C)) = D_800E2430;
     func_80047784(sprite,
-                  D_800E2430[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+                  D_800E2430[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
                   0);
     ((EntityRec *)actor)->flags1C |= 0x40000;
     dungeonStatus.unk_0A++;

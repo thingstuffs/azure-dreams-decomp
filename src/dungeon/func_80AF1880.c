@@ -80,7 +80,7 @@ state_1:
 
         (*(u8 * *)((u8 *)sprite + (0x2C))) = direction_table;
         func_80047784(sprite,
-                     direction_table[((gameWork.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+                     direction_table[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
                      0);
 advance_state:
         ((S_80173080_0 *)action)->unk_96.u = 0;

@@ -98,7 +98,7 @@ state_0:
     sprite->unk_2C = D_80173C9C;
     func_80047784(
         sprite,
-        D_80173C9C[((gameWork.viewAngle + entity->facing + 0x100) >> 9) & 7],
+        D_80173C9C[((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
         0);
     counter_base = ((u8 *)(&dungeonStatus));
     ((S_80173204_3 *)counter_base)->unk_0A =
@@ -111,7 +111,7 @@ state_1:
         sprite->unk_2C = D_80173CA4;
         func_80047784(
             sprite,
-            D_80173CA4[((gameWork.viewAngle + entity->facing + 0x100) >> 9) & 7],
+            D_80173CA4[((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         if (sprite->unk_14 & 0x8000) {
             entity->flags1C &= ~0x200;
@@ -186,7 +186,7 @@ second_check:
     sprite->unk_2C = D_80173CA4;
     func_80047784(
         sprite,
-        D_80173CA4[((gameWork.viewAngle + entity->facing + 0x100) >> 9) & 7],
+        D_80173CA4[((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
         0);
     if (sprite->unk_14 & 0x8000) {
         entity->flags1C &= ~0x200;

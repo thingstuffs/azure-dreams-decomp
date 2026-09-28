@@ -7,9 +7,9 @@
 #define S32_AT(p, o) (*(s32 *)((u8 *)(p) + (o)))
 #define U32_AT(p, o) (*(u32 *)((u8 *)(p) + (o)))
 #define PTR_AT(p, o) (*(u8 **)((u8 *)(p) + (o)))
-/* Same address as D_80083160 (0x80083178 - 0x18), spelled off D_80083178.
+/* gameWork's own base (0x80083160), formerly spelled as D_80083178 - 0x18.
    Links to identical words. */
-#define GFX_ROOT_SLOT (((u8 *)(&gameWork.unk_018)) - 0x18)
+#define GFX_ROOT_SLOT ((u8 *)&gameWork)
 #define VU16_AT(p, o) (*(volatile u16 *)((u8 *)(p) + (o)))
 #define VS32_AT(p, o) (*(volatile s32 *)((u8 *)(p) + (o)))
 

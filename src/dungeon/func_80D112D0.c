@@ -142,7 +142,7 @@ set_amount:
         coord_work.xyz[2] = ((S_80170AD0_4 *)reference_coords)->unk_0A;
         reference_value = func_80065420(coord_work.xyz, &coord_work.out18, &coord_work.out20, &coord_work.out24);
         ((S_80170AD0_1 *)effect)->unk_06 = position_value - reference_value -
-            (D_800DCECC[((gameWork.viewAngle + ((S_80170AD0_0 *)state)->unk_94 + 0x100) >> 9) & 7] * 2);
+            (D_800DCECC[((gameWork.view.viewAngle + ((S_80170AD0_0 *)state)->unk_94 + 0x100) >> 9) & 7] * 2);
         goto position_done;
     }
 
