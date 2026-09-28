@@ -153,18 +153,15 @@ state_0:
     if (((S_8197D468_3 *)motion)->unk_14 > 0) {
         ((S_8197D468_2 *)sprite)->unk_00 = &D_800DE990;
         sprite_frames = (void *) ((S_8197D468_4 *)(&D_800DE990))->unk_04;
-        ASM_KEEP(sprite_frames);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         sprite_flags = ((S_8197D468_2 *)sprite)->unk_14;
-        ASM_KEEP(sprite_flags);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         ((S_8197D468_2 *)sprite)->unk_04 = 0;
         ((S_8197D468_2 *)sprite)->unk_05 = 0;
         ((S_8197D468_2 *)sprite)->unk_1E = 0x400U;
         ((S_8197D468_2 *)sprite)->unk_1C = 0x400U;
         ((S_8197D468_2 *)sprite)->unk_10 = 0;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         ((S_8197D468_2 *)sprite)->unk_08 = sprite_frames;
         ((S_8197D468_2 *)sprite)->unk_14 = (u16) (sprite_flags | 2);
-        ((S_8197D468_0 *)effect)->unk_48 = (u16) ((func_80069EF8(sprite_frames) & 3) + 4);
+        ((S_8197D468_0 *)effect)->unk_48 = (u16) ((func_80069EF8() & 3) + 4);
         ((S_8197D468_0 *)effect)->unk_4C.u = (u16) (((S_8197D468_0 *)effect)->unk_4C.u + 1);
         goto done;
     }

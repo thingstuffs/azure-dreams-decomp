@@ -29,7 +29,6 @@ s32 func_800A0B94(s32 resource_id, u8 *resource_entry, s32 wait_for_read) {
     s32 asset_index;
     register s32 asset_offset;
     register s32 slot;
-    ASM_KEEP_NV(entry);
 
     if (entry[0] != 2) {
         compare_id = D_800E3DA0[entry[3]];
@@ -78,7 +77,8 @@ s32 func_800A0B94(s32 resource_id, u8 *resource_entry, s32 wait_for_read) {
             } else {
                 result = *(s32 *)data;
             }
-            *(s32 *)(entry + 4) = result;
+            entry += 4;
+            *(s32 *)entry = result;
             goto done;
         }
 

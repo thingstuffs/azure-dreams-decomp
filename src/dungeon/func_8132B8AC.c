@@ -93,13 +93,13 @@ typedef struct S_func_8132B8AC_5 {
 } S_func_8132B8AC_5;
 
 /* Updates Beldo's scripted movement, idle animation, and particle effects. */
-void func_801730AC(void *actor_input, void *motion_input, void *sprite_input) {
-    register S_func_8132B8AC_0 *actor ASM_REG("$17") = actor_input; /* MATCH: shared-tail control flow must retain the retail actor register. */
-    S_func_8132B8AC_1 *motion = motion_input;
+void func_801730AC(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *motion, void *sprite_input) {
+
     S_func_8132B8AC_2 *sprite = sprite_input;
     InitBlock direction_vectors;
     static void *const jt_keep[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8, &&jt_c9, &&jt_c10, &&jt_c11, &&jt_c12, &&jt_c13, &&jt_c14, &&jt_c15, &&jt_c16, &&jt_c17, &&jt_c18, &&jt_c19, &&jt_c20 };
     s32 path_angle;
+    s32 final_direction;
     s16 sprite_direction;
     s16 next_angle;
     s16 spin_timer;
@@ -292,13 +292,12 @@ path_particles:
     path_particle_count = 0;
     func_800A56E0(0x706);
 loop_31:
-    path_particle_count += 1;
     particle_random = func_80069EF8();
     particle_a0 = (u8 *)actor - 0x20;
     particle_color = 0x8080FF;
     particle_variation = (particle_random & 0xFF) | 0x80;
-    ASM_KEEP4(particle_a0, particle_color, particle_variation, beldo);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     func_80171A10(particle_a0, beldo->unk_2A.s, particle_color, particle_variation, 0);
+    path_particle_count += 1;
     if (path_particle_count < 0x14) {
         goto loop_31;
     }
@@ -486,7 +485,6 @@ block_74:
         goto block_98;
     }
     particle_a0 = sprite;
-    ASM_SET(sprite);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     particle_color = 0;
     *(u8 **)((u8 *)sprite + 0x2C) = D_80174C6C;
     sprite_angle_base = D_80083228;
@@ -599,8 +597,8 @@ block_98:
     if (D_80174CE0 == 0) {
         goto block_105;
     }
-    motion = ((s32) (D_80083228 + beldo->unk_2A.s + 0x100) >> 9) & 7;
-    sprite_direction = motion;
+    final_direction = ((s32) (D_80083228 + beldo->unk_2A.s + 0x100) >> 9) & 7;
+    sprite_direction = final_direction;
     if (actor->unk_94 == sprite_direction) {
         goto block_101;
     }
