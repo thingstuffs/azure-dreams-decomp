@@ -215,8 +215,10 @@ void func_800D3738(void *unused, void *position_in, void *sprite_in, s16 depth_b
     s32 *ot_entry;
     s32 *ot_link;
     u32 address_mask;
+    u32 packet_address;
     u32 tag_mask;
     u32 packet_tag;
+    u32 packet_header;
     u32 ot_tag;
     s32 color2;
     s32 color3;
@@ -576,15 +578,14 @@ y_done:
                 quad = (S_func_800CDFD8_8 *)((u8 *)quad + 0x34);
                 tag_mask = 0xFF000000;
                 ot_entry = (scratch->unk_C0 * 4) + scratch->unk_20;
-                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                packet_tag = packet->unk_00;
+                packet_header = packet->unk_00;
                 ot_tag = *ot_entry;
-                packet_tag = (packet_tag & tag_mask) | (ot_tag & address_mask);
-                address_mask = (u32) packet & address_mask;
+                packet_tag = (packet_header & tag_mask) | (ot_tag & address_mask);
+                packet_address = (u32) packet & address_mask;
                 packet->unk_00 = packet_tag;
                 ot_link = (scratch->unk_C0 * 4) + scratch->unk_20;
                 packet = (S_func_800CDFD8_9 *)((u8 *)packet + 0x34);
-                *ot_link = (*ot_link & tag_mask) | address_mask;
+                *ot_link = (*ot_link & tag_mask) | packet_address;
                 goto advance_part;
             }
             goto advance_part;

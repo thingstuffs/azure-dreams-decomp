@@ -199,6 +199,7 @@ s32 func_80024C14(void *effect_data) {
                                     register void **link_globals ASM_REG("$8") =
                                         (void **)0x80080000;
                                     u8 *render_state;
+                                    u32 quad_link;
                                     ASM_KEEP_NV(link_globals);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                                     order_head = (u8 *)(u32)*(u32 *)(order_head + 0xb0);
                                     ASM_KEEP_NV(order_head);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -208,10 +209,10 @@ s32 func_80024C14(void *effect_data) {
                                     render_state = (u8 *)link_globals[0];
                                     {
                                         draw_row = (s32)(0xff000000);
-                                        ASM_KEEP_NV(draw_row);
+                                        quad_link = (u32)quad & link_mask;
                                         *(u32 *)(render_state + 0xb0) =
                                             (*(u32 *)(render_state + 0xb0) & (u32)draw_row) |
-                                            ((u32)quad & link_mask);
+                                            quad_link;
                                     }
                                 }
                             }
