@@ -44,11 +44,11 @@ void func_800DB420(D_800DB420_Obj *state, D_800DB420_RngOut *position, D_800DB42
     case 0:
         effect->half10 = 0x60;
         effect->wordC = 0x00303030;
-        goto common;
+        *(u16 *)((u8 *)state + 4) += 1;
+        return;
     case 1:
         func_8004491C((u8 *)state - 0x20, func_80045340);
         func_80047784(effect, effect->data2c[((gameWork.view.viewAngle + state->value2a + 0x100) >> 9) & 7], 0);
-common:
         *(u16 *)((u8 *)state + 4) += 1;
         return;
     case 2:

@@ -109,13 +109,13 @@ void func_800D1E34(void *object_arg, void *motion_arg, void *entity_arg)
                 ((S_800D1E34_2 *)object)->unk_90.at02u.v += (*(u16 *)((u8 *)object_base + (0x88))) - floor_height;
                 (*(u16 *)((u8 *)object_base + (0x88))) = floor_height;
             }
-            goto finish;
+        } else {
+            (*(u32 *)((u8 *)object_base + (0x1C))) &= ~0x08000000;
         }
+    } else {
+        (*(u32 *)((u8 *)object_base + (0x1C))) &= ~0x08000000;
     }
 
-    (*(u32 *)((u8 *)object_base + (0x1C))) &= ~0x08000000;
-
-finish:
     ((S_800D1E34_1 *)motion)->unk_0A = (*(u16 *)((u8 *)object_base + (0x88)))
         + ((S_800D1E34_2 *)object)->unk_90.at02u.v;
     ((S_800D1E34_0 *)entity)->unk_14 |= 0x40;
