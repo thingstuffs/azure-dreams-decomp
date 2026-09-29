@@ -28,7 +28,6 @@ extern void func_80171F90(void *, void *, void *, void *);
 extern s32 func_801720E0(void *, void *, void *, s32);
 extern void func_80173478(void *, void *, void *, void *);
 
-extern void *D_80170808[];
 extern u8 D_80170E68[];
 extern u8 D_8017386C[];
 extern u8 D_80173874[];
@@ -42,16 +41,11 @@ typedef struct S_80170E68_4 {
 /* Dispatch actor behavior and update its facing animation from dungeon state. */
 void func_80170E68(Rec_func_800A9E70_arg0 *actor, void *context, void *sprite, EntityRec *state)
 {
-    static void *const case_labels[] = {
-        &&case_9, &&case_8, &&case_5_7, &&case_1_3,
-        &&case_12, &&case_default
-    };
     volatile u16 *dungeon_status;
     s32 initial_flags;
     s32 flags;
     s32 result;
     s32 action_kind;
-    s32 action_index;
     s32 entry_index;
     u8 *entry_base;
     u8 *entry;
@@ -143,49 +137,53 @@ void func_80170E68(Rec_func_800A9E70_arg0 *actor, void *context, void *sprite, E
         }
 
         action_kind = state->unk_46 & 0x3FFF;
-        action_index = action_kind - 1;
-        if ((u32)action_index >= 12U) {
-            goto case_default;
-        }
-        (void)case_labels;
-        goto *D_80170808[action_index];
+        switch (action_kind) {
+        case 9:
+            actor->unk_98 |= 0x8000;
+            /* fallthrough */
+        case 8:
+            if ((((u32)state->flags1C) & 0x2000) &&
+                ((state->unk_46 & 0x3FFF) == 8)) {
+                actor->unk_98 &= 0x7FFF;
+            }
+            if ((s16)func_80171D80(actor, context, sprite, state) != 0) {
+                return;
+            }
+            func_80171F90(actor, context, sprite, state);
+            return;
 
-case_9:
-        actor->unk_98 |= 0x8000;
+        case 5:
+        case 6:
+        case 7:
+            result = func_800A0818(
+                *(u8 *)((u8 *)sprite + 0x24), *(u8 *)((u8 *)sprite + 0x25),
+                D_80082E80.tileX, D_80082E80.tileY, (s16 *)&distance);
+            player = D_800814A8;
+            state->facing = result;
+            if (player->unk_9A == 0x11) {
+                goto case_1_3_common;
+            }
+            /* fallthrough */
+        case 12:
+        case_12:
+            func_800A9A0C(state);
+            return;
 
-case_8:
-        if ((((u32)state->flags1C) & 0x2000) &&
-            ((state->unk_46 & 0x3FFF) == 8)) {
-            actor->unk_98 &= 0x7FFF;
-        }
-        if ((s16)func_80171D80(actor, context, sprite, state) != 0) {
+        case 1:
+        case 2:
+        case 3:
+        case_1_3_common:
+            func_800AAF00(actor, context, sprite, D_8017389C, D_80170E68);
+            return;
+
+        case 4:
+        case 10:
+        case 11:
+        default:
+        case_default:
+            func_801715CC(actor, context, sprite, state);
             return;
         }
-        func_80171F90(actor, context, sprite, state);
-        return;
-
-case_5_7:
-        result = func_800A0818(
-            *(u8 *)((u8 *)sprite + 0x24), *(u8 *)((u8 *)sprite + 0x25),
-            D_80082E80.tileX, D_80082E80.tileY, (s16 *)&distance);
-        player = D_800814A8;
-        state->facing = result;
-        if (player->unk_9A == 0x11) {
-            goto case_1_3_common;
-        }
-
-case_12:
-        func_800A9A0C(state);
-        return;
-
-case_1_3:
-case_1_3_common:
-        func_800AAF00(actor, context, sprite, D_8017389C, D_80170E68);
-        return;
-
-case_default:
-        func_801715CC(actor, context, sprite, state);
-        return;
     }
 
     flags = ((u32)state->flags1C);
