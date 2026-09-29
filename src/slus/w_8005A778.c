@@ -35,7 +35,7 @@ extern void func_8005A1D0(s32 arg0);
 extern s32 func_80059F8C(void *arg0, s32 arg1);
 
 /* Initializes a free or requested slot from the header and returns its index. */
-s32 func_8005A778(S_8005A778_Arg0 *header, s32 requested_slot, void *payload)
+s32 func_8005A778(S_8005A778_Arg0 *header, s16 requested_slot, void *payload)
 {
     s16 slot;
     s32 result;
@@ -47,11 +47,7 @@ s32 func_8005A778(S_8005A778_Arg0 *header, s32 requested_slot, void *payload)
     slot = 0;
     D_8007382C.unk00 = 0;
     raw_slot = requested_slot;
-    ASM_KEEP_NV(raw_slot);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
     header_fields = header;
-    ASM_KEEP_NV(header_fields);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-    requested_slot <<= 16;
-    requested_slot >>= 16;
 
     if (requested_slot == -1) {
         for (;;) {

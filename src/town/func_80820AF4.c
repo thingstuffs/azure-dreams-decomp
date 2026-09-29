@@ -27,9 +27,6 @@ void func_800232F4(void *object)
     void *owner;
     s16 state;
     register u16 step;
-    u16 position_value;
-    register s32 quarter_step ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    volatile u16 *position;
 
     obj = object;
     state = ((S_800232F4_0 *)obj)->unk_00.s;
@@ -60,17 +57,9 @@ state_zero:
     return;
 
 state_one:
-    step = ((S_800232F4_0 *)obj)->unk_02.u;
-    position = (volatile u16 *)(obj + 0x16);
-    position_value = *position;
-    quarter_step = step;
-    position_value += step;
-    ASM_KEEP(position_value);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    *position = position_value;
-    quarter_step = (s32)(quarter_step << 16) >> 18;
-    position_value += quarter_step;
-    *position = position_value;
-    if ((u16)(position_value + 8) >= 249) {
+    ((S_800232F4_0 *)obj)->unk_16 += ((S_800232F4_0 *)obj)->unk_02.s;
+    ((S_800232F4_0 *)obj)->unk_16 += ((S_800232F4_0 *)obj)->unk_02.s >> 2;
+    if ((u16)(((S_800232F4_0 *)obj)->unk_16 + 8) >= 249) {
         (*(u16 *)((u8 *)obj + -2)) |= 0x8000;
         objectFlagBlock.flags |= 0x8000;
     }

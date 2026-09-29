@@ -73,7 +73,7 @@ extern s16 rand(void *, void *);
 extern void func_800A56E0(s32);
 
 /* Creates and initializes a display object linked to its owner. */
-void *func_800C542C(void *owner, s16 effect_value, s32 direction, s16 effect_mode)
+void *func_800C542C(void *owner, s16 effect_value, s16 direction, s16 effect_mode)
 {
     void *object;
     S_800C542C_1 *display;
@@ -82,7 +82,7 @@ void *func_800C542C(void *owner, s16 effect_value, s32 direction, s16 effect_mod
     S_800C542C_5 *record;
     void *callback;
     void *call_object;
-    register s16 saved_mode ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s16 saved_mode;
     s16 initial_state;
     s32 direction_fixed;
     s32 parent;
@@ -108,8 +108,8 @@ void *func_800C542C(void *owner, s16 effect_value, s32 direction, s16 effect_mod
         record = (u8 *)object + 0x20;
         target->unk_0A = source->unk_0A;
 
-        direction_fixed = direction << 0x10;
         record->unk_30 = effect_value;
+        direction_fixed = direction << 0x10;
         record->unk_1C = source;
         parent = ((S_800C542C_2_pre *)owner)[-1].unk_04;
         record->unk_2E = (s16)(direction_fixed >> 5);
