@@ -57,9 +57,6 @@ typedef struct S_801729D4_4 {
 /* Advance the actor animation state and reset movement when it finishes. */
 void func_801729D4(void *action, EntityRec *motion, void *sprite, EntityRec *actor)
 {
-    static void *const anim_labels[] = {
-        &&jt_1, &&jt_2, &&jt_3, &&jt_4, &&jt_5, &&jt_6, &&jt_7
-    };
     u16 position[3];
     u8 *animation;
     s16 reuse_target;
@@ -95,21 +92,16 @@ state_0:
         goto no_special;
     }
     anim_kind = (actor->unk_46 & 0x3FFF) - 1;
-    if ((u32)anim_kind >= 7U) {
-        goto jt_4;
-    }
-    (void)anim_labels;
-    goto *(((void **)D_80170838)[anim_kind]);
-
-jt_7:
-    reuse_target = 1;
-    goto no_3;
-jt_6:
-    reuse_target = 1;
-    goto no_2;
-jt_5:
-    reuse_target = 1;
-    goto no_1;
+    switch (anim_kind) {
+    case 6:
+        reuse_target = 1;
+        goto no_3;
+    case 5:
+        reuse_target = 1;
+        goto no_2;
+    case 4:
+        reuse_target = 1;
+        goto no_1;
 
 no_special:
     anim_kind = actor->unk_46 & 0x3FFF;
@@ -130,19 +122,21 @@ no_special:
     goto selected;
 
 no_3:
-jt_3:
+    case 2:
     animation = (u8 *)actor + 0xE;
     goto selected;
 no_2:
-jt_2:
+    case 1:
     animation = (u8 *)actor + 0xB;
     goto selected;
 no_1:
-jt_1:
+    case 0:
     animation = (u8 *)actor + 8;
     goto selected;
-jt_4:
-    animation = 0;
+    case 3:
+    default:
+        animation = 0;
+    }
 
 selected:
     if (*animation == 0) {
