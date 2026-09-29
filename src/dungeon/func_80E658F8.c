@@ -42,7 +42,6 @@ extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
 extern void func_80174D98(void *, void *, void *, void *);
 
-extern void *D_80170888[];
 extern u8 D_801716F4[];
 extern u8 D_8017555C[];
 extern u8 D_801755BC[];
@@ -56,16 +55,10 @@ void func_801750F8(void *action_in, void *direction_data_in, void *sprite_in, vo
     void *sprite = sprite_in;
     void *actor = actor_in;
     u8 state;
-    static void *const state_labels[] = { &&L0, &&L1, &&L2, &&L3, &&L4, &&L5 };
 
     state = ((S_801750F8_0 *)action_in)->unk_9B;
-    if ((u32)state >= 6) {
-        return;
-    }
-    (void)state_labels;
-    goto *D_80170888[state];
-
-L0:
+    switch (state) {
+    case 0:
     {
         s32 facing_angle;
         s16 timer;
@@ -97,7 +90,7 @@ L0:
         return;
     }
 
-L1:
+    case 1:
     if (!(((S_801750F8_2 *)sprite)->unk_14 & 0x6000)) {
         return;
     }
@@ -110,7 +103,7 @@ L1:
     ((S_801750F8_2 *)sprite)->unk_14 |= 0x0800;
     return;
 
-L2:
+    case 2:
     {
         s16 timer;
 
@@ -124,7 +117,7 @@ L2:
         return;
     }
 
-L3:
+    case 3:
     {
         s32 scale_x;
         s32 scale_y;
@@ -197,7 +190,7 @@ after_xy:
         return;
     }
 
-L4:
+    case 4:
     {
         s16 timer;
 
@@ -210,7 +203,7 @@ L4:
         return;
     }
 
-L5:
+    case 5:
     {
 
         dungeonStatus.unk_0A--;
@@ -222,6 +215,7 @@ L5:
         ((S_801750F8_0 *)action_in)->unk_8C = D_801716F4;
         dungeonStatus.unk_0C = 0;
         ((S_801750F8_1 *)actor)->unk_46 &= 0x7FFF;
+    }
     }
 
     return;

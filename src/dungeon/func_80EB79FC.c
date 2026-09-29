@@ -7,7 +7,6 @@
 
 typedef s32 M2C_UNK;
 
-extern void *D_80170858[];
 M2C_UNK func_8009A028();
 M2C_UNK func_8009A3D0();
 M2C_UNK func_800A2FE0();
@@ -71,7 +70,6 @@ typedef struct S_801731FC_4 {
 
 /* Advance an entity through motion, fading, and removal. */
 void func_801731FC(S_801731FC_0 *state, S_801731FC_2 *motion, S_801731FC_3 *sprite, void *entity) {
-    static void *const phase_labels[] = { &&start_motion, &&wait_motion, &&start_effect, &&wait_effect, &&fade_out };
     M2C_UNK sound_flags;
     s32 velocity_x;
     s32 velocity_y;
@@ -87,12 +85,8 @@ void func_801731FC(S_801731FC_0 *state, S_801731FC_2 *motion, S_801731FC_3 *spri
     direction_offset = ((u16) ((S_801731FC_1 *)entity)->unk_6A >> 8) & 0xE;
     velocity_x = *(s16 *)((u8 *)((s8 *)dirStepX) + direction_offset);
     velocity_y = *(s16 *)((u8 *)((s8 *)dirStepY) + direction_offset);
-    if (phase >= 5U) {
-        return;
-    }
-    (void)phase_labels;
-    goto *D_80170858[(u32)phase];
-start_motion:
+    switch (phase) {
+    case 0:
     {
         u32 clear_bit_27 = 0xF7FFFFFF;
         u32 clear_bit_18;
@@ -112,7 +106,7 @@ start_motion:
         motion->unk_14 = 0xFFF40000;
         state->unk_9B = state->unk_9B + 1;
     }
-wait_motion:
+    case 1:
     motion->unk_14 += 0x1C000;
     if (func_800BCB04(motion->unk_02, motion->unk_06,
                       motion->unk_0A, velocity_y) < 0x200) {
@@ -126,7 +120,7 @@ check_motion_done:
         return;
     }
     state->unk_9B = state->unk_9B + 1;
-start_effect:
+    case 2:
     status_flags = ((S_801731FC_1 *)entity)->unk_14;
     if (!(status_flags & 0x4000)) {
         goto configure_effect;
@@ -141,7 +135,7 @@ configure_effect:
     sprite->unk_14 |= 0xC;
     sprite->unk_12 -= 0x80;
     state->unk_9B = state->unk_9B + 1;
-wait_effect:
+    case 3:
     motion->unk_14 += 0x1C000;
     if (!(sprite->unk_14 & 0x6000)) {
         return;
@@ -149,7 +143,7 @@ wait_effect:
     state->unk_96 = 0x80U;
     state->unk_9B = state->unk_9B + 1;
     return;
-fade_out:
+    case 4:
     ((S_801731FC_1 *)entity)->unk_1C.s |= 0x10000000;
     brightness = (u8)state->unk_96;
     sprite->unk_0E = brightness;
@@ -180,4 +174,5 @@ play_sound:
     ((S_801731FC_1_pre *)entity)[-1].unk_00 |= 0x8000;
     objectFlagBlock.flags |= 0x8000;
     return;
+    }
 }
