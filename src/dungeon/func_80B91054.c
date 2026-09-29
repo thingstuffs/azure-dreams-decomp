@@ -56,25 +56,21 @@ extern M2C_UNK D_8014CE5C;
 extern u8 D_8014FD0C[];
 extern u8 D_8014FD4C[];
 
-void *func_8014C854(s16 arg0, s8 arg1, s16 arg2, s16 arg3)
+void *func_8014C854(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
 {
     s32 kind;
-    S_8014C854_1 *work = 0;
+    S_8014C854_1 *work;
     void *obj;
     S_8014C854_2 *part_a;
     S_8014C854_3 *part_b;
     S_8014C854_4 *actor;
-#ifdef __mips__
-    u32 initial_callback;
-#else
-    void *initial_callback;
-#endif
     s32 left;
     s32 right;
     s8 saved_arg1;
     s16 saved_arg3;
     s8 saved_arg2;
 
+    work = 0;
     saved_arg1 = arg1;
     saved_arg2 = arg2;
     saved_arg3 = arg3;
@@ -87,21 +83,12 @@ void *func_8014C854(s16 arg0, s8 arg1, s16 arg2, s16 arg3)
         work->unk_13 = 0xD;
         func_8004491C(obj, func_80045340);
 
-#ifdef __mips__
-        initial_callback = 0x80150000;
-        ASM_KEEP_NV(initial_callback);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-#else
-        initial_callback = D_8014FD0C;
-#endif
         part_a = ((S_8014C854_0 *)obj)->unk_08;
-#ifdef __mips__
-        initial_callback -= 0x2F4;
-#endif
         part_a->unk_0A = saved_arg3;
         part_b = ((S_8014C854_0 *)obj)->unk_0C;
         kind = arg0 & 3;
         part_b->unk_25 = saved_arg2;
-        part_b->unk_2C = (void *)initial_callback;
+        part_b->unk_2C = D_8014FD0C;
         part_b->unk_24 = saved_arg1;
 
         if (kind == 1) {
@@ -115,10 +102,8 @@ void *func_8014C854(s16 arg0, s8 arg1, s16 arg2, s16 arg3)
             work->unk_14 = left;
             work->unk_1C = right;
         } else {
-            obj = obj;
             if (((arg0 & ~3) << 16) == 0 && !(work->unk_14 & 0x200)) {
                 left = func_800A6D30();
-                obj = obj;
                 if (left & 1) {
                     work->unk_1C |= 0x200;
                     func_800A48F0(work, 1,
@@ -127,11 +112,7 @@ void *func_8014C854(s16 arg0, s8 arg1, s16 arg2, s16 arg3)
                 }
             }
         }
-        goto call_a1_setup;
 
-post_kind:
-        obj = obj;
-call_a1_setup:
         func_800A9C18(obj, part_a, part_b, arg0);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;

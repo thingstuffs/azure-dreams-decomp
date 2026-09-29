@@ -1,25 +1,20 @@
 #include "common.h"
 
 extern void func_80022F14(void *a, void *b);
-extern s32 D_8002765C[];
-
-register u8 *dispatch_result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+extern u8 D_8002765C[];
+extern u8 D_8002789C[];
 
 /* Checks the object's guard field, initializes its state, and installs its dispatch table. */
 void func_80027684(void *object) {
-    register u8 *guard_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    void *handler;
 
-    guard_value = (u8 *)(u32)*(s32 *)((s8 *)object + 0x3C);
-    if (guard_value != 0) {
-        dispatch_result = (u8 *)0x80020000;
-        dispatch_result += 0x789C;
-        goto install;
+    if (*(s32 *)((s8 *)object + 0x3C) != 0) {
+        handler = D_8002789C;
+    } else {
+        *(s32 *)((s8 *)object + 0x40) = 1;
+        func_80022F14((s8 *)object - 0x20, (s8 *)object + 0x38);
+        *(s32 *)((s8 *)object + 0x38) = 1;
+        handler = D_8002765C;
     }
-    dispatch_result = (u8 *)0x80020000;
-    *(s32 *)((s8 *)object + 0x40) = 1;
-    func_80022F14((s8 *)object - 0x20, (s8 *)object + 0x38);
-    *(s32 *)((s8 *)object + 0x38) = 1;
-    dispatch_result = (u8 *)D_8002765C;
-install:
-    *(u8 **)((s8 *)object - 0x10) = dispatch_result;
+    *(void **)((s8 *)object - 0x10) = handler;
 }

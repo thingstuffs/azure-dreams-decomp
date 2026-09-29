@@ -57,13 +57,7 @@ extern M2C_UNK func_800A48F0();
 extern M2C_UNK func_800A9C18();
 extern M2C_UNK func_800AA36C();
 
-#ifdef NON_MATCHING
-#define CALLBACK_PAGE ((u32)(D_80158E5C + 0x71A4))
-#else
-#define CALLBACK_PAGE 0x80160000U
-#endif
-
-void *func_80158854(s32 arg0, s8 arg1, s16 arg2, s32 arg3)
+void *func_80158854(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
 {
     s32 kind;
     s32 left;
@@ -73,11 +67,10 @@ void *func_80158854(s32 arg0, s8 arg1, s16 arg2, s32 arg3)
     void *obj;
     register s8 saved_arg2;
     s8 saved_arg1;
-    register void *part_a ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *part_a ASM_REG("$22");
     s16 final_arg0;
     S_80158854_3 *part_b;
     void *actor;
-    u32 callback_page;
 
     work = 0;
     saved_arg1 = arg1;
@@ -119,31 +112,26 @@ void *func_80158854(s32 arg0, s8 arg1, s16 arg2, s32 arg3)
         }
 
         if (((arg0 & ~3) << 16) != 0) {
-            callback_page = CALLBACK_PAGE;
-            goto set_work_callback_done;
+                goto set_work_callback_done;
         }
         if (((S_80158854_0 *)work)->unk_14 & 0x200) {
-            callback_page = CALLBACK_PAGE;
-            goto set_actor_callback_done;
+                goto set_actor_callback_done;
         }
         if (!(func_800A6D30() & 1)) {
-            callback_page = CALLBACK_PAGE;
-            goto set_actor_callback_done;
+                goto set_actor_callback_done;
         }
         func_800A48F0(work, 1,
                       (func_800A6D30() & 0x3F) | 0x20);
         part_b->unk_2C = D_8015C538;
 
-        callback_page = CALLBACK_PAGE;
         set_actor_callback_done:
         ;
-        ((S_80158854_4 *)actor)->unk_8C = (void *)(callback_page - 0x71A4);
+        ((S_80158854_4 *)actor)->unk_8C = D_80158E5C;
         goto normal_done;
 
-        callback_page = CALLBACK_PAGE;
         set_work_callback_done:
         ;
-        ((S_80158854_0 *)work)->unk_8C = (void *)(callback_page - 0x71A4);
+        ((S_80158854_0 *)work)->unk_8C = D_80158E5C;
 
 normal_done:
         part_b->unk_2C = D_8015C510;
