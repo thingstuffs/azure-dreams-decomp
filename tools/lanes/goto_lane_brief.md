@@ -139,10 +139,11 @@ inside a condition, `kind == 0xE || (kind < 0xF ? kind == 0xD : kind == 0xF)`), 
 would write it (invented cases, no-op arithmetic, comma chains that exist only for codegen). Labels moved into blocks
 stay rejected.
 
-**Held for the owner (2026-09-29):** a GNU case range (`case 0 ... 0xF:`) whose only job is to stop gcc building a
-wide jump table is treated like an invented case and not landed, even when it restates compares retail shows
-(slus/w_80058E6C, r80_sonnet_gd19). Copying one call or store into a second arm is fine; copying more than about
-six lines is not.
+**Owner ruling 2026-09-29 (evening):** copied logic is typical of the original developers - copying a block into several
+arms (`if (a) {B} else if (c) {B; more}`) is acceptable when it removes a goto. A GNU case range (`case 0 ... 0xF:`) is
+acceptable when the range MEANS something in the program (slus/w_80058E6C: MIDI meta events 0x00-0x0F are the text
+events, skipped together); say what it means in a short comment. Values nothing in the program identifies (any
+consecutive pair would do, e.g. slus/w_8003E4FC) are still invented - leave that goto and report it.
 
 **Original control flow, do not rewrite (r80_opus_skipcopy, traced 2026-09-29):** the "skip-copy" goto -
 `v = obj; if (!c) goto L; ... v = obj; L: call(v, ...)` (or `} else { goto L; }`), fingerprint the m2c juggling
