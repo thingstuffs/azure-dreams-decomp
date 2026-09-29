@@ -68,145 +68,109 @@ void func_8016D0FC(void *context, s32 callback_arg, void *object_arg, void *acto
     s32 direction_index;
 
     state = ((S_8016D0FC_0 *)context)->unk_9B;
-    if (state == 1) {
-        goto state_1;
-    }
-    if (state < 2) {
-        if (state == 0) {
-            goto state_0;
+    switch (state) {
+    case 0:
+        if (!(((S_8016D0FC_1 *)object)->unk_14 & 0xE000)) {
+            return;
         }
+        current_table = ((u16)dungeonStatus.unk_0A);
+        current_table--;
+        dungeonStatus.unk_0A = current_table;
+        kind = ((S_8016D0FC_0 *)context)->unk_AC;
+        if (kind == 0xE || (kind < 0xF ? kind == 0xD : kind == 0xF)) {
+            (*(u8 * *)((u8 *)object + 0x2C)) = D_80173AC8;
+            direction_index = (gameWork.view.viewAngle + ((S_8016D0FC_3 *)actor)->unk_2A + 0x100) >> 9;
+            func_80047784(object, D_80173AC8[direction_index & 7], 0);
+        }
+        ((S_8016D0FC_0 *)context)->unk_9B++;
         return;
-    }
-    if (state == 2) {
-        goto state_2;
-    }
-    return;
-
-state_0:
-    if (!(((S_8016D0FC_1 *)object)->unk_14 & 0xE000)) {
-        return;
-    }
-    current_table = ((u16)dungeonStatus.unk_0A);
-    current_table--;
-    dungeonStatus.unk_0A = current_table;
-    kind = ((S_8016D0FC_0 *)context)->unk_AC;
-    if (kind != 0xE) {
-        if (kind < 0xF) {
-            if (kind == 0xD) {
-                goto set_ac8;
+    case 1:
+        kind = ((S_8016D0FC_0 *)context)->unk_AC;
+        if (kind == 0xE || (kind < 0xF ? kind == 0xD : kind == 0xF)) {
+            current_table = ((S_8016D0FC_1 *)object)->unk_2C;
+            expected_table = D_80173AC8;
+            if (current_table != expected_table) {
+                (*(u8 * *)((u8 *)object + 0x2C)) = expected_table;
+                direction_index = (gameWork.view.viewAngle + ((S_8016D0FC_3 *)actor)->unk_2A + 0x100) >> 9;
+                func_80047784(object, expected_table[direction_index & 7], 0);
             }
-            goto increment_state;
         }
-        if (kind != 0xF) {
-            goto increment_state;
-        }
-    }
-set_ac8:
-    (*(u8 * *)((u8 *)object + 0x2C)) = D_80173AC8;
-    direction_index = (gameWork.view.viewAngle + ((S_8016D0FC_3 *)actor)->unk_2A + 0x100) >> 9;
-    func_80047784(object, D_80173AC8[direction_index & 7], 0);
-    goto increment_state;
-
-state_1:
-    kind = ((S_8016D0FC_0 *)context)->unk_AC;
-    if (kind != 0xE) {
-        if (kind < 0xF) {
-            if (kind == 0xD) {
-                goto maybe_set_ac8;
+        if (((S_8016D0FC_3 *)actor)->unk_25 != 0) {
+            kind = ((S_8016D0FC_0 *)context)->unk_AC;
+            if (kind == 0xE) {
+                goto set_ad0;
             }
-            goto after_ac8;
+            if (kind < 0xF) {
+                goto kind_lt_15;
+            }
+            goto kind_ge_15;
         }
-        if (kind != 0xF) {
-            goto after_ac8;
+        if (dungeonStatus.flags & 0x1000) {
+            return;
         }
-    }
-maybe_set_ac8:
-    current_table = ((S_8016D0FC_1 *)object)->unk_2C;
-    expected_table = D_80173AC8;
-    if (current_table != expected_table) {
-        (*(u8 * *)((u8 *)object + 0x2C)) = expected_table;
-        direction_index = (gameWork.view.viewAngle + ((S_8016D0FC_3 *)actor)->unk_2A + 0x100) >> 9;
-        func_80047784(object, expected_table[direction_index & 7], 0);
-    }
-after_ac8:
-    if (((S_8016D0FC_3 *)actor)->unk_25 != 0) {
+        if (((S_8016D0FC_3 *)actor)->unk_64 != 0) {
+            if (func_800AA6B4(context, callback_arg, object, 0) != 0) {
+                return;
+            }
+        }
+        if ((func_800A2C34(actor) << 16) != 0) {
+            return;
+        }
+        actor_flags = ((S_8016D0FC_3 *)actor)->unk_1C;
+        if (actor_flags & 0x100) {
+            func_800AA258(context, callback_arg, object, actor);
+            return;
+        }
+        if (actor_flags & 0x80000) {
+            func_800AA888(context, callback_arg, object, actor);
+            func_8016D4B8(context, callback_arg, object, actor);
+            return;
+        }
+        if (((S_8016D0FC_3 *)actor)->unk_6D == 0) {
+            return;
+        }
+        if ((func_800A2C34(actor) << 16) != 0) {
+            if ((func_8009A180(actor, ((EntityRec *)((u8 *)D_800814A8))->unk_58 + 0x20) << 16) != 0) {
+                return;
+            }
+        }
+        func_800A9A0C(actor);
+        func_800A9A04(actor);
+        if (((S_8016D0FC_3 *)actor)->unk_25 == 0) {
+            return;
+        }
         kind = ((S_8016D0FC_0 *)context)->unk_AC;
         if (kind == 0xE) {
             goto set_ad0;
         }
         if (kind < 0xF) {
-            goto kind_lt_15;
-        }
-        goto kind_ge_15;
-    }
-    if (dungeonStatus.flags & 0x1000) {
-        return;
-    }
-    if (((S_8016D0FC_3 *)actor)->unk_64 != 0) {
-        if (func_800AA6B4(context, callback_arg, object, 0) != 0) {
-            return;
-        }
-    }
-    if ((func_800A2C34(actor) << 16) != 0) {
-        return;
-    }
-    actor_flags = ((S_8016D0FC_3 *)actor)->unk_1C;
-    if (actor_flags & 0x100) {
-        func_800AA258(context, callback_arg, object, actor);
-        return;
-    }
-    if (actor_flags & 0x80000) {
-        func_800AA888(context, callback_arg, object, actor);
-        func_8016D4B8(context, callback_arg, object, actor);
-        return;
-    }
-    if (((S_8016D0FC_3 *)actor)->unk_6D == 0) {
-        return;
-    }
-    if ((func_800A2C34(actor) << 16) != 0) {
-        if ((func_8009A180(actor, ((EntityRec *)((u8 *)D_800814A8))->unk_58 + 0x20) << 16) != 0) {
-            return;
-        }
-    }
-    func_800A9A0C(actor);
-    func_800A9A04(actor);
-    if (((S_8016D0FC_3 *)actor)->unk_25 == 0) {
-        return;
-    }
-    kind = ((S_8016D0FC_0 *)context)->unk_AC;
-    if (kind == 0xE) {
-        goto set_ad0;
-    }
-    if (kind < 0xF) {
 kind_lt_15:
-        if (kind == 0xD) {
-            goto set_ad0;
+            if (kind == 0xD) {
+                goto set_ad0;
+            }
+            goto increment_counter;
         }
-        goto increment_counter;
-    }
 kind_ge_15:
-    if (kind != 0xF) {
-        goto increment_counter_pre;
-    }
+        if (kind != 0xF) {
+            goto increment_counter;
+        }
 set_ad0:
-    (*(u8 * *)((u8 *)object + 0x2C)) = D_80173AD0;
-    direction_index = (gameWork.view.viewAngle + ((S_8016D0FC_3 *)actor)->unk_2A + 0x100) >> 9;
-    func_80047784(object, D_80173AD0[direction_index & 7], 0);
-increment_counter_pre:
+        (*(u8 * *)((u8 *)object + 0x2C)) = D_80173AD0;
+        direction_index = (gameWork.view.viewAngle + ((S_8016D0FC_3 *)actor)->unk_2A + 0x100) >> 9;
+        func_80047784(object, D_80173AD0[direction_index & 7], 0);
 increment_counter:
-    current_table = ((u16)dungeonStatus.unk_0A);
-    current_table++;
-    dungeonStatus.unk_0A = current_table;
-increment_state:
-    ((S_8016D0FC_0 *)context)->unk_9B++;
-    return;
-
-state_2:
-    if (((S_8016D0FC_1 *)object)->unk_14 & 0xE000) {
         current_table = ((u16)dungeonStatus.unk_0A);
-        current_table--;
+        current_table++;
         dungeonStatus.unk_0A = current_table;
-        ((S_8016D0FC_0 *)context)->unk_8C = D_8016A36C;
+        ((S_8016D0FC_0 *)context)->unk_9B++;
+        return;
+    case 2:
+        if (((S_8016D0FC_1 *)object)->unk_14 & 0xE000) {
+            current_table = ((u16)dungeonStatus.unk_0A);
+            current_table--;
+            dungeonStatus.unk_0A = current_table;
+            ((S_8016D0FC_0 *)context)->unk_8C = D_8016A36C;
+        }
+        return;
     }
-    return;
 }

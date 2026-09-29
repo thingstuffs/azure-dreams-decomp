@@ -146,27 +146,29 @@ void *func_800B4C7C(s32 flags, u8 *source_data, s16 value, u16 callback_mode) {
             switch (format) {
             case 0x10:
                 glyph_or_index = 0x7F;
-                goto store_and_advance;
+                text_stack.bytes[0] = glyph_or_index;
+                text_cursor = (s8 *) text_stack.bytes + 1;
+                break;
             case 0x20:
                 glyph_or_index = 0x80;
-                goto store_and_advance;
+                text_stack.bytes[0] = glyph_or_index;
+                text_cursor = (s8 *) text_stack.bytes + 1;
+                break;
             case 0x30:
                 text_stack.bytes[0] = 0x2B;
-                goto mode_check;
+                break;
             case 0x40:
                 glyph_or_index = 0x2D;
-                goto store_and_advance;
+                text_stack.bytes[0] = glyph_or_index;
+                text_cursor = (s8 *) text_stack.bytes + 1;
+                break;
             case 0x50:
                 text_stack.bytes[0] = 0x81;
-                goto mode_check;
+                break;
             case 0x60:
                 text_stack.bytes[0] = 0x82;
-                goto advance_buffer;
-store_and_advance:
-                text_stack.bytes[0] = glyph_or_index;
-advance_buffer:
                 text_cursor = (s8 *) text_stack.bytes + 1;
-                goto mode_check;
+                break;
             case 0x80:
                 func_8004E634(number, text_cursor);
                 text_cursor = (s8 *) text_cursor + func_80069E98(text_cursor);
@@ -175,7 +177,7 @@ advance_buffer:
                 *text_cursor++ = flags;
                 *text_cursor++ = 0;
                 func_8004E298(text, text_stack.bytes, text_style);
-                goto mode_check;
+                break;
             case 0xA0:
                 text_stack.bytes[0] = space;
                 func_8004E5A0(number, 3, text_stack.bytes + 1);
@@ -183,39 +185,36 @@ advance_buffer:
                 text_stack.bytes[4] = 0x25;
                 text_stack.bytes[5] = 0;
                 func_8004E298(text, text_stack.bytes, text_style);
-                goto mode_check;
+                break;
             case 0x90:
                 func_8004E5A0(number, 4, text_cursor);
                 text_cursor = (s8 *) text_stack.bytes + 6;
                 text_stack.bytes[4] = 0x47;
                 text_stack.bytes[5] = 0;
                 func_8004E298(text, text_stack.bytes, text_style);
-                goto mode_check;
+                break;
             default:
-                goto mode_check;
+                break;
             }
-mode_check:
             if (((u32) saved_flags & 0xF0) < 0x80U) {
                 func_8004E5A0(saved_value, 3, text_cursor);
                 func_8004E298(text, text_stack.bytes, number_style);
             }
-            goto finish_text;
+        } else {
+            glyph_or_index = ~value;
+            if (glyph_or_index > 0) {
+                ((S_800B4C7C_1 *)state)->unk_10 = 0x18;
+            }
+            func_8004E298(text, D_800DF24C[glyph_or_index], text_style);
         }
-        glyph_or_index = ~value;
-        if (glyph_or_index > 0) {
-            ((S_800B4C7C_1 *)state)->unk_10 = 0x18;
-        }
-        func_8004E298(text, D_800DF24C[glyph_or_index], text_style);
-        goto finish_text;
-finish_text:
-        callback_bits = *(volatile u16 *) &text_stack.arg3;
+        callback_bits = text_stack.arg3;
         callback_kind = (s16) callback_bits;
         if (callback_kind == 1) {
             callback = &D_800B490C;
         } else {
             callback = &D_800B45E0;
         }
-        (*(void * volatile *)((u8 *)object + 0x10)) = callback;
+        (*(void **)((u8 *)object + 0x10)) = callback;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         text_position = state + 0x20;
         func_800B1320(text_position, 0x80 - ((s32) (((S_800B4C7C_6 *)(func_800B1484(text)))->unk_02 + 0x88) / 2), (s16) ((0 - (s8) ((S_800B4C7C_1 *)state)->unk_23) - 4));

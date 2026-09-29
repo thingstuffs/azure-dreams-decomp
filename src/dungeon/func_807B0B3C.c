@@ -146,17 +146,8 @@ extern void func_80066708(void *);
 extern void func_8006671C(u8 *arg0);
 extern void func_80067F20(void *, s32, s32, s32, s32);
 extern u8 *D_80083160;
+extern u8 D_80083150[];
 
-#ifdef NON_MATCHING
-#define LOAD_SPLIT_GLOBAL(var) ((var) = &D_80083160)
-#else
-#define LOAD_SPLIT_GLOBAL(var) \
-    do { \
-        (var) = (u8 **)0x80080000; \
-        ASM_KEEP_NV(var); \
-        (var) = (u8 **)((u8 *)(var) + 0x3160); \
-    } while (0)
-#endif
 
 #ifdef NON_MATCHING
 #define LOAD_GLOBAL_PAGE(var) ((var) = &D_80083160)
@@ -550,7 +541,7 @@ loop_setup_b:
         {
             u8 *render_state;
 
-            LOAD_SPLIT_GLOBAL(render_slot_m);
+            render_slot_m = (u8 **)(D_80083150 + 0x10);
             ASM_KEEP_NV(render_slot_m);
             render_state = *render_slot_m;
             prim = *(u8 **)(render_state + 0x8D0);

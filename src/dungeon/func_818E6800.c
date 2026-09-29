@@ -78,34 +78,28 @@ void BODY_NAME(void *effect_arg, void *motion_arg, void *context_arg) {
         ASM_KEEP(count);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     }
     actor_data = (u8 *)S32(actor, -20);
-    actor_header = actor - 32;
+    actor_header = actor;
+    actor_header -= 32;
 
     U16(effect, 80) = (u16)count;
     if (state > 0) {
-        if (state == 2) goto state_2;
-        if (state < 3) {
-            if (state == 1) goto state_1;
-            count = -1;
-            goto set_distance;
-        }
-        if (state >= 242) goto state_other;
-        if (state < 240) goto state_other;
-        count = 8;
-        goto set_distance;
-state_1: {
+        switch (state) {
+        case 1:
             original_count = (s16)count;
             state = 20;
             count = state - original_count;
-            goto set_distance;
+            break;
+        case 2:
+            count = 8;
+            break;
+        case 240:
+        case 241:
+            count = 8;
+            break;
+        default:
+            count = -1;
+            break;
         }
-state_2:
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        count = 8;
-        goto set_distance;
-state_other:
-        count = -1;
-
-set_distance:
         distance = count;
         while (distance >= 0) {
             particle = (u8 *)func_8003FD64(786, ((u8 *)(&D_80083498)));
@@ -150,27 +144,11 @@ set_distance:
         }
     }
 
+
     {
         s32 mode = S16(effect, 10);
-        if (mode == 240) goto mode_240;
-        if (mode < 241) {
-            if (mode == 1) goto mode_1;
-            if (mode >= 2) goto mode_ge_2;
-            if (mode == 0) goto mode_0;
-            return;
-mode_ge_2:
-            if (mode == 2) goto mode_2;
-            return;
-        }
-        if (mode == 255) goto mode_255;
-        if (mode < 256) {
-            if (mode == 241) goto mode_241;
-            return;
-        }
-        if (mode == 256) goto mode_256;
-        return;
-
-mode_0: {
+        switch (mode) {
+        case 0: {
             s32 target;
             s32 delta_x;
             s32 abs_y;
@@ -186,18 +164,17 @@ mode_0: {
                 if (target == 0) {
                     U8(actor, 114) = U8(actor_data, 36);
                     U8(actor, 115) = U8(actor_data, 37);
-                    goto spawn_effect;
-                }
-                render_data = (u8 *)S32(target, -20);
-                if ((U16(render_data, 20) & 0x8000) != 0) {
-                    if ((U16(context_arg, 20) & 0x8000) != 0) {
-                        U16(effect, 10) = 240;
-                        goto set_state_240_done;
+                } else {
+                    render_data = (u8 *)S32(target, -20);
+                    if ((U16(render_data, 20) & 0x8000) != 0) {
+                        if ((U16(context_arg, 20) & 0x8000) != 0) {
+                            U16(effect, 10) = 240;
+                            return;
+                        }
                     }
+                    U8(actor, 114) = U8(render_data, 36);
+                    U8(actor, 115) = U8(render_data, 37);
                 }
-                U8(actor, 114) = U8(render_data, 36);
-                U8(actor, 115) = U8(render_data, 37);
-spawn_effect:
                 {
                     u8 *effect_header = effect - 32;
                     u8 *callback = D_80024798;
@@ -254,10 +231,10 @@ spawn_effect:
                 U16(effect, 10) = (u16)(U16(effect, 10) + 1);
                 return;
             }
+            break;
         }
-            goto mode_done;
 
-mode_1: {
+        case 1: {
             s16 frame_counter;
             if (S16(effect, 80) >= 0) {
                 S32(motion, 0) += S32(motion, 12);
@@ -274,10 +251,10 @@ mode_1: {
                 U16(effect, 10) = (u16)(U16(effect, 10) + 1);
                 return;
             }
-            goto mode_done;
+            break;
         }
 
-mode_2: {
+        case 2: {
             u16 frame_counter = (u16)U16(effect, 82) + 1;
             U16(effect, 82) = frame_counter;
             if (S16(effect, 80) == mode) {
@@ -302,36 +279,34 @@ mode_2: {
             if (S16(effect, 80) <= 0) {
                 if (S32(actor, 96) != 0) {
                     U16(effect, 10) = 240;
-                    set_state_240_done:
-                    ;
                     return;
                 }
                 func_80044A50(effect - 32);
                 U16(effect, 10) = 255;
                 return;
             }
-            goto mode_done;
+            break;
         }
 
-mode_240:
+        case 240:
             func_80044A50(effect - 32);
             U16(effect, 80) = 10;
             func_800419EC(8, 16);
             U16(effect, 10) = (u16)(U16(effect, 10) + 1);
             return;
 
-mode_241:
+        case 241:
             func_8002506C(S32(actor, 96), S16(effect, 80));
             if (S16(effect, 80) == 6 && func_8009D218(S32(actor, 96), 4, actor) == 0 &&
                 S32(actor, 96) != 0) {
                 func_800C8900(S32(actor, 96), U8(D_800E3D68, 0) == 255 ? 255 : 16, 4);
             }
-            if (S16(effect, 80) > 0) goto mode_done;
+            if (S16(effect, 80) > 0) break;
             func_80044A50(effect - 32);
             U16(effect, 10) = 255;
             return;
 
-mode_255: {
+        case 255: {
             s32 effect_flags;
             effect_flags = S32(effect, 16);
             if ((effect_flags & 0x8000) != 0) {
@@ -344,13 +319,15 @@ mode_255: {
             }
         }
 
-mode_256:
+        case 256:
             if (S16(effect, 80) < 0) {
                 dungeonStatus.unk_0C = 0;
                 U16(effect, -2) = (u16)(U16(effect, -2) | 0x8000);
                 objectFlagBlock.flags |= 0x8000;
             }
-mode_done:
-            ;
+            break;
+        default:
+            return;
+        }
     }
 }

@@ -220,7 +220,7 @@ BODY_STORAGE void BODY_NAME(S_81850800_0 *owner, S_81850800_7 *motion, S_8185080
     s32 off_y;
     register s32 facing_shift ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 dx;
-    register s32 magnitude ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register u32 magnitude ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 tile_x;
     s32 tile_y;
     s32 color;
@@ -268,316 +268,276 @@ BODY_STORAGE void BODY_NAME(S_81850800_0 *owner, S_81850800_7 *motion, S_8185080
     state = owner->unk_0A.unk_0A_s16 ^ (step_x ^ step_x);
     owner->unk_50.unk_50_u16 = timer;
 
-    if (state == 1) {
-        goto state_1;
-    }
-    if (state < 2) {
-        if (state == 0) {
-            goto state_0;
+    switch (state) {
+    case 0:
+        if ((((S_81850800_3 *)owner->unk_04)->unk_00 & 0x80) == 0) {
+            return;
         }
-        return;
-    }
-    if (state == 2) {
-        goto state_2;
-    }
-    if (state == 3) {
-        goto state_3;
-    }
-    return;
+        target = caster_data->unk_60;
+        tiles_ahead = 0;
+        if (target == 0) {
+            s32 tile_pixel_x;
+            s32 min_height;
+            s32 probe_y;
 
-state_0:
-    if ((((S_81850800_3 *)owner->unk_04)->unk_00 & 0x80) == 0) {
-        return;
-    }
-    target = caster_data->unk_60;
-    tiles_ahead = 0;
-    if (target == 0) {
-        s32 tile_pixel_x;
-        s32 min_height;
-        s32 probe_y;
-
-        off_y = 0;
-        off_x = 0;
-        do {
-            min_height = -0x400;
-            ASM_KEEP(min_height);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            tile_pixel_x = caster_sprite->unk_24;
-            magnitude = caster_sprite->unk_25;
-            tile_pixel_x = (tile_pixel_x + off_x) << 6;
-            dx = tile_pixel_x + 0x20;
-            magnitude = (magnitude + off_y) << 6;
-            ASM_KEEP(magnitude);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            facing_shift = magnitude + 0x20;
-            obj = (S_81850800_9 *)((u16)dx);
-            probe_y = (u16)facing_shift;
-            ground_height = func_800BCB04((s32)obj, probe_y, min_height);
-            if ((s16)func_800A4688((s32)obj, probe_y, ground_height, caster_data->unk_2A.unk_2A_s16,
-                                   caster_data->unk_60) != 0) {
-                goto state_0_tail;
+            off_y = 0;
+            off_x = 0;
+            do {
+                min_height = -0x400;
+                ASM_KEEP(min_height);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                tile_pixel_x = caster_sprite->unk_24;
+                magnitude = caster_sprite->unk_25;
+                tile_pixel_x = (tile_pixel_x + off_x) << 6;
+                dx = tile_pixel_x + 0x20;
+                magnitude = (magnitude + off_y) << 6;
+                ASM_KEEP(magnitude);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                facing_shift = magnitude + 0x20;
+                obj = (S_81850800_9 *)((u16)dx);
+                probe_y = (u16)facing_shift;
+                ground_height = func_800BCB04((s32)obj, probe_y, min_height);
+                if ((s16)func_800A4688((s32)obj, probe_y, ground_height, caster_data->unk_2A.unk_2A_s16,
+                                       caster_data->unk_60) != 0) {
+                    break;
+                }
+                tiles_ahead++;
+                off_y += step_y;
+                off_x += step_x;
+                if (tiles_ahead >= 2) {
+                    break;
+                }
+            } while (1);
+            dx = step_x * tiles_ahead;
+            facing_shift = step_y * tiles_ahead;
+        } else {
+            position = ((S_81850800_2 *)((u8 *)target - 0x14))->unk_00;
+            copy_value = caster_sprite->unk_24;
+            base_y = position->unk_24;
+            facing_shift = position->unk_25;
+            dx = base_y - copy_value;
+            base_y = caster_sprite->unk_25;
+            facing_shift -= base_y;
+            if ((position->unk_14.unk_14_u16 & 0x8000) &&
+                (sprite->unk_14 & 0x8000)) {
+                owner->unk_0A.unk_0A_s16 = 2;
+                owner->unk_50.unk_50_u16 = 0;
+                return;
             }
-            tiles_ahead++;
-            off_y += step_y;
-            off_x += step_x;
-            if (tiles_ahead >= 2) {
-                break;
+        }
+        effect_data.value = abs(dx);
+        pixel_offset = facing_shift;
+        if (facing_shift < 0) {
+            pixel_offset = -pixel_offset;
+        }
+        if (effect_data.value < pixel_offset) {
+            effect_data.value = pixel_offset;
+        }
+        magnitude = effect_data.value * 4;
+        owner->unk_50.unk_50_u16 = magnitude;
+        switch (effect_data.value) {
+        case 0:
+            dx = 0;
+            facing_shift = 2;
+            owner->unk_50.unk_50_u16 = 0;
+            break;
+        case 1:
+            dx = 0;
+            facing_shift = 3;
+            state = facing_shift;
+            if (caster_data->unk_60 != 0) {
+                state = 1;
             }
-        } while (1);
-state_0_tail:
-        dx = step_x * tiles_ahead;
-        facing_shift = step_y * tiles_ahead;
-        goto span_magnitude;
-    }
-
-    position = ((S_81850800_2 *)((u8 *)target - 0x14))->unk_00;
-    copy_value = caster_sprite->unk_24;
-    base_y = position->unk_24;
-    facing_shift = position->unk_25;
-    dx = base_y - copy_value;
-    base_y = caster_sprite->unk_25;
-    facing_shift -= base_y;
-    if ((position->unk_14.unk_14_u16 & 0x8000) &&
-        (sprite->unk_14 & 0x8000)) {
-        owner->unk_0A.unk_0A_s16 = 2;
-        owner->unk_50.unk_50_u16 = 0;
-        return;
-    }
-span_magnitude:
-    effect_data.value = abs(dx);
-    pixel_offset = facing_shift;
-    if (facing_shift < 0) {
-        pixel_offset = -pixel_offset;
-    }
-    if (effect_data.value < pixel_offset) {
-        effect_data.value = pixel_offset;
-    }
-    magnitude = effect_data.value * 4;
-    owner->unk_50.unk_50_u16 = magnitude;
-    if (effect_data.value == 0) {
-        goto state_0_zero;
-    }
-    if (effect_data.value == 1) {
-        ASM_KEEP_NV(magnitude);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        goto state_0_one;
-    }
-    dx = 1;
-    facing_shift = 0;
-    goto state_0_after;
-
-state_0_zero:
-    dx = 0;
-    facing_shift = 2;
-    owner->unk_50.unk_50_u16 = 0;
-    goto state_0_common;
-
-state_0_one:
-    dx = 0;
-    facing_shift = 3;
-    state = facing_shift;
-    if (caster_data->unk_60 != 0) {
-        state = 1;
-    }
-    owner->unk_50.unk_50_u16 = state;
-    goto state_0_common;
-
+            owner->unk_50.unk_50_u16 = state;
+            break;
+        default:
+            dx = 1;
+            facing_shift = 0;
 state_0_after:
-    owner->unk_50.unk_50_u16 -= 2;
-state_0_common:
-    tile_step_x = step_x * dx;
-    pixel_offset = facing_shift << 4;
-    pixel_step_x = step_x * pixel_offset;
-    tile_step_y = step_y * dx;
-    origin_x = caster_sprite->unk_24;
-    pix_x = (origin_x + tile_step_x) << 6;
-    tile_step_x = step_y * pixel_offset;
-    pixel_offset = pixel_step_x + 0x20;
-    pix_x += pixel_offset;
-    motion->unk_00.unk_02_view_u16.unk_02_u16 = pix_x;
-    origin_y = caster_sprite->unk_25;
-    motion->unk_0C.unk_0E_view_u16.unk_0E_u16 = step_x << 4;
-    motion->unk_10.unk_12_view_u16.unk_12_u16 = step_y << 4;
-    pix_y = (origin_y + tile_step_y) << 6;
-    pixel_offset = tile_step_x + 0x20;
-    pix_y += pixel_offset;
-    motion->unk_04.unk_06_view_u16.unk_06_u16 = pix_y;
-    func_800A56E0(0x300);
-    owner->unk_0A.unk_0A_u16++;
-    return;
+            owner->unk_50.unk_50_u16 -= 2;
+            break;
+        }
+        tile_step_x = step_x * dx;
+        pixel_offset = facing_shift << 4;
+        pixel_step_x = step_x * pixel_offset;
+        tile_step_y = step_y * dx;
+        origin_x = caster_sprite->unk_24;
+        pix_x = (origin_x + tile_step_x) << 6;
+        tile_step_x = step_y * pixel_offset;
+        pixel_offset = pixel_step_x + 0x20;
+        pix_x += pixel_offset;
+        motion->unk_00.unk_02_view_u16.unk_02_u16 = pix_x;
+        origin_y = caster_sprite->unk_25;
+        motion->unk_0C.unk_0E_view_u16.unk_0E_u16 = step_x << 4;
+        motion->unk_10.unk_12_view_u16.unk_12_u16 = step_y << 4;
+        pix_y = (origin_y + tile_step_y) << 6;
+        pixel_offset = tile_step_x + 0x20;
+        pix_y += pixel_offset;
+        motion->unk_04.unk_06_view_u16.unk_06_u16 = pix_y;
+        func_800A56E0(0x300);
+        owner->unk_0A.unk_0A_u16++;
+        return;
 
-state_1:
-    ground_height = func_800BCB04(motion->unk_00.unk_02_view_u16.unk_02_u16,
-                        motion->unk_04.unk_06_view_u16.unk_06_u16,
-                        (s16)(((S_81850800_7 *)work->unk_08.unk_08_ptr)->unk_08.unk_0A_view_u16.unk_0A_u16 -
-                              0x30));
-    motion->unk_08.unk_0A_view_s16.unk_0A_s16 = ground_height;
-    if (ground_height >= 0x200) {
-        motion->unk_08.unk_0A_view_u16.unk_0A_u16 =
-            ((S_81850800_7 *)work->unk_08.unk_08_ptr)->unk_08.unk_0A_view_u16.unk_0A_u16;
-    }
-    spawn_cb = &D_80083498;
-    obj = func_8003FD64(0x112, spawn_cb);
-    if (obj == 0) {
-        goto state_1_after_first;
-    }
-    obj->unk_10 = D_800247DC;
-    position = obj->unk_08;
-    work = obj->unk_0C;
-    copy_value = motion->unk_00.unk_00_s32;
-    position->unk_00.unk_00_s32 = copy_value;
-    position = obj->unk_08;
-    copy_value = motion->unk_04.unk_04_s32;
-    effect_data.pointer = (S_81850800_11 *)((u8 *)obj + 0x20);
-    position->unk_04.unk_04_s32 = copy_value;
-    position = obj->unk_08;
-    copy_value = motion->unk_08.unk_08_s32;
-    spawn_color = 0xC00000;
-    position->unk_08.unk_08_s32 = copy_value;
-    work->unk_1E = 0x1000;
-    work->unk_1C = 0x1000;
-    work->unk_10 = 0x60;
-    work->unk_14 |= 0xC;
-    work->unk_00 = D_800DE9D0;
-    copy_value = ((S_81850800_10 *)D_800DE9D0)->unk_04;
-    spawn_color |= 0x8080;
-    work->unk_04 = 0;
-    work->unk_05 = 0;
-    work->unk_0C = spawn_color;
-    work->unk_08.unk_08_s32 = copy_value;
-    obj->unk_20 = owner;
-    effect_data.pointer->unk_48.unk_48_s16 = func_80069EF8() & 3;
-    effect_data.pointer->unk_4E = (func_80069EF8() & 3) + 8;
-    effect_data.pointer->unk_4A = (func_80069EF8() & 7) + 0xC;
-    effect_data.pointer->unk_4C = 0;
+    case 1:
+        ground_height = func_800BCB04(motion->unk_00.unk_02_view_u16.unk_02_u16,
+                            motion->unk_04.unk_06_view_u16.unk_06_u16,
+                            (s16)(((S_81850800_7 *)work->unk_08.unk_08_ptr)->unk_08.unk_0A_view_u16.unk_0A_u16 -
+                                  0x30));
+        motion->unk_08.unk_0A_view_s16.unk_0A_s16 = ground_height;
+        if (ground_height >= 0x200) {
+            motion->unk_08.unk_0A_view_u16.unk_0A_u16 =
+                ((S_81850800_7 *)work->unk_08.unk_08_ptr)->unk_08.unk_0A_view_u16.unk_0A_u16;
+        }
+        spawn_cb = &D_80083498;
+        obj = func_8003FD64(0x112, spawn_cb);
+        if (obj != 0) {
+            obj->unk_10 = D_800247DC;
+            position = obj->unk_08;
+            work = obj->unk_0C;
+            copy_value = motion->unk_00.unk_00_s32;
+            position->unk_00.unk_00_s32 = copy_value;
+            position = obj->unk_08;
+            copy_value = motion->unk_04.unk_04_s32;
+            effect_data.pointer = (S_81850800_11 *)((u8 *)obj + 0x20);
+            position->unk_04.unk_04_s32 = copy_value;
+            position = obj->unk_08;
+            copy_value = motion->unk_08.unk_08_s32;
+            spawn_color = 0xC00000;
+            position->unk_08.unk_08_s32 = copy_value;
+            work->unk_1E = 0x1000;
+            work->unk_1C = 0x1000;
+            work->unk_10 = 0x60;
+            work->unk_14 |= 0xC;
+            work->unk_00 = D_800DE9D0;
+            copy_value = ((S_81850800_10 *)D_800DE9D0)->unk_04;
+            spawn_color |= 0x8080;
+            work->unk_04 = 0;
+            work->unk_05 = 0;
+            work->unk_0C = spawn_color;
+            work->unk_08.unk_08_s32 = copy_value;
+            obj->unk_20 = owner;
+            effect_data.pointer->unk_48.unk_48_s16 = func_80069EF8() & 3;
+            effect_data.pointer->unk_4E = (func_80069EF8() & 3) + 8;
+            effect_data.pointer->unk_4A = (func_80069EF8() & 7) + 0xC;
+            effect_data.pointer->unk_4C = 0;
+        }
+        if (owner->unk_50.unk_50_s16 <= 0) {
+            if (caster_data->unk_60 != 0) {
+                owner->unk_50.unk_50_u16 = 4;
+                owner->unk_0A.unk_0A_u16++;
+                tile_x = caster_data->unk_72;
+                motion->unk_00.unk_02_view_u16.unk_02_u16 = (tile_x << 6) + 0x20;
+                tile_y = caster_data->unk_73;
+                motion->unk_10.unk_10_s32 = 0;
+                motion->unk_0C.unk_0C_s32 = 0;
+                motion->unk_04.unk_06_view_u16.unk_06_u16 = (tile_y << 6) + 0x20;
+                obj = func_8003FD64(0x112, spawn_cb);
+                if (obj != 0) {
+                    obj->unk_10 = D_800247DC;
+                    position = obj->unk_08;
+                    work = obj->unk_0C;
+                    copy_value = motion->unk_00.unk_00_s32;
+                    position->unk_00.unk_00_s32 = copy_value;
+                    position = obj->unk_08;
+                    copy_value = motion->unk_04.unk_04_s32;
+                    effect_data.pointer = (S_81850800_11 *)((u8 *)obj + 0x20);
+                    position->unk_04.unk_04_s32 = copy_value;
+                    position = obj->unk_08;
+                    copy_value = motion->unk_08.unk_08_s32;
+                    spawn_color = 0x600000;
+                    position->unk_08.unk_08_s32 = copy_value;
+                    work->unk_1C = 0x2000;
+                    work->unk_1E = 0x2800;
+                    work->unk_10 = 0x20;
+                    work->unk_14 |= 0xC;
+                    work->unk_00 = D_800DE9D0;
+                    copy_value = ((S_81850800_10 *)D_800DE9D0)->unk_04;
+                    spawn_color |= 0x6060;
+                    work->unk_04 = 0;
+                    work->unk_05 = 0;
+                    work->unk_0C = spawn_color;
+                    work->unk_08.unk_08_s32 = copy_value;
+                    obj->unk_20 = owner;
+                    timer = owner->unk_50.unk_50_u16;
+                    effect_data.pointer->unk_4E = 8;
+                    effect_data.pointer->unk_4A = 8;
+                    effect_data.pointer->unk_4C = 0;
+                    effect_data.pointer->unk_48.unk_48_u16 = timer;
+                }
+                dx = 0x3C;
+                effect_flags = D_800247DC;
+                particle_anim = (S_81850800_10 *)D_800DEC28;
+                do {
+                    obj = func_8003FD64(0x312, ((s32 *)&D_80083498.next));
+                    if (obj != 0) {
+                        work = obj->unk_0C;
+                        obj->unk_10 = effect_flags;
+                        ((S_81850800_5 *)obj->unk_08)->unk_00.unk_02_view_s16.unk_02_s16 =
+                            motion->unk_00.unk_02_view_u16.unk_02_u16 + (func_80069EF8() & 0x3F) - 0x20;
+                        ((S_81850800_5 *)obj->unk_08)->unk_04.unk_06_view_s16.unk_06_s16 =
+                            motion->unk_04.unk_06_view_u16.unk_06_u16 + (func_80069EF8() & 0x3F) - 0x20;
+                        ((S_81850800_5 *)obj->unk_08)->unk_08.unk_0A_view_s16.unk_0A_s16 =
+                            motion->unk_08.unk_0A_view_u16.unk_0A_u16 - (func_80069EF8() & 0x1F);
+                        color = 0x800000;
+                        work->unk_1E = 0x800;
+                        work->unk_1C = 0x800;
+                        work->unk_10 = 0x60;
+                        work->unk_00 = particle_anim;
+                        work->unk_14 |= 0xC;
+                        copy_value = particle_anim->unk_04;
+                        color |= 0x8080;
+                        work->unk_04 = 0;
+                        work->unk_05 = 0;
+                        work->unk_0C = color;
+                        work->unk_08.unk_08_s32 = copy_value;
+                        ((S_81850800_5 *)obj->unk_08)->unk_0C =
+                            step_x * (func_80069EF8() << 3);
+                        effect_data.pointer = (S_81850800_11 *)((u8 *)obj + 0x20);
+                        ((S_81850800_5 *)obj->unk_08)->unk_10 =
+                            step_y * (func_80069EF8() << 3);
+                        ((S_81850800_5 *)obj->unk_08)->unk_14.unk_14_s32 =
+                            0xFFF7FFFF - func_80069EF8();
+                        obj->unk_20 = owner;
+                        effect_data.pointer->unk_48.unk_48_s16 = 2;
+                        effect_data.pointer->unk_4E = (func_80069EF8() & 7) + 8;
+                        effect_data.pointer->unk_4A = 0x10;
+                        effect_data.pointer->unk_4C = 0;
+                    }
+                    dx--;
+                } while (dx >= 0);
+            } else {
+                owner->unk_50.unk_50_u16 = 4;
+                owner->unk_0A.unk_0A_s16 = 3;
+            }
+        }
+        motion->unk_00.unk_00_s32 += motion->unk_0C.unk_0C_s32;
+        motion->unk_04.unk_04_s32 += motion->unk_10.unk_10_s32;
+        return;
 
-state_1_after_first:
-    if (owner->unk_50.unk_50_s16 > 0) {
-        goto shared_motion;
-    }
-    if (caster_data->unk_60 == 0) {
-        goto state_1_no_child;
-    }
-    owner->unk_50.unk_50_u16 = 4;
-    owner->unk_0A.unk_0A_u16++;
-    tile_x = caster_data->unk_72;
-    motion->unk_00.unk_02_view_u16.unk_02_u16 = (tile_x << 6) + 0x20;
-    tile_y = caster_data->unk_73;
-    motion->unk_10.unk_10_s32 = 0;
-    motion->unk_0C.unk_0C_s32 = 0;
-    motion->unk_04.unk_06_view_u16.unk_06_u16 = (tile_y << 6) + 0x20;
-    obj = func_8003FD64(0x112, spawn_cb);
-    if (obj == 0) {
-        goto state_1_loop_setup;
-    }
-    obj->unk_10 = D_800247DC;
-    position = obj->unk_08;
-    work = obj->unk_0C;
-    copy_value = motion->unk_00.unk_00_s32;
-    position->unk_00.unk_00_s32 = copy_value;
-    position = obj->unk_08;
-    copy_value = motion->unk_04.unk_04_s32;
-    effect_data.pointer = (S_81850800_11 *)((u8 *)obj + 0x20);
-    position->unk_04.unk_04_s32 = copy_value;
-    position = obj->unk_08;
-    copy_value = motion->unk_08.unk_08_s32;
-    spawn_color = 0x600000;
-    position->unk_08.unk_08_s32 = copy_value;
-    work->unk_1C = 0x2000;
-    work->unk_1E = 0x2800;
-    work->unk_10 = 0x20;
-    work->unk_14 |= 0xC;
-    work->unk_00 = D_800DE9D0;
-    copy_value = ((S_81850800_10 *)D_800DE9D0)->unk_04;
-    spawn_color |= 0x6060;
-    work->unk_04 = 0;
-    work->unk_05 = 0;
-    work->unk_0C = spawn_color;
-    work->unk_08.unk_08_s32 = copy_value;
-    obj->unk_20 = owner;
-    timer = owner->unk_50.unk_50_u16;
-    effect_data.pointer->unk_4E = 8;
-    effect_data.pointer->unk_4A = 8;
-    effect_data.pointer->unk_4C = 0;
-    effect_data.pointer->unk_48.unk_48_u16 = timer;
+    case 2:
+        if ((s16)timer > 0) {
+            return;
+        }
+        if (caster_data->unk_60 != 0) {
+            func_8009CE1C(caster_data->unk_60, 0x13,
+                          owner->unk_09, 2,
+                          caster_data->unk_2A.unk_2A_s16, caster_data, state);
+        }
+        owner->unk_50.unk_50_u16 = 0x10;
+        owner->unk_0A.unk_0A_u16++;
+        return;
 
-state_1_loop_setup:
-    dx = 0x3C;
-    effect_flags = D_800247DC;
-    particle_anim = (S_81850800_10 *)D_800DEC28;
-loop_0: {
-    obj = func_8003FD64(0x312, ((s32 *)&D_80083498.next));
-    if (obj == 0) {
-        goto state_1_loop_next;
-    }
-    work = obj->unk_0C;
-    obj->unk_10 = effect_flags;
-    ((S_81850800_5 *)obj->unk_08)->unk_00.unk_02_view_s16.unk_02_s16 =
-        motion->unk_00.unk_02_view_u16.unk_02_u16 + (func_80069EF8() & 0x3F) - 0x20;
-    ((S_81850800_5 *)obj->unk_08)->unk_04.unk_06_view_s16.unk_06_s16 =
-        motion->unk_04.unk_06_view_u16.unk_06_u16 + (func_80069EF8() & 0x3F) - 0x20;
-    ((S_81850800_5 *)obj->unk_08)->unk_08.unk_0A_view_s16.unk_0A_s16 =
-        motion->unk_08.unk_0A_view_u16.unk_0A_u16 - (func_80069EF8() & 0x1F);
-    color = 0x800000;
-    work->unk_1E = 0x800;
-    work->unk_1C = 0x800;
-    work->unk_10 = 0x60;
-    work->unk_00 = particle_anim;
-    work->unk_14 |= 0xC;
-    copy_value = particle_anim->unk_04;
-    color |= 0x8080;
-    work->unk_04 = 0;
-    work->unk_05 = 0;
-    work->unk_0C = color;
-    work->unk_08.unk_08_s32 = copy_value;
-    ((S_81850800_5 *)obj->unk_08)->unk_0C =
-        step_x * (func_80069EF8() << 3);
-    effect_data.pointer = (S_81850800_11 *)((u8 *)obj + 0x20);
-    ((S_81850800_5 *)obj->unk_08)->unk_10 =
-        step_y * (func_80069EF8() << 3);
-    ((S_81850800_5 *)obj->unk_08)->unk_14.unk_14_s32 =
-        0xFFF7FFFF - func_80069EF8();
-    obj->unk_20 = owner;
-    effect_data.pointer->unk_48.unk_48_s16 = 2;
-    effect_data.pointer->unk_4E = (func_80069EF8() & 7) + 8;
-    effect_data.pointer->unk_4A = 0x10;
-    effect_data.pointer->unk_4C = 0;
-state_1_loop_next:
-    dx--;
-    } if (dx >= 0) goto loop_0;
-    goto shared_motion;
-
-state_1_no_child:
-    owner->unk_50.unk_50_u16 = 4;
-    owner->unk_0A.unk_0A_s16 = 3;
-shared_motion:
-    motion->unk_00.unk_00_s32 += motion->unk_0C.unk_0C_s32;
-    motion->unk_04.unk_04_s32 += motion->unk_10.unk_10_s32;
-    return;
-
-state_2:
-    if ((s16)timer > 0) {
+    case 3:
+        flags = owner->unk_52.unk_52_u16;
+        if (((s16)((u8 *)owner->unk_52.unk_52_s16)) & 0x8000) {
+            owner->unk_52.unk_52_u16 = flags & 0x7FFF;
+            return;
+        }
+        if ((s16)timer > 0) {
+            return;
+        }
+        dungeonStatus.unk_0C = 0;
+        (*(u16 *)((u8 *)owner - 2)) |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
+    default:
         return;
     }
-    if (caster_data->unk_60 != 0) {
-        func_8009CE1C(caster_data->unk_60, 0x13,
-                      owner->unk_09, 2,
-                      caster_data->unk_2A.unk_2A_s16, caster_data, state);
-    }
-    owner->unk_50.unk_50_u16 = 0x10;
-    owner->unk_0A.unk_0A_u16++;
-    return;
-
-state_3:
-    flags = owner->unk_52.unk_52_u16;
-    if (((s16)((u8 *)owner->unk_52.unk_52_s16)) & 0x8000) {
-        owner->unk_52.unk_52_u16 = flags & 0x7FFF;
-        return;
-    }
-    if ((s16)timer > 0) {
-        return;
-    }
-    dungeonStatus.unk_0C = 0;
-    (*(u16 *)((u8 *)owner - 2)) |= 0x8000;
-    objectFlagBlock.flags |= 0x8000;
-    return;
-
-    return;
 }

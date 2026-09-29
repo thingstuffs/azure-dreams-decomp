@@ -49,139 +49,122 @@ void func_80173DD4(void *controller, void *context_in, void *object_in, EntityRe
     object = object_in;
 
     state = ((Rec_func_80173DD4_arg0 *)controller)->unk_9B;
-    if (state == 1) {
-        goto state_one;
-    }
-    if ((s32)state < 2) {
-        if (state == 0) {
-            goto state_zero;
+    switch (state) {
+    case 0:
+        if (!(((Rec_D_80082E80 *)object)->unk_14.at00_u16.v & 0xE000)) {
+            func_80175060(controller, context_in);
+            func_80175060(controller, context_in);
+            func_80175060(controller, context_in);
+            func_80175060(controller, context_in);
+            break;
         }
-        goto done;
-    }
-    if (state == 2) {
-        goto state_two;
-    }
-    goto done;
+        (*(void * *)((u8 *)object + 0x2C)) = D_80176470;
+        func_80047784(object,
+            D_80176470[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            0);
+        {
+            u8 *counter_base = (u8 *)&dungeonStatus.unk_00;
 
-state_zero:
-    if (!(((Rec_D_80082E80 *)object)->unk_14.at00_u16.v & 0xE000)) {
-        goto repeat_calls;
-    }
-    (*(void * *)((u8 *)object + 0x2C)) = D_80176470;
-    func_80047784(object,
-        D_80176470[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
-        0);
-    {
-        u8 *counter_base = (u8 *)&dungeonStatus.unk_00;
-
-        ((S_80173DD4_3 *)counter_base)->unk_0A--;
-    }
-    ((Rec_func_80173DD4_arg0 *)controller)->unk_9B++;
-    goto done;
-
-state_one:
-    if ((func_80042900(actor, 1) << 16) != 0) {
-        global_base = &dungeonStatus;
-        if (global_base->flags & 0x1000) {
-            goto done;
+            ((S_80173DD4_3 *)counter_base)->unk_0A--;
         }
-        if (actor->unk_64 != 0) {
-            if (func_800AA6B4(controller, context_in, object, 0) != 0) {
-                goto done;
-            }
-        }
-        if (actor->tileY == 0) {
-            if (global_base->flags & 0x2008) {
-                goto done;
-            }
-            func_800AA79C(controller, context_in, object, actor);
-            goto done;
-        }
-        if ((func_800A2C34(actor) << 16) != 0) {
-            goto done;
-        }
-        actor_flags = actor->flags1C;
-        if (actor_flags & 0x100) {
-            func_800AA258(controller, context_in, object, actor);
-            goto done;
-        }
-        if (actor_flags & 0x80000) {
-            func_800AA888(controller, context_in, object, actor);
-            current_value = ((Rec_func_80173DD4_arg0 *)controller)->unk_92;
-            value_adjustment = ((Rec_func_80173DD4_arg0 *)controller)->unk_A6;
-            ((Rec_func_80173DD4_arg0 *)controller)->unk_A6 = 0;
-            ((Rec_func_80173DD4_arg0 *)controller)->unk_AC = 0;
-            ((Rec_func_80173DD4_arg0 *)controller)->unk_92 = current_value - value_adjustment;
-            func_80174520(controller, context_in, object, actor);
-            goto done;
-        }
-        if (actor->unk_6D == 0) {
-            goto done;
-        }
-        if ((func_800A2C34(actor) << 16) != 0) {
-            EntityRec *owner = D_800814A8;
-
-            if ((func_8009A180(actor,
-                    (u8 *)owner->unk_58 + 0x20) << 16) != 0) {
-                goto done;
-            }
-        }
-        func_800A9A0C(actor);
-        func_800A9A04(actor);
+        ((Rec_func_80173DD4_arg0 *)controller)->unk_9B++;
+        break;
+    case 1:
         if ((func_80042900(actor, 1) << 16) != 0) {
-            TileObject *origin = &D_80082E80;
-            s8 tile = ((Rec_D_80082E80 *)object)->unk_26.as_s8;
-
-            if (((tile == origin->unk_026) && (tile >= 0)) ||
-                ((s16)func_8009FD40(origin, object) < 2)) {
-                if (!(func_800A6D30() & 7)) {
-                    func_80042B68(actor, 1);
+            global_base = &dungeonStatus;
+            if (global_base->flags & 0x1000) {
+                break;
+            }
+            if (actor->unk_64 != 0) {
+                if (func_800AA6B4(controller, context_in, object, 0) != 0) {
+                    break;
                 }
             }
+            if (actor->tileY == 0) {
+                if (global_base->flags & 0x2008) {
+                    break;
+                }
+                func_800AA79C(controller, context_in, object, actor);
+                break;
+            }
+            if ((func_800A2C34(actor) << 16) != 0) {
+                break;
+            }
+            actor_flags = actor->flags1C;
+            if (actor_flags & 0x100) {
+                func_800AA258(controller, context_in, object, actor);
+                break;
+            }
+            if (actor_flags & 0x80000) {
+                func_800AA888(controller, context_in, object, actor);
+                current_value = ((Rec_func_80173DD4_arg0 *)controller)->unk_92;
+                value_adjustment = ((Rec_func_80173DD4_arg0 *)controller)->unk_A6;
+                ((Rec_func_80173DD4_arg0 *)controller)->unk_A6 = 0;
+                ((Rec_func_80173DD4_arg0 *)controller)->unk_AC = 0;
+                ((Rec_func_80173DD4_arg0 *)controller)->unk_92 = current_value - value_adjustment;
+                func_80174520(controller, context_in, object, actor);
+                break;
+            }
+            if (actor->unk_6D == 0) {
+                break;
+            }
+            if ((func_800A2C34(actor) << 16) != 0) {
+                EntityRec *owner = D_800814A8;
+
+                if ((func_8009A180(actor,
+                        (u8 *)owner->unk_58 + 0x20) << 16) != 0) {
+                    break;
+                }
+            }
+            func_800A9A0C(actor);
+            func_800A9A04(actor);
+            if ((func_80042900(actor, 1) << 16) != 0) {
+                TileObject *origin = &D_80082E80;
+                s8 tile = ((Rec_D_80082E80 *)object)->unk_26.as_s8;
+
+                if (((tile == origin->unk_026) && (tile >= 0)) ||
+                    ((s16)func_8009FD40(origin, object) < 2)) {
+                    if (!(func_800A6D30() & 7)) {
+                        func_80042B68(actor, 1);
+                    }
+                }
+            }
+            if ((func_80042900(actor, 1) << 16) != 0) {
+                break;
+            }
         }
-        if ((func_80042900(actor, 1) << 16) != 0) {
-            goto done;
+        (*(void * *)((u8 *)object + 0x2C)) = D_80176478;
+        func_80047784(object,
+            D_80176478[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            0);
+        (*(u32 *)&actor->flags1C) |= 0x40000;
+        if (((Rec_D_80082E80 *)object)->unk_14.at00_u16.v & 0x8000) {
+            ((Rec_func_80173DD4_arg0 *)controller)->unk_8C = D_80171094;
+            break;
         }
-    }
-    (*(void * *)((u8 *)object + 0x2C)) = D_80176478;
-    func_80047784(object,
-        D_80176478[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
-        0);
-    (*(u32 *)&actor->flags1C) |= 0x40000;
-    if (((Rec_D_80082E80 *)object)->unk_14.at00_u16.v & 0x8000) {
-        ((Rec_func_80173DD4_arg0 *)controller)->unk_8C = D_80171094;
-        goto done;
-    }
-    {
-        u8 *counter_base = (u8 *)&dungeonStatus.unk_00;
+        {
+            u8 *counter_base = (u8 *)&dungeonStatus.unk_00;
 
-        ((Rec_func_80173DD4_arg0 *)controller)->unk_9B++;
-        ((S_80173DD4_3 *)counter_base)->unk_0A++;
-    }
-    goto done;
+            ((Rec_func_80173DD4_arg0 *)controller)->unk_9B++;
+            ((S_80173DD4_3 *)counter_base)->unk_0A++;
+        }
+        break;
+    case 2:
+        if (((Rec_D_80082E80 *)object)->unk_14.at00_u16.v & 0xE000) {
+            u8 *counter_base;
 
-state_two:
-    if (!(((Rec_D_80082E80 *)object)->unk_14.at00_u16.v & 0xE000)) {
-        goto repeat_calls;
-    }
-    {
-        u8 *counter_base;
-
-        counter_base = (u8 *)&dungeonStatus.unk_00;
-        ((S_80173DD4_3 *)counter_base)->unk_0A--;
+            counter_base = (u8 *)&dungeonStatus.unk_00;
+            ((S_80173DD4_3 *)counter_base)->unk_0A--;
+            ((Rec_func_80173DD4_arg0 *)controller)->unk_8C = D_80171094;
+        } else {
+            func_80175060(controller, context_in);
+            func_80175060(controller, context_in);
+            func_80175060(controller, context_in);
+            func_80175060(controller, context_in);
+        }
+        break;
     }
 
-set_callback:
-    ((Rec_func_80173DD4_arg0 *)controller)->unk_8C = D_80171094;
-    goto done;
-
-repeat_calls:
-    func_80175060(controller, context_in);
-    func_80175060(controller, context_in);
-    func_80175060(controller, context_in);
-    func_80175060(controller, context_in);
-
-done:
     ASM_KEEP(object);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     return;
 }

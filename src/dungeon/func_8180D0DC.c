@@ -68,115 +68,98 @@ copy_history:
     U16_AT(obj, 0x26) = final_z;
     U16_AT(obj, 0x28) = z;
 
-    if (linked_obj != 0) {
-        goto have_other;
-    }
+    if (linked_obj == 0) {
+        switch (S16_AT(obj, 0x64)) {
+        case 0:
+            direction_offset = ((-S16_AT(((u8 *)(&gameWork.view.viewAngle)), 0) + 0x500) >> 8) & 0xE;
+            room = &D_80082E80;
+            x_adjust = (s16 *)(((u8 *)dirStepX) + direction_offset);
+            {
+                s32 x_target;
+                s32 x_current;
 
-    if (S16_AT(obj, 0x64) != 0) {
-        if (S16_AT(obj, 0x64) == 1) {
-            goto state_one;
+                x_target = (room->tileX + *x_adjust) << 6;
+                frames_left = S16_AT(obj, 0x66);
+                x_current = S16_AT(obj, 0x0E) - 0x20;
+                U16_AT(obj, 0x0E) += (x_target - x_current) / frames_left;
+            }
+            y_adjust = (s16 *)(((u8 *)dirStepY) + direction_offset);
+            {
+                s32 y_target;
+                s32 y_current;
+
+                y_target = (room->tileY + *y_adjust) << 6;
+                y_current = S16_AT(obj, 0x12) - 0x20;
+                U16_AT(obj, 0x12) += (y_target - y_current) / frames_left;
+            }
+            S32_AT(obj, 0x14) +=
+                (D_80083780.z.v -
+                 (func_800644B8(frames_left * 42, frames_left) << 12) -
+                 S32_AT(obj, 0x14)) / S16_AT(obj, 0x66);
+
+            if (S16_AT(obj, 0x6A) < 0x80) {
+                U16_AT(obj, 0x6A) += 0x10;
+            }
+            shade = U8_AT(obj, 0x6A);
+            U8_AT(rgb, 0x0D) = shade;
+            U8_AT(rgb, 0x0E) = shade;
+            U8_AT(rgb, 0x0C) = shade;
+
+            U16_AT(obj, 0x66)--;
+            if (S16_AT(obj, 0x66) <= 0) {
+                final_coord = (room->tileX + *x_adjust) << 6;
+                U16_AT(obj, 0x0E) = final_coord + 0x20;
+                final_coord = (room->tileY + *y_adjust) << 6;
+                U16_AT(obj, 0x12) = final_coord + 0x20;
+                final_state = U16_AT(obj, 0x64);
+                final_z = U16_AT(((HeightData *)&D_80083780), 0x0A);
+                U16_AT(obj, 0x64) = final_state + 1;
+                U16_AT(obj, 0x16) = final_z;
+            }
+            break;
+        case 1:
+            if (S16_AT(obj, 0x1A) == S16_AT(obj, 0x0E) && S16_AT(obj, 0x1E) == S16_AT(obj, 0x12)) {
+                previous_z = S16_AT(obj, 0x22);
+                current_z = S16_AT(obj, 0x16);
+                if (previous_z == current_z) {
+                    U16_AT(obj, -2) |= 0x8000;
+                    objectFlagBlock.flags |= 0x8000;
+                    return;
+                }
+            }
+            break;
         }
-        goto copy_out;
-    }
-    direction_offset = ((-S16_AT(((u8 *)(&gameWork.view.viewAngle)), 0) + 0x500) >> 8) & 0xE;
-    room = &D_80082E80;
-    x_adjust = (s16 *)(((u8 *)dirStepX) + direction_offset);
-    {
-        s32 x_target;
-        s32 x_current;
+    } else {
+        linked_data = linked_obj + 0x20;
+        U16_AT(obj, 0x0E) = U16_AT(linked_data, 0x2C);
+        U16_AT(obj, 0x12) = U16_AT(linked_data, 0x2E);
+        z = U16_AT(linked_data, 0x30);
+        U16_AT(obj, 0x16) = z;
 
-        x_target = (room->tileX + *x_adjust) << 6;
-        frames_left = S16_AT(obj, 0x66);
-        x_current = S16_AT(obj, 0x0E) - 0x20;
-        U16_AT(obj, 0x0E) += (x_target - x_current) / frames_left;
-    }
-    y_adjust = (s16 *)(((u8 *)dirStepY) + direction_offset);
-    {
-        s32 y_target;
-        s32 y_current;
+        if (S16_AT(obj, 0x64) == 0) {
+            linked_rgb = PTR_AT(PTR_AT(obj, 8), 0x0C);
+            raw_shade = U8_AT(linked_rgb, 0x0C) - S16_AT(obj, 0x6E) * 8;
+            linked_shade = raw_shade;
+            if ((s16)raw_shade < 0) {
+                linked_shade = 0;
+            }
+            U8_AT(rgb, 0x0E) = linked_shade;
+            U8_AT(rgb, 0x0D) = linked_shade;
+            U8_AT(rgb, 0x0C) = linked_shade;
 
-        y_target = (room->tileY + *y_adjust) << 6;
-        y_current = S16_AT(obj, 0x12) - 0x20;
-        U16_AT(obj, 0x12) += (y_target - y_current) / frames_left;
-    }
-    S32_AT(obj, 0x14) +=
-        (D_80083780.z.v -
-         (func_800644B8(frames_left * 42, frames_left) << 12) -
-         S32_AT(obj, 0x14)) / S16_AT(obj, 0x66);
-
-    if (S16_AT(obj, 0x6A) < 0x80) {
-        U16_AT(obj, 0x6A) += 0x10;
-    }
-    shade = U8_AT(obj, 0x6A);
-    U8_AT(rgb, 0x0D) = shade;
-    U8_AT(rgb, 0x0E) = shade;
-    U8_AT(rgb, 0x0C) = shade;
-
-    U16_AT(obj, 0x66)--;
-    if (S16_AT(obj, 0x66) > 0) {
-        goto copy_out;
-    }
-
-    final_coord = (room->tileX + *x_adjust) << 6;
-    U16_AT(obj, 0x0E) = final_coord + 0x20;
-    final_coord = (room->tileY + *y_adjust) << 6;
-    U16_AT(obj, 0x12) = final_coord + 0x20;
-    final_state = U16_AT(obj, 0x64);
-    final_z = U16_AT(((HeightData *)&D_80083780), 0x0A);
-    U16_AT(obj, 0x64) = final_state + 1;
-    U16_AT(obj, 0x16) = final_z;
-    goto copy_out;
-
-state_one:
-    if (S16_AT(obj, 0x1A) != S16_AT(obj, 0x0E)) {
-        goto copy_out;
-    }
-    if (S16_AT(obj, 0x1E) != S16_AT(obj, 0x12)) {
-        goto copy_out;
-    }
-    previous_z = S16_AT(obj, 0x22);
-    current_z = S16_AT(obj, 0x16);
-    goto compare_z;
-
-have_other:
-    linked_data = linked_obj + 0x20;
-    U16_AT(obj, 0x0E) = U16_AT(linked_data, 0x2C);
-    U16_AT(obj, 0x12) = U16_AT(linked_data, 0x2E);
-    z = U16_AT(linked_data, 0x30);
-    U16_AT(obj, 0x16) = z;
-
-    if (S16_AT(obj, 0x64) == 0) {
-        linked_rgb = PTR_AT(PTR_AT(obj, 8), 0x0C);
-        raw_shade = U8_AT(linked_rgb, 0x0C) - S16_AT(obj, 0x6E) * 8;
-        linked_shade = raw_shade;
-        if ((s16)raw_shade < 0) {
-            linked_shade = 0;
+            U16_AT(obj, 0x66)--;
+            if (S16_AT(obj, 0x66) <= 0) {
+                U16_AT(obj, 0x64)++;
+            }
+        } else if (S16_AT(obj, 0x1A) == S16_AT(obj, 0x0E) && S16_AT(obj, 0x1E) == S16_AT(obj, 0x12)) {
+            previous_z = S16_AT(obj, 0x22);
+            current_z = (s16)z;
+            if (previous_z == current_z) {
+                U16_AT(obj, -2) |= 0x8000;
+                objectFlagBlock.flags |= 0x8000;
+                return;
+            }
         }
-        U8_AT(rgb, 0x0E) = linked_shade;
-        U8_AT(rgb, 0x0D) = linked_shade;
-        U8_AT(rgb, 0x0C) = linked_shade;
-
-        U16_AT(obj, 0x66)--;
-        if (S16_AT(obj, 0x66) > 0) {
-            goto copy_out;
-        }
-        U16_AT(obj, 0x64)++;
-        goto copy_out;
-    }
-    if (S16_AT(obj, 0x1A) != S16_AT(obj, 0x0E)) {
-        goto copy_out;
-    }
-    if (S16_AT(obj, 0x1E) != S16_AT(obj, 0x12)) {
-        goto copy_out;
-    }
-    previous_z = S16_AT(obj, 0x22);
-    current_z = (s16)z;
-
-compare_z:
-    if (previous_z == current_z) {
-        U16_AT(obj, -2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
-        return;
     }
 copy_out:
     U16_AT(coords_out, 2) = U16_AT(obj, 0x1A);

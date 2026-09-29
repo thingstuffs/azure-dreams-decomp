@@ -46,79 +46,43 @@ outer_loop:
         height = area->height;
         x_end = start_x + width;
         y_end = y + height;
-        if (y < y_end) {
-do {
+        for (; y < y_end; y++) {
             x = area->x;
             if (x < x_end) {
                 map_config_addr = (u32)((u8 *)(&gameWork.map));
-                x_loop_done:
-                ;
+            x_loop_done:
                 tile_id = (s16 *)&D_800EA000[((y << *(s16 *)(map_config_addr + 0x14)) + x) * 6];
                 if (func_8001CE14(*tile_id, 0x13, 0x1C) != 0) {
                     func_8001E108(x, y, tile_id, 0x13, amount_small);
-                    if (y & 1) {
-                        if (x & 1) {
-                            goto update_tile;
-                        }
-                        goto next_x;
+                    if ((y & 1) ? (x & 1) : !(x & 1)) {
+                        *tile_id += 10;
                     }
-                    if (x & 1) {
-                        goto next_x;
-                    }
-update_tile:
-                    *tile_id += 10;
-                    goto next_x;
-                }
-                if (func_8001CE14(*tile_id, 0x27, 0x30) != 0) {
+                } else if (func_8001CE14(*tile_id, 0x27, 0x30) != 0) {
                     func_8001E108(x, y, tile_id, 0x27, amount_small);
-                } else {
-                    if (func_8001CE14(*tile_id, 0x31, 0x3A) != 0) {
-                        func_8001E108(x, y, tile_id, 0x31, amount_small);
-                    } else {
-                        if (func_8001CE14(*tile_id, 0x3B, 0x44) != 0) {
-                            func_8001E108(x, y, tile_id, 0x3B, amount_small);
-                        } else {
-                            if (func_8001CE14(*tile_id, 0x45, 0x4E) != 0) {
-                                func_8001E108(x, y, tile_id, 0x45, amount_small);
-                            } else {
-                                if (func_8001CE14(*tile_id, 0x6B, 0x6F) != 0) {
-                                    func_8001E108(x, y, tile_id, 0x6B, amount_large);
-                                } else {
-                                    if (func_8001CE14(*tile_id, 0x70, 0x74) != 0) {
-                                        func_8001E108(x, y, tile_id, 0x70, amount_large);
-                                    } else {
-                                        if (func_8001CE14(*tile_id, 0x75, 0x79) != 0) {
-                                            func_8001E108(x, y, tile_id, 0x75, amount_large);
-                                        } else {
-                                            if (func_8001CE14(*tile_id, 0x7A, 0x7E) != 0) {
-                                                func_8001E108(x, y, tile_id, 0x7A, amount_large);
-                                            }
-                                            goto next_x;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
+                } else if (func_8001CE14(*tile_id, 0x31, 0x3A) != 0) {
+                    func_8001E108(x, y, tile_id, 0x31, amount_small);
+                } else if (func_8001CE14(*tile_id, 0x3B, 0x44) != 0) {
+                    func_8001E108(x, y, tile_id, 0x3B, amount_small);
+                } else if (func_8001CE14(*tile_id, 0x45, 0x4E) != 0) {
+                    func_8001E108(x, y, tile_id, 0x45, amount_small);
+                } else if (func_8001CE14(*tile_id, 0x6B, 0x6F) != 0) {
+                    func_8001E108(x, y, tile_id, 0x6B, amount_large);
+                } else if (func_8001CE14(*tile_id, 0x70, 0x74) != 0) {
+                    func_8001E108(x, y, tile_id, 0x70, amount_large);
+                } else if (func_8001CE14(*tile_id, 0x75, 0x79) != 0) {
+                    func_8001E108(x, y, tile_id, 0x75, amount_large);
+                } else if (func_8001CE14(*tile_id, 0x7A, 0x7E) != 0) {
+                    func_8001E108(x, y, tile_id, 0x7A, amount_large);
                 }
-next_x:
                 x++;
-check_x:
                 if (x >= x_end) {
-                    goto next_y;
+                    continue;
                 }
                 map_config_addr = (u32)((u8 *)(&gameWork.map));
                 goto x_loop_done;
             }
-next_y:
-            y++;
-            if (y >= y_end) {
-                goto next_area;
-            }
-            } while (1);
         }
     }
-next_area:
     area_index++;
     area++;
     if (area_index >= 0x24) {

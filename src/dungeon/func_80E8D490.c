@@ -102,11 +102,10 @@ case 0:
 
         action_kind = actor->unk_46 & 0x3FFF;
         action_index = action_kind - 1;
-        goto dispatch_action;
+    } else {
+        goto IDirect;
     }
-    goto IDirect;
 
-dispatch_action:
     switch (action_index) {
     case 6:
         special = 1;
@@ -140,20 +139,18 @@ IDirect:
     case 2:
 I3:
     selector = (u8 *)actor + 0xE;
-    goto IEnd;
+    break;
     case 1:
 I2:
     selector = (u8 *)actor + 0xB;
     I2_done:
-    ;
-    goto IEnd;
+    break;
     case 0:
 I1:
     selector = (u8 *)actor + 8;
-    goto IEnd;
+    break;
     case 3:
     default:
-I4:
     selector = 0;
     }
 
@@ -178,7 +175,6 @@ OwnerLinked:
                 move_result = ((S_80172C90_3_pre *)owner)[-1].unk_00;
                 actor->unk_72 = ((S_80172C90_4 *)move_result)->unk_24;
                 actor->unk_73 = ((S_80172C90_4 *)move_result)->unk_25;
-                goto OwnerDone;
             }
         } else {
 
@@ -188,12 +184,6 @@ OwnerLinked:
                 actor->facing, 16);
             actor->unk_72 = abs(actor->unk_72);
             actor->unk_73 = abs(actor->unk_73);
-OwnerDone:
-            {
-                void *linked_actor;
-
-                linked_actor = actor;
-            }
         }
 
         {
@@ -286,15 +276,10 @@ case 2:
 
 case 3:
     motion->unk_14.s += 0x30000;
-    if (sprite->unk_04.as_s8 == 4) {
-        if (sprite->unk_14.at00_u16.v & 0x1000) {
-            goto L3Activate;
-        }
-    }
-    if (!(sprite->unk_14.at00_u16.v & 0xE000)) {
+    if (!((sprite->unk_04.as_s8 == 4 && (sprite->unk_14.at00_u16.v & 0x1000)) ||
+          (sprite->unk_14.at00_u16.v & 0xE000))) {
         return;
     }
-L3Activate:
     {
         u16 tail_flags;
         s32 tail_state;
@@ -308,15 +293,11 @@ L3Activate:
 
 case 4:
     motion->unk_14.s += 0x20000;
-    if (((u32)actor->flags1C) & 0x08000000) {
+    if (!((((u32)actor->flags1C) & 0x08000000) && (motion->unk_0A.u <= ((S_80172C90_1 *)action)->unk_AC.u))) {
         if (motion->unk_0A.u <= ((S_80172C90_1 *)action)->unk_AC.u) {
-            goto L4Activate;
+            return;
         }
     }
-    if (motion->unk_0A.u <= ((S_80172C90_1 *)action)->unk_AC.u) {
-        return;
-    }
-L4Activate:
     {
     u8 *effect;
 

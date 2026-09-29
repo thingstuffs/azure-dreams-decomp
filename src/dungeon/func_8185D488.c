@@ -108,8 +108,8 @@ void func_80024C88(Controller *ctrl, Motion *motion, void *render_data)
     register void (*child_update)(void);
     s32 origin_coord;
     s32 floor_height;
-    s32 cell_x;
-    s16 cell_y;
+    u16 cell_x;
+    u16 cell_y;
     u16 origin_z;
     s32 state;
     u32 elapsed;
@@ -190,8 +190,8 @@ void func_80024C88(Controller *ctrl, Motion *motion, void *render_data)
 
         index = 0;
         lookup_2 = prefix->lookup;
-        cell_y = lookup_2->cell_y;
         cell_x = lookup_2->cell_x;
+        cell_y = lookup_2->cell_y;
         target_cell_x = cell_x;
         target_cell_y[0] = cell_y;
 
@@ -228,22 +228,14 @@ void func_80024C88(Controller *ctrl, Motion *motion, void *render_data)
             }
 
             {
-                register s32 next_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                s16 next_y;
-                s16 *x_step;
-                s16 *y_step;
                 s32 direction;
 
                 direction = (s16)ctrl->angle;
-                x_step = &dirStepX[direction];
                 index++;
-                y_step = &dirStepY[direction];
-                next_x = cell_x + (u16)*x_step;
-                cell_x = next_x;
-                next_y = cell_y + (u16)*y_step;
-                cell_y = next_y;
-                target_cell_x = next_x;
-                target_cell_y[0] = next_y;
+                cell_x += dirStepX[direction];
+                cell_y += dirStepY[direction];
+                target_cell_x = cell_x;
+                target_cell_y[0] = cell_y;
             }
         } while (index < 8);
 

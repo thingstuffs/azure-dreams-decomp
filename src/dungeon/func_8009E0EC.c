@@ -105,26 +105,14 @@ s16 func_800A384C(Actor *actor, Actor *target, u16 *out_angle, s32 prefer_abilit
   if (!(flags & 0x10000))
   {
     actor->flags14 = flags | 0x10000;
-    if (func_8009FD40(((u8 *)(&D_80082E80)), actor_entity) < 0x11)
+    if (func_8009FD40(((u8 *)(&D_80082E80)), actor_entity) < 0x11 && (((actor->flags14 & 0x6000) || (!(((Actor *)actor_or_x)->status98 & 0x10))) || (!(func_800A6D30() & 0xF))) && !(func_800A6D30() & 3) && (func_80042900(actor, 6) << 16) == 0)
     {
-      ability_flags = actor->flags14;
-      if (((ability_flags & 0x6000) || (!(((Actor *)actor_or_x)->status98 & 0x10))) || (!(func_800A6D30() & 0xF)))
-      {
-        if (!(func_800A6D30() & 3))
-        {
-          if ((func_80042900(actor, 6) << 16) == 0)
-          {
-            ((Actor *)actor_or_x)->status98 |= 0x11;
-            goto store_status;
-          }
-        }
-      }
+      ((Actor *)actor_or_x)->status98 |= 0x11;
     }
-    ((Actor *)actor_or_x)->status98 &= 0xFFFE;
-    store_status:
-    ;
-
-    ;
+    else
+    {
+      ((Actor *)actor_or_x)->status98 &= 0xFFFE;
+    }
   }
   if (((Actor *)actor_or_x)->status98 & 1)
   {
@@ -141,106 +129,101 @@ s16 func_800A384C(Actor *actor, Actor *target, u16 *out_angle, s32 prefer_abilit
     slot_offset = slot_index << 1;
     slot_offset += slot_index;
     ability_id = *((u8 *) (((u8 *) (((u8 *) actor) + slot_offset)) + 8));
-    if (ability_id == 0)
+    if (ability_id != 0)
     {
-      goto outer_next;
-    }
-    slot_offset = ability_id * 0x14;
-    ability = ((u8 *)D_8006DE24) + slot_offset;
-    effect_id = *((u8 *) (((u8 *) ability) + 0x11));
-    if (((u32) effect_id) >= 0x12)
-    {
-      goto outer_next;
-    }
-    effect_blocked = func_80042900(target, (s8) effect_id);
-    if (effect_blocked != 0)
-    {
-      goto outer_next;
-    }
-    if ((*((u8 *) (((u8 *) ability) + 0x13))) < distance)
-    {
-      goto outer_next;
-    }
-    score = func_800A35D8(*((u8 *) (((u8 *) ability) + 0x10)), *((u16 *) (((u8 *) actor) + 0x14)));
-    if ((((s32) best_score) << 16) >= (score << 16))
-    {
-      goto outer_next;
-    }
-    target_mode = *((u8 *) (((u8 *) ability) + 0x12));
-    if (target_mode != 1) {
-        if (target_mode == 0)
-        {
-          goto outer_next;
-        }
-        if (target_mode < 4)
-        {
-          best_score = score;
-          goto set_slot;
-        }
-        goto outer_next;
-    }
-    {
-      if ((line_valid << 16) == 0)
+      slot_offset = ability_id * 0x14;
+      ability = ((u8 *)D_8006DE24) + slot_offset;
+      effect_id = *((u8 *) (((u8 *) ability) + 0x11));
+      if (((u32) effect_id) < 0x12)
       {
-        goto outer_next;
-      }
-      actor_or_x = actor_entity->x;
-      y = actor_entity->y;
-      steps = 0;
-      direction = ((*out_angle) >> 9) & 7;
-      if (steps >= distance)
-      {
-        best_score = score;
-        goto accept_done;
-      }
-      ASM_SET(direction_shifted);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-      direction_shifted = direction << 16;
-      effect_blocked = ((u32) direction_shifted) >> 15;
-      x_step = (u16 *) (effect_blocked + x_steps_base);
-      inner_loop:
-      func_8009A350((s16)actor_or_x, y, direction_shifted >> 16, &tile_flags);
-      flags = actor->flags1c;
-      ASM_USE2_NV(distance, distance);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+        effect_blocked = func_80042900(target, (s8) effect_id);
+        if (effect_blocked == 0)
+        {
+          if ((*((u8 *) (((u8 *) ability) + 0x13))) >= distance)
+          {
+            score = func_800A35D8(*((u8 *) (((u8 *) ability) + 0x10)), *((u16 *) (((u8 *) actor) + 0x14)));
+            if ((((s32) best_score) << 16) < (score << 16))
+            {
+            target_mode = *((u8 *) (((u8 *) ability) + 0x12));
+            if (target_mode != 1) {
+                if (target_mode == 0)
+                {
+                  goto outer_next;
+                }
+                if (target_mode < 4)
+                {
+                  best_score = score;
+                  goto set_slot;
+                }
+                goto outer_next;
+            }
+            {
+              if ((line_valid << 16) == 0)
+              {
+                goto outer_next;
+              }
+              actor_or_x = actor_entity->x;
+              y = actor_entity->y;
+              steps = 0;
+              direction = ((*out_angle) >> 9) & 7;
+              if (steps >= distance)
+              {
+                best_score = score;
+                goto accept_done;
+              }
+              ASM_SET(direction_shifted);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+              direction_shifted = direction << 16;
+              effect_blocked = ((u32) direction_shifted) >> 15;
+              x_step = (u16 *) (effect_blocked + x_steps_base);
+              inner_loop:
+              func_8009A350((s16)actor_or_x, y, direction_shifted >> 16, &tile_flags);
+              flags = actor->flags1c;
+              ASM_USE2_NV(distance, distance);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
 
-      if (!(flags & 0x410))
-      {
-        s32 path_flags = tile_flags;
-        if (flags & 0x2000)
-        {
-          obstacles = path_flags & 0x300;
-        }
-        else
-        {
-          obstacles = path_flags & 0x3000;
-        }
-        if (obstacles != 0)
-        {
-          goto inner_done;
+              if (!(flags & 0x410))
+              {
+                s32 path_flags = tile_flags;
+                if (flags & 0x2000)
+                {
+                  obstacles = path_flags & 0x300;
+                }
+                else
+                {
+                  obstacles = path_flags & 0x3000;
+                }
+                if (obstacles != 0)
+                {
+                  goto inner_done;
+                }
+              }
+              next_steps = steps + 1;
+              steps = next_steps;
+              actor_or_x += *x_step;
+              y += *((u16 *) (((u8 *) (((s8 *)dirStepY))) + effect_blocked));
+              if (next_steps < distance)
+              {
+                goto inner_loop;
+              }
+              inner_done:
+              if (steps < distance)
+              {
+                goto outer_next;
+              }
+              ASM_USE_NV(steps);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+
+              best_score = score;
+              accept_done:
+              ;
+
+              set_slot:
+              selected_action = slot + 1;
+
+            }
+
+            }
+          }
         }
       }
-      next_steps = steps + 1;
-      steps = next_steps;
-      actor_or_x += *x_step;
-      y += *((u16 *) (((u8 *) (((s8 *)dirStepY))) + effect_blocked));
-      if (next_steps < distance)
-      {
-        goto inner_loop;
-      }
-      inner_done:
-      if (steps < distance)
-      {
-        goto outer_next;
-      }
-      ASM_USE_NV(steps);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-
-      best_score = score;
-      accept_done:
-      ;
-
-      set_slot:
-      selected_action = slot + 1;
-
-      goto outer_next;
     }
 
     outer_next:

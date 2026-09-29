@@ -185,7 +185,6 @@ void func_800165B8(void) {
     u8 *room;
     s16 first_height;
     s16 height;
-    register s32 direction ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register s16 *delta_x ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register u8 *delta_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     s16 *delta_y;
@@ -254,21 +253,20 @@ retry_position:
             goto initialize_position;
         }
         bind_state = (u8 *)(-0x400);
-        ASM_KEEP(bind_state);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        direction = -1;
         first_height = func_800BCB04((pos_x << 6) | 0x20,
                                      (pos_y << 6) | 0x20, (s32)bind_state);
+        entry_index = -1;
         delta_page = (u8 *)0x80070000;
         ASM_KEEP(delta_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         delta_x = (s16 *)(delta_page - 0x3328);
         delta_y = dirStepY;
 check_neighbor:
-        func_8009A350(pos_x, pos_y, (s16)direction, &flags);
+        func_8009A350(pos_x, pos_y, (s16)entry_index, &flags);
         bind_state = (u8 *)(-0x400);
         if (flags & 0x8000) {
             goto retry_position;
         }
-        offset_index = direction & 7;
+        offset_index = entry_index & 7;
         {
             u8 sample_tile_y;
             s32 sample_y_sum;
@@ -286,11 +284,11 @@ check_neighbor:
         if (height_diff < 0) {
             height_diff = -height_diff;
         }
-        direction++;
+        entry_index++;
         if (height_diff >= 0x21) {
             goto retry_position;
         }
-        if (direction < 2) {
+        if (entry_index < 2) {
             goto check_neighbor;
         }
         call_target = actor;

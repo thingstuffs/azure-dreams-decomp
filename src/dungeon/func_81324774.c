@@ -193,18 +193,17 @@ void func_8016BF74(void *motion, void *context, S_8016BF74_2 *position, void *ac
                     ((S_8016BF74_1 *)actor)->unk_14 = move_value;
                     result = func_800A6D30();
                     ((S_8016BF74_1 *)actor)->unk_2A.u += (result & 7) << 9;
-                    goto start_search;
                 }
-                goto start_search;
+                turn_index = 0;
+            } else {
+                x_offset = func_800A04F0(actor, position->unk_24.at00.v, position->unk_24.at01.v, (s16) ((S_8016BF74_1 *)actor)->unk_2A.u);
+                turn_index = 0;
+                if (x_offset != NULL) {
+                    ((S_8016BF74_1 *)actor)->unk_71.u &= 0x7F;
+                    return;
+                }
             }
-            x_offset = func_800A04F0(actor, position->unk_24.at00.v, position->unk_24.at01.v, (s16) ((S_8016BF74_1 *)actor)->unk_2A.u);
-            turn_index = 0;
-            if (x_offset == NULL) {
-                goto init_offsets;
-            }
-            goto finish_path;
-        }
-        if (((S_8016BF74_5 *)motion)->unk_B2 != 0) {
+        } else if (((S_8016BF74_5 *)motion)->unk_B2 != 0) {
             turn_index = 0;
             if (!(((S_8016BF74_1 *)actor)->unk_46 & 0x8000)) {
                 if (actor_flags & 0x20000) {
@@ -229,56 +228,59 @@ void func_8016BF74(void *motion, void *context, S_8016BF74_2 *position, void *ac
                         result = func_8009FD7C(position->unk_24.at00.v, position->unk_24.at01.v, world_position[0x24], world_position[0x25]);
                         ASM_CLOBBER("$19");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
                         turn_index = 0;
-                        if ((result << 0x10) == 0) {
-                            goto init_offsets;
+                        if ((result << 0x10) != 0) {
+                            near_target = 1;
                         }
-                        near_target = 1;
-                        goto init_offsets;
+                    } else {
+                        ((S_8016BF74_1 *)actor)->unk_71.u &= 0x7F;
+                        return;
                     }
-                    goto finish_path;
+                } else {
+                    func_800A0E6C(position, ((S_8016BF74_5 *)motion)->unk_9C, actor, motion + 0x98);
+                    turn_index = 0;
                 }
-                goto update_direction;
             }
-            goto init_offsets;
-        }
-        tile_index = position->unk_26;
-        if ((tile_index < 0) || !(D_800E2970[tile_index].flags & 2)) {
-            turn_index = 0;
-            if (!(((S_8016BF74_1 *)actor)->unk_46 & 0x8000)) {
-                initialized_bit = (s32)(func_800A04F0(actor, position->unk_24.at00.v, position->unk_24.at01.v, (s16) ((S_8016BF74_1 *)actor)->unk_2A.u));
-                if (((void *)initialized_bit == NULL) || !(((S_8016BF74_7 *)(void *)initialized_bit)->unk_1C & 0x2000) || (func_800A0134((void *)initialized_bit, actor) >= 0x81) || ((func_8009A540(((s32) (((S_8016BF74_1 *)actor)->unk_2A.u << 0x10) >> 0x19) & 0xFFFF, position->unk_24.at00.v, position->unk_24.at01.v, (s16) (((S_8016BF74_1 *)actor)->unk_88 - 0x20)) << 0x10) == 0)) {
-                    if (((S_8016BF74_1 *)actor)->unk_1C & 0x20000) {
-                        u8 *world_origin;
+        } else {
+            tile_index = position->unk_26;
+            if ((tile_index < 0) || !(D_800E2970[tile_index].flags & 2)) {
+                turn_index = 0;
+                if (!(((S_8016BF74_1 *)actor)->unk_46 & 0x8000)) {
+                    initialized_bit = (s32)(func_800A04F0(actor, position->unk_24.at00.v, position->unk_24.at01.v, (s16) ((S_8016BF74_1 *)actor)->unk_2A.u));
+                    if (((void *)initialized_bit == NULL) || !(((S_8016BF74_7 *)(void *)initialized_bit)->unk_1C & 0x2000) || (func_800A0134((void *)initialized_bit, actor) >= 0x81) || ((func_8009A540(((s32) (((S_8016BF74_1 *)actor)->unk_2A.u << 0x10) >> 0x19) & 0xFFFF, position->unk_24.at00.v, position->unk_24.at01.v, (s16) (((S_8016BF74_1 *)actor)->unk_88 - 0x20)) << 0x10) == 0)) {
+                        if (((S_8016BF74_1 *)actor)->unk_1C & 0x20000) {
+                            u8 *world_origin;
 
-                        world_origin = (u8 *)&D_80082E80;
-                        ((S_8016BF74_1 *)actor)->unk_2A.u = func_800A0818(position->unk_24.at00.v, position->unk_24.at01.v, world_origin[0x24], world_origin[0x25], motion + 0x98);
-                        if ((func_8009FD7C(position->unk_24.at00.v, position->unk_24.at01.v, world_origin[0x24], world_origin[0x25]) << 0x10) != 0) {
-                            actor_distance = func_800A0134(D_800814A8, actor);
-                            turn_index = 0;
-                            if (actor_distance < 0x81) {
-                                result = func_8009A540(((s32) (((S_8016BF74_1 *)actor)->unk_2A.u << 0x10) >> 0x19) & 0xFFFF, position->unk_24.at00.v, position->unk_24.at01.v, (s16) (((S_8016BF74_1 *)actor)->unk_88 - 0x20));
-                                ASM_CLOBBER("$19");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+                            world_origin = (u8 *)&D_80082E80;
+                            ((S_8016BF74_1 *)actor)->unk_2A.u = func_800A0818(position->unk_24.at00.v, position->unk_24.at01.v, world_origin[0x24], world_origin[0x25], motion + 0x98);
+                            if ((func_8009FD7C(position->unk_24.at00.v, position->unk_24.at01.v, world_origin[0x24], world_origin[0x25]) << 0x10) != 0) {
+                                actor_distance = func_800A0134(D_800814A8, actor);
                                 turn_index = 0;
-                                if ((result << 0x10) == 0) {
-                                    goto init_offsets;
+                                if (actor_distance < 0x81) {
+                                    result = func_8009A540(((s32) (((S_8016BF74_1 *)actor)->unk_2A.u << 0x10) >> 0x19) & 0xFFFF, position->unk_24.at00.v, position->unk_24.at01.v, (s16) (((S_8016BF74_1 *)actor)->unk_88 - 0x20));
+                                    ASM_CLOBBER("$19");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+                                    turn_index = 0;
+                                    if ((result << 0x10) != 0) {
+                                        ((S_8016BF74_1 *)actor)->unk_71.u &= 0x7F;
+                                        return;
+                                    }
                                 }
-                                goto finish_path;
+                            } else {
+                                turn_index = 0;
                             }
-                            goto init_offsets;
+                        } else {
+                            func_800A0E6C(position, ((S_8016BF74_5 *)motion)->unk_9C, actor, motion + 0x98);
+                            turn_index = 0;
                         }
-                        goto start_search;
+                    } else {
+                        ((S_8016BF74_1 *)actor)->unk_71.u &= 0x7F;
+                        return;
                     }
-                    goto update_direction;
                 }
-                goto finish_path;
+            } else {
+                func_800A0E6C(position, ((S_8016BF74_5 *)motion)->unk_9C, actor, motion + 0x98);
+                turn_index = 0;
             }
-            goto init_offsets;
         }
-update_direction:
-        func_800A0E6C(position, ((S_8016BF74_5 *)motion)->unk_9C, actor, motion + 0x98);
-start_search:
-        turn_index = 0;
-init_offsets:
         x_offsets = (u8 *)D_8006CCD8;
         angle_offsets = (s8 *)&D_8006CD00;
         for (;;) {
@@ -294,7 +296,8 @@ init_offsets:
                 if (turn_index >= 3) {
                     move_value = near_target;
                     if (move_value != 0) {
-                        goto finish_search;
+                        ((S_8016BF74_1 *)actor)->unk_71.u &= 0x7F;
+                        return;
                     }
                 }
                 ((S_8016BF74_1 *)actor)->unk_2A.u = (u16) candidate_angle;
@@ -324,9 +327,7 @@ init_offsets:
                     new_tile_mask = 0x300;
                 }
                 func_8009A21C(next_x, tile_y, new_tile_mask);
-                goto complete_step;
-finish_search:
-                goto finish_path;
+                break;
             }
             if ((turn_index != 0) || (D_80082EA4 == position->unk_24.at00u.v) || (result = func_8009A180(actor, ((s32)D_800814A8->unk_58) + 0x20) << 0x10, (result == 0))) {
                 turn_index += 1;
@@ -339,8 +340,6 @@ finish_search:
             return;
         }
         {
-
-complete_step:
             result = turn_index < 8;
             if (result == 0) {
                 ((S_8016BF74_1 *)actor)->unk_71.s = (s8) ((u8) ((S_8016BF74_1 *)actor)->unk_71.s & 0x7F);
@@ -353,7 +352,6 @@ complete_step:
             ((S_8016BF74_1 *)actor)->unk_6D.u = (u8) (((S_8016BF74_1 *)actor)->unk_6D.u - 1);
             dungeonStatus.unk_08 = (u16) (((u16)dungeonStatus.unk_08) + 1);
             if (((S_8016BF74_1 *)actor)->unk_6D.s == 0) {
-finish_path:
                 ((S_8016BF74_1 *)actor)->unk_71.u &= 0x7F;
                 return;
             }

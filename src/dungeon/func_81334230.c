@@ -169,118 +169,100 @@ void func_8016B230(u8 *movement_in, void *action_ctx, u8 *position_in, u8 *actor
                     ((S_8016B230_1 *)actor)->unk_2A.u += (random_bits & 7) << 9;
                 }
             }
-            goto init_loop;
-        }
-        found = func_800A04F0(actor, ((S_8016B230_2 *)position)->unk_24.at00.v, ((S_8016B230_2 *)position)->unk_24.at01.v,
-                              ((S_8016B230_1 *)actor)->unk_2A.s);
-        attempt = 0;
-        if (found == NULL) {
-            goto setup_loop;
-        }
-        goto clear_history;
-    }
-
-    if (((S_8016B230_5 *)movement_in)->unk_AF) {
-        if (((S_8016B230_1 *)actor)->unk_46 & 0x8000) {
-            attempt = 0;
-            goto setup_loop;
-        }
-        if (actor_flags & 0x20000) {
-            s32 direction;
-            s16 target_x;
-            s32 target_y;
-            s16 new_angle;
-            TileObject *target;
-
-            target = &D_80082E80;
-            direction = (((S_8016B230_1 *)actor)->unk_45 +
-                         ((s32)(((u16)D_800814A8->facing) << 16) >> 25)) & 7;
-            target_x = target->tileX +
-                       ((u16 *)((s8 *)dirStepX))[direction];
-            target_y = target->tileY +
-                       ((u16 *)((s8 *)dirStepY))[direction];
-            if ((((S_8016B230_2 *)position)->unk_24.at00.v == (u16)target_x) &&
-                (((S_8016B230_2 *)position)->unk_24.at01.v == (u16)target_y)) {
-                goto clear_history;
+        } else {
+            found = func_800A04F0(actor, ((S_8016B230_2 *)position)->unk_24.at00.v, ((S_8016B230_2 *)position)->unk_24.at01.v,
+                                  ((S_8016B230_1 *)actor)->unk_2A.s);
+            if (found != NULL) {
+                ((S_8016B230_1 *)actor)->unk_71.u &= 0x7F;
+                return;
             }
-            new_angle = func_800A0818(((S_8016B230_2 *)position)->unk_24.at00.v, ((S_8016B230_2 *)position)->unk_24.at01.v,
-                                      target_x, (s16)target_y, movement_in + 0x98);
-            ((S_8016B230_1 *)actor)->unk_2A.u = new_angle;
-            if ((func_8009A66C(new_angle, position, actor, 0x20) << 16) <= 0) {
-                TileObject *retry_target = &D_80082E80;
+        }
+    } else if (((S_8016B230_5 *)movement_in)->unk_AF) {
+        if (!(((S_8016B230_1 *)actor)->unk_46 & 0x8000)) {
+            if (actor_flags & 0x20000) {
+                s32 direction;
+                s16 target_x;
+                s32 target_y;
+                s16 new_angle;
+                TileObject *target;
 
-                ((S_8016B230_1 *)actor)->unk_2A.u = func_800A0818(
-                    ((S_8016B230_2 *)position)->unk_24.at00.v, ((S_8016B230_2 *)position)->unk_24.at01.v,
-                    retry_target->tileX, retry_target->tileY,
-                    movement_in + 0x98);
-            }
-            {
-                TileObject *check_target = &D_80082E80;
-
-                if ((func_8009FD7C(((S_8016B230_2 *)position)->unk_24.at00.v, ((S_8016B230_2 *)position)->unk_24.at01.v,
-                                   check_target->tileX,
-                                   check_target->tileY) << 16) != 0) {
-                    near_target = 1;
+                target = &D_80082E80;
+                direction = (((S_8016B230_1 *)actor)->unk_45 +
+                             ((s32)(((u16)D_800814A8->facing) << 16) >> 25)) & 7;
+                target_x = target->tileX +
+                           ((u16 *)((s8 *)dirStepX))[direction];
+                target_y = target->tileY +
+                           ((u16 *)((s8 *)dirStepY))[direction];
+                if ((((S_8016B230_2 *)position)->unk_24.at00.v == (u16)target_x) &&
+                    (((S_8016B230_2 *)position)->unk_24.at01.v == (u16)target_y)) {
+                    ((S_8016B230_1 *)actor)->unk_71.u &= 0x7F;
+                    return;
                 }
+                new_angle = func_800A0818(((S_8016B230_2 *)position)->unk_24.at00.v, ((S_8016B230_2 *)position)->unk_24.at01.v,
+                                          target_x, (s16)target_y, movement_in + 0x98);
+                ((S_8016B230_1 *)actor)->unk_2A.u = new_angle;
+                if ((func_8009A66C(new_angle, position, actor, 0x20) << 16) <= 0) {
+                    TileObject *retry_target = &D_80082E80;
+
+                    ((S_8016B230_1 *)actor)->unk_2A.u = func_800A0818(
+                        ((S_8016B230_2 *)position)->unk_24.at00.v, ((S_8016B230_2 *)position)->unk_24.at01.v,
+                        retry_target->tileX, retry_target->tileY,
+                        movement_in + 0x98);
+                }
+                {
+                    TileObject *check_target = &D_80082E80;
+
+                    if ((func_8009FD7C(((S_8016B230_2 *)position)->unk_24.at00.v, ((S_8016B230_2 *)position)->unk_24.at01.v,
+                                       check_target->tileX,
+                                       check_target->tileY) << 16) != 0) {
+                        near_target = 1;
+                    }
+                }
+            } else {
+                func_800A0E6C(position, ((S_8016B230_5 *)movement_in)->unk_9C.s, actor, movement_in + 0x98);
             }
-            attempt = 0;
-            goto setup_loop;
         }
     } else {
-        {
-            s32 kind;
+        s32 kind;
 
-            kind = ((S_8016B230_2 *)position)->unk_26.s;
-            if (kind >= 0) {
-                u8 *kind_table = (u8 *)D_800E2970;
-
-                if (((S_8016B230_10 *)(kind_table + kind * 0x14))->unk_0C & 2) {
-                    goto use_target;
-                }
+        kind = ((S_8016B230_2 *)position)->unk_26.s;
+        if ((kind >= 0) && (((S_8016B230_10 *)((u8 *)D_800E2970 + kind * 0x14))->unk_0C & 2)) {
+            func_800A0E6C(position, ((S_8016B230_5 *)movement_in)->unk_9C.s, actor, movement_in + 0x98);
+        } else if (!(((S_8016B230_1 *)actor)->unk_46 & 0x8000)) {
+            found = func_800A04F0(actor, ((S_8016B230_2 *)position)->unk_24.at00.v, ((S_8016B230_2 *)position)->unk_24.at01.v,
+                                  ((S_8016B230_1 *)actor)->unk_2A.s);
+            if ((found != NULL) && (((S_8016B230_3 *)found)->unk_1C & 0x2000) &&
+                (func_800A0134(found, actor) < 0x81) &&
+                ((func_8009A540(((s32)(((S_8016B230_1 *)actor)->unk_2A.u << 16) >> 25) & 0xFFFF,
+                                ((S_8016B230_2 *)position)->unk_24.at00.v, ((S_8016B230_2 *)position)->unk_24.at01.v,
+                                (s16)(((S_8016B230_1 *)actor)->unk_88 - 0x20)) << 16) != 0)) {
+                ((S_8016B230_1 *)actor)->unk_71.u &= 0x7F;
+                return;
             }
-        }
-        attempt = 0;
-        if (((S_8016B230_1 *)actor)->unk_46 & 0x8000) {
-            goto setup_loop;
-        }
-        found = func_800A04F0(actor, ((S_8016B230_2 *)position)->unk_24.at00.v, ((S_8016B230_2 *)position)->unk_24.at01.v,
-                              ((S_8016B230_1 *)actor)->unk_2A.s);
-        if ((found != NULL) && (((S_8016B230_3 *)found)->unk_1C & 0x2000) &&
-            (func_800A0134(found, actor) < 0x81) &&
-            ((func_8009A540(((s32)(((S_8016B230_1 *)actor)->unk_2A.u << 16) >> 25) & 0xFFFF,
+            if (((S_8016B230_1 *)actor)->unk_1C & 0x20000) {
+                TileObject *target = &D_80082E80;
+                ((S_8016B230_1 *)actor)->unk_2A.u = func_800A0818(
+                    ((S_8016B230_2 *)position)->unk_24.at00.v, ((S_8016B230_2 *)position)->unk_24.at01.v,
+                    target->tileX, target->tileY, movement_in + 0x98);
+                if ((func_8009FD7C(((S_8016B230_2 *)position)->unk_24.at00.v, ((S_8016B230_2 *)position)->unk_24.at01.v,
+                                   target->tileX, target->tileY) << 16) != 0) {
+                    if (func_800A0134(D_800814A8, actor) < 0x81) {
+                        path_result = func_8009A540(
+                            ((s32)(((S_8016B230_1 *)actor)->unk_2A.u << 16) >> 25) & 0xFFFF,
                             ((S_8016B230_2 *)position)->unk_24.at00.v, ((S_8016B230_2 *)position)->unk_24.at01.v,
-                            (s16)(((S_8016B230_1 *)actor)->unk_88 - 0x20)) << 16) != 0)) {
-            goto clear_history;
-        }
-        if (((S_8016B230_1 *)actor)->unk_1C & 0x20000) {
-            TileObject *target = &D_80082E80;
-            ((S_8016B230_1 *)actor)->unk_2A.u = func_800A0818(
-                ((S_8016B230_2 *)position)->unk_24.at00.v, ((S_8016B230_2 *)position)->unk_24.at01.v,
-                target->tileX, target->tileY, movement_in + 0x98);
-            if ((func_8009FD7C(((S_8016B230_2 *)position)->unk_24.at00.v, ((S_8016B230_2 *)position)->unk_24.at01.v,
-                               target->tileX, target->tileY) << 16) != 0) {
-                if (func_800A0134(D_800814A8, actor) < 0x81) {
-                    path_result = func_8009A540(
-                        ((s32)(((S_8016B230_1 *)actor)->unk_2A.u << 16) >> 25) & 0xFFFF,
-                        ((S_8016B230_2 *)position)->unk_24.at00.v, ((S_8016B230_2 *)position)->unk_24.at01.v,
-                        (s16)(((S_8016B230_1 *)actor)->unk_88 - 0x20));
-                    attempt = 0;
-                    if ((path_result << 16) == 0) {
-                        goto setup_loop;
+                            (s16)(((S_8016B230_1 *)actor)->unk_88 - 0x20));
+                        if ((path_result << 16) != 0) {
+                            ((S_8016B230_1 *)actor)->unk_71.u &= 0x7F;
+                            return;
+                        }
                     }
-                    goto clear_history;
                 }
-                attempt = 0;
-                goto setup_loop;
+            } else {
+                func_800A0E6C(position, ((S_8016B230_5 *)movement_in)->unk_9C.s, actor, movement_in + 0x98);
             }
-            goto init_loop;
         }
     }
-use_target:
-    func_800A0E6C(position, ((S_8016B230_5 *)movement_in)->unk_9C.s, actor, movement_in + 0x98);
-init_loop:
     attempt = 0;
-setup_loop:
     x_offsets = (u8 *)((s8 *)dirStepX);
     angle_offset = &D_8006CD00;
 
@@ -304,7 +286,8 @@ loop:
             u8 target_nearby = near_target;
 
             if (target_nearby) {
-                goto clear_history;
+                ((S_8016B230_1 *)actor)->unk_71.u &= 0x7F;
+                return;
             }
         }
         ((S_8016B230_1 *)actor)->unk_2A.u = move_angle;
@@ -353,15 +336,11 @@ loop:
     ((S_8016B230_5 *)movement_in)->unk_9C.u = ((S_8016B230_2 *)position)->unk_26.u;
     ((S_8016B230_1 *)actor)->unk_6D.u--;
     turn_state->unk_08++;
-    if (((S_8016B230_1 *)actor)->unk_6D.s != 0) {
-        goto update_height;
+    if (((S_8016B230_1 *)actor)->unk_6D.s == 0) {
+        ((S_8016B230_1 *)actor)->unk_71.u &= 0x7F;
+        return;
     }
 
-clear_history:
-    ((S_8016B230_1 *)actor)->unk_71.u &= 0x7F;
-    return;
-
-update_height:
     height_result = func_800BCB04((((S_8016B230_2 *)position)->unk_24.at00.v << 6) | 0x20,
                       (((S_8016B230_2 *)position)->unk_24.at01.v << 6) | 0x20,
                       (s16)(((S_8016B230_1 *)actor)->unk_88 - 0x20));

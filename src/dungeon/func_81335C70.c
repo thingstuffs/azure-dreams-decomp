@@ -70,169 +70,112 @@ void func_8016CC70(void *obj_arg, s32 context_arg, void *target_arg, void *actor
     s8 target_room;
 
     action_state = ((S_8016CC70_0 *)obj_arg)->unk_9B;
-    if (action_state == 1) {
-        goto state_one;
-    }
-    if (action_state < 2) {
-        if (action_state == 0) {
-            goto state_zero;
+    switch (action_state) {
+    case 0:
+        if (!(((S_8016CC70_1 *)target)->unk_14 & 0xE000)) {
+            return;
         }
-        return;
-    }
-    if (action_state == 2) {
-        goto state_two;
-    }
-    return;
-
-state_zero:
-    if (!(((S_8016CC70_1 *)target)->unk_14 & 0xE000)) {
-        return;
-    }
-    obj_kind = ((S_8016CC70_0 *)obj_arg)->unk_AC;
-    if (obj_kind != 0xE) {
-        if (obj_kind < 0xF) {
-            if (obj_kind == 0xD) {
-                goto zero_setup;
-            }
-            goto decrement_counter;
-        }
-        if (obj_kind != 0xF) {
-            goto decrement_counter;
-        }
-    }
-zero_setup:
-    (*(u8 **)((u8 *)target + 0x2C)) = D_80173AC8;
-    func_80047784(target, D_80173AC8[((gameWork.view.viewAngle + ((S_8016CC70_2 *)actor)->unk_2A + 0x100) >> 9) & 7], 0);
-decrement_counter:
-    counter_base = &dungeonStatus;
-    (*(u16 *)&counter_base->unk_0A)--;
-    ((S_8016CC70_0 *)obj_arg)->unk_9B++;
-    return;
-
-state_one:
-    obj_kind = ((S_8016CC70_0 *)obj_arg)->unk_AC;
-    if (obj_kind != 0xE) {
-        if (obj_kind < 0xF) {
-            if (obj_kind == 0xD) {
-                goto one_setup;
-            }
-            goto call_check;
-        }
-        if (obj_kind != 0xF) {
-            goto call_check;
-        }
-    }
-one_setup:
-    if (((S_8016CC70_1 *)target)->unk_2C != D_80173AC8) {
-        (*(u8 **)((u8 *)target + 0x2C)) = D_80173AC8;
-        func_80047784(target, D_80173AC8[((gameWork.view.viewAngle + ((S_8016CC70_2 *)actor)->unk_2A + 0x100) >> 9) & 7], 0);
-    }
-call_check:
-    if ((func_80042900(actor, 1) << 0x10) == 0) {
         obj_kind = ((S_8016CC70_0 *)obj_arg)->unk_AC;
-        if (obj_kind == 0xE) {
-            goto update_tiles;
+        if (obj_kind == 0xE || (obj_kind < 0xF ? obj_kind == 0xD : obj_kind == 0xF)) {
+            (*(u8 **)((u8 *)target + 0x2C)) = D_80173AC8;
+            func_80047784(target, D_80173AC8[((gameWork.view.viewAngle + ((S_8016CC70_2 *)actor)->unk_2A + 0x100) >> 9) & 7], 0);
         }
-        if (obj_kind < 0xF) {
-            goto low_kind;
-        }
-        goto high_kind;
-    }
-    held_base = &dungeonStatus;
-    if (held_base->flags & 0x1000) {
+        counter_base = &dungeonStatus;
+        (*(u16 *)&counter_base->unk_0A)--;
+        ((S_8016CC70_0 *)obj_arg)->unk_9B++;
         return;
-    }
-    if (((S_8016CC70_2 *)actor)->unk_64 != 0) {
-        if (func_800AA6B4(obj_arg, context_arg, target, 0) != 0) {
-            return;
-        }
-    }
-    if (((S_8016CC70_2 *)actor)->unk_25 == 0) {
-        if (held_base->flags & 0x2008) {
-            return;
-        }
-        func_800AA79C(obj_arg, context_arg, target, actor);
-        return;
-    }
-    if ((func_800A2C34(actor) << 0x10) != 0) {
-        return;
-    }
-    actor_flags = ((S_8016CC70_2 *)actor)->unk_1C;
-    if (actor_flags & 0x100) {
-        func_800AA258(obj_arg, context_arg, target, actor);
-        return;
-    }
-    if (actor_flags & 0x80000) {
-        func_800AA888(obj_arg, context_arg, target, actor);
-        func_8016D4B8(obj_arg, context_arg, target, actor);
-        return;
-    }
-    if (((S_8016CC70_2 *)actor)->unk_6D == 0) {
-        return;
-    }
-    if ((func_800A2C34(actor) << 0x10) != 0) {
-        if ((func_8009A180(actor, (u8 *)D_800814A8->unk_58 + 0x20) << 0x10) != 0) {
-            return;
-        }
-    }
-    func_800A9A0C(actor);
-    func_800A9A04(actor);
-    if ((func_80042900(actor, 1) << 0x10) != 0) {
-        room_base = &D_80082E80;
-        target_room = ((S_8016CC70_1 *)target)->unk_26;
-        if ((target_room != room_base->unk_026) || (target_room < 0)) {
-            if (func_8009FD40(room_base, target) >= 2) {
-                goto second_check;
+
+    case 1:
+        obj_kind = ((S_8016CC70_0 *)obj_arg)->unk_AC;
+        if (obj_kind == 0xE || (obj_kind < 0xF ? obj_kind == 0xD : obj_kind == 0xF)) {
+            if (((S_8016CC70_1 *)target)->unk_2C != D_80173AC8) {
+                (*(u8 **)((u8 *)target + 0x2C)) = D_80173AC8;
+                func_80047784(target, D_80173AC8[((gameWork.view.viewAngle + ((S_8016CC70_2 *)actor)->unk_2A + 0x100) >> 9) & 7], 0);
             }
         }
-        if ((func_800A6D30() & 7) == 0) {
-            func_80042B68(actor, 1);
+        if ((func_80042900(actor, 1) << 0x10) == 0) {
+            obj_kind = ((S_8016CC70_0 *)obj_arg)->unk_AC;
+            if (obj_kind == 0xE || (obj_kind < 0xF ? obj_kind == 0xD : obj_kind == 0xF)) {
+                (*(u8 **)((u8 *)target + 0x2C)) = D_80173AD0;
+                func_80047784(target, D_80173AD0[((gameWork.view.viewAngle + ((S_8016CC70_2 *)actor)->unk_2A + 0x100) >> 9) & 7], 0);
+            }
+        } else {
+            held_base = &dungeonStatus;
+            if (held_base->flags & 0x1000) {
+                return;
+            }
+            if (((S_8016CC70_2 *)actor)->unk_64 != 0) {
+                if (func_800AA6B4(obj_arg, context_arg, target, 0) != 0) {
+                    return;
+                }
+            }
+            if (((S_8016CC70_2 *)actor)->unk_25 == 0) {
+                if (held_base->flags & 0x2008) {
+                    return;
+                }
+                func_800AA79C(obj_arg, context_arg, target, actor);
+                return;
+            }
+            if ((func_800A2C34(actor) << 0x10) != 0) {
+                return;
+            }
+            actor_flags = ((S_8016CC70_2 *)actor)->unk_1C;
+            if (actor_flags & 0x100) {
+                func_800AA258(obj_arg, context_arg, target, actor);
+                return;
+            }
+            if (actor_flags & 0x80000) {
+                func_800AA888(obj_arg, context_arg, target, actor);
+                func_8016D4B8(obj_arg, context_arg, target, actor);
+                return;
+            }
+            if (((S_8016CC70_2 *)actor)->unk_6D == 0) {
+                return;
+            }
+            if ((func_800A2C34(actor) << 0x10) != 0) {
+                if ((func_8009A180(actor, (u8 *)D_800814A8->unk_58 + 0x20) << 0x10) != 0) {
+                    return;
+                }
+            }
+            func_800A9A0C(actor);
+            func_800A9A04(actor);
+            if ((func_80042900(actor, 1) << 0x10) != 0) {
+                room_base = &D_80082E80;
+                target_room = ((S_8016CC70_1 *)target)->unk_26;
+                if (!(((target_room != room_base->unk_026) || (target_room < 0)) && func_8009FD40(room_base, target) >= 2)) {
+                    if ((func_800A6D30() & 7) == 0) {
+                        func_80042B68(actor, 1);
+                    }
+                }
+            }
+            if ((func_80042900(actor, 1) << 0x10) != 0) {
+                return;
+            }
+            obj_kind = ((S_8016CC70_0 *)obj_arg)->unk_AC;
+            if (obj_kind == 0xE || (obj_kind < 0xF ? obj_kind == 0xD : obj_kind == 0xF)) {
+                (*(u8 **)((u8 *)target + 0x2C)) = D_80173AD0;
+                func_80047784(target, D_80173AD0[((gameWork.view.viewAngle + ((S_8016CC70_2 *)actor)->unk_2A + 0x100) >> 9) & 7], 0);
+            }
         }
-    }
-second_check:
-    if ((func_80042900(actor, 1) << 0x10) != 0) {
+        if (((S_8016CC70_1 *)target)->unk_14 & 0x8000) {
+            break;
+        }
+        counter_base = &dungeonStatus;
+        (*(u16 *)&counter_base->unk_0A)++;
+        ((S_8016CC70_0 *)obj_arg)->unk_9B++;
+        return;
+
+    case 2:
+        if (!(((S_8016CC70_1 *)target)->unk_14 & 0xE000)) {
+            return;
+        }
+        counter_base = &dungeonStatus;
+        (*(u16 *)&counter_base->unk_0A)--;
+        break;
+
+    default:
         return;
     }
-
-post_actions:
-    obj_kind = ((S_8016CC70_0 *)obj_arg)->unk_AC;
-    if (obj_kind == 0xE) {
-        goto update_tiles;
-    }
-    if (obj_kind < 0xF) {
-low_kind:
-        if (obj_kind == 0xD) {
-            goto update_tiles;
-        }
-        goto after_tiles;
-    }
-high_kind:
-    if (obj_kind != 0xF) {
-        goto after_tiles;
-    }
-update_tiles:
-    (*(u8 **)((u8 *)target + 0x2C)) = D_80173AD0;
-    func_80047784(target, D_80173AD0[((gameWork.view.viewAngle + ((S_8016CC70_2 *)actor)->unk_2A + 0x100) >> 9) & 7], 0);
-
-after_tiles:
-    if (((S_8016CC70_1 *)target)->unk_14 & 0x8000) {
-        goto set_callback;
-    }
-    counter_base = &dungeonStatus;
-    (*(u16 *)&counter_base->unk_0A)++;
-counter_changed:
-    ((S_8016CC70_0 *)obj_arg)->unk_9B++;
-    return;
-
-state_two:
-    if (!(((S_8016CC70_1 *)target)->unk_14 & 0xE000)) {
-        return;
-    }
-    counter_base = &dungeonStatus;
-    (*(u16 *)&counter_base->unk_0A)--;
-set_callback:
     callback = &D_8016A36C;
     ((S_8016CC70_0 *)obj_arg)->unk_8C = callback;
-
-    return;
 }

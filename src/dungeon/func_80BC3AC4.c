@@ -165,66 +165,66 @@ kind_default:
     item_slot = 0;
 
 selection_ready:
-    if (*item_slot == 0) {
-        goto empty_selection;
-    }
-    ((S_801732C4_0 *)action)->unk_98 &= 0xFF7F;
-    {
-        s32 special_test;
+    if (*item_slot != 0) {
+        ((S_801732C4_0 *)action)->unk_98 &= 0xFF7F;
+        {
+            s32 special_test;
 
-        special_test = special;
-        ASM_KEEP(special_test);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        if (special_test != 0) {
-            target = D_800814A8;
-            (*(void * *)((u8 *)actor + 0x60)) = target;
-            goto copy_active_coords;
+            special_test = special;
+            ASM_KEEP(special_test);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+            if (special_test != 0) {
+                target = D_800814A8;
+                (*(void * *)((u8 *)actor + 0x60)) = target;
+                {
+                    u8 *item_id;
+
+                    item_id = ((S_801732C4_1_pre *)target)[-1].unk_00;
+                    (*(u8 *)((u8 *)actor + 0x72)) = ((S_801732C4_2 *)item_id)->unk_24;
+                    (*(u8 *)((u8 *)actor + 0x73)) = ((S_801732C4_2 *)item_id)->unk_25;
+                }
+            } else {
+                u8 *item_id;
+                u8 *item_defs;
+
+                item_defs = D_8006DE24;
+                item_id = (u8 *)(*item_slot);
+                if (item_defs[((u8)item_id) * 20 + 0x12] == 2) {
+                    target = (*(void * *)((u8 *)actor + 0x60));
+                    if (target != 0) {
+                        item_id = ((S_801732C4_1_pre *)target)[-1].unk_00;
+                        (*(u8 *)((u8 *)actor + 0x72)) = ((S_801732C4_2 *)item_id)->unk_24;
+                        (*(u8 *)((u8 *)actor + 0x73)) = ((S_801732C4_2 *)item_id)->unk_25;
+                    }
+                } else {
+                    s32 dx;
+                    s32 dy;
+
+                    dx = (s32)func_800A05A4(
+                        actor, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25,
+                        (*(s16 *)((u8 *)actor + 0x2A)), 0x10);
+                    (*(void * volatile *)((u8 *)actor + 0x60)) = (void *)dx;
+                    dx = (*(s8 *)((u8 *)actor + 0x72));
+                    dy = (*(s8 *)((u8 *)actor + 0x73));
+                    if (dx < 0) {
+                        dx = -dx;
+                    }
+                    if (dy < 0) {
+                        dy = -dy;
+                    }
+                    (*(u8 *)((u8 *)actor + 0x72)) = dx;
+                    (*(u8 *)((u8 *)actor + 0x73)) = dy;
+                }
+            }
         }
-    }
 
-    {
-        u8 *item_id;
-        u8 *item_defs;
-
-        item_defs = D_8006DE24;
-        item_id = (u8 *)(*item_slot);
-        if (item_defs[((u8)item_id) * 20 + 0x12] == 2) {
-            target = (*(void * *)((u8 *)actor + 0x60));
-            if (target != 0) {
-
-copy_active_coords:
-                item_id = ((S_801732C4_1_pre *)target)[-1].unk_00;
-                (*(u8 *)((u8 *)actor + 0x72)) = ((S_801732C4_2 *)item_id)->unk_24;
-                (*(u8 *)((u8 *)actor + 0x73)) = ((S_801732C4_2 *)item_id)->unk_25;
-                goto invoke_item;
-            }
-        } else {
-            s32 dx;
-            s32 dy;
-
-            dx = (s32)func_800A05A4(
-                actor, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25,
-                (*(s16 *)((u8 *)actor + 0x2A)), 0x10);
-            (*(void * volatile *)((u8 *)actor + 0x60)) = (void *)dx;
-            dx = (*(s8 *)((u8 *)actor + 0x72));
-            dy = (*(s8 *)((u8 *)actor + 0x73));
-            if (dx < 0) {
-                dx = -dx;
-            }
-            if (dy < 0) {
-                dy = -dy;
-            }
-            (*(u8 *)((u8 *)actor + 0x72)) = dx;
-            (*(u8 *)((u8 *)actor + 0x73)) = dy;
+        if (func_800A94A0(actor, item_slot, special, (u8 *)action + 0x98) == 0) {
+            return;
         }
-    }
-
-invoke_item:
-    if (func_800A94A0(actor, item_slot, special, (u8 *)action + 0x98) == 0) {
+        next_state = ((S_801732C4_0 *)action)->unk_9B;
+        next_state++;
+        ((S_801732C4_0 *)action)->unk_9B = next_state;
         return;
     }
-    goto increment_state;
-
-empty_selection:
     motion->flags14 = 0;
     motion->unk_10 = 0;
     motion->unk_0C = 0;
@@ -257,7 +257,9 @@ empty_selection:
         if (flags & 0x8000) {
             next_state = ((S_801732C4_0 *)action)->unk_9B;
             ((S_801732C4_0 *)action)->unk_96.u = 0;
-            goto increment_state_loaded;
+            next_state++;
+            ((S_801732C4_0 *)action)->unk_9B = next_state;
+            return;
         }
         if (((Rec_D_80082E80 *)sprite)->unk_04.as_s8 == 2 && (flags & 0x1000)) {
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = flags | 0x800;
@@ -273,32 +275,25 @@ empty_selection:
             ((S_801732C4_0 *)action)->unk_9B++;
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
         }
-        if (((S_801732C4_0 *)action)->unk_96.s < 7) {
-            goto particle_done;
+        if (((S_801732C4_0 *)action)->unk_96.s >= 7) {
+            special = 0;
+            do {
+                s32 brightness;
+                register s32 offset_x;
+                register s32 offset_y;
+                s16 offset_z;
+
+                special++;
+                brightness = (func_80069EF8() & 0xFF) | 0x80;
+                offset_x = (s16)((func_80069EF8() & 0x7F) - 0x40);
+                offset_y = (s16)((func_80069EF8() & 0x7F) - 0x40);
+                offset_z = (func_80069EF8() & 0x7F) - 0x40;
+                func_80170D28((u8 *)action - 0x20, 0, 0x00C0C0C0,
+                              brightness, offset_x, offset_y, offset_z);
+            } while ((u16)special < 5);
         }
     }
 
-    special = 0;
-state_2_particles:
-    {
-        s32 brightness;
-        register s32 offset_x;
-        register s32 offset_y;
-        s16 offset_z;
-
-        special++;
-        brightness = (func_80069EF8() & 0xFF) | 0x80;
-        offset_x = (s16)((func_80069EF8() & 0x7F) - 0x40);
-        offset_y = (s16)((func_80069EF8() & 0x7F) - 0x40);
-        offset_z = (func_80069EF8() & 0x7F) - 0x40;
-        func_80170D28((u8 *)action - 0x20, 0, 0x00C0C0C0,
-                      brightness, offset_x, offset_y, offset_z);
-        if ((u16)special < 5) {
-            goto state_2_particles;
-        }
-    }
-
-particle_done:
     {
         void *object;
         u8 *object_base;
@@ -379,9 +374,7 @@ do {
         }
         ((S_801732C4_0 *)action)->unk_96.u = 0;
         ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
-increment_state:
         next_state = ((S_801732C4_0 *)action)->unk_9B;
-increment_state_loaded:
         next_state++;
         ((S_801732C4_0 *)action)->unk_9B = next_state;
         return;

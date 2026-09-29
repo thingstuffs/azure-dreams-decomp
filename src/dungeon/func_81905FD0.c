@@ -318,7 +318,7 @@ void func_800257D0(void *effect_data, void *motion_data, void *render_data)
                                (Vec3 *)scratch, 0);
         if (result == 0) {
             if ((((S_func_81905FD0_3 *)owner_object->unk_0C)->unk_14 & 0x8000) == 0) {
-                goto done;
+                return;
             }
         }
         {
@@ -337,7 +337,7 @@ void func_800257D0(void *effect_data, void *motion_data, void *render_data)
             }
         }
         if ((((S_func_81905FD0_12 *)effect->unk_04)->unk_00 & 0x80) == 0) {
-            goto done;
+            return;
         }
         if ((effect->unk_7A & 4) == 0) {
             func_8004491C((u8 *)effect - 0x20, func_80045340);
@@ -568,7 +568,7 @@ void func_800257D0(void *effect_data, void *motion_data, void *render_data)
                               dest_arg, 1, frame);
             }
             if (effect->unk_82.s16 != 4) {
-                goto done;
+                return;
             }
         }
         {
@@ -700,23 +700,23 @@ void func_800257D0(void *effect_data, void *motion_data, void *render_data)
                     u8 *descriptor_src = D_80026784;
                     u8 *descriptor_dest = (u8 *)child_data;
 
-                    loop_0_: {
+                    do {
                         *(Copy12 *)(descriptor_dest + 0x20) = *(Copy12 *)descriptor_src;
                         descriptor_src += 12;
                         descriptor_dest += 12;
                         index++;
-                    } if (index < 2) goto loop_0_;
+                    } while (index < 2);
                 }
                 {
                     s16 *angle_slot;
 
                     index = 1;
                     angle_slot = (s16 *)((u8 *)child_data + 2);
-                    loop_0__: {
+                    do {
                         angle_slot[40] = index << 9;
                         index++;
                         angle_slot++;
-                    } if (index < 9) goto loop_0__;
+                    } while (index < 9);
                 }
                 child_render->unk_08 = (u8 *)child_data + 0x20;
             }
@@ -779,7 +779,7 @@ void func_800257D0(void *effect_data, void *motion_data, void *render_data)
                 return;
             }
         }
-        goto done;
+        return;
     }
 
     case 4:
@@ -825,13 +825,14 @@ void func_800257D0(void *effect_data, void *motion_data, void *render_data)
             render->unk_0C.u8 = kind_or_shade;
         }
         if (effect->unk_82.s16 >= 120) {
-            goto advance_state;
+            effect->unk_82.u16 = 0;
+            effect->unk_0A.u16 = effect->unk_0A.u16 + 1;
         }
         return;
 
     case 5:
         if (effect->unk_9C.s16 == 0) {
-            goto done;
+            return;
         }
         result = 0xFF;
         if (((S_func_81905FD0_11 *)D_800E3D68)->unk_00 != result) {
@@ -839,7 +840,6 @@ void func_800257D0(void *effect_data, void *motion_data, void *render_data)
         }
         func_8002405C(owner->unk_60, result, owner);
 
-    advance_state:
         effect->unk_82.u16 = 0;
         effect->unk_0A.u16 = effect->unk_0A.u16 + 1;
         return;
@@ -847,7 +847,7 @@ void func_800257D0(void *effect_data, void *motion_data, void *render_data)
     case 6:
         effect->unk_82.u16 = effect->unk_82.u16 + 1;
         if (effect->unk_82.s16 < 11) {
-            goto done;
+            return;
         }
         target_render = ((S_func_81905FD0_5 *)((u8 *)owner->unk_60 - 0x20))->unk_0C;
         target_render->unk_14 &= 0xF7FF;
@@ -866,28 +866,25 @@ void func_800257D0(void *effect_data, void *motion_data, void *render_data)
 
         effect->unk_82.u16 = timer;
         if ((s16)timer < 31) {
-            goto done;
+            return;
         }
         {
             s32 active_flag = ((S_func_81905FD0_10 *)D_800267B8)->unk_00.s16;
 
             effect->unk_82.u16 = previous_timer;
-            if (active_flag != 0) {
-                goto clear_flag;
+            if (active_flag == 0) {
+                dungeonStatus.unk_0C = 0;
+                *(u16 *)((u8 *)effect - 2) |= 0x8000;
+                objectFlagBlock.flags |= 0x8000;
+            } else {
+                ((S_func_81905FD0_10 *)D_800267B8)->unk_00.u16 = 0;
             }
         }
-        dungeonStatus.unk_0C = 0;
-        *(u16 *)((u8 *)effect - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
         return;
     }
 
-    clear_flag:
-        ((S_func_81905FD0_10 *)D_800267B8)->unk_00.u16 = 0;
-
     case 7:
     default:
-    done:
         return;
     }
 }

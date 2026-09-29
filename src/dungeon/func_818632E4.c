@@ -100,8 +100,8 @@ void func_80024AE4(Controller *ctrl, Motion *motion, void *render_data)
     s32 diff;
     s32 start_coord;
     s32 floor_height;
-    s32 cell_x;
-    s16 cell_y;
+    u16 cell_x;
+    u16 cell_y;
     u16 start_z;
     s32 state;
     u32 elapsed;
@@ -181,8 +181,8 @@ void func_80024AE4(Controller *ctrl, Motion *motion, void *render_data)
 
         step = 0;
         lookup_2 = prefix->lookup;
-        cell_y = lookup_2->cell_y;
         cell_x = lookup_2->cell_x;
+        cell_y = lookup_2->cell_y;
         final_x = cell_x;
         final_y = cell_y;
 
@@ -219,22 +219,14 @@ void func_80024AE4(Controller *ctrl, Motion *motion, void *render_data)
             }
 
             {
-                register s32 next_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                s16 next_y;
-                s16 *x_step;
-                s16 *y_step;
                 s32 direction;
 
                 direction = (s16)ctrl->angle;
-                x_step = &dirStepX[direction];
                 step++;
-                y_step = &dirStepY[direction];
-                next_x = cell_x + (u16)*x_step;
-                cell_x = next_x;
-                next_y = cell_y + (u16)*y_step;
-                cell_y = next_y;
-                final_x = next_x;
-                final_y = next_y;
+                cell_x += dirStepX[direction];
+                cell_y += dirStepY[direction];
+                final_x = cell_x;
+                final_y = cell_y;
             }
         } while (step < 8);
 

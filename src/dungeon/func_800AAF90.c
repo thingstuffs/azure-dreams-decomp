@@ -156,7 +156,7 @@ s32 func_800B06F0(u8 *initial_batch, s32 initial_dispatch_arg, u8 *initial_param
     s32 hard_zero = 0;
 #endif
 
-    global_value = *(volatile u32 *)&global_addr->value;
+    global_value = global_addr->value;
     initial_manager = D_80083160[0].manager;
     ASM_SET(scratch);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     scratch = (u8 *)0x1F800000;
@@ -194,8 +194,7 @@ dispatch:
         func_80064CF0(transform);
 
         primitive = *primitive_list;
-        if (primitive == 0)
-            goto lists_done;
+        if (primitive != 0) {
 loop:
             ((S_800B06F0_0 *)scratch)->unk_8C = 0;
             ((S_800B06F0_0 *)scratch)->unk_84 = 0;
@@ -235,7 +234,6 @@ loop:
                 ((S_800B06F0_0 *)scratch)->unk_8A = vertex_y;
                 ((S_800B06F0_0 *)scratch)->unk_82 = vertex_y;
             }
-            ;
 
             func_800654B0(
                 scratch + 0x70, scratch + 0x78,
@@ -251,23 +249,14 @@ loop:
                 if (func_80065480(
                         ((S_800B06F0_0 *)scratch)->unk_F0.at00.v,
                         ((S_800B06F0_0 *)scratch)->unk_F4.at00.v,
-                        ((S_800B06F0_0 *)scratch)->unk_F8.at00.v, primitive_flags) <= 0) {
-                    if (reverse_winding != 0) {
-                        goto fallback;
-                    }
-                    goto check_2c;
-                }
-                if (reverse_winding != 0) {
-check_2c:
+                        ((S_800B06F0_0 *)scratch)->unk_F8.at00.v, primitive_flags) <= 0 ? reverse_winding == 0 : reverse_winding != 0) {
                     if (primitive[1] == 0x2C) {
                         texture_data += 4;
-                        goto next_list;
                     }
                     goto next_list;
                 }
             }
 
-fallback:
             if (primitive[0] & 4) {
                 func_8003E12C(scratch + 0xF0, scratch + 0xF4);
                 func_8003E12C(scratch + 0xF8, scratch + 0xFC);
@@ -310,7 +299,7 @@ next_list:
             if (*(u8 * volatile *)&primitive != 0) {
                 goto loop;
             }
-lists_done:
+        }
         func_80064A40();
     }
 

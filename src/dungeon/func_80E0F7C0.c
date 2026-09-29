@@ -179,7 +179,7 @@ apply_effect:
     if (*effect_id != 0) {
         void *effect;
 
-        (*(volatile u16 *)((u8 *)anim + 0x98)) &= 0xFF7F;
+        ((S_80172FC0_0 *)anim)->unk_98 &= 0xFF7F;
         {
             s16 special_flag;
 
@@ -199,7 +199,7 @@ copy_effect:
                 ((EntityRec *)actor)->unk_73 = ((S_80172FC0_3 *)main_actor)->unk_25;
             }
         } else {
-            (*(void *volatile *)((u8 *)actor + 0x60)) = func_800A05A4(
+            ((EntityRec *)actor)->target = func_800A05A4(
                 actor,
                 ((S_80172FC0_4 *)sprite)->unk_24,
                 ((S_80172FC0_4 *)sprite)->unk_25,
@@ -318,7 +318,16 @@ copy_effect:
         ((S_80172FC0_4 *)sprite)->unk_1E = 0x800;
         ((S_80172FC0_4 *)sprite)->unk_1C = 0x800;
     }
-    goto advance_state;
+    {
+        u8 next_state;
+
+        next_state = ((S_80172FC0_0 *)anim)->unk_9B;
+        timer = 8;
+        ((S_80172FC0_0 *)anim)->unk_AE.u = timer;
+        next_state++;
+        ((S_80172FC0_0 *)anim)->unk_9B = next_state;
+        return;
+    }
 
     case 3:
     timer = ((S_80172FC0_0 *)anim)->unk_AE.u - 1;
@@ -376,7 +385,6 @@ copy_effect:
     {
         u8 next_state;
 
-advance_state:
         next_state = ((S_80172FC0_0 *)anim)->unk_9B;
         timer = 8;
         ((S_80172FC0_0 *)anim)->unk_AE.u = timer;
@@ -401,13 +409,13 @@ advance_state:
         pool_page = (u8 *)0x80080000;
         active_child = child;
         ASM_KEEP(active_child);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        pool_flags = *(volatile s32 *)(pool_page + 0x14A0);
+        pool_flags = *(s32 *)(pool_page + 0x14A0);
         ((S_80172FC0_0 *)anim)->unk_AC = 0;
         ((S_80172FC0_0 *)anim)->unk_A4 = 0;
         ((S_80172FC0_0 *)anim)->unk_90.at00.v = 0;
         child_flags = (((S_80172FC0_7 *)active_child)->unk_1E) | 0x8000;
         pool_flags |= 0x8000;
-        *(volatile s32 *)(pool_page + 0x14A0) = pool_flags;
+        *(s32 *)(pool_page + 0x14A0) = pool_flags;
         ((S_80172FC0_7 *)active_child)->unk_1E = child_flags;
         ((S_80172FC0_0 *)anim)->unk_A0 = 0;
     }

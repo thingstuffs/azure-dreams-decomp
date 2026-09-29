@@ -408,13 +408,9 @@ void func_80024F10(void *effect, void *motion, void *sprite) {
     (*(s16 *)((u8 *)effect + 0xA)) = (s16) ((u16) (*(s16 *)((u8 *)effect + 0xA)) + 1);
     case 1:
     parent_sprite = parent_object->unk_0C;
-    if (func_8003DE58(parent_sprite->unk_08, parent_sprite, &offset[0], 0) != 0) {
-        goto set_launch_position;
-    }
-    if (!(((S_818FF710_30 *)(parent_object->unk_0C))->unk_14 & 0x8000)) {
+    if (func_8003DE58(parent_sprite->unk_08, parent_sprite, &offset[0], 0) == 0 && !(((S_818FF710_30 *)(parent_object->unk_0C))->unk_14 & 0x8000)) {
         return;
     }
-set_launch_position:
     ((S_818FF710_5 *)motion)->unk_00.at02.v = (u16) parent_position->unk_02;
     ((S_818FF710_5 *)motion)->unk_04.at02.v = (u16) parent_position->unk_06;
     parent_height = parent_position->unk_0A;
@@ -426,54 +422,46 @@ set_launch_position:
     } else {
         ((S_818FF710_5 *)motion)->unk_08.at02.v = (u16) (parent_height - 0x40);
     }
-    if ((*(u8 *)((u8 *)effect + 0x7A)) & 4) {
-        goto check_launch;
+    if (!((*(u8 *)((u8 *)effect + 0x7A)) & 4)) {
+        func_8004491C(effect - 0x20, func_80045340);
+        ((S_818FF710_1 *)sprite)->unk_10 = 0x60;
+        ((S_818FF710_1 *)sprite)->unk_0C.at02.v = 0x14;
+        ((S_818FF710_1 *)sprite)->unk_0C.at01.v = 0x14;
+        ((S_818FF710_1 *)sprite)->unk_0C.at00u.v = 0x14;
+        ((S_818FF710_1 *)sprite)->unk_1E = 0x1000;
+        ((S_818FF710_1 *)sprite)->unk_1C = 0x1000;
+        ((S_818FF710_1 *)sprite)->unk_14 = (u16) (((S_818FF710_1 *)sprite)->unk_14 | 0xC);
+        (*(u8 *)((u8 *)effect + 0x7A)) = (u8) ((*(u8 *)((u8 *)effect + 0x7A)) | 4);
     }
-    func_8004491C(effect - 0x20, func_80045340);
-    ((S_818FF710_1 *)sprite)->unk_10 = 0x60;
-    ((S_818FF710_1 *)sprite)->unk_0C.at02.v = 0x14;
-    ((S_818FF710_1 *)sprite)->unk_0C.at01.v = 0x14;
-    ((S_818FF710_1 *)sprite)->unk_0C.at00u.v = 0x14;
-    ((S_818FF710_1 *)sprite)->unk_1E = 0x1000;
-    ((S_818FF710_1 *)sprite)->unk_1C = 0x1000;
-    ((S_818FF710_1 *)sprite)->unk_14 = (u16) (((S_818FF710_1 *)sprite)->unk_14 | 0xC);
-    (*(u8 *)((u8 *)effect + 0x7A)) = (u8) ((*(u8 *)((u8 *)effect + 0x7A)) | 4);
-check_launch:
     if (!(*(*(u16 **)((u8 *)effect + 4)) & 0x80)) {
         return;
     }
     flight_target = ((S_818FF710_2 *)parent)->unk_60;
-    if (flight_target == NULL) {
-        goto set_untargeted_flight;
+    if (flight_target != NULL) {
+        target_pos_or_step = ((S_818FF710_7_pre *)flight_target)[-1].unk_00;
+        (*(s16 *)((u8 *)effect + 0x78)) = (s16) (((S_818FF710_8 *)target_pos_or_step)->unk_0A - (D_800DDC40[((S_818FF710_7 *)flight_target)->unk_13] + 0x40));
+        origin = ((S_818FF710_2_pre *)parent)[-1].unk_00;
+        (*(s8 *)((u8 *)effect + 0xA2)) = (s8) (origin->unk_24 + ((u8 *)dirStepX)[(*(s16 *)((u8 *)effect + 0x7E)) * 2]);
+        (*(s8 *)((u8 *)effect + 0xA3)) = (s8) (origin->unk_25 + ((u8 *)dirStepY)[(*(s16 *)((u8 *)effect + 0x7E)) * 2]);
+        parent_tile = ((S_818FF710_2 *)parent)->unk_72;
+        tile_distance = parent_tile;
+        origin_tile = origin->unk_24;
+        if (tile_distance != origin_tile) {
+            tile_distance = tile_distance - origin_tile;
+        } else {
+            parent_tile = ((S_818FF710_2 *)parent)->unk_73;
+            tile_distance = parent_tile;
+            origin_tile = origin->unk_25;
+            tile_distance = tile_distance - origin_tile;
+        }
+        if (tile_distance < 0) {
+            tile_distance = 0 - tile_distance;
+        }
+        (*(s8 *)((u8 *)effect + 0x7B)) = (s8) ((tile_distance * 2) - 1);
+    } else {
+        (*(s16 *)((u8 *)effect + 0x78)) = (s16) (((S_818FF710_2 *)parent)->unk_88 - 0x50);
+        (*(s8 *)((u8 *)effect + 0x7B)) = 0x20;
     }
-    target_pos_or_step = ((S_818FF710_7_pre *)flight_target)[-1].unk_00;
-    (*(s16 *)((u8 *)effect + 0x78)) = (s16) (((S_818FF710_8 *)target_pos_or_step)->unk_0A - (D_800DDC40[((S_818FF710_7 *)flight_target)->unk_13] + 0x40));
-    origin = ((S_818FF710_2_pre *)parent)[-1].unk_00;
-    (*(s8 *)((u8 *)effect + 0xA2)) = (s8) (origin->unk_24 + ((u8 *)dirStepX)[(*(s16 *)((u8 *)effect + 0x7E)) * 2]);
-    (*(s8 *)((u8 *)effect + 0xA3)) = (s8) (origin->unk_25 + ((u8 *)dirStepY)[(*(s16 *)((u8 *)effect + 0x7E)) * 2]);
-    parent_tile = ((S_818FF710_2 *)parent)->unk_72;
-    tile_distance = parent_tile;
-    origin_tile = origin->unk_24;
-    if (tile_distance != origin_tile) {
-        tile_distance = tile_distance - origin_tile;
-        goto check_distance_sign;
-    }
-    parent_tile = ((S_818FF710_2 *)parent)->unk_73;
-    tile_distance = parent_tile;
-    origin_tile = origin->unk_25;
-    tile_distance = tile_distance - origin_tile;
-check_distance_sign:
-    if (tile_distance >= 0) {
-        goto set_flight_duration;
-    }
-    tile_distance = 0 - tile_distance;
-set_flight_duration:
-    (*(s8 *)((u8 *)effect + 0x7B)) = (s8) ((tile_distance * 2) - 1);
-    goto flight_setup;
-set_untargeted_flight:
-    (*(s16 *)((u8 *)effect + 0x78)) = (s16) (((S_818FF710_2 *)parent)->unk_88 - 0x50);
-    (*(s8 *)((u8 *)effect + 0x7B)) = 0x20;
-flight_setup:
     ((S_818FF710_5 *)motion)->unk_0C = (s32) (direction_steps.pair[(*(s16 *)((u8 *)effect + 0x7E))].first << 0x10);
     ((S_818FF710_5 *)motion)->unk_10.i = (s32) (direction_steps.pair[(*(s16 *)((u8 *)effect + 0x7E))].second << 0x10);
     ((S_818FF710_5 *)motion)->unk_14 = (s32) ((s32) (((*(s16 *)((u8 *)effect + 0x78)) << 0x10) - ((S_818FF710_5 *)motion)->unk_08.at00.v) / (s8) (*(s8 *)((u8 *)effect + 0x7B)));
@@ -507,62 +495,52 @@ launch_particles:
     old_flight_angle = ((S_818FF710_1 *)sprite)->unk_1A;
     flight_angle = old_flight_angle + 0x190;
     ((S_818FF710_1 *)sprite)->unk_1A = flight_angle;
-    if ((u32) (flight_angle & 0xFFFF) < 0x1001U) {
-        goto update_flight_color;
+    if ((u32) (flight_angle & 0xFFFF) >= 0x1001U) {
+        ((S_818FF710_1 *)sprite)->unk_1A = (u16) (old_flight_angle - 0xE70);
     }
-    ((S_818FF710_1 *)sprite)->unk_1A = (u16) (old_flight_angle - 0xE70);
-update_flight_color:
     red_tick = ((*(s16 *)((u8 *)effect + 0x88)) - (*(s8 *)((u8 *)effect + 0x7B))) + 1;
     ((S_818FF710_1 *)sprite)->unk_0C.at00u.v = (s8) (((s32) (red_tick * red_tick * 0x6C) / (s16) (*(s16 *)((u8 *)effect + 0x8A))) + 0x14);
     green_tick = ((*(s16 *)((u8 *)effect + 0x88)) - (*(s8 *)((u8 *)effect + 0x7B))) + 1;
     ((S_818FF710_1 *)sprite)->unk_0C.at01.v = (s8) (((s32) (green_tick * green_tick * 0x6C) / (s16) (*(s16 *)((u8 *)effect + 0x8A))) + 0x14);
     blue_tick = ((*(s16 *)((u8 *)effect + 0x88)) - (*(s8 *)((u8 *)effect + 0x7B))) + 1;
     ((S_818FF710_1 *)sprite)->unk_0C.at02.v = (s8) (((s32) (blue_tick * blue_tick * 0x6C) / (s16) (*(s16 *)((u8 *)effect + 0x8A))) + 0x14);
-    if ((func_800A4778(((S_818FF710_5 *)motion)->unk_00.at02.v, ((S_818FF710_5 *)motion)->unk_04.at02.v, (s16) ((S_818FF710_5 *)motion)->unk_08.at02.v, ((S_818FF710_2 *)parent)->unk_60) << 0x10) == 0) {
-        goto advance_flight;
+    if ((func_800A4778(((S_818FF710_5 *)motion)->unk_00.at02.v, ((S_818FF710_5 *)motion)->unk_04.at02.v, (s16) ((S_818FF710_5 *)motion)->unk_08.at02.v, ((S_818FF710_2 *)parent)->unk_60) << 0x10) != 0) {
+        (*(s16 *)((u8 *)effect + 0xA)) = 8;
+        (*(u16 *)((u8 *)effect + 0x82)) = 0U;
+        ((S_818FF710_1 *)sprite)->unk_0C.at02.v = 0;
+        ((S_818FF710_1 *)sprite)->unk_0C.at01.v = 0;
+        ((S_818FF710_1 *)sprite)->unk_0C.at00u.v = 0;
+        return;
     }
-    (*(s16 *)((u8 *)effect + 0xA)) = 8;
-    (*(u16 *)((u8 *)effect + 0x82)) = 0U;
-    ((S_818FF710_1 *)sprite)->unk_0C.at02.v = 0;
-    ((S_818FF710_1 *)sprite)->unk_0C.at01.v = 0;
-    ((S_818FF710_1 *)sprite)->unk_0C.at00u.v = 0;
-    return;
-advance_flight:
     remaining_ticks = (u8) (*(s8 *)((u8 *)effect + 0x7B)) - 1;
     (*(s8 *)((u8 *)effect + 0x7B)) = remaining_ticks;
-    if ((remaining_ticks << 0x18) > 0) {
-        goto move_effect;
+    if ((remaining_ticks << 0x18) <= 0) {
+        if (((S_818FF710_2 *)parent)->unk_60 != NULL) {
+            (*(s16 *)((u8 *)effect + 0xA)) = 3;
+            (*(u16 *)((u8 *)effect + 0x82)) = 0U;
+            func_800A56E0(0x300);
+            impact_target = ((S_818FF710_2 *)parent)->unk_60;
+            target_hit_flags = ((S_818FF710_10_pre *)impact_target)[-1].unk_00;
+            if ((u32) (((S_818FF710_10 *)impact_target)->unk_13 - 0x33) >= 4U) {
+                target_hit_flags->unk_14 = (u16) (target_hit_flags->unk_14 | 0x800);
+                hit_target = ((S_818FF710_2 *)parent)->unk_60;
+                hit_target->unk_14 = (s32) (hit_target->unk_14 | 0x100000);
+            }
+            target_pos_or_step = ((S_818FF710_31_pre *)(((S_818FF710_2 *)parent)->unk_60))[-1].unk_00;
+            ((S_818FF710_5 *)motion)->unk_00.at02.v = (u16) ((S_818FF710_13 *)target_pos_or_step)->unk_02;
+            ((S_818FF710_5 *)motion)->unk_04.at02.v = (u16) ((S_818FF710_13 *)target_pos_or_step)->unk_06;
+            ((S_818FF710_5 *)motion)->unk_08.at02.v = (u16) (*(s16 *)((u8 *)effect + 0x78));
+            func_80024DB8(effect, motion, sprite);
+            return;
+        }
+        (*(s16 *)((u8 *)effect + 0xA)) = 8;
+        (*(u16 *)((u8 *)effect + 0x82)) = 0U;
+        ((S_818FF710_1 *)sprite)->unk_0C.at02.v = 0;
+        ((S_818FF710_1 *)sprite)->unk_0C.at01.v = 0;
+        ((S_818FF710_1 *)sprite)->unk_0C.at00u.v = 0;
+        func_80024DB8(effect, motion, sprite);
+        return;
     }
-    if (((S_818FF710_2 *)parent)->unk_60 == NULL) {
-        goto finish_untargeted_flight;
-    }
-    (*(s16 *)((u8 *)effect + 0xA)) = 3;
-    (*(u16 *)((u8 *)effect + 0x82)) = 0U;
-    func_800A56E0(0x300);
-    impact_target = ((S_818FF710_2 *)parent)->unk_60;
-    target_hit_flags = ((S_818FF710_10_pre *)impact_target)[-1].unk_00;
-    if ((u32) (((S_818FF710_10 *)impact_target)->unk_13 - 0x33) < 4U) {
-        goto snap_to_target;
-    }
-    target_hit_flags->unk_14 = (u16) (target_hit_flags->unk_14 | 0x800);
-    hit_target = ((S_818FF710_2 *)parent)->unk_60;
-    hit_target->unk_14 = (s32) (hit_target->unk_14 | 0x100000);
-snap_to_target:
-    target_pos_or_step = ((S_818FF710_31_pre *)(((S_818FF710_2 *)parent)->unk_60))[-1].unk_00;
-    ((S_818FF710_5 *)motion)->unk_00.at02.v = (u16) ((S_818FF710_13 *)target_pos_or_step)->unk_02;
-    ((S_818FF710_5 *)motion)->unk_04.at02.v = (u16) ((S_818FF710_13 *)target_pos_or_step)->unk_06;
-    ((S_818FF710_5 *)motion)->unk_08.at02.v = (u16) (*(s16 *)((u8 *)effect + 0x78));
-    func_80024DB8(effect, motion, sprite);
-    return;
-finish_untargeted_flight:
-    (*(s16 *)((u8 *)effect + 0xA)) = 8;
-    (*(u16 *)((u8 *)effect + 0x82)) = 0U;
-    ((S_818FF710_1 *)sprite)->unk_0C.at02.v = 0;
-    ((S_818FF710_1 *)sprite)->unk_0C.at01.v = 0;
-    ((S_818FF710_1 *)sprite)->unk_0C.at00u.v = 0;
-    func_80024DB8(effect, motion, sprite);
-    return;
-move_effect:
     ((S_818FF710_5 *)motion)->unk_00.at00.v += ((S_818FF710_5 *)motion)->unk_0C;
     ((S_818FF710_5 *)motion)->unk_04.at00.v += ((S_818FF710_5 *)motion)->unk_10.i;
     ((S_818FF710_5 *)motion)->unk_08.at00.v += ((S_818FF710_5 *)motion)->unk_14;
@@ -581,189 +559,177 @@ move_effect:
     old_hit_angle = ((S_818FF710_1 *)sprite)->unk_1A;
     hit_angle = old_hit_angle + 0x190;
     ((S_818FF710_1 *)sprite)->unk_1A = hit_angle;
-    if ((u32) (hit_angle & 0xFFFF) < 0x1001U) {
-        goto update_hit;
+    if ((u32) (hit_angle & 0xFFFF) >= 0x1001U) {
+        ((S_818FF710_1 *)sprite)->unk_1A = (u16) (old_hit_angle - 0xE70);
     }
-    ((S_818FF710_1 *)sprite)->unk_1A = (u16) (old_hit_angle - 0xE70);
-update_hit:
     func_80024DB8(effect, motion, sprite);
     hit_tick = (*(u16 *)((u8 *)effect + 0x82)) + 1;
     (*(u16 *)((u8 *)effect + 0x82)) = hit_tick;
-    if ((s16) hit_tick != 1) {
-        goto check_spawn_tick;
+    if ((s16) hit_tick == 1) {
+        rect_start = &texture_rect.half[0];
+        texture_start = rect_start;
+        rect_end = &texture_rect.half[4];
+        texture_end = rect_end;
+        rect_left = 0x340;
+        texture_rect.half[0] = (s16) rect_left;
+        texture_rect.half[1] = 0x154;
+        texture_rect.half[2] = 0x60;
+        rect_height = 0x54;
+        rect_right = 0x370;
+        texture_rect.half[3] = (s16) rect_height;
+        texture_rect.half[4] = (s16) rect_right;
+        texture_rect.half[5] = (s16) 0x19A;
+        func_800B8FC8(((S_818FF710_2 *)parent)->unk_60, texture_start, texture_end, 1, (s32) (s16) hit_tick);
+        texture_start = rect_start;
+        texture_end = rect_end;
+        ASM_KEEP_NV(texture_start);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        ASM_KEEP_NV(texture_end);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        rect_value = 0x1A8;
+        texture_rect.half[1] = (s16) rect_value;
+        rect_value = 0x60;
+        texture_rect.half[2] = (s16) rect_value;
+        texture_rect.half[0] = (s16) rect_left;
+        texture_rect.half[3] = (s16) rect_height;
+        texture_rect.half[4] = (s16) rect_right;
+        rect_value = 0x1EF;
+        texture_rect.half[5] = (s16) rect_value;
+        func_800B8FC8(((S_818FF710_2 *)parent)->unk_60, texture_start, texture_end, 1, (s32) (s16) hit_tick);
     }
-    rect_start = &texture_rect.half[0];
-    texture_start = rect_start;
-    rect_end = &texture_rect.half[4];
-    texture_end = rect_end;
-    rect_left = 0x340;
-    texture_rect.half[0] = (s16) rect_left;
-    texture_rect.half[1] = 0x154;
-    texture_rect.half[2] = 0x60;
-    rect_height = 0x54;
-    rect_right = 0x370;
-    texture_rect.half[3] = (s16) rect_height;
-    texture_rect.half[4] = (s16) rect_right;
-    texture_rect.half[5] = (s16) 0x19A;
-    func_800B8FC8(((S_818FF710_2 *)parent)->unk_60, texture_start, texture_end, 1, (s32) (s16) hit_tick);
-    texture_start = rect_start;
-    texture_end = rect_end;
-    ASM_KEEP_NV(texture_start);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_NV(texture_end);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    rect_value = 0x1A8;
-    texture_rect.half[1] = (s16) rect_value;
-    rect_value = 0x60;
-    texture_rect.half[2] = (s16) rect_value;
-    texture_rect.half[0] = (s16) rect_left;
-    texture_rect.half[3] = (s16) rect_height;
-    texture_rect.half[4] = (s16) rect_right;
-    rect_value = 0x1EF;
-    texture_rect.half[5] = (s16) rect_value;
-    func_800B8FC8(((S_818FF710_2 *)parent)->unk_60, texture_start, texture_end, 1, (s32) (s16) hit_tick);
-check_spawn_tick:
     impact_tick = (s16) (*(u16 *)((u8 *)effect + 0x82));
     if (impact_tick != 4) {
         return;
     }
     first_object = func_8003FC64(0x212);
     child_effect = first_object + 0x20;
-    if (first_object == NULL) {
-        goto spawn_second;
+    if (first_object != NULL) {
+        child_effect->unk_02 = 0x78;
+        (*(M2C_UNK **)((u8 *)first_object + 0x10)) = &D_800246F8;
+        func_8004491C(first_object, func_80045340);
+        first_sprite = (*(void **)((u8 *)first_object + 0xC));
+        first_sprite->unk_06 = 0;
+        first_sprite->unk_14 |= 0xC;
+        first_sprite->unk_10 = 0x40;
+        sprite_flags = first_sprite->unk_14;
+        first_sprite->unk_14 = (u16) (sprite_flags | 0x80);
+        first_position = (*(void **)((u8 *)first_object + 8));
+        child_effect->unk_0A = 0;
+        child_effect->unk_0C = 0;
+        target_pos_or_step = ((S_818FF710_31_pre *)(((S_818FF710_2 *)parent)->unk_60))[-1].unk_00;
+        first_position->unk_00 = (s32) ((S_818FF710_17 *)target_pos_or_step)->unk_00;
+        first_position->unk_04 = (s32) ((S_818FF710_17 *)target_pos_or_step)->unk_04;
+        first_position->unk_08 = (s32) ((S_818FF710_17 *)target_pos_or_step)->unk_08;
+        first_sprite = (*(void **)((u8 *)first_object + 0xC));
+        first_sprite->unk_1C = 0x1004;
+        first_sprite->unk_1E = 0x1004;
+        first_sprite->unk_22 = (s16) ((s32) (0 - D_800DDC40[((S_818FF710_31 *)(((S_818FF710_2 *)parent)->unk_60))->unk_13]) / 2);
+        first_sprite->unk_0E = 0x80;
+        first_sprite->unk_0D = 0x80;
+        first_sprite->unk_0C = 0x80;
+        (*(Packed12 *)((u8 *)first_object + 0x40)) = D_80025E34;
+        first_sprite->unk_08 = (void *) (first_object + 0x40);
+        ((S_818FF710_32 *)(first_sprite->unk_08))->unk_04 = func_80066460(2, 2, 0x340, 0x154);
     }
-    child_effect->unk_02 = 0x78;
-    (*(M2C_UNK **)((u8 *)first_object + 0x10)) = &D_800246F8;
-    func_8004491C(first_object, func_80045340);
-    first_sprite = (*(void **)((u8 *)first_object + 0xC));
-    first_sprite->unk_06 = 0;
-    first_sprite->unk_14 |= 0xC;
-    first_sprite->unk_10 = 0x40;
-    sprite_flags = first_sprite->unk_14;
-    first_sprite->unk_14 = (u16) (sprite_flags | 0x80);
-    first_position = (*(void **)((u8 *)first_object + 8));
-    child_effect->unk_0A = 0;
-    child_effect->unk_0C = 0;
-    target_pos_or_step = ((S_818FF710_31_pre *)(((S_818FF710_2 *)parent)->unk_60))[-1].unk_00;
-    first_position->unk_00 = (s32) ((S_818FF710_17 *)target_pos_or_step)->unk_00;
-    first_position->unk_04 = (s32) ((S_818FF710_17 *)target_pos_or_step)->unk_04;
-    first_position->unk_08 = (s32) ((S_818FF710_17 *)target_pos_or_step)->unk_08;
-    first_sprite = (*(void **)((u8 *)first_object + 0xC));
-    first_sprite->unk_1C = 0x1004;
-    first_sprite->unk_1E = 0x1004;
-    first_sprite->unk_22 = (s16) ((s32) (0 - D_800DDC40[((S_818FF710_31 *)(((S_818FF710_2 *)parent)->unk_60))->unk_13]) / 2);
-    first_sprite->unk_0E = 0x80;
-    first_sprite->unk_0D = 0x80;
-    first_sprite->unk_0C = 0x80;
-    (*(Packed12 *)((u8 *)first_object + 0x40)) = D_80025E34;
-    first_sprite->unk_08 = (void *) (first_object + 0x40);
-    ((S_818FF710_32 *)(first_sprite->unk_08))->unk_04 = func_80066460(2, 2, 0x340, 0x154);
-spawn_second:
     second_object = func_8003FC64(0x212);
     child_effect = second_object + 0x20;
-    if (second_object == NULL) {
-        goto spawn_third;
+    if (second_object != NULL) {
+        child_effect->unk_02 = 0x78;
+        (*(M2C_UNK **)((u8 *)second_object + 0x10)) = &D_80024780;
+        func_8004491C(second_object, func_80045340);
+        second_sprite = (*(void **)((u8 *)second_object + 0xC));
+        second_sprite->unk_14 &= 0xFFF3;
+        second_sprite->unk_10 = 0x20;
+        second_sprite->unk_14 |= 0x80;
+        child_effect->unk_2C = parent;
+        follow_target = ((S_818FF710_2 *)parent)->unk_60;
+        child_effect->unk_34 = effect;
+        child_effect->unk_30 = follow_target;
+        second_sprite->unk_06 = 0;
+        second_position = (*(void **)((u8 *)second_object + 8));
+        child_effect->unk_0A = 0;
+        child_effect->unk_0C = 0;
+        target_pos_or_step = ((S_818FF710_31_pre *)(((S_818FF710_2 *)parent)->unk_60))[-1].unk_00;
+        second_position->unk_00 = (s32) ((S_818FF710_20 *)target_pos_or_step)->unk_00;
+        second_position->unk_04 = (s32) ((S_818FF710_20 *)target_pos_or_step)->unk_04;
+        second_position->unk_08 = (s32) ((S_818FF710_20 *)target_pos_or_step)->unk_08;
+        second_sprite = (*(void **)((u8 *)second_object + 0xC));
+        second_sprite->unk_1E = 0x1000;
+        second_sprite->unk_1C = 0x1000;
+        second_sprite->unk_0E = 0x80;
+        second_sprite->unk_0D = 0x80;
+        second_sprite->unk_0C = 0x80;
+        (*(Packed12 *)((u8 *)second_object + 0x40)) = D_80025E40;
+        second_sprite->unk_08 = (void *) (second_object + 0x40);
+        ((S_818FF710_33 *)(second_sprite->unk_08))->unk_04 = func_80066460(2, 1, 0x340, 0x1A8);
     }
-    child_effect->unk_02 = 0x78;
-    (*(M2C_UNK **)((u8 *)second_object + 0x10)) = &D_80024780;
-    func_8004491C(second_object, func_80045340);
-    second_sprite = (*(void **)((u8 *)second_object + 0xC));
-    second_sprite->unk_14 &= 0xFFF3;
-    second_sprite->unk_10 = 0x20;
-    second_sprite->unk_14 |= 0x80;
-    child_effect->unk_2C = parent;
-    follow_target = ((S_818FF710_2 *)parent)->unk_60;
-    child_effect->unk_34 = effect;
-    child_effect->unk_30 = follow_target;
-    second_sprite->unk_06 = 0;
-    second_position = (*(void **)((u8 *)second_object + 8));
-    child_effect->unk_0A = 0;
-    child_effect->unk_0C = 0;
-    target_pos_or_step = ((S_818FF710_31_pre *)(((S_818FF710_2 *)parent)->unk_60))[-1].unk_00;
-    second_position->unk_00 = (s32) ((S_818FF710_20 *)target_pos_or_step)->unk_00;
-    second_position->unk_04 = (s32) ((S_818FF710_20 *)target_pos_or_step)->unk_04;
-    second_position->unk_08 = (s32) ((S_818FF710_20 *)target_pos_or_step)->unk_08;
-    second_sprite = (*(void **)((u8 *)second_object + 0xC));
-    second_sprite->unk_1E = 0x1000;
-    second_sprite->unk_1C = 0x1000;
-    second_sprite->unk_0E = 0x80;
-    second_sprite->unk_0D = 0x80;
-    second_sprite->unk_0C = 0x80;
-    (*(Packed12 *)((u8 *)second_object + 0x40)) = D_80025E40;
-    second_sprite->unk_08 = (void *) (second_object + 0x40);
-    ((S_818FF710_33 *)(second_sprite->unk_08))->unk_04 = func_80066460(2, 1, 0x340, 0x1A8);
-spawn_third:
     third_object = func_8003FC64(0x212);
     child_effect = third_object + 0x20;
-    if (third_object == NULL) {
-        goto spawn_fourth;
+    if (third_object != NULL) {
+        child_effect->unk_02 = 0x78;
+        (*(M2C_UNK **)((u8 *)third_object + 0x10)) = &D_800245EC;
+        func_8004491C(third_object, func_80045340);
+        second_sprite = (S_818FF710_18 *)(*(void **)((u8 *)third_object + 0xC));
+        ((S_818FF710_21 *)((void *)second_sprite))->unk_06 = 0;
+        ((S_818FF710_21 *)((void *)second_sprite))->unk_14 &= 0xFFF3;
+        ((S_818FF710_21 *)((void *)second_sprite))->unk_10 = 0x20;
+        sprite_flags = ((S_818FF710_21 *)((void *)second_sprite))->unk_14;
+        ((S_818FF710_21 *)((void *)second_sprite))->unk_14 = (u16) (sprite_flags | 0x80);
+        third_position = (*(void **)((u8 *)third_object + 8));
+        child_effect->unk_0A = 0;
+        child_effect->unk_0C = 0;
+        target_pos_or_step = ((S_818FF710_31_pre *)(((S_818FF710_2 *)parent)->unk_60))[-1].unk_00;
+        third_position->unk_00 = (s32) ((S_818FF710_23 *)target_pos_or_step)->unk_00;
+        third_position->unk_04 = (s32) ((S_818FF710_23 *)target_pos_or_step)->unk_04;
+        third_position->unk_08 = (s32) ((S_818FF710_23 *)target_pos_or_step)->unk_08;
+        second_sprite = (S_818FF710_18 *)(*(void **)((u8 *)third_object + 0xC));
+        ((S_818FF710_21 *)((void *)second_sprite))->unk_0E = 0x80;
+        ((S_818FF710_21 *)((void *)second_sprite))->unk_0D = 0x80;
+        ((S_818FF710_21 *)((void *)second_sprite))->unk_0C = 0x80;
+        ((S_818FF710_21 *)((void *)second_sprite))->unk_1E = 0;
+        ((S_818FF710_21 *)((void *)second_sprite))->unk_1C = 0;
+        (*(Packed12 *)((u8 *)third_object + 0x40)) = D_80025E58;
+        ((S_818FF710_21 *)((void *)second_sprite))->unk_08 = (void *) (third_object + 0x40);
     }
-    child_effect->unk_02 = 0x78;
-    (*(M2C_UNK **)((u8 *)third_object + 0x10)) = &D_800245EC;
-    func_8004491C(third_object, func_80045340);
-    second_sprite = (S_818FF710_18 *)(*(void **)((u8 *)third_object + 0xC));
-    ((S_818FF710_21 *)((void *)second_sprite))->unk_06 = 0;
-    ((S_818FF710_21 *)((void *)second_sprite))->unk_14 &= 0xFFF3;
-    ((S_818FF710_21 *)((void *)second_sprite))->unk_10 = 0x20;
-    sprite_flags = ((S_818FF710_21 *)((void *)second_sprite))->unk_14;
-    ((S_818FF710_21 *)((void *)second_sprite))->unk_14 = (u16) (sprite_flags | 0x80);
-    third_position = (*(void **)((u8 *)third_object + 8));
-    child_effect->unk_0A = 0;
-    child_effect->unk_0C = 0;
-    target_pos_or_step = ((S_818FF710_31_pre *)(((S_818FF710_2 *)parent)->unk_60))[-1].unk_00;
-    third_position->unk_00 = (s32) ((S_818FF710_23 *)target_pos_or_step)->unk_00;
-    third_position->unk_04 = (s32) ((S_818FF710_23 *)target_pos_or_step)->unk_04;
-    third_position->unk_08 = (s32) ((S_818FF710_23 *)target_pos_or_step)->unk_08;
-    second_sprite = (S_818FF710_18 *)(*(void **)((u8 *)third_object + 0xC));
-    ((S_818FF710_21 *)((void *)second_sprite))->unk_0E = 0x80;
-    ((S_818FF710_21 *)((void *)second_sprite))->unk_0D = 0x80;
-    ((S_818FF710_21 *)((void *)second_sprite))->unk_0C = 0x80;
-    ((S_818FF710_21 *)((void *)second_sprite))->unk_1E = 0;
-    ((S_818FF710_21 *)((void *)second_sprite))->unk_1C = 0;
-    (*(Packed12 *)((u8 *)third_object + 0x40)) = D_80025E58;
-    ((S_818FF710_21 *)((void *)second_sprite))->unk_08 = (void *) (third_object + 0x40);
-spawn_fourth:
     fourth_object = func_8003FC64(0x212);
     child_effect = fourth_object + 0x20;
-    if (fourth_object == NULL) {
-        goto finish_spawn;
+    if (fourth_object != NULL) {
+        particle_owner = fourth_object;
+        sprite_resource = (void *) func_80045340;
+        ASM_KEEP_NV(sprite_resource);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        child_effect->unk_2C = parent;
+        linked_target = ((S_818FF710_2 *)parent)->unk_60;
+        child_data = (void *) (first_object + 0x20);
+        child_effect->unk_38 = child_data;
+        child_data = (void *) (third_object + 0x20);
+        child_effect->unk_3C = child_data;
+        child_data = (void *) (second_object + 0x20);
+        child_effect->unk_40 = child_data;
+        child_effect->unk_34 = effect;
+        child_effect->unk_30 = linked_target;
+        (*(M2C_UNK **)((u8 *)fourth_object + 0x10)) = &D_8002499C;
+        func_8004491C(particle_owner, sprite_resource);
+        second_sprite = (S_818FF710_18 *)(*(void **)((u8 *)fourth_object + 0xC));
+        ((S_818FF710_24 *)((void *)second_sprite))->unk_06 = 0;
+        ((S_818FF710_24 *)((void *)second_sprite))->unk_14 |= 0xC;
+        ((S_818FF710_24 *)((void *)second_sprite))->unk_10 = 0x20;
+        sprite_flags = ((S_818FF710_24 *)((void *)second_sprite))->unk_14;
+        ((S_818FF710_24 *)((void *)second_sprite))->unk_14 = (u16) (sprite_flags | 0x80);
+        fourth_position = (*(void **)((u8 *)fourth_object + 8));
+        child_effect->unk_0A = 0;
+        child_effect->unk_0C = 0;
+        target_pos_or_step = ((S_818FF710_31_pre *)(((S_818FF710_2 *)parent)->unk_60))[-1].unk_00;
+        fourth_position->unk_00 = (s32) ((S_818FF710_26 *)target_pos_or_step)->unk_00;
+        fourth_position->unk_04 = (s32) ((S_818FF710_26 *)target_pos_or_step)->unk_04;
+        fourth_position->unk_08 = (s32) ((S_818FF710_26 *)target_pos_or_step)->unk_08;
+        second_sprite = (S_818FF710_18 *)(*(void **)((u8 *)fourth_object + 0xC));
+        ((S_818FF710_24 *)((void *)second_sprite))->unk_1E = 0x1000;
+        ((S_818FF710_24 *)((void *)second_sprite))->unk_1C = 0x1000;
+        ((S_818FF710_24 *)((void *)second_sprite))->unk_0E = 0x80;
+        ((S_818FF710_24 *)((void *)second_sprite))->unk_0D = 0x80;
+        ((S_818FF710_24 *)((void *)second_sprite))->unk_0C = 0x80;
+        (*(Packed12 *)((u8 *)fourth_object + 0x40)) = D_80025E28;
+        ((S_818FF710_24 *)((void *)second_sprite))->unk_08 = (void *) (fourth_object + 0x40);
+        ASM_KEEP(fourth_object);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     }
-    particle_owner = fourth_object;
-    sprite_resource = (void *) func_80045340;
-    ASM_KEEP_NV(sprite_resource);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    child_effect->unk_2C = parent;
-    linked_target = ((S_818FF710_2 *)parent)->unk_60;
-    child_data = (void *) (first_object + 0x20);
-    child_effect->unk_38 = child_data;
-    child_data = (void *) (third_object + 0x20);
-    child_effect->unk_3C = child_data;
-    child_data = (void *) (second_object + 0x20);
-    child_effect->unk_40 = child_data;
-    child_effect->unk_34 = effect;
-    child_effect->unk_30 = linked_target;
-    (*(M2C_UNK **)((u8 *)fourth_object + 0x10)) = &D_8002499C;
-    func_8004491C(particle_owner, sprite_resource);
-    second_sprite = (S_818FF710_18 *)(*(void **)((u8 *)fourth_object + 0xC));
-    ((S_818FF710_24 *)((void *)second_sprite))->unk_06 = 0;
-    ((S_818FF710_24 *)((void *)second_sprite))->unk_14 |= 0xC;
-    ((S_818FF710_24 *)((void *)second_sprite))->unk_10 = 0x20;
-    sprite_flags = ((S_818FF710_24 *)((void *)second_sprite))->unk_14;
-    ((S_818FF710_24 *)((void *)second_sprite))->unk_14 = (u16) (sprite_flags | 0x80);
-    fourth_position = (*(void **)((u8 *)fourth_object + 8));
-    child_effect->unk_0A = 0;
-    child_effect->unk_0C = 0;
-    target_pos_or_step = ((S_818FF710_31_pre *)(((S_818FF710_2 *)parent)->unk_60))[-1].unk_00;
-    fourth_position->unk_00 = (s32) ((S_818FF710_26 *)target_pos_or_step)->unk_00;
-    fourth_position->unk_04 = (s32) ((S_818FF710_26 *)target_pos_or_step)->unk_04;
-    fourth_position->unk_08 = (s32) ((S_818FF710_26 *)target_pos_or_step)->unk_08;
-    second_sprite = (S_818FF710_18 *)(*(void **)((u8 *)fourth_object + 0xC));
-    ((S_818FF710_24 *)((void *)second_sprite))->unk_1E = 0x1000;
-    ((S_818FF710_24 *)((void *)second_sprite))->unk_1C = 0x1000;
-    ((S_818FF710_24 *)((void *)second_sprite))->unk_0E = 0x80;
-    ((S_818FF710_24 *)((void *)second_sprite))->unk_0D = 0x80;
-    ((S_818FF710_24 *)((void *)second_sprite))->unk_0C = 0x80;
-    (*(Packed12 *)((u8 *)fourth_object + 0x40)) = D_80025E28;
-    ((S_818FF710_24 *)((void *)second_sprite))->unk_08 = (void *) (fourth_object + 0x40);
-    ASM_KEEP(fourth_object);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-finish_spawn:
     spawn_tick = (s16) (*(u16 *)((u8 *)effect + 0x82));
     if (spawn_tick != impact_tick) {
         return;
@@ -797,36 +763,31 @@ impact_particles:
     old_impact_angle = ((S_818FF710_1 *)sprite)->unk_1A;
     impact_angle = old_impact_angle + 0x190;
     ((S_818FF710_1 *)sprite)->unk_1A = impact_angle;
-    if ((u32) (impact_angle & 0xFFFF) < 0x1001U) {
-        goto fade_impact;
+    if ((u32) (impact_angle & 0xFFFF) >= 0x1001U) {
+        ((S_818FF710_1 *)sprite)->unk_1A = (u16) (old_impact_angle - 0xE70);
     }
-    ((S_818FF710_1 *)sprite)->unk_1A = (u16) (old_impact_angle - 0xE70);
-fade_impact:
     fade_tick = (s16) (*(u16 *)((u8 *)effect + 0x82));
-    if (fade_tick < 0x51) {
-        goto check_impact_duration;
+    if (fade_tick >= 0x51) {
+        ((S_818FF710_1 *)sprite)->unk_0C.at00u.v = (s8) (((0x64 - fade_tick) << 7) / 20);
+        ((S_818FF710_1 *)sprite)->unk_0C.at01.v = (s8) (((0x64 - (s16) (*(u16 *)((u8 *)effect + 0x82))) << 7) / 20);
+        ((S_818FF710_1 *)sprite)->unk_0C.at02.v = (s8) (((0x64 - (s16) (*(u16 *)((u8 *)effect + 0x82))) << 7) / 20);
     }
-    ((S_818FF710_1 *)sprite)->unk_0C.at00u.v = (s8) (((0x64 - fade_tick) << 7) / 20);
-    ((S_818FF710_1 *)sprite)->unk_0C.at01.v = (s8) (((0x64 - (s16) (*(u16 *)((u8 *)effect + 0x82))) << 7) / 20);
-    ((S_818FF710_1 *)sprite)->unk_0C.at02.v = (s8) (((0x64 - (s16) (*(u16 *)((u8 *)effect + 0x82))) << 7) / 20);
-check_impact_duration:
     func_80024DB8(effect, motion, sprite);
-    if ((s16) (*(u16 *)((u8 *)effect + 0x82)) >= 0x64) {
-        goto next_state;
+    if ((s16) (*(u16 *)((u8 *)effect + 0x82)) < 0x64) {
+        return;
     }
+    (*(u16 *)((u8 *)effect + 0x82)) = 0U;
+    (*(s16 *)((u8 *)effect + 0xA)) = (s16) ((u16) (*(s16 *)((u8 *)effect + 0xA)) + 1);
     return;
     case 5:
     if ((*(s16 *)((u8 *)effect + 0x90)) == 0) {
         return;
     }
     source_id = 0xFF;
-    if (D_800E3D68 == 0xFF) {
-        goto apply_target_effect;
+    if (D_800E3D68 != 0xFF) {
+        source_id = (*(u8 *)((u8 *)effect + 9));
     }
-    source_id = (*(u8 *)((u8 *)effect + 9));
-apply_target_effect:
     func_8002407C(((S_818FF710_2 *)parent)->unk_60, source_id, parent);
-next_state:
     (*(u16 *)((u8 *)effect + 0x82)) = 0U;
     (*(s16 *)((u8 *)effect + 0xA)) = (s16) ((u16) (*(s16 *)((u8 *)effect + 0xA)) + 1);
     return;
@@ -852,14 +813,12 @@ next_state:
     }
     effect_active = (s32) ((S_818FF710_3 *)(&D_80025E80))->unk_00;
     (*(u16 *)((u8 *)effect + 0x82)) = old_cleanup_tick;
-    if (effect_active != 0) {
-        goto clear_active;
+    if (effect_active == 0) {
+        dungeonStatus.unk_0C = 0;
+        (*(u16 *)((u8 *)effect + -2)) = (u16) ((*(u16 *)((u8 *)effect + -2)) | 0x8000);
+        (*(s32 *)&objectFlagBlock.flags) = (s32) (objectFlagBlock.flags | 0x8000);
+        return;
     }
-    dungeonStatus.unk_0C = 0;
-    (*(u16 *)((u8 *)effect + -2)) = (u16) ((*(u16 *)((u8 *)effect + -2)) | 0x8000);
-    (*(s32 *)&objectFlagBlock.flags) = (s32) (objectFlagBlock.flags | 0x8000);
-    return;
-clear_active:
     (*(s16 *)&D_80025E80) = 0;
     return;
     default:

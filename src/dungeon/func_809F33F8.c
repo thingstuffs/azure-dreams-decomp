@@ -137,11 +137,9 @@ void func_80170BF8(void *actor_arg, void *motion_arg, void *object_arg) {
         if (!(((S_80170BF8_0 *)actor_arg)->unk_1C & 0x40000) && !(((S_80170BF8_0 *)actor_arg)->unk_98 & 8)) {
             ((S_80170BF8_1 *)((void *)(motion_arg)))->unk_14 = (s32) (((S_80170BF8_1 *)((void *)(motion_arg)))->unk_14 + (((S_80170BF8_0 *)actor_arg)->unk_9D.s * 0x14000));
             ((S_80170BF8_0 *)actor_arg)->unk_9D.u = (u8) (((S_80170BF8_0 *)actor_arg)->unk_9D.u + 1);
-            goto update_height;
+        } else {
+            ((S_80170BF8_0 *)actor_arg)->unk_9D.s = 0;
         }
-        ((S_80170BF8_0 *)actor_arg)->unk_9D.s = 0;
-update_height:
-
         ((S_80170BF8_0 *)actor_arg)->unk_90.at00.v = (s32) (((S_80170BF8_0 *)actor_arg)->unk_90.at00.v + ((S_80170BF8_1 *)((void *)(motion_arg)))->unk_14);
         object_flags = ((S_80170BF8_2 *)object_arg)->unk_14;
         if (!(object_flags & 0x8000)) {
@@ -164,13 +162,11 @@ update_height:
             if (!(((S_80170BF8_3 *)actor_base)->unk_1C & 0x20)) {
                 if (!(((S_80170BF8_2 *)object_arg)->unk_14 & 0x40)) {
                     func_800478B8(object_arg);
-                    goto update_motion_flags;
                 }
-                goto update_motion_flags;
+            } else {
+                ((S_80170BF8_2 *)object_arg)->unk_14 = (u16) (((S_80170BF8_2 *)object_arg)->unk_14 | 0x7000);
+                ((S_80170BF8_3 *)actor_base)->unk_1C = (s32) (((S_80170BF8_3 *)actor_base)->unk_1C & 0xFFFBFFFF);
             }
-            ((S_80170BF8_2 *)object_arg)->unk_14 = (u16) (((S_80170BF8_2 *)object_arg)->unk_14 | 0x7000);
-            ((S_80170BF8_3 *)actor_base)->unk_1C = (s32) (((S_80170BF8_3 *)actor_base)->unk_1C & 0xFFFBFFFF);
-update_motion_flags:
             actor_flags = ((S_80170BF8_3 *)actor_base)->unk_1C & 0xF7FFFFFF;
             ((S_80170BF8_3 *)actor_base)->unk_1C = actor_flags;
             if (actor_flags & 0x40000) {
@@ -182,28 +178,23 @@ update_motion_flags:
                         next_anim = D_80175148;
                         if (anim_table == D_80175148) {
                             anim_addr = (u32) D_80175140;
-                            goto apply_anim;
-                        }
-                        if (anim_table != D_80175140) {
+                        } else if (anim_table == D_80175140) {
+                            anim_addr = (u32) next_anim;
+                        } else {
                             next_anim = D_80175170;
                             if (anim_table == D_80175170) {
                                 anim_addr = (u32) D_80175178;
-                                goto apply_anim;
+                            } else if (anim_table == D_80175178) {
+                                anim_addr = (u32) next_anim;
+                            } else {
+                                goto update_bob;
                             }
-                            if (anim_table == D_80175178) {
-                                goto select_anim;
-                            }
-                            goto update_bob;
                         }
-select_anim:
-                        anim_addr = (u32) next_anim;
-apply_anim:
                         next_anim = (u8 *) anim_addr;
                         ((S_80170BF8_2 *)object_arg)->unk_2C = next_anim;
                         frame_addr = (u32) ((((s32) (gameWork.view.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A + 0x100) >> 9) & 7));
                         frame_addr += (u32) next_anim;
                         func_80047784(object_arg, *(u8 *) frame_addr, 0);
-                        goto update_bob;
                     }
 update_bob:
                     if (((S_80170BF8_2 *)object_arg)->unk_14 & 0x6000) {
@@ -214,120 +205,102 @@ update_bob:
                     }
                     bob_offset = func_800644B8((((S_80170BF8_0 *)actor_arg)->unk_A8 << 0xC) / 20) >> 0xA;
                     ((S_80170BF8_0 *)actor_arg)->unk_A8 = (s16) ((u16) ((S_80170BF8_0 *)actor_arg)->unk_A8 + 1);
-                    goto adjust_hover_height;
                 }
-adjust_hover_height:
                 if (!(((S_80170BF8_0 *)actor_arg)->unk_98 & 8)) {
                     hover_ground_offset = (s16) (func_800BCB04(((S_80170BF8_1 *)((void *)(motion_arg)))->unk_00.at02.v, ((S_80170BF8_1 *)((void *)(motion_arg)))->unk_04.at02.v, (s16) (((S_80170BF8_3 *)actor_base)->unk_88.u - 0x20)) - ((S_80170BF8_3 *)actor_base)->unk_88.u);
                     if (((S_80170BF8_0 *)actor_arg)->unk_90.at02.v > (hover_ground_offset - 0x20)) {
                         ((S_80170BF8_0 *)actor_arg)->unk_90.at02.v = (s16) (((u16) ((S_80170BF8_0 *)actor_arg)->unk_90.at02.v) - 8);
-                        goto update_display_height;
-                    }
-
-                    if (((S_80170BF8_0 *)actor_arg)->unk_90.at02.v < (hover_ground_offset - 0x2A)) {
+                    } else if (((S_80170BF8_0 *)actor_arg)->unk_90.at02.v < (hover_ground_offset - 0x2A)) {
                         ((S_80170BF8_0 *)actor_arg)->unk_90.at02.v = (s16) (((u16) ((S_80170BF8_0 *)actor_arg)->unk_90.at02.v) + 8);
-                        goto update_display_height;
                     }
-                    goto update_display_height;
                 }
-                goto update_display_height;
-            }
-            motion_flags = ((S_80170BF8_0 *)actor_arg)->unk_98;
-            ((S_80170BF8_0 *)actor_arg)->unk_A8 = 0;
-            ((S_80170BF8_0 *)actor_arg)->unk_98 = (u16) (motion_flags & 0x7FFF);
-            if (!(motion_flags & 8)) {
-                ground_offset = func_800BCB04(((S_80170BF8_1 *)((void *)(motion_arg)))->unk_00.at02.v, ((S_80170BF8_1 *)((void *)(motion_arg)))->unk_04.at02.v, (s16) (((S_80170BF8_3 *)actor_base)->unk_88.u - 0x20));
-                ground_height = (s16) ground_offset;
-                base_height = ((S_80170BF8_3 *)actor_base)->unk_88.s;
-                ground_offset_2 = (s32) ground_height - base_height;
-                if (ground_offset_2 < ((S_80170BF8_0 *)actor_arg)->unk_90.at02.v) {
-                    ((S_80170BF8_0 *)actor_arg)->unk_90.at02.v = ground_offset_2;
-                    ((S_80170BF8_0 *)actor_arg)->unk_9D.s = 0;
-                    ((S_80170BF8_1 *)((void *)(motion_arg)))->unk_14 = 0;
-                    ((S_80170BF8_3 *)actor_base)->unk_1C = ((S_80170BF8_3 *)actor_base)->unk_1C | 0x08000000;
-                    goto update_display_height;
-                }
-            }
-            goto update_display_height;
-        }
-        ((S_80170BF8_2 *)object_arg)->unk_14 = (object_flags & 0x800) ? (object_flags & 0x8FFF) : (object_flags | 0x7000);
-        hidden_actor_flags = ((S_80170BF8_3 *)actor_base)->unk_1C & 0xF7FFFFFF;
-        ((S_80170BF8_3 *)actor_base)->unk_1C = hidden_actor_flags;
-        if (!(hidden_actor_flags & 0x40000)) {
-            ((S_80170BF8_0 *)actor_arg)->unk_A8 = 0;
-            ((S_80170BF8_0 *)actor_arg)->unk_90.at02.v = (s16) ((u16) ((S_80170BF8_0 *)actor_arg)->unk_90.at02.v - bob_offset);
-            bob_offset = 0;
-            if (!(((S_80170BF8_0 *)actor_arg)->unk_98 & 8)) {
-                ground_offset_3 = func_800BCB04(((S_80170BF8_1 *)((void *)(motion_arg)))->unk_00.at02.v, ((S_80170BF8_1 *)((void *)(motion_arg)))->unk_04.at02.v, (s16) (((S_80170BF8_3 *)actor_base)->unk_88.u - 0x20));
-                hidden_ground_height = (s16) ground_offset_3;
-                hidden_base_height = ((S_80170BF8_3 *)actor_base)->unk_88.s;
-                ground_offset_4 = (s32) hidden_ground_height - hidden_base_height;
-                if (ground_offset_4 < ((S_80170BF8_0 *)actor_arg)->unk_90.at02.v) {
-                    ((S_80170BF8_0 *)actor_arg)->unk_90.at02.v = ground_offset_4;
-                    ((S_80170BF8_0 *)actor_arg)->unk_9D.s = 0;
-                    ((S_80170BF8_1 *)((void *)(motion_arg)))->unk_14 = 0;
-                    ((S_80170BF8_3 *)actor_base)->unk_1C = ((S_80170BF8_3 *)actor_base)->unk_1C | 0x08000000;
-                    goto reset_bob;
-                }
-            }
-            goto reset_bob;
-        }
-        if (!(((S_80170BF8_2 *)object_arg)->unk_14 & 0x40)) {
-            hidden_anim_flags = ((S_80170BF8_0 *)actor_arg)->unk_98;
-            if (hidden_anim_flags & 0x8000) {
-                ((S_80170BF8_0 *)actor_arg)->unk_98 = (u16) (hidden_anim_flags & 0x7FFF);
-                hidden_anim_table = ((S_80170BF8_2 *)object_arg)->unk_2C;
-                hidden_next_anim = D_80175148;
-                if (hidden_anim_table == D_80175148) {
-                    anim_addr = (u32) D_80175140;
-                    goto apply_hidden_anim;
-                }
-                if (hidden_anim_table != D_80175140) {
-                    hidden_next_anim = D_80175170;
-                    if (hidden_anim_table == D_80175170) {
-                        anim_addr = (u32) D_80175178;
-                        goto apply_hidden_anim;
+            } else {
+                motion_flags = ((S_80170BF8_0 *)actor_arg)->unk_98;
+                ((S_80170BF8_0 *)actor_arg)->unk_A8 = 0;
+                ((S_80170BF8_0 *)actor_arg)->unk_98 = (u16) (motion_flags & 0x7FFF);
+                if (!(motion_flags & 8)) {
+                    ground_offset = func_800BCB04(((S_80170BF8_1 *)((void *)(motion_arg)))->unk_00.at02.v, ((S_80170BF8_1 *)((void *)(motion_arg)))->unk_04.at02.v, (s16) (((S_80170BF8_3 *)actor_base)->unk_88.u - 0x20));
+                    ground_height = (s16) ground_offset;
+                    base_height = ((S_80170BF8_3 *)actor_base)->unk_88.s;
+                    ground_offset_2 = (s32) ground_height - base_height;
+                    if (ground_offset_2 < ((S_80170BF8_0 *)actor_arg)->unk_90.at02.v) {
+                        ((S_80170BF8_0 *)actor_arg)->unk_90.at02.v = ground_offset_2;
+                        ((S_80170BF8_0 *)actor_arg)->unk_9D.s = 0;
+                        ((S_80170BF8_1 *)((void *)(motion_arg)))->unk_14 = 0;
+                        ((S_80170BF8_3 *)actor_base)->unk_1C = ((S_80170BF8_3 *)actor_base)->unk_1C | 0x08000000;
                     }
-                    if (hidden_anim_table == D_80175178) {
-                        goto select_hidden_anim;
-                    }
-                    goto update_hidden_bob;
                 }
-select_hidden_anim:
-                anim_addr = (u32) hidden_next_anim;
-apply_hidden_anim:
-                hidden_next_anim = (u8 *) anim_addr;
-                ((S_80170BF8_2 *)object_arg)->unk_2C = hidden_next_anim;
-                frame_addr = (u32) ((((s32) (gameWork.view.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A + 0x100) >> 9) & 7));
-                frame_addr += (u32) hidden_next_anim;
-                func_80047784(object_arg, *(u8 *) frame_addr, 0);
-                goto update_hidden_bob;
             }
+        } else {
+            ((S_80170BF8_2 *)object_arg)->unk_14 = (object_flags & 0x800) ? (object_flags & 0x8FFF) : (object_flags | 0x7000);
+            hidden_actor_flags = ((S_80170BF8_3 *)actor_base)->unk_1C & 0xF7FFFFFF;
+            ((S_80170BF8_3 *)actor_base)->unk_1C = hidden_actor_flags;
+            if (!(hidden_actor_flags & 0x40000)) {
+                ((S_80170BF8_0 *)actor_arg)->unk_A8 = 0;
+                ((S_80170BF8_0 *)actor_arg)->unk_90.at02.v = (s16) ((u16) ((S_80170BF8_0 *)actor_arg)->unk_90.at02.v - bob_offset);
+                bob_offset = 0;
+                if (!(((S_80170BF8_0 *)actor_arg)->unk_98 & 8)) {
+                    ground_offset_3 = func_800BCB04(((S_80170BF8_1 *)((void *)(motion_arg)))->unk_00.at02.v, ((S_80170BF8_1 *)((void *)(motion_arg)))->unk_04.at02.v, (s16) (((S_80170BF8_3 *)actor_base)->unk_88.u - 0x20));
+                    hidden_ground_height = (s16) ground_offset_3;
+                    hidden_base_height = ((S_80170BF8_3 *)actor_base)->unk_88.s;
+                    ground_offset_4 = (s32) hidden_ground_height - hidden_base_height;
+                    if (ground_offset_4 < ((S_80170BF8_0 *)actor_arg)->unk_90.at02.v) {
+                        ((S_80170BF8_0 *)actor_arg)->unk_90.at02.v = ground_offset_4;
+                        ((S_80170BF8_0 *)actor_arg)->unk_9D.s = 0;
+                        ((S_80170BF8_1 *)((void *)(motion_arg)))->unk_14 = 0;
+                        ((S_80170BF8_3 *)actor_base)->unk_1C = ((S_80170BF8_3 *)actor_base)->unk_1C | 0x08000000;
+                    }
+                }
+            } else {
+                if (!(((S_80170BF8_2 *)object_arg)->unk_14 & 0x40)) {
+                    hidden_anim_flags = ((S_80170BF8_0 *)actor_arg)->unk_98;
+                    if (hidden_anim_flags & 0x8000) {
+                        ((S_80170BF8_0 *)actor_arg)->unk_98 = (u16) (hidden_anim_flags & 0x7FFF);
+                        hidden_anim_table = ((S_80170BF8_2 *)object_arg)->unk_2C;
+                        hidden_next_anim = D_80175148;
+                        if (hidden_anim_table == D_80175148) {
+                            anim_addr = (u32) D_80175140;
+                        } else if (hidden_anim_table == D_80175140) {
+                            anim_addr = (u32) hidden_next_anim;
+                        } else {
+                            hidden_next_anim = D_80175170;
+                            if (hidden_anim_table == D_80175170) {
+                                anim_addr = (u32) D_80175178;
+                            } else if (hidden_anim_table == D_80175178) {
+                                anim_addr = (u32) hidden_next_anim;
+                            } else {
+                                goto update_hidden_bob;
+                            }
+                        }
+                        hidden_next_anim = (u8 *) anim_addr;
+                        ((S_80170BF8_2 *)object_arg)->unk_2C = hidden_next_anim;
+                        frame_addr = (u32) ((((s32) (gameWork.view.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A + 0x100) >> 9) & 7));
+                        frame_addr += (u32) hidden_next_anim;
+                        func_80047784(object_arg, *(u8 *) frame_addr, 0);
+                    }
 update_hidden_bob:
-            if (((S_80170BF8_2 *)object_arg)->unk_14 & 0x6000) {
-                ((S_80170BF8_0 *)actor_arg)->unk_98 = (u16) (((S_80170BF8_0 *)actor_arg)->unk_98 | 0x8000);
-                if (((S_80170BF8_2 *)object_arg)->unk_2C == D_80175140) {
-                    ((S_80170BF8_0 *)actor_arg)->unk_A8 = 0;
+                    if (((S_80170BF8_2 *)object_arg)->unk_14 & 0x6000) {
+                        ((S_80170BF8_0 *)actor_arg)->unk_98 = (u16) (((S_80170BF8_0 *)actor_arg)->unk_98 | 0x8000);
+                        if (((S_80170BF8_2 *)object_arg)->unk_2C == D_80175140) {
+                            ((S_80170BF8_0 *)actor_arg)->unk_A8 = 0;
+                        }
+                    }
+                    bob_offset = func_800644B8((((S_80170BF8_0 *)actor_arg)->unk_A8 << 0xC) / 20) >> 0xA;
+                    ((S_80170BF8_0 *)actor_arg)->unk_A8 = (s16) ((u16) ((S_80170BF8_0 *)actor_arg)->unk_A8 + 1);
+                }
+                if (!(((S_80170BF8_0 *)actor_arg)->unk_98 & 8)) {
+                    hidden_hover_offset = func_800BCB04(((S_80170BF8_1 *)((void *)(motion_arg)))->unk_00.at02.v, ((S_80170BF8_1 *)((void *)(motion_arg)))->unk_04.at02.v, (s16) (((S_80170BF8_3 *)actor_base)->unk_88.u - 0x20)) - ((S_80170BF8_3 *)actor_base)->unk_88.u;
+                    height_offset = ((S_80170BF8_0 *)actor_arg)->unk_90.at02.v;
+                    if (height_offset > (hidden_hover_offset - 0x20)) {
+                        ((S_80170BF8_0 *)actor_arg)->unk_90.at02.v = (s16) (((u16) ((S_80170BF8_0 *)actor_arg)->unk_90.at02.v) - 8);
+                    } else if (height_offset < (hidden_hover_offset - 0x2A)) {
+                        ((S_80170BF8_0 *)actor_arg)->unk_90.at02.v = (s16) (((u16) ((S_80170BF8_0 *)actor_arg)->unk_90.at02.v) + 8);
+                    }
                 }
             }
-            bob_offset = func_800644B8((((S_80170BF8_0 *)actor_arg)->unk_A8 << 0xC) / 20) >> 0xA;
-            ((S_80170BF8_0 *)actor_arg)->unk_A8 = (s16) ((u16) ((S_80170BF8_0 *)actor_arg)->unk_A8 + 1);
-            goto adjust_hidden_hover;
+            ((S_80170BF8_0 *)actor_arg)->unk_A8 = 0;
+            ((S_80170BF8_0 *)actor_arg)->unk_98 = (u16) (((S_80170BF8_0 *)actor_arg)->unk_98 & 0x7FFF);
         }
-adjust_hidden_hover:
-        if (!(((S_80170BF8_0 *)actor_arg)->unk_98 & 8)) {
-            hidden_hover_offset = func_800BCB04(((S_80170BF8_1 *)((void *)(motion_arg)))->unk_00.at02.v, ((S_80170BF8_1 *)((void *)(motion_arg)))->unk_04.at02.v, (s16) (((S_80170BF8_3 *)actor_base)->unk_88.u - 0x20)) - ((S_80170BF8_3 *)actor_base)->unk_88.u;
-            height_offset = ((S_80170BF8_0 *)actor_arg)->unk_90.at02.v;
-            if (height_offset > (hidden_hover_offset - 0x20)) {
-                ((S_80170BF8_0 *)actor_arg)->unk_90.at02.v = (s16) (((u16) ((S_80170BF8_0 *)actor_arg)->unk_90.at02.v) - 8);
-            } else if (height_offset < (hidden_hover_offset - 0x2A)) {
-                ((S_80170BF8_0 *)actor_arg)->unk_90.at02.v = (s16) (((u16) ((S_80170BF8_0 *)actor_arg)->unk_90.at02.v) + 8);
-            }
-        }
-reset_bob:
-        ((S_80170BF8_0 *)actor_arg)->unk_A8 = 0;
-        ((S_80170BF8_0 *)actor_arg)->unk_98 = (u16) (((S_80170BF8_0 *)actor_arg)->unk_98 & 0x7FFF);
-update_display_height:
         height_flags = ((S_80170BF8_3 *)actor_base)->unk_1C;
         if (height_flags & 0x40000000) {
             ((S_80170BF8_3 *)actor_base)->unk_1C = (s32) (height_flags & 0xBFFFFFFF);

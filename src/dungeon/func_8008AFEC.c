@@ -20,25 +20,20 @@ s32 func_8009074C(s16 direction_offset, u16 *flags, u16 *angle) {
     input_state = ((u16)gameWork.buttons);
     result_angle = -1;
     direction_mask = input_state & 0xF000;
-    if (input_state & 0x10) {
-        goto block_2;
+    if (!(input_state & 0x10)) {
+        *flags &= 0xFFF;
     }
-    *flags &= 0xFFF;
-block_2:
     input_direction = input_state >> 0xC;
     switch (input_direction) {
     case 2:
-    if (*flags & direction_mask) {
-        goto block_19;
-    }
-    {
+    if (!(*flags & direction_mask)) {
         s32 offset_angle;
         s32 relative_angle;
         offset_angle = ((s32) (direction_offset << 0x10) >> 7);
         relative_angle = 0 - offset_angle;
         result_angle = relative_angle;
-        goto block_19;
     }
+    goto block_19;
     case 6:
     {
         s32 relative_direction;
@@ -53,14 +48,13 @@ block_2:
         goto block_18_c1;
     }
     case 4:
-    if (*flags & direction_mask) {
-        goto block_19;
-    }
-    {
+    if (!(*flags & direction_mask)) {
         direction_or_angle = (s16)direction_offset;
         direction_result = 2;
-        goto entry_v0_minus_v1;
+        direction_result = direction_result - direction_or_angle;
+        result_angle = direction_result << 9;
     }
+    goto block_19;
     case 12:
     {
         s32 relative_direction;
@@ -75,14 +69,13 @@ block_2:
         goto block_18_c3;
     }
     case 8:
-    if (*flags & direction_mask) {
-        goto block_19;
-    }
-    {
+    if (!(*flags & direction_mask)) {
         direction_or_angle = (s16)direction_offset;
         direction_result = 4;
-        goto entry_v0_minus_v1;
+        direction_result = direction_result - direction_or_angle;
+        result_angle = direction_result << 9;
     }
+    goto block_19;
     case 9:
     {
         s32 relative_direction;
@@ -97,14 +90,12 @@ block_2:
         goto block_18_c5;
     }
     case 1:
-    if (*flags & direction_mask) {
-        goto block_19;
+    if (!(*flags & direction_mask)) {
+        direction_or_angle = (s16)direction_offset;
+        direction_result = 6;
+        direction_result = direction_result - direction_or_angle;
+        result_angle = direction_result << 9;
     }
-    direction_or_angle = (s16)direction_offset;
-    direction_result = 6;
-entry_v0_minus_v1:
-    direction_result = direction_result - direction_or_angle;
-    result_angle = direction_result << 9;
     goto block_19;
     case 3:
     {
@@ -133,69 +124,52 @@ block_18:
     *flags = updated_flags;
 block_19:
     *flags &= 0xFBFF;
-    if (angle == NULL) {
-        goto block_34;
+    if (angle != NULL && result_angle != -1) {
+        angle_bits = *angle;
+        normalized = angle_bits & 0x800;
+        if (!normalized) {
+            normalized = angle_bits & 0x7FF;
+        } else {
+            normalized = angle_bits | 0xF800;
+        }
+            *angle = normalized;
+        normalized = result_angle & 0x800;
+        if (!normalized) {
+            normalized = (u16) result_angle & 0x7FF;
+        } else {
+            normalized = (u16) result_angle | 0xF800;
+        }
+            result_angle = normalized;
+        current_angle = (s16) *angle;
+        current_bits = *angle;
+        angle_distance = current_angle - result_angle;
+        if (angle_distance < 0) {
+            angle_distance = 0 - angle_distance;
+        }
+        if (angle_distance >= 0x801)
+        {        u16 wrap_hi;
+            u16 wrap_lo;
+            wrap_hi = current_bits & 0xF000;
+            wrap_lo = result_angle & 0xFFF;
+            result_angle = wrap_hi | wrap_lo;
+        }
+        direction_result = result_angle << 0x10;
+        direction_or_angle = direction_result >> 0x10;
+        direction_result = current_angle < direction_or_angle;
+        if (direction_result) {
+            updated_flags = *flags;
+            result_angle = current_bits + 0x200;
+            updated_flags |= 0x400;
+            *flags = updated_flags;
+        } else {
+            direction_result = direction_or_angle < current_angle;
+            if (direction_result) {
+                updated_flags = *flags;
+                result_angle = current_bits - 0x200;
+                updated_flags |= 0x400;
+                *flags = updated_flags;
+            }
+        }
     }
-    if (result_angle == -1) {
-        goto block_34;
-    }
-    angle_bits = *angle;
-    normalized = angle_bits & 0x800;
-    if (!normalized) {
-        normalized = angle_bits & 0x7FF;
-    } else {
-        normalized = angle_bits | 0xF800;
-    }
-block_23:
-    *angle = normalized;
-    normalized = result_angle & 0x800;
-    if (!normalized) {
-        normalized = (u16) result_angle & 0x7FF;
-    } else {
-        normalized = (u16) result_angle | 0xF800;
-    }
-block_25:
-    result_angle = normalized;
-    current_angle = (s16) *angle;
-    current_bits = *angle;
-    angle_distance = current_angle - result_angle;
-    if (angle_distance >= 0) {
-        goto block_27;
-    }
-    angle_distance = 0 - angle_distance;
-block_27:
-    if (angle_distance < 0x801) {
-        goto block_28;
-    }
-    {
-        u16 wrap_hi;
-        u16 wrap_lo;
-        wrap_hi = current_bits & 0xF000;
-        wrap_lo = result_angle & 0xFFF;
-        result_angle = wrap_hi | wrap_lo;
-    }
-    goto block_29;
-block_28:
-block_29:
-    direction_result = result_angle << 0x10;
-    direction_or_angle = direction_result >> 0x10;
-    direction_result = current_angle < direction_or_angle;
-    if (!direction_result) {
-        goto block_31;
-    }
-    updated_flags = *flags;
-    result_angle = current_bits + 0x200;
-    goto block_33;
-block_31:
-    direction_result = direction_or_angle < current_angle;
-    if (!direction_result) {
-        goto block_34;
-    }
-    updated_flags = *flags;
-    result_angle = current_bits - 0x200;
-block_33:
-    updated_flags |= 0x400;
-    *flags = updated_flags;
-block_34:
     return result_angle & 0xFFF;
 }

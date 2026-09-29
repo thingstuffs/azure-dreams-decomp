@@ -187,16 +187,10 @@ void func_800253C0(void *sequence_in, void *position_in, void *actor_in, void *o
         void *prim_m;
         s32 table_index_m;
     case 0:
-        if (((S_800253C0_0 *)sequence)->unk_AC == 0) {
-            goto missing_object;
+        if (((S_800253C0_0 *)sequence)->unk_AC == 0 || ((S_800253C0_0 *)sequence)->unk_B0 == 0) {
+            ((S_800253C0_0 *)sequence)->unk_9B.n = 13;
+            return;
         }
-        if (((S_800253C0_0 *)sequence)->unk_B0 != 0) {
-            goto start_sequence;
-        }
-missing_object:
-        ((S_800253C0_0 *)sequence)->unk_9B.n = 13;
-        return;
-start_sequence:
         {
             void *sound_data = *(void *volatile *)&D_8006CD58[0];
             func_8003F540(0, sound_data, 0, 0x1000530);
@@ -205,7 +199,9 @@ start_sequence:
             s32 cd_value = func_800445E0();
             Control_CD(21, cd_value, 0);
         }
-        goto advance_state;
+        state = ((S_800253C0_0 *)sequence)->unk_9B.n;
+        ((S_800253C0_0 *)sequence)->unk_9B.n = state + 1;
+        return;
 
     case 1:
         {
@@ -238,7 +234,7 @@ start_sequence:
             mask = 0x20000000;
             object_slot = sequence;
 
-            loop_0: {
+            do {
                 object_m = ((S_800253C0_4 *)object_slot)->unk_AC;
                 if ((((S_800253C0_5 *)object_m)->unk_14 & mask) != 0) {
                     func_800ACB98(object_m, ((S_800253C0_5_pre *)object_m)[-1].unk_00,
@@ -246,9 +242,11 @@ start_sequence:
                 }
                 object_index_m++;
                 object_slot = (u8 *)object_slot + 4;
-            } if (object_index_m < 2) goto loop_0;
+            } while (object_index_m < 2);
         }
-        goto advance_state;
+        state = ((S_800253C0_0 *)sequence)->unk_9B.n;
+        ((S_800253C0_0 *)sequence)->unk_9B.n = state + 1;
+        return;
 
     case 3:
         if (dungeonStatus.unk_0A != 0) {
@@ -383,7 +381,8 @@ start_sequence:
                     ((S_800253C0_0 *)sequence)->unk_96.n = coord_delta;
                 }
             }
-            goto store_next_state;
+            ((S_800253C0_0 *)sequence)->unk_9B.n = state + 1;
+            return;
         }
 
     case 4:
@@ -400,7 +399,8 @@ start_sequence:
                 state = ((S_800253C0_0 *)sequence)->unk_9B.v;
                 ((S_800253C0_0 *)sequence)->unk_96.n = coord_delta;
             }
-            goto store_next_state;
+            ((S_800253C0_0 *)sequence)->unk_9B.n = state + 1;
+            return;
         }
 
     case 5:
@@ -448,7 +448,8 @@ start_sequence:
                 state = ((S_800253C0_0 *)sequence)->unk_9B.n;
                 ((S_800253C0_0 *)sequence)->unk_96.n = coord_delta;
             }
-            goto store_next_state;
+            ((S_800253C0_0 *)sequence)->unk_9B.n = state + 1;
+            return;
         }
 
     case 7:
@@ -538,15 +539,14 @@ animate_objects:
                     next_state = ((S_800253C0_0 *)sequence)->unk_9B.n;
                     ((S_800253C0_0 *)sequence)->unk_96.n = 38;
                     next_state = next_state + 1;
-                    goto show_result;
+                } else {
+                    saved_text = func_8009929C(10, saved_text);
+                    saved_text = func_80099194(D_80025028, saved_text);
+                    next_state = ((S_800253C0_0 *)sequence)->unk_9B.n;
+                    ((S_800253C0_0 *)sequence)->unk_96.n = 32;
+                    next_state = next_state + 2;
                 }
             }
-            saved_text = func_8009929C(10, saved_text);
-            saved_text = func_80099194(D_80025028, saved_text);
-            next_state = ((S_800253C0_0 *)sequence)->unk_9B.n;
-            ((S_800253C0_0 *)sequence)->unk_96.n = 32;
-            next_state = next_state + 2;
-show_result:
             ((S_800253C0_0 *)sequence)->unk_9B.n = next_state;
             func_80099290(saved_text);
             func_800A5720(message_id);
@@ -674,7 +674,8 @@ show_result:
                 state = ((S_800253C0_0 *)sequence)->unk_9B.v;
                 ((S_800253C0_0 *)sequence)->unk_96.n = coord_delta;
             }
-            goto store_next_state;
+            ((S_800253C0_0 *)sequence)->unk_9B.n = state + 1;
+            return;
         }
 
     case 9:
@@ -690,7 +691,8 @@ show_result:
                 state = ((S_800253C0_0 *)sequence)->unk_9B.v;
                 ((S_800253C0_0 *)sequence)->unk_96.n = coord_delta;
             }
-            goto store_next_state;
+            ((S_800253C0_0 *)sequence)->unk_9B.n = state + 1;
+            return;
         }
 
     case 10:
@@ -782,7 +784,9 @@ show_result:
                 object_index_m++;
                 final_slot = (u8 *)final_slot + 4;
             } while (object_index_m < 2);
-            goto advance_state;
+            state = ((S_800253C0_0 *)sequence)->unk_9B.n;
+            ((S_800253C0_0 *)sequence)->unk_9B.n = state + 1;
+            return;
         }
 
     case 11:
@@ -790,9 +794,7 @@ show_result:
         anim_entry = D_800DD150 + ((((((Rec_D_80083160 *)((u8 *)(&gameWork)))->unk_C8.as_s16 +
             ((S_800253C0_1 *)owner)->unk_2A.s) + 0x100) >> 9) & 7);
         func_80048A44(actor, *anim_entry, 0, 1);
-advance_state:
         state = ((S_800253C0_0 *)sequence)->unk_9B.n;
-store_next_state:
         ((S_800253C0_0 *)sequence)->unk_9B.n = state + 1;
         return;
 

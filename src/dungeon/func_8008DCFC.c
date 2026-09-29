@@ -215,19 +215,17 @@ case 0:
     selected_object = (void *) ((S_8009345C_3 *)(((selected_slot * 4) + actor)))->unk_AC;
     ((S_8009345C_4 *)(&D_800DD262))->unk_00.u = slot_bits;
     ((S_8009345C_2 *)context)->unk_60 = selected_object;
-    goto advance_state;
+    break;
 case 1:
     start_ticks = ((S_8009345C_0 *)actor)->unk_96 - 1;
     ((S_8009345C_0 *)actor)->unk_96 = start_ticks;
     if ((start_ticks << 0x10) > 0) {
         return;
     }
-    if (((S_8009345C_2 *)context)->unk_60 == NULL) {
-        goto skip_removal;
+    if (((S_8009345C_2 *)context)->unk_60 != NULL) {
+        func_80093E74(actor, map, entity, context);
+        break;
     }
-    func_80093E74(actor, map, entity, context);
-    goto advance_state;
-skip_removal:
     next_state = ((S_8009345C_0 *)actor)->unk_9B + 2;
     goto set_state;
 case 2:
@@ -236,14 +234,11 @@ case 2:
     }
     message_or_list.value = func_800990FC();
     remove_message = func_8009929C(8, message_or_list.value);
-    if (((S_8009345C_4 *)(&D_800DD262))->unk_00.s == 0) {
-        goto remove_first_slot;
+    if (((S_8009345C_4 *)(&D_800DD262))->unk_00.s != 0) {
+        remove_text = &D_800E05F0;
+    } else {
+        remove_text = &D_800E05E1;
     }
-    remove_text = &D_800E05F0;
-    goto show_removal;
-remove_first_slot:
-    remove_text = &D_800E05E1;
-show_removal:
     func_80099290(func_80099194(&D_800E06FA, func_80099734(((S_8009345C_2 *)context)->unk_60, func_80099194(remove_text, remove_message))));
     func_800A5720(message_or_list.value);
     old_object = ((S_8009345C_2 *)context)->unk_60;
@@ -255,84 +250,75 @@ show_removal:
     removed_object = ((S_8009345C_2 *)context)->unk_60;
     ((S_8009345C_5_pre *)removed_object)[-1].unk_00 = (u16) (((S_8009345C_5_pre *)removed_object)[-1].unk_00 | 0x8000);
     (*(s32 *)&objectFlagBlock.flags) = (s32) (objectFlagBlock.flags | 0x8000);
-    if (D_80082EB0[0] != NULL) {
-        goto advance_state;
+    if (D_80082EB0[0] == NULL) {
+        ((S_8009345C_0 *)actor)->unk_96 = 0U;
+        next_state = ((S_8009345C_0 *)actor)->unk_9B + 4;
+        goto set_state;
     }
-    ((S_8009345C_0 *)actor)->unk_96 = 0U;
-    next_state = ((S_8009345C_0 *)actor)->unk_9B + 4;
-    goto set_state;
+    break;
 case 3:
     message_or_list.base = D_80082EB0;
     if ((func_800A2BDC(0) << 0x10) != 0) {
         return;
     }
     load_id = func_800A1618(((S_8009345C_7 *)(*message_or_list.base))->unk_00, 3);
-    if (load_id == 0) {
-        goto advance_state;
+    if (load_id != 0) {
+        D_80081488 = func_80048118(((S_8009345C_7 *)(*message_or_list.base))->unk_00, &D_8008149C);
+        func_800A0B94(((S_8009345C_7 *)(*message_or_list.base))->unk_00, load_id, 0);
+        (*(s8 *)&D_800E3E40) = 0;
+        Control_CD(0xFF, &D_8003E140, &D_800E3E40);
     }
-    D_80081488 = func_80048118(((S_8009345C_7 *)(*message_or_list.base))->unk_00, &D_8008149C);
-    func_800A0B94(((S_8009345C_7 *)(*message_or_list.base))->unk_00, load_id, 0);
-    (*(s8 *)&D_800E3E40) = 0;
-    Control_CD(0xFF, &D_8003E140, &D_800E3E40);
-    goto advance_state;
+    break;
 case 4:
     if (((S_8009345C_8 *)(&D_800E3E40))->unk_00 == 0) {
         return;
     }
-    if (D_80081488 == 0) {
-        goto advance_state;
+    if (D_80081488 != 0) {
+        func_80047FF4(((S_8009345C_9 *)(D_80082EB0[0]))->unk_00, D_80081488);
     }
-    func_80047FF4(((S_8009345C_9 *)(D_80082EB0[0]))->unk_00, D_80081488);
-    goto advance_state;
+    break;
 case 5:
     message_or_list.base = D_80082EB0;
     create_id = func_800A1618(((S_8009345C_7 *)(*message_or_list.base))->unk_00, 3);
-    if (create_id == 0) {
-        goto start_end_delay;
+    if (create_id != 0) {
+        func_80043914(*message_or_list.base);
+        new_object = func_800A0B94(((S_8009345C_7 *)(*message_or_list.base))->unk_00, create_id, 1)(1, ((S_8009345C_2 *)context)->unk_72, ((S_8009345C_2 *)context)->unk_73, (s16) (((S_8009345C_2 *)context)->unk_88 - 0x20));
+        if (new_object != NULL) {
+            (*(void **)((u8 *)(((((S_8009345C_4 *)(&D_800DD262))->unk_00.s * 4) + actor)) + (0xAC))) = new_object;
+            D_800E3DF0[((S_8009345C_7 *)(*message_or_list.base))->unk_03 & 0x1F] = new_object;
+            object_scale = ((S_8009345C_10_pre *)new_object)[-1].unk_04;
+            ((S_8009345C_11 *)object_scale)->unk_1E = 0x800;
+            ((S_8009345C_11 *)object_scale)->unk_1C = 0x800;
+            object_position = ((S_8009345C_10_pre *)new_object)[-1].unk_00;
+            ((S_8009345C_12 *)object_position)->unk_02 = (u16) ((S_8009345C_13 *)map)->unk_02;
+            ((S_8009345C_12 *)object_position)->unk_06 = (u16) ((S_8009345C_13 *)map)->unk_06;
+            ((S_8009345C_12 *)object_position)->unk_0A = (s16) (((S_8009345C_13 *)map)->unk_0A - 0x10);
+            func_80042640(new_object, ((S_8009345C_10 *)new_object)->unk_13);
+            func_800424E0(new_object, ((S_8009345C_10 *)new_object)->unk_13, *message_or_list.base);
+            object_flags = ((S_8009345C_10 *)new_object)->unk_1C;
+            object_slot = ((S_8009345C_4 *)(&D_800DD262))->unk_00.s;
+            ((S_8009345C_10 *)new_object)->unk_1C = object_flags | 0x02000000;
+            ((S_8009345C_14 *)(((object_slot * 4) + actor)))->unk_D0 = D_80082EB0[0];
+            ((S_8009345C_9 *)(D_80082EB0[0]))->unk_03 = (u8) (((S_8009345C_9 *)(D_80082EB0[0]))->unk_03 | 0x20);
+            message_or_list.value = func_800990FC(0x02000000);
+            create_message = message_or_list.value;
+            if (D_800DD260 == 0) {
+                create_message = func_8009929C(8, create_message);
+            }
+            if (((S_8009345C_4 *)(&D_800DD262))->unk_00.s != 0) {
+                create_text = &D_800E05F0;
+            } else {
+                create_text = &D_800E05E1;
+            }
+            func_80099290(func_80099194(&D_800E0714, func_80099734(new_object, func_80099194(create_text, create_message))));
+            func_800A5720(message_or_list.value);
+            cleanup_slot = ((S_8009345C_4 *)(&D_800DD262))->unk_00.s;
+            D_800E3D74[cleanup_slot] = 0;
+            func_800A152C(((S_8009345C_9 *)(D_80082EB0[0]))->unk_00, 3);
+            func_80042560(new_object);
+            func_800A56E0(0x704);
+        }
     }
-    func_80043914(*message_or_list.base);
-    new_object = func_800A0B94(((S_8009345C_7 *)(*message_or_list.base))->unk_00, create_id, 1)(1, ((S_8009345C_2 *)context)->unk_72, ((S_8009345C_2 *)context)->unk_73, (s16) (((S_8009345C_2 *)context)->unk_88 - 0x20));
-    if (new_object == NULL) {
-        goto start_end_delay;
-    }
-    (*(void **)((u8 *)(((((S_8009345C_4 *)(&D_800DD262))->unk_00.s * 4) + actor)) + (0xAC))) = new_object;
-    D_800E3DF0[((S_8009345C_7 *)(*message_or_list.base))->unk_03 & 0x1F] = new_object;
-    object_scale = ((S_8009345C_10_pre *)new_object)[-1].unk_04;
-    ((S_8009345C_11 *)object_scale)->unk_1E = 0x800;
-    ((S_8009345C_11 *)object_scale)->unk_1C = 0x800;
-    object_position = ((S_8009345C_10_pre *)new_object)[-1].unk_00;
-    ((S_8009345C_12 *)object_position)->unk_02 = (u16) ((S_8009345C_13 *)map)->unk_02;
-    ((S_8009345C_12 *)object_position)->unk_06 = (u16) ((S_8009345C_13 *)map)->unk_06;
-    ((S_8009345C_12 *)object_position)->unk_0A = (s16) (((S_8009345C_13 *)map)->unk_0A - 0x10);
-    func_80042640(new_object, ((S_8009345C_10 *)new_object)->unk_13);
-    func_800424E0(new_object, ((S_8009345C_10 *)new_object)->unk_13, *message_or_list.base);
-    object_flags = ((S_8009345C_10 *)new_object)->unk_1C;
-    object_slot = ((S_8009345C_4 *)(&D_800DD262))->unk_00.s;
-    ((S_8009345C_10 *)new_object)->unk_1C = object_flags | 0x02000000;
-    ((S_8009345C_14 *)(((object_slot * 4) + actor)))->unk_D0 = D_80082EB0[0];
-    ((S_8009345C_9 *)(D_80082EB0[0]))->unk_03 = (u8) (((S_8009345C_9 *)(D_80082EB0[0]))->unk_03 | 0x20);
-    message_or_list.value = func_800990FC(0x02000000);
-    create_message = message_or_list.value;
-    if (D_800DD260 != 0) {
-        goto select_create_text;
-    }
-    create_message = func_8009929C(8, create_message);
-select_create_text:
-    if (((S_8009345C_4 *)(&D_800DD262))->unk_00.s == 0) {
-        goto create_first_slot;
-    }
-    create_text = &D_800E05F0;
-    goto show_creation;
-create_first_slot:
-    create_text = &D_800E05E1;
-show_creation:
-    func_80099290(func_80099194(&D_800E0714, func_80099734(new_object, func_80099194(create_text, create_message))));
-    func_800A5720(message_or_list.value);
-    cleanup_slot = ((S_8009345C_4 *)(&D_800DD262))->unk_00.s;
-    D_800E3D74[cleanup_slot] = 0;
-    func_800A152C(((S_8009345C_9 *)(D_80082EB0[0]))->unk_00, 3);
-    func_80042560(new_object);
-    func_800A56E0(0x704);
 start_end_delay:
     next_state = ((S_8009345C_0 *)actor)->unk_9B;
     ((S_8009345C_0 *)actor)->unk_96 = 0x10U;
@@ -345,7 +331,7 @@ case 7:
     }
     (*(void **)((u8 *)entity + (0x2C))) = D_800DD140;
     func_80048A44(entity, D_800DD140[((s32) (gameWork.view.viewAngle + ((S_8009345C_2 *)context)->unk_2A + 0x100) >> 9) & 7], 0, 1);
-    goto advance_state;
+    break;
 case 8:
     if (!(((S_8009345C_1 *)entity)->unk_14 & 0x6000)) {
         return;
@@ -356,15 +342,14 @@ case 8:
     dungeonStatus.flags = (u16) (dungeonStatus.flags | 0x812);
     ((S_8009345C_1 *)entity)->unk_14 = (u16) (((S_8009345C_1 *)entity)->unk_14 & 0xFDFF);
 case 6:
-advance_state:
+    break;
+    case 9:
+    default:
+        return;
+    }
     next_state = ((S_8009345C_0 *)actor)->unk_9B;
 increment_state:
     next_state = next_state + 1;
 set_state:
     ((S_8009345C_0 *)actor)->unk_9B = next_state;
-    return;
-    case 9:
-    default:
-        return;
-    }
 }

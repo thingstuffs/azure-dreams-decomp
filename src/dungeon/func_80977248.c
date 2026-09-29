@@ -69,7 +69,7 @@ void func_80172A48(void *action_in, void *motion_in, void *actor_in, void *item_
     register u8 *effect_slot;
     s16 is_special;
     s32 effect_special;
-    s32 next_state;
+    s16 next_state;
     u8 state;
     void *target;
 
@@ -87,19 +87,16 @@ void func_80172A48(void *action_in, void *motion_in, void *actor_in, void *item_
         switch (kind_index) {
         case 6:
             is_special = 1;
+        case 2:
             goto kind_3;
         case 5:
             is_special = 1;
+        case 1:
             goto kind_2;
         case 4:
             is_special = 1;
-            goto kind_1;
         case 0:
             goto kind_1;
-        case 1:
-            goto kind_2;
-        case 2:
-            goto kind_3;
         default:
             goto kind_default;
         }
@@ -109,20 +106,21 @@ void func_80172A48(void *action_in, void *motion_in, void *actor_in, void *item_
         s32 item_kind;
 
         item_kind = (*(u16 *)((u8 *)item + 0x46)) & 0x3FFF;
-        if (item_kind == 2) {
-            goto kind_2;
-        }
-        if (item_kind < 3) {
+        switch (item_kind) {
+        case 1:
+            effect_slot = (u8 *)item + 8;
+            break;
+        case 2:
+            effect_slot = (u8 *)item + 0xB;
+            break;
+        case 3:
+            effect_slot = (u8 *)item + 0xE;
+            break;
+        default:
             effect_slot = 0;
-            if (item_kind == 1) {
-                goto normal_kind_1;
-            }
-            goto selection_ready;
+            break;
         }
-        if (item_kind != 3) {
-            effect_slot = 0;
-            goto selection_ready;
-        }
+        goto selection_ready;
     }
 
 kind_3:
@@ -139,78 +137,72 @@ kind_default:
     effect_slot = 0;
 
 selection_ready:
-    if (*effect_slot == 0) {
-        goto empty_selection;
-    }
-    ((S_80172A48_0 *)action)->unk_98 &= 0xFF7F;
-    {
-        s32 special_target;
+    if (*effect_slot != 0) {
+        ((S_80172A48_0 *)action)->unk_98 &= 0xFF7F;
+        {
+            s32 special_target;
 
-        special_target = is_special;
-        if (special_target != 0) {
-            target = D_800814A8;
-            (*(void * *)((u8 *)item + 0x60)) = target;
-            goto copy_active_coords;
-        }
-    }
-
-    {
-        u8 effect_id;
-
-        effect_id = *effect_slot;
-        if (D_8006DE24[effect_id].kind == 2) {
-            target = (*(void * *)((u8 *)item + 0x60));
-            if (target != 0) {
-
-copy_active_coords:
+            special_target = is_special;
+            if (special_target != 0) {
+                target = D_800814A8;
+                (*(void * *)((u8 *)item + 0x60)) = target;
                 action_in = ((S_80172A48_1_pre *)target)[-1].unk_00;
                 (*(u8 *)((u8 *)item + 0x72)) = ((S_80172A48_2 *)action_in)->unk_24;
                 (*(u8 *)((u8 *)item + 0x73)) = ((S_80172A48_2 *)action_in)->unk_25;
-                goto invoke_item;
-            }
-        } else {
-            s32 dx;
-            s32 dy;
+            } else {
+                u8 effect_id;
 
-            target = func_800A05A4(
-                item, ((S_80172A48_3 *)actor)->unk_24, ((S_80172A48_3 *)actor)->unk_25,
-                (*(s16 *)((u8 *)item + 0x2A)), 0x10);
-            (*(void * volatile *)((u8 *)item + 0x60)) = target;
-            do {
-                dx = (*(s8 *)((u8 *)item + 0x72));
-            } while (0);
-            dy = (*(s8 *)((u8 *)item + 0x73));
-            if (dx < 0) {
-                dx = -dx;
+                effect_id = *effect_slot;
+                if (D_8006DE24[effect_id].kind == 2) {
+                    target = (*(void * *)((u8 *)item + 0x60));
+                    if (target != 0) {
+                    action_in = ((S_80172A48_1_pre *)target)[-1].unk_00;
+                    (*(u8 *)((u8 *)item + 0x72)) = ((S_80172A48_2 *)action_in)->unk_24;
+                    (*(u8 *)((u8 *)item + 0x73)) = ((S_80172A48_2 *)action_in)->unk_25;
+                    }
+                } else {
+                    s32 dx;
+                    s32 dy;
+
+                    target = func_800A05A4(
+                        item, ((S_80172A48_3 *)actor)->unk_24, ((S_80172A48_3 *)actor)->unk_25,
+                        (*(s16 *)((u8 *)item + 0x2A)), 0x10);
+                    (*(void * *)((u8 *)item + 0x60)) = target;
+                    do {
+                        dx = (*(s8 *)((u8 *)item + 0x72));
+                    } while (0);
+                    dy = (*(s8 *)((u8 *)item + 0x73));
+                    if (dx < 0) {
+                        dx = -dx;
+                    }
+                    if (dy < 0) {
+                        dy = -dy;
+                    }
+                    (*(u8 *)((u8 *)item + 0x72)) = dx;
+                    (*(u8 *)((u8 *)item + 0x73)) = dy;
+                }
             }
-            if (dy < 0) {
-                dy = -dy;
-            }
-            (*(u8 *)((u8 *)item + 0x72)) = dx;
-            (*(u8 *)((u8 *)item + 0x73)) = dy;
         }
+
+        effect_special = is_special;
+        if (func_800A94A0(item, effect_slot, effect_special, (u8 *)action + 0x98) == 0) {
+            return;
+        }
+        ((S_80172A48_0 *)action)->unk_96.u = 0;
+        ((S_80172A48_0 *)action)->unk_9B++;
+        motion->flags14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
+        if ((u32)(*effect_slot - 0x2E) >= 3) {
+            return;
+        }
+        if (effect_special == 1) {
+            return;
+        }
+        ((S_80172A48_0 *)action)->unk_9B = 0x10;
+        return;
     }
 
-invoke_item:
-    effect_special = is_special;
-    if (func_800A94A0(item, effect_slot, effect_special, (u8 *)action + 0x98) == 0) {
-        return;
-    }
-    ((S_80172A48_0 *)action)->unk_96.u = 0;
-    ((S_80172A48_0 *)action)->unk_9B++;
-    motion->flags14 = 0;
-    motion->unk_10 = 0;
-    motion->unk_0C = 0;
-    if ((u32)(*effect_slot - 0x2E) >= 3) {
-        return;
-    }
-    if (effect_special == 1) {
-        return;
-    }
-    ((S_80172A48_0 *)action)->unk_9B = 0x10;
-    return;
-
-empty_selection:
     motion->flags14 = 0;
     motion->unk_10 = 0;
     motion->unk_0C = 0;
@@ -227,7 +219,8 @@ empty_selection:
 
     case 1:
     if (func_8003F270()) {
-        goto set_actor_flag;
+        ((S_80172A48_3 *)actor)->unk_14 |= 0x800;
+        return;
     }
     ((S_80172A48_3 *)actor)->unk_14 &= 0xF7FF;
     ((S_80172A48_0 *)action)->unk_9B++;
@@ -246,9 +239,9 @@ empty_selection:
     }
     next_state = ((S_80172A48_0 *)action)->unk_9B;
     ((S_80172A48_0 *)action)->unk_96.u = 0;
-    ASM_KEEP(next_state); /* MATCH: keep each state load distinct before its delay-slot increment. */
     next_state++;
-    goto store_next_state;
+    ((S_80172A48_0 *)action)->unk_9B = next_state;
+    return;
 
     case 3:
     if (((S_80172A48_0 *)action)->unk_A2 != 0) {
@@ -355,7 +348,6 @@ empty_selection:
 
     case 16:
     if (func_8003F270()) {
-set_actor_flag:
         ((S_80172A48_3 *)actor)->unk_14 |= 0x800;
         return;
     }
@@ -375,9 +367,9 @@ set_actor_flag:
     }
     next_state = ((S_80172A48_0 *)action)->unk_9B;
     ((S_80172A48_0 *)action)->unk_96.u = 0;
-    ASM_KEEP(next_state); /* MATCH: keep each state load distinct before its delay-slot increment. */
     next_state++;
-    goto store_next_state;
+    ((S_80172A48_0 *)action)->unk_9B = next_state;
+    return;
 
     case 18:
     if (((S_80172A48_0 *)action)->unk_A2 != 0) {
@@ -415,7 +407,8 @@ set_actor_flag:
     ((S_80172A48_3 *)actor)->unk_14 |= 0x800;
     next_state = ((S_80172A48_0 *)action)->unk_9B;
     next_state++;
-    goto store_next_state;
+    ((S_80172A48_0 *)action)->unk_9B = next_state;
+    return;
 
     case 20:
     ((S_80172A48_3 *)actor)->unk_14 |= 0x800;
@@ -429,7 +422,7 @@ set_actor_flag:
         ((S_80172A48_0 *)action)->unk_96.u = timer + 1;
         if ((s16)timer < 10 &&
             !(((S_80172A48_3 *)actor)->unk_14 & 0x8000)) {
-            goto end;
+            return;
         }
     }
     ((S_80172A48_0 *)action)->unk_96.u = 0;
@@ -440,7 +433,7 @@ set_actor_flag:
 
     case 21:
     if (!(((S_80172A48_3 *)actor)->unk_14 & 0xE000)) {
-        goto end;
+        return;
     }
     ((S_80172A48_0 *)action)->unk_96.u = 0;
     ((S_80172A48_0 *)action)->unk_9B++;
@@ -461,25 +454,22 @@ set_actor_flag:
         timer = ((S_80172A48_0 *)action)->unk_96.u;
         ((S_80172A48_0 *)action)->unk_96.u = timer + 1;
         if ((s16)timer < 5) {
-            goto end;
+            return;
         }
     }
     next_state = ((S_80172A48_0 *)action)->unk_9B;
     ((S_80172A48_0 *)action)->unk_96.u = 0;
     next_state++;
-    goto store_next_state;
+    ((S_80172A48_0 *)action)->unk_9B = next_state;
+    return;
 
     case 23:
     next_state = 6;
     ((S_80172A48_0 *)action)->unk_96.u = 0;
-    break;
+    ((S_80172A48_0 *)action)->unk_9B = next_state;
+    return;
     default:
-        goto end;
+        return;
     }
 
-store_next_state:
-    ((S_80172A48_0 *)action)->unk_9B = next_state;
-
-end:
-    return;
 }

@@ -153,65 +153,61 @@ kind4:
     item_slot = 0;
 
 selected:
-    if (*item_slot == 0) {
-        goto empty_slot;
-    }
-    ((S_80172D74_1 *)action)->unk_98 &= 0xFF7F;
-    {
-        s16 special_test;
+    if (*item_slot != 0) {
+        ((S_80172D74_1 *)action)->unk_98 &= 0xFF7F;
+        {
+            s16 special_test;
 
-        special_test = special_item;
-        if (special_test != 0) {
-            entity = D_800814A8;
-            actor->target = entity;
-            goto have_entity;
-        }
-    }
-    {
-        u8 *item_defs = D_8006DE24;
-        u8 item_id = *item_slot;
-
-        if (item_defs[item_id * 20 + 0x12] == 2) {
-            entity = actor->target;
-
-            if (entity != 0) {
-                register void *position ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-
-have_entity:
-                position = ((S_80172D74_2_pre *)entity)[-1].unk_00;
-                actor->unk_72 = ((S_80172D74_3 *)position)->unk_24;
-                actor->unk_73 = ((S_80172D74_3 *)position)->unk_25;
+            special_test = special_item;
+            if (special_test != 0) {
+                entity = D_800814A8;
+                actor->target = entity;
+                goto have_entity;
             }
-        } else {
-            void *spawned_entity;
-
-            spawned_entity = func_800A05A4(actor,
-                ((S_80172D74_4 *)sprite)->unk_24, ((S_80172D74_4 *)sprite)->unk_25,
-                actor->facing, 0x10);
-            actor->target = spawned_entity;
-            actor->unk_72 = abs(actor->unk_72);
-            actor->unk_73 = abs(actor->unk_73);
         }
-    }
+        {
+            u8 *item_defs = D_8006DE24;
+            u8 item_id = *item_slot;
 
-ready_item:
-    ((S_80172D74_5 *)owner_flags)->unk_04 &= 0x7FFF;
-    (*(u8 * *)((u8 *)owner_sprite + 0x2C)) = D_80175168;
-    func_80047784(owner_sprite,
-        D_80175168[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
-        0);
-    if (!func_800A94A0(actor, item_slot, special_item, (u8 *)action + 0x98)) {
+            if (item_defs[item_id * 20 + 0x12] == 2) {
+                entity = actor->target;
+
+                if (entity != 0) {
+                    register void *position ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+
+    have_entity:
+                    position = ((S_80172D74_2_pre *)entity)[-1].unk_00;
+                    actor->unk_72 = ((S_80172D74_3 *)position)->unk_24;
+                    actor->unk_73 = ((S_80172D74_3 *)position)->unk_25;
+                }
+            } else {
+                void *spawned_entity;
+
+                spawned_entity = func_800A05A4(actor,
+                    ((S_80172D74_4 *)sprite)->unk_24, ((S_80172D74_4 *)sprite)->unk_25,
+                    actor->facing, 0x10);
+                actor->target = spawned_entity;
+                actor->unk_72 = abs(actor->unk_72);
+                actor->unk_73 = abs(actor->unk_73);
+            }
+        }
+
+        ((S_80172D74_5 *)owner_flags)->unk_04 &= 0x7FFF;
+        (*(u8 * *)((u8 *)owner_sprite + 0x2C)) = D_80175168;
+        func_80047784(owner_sprite,
+            D_80175168[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            0);
+        if (!func_800A94A0(actor, item_slot, special_item, (u8 *)action + 0x98)) {
+            return;
+        }
+        ((S_80172D74_4 *)sprite)->unk_14 &= 0xF7FF;
+        func_800DAE44(motion, 3);
+        func_800A56E0(0x703);
+        state_value = ((S_80172D74_1 *)action)->unk_9B;
+        ((S_80172D74_1 *)action)->unk_96.s = 6;
+        ((S_80172D74_1 *)action)->unk_9B = state_value + 1;
         return;
     }
-    ((S_80172D74_4 *)sprite)->unk_14 &= 0xF7FF;
-    func_800DAE44(motion, 3);
-    func_800A56E0(0x703);
-    state_value = ((S_80172D74_1 *)action)->unk_9B;
-    ((S_80172D74_1 *)action)->unk_96.s = 6;
-    ((S_80172D74_1 *)action)->unk_9B = state_value + 1;
-    return;
-
-empty_slot:
     motion->flags14 = 0;
     motion->unk_10 = 0;
     motion->unk_0C = 0;
@@ -247,10 +243,9 @@ empty_slot:
     ((S_80172D74_1 *)action)->unk_98 |= 0x80;
     if (((S_80172D74_4 *)sprite)->unk_14 & 0x8000) {
         next_state = 0x10;
-        goto set_state;
+        ((S_80172D74_1 *)action)->unk_9B = next_state;
+        return;
     }
-
-increment_state:
     ((S_80172D74_1 *)action)->unk_9B = ((S_80172D74_1 *)action)->unk_9B + 1;
     return;
 
@@ -265,7 +260,6 @@ increment_state:
     next_state = 4;
     ((S_80172D74_1 *)action)->unk_96.s = next_state;
     next_state = 0x10;
-set_state:
     ((S_80172D74_1 *)action)->unk_9B = next_state;
     return;
 
