@@ -201,3 +201,31 @@ Harvest (per the owner's instruction, memory feedback-harvest-lane-logs-20260929
 tools/learnings/pin_removal_possibilities.md (sole-ready-at-stall, launched-vs-early-group, known-constant-base,
 barrier rule) - 8e7bfd06, (3) an Opus worktree tooling lane building why.py --trace/--deps, diff --classify and
 lanekit/checks.py. Tools it hand-wrote: cdkdiff.py (now diff.py --scorer --cfg, 5c9d4620), prio.py (now in the kit).
+
+## Switch phase 2 (sw20-sw26, swp2-swp12; Sonnet 5.5) - 09:00Z onwards
+
+Pool after sw21: 172 computed-goto rows (67 pin-free, 105 pinned; 22 with `$5`/`$6` dispatch pins). Lanes of 6-8 rows,
+62-171k tokens each (median ~95k), nearly every row exact on the first or second score. Measured, and now in
+tools/lanes/switch_lane_brief.md:
+
+* **2.8.x rows need no cell change.** The builder's old rule (add `-mno-split-addresses`) was wrong: every 2.8.x
+  cgoto row's current text is INEXACT with the flag (retail is split), and an honest switch at the recorded 2.8.1 cfg
+  was exact (main/func_8000E68C first, then sw24-sw26: 18/19 rows). The out_cell path is dropped.
+* **Only the table's ends need case labels** on the default block (min folds into the dispatch addiu, max sets the
+  sltiu bound). A coordinator tidy pass (verify each variant) removed interior stacked defaults on 16 staged rows
+  (e.g. func_81971510 `case 5..19:` -> `case 19:`); a few rows measured an interior label as needed and keep it.
+* **Label-array order is table order only when its length equals the guard bound**; otherwise read the retail table
+  from the container image (sw20/sw21/sw23/swp7 did). Special arms (`use_player = 1; goto slotN`) go in retail
+  block order (6,5,4), not ascending.
+* **Out of reach for a real switch:** (a) `slus/w_*` rows - verify passes on the text-identical fallback, but the
+  switch's own `.rdata` table shifts the linked SLUS data layout (sw23: SLUS SHA-1 NO MATCH; switch_land_lanes.sh now
+  reverts just the slus rows on a SLUS NO MATCH, 9ec72c00). Notable: on slus/w_8005F134 the switch let all 4 pins
+  fall - the SLUS .rdata placement is a real lever for a later data-layout lane. (b) text-prefix tables
+  (`D_800240xx`: retail keeps the table in .text before the function) - 818DA800, 81838800, 8195E81C, 8199A800.
+  (c) deep/truebase windows that discard the object's .rodata (the wrapper reverts them: 808128B8, 80813368 so far).
+  (d) block-splitting keepalive labels (808141B8) and register ties the switch shifts (80AEFFF4 s0/s1,
+  80D68D0C s4/s5, 808119EC s1/s2).
+* **Dispatch pins almost never fall** with the switch on overlay rows (0 of ~40 tried); the result is the goto
+  reduction at equal pins.
+* **Goto metric** (018b9961): each `&&label` in a label array counts as a jump site, so a switch that deletes the
+  array and extern table but adds one plain `goto` still counts as fewer (swp4 80A734C0/80BECDA4, sw25 80CEAF2C).
