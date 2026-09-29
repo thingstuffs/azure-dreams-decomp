@@ -29,54 +29,36 @@ void func_800BDE7C(S_800BDE7C_0 *arg0, s32 arg1, S_800BDE7C_1 *arg2, s32 arg3)
     state = arg0->unk_68.s;
     source = arg0->unk_A0;
 
-    if (state == 1) {
-        goto state_1_or_3;
-    }
-    if (state < 2) {
-        if (state == 0) {
-            goto state_0;
+    switch (state) {
+    case 0:
+        if (func_800352FC() == 0) {
+            return;
+        }
+        if (func_800C2AB4(arg0) == 0) {
+            return;
+        }
+        arg2->unk_08 = source[1];
+        arg0->unk_68.u = arg0->unk_68.u + 1;
+        return;
+    case 1:
+    case 3:
+        if ((func_800352FC() == 0) || (func_800C2AB4(arg0) == 0)) {
+            arg0->unk_68.u = (arg0->unk_68.u + 1) & 3;
         }
         return;
-    }
-    if (state == 2) {
-        goto state_2;
-    }
-    if (state == 3) {
-        goto state_1_or_3;
-    }
-    return;
-
-state_0:
-    if (func_800352FC() == 0) {
+    case 2:
+        if (func_800352FC() == 0) {
+            return;
+        }
+        if (func_800C2AB4(arg0) == 0) {
+            return;
+        }
+        arg2->unk_08 = source[0];
+        arg0->unk_68.u = arg0->unk_68.u + 1;
         return;
     }
-    if (func_800C2AB4(arg0) == 0) {
-        return;
-    }
-    arg2->unk_08 = source[1];
-    goto increment;
-
-state_1_or_3:
-    if ((func_800352FC() == 0) || (func_800C2AB4(arg0) == 0)) {
-        arg0->unk_68.u = (arg0->unk_68.u + 1) & 3;
-    }
-    return;
-
-state_2:
-    if (func_800352FC() == 0) {
-        return;
-    }
-    if (func_800C2AB4(arg0) == 0) {
-        return;
-    }
-    arg2->unk_08 = source[0];
-
-increment:
-    arg0->unk_68.u = arg0->unk_68.u + 1;
-
-    return;
 }
 
 /* MECHANISM: The third ABI argument is kept live in s2, with arg0/source held in s0/s1,
-   producing the retail 0x20 frame and save order. Explicit state labels preserve the
-   retail dispatch and shared increment blocks; state 1/3 alone applies the modulo mask. */
+   producing the retail 0x20 frame and save order. The state switch preserves the
+   retail dispatch and the duplicated increment blocks; state 1/3 alone applies the modulo mask. */

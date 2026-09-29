@@ -34,27 +34,8 @@ void func_8052B054(void *arg0, S_80810454_1 *arg1) {
         ((S_80810454_0 *)arg0)->unk_00 = 3;
     }
     state = ((S_80810454_0 *)arg0)->unk_00;
-    if (state != 2) {
-        if (state < 3) {
-            if (state != 0) {
-                if (state == 1) {
-                    goto state_1;
-                }
-                return;
-            }
-            goto state_0;
-        }
-        if (state == 3) {
-            goto state_3;
-        }
-        if (state == 0xF0) {
-            goto state_f0;
-        }
-        return;
-    }
-    goto state_2;
-
-state_0: {
+    switch (state) {
+    case 0: {
         s32 position;
 
         position = arg1->unk_08.s;
@@ -69,7 +50,7 @@ state_0: {
         return;
     }
 
-state_1: {
+    case 1: {
         s32 old_speed;
         s32 position;
         s32 speed;
@@ -88,7 +69,7 @@ state_1: {
         return;
     }
 
-state_2: {
+    case 2: {
         s32 position;
         s32 speed;
 
@@ -104,7 +85,7 @@ state_2: {
         return;
     }
 
-state_f0: {
+    case 0xF0: {
         s32 result;
         u16 phase;
 
@@ -115,7 +96,7 @@ state_f0: {
         return;
     }
 
-state_3: {
+    case 3: {
         s32 position;
 
         position = arg1->unk_08.s;
@@ -126,5 +107,6 @@ state_3: {
             D_80084D5C |= 0x8000;
         }
         return;
+    }
     }
 }
