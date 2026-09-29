@@ -279,3 +279,10 @@ move insns past a volatile store); never name `$8` in C when reload rebuilds a l
 - **Callee-saved pin on a copy of a parameter** (r80_opus_r6, dungeon/func_819613A8 9 -> 8): reassign the parameter in
   place with a compound op (`tile_y = row; tile_y <<= 4;`) instead of copying it; an s32 copy joins the parameter's cse
   class and becomes canonical, an s16 (subreg) copy stays out. The copy placed before a NULL test fills the beq delay slot.
+- **ASM_REG on a constant used only inside a loop** (r80_opus_r7, dungeon/func_81337998 7 -> 0): when erasing the pin makes
+  loop.c hoist the constant, hold it in a USER variable with a declaration initialiser (`s32 k = 0x40;`): loop.c
+  (loop.c:691-703) does not move a set after the loop's first conditional branch for a user variable first referenced
+  outside the loop. A tail that re-reads a byte it just stored becomes retail's `move` by post-reload CSE.
+- **ASM_REG $8/$9 on a `lui; addiu %lo(SYM)` pair recomputed after calls** (r80_opus_r7, dungeon/func_80E3B96C 8 -> 4):
+  not a colour choice - a set-once pointer local to SYM with the lowest priority gets no register and reload rebuilds
+  the address into the spill register at every use. Write `T *p = &SYM;` once and use it across the calls.
