@@ -11,8 +11,8 @@ typedef struct S_800BFB00_0 {
 
 typedef struct S_800BFB00_1 {
     u8 pad_00[0x2];
-    volatile u16 unk_02;
-    volatile u16 unk_04;
+    u16 unk_02;
+    u16 unk_04;
     u8 pad_06[0x2];
     s16 unk_08;
     s16 unk_0A;

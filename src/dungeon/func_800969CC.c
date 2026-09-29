@@ -47,7 +47,7 @@ typedef struct S_8009C12C_0 {
     union { s32 s32; u16 u16; } unk_14;   /* accessed as both */
     u8 pad_18[0x4];
     s32 unk_1C;
-    union { u16 n; volatile u16 v; } unk_20;   /* accessed as both */
+    union { u16 n; u16 v; } unk_20;   /* accessed as both */
     u8 pad_22[0x8];
     s16 unk_2A;
     u8 pad_2C[0x20];
@@ -88,12 +88,12 @@ typedef struct S_8009C12C_3 {
     u8 pad_18[0x4];
     s32 unk_1C;
     u8 pad_20[0x2];
-    union { u16 n; volatile u16 v; s16 n2; } unk_22;   /* accessed as both */
+    union { u16 n; u16 v; s16 n2; } unk_22;   /* accessed as both */
     u8 pad_24[0x3];
     u8 unk_27;
     u8 pad_28[0x38];
     void * unk_60;
-    union { s16 n; volatile s16 v; } unk_64;   /* accessed as both */
+    union { s16 n; s16 v; } unk_64;   /* accessed as both */
     u8 pad_66[0x22];
     u16 unk_88;
 } S_8009C12C_3;   /* temp_s1 in func_8009C12C */
@@ -200,7 +200,7 @@ void *func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distanc
     message_start = func_800990FC();
     message_cursor = message_start;
     attacker_kind = ((S_8009C12C_0 *)attacker_in)->unk_13;
-    kind_check = *(volatile u8 *)((s8 *)attacker_in + 0x13);
+    kind_check = *(u8 *)((s8 *)attacker_in + 0x13);
     if (attacker_kind >= 0) {
         target_data = ((S_8009C12C_3_pre *)target)[-1].unk_00;
         target_traits = target_data->unk_14;

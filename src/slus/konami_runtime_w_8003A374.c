@@ -4,7 +4,7 @@
 
 typedef struct {
     u8 pad0[0x1C];
-    u8 *volatile read_ptr;
+    u8 *read_ptr;
     u8 pad20[0x60];
     u8 *table;
 } Func8003A374State;

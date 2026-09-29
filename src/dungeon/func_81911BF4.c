@@ -58,7 +58,7 @@ void func_800253F4(Obj81911BF4 *effect, s32 *position)
         point->y[0] = position[1] + (((func_80064584(phase_offset + effect->angle) >> 4) * effect->scale) << 8);
         point_index++;
         phase_offset += 0x333;
-        point = (volatile Obj81911BF4 *)((u8 *)point + 4);
+        point = (Obj81911BF4 *)((u8 *)point + 4);
     } if (point_index < 5) goto loop_0;
 
     state = effect->state;
@@ -83,7 +83,7 @@ void func_800253F4(Obj81911BF4 *effect, s32 *position)
         {
             u16 next_duration = 4;
             ASM_KEEP(next_duration);
-            state_value = *(volatile u16 *)&effect->state;
+            state_value = *(u16 *)&effect->state;
             effect->timer = 0;
             effect->duration = next_duration;
             effect->state = state_value + 1; return;
@@ -99,7 +99,7 @@ void func_800253F4(Obj81911BF4 *effect, s32 *position)
         {
             state_value = 3;
             effect->field12 = state_value;
-            state_value = *(volatile u16 *)&effect->state;
+            state_value = *(u16 *)&effect->state;
             next_val = 0x10;
             effect->timer = 0;
             effect->duration = next_val;
@@ -144,7 +144,7 @@ void func_800253F4(Obj81911BF4 *effect, s32 *position)
         }
         func_8002539C(effect);
         {
-            state_value = *(volatile u16 *)&effect->state;
+            state_value = *(u16 *)&effect->state;
             next_val = 0x20;
             effect->timer = 0;
             effect->duration = next_val;
@@ -181,7 +181,7 @@ void func_800253F4(Obj81911BF4 *effect, s32 *position)
             point->y[0] = position[1] + (((func_80064584(phase_offset + effect->angle) >> 4) * effect->scale) << 9);
             point_index++;
             phase_offset += 0x333;
-            point = (volatile Obj81911BF4 *)((u8 *)point + 4);
+            point = (Obj81911BF4 *)((u8 *)point + 4);
         } while (point_index < 5);
 
         func_80024ACC(effect, position, 0, 0);

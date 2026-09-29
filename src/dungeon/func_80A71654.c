@@ -30,13 +30,13 @@ typedef struct S_80170E54_2 {
 
 typedef struct S_80170E54_7 {
     void * unk_00;
-    volatile u8 unk_04;
-    volatile u8 unk_05;
+    u8 unk_04;
+    u8 unk_05;
     u8 pad_06[0x2];
-    volatile s32 unk_08;
+    s32 unk_08;
     void * unk_0C;
     u8 pad_10[0x4];
-    volatile u16 unk_14;
+    u16 unk_14;
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
@@ -44,7 +44,7 @@ typedef struct S_80170E54_7 {
 
 typedef struct S_80170E54_8 {
     u8 pad_00[0x4];
-    volatile s32 unk_04;
+    s32 unk_04;
 } S_80170E54_8;   /* base in func_80170E54 */
 
 typedef struct S_80170E54_9 {

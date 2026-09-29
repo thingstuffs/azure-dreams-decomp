@@ -158,14 +158,12 @@ void func_80090C10(void *state, M2C_UNK context, void *sprite, EntityRec *actor)
     if (phase == 1) {
         goto block_14;
     }
-    if ((s32) phase >= 2) {
-        goto block_4;
+    if ((s32) phase < 2) {
+        if (phase == 0) {
+            goto block_6;
+        }
+        return;
     }
-    if (phase == 0) {
-        goto block_6;
-    }
-    return;
-block_4:
     if (phase == 2) {
         goto block_16;
     }
@@ -173,27 +171,20 @@ block_4:
 block_6:
     D_800DCF4D = -1;
     func_8004B568();
-    if (((S_80090C10_1 *)(&D_800E4938))->unk_00.s == &D_8004F5F4) {
-        goto block_13;
+    if (((S_80090C10_1 *)(&D_800E4938))->unk_00.s != &D_8004F5F4) {
+        if ((func_80042900(actor, 0xA) << 0x10) != 0) {
+            (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_800DD274;
+            func_8003DB94(sprite, *(s32 *)(D_800DD274 + (((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 7) & 0x1C)), 0);
+        } else {
+            if (actor->flags1C & 0x100000) {
+                anim_table = D_800DD0B8;
+            } else {
+                anim_table = D_800DCFB0;
+            }
+            (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = anim_table;
+            func_80048A44(sprite, *(anim_table + (((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7)), 0, 1);
+        }
     }
-    if ((func_80042900(actor, 0xA) << 0x10) == 0) {
-        goto block_9;
-    }
-    (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_800DD274;
-    func_8003DB94(sprite, *(s32 *)(D_800DD274 + (((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 7) & 0x1C)), 0);
-    goto block_13;
-block_9:
-    if (!(actor->flags1C & 0x100000)) {
-        goto block_11;
-    }
-    anim_table = D_800DD0B8;
-    goto block_12;
-block_11:
-    anim_table = D_800DCFB0;
-block_12:
-    (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = anim_table;
-    func_80048A44(sprite, *(anim_table + (((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7)), 0, 1);
-block_13:
     ((Rec_func_8008D024_arg0 *)state)->unk_9B.as_u8 = (u8) (((Rec_func_8008D024_arg0 *)state)->unk_9B.as_u8 + 1);
 block_14:
     menu = ((S_80090C10_1 *)(&D_800E4938))->unk_00.u(((S_80090C10_1 *)(&D_800E4938))->unk_04, ((S_80090C10_1 *)(&D_800E4938))->unk_08);
@@ -208,53 +199,43 @@ block_14:
     ((S_80090C10_4 *)selection)->unk_08 = 0;
     ((Rec_func_8008D024_arg0 *)state)->unk_9B.as_u8 = (u8) (((Rec_func_8008D024_arg0 *)state)->unk_9B.as_u8 + 1);
 block_16:
-    if (!(((S_80090C10_12 *)(((Rec_func_8008D024_arg0 *)state)->unk_C8))->unk_1E & 0x8000)) {
-        goto block_18;
+    if (((S_80090C10_12 *)(((Rec_func_8008D024_arg0 *)state)->unk_C8))->unk_1E & 0x8000) {
+        func_800BA810(0, 0);
+        ui_flags = ((S_80090C10_5 *)(&D_800E296C))->unk_00;
+        ((Rec_func_8008D024_arg0 *)state)->unk_C8 = NULL;
+        (*(s32 *)&D_800E296C) = ui_flags & ~0x2000;
     }
-    func_800BA810(0, 0);
-    ui_flags = ((S_80090C10_5 *)(&D_800E296C))->unk_00;
-    ((Rec_func_8008D024_arg0 *)state)->unk_C8 = NULL;
-    (*(s32 *)&D_800E296C) = ui_flags & ~0x2000;
-block_18:
     if (((Rec_func_8008D024_arg0 *)state)->unk_C8 != NULL) {
         return;
     }
     switch (D_80082EB8) {
 case 1:
     func_8009F644(actor, 0x48, func_80098C80(((Rec_D_80082EB0 *)(&D_80082EB0))->unk_00.as_pv), 0);
-    if (((S_80090C10_6 *)((*(void **)&D_80082EB0)))->unk_01 != 0x11) {
-        goto block_23;
+    if (((S_80090C10_6 *)((*(void **)&D_80082EB0)))->unk_01 == 0x11) {
+        func_80098614(actor, (*(void **)&D_80082EB0));
+        goto block_64;
     }
-    func_80098614(actor, (*(void **)&D_80082EB0));
-    goto block_64;
-block_23:
     func_800982A8(actor, (*(void **)&D_80082EB0));
     goto block_64;
 case 2:
-    if (((S_80090C10_13 *)(((Rec_D_80082EB0 *)(&D_80082EB0))->unk_00.as_pv))->unk_01 != 0x11) {
-        goto block_26;
+    if (((S_80090C10_13 *)(((Rec_D_80082EB0 *)(&D_80082EB0))->unk_00.as_pv))->unk_01 == 0x11) {
+        func_8009F644(actor, 0x48, func_80098C80((*(void * *)&actor->unk_50)), 0);
+        func_80098614(actor, NULL);
+        goto block_64;
     }
-    func_8009F644(actor, 0x48, func_80098C80((*(void * *)&actor->unk_50)), 0);
-    func_80098614(actor, NULL);
-    goto block_64;
-block_26:
     func_8009F644(actor, 0x48, func_80098C80(actor->unk_4C), 0);
     func_800982A8(actor, NULL);
     goto block_64;
 case 21:
-    if (!(((S_80090C10_13 *)(((Rec_D_80082EB0 *)(&D_80082EB0))->unk_00.as_pv))->unk_03 & 0x20)) {
-        goto block_29;
+    if (((S_80090C10_13 *)(((Rec_D_80082EB0 *)(&D_80082EB0))->unk_00.as_pv))->unk_03 & 0x20) {
+        func_800997FC(&D_800E0542);
+        goto block_64;
     }
-    func_800997FC(&D_800E0542);
-    goto block_64;
-block_29:
-    if (func_800BA33C(((Rec_func_8008D024_arg0 *)state)->unk_AC) != 0) {
-        goto block_31;
+    if (func_800BA33C(((Rec_func_8008D024_arg0 *)state)->unk_AC) == 0) {
+        if (func_800BA33C(((Rec_func_8008D024_arg0 *)state)->unk_B0) == 0) {
+            goto block_32;
+        }
     }
-    if (func_800BA33C(((Rec_func_8008D024_arg0 *)state)->unk_B0) == 0) {
-        goto block_32;
-    }
-block_31:
     func_80091920(state, context, sprite, actor);
     return;
 block_32:
@@ -264,18 +245,16 @@ case 3:
 case 4:
 case 20:
     item_result = func_80098920(actor, ((Rec_D_80082EB0 *)(&D_80082EB0))->unk_00.as_pv, 3, 0);
-    if (item_result < 0) {
-        goto block_36;
-    }
-    item_text_id = (s16) func_80098C80((*(void **)&D_80082EB0));
-    func_8009F644(actor, 0x48, item_text_id, func_80098C80(((Rec_D_80082EB0 *)(&D_80082EB0))->unk_04));
-    if (item_result > 0) {
-        goto block_64;
-    }
     if (item_result >= 0) {
-        return;
+        item_text_id = (s16) func_80098C80((*(void **)&D_80082EB0));
+        func_8009F644(actor, 0x48, item_text_id, func_80098C80(((Rec_D_80082EB0 *)(&D_80082EB0))->unk_04));
+        if (item_result > 0) {
+            goto block_64;
+        }
+        if (item_result >= 0) {
+            return;
+        }
     }
-block_36:
     if (((S_80090C10_6 *)((*(void **)&D_80082EB0)))->unk_01 != 0x15) {
         return;
     }
@@ -288,22 +267,18 @@ case 5:
 case 8:
 case 9:
     func_8009F644(actor, 0x98, 0, func_80098C80(((Rec_D_80082EB0 *)(&D_80082EB0))->unk_00.as_pv));
-    if (!(((S_80090C10_6 *)((*(void **)&D_80082EB0)))->unk_03 & 0x20)) {
-        goto block_41;
+    if (((S_80090C10_6 *)((*(void **)&D_80082EB0)))->unk_03 & 0x20) {
+        func_800956B8(state, context, sprite, (*(void **)&D_80082EB0));
+        goto block_64;
     }
-    func_800956B8(state, context, sprite, (*(void **)&D_80082EB0));
-    goto block_64;
-block_41:
     direction = ((u16) actor->facing >> 9) & 7;
-    if ((func_8009B88C(0, (s16) (((Rec_D_80082E80 *)sprite)->unk_24 + dirStepX[direction]), (s16) (((Rec_D_80082E80 *)sprite)->unk_25 + dirStepY[direction]), &tile_x, &tile_y) << 0x10) != 0) {
-        goto block_43;
+    if ((func_8009B88C(0, (s16) (((Rec_D_80082E80 *)sprite)->unk_24 + dirStepX[direction]), (s16) (((Rec_D_80082E80 *)sprite)->unk_25 + dirStepY[direction]), &tile_x, &tile_y) << 0x10) == 0) {
+        text_buffer = func_800990FC();
+        text_end = func_80099734(D_800E3DF0[((S_80090C10_6 *)((*(void **)&D_80082EB0)))->unk_03 & 0x1F], func_80099194(&D_800E069D, text_buffer));
+        func_80099290(func_80099194(&D_800E06BD, text_end));
+        func_800A5720(text_buffer);
+        goto block_64;
     }
-    text_buffer = func_800990FC();
-    text_end = func_80099734(D_800E3DF0[((S_80090C10_6 *)((*(void **)&D_80082EB0)))->unk_03 & 0x1F], func_80099194(&D_800E069D, text_buffer));
-    func_80099290(func_80099194(&D_800E06BD, text_end));
-    func_800A5720(text_buffer);
-    goto block_64;
-block_43:
     if (func_80095854(state, context, sprite, (*(void **)&D_80082EB0)) != 0) {
         return;
     }
@@ -322,11 +297,9 @@ case 14:
     goto block_64;
 case 12:
     companion_value = (s32) ((S_80090C10_14 *)((((s32) ((Rec_D_80082EB0 *)(&D_80082EB0))->unk_00.as_pv * 4) + state)))->unk_AC;
-    if (((S_80090C10_8 *)((void *)companion_value))->unk_1C & 0x80000) {
-        goto block_50;
+    if (!(((S_80090C10_8 *)((void *)companion_value))->unk_1C & 0x80000)) {
+        ((S_80090C10_8 *)((void *)companion_value))->unk_60 = 0;
     }
-    ((S_80090C10_8 *)((void *)companion_value))->unk_60 = 0;
-block_50:
     if (((S_80090C10_1 *)(&D_800E4938))->unk_00.s == &D_8001EF2C) {
         goto block_64;
     }

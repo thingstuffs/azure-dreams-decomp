@@ -173,20 +173,19 @@ case_1:
             }
             row_offset = slot_index * 8;
             slot_data = (u8 *)((u32)row_offset + (u32)slot_data_base);
-            if (slot_data[2] != selected_entry[4])
-                goto case_1_next;
-            if (slot_data[3] != selected_entry[5])
-                goto case_1_next;
-            if (primary_id < 0x2D)
-                goto case_1_next;
-            row_offset = 0x30;
-            if (primary_id == row_offset)
-                goto case_1_next;
-            if (secondary_id != 0)
-                goto case_1_next;
-            *slot_out++ = (u8)slot;
-            slot_count++;
-case_1_next:
+            if (slot_data[2] == selected_entry[4]) {
+                if (slot_data[3] == selected_entry[5]) {
+                    if (primary_id >= 0x2D) {
+                        row_offset = 0x30;
+                        if (primary_id != row_offset) {
+                            if (secondary_id == 0) {
+                                *slot_out++ = (u8)slot;
+                                slot_count++;
+                            }
+                        }
+                    }
+                }
+            }
             slot++;
         } while ((u8)slot < 0x21);
     }

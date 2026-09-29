@@ -3,7 +3,7 @@
 typedef struct S_8008BA44_0 {
     void * unk_00;
     u8 pad_04[0x60];
-    union { volatile s16 s; s16 u; } unk_64;   /* accessed as both */
+    union { s16 s; s16 u; } unk_64;   /* accessed as both */
     s16 unk_66;
     void * unk_68;
     s32 unk_6C;

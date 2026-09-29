@@ -108,7 +108,7 @@ check_five:
 
         if (object->field_10 == 0) {
             (*(volatile u8 *)&object->field_F) += 3;
-            (*(volatile u8 *)&object->field_F) &= 3;
+            (*(u8 *)&object->field_F) &= 3;
         }
         selection_group = object->field_F;
         object->field_10 ^= 1;
@@ -123,7 +123,7 @@ check_five:
 
         if (object->field_10 != 0) {
             (*(volatile u8 *)&object->field_F) += 1;
-            (*(volatile u8 *)&object->field_F) &= 3;
+            (*(u8 *)&object->field_F) &= 3;
         }
         selection_group = object->field_F;
         object->field_10 ^= 1;
@@ -144,16 +144,16 @@ check_five:
             s32 previous_selection;
 
             selection_value = 1;
-            (*(volatile s16 *)&object->field_4) = selection_value;
+            (*(s16 *)&object->field_4) = selection_value;
             selection_value = object->field_11;
             previous_selection = selection_value;
             selection_value += 7;
             *(volatile u8 *)&object->field_11 = selection_value;
             object->field_6 = 4;
-            (*(volatile u8 *)&object->field_11) &= 7;
+            (*(u8 *)&object->field_11) &= 7;
             object->field_12 = previous_selection;
         }
-        if ((*(volatile u8 *)&object->field_11) != 7) {
+        if ((*(u8 *)&object->field_11) != 7) {
             goto set_two;
         }
         side_value = object->field_10;
@@ -177,11 +177,11 @@ check_five:
         selection_value += 1;
             *(volatile u8 *)&object->field_11 = selection_value;
         object->field_4 = input_flags;
-        (*(volatile u8 *)&object->field_11) &= 7;
+        (*(u8 *)&object->field_11) &= 7;
         object->field_12 = previous_selection;
     }
     object->field_6 = 4;
-    if ((*(volatile u8 *)&object->field_11) == 0) {
+    if ((*(u8 *)&object->field_11) == 0) {
         side_value = object->field_10;
         object->field_A = 3;
         object->field_10 = side_value ^ 1;

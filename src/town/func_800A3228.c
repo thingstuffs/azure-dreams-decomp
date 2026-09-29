@@ -5,7 +5,7 @@ typedef struct Node {
     u8 pad_04[0xC];
     s32 field_10;
     u8 pad_14[0xA];
-    volatile u16 flags;
+    u16 flags;
 } Node;
 
 typedef struct {

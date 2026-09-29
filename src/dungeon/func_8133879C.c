@@ -23,7 +23,7 @@ typedef struct S_8016F79C_1 {
 /* Sets the target field from the record or source field and restores two record words. */
 void func_8016F79C(void *unused_0, u8 *record, void *unused_2) {
     u8 *source_base = (u8 *)(&D_80083498.next);
-    register volatile u8 *source_data = (volatile u8 *)(source_base + 0x20);
+    register u8 *source_data = (u8 *)(source_base + 0x20);
     u8 *target_base = D_80175D50[1];
     u8 *target_data = target_base + 0x20;
     s16 raw_value = func_8016F428(record);
@@ -35,7 +35,7 @@ void func_8016F79C(void *unused_0, u8 *record, void *unused_2) {
         ((S_8016F79C_0 *)target_data)->unk_2A = (u16)(decoded_value << 9);
     }
     {
-        register volatile u16 *default_words = (volatile u16 *)((u8 *)(&D_80083780));
+        register u16 *default_words = (u16 *)((u8 *)(&D_80083780));
         *(u16 *)(record + 2) = default_words[1];
         *(u16 *)(record + 6) = default_words[3];
     }

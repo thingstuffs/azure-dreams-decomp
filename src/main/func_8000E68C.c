@@ -24,16 +24,13 @@ s32 func_8002168C(void) {
     if (state == 0) {
         goto done;
     }
-    if (*(s32 *)((s8 *)&D_80028538_read + slot * 4) != state) {
-        goto reset_count;
+    if (*(s32 *)((s8 *)&D_80028538_read + slot * 4) == state) {
+        *(s32 *)((s8 *)&D_80028530 + slot * 4) += 1;
+        slot_offset = slot * 4;
+    } else {
+        *(s32 *)((s8 *)&D_80028530 + slot * 4) = 0;
+        slot_offset = slot * 4;
     }
-    *(s32 *)((s8 *)&D_80028530 + slot * 4) += 1;
-    slot_offset = slot * 4;
-    goto store_state;
-reset_count:
-    *(s32 *)((s8 *)&D_80028530 + slot * 4) = 0;
-    slot_offset = slot * 4;
-store_state:
     *(s32 *)((s8 *)&D_80028538_write + slot * 4) = state;
     switch (state) {
     case 1:

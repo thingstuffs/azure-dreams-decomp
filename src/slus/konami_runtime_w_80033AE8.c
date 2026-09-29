@@ -19,6 +19,6 @@ void func_80033AE8(s32 flag_id) {
     if (flag_index == bit_mask) {
         return;
     }
-    ((volatile MemoryPage *)0x80010000)->words[flag_index >> 5] &=
+    ((MemoryPage *)0x80010000)->words[flag_index >> 5] &=
         ~(bit_mask << (flag_value & 0x1F));
 }

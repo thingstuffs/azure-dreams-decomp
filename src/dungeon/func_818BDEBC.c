@@ -354,10 +354,9 @@ void func_800256BC(EffectState *state, Motion *motion, register ColorPart *part)
     motion->z += motion->dz;
     if (state->timer >= state->duration) {
         next_state = 5;
-        goto set_state;
+    } else {
+        break;
     }
-    break;
-
 set_state:
     state->state = next_state;
     state->timer = 0;

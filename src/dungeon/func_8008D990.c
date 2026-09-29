@@ -157,17 +157,14 @@ void func_800930F0(EntityRec *state, s32 unused, S_800930F0_1 *tile, S_800930F0_
         ((S_800930F0_4 *)saved_state_base)->unk_371A = 0;
         func_800A6780();
     }
-    if (((S_800930F0_4 *)saved_state_base)->unk_2090 == 0) {
-        goto block_12;
+    if (((S_800930F0_4 *)saved_state_base)->unk_2090 != 0) {
+        if (((S_800930F0_4 *)saved_state_base)->unk_2090 == 1) {
+            ((S_800930F0_4 *)saved_state_base)->unk_234 = (s32) (((S_800930F0_4 *)saved_state_base)->unk_234 + 1);
+            func_80043568();
+            ((S_800930F0_4 *)saved_state_base)->unk_2090 = 0;
+            goto block_13;
+        }
     }
-    if (((S_800930F0_4 *)saved_state_base)->unk_2090 != 1) {
-        goto block_12;
-    }
-    ((S_800930F0_4 *)saved_state_base)->unk_234 = (s32) (((S_800930F0_4 *)saved_state_base)->unk_234 + 1);
-    func_80043568();
-    ((S_800930F0_4 *)saved_state_base)->unk_2090 = 0;
-    goto block_13;
-block_12:
     ((S_800930F0_4 *)saved_state_base)->unk_234 = (s32) (((S_800930F0_4 *)saved_state_base)->unk_234 + 1);
 block_13:
     func_800A56E0(0x514);

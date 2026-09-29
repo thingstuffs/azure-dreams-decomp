@@ -6,20 +6,16 @@ void BuildLandBuilding(s32 slot, s16 palette)
     s32 palette_offset;
 
     palette_offset = slot;
-    if (palette <= 0) {
-        goto common;
+    if (palette > 0) {
+        if (palette < 4) {
+            goto small;
+        }
+        if (palette < 42) {
+            if (palette >= 37) {
+                goto special;
+            }
+        }
     }
-    if (palette < 4) {
-        goto small;
-    }
-    if (palette >= 42) {
-        goto common;
-    }
-    if (palette >= 37) {
-        goto special;
-    }
-
-common:
     {
         u8 *state = (u8 *)0x80010000;
         s32 index = (s16)palette_offset * 2;

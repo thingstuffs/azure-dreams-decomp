@@ -119,48 +119,42 @@ void func_8017558C(void *action, EntityRec *position, Rec_D_80082E80 *sprite, En
     phase = ((S_8017558C_0 *)action)->unk_9B;
     switch (phase) {
     case 0:
-        if (!(sprite->unk_14.at00_u16.v & 0x8000)) {
-            goto adjust_height;
+        if (sprite->unk_14.at00_u16.v & 0x8000) {
+            {
+                s32 finish_phase;
+                func_8009D8A4();
+                finish_phase = 5;
+                global_flags = D_800E296C;
+                ((S_8017558C_0 *)action)->unk_96 = finish_phase;
+                D_800E296C = global_flags | 0x800000;
+                ((S_8017558C_0 *)action)->unk_9B = finish_phase;
+            }
+            sprite->unk_14.at00_u16.v = (u16) (sprite->unk_14.at00_u16.v | 0x6000);
+            return;
         }
-        {
-            s32 finish_phase;
-            func_8009D8A4();
-            finish_phase = 5;
-            global_flags = D_800E296C;
-            ((S_8017558C_0 *)action)->unk_96 = finish_phase;
-            D_800E296C = global_flags | 0x800000;
-            ((S_8017558C_0 *)action)->unk_9B = finish_phase;
-        }
-        sprite->unk_14.at00_u16.v = (u16) (sprite->unk_14.at00_u16.v | 0x6000);
-        return;
-    adjust_height:
         position->flags14 = 0;
         position->unk_10 = 0;
         position->unk_0C = 0;
         height_delta = func_800BCB04(((u16)position->x.w.i), ((u16)position->y.w.i), (s16) (((u16)actor->unk_88) - 0x20));
         height = ((u16)actor->unk_88);
         height_delta -= height;
-        if (((S_8017558C_0 *)action)->unk_92.s >= height_delta) {
-            goto clamp_height;
+        if (((S_8017558C_0 *)action)->unk_92.s < height_delta) {
+            ((S_8017558C_0 *)action)->unk_92.u = ((S_8017558C_0 *)action)->unk_92.u + 0xC;
+            if (height_delta >= (s16) ((S_8017558C_0 *)action)->unk_92.u) {
+                goto check_height;
+            }
         }
-        ((S_8017558C_0 *)action)->unk_92.u = ((S_8017558C_0 *)action)->unk_92.u + 0xC;
-        if (height_delta >= (s16) ((S_8017558C_0 *)action)->unk_92.u) {
-            goto check_height;
-        }
-    clamp_height:
         ((S_8017558C_0 *)action)->unk_92.u = (u16) height_delta;
     check_height:
-        if (((S_8017558C_0 *)action)->unk_92.s != 0) {
-            goto update_effect;
+        if (((S_8017558C_0 *)action)->unk_92.s == 0) {
+            sprite->unk_2C.as_pu8 = D_800E2438;
+            func_80047784(sprite, D_800E2438[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+            func_800A56E0(0x800);
+            ((S_8017558C_0 *)action)->unk_96 = 2U;
+            ((S_8017558C_0 *)action)->unk_9B = (u8) (((S_8017558C_0 *)action)->unk_9B + 1);
+            sprite->unk_06.as_s16 = 6;
+            ((S_8017558C_0 *)action)->unk_A6 = (u16) actor->facing;
         }
-        sprite->unk_2C.as_pu8 = D_800E2438;
-        func_80047784(sprite, D_800E2438[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
-        func_800A56E0(0x800);
-        ((S_8017558C_0 *)action)->unk_96 = 2U;
-        ((S_8017558C_0 *)action)->unk_9B = (u8) (((S_8017558C_0 *)action)->unk_9B + 1);
-        sprite->unk_06.as_s16 = 6;
-        ((S_8017558C_0 *)action)->unk_A6 = (u16) actor->facing;
-    update_effect:
         effect_timer = ((S_8017558C_0 *)action)->unk_96 + 1;
         ((S_8017558C_0 *)action)->unk_96 = effect_timer;
         if ((s16) effect_timer != 1) {
@@ -195,13 +189,11 @@ void func_8017558C(void *action, EntityRec *position, Rec_D_80082E80 *sprite, En
     case 1:
         start_timer = ((S_8017558C_0 *)action)->unk_96 - 1;
         ((S_8017558C_0 *)action)->unk_96 = start_timer;
-        if ((start_timer << 0x10) <= 0) {
-            goto start_windup;
+        if ((start_timer << 0x10) > 0) {
+            if (!(sprite->unk_14.at00_u16.v & 0xE000)) {
+                return;
+            }
         }
-        if (!(sprite->unk_14.at00_u16.v & 0xE000)) {
-            return;
-        }
-    start_windup:
         sprite->unk_2C.as_pu8 = D_800E2440;
         func_80047784(sprite, D_800E2440[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         ((S_8017558C_0 *)action)->unk_96 = 3U;
@@ -234,14 +226,12 @@ void func_8017558C(void *action, EntityRec *position, Rec_D_80082E80 *sprite, En
         if (restore_phase == 1) {
             goto wait_pause;
         }
-        if ((s32) restore_phase >= 2) {
-            goto check_restore_end;
+        if ((s32) restore_phase < 2) {
+            if (restore_phase == 0) {
+                goto restore_position;
+            }
+            return;
         }
-        if (restore_phase == 0) {
-            goto restore_position;
-        }
-        return;
-    check_restore_end:
         if (restore_phase == 2) {
             goto finish_restore;
         }
@@ -249,18 +239,16 @@ void func_8017558C(void *action, EntityRec *position, Rec_D_80082E80 *sprite, En
     restore_position:
         restore_timer = ((S_8017558C_0 *)action)->unk_96 + 1;
         ((S_8017558C_0 *)action)->unk_96 = restore_timer;
-        if ((s16) restore_timer != 1) {
-            goto wait_restore;
+        if ((s16) restore_timer == 1) {
+            position->x.w.i = (u16) ((S_8017558C_0 *)action)->unk_B6;
+            position->y.w.i = (u16) ((S_8017558C_0 *)action)->unk_B8;
+            actor->unk_88 = (u16) ((S_8017558C_0 *)action)->unk_BA;
+            saved_angle = ((S_8017558C_0 *)action)->unk_A6;
+            actor->facing = (s16) saved_angle;
+            view_dir = ((s32) (gameWork.view.viewAngle + (s16) saved_angle + 0x100) >> 9) & 7;
+            func_80047738(sprite, sprite->unk_2C.as_pu8[view_dir], sprite->unk_04.as_s8);
+            ((S_8017558C_0 *)action)->unk_94 = view_dir;
         }
-        position->x.w.i = (u16) ((S_8017558C_0 *)action)->unk_B6;
-        position->y.w.i = (u16) ((S_8017558C_0 *)action)->unk_B8;
-        actor->unk_88 = (u16) ((S_8017558C_0 *)action)->unk_BA;
-        saved_angle = ((S_8017558C_0 *)action)->unk_A6;
-        actor->facing = (s16) saved_angle;
-        view_dir = ((s32) (gameWork.view.viewAngle + (s16) saved_angle + 0x100) >> 9) & 7;
-        func_80047738(sprite, sprite->unk_2C.as_pu8[view_dir], sprite->unk_04.as_s8);
-        ((S_8017558C_0 *)action)->unk_94 = view_dir;
-    wait_restore:
         if ((s16) ((S_8017558C_0 *)action)->unk_96 < 0x10) {
             return;
         }

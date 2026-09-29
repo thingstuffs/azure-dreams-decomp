@@ -78,7 +78,7 @@ typedef struct {
     s32 p4C;
     void *volatile p50;
     s32 *p54;
-    s8 *volatile p58;
+    s8 *p58;
 } LocalRecord;
 
 typedef struct {

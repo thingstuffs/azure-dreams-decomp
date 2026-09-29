@@ -117,7 +117,7 @@ void *func_800D71A8(u8 *sprite_list, s32 count_hint, s32 render_state_addr, u8 *
             x = (0 - ((((s32) (*((volatile u8 *) (((u8 *) quad_data) + 1)))) << 24) >> 24)) - (*((u16 *) (((u8 *) scratch) + 0x108)));
             width = *((u16 *) (((u8 *) scratch) + 0x10));
             scratch->data80 = x;
-            *((volatile u16 *) (((u8 *) scratch) + 0x70)) = x;
+            *((u16 *) (((u8 *) scratch) + 0x70)) = x;
             x -= width;
           }
           else
@@ -138,7 +138,7 @@ void *func_800D71A8(u8 *sprite_list, s32 count_hint, s32 render_state_addr, u8 *
           {
             x = scratch->data80 - ((((s32) (*((volatile u8 *) (((u8 *) sprite_placement) + 2)))) << 24) >> 24);
             scratch->data80 = x;
-            *((volatile u16 *) (((u8 *) scratch) + 0x70)) = x;
+            *((u16 *) (((u8 *) scratch) + 0x70)) = x;
             x = (*((u16 *) (((u8 *) scratch) + 0x88))) - ((((s32) (*((volatile u8 *) (((u8 *) sprite_placement) + 2)))) << 24) >> 24);
           }
           else
@@ -161,7 +161,7 @@ void *func_800D71A8(u8 *sprite_list, s32 count_hint, s32 render_state_addr, u8 *
             y = (0 - ((((s32) (*((volatile u8 *) (((u8 *) quad_data) + 2)))) << 24) >> 24)) - (*((u16 *) (((u8 *) scratch) + 0x10A)));
             height = *((u16 *) (((u8 *) scratch) + 0x14));
             scratch->data7A = y;
-            *((volatile u16 *) (((u8 *) scratch) + 0x72)) = y;
+            *((u16 *) (((u8 *) scratch) + 0x72)) = y;
             y -= height;
           }
           else
@@ -182,7 +182,7 @@ void *func_800D71A8(u8 *sprite_list, s32 count_hint, s32 render_state_addr, u8 *
           {
             y = scratch->data7A - ((((s32) (*((volatile u8 *) (((u8 *) sprite_placement) + 3)))) << 24) >> 24);
             scratch->data7A = y;
-            *((volatile u16 *) (((u8 *) scratch) + 0x72)) = y;
+            *((u16 *) (((u8 *) scratch) + 0x72)) = y;
             y = scratch->data8A - ((((s32) (*((volatile u8 *) (((u8 *) sprite_placement) + 3)))) << 24) >> 24);
           }
           else

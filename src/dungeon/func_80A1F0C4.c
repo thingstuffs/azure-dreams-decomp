@@ -184,29 +184,26 @@ void func_801728C4(void *action, void *motion, void *sprite, void *actor)
     return;
 
 state_0:
-    if (!(((S_801728C4_1 *)actor)->unk_1C & 0x2000)) {
-        goto no_special;
+    if (((S_801728C4_1 *)actor)->unk_1C & 0x2000) {
+        action_kind = ((S_801728C4_1 *)actor)->unk_46 & 0x3FFF;
+        dispatch_index = action_kind - 1;
+        switch (dispatch_index) {
+        case 6:
+            special_mode = 1;
+        case 2:
+            goto no_3;
+        case 5:
+            special_mode = 1;
+        case 1:
+            goto no_2;
+        case 4:
+            special_mode = 1;
+        case 0:
+            goto no_1;
+        default:
+            goto jt_4;
+        }
     }
-    action_kind = ((S_801728C4_1 *)actor)->unk_46 & 0x3FFF;
-    dispatch_index = action_kind - 1;
-    switch (dispatch_index) {
-    case 6:
-        special_mode = 1;
-    case 2:
-        goto no_3;
-    case 5:
-        special_mode = 1;
-    case 1:
-        goto no_2;
-    case 4:
-        special_mode = 1;
-    case 0:
-        goto no_1;
-    default:
-        goto jt_4;
-    }
-
-no_special:
     normal_action = ((S_801728C4_1 *)actor)->unk_46 & 0x3FFF;
     if (normal_action == 2) {
         goto no_2;

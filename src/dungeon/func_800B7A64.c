@@ -51,7 +51,7 @@ s32 func_800BD1C4(DungeonObject *obj, u8 *payload, s16 effect_arg) {
     s32 message_handle;
     s32 message_arg;
     const void *message;
-    volatile u16 *kind_flags;
+    u16 *kind_flags;
 
     effect_state = 0;
     if (obj == (DungeonObject *)((u8 *)D_800E3D7C)) {
@@ -116,7 +116,7 @@ after_amount:
     }
     func_80098B38(payload);
     {
-        volatile u16 *counter_base;
+        u16 *counter_base;
 
         counter_base = ((u16 *)(&dungeonStatus));
         counter_base[5] = counter_base[5] - 1;

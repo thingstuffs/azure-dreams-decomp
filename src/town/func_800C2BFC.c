@@ -45,7 +45,7 @@ typedef struct S_800C035C_3 {
     u8 pad_0C[0x4];
     s32 unk_10;
     u8 pad_14[0xB4];
-    union { s16 s; volatile s16 u; volatile u16 p; } unk_C8;   /* accessed as both */
+    union { s16 s; s16 u; volatile u16 p; } unk_C8;   /* accessed as both */
 } S_800C035C_3;   /* temp_s3 in func_800C035C */
 
 typedef struct S_800C035C_4 {

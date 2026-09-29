@@ -103,7 +103,7 @@ void func_80171760(void *motion, void *render_ctx, void *map_entity, EntityRec *
             u8 current_state;
             u8 idle_state;
 
-            current_state = *(volatile u8 *)((u8 *)motion + 0x9A);
+            current_state = *(u8 *)((u8 *)motion + 0x9A);
             idle_state = 0xE;
             if (current_state != idle_state) {
                 anim_table = D_80174E88;

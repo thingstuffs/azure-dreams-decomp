@@ -12,7 +12,7 @@ typedef struct {
     u8 bytes[12];
 } __attribute__((packed)) Packed12;
 
-extern volatile void *jtbl_80024048[];
+extern void *jtbl_80024048[];
 __asm__(".set jtbl_80024048, 0x80024048");
 extern u8 D_8002492C[16];
 extern u8 D_80025704[16];
@@ -392,68 +392,65 @@ emit_flash:
     return;
 
 emit_burst:
-    if (F(effect_base, s16, 0x20) < 13) {
-        goto fade_model;
-    }
-    particle_index = 0;
-    particle_script = D_8002492C;
-    spawn_data = ((u8 *)(&D_80082E80));
-    world_offset = &D_80083780;
-    effect_context = 0x80;
-    do {
-        particle = func_8003FC64(0x212);
-        if (particle != 0) {
-            effect_context = prepare_burst(particle, particle_script, func_80045340);
-            sprite = F(particle, void *, 0xC);
-            F(sprite, u16, 0x14) = (u16)(F(sprite, u16, 0x14) | 0xC);
-            F(sprite, u16, 0x10) = 0x60;
-            if ((func_80069EF8() & 1) == 0) {
-                F(sprite, u16, 0x14) = (u16)(F(sprite, u16, 0x14) | 1);
-            }
-            position = F(particle, void *, 8);
-            if (func_8003DF74(F(spawn_data, void *, 8), spawn_data, (u8 *)effect_base + 0xC, 0) != 0) {
-                F(effect_base, u16, 0xC) = (u16)(F(effect_base, u16, 0xC) + F(world_offset, u16, 2));
-                F(effect_base, u16, 0xE) = (u16)(F(effect_base, u16, 0xE) + F(world_offset, u16, 6));
-                F(effect_base, u16, 0x10) = (u16)(F(effect_base, u16, 0x10) + F(world_offset, u16, 0xA));
+    if (F(effect_base, s16, 0x20) >= 13) {
+        particle_index = 0;
+        particle_script = D_8002492C;
+        spawn_data = ((u8 *)(&D_80082E80));
+        world_offset = &D_80083780;
+        effect_context = 0x80;
+        do {
+            particle = func_8003FC64(0x212);
+            if (particle != 0) {
+                effect_context = prepare_burst(particle, particle_script, func_80045340);
+                sprite = F(particle, void *, 0xC);
+                F(sprite, u16, 0x14) = (u16)(F(sprite, u16, 0x14) | 0xC);
+                F(sprite, u16, 0x10) = 0x60;
+                if ((func_80069EF8() & 1) == 0) {
+                    F(sprite, u16, 0x14) = (u16)(F(sprite, u16, 0x14) | 1);
+                }
+                position = F(particle, void *, 8);
+                if (func_8003DF74(F(spawn_data, void *, 8), spawn_data, (u8 *)effect_base + 0xC, 0) != 0) {
+                    F(effect_base, u16, 0xC) = (u16)(F(effect_base, u16, 0xC) + F(world_offset, u16, 2));
+                    F(effect_base, u16, 0xE) = (u16)(F(effect_base, u16, 0xE) + F(world_offset, u16, 6));
+                    F(effect_base, u16, 0x10) = (u16)(F(effect_base, u16, 0x10) + F(world_offset, u16, 0xA));
+                    if (particle_index != 0) {
+                        F(effect_context, s16, 0x2A) = 8;
+                        F(sprite, u16, 0x10) = 0x20;
+                        bits = (u32)func_80069EF8() & 0x3F;
+                        component = F(effect_base, u16, 0xC);
+                        component -= 0x20;
+                        component += bits;
+                        F(effect_base, u16, 0xC) = (u16)component;
+                        bits = (u32)func_80069EF8() & 0x3F;
+                        component = F(effect_base, u16, 0xE);
+                        component -= 0x20;
+                        component += bits;
+                        F(effect_base, u16, 0xE) = (u16)component;
+                        bits = (u32)func_80069EF8() & 0x3F;
+                        component = F(effect_base, u16, 0x10);
+                        component -= 0x20;
+                        component += bits;
+                        F(effect_base, u16, 0x10) = (u16)component;
+                    }
+                }
+                F(position, u16, 2) = F(effect_base, u16, 0xC);
+                F(position, u16, 6) = F(effect_base, u16, 0xE);
+                F(position, u16, 0xA) = F(effect_base, u16, 0x10);
+                sprite = F(particle, void *, 0xC);
+                F(sprite, u16, 0x1E) = 0x1000;
+                F(sprite, u16, 0x1C) = 0x1000;
+                F(sprite, u8, 0xE) = 0x80;
+                F(sprite, u8, 0xD) = 0x80;
+                F(sprite, u8, 0xC) = 0x80;
                 if (particle_index != 0) {
-                    F(effect_context, s16, 0x2A) = 8;
-                    F(sprite, u16, 0x10) = 0x20;
-                    bits = (u32)func_80069EF8() & 0x3F;
-                    component = F(effect_base, u16, 0xC);
-                    component -= 0x20;
-                    component += bits;
-                    F(effect_base, u16, 0xC) = (u16)component;
-                    bits = (u32)func_80069EF8() & 0x3F;
-                    component = F(effect_base, u16, 0xE);
-                    component -= 0x20;
-                    component += bits;
-                    F(effect_base, u16, 0xE) = (u16)component;
-                    bits = (u32)func_80069EF8() & 0x3F;
-                    component = F(effect_base, u16, 0x10);
-                    component -= 0x20;
-                    component += bits;
-                    F(effect_base, u16, 0x10) = (u16)component;
+                    func_8003DB94(sprite, D_800DEB28, 0);
+                } else {
+                    func_8003DB94(sprite, D_800DE870, 0);
                 }
             }
-            F(position, u16, 2) = F(effect_base, u16, 0xC);
-            F(position, u16, 6) = F(effect_base, u16, 0xE);
-            F(position, u16, 0xA) = F(effect_base, u16, 0x10);
-            sprite = F(particle, void *, 0xC);
-            F(sprite, u16, 0x1E) = 0x1000;
-            F(sprite, u16, 0x1C) = 0x1000;
-            F(sprite, u8, 0xE) = 0x80;
-            F(sprite, u8, 0xD) = 0x80;
-            F(sprite, u8, 0xC) = 0x80;
-            if (particle_index != 0) {
-                func_8003DB94(sprite, D_800DEB28, 0);
-            } else {
-                func_8003DB94(sprite, D_800DE870, 0);
-            }
-        }
-        particle_index++;
-    } while (particle_index < 4);
-
-fade_model:
+            particle_index++;
+        } while (particle_index < 4);
+    }
     {
         s32 fade;
         animation_m = F(D_800814A8, void *, 0x60);

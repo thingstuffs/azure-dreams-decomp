@@ -100,7 +100,7 @@ void func_80174D48(void *source, Rec_func_800AD058_arg2 *record, void *appearanc
             sprite->unk_08 = (s32)texture;
             record_byte = record->unk_24;
         } else {
-            texture = (void *)func_8004A658((*(volatile u8 *)((u8 *)appearance + 0x49)),
+            texture = (void *)func_8004A658((*(u8 *)((u8 *)appearance + 0x49)),
                           (*(u8 *)((u8 *)appearance + 0x48)));
             sprite->unk_08 = (s32)texture;
             record_byte = record->unk_24;

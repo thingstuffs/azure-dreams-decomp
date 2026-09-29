@@ -15,7 +15,7 @@ s32 func_800AA79C(void *actor_state, s32 action, void *status, void *actor) {
 
     *(u8 *)((u8 *)actor + 0x71) &= 0x7F;
     if (dungeonStatus.flags & 0x2008) {
-        *(volatile s8 *)((u8 *)actor_state + 0x9A) = 0xE;
+        *(s8 *)((u8 *)actor_state + 0x9A) = 0xE;
         return 0;
     }
     if (*(s32 *)((u8 *)actor + 0x14) & 0x20000000) {

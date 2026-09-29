@@ -10,7 +10,7 @@ s32 func_80018A54(void) {
     s32 statusCode;
 
     do {
-        statusCodePtr = (s32 *)(*(u8 *volatile *)((u8 *)D_80016000[0] + 0x38) + 0x3188);
+        statusCodePtr = (s32 *)(*(u8 **)((u8 *)D_80016000[0] + 0x38) + 0x3188);
     } while (0);
     if ((*(Callback *)(*(u8 **)((u8 *)D_80016000[0] + 0x20) + 0x54))(2) & 1) {
         statusCode = 0x15;

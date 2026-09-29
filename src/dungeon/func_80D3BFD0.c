@@ -131,7 +131,7 @@ process:
             }
         }
 
-        action_flags = (volatile u16 *)(self + 0x46);
+        action_flags = (u16 *)(self + 0x46);
         if (!(*action_flags & 0x4000)) {
             selection_index = *action_flags & 0x3FFF;
             entry_index = selection_index - 1;

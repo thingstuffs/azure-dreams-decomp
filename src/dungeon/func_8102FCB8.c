@@ -216,68 +216,66 @@ void func_801714B8(void *actor_arg, void *context_arg, void *sprite_arg, void *s
     ((S_801714B8_2 *)sprite)->unk_26 = room_id;
 
     if (((S_801714B8_1 *)stats)->unk_6D > 0) {
-        if (((S_801714B8_1 *)stats)->unk_1C & 0x20) {
-            goto special_cleanup;
-        }
-        if (((S_801714B8_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
-            goto ordinary_cleanup;
-        }
-        if (!(((S_801714B8_1 *)stats)->unk_46 & 0x8000)) {
-            if (dungeonStatus.flags & 0x2000) {
-                if ((s16)func_8009A180(stats,
-                        (u8 *)D_800814A8->unk_58 + 0x20) != 0) {
+        if (!(((S_801714B8_1 *)stats)->unk_1C & 0x20)) {
+            if (((S_801714B8_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
+                goto ordinary_cleanup;
+            }
+            if (!(((S_801714B8_1 *)stats)->unk_46 & 0x8000)) {
+                if (dungeonStatus.flags & 0x2000) {
+                    if ((s16)func_8009A180(stats,
+                            (u8 *)D_800814A8->unk_58 + 0x20) != 0) {
+                        return;
+                    }
+                }
+                if ((s16)func_80172918(actor, context, sprite, 0) == 0) {
                     return;
                 }
+                ((S_801714B8_1 *)stats)->unk_46 |= 0x4000;
+                if (!(((S_801714B8_1 *)stats)->unk_46 & 0x8000)) {
+                    goto ordinary_cleanup;
+                }
             }
-            if ((s16)func_80172918(actor, context, sprite, 0) == 0) {
+
+            switch (((S_801714B8_1 *)stats)->unk_46 & 0x3FFF) {
+            case 8:
+                if ((s16)func_8017263C(actor, context, sprite, stats) == 0) {
+                    func_80172800(actor, context, sprite, stats);
+                    return;
+                }
                 return;
+
+            case 9:
+                func_801756E0(actor, context, sprite, stats);
+                return;
+
+            case 5:
+            case 6:
+            case 7:
+            {
+                EntityRec *player;
+                s16 heading;
+
+                heading = func_800A0818(
+                    ((S_801714B8_2 *)sprite)->unk_24.at00.v, ((S_801714B8_2 *)sprite)->unk_24.at01.v,
+                    D_80082E80.tileX, D_80082E80.tileY,
+                    &distance);
+                player = D_800814A8;
+                ((S_801714B8_1 *)stats)->unk_2A.s = heading;
+                if (player->unk_9A == 0x11) {
+                    goto aaf_cleanup;
+                }
+                goto special_cleanup;
             }
-            ((S_801714B8_1 *)stats)->unk_46 |= 0x4000;
-            if (!(((S_801714B8_1 *)stats)->unk_46 & 0x8000)) {
+            case 1:
+            case 2:
+            case 3:
+                goto aaf_cleanup;
+            case 12:
+                goto special_cleanup;
+            default:
                 goto ordinary_cleanup;
             }
         }
-
-        switch (((S_801714B8_1 *)stats)->unk_46 & 0x3FFF) {
-        case 8:
-            if ((s16)func_8017263C(actor, context, sprite, stats) == 0) {
-                func_80172800(actor, context, sprite, stats);
-                return;
-            }
-            return;
-
-        case 9:
-            func_801756E0(actor, context, sprite, stats);
-            return;
-
-        case 5:
-        case 6:
-        case 7:
-        {
-            EntityRec *player;
-            s16 heading;
-
-            heading = func_800A0818(
-                ((S_801714B8_2 *)sprite)->unk_24.at00.v, ((S_801714B8_2 *)sprite)->unk_24.at01.v,
-                D_80082E80.tileX, D_80082E80.tileY,
-                &distance);
-            player = D_800814A8;
-            ((S_801714B8_1 *)stats)->unk_2A.s = heading;
-            if (player->unk_9A == 0x11) {
-                goto aaf_cleanup;
-            }
-            goto special_cleanup;
-        }
-        case 1:
-        case 2:
-        case 3:
-            goto aaf_cleanup;
-        case 12:
-            goto special_cleanup;
-        default:
-            goto ordinary_cleanup;
-        }
-
 special_cleanup:
         func_800A9A0C(stats);
         return;

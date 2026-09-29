@@ -99,7 +99,7 @@ void func_800463EC(void *unused, u8 *position, RenderObject *object, s16 depth_b
     u8 *render_state;
     u8 *face;
     u8 *prim;
-    register volatile u8 *scratch ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    register u8 *scratch ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
     register u32 vertex_word ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     unsigned long vertex_data;
     register void *vertex_0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
@@ -121,9 +121,9 @@ void func_800463EC(void *unused, u8 *position, RenderObject *object, s16 depth_b
 
     PushMatrix();
 
-    vertex_word = *(volatile u16 *)&object->scale[0];
+    vertex_word = *(u16 *)&object->scale[0];
     ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    scratch = (volatile u8 *)0x1F800000;
+    scratch = (u8 *)0x1F800000;
     ASM_KEEP_NV(scratch);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
 
     SPAD_NV(scratch, s32, 0x30) = vertex_word;

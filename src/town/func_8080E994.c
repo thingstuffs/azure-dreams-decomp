@@ -50,7 +50,7 @@ extern u8 D_80290704[];
 extern u8 D_80132AE8[];
 extern u8 D_80077C64[];
 extern s32 D_80077C68[3];
-extern volatile s32 D_80012BCC;
+extern s32 D_80012BCC;
 extern s32 D_80084D5C;
 
 extern s32 func_80071494(void);

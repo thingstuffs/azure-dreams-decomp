@@ -9,7 +9,7 @@
 typedef struct S_800AA258_2 {
     u8 pad_00[0x24];
     u8 unk_24;
-    union { u8 s; volatile u8 u; } unk_25;   /* accessed as both */
+    union { u8 s; u8 u; } unk_25;   /* accessed as both */
 } S_800AA258_2;   /* arg2 in func_800AA258 */
 
 

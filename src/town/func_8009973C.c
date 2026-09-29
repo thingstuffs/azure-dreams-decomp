@@ -4,21 +4,19 @@
 s32 func_80096E9C(s32 *x, s32 *y) {
     s32 nearest_side[2];
     s32 edge_dist[4];
-    volatile s32 *bounds_page;
+    s32 *bounds_page;
     volatile s32 *bounds;
     s32 hit_sides;
     s32 first_min_x;
     s32 min_y_side;
 
-    bounds_page = (volatile s32 *)0x80100000;
-    do {
-        ASM_KEEP(bounds_page);
-    } while (0);
-    first_min_x = *(volatile s32 *)((s8 *)bounds_page - 0x1AE0);
+    bounds_page = (s32 *)0x80100000;
+    ASM_KEEP(bounds_page);
+    first_min_x = *(s32 *)((s8 *)bounds_page - 0x1AE0);
     hit_sides = 0;
     if (first_min_x != 0x80000000) {
         min_y_side = 2;
-        bounds = (volatile s32 *)((s8 *)bounds_page - 0x1AE0);
+        bounds = (s32 *)((s8 *)bounds_page - 0x1AE0);
         do {
             edge_dist[0] = *x - bounds[0];
             if (edge_dist[0] > 0) {

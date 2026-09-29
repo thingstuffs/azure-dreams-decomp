@@ -143,13 +143,11 @@ void func_80024660(void *effect, void *motion, void *appearance) {
     case 1:
     source_record = source - 0x20;
     source_info = ((S_80024660_3 *)source_record)->unk_0C;
-    if (func_8003DE58(((S_80024660_4 *)source_info)->unk_08, source_info, &scratch.dist[0], 0) != 0) {
-        goto copy_source_pos;
+    if (func_8003DE58(((S_80024660_4 *)source_info)->unk_08, source_info, &scratch.dist[0], 0) == 0) {
+        if (!(((S_80024660_12 *)(((S_80024660_3 *)source_record)->unk_0C))->unk_14 & 0x8000)) {
+            goto finish;
+        }
     }
-    if (!(((S_80024660_12 *)(((S_80024660_3 *)source_record)->unk_0C))->unk_14 & 0x8000)) {
-        goto finish;
-    }
-copy_source_pos:
     source_pos = ((S_80024660_3 *)source_record)->unk_08;
     ((S_80024660_5 *)motion)->unk_00.at02.v = (u16) ((S_80024660_6 *)source_pos)->unk_02;
     ((S_80024660_5 *)motion)->unk_04.at02.v = (u16) ((S_80024660_6 *)source_pos)->unk_06;
@@ -171,11 +169,9 @@ copy_source_pos:
         destination = ((S_80024660_7_pre *)target)[-1].unk_00;
         target_x_dist = ((S_80024660_8 *)destination)->unk_00.at02.v;
         target_x_dist -= ((S_80024660_5 *)motion)->unk_00.at02u.v;
-        if (target_x_dist >= 0) {
-            goto target_x_ready;
+        if (target_x_dist < 0) {
+            target_x_dist = 0 - target_x_dist;
         }
-        target_x_dist = 0 - target_x_dist;
-target_x_ready:
         scratch.dist[0] = (u16) target_x_dist;
         axis_dist = ((S_80024660_8 *)destination)->unk_04.at02.v;
         origin_coord = ((S_80024660_5 *)motion)->unk_04.at02u.v;
@@ -190,22 +186,18 @@ target_x_ready:
         scratch.dist[2] = (u16) axis_dist;
         ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16 = target_x_dist;
 do {
-        if (target_dist_cursor[12] <= ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16) {
-            goto next_target_axis;
+        if (target_dist_cursor[12] > ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16) {
+            ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16 = (s16) (u16) target_dist_cursor[12];
         }
-        ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16 = (s16) (u16) target_dist_cursor[12];
-next_target_axis:
         index += 1;
         target_dist_cursor += 1;
         } while (index < 3);
         target_dist_fixed = (u16) ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16 << 0x10;
         target_frames = (target_dist_fixed >> 0x14) + (target_dist_fixed >> 0x15);
         ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16 = target_frames;
-        if (target_frames != 0) {
-            goto set_target_velocity;
+        if (target_frames == 0) {
+            ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16 = 1;
         }
-        ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16 = 1;
-set_target_velocity:
         ((S_80024660_5 *)motion)->unk_0C = (s32) ((s32) (((S_80024660_8 *)destination)->unk_00.at00.v - ((S_80024660_5 *)motion)->unk_00.at00.v) / (s16) ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16);
         ((S_80024660_5 *)motion)->unk_10 = (s32) ((s32) (((S_80024660_8 *)destination)->unk_04.at00.v - ((S_80024660_5 *)motion)->unk_04.at00.v) / (s16) ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16);
         ((S_80024660_5 *)motion)->unk_14 = (s32) ((s32) (((S_80024660_8 *)destination)->unk_08.at00.v - ((S_80024660_5 *)motion)->unk_08.at00.v) / (s16) ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16);
@@ -310,22 +302,18 @@ set_path_destination:
             ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16 = path_x_dist;
         }
         do {
-                    if (path_dist_cursor[12] <= ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16) {
-                        goto next_path_axis;
+                    if (path_dist_cursor[12] > ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16) {
+                        ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16 = (s16) (u16) path_dist_cursor[12];
                     }
-                    ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16 = (s16) (u16) path_dist_cursor[12];
-            next_path_axis:
                     index += 1;
                     path_dist_cursor += 1;
         } while (index < 3);
         path_dist_fixed = (u16) ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16 << 0x10;
         path_frames = (path_dist_fixed >> 0x14) + (path_dist_fixed >> 0x15);
         ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16 = path_frames;
-        if (path_frames != 0) {
-            goto set_path_velocity;
+        if (path_frames == 0) {
+            ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16 = 1;
         }
-        ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16 = 1;
-set_path_velocity:
         ((S_80024660_5 *)motion)->unk_0C = (s32) ((s32) (((S_80024660_8 *)destination)->unk_00.at00.v - ((S_80024660_5 *)motion)->unk_00.at00.v) / (s16) ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16);
         ((S_80024660_5 *)motion)->unk_10 = (s32) ((s32) (((S_80024660_8 *)destination)->unk_04.at00.v - ((S_80024660_5 *)motion)->unk_04.at00.v) / (s16) ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16);
         ((S_80024660_5 *)motion)->unk_14 = (s32) ((s32) (((S_80024660_8 *)destination)->unk_08.at00.v - ((S_80024660_5 *)motion)->unk_08.at00.v) / (s16) ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16);

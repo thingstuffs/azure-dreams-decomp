@@ -281,38 +281,29 @@ state_2:
         random_y = func_8017165C(6) - 2;
         x_offset = random_x << 6;
         x = ((S_8017450C_4 *)motion)->unk_02.s + x_offset;
-        if (x >= 0x1020) {
-            goto next_try;
-        }
-        if (x <= 0) {
-            goto next_try;
-        }
+        if (x < 0x1020) {
+            if (x > 0) {
+                y_offset = random_y << 6;
+                y = ((S_8017450C_4 *)motion)->unk_06.s + y_offset;
+                if (y < 0x1020) {
+                    if (y > 0) {
+                        actor = (u16)x;
+                        y = (u16)y;
+                        if ((func_800A45D8(actor, y, -0x200) << 16) == 0) {
+                            if (func_800BCB04(actor, y, -0x200) < 0x200) {
+                                attempt++;
+                                continue;
+                            }
 
-        y_offset = random_y << 6;
-        y = ((S_8017450C_4 *)motion)->unk_06.s + y_offset;
-        if (y >= 0x1020) {
-            goto next_try;
+                            random_x = 0xB;
+                            attempt = random_x;
+                            ((S_8017450C_4 *)motion)->unk_02.u += x_offset;
+                            ((S_8017450C_4 *)motion)->unk_06.u += y_offset;
+                        }
+                    }
+                }
+            }
         }
-        if (y <= 0) {
-            goto next_try;
-        }
-
-        actor = (u16)x;
-        y = (u16)y;
-        if ((func_800A45D8(actor, y, -0x200) << 16) != 0) {
-            goto next_try;
-        }
-        if (func_800BCB04(actor, y, -0x200) < 0x200) {
-            attempt++;
-            continue;
-        }
-
-        random_x = 0xB;
-        attempt = random_x;
-        ((S_8017450C_4 *)motion)->unk_02.u += x_offset;
-        ((S_8017450C_4 *)motion)->unk_06.u += y_offset;
-
-next_try:
         attempt++;
     } while (attempt < 0xA);
 

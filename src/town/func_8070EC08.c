@@ -33,32 +33,25 @@ char *func_80017C08(s32 unused, s32 value, s32 selection, s32 extra)
         if (func_8001A8EC(0xB) != 0) {
             func_8001A554(0x93B);
         }
+        if (func_8001A64C(0x93A) == 0) {
+            if (func_8001A64C(0x93B) == 0) {
+                if (func_8001A64C(0x948) == 0) {
+                    goto L6;
+                }
+                {
+                    s32 flag_94a_set = func_8001A64C(0x94A);
+                    if (flag_94a_set == 0) {
+                        goto L7tail;
+                    }
+                }
+                goto L6;
+            }
+        }
         if (func_8001A64C(0x93A) != 0) {
-            goto L9;
-        }
-        if (func_8001A64C(0x93B) != 0) {
-            goto L9;
-        }
-        if (func_8001A64C(0x948) == 0) {
-            goto L6;
-        }
-        {
-            s32 flag_94a_set = func_8001A64C(0x94A);
-            if (flag_94a_set == 0) {
+            if (func_8001A64C(0x93B) == 0) {
                 goto L7tail;
             }
         }
-        goto L6;
-
-L9:
-        if (func_8001A64C(0x93A) == 0) {
-            goto L10;
-        }
-        if (func_8001A64C(0x93B) == 0) {
-            goto L7tail;
-        }
-
-L10:
         if (func_8001A64C(0x93A) != 0) {
             goto L7;
         }

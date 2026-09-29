@@ -157,55 +157,52 @@ forward_segment:
     scratch->data8A = result;
     scratch->data7A = result;
     next_output = func_800A41D8(object, context, scratch, output, 0);
-    if (next_output == 0) {
-        goto reverse_begin;
-    }
-    output = next_output;
-
-    scratch->data80 = coord_y;
-    scratch->data70 = coord_y;
-    result = coord_x << 16;
-    angle_or_coord = result >> 16;
-    if (object->unk_0C != 0) {
-        coord_value = angle_or_coord -
-            (func_800644B8(((s32)(forward_angle << 16) >> 14) +
-                           (object->unk_00 << 5)) >> 1);
-    } else {
-        coord_value = angle_or_coord +
-            (func_800644B8(((s32)(forward_angle << 16) >> 14) +
-                           (object->unk_00 << 5)) >> 1);
-    }
-    result = forward_angle + 0x80;
-    forward_angle = result;
-    next_angle = (s16)result;
-    scratch->data82 = coord_value;
-    scratch->data72 = coord_value;
-    angle_or_coord = func_80064584(next_angle) * 6;
-    angle_or_coord -= origin_y;
-    coord_y = angle_or_coord;
-    coord_value = func_800644B8(next_angle) * 6;
-    scratch->data88 = angle_or_coord;
-    scratch->data78 = angle_or_coord;
-    coord_value -= origin_x;
-    coord_x = coord_value;
-    coord_value <<= 16;
-    angle_or_coord = coord_value >> 16;
-    if (object->unk_0C != 0) {
-        result = angle_or_coord -
-            (func_800644B8((next_angle * 4) + (object->unk_00 << 5)) >> 1);
-    } else {
-        result = angle_or_coord +
-            (func_800644B8((next_angle * 4) + (object->unk_00 << 5)) >> 1);
-    }
-    scratch->data8A = result;
-    scratch->data7A = result;
-    next_output = func_800A41D8(object, context, scratch, output, 1);
     if (next_output != 0) {
         output = next_output;
-        goto forward_segment;
-    }
 
-reverse_begin:
+        scratch->data80 = coord_y;
+        scratch->data70 = coord_y;
+        result = coord_x << 16;
+        angle_or_coord = result >> 16;
+        if (object->unk_0C != 0) {
+            coord_value = angle_or_coord -
+                (func_800644B8(((s32)(forward_angle << 16) >> 14) +
+                               (object->unk_00 << 5)) >> 1);
+        } else {
+            coord_value = angle_or_coord +
+                (func_800644B8(((s32)(forward_angle << 16) >> 14) +
+                               (object->unk_00 << 5)) >> 1);
+        }
+        result = forward_angle + 0x80;
+        forward_angle = result;
+        next_angle = (s16)result;
+        scratch->data82 = coord_value;
+        scratch->data72 = coord_value;
+        angle_or_coord = func_80064584(next_angle) * 6;
+        angle_or_coord -= origin_y;
+        coord_y = angle_or_coord;
+        coord_value = func_800644B8(next_angle) * 6;
+        scratch->data88 = angle_or_coord;
+        scratch->data78 = angle_or_coord;
+        coord_value -= origin_x;
+        coord_x = coord_value;
+        coord_value <<= 16;
+        angle_or_coord = coord_value >> 16;
+        if (object->unk_0C != 0) {
+            result = angle_or_coord -
+                (func_800644B8((next_angle * 4) + (object->unk_00 << 5)) >> 1);
+        } else {
+            result = angle_or_coord +
+                (func_800644B8((next_angle * 4) + (object->unk_00 << 5)) >> 1);
+        }
+        scratch->data8A = result;
+        scratch->data7A = result;
+        next_output = func_800A41D8(object, context, scratch, output, 1);
+        if (next_output != 0) {
+            output = next_output;
+            goto forward_segment;
+        }
+    }
     angle_or_coord = (s16)reverse_angle;
     coord_value = func_80064584(angle_or_coord) * 6;
     coord_y = coord_value - origin_y;
@@ -251,55 +248,52 @@ reverse_segment:
     scratch->data82 = result;
     scratch->data72 = result;
     next_output = func_800A41D8(object, context, scratch, output, 1);
-    if (next_output == 0) {
-        goto done;
-    }
-    output = next_output;
-
-    scratch->data88 = coord_y;
-    scratch->data78 = coord_y;
-    result = coord_x << 16;
-    angle_or_coord = result >> 16;
-    if (object->unk_0C != 0) {
-        coord_value = angle_or_coord -
-            (func_800644B8(((s32)(reverse_angle << 16) >> 14) +
-                           (object->unk_00 << 5)) >> 1);
-    } else {
-        coord_value = angle_or_coord +
-            (func_800644B8(((s32)(reverse_angle << 16) >> 14) +
-                           (object->unk_00 << 5)) >> 1);
-    }
-    result = reverse_angle - 0x80;
-    reverse_angle = result;
-    next_angle = (s16)result;
-    scratch->data8A = coord_value;
-    scratch->data7A = coord_value;
-    angle_or_coord = func_80064584(next_angle) * 6;
-    angle_or_coord -= origin_y;
-    coord_y = angle_or_coord;
-    coord_value = func_800644B8(next_angle) * 6;
-    scratch->data80 = angle_or_coord;
-    scratch->data70 = angle_or_coord;
-    coord_value -= origin_x;
-    coord_x = coord_value;
-    coord_value <<= 16;
-    angle_or_coord = coord_value >> 16;
-    if (object->unk_0C != 0) {
-        result = angle_or_coord -
-            (func_800644B8((next_angle * 4) + (object->unk_00 << 5)) >> 1);
-    } else {
-        result = angle_or_coord +
-            (func_800644B8((next_angle * 4) + (object->unk_00 << 5)) >> 1);
-    }
-    scratch->data82 = result;
-    scratch->data72 = result;
-    next_output = func_800A41D8(object, context, scratch, output, 0);
     if (next_output != 0) {
         output = next_output;
-        goto reverse_segment;
-    }
 
-done:
+        scratch->data88 = coord_y;
+        scratch->data78 = coord_y;
+        result = coord_x << 16;
+        angle_or_coord = result >> 16;
+        if (object->unk_0C != 0) {
+            coord_value = angle_or_coord -
+                (func_800644B8(((s32)(reverse_angle << 16) >> 14) +
+                               (object->unk_00 << 5)) >> 1);
+        } else {
+            coord_value = angle_or_coord +
+                (func_800644B8(((s32)(reverse_angle << 16) >> 14) +
+                               (object->unk_00 << 5)) >> 1);
+        }
+        result = reverse_angle - 0x80;
+        reverse_angle = result;
+        next_angle = (s16)result;
+        scratch->data8A = coord_value;
+        scratch->data7A = coord_value;
+        angle_or_coord = func_80064584(next_angle) * 6;
+        angle_or_coord -= origin_y;
+        coord_y = angle_or_coord;
+        coord_value = func_800644B8(next_angle) * 6;
+        scratch->data80 = angle_or_coord;
+        scratch->data70 = angle_or_coord;
+        coord_value -= origin_x;
+        coord_x = coord_value;
+        coord_value <<= 16;
+        angle_or_coord = coord_value >> 16;
+        if (object->unk_0C != 0) {
+            result = angle_or_coord -
+                (func_800644B8((next_angle * 4) + (object->unk_00 << 5)) >> 1);
+        } else {
+            result = angle_or_coord +
+                (func_800644B8((next_angle * 4) + (object->unk_00 << 5)) >> 1);
+        }
+        scratch->data82 = result;
+        scratch->data72 = result;
+        next_output = func_800A41D8(object, context, scratch, output, 0);
+        if (next_output != 0) {
+            output = next_output;
+            goto reverse_segment;
+        }
+    }
     end_town = global_base->unk_000;
     end_town->unk_8D0 = output;
     return 0;

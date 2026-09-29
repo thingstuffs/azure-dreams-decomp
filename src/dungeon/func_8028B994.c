@@ -13,7 +13,7 @@ typedef struct {
     u8 pad10[4];
 } DungeonGroup;
 
-extern volatile s32 D_80012090[];
+extern s32 D_80012090[];
 extern s16 D_8001F6F8[];
 extern DungeonGroup D_80073414[];
 
@@ -53,10 +53,10 @@ void func_8001E994(void)
                 if (!(item_flags & 0x10)) {
                     if (item_flags & 0x40) {
                         {
-                            volatile s32 *state_page;
+                            s32 *state_page;
 
-                            state_page = (volatile s32 *)0x80010000;
-                            if (*(volatile s32 *)((u8 *)state_page + 0x2090) !=
+                            state_page = (s32 *)0x80010000;
+                            if (*(s32 *)((u8 *)state_page + 0x2090) !=
                                 two) {
                                 goto next_item;
                             }

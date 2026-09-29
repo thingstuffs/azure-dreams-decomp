@@ -92,7 +92,7 @@ void func_80099C58(s16 x, s16 y, s16 z, s16 flags)
             (*(void **)((u8 *)sprite + 0)) = texture;
             color = 0x808080;
         }
-        texture_data = (*(void * volatile *)((u8 *)sprite + 0));
+        texture_data = (*(void * *)((u8 *)sprite + 0));
         texture_data = texture_data->unk_04;
         (*(u16 *)((u8 *)sprite + 0x14)) |= 0x8C;
         (*(s16 *)((u8 *)sprite + 0x10)) = 0x20;
@@ -134,7 +134,7 @@ void func_80099C58(s16 x, s16 y, s16 z, s16 flags)
                 (*(void **)((u8 *)sprite + 0)) = texture;
                 color = 0x808080;
             }
-            texture_data = (*(void * volatile *)((u8 *)sprite + 0));
+            texture_data = (*(void * *)((u8 *)sprite + 0));
             texture_data = texture_data->unk_04;
             (*(u16 *)((u8 *)sprite + 0x14)) |= 0x8C;
             (*(s16 *)((u8 *)sprite + 0x10)) = 0x20;

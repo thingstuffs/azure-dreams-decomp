@@ -100,7 +100,7 @@ typedef struct {
     u8 valueA0;
     u8 valueA1;
     u8 padA2[6];
-    Spawned *volatile spawnA8;
+    Spawned *spawnA8;
     Vec12 *savedPositionAC;
 } State;
 
@@ -182,14 +182,11 @@ void func_80025374(State *state, Vec12 *position, Graphic *graphic)
 
         flags_or_result = func_8003DF74(header->componentC->unk8,
             header->componentC, &delta, 0);
-        if (flags_or_result != 0) {
-            goto position_ready;
+        if (flags_or_result == 0) {
+            if (!(header->componentC->flags14 & 0x8000)) {
+                goto done;
+            }
         }
-        if (!(header->componentC->flags14 & 0x8000)) {
-            goto done;
-        }
-
-position_ready:
         position->x = source->x;
         position->y = source->y;
         source_z = source->z;
@@ -261,7 +258,7 @@ position_ready:
                 flags_or_result = (u32)(*(s32 *)((u8 *)entity->path60 - 0x18));
                 steps = data->step2;
                 if (steps != 0) {
-                    flags_or_result = (u32)(*(volatile s32 *)((u8 *)(s32)flags_or_result + 8));
+                    flags_or_result = (u32)(*(s32 *)((u8 *)(s32)flags_or_result + 8));
                     data->dx54 =
                         ((s32)flags_or_result - ((s32 *)position)[2] + (s32)0xFF800000) /
                         (steps - 1);

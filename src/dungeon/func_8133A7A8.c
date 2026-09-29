@@ -62,7 +62,7 @@ void func_801717A8(Entity *entity) {
     entity->phase = 2;
     entity->state++;
     offset_x = D_800DCE60[0];
-    *(volatile s16 *)&D_801760E0[0] = offset_x;
+    *(s16 *)&D_801760E0[0] = offset_x;
     offset_y = D_800DCE60[1];
     offset_z = D_800DCE60[2];
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
@@ -132,7 +132,7 @@ void func_801717A8(Entity *entity) {
     focus_pos = D_801760E8;
     coord_sum /= 2;
 jt_case0_tail:
-    *(volatile s16 *)&focus_pos[1] = coord_sum;
+    *(s16 *)&focus_pos[1] = coord_sum;
     focus_pos[2] = actor->z;
     globals = ((u8 *)(&gameWork));
     *(s32 *)(globals + 0x154) = 0;

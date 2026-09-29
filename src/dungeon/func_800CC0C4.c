@@ -3,32 +3,32 @@
 
 typedef struct S_800D1824_0 {
     u8 pad_00[0x20];
-    volatile u8 * unk_20;
+    u8 * unk_20;
     u8 pad_24[0x4];
-    volatile s32 unk_28;
-    volatile s16 unk_2C;
+    s32 unk_28;
+    s16 unk_2C;
     u8 pad_2E[0x42];
-    volatile s16 unk_70;
-    volatile s16 unk_72;
-    volatile u16 unk_74;
+    s16 unk_70;
+    s16 unk_72;
+    u16 unk_74;
     u8 pad_76[0x2];
-    volatile s16 unk_78;
-    volatile s16 unk_7A;
-    volatile u16 unk_7C;
+    s16 unk_78;
+    s16 unk_7A;
+    u16 unk_7C;
     u8 pad_7E[0x2];
-    volatile s16 unk_80;
-    volatile s16 unk_82;
-    volatile u16 unk_84;
+    s16 unk_80;
+    s16 unk_82;
+    u16 unk_84;
     u8 pad_86[0x2];
-    volatile s16 unk_88;
-    volatile s16 unk_8A;
-    volatile u16 unk_8C;
+    s16 unk_88;
+    s16 unk_8A;
+    u16 unk_8C;
     u8 pad_8E[0x32];
-    volatile s32 unk_C0;
+    s32 unk_C0;
     u8 pad_C4[0x8];
-    volatile s32 unk_CC;
+    s32 unk_CC;
     u8 pad_D0[0x44];
-    volatile s32 unk_114;
+    s32 unk_114;
 } S_800D1824_0;   /* scratch in func_800D1824 */
 
 typedef struct S_800D1824_2 {
@@ -41,7 +41,7 @@ typedef struct S_800D1824_3_pre {
 } S_800D1824_3_pre;   /* the 0x1 bytes before rec in func_800D1824, addressed as rec[-1] */
 
 typedef struct S_800D1824_3 {
-    union { u16 s; volatile u16 u; } unk_00;   /* accessed as both */
+    union { u16 s; u16 u; } unk_00;   /* accessed as both */
 } S_800D1824_3;   /* rec in func_800D1824 */
 
 typedef struct S_800D1824_4 {
@@ -104,7 +104,7 @@ void func_800D1824(u8 *tiles)
 
         do {
             if (((S_800D1824_3 *)tile_z)->unk_00.s != 0x8000) {
-                do { vertex_1 = scratch + 0x78; } while (0);
+                vertex_1 = scratch + 0x78;
                 x = (s32)*tile << 6;
                 ((S_800D1824_0 *)scratch)->unk_80 = (s16)x;
                 ((S_800D1824_0 *)scratch)->unk_70 = (s16)x;

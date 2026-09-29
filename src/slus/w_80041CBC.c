@@ -83,7 +83,7 @@ void func_80041CBC(void)
     func_80048B28();
     DrawSync(0);
     frame_ticks = GetRCnt(1) + 0xFF;
-    sync_flags = *(volatile u16 *)&D_80013714;
+    sync_flags = *(u16 *)&D_80013714;
     frame_ticks >>= 8;
 #ifdef NON_MATCHING
     *(volatile s8 *)&D_80080A87 = (s8)frame_ticks;

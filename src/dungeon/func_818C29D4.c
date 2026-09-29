@@ -33,7 +33,7 @@ typedef struct S_818C29D4_0 {
     u8 pad_00[0x18];
     u32 * unk_18;
     u8 pad_1C[0x98];
-    volatile u32 unk_B4;
+    u32 unk_B4;
 } S_818C29D4_0;   /* (sc) in func_818C29D4 */
 
 typedef struct S_818C29D4_1 {
@@ -61,7 +61,7 @@ typedef struct S_818C29D4_2 {
     s16 unk_7E;
     s16 unk_80;
     u8 pad_82[0x32];
-    union { volatile u32 v; u32 n; } unk_B4;   /* accessed as both */
+    union { u32 v; u32 n; } unk_B4;   /* accessed as both */
     u8 pad_B8[0x20];
     u16 unk_D8;
     u16 unk_DA;
@@ -87,17 +87,17 @@ typedef struct S_818C29D4_5 {
     u8 pad_00[0x3];
     u8 unk_03;
     u8 pad_04[0x4];
-    volatile u16 unk_08;
-    volatile u16 unk_0A;
+    u16 unk_08;
+    u16 unk_0A;
     u8 pad_0C[0x8];
-    volatile u16 unk_14;
-    volatile u16 unk_16;
+    u16 unk_14;
+    u16 unk_16;
     u8 pad_18[0x8];
-    volatile u16 unk_20;
-    volatile u16 unk_22;
+    u16 unk_20;
+    u16 unk_22;
     u8 pad_24[0x8];
-    volatile u16 unk_2C;
-    volatile u16 unk_2E;
+    u16 unk_2C;
+    u16 unk_2E;
 } S_818C29D4_5;   /* poly in func_818C29D4 */
 
 typedef struct S_818C29D4_6 {

@@ -84,14 +84,12 @@ void func_801727C8(void *action, EntityRec *motion, void *sprite, EntityRec *act
     if (state == 1) {
         goto block_37;
     }
-    if ((s32) state >= 2) {
-        goto block_4;
+    if ((s32) state < 2) {
+        if (state == 0) {
+            goto block_7;
+        }
+        return;
     }
-    if (state == 0) {
-        goto block_7;
-    }
-    return;
-block_4:
     if (state == 2) {
         goto block_40;
     }
@@ -126,15 +124,13 @@ block_13:
     if (slot == 2) {
         goto block_19;
     }
-    if (slot >= 3) {
-        goto block_17;
+    if (slot < 3) {
+        entry = NULL;
+        if (slot == 1) {
+            goto block_20;
+        }
+        goto block_22;
     }
-    entry = NULL;
-    if (slot == 1) {
-        goto block_20;
-    }
-    goto block_22;
-block_17:
     entry = NULL;
     if (slot != 3) {
         goto block_22;
@@ -158,7 +154,7 @@ block_22:
     if (*entry == 0) {
         goto block_36;
     }
-    *(volatile u16 *)((s8 *)action + 0x98) = (u16) (((S_801727C8_0 *)action)->unk_98 & 0xFF7F);
+    *(u16 *)((s8 *)action + 0x98) = (u16) (((S_801727C8_0 *)action)->unk_98 & 0xFF7F);
     {
         s32 special_check;
 
@@ -234,24 +230,20 @@ block_36:
     actor->unk_46 = (u16) (actor->unk_46 & 0x7FFF);
     return;
 block_37:
-    if (func_8003F270() == 0) {
-        goto block_39;
+    if (func_8003F270() != 0) {
+        ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = (u16) (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v | 0x800);
+        return;
     }
-    ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = (u16) (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v | 0x800);
-    return;
-block_39:
     ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = (u16) (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xF7FF);
     ((S_801727C8_0 *)action)->unk_9B = (u8) (((S_801727C8_0 *)action)->unk_9B + 1);
 block_40:
     ticks_left = ((S_801727C8_0 *)action)->unk_96 - 1;
     ((S_801727C8_0 *)action)->unk_96 = ticks_left;
-    if ((ticks_left << 0x10) <= 0) {
-        goto block_42;
+    if ((ticks_left << 0x10) > 0) {
+        if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
+            return;
+        }
     }
-    if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
-        return;
-    }
-block_42:
     ((S_801727C8_0 *)action)->unk_98 = (u16) (((S_801727C8_0 *)action)->unk_98 | 0x80);
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
         return;
@@ -271,18 +263,14 @@ block_45:
     motion->unk_10 = 0;
     motion->unk_0C = 0;
     func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
-    if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pm == &D_8017418C) {
-        goto block_50;
+    if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pm != &D_8017418C) {
+        if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000) {
+            ((S_801727C8_5 *)visual_flags)->unk_04 = (u16) (((S_801727C8_5 *)visual_flags)->unk_04 | 0x8000);
+            ((S_801727C8_0 *)action)->unk_A8 = 0;
+            (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_8017418C;
+            func_80047784(sprite, *((((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7) + &D_8017418C), 0);
+        }
     }
-    if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000)) {
-        goto block_49;
-    }
-    ((S_801727C8_5 *)visual_flags)->unk_04 = (u16) (((S_801727C8_5 *)visual_flags)->unk_04 | 0x8000);
-    ((S_801727C8_0 *)action)->unk_A8 = 0;
-    (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_8017418C;
-    func_80047784(sprite, *((((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7) + &D_8017418C), 0);
-block_49:
-block_50:
     if (((s32)dungeonStatus.unk_0C) != 0) {
         return;
     }
@@ -290,11 +278,9 @@ block_50:
     ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = (u16) (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xF7FF);
     ((S_801727C8_0 *)action)->unk_8C = &D_801711A4;
     func_800A4ACC(actor);
-    if ((s8) ((u8)actor->unk_6D) <= 0) {
-        goto block_53;
+    if ((s8) ((u8)actor->unk_6D) > 0) {
+        actor->unk_6D = (u8) (((u8)actor->unk_6D) - 1);
     }
-    actor->unk_6D = (u8) (((u8)actor->unk_6D) - 1);
-block_53:
     actor->unk_73 = 0;
     actor->unk_72 = 0;
     actor->unk_46 = (u16) (actor->unk_46 & 0x7FFF);

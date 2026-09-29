@@ -97,7 +97,7 @@ typedef struct S_80173A60_8 {
 typedef struct S_80173A60_9 {
     u8 pad_00[0xA];
     u16 unk_0A;
-    volatile s32 unk_0C;
+    s32 unk_0C;
 } S_80173A60_9;   /* global in func_80173A60 */
 
 /* Advances an actor's item action, spawning its visual effect and restoring idle state. */

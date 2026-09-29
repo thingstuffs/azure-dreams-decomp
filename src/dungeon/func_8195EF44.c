@@ -135,7 +135,7 @@ void *func_8195EF44(s16 world_x, s16 world_y, s16 world_z, s16 coord_60)
         func_8004491C(call_obj, call_addr);
 
         color = 0x808080;
-        render = (*(void * volatile *)((u8 *)obj + 8));
+        render = (*(void * *)((u8 *)obj + 8));
         ASM_CLOBBER("$3");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         coord = (u8 *)obj + 0x20;
         ASM_KEEP_NV(coord);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */

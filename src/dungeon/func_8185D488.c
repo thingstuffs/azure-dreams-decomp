@@ -185,84 +185,81 @@ void func_80024C88(Controller *ctrl, Motion *motion, void *render_data)
             motion->dx.val = (ctrl->target[0].val - motion->x.val) / 15;
             motion->dy.val = (ctrl->target[1].val - motion->y.val) / 15;
             motion->dz.val = (ctrl->target[2].val - motion->z.val) / 15;
-            goto advance;
-        }
+        } else {
+            index = 0;
+            lookup_2 = prefix->lookup;
+            cell_x = lookup_2->cell_x;
+            cell_y = lookup_2->cell_y;
+            target_cell_x = cell_x;
+            target_cell_y[0] = cell_y;
 
-        index = 0;
-        lookup_2 = prefix->lookup;
-        cell_x = lookup_2->cell_x;
-        cell_y = lookup_2->cell_y;
-        target_cell_x = cell_x;
-        target_cell_y[0] = cell_y;
+            do {
+                if ((s16)func_800A44E0(((s16)cell_x << 6) & 0xFFC0,
+                                     ((s16)cell_y << 6) & 0xFFC0,
+                                     *(s16 *)(root + 0x88),
+                                     (s16)(ctrl->angle << 9)) != 0) {
+                    break;
+                }
 
-        do {
-            if ((s16)func_800A44E0(((s16)cell_x << 6) & 0xFFC0,
-                                 ((s16)cell_y << 6) & 0xFFC0,
-                                 *(s16 *)(root + 0x88),
-                                 (s16)(ctrl->angle << 9)) != 0) {
-                break;
-            }
+                {
+                    s16 *x_step;
+                    s16 *y_step;
+                    s32 height;
+                    s32 direction;
+                    u16 root_z;
+
+                    direction = (s16)ctrl->angle;
+                    root_z = *(u16 *)(root + 0x88);
+                    lookup = &dirStepX[direction];
+                    x_step = lookup;
+                    height = (s16)(root_z - 32);
+                    y_step = &dirStepY[direction];
+                    floor_height = func_800BCB04((((s16)cell_x + *x_step) << 6) + 32 & 0xFFE0,
+                                               (((s16)cell_y + *y_step) << 6) + 32 & 0xFFE0,
+                                               height);
+                }
+                if ((s16)floor_height >= 513) {
+                    break;
+                }
+                if ((s16)(floor_height - *(u16 *)(root + 0x88)) < -63) {
+                    break;
+                }
+
+                {
+                    s32 direction;
+
+                    direction = (s16)ctrl->angle;
+                    index++;
+                    cell_x += dirStepX[direction];
+                    cell_y += dirStepY[direction];
+                    target_cell_x = cell_x;
+                    target_cell_y[0] = cell_y;
+                }
+            } while (index < 8);
 
             {
-                s16 *x_step;
-                s16 *y_step;
-                s32 height;
-                s32 direction;
-                u16 root_z;
+                Fixed32 *target;
 
-                direction = (s16)ctrl->angle;
-                root_z = *(u16 *)(root + 0x88);
-                lookup = &dirStepX[direction];
-                x_step = lookup;
-                height = (s16)(root_z - 32);
-                y_step = &dirStepY[direction];
-                floor_height = func_800BCB04((((s16)cell_x + *x_step) << 6) + 32 & 0xFFE0,
-                                           (((s16)cell_y + *y_step) << 6) + 32 & 0xFFE0,
-                                           height);
-            }
-            if ((s16)floor_height >= 513) {
-                break;
-            }
-            if ((s16)(floor_height - *(u16 *)(root + 0x88)) < -63) {
-                break;
+                target = ctrl->target;
+                target[2].val = 0;
+                target[1].val = 0;
+                ctrl->target[0].val = 0;
+                target[0].h.hi = ((target_cell_x << 16) >> 10) + 32;
+                target[1].h.hi = ((target_cell_y[0] << 16) >> 10) + 32;
+                target[2].h.hi = -1024;
+                target[2].h.hi = func_800BCB04((u16)target[0].h.hi,
+                                            (u16)target[1].h.hi, -1024);
+                if ((s16)target[2].h.hi >= 513) {
+                    target[2].h.hi = motion->z.h.hi + 32;
+                }
             }
 
-            {
-                s32 direction;
-
-                direction = (s16)ctrl->angle;
-                index++;
-                cell_x += dirStepX[direction];
-                cell_y += dirStepY[direction];
-                target_cell_x = cell_x;
-                target_cell_y[0] = cell_y;
-            }
-        } while (index < 8);
-
-        {
-            Fixed32 *target;
-
-            target = ctrl->target;
-            target[2].val = 0;
-            target[1].val = 0;
-            ctrl->target[0].val = 0;
-            target[0].h.hi = ((target_cell_x << 16) >> 10) + 32;
-            target[1].h.hi = ((target_cell_y[0] << 16) >> 10) + 32;
-            target[2].h.hi = -1024;
-            target[2].h.hi = func_800BCB04((u16)target[0].h.hi,
-                                        (u16)target[1].h.hi, -1024);
-            if ((s16)target[2].h.hi >= 513) {
-                target[2].h.hi = motion->z.h.hi + 32;
-            }
+            motion->dx.val = (ctrl->target[0].val - motion->x.val) / 15;
+            motion->dy.val = (ctrl->target[1].val - motion->y.val) / 15;
+            motion->dz.val = (ctrl->target[2].val - motion->z.val) / 15;
+            ctrl->cell_x = target_cell_x;
+            ctrl->cell_y = target_cell_y[0];
         }
-
-        motion->dx.val = (ctrl->target[0].val - motion->x.val) / 15;
-        motion->dy.val = (ctrl->target[1].val - motion->y.val) / 15;
-        motion->dz.val = (ctrl->target[2].val - motion->z.val) / 15;
-        ctrl->cell_x = target_cell_x;
-        ctrl->cell_y = target_cell_y[0];
-
-advance:
         ctrl->timer = 0;
         ctrl->state++;
         goto finish;

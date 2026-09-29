@@ -41,7 +41,7 @@ typedef struct S_func_819A6800_4 {
     u16 unk_A6;
     u8 unk_A8;
     u8 pad_A9[0x4B];
-    volatile u32 unk_F4;
+    u32 unk_F4;
     u8 pad_F8[0x0A];
     u8 unk_102;
 } S_func_819A6800_4;
@@ -195,7 +195,7 @@ state2:
         S_func_819A6800_4 *global_object = *(void **)global_slot;
         S_func_819A6800_4 *reloaded_object;
         global_object->unk_102 = 1;
-        reloaded_object = *(void * volatile *)global_slot;
+        reloaded_object = *(void * *)global_slot;
         reloaded_object->unk_F4 = 0;
 
         ((S_func_819A6800_5 *)(out_position))->unk_00.u = ((S_func_819A6800_5 *)(owner_object->unk_08))->unk_00.u;

@@ -160,7 +160,7 @@ typedef struct {
 
 /* Builds a filtered 4-bit glyph bitmap for the requested character. */
 s32 func_80121C90(s32 char_code, s32 dst_addr) {
-    volatile u8 frame_pad[32];
+    u8 frame_pad[32];
     s16 row;
     s16 col;
     s16 neighbor_bit;

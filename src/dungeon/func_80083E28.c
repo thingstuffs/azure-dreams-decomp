@@ -16,16 +16,16 @@ typedef struct S_80089588_4 {
 
 typedef struct S_80089588_1 {
     u8 pad_00[0x3];
-    volatile s8 unk_03;
-    volatile s32 unk_04;
-    volatile s16 unk_08;
-    volatile u16 unk_0A;
-    union { s16 s; volatile s16 u; } unk_0C;   /* accessed as both */
-    volatile u16 unk_0E;
-    volatile s16 unk_10;
-    volatile s16 unk_12;
-    volatile s16 unk_14;
-    volatile s16 unk_16;
+    s8 unk_03;
+    s32 unk_04;
+    s16 unk_08;
+    u16 unk_0A;
+    union { s16 s; s16 u; } unk_0C;   /* accessed as both */
+    u16 unk_0E;
+    s16 unk_10;
+    s16 unk_12;
+    s16 unk_14;
+    s16 unk_16;
 } S_80089588_1;   /* temp_s2 in func_80089588 */
 
 typedef struct S_80089588_2 {

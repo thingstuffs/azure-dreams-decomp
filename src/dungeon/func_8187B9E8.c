@@ -117,7 +117,7 @@ void func_8187B9E8(s32 radius, s32 initial_value, s16 extent, u16 position_x, U1
         state->unk_10 = extent;
         state->unk_12 = extent;
         func_8004491C(effect, D_800249F4);
-        work_value = *(volatile s32 *)&initial_value;
+        work_value = *(s32 *)&initial_value;
         state->unk_00 = work_value;
     }
 }

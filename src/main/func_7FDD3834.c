@@ -73,7 +73,7 @@ s32 func_8008A794(void *node_data, void *scroll_state)
                     *(volatile s32 *)&(*ctx_ptr)->field_82C =
                         ((*ctx_ptr)->field_82C & tag_mask) | ((u32)sprite & addr_mask);
 
-                    ctx = *(S_Ctx *volatile *)ctx_ptr;
+                    ctx = *(S_Ctx **)ctx_ptr;
                     draw_mode = ctx->cur;
                     ctx->cur = (u8 *)draw_mode + 0xC;
                     func_80067F20(draw_mode, 0, 0,

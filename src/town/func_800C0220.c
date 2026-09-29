@@ -21,9 +21,9 @@ typedef struct {
 
 typedef struct S_800BD980_0 {
     u8 pad_00[0xC];
-    volatile u16 unk_0C;
-    volatile u16 unk_0E;
-    volatile u16 unk_10;
+    u16 unk_0C;
+    u16 unk_0E;
+    u16 unk_10;
 } S_800BD980_0;   /* temp_v1 in event_tori_in */
 
 typedef struct S_800BD980_1 {
@@ -88,9 +88,9 @@ s32 event_tori_in(void *source) {
             source_x_hi = (*(u16 *)((u8 *)source_data + 2));
             origin = object + 0x20;
             origin->unk_0C = source_x_hi;
-            source_y_hi = (*(volatile u16 *)((u8 *)source_data + 6));
+            source_y_hi = (*(u16 *)((u8 *)source_data + 6));
             origin->unk_0E = source_y_hi;
-            origin->unk_10 = (*(volatile u16 *)((u8 *)source_data + 0xA));
+            origin->unk_10 = (*(u16 *)((u8 *)source_data + 0xA));
             x_offset = x_step + 0x01400000;
             transform->unk_00 = (s32) ((*(s32 *)((u8 *)source_data + 0)) + x_offset);
             {

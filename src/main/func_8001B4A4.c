@@ -10,7 +10,7 @@ void func_8001B4A4(void *object) {
 
     if (object != 0) {
         **(s32 ***)(object + 0x20) = func_800484A4(*(s32 *)(object + 0x24) + 6, *(s32 *)(object + 0x20));
-        asm volatile(
+        asm (
             "lhu $2, 30(%0)\n\t"
             "lui $3, 0x8009\n\t"
             "lw $3, -9548($3)\n\t"

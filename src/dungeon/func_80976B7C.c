@@ -18,11 +18,11 @@ typedef struct S_8017237C_1 {
 
 typedef struct S_8017237C_2 {
     u8 pad_00[0x8C];
-    volatile s32 unk_8C;
+    s32 unk_8C;
     u8 pad_90[0x6];
     s16 unk_96;
     u8 pad_98[0x2];
-    volatile u8 unk_9A;
+    u8 unk_9A;
     u8 unk_9B;
 } S_8017237C_2;   /* p0 in func_8017237C */
 
@@ -30,10 +30,10 @@ typedef struct S_8017237C_3 {
     u8 pad_00[0x2A];
     s16 unk_2A;
     u8 pad_2C[0x41];
-    volatile u8 unk_6D;
+    u8 unk_6D;
     u8 pad_6E[0x16];
-    volatile u8 unk_84;
-    volatile u8 unk_85;
+    u8 unk_84;
+    u8 unk_85;
 } S_8017237C_3;   /* call0 in func_8017237C */
 
 

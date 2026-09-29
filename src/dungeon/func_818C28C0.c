@@ -31,7 +31,7 @@ void func_818C28C0(Obj *obj)
     }
 
     if (timer < 0x10) {
-        obj->intensity = *(volatile u8 *)&obj->timer * 8;
+        obj->intensity = *(u8 *)&obj->timer * 8;
     } else if (timer < 0x20) {
         obj->intensity = 0x80;
     } else {

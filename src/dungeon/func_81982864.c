@@ -15,7 +15,7 @@ typedef struct S_80024064_0 {
     u16 * unk_04;
     u8 unk_08;
     u8 unk_09;
-    union { s16 s; volatile u16 u; u16 p; } unk_0A;   /* accessed as both */
+    union { s16 s; u16 u; u16 p; } unk_0A;   /* accessed as both */
     s32 unk_0C;
     u8 pad_10[0xA];
     s16 unk_1A;
@@ -162,18 +162,15 @@ void func_80024064(void *transition) {
         break;
     }
 update_dimming:
-    if (((S_80024064_0 *)transition)->unk_20 >= 0) {
-        goto clear_input;
+    if (((S_80024064_0 *)transition)->unk_20 < 0) {
+        levels->view.unk_091 = (u8) (levels->view.unk_091 + ((s32) (0x20 - levels->view.unk_091) / (s16) ((S_80024064_0 *)transition)->unk_22));
+        levels->view.unk_090 = (u8) (levels->view.unk_090 + ((s32) (0x20 - levels->view.unk_090) / (s16) ((S_80024064_0 *)transition)->unk_22));
+        dim_left = (u16) ((S_80024064_0 *)transition)->unk_22 - 1;
+        ((S_80024064_0 *)transition)->unk_22 = dim_left;
+        if ((dim_left << 0x10) <= 0) {
+            ((S_80024064_0 *)transition)->unk_20 = 0;
+        }
     }
-    levels->view.unk_091 = (u8) (levels->view.unk_091 + ((s32) (0x20 - levels->view.unk_091) / (s16) ((S_80024064_0 *)transition)->unk_22));
-    levels->view.unk_090 = (u8) (levels->view.unk_090 + ((s32) (0x20 - levels->view.unk_090) / (s16) ((S_80024064_0 *)transition)->unk_22));
-    dim_left = (u16) ((S_80024064_0 *)transition)->unk_22 - 1;
-    ((S_80024064_0 *)transition)->unk_22 = dim_left;
-    if ((dim_left << 0x10) > 0) {
-        goto clear_input;
-    }
-    ((S_80024064_0 *)transition)->unk_20 = 0;
-clear_input:
     *D_800269F8 = 0;
     return;
 }

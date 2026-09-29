@@ -50,7 +50,7 @@ M2C_UNK func_8004491C();                /* extern */
 M2C_UNK func_800A9C18(); /* extern */
 M2C_UNK func_800AA36C(); /* extern */
 s32 func_800F6D28();                          /* extern */
-extern volatile void *D_800FBE1C[];
+extern void *D_800FBE1C[];
 extern u8 D_80170A4C[];
 
 /* Creates and initializes an entity at the center of the specified tile. */

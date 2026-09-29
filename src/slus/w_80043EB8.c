@@ -59,7 +59,7 @@ void func_80043EB8(void)
 #else
   state_base = (u8 *)0x80080000;
 #endif
-  *(volatile s32 *)(state_base + 0x1480) = saved_value;
+  *(s32 *)(state_base + 0x1480) = saved_value;
   func_800411AC();
   func_8003E2D8();
   next_buffer = D_801C9E40;

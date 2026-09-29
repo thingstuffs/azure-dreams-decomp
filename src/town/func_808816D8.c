@@ -15,7 +15,7 @@ typedef struct Func808816D8Owner {
 extern s32 D_80700740[3];
 extern Func808816D8Callbacks *D_8070100C[3];
 extern Func808816D8Owner *D_80701000[3];
-extern s32 * volatile D_80701008[];
+extern s32 * D_80701008[];
 extern u8 D_807007A8[16];
 extern u8 D_807007D0[16];
 extern u8 D_80700704[16];

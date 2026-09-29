@@ -15,7 +15,7 @@ typedef struct S_8002654C_0 {
 extern s32 memset();
 extern s32 func_800263C0();
 extern s32 func_80026370();
-extern volatile u8 D_800294F8[9];
+extern u8 D_800294F8[9];
 
 /* Clears the object's buffer and resets its associated state. */
 void func_8002654C(s32 objectAddress)

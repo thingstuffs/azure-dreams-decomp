@@ -53,7 +53,7 @@ void func_80022F34(void *bounds_data, void *state_data) {
             if ((entry_y + entry->f3) < point_y)
                 goto done;
             next_index = (u16)state->index + 1;
-            ((volatile State *)state_data)->index = next_index;
+            ((State *)state_data)->index = next_index;
             if (next_index >= 0xE) {
                 state->index = 0;
                 state->count = (u16)(state->count + 1);

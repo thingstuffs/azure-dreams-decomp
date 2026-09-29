@@ -7,10 +7,10 @@
 typedef struct S_807AE960_1 {
     union { u16 s; s16 u; } unk_00;   /* accessed as both */
     u16 unk_02;
-    union { s16 s; volatile s16 u; } unk_04;   /* accessed as both */
+    union { s16 s; s16 u; } unk_04;   /* accessed as both */
     u8 pad_06[0x4];
     s16 unk_0A;
-    union { s16 s; volatile u16 u; } unk_0C;   /* accessed as both */
+    union { s16 s; u16 u; } unk_0C;   /* accessed as both */
     u16 unk_0E;
     s16 unk_10;
 } S_807AE960_1;   /* state in func_807AE960 */
@@ -22,7 +22,7 @@ typedef struct S_807AE960_2 {
 
 typedef struct S_807AE960_3 {
     u8 pad_00[0x2090];
-    volatile s32 unk_2090;
+    s32 unk_2090;
 } S_807AE960_3;   /* global in func_807AE960 */
 
 typedef struct S_807AE960_4 {

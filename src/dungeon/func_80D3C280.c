@@ -13,14 +13,14 @@ typedef struct S_80171A80_0 {
     union { u16 u; s16 s; } unk_92;   /* accessed as both */
     u8 pad_94[0x4];
     u16 unk_98;
-    union { u8 n; volatile u8 v; } unk_9A;   /* accessed as both */
+    union { u8 n; u8 v; } unk_9A;   /* accessed as both */
     u8 unk_9B;
     u8 pad_9C[0x2];
     s16 unk_9E;
     u8 pad_A0[0x2];
     union { s16 s; u16 u; } unk_A2;   /* accessed as both */
     u8 pad_A4[0xC];
-    union { volatile u8 v; u8 n; } unk_B0;   /* accessed as both */
+    union { u8 v; u8 n; } unk_B0;   /* accessed as both */
     u8 pad_B1[0x4];
     u8 unk_B5;
 } S_80171A80_0;   /* arg0 in func_80171A80 */

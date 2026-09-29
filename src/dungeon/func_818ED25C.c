@@ -54,7 +54,7 @@ extern void func_80067E2C(void *, void *);
 /* Draws at a page-adjusted position with clipping commands and an optional black rectangle.
  * Keeping the page pointer live across setup and spelling the sign extension as one expression
  * reproduce the retail allocation and call-argument order. */
-void func_80024A5C(volatile s32 draw_data, S_80024A5C_5 *clip_rect, void *screen_pos, u16 clear_rect, s16 draw_param)
+void func_80024A5C(s32 draw_data, S_80024A5C_5 *clip_rect, void *screen_pos, u16 clear_rect, s16 draw_param)
 {
     u16 draw_pos[2];
     u16 clear_enabled;

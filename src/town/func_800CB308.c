@@ -19,17 +19,17 @@ typedef struct S_800C8A68_0 {
 } S_800C8A68_0;   /* temp_v0 in func_800C8A68 */
 
 typedef struct S_800C8A68_1 {
-    volatile s32 unk_00;
-    volatile s32 unk_04;
+    s32 unk_00;
+    s32 unk_04;
     s32 unk_08;
     s32 unk_0C;
     s32 unk_10;
 } S_800C8A68_1;   /* temp_a1 in func_800C8A68 */
 
 typedef struct S_800C8A68_2 {
-    volatile s32 unk_00;
-    volatile s32 unk_04;
-    volatile s32 unk_08;
+    s32 unk_00;
+    s32 unk_04;
+    s32 unk_08;
 } S_800C8A68_2;   /* arg0 in func_800C8A68 */
 
 typedef struct S_800C8A68_3 {

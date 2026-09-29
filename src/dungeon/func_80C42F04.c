@@ -166,13 +166,11 @@ void func_80174704(void *action, EntityRec *position, Rec_D_80082E80 *entity, vo
 
         direction = ((gameWork.view.viewAngle + ((S_80174704_1 *)actor)->unk_2A.s + 0x100) >> 9) & 7;
         angle = ((S_80174704_1 *)actor)->unk_2A.u;
-        if (((S_80174704_2 *)D_80174E3C)->unk_00 == 0) {
-            goto direction_not_ready;
+        if (((S_80174704_2 *)D_80174E3C)->unk_00 != 0) {
+            if (direction == 2) {
+                goto direction_ready;
+            }
         }
-        if (direction == 2) {
-            goto direction_ready;
-        }
-direction_not_ready:
         if (direction == 2) {
             return;
         }

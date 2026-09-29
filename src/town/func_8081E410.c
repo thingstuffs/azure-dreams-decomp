@@ -95,13 +95,11 @@ middle_range:
         abs_dx = abs(abs_dx);
         abs_dy = dy;
         abs_dy = abs(abs_dy);
-        if (abs_dx > abs_dy) {
-            goto x_axis;
+        if (abs_dx <= abs_dy) {
+            if (mid_pos->y.v > 0x033FFFFF) {
+                goto y_axis;
+            }
         }
-        if (mid_pos->y.v > 0x033FFFFF) {
-            goto y_axis;
-        }
-x_axis:
         S32(state_arg, 0x5C) = mid_pos->y.v;
         if (dx > 0) {
             S32(state_arg, 0x58) = mid_pos->x.v - 0x00280000;
@@ -168,23 +166,22 @@ position_done:
     dx = U16(effect_arg, 0x1A) & 0x7FF;
     if (dx >= 0x6AB) {
         S16(spin_data, 0x24) = 0;
-        goto reset_spin_angle;
-    }
-    dy = 0x155;
-    distance = 4;
-    sector_start = 0x554;
-    for (; distance >= 0; distance--, sector_start -= dy) {
-        if (dx >= sector_start) {
-            break;
+    } else {
+        dy = 0x155;
+        distance = 4;
+        sector_start = 0x554;
+        for (; distance >= 0; distance--, sector_start -= dy) {
+            if (dx >= sector_start) {
+                break;
+            }
+        }
+        value_sector = distance & 1;
+        if (value_sector) {
+            S16(spin_data, 0x24) = 1;
+        } else {
+            S16(spin_data, 0x24) = 2;
         }
     }
-    value_sector = distance & 1;
-    if (value_sector) {
-        S16(spin_data, 0x24) = 1;
-    } else {
-        S16(spin_data, 0x24) = 2;
-    }
-reset_spin_angle:
     S16(spin_data, 0x1A) = 0;
 
     case 4:

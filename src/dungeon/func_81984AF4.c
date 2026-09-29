@@ -2,11 +2,11 @@
 
 typedef struct S_81984AF4_0 {
     s32 unk_00;
-    union { s8 s; volatile u8 u; } unk_04;   /* accessed as both */
+    union { s8 s; u8 u; } unk_04;   /* accessed as both */
     u8 pad_05[0x3];
     void * unk_08;
     u8 pad_0C[0x8];
-    union { volatile u16 s; u16 u; } unk_14;   /* accessed as both */
+    union { u16 s; u16 u; } unk_14;   /* accessed as both */
 } S_81984AF4_0;   /* obj in func_81984AF4 */
 
 typedef struct S_81984AF4_1 {

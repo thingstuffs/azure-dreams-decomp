@@ -37,12 +37,11 @@ void func_800250C0(void *effect, s32 age, S_800250C0_1 *color, s32 fade_ticks) {
     D_80026428[0] = 1;
     if (age < fade_ticks) {
         fade_scaled = age * 3;
-        goto set_intensity;
+    } else {
+        frame_count = ((S_800250C0_0 *)((u8 *)effect - 0x2))->unk_04;
+        frame_count -= age;
+        fade_scaled = frame_count * 3;
     }
-    frame_count = ((S_800250C0_0 *)((u8 *)effect - 0x2))->unk_04;
-    frame_count -= age;
-    fade_scaled = frame_count * 3;
-set_intensity:
     intensity = (fade_scaled * 0x10) / fade_ticks;
     color->unk_0E = (s8) intensity;
     color->unk_0D = (s8) intensity;

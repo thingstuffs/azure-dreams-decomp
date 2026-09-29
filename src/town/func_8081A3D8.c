@@ -98,43 +98,41 @@ void func_800243D8(State8081A3D8 *controller)
     state = controller->state;
     switch (state) {
 case 0:
-    if (((s16)controller->timer % spawn_interval) != 0) {
-        goto tick;
-    }
-    if (controller->countdown <= 0) {
-        if ((controller->state != 1) || !(controller->flags & 4)) {
-            goto tick;
+    if (((s16)controller->timer % spawn_interval) == 0) {
+        if (controller->countdown <= 0) {
+            if ((controller->state != 1) || !(controller->flags & 4)) {
+                goto tick;
+            }
         }
-    }
 
-    controller->timer = 0;
-    controller->phase = (controller->phase + 1) & 3;
-    if (controller->state == 0) {
-        controller->countdown--;
-    }
-
-    object = func_8003FD64(0x136, ((u8 *)(&D_80083498)));
-    if (object != 0) {
-        u8 *object_tail = object + 0x20;
-        ((S_800243D8_0 *)object)->unk_10 = D_80024B48;
-        func_8004491C(object, func_80045340);
-        object_data = ((S_800243D8_0 *)object)->unk_0C;
-        ((S_800243D8_3 *)(((S_800243D8_0 *)object)->unk_08))->unk_00 = 0x03200000;
-        ((S_800243D8_3 *)(((S_800243D8_0 *)object)->unk_08))->unk_04 = 0x02E00000;
-        ((S_800243D8_3 *)(((S_800243D8_0 *)object)->unk_08))->unk_08 = 0xFFFC0000;
-        {
-            u16 object_phase = controller->phase;
-            ((S_800243D8_1 *)object_tail)->unk_AC = controller;
-            ((S_800243D8_1 *)object_tail)->unk_A0 = object_phase;
+        controller->timer = 0;
+        controller->phase = (controller->phase + 1) & 3;
+        if (controller->state == 0) {
+            controller->countdown--;
         }
-        ((S_800243D8_2 *)object_data)->unk_1E = 0x1000;
-        ((S_800243D8_2 *)object_data)->unk_1C = 0x1000;
-        ((S_800243D8_2 *)object_data)->unk_04.at02.v = -0x100;
-        func_8003DB94(object_data, D_800F7DFC, 0);
-        ((S_800243D8_2 *)object_data)->unk_0C.at00.v = 0x00808080;
-    }
-    controller->flags |= 1;
 
+        object = func_8003FD64(0x136, ((u8 *)(&D_80083498)));
+        if (object != 0) {
+            u8 *object_tail = object + 0x20;
+            ((S_800243D8_0 *)object)->unk_10 = D_80024B48;
+            func_8004491C(object, func_80045340);
+            object_data = ((S_800243D8_0 *)object)->unk_0C;
+            ((S_800243D8_3 *)(((S_800243D8_0 *)object)->unk_08))->unk_00 = 0x03200000;
+            ((S_800243D8_3 *)(((S_800243D8_0 *)object)->unk_08))->unk_04 = 0x02E00000;
+            ((S_800243D8_3 *)(((S_800243D8_0 *)object)->unk_08))->unk_08 = 0xFFFC0000;
+            {
+                u16 object_phase = controller->phase;
+                ((S_800243D8_1 *)object_tail)->unk_AC = controller;
+                ((S_800243D8_1 *)object_tail)->unk_A0 = object_phase;
+            }
+            ((S_800243D8_2 *)object_data)->unk_1E = 0x1000;
+            ((S_800243D8_2 *)object_data)->unk_1C = 0x1000;
+            ((S_800243D8_2 *)object_data)->unk_04.at02.v = -0x100;
+            func_8003DB94(object_data, D_800F7DFC, 0);
+            ((S_800243D8_2 *)object_data)->unk_0C.at00.v = 0x00808080;
+        }
+        controller->flags |= 1;
+    }
 tick:
     controller->timer++;
     if (controller->flags & 1) {

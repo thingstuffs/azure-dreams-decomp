@@ -44,7 +44,7 @@ s32 func_800A2424(void *entity_data, s32 show_message) {
     s32 lower_stat;
     s32 level_term;
     s32 level_term_2;
-    volatile s32 *xp_table;
+    s32 *xp_table;
 
     entity = (u8 *)entity_data;
     if (entity[0x11] < 2U) {
@@ -304,7 +304,7 @@ s32 func_800A2424(void *entity_data, s32 show_message) {
     }
     ASM_SCHED_BARRIER();
     {
-        if (!(*(volatile u16 *)((u16 *)&D_80013714) & 1)) {
+        if (!(*(u16 *)((u16 *)&D_80013714) & 1)) {
             D_800DCF4F[0] = 1;
             dungeonStatus.unk_0A++;
         }

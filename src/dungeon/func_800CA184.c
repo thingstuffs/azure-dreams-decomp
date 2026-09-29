@@ -232,10 +232,9 @@ void func_800CF8E4(void) {
         coord = func_800BCB04(((S_800CF8E4_2 *)view)->unk_A4, ((S_800CF8E4_2 *)view)->unk_A6, (s16) (((S_800CF8E4_2 *)view)->unk_A8 - 0x20));
         if (coord < 0x201) {
             *(s32 *)(ram_base + 0x158) = coord;
-            goto L_CF974;
+        } else {
+            *(s32 *)(ram_base + 0x158) = 0;
         }
-        *(s32 *)(ram_base + 0x158) = 0;
-L_CF974:
         func_80064D50(((void **)((s8 *)((void **)((s8 *)view + 0x58)))));
         func_80064624(((S_800CF8E4_2 *)view)->unk_84, ((S_800CF8E4_2 *)view)->unk_88);
         func_80064D20(((void **)((s8 *)((void **)((s8 *)view + 0x38)))));
@@ -273,108 +272,107 @@ L_CF974:
             ((S_800CF8E4_2 *)packet)->unk_20 = corner_3_x;
             ((S_800CF8E4_2 *)packet)->unk_22 = corner_3_y;
             ((S_800CF8E4_2 *)packet)->unk_24 = corner_3_z;
-            goto L_CFB98;
-        }
-        {
-            s32 blended_coord;
-            s32 coord_delta;
-            s32 next_delta;
-            s32 old_coord;
+        } else {
+            {
+                s32 blended_coord;
+                s32 coord_delta;
+                s32 next_delta;
+                s32 old_coord;
 
-            coord_delta = (s16)view_corners[0];
-            blended_coord = (s16)((S_800CF8E4_2 *)packet)->unk_08;
-            next_delta = (s16)view_corners[1];
-            old_coord = (s16)((S_800CF8E4_2 *)packet)->unk_0A;
-            coord_delta -= blended_coord;
-            coord_delta >>= 1;
-            next_delta -= old_coord;
-            next_delta >>= 1;
-            blended_coord = ((S_800CF8E4_2 *)packet)->unk_08;
-            old_coord = (s16)((S_800CF8E4_2 *)packet)->unk_0C;
-            blended_coord += coord_delta;
-            ((S_800CF8E4_2 *)packet)->unk_08 = (u16)blended_coord;
-            blended_coord = ((S_800CF8E4_2 *)packet)->unk_0A;
-            coord_delta = (s16)view_corners[2];
-            blended_coord += next_delta;
-            coord_delta -= old_coord;
-            coord_delta >>= 1;
-            ((S_800CF8E4_2 *)packet)->unk_0A = (u16)blended_coord;
-            blended_coord = ((S_800CF8E4_2 *)packet)->unk_0C;
-            next_delta = (s16)view_corners[4];
-            old_coord = (s16)((S_800CF8E4_2 *)packet)->unk_10;
-            blended_coord += coord_delta;
-            next_delta -= old_coord;
-            next_delta >>= 1;
-            ((S_800CF8E4_2 *)packet)->unk_0C = (u16)blended_coord;
-            blended_coord = ((S_800CF8E4_2 *)packet)->unk_10;
-            coord_delta = (s16)view_corners[5];
-            old_coord = (s16)((S_800CF8E4_2 *)packet)->unk_12;
-            blended_coord += next_delta;
-            coord_delta -= old_coord;
-            coord_delta >>= 1;
-            ((S_800CF8E4_2 *)packet)->unk_10 = (u16)blended_coord;
-            blended_coord = ((S_800CF8E4_2 *)packet)->unk_12;
-            next_delta = (s16)view_corners[6];
-            old_coord = (s16)((S_800CF8E4_2 *)packet)->unk_14;
-            blended_coord += coord_delta;
-            next_delta -= old_coord;
-            next_delta >>= 1;
-            ((S_800CF8E4_2 *)packet)->unk_12 = (u16)blended_coord;
-            blended_coord = ((S_800CF8E4_2 *)packet)->unk_14;
-            coord_delta = (s16)view_corners[8];
-            old_coord = (s16)((S_800CF8E4_2 *)packet)->unk_18;
-            blended_coord += next_delta;
-            coord_delta -= old_coord;
-            coord_delta >>= 1;
-            ((S_800CF8E4_2 *)packet)->unk_14 = (u16)blended_coord;
-            blended_coord = ((S_800CF8E4_2 *)packet)->unk_18;
-            next_delta = (s16)view_corners[9];
-            old_coord = (s16)((S_800CF8E4_2 *)packet)->unk_1A;
-            blended_coord += coord_delta;
-            next_delta -= old_coord;
-            next_delta >>= 1;
-            ((S_800CF8E4_2 *)packet)->unk_18 = (u16)blended_coord;
-            blended_coord = ((S_800CF8E4_2 *)packet)->unk_1A;
-            coord_delta = (s16)view_corners[10];
-            old_coord = (s16)((S_800CF8E4_2 *)packet)->unk_1C;
-            blended_coord += next_delta;
-            coord_delta -= old_coord;
-            ((S_800CF8E4_2 *)packet)->unk_1A = (u16)blended_coord;
-            blended_coord = ((S_800CF8E4_2 *)packet)->unk_1C;
-            coord_delta >>= 1;
-            blended_coord += coord_delta;
-            do {
-                ((S_800CF8E4_2 *)packet)->unk_1C = (u16)blended_coord;
-            } while (0);
-            coord_delta = (s16)view_corners[12];
-            blended_coord = (s16)((S_800CF8E4_2 *)packet)->unk_20;
-            next_delta = (s16)view_corners[13];
-            old_coord = (s16)((S_800CF8E4_2 *)packet)->unk_22;
-            render_arg = ((S_800CF8E4_2 *)packet)->unk_0C;
-            coord_delta -= blended_coord;
-            coord_delta >>= 1;
-            next_delta -= old_coord;
-            blended_coord = ((S_800CF8E4_2 *)packet)->unk_20;
-            old_coord = (s16)((S_800CF8E4_2 *)packet)->unk_24;
-            blended_coord += coord_delta;
-            ((S_800CF8E4_2 *)packet)->unk_20 = (u16)blended_coord;
-            blended_coord = ((S_800CF8E4_2 *)packet)->unk_22;
-            coord_delta = (s16)view_corners[14];
-            next_delta >>= 1;
-            ((S_800CF8E4_2 *)packet)->unk_2C = (u16)render_arg;
-            blended_coord += next_delta;
-            coord_delta -= old_coord;
-            coord_delta >>= 1;
-            ((S_800CF8E4_2 *)packet)->unk_22 = (u16)blended_coord;
-            blended_coord = ((S_800CF8E4_2 *)packet)->unk_24;
-            next_delta = ((S_800CF8E4_2 *)packet)->unk_08;
-            old_coord = ((S_800CF8E4_2 *)packet)->unk_0A;
-            blended_coord += coord_delta;
-            ((S_800CF8E4_2 *)packet)->unk_24 = (u16)blended_coord;
-            ((S_800CF8E4_2 *)packet)->unk_28 = (u16)next_delta;
-            ((S_800CF8E4_2 *)packet)->unk_2A = (u16)old_coord;
+                coord_delta = (s16)view_corners[0];
+                blended_coord = (s16)((S_800CF8E4_2 *)packet)->unk_08;
+                next_delta = (s16)view_corners[1];
+                old_coord = (s16)((S_800CF8E4_2 *)packet)->unk_0A;
+                coord_delta -= blended_coord;
+                coord_delta >>= 1;
+                next_delta -= old_coord;
+                next_delta >>= 1;
+                blended_coord = ((S_800CF8E4_2 *)packet)->unk_08;
+                old_coord = (s16)((S_800CF8E4_2 *)packet)->unk_0C;
+                blended_coord += coord_delta;
+                ((S_800CF8E4_2 *)packet)->unk_08 = (u16)blended_coord;
+                blended_coord = ((S_800CF8E4_2 *)packet)->unk_0A;
+                coord_delta = (s16)view_corners[2];
+                blended_coord += next_delta;
+                coord_delta -= old_coord;
+                coord_delta >>= 1;
+                ((S_800CF8E4_2 *)packet)->unk_0A = (u16)blended_coord;
+                blended_coord = ((S_800CF8E4_2 *)packet)->unk_0C;
+                next_delta = (s16)view_corners[4];
+                old_coord = (s16)((S_800CF8E4_2 *)packet)->unk_10;
+                blended_coord += coord_delta;
+                next_delta -= old_coord;
+                next_delta >>= 1;
+                ((S_800CF8E4_2 *)packet)->unk_0C = (u16)blended_coord;
+                blended_coord = ((S_800CF8E4_2 *)packet)->unk_10;
+                coord_delta = (s16)view_corners[5];
+                old_coord = (s16)((S_800CF8E4_2 *)packet)->unk_12;
+                blended_coord += next_delta;
+                coord_delta -= old_coord;
+                coord_delta >>= 1;
+                ((S_800CF8E4_2 *)packet)->unk_10 = (u16)blended_coord;
+                blended_coord = ((S_800CF8E4_2 *)packet)->unk_12;
+                next_delta = (s16)view_corners[6];
+                old_coord = (s16)((S_800CF8E4_2 *)packet)->unk_14;
+                blended_coord += coord_delta;
+                next_delta -= old_coord;
+                next_delta >>= 1;
+                ((S_800CF8E4_2 *)packet)->unk_12 = (u16)blended_coord;
+                blended_coord = ((S_800CF8E4_2 *)packet)->unk_14;
+                coord_delta = (s16)view_corners[8];
+                old_coord = (s16)((S_800CF8E4_2 *)packet)->unk_18;
+                blended_coord += next_delta;
+                coord_delta -= old_coord;
+                coord_delta >>= 1;
+                ((S_800CF8E4_2 *)packet)->unk_14 = (u16)blended_coord;
+                blended_coord = ((S_800CF8E4_2 *)packet)->unk_18;
+                next_delta = (s16)view_corners[9];
+                old_coord = (s16)((S_800CF8E4_2 *)packet)->unk_1A;
+                blended_coord += coord_delta;
+                next_delta -= old_coord;
+                next_delta >>= 1;
+                ((S_800CF8E4_2 *)packet)->unk_18 = (u16)blended_coord;
+                blended_coord = ((S_800CF8E4_2 *)packet)->unk_1A;
+                coord_delta = (s16)view_corners[10];
+                old_coord = (s16)((S_800CF8E4_2 *)packet)->unk_1C;
+                blended_coord += next_delta;
+                coord_delta -= old_coord;
+                ((S_800CF8E4_2 *)packet)->unk_1A = (u16)blended_coord;
+                blended_coord = ((S_800CF8E4_2 *)packet)->unk_1C;
+                coord_delta >>= 1;
+                blended_coord += coord_delta;
+                do {
+                    ((S_800CF8E4_2 *)packet)->unk_1C = (u16)blended_coord;
+                } while (0);
+                coord_delta = (s16)view_corners[12];
+                blended_coord = (s16)((S_800CF8E4_2 *)packet)->unk_20;
+                next_delta = (s16)view_corners[13];
+                old_coord = (s16)((S_800CF8E4_2 *)packet)->unk_22;
+                render_arg = ((S_800CF8E4_2 *)packet)->unk_0C;
+                coord_delta -= blended_coord;
+                coord_delta >>= 1;
+                next_delta -= old_coord;
+                blended_coord = ((S_800CF8E4_2 *)packet)->unk_20;
+                old_coord = (s16)((S_800CF8E4_2 *)packet)->unk_24;
+                blended_coord += coord_delta;
+                ((S_800CF8E4_2 *)packet)->unk_20 = (u16)blended_coord;
+                blended_coord = ((S_800CF8E4_2 *)packet)->unk_22;
+                coord_delta = (s16)view_corners[14];
+                next_delta >>= 1;
+                ((S_800CF8E4_2 *)packet)->unk_2C = (u16)render_arg;
+                blended_coord += next_delta;
+                coord_delta -= old_coord;
+                coord_delta >>= 1;
+                ((S_800CF8E4_2 *)packet)->unk_22 = (u16)blended_coord;
+                blended_coord = ((S_800CF8E4_2 *)packet)->unk_24;
+                next_delta = ((S_800CF8E4_2 *)packet)->unk_08;
+                old_coord = ((S_800CF8E4_2 *)packet)->unk_0A;
+                blended_coord += coord_delta;
+                ((S_800CF8E4_2 *)packet)->unk_24 = (u16)blended_coord;
+                ((S_800CF8E4_2 *)packet)->unk_28 = (u16)next_delta;
+                ((S_800CF8E4_2 *)packet)->unk_2A = (u16)old_coord;
+            }
         }
-L_CFB98:
         {
             s32 setup_arg;
             s32 setup_render;
@@ -471,12 +469,11 @@ loop_15:
                 *(s32 *)(ram_base + 0x008) = coord;
                 if (coord < *(s32 *)(ram_base + 0x014)) {
                     *(s32 *)(ram_base + 0x014) = coord;
-                    goto L_CFCFC;
+                } else {
+                    if (*(s32 *)(ram_base + 0x018) < coord) {
+                        *(s32 *)(ram_base + 0x018) = coord;
+                    }
                 }
-                if (*(s32 *)(ram_base + 0x018) < coord) {
-                    *(s32 *)(ram_base + 0x018) = coord;
-                }
-L_CFCFC:
                 {
                     s32 edge_error;
 
@@ -585,7 +582,7 @@ L_CFE98:
                                 vertex_value += (s32)vertices;
                                 *(volatile s32 *)(ram_base + 0x164) = ((S_800CF8E4_7 *)((void *)vertex_value))->unk_00;
                                 vertex_value = ((S_800CF8E4_6 *)face)->unk_02;
-                                vertex_x = *(volatile u16 *)(ram_base + 0x164);
+                                vertex_x = *(u16 *)(ram_base + 0x164);
                                 vertex_value <<= 3;
                                 vertex_value += (s32)vertices;
                                 vertex_xy = cell_x + vertex_x;
@@ -593,7 +590,7 @@ L_CFE98:
                                 vertex_xy &= 0xFFFF;
                                 vertex_value -= vertex_offset;
                                 *(volatile u16 *)(ram_base + 0x0EC) = (u16)vertex_value;
-                                vertex_value = *(volatile u16 *)(ram_base + 0x166);
+                                vertex_value = *(u16 *)(ram_base + 0x166);
                                 vertex_offset = *(volatile s32 *)(ram_base + 0x00C);
                                 vertex_value = (s16)vertex_value;
                                 vertex_offset += vertex_value;
@@ -606,31 +603,31 @@ L_CFE98:
                                 vertex_value <<= 3;
                                 vertex_value += (s32)vertices;
                                 vertex_value = ((S_800CF8E4_7 *)((void *)vertex_value))->unk_00;
-                                *(volatile s32 *)(ram_base + 0x164) = vertex_value;
-                                third_x = *(volatile u16 *)(ram_base + 0x164);
-                                vertex_offset = *(volatile u16 *)(ram_base + 0x166);
+                                *(s32 *)(ram_base + 0x164) = vertex_value;
+                                third_x = *(u16 *)(ram_base + 0x164);
+                                vertex_offset = *(u16 *)(ram_base + 0x166);
                                 vertex_xy = cell_x + third_x;
                                 vertex_xy &= 0xFFFF;
                                 vertex_offset = (s16)vertex_offset;
-                                vertex_value = *(volatile s32 *)(ram_base + 0x00C);
+                                vertex_value = *(s32 *)(ram_base + 0x00C);
                                 vertex_value += vertex_offset;
                                 vertex_value <<= 16;
                                 vertex_xy |= vertex_value;
-                                *(volatile s32 *)(ram_base + 0x0F0) = vertex_xy;
+                                *(s32 *)(ram_base + 0x0F0) = vertex_xy;
                                 vertex_value = ((S_800CF8E4_6 *)face)->unk_04;
                                 vertex_value <<= 3;
                                 vertex_value += (s32)vertices;
                                 vertex_offset = ((S_800CF8E4_7 *)((void *)vertex_value))->unk_04;
-                                vertex_value = *(volatile u16 *)(ram_base + 0x12C);
+                                vertex_value = *(u16 *)(ram_base + 0x12C);
                                 vertex_offset -= vertex_value;
-                                *(volatile u16 *)(ram_base + 0x0F4) = (u16)vertex_offset;
+                                *(u16 *)(ram_base + 0x0F4) = (u16)vertex_offset;
                             }
                             gte_ldv3(ram_base + 0xE0, ram_base + 0xE8, ram_base + 0xF0);
                             {
                                 s32 cell_height;
 
                                 edge_progress = ((S_800CF8E4_12 *)(((((S_800CF8E4_6 *)face)->unk_06 * 8) + vertices)))->unk_04;
-                                cell_height = *(volatile u16 *)(ram_base + 0x12C);
+                                cell_height = *(u16 *)(ram_base + 0x12C);
                                 edge_progress -= cell_height;
                                 *(u16 *)(ram_base + 0x0FC) = (u16) edge_progress;
                             }
@@ -654,12 +651,11 @@ L_CFE98:
                                                 normal_x = *(u16 *)(ram_base + 0x010);
                                                 if ((s16) normal_x > 0) {
                                                     *(u16 *)(ram_base + 0x010) = (u16)one;
-                                                    goto L_D00F4;
+                                                } else {
+                                                    if ((s16) normal_x < 0) {
+                                                        *(s16 *)(ram_base + 0x010) = -1;
+                                                    }
                                                 }
-                                                if ((s16) normal_x < 0) {
-                                                    *(s16 *)(ram_base + 0x010) = -1;
-                                                }
-L_D00F4:
                                                 normal_y = *(u16 *)(ram_base + 0x012);
                                                 if ((s16) normal_y > 0) {
                                                     row_step = one << *(s32 *)(ram_base + 0x124);
@@ -674,24 +670,24 @@ L_D0130:
                                                     s32 neighbor_offset;
                                                     s32 row_offset_mask;
 
-                                                    neighbor_offset = *(volatile u16 *)(ram_base + 0x010);
+                                                    neighbor_offset = *(u16 *)(ram_base + 0x010);
                                                     error_step = *(volatile s32 *)(ram_base + 0x134);
                                                     neighbor_row_step = *(volatile u16 *)(ram_base + 0x012);
                                                     row_offset_mask = *(volatile s32 *)(ram_base + 0x120);
-                                                    render_arg = *(volatile s32 *)(ram_base + 0x124);
+                                                    render_arg = *(s32 *)(ram_base + 0x124);
                                                     neighbor_offset = (s16)neighbor_offset;
                                                     error_step += neighbor_offset;
-                                                    neighbor_offset = *(volatile s32 *)(ram_base + 0x11C);
+                                                    neighbor_offset = *(s32 *)(ram_base + 0x11C);
                                                     neighbor_row_step = (s16)neighbor_row_step;
                                                     error_step &= neighbor_offset;
-                                                    neighbor_offset = *(volatile s32 *)(ram_base + 0x138);
+                                                    neighbor_offset = *(s32 *)(ram_base + 0x138);
                                                     row_offset_mask <<= render_arg;
                                                     *(volatile s32 *)(ram_base + 0x13C) = error_step;
                                                     neighbor_offset += neighbor_row_step;
                                                     neighbor_offset &= row_offset_mask;
                                                     error_step += neighbor_offset;
                                                     neighbor_index = error_step;
-                                                    *(volatile s32 *)(ram_base + 0x13C) = neighbor_index;
+                                                    *(s32 *)(ram_base + 0x13C) = neighbor_index;
                                                 }
                                                 neighbor = (CellRec *)((neighbor_index * 6) + (s32)cells);
                                                 neighbor_flags = neighbor->flags;
@@ -767,36 +763,35 @@ block_64:
                                         face_flags = *(u8 *)(ram_base + 0x16F);
                                         if (face_flags & 1) {
                                             *(u8 *)packet_code = (u8) (*(u8 *)packet_code | 2);
-                                            goto L_D0540;
-                                        }
-                                        if ((*(u16 *)(ram_base + 0x178) != 0) && (cells[*(s32 *)(ram_base + 0x144)].flags & 0x80) && !(face_flags & 2) && ((view_height = *(s32 *)(ram_base + 0x158), (((s16) *(u16 *)(ram_base + 0x0E4) < view_height) != 0)) || ((s16) *(u16 *)(ram_base + 0x0EC) < view_height) || ((s16) *(u16 *)(ram_base + 0x0F4) < view_height) || ((s16) *(u16 *)(ram_base + 0x0FC) < view_height))) {
-                                            (*(s32 *)((u8 *)packet_code + 5)) = (s32) (*(s32 *)((u8 *)packet_code + 9));
-                                            (*(s32 *)((u8 *)packet_code + 9)) = (s32) (*(s32 *)((u8 *)packet_code + 0x11));
-                                            (*(s32 *)((u8 *)packet_code + 0xD)) = (s32) (*(s32 *)((u8 *)packet_code + 0x19));
-                                            overlay_color = *(s32 *)(ram_base + 0x110);
-                                            ((S_800CF8E4_9_pre *)packet_code)[-1].unk_00 = 5;
-                                            (*(s32 *)((u8 *)packet_code + -3)) = overlay_color;
-                                            packet_code += 0x28;
-                                            *(s32 *)packet = (*(s32 *)packet & tag_mask) | (*(s32 *)((*(s32 *)(ram_base + 0x0C8) * 4) + *(s32 *)(ram_base + 0x0BC)) & address_mask);
-                                            overlay_ot_entry = (s32 *)((*(s32 *)(ram_base + 0x0C8) * 4) + *(s32 *)(ram_base + 0x0BC));
-                                            {
-                                                s32 overlay_addr;
+                                        } else {
+                                            if ((*(u16 *)(ram_base + 0x178) != 0) && (cells[*(s32 *)(ram_base + 0x144)].flags & 0x80) && !(face_flags & 2) && ((view_height = *(s32 *)(ram_base + 0x158), (((s16) *(u16 *)(ram_base + 0x0E4) < view_height) != 0)) || ((s16) *(u16 *)(ram_base + 0x0EC) < view_height) || ((s16) *(u16 *)(ram_base + 0x0F4) < view_height) || ((s16) *(u16 *)(ram_base + 0x0FC) < view_height))) {
+                                                (*(s32 *)((u8 *)packet_code + 5)) = (s32) (*(s32 *)((u8 *)packet_code + 9));
+                                                (*(s32 *)((u8 *)packet_code + 9)) = (s32) (*(s32 *)((u8 *)packet_code + 0x11));
+                                                (*(s32 *)((u8 *)packet_code + 0xD)) = (s32) (*(s32 *)((u8 *)packet_code + 0x19));
+                                                overlay_color = *(s32 *)(ram_base + 0x110);
+                                                ((S_800CF8E4_9_pre *)packet_code)[-1].unk_00 = 5;
+                                                (*(s32 *)((u8 *)packet_code + -3)) = overlay_color;
+                                                packet_code += 0x28;
+                                                *(s32 *)packet = (*(s32 *)packet & tag_mask) | (*(s32 *)((*(s32 *)(ram_base + 0x0C8) * 4) + *(s32 *)(ram_base + 0x0BC)) & address_mask);
+                                                overlay_ot_entry = (s32 *)((*(s32 *)(ram_base + 0x0C8) * 4) + *(s32 *)(ram_base + 0x0BC));
+                                                {
+                                                    s32 overlay_addr;
 
-                                                overlay_addr = (s32) packet & address_mask;
-                                                edge_progress = *overlay_ot_entry;
-                                                packet += 0x28;
-                                                edge_progress &= tag_mask;
-                                                edge_progress |= overlay_addr;
-                                                *overlay_ot_entry = edge_progress;
-                                            }
-                                            ((S_800CF8E4_9_pre *)packet_code)[-1].unk_00 = one;
-                                            {
+                                                    overlay_addr = (s32) packet & address_mask;
+                                                    edge_progress = *overlay_ot_entry;
+                                                    packet += 0x28;
+                                                    edge_progress &= tag_mask;
+                                                    edge_progress |= overlay_addr;
+                                                    *overlay_ot_entry = edge_progress;
+                                                }
+                                                ((S_800CF8E4_9_pre *)packet_code)[-1].unk_00 = one;
+                                                {
 
-                                                edge_progress = (s32) ((*(u16 *)(ram_base + 0x176) & 0x9FF) | 0xE1000000);
-                                                (*(s32 *)((u8 *)packet_code + -3)) = edge_progress;
+                                                    edge_progress = (s32) ((*(u16 *)(ram_base + 0x176) & 0x9FF) | 0xE1000000);
+                                                    (*(s32 *)((u8 *)packet_code + -3)) = edge_progress;
+                                                }
                                             }
                                         }
-L_D0540:
                                         packet_code += 0x28;
                                         packet_addr = (void *) ((s32) packet & address_mask);
                                         goto L_D057C;

@@ -11,7 +11,7 @@ typedef struct S_800DAB50_0_pre {
 
 typedef struct S_800DAB50_0 {
     union { s16 s; u16 u; } unk_00;   /* accessed as both */
-    union { u16 s; volatile u16 u; } unk_02;   /* accessed as both */
+    union { u16 s; u16 u; } unk_02;   /* accessed as both */
     s16 unk_04;
     u8 pad_06[0x2];
     s16 unk_08;

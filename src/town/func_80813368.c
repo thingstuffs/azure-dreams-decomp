@@ -24,7 +24,7 @@ void func_80813368(void *hud) {
     static void *const init_keepalive[] = {
         &&init_case0, &&init_case1, &&init_case2, &&init_case3, &&init_case4
     };
-    volatile u8 frame_pad[32];
+    u8 frame_pad[32];
     void *obj;
     void *part;
     s32 i;
@@ -37,15 +37,12 @@ void func_80813368(void *hud) {
     register s32 target_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
     state = S16_AT(hud, 0x18);
-    if (state == 0) {
-        goto state_zero;
+    if (state != 0) {
+        if (state == 1) {
+            goto state_done;
+        }
+        return;
     }
-    if (state == 1) {
-        goto state_done;
-    }
-    return;
-
-state_zero:
         S16_AT(hud, 0xC) = 0x410;
         S16_AT(hud, 4) = 0x340;
         S16_AT(hud, 0xE) = 0x348;

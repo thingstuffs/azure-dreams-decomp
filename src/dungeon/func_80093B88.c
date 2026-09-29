@@ -7,7 +7,7 @@ typedef struct DungeonState {
     u32 flags;
 } DungeonState;
 
-extern void * volatile D_800DD724[];
+extern void * D_800DD724[];
 
 extern s32 func_8004AC3C(s32, s32 *);
 extern s32 strlen(s32);

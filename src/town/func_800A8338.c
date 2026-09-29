@@ -71,7 +71,7 @@ void func_800A5A98(State *state, Actor *actor) {
     }
 
     direction = (((u16)input->view.viewAngle) + 0x800) & 0xFFF;
-    *(volatile u16 *)((u8 *)state + 0x10) = direction;
+    *(u16 *)((u8 *)state + 0x10) = direction;
 
     if (((u32)input->buttons) & 0x20) {
         func_80094F58(direction, D_80100E20, actor);
@@ -135,7 +135,7 @@ after_second_update:
         speed = rounded_speed >> 16;
     }
 
-    if ((*(volatile u32 *)((u8 *)input + 8)) & 0x2000) {
+    if ((*(u32 *)((u8 *)input + 8)) & 0x2000) {
         {
             s32 angle;
             angle = ((u16)input->view.viewAngle);
@@ -146,7 +146,7 @@ after_second_update:
         func_80097844(actor, (u16)func_800374F4(1));
     }
 
-    if ((*(volatile u32 *)((u8 *)input + 8)) & 0x8000) {
+    if ((*(u32 *)((u8 *)input + 8)) & 0x8000) {
         {
             s32 angle;
             angle = ((u16)input->view.viewAngle);

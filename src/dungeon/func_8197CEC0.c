@@ -151,7 +151,7 @@ void func_8197CEC0(Actor *actor, Vec3 *target, Sprite *sprite) {
         s32 early_frames;
         u16 frame;
         early_frames = (s16)actor->counter < 8;
-        frame = *(volatile u16 *)&actor->counter;
+        frame = *(u16 *)&actor->counter;
         if (early_frames) {
             sprite = (Sprite *)4;
         } else if ((u32)(frame - 8) < 5U) {
@@ -196,7 +196,7 @@ void func_8197CEC0(Actor *actor, Vec3 *target, Sprite *sprite) {
                     if (coord_magnitude == 0) {
                         spawn->position->y.word = target->y.word;
                     } else {
-                        ((volatile Vec3 *)spawn->position)->y.half.coord = (s16)(start_y_bits + ((target_y - start_y) * x_offset) / coord_magnitude);
+                        ((Vec3 *)spawn->position)->y.half.coord = (s16)(start_y_bits + ((target_y - start_y) * x_offset) / coord_magnitude);
                     }
                     spawn->position->x.word += (((func_80069EF8() & 0x3FF) - 0x1FF) << 10);
                     spawn->position->y.word += (((func_80069EF8() & 0x3FF) - 0x1FF) << 10);

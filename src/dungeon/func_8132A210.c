@@ -88,7 +88,7 @@ void func_80171A10(void *source, s32 angle, s32 initial_value, s32 unused, volat
     motion = *((void **) (((s8 *) effect_obj) + 8));
     *((s32 *) (((s8 *) motion) + 0xC)) = (s32) ((*((s32 *) (((s8 *) motion) + 0xC))) + ((*((s16 *) (((s8 *) direction_entry) + 0))) * 0x160000));
     y_motion = *((void **) (((s8 *) effect_obj) + 8));
-    *((s32 *) (((s8 *) y_motion) + 0x10)) = (s32) ((*((s32 *) (((s8 *) y_motion) + 0x10))) + (((s16) (*((volatile u16 *) (((s8 *) direction_entry) + 2)))) * 0x160000));
+    *((s32 *) (((s8 *) y_motion) + 0x10)) = (s32) ((*((s32 *) (((s8 *) y_motion) + 0x10))) + (((s16) (*((u16 *) (((s8 *) direction_entry) + 2)))) * 0x160000));
     *((u16 *) (((s8 *) effect_data) + 0x14)) = saved_angle;
     *((s16 *) (((s8 *) effect_data) + 0x32)) = 7;
     *((s16 *) (((s8 *) effect_data) + 0x34)) = 7;

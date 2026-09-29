@@ -13,9 +13,9 @@ typedef struct {
 } Outputs;
 
 typedef struct {
-    State * volatile state;
+    State * state;
     u8 pad04[0x10];
-    volatile u32 flags;
+    u32 flags;
     u8 pad18[0x90];
     Outputs *outputs;
 } Object;
@@ -42,9 +42,7 @@ void func_800AF784(Object *obj)
     }
     state = obj->state;
     if (state->current < state->limit) {
-        do {
-            clear_mask = -2;
-        } while (0);
+        clear_mask = -2;
         obj->flags &= clear_mask;
         *obj->outputs->secondary = D_800786E8;
         return;

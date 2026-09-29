@@ -6,7 +6,7 @@ typedef struct S_8009F9E8_0 {
 } S_8009F9E8_0;   /* p in func_8009F9E8 */
 
 
-extern volatile u16 D_80013716;
+extern u16 D_80013716;
 
 typedef struct {
     u8 flags;

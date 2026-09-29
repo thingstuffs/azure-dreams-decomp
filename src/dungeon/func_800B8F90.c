@@ -156,13 +156,10 @@ s32 func_800BE6F0(void *entity, s32 source, s16 reason)
         func_8009A028(entity);
         ((S_800BE6F0_0_pre *)entity)[-1].unk_16 |= 0x8000;
         objectFlagBlock.flags |= 0x8000;
-        goto success_cleanup;
+    } else {
+        func_800A5F38(entity, source);
+        return 1;
     }
-
-    func_800A5F38(entity, source);
-    return 1;
-
-success_cleanup:
     func_80098B38(source);
     dungeonStatus.unk_0A--;
     return 1;

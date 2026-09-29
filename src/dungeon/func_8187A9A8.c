@@ -402,10 +402,9 @@ mesh_loop:
                     goto after_palette;
                 }
                 palette_id = texture_adjust + ((S_func_8187A9A8_8 *)((u8 *)barrier_scratch - 1))->unk_06;
-                goto store_palette;
+            } else {
+                palette_id = ((S_func_8187A9A8_8 *)((u8 *)barrier_scratch - 1))->unk_06;
             }
-            palette_id = ((S_func_8187A9A8_8 *)((u8 *)barrier_scratch - 1))->unk_06;
-        store_palette:
             packet->unk_0E = palette_id;
         after_palette: ;
             }

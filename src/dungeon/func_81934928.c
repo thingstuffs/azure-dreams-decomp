@@ -25,9 +25,9 @@ typedef struct S_81934928_0 {
 
 typedef struct S_81934928_1 {
     u8 pad_00[0x2];
-    volatile u16 unk_02;
+    u16 unk_02;
     u8 pad_04[0x2];
-    volatile u16 unk_06;
+    u16 unk_06;
     u8 pad_08[0x2];
     volatile u16 unk_0A;
 } S_81934928_1;   /* copy_page in func_81934928 */

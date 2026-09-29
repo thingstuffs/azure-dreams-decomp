@@ -9,7 +9,7 @@ typedef struct S_800218E4_0 {
     u8 pad_04[0xC];
     void * unk_10;
     u8 pad_14[0x18];
-    union { s16 s; volatile u16 u; u16 p; } unk_2C;   /* accessed as both */
+    union { s16 s; u16 u; u16 p; } unk_2C;   /* accessed as both */
     union { u16 s; s16 u; } unk_2E;   /* accessed as both */
     u8 pad_30[0xA];
     u16 unk_3A;
@@ -756,9 +756,7 @@ do {
                             object_motion->unk_0C = (s32) (object_motion->unk_0C + bounce_x);
                             object_motion->unk_10 = (s32) (object_motion->unk_10 + bounce_y);
                             pair_value = (s32)(((S_800218E4_17 *)partner_slot)->unk_00);
-                            do {
-                                collision_value |= 0xFFFF;
-                            } while (0);
+                            collision_value |= 0xFFFF;
                             other_speed_y = ((S_800218E4_23 *)pair_value)->unk_0C;
                             pair_value = ((S_800218E4_23 *)pair_value)->unk_10;
                             other_speed_y = abs(other_speed_y);

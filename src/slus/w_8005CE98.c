@@ -3,11 +3,11 @@
 /* SPU hardware register mirror reached through D_80079958 (base 0x1F801C00). */
 typedef struct {
     u8  pad000[0x1A6];
-    volatile u16 dt_addr;   /* 0x1A6 */
+    u16 dt_addr;   /* 0x1A6 */
     volatile u16 dt_fifo;   /* 0x1A8 */
     volatile u16 spucnt;    /* 0x1AA */
     u16 pad1AC;
-    volatile u16 spustat;   /* 0x1AE */
+    u16 spustat;   /* 0x1AE */
 } SpuRegs;
 
 extern SpuRegs *D_80079958;

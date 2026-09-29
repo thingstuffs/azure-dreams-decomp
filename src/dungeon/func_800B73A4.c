@@ -36,8 +36,8 @@ typedef union {
 
 typedef struct {
     u8 pad000[0x140];
-    volatile u16 x;
-    volatile u16 y;
+    u16 x;
+    u16 y;
     s32 value;
     s32 best;
     s32 limit;
@@ -101,7 +101,7 @@ s32 func_800BCB04(s32 x, s32 y, s16 min_height) {
         work->offset = -cell->value;
     }
     primitive = ((Primitive **)tables->unk_04)[
-        cells[(s16)*(volatile u16 *)&work->index].first];
+        cells[(s16)*(u16 *)&work->index].first];
     goto next_primitive;
 
 process_primitive:
@@ -112,9 +112,9 @@ process_primitive:
         u16 p3_x;
         u16 p3_y;
 
-        vertex_index = *(volatile u16 *)&primitive->v0;
-        local_x = *(volatile u16 *)&work->x;
-        local_y = *(volatile u16 *)&work->y;
+        vertex_index = *(u16 *)&primitive->v0;
+        local_x = *(u16 *)&work->x;
+        local_y = *(u16 *)&work->y;
         work->p0.word = *(u32 *)&vertices[vertex_index];
         work->p0.half.x -= local_x;
         work->p0.half.y -= local_y;
@@ -136,8 +136,8 @@ process_primitive:
             register Vertex *vertex ASM_REG("$5") = (Vertex *)(
                 (unsigned long)(primitive->v0 * sizeof(Vertex)) +
                 (unsigned long)vertices);
-            s32 delta_x = (s16)vertex->x - (s16)*(volatile u16 *)&work->x;
-            s32 delta_y = (s16)vertex->y - (s16)*(volatile u16 *)&work->y;
+            s32 delta_x = (s16)vertex->x - (s16)*(u16 *)&work->x;
+            s32 delta_y = (s16)vertex->y - (s16)*(u16 *)&work->y;
             s32 x_term = (s16)normal->x * delta_x;
             s32 y_term = (s16)normal->y * delta_y;
             s32 z_term = (s16)normal->z * (s16)vertex->z;

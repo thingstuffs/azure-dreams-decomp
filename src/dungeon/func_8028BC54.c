@@ -47,8 +47,8 @@ void func_8001EC54(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
     s32 scaled;
     u8 *mode_page;
     s32 entry_state;
-    volatile DungeonEntry *entry;
-    volatile DungeonCell *cell;
+    DungeonEntry *entry;
+    DungeonCell *cell;
     DungeonEntry *entry_scan;
     DungeonCell *cell_scan;
     DungeonEntry *entry_base;
@@ -122,13 +122,13 @@ scan:
 
         entry_state = 14;
         if (index == 64) {
-            entry = (volatile DungeonEntry *)((cell_index << 2) + (unsigned long)entry_base);
+            entry = (DungeonEntry *)((cell_index << 2) + (unsigned long)entry_base);
             cell_base = (DungeonCell *)(cell_page + 0x36C8);
             entry->type = type;
             entry->state = entry_state;
             entry->flag = flag;
             entry->amount = amount;
-            cell = (volatile DungeonCell *)((cell_index * 12) +
+            cell = (DungeonCell *)((cell_index * 12) +
                                             (unsigned long)cell_base);
             cell->x = x;
             cell->y = y;

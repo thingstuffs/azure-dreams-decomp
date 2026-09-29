@@ -8,7 +8,7 @@ typedef struct S_80173294_0 {
     u8 pad_00[0x8C];
     void * unk_8C;
     u8 pad_90[0x6];
-    union { s16 s; u16 u; volatile s16 p; } unk_96;   /* accessed as both */
+    union { s16 s; u16 u; s16 p; } unk_96;   /* accessed as both */
     u8 pad_98[0x3];
     u8 unk_9B;
 } S_80173294_0;   /* arg0 in func_80173294 */

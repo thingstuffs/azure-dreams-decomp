@@ -214,11 +214,11 @@ s32 func_80173FDC(u8 *node)
                     ot_index = ((s16)((S_80173FDC_2 *)vertex_depth)->unk_00 +
                         (s16)((S_80173FDC_2_pre *)vertex_depth)[-1].unk_00) >> 3;
                     if ((u32)ot_index < 0x1E0) {
-                        display = *(u8 * volatile *)display_root;
+                        display = *(u8 * *)display_root;
                         line = ((S_80173FDC_3 *)display)->unk_8D0.p;
                         ((S_80173FDC_3 *)display)->unk_8D0.p2 = (u8 *)line + 0x14;
 
-                        display = *(u8 * volatile *)display_root;
+                        display = *(u8 * *)display_root;
                         tpage = ((S_80173FDC_3 *)display)->unk_8D0.p2;
                         ((S_80173FDC_3 *)display)->unk_8D0.p2 = tpage + 0x0C;
 
@@ -272,11 +272,11 @@ s32 func_80173FDC(u8 *node)
                     ot_index = ((s16)((S_80173FDC_6 *)ring_depth)->unk_00 +
                         (*(s16 *)((u8 *)depth_base + next_col * 2))) >> 3;
                     if ((u32)ot_index < 0x1E0) {
-                        display = *(u8 * volatile *)display_root;
+                        display = *(u8 * *)display_root;
                         line = ((S_80173FDC_3 *)display)->unk_8D0.p;
                         ((S_80173FDC_3 *)display)->unk_8D0.p2 = (u8 *)line + 0x14;
 
-                        display = *(u8 * volatile *)display_root;
+                        display = *(u8 * *)display_root;
                         tpage = ((S_80173FDC_3 *)display)->unk_8D0.p2;
                         ((S_80173FDC_3 *)display)->unk_8D0.p2 = tpage + 0x0C;
 

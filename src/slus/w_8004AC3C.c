@@ -65,7 +65,7 @@ s32 func_8004AC3C(S_8004AC3C_Item *item, s32 *out_mode)
         }
         else
         {
-          data_addr = ((S_8004AC3C_Rec20 *) itemCategoryTable[((volatile S_8004AC3C_Item *) item)->unk1].records)[item->unk0].fC;
+          data_addr = ((S_8004AC3C_Rec20 *) itemCategoryTable[((S_8004AC3C_Item *) item)->unk1].records)[item->unk0].fC;
         }
         *out_mode = 4;
       }

@@ -124,25 +124,19 @@ void func_801750F8(void *action_in, void *direction_data_in, void *sprite_in, vo
         s16 timer;
 
         timer = ++((S_801750F8_0 *)action_in)->unk_96.s;
-        if (timer < 3) {
-            goto opposite_sound;
+        if (timer >= 3) {
+            if (timer < 7) {
+                scale_x = ((S_801750F8_2 *)sprite)->unk_1C;
+                scale_y = ((S_801750F8_2 *)sprite)->unk_1E;
+                scale_x += 0x258;
+                scale_y -= 0x258;
+                ((S_801750F8_2 *)sprite)->unk_1C = scale_x;
+                goto store_xy_done;
+            }
+            if (timer >= 0xB) {
+                goto timer_ge_11;
+            }
         }
-        if (timer >= 7) {
-            goto check_11;
-        }
-        scale_x = ((S_801750F8_2 *)sprite)->unk_1C;
-        scale_y = ((S_801750F8_2 *)sprite)->unk_1E;
-        scale_x += 0x258;
-        scale_y -= 0x258;
-        ((S_801750F8_2 *)sprite)->unk_1C = scale_x;
-        goto store_xy_done;
-
-check_11:
-        if (timer >= 0xB) {
-            goto timer_ge_11;
-        }
-
-opposite_sound:
         scale_x = ((S_801750F8_2 *)sprite)->unk_1C - 0x258;
         scale_y = ((S_801750F8_2 *)sprite)->unk_1E + 0x258;
         ((S_801750F8_2 *)sprite)->unk_1C = scale_x;
@@ -151,24 +145,21 @@ opposite_sound:
         goto after_xy;
 
 timer_ge_11:
-        if (timer >= 0xF) {
-            goto check_17;
-        }
-        scale_x = ((S_801750F8_2 *)sprite)->unk_1C;
-        scale_y = ((S_801750F8_2 *)sprite)->unk_1E;
-        scale_x += 0x258;
-        scale_y -= 0x258;
-        ((S_801750F8_2 *)sprite)->unk_1C = scale_x;
-        goto store_xy_done;
+        if (timer < 0xF) {
+            scale_x = ((S_801750F8_2 *)sprite)->unk_1C;
+            scale_y = ((S_801750F8_2 *)sprite)->unk_1E;
+            scale_x += 0x258;
+            scale_y -= 0x258;
+            ((S_801750F8_2 *)sprite)->unk_1C = scale_x;
+        } else {
+            if (timer >= 0x11) {
+                goto after_xy;
+            }
+            scale_x = ((S_801750F8_2 *)sprite)->unk_1C - 0x258;
+            scale_y = ((S_801750F8_2 *)sprite)->unk_1E + 0x258;
 
-check_17:
-        if (timer >= 0x11) {
-            goto after_xy;
+            ((S_801750F8_2 *)sprite)->unk_1C = scale_x;
         }
-        scale_x = ((S_801750F8_2 *)sprite)->unk_1C - 0x258;
-        scale_y = ((S_801750F8_2 *)sprite)->unk_1E + 0x258;
-
-        ((S_801750F8_2 *)sprite)->unk_1C = scale_x;
         store_xy_done:
         ;
         ((S_801750F8_2 *)sprite)->unk_1E = scale_y;

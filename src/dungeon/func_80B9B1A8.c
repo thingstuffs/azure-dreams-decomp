@@ -145,13 +145,11 @@ void func_801749A8(void *sequence, EntityRec *position, Rec_D_80082E80 *actor, v
     ((Rec_D_80082E80 *)target)->unk_8A = (u16) ((Rec_D_80082E80 *)target)->unk_28.at02_u16.v;
     case 2:
     direction = ((s32) (gameWork.view.viewAngle + (s16) ((Rec_D_80082E80 *)target)->unk_28.at02_u16.v + 0x100) >> 9) & 7;
-    if (D_80174FCC[0] == 0) {
-        goto turn_target;
+    if (D_80174FCC[0] != 0) {
+        if (direction == 2) {
+            goto start_fade;
+        }
     }
-    if (direction == 2) {
-        goto start_fade;
-    }
-turn_target:
     if (direction == 2) {
         return;
     }
@@ -171,18 +169,16 @@ start_fade:
     fade_timer = ((S_801749A8_0 *)sequence)->unk_96;
     fade_ticks = fade_timer - 1;
     ((S_801749A8_0 *)sequence)->unk_96 = fade_ticks;
-    if ((fade_ticks << 0x10) > 0) {
-        goto blend_color;
-    }
-    ready = D_80174FCD[0];
-    ((S_801749A8_0 *)sequence)->unk_96 = fade_timer;
-    if (ready == 0) {
+    if ((fade_ticks << 0x10) <= 0) {
+        ready = D_80174FCD[0];
+        ((S_801749A8_0 *)sequence)->unk_96 = fade_timer;
+        if (ready == 0) {
+            return;
+        }
+        ((S_801749A8_0 *)sequence)->unk_9B = (u8) (((S_801749A8_0 *)sequence)->unk_9B + 1);
+        func_800A56E0(0x300);
         return;
     }
-    ((S_801749A8_0 *)sequence)->unk_9B = (u8) (((S_801749A8_0 *)sequence)->unk_9B + 1);
-    func_800A56E0(0x300);
-    return;
-blend_color:
     target_color = D_800DCEEC[func_800498A0(target)];
     object->unk_A8 = (u8) (object->unk_A8 + ((s32) (((S_801749A8_3 *)target_color)->unk_00 - object->unk_A8) / (s16) ((S_801749A8_0 *)sequence)->unk_96));
     object->unk_A9 = (u8) (object->unk_A9 + ((s32) (((S_801749A8_3 *)target_color)->unk_01 - object->unk_A9) / (s16) ((S_801749A8_0 *)sequence)->unk_96));
@@ -205,11 +201,9 @@ blend_color:
     object->unk_0C.u = 0x808080;
     effect_choice = func_800498A0(target) - 1;
     effect_index = effect_choice;
-    if ((effect_choice << 0x10) >= 0) {
-        goto start_effect;
+    if ((effect_choice << 0x10) < 0) {
+        effect_index = rand() % 3;
     }
-    effect_index = rand() % 3;
-start_effect:
     func_8003DB94(object, &D_8014A000[*(((s32) (effect_index << 0x10) >> 0x10) + &D_80174FB4)], 0);
     actor->unk_14.at00_u16.v = (u16) (actor->unk_14.at00_u16.v | 0x80);
     ((S_801749A8_0 *)sequence)->unk_96 = 0U;

@@ -132,7 +132,7 @@ extern PackedOffsets D_80024004;
 extern void *D_80024028[7];
 extern u8 D_80025100[16];
 extern Packed12 D_8002510C;
-extern volatile s16 D_80025118[5];
+extern s16 D_80025118[5];
 extern u8 D_800E3D68[16];
 
 extern s32 func_8003DF74(void *, void *, s16 *, s32);
@@ -226,7 +226,7 @@ state0:
         ASM_KEEP(flag_base);
         direction_bits = entity->flags2A;
         next_state = 1;
-        *(volatile s16 *)((u8 *)flag_base + 0x5118) = next_state;
+        *(s16 *)((u8 *)flag_base + 0x5118) = next_state;
         next_state = actor->state;
         direction_bits = (direction_bits >> 9) & 7;
         next_state++;
@@ -583,9 +583,9 @@ state6:
         old_timer = actor->timer82;
         actor->timer82 = old_timer + 1;
         if ((s16)(old_timer + 1) >= 21) {
-            register volatile s16 *flag_page ASM_REG("$4");
+            register s16 *flag_page ASM_REG("$4");
             s32 active_flag;
-            flag_page = (volatile s16 *)0x80020000;
+            flag_page = (s16 *)0x80020000;
             ASM_KEEP_NV(flag_page);
             active_flag = *(s16 *)((u8 *)flag_page + 0x5118);
             actor->timer82 = old_timer;
@@ -601,7 +601,7 @@ state6:
                 flag_word_page[0x14A0 / 4] |= 0x8000;
                 return;
             }
-            *(volatile s16 *)((u8 *)flag_page + 0x5118) = 0;
+            *(s16 *)((u8 *)flag_page + 0x5118) = 0;
         }
     }
 }

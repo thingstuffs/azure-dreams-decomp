@@ -15,7 +15,7 @@ void func_80041044(s32 *command, s32 flags)
         ASM_KEEP(bit_mask);
         command_word = *command;
         bit_mask |= 0xFFFF;
-        __asm__ volatile(
+        __asm__ (
             ".set\tnoreorder\n"
             "\t.set\tnomacro\n"
             "\tj func_80177874\n"
@@ -32,7 +32,7 @@ void func_80041044(s32 *command, s32 flags)
     if (flags & 2) {
         bit_mask = 0x02000000;
         command_word = *command;
-        __asm__ volatile(
+        __asm__ (
             ".set\tnoreorder\n"
             "\t.set\tnomacro\n"
             "\tj func_801778A0\n"

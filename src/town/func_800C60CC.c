@@ -54,7 +54,7 @@ void func_800C382C(Rec_func_80094268_arg0 *entity, S_800C382C_0 *movement, void 
         }
     }
 
-    next_node = *(volatile void **)((u8 *)entity->unk_7C.as_pv + 4);
+    next_node = *(void **)((u8 *)entity->unk_7C.as_pv + 4);
     func_800C2E84(entity, context, next_node);
     entity->unk_50.as_pv = &D_800C355C;
 }

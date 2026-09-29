@@ -64,7 +64,7 @@ void func_8016E138(s32 offset_index) {
     object[0x24] = origin->tileX + ((u8 *)xy_offset)[0];
     object[0x25] = origin->tileY + ((u8 *)xy_offset)[1];
     func_800A2B04(object_handle, object[0x24], object[0x25]);
-    status_flags = *(volatile s32 *)&status->flags;
+    status_flags = *(s32 *)&status->flags;
     x = object[0x24];
     updated_y = object[0x25];
     if (status_flags & 0x2000) {

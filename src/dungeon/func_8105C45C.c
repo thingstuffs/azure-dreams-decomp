@@ -57,12 +57,10 @@ case 0:
 case 4:
     func_800A56E0(0x51C);
     flags = part_b->unk_14.at00_u16.v;
-    if (!(flags & 0x8000)) {
-        goto block_5;
+    if (flags & 0x8000) {
+        work->unk_9B = 7;
+        return;
     }
-    work->unk_9B = 7;
-    return;
-block_5:
     if (!(flags & 0xE000)) {
         return;
     }
@@ -82,14 +80,12 @@ case 5:
     value = work->unk_A0;
     timer = work->unk_96.u;
     work->unk_90 = accum - value;
-    if (timer == 0) {
-        goto block_10;
+    if (timer != 0) {
+        accum = value;
+        value = part_a->flags14;
+        work->unk_A0 = (s32) (accum + value);
+        part_a->flags14 = (s32) (part_a->flags14 + 0x30000);
     }
-    accum = value;
-    value = part_a->flags14;
-    work->unk_A0 = (s32) (accum + value);
-    part_a->flags14 = (s32) (part_a->flags14 + 0x30000);
-block_10:
     accum = work->unk_90;
     value = work->unk_A0;
     timer = work->unk_96.u;

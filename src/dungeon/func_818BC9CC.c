@@ -300,7 +300,7 @@ s32 func_818BC9CC(S_func_818BC9CC_0 *effect, S_func_818BC9CC_1 *position)
                               (u8 *)scratch + 0xE0, (u8 *)scratch + 0xE4,
                               (u8 *)scratch + 0x84, (u8 *)scratch + 0x88);
         }
-        ((volatile S_func_818BC9CC_2 *)scratch)->unk_B4 = depth;
+        ((S_func_818BC9CC_2 *)scratch)->unk_B4 = depth;
         packet->unk_08 = scratch->unk_D8;
         packet->unk_0A = scratch->unk_DA;
         packet->unk_14 = scratch->unk_DC;

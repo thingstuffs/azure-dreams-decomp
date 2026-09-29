@@ -71,12 +71,12 @@ typedef struct S_800254A4_7 {
     u8 pad_00[0x4];
     void * unk_04;
     s32 unk_08;
-    volatile s16 unk_0C;
-    volatile s16 unk_0E;
+    s16 unk_0C;
+    s16 unk_0E;
     s16 unk_10;
-    volatile s16 unk_12;
+    s16 unk_12;
     s16 unk_14;
-    volatile u16 unk_16;
+    u16 unk_16;
 } S_800254A4_7;   /* final_part in func_800254A4 */
 
 

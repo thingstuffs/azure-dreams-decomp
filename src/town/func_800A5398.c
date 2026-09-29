@@ -63,7 +63,7 @@ void func_800A2AF8(s32 end_point, s32 start_point)
     if (*(volatile s32 *)(scratch + 0xC4) >= 0x1E0) {
         *(s32 *)(scratch + 0xC4) = 0x1DF;
     }
-    if (*(volatile s32 *)(scratch + 0xC4) < 0) {
+    if (*(s32 *)(scratch + 0xC4) < 0) {
         *(s32 *)(scratch + 0xC4) = 0;
     }
 

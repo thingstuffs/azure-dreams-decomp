@@ -100,18 +100,14 @@ void func_8009065C(void *arg0, void *arg1, void *arg2) {
     }
 
     {
-        u16 bit_value;
 
         if (D_800D01F8[index] != 0) {
-            bit_value = *(u16 *)((u8 *)arg2 + 0x14) | 1;
+            *(u16 *)((u8 *)arg2 + 0x14) |= 1;
         } else {
-            bit_value = *(u16 *)((u8 *)arg2 + 0x14) & 0xFFFE;
+            *(u16 *)((u8 *)arg2 + 0x14) &= 0xFFFE;
         }
-        *(u16 *)((u8 *)arg2 + 0x14) = bit_value;
     }
-    do {
-        func_80096868(arg0, arg1, arg2);
-    } while (0);
+    func_80096868(arg0, arg1, arg2);
     func_80048AC8(arg2, 0);
 
     {

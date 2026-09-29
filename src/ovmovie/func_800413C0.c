@@ -17,7 +17,7 @@ s32 func_800413C0(void) {
         "lui $2,0x10"
         : "=r"(status), "=r"(poll_limit));
     polls_left = poll_limit;
-    if (*(volatile u32 *) status & 0x20000000) {
+    if (*(u32 *) status & 0x20000000) {
         s32 timeout_value;
         u32 *poll_status;
 
@@ -25,7 +25,7 @@ s32 func_800413C0(void) {
         do {
             polls_left = polls_left - 1;
             if (polls_left == timeout_value) {
-                asm volatile(
+                asm (
                     "lui $4,%%hi(D_8017681C)\n\t"
                     "addiu $4,$4,%%lo(D_8017681C)"
                     :
@@ -39,7 +39,7 @@ s32 func_800413C0(void) {
                 "lui $2,%%hi(D_80178380)\n\t"
                 "lw $2,%%lo(D_80178380)($2)"
                 : "=r"(poll_status));
-        } while (*(volatile u32 *) poll_status & 0x20000000);
+        } while (*(u32 *) poll_status & 0x20000000);
     }
     return 0;
 }

@@ -92,7 +92,7 @@ s32 func_818C3A3C(S_818C3A3C_2 *owner, S_818C3A3C_4 *initial_data) {
         ((S_818C3A3C_1 *)effect_state)->unk_10 = 0;
         setup_value = owner->unk_14;
         call_zero = 0;
-        *(volatile u16 *)((u8 *)effect_state + 0x14) = setup_value;
+        *(u16 *)((u8 *)effect_state + 0x14) = setup_value;
 
         sprite = ((S_818C3A3C_0 *)effect)->unk_0C;
         setup_value = 0x80;

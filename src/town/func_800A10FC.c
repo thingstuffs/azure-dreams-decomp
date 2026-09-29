@@ -18,9 +18,9 @@ typedef struct S_8009E85C_2 {
     u8 pad_00[0x8];
     M2C_UNK * unk_08;
     u8 pad_0C[0x4];
-    volatile s16 unk_10;
+    s16 unk_10;
     u8 pad_12[0x2];
-    union { volatile u16 s; u16 u; } unk_14;   /* accessed as both */
+    union { u16 s; u16 u; } unk_14;   /* accessed as both */
 } S_8009E85C_2;   /* arg2 in func_8009E85C */
 
 typedef struct S_8009E85C_3 {

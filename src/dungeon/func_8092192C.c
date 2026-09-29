@@ -25,8 +25,8 @@ typedef struct S_8092192C_2 {
 } S_8092192C_2;   /* arg0 in func_8092192C */
 
 typedef struct S_8092192C_3 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; volatile u16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { volatile s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
+    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
+    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
 } S_8092192C_3;   /* temp_v1 in func_8092192C */
 

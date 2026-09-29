@@ -104,7 +104,7 @@ s32 func_800248EC(void *first_point, void *first_position)
     scratch->cursor = packet_start;
 
     for (;;) {
-        tile = *(Packet800248EC *volatile *)&scratch->cursor;
+        tile = *(Packet800248EC **)&scratch->cursor;
         scratch->x = ((S_800248EC_1 *)position)->unk_02;
         scratch->y = ((S_800248EC_1 *)position)->unk_06;
         scratch->z = ((S_800248EC_1 *)position)->unk_0A;

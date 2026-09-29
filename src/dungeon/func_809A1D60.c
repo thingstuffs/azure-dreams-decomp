@@ -38,7 +38,7 @@ typedef struct S_80173560_0 {
     union { s16 s; u16 u; } unk_96;   /* accessed as both */
     u16 unk_98;
     u8 pad_9A[0x1];
-    union { u8 n; volatile u8 v; } unk_9B;   /* accessed as both */
+    union { u8 n; u8 v; } unk_9B;   /* accessed as both */
 } S_80173560_0;   /* arg0 in func_80173560 */
 
 typedef struct S_80173560_1 {

@@ -31,7 +31,6 @@ void func_81814C48(void *state, void *position, void *linked_state)
 {
     s16 speed;
     s32 x_step;
-    s32 y_step;
     s32 coord_value;
     s32 z_random;
     s32 x;
@@ -50,14 +49,12 @@ void func_81814C48(void *state, void *position, void *linked_state)
                   (rand() & 0xFFFF);
         coord_value = ((S_81814C48_0 *)position)->unk_00.at00.v + x_step;
         ((S_81814C48_0 *)position)->unk_00.at00.v = coord_value;
-        y_step = ((*(s16 *)(((s8 *)dirStepY) + (((S_81814C48_1 *)state)->unk_14 * 2)) *
+        z_step = ((*(s16 *)(((s8 *)dirStepY) + (((S_81814C48_1 *)state)->unk_14 * 2)) *
                       ((S_81814C48_1 *)state)->unk_32) << 9) +
                     (rand(x_step) & 0xFFFF);
-        coord_value = ((S_81814C48_0 *)position)->unk_04.at00.v + y_step;
+        coord_value = ((S_81814C48_0 *)position)->unk_04.at00.v + z_step;
         ((S_81814C48_0 *)position)->unk_04.at00.v = coord_value;
-        do {
-            z_random = rand(y_step);
-        } while (0);
+        z_random = rand(z_step);
         z_step = 0xFFFE0000;
         coord_value = ((S_81814C48_0 *)position)->unk_08.at00.v + z_step;
         coord_value -= z_random & 0xFFF;

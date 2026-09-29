@@ -22,14 +22,14 @@ extern u8 D_8017386C[];
 /* Attempt an actor transition and update its state and sprite on success. */
 s32 func_80171D80(void *state, s32 action_id, void *sprite, EntityRec *actor)
 {
-    volatile u16 *status;
+    u16 *status;
     s32 transitioned;
     s32 target;
 
     actor->unk_71 &= 0x7F;
     status = ((u16 *)(&dungeonStatus));
     transitioned = 0;
-    if (!(((volatile u16 *)status)[1] & 0x2000)) {
+    if (!(((u16 *)status)[1] & 0x2000)) {
         target = func_800A04F0(actor, ((Rec_D_80082E80 *)sprite)->unk_24,
                                ((Rec_D_80082E80 *)sprite)->unk_25, actor->facing);
         if ((func_800A2CB8(actor, target) << 16) == 0) {

@@ -12,7 +12,7 @@ typedef struct S_80810454_0 {
 
 typedef struct S_80810454_1 {
     u8 pad_00[0x8];
-    union { s32 s; volatile s32 u; } unk_08;   /* accessed as both */
+    union { s32 s; s32 u; } unk_08;   /* accessed as both */
     u8 pad_0C[0x8];
     union { s32 s; volatile s32 u; } unk_14;   /* accessed as both */
 } S_80810454_1;   /* arg1 in func_8052B054 */

@@ -89,10 +89,9 @@ void func_800BF72C(S_800BF72C_0 *object, S_800BF72C_1 *position) {
         position->unk_00 = decreased_x;
         if (decreased_x <= 0x0FA00000) {
             position->unk_00 = 0x0FA00000;
-            goto block_15;
+        } else {
+            return;
         }
-        return;
-
     block_15:
         object->unk_68 =
             (s16)((u16)object->unk_68 + 1);

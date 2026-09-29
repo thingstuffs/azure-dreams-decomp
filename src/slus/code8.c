@@ -12,7 +12,7 @@ short func_80055778(int value)
     unsigned short count = D_80084778[0];
     if (count >= 0x20) return -1;
     D_80084778[0] = count + 1;
-    D_80084778[*(volatile unsigned short *)D_80084778] = value;
+    D_80084778[*(unsigned short *)D_80084778] = value;
     return 0;
 }
 

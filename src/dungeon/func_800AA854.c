@@ -7,9 +7,9 @@ typedef struct S_800AFFB4_0 {
 
 typedef struct S_800AFFB4_1 {
     u8 pad_00[0x8];
-    union { volatile s32 s32; volatile u16 u16; } unk_08;   /* accessed as both */
+    union { volatile s32 s32; u16 u16; } unk_08;   /* accessed as both */
     volatile s32 unk_0C;
-    union { volatile s32 s32; volatile u16 u16; } unk_10;   /* accessed as both */
+    union { volatile s32 s32; u16 u16; } unk_10;   /* accessed as both */
     union { volatile s32 s32; volatile u16 u16; } unk_14;   /* accessed as both */
     u8 pad_18[0x8];
     s32 unk_20;
@@ -101,7 +101,7 @@ typedef struct S_800AFFB4_4_pre {
     u8 pad_01[0xC];
     volatile u8 unk_0D;
     u8 pad_0E[0xA];
-    union { volatile u8 v; volatile s8 v2; } unk_18;   /* accessed as both */
+    union { u8 v; volatile s8 v2; } unk_18;   /* accessed as both */
 } S_800AFFB4_4_pre;   /* the 0x19 bytes before var_s0 in func_800AFFB4, addressed as var_s0[-1] */
 
 typedef struct S_800AFFB4_4 {
@@ -336,14 +336,14 @@ next_strip:
                 vertex_value = ((S_800AFFB4_1 *)render_data_in)->unk_08.u16;
                 ASM_KEEP(coord_bits);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 coord_bits += vertex_value;
-                (*(volatile s16 *)((u8 *)uv_end + -0xD)) = coord_bits;
+                (*(s16 *)((u8 *)uv_end + -0xD)) = coord_bits;
                 vertex_value = ((S_800AFFB4_1 *)render_data_in)->unk_14.u16;
                 coord_bits = ((S_800AFFB4_4_pre *)uv_end)[-1].unk_00.v;
                 shade_uv = (*(u16 *)((u8 *)render_data_in + 0x10));
                 coord_bits -= 1;
                 vertex_value += shade_uv;
                 ((S_800AFFB4_4_pre *)uv_end)[-1].unk_00.v2 = coord_bits;
-                (*(volatile s16 *)((u8 *)uv_end + -1)) = vertex_value;
+                (*(s16 *)((u8 *)uv_end + -1)) = vertex_value;
                 coord_bits = ((S_800AFFB4_4_pre *)uv_end)[-1].unk_18.v;
                 vertex_value = ((S_800AFFB4_4_pre *)uv_end)[-1].unk_0D;
                 coord_bits -= 1;

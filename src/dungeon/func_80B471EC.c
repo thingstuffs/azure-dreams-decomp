@@ -318,14 +318,14 @@ opening_sector_loop:
                     next_opening_ring = ring_index + 1;
                     ring_index = next_opening_ring;
                 } if (next_opening_ring < 0xA) goto loop_1;
-                state_m = (s32) *(void *volatile *)&effect;
+                state_m = (s32) *(void **)&effect;
                 opening_progress = ((S_801749EC_1 *)state_m)->unk_0C + 0x64;
                 ((S_801749EC_1 *)state_m)->unk_0C = opening_progress;
                 if ((s16) opening_progress >= 0x800) {
                     ((S_801749EC_1 *)state_m)->unk_0C = 0x800U;
                 }
                 meridian = 0;
-                state_m = (s32) *(void *volatile *)&effect;
+                state_m = (s32) *(void **)&effect;
                 if (((S_801749EC_1 *)state_m)->unk_08 < 0x16) {
                     old_phase = ((S_801749EC_1 *)state_m)->unk_06;
                     ((S_801749EC_1 *)state_m)->unk_0C = 0U;
@@ -408,7 +408,7 @@ closing_sector_loop:
         next_closing_ring = ring_index + 1;
         ring_index = next_closing_ring;
     } while (next_closing_ring < 0xA);
-    state_m = (s32) *(void *volatile *)&effect;
+    state_m = (s32) *(void **)&effect;
     closing_progress = ((S_801749EC_1 *)state_m)->unk_0C + 0x64;
     ((S_801749EC_1 *)state_m)->unk_0C = closing_progress;
     if ((s16) closing_progress >= 0x800) {
@@ -446,7 +446,7 @@ meridian_segment_loop:
             meridian_render = ((S_801749EC_7 *)meridian_object)->unk_0C;
             (*(s16 *)((u8 *)meridian_render + 0x1E)) = 0x1000;
             (*(s16 *)((u8 *)meridian_render + 0x1C)) = 0x1000;
-            state_m = (s32)(*(void *volatile *)&tint);
+            state_m = (s32)(*(void **)&tint);
             ((S_801749EC_8 *)meridian_render)->unk_0C = (u8) ((S_801749EC_11 *)(void *)state_m)->unk_0C;
             ((S_801749EC_8 *)meridian_render)->unk_0D = (u8) ((S_801749EC_11 *)(void *)state_m)->unk_0D;
             ((S_801749EC_8 *)meridian_render)->unk_0E = (u8) ((S_801749EC_11 *)(void *)state_m)->unk_0E;
@@ -510,7 +510,7 @@ do {
                 scale = (s32)(((S_801749EC_15 *)ring_object)->unk_0C);
                 (*(s16 *)((u8 *)(void *)scale + 0x1E)) = 0x1000;
                 (*(s16 *)((u8 *)(void *)scale + 0x1C)) = 0x1000;
-                state_m = (s32)(*(void *volatile *)&tint);
+                state_m = (s32)(*(void **)&tint);
                 ((S_801749EC_18 *)(void *)scale)->unk_0C = (u8) ((S_801749EC_11 *)(void *)state_m)->unk_0C;
                 ((S_801749EC_18 *)(void *)scale)->unk_0D = (u8) ((S_801749EC_11 *)(void *)state_m)->unk_0D;
                 ((S_801749EC_18 *)(void *)scale)->unk_0E = (u8) ((S_801749EC_11 *)(void *)state_m)->unk_0E;
@@ -536,7 +536,7 @@ do {
     ring = next_ring;
     } while (next_ring < 9);
     {
-        state_m = (s32)(*(void *volatile *)&effect);
+        state_m = (s32)(*(void **)&effect);
         remaining_ticks = (u16) ((S_801749EC_1 *)(void *)state_m)->unk_08 - 1;
         ((S_801749EC_1 *)(void *)state_m)->unk_08 = remaining_ticks;
         if ((remaining_ticks << 0x10) <= 0) {

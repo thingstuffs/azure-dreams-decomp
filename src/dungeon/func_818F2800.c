@@ -341,7 +341,7 @@ void BODY(void *shape, void *position, void *render_state, u16 depth_offset)
                         u16 part_flags;
                         s32 edge_y;
                         part_flags = ((S_BODY_2 *)part)->unk_00;
-                        part_flags = (*(volatile u16 *)(scratch + 0x24)) ^ part_flags;
+                        part_flags = (*(u16 *)(scratch + 0x24)) ^ part_flags;
                         if (part_flags & 2) {
                             if (half == 0) {
                                 s32 height;

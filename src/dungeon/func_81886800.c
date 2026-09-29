@@ -552,10 +552,10 @@ case_1:
     if (owner->unk_60 != 0) {
         if (effect->unk_58 == 0) {
             s32 target_distance = set_item_w0(
-                ((volatile S_func_81886800_1 *)(effect))->unk_1C.parts.unk_1E.parts.unk_1E.u8,
-                ((volatile S_func_81886800_1 *)(effect))->unk_1C.parts.unk_1E.parts.unk_1F.u8,
-                ((volatile S_func_81886800_8 *)(owner))->unk_70.parts.unk_72.u8,
-                ((volatile S_func_81886800_8 *)(owner))->unk_70.parts.unk_73.u8);
+                ((S_func_81886800_1 *)(effect))->unk_1C.parts.unk_1E.parts.unk_1E.u8,
+                ((S_func_81886800_1 *)(effect))->unk_1C.parts.unk_1E.parts.unk_1F.u8,
+                ((S_func_81886800_8 *)(owner))->unk_70.parts.unk_72.u8,
+                ((S_func_81886800_8 *)(owner))->unk_70.parts.unk_73.u8);
             target_distance = (s16)target_distance;
             if (target_distance < 5) {
                 effect->unk_58 = 1;
@@ -564,8 +564,8 @@ case_1:
         }
     }
     if (owner->unk_60 != 0) {
-        if ((((volatile S_func_81886800_8 *)(owner))->unk_70.u32 & 0xFFFF0000) ==
-            (((volatile S_func_81886800_1 *)(effect))->unk_1C.u32 & 0xFFFF0000)) {
+        if ((((S_func_81886800_8 *)(owner))->unk_70.u32 & 0xFFFF0000) ==
+            (((S_func_81886800_1 *)(effect))->unk_1C.u32 & 0xFFFF0000)) {
             S_func_81886800_11 *snapped_motion;
 
             snapped_motion = motion;

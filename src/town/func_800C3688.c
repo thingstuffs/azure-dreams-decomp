@@ -13,7 +13,7 @@ void func_800C0DE8(void)
 {
   s32 *table_entry;
   s8 *state;
-  if (*((volatile s32 *) D_800D3824) != (-1))
+  if (*((s32 *) D_800D3824) != (-1))
   {
     do
     {

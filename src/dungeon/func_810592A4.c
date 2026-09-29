@@ -23,7 +23,7 @@ typedef struct S_80170AA4_0 {
     s8 unk_04;
     u8 pad_05[0xD];
     s16 unk_12;
-    union { u16 n; volatile u16 v; } unk_14;   /* accessed as both */
+    union { u16 n; u16 v; } unk_14;   /* accessed as both */
     u8 pad_16[0xE];
     u8 unk_24;
     u8 unk_25;

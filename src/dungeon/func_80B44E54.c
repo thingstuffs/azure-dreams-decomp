@@ -12,7 +12,7 @@ typedef struct S_80172654_0 {
     u8 pad_90[0x6];
     union { u16 s; s16 u; } unk_96;   /* accessed as both */
     u8 pad_98[0x3];
-    union { u8 s; volatile u8 u; } unk_9B;   /* accessed as both */
+    union { u8 s; u8 u; } unk_9B;   /* accessed as both */
 } S_80172654_0;   /* arg0 in func_80172654 */
 
 typedef struct S_80172654_1 {

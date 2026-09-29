@@ -92,7 +92,7 @@ s32 func_80024C14(void *effect_data) {
                         seed_colors = (u32 *)((u8 *)0x1f800000);
                         color_column = (u8 *)((u32)color_column + (u32)(u8 *)seed_colors);
                         depth_cue = faded_shade;
-                        *(volatile u32 *)(row_offset + (u32)color_column) =
+                        *(u32 *)(row_offset + (u32)color_column) =
                             faded_shade + (faded_shade << 8) + (faded_shade << 16);
                     }
                 } while (column < 16);

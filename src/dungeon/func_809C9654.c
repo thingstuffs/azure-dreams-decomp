@@ -138,67 +138,65 @@ void func_80170E54(void *input_controller, void *input_context, void *input_enti
     ((S_80170E54_2 *)entity)->unk_26 = room_id;
 
     if (actor_state->unk_6D > 0) {
-        if (((u32)actor_state->flags1C) & 0x20) {
-            goto special_cleanup;
-        }
-        if (((S_80170E54_2 *)entity)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
-            goto ordinary_cleanup;
-        }
-        if (!(actor_state->unk_46 & 0x8000)) {
-            if (dungeonStatus.flags & 0x2000) {
-                if ((s16)func_8009A180(actor_state,
-                        (u8 *)D_800814A8->unk_58 + 0x20) != 0) {
+        if (!(((u32)actor_state->flags1C) & 0x20)) {
+            if (((S_80170E54_2 *)entity)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
+                goto ordinary_cleanup;
+            }
+            if (!(actor_state->unk_46 & 0x8000)) {
+                if (dungeonStatus.flags & 0x2000) {
+                    if ((s16)func_8009A180(actor_state,
+                            (u8 *)D_800814A8->unk_58 + 0x20) != 0) {
+                        return;
+                    }
+                }
+                if ((s16)func_8017207C(controller, context, entity, 0) == 0) {
                     return;
                 }
+                actor_state->unk_46 |= 0x4000;
+                if (!(actor_state->unk_46 & 0x8000)) {
+                    goto ordinary_cleanup;
+                }
             }
-            if ((s16)func_8017207C(controller, context, entity, 0) == 0) {
+
+            switch (actor_state->unk_46 & 0x3FFF) {
+            case 8:
+            case 9:
+                if ((s16)func_80171DA0(controller, context, entity, actor_state) == 0) {
+                    func_80171F64(controller, context, entity, actor_state);
+                    return;
+                }
                 return;
+
+            case 5:
+            case 6:
+            case 7:
+            {
+                EntityRec *player_controller;
+                s32 direction;
+
+                direction = func_800A0818(
+                    ((S_80170E54_2 *)entity)->unk_24.at00.v, ((S_80170E54_2 *)entity)->unk_24.at01.v,
+                    D_80082E80.tileX, D_80082E80.tileY,
+                    &direction_flags);
+                player_controller = D_800814A8;
+                actor_state->facing = direction;
+                if (player_controller->unk_9A == 0x11) {
+                    goto aaf_cleanup;
+                }
+                goto special_cleanup;
             }
-            actor_state->unk_46 |= 0x4000;
-            if (!(actor_state->unk_46 & 0x8000)) {
+            case 1:
+            case 2:
+            case 3:
+                goto aaf_cleanup;
+
+            case 12:
+                goto special_cleanup;
+
+            default:
                 goto ordinary_cleanup;
             }
         }
-
-        switch (actor_state->unk_46 & 0x3FFF) {
-        case 8:
-        case 9:
-            if ((s16)func_80171DA0(controller, context, entity, actor_state) == 0) {
-                func_80171F64(controller, context, entity, actor_state);
-                return;
-            }
-            return;
-
-        case 5:
-        case 6:
-        case 7:
-        {
-            EntityRec *player_controller;
-            s32 direction;
-
-            direction = func_800A0818(
-                ((S_80170E54_2 *)entity)->unk_24.at00.v, ((S_80170E54_2 *)entity)->unk_24.at01.v,
-                D_80082E80.tileX, D_80082E80.tileY,
-                &direction_flags);
-            player_controller = D_800814A8;
-            actor_state->facing = direction;
-            if (player_controller->unk_9A == 0x11) {
-                goto aaf_cleanup;
-            }
-            goto special_cleanup;
-        }
-        case 1:
-        case 2:
-        case 3:
-            goto aaf_cleanup;
-
-        case 12:
-            goto special_cleanup;
-
-        default:
-            goto ordinary_cleanup;
-        }
-
 special_cleanup:
         func_800A9A0C(actor_state);
         return;

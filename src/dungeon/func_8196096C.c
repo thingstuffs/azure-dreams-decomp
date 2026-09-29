@@ -161,9 +161,9 @@ void func_8196096C(s32 y_offset, Input *origin, Input *quad_data, s32 draw_depth
         record->f24.b[1] = texture_config[9] + texture_config[11];
         record->f1C.b[1] = record->f24.b[1];
         shade = (D_800273A8 << 7) / 240;
-        *(volatile u8 *)&record->f4.b[0] = shade;
-        *(volatile u8 *)&record->f4.b[2] = shade;
-        *(volatile u8 *)&record->f4.b[1] = shade;
+        *(u8 *)&record->f4.b[0] = shade;
+        *(u8 *)&record->f4.b[2] = shade;
+        *(u8 *)&record->f4.b[1] = shade;
         func_800666F4(record);
     }
     func_800654B0((void *)((u32)scratch | 0x70),

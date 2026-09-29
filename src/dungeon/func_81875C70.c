@@ -152,11 +152,9 @@ jt_c6:
             arg2[0xD] -= 5;
             arg2[0xE] -= 5;
         }
-        if (arg2[0xC] < 6) {
-            goto advance;
+        if (arg2[0xC] >= 6) {
+            return;
         }
-        return;
-
 advance:
     adv = *(u16 *)p;
     *(u16 *)(p + 2) = 0;

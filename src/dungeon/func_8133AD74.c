@@ -41,7 +41,7 @@ typedef struct S_80171D74_3 {
 
 typedef struct S_80171D74_4 {
     u8 pad_00[0x2A];
-    union { u16 n; volatile u16 v; } unk_2A;   /* accessed as both */
+    union { u16 n; u16 v; } unk_2A;   /* accessed as both */
     u8 pad_2C[0x5C];
     u16 unk_88;
 } S_80171D74_4;   /* temp_s3 in func_80171D74 */

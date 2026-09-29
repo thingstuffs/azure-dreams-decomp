@@ -36,7 +36,7 @@ typedef struct {
     u16 field8A;
 } Extra;
 
-extern volatile s16 D_80013714[8];
+extern s16 D_80013714[8];
 extern void func_800A2B04(Motion *, u8, u8);
 extern s32 func_800644B8(s32);
 

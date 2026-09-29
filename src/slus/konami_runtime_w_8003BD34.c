@@ -14,9 +14,9 @@ extern CopyBlock D_8006ADEC[3];
 
 /* Copy three blocks from D_8006ADEC to D_8006ADBC. */
 void func_8003BD34(void) {
-    volatile CopyBlock *destination = D_8006ADBC;
-    volatile CopyBlock *source = D_8006ADEC;
-    volatile CopyBlock *source_end = source + 3;
+    CopyBlock *destination = D_8006ADBC;
+    CopyBlock *source = D_8006ADEC;
+    CopyBlock *source_end = source + 3;
 
     do {
         u32 word0 = source->word0;

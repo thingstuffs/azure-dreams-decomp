@@ -12,11 +12,11 @@ typedef struct {
     u8 *data;
 } TownObject;
 
-extern volatile s32 D_8070309C;
-extern CallbackTable *volatile D_807030B8;
+extern s32 D_8070309C;
+extern CallbackTable *D_807030B8;
 extern u8 D_807028F4[];
 extern u8 D_8070291C[];
-extern TownObject *volatile D_807030AC;
+extern TownObject *D_807030AC;
 extern u8 D_80702FB8[];
 extern u8 *D_8070306C[];
 extern u8 **D_807030B4;
@@ -39,11 +39,9 @@ void func_80878A78(s32 scene, s32 mode)
 
     if (mode == (2)) {
         D_807030AC->data = D_80702FB8;
-        goto have_data;
+    } else {
+        D_807030AC->data = D_8070306C[scene];
     }
-
-    D_807030AC->data = D_8070306C[scene];
-have_data:
     ptr = D_807030AC->data;
     first = ptr[1];
     sentinel = 0x80;
@@ -52,9 +50,9 @@ have_data:
         terminator = 0x80;
         ptr++;
         loop_0: {
-            u32 index = *(volatile u32 *)(ptr + 11);
+            u32 index = *(u32 *)(ptr + 11);
             u8 **table = D_807030B4;
-            *(volatile u32 *)(ptr + 11) = (u32)table[index];
+            *(u32 *)(ptr + 11) = (u32)table[index];
             ptr += 20;
         } if (*ptr != terminator) goto loop_0;
     }

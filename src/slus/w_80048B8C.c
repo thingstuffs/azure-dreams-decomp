@@ -5,7 +5,7 @@
 typedef struct S_80048B8C_node {
     u8 flags;
     u8 pad1[3];
-    volatile u16 val;
+    u16 val;
     u8 pad6[6];
 } S_80048B8C_node;
 
@@ -48,7 +48,7 @@ void func_80048B8C(S_80048B8C *entries) {
                         ASM_KEEP_NV(masked_value);
                         value = masked_value + 0xE;
                         *value_ptr = value;
-                        value_ptr = (volatile u16 *)((u8 *)value_ptr + 0xC);
+                        value_ptr = (u16 *)((u8 *)value_ptr + 0xC);
                     } while (!((node++)->flags & 0x80));
                 }
             }

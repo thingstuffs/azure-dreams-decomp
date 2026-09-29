@@ -183,15 +183,13 @@ case_4_check:
             goto case_4_check;
         }
         attempts_left++;
-        if (direction_offset != (s8)((u8)world->unk_026)) {
-            goto case_4_position;
+        if (direction_offset == (s8)((u8)world->unk_026)) {
+            attempts_left--;
+            if (*(s16 *)((u8 *)level + 6) >= 2) {
+                goto case_4_check;
+            }
+            attempts_left++;
         }
-        attempts_left--;
-        if (*(s16 *)((u8 *)level + 6) >= 2) {
-            goto case_4_check;
-        }
-        attempts_left++;
-case_4_position:
         direction_offset = func_800BCB04((((S_80174428_2 *)actor)->unk_24 << 6) | 0x20,
             (((S_80174428_2 *)actor)->unk_25 << 6) | 0x20,
             (s16)(((S_80174428_3 *)motion)->unk_0A - 0x80));

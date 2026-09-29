@@ -24,7 +24,7 @@ void func_8009DF0C(s32 draw_param) {
     ordering_table = draw_buffer + 0x8B0;
     area_packet = *(u8 **)(draw_buffer + 0x8D0);
     *(u8 **)(draw_buffer + 0x8D0) = area_packet + 0xC;
-    func_80067E2C(area_packet, *(u8 * volatile *)&gameWork.unk_000);
+    func_80067E2C(area_packet, *(u8 * *)&gameWork.unk_000);
     func_8006658C(ordering_table, area_packet);
     func_8009DAD8(ordering_table, draw_param);
 

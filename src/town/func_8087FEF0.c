@@ -19,9 +19,9 @@ extern void func_80700E98(void);
 extern void func_80701298(s32 arg0, s32 arg1);
 
 extern s32 D_807013A4[];
-extern volatile s32 D_807009B0;
-extern volatile s32 D_807009B4;
-extern CallbackTable *volatile D_807013B4;
+extern s32 D_807009B0;
+extern s32 D_807009B4;
+extern CallbackTable *D_807013B4;
 extern u8 D_80700B30[];
 extern u8 D_80700B44[];
 

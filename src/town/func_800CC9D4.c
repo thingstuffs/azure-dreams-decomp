@@ -16,7 +16,7 @@ typedef struct S_800CA134_1 {
     u8 pad_04[0x2];
     s16 unk_06;
     u8 pad_08[0x2];
-    union { s16 n; volatile u16 v; } unk_0A;   /* accessed as both */
+    union { s16 n; u16 v; } unk_0A;   /* accessed as both */
 } S_800CA134_1;   /* arg1 in func_800CA134 */
 
 typedef struct S_800CA134_2 {
@@ -61,7 +61,7 @@ void func_800CA134(void *state, void *position) {
         s32 target_z;
         u16 z_value;
 
-        target = (*(void * volatile *)((u8 *)target_table + (8)));
+        target = (*(void * *)((u8 *)target_table + (8)));
         z_step = ((S_800CA134_1 *)position)->unk_0A.n;
         target_z = ((S_800CA134_2 *)target)->unk_0A;
         z_step += 0xD0;

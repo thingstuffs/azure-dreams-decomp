@@ -12,7 +12,7 @@ extern S_80080A86 D_80080A86;
 
 typedef struct S_800814A0
 {
-  volatile s32 val;
+  s32 val;
   s32 pad[2];
 } S_800814A0;
 extern S_800814A0 D_800814A0;

@@ -143,13 +143,11 @@ void func_80C97514(void *state, EntityRec *position, Rec_D_80082E80 *entity, voi
     ((Rec_D_80082E80 *)actor)->unk_8A = (u16) ((Rec_D_80082E80 *)actor)->unk_28.at02_u16.v;
     case 2:
     direction = ((s32) (gameWork.view.viewAngle + (s16) ((Rec_D_80082E80 *)actor)->unk_28.at02_u16.v + 0x100) >> 9) & 7;
-    if ((*(u8 *)&D_801753A8) == 0) {
-        goto turn_actor;
+    if ((*(u8 *)&D_801753A8) != 0) {
+        if (direction == 2) {
+            goto start_effect;
+        }
     }
-    if (direction == 2) {
-        goto start_effect;
-    }
-turn_actor:
     if (direction == 2) {
         return;
     }
@@ -169,18 +167,16 @@ start_effect:
     previous_ticks = ((S_80C97514_0 *)state)->unk_96;
     fade_ticks = previous_ticks - 1;
     ((S_80C97514_0 *)state)->unk_96 = fade_ticks;
-    if ((fade_ticks << 0x10) > 0) {
-        goto blend_color;
-    }
-    status = ((S_80C97514_2 *)(&D_801753A9))->unk_00;
-    ((S_80C97514_0 *)state)->unk_96 = previous_ticks;
-    if (status == 0) {
+    if ((fade_ticks << 0x10) <= 0) {
+        status = ((S_80C97514_2 *)(&D_801753A9))->unk_00;
+        ((S_80C97514_0 *)state)->unk_96 = previous_ticks;
+        if (status == 0) {
+            return;
+        }
+        ((S_80C97514_0 *)state)->unk_9B = (u8) (((S_80C97514_0 *)state)->unk_9B + 1);
+        func_800A56E0(0x300);
         return;
     }
-    ((S_80C97514_0 *)state)->unk_9B = (u8) (((S_80C97514_0 *)state)->unk_9B + 1);
-    func_800A56E0(0x300);
-    return;
-blend_color:
     effect_data = ((void **)&D_800DCEEC)[func_800498A0(actor)];
     scene_color->view.unk_090 = (u8) (scene_color->view.unk_090 + ((s32) (effect_data->unk_00 - scene_color->view.unk_090) / (s16) ((S_80C97514_0 *)state)->unk_96));
     scene_color->view.unk_091 = (u8) (scene_color->view.unk_091 + ((s32) (effect_data->unk_01 - scene_color->view.unk_091) / (s16) ((S_80C97514_0 *)state)->unk_96));
@@ -207,11 +203,9 @@ blend_color:
     render_obj->unk_0C.s = 0x808080;
     effect_type = func_800498A0(actor) - 1;
     effect_index = effect_type;
-    if ((effect_type << 0x10) >= 0) {
-        goto set_effect;
+    if ((effect_type << 0x10) < 0) {
+        effect_index = func_80069EF8() % 3;
     }
-    effect_index = func_80069EF8() % 3;
-set_effect:
     effect_data = (void *)(*((s32 *)&D_80175318 + (s16) effect_index) + (s32)&D_8014A000);
     func_8003DB94(render_obj, effect_data, 0);
     entity->unk_14.at00_u16.v = (u16) (entity->unk_14.at00_u16.v | 0x80);

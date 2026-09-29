@@ -45,7 +45,7 @@ s32 func_80042900(S_80042900 *entry, s32 effect_id)
         result = (u32)saved_id << 24;
         fallback_type = result >> 24;
         if (fallback_type == 0xE) {
-            return *(volatile u8 *)&entry->field_0x28 < 1;
+            return *(u8 *)&entry->field_0x28 < 1;
         }
         result = 0xD;
         if (fallback_type != result) {

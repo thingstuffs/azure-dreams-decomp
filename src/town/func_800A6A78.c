@@ -9,10 +9,10 @@ typedef struct S_800A41D8_0 {
 
 typedef struct S_800A41D8_1 {
     u8 pad_00[0x8];
-    union { s32 n; volatile s32 v; } unk_08;   /* accessed as both */
+    union { s32 n; s32 v; } unk_08;   /* accessed as both */
     union { s32 n; volatile s32 v; } unk_0C;   /* accessed as both */
     s32 unk_10;
-    union { s32 n; volatile s32 v; } unk_14;   /* accessed as both */
+    union { s32 n; s32 v; } unk_14;   /* accessed as both */
     u8 pad_18[0x8];
     s32 unk_20;
     u8 pad_24[0x50];

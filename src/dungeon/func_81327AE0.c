@@ -201,11 +201,11 @@ void func_8016F2E0(void *actor_arg, void *motion_arg, void *sprite_arg)
         (*(u8 *)((u8 *)entity + (0x9D))) = 0;
     } else {
         ((S_8016F2E0_5 *)motion)->unk_14 += (*(s8 *)((u8 *)entity + (0x9D))) * 0x14000;
-        (*(volatile u8 *)((u8 *)entity + (0x9D)))++;
+        (*(u8 *)((u8 *)entity + (0x9D)))++;
     }
     (*(s32 *)((u8 *)entity + (0x90))) += ((S_8016F2E0_5 *)motion)->unk_14;
 
-    if (!((*(volatile u16 *)((u8 *)entity + (0x98))) & 4)) {
+    if (!((*(u16 *)((u8 *)entity + (0x98))) & 4)) {
         floor_height = func_800BCB04(((S_8016F2E0_5 *)motion)->unk_00.at02.v,
                               ((S_8016F2E0_5 *)motion)->unk_04.at02.v,
                               (s16)(((S_8016F2E0_3 *)actor)->unk_88.u - 0x20));

@@ -42,7 +42,7 @@ typedef struct S_8016FC4C_5 {
     u16 unk_14;
     u8 pad_16[0x6];
     u16 unk_1C;
-    union { u16 s; volatile u16 u; } unk_1E;   /* accessed as both */
+    union { u16 s; u16 u; } unk_1E;   /* accessed as both */
     u8 pad_20[0x4];
     u8 unk_24;
     u8 unk_25;

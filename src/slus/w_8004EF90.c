@@ -7,7 +7,7 @@
  * computation is hoisted early to fill an unrelated load's delay slot,
  * while the %lo-folded load itself stays at its later point of use). */
 extern s32 D_80071660[4];
-extern volatile u32 D_80071664[4];
+extern u32 D_80071664[4];
 extern s32 D_80071668[4];
 
 typedef struct S_8004EF90_sub {

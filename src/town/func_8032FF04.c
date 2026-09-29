@@ -1,7 +1,7 @@
 #include "common.h"
 
 
-extern u8 *volatile D_80016000;
+extern u8 *D_80016000;
 
 
 typedef struct S_8001A704_0 {
@@ -12,7 +12,7 @@ typedef struct S_8001A704_0 {
 
 typedef struct S_8001A704_1 {
     u8 pad_00[0x4];
-    volatile s32 unk_04;
+    s32 unk_04;
 } S_8001A704_1;   /* position in func_8001A704 */
 
 typedef struct S_8001A704_2 {
@@ -23,18 +23,18 @@ typedef struct S_8001A704_2 {
 /* Set position coordinates to the selected entry's offsets plus scaled x and y. */
 void func_8001A704(s32 unused, s32 x, s32 y)
 {
-    volatile u8 *root = D_80016000;
+    u8 *root = D_80016000;
     void *entry_ptr;
     void *position;
     s32 index;
     s16 value;
 
-    entry_ptr = (*(void *volatile *)((u8 *)root + 0x30));
-    index = (*(volatile s32 *)((u8 *)root + 8));
+    entry_ptr = (*(void **)((u8 *)root + 0x30));
+    index = (*(s32 *)((u8 *)root + 8));
     index <<= 5;
-    entry_ptr = (*(void *volatile *)((u8 *)entry_ptr + 0));
+    entry_ptr = (*(void **)((u8 *)entry_ptr + 0));
     index += (s32)entry_ptr;
-    position = (*(void *volatile *)((u8 *)root + 0x1C));
+    position = (*(void **)((u8 *)root + 0x1C));
     x <<= 5;
     value = ((S_8001A704_0 *)((void *)index))->unk_0C;
     x += value;
@@ -42,7 +42,7 @@ void func_8001A704(s32 unused, s32 x, s32 y)
     {
         void *position2;
 
-        position2 = (*(void *volatile *)((u8 *)root + 0x1C));
+        position2 = (*(void **)((u8 *)root + 0x1C));
         y <<= 5;
         value = ((S_8001A704_0 *)((void *)index))->unk_0E;
         y += value;

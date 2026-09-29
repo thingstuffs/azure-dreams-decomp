@@ -85,7 +85,7 @@ void *func_800D8590(void *entity)
         if ((((S_800D8590_1 *)entity)->unk_13 == 0x15) &&
             (((S_800D8590_1 *)entity)->unk_A7 != 0) &&
             (((S_800D8590_1 *)entity)->unk_A8 != 0)) {
-            map = *(u8 * volatile *)&D_800E3D7C;
+            map = *(u8 * *)&D_800E3D7C;
             map_index = *(volatile u8 *)(entity + 0xA8);
             map += map_index;
             map[0xF9] = 1;
@@ -113,6 +113,6 @@ void *func_800D8590(void *entity)
     }
     masked_flags = flags;
     result = entity;
-    *(volatile u16 *)(child + 0x14) = masked_flags & 0xFFF3;
+    *(u16 *)(child + 0x14) = masked_flags & 0xFFF3;
     return result;
 }

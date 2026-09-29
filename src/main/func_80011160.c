@@ -10,7 +10,7 @@ void func_80024160(void *object) {
     slot = 0;
     do {
         value = *(s32 **)(cursor + 0x25C);
-        asm volatile("" : : "r"(value));
+        asm ("" : : "r"(value));
         *value = 0;
         slot++;
         cursor += 4;

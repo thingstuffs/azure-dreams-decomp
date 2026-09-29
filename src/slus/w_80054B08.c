@@ -5,7 +5,7 @@ typedef struct S_800847D0
   u32 flags2;
   u32 field8;
   u32 fieldC;
-  volatile u32 field10;
+  u32 field10;
   volatile u32 field14;
   u32 field18;
   s16 field1C;

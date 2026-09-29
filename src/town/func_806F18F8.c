@@ -7,7 +7,7 @@
 
 typedef struct S_806F18F8_1 {
     u8 pad_00[0x1C];
-    volatile void * unk_1C;
+    void * unk_1C;
     void * unk_20;
 } S_806F18F8_1;   /* state in func_806F18F8 */
 

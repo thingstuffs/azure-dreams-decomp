@@ -52,7 +52,7 @@ void func_8001CEC0(Rect *rect, s32 rng_input_1, s32 rng_input_2, s32 rng_input_3
                 y_parity = y & 1;
                 do {
                     if (((x & 1) == parity) && (y_parity == parity)) {
-                        tile = (volatile Tile *) (D_800EA000 +
+                        tile = (Tile *) (D_800EA000 +
                             (((y << dungeon->shiftX) + x) * 6));
                         flags = tile->flags;
                         saved_flags = tile->flags;

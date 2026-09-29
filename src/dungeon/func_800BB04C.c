@@ -16,9 +16,9 @@ typedef struct CopyFields {
 
 typedef struct ConfigFields {
     u8 pad0[8];
-    void * volatile field8;
+    void * field8;
     volatile u32 fieldC;
-    volatile u16 field10;
+    u16 field10;
     u16 field12;
     volatile u16 field14;
     u8 pad16[6];

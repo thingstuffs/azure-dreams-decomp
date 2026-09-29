@@ -54,18 +54,18 @@ void func_80814D60(SpawnSeed *seed) {
         motion->unk_0C = (s32) ((s32) seed->unk_0C >> 1);
         motion->unk_14 = (s32) (((func_80071494() & 0x1FF) - 0x100) << 0xA);
         page = 0x00800000;
-        (*(volatile s16 *)((u8 *)sprite + 0x1E)) = 0x800;
-        (*(volatile s16 *)((u8 *)sprite + 0x1C)) = 0x800;
-        (*(volatile s16 *)((u8 *)sprite + 0x10)) = 0x60;
-        flags = (*(volatile u16 *)((u8 *)sprite + 0x14));
-        (*(void * volatile *)((u8 *)sprite + 0)) = D_802843E8;
-        (*(volatile u16 *)((u8 *)sprite + 0x14)) = flags | 0xD;
+        (*(s16 *)((u8 *)sprite + 0x1E)) = 0x800;
+        (*(s16 *)((u8 *)sprite + 0x1C)) = 0x800;
+        (*(s16 *)((u8 *)sprite + 0x10)) = 0x60;
+        flags = (*(u16 *)((u8 *)sprite + 0x14));
+        (*(void * *)((u8 *)sprite + 0)) = D_802843E8;
+        (*(u16 *)((u8 *)sprite + 0x14)) = flags | 0xD;
         global_word = D_802843EC[0];
         page |= 0x80F0;
-        (*(volatile s8 *)((u8 *)sprite + 4)) = 0;
-        (*(volatile s8 *)((u8 *)sprite + 5)) = 0;
-        (*(volatile s32 *)((u8 *)sprite + 0xC)) = page;
-        (*(volatile s32 *)((u8 *)sprite + 8)) = global_word;
+        (*(s8 *)((u8 *)sprite + 4)) = 0;
+        (*(s8 *)((u8 *)sprite + 5)) = 0;
+        (*(s32 *)((u8 *)sprite + 0xC)) = page;
+        (*(s32 *)((u8 *)sprite + 8)) = global_word;
     }
 }
 /* MECHANISM: Symbol-typed hi/lo globals preserve the 0x20 frame and natural s2/s1/s0 held roles.

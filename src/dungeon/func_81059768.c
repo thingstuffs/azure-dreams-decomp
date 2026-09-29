@@ -178,7 +178,7 @@ void func_80170F68(void *actor_arg, void *context_arg, void *map_object_arg, voi
 
 #ifdef __mips__
         {
-            static void *volatile dispatch_labels[] = {
+            static void *dispatch_labels[] = {
                 &&aaf_cleanup, &&aaf_cleanup, &&aaf_cleanup,
                 &&extra_cleanup,
                 &&coords_case, &&coords_case, &&coords_case,

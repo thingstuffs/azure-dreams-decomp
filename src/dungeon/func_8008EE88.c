@@ -62,7 +62,7 @@ void func_800945E8(void *input_state) {
                     copy_src = (Blob140 *)record;
                     ASM_KEEP_NV(copy_src);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                     {
-                        volatile u32 *copy_dst_cursor = copy_dst->word;
+                        u32 *copy_dst_cursor = copy_dst->word;
                         u32 *copy_src_cursor = copy_src->word;
                         u32 *copy_end = copy_src_cursor + 32;
 
@@ -140,7 +140,7 @@ void func_800945E8(void *input_state) {
             copy_dst = (Blob140 *)(dst_cursor + 0x2260);
             copy_src = (Blob140 *)src_cursor;
             {
-                volatile u32 *copy_dst_cursor = copy_dst->word;
+                u32 *copy_dst_cursor = copy_dst->word;
                 u32 *copy_src_cursor = copy_src->word;
                 u32 *copy_end = (u32 *)(src_cursor + 0x80);
 

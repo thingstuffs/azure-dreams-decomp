@@ -49,7 +49,7 @@ void func_80099C18(void *work_data, void *position_data, s32 context) {
         s32 y;
 
         y = pos->y;
-        *(volatile s32 *)&pos->y = y +
+        *(s32 *)&pos->y = y +
             ((work->target_y << 16) - y) / (s16)work->count;
     }
 

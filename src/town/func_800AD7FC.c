@@ -18,8 +18,8 @@ void func_800AAF5C(void)
     s32 destination_offset;
     s32 record_index;
     u8 *records;
-    volatile TownRecord *destination;
-    volatile TownRecord *source;
+    TownRecord *destination;
+    TownRecord *source;
 
     record_index = 7;
     records = (u8 *)&D_80100E40;

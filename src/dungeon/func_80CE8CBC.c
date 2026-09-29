@@ -79,13 +79,11 @@ void func_801724BC(void *actor, M2C_UNK context, void *sprite, EntityRec *state)
     s32 effect_mode;
     s32 rest_mode;
 
-    if (!(dungeonStatus.flags & 0x1000)) {
-        goto block_2;
+    if (dungeonStatus.flags & 0x1000) {
+        ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 0xEU;
+        func_80172CC0(actor, context, sprite, state);
+        return;
     }
-    ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 0xEU;
-    func_80172CC0(actor, context, sprite, state);
-    return;
-block_2:
     if (state->tileY != 0) {
         goto block_15;
     }
@@ -94,14 +92,12 @@ block_2:
     if (anim_mode == 0xE) {
         goto block_11;
     }
-    if ((s32) anim_mode >= 0xF) {
-        goto block_7;
+    if ((s32) anim_mode < 0xF) {
+        if (anim_mode == 0xD) {
+            goto block_9;
+        }
+        return;
     }
-    if (anim_mode == 0xD) {
-        goto block_9;
-    }
-    return;
-block_7:
     if (anim_mode == 0xF) {
         goto block_13;
     }
@@ -135,30 +131,26 @@ block_15:
     if (transition_mode == 0xE) {
         goto block_25;
     }
-    if ((s32) transition_mode >= 0xF) {
-        goto block_20;
+    if ((s32) transition_mode < 0xF) {
+        if (transition_mode == 0xD) {
+            goto block_22;
+        }
+        flags_page = (u16 *)0x80080000;
+        goto block_33;
     }
-    if (transition_mode == 0xD) {
-        goto block_22;
-    }
-    flags_page = (u16 *)0x80080000;
-    goto block_33;
-block_20:
     if (transition_mode == 0xF) {
         goto block_27;
     }
     flags_page = (u16 *)0x80080000;
     goto block_33;
 block_22:
-    if (((S_801724BC_2 *)sprite)->unk_2C != &D_80175E54) {
-        goto block_24;
+    if (((S_801724BC_2 *)sprite)->unk_2C == &D_80175E54) {
+        ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = transition_mode;
+        ((Rec_func_800A9E70_arg0 *)actor)->unk_9B.as_s8 = 1;
+        ((Rec_func_800A9E70_arg0 *)actor)->unk_8C = 0;
+        state->flags1C = (s32) (state->flags1C & 0xFFFBFFFF);
+        return;
     }
-    ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = transition_mode;
-    ((Rec_func_800A9E70_arg0 *)actor)->unk_9B.as_s8 = 1;
-    ((Rec_func_800A9E70_arg0 *)actor)->unk_8C = 0;
-    state->flags1C = (s32) (state->flags1C & 0xFFFBFFFF);
-    return;
-block_24:
     if (func_800AA924(actor, context, sprite, &D_80175E84) != 0) {
         return;
     }
@@ -192,12 +184,10 @@ block_33:
     if (flags_page[0x1A31] & 0x2000) {
         goto block_64;
     }
-    if (!(state->flags1C & 0x100)) {
-        goto block_36;
+    if (state->flags1C & 0x100) {
+        func_800AA258(actor, context, sprite, state);
+        return;
     }
-    func_800AA258(actor, context, sprite, state);
-    return;
-block_36:
     if (((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 == 0xE) {
         goto block_49;
     }
@@ -236,14 +226,12 @@ block_49:
     if (effect_mode == 0xE) {
         goto block_57;
     }
-    if ((s32) effect_mode >= 0xF) {
-        goto block_54;
+    if ((s32) effect_mode < 0xF) {
+        if (effect_mode == 0xD) {
+            goto block_56;
+        }
+        goto block_60;
     }
-    if (effect_mode == 0xD) {
-        goto block_56;
-    }
-    goto block_60;
-block_54:
     if (effect_mode == 0xF) {
         goto block_58;
     }
@@ -263,17 +251,14 @@ block_58:
         return;
     }
 block_60:
-    if (!(state->flags1C & 0x80000)) {
-        goto block_62;
+    if (state->flags1C & 0x80000) {
+        func_800AA888(actor, context, sprite, state);
+        func_801759A0(actor, context, sprite, state);
+        return;
     }
-    func_800AA888(actor, context, sprite, state);
-    func_801759A0(actor, context, sprite, state);
-    return;
-block_62:
-    if ((func_800A1C58(state) << 0x10) == 0) {
-        goto block_64;
+    if ((func_800A1C58(state) << 0x10) != 0) {
+        func_800AAB10(actor, context, sprite, state);
     }
-    func_800AAB10(actor, context, sprite, state);
 block_64:
     room_id = func_8009FB34(((S_801724BC_2 *)sprite)->unk_24.at00.v, ((S_801724BC_2 *)sprite)->unk_24.at01.v);
     ((S_801724BC_2 *)sprite)->unk_26 = room_id;
@@ -286,25 +271,21 @@ block_64:
     if (((S_801724BC_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
         goto block_88;
     }
-    if (state->unk_46 & 0x8000) {
-        goto block_72;
+    if (!(state->unk_46 & 0x8000)) {
+        if (dungeonStatus.flags & 0x2000) {
+            if ((func_8009A180(state, ((s32)D_800814A8->unk_58) + 0x20) << 0x10) != 0) {
+                return;
+            }
+        }
+        if ((func_80173EAC(actor, context, sprite, 0) << 0x10) == 0) {
+            return;
+        }
+        action_flags = state->unk_46 | 0x4000;
+        state->unk_46 = action_flags;
+        if (!(action_flags & 0x8000)) {
+            goto block_88;
+        }
     }
-    if (!(dungeonStatus.flags & 0x2000)) {
-        goto block_70;
-    }
-    if ((func_8009A180(state, ((s32)D_800814A8->unk_58) + 0x20) << 0x10) != 0) {
-        return;
-    }
-block_70:
-    if ((func_80173EAC(actor, context, sprite, 0) << 0x10) == 0) {
-        return;
-    }
-    action_flags = state->unk_46 | 0x4000;
-    state->unk_46 = action_flags;
-    if (!(action_flags & 0x8000)) {
-        goto block_88;
-    }
-block_72:
     action_id = state->unk_46 & 0x3FFF;
     switch (action_id) {
     case 8:
@@ -337,14 +318,12 @@ block_78:
     if (action_mode == 0xE) {
         goto block_85;
     }
-    if ((s32) action_mode >= 0xF) {
-        goto block_82;
+    if ((s32) action_mode < 0xF) {
+        if (action_mode == 0xD) {
+            goto block_84;
+        }
+        return;
     }
-    if (action_mode == 0xD) {
-        goto block_84;
-    }
-    return;
-block_82:
     if (action_mode == 0xF) {
         goto block_86;
     }
@@ -373,16 +352,14 @@ block_89:
         }
         goto block_97;
     }
-    if (room_id < 0) {
-        goto block_92;
-    }
-    if (D_800E2970[room_id].flags & 2) {
-        if (dungeonStatus.flags & 0x2000) {
-            return;
+    if (room_id >= 0) {
+        if (D_800E2970[room_id].flags & 2) {
+            if (dungeonStatus.flags & 0x2000) {
+                return;
+            }
+            goto block_97;
         }
-        goto block_97;
     }
-block_92:
     if (state_flags & 0x430) {
         if (dungeonStatus.flags & 0x2000) {
             return;
@@ -407,14 +384,12 @@ block_97:
     if (rest_mode == 0xE) {
         goto block_105;
     }
-    if ((s32) rest_mode >= 0xF) {
-        goto block_102;
+    if ((s32) rest_mode < 0xF) {
+        if (rest_mode == 0xD) {
+            goto block_104;
+        }
+        return;
     }
-    if (rest_mode == 0xD) {
-        goto block_104;
-    }
-    return;
-block_102:
     if (rest_mode == 0xF) {
         goto block_106;
     }

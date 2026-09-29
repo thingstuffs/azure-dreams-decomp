@@ -10,7 +10,7 @@ typedef struct Dispatch {
 } Dispatch;
 
 extern s32 func_8001A2F0(void);
-extern u8 *volatile D_8001E950;
+extern u8 *D_8001E950;
 extern void *D_80018094[];
 extern void *D_800180B4[];
 extern s16 D_80018074[];
@@ -35,7 +35,7 @@ void *func_8001B6F8(s32 unused_a, s32 unused_b, s32 key)
     }
 
     if (key == 1) {
-        volatile u8 *state1;
+        u8 *state1;
 
         state1 = D_8001E950;
         if (state1[4] == 4) {

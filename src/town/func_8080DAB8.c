@@ -113,9 +113,9 @@ s32 func_8080DAB8(void *first_record) {
         func_8006DBBC((s32 *)primitive, 1);
         ((S_8080DAB8_1 *)primitive)->unk_08 = (s32)*(s32 *)screen_coords;
         ((S_8080DAB8_1 *)primitive)->unk_10 = (s32)*(s32 *)(screen_coords + 4);
-        depth0_raw = *(volatile u16 *)depths;
+        depth0_raw = *(u16 *)depths;
         depth0_shifted = depth0_raw << 0x10;
-        depth1_raw = *((volatile u16 *)depths + 1);
+        depth1_raw = *((u16 *)depths + 1);
         depth0 = (s32)depth0_shifted >> 0x10;
         do {
             depth1_shifted = depth1_raw << 0x10;

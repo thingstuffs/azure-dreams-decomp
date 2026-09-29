@@ -4,13 +4,13 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-extern volatile s8 D_800133A7;
-extern volatile s8 D_800133A9;
-extern volatile s8 D_800133BB;
-extern volatile s8 D_800133C5;
-extern volatile s8 D_800133C7;
-extern volatile s8 D_800133C9;
-extern volatile s8 D_800133E7;
+extern s8 D_800133A7;
+extern s8 D_800133A9;
+extern s8 D_800133BB;
+extern s8 D_800133C5;
+extern s8 D_800133C7;
+extern s8 D_800133C9;
+extern s8 D_800133E7;
 typedef struct {
     s32 value[5];
 } TownFiveWords;
@@ -40,7 +40,7 @@ void func_800B8B00(s32 code) {
     S_800B8B00_1 *free_slot;
     u8 *scan_base;
     u8 *free_base;
-    register volatile u8 *store_base ASM_REG("$1");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register u8 *store_base ASM_REG("$1");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     stored_code = code;
     slot_ids = D_800894D0;
@@ -90,12 +90,12 @@ find_empty_slot:
         /* fallthrough */
     case 0x9:
     case 0x2B:
-        store_base = (volatile u8 *)0x80010000;
+        store_base = (u8 *)0x80010000;
         store_base[0x33A7] = stored_code;
         return;
     case 0x10:
     case 0x11:
-        store_base = (volatile u8 *)0x80010000;
+        store_base = (u8 *)0x80010000;
         store_base[0x33A9] = stored_code;
         return;
     case 0x37:
@@ -108,7 +108,7 @@ store_group_code:
     case 0x3F:
     case 0x40:
     case 0x41:
-        store_base = (volatile u8 *)0x80010000;
+        store_base = (u8 *)0x80010000;
         store_base[0x33BB] = stored_code;
         return;
     case 0x38:
@@ -119,17 +119,17 @@ store_group_code:
         goto store_group_code;
     case 0x3:
     case 0x4:
-        store_base = (volatile u8 *)0x80010000;
+        store_base = (u8 *)0x80010000;
         store_base[0x33C5] = stored_code;
         return;
     case 0xE:
     case 0xF:
-        store_base = (volatile u8 *)0x80010000;
+        store_base = (u8 *)0x80010000;
         store_base[0x33C7] = stored_code;
         return;
     case 0x6:
     case 0x2C:
-        store_base = (volatile u8 *)0x80010000;
+        store_base = (u8 *)0x80010000;
         store_base[0x33C9] = stored_code;
         return;
     case 0x24:
@@ -137,7 +137,7 @@ store_group_code:
     case 0x26:
     case 0x27:
     case 0x28:
-        store_base = (volatile u8 *)0x80010000;
+        store_base = (u8 *)0x80010000;
         store_base[0x33E7] = stored_code;
         break;
     }

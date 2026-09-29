@@ -393,20 +393,18 @@ set_state3:
 state1_done:
     state = motion->unk_B3;
 state2_test:
-    if (state != 2) {
-        goto state3_test;
+    if (state == 2) {
+        (*(u16 *)((u8 *)object + 0x2A)) &= 0xFC00;
+        motion->unk_9B++;
+        record->unk_14.at00_u16.v |= 0x80;
+        motion->unk_92 = 0;
+        motion->unk_B1 = 0;
+        motion->unk_96 = 0;
+        motion->unk_A2 = 0;
+        func_8009D8A4();
+        D_800E296C |= 0x800000;
+        func_800A56E0(0x80F);
     }
-    (*(u16 *)((u8 *)object + 0x2A)) &= 0xFC00;
-    motion->unk_9B++;
-    record->unk_14.at00_u16.v |= 0x80;
-    motion->unk_92 = 0;
-    motion->unk_B1 = 0;
-    motion->unk_96 = 0;
-    motion->unk_A2 = 0;
-    func_8009D8A4();
-    D_800E296C |= 0x800000;
-    func_800A56E0(0x80F);
-
 state3_test:
     if (motion->unk_B3 != 3) {
         goto done;

@@ -56,9 +56,9 @@ void func_80096924(void *object, Vec3i *offset, void *resources) {
         *(s32 *)(out_page + 0xAFC) = *(s32 *)(base_page + 0xAE4) + offset->x + x_offset;
         base_page += 0xAE4;
         base_y = *(s32 *)(base_page + 4);
-        input_y = *(volatile s32 *)&offset->y;
+        input_y = *(s32 *)&offset->y;
         out = (Vec3i *)(out_page + 0xAFC);
-        *(Vec3i * volatile *)(global_page + 0xD20) = out;
+        *(Vec3i * *)(global_page + 0xD20) = out;
         out_page = (u8 *)(y_offset);
         out->y = base_y + input_y + (s32)out_page;
         out->z = *(s32 *)(base_page + 8) + offset->z + (height << 17);

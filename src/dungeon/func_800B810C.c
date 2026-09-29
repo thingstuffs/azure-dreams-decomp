@@ -11,7 +11,7 @@ extern void func_8008D330(void *, u8 *, u8 *, void *);
 extern void func_80098B38(s32);
 extern s32 func_800990FC(void);
 extern s32 func_80099194(M2C_UNK *, s32);
-extern void func_80099290(volatile int);
+extern void func_80099290(int);
 extern s32 func_80099734(void *, s32);
 extern void func_800A5720(s32);
 extern void func_800A5F38(void *, s32);

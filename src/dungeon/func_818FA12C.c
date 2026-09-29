@@ -73,14 +73,14 @@ typedef struct S_818FA12C_0 {
 typedef struct S_818FA12C_1 {
     u8 pad_00[0x8];
     u32 unk_08;
-    union { struct { u32 v; } at00; struct { volatile u8 v; } at00u; struct { u8 v; } at00p; struct { u8 pad[0x1]; volatile u8 v; } at01; struct { u8 pad[0x1]; u8 v; } at01u; struct { u8 pad[0x2]; volatile u8 v; } at02; struct { u8 pad[0x2]; u8 v; } at02u; } unk_0C;   /* overlapping accesses */
-    volatile u16 unk_10;
+    union { struct { u32 v; } at00; struct { u8 v; } at00u; struct { u8 v; } at00p; struct { u8 pad[0x1]; volatile u8 v; } at01; struct { u8 pad[0x1]; u8 v; } at01u; struct { u8 pad[0x2]; u8 v; } at02; struct { u8 pad[0x2]; u8 v; } at02u; } unk_0C;   /* overlapping accesses */
+    u16 unk_10;
     u8 pad_12[0x2];
     volatile u16 unk_14;
     u8 pad_16[0x4];
     u16 unk_1A;
-    union { volatile u16 v; u16 n; } unk_1C;   /* accessed as both */
-    union { volatile u16 v; u16 n; } unk_1E;   /* accessed as both */
+    union { u16 v; u16 n; } unk_1C;   /* accessed as both */
+    union { u16 v; u16 n; } unk_1E;   /* accessed as both */
 } S_818FA12C_1;   /* packet in func_8002592C */
 
 typedef struct S_818FA12C_2_pre {

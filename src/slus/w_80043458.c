@@ -23,7 +23,7 @@ void func_80043458(void) {
     s32 primary_mask;
     volatile WordPage *primary_flags;
     volatile BytePage *entry_bytes;
-    volatile u8 *state_base;
+    u8 *state_base;
     s32 secondary_mask;
     volatile SecondPage *secondary_flags;
 
@@ -34,8 +34,8 @@ void func_80043458(void) {
     entry_bytes = (BytePage *)primary_flags;
     state_base = (u8 *)entry_bytes;
     ASM_KEEP(state_base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    *(volatile s32 *)(state_base + 0x208C) = 0;
-    *(volatile s32 *)(state_base + 0x2090) = 0;
+    *(s32 *)(state_base + 0x208C) = 0;
+    *(s32 *)(state_base + 0x2090) = 0;
     state_base[0x2D52] = 0xFF;
     state_base[0x2D53] = 0xFF;
     state_base[0x21E0] = 0xFF;

@@ -15,7 +15,7 @@ extern s32 D_800CEEFC[3];
 void *func_80027534(s16 pos_x, s16 pos_y, s16 pos_z)
 {
     register u16 facing_angle ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-  volatile struct
+  struct
   {
     s32 sp10;
     s32 sp14;

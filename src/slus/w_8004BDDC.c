@@ -68,14 +68,14 @@ void *func_8004BDDC(s32 tint_a, s32 tint_b, void *packet, void *record, void *co
     color_record = record;
     {
         u8 u_start = *(volatile u8 *) ((u8 *) command + 8);
-        u_span = *(volatile u8 *) ((u8 *) command + 0xA);
+        u_span = *(u8 *) ((u8 *) command + 0xA);
         if ((u_span + u_start) >= 0x100) {
             ((S_8004BDDC_1 *)command)->unk_0A = (u8) (u_span - 1);
         }
     }
     {
         u8 v_start = *(volatile u8 *) ((u8 *) command + 9);
-        v_span = *(volatile u8 *) ((u8 *) command + 0xB);
+        v_span = *(u8 *) ((u8 *) command + 0xB);
         if ((v_span + v_start) >= 0x100) {
             ((S_8004BDDC_1 *)command)->unk_0B = (u8) (v_span - 1);
         }

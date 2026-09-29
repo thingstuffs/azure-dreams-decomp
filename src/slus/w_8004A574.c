@@ -10,7 +10,7 @@ typedef struct ItemCategory {
     u8 pad0[3];
     u8 multiplierIndex;
     u8 pad4[4];
-    s32 (* volatile callback)(s32, void *, void *, void *);
+    s32 (* callback)(s32, void *, void *, void *);
     ItemRecord *records;
     u8 pad10[4];
 } ItemCategory;

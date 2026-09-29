@@ -24,7 +24,7 @@ s32 func_8009F988(void) {
         if (*count_byte >= 0) {
             s32 repeat_count;
 
-            repeat_count = *(volatile u8 *)count_byte;
+            repeat_count = *(u8 *)count_byte;
             script->count = repeat_count - 1;
         } else {
             script->count = 0;

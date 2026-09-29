@@ -38,7 +38,6 @@ u32 func_800C8150(EntityRec *actor, s16 action_arg_1, s16 action_arg_2, s32 stat
     s32 state_index;
     s32 raw_state_index;
     s32 state_offset;
-    s32 state;
     s32 next_state;
     s32 shifted_index;
     register TablePage *table_page ASM_REG("$2");
@@ -66,13 +65,11 @@ u32 func_800C8150(EntityRec *actor, s16 action_arg_1, s16 action_arg_2, s32 stat
 
 common:
     if (((u32)actor->flags14) & 0x4000) {
-        state = (*(u8 *)((u8 *)&actor->unk_10 + 2));
-        if ((state != 4) && ((*(u8 *)((u8 *)&actor->unk_10 + 3)) != 0)) {
-            (*(u8 *)((u8 *)&actor->unk_10 + 2)) = state + 1;
+        state_index = (*(u8 *)((u8 *)&actor->unk_10 + 2));
+        if ((state_index != 4) && ((*(u8 *)((u8 *)&actor->unk_10 + 3)) != 0)) {
+            (*(u8 *)((u8 *)&actor->unk_10 + 2)) = state_index + 1;
             raw_state_index = func_800A1BD0(actor);
-            do {
-                shifted_index = raw_state_index << 16;
-            } while (0);
+            shifted_index = raw_state_index << 16;
             state_index = shifted_index >> 16;
             table_page = (TablePage *)0x80010000;
             if (state_index >= 0) {

@@ -31,7 +31,7 @@ typedef struct S_80022C8C_2 {
 
 #define NULL ((void *)0)
 
-extern volatile u16 D_800135C2;
+extern u16 D_800135C2;
 extern s32 D_80020054;
 extern s32 D_80022F60;
 extern s32 D_8002390C;
@@ -59,7 +59,7 @@ s32 func_80022C8C(void)
     s32 top_y;
     s32 count;
     u8 *data_page;
-    volatile u16 *count_page;
+    u16 *count_page;
     s32 bottom_y;
     void *spawn_position;
     s32 spawn_kind;
@@ -67,7 +67,7 @@ s32 func_80022C8C(void)
 
     parent_link = NULL;
     shared_data = (void *)&D_80020054;
-    count_page = (volatile u16 *)0x80010000;
+    count_page = (u16 *)0x80010000;
     count = (s16)*(count_page + (0x35C2 / 2));
     if (count < 20) {
         *(count_page + (0x35C2 / 2)) = 20;

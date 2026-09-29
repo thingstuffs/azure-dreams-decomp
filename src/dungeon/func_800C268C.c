@@ -84,7 +84,7 @@ s32 func_800C7DEC(Object *object, Other *source) {
                 return 0;
             }
         }
-        *(volatile u16 *)&object->value64 = adjustment;
+        *(u16 *)&object->value64 = adjustment;
         dungeonStatus.unk_10 = (u8 *)object - 0x20;
         object->value60 = 0;
         func_800A5A18(*(void **)((u8 *)object - 0x18), object, target_item);

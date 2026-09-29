@@ -6,7 +6,7 @@ typedef struct {
 
 typedef struct {
     ValueTriple first;
-    volatile s32 last;
+    s32 last;
 } ValueTable;
 
 extern ValueTable D_80016028;
