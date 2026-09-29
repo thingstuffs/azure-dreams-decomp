@@ -11,7 +11,6 @@ extern void func_800A4ACC(void *);
 extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
 
-extern u8 D_80170870[20];
 extern s32 D_80171CE8;
 extern u8 D_80174EE0[];
 
@@ -40,15 +39,13 @@ void func_80173514(void *action, void *motion, void *sprite, EntityRec *actor)
     u8 state;
     EntityRec *call_actor;
     void *call_sprite;
-    static void *const state_labels[] = { &&init, &&wait_start, &&first_flash, &&second_flash, &&finish };
 
     state = ((S_80173514_0 *)action)->unk_9B;
-    if ((u32)state >= 5) {
+    switch (state) {
+    default:
         return;
-    }
-    goto *(((void **)D_80170870)[state]);
 
-init:
+    case 0:
     {
         call_actor = actor;
         if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
@@ -69,7 +66,7 @@ init:
         return;
     }
 
-wait_start:
+    case 1:
     if ((s16)++((S_80173514_0 *)action)->unk_96.u == 5) {
         ((S_80173514_0 *)action)->unk_96.u = 0;
         ((S_80173514_0 *)action)->unk_9B++;
@@ -78,7 +75,7 @@ wait_start:
     }
     return;
 
-first_flash:
+    case 2:
     if ((s16)++((S_80173514_0 *)action)->unk_96.u == 6 ||
         (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
         ((S_80173514_0 *)action)->unk_96.u = 0;
@@ -89,7 +86,7 @@ first_flash:
     }
     return;
 
-second_flash:
+    case 3:
     if ((s16)++((S_80173514_0 *)action)->unk_96.u == 5 ||
         (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
         ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x0800;
@@ -110,12 +107,13 @@ call_tail:
     }
     return;
 
-finish:
+    case 4:
     if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) {
         func_800AD594(actor, 0x100);
         ((S_80173514_0 *)action)->unk_8C = &D_80171CE8;
         dungeonStatus.unk_0C = 0;
         func_800A4ACC(actor);
         actor->unk_46 &= 0x7FFF;
+    }
     }
 }
