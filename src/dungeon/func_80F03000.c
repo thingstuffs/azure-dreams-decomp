@@ -220,28 +220,20 @@ countdown:
     timer = ((S_80F03000_0 *)actor)->unk_36.s - 1;
     ((S_80F03000_0 *)actor)->unk_36.s = timer;
     if (timer != 0) {
-#ifdef __mips__
-        register s32 axis_step ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        s32 next_x;
-#else
-        s32 axis_step;
-        s32 next_x;
-#endif
+        s32 step_x;
         s32 centered_x;
+        s32 step_y;
         s32 centered_y;
-        axis_step = ((S_80F03000_1 *)position)->unk_0E * 64;
+        step_x = ((S_80F03000_1 *)position)->unk_0E * 64;
         centered_x = ((S_80F03000_1 *)position)->unk_00.at02.v - 32;
-        axis_step -= centered_x;
-        axis_step /= timer;
-        next_x = ((S_80F03000_1 *)position)->unk_00.at02u.v + axis_step;
-        axis_step = ((S_80F03000_1 *)position)->unk_12;
-        ((S_80F03000_1 *)position)->unk_00.at02.v = next_x;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        axis_step *= 64;
+        step_x -= centered_x;
+        step_x /= timer;
+        ((S_80F03000_1 *)position)->unk_00.at02.v += step_x;
+        step_y = ((S_80F03000_1 *)position)->unk_12 * 64;
         centered_y = ((S_80F03000_1 *)position)->unk_04.at02.v - 32;
-        axis_step -= centered_y;
-        axis_step /= ((S_80F03000_0 *)actor)->unk_36.s;
-        ((S_80F03000_1 *)position)->unk_04.at02.v += axis_step;
+        step_y -= centered_y;
+        step_y /= ((S_80F03000_0 *)actor)->unk_36.s;
+        ((S_80F03000_1 *)position)->unk_04.at02.v += step_y;
         ((S_80F03000_1 *)position)->unk_08.at02.v +=
             (((S_80F03000_1 *)position)->unk_16 - ((S_80F03000_1 *)position)->unk_08.at02.v) /
             ((S_80F03000_0 *)actor)->unk_36.s;

@@ -175,7 +175,7 @@ void func_80024E54(Entity *entity, void *saved_context, void *saved_data) {
     Coord *origin_loop;
     EntityRec *origin_second;
     Coord *origin_path;
-    register u8 *copy_page ASM_REG("$2");
+    u8 *copy_page;
     EntityRec *world;
     void *focus;
     Coord *focus_coord;
@@ -339,46 +339,22 @@ void func_80024E54(Entity *entity, void *saved_context, void *saved_data) {
 
                     if (func_8003DF74((&D_80082E80[0])->found, &D_80082E80[0], &entity->x, 0) != 0) {
                         s32 path_point;
-                        register Entity *path_entity ASM_REG("$5");
+                        Entity *path_entity;
+                        Entity *next_entity;
                         s32 path_half;
-                        s32 path_half_2;
-                        register s32 path_saved_base ASM_REG("$3");
                         u32 dim_color;
                         path_point = path_pair * 2;
                         path_entity = (Entity *)((u8 *)entity + (path_point + path_pair) * 4);
                         path_point++;
-                        {
-                            u32 path_bits;
-                            path_bits = (u16)entity->x;
-                            path_saved_base = entity->base[0];
-                            path_bits <<= 16;
-                            path_half = (s32)path_bits;
-                            path_half >>= 16;
-                            path_half += path_bits >> 31;
-                        }
+                        path_half = entity->x / 2;
                         origin_path = D_80083780;
-                        path_half >>= 1;
-                        path_entity->path[0] = path_half + (origin_path->x - path_saved_base) / 2;
+                        path_entity->path[0] = path_half + (origin_path->x - entity->base[0]) / 2;
                         path_entity->path[1] = entity->y / 2 + (origin_path->y - entity->base[1]) / 2;
-                        {
-                            copy_page = (u8 *)((u16)entity->z);
-                            path_half_2 = entity->base[2];
-                            copy_page = (u8 *)(((u32)copy_page) << (16));
-                            path_saved_base = (s32)(u32)copy_page;
-                            path_saved_base >>= 16;
-                            copy_page = (u8 *)(((u32)copy_page) >> (31));
-                            path_saved_base += (u32)copy_page;
-                            path_saved_base >>= 1;
-                            copy_page = (u8 *)((s32)origin_path->z - path_half_2);
-                            copy_page = (u8 *)((s32)(u32)copy_page / 2);
-                            path_saved_base += (s32)(u32)copy_page;
-                            copy_page = (u8 *)((path_point * 3) * 2);
-                            path_entity->path[2] = path_saved_base;
-                            path_entity = (Entity *)((u8 *)entity + (u32)copy_page);
-                        }
-                        path_entity->path[0] = entity->x / 4 + (origin_path->x - entity->base[0]) / 2;
-                        path_entity->path[1] = entity->y / 4 + (origin_path->y - entity->base[1]) / 2;
-                        path_entity->path[2] = entity->z / 4 + (origin_path->z - entity->base[2]) / 2;
+                        path_entity->path[2] = entity->z / 2 + (origin_path->z - entity->base[2]) / 2;
+                        next_entity = (Entity *)((u8 *)entity + path_point * 3 * 2);
+                        next_entity->path[0] = entity->x / 4 + (origin_path->x - entity->base[0]) / 2;
+                        next_entity->path[1] = entity->y / 4 + (origin_path->y - entity->base[1]) / 2;
+                        next_entity->path[2] = entity->z / 4 + (origin_path->z - entity->base[2]) / 2;
 
                         if (entity->timer == first_path_timer) {
                             task = func_8003FC64(0x212);
@@ -627,7 +603,7 @@ void func_80024E54(Entity *entity, void *saved_context, void *saved_data) {
                                         s32 interp_x;
                                         s32 interp_z;
                                         s32 interp_base;
-                                        register s32 out_x ASM_REG("$7");
+                                        s32 out_x;
                                         saved_timer = 0;
                                         loop_1: {
                                             interp_base = entity->path[18];
@@ -640,17 +616,17 @@ void func_80024E54(Entity *entity, void *saved_context, void *saved_data) {
                                             out_x = interp_base * 2;
                                             interp_base = entity->path[19];
                                             interp_work = entity->path[7] - interp_base;
-                                            path_entity = (Entity *)(interp_work * trail_fraction);
+                                            next_entity = (Entity *)(interp_work * trail_fraction);
                                             interp_work = interp_x >> 4;
                                             out_x += interp_work;
                                             interp_x = interp_base * 2;
-                                            if ((s32)path_entity < 0) {
-                                                path_entity = (Entity *)(((s32)path_entity) + (15));
+                                            if ((s32)next_entity < 0) {
+                                                next_entity = (Entity *)((s32)next_entity + 15);
                                             }
                                             interp_base = entity->path[20];
                                             interp_work = entity->path[8] - interp_base;
                                             interp_z = interp_work * trail_fraction;
-                                            interp_work = (s32)path_entity >> 4;
+                                            interp_work = (s32)next_entity >> 4;
                                             {
                                                 s32 interp_y = interp_x + interp_work;
                                                 interp_work = interp_y;
@@ -659,21 +635,9 @@ void func_80024E54(Entity *entity, void *saved_context, void *saved_data) {
                                             if (interp_z < 0) {
                                                 interp_z += 15;
                                             }
-                                            {
-                                                Entity *call_entity = entity;
-                                                void *call_context = saved_context;
-                                                void *call_data = saved_data;
-                                                ASM_KEEP4(call_entity, call_context, call_data, out_x);
-                                                out_x = (s16)out_x;
-                                                interp_work = (s16)interp_work;
-                                                D_80024C50(call_entity, call_context, call_data,
-                                                    out_x, interp_work,
-                                                    (s16)({
-                                                        s32 out_z;
-                                                        out_z = interp_base + (interp_z >> 4);
-                                                        out_z;
-                                                    }));
-                                            }
+                                            D_80024C50(entity, saved_context, saved_data,
+                                                (s16)out_x, (s16)interp_work,
+                                                (s16)(interp_base + (interp_z >> 4)));
                                             saved_timer++;
                                         } if (saved_timer < 16) goto loop_1;
                                     }
