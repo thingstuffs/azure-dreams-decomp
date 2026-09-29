@@ -47,11 +47,7 @@ s32 func_80874F4C(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     s32 offset;
     s32 *word;
     s32 callback;
-#ifndef NON_MATCHING
     s32 tail_arg;
-#else
-    s32 tail_arg;
-#endif
 
     if (func_80700D84(arg0, arg1, arg2, arg3) < 2) {
         goto callback_path;
@@ -94,15 +90,9 @@ callback_path:
 
 clear_flags:
     {
-#ifndef NON_MATCHING
         void *state;
         s32 clear_mask;
         s32 clear_value;
-#else
-        void *state;
-        s32 clear_mask;
-        s32 clear_value;
-#endif
         state = (void *)D_80701968[0];
         clear_mask = 0xBFFFFFFF;
         clear_value = ((S_80874F4C_State *)state)->unk_30;

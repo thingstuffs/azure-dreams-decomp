@@ -76,8 +76,6 @@ void func_80173ED8(void *action, void *context, void *sprite, void *entity)
         }
 
         counter_state = (u8 *)&dungeonStatus.unk_00;
-#ifndef __mips__
-#endif
         ((S_80173ED8_2 *)counter_state)->unk_0A--;
         (*(void * *)((u8 *)sprite + 0x2C)) = D_80175188;
         direction = (gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
@@ -95,8 +93,6 @@ void func_80173ED8(void *action, void *context, void *sprite, void *entity)
             func_80047784(sprite, D_80175180[direction & 7], 0);
             (*(u32 *)((u8 *)entity + 0x1C)) |= 0x40000;
             counter_state = (u8 *)&dungeonStatus.unk_00;
-#ifndef __mips__
-#endif
             ((S_80173ED8_2 *)counter_state)->unk_0A++;
             ((S_80173ED8_0 *)action)->unk_9B++;
             return;
@@ -165,8 +161,6 @@ void func_80173ED8(void *action, void *context, void *sprite, void *entity)
         }
 
         counter_state = (u8 *)&dungeonStatus.unk_00;
-#ifndef __mips__
-#endif
         ((S_80173ED8_2 *)counter_state)->unk_0A--;
         ((EntityRec *)entity)->flags1C &= ~0x208;
         ((S_80173ED8_0 *)action)->unk_8C = D_80171400;

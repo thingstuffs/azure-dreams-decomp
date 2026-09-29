@@ -20,13 +20,8 @@ s16 func_800A6E10(s16 first_key, s16 second_key) {
     entry_index = zero;
     match_first = first_key;
     match_second = second_key;
-#ifdef NON_MATCHING
     key_entry = &D_800E36C8;
     status_entry = &D_800E3548;
-#else
-    key_entry = &D_800E36C8;
-    status_entry = &D_800E3548;
-#endif
     do {
         if ((*((u8 *) status_entry + 1) != 0) && (*((u8 *) key_entry) == match_first)
             && (*((u8 *) key_entry + 1) == match_second)) {

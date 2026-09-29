@@ -64,13 +64,8 @@ extern M2C_UNK func_800AA36C();
 extern M2C_UNK func_80044A50();
 extern M2C_UNK func_800BC318();
 
-#ifdef __mips__
-#define BODY_STORAGE
-#define BODY_ATTR __attribute__((used, section(".text.func_8015E854")))
-#else
 #define BODY_STORAGE
 #define BODY_ATTR
-#endif
 
 BODY_STORAGE void *func_8015E854(s16 arg0, s16 arg1, s16 arg2, s16 arg3) BODY_ATTR;
 

@@ -305,13 +305,8 @@ state_3:
     func_80099F70(((S_8008FA7C_2 *)entity)->unk_5C);
     func_80099F04(((S_8008FA7C_2 *)entity)->unk_5C);
     if (((S_8008FA7C_2 *)entity)->unk_1C & 0x100000) {
-#ifndef NON_MATCHING
         ((S_8008FA7C_3 *)actor)->unk_8C.p = D_8008EAC8;
         (*(u8 * *)((u8 *)animation + (0x2C))) = D_800DD0B8;
-#else
-        ((S_8008FA7C_3 *)actor)->unk_8C.p = D_8008EAC8;
-        (*(u8 * *)((u8 *)animation + (0x2C))) = D_800DD0B8;
-#endif
     } else {
         ((S_8008FA7C_3 *)actor)->unk_8C.p2 = &D_8008ACDC;
         (*(u8 * *)((u8 *)animation + (0x2C))) = D_800DCFB0;

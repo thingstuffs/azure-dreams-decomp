@@ -38,11 +38,7 @@ typedef struct Scratchpad {
     u8 bytes[0x10C];
 } Scratchpad;
 
-#ifdef __mips__
 #define SCRATCH_BASE ((Scratchpad *)0x1F800000)
-#else
-#define SCRATCH_BASE ((Scratchpad *)0x1F800000)
-#endif
 
 #define SCR8(off)  (*(u8  *)((u8 *)scratch + (off)))
 #define SCR16(off) (*(u16 *)((u8 *)scratch + (off)))
@@ -66,13 +62,8 @@ __attribute__((section(".text.func_80024000"), aligned(4))) = {
 __asm__(".globl func_80024000\n.size func_80024000,3284");
 #endif
 
-#ifdef __mips__
-#define BODY_NAME func_8002405C
-#define BODY_ATTR __attribute__((used, section(".text.func_80024000")))
-#else
 #define BODY_NAME func_80024000
 #define BODY_ATTR
-#endif
 
 void BODY_NAME(void *screen_pos, u8 *wave, void *context, s32 *ordering_table, s32 draw_control) BODY_ATTR;
 

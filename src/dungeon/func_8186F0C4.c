@@ -90,11 +90,7 @@ void func_800248C4(u8 *effect_data, u8 *effect_pos, u8 *effect_display) {
             u32 owner_bits;
             s32 next_state;
 
-#ifdef NON_MATCHING
             flag_base = (s16 *)((u8 *)D_80025308 - 0x5308);
-#else
-            flag_base = (s16 *)((u8 *)D_80025308 - 0x5308);
-#endif
             owner_bits = U16_AT(owner, 0x2A);
             next_state = 1;
             *(s16 *)((u8 *)flag_base + 0x5308) = next_state;

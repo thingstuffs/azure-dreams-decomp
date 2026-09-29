@@ -114,11 +114,7 @@ update:
                     saved_state = D_80081484[0];
                     anim_mode = 5;
                     D_80081484[0] = 0;
-#ifndef NON_MATCHING
                     animations = D_800DCFD0;
-#else
-                    animations = D_800DCFD0;
-#endif
                     state_value &= clear_mask;
                     dungeon_state = &dungeonStatus;
                     *(s32 *)(entity + 0x1C) = state_value;

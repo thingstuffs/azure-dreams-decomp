@@ -79,5 +79,3 @@ void FUNC_8184A800_BODY(void *owner, void *unused, void *target)
     }
 }
 
-#ifdef __mips__
-#endif

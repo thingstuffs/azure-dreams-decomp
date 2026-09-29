@@ -93,5 +93,3 @@ void FUNC_80CA5000_BODY(void *object, s32 init_value, void *source_coords) {
     *(u8 *)((u8 *)prim + 0xC) = 0x80;
 }
 
-#ifdef __mips__
-#endif

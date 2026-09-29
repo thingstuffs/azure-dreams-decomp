@@ -161,11 +161,7 @@ s32 func_800B06F0(u8 *initial_batch, s32 initial_dispatch_arg, u8 *initial_param
     u8 *next_batch;
     u32 ot_entry_addr;
     s32 quad_extent;
-#ifdef NON_MATCHING
     s32 hard_zero = 0;
-#else
-    s32 hard_zero = 0;
-#endif
 
     global_value = global_addr->value;
     initial_manager = D_80083160[0].manager;

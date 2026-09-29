@@ -81,54 +81,26 @@ static __inline__ s32 first_delta_s32_s32(s32 end, s32 start)
 /* Interpolates and projects a shaded line, then links it into the depth ordering table. */
 s32 func_800246D8(void *line)
 {
-#ifdef __mips__
     u8 *line_or_red;
-#else
-    u8 *line_or_red;
-#endif
     u8 *scratch = (u8 *)0x1F800000;
     u8 *packet;
     void *projection_out_a;
     void *projection_out_b;
-#ifdef __mips__
     PackedDelta delta;
-#else
-    PackedDelta delta;
-#endif
-#ifdef __mips__
     s32 mask_or_phase;
-#else
-    s32 mask_or_phase;
-#endif
     s32 phase_or_depth;
-#ifdef __mips__
     s32 multiplier;
     u8 *line_bytes = line;
-#else
-    s32 multiplier;
-    u8 *line_bytes = line;
-#endif
-#ifdef __mips__
     s32 y;
-#else
-    s32 y;
-#endif
     s32 first_z;
     s32 second_z;
-#ifdef __mips__
     s32 depth_or_tag;
     s32 depth_sum;
-#else
-    s32 depth_or_tag;
-    s32 depth_sum;
-#endif
     u32 *ordering_table;
     u8 *render_ctx = *(u8 **)((u8 *)(&gameWork));
 
     ((S_800246D8_0 *)scratch)->unk_18 = (u32 *)(render_ctx + 0xB0);
     packet = ((S_800246D8_1 *)render_ctx)->unk_8D0;
-#ifdef __mips__
-#endif
     line_or_red = line_bytes;
     ((S_800246D8_1 *)render_ctx)->unk_8D0 = packet + 0x14;
 
@@ -296,30 +268,16 @@ s32 func_800246D8(void *line)
     depth_sum = ((S_800246D8_0 *)scratch)->unk_F4;
     depth_sum += ((S_800246D8_0 *)scratch)->unk_F8;
     depth_or_tag = (s32)(depth_sum + ((u32)depth_sum >> 31)) >> 1;
-#ifdef __mips__
-#endif
     ((S_800246D8_0 *)scratch)->unk_B4 = depth_or_tag;
     if ((u32)depth_or_tag < 0x1E0U) {
-#ifdef __mips__
         u32 entry_addr;
-#else
-        u32 entry_addr;
-#endif
         u32 *ot_base;
         s32 low_mask;
         low_mask = 0x00FFFFFF;
-#ifdef __mips__
-#endif
         entry_addr = depth_or_tag << 2;
         ot_base = ((S_800246D8_0 *)scratch)->unk_18;
-#ifdef __mips__
-#endif
         depth_or_tag = 0xFF000000;
-#ifdef __mips__
-#endif
         entry_addr += (u32)ot_base;
-#ifdef __mips__
-#endif
         ((S_800246D8_2 *)packet)->unk_00.at00.v =
             (((S_800246D8_2 *)packet)->unk_00.at00.v & depth_or_tag) |
             (*(u32 *)entry_addr & low_mask);
@@ -331,8 +289,6 @@ s32 func_800246D8(void *line)
             ((u32)packet & low_mask);
     }
 
-#ifdef __mips__
-#endif
     return 0;
 }
 

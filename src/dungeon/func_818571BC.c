@@ -48,14 +48,7 @@ s32 func_800249BC(void *shape_data)
     s32 half_width;
     void *next_node;
     register DungeonShape *shape ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-#ifdef __mips__
-    u8 *draw_state_page = (u8 *)0x80080000;
-    DungeonDrawState **draw_state_p = ({
-        (DungeonDrawState **)((u8 *)((DungeonDrawState * *)(&gameWork)));
-        });
-#else
         DungeonDrawState **draw_state_p = ((DungeonDrawState * *)(&gameWork));
-#endif
         u16 (*points_base)[2] = points;
         s32 *half_width_p = &half_width;
         register u32 address_mask ASM_REG("$21") = 0x00FFFFFF;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */

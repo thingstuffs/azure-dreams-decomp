@@ -55,11 +55,7 @@ typedef union {
     s32 word[2];
 } M2C_WIDE;
 
-#if defined(__mips__) || defined(mips)
-#define M2C_HIGH_WORD(product) ((product).word[0])
-#else
 #define M2C_HIGH_WORD(product) ((s32) ((u64) (product).value >> 32))
-#endif
 
 void func_8003DB94(void *, void *, s32);
 void *func_8003FC64();

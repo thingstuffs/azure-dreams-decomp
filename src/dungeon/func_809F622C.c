@@ -56,8 +56,6 @@ void func_80173A2C(void *controller_in, void *motion_in, void *sprite_in, void *
     sprite = sprite_in;
     actor = actor_in;
 
-#ifndef __mips__
-#endif
 
     state = ((S_80173A2C_0 *)controller_in)->unk_9B;
     if (state == 1) {

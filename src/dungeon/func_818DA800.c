@@ -295,13 +295,8 @@ case1:
     }
     {
         actor_or_corner = 3;
-#ifdef __mips__
         image_base = D_80024538;
         resource_base = D_800DEAE0;
-#else
-        image_base = D_80024538;
-        resource_base = D_800DEAE0;
-#endif
         loop_0: {
             S_func_818DA800_5 *burst_obj;
 #ifdef __mips__
@@ -311,17 +306,10 @@ case1:
 #endif
             S_func_818DA800_8 *child_state;
             S_func_818DA800_9 *resource_cursor;
-#ifdef __mips__
             s32 center_coord;
             s32 corner_coord;
             s32 position_or_z_offset;
             s32 prim_color;
-#else
-            s32 center_coord;
-            s32 corner_coord;
-            s32 position_or_z_offset;
-            s32 prim_color;
-#endif
 
             burst_obj = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
             if (burst_obj != 0) {

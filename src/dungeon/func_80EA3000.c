@@ -64,13 +64,8 @@ BODY_STORAGE s32 BODY_NAME(void *origin, void *actor) {
         (s16)(*(u8 *)(origin_bytes + 0x25) + *(u16 *)(((u8 *)dirStepY) + direction_offset)),
         *(s16 *)(actor_bytes + 0x88));
     if (ground_slot >= 0) {
-#ifdef __mips__
         s32 *item_dest;
         s32 *item_slot;
-#else
-        s32 *item_dest;
-        s32 *item_slot;
-#endif
         item_dest = D_8015CFE4;
         item_slot = item_dest;
         *(ItemWord *)item_dest = *(ItemWord *)&D_800E3548[ground_slot];
@@ -136,13 +131,8 @@ BODY_STORAGE s32 BODY_NAME(void *origin, void *actor) {
             return 0;
         }
         {
-#ifdef __mips__
             s32 *item_dest;
             s32 *item_slot;
-#else
-            s32 *item_dest;
-            s32 *item_slot;
-#endif
             s32 item_data;
 
             item_dest = D_8015CFE4;
