@@ -94,6 +94,10 @@ dispatch pins and the bounds guard. Start from
      spelling for that; report it, do not add a case to keep it;
    - a cross-jump tail the retail table enters mid-block needs its own `case N:` on that tail (table
      evidenced), and the arm before it falls into it;
+   - only the table's ENDS need a case label when they go to the default block (gcc folds the minimum case
+     into the dispatch `addiu` and sets the `sltiu` bound from the maximum): stack the end values on
+     `default:`. Interior values that go to default need NO label - drop them, they are noise (measured:
+     func_8008D990 exact with only `case 17:` of twelve stacked defaults);
    - on pinned rows the `$5`/`$6` dispatch pins did NOT fall on swp1's 6 rows (singles and pairs tried);
      try each once when exact, then move on: the goto reduction at equal pins is the result.
 6. If the dispatch matches but the body does not, diff the arms: a case that falls through to the next in
@@ -130,6 +134,9 @@ case tree or to avoid a jump table (`case 0x101:`, `case 0 ... 0xF:`) is steerin
   the same pins and FEWER `goto` statements - the lander counts computed gotos, so replacing `goto *table[i]` with a
   real `switch` lands on a pin-free row) AND it adds none of the forms above. Also remove the plain gotos the switch
   makes unnecessary (`goto done;` -> `break;`). No cell changes (2.8.x rows included).
+- **`slus/w_*` rows are out of scope (round 80, sw23):** all five came back `exact` through the text-identical
+  fallback, yet the SLUS SHA-1 gate failed - the switch's own `.rdata` table shifts the linked data layout. Builders
+  skip them; if one is in your pack anyway, report it and stage nothing.
 - A `slus/w_*` row is scored by object identity against the pinned TU, and a real switch adds a TU-local
   `.rdata` jump table, so the object hash will differ: such a row can only come back exact through the
   text-identical disassembly fallback. Print the whole verdict and quote its `proof` field in `REPORT.md`

@@ -243,6 +243,10 @@ def main():
     for rid in ids:
         if rid not in R or not clean_path(R[rid]).exists():
             skipped.append((rid, "unknown row or missing file")); continue
+        if rid.startswith("slus/"):
+            # round 80 (sw23): verify.py's text-identical fallback passes, but the switch's own .rdata jump table
+            # shifts the linked SLUS data layout -> SLUS SHA-1 NO MATCH.  Needs the D_ table moved into the TU.
+            skipped.append((rid, "slus row: a real switch's .rdata breaks the SLUS link layout")); continue
         if rid in packed and not a.repack:
             skipped.append((rid, "already packed")); continue
         if rid in served:
