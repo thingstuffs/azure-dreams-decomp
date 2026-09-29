@@ -171,3 +171,16 @@ could not land pin-free rows (their brief staged only on fewer pins); kitlib/lan
 own .rdata jump table is fine). Scaling: sw2-sw5 (32 rows) from the 164-row pin-free 2.6.3/2.7.x overlay pool
 (tools/lanes/build_switch_lanes.py --pool; build lanes one at a time, --repack does not dedupe across lanes).
 2.8.x rows need `-mno-split-addresses` (a cell change) and pinned rows go through pin lanes.
+
+Switch scaling (sw2-sw11, Sonnet 5.5, ~75-100k tokens/lane, 8 rows each, nearly all exact on the first score): the
+lander's fin0707 batch (sw2+sw4) failed 2 windows with a LINK ERROR - some synthetic deep/truebase window builds discard
+the row object's .rodata, so a real switch's compiler jump table cannot link (dungeon/func_807AE960). Reverted that row,
+re-gated, committed the other 15 (ee696729). Fix: tools/lanes/switch_land_lanes.sh lands one switch lane at a time with
+an isolated gate and reverts exactly the rows the failing windows name (40893194); switch lanes are now named r80_* so
+the r79 lander does not batch them. Rulings (switch_lane_brief.md): cases a RETAIL jump table evidences may be stacked on
+default (table size = evidence); steering cases rejected; rows whose table lives inside the function's own text
+(func_80EDF000, a bank_words prefix) cannot be a real switch.
+
+Kit harvest (owner request: harvest what lanes needed/wrote): the same private helpers recurred across lanes (gen.py x8,
+scorer-diff-at-cfg x7, port.py x4, prio.py, erase-at-cfg). A Sonnet tooling lane folded them into the kit (5c9d4620):
+lab.py --base / stage-cell, --cfg on diff/why/erase, diff --scorer [--norm-regs], prio.py (global-alloc priority table).
