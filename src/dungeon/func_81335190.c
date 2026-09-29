@@ -54,15 +54,10 @@ extern u8 D_801739A0[];
 extern u8 D_801739A8[];
 extern u8 D_801739B0[];
 extern u8 D_801739B8[];
-extern void *D_80164960[];
 
 /* Advances the selected actor action through targeting, animation, and cleanup. */
 void func_8016C190(void *action, EntityRec *transform, void *sprite, EntityRec *actor)
 {
-    static void *const selection_labels[] = {
-        &&select_1, &&select_2, &&select_3, &&select_none,
-        &&mode_select_1, &&mode_select_2, &&mode_select_3
-    };
     u8 action_state;
     u8 *action_slot;
     u8 *direction_table;
@@ -76,26 +71,30 @@ void func_8016C190(void *action, EntityRec *transform, void *sprite, EntityRec *
 
     action_state = ((S_8016C190_0 *)action)->unk_9B;
     target_mode = 0;
-    (void)selection_labels;
 
     switch (action_state) {
     case 0:
         if (((u32)actor->flags1C) & 0x2000) {
             flagged_action = actor->unk_46 & 0x3FFF;
-            if ((u32)(flagged_action - 1) < 7) {
-                goto *D_80164960[(u32)(flagged_action - 1)];
+            switch (flagged_action) {
+            case 1:
+                goto select_1;
+            case 2:
+                goto select_2;
+            case 3:
+                goto select_3;
+            case 7:
+                target_mode = 1;
+                goto select_3;
+            case 6:
+                target_mode = 1;
+                goto select_2;
+            case 5:
+                target_mode = 1;
+                goto select_1;
+            default:
+                goto select_none;
             }
-            goto select_none;
-
-mode_select_3:
-            target_mode = 1;
-            goto select_3;
-mode_select_2:
-            target_mode = 1;
-            goto select_2;
-mode_select_1:
-            target_mode = 1;
-            goto select_1;
         } else {
             action_kind = actor->unk_46 & 0x3FFF;
             switch (action_kind) {

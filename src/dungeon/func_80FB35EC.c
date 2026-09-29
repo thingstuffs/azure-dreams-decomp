@@ -63,24 +63,23 @@ void func_80172DEC(void *action_state, EntityRec *transform, void *sprite, Entit
     switch (((S_80172DEC_0 *)action_state)->unk_9B) {
     case 0:
         if (((u32)actor->flags1C) & 0x2000) {
-            static void *const dispatch_labels[] = {&&sw_c, &&sw_b, &&sw_a, &&sel_none};
-            extern void *const D_80170850[];
             u32 kind_index = (u32)((actor->unk_46 & 0x3FFF) - 1);
 
-            if (kind_index >= 7) {
+            switch (kind_index) {
+            case 0:
+                use_global_target = 1;
+                goto kind_c;
+            case 1:
+                use_global_target = 1;
+                goto kind_b;
+            case 2:
+                use_global_target = 1;
+                goto kind_a;
+            case 3:
+            case 6:
+            default:
                 goto sel_none;
             }
-            (void)dispatch_labels;
-            goto *D_80170850[kind_index];
-        sw_c:
-            use_global_target = 1;
-            goto kind_c;
-        sw_b:
-            use_global_target = 1;
-            goto kind_b;
-        sw_a:
-            use_global_target = 1;
-            goto kind_a;
         }
 
         switch (actor->unk_46 & 0x3FFF) {

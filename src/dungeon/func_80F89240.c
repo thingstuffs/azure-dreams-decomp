@@ -16,7 +16,6 @@ extern void func_800A56E0(s32);
 extern s32 func_800A94A0(void *, u8 *, s32, u16 *);
 extern void func_800DAE44(void *, s32);
 
-extern u8 D_80170838[16];
 extern u8 D_80171138[];
 extern u8 D_80174AD4[];
 
@@ -76,10 +75,6 @@ typedef struct S_80172A40_4 {
 /* Updates the selected action's targeting, motion, and completion state. */
 void func_80172A40(void *owner_input, EntityRec *motion_input, void *actor_input, void *object_input)
 {
-    static void *const slot_labels[] = {
-        &&slot_one, &&slot_two, &&slot_three, &&slot_none,
-        &&special_one, &&special_two, &&special_three
-    };
     void *object = object_input;
     s16 special;
     register u8 *item_slot ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
@@ -118,21 +113,25 @@ void func_80172A40(void *owner_input, EntityRec *motion_input, void *actor_input
 state_zero:
     if (((S_80172A40_1 *)object)->unk_1C & 0x2000) {
         slot_index = (((S_80172A40_1 *)object)->unk_46 & 0x3FFF) - 1;
-        if ((u32)slot_index >= 7U) {
+        switch (slot_index) {
+        case 0:
+            goto slot_one;
+        case 1:
+            goto slot_two;
+        case 2:
+            goto slot_three;
+        case 4:
+            special = 1;
+            goto slot_three;
+        case 5:
+            special = 1;
+            goto slot_two;
+        case 6:
+            special = 1;
+            goto slot_one;
+        default:
             goto slot_none;
         }
-        (void)slot_labels;
-        goto *(((void **)D_80170838)[slot_index]);
-
-special_one:
-        special = 1;
-        goto slot_three;
-special_two:
-        special = 1;
-        goto slot_two;
-special_three:
-        special = 1;
-        goto slot_one;
     }
 
     slot_kind = ((S_80172A40_1 *)object)->unk_46 & 0x3FFF;

@@ -80,7 +80,6 @@ extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *);
 extern void func_800A56E0(s32);
 extern void *memcpy(void *, const void *, u32);
-extern void *D_801649D0[];
 
 extern u8 D_8016E450[];
 extern u8 D_8016E4A4[];
@@ -110,18 +109,10 @@ void func_8016E4E8(void *animation, s32 *origin, void *color)
     u8 *src_coord;
     u8 *dst_coord;
     s32 state;
-    static void *const state_labels[] = {
-        &&jt_c0, &&jt_default, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4
-    };
 
     state = ((S_8016E4E8_0 *)animation)->unk_12.s;
-    if ((u32)state >= 6) {
-        goto common;
-    }
-    (void)state_labels;
-    goto *D_801649D0[(u32)state];
-
-jt_c0:
+    switch ((u32)state) {
+    case 0:
         ((S_8016E4E8_1 *)color)->unk_0C =
             (((S_8016E4E8_0 *)animation)->unk_00 * (50 - ((S_8016E4E8_0 *)animation)->unk_18.s)) / 10;
         ((S_8016E4E8_1 *)color)->unk_0D =
@@ -130,25 +121,25 @@ jt_c0:
             (((S_8016E4E8_0 *)animation)->unk_02 * (50 - ((S_8016E4E8_0 *)animation)->unk_18.s)) / 10;
         ((S_8016E4E8_0 *)animation)->unk_18.u--;
         if (((S_8016E4E8_0 *)animation)->unk_18.s >= 41) {
-            goto common;
+            break;
         }
         goto increment_state_reload;
 
-jt_c1:
+    case 2:
         ((S_8016E4E8_0 *)animation)->unk_18.u++;
         if (((S_8016E4E8_0 *)animation)->unk_18.s < 20) {
-            goto common;
+            break;
         }
         ((S_8016E4E8_0 *)animation)->unk_18.u = 0;
         ((S_8016E4E8_0 *)animation)->unk_12.u++;
-        goto common;
+        break;
 
-jt_c2:
+    case 3:
         ((S_8016E4E8_0 *)animation)->unk_18.u = 20;
         ((S_8016E4E8_0 *)animation)->unk_12.u++;
-        goto common;
+        break;
 
-jt_c3:
+    case 4:
         ((S_8016E4E8_0 *)animation)->unk_18.u--;
         ((S_8016E4E8_1 *)color)->unk_0C =
             (((S_8016E4E8_0 *)animation)->unk_00 * ((S_8016E4E8_0 *)animation)->unk_18.s) / 20;
@@ -157,21 +148,18 @@ jt_c3:
         ((S_8016E4E8_1 *)color)->unk_0E =
             (((S_8016E4E8_0 *)animation)->unk_02 * ((S_8016E4E8_0 *)animation)->unk_18.s) / 20;
         if (((S_8016E4E8_0 *)animation)->unk_18.s > 0) {
-            goto common;
+            break;
         }
 increment_state_reload:
         ((S_8016E4E8_0 *)animation)->unk_12.u++;
-        goto common;
+        break;
 
-jt_c4:
+    case 5:
         (*(u16 *)((u8 *)animation + -2)) |= 0x8000;
         objectFlagBlock.flags |= 0x8000;
         return;
+    }
 
-jt_default:
-    goto common;
-
-common:
     row = 0;
     one = 1;
     top_y = -0x20;
