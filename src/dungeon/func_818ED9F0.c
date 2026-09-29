@@ -23,16 +23,11 @@ typedef struct S_800251F0_1 {
 
 
 
-extern void *D_80024028[8];
 extern u8 D_80020000[];
 
 /* Advance object counters and animation values, and flag expiration. */
 void func_800251F0(void *object_ptr)
 {
-    static void *const state_labels[] = {
-        &&case_0, &&case_1, &&case_2, &&case_2,
-        &&case_2, &&case_2, &&case_2, &&case_2
-    };
     u8 *object_bytes;
     u16 remaining_ticks;
     s32 value_index;
@@ -66,30 +61,29 @@ counter_done:
         s32 state;
 
         state = *(s16 *)(object_bytes + 0x1E);
-        if ((u32)state >= 8) {
-            goto done;
+        switch (state) {
+        case 0:
+        case 1:
+        case 2:
+        case 4:
+        case 5:
+        case 6:
+            ((S_800251F0_0 *)object_bytes)->unk_1E++;
+            ((S_800251F0_0 *)object_bytes)->unk_28 += 0x10;
+            break;
+        case 3:
+            ((S_800251F0_0 *)object_bytes)->unk_1E++;
+            ((S_800251F0_0 *)object_bytes)->unk_28 -= 0x30;
+            ((S_800251F0_0 *)object_bytes)->unk_29 += 0x20;
+            break;
+        case 7:
+            ((S_800251F0_0 *)object_bytes)->unk_28 -= 0x30;
+            ((S_800251F0_0 *)object_bytes)->unk_29 -= 0x20;
+            ((S_800251F0_0 *)object_bytes)->unk_1E = 0;
+            break;
         }
-        (void)state_labels;
-        goto *D_80024028[(u32)state];
     }
 
-case_0:
-    ((S_800251F0_0 *)object_bytes)->unk_1E++;
-    ((S_800251F0_0 *)object_bytes)->unk_28 += 0x10;
-    goto done;
-
-case_1:
-    ((S_800251F0_0 *)object_bytes)->unk_1E++;
-    ((S_800251F0_0 *)object_bytes)->unk_28 -= 0x30;
-    ((S_800251F0_0 *)object_bytes)->unk_29 += 0x20;
-    goto done;
-
-case_2:
-    ((S_800251F0_0 *)object_bytes)->unk_28 -= 0x30;
-    ((S_800251F0_0 *)object_bytes)->unk_29 -= 0x20;
-    ((S_800251F0_0 *)object_bytes)->unk_1E = 0;
-
-done:
     if (((S_800251F0_0 *)object_bytes)->unk_02.u <= 0) {
         (*(u16 *)((u8 *)object_bytes + -2)) |= 0x8000;
         objectFlagBlock.flags |= 0x8000;

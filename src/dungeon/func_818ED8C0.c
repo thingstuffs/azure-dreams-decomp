@@ -25,12 +25,9 @@ typedef struct S_800250C0_1 {
 
 
 extern s16 D_80026428[];
-extern void *D_80024008[];
 
 /* Updates an effect's grayscale intensity and animation frame, marking it finished at the end of its lifetime. */
 void func_800250C0(void *effect, s32 age, S_800250C0_1 *color, s32 fade_ticks) {
-    static void *const jt_keep[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6, &&jt_c7 };
-    void **jump_table;
     s32 frame_count;
     s32 fade_scaled;
     s32 intensity;
@@ -52,29 +49,27 @@ set_intensity:
     color->unk_0C = (s8) intensity;
     frame_count = ((S_800250C0_0 *)((u8 *)effect - 0x2))->unk_20;
     ((S_800250C0_0 *)((u8 *)effect - 0x2))->unk_06 = (s16) ((u16) ((S_800250C0_0 *)((u8 *)effect - 0x2))->unk_06 + 1);
-    if ((u32) frame_count >= 8U) {
-        goto check_lifetime;
+    switch (frame_count) {
+    case 0:
+    case 1:
+    case 2:
+    case 4:
+    case 5:
+    case 6:
+        ((S_800250C0_0 *)((u8 *)effect - 0x2))->unk_20 = (s16) ((u16) ((S_800250C0_0 *)((u8 *)effect - 0x2))->unk_20 + 1);
+        ((S_800250C0_0 *)((u8 *)effect - 0x2))->unk_2A = (u8) (((S_800250C0_0 *)((u8 *)effect - 0x2))->unk_2A + 0x10);
+        break;
+    case 3:
+        ((S_800250C0_0 *)((u8 *)effect - 0x2))->unk_20 = (s16) ((u16) ((S_800250C0_0 *)((u8 *)effect - 0x2))->unk_20 + 1);
+        ((S_800250C0_0 *)((u8 *)effect - 0x2))->unk_2A = (u8) (((S_800250C0_0 *)((u8 *)effect - 0x2))->unk_2A - 0x30);
+        ((S_800250C0_0 *)((u8 *)effect - 0x2))->unk_2B = (u8) (((S_800250C0_0 *)((u8 *)effect - 0x2))->unk_2B + 0x20);
+        break;
+    case 7:
+        ((S_800250C0_0 *)((u8 *)effect - 0x2))->unk_20 = 0;
+        ((S_800250C0_0 *)((u8 *)effect - 0x2))->unk_2A = (u8) (((S_800250C0_0 *)((u8 *)effect - 0x2))->unk_2A - 0x30);
+        ((S_800250C0_0 *)((u8 *)effect - 0x2))->unk_2B = (u8) (((S_800250C0_0 *)((u8 *)effect - 0x2))->unk_2B - 0x20);
+        break;
     }
-    jump_table = D_80024008;
-    (void)jt_keep; goto *jump_table[(u32)(frame_count)];
-jt_c0:
-jt_c1:
-jt_c2:
-jt_c4:
-jt_c5:
-jt_c6:
-    ((S_800250C0_0 *)((u8 *)effect - 0x2))->unk_20 = (s16) ((u16) ((S_800250C0_0 *)((u8 *)effect - 0x2))->unk_20 + 1);
-    ((S_800250C0_0 *)((u8 *)effect - 0x2))->unk_2A = (u8) (((S_800250C0_0 *)((u8 *)effect - 0x2))->unk_2A + 0x10);
-    goto check_lifetime;
-jt_c3:
-    ((S_800250C0_0 *)((u8 *)effect - 0x2))->unk_20 = (s16) ((u16) ((S_800250C0_0 *)((u8 *)effect - 0x2))->unk_20 + 1);
-    ((S_800250C0_0 *)((u8 *)effect - 0x2))->unk_2A = (u8) (((S_800250C0_0 *)((u8 *)effect - 0x2))->unk_2A - 0x30);
-    ((S_800250C0_0 *)((u8 *)effect - 0x2))->unk_2B = (u8) (((S_800250C0_0 *)((u8 *)effect - 0x2))->unk_2B + 0x20);
-    goto check_lifetime;
-jt_c7:
-    ((S_800250C0_0 *)((u8 *)effect - 0x2))->unk_20 = 0;
-    ((S_800250C0_0 *)((u8 *)effect - 0x2))->unk_2A = (u8) (((S_800250C0_0 *)((u8 *)effect - 0x2))->unk_2A - 0x30);
-    ((S_800250C0_0 *)((u8 *)effect - 0x2))->unk_2B = (u8) (((S_800250C0_0 *)((u8 *)effect - 0x2))->unk_2B - 0x20);
 check_lifetime:
     if (((S_800250C0_0 *)((u8 *)effect - 0x2))->unk_06 < ((S_800250C0_0 *)((u8 *)effect - 0x2))->unk_04) {
         return;
