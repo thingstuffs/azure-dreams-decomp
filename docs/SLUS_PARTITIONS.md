@@ -375,3 +375,26 @@ prepares 12 of the current 21 GP rows. Nine GP rows remain beyond that prepared
 set: both collectors and seven CD-state rows. Its 891-word genuine proof includes
 only the moved 81550 setter from code, not the complete collector. No production
 dependency count changes from this selective private proof.
+
+## Jump-table (.rodata) owners
+
+Seven switch rows now own their compiler-emitted jump tables:
+w_80042BDC, w_8004CECC, w_800517CC, w_80052CE0, w_80054F9C, w_80057A94 and w_8005F134. See
+[rodata migration](evidence/slus_rodata_migration.md).
+
+- **Owner module.** Each row gets an owner module `jtbl_<row>` (wrapper `src/slus/<row>_jtbl_owned.c`)
+  whose data records carry `section: ".rodata"` over the retail `.rdata` blob `assets/800.bin`. The
+  existing asset carve places the owner's `.rodata` at the retail table address and drops the absolute
+  `jtbl_` symbol.
+- **Padding trim.** `tools/build/slus_rodata_trim.py` removes GNU as's section-end padding, which
+  ASPSX/psylink never emitted.
+- **Ownership proof.** `prove_slus_ownership` proves these owners through a `.rodata` branch: object
+  span, member-function relocations, map placement, relocation-resolved words, text reference, retail
+  bytes and the removed absolute. `aspsx_diff` resolves the table reference through the manifest VMA, so
+  the member records are direct genuine 2.79 exact with zero masks.
+- **Placement.** These are data-ownership units only. `certify_slus_module` refuses them for lack of a
+  shared header, and no L4 placement grant is made.
+- **Split ledger.** The logical split ledger is unchanged, with 884 rows. The seven physical TUs are
+  renamed to their owner objects.
+- **Scope limit.** A `data_pieces` module cannot yet also own `.rodata`. The cd_command_state member
+  w_8003E758 (`jtbl_8002D5C0`) needs that combination.

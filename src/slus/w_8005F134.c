@@ -32,8 +32,6 @@ typedef struct SpuVoiceAttr_ {
 typedef struct { volatile u16 *ptr; u32 pad2[2]; } S_80079958;
 extern S_80079958 D_80079958;
 extern u16 D_80079520[24];
-extern void *jtbl_8003327C[];
-extern void *jtbl_8003329C[];
 
 extern s16 func_8005F7D0(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_8005D598(s32 reg, u32 val);
@@ -45,25 +43,19 @@ void func_8005F134(SpuVoiceAttr_ *attr)
     u32 mask;
     s32 reg_base;
     s32 set_all;
-    register s32 left_volume ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    register s32 right_volume ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s32 left_volume;
+    s32 right_volume;
     s32 volume_mode;
     s32 env_mode;
-    register u16 env_value ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    u16 env_value;
     u16 adsr;
-    register u16 raw_volume ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it slus-diff; the source shape that makes it unnecessary has not been found */
+    u16 raw_volume;
     u16 sample_note;
     u16 note;
     s16 mode_offset;
     s32 mode_index;
-    static void *const volume_labels[] = {
-        &&L_vl_1, &&L_vl_2, &&L_vl_3, &&L_vl_4, &&L_vl_5, &&L_vl_6, &&L_vl_7,
-        &&L_vr_1, &&L_vr_2, &&L_vr_3, &&L_vr_4, &&L_vr_5, &&L_vr_6, &&L_vr_7
-    };
     volatile s32 delay_step;
     volatile s32 delay_value;
-
-    (void)volume_labels;
 
     mask = attr->mask;
     set_all = (mask == 0);
@@ -89,32 +81,31 @@ void func_8005F134(SpuVoiceAttr_ *attr)
                 if (set_all || (mask & 0x4)) {
                     mode_offset = attr->volmode.left - 1;
                     mode_index = mode_offset;
-                    if ((u32)mode_index >= 7) {
-                        goto L_vl_end;
+                    switch (mode_index) {
+                    case 0:
+                        volume_mode = 0x8000;
+                        break;
+                    case 1:
+                        volume_mode = 0x9000;
+                        break;
+                    case 2:
+                        volume_mode = 0xA000;
+                        break;
+                    case 3:
+                        volume_mode = 0xB000;
+                        break;
+                    case 4:
+                        volume_mode = 0xC000;
+                        break;
+                    case 5:
+                        volume_mode = 0xD000;
+                        break;
+                    case 6:
+                        volume_mode = 0xE000;
+                        break;
+                    default:
+                        break;
                     }
-                    goto *jtbl_8003327C[mode_index];
-L_vl_1:
-                    volume_mode = 0x8000;
-                    goto L_vl_end;
-L_vl_2:
-                    volume_mode = 0x9000;
-                    goto L_vl_end;
-L_vl_3:
-                    volume_mode = 0xA000;
-                    goto L_vl_end;
-L_vl_4:
-                    volume_mode = 0xB000;
-                    goto L_vl_end;
-L_vl_5:
-                    volume_mode = 0xC000;
-                    goto L_vl_end;
-L_vl_6:
-                    volume_mode = 0xD000;
-                    goto L_vl_end;
-L_vl_7:
-                    volume_mode = 0xE000;
-L_vl_end:
-                    ;
                 }
                 if (volume_mode != 0) {
                     if (attr->volume.left >= 0x80) {
@@ -132,32 +123,31 @@ L_vl_end:
                 if (set_all || (mask & 0x8)) {
                     mode_offset = attr->volmode.right - 1;
                     mode_index = mode_offset;
-                    if ((u32)mode_index >= 7) {
-                        goto L_vr_end;
+                    switch (mode_index) {
+                    case 0:
+                        volume_mode = 0x8000;
+                        break;
+                    case 1:
+                        volume_mode = 0x9000;
+                        break;
+                    case 2:
+                        volume_mode = 0xA000;
+                        break;
+                    case 3:
+                        volume_mode = 0xB000;
+                        break;
+                    case 4:
+                        volume_mode = 0xC000;
+                        break;
+                    case 5:
+                        volume_mode = 0xD000;
+                        break;
+                    case 6:
+                        volume_mode = 0xE000;
+                        break;
+                    default:
+                        break;
                     }
-                    goto *jtbl_8003329C[mode_index];
-L_vr_1:
-                    volume_mode = 0x8000;
-                    goto L_vr_end;
-L_vr_2:
-                    volume_mode = 0x9000;
-                    goto L_vr_end;
-L_vr_3:
-                    volume_mode = 0xA000;
-                    goto L_vr_end;
-L_vr_4:
-                    volume_mode = 0xB000;
-                    goto L_vr_end;
-L_vr_5:
-                    volume_mode = 0xC000;
-                    goto L_vr_end;
-L_vr_6:
-                    volume_mode = 0xD000;
-                    goto L_vr_end;
-L_vr_7:
-                    volume_mode = 0xE000;
-L_vr_end:
-                    ;
                 }
                 if (volume_mode != 0) {
                     if (attr->volume.right >= 0x80) {

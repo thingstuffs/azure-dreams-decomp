@@ -1,0 +1,218 @@
+{
+ "image_sha1": "e6bfbb95ff6676899e077481221d73ddd4d3bf52",
+ "image_equals_retail": true,
+ "owners": [
+  {
+   "module": "jtbl_80054F9C",
+   "member": "slus/w_80054F9C",
+   "object": "build/src/w_80054F9C_jtbl_owned.o",
+   "object_sha256": "15edac9f1167efea8da4ccabed6794bdc000273582749eab201a9125728e9694",
+   "records": [
+    {
+     "symbol": "jtbl_80032E14",
+     "vram": 2147692052,
+     "size": 144,
+     "offset": 24084
+    }
+   ],
+   "relocated_words": 36,
+   "align_pads": [],
+   "function_range": [
+    "0x80054f9c",
+    "0x8005500c"
+   ],
+   "checks": {
+    "object_size_is_span": true,
+    "relocs_all_R_MIPS_32_to_member_text": true,
+    "map_placement": true,
+    "bytes_equal_record_and_retail": true,
+    "table_words_inside_member_function": true,
+    "unrelocated_words_are_zero_align_pads": true,
+    "absolute_jtbl_removed": true
+   }
+  },
+  {
+   "module": "jtbl_80057A94",
+   "member": "slus/w_80057A94",
+   "object": "build/src/w_80057A94_jtbl_owned.o",
+   "object_sha256": "a953ece3f8f0f943b6d8c250bda0406def12c2481a555b83bec18058a6fde5e7",
+   "records": [
+    {
+     "symbol": "jtbl_80032EA4",
+     "vram": 2147692196,
+     "size": 92,
+     "offset": 24228
+    }
+   ],
+   "relocated_words": 23,
+   "align_pads": [],
+   "function_range": [
+    "0x80057a94",
+    "0x80057d20"
+   ],
+   "checks": {
+    "object_size_is_span": true,
+    "relocs_all_R_MIPS_32_to_member_text": true,
+    "map_placement": true,
+    "bytes_equal_record_and_retail": true,
+    "table_words_inside_member_function": true,
+    "unrelocated_words_are_zero_align_pads": true,
+    "absolute_jtbl_removed": true
+   }
+  },
+  {
+   "module": "jtbl_80052CE0",
+   "member": "slus/w_80052CE0",
+   "object": "build/src/w_80052CE0_jtbl_owned.o",
+   "object_sha256": "61211cc594919494abaa8fd7d7372748a69745a03a8a6f79dc201227be2c55c7",
+   "records": [
+    {
+     "symbol": "jtbl_8002EFF0",
+     "vram": 2147676144,
+     "size": 32,
+     "offset": 8176
+    }
+   ],
+   "relocated_words": 8,
+   "align_pads": [],
+   "function_range": [
+    "0x80052ce0",
+    "0x80052fe8"
+   ],
+   "checks": {
+    "object_size_is_span": true,
+    "relocs_all_R_MIPS_32_to_member_text": true,
+    "map_placement": true,
+    "bytes_equal_record_and_retail": true,
+    "table_words_inside_member_function": true,
+    "unrelocated_words_are_zero_align_pads": true,
+    "absolute_jtbl_removed": true
+   }
+  },
+  {
+   "module": "jtbl_800517CC",
+   "member": "slus/w_800517CC",
+   "object": "build/src/w_800517CC_jtbl_owned.o",
+   "object_sha256": "50252e39d89e8c6dd6963db2a753900be5e0238d634315e22c026f414a561bf4",
+   "records": [
+    {
+     "symbol": "jtbl_8002E964",
+     "vram": 2147674468,
+     "size": 32,
+     "offset": 6500
+    }
+   ],
+   "relocated_words": 8,
+   "align_pads": [],
+   "function_range": [
+    "0x800517cc",
+    "0x80051bfc"
+   ],
+   "checks": {
+    "object_size_is_span": true,
+    "relocs_all_R_MIPS_32_to_member_text": true,
+    "map_placement": true,
+    "bytes_equal_record_and_retail": true,
+    "table_words_inside_member_function": true,
+    "unrelocated_words_are_zero_align_pads": true,
+    "absolute_jtbl_removed": true
+   }
+  },
+  {
+   "module": "jtbl_8004CECC",
+   "member": "slus/w_8004CECC",
+   "object": "build/src/w_8004CECC_jtbl_owned.o",
+   "object_sha256": "e0445955047aab098335417ec56cbdac1edf791b85b25cd0a5e15fd79b0197b9",
+   "records": [
+    {
+     "symbol": "jtbl_8002E5F8",
+     "vram": 2147673592,
+     "size": 24,
+     "offset": 5624
+    }
+   ],
+   "relocated_words": 6,
+   "align_pads": [],
+   "function_range": [
+    "0x8004cecc",
+    "0x8004d064"
+   ],
+   "checks": {
+    "object_size_is_span": true,
+    "relocs_all_R_MIPS_32_to_member_text": true,
+    "map_placement": true,
+    "bytes_equal_record_and_retail": true,
+    "table_words_inside_member_function": true,
+    "unrelocated_words_are_zero_align_pads": true,
+    "absolute_jtbl_removed": true
+   }
+  },
+  {
+   "module": "jtbl_80042BDC",
+   "member": "slus/w_80042BDC",
+   "object": "build/src/w_80042BDC_jtbl_owned.o",
+   "object_sha256": "5509fe5e1adf0aedda344d2f8eccff5d2d89d9cde2f2b95ce67e475e6f1dc095",
+   "records": [
+    {
+     "symbol": "jtbl_8002D67C",
+     "vram": 2147669628,
+     "size": 128,
+     "offset": 1660
+    }
+   ],
+   "relocated_words": 32,
+   "align_pads": [],
+   "function_range": [
+    "0x80042bdc",
+    "0x80043458"
+   ],
+   "checks": {
+    "object_size_is_span": true,
+    "relocs_all_R_MIPS_32_to_member_text": true,
+    "map_placement": true,
+    "bytes_equal_record_and_retail": true,
+    "table_words_inside_member_function": true,
+    "unrelocated_words_are_zero_align_pads": true,
+    "absolute_jtbl_removed": true
+   }
+  },
+  {
+   "module": "jtbl_8005F134",
+   "member": "slus/w_8005F134",
+   "object": "build/src/w_8005F134_jtbl_owned.o",
+   "object_sha256": "d5f8c3df9047412130afb5c2ed5c6f8330e3f1ebeaf727555e309d01e01653e4",
+   "records": [
+    {
+     "symbol": "jtbl_8003327C",
+     "vram": 2147693180,
+     "size": 32,
+     "offset": 25212
+    },
+    {
+     "symbol": "jtbl_8003329C",
+     "vram": 2147693212,
+     "size": 28,
+     "offset": 25244
+    }
+   ],
+   "relocated_words": 14,
+   "align_pads": [
+    28
+   ],
+   "function_range": [
+    "0x8005f134",
+    "0x8005f740"
+   ],
+   "checks": {
+    "object_size_is_span": true,
+    "relocs_all_R_MIPS_32_to_member_text": true,
+    "map_placement": true,
+    "bytes_equal_record_and_retail": true,
+    "table_words_inside_member_function": true,
+    "unrelocated_words_are_zero_align_pads": true,
+    "absolute_jtbl_removed": true
+   }
+  }
+ ],
+ "result": "PROVEN"
+}

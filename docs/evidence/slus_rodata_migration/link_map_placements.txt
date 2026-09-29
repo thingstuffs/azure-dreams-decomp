@@ -1,0 +1,7 @@
+ .rodata        0x8002d67c       0x80 build/src/w_80042BDC_jtbl_owned.o
+ .rodata        0x8002e5f8       0x18 build/src/w_8004CECC_jtbl_owned.o
+ .rodata        0x8002e964       0x20 build/src/w_800517CC_jtbl_owned.o
+ .rodata        0x8002eff0       0x20 build/src/w_80052CE0_jtbl_owned.o
+ .rodata        0x80032e14       0x90 build/src/w_80054F9C_jtbl_owned.o
+ .rodata        0x80032ea4       0x5c build/src/w_80057A94_jtbl_owned.o
+ .rodata        0x8003327c       0x3c build/src/w_8005F134_jtbl_owned.o

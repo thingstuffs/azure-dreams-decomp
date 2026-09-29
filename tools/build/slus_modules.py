@@ -87,7 +87,7 @@ def _data_record(datum, where):
     if not isinstance(raw, str) or not re.fullmatch(r"[0-9A-Fa-f]+", raw) or len(raw) != 2 * size:
         raise ModuleError(f"{where}: bytes must encode exactly size bytes")
     section = datum["section"]
-    if not isinstance(section, str) or not re.fullmatch(r"\.(?:sdata|sbss)(?:\.[A-Za-z_][A-Za-z0-9_]*)?", section):
+    if not isinstance(section, str) or not re.fullmatch(r"\.(?:sdata|sbss)(?:\.[A-Za-z_][A-Za-z0-9_]*)?|\.rodata", section):
         raise ModuleError(f"{where}: unsupported data section {section!r}")
     if section.startswith(".sbss") and any(bytes.fromhex(raw)):
         raise ModuleError(f"{where}: .sbss storage must be zero")
@@ -315,7 +315,7 @@ def data_sections(module) -> dict[str, list[dict]]:
             raise ModuleError(f"{module['name']}: duplicate data symbol {datum['symbol']}")
         seen_symbols.add(datum["symbol"])
         section = datum["section"]
-        if section not in ((".sdata", ".sbss") if not pieces else named):
+        if section not in ((".sdata", ".sbss", ".rodata") if not pieces else named | {".rodata"}):
             raise ModuleError(f"{module['name']}: unsupported data section {section!r}")
         sections.setdefault(section, []).append(raw)
     for section, records in sections.items():

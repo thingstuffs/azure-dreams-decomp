@@ -1,0 +1,1 @@
+{"specs": ["w_8004CECC:8002E5F8"], "rows": [{"row": "w_8004CECC", "recipe": {"ccver": "2.7.2-cdk", "ccflags": "", "asflags": ""}, "rodata_section": 24, "rodata_owned": 24, "tables": [{"symbol": "jtbl_8002E5F8", "offset": 5624, "size": 24, "vram": 2147673592}]}], "result": "MATCH", "placement": {"w_8004CECC_jtbl_owned": {"vma": "8002e5f8", "size": 24}}, "map_elf_identical": true}

@@ -180,13 +180,119 @@ def symbols(path, wanted):
     return found
 
 
-def prove_data(module, parsed_obj, linked_nm, image):
-    """Verify real section storage, including zero-filled NOBITS, and linked bytes."""
+RDATA_VMA, RDATA_FILE = 0x8002D000, 0x800
+
+
+def rodata_placement(link_map, obj_rel):
+    """(VMA, size) of one owner object's .rodata input section in an ld -Map listing, or None."""
+    import re
+    found = re.findall(r'^ \.rodata\s+0x([0-9a-f]+)\s+0x([0-9a-f]+) ' + re.escape(obj_rel) + r'$', link_map, re.M)
+    if len(found) > 1:
+        raise ValueError('ambiguous .rodata placement: ' + obj_rel)
+    return (int(found[0][0], 16), int(found[0][1], 16)) if found else None
+
+
+def prove_rodata(module, records, parsed_obj, linked_nm, image, undefined_syms, placement):
+    """A compiler-emitted jump-table owner (docs/evidence/slus_rodata_migration.md).
+
+    The table is a compiler-local label and its object bytes are unrelocated, so the
+    initialized-data proof does not apply.  Instead: the object's .rodata is exactly the owned
+    span with no symbol; every relocation is R_MIPS_32 into one of the member functions (within
+    its extent) and every other word is .align 3 zero padding; the linker map places the section
+    at the first record's VMA; the owner's own text addresses its table there (HI16/LO16 against
+    .rodata, resolved from the linked image); each relocated word, recomputed from the linked
+    function address plus its addend, equals the image word; the image bytes equal the retail
+    record bytes; and the absolute jtbl_ assignment is gone, with no linked symbol of that name.
+    """
+    name = module['name']
+    funcs = {f for member in module['members'] for f in member['functions']}
+    base = records[0]['vram']
+    span = records[-1]['vram'] + records[-1]['size'] - base
+    body = parsed_obj.sections.get('.rodata')
+    if body is None or len(body) != span:
+        raise ValueError('owner .rodata size differs from the owned span: ' + name)
+    if any(sym[0] == '.rodata' for sym in parsed_obj.symbols.values()):
+        raise ValueError('owner .rodata defines a symbol; expected a compiler-local table: ' + name)
+    for datum in records:
+        symbol = datum['symbol']
+        if symbol in linked_nm or any(line.split('=')[0].strip() == symbol
+                                      for line in undefined_syms.splitlines() if '=' in line):
+            raise ValueError('absolute or linked table symbol survives: ' + symbol)
+    table = {}
+    for section, offset, rtype, target, addend in parsed_obj.relocs:
+        if section != '.rodata':
+            continue
+        func = target[1][len('.text.'):] if target[0] == 'sec' and target[1].startswith('.text.') else None
+        extent = parsed_obj.symbols.get(func) if func else None
+        if (rtype != '32' or func not in funcs or offset % 4 or offset in table
+                or not extent or not 0 <= addend - extent[1] < extent[3]):
+            raise ValueError(f'owner .rodata+{offset:#x} is not a table word into a member function: {name}')
+        table[offset] = (func, addend - extent[1])
+    if 0 not in table:
+        raise ValueError('owner .rodata does not start with a table word: ' + name)
+    for word in range(0, span, 4):
+        if word in table:
+            continue
+        following = [o for o in table if o > word]
+        if body[word:word + 4] != bytes(4) or not following or min(following) % 8 or min(following) - word > 4:
+            raise ValueError(f'unrelocated word at .rodata+{word:#x} is not .align 3 padding: {name}')
+    if placement != (base, span):
+        raise ValueError('linker map placement differs from the owned VMA/span: ' + name + ' ' + str(placement))
+    image_at = lambda vma: base_foff + (vma - base)
+    base_foff = base - RDATA_VMA + RDATA_FILE
+    resolved = 0
+    for offset, (func, delta) in sorted(table.items()):
+        got = int.from_bytes(image[image_at(base + offset):image_at(base + offset) + 4], 'little')
+        entry = linked_nm.get(func)
+        if not entry or got != entry['address'] + delta:
+            raise ValueError(f'linked table word .rodata+{offset:#x} does not resolve into {func}: {name}')
+        resolved += 1
+    refs = 0
+    for section, offset, rtype, target, addend in parsed_obj.relocs:
+        if target != ('sec', '.rodata') or rtype != 'HI16' or not section.startswith('.text.'):
+            continue
+        func = section[len('.text.'):]
+        los = [r for r in parsed_obj.relocs if r[0] == section and r[2] == 'LO16'
+               and r[3] == ('sec', '.rodata') and r[1] > offset]
+        if func not in funcs or func not in linked_nm or not los:
+            raise ValueError('unpaired or foreign table reference: ' + section)
+        lo_off = min(r[1] for r in los)
+        text = linked_nm[func]['address'] - RDATA_VMA + RDATA_FILE
+        hi = int.from_bytes(image[text + offset:text + offset + 4], 'little') & 0xFFFF
+        lo = int.from_bytes(image[text + lo_off:text + lo_off + 4], 'little') & 0xFFFF
+        value = ((hi << 16) + (lo - 0x10000 if lo & 0x8000 else lo)) & 0xFFFFFFFF
+        if (value - addend) & 0xFFFFFFFF != base:
+            raise ValueError(f'{func} addresses its table at {(value - addend) & 0xFFFFFFFF:#x}, not {base:#x}')
+        refs += 1
+    if not refs:
+        raise ValueError('no member function addresses the owned table: ' + name)
+    proofs = []
+    for datum in records:
+        foff = int(Path(datum['asset']).stem, 16) + datum['offset']
+        if image[foff:foff + datum['size']] != bytes.fromhex(datum['bytes']):
+            raise ValueError('linked table bytes differ: ' + datum['symbol'])
+        proofs.append(dict(datum, object_offset=datum['vram'] - base, object_binding='compiler-local'))
+    return {'size': span, 'bytes': body.hex(), 'symbols': proofs, 'placement': [base, span],
+            'table_words': resolved, 'align_pads': [w for w in range(0, span, 4) if w not in table],
+            'text_references': refs}
+
+
+def prove_data(module, parsed_obj, linked_nm, image, rodata=None):
+    """Verify real section storage, including zero-filled NOBITS, and linked bytes.
+
+    `rodata` = {'undefined_syms': text, 'placement': (VMA, size) or None} for a jump-table owner.
+    """
     groups = data_sections(module)
     if not groups:
         raise ValueError('module has no owned data: ' + module['name'])
     sections = {}
     for section, records in groups.items():
+        if section == '.rodata':
+            if rodata is None:
+                raise ValueError('a .rodata owner requires link context: ' + module['name'])
+            sections[section] = prove_rodata(module, records, parsed_obj, linked_nm, image,
+                                             rodata['undefined_syms'], rodata['placement'])
+            continue
         actual = parsed_obj.sections.get(section)
         expected = b''.join(bytes.fromhex(d['bytes']) for d in records)
         if actual != expected:
@@ -211,6 +317,19 @@ def prove_data(module, parsed_obj, linked_nm, image):
             offset += datum['size']
         sections[section] = {'size': len(actual), 'bytes': actual.hex(), 'symbols': proofs}
     return {'sections': sections}
+
+
+def rodata_link_map(dest):
+    """Relink the calibrated view with -Map (same command, side output); the ELF must not change."""
+    command = subprocess.check_output(['ninja', '-t', 'commands', 'build/slus_006.14.elf'], cwd=dest,
+                                      text=True).strip().splitlines()[-1]
+    if ' -o build/slus_006.14.elf ' not in command + ' ':
+        raise ValueError('unexpected link command: ' + command)
+    probe = command.replace('-o build/slus_006.14.elf', '-o build/ownership_map.elf -Map build/ownership.map')
+    subprocess.run(probe, shell=True, cwd=dest, check=True)
+    if (dest / 'build/ownership_map.elf').read_bytes() != (dest / 'build/slus_006.14.elf').read_bytes():
+        raise ValueError('map relink differs from the gated ELF')
+    return (dest / 'build/ownership.map').read_text()
 
 
 def prove(names, compiler_model_rows=()):
@@ -246,7 +365,13 @@ def prove(names, compiler_model_rows=()):
             raise ValueError('generated recipe differs from the pinned build')
         image = (view.dest / 'build/slus_006.14').read_bytes()
         wanted = {d['symbol'] for m in selected for d in m['data']}
+        owners = [m for m in selected if any(d['section'] == '.rodata' for d in m['data'])]
+        # A jump-table owner is proven through its member functions' linked addresses.
+        wanted |= {f for m in owners for member in m['members'] for f in member['functions']}
         linked = symbols(view.dest / 'build/slus_006.14.elf', wanted)
+        link_map = rodata_link_map(view.dest) if owners else ''
+        undefined_syms = ((view.dest / 'build/slus_006.14.undefined_syms.modules.txt').read_text()
+                          if owners else '')
         for module in selected:
             obj = view.dest / 'build' / Path(module['source']).with_suffix('.o')
             # Reject ambiguous object names before the reader's keyed symbol
@@ -255,7 +380,11 @@ def prove(names, compiler_model_rows=()):
             # The ELF reader materializes NOBITS from its recorded section size,
             # so an absent section cannot pass as a zero-length binary dump.
             parsed = A.read_elf(obj.read_bytes())
-            data[module['name']] = prove_data(module, parsed, linked, image)
+            context = None
+            if module in owners:
+                context = {'undefined_syms': undefined_syms,
+                           'placement': rodata_placement(link_map, str(obj.relative_to(view.dest)))}
+            data[module['name']] = prove_data(module, parsed, linked, image, rodata=context)
             if module.get('data_pieces'):
                 from slus_data_pieces import verify_data_pieces
                 data[module['name']]['transformation'] = verify_data_pieces(obj, module)

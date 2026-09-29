@@ -92,7 +92,7 @@ def tool_fingerprint() -> str:
              ROOT / "tools/maspsx/maspsx.py", ROOT / "tools/maspsx/maspsx/__init__.py",
              ROOT / "tools/verify.py", ROOT / "tools/build/ccproc.py", ROOT / "config/names.tsv",
              ROOT / "tools/slus_module_context.py", ROOT / "tools/build/slus_modules.py",
-             ROOT / "tools/build/slus_data_pieces.py",
+             ROOT / "tools/build/slus_data_pieces.py", ROOT / "tools/build/slus_rodata_trim.py",
              HERE / "slus_iso.py", ROOT / "tools/build/slus_partitions.py",
              ROOT / "tools/row_db.py", ROOT / "tools/build/mk_slus_root.sh",
              ROOT / "tools/slus_module_evidence.py", HERE / "certify_slus_module.py", HERE / "prove_slus_ownership.py",
@@ -543,10 +543,12 @@ def slus_image():
 NAME_ADDR = re.compile(r"^(?:func|D|jtbl|jumptable|w)_([0-9A-Fa-f]{8})$")
 
 
-def resolve_tokens(view, fname, base, addr_of, gp, slice_base=None, layout=None):
+def resolve_tokens(view, fname, base, addr_of, gp, slice_base=None, layout=None, section_anchors=None):
     """Resolve a function's tokens into linked words; (words, masked_indices).  `base` is the
     function symbol's address; `layout` ({function: unit offset}, with `slice_base` the unit's
-    address) places the other pieces of a composite/bank unit."""
+    address) places the other pieces of a composite/bank unit.  `section_anchors` ({section:
+    VMA}) places a symbol-less owned section - a jump-table owner's .rodata at its manifest
+    address (rodata_anchors); a named-symbol anchor, when present, must agree with it."""
     out, masked = [], []
     layout = layout or {}
     section_bases = {}
@@ -573,7 +575,9 @@ def resolve_tokens(view, fname, base, addr_of, gp, slice_base=None, layout=None)
             # Initialized TU-owned data is canonicalized by section offset.
             # Recover its base only from agreeing named symbols in the gated
             # link; absent or conflicting anchors remain explicitly masked.
-            bases = section_bases.get(name, set())
+            bases = set(section_bases.get(name, set()))
+            if section_anchors and name in section_anchors:
+                bases.add(section_anchors[name])
             if len(bases) == 1:
                 val = next(iter(bases)) + a
         if val is None:
@@ -593,7 +597,13 @@ def resolve_tokens(view, fname, base, addr_of, gp, slice_base=None, layout=None)
     return out, masked
 
 
-def retail_compare(view, scope, kind, overlay_ctx=None):
+def rodata_anchors(module):
+    """{".rodata": VMA} for a jump-table owner module (config/slus_modules.json .rodata records)."""
+    records = [d for d in (module or {}).get("data", []) if d.get("section") == ".rodata"]
+    return {".rodata": records[0]["vram"]} if records else None
+
+
+def retail_compare(view, scope, kind, overlay_ctx=None, section_anchors=None):
     """Resolve `scope` functions against RETAIL words directly. -> {"diff", "masked", "checked"}."""
     diff = masked = checked = 0
     if kind == "slus":
@@ -604,7 +614,7 @@ def retail_compare(view, scope, kind, overlay_ctx=None):
             base = addrs.get(f)
             if base is None or f not in view.funcs:
                 continue
-            words, mk = resolve_tokens(view, f, base, addr_of, gp)
+            words, mk = resolve_tokens(view, f, base, addr_of, gp, section_anchors=section_anchors)
             off = base - load + 0x800
             ret = [struct.unpack_from("<I", data, off + 4 * i)[0] for i in range(len(words))]
             d = sum(1 for i, (x, y) in enumerate(zip(words, ret)) if x != y and i not in mk)
@@ -924,7 +934,9 @@ def _measure_context(row, ctx, td, module_before, rec, scope=None, expected_func
                 (g & ~FIELD.get(t[1], 0) & 0xFFFFFFFF) == t[0] if t[1] else g == t[0] for g, t in zip(gw, toks))
     rec["funcs"] = len(scope)
     rec["words"] = sum(len(mv.tokens(f)) for f in scope)
-    rec["maspsx_retail"] = retail_compare(mv, scope, ctx["kind"], ctx if ctx["kind"] == "overlay" else None)
+    anchors = rodata_anchors(module) if ctx["kind"] == "slus" else None
+    rec["maspsx_retail"] = retail_compare(mv, scope, ctx["kind"], ctx if ctx["kind"] == "overlay" else None,
+                                          section_anchors=anchors)
     if expected_functions is not None:
         rec["maspsx_physical_retail"] = retail_compare(mv, expected_functions, "slus")
     mr = rec["maspsx_retail"]
@@ -966,7 +978,8 @@ def _measure_context(row, ctx, td, module_before, rec, scope=None, expected_func
                 cand["missing"] = c["missing"][:3]
             if gv.obj.unknown:
                 cand["lnk_unknown"] = gv.obj.unknown[:2]
-            rc = retail_compare(gv, scope, ctx["kind"], ctx if ctx["kind"] == "overlay" else None)
+            rc = retail_compare(gv, scope, ctx["kind"], ctx if ctx["kind"] == "overlay" else None,
+                                section_anchors=anchors)
             cand["retail"] = [rc["diff"], rc["masked"]]                 # direct, positional: [differing, masked]
             if expected_functions is not None:
                 cand["retail_checked"] = rc["checked"]
