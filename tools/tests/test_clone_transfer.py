@@ -249,5 +249,94 @@ class ReplayV2(unittest.TestCase):
         self.assertEqual(cands[0][1]["aligner"], "v2")
 
 
+GOTO_BASE = "void f(void)\n{\n    ASM_KEEP(x);\n    if (a) goto L1;\n    b();\nL1:\n    if (c) goto L1;\n}\n"
+GOTO_LESS = GOTO_BASE.replace("    if (c) goto L1;\n", "    /* goto L1; in a comment */\n")
+GOTO_MORE = GOTO_BASE + "void g(void)\n{\n    goto L2;\nL2:\n    return;\n}\n"
+GOTO_LESS_PINS = GOTO_LESS.replace("    ASM_KEEP(x);\n", "")
+GOTO_LESS_MOREPINS = GOTO_LESS.replace("    b();\n", "    b();\n    ASM_KEEP(y);\n")
+
+
+class GotoMetric(unittest.TestCase):
+    """Round 80: --metric gotos (pins stay the default and behave as before)."""
+
+    def setUp(self):
+        import tempfile
+        from pathlib import Path
+        self.P = Path
+        self.td = tempfile.TemporaryDirectory()
+        self.addCleanup(self.td.cleanup)
+        self.saved = (C.ROOT, C.rows, C.clean_path)
+        C.ROOT, C.rows = Path(self.td.name), lambda: []
+        self.addCleanup(lambda: (setattr(C, "ROOT", self.saved[0]), setattr(C, "rows", self.saved[1]),
+                                 setattr(C, "clean_path", self.saved[2])))
+
+    def lane(self, name, base, out):
+        d = self.P(self.td.name) / "work/native_lane" / name
+        for sub, t in (("base", base), ("out", out)):
+            (d / sub / "town").mkdir(parents=True, exist_ok=True)
+            (d / sub / "town" / "func_1.c").write_text(t)
+        return name
+
+    def exemplars(self, base, out, metric):
+        return C.load_exemplars((self.lane("l_" + str(abs(hash((base, out)))), base, out),), metric=metric)
+
+    def test_keys(self):
+        m = C.Metric("gotos")
+        self.assertEqual(m.key(GOTO_BASE), (1, 2))          # comment goto ignored below
+        self.assertEqual(m.key(GOTO_LESS), (1, 1))
+        self.assertEqual(C.PINS.key(GOTO_BASE), 1)
+
+    def test_equal_pins_fewer_gotos_qualifies(self):
+        g = C.Metric("gotos")
+        self.assertEqual(len(self.exemplars(GOTO_BASE, GOTO_LESS, g)), 1)
+        self.assertEqual(len(self.exemplars(GOTO_BASE, GOTO_LESS_PINS, g)), 1)   # fewer pins too
+        ex = self.exemplars(GOTO_BASE, GOTO_LESS, g)[0]
+        self.assertEqual((ex["gotos_in"], ex["gotos_out"]), (2, 1))
+
+    def test_more_gotos_or_more_pins_does_not_qualify(self):
+        g = C.Metric("gotos")
+        self.assertFalse(self.exemplars(GOTO_LESS, GOTO_BASE, g))                # more gotos
+        self.assertFalse(self.exemplars(GOTO_BASE, GOTO_BASE, g))                # equal gotos
+        self.assertFalse(self.exemplars(GOTO_BASE, GOTO_LESS_MOREPINS, g))       # more pins
+        self.assertFalse(self.exemplars(GOTO_BASE, GOTO_MORE, g))
+
+    def test_default_exemplars_are_pin_only(self):
+        # pins metric: equal pins with fewer gotos is NOT an exemplar; fewer pins is, gotos or not
+        self.assertFalse(self.exemplars(GOTO_BASE, GOTO_LESS, C.PINS))
+        self.assertEqual(len(self.exemplars(GOTO_BASE, GOTO_LESS_PINS, C.PINS)), 1)
+        self.assertEqual(len(self.exemplars(OUT, BASE, C.PINS)), 0)
+        self.assertEqual(len(self.exemplars(BASE, OUT, C.PINS)), 1)
+
+    def test_sibling_selection(self):
+        root = self.P(self.td.name)
+        texts = {"pinned_goto": GOTO_BASE, "free_goto": GOTO_LESS_PINS.replace("/* goto L1; in a comment */",
+                                                                              "goto L1;"),
+                 "pinned_only": "void h(void)\n{\n    ASM_KEEP(x);\n}\n", "clean": "void k(void)\n{\n}\n"}
+        rws = []
+        for n, t in texts.items():
+            (root / (n + ".c")).write_text(t)
+            rws.append({"id": "town/" + n, "container": "town", "_p": root / (n + ".c")})
+        C.rows = lambda: rws
+        C.clean_path = lambda r: r["_p"]
+        got = lambda m: sorted(r["id"] for r, _ in C.pinned_index(("town",), metric=m))
+        self.assertEqual(got(C.Metric("gotos")), ["town/free_goto", "town/pinned_goto"])
+        self.assertEqual(got(C.PINS), ["town/pinned_goto", "town/pinned_only"])
+        self.assertEqual([r["id"] for r, _ in C.pinned_index(("town",))], ["town/pinned_goto", "town/pinned_only"])
+
+    def test_improves_and_covers(self):
+        g = C.Metric("gotos")
+        self.assertTrue(g.improves((2, 1), (2, 2)))
+        self.assertFalse(g.improves((1, 2), (2, 2)))         # fewer pins alone is not a goto gain
+        self.assertFalse(g.improves((3, 1), (2, 2)))
+        self.assertTrue(C.PINS.improves(1, 2) and not C.PINS.improves(2, 2))
+        self.assertTrue(g.covers((2, 2), (2, 2)) and not g.covers((2, 3), (2, 2)))
+        self.assertTrue(g.work(GOTO_BASE) and not g.work(GOTO_LESS_PINS.replace("goto", "")))
+        self.assertTrue(C.PINS.work(GOTO_BASE) and not C.PINS.work(GOTO_LESS_PINS))
+
+    def test_journal_fields(self):
+        self.assertEqual(C.PINS.fields(GOTO_BASE, "in"), {"pins_in": 1})
+        self.assertEqual(C.Metric("gotos").fields(GOTO_BASE, "in"), {"pins_in": 1, "gotos_in": 2})
+
+
 if __name__ == "__main__":
     unittest.main()

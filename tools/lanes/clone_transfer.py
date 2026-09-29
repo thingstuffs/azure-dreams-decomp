@@ -39,6 +39,16 @@ COMPOSED: after an exact, the remaining exemplars re-run on the new text (--no-c
 tools/lanes/clone_families.py): a less-pinned member is the best exemplar a family has.  The JUDGE
 is unchanged.
 
+ROUND 80 (--metric pins|gotos, default pins = everything above).  The same replay serves GOTO
+READABILITY rewrites: with --metric gotos an exemplar qualifies when its out has the same or fewer pin
+sites and strictly fewer plain gotos than its base (lanekit.kitlib.goto_count), the siblings are every
+row that still contains a plain goto (pinned or not), a staged result must not raise the sibling's pins
+and must lose gotos, and composing goes on while the sibling has gotos.  One `Metric` carries the
+comparison (key, improves, covers, work) so both metrics share every code path; journal records name
+the metric and carry gotos_in/gotos_out; the default lane is r79_clone_goto so a goto run never
+mixes into a pin transfer's journal or staged out/.
+
+    python3 tools/lanes/clone_transfer.py --metric gotos --workers 4      # goto rewrites -> r79_clone_goto
     python3 tools/lanes/clone_transfer.py --families                 # who is a clone of whom
     python3 tools/lanes/clone_transfer.py --lane r76_clones --lanes-glob 'r5*,r6*,r7*' \
         --transplant ledger/clone_families.jsonl --max-exemplars-per-sibling 12 --workers 12
@@ -62,9 +72,46 @@ from concurrent.futures import ThreadPoolExecutor
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools"))
 sys.path.insert(0, str(ROOT / "tools/xform"))
+sys.path.insert(0, str(ROOT / "tools/lanes/lanekit"))
 
 from common import rows, clean_path, sha_text  # noqa: E402
 from pin_census import sites_of, unscored_text  # noqa: E402
+from kitlib import goto_count  # noqa: E402
+
+
+class Metric:
+    """What 'better' means for a transfer.  `pins`: fewer pin sites (rounds 65-79).  `gotos` (round 80):
+    pins not above and strictly fewer plain gotos.  key(text) is an int (pins) or (pins, gotos)."""
+
+    def __init__(self, name="pins"):
+        assert name in ("pins", "gotos"), name
+        self.name = name
+
+    def key(self, text):
+        p = len(sites_of(text))
+        return p if self.name == "pins" else (p, goto_count(text))
+
+    def improves(self, new, old):
+        """`new` key is a real improvement on `old` (an exemplar's out on its base, a candidate on its sibling)."""
+        if self.name == "pins":
+            return new < old
+        return new[0] <= old[0] and new[1] < old[1]
+
+    def covers(self, new, old):
+        """`new` is at least as good as `old` on every counted axis (src/ has 'superseded' an exemplar)."""
+        return new <= old if self.name == "pins" else (new[0] <= old[0] and new[1] <= old[1])
+
+    def work(self, text):
+        """True while `text` still has something this metric can remove (composing continues)."""
+        return bool(sites_of(text)) if self.name == "pins" else goto_count(text) > 0
+
+    def fields(self, text, suffix):
+        """Journal fields for one text: pins_<suffix> always, gotos_<suffix> under the gotos metric."""
+        k = self.key(text)
+        return {f"pins_{suffix}": k} if self.name == "pins" else {f"pins_{suffix}": k[0], f"gotos_{suffix}": k[1]}
+
+
+PINS = Metric("pins")
 
 # The model lanes harvested for exemplars (a lane needs both base/ and out/).
 LANES = (
@@ -621,9 +668,9 @@ def candidates_v2(base: Doc, out: Doc, sib: Doc, max_candidates: int = 12):
 # ---------------------------------------------------------------------------------------------
 # exemplars and siblings
 
-def load_exemplars(lanes=LANES, verbose=False):
-    """[(lane, row_id, base Doc, out Doc, pins_in, pins_out)] for every pair whose out text has
-    fewer pin sites than its base."""
+def load_exemplars(lanes=LANES, verbose=False, metric=PINS):
+    """[(lane, row_id, base Doc, out Doc, pins_in, pins_out)] for every pair whose out text improves
+    on its base under `metric` (pins: fewer pin sites; gotos: no more pins and fewer gotos)."""
     out, seen = [], set()
     for lane in lanes:
         d = ROOT / "work/native_lane" / lane
@@ -637,23 +684,27 @@ def load_exemplars(lanes=LANES, verbose=False):
                 continue
             bt = b.read_text(errors="replace")
             ot = f.read_text(errors="replace")
-            pin, pout = len(sites_of(bt)), len(sites_of(ot))
-            if pout >= pin or len(rel.parts) != 2:
+            kin, kout = metric.key(bt), metric.key(ot)
+            if not metric.improves(kout, kin) or len(rel.parts) != 2:
                 continue
+            pin, pout = len(sites_of(bt)), len(sites_of(ot))
             rid = str(rel)[:-2]                       # <container>/<name>
             key = (rid, sha_text(bt), sha_text(ot))
             if key in seen:
                 continue                              # the same move from another lane
             seen.add(key)
-            out.append({"lane": lane, "id": rid, "base": Doc(rid, bt), "out": Doc(rid, ot),
-                        "pins_in": pin, "pins_out": pout, "proof": exemplar_proof(rid, ot, pout)})
+            ex = {"lane": lane, "id": rid, "base": Doc(rid, bt), "out": Doc(rid, ot),
+                  "pins_in": pin, "pins_out": pout, "proof": exemplar_proof(rid, ot, kout, metric)}
+            if metric.name != "pins":
+                ex.update(gotos_in=kin[1], gotos_out=kout[1])
+            out.append(ex)
     return out
 
 
 _SRC = {}
 
 
-def exemplar_proof(rid, out_text, pins_out):
+def exemplar_proof(rid, out_text, key_out, metric=PINS):
     """How far an exemplar's out text is known to be byte-exact: 'landed' (src/ holds exactly this
     text), 'superseded' (src/ has since reached as few pins or fewer), else 'unproven' (a model
     lane's out/ is its best attempt, not proof).  Proven exemplars are tried first."""
@@ -666,7 +717,7 @@ def exemplar_proof(rid, out_text, pins_out):
     t = clean_path(r).read_text(errors="replace")
     if t == out_text:
         return "landed"
-    return "superseded" if len(sites_of(t)) <= pins_out else "unproven"
+    return "superseded" if metric.covers(metric.key(t), key_out) else "unproven"
 
 
 PROOF_RANK = {"landed": 0, "superseded": 1, "unproven": 2}
@@ -682,8 +733,9 @@ def lanes_matching(globs):
     return out
 
 
-def pinned_index(containers=("town", "dungeon", "main", "slus")):
-    """[(row, Doc)] for every currently pinned row of those containers."""
+def pinned_index(containers=("town", "dungeon", "main", "slus"), metric=PINS):
+    """[(row, Doc)] for every row of those containers with something `metric` can remove (pins: a
+    pinned row; gotos: a row with a plain goto, pinned or not)."""
     out = []
     for r in rows():
         if r["container"] not in containers:
@@ -692,7 +744,7 @@ def pinned_index(containers=("town", "dungeon", "main", "slus")):
         if not p.exists():
             continue
         t = p.read_text(errors="replace")
-        if not sites_of(t):
+        if not metric.work(t):
             continue
         out.append((r, Doc(r["id"], t)))
     return out
@@ -791,12 +843,13 @@ def scaffold_grew(cand, cur):
 class Judge:
     """screen.compile_s against the sibling's pinned listing, then the byte scorer."""
 
-    def __init__(self, max_verify=4, do_verify=True):
+    def __init__(self, max_verify=4, do_verify=True, metric=PINS):
         import screen
         from verify import verify
         self.screen = screen
         self.verify = verify
         self.max_verify = max_verify
+        self.metric = metric
         self.do_verify = do_verify
         self._pinned = {}
         self._lock = threading.Lock()
@@ -818,10 +871,15 @@ class Judge:
             p.write_text(text)
             return self.verify(row, p, include_root=ROOT / "include")
 
+    def _out(self, key):
+        """Journal fields of a candidate's key (the value stored in `scored`)."""
+        return {"pins_out": key} if self.metric.name == "pins" else {"pins_out": key[0], "gotos_out": key[1]}
+
     def run(self, row, sib_text, cands, budget=None):
         """(exact text|None, record dict).  `budget` is the scorer runs already spent on the row."""
         sig = unscored_text(sib_text)
-        pins_in = len(sites_of(sib_text))
+        m = self.metric
+        key_in = m.key(sib_text)
         base_listing = self.pinned_listing(row, sib_text)
         scored = []
         notes = collections.Counter()
@@ -831,9 +889,9 @@ class Judge:
             if unscored_text(text) != sig:
                 notes["edits an unscored arm"] += 1
                 continue
-            pins_out = len(sites_of(text))
-            if pins_out >= pins_in:
-                notes["no pin removed"] += 1
+            pins_out = m.key(text)
+            if not m.improves(pins_out, key_in):
+                notes["no pin removed" if m.name == "pins" else "no goto removed"] += 1
                 continue
             if scaffold_grew(text, sib_text):
                 notes["scaffolding grew"] += 1
@@ -853,7 +911,7 @@ class Judge:
         best = scored[0][0]
         if not self.do_verify:
             return None, {"outcome": "screened", "listing": best, "notes": dict(notes),
-                          "hunks": scored[0][3], "pins_out": scored[0][5]}
+                          "hunks": scored[0][3], **self._out(scored[0][5])}
         spent = budget or 0
         for d, _, text, applied, refusals, pins_out in scored:
             if d > 0 and (d > 2 or spent):
@@ -865,10 +923,10 @@ class Judge:
             res = self.vf(row, text, sig)
             if res.get("exact"):
                 return text, {"outcome": "exact", "listing": d, "hunks": applied,
-                              "pins_out": pins_out, "verifies": spent, "notes": dict(notes)}
+                              **self._out(pins_out), "verifies": spent, "notes": dict(notes)}
             notes[f"scorer {res.get('status')} total={res.get('total')}"] += 1
         return None, {"outcome": "miss", "listing": best, "hunks": scored[0][3],
-                      "pins_out": scored[0][5], "verifies": spent, "notes": dict(notes)}
+                      **self._out(scored[0][5]), "verifies": spent, "notes": dict(notes)}
 
 
 # ---------------------------------------------------------------------------------------------
@@ -885,7 +943,10 @@ def stage(lane, row, text, sib_text):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--lane", default="r65_clone_transfer")
+    ap.add_argument("--lane", default=None,
+                    help="staging lane (default r65_clone_transfer; r79_clone_goto under --metric gotos)")
+    ap.add_argument("--metric", choices=("pins", "gotos"), default="pins",
+                    help="pins = pin-site removal (default); gotos = goto readability rewrites (round 80)")
     ap.add_argument("--threshold", type=float, default=0.85)
     ap.add_argument("--floor", type=float, default=0.5, help="record pairs this similar for the distribution")
     ap.add_argument("--jaccard", type=float, default=0.12, help="prefilter: token-shingle Jaccard")
@@ -911,15 +972,18 @@ def main():
     ap.add_argument("--no-verify", action="store_true", help="listing screen only (no scorer runs)")
     ap.add_argument("--limit", type=int, default=0)
     a = ap.parse_args()
+    metric = Metric(a.metric)
+    if a.lane is None:
+        a.lane = "r65_clone_transfer" if a.metric == "pins" else "r79_clone_goto"
 
     t0 = time.time()
     lanes = a.lanes.split(",") if a.lanes else (lanes_matching(a.lanes_glob) if a.lanes_glob else LANES)
-    exemplars = load_exemplars(lanes)
+    exemplars = load_exemplars(lanes, metric=metric)
     if a.exemplar:
         want = set(a.exemplar.split(","))
         exemplars = [e for e in exemplars if e["id"] in want]
-    index = pinned_index()
-    print(f"{len(exemplars)} exemplars, {len(index)} pinned rows ({time.time() - t0:.0f}s)", flush=True)
+    index = pinned_index(metric=metric)
+    print(f"{len(exemplars)} exemplars, {len(index)} {'pinned' if a.metric == 'pins' else 'goto'} rows ({time.time() - t0:.0f}s)", flush=True)
 
     fams, allpairs = families(exemplars, index, a.threshold, a.floor, a.jaccard, a.span, a.workers)
     print(f"families built ({time.time() - t0:.0f}s)", flush=True)
@@ -957,8 +1021,11 @@ def main():
                         continue
                     sd, dd = by_row[sid][1], by_row[did][1]
                     b, o = transplant_exemplar(dd, sd)
-                    if len(sites_of(o.text)) >= len(sites_of(sd.text)) and \
-                            sorted(x[1] for x in sites_of(o.text)) == sorted(x[1] for x in sites_of(sd.text)):
+                    if a.metric == "pins":
+                        if len(sites_of(o.text)) >= len(sites_of(sd.text)) and \
+                                sorted(x[1] for x in sites_of(o.text)) == sorted(x[1] for x in sites_of(sd.text)):
+                            continue                               # nothing to give
+                    elif not metric.improves(metric.key(o.text), metric.key(sd.text)):
                         continue                                   # nothing to give
                     tasks[sid].append((1.0, {"lane": "transplant", "id": did, "base": b, "out": o,
                                              "pins_in": len(sites_of(b.text)),
@@ -973,7 +1040,7 @@ def main():
         todo = todo[:a.limit]
     print(f"{len(todo)} sibling rows to try", flush=True)
 
-    judge = Judge(max_verify=a.max_verify, do_verify=not a.no_verify)
+    judge = Judge(max_verify=a.max_verify, do_verify=not a.no_verify, metric=metric)
     J = OUT / "journal.jsonl"
     lock = threading.Lock()
     stats = collections.Counter()
@@ -995,7 +1062,8 @@ def main():
                 cands, nh, nmap, namb = candidates_with(ex["base"], ex["out"], sib, a.aligner)
                 rec = {"sibling": rid, "exemplar": ex["id"], "lane": ex["lane"], "proof": ex["proof"],
                        "similarity": round(s_, 4), "aligner": a.aligner, "step": composed,
-                       "pins_in": len(sites_of(sib.text)), "hunks_total": nh,
+                       **({} if a.metric == "pins" else {"metric": a.metric}),
+                       **metric.fields(sib.text, "in"), "hunks_total": nh,
                        "map": nmap, "ambiguous": namb,
                        "cands": len([c for c in cands if c[0] is not None])}
                 live = [c for c in cands if c[0] is not None]
@@ -1015,19 +1083,22 @@ def main():
                     sib = Doc(rid, text)
                     composed += 1
                     progress = True
-                    if a.no_compose or not sites_of(text):
+                    if a.no_compose or not metric.work(text):
                         break
                     spent = 0                   # a fresh verify budget for the composed text
                     break
                 if spent >= a.max_verify:
                     break
-            if not progress or a.no_compose or not sites_of(sib.text) or spent >= a.max_verify:
+            if not progress or a.no_compose or not metric.work(sib.text) or spent >= a.max_verify:
                 break
         if composed:
             if not a.no_stage:
                 stage(a.lane, row, sib.text, sib0.text)
             recs.append({"sibling": rid, "outcome": "staged" if not a.no_stage else "final",
                          "pins_from": len(sites_of(sib0.text)), "pins_to": len(sites_of(sib.text)),
+                         **({} if a.metric == "pins" else
+                            {"metric": a.metric, "gotos_from": goto_count(sib0.text),
+                             "gotos_to": goto_count(sib.text)}),
                          "steps": composed, "aligner": a.aligner})
             return recs, True
         return recs, False
