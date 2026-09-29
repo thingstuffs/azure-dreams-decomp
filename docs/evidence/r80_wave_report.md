@@ -138,3 +138,36 @@ so a goto jumps into it), g46 dungeon/func_80A49CB0 (15-line tail copy -> its ex
 its 1-goto variant is not exact), f3 dungeon/func_81977584 (goto-label form -> the exact real-`switch` variant, same 2
 pins). Each rule is now in tools/lanes/goto_lane_brief.md. Densest-first packs (`--densest`) pay far more than random
 ones: g47 170 -> 0, g48 106 -> 3, g49 104 -> 0, g50 104 -> 0 (random-pick lanes averaged ~35 -> 3).
+
+## Cell-move lanes (fidelity step 4 resumed) - the round's biggest pin lever
+
+Opus lanes b6/bo1/f5 independently found split-address signatures on rows registered at non-splitting cells; the
+09-24 fidelity census (docs/evidence/fidelity_step2_split_fingerprint.md) had already listed them as step-4
+candidates (42 rows / 277 pins still at the wrong cell at pickup, incl. the six heaviest rows of the tree). Lanes
+r80_cell_c* work at the retail-proven target cell (brief paragraph tools/lanes/brief_paragraphs/cell_move.md; manual
+staging out/ + cells.jsonl) and land through tools/fidelity/land_recipe_move.py (recipe trade in
+ledger/recipe_trades.jsonl, isolated gate, full rollback on failure). Named r80_* so the r79 lander does not try
+them at the old cell.
+
+| lane | rows | result at target |
+|---|---|---|
+| r80_cell_f5 (from r79_opus_f5) | town/func_800B6A28 5->0, town/func_800C4744 3->0 | staged, landing |
+| r80_cell_c2 | dungeon/func_81978428 **19->0**, dungeon/func_818CFB74 **29->2** | staged, landing |
+| r80_cell_c3 | dungeon/func_80D150D0 **16->0**; func_800C4A80 0 pins at total 7 (open) | staged, landing |
+| r80_cell_c4 | town/func_8033077C 7->0 (target keeps -O1 -fno-strength-reduce), dungeon/func_800B8F90 6->0; 3 open | staged, landing |
+| r80_cell_c1 | 819B3414 34->14 at total 6, 818D4E68 35->24 at total 149 (open) | continuation c1b running |
+
+Pins that imitate a splitting compiler fall together once the row sits at its true cell: 79 pins staged from 8 rows
+so far. The pinned texts are NOT exact at the target (coherence trades), which is why the old lanes plateaued.
+
+## Computed-goto dispatch -> real switch (readability, second-largest goto mass)
+
+Remaining gotos after the goto lanes (tree census 07:00Z): 3,448 in 304 computed-goto files, 2,122 in 314 pinned rows,
+1,179 in 447 pickable rows, 281 kept by lanes with measured reasons, 86 in NON_MATCHING files. The computed-goto spelling
+exists only because of the old maspsx casesi rewrite (fixed in cddcc615; round-25 finding). The r48-r55 switch lanes
+could not land pin-free rows (their brief staged only on fewer pins); kitlib/land_lanes now count computed gotos
+(d9a1139c) and the switch brief's staging rule is amended per lane. Pilot r79_sonnet_sw1 (Sonnet 5.5, 75k tokens):
+8/8 pin-free rows exact on the first score, landed alone with an isolated gate - 2 windows + SLUS MATCH (the compiler's
+own .rdata jump table is fine). Scaling: sw2-sw5 (32 rows) from the 164-row pin-free 2.6.3/2.7.x overlay pool
+(tools/lanes/build_switch_lanes.py --pool; build lanes one at a time, --repack does not dedupe across lanes).
+2.8.x rows need `-mno-split-addresses` (a cell change) and pinned rows go through pin lanes.
