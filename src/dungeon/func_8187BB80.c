@@ -44,6 +44,7 @@ typedef struct S_8187BB80_1 {
 
 
 extern s16 D_8002694C;
+extern void *D_80024038[];
 
 
 /* Advance the effect animation, fade its colors, and mark it for removal when its lifetime ends. */
@@ -99,45 +100,55 @@ void func_8187BB80(void *effect_data, s32 unused_arg, void *color_data) {
 
     if (((S_8187BB80_0 *)effect_data)->unk_40.at00u.v == tick_limit) {
         s32 phase;
+        static void *const phase_labels[] = {
+            &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4,
+            &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8
+        };
+
+        (void)phase_labels;
         ((S_8187BB80_0 *)effect_data)->unk_40.at00u.v = 0;
         phase = ((S_8187BB80_0 *)effect_data)->unk_40.at02.v;
-        switch (phase) {
-        case 0:
-        ((S_8187BB80_0 *)effect_data)->unk_40.at02.v = 1;
-        break;
+        if ((u32)phase >= 9) {
+            goto jt_c8;
+        }
+        goto *D_80024038[(u32)phase];
 
-        case 1:
+jt_c0:
+        ((S_8187BB80_0 *)effect_data)->unk_40.at02.v = 1;
+        goto jt_c8;
+
+jt_c1:
         ((S_8187BB80_0 *)effect_data)->unk_40.at02.v = 2;
         ((S_8187BB80_0 *)effect_data)->unk_4C += 0x20;
-        break;
+        goto jt_c8;
 
-        case 2:
+jt_c2:
         ((S_8187BB80_0 *)effect_data)->unk_40.at02.v = 3;
         ((S_8187BB80_0 *)effect_data)->unk_4C += 0x20;
-        break;
+        goto jt_c8;
 
-        case 3:
+jt_c3:
         ((S_8187BB80_0 *)effect_data)->unk_40.at02.v = 4;
         ((S_8187BB80_0 *)effect_data)->unk_4C += 0x20;
-        break;
+        goto jt_c8;
 
-        case 4:
+jt_c4:
         ((S_8187BB80_0 *)effect_data)->unk_40.at02.v = 5;
         ((S_8187BB80_0 *)effect_data)->unk_4C = 0x80;
         ((S_8187BB80_0 *)effect_data)->unk_4D += 0x20;
-        break;
+        goto jt_c8;
 
-        case 5:
+jt_c5:
         ((S_8187BB80_0 *)effect_data)->unk_40.at02.v = 6;
         ((S_8187BB80_0 *)effect_data)->unk_4C += 0x20;
-        break;
+        goto jt_c8;
 
-        case 6:
+jt_c6:
         ((S_8187BB80_0 *)effect_data)->unk_40.at02.v = 7;
         ((S_8187BB80_0 *)effect_data)->unk_4C += 0x20;
-        break;
+        goto jt_c8;
 
-        case 7:
+jt_c7:
         ((S_8187BB80_0 *)effect_data)->unk_4E = 0;
         ((S_8187BB80_0 *)effect_data)->unk_4F = 0;
         ((S_8187BB80_1 *)colors)->unk_0D = 0xFF;
@@ -147,15 +158,12 @@ void func_8187BB80(void *effect_data, s32 unused_arg, void *color_data) {
         ((S_8187BB80_0 *)effect_data)->unk_36 = 0xFF;
         ((S_8187BB80_0 *)effect_data)->unk_38 = 0;
         ((S_8187BB80_1 *)colors)->unk_14 |= 0xC;
-        break;
-        case 8:
-        default:
-            break;
-        }
+        goto jt_c8;
     } else {
         ((S_8187BB80_0 *)effect_data)->unk_40.at00p.v++;
     }
 
+jt_c8:
     if (((S_8187BB80_0 *)effect_data)->unk_02.s < 30) {
         ((S_8187BB80_1 *)colors)->unk_0C =
             (((S_8187BB80_0 *)effect_data)->unk_36 * ((S_8187BB80_0 *)effect_data)->unk_02.s) / 30;
