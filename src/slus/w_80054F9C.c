@@ -15,15 +15,10 @@ typedef struct S_80084858 {
     s16 field18;                        /* 0x18 */
 } S_80084858;
 
-/* Pre-existing rodata jump table (part of the retail binary blob, already
- * placed at this fixed address) used by the dispatch below. */
-extern void *jtbl_80032E14[0x24];
-
 /* Activates the task, snapshots its timer on entry, and assigns the pad event priority. */
 void func_80054F9C(s32 pad_event, S_80084858 *task) {
     u32 event_index;
     s32 priority;
-    static void *const keepalive[3] = { &&L_B1, &&L_C1, &&L_D1 };
 
     if (task->field4 != 2) {
         task->fieldA = task->field8;
@@ -31,22 +26,22 @@ void func_80054F9C(s32 pad_event, S_80084858 *task) {
     }
 
     event_index = (pad_event & 0xFF) - 0xB1;
-    if (event_index >= 0x24) {
-        goto L_default;
+    switch (event_index) {
+    case 0:
+    case 3:
+        priority = 0xF;
+        break;
+    case 16:
+    case 19:
+        priority = 4;
+        break;
+    case 32:
+    case 35:
+        priority = 2;
+        break;
+    default:
+        priority = 0xA;
+        break;
     }
-    goto *jtbl_80032E14[event_index];
-
-L_B1:
-    priority = 0xF;
-    goto L_end;
-L_C1:
-    priority = 4;
-    goto L_end;
-L_D1:
-    priority = 2;
-    goto L_end;
-L_default:
-    priority = 0xA;
-L_end:
     task->field18 = priority;
 }

@@ -103,7 +103,8 @@ class DifferentialMemberScope(unittest.TestCase):
             Path(trace).write_text('{"fired": []}')
             return b"object", None
 
-        def retail_compare(_view, scope, _kind, _ctx):
+        def retail_compare(_view, scope, _kind, _ctx, section_anchors=None):
+            self.assertIsNone(section_anchors)        # no .rodata owner in this module
             scopes.append(scope)
             return {"diff": 0, "masked": 0, "checked": len(scope)}
 

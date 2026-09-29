@@ -1,0 +1,1 @@
+{"specs": ["w_80057A94:80032EA4"], "rows": [{"row": "w_80057A94", "recipe": {"ccver": "2.7.2-cdk", "ccflags": "", "asflags": ""}, "rodata_section": 96, "rodata_owned": 92, "tables": [{"symbol": "jtbl_80032EA4", "offset": 24228, "size": 92, "vram": 2147692196}]}], "result": "MATCH", "placement": {"w_80057A94_jtbl_owned": {"vma": "80032ea4", "size": 92}}, "map_elf_identical": true}

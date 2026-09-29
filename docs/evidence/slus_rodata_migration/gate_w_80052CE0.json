@@ -1,0 +1,1 @@
+{"specs": ["w_80052CE0:8002EFF0"], "rows": [{"row": "w_80052CE0", "recipe": {"ccver": "2.7.2-cdk", "ccflags": "", "asflags": ""}, "rodata_section": 32, "rodata_owned": 32, "tables": [{"symbol": "jtbl_8002EFF0", "offset": 8176, "size": 32, "vram": 2147676144}]}], "result": "MATCH", "placement": {"w_80052CE0_jtbl_owned": {"vma": "8002eff0", "size": 32}}, "map_elf_identical": true}

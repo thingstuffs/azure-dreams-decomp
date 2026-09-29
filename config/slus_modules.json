@@ -1729,6 +1729,246 @@
         }
       ],
       "evidence": "docs/evidence/gp_cd_cohort.md"
+    },
+    {
+      "name": "jtbl_80054F9C",
+      "source": "src/w_80054F9C_jtbl_owned.c",
+      "members": [
+        {
+          "id": "slus/w_80054F9C",
+          "source": "src/w_80054F9C.c",
+          "functions": [
+            "func_80054F9C"
+          ]
+        }
+      ],
+      "headers": [
+        "include/common.h"
+      ],
+      "recipe": {
+        "ccver": "2.7.2-cdk",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "data": [
+        {
+          "symbol": "jtbl_80032E14",
+          "asset": "assets/800.bin",
+          "offset": 24084,
+          "size": 144,
+          "vram": 2147692052,
+          "bytes": "e84f05800050058000500580e84f0580005005800050058000500580005005800050058000500580005005800050058000500580005005800050058000500580f04f05800050058000500580f04f0580005005800050058000500580005005800050058000500580005005800050058000500580005005800050058000500580f84f05800050058000500580f84f0580",
+          "section": ".rodata"
+        }
+      ],
+      "evidence": "docs/evidence/slus_rodata_migration.md"
+    },
+    {
+      "name": "jtbl_80057A94",
+      "source": "src/w_80057A94_jtbl_owned.c",
+      "members": [
+        {
+          "id": "slus/w_80057A94",
+          "source": "src/w_80057A94.c",
+          "functions": [
+            "func_80057A94"
+          ]
+        }
+      ],
+      "headers": [
+        "include/common.h"
+      ],
+      "recipe": {
+        "ccver": "2.7.2-cdk",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "data": [
+        {
+          "symbol": "jtbl_80032EA4",
+          "asset": "assets/800.bin",
+          "offset": 24228,
+          "size": 92,
+          "vram": 2147692196,
+          "bytes": "087d0580e47a0580f07a0580fc7a0580087b0580287b05804c7b0580647b0580807b05809c7b0580c47b0580e87b0580107c0580087d0580087d05804c7c0580947c0580d47c0580ec7c0580ec7c0580087d0580087d0580087d0580",
+          "section": ".rodata"
+        }
+      ],
+      "evidence": "docs/evidence/slus_rodata_migration.md"
+    },
+    {
+      "name": "jtbl_80052CE0",
+      "source": "src/w_80052CE0_jtbl_owned.c",
+      "members": [
+        {
+          "id": "slus/w_80052CE0",
+          "source": "src/w_80052CE0.c",
+          "functions": [
+            "func_80052CE0"
+          ]
+        }
+      ],
+      "headers": [
+        "include/common.h"
+      ],
+      "recipe": {
+        "ccver": "2.7.2-cdk",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "data": [
+        {
+          "symbol": "jtbl_8002EFF0",
+          "asset": "assets/800.bin",
+          "offset": 8176,
+          "size": 32,
+          "vram": 2147676144,
+          "bytes": "282d0580802d0580a02d0580e82d0580342e0580402f0580682f0580a42f0580",
+          "section": ".rodata"
+        }
+      ],
+      "evidence": "docs/evidence/slus_rodata_migration.md"
+    },
+    {
+      "name": "jtbl_800517CC",
+      "source": "src/w_800517CC_jtbl_owned.c",
+      "members": [
+        {
+          "id": "slus/w_800517CC",
+          "source": "src/w_800517CC.c",
+          "functions": [
+            "func_800517CC"
+          ]
+        }
+      ],
+      "headers": [
+        "include/common.h"
+      ],
+      "recipe": {
+        "ccver": "2.7.2-cdk",
+        "ccflags": "-G16",
+        "asflags": ""
+      },
+      "data": [
+        {
+          "symbol": "jtbl_8002E964",
+          "asset": "assets/800.bin",
+          "offset": 6500,
+          "size": 32,
+          "vram": 2147674468,
+          "bytes": "301805804c18058058180580c0180580541905807c190580401a05804c1b0580",
+          "section": ".rodata"
+        }
+      ],
+      "evidence": "docs/evidence/slus_rodata_migration.md"
+    },
+    {
+      "name": "jtbl_8004CECC",
+      "source": "src/w_8004CECC_jtbl_owned.c",
+      "members": [
+        {
+          "id": "slus/w_8004CECC",
+          "source": "src/w_8004CECC.c",
+          "functions": [
+            "func_8004CECC"
+          ]
+        }
+      ],
+      "headers": [
+        "include/common.h"
+      ],
+      "recipe": {
+        "ccver": "2.7.2-cdk",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "data": [
+        {
+          "symbol": "jtbl_8002E5F8",
+          "asset": "assets/800.bin",
+          "offset": 5624,
+          "size": 24,
+          "vram": 2147673592,
+          "bytes": "00d0048010d0048020d0048030d0048040d0048050d00480",
+          "section": ".rodata"
+        }
+      ],
+      "evidence": "docs/evidence/slus_rodata_migration.md"
+    },
+    {
+      "name": "jtbl_80042BDC",
+      "source": "src/w_80042BDC_jtbl_owned.c",
+      "members": [
+        {
+          "id": "slus/w_80042BDC",
+          "source": "src/w_80042BDC.c",
+          "functions": [
+            "func_80042BDC"
+          ]
+        }
+      ],
+      "headers": [
+        "include/common.h"
+      ],
+      "recipe": {
+        "ccver": "2.7.2-cdk",
+        "ccflags": "-G16",
+        "asflags": ""
+      },
+      "data": [
+        {
+          "symbol": "jtbl_8002D67C",
+          "asset": "assets/800.bin",
+          "offset": 1660,
+          "size": 128,
+          "vram": 2147669628,
+          "bytes": "2c2c04806c2c0480ac2c0480202d0480602d0480a02d0480e02d0480182e04802c2e04806c2e048088310480dc310480303404803034048030340480303404803034048074330480ac330480e43304803c3304803c3304803c33048030340480303404807c320480443104803034048030340480303404803034048004330480",
+          "section": ".rodata"
+        }
+      ],
+      "evidence": "docs/evidence/slus_rodata_migration.md"
+    },
+    {
+      "name": "jtbl_8005F134",
+      "source": "src/w_8005F134_jtbl_owned.c",
+      "members": [
+        {
+          "id": "slus/w_8005F134",
+          "source": "src/w_8005F134.c",
+          "functions": [
+            "func_8005F134"
+          ]
+        }
+      ],
+      "headers": [
+        "include/common.h"
+      ],
+      "recipe": {
+        "ccver": "2.7.2",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "data": [
+        {
+          "symbol": "jtbl_8003327C",
+          "asset": "assets/800.bin",
+          "offset": 25212,
+          "size": 32,
+          "vram": 2147693180,
+          "bytes": "78f2058080f2058088f2058090f2058098f20580a0f20580a8f2058000000000",
+          "section": ".rodata"
+        },
+        {
+          "symbol": "jtbl_8003329C",
+          "asset": "assets/800.bin",
+          "offset": 25244,
+          "size": 28,
+          "vram": 2147693212,
+          "bytes": "58f3058060f3058068f3058070f3058078f3058080f3058088f30580",
+          "section": ".rodata"
+        }
+      ],
+      "evidence": "docs/evidence/slus_rodata_migration.md"
     }
   ]
 }

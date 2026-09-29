@@ -88,11 +88,16 @@ def input_paths(module, root=ROOT):
 
 
 def _data_piece_code(owners):
-    """Only opted-in owners depend on the binary transformation implementation."""
-    if not any(owner.get("data_pieces") for owner in owners):
-        return b""
-    import slus_data_pieces
-    return Path(slus_data_pieces.__file__).read_bytes()
+    """Only opted-in owners depend on a binary transformation implementation: the data-piece
+    splitter, or the .rodata section-end trim of a jump-table owner."""
+    code = b""
+    if any(owner.get("data_pieces") for owner in owners):
+        import slus_data_pieces
+        code += Path(slus_data_pieces.__file__).read_bytes()
+    if any(d.get("section") == ".rodata" for owner in owners for d in owner.get("data", [])):
+        import slus_rodata_trim
+        code += Path(slus_rodata_trim.__file__).read_bytes()
+    return code
 
 
 def fingerprint(row, root=ROOT):

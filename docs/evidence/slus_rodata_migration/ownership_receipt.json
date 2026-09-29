@@ -1,0 +1,537 @@
+{
+  "schema": 2,
+  "at": "2026-09-29T10:54:54Z",
+  "purpose": "data ownership only; no L4/L5 placement certificate",
+  "modules": [
+    "jtbl_80042BDC",
+    "jtbl_8004CECC",
+    "jtbl_800517CC",
+    "jtbl_80052CE0",
+    "jtbl_80054F9C",
+    "jtbl_80057A94",
+    "jtbl_8005F134"
+  ],
+  "module_fingerprints": {
+    "slus/w_80042BDC": "2990a210371bcd640cb642e1e2ea4c1ff86df5e196a7bba034a61094a22f9202",
+    "slus/w_8004CECC": "6c94865a47b550e5c0f121c222cdbefc276d86b3e359df82fc9e4b798374c0e0",
+    "slus/w_800517CC": "61bd576af50eccaa91361a878d0cf96310fcd9620655fad95efde30d3971354f",
+    "slus/w_80052CE0": "bf9ae6f340df4834877be6b48526310370c4e4d592e10504c48eb08e1ae8abc3",
+    "slus/w_80054F9C": "1870cbc7a5fcd60909ac9190dff0510b03e23abb2cf8bdc3ae99cb28374f1b3e",
+    "slus/w_80057A94": "1bbd8d7c5f16c0df1bb1e0882084c8e587c60f80089465675fc1ef3cbcce129f",
+    "slus/w_8005F134": "4e744518620dac0b41a07c9fef5748fd24023f82b12fe7675999b873e6d7ea39"
+  },
+  "tool_fingerprint": "0057cfccd3d7fcc4c6de",
+  "recipe_sha256": "e3f8da4c27f607e752f66ac782a5fd865eafde982a9c06fc18c9f4dc8153ff6d",
+  "image_sha1": "e6bfbb95ff6676899e077481221d73ddd4d3bf52",
+  "gate": {
+    "result": "MATCH",
+    "words_diff": 0
+  },
+  "data": {
+    "jtbl_80042BDC": {
+      "sections": {
+        ".rodata": {
+          "size": 128,
+          "bytes": "5000000090000000d00000004401000084010000c4010000040200003c0200005002000090020000ac05000000060000540800005408000054080000540800005408000098070000d0070000080800006007000060070000600700005408000054080000a0060000680500005408000054080000540800005408000028070000",
+          "symbols": [
+            {
+              "symbol": "jtbl_8002D67C",
+              "asset": "assets/800.bin",
+              "offset": 1660,
+              "size": 128,
+              "vram": 2147669628,
+              "bytes": "2c2c04806c2c0480ac2c0480202d0480602d0480a02d0480e02d0480182e04802c2e04806c2e048088310480dc310480303404803034048030340480303404803034048074330480ac330480e43304803c3304803c3304803c33048030340480303404807c320480443104803034048030340480303404803034048004330480",
+              "section": ".rodata",
+              "object_offset": 0,
+              "object_binding": "compiler-local"
+            }
+          ],
+          "placement": [
+            2147669628,
+            128
+          ],
+          "table_words": 32,
+          "align_pads": [],
+          "text_references": 1
+        }
+      }
+    },
+    "jtbl_8004CECC": {
+      "sections": {
+        ".rodata": {
+          "size": 24,
+          "bytes": "340100004401000054010000640100007401000084010000",
+          "symbols": [
+            {
+              "symbol": "jtbl_8002E5F8",
+              "asset": "assets/800.bin",
+              "offset": 5624,
+              "size": 24,
+              "vram": 2147673592,
+              "bytes": "00d0048010d0048020d0048030d0048040d0048050d00480",
+              "section": ".rodata",
+              "object_offset": 0,
+              "object_binding": "compiler-local"
+            }
+          ],
+          "placement": [
+            2147673592,
+            24
+          ],
+          "table_words": 6,
+          "align_pads": [],
+          "text_references": 1
+        }
+      }
+    },
+    "jtbl_800517CC": {
+      "sections": {
+        ".rodata": {
+          "size": 32,
+          "bytes": "64000000800000008c000000f400000088010000b00100007402000080030000",
+          "symbols": [
+            {
+              "symbol": "jtbl_8002E964",
+              "asset": "assets/800.bin",
+              "offset": 6500,
+              "size": 32,
+              "vram": 2147674468,
+              "bytes": "301805804c18058058180580c0180580541905807c190580401a05804c1b0580",
+              "section": ".rodata",
+              "object_offset": 0,
+              "object_binding": "compiler-local"
+            }
+          ],
+          "placement": [
+            2147674468,
+            32
+          ],
+          "table_words": 8,
+          "align_pads": [],
+          "text_references": 1
+        }
+      }
+    },
+    "jtbl_80052CE0": {
+      "sections": {
+        ".rodata": {
+          "size": 32,
+          "bytes": "48000000a0000000c000000008010000540100006002000088020000c4020000",
+          "symbols": [
+            {
+              "symbol": "jtbl_8002EFF0",
+              "asset": "assets/800.bin",
+              "offset": 8176,
+              "size": 32,
+              "vram": 2147676144,
+              "bytes": "282d0580802d0580a02d0580e82d0580342e0580402f0580682f0580a42f0580",
+              "section": ".rodata",
+              "object_offset": 0,
+              "object_binding": "compiler-local"
+            }
+          ],
+          "placement": [
+            2147676144,
+            32
+          ],
+          "table_words": 8,
+          "align_pads": [],
+          "text_references": 1
+        }
+      }
+    },
+    "jtbl_80054F9C": {
+      "sections": {
+        ".rodata": {
+          "size": 144,
+          "bytes": "4c00000064000000640000004c000000640000006400000064000000640000006400000064000000640000006400000064000000640000006400000064000000540000006400000064000000540000006400000064000000640000006400000064000000640000006400000064000000640000006400000064000000640000005c00000064000000640000005c000000",
+          "symbols": [
+            {
+              "symbol": "jtbl_80032E14",
+              "asset": "assets/800.bin",
+              "offset": 24084,
+              "size": 144,
+              "vram": 2147692052,
+              "bytes": "e84f05800050058000500580e84f0580005005800050058000500580005005800050058000500580005005800050058000500580005005800050058000500580f04f05800050058000500580f04f0580005005800050058000500580005005800050058000500580005005800050058000500580005005800050058000500580f84f05800050058000500580f84f0580",
+              "section": ".rodata",
+              "object_offset": 0,
+              "object_binding": "compiler-local"
+            }
+          ],
+          "placement": [
+            2147692052,
+            144
+          ],
+          "table_words": 36,
+          "align_pads": [],
+          "text_references": 1
+        }
+      }
+    },
+    "jtbl_80057A94": {
+      "sections": {
+        ".rodata": {
+          "size": 92,
+          "bytes": "74020000500000005c000000680000007400000094000000b8000000d0000000ec0000000801000030010000540100007c0100007402000074020000b801000000020000400200005802000058020000740200007402000074020000",
+          "symbols": [
+            {
+              "symbol": "jtbl_80032EA4",
+              "asset": "assets/800.bin",
+              "offset": 24228,
+              "size": 92,
+              "vram": 2147692196,
+              "bytes": "087d0580e47a0580f07a0580fc7a0580087b0580287b05804c7b0580647b0580807b05809c7b0580c47b0580e87b0580107c0580087d0580087d05804c7c0580947c0580d47c0580ec7c0580ec7c0580087d0580087d0580087d0580",
+              "section": ".rodata",
+              "object_offset": 0,
+              "object_binding": "compiler-local"
+            }
+          ],
+          "placement": [
+            2147692196,
+            92
+          ],
+          "table_words": 23,
+          "align_pads": [],
+          "text_references": 1
+        }
+      }
+    },
+    "jtbl_8005F134": {
+      "sections": {
+        ".rodata": {
+          "size": 60,
+          "bytes": "440100004c010000540100005c010000640100006c0100007401000000000000240200002c020000340200003c020000440200004c02000054020000",
+          "symbols": [
+            {
+              "symbol": "jtbl_8003327C",
+              "asset": "assets/800.bin",
+              "offset": 25212,
+              "size": 32,
+              "vram": 2147693180,
+              "bytes": "78f2058080f2058088f2058090f2058098f20580a0f20580a8f2058000000000",
+              "section": ".rodata",
+              "object_offset": 0,
+              "object_binding": "compiler-local"
+            },
+            {
+              "symbol": "jtbl_8003329C",
+              "asset": "assets/800.bin",
+              "offset": 25244,
+              "size": 28,
+              "vram": 2147693212,
+              "bytes": "58f3058060f3058068f3058070f3058078f3058080f3058088f30580",
+              "section": ".rodata",
+              "object_offset": 32,
+              "object_binding": "compiler-local"
+            }
+          ],
+          "placement": [
+            2147693180,
+            60
+          ],
+          "table_words": 14,
+          "align_pads": [
+            28
+          ],
+          "text_references": 2
+        }
+      }
+    }
+  },
+  "rows": {
+    "slus/w_80042BDC": {
+      "row": "slus/w_80042BDC",
+      "container": "slus",
+      "kind": "slus",
+      "cfg": "2.7.2-cdk -G16",
+      "pins": 0,
+      "asflags": "",
+      "cell": "2.7.2-cdk",
+      "maspsx_exact": true,
+      "proof": "whole SLUS image, module context",
+      "fired": [],
+      "module": "jtbl_80042BDC",
+      "module_fingerprint": "2990a210371bcd640cb642e1e2ea4c1ff86df5e196a7bba034a61094a22f9202",
+      "trace_scope": "whole-module",
+      "selfcheck": true,
+      "funcs": 1,
+      "words": 543,
+      "maspsx_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      },
+      "has_div": false,
+      "genuine": {
+        "2.79": {
+          "exact": true,
+          "diff": 0,
+          "len": 543,
+          "mode": "",
+          "retail": [
+            0,
+            0
+          ]
+        }
+      },
+      "exact_versions": [
+        "2.79"
+      ],
+      "best": "2.79",
+      "status": "ok",
+      "secs": 3.0
+    },
+    "slus/w_8004CECC": {
+      "row": "slus/w_8004CECC",
+      "container": "slus",
+      "kind": "slus",
+      "cfg": "2.7.2-cdk",
+      "pins": 2,
+      "asflags": "",
+      "cell": "2.7.2-cdk",
+      "maspsx_exact": true,
+      "proof": "whole SLUS image, module context",
+      "fired": [],
+      "module": "jtbl_8004CECC",
+      "module_fingerprint": "6c94865a47b550e5c0f121c222cdbefc276d86b3e359df82fc9e4b798374c0e0",
+      "trace_scope": "whole-module",
+      "selfcheck": true,
+      "funcs": 1,
+      "words": 102,
+      "maspsx_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      },
+      "has_div": false,
+      "genuine": {
+        "2.79": {
+          "exact": true,
+          "diff": 0,
+          "len": 102,
+          "mode": "",
+          "retail": [
+            0,
+            0
+          ]
+        }
+      },
+      "exact_versions": [
+        "2.79"
+      ],
+      "best": "2.79",
+      "status": "ok",
+      "secs": 2.5
+    },
+    "slus/w_800517CC": {
+      "row": "slus/w_800517CC",
+      "container": "slus",
+      "kind": "slus",
+      "cfg": "2.7.2-cdk -G16",
+      "pins": 0,
+      "asflags": "",
+      "cell": "2.7.2-cdk",
+      "maspsx_exact": true,
+      "proof": "whole SLUS image, module context",
+      "fired": [],
+      "module": "jtbl_800517CC",
+      "module_fingerprint": "61bd576af50eccaa91361a878d0cf96310fcd9620655fad95efde30d3971354f",
+      "trace_scope": "whole-module",
+      "selfcheck": true,
+      "funcs": 1,
+      "words": 268,
+      "maspsx_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      },
+      "has_div": false,
+      "genuine": {
+        "2.79": {
+          "exact": true,
+          "diff": 0,
+          "len": 268,
+          "mode": "",
+          "retail": [
+            0,
+            0
+          ]
+        }
+      },
+      "exact_versions": [
+        "2.79"
+      ],
+      "best": "2.79",
+      "status": "ok",
+      "secs": 2.5
+    },
+    "slus/w_80052CE0": {
+      "row": "slus/w_80052CE0",
+      "container": "slus",
+      "kind": "slus",
+      "cfg": "2.7.2-cdk",
+      "pins": 0,
+      "asflags": "",
+      "cell": "2.7.2-cdk",
+      "maspsx_exact": true,
+      "proof": "whole SLUS image, module context",
+      "fired": [],
+      "module": "jtbl_80052CE0",
+      "module_fingerprint": "bf9ae6f340df4834877be6b48526310370c4e4d592e10504c48eb08e1ae8abc3",
+      "trace_scope": "whole-module",
+      "selfcheck": true,
+      "funcs": 1,
+      "words": 194,
+      "maspsx_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      },
+      "has_div": false,
+      "genuine": {
+        "2.79": {
+          "exact": true,
+          "diff": 0,
+          "len": 194,
+          "mode": "",
+          "retail": [
+            0,
+            0
+          ]
+        }
+      },
+      "exact_versions": [
+        "2.79"
+      ],
+      "best": "2.79",
+      "status": "ok",
+      "secs": 2.5
+    },
+    "slus/w_80054F9C": {
+      "row": "slus/w_80054F9C",
+      "container": "slus",
+      "kind": "slus",
+      "cfg": "2.7.2-cdk",
+      "pins": 0,
+      "asflags": "",
+      "cell": "2.7.2-cdk",
+      "maspsx_exact": true,
+      "proof": "whole SLUS image, module context",
+      "fired": [],
+      "module": "jtbl_80054F9C",
+      "module_fingerprint": "1870cbc7a5fcd60909ac9190dff0510b03e23abb2cf8bdc3ae99cb28374f1b3e",
+      "trace_scope": "whole-module",
+      "selfcheck": true,
+      "funcs": 1,
+      "words": 28,
+      "maspsx_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      },
+      "has_div": false,
+      "genuine": {
+        "2.79": {
+          "exact": true,
+          "diff": 0,
+          "len": 28,
+          "mode": "",
+          "retail": [
+            0,
+            0
+          ]
+        }
+      },
+      "exact_versions": [
+        "2.79"
+      ],
+      "best": "2.79",
+      "status": "ok",
+      "secs": 2.4
+    },
+    "slus/w_80057A94": {
+      "row": "slus/w_80057A94",
+      "container": "slus",
+      "kind": "slus",
+      "cfg": "2.7.2-cdk",
+      "pins": 0,
+      "asflags": "",
+      "cell": "2.7.2-cdk",
+      "maspsx_exact": true,
+      "proof": "whole SLUS image, module context",
+      "fired": [],
+      "module": "jtbl_80057A94",
+      "module_fingerprint": "1bbd8d7c5f16c0df1bb1e0882084c8e587c60f80089465675fc1ef3cbcce129f",
+      "trace_scope": "whole-module",
+      "selfcheck": true,
+      "funcs": 1,
+      "words": 163,
+      "maspsx_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      },
+      "has_div": false,
+      "genuine": {
+        "2.79": {
+          "exact": true,
+          "diff": 0,
+          "len": 163,
+          "mode": "",
+          "retail": [
+            0,
+            0
+          ]
+        }
+      },
+      "exact_versions": [
+        "2.79"
+      ],
+      "best": "2.79",
+      "status": "ok",
+      "secs": 2.5
+    },
+    "slus/w_8005F134": {
+      "row": "slus/w_8005F134",
+      "container": "slus",
+      "kind": "slus",
+      "cfg": "2.7.2",
+      "pins": 0,
+      "asflags": "",
+      "cell": "2.7.2",
+      "maspsx_exact": true,
+      "proof": "whole SLUS image, module context",
+      "fired": [],
+      "module": "jtbl_8005F134",
+      "module_fingerprint": "4e744518620dac0b41a07c9fef5748fd24023f82b12fe7675999b873e6d7ea39",
+      "trace_scope": "whole-module",
+      "selfcheck": true,
+      "funcs": 1,
+      "words": 387,
+      "maspsx_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      },
+      "has_div": false,
+      "genuine": {
+        "2.79": {
+          "exact": true,
+          "diff": 0,
+          "len": 387,
+          "mode": "",
+          "retail": [
+            0,
+            0
+          ]
+        }
+      },
+      "exact_versions": [
+        "2.79"
+      ],
+      "best": "2.79",
+      "status": "ok",
+      "secs": 2.6
+    }
+  }
+}
