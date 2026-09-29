@@ -31,7 +31,7 @@ extern u8 D_80174F00[];
 
 
 /* Updates the actor state and selects its directional effect. */
-void func_80173564(void *controller, void *context, void *sprite, void *actor)
+void func_80173564(void *controller, void *context, void *sprite, EntityRec *actor)
 {
     u8 state;
     u8 *effect_table;
@@ -57,19 +57,19 @@ state_zero:
         initial_effects = D_80174F00;
         dungeonStatus.unk_0A--;
         (*(void * *)((u8 *)sprite + 0x2C)) = initial_effects;
-        direction = (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9;
+        direction = (gameWork.view.viewAngle + actor->facing + 0x100) >> 9;
         func_80047784(sprite, initial_effects[direction & 7], 0);
         ((S_80173564_0 *)controller)->unk_9B++;
         return;
     }
 
 state_one:
-    if (((EntityRec *)actor)->tileY == 0) {
+    if (actor->tileY == 0) {
         if (dungeonStatus.flags & 0x1000) {
             return;
         }
 
-        if ((((EntityRec *)actor)->unk_64 != 0) &&
+        if ((actor->unk_64 != 0) &&
             func_800AA6B4(controller, context, sprite, 0)) {
             return;
         }
@@ -78,18 +78,18 @@ state_one:
             return;
         }
 
-        if (((u32)((EntityRec *)actor)->flags1C) & 0x100) {
+        if (((u32)actor->flags1C) & 0x100) {
             func_800AA258(controller, context, sprite, actor);
             return;
         }
 
-        if (((u32)((EntityRec *)actor)->flags1C) & 0x80000) {
+        if (((u32)actor->flags1C) & 0x80000) {
             func_800AA888(controller, context, sprite, actor);
             func_801737C4(controller, context, sprite, actor);
             return;
         }
 
-        if (((EntityRec *)actor)->unk_6D == 0) {
+        if (actor->unk_6D == 0) {
             return;
         }
 
@@ -104,15 +104,15 @@ state_one:
 
         func_800A9A0C(actor);
         func_800A9A04(actor);
-        if (((EntityRec *)actor)->tileY == 0) {
+        if (actor->tileY == 0) {
             return;
         }
     }
 
     effect_table = D_80174EE0;
     (*(void * *)((u8 *)sprite + 0x2C)) = effect_table;
-    direction = (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9;
+    direction = (gameWork.view.viewAngle + actor->facing + 0x100) >> 9;
     func_80047784(sprite, effect_table[direction & 7], 0);
-    ((EntityRec *)actor)->flags1C &= ~0x200;
+    actor->flags1C &= ~0x200;
     ((S_80173564_0 *)controller)->unk_8C = D_80170E9C;
 }

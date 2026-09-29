@@ -73,14 +73,8 @@ typedef struct S_80172A40_4 {
 } S_80172A40_4;   /* arg2 in func_80172A40 */
 
 
-typedef struct S_80172A40_6 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-    s32 unk_0C;
-} S_80172A40_6;   /* status in func_80172A40 */
-
 /* Updates the selected action's targeting, motion, and completion state. */
-void func_80172A40(void *owner_input, void *motion_input, void *actor_input, void *object_input)
+void func_80172A40(void *owner_input, EntityRec *motion_input, void *actor_input, void *object_input)
 {
     static void *const slot_labels[] = {
         &&slot_one, &&slot_two, &&slot_three, &&slot_none,
@@ -224,9 +218,9 @@ move_setup:
         return;
     }
 
-    ((EntityRec *)motion_input)->flags14 = 0;
-    ((EntityRec *)motion_input)->unk_10 = 0;
-    ((EntityRec *)motion_input)->unk_0C = 0;
+    motion_input->flags14 = 0;
+    motion_input->unk_10 = 0;
+    motion_input->unk_0C = 0;
     func_800A2B04(motion_input, ((S_80172A40_4 *)actor_input)->unk_24, ((S_80172A40_4 *)actor_input)->unk_25);
     dungeonStatus.unk_0C = 0;
     (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
@@ -260,9 +254,9 @@ state_two:
         return;
     }
 
-    ((EntityRec *)motion_input)->flags14 = 0;
-    ((EntityRec *)motion_input)->unk_10 = 0;
-    ((EntityRec *)motion_input)->unk_0C = 0;
+    motion_input->flags14 = 0;
+    motion_input->unk_10 = 0;
+    motion_input->unk_0C = 0;
     func_800A2B04(motion_input, ((S_80172A40_4 *)actor_input)->unk_24, ((S_80172A40_4 *)actor_input)->unk_25);
     ((S_80172A40_0 *)owner_input)->unk_98 &= 0xFFF7;
     ((S_80172A40_1 *)object)->unk_1C |= 0x08000000;

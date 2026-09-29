@@ -37,7 +37,7 @@ typedef struct S_80172DDC_0 {
 } S_80172DDC_0;   /* arg0 in func_80172DDC */
 
 /* Updates the actor's staged movement, animation, and return to idle. */
-void func_80172DDC(void *action, void *movement, void *sprite, void *actor)
+void func_80172DDC(void *action, EntityRec *movement, void *sprite, void *actor)
 {
     u8 state;
     static void *const state_labels[] = { &&L0, &&L1, &&L2, &&L3, &&L4, &&L5 };
@@ -66,9 +66,9 @@ L1:
     ((Rec_D_80082E80 *)sprite)->unk_05.as_u8 -= 2;
     {
         u32 direction_offset = ((u16)((EntityRec *)actor)->facing >> 8) & 0xE;
-        ((EntityRec *)movement)->unk_0C -=
+        movement->unk_0C -=
             (s32)*(s16 *)((u8 *)((s8 *)dirStepX) + direction_offset) << 16;
-        ((EntityRec *)movement)->unk_10 -=
+        movement->unk_10 -=
             (s32)*(s16 *)((u8 *)((s8 *)dirStepY) + direction_offset) << 16;
     }
     if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000) {
@@ -87,16 +87,16 @@ L2:
         ((S_80172DDC_0 *)action)->unk_A0.at02.v = height;
         if ((s16)height >= 0x31) {
             ((S_80172DDC_0 *)action)->unk_A0.at02.v = 0x30;
-            ((EntityRec *)movement)->unk_10 = 0;
-            ((EntityRec *)movement)->unk_0C = 0;
+            movement->unk_10 = 0;
+            movement->unk_0C = 0;
         }
     }
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000)) {
         return;
     }
-    ((EntityRec *)movement)->flags14 = 0;
-    ((EntityRec *)movement)->unk_10 = 0;
-    ((EntityRec *)movement)->unk_0C = 0;
+    movement->flags14 = 0;
+    movement->unk_10 = 0;
+    movement->unk_0C = 0;
     if (((S_80172DDC_0 *)action)->unk_A0.at02u.v < 0x30) {
         return;
     }
@@ -120,11 +120,11 @@ L3:
         u8 *direction_y = (u8 *)((s8 *)dirStepY);
         u16 timer;
 
-        ((EntityRec *)movement)->unk_0C +=
+        movement->unk_0C +=
             (s32)*(s16 *)(direction_x +
                 (((u16)((EntityRec *)actor)->facing >> 8) & 0xE)) << 17;
 
-        ((EntityRec *)movement)->unk_10 +=
+        movement->unk_10 +=
             (s32)*(s16 *)(direction_y +
                 (((u16)((EntityRec *)actor)->facing >> 8) & 0xE)) << 17;
 
@@ -142,23 +142,23 @@ L3:
             D_80175E80[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
 
-        ((EntityRec *)movement)->unk_0C =
+        movement->unk_0C =
             -*(s16 *)(direction_x +
                 (((u16)((EntityRec *)actor)->facing >> 8) & 0xE)) << 20;
 
-        ((EntityRec *)movement)->unk_10 =
+        movement->unk_10 =
             -*(s16 *)(direction_y +
                 (((u16)((EntityRec *)actor)->facing >> 8) & 0xE)) << 20;
-        ((S_80172DDC_0 *)action)->unk_A8 = ((EntityRec *)movement)->unk_0C / 6;
-        ((S_80172DDC_0 *)action)->unk_AC = ((EntityRec *)movement)->unk_10 / 6;
+        ((S_80172DDC_0 *)action)->unk_A8 = movement->unk_0C / 6;
+        ((S_80172DDC_0 *)action)->unk_AC = movement->unk_10 / 6;
         ((S_80172DDC_0 *)action)->unk_96.u = 0;
         ((S_80172DDC_0 *)action)->unk_9B++;
         return;
     }
 
 L4:
-    ((EntityRec *)movement)->unk_0C -= ((S_80172DDC_0 *)action)->unk_A8;
-    ((EntityRec *)movement)->unk_10 -= ((S_80172DDC_0 *)action)->unk_AC;
+    movement->unk_0C -= ((S_80172DDC_0 *)action)->unk_A8;
+    movement->unk_10 -= ((S_80172DDC_0 *)action)->unk_AC;
     ((S_80172DDC_0 *)action)->unk_A0.at00.v =
         func_800644B8(((S_80172DDC_0 *)action)->unk_96.s * 146) * 160 + 0x100000;
 
@@ -171,9 +171,9 @@ L5:
             return;
         }
     }
-    ((EntityRec *)movement)->flags14 = 0;
-    ((EntityRec *)movement)->unk_10 = 0;
-    ((EntityRec *)movement)->unk_0C = 0;
+    movement->flags14 = 0;
+    movement->unk_10 = 0;
+    movement->unk_0C = 0;
     func_800A2B04(movement, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
     func_800AD594(actor, 0x100);
     ((S_80172DDC_0 *)action)->unk_8C = D_801710EC;

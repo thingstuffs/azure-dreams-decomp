@@ -21,12 +21,12 @@ void *func_8009F3D4(s32 x, s32 y, s32 initial_value, s32 update_param, s32 mode)
     void *render_data;
     void *state;
     u8 *scratchpad;
-    u8 *view_config;
+    MapGrid *view_config;
     u8 *camera_config;
 
     alloc_flags = 2;
-    view_config = ((u8 *)(&gameWork.map));
-    camera_config = view_config - 0x1C4;
+    view_config = &gameWork.map;
+    camera_config = (u8 *)view_config - 0x1C4;
     scratchpad = (u8 *)0x1F800000;
     if (mode != 0) {
         alloc_flags = 0x202;
@@ -49,8 +49,8 @@ void *func_8009F3D4(s32 x, s32 y, s32 initial_value, s32 update_param, s32 mode)
         func_80064CF0((void *)0x1F8000D0);
         func_80064D80((void *)0x1F8000D0);
         *(u16 *)(scratchpad + 0x74) = 0;
-        *(u16 *)(scratchpad + 0x70) = x - ((s32)(1 << *(s16 *)(view_config + 0x14)) / 2);
-        *(u16 *)(scratchpad + 0x72) = y - ((s32)(1 << *(s16 *)(view_config + 0x16)) / 2);
+        *(u16 *)(scratchpad + 0x70) = x - ((s32)(1 << view_config->shiftX) / 2);
+        *(u16 *)(scratchpad + 0x72) = y - ((s32)(1 << view_config->shiftY) / 2);
         func_80065420((void *)0x1F800070, (void *)0x1F8000F0,
                       (void *)0x1F800090, (void *)0x1F800094);
         *(u16 *)((u8 *)position + 2) = *(u16 *)(scratchpad + 0xF0);

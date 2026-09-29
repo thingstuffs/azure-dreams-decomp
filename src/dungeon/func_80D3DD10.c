@@ -2,6 +2,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
+#include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 
 
@@ -35,13 +36,6 @@ typedef struct S_80173510_0 {
 } S_80173510_0;   /* arg0 in func_80173510 */
 
 
-typedef struct S_80173510_2 {
-    u8 pad_00[0x2A];
-    union { s16 s; u16 u; } unk_2A;   /* accessed as both */
-    u8 pad_2C[0x1A];
-    u16 unk_46;
-} S_80173510_2;   /* arg3 in func_80173510 */
-
 typedef struct S_80173510_3 {
     u8 pad_00[0x2];
     s16 unk_02;
@@ -54,7 +48,7 @@ typedef struct S_80173510_3 {
 } S_80173510_3;   /* arg1 in func_80173510 */
 
 /* Updates a staged movement animation and returns the entity to its tile center. */
-void func_80173510(void *action, void *motion, void *record, void *actor)
+void func_80173510(void *action, void *motion, void *record, EntityRec *actor)
 {
     static void *const state_labels[] = { &&init, &&wait_start, &&move, &&stop, &&wait_return, &&return_to_tile };
     u8 state;
@@ -74,12 +68,12 @@ init:
         ((S_80173510_0 *)action)->unk_9B.n = 5;
         ((S_80173510_0 *)action)->unk_96.u = 0;
         ((Rec_D_80082E80 *)record)->unk_14.at00_u16.v |= 0x6000;
-        func_8009C12C(actor, record, ((S_80173510_2 *)actor)->unk_2A.s, 1);
+        func_8009C12C(actor, record, actor->facing, 1);
 
         animation_ids = D_800E23E0;
         (*(u8 * *)((u8 *)record + (0x2C))) = animation_ids;
         func_80047784(record,
-            animation_ids[((gameWork.view.viewAngle + ((S_80173510_2 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
+            animation_ids[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         if (((S_80173510_0 *)action)->unk_B0 != 0) {
             return;
@@ -114,10 +108,10 @@ wait_start:
         direction_y = (s16 *)((s8 *)dirStepY);
         ((S_80173510_3 *)motion)->unk_0C =
             -*(s16 *)((u8 *)direction_x +
-              ((((S_80173510_2 *)actor)->unk_2A.u >> 8) & 0xE)) << 18;
+              ((((u16)actor->facing) >> 8) & 0xE)) << 18;
         ((S_80173510_3 *)motion)->unk_10 =
             -*(s16 *)((u8 *)direction_y +
-              ((((S_80173510_2 *)actor)->unk_2A.u >> 8) & 0xE)) << 18;
+              ((((u16)actor->facing) >> 8) & 0xE)) << 18;
         return;
     }
 
@@ -141,17 +135,17 @@ move:
             animation_ids = D_800E2400;
             (*(u8 * *)((u8 *)record + (0x2C))) = animation_ids;
             func_80047784(record,
-                animation_ids[((gameWork.view.viewAngle + ((S_80173510_2 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
+                animation_ids[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 1);
 
             direction_x = (s16 *)((s8 *)dirStepX);
             direction_y = (s16 *)((s8 *)dirStepY);
             ((S_80173510_3 *)motion)->unk_0C =
                 *(s16 *)((u8 *)direction_x +
-                  ((((S_80173510_2 *)actor)->unk_2A.u >> 8) & 0xE)) << 19;
+                  ((((u16)actor->facing) >> 8) & 0xE)) << 19;
             ((S_80173510_3 *)motion)->unk_10 =
                 *(s16 *)((u8 *)direction_y +
-                  ((((S_80173510_2 *)actor)->unk_2A.u >> 8) & 0xE)) << 19;
+                  ((((u16)actor->facing) >> 8) & 0xE)) << 19;
         }
 
         entity_kind = ((Rec_D_80082E80 *)record)->unk_04.as_s8;
@@ -166,7 +160,7 @@ move:
                 particles_left--;
                 particle_random = rand();
                 func_800D5DCC((u8 *)action - 0x20,
-                    ((S_80173510_2 *)actor)->unk_2A.s, 0x8080FF,
+                    actor->facing, 0x8080FF,
                     (particle_random & 0xFF) | 0x80);
             } while (particles_left >= 0);
         }
@@ -197,12 +191,12 @@ stop:
             ((S_80173510_3 *)motion)->unk_14 = 0;
             ((S_80173510_3 *)motion)->unk_10 = 0;
             ((S_80173510_3 *)motion)->unk_0C = 0;
-            func_8009C12C(actor, record, ((S_80173510_2 *)actor)->unk_2A.s, 1);
+            func_8009C12C(actor, record, actor->facing, 1);
 
             animation_ids = D_800E23E0;
             (*(u8 * *)((u8 *)record + (0x2C))) = animation_ids;
             func_80047784(record,
-                animation_ids[((gameWork.view.viewAngle + ((S_80173510_2 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
+                animation_ids[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             ((S_80173510_0 *)action)->unk_92 = -0x20;
             if (((S_80173510_0 *)action)->unk_B0 == 0) {
@@ -275,6 +269,6 @@ return_to_tile:
         ((S_80173510_3 *)motion)->unk_10 = 0;
         ((S_80173510_3 *)motion)->unk_02 = ((Rec_D_80082E80 *)record)->unk_24 * 0x40 + 0x20;
         ((S_80173510_3 *)motion)->unk_06 = ((Rec_D_80082E80 *)record)->unk_25 * 0x40 + 0x20;
-        ((S_80173510_2 *)actor)->unk_46 &= 0x7FFF;
+        actor->unk_46 &= 0x7FFF;
     }
 }

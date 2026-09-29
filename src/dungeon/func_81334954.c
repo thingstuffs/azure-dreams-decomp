@@ -6,11 +6,6 @@
 
 
 
-typedef struct S_8016B954_1 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-} S_8016B954_1;   /* flags in func_8016B954 */
-
 
 
 
@@ -24,11 +19,11 @@ extern s32 func_800A2CB8(void *, s32);
 extern void func_800C7930(void *, s32, s32, s32);
 
 /* Attempts an action toward the target and initializes the action state on success. */
-s32 func_8016B954(Rec_func_800A9E70_arg0 *action_state, s32 action_id, Rec_D_80082E80 *target, void *actor) {
+s32 func_8016B954(Rec_func_800A9E70_arg0 *action_state, s32 action_id, Rec_D_80082E80 *target, EntityRec *actor) {
     volatile u64 frame_pad;
     s32 target_direction;
 
-    ((EntityRec *)actor)->unk_71 &= 0x7F;
+    actor->unk_71 &= 0x7F;
 
     if (dungeonStatus.flags & 0x2000) {
         goto shared_failure;
@@ -38,7 +33,7 @@ s32 func_8016B954(Rec_func_800A9E70_arg0 *action_state, s32 action_id, Rec_D_800
         actor,
         target->unk_24,
         target->unk_25,
-        ((EntityRec *)actor)->facing);
+        actor->facing);
 
     if ((func_800A2CB8(actor, target_direction) << 16) == 0) {
         return 0;
@@ -48,7 +43,7 @@ s32 func_8016B954(Rec_func_800A9E70_arg0 *action_state, s32 action_id, Rec_D_800
         return -1;
     }
 
-    if (!(((EntityRec *)actor)->unk_46 & 0x8000) &&
+    if (!(actor->unk_46 & 0x8000) &&
         (dungeonStatus.flags & 8)) {
         return -1;
     }
@@ -74,11 +69,11 @@ success:
     action_state->unk_9A.as_s8 = 0x11;
     action_state->unk_9B.as_s8 = 0;
     action_state->unk_8C = 0;
-    *(unsigned char *)&((EntityRec *)actor)->unk_84 = 0x80;
-    ((EntityRec *)actor)->unk_85 = 32;
-    ((EntityRec *)actor)->unk_6D--;
+    *(unsigned char *)&actor->unk_84 = 0x80;
+    actor->unk_85 = 32;
+    actor->unk_6D--;
 
-    func_8009C93C(actor, target, ((EntityRec *)actor)->facing, 1, 0);
+    func_8009C93C(actor, target, actor->facing, 1, 0);
     return 1;
 }
 

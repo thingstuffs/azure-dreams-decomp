@@ -18,11 +18,6 @@ extern M2C_UNK D_800E09EE;
 extern M2C_UNK D_800E09FB;
 
 
-typedef struct S_800A2FE0_1 {
-    u8 pad_00[0x14];
-    s32 unk_14;
-} S_800A2FE0_1;   /* temp_v0 in func_800A2FE0 */
-
 typedef struct S_800A2FE0_2 {
     u8 pad_00[0x13];
     s8 unk_13;
@@ -49,14 +44,14 @@ void func_800A2FE0(EntityRec *arg0) {
     s32 var_s2;
     s32 var_v1;
     S_800A2FE0_4 *temp_global;
-    S_800A2FE0_1 *temp_v0;
+    EntityRec *temp_v0;
     S_800A2FE0_2 *temp_v0_2;
     S_800A2FE0_3 *temp_v1_2;
 
     var_s2 = 0;
     temp_v0 = arg0->target;
     var_v1 = 0;
-    if ((temp_v0 != NULL) && (temp_v0->unk_14 & 0x4000)) {
+    if ((temp_v0 != NULL) && (temp_v0->flags14 & 0x4000)) {
         temp_a = arg0->flags14 & 0x4000;
         var_v1 = temp_a != 0;
     }

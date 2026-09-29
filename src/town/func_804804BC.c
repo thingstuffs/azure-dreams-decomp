@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "shared/town_root.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_80016000.h"
 
 
 typedef struct S_804804BC_1 {
@@ -16,6 +16,6 @@ extern s32 D_80019438;
 void func_804804BC(void) {
     S_804804BC_1 *counter_state;
 
-    counter_state = ((Rec_D_80016000 *)D_80016000)->unk_38.as_pv;
+    counter_state = D_80016000->unk_38;
     counter_state->unk_2D5C = (s32) (counter_state->unk_2D5C - D_80019438);
 }

@@ -21,7 +21,7 @@ typedef struct {
 void func_800B8E18(Object *object, s32 unused, Effect *effect) {
     u16 magnitude;
     u8 level;
-    s32 *state_flags = ((s32 *)(&objectFlagBlock));
+    ObjectFlagBlock *state_flags = &objectFlagBlock;
 
     magnitude = effect->field1E;
     magnitude = magnitude - ((magnitude * object->field2) / 24);
@@ -33,6 +33,6 @@ void func_800B8E18(Object *object, s32 unused, Effect *effect) {
     effect->fieldC = level;
     if (!(level & 0xFF)) {
         *(u16 *)((u8 *)object - 2) = (u16)(*(u16 *)((u8 *)object - 2) | 0x8000);
-        state_flags[0] = state_flags[0] | 0x8000;
+        state_flags->flags = state_flags->flags | 0x8000;
     }
 }

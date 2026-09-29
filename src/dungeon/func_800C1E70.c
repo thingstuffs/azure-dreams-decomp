@@ -26,7 +26,7 @@ void func_800C75D0(void *tracker) {
     }
     frames_left = *(s16 *)((char *)tracker + 0x24);
     if (frames_left > 0) {
-        *(u16 *)((char *)state + 0x98) = (u16)state->unk_098 +
+        state->unk_098 = (u16)state->unk_098 +
             (*(s16 *)((char *)tracker + 0x26) - state->unk_098) / frames_left;
     } else {
         D_800E3D20[0] = 0;
@@ -50,6 +50,6 @@ void func_800C75D0(void *tracker) {
         state->unk_0A8 = (u16)state->unk_0A8 + ((s32)(*(s16 *)((char *)tracker + 8) - state->unk_0A8) >> 2);
     }
     D_800DF63C[0] = (s8)(state->unk_0A8 != *(s16 *)((char *)tracker + 8));
-    *(u16 *)((char *)state + 0x94) = (s32)(*(u16 *)((char *)state + 0x94) << 0x10) >> 0x12;
-    *(u16 *)((char *)state + 0x96) = (s32)(*(u16 *)((char *)state + 0x96) << 0x10) >> 0x12;
+    state->unk_094 = (s32)(((u16)state->unk_094) << 0x10) >> 0x12;
+    state->unk_096 = (s32)(((u16)state->unk_096) << 0x10) >> 0x12;
 }

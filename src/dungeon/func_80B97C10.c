@@ -15,12 +15,6 @@ extern volatile int D_80071250[];
 extern int D_800712B4[];
 extern int D_80084130[3];
 extern struct S_80083178State D_80083CE8;
-typedef struct DungeonTileRecordLocal
-{
-  u8 pad0[0xC];
-  u16 flags;
-  u8 padE[6];
-} DungeonTileRecordLocal;
 extern s32 func_8009A180();
 extern void func_8009A21C();
 extern void func_8009A3D0();
@@ -44,7 +38,7 @@ void func_80171410(u8 *object_arg, void *entry_context, u8 *tile_arg, u8 *actor_
   register u8 *object ASM_REG("$21") = object_arg;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
   register u8 *tile ASM_REG("$19") = tile_arg;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
   u8 *actor = actor_arg;
-  u8 *state = (u8 *) (&dungeonStatus.unk_00);
+  DungeonGlobalStatus *state = &dungeonStatus;
   s32 actor_flags;
     register s32 base_angle ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
   s32 random_turn;
@@ -53,7 +47,7 @@ void func_80171410(u8 *object_arg, void *entry_context, u8 *tile_arg, u8 *actor_
   u16 state_flags;
   void *target_record;
   u8 *target_tile;
-  state_flags = *(u16 *)(state + 2);
+  state_flags = state->flags;
   ASM_KEEP(object);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
   limit_turn = 0;
   if (state_flags & 0x4000)
@@ -79,7 +73,7 @@ void func_80171410(u8 *object_arg, void *entry_context, u8 *tile_arg, u8 *actor_
 
   return;
   accepted_entry:
-  if ((*((void **) (state + 0xC))) == actor)
+  if ((*((void **) ((u8 *)state + 0xC))) == actor)
   {
     *(u16 *)(actor + 0x46) = 0xC008;
   }
@@ -315,8 +309,8 @@ void func_80171410(u8 *object_arg, void *entry_context, u8 *tile_arg, u8 *actor_
   *(u8 *)(object + 0x9C) = *(u8 *)(tile + 0x26);
   (*(u8 *)(actor + 0x6D))--;
   {
-    u8 *move_state = (u8 *) (&dungeonStatus.unk_00);
-    (*(u16 *)(move_state + 8))++;
+    DungeonGlobalStatus *move_state = &dungeonStatus;
+    (((u16)move_state->unk_08))++;
   }
   if ((*(s8 *)(actor + 0x6D)) != 0)
   {

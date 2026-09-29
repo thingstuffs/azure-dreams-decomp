@@ -1,12 +1,8 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "shared/town_root.h"
 #include "m2c_compat.h"
-
-typedef struct S_8001A51C_3 {
-    u8 pad_00[0x24];
-    void * unk_24;
-} S_8001A51C_3;   /* D_80016000[0] in func_8001A51C */
 
 typedef struct S_8001A51C_4 {
     u8 pad_00[0x70];
@@ -47,7 +43,7 @@ void func_8001A51C(u16 *source, S_8001A51C_1 *rect) {
     volatile u16 *src_cursor;
 
     src_cursor = source;
-    buffer_state = ((S_8001A51C_4 *)(((S_8001A51C_3 *)(D_80016000))->unk_24))->unk_70;
+    buffer_state = ((S_8001A51C_4 *)(D_80016000->unk_24))->unk_70;
     grid_info = (s8 *)buffer_state + 0x1DC;
     dst_base = ((S_8001A51C_0 *)buffer_state)->unk_1DC;
     for (row = 0; row < rect->unk_06; row++) {

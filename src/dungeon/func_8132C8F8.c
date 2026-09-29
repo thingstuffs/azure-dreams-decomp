@@ -41,7 +41,7 @@ typedef struct S_801740F8_2 {
 
 
 /* Updates a timed animation offset and restores the actor's directional animation. */
-void func_801740F8(void *actor, void *transform, void *animation, void *motion)
+void func_801740F8(void *actor, EntityRec *transform, void *animation, void *motion)
 {
     s32 timer;
     s16 next_timer;
@@ -104,9 +104,9 @@ check_done:
         return;
     }
     ((S_801740F8_0 *)actor)->unk_98 &= 0xFFF7;
-    ((EntityRec *)transform)->flags14 = 0;
-    ((EntityRec *)transform)->unk_10 = 0;
-    ((EntityRec *)transform)->unk_0C = 0;
+    transform->flags14 = 0;
+    transform->unk_10 = 0;
+    transform->unk_0C = 0;
     func_800A2B04(transform, ((S_801740F8_1 *)animation)->unk_24, ((S_801740F8_1 *)animation)->unk_25);
     ((S_801740F8_0 *)actor)->unk_9B++;
     return;

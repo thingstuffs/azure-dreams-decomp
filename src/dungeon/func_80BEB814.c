@@ -67,7 +67,7 @@ typedef struct S_80171014_2 {
 
 
 /* Updates a dungeon actor's state, animation, and behavior. */
-void func_80171014(void *actor, void *actor_context, void *map_object, void *creature)
+void func_80171014(void *actor, void *actor_context, void *map_object, EntityRec *creature)
 {
     static void *const action_labels[] = {
         &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4,
@@ -83,7 +83,7 @@ void func_80171014(void *actor, void *actor_context, void *map_object, void *cre
         func_80171574(actor, actor_context);
         return;
     }
-    if (((EntityRec *)creature)->tileY == 0) {
+    if (creature->tileY == 0) {
         void *animation_table;
 
         func_800AA79C(actor, actor_context, map_object, creature);
@@ -93,17 +93,17 @@ void func_80171014(void *actor, void *actor_context, void *map_object, void *cre
         animation_table = D_80174254;
         (*(void * *)((u8 *)map_object + (0x2C))) = animation_table;
         func_80047784(map_object,
-            ((u8 *)animation_table)[((gameWork.view.viewAngle + ((EntityRec *)creature)->facing + 0x100) >> 9) & 7],
+            ((u8 *)animation_table)[((gameWork.view.viewAngle + creature->facing + 0x100) >> 9) & 7],
             0);
         return;
     }
 
-    if (((u32)((EntityRec *)creature)->flags1C) & 0x200) {
+    if (((u32)creature->flags1C) & 0x200) {
         if (((S_80171014_2 *)map_object)->unk_2C == D_8017425C) {
             ((S_80171014_0 *)actor)->unk_9A = 0xD;
             ((S_80171014_0 *)actor)->unk_9B = 1;
             ((S_80171014_0 *)actor)->unk_8C = 0;
-            ((EntityRec *)creature)->flags1C &= 0xFFFBFFFF;
+            creature->flags1C &= 0xFFFBFFFF;
             return;
         }
         if (func_800AA924(actor, actor_context, map_object, D_80174254) != 0) {
@@ -112,7 +112,7 @@ void func_80171014(void *actor, void *actor_context, void *map_object, void *cre
     }
 
     if (!(dungeonStatus.flags & 0x2000)) {
-        if (((u32)((EntityRec *)creature)->flags1C) & 0x100) {
+        if (((u32)creature->flags1C) & 0x100) {
             func_800AA258(actor, actor_context, map_object, creature);
             return;
         }
@@ -131,7 +131,7 @@ void func_80171014(void *actor, void *actor_context, void *map_object, void *cre
             if (current_animation != animation_table) {
                 (*(void * *)((u8 *)map_object + (0x2C))) = animation_table;
                 func_80047784(map_object,
-                    ((u8 *)animation_table)[((gameWork.view.viewAngle + ((EntityRec *)creature)->facing + 0x100) >> 9) & 7],
+                    ((u8 *)animation_table)[((gameWork.view.viewAngle + creature->facing + 0x100) >> 9) & 7],
                     0);
                 ((S_80171014_2 *)map_object)->unk_05 = 1;
                 ((S_80171014_0 *)actor)->unk_A2.s = 0;
@@ -139,16 +139,16 @@ void func_80171014(void *actor, void *actor_context, void *map_object, void *cre
             }
         }
 
-        ((EntityRec *)creature)->flags1C |= 0x40000;
+        creature->flags1C |= 0x40000;
         ((S_80171014_0 *)actor)->unk_98 &= 0xFFF7;
 
-        if (((EntityRec *)creature)->unk_64 != 0) {
+        if (creature->unk_64 != 0) {
             if (func_800AA6B4(actor, actor_context, map_object, D_8017421C) != 0) {
                 return;
             }
         }
 
-        if (((u32)((EntityRec *)creature)->flags1C) & 0x80000) {
+        if (((u32)creature->flags1C) & 0x80000) {
             s16 offset_delta;
 
             func_800AA888(actor, actor_context, map_object, creature);
@@ -171,14 +171,14 @@ void func_80171014(void *actor, void *actor_context, void *map_object, void *cre
     room_id = func_8009FB34(((S_80171014_2 *)map_object)->unk_24.at00.v, ((S_80171014_2 *)map_object)->unk_24.at01.v);
     ((S_80171014_2 *)map_object)->unk_26 = room_id;
 
-    if (((EntityRec *)creature)->unk_6D > 0) {
-        if (((u32)((EntityRec *)creature)->flags1C) & 0x20) {
+    if (creature->unk_6D > 0) {
+        if (((u32)creature->flags1C) & 0x20) {
             goto case_12;
         }
         if (((S_80171014_2 *)map_object)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
             goto generic;
         }
-        if (!(((EntityRec *)creature)->unk_46 & 0x8000)) {
+        if (!(creature->unk_46 & 0x8000)) {
             if (dungeonStatus.flags & 0x2000) {
                 if ((func_8009A180(creature,
                         (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
@@ -188,14 +188,14 @@ void func_80171014(void *actor, void *actor_context, void *map_object, void *cre
             if ((func_801721B4(actor, actor_context, map_object, 0) << 16) == 0) {
                 return;
             }
-            action_state = ((EntityRec *)creature)->unk_46 | 0x4000;
-            ((EntityRec *)creature)->unk_46 = action_state;
+            action_state = creature->unk_46 | 0x4000;
+            creature->unk_46 = action_state;
             if (!(action_state & 0x8000)) {
                 goto generic;
             }
         }
 
-        action_state = ((EntityRec *)creature)->unk_46 & 0x3FFF;
+        action_state = creature->unk_46 & 0x3FFF;
         {
             u32 idx = action_state - 1;
             if (idx >= 12) {
@@ -225,7 +225,7 @@ jt_c7:
                 D_80082E80.tileX, D_80082E80.tileY,
                 &distance);
             player = D_800814A8;
-            ((EntityRec *)creature)->facing = facing_angle;
+            creature->facing = facing_angle;
             if (player->unk_9A == 0x11) {
                 goto case_123;
             }
@@ -251,17 +251,17 @@ generic:
         return;
     }
 
-    if (!(((u32)((EntityRec *)creature)->flags1C) & 0x2000)) {
+    if (!(((u32)creature->flags1C) & 0x2000)) {
         s32 room_index = room_id;
 
         if ((room_index < 0) ||
             !(D_800E2970[room_index].flags & 2)) {
-            if (!(((u32)((EntityRec *)creature)->flags1C) & 0x430)) {
+            if (!(((u32)creature->flags1C) & 0x430)) {
 
                 if ((func_8009FD7C(
                         ((S_80171014_2 *)map_object)->unk_24.at00.v, ((S_80171014_2 *)map_object)->unk_24.at01.v,
                         D_80082E80.tileX, D_80082E80.tileY) << 16) != 0) {
-                    ((EntityRec *)creature)->facing = func_800A0818(
+                    creature->facing = func_800A0818(
                         ((S_80171014_2 *)map_object)->unk_24.at00.v, ((S_80171014_2 *)map_object)->unk_24.at01.v,
                         D_80082E80.tileX, D_80082E80.tileY,
                         &distance);

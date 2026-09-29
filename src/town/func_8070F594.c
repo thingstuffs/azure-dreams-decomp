@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "shared/town_root.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_80016000.h"
 
 
 typedef struct S_8070F594_1 {
@@ -27,7 +27,7 @@ s32 func_8070F594(void) {
     func_80016CC4();
     func_8001A5CC(0x935);
     func_8001A5CC(0x936);
-    ((S_8070F594_1 *)(((Rec_D_80016000 *)D_80016000)->unk_1C.as_pv))->unk_40 = &D_8001D9D4;
-    ((S_8070F594_2 *)(((Rec_D_80016000 *)D_80016000)->unk_20))->unk_2F8(0xE, 0x200);
+    ((S_8070F594_1 *)(D_80016000->unk_1C))->unk_40 = &D_8001D9D4;
+    ((S_8070F594_2 *)(D_80016000->unk_20))->unk_2F8(0xE, 0x200);
     return 0;
 }

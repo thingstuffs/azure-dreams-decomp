@@ -20,19 +20,6 @@ typedef struct S_801743DC_0 {
 } S_801743DC_0;   /* arg0 in func_801743DC */
 
 
-typedef struct S_801743DC_2 {
-    u8 pad_00[0x1C];
-    union { s32 s; u32 u; } unk_1C;   /* accessed as both */
-    u8 pad_20[0x5];
-    u8 unk_25;
-    u8 pad_26[0x4];
-    s16 unk_2A;
-    u8 pad_2C[0x38];
-    s16 unk_64;
-    u8 pad_66[0x7];
-    s8 unk_6D;
-} S_801743DC_2;   /* arg3 in func_801743DC */
-
 
 
 extern s32 func_80042900(void *, s32);
@@ -55,7 +42,7 @@ extern u8 D_800E2430[];
 extern u8 D_80171A80[];
 
 /* Advances the entity action through animation, behavior, and callback transitions. */
-void func_801743DC(void *action, void *context, void *sprite, void *entity)
+void func_801743DC(void *action, void *context, void *sprite, EntityRec *entity)
 {
     s32 entity_flags;
     u16 action_value;
@@ -84,7 +71,7 @@ state_zero:
     }
     (*(void * *)((u8 *)sprite + 0x2C)) = D_800E2428;
     func_80047784(sprite,
-        D_800E2428[((gameWork.view.viewAngle + ((S_801743DC_2 *)entity)->unk_2A + 0x100) >> 9) & 7],
+        D_800E2428[((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
         0);
     {
         DungeonGlobalStatus *counter_base = &dungeonStatus;
@@ -99,12 +86,12 @@ state_one:
     if (global_base->flags & 0x1000) {
         return;
     }
-    if (((S_801743DC_2 *)entity)->unk_64 != 0) {
+    if (entity->unk_64 != 0) {
         if (func_800AA6B4(action, context, sprite, 0) != 0) {
             return;
         }
     }
-    if (((S_801743DC_2 *)entity)->unk_25 == 0) {
+    if (entity->tileY == 0) {
         if (global_base->flags & 0x2008) {
             return;
         }
@@ -114,7 +101,7 @@ state_one:
     if ((func_800A2C34(entity) << 16) != 0) {
         return;
     }
-    entity_flags = ((S_801743DC_2 *)entity)->unk_1C.s;
+    entity_flags = entity->flags1C;
     if (entity_flags & 0x100) {
         func_800AA258(action, context, sprite, entity);
         return;
@@ -129,7 +116,7 @@ state_one:
         func_80174A68(action, context, sprite, entity);
         return;
     }
-    if (((S_801743DC_2 *)entity)->unk_6D == 0) {
+    if (entity->unk_6D == 0) {
         return;
     }
     if ((func_800A2C34(entity) << 16) != 0) {
@@ -158,9 +145,9 @@ state_one:
     }
     (*(void * *)((u8 *)sprite + 0x2C)) = D_800E2430;
     func_80047784(sprite,
-        D_800E2430[((gameWork.view.viewAngle + ((S_801743DC_2 *)entity)->unk_2A + 0x100) >> 9) & 7],
+        D_800E2430[((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
         0);
-    ((S_801743DC_2 *)entity)->unk_1C.u |= 0x40000;
+    (*(u32 *)&entity->flags1C) |= 0x40000;
     if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
         goto set_callback;
     }

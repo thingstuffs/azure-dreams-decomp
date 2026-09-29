@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "shared/town_root.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_80016000.h"
 
 
 typedef struct S_80353F64_1 {
@@ -17,6 +17,6 @@ typedef struct S_80353F64_1 {
 
 /* Set the current record's linked state fields to 0x15 and 0x12. */
 void func_80353F64(void) {
-    ((S_80353F64_1 *)(((Rec_D_80016000 *)D_80016000)->unk_1C.as_pv))->unk_04 = 0x15;
-    ((S_80353F64_1 *)(((Rec_D_80016000 *)D_80016000)->unk_1C.as_pv))->unk_08 = 0x12;
+    ((S_80353F64_1 *)(D_80016000->unk_1C))->unk_04 = 0x15;
+    ((S_80353F64_1 *)(D_80016000->unk_1C))->unk_08 = 0x12;
 }

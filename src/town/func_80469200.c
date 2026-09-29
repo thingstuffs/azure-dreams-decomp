@@ -1,12 +1,8 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "shared/town_root.h"
 #include "m2c_compat.h"
-
-typedef struct S_8001A200_0 {
-    u8 pad_00[0x20];
-    void * unk_20;
-} S_8001A200_0;   /* D_80016000[0] in func_8001A200 */
 
 typedef struct S_8001A200_1 {
     u8 pad_00[0x2D4];
@@ -37,7 +33,7 @@ void func_8001A200(void *records, s32 *value_sets) {
     s32 next_status;
     s16 end_mask;
 
-    context = ((S_8001A200_0 *)(D_80016000))->unk_20;
+    context = D_80016000->unk_20;
     status_ptr = (u8 *)value_sets;
     values_base = *((((S_8001A200_1 *)context)->unk_2D4(0)) + (s32 *)status_ptr);
     record = records;

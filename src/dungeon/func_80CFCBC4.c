@@ -42,7 +42,7 @@ extern u8 D_80163DE4[8];
 extern u8 D_80163DEC[8];
 
 /* Advance the actor's timed action sequence and update its animation and effects. */
-void func_801623C4(void *action, void *motion, void *animation, void *actor)
+void func_801623C4(void *action, void *motion, void *animation, EntityRec *actor)
 {
     static void *const state_labels[] = {
         &&initialize, &&select_animation, &&wait_action, &&finish_action, &&done, &&special_action
@@ -75,23 +75,23 @@ select_animation:
     }
     ((S_801623C4_0 *)action)->unk_96.s = 0;
     ((S_801623C4_0 *)action)->unk_9B++;
-    switch (((EntityRec *)actor)->unk_48) {
+    switch (actor->unk_48) {
     case 13:
         (*(u8 * *)((u8 *)animation + 0x2C)) = D_80163DDC;
         func_80047784(animation,
-            D_80163DDC[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            D_80163DDC[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         return;
     case 14:
         (*(u8 * *)((u8 *)animation + 0x2C)) = D_80163DE4;
         func_80047784(animation,
-            D_80163DE4[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            D_80163DE4[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         return;
     case 15:
         (*(u8 * *)((u8 *)animation + 0x2C)) = D_80163DEC;
         func_80047784(animation,
-            D_80163DEC[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            D_80163DEC[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         ((S_801623C4_0 *)action)->unk_9B = 5;
         func_800A56E0(0x60C);
@@ -104,7 +104,7 @@ wait_action:
     timer = ((S_801623C4_0 *)action)->unk_96.s + 1;
     ((S_801623C4_0 *)action)->unk_96.s = timer;
     if ((timer == 5) || (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0x8000)) {
-        func_8009C12C(actor, animation, ((EntityRec *)actor)->facing, 1);
+        func_8009C12C(actor, animation, actor->facing, 1);
         ((S_801623C4_0 *)action)->unk_96.s = 0;
         ((S_801623C4_0 *)action)->unk_9B++;
     }
@@ -120,7 +120,7 @@ finish_action:
         ((S_801623C4_0 *)action)->unk_8C = D_801604BC;
         dungeonStatus.unk_0C = 0;
         func_800A4ACC(actor);
-        ((EntityRec *)actor)->unk_46 &= 0x7FFF;
+        actor->unk_46 &= 0x7FFF;
     }
     return;
 
@@ -135,7 +135,7 @@ special_action:
     }
     if ((((S_801623C4_0 *)action)->unk_96.u == 12) ||
         (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0x8000)) {
-        func_8009C12C(actor, animation, ((EntityRec *)actor)->facing,
+        func_8009C12C(actor, animation, actor->facing,
             ((S_801623C4_0 *)action)->unk_AA);
     }
     if ((((S_801623C4_0 *)action)->unk_96.u != 20) &&

@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
-#include "records/Rec_D_80016000.h"
+#include "shared/town_root.h"
+#include "m2c_compat.h"
 
 
 
@@ -29,7 +30,7 @@ void func_80018544(s32 context, s32 unused, s32 event_code) {
     void *selected_data;
 
     if ((event_code == 0x1E) && (func_80019A34(0xD, 1) != 0)) {
-        ((S_80018544_1 *)(((Rec_D_80016000 *)D_80016000)->unk_20))->unk_78(0);
+        ((S_80018544_1 *)(D_80016000->unk_20))->unk_78(0);
         func_8001ACE8(0x1460);
         func_80019BC0();
     }

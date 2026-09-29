@@ -37,7 +37,7 @@ extern u8 D_800D8C64[];
 extern u8 D_800E262C[];
 
 /* Advances the actor action state and updates its directional animation. */
-void func_800DA014(void *controller, void *action_context, void *sprite, void *actor)
+void func_800DA014(void *controller, void *action_context, void *sprite, EntityRec *actor)
 {
     s32 state;
 
@@ -67,7 +67,7 @@ state_zero:
         direction_table = D_800E262C;
         (*(void * *)((u8 *)sprite + 0x2C)) = direction_table;
         func_8003DB94(sprite,
-            *(void **)(direction_table + (((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 7) & 28)),
+            *(void **)(direction_table + (((gameWork.view.viewAngle + actor->facing + 0x100) >> 7) & 28)),
             0);
         system_base = &dungeonStatus;
         (*(u16 *)&system_base->unk_0A)--;
@@ -85,12 +85,12 @@ state_one:
             return;
         }
 
-        if ((((EntityRec *)actor)->unk_64 != 0) &&
+        if ((actor->unk_64 != 0) &&
             (func_800AA6B4(controller, action_context, sprite, 0) != 0)) {
             return;
         }
 
-        if (((EntityRec *)actor)->tileY == 0) {
+        if (actor->tileY == 0) {
             if (system_base->flags & 0x2008) {
                 return;
             }
@@ -102,7 +102,7 @@ state_one:
             return;
         }
 
-        actor_flags = ((EntityRec *)actor)->flags1C;
+        actor_flags = actor->flags1C;
         if (actor_flags & 0x100) {
             func_800AA258(controller, action_context, sprite, actor);
             return;
@@ -114,7 +114,7 @@ state_one:
             return;
         }
 
-        if (((EntityRec *)actor)->unk_6D == 0) {
+        if (actor->unk_6D == 0) {
             return;
         }
 
@@ -148,7 +148,7 @@ state_one:
             direction_table = D_800E262C;
             (*(void * *)((u8 *)sprite + 0x2C)) = direction_table;
             func_8003DB94(sprite,
-                *(void **)(direction_table + (((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 7) & 28)),
+                *(void **)(direction_table + (((gameWork.view.viewAngle + actor->facing + 0x100) >> 7) & 28)),
                 0);
         } else {
             return;
@@ -174,6 +174,6 @@ state_two:
     }
 
 finish:
-    ((EntityRec *)actor)->flags1C &= ~0x200;
+    actor->flags1C &= ~0x200;
     ((S_800DA014_0 *)controller)->unk_8C = D_800D8C64;
 }

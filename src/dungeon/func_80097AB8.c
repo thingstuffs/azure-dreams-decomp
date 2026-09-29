@@ -14,7 +14,7 @@ typedef struct S_8009D218_1_pre {
 
 /* extern */
 
-s32 func_8009D218(void *arg0, s32 arg1, Rec_D_800287A4 *arg2) {
+s32 func_8009D218(EntityRec *arg0, s32 arg1, Rec_D_800287A4 *arg2) {
     u8 *temp_v0;
 
     if (!(arg1 & 8) && (arg2 != NULL)) {
@@ -35,7 +35,7 @@ s32 func_8009D218(void *arg0, s32 arg1, Rec_D_800287A4 *arg2) {
         if (!(arg1 & 4) || (((func_80042900(arg0, 0x16) << 0x10) == 0) && ((func_80042900(arg0, 0x15) << 0x10) == 0)) || (arg2->unk_13 < 0)) {
 block_17:
             if (arg2 != NULL) {
-                temp_v0 = (*(u8 * *)&((EntityRec *)arg0)->unk_50);
+                temp_v0 = (*(u8 * *)&arg0->unk_50);
                 if (temp_v0 != NULL) {
                     if ((*temp_v0 == 3) && (arg2->unk_13 >= 0) && (func_800A6D30() & 3)) {
                         /* Duplicate return node #22. Try simplifying control flow for better match */

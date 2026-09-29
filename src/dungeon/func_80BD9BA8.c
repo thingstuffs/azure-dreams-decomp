@@ -2,6 +2,7 @@
 #include "shared/dir_step.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 
 
@@ -24,16 +25,6 @@ extern u8 D_8015C66C[8];
 extern Callback D_8015C6A0[];
 
 
-typedef struct S_801593A8_0 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
-    u8 pad_08[0x2];
-    s16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_801593A8_0;   /* arg1 in func_801593A8 */
-
 
 typedef struct S_801593A8_2 {
     u8 pad_00[0x1C];
@@ -45,7 +36,7 @@ typedef struct S_801593A8_2 {
 } S_801593A8_2;   /* base in func_801593A8 */
 
 /* Updates entity callbacks, movement, animation, and terrain-relative height. */
-void func_801593A8(void *entity, S_801593A8_0 *motion, void *sprite)
+void func_801593A8(void *entity, EntityRec *motion, void *sprite)
 {
     void *entity_base = entity;
     s16 old_state;
@@ -99,17 +90,17 @@ void func_801593A8(void *entity, S_801593A8_0 *motion, void *sprite)
         }
     }
 
-    motion->unk_00.at00.v += motion->unk_0C;
-    motion->unk_04.at00.v += motion->unk_10;
+    motion->x.v += motion->unk_0C;
+    motion->y.v += motion->unk_10;
 
     if (!((*(s32 *)((u8 *)entity + 0x1C)) & 0x40000) &&
         !((*(u16 *)((u8 *)entity + 0x98)) & 8)) {
-        motion->unk_14 += (*(s8 *)((u8 *)entity + 0x9D)) * 0x14000;
+        motion->flags14 += (*(s8 *)((u8 *)entity + 0x9D)) * 0x14000;
         (*(u8 *)((u8 *)entity + 0x9D))++;
     } else {
         (*(u8 *)((u8 *)entity + 0x9D)) = 0;
     }
-    (*(s32 *)((u8 *)entity + 0x90)) += motion->unk_14;
+    (*(s32 *)((u8 *)entity + 0x90)) += motion->flags14;
     initial_sprite_flags = ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v;
 
     if (!(initial_sprite_flags & 0x8000)) {
@@ -219,14 +210,14 @@ void func_801593A8(void *entity, S_801593A8_0 *motion, void *sprite)
         height_offset_2 = height_flags & 8;
         if (height_offset_2 == 0) {
 ground_call:
-            ground_height = func_800BCB04(motion->unk_00.at02.v,
-                                  motion->unk_04.at02.v,
+            ground_height = func_800BCB04(((u16)motion->x.w.i),
+                                  ((u16)motion->y.w.i),
                                   (s16)(((S_801593A8_2 *)entity_base)->unk_88 - 0x20)) -
                     ((S_801593A8_2 *)entity_base)->unk_88;
             if (ground_height < (*(s16 *)((u8 *)entity + 0x92))) {
                 (*(s16 *)((u8 *)entity + 0x92)) = ground_height;
                 (*(u8 *)((u8 *)entity + 0x9D)) = 0;
-                motion->unk_14 = 0;
+                motion->flags14 = 0;
                 ((S_801593A8_2 *)entity_base)->unk_1C |= 0x08000000;
                 goto finish_height;
             }
@@ -283,7 +274,7 @@ finish_height:
             ((S_801593A8_2 *)entity_base)->unk_88 = ground_height;
         }
     }
-    motion->unk_0A = ((S_801593A8_2 *)entity_base)->unk_88 +
+    motion->z.w.i = ((S_801593A8_2 *)entity_base)->unk_88 +
                              (u16)(*(s16 *)((u8 *)entity + 0x92)) -
                              (*(u16 *)((u8 *)entity + 0xA6));
     ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x40;

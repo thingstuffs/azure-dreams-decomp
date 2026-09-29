@@ -55,10 +55,10 @@ void func_800C01DC(void) {
         position_data = (s8 *) &D_8006ADBC;
         position_entry = ((S_800C01DC_1 *)position_data)->unk_10;
         do {
-            ((EntityRec *)(&D_80083780.x.v))->x.w.i = (s16) (((S_800C01DC_1 *)position_data)->unk_14 + position_entry[0]);
+            D_80083780.x.w.i = (s16) (((S_800C01DC_1 *)position_data)->unk_14 + position_entry[0]);
         } while (0);
-        ((EntityRec *)(&D_80083780.x.v))->y.w.i = (s16) (((S_800C01DC_1 *)position_data)->unk_16 + position_entry[1]);
-        ((EntityRec *)(&D_80083780.x.v))->z.w.i = func_800C2AE8(&D_80083780.x.v, position_entry);
+        D_80083780.y.w.i = (s16) (((S_800C01DC_1 *)position_data)->unk_16 + position_entry[1]);
+        D_80083780.z.w.i = func_800C2AE8(&D_80083780.x.v, position_entry);
     }
     func_8009550C(&D_80083780.x.v);
 }

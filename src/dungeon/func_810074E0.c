@@ -26,7 +26,7 @@ extern s32 D_80171058;
 extern s32 D_801748C0;
 
 /* Applies backward motion, then returns the actor to its tile center or starts the next action. */
-void func_80172CE0(S_80172CE0_0 *action, EntityRec *motion, Rec_D_80082E80 *entity, void *actor)
+void func_80172CE0(S_80172CE0_0 *action, EntityRec *motion, Rec_D_80082E80 *entity, EntityRec *actor)
 {
     s16 frames_left;
     s32 tracked_actor;
@@ -35,12 +35,12 @@ void func_80172CE0(S_80172CE0_0 *action, EntityRec *motion, Rec_D_80082E80 *enti
     case 0:
         func_800AD4D0(actor);
         motion->unk_0C =
-            -((s16 *)((s8 *)dirStepX))[((u16)((s16)((EntityRec *)actor)->unk_6A) >> 9) & 7] << 15;
+            -((s16 *)((s8 *)dirStepX))[((u16)((s16)actor->unk_6A) >> 9) & 7] << 15;
         motion->unk_10 =
-            -((s16 *)((s8 *)dirStepY))[((u16)((s16)((EntityRec *)actor)->unk_6A) >> 9) & 7] << 15;
+            -((s16 *)((s8 *)dirStepY))[((u16)((s16)actor->unk_6A) >> 9) & 7] << 15;
         action->unk_9B++;
 
-        if (((EntityRec *)actor)->unk_28 == 0) {
+        if (actor->unk_28 == 0) {
             goto start_action;
         }
         if (entity->unk_14.at00_u16.v & 0x8000) {
@@ -48,7 +48,7 @@ void func_80172CE0(S_80172CE0_0 *action, EntityRec *motion, Rec_D_80082E80 *enti
             action->unk_9B = 2;
             return;
         }
-        if (((EntityRec *)actor)->flags1C & 0x228) {
+        if (actor->flags1C & 0x228) {
             frames_left = 8;
         } else {
             frames_left = -1;
@@ -59,9 +59,9 @@ void func_80172CE0(S_80172CE0_0 *action, EntityRec *motion, Rec_D_80082E80 *enti
 
     case 1:
         motion->unk_0C +=
-            ((s16 *)((s8 *)dirStepX))[((u16)((s16)((EntityRec *)actor)->unk_6A) >> 9) & 7] << 10;
+            ((s16 *)((s8 *)dirStepX))[((u16)((s16)actor->unk_6A) >> 9) & 7] << 10;
         motion->unk_10 +=
-            ((s16 *)((s8 *)dirStepY))[((u16)((s16)((EntityRec *)actor)->unk_6A) >> 9) & 7] << 10;
+            ((s16 *)((s8 *)dirStepY))[((u16)((s16)actor->unk_6A) >> 9) & 7] << 10;
         if (action->unk_96.s > 0) {
             action->unk_96.s = action->unk_96.u - 1;
         } else if (entity->unk_14.at00_u16.v & 0x6000) {
@@ -70,7 +70,7 @@ void func_80172CE0(S_80172CE0_0 *action, EntityRec *motion, Rec_D_80082E80 *enti
         if (action->unk_96.s != 0) {
             return;
         }
-        if (((EntityRec *)actor)->unk_28 != 0) {
+        if (actor->unk_28 != 0) {
             goto increment_state;
         }
         goto start_action;

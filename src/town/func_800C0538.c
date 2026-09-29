@@ -5,11 +5,6 @@
 extern u8 D_80089660[];
 extern void *memcpy(void *dst, const void *src, u32 n);
 
-typedef struct S_800BDC98_0 {
-    u8 pad_00[0x1DC];
-    s8 * unk_1DC;
-} S_800BDC98_0;   /* base in func_800BDC98 */
-
 typedef struct S_800BDC98_1 {
     u8 pad_00[0x14];
     s16 unk_14;
@@ -34,7 +29,7 @@ void func_800BDC98(s16 start_x, s16 start_y, s16 mode, s32 pair_index) {
     s32 y_limit;
     s32 wrapped_y;
     s32 pair_offset;
-    s8 *state;
+    GameWork *state;
     s8 *pair_src;
     s8 *buffer_info;
     s8 *buffer;
@@ -42,9 +37,9 @@ void func_800BDC98(s16 start_x, s16 start_y, s16 mode, s32 pair_index) {
     saved_pair = pair_index;
     selected_pair = saved_pair;
     M2C_MEMCPY_UNALIGNED(value_pairs, D_80089660, 0x10);
-    state = (s8 *)((struct S_8003E2D8 *)&gameWork);
-    buffer_info = state + 0x1DC;
-    buffer = ((S_800BDC98_0 *)state)->unk_1DC;
+    state = &gameWork;
+    buffer_info = (u8 *)state + 0x1DC;
+    buffer = ((s8 *)state->map.cells);
     height = 1;
     if ((mode == 2) || (selected_pair = 3, pair_test = saved_pair << 0x10, (pair_test == 0))) {
         x = start_x;

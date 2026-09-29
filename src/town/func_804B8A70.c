@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "shared/town_root.h"
 
 typedef void (*Callback)(s32);
 
@@ -15,18 +16,12 @@ typedef struct {
     s32 y;
 } Position;
 
-typedef struct {
-    u8 pad[0x1C];
-    Position *position;
-    CallbackTable *callbacks;
-} TownState;
-
 
 /* Invoke both town callbacks with 1 and shift the position by (+32, -16). */
 void func_80017270(void)
 {
-    ((TownState *)D_80016000)->callbacks->callback1(1);
-    ((TownState *)D_80016000)->callbacks->callback2(1);
-    ((TownState *)D_80016000)->position->x += 0x20;
-    ((TownState *)D_80016000)->position->y -= 0x10;
+    ((CallbackTable *)D_80016000->unk_20)->callback1(1);
+    ((CallbackTable *)D_80016000->unk_20)->callback2(1);
+    ((Position *)D_80016000->unk_1C)->x += 0x20;
+    ((Position *)D_80016000->unk_1C)->y -= 0x10;
 }

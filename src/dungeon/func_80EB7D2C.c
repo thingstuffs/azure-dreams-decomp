@@ -3,6 +3,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "shared/entity.h"
 
 typedef struct S_8017352C_0 {
     u8 pad_00[0x8C];
@@ -43,11 +44,6 @@ typedef struct S_8017352C_3 {
     u16 unk_0A;
 } S_8017352C_3;   /* counter_base in func_8017352C */
 
-typedef struct S_8017352C_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-} S_8017352C_4;   /* global_base in func_8017352C */
-
 typedef struct S_8017352C_5 {
     u8 pad_00[0x4];
     u16 unk_04;
@@ -57,16 +53,6 @@ typedef struct S_8017352C_6 {
     u8 pad_00[0x14];
     u16 unk_14;
 } S_8017352C_6;   /* part28 in func_8017352C */
-
-typedef struct S_8017352C_7 {
-    u8 pad_00[0x58];
-    void * unk_58;
-} S_8017352C_7;   /* owner in func_8017352C */
-
-typedef struct S_8017352C_8 {
-    u8 pad_00[0x26];
-    s8 unk_26;
-} S_8017352C_8;   /* origin in func_8017352C */
 
 typedef struct S_8017352C_9 {
     u8 pad_00[0x14];
@@ -104,9 +90,9 @@ void func_8017352C(void *in_entity, void *in_motion, void *in_sprite, void *in_a
     void *actor;
     u8 *body_part;
     u8 *part_anim;
-    u8 *global_base;
+    DungeonGlobalStatus *global_base;
     u8 *body;
-    u8 *state_zero_counter_base;
+    DungeonGlobalStatus *state_zero_counter_base;
     u8 *animate_counter_base;
     u8 *state_two_counter_base;
     s32 actor_flags;
@@ -151,10 +137,10 @@ state_zero:
     func_80047784(sprite,
         D_801741CC[((gameWork.view.viewAngle + ((S_8017352C_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
         0);
-    state_zero_counter_base = (u8 *)&dungeonStatus.unk_00;
+    state_zero_counter_base = &dungeonStatus;
     ((S_8017352C_0 *)entity)->unk_96 = 0;
-    count = ((S_8017352C_3 *)state_zero_counter_base)->unk_0A - 1;
-    ((S_8017352C_3 *)state_zero_counter_base)->unk_0A = count;
+    count = ((u16)state_zero_counter_base->unk_0A) - 1;
+    state_zero_counter_base->unk_0A = count;
     ((S_8017352C_0 *)entity)->unk_9B++;
     return;
 
@@ -162,8 +148,8 @@ state_one:
     if ((func_80042900(actor, 1) << 16) == 0) {
         goto animate;
     }
-    global_base = (u8 *)&dungeonStatus.unk_00;
-    if (((S_8017352C_4 *)global_base)->unk_02 & 0x1000) {
+    global_base = &dungeonStatus;
+    if (global_base->flags & 0x1000) {
         return;
     }
     if (((S_8017352C_2 *)actor)->unk_64 != 0) {
@@ -172,7 +158,7 @@ state_one:
         }
     }
     if (((S_8017352C_2 *)actor)->unk_25 == 0) {
-        if (((S_8017352C_4 *)global_base)->unk_02 & 0x2008) {
+        if (global_base->flags & 0x2008) {
             return;
         }
         func_800AA79C(entity, motion, sprite, actor);
@@ -207,10 +193,10 @@ state_one:
         return;
     }
     if ((func_800A2C34(actor) << 16) != 0) {
-        void *owner = D_800814A8;
+        EntityRec *owner = D_800814A8;
 
         if ((func_8009A180(actor,
-                (u8 *)((S_8017352C_7 *)owner)->unk_58 + 0x20) << 16) != 0) {
+                (u8 *)owner->unk_58 + 0x20) << 16) != 0) {
             return;
         }
     }

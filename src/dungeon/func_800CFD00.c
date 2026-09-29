@@ -16,7 +16,7 @@ extern M2C_UNK D_800DECF8[3];
 /* Creates a colored effect at the source object's position. */
 void func_800D5460(void *source, s32 color, unsigned short event_id)
 {
-  M2C_UNK *effect_state;
+  DungeonGlobalStatus *effect_state;
   s32 *color_ptr;
   s32 event_code;
   s32 effect_color;
@@ -59,7 +59,7 @@ void func_800D5460(void *source, s32 color, unsigned short event_id)
     {
       func_800A56E0(event_code);
     }
-    effect_state = (M2C_UNK *) ((u8 *)(&dungeonStatus));
+    effect_state = &dungeonStatus;
     *((u16 *) (((u8 *) effect_state) + 0xA)) = (u16) ((*((u16 *) (((u8 *) effect_state) + 0xA))) + 1);
   }
 }

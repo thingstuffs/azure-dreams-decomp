@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "shared/town_root.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_80016000.h"
 
 
 typedef struct S_800188EC_1 {
@@ -16,5 +16,5 @@ typedef struct S_800188EC_1 {
 
 /* Returns the byte at offset 0x114 in the referenced record. */
 u8 func_800188EC(void) {
-    return ((S_800188EC_1 *)(((Rec_D_80016000 *)D_80016000)->unk_40.as_pv))->unk_114;
+    return ((S_800188EC_1 *)(D_80016000->unk_40))->unk_114;
 }

@@ -42,7 +42,7 @@ extern u8 D_80169DE4[8];
 extern u8 D_80169DEC[8];
 
 /* Advance the actor action sequence, updating animation and timed effects. */
-void func_801683C4(void *action, void *motion, void *sprite, void *actor)
+void func_801683C4(void *action, void *motion, void *sprite, EntityRec *actor)
 {
     static void *const state_labels[] = {
         &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5
@@ -75,23 +75,23 @@ jt_c1:
     }
     ((S_801683C4_0 *)action)->unk_96.s = 0;
     ((S_801683C4_0 *)action)->unk_9B++;
-    switch (((EntityRec *)actor)->unk_48) {
+    switch (actor->unk_48) {
     case 13:
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80169DDC;
         func_80047784(sprite,
-            D_80169DDC[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            D_80169DDC[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         return;
     case 14:
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80169DE4;
         func_80047784(sprite,
-            D_80169DE4[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            D_80169DE4[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         return;
     case 15:
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80169DEC;
         func_80047784(sprite,
-            D_80169DEC[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            D_80169DEC[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         ((S_801683C4_0 *)action)->unk_9B = 5;
         func_800A56E0(0x60C);
@@ -104,7 +104,7 @@ jt_c2:
     timer = ((S_801683C4_0 *)action)->unk_96.s + 1;
     ((S_801683C4_0 *)action)->unk_96.s = timer;
     if ((timer == 5) || (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
-        func_8009C12C(actor, sprite, ((EntityRec *)actor)->facing, 1);
+        func_8009C12C(actor, sprite, actor->facing, 1);
         ((S_801683C4_0 *)action)->unk_96.s = 0;
         ((S_801683C4_0 *)action)->unk_9B++;
     }
@@ -120,7 +120,7 @@ jt_c3:
         ((S_801683C4_0 *)action)->unk_8C = D_801664BC;
         dungeonStatus.unk_0C = 0;
         func_800A4ACC(actor);
-        ((EntityRec *)actor)->unk_46 &= 0x7FFF;
+        actor->unk_46 &= 0x7FFF;
     }
     return;
 
@@ -135,7 +135,7 @@ jt_c5:
     }
     if ((((S_801683C4_0 *)action)->unk_96.u == 12) ||
         (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
-        func_8009C12C(actor, sprite, ((EntityRec *)actor)->facing,
+        func_8009C12C(actor, sprite, actor->facing,
             ((S_801683C4_0 *)action)->unk_AA);
     }
     if ((((S_801683C4_0 *)action)->unk_96.u != 20) &&

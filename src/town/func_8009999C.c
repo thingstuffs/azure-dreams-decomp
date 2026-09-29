@@ -4,13 +4,6 @@
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 
-typedef struct S_800970FC_0 {
-    u8 pad_00[0x6];
-    u16 unk_06;
-    u8 pad_08[0xC];
-    u16 unk_14;
-} S_800970FC_0;   /* entry in func_800970FC */
-
 typedef struct S_800970FC_1 {
     u8 pad_00[0x2];
     s16 unk_02;
@@ -166,7 +159,7 @@ s32 func_800970FC(void) {
     u16 rotation;
     u16 quad_x;
     void *primitive;
-    u8 *entry;
+    TileObject *entry;
     u8 *coord;
     u8 *texture_rect;
     u8 *draw_entry;
@@ -180,11 +173,11 @@ s32 func_800970FC(void) {
     u32 fill_height;
 
     page_state = &gameWork.unk_000;
-    entry = ((u8 *)(&D_80082E80));
+    entry = &D_80082E80;
     alternate_page = CUR_PAGE != (void *)D_801C9E40;
-    rotation = ((S_800970FC_0 *)entry)->unk_06;
+    rotation = entry->unk_006;
     page_index = (u16) alternate_page;
-    if (!(((S_800970FC_0 *)entry)->unk_14 & 0x80)) {
+    if (!(entry->unk_014 & 0x80)) {
         coord = D_80083780;
 #define D_80083780 (*coord)
         D_800D0460[0] = 0;

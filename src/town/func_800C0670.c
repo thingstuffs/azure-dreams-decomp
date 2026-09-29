@@ -21,14 +21,14 @@ void func_800BDDD0(s32 start_x, s16 start_y) {
     s32 wrapped_y;
     s32 origin_x;
     s32 x_limit;
-    u8 *state;
+    GameWork *state;
     u8 *grid;
     s32 cells_addr;
 
     x = (s16)start_x;
-    state = ((u8 *)(&gameWork));
-    grid = state + 0x1DC;
-    cells_addr = *(s32 *)(state + 0x1DC);
+    state = &gameWork;
+    grid = (u8 *)state + 0x1DC;
+    cells_addr = ((s32)state->map.cells);
     origin_x = start_x;
     end_x = x + 4;
     if (x < end_x) {

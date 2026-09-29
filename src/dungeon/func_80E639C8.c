@@ -88,14 +88,8 @@ typedef struct S_801731C8_6 {
     s16 unk_1E;
 } S_801731C8_6;   /* part in func_801731C8 */
 
-typedef struct S_801731C8_7 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-    s32 unk_0C;
-} S_801731C8_7;   /* global in func_801731C8 */
-
 /* Updates an item-use action, its animation, and its particle effects. */
-void func_801731C8(void *action, void *motion, void *sprite, void *actor)
+void func_801731C8(void *action, EntityRec *motion, void *sprite, void *actor)
 {
     static void *const kind_labels[] = {
         &&kind_1, &&kind_2, &&kind_3, &&kind_default,
@@ -251,9 +245,9 @@ invoke_item:
     goto state_1_done;
 
 empty_selection:
-    ((EntityRec *)motion)->flags14 = 0;
-    ((EntityRec *)motion)->unk_10 = 0;
-    ((EntityRec *)motion)->unk_0C = 0;
+    motion->flags14 = 0;
+    motion->unk_10 = 0;
+    motion->unk_0C = 0;
     func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
     dungeonStatus.unk_0C = 0;
     (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
@@ -336,7 +330,7 @@ state_2:
                     s32 position_base;
 
                     position_roll = func_80069EF8();
-                    position_base = ((u16)((EntityRec *)motion)->x.w.i);
+                    position_base = ((u16)motion->x.w.i);
                     position_base -= 0x20;
                     ((S_801731C8_6 *)particle_part)->unk_02 = position_base + (position_roll & 0x3F);
                 }
@@ -345,12 +339,12 @@ state_2:
                     s32 position_base;
 
                     position_roll = func_80069EF8();
-                    position_base = ((u16)((EntityRec *)motion)->y.w.i);
+                    position_base = ((u16)motion->y.w.i);
                     position_base -= 0x20;
                     ((S_801731C8_6 *)particle_part)->unk_06 = position_base + (position_roll & 0x3F);
                 }
                 ((S_801731C8_6 *)particle_part)->unk_08.at02.v =
-                    ((u16)((EntityRec *)motion)->z.w.i) - (func_80069EF8() & 0x1F) - 0x30;
+                    ((u16)motion->z.w.i) - (func_80069EF8() & 0x1F) - 0x30;
 
                 particle_part = ((S_801731C8_5 *)particle)->unk_0C;
                 {
@@ -411,9 +405,9 @@ state_3:
         if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
             return;
         }
-        ((EntityRec *)motion)->flags14 = 0;
-        ((EntityRec *)motion)->unk_10 = 0;
-        ((EntityRec *)motion)->unk_0C = 0;
+        motion->flags14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
         func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
         if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 != D_80175554) {
             u8 *animations;

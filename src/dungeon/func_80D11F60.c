@@ -56,7 +56,7 @@ typedef struct S_80171760_2 {
 
 
 /* Update the actor's dungeon behavior, facing, and directional animation. */
-void func_80171760(void *motion, void *render_ctx, void *map_entity, void *actor)
+void func_80171760(void *motion, void *render_ctx, void *map_entity, EntityRec *actor)
 {
     static void *const action_labels[] = {
         &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4,
@@ -74,24 +74,24 @@ void func_80171760(void *motion, void *render_ctx, void *map_entity, void *actor
         return;
     }
 
-    if (((EntityRec *)actor)->tileY == 0) {
+    if (actor->tileY == 0) {
         func_800AA79C(motion, render_ctx, map_entity, actor);
         if (((S_80171760_2 *)map_entity)->unk_2C != D_80174EF0) {
             (*(void * *)((u8 *)map_entity + (0x2C))) = D_80174EE8;
             func_80047784(map_entity,
-                *(u8 *)((((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7) + (u32)D_80174EE8),
+                *(u8 *)((((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7) + (u32)D_80174EE8),
                 0);
             return;
         }
         return;
     }
 
-    if (((u32)((EntityRec *)actor)->flags1C) & 0x200) {
+    if (((u32)actor->flags1C) & 0x200) {
         if (((S_80171760_2 *)map_entity)->unk_2C == D_80174EF0) {
             ((Rec_func_800A9E70_arg0 *)motion)->unk_9A.as_u8 = 0xD;
             ((Rec_func_800A9E70_arg0 *)motion)->unk_9B.as_u8 = 1;
             ((Rec_func_800A9E70_arg0 *)motion)->unk_8C = 0;
-            ((EntityRec *)actor)->flags1C &= ~0x40000;
+            actor->flags1C &= ~0x40000;
             return;
         }
         if (func_800AA924(motion, render_ctx, map_entity, D_80174EE8)) {
@@ -100,7 +100,7 @@ void func_80171760(void *motion, void *render_ctx, void *map_entity, void *actor
     }
 
     if (!(dungeonStatus.flags & 0x2000)) {
-        if (((u32)((EntityRec *)actor)->flags1C) & 0x100) {
+        if (((u32)actor->flags1C) & 0x100) {
             func_800AA258(motion, render_ctx, map_entity, actor);
             return;
         }
@@ -116,7 +116,7 @@ void func_80171760(void *motion, void *render_ctx, void *map_entity, void *actor
                 if (((S_80171760_2 *)map_entity)->unk_2C != anim_table) {
                     (*(void * *)((u8 *)map_entity + (0x2C))) = anim_table;
                     func_80047784(map_entity,
-                        anim_table[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+                        anim_table[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                         0);
                 }
                 ((Rec_func_800A9E70_arg0 *)motion)->unk_9E.as_s16 = 0;
@@ -126,13 +126,13 @@ void func_80171760(void *motion, void *render_ctx, void *map_entity, void *actor
         }
 
         ((Rec_func_800A9E70_arg0 *)motion)->unk_98 &= 0xFFF3;
-        if (((EntityRec *)actor)->unk_64 != 0) {
+        if (actor->unk_64 != 0) {
             if (func_800AA6B4(motion, render_ctx, map_entity, D_80174E98)) {
                 return;
             }
         }
 
-        if (((u32)((EntityRec *)actor)->flags1C) & 0x80000) {
+        if (((u32)actor->flags1C) & 0x80000) {
             func_800AA888(motion, render_ctx, map_entity, actor);
             func_80174598(motion, render_ctx, map_entity, actor);
             return;
@@ -146,16 +146,16 @@ void func_80171760(void *motion, void *render_ctx, void *map_entity, void *actor
     room_id = func_8009FB34(((S_80171760_2 *)map_entity)->unk_24.at00.v, ((S_80171760_2 *)map_entity)->unk_24.at01.v);
     ((S_80171760_2 *)map_entity)->unk_26 = room_id;
 
-    if (((EntityRec *)actor)->unk_6D > 0) {
+    if (actor->unk_6D > 0) {
         u16 action_state;
 
-        if (((u32)((EntityRec *)actor)->flags1C) & 0x20) {
+        if (((u32)actor->flags1C) & 0x20) {
             goto case_12;
         }
         if (((S_80171760_2 *)map_entity)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
             goto generic;
         }
-        if (!(((EntityRec *)actor)->unk_46 & 0x8000)) {
+        if (!(actor->unk_46 & 0x8000)) {
             if (dungeonStatus.flags & 0x2000) {
                 if ((func_8009A180(actor,
                         (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
@@ -165,14 +165,14 @@ void func_80171760(void *motion, void *render_ctx, void *map_entity, void *actor
             if ((func_801729AC(motion, render_ctx, map_entity, 0) << 16) == 0) {
                 return;
             }
-            action_state = ((EntityRec *)actor)->unk_46 | 0x4000;
-            ((EntityRec *)actor)->unk_46 = action_state;
+            action_state = actor->unk_46 | 0x4000;
+            actor->unk_46 = action_state;
             if (!(action_state & 0x8000)) {
                 goto generic;
             }
         }
 
-        action_state = ((EntityRec *)actor)->unk_46 & 0x3FFF;
+        action_state = actor->unk_46 & 0x3FFF;
         if ((u32)(action_state - 1) >= 12) {
             goto generic;
         }
@@ -202,7 +202,7 @@ jt_c7:
                 D_80082E80.tileX, D_80082E80.tileY,
                 &direction_flags);
             player = D_800814A8;
-            ((EntityRec *)actor)->facing = facing_angle;
+            actor->facing = facing_angle;
             if (player->unk_9A == 0x11) {
                 goto case_123;
             }
@@ -226,17 +226,17 @@ jt_c11:
 generic:
         func_80171F1C(motion, render_ctx, map_entity, actor);
         return;
-    } else if (!(((u32)((EntityRec *)actor)->flags1C) & 0x2000)) {
+    } else if (!(((u32)actor->flags1C) & 0x2000)) {
         s32 room_index = (s8)room_id;
 
         if ((room_index < 0) ||
             !(D_800E2970[room_index].flags & 2)) {
-            if (!(((u32)((EntityRec *)actor)->flags1C) & 0x430)) {
+            if (!(((u32)actor->flags1C) & 0x430)) {
 
                 if ((func_8009FD7C(
                         ((S_80171760_2 *)map_entity)->unk_24.at00.v, ((S_80171760_2 *)map_entity)->unk_24.at01.v,
                         D_80082E80.tileX, D_80082E80.tileY) << 16) != 0) {
-                    ((EntityRec *)actor)->facing = func_800A0818(
+                    actor->facing = func_800A0818(
                         ((S_80171760_2 *)map_entity)->unk_24.at00.v, ((S_80171760_2 *)map_entity)->unk_24.at01.v,
                         D_80082E80.tileX, D_80082E80.tileY,
                         &direction_flags);
@@ -258,6 +258,6 @@ generic:
 update_common:
     (*(void * *)((u8 *)map_entity + (0x2C))) = anim_table;
     func_80047784(map_entity,
-        *(u8 *)((((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7) + (u32)anim_table),
+        *(u8 *)((((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7) + (u32)anim_table),
         0);
 }

@@ -18,7 +18,6 @@ extern s16 func_800BCB04(u16, u16, s16);
 extern void func_801711DC(void *, s32, s32);
 extern void func_8017145C(void *, s32);
 
-typedef struct { u8 pad[0x12]; u8 kind; u8 pad2; } ItemDef20;
 extern u8 D_800E2348[];
 extern u8 D_800E2388[8];
 extern u8 D_800E2398[8];
@@ -59,14 +58,8 @@ typedef struct S_80173B08_5 {
     s16 unk_3228;
 } S_80173B08_5;   /* (void *)page_entry in func_80173B08 */
 
-typedef struct S_80173B08_6 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-    s32 unk_0C;
-} S_80173B08_6;   /* global in func_80173B08 */
-
 /* Updates the actor's item-use state, animation, and effects. */
-void func_80173B08(void *action, void *motion, void *sprite, void *actor)
+void func_80173B08(void *action, EntityRec *motion, void *sprite, void *actor)
 {
     static void *const state_labels[] = {
         &&state_0, &&state_1, &&state_2, &&state_3,
@@ -208,9 +201,9 @@ invoke_item:
     return;
 
 empty_selection:
-    ((EntityRec *)motion)->flags14 = 0;
-    ((EntityRec *)motion)->unk_10 = 0;
-    ((EntityRec *)motion)->unk_0C = 0;
+    motion->flags14 = 0;
+    motion->unk_10 = 0;
+    motion->unk_0C = 0;
     func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
     dungeonStatus.unk_0C = 0;
     (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
@@ -235,9 +228,9 @@ state_2:
     ((S_80173B08_0 *)action)->unk_9B++;
     ((S_80173B08_0 *)action)->unk_98 &= 0xFFF7;
     (*(u32 *)((u8 *)actor + 0x1C)) &= 0xFFFBFFFF;
-    ((EntityRec *)motion)->flags14 = 0;
-    ((EntityRec *)motion)->unk_10 = 0;
-    ((EntityRec *)motion)->unk_0C = 0;
+    motion->flags14 = 0;
+    motion->unk_10 = 0;
+    motion->unk_0C = 0;
     ((Rec_D_80082E80 *)sprite)->unk_10.as_s16 = 0x20;
     ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0xC;
 
@@ -251,8 +244,8 @@ state_3:
     {
         s16 floor_height;
 
-        floor_height = func_800BCB04(((u16)((EntityRec *)motion)->x.w.i),
-                              ((u16)((EntityRec *)motion)->y.w.i),
+        floor_height = func_800BCB04(((u16)motion->x.w.i),
+                              ((u16)motion->y.w.i),
                               (s16)((*(u16 *)((u8 *)actor + 0x88)) - 0x20));
         if ((((S_80173B08_0 *)action)->unk_92.s -
              (s16)(floor_height - (*(u16 *)((u8 *)actor + 0x88)))) != 0) {
@@ -370,9 +363,9 @@ state_7:
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
         return;
     }
-    ((EntityRec *)motion)->flags14 = 0;
-    ((EntityRec *)motion)->unk_10 = 0;
-    ((EntityRec *)motion)->unk_0C = 0;
+    motion->flags14 = 0;
+    motion->unk_10 = 0;
+    motion->unk_0C = 0;
     func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
     if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 != D_800E2348) {
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_800E2348;

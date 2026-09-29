@@ -1,12 +1,8 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "shared/town_root.h"
 #include "m2c_compat.h"
-
-typedef struct S_80017EB8_1 {
-    u8 pad_00[0x24];
-    void * unk_24;
-} S_80017EB8_1;   /* D_80016000[0] in func_80017EB8 */
 
 typedef struct S_80017EB8_2 {
     u8 pad_00[0x6C];
@@ -37,7 +33,7 @@ s32 func_80017EB8(S_80017EB8_0 *position) {
 
     row = position->unk_01;
     column = position->unk_00;
-    entry_value = ((S_80017EB8_4 *)((column * 0x14) + ((S_80017EB8_3 *)(((row * 0x14) + ((S_80017EB8_2 *)(((S_80017EB8_1 *)(D_80016000))->unk_24))->unk_6C)))->unk_0C))->unk_00;
+    entry_value = ((S_80017EB8_4 *)((column * 0x14) + ((S_80017EB8_3 *)(((row * 0x14) + ((S_80017EB8_2 *)(D_80016000->unk_24))->unk_6C)))->unk_0C))->unk_00;
     if (func_800186D8(column, row) == 0) {
         if ((u32)(entry_value - 8) < 2U) {
             return 1;

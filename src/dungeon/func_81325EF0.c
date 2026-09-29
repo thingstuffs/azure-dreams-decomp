@@ -60,7 +60,7 @@ typedef struct S_8016D6F0_9 {
 } S_8016D6F0_9;   /* ((S_8016D6F0_2 *)base8008)->unk_14A8 in func_8016D6F0 */
 
 /* Advance the actor's action state, directional animation, and completion callback. */
-void func_8016D6F0(S_8016D6F0_0 *actor, s32 actor_id, Rec_D_80082E80 *sprite, void *entity)
+void func_8016D6F0(S_8016D6F0_0 *actor, s32 actor_id, Rec_D_80082E80 *sprite, EntityRec *entity)
 {
     TileObject *reference_pos;
     DungeonGlobalStatus *counter_base;
@@ -99,7 +99,7 @@ state_zero:
         func_80047784(
             sprite,
             dir_table[((((S_8016D6F0_2 *)D_80080000)->unk_3228 +
-                    ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
+                    entity->facing + 0x100) >> 9) & 7],
             0);
     }
     counter_base = &dungeonStatus;
@@ -116,7 +116,7 @@ state_one:
     if (actor->unk_B4 == 0) {
         flags_page = (u8 *)0x80010000;
         if (!(((S_8016D6F0_5 *)flags_page)->unk_3714 & 8)) {
-            if (((EntityRec *)entity)->unk_64 != 0) {
+            if (entity->unk_64 != 0) {
                 if (func_800AA6B4(actor, actor_id, sprite, D_801746C4) != 0) {
                     return;
                 }
@@ -124,7 +124,7 @@ state_one:
             goto action_body;
         }
     }
-    if (((EntityRec *)entity)->unk_64 != 0) {
+    if (entity->unk_64 != 0) {
         reference_base = &dungeonStatus;
         if (((s32)reference_base->unk_10) ==
             (u32)((u8 *)entity - 0x20)) {
@@ -136,7 +136,7 @@ action_body:
     if ((func_800A2C34(entity) << 0x10) != 0) {
         return;
     }
-    entity_flags = ((EntityRec *)entity)->flags1C;
+    entity_flags = entity->flags1C;
     action_flag = entity_flags & 0x100;
     action_actor = actor;
     if (action_flag) {
@@ -148,7 +148,7 @@ action_body:
         func_8016DAA4(actor, actor_id, sprite, entity);
         return;
     }
-    if (((EntityRec *)entity)->unk_6D == 0) {
+    if (entity->unk_6D == 0) {
         return;
     }
     if ((func_800A2C34(entity) << 0x10) != 0) {
@@ -186,7 +186,7 @@ post_actions:
         func_80047784(
             sprite,
             dir_table[((((S_8016D6F0_2 *)D_80080000)->unk_3228 +
-                    ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
+                    entity->facing + 0x100) >> 9) & 7],
             0);
     }
     if (sprite->unk_14.at00_u16.v & 0x8000) {

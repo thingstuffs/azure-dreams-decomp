@@ -7,7 +7,6 @@
 
 
 extern s32 D_8006CD58[];
-typedef struct { u8 pad[0x12]; u8 kind; u8 pad2; } ItemDef20;
 extern u8 D_80080A84;
 extern u8 D_800DCF50;
 extern s32 D_800DDAB8[];
@@ -86,7 +85,7 @@ typedef struct S_80173560_4 {
 
 
 /* Advance an item action through targeting, audio playback, and animation cleanup. */
-void func_80173560(void *action, void *motion, void *sprite, void *actor_arg) {
+void func_80173560(void *action, EntityRec *motion, void *sprite, void *actor_arg) {
     static void *const state_labels[] = {
         &&prepare_item, &&start_audio, &&wait_audio, &&finish_animation, &&reset_action
     };
@@ -265,9 +264,9 @@ check_high_flags:
     if (!(((S_80173560_4 *)sprite)->unk_14 & 0xE000)) {
         return;
     }
-    ((EntityRec *)motion)->flags14 = 0;
-    ((EntityRec *)motion)->unk_10 = 0;
-    ((EntityRec *)motion)->unk_0C = 0;
+    motion->flags14 = 0;
+    motion->unk_10 = 0;
+    motion->unk_0C = 0;
     func_800A2B04(motion, ((S_80173560_4 *)sprite)->unk_24, ((S_80173560_4 *)sprite)->unk_25);
     resource = D_80175E40;
     if (((S_80173560_4 *)sprite)->unk_2C != resource) {

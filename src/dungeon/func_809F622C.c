@@ -47,9 +47,9 @@ typedef struct S_80173A2C_0 {
 /* Updates an actor's action state and animation before restoring its default callback. */
 void func_80173A2C(void *controller_in, void *motion_in, void *sprite_in, void *actor_in)
 {
-    void *motion;
+    EntityRec *motion;
     register void *sprite ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register void *actor ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
+    register EntityRec *actor ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
     s32 actor_flags;
     u16 ticks_left;
     s32 state;
@@ -83,7 +83,7 @@ state_zero:
     }
     (*(void * *)((u8 *)sprite + 0x2C)) = D_80175188;
     func_80047784(sprite,
-        D_80175188[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+        D_80175188[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
         0);
     {
 
@@ -96,12 +96,12 @@ state_one:
     if ((func_80042900(actor, 1) << 16) == 0) {
         (*(void * *)((u8 *)sprite + 0x2C)) = D_80175190;
         func_80047784(sprite,
-            D_80175190[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            D_80175190[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
-        actor_flags = ((EntityRec *)actor)->flags1C | 0x40000;
-        ((EntityRec *)actor)->flags1C = actor_flags;
+        actor_flags = actor->flags1C | 0x40000;
+        actor->flags1C = actor_flags;
         if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
-            ((EntityRec *)actor)->flags1C = actor_flags & ~0x200;
+            actor->flags1C = actor_flags & ~0x200;
             goto set_callback;
         }
         goto increment_state;
@@ -109,12 +109,12 @@ state_one:
     if (dungeonStatus.flags & 0x1000) {
         return;
     }
-    if (((EntityRec *)actor)->unk_64 != 0) {
+    if (actor->unk_64 != 0) {
         if (func_800AA6B4(controller_in, motion, sprite, 0) != 0) {
             return;
         }
     }
-    if (((EntityRec *)actor)->tileY == 0) {
+    if (actor->tileY == 0) {
         if (dungeonStatus.flags & 0x2008) {
             return;
         }
@@ -124,7 +124,7 @@ state_one:
     if ((func_800A2C34(actor) << 16) != 0) {
         return;
     }
-    actor_flags = ((EntityRec *)actor)->flags1C;
+    actor_flags = actor->flags1C;
     if (actor_flags & 0x100) {
         func_800AA258(controller_in, motion, sprite, actor);
         return;
@@ -135,7 +135,7 @@ state_one:
         func_80174218(controller_in, motion, sprite, actor);
         return;
     }
-    if (((EntityRec *)actor)->unk_6D == 0) {
+    if (actor->unk_6D == 0) {
         return;
     }
     if ((func_800A2C34(actor) << 16) != 0) {
@@ -164,12 +164,12 @@ state_one:
     }
     (*(void * *)((u8 *)sprite + 0x2C)) = D_80175190;
     func_80047784(sprite,
-        D_80175190[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+        D_80175190[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
         0);
-    actor_flags = ((EntityRec *)actor)->flags1C | 0x40000;
-    ((EntityRec *)actor)->flags1C = actor_flags;
+    actor_flags = actor->flags1C | 0x40000;
+    actor->flags1C = actor_flags;
     if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
-        ((EntityRec *)actor)->flags1C = actor_flags & ~0x200;
+        actor->flags1C = actor_flags & ~0x200;
         goto set_callback;
     }
 
@@ -188,22 +188,22 @@ state_two:
     ((S_80173A2C_0 *)controller_in)->unk_96 = ticks_left;
     if ((ticks_left << 16) <= 0) {
         ((S_80173A2C_0 *)controller_in)->unk_98 |= 0x4000;
-        ((EntityRec *)motion)->flags14 = 0xFFEC0000;
+        motion->flags14 = 0xFFEC0000;
     }
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
         return;
     }
-    ((EntityRec *)motion)->flags14 = 0;
+    motion->flags14 = 0;
     ((S_80173A2C_0 *)controller_in)->unk_A8 = 0;
     (*(void * *)((u8 *)sprite + 0x2C)) = D_80175140;
     func_80047784(sprite,
-        D_80175140[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+        D_80175140[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
         0);
     {
 
         dungeonStatus.unk_0A--;
     }
-    ((EntityRec *)actor)->flags1C &= ~0x200;
+    actor->flags1C &= ~0x200;
 
 set_callback:
     ((S_80173A2C_0 *)controller_in)->unk_8C = D_80171400;

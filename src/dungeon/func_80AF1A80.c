@@ -18,22 +18,6 @@ typedef struct S_80173280_0 {
     u16 unk_9E;
 } S_80173280_0;   /* arg0 in func_80173280 */
 
-typedef struct S_80173280_1 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x1A];
-    u16 unk_46;
-    u8 pad_48[0x18];
-    void * unk_60;
-    u8 pad_64[0x9];
-    u8 unk_6D;
-    u8 pad_6E[0x4];
-    union { u8 s; s8 u; } unk_72;   /* accessed as both */
-    union { u8 s; s8 u; } unk_73;   /* accessed as both */
-} S_80173280_1;   /* arg3 in func_80173280 */
-
 typedef struct S_80173280_2 {
     u8 * unk_00;
 } S_80173280_2;   /* (u8 *)obj - 0x14 in func_80173280 */
@@ -78,7 +62,7 @@ extern u8 D_801717F4[];
 extern u8 D_80175988[];
 
 /* Advances action setup, target effects, animation timing, and cleanup. */
-void func_80173280(void *actor, void *motion, void *tile_arg, void *action)
+void func_80173280(void *actor, EntityRec *motion, void *tile_arg, EntityRec *action)
 {
     s16 particle_index;
     s32 offset_y;
@@ -116,8 +100,8 @@ void func_80173280(void *actor, void *motion, void *tile_arg, void *action)
     goto state_1;
 
 state_0:
-    if (((S_80173280_1 *)action)->unk_1C & 0x2000) {
-        u32 kind = (((S_80173280_1 *)action)->unk_46 & 0x3FFF) - 1;
+    if (action->flags1C & 0x2000) {
+        u32 kind = (action->unk_46 & 0x3FFF) - 1;
 
         if (kind >= 7) {
             goto kind_default;
@@ -134,7 +118,7 @@ kind_7:
         effect_flags = 1;
         goto kind_1;
     } else {
-        u32 kind = ((S_80173280_1 *)action)->unk_46 & 0x3FFF;
+        u32 kind = action->unk_46 & 0x3FFF;
 
         if (kind == 2) {
             goto kind_2;
@@ -173,7 +157,7 @@ use_kind:
             s32 reuse_target = effect_flags;
             if (reuse_target) {
                 target_obj = D_800814A8;
-                ((S_80173280_1 *)action)->unk_60 = target_obj;
+                action->target = target_obj;
                 goto copy_existing;
             }
         }
@@ -187,14 +171,14 @@ use_kind:
             kind_entry = (u8 *)((u32)(kind * 20) + (u32)kind_table);
 
             if (kind_entry[0x12] == 2) {
-                target_obj = ((S_80173280_1 *)action)->unk_60;
+                target_obj = action->target;
 
                 if (target_obj != 0) {
 copy_existing:
                     {
                         state = (s32)((S_80173280_2 *)((u8 *)target_obj - 0x14))->unk_00;
-                        ((S_80173280_1 *)action)->unk_72.s = ((u8 *)state)[0x24];
-                        ((S_80173280_1 *)action)->unk_73.s = ((u8 *)state)[0x25];
+                        action->unk_72 = ((u8 *)state)[0x24];
+                        action->unk_73 = ((u8 *)state)[0x25];
                     }
                     goto invoke_move;
                 }
@@ -204,20 +188,20 @@ copy_existing:
 
         {
             s32 x = (s32)func_800A05A4(action, ((S_80173280_3 *)tile_arg)->unk_24, ((S_80173280_3 *)tile_arg)->unk_25,
-                          ((S_80173280_1 *)action)->unk_2A, 0x10);
+                          action->facing, 0x10);
             s32 y;
 
             *(void * volatile *)((u8 *)action + 0x60) = (void *)x;
-            x = ((S_80173280_1 *)action)->unk_72.u;
-            y = ((S_80173280_1 *)action)->unk_73.u;
+            x = action->unk_72;
+            y = action->unk_73;
             if (x < 0) {
                 x = -x;
             }
             if (y < 0) {
                 y = -y;
             }
-            ((S_80173280_1 *)action)->unk_72.s = x;
-            ((S_80173280_1 *)action)->unk_73.s = y;
+            action->unk_72 = x;
+            action->unk_73 = y;
         }
 
 call_move:
@@ -232,9 +216,9 @@ invoke_move:
         return;
     }
 
-    ((EntityRec *)motion)->flags14 = 0;
-    ((EntityRec *)motion)->unk_10 = 0;
-    ((EntityRec *)motion)->unk_0C = 0;
+    motion->flags14 = 0;
+    motion->unk_10 = 0;
+    motion->unk_0C = 0;
     func_800A2B04(motion, ((S_80173280_3 *)tile_arg)->unk_24, ((S_80173280_3 *)tile_arg)->unk_25);
     {
         u8 *active_actor = D_800814A8;
@@ -242,11 +226,11 @@ invoke_move:
         ((S_80173280_6 *)active_actor)->unk_A6--;
     }
     func_800A4ACC(action);
-    ((S_80173280_1 *)action)->unk_6D--;
+    (*(u8 *)&action->unk_6D)--;
     ((S_80173280_0 *)actor)->unk_8C = D_801717F4;
-    ((S_80173280_1 *)action)->unk_73.s = 0;
-    ((S_80173280_1 *)action)->unk_72.s = 0;
-    ((S_80173280_1 *)action)->unk_46 &= 0x7FFF;
+    action->unk_73 = 0;
+    action->unk_72 = 0;
+    action->unk_46 &= 0x7FFF;
     return;
 
 state_1:
@@ -301,15 +285,15 @@ state_3:
     if (!(((S_80173280_3 *)tile_arg)->unk_14 & 0xE000)) {
         return;
     }
-    ((EntityRec *)motion)->flags14 = 0;
-    ((EntityRec *)motion)->unk_10 = 0;
-    ((EntityRec *)motion)->unk_0C = 0;
+    motion->flags14 = 0;
+    motion->unk_10 = 0;
+    motion->unk_0C = 0;
     func_800A2B04(motion, ((S_80173280_3 *)tile_arg)->unk_24, ((S_80173280_3 *)tile_arg)->unk_25);
     if (((S_80173280_3 *)tile_arg)->unk_2C != D_80175988) {
         u8 *frame_table = D_80175988;
         (*(u8 * *)((u8 *)tile_arg + 0x2C)) = frame_table;
         func_80047784(tile_arg,
-            frame_table[((gameWork.view.viewAngle + ((S_80173280_1 *)action)->unk_2A + 0x100) >> 9) & 7],
+            frame_table[((gameWork.view.viewAngle + action->facing + 0x100) >> 9) & 7],
             0);
         ((S_80173280_3 *)tile_arg)->unk_14 &= 0xF7FF;
     }
@@ -319,10 +303,10 @@ state_3:
     ((S_80173280_7 *)kind_data)->unk_0A--;
     ((S_80173280_0 *)actor)->unk_8C = D_801717F4;
     func_800A4ACC(action);
-    ((S_80173280_1 *)action)->unk_73.s = 0;
-    ((S_80173280_1 *)action)->unk_72.s = 0;
-    ((S_80173280_1 *)action)->unk_6D--;
-    ((S_80173280_1 *)action)->unk_46 &= 0x7FFF;
+    action->unk_73 = 0;
+    action->unk_72 = 0;
+    (*(u8 *)&action->unk_6D)--;
+    action->unk_46 &= 0x7FFF;
     func_800A56E0(0xB4);
 
     return;

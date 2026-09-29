@@ -81,7 +81,7 @@ typedef struct S_801727B4_4 {
 } S_801727B4_4;   /* temp_s0 in func_801727B4 */
 
 /* Updates a staged movement animation, emits effects, and restores the actor at its starting position. */
-void func_801727B4(void *action, EntityRec *motion, Rec_D_80082E80 *animation, void *actor) {
+void func_801727B4(void *action, EntityRec *motion, Rec_D_80082E80 *animation, EntityRec *actor) {
     static void *const state_labels[] = { &&start_motion, &&start_jump, &&update_jump, &&emit_effect, &&finish_animation, &&return_to_start };
     Vec3sTable effect_vectors_a;
     Vec3sTable effect_vectors_b;
@@ -118,10 +118,10 @@ start_motion:
     }
     ((S_801727B4_0 *)action)->unk_9B = 5U;
     animation->unk_14.at00_u16.v = (u16) (animation->unk_14.at00_u16.v | 0x6000);
-    func_8009C12C(actor, animation, ((EntityRec *)actor)->facing, 1);
+    func_8009C12C(actor, animation, actor->facing, 1);
     return;
 set_velocity:
-    facing = ((u16) ((EntityRec *)actor)->facing >> 9) & 7;
+    facing = ((u16) actor->facing >> 9) & 7;
     reverse_facing = facing + 4;
     wrapped_facing = reverse_facing;
     if (reverse_facing >= 0) {
@@ -133,14 +133,14 @@ apply_velocity:
     motion->unk_0C = (s32) ((s16) dirStepX[direction_index] * 0x30000);
     motion->unk_10 = (s32) ((s16) dirStepY[direction_index] * 0x30000);
     animation->unk_2C.as_pu8 = &D_80174A8C;
-    func_80047784(animation, (&D_80174A8C)[((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7], 0);
+    func_80047784(animation, (&D_80174A8C)[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
     goto increment_state_load;
 start_jump:
     if (!(animation->unk_14.at00_u16.v & 0xE000)) {
         return;
     }
     animation->unk_2C.as_pu8 = &D_80174A94;
-    func_80047784(animation, (&D_80174A94)[((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7], 0);
+    func_80047784(animation, (&D_80174A94)[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
     ((S_801727B4_0 *)action)->unk_90 = 0;
     ((S_801727B4_0 *)action)->unk_98 = (u16) (((S_801727B4_0 *)action)->unk_98 | 8);
     motion->flags14 = 0xFFF40000;
@@ -155,7 +155,7 @@ update_jump:
     motion->unk_0C = (s32) ((s32) (0 - motion->unk_0C) >> 1);
     motion->unk_10 = (s32) ((s32) (0 - motion->unk_10) >> 1);
     animation->unk_2C.as_pu8 = D_80174AA4;
-    func_80047784(animation, D_80174AA4[((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7], 0);
+    func_80047784(animation, D_80174AA4[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
     ((S_801727B4_0 *)action)->unk_96 = 7;
     ((S_801727B4_0 *)action)->unk_9B = (u8) (((S_801727B4_0 *)action)->unk_9B + 1);
     return;
@@ -207,7 +207,7 @@ create_effect:
         effect_coord = ((S_801727B4_0 *)action)->unk_B0 + ((u16)motion->z.w.i);
         ((S_801727B4_0 *)action)->unk_B0 = effect_coord;
         effect_data->unk_0C = effect_coord;
-        effect_data->unk_2C = (u16) ((EntityRec *)actor)->facing;
+        effect_data->unk_2C = (u16) actor->facing;
         effect_data->unk_2E = 0x10;
         effect_data->unk_30 = 0x10;
         effect_data->unk_36 = 0x10;
@@ -231,14 +231,14 @@ update_timer:
         goto check_animation;
     }
 trigger_action:
-    func_8009C12C(actor, animation, ((EntityRec *)actor)->facing, 1);
+    func_8009C12C(actor, animation, actor->facing, 1);
     func_800A56E0(0x808);
 check_animation:
     if (!(animation->unk_14.at00_u16.v & 0xE000)) {
         return;
     }
     animation->unk_2C.as_pu8 = D_80174AAC;
-    func_80047784(animation, D_80174AAC[((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7], 0);
+    func_80047784(animation, D_80174AAC[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
     ((S_801727B4_0 *)action)->unk_98 = (u16) (((S_801727B4_0 *)action)->unk_98 & 0xFFF7);
     ((S_801727B4_0 *)action)->unk_9B = (u8) (((S_801727B4_0 *)action)->unk_9B + 1);
     return;
@@ -247,7 +247,7 @@ finish_animation:
         return;
     }
     animation->unk_2C.as_pu8 = D_80174AAC;
-    func_80047784(animation, D_80174AAC[((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7], 0);
+    func_80047784(animation, D_80174AAC[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
     if (!(animation->unk_14.at00_u16.v & 0x8000)) {
         goto advance_state;
     }
@@ -297,17 +297,17 @@ check_start_position:
     ((S_801727B4_0 *)action)->unk_8C = D_80170E94;
     dungeonStatus.unk_0C = 0;
     func_800A4ACC(actor);
-    if (((EntityRec *)actor)->unk_6D == 0) {
-        ((EntityRec *)actor)->unk_46 = (u16) (((EntityRec *)actor)->unk_46 & 0x7FFF);
+    if (actor->unk_6D == 0) {
+        actor->unk_46 = (u16) (actor->unk_46 & 0x7FFF);
     } else {
-        *D_800E3DE8 = actor - 0x20;
+        *D_800E3DE8 = (u8 *)actor - 0x20;
     }
 update_actor_handle:
-    actor_handle = ((s32)((EntityRec *)actor)->target);
+    actor_handle = ((s32)actor->target);
     if (actor_handle == 0) {
         return;
     }
-    if (((EntityRec *)actor)->flags14 & 0x20000) {
+    if (actor->flags14 & 0x20000) {
         return;
     }
     func_800C8EFC(actor_handle, 0x10);

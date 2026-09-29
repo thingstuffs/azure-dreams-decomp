@@ -46,7 +46,7 @@ void func_801735BC(void *incoming_arg0, void *incoming_arg1, void *incoming_arg2
 {
     /* MATCH: the local state join must retain arg0 in retail's s2. */
     void *arg0 = incoming_arg0;
-    void *arg1 = incoming_arg1;
+    EntityRec *arg1 = incoming_arg1;
     void *arg2 = incoming_arg2;
     void *actor = arg3;
     u8 state;
@@ -74,9 +74,9 @@ L0:
     func_80047784(arg2,
         D_80175F40[((gameWork.view.viewAngle + ((S_801735BC_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
         0);
-    ((EntityRec *)arg1)->flags14 = 0;
-    ((EntityRec *)arg1)->unk_10 = 0;
-    ((EntityRec *)arg1)->unk_0C = 0;
+    arg1->flags14 = 0;
+    arg1->unk_10 = 0;
+    arg1->unk_0C = 0;
     goto Ladvance;
 
 L1:
@@ -139,9 +139,9 @@ Lgate:
         0);
     ((S_801735BC_0 *)arg0)->unk_AE = 0;
     ((S_801735BC_1 *)actor)->unk_14 &= ~0x40000000;
-    ((EntityRec *)arg1)->flags14 = 0;
-    ((EntityRec *)arg1)->unk_10 = 0;
-    ((EntityRec *)arg1)->unk_0C = 0;
+    arg1->flags14 = 0;
+    arg1->unk_10 = 0;
+    arg1->unk_0C = 0;
     func_800A2B04(arg1, ((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25);
     func_800AD594(actor, 0x800);
     ((S_801735BC_1 *)actor)->unk_46 &= 0x7FFF;

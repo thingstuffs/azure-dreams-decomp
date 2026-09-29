@@ -27,12 +27,6 @@ typedef struct S_80173B98_2 {
 } S_80173B98_2;   /* arg2 in func_80173B98 */
 
 
-typedef struct S_80173B98_4 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_80173B98_4;   /* map in func_80173B98 */
-
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
@@ -67,7 +61,7 @@ static __inline__ void set_map(void *sprite, void *creature, u8 *direction_map) 
 }
 
 /* Updates dungeon creature actions, facing direction, and animation. */
-void func_80173B98(void *actor, M2C_UNK context, void *sprite, void *creature) {
+void func_80173B98(void *actor, M2C_UNK context, void *sprite, EntityRec *creature) {
     static void *const action_labels[] = { &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8, &&jt_c9, &&jt_c10, &&jt_c11, &&jt_c12 };
     M2C_UNK direction_aux;
     s32 status_flags;
@@ -80,7 +74,7 @@ void func_80173B98(void *actor, M2C_UNK context, void *sprite, void *creature) {
         func_80174924();
         return;
     }
-    if (((EntityRec *)creature)->tileY == 0) {
+    if (creature->tileY == 0) {
         func_800AA79C(actor, context, sprite, creature);
         if (((S_80173B98_2 *)sprite)->unk_2C == &D_80176360) {
             return;
@@ -88,12 +82,12 @@ void func_80173B98(void *actor, M2C_UNK context, void *sprite, void *creature) {
         set_map(sprite, creature, (u8 *)&D_80176358);
         return;
     }
-    if (((EntityRec *)creature)->flags1C & 0x200) {
+    if (creature->flags1C & 0x200) {
         if (((S_80173B98_2 *)sprite)->unk_2C == &D_80176360) {
             ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 13;
             ((Rec_func_800A9E70_arg0 *)actor)->unk_9B.as_s8 = 1;
             ((Rec_func_800A9E70_arg0 *)actor)->unk_8C = 0;
-            ((EntityRec *)creature)->flags1C &= 0xFFFBFFFF;
+            creature->flags1C &= 0xFFFBFFFF;
             return;
         }
         if (func_800AA924(actor, context, sprite, &D_80176358) != 0) {
@@ -101,7 +95,7 @@ void func_80173B98(void *actor, M2C_UNK context, void *sprite, void *creature) {
         }
     }
     if (!(dungeonStatus.flags & 0x2000)) {
-        if (((EntityRec *)creature)->flags1C & 0x100) {
+        if (creature->flags1C & 0x100) {
             func_800AA258(actor, context, sprite, creature);
             return;
         }
@@ -112,12 +106,12 @@ void func_80173B98(void *actor, M2C_UNK context, void *sprite, void *creature) {
             ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 14;
         }
         ((Rec_func_800A9E70_arg0 *)actor)->unk_98 = (u16) (((Rec_func_800A9E70_arg0 *)actor)->unk_98 & 0xFFF3);
-        if (((EntityRec *)creature)->unk_64 != 0) {
+        if (creature->unk_64 != 0) {
             if (func_800AA6B4(actor, context, sprite, &D_80176370) != 0) {
                 return;
             }
         }
-        if (((EntityRec *)creature)->flags1C & 0x80000) {
+        if (creature->flags1C & 0x80000) {
             func_800AA888(actor, context, sprite, creature);
             func_80173720(actor, context, sprite, creature);
             return;
@@ -128,8 +122,8 @@ void func_80173B98(void *actor, M2C_UNK context, void *sprite, void *creature) {
     }
     tile_index = func_8009FB34(((S_80173B98_2 *)sprite)->unk_24.at00.v, ((S_80173B98_2 *)sprite)->unk_24.at01.v);
     ((S_80173B98_2 *)sprite)->unk_26 = tile_index;
-    if (((EntityRec *)creature)->unk_6D > 0) {
-        if (((EntityRec *)creature)->flags1C & 0x20) {
+    if (creature->unk_6D > 0) {
+        if (creature->flags1C & 0x20) {
             func_800A9A0C(creature);
             return;
         }
@@ -137,7 +131,7 @@ void func_80173B98(void *actor, M2C_UNK context, void *sprite, void *creature) {
             func_8017405C(actor, context, sprite, creature);
             return;
         }
-        if (!(((EntityRec *)creature)->unk_46 & 0x8000)) {
+        if (!(creature->unk_46 & 0x8000)) {
             if (dungeonStatus.flags & 0x2000) {
                 if ((func_8009A180(creature, ((s32)D_800814A8->unk_58) + 0x20) << 0x10) != 0) {
                     return;
@@ -146,14 +140,14 @@ void func_80173B98(void *actor, M2C_UNK context, void *sprite, void *creature) {
             if ((func_80175C94(actor, context, sprite, 0) << 0x10) == 0) {
                 return;
             }
-            action_flags = ((EntityRec *)creature)->unk_46 | 0x4000;
-            ((EntityRec *)creature)->unk_46 = action_flags;
+            action_flags = creature->unk_46 | 0x4000;
+            creature->unk_46 = action_flags;
             if (!(action_flags & 0x8000)) {
                 func_8017405C(actor, context, sprite, creature);
                 return;
             }
         }
-        action_id = ((EntityRec *)creature)->unk_46 & 0x3FFF;
+        action_id = creature->unk_46 & 0x3FFF;
         {
             u32 idx = action_id - 1;
             if (idx >= 0xCU) {
@@ -185,12 +179,12 @@ jt_c11:
         func_8017405C(actor, context, sprite, creature);
         return;
     }
-    status_flags = ((EntityRec *)creature)->flags1C;
+    status_flags = creature->flags1C;
     if (!(status_flags & 0x2000)) {
         if (tile_index >= 0 && (D_800E2970[tile_index].flags & 2)) {
         } else if (!(status_flags & 0x430)) {
             if ((func_8009FD7C(((S_80173B98_2 *)sprite)->unk_24.at00.v, ((S_80173B98_2 *)sprite)->unk_24.at01.v, D_80082E80.tileX, D_80082E80.tileY) << 0x10) != 0) {
-                ((EntityRec *)creature)->facing = func_800A0818(((S_80173B98_2 *)sprite)->unk_24.at00.v, ((S_80173B98_2 *)sprite)->unk_24.at01.v, D_80082E80.tileX, D_80082E80.tileY, &direction_aux);
+                creature->facing = func_800A0818(((S_80173B98_2 *)sprite)->unk_24.at00.v, ((S_80173B98_2 *)sprite)->unk_24.at01.v, D_80082E80.tileX, D_80082E80.tileY, &direction_aux);
             }
         }
     }

@@ -2,6 +2,7 @@
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "shared/entity.h"
 
 
 typedef struct {
@@ -122,13 +123,8 @@ typedef struct S_801757E0_7 {
     u16 unk_0A;
 } S_801757E0_7;   /* transform in func_801757E0 */
 
-typedef struct S_801757E0_8 {
-    u8 pad_00[0x2A];
-    union { u16 u; s16 s; } unk_2A;   /* accessed as both */
-} S_801757E0_8;   /* arg3 in func_801757E0 */
-
 /* Update the action sequence, spawning particles and checking the tile ahead. */
-void func_801757E0(void *actor, void *motion, void *animation, void *entity)
+void func_801757E0(void *actor, void *motion, void *animation, EntityRec *entity)
 {
     u16 offsets[3];
     u16 collision_flags;
@@ -221,8 +217,8 @@ state_1:
             ((S_801757E0_7 *)particle_transform)->unk_06 += y;
             ((S_801757E0_3 *)particle_work)->unk_50.n = x << 12;
             ((S_801757E0_3 *)particle_work)->unk_54.n = y << 12;
-            ((S_801757E0_3 *)particle_work)->unk_50.n += D_8017610C[(((S_801757E0_8 *)entity)->unk_2A.u >> 9) & 7].x << 16;
-            ((S_801757E0_3 *)particle_work)->unk_54.n += D_8017610C[(((S_801757E0_8 *)entity)->unk_2A.u >> 9) & 7].y << 16;
+            ((S_801757E0_3 *)particle_work)->unk_50.n += D_8017610C[(((u16)entity->facing) >> 9) & 7].x << 16;
+            ((S_801757E0_3 *)particle_work)->unk_54.n += D_8017610C[(((u16)entity->facing) >> 9) & 7].y << 16;
             ((S_801757E0_3 *)particle_work)->unk_58 = -(func_80069EF8() + 0x50000);
             ((S_801757E0_3 *)particle_work)->unk_64 = 0x6000;
 
@@ -275,9 +271,9 @@ check_effect_trigger:
     directions = D_8017610C;
     ((S_801757E0_0 *)actor)->unk_AD.s = 0;
     x = ((S_801757E0_2 *)motion)->unk_02.s +
-        (directions[(((S_801757E0_8 *)entity)->unk_2A.u >> 9) & 7].x << 6);
+        (directions[(((u16)entity->facing) >> 9) & 7].x << 6);
     y = ((S_801757E0_2 *)motion)->unk_06.s +
-        (directions[(((S_801757E0_8 *)entity)->unk_2A.u >> 9) & 7].y << 6);
+        (directions[(((u16)entity->facing) >> 9) & 7].y << 6);
     target_x = (u16)x;
     target_y = (u16)y;
 
@@ -288,7 +284,7 @@ check_effect_trigger:
     if (((S_801757E0_0 *)actor)->unk_AD.s == 0) {
         func_8009A350(((S_801757E0_1 *)animation)->unk_24,
                       ((S_801757E0_1 *)animation)->unk_25,
-                      (((S_801757E0_8 *)entity)->unk_2A.u >> 9) & 7,
+                      (((u16)entity->facing) >> 9) & 7,
                       &collision_flags);
         if (collision_flags & 0x8400) {
             ((S_801757E0_0 *)actor)->unk_AD.s = 1;
@@ -297,9 +293,9 @@ check_effect_trigger:
     if (((S_801757E0_0 *)actor)->unk_AD.s == 0) {
         if (func_80174A00(entity,
                 ((S_801757E0_1 *)animation)->unk_24 +
-                    directions[(((S_801757E0_8 *)entity)->unk_2A.u >> 9) & 7].x,
+                    directions[(((u16)entity->facing) >> 9) & 7].x,
                 ((S_801757E0_1 *)animation)->unk_25 +
-                    directions[(((S_801757E0_8 *)entity)->unk_2A.u >> 9) & 7].y,
+                    directions[(((u16)entity->facing) >> 9) & 7].y,
                 ((S_801757E0_2 *)motion)->unk_0A.s) != 0) {
             ((S_801757E0_0 *)actor)->unk_AD.s = 1;
         }
@@ -331,7 +327,7 @@ final_flags:
         ((S_801757E0_1 *)animation)->unk_14 &= 0xF7FF;
         func_80047784(animation,
             ((S_801757E0_1 *)animation)->unk_2C.p2
-                [((gameWork.view.viewAngle + ((S_801757E0_8 *)entity)->unk_2A.s + 0x100) >> 9) & 7],
+                [((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
     }
     ((S_801757E0_0 *)actor)->unk_96.u = 0;
@@ -353,13 +349,13 @@ state_3:
         ((S_801757E0_0 *)actor)->unk_96.u = spin_timer;
         if ((spin_timer & 3) == 0) {
 
-            spin_angle = ((S_801757E0_8 *)entity)->unk_2A.s;
+            spin_angle = entity->facing;
             spin_angle += 0x200;
 
             if (spin_angle >= 0x1000) {
                 spin_angle -= 0x1000;
             }
-            ((S_801757E0_8 *)entity)->unk_2A.s = spin_angle;
+            entity->facing = spin_angle;
         }
     }
     if (((S_801757E0_0 *)actor)->unk_96.s != 0x13) {
@@ -381,7 +377,7 @@ state_4:
     ((S_801757E0_0 *)actor)->unk_9B++;
     (*(void * *)((u8 *)animation + 0x2C)) = D_801760A4;
     func_80047784(animation,
-        D_801760A4[((gameWork.view.viewAngle + ((S_801757E0_8 *)entity)->unk_2A.s + 0x100) >> 9) & 7],
+        D_801760A4[((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
         0);
     return;
 
@@ -393,7 +389,7 @@ state_5:
     if (((S_801757E0_1 *)animation)->unk_14 & 0xE000) {
         (*(void * *)((u8 *)animation + 0x2C)) = D_8017609C;
         func_80047784(animation,
-            D_8017609C[((gameWork.view.viewAngle + ((S_801757E0_8 *)entity)->unk_2A.s + 0x100) >> 9) & 7],
+            D_8017609C[((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         goto bump_state;
     }
@@ -422,13 +418,13 @@ state_7:
         ((S_801757E0_0 *)actor)->unk_96.u = spin_timer;
         if ((spin_timer & 3) == 0) {
 
-            spin_angle = ((S_801757E0_8 *)entity)->unk_2A.s;
+            spin_angle = entity->facing;
             spin_angle += 0x200;
 
             if (spin_angle >= 0x1000) {
                 spin_angle -= 0x1000;
             }
-            ((S_801757E0_8 *)entity)->unk_2A.s = spin_angle;
+            entity->facing = spin_angle;
         }
     }
     if (((S_801757E0_0 *)actor)->unk_96.s != 0x13) {
@@ -460,7 +456,7 @@ state_9:
     func_800AD594(entity, 0x800);
     ((S_801757E0_0 *)actor)->unk_8C = &D_801714B8;
     dungeonStatus.unk_0C = 0;
-    (*(u16 *)((u8 *)entity + 0x46)) &= 0x7FFF;
+    (entity->unk_46) &= 0x7FFF;
 
 #ifdef __mips__
 state_16:

@@ -16,23 +16,6 @@ typedef struct S_8017472C_0 {
     union { s16 s; u16 u; } unk_AE;   /* accessed as both */
 } S_8017472C_0;   /* arg0 in func_8017472C */
 
-typedef struct S_8017472C_1 {
-    u8 pad_00[0x1C];
-    u32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x1A];
-    u16 unk_46;
-    u8 unk_48;
-    u8 pad_49[0x17];
-    void * unk_60;
-    u8 pad_64[0x9];
-    u8 unk_6D;
-    u8 pad_6E[0x4];
-    union { u8 s; s8 u; } unk_72;   /* accessed as both */
-    union { u8 s; s8 u; } unk_73;   /* accessed as both */
-} S_8017472C_1;   /* arg3 in func_8017472C */
-
 typedef struct S_8017472C_2_pre {
     void * unk_00;
     u8 pad_04[0x10];
@@ -83,7 +66,7 @@ extern u8 D_80175E2C[];
 extern u8 D_80175E34[];
 
 /* Updates an actor's action state, target coordinates, animation, and completion. */
-void func_8017472C(void *action, void *transform, void *sprite, void *actor)
+void func_8017472C(void *action, EntityRec *transform, void *sprite, EntityRec *actor)
 {
     static void *const kind_labels[] = {
         &&kind_1, &&kind_2, &&kind_3, &&kind_none,
@@ -123,8 +106,8 @@ void func_8017472C(void *action, void *transform, void *sprite, void *actor)
     return;
 
 state_0:
-    if (((S_8017472C_1 *)actor)->unk_1C & 0x2000) {
-        kind = (((S_8017472C_1 *)actor)->unk_46 & 0x3FFF) - 1;
+    if (((u32)actor->flags1C) & 0x2000) {
+        kind = (actor->unk_46 & 0x3FFF) - 1;
         if ((u32)kind >= 7U) {
             goto kind_none;
         }
@@ -142,7 +125,7 @@ special_1:
         goto kind_1;
     }
 
-    kind = ((S_8017472C_1 *)actor)->unk_46 & 0x3FFF;
+    kind = actor->unk_46 & 0x3FFF;
     if (kind == 2) {
         goto kind_2;
     }
@@ -175,19 +158,19 @@ choice_ready:
         ((S_8017472C_0 *)action)->unk_98 &= 0xFF7F;
         if (use_player_target != 0) {
             target = D_800814A8;
-            ((S_8017472C_1 *)actor)->unk_60 = target;
+            actor->target = target;
             goto record_setup;
         }
 
         if (D_8006DE24[*move].kind == 2) {
-            target = ((S_8017472C_1 *)actor)->unk_60;
+            target = actor->target;
             if (target == 0) {
                 goto move_setup;
             }
 record_setup:
             state = ((S_8017472C_2_pre *)target)[-1].unk_00;
-            ((S_8017472C_1 *)actor)->unk_72.s = ((S_8017472C_3 *)state)->unk_24;
-            ((S_8017472C_1 *)actor)->unk_73.s = ((S_8017472C_3 *)state)->unk_25;
+            actor->unk_72 = ((S_8017472C_3 *)state)->unk_24;
+            actor->unk_73 = ((S_8017472C_3 *)state)->unk_25;
             goto move_setup;
         }
 
@@ -195,13 +178,13 @@ record_setup:
             actor,
             ((S_8017472C_4 *)sprite)->unk_24,
             ((S_8017472C_4 *)sprite)->unk_25,
-            ((S_8017472C_1 *)actor)->unk_2A,
+            actor->facing,
             0x10);
-        ((S_8017472C_1 *)actor)->unk_60 = target;
-        ((S_8017472C_1 *)actor)->unk_72.s =
-            abs(((S_8017472C_1 *)actor)->unk_72.u);
-        ((S_8017472C_1 *)actor)->unk_73.s =
-            abs(((S_8017472C_1 *)actor)->unk_73.u);
+        actor->target = target;
+        actor->unk_72 =
+            abs(actor->unk_72);
+        actor->unk_73 =
+            abs(actor->unk_73);
 
 move_setup:
         if (func_800A94A0(actor, move, use_player_target,
@@ -214,18 +197,18 @@ move_setup:
         return;
     }
 
-    ((EntityRec *)transform)->flags14 = 0;
-    ((EntityRec *)transform)->unk_10 = 0;
-    ((EntityRec *)transform)->unk_0C = 0;
+    transform->flags14 = 0;
+    transform->unk_10 = 0;
+    transform->unk_0C = 0;
     func_800A2B04(transform, ((S_8017472C_4 *)sprite)->unk_24, ((S_8017472C_4 *)sprite)->unk_25);
     D_8008346C = 0;
     (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
     func_800A4ACC(actor);
-    ((S_8017472C_1 *)actor)->unk_6D--;
+    (*(u8 *)&actor->unk_6D)--;
     ((S_8017472C_0 *)action)->unk_8C = D_801724BC;
-    ((S_8017472C_1 *)actor)->unk_73.s = 0;
-    ((S_8017472C_1 *)actor)->unk_72.s = 0;
-    ((S_8017472C_1 *)actor)->unk_46 &= 0x7FFF;
+    actor->unk_73 = 0;
+    actor->unk_72 = 0;
+    actor->unk_46 &= 0x7FFF;
     return;
 
 state_1:
@@ -268,12 +251,12 @@ state_3:
         return;
     }
 
-    ((EntityRec *)transform)->flags14 = 0;
-    ((EntityRec *)transform)->unk_10 = 0;
-    ((EntityRec *)transform)->unk_0C = 0;
+    transform->flags14 = 0;
+    transform->unk_10 = 0;
+    transform->unk_0C = 0;
     func_800A2B04(transform, ((S_8017472C_4 *)sprite)->unk_24, ((S_8017472C_4 *)sprite)->unk_25);
 
-    kind = ((S_8017472C_1 *)actor)->unk_48;
+    kind = actor->unk_48;
     if (kind == 0xE) {
         goto state3_kind_e;
     }
@@ -313,7 +296,7 @@ table_ready:
         (*(u8 * *)((u8 *)sprite + 0x2C)) = anim_table;
         func_80047784(
             sprite,
-            *(u8 *)((((gameWork.view.viewAngle + ((S_8017472C_1 *)actor)->unk_2A + 0x100) >> 9) & 7) + (u32)anim_table),
+            *(u8 *)((((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7) + (u32)anim_table),
             0);
     }
 
@@ -325,9 +308,9 @@ control_ready:
     ((S_8017472C_6 *)control)->unk_0A--;
     ((S_8017472C_0 *)action)->unk_8C = D_801724BC;
     func_800A4ACC(actor);
-    ((S_8017472C_1 *)actor)->unk_73.s = 0;
-    ((S_8017472C_1 *)actor)->unk_72.s = 0;
-    ((S_8017472C_1 *)actor)->unk_6D--;
-    ((S_8017472C_1 *)actor)->unk_46 &= 0x7FFF;
+    actor->unk_73 = 0;
+    actor->unk_72 = 0;
+    (*(u8 *)&actor->unk_6D)--;
+    actor->unk_46 &= 0x7FFF;
     func_800A56E0(0xB4);
 }

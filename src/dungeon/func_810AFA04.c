@@ -19,16 +19,6 @@ typedef struct S_80173204_1 {
 } S_80173204_1;   /* arg2 in func_80173204 */
 
 
-typedef struct S_80173204_3 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_80173204_3;   /* counter_base in func_80173204 */
-
-
-typedef struct S_80173204_6 {
-    u8 pad_00[0x26];
-    s8 unk_26;
-} S_80173204_6;   /* floor_base in func_80173204 */
 
 typedef struct S_80173204_7 {
     u8 pad_00[0xA];
@@ -62,7 +52,7 @@ void func_80173204(Rec_func_80173204_arg0 *controller, s32 update_mode, S_801732
     s32 state;
     s32 flags;
     s8 floor;
-    u8 *counter_base;
+    DungeonGlobalStatus *counter_base;
     TileObject *floor_base;
 
     if (controller->unk_9B < 2U) {
@@ -100,9 +90,9 @@ state_0:
         sprite,
         D_80173C9C[((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
         0);
-    counter_base = ((u8 *)(&dungeonStatus));
-    ((S_80173204_3 *)counter_base)->unk_0A =
-        ((S_80173204_3 *)counter_base)->unk_0A - 1;
+    counter_base = &dungeonStatus;
+    counter_base->unk_0A =
+        ((u16)counter_base->unk_0A) - 1;
     controller->unk_9B++;
     return;
 

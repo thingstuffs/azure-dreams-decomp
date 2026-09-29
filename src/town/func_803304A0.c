@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "shared/town_root.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_80016000.h"
 
 
 typedef struct S_8001ACA0_3 {
@@ -37,7 +37,7 @@ typedef struct S_8001ACA0_1 {
 void func_8001ACA0(S_8001ACA0_0 *components) {
     S_8001ACA0_1 *source_record;
 
-    source_record = ((S_8001ACA0_4 *)(((S_8001ACA0_3 *)(((Rec_D_80016000 *)D_80016000)->unk_24))->unk_68))->unk_08;
+    source_record = ((S_8001ACA0_4 *)(((S_8001ACA0_3 *)(D_80016000->unk_24))->unk_68))->unk_08;
     components->unk_00 = (u16) source_record->unk_02;
     components->unk_02 = (u16) source_record->unk_06;
     components->unk_04 = (u16) source_record->unk_0A;

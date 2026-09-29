@@ -20,11 +20,6 @@ extern u8 D_800E0597;
 extern u8 D_800E05C3;
 
 
-typedef struct S_80092E90_0 {
-    u8 pad_00[0x4];
-    s16 unk_04;
-} S_80092E90_0;   /* global in func_80092E90 */
-
 typedef struct S_80092E90_1 {
     u8 pad_00[0x14];
     u16 unk_14;
@@ -53,11 +48,6 @@ typedef struct S_80092E90_5 {
     void * unk_5C;
 } S_80092E90_5;   /* savedArg3 in func_80092E90 */
 
-typedef struct S_80092E90_6 {
-    u8 pad_00[0x26];
-    s8 unk_26;
-} S_80092E90_6;   /* actorBase in func_80092E90 */
-
 typedef struct S_80092E90_7_pre {
     void * unk_00;
     u8 pad_04[0x10];
@@ -68,18 +58,13 @@ typedef struct S_80092E90_7 {
     void * unk_5C;
 } S_80092E90_7;   /* node in func_80092E90 */
 
-typedef struct S_80092E90_8 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_80092E90_8;   /* endBase in func_80092E90 */
-
 typedef struct S_80092E90_9 {
     u8 pad_00[0x26];
     s8 unk_26;
 } S_80092E90_9;   /* ((S_80092E90_7_pre *)node)[-1].unk_00 in func_80092E90 */
 
 /* Move toward the target tile, process matching list entries, and advance the effect state. */
-void func_80092E90(void *controller, void *motion, void *actor, void *entry)
+void func_80092E90(void *controller, EntityRec *motion, void *actor, void *entry)
 {
     s32 found_match;
     s32 tile_origin;
@@ -95,17 +80,17 @@ void func_80092E90(void *controller, void *motion, void *actor, void *entry)
     move_frames = dungeonStatus.unk_04;
     if (move_frames != 0) {
         target_pos = ((S_80092E90_1 *)actor)->unk_24 << 6;
-        tile_origin = ((EntityRec *)motion)->x.w.i - 0x20;
-        ((EntityRec *)motion)->unk_0C =
+        tile_origin = motion->x.w.i - 0x20;
+        motion->unk_0C =
             ((target_pos - tile_origin) << 16) / move_frames;
-        tile_origin = ((EntityRec *)motion)->y.w.i;
+        tile_origin = motion->y.w.i;
         tile_origin -= 0x20;
         target_pos = ((S_80092E90_1 *)actor)->unk_25 << 6;
-        ((EntityRec *)motion)->unk_10 =
+        motion->unk_10 =
             ((target_pos - tile_origin) << 16) / dungeonStatus.unk_04;
     } else {
-        ((EntityRec *)motion)->unk_0C = 0;
-        ((EntityRec *)motion)->unk_10 = 0;
+        motion->unk_0C = 0;
+        motion->unk_10 = 0;
     }
     count_state = &D_80083460_count;
     frames_left = ((S_80092E90_3 *)count_state)->unk_04.n;
@@ -167,9 +152,9 @@ finish_effect:
         }
     }
 
-    ((EntityRec *)motion)->flags14 = 0;
-    ((EntityRec *)motion)->unk_10 = 0;
-    ((EntityRec *)motion)->unk_0C = 0;
+    motion->flags14 = 0;
+    motion->unk_10 = 0;
+    motion->unk_0C = 0;
     func_800A2B04(motion, ((S_80092E90_1 *)actor)->unk_24, ((S_80092E90_1 *)actor)->unk_25);
     ((S_80092E90_4 *)controller)->unk_8C = &D_8008ACDC;
     dungeonStatus.unk_0A--;

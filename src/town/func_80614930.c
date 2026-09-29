@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "shared/town_root.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_80016000.h"
 
 
 typedef struct S_80614930_1 {
@@ -25,8 +25,8 @@ void func_80614930(void) {
     S_80614930_1 *x_state;
     S_80614930_2 *y_state;
 
-    x_state = ((Rec_D_80016000 *)D_80016000)->unk_1C.as_pv;
+    x_state = D_80016000->unk_1C;
     x_state->unk_04 = (s32) (x_state->unk_04 + x_state->unk_10);
-    y_state = ((Rec_D_80016000 *)D_80016000)->unk_1C.as_pv;
+    y_state = D_80016000->unk_1C;
     y_state->unk_08 = (s32) (y_state->unk_08 + y_state->unk_14);
 }

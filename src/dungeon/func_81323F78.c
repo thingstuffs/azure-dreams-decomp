@@ -61,7 +61,7 @@ extern M2C_UNK D_8017469C;
 extern M2C_UNK D_801746BC;
 
 /* Update the actor's dungeon action, animation, and facing direction. */
-void func_8016B778(Rec_func_800A9E70_arg0 *actor, M2C_UNK context, S_8016B778_2 *map_actor, void *entity) {
+void func_8016B778(Rec_func_800A9E70_arg0 *actor, M2C_UNK context, S_8016B778_2 *map_actor, EntityRec *entity) {
     static void *const action_labels[] = { &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8, &&jt_c9, &&jt_c10, &&jt_c11, &&jt_c12, &&state_store };
     M2C_UNK target_distance;
     s32 entity_flags;
@@ -86,7 +86,7 @@ void func_8016B778(Rec_func_800A9E70_arg0 *actor, M2C_UNK context, S_8016B778_2 
     func_8016BD14(actor, context, map_actor, entity);
     return;
 block_3:
-    if (!(((EntityRec *)entity)->flags1C & 0x200)) {
+    if (!(entity->flags1C & 0x200)) {
         goto block_8;
     }
     if (map_actor->unk_2C.p != D_801746A4) {
@@ -96,7 +96,7 @@ block_3:
     actor->unk_9A.as_u8 = 0xDU;
     actor->unk_9B.as_s8 = 1;
     actor->unk_8C = 0;
-    ((EntityRec *)entity)->flags1C &= flag_mask_hi | 0xFFFF;
+    entity->flags1C &= flag_mask_hi | 0xFFFF;
     return;
 block_7:
     if (func_800AA924(actor, context, map_actor, &D_8017469C) != 0) {
@@ -106,7 +106,7 @@ block_8:
     if (dungeonStatus.flags & 0x2000) {
         goto block_33;
     }
-    state_flags = ((EntityRec *)entity)->flags1C;
+    state_flags = entity->flags1C;
     override_flag = state_flags & 0x100;
     action_actor = actor;
     if (!override_flag) {
@@ -125,7 +125,7 @@ block_12:
         }
         if (current_anim != idle_anim) {
             map_actor->unk_2C.p = idle_anim;
-            action_data = (u8 *)(((s32) (gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7);
+            action_data = (u8 *)(((s32) (gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7);
             action_data += (u32)idle_anim;
             func_80047784(map_actor, *action_data, 0);
         }
@@ -139,7 +139,7 @@ state_store:
     if ((u16) *((s16 *)&D_80013714) & 8) {
         goto block_25;
     }
-    if (((EntityRec *)entity)->unk_64 == 0) {
+    if (entity->unk_64 == 0) {
         goto block_28;
     }
     if (func_800AA6B4(actor, context, map_actor, D_801746C4) == 0) {
@@ -147,42 +147,42 @@ state_store:
     }
     return;
 block_25:
-    if (((EntityRec *)entity)->unk_64 == 0) {
+    if (entity->unk_64 == 0) {
         goto block_28;
     }
-    if (((s32)dungeonStatus.unk_10) != (entity - 0x20)) {
+    if (((s32)dungeonStatus.unk_10) != ((u8 *)entity - 0x20)) {
         goto block_28;
     }
     *(s32 *)&dungeonStatus.unk_10 &= 0x7FFFFFFF;
 block_28:
-    if (!(((EntityRec *)entity)->flags1C & 0x80000)) {
+    if (!(entity->flags1C & 0x80000)) {
         goto block_31;
     }
     func_800AA888(actor, context, map_actor, entity);
     func_8016DAA4(actor, context, map_actor, entity);
     map_actor->unk_2C.p = D_8017467C;
-    func_80047784(map_actor, D_8017467C[((s32) (gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7], 0);
+    func_80047784(map_actor, D_8017467C[((s32) (gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7], 0);
     actor->unk_90.at00_s32.v = 0;
     return;
 block_31:
     if ((func_800A1C58(entity) << 0x10) == 0) {
         goto block_33;
     }
-    ((EntityRec *)entity)->unk_18 = 0;
+    entity->unk_18 = 0;
     dungeonStatus.unk_0C = 0;
 block_33:
     tile_index = func_8009FB34(map_actor->unk_24.at00.v, map_actor->unk_24.at01.v);
     map_actor->unk_26 = tile_index;
-    if (((EntityRec *)entity)->unk_6D <= 0) {
+    if (entity->unk_6D <= 0) {
         goto block_58;
     }
-    if (((EntityRec *)entity)->flags1C & 0x20) {
+    if (entity->flags1C & 0x20) {
         goto block_50;
     }
     if (map_actor->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
         goto block_56;
     }
-    if (((EntityRec *)entity)->unk_46 & 0x8000) {
+    if (entity->unk_46 & 0x8000) {
         goto block_44;
     }
     if (!(dungeonStatus.flags & 0x2000)) {
@@ -196,21 +196,21 @@ block_39:
         goto block_42;
     }
     func_8016EF10(actor, context, map_actor);
-    ((EntityRec *)entity)->unk_71 = (u8) (((EntityRec *)entity)->unk_71 & 0x7F);
+    entity->unk_71 = (u8) (entity->unk_71 & 0x7F);
     func_800A9A0C(entity);
-    ((EntityRec *)entity)->unk_46 &= 0x7FFF;
+    entity->unk_46 &= 0x7FFF;
     return;
 block_42:
     if ((func_8016C98C(actor, context, map_actor, 0) << 0x10) == 0) {
         return;
     }
-    action_flags = ((EntityRec *)entity)->unk_46 | 0x4000;
-    ((EntityRec *)entity)->unk_46 = action_flags;
+    action_flags = entity->unk_46 | 0x4000;
+    entity->unk_46 = action_flags;
     if (!(action_flags & 0x8000)) {
         goto block_56;
     }
 block_44:
-    action_id = ((EntityRec *)entity)->unk_46 & 0x3FFF;
+    action_id = entity->unk_46 & 0x3FFF;
     if ((u32) (action_id - 1) >= 0xCU) {
         goto block_55;
     }
@@ -227,7 +227,7 @@ jt_c6:
 jt_c7:
     target_angle = func_800A0818(map_actor->unk_24.at00.v, map_actor->unk_24.at01.v, D_80082E80.tileX, D_80082E80.tileY, &target_distance);
     active_actor = (u8 *)*((int *)(&D_800814A8));
-    ((EntityRec *)entity)->facing = target_angle;
+    entity->facing = target_angle;
     if (((S_8016B778_4 *)active_actor)->unk_9A == 0x11) {
         action_data = (u8 *)0x80170000;
         goto block_53_low;
@@ -253,7 +253,7 @@ block_56:
     func_8016BF74(actor, context, map_actor, entity);
     return;
 block_58:
-    entity_flags = ((EntityRec *)entity)->flags1C;
+    entity_flags = entity->flags1C;
     if (entity_flags & 0x2000) {
         return;
     }
@@ -275,6 +275,6 @@ block_62:
     if ((func_8009FD7C(map_actor->unk_24.at00.v, map_actor->unk_24.at01.v, D_80082E80.tileX, D_80082E80.tileY) << 0x10) == 0) {
         return;
     }
-    ((EntityRec *)entity)->facing = func_800A0818(map_actor->unk_24.at00.v, map_actor->unk_24.at01.v, D_80082E80.tileX, D_80082E80.tileY, &target_distance);
+    entity->facing = func_800A0818(map_actor->unk_24.at00.v, map_actor->unk_24.at01.v, D_80082E80.tileX, D_80082E80.tileY, &target_distance);
     return;
 }

@@ -32,11 +32,6 @@ typedef struct S_801739F8_0 {
 } S_801739F8_0;   /* arg0 in func_801739F8 */
 
 
-typedef struct S_801739F8_2 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_801739F8_2;   /* counter in func_801739F8 */
-
 
 typedef struct S_801739F8_4 {
     u8 pad_00[0x2];
@@ -44,11 +39,6 @@ typedef struct S_801739F8_4 {
     u8 pad_04[0x6];
     u16 unk_0A;
 } S_801739F8_4;   /* global in func_801739F8 */
-
-typedef struct S_801739F8_5 {
-    u8 pad_00[0x58];
-    void * unk_58;
-} S_801739F8_5;   /* owner in func_801739F8 */
 
 /* Advances entity animation states and updates the shared activity count. */
 void func_801739F8(void *controller, void *context, void *sprite, void *entity)
@@ -70,16 +60,16 @@ void func_801739F8(void *controller, void *context, void *sprite, void *entity)
     switch (state) {
     case 0:
     {
-        u8 *activity_counts;
+        DungeonGlobalStatus *activity_counts;
 
         if ((((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) == 0) {
             return;
         }
 
-        activity_counts = (u8 *)&dungeonStatus.unk_00;
+        activity_counts = &dungeonStatus;
 #ifndef __mips__
 #endif
-        ((S_801739F8_2 *)activity_counts)->unk_0A--;
+        (*(u16 *)&activity_counts->unk_0A)--;
         (*(void * *)((u8 *)sprite + 0x2C)) = D_80174AFC;
         direction = (gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
         func_80047784(sprite, D_80174AFC[direction & 7], 0);
@@ -89,16 +79,16 @@ void func_801739F8(void *controller, void *context, void *sprite, void *entity)
 
     case 1:
         if (((EntityRec *)entity)->tileY != 0) {
-            register u8 *activity_counts;
+            register DungeonGlobalStatus *activity_counts;
 
             (*(void * *)((u8 *)sprite + 0x2C)) = D_80174AF4;
             direction = (gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
             func_80047784(sprite, D_80174AF4[direction & 7], 0);
             (*(u32 *)((u8 *)entity + 0x1C)) |= 0x40000;
-            activity_counts = (u8 *)&dungeonStatus.unk_00;
+            activity_counts = &dungeonStatus;
 #ifndef __mips__
 #endif
-            ((S_801739F8_2 *)activity_counts)->unk_0A++;
+            (*(u16 *)&activity_counts->unk_0A)++;
             ((S_801739F8_0 *)controller)->unk_9B++;
             goto increment_state_done;
         }
@@ -134,10 +124,10 @@ void func_801739F8(void *controller, void *context, void *sprite, void *entity)
         }
 
         if ((func_800A2C34(entity) << 16) != 0) {
-            void *owner = D_800814A8;
+            EntityRec *owner = D_800814A8;
 
             if ((func_8009A180(entity,
-                    (u8 *)((S_801739F8_5 *)owner)->unk_58 + 0x20) << 16) != 0) {
+                    (u8 *)owner->unk_58 + 0x20) << 16) != 0) {
                 return;
             }
         }
@@ -161,16 +151,16 @@ void func_801739F8(void *controller, void *context, void *sprite, void *entity)
 
     case 2:
     {
-        u8 *activity_counts;
+        DungeonGlobalStatus *activity_counts;
 
         if ((((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) == 0) {
             return;
         }
 
-        activity_counts = (u8 *)&dungeonStatus.unk_00;
+        activity_counts = &dungeonStatus;
 #ifndef __mips__
 #endif
-        ((S_801739F8_2 *)activity_counts)->unk_0A--;
+        (*(u16 *)&activity_counts->unk_0A)--;
         ((EntityRec *)entity)->flags1C &= ~0x208;
         ((S_801739F8_0 *)controller)->unk_8C = D_80171138;
         return;

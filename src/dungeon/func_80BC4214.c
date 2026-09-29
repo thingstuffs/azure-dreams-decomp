@@ -25,7 +25,7 @@ extern s32 D_8017466C;
 
 
 /* Advance the action delay, reset motion, and select the next handler. */
-void func_80173A14(S_80173A14_0 *action, EntityRec *motion, Rec_D_80082E80 *action_info, void *actor_data)
+void func_80173A14(S_80173A14_0 *action, EntityRec *motion, Rec_D_80082E80 *action_info, EntityRec *actor_data)
 {
     s16 delay;
     s32 tracked_actor;
@@ -37,7 +37,7 @@ void func_80173A14(S_80173A14_0 *action, EntityRec *motion, Rec_D_80082E80 *acti
         motion->unk_0C = 0;
         action->unk_9B++;
 
-        if (((EntityRec *)actor_data)->unk_28 == 0) {
+        if (actor_data->unk_28 == 0) {
             goto start_action;
         }
         if (action_info->unk_14.at00_u16.v & 0x8000) {
@@ -45,7 +45,7 @@ void func_80173A14(S_80173A14_0 *action, EntityRec *motion, Rec_D_80082E80 *acti
             action->unk_9B = 2;
             return;
         }
-        if (((EntityRec *)actor_data)->flags1C & 0x228) {
+        if (actor_data->flags1C & 0x228) {
             delay = 8;
         } else {
             delay = -1;
@@ -64,7 +64,7 @@ void func_80173A14(S_80173A14_0 *action, EntityRec *motion, Rec_D_80082E80 *acti
         if (action->unk_96.s != 0) {
             return;
         }
-        if (((EntityRec *)actor_data)->unk_28 != 0) {
+        if (actor_data->unk_28 != 0) {
             goto increment_state;
         }
         goto start_action;

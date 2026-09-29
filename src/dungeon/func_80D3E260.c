@@ -13,12 +13,6 @@ typedef struct Copy48 {
     u32 words[12];
 } Copy48;
 
-typedef struct ItemInfo {
-    u8 pad00[0x12];
-    u8 type;
-    u8 pad13;
-} ItemInfo;
-
 extern s32 func_8003F270(void);
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
@@ -92,11 +86,6 @@ typedef struct S_80173A60_6 {
     void * unk_2C;
 } S_80173A60_6;   /* copy in func_80173A60 */
 
-typedef struct S_80173A60_7 {
-    u8 pad_00[0xC8];
-    s16 unk_C8;
-} S_80173A60_7;   /* direction in func_80173A60 */
-
 typedef struct S_80173A60_8 {
     u8 pad_00[0x2];
     u16 unk_02;
@@ -113,7 +102,7 @@ typedef struct S_80173A60_9 {
 } S_80173A60_9;   /* global in func_80173A60 */
 
 /* Advances an actor's item action, spawning its visual effect and restoring idle state. */
-void func_80173A60(void *actor_state, void *motion, void *sprite, void *actor)
+void func_80173A60(void *actor_state, EntityRec *motion, void *sprite, void *actor)
 {
     static void *const kind_labels[] = {
         &&L_kind1, &&L_kind2, &&L_kind3, &&L_kind4,
@@ -215,9 +204,9 @@ L_copy_linked:
             return;
         }
 
-        ((EntityRec *)motion)->flags14 = 0;
-        ((EntityRec *)motion)->unk_10 = 0;
-        ((EntityRec *)motion)->unk_0C = 0;
+        motion->flags14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
         func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
         dungeonStatus.unk_0C = 0;
         (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
@@ -288,9 +277,9 @@ L_copy_linked:
                     ((S_80173A60_4 *)effect_state)->unk_2A = ((S_80173A60_0 *)actor_state)->unk_2A.u;
 
                     effect_pos = ((S_80173A60_5 *)effect)->unk_08;
-                    ((S_80173A60_8 *)effect_pos)->unk_02 = ((u16)((EntityRec *)motion)->x.w.i);
-                    ((S_80173A60_8 *)effect_pos)->unk_06 = ((u16)((EntityRec *)motion)->y.w.i);
-                    ((S_80173A60_8 *)effect_pos)->unk_0A = ((u16)((EntityRec *)motion)->z.w.i);
+                    ((S_80173A60_8 *)effect_pos)->unk_02 = ((u16)motion->x.w.i);
+                    ((S_80173A60_8 *)effect_pos)->unk_06 = ((u16)motion->y.w.i);
+                    ((S_80173A60_8 *)effect_pos)->unk_0A = ((u16)motion->z.w.i);
                 }
             }
 

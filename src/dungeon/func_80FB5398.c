@@ -74,9 +74,9 @@ s32 func_80174B98(void *object_data, void *unused, void *appearance)
   s32 last_y;
   register s32 row_span;
   register s32 crop_y;
-  u8 *render_state;
+  GameWork *render_state;
   (void) unused;
-  render_state = ((u8 *)(&gameWork));
+  render_state = &gameWork;
   material = *((PackedPair *) D_8017089C);
   depth = 0;
   vertex_base = vertices;

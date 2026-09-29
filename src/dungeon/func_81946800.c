@@ -6,6 +6,7 @@
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
+#include "shared/entity.h"
 
 
 extern int D_800814C8;
@@ -47,9 +48,9 @@ void func_81946800(void *action, void *saved_position)
   void *offset_part;
   void *source_part;
   void *position;
-  void *shared_data;
+  EntityRec *shared_data;
   u8 *effect_work;
-  u8 *shared_state;
+  DungeonGlobalStatus *shared_state;
   s16 offsets[3];
   s32 state;
   s32 timer;
@@ -188,7 +189,7 @@ void func_81946800(void *action, void *saved_position)
     *((u16 *) (((u8 *) action) + 0x52)) = action_flags & 0x7FFF;
     return;
   }
-  shared_state = (u8 *) (&dungeonStatus.unk_00);
+  shared_state = &dungeonStatus;
   *((s32 *) (((u8 *) shared_state) + 0xC)) = 0;
   (*((u16 *) (((u8 *) shared_state) + 0xA)))--;
   *((u16 *) (((u8 *) action) + (-2))) |= 0x8000;

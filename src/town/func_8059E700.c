@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "shared/town_root.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_80016000.h"
 
 
 typedef struct S_8059E700_1 {
@@ -15,6 +15,6 @@ typedef struct S_8059E700_1 {
 void func_8059E700(s32 amount) {
     S_8059E700_1 *record;
 
-    record = ((Rec_D_80016000 *)D_80016000)->unk_38.as_pv;
+    record = D_80016000->unk_38;
     record->unk_2D5C = (s32) (record->unk_2D5C - amount);
 }

@@ -26,7 +26,7 @@ extern u8 D_801710F4[];
 extern u8 D_80174F10[];
 
 /* Update directional motion, then settle the entity at its grid position. */
-void func_80173420(S_80173420_0 *action, EntityRec *motion, Rec_D_80082E80 *grid_pos, void *entity)
+void func_80173420(S_80173420_0 *action, EntityRec *motion, Rec_D_80082E80 *grid_pos, EntityRec *entity)
 {
     s16 *direction_y;
     s32 velocity_y;
@@ -47,7 +47,7 @@ void func_80173420(S_80173420_0 *action, EntityRec *motion, Rec_D_80082E80 *grid
     s32 current_y;
 
     ticks_left = action->unk_96.s - 1;
-    direction = (((EntityRec *)entity)->unk_6A >> 9) & 7;
+    direction = (entity->unk_6A >> 9) & 7;
     phase = action->unk_9B;
     action->unk_96.s = ticks_left;
     switch (phase) {
@@ -71,7 +71,7 @@ init_motion:
         *(s16 *)((u8 *)((s8 *)dirStepY) + launch_offset) << 0x12;
     action->unk_9B++;
 
-    if (((EntityRec *)entity)->unk_28 == 0) {
+    if (entity->unk_28 == 0) {
         goto start_action;
     }
     if (grid_pos->unk_14.at00_u16.v & 0x8000) {
@@ -81,7 +81,7 @@ init_motion:
     }
 
     duration = 6;
-    if (((EntityRec *)entity)->flags1C & 0x228) {
+    if (entity->flags1C & 0x228) {
         duration = 8;
     }
     action->unk_96.s = duration;
@@ -110,7 +110,7 @@ decelerate:
     if (action->unk_96.u != 0) {
         return;
     }
-    if (((EntityRec *)entity)->unk_28 != 0) {
+    if (entity->unk_28 != 0) {
         goto increment_state;
     }
 

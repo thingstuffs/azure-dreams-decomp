@@ -75,7 +75,7 @@ void func_801714D4(void *actor_arg, void *context_arg, void *sprite_arg, void *s
     register void *actor_head = actor_arg;
     register void *context = context_arg;
     register void *sprite = sprite_arg;
-    register void *stats = stats_arg;
+    register EntityRec *stats = stats_arg;
     s16 distance;
     s32 flags;
     s32 action_index;
@@ -96,7 +96,7 @@ void func_801714D4(void *actor_arg, void *context_arg, void *sprite_arg, void *s
     }
 
 
-    if (((EntityRec *)stats)->tileY == 0) {
+    if (stats->tileY == 0) {
         func_800AA79C(actor_arg, context_arg, sprite, stats);
         if (((S_801714D4_2 *)sprite)->unk_2C == D_80174158) {
             return;
@@ -104,17 +104,17 @@ void func_801714D4(void *actor_arg, void *context_arg, void *sprite_arg, void *s
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80174150;
         func_80047784(
             sprite,
-            D_80174150[((gameWork.view.viewAngle + ((EntityRec *)stats)->facing + 0x100) >> 9) & 7],
+            D_80174150[((gameWork.view.viewAngle + stats->facing + 0x100) >> 9) & 7],
             0);
         return;
     }
 
-    if (((u32)((EntityRec *)stats)->flags1C) & 0x200) {
+    if (((u32)stats->flags1C) & 0x200) {
         if (((S_801714D4_2 *)sprite)->unk_2C == D_80174158) {
             ((S_801714D4_0 *)actor_arg)->unk_9A = 13;
             ((S_801714D4_0 *)actor_arg)->unk_9B = 1;
             ((S_801714D4_0 *)actor_arg)->unk_8C = 0;
-            ((EntityRec *)stats)->flags1C &= ~0x40000;
+            stats->flags1C &= ~0x40000;
             return;
         }
         if (func_800AA924(actor_arg, context_arg, sprite, D_801740F0) != 0) {
@@ -123,7 +123,7 @@ void func_801714D4(void *actor_arg, void *context_arg, void *sprite_arg, void *s
     }
 
     if ((dungeonStatus.flags & 0x2000) == 0) {
-        if (((u32)((EntityRec *)stats)->flags1C) & 0x100) {
+        if (((u32)stats->flags1C) & 0x100) {
             func_800AA258(actor_arg, context_arg, sprite, stats);
             return;
         }
@@ -137,23 +137,23 @@ void func_801714D4(void *actor_arg, void *context_arg, void *sprite_arg, void *s
             (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801740E0;
             func_80047784(
                 sprite,
-                D_801740E0[((gameWork.view.viewAngle + ((EntityRec *)stats)->facing + 0x100) >> 9) & 7],
+                D_801740E0[((gameWork.view.viewAngle + stats->facing + 0x100) >> 9) & 7],
                 0);
             ((S_801714D4_2 *)sprite)->unk_05 = 1;
             ((S_801714D4_0 *)actor_arg)->unk_A2.s = 0;
             ((S_801714D4_0 *)actor_arg)->unk_9E = 0;
         }
 
-        ((EntityRec *)stats)->flags1C |= 0x40000;
+        stats->flags1C |= 0x40000;
         ((S_801714D4_0 *)actor_arg)->unk_98 &= 0xFFF7;
 
-        if (((EntityRec *)stats)->unk_64 != 0) {
+        if (stats->unk_64 != 0) {
             if (func_800AA6B4(actor_arg, context_arg, sprite, D_80174140) != 0) {
                 return;
             }
         }
 
-        if (((u32)((EntityRec *)stats)->flags1C) & 0x80000) {
+        if (((u32)stats->flags1C) & 0x80000) {
             func_800AA888(actor_arg, context_arg, sprite, stats);
             ((S_801714D4_0 *)actor_arg)->unk_92 -= ((S_801714D4_0 *)actor_arg)->unk_A2.u;
             ((S_801714D4_0 *)actor_arg)->unk_A2.s = 0;
@@ -173,14 +173,14 @@ void func_801714D4(void *actor_arg, void *context_arg, void *sprite_arg, void *s
     tile_index = func_8009FB34(((S_801714D4_2 *)sprite)->unk_24.at00.v, ((S_801714D4_2 *)sprite)->unk_24.at01.v);
     ((S_801714D4_2 *)sprite)->unk_26 = tile_index;
 
-    if (((EntityRec *)stats)->unk_6D > 0) {
-        if (((u32)((EntityRec *)stats)->flags1C) & 0x20) {
+    if (stats->unk_6D > 0) {
+        if (((u32)stats->flags1C) & 0x20) {
             goto jt_c12;
         }
         if (((S_801714D4_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
             goto jt_default;
         }
-        action_flags = ((EntityRec *)stats)->unk_46;
+        action_flags = stats->unk_46;
         if ((action_flags & 0x8000) == 0) {
             if (dungeonStatus.flags & 0x2000) {
                 if ((s16)func_8009A180(
@@ -191,14 +191,14 @@ void func_801714D4(void *actor_arg, void *context_arg, void *sprite_arg, void *s
             if ((s16)func_80172628(actor_arg, context_arg, sprite, 0) == 0) {
                 return;
             }
-            action_flags = ((EntityRec *)stats)->unk_46 | 0x4000;
-            ((EntityRec *)stats)->unk_46 = action_flags;
+            action_flags = stats->unk_46 | 0x4000;
+            stats->unk_46 = action_flags;
             if ((action_flags & 0x8000) == 0) {
                 goto jt_default;
             }
         }
 
-        action_index = (((EntityRec *)stats)->unk_46 & 0x3FFF) - 1;
+        action_index = (stats->unk_46 & 0x3FFF) - 1;
         if ((u32)action_index >= 12U) {
             goto jt_default;
         }
@@ -220,7 +220,7 @@ jt_c7:
             ((S_801714D4_2 *)sprite)->unk_24.at00.v, ((S_801714D4_2 *)sprite)->unk_24.at01.v,
             D_80082E80.tileX, D_80082E80.tileY, &distance);
         owner = D_800814A8;
-        ((EntityRec *)stats)->facing = angle;
+        stats->facing = angle;
         if (owner->unk_9A == 0x11) {
             goto jt_c1;
         }
@@ -246,7 +246,7 @@ jt_default:
         return;
     }
 
-    flags = ((u32)((EntityRec *)stats)->flags1C);
+    flags = ((u32)stats->flags1C);
     if (flags & 0x2000) {
         return;
     }
@@ -266,7 +266,7 @@ jt_default:
                 D_80082E80.tileX, D_80082E80.tileY) == 0) {
             return;
         }
-        ((EntityRec *)stats)->facing = func_800A0818(
+        stats->facing = func_800A0818(
             ((S_801714D4_2 *)sprite)->unk_24.at00.v, ((S_801714D4_2 *)sprite)->unk_24.at01.v,
             D_80082E80.tileX, D_80082E80.tileY, &distance);
     }

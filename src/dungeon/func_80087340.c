@@ -13,12 +13,12 @@ extern u8 D_800DCFE8[];
 extern u8 D_800E3E41;
 
 /* Initialize directional animation and reset the actor action state. */
-void func_8008CAA0(void *action, s32 unused, void *sprite, void *actor) {
+void func_8008CAA0(void *action, s32 unused, void *sprite, EntityRec *actor) {
     u8 *direction_table;
     ((Rec_func_8008ACDC_arg0 *)action)->unk_10C = (s16) (((Rec_func_8008ACDC_arg0 *)action)->unk_10C & 0xFFFE);
     {
         s32 mode_mask = 0x20000000;
-        if (((EntityRec *)actor)->flags1C & mode_mask) {
+        if (actor->flags1C & mode_mask) {
             direction_table = D_800DCFE0;
         } else {
             direction_table = D_800DCFE8;
@@ -27,7 +27,7 @@ void func_8008CAA0(void *action, s32 unused, void *sprite, void *actor) {
     (*(u8 **)((u8 *)sprite + 0x2C)) = direction_table;
     {
         u8 *direction_entry;
-        direction_entry = direction_table + (((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7);
+        direction_entry = direction_table + (((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7);
         func_80048A44(sprite, *direction_entry, 0, 1);
     }
     ((Rec_func_8008ACDC_arg0 *)action)->unk_9A.as_s8 = 7;
@@ -41,7 +41,7 @@ void func_8008CAA0(void *action, s32 unused, void *sprite, void *actor) {
     }
     {
         s32 mode_mask = 0x20000000;
-        if (((EntityRec *)actor)->flags1C & mode_mask) {
+        if (actor->flags1C & mode_mask) {
             ((Rec_func_8008ACDC_arg0 *)action)->unk_96.as_s16 = (s16) D_800E3E41;
         }
     }

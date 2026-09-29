@@ -26,13 +26,13 @@ extern u8 D_80174ABC[];
 
 
 /* Updates directional motion and returns the entity to its tile when the timer expires. */
-void func_8017345C(S_8017345C_1 *action, EntityRec *motion, Rec_D_80082E80 *tile, void *entity)
+void func_8017345C(S_8017345C_1 *action, EntityRec *motion, Rec_D_80082E80 *tile, EntityRec *entity)
 {
     s16 timer;
     s32 tracked_entity;
     s32 direction;
 
-    direction = (((EntityRec *)entity)->unk_6A >> 9) & 7;
+    direction = (entity->unk_6A >> 9) & 7;
 
     switch (action->unk_9B) {
     case 0:
@@ -41,7 +41,7 @@ void func_8017345C(S_8017345C_1 *action, EntityRec *motion, Rec_D_80082E80 *tile
         motion->unk_10 = ((s16 *)((s8 *)dirStepY))[direction] << 17;
         action->unk_9B++;
 
-        if (((EntityRec *)entity)->unk_28 == 0) {
+        if (entity->unk_28 == 0) {
             goto start_action;
         }
         if (tile->unk_14.at00_u16.v & 0x8000) {
@@ -49,7 +49,7 @@ void func_8017345C(S_8017345C_1 *action, EntityRec *motion, Rec_D_80082E80 *tile
             action->unk_9B = 2;
             return;
         }
-        if (((EntityRec *)entity)->flags1C & 0x228) {
+        if (entity->flags1C & 0x228) {
             timer = 8;
         } else {
             timer = -1;
@@ -72,7 +72,7 @@ void func_8017345C(S_8017345C_1 *action, EntityRec *motion, Rec_D_80082E80 *tile
         if (action->unk_96.s != 0) {
             return;
         }
-        if (((EntityRec *)entity)->unk_28 != 0) {
+        if (entity->unk_28 != 0) {
             goto increment_state;
         }
         goto start_action;

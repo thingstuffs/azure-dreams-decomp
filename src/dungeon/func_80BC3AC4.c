@@ -95,14 +95,8 @@ typedef struct S_801732C4_7 {
     s16 unk_1E;
 } S_801732C4_7;   /* display in func_801732C4 */
 
-typedef struct S_801732C4_8 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-    s32 unk_0C;
-} S_801732C4_8;   /* global in func_801732C4 */
-
 /* Advances an actor's item-use sequence, animation, and particle effects. */
-void func_801732C4(void *action, void *motion, void *sprite, void *actor)
+void func_801732C4(void *action, EntityRec *motion, void *sprite, void *actor)
 {
     static void *const state_labels[] = {
         &&state_0, &&state_1, &&state_2, &&state_3, &&state_4, &&state_5
@@ -241,9 +235,9 @@ invoke_item:
     goto increment_state;
 
 empty_selection:
-    ((EntityRec *)motion)->flags14 = 0;
-    ((EntityRec *)motion)->unk_10 = 0;
-    ((EntityRec *)motion)->unk_0C = 0;
+    motion->flags14 = 0;
+    motion->unk_10 = 0;
+    motion->unk_0C = 0;
     func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
     dungeonStatus.unk_0C = 0;
     (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
@@ -337,9 +331,9 @@ particle_done:
         (*(void * *)((u8 *)object + 0x10)) = D_80171080;
         func_8004491C(object, func_80045340);
         transform = (*(void * *)((u8 *)object + 8));
-        ((S_801732C4_6 *)transform)->unk_02 = ((u16)((EntityRec *)motion)->x.w.i);
-        ((S_801732C4_6 *)transform)->unk_06 = ((u16)((EntityRec *)motion)->y.w.i);
-        ((S_801732C4_6 *)transform)->unk_0A = ((u16)((EntityRec *)motion)->z.w.i) - 0x60;
+        ((S_801732C4_6 *)transform)->unk_02 = ((u16)motion->x.w.i);
+        ((S_801732C4_6 *)transform)->unk_06 = ((u16)motion->y.w.i);
+        ((S_801732C4_6 *)transform)->unk_0A = ((u16)motion->z.w.i) - 0x60;
         display = (*(void * *)((u8 *)object + 0xC));
         (*(Packet12 *)((u8 *)object + 0x48)) = D_80174694;
         ((S_801732C4_7 *)display)->unk_08 = (u8 *)object + 0x48;
@@ -407,9 +401,9 @@ state_5:
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
         return;
     }
-    ((EntityRec *)motion)->flags14 = 0;
-    ((EntityRec *)motion)->unk_10 = 0;
-    ((EntityRec *)motion)->unk_0C = 0;
+    motion->flags14 = 0;
+    motion->unk_10 = 0;
+    motion->unk_0C = 0;
     func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
     if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 != D_80174634) {
         u8 *anim_table;

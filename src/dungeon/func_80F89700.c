@@ -26,7 +26,7 @@ extern u8 D_80174AD4[];
 extern u8 D_80174ADC[];
 
 /* Updates staged directional motion, then restores the entity to its tile and animation. */
-void func_80172F00(void *action, void *motion, void *sprite, void *entity)
+void func_80172F00(void *action, EntityRec *motion, void *sprite, EntityRec *entity)
 {
     s16 timer_signed;
     s32 direction;
@@ -39,7 +39,7 @@ void func_80172F00(void *action, void *motion, void *sprite, void *entity)
     u16 timer;
 
     state = ((S_80172F00_0 *)action)->unk_9B;
-    direction = (((EntityRec *)entity)->unk_6A >> 9) & 7;
+    direction = (entity->unk_6A >> 9) & 7;
 
     if (state == 1) {
         goto state_1;
@@ -57,11 +57,11 @@ void func_80172F00(void *action, void *motion, void *sprite, void *entity)
 
 state_0:
     func_800AD4D0(entity);
-    if (((EntityRec *)entity)->unk_28 == 0) {
-        ((EntityRec *)motion)->flags14 = 0;
-        ((EntityRec *)motion)->unk_10 = 0;
-        ((EntityRec *)motion)->unk_0C = 0;
-        ((EntityRec *)motion)->flags14 = 0xFFFD0000;
+    if (entity->unk_28 == 0) {
+        motion->flags14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
+        motion->flags14 = 0xFFFD0000;
         func_800AAA54(action, motion, sprite, D_80174ADC);
         return;
     }
@@ -72,46 +72,46 @@ state_0:
         u32 entity_flags;
         u16 action_flags;
 
-        ((EntityRec *)motion)->unk_0C =
+        motion->unk_0C =
             ((s16 *)((s8 *)dirStepX))[direction] << 18;
-        ((EntityRec *)motion)->unk_10 =
+        motion->unk_10 =
             ((s16 *)((s8 *)dirStepY))[direction] << 18;
-        ((EntityRec *)motion)->flags14 = 0x20000;
+        motion->flags14 = 0x20000;
 
         action_flags = ((S_80172F00_0 *)action)->unk_98;
         action_flags |= 8;
         ((S_80172F00_0 *)action)->unk_98 = action_flags;
-        entity_flags = ((u32)((EntityRec *)entity)->flags1C);
+        entity_flags = ((u32)entity->flags1C);
         entity_flags &= mask_bit_27;
         entity_flags &= mask_bit_18;
-        ((EntityRec *)entity)->flags1C = entity_flags;
+        entity->flags1C = entity_flags;
     }
 
     ((S_80172F00_0 *)action)->unk_9B = ((S_80172F00_0 *)action)->unk_9B + 1;
     timer_signed = -1;
-    if (((u32)((EntityRec *)entity)->flags1C) & 0x228) {
+    if (((u32)entity->flags1C) & 0x228) {
         timer_signed = 8;
     }
     ((S_80172F00_0 *)action)->unk_96.s = timer_signed;
 
-    velocity_x = ((EntityRec *)motion)->unk_0C;
+    velocity_x = motion->unk_0C;
     rounded_vx = velocity_x;
     if (velocity_x < 0) {
         rounded_vx = velocity_x + 3;
     }
-    velocity_y = ((EntityRec *)motion)->unk_10;
-    ((EntityRec *)motion)->unk_0C = velocity_x - (rounded_vx >> 2);
+    velocity_y = motion->unk_10;
+    motion->unk_0C = velocity_x - (rounded_vx >> 2);
     rounded_vy = velocity_y;
     if (velocity_y < 0) {
         rounded_vy = velocity_y + 3;
     }
-    ((EntityRec *)motion)->unk_10 = velocity_y - (rounded_vy >> 2);
+    motion->unk_10 = velocity_y - (rounded_vy >> 2);
     return;
 
 state_1:
-    ((EntityRec *)motion)->unk_0C -=
+    motion->unk_0C -=
         ((s16 *)((s8 *)dirStepX))[direction] << 15;
-    ((EntityRec *)motion)->unk_10 -= ((s16 *)((s8 *)dirStepY))[direction] << 15;
+    motion->unk_10 -= ((s16 *)((s8 *)dirStepY))[direction] << 15;
 
     timer_signed = ((S_80172F00_0 *)action)->unk_96.s;
     timer = ((S_80172F00_0 *)action)->unk_96.u;
@@ -128,15 +128,15 @@ check_timer:
     if (((S_80172F00_0 *)action)->unk_96.s != 0) {
         return;
     }
-    if (((EntityRec *)entity)->unk_28 != 0) {
+    if (entity->unk_28 != 0) {
         goto increment_state;
     }
 
 start_action:
     ((S_80172F00_0 *)action)->unk_9B = 0;
-    ((EntityRec *)motion)->unk_10 = 0;
-    ((EntityRec *)motion)->unk_0C = 0;
-    ((EntityRec *)motion)->flags14 = 0xFFFD0000;
+    motion->unk_10 = 0;
+    motion->unk_0C = 0;
+    motion->flags14 = 0xFFFD0000;
     func_800AAA54(action, motion, sprite, D_80174ADC);
     return;
 
@@ -146,19 +146,19 @@ increment_state:
     return;
 
 state_2:
-    ((EntityRec *)motion)->flags14 = 0xFFFD0000;
+    motion->flags14 = 0xFFFD0000;
     if (((S_80172F00_0 *)action)->unk_96.s != 0) {
         s32 tile_coord;
         s32 position_offset;
 
         tile_coord = ((Rec_D_80082E80 *)sprite)->unk_24 << 6;
-        position_offset = ((EntityRec *)motion)->x.w.i;
+        position_offset = motion->x.w.i;
         position_offset -= 0x20;
-        ((EntityRec *)motion)->unk_0C = (tile_coord - position_offset) << 15;
+        motion->unk_0C = (tile_coord - position_offset) << 15;
         tile_coord = ((Rec_D_80082E80 *)sprite)->unk_25 << 6;
-        position_offset = ((EntityRec *)motion)->y.w.i;
+        position_offset = motion->y.w.i;
         position_offset -= 0x20;
-        ((EntityRec *)motion)->unk_10 = (tile_coord - position_offset) << 15;
+        motion->unk_10 = (tile_coord - position_offset) << 15;
     }
 
     timer = ((S_80172F00_0 *)action)->unk_96.p - 1;
@@ -167,18 +167,18 @@ state_2:
         return;
     }
 
-    ((EntityRec *)motion)->flags14 = 0;
-    ((EntityRec *)motion)->unk_10 = 0;
-    ((EntityRec *)motion)->unk_0C = 0;
+    motion->flags14 = 0;
+    motion->unk_10 = 0;
+    motion->unk_0C = 0;
     func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
 
     ((S_80172F00_0 *)action)->unk_98 &= 0xFFF7;
-    ((EntityRec *)entity)->flags1C |= 0x08000000;
-    ((EntityRec *)entity)->flags1C |= 0x00040000;
+    entity->flags1C |= 0x08000000;
+    entity->flags1C |= 0x00040000;
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80174AD4;
     func_80047784(
         sprite,
-        D_80174AD4[((gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
+        D_80174AD4[((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
         0);
 
     tracked_entity = ((s32)dungeonStatus.unk_10);

@@ -34,7 +34,7 @@ extern M2C_UNK D_800D8C64;
 extern void *D_800E262C[];
 
 /* Update airborne movement toward a map tile and finish the landing transition. */
-void func_800D991C(void *motion_state, void *transform, void *map_entity, void *actor) {
+void func_800D991C(void *motion_state, EntityRec *transform, void *map_entity, EntityRec *actor) {
     M2C_UNK direction_aux;
     void **animation_table;
     s32 frames_left;
@@ -51,8 +51,8 @@ void func_800D991C(void *motion_state, void *transform, void *map_entity, void *
     switch (phase) {
         case 0:
             ((S_800D991C_0 *)motion_state)->unk_98 = (u16) (((S_800D991C_0 *)motion_state)->unk_98 | 8);
-            ((EntityRec *)transform)->flags14 = 0xFFF00000;
-            ((EntityRec *)actor)->flags1C = (s32) (((EntityRec *)actor)->flags1C & 0xF7FFFFFF);
+            transform->flags14 = 0xFFF00000;
+            actor->flags1C = (s32) (actor->flags1C & 0xF7FFFFFF);
             ((S_800D991C_0 *)motion_state)->unk_A4 = 0;
             ((S_800D991C_0 *)motion_state)->unk_9B = (u8) (((S_800D991C_0 *)motion_state)->unk_9B + 1);
             break;
@@ -68,48 +68,48 @@ update_motion:
     ((S_800D991C_0 *)motion_state)->unk_90 = (s32) (((S_800D991C_0 *)motion_state)->unk_90 - ((S_800D991C_0 *)motion_state)->unk_A4);
     if (frames_left != 0) {
         target_x = ((Rec_D_80082E80 *)map_entity)->unk_24 << 6;
-        current_x = ((EntityRec *)transform)->x.w.i - 0x20;
+        current_x = transform->x.w.i - 0x20;
         velocity_x = (s32) ((target_x - current_x) << 0x10) / frames_left;
-        current_y = ((EntityRec *)transform)->y.w.i - 0x20;
-        ((EntityRec *)transform)->unk_0C = velocity_x;
+        current_y = transform->y.w.i - 0x20;
+        transform->unk_0C = velocity_x;
         target_y = ((Rec_D_80082E80 *)map_entity)->unk_25 << 6;
-        ((EntityRec *)transform)->unk_10 = (s32) ((s32) ((target_y - current_y) << 0x10) / (s16) ((S_800D991C_0 *)motion_state)->unk_96);
-        ((S_800D991C_0 *)motion_state)->unk_A4 = (s32) (((S_800D991C_0 *)motion_state)->unk_A4 + ((EntityRec *)transform)->flags14);
-        ((EntityRec *)transform)->flags14 = (s32) (((EntityRec *)transform)->flags14 + 0x48000);
+        transform->unk_10 = (s32) ((s32) ((target_y - current_y) << 0x10) / (s16) ((S_800D991C_0 *)motion_state)->unk_96);
+        ((S_800D991C_0 *)motion_state)->unk_A4 = (s32) (((S_800D991C_0 *)motion_state)->unk_A4 + transform->flags14);
+        transform->flags14 = (s32) (transform->flags14 + 0x48000);
     }
     ((S_800D991C_0 *)motion_state)->unk_90 = (s32) (((S_800D991C_0 *)motion_state)->unk_90 + ((S_800D991C_0 *)motion_state)->unk_A4);
     if (((S_800D991C_0 *)motion_state)->unk_96 < 2) {
         ((S_800D991C_0 *)motion_state)->unk_90 = 0;
         ((S_800D991C_0 *)motion_state)->unk_98 = (u16) (((S_800D991C_0 *)motion_state)->unk_98 & 0xFFF7);
-        ((EntityRec *)actor)->flags1C = (s32) (((EntityRec *)actor)->flags1C | 0x08000000);
+        actor->flags1C = (s32) (actor->flags1C | 0x08000000);
         ((S_800D991C_0 *)motion_state)->unk_9B = (u8) (((S_800D991C_0 *)motion_state)->unk_9B + 1);
     }
 check_landing:
-    if (((EntityRec *)actor)->flags1C & 0x08000000) {
+    if (actor->flags1C & 0x08000000) {
         ((S_800D991C_0 *)motion_state)->unk_98 = (u16) (((S_800D991C_0 *)motion_state)->unk_98 & 0xFFF7);
-        ((EntityRec *)transform)->flags14 = 0;
-        ((EntityRec *)transform)->unk_10 = 0;
-        ((EntityRec *)transform)->unk_0C = 0;
+        transform->flags14 = 0;
+        transform->unk_10 = 0;
+        transform->unk_0C = 0;
         func_800A2B04(transform, ((Rec_D_80082E80 *)map_entity)->unk_24, ((Rec_D_80082E80 *)map_entity)->unk_25);
         animation_table = D_800E262C;
         (*(void **)((u8 *)map_entity + 0x2C)) = animation_table;
-        func_8003DB94(map_entity, *(void **)((u8 *)animation_table + (((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 7) & 0x1C)), 0);
+        func_8003DB94(map_entity, *(void **)((u8 *)animation_table + (((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 7) & 0x1C)), 0);
         ((S_800D991C_0 *)motion_state)->unk_9B = (u8) (((S_800D991C_0 *)motion_state)->unk_9B + 1);
     }
 tick_timer:
     next_timer = (u16) ((S_800D991C_0 *)motion_state)->unk_96 - 1;
     ((S_800D991C_0 *)motion_state)->unk_96 = next_timer;
     if ((next_timer << 0x10) <= 0) {
-        ((EntityRec *)transform)->flags14 = 0;
-        ((EntityRec *)transform)->unk_10 = 0;
-        ((EntityRec *)transform)->unk_0C = 0;
+        transform->flags14 = 0;
+        transform->unk_10 = 0;
+        transform->unk_0C = 0;
         func_800A2B04(transform, ((Rec_D_80082E80 *)map_entity)->unk_24, ((Rec_D_80082E80 *)map_entity)->unk_25);
         func_800AD594(actor, 4);
         func_800A4ACC(actor);
         if (dungeonStatus.unk_08 != 0) {
             dungeonStatus.unk_08 = (s16) ((u16) dungeonStatus.unk_08 - 1);
         }
-        actor_flags = ((EntityRec *)actor)->flags1C;
+        actor_flags = actor->flags1C;
         if (actor_flags & 0x2000) {
             goto finish_motion;
         }
@@ -119,7 +119,7 @@ tick_timer:
         if (!(actor_flags & 0x20000)) {
             goto finish_motion;
         }
-        ((EntityRec *)actor)->facing = func_800A0818(((Rec_D_80082E80 *)map_entity)->unk_24, ((Rec_D_80082E80 *)map_entity)->unk_25, D_80082E80.tileX, D_80082E80.tileY, &direction_aux);
+        actor->facing = func_800A0818(((Rec_D_80082E80 *)map_entity)->unk_24, ((Rec_D_80082E80 *)map_entity)->unk_25, D_80082E80.tileX, D_80082E80.tileY, &direction_aux);
 finish_motion:
         if ((func_800AD9B4(map_entity, actor) << 0x10) > 0) {
             ((S_800D991C_0 *)motion_state)->unk_8C = &D_800D8C64;

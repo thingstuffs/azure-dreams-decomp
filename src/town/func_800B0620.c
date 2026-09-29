@@ -11,7 +11,7 @@ extern s32 D_80082AB8;
 
 /* Handles grid menu navigation, confirmation, and cancellation. */
 void func_800ADD80(s32 *menu) {
-    s32 *pad_state;
+    GameWork *pad_state;
     s32 held_buttons;
     s32 pressed_buttons;
     s32 selection_step;
@@ -19,19 +19,19 @@ void func_800ADD80(s32 *menu) {
     s32 selection;
     s32 row;
     u8 *selected_entry;
-    pad_state = ((s32 *)(&gameWork));
-    held_buttons = pad_state[2];
+    pad_state = &gameWork;
+    held_buttons = pad_state->buttons;
     selection_step = 0;
     if (held_buttons == 0) return;
     if (menu[2] == 0) {
-        if (pad_state[4] & 0x20) {
+        if (((s32)pad_state->unk_010) & 0x20) {
             SD_Call(0x515);
             D_80082AB8 = 0;
             close_twin_shop((u8 *)menu - 0x20);
         }
         return;
     }
-    pressed_buttons = pad_state[4];
+    pressed_buttons = ((s32)pad_state->unk_010);
     if (pressed_buttons & 0x20) {
         SD_Call(0x515);
         D_80082AB8 = 0;
@@ -47,9 +47,9 @@ void func_800ADD80(s32 *menu) {
         return;
     }
     if (!(held_buttons & 0xF000)) return;
-    if (pad_state[4] & 0xF000) {
+    if (((s32)pad_state->unk_010) & 0xF000) {
         *(volatile s32 *)&menu[5] = 0;
-        pressed_buttons = *(volatile s32 *)&pad_state[4];
+        pressed_buttons = *(volatile s32 *)((s32 *)&pad_state->unk_010);
         if (pressed_buttons & 0x8000) selection_step = -5;
         else if (pressed_buttons & 0x2000) selection_step = 5;
         else if (pressed_buttons & 0x1000) selection_step = -1;

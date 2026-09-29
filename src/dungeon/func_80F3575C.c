@@ -16,22 +16,6 @@ typedef struct S_80172F5C_0 {
     u8 unk_9B;
 } S_80172F5C_0;   /* arg0 in func_80172F5C */
 
-typedef struct S_80172F5C_1 {
-    u8 pad_00[0x1C];
-    u32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x1A];
-    u16 unk_46;
-    u8 pad_48[0x18];
-    void * unk_60;
-    u8 pad_64[0x9];
-    union { u8 s; s8 u; } unk_6D;   /* accessed as both */
-    u8 pad_6E[0x4];
-    union { u8 s; s8 u; } unk_72;   /* accessed as both */
-    union { u8 s; s8 u; } unk_73;   /* accessed as both */
-} S_80172F5C_1;   /* arg3 in func_80172F5C */
-
 typedef struct S_80172F5C_2_pre {
     void * unk_00;
     u8 pad_04[0x10];
@@ -78,7 +62,7 @@ extern u8 D_80170E94[];
 extern u8 D_80174A7C[];
 
 /* Advances an actor motion, waits for completion, and resets its action state. */
-void func_80172F5C(void *state, void *transform, void *sprite, void *actor)
+void func_80172F5C(void *state, EntityRec *transform, void *sprite, EntityRec *actor)
 {
     u16 saved_pos[3];
     u8 *motion;
@@ -94,10 +78,10 @@ void func_80172F5C(void *state, void *transform, void *sprite, void *actor)
     use_player = 0;
     switch (((S_80172F5C_0 *)state)->unk_9B) {
     case 0:
-        if (((S_80172F5C_1 *)actor)->unk_1C & 0x2000) {
+        if (((u32)actor->flags1C) & 0x2000) {
             static void *const dispatch_labels[] = {&&sw_c, &&sw_b, &&sw_a, &&sel_none};
             extern void *const D_80170878[];
-            u32 action_index = (u32)((((S_80172F5C_1 *)actor)->unk_46 & 0x3FFF) - 1);
+            u32 action_index = (u32)((actor->unk_46 & 0x3FFF) - 1);
 
             if (action_index >= 7) {
                 motion = (u8 *)0;
@@ -116,7 +100,7 @@ void func_80172F5C(void *state, void *transform, void *sprite, void *actor)
             goto kind_a;
         }
 
-        switch (((S_80172F5C_1 *)actor)->unk_46 & 0x3FFF) {
+        switch (actor->unk_46 & 0x3FFF) {
         case 3:
         kind_c:
             motion = (u8 *)actor + 0xE;
@@ -143,32 +127,32 @@ void func_80172F5C(void *state, void *transform, void *sprite, void *actor)
 
                 if (is_player_target != 0) {
                     target = D_800814A8;
-                    ((S_80172F5C_1 *)actor)->unk_60 = target;
+                    actor->target = target;
                     goto have_obj;
                 }
             }
             if (D_8006DE24[*motion].kind == 2) {
-                target = ((S_80172F5C_1 *)actor)->unk_60;
+                target = actor->target;
                 if (target == 0) {
                     goto do_step;
                 }
             have_obj:
                 action_state = ((S_80172F5C_2_pre *)target)[-1].unk_00;
-                ((S_80172F5C_1 *)actor)->unk_72.s = ((S_80172F5C_3 *)action_state)->unk_24;
-                ((S_80172F5C_1 *)actor)->unk_73.s = ((S_80172F5C_3 *)action_state)->unk_25;
+                actor->unk_72 = ((S_80172F5C_3 *)action_state)->unk_24;
+                actor->unk_73 = ((S_80172F5C_3 *)action_state)->unk_25;
                 goto do_step;
             }
-            ((S_80172F5C_1 *)actor)->unk_60 =
+            actor->target =
                 func_800A05A4(actor, ((S_80172F5C_4 *)sprite)->unk_24, ((S_80172F5C_4 *)sprite)->unk_25,
-                              ((S_80172F5C_1 *)actor)->unk_2A, 0x10);
-            abs_x = abs(((S_80172F5C_1 *)actor)->unk_72.u);
-            abs_y = abs(((S_80172F5C_1 *)actor)->unk_73.u);
-            ((S_80172F5C_1 *)actor)->unk_72.s = abs_x;
-            ((S_80172F5C_1 *)actor)->unk_73.s = abs_y;
+                              actor->facing, 0x10);
+            abs_x = abs(actor->unk_72);
+            abs_y = abs(actor->unk_73);
+            actor->unk_72 = abs_x;
+            actor->unk_73 = abs_y;
         do_step:
-            saved_pos[0] = ((u16)((EntityRec *)transform)->x.w.i);
-            saved_pos[1] = ((u16)((EntityRec *)transform)->y.w.i);
-            saved_pos[2] = ((u16)((EntityRec *)transform)->z.w.i);
+            saved_pos[0] = ((u16)transform->x.w.i);
+            saved_pos[1] = ((u16)transform->y.w.i);
+            saved_pos[2] = ((u16)transform->z.w.i);
             if (func_800A94A0(actor, motion, use_player, (u8 *)state + 0x98) == 0) {
                 return;
             }
@@ -178,18 +162,18 @@ void func_80172F5C(void *state, void *transform, void *sprite, void *actor)
             return;
         }
 
-        ((EntityRec *)transform)->flags14 = 0;
-        ((EntityRec *)transform)->unk_10 = 0;
-        ((EntityRec *)transform)->unk_0C = 0;
+        transform->flags14 = 0;
+        transform->unk_10 = 0;
+        transform->unk_0C = 0;
         func_800A2B04(transform, ((S_80172F5C_4 *)sprite)->unk_24, ((S_80172F5C_4 *)sprite)->unk_25);
         dungeonStatus.unk_0C = 0;
         (*(u16 *)((u8 *)&D_800814A8->unk_A4 + 2)) = (*(u16 *)((u8 *)D_800814A8 + 0xA6)) - 1;
         func_800A4ACC(actor);
-        ((S_80172F5C_1 *)actor)->unk_6D.s = ((S_80172F5C_1 *)actor)->unk_6D.s - 1;
+        actor->unk_6D = ((u8)actor->unk_6D) - 1;
         ((S_80172F5C_0 *)state)->unk_8C = D_80170E94;
-        ((S_80172F5C_1 *)actor)->unk_73.s = 0;
-        ((S_80172F5C_1 *)actor)->unk_72.s = 0;
-        ((S_80172F5C_1 *)actor)->unk_46 &= 0x7FFF;
+        actor->unk_73 = 0;
+        actor->unk_72 = 0;
+        actor->unk_46 &= 0x7FFF;
         return;
 
     case 1:
@@ -219,9 +203,9 @@ void func_80172F5C(void *state, void *transform, void *sprite, void *actor)
         if ((((S_80172F5C_4 *)sprite)->unk_14 & 0xE000) == 0) {
             return;
         }
-        ((EntityRec *)transform)->flags14 = 0;
-        ((EntityRec *)transform)->unk_10 = 0;
-        ((EntityRec *)transform)->unk_0C = 0;
+        transform->flags14 = 0;
+        transform->unk_10 = 0;
+        transform->unk_0C = 0;
         func_800A2B04(transform, ((S_80172F5C_4 *)sprite)->unk_24, ((S_80172F5C_4 *)sprite)->unk_25);
         {
             u8 *direction_frames = D_80174A7C;
@@ -229,7 +213,7 @@ void func_80172F5C(void *state, void *transform, void *sprite, void *actor)
             if (((S_80172F5C_4 *)sprite)->unk_2C != direction_frames) {
                 (*(u8 * *)((u8 *)sprite + 0x2C)) = direction_frames;
                 func_80047784(sprite,
-                    direction_frames[((gameWork.view.viewAngle + ((S_80172F5C_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                    direction_frames[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                     0);
             }
         }
@@ -241,12 +225,12 @@ void func_80172F5C(void *state, void *transform, void *sprite, void *actor)
         ((S_80172F5C_4 *)sprite)->unk_14 &= 0xF7FF;
         ((S_80172F5C_0 *)state)->unk_8C = D_80170E94;
         func_800A4ACC(actor);
-        if (((S_80172F5C_1 *)actor)->unk_6D.u > 0) {
-            ((S_80172F5C_1 *)actor)->unk_6D.s = ((S_80172F5C_1 *)actor)->unk_6D.s - 1;
+        if (actor->unk_6D > 0) {
+            actor->unk_6D = ((u8)actor->unk_6D) - 1;
         }
-        ((S_80172F5C_1 *)actor)->unk_73.s = 0;
-        ((S_80172F5C_1 *)actor)->unk_72.s = 0;
-        ((S_80172F5C_1 *)actor)->unk_46 &= 0x7FFF;
+        actor->unk_73 = 0;
+        actor->unk_72 = 0;
+        actor->unk_46 &= 0x7FFF;
         func_800A56E0(0xB4);
         break;
     }

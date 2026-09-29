@@ -10,23 +10,23 @@ extern void func_800B4C7C(s32 arg0, void *arg1, s32 arg2, s32 arg3);
 
 
 /* Applies a flag-adjusted value increase to an eligible entity and updates it. */
-void func_818B0850(void *entity, s32 value_id) {
+void func_818B0850(EntityRec *entity, s32 value_id) {
     if (func_8009D218(entity, 4) == 0) {
         s32 base_gain;
         s16 bonus;
         s32 gain;
 
         base_gain = func_800A6870(value_id & 0xFF) + 8;
-        bonus = ((EntityRec *)entity)->unk_28 & 4;
+        bonus = entity->unk_28 & 4;
         gain = base_gain;
         if (bonus) {
             bonus = (s32) (base_gain << 16) >> 18;
             gain = base_gain + bonus;
         }
-        ((EntityRec *)entity)->unk_64 = (u16) (((u16)((EntityRec *)entity)->unk_64) + gain);
+        entity->unk_64 = (u16) (((u16)entity->unk_64) + gain);
         func_800AD568(entity, gain);
         base_gain = 0x8004;
-        func_800B4C7C(base_gain, entity, (s16) ((u16)((EntityRec *)entity)->unk_64), 1);
+        func_800B4C7C(base_gain, entity, (s16) ((u16)entity->unk_64), 1);
         func_800AD4D0(entity);
     }
 }

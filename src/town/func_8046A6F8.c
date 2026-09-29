@@ -1,12 +1,8 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "shared/town_root.h"
 
 typedef s32 (*Callback)(s32, void *);
-
-typedef struct Root {
-    u8 pad[0x20];
-    void *dispatch;
-} Root;
 
 typedef struct Dispatch {
     u8 pad[0x2D4];
@@ -43,7 +39,7 @@ void *func_8001B6F8(s32 unused_a, s32 unused_b, s32 key)
 
         state1 = D_8001E950;
         if (state1[4] == 4) {
-            if (((Dispatch *)((Root *)D_80016000)->dispatch)->callback(0, table) == 2) {
+            if (((Dispatch *)D_80016000->unk_20)->callback(0, table) == 2) {
                 if (func_8001A2F0() >= 3) {
                     return D_80020F85;
                 }

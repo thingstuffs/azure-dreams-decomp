@@ -28,18 +28,6 @@ typedef struct S_800974DC_4_pre {
     u8 pad_04[0x10];
 } S_800974DC_4_pre;   /* the 0x14 bytes before temp_a2 in func_800974DC, addressed as temp_a2[-1] */
 
-typedef struct S_800974DC_4 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-} S_800974DC_4;   /* temp_a2 in func_800974DC */
-
-typedef struct S_800974DC_5 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x8];
-    s32 unk_0C;
-} S_800974DC_5;   /* temp_v0_2 in func_800974DC */
-
 typedef struct S_800974DC_6 {
     u8 pad_00[0xC];
     s32 unk_0C;
@@ -57,13 +45,13 @@ extern M2C_UNK D_800DD274[8];
 extern M2C_UNK D_800DD294[8];
 
 /* Updates airborne movement, landing animation, and alignment to the actor's tile. */
-void func_800974DC(void *action, void *motion, void *sprite, void *actor) {
+void func_800974DC(void *action, EntityRec *motion, void *sprite, EntityRec *actor) {
     static void *const jt_keep[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4 };
     s32 dir_offset;
     u16 ticks_left;
     s32 dir_y;
     u8 phase;
-    void *linked_object;
+    EntityRec *linked_object;
 
     phase = ((S_800974DC_0 *)action)->unk_9B;
     if (phase >= 5U) {
@@ -71,14 +59,14 @@ void func_800974DC(void *action, void *motion, void *sprite, void *actor) {
     }
     (void)jt_keep; goto *D_80088B50[(u32)(phase)];
 jt_c0:
-    func_800C77D0(actor - 0x20, motion, 8, 0x300);
+    func_800C77D0((u8 *)actor - 0x20, motion, 8, 0x300);
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = D_800DD294;
-    func_8003DB94(sprite, *(M2C_UNK *)((u8 *)D_800DD294 + (((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 7) & 0x1C)), 0);
-    dir_offset = ((u16) ((EntityRec *)actor)->facing >> 8) & 0xE;
-    ((EntityRec *)motion)->unk_0C = (s32) (*(s16 *)((u8 *)dirStepX + dir_offset) << 0x11);
+    func_8003DB94(sprite, *(M2C_UNK *)((u8 *)D_800DD294 + (((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 7) & 0x1C)), 0);
+    dir_offset = ((u16) actor->facing >> 8) & 0xE;
+    motion->unk_0C = (s32) (*(s16 *)((u8 *)dirStepX + dir_offset) << 0x11);
     dir_y = *(s16 *)((u8 *)dirStepY + dir_offset);
-    ((EntityRec *)motion)->flags14 = 0xFFEBC000;
-    ((EntityRec *)motion)->unk_10 = (s32) (dir_y << 0x11);
+    motion->flags14 = 0xFFEBC000;
+    motion->unk_10 = (s32) (dir_y << 0x11);
     ((S_800974DC_0 *)action)->unk_96.s = 3U;
     ((S_800974DC_0 *)action)->unk_98 = (u16) (((S_800974DC_0 *)action)->unk_98 & 0xFFF7);
     ((S_800974DC_0 *)action)->unk_9B = (u8) (((S_800974DC_0 *)action)->unk_9B + 1);
@@ -98,16 +86,16 @@ block_6:
     if (((S_800974DC_0 *)action)->unk_102 != 0) {
         goto block_11;
     }
-    ((EntityRec *)actor)->unk_20 = 1;
-    if (func_8009C12C(actor, sprite, ((EntityRec *)actor)->facing, 1) != 0) {
+    actor->unk_20 = 1;
+    if (func_8009C12C(actor, sprite, actor->facing, 1) != 0) {
         goto block_11;
     }
-    linked_object = ((EntityRec *)actor)->target;
+    linked_object = actor->target;
     if (linked_object == NULL) {
         goto block_11;
     }
-    ((EntityRec *)actor)->target = NULL;
-    ((S_800974DC_4 *)linked_object)->unk_1C = (s32) (((S_800974DC_4 *)linked_object)->unk_1C & 0xEFFFFFFF);
+    actor->target = NULL;
+    linked_object->flags1C = (s32) (linked_object->flags1C & 0xEFFFFFFF);
     ((S_800974DC_6 *)(((S_800974DC_4_pre *)linked_object)[-1].unk_00))->unk_0C = 0x808080;
 block_11:
 block_12:
@@ -118,21 +106,21 @@ block_12:
         goto block_15;
     }
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = D_800DD274;
-    func_8003DB94(sprite, *(M2C_UNK *)((u8 *)D_800DD274 + (((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 7) & 0x1C)), 0);
+    func_8003DB94(sprite, *(M2C_UNK *)((u8 *)D_800DD274 + (((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 7) & 0x1C)), 0);
     ((S_800974DC_0 *)action)->unk_9B = (u8) (((S_800974DC_0 *)action)->unk_9B + 1);
 jt_c2:
 block_15:
     if (!(((S_800974DC_0 *)action)->unk_A2 & 0x10)) {
         return;
     }
-    ((EntityRec *)motion)->flags14 = 0;
-    ((EntityRec *)motion)->unk_10 = 0;
-    ((EntityRec *)motion)->unk_0C = 0;
+    motion->flags14 = 0;
+    motion->unk_10 = 0;
+    motion->unk_0C = 0;
     if ((s16) ((S_800974DC_0 *)action)->unk_96.s > 0) {
         return;
     }
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = D_800DD274;
-    func_8003DB94(sprite, *(M2C_UNK *)((u8 *)D_800DD274 + (((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 7) & 0x1C)), 0);
+    func_8003DB94(sprite, *(M2C_UNK *)((u8 *)D_800DD274 + (((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 7) & 0x1C)), 0);
     ((S_800974DC_0 *)action)->unk_9B = 3U;
     return;
 jt_c3: {
@@ -141,15 +129,15 @@ jt_c3: {
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
         return;
     }
-    ((EntityRec *)motion)->flags14 = 0;
+    motion->flags14 = 0;
     ((S_800974DC_0 *)action)->unk_96.s = 2U;
     delta = (u32)((Rec_D_80082E80 *)sprite)->unk_24 << 6;
-    coord = ((EntityRec *)motion)->x.w.i - 0x20;
+    coord = motion->x.w.i - 0x20;
     delta -= (u32)coord;
-    ((EntityRec *)motion)->unk_0C = (s32)(delta * 0x10000U) / (s16) ((S_800974DC_0 *)action)->unk_96.s;
-    coord = ((EntityRec *)motion)->y.w.i - 0x20;
+    motion->unk_0C = (s32)(delta * 0x10000U) / (s16) ((S_800974DC_0 *)action)->unk_96.s;
+    coord = motion->y.w.i - 0x20;
     delta = ((u32)((Rec_D_80082E80 *)sprite)->unk_25 << 6) - (u32)coord;
-    ((EntityRec *)motion)->unk_10 = (s32)(delta * 0x10000U) / (s16) ((S_800974DC_0 *)action)->unk_96.s;
+    motion->unk_10 = (s32)(delta * 0x10000U) / (s16) ((S_800974DC_0 *)action)->unk_96.s;
     ((S_800974DC_0 *)action)->unk_9B = (u8) (((S_800974DC_0 *)action)->unk_9B + 1);
     return;
 }
@@ -163,11 +151,11 @@ jt_c4:
         return;
     }
 block_22:
-    ((EntityRec *)motion)->flags14 = 0;
-    ((EntityRec *)motion)->unk_10 = 0;
-    ((EntityRec *)motion)->unk_0C = 0;
+    motion->flags14 = 0;
+    motion->unk_10 = 0;
+    motion->unk_0C = 0;
     func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
-    func_80099F04(((EntityRec *)actor)->unk_5C);
+    func_80099F04(actor->unk_5C);
     dungeonStatus.flags = (u16) (dungeonStatus.flags | 0x412);
     ((S_800974DC_0 *)action)->unk_8C = &D_80096384;
     dungeonStatus.unk_0C = 0;

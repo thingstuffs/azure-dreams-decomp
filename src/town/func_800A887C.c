@@ -37,7 +37,7 @@ extern s32 D_80100E20[];
 
 
 /* Updates town movement, terrain response, facing, and action state from input. */
-void func_800A5FDC(u8 *state, u8 *table, void *action_context)
+void func_800A5FDC(u8 *state, EntityRec *table, void *action_context)
 {
     u8 *context;
     GameWork *globals;
@@ -82,13 +82,13 @@ void func_800A5FDC(u8 *state, u8 *table, void *action_context)
 
 after_updates:
     ground_height = func_80095978(table, D_800FE488);
-    if (((EntityRec *)table)->z.w.i >= ground_height) {
+    if (table->z.w.i >= ground_height) {
         func_80095A94(table, ground_height, D_800FE488);
         goto coordinates_ready;
     }
 
     if (D_800CFCEE[1] != 0) {
-        ((EntityRec *)table)->flags14 = 0;
+        table->flags14 = 0;
         func_800954F4(table);
         goto coordinates_ready;
     }
@@ -98,11 +98,11 @@ coordinates_ready:
     tile_id = func_8008C180(D_80083780.x.w.i,
                           D_80083780.y.w.i);
     if (func_800C1D44((u16)tile_id) != 0) {
-        ((EntityRec *)table)->flags14 -= func_800A5894(table);
+        table->flags14 -= func_800A5894(table);
     }
 
-    speed = func_8003BD84(((EntityRec *)table)->unk_0C,
-                          ((EntityRec *)table)->unk_10);
+    speed = func_8003BD84(table->unk_0C,
+                          table->unk_10);
     if (D_80100E20[0] != 0) {
         speed_delta = abs(D_80100E20[0] - speed);
         sound_interval = (s32)((u32)speed_delta * 7U) / D_80100E20[0];

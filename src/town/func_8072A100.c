@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "shared/town_root.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_80016000.h"
 
 
 typedef struct SceneStateVtbl {
@@ -28,7 +28,7 @@ void func_80016100(void) {
     s32 state;
     s32 slot;
 
-    state = ((SceneStateVtbl *)(((Rec_D_80016000 *)D_80016000)->unk_20))->unk_330(0);
+    state = ((SceneStateVtbl *)(D_80016000->unk_20))->unk_330(0);
     slot = 0;
     label_cursor = &D_80017A6C;
     state_cursor = &D_80017A74;
@@ -41,7 +41,7 @@ loop_1:
     state_cursor += 1;
     slot += 1;
     if (slot >= 4) {
-        if (((SceneStateVtbl *)(((Rec_D_80016000 *)D_80016000)->unk_20))->unk_334(0) != 5) {
+        if (((SceneStateVtbl *)(D_80016000->unk_20))->unk_334(0) != 5) {
             func_80017684(0xBE0);
         } else {
             func_800176FC(0xBE0);

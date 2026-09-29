@@ -29,7 +29,7 @@ extern u8 D_80170EA8;
 extern u8 D_80174060[];
 
 /* Advances a timed directional animation and updates the actor when it completes. */
-void func_801727EC(void *action_state, s32 actor_id, void *animation, void *actor) {
+void func_801727EC(void *action_state, s32 actor_id, void *animation, EntityRec *actor) {
     u16 ticks_left;
     u8 phase;
 
@@ -45,7 +45,7 @@ void func_801727EC(void *action_state, s32 actor_id, void *animation, void *acto
         ((S_801727EC_0 *)action_state)->unk_96 = 7;
         (*(u8 * *)((u8 *)animation + 0x2C)) = D_80174060;
         func_80047784(animation,
-                     D_80174060[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+                     D_80174060[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                      0);
         ((S_801727EC_0 *)action_state)->unk_9B++;
         break;
@@ -54,7 +54,7 @@ void func_801727EC(void *action_state, s32 actor_id, void *animation, void *acto
         ticks_left = ((S_801727EC_0 *)action_state)->unk_96 - 1;
         ((S_801727EC_0 *)action_state)->unk_96 = ticks_left;
         if (((ticks_left << 16) == 0) || (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0x8000)) {
-            func_8009C12C(actor, animation, ((EntityRec *)actor)->facing, 1);
+            func_8009C12C(actor, animation, actor->facing, 1);
             func_800A56E0(0x804);
         }
         if (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0xE000) {
@@ -63,8 +63,8 @@ void func_801727EC(void *action_state, s32 actor_id, void *animation, void *acto
             ((S_801727EC_0 *)action_state)->unk_8C = &D_80170EA8;
             dungeonStatus.unk_0C = 0;
             func_800A4ACC(actor);
-            if (((EntityRec *)actor)->unk_6D == 0) {
-                ((EntityRec *)actor)->unk_46 &= 0x7FFF;
+            if (actor->unk_6D == 0) {
+                actor->unk_46 &= 0x7FFF;
             } else {
                 D_800E3DE8 = (u8 *)actor - 0x20;
             }

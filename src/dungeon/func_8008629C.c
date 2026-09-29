@@ -19,18 +19,6 @@ typedef struct S_8008B9FC_1 {
 } S_8008B9FC_1;   /* arg0 in func_8008B9FC */
 
 
-typedef struct S_8008B9FC_3 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    u8 pad_0C[0xBC];
-    s16 unk_C8;
-} S_8008B9FC_3;   /* state in func_8008B9FC */
-
-typedef struct S_8008B9FC_4 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-} S_8008B9FC_4;   /* tail_word_obj in func_8008B9FC */
-
 typedef struct S_8008B9FC_5 {
     u8 pad_00[0x2C];
     u8 * unk_2C;
@@ -164,9 +152,9 @@ void func_8008B9FC(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *sprit
         }
         move_state->unk_9A = 0x10;
         {
-            register void *flag_actor;
+            register EntityRec *flag_actor;
             flag_actor = actor;
-            ((S_8008B9FC_4 *)flag_actor)->unk_1C |= 0x40000000;
+            flag_actor->flags1C |= 0x40000000;
         }
         func_8009F644(actor, 8, 0, 0);
         return;

@@ -27,7 +27,7 @@ extern u8 D_80175E70[];
 extern u8 D_80175EA8[];
 
 /* Select and start an actor action based on the target delta. */
-s32 func_80171F9C(Rec_func_800A9E70_arg0 *action_state, s32 action_param, void *visual_data, void *actor) {
+s32 func_80171F9C(Rec_func_800A9E70_arg0 *action_state, s32 action_param, void *visual_data, EntityRec *actor) {
     s32 target_delta;
     s16 action_mode;
     u16 pending_amount;
@@ -46,14 +46,14 @@ s32 func_80171F9C(Rec_func_800A9E70_arg0 *action_state, s32 action_param, void *
             return -1;
         }
 
-        target = func_800A04F0(actor, ((S_80171F9C_0 *)(visual_data))->unk_24, ((S_80171F9C_0 *)(visual_data))->unk_25, ((EntityRec *)actor)->facing);
+        target = func_800A04F0(actor, ((S_80171F9C_0 *)(visual_data))->unk_24, ((S_80171F9C_0 *)(visual_data))->unk_25, actor->facing);
         if ((func_800A2CB8(actor, target) << 16) == 0) {
             return 0;
         }
         if (dungeonStatus.flags & 0x2000) {
             return -1;
         }
-        if (!(((EntityRec *)actor)->unk_46 & 0x8000) && (dungeonStatus.flags & 8)) {
+        if (!(actor->unk_46 & 0x8000) && (dungeonStatus.flags & 8)) {
             return -1;
         }
 
@@ -90,8 +90,8 @@ check_ready:
                 new_action = 0x11;
                 action_state->unk_98 |= 8;
                 action_state->unk_9A.as_s8 = new_action;
-                ((EntityRec *)actor)->unk_84 = 0x7C;
-                ((EntityRec *)actor)->unk_85 = 0;
+                actor->unk_84 = 0x7C;
+                actor->unk_85 = 0;
                 goto common;
             }
             if (selected_mode == 2) {
@@ -100,26 +100,26 @@ check_ready:
                 new_action = 0x17;
                 action_state->unk_98 |= 8;
                 action_state->unk_9A.as_s8 = new_action;
-                ((EntityRec *)actor)->unk_84 = 0x7C;
-                ((EntityRec *)actor)->unk_85 = 0;
+                actor->unk_84 = 0x7C;
+                actor->unk_85 = 0;
                 goto common;
             }
 
             action_state->unk_8C = 0;
             ((S_80171F9C_0 *)(visual_data))->unk_2C = D_80175EA8;
             action_state->unk_9A.as_s8 = 0x18;
-            ((EntityRec *)actor)->unk_84 = 0x7C;
-            ((EntityRec *)actor)->unk_85 = 0;
-            ((EntityRec *)actor)->flags1C &= 0xFFFBFFFF;
+            actor->unk_84 = 0x7C;
+            actor->unk_85 = 0;
+            actor->flags1C &= 0xFFFBFFFF;
 
 common:
             {
                 u8 *phase_page;
                 phase_page = (u8 *)0x80080000;
-                func_80047784(((S_80171F9C_0 *)(visual_data)), ((S_80171F9C_0 *)(visual_data))->unk_2C[((*(s16 *)(phase_page + 0x3228) + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7], 0);
+                func_80047784(((S_80171F9C_0 *)(visual_data)), ((S_80171F9C_0 *)(visual_data))->unk_2C[((*(s16 *)(phase_page + 0x3228) + actor->facing + 0x100) >> 9) & 7], 0);
             }
-            ((EntityRec *)actor)->unk_6D--;
-            func_8009C93C(actor, ((S_80171F9C_0 *)(visual_data)), ((EntityRec *)actor)->facing, 1, 0);
+            actor->unk_6D--;
+            func_8009C93C(actor, ((S_80171F9C_0 *)(visual_data)), actor->facing, 1, 0);
             stored_amount = action_state->unk_90.at02_u16.v;
             pending_amount = action_state->unk_A0.at02_u16.v;
             action_state->unk_A0.at02_u16.v = 0;

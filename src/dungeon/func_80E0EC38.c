@@ -2,21 +2,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
-
-typedef struct S_80172438_0 {
-    u8 pad_00[0x2A];
-    union { u16 s; s16 u; } unk_2A;   /* accessed as both */
-    u8 pad_2C[0x1A];
-    u16 unk_46;
-    u8 pad_48[0x18];
-    s32 unk_60;
-    u8 pad_64[0x9];
-    u8 unk_6D;
-    u8 pad_6E[0x3];
-    u8 unk_71;
-    u8 pad_72[0x16];
-    union { s16 s; u16 u; } unk_88;   /* accessed as both */
-} S_80172438_0;   /* arg3 in func_80172438 */
+#include "shared/entity.h"
 
 typedef struct S_80172438_1 {
     u8 pad_00[0x24];
@@ -48,7 +34,7 @@ extern void func_800A4ACC(void *);
 extern u8 D_801764A0[];
 
 /* Searches up to four tiles ahead for a target and starts the actor's action. */
-s32 func_80172438(void *action_state, void *action_context, void *sprite, void *actor) {
+s32 func_80172438(void *action_state, void *action_context, void *sprite, EntityRec *actor) {
     s32 attempt;
     s32 tile_x;
     s32 tile_y;
@@ -62,13 +48,13 @@ s32 func_80172438(void *action_state, void *action_context, void *sprite, void *
     s16 floor_height;
     register s32 target ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 
-    ((S_80172438_0 *)actor)->unk_71 &= 0x7F;
+    actor->unk_71 &= 0x7F;
     if (dungeonStatus.flags & 0x2000) {
         return -1;
     }
 
     attempt = 0;
-    direction = ((u16)((S_80172438_0 *)actor)->unk_2A.s >> 9) & 7;
+    direction = ((u16)((u16)actor->facing) >> 9) & 7;
     step_offset = direction << 1;
     tile_x = ((S_80172438_1 *)sprite)->unk_24;
     tile_y = ((S_80172438_1 *)sprite)->unk_25;
@@ -85,7 +71,7 @@ s32 func_80172438(void *action_state, void *action_context, void *sprite, void *
         ((S_80172438_2 *)action_state)->unk_B2++;
         if ((func_800A44E0((try_x << 6) & 0xFFC0,
                            (try_y << 6) & 0xFFC0,
-                           ((S_80172438_0 *)actor)->unk_88.s, call_direction << 9)
+                           actor->unk_88, call_direction << 9)
              << 16) != 0) {
             ((S_80172438_2 *)action_state)->unk_B2--;
             return 2;
@@ -97,12 +83,12 @@ s32 func_80172438(void *action_state, void *action_context, void *sprite, void *
         floor_y = (((try_y + *y_step) << 6) + 0x20) & 0xFFE0;
         floor_height = func_800BCB04(floor_x,
                               floor_y,
-                              (s16)(((S_80172438_0 *)actor)->unk_88.u - 0x20));
+                              (s16)(((u16)actor->unk_88) - 0x20));
         if (floor_height >= 0x201) {
             ((S_80172438_2 *)action_state)->unk_B2--;
             return 3;
         }
-        if ((u16)(floor_height - ((S_80172438_0 *)actor)->unk_88.u + 0x3F) >= 0x7F) {
+        if ((u16)(floor_height - ((u16)actor->unk_88) + 0x3F) >= 0x7F) {
             ((S_80172438_2 *)action_state)->unk_B2--;
             return 3;
         }
@@ -110,7 +96,7 @@ s32 func_80172438(void *action_state, void *action_context, void *sprite, void *
         next_x = tile_x + *(u16 *)x_step;
         next_y = tile_y + *(u16 *)y_step;
         target = func_8009B4B0(actor, (u16)next_x, (u16)next_y);
-        ((S_80172438_0 *)actor)->unk_60 = target;
+        actor->target = target;
         if (target != 0) {
             break;
         }
@@ -129,7 +115,7 @@ s32 func_80172438(void *action_state, void *action_context, void *sprite, void *
     if (dungeonStatus.flags & 0x2000) {
         return -1;
     }
-    if (!(((S_80172438_0 *)actor)->unk_46 & 0x8000) && (dungeonStatus.flags & 8)) {
+    if (!(actor->unk_46 & 0x8000) && (dungeonStatus.flags & 8)) {
         return -1;
     }
     if ((func_800A2B5C(actor) << 16) != 0) {
@@ -146,9 +132,9 @@ s32 func_80172438(void *action_state, void *action_context, void *sprite, void *
     ((S_80172438_2 *)action_state)->unk_9A = 0x17;
     (*(void * *)((u8 *)sprite + 0x2C)) = D_801764A0;
     func_80047784(sprite,
-                  D_801764A0[((gameWork.view.viewAngle + ((S_80172438_0 *)actor)->unk_2A.u + 0x100) >> 9) & 7],
+                  D_801764A0[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                   0);
     func_800A4ACC(actor);
-    ((S_80172438_0 *)actor)->unk_6D--;
+    (*(u8 *)&actor->unk_6D)--;
     return 1;
 }

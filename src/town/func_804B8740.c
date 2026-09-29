@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
-#include "records/Rec_D_80016000.h"
+#include "shared/town_root.h"
+#include "m2c_compat.h"
 
 
 typedef struct S_80016F40_1 {
@@ -18,6 +19,6 @@ typedef struct S_80016F40_1 {
 
 /* Set the current record's two state values to 0x560 and 0x3E0. */
 void func_80016F40(void) {
-    ((S_80016F40_1 *)(((Rec_D_80016000 *)D_80016000)->unk_1C.as_pv))->unk_04 = 0x560;
-    ((S_80016F40_1 *)(((Rec_D_80016000 *)D_80016000)->unk_1C.as_pv))->unk_08 = 0x3E0;
+    ((S_80016F40_1 *)(D_80016000->unk_1C))->unk_04 = 0x560;
+    ((S_80016F40_1 *)(D_80016000->unk_1C))->unk_08 = 0x3E0;
 }

@@ -31,7 +31,7 @@ extern u8 D_80170EE4[];
 extern u8 D_80176640[];
 
 /* Three-stage knockback script driven by the 0x9B step byte: stage 0 seeds the velocity from the facing table and picks the timer, stage 1 decays that velocity a quarter per frame, stage 2 steers back to the tile centre and ends by clearing the motion record. */
-void func_80172D04(S_80172D04_0 *script, EntityRec *motion, Rec_D_80082E80 *tile, void *actor)
+void func_80172D04(S_80172D04_0 *script, EntityRec *motion, Rec_D_80082E80 *tile, EntityRec *actor)
 {
     s16 timer;
     s32 value;
@@ -62,13 +62,13 @@ state_0:
     func_800AD4D0(actor);
     motion->unk_0C =
         -*(s16 *)((u8 *)((s8 *)dirStepX) +
-            ((((EntityRec *)actor)->unk_6A >> 8) & 0xE)) << 15;
+            ((actor->unk_6A >> 8) & 0xE)) << 15;
     motion->unk_10 =
         -*(s16 *)((u8 *)((s8 *)dirStepY) +
-            ((((EntityRec *)actor)->unk_6A >> 8) & 0xE)) << 15;
+            ((actor->unk_6A >> 8) & 0xE)) << 15;
     script->unk_9B++;
 
-    if (((EntityRec *)actor)->unk_28 == 0) {
+    if (actor->unk_28 == 0) {
         goto reset_motion;
     }
     random = func_800A6D30() & 3;
@@ -82,7 +82,7 @@ state_0:
         return;
     }
     timer = -1;
-    if (((EntityRec *)actor)->flags1C & 0x228) {
+    if (actor->flags1C & 0x228) {
         timer = 8;
     }
     script->unk_96.s = timer;
@@ -122,7 +122,7 @@ state_1:
     if (script->unk_96.s != 0) {
         return;
     }
-    if (((EntityRec *)actor)->unk_28 != 0) {
+    if (actor->unk_28 != 0) {
         goto increment_state;
     }
 

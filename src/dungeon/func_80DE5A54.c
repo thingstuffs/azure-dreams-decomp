@@ -36,21 +36,9 @@ typedef struct S_80173254_0 {
 
 
 
-typedef struct S_80173254_3 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x6];
-    u16 unk_0A;
-} S_80173254_3;   /* system_base in func_80173254 */
-
-
-typedef struct S_80173254_5 {
-    u8 pad_00[0x26];
-    s8 unk_26;
-} S_80173254_5;   /* origin in func_80173254 */
 
 /* Updates the entity action state and selects its directional animation. */
-void func_80173254(void *action, void *context, void *sprite, void *entity)
+void func_80173254(void *action, void *context, void *sprite, EntityRec *entity)
 {
     void *saved_context;
     u8 state;
@@ -75,7 +63,7 @@ state_zero:
         direction_anims = D_80174538;
         (*(void * *)((u8 *)sprite + 0x2C)) = direction_anims;
         func_80047784(sprite,
-            direction_anims[((gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
+            direction_anims[((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         dungeonStatus.unk_0A--;
         ((S_80173254_0 *)action)->unk_9B++;
@@ -92,12 +80,12 @@ state_one:
                 return;
             }
 
-            if ((((EntityRec *)entity)->unk_64 != 0) &&
+            if ((entity->unk_64 != 0) &&
                 (func_800AA6B4(action, context, sprite, 0) != 0)) {
                 return;
             }
 
-            if (((EntityRec *)entity)->tileY == 0) {
+            if (entity->tileY == 0) {
                 if (dungeonStatus.flags & 0x2008) {
                     return;
                 }
@@ -109,7 +97,7 @@ state_one:
                 return;
             }
 
-            entity_flags = ((EntityRec *)entity)->flags1C;
+            entity_flags = entity->flags1C;
             if (entity_flags & 0x100) {
                 func_800AA258(action, context, sprite, entity);
                 return;
@@ -121,7 +109,7 @@ state_one:
                 return;
             }
 
-            if (((EntityRec *)entity)->unk_6D == 0) {
+            if (entity->unk_6D == 0) {
                 return;
             }
 
@@ -161,9 +149,9 @@ state_one:
         direction_anims = D_80174520;
         (*(void * *)((u8 *)sprite + 0x2C)) = direction_anims;
         func_80047784(sprite,
-            direction_anims[((gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
+            direction_anims[((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
-        ((EntityRec *)entity)->flags1C &= ~0x200;
+        entity->flags1C &= ~0x200;
         ((S_80173254_0 *)action)->unk_8C = D_80170E5C;
     }
 }

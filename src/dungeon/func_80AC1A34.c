@@ -14,15 +14,6 @@ typedef struct S_8014F234_0 {
     u8 unk_9B;
 } S_8014F234_0;   /* arg0 in func_8014F234 */
 
-typedef struct S_8014F234_1 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_04;   /* overlapping accesses */
-    u8 pad_08[0x4];
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_8014F234_1;   /* arg1 in func_8014F234 */
-
 
 
 
@@ -37,7 +28,7 @@ extern u8 D_80150C44[];
 extern u8 D_80150C74[];
 
 /* Updates directional motion and animation, then settles the entity at its tile center. */
-void func_8014F234(void *controller, void *motion, void *sprite, void *entity)
+void func_8014F234(void *controller, EntityRec *motion, void *sprite, EntityRec *entity)
 {
     s32 state;
     s16 timer;
@@ -63,13 +54,13 @@ void func_8014F234(void *controller, void *motion, void *sprite, void *entity)
 
 state_zero:
     func_800AD4D0(entity);
-    ((S_8014F234_1 *)motion)->unk_0C =
-        -((s16 *)((s8 *)dirStepX))[(((EntityRec *)entity)->unk_6A >> 9) & 7] << 15;
-    ((S_8014F234_1 *)motion)->unk_10 =
-        -((s16 *)((s8 *)dirStepY))[(((EntityRec *)entity)->unk_6A >> 9) & 7] << 15;
+    motion->unk_0C =
+        -((s16 *)((s8 *)dirStepX))[(entity->unk_6A >> 9) & 7] << 15;
+    motion->unk_10 =
+        -((s16 *)((s8 *)dirStepY))[(entity->unk_6A >> 9) & 7] << 15;
     ((S_8014F234_0 *)controller)->unk_9B++;
 
-    if (((EntityRec *)entity)->unk_28 == 0) {
+    if (entity->unk_28 == 0) {
         goto stop_motion;
     }
     if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
@@ -78,21 +69,21 @@ state_zero:
         return;
     }
 
-    if (((u32)((EntityRec *)entity)->flags1C) & 0x228) {
+    if (((u32)entity->flags1C) & 0x228) {
         timer = 8;
     } else {
         timer = -1;
     }
     ((S_8014F234_0 *)controller)->unk_96.s = timer;
 
-    ((S_8014F234_1 *)motion)->unk_0C -= ((S_8014F234_1 *)motion)->unk_0C / 4;
-    ((S_8014F234_1 *)motion)->unk_10 -= ((S_8014F234_1 *)motion)->unk_10 / 4;
+    motion->unk_0C -= motion->unk_0C / 4;
+    motion->unk_10 -= motion->unk_10 / 4;
 
 state_one:
-    ((S_8014F234_1 *)motion)->unk_0C +=
-        ((s16 *)((s8 *)dirStepX))[(((EntityRec *)entity)->unk_6A >> 9) & 7] << 14;
-    ((S_8014F234_1 *)motion)->unk_10 +=
-        ((s16 *)((s8 *)dirStepY))[(((EntityRec *)entity)->unk_6A >> 9) & 7] << 14;
+    motion->unk_0C +=
+        ((s16 *)((s8 *)dirStepX))[(entity->unk_6A >> 9) & 7] << 14;
+    motion->unk_10 +=
+        ((s16 *)((s8 *)dirStepY))[(entity->unk_6A >> 9) & 7] << 14;
 
     if (((S_8014F234_0 *)controller)->unk_96.s > 0) {
         ((S_8014F234_0 *)controller)->unk_96.s = ((S_8014F234_0 *)controller)->unk_96.u - 1;
@@ -103,14 +94,14 @@ state_one:
     if (((S_8014F234_0 *)controller)->unk_96.s != 0) {
         return;
     }
-    if (((EntityRec *)entity)->unk_28 != 0) {
+    if (entity->unk_28 != 0) {
         goto continue_state_one;
     }
 
 stop_motion:
-    ((S_8014F234_1 *)motion)->unk_14 = 0;
-    ((S_8014F234_1 *)motion)->unk_10 = 0;
-    ((S_8014F234_1 *)motion)->unk_0C = 0;
+    motion->flags14 = 0;
+    motion->unk_10 = 0;
+    motion->unk_0C = 0;
     func_800AAA54(controller, motion, sprite, D_80150C74);
     return;
 
@@ -118,16 +109,16 @@ continue_state_one:
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80150C44;
     func_80047784(
         sprite,
-        D_80150C44[((gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
+        D_80150C44[((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
         0);
     ((S_8014F234_0 *)controller)->unk_9B++;
     return;
 
 state_two:
-    ((S_8014F234_1 *)motion)->unk_0C +=
-        ((s16 *)((s8 *)dirStepX))[(((EntityRec *)entity)->unk_6A >> 9) & 7] << 14;
-    ((S_8014F234_1 *)motion)->unk_10 +=
-        ((s16 *)((s8 *)dirStepY))[(((EntityRec *)entity)->unk_6A >> 9) & 7] << 14;
+    motion->unk_0C +=
+        ((s16 *)((s8 *)dirStepX))[(entity->unk_6A >> 9) & 7] << 14;
+    motion->unk_10 +=
+        ((s16 *)((s8 *)dirStepY))[(entity->unk_6A >> 9) & 7] << 14;
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000)) {
         return;
     }
@@ -135,7 +126,7 @@ state_two:
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80150C44;
     func_80047784(
         sprite,
-        D_80150C44[((gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
+        D_80150C44[((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
         0);
     ((S_8014F234_0 *)controller)->unk_96.s = 8;
     ((S_8014F234_0 *)controller)->unk_9B++;
@@ -146,13 +137,13 @@ state_three:
     if (timer != 0) {
         {
             s32 tile_x = ((Rec_D_80082E80 *)sprite)->unk_24 << 6;
-            s32 offset_x = ((S_8014F234_1 *)motion)->unk_00.at02.v - 0x20;
-            ((S_8014F234_1 *)motion)->unk_0C = ((tile_x - offset_x) << 15) / timer;
+            s32 offset_x = motion->x.w.i - 0x20;
+            motion->unk_0C = ((tile_x - offset_x) << 15) / timer;
         }
         {
             s32 tile_y = ((Rec_D_80082E80 *)sprite)->unk_25 << 6;
-            s32 offset_y = ((S_8014F234_1 *)motion)->unk_04.at02.v - 0x20;
-            ((S_8014F234_1 *)motion)->unk_10 =
+            s32 offset_y = motion->y.w.i - 0x20;
+            motion->unk_10 =
                 ((tile_y - offset_y) << 15) / ((S_8014F234_0 *)controller)->unk_96.s;
         }
     }
@@ -163,11 +154,11 @@ state_three:
         return;
     }
 
-    ((S_8014F234_1 *)motion)->unk_14 = 0;
-    ((S_8014F234_1 *)motion)->unk_10 = 0;
-    ((S_8014F234_1 *)motion)->unk_0C = 0;
-    ((S_8014F234_1 *)motion)->unk_00.at00.v = ((((Rec_D_80082E80 *)sprite)->unk_24 << 6) + 0x20) << 16;
-    ((S_8014F234_1 *)motion)->unk_04.at00.v = ((((Rec_D_80082E80 *)sprite)->unk_25 << 6) + 0x20) << 16;
+    motion->flags14 = 0;
+    motion->unk_10 = 0;
+    motion->unk_0C = 0;
+    motion->x.v = ((((Rec_D_80082E80 *)sprite)->unk_24 << 6) + 0x20) << 16;
+    motion->y.v = ((((Rec_D_80082E80 *)sprite)->unk_25 << 6) + 0x20) << 16;
     func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
 
     tracked_entity = ((s32)dungeonStatus.unk_10);

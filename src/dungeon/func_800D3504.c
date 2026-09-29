@@ -26,14 +26,8 @@ extern void func_800DA660(void *, void *, void *, void *);
 extern void *D_800E262C[];
 
 
-typedef struct S_800D8C64_4 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_800D8C64_4;   /* target in func_800D8C64 */
-
 /* Updates actor state, facing, and directional animation. */
-void func_800D8C64(void *actor, void *motion, void *sprite, void *status)
+void func_800D8C64(void *actor, EntityRec *motion, void *sprite, EntityRec *status)
 {
     void **anim_table;
     s32 cell_record;
@@ -45,7 +39,7 @@ void func_800D8C64(void *actor, void *motion, void *sprite, void *status)
         return;
     }
 
-    if (((EntityRec *)status)->tileY == 0) {
+    if (status->tileY == 0) {
         void *current_anim;
 
         func_800AA79C(actor, motion, sprite, status);
@@ -56,12 +50,12 @@ void func_800D8C64(void *actor, void *motion, void *sprite, void *status)
         }
     } else {
 
-        if (((u32)((EntityRec *)status)->flags1C) & 0x200) {
+        if (((u32)status->flags1C) & 0x200) {
             if (((Rec_func_800AA258_arg2 *)sprite)->unk_2C.as_pv == D_800E262C) {
                 ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 0xD;
                 ((Rec_func_800A9E70_arg0 *)actor)->unk_9B.as_u8 = 1;
                 ((Rec_func_800A9E70_arg0 *)actor)->unk_8C = 0;
-                ((EntityRec *)status)->flags1C &= ~0x40000;
+                status->flags1C &= ~0x40000;
                 return;
             }
             if (func_800AA924(actor, motion, sprite, 0)) {
@@ -70,7 +64,7 @@ void func_800D8C64(void *actor, void *motion, void *sprite, void *status)
         }
 
         if (!(dungeonStatus.flags & 0x2000)) {
-            if (((u32)((EntityRec *)status)->flags1C) & 0x100) {
+            if (((u32)status->flags1C) & 0x100) {
                 func_800AA258(actor, motion, sprite, status);
                 return;
             }
@@ -83,23 +77,23 @@ void func_800D8C64(void *actor, void *motion, void *sprite, void *status)
                     (*(void * *)((u8 *)sprite + (0x2C))) = anim_table;
                     func_8003DB94(sprite,
                         *(void **)((u8 *)anim_table +
-                            (((gameWork.view.viewAngle + ((EntityRec *)status)->facing + 0x100) >> 7) & 0x1C)),
+                            (((gameWork.view.viewAngle + status->facing + 0x100) >> 7) & 0x1C)),
                         0);
                 }
                 ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = next_state;
             }
 
             ((Rec_func_800A9E70_arg0 *)actor)->unk_98 &= 0xFFF3;
-            if (((EntityRec *)status)->unk_64 != 0) {
+            if (status->unk_64 != 0) {
                 if (func_800AA6B4(actor, motion, sprite, 0)) {
                     return;
                 }
             }
 
-            if (((u32)((EntityRec *)status)->flags1C) & 0x80000) {
+            if (((u32)status->flags1C) & 0x80000) {
                 ((Rec_func_800A9E70_arg0 *)actor)->unk_90.at00_s32.v = 0;
                 ((Rec_func_800A9E70_arg0 *)actor)->unk_98 &= 0xFFFE;
-                ((EntityRec *)motion)->flags14 = 0;
+                motion->flags14 = 0;
                 func_800AA888(actor, motion, sprite, status);
                 func_800DA660(actor, motion, sprite, status);
                 return;
@@ -113,8 +107,8 @@ void func_800D8C64(void *actor, void *motion, void *sprite, void *status)
         cell_record = func_8009FB34(((Rec_func_800AA258_arg2 *)sprite)->unk_24, ((Rec_func_800AA258_arg2 *)sprite)->unk_25);
         ((Rec_func_800AA258_arg2 *)sprite)->unk_26.as_u8 = cell_record;
 
-        if (((EntityRec *)status)->unk_6D > 0) {
-            if (((u32)((EntityRec *)status)->flags1C) & 0x20) {
+        if (status->unk_6D > 0) {
+            if (((u32)status->flags1C) & 0x20) {
                 func_800A9A0C(status);
                 return;
             }
@@ -122,17 +116,17 @@ void func_800D8C64(void *actor, void *motion, void *sprite, void *status)
             return;
         }
 
-        if (!(((u32)((EntityRec *)status)->flags1C) & 0x2000)) {
+        if (!(((u32)status->flags1C) & 0x2000)) {
             s32 record_index = (s8)cell_record;
 
             if ((record_index < 0) ||
                 !(D_800E2970[record_index].flags & 2)) {
-                if (!(((u32)((EntityRec *)status)->flags1C) & 0x430)) {
+                if (!(((u32)status->flags1C) & 0x430)) {
 
                     if ((s16)func_8009FD7C(((Rec_func_800AA258_arg2 *)sprite)->unk_24,
                             ((Rec_func_800AA258_arg2 *)sprite)->unk_25, D_80082E80.tileX,
                             D_80082E80.tileY) != 0) {
-                        ((EntityRec *)status)->facing = func_800A0818(
+                        status->facing = func_800A0818(
                             ((Rec_func_800AA258_arg2 *)sprite)->unk_24, ((Rec_func_800AA258_arg2 *)sprite)->unk_25,
                             D_80082E80.tileX, D_80082E80.tileY,
                             &direction_aux);
@@ -157,7 +151,7 @@ void func_800D8C64(void *actor, void *motion, void *sprite, void *status)
     }
     (*(void * *)((u8 *)sprite + (0x2C))) = anim_table;
     func_8003DB94(sprite,
-        *(void **)((((gameWork.view.viewAngle + ((EntityRec *)status)->facing + 0x100) >> 7) & 0x1C) +
+        *(void **)((((gameWork.view.viewAngle + status->facing + 0x100) >> 7) & 0x1C) +
             (u32)anim_table),
         0);
 }

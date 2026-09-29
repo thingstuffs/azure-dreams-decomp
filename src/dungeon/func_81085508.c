@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
+#include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_80172D08_arg1.h"
 
@@ -19,17 +20,6 @@ typedef struct S_80172D08_0 {
     u8 unk_AF;
 } S_80172D08_0;   /* arg0 in func_80172D08 */
 
-
-typedef struct S_80172D08_2 {
-    u8 pad_00[0x1C];
-    u32 unk_1C;
-    u8 pad_20[0xA];
-    union { s16 s; u16 u; } unk_2A;   /* accessed as both */
-    u8 pad_2C[0x34];
-    void * unk_60;
-    u8 pad_64[0x24];
-    union { s16 s; u16 u; } unk_88;   /* accessed as both */
-} S_80172D08_2;   /* arg3 in func_80172D08 */
 
 
 typedef struct S_80172D08_4_pre {
@@ -64,7 +54,7 @@ extern u8 D_80170838[16];
 extern u8 D_80170E94;
 
 /* Advances the actor's movement state, height arc, and return to its tile. */
-void func_80172D08(void *action, void *motion, void *record, void *actor)
+void func_80172D08(void *action, void *motion, void *record, EntityRec *actor)
 {
     u8 state;
     s32 terrain_height;
@@ -85,24 +75,24 @@ state_zero: {
     if (((Rec_D_80082E80 *)record)->unk_14.at00_u16.v & 0x8000) {
         ((S_80172D08_0 *)action)->unk_9B = 4;
         ((Rec_D_80082E80 *)record)->unk_14.at00_u16.v |= 0x6000;
-        func_8009C12C(actor, record, ((S_80172D08_2 *)actor)->unk_2A.s, 1);
+        func_8009C12C(actor, record, actor->facing, 1);
         return;
     }
 
     ((S_80172D08_0 *)action)->unk_AF = 0;
-    if (((S_80172D08_2 *)actor)->unk_60 == 0) {
-        direction = (((S_80172D08_2 *)actor)->unk_2A.u >> 9) & 7;
+    if (actor->target == 0) {
+        direction = (((u16)actor->facing) >> 9) & 7;
         if ((s16)func_800A44E0(((Rec_D_80082E80 *)record)->unk_24 << 6,
                                ((Rec_D_80082E80 *)record)->unk_25 << 6,
-                               ((S_80172D08_2 *)actor)->unk_88.s,
+                               actor->unk_88,
                                direction << 9) == 0) {
             terrain_height = func_800BCB04(
                 (((((Rec_D_80082E80 *)record)->unk_24 +
                    ((s16 *)((s8 *)dirStepX))[direction]) << 6) + 0x20) & 0xFFE0,
                 (((((Rec_D_80082E80 *)record)->unk_25 +
                    ((s16 *)((s8 *)dirStepY))[direction]) << 6) + 0x20) & 0xFFE0,
-                (s16)(((S_80172D08_2 *)actor)->unk_88.u - 0x20));
-            if ((u16)(terrain_height - ((S_80172D08_2 *)actor)->unk_88.u + 0x3F) >= 0x7F) {
+                (s16)(((u16)actor->unk_88) - 0x20));
+            if ((u16)(terrain_height - ((u16)actor->unk_88) + 0x3F) >= 0x7F) {
                 ((S_80172D08_0 *)action)->unk_AF = 1;
             }
         } else {
@@ -128,14 +118,14 @@ state_one: {
     }
 
     if (((S_80172D08_0 *)action)->unk_AF == 0) {
-        direction = (((S_80172D08_2 *)actor)->unk_2A.u >> 8) & 0xE;
+        direction = (((u16)actor->facing) >> 8) & 0xE;
         ((Rec_func_80172D08_arg1 *)motion)->unk_0C =
             (((s16 *)((s8 *)dirStepX))[direction >> 1] << 22) / 8;
         ((Rec_func_80172D08_arg1 *)motion)->unk_10 =
             (((s16 *)((s8 *)dirStepY))[direction >> 1] << 22) / 8;
     }
     ((S_80172D08_0 *)action)->unk_98 |= 0xC;
-    ((S_80172D08_2 *)actor)->unk_1C &= 0xF7FFFFFF;
+    (*(u32 *)&actor->flags1C) &= 0xF7FFFFFF;
     ((S_80172D08_0 *)action)->unk_A0 = 0;
     ((S_80172D08_0 *)action)->unk_96.s = 0x10;
     ((S_80172D08_0 *)action)->unk_9B++;
@@ -151,19 +141,19 @@ state_two: {
     ((S_80172D08_0 *)action)->unk_90 -= ((S_80172D08_0 *)action)->unk_A0;
     timer = ((S_80172D08_0 *)action)->unk_96.s;
     if (timer >= 9) {
-        if (((S_80172D08_2 *)actor)->unk_60 != 0) {
+        if (actor->target != 0) {
             register s32 scaled_arc ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             s32 height_delta;
             s32 arc_sample;
             void *owner;
 
-            owner = ((S_80172D08_2 *)actor)->unk_60;
+            owner = actor->target;
             owner = ((S_80172D08_4_pre *)owner)[-1].unk_00;
             arc_sample = func_800644B8(((S_80172D08_0 *)action)->unk_96.s << 7) >> 4;
             fall_step = D_800DDC40[
-                ((S_80172D08_5 *)(((S_80172D08_2 *)actor)->unk_60))->unk_13] + 0x20;
+                ((S_80172D08_5 *)(actor->target))->unk_13] + 0x20;
             scaled_arc = arc_sample * fall_step;
-            height_delta = (((S_80172D08_4 *)owner)->unk_0A - ((S_80172D08_2 *)actor)->unk_88.s) << 13;
+            height_delta = (((S_80172D08_4 *)owner)->unk_0A - actor->unk_88) << 13;
             height_delta *= 0x11 - ((S_80172D08_0 *)action)->unk_96.s;
             arc_sample = scaled_arc << 8;
             next_height = height_delta - arc_sample;
@@ -180,17 +170,17 @@ state_two: {
             s32 arc_sample;
             s32 height_delta;
 
-            direction = (((S_80172D08_2 *)actor)->unk_2A.u >> 8) & 0xE;
+            direction = (((u16)actor->facing) >> 8) & 0xE;
             terrain_height = func_800BCB04(
                 (((((Rec_D_80082E80 *)record)->unk_24 +
                    ((s16 *)((s8 *)dirStepX))[direction >> 1]) << 6) + 0x20) & 0xFFE0,
                 (((((Rec_D_80082E80 *)record)->unk_25 +
                    ((s16 *)((s8 *)dirStepY))[direction >> 1]) << 6) + 0x20) & 0xFFE0,
-                (s16)(((S_80172D08_2 *)actor)->unk_88.u - 0x20));
+                (s16)(((u16)actor->unk_88) - 0x20));
             arc_sample = func_800644B8(((S_80172D08_0 *)action)->unk_96.s << 7);
             signed_terrain_height = terrain_height << 16;
             signed_terrain_height >>= 16;
-            height_delta = (signed_terrain_height - ((S_80172D08_2 *)actor)->unk_88.s) << 13;
+            height_delta = (signed_terrain_height - actor->unk_88) << 13;
             height_offset = height_delta * (0x11 - ((S_80172D08_0 *)action)->unk_96.s);
             arc_sample = ((arc_sample >> 4) * 3) << 13;
             ((S_80172D08_0 *)action)->unk_A0 = height_offset - arc_sample;
@@ -220,7 +210,7 @@ state_three: {
     if (((((Rec_D_80082E80 *)record)->unk_04.as_s8 == 0xC) &&
          (((Rec_D_80082E80 *)record)->unk_14.at00_u16.v & 0x1000)) ||
         (((Rec_D_80082E80 *)record)->unk_14.at00_u16.v & 0xE000)) {
-        if (func_8009C12C(actor, record, ((S_80172D08_2 *)actor)->unk_2A.s, 1) != 0) {
+        if (func_8009C12C(actor, record, actor->facing, 1) != 0) {
             func_800A56E0(0x809);
             func_80174A6C(action, motion, record);
         }
@@ -230,7 +220,7 @@ state_three: {
          (((Rec_D_80082E80 *)record)->unk_14.at00_u16.v & 0x1000)) ||
         (((Rec_D_80082E80 *)record)->unk_14.at00_u16.v & 0xE000)) {
         if (((S_80172D08_0 *)action)->unk_AF == 0) {
-            direction = (((S_80172D08_2 *)actor)->unk_2A.u >> 8) & 0xE;
+            direction = (((u16)actor->facing) >> 8) & 0xE;
             ((Rec_func_80172D08_arg1 *)motion)->unk_0C =
                 -((((s16 *)((s8 *)dirStepX))[direction >> 1] << 22) / 8);
             ((Rec_func_80172D08_arg1 *)motion)->unk_10 =
@@ -249,18 +239,18 @@ state_four: {
     timer = ((S_80172D08_0 *)action)->unk_96.u - 1;
     ((S_80172D08_0 *)action)->unk_96.u = timer;
     if (timer >= 0) {
-        if (((S_80172D08_2 *)actor)->unk_60 != 0) {
+        if (actor->target != 0) {
             s32 height_delta;
             s32 arc_sample;
             s32 height_offset;
             void *owner;
 
-            owner = ((S_80172D08_2 *)actor)->unk_60;
+            owner = actor->target;
             owner = ((S_80172D08_4_pre *)owner)[-1].unk_00;
             arc_sample = func_800644B8(((S_80172D08_0 *)action)->unk_96.s << 8);
             height_delta = ((S_80172D08_4 *)owner)->unk_0A -
-                       D_800DDC40[((S_80172D08_5 *)(((S_80172D08_2 *)actor)->unk_60))->unk_13] -
-                       ((S_80172D08_2 *)actor)->unk_88.s;
+                       D_800DDC40[((S_80172D08_5 *)(actor->target))->unk_13] -
+                       actor->unk_88;
             height_delta <<= 13;
             height_offset = height_delta * ((S_80172D08_0 *)action)->unk_96.s;
             arc_sample = (arc_sample >> 4) << 13;
@@ -280,17 +270,17 @@ state_four: {
             s32 signed_terrain_height;
             s32 base_height;
 
-            direction = (((S_80172D08_2 *)actor)->unk_2A.u >> 8) & 0xE;
+            direction = (((u16)actor->facing) >> 8) & 0xE;
             terrain_height = func_800BCB04(
                 (((((Rec_D_80082E80 *)record)->unk_24 +
                    ((s16 *)((s8 *)dirStepX))[direction >> 1]) << 6) + 0x20) & 0xFFE0,
                 (((((Rec_D_80082E80 *)record)->unk_25 +
                    ((s16 *)((s8 *)dirStepY))[direction >> 1]) << 6) + 0x20) & 0xFFE0,
-                (s16)(((S_80172D08_2 *)actor)->unk_88.u - 0x20));
+                (s16)(((u16)actor->unk_88) - 0x20));
             arc_sample = func_800644B8(((S_80172D08_0 *)action)->unk_96.s << 8);
             signed_terrain_height = terrain_height << 16;
             signed_terrain_height >>= 16;
-            base_height = ((S_80172D08_2 *)actor)->unk_88.s;
+            base_height = actor->unk_88;
             base_height += 0x40;
             height_delta = signed_terrain_height - base_height;
             height_delta <<= 13;
@@ -316,9 +306,9 @@ vertical_done:
         func_800AD594(actor, 0x200);
         ((S_80172D08_0 *)action)->unk_8C = &D_80170E94;
         dungeonStatus.unk_0C = 0;
-        (*(u16 *)((u8 *)actor + 0x46)) &= 0x7FFF;
+        (actor->unk_46) &= 0x7FFF;
         ((S_80172D08_0 *)action)->unk_98 &= 0xFFF3;
-        ((S_80172D08_2 *)actor)->unk_1C |= 0x08000000;
+        (*(u32 *)&actor->flags1C) |= 0x08000000;
         func_800A4ACC(actor);
     }
 }

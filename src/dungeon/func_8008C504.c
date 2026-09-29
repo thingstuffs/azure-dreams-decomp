@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "shared/entity.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -29,16 +30,6 @@ typedef struct S_80091C64_1 {
     s16 unk_2A;
 } S_80091C64_1;   /* arg3 in func_80091C64 */
 
-typedef struct S_80091C64_2 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_04;   /* overlapping accesses */
-} S_80091C64_2;   /* arg1 in func_80091C64 */
-
-
-typedef struct S_80091C64_4 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_80091C64_4;   /* var_v1 in func_80091C64 */
 
 
 extern void *D_800889A8[];
@@ -53,7 +44,7 @@ extern u8 D_800DD038[];
 extern u8 D_800DD058[];
 
 /* Animate a hop and return to the entity's tile, then restore its facing and behavior. */
-void func_80091C64(void *motion, void *position, void *entity, void *actor) {
+void func_80091C64(void *motion, EntityRec *position, void *entity, void *actor) {
     static void *const jt_keep[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4 };
     M2C_UNK *next_behavior;
     s16 frames_left;
@@ -90,8 +81,8 @@ jt_c1:
     if (((S_80091C64_0 *)motion)->unk_96.u == 0) {
         goto tick_hop;
     }
-    ((S_80091C64_2 *)position)->unk_00.at00.v = (s32) (((S_80091C64_2 *)position)->unk_00.at00.v + (func_80064584(((S_80091C64_1 *)actor)->unk_2A + 0x400) << 6));
-    ((S_80091C64_2 *)position)->unk_04.at00.v = (s32) (((S_80091C64_2 *)position)->unk_04.at00.v + (func_800644B8(((S_80091C64_1 *)actor)->unk_2A + 0x400) << 6));
+    position->x.v = (s32) (position->x.v + (func_80064584(((S_80091C64_1 *)actor)->unk_2A + 0x400) << 6));
+    position->y.v = (s32) (position->y.v + (func_800644B8(((S_80091C64_1 *)actor)->unk_2A + 0x400) << 6));
     ((S_80091C64_0 *)motion)->unk_92 = (s16) ((s32) (0 - func_800644B8((s16) ((S_80091C64_0 *)motion)->unk_96.s << 8)) >> 8);
 tick_hop:
     hop_frames_left = ((S_80091C64_0 *)motion)->unk_96.s - 1;
@@ -120,19 +111,19 @@ jt_c3:
         goto tick_return;
     }
     target_x = ((Rec_D_80082E80 *)entity)->unk_24 << 6;
-    current_x = ((S_80091C64_2 *)position)->unk_00.at02.v - 0x20;
-    ((S_80091C64_2 *)position)->unk_00.at00.v = (s32) (((S_80091C64_2 *)position)->unk_00.at00.v + ((target_x - current_x) << 0x10) / frames_left);
+    current_x = position->x.w.i - 0x20;
+    position->x.v = (s32) (position->x.v + ((target_x - current_x) << 0x10) / frames_left);
     y_step = ((Rec_D_80082E80 *)entity)->unk_25;
     y_step <<= 6;
-    y_origin = ((S_80091C64_2 *)position)->unk_04.at02.v - 0x20;
+    y_origin = position->y.w.i - 0x20;
     {
         s32 y_numerator = (y_step - y_origin) << 0x10;
 
         y_remaining = ((S_80091C64_0 *)motion)->unk_96.u;
         y_step = y_numerator / y_remaining;
     }
-    y_work = ((S_80091C64_2 *)position)->unk_04.at00.v + y_step;
-    ((S_80091C64_2 *)position)->unk_04.at00.v = y_work;
+    y_work = position->y.v + y_step;
+    position->y.v = y_work;
     ((S_80091C64_0 *)motion)->unk_92 = (s16) ((s32) (0 - func_800644B8((s16) ((S_80091C64_0 *)motion)->unk_96.s << 8)) >> 8);
 tick_return:
     return_frames_left = ((S_80091C64_0 *)motion)->unk_96.s - 1;

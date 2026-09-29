@@ -19,24 +19,7 @@ typedef struct S_80174788_0 {
 } S_80174788_0;   /* arg0 in func_80174788 */
 
 
-typedef struct S_80174788_2 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_80174788_2;   /* counter_base in func_80174788 */
 
-
-typedef struct S_80174788_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x6];
-    u16 unk_0A;
-} S_80174788_4;   /* global_base in func_80174788 */
-
-
-typedef struct S_80174788_6 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_80174788_6;   /* counter_base2 in func_80174788 */
 
 
 
@@ -55,7 +38,7 @@ extern u8 D_800E2430[];
 extern u8 D_80171A80[];
 
 /* Advance an actor action through animation completion and status checks. */
-void func_80174788(void *action, s32 actor_index, void *sprite, void *actor)
+void func_80174788(void *action, s32 actor_index, void *sprite, EntityRec *actor)
 {
     s32 action_state;
     u16 reset_offset;
@@ -87,7 +70,7 @@ state_zero:
     }
     (*(void * *)((u8 *)sprite + 0x2C)) = D_800E2428;
     func_80047784(sprite,
-                  D_800E2428[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+                  D_800E2428[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                   0);
     goto increment_state;
 
@@ -95,7 +78,7 @@ state_one:
     if (dungeonStatus.flags & 0x1000) {
         return;
     }
-    if (((EntityRec *)actor)->unk_64 != 0) {
+    if (actor->unk_64 != 0) {
         if (func_800AA6B4(action, actor_index, sprite, 0) != 0) {
             return;
         }
@@ -103,7 +86,7 @@ state_one:
     if ((func_800A2C34(actor) << 16) != 0) {
         return;
     }
-    actor_flags = ((EntityRec *)actor)->flags1C;
+    actor_flags = actor->flags1C;
     if (actor_flags & 0x100) {
         func_800AA258(action, actor_index, sprite, actor);
         return;
@@ -118,7 +101,7 @@ state_one:
         func_80174A68(action, actor_index, sprite, actor);
         return;
     }
-    if (((EntityRec *)actor)->unk_6D == 0) {
+    if (actor->unk_6D == 0) {
         return;
     }
     if ((func_800A2C34(actor) << 16) != 0) {
@@ -128,14 +111,14 @@ state_one:
     }
     func_800A9A0C(actor);
     func_800A9A04(actor);
-    if (((EntityRec *)actor)->tileY == 0) {
+    if (actor->tileY == 0) {
         return;
     }
     (*(void * *)((u8 *)sprite + 0x2C)) = D_800E2430;
     func_80047784(sprite,
-                  D_800E2430[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+                  D_800E2430[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                   0);
-    ((EntityRec *)actor)->flags1C |= 0x40000;
+    actor->flags1C |= 0x40000;
     dungeonStatus.unk_0A++;
 
 increment_state:
@@ -150,7 +133,7 @@ state_two:
 
         dungeonStatus.unk_0A--;
     }
-    ((EntityRec *)actor)->flags1C &= ~8;
+    actor->flags1C &= ~8;
     ((S_80174788_0 *)action)->unk_8C = D_80171A80;
 
     return;

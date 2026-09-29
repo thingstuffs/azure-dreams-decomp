@@ -3,20 +3,11 @@
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
+#include "shared/entity.h"
 
 typedef struct S_818E0800_0_pre {
     u16 unk_00;
 } S_818E0800_0_pre;   /* the 0x2 bytes before arg0 in BODY_NAME, addressed as arg0[-1] */
-
-typedef struct S_818E0800_0 {
-    void * unk_00;
-    void * unk_04;
-    u8 pad_08[0x2];
-    union { s16 s; u16 u; } unk_0A;   /* accessed as both */
-    u8 pad_0C[0x44];
-    union { u16 s; s16 u; } unk_50;   /* accessed as both */
-    union { s16 s; u16 u; } unk_52;   /* accessed as both */
-} S_818E0800_0;   /* arg0 in BODY_NAME */
 
 typedef struct S_818E0800_1_pre {
     void * unk_00;
@@ -169,7 +160,7 @@ __asm__(".globl func_818E0800\n"
 #endif
 
 /* Updates target-directed movement, spawns particles, and advances the effect state. */
-void BODY_NAME(void *effect_arg, void *motion_arg, S_818E0800_10 *actor_state)
+void BODY_NAME(EntityRec *effect_arg, void *motion_arg, S_818E0800_10 *actor_state)
 {
     void *actor;
     void *actor_base;
@@ -187,12 +178,12 @@ void BODY_NAME(void *effect_arg, void *motion_arg, S_818E0800_10 *actor_state)
     s32 found_target;
     s32 hit_effect;
 
-    actor = ((S_818E0800_0 *)effect_arg)->unk_00;
-    timer = ((S_818E0800_0 *)effect_arg)->unk_50.s;
+    actor = ((void *)effect_arg->x.v);
+    timer = effect_arg->unk_50;
     actor_data = ((S_818E0800_1_pre *)actor)[-1].unk_00;
     timer -= 1;
-    initial_state = ((S_818E0800_0 *)effect_arg)->unk_0A.s;
-    ((S_818E0800_0 *)effect_arg)->unk_50.s = timer;
+    initial_state = effect_arg->z.w.i;
+    effect_arg->unk_50 = timer;
     actor_base = (u8 *)actor - 0x20;
 
     if (initial_state == 2) {
@@ -247,7 +238,7 @@ void BODY_NAME(void *effect_arg, void *motion_arg, S_818E0800_10 *actor_state)
         } while (particles_left >= 0);
     }
 
-    dispatch_state = ((S_818E0800_0 *)effect_arg)->unk_0A.s;
+    dispatch_state = effect_arg->z.w.i;
     if (dispatch_state == 2) {
         goto dispatch_case_2;
     }
@@ -272,7 +263,7 @@ dispatch_high:
     return;
 
 dispatch_case_0:
-        if (!(((S_818E0800_14 *)(((S_818E0800_0 *)effect_arg)->unk_04))->unk_00 & 0x80)) {
+        if (!(((S_818E0800_14 *)(((void *)effect_arg->y.v)))->unk_00 & 0x80)) {
             return;
         }
         found_target = (s32)func_800A05A4(
@@ -301,7 +292,7 @@ set_motion_xy:
             ((S_818E0800_12 *)(((S_818E0800_3 *)actor_base)->unk_08))->unk_04.at02.v;
         ((S_818E0800_2 *)motion_arg)->unk_08.at02.v =
             ((S_818E0800_12 *)(((S_818E0800_3 *)actor_base)->unk_08))->unk_0A;
-        ((S_818E0800_0 *)effect_arg)->unk_50.s = 8;
+        effect_arg->unk_50 = 8;
 
         {
             s32 delta_x = ((S_818E0800_1 *)actor)->unk_72.u;
@@ -311,7 +302,7 @@ set_motion_xy:
             delta_x -= origin_x;
             ((S_818E0800_2 *)motion_arg)->unk_0C.at02.v = delta_x;
         }
-        ((S_818E0800_2 *)motion_arg)->unk_0C.at00.v /= ((S_818E0800_0 *)effect_arg)->unk_50.u;
+        ((S_818E0800_2 *)motion_arg)->unk_0C.at00.v /= ((s16)effect_arg->unk_50);
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         {
             s32 delta_y = ((S_818E0800_1 *)actor)->unk_73.u;
@@ -321,13 +312,13 @@ set_motion_xy:
             delta_y -= origin_y;
             ((S_818E0800_2 *)motion_arg)->unk_10.at02.v = delta_y;
         }
-        ((S_818E0800_2 *)motion_arg)->unk_10.at00.v /= ((S_818E0800_0 *)effect_arg)->unk_50.u;
+        ((S_818E0800_2 *)motion_arg)->unk_10.at00.v /= ((s16)effect_arg->unk_50);
         ground_z = (s16)(((S_818E0800_12 *)(((S_818E0800_3 *)actor_base)->unk_08))->unk_0A - 0x30);
         ground_z = func_800BCB04(((S_818E0800_2 *)motion_arg)->unk_00.at02.v, ((S_818E0800_2 *)motion_arg)->unk_04.at02.v, ground_z);
         ((S_818E0800_2 *)motion_arg)->unk_14.at02.v = ground_z - ((S_818E0800_2 *)motion_arg)->unk_08.at02.v;
-        ((S_818E0800_2 *)motion_arg)->unk_14.at00.v /= ((S_818E0800_0 *)effect_arg)->unk_50.u;
+        ((S_818E0800_2 *)motion_arg)->unk_14.at00.v /= ((s16)effect_arg->unk_50);
         func_800A56E0(0x300);
-        ((S_818E0800_0 *)effect_arg)->unk_0A.u += 1;
+        (*(u16 *)&effect_arg->z.w.i) += 1;
         return;
 
 dispatch_case_1: {
@@ -335,7 +326,7 @@ dispatch_case_1: {
         ((S_818E0800_2 *)motion_arg)->unk_00.at00.v += ((S_818E0800_2 *)motion_arg)->unk_0C.at00.v;
         ((S_818E0800_2 *)motion_arg)->unk_04.at00.v += ((S_818E0800_2 *)motion_arg)->unk_10.at00.v;
         ((S_818E0800_2 *)motion_arg)->unk_08.at00.v += ((S_818E0800_2 *)motion_arg)->unk_14.at00.v;
-        if (((S_818E0800_0 *)effect_arg)->unk_50.u > 0) {
+        if (((s16)effect_arg->unk_50) > 0) {
             return;
         }
         if (((S_818E0800_1 *)actor)->unk_60 != 0) {
@@ -343,34 +334,34 @@ dispatch_case_1: {
         } else {
             next_timer = 10;
         }
-        ((S_818E0800_0 *)effect_arg)->unk_50.u = next_timer;
-        ((S_818E0800_0 *)effect_arg)->unk_0A.u += 1;
+        effect_arg->unk_50 = next_timer;
+        (*(u16 *)&effect_arg->z.w.i) += 1;
         return;
     }
 
 dispatch_case_2: {
         s32 sound_id;
         void *active_target;
-        if (((S_818E0800_0 *)effect_arg)->unk_50.u > 0) {
+        if (((s16)effect_arg->unk_50) > 0) {
             return;
         }
         active_target = ((S_818E0800_1 *)actor)->unk_60;
         sound_id = 8;
         if (active_target == 0) {
-            ((S_818E0800_0 *)effect_arg)->unk_50.u = 10;
-            ((S_818E0800_0 *)effect_arg)->unk_0A.u = 0xFF;
+            effect_arg->unk_50 = 10;
+            effect_arg->z.w.i = 0xFF;
             return;
         }
         func_800419EC(sound_id, 0x10);
-        ((S_818E0800_0 *)effect_arg)->unk_50.u = 6;
+        effect_arg->unk_50 = 6;
 state_f0:
-        ((S_818E0800_0 *)effect_arg)->unk_0A.u = 0xF0;
+        effect_arg->z.w.i = 0xF0;
         return;
     }
 
 dispatch_case_f0:
-        func_80024784(((S_818E0800_1 *)actor)->unk_60, ((S_818E0800_0 *)effect_arg)->unk_50.u);
-        if (((S_818E0800_0 *)effect_arg)->unk_50.u == 2 &&
+        func_80024784(((S_818E0800_1 *)actor)->unk_60, ((s16)effect_arg->unk_50));
+        if (((s16)effect_arg->unk_50) == 2 &&
             !func_8009D218(((S_818E0800_1 *)actor)->unk_60, 2, actor)) {
             if (((S_818E0800_15 *)(((S_818E0800_1 *)actor)->unk_60))->unk_14 & 1) {
                 if (((S_818E0800_1 *)actor)->unk_60 != 0) {
@@ -379,18 +370,18 @@ dispatch_case_f0:
                 }
             }
         }
-        if (((S_818E0800_0 *)effect_arg)->unk_50.u > 0) {
+        if (((s16)effect_arg->unk_50) > 0) {
             return;
         }
-        ((S_818E0800_0 *)effect_arg)->unk_0A.u = 0xFF;
+        effect_arg->z.w.i = 0xFF;
         return;
 
 dispatch_case_ff:
-        if (((S_818E0800_0 *)effect_arg)->unk_52.s & 0x8000) {
-            ((S_818E0800_0 *)effect_arg)->unk_52.u &= 0x7FFF;
+        if (((s16)effect_arg->unk_52) & 0x8000) {
+            effect_arg->unk_52 &= 0x7FFF;
             return;
         }
-        if (((S_818E0800_0 *)effect_arg)->unk_50.u > 0) {
+        if (((s16)effect_arg->unk_50) > 0) {
             return;
         }
         dungeonStatus.unk_0C = 0;

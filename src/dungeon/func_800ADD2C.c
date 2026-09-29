@@ -66,11 +66,6 @@ typedef struct S_800B348C_4 {
     s32 unk_1C;
 } S_800B348C_4;   /* temp_a2 in func_800B348C */
 
-typedef struct S_800B348C_5 {
-    u8 pad_00[0x14];
-    s32 unk_14;
-} S_800B348C_5;   /* temp_a0 in func_800B348C */
-
 typedef struct S_800B348C_6 {
     u8 pad_00[0x2];
     u16 unk_02;
@@ -84,7 +79,7 @@ typedef struct S_800B348C_7 {
 } S_800B348C_7;   /* ((S_800B348C_4_pre *)temp_a2)[-1].unk_00 in func_800B348C */
 
 /* Advances the attack and mixing sequence, resetting element flags at its start and finish. */
-void func_800B348C(void *action_state, void *motion, void *animation, void *actor) {
+void func_800B348C(void *action_state, void *motion, void *animation, EntityRec *actor) {
     u8 *windup_animations;
     u8 *attack_animations;
     u8 *mix_animations;
@@ -117,7 +112,7 @@ void func_800B348C(void *action_state, void *motion, void *animation, void *acto
     switch (((S_800B348C_0 *)action_state)->unk_9B) {
     case 0:
 jt_0:
-        ((EntityRec *)actor)->flags14 = (s32) (((EntityRec *)actor)->flags14 & ~7);
+        actor->flags14 = (s32) (actor->flags14 & ~7);
         ((S_800B348C_0 *)action_state)->unk_9B = (u8) (((S_800B348C_0 *)action_state)->unk_9B + 1);
         D_800DF248[0] = 0;
         return;
@@ -125,7 +120,7 @@ jt_0:
 jt_1:
         if (((S_800B348C_0 *)action_state)->unk_A6 != 0) {
             (*(u8 **)((u8 *)animation + 0x2C)) = D_800DD030;
-            func_80048A44(animation, D_800DD030[((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7], 0, 1);
+            func_80048A44(animation, D_800DD030[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0, 1);
             ((S_800B348C_0 *)action_state)->unk_CC = NULL;
             if ((u16) ((S_800B348C_0 *)action_state)->unk_A6 >= 2U) {
                 return;
@@ -139,9 +134,9 @@ block_7:
     case 2:
 jt_2:
         if (((S_800B348C_0 *)action_state)->unk_A6 == 0) {
-            func_800C77D0(actor - 0x20, motion, 8, 0x300);
+            func_800C77D0((u8 *)actor - 0x20, motion, 8, 0x300);
             (*(u8 **)((u8 *)animation + 0x2C)) = D_800DD068;
-            func_80048A44(animation, D_800DD068[((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7], 0, 1);
+            func_80048A44(animation, D_800DD068[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0, 1);
             action_phase = ((S_800B348C_0 *)action_state)->unk_9B;
             ((S_800B348C_0 *)action_state)->unk_CC = NULL;
             goto bump_state_9b;
@@ -150,16 +145,16 @@ jt_2:
     case 3:
 jt_3:
         if (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0xE000) {
-            launch_direction_offset = ((u16) ((EntityRec *)actor)->facing >> 8) & 0xE;
+            launch_direction_offset = ((u16) actor->facing >> 8) & 0xE;
             ((EntityRec *)motion)->unk_0C = (s32) (*(s16 *)((u8 *)((s8 *)dirStepX) + launch_direction_offset) << 0x11);
             ((EntityRec *)motion)->unk_10 = (s32) (*(s16 *)((u8 *)((s8 *)dirStepY) + launch_direction_offset) << 0x11);
             ((EntityRec *)motion)->flags14 = 0xFFEBC000;
             (*(u8 **)((u8 *)animation + 0x2C)) = D_800DD070;
-            func_80048A44(animation, D_800DD070[((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7], 0, 1);
+            func_80048A44(animation, D_800DD070[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0, 1);
             {
                 u8 *next_animations;
 
-                if (((s32)((EntityRec *)actor)->unk_4C) != 0) {
+                if (((s32)actor->unk_4C) != 0) {
                     next_animations = D_800DD078;
                 } else {
                     next_animations = D_800DD0A8;
@@ -176,11 +171,11 @@ jt_4:
         if (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0xE000) {
             windup_animations = ((S_800B348C_0 *)action_state)->unk_CC;
             (*(u8 **)((u8 *)animation + 0x2C)) = windup_animations;
-            func_80048A44(animation, *(windup_animations + (((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7)), 0, 1);
+            func_80048A44(animation, *(windup_animations + (((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7)), 0, 1);
             {
                 u8 *next_v1;
 
-                if (((s32)((EntityRec *)actor)->unk_4C) != 0) {
+                if (((s32)actor->unk_4C) != 0) {
                     next_v1 = D_800DD080;
                 } else {
                     next_v1 = D_800DD0B0;
@@ -209,13 +204,13 @@ jt_15:
         ((S_800B348C_0 *)action_state)->unk_96.u = attack_delay;
         if (((attack_delay << 0x10) <= 0) || (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0x8000)) {
             sound_id = 0x606;
-            if (((s32)((EntityRec *)actor)->unk_4C) != 0) {
+            if (((s32)actor->unk_4C) != 0) {
                 sound_id = 0x605;
             }
             func_800A56E0(sound_id);
             attack_animations = ((S_800B348C_0 *)action_state)->unk_CC;
             (*(u8 **)((u8 *)animation + 0x2C)) = attack_animations;
-            func_80048A44(animation, *(attack_animations + (((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7)), 0, 1);
+            func_80048A44(animation, *(attack_animations + (((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7)), 0, 1);
             ((S_800B348C_0 *)action_state)->unk_CC = D_800DD088;
             ((S_800B348C_0 *)action_state)->unk_96.u = 2U;
             ((S_800B348C_0 *)action_state)->unk_9B = 7U;
@@ -234,7 +229,7 @@ jt_6:
         ((S_800B348C_0 *)action_state)->unk_96.u = mix_delay;
         D_800DF244[0] = vertical_velocity;
         if ((s16)mix_delay < 0) {
-            resume_direction_offset = ((u16) ((EntityRec *)actor)->facing >> 8) & 0xE;
+            resume_direction_offset = ((u16) actor->facing >> 8) & 0xE;
             ((EntityRec *)motion)->unk_0C = (s32) (*(s16 *)((u8 *)((s8 *)dirStepX) + resume_direction_offset) << 0x11);
             ((EntityRec *)motion)->unk_10 = (s32) (*(s16 *)((u8 *)((s8 *)dirStepY) + resume_direction_offset) << 0x11);
             ((EntityRec *)motion)->flags14 = vertical_velocity;
@@ -245,9 +240,9 @@ jt_6:
             func_800B341C(action_state - 0x20, ((S_800B348C_0 *)action_state)->unk_F4, 0x40);
             mix_animations = ((S_800B348C_0 *)action_state)->unk_CC;
             (*(u8 **)((u8 *)animation + 0x2C)) = mix_animations;
-            func_80048A44(animation, *(mix_animations + (((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7)), 0, 1);
+            func_80048A44(animation, *(mix_animations + (((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7)), 0, 1);
             ((S_800B348C_0 *)action_state)->unk_CC = D_800DD088;
-            func_800B3D10(((S_800B348C_0 *)action_state)->unk_A8, ((EntityRec *)actor)->target, actor);
+            func_800B3D10(((S_800B348C_0 *)action_state)->unk_A8, actor->target, actor);
             return;
         }
         break;
@@ -262,33 +257,33 @@ jt_7:
             if (((S_800B348C_0 *)action_state)->unk_102 == 0) {
                 s32 temp_a2;
 
-                temp_a2 = func_8009C12C(actor, animation, ((EntityRec *)actor)->facing, 1);
+                temp_a2 = func_8009C12C(actor, animation, actor->facing, 1);
                 if (temp_a2 != 0) {
                     func_800B4194(((S_800B348C_0 *)action_state)->unk_A8, temp_a2, actor);
                     ((S_800B348C_0 *)action_state)->unk_A8 = 0U;
                     goto check_mix_delay;
                 } else {
-                    temp_a2 = (s32)((EntityRec *)actor)->target;
+                    temp_a2 = (s32)actor->target;
                     if (temp_a2 != NULL) {
-                        ((EntityRec *)actor)->target = NULL;
+                        actor->target = NULL;
                         ((S_800B348C_4 *)temp_a2)->unk_1C = (s32) (((S_800B348C_4 *)temp_a2)->unk_1C & 0xEFFFFFFF);
                         ((S_800B348C_7 *)(((S_800B348C_4_pre *)temp_a2)[-1].unk_00))->unk_0C = 0x808080;
                         goto check_mix_delay;
                     }
                 }
             } else {
-                void *attached_object;
+                EntityRec *attached_object;
 
-                attached_object = ((EntityRec *)actor)->target;
+                attached_object = actor->target;
                 if (attached_object != NULL) {
-                    ((S_800B348C_5 *)attached_object)->unk_14 = (s32) (((S_800B348C_5 *)attached_object)->unk_14 | 0x01000000);
+                    attached_object->flags14 = (s32) (attached_object->flags14 | 0x01000000);
                 }
             }
         }
 check_mix_delay:
         if (((s16) ((S_800B348C_0 *)action_state)->unk_96.u <= 0) && (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0xE000)) {
             (*(u8 **)((u8 *)animation + 0x2C)) = D_800DD088;
-            func_80048A44(animation, D_800DD088[((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7], 0, 1);
+            func_80048A44(animation, D_800DD088[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0, 1);
             ((S_800B348C_0 *)action_state)->unk_CC = D_800DD090;
             ((S_800B348C_0 *)action_state)->unk_9B = (u8) (((S_800B348C_0 *)action_state)->unk_9B + 1);
         }
@@ -304,7 +299,7 @@ jt_8:
             }
             if ((s16) ((S_800B348C_0 *)action_state)->unk_96.u <= 0) {
                 (*(u8 **)((u8 *)animation + 0x2C)) = D_800DD090;
-                func_80048A44(animation, D_800DD090[((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7], 0, 1);
+                func_80048A44(animation, D_800DD090[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0, 1);
                 ((S_800B348C_0 *)action_state)->unk_CC = D_800DD098;
                 ((S_800B348C_0 *)action_state)->unk_9B = 9U;
                 return;
@@ -319,7 +314,7 @@ jt_9:
         if (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0xE000) {
             ((EntityRec *)motion)->flags14 = 0;
             (*(u8 **)((u8 *)animation + 0x2C)) = D_800DD098;
-            func_80048A44(animation, D_800DD098[((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7], 0, 1);
+            func_80048A44(animation, D_800DD098[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0, 1);
             ((S_800B348C_0 *)action_state)->unk_96.u = 2U;
             delta_x = ((Rec_D_80082E80 *)animation)->unk_24 << 6;
             delta_y = ((EntityRec *)motion)->x.w.i;
@@ -353,15 +348,15 @@ jt_10:
                 void *case10_arg2;
                 case10_arg2 = animation;
                 (*(u8 **)((u8 *)case10_arg2 + 0x2C)) = D_800DD0A0;
-                func_80048A44(case10_arg2, D_800DD0A0[((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7], 0, 1);
+                func_80048A44(case10_arg2, D_800DD0A0[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0, 1);
             }
-            func_80099F04(((EntityRec *)actor)->unk_5C);
+            func_80099F04(actor->unk_5C);
             end_base = (s32 *)((u32)&dungeonStatus.unk_00);
             end_mask = -8;
             ((S_800B348C_6 *)end_base)->unk_02 = (u16) (((S_800B348C_6 *)end_base)->unk_02 | 0x412);
             ((S_800B348C_0 *)action_state)->unk_8C = &D_8008ACDC;
             end_timer_state = D_800DF248[0];
-            ((EntityRec *)actor)->flags14 &= end_mask;
+            actor->flags14 &= end_mask;
             if (end_timer_state == 0) {
                 ((S_800B348C_6 *)end_base)->unk_0C = 0;
             }

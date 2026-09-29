@@ -26,7 +26,7 @@ extern s32 D_800D0620;
 extern M2C_UNK D_800D0640[3];
 
 /* Updates motion toward the target and advances the state when the countdown expires. */
-void func_8009B014(void *state, void *motion, M2C_UNK context) {
+void func_8009B014(void *state, EntityRec *motion, M2C_UNK context) {
     u16 ticks_left;
     s32 target_index;
     s32 *target_bases;
@@ -35,11 +35,11 @@ void func_8009B014(void *state, void *motion, M2C_UNK context) {
     target_index = D_800D0620;
     target_bases = D_800D0640;
     target_base = target_bases + target_index;
-    ((EntityRec *)motion)->unk_10 = (s32) ((u32) (((S_8009B014_1 *)state)->unk_32 * 0x10000) + (u32) *target_base - (u32) ((EntityRec *)motion)->y.v) / ((S_8009B014_1 *)state)->unk_0A.s;
+    motion->unk_10 = (s32) ((u32) (((S_8009B014_1 *)state)->unk_32 * 0x10000) + (u32) *target_base - (u32) motion->y.v) / ((S_8009B014_1 *)state)->unk_0A.s;
     ticks_left = (u16) ((S_8009B014_1 *)state)->unk_0A.s - 1;
     ((S_8009B014_1 *)state)->unk_0A.u = ticks_left;
     if (((s16) ticks_left * 0x10000) <= 0) {
-        ((EntityRec *)motion)->y.v = (s32) ((u32) (((S_8009B014_1 *)state)->unk_32 * 0x10000) + (u32) *target_base);
+        motion->y.v = (s32) ((u32) (((S_8009B014_1 *)state)->unk_32 * 0x10000) + (u32) *target_base);
         func_80099754(motion);
         ((S_8009B014_1 *)state)->unk_10 = 0x400;
         ((S_8009B014_1 *)state)->unk_0A.u = 0xA;

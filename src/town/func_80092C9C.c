@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity.h"
 
 typedef s32 M2C_UNK;
 typedef void (*ObjectCallback)(void *, s32, s32);
@@ -33,13 +34,6 @@ extern u8 D_800FE488[];
 extern M2C_UNK D_800FE490;
 
 
-typedef struct S_800903FC_0 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_04;   /* overlapping accesses */
-    s32 unk_08;
-} S_800903FC_0;   /* node_in in func_800903FC */
-
 typedef struct S_800903FC_1 {
     u8 pad_00[0x10];
     void * unk_10;
@@ -67,7 +61,7 @@ typedef struct S_800903FC_4 {
 } S_800903FC_4;   /* ((S_800903FC_2 *)base)->unk_20 in func_800903FC */
 
 /* Rebuild the town menu's node list for the current mode and hand it to the drawing pass. */
-void func_800903FC(void *owner, S_800903FC_0 *node_in, s32 mode) {
+void func_800903FC(void *owner, EntityRec *node_in, s32 mode) {
     S_800903FC_3 *node;
     void *handler;
     u8 *base;
@@ -86,11 +80,10 @@ void func_800903FC(void *owner, S_800903FC_0 *node_in, s32 mode) {
         func_80096FF4(node_in);
     }
 
-    if (node_in->unk_08 > 0 && D_8006ADD4[0] != 12 &&
-        node_in->unk_04.at00.v > 0x03FFFFFF) {
-        if (func_800C1D44((u16)func_8008C180(node_in->unk_02,
-                                                  node_in->unk_04.at02.v)) == 0) {
-            node_in->unk_08 = 0;
+    if (node_in->z.v > 0 && D_8006ADD4[0] != 12 &&node_in->y.v > 0x03FFFFFF) {
+        if (func_800C1D44((u16)func_8008C180(node_in->x.w.i,
+                                                  node_in->y.w.i)) == 0) {
+            node_in->z.v = 0;
         }
     }
 

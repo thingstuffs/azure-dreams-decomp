@@ -35,10 +35,10 @@ typedef struct S_80173514_2 {
 
 
 /* Advance a timed sprite flashing sequence and clean up the actor when it finishes. */
-void func_80173514(void *action, void *motion, void *sprite, void *actor)
+void func_80173514(void *action, void *motion, void *sprite, EntityRec *actor)
 {
     u8 state;
-    void *call_actor;
+    EntityRec *call_actor;
     void *call_sprite;
     static void *const state_labels[] = { &&init, &&wait_start, &&first_flash, &&second_flash, &&finish };
 
@@ -62,7 +62,7 @@ init:
         ((S_80173514_2 *)motion)->unk_0C = 0;
         (*(u8 **)((u8 *)sprite + 0x2C)) = D_80174EE0;
         func_80047784(sprite,
-            D_80174EE0[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            D_80174EE0[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         ((S_80173514_0 *)action)->unk_96.u = 0;
         ((S_80173514_0 *)action)->unk_9B++;
@@ -105,7 +105,7 @@ second_flash:
         (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
         call_sprite = sprite;
 call_tail:
-        func_8009C12C(call_actor, call_sprite, ((EntityRec *)call_actor)->facing, 1);
+        func_8009C12C(call_actor, call_sprite, call_actor->facing, 1);
         return;
     }
     return;
@@ -116,6 +116,6 @@ finish:
         ((S_80173514_0 *)action)->unk_8C = &D_80171CE8;
         dungeonStatus.unk_0C = 0;
         func_800A4ACC(actor);
-        ((EntityRec *)actor)->unk_46 &= 0x7FFF;
+        actor->unk_46 &= 0x7FFF;
     }
 }

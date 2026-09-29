@@ -6,6 +6,7 @@
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
+#include "shared/entity.h"
 #include "m2c_compat.h"
 
 typedef s32 UnalignedS32 __attribute__((aligned(1)));
@@ -135,10 +136,6 @@ typedef struct {
     Packed4 part[2];
 } Packed8;
 
-typedef struct {
-    s32 words[8];
-} EightWords;
-
 extern void *D_80024008[];
 void func_8002401C();
 void func_80024494();
@@ -167,7 +164,7 @@ void func_80024B54(void *effect, void *position) {
     u8 *tile_or_y_steps;
     u8 *x_steps;
     M2C_UNK *effect_pool;
-    s32 *origin;
+    EntityRec *origin;
     register u8 *actor_page ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register void *source_pos ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register s16 phase ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -253,7 +250,7 @@ jt_c2:
     }
     rounded_phase = ((s32)actor_or_frame) + 0xFFF;
 block_10:
-    origin = &D_80083780.x.v;
+    origin = &D_80083780;
     step_value = (s32)D_80083780.x.v;
     ASM_CLOBBER("$19");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     target_page = (u8 *)0x80080000;
@@ -261,7 +258,7 @@ block_10:
     step_value = rounded_phase >> 0xC;
     step_value <<= 0xC;
     phase = ((s32)actor_or_frame) - step_value;
-    actor_value = (void *)origin[1];
+    actor_value = (void *)origin->y.v;
     (*(s32 *)((u8 *)source_pos + 4)) = (s32)actor_value;
     ASM_KEEP_NV(target_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     step_value = (s32)0x80080000;

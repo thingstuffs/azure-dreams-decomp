@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "shared/town_root.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_80016000.h"
 
 typedef struct S_8001D048_3 {
     u8 pad_00[0x2D0];
@@ -14,11 +14,6 @@ typedef struct S_8001D048_1 {
     u8 pad_00[0x3640];
     u8 unk_3640;
 } S_8001D048_1;   /* row + work_s0 in func_8001D048 */
-
-typedef struct S_8001D048_2 {
-    u8 pad_00[0x20];
-    void * unk_20;
-} S_8001D048_2;   /* global_base in func_8001D048 */
 
 
 s32 func_8001D280();                   /* extern */
@@ -41,11 +36,11 @@ void func_8001D048(void) {
     s8 *row;
     s8 *check_base;
     s16 *bounds;
-    S_8001D048_2 *global_base;
+    Rec_D_80016000 *global_base;
     S_8001D048_3 *callback_base;
     M2C_UNK (*callback)(s32, u32, s32);
 
-    row_or_column = (long)((Rec_D_80016000 *)D_80016000)->unk_38.as_ps8;
+    row_or_column = (long)((s8 *)D_80016000->unk_38);
     mode_check = func_8001E7E4(1);
     mode = 0;
     if (mode_check != 0) {
@@ -81,7 +76,7 @@ process_entry:
             entry_value = ((S_8001D048_1 *)(row + row_or_column))->unk_3640;
             if (entry_value != 0) {
                 entry_result = func_8001D280(row_index, row_or_column, mode);
-                global_base = ((Rec_D_80016000 *)D_80016000);
+                global_base = D_80016000;
                 do {
                     callback_arg = entry_result;
                     ASM_KEEP(callback_arg);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */

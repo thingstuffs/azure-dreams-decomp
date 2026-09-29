@@ -79,14 +79,8 @@ typedef struct S_801737C8_6 {
     u16 unk_0A;
 } S_801737C8_6;   /* coords in func_801737C8 */
 
-typedef struct S_801737C8_7 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-    s32 unk_0C;
-} S_801737C8_7;   /* global in func_801737C8 */
-
 /* Process item use, spawn its visual effect, and finish the action when ready. */
-void func_801737C8(void *controller, void *motion, void *actor, void *object)
+void func_801737C8(void *controller, EntityRec *motion, void *actor, void *object)
 {
     static void *const kind_labels[] = {
         &&kind_1, &&kind_2, &&kind_3, &&kind_default,
@@ -229,9 +223,9 @@ invoke_item:
     return;
 
 empty_selection:
-    ((EntityRec *)motion)->flags14 = 0;
-    ((EntityRec *)motion)->unk_10 = 0;
-    ((EntityRec *)motion)->unk_0C = 0;
+    motion->flags14 = 0;
+    motion->unk_10 = 0;
+    motion->unk_0C = 0;
     func_800A2B04(motion, ((Rec_D_80082E80 *)actor)->unk_24, ((Rec_D_80082E80 *)actor)->unk_25);
     dungeonStatus.unk_0C = 0;
     (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
@@ -279,9 +273,9 @@ state_2:
                 ((S_801737C8_5 *)sprite)->unk_10 = dim_channel;
                 ((S_801737C8_5 *)sprite)->unk_14 |= 0x0C;
                 effect_pos = (*(void * *)((u8 *)object + 8));
-                ((S_801737C8_6 *)effect_pos)->unk_02 = ((u16)((EntityRec *)motion)->x.w.i);
-                ((S_801737C8_6 *)effect_pos)->unk_06 = ((u16)((EntityRec *)motion)->y.w.i);
-                ((S_801737C8_6 *)effect_pos)->unk_0A = ((u16)((EntityRec *)motion)->z.w.i);
+                ((S_801737C8_6 *)effect_pos)->unk_02 = ((u16)motion->x.w.i);
+                ((S_801737C8_6 *)effect_pos)->unk_06 = ((u16)motion->y.w.i);
+                ((S_801737C8_6 *)effect_pos)->unk_0A = ((u16)motion->z.w.i);
 
                 dx = (rand() & 0x3F) - 0x20;
                 dy = (rand() & 0x3F) - 0x20;
@@ -350,9 +344,9 @@ state_3:
         if (!(((Rec_D_80082E80 *)actor)->unk_14.at00_u16.v & 0xE000)) {
             return;
         }
-        ((EntityRec *)motion)->flags14 = 0;
-        ((EntityRec *)motion)->unk_10 = 0;
-        ((EntityRec *)motion)->unk_0C = 0;
+        motion->flags14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
         func_800A2B04(motion, ((Rec_D_80082E80 *)actor)->unk_24, ((Rec_D_80082E80 *)actor)->unk_25);
         if (((Rec_D_80082E80 *)actor)->unk_2C.as_pu8 != D_801753BC) {
             u8 *facing_frames;

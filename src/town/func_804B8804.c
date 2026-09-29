@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "shared/town_root.h"
 
 typedef struct Inner {
     s32 unk0;
@@ -7,15 +8,10 @@ typedef struct Inner {
     s32 unk8;
 } Inner;
 
-typedef struct Outer {
-    u8 pad[0x1C];
-    Inner *inner;
-} Outer;
-
 
 /* Sets the global object's inner fields to 1248 and 1184. */
 void func_80017004(void) {
-    Outer *outer = ((Outer *)D_80016000);
-    outer->inner->unk4 = 1248;
-    outer->inner->unk8 = 1184;
+    Rec_D_80016000 *outer = D_80016000;
+    ((Inner *)outer->unk_1C)->unk4 = 1248;
+    ((Inner *)outer->unk_1C)->unk8 = 1184;
 }

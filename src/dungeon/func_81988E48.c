@@ -4,6 +4,7 @@
 #include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
+#include "shared/entity.h"
 
 typedef struct MainObject {
     void *link;
@@ -72,11 +73,6 @@ typedef struct Resource {
     void *data;
 } Resource;
 
-typedef struct GlobalFlag {
-    s32 value;
-    s32 pad04[2];
-} GlobalFlag;
-
 extern s32 D_80024AA4;
 extern u8 D_800DEC00[];
 
@@ -98,7 +94,7 @@ void func_81988E48(MainObject *obj)
     ChildObject *child;
     void *callback;
     Resource *resource;
-    register u8 *call_data ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register TileObject *call_data ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 state;
     s32 case3;
 
@@ -137,8 +133,8 @@ state_0:
         obj->state++;
 state_1:
         state_count = 14;
-        call_data = ((u8 *)(&D_80082E80));
-        if (func_8003DE58(*(void **)(call_data + 8), call_data, hit, 0)) {
+        call_data = &D_80082E80;
+        if (func_8003DE58(((void *)call_data->unk_008), call_data, hit, 0)) {
             obj->x += (hit[0] + D_80083780.x.w.i - *(s16 *)((u8 *)obj + 0x1E)) << 14;
             obj->y += (hit[1] + D_80083780.y.w.i - *(s16 *)((u8 *)obj + 0x22)) << 14;
             obj->z += (hit[2] + D_80083780.z.w.i - *(s16 *)((u8 *)obj + 0x26)) << 14;
@@ -157,8 +153,8 @@ state_2:
             state_count = 4;
         }
         obj->angle += 2;
-        call_data = ((u8 *)(&D_80082E80));
-        if (func_8003DE58(*(void **)(call_data + 8), call_data, hit, 0)) {
+        call_data = &D_80082E80;
+        if (func_8003DE58(((void *)call_data->unk_008), call_data, hit, 0)) {
             obj->x += (hit[0] + D_80083780.x.w.i - *(s16 *)((u8 *)obj + 0x1E)) << 15;
             obj->y += (hit[1] + D_80083780.y.w.i - *(s16 *)((u8 *)obj + 0x22)) << 15;
             obj->z += (hit[2] + D_80083780.z.w.i - *(s16 *)((u8 *)obj + 0x26)) << 15;

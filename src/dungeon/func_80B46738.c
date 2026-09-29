@@ -27,13 +27,13 @@ countdown:
 
 fade:
     {
-        s32 *flags = ((s32 *)(&objectFlagBlock));
+        ObjectFlagBlock *flags = &objectFlagBlock;
 
         if (*(u8 *)((u8 *)effect + 8) >= 0x11) {
             goto dim_color;
         }
         *(u16 *)((u8 *)effect - 2) |= 0x8000;
-        *flags |= 0x8000;
+        flags->flags |= 0x8000;
         return;
     }
 

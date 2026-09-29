@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "shared/town_root.h"
 
 typedef struct Entry Entry;
 
@@ -14,7 +15,7 @@ extern void func_8001A5E4(s32);
 
 /* Look up a value by group and entry index and pass it to the handler. */
 void func_80019394(s32 group_index, s32 entry_index) {
-    void *root;
+    Rec_D_80016000 *root;
     Entry *level;
     Entry *groups;
     Entry *entries;
@@ -22,7 +23,7 @@ void func_80019394(s32 group_index, s32 entry_index) {
     do {
         root = D_80016000;
     } while (0);
-    level = *(Entry **)((u8 *)root + 0x24);
+    level = ((Entry *)root->unk_24);
     groups = *(Entry **)((u8 *)level + 0x6C);
     do { entries = groups[group_index].next; } while (0);
     func_8001A5E4(entries[entry_index].value);

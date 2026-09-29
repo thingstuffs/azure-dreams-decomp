@@ -35,7 +35,7 @@ typedef struct S_80172E04_3 {
 } S_80172E04_3;   /* arg1 in func_80172E04 */
 
 /* Advance the timed actor animation sequence and restore actor state on completion. */
-void func_80172E04(void *action, void *motion, void *sprite, void *actor)
+void func_80172E04(void *action, void *motion, void *sprite, EntityRec *actor)
 {
     u8 state;
     static void *const state_labels[] = { &&initialize, &&start_animation, &&wait_animation, &&update_actor, &&finish_action };
@@ -50,7 +50,7 @@ initialize:
     if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
         ((S_80172E04_0 *)action)->unk_9B = 4;
         ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x6000;
-        func_8009C12C(actor, sprite, ((EntityRec *)actor)->facing, 1);
+        func_8009C12C(actor, sprite, actor->facing, 1);
         return;
     }
     ((S_80172E04_3 *)motion)->unk_14 = 0;
@@ -63,7 +63,7 @@ start_animation:
         (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
         (*(u8 **)((u8 *)sprite + 0x2C)) = D_801742F0;
         func_80047784(sprite,
-            D_801742F0[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            D_801742F0[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x0800;
     }
@@ -91,7 +91,7 @@ advance_state:
 
 update_actor:
     if ((s16)++((S_80172E04_0 *)action)->unk_96.u == 2) {
-        func_8009C12C(actor, sprite, ((EntityRec *)actor)->facing, 1);
+        func_8009C12C(actor, sprite, actor->facing, 1);
         ((S_80172E04_0 *)action)->unk_9B++;
     }
 
@@ -101,6 +101,6 @@ finish_action:
         ((S_80172E04_0 *)action)->unk_8C = D_80171650;
         dungeonStatus.unk_0C = 0;
         func_800A4ACC(actor);
-        ((EntityRec *)actor)->unk_46 &= 0x7FFF;
+        actor->unk_46 &= 0x7FFF;
     }
 }

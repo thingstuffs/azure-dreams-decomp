@@ -15,7 +15,6 @@ extern void func_800A56E0(s32);
 extern s32 func_800A94A0(void *, u8 *, s32, void *);
 extern void func_80170A44(void *, void *, void *, void *);
 
-typedef struct { u8 pad[0x12]; u8 kind; u8 pad2; } ItemDef20;
 extern void *D_80170850[];
 extern void *D_801708B0[];
 extern s32 D_801714D4[];
@@ -62,17 +61,11 @@ typedef struct S_80172A48_3 {
 } S_80172A48_3;   /* arg2 in func_80172A48 */
 
 
-typedef struct S_80172A48_5 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-    s32 unk_0C;
-} S_80172A48_5;   /* global in func_80172A48 */
-
 /* Advance item use through effect activation, actor animation, and cleanup. */
 void func_80172A48(void *action_in, void *motion_in, void *actor_in, void *item_in)
 {
     void *action = action_in;
-    void *motion = motion_in;
+    EntityRec *motion = motion_in;
     register void *actor ASM_REG("$19") = actor_in; /* MATCH: retain the actor register across the shared model tail. */
     register void *item ASM_REG("$18") = item_in; /* MATCH: retain the item register across the shared model tail. */
     static void *volatile state_labels[] = {
@@ -220,9 +213,9 @@ invoke_item:
     }
     ((S_80172A48_0 *)action)->unk_96.u = 0;
     ((S_80172A48_0 *)action)->unk_9B++;
-    ((EntityRec *)motion)->flags14 = 0;
-    ((EntityRec *)motion)->unk_10 = 0;
-    ((EntityRec *)motion)->unk_0C = 0;
+    motion->flags14 = 0;
+    motion->unk_10 = 0;
+    motion->unk_0C = 0;
     if ((u32)(*effect_slot - 0x2E) >= 3) {
         return;
     }
@@ -233,9 +226,9 @@ invoke_item:
     return;
 
 empty_selection:
-    ((EntityRec *)motion)->flags14 = 0;
-    ((EntityRec *)motion)->unk_10 = 0;
-    ((EntityRec *)motion)->unk_0C = 0;
+    motion->flags14 = 0;
+    motion->unk_10 = 0;
+    motion->unk_0C = 0;
     func_800A2B04(motion, ((S_80172A48_3 *)actor)->unk_24, ((S_80172A48_3 *)actor)->unk_25);
     dungeonStatus.unk_0C = 0;
     (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
@@ -338,9 +331,9 @@ state_7:
     if (!(((S_80172A48_3 *)actor)->unk_14 & 0xE000)) {
         return;
     }
-    ((EntityRec *)motion)->flags14 = 0;
-    ((EntityRec *)motion)->unk_10 = 0;
-    ((EntityRec *)motion)->unk_0C = 0;
+    motion->flags14 = 0;
+    motion->unk_10 = 0;
+    motion->unk_0C = 0;
     func_800A2B04(motion, ((S_80172A48_3 *)actor)->unk_24, ((S_80172A48_3 *)actor)->unk_25);
     ((S_80172A48_0 *)action)->unk_9B++;
     if (((S_80172A48_3 *)actor)->unk_2C == D_801740E0) {

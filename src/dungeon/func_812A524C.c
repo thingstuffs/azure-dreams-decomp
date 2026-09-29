@@ -85,24 +85,10 @@ typedef struct S_812A524C_10 {
     union { struct { u16 v; } at00; struct { u8 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; } unk_24;   /* overlapping accesses */
 } S_812A524C_10;   /* ev1 in func_812A524C */
 
-typedef struct S_812A524C_11 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-} S_812A524C_11;   /* pos1 in func_812A524C */
-
 typedef struct S_812A524C_12 {
     u8 pad_00[0x24];
     union { struct { u16 v; } at00; struct { u8 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; } unk_24;   /* overlapping accesses */
 } S_812A524C_12;   /* ev2 in func_812A524C */
-
-typedef struct S_812A524C_13 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-} S_812A524C_13;   /* pos2 in func_812A524C */
 
 typedef struct S_812A524C_14 {
     u8 pad_00[0x24];
@@ -133,31 +119,10 @@ typedef struct S_812A524C_18 {
     union { struct { u16 v; } at00; struct { u8 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; } unk_24;   /* overlapping accesses */
 } S_812A524C_18;   /* ev5 in func_812A524C */
 
-typedef struct S_812A524C_19 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-} S_812A524C_19;   /* pos5 in func_812A524C */
-
-typedef struct S_812A524C_20 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    u8 pad_0C[0x4];
-    s32 unk_10;
-} S_812A524C_20;   /* flag_base in func_812A524C */
-
 typedef struct S_812A524C_21 {
     u8 pad_00[0x24];
     union { struct { u16 v; } at00; struct { u8 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; } unk_24;   /* overlapping accesses */
 } S_812A524C_21;   /* ev6 in func_812A524C */
-
-typedef struct S_812A524C_22 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-} S_812A524C_22;   /* pos6 in func_812A524C */
 
 typedef struct S_812A524C_23 {
     u8 pad_00[0x24];
@@ -202,13 +167,6 @@ typedef struct S_812A524C_29 {
     u8 unk_25;
 } S_812A524C_29;   /* ev10 in func_812A524C */
 
-typedef struct S_812A524C_30 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-} S_812A524C_30;   /* pos10 in func_812A524C */
-
 typedef struct S_812A524C_31 {
     u8 pad_00[0x24];
     union { struct { u16 v; } at00; struct { u8 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; } unk_24;   /* overlapping accesses */
@@ -221,24 +179,11 @@ typedef struct S_812A524C_32 {
     s16 unk_06;
 } S_812A524C_32;   /* pos11 in func_812A524C */
 
-typedef struct S_812A524C_33 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_812A524C_33;   /* var_v0_7 in func_812A524C */
-
 typedef struct S_812A524C_34 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
 } S_812A524C_34;   /* temp_v1_3 in func_812A524C */
-
-typedef struct S_812A524C_35 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-} S_812A524C_35;   /* pos12 in func_812A524C */
 
 typedef struct S_812A524C_36 {
     union { s32 n; volatile s32 v; } unk_00;   /* accessed as both */
@@ -358,7 +303,7 @@ void func_812A524C(void *actor_in, void *motion_in, void *sprite_in) {
     u8 *position_11;
     M2C_UNK (*update_actor)(void *, void *, void *, void *);
     M2C_UNK (*update_special)(void *, void *, void *, void *);
-    M2C_UNK *nearby_event;
+    TileObject *nearby_event;
     u8 *scan_10;
     u8 *scan_80;
     u8 *scan_100;
@@ -711,12 +656,12 @@ block_119:
                                                                                     } else {
 block_163:
                                                                                         nearby_tile = ((S_812A524C_40 *)(((S_812A524C_5 *)(&D_800FBE54))->unk_00))->unk_0C;
-                                                                                        nearby_event = ((u8 *)(&D_80082E80));
-                                                                                        event_x = ((S_812A524C_33 *)nearby_event)->unk_24;
+                                                                                        nearby_event = &D_80082E80;
+                                                                                        event_x = nearby_event->tileX;
                                                                                         distance_x = event_x - nearby_tile->unk_24;
                                                                                         distance_x = abs(distance_x);
                                                                                         if (distance_x < 4) {
-                                                                                            event_y = ((S_812A524C_33 *)nearby_event)->unk_25;
+                                                                                            event_y = nearby_event->tileY;
                                                                                             distance_y = event_y - nearby_tile->unk_25;
                                                                                             distance_y = abs(distance_y);
                                                                                             if (distance_y < 4) {

@@ -16,7 +16,6 @@ extern void func_800A56E0(s32);
 extern s32 func_800A94A0(void *, u8 *, s32, void *);
 extern void func_800BB044(void *);
 
-typedef struct { u8 pad[0x12]; u8 kind; u8 pad2; } ItemDef20;
 extern void *D_80170838[];
 extern u8 D_80170F20[];
 extern u8 D_801762C0[];
@@ -52,7 +51,7 @@ typedef struct S_80172798_5 {
 } S_80172798_5;   /* global in func_80172798 */
 
 /* Advances the selected item action and resets movement when it ends. */
-void func_80172798(void *action, void *motion, void *sprite, void *actor)
+void func_80172798(void *action, EntityRec *motion, void *sprite, void *actor)
 {
     static void *const kind_keep[] = {
         &&kind_1, &&kind_2, &&kind_3, &&kind_default,
@@ -188,9 +187,9 @@ invoke_item:
     return;
 
 empty_selection:
-    ((EntityRec *)motion)->flags14 = 0;
-    ((EntityRec *)motion)->unk_10 = 0;
-    ((EntityRec *)motion)->unk_0C = 0;
+    motion->flags14 = 0;
+    motion->unk_10 = 0;
+    motion->unk_0C = 0;
     func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
     dungeonStatus.unk_0C = 0;
     (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
@@ -231,9 +230,9 @@ state_2:
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
         return;
     }
-    ((EntityRec *)motion)->flags14 = 0;
-    ((EntityRec *)motion)->unk_10 = 0;
-    ((EntityRec *)motion)->unk_0C = 0;
+    motion->flags14 = 0;
+    motion->unk_10 = 0;
+    motion->unk_0C = 0;
     func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
     if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 != D_801762C0) {
         u8 *anim_table;

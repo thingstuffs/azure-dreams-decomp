@@ -20,33 +20,33 @@ typedef struct S_800A5DFC_2 {
 /* extern */
 
 /* Applies damage capped to leave one HP and displays the hit effect when applicable. */
-void func_800A5DFC(void *entity, Rec_func_800A5DFC_arg1 *effect_pos) {
+void func_800A5DFC(EntityRec *entity, Rec_func_800A5DFC_arg1 *effect_pos) {
     s32 current_hp;
     s32 rounded_hp;
     s32 damage;
     u8 max_hp;
 
-    if ((((EntityRec *)entity)->flags1C & 0x40) && ((((EntityRec *)entity)->unk_28 + ((EntityRec *)entity)->unk_64) >= 2)) {
-        max_hp = ((EntityRec *)entity)->unk_29;
+    if ((entity->flags1C & 0x40) && ((entity->unk_28 + entity->unk_64) >= 2)) {
+        max_hp = entity->unk_29;
         rounded_hp = max_hp + 0xF;
-        ((EntityRec *)entity)->unk_6A = (s16) (((u16)((EntityRec *)entity)->facing) + 0x800);
+        entity->unk_6A = (s16) (((u16)entity->facing) + 0x800);
         if (rounded_hp < 0) {
             rounded_hp = max_hp + 0x1E;
         }
         damage = rounded_hp >> 4;
-        current_hp = ((EntityRec *)entity)->unk_28 + ((EntityRec *)entity)->unk_64;
+        current_hp = entity->unk_28 + entity->unk_64;
         if ((current_hp - damage) <= 0) {
             damage = current_hp - 1;
         }
         if (damage != 0) {
-            ((EntityRec *)entity)->flags1C = (s32) (((EntityRec *)entity)->flags1C & 0xDFFFFFFF);
+            entity->flags1C = (s32) (entity->flags1C & 0xDFFFFFFF);
             if (!(((S_800A5DFC_2 *)(((S_800A5DFC_0_pre *)entity)[-1].unk_00))->unk_14 & 0x8000)) {
                 func_800B4C7C(3, entity, (s16) damage, 0);
-                ((EntityRec *)entity)->unk_64 = (s16) ((u16) ((EntityRec *)entity)->unk_64 - damage);
+                entity->unk_64 = (s16) ((u16) entity->unk_64 - damage);
                 func_800C5BBC(effect_pos->unk_02, effect_pos->unk_06, (s16) (effect_pos->unk_0A - 8), 0x802080, 0x20, 1);
                 return;
             }
-            ((EntityRec *)entity)->unk_28 = (u8) (((EntityRec *)entity)->unk_28 - damage);
+            entity->unk_28 = (u8) (entity->unk_28 - damage);
         }
     }
 }

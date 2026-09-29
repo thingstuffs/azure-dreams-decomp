@@ -30,7 +30,7 @@ extern void func_800AAA54(void *, void *, void *, void *);
 extern void func_800AD4D0(void *);
 
 /* Updates a staged movement sequence and returns the entity to its tile. */
-void func_8017380C(void *action, void *motion, void *entity, void *actor)
+void func_8017380C(void *action, EntityRec *motion, void *entity, EntityRec *actor)
 {
     s32 state;
 
@@ -56,7 +56,7 @@ init_movement:
     func_800AD4D0(actor);
     ((S_8017380C_0 *)action)->unk_96.s = 4;
     ((S_8017380C_0 *)action)->unk_9B++;
-    if (((EntityRec *)actor)->unk_28 == 0) {
+    if (actor->unk_28 == 0) {
         goto stop_movement;
     }
     if (!(((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v & 0x8000)) {
@@ -73,36 +73,36 @@ move_outward:
         frames_left = ((S_8017380C_0 *)action)->unk_96.u - 1;
         ((S_8017380C_0 *)action)->unk_96.s = frames_left;
         if (frames_left > 0) {
-            ((EntityRec *)motion)->unk_0C =
+            motion->unk_0C =
                 *(s16 *)((u8 *)((s8 *)dirStepX) +
-                    ((((EntityRec *)actor)->unk_6A >> 8) & 0xE)) << 19;
-            ((EntityRec *)motion)->unk_10 =
+                    ((actor->unk_6A >> 8) & 0xE)) << 19;
+            motion->unk_10 =
                 *(s16 *)((u8 *)((s8 *)dirStepY) +
-                    ((((EntityRec *)actor)->unk_6A >> 8) & 0xE)) << 19;
+                    ((actor->unk_6A >> 8) & 0xE)) << 19;
             return;
         }
         if (frames_left != 0) {
             return;
         }
-        ((EntityRec *)motion)->unk_0C =
+        motion->unk_0C =
             *(s16 *)((u8 *)((s8 *)dirStepX) +
-                ((((EntityRec *)actor)->unk_6A >> 8) & 0xE)) << 18;
-        ((EntityRec *)motion)->unk_10 =
+                ((actor->unk_6A >> 8) & 0xE)) << 18;
+        motion->unk_10 =
             *(s16 *)((u8 *)((s8 *)dirStepY) +
-                ((((EntityRec *)actor)->unk_6A >> 8) & 0xE)) << 18;
+                ((actor->unk_6A >> 8) & 0xE)) << 18;
         ((S_8017380C_0 *)action)->unk_96.s = 6;
         ((S_8017380C_0 *)action)->unk_9B++;
         return;
     }
 
 return_to_tile:
-    if (((EntityRec *)actor)->unk_28 != 0) {
+    if (actor->unk_28 != 0) {
         goto interpolate_return;
     }
 stop_movement:
-    ((EntityRec *)motion)->flags14 = 0;
-    ((EntityRec *)motion)->unk_10 = 0;
-    ((EntityRec *)motion)->unk_0C = 0;
+    motion->flags14 = 0;
+    motion->unk_10 = 0;
+    motion->unk_0C = 0;
     func_800AAA54(action, motion, entity, D_801759C8);
     return;
 
@@ -114,10 +114,10 @@ interpolate_return:
 
         return_frames = ((S_8017380C_0 *)action)->unk_96.s;
         if (return_frames != 0) {
-            ((EntityRec *)motion)->unk_0C =
-                (((((Rec_D_80082E80 *)entity)->unk_24 << 6) - ({ ((EntityRec *)motion)->x.w.i - 0x20; })) << 16) / return_frames;
-            origin_y = ((EntityRec *)motion)->y.w.i - 0x20;
-            ((EntityRec *)motion)->unk_10 =
+            motion->unk_0C =
+                (((((Rec_D_80082E80 *)entity)->unk_24 << 6) - ({ motion->x.w.i - 0x20; })) << 16) / return_frames;
+            origin_y = motion->y.w.i - 0x20;
+            motion->unk_10 =
                 (((((Rec_D_80082E80 *)entity)->unk_25 << 6) - origin_y) << 16) /
                 ((S_8017380C_0 *)action)->unk_96.s;
         }
@@ -126,17 +126,17 @@ interpolate_return:
         if ((s32)(previous_frames << 16) > 0) {
             return;
         }
-        ((EntityRec *)motion)->flags14 = 0;
-        ((EntityRec *)motion)->unk_10 = 0;
-        ((EntityRec *)motion)->unk_0C = 0;
+        motion->flags14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
         ((S_8017380C_0 *)action)->unk_9B++;
         return;
     }
 
 finish_movement:
-    ((EntityRec *)motion)->flags14 = 0;
-    ((EntityRec *)motion)->unk_10 = 0;
-    ((EntityRec *)motion)->unk_0C = 0;
+    motion->flags14 = 0;
+    motion->unk_10 = 0;
+    motion->unk_0C = 0;
     func_800A2B04(motion, ((Rec_D_80082E80 *)entity)->unk_24, ((Rec_D_80082E80 *)entity)->unk_25);
     if (((Rec_D_80082E80 *)entity)->unk_2C.as_pv == D_80175998) {
         u8 *direction_table;
@@ -144,7 +144,7 @@ finish_movement:
         direction_table = D_80175988;
         (*(void * *)((u8 *)entity + 0x2C)) = direction_table;
         func_80047784(entity,
-            direction_table[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            direction_table[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
     }
     {

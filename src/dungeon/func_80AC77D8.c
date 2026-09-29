@@ -35,7 +35,7 @@ typedef struct S_80172FD8_3 {
 } S_80172FD8_3;   /* arg1 in func_80172FD8 */
 
 /* Advances an actor's timed animation sequence and performs its final cleanup. */
-void func_80172FD8(void *sequence, void *motion, void *sprite, void *actor)
+void func_80172FD8(void *sequence, void *motion, void *sprite, EntityRec *actor)
 {
     u8 state;
     static void *const state_labels[] = { &&initialize, &&wait_animation, &&wait_transition, &&wait_effect, &&finish };
@@ -50,7 +50,7 @@ initialize:
     if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
         ((S_80172FD8_0 *)sequence)->unk_9B = 4;
         ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x6000;
-        func_8009C12C(actor, sprite, ((EntityRec *)actor)->facing, 1);
+        func_8009C12C(actor, sprite, actor->facing, 1);
         return;
     }
     ((S_80172FD8_3 *)motion)->unk_14 = 0;
@@ -64,7 +64,7 @@ wait_animation:
         (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
         (*(u8 **)((u8 *)sprite + 0x2C)) = D_80174E1C;
         func_80047784(sprite,
-            D_80174E1C[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            D_80174E1C[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         goto advance_state;
     }
@@ -73,7 +73,7 @@ wait_animation:
 wait_transition:
     if ((s16)++((S_80172FD8_0 *)sequence)->unk_96.u == 9 ||
         (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
-        func_8009C12C(actor, sprite, ((EntityRec *)actor)->facing, 1);
+        func_8009C12C(actor, sprite, actor->facing, 1);
         ((S_80172FD8_0 *)sequence)->unk_96.u = 0;
         ((S_80172FD8_0 *)sequence)->unk_9B++;
     }
@@ -103,6 +103,6 @@ finish:
         ((S_80172FD8_0 *)sequence)->unk_8C = &D_80171728;
         dungeonStatus.unk_0C = 0;
         func_800A4ACC(actor);
-        ((EntityRec *)actor)->unk_46 &= 0x7FFF;
+        actor->unk_46 &= 0x7FFF;
     }
 }

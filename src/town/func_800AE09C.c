@@ -52,18 +52,10 @@ typedef struct S_800AB7FC_1 {
     s16 unk_1A;
 } S_800AB7FC_1;   /* temp_global_a0 in func_800AB7FC */
 
-typedef struct S_800AB7FC_2 {
-    u8 pad_00[0x18];
-    s16 unk_18;
-    s16 unk_1A;
-    s16 unk_1C;
-    s16 unk_1E;
-} S_800AB7FC_2;   /* temp_s1 in func_800AB7FC */
-
 /* Initialize town projection, lighting, view bounds, and color state. */
 void func_800AB7FC(void) {
     S_800AB7FC_0 *view_state;
-    u8 *render_data;
+    GameWork *render_data;
     s32 screen_distance;
     void *light_matrix;
     S_800AB7FC_1 *scene_state;
@@ -73,8 +65,8 @@ void func_800AB7FC(void) {
     s32 ambient_green;
     s32 ambient_blue;
 
-    render_data = ((u8 *)(&gameWork));
-    view_state = render_data + 0x18;
+    render_data = &gameWork;
+    view_state = (u8 *)render_data + 0x18;
     screen_distance = 0x200;
     view_state->unk_88 = screen_distance;
     func_80064F20(screen_distance);
@@ -88,8 +80,8 @@ void func_800AB7FC(void) {
     view_state->unk_5C = 0;
     view_state->unk_62 = 0;
     view_state->unk_68 = 0;
-    func_80064D50(render_data + 0x70);
-    light_matrix = render_data + 0x50;
+    func_80064D50((u8 *)render_data + 0x70);
+    light_matrix = (u8 *)render_data + 0x50;
     do {
         light_coeff_b = -0x800;
     } while (0);
@@ -127,10 +119,10 @@ void func_800AB7FC(void) {
     }
     func_80064EC0(ambient_red, ambient_green, ambient_blue);
     func_80064F00(0xA0, 0x78);
-    ((S_800AB7FC_2 *)render_data)->unk_18 = -0xBC;
-    ((S_800AB7FC_2 *)render_data)->unk_1A = -0x88;
-    ((S_800AB7FC_2 *)render_data)->unk_1C = 0x172;
-    ((S_800AB7FC_2 *)render_data)->unk_1E = 0x19A;
+    render_data->view.unk_000 = -0xBC;
+    render_data->view.unk_002 = -0x88;
+    render_data->view.unk_004 = 0x172;
+    render_data->view.unk_006 = 0x19A;
     view_state->unk_90 = 0x80;
     view_state->unk_91 = 0x80;
     view_state->unk_92 = 0x80;

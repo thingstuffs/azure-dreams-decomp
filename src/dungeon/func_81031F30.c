@@ -26,7 +26,7 @@ typedef struct S_80173730_0 {
 
 
 /* Updates staged movement toward a target tile and finalizes the action. */
-void func_80173730(void *action, void *motion, void *target, void *actor)
+void func_80173730(void *action, EntityRec *motion, void *target, EntityRec *actor)
 {
     u8 state;
     s16 timer;
@@ -39,10 +39,10 @@ void func_80173730(void *action, void *motion, void *target, void *actor)
         func_800AD4D0(actor);
         ((S_80173730_0 *)action)->unk_96.u = 4;
         ((S_80173730_0 *)action)->unk_9B++;
-        if (((EntityRec *)actor)->unk_28 == 0) {
-            ((EntityRec *)motion)->flags14 = 0;
-            ((EntityRec *)motion)->unk_10 = 0;
-            ((EntityRec *)motion)->unk_0C = 0;
+        if (actor->unk_28 == 0) {
+            motion->flags14 = 0;
+            motion->unk_10 = 0;
+            motion->unk_0C = 0;
             func_800AAA54(action, motion, target, &D_801760D4);
             return;
         }
@@ -57,34 +57,34 @@ void func_80173730(void *action, void *motion, void *target, void *actor)
         timer = ((S_80173730_0 *)action)->unk_96.u - 1;
         ((S_80173730_0 *)action)->unk_96.u = timer;
         if (timer > 0) {
-            ((EntityRec *)motion)->unk_0C =
+            motion->unk_0C =
                 *(s16 *)(((s8 *)dirStepX) +
-                    ((((EntityRec *)actor)->unk_6A >> 8) & 0xE)) << 19;
-            ((EntityRec *)motion)->unk_10 =
+                    ((actor->unk_6A >> 8) & 0xE)) << 19;
+            motion->unk_10 =
                 *(s16 *)(((s8 *)dirStepY) +
-                    ((((EntityRec *)actor)->unk_6A >> 8) & 0xE)) << 19;
+                    ((actor->unk_6A >> 8) & 0xE)) << 19;
             return;
         }
         if (timer != 0) {
             return;
         }
-        ((EntityRec *)motion)->unk_0C =
+        motion->unk_0C =
             *(s16 *)(((s8 *)dirStepX) +
-                ((((EntityRec *)actor)->unk_6A >> 8) & 0xE)) << 18;
-        ((EntityRec *)motion)->unk_10 =
+                ((actor->unk_6A >> 8) & 0xE)) << 18;
+        motion->unk_10 =
             *(s16 *)(((s8 *)dirStepY) +
-                ((((EntityRec *)actor)->unk_6A >> 8) & 0xE)) << 18;
+                ((actor->unk_6A >> 8) & 0xE)) << 18;
         ((S_80173730_0 *)action)->unk_96.u = 12;
         ((S_80173730_0 *)action)->unk_9B++;
         return;
 
     case 2:
-        if (((EntityRec *)actor)->unk_28 != 0) {
+        if (actor->unk_28 != 0) {
             goto update_motion;
         }
-        ((EntityRec *)motion)->flags14 = 0;
-        ((EntityRec *)motion)->unk_10 = 0;
-        ((EntityRec *)motion)->unk_0C = 0;
+        motion->flags14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
         func_800AAA54(action, motion, target, &D_801760D4);
         return;
 
@@ -95,16 +95,16 @@ update_motion:
             if (motion_timer != 0) {
                 {
                     s32 target_x = ((Rec_D_80082E80 *)target)->unk_24 << 6;
-                    s32 current_x = ((EntityRec *)motion)->x.w.i - 0x20;
+                    s32 current_x = motion->x.w.i - 0x20;
 
-                    ((EntityRec *)motion)->unk_0C =
+                    motion->unk_0C =
                         ((target_x - current_x) << 16) / motion_timer;
                 }
                 {
                     s32 target_y = ((Rec_D_80082E80 *)target)->unk_25 << 6;
-                    s32 current_y = ((EntityRec *)motion)->y.w.i - 0x20;
+                    s32 current_y = motion->y.w.i - 0x20;
 
-                    ((EntityRec *)motion)->unk_10 = ((target_y - current_y) << 16)
+                    motion->unk_10 = ((target_y - current_y) << 16)
                         / ((S_80173730_0 *)action)->unk_96.s;
                 }
             }
@@ -117,9 +117,9 @@ update_motion:
                 return;
             }
         }
-        ((EntityRec *)motion)->flags14 = 0;
-        ((EntityRec *)motion)->unk_10 = 0;
-        ((EntityRec *)motion)->unk_0C = 0;
+        motion->flags14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
         ((S_80173730_0 *)action)->unk_9B++;
         return;
 
@@ -127,9 +127,9 @@ update_motion:
         {
             s32 entity_addr;
 
-            ((EntityRec *)motion)->flags14 = 0;
-            ((EntityRec *)motion)->unk_10 = 0;
-            ((EntityRec *)motion)->unk_0C = 0;
+            motion->flags14 = 0;
+            motion->unk_10 = 0;
+            motion->unk_0C = 0;
             func_800A2B04(motion, ((Rec_D_80082E80 *)target)->unk_24,
                 ((Rec_D_80082E80 *)target)->unk_25);
             entity_addr = ((s32)dungeonStatus.unk_10);

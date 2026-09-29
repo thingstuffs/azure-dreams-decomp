@@ -52,7 +52,7 @@ void func_800F65CC(void) {
     s16 *state_value;
     s32 entries_base;
     s32 index;
-    S_8003E2D8 *world_state;
+    GameWork *world_state;
     s16 *entry_info;
     S_80082E60 *effect_state;
     s16 **state_table;
@@ -61,9 +61,9 @@ void func_800F65CC(void) {
     S_800F65CC_0 *effect;
     S_800F65CC_2 *entry;
 
-    world_state = ((struct S_8003E2D8 *)&gameWork);
+    world_state = &gameWork;
     entry_info = (s16 *)((u8 *)world_state + 0x1DC);
-    entries_base = world_state->field_1DC;
+    entries_base = ((s32 *)world_state->map.cells);
     index = 1;
     state_code = 0x11;
     state_table = D_800F8A44;

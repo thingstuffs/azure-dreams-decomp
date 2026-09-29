@@ -17,14 +17,10 @@ typedef struct S_80172334_0 {
 
 
 M2C_UNK func_80047784();         /* extern */
-typedef struct {
-    s8 pad[0xA];
-    u16 field_0xA;
-} D_80083460_t;
 extern u8 D_80175F20;
 
 /* Advance the timer and reset the state and directional sprite after 60 ticks. */
-void func_80172334(void *state, M2C_UNK unused, void *sprite, void *orientation) {
+void func_80172334(void *state, M2C_UNK unused, void *sprite, EntityRec *orientation) {
     u16 ticks;
 
     ticks = ((S_80172334_0 *)state)->unk_A6 + 1;
@@ -38,6 +34,6 @@ void func_80172334(void *state, M2C_UNK unused, void *sprite, void *orientation)
         ((S_80172334_0 *)state)->unk_9A = 0x17;
         ((S_80172334_0 *)state)->unk_9B = 0;
         (*(u8 **)((u8 *)sprite + 0x2C)) = direction_table;
-        func_80047784(sprite, *((((s32) (gameWork.view.viewAngle + ((EntityRec *)orientation)->facing + 0x100) >> 9) & 7) + direction_table), 0);
+        func_80047784(sprite, *((((s32) (gameWork.view.viewAngle + orientation->facing + 0x100) >> 9) & 7) + direction_table), 0);
     }
 }

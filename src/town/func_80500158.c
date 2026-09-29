@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "shared/town_root.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_80016000.h"
 
 
 typedef struct S_80500158_1 {
@@ -16,5 +16,5 @@ typedef struct S_80500158_1 {
 
 /* Returns the signed 16-bit value at offset 0x35BC in the referenced record. */
 s16 func_80500158(void) {
-    return ((S_80500158_1 *)(((Rec_D_80016000 *)D_80016000)->unk_38.as_pv))->unk_35BC;
+    return ((S_80500158_1 *)(D_80016000->unk_38))->unk_35BC;
 }

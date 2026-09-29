@@ -15,7 +15,7 @@ unsigned int func_800CEE0C(void *object, s16 entry_index)
     u8 *state_page;
     u8 *entry;
     register u8 *entries;
-    u16 *state;
+    DungeonGlobalStatus *state;
     void *node;
     int entry_ready;
 
@@ -26,11 +26,11 @@ unsigned int func_800CEE0C(void *object, s16 entry_index)
 #ifdef NON_MATCHING
         state_page = ((u8 *)(&dungeonStatus)) - 0x3460;
 #endif
-        state = (u16 *)((u8 *)(&dungeonStatus));
+        state = &dungeonStatus;
         entries = D_800E3648;
         entry = (u8 *)(((s32)(entry_index << 0x10) >> 0xE) + (u32)entries);
-        if ((s16)(state[14] + *(s8 *)(entry + 2)) >= 0x21) {
-            *(u8 *)(entry + 2) = 0x20 - *(u8 *)&state[14];
+        if ((s16)(((u16)state->unk_1C) + *(s8 *)(entry + 2)) >= 0x21) {
+            *(u8 *)(entry + 2) = 0x20 - *(u8 *)((u16 *)&state->unk_1C);
         }
 
         result = func_8003FA44(*(s8 *)(entry + 2) + 1, entry);
@@ -40,7 +40,7 @@ unsigned int func_800CEE0C(void *object, s16 entry_index)
             if (node != 0) {
                 *(u8 **)((u8 *)node + 0x10) = D_800CEA44;
                 *(s16 *)((u8 *)node + 0x2C) = entry_index;
-                state[5] += 1;
+                (*(u16 *)&state->unk_0A) += 1;
                 SD_Call(0xB1);
             }
             result = node != 0;

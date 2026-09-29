@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/entity_objects.h"
+#include "shared/entity.h"
 
 typedef struct {
     s16 x;
@@ -28,23 +29,23 @@ void func_80022494(u8 *effect)
     color[1] = 0x00FFFFFF;
 
     {
-        u16 *origin;
+        EntityRec *origin;
 
-        for (index = 3, origin = (u16 *)((u8 *)(&D_80083780)); index >= 0; index--) {
+        for (index = 3, origin = &D_80083780; index >= 0; index--) {
             s32 angle_offset = index << 10;
 
-            corner[index].x = origin[1] + (func_800644B8(*(s16 *)(effect + 0x28) + angle_offset) >> 6);
-            corner[index].y = origin[3] + (func_80064584(*(s16 *)(effect + 0x28) + angle_offset) >> 6);
-            corner[index].z = origin[5] - 0xA0;
+            corner[index].x = ((u16)origin->x.w.i) + (func_800644B8(*(s16 *)(effect + 0x28) + angle_offset) >> 6);
+            corner[index].y = ((u16)origin->y.w.i) + (func_80064584(*(s16 *)(effect + 0x28) + angle_offset) >> 6);
+            corner[index].z = ((u16)origin->z.w.i) - 0xA0;
         }
     }
 
     {
-        u16 *origin = (u16 *)((u8 *)(&D_80083780));
+        EntityRec *origin = &D_80083780;
 
-        center.x = origin[1];
-        center.y = origin[3];
-        center.z = origin[5] - 0x60;
+        center.x = ((u16)origin->x.w.i);
+        center.y = ((u16)origin->y.w.i);
+        center.z = ((u16)origin->z.w.i) - 0x60;
     }
 
     index = ((s16)*(u16 *)(effect + 0x2E) >> 1) + 0x80;

@@ -14,8 +14,8 @@ extern void *func_800B7420();
 /* Initialize the shared buffer pointer and paired parameters, then process the buffer. */
 void func_800B72B8(void)
 {
-    u8 *base = ((u8 *)(&gameWork));
-    u8 *p = base + 0x1DC;
+    GameWork *base = &gameWork;
+    u8 *p = (u8 *)base + 0x1DC;
     int size;
     int limit;
     int seven;
@@ -31,6 +31,6 @@ void func_800B72B8(void)
     *(s16 *)(p + 0x1C) = size;
     *(s16 *)(p + 0x1A) = limit;
     *(s16 *)(p + 0x1E) = size;
-    *(u8 **)(base + 0x1DC) = D_80162004;
+    base->map.cells = D_80162004;
     func_800B7420(base, size, limit);
 }

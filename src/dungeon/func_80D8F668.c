@@ -34,11 +34,6 @@ extern u8 D_8017386C[];
 extern u8 D_80173874[];
 extern u8 D_8017389C[];
 
-typedef struct S_80170E68_3 {
-    u8 pad_00[0x9A];
-    u8 unk_9A;
-} S_80170E68_3;   /* player in func_80170E68 */
-
 typedef struct S_80170E68_4 {
     u8 pad_00[0xC];
     u16 unk_0C;
@@ -60,7 +55,7 @@ void func_80170E68(Rec_func_800A9E70_arg0 *actor, void *context, void *sprite, E
     s32 entry_index;
     u8 *entry_base;
     u8 *entry;
-    S_80170E68_3 *player;
+    EntityRec *player;
     volatile s16 distance;
     u16 status_flags;
 

@@ -54,12 +54,6 @@ extern void (*D_800FE5D8)(void *arg0, void *arg1, void *arg2);
 extern u8 D_80110EB8[];
 
 
-typedef struct S_80093894_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-} S_80093894_0;   /* data in func_80093894 */
-
 typedef struct S_80093894_1 {
     Unk96134Bytes * unk_00;
     u8 pad_04[0x4];
@@ -84,7 +78,7 @@ typedef struct S_80093894_4 {
 /* Checks the current selection, displays rejection messages, or creates and selects an object. */
 void func_80093894(void) {
     Unk96134Work work;
-    u8 *data;
+    ObjectNodeHeader *data;
     u8 *context;
     u8 *object;
     S_80093894_2 *position;
@@ -96,11 +90,11 @@ void func_80093894(void) {
     s32 is_available;
     s32 mode;
 
-    data = ((u8 *)(&D_80083498));
-    object = data + 0x20;
+    data = &D_80083498;
+    object = (u8 *)data + 0x20;
     context = D_80110EB8;
-    position = ((S_80093894_0 *)data)->unk_08;
-    callback_data = ((S_80093894_0 *)data)->unk_0C;
+    position = data->unk_08;
+    callback_data = data->unk_0C;
 
     if (((S_80093894_1 *)context)->unk_08 == 3) {
         Unk96134Bytes *source = ((S_80093894_1 *)context)->unk_00;
