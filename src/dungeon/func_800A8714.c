@@ -5,17 +5,13 @@
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
+#include "shared/entity.h"
 extern int abs(int);
 #ifndef NULL
 #define NULL 0
 #endif
 
 /* ---- globals (declared array-style so every access stays %hi/%lo, never $gp) ---- */
-typedef struct D_800E2970Entry {
-    u8 pad_00[0xC];
-    u16 flags;
-    u8 pad_0E[6];
-} D_800E2970Entry;
 typedef struct CFlags46 { u8 pad_00[0x46]; u16 f46; } CFlags46;
 extern u8 D_800E3548[];
 extern void *D_80089088[];
@@ -172,9 +168,9 @@ s32 func_800ADE74(s32 unused, u8 *position_arg, u8 *creature_arg, s32 lower_limi
         goto check_species_action;
     }
     {
-        u8 *player = ((u8 *)D_800E3D7C);
+        EntityRec *player = D_800E3D7C;
         behavior_byte = creature[0x12];
-        if ((*(s32 *)(player + 0x1C) & 0x220) || (func_80042900(player, 0xA) << 16) != 0) {
+        if ((player->flags1C & 0x220) || (func_80042900(player, 0xA) << 16) != 0) {
             if (*(s32 *)(creature + 0x1C) & 0x20000) {
                 if (behavior_byte != 0) {
                     behavior_byte = 1;
@@ -215,7 +211,7 @@ Lcase0:
                 if ((idle_player_dist << 16) < (idle_player_range << 16)) {
                     if ((func_800A3518(((u8 *)D_800E3D7C)) << 16) != 0) {
                         s32 result;
-                        register void *player_target;
+                        register EntityRec *player_target;
                         *(u16 *)(creature + 0x46) = (*(u16 *)&slot_or_distance + 1) | 0x8000;
                         *(u16 *)(creature + 0x2A) = func_800A0818(
                             position[0x24], position[0x25],
@@ -300,7 +296,7 @@ Lcase1:
                 follow_player_range = func_800A35A4(creature, slot_or_distance);
                 if ((follow_player_dist << 16) < (follow_player_range << 16)) {
                     if ((func_800A3518(D_800814A8) << 16) != 0) {
-                        void *player_target;
+                        EntityRec *player_target;
                         register s32 target_direction;
                         *(u16 *)(creature + 0x46) = (*(u16 *)&slot_or_distance + 1) | 0x8000;
                         target_direction = func_800A0818(
@@ -389,7 +385,7 @@ Lcase2:
                         return -1;
                     }
                     {
-                        void *player_target;
+                        EntityRec *player_target;
                         register s32 target_direction;
                         *(u16 *)(creature + 0x46) = (*(u16 *)&slot_or_distance + 1) | 0x8000;
                         target_direction = func_800A0818(
@@ -448,11 +444,11 @@ select_ally:
 check_player_action:
     if (*(s32 *)(creature + 0x1C) & 0x20000) {
         if ((func_800A404C() << 16) == 0) {
-            u8 *player = D_800814A8;
-            if (player[0x9A] == 0x11) {
-                u8 *player_target = *(u8 **)(player + 0x60);
+            EntityRec *player = D_800814A8;
+            if (player->unk_9A == 0x11) {
+                EntityRec *player_target = player->target;
                 if (player_target != NULL) {
-                    if (!(*(s32 *)(player_target + 0x14) & 0x2000)) {
+                    if (!(player_target->flags14 & 0x2000)) {
                         {
                             s32 action_code;
                             u16 checked_action;

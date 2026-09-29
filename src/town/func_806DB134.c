@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
-#include "records/Rec_D_80016000.h"
+#include "shared/town_root.h"
+#include "m2c_compat.h"
 
 
 
@@ -22,5 +23,5 @@ void func_806DB134(void) {
 
     command[1] = 0x17;
     command[0] = 0xA;
-    ((S_806DB134_1 *)(((Rec_D_80016000 *)D_80016000)->unk_20))->unk_50(command);
+    ((S_806DB134_1 *)(D_80016000->unk_20))->unk_50(command);
 }

@@ -41,12 +41,6 @@ typedef struct S_801727C8_5 {
 
 
 
-typedef struct S_801727C8_8 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-    s32 unk_0C;
-} S_801727C8_8;   /* var_v0_3 in func_801727C8 */
-
 
 extern void *D_80170838[];
 s32 func_8003F270();
@@ -63,7 +57,7 @@ extern u8 D_801741B4;
 extern u8 D_801741BC;
 
 /* Updates an actor's action state, target selection, and animation. */
-void func_801727C8(void *action, void *motion, void *sprite, void *actor) {
+void func_801727C8(void *action, EntityRec *motion, void *sprite, EntityRec *actor) {
     static void *const case_labels[] = { &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6, &&jt_c7 };
     u8 *anim_table;
     s32 visual_base;
@@ -106,10 +100,10 @@ block_4:
     }
     return;
 block_7:
-    if (!(((EntityRec *)actor)->flags1C & 0x2000)) {
+    if (!(actor->flags1C & 0x2000)) {
         goto block_13;
     }
-    special_slot = ((EntityRec *)actor)->unk_46 & 0x3FFF;
+    special_slot = actor->unk_46 & 0x3FFF;
     {
         u32 idx = special_slot - 1;
         if (idx >= 7U) {
@@ -128,7 +122,7 @@ jt_c5:
     is_special = 1;
     goto block_20;
 block_13:
-    slot = ((EntityRec *)actor)->unk_46 & 0x3FFF;
+    slot = actor->unk_46 & 0x3FFF;
     if (slot == 2) {
         goto block_19;
     }
@@ -147,15 +141,15 @@ block_17:
     }
 jt_c3:
 block_18:
-    entry = actor + 0xE;
+    entry = (u8 *)actor + 0xE;
     goto block_22;
 jt_c2:
 block_19:
-    entry = actor + 0xB;
+    entry = (u8 *)actor + 0xB;
     goto block_22;
 jt_c1:
 block_20:
-    entry = actor + 8;
+    entry = (u8 *)actor + 8;
     goto block_22;
 jt_c4:
 block_21:
@@ -174,13 +168,13 @@ block_22:
         }
     }
     target_owner = D_800814A8;
-    ((EntityRec *)actor)->target = target_owner;
+    actor->target = target_owner;
     goto block_27;
 block_25:
     if (D_8006DE24[*entry].kind != 2) {
         goto block_28;
     }
-    target_owner = ((EntityRec *)actor)->target;
+    target_owner = actor->target;
     anim_table = (u8 *)0x80170000;
     if (target_owner == NULL) {
         goto block_34;
@@ -190,28 +184,28 @@ block_27:
         void *owner = target_owner;
 
         slot = (s32)(((S_801727C8_2_pre *)owner)[-1].unk_00);
-        ((EntityRec *)actor)->unk_72 = (s8) ((S_801727C8_3 *)((void *)slot))->unk_24;
-        ((EntityRec *)actor)->unk_73 = (s8) ((S_801727C8_3 *)((void *)slot))->unk_25;
+        actor->unk_72 = (s8) ((S_801727C8_3 *)((void *)slot))->unk_24;
+        actor->unk_73 = (s8) ((S_801727C8_3 *)((void *)slot))->unk_25;
     }
     goto block_33;
 block_28:
     {
         void *spawned_owner;
 
-        spawned_owner = func_800A05A4(actor, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25, ((EntityRec *)actor)->facing, 0x10);
-        ((EntityRec *)actor)->target = spawned_owner;
+        spawned_owner = func_800A05A4(actor, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25, actor->facing, 0x10);
+        actor->target = spawned_owner;
     }
-    abs_x = abs(((EntityRec *)actor)->unk_72);
-    abs_y = abs(((EntityRec *)actor)->unk_73);
-    ((EntityRec *)actor)->unk_72 = abs_x;
-    ((EntityRec *)actor)->unk_73 = abs_y;
+    abs_x = abs(actor->unk_72);
+    abs_y = abs(actor->unk_73);
+    actor->unk_72 = abs_x;
+    actor->unk_73 = abs_y;
 block_33:
     anim_table = (u8 *)0x80170000;
 block_34:
     anim_table += 0x41B4;
     ((S_801727C8_5 *)visual_flags)->unk_04 = (u16) (((S_801727C8_5 *)visual_flags)->unk_04 & 0x7FFF);
     (*(M2C_UNK **)((u8 *)effect_sprite + 0x2C)) = anim_table;
-    func_80047784(effect_sprite, *((u8 *) ((((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7) + (s32) anim_table)), 0);
+    func_80047784(effect_sprite, *((u8 *) ((((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7) + (s32) anim_table)), 0);
     if (func_800A94A0(actor, entry, is_special, action + 0x98) == 0) {
         return;
     }
@@ -226,18 +220,18 @@ block_34:
     }
     goto block_44_increment;
 block_36:
-    ((EntityRec *)motion)->flags14 = 0;
-    ((EntityRec *)motion)->unk_10 = 0;
-    ((EntityRec *)motion)->unk_0C = 0;
+    motion->flags14 = 0;
+    motion->unk_10 = 0;
+    motion->unk_0C = 0;
     func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
     dungeonStatus.unk_0C = 0;
     (*(u16 *)((u8 *)&D_800814A8->unk_A4 + 2)) = (u16) ((*(u16 *)((u8 *)D_800814A8 + 0xA6)) - 1);
     func_800A4ACC(actor);
-    ((EntityRec *)actor)->unk_6D = (u8) (((u8)((EntityRec *)actor)->unk_6D) - 1);
+    actor->unk_6D = (u8) (((u8)actor->unk_6D) - 1);
     ((S_801727C8_0 *)action)->unk_8C = &D_801711A4;
-    ((EntityRec *)actor)->unk_73 = 0;
-    ((EntityRec *)actor)->unk_72 = 0;
-    ((EntityRec *)actor)->unk_46 = (u16) (((EntityRec *)actor)->unk_46 & 0x7FFF);
+    actor->unk_73 = 0;
+    actor->unk_72 = 0;
+    actor->unk_46 = (u16) (actor->unk_46 & 0x7FFF);
     return;
 block_37:
     if (func_8003F270() == 0) {
@@ -263,7 +257,7 @@ block_42:
         return;
     }
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_801741BC;
-    func_80047784(sprite, *((((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7) + &D_801741BC), 0);
+    func_80047784(sprite, *((((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7) + &D_801741BC), 0);
 block_44:
     current_state = ((S_801727C8_0 *)action)->unk_9B;
 block_44_increment:
@@ -273,9 +267,9 @@ block_45:
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
         return;
     }
-    ((EntityRec *)motion)->flags14 = 0;
-    ((EntityRec *)motion)->unk_10 = 0;
-    ((EntityRec *)motion)->unk_0C = 0;
+    motion->flags14 = 0;
+    motion->unk_10 = 0;
+    motion->unk_0C = 0;
     func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
     if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pm == &D_8017418C) {
         goto block_50;
@@ -286,7 +280,7 @@ block_45:
     ((S_801727C8_5 *)visual_flags)->unk_04 = (u16) (((S_801727C8_5 *)visual_flags)->unk_04 | 0x8000);
     ((S_801727C8_0 *)action)->unk_A8 = 0;
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_8017418C;
-    func_80047784(sprite, *((((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7) + &D_8017418C), 0);
+    func_80047784(sprite, *((((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7) + &D_8017418C), 0);
 block_49:
 block_50:
     if (((s32)dungeonStatus.unk_0C) != 0) {
@@ -296,14 +290,14 @@ block_50:
     ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = (u16) (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xF7FF);
     ((S_801727C8_0 *)action)->unk_8C = &D_801711A4;
     func_800A4ACC(actor);
-    if ((s8) ((u8)((EntityRec *)actor)->unk_6D) <= 0) {
+    if ((s8) ((u8)actor->unk_6D) <= 0) {
         goto block_53;
     }
-    ((EntityRec *)actor)->unk_6D = (u8) (((u8)((EntityRec *)actor)->unk_6D) - 1);
+    actor->unk_6D = (u8) (((u8)actor->unk_6D) - 1);
 block_53:
-    ((EntityRec *)actor)->unk_73 = 0;
-    ((EntityRec *)actor)->unk_72 = 0;
-    ((EntityRec *)actor)->unk_46 = (u16) (((EntityRec *)actor)->unk_46 & 0x7FFF);
+    actor->unk_73 = 0;
+    actor->unk_72 = 0;
+    actor->unk_46 = (u16) (actor->unk_46 & 0x7FFF);
     func_800A56E0(0xB4);
     return;
 }

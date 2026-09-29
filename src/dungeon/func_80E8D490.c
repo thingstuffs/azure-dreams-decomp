@@ -4,24 +4,9 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
+#include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 extern int abs(int);
-
-typedef struct S_80172C90_0 {
-    u8 pad_00[0x1C];
-    u32 unk_1C;
-    u8 pad_20[0xA];
-    union { u16 s; s16 u; } unk_2A;   /* accessed as both */
-    u8 pad_2C[0x1A];
-    u16 unk_46;
-    u8 pad_48[0x18];
-    void * unk_60;
-    u8 pad_64[0x9];
-    union { u8 s; s8 u; } unk_6D;   /* accessed as both */
-    u8 pad_6E[0x4];
-    union { u8 s; s8 u; } unk_72;   /* accessed as both */
-    union { u8 s; s8 u; } unk_73;   /* accessed as both */
-} S_80172C90_0;   /* arg3 in func_80172C90 */
 
 typedef struct S_80172C90_1 {
     u8 pad_00[0x8C];
@@ -65,19 +50,7 @@ typedef struct S_80172C90_4 {
 } S_80172C90_4;   /* localLinked in func_80172C90 */
 
 
-typedef struct S_80172C90_6 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-    s32 unk_0C;
-} S_80172C90_6;   /* counter in func_80172C90 */
 
-
-
-typedef struct {
-    u8 pad[0x12];
-    u8 type;
-    u8 pad13;
-} LookupEntry;
 
 extern void *func_800A05A4(void *, u8, u8, s16, s32);
 extern s32 func_800A94A0(void *, void *, s32, void *);
@@ -95,7 +68,7 @@ extern u8 D_80174EF8[];
 extern u8 D_80174F00[];
 
 /* Updates the actor action sequence, including movement, landing, and recovery. */
-void func_80172C90(void *action, S_80172C90_2 *motion, Rec_D_80082E80 *sprite, void *actor)
+void func_80172C90(void *action, S_80172C90_2 *motion, Rec_D_80082E80 *sprite, EntityRec *actor)
 {
     u32 dir_offset;
     u16 angle;
@@ -115,7 +88,7 @@ void func_80172C90(void *action, S_80172C90_2 *motion, Rec_D_80082E80 *sprite, v
 
     ASM_KEEP_DEP_NV(special, actor);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     dir_x_table = dirStepX;
-    angle = ((S_80172C90_0 *)actor)->unk_2A.s;
+    angle = ((u16)actor->facing);
     dir_offset = angle >> 8;
     ASM_USE2_NV(angle, special);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     dir_offset &= 0xE;
@@ -132,11 +105,11 @@ void func_80172C90(void *action, S_80172C90_2 *motion, Rec_D_80082E80 *sprite, v
 
 L0:
     ((S_80172C90_1 *)action)->unk_AC.s = motion->unk_0A.s;
-    if (((S_80172C90_0 *)actor)->unk_1C & 0x2000) {
+    if (((u32)actor->flags1C) & 0x2000) {
         u16 action_kind;
         u32 action_index;
 
-        action_kind = ((S_80172C90_0 *)actor)->unk_46 & 0x3FFF;
+        action_kind = actor->unk_46 & 0x3FFF;
         action_index = action_kind - 1;
         if (action_index >= 7U) {
             goto I4;
@@ -159,7 +132,7 @@ IDirect:
     {
     u16 action_kind;
 
-    action_kind = ((S_80172C90_0 *)actor)->unk_46 & 0x3FFF;
+    action_kind = actor->unk_46 & 0x3FFF;
     switch (action_kind) {
     case 1:
         goto I1;
@@ -199,26 +172,26 @@ IEnd:
         ASM_KEEP_NV(use_owner);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         if (use_owner) {
             owner = D_800814A8;
-            ((S_80172C90_0 *)actor)->unk_60 = owner;
+            actor->target = owner;
             goto OwnerLinked;
         }
         if (D_8006DE24[*selector].kind == 2) {
-            owner = ((S_80172C90_0 *)actor)->unk_60;
+            owner = actor->target;
             if (owner != 0) {
 OwnerLinked:
                 move_result = ((S_80172C90_3_pre *)owner)[-1].unk_00;
-                ((S_80172C90_0 *)actor)->unk_72.s = ((S_80172C90_4 *)move_result)->unk_24;
-                ((S_80172C90_0 *)actor)->unk_73.s = ((S_80172C90_4 *)move_result)->unk_25;
+                actor->unk_72 = ((S_80172C90_4 *)move_result)->unk_24;
+                actor->unk_73 = ((S_80172C90_4 *)move_result)->unk_25;
                 goto OwnerDone;
             }
         } else {
 
-            ((S_80172C90_0 *)actor)->unk_60 = func_800A05A4(actor,
+            actor->target = func_800A05A4(actor,
                 sprite->unk_24,
                 sprite->unk_25,
-                ((S_80172C90_0 *)actor)->unk_2A.u, 16);
-            ((S_80172C90_0 *)actor)->unk_72.u = abs(((S_80172C90_0 *)actor)->unk_72.u);
-            ((S_80172C90_0 *)actor)->unk_73.u = abs(((S_80172C90_0 *)actor)->unk_73.u);
+                actor->facing, 16);
+            actor->unk_72 = abs(actor->unk_72);
+            actor->unk_73 = abs(actor->unk_73);
 OwnerDone:
             {
                 void *linked_actor;
@@ -278,11 +251,11 @@ OwnerDone:
         ((S_80172C90_3 *)owner)->unk_A6--;
     }
     func_800A4ACC(actor);
-    ((S_80172C90_0 *)actor)->unk_6D.s--;
+    (*(u8 *)&actor->unk_6D)--;
     ((S_80172C90_1 *)action)->unk_8C = D_801710F4;
-    ((S_80172C90_0 *)actor)->unk_73.s = 0;
-    ((S_80172C90_0 *)actor)->unk_72.s = 0;
-    ((S_80172C90_0 *)actor)->unk_46 &= 0x7FFF;
+    actor->unk_73 = 0;
+    actor->unk_72 = 0;
+    actor->unk_46 &= 0x7FFF;
     return;
 
 L1:
@@ -339,7 +312,7 @@ L3Activate:
 
 L4:
     motion->unk_14.s += 0x20000;
-    if (((S_80172C90_0 *)actor)->unk_1C & 0x08000000) {
+    if (((u32)actor->flags1C) & 0x08000000) {
         if (motion->unk_0A.u <= ((S_80172C90_1 *)action)->unk_AC.u) {
             goto L4Activate;
         }
@@ -360,7 +333,7 @@ L4Activate:
     effect = D_80174F00;
     sprite->unk_2C.as_pu8 = effect;
     func_80047784(sprite,
-        effect[((gameWork.view.viewAngle + ((S_80172C90_0 *)actor)->unk_2A.u + 0x100) >> 9) & 7],
+        effect[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
         0);
     tail_flags = ((S_80172C90_1 *)action)->unk_98;
     tail_state = ((S_80172C90_1 *)action)->unk_9B;
@@ -389,7 +362,7 @@ L5:
     }
     sprite->unk_2C.as_pu8 = D_80174EF8;
     func_80047784(sprite,
-        D_80174EF8[((gameWork.view.viewAngle + ((S_80172C90_0 *)actor)->unk_2A.u + 0x100) >> 9) & 7],
+        D_80174EF8[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
         0);
     ((S_80172C90_1 *)action)->unk_96.s = 10;
     ((S_80172C90_1 *)action)->unk_9B = ((S_80172C90_1 *)action)->unk_9B + 1;
@@ -444,7 +417,7 @@ L16:
     if (sprite->unk_2C.as_pu8 != D_80174F00) {
         sprite->unk_2C.as_pu8 = D_80174F00;
         func_80047784(sprite,
-            D_80174F00[((gameWork.view.viewAngle + ((S_80172C90_0 *)actor)->unk_2A.u + 0x100) >> 9) & 7],
+            D_80174F00[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
     }
     if (((s32)dungeonStatus.unk_0C) != 0) {
@@ -454,12 +427,12 @@ L16:
     sprite->unk_14.at00_u16.v &= 0xF7FF;
     ((S_80172C90_1 *)action)->unk_8C = D_801710F4;
     func_800A4ACC(actor);
-    if (((S_80172C90_0 *)actor)->unk_6D.u > 0) {
-        ((S_80172C90_0 *)actor)->unk_6D.s--;
+    if (actor->unk_6D > 0) {
+        (*(u8 *)&actor->unk_6D)--;
     }
-    ((S_80172C90_0 *)actor)->unk_73.s = 0;
-    ((S_80172C90_0 *)actor)->unk_72.s = 0;
-    ((S_80172C90_0 *)actor)->unk_46 &= 0x7FFF;
+    actor->unk_73 = 0;
+    actor->unk_72 = 0;
+    actor->unk_46 &= 0x7FFF;
     func_800A56E0(0xB4);
     }
 }

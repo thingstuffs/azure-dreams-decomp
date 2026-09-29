@@ -29,7 +29,7 @@ extern s32 D_80170F6C;
 extern u8 D_80175288[];
 
 /* Advances the actor action animation and handles completion. */
-void func_80172BFC(void *action, s32 actor_id, void *animation, void *actor) {
+void func_80172BFC(void *action, s32 actor_id, void *animation, EntityRec *actor) {
     s32 state;
 
     state = ((S_80172BFC_0 *)action)->unk_9B;
@@ -39,12 +39,12 @@ void func_80172BFC(void *action, s32 actor_id, void *animation, void *actor) {
             if (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0x8000) {
                 ((S_80172BFC_0 *)action)->unk_9B = 0xFF;
                 ((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v |= 0x6000;
-                func_8009C12C(actor, animation, ((EntityRec *)actor)->facing, 1);
+                func_8009C12C(actor, animation, actor->facing, 1);
                 return;
             }
             (*(u8 * *)((u8 *)animation + 0x2C)) = D_80175288;
             func_80047784(animation,
-                D_80175288[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+                D_80175288[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             ((S_80172BFC_0 *)action)->unk_9B++;
             return;
@@ -54,7 +54,7 @@ void func_80172BFC(void *action, s32 actor_id, void *animation, void *actor) {
                  (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0x1000)) ||
                 (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0x8000)) {
                 func_800A56E0(0x804);
-                func_8009C12C(actor, animation, ((EntityRec *)actor)->facing, 1);
+                func_8009C12C(actor, animation, actor->facing, 1);
                 ((S_80172BFC_0 *)action)->unk_9B = 0xFF;
             }
             return;
@@ -66,8 +66,8 @@ void func_80172BFC(void *action, s32 actor_id, void *animation, void *actor) {
                 ((S_80172BFC_0 *)action)->unk_8C = &D_80170F6C;
                 dungeonStatus.unk_0C = 0;
                 func_800A4ACC(actor);
-                if (((EntityRec *)actor)->unk_6D == 0) {
-                    ((EntityRec *)actor)->unk_46 &= 0x7FFF;
+                if (actor->unk_6D == 0) {
+                    actor->unk_46 &= 0x7FFF;
                     return;
                 }
                 D_800E3DE8 = (u8 *)actor - 0x20;

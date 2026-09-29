@@ -112,15 +112,6 @@ typedef struct S_800211A4_3 {
     s16 unk_1A;
 } S_800211A4_3;   /* arg0 in func_800211A4 */
 
-typedef struct S_800211A4_4 {
-    u8 pad_00[0x4];
-    s32 unk_04;
-    s32 unk_08;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_800211A4_4;   /* motion in func_800211A4 */
-
 typedef struct S_800211A4_5 {
     void * unk_00;
     void * unk_04;
@@ -135,21 +126,6 @@ typedef struct S_800211A4_6 {
     s16 unk_74;
 } S_800211A4_6;   /* child in func_800211A4 */
 
-typedef struct S_800211A4_7 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    u8 pad_0C[0x4];
-    s32 unk_10;
-} S_800211A4_7;   /* state_global in func_800211A4 */
-
-
-typedef struct S_800211A4_9 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    u8 pad_0C[0x4];
-    s32 unk_10;
-    s32 unk_14;
-} S_800211A4_9;   /* m in func_800211A4 */
 
 typedef struct S_800211A4_10 {
     u8 pad_00[0x14];
@@ -376,7 +352,7 @@ state_4:
     EntityRec *motion;
     u16 *prim_angle;
     s16 *timer_ptr;
-    s32 *motion_words;
+    EntityRec *motion_words;
     s32 x_speed;
     s32 current_y;
     s32 target_y;
@@ -386,12 +362,12 @@ state_4:
     if (--*timer_ptr <= 0) {
         *timer_ptr = 10;
         motion = &D_80083780;
-        motion_words = (s32 *)motion;
+        motion_words = motion;
         target_y = 0x02A00000;
-        x_speed = (0x03600000 - motion_words[0]) / effect->timer;
-        current_y = motion_words[1];
-        motion_words[3] = x_speed;
-        motion_words[4] = (target_y - current_y) / effect->timer;
+        x_speed = (0x03600000 - motion_words->x.v) / effect->timer;
+        current_y = motion_words->y.v;
+        motion_words->unk_0C = x_speed;
+        motion_words->unk_10 = (target_y - current_y) / effect->timer;
         effect->state = 11;
     }
     goto common_done;
@@ -540,15 +516,15 @@ counter_done:
 state_9:
 {
     EntityRec *motion;
-    s32 *motion_words;
+    EntityRec *motion_words;
     s32 old_count;
     s32 count_or_addr;
     s32 frame_index;
 
     motion = &D_80083780;
-    motion_words = (s32 *)motion;
-    motion_words[2] += motion_words[5];
-    motion_words[5] += 0x10000;
+    motion_words = motion;
+    motion_words->z.v += motion_words->flags14;
+    motion_words->flags14 += 0x10000;
     old_count = (u16)effect->count;
     count_or_addr = old_count + 1;
     effect->count = (s16)count_or_addr;
@@ -602,16 +578,16 @@ state_10:
 {
     s32 orbit_component;
     EntityRec *motion;
-    s32 *motion_words;
+    EntityRec *motion_words;
     s16 *timer_ptr;
     orbit_component = effect->timer;
     orbit_component = func_800644B8(0x1000 - orbit_component);
     motion = &D_80083780;
-    motion_words = (s32 *)motion;
-    motion_words[0] = (s32)((u32)(orbit_component * 5) << 9) + 0x03600000;
+    motion_words = motion;
+    motion_words->x.v = (s32)((u32)(orbit_component * 5) << 9) + 0x03600000;
     timer_ptr = (s16 *)((u8 *)effect + 0x1A);
     orbit_component = func_80064584(0x1000 - *timer_ptr);
-    motion_words[1] = (s32)((u32)(orbit_component * 5) << 9) + 0x03600000;
+    motion_words->y.v = (s32)((u32)(orbit_component * 5) << 9) + 0x03600000;
     if (--effect->count == 0) {
         func_80093CEC(D_800D0080);
     }

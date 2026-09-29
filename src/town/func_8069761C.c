@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
-#include "records/Rec_D_80016000.h"
+#include "shared/town_root.h"
+#include "m2c_compat.h"
 
 
 
@@ -30,5 +31,5 @@ void func_8069761C(void) {
     func_800165C4(&D_80018AE8);
 
     zero = 0;
-    D_80018BE8 = ((S_8069761C_1 *)(((Rec_D_80016000 *)D_80016000)->unk_20))->unk_68(zero, zero, 2, &D_80018AE8);
+    D_80018BE8 = ((S_8069761C_1 *)(D_80016000->unk_20))->unk_68(zero, zero, 2, &D_80018AE8);
 }

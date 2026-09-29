@@ -1,19 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
-
-typedef struct S_801721A4_0 {
-    u8 pad_00[0x14];
-    s32 unk_14;
-    u8 pad_18[0x4];
-    u32 unk_1C;
-    u8 pad_20[0xA];
-    union { u16 s; s16 u; } unk_2A;   /* accessed as both */
-    u8 pad_2C[0x41];
-    u8 unk_6D;
-    u8 pad_6E[0x3];
-    u8 unk_71;
-} S_801721A4_0;   /* actor in func_801721A4 */
+#include "shared/entity.h"
 
 typedef struct S_801721A4_1 {
     u8 pad_00[0x8C];
@@ -37,11 +25,6 @@ typedef struct S_801721A4_2 {
     u8 * unk_2C;
 } S_801721A4_2;   /* part in func_801721A4 */
 
-typedef struct S_801721A4_3 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_801721A4_3;   /* state in func_801721A4 */
-
 
 
 extern void func_80047784(void *, s32, s32);
@@ -52,20 +35,20 @@ extern s32 func_800A6D30(void);
 extern u8 D_80173D88[9];
 
 /* Start the actor's reaction step: clear its 0x71 busy bit and, when the global 0x2000 mode is off and the ready query says 0, randomise its facing, arm state 0x17, cue 0x811 and point the part at the direction table. */
-void func_801721A4(S_801721A4_1 *owner, void *unused, S_801721A4_2 *part, S_801721A4_0 *actor)
+void func_801721A4(S_801721A4_1 *owner, void *unused, S_801721A4_2 *part, EntityRec *actor)
 {
 
     actor->unk_71 &= 0x7F;
     if (!(dungeonStatus.flags & 0x2000) &&
         ((func_800A2BDC(actor) << 16) == 0)) {
-        if (actor->unk_1C & 0x400) {
+        if (((u32)actor->flags1C) & 0x400) {
             s32 link;
 
-            link = actor->unk_14;
+            link = actor->flags14;
             if (!(link & 0x80000000)) {
                 link |= 0x80000000;
-                actor->unk_14 = link;
-                actor->unk_2A.s +=
+                actor->flags14 = link;
+                (*(u16 *)&actor->facing) +=
                     (func_800A6D30() & 7) << 9;
             }
         }
@@ -79,14 +62,14 @@ void func_801721A4(S_801721A4_1 *owner, void *unused, S_801721A4_2 *part, S_8017
         part->unk_14 |= 0xC;
         part->unk_12 -= 0x80;
         dungeonStatus.unk_0A++;
-        actor->unk_6D--;
+        (*(u8 *)&actor->unk_6D)--;
         part->unk_2C = D_80173D88;
         part->unk_0C = 0xFFFFFF;
         part->unk_10 = 0x60;
         func_800A56E0(0x811);
         func_80047784(part,
             part->unk_2C[
-                ((gameWork.view.viewAngle + actor->unk_2A.u + 0x100) >> 9) & 7],
+                ((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
     }
 }

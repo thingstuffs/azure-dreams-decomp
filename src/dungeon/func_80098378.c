@@ -3,6 +3,7 @@
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
+#include "shared/entity.h"
 
 extern u8 D_800E3548[];
 extern u8 D_800E3648[];
@@ -50,7 +51,7 @@ typedef struct {
 /* Services pending redraw flags, then draws map markers for nearby monsters, dropped items, and large map entries. */
 void func_8009DAD8(s32 draw_param) {
     u8 colour[4];
-    u8 *head;
+    EntityRec *head;
     u8 *entry;
     u8 *object;
     long playerAndIndex;
@@ -72,7 +73,7 @@ void func_8009DAD8(s32 draw_param) {
     register long loopFlagsPage ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
     system = &gameWork;
-    head = ((u8 *)D_800E3D7C);
+    head = D_800E3D7C;
 
     if (D_800E296C & 0x1000) {
         D_800E296C &= ~0x1000;
@@ -116,7 +117,7 @@ void func_8009DAD8(s32 draw_param) {
     colour[0] = brightness;
     func_8009DA70(a0Value, firstY, firstColour, firstContext);
 
-    entry = *(u8 **)(head + 0x5c) + 0x20;
+    entry = ((u8 *)head->unk_5C) + 0x20;
     colour[1] = 0;
     if (entry == head) {
         goto after_entries;

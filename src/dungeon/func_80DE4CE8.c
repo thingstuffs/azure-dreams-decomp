@@ -20,15 +20,6 @@ typedef struct S_801724E8_0 {
 } S_801724E8_0;   /* arg0 in func_801724E8 */
 
 
-typedef struct S_801724E8_2 {
-    u8 pad_00[0x1C];
-    union { u32 s; s32 u; } unk_1C;   /* accessed as both */
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x1A];
-    u16 unk_46;
-} S_801724E8_2;   /* arg3 in func_801724E8 */
-
 
 
 
@@ -45,7 +36,7 @@ extern u8 D_80170E5C[];
 extern u8 D_80174520[];
 
 /* Updates an actor's hop toward its tile and handles movement completion. */
-void func_801724E8(void *anim, void *motion, void *actor, void *actor_state)
+void func_801724E8(void *anim, EntityRec *motion, void *actor, EntityRec *actor_state)
 {
     s32 facing_aux;
     s32 hop_frames;
@@ -78,7 +69,7 @@ state_zero:
          (((Rec_D_80082E80 *)actor)->unk_14.at00_u16.v & 0x1000)) ||
         (((Rec_D_80082E80 *)actor)->unk_14.at00_u16.v & 0xE000)) {
         ((S_801724E8_0 *)anim)->unk_98 |= 8;
-        ((S_801724E8_2 *)actor_state)->unk_1C.s &= 0xF7FFFFFF;
+        (*(u32 *)&actor_state->flags1C) &= 0xF7FFFFFF;
         ((S_801724E8_0 *)anim)->unk_9E.s = 5;
         ((S_801724E8_0 *)anim)->unk_A0 = 0;
         ((S_801724E8_0 *)anim)->unk_9B++;
@@ -90,10 +81,10 @@ state_one:
     hop_frames = ((S_801724E8_0 *)anim)->unk_9E.s;
     ((S_801724E8_0 *)anim)->unk_90 -= ((S_801724E8_0 *)anim)->unk_A0;
     if (hop_frames != 0) {
-        ((EntityRec *)motion)->unk_0C =
-            (((((Rec_D_80082E80 *)actor)->unk_24 << 6) - ({ ((EntityRec *)motion)->x.w.i - 0x20; })) << 16) / hop_frames;
-        ((EntityRec *)motion)->unk_10 =
-            (((((Rec_D_80082E80 *)actor)->unk_25 << 6) - (tile_origin_y = ((EntityRec *)motion)->y.w.i - 0x20)) << 16) /
+        motion->unk_0C =
+            (((((Rec_D_80082E80 *)actor)->unk_24 << 6) - ({ motion->x.w.i - 0x20; })) << 16) / hop_frames;
+        motion->unk_10 =
+            (((((Rec_D_80082E80 *)actor)->unk_25 << 6) - (tile_origin_y = motion->y.w.i - 0x20)) << 16) /
             ((S_801724E8_0 *)anim)->unk_9E.s;
         ((S_801724E8_0 *)anim)->unk_A0 =
             (-func_800644B8(((S_801724E8_0 *)anim)->unk_9E.s * 0x199)) << 9;
@@ -105,21 +96,21 @@ state_one:
     if (next_hop_frames < 0) {
         ((S_801724E8_0 *)anim)->unk_90 = 0;
         ((S_801724E8_0 *)anim)->unk_98 &= 0xFFF7;
-        ((S_801724E8_2 *)actor_state)->unk_1C.s |= 0x08000000;
+        (*(u32 *)&actor_state->flags1C) |= 0x08000000;
         ((S_801724E8_0 *)anim)->unk_9B++;
     }
 
 state_two:
-    if (((S_801724E8_2 *)actor_state)->unk_1C.s & 0x08000000) {
+    if (((u32)actor_state->flags1C) & 0x08000000) {
         ((S_801724E8_0 *)anim)->unk_98 &= 0xFFF7;
-        ((EntityRec *)motion)->flags14 = 0;
-        ((EntityRec *)motion)->unk_10 = 0;
-        ((EntityRec *)motion)->unk_0C = 0;
+        motion->flags14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
         func_800A2B04(motion, ((Rec_D_80082E80 *)actor)->unk_24, ((Rec_D_80082E80 *)actor)->unk_25);
         (*(void * *)((u8 *)actor + 0x2C)) = D_80174520;
         func_80047784(
             actor,
-            D_80174520[((gameWork.view.viewAngle + ((S_801724E8_2 *)actor_state)->unk_2A + 0x100) >> 9) & 7],
+            D_80174520[((gameWork.view.viewAngle + actor_state->facing + 0x100) >> 9) & 7],
             0);
         ((S_801724E8_0 *)anim)->unk_9B++;
     }
@@ -128,9 +119,9 @@ update_countdown:
     move_frames = ((S_801724E8_0 *)anim)->unk_96 - 1;
     ((S_801724E8_0 *)anim)->unk_96 = move_frames;
     if ((s16)move_frames <= 0) {
-        ((EntityRec *)motion)->flags14 = 0;
-        ((EntityRec *)motion)->unk_10 = 0;
-        ((EntityRec *)motion)->unk_0C = 0;
+        motion->flags14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
         func_800A2B04(motion, ((Rec_D_80082E80 *)actor)->unk_24, ((Rec_D_80082E80 *)actor)->unk_25);
         func_800AD594(actor_state, 4);
         func_800A4ACC(actor_state);
@@ -139,10 +130,10 @@ update_countdown:
             dungeonStatus.unk_08--;
         }
 
-        actor_flags = ((S_801724E8_2 *)actor_state)->unk_1C.u;
+        actor_flags = actor_state->flags1C;
         if (actor_flags & 0x2000) {
-            if (((S_801724E8_2 *)actor_state)->unk_46 & 0x8000) {
-                ((S_801724E8_2 *)actor_state)->unk_46 &= 0x7FFF;
+            if (actor_state->unk_46 & 0x8000) {
+                actor_state->unk_46 &= 0x7FFF;
             }
         } else {
             if (actor_flags & 0x410) {
@@ -151,7 +142,7 @@ update_countdown:
             if (!(actor_flags & 0x20000)) {
                 goto check_collision;
             }
-            ((S_801724E8_2 *)actor_state)->unk_2A = func_800A0818(
+            actor_state->facing = func_800A0818(
                 ((Rec_D_80082E80 *)actor)->unk_24, ((Rec_D_80082E80 *)actor)->unk_25,
                 D_80082E80.tileX, D_80082E80.tileY, &facing_aux);
         }

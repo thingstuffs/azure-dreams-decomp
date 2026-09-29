@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
+#include "shared/entity.h"
 
 extern void func_80042710(void *, void *);
 extern s32 func_80042900(void *, s32);
@@ -19,7 +20,7 @@ void func_8017398C(u8 *owner, s32 object_id, u8 *dest_object, u8 *dest_state)
     u8 *linked_state;
     u8 *source_object;
     u8 *state_slot;
-    u8 *state_table;
+    EntityRec *state_table;
     u8 *kind_entry;
     s32 call_result;
     u8 kind_unlisted;
@@ -44,14 +45,14 @@ void func_8017398C(u8 *owner, s32 object_id, u8 *dest_object, u8 *dest_state)
 
         if (*(s32 *)(dest_state + 0x14) & 0x4000) {
             call_result = func_800A1BD0(linked_state);
-            state_table = ((u8 *)D_800E3D7C);
+            state_table = D_800E3D7C;
             slot_address = (s32)(s16)call_result * 4;
             slot_address += (long)state_table;
             state_slot = (u8 *)slot_address;
             *(u8 **)(state_slot + 0xAC) = dest_state;
             *(s32 *)(state_slot + 0xE4) = 0;
-            if (*(u8 **)(state_table + 0x60) == linked_state) {
-                *(u8 **)(state_table + 0x60) = dest_state;
+            if (((u8 *)state_table->target) == linked_state) {
+                state_table->target = dest_state;
             }
         }
 

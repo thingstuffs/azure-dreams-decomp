@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "shared/town_root.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_80016000.h"
 
 
 typedef struct S_80579100_1 {
@@ -20,7 +20,7 @@ void func_80579100(void) {
     S_80579100_1 *activeState;
     s32 valueBeforeClamp;
 
-    activeState = ((Rec_D_80016000 *)D_80016000)->unk_38.as_pv;
+    activeState = D_80016000->unk_38;
     valueBeforeClamp = activeState->unk_35C0;
     D_800175B8 = &D_80017500;
     if (valueBeforeClamp < 0x1E) {

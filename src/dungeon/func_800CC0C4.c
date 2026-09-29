@@ -31,12 +31,6 @@ typedef struct S_800D1824_0 {
     volatile s32 unk_114;
 } S_800D1824_0;   /* scratch in func_800D1824 */
 
-typedef struct S_800D1824_1 {
-    u8 * unk_00;
-    u8 pad_04[0x1DC];
-    u8 * unk_1E0;
-} S_800D1824_1;   /* globals in func_800D1824 */
-
 typedef struct S_800D1824_2 {
     u8 pad_00[0x8D0];
     u8 * unk_8D0;
@@ -78,7 +72,7 @@ extern void func_8006658C(s32 arg0, void *arg1);
 void func_800D1824(u8 *tiles)
 {
     register u8 *scratch ASM_REG("$16") = (u8 *)0x1F800000;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    u8 *globals = ((u8 *)(&gameWork));
+    GameWork *globals = &gameWork;
     u8 *tile = tiles;
     u8 *style;
     register u8 *prim ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -96,8 +90,8 @@ void func_800D1824(u8 *tiles)
     u16 z;
 
     ((S_800D1824_0 *)scratch)->unk_28 = 0;
-    render_state = ((S_800D1824_1 *)globals)->unk_00;
-    style = ((S_800D1824_5 *)(((S_800D1824_1 *)globals)->unk_1E0))->unk_10;
+    render_state = ((u8 *)globals->unk_000);
+    style = ((S_800D1824_5 *)(((u8 *)globals->map.unk_04)))->unk_10;
     prim = ((S_800D1824_2 *)render_state)->unk_8D0;
     ((S_800D1824_0 *)scratch)->unk_2C = -0x1000;
     ((S_800D1824_0 *)scratch)->unk_20 = render_state + 0xB0;
@@ -156,7 +150,7 @@ void func_800D1824(u8 *tiles)
                     if ((u32)depth < 0x1E0) {
                         gte_stsxy(prim + 0x20);
                         draw_prim = prim;
-                        func_80065034(scratch + 0x28, globals + 0xA8,
+                        func_80065034(scratch + 0x28, (u8 *)globals + 0xA8,
                                      prim + 4);
 
                         (*(u32 *)((u8 *)packet_len + 9)) = ((S_800D1824_4 *)style)->unk_08;
@@ -179,5 +173,5 @@ void func_800D1824(u8 *tiles)
         } while (*tile != 0);
     }
 
-    ((S_800D1824_6 *)(((S_800D1824_1 *)globals)->unk_00))->unk_8D0 = prim;
+    ((S_800D1824_6 *)(((u8 *)globals->unk_000)))->unk_8D0 = prim;
 }

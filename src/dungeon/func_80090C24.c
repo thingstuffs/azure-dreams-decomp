@@ -3,6 +3,7 @@
 #include "shared/tile_object.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "shared/entity.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -37,26 +38,13 @@ extern s32 D_800E4940[];
 
 
 
-typedef struct S_80096384_3 {
-    u8 pad_00[0x14];
-    s32 unk_14;
-    u8 pad_18[0x4];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    union { s16 s; u16 u; } unk_2A;   /* accessed as both */
-    u8 pad_2C[0x38];
-    s16 unk_64;
-    u8 pad_66[0x24];
-    s16 unk_8A;
-} S_80096384_3;   /* arg3 in func_80096384 */
-
 typedef struct S_80096384_5 {
     u8 unk_00;
     u8 unk_01;
 } S_80096384_5;   /* temp_v0_2 in func_80096384 */
 
 /* Handles actor commands, turns toward the requested direction, and updates the sprite. */
-void func_80096384(void *actor, s32 actor_id, Rec_D_80082E80 *sprite, void *actor_data)
+void func_80096384(void *actor, s32 actor_id, Rec_D_80082E80 *sprite, EntityRec *actor_data)
 {
     s16 status_value;
     s16 input_angle;
@@ -91,7 +79,7 @@ void func_80096384(void *actor, s32 actor_id, Rec_D_80082E80 *sprite, void *acto
         func_8003DB94(sprite,
             *(void **)((u8 *)D_800DD274 +
                 ((((s32)(input->view.viewAngle +
-                    ((S_80096384_3 *)actor_data)->unk_2A.s + 0x100)) >> 7) & 0x1C)),
+                    actor_data->facing + 0x100)) >> 7) & 0x1C)),
             0);
         ((Rec_func_8008ACDC_arg0 *)actor)->unk_9A.as_u8 = idle_state;
         ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 &= 0xFEFF;
@@ -102,7 +90,7 @@ void func_80096384(void *actor, s32 actor_id, Rec_D_80082E80 *sprite, void *acto
     }
 
     dungeonStatus.flags &= 0xFF7F;
-    status_value = ((S_80096384_3 *)actor_data)->unk_64;
+    status_value = actor_data->unk_64;
     if (status_value < 0) {
         func_80097898(actor, actor_id, sprite, actor_data);
         return;
@@ -111,9 +99,9 @@ void func_80096384(void *actor, s32 actor_id, Rec_D_80082E80 *sprite, void *acto
         func_8008CBA0(actor, actor_id, sprite, actor_data);
     }
 
-    data_flags = ((S_80096384_3 *)actor_data)->unk_14;
+    data_flags = actor_data->flags14;
     if (data_flags & 0x20000) {
-        ((S_80096384_3 *)actor_data)->unk_14 = data_flags & 0xFFFDFFFF;
+        actor_data->flags14 = data_flags & 0xFFFDFFFF;
     }
 
     actor_flags = ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2;
@@ -122,7 +110,7 @@ void func_80096384(void *actor, s32 actor_id, Rec_D_80082E80 *sprite, void *acto
         return;
     }
 
-    status_flags = ((S_80096384_3 *)actor_data)->unk_1C;
+    status_flags = actor_data->flags1C;
     if (status_flags & 0x200) {
         func_80097C50(actor, actor_id, sprite, actor_data);
         return;
@@ -141,14 +129,14 @@ void func_80096384(void *actor, s32 actor_id, Rec_D_80082E80 *sprite, void *acto
                 command = func_8009F868(command_flags);
                 if (command != 0) {
                     direction = command->unk_01 & 7;
-                    old_angle = ((S_80096384_3 *)actor_data)->unk_2A.u;
+                    old_angle = ((u16)actor_data->facing);
                     ASM_KEEP_NV(direction);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                     direction &= 0xFF;
                     turn_angle = direction << 9;
                     angle = old_angle & 0xFFF;
                     target_angle = turn_angle;
                     ASM_KEEP_NV(target_angle);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                    ((S_80096384_3 *)actor_data)->unk_2A.u = angle;
+                    actor_data->facing = angle;
 
                     if (angle != target_angle) {
                         wrapped_angle = old_angle & 0x800;
@@ -157,7 +145,7 @@ void func_80096384(void *actor, s32 actor_id, Rec_D_80082E80 *sprite, void *acto
                         } else {
                             wrapped_angle = angle | 0xF800;
                         }
-                        ((S_80096384_3 *)actor_data)->unk_2A.u = wrapped_angle;
+                        actor_data->facing = wrapped_angle;
 
                         wrapped_angle = turn_angle & 0x800;
                         if (!wrapped_angle) {
@@ -168,25 +156,25 @@ void func_80096384(void *actor, s32 actor_id, Rec_D_80082E80 *sprite, void *acto
                         turn_angle = wrapped_angle;
                         angle = turn_angle << 16;
                         signed_target = angle >> 16;
-                        signed_angle = ((S_80096384_3 *)actor_data)->unk_2A.s;
-                        angle = ((S_80096384_3 *)actor_data)->unk_2A.u;
+                        signed_angle = actor_data->facing;
+                        angle = ((u16)actor_data->facing);
                         angle_distance = signed_angle - signed_target;
                         if (angle_distance < 0) {
                             angle_distance = 0 - angle_distance;
                         }
                         if (angle_distance >= 0x801) {
-                            ((S_80096384_3 *)actor_data)->unk_2A.u = (u16)
+                            actor_data->facing = (u16)
                                 ((turn_angle & ~0xFFF) | (angle & 0xFFF));
                         }
-                        signed_angle = ((S_80096384_3 *)actor_data)->unk_2A.s;
-                        angle_2 = ((S_80096384_3 *)actor_data)->unk_2A.u;
+                        signed_angle = actor_data->facing;
+                        angle_2 = ((u16)actor_data->facing);
                         next_angle = signed_target < signed_angle;
                         if (!next_angle) {
                             next_angle = angle_2 + 0x200;
                         } else {
                             next_angle = angle_2 - 0x200;
                         }
-                        ((S_80096384_3 *)actor_data)->unk_2A.u = next_angle;
+                        actor_data->facing = next_angle;
                         func_8009F988(turn_angle, signed_target);
                         goto reload_flags;
                     }
@@ -244,7 +232,7 @@ dispatch_command:
                 }
 
                 if (input->buttons & 0x80) {
-                    ((S_80096384_3 *)actor_data)->unk_8A = 2;
+                    actor_data->unk_8A = 2;
                     D_800E4940[0] = 2;
                     func_8008CF6C(actor, actor_id, sprite, D_8004F5F4);
                     D_80082E80.unk_030 = 0;
@@ -262,14 +250,14 @@ dispatch_command:
                 input_angle = func_8009074C(((Rec_func_8008ACDC_arg0 *)actor)->unk_9E,
                     flags_ptr, (u8 *)actor_data + 0x2A);
                 if (input_angle != 0xFFF) {
-                    ((S_80096384_3 *)actor_data)->unk_2A.s = input_angle;
+                    actor_data->facing = input_angle;
                     if (!(input->buttons & 0x10)) {
                         move_flags = ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2;
                         if (!(move_flags & 0x400)) {
                             ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 = move_flags & 0xFFFE;
-                            if (((S_80096384_3 *)actor_data)->unk_1C & 0x400) {
-                                ((S_80096384_3 *)actor_data)->unk_2A.s =
-                                    ((S_80096384_3 *)actor_data)->unk_2A.u +
+                            if (actor_data->flags1C & 0x400) {
+                                actor_data->facing =
+                                    ((u16)actor_data->facing) +
                                     (func_800A6D30() & 0xE00);
                             }
                             func_80096C24(actor, actor_id, sprite, actor_data);
@@ -322,7 +310,7 @@ update_sprite:
             sprite->unk_2C.as_pv = D_800DD274;
             func_8003DB94(sprite,
                 *(void **)((u8 *)D_800DD274 +
-                    ((((s32)(gameWork.view.viewAngle + ((S_80096384_3 *)actor_data)->unk_2A.s +
+                    ((((s32)(gameWork.view.viewAngle + actor_data->facing +
                         0x100)) >> 7) & 0x1C)),
                 0);
         }

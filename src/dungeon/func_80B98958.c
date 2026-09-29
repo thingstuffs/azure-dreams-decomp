@@ -20,15 +20,6 @@ typedef struct S_80172158_0 {
 } S_80172158_0;   /* arg0 in func_80172158 */
 
 
-typedef struct S_80172158_2 {
-    u8 pad_00[0x1C];
-    union { u32 s; s32 u; } unk_1C;   /* accessed as both */
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x1A];
-    u16 unk_46;
-} S_80172158_2;   /* arg3 in func_80172158 */
-
 
 
 
@@ -45,7 +36,7 @@ extern u8 D_80170E9C[];
 extern u8 D_80174EE0[];
 
 /* Moves the actor to its tile with a vertical arc and completes the timed action. */
-void func_80172158(void *action, void *motion, void *sprite, void *actor)
+void func_80172158(void *action, EntityRec *motion, void *sprite, EntityRec *actor)
 {
     s32 facing_aux;
     s32 move_ticks;
@@ -78,7 +69,7 @@ start_move:
          (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x1000)) ||
         (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
         ((S_80172158_0 *)action)->unk_98 |= 8;
-        ((S_80172158_2 *)actor)->unk_1C.s &= 0xF7FFFFFF;
+        (*(u32 *)&actor->flags1C) &= 0xF7FFFFFF;
         ((S_80172158_0 *)action)->unk_9E = 6;
         ((S_80172158_0 *)action)->unk_A0 = 0;
         ((S_80172158_0 *)action)->unk_9B++;
@@ -92,14 +83,14 @@ update_move:
         ((S_80172158_0 *)action)->unk_90 - ((S_80172158_0 *)action)->unk_A0;
     if (move_ticks != 0) {
         x_delta = ((Rec_D_80082E80 *)sprite)->unk_24;
-        axis_pos = ((EntityRec *)motion)->x.w.i;
+        axis_pos = motion->x.w.i;
         x_delta <<= 6;
         axis_pos -= 0x20;
         x_delta -= axis_pos;
         x_delta <<= 16;
-        ((EntityRec *)motion)->unk_0C = x_delta / move_ticks;
-        axis_pos = ((EntityRec *)motion)->y.w.i - 0x20;
-        ((EntityRec *)motion)->unk_10 =
+        motion->unk_0C = x_delta / move_ticks;
+        axis_pos = motion->y.w.i - 0x20;
+        motion->unk_10 =
             (((((Rec_D_80082E80 *)sprite)->unk_25 << 6) - axis_pos) << 16) /
             (s16)((S_80172158_0 *)action)->unk_9E;
         ((S_80172158_0 *)action)->unk_A0 =
@@ -110,21 +101,21 @@ update_move:
     if (next_move_ticks < 0) {
         ((S_80172158_0 *)action)->unk_90 = 0;
         ((S_80172158_0 *)action)->unk_98 &= 0xFFF7;
-        ((S_80172158_2 *)actor)->unk_1C.s |= 0x08000000;
+        (*(u32 *)&actor->flags1C) |= 0x08000000;
         ((S_80172158_0 *)action)->unk_9B++;
     }
 
 finish_move:
-    if (((S_80172158_2 *)actor)->unk_1C.s & 0x08000000) {
+    if (((u32)actor->flags1C) & 0x08000000) {
         ((S_80172158_0 *)action)->unk_98 &= 0xFFF7;
-        ((EntityRec *)motion)->flags14 = 0;
-        ((EntityRec *)motion)->unk_10 = 0;
-        ((EntityRec *)motion)->unk_0C = 0;
+        motion->flags14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
         func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80174EE0;
         func_80047784(
             sprite,
-            D_80174EE0[((gameWork.view.viewAngle + ((S_80172158_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            D_80174EE0[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         ((S_80172158_0 *)action)->unk_9B++;
     }
@@ -133,9 +124,9 @@ update_timer:
     action_ticks = ((S_80172158_0 *)action)->unk_96 - 1;
     ((S_80172158_0 *)action)->unk_96 = action_ticks;
     if ((action_ticks << 16) <= 0) {
-        ((EntityRec *)motion)->flags14 = 0;
-        ((EntityRec *)motion)->unk_10 = 0;
-        ((EntityRec *)motion)->unk_0C = 0;
+        motion->flags14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
         func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
         func_800AD594(actor, 3);
         func_800A4ACC(actor);
@@ -145,10 +136,10 @@ update_timer:
             (*(u16 *)&counter_base->unk_08)--;
         }
 
-        actor_flags = ((S_80172158_2 *)actor)->unk_1C.u;
+        actor_flags = actor->flags1C;
         if (actor_flags & 0x2000) {
-            if (((S_80172158_2 *)actor)->unk_46 & 0x8000) {
-                ((S_80172158_2 *)actor)->unk_46 &= 0x7FFF;
+            if (actor->unk_46 & 0x8000) {
+                actor->unk_46 &= 0x7FFF;
             }
             goto check_followup;
         }
@@ -158,7 +149,7 @@ update_timer:
         if (!(actor_flags & 0x20000)) {
             goto check_followup;
         }
-        ((S_80172158_2 *)actor)->unk_2A = func_800A0818(
+        actor->facing = func_800A0818(
             ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25,
             D_80082E80.tileX, D_80082E80.tileY, &facing_aux);
 

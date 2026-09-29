@@ -30,22 +30,6 @@ typedef struct S_801729D4_0 {
     u8 unk_9B;
 } S_801729D4_0;   /* arg0 in func_801729D4 */
 
-typedef struct S_801729D4_1 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x1A];
-    u16 unk_46;
-    u8 pad_48[0x18];
-    void * unk_60;
-    u8 pad_64[0x9];
-    union { u8 u; s8 s; } unk_6D;   /* accessed as both */
-    u8 pad_6E[0x4];
-    union { u8 u; s8 s; } unk_72;   /* accessed as both */
-    union { u8 u; s8 s; } unk_73;   /* accessed as both */
-} S_801729D4_1;   /* arg3 in func_801729D4 */
-
 typedef struct S_801729D4_2_pre {
     void * unk_00;
     u8 pad_04[0x10];
@@ -70,14 +54,8 @@ typedef struct S_801729D4_4 {
 } S_801729D4_4;   /* arg2 in func_801729D4 */
 
 
-typedef struct S_801729D4_6 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-    s32 unk_0C;
-} S_801729D4_6;   /* status in func_801729D4 */
-
 /* Advance the actor animation state and reset movement when it finishes. */
-void func_801729D4(void *action, void *motion, void *sprite, void *actor)
+void func_801729D4(void *action, EntityRec *motion, void *sprite, EntityRec *actor)
 {
     static void *const anim_labels[] = {
         &&jt_1, &&jt_2, &&jt_3, &&jt_4, &&jt_5, &&jt_6, &&jt_7
@@ -113,10 +91,10 @@ void func_801729D4(void *action, void *motion, void *sprite, void *actor)
     return;
 
 state_0:
-    if (!(((S_801729D4_1 *)actor)->unk_1C & 0x2000)) {
+    if (!(actor->flags1C & 0x2000)) {
         goto no_special;
     }
-    anim_kind = (((S_801729D4_1 *)actor)->unk_46 & 0x3FFF) - 1;
+    anim_kind = (actor->unk_46 & 0x3FFF) - 1;
     if ((u32)anim_kind >= 7U) {
         goto jt_4;
     }
@@ -134,7 +112,7 @@ jt_5:
     goto no_1;
 
 no_special:
-    anim_kind = ((S_801729D4_1 *)actor)->unk_46 & 0x3FFF;
+    anim_kind = actor->unk_46 & 0x3FFF;
     if (anim_kind == 2) {
         goto no_2;
     }
@@ -174,26 +152,26 @@ selected:
     reuse_test = reuse_target;
     if (reuse_test != 0) {
         target_root = D_800814A8;
-        ((S_801729D4_1 *)actor)->unk_60 = target_root;
+        actor->target = target_root;
         target_source = ((S_801729D4_2_pre *)target_root)[-1].unk_00;
-        ((S_801729D4_1 *)actor)->unk_72.u = ((S_801729D4_3 *)target_source)->unk_24;
-        ((S_801729D4_1 *)actor)->unk_73.u = ((S_801729D4_3 *)target_source)->unk_25;
+        actor->unk_72 = ((S_801729D4_3 *)target_source)->unk_24;
+        actor->unk_73 = ((S_801729D4_3 *)target_source)->unk_25;
         goto set_position;
     }
 
     new_target = func_800A05A4(
         actor, ((S_801729D4_4 *)sprite)->unk_24, ((S_801729D4_4 *)sprite)->unk_25,
-        ((S_801729D4_1 *)actor)->unk_2A, 0x10);
-    ((S_801729D4_1 *)actor)->unk_60 = new_target;
-    abs_x = abs(((S_801729D4_1 *)actor)->unk_72.s);
-    abs_y = abs(((S_801729D4_1 *)actor)->unk_73.s);
-    ((S_801729D4_1 *)actor)->unk_72.u = abs_x;
-    ((S_801729D4_1 *)actor)->unk_73.u = abs_y;
+        actor->facing, 0x10);
+    actor->target = new_target;
+    abs_x = abs(actor->unk_72);
+    abs_y = abs(actor->unk_73);
+    actor->unk_72 = abs_x;
+    actor->unk_73 = abs_y;
 
 set_position:
-    position[0] = ((u16)((EntityRec *)motion)->x.w.i);
-    position[1] = ((u16)((EntityRec *)motion)->y.w.i);
-    position[2] = ((u16)((EntityRec *)motion)->z.w.i);
+    position[0] = ((u16)motion->x.w.i);
+    position[1] = ((u16)motion->y.w.i);
+    position[2] = ((u16)motion->z.w.i);
     if (func_800A94A0(actor, animation, reuse_target, (u8 *)action + 0x98) != 0) {
         ((S_801729D4_4 *)sprite)->unk_14 &= 0xF7FF;
         func_800A56E0(0x703);
@@ -204,18 +182,18 @@ set_position:
     return;
 
 empty_anim:
-    ((EntityRec *)motion)->flags14 = 0;
-    ((EntityRec *)motion)->unk_10 = 0;
-    ((EntityRec *)motion)->unk_0C = 0;
+    motion->flags14 = 0;
+    motion->unk_10 = 0;
+    motion->unk_0C = 0;
     func_800A2B04(motion, ((S_801729D4_4 *)sprite)->unk_24, ((S_801729D4_4 *)sprite)->unk_25);
     dungeonStatus.unk_0C = 0;
     (*(u16 *)((u8 *)D_800814A8 + (0xA6)))--;
     func_800A4ACC(actor);
-    ((S_801729D4_1 *)actor)->unk_6D.u--;
+    (*(u8 *)&actor->unk_6D)--;
     ((S_801729D4_0 *)action)->unk_8C = &D_80170F68;
-    ((S_801729D4_1 *)actor)->unk_73.u = 0;
-    ((S_801729D4_1 *)actor)->unk_72.u = 0;
-    ((S_801729D4_1 *)actor)->unk_46 &= 0x7FFF;
+    actor->unk_73 = 0;
+    actor->unk_72 = 0;
+    actor->unk_46 &= 0x7FFF;
     return;
 
 state_1:
@@ -240,15 +218,15 @@ state_2:
         ((S_801729D4_4 *)sprite)->unk_14 &= 0xF7FF;
     }
     if (((S_801729D4_4 *)sprite)->unk_14 & 0xE000) {
-        ((EntityRec *)motion)->flags14 = 0;
-        ((EntityRec *)motion)->unk_10 = 0;
-        ((EntityRec *)motion)->unk_0C = 0;
+        motion->flags14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
         func_800A2B04(motion, ((S_801729D4_4 *)sprite)->unk_24, ((S_801729D4_4 *)sprite)->unk_25);
         if (((S_801729D4_4 *)sprite)->unk_2C != D_80173FB8) {
             (*(void * *)((u8 *)sprite + (0x2C))) = D_80173FB8;
             func_80047784(
                 sprite,
-                D_80173FB8[((gameWork.view.viewAngle + ((S_801729D4_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                D_80173FB8[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
         }
         if (((s32)dungeonStatus.unk_0C) == 0) {
@@ -256,12 +234,12 @@ state_2:
             ((S_801729D4_4 *)sprite)->unk_14 &= 0xF7FF;
             ((S_801729D4_0 *)action)->unk_8C = &D_80170F68;
             func_800A4ACC(actor);
-            if (((S_801729D4_1 *)actor)->unk_6D.s > 0) {
-                ((S_801729D4_1 *)actor)->unk_6D.u--;
+            if (actor->unk_6D > 0) {
+                (*(u8 *)&actor->unk_6D)--;
             }
-            ((S_801729D4_1 *)actor)->unk_73.u = 0;
-            ((S_801729D4_1 *)actor)->unk_72.u = 0;
-            ((S_801729D4_1 *)actor)->unk_46 &= 0x7FFF;
+            actor->unk_73 = 0;
+            actor->unk_72 = 0;
+            actor->unk_46 &= 0x7FFF;
             func_800A56E0(0xB4);
         }
     }

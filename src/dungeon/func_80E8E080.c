@@ -32,21 +32,6 @@ typedef struct S_80173880_2 {
     s8 unk_6D;
 } S_80173880_2;   /* arg3 in func_80173880 */
 
-typedef struct S_80173880_3 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_80173880_3;   /* system_base in func_80173880 */
-
-typedef struct S_80173880_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-} S_80173880_4;   /* held_base in func_80173880 */
-
-
-typedef struct S_80173880_6 {
-    u8 pad_00[0x26];
-    s8 unk_26;
-} S_80173880_6;   /* origin in func_80173880 */
 
 
 
@@ -75,7 +60,7 @@ void func_80173880(void *in_action, void *in_context, void *in_sprite, void *in_
 {
     void *context = in_context;
     void *actor = in_actor;
-    u8 *input_state;
+    DungeonGlobalStatus *input_state;
     s32 state;
 
     state = ((S_80173880_0 *)in_action)->unk_9B;
@@ -102,15 +87,15 @@ state_ge_two:
 state_zero:
     if (((S_80173880_1 *)in_sprite)->unk_14 & 0xE000) {
         u8 *anim_table;
-        u8 *system_state;
+        DungeonGlobalStatus *system_state;
 
         anim_table = D_80174F50;
         (*(void * *)((u8 *)in_sprite + 0x2C)) = anim_table;
         func_80047784(in_sprite,
             anim_table[((gameWork.view.viewAngle + ((S_80173880_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
-        system_state = (u8 *)((u16 *)(&dungeonStatus));
-        ((S_80173880_3 *)system_state)->unk_0A--;
+        system_state = &dungeonStatus;
+        (*(u16 *)&system_state->unk_0A)--;
         ((S_80173880_0 *)in_action)->unk_9B++;
         return;
     }
@@ -147,9 +132,9 @@ state_one:
         }
 
         {
-            u8 *system_state = (u8 *)((u16 *)(&dungeonStatus));
+            DungeonGlobalStatus *system_state = &dungeonStatus;
 
-            ((S_80173880_3 *)system_state)->unk_0A++;
+            (*(u16 *)&system_state->unk_0A)++;
         }
         ((S_80173880_0 *)in_action)->unk_9B++;
         return;
@@ -159,8 +144,8 @@ state_one_long:
     {
         s32 actor_flags;
 
-        input_state = (u8 *)((u16 *)(&dungeonStatus));
-        if (((S_80173880_4 *)input_state)->unk_02 & 0x1000) {
+        input_state = &dungeonStatus;
+        if (input_state->flags & 0x1000) {
             return;
         }
 
@@ -171,7 +156,7 @@ state_one_long:
         }
 
         if (((S_80173880_2 *)actor)->unk_25 == 0) {
-            if (((S_80173880_4 *)input_state)->unk_02 & 0x2008) {
+            if (input_state->flags & 0x2008) {
                 return;
             }
             func_800AA79C(in_action, context, in_sprite, actor);
@@ -242,12 +227,12 @@ state_one_long:
     }
 
     {
-        u8 *system_state = (u8 *)((u16 *)(&dungeonStatus));
+        DungeonGlobalStatus *system_state = &dungeonStatus;
         u16 state_count;
 
-        state_count = ((S_80173880_3 *)system_state)->unk_0A;
+        state_count = ((u16)system_state->unk_0A);
         state_count++;
-        ((S_80173880_3 *)system_state)->unk_0A = state_count;
+        system_state->unk_0A = state_count;
     }
     ((S_80173880_0 *)in_action)->unk_9B++;
     return;
@@ -272,10 +257,10 @@ state_three:
         return;
     }
     {
-        u8 *system_state;
+        DungeonGlobalStatus *system_state;
 
-        system_state = (u8 *)((u16 *)(&dungeonStatus));
-        ((S_80173880_3 *)system_state)->unk_0A--;
+        system_state = &dungeonStatus;
+        (*(u16 *)&system_state->unk_0A)--;
     }
 
 finish:

@@ -17,18 +17,18 @@ typedef struct S_80172AAC_1 {
 } S_80172AAC_1;   /* arg0 in func_80172AAC */
 
 /* Clears an actor flag, applies a conditional effect, and updates its action state. */
-void func_80172AAC(S_80172AAC_1 *action_state, M2C_UNK effect_context, M2C_UNK action_context, void *actor) {
-    ((EntityRec *)actor)->unk_71 = (u8) (((EntityRec *)actor)->unk_71 & 0x7F);
+void func_80172AAC(S_80172AAC_1 *action_state, M2C_UNK effect_context, M2C_UNK action_context, EntityRec *actor) {
+    actor->unk_71 = (u8) (actor->unk_71 & 0x7F);
     if (!(dungeonStatus.flags & 0x2000) && ((func_800A2B5C(actor) << 0x10) == 0)) {
-        func_800C7930(actor - 0x20, effect_context, 8, 0x300);
+        func_800C7930((u8 *)actor - 0x20, effect_context, 8, 0x300);
         if ((func_800A2B5C(actor) << 0x10) == 0) {
             action_state->unk_8C = 0;
             action_state->unk_9A = 0x11;
             action_state->unk_9B = 0;
-            ((EntityRec *)actor)->unk_6D = (u8) (((u8)((EntityRec *)actor)->unk_6D) - 1);
-            func_8009C93C(actor, action_context, ((EntityRec *)actor)->facing, 1, 0);
-            ((EntityRec *)actor)->unk_84 = 0x7C;
-            ((EntityRec *)actor)->unk_85 = 4;
+            actor->unk_6D = (u8) (((u8)actor->unk_6D) - 1);
+            func_8009C93C(actor, action_context, actor->facing, 1, 0);
+            actor->unk_84 = 0x7C;
+            actor->unk_85 = 4;
         }
     }
 }

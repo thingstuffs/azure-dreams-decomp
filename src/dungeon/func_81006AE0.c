@@ -5,13 +5,6 @@
 
 typedef s32 M2C_UNK;
 
-typedef struct S_801722E0_1 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x6];
-    u16 unk_0A;
-} S_801722E0_1;
-
 typedef struct S_801722E0_2 {
     u8 pad_00[0x8C];
     s32 unk_8C;
@@ -36,12 +29,12 @@ extern u8 D_80174880[9];
 
 #line 1 "a"
 /* Step the actor's walk animation: clear its 0x71 busy bit and, when the global 0x2000 mode is off and the ready query says 0, arm state 0x17, point the part at the direction table and advance the shared counters. */
-void func_801722E0(void *owner, void *unused, void *part, void *actor) {
+void func_801722E0(void *owner, void *unused, void *part, EntityRec *actor) {
     s32 original_value;
     s32 current_value;
     s32 adjusted_value;
 
-    ((EntityRec *)actor)->unk_71 = (u8)(((EntityRec *)actor)->unk_71 & 0x7F);
+    actor->unk_71 = (u8)(actor->unk_71 & 0x7F);
     if (!(dungeonStatus.flags & 0x2000) &&
         ((func_800A2BDC(actor) << 0x10) == 0)) {
         u8 *table = D_80174880;
@@ -52,9 +45,9 @@ void func_801722E0(void *owner, void *unused, void *part, void *actor) {
         (*(u8 * *)((u8 *)part + 0x2C)) = table;
         func_80047784(
             part,
-            table[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            table[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
-        ((EntityRec *)actor)->unk_6D = (u8)(((u8)((EntityRec *)actor)->unk_6D) - 1);
+        actor->unk_6D = (u8)(((u8)actor->unk_6D) - 1);
         dungeonStatus.unk_0A = (u16)(((u16)dungeonStatus.unk_0A) + 1);
         adjusted_value = func_80099734(actor, current_value = func_800990FC());
         original_value = current_value;

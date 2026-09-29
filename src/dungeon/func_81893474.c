@@ -4,6 +4,7 @@
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
+#include "shared/entity.h"
 extern int abs(int);
 
 typedef struct Motion {
@@ -167,7 +168,7 @@ void func_80024C74(EffectState *effect_state, Motion *effect_motion, ColorPart *
             state->y = D_80082E80.tileY + dirStepY[state->direction];
         }
         {
-            void *height_node;
+            EntityRec *height_node;
             s32 tile_coord;
 
             tile_coord = state->x;
@@ -175,7 +176,7 @@ void func_80024C74(EffectState *effect_state, Motion *effect_motion, ColorPart *
             tile_coord = state->y;
             height_node = D_800814A8;
             S16_AT(target_pos, 6) = tile_coord * 64 + 0x20;
-            S16_AT(target_pos, 0xA) = ((s16 *)height_node)[0x44] - 0x20;
+            S16_AT(target_pos, 0xA) = height_node->unk_88 - 0x20;
         }
         S16_AT(target_pos, 0xA) = func_800BCAD0(target_pos);
         state->z = S16_AT(target_pos, 0xA);

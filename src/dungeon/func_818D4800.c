@@ -51,7 +51,7 @@ s32 BODY_NAME(void *object_data, void *position_data)
 {
     u8 *object = object_data;
     u8 *position = position_data;
-    u8 *state_slot = ((u8 *)(&gameWork));
+    GameWork *state_slot = &gameWork;
     DungeonState818D4800 *state =
         *(DungeonState818D4800 **)((u8 *)(&gameWork));
     Scratch818D4800 *scratch = (Scratch818D4800 *)0x1F800000;
@@ -110,6 +110,6 @@ do {
     } while (1);
 
 finish:
-    (*(DungeonState818D4800 **)state_slot)->next = scratch->next;
+    (((DungeonState818D4800 *)state_slot->unk_000))->next = scratch->next;
     return 0;
 }

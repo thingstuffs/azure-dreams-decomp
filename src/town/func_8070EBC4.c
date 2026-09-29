@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "shared/town_root.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_80016000.h"
 
 
 typedef struct S_80017BC4_1 {
@@ -18,6 +18,6 @@ M2C_UNK func_80016CC4();                            /* extern */
 /* Run setup and invoke the state callback with 0xF and 0x200. */
 s32 func_80017BC4(void) {
     func_80016CC4();
-    ((S_80017BC4_1 *)(((Rec_D_80016000 *)D_80016000)->unk_20))->unk_2F8(0xF, 0x200);
+    ((S_80017BC4_1 *)(D_80016000->unk_20))->unk_2F8(0xF, 0x200);
     return 0;
 }

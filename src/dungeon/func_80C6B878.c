@@ -18,7 +18,6 @@ extern s32 func_800A94A0(void *, u8 *, s32, void *);
 extern void func_80170D28(void *, s32, s32, s32, s32, s32, s32);
 extern void func_80170F2C(void *, s32, s32, s32, s32, s32, s32);
 
-typedef struct { u8 pad[0x12]; u8 kind; u8 pad2; } ItemDef20;
 extern void *D_80170850[];
 extern void *D_80170868[];
 extern u8 D_80171650[];
@@ -48,14 +47,8 @@ typedef struct S_80173078_2 {
 
 
 
-typedef struct S_80173078_5 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-    s32 unk_0C;
-} S_80173078_5;   /* global in func_80173078 */
-
 /* Updates an item action, its animation, particle effects, and completion state. */
-void func_80173078(void *action, void *movement, void *sprite, void *actor)
+void func_80173078(void *action, EntityRec *movement, void *sprite, void *actor)
 {
     static void *const state_labels[] = {
         &&state_0, &&state_1, &&state_2, &&state_3, &&state_4
@@ -188,9 +181,9 @@ invoke_item:
     goto store_next_state;
 
 empty_selection:
-    ((EntityRec *)movement)->flags14 = 0;
-    ((EntityRec *)movement)->unk_10 = 0;
-    ((EntityRec *)movement)->unk_0C = 0;
+    movement->flags14 = 0;
+    movement->unk_10 = 0;
+    movement->unk_0C = 0;
     func_800A2B04(movement, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
     dungeonStatus.unk_0C = 0;
     (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
@@ -306,9 +299,9 @@ state_4:
         if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
             return;
         }
-        ((EntityRec *)movement)->flags14 = 0;
-        ((EntityRec *)movement)->unk_10 = 0;
-        ((EntityRec *)movement)->unk_0C = 0;
+        movement->flags14 = 0;
+        movement->unk_10 = 0;
+        movement->unk_0C = 0;
         func_800A2B04(movement, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
         if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 != D_801742C8) {
             u8 *animation_table;

@@ -15,7 +15,7 @@ M2C_UNK func_800B6094();            /* extern */
 M2C_UNK func_800B61C0();            /* extern */
 
 /* Fill up to three output slots from source entries and clear unused slots. */
-void func_800B62A4(void *source, s32 output) {
+void func_800B62A4(EntityRec *source, s32 output) {
     void *entries[3];
     s32 index;
     s32 slot_count;
@@ -32,7 +32,7 @@ void func_800B62A4(void *source, s32 output) {
     source_cursor = source;
     do {
         if (((S_800B62A4_0 *)source_cursor)->unk_08 != 0) {
-            func_800B6094(source + scan_base, output, slot_count);
+            func_800B6094((u8 *)source + scan_base, output, slot_count);
             slot_count += 1;
         }
         scan_base += 3;
@@ -56,8 +56,8 @@ void func_800B62A4(void *source, s32 output) {
             source_cursor = (void *)((s8 *)source_cursor + 4);
         } while ((index + scan_base) < 3);
     }
-    if ((slot_count < 3) && (((EntityRec *)source)->unk_49 != 0)) {
-        func_800B61C0(source + 0x48, output, slot_count);
+    if ((slot_count < 3) && (source->unk_49 != 0)) {
+        func_800B61C0((u8 *)source + 0x48, output, slot_count);
         slot_count += 1;
     }
     index = slot_count;

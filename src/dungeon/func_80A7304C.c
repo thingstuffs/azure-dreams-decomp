@@ -34,7 +34,7 @@ typedef struct S_8017284C_0 {
 
 
 /* Updates staged movement and animation, then places the actor on its destination tile. */
-void func_8017284C(S_8017284C_0 *action, EntityRec *motion, Rec_D_80082E80 *sprite, void *actor)
+void func_8017284C(S_8017284C_0 *action, EntityRec *motion, Rec_D_80082E80 *sprite, EntityRec *actor)
 {
     s16 timer;
     s32 direction_y;
@@ -70,11 +70,11 @@ state0:
         action->unk_9B = 3;
         action->unk_96.s = 0;
         sprite->unk_14.at00_u16.v |= 0x6000;
-        func_8009C12C(actor, sprite, ((EntityRec *)actor)->facing, 1);
+        func_8009C12C(actor, sprite, actor->facing, 1);
         return;
     }
 
-    facing = ((u16)((EntityRec *)actor)->facing >> 9) & 7;
+    facing = ((u16)actor->facing >> 9) & 7;
     direction = facing + 4;
     wrap_base = direction;
     if (direction < 0) {
@@ -88,7 +88,7 @@ state0:
     motion->unk_10 = direction_y * 0x60000;
     sprite->unk_2C.as_pv = &D_80174140;
     func_80047784(sprite,
-        (*(u8 *)((u8 *)(&D_80174140) + (((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7))),
+        (*(u8 *)((u8 *)(&D_80174140) + (((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7))),
         0);
     action->unk_96.s = 0;
     action->unk_9B += 1;
@@ -102,7 +102,7 @@ state1:
     if (sprite->unk_14.at00_u16.v & 0xE000) {
         sprite->unk_2C.as_pv = &D_80174170;
         func_80047784(sprite,
-            (*(u8 *)((u8 *)(&D_80174170) + (((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7))),
+            (*(u8 *)((u8 *)(&D_80174170) + (((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7))),
             0);
         action->unk_96.s = 0x14;
         action->unk_9B += 1;
@@ -124,7 +124,7 @@ state2:
 
     if (action->unk_96.s == 0x11) {
         func_800A56E0(0x808);
-        direction = ((u16)((EntityRec *)actor)->facing >> 9) & 7;
+        direction = ((u16)actor->facing >> 9) & 7;
         speed_component = (*(s16 *)((u8 *)(((s8 *)dirStepX)) + (direction * 2))) * 0x30000;
         motion->unk_0C = speed_component + (speed_component >> 2);
         speed_component = (*(s16 *)((u8 *)(((s8 *)dirStepY)) + (direction * 2))) * 0x30000;
@@ -134,7 +134,7 @@ state2:
     if (((sprite->unk_04.as_s8 == 3) &&
          (sprite->unk_14.at00_u16.v & 0x1000)) ||
         (sprite->unk_14.at00_u16.v & 0x8000)) {
-        func_8009C12C(actor, sprite, ((EntityRec *)actor)->facing, 1);
+        func_8009C12C(actor, sprite, actor->facing, 1);
     }
 
     if (((sprite->unk_04.as_s8 == 5) &&
@@ -167,8 +167,8 @@ state3:
         dungeonStatus.unk_0C = 0;
         action->unk_98 &= 0xFFF7;
         func_800A4ACC(actor);
-        if (((EntityRec *)actor)->unk_6D == 0) {
-            ((EntityRec *)actor)->unk_46 &= 0x7FFF;
+        if (actor->unk_6D == 0) {
+            actor->unk_46 &= 0x7FFF;
             return;
         }
         D_800E3DE8[0] = (u8 *)actor - 0x20;

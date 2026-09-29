@@ -49,22 +49,22 @@ typedef struct S_801722E4_3 {
 } S_801722E4_3;   /* arg0 in func_801722E4 */
 
 /* Face the target and initialize the actor action when status checks allow it. */
-void func_801722E4(S_801722E4_3 *action_state, M2C_UNK event_context, S_801722E4_1 *sprite, void *actor) {
+void func_801722E4(S_801722E4_3 *action_state, M2C_UNK event_context, S_801722E4_1 *sprite, EntityRec *actor) {
     M2C_UNK distance;
     void *actor_base;
     S_801722E4_2 *target;
     u8 *direction_frames;
     s8 *angle_page;
 
-    ((EntityRec *)actor)->unk_71 =
-        (u8)(((EntityRec *)actor)->unk_71 & 0x7F);
+    actor->unk_71 =
+        (u8)(actor->unk_71 & 0x7F);
     if (!(dungeonStatus.flags & 0x2008)) {
         actor_base = (s8 *)actor - 0x20;
         if ((func_800A2B5C(actor) << 0x10) == 0) {
             func_800C7930(actor_base, event_context, 8, 0x300);
             if ((func_800A2B5C(actor) << 0x10) == 0) {
-                target = ((S_801722E4_5_pre *)(((EntityRec *)actor)->target))[-1].unk_00;
-                ((EntityRec *)actor)->facing = func_800A0818(
+                target = ((S_801722E4_5_pre *)(actor->target))[-1].unk_00;
+                actor->facing = func_800A0818(
                     sprite->unk_24,
                     sprite->unk_25,
                     target->unk_24,
@@ -82,12 +82,12 @@ void func_801722E4(S_801722E4_3 *action_state, M2C_UNK event_context, S_801722E4
                 func_80047784(
                     sprite,
                     direction_frames[((s32)(*(s16 *)(angle_page + 0x3228) +
-                                    ((EntityRec *)actor)->facing + 0x100) >> 9) &
+                                    actor->facing + 0x100) >> 9) &
                              7],
                     0);
                 func_800A4ACC(actor);
-                ((EntityRec *)actor)->unk_6D =
-                    (u8)(((u8)((EntityRec *)actor)->unk_6D) - 1);
+                actor->unk_6D =
+                    (u8)(((u8)actor->unk_6D) - 1);
                 action_state->unk_98 =
                     (u16)(action_state->unk_98 | 8);
                 func_800C77D0(actor_base, event_context, 8, 0x300);

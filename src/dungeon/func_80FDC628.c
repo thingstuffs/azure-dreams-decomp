@@ -43,12 +43,6 @@ typedef struct {
     u8 *field_2c;
 } Arg2;
 
-typedef struct {
-    u8 pad_00[0x02];
-    u16 flags;
-    u8 pad_04[0x08];
-} Global83460;
-
 extern u8 D_80174038[];
 
 extern s32 func_80047784(void *, u8, s32);
@@ -61,14 +55,14 @@ extern void func_800C7930(void *, s32, s32, s32);
 
 /* Validates the actor's direction and state, then initializes its action and animation. */
 s32 func_80171E28(Arg0 *action_state, s32 action_id, Arg2 *sprite, Arg3 *actor) {
-    Global83460 *flags_base;
+    DungeonGlobalStatus *flags_base;
     u8 *direction_frames;
     u16 flags;
     s32 target_angle;
     s32 result;
 
     actor->field_71 &= 0x7F;
-    flags_base = (Global83460 *)((u8 *)((u16 *)(&dungeonStatus.flags)) - 2);
+    flags_base = &dungeonStatus;
     result = 0;
     if (flags_base->flags & 0x2000) {
         return -1;

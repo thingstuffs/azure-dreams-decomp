@@ -30,7 +30,7 @@ extern u8 D_80174DFC[];
 extern u8 D_80174E24[];
 
 /* Applies a brief directional movement, then returns the actor to its grid position. */
-void func_80173964(void *action, void *motion, void *actor, void *entity)
+void func_80173964(void *action, EntityRec *motion, void *actor, EntityRec *entity)
 {
     s32 state;
     s16 timer;
@@ -64,7 +64,7 @@ state_0:
     func_800AD4D0(entity);
     ((S_80173964_0 *)action)->unk_96.s = 12;
     ((S_80173964_0 *)action)->unk_9B++;
-    if (((EntityRec *)entity)->unk_28 == 0) {
+    if (entity->unk_28 == 0) {
         goto initialize;
     }
     if (((Rec_D_80082E80 *)actor)->unk_14.at00_u16.v & 0x8000) {
@@ -78,23 +78,23 @@ state_1:
     ((S_80173964_0 *)action)->unk_96.u = timer_bits;
     timer = timer_bits;
     if (timer >= 11) {
-        ((EntityRec *)motion)->unk_0C =
+        motion->unk_0C =
             *(s16 *)((u8 *)((s8 *)dirStepX) +
-                     ((((EntityRec *)entity)->unk_6A >> 8) & 0xE)) << 20;
-        ((EntityRec *)motion)->unk_10 =
+                     ((entity->unk_6A >> 8) & 0xE)) << 20;
+        motion->unk_10 =
             *(s16 *)((u8 *)((s8 *)dirStepY) +
-                     ((((EntityRec *)entity)->unk_6A >> 8) & 0xE)) << 20;
+                     ((entity->unk_6A >> 8) & 0xE)) << 20;
         ((Rec_D_80082E80 *)actor)->unk_14.at00_u16.v |= 0x800;
         return;
     }
     if (timer >= 7) {
-        ((EntityRec *)motion)->unk_0C /= 4;
-        ((EntityRec *)motion)->unk_10 /= 4;
+        motion->unk_0C /= 4;
+        motion->unk_10 /= 4;
         return;
     }
     if (timer >= 2) {
-        ((EntityRec *)motion)->unk_10 = 0;
-        ((EntityRec *)motion)->unk_0C = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
         return;
     }
     if (timer == state) {
@@ -110,14 +110,14 @@ state_1:
     goto increment_state;
 
 state_2:
-    if (((EntityRec *)entity)->unk_28 != 0) {
+    if (entity->unk_28 != 0) {
         goto calculate;
     }
 
 initialize:
-    ((EntityRec *)motion)->flags14 = 0;
-    ((EntityRec *)motion)->unk_10 = 0;
-    ((EntityRec *)motion)->unk_0C = 0;
+    motion->flags14 = 0;
+    motion->unk_10 = 0;
+    motion->unk_0C = 0;
     func_800AAA54(action, motion, actor, D_80174E24);
     return;
 
@@ -125,11 +125,11 @@ calculate:
     timer = ((S_80173964_0 *)action)->unk_96.s;
     if (timer != 0) {
         target_x = ((Rec_D_80082E80 *)actor)->unk_24 << 6;
-        current_x = ((EntityRec *)motion)->x.w.i - 0x20;
-        ((EntityRec *)motion)->unk_0C = ((target_x - current_x) << 16) / timer;
+        current_x = motion->x.w.i - 0x20;
+        motion->unk_0C = ((target_x - current_x) << 16) / timer;
         target_y = ((Rec_D_80082E80 *)actor)->unk_25 << 6;
-        current_y = ((EntityRec *)motion)->y.w.i - 0x20;
-        ((EntityRec *)motion)->unk_10 =
+        current_y = motion->y.w.i - 0x20;
+        motion->unk_10 =
             ((target_y - current_y) << 16) / ((S_80173964_0 *)action)->unk_96.s;
     }
     timer_bits = ((S_80173964_0 *)action)->unk_96.u;
@@ -137,9 +137,9 @@ calculate:
     if ((s32)(timer_bits << 16) > 0) {
         return;
     }
-    ((EntityRec *)motion)->flags14 = 0;
-    ((EntityRec *)motion)->unk_10 = 0;
-    ((EntityRec *)motion)->unk_0C = 0;
+    motion->flags14 = 0;
+    motion->unk_10 = 0;
+    motion->unk_0C = 0;
     next_state = ((S_80173964_0 *)action)->unk_9B;
 
 increment_state:
@@ -147,15 +147,15 @@ increment_state:
     return;
 
 state_3:
-    ((EntityRec *)motion)->flags14 = 0;
-    ((EntityRec *)motion)->unk_10 = 0;
-    ((EntityRec *)motion)->unk_0C = 0;
+    motion->flags14 = 0;
+    motion->unk_10 = 0;
+    motion->unk_0C = 0;
     func_800A2B04(motion, ((Rec_D_80082E80 *)actor)->unk_24, ((Rec_D_80082E80 *)actor)->unk_25);
     if (((Rec_D_80082E80 *)actor)->unk_2C.as_pv == D_80174DFC) {
         (*(void * *)((u8 *)actor + 0x2C)) = D_80174DEC;
         func_80047784(
             actor,
-            D_80174DEC[((gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
+            D_80174DEC[((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
     }
     tracked_entity = ((s32)dungeonStatus.unk_10);

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/entity_objects.h"
+#include "shared/entity.h"
 #include "records/Rec_D_800CFCB4.h"
 
 #ifndef NULL
@@ -14,24 +15,9 @@ extern s32 func_800C0C88();
 extern s32 D_800D09C8[];
 
 
-typedef struct S_8009EF88_0 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
-    s32 unk_08;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_8009EF88_0;   /* arg2 in func_8009EF88 */
-
-typedef struct S_8009EF88_1 {
-    u8 pad_00[0x4];
-    s32 unk_04;
-    s32 unk_08;
-} S_8009EF88_1;   /* temp_a2 in func_8009EF88 */
-
 
 /* Updates motion toward the target and resolves the entity when its countdown expires. */
-void func_8009EF88(void *entity, s32 context, void *motion, s32 mode) {
+void func_8009EF88(void *entity, s32 context, EntityRec *motion, s32 mode) {
     s32 result[5];
     s8 *linked_flag;
     s8 *clear_flag;
@@ -40,11 +26,11 @@ void func_8009EF88(void *entity, s32 context, void *motion, s32 mode) {
     s32 offset_z;
     u8 slot;
 
-    ((S_8009EF88_0 *)motion)->unk_0C = (s32)((s32)(D_80083780.x.v - ((S_8009EF88_0 *)motion)->unk_00.at00.v) / 2);
-    delta_y = D_80083780.y.v - ((S_8009EF88_0 *)motion)->unk_04.at00.v;
-    ((S_8009EF88_0 *)motion)->unk_10 = (s32)((s32)(delta_y + (delta_y >> 31)) >> 1);
-    offset_z = ((S_8009EF88_0 *)motion)->unk_08 + 0x200000;
-    ((S_8009EF88_0 *)motion)->unk_14 = (s32)((s32)(D_80083780.z.v - offset_z) / 2);
+    motion->unk_0C = (s32)((s32)(D_80083780.x.v - motion->x.v) / 2);
+    delta_y = D_80083780.y.v - motion->y.v;
+    motion->unk_10 = (s32)((s32)(delta_y + (delta_y >> 31)) >> 1);
+    offset_z = motion->z.v + 0x200000;
+    motion->flags14 = (s32)((s32)(D_80083780.z.v - offset_z) / 2);
     func_8009539C(motion);
     ticks_left = ((Rec_D_800CFCB4 *)entity)->unk_6C.as_u16 - 1;
     ((Rec_D_800CFCB4 *)entity)->unk_6C.as_u16 = ticks_left;
@@ -71,10 +57,10 @@ void func_8009EF88(void *entity, s32 context, void *motion, s32 mode) {
             func_800C0C88(clear_flag);
             return;
         }
-        ((S_8009EF88_0 *)motion)->unk_00.at00.v = 0;
-        ((S_8009EF88_0 *)motion)->unk_04.at00.v = 0;
-        ((S_8009EF88_0 *)motion)->unk_00.at02.v = ((Rec_D_800CFCB4 *)entity)->unk_84;
-        ((S_8009EF88_0 *)motion)->unk_04.at02.v = ((Rec_D_800CFCB4 *)entity)->unk_86;
+        motion->x.v = 0;
+        motion->y.v = 0;
+        motion->x.w.i = ((Rec_D_800CFCB4 *)entity)->unk_84;
+        motion->y.w.i = ((Rec_D_800CFCB4 *)entity)->unk_86;
         func_8009F148(entity, context, motion, mode);
     }
 }

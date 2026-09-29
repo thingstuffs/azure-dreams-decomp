@@ -1,4 +1,5 @@
 #include "shared/record_ptrs.h"
+#include "shared/town_root.h"
 typedef int s32;
 typedef short s16;
 
@@ -14,11 +15,6 @@ typedef struct RuntimeMethods {
     char pad16C[8];
     void (*terminate)(s32);
 } RuntimeMethods;
-
-typedef struct RuntimeRoot {
-    char pad0[0x20];
-    RuntimeMethods *methods;
-} RuntimeRoot;
 
 extern char D_80016080[];
 extern char D_800160A8[];
@@ -45,7 +41,7 @@ s32 func_8095013C(Entry *entries, s32 key)
         }
     }
 
-    ((RuntimeRoot *)D_80016000)->methods->assert_fail(D_80016080, D_800160A8, 39);
-    ((RuntimeRoot *)D_80016000)->methods->terminate(1);
+    ((RuntimeMethods *)D_80016000->unk_20)->assert_fail(D_80016080, D_800160A8, 39);
+    ((RuntimeMethods *)D_80016000->unk_20)->terminate(1);
     return index;
 }

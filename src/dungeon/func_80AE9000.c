@@ -66,7 +66,7 @@ __asm__(".globl func_80AE9000\n"
 s32 FUNC_80AE9000_BODY(Input0 *render_data, Input1 *position_data) {
     u8 *render_bytes = (u8 *)render_data;
     u8 *position_bytes = (u8 *)position_data;
-    u8 *context_addr = ((u8 *)(&gameWork));
+    GameWork *context_addr = &gameWork;
     register u32 addr_mask ASM_REG("$18") = 0x00FFFFFF;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     Context *state = *(Context **)((u8 *)(&gameWork));
     u32 length_mask = 0xFF000000;
@@ -156,7 +156,7 @@ next_object:
         }
         goto next_object;
     }
-    (*(Context **)context_addr)->field_8D0 = scratch->next;
+    (((Context *)context_addr->unk_000))->field_8D0 = scratch->next;
     {
         s32 return_zero = 0;
 #ifdef NON_MATCHING

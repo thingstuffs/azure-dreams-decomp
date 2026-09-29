@@ -80,7 +80,7 @@ extern void *D_80170820[];
 extern u8 D_80171A80[];
 
 /* Updates dungeon actor animation, status, and action dispatch. */
-void func_80171A80(void *entity, void *context, void *sprite, void *actor)
+void func_80171A80(void *entity, void *context, void *sprite, EntityRec *actor)
 {
     static void *const action_labels[] = {
         &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4,
@@ -97,7 +97,7 @@ void func_80171A80(void *entity, void *context, void *sprite, void *actor)
         return;
     }
 
-    if (((EntityRec *)actor)->tileY == 0) {
+    if (actor->tileY == 0) {
         if (((S_80171A80_0 *)entity)->unk_B5 == 0) {
             void *anim_table;
 
@@ -108,7 +108,7 @@ void func_80171A80(void *entity, void *context, void *sprite, void *actor)
             anim_table = D_800E2420;
             (*(void * *)((u8 *)sprite + 0x2C)) = anim_table;
             func_80047784(sprite,
-                ((u8 *)anim_table)[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+                ((u8 *)anim_table)[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             return;
         } else {
@@ -117,12 +117,12 @@ void func_80171A80(void *entity, void *context, void *sprite, void *actor)
         }
     }
 
-    if (((u32)((EntityRec *)actor)->flags1C) & 0x200) {
+    if (((u32)actor->flags1C) & 0x200) {
         if (((S_80171A80_2 *)sprite)->unk_2C == D_800E2428) {
             ((S_80171A80_0 *)entity)->unk_9A.n = 0xD;
             ((S_80171A80_0 *)entity)->unk_9B = 1;
             ((S_80171A80_0 *)entity)->unk_8C = 0;
-            ((EntityRec *)actor)->flags1C &= 0xFFFBFFFF;
+            actor->flags1C &= 0xFFFBFFFF;
             return;
         }
         if (func_800AA924(entity, context, sprite, D_800E2420) != 0) {
@@ -131,7 +131,7 @@ void func_80171A80(void *entity, void *context, void *sprite, void *actor)
     }
 
     if (!(dungeonStatus.flags & 0x2000)) {
-        if (((u32)((EntityRec *)actor)->flags1C) & 0x100) {
+        if (((u32)actor->flags1C) & 0x100) {
             func_800AA258(entity, context, sprite, actor);
             return;
         }
@@ -146,7 +146,7 @@ void func_80171A80(void *entity, void *context, void *sprite, void *actor)
             if (((S_80171A80_2 *)sprite)->unk_2C != anim_table) {
                 (*(void * *)((u8 *)sprite + 0x2C)) = anim_table;
                 func_80047784(sprite,
-                    ((u8 *)anim_table)[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+                    ((u8 *)anim_table)[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                     0);
                 ((S_80171A80_2 *)sprite)->unk_05 = 1;
                 is_active = ((S_80171A80_0 *)entity)->unk_B0.v;
@@ -159,18 +159,18 @@ void func_80171A80(void *entity, void *context, void *sprite, void *actor)
                 func_801708B8(entity, context, sprite);
             }
             if (((S_80171A80_0 *)entity)->unk_B5 == 0) {
-                ((EntityRec *)actor)->flags1C |= 0x40000;
+                actor->flags1C |= 0x40000;
                 ((S_80171A80_0 *)entity)->unk_98 &= 0xFFF7;
             }
         }
 
-        if (((EntityRec *)actor)->unk_64 != 0) {
+        if (actor->unk_64 != 0) {
             if (func_800AA6B4(entity, context, sprite, D_800E23F8) != 0) {
                 return;
             }
         }
 
-        if (((u32)((EntityRec *)actor)->flags1C) & 0x80000) {
+        if (((u32)actor->flags1C) & 0x80000) {
             s16 height_delta;
 
             func_800AA888(entity, context, sprite, actor);
@@ -190,14 +190,14 @@ void func_80171A80(void *entity, void *context, void *sprite, void *actor)
     room_id = func_8009FB34(((S_80171A80_2 *)sprite)->unk_24.at00.v, ((S_80171A80_2 *)sprite)->unk_24.at01.v);
     ((S_80171A80_2 *)sprite)->unk_26 = room_id;
 
-    if (((EntityRec *)actor)->unk_6D > 0) {
-        if (((u32)((EntityRec *)actor)->flags1C) & 0x20) {
+    if (actor->unk_6D > 0) {
+        if (((u32)actor->flags1C) & 0x20) {
             goto jt_c12;
         }
         if (((S_80171A80_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
             goto ordinary_cleanup;
         }
-        if (!(((EntityRec *)actor)->unk_46 & 0x8000)) {
+        if (!(actor->unk_46 & 0x8000)) {
             if (dungeonStatus.flags & 0x2000) {
                 if ((func_8009A180(actor,
                         (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
@@ -207,14 +207,14 @@ void func_80171A80(void *entity, void *context, void *sprite, void *actor)
             if ((func_80172EA8(entity, context, sprite, 0) << 16) == 0) {
                 return;
             }
-            action_state = ((EntityRec *)actor)->unk_46 | 0x4000;
-            ((EntityRec *)actor)->unk_46 = action_state;
+            action_state = actor->unk_46 | 0x4000;
+            actor->unk_46 = action_state;
             if (!(action_state & 0x8000)) {
                 goto ordinary_cleanup;
             }
         }
 
-        action_state = ((EntityRec *)actor)->unk_46 & 0x3FFF;
+        action_state = actor->unk_46 & 0x3FFF;
         if ((u32)(action_state - 1) >= 12) {
             goto ordinary_cleanup;
         }
@@ -257,7 +257,7 @@ jt_c7:
                 D_80082E80.tileX, D_80082E80.tileY,
                 &distance);
             player = D_800814A8;
-            ((EntityRec *)actor)->facing = facing;
+            actor->facing = facing;
             if (player->unk_9A == 0x11) {
                 goto coords_continue;
             }
@@ -306,17 +306,17 @@ ordinary_cleanup:
         return;
     }
 
-    if (!(((u32)((EntityRec *)actor)->flags1C) & 0x2000)) {
+    if (!(((u32)actor->flags1C) & 0x2000)) {
         s32 room_index = room_id;
 
         if ((room_index < 0) ||
             !(D_800E2970[room_index].flags & 2)) {
-            if (!(((u32)((EntityRec *)actor)->flags1C) & 0x430)) {
+            if (!(((u32)actor->flags1C) & 0x430)) {
 
                 if ((func_8009FD7C(
                         ((S_80171A80_2 *)sprite)->unk_24.at00.v, ((S_80171A80_2 *)sprite)->unk_24.at01.v,
                         D_80082E80.tileX, D_80082E80.tileY) << 16) != 0) {
-                    ((EntityRec *)actor)->facing = func_800A0818(
+                    actor->facing = func_800A0818(
                         ((S_80171A80_2 *)sprite)->unk_24.at00.v, ((S_80171A80_2 *)sprite)->unk_24.at01.v,
                         D_80082E80.tileX, D_80082E80.tileY,
                         &distance);

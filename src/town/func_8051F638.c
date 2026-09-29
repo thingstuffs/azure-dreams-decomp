@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "shared/town_root.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_80016000.h"
 
 
 typedef struct S_80016E38_1 {
@@ -15,6 +15,6 @@ typedef struct S_80016E38_1 {
 void func_80016E38(void) {
     S_80016E38_1 *linked_record;
 
-    linked_record = ((Rec_D_80016000 *)D_80016000)->unk_1C.as_pv;
+    linked_record = D_80016000->unk_1C;
     linked_record->unk_04 = (s32) (linked_record->unk_04 + 0x20);
 }

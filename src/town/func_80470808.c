@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "shared/town_root.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_80016000.h"
 
 typedef struct S_80017808_1 {
     u8 pad_00[0xB0];
@@ -10,5 +10,5 @@ typedef struct S_80017808_1 {
 
 /* Set the referenced object's flag at offset 0xB0 to one. */
 void func_80017808(void) {
-    ((S_80017808_1 *)(((Rec_D_80016000 *)D_80016000)->unk_40.as_pv))->unk_B0 = 1;
+    ((S_80017808_1 *)(D_80016000->unk_40))->unk_B0 = 1;
 }

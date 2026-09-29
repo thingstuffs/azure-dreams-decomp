@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "shared/town_root.h"
 
 typedef struct Message {
     s16 x;
@@ -10,11 +11,6 @@ typedef struct CallbackTable {
     u8 pad[0x2F8];
     void (*callback)(s16, s16);
 } CallbackTable;
-
-typedef struct SystemData {
-    u8 pad[0x20];
-    CallbackTable *callbacks;
-} SystemData;
 
 typedef struct TownState {
     u8 pad0[1];
@@ -33,7 +29,7 @@ s32 func_8001BED0(void) {
 
     if (D_8001E950->enabled == 1) {
         message = func_80019AFC(0, D_8001E950->messageId);
-        ((SystemData *)D_80016000)->callbacks->callback(message->x, message->y);
+        ((CallbackTable *)D_80016000->unk_20)->callback(message->x, message->y);
         D_8001E950->enabled++;
         func_8001E578(0x408);
         return 1;

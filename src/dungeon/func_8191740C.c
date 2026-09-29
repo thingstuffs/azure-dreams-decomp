@@ -42,7 +42,7 @@ void func_80024C0C(void *motion, void *position, void *effect) {
     u16 size;
     u8 intensity;
     void *object;
-    s32 *global_flags;
+    ObjectFlagBlock *global_flags;
     s16 state;
 
     object = ((S_80024C0C_0 *)motion)->unk_00;
@@ -107,9 +107,9 @@ fading:
     if (((Rec_D_80082E80 *)effect)->unk_14.at00_u16.v & 0x6000) {
         object = ((S_80024C0C_0 *)motion)->unk_00;
         ((S_80024C0C_1 *)object)->unk_16++;
-        global_flags = &objectFlagBlock.flags;
+        global_flags = &objectFlagBlock;
         (*(u16 *)((u8 *)motion + (-2))) |= 0x8000;
-        *global_flags |= 0x8000;
+        global_flags->flags |= 0x8000;
     }
 
     return;

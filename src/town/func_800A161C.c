@@ -32,15 +32,15 @@ extern s32 D_80100B50[];
 extern s32 D_80100B68[];
 
 /* Move toward the target and finalize the object when its countdown expires. */
-void func_8009ED7C(void *object, M2C_UNK context, void *motion) {
+void func_8009ED7C(void *object, M2C_UNK context, EntityRec *motion) {
     s32 *target_pos;
     s32 *global_flags;
     u16 ticks_or_flags;
 
     target_pos = D_80100B50;
-    ((EntityRec *)motion)->unk_0C = (s32) ((s32) (((S_8009ED7C_1 *)target_pos)->unk_00 - ((EntityRec *)motion)->x.v) / 2);
-    ((EntityRec *)motion)->unk_10 = (s32) ((s32) (((S_8009ED7C_1 *)target_pos)->unk_04 - ((EntityRec *)motion)->y.v) / 2);
-    ((EntityRec *)motion)->flags14 = (s32) ((s32) (((S_8009ED7C_1 *)target_pos)->unk_08 - ((EntityRec *)motion)->z.v) / 2);
+    motion->unk_0C = (s32) ((s32) (((S_8009ED7C_1 *)target_pos)->unk_00 - motion->x.v) / 2);
+    motion->unk_10 = (s32) ((s32) (((S_8009ED7C_1 *)target_pos)->unk_04 - motion->y.v) / 2);
+    motion->flags14 = (s32) ((s32) (((S_8009ED7C_1 *)target_pos)->unk_08 - motion->z.v) / 2);
     func_8009539C(motion);
     func_8008F294(context, motion);
     func_8008F664(context, motion);

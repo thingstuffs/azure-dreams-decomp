@@ -4,6 +4,7 @@
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
+#include "shared/entity.h"
 
 extern u8 D_80081468[];
 extern u16 D_8008146C;
@@ -43,7 +44,7 @@ void func_800C542C();
 #define CELL(xx, yy) (cells + 6 * ((xx) + ((yy) << *(s16 *)(fld + 20))))
 
 void func_800C5FA8(u8 *w) {
-    u8 *ctx;
+    GameWork *ctx;
     u8 *cells;
     u8 *fld;
     s32 st;
@@ -58,7 +59,7 @@ void func_800C5FA8(u8 *w) {
     u8 *ep;
     u8 *o;
     u8 *q;
-    u8 *p;
+    EntityRec *p;
     s16 *tbl;
     s32 phase0;
     s32 phase;
@@ -78,10 +79,10 @@ void func_800C5FA8(u8 *w) {
     u16 f;
     u16 a;
 
-    ctx = ((u8 *)(&gameWork));
+    ctx = &gameWork;
     phase0 = *(s16 *)w;
-    cells = *(u8 **)(ctx + 0x1DC);
-    fld = ctx + 0x1DC;
+    cells = ((u8 *)ctx->map.cells);
+    fld = (u8 *)ctx + 0x1DC;
     if (phase0 == 0) {
         st = (s32) ((u8 *)(&dungeonStatus));
         f = *(u16 *)((u8 *) st + 2);
@@ -92,7 +93,7 @@ void func_800C5FA8(u8 *w) {
         if (!(a & 0x200)) {
             return;
         }
-        if ((*(u32 *)(ctx + 8) & 0x800) && !(*(u16 *)0x80013714 & 8)) {
+        if ((((u32)ctx->buttons) & 0x800) && !(*(u16 *)0x80013714 & 8)) {
             return;
         }
         if (*(s32 *)((u8 *) st + 12) != 0) {
@@ -257,14 +258,14 @@ void func_800C5FA8(u8 *w) {
                 if (*(u8 *)(e + 19) == 0) {
                     D_800E296C |= 0x2000;
                     func_800C542C(e, tbl[func_800429E4(e)], 0, 0);
-                    p = ((u8 *)D_800E3D7C);
-                    q = *(u8 **)(p + 172);
+                    p = D_800E3D7C;
+                    q = ((u8 *)p->unk_AC);
                     if (q != 0) {
                         func_800C542C(q, tbl[func_800429E4(q)], 0, 0);
                     }
                     {
-                        u8 *p2 = ((u8 *)D_800E3D7C);
-                        q = *(u8 **)(p2 + 176);
+                        EntityRec *p2 = D_800E3D7C;
+                        q = ((u8 *)p2->unk_B0);
                     }
                     if (q != 0) {
                         func_800C542C(q, tbl[func_800429E4(q)], 1, 0);
@@ -374,8 +375,8 @@ void func_800C5FA8(u8 *w) {
             dungeonStatus.unk_0A = ((u16)dungeonStatus.unk_0A) - 1;
             return;
         }
-        *(u32 *)(ctx + 204) = 0;
-        *(u32 *)(ctx + 340) = 0;
+        ctx->view.slot[0].callback = 0;
+        ctx->view.slot[2].callback = 0;
         *(u16 *)w = *(u16 *)w + 1;
         return;
     }

@@ -14,7 +14,7 @@ extern void func_800AD4D0(void *arg0);
 extern void *D_800DD274[8];
 
 /* Refresh the directional sprite and advance the actor state when sprite flags are set. */
-void func_80097934(Rec_func_8008ACDC_arg0 *state, EntityRec *motion, Rec_D_80082E80 *sprite, void *actor)
+void func_80097934(Rec_func_8008ACDC_arg0 *state, EntityRec *motion, Rec_D_80082E80 *sprite, EntityRec *actor)
 {
     s32 tracked_addr;
 
@@ -28,7 +28,7 @@ void func_80097934(Rec_func_8008ACDC_arg0 *state, EntityRec *motion, Rec_D_80082
         func_8003DB94(
             sprite,
             D_800DD274[
-                ((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+                ((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
 
         tracked_addr = ((s32)dungeonStatus.unk_10);
@@ -36,8 +36,8 @@ void func_80097934(Rec_func_8008ACDC_arg0 *state, EntityRec *motion, Rec_D_80082
             dungeonStatus.unk_10 = tracked_addr & 0x7FFFFFFF;
         }
 
-        if (((EntityRec *)actor)->unk_28 == 0) {
-            ((EntityRec *)actor)->unk_28 = 0;
+        if (actor->unk_28 == 0) {
+            actor->unk_28 = 0;
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;

@@ -17,22 +17,6 @@ typedef struct S_8016C190_0 {
     u8 unk_AC;
 } S_8016C190_0;   /* arg0 in func_8016C190 */
 
-typedef struct S_8016C190_1 {
-    u8 pad_00[0x1C];
-    u32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x1A];
-    u16 unk_46;
-    u8 pad_48[0x18];
-    void * unk_60;
-    u8 pad_64[0x9];
-    u8 unk_6D;
-    u8 pad_6E[0x4];
-    union { u8 s; s8 u; } unk_72;   /* accessed as both */
-    union { u8 s; s8 u; } unk_73;   /* accessed as both */
-} S_8016C190_1;   /* arg3 in func_8016C190 */
-
 typedef struct S_8016C190_2_pre {
     void * unk_00;
     u8 pad_04[0x10];
@@ -73,7 +57,7 @@ extern u8 D_801739B8[];
 extern void *D_80164960[];
 
 /* Advances the selected actor action through targeting, animation, and cleanup. */
-void func_8016C190(void *action, void *transform, void *sprite, void *actor)
+void func_8016C190(void *action, EntityRec *transform, void *sprite, EntityRec *actor)
 {
     static void *const selection_labels[] = {
         &&select_1, &&select_2, &&select_3, &&select_none,
@@ -96,8 +80,8 @@ void func_8016C190(void *action, void *transform, void *sprite, void *actor)
 
     switch (action_state) {
     case 0:
-        if (((S_8016C190_1 *)actor)->unk_1C & 0x2000) {
-            flagged_action = ((S_8016C190_1 *)actor)->unk_46 & 0x3FFF;
+        if (((u32)actor->flags1C) & 0x2000) {
+            flagged_action = actor->unk_46 & 0x3FFF;
             if ((u32)(flagged_action - 1) < 7) {
                 goto *D_80164960[(u32)(flagged_action - 1)];
             }
@@ -113,7 +97,7 @@ mode_select_1:
             target_mode = 1;
             goto select_1;
         } else {
-            action_kind = ((S_8016C190_1 *)actor)->unk_46 & 0x3FFF;
+            action_kind = actor->unk_46 & 0x3FFF;
             switch (action_kind) {
             case 1:
                 goto select_1;
@@ -144,36 +128,36 @@ selection_done:
             action_value = target_mode;
             if (action_value != 0) {
                 action_value = (s32)D_800814A8;
-                ((S_8016C190_1 *)actor)->unk_60 = (void *)action_value;
+                actor->target = (void *)action_value;
                 goto set_from_object;
             } else {
                 u8 *action_defs = D_8006DE24;
                 action_value = (s32)(action_defs + *action_slot * 20);
                 if (((u8 *)action_value)[0x12] == 2) {
-                    action_value = (s32)((S_8016C190_1 *)actor)->unk_60;
+                    action_value = (s32)actor->target;
                     if (action_value != 0) {
 set_from_object:
                         action_control = (u8 *)((S_8016C190_2_pre *)action_value)[-1].unk_00;
-                        ((S_8016C190_1 *)actor)->unk_72.s = action_control[0x24];
-                        ((S_8016C190_1 *)actor)->unk_73.s = action_control[0x25];
+                        actor->unk_72 = action_control[0x24];
+                        actor->unk_73 = action_control[0x25];
                     }
                 } else {
-                    ((S_8016C190_1 *)actor)->unk_60 = func_800A05A4(
+                    actor->target = func_800A05A4(
                         actor,
                         ((S_8016C190_3 *)sprite)->unk_24,
                         ((S_8016C190_3 *)sprite)->unk_25,
-                        ((S_8016C190_1 *)actor)->unk_2A,
+                        actor->facing,
                         0x10);
-                    action_value = ((S_8016C190_1 *)actor)->unk_72.u;
-                    target_y = ((S_8016C190_1 *)actor)->unk_73.u;
+                    action_value = actor->unk_72;
+                    target_y = actor->unk_73;
                     if (action_value < 0) {
                         action_value = -action_value;
                     }
                     if (target_y < 0) {
                         target_y = -target_y;
                     }
-                    ((S_8016C190_1 *)actor)->unk_72.s = action_value;
-                    ((S_8016C190_1 *)actor)->unk_73.s = target_y;
+                    actor->unk_72 = action_value;
+                    actor->unk_73 = target_y;
                 }
             }
 
@@ -185,18 +169,18 @@ set_from_object:
             return;
         }
 
-        ((EntityRec *)transform)->flags14 = 0;
-        ((EntityRec *)transform)->unk_10 = 0;
-        ((EntityRec *)transform)->unk_0C = 0;
+        transform->flags14 = 0;
+        transform->unk_10 = 0;
+        transform->unk_0C = 0;
         func_800A2B04(transform, ((S_8016C190_3 *)sprite)->unk_24, ((S_8016C190_3 *)sprite)->unk_25);
         dungeonStatus.unk_0C = 0;
         (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
         func_800A4ACC(actor);
-        ((S_8016C190_1 *)actor)->unk_6D--;
+        (*(u8 *)&actor->unk_6D)--;
         ((S_8016C190_0 *)action)->unk_8C = D_8016A36C;
-        ((S_8016C190_1 *)actor)->unk_73.s = 0;
-        ((S_8016C190_1 *)actor)->unk_72.s = 0;
-        ((S_8016C190_1 *)actor)->unk_46 &= 0x7FFF;
+        actor->unk_73 = 0;
+        actor->unk_72 = 0;
+        actor->unk_46 &= 0x7FFF;
         return;
 
     case 1:
@@ -227,9 +211,9 @@ set_from_object:
             return;
         }
 
-        ((EntityRec *)transform)->flags14 = 0;
-        ((EntityRec *)transform)->unk_10 = 0;
-        ((EntityRec *)transform)->unk_0C = 0;
+        transform->flags14 = 0;
+        transform->unk_10 = 0;
+        transform->unk_0C = 0;
         func_800A2B04(transform, ((S_8016C190_3 *)sprite)->unk_24, ((S_8016C190_3 *)sprite)->unk_25);
 
         switch (((S_8016C190_0 *)action)->unk_AC) {
@@ -258,7 +242,7 @@ set_from_object:
             func_80047784(
                 sprite,
                 *(u8 *)((unsigned long)(((gameWork.view.viewAngle +
-                    ((S_8016C190_1 *)actor)->unk_2A + 0x100) >> 9) & 7) +
+                    actor->facing + 0x100) >> 9) & 7) +
                     (unsigned long)direction_table),
                 0);
         }
@@ -271,10 +255,10 @@ finish:
         ((S_8016C190_5 *)action_control)->unk_0A--;
         ((S_8016C190_0 *)action)->unk_8C = D_8016A36C;
         func_800A4ACC(actor);
-        ((S_8016C190_1 *)actor)->unk_6D--;
-        ((S_8016C190_1 *)actor)->unk_73.s = 0;
-        ((S_8016C190_1 *)actor)->unk_72.s = 0;
-        ((S_8016C190_1 *)actor)->unk_46 &= 0x7FFF;
+        (*(u8 *)&actor->unk_6D)--;
+        actor->unk_73 = 0;
+        actor->unk_72 = 0;
+        actor->unk_46 &= 0x7FFF;
         func_800A56E0(0xB4);
         return;
 

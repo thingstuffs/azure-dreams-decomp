@@ -130,9 +130,9 @@ case 3:
         ((S_81868B84_3 *)(((S_81868B84_0 *)effect)->unk_0C))->unk_16 = 1;
         (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_81868B84_0_pre *)effect)[-1].unk_00 | 0x8000);
         {
-            s32 *global_flags;
-            global_flags = ((s32 *)(&objectFlagBlock));
-            global_flags[0] |= 0x8000;
+            ObjectFlagBlock *global_flags;
+            global_flags = &objectFlagBlock;
+            global_flags->flags |= 0x8000;
         }
         return;
 default:

@@ -45,7 +45,7 @@ extern s32 D_80170E84;
 extern u8 D_80174820[];
 
 /* Updates an actor's jump motion, landing animation, and completion state. */
-void func_80172288(u8 *motion, u8 *position, u8 *sprite, u8 *actor)
+void func_80172288(u8 *motion, EntityRec *position, u8 *sprite, EntityRec *actor)
 {
     PathTable frame_path;
     s32 facing_result;
@@ -76,8 +76,8 @@ void func_80172288(u8 *motion, u8 *position, u8 *sprite, u8 *actor)
 takeoff:
     if (((S_80172288_0 *)motion)->unk_96 < 8) {
         ((S_80172288_0 *)motion)->unk_98 |= 8;
-        ((EntityRec *)position)->flags14 = 0xFFEE0000;
-        ((EntityRec *)actor)->flags1C &= 0xF7FFFFFF;
+        position->flags14 = 0xFFEE0000;
+        actor->flags1C &= 0xF7FFFFFF;
         phase_value = *(volatile u8 *)(motion + 0x9B);
         ((S_80172288_0 *)motion)->unk_A0 = 0;
         goto advance_phase;
@@ -93,38 +93,38 @@ airborne:
             s32 current_x;
 
             target_x = sprite[0x24];
-            current_x = ((EntityRec *)position)->x.w.i;
+            current_x = position->x.w.i;
             target_x <<= 6;
             current_x -= 0x20;
-            ((EntityRec *)position)->unk_0C =
+            position->unk_0C =
                 ((target_x - current_x) << 16) / frames_left;
         }
-        current_y = ((EntityRec *)position)->y.w.i - 0x20;
-        ((EntityRec *)position)->unk_10 =
+        current_y = position->y.w.i - 0x20;
+        position->unk_10 =
             (((sprite[0x25] << 6) - current_y) << 16) /
             ((S_80172288_0 *)motion)->unk_96;
-        ((S_80172288_0 *)motion)->unk_A0 += ((EntityRec *)position)->flags14;
-        ((EntityRec *)position)->flags14 += 0x40000;
+        ((S_80172288_0 *)motion)->unk_A0 += position->flags14;
+        position->flags14 += 0x40000;
     }
     ((S_80172288_0 *)motion)->unk_90 += ((S_80172288_0 *)motion)->unk_A0;
     if (((S_80172288_0 *)motion)->unk_96 < 3) {
         ((S_80172288_0 *)motion)->unk_90 = 0;
         ((S_80172288_0 *)motion)->unk_98 &= 0xFFF7;
-        ((EntityRec *)actor)->flags1C |= 0x08000000;
+        actor->flags1C |= 0x08000000;
         ((S_80172288_0 *)motion)->unk_9B++;
     }
 
 landing:
-    if (((EntityRec *)actor)->flags1C & 0x08000000) {
+    if (actor->flags1C & 0x08000000) {
         ((S_80172288_0 *)motion)->unk_98 &= 0xFFF7;
-        ((EntityRec *)position)->flags14 = 0;
-        ((EntityRec *)position)->unk_10 = 0;
-        ((EntityRec *)position)->unk_0C = 0;
+        position->flags14 = 0;
+        position->unk_10 = 0;
+        position->unk_0C = 0;
         func_800A2B04(position, sprite[0x24], sprite[0x25]);
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80174820;
         func_80047784(
             sprite,
-            D_80174820[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            D_80174820[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         phase_value = ((S_80172288_0 *)motion)->unk_9B;
 advance_phase:
@@ -135,9 +135,9 @@ tick_timer:
     timer = ((S_80172288_0 *)motion)->unk_96 - 1;
     ((S_80172288_0 *)motion)->unk_96 = timer;
     if ((timer << 16) <= 0) {
-        ((EntityRec *)position)->flags14 = 0;
-        ((EntityRec *)position)->unk_10 = 0;
-        ((EntityRec *)position)->unk_0C = 0;
+        position->flags14 = 0;
+        position->unk_10 = 0;
+        position->unk_0C = 0;
         func_800A2B04(position, sprite[0x24], sprite[0x25]);
         func_800AD594(actor, 4);
         func_800A4ACC(actor);
@@ -147,10 +147,10 @@ tick_timer:
             (*(u16 *)&global_counter->unk_08)--;
         }
 
-        actor_flags = ((EntityRec *)actor)->flags1C;
+        actor_flags = actor->flags1C;
         if (actor_flags & 0x2000) {
-            if (((EntityRec *)actor)->unk_46 & 0x8000) {
-                ((EntityRec *)actor)->unk_46 &= 0x7FFF;
+            if (actor->unk_46 & 0x8000) {
+                actor->unk_46 &= 0x7FFF;
                 goto update_actor;
             }
             goto update_actor;
@@ -161,7 +161,7 @@ tick_timer:
         if (!(actor_flags & 0x20000)) {
             goto update_actor;
         }
-        ((EntityRec *)actor)->facing = func_800A0818(
+        actor->facing = func_800A0818(
             sprite[0x24], sprite[0x25], D_80082E80.tileX, D_80082E80.tileY,
             &facing_result);
 

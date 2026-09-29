@@ -34,7 +34,7 @@ extern u8 D_80174188[];
 extern u8 D_80174190[];
 
 /* Updates actor actions and directional animations through a three-state sequence. */
-void func_801736F4(void *controller, s32 actor_index, void *sprite, void *actor)
+void func_801736F4(void *controller, s32 actor_index, void *sprite, EntityRec *actor)
 {
     DungeonGlobalStatus *dungeon_status;
     s32 actor_flags;
@@ -64,7 +64,7 @@ state_zero:
         func_80047784(
             sprite,
             D_80174190[((gameWork.view.viewAngle
-                         + ((EntityRec *)actor)->facing + 0x100)
+                         + actor->facing + 0x100)
                         >> 9) & 7],
             0);
     }
@@ -89,7 +89,7 @@ state_one:
             sprite,
             ((u8 *)((Rec_func_800AA258_arg2 *)sprite)->unk_2C.as_pv)
                 [((gameWork.view.viewAngle
-                   + ((EntityRec *)actor)->facing + 0x100)
+                   + actor->facing + 0x100)
                   >> 9) & 7],
             0);
     }
@@ -98,11 +98,11 @@ state_one:
         (*(void * *)((u8 *)sprite + 0x2C)) = D_80174188;
         func_80047784(
             sprite,
-            D_80174188[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100)
+            D_80174188[((gameWork.view.viewAngle + actor->facing + 0x100)
                         >> 9) & 7],
             0);
         if (((Rec_func_800AA258_arg2 *)sprite)->unk_14 & 0x8000) {
-            ((EntityRec *)actor)->flags1C &= ~0x200;
+            actor->flags1C &= ~0x200;
             ((Rec_func_801736F4_arg0 *)controller)->unk_8C = &D_80170E54;
             return;
         }
@@ -115,10 +115,10 @@ state_one:
     } else {
         dungeon_status = &dungeonStatus;
         if (!(dungeon_status->flags & 0x1000)
-            && ((((EntityRec *)actor)->unk_64 == 0)
+            && ((actor->unk_64 == 0)
                 || (func_800AA6B4(controller, actor_index, sprite, 0) == 0))) {
 
-            if (((EntityRec *)actor)->tileY == 0) {
+            if (actor->tileY == 0) {
                 if (dungeon_status->flags & 0x2008) {
                     return;
                 }
@@ -129,7 +129,7 @@ state_one:
             if ((func_800A2C34(actor) << 16) != 0) {
                 return;
             }
-            actor_flags = ((EntityRec *)actor)->flags1C;
+            actor_flags = actor->flags1C;
             if (actor_flags & 0x100) {
                 func_800AA258(controller, actor_index, sprite, actor);
                 return;
@@ -139,7 +139,7 @@ state_one:
                 func_80173EF4(controller, actor_index, sprite, actor);
                 return;
             }
-            if (((EntityRec *)actor)->unk_6D == 0) {
+            if (actor->unk_6D == 0) {
                 return;
             }
             if ((func_800A2C34(actor) << 16) != 0) {
@@ -175,11 +175,11 @@ state_one:
             (*(void * *)((u8 *)sprite + 0x2C)) = D_80174188;
             func_80047784(
                 sprite,
-                D_80174188[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100)
+                D_80174188[((gameWork.view.viewAngle + actor->facing + 0x100)
                             >> 9) & 7],
                 0);
             if (((Rec_func_800AA258_arg2 *)sprite)->unk_14 & 0x8000) {
-                ((EntityRec *)actor)->flags1C &= ~0x200;
+                actor->flags1C &= ~0x200;
                 ((Rec_func_801736F4_arg0 *)controller)->unk_8C = &D_80170E54;
                 return;
             }
@@ -202,11 +202,11 @@ state_two:
         dungeon_counters = &dungeonStatus;
         (*(u16 *)&dungeon_counters->unk_0A)--;
     }
-    ((EntityRec *)actor)->flags1C &= ~0x200;
+    actor->flags1C &= ~0x200;
     (*(void * *)((u8 *)sprite + 0x2C)) = D_80174188;
     func_80047784(
         sprite,
-        D_80174188[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100)
+        D_80174188[((gameWork.view.viewAngle + actor->facing + 0x100)
                     >> 9) & 7],
         0);
     ((Rec_func_801736F4_arg0 *)controller)->unk_8C = &D_80170E54;

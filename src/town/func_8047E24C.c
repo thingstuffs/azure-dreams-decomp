@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "shared/town_root.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_80016000.h"
 
 
 typedef struct S_8047E24C_1 {
@@ -20,5 +20,5 @@ extern M2C_UNK D_8001857C;
 /* Set the global and current record's pointers to their static data. */
 void func_8047E24C(void) {
     D_8001794C = &D_8001781C;
-    ((S_8047E24C_1 *)(((Rec_D_80016000 *)D_80016000)->unk_1C.as_pv))->unk_40 = &D_8001857C;
+    ((S_8047E24C_1 *)(D_80016000->unk_1C))->unk_40 = &D_8001857C;
 }

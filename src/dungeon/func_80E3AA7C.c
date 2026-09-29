@@ -4,6 +4,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/slus_callbacks.h"
 #include "shared/dungeon_status.h"
+#include "shared/entity.h"
 
 typedef struct S_8017427C_0 {
     u8 pad_00[0x8C];
@@ -24,20 +25,6 @@ typedef struct S_8017427C_1 {
     u8 unk_24;
     u8 unk_25;
 } S_8017427C_1;   /* arg2 in func_8017427C */
-
-typedef struct S_8017427C_2 {
-    u8 pad_00[0x14];
-    s32 unk_14;
-    u8 pad_18[0x4];
-    union { u32 u; s32 s; } unk_1C;   /* accessed as both */
-    u8 pad_20[0x8];
-    u8 unk_28;
-} S_8017427C_2;   /* arg3 in func_8017427C */
-
-typedef struct S_8017427C_3 {
-    u8 pad_00[0x10];
-    void * unk_10;
-} S_8017427C_3;   /* counter in func_8017427C */
 
 typedef struct S_8017427C_4 {
     u8 pad_00[0xD0];
@@ -62,7 +49,7 @@ extern u8 D_80170EE4[];
 extern u8 D_80176640[];
 
 /* Advances an actor's fade-in sequence and applies its completion updates. */
-void func_8017427C(void *actor_state, void *context, S_8017427C_1 *sprite, void *actor_data) {
+void func_8017427C(void *actor_state, void *context, S_8017427C_1 *sprite, EntityRec *actor_data) {
     void *actor_base;
     s32 actor_flags;
     s32 entry_index;
@@ -84,7 +71,7 @@ void func_8017427C(void *actor_state, void *context, S_8017427C_1 *sprite, void 
         sprite->unk_10 = 0x20;
         sprite->unk_12 -= 0x80;
         sprite->unk_14 |= 0xC;
-        ((S_8017427C_2 *)actor_data)->unk_1C.u |= 0x40000000;
+        (*(u32 *)&actor_data->flags1C) |= 0x40000000;
         ((S_8017427C_0 *)actor_state)->unk_9B++;
         /* fall through */
 
@@ -122,9 +109,9 @@ advance_state:
 
     case 3:
         ((S_8017427C_0 *)actor_state)->unk_8C = D_80170EE4;
-        actor_flags = ((S_8017427C_2 *)actor_data)->unk_1C.s;
-        ((S_8017427C_2 *)actor_data)->unk_1C.s = actor_flags & 0xEFFFFFFF;
-        if (!(((S_8017427C_2 *)actor_data)->unk_1C.s & 0x00400000)) {
+        actor_flags = actor_data->flags1C;
+        actor_data->flags1C = actor_flags & 0xEFFFFFFF;
+        if (!(actor_data->flags1C & 0x00400000)) {
             tile_x = sprite->unk_24;
             tile_y = sprite->unk_25;
             tile_mask = 0x3000;
@@ -134,20 +121,20 @@ advance_state:
             func_8009A21C(tile_x, tile_y, tile_mask);
         }
         dungeonStatus.unk_0A--;
-        if (((S_8017427C_2 *)actor_data)->unk_28 == 0) {
+        if (actor_data->unk_28 == 0) {
             dungeonStatus.unk_10 = (u8 *)actor_data - 0x20;
             func_800AAA54(actor_state, context, sprite, D_80176640);
             break;
         }
-        if ((((S_8017427C_2 *)actor_data)->unk_14 & 0x4000) &&
-            (((S_8017427C_2 *)actor_data)->unk_1C.s & 0x10000)) {
+        if ((actor_data->flags14 & 0x4000) &&
+            (actor_data->flags1C & 0x10000)) {
             entry_index = (s16)func_800A1BD0(actor_data);
             if (entry_index < 0) {
                 break;
             }
             func_800956B8(((u8 *)D_800E3D7C), ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)),
                           ((S_8017427C_4 *)(((u8 *)D_800E3D7C) + entry_index * 4))->unk_D0);
-            ((S_8017427C_2 *)actor_data)->unk_1C.s &= 0xFFFEFFFF;
+            actor_data->flags1C &= 0xFFFEFFFF;
             break;
         }
         if ((func_80042900(actor_data, 0xA) << 0x10) != 0) {

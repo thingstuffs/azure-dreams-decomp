@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "shared/town_root.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_80016000.h"
 
 typedef struct S_806D45CC_2 {
     u8 pad_00[0x4];
@@ -22,6 +22,6 @@ M2C_UNK func_80018594();                         /* extern */
 /* Update the object, clear the current entry flag, and forward the call. */
 void func_806D45CC(S_806D45CC_0 *object, M2C_UNK context) {
     func_80018594(object->unk_18);
-    ((S_806D45CC_2 *)(((((Rec_D_80016000 *)D_80016000)->unk_08.at00_s32.v * 8) + ((Rec_D_80016000 *)D_80016000)->unk_40.as_s32)))->unk_04 = 0;
+    ((S_806D45CC_2 *)(((D_80016000->unk_08 * 8) + ((s32)D_80016000->unk_40))))->unk_04 = 0;
     func_800176B8(object, context);
 }

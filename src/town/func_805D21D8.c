@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "shared/town_root.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_80016000.h"
 
 typedef struct S_805D21D8_1 {
     u8 pad_00[0x4];
@@ -10,5 +10,5 @@ typedef struct S_805D21D8_1 {
 
 /* Set the indexed entry's flag to 1. */
 void func_805D21D8(void) {
-    ((S_805D21D8_1 *)(((((Rec_D_80016000 *)D_80016000)->unk_08.at00_s32.v * 8) + ((Rec_D_80016000 *)D_80016000)->unk_40.as_s32)))->unk_04 = 1;
+    ((S_805D21D8_1 *)(((D_80016000->unk_08 * 8) + ((s32)D_80016000->unk_40))))->unk_04 = 1;
 }

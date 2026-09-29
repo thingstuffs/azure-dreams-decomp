@@ -17,18 +17,13 @@ typedef struct S_80173D34_0 {
 
 
 
-typedef struct DungeonGlobal {
-    s32 pad_00[4];
-    s32 field_10;
-} DungeonGlobal;
-
 extern void func_800A2B04(void *, s32, s32);
 extern void func_800AAA54(void *, void *, void *, s32);
 extern void func_800AD4D0(void *);
 extern s32 D_80171CE8;
 
 /* Advance a timed entity state transition, clearing motion and updating its handler. */
-void func_80173D34(S_80173D34_0 *controller, EntityRec *motion, Rec_D_80082E80 *actor, void *entity_data)
+void func_80173D34(S_80173D34_0 *controller, EntityRec *motion, Rec_D_80082E80 *actor, EntityRec *entity_data)
 {
     s32 state;
     s32 timer_signed;
@@ -53,7 +48,7 @@ void func_80173D34(S_80173D34_0 *controller, EntityRec *motion, Rec_D_80082E80 *
     motion->unk_0C = 0;
     controller->unk_9B++;
 
-    if (((EntityRec *)entity_data)->unk_28 == 0) {
+    if (entity_data->unk_28 == 0) {
         goto call_update;
     }
     if (actor->unk_14.at00_u16.v & 0x8000) {
@@ -63,7 +58,7 @@ void func_80173D34(S_80173D34_0 *controller, EntityRec *motion, Rec_D_80082E80 *
     }
 
     timer_init = -1;
-    if (((EntityRec *)entity_data)->flags1C & 0x228) {
+    if (entity_data->flags1C & 0x228) {
         timer_init = 8;
     }
     controller->unk_96.s = timer_init;
@@ -83,7 +78,7 @@ check_timer:
     if (controller->unk_96.u != 0) {
         return;
     }
-    if (((EntityRec *)entity_data)->unk_28 == 0) {
+    if (entity_data->unk_28 == 0) {
 call_update:
         motion->flags14 = 0;
         motion->unk_10 = 0;

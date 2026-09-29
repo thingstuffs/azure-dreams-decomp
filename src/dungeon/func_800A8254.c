@@ -23,21 +23,9 @@ typedef struct S_800AD9B4_0_pre {
 } S_800AD9B4_0_pre;   /* the 0x2 bytes before arg1 in func_800AD9B4, addressed as arg1[-1] */
 
 
-typedef struct S_800AD9B4_1 {
-    u8 pad_00[0x26];
-    s8 unk_26;
-} S_800AD9B4_1;   /* base in func_800AD9B4 */
-
-
-typedef struct S_800AD9B4_3 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x4];
-    u16 unk_08;
-} S_800AD9B4_3;   /* state in func_800AD9B4 */
 
 /* Process an eligible dungeon entry and apply its state updates. */
-s32 func_800AD9B4(Rec_D_80082E80 *actor, void *target)
+s32 func_800AD9B4(Rec_D_80082E80 *actor, EntityRec *target)
 {
     TileObject *player;
     DungeonGlobalStatus *dungeon_state;
@@ -61,13 +49,13 @@ skip:
     return 1;
 
 process_entry:
-    if (((EntityRec *)target)->tileY == 0) {
+    if (target->tileY == 0) {
         goto skip;
     }
 
     entry_index = func_800B500C(actor->unk_24,
                            actor->unk_25,
-                           ((EntityRec *)target)->unk_88);
+                           target->unk_88);
     ASM_KEEP(entry_index);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     result = 1;
     if (entry_index >= 0) {
@@ -78,12 +66,12 @@ process_entry:
 
         dungeon_state = &dungeonStatus;
         if (dungeon_state->flags & 0x1000) {
-            adjustment = ((s8)((EntityRec *)target)->unk_71);
+            adjustment = ((s8)target->unk_71);
             if (adjustment > 0) {
                 dungeon_state->unk_08 =
                     ((u16)dungeon_state->unk_08) -
-                    (adjustment - ((u16)((EntityRec *)target)->unk_8A));
-                ((EntityRec *)target)->unk_71 = 0;
+                    (adjustment - ((u16)target->unk_8A));
+                target->unk_71 = 0;
             }
         }
 

@@ -14,19 +14,13 @@ extern void func_800A2B04(void *, u8, u8);
 extern s32 D_8008ACDC;
 extern u8 D_800DD050[];
 
-typedef struct S_8008DBE8_0 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    s16 unk_04;
-} S_8008DBE8_0;   /* status in func_8008DBE8 */
-
 typedef struct S_8008DBE8_5 {
     u8 pad_00[0x4];
     s16 unk_04;
 } S_8008DBE8_5;   /* late_status in func_8008DBE8 */
 
 /* Move toward the target tile, update the animation, and finish when the timer expires. */
-void func_8008DBE8(void *entity, void *motion, void *sprite, void *facing) {
+void func_8008DBE8(void *entity, EntityRec *motion, void *sprite, EntityRec *facing) {
     void *late_status;
     u32 status_page;
     s32 frames_left;
@@ -44,12 +38,12 @@ void func_8008DBE8(void *entity, void *motion, void *sprite, void *facing) {
     if (timer != 0) {
         x_velocity =
             ((((((Rec_D_80082E80 *)sprite)->unk_24 << 6) + 0x20) << 16) -
-             ((EntityRec *)motion)->x.v) /
+             motion->x.v) /
             timer;
-        y_position = ((EntityRec *)motion)->y.v;
-        ((EntityRec *)motion)->unk_0C = x_velocity;
+        y_position = motion->y.v;
+        motion->unk_0C = x_velocity;
         move_frames = dungeonStatus.unk_04;
-        ((EntityRec *)motion)->unk_10 =
+        motion->unk_10 =
             ((((((Rec_D_80082E80 *)sprite)->unk_25 << 6) + 0x20) << 16) -
              y_position) /
             move_frames;
@@ -72,7 +66,7 @@ continue_update:
             *(u8 **)((u8 *)sprite + 0x2C) = D_800DD050;
             func_80048A44(
                 sprite,
-                D_800DD050[((gameWork.view.viewAngle + ((EntityRec *)facing)->facing + 0x100) >> 9) & 7],
+                D_800DD050[((gameWork.view.viewAngle + facing->facing + 0x100) >> 9) & 7],
                 0,
                 1);
         }
@@ -87,9 +81,9 @@ continue_update:
     }
 
     ((S_8008DBE8_5 *)late_status)->unk_04 = 0;
-    ((EntityRec *)motion)->flags14 = 0;
-    ((EntityRec *)motion)->unk_10 = 0;
-    ((EntityRec *)motion)->unk_0C = 0;
+    motion->flags14 = 0;
+    motion->unk_10 = 0;
+    motion->unk_0C = 0;
     func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
 
     ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x4000;

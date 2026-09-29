@@ -1,15 +1,11 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "shared/entity.h"
 
 typedef struct S_80099FDC_0 {
     u8 pad_00[0x10];
     s32 unk_10;
 } S_80099FDC_0;   /* arg0 in func_80099FDC */
-
-typedef struct S_80099FDC_1 {
-    u8 pad_00[0x58];
-    void * unk_58;
-} S_80099FDC_1;   /* owner in func_80099FDC */
 
 typedef struct S_80099FDC_2 {
     u8 pad_00[0x58];
@@ -30,7 +26,7 @@ void func_80099FDC(void *entry)
 {
     S_80099FDC_2 *entry_links;
     S_80099FDC_3 *neighbor_links;
-    S_80099FDC_1 *owner;
+    EntityRec *owner;
 
     owner = D_800814A8;
     ((S_80099FDC_0 *)entry)->unk_10 = ((S_80099FDC_0 *)entry)->unk_10 & 0x7FFFFFFF;

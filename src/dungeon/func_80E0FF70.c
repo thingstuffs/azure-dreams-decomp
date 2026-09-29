@@ -26,7 +26,7 @@ extern u8 D_80171094;
 extern u8 D_801764B0;
 
 /* Slows directional motion, then aligns the entity to its tile and finishes the motion state. */
-void func_80173770(S_80173770_0 *motion_state, EntityRec *motion, Rec_D_80082E80 *tile, void *entity)
+void func_80173770(S_80173770_0 *motion_state, EntityRec *motion, Rec_D_80082E80 *tile, EntityRec *entity)
 {
     s16 frames_left;
     s32 velocity_or_entity;
@@ -54,13 +54,13 @@ start_motion:
     func_800AD4D0(entity);
     motion->unk_0C =
         *(s16 *)((u8 *)((s8 *)dirStepX) +
-            ((((EntityRec *)entity)->unk_6A >> 8) & 0xE)) << 19;
+            ((entity->unk_6A >> 8) & 0xE)) << 19;
     motion->unk_10 =
         *(s16 *)((u8 *)((s8 *)dirStepY) +
-            ((((EntityRec *)entity)->unk_6A >> 8) & 0xE)) << 19;
+            ((entity->unk_6A >> 8) & 0xE)) << 19;
     motion_state->unk_9B++;
 
-    if (((EntityRec *)entity)->unk_28 == 0) {
+    if (entity->unk_28 == 0) {
         goto reset_motion;
     }
     if (tile->unk_14.at00_u16.v & 0x8000) {
@@ -69,7 +69,7 @@ start_motion:
         return;
     }
     frames_left = -1;
-    if (((EntityRec *)entity)->flags1C & 0x228) {
+    if (entity->flags1C & 0x228) {
         frames_left = 8;
     }
     motion_state->unk_96.s = frames_left;
@@ -98,7 +98,7 @@ slow_motion:
     if (motion_state->unk_96.s != 0) {
         return;
     }
-    if (((EntityRec *)entity)->unk_28 != 0) {
+    if (entity->unk_28 != 0) {
         goto start_alignment;
     }
 

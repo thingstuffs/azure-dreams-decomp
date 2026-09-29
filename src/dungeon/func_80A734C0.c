@@ -38,14 +38,8 @@ typedef struct S_80172CC0_2 {
 
 
 
-typedef struct S_80172CC0_5 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-    s32 unk_0C;
-} S_80172CC0_5;   /* global_state in func_80172CC0 */
-
 /* Updates an entity's item action, animation, and completion state. */
-void func_80172CC0(void *action, void *motion, void *sprite, void *actor) {
+void func_80172CC0(void *action, EntityRec *motion, void *sprite, void *actor) {
     static void *const item_targets[7] = {
         &&item_8, &&item_b, &&item_e, &&item_none,
         &&item_8, &&item_b, &&item_e
@@ -167,9 +161,9 @@ copy_existing:
         }
 
 object_ready:
-        pos[0] = ((u16)((EntityRec *)motion)->x.w.i);
-        pos[1] = ((u16)((EntityRec *)motion)->y.w.i);
-        pos[2] = ((u16)((EntityRec *)motion)->z.w.i);
+        pos[0] = ((u16)motion->x.w.i);
+        pos[1] = ((u16)motion->y.w.i);
+        pos[2] = ((u16)motion->z.w.i);
         if (func_800A94A0(entity, item, is_special, (u8 *)action + 0x98)) {
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
             func_800A56E0(0x703);
@@ -180,9 +174,9 @@ object_ready:
         return;
 
 no_item:
-        ((EntityRec *)motion)->flags14 = 0;
-        ((EntityRec *)motion)->unk_10 = 0;
-        ((EntityRec *)motion)->unk_0C = 0;
+        motion->flags14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
         func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
         dungeonStatus.unk_0C = 0;
         {
@@ -248,9 +242,9 @@ no_item:
             return;
         }
 
-        ((EntityRec *)motion)->flags14 = 0;
-        ((EntityRec *)motion)->unk_10 = 0;
-        ((EntityRec *)motion)->unk_0C = 0;
+        motion->flags14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
         func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
 
         if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pv != D_80174148) {

@@ -15,16 +15,6 @@ typedef struct S_801733F0_0 {
 } S_801733F0_0;   /* arg0 in func_801733F0 */
 
 
-typedef struct S_801733F0_2 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_801733F0_2;   /* global in func_801733F0 */
-
-
-typedef struct S_801733F0_4 {
-    u8 pad_00[0x58];
-    void * unk_58;
-} S_801733F0_4;   /* owner in func_801733F0 */
 
 
 
@@ -110,7 +100,7 @@ void func_801733F0(S_801733F0_0 *actor, void *context, Rec_func_800AA258_arg2 *s
             }
 
             if ((s16)func_800A2C34(entity) != 0) {
-                S_801733F0_4 *owner;
+                EntityRec *owner;
 
                 owner = D_800814A8;
                 if ((s16)func_8009A180(

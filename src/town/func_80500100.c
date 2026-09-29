@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "shared/town_root.h"
 
 extern u8 D_80017478[];
 extern void *D_80017548[];
@@ -7,12 +8,12 @@ extern void func_80017350();
 
 /* Selects the default data, enforces a minimum field value of 20, and triggers 0x552 and 0x553. */
 void func_80500100(void) {
-    void *town_state;
+    Rec_D_80016000 *town_state;
     void *field_base;
     s32 field_value;
 
     town_state = D_80016000;
-    field_base = *(void **)((u8 *)town_state + 0x38);
+    field_base = town_state->unk_38;
     field_value = *(s16 *)((u8 *)field_base + 0x35BC);
     D_80017548[0] = D_80017478;
     if (field_value < 20) {

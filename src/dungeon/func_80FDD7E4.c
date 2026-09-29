@@ -26,7 +26,7 @@ extern s32 D_80174068;
 
 
 /* Updates directional movement, then stops or returns the entity to its grid position. */
-void func_80172FE4(S_80172FE4_0 *action, EntityRec *motion, Rec_D_80082E80 *entity, void *source)
+void func_80172FE4(S_80172FE4_0 *action, EntityRec *motion, Rec_D_80082E80 *entity, EntityRec *source)
 {
     s16 timer;
     s32 current_x;
@@ -39,13 +39,13 @@ void func_80172FE4(S_80172FE4_0 *action, EntityRec *motion, Rec_D_80082E80 *enti
         func_800AD4D0(source);
         motion->unk_0C =
             -*(s16 *)((u8 *)((s8 *)dirStepX) +
-                      ((((EntityRec *)source)->unk_6A >> 8) & 0xE)) << 15;
+                      ((source->unk_6A >> 8) & 0xE)) << 15;
         motion->unk_10 =
             -*(s16 *)((u8 *)((s8 *)dirStepY) +
-                      ((((EntityRec *)source)->unk_6A >> 8) & 0xE)) << 15;
+                      ((source->unk_6A >> 8) & 0xE)) << 15;
         action->unk_9B++;
 
-        if (((EntityRec *)source)->unk_28 == 0) {
+        if (source->unk_28 == 0) {
             goto start_action;
         }
         if (entity->unk_14.at00_u16.v & 0x8000) {
@@ -53,7 +53,7 @@ void func_80172FE4(S_80172FE4_0 *action, EntityRec *motion, Rec_D_80082E80 *enti
             action->unk_9B = 2;
             return;
         }
-        if (((EntityRec *)source)->flags1C & 0x228) {
+        if (source->flags1C & 0x228) {
             timer = 8;
         } else {
             timer = -1;
@@ -66,12 +66,12 @@ void func_80172FE4(S_80172FE4_0 *action, EntityRec *motion, Rec_D_80082E80 *enti
     case 1:
         motion->unk_0C +=
             *(s16 *)((u8 *)((s8 *)dirStepX) +
-                     ((((EntityRec *)source)->unk_6A >> 8) & 0xE)) << 14;
+                     ((source->unk_6A >> 8) & 0xE)) << 14;
         {
             s16 table_offset;
             u8 *y_table;
 
-            table_offset = (((EntityRec *)source)->unk_6A >> 8) & 0xE;
+            table_offset = (source->unk_6A >> 8) & 0xE;
             y_table = (u8 *)((s8 *)dirStepY);
             motion->unk_10 +=
                 *(s16 *)(y_table + table_offset) << 14;
@@ -84,7 +84,7 @@ void func_80172FE4(S_80172FE4_0 *action, EntityRec *motion, Rec_D_80082E80 *enti
         if (action->unk_96.s != 0) {
             return;
         }
-        if (((EntityRec *)source)->unk_28 != 0) {
+        if (source->unk_28 != 0) {
             goto increment_state;
         }
         goto start_action;

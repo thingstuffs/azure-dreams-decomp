@@ -22,11 +22,6 @@ extern s32 D_800FE484;
 extern s32 func_8008CE08();
 
 
-typedef struct S_8008DA80_0 {
-    u8 pad_00[0x1DC];
-    u16 * unk_1DC;
-} S_8008DA80_0;   /* base in func_8008DA80 */
-
 typedef struct S_8008DA80_1 {
     u16 unk_00;
     u16 unk_02;
@@ -84,7 +79,7 @@ s16 func_8008DA80(s32 query_x, s32 query_y, s32 query_z)
     Scratch80090320 *scratch;
     Grid80090320 *grid;
     u16 *occupancy;
-    u8 *grid_data;
+    GameWork *grid_data;
     u8 *vertices;
     u8 *entry;
     u8 *plane;
@@ -107,13 +102,13 @@ s16 func_8008DA80(s32 query_x, s32 query_y, s32 query_z)
     scratch->lower_bound = (s16)query_x - block_base - 0x14;
     scratch->origin_y = query_y & 0x3F;
     scratch->origin_z = query_z;
-    grid_data = ((u8 *)(&gameWork));
-    grid = (Grid80090320 *)(grid_data + 0x1DC);
+    grid_data = &gameWork;
+    grid = (Grid80090320 *)((u8 *)grid_data + 0x1DC);
     scratch->result = query_x & 0x3F;
     query_x &= 0x3F;
     scratch->saved_y = query_y & 0x3F;
     scratch->height_data = grid->height_data;
-    occupancy = ((S_8008DA80_0 *)grid_data)->unk_1DC;
+    occupancy = ((u16 *)grid_data->map.cells);
     vertices = grid->vertices;
     if (query_x >= 0x20) {
         scratch->x_step = 0x40;

@@ -22,19 +22,6 @@ typedef struct S_8017360C_0 {
 } S_8017360C_0;   /* arg0 in func_8017360C */
 
 
-typedef struct S_8017360C_2 {
-    u8 pad_00[0x1C];
-    union { s32 s; u32 u; } unk_1C;   /* accessed as both */
-    u8 pad_20[0x5];
-    u8 unk_25;
-    u8 pad_26[0x4];
-    s16 unk_2A;
-    u8 pad_2C[0x38];
-    s16 unk_64;
-    u8 pad_66[0x7];
-    s8 unk_6D;
-} S_8017360C_2;   /* arg3 in func_8017360C */
-
 
 extern s32 func_80042900(void *, s32);
 extern void func_80042B68(void *, s32);
@@ -61,7 +48,7 @@ extern u8 D_80174160[];
 
 
 /* Advances the actor state sequence and selects effects for its facing direction. */
-void func_8017360C(void *action, void *context, void *entity, void *actor)
+void func_8017360C(void *action, void *context, void *entity, EntityRec *actor)
 {
     static void *const state_labels[] = {
         &&state_0, &&state_1, &&state_2, &&state_3, &&state_4, &&state_5
@@ -89,7 +76,7 @@ state_0:
         local_table_0 = D_801740F8;
         
         (*(void * *)((u8 *)entity + 0x2C)) = local_table_0;
-        effect_entry = (gameWork.view.viewAngle + ((S_8017360C_2 *)actor)->unk_2A + 0x100) >> 9;
+        effect_entry = (gameWork.view.viewAngle + actor->facing + 0x100) >> 9;
         effect_entry &= 7;
         effect_entry += (s32)local_table_0;
         func_80047784(entity, *(u8 *)effect_entry, 0);
@@ -110,7 +97,7 @@ state_1:
         local_table_1 = D_80174150;
         
                 (*(void * *)((u8 *)entity + 0x2C)) = local_table_1;
-        effect_entry = (gameWork.view.viewAngle + ((S_8017360C_2 *)actor)->unk_2A + 0x100) >> 9;
+        effect_entry = (gameWork.view.viewAngle + actor->facing + 0x100) >> 9;
         effect_entry &= 7;
         effect_entry += (s32)local_table_1;
         func_80047784(entity, *(u8 *)effect_entry, 0);
@@ -129,7 +116,7 @@ state_2:
         local_table_2 = D_80174158;
         
                 (*(void * *)((u8 *)entity + 0x2C)) = local_table_2;
-        effect_entry = (gameWork.view.viewAngle + ((S_8017360C_2 *)actor)->unk_2A + 0x100) >> 9;
+        effect_entry = (gameWork.view.viewAngle + actor->facing + 0x100) >> 9;
         effect_entry &= 7;
         effect_entry += (s32)local_table_2;
         func_80047784(entity, *(u8 *)effect_entry, 0);
@@ -150,12 +137,12 @@ state_3:
                 return;
             }
 
-            if ((((S_8017360C_2 *)actor)->unk_64 != 0) &&
+            if ((actor->unk_64 != 0) &&
                 func_800AA6B4(action, context, entity, 0)) {
                 return;
             }
 
-            if (((S_8017360C_2 *)actor)->unk_25 == 0) {
+            if (actor->tileY == 0) {
                 if ((dungeon_state->flags & 0x2008) != 0) {
                     return;
                 }
@@ -167,7 +154,7 @@ state_3:
                 return;
             }
 
-            actor_flags = ((S_8017360C_2 *)actor)->unk_1C.s;
+            actor_flags = actor->flags1C;
             if ((actor_flags & 0x100) != 0) {
                 func_800AA258(action, context, entity, actor);
                 return;
@@ -189,7 +176,7 @@ state_3:
             }
             }
 
-            if (((S_8017360C_2 *)actor)->unk_6D == 0) {
+            if (actor->unk_6D == 0) {
                 return;
             }
 
@@ -228,7 +215,7 @@ final_check:
         local_table_3 = D_80174160;
         
         (*(void * *)((u8 *)entity + 0x2C)) = local_table_3;
-        effect_entry = (gameWork.view.viewAngle + ((S_8017360C_2 *)actor)->unk_2A + 0x100) >> 9;
+        effect_entry = (gameWork.view.viewAngle + actor->facing + 0x100) >> 9;
         effect_entry &= 7;
         effect_entry += (s32)local_table_3;
         func_80047784(entity, *(u8 *)effect_entry, 0);
@@ -255,13 +242,13 @@ state_4:
         }
 
         local_table_4 = D_801740F8;
-        phase_flags = ((S_8017360C_2 *)actor)->unk_1C.u;
+        phase_flags = ((u32)actor->flags1C);
         
         phase_flags |= phase_flag;
-        ((S_8017360C_2 *)actor)->unk_1C.u = phase_flags;
+        actor->flags1C = phase_flags;
 effect_common:
         (*(void * *)((u8 *)entity + 0x2C)) = local_table_4;
-        effect_entry = (gameWork.view.viewAngle + ((S_8017360C_2 *)actor)->unk_2A + 0x100) >> 9;
+        effect_entry = (gameWork.view.viewAngle + actor->facing + 0x100) >> 9;
         effect_entry &= 7;
         effect_entry += (s32)local_table_4;
         func_80047784(entity, *(u8 *)effect_entry, 0);
@@ -282,7 +269,7 @@ state_5:
         local_table_5 = D_801740F0;
         
         (*(void * *)((u8 *)entity + 0x2C)) = local_table_5;
-        effect_entry = (gameWork.view.viewAngle + ((S_8017360C_2 *)actor)->unk_2A + 0x100) >> 9;
+        effect_entry = (gameWork.view.viewAngle + actor->facing + 0x100) >> 9;
         effect_entry &= 7;
         effect_entry += (s32)local_table_5;
         func_80047784(entity, *(u8 *)effect_entry, 0);

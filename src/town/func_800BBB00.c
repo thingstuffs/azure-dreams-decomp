@@ -8,8 +8,8 @@ extern u8 D_800D185D;
 
 /* Updates two wrapping indices from input flags and calls func_800B9204 on a button combination. */
 void func_800B9260(void) {
-    s32 *input_state = (s32 *) ((u8 *)(&gameWork));
-    s32 input_flags = input_state[4];
+    GameWork *input_state = &gameWork;
+    s32 input_flags = ((s32)input_state->unk_010);
     register s32 buttons ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register s32 masked_buttons ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
@@ -27,7 +27,7 @@ void func_800B9260(void) {
         D_800D185D++;
     }
     *(volatile u8 *) &D_800D185D = D_800D185D % 67;
-    buttons = *(volatile s32 *) &input_state[2];
+    buttons = *(volatile s32 *) &input_state->buttons;
     masked_buttons = buttons & 0x500000;
     if (masked_buttons == 0x500000) {
         func_800B9204(D_800D185D);

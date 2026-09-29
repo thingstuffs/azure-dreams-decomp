@@ -1,14 +1,10 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "shared/town_root.h"
 
 typedef struct {
     s32 v;
 } __attribute__((packed)) UA32;
-
-typedef struct S_func_8065C34C_0 {
-    u8 pad_00[0x20];
-    void *unk_20;
-} S_func_8065C34C_0;
 
 typedef struct S_func_8065C34C_1 {
     u8 pad_00[0x50];
@@ -22,7 +18,7 @@ extern s32 D_800183D0;
 /* Set the state to 9 and cache the callback result using a copy of the global arguments. */
 void func_8065C34C(void) {
     UA32 callback_args;
-    S_func_8065C34C_0 *context;
+    Rec_D_80016000 *context;
     S_func_8065C34C_1 *callback_table;
 
     callback_args = D_80016020;

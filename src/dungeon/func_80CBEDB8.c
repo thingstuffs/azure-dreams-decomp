@@ -32,14 +32,14 @@ extern u8 D_80170F20;
 extern u8 D_801762E8[];
 
 /* Advances the actor's directional animation and resets its action state on completion. */
-void func_801725B8(void *action, void *motion, void *anim, void *actor)
+void func_801725B8(void *action, void *motion, void *anim, EntityRec *actor)
 {
     switch (((S_801725B8_0 *)action)->unk_9B) {
     case 0:
         if (((Rec_D_80082E80 *)anim)->unk_14.at00_u16.v & 0x8000) {
             ((S_801725B8_0 *)action)->unk_9B = 2;
             ((Rec_D_80082E80 *)anim)->unk_14.at00_u16.v |= 0x6000;
-            func_8009C12C(actor, anim, ((EntityRec *)actor)->facing, 1);
+            func_8009C12C(actor, anim, actor->facing, 1);
             return;
         }
         {
@@ -51,7 +51,7 @@ void func_801725B8(void *action, void *motion, void *anim, void *actor)
             direction_table = D_801762E8;
             (*(u8 * *)((u8 *)anim + 0x2C)) = direction_table;
             func_80047784(anim,
-                direction_table[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+                direction_table[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             ((S_801725B8_0 *)action)->unk_9B++;
         }
@@ -65,7 +65,7 @@ void func_801725B8(void *action, void *motion, void *anim, void *actor)
               (((Rec_D_80082E80 *)anim)->unk_14.at00_u16.v & 0xE000))) {
             return;
         }
-        func_8009C12C(actor, anim, ((EntityRec *)actor)->facing, 1);
+        func_8009C12C(actor, anim, actor->facing, 1);
         ((S_801725B8_0 *)action)->unk_9B++;
         /* fallthrough */
     case 2:
@@ -75,7 +75,7 @@ void func_801725B8(void *action, void *motion, void *anim, void *actor)
         func_800AD594(actor, 0x100);
         ((S_801725B8_0 *)action)->unk_8C = &D_80170F20;
         dungeonStatus.unk_0C = 0;
-        (*(u16 *)((u8 *)actor + 0x46)) &= 0x7FFF;
+        (actor->unk_46) &= 0x7FFF;
         func_800A4ACC(actor);
         return;
     }

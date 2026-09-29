@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity.h"
 #include "m2c_compat.h"
 
 typedef struct S_80093E74_7 {
@@ -6,13 +7,6 @@ typedef struct S_80093E74_7 {
     union { void * s; s32 u; } unk_D0;   /* accessed as both */
 } S_80093E74_7;   /* ((arg3->unk_8A * 4) + arg0) in func_80093E74 */
 
-
-typedef struct S_80093E74_0 {
-    u8 pad_00[0x60];
-    void * unk_60;
-    u8 pad_64[0x26];
-    s16 unk_8A;
-} S_80093E74_0;   /* arg3 in func_80093E74 */
 
 typedef struct S_80093E74_1 {
     u8 pad_00[0x3];
@@ -31,11 +25,6 @@ typedef struct S_80093E74_3 {
     s32 unk_14;
 } S_80093E74_3;   /* temp_a0_2 in func_80093E74 */
 
-typedef struct S_80093E74_4 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-} S_80093E74_4;   /* temp_a0_3 in func_80093E74 */
-
 typedef struct S_80093E74_5 {
     void * unk_00;
     u8 pad_04[0x2C];
@@ -53,14 +42,6 @@ typedef struct S_80093E74_6 {
 #define M2C_SYNC() ((void)0)
 
 typedef struct {
-    s32 words[4];
-} Copy16;
-
-typedef struct {
-    s32 words[3];
-} Copy12;
-
-typedef struct {
     s32 words[35];
 } Copy140;
 
@@ -71,7 +52,7 @@ extern void *D_800E3DF0[];
 extern u8 D_800E3E48[];
 
 /* Copy the indexed record into storage, clear its owner slot, and trigger an effect. */
-void func_80093E74(s32 slot_table, void *unused_arg1, void *unused_arg2, S_80093E74_0 *owner) {
+void func_80093E74(s32 slot_table, void *unused_arg1, void *unused_arg2, EntityRec *owner) {
     M2C_UNK effect_mask;
     u8 effect_x;
     u8 effect_y;
@@ -80,7 +61,7 @@ void func_80093E74(s32 slot_table, void *unused_arg1, void *unused_arg2, S_80093
     void **record_table;
     void **record_slot;
     S_80093E74_3 *stored_record;
-    S_80093E74_4 *owner_state;
+    EntityRec *owner_state;
     S_80093E74_2 *source_record;
     void *unused_ptr;
     void *record_storage;
@@ -118,9 +99,9 @@ void func_80093E74(s32 slot_table, void *unused_arg1, void *unused_arg2, S_80093
     stored_record = record_table[saved_index];
     stored_record->unk_14 = (s32) (stored_record->unk_14 & ~0x4000);
     ((S_80093E74_7 *)(((owner->unk_8A * 4) + slot_table)))->unk_D0.u = 0;
-    owner_state = owner->unk_60;
-    owner_state->unk_1C = (s32) (owner_state->unk_1C | 0x400000);
-    owner_record = owner->unk_60;
+    owner_state = owner->target;
+    owner_state->flags1C = (s32) (owner_state->flags1C | 0x400000);
+    owner_record = owner->target;
     position = ((S_80093E74_5 *)((u8 *)owner_record - 0x14))->unk_00;
     effect_x = position->unk_24;
     effect_y = position->unk_25;

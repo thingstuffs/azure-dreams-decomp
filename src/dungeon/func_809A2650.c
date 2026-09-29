@@ -20,19 +20,6 @@ typedef struct S_80173E50_0 {
 } S_80173E50_0;   /* arg0 in func_80173E50 */
 
 
-typedef struct S_80173E50_2 {
-    u8 pad_00[0x1C];
-    union { s32 s; u32 u; } unk_1C;   /* accessed as both */
-    u8 pad_20[0x5];
-    u8 unk_25;
-    u8 pad_26[0x4];
-    s16 unk_2A;
-    u8 pad_2C[0x38];
-    s16 unk_64;
-    u8 pad_66[0x7];
-    s8 unk_6D;
-} S_80173E50_2;   /* arg3 in func_80173E50 */
-
 
 
 extern s32 func_80042900(void *, s32);
@@ -56,7 +43,7 @@ extern u8 D_80175EA0[];
 extern u8 D_80175EC0[];
 
 /* Advances the actor action state, updating its directional animation and callback. */
-void func_80173E50(void *actor, void *context, void *render_record, void *actor_state)
+void func_80173E50(void *actor, void *context, void *render_record, EntityRec *actor_state)
 {
     s32 actor_flags;
     u16 value;
@@ -85,7 +72,7 @@ state_zero:
     }
     (*(void * *)((u8 *)render_record + 0x2C)) = D_80175EA0;
     func_80047784(render_record,
-        D_80175EA0[((gameWork.view.viewAngle + ((S_80173E50_2 *)actor_state)->unk_2A + 0x100) >> 9) & 7],
+        D_80175EA0[((gameWork.view.viewAngle + actor_state->facing + 0x100) >> 9) & 7],
         0);
     {
         DungeonGlobalStatus *counter_base = &dungeonStatus;
@@ -103,12 +90,12 @@ state_one:
         if (global_base->flags & 0x1000) {
             return;
         }
-        if (((S_80173E50_2 *)actor_state)->unk_64 != 0) {
+        if (actor_state->unk_64 != 0) {
             if (func_800AA6B4(actor, context, render_record, 0) != 0) {
                 return;
             }
         }
-        if (((S_80173E50_2 *)actor_state)->unk_25 == 0) {
+        if (actor_state->tileY == 0) {
             if (global_base->flags & 0x2008) {
                 return;
             }
@@ -118,7 +105,7 @@ state_one:
         if ((func_800A2C34(actor_state) << 16) != 0) {
             return;
         }
-        actor_flags = ((S_80173E50_2 *)actor_state)->unk_1C.s;
+        actor_flags = actor_state->flags1C;
         if (actor_flags & 0x100) {
             func_800AA258(actor, context, render_record, actor_state);
             return;
@@ -133,7 +120,7 @@ state_one:
             func_80174574(actor, context, render_record, actor_state);
             return;
         }
-        if (((S_80173E50_2 *)actor_state)->unk_6D == 0) {
+        if (actor_state->unk_6D == 0) {
             return;
         }
         if ((func_800A2C34(actor_state) << 16) != 0) {
@@ -163,9 +150,9 @@ state_one:
     }
     (*(void * *)((u8 *)render_record + 0x2C)) = D_80175EC0;
     func_80047784(render_record,
-        D_80175EC0[((gameWork.view.viewAngle + ((S_80173E50_2 *)actor_state)->unk_2A + 0x100) >> 9) & 7],
+        D_80175EC0[((gameWork.view.viewAngle + actor_state->facing + 0x100) >> 9) & 7],
         0);
-    ((S_80173E50_2 *)actor_state)->unk_1C.u |= 0x40000;
+    (*(u32 *)&actor_state->flags1C) |= 0x40000;
     if (((Rec_D_80082E80 *)render_record)->unk_14.at00_u16.v & 0x8000) {
         goto set_callback;
     }

@@ -35,7 +35,7 @@ extern u8 D_80171094[];
 extern u8 D_80176488[];
 
 /* Updates a timed backward-then-forward movement sequence and handles animation completion. */
-void func_80172C98(void *action, void *motion, void *animation, void *actor)
+void func_80172C98(void *action, EntityRec *motion, void *animation, EntityRec *actor)
 {
     u16 timer;
     s32 state;
@@ -60,31 +60,31 @@ void func_80172C98(void *action, void *motion, void *animation, void *actor)
 
 state_zero:
     ((S_80172C98_0 *)action)->unk_AE.s = 6;
-    ((EntityRec *)motion)->unk_0C =
-        -(((func_80064584(((EntityRec *)actor)->facing) >> 4) << 13) /
+    motion->unk_0C =
+        -(((func_80064584(actor->facing) >> 4) << 13) /
           ((S_80172C98_0 *)action)->unk_AE.s);
-    ((EntityRec *)motion)->unk_10 =
-        -(((func_800644B8(((EntityRec *)actor)->facing) >> 4) << 13) /
+    motion->unk_10 =
+        -(((func_800644B8(actor->facing) >> 4) << 13) /
           ((S_80172C98_0 *)action)->unk_AE.s);
     ((S_80172C98_0 *)action)->unk_9B++;
 
 state_one:
     if (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0x8000) {
         ((S_80172C98_0 *)action)->unk_9B = 3;
-        ((EntityRec *)motion)->unk_0C =
-            ((EntityRec *)motion)->unk_10 =
-                ((EntityRec *)motion)->flags14 = 0;
+        motion->unk_0C =
+            motion->unk_10 =
+                motion->flags14 = 0;
         ((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v |= 0x6000;
-        func_8009C12C(actor, animation, ((EntityRec *)actor)->facing, 1);
+        func_8009C12C(actor, animation, actor->facing, 1);
         return;
     }
 
     timer = ((S_80172C98_0 *)action)->unk_AE.u - 1;
     ((S_80172C98_0 *)action)->unk_AE.u = timer;
     if ((s16)timer < 0) {
-        ((EntityRec *)motion)->unk_0C =
-            ((EntityRec *)motion)->unk_10 =
-                ((EntityRec *)motion)->flags14 = 0;
+        motion->unk_0C =
+            motion->unk_10 =
+                motion->flags14 = 0;
     }
 
     if (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0x6000) {
@@ -93,14 +93,14 @@ state_one:
         (*(u8 * *)((u8 *)animation + 0x2C)) = direction_anims;
         func_80047784(
             animation,
-            direction_anims[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            direction_anims[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         ((S_80172C98_0 *)action)->unk_AE.s = 6;
-        ((EntityRec *)motion)->unk_0C =
-            ((func_80064584(((EntityRec *)actor)->facing) >> 4) << 14) /
+        motion->unk_0C =
+            ((func_80064584(actor->facing) >> 4) << 14) /
             ((S_80172C98_0 *)action)->unk_AE.s;
-        ((EntityRec *)motion)->unk_10 =
-            ((func_800644B8(((EntityRec *)actor)->facing) >> 4) << 14) /
+        motion->unk_10 =
+            ((func_800644B8(actor->facing) >> 4) << 14) /
             ((S_80172C98_0 *)action)->unk_AE.s;
         ((S_80172C98_0 *)action)->unk_AE.u--;
         func_801752EC(action, motion, animation);
@@ -115,15 +115,15 @@ state_two:
     timer = ((S_80172C98_0 *)action)->unk_AE.u - 1;
     ((S_80172C98_0 *)action)->unk_AE.u = timer;
     if ((s16)timer < 0) {
-        ((EntityRec *)motion)->unk_0C =
-            ((EntityRec *)motion)->unk_10 =
-                ((EntityRec *)motion)->flags14 = 0;
+        motion->unk_0C =
+            motion->unk_10 =
+                motion->flags14 = 0;
     }
 
     timer = ((S_80172C98_0 *)action)->unk_96 + 1;
     ((S_80172C98_0 *)action)->unk_96 = timer;
     if (((s16)timer == 5) || (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0x8000)) {
-        func_8009C12C(actor, animation, ((EntityRec *)actor)->facing, 1);
+        func_8009C12C(actor, animation, actor->facing, 1);
         func_800A56E0(0x808);
     }
 
@@ -131,12 +131,12 @@ state_three:
     if (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0xE000) {
         func_800AD594(actor, 0x100);
         func_800A2B04(motion, ((Rec_D_80082E80 *)animation)->unk_24, ((Rec_D_80082E80 *)animation)->unk_25);
-        ((EntityRec *)motion)->unk_0C =
-            ((EntityRec *)motion)->unk_10 =
-                ((EntityRec *)motion)->flags14 = 0;
+        motion->unk_0C =
+            motion->unk_10 =
+                motion->flags14 = 0;
         ((S_80172C98_0 *)action)->unk_8C = D_80171094;
         dungeonStatus.unk_0C = 0;
-        (*(u16 *)((u8 *)actor + 0x46)) &= 0x7FFF;
+        (actor->unk_46) &= 0x7FFF;
         func_800A4ACC(actor);
     }
 }

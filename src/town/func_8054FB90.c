@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "shared/town_root.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_80016000.h"
 
 
 typedef struct S_8054FB90_1 {
@@ -17,6 +17,6 @@ M2C_UNK func_800177C4();                     /* extern */
 
 /* Dispatches mode 2, then invokes the handler for 0x596. */
 void func_8054FB90(void) {
-    ((S_8054FB90_1 *)(((Rec_D_80016000 *)D_80016000)->unk_20))->unk_1F4(2);
+    ((S_8054FB90_1 *)(D_80016000->unk_20))->unk_1F4(2);
     func_800177C4(0x596);
 }

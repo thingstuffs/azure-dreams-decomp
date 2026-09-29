@@ -22,12 +22,12 @@ M2C_UNK func_800C7930();
 extern u8 D_80174EC8;
 
 /* Start the actor's directional action and record the adjacent tile result. */
-void func_8017476C(void *action_state, M2C_UNK action_context, void *sprite, void *actor) {
+void func_8017476C(void *action_state, M2C_UNK action_context, void *sprite, EntityRec *actor) {
     s32 direction;
 
-    ((EntityRec *)actor)->unk_71 = (u8)(((EntityRec *)actor)->unk_71 & 0x7F);
+    actor->unk_71 = (u8)(actor->unk_71 & 0x7F);
     if (!(dungeonStatus.flags & 0x2000) && ((func_800A2B5C(actor) << 0x10) == 0)) {
-        func_800C7930(actor - 0x20, action_context, 8, 0x300);
+        func_800C7930((u8 *)actor - 0x20, action_context, 8, 0x300);
         if ((func_800A2B5C(actor) << 0x10) == 0) {
             ((Rec_func_800A9E70_arg0 *)action_state)->unk_9A.as_s8 = 0x17;
             ((Rec_func_800A9E70_arg0 *)action_state)->unk_96.as_s16 = 0xF;
@@ -36,17 +36,17 @@ void func_8017476C(void *action_state, M2C_UNK action_context, void *sprite, voi
             (*(u8 **)((u8 *)sprite + 0x2C)) = &D_80174EC8;
             func_80047784(
                 sprite,
-                *(&D_80174EC8 + (((s32)(gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7)),
+                *(&D_80174EC8 + (((s32)(gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7)),
                 0);
             ((Rec_func_800AA258_arg2 *)sprite)->unk_14 = (u16)(((Rec_func_800AA258_arg2 *)sprite)->unk_14 | 0x800);
             func_800A4ACC(actor);
-            ((EntityRec *)actor)->unk_6D = (u8)(((u8)((EntityRec *)actor)->unk_6D) - 1);
-            direction = ((u16)((EntityRec *)actor)->facing >> 9) & 7;
-            ((EntityRec *)actor)->target = func_8009B25C(
+            actor->unk_6D = (u8)(((u8)actor->unk_6D) - 1);
+            direction = ((u16)actor->facing >> 9) & 7;
+            actor->target = func_8009B25C(
                 actor,
                 (((Rec_func_800AA258_arg2 *)sprite)->unk_24 + ((u16 *)dirStepX)[direction]) & 0xFFFF,
                 (((Rec_func_800AA258_arg2 *)sprite)->unk_25 + ((u16 *)dirStepY)[direction]) & 0xFFFF,
-                ((EntityRec *)actor)->unk_88);
+                actor->unk_88);
         }
     }
 }

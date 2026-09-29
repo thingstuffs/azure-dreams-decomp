@@ -2,6 +2,7 @@
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
+#include "shared/entity.h"
 #include "records/Rec_func_8017121C_arg1.h"
 
 
@@ -17,18 +18,6 @@ extern u8 D_80170DC4[];
 extern u8 D_80175EB4[];
 extern u8 D_80175EBC[];
 
-
-typedef struct S_801714FC_0 {
-    u8 pad_00[0x14];
-    s32 unk_14;
-    u8 pad_18[0x12];
-    union { u16 u; s16 s; } unk_2A;   /* accessed as both */
-    u8 pad_2C[0x34];
-    union { s32 i; void * p; } unk_60;   /* accessed as both */
-    u8 pad_64[0xE];
-    union { s8 s; u8 u; } unk_72;   /* accessed as both */
-    union { s8 s; u8 u; } unk_73;   /* accessed as both */
-} S_801714FC_0;   /* arg3 in func_801714FC */
 
 typedef struct S_801714FC_1 {
     u8 pad_00[0x94];
@@ -93,7 +82,7 @@ typedef struct S_801714FC_8 {
 } S_801714FC_8;   /* ((S_801714FC_0 *)arg3)->unk_60.p in func_801714FC */
 
 /* Create and position an effect using a linked object or stored tile coordinates. */
-void func_801714FC(void *source_object, void *source_pos, void *sprite_template, void *actor)
+void func_801714FC(void *source_object, void *source_pos, void *sprite_template, EntityRec *actor)
 {
     void *effect;
     void *effect_state;
@@ -102,7 +91,7 @@ void func_801714FC(void *source_object, void *source_pos, void *sprite_template,
     void *linked_pos;
     u16 pos_offset[4];
 
-    if (((S_801714FC_0 *)actor)->unk_60.i == 0 && ((S_801714FC_0 *)actor)->unk_72.s >= 0) {
+    if (((s32)actor->target) == 0 &&actor->unk_72 >= 0) {
         return;
     }
     effect = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
@@ -113,7 +102,7 @@ void func_801714FC(void *source_object, void *source_pos, void *sprite_template,
     ((S_801714FC_1 *)effect_state)->unk_96 = 0xa;
     ((S_801714FC_1 *)effect_state)->unk_9E = 0xa;
     ((S_801714FC_2 *)effect)->unk_10 = (void *)&D_80170DC4;
-    ((S_801714FC_1 *)effect_state)->unk_94 = ((S_801714FC_0 *)actor)->unk_2A.u;
+    ((S_801714FC_1 *)effect_state)->unk_94 = ((u16)actor->facing);
     effect_data = ((S_801714FC_2 *)effect)->unk_0C;
     template_data = sprite_template;
     {
@@ -135,29 +124,29 @@ void func_801714FC(void *source_object, void *source_pos, void *sprite_template,
     func_8004491C(effect, func_80045340);
     (*(void * *)((u8 *)effect_data + 0x2c)) = (void *)&D_80175EB4;
     func_80047784(effect_data,
-        ((u8 *)&D_80175EB4)[(((s32)gameWork.view.viewAngle + (s32)((S_801714FC_0 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
+        ((u8 *)&D_80175EB4)[(((s32)gameWork.view.viewAngle + (s32)actor->facing + 0x100) >> 9) & 7],
         0);
     effect_data = ((S_801714FC_2 *)effect)->unk_08;
-    if (((S_801714FC_0 *)actor)->unk_60.i != 0 && (((S_801714FC_0 *)actor)->unk_14 & 0x04000000) == 0) {
+    if (((s32)actor->target) != 0 && (actor->flags14 & 0x04000000) == 0) {
         u8 *direction_offsets = (u8 *)&D_80175EBC;
-        linked_pos = ((S_801714FC_8_pre *)(((S_801714FC_0 *)actor)->unk_60.p))[-1].unk_00;
+        linked_pos = ((S_801714FC_8_pre *)(actor->target))[-1].unk_00;
         ((S_801714FC_3 *)effect_data)->unk_02 = ((S_801714FC_4 *)linked_pos)->unk_02
-            - ((*(s16 *)((u8 *)direction_offsets + ((((S_801714FC_0 *)actor)->unk_2A.u >> 7) & 0x1c))) * 0x10);
+            - ((*(s16 *)((u8 *)direction_offsets + ((((u16)actor->facing) >> 7) & 0x1c))) * 0x10);
         ((S_801714FC_3 *)effect_data)->unk_06 = ((S_801714FC_4 *)linked_pos)->unk_06
-            - ((*(s16 *)((u8 *)direction_offsets + (((((S_801714FC_0 *)actor)->unk_2A.u >> 7) & 0x1c) + 2))) * 0x10);
+            - ((*(s16 *)((u8 *)direction_offsets + (((((u16)actor->facing) >> 7) & 0x1c) + 2))) * 0x10);
         ((S_801714FC_3 *)effect_data)->unk_0A = ((S_801714FC_4 *)linked_pos)->unk_0A
-            - (D_800DDC40[((S_801714FC_8 *)(((S_801714FC_0 *)actor)->unk_60.p))->unk_13] >> 1);
+            - (D_800DDC40[((S_801714FC_8 *)(actor->target))->unk_13] >> 1);
         return;
     }
-    if (((S_801714FC_0 *)actor)->unk_72.s < 0) {
+    if (actor->unk_72 < 0) {
         s32 tile_x, tile_y;
-        ((S_801714FC_0 *)actor)->unk_72.u = -(u8)((S_801714FC_0 *)actor)->unk_72.u;
-        if (((S_801714FC_0 *)actor)->unk_73.s < 0) {
-            ((S_801714FC_0 *)actor)->unk_73.u = -(u8)((S_801714FC_0 *)actor)->unk_73.u;
+        actor->unk_72 = -(u8)((u8)actor->unk_72);
+        if (actor->unk_73 < 0) {
+            actor->unk_73 = -(u8)((u8)actor->unk_73);
         }
-        tile_x = ((S_801714FC_0 *)actor)->unk_72.s;
+        tile_x = actor->unk_72;
         ((S_801714FC_3 *)effect_data)->unk_02 = (tile_x << 6) + 0x20;
-        tile_y = ((S_801714FC_0 *)actor)->unk_73.s;
+        tile_y = actor->unk_73;
         ((S_801714FC_3 *)effect_data)->unk_06 = (tile_y << 6) + 0x20;
         ((S_801714FC_3 *)effect_data)->unk_0A = ((Rec_func_8017121C_arg1 *)source_pos)->unk_0A;
         {

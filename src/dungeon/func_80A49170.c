@@ -16,22 +16,6 @@ typedef struct S_80172970_0 {
     u8 unk_9B;
 } S_80172970_0;   /* arg0 in func_80172970 */
 
-typedef struct S_80172970_1 {
-    u8 pad_00[0x1C];
-    u32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x1A];
-    u16 unk_46;
-    u8 pad_48[0x18];
-    void * unk_60;
-    u8 pad_64[0x9];
-    union { u8 s; s8 u; } unk_6D;   /* accessed as both */
-    u8 pad_6E[0x4];
-    union { u8 s; s8 u; } unk_72;   /* accessed as both */
-    union { u8 s; s8 u; } unk_73;   /* accessed as both */
-} S_80172970_1;   /* arg3 in func_80172970 */
-
 typedef struct S_80172970_2_pre {
     void * unk_00;
     u8 pad_04[0x10];
@@ -54,12 +38,6 @@ typedef struct S_80172970_4 {
 } S_80172970_4;   /* arg2 in func_80172970 */
 
 
-typedef struct S_80172970_6 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-    s32 unk_0C;
-} S_80172970_6;   /* globals in func_80172970 */
-
 
 
 extern s32 func_8003F270(void);
@@ -70,13 +48,12 @@ extern void func_800A4ACC(void *);
 extern void func_800A56E0(s32);
 extern s32 func_800A94A0(void *, u8 *, s32, u16 *);
 
-typedef struct { u8 pad[0x12]; u8 kind; u8 pad2; } ItemDef20;
 extern u8 D_80170838[16];
 extern u8 D_8017140C[];
 extern u8 D_8017586C[];
 
 /* Starts the selected move, waits for completion, and resets the actor's action state. */
-void func_80172970(void *action, void *position, void *sprite, void *actor)
+void func_80172970(void *action, EntityRec *position, void *sprite, EntityRec *actor)
 {
     static void *const switch_keep[] = {
         &&kind_1, &&kind_2, &&kind_3, &&kind_none,
@@ -109,8 +86,8 @@ void func_80172970(void *action, void *position, void *sprite, void *actor)
     return;
 
 state_0:
-    if (((S_80172970_1 *)actor)->unk_1C & 0x2000) {
-        move_kind = (((S_80172970_1 *)actor)->unk_46 & 0x3FFF) - 1;
+    if (((u32)actor->flags1C) & 0x2000) {
+        move_kind = (actor->unk_46 & 0x3FFF) - 1;
         if ((u32)move_kind >= 7U) {
             goto kind_none;
         }
@@ -128,7 +105,7 @@ special_1:
         goto kind_1;
     }
 
-    move_kind = ((S_80172970_1 *)actor)->unk_46 & 0x3FFF;
+    move_kind = actor->unk_46 & 0x3FFF;
     if (move_kind == 2) {
         goto kind_2;
     }
@@ -162,33 +139,33 @@ have_choice:
         special_check = is_special;
         if (special_check != 0) {
             target = D_800814A8;
-            ((S_80172970_1 *)actor)->unk_60 = target;
+            actor->target = target;
             goto copy_existing;
         }
 
         if (D_8006DE24[*move_data].kind == 2) {
-            target = ((S_80172970_1 *)actor)->unk_60;
+            target = actor->target;
             if (target == 0) {
                 goto move_setup;
             }
 copy_existing:
             phase = ((S_80172970_2_pre *)target)[-1].unk_00;
-            ((S_80172970_1 *)actor)->unk_72.s = ((S_80172970_3 *)phase)->unk_24;
-            ((S_80172970_1 *)actor)->unk_73.s = ((S_80172970_3 *)phase)->unk_25;
+            actor->unk_72 = ((S_80172970_3 *)phase)->unk_24;
+            actor->unk_73 = ((S_80172970_3 *)phase)->unk_25;
             goto apply_move;
         }
 
-        ((S_80172970_1 *)actor)->unk_60 =
+        actor->target =
             func_800A05A4(actor,
                           ((S_80172970_4 *)sprite)->unk_24,
                           ((S_80172970_4 *)sprite)->unk_25,
-                          ((S_80172970_1 *)actor)->unk_2A, 0x10);
-        target_x = ((S_80172970_1 *)actor)->unk_72.u;
-        target_y = ((S_80172970_1 *)actor)->unk_73.u;
+                          actor->facing, 0x10);
+        target_x = actor->unk_72;
+        target_y = actor->unk_73;
         target_x = abs(target_x);
         target_y = abs(target_y);
-        ((S_80172970_1 *)actor)->unk_72.s = target_x;
-        ((S_80172970_1 *)actor)->unk_73.s = target_y;
+        actor->unk_72 = target_x;
+        actor->unk_73 = target_y;
 
 move_setup:
 apply_move:
@@ -204,18 +181,18 @@ apply_move:
         return;
     }
 
-    ((EntityRec *)position)->flags14 = 0;
-    ((EntityRec *)position)->unk_10 = 0;
-    ((EntityRec *)position)->unk_0C = 0;
+    position->flags14 = 0;
+    position->unk_10 = 0;
+    position->unk_0C = 0;
     func_800A2B04(position, ((S_80172970_4 *)sprite)->unk_24, ((S_80172970_4 *)sprite)->unk_25);
     dungeonStatus.unk_0C = 0;
     (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
     func_800A4ACC(actor);
-    ((S_80172970_1 *)actor)->unk_6D.s--;
+    (*(u8 *)&actor->unk_6D)--;
     ((S_80172970_0 *)action)->unk_8C = D_8017140C;
-    ((S_80172970_1 *)actor)->unk_73.s = 0;
-    ((S_80172970_1 *)actor)->unk_72.s = 0;
-    ((S_80172970_1 *)actor)->unk_46 &= 0x7FFF;
+    actor->unk_73 = 0;
+    actor->unk_72 = 0;
+    actor->unk_46 &= 0x7FFF;
     return;
 
 state_1:
@@ -238,15 +215,15 @@ state_2:
     if (!(((S_80172970_4 *)sprite)->unk_14 & 0xE000)) {
         return;
     }
-    ((EntityRec *)position)->flags14 = 0;
-    ((EntityRec *)position)->unk_10 = 0;
-    ((EntityRec *)position)->unk_0C = 0;
+    position->flags14 = 0;
+    position->unk_10 = 0;
+    position->unk_0C = 0;
     func_800A2B04(position, ((S_80172970_4 *)sprite)->unk_24, ((S_80172970_4 *)sprite)->unk_25);
     if (((S_80172970_4 *)sprite)->unk_2C != D_8017586C) {
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_8017586C;
         func_80047784(
             sprite,
-            D_8017586C[((gameWork.view.viewAngle + ((S_80172970_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            D_8017586C[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
     }
     {
@@ -259,12 +236,12 @@ state_2:
     ((S_80172970_4 *)sprite)->unk_14 &= 0xF7FF;
     ((S_80172970_0 *)action)->unk_8C = D_8017140C;
     func_800A4ACC(actor);
-    if (((S_80172970_1 *)actor)->unk_6D.u > 0) {
-        ((S_80172970_1 *)actor)->unk_6D.s--;
+    if (actor->unk_6D > 0) {
+        (*(u8 *)&actor->unk_6D)--;
     }
-    ((S_80172970_1 *)actor)->unk_73.s = 0;
-    ((S_80172970_1 *)actor)->unk_72.s = 0;
-    ((S_80172970_1 *)actor)->unk_46 &= 0x7FFF;
+    actor->unk_73 = 0;
+    actor->unk_72 = 0;
+    actor->unk_46 &= 0x7FFF;
     func_800A56E0(0xB4);
 
     return;

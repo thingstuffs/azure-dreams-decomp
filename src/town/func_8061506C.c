@@ -1,6 +1,6 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
-#include "records/Rec_D_80016000.h"
+#include "shared/town_root.h"
 
 
 typedef void (*Callback)(s32, s32);
@@ -24,6 +24,6 @@ s32 func_8001686C(void)
         return 1;
     }
 
-    (*(Callback *)((u8 *)(((Rec_D_80016000 *)D_80016000)->unk_20) + 0x2F8))(0x10, 0x200);
+    (*(Callback *)((u8 *)(D_80016000->unk_20) + 0x2F8))(0x10, 0x200);
     return 0;
 }

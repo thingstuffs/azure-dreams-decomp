@@ -1,14 +1,8 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "shared/town_root.h"
 
 #define FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-
-typedef struct S_func_804B80D0_0 {
-    u8 pad_00[8];
-    s32 unk_08;
-    u8 pad_0C[0x34];
-    s32 unk_40;
-} S_func_804B80D0_0;
 
 typedef struct S_func_804B80D0_1 {
     u8 pad_00[2];
@@ -29,8 +23,8 @@ s32 func_800168D0(s32 object, s32 context) {
     if (func_8001894C(D_80018AEA) == 0) {
         func_80018854(0x511);
         if (((S_func_804B80D0_1 *)
-             ((((S_func_804B80D0_0 *)D_80016000)->unk_08 * 8) +
-              ((S_func_804B80D0_0 *)D_80016000)->unk_40))->unk_02 == 0) {
+             ((D_80016000->unk_08 * 8) +
+              ((s32)D_80016000->unk_40)))->unk_02 == 0) {
             func_800188CC(0x514);
         }
     }

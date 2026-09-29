@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "shared/town_root.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_80016000.h"
 
 
 typedef struct S_8047130C_1 {
@@ -17,5 +17,5 @@ extern u32 D_8001B210;
 
 /* Check whether the stored value has reached the D_8001B210 threshold. */
 s32 func_8047130C(void) {
-    return (u32) ((S_8047130C_1 *)(((Rec_D_80016000 *)D_80016000)->unk_38.as_pv))->unk_2D5C >= (u32) D_8001B210;
+    return (u32) ((S_8047130C_1 *)(D_80016000->unk_38))->unk_2D5C >= (u32) D_8001B210;
 }

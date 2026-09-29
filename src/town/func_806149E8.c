@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "shared/town_root.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_80016000.h"
 
 
 typedef struct S_806149E8_1 {
@@ -16,5 +16,5 @@ typedef struct S_806149E8_1 {
 
 /* Returns whether the referenced record's unk_38 field differs from 3. */
 s32 func_806149E8(void) {
-    return ((S_806149E8_1 *)(((Rec_D_80016000 *)D_80016000)->unk_1C.as_pv))->unk_38 != 3;
+    return ((S_806149E8_1 *)(D_80016000->unk_1C))->unk_38 != 3;
 }

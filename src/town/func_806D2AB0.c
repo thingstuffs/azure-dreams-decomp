@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "shared/town_root.h"
 
 
 typedef void (*Callback3)(void *, void *, s32);
@@ -19,11 +20,6 @@ typedef struct S_806D2AB0_2 {
     u8 pad_00[0x8];
     s32 unk_08;
 } S_806D2AB0_2;   /* (offset - index) * 4 + (u8 *)arg0 in func_806D2AB0 */
-
-typedef struct S_806D2AB0_3 {
-    u8 pad_00[0x20];
-    void * unk_20;
-} S_806D2AB0_3;   /* D_80016000[0] in func_806D2AB0 */
 
 
 extern u8 D_80016148[16];
@@ -58,9 +54,9 @@ loop:
         return entry_index;
     } else {
 notify:
-        (*(Callback3 *)((u8 *)(((S_806D2AB0_3 *)(D_80016000))->unk_20) + 0x168))(
+        (*(Callback3 *)((u8 *)(D_80016000->unk_20) + 0x168))(
             D_80016148, D_80016170, 0x36);
-        (*(Callback1 *)((u8 *)(((S_806D2AB0_3 *)(D_80016000))->unk_20) + 0x174))(1);
+        (*(Callback1 *)((u8 *)(D_80016000->unk_20) + 0x174))(1);
     }
     return entry_index;
 }

@@ -38,7 +38,7 @@ extern u8 D_801765F0[];
 extern u8 D_801765F8[];
 
 /* Advance movement toward the target tile and finish the action when its timer expires. */
-void func_801722BC(void *action, void *motion, void *sprite, void *actor)
+void func_801722BC(void *action, EntityRec *motion, void *sprite, EntityRec *actor)
 {
     s32 target_distance;
     s16 move_ticks;
@@ -61,10 +61,10 @@ void func_801722BC(void *action, void *motion, void *sprite, void *actor)
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801765F0;
         func_80047784(
             sprite,
-            D_801765F0[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            D_801765F0[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         ((S_801722BC_0 *)action)->unk_98 |= 8;
-        ((EntityRec *)actor)->flags1C &= 0xF7FFFFFF;
+        actor->flags1C &= 0xF7FFFFFF;
         ((S_801722BC_0 *)action)->unk_9E.s = 5;
         ((S_801722BC_0 *)action)->unk_A0 = 0;
         ((S_801722BC_0 *)action)->unk_9B++;
@@ -75,16 +75,16 @@ void func_801722BC(void *action, void *motion, void *sprite, void *actor)
         move_ticks = ((S_801722BC_0 *)action)->unk_9E.u;
         if (move_ticks != 0) {
             tile_delta = ((Rec_D_80082E80 *)sprite)->unk_24 << 6;
-            axis_pos = ((EntityRec *)motion)->x.w.i;
+            axis_pos = motion->x.w.i;
             axis_pos -= 0x20;
             tile_delta -= axis_pos;
-            ((EntityRec *)motion)->unk_0C = (tile_delta << 16) / move_ticks;
+            motion->unk_0C = (tile_delta << 16) / move_ticks;
 
-            axis_pos = ((EntityRec *)motion)->y.w.i;
+            axis_pos = motion->y.w.i;
             tile_delta = ((Rec_D_80082E80 *)sprite)->unk_25 << 6;
             axis_pos -= 0x20;
             tile_delta -= axis_pos;
-            ((EntityRec *)motion)->unk_10 =
+            motion->unk_10 =
                 (tile_delta << 16) / ((S_801722BC_0 *)action)->unk_9E.u;
             ((S_801722BC_0 *)action)->unk_A0 =
                 (-func_800644B8(((S_801722BC_0 *)action)->unk_9E.u * 0x199)) << 9;
@@ -96,24 +96,24 @@ void func_801722BC(void *action, void *motion, void *sprite, void *actor)
         if ((s16)timer_next < 0) {
             ((S_801722BC_0 *)action)->unk_90 = 0;
             ((S_801722BC_0 *)action)->unk_98 &= 0xFFF7;
-            ((EntityRec *)actor)->flags1C |= 0x08000000;
+            actor->flags1C |= 0x08000000;
             ((S_801722BC_0 *)action)->unk_9B++;
         }
         /* fallthrough */
 
     case 2:
-        if (((EntityRec *)actor)->flags1C & 0x08000000) {
+        if (actor->flags1C & 0x08000000) {
             ((S_801722BC_0 *)action)->unk_98 &= 0xFFF7;
-            ((EntityRec *)motion)->flags14 = 0;
-            ((EntityRec *)motion)->unk_10 = 0;
-            ((EntityRec *)motion)->unk_0C = 0;
+            motion->flags14 = 0;
+            motion->unk_10 = 0;
+            motion->unk_0C = 0;
             func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24,
                           ((Rec_D_80082E80 *)sprite)->unk_25);
 
             (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801765F8;
             func_80047784(
                 sprite,
-                D_801765F8[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+                D_801765F8[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             ((S_801722BC_0 *)action)->unk_9B++;
         }
@@ -123,9 +123,9 @@ void func_801722BC(void *action, void *motion, void *sprite, void *actor)
     timer_next = ((S_801722BC_0 *)action)->unk_96 - 1;
     ((S_801722BC_0 *)action)->unk_96 = timer_next;
     if ((s16)timer_next <= 0) {
-        ((EntityRec *)motion)->flags14 = 0;
-        ((EntityRec *)motion)->unk_10 = 0;
-        ((EntityRec *)motion)->unk_0C = 0;
+        motion->flags14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
         func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24,
                       ((Rec_D_80082E80 *)sprite)->unk_25);
         func_800AD594(actor, 4);
@@ -136,14 +136,14 @@ void func_801722BC(void *action, void *motion, void *sprite, void *actor)
             (*(u16 *)&action_counter->unk_08)--;
         }
 
-        actor_flags = ((EntityRec *)actor)->flags1C;
+        actor_flags = actor->flags1C;
         if (actor_flags & 0x2000) {
-            if (((EntityRec *)actor)->unk_46 & 0x8000) {
-                ((EntityRec *)actor)->unk_46 &= 0x7FFF;
+            if (actor->unk_46 & 0x8000) {
+                actor->unk_46 &= 0x7FFF;
             }
         } else if (!(actor_flags & 0x410)) {
             if (actor_flags & 0x20000) {
-                ((EntityRec *)actor)->facing =
+                actor->facing =
                     func_800A0818(((Rec_D_80082E80 *)sprite)->unk_24,
                                    ((Rec_D_80082E80 *)sprite)->unk_25,
                                    D_80082E80.tileX, D_80082E80.tileY, &target_distance);

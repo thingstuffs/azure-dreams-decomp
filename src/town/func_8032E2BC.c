@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "shared/town_root.h"
 
 typedef struct TownInput {
     u8 pad0[3];
@@ -11,16 +12,11 @@ typedef struct TownState {
     s32 value;
 } TownState;
 
-typedef struct TownRoot {
-    u8 pad0[0x38];
-    TownState *state;
-} TownRoot;
-
 
 /* Check whether the low six input bits match the town state value. */
 s32 func_80018ABC(TownInput *input)
 {
-    TownState *state = ((TownRoot *)D_80016000)->state;
+    TownState *state = ((TownState *)D_80016000->unk_38);
     s32 value = input->value;
 
     value &= 0x3F;

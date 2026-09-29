@@ -13,12 +13,6 @@ typedef struct Copy48 {
     u32 words[12];
 } Copy48;
 
-typedef struct ItemInfo {
-    u8 pad00[0x12];
-    u8 type;
-    u8 pad13;
-} ItemInfo;
-
 extern s32 func_8003DE58(void *, void *, u16 *, s32);
 extern s32 func_8003F270(void);
 extern void *func_8003FD64(s32, void *);
@@ -106,14 +100,8 @@ typedef struct S_801730E4_9 {
     void * unk_08;
 } S_801730E4_9;   /* source in func_801730E4 */
 
-typedef struct S_801730E4_10 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-    s32 unk_0C;
-} S_801730E4_10;   /* global in func_801730E4 */
-
 /* Advances the selected item's action, visual effect, and cleanup states. */
-void func_801730E4(void *action, void *position, void *sprite, void *actor)
+void func_801730E4(void *action, EntityRec *position, void *sprite, void *actor)
 {
     static void *const kind_labels[] = {
         &&kind_1, &&kind_2, &&kind_3, &&kind_default,
@@ -259,9 +247,9 @@ active_ready:
     return;
 
 empty_selection:
-    ((EntityRec *)position)->flags14 = 0;
-    ((EntityRec *)position)->unk_10 = 0;
-    ((EntityRec *)position)->unk_0C = 0;
+    position->flags14 = 0;
+    position->unk_10 = 0;
+    position->unk_0C = 0;
     func_800A2B04(position, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
     {
         void *active;
@@ -319,9 +307,9 @@ state_1:
             owner_sprite = ((S_801730E4_8 *)owner_object)->unk_0C;
             effect_data = ((S_801730E4_6 *)effect_object)->unk_08;
             if (func_8003DE58(((S_801730E4_9 *)owner_sprite)->unk_08, owner_sprite, position_delta, 0) != 0) {
-                ((S_801730E4_7 *)effect_data)->unk_02 = ((u16)((EntityRec *)position)->x.w.i);
-                ((S_801730E4_7 *)effect_data)->unk_06 = ((u16)((EntityRec *)position)->y.w.i);
-                ((S_801730E4_7 *)effect_data)->unk_0A = ((u16)((EntityRec *)position)->z.w.i);
+                ((S_801730E4_7 *)effect_data)->unk_02 = ((u16)position->x.w.i);
+                ((S_801730E4_7 *)effect_data)->unk_06 = ((u16)position->y.w.i);
+                ((S_801730E4_7 *)effect_data)->unk_0A = ((u16)position->z.w.i);
                 ((S_801730E4_7 *)effect_data)->unk_02 += position_delta[0];
                 ((S_801730E4_7 *)effect_data)->unk_06 += position_delta[1];
                 ((S_801730E4_7 *)effect_data)->unk_0A += position_delta[2];
@@ -366,9 +354,9 @@ state_3:
             return;
         }
 
-        ((EntityRec *)position)->flags14 = 0;
-        ((EntityRec *)position)->unk_10 = 0;
-        ((EntityRec *)position)->unk_0C = 0;
+        position->flags14 = 0;
+        position->unk_10 = 0;
+        position->unk_0C = 0;
         func_800A2B04(position, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
         if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 != D_8017609C) {
             s32 direction_index;

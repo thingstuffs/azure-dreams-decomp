@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "shared/entity.h"
 
 typedef struct S_80174898_0 {
     u8 pad_00[0x8C];
@@ -29,11 +30,6 @@ typedef struct S_80174898_2 {
     u8 * unk_2C;
 } S_80174898_2;   /* arg2 in func_80174898 */
 
-typedef struct S_80174898_3 {
-    u8 pad_00[0x2A];
-    union { u16 s; s16 u; } unk_2A;   /* accessed as both */
-} S_80174898_3;   /* arg3 in func_80174898 */
-
 
 
 typedef struct OffsetPair {
@@ -57,7 +53,7 @@ extern void func_8017442C(void *, s32, s32, s32);
 extern void func_80174670(void *, s32, s32, s32);
 
 /* Updates timed directional effects, then resets animation and action state. */
-void func_80174898(void *action, void *position, void *sprite, void *entity)
+void func_80174898(void *action, void *position, void *sprite, EntityRec *entity)
 {
     OffsetTable direction_offsets = D_80170854;
     s32 offset_coord;
@@ -86,7 +82,7 @@ void func_80174898(void *action, void *position, void *sprite, void *entity)
             ((S_80174898_2 *)sprite)->unk_14 = flags | 0x0800;
             height = ((S_80174898_1 *)position)->unk_0A;
             tile_x = ((S_80174898_2 *)sprite)->unk_24;
-            direction_offset = &direction_offsets.entries[(((S_80174898_3 *)entity)->unk_2A.s >> 9) & 7];
+            direction_offset = &direction_offsets.entries[(((u16)entity->facing) >> 9) & 7];
             x_offset = direction_offset->x;
             target_x = tile_x + x_offset;
             y_offset = direction_offset->y;
@@ -109,7 +105,7 @@ void func_80174898(void *action, void *position, void *sprite, void *entity)
             s32 target_x;
             s32 y_offset;
 
-            angle = ((S_80174898_3 *)entity)->unk_2A.s;
+            angle = ((u16)entity->facing);
             direction_offset = direction_offsets.entries + ((angle >> 9) & 7);
             height = ((S_80174898_1 *)position)->unk_0A;
             tile_x = ((S_80174898_2 *)sprite)->unk_24;
@@ -139,7 +135,7 @@ void func_80174898(void *action, void *position, void *sprite, void *entity)
                 ((S_80174898_2 *)sprite)->unk_14 &= 0xF7FF;
                 func_80047784(sprite,
                     ((S_80174898_2 *)sprite)->unk_2C[((gameWork.view.viewAngle +
-                        ((S_80174898_3 *)entity)->unk_2A.u + 0x100) >> 9) & 7],
+                        entity->facing + 0x100) >> 9) & 7],
                     0);
                 ((S_80174898_0 *)action)->unk_9B++;
             }
@@ -150,7 +146,7 @@ void func_80174898(void *action, void *position, void *sprite, void *entity)
         func_800AD594(entity, 0x400);
         ((S_80174898_0 *)action)->unk_8C = &D_801717F4;
         dungeonStatus.unk_0C = 0;
-        (*(u16 *)((u8 *)entity + 0x46)) &= 0x7FFF;
+        (entity->unk_46) &= 0x7FFF;
         break;
     }
 }

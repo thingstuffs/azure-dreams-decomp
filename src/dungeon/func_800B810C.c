@@ -27,7 +27,7 @@ s32 func_800BD86C(void *actor, s32 cause, s16 amount)
   s32 msg_value;
   register M2C_UNK *msg;
   register s32 msg_arg;
-  u8 *counters;
+  DungeonGlobalStatus *counters;
   s32 slot;
   if (actor == (((u8 *)D_800E3D7C)))
   {
@@ -71,7 +71,7 @@ s32 func_800BD86C(void *actor, s32 cause, s16 amount)
   *((s32 *) (((s8 *) actor) + 0x1C)) = (s32) ((*((s32 *) (((s8 *) actor) + 0x1C))) & 0xFBFFE10F);
   func_80041E70(actor);
   func_80098B38(cause);
-  counters = (u8 *) ((s32 *)(&dungeonStatus));
+  counters = &dungeonStatus;
   *((u16 *) (((s8 *) counters) + 0xA)) = (u16) ((*((u16 *) (((s8 *) counters) + 0xA))) - 1);
   return 1;
 }

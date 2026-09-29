@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/entity_objects.h"
 #include "shared/game_work.h"
+#include "shared/entity.h"
 
 extern u8 D_800C75D0[];
 extern s8 D_800E3D20[];
@@ -11,7 +12,7 @@ s32 func_800C77D0(s32 slot_id, void *target, s32 target_id, s16 slot_value) {
     s32 target_coord;
     s32 change_flags;
     void *previous_target;
-    u8 *state;
+    GameView *state;
     u8 *slot;
     s32 new_target_id;
 
@@ -32,8 +33,8 @@ s32 func_800C77D0(s32 slot_id, void *target, s32 target_id, s16 slot_value) {
         return 0;
     }
 
-    state = (u8 *)(&gameWork.view);
-    slot = state + 0xB8;
+    state = &gameWork.view;
+    slot = (u8 *)state + 0xB8;
     previous_target = *(void **)(slot + 0xC);
     *(s32 *)(slot + 0x34) = slot_id;
     *(void **)(slot + 0xC) = target;
@@ -44,7 +45,7 @@ s32 func_800C77D0(s32 slot_id, void *target, s32 target_id, s16 slot_value) {
     *(s32 *)(slot + 0x14) = 9;
     *(s32 *)(slot + 0x18) = 0;
     *(s16 *)(slot + 0x26) = slot_value;
-    *(void **)(state + 0xB4) = D_800C75D0;
+    state->slot[0].callback = D_800C75D0;
     if (change_flags & 1) D_800E3D20[0] = new_target_id;
     *(s16 *)(slot + 0x24) = target_id;
     return change_flags;

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "shared/entity.h"
 
 #ifndef NULL
 #define NULL 0
@@ -41,11 +42,6 @@ typedef struct S_800A2DB8_3 {
     u8 unk_28;
 } S_800A2DB8_3;   /* member in func_800A2DB8 */
 
-typedef struct S_800A2DB8_4 {
-    u8 pad_00[0x14];
-    s32 unk_14;
-} S_800A2DB8_4;   /* target in func_800A2DB8 */
-
 typedef struct S_800A2DB8_5 {
     u8 pad_00[0xAC];
     void * unk_AC;
@@ -63,17 +59,12 @@ typedef struct S_800A2DB8_7 {
     u8 unk_28;
 } S_800A2DB8_7;   /* global_member in func_800A2DB8 */
 
-typedef struct S_800A2DB8_8 {
-    u8 pad_00[0x14];
-    s32 unk_14;
-} S_800A2DB8_8;   /* final_target in func_800A2DB8 */
-
 /* Award experience to the target or its party and display experience popups. */
 s32 func_800A2DB8(S_800A2DB8_0 *source)
 {
     void *initial_target;
-    void *target;
-    S_800A2DB8_8 *final_target;
+    EntityRec *target;
+    EntityRec *final_target;
     S_800A2DB8_7 *global_member;
     S_800A2DB8_3 *member;
     u8 *member_slot;
@@ -123,7 +114,7 @@ s32 func_800A2DB8(S_800A2DB8_0 *source)
     target = source->unk_60;
     experience = (rounded_exp - 1) / recipient_count;
 
-    if (((S_800A2DB8_4 *)target)->unk_14 & 0x4000) {
+    if (target->flags14 & 0x4000) {
         member_index = 1;
         do {
             member = ((S_800A2DB8_5 *)((u8 *)D_800E3D7C + member_index * 4))->unk_AC;
@@ -160,7 +151,7 @@ s32 func_800A2DB8(S_800A2DB8_0 *source)
     func_800A2D68(target, experience);
     final_target = source->unk_60;
     popup_code = 0x83;
-    if (final_target->unk_14 & 0x2000) {
+    if (final_target->flags14 & 0x2000) {
         popup_code = 0x82;
     }
     func_800B4C7C(popup_code, final_target, source->unk_06.s, 1);

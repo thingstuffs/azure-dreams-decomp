@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "shared/town_root.h"
 
 typedef struct OutputRecord {
     s32 value0;
@@ -20,26 +21,20 @@ typedef struct MethodTable {
     void (*method_224)(OutputRecord *);
 } MethodTable;
 
-typedef struct Context {
-    u8 pad_00[0x1C];
-    SourceFields *fields;
-    MethodTable *methods;
-} Context;
-
 extern OutputRecord D_80019AE0;
 
 /* Builds a record with two 16.16 values and a zero third value, then invokes the context callbacks. */
 void func_805D365C(void) {
-    Context *context;
+    Rec_D_80016000 *context;
     OutputRecord *output;
     s32 source_value2;
 
-    context = ((Context *)D_80016000);
-    D_80019AE0.value0 = context->fields->value1 << 16;
-    source_value2 = context->fields->value2;
+    context = D_80016000;
+    D_80019AE0.value0 = ((SourceFields *)context->unk_1C)->value1 << 16;
+    source_value2 = ((SourceFields *)context->unk_1C)->value2;
     output = &D_80019AE0;
     output->value2 = 0;
     output->value1 = source_value2 << 16;
-    context->methods->method_208(0);
-    ((Context *)D_80016000)->methods->method_224(output);
+    ((MethodTable *)context->unk_20)->method_208(0);
+    ((MethodTable *)D_80016000->unk_20)->method_224(output);
 }

@@ -34,15 +34,6 @@ typedef struct S_801728B4_3 {
 } S_801728B4_3;   /* temp_v1_3 in func_801728B4 */
 
 
-typedef struct S_801728B4_5 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_801728B4_5;   /* arg1 in func_801728B4 */
-
 typedef struct S_801728B4_6 {
     u8 pad_00[0x8];
     void * unk_08;
@@ -75,12 +66,6 @@ typedef struct S_801728B4_9 {
     u8 unk_BB;
 } S_801728B4_9;   /* var_s0 in func_801728B4 */
 
-typedef struct S_801728B4_10 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-    s32 unk_0C;
-} S_801728B4_10;   /* temp_v1_4 in func_801728B4 */
-
 typedef struct S_801728B4_11 {
     s32 unk_00;
     s32 unk_04;
@@ -102,7 +87,7 @@ extern M2C_UNK D_80170E54;
 extern u8 D_80173C6C[];
 
 /* Updates an actor action, its visual effect, and completion cleanup. */
-void func_801728B4(void *actor, void *motion, void *sprite, void *action) {
+void func_801728B4(void *actor, EntityRec *motion, void *sprite, EntityRec *action) {
     static void *const action_labels[] = { &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6, &&jt_c7 };
     s32 action_id;
     s32 action_value;
@@ -136,10 +121,10 @@ block_4:
     }
     return;
 block_6:
-    if (!(((EntityRec *)action)->flags1C & 0x2000)) {
+    if (!(action->flags1C & 0x2000)) {
         goto block_12;
     }
-    action_id = ((EntityRec *)action)->unk_46 & 0x3FFF;
+    action_id = action->unk_46 & 0x3FFF;
     {
         u32 idx = action_id - 1;
         if (idx >= 7U) {
@@ -158,7 +143,7 @@ jt_c5:
     use_player = 1;
     goto block_19;
 block_12:
-    action_value = ((EntityRec *)action)->unk_46 & 0x3FFF;
+    action_value = action->unk_46 & 0x3FFF;
     if (action_value == 2) {
         goto block_18;
     }
@@ -177,15 +162,15 @@ block_16:
     }
 jt_c3:
 block_17:
-    slot_or_effect = action + 0xE;
+    slot_or_effect = (u8 *)action + 0xE;
     goto block_21;
 jt_c2:
 block_18:
-    slot_or_effect = action + 0xB;
+    slot_or_effect = (u8 *)action + 0xB;
     goto block_21;
 jt_c1:
 block_19:
-    slot_or_effect = action + 8;
+    slot_or_effect = (u8 *)action + 8;
     goto block_21;
 jt_c4:
 block_20:
@@ -203,30 +188,30 @@ block_21:
         }
     }
     target = D_800814A8;
-    ((EntityRec *)action)->target = target;
+    action->target = target;
     goto block_26;
 block_24:
     if (D_8006DE24[*slot_or_effect].kind != 2) {
         goto block_27;
     }
-    target = ((EntityRec *)action)->target;
+    target = action->target;
     if (target == NULL) {
         goto block_33;
     }
 block_26:
     action_value = ((S_801728B4_2_pre *)target)[-1].unk_00;
-    ((EntityRec *)action)->unk_72 = (s8) ((S_801728B4_3 *)action_value)->unk_24;
-    ((EntityRec *)action)->unk_73 = (s8) ((S_801728B4_3 *)action_value)->unk_25;
+    action->unk_72 = (s8) ((S_801728B4_3 *)action_value)->unk_24;
+    action->unk_73 = (s8) ((S_801728B4_3 *)action_value)->unk_25;
     goto block_32;
 block_27:
-    ((EntityRec *)action)->target = func_800A05A4(action, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25, ((EntityRec *)action)->facing, 0x10);
-    ((EntityRec *)action)->unk_72 = abs(((EntityRec *)action)->unk_72);
-    ((EntityRec *)action)->unk_73 = abs(((EntityRec *)action)->unk_73);
+    action->target = func_800A05A4(action, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25, action->facing, 0x10);
+    action->unk_72 = abs(action->unk_72);
+    action->unk_73 = abs(action->unk_73);
 block_32:
 block_33:
-    saved_pos[0] = ((S_801728B4_5 *)motion)->unk_00.at02.v;
-    saved_pos[1] = ((S_801728B4_5 *)motion)->unk_04.at02.v;
-    saved_pos[2] = ((S_801728B4_5 *)motion)->unk_08.at02.v;
+    saved_pos[0] = ((u16)motion->x.w.i);
+    saved_pos[1] = ((u16)motion->y.w.i);
+    saved_pos[2] = ((u16)motion->z.w.i);
     if (func_800A94A0(action, slot_or_effect, use_player, actor + 0x98) == 0) {
         return;
     }
@@ -240,12 +225,12 @@ block_33:
     }
     func_8004491C(new_effect, func_80045340);
     ((S_801728B4_6 *)new_effect)->unk_10 = &D_800D7960;
-    ((S_801728B4_11 *)(((S_801728B4_6 *)new_effect)->unk_08))->unk_00 = (s32) ((S_801728B4_5 *)motion)->unk_00.at00.v;
-    ((S_801728B4_11 *)(((S_801728B4_6 *)new_effect)->unk_08))->unk_04 = (s32) ((S_801728B4_5 *)motion)->unk_04.at00.v;
-    ((S_801728B4_11 *)(((S_801728B4_6 *)new_effect)->unk_08))->unk_08 = (s32) (((S_801728B4_5 *)motion)->unk_08.at00.v + 0xFF800000);
+    ((S_801728B4_11 *)(((S_801728B4_6 *)new_effect)->unk_08))->unk_00 = (s32) motion->x.v;
+    ((S_801728B4_11 *)(((S_801728B4_6 *)new_effect)->unk_08))->unk_04 = (s32) motion->y.v;
+    ((S_801728B4_11 *)(((S_801728B4_6 *)new_effect)->unk_08))->unk_08 = (s32) (motion->z.v + 0xFF800000);
     ((S_801728B4_6 *)new_effect)->unk_BB = 0;
     effect_sprite = ((S_801728B4_6 *)new_effect)->unk_0C;
-    ((S_801728B4_6 *)new_effect)->unk_4A = (u16) ((EntityRec *)action)->facing;
+    ((S_801728B4_6 *)new_effect)->unk_4A = (u16) action->facing;
     action_value = ((Rec_D_80082E80 *)sprite)->unk_28.at00_s32.v;
     ((S_801728B4_7 *)effect_sprite)->unk_1E = 0x1000;
     ((S_801728B4_7 *)effect_sprite)->unk_1C = 0x1000;
@@ -261,18 +246,18 @@ block_33:
     func_80047784(effect_sprite, effect_anim, 0);
     return;
 block_36:
-    ((S_801728B4_5 *)motion)->unk_14 = 0;
-    ((S_801728B4_5 *)motion)->unk_10 = 0;
-    ((S_801728B4_5 *)motion)->unk_0C = 0;
+    motion->flags14 = 0;
+    motion->unk_10 = 0;
+    motion->unk_0C = 0;
     func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
     dungeonStatus.unk_0C = 0;
     (*(u16 *)((u8 *)&D_800814A8->unk_A4 + 2)) = (u16) ((*(u16 *)((u8 *)D_800814A8 + 0xA6)) - 1);
     func_800A4ACC(action);
-    ((EntityRec *)action)->unk_6D = (u8) (((u8)((EntityRec *)action)->unk_6D) - 1);
+    action->unk_6D = (u8) (((u8)action->unk_6D) - 1);
     ((S_801728B4_0 *)actor)->unk_8C = &D_80170E54;
-    ((EntityRec *)action)->unk_73 = 0;
-    ((EntityRec *)action)->unk_72 = 0;
-    ((EntityRec *)action)->unk_46 = (u16) (((EntityRec *)action)->unk_46 & 0x7FFF);
+    action->unk_73 = 0;
+    action->unk_72 = 0;
+    action->unk_46 = (u16) (action->unk_46 & 0x7FFF);
     return;
 block_37:
     if (func_8003F270() == 0) {
@@ -322,15 +307,15 @@ block_49:
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
         return;
     }
-    ((S_801728B4_5 *)motion)->unk_14 = 0;
-    ((S_801728B4_5 *)motion)->unk_10 = 0;
-    ((S_801728B4_5 *)motion)->unk_0C = 0;
+    motion->flags14 = 0;
+    motion->unk_10 = 0;
+    motion->unk_0C = 0;
     func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
     if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pm == &D_80173C6C) {
         goto block_52;
     }
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80173C6C;
-    func_80047784(sprite, D_80173C6C[((s32) (gameWork.view.viewAngle + ((EntityRec *)action)->facing + 0x100) >> 9) & 7], 0);
+    func_80047784(sprite, D_80173C6C[((s32) (gameWork.view.viewAngle + action->facing + 0x100) >> 9) & 7], 0);
 block_52:
     if (((s32)dungeonStatus.unk_0C) != 0) {
         return;
@@ -339,14 +324,14 @@ block_52:
     ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = (u16) (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xF7FF);
     ((S_801728B4_0 *)actor)->unk_8C = &D_80170E54;
     func_800A4ACC(action);
-    if ((s8) ((u8)((EntityRec *)action)->unk_6D) <= 0) {
+    if ((s8) ((u8)action->unk_6D) <= 0) {
         goto block_55;
     }
-    ((EntityRec *)action)->unk_6D = (u8) (((u8)((EntityRec *)action)->unk_6D) - 1);
+    action->unk_6D = (u8) (((u8)action->unk_6D) - 1);
 block_55:
-    ((EntityRec *)action)->unk_73 = 0;
-    ((EntityRec *)action)->unk_72 = 0;
-    ((EntityRec *)action)->unk_46 = (u16) (((EntityRec *)action)->unk_46 & 0x7FFF);
+    action->unk_73 = 0;
+    action->unk_72 = 0;
+    action->unk_46 = (u16) (action->unk_46 & 0x7FFF);
     func_800A56E0(0xB4);
     return;
 }

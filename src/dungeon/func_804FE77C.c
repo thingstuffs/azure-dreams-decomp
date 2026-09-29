@@ -2,6 +2,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "shared/town_root.h"
 
 typedef struct S_804FE87C_0 {
     u8 pad_00[0x38];
@@ -32,14 +33,6 @@ typedef struct S_804FE87C_0 {
     s32 unk_88;
 } S_804FE87C_0;   /* state in func_804FE87C */
 
-typedef struct S_804FE87C_1 {
-    u8 pad_00[0x18];
-    s16 unk_18;
-    s16 unk_1A;
-    s16 unk_1C;
-    s16 unk_1E;
-} S_804FE87C_1;   /* base in func_804FE87C */
-
 
 #define FIELD(base, type, offset) (*(type *)((u8 *)(base) + (offset)))
 
@@ -47,11 +40,6 @@ typedef struct DispatchInner {
     u8 pad_00[0x218];
     void (*callback)(void *);
 } DispatchInner;
-
-typedef struct DispatchOuter {
-    u8 pad_00[0x20];
-    DispatchInner *inner;
-} DispatchOuter;
 
 extern s32 func_80018964(s32);
 extern void func_800188E4(s32);
@@ -109,7 +97,7 @@ void func_8001677C(void)
         func_8001886C(0x1202);
     }
 
-    ((DispatchOuter *)D_80016000)->inner->callback(D_800190D4);
+    ((DispatchInner *)D_80016000->unk_20)->callback(D_800190D4);
 
 #ifdef __mips__
     return_address = stack[4];
@@ -173,8 +161,8 @@ static void func_804FE87C(void) ROW_ATTR;
 /* Initializes lighting, projection, and viewport state and selects the floor monster table. */
 static void func_804FE87C(void)
 {
-    u8 *render_data = ((u8 *)(&gameWork));
-    u8 *render_state = render_data + 0x18;
+    GameWork *render_data = &gameWork;
+    u8 *render_state = (u8 *)render_data + 0x18;
     void *light_matrix;
 
     ((S_804FE87C_0 *)render_state)->unk_88 = 0x200;
@@ -194,9 +182,9 @@ static void func_804FE87C(void)
     ((S_804FE87C_0 *)render_state)->unk_5C = 0;
     ((S_804FE87C_0 *)render_state)->unk_62 = 0;
     ((S_804FE87C_0 *)render_state)->unk_68 = 0;
-    func_80064D50(render_data + 0x70);
+    func_80064D50((u8 *)render_data + 0x70);
 
-    light_matrix = render_data + 0x50;
+    light_matrix = (u8 *)render_data + 0x50;
     set_light_vectors((S_804FE87C_0 *)render_state, -0x800, 0x800);
     func_80064D20(light_matrix);
 
@@ -212,10 +200,10 @@ static void func_804FE87C(void)
     D_801DA714[0x1B] = 0;
     func_80064F00(0xA0, 0x78);
 
-    ((S_804FE87C_1 *)render_data)->unk_18 = -0xBC;
-    ((S_804FE87C_1 *)render_data)->unk_1A = -0x88;
-    ((S_804FE87C_1 *)render_data)->unk_1C = 0x172;
-    ((S_804FE87C_1 *)render_data)->unk_1E = 0x19A;
+    render_data->view.unk_000 = -0xBC;
+    render_data->view.unk_002 = -0x88;
+    render_data->view.unk_004 = 0x172;
+    render_data->view.unk_006 = 0x19A;
     dungeonStatus.unk_18 = D_800DDC7C;
 }
 

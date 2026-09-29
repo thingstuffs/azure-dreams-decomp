@@ -3,13 +3,6 @@
 #include "shared/entity.h"
 
 
-typedef struct S_800924EC_1 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    u8 pad_0C[0x4];
-    s32 unk_10;
-} S_800924EC_1;   /* state in func_800924EC */
-
 
 #define FIELD(base, type, offset) (*(type *)((u8 *)(base) + (offset)))
 
@@ -33,7 +26,7 @@ extern u8 D_800CFCEF;
 extern u8 D_800FE488[];
 
 /* Update the entity and dispatch its handler according to state flags and checks. */
-void func_800924EC(void *context, void *entity, s32 update_arg)
+void func_800924EC(void *context, EntityRec *entity, s32 update_arg)
 {
     GameWork *state = &gameWork;
     s16 reference_value;
@@ -43,7 +36,7 @@ void func_800924EC(void *context, void *entity, s32 update_arg)
     func_80095C80(entity);
     func_80095094(entity);
     reference_value = func_80095978(entity, D_800FE488);
-    if ((reference_value - ((EntityRec *)entity)->z.w.i) >= 4)
+    if ((reference_value - entity->z.w.i) >= 4)
     {
         if (D_800CFCEF == 0)
         {

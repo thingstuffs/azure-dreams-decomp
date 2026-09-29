@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
+#include "shared/entity.h"
 
 typedef s32 M2C_UNK;
 
@@ -37,7 +38,7 @@ extern M2C_UNK D_800BEBA4;
 /* event_pool_clean_in: creates the pool cleaning object and initializes its motion and display. */
 s32 event_pool_clean_in(void)
 {
-    s32 *origin;
+    EntityRec *origin;
     s32 color;
     volatile s32 *motion;
     s32 origin_z;
@@ -55,10 +56,10 @@ s32 event_pool_clean_in(void)
         (*(s16 *)((u8 *)object_part + 2)) = 0x10;
         color = 0x00800000;
         motion[0] = D_80083780.x.v;
-        origin = &D_80083780.x.v;
-        motion[1] = origin[1];
+        origin = &D_80083780;
+        motion[1] = origin->y.v;
         color |= 0x8080;
-        origin_z = origin[2];
+        origin_z = origin->z.v;
         motion[3] = 0x100000;
         motion[5] = 0xFFF00000;
         motion[2] = origin_z + 0xFFA00000;

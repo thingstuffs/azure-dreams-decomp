@@ -8,11 +8,6 @@ typedef struct S_80016BF0_0 {
     s16 unk_16;
 } S_80016BF0_0;   /* temp_t0 in func_80016BF0 */
 
-typedef struct S_80016BF0_1 {
-    u8 pad_00[0x1DC];
-    s32 unk_1DC;
-} S_80016BF0_1;   /* temp_base in func_80016BF0 */
-
 typedef struct S_80016BF0_2_pre {
     u16 unk_00;
 } S_80016BF0_2_pre;   /* the 0x2 bytes before temp_a0 in func_80016BF0, addressed as temp_a0[-1] */
@@ -54,16 +49,16 @@ void func_80016BF0(s16 start_x, s16 start_y, s16 width, s16 height)
     u8 *extra_flags;
     void *tile;
     S_80016BF0_0 *map;
-    u8 *state;
+    GameWork *state;
     S_80016BF0_3 *tile_above;
     S_80016BF0_4 *tile_below;
 
-    state = ((u8 *)(&gameWork));
-    map = state + 0x1DC;
+    state = &gameWork;
+    map = (u8 *)state + 0x1DC;
     flag_table = map->unk_10;
     if (flag_table != 0) {
         row = 0;
-        tiles_base = ((S_80016BF0_1 *)state)->unk_1DC;
+        tiles_base = ((s32)state->map.cells);
         tile_flags = flag_table;
         if ((height << 0x10) > 0) {
             do {

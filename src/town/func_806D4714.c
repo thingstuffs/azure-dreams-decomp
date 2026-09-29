@@ -1,6 +1,6 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
-#include "records/Rec_D_80016000.h"
+#include "shared/town_root.h"
 
 
 typedef struct S_80016714_1 {
@@ -40,10 +40,10 @@ void *func_80016714(s32 entry_id, s32 unused, s32 event_id)
         if (func_800178A8(event_table, entry_id, 0xB) != 0) {
             return &D_8001A3AE[0];
         }
-        ((S_80016714_1 *)(((Rec_D_80016000 *)D_80016000)->unk_08.at00_s32.v * 8 +
-              ((Rec_D_80016000 *)D_80016000)->unk_40.as_pu8))->unk_04++;
-        if (((S_80016714_2 *)(((Rec_D_80016000 *)D_80016000)->unk_08.at00_s32.v * 8 +
-                  ((Rec_D_80016000 *)D_80016000)->unk_40.as_pu8))->unk_04 >= 5U) {
+        ((S_80016714_1 *)(D_80016000->unk_08 * 8 +
+              ((u8 *)D_80016000->unk_40)))->unk_04++;
+        if (((S_80016714_2 *)(D_80016000->unk_08 * 8 +
+                  ((u8 *)D_80016000->unk_40)))->unk_04 >= 5U) {
             func_80018594(0x1459);
         }
         return event_data;

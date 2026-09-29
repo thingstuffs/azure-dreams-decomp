@@ -1,15 +1,11 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "shared/town_root.h"
 
 typedef struct CallbackTable {
     u8 pad_00[0x2C8];
     void (*callback)(s32, void *);
 } CallbackTable;
-
-typedef struct CallbackOwner {
-    u8 pad_00[0x20];
-    CallbackTable *table;
-} CallbackOwner;
 
 typedef struct DataPage {
     u8 pad_00[0x79D8];
@@ -29,12 +25,12 @@ void func_800161D0(void)
     s32 zero = 0;
     DataPage *data_page = (DataPage *)0x80010000;
     register void (*callback)(s32, void *) ASM_REG("$2");
-    CallbackOwner *owner;
+    Rec_D_80016000 *owner;
     CallbackTable *table;
 
-    owner = ((CallbackOwner *)D_80016000);
+    owner = D_80016000;
     ASM_KEEP(zero);
-    table = owner->table;
+    table = ((CallbackTable *)owner->unk_20);
     callback = table->callback;
     data_page->callback_data = &D_80017908;
     callback(zero, data_page);

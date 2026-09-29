@@ -26,7 +26,7 @@ extern s32 D_80174F18;
 
 
 /* Updates decaying movement and tile alignment before advancing or finishing the action. */
-void func_80172DB4(S_80172DB4_0 *action, EntityRec *motion, Rec_D_80082E80 *tile_state, void *actor_data)
+void func_80172DB4(S_80172DB4_0 *action, EntityRec *motion, Rec_D_80082E80 *tile_state, EntityRec *actor_data)
 {
     s16 timer;
     s32 tracked_actor;
@@ -36,13 +36,13 @@ void func_80172DB4(S_80172DB4_0 *action, EntityRec *motion, Rec_D_80082E80 *tile
         func_800AD4D0(actor_data);
         motion->unk_0C =
             *(s16 *)((u8 *)((s8 *)dirStepX) +
-                     ((((EntityRec *)actor_data)->unk_6A >> 8) & 0xE)) << 19;
+                     ((actor_data->unk_6A >> 8) & 0xE)) << 19;
         motion->unk_10 =
             *(s16 *)((u8 *)((s8 *)dirStepY) +
-                     ((((EntityRec *)actor_data)->unk_6A >> 8) & 0xE)) << 19;
+                     ((actor_data->unk_6A >> 8) & 0xE)) << 19;
         action->unk_9B++;
 
-        if (((EntityRec *)actor_data)->unk_28 == 0) {
+        if (actor_data->unk_28 == 0) {
             goto start_action;
         }
         if (tile_state->unk_14.at00_u16.v & 0x8000) {
@@ -50,7 +50,7 @@ void func_80172DB4(S_80172DB4_0 *action, EntityRec *motion, Rec_D_80082E80 *tile
             action->unk_9B = 2;
             return;
         }
-        if (((EntityRec *)actor_data)->flags1C & 0x228) {
+        if (actor_data->flags1C & 0x228) {
             timer = 8;
         } else {
             timer = -1;
@@ -75,7 +75,7 @@ void func_80172DB4(S_80172DB4_0 *action, EntityRec *motion, Rec_D_80082E80 *tile
         if (action->unk_96.s != 0) {
             return;
         }
-        if (((EntityRec *)actor_data)->unk_28 != 0) {
+        if (actor_data->unk_28 != 0) {
             action->unk_96.s = 8;
             action->unk_9B++;
             return;
@@ -106,7 +106,7 @@ void func_80172DB4(S_80172DB4_0 *action, EntityRec *motion, Rec_D_80082E80 *tile
         if (!(tile_state->unk_14.at00_u16.v & 0x6000)) {
             goto cleanup;
         }
-        if (((EntityRec *)actor_data)->unk_28 != 0) {
+        if (actor_data->unk_28 != 0) {
             goto cleanup;
         }
 

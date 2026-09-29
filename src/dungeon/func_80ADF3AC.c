@@ -40,7 +40,7 @@ extern u8 D_8015CE0C[];
 extern u8 D_8015CE14[];
 
 /* Updates movement toward a tile, its animation phases, and action completion. */
-void func_80ADF3AC(void *action, void *motion, void *sprite, void *entity)
+void func_80ADF3AC(void *action, EntityRec *motion, void *sprite, EntityRec *entity)
 {
     s32 phase;
     s32 frames_left;
@@ -80,10 +80,10 @@ state_zero:
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_8015CE0C;
     func_80047784(
         sprite,
-        D_8015CE0C[((gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
+        D_8015CE0C[((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
         0);
     ((S_80ADF3AC_0 *)action)->unk_98 |= 8;
-    ((EntityRec *)entity)->flags1C &= 0xF7FFFFFF;
+    entity->flags1C &= 0xF7FFFFFF;
     ((S_80ADF3AC_0 *)action)->unk_9E.s = 5;
     ((S_80ADF3AC_0 *)action)->unk_A4 = 0;
     ((S_80ADF3AC_0 *)action)->unk_9B++;
@@ -93,15 +93,15 @@ state_one:
     ((S_80ADF3AC_0 *)action)->unk_90 -= ((S_80ADF3AC_0 *)action)->unk_A4;
     if (frames_left != 0) {
         target_x = ((Rec_D_80082E80 *)sprite)->unk_24;
-        pos_x = ((EntityRec *)motion)->x.w.i;
+        pos_x = motion->x.w.i;
         target_x <<= 6;
         pos_x -= 0x20;
 
-        ((EntityRec *)motion)->unk_0C = ((target_x - pos_x) << 16) / frames_left;
+        motion->unk_0C = ((target_x - pos_x) << 16) / frames_left;
 
-        pos_y = ((EntityRec *)motion)->y.w.i;
+        pos_y = motion->y.w.i;
         pos_y -= 0x20;
-        ((EntityRec *)motion)->unk_10 =
+        motion->unk_10 =
             (((((Rec_D_80082E80 *)sprite)->unk_25 << 6) - pos_y) << 16) /
             ((S_80ADF3AC_0 *)action)->unk_9E.s;
 
@@ -122,20 +122,20 @@ state_one:
 
     ((S_80ADF3AC_0 *)action)->unk_90 = 0;
     ((S_80ADF3AC_0 *)action)->unk_98 &= 0xFFF7;
-    ((EntityRec *)entity)->flags1C |= 0x08000000;
+    entity->flags1C |= 0x08000000;
     ((S_80ADF3AC_0 *)action)->unk_9B++;
 
 state_two:
-    if (((EntityRec *)entity)->flags1C & 0x08000000) {
+    if (entity->flags1C & 0x08000000) {
         ((S_80ADF3AC_0 *)action)->unk_98 &= 0xFFF7;
-        ((EntityRec *)motion)->flags14 = 0;
-        ((EntityRec *)motion)->unk_10 = 0;
-        ((EntityRec *)motion)->unk_0C = 0;
+        motion->flags14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
         func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_8015CE14;
         func_80047784(
             sprite,
-            D_8015CE14[((gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
+            D_8015CE14[((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         ((S_80ADF3AC_0 *)action)->unk_9B++;
     }
@@ -148,7 +148,7 @@ state_three:
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_8015CDEC;
     func_80047784(
         sprite,
-        D_8015CDEC[((gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
+        D_8015CDEC[((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
         0);
 
 decrement_timer:
@@ -158,9 +158,9 @@ decrement_timer:
         return;
     }
 
-    ((EntityRec *)motion)->flags14 = 0;
-    ((EntityRec *)motion)->unk_10 = 0;
-    ((EntityRec *)motion)->unk_0C = 0;
+    motion->flags14 = 0;
+    motion->unk_10 = 0;
+    motion->unk_0C = 0;
     func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
     func_800AD594(entity, 4);
     func_800A4ACC(entity);
@@ -170,10 +170,10 @@ decrement_timer:
         (*(u16 *)&shared_state->unk_08)--;
     }
 
-    entity_flags = ((EntityRec *)entity)->flags1C;
+    entity_flags = entity->flags1C;
     if (entity_flags & 0x2000) {
-        if (((EntityRec *)entity)->unk_46 & 0x8000) {
-            ((EntityRec *)entity)->unk_46 &= 0x7FFF;
+        if (entity->unk_46 & 0x8000) {
+            entity->unk_46 &= 0x7FFF;
         }
         goto collision_check;
     }
@@ -183,7 +183,7 @@ decrement_timer:
     if (!(entity_flags & 0x20000)) {
         goto collision_check;
     }
-    ((EntityRec *)entity)->facing = func_800A0818(
+    entity->facing = func_800A0818(
         ((Rec_D_80082E80 *)sprite)->unk_24,
         ((Rec_D_80082E80 *)sprite)->unk_25,
         D_80082E80.tileX,

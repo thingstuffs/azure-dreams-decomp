@@ -43,11 +43,6 @@ typedef struct S_801738E0_3 {
 } S_801738E0_3;   /* arg1 in func_801738E0 */
 
 
-typedef struct S_801738E0_5 {
-    u8 pad_00[0x26];
-    s8 unk_26;
-} S_801738E0_5;   /* origin in func_801738E0 */
-
 
 
 struct GlobalStruct {
@@ -93,7 +88,7 @@ void func_801738E0(void *actor_arg, void *motion_arg, void *sprite_arg, void *en
         &&done, &&done, &&done, &&done,
         &&state_sixteen,
     };
-    struct GlobalStruct *global_state;
+    DungeonGlobalStatus *global_state;
     u8 *anim_table;
     u32 clear_mask;
     u32 entity_flags;
@@ -186,7 +181,7 @@ state_two:
         ((S_801738E0_0 *)actor)->unk_9B++;
         return;
     } else {
-        global_state = ((struct GlobalStruct *)&dungeonStatus);
+        global_state = &dungeonStatus;
     }
 
     if (global_state->flags & 0x1000) {

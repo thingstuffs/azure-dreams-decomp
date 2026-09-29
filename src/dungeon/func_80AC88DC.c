@@ -29,31 +29,14 @@ typedef struct S_801740DC_0 {
 } S_801740DC_0;   /* arg0 in func_801740DC */
 
 
-typedef struct S_801740DC_2 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_801740DC_2;   /* counter_base in func_801740DC */
 
-
-typedef struct S_801740DC_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x6];
-    u16 unk_0A;
-} S_801740DC_4;   /* global_base in func_801740DC */
-
-
-typedef struct S_801740DC_6 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_801740DC_6;   /* counter_base2 in func_801740DC */
 
 /* Updates actor state, directional animation, and the shared transition counter. */
 void func_801740DC(void *actor_in, s32 actor_index_in, void *target_in, void *entity_in)
 {
     register s32 actor_index ASM_REG("$19") = actor_index_in;
     void *target = target_in;
-    void *entity = entity_in;
+    EntityRec *entity = entity_in;
     s32 state;
     s32 entity_flags;
     s32 direction;
@@ -84,16 +67,16 @@ state_zero:
         shared_counter->unk_0A--;
     }
     (*(void * *)((u8 *)target + 0x2C)) = D_80174E4C;
-    direction = (gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
+    direction = (gameWork.view.viewAngle + entity->facing + 0x100) >> 9;
     func_80047784(target, D_80174E4C[direction & 7], 0);
     goto increment_state;
 
 state_one:
-    if (((EntityRec *)entity)->tileY != 0) {
+    if (entity->tileY != 0) {
         DungeonGlobalStatus *shared_counter;
 
         (*(void * *)((u8 *)target + 0x2C)) = D_80174E54;
-        direction = (gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
+        direction = (gameWork.view.viewAngle + entity->facing + 0x100) >> 9;
         func_80047784(target, D_80174E54[direction & 7], 0);
         shared_counter = &dungeonStatus;
         shared_counter->unk_0A++;
@@ -104,7 +87,7 @@ state_one:
     if (shared_state->flags & 0x1000) {
         return;
     }
-    if (((EntityRec *)entity)->unk_64 != 0) {
+    if (entity->unk_64 != 0) {
         if (func_800AA6B4(actor_in, actor_index, target, 0) != 0) {
             return;
         }
@@ -112,7 +95,7 @@ state_one:
     if ((func_800A2C34(entity) << 16) != 0) {
         return;
     }
-    entity_flags = ((EntityRec *)entity)->flags1C;
+    entity_flags = entity->flags1C;
     if (entity_flags & 0x100) {
         func_800AA258(actor_in, actor_index, target, entity);
         return;
@@ -122,7 +105,7 @@ state_one:
         func_801743E8(actor_in, actor_index, target, entity);
         return;
     }
-    if (((EntityRec *)entity)->unk_6D == 0) {
+    if (entity->unk_6D == 0) {
         return;
     }
     if ((func_800A2C34(entity) << 16) != 0) {
@@ -135,11 +118,11 @@ state_one:
         func_800A9A0C(entity);
     }
     func_800A9A04(entity);
-    if (((EntityRec *)entity)->tileY == 0) {
+    if (entity->tileY == 0) {
         return;
     }
     (*(void * *)((u8 *)target + 0x2C)) = D_80174E54;
-    direction = (gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
+    direction = (gameWork.view.viewAngle + entity->facing + 0x100) >> 9;
     func_80047784(target, D_80174E54[direction & 7], 0);
     shared_state->unk_0A++;
 

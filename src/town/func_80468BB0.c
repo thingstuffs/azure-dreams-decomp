@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "shared/town_root.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_80016000.h"
 
 
 typedef struct S_80019BB0_1 {
@@ -18,5 +18,5 @@ extern u8 D_80017B30;
 
 /* Pass the callback-selected eight-byte table entry to func_80019B70. */
 void func_80019BB0(void) {
-    func_80019B70((((S_80019BB0_1 *)(((Rec_D_80016000 *)D_80016000)->unk_20))->unk_2D4(0) * 8) + &D_80017B30);
+    func_80019B70((((S_80019BB0_1 *)(D_80016000->unk_20))->unk_2D4(0) * 8) + &D_80017B30);
 }

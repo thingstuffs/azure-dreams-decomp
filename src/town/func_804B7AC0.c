@@ -1,27 +1,21 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
-
-typedef struct {
-    u8 pad_00[8];
-    s32 index;
-    u8 pad_0C[0x34];
-    u8 *bytes;
-} TownState;
+#include "shared/town_root.h"
 
 extern void func_80017BA0(s32, s32);
 
 /* Call func_80017BA0 when the current entry byte is at least two, then clear it and return success. */
 s32 func_804B7AC0(s32 first_input, s32 second_input)
 {
-    TownState *state_before;
-    TownState *state_after;
+    Rec_D_80016000 *state_before;
+    Rec_D_80016000 *state_after;
 
-    state_before = ((TownState *)D_80016000);
-    if (state_before->bytes[state_before->index * 8] < 2U) {
+    state_before = D_80016000;
+    if (((u8 *)state_before->unk_40)[state_before->unk_08 * 8] < 2U) {
         return 0;
     }
     func_80017BA0(first_input, second_input);
-    state_after = ((TownState *)D_80016000);
-    state_after->bytes[state_after->index * 8] = 0;
+    state_after = D_80016000;
+    ((u8 *)state_after->unk_40)[state_after->unk_08 * 8] = 0;
     return 1;
 }

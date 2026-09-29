@@ -4,11 +4,6 @@
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 
-typedef struct S_807AE960_0 {
-    u8 pad_00[0x1DC];
-    s32 unk_1DC;
-} S_807AE960_0;   /* dungeon_data in func_807AE960 */
-
 typedef struct S_807AE960_1 {
     union { u16 s; s16 u; } unk_00;   /* accessed as both */
     u16 unk_02;
@@ -70,12 +65,12 @@ void func_807AE960(u8 *state, u8 *actor, u8 *target) {
     u32 cd_mode;
     s32 table_base;
     u8 *global_end;
-    u8 *dungeon_data;
+    GameWork *dungeon_data;
     S_807AE960_6 *entry;
 
-    dungeon_data = (u8 *)((M2C_UNK *)&gameWork.unk_000);
-    global_end = dungeon_data + 0x1DC;
-    table_base = ((S_807AE960_0 *)dungeon_data)->unk_1DC;
+    dungeon_data = &gameWork;
+    global_end = (u8 *)dungeon_data + 0x1DC;
+    table_base = ((s32)dungeon_data->map.cells);
     dispatch_index = (s16)(((S_807AE960_1 *)state)->unk_00.s - 1);
     if ((u32) dispatch_index >= 0x14U) {
         goto block_28;

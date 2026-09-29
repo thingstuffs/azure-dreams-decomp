@@ -32,7 +32,7 @@ M2C_UNK func_800AD594();             /* extern */
 extern M2C_UNK D_80170E5C;
 
 /* Advances the object state from entity flags and updates the actor. */
-void func_801728B4(void *obj, void *record, void *entity, void *actor) {
+void func_801728B4(void *obj, EntityRec *record, void *entity, void *actor) {
     s32 state;
 
     state = ((S_801728B4_0 *)obj)->unk_9B;
@@ -45,9 +45,9 @@ void func_801728B4(void *obj, void *record, void *entity, void *actor) {
             func_8009C12C(actor, entity, ((S_801728B4_2 *)actor)->unk_2A, 1);
             return;
         }
-        ((EntityRec *)record)->flags14 = 0;
-        ((EntityRec *)record)->unk_10 = 0;
-        ((EntityRec *)record)->unk_0C = 0;
+        record->flags14 = 0;
+        record->unk_10 = 0;
+        record->unk_0C = 0;
         ((S_801728B4_0 *)obj)->unk_9B =
             (u8)(((S_801728B4_0 *)obj)->unk_9B + 1);
         return;

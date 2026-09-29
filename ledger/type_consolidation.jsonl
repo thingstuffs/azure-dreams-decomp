@@ -18,3 +18,5 @@
 {"tag": "r78_types_phase9", "at": "2026-09-28T16:14:25Z", "rows": 167, "names": ["volumeScale"], "headers": ["include/globals.h", "include/shared/sound_volume.h"], "how": "verify.py (every row) + gate_all + SLUS SHA-1 MATCH (recipe unchanged) + --rebaseline-slus for 4 SLUS rows"}
 {"tag": "r78_types_phase10", "at": "2026-09-28T17:09:02Z", "rows": 40, "names": [], "headers": [], "how": "verify.py (landed rows) + gate_all + SLUS SHA-1 MATCH (recipe unchanged)"}
 {"tag": "r78_types_phase10", "at": "2026-09-28T23:48:40Z", "rows": 286, "names": ["dirSpriteFlag"], "headers": ["include/shared/game_work.h", "include/shared/dir_step.h"], "how": "verify.py (every row) + gate_all + SLUS SHA-1 MATCH (recipe unchanged)"}
+{"tag": "r79_types_phase11", "at": "2026-09-29T05:14:03Z", "rows": 36, "headers": ["include/shared/town_root.h"], "how": "verify.py (landed rows) + gate_all + SLUS SHA-1 MATCH (recipe unchanged)"}
+{"tag": "r79_types_phase11", "at": "2026-09-29T05:21:14Z", "rows": 453, "headers": ["include/shared/town_root.h"], "how": "verify.py (landed rows) + gate_all + SLUS SHA-1 MATCH (recipe unchanged)"}

@@ -1,10 +1,6 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
-
-typedef struct TownRoot {
-    u8 pad_00[0x40];
-    u8 *state;
-} TownRoot;
+#include "shared/town_root.h"
 
 typedef struct TownEntry {
     s16 event;
@@ -26,7 +22,7 @@ void func_80016948(void)
     u8 *event_state;
     s32 checked_count;
 
-    event_state = ((TownRoot *)D_80016000)->state + 0x68;
+    event_state = ((u8 *)D_80016000->unk_40) + 0x68;
     event_state[6] += 1;
     event_state[6] %= 7;
     func_800168E0();

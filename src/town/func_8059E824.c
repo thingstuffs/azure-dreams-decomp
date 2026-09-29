@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "shared/town_root.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_80016000.h"
 
 
 typedef struct S_80016824_1 {
@@ -17,7 +17,7 @@ void func_80016824(void) {
     u8 countdown;
     S_80016824_1 *countdown_record;
 
-    countdown_record = ((Rec_D_80016000 *)D_80016000)->unk_40.as_s32 + 0x68;
+    countdown_record = ((s32)D_80016000->unk_40) + 0x68;
     countdown = countdown_record->unk_07 - 1;
     countdown_record->unk_07 = countdown;
     if (!(countdown & 0xFF)) {

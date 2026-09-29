@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "shared/town_root.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_80016000.h"
 
 
 typedef struct S_8072A2C8_1 {
@@ -18,6 +18,6 @@ extern M2C_UNK D_80017AD0;
 
 /* Pass D_80017AD0 to the state callback, then run operation 0xBDB. */
 void func_8072A2C8(void) {
-    ((S_8072A2C8_1 *)(((Rec_D_80016000 *)D_80016000)->unk_20))->unk_270(&D_80017AD0);
+    ((S_8072A2C8_1 *)(D_80016000->unk_20))->unk_270(&D_80017AD0);
     func_80017684(0xBDB);
 }

@@ -20,19 +20,19 @@ void func_800C7930(void *, s32, s32, s32);
 extern u8 D_80173FB8[];
 
 /* Checks action eligibility and updates the actor state and directional animation on success. */
-s32 func_80171F24(void *action_state, s32 action_id, void *sprite, void *actor) {
+s32 func_80171F24(void *action_state, s32 action_id, void *sprite, EntityRec *actor) {
     volatile s64 frame_pad;
     s32 target_direction;
     u16 status_flags;
     u16 state_flag;
 
-    ((EntityRec *)actor)->unk_71 = (u8) (((EntityRec *)actor)->unk_71 & 0x7F);
+    actor->unk_71 = (u8) (actor->unk_71 & 0x7F);
     if (dungeonStatus.flags & 0x2000) {
         goto late_failure;
     }
 
     target_direction = func_800A04F0(actor, ((Rec_D_80082E80 *)sprite)->unk_24,
-        ((Rec_D_80082E80 *)sprite)->unk_25, ((EntityRec *)actor)->facing);
+        ((Rec_D_80082E80 *)sprite)->unk_25, actor->facing);
 
     if (!(((Rec_func_800A9E70_arg0 *)action_state)->unk_98 & 0x8000)) {
         goto no_flag;
@@ -54,7 +54,7 @@ checks:
     if (status_flags & 0x2000) {
         return -1;
     }
-    if (!(((EntityRec *)actor)->unk_46 & 0x8000)) {
+    if (!(actor->unk_46 & 0x8000)) {
         if (status_flags & 8) {
             return -1;
         }
@@ -83,16 +83,16 @@ success:
     ((Rec_func_800A9E70_arg0 *)action_state)->unk_9A.as_s8 = 0x11;
     ((Rec_func_800A9E70_arg0 *)action_state)->unk_9B.as_s8 = 0;
     ((Rec_func_800A9E70_arg0 *)action_state)->unk_8C = 0;
-    ((EntityRec *)actor)->unk_84 = 0x7C;
-    ((EntityRec *)actor)->unk_85 = 0;
+    actor->unk_84 = 0x7C;
+    actor->unk_85 = 0;
     state_flag = ((Rec_func_800A9E70_arg0 *)action_state)->unk_98 & 0x8000;
     ASM_KEEP(state_flag);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     (*(u8 **)((u8 *)sprite + 0x2C)) = D_80173FB8;
     func_80047784(sprite,
-        D_80173FB8[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+        D_80173FB8[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
         0);
-    ((EntityRec *)actor)->unk_6D = (u8) (((u8)((EntityRec *)actor)->unk_6D) - 1);
-    func_8009C93C(actor, sprite, ((EntityRec *)actor)->facing, 1, 0);
+    actor->unk_6D = (u8) (((u8)actor->unk_6D) - 1);
+    func_8009C93C(actor, sprite, actor->facing, 1, 0);
     return 1;
 }
 

@@ -3,43 +3,16 @@
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_80173DD4_arg0.h"
 
 
 
-typedef struct S_80173DD4_2 {
-    u8 pad_00[0x1C];
-    union { s32 s; u32 u; } unk_1C;   /* accessed as both */
-    u8 pad_20[0x5];
-    u8 unk_25;
-    u8 pad_26[0x4];
-    s16 unk_2A;
-    u8 pad_2C[0x38];
-    s16 unk_64;
-    u8 pad_66[0x7];
-    s8 unk_6D;
-} S_80173DD4_2;   /* arg3 in func_80173DD4 */
-
 typedef struct S_80173DD4_3 {
     u8 pad_00[0xA];
     u16 unk_0A;
 } S_80173DD4_3;   /* counter_base in func_80173DD4 */
-
-typedef struct S_80173DD4_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-} S_80173DD4_4;   /* global_base in func_80173DD4 */
-
-typedef struct S_80173DD4_5 {
-    u8 pad_00[0x58];
-    void * unk_58;
-} S_80173DD4_5;   /* owner in func_80173DD4 */
-
-typedef struct S_80173DD4_6 {
-    u8 pad_00[0x26];
-    s8 unk_26;
-} S_80173DD4_6;   /* origin in func_80173DD4 */
 
 
 
@@ -64,13 +37,13 @@ extern u8 D_80176470[];
 extern u8 D_80176478[];
 
 /* Updates actor behavior and directional animation through three states, then sets its next callback. */
-void func_80173DD4(void *controller, void *context_in, void *object_in, void *actor)
+void func_80173DD4(void *controller, void *context_in, void *object_in, EntityRec *actor)
 {
     register void *object ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 actor_flags;
     u16 current_value;
     u16 value_adjustment;
-    u8 *global_base;
+    DungeonGlobalStatus *global_base;
     s32 state;
 
     object = object_in;
@@ -96,7 +69,7 @@ state_zero:
     }
     (*(void * *)((u8 *)object + 0x2C)) = D_80176470;
     func_80047784(object,
-        D_80176470[((gameWork.view.viewAngle + ((S_80173DD4_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+        D_80176470[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
         0);
     {
         u8 *counter_base = (u8 *)&dungeonStatus.unk_00;
@@ -108,17 +81,17 @@ state_zero:
 
 state_one:
     if ((func_80042900(actor, 1) << 16) != 0) {
-        global_base = (u8 *)&dungeonStatus.unk_00;
-        if (((S_80173DD4_4 *)global_base)->unk_02 & 0x1000) {
+        global_base = &dungeonStatus;
+        if (global_base->flags & 0x1000) {
             goto done;
         }
-        if (((S_80173DD4_2 *)actor)->unk_64 != 0) {
+        if (actor->unk_64 != 0) {
             if (func_800AA6B4(controller, context_in, object, 0) != 0) {
                 goto done;
             }
         }
-        if (((S_80173DD4_2 *)actor)->unk_25 == 0) {
-            if (((S_80173DD4_4 *)global_base)->unk_02 & 0x2008) {
+        if (actor->tileY == 0) {
+            if (global_base->flags & 0x2008) {
                 goto done;
             }
             func_800AA79C(controller, context_in, object, actor);
@@ -127,7 +100,7 @@ state_one:
         if ((func_800A2C34(actor) << 16) != 0) {
             goto done;
         }
-        actor_flags = ((S_80173DD4_2 *)actor)->unk_1C.s;
+        actor_flags = actor->flags1C;
         if (actor_flags & 0x100) {
             func_800AA258(controller, context_in, object, actor);
             goto done;
@@ -142,14 +115,14 @@ state_one:
             func_80174520(controller, context_in, object, actor);
             goto done;
         }
-        if (((S_80173DD4_2 *)actor)->unk_6D == 0) {
+        if (actor->unk_6D == 0) {
             goto done;
         }
         if ((func_800A2C34(actor) << 16) != 0) {
-            void *owner = D_800814A8;
+            EntityRec *owner = D_800814A8;
 
             if ((func_8009A180(actor,
-                    (u8 *)((S_80173DD4_5 *)owner)->unk_58 + 0x20) << 16) != 0) {
+                    (u8 *)owner->unk_58 + 0x20) << 16) != 0) {
                 goto done;
             }
         }
@@ -172,9 +145,9 @@ state_one:
     }
     (*(void * *)((u8 *)object + 0x2C)) = D_80176478;
     func_80047784(object,
-        D_80176478[((gameWork.view.viewAngle + ((S_80173DD4_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+        D_80176478[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
         0);
-    ((S_80173DD4_2 *)actor)->unk_1C.u |= 0x40000;
+    (*(u32 *)&actor->flags1C) |= 0x40000;
     if (((Rec_D_80082E80 *)object)->unk_14.at00_u16.v & 0x8000) {
         ((Rec_func_80173DD4_arg0 *)controller)->unk_8C = D_80171094;
         goto done;

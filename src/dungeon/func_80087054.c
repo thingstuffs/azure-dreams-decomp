@@ -19,11 +19,6 @@ typedef struct S_8008C7B4_1 {
     s32 unk_08;
 } S_8008C7B4_1;   /* flags in func_8008C7B4 */
 
-typedef struct S_8008C7B4_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-} S_8008C7B4_2;   /* control in func_8008C7B4 */
-
 
 extern M2C_UNK func_80048A44();
 extern M2C_UNK func_8009F644();
@@ -32,7 +27,7 @@ extern u8 D_800DCFB0;
 extern M2C_UNK D_800DD0B8;
 
 /* Reset state, update control flags, and select the entity's directional sprite. */
-void func_8008C7B4(void *state, s32 mode, void *sprite, void *entity) {
+void func_8008C7B4(void *state, s32 mode, void *sprite, EntityRec *entity) {
     void *entity_arg;
     s32 control_needed;
 #ifndef NON_MATCHING
@@ -85,7 +80,7 @@ after_control:
     {
         u8 *direction_table;
 
-        if (((EntityRec *)entity)->flags1C & 0x100000) {
+        if (entity->flags1C & 0x100000) {
 #ifndef NON_MATCHING
 
             direction_table = (u8 *)&D_800DD0B8;
@@ -105,12 +100,12 @@ after_control:
         {
             u8 *direction_entry;
 
-            initial_state = ((s32)(gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7;
+            initial_state = ((s32)(gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7;
             direction_entry = direction_table + initial_state;
             func_80048A44(sprite, *direction_entry, 0, 1);
         }
 #else
-        func_80048A44(sprite, direction_table[((s32)(gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7], 0, 1);
+        func_80048A44(sprite, direction_table[((s32)(gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7], 0, 1);
 #endif
     }
 }

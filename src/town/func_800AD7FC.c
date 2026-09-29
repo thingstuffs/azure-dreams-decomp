@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/entity_objects.h"
+#include "shared/entity.h"
 
 typedef struct {
     u16 field_0;
@@ -34,14 +35,14 @@ void func_800AAF5C(void)
     } if (record_index > 0) goto loop_0;
 
     {
-        u16 *current_values;
+        EntityRec *current_values;
         TownRecord *newest_record;
 
-        current_values = (u16 *)&D_80083780.x.v;
+        current_values = &D_80083780;
         newest_record = (TownRecord *)&D_80100E40;
-        newest_record->field_0 = current_values[1];
-        newest_record->field_2 = current_values[3];
-        newest_record->field_4 = current_values[5];
+        newest_record->field_0 = ((u16)current_values->x.w.i);
+        newest_record->field_2 = ((u16)current_values->y.w.i);
+        newest_record->field_4 = ((u16)current_values->z.w.i);
         newest_record->field_6 = D_800834C8;
     }
 }

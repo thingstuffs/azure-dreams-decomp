@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "shared/town_root.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_80016000.h"
 
 
 typedef struct S_8051FCE8_1 {
@@ -16,5 +16,5 @@ typedef struct S_8051FCE8_1 {
 
 /* Dispatches the supplied value with bit 0x8000 set. */
 void func_8051FCE8(s32 value) {
-    ((S_8051FCE8_1 *)(((Rec_D_80016000 *)D_80016000)->unk_20))->unk_280(value | 0x8000);
+    ((S_8051FCE8_1 *)(D_80016000->unk_20))->unk_280(value | 0x8000);
 }

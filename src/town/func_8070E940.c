@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "shared/town_root.h"
 
 typedef void (*TownCallback)(s32, s32);
 
@@ -7,11 +8,6 @@ typedef struct TownCallbacks {
     u8 pad[0x2F8];
     TownCallback callback;
 } TownCallbacks;
-
-typedef struct TownRoot {
-    u8 pad[0x20];
-    TownCallbacks *callbacks;
-} TownRoot;
 
 extern s32 func_80016CC4();
 extern s32 func_8001991C();
@@ -21,7 +17,7 @@ extern s32 func_8001A64C();
 
 /* Advance the town scene: clear flag 0x943 when it is set and the step check passes, otherwise hand back to the scene callback. */
 s32 func_80017940(s32 kind, s32 value) {
-    TownRoot *root;
+    Rec_D_80016000 *root;
 
     func_80016CC4();
     if (func_8001A64C(0x943) != 0) {
@@ -32,7 +28,7 @@ s32 func_80017940(s32 kind, s32 value) {
         }
     }
 
-    root = ((TownRoot *)D_80016000);
-    root->callbacks->callback(0xF, 0x200);
+    root = D_80016000;
+    ((TownCallbacks *)root->unk_20)->callback(0xF, 0x200);
     return 0;
 }

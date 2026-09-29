@@ -24,12 +24,6 @@ typedef struct S_80176084_0 {
 
 
 
-typedef struct S_80176084_4 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-    s32 unk_0C;
-} S_80176084_4;   /* global in func_80176084 */
-
 
 
 extern M2C_UNK func_80042B68();
@@ -44,7 +38,7 @@ extern u8 D_800E2448[];
 extern u8 D_80171A80[];
 
 /* Advance a two-phase animation transition and finalize the entity state. */
-void func_80176084(void *state, void *motion, void *sprite, void *entity) {
+void func_80176084(void *state, EntityRec *motion, void *sprite, EntityRec *entity) {
     u16 start_ticks;
     u16 finish_ticks;
     u8 phase;
@@ -71,22 +65,22 @@ void func_80176084(void *state, void *motion, void *sprite, void *entity) {
     } while (0);
     ((S_80176084_0 *)state)->unk_96 = 4U;
     (*(M2C_UNK * *)((u8 *)sprite + 0x2C)) = (M2C_UNK *)D_800E2448;
-    func_80047784(sprite, D_800E2448[((s32)(gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7], 0);
+    func_80047784(sprite, D_800E2448[((s32)(gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7], 0);
     if ((((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) ||
         (func_800A56E0(0x801), ((((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) != 0))) {
 update_start:
         start_ticks = ((S_80176084_0 *)state)->unk_96;
         ((S_80176084_0 *)state)->unk_96 = (u16)(start_ticks - 1);
         if (((start_ticks << 0x10) <= 0) || (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
-            ((EntityRec *)motion)->flags14 = 0;
-            ((EntityRec *)motion)->unk_10 = 0;
-            ((EntityRec *)motion)->unk_0C = 0;
+            motion->flags14 = 0;
+            motion->unk_10 = 0;
+            motion->unk_0C = 0;
             func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
-            ((EntityRec *)entity)->flags1C |= 0x40000;
+            entity->flags1C |= 0x40000;
             ((S_80176084_0 *)state)->unk_B5 = 0;
             ((S_80176084_0 *)state)->unk_98 |= 8;
             (*(M2C_UNK * *)((u8 *)sprite + 0x2C)) = (M2C_UNK *)D_800E23E0;
-            func_80047784(sprite, D_800E23E0[((s32)(gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7], 0);
+            func_80047784(sprite, D_800E23E0[((s32)(gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7], 0);
             ((S_80176084_0 *)state)->unk_96 = 5U;
             ((S_80176084_0 *)state)->unk_9B++;
             ((S_80176084_0 *)state)->unk_B1++;
@@ -106,7 +100,7 @@ update_finish:
                 if (((S_80176084_0 *)state)->unk_B4 == 0) {
                     dungeonStatus.unk_0C = 0;
                     dungeonStatus.unk_0A--;
-                    ((EntityRec *)entity)->unk_46 &= 0x7FFF;
+                    entity->unk_46 &= 0x7FFF;
                 }
                 func_800AA36C(state, motion, sprite, entity);
             }

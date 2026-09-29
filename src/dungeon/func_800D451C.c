@@ -27,13 +27,13 @@ extern u8 D_8017588C[];
 
 
 /* Updates directional movement, decelerates it, and settles the entity at its tile. */
-void func_800D9C7C(S_800D9C7C_1 *controller, EntityRec *motion, Rec_D_80082E80 *entity, void *source)
+void func_800D9C7C(S_800D9C7C_1 *controller, EntityRec *motion, Rec_D_80082E80 *entity, EntityRec *source)
 {
     s16 ticks_left;
     s32 direction;
     s32 tracked_entity;
 
-    direction = (((EntityRec *)source)->unk_6A >> 9) & 7;
+    direction = (source->unk_6A >> 9) & 7;
     switch (controller->unk_9B) {
     case 0:
         func_800AD4D0(source);
@@ -43,7 +43,7 @@ void func_800D9C7C(S_800D9C7C_1 *controller, EntityRec *motion, Rec_D_80082E80 *
             *(s16 *)((u8 *)((s8 *)dirStepY) + (direction * 2)) << 18;
         controller->unk_9B++;
 
-        if (((EntityRec *)source)->unk_28 == 0) {
+        if (source->unk_28 == 0) {
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
@@ -55,7 +55,7 @@ void func_800D9C7C(S_800D9C7C_1 *controller, EntityRec *motion, Rec_D_80082E80 *
             controller->unk_9B = 2;
             return;
         }
-        if (((EntityRec *)source)->flags1C & 0x228) {
+        if (source->flags1C & 0x228) {
             ticks_left = 8;
         } else {
             ticks_left = -1;
@@ -78,7 +78,7 @@ void func_800D9C7C(S_800D9C7C_1 *controller, EntityRec *motion, Rec_D_80082E80 *
         if (controller->unk_96.s != 0) {
             return;
         }
-        if (((EntityRec *)source)->unk_28 != 0) {
+        if (source->unk_28 != 0) {
             goto increment_state;
         }
         motion->flags14 = 0;

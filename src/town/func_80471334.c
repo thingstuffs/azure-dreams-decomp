@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "shared/town_root.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_80016000.h"
 
 
 typedef struct S_80471334_1 {
@@ -21,6 +21,6 @@ void func_80471334(void) {
 
     func_800181DC();
     func_80019098(&D_8001B218);
-    context = ((Rec_D_80016000 *)D_80016000)->unk_38.as_pv;
+    context = D_80016000->unk_38;
     context->unk_2D5C = (s32) (context->unk_2D5C - D_8001B210);
 }

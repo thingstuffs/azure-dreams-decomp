@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 
 
@@ -49,22 +50,6 @@ typedef struct S_800927E4_2 {
     s16 unk_3228;
 } S_800927E4_2;   /* hitBase in func_800927E4 */
 
-typedef struct S_800927E4_3 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    union { s16 s; u16 u; } unk_2A;   /* accessed as both */
-    u8 pad_2C[0x30];
-    s32 unk_5C;
-    u8 pad_60[0x28];
-    u16 unk_88;
-} S_800927E4_3;   /* arg3 in func_800927E4 */
-
-typedef struct S_800927E4_4 {
-    u8 pad_00[0xC8];
-    s16 unk_C8;
-} S_800927E4_4;   /* page in func_800927E4 */
-
 typedef struct S_800927E4_5 {
     u8 pad_00[0x2C];
     u8 * unk_2C;
@@ -106,13 +91,8 @@ typedef struct S_800927E4_10 {
     s8 unk_02;
 } S_800927E4_10;   /* entity in func_800927E4 */
 
-typedef struct S_800927E4_11 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-} S_800927E4_11;   /* flagsBase in func_800927E4 */
-
 /* Advances a directional animation, spawns its effect and message, and handles completion. */
-void func_800927E4(void *action, s32 actor_id, Rec_D_80082E80 *sprite, S_800927E4_3 *actor) {
+void func_800927E4(void *action, s32 actor_id, Rec_D_80082E80 *sprite, EntityRec *actor) {
     u16 offset[3];
     void *effect_obj;
     S_800927E4_8 *effect_prim;
@@ -150,7 +130,7 @@ state_zero:
         func_80048A44(
             anim_sprite,
             anim_table[((((S_800927E4_2 *)D_80080000)->unk_3228 +
-                    actor->unk_2A.s + 0x100) >> 9) & 7],
+                    actor->facing + 0x100) >> 9) & 7],
             0,
             1);
         ((S_800927E4_0 *)action)->unk_9B = ((S_800927E4_0 *)action)->unk_9B + 1;
@@ -160,12 +140,12 @@ state_zero:
        /* Pin: removal changes a delay-slot fill. */
     {
         s32 base_angle = gameWork.view.viewAngle;
-        s32 signed_angle = actor->unk_2A.s;
+        s32 signed_angle = actor->facing;
         s32 angle_or_sprite;
         s32 next_angle;
 
            /* Pin: removal changes the callee-saved set / frame layout. */
-        angle_or_sprite = actor->unk_2A.u;
+        angle_or_sprite = ((u16)actor->facing);
         if ((((base_angle + signed_angle + 0x100) >> 9) & 7) == 2) {
             angle_or_sprite = (s32)sprite;
             {
@@ -175,7 +155,7 @@ state_zero:
                 func_80048A44(
                     (void *)angle_or_sprite,
                     anim_table[((gameWork.view.viewAngle +
-                            actor->unk_2A.s + 0x100) >> 9) & 7],
+                            actor->facing + 0x100) >> 9) & 7],
                     0,
                     1);
                 ((S_800927E4_0 *)action)->unk_9B = ((S_800927E4_0 *)action)->unk_9B + 1;
@@ -184,7 +164,7 @@ state_zero:
         }
 
         next_angle = angle_or_sprite + 0x200;
-        actor->unk_2A.u = next_angle;
+        actor->facing = next_angle;
     }
     return;
 
@@ -194,7 +174,7 @@ state_one:
         return;
     }
 
-    if (!(actor->unk_1C & 0x100000)) {
+    if (!(actor->flags1C & 0x100000)) {
         void *owner_obj = (u8 *)action - 0x20;
         s32 zero = 0;   /* Pin: removal changes the whole function shape. */
            /* Pin: removal reorders the instructions (same instructions, different order). */
@@ -210,12 +190,12 @@ state_one:
 
             effect = (u8 *)effect_obj + 0x20;
             if (sprite->unk_14.at00_u16.v & 0x8000) {
-                effect_prim->unk_0A = actor->unk_88 - 0x50;
+                effect_prim->unk_0A = ((u16)actor->unk_88) - 0x50;
             } else {
                 effect_prim->unk_02 += offset[0];
                 effect_prim->unk_06 += offset[1];
                 tail_value = offset[2];
-                tail_value += actor->unk_88;
+                tail_value += ((u16)actor->unk_88);
                 effect_prim->unk_0A = tail_value;
             }
             effect->unk_A8 = 0x1E;

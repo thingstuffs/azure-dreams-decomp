@@ -7,11 +7,6 @@ s32 func_80044724();
 M2C_UNK func_800D112C();
 M2C_UNK func_800D1338();
 
-typedef struct S_800D13B8_0 {
-    u8 pad_00[0xC8];
-    s16 unk_C8;
-} S_800D13B8_0;   /* temp_s0_1 in func_800D13B8 */
-
 typedef struct S_800D13B8_1 {
     u8 pad_00[0xA4];
     u16 unk_A4;
@@ -20,7 +15,7 @@ typedef struct S_800D13B8_1 {
 
 /* Processes directions around the current position based on the facing angle. */
 void func_800D13B8(void) {
-    s8 *state;
+    GameWork *state;
     register s8 *direction_work ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     s16 coord_x;
     s16 coord_y;
@@ -40,10 +35,10 @@ void func_800D13B8(void) {
     u16 *x_step;
     u16 *diagonal_x_step;
 
-    state = ((s8 *)(&gameWork));
-    direction_work = state + 0x18;
+    state = &gameWork;
+    direction_work = (u8 *)state + 0x18;
     if (func_80044724() != 0) {
-        facing = 2 - ((s32) (((S_800D13B8_0 *)state)->unk_C8 + 0x100) >> 9);
+        facing = 2 - ((s32) (state->view.viewAngle + 0x100) >> 9);
         func_800D1338();
         coord_x = (u16) ((S_800D13B8_1 *)direction_work)->unk_A4 >> 6;
         coord_y = (u16) ((S_800D13B8_1 *)direction_work)->unk_A6 >> 6;

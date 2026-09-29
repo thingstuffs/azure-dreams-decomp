@@ -24,11 +24,6 @@ extern void func_800C4D78(s32, s16);
 
 
 
-typedef struct S_800BF9EC_1 {
-    u8 pad_00[0x5C];
-    void * unk_5C;
-} S_800BF9EC_1;   /* head in func_800BF9EC */
-
 typedef struct S_800BF9EC_2_pre {
     void * unk_00;
     u8 pad_04[0x10];
@@ -53,7 +48,7 @@ typedef struct S_800BF9EC_3 {
 /* Applies an action to the target or eligible list nodes and updates action state. */
 s32 func_800BF9EC(EntityRec *target, s32 action_id, s16 action_type, s32 action_param)
 {
-    S_800BF9EC_1 *head;
+    EntityRec *head;
     void *node;
 
     if (action_type == 13) {
@@ -77,7 +72,7 @@ s32 func_800BF9EC(EntityRec *target, s32 action_id, s16 action_type, s32 action_
         func_800997FC(D_800E131C);
 
         head = D_800814A8;
-        node = (u8 *)head->unk_5C + 0x20;
+        node = (u8 *)((void *)head->unk_5C) + 0x20;
         if (node != head) {
             do {
                 if (((((S_800BF9EC_2 *)node)->unk_1C & 0x2400) != 0x2000 ||

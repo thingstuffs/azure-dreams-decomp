@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "shared/town_root.h"
 
 extern void func_80018B58(s32);
 extern void func_80018BD0(s32);
@@ -12,15 +13,10 @@ typedef struct Inner {
     Callback callback;
 } Inner;
 
-typedef struct Outer {
-    u8 pad[0x20];
-    Inner *inner;
-} Outer;
-
 
 /* Runs the conditional action or invokes the fallback callback. */
 s32 func_800169B4(void) {
-    Outer *callback_owner;
+    Rec_D_80016000 *callback_owner;
 
     func_80018BD0(0xFB7);
     func_80018BD0(0xFB8);
@@ -36,7 +32,7 @@ s32 func_800169B4(void) {
     return 1;
 
 fallback:
-    callback_owner = ((Outer *)D_80016000);
-    callback_owner->inner->callback(0x10, 0x200);
+    callback_owner = D_80016000;
+    ((Inner *)callback_owner->unk_20)->callback(0x10, 0x200);
     return 0;
 }
