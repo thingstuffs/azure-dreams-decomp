@@ -4,8 +4,6 @@
 #include "shared/dir_step.h"
 extern int abs(int);
 
-extern void *jtbl_80024008[];
-__asm__(".set jtbl_80024008, 0x80024008");
 
 extern s32 func_8003DE58(void *, void *, s16 *, s32);
 extern s32 func_800A44E0(s32, s32, s16, s32);
@@ -212,7 +210,6 @@ void func_80024578(S_func_80024578_1 *effect, S_func_80024578_2 *position, void 
 {
     register S_func_80024578_3 *actor;
     register S_func_80024578_4 *render = render_data;
-    void **state_table;
     register S_func_80024578_5 *work_base;
     S_func_80024578_6 *motion_data;
     S_func_80024578_6 *map_data;
@@ -236,37 +233,24 @@ void func_80024578(S_func_80024578_1 *effect, S_func_80024578_2 *position, void 
     s16 *delta_cursor;
     u32 page_base;
     s16 final_floor;
-    static void *const state_labels[] = {
-        &&case_0, &&case_1_entry, &&case_7, &&case_motion_flags,
-        &&case_1, &&case_10, &&case_2, &&case_3,
-        &&case_4, &&case_5, &&case_6, &&case_7,
-        &&case_8, &&case_9, &&case_10, &&case_11,
-    };
     register s32 expanded_floor ASM_REG("$2");
 
     frame = effect->unk_10.u16;
     state = effect->unk_0A.s16;
     actor = effect->unk_00;
     effect->unk_10.u16 = (u16)(frame + 1);
-    if ((u32)state >= 16U) {
-        goto finish;
-    } else {
-        state_table = jtbl_80024008;
-        (void)state_labels;
-        goto *state_table[state];
-    }
-
-case_0:
+    switch (state) {
+    case 0:
     effect->unk_10.u16 = 0;
     effect->unk_0A.u16 = (u16)(effect->unk_0A.u16 + 1);
     effect->unk_0E = (u16)((actor->unk_2A >> 9) & 7);
     render->unk_0C = 0x808080;
-case_1_entry:
+    case 1:
     work_base = (S_func_80024578_5 *)((u8 *)actor - 0x20);
     motion_data = work_base->unk_0C;
     if (func_8003DE58(motion_data->unk_08, motion_data, (s16 *)(scratch + 0x18), 0) == 0) {
         if ((((S_func_80024578_6 *)(work_base->unk_0C))->unk_14 & 0x8000) == 0) {
-            goto finish;
+            break;
         }
     }
     origin_pos = work_base->unk_08.ptr;
@@ -295,7 +279,7 @@ case_1_entry:
         }
     }
     if ((((S_func_80024578_8 *)(effect->unk_04))->unk_00 & 0x80) == 0) {
-        goto finish;
+        break;
     }
     target = actor->unk_60;
     index = 1;
@@ -470,14 +454,14 @@ set_state:
     effect->unk_10.u16 = 0;
 
     func_800243CC(effect, position);
-    goto finish;
+    break;
 
-case_motion_flags:
+    case 3:
     position->unk_00.s32 += position->unk_0C;
     position->unk_04.s32 += position->unk_10;
     position->unk_08.s32 += position->unk_14;
     if (effect->unk_10.s16 < effect->unk_12) {
-        goto finish;
+        break;
     }
     func_800A56E0(0x300);
     func_800542BC();
@@ -495,13 +479,13 @@ case_motion_flags:
     }
     goto advance_state;
 
-case_1:
+    case 4:
     if (func_80053EF0(4) == 1) {
         goto advance_state;
     }
-    goto finish;
+    break;
 
-case_2:
+    case 6:
     ((S_func_80024578_2 *)(effect->unk_20))->unk_08.parts_0A.unk_0A.u16 =
         (u16)(((S_func_80024578_2 *)(effect->unk_20))->unk_08.parts_0A.unk_0A.u16 - effect->unk_10.u16);
     ((S_func_80024578_3 *)(effect->unk_1C))->unk_2A =
@@ -512,9 +496,9 @@ case_2:
         ((S_func_80024578_4 *)expanded_floor)->unk_1A = (u16)(((S_func_80024578_4 *)expanded_floor)->unk_1A + 0x800);
         goto advance_state;
     }
-    goto finish;
+    break;
 
-case_3:
+    case 7:
     ((S_func_80024578_2 *)(effect->unk_20))->unk_08.parts_0A.unk_0A.u16 =
         (u16)(((S_func_80024578_2 *)(effect->unk_20))->unk_08.parts_0A.unk_0A.u16 + effect->unk_10.s16 * 4);
     ((S_func_80024578_3 *)(effect->unk_1C))->unk_2A =
@@ -549,9 +533,9 @@ case_3_loop:
             goto case_3_loop;
         }
     }
-    goto finish;
+    break;
 
-case_4:
+    case 8:
     ((S_func_80024578_3 *)(effect->unk_1C))->unk_2A =
         (u16)(((S_func_80024578_3 *)(effect->unk_1C))->unk_2A + 0x200);
     index = 0;
@@ -562,13 +546,13 @@ case_4:
         } while (index < 8);
     }
     if (effect->unk_10.s16 < 12) {
-        goto finish;
+        break;
     }
     goto advance_state;
 
-case_5:
+    case 9:
     if (effect->unk_10.s16 < 4) {
-        goto finish;
+        break;
     }
     ((S_func_80024578_2 *)(effect->unk_20))->unk_08.s32 = effect->unk_28.s32;
     ((S_func_80024578_3 *)(effect->unk_1C))->unk_2A = effect->unk_18;
@@ -580,19 +564,20 @@ case_5:
                   (s16)(effect->unk_0E << 9), actor, 1);
     goto advance_state;
 
-case_6:
+    case 10:
     if (effect->unk_14.s16 != 0) {
-        goto finish;
+        break;
     }
     dungeonStatus.unk_0C = 0;
     ((S_func_80024578_12 *)((u8 *)(effect) - 2))->unk_00 |= 0x8000;
     objectFlagBlock.flags |= 0x8000;
-    goto finish;
+    break;
 
-case_7:
+    case 2:
+    case 11:
     func_800243CC(effect, position);
     if (effect->unk_10.s16 < 15) {
-        goto finish;
+        break;
     }
     {
         void *saved_height = ((S_func_80024578_2 *)(effect->unk_20))->unk_08.ptr;
@@ -601,43 +586,44 @@ case_7:
         effect->unk_10.u16 = 0;
         effect->unk_28.ptr = saved_height;
     }
-    goto finish;
+    break;
 
-case_8:
+    case 12:
     position->unk_00.s32 += position->unk_0C;
     position->unk_04.s32 += position->unk_10;
     position->unk_08.s32 += position->unk_14;
     if (effect->unk_10.s16 < effect->unk_12) {
-        goto finish;
+        break;
     }
     func_800A56E0(0x300);
     func_800542BC();
     goto advance_state;
 
-case_9:
+    case 13:
     if (func_80053EF0(4) != 1) {
-        goto finish;
+        break;
     }
     goto advance_state;
 
-case_10:
+    case 5:
+    case 14:
     if (effect->unk_10.s16 < 7) {
-        goto finish;
+        break;
     }
 
 advance_state:
     effect->unk_0A.u16 = (u16)(effect->unk_0A.u16 + 1);
     effect->unk_10.u16 = 0;
-    goto finish;
+    break;
 
-case_11:
+    case 15:
     if (effect->unk_10.s16 >= 28) {
         func_800A56E0(116);
         effect->unk_0A.u16 = 10;
         effect->unk_10.u16 = 0;
     }
-    goto finish;
+    break;
+    }
 
-finish:
     effect->unk_14.u16 = 0;
 }

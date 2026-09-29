@@ -102,7 +102,6 @@ extern void func_800C77D0(void *, void *, s32, s32);
 extern void func_80175A90(Vec3Work *, Vec3Work *);
 
 extern u8 D_800DDC40[];
-extern void *D_80170888[];
 extern u8 D_80175F68;
 
 /* Updates staged movement to a target and back to the actor's base position. */
@@ -113,9 +112,6 @@ void func_80175018(S_81087818_0 *motion, Vec3Work *trajectory, void *context)
 #define delta work.delta
     s32 next_state;
     u32 state;
-    static void *const state_labels[] = {
-        &&state0, &&state1, &&state2, &&state3, &&state4
-    };
 
     motion->unk_02.u++;
     func_800478B8(context);
@@ -140,13 +136,8 @@ void func_80175018(S_81087818_0 *motion, Vec3Work *trajectory, void *context)
     }
 
     state = (u32)motion->unk_00.s;
-    if (state >= 5) {
-        goto finish;
-    }
-    (void)state_labels;
-    goto *D_80170888[state];
-
-state0:
+    switch (state) {
+    case 0:
 {
     S_81087818_1 *actor = motion->unk_40;
     S_81087818_2 *source;
@@ -262,10 +253,10 @@ state0:
     trajectory->z = base.z;
     motion->unk_00.u++;
     motion->unk_02.u = 0;
-    goto finish;
+    break;
 }
 
-state1:
+    case 1:
 {
     trajectory->dx /= 2;
     trajectory->dy /= 2;
@@ -299,7 +290,7 @@ state1:
     goto commit_state;
 }
 
-state2:
+    case 2:
 {
     s32 elevation_factor;
     s32 azimuth_factor;
@@ -359,10 +350,10 @@ commit_state:
     motion->unk_00.u = next_state;
 call_helper:
     func_80175A90(&base, trajectory);
-    goto finish;
+    break;
 }
 
-state3:
+    case 3:
 {
     if (motion->unk_02.s < motion->unk_04.s) {
         trajectory->dx *= 2;
@@ -372,7 +363,7 @@ state3:
         trajectory->y += trajectory->dy;
         trajectory->z += trajectory->dz;
         func_80175A90(&base, trajectory);
-        goto finish;
+        break;
     }
     trajectory->x = base.x;
     trajectory->y = base.y;
@@ -381,7 +372,7 @@ state3:
         S_81087818_1 *actor = motion->unk_48;
         u16 flags = actor->unk_14;
         if (!(flags & 0x800)) {
-            goto finish;
+            break;
         }
         actor->unk_14 = flags & 0xF7FF;
     }
@@ -389,7 +380,7 @@ state3:
     motion->unk_02.u = 0;
 }
 
-state4:
+    case 4:
 {
     S_81087818_1 *actor = motion->unk_48;
     if (actor->unk_2C != &D_80175F68) {
@@ -402,8 +393,8 @@ state4:
     trajectory->y = base.y;
     trajectory->z = base.z;
 }
+    }
 
-finish:
     if (motion->unk_00.s != 0) {
         func_800C77D0((u8 *)motion - 0x20, trajectory, 8, 0x300);
     }
