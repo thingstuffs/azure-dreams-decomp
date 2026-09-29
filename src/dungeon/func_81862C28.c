@@ -53,27 +53,19 @@ extern void func_80024374(void);
 extern u8 D_800DE9D0[];
 
 /* Creates an effect at the origin or in unblocked directions at the given radius. */
-void func_80024428(s32 effect_param, void *origin_arg, s32 radius_arg, u8 *blocked_dirs) {
-    register void *origin ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s32 radius;
+void func_80024428(s32 effect_param, void *origin_arg, s16 radius_arg, u8 *blocked_dirs) {
     s16 target_y;
     s16 target_x;
     s32 source_y;
     s32 source_x;
-    register s32 radius_reg ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 direction;
-    register void *x_step ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register u8 *page_8007 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     S_81862C28_1 *effect_data;
     S_81862C28_0 *effect;
-    s32 tile_x;
-    s32 tile_dy;
-    s32 table_offset;
+    s16 tile_x;
+    s16 tile_dy;
     s16 origin_z;
 
-    radius = radius_reg;
-    radius_reg <<= 0x10;
-    if (radius_reg == 0) {
+    if (radius_arg == 0) {
         effect = func_8003FC64(0x212);
         if (effect != 0) {
             effect_data = effect->unk_0C;
@@ -90,67 +82,55 @@ void func_80024428(s32 effect_param, void *origin_arg, s32 radius_arg, u8 *block
             effect_data->unk_10 |= 0x20;
             effect_data->unk_14 |= 0x10C;
             func_8004491C(effect, func_80045340);
-            origin = origin_arg;
             effect_data = effect->unk_08;
-            effect_data->unk_02.s = ((S_81862C28_2 *)origin)->unk_02.s;
-            effect_data->unk_06.s = ((S_81862C28_2 *)origin)->unk_06.s;
-            effect_data->unk_0A = ((S_81862C28_2 *)origin)->unk_0A.s;
+            effect_data->unk_02.s = ((S_81862C28_2 *)origin_arg)->unk_02.s;
+            effect_data->unk_06.s = ((S_81862C28_2 *)origin_arg)->unk_06.s;
+            effect_data->unk_0A = ((S_81862C28_2 *)origin_arg)->unk_0A.s;
         }
     } else {
-        origin = origin_arg;
-        direction = 0;
-        page_8007 = (u8 *)0x80070000;
-        ASM_KEEP(page_8007);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        x_step = page_8007 - 0x3328;
-next_direction:
-        effect_data = blocked_dirs + direction;
-        if (effect_data->unk_00 == 0) {
-            source_x = ((S_81862C28_2 *)origin)->unk_02.u;
-            if (source_x < 0) {
-                source_x += 0x3F;
+        for (direction = 0; direction < 8; direction++) {
+            effect_data = blocked_dirs + direction;
+            if (effect_data->unk_00 == 0) {
+                source_x = ((S_81862C28_2 *)origin_arg)->unk_02.u;
+                if (source_x < 0) {
+                    source_x += 0x3F;
+                }
+                tile_x = (source_x >> 6) + ((u16)dirStepX[direction] * (u16)radius_arg);
+                source_y = ((S_81862C28_2 *)origin_arg)->unk_06.u;
+                if (source_y < 0) {
+                    source_y += 0x3F;
+                }
+                tile_dy = (source_y >> 6) + (u16)dirStepY[direction] * (u16)radius_arg;
+                origin_z = ((S_81862C28_2 *)origin_arg)->unk_0A.u;
+                target_x = ((tile_x << 0x10) >> 0xA) + 0x20;
+                target_y = ((tile_dy << 0x10) >> 0xA) + 0x20;
+                if ((func_800A45D8(target_x & 0xFFE0, target_y & 0xFFE0, origin_z) << 0x10) != 0) {
+                    effect_data->unk_00 = 1;
+                    continue;
+                }
+                effect = func_8003FC64(0x212);
+                if (effect != 0) {
+                    effect_data = effect->unk_0C;
+                    effect->unk_10 = func_80024374;
+                    effect->unk_20 = effect_param;
+                    effect->unk_24 = 0;
+                    effect_data->unk_0E = 0x40;
+                    effect_data->unk_0D = 0x40;
+                    effect_data->unk_0C = 0x40;
+                    func_8003DB94(effect_data, D_800DE9D0, 0);
+                    effect_data->unk_1C = 0x1000;
+                    effect_data->unk_1E = 0x1800;
+                    effect_data->unk_12 = 0x7E0B;
+                    effect_data->unk_10 |= 0x20;
+                    effect_data->unk_14 |= 0x10C;
+                    func_8004491C(effect, func_80045340);
+                    effect_data = effect->unk_08;
+                    effect_data->unk_02.u = target_x;
+                    effect_data->unk_06.u = target_y;
+                    effect_data->unk_0A = ((S_81862C28_2 *)origin_arg)->unk_0A.s;
+                    effect_data->unk_0A = func_800BCAD0(effect_data);
+                }
             }
-            tile_x = (source_x >> 6) + (*(u16 *)x_step * radius);
-            table_offset = direction << 1;
-            source_y = ((S_81862C28_2 *)origin)->unk_06.u;
-            if (source_y < 0) {
-                source_y += 0x3F;
-            }
-            tile_dy = *(u16 *)((u8 *)dirStepY + table_offset) * radius;
-            origin_z = ((S_81862C28_2 *)origin)->unk_0A.u;
-            target_x = ((tile_x << 0x10) >> 0xA) + 0x20;
-            target_y = ((((source_y >> 6) + tile_dy) << 0x10) >> 0xA) + 0x20;
-            if ((func_800A45D8(target_x & 0xFFE0, target_y & 0xFFE0, origin_z) << 0x10) != 0) {
-                effect_data->unk_00 = 1;
-                goto next_step;
-            }
-            effect = func_8003FC64(0x212);
-            if (effect != 0) {
-                effect_data = effect->unk_0C;
-                effect->unk_10 = func_80024374;
-                effect->unk_20 = effect_param;
-                effect->unk_24 = 0;
-                effect_data->unk_0E = 0x40;
-                effect_data->unk_0D = 0x40;
-                effect_data->unk_0C = 0x40;
-                func_8003DB94(effect_data, D_800DE9D0, 0);
-                effect_data->unk_1C = 0x1000;
-                effect_data->unk_1E = 0x1800;
-                effect_data->unk_12 = 0x7E0B;
-                effect_data->unk_10 |= 0x20;
-                effect_data->unk_14 |= 0x10C;
-                func_8004491C(effect, func_80045340);
-                effect_data = effect->unk_08;
-                effect_data->unk_02.u = target_x;
-                effect_data->unk_06.u = target_y;
-                effect_data->unk_0A = ((S_81862C28_2 *)origin)->unk_0A.s;
-                effect_data->unk_0A = func_800BCAD0(effect_data);
-            }
-        }
-next_step:
-        direction += 1;
-        x_step += 2;
-        if (direction < 8) {
-            goto next_direction;
         }
     }
 }
