@@ -133,3 +133,8 @@ order, not numeric order (numeric order scored 24-25 on two rows). A goto from o
 case bodies stays a goto (0 of 4 structured spellings exact: the jump table collapses or registers swap). A switch
 changes cse's extended basic block: a constant held in a register before the dispatch can be re-materialised in the
 target block (`li a1,2` hoisted into a delay slot) - one row stayed at distance 1 for that reason.
+
+**Owner ruling 2026-09-29:** prefer the goto-free spelling even when the condition reads a little odd (e.g. a ternary
+inside a condition, `kind == 0xE || (kind < 0xF ? kind == 0xD : kind == 0xF)`), unless it is highly unlikely a person
+would write it (invented cases, no-op arithmetic, comma chains that exist only for codegen). Labels moved into blocks
+stay rejected.
