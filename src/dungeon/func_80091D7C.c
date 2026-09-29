@@ -67,7 +67,7 @@ void func_800974DC(void *action, void *motion, void *sprite, void *actor) {
 
     phase = ((S_800974DC_0 *)action)->unk_9B;
     if (phase >= 5U) {
-        goto block_23;
+        return;
     }
     (void)jt_keep; goto *D_80088B50[(u32)(phase)];
 jt_c0:
@@ -123,13 +123,13 @@ block_12:
 jt_c2:
 block_15:
     if (!(((S_800974DC_0 *)action)->unk_A2 & 0x10)) {
-        goto block_23;
+        return;
     }
     ((EntityRec *)motion)->flags14 = 0;
     ((EntityRec *)motion)->unk_10 = 0;
     ((EntityRec *)motion)->unk_0C = 0;
     if ((s16) ((S_800974DC_0 *)action)->unk_96.s > 0) {
-        goto block_23;
+        return;
     }
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = D_800DD274;
     func_8003DB94(sprite, *(M2C_UNK *)((u8 *)D_800DD274 + (((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 7) & 0x1C)), 0);
@@ -139,7 +139,7 @@ jt_c3: {
     s32 coord;
     u32 delta;
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
-        goto block_23;
+        return;
     }
     ((EntityRec *)motion)->flags14 = 0;
     ((S_800974DC_0 *)action)->unk_96.s = 2U;
@@ -160,7 +160,7 @@ jt_c4:
         goto block_22;
     }
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
-        goto block_23;
+        return;
     }
 block_22:
     ((EntityRec *)motion)->flags14 = 0;
@@ -172,6 +172,5 @@ block_22:
     ((S_800974DC_0 *)action)->unk_8C = &D_80096384;
     dungeonStatus.unk_0C = 0;
     ((S_800974DC_0 *)action)->unk_96.s = 0U;
-block_23:
     return;
 }

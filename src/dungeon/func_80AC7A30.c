@@ -133,7 +133,7 @@ void func_80173230(void *action_in, void *motion_in, void *sprite, void *actor)
     action_object = (u8 *)action_in - 0x20;
     state = ((S_80173230_0 *)action_in)->unk_9B;
     if ((u32)state >= 5) {
-        goto end;
+        return;
     }
     (void)state_labels;
     goto *D_80170850[state];
@@ -267,12 +267,12 @@ empty_selection:
     (*(u8 *)((u8 *)actor + 0x73)) = 0;
     (*(u8 *)((u8 *)actor + 0x72)) = 0;
     (*(u16 *)((u8 *)actor + 0x46)) &= 0x7FFF;
-    goto end;
+    return;
 
 state_1:
     if (func_8003F270()) {
         ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x800;
-        goto end;
+        return;
     }
     ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
     ((S_80173230_0 *)action_in)->unk_9B++;
@@ -338,11 +338,11 @@ state_2:
             goto store_next_state;
         }
     }
-    goto end;
+    return;
 
 store_next_state:
     ((S_80173230_0 *)action_in)->unk_9B = next_state;
-    goto end;
+    return;
 
 state_3:
     if ((((Rec_D_80082E80 *)sprite)->unk_04.as_s8 == 3 &&
@@ -375,7 +375,7 @@ state_4:
             ((Rec_D_80082E80 *)sprite)->unk_12.at00_u16.v = ((S_80173230_0 *)action_in)->unk_AC;
         }
         if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
-            goto end;
+            return;
         }
 
         ((EntityRec *)motion_in)->flags14 = 0;
@@ -396,7 +396,7 @@ state_4:
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
         }
         if (((s32)dungeonStatus.unk_0C) != 0) {
-            goto end;
+            return;
         }
         dungeonStatus.unk_0A--;
         ((S_80173230_0 *)action_in)->unk_8C = &D_80171728;
@@ -408,6 +408,5 @@ state_4:
         func_800A56E0(0xB4);
     }
 
-end:
     return;
 }

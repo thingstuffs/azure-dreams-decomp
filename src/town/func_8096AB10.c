@@ -29,7 +29,7 @@ s16 *func_80122FA8(s16 char_code)
 
     glyph_id = char_code;
     if (Krom2RawAdd(glyph_id) == -1) {
-        goto fail;
+        return 0;
     }
 
     if (D_80129724 >= 30) {

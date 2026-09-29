@@ -55,15 +55,13 @@ s32 func_800C1CE0(void *target, s32 action, s16 action_type, s32 action_arg) {
                 return 0;
             }
             slot = 0;
-        process_slot:
-            slot_entry = *(s32 *)((u8 *)*(u8 **)(global_page + 0x3D7C) + 0xAC + slot * 4);
-            if (slot_entry != 0) {
-                func_800C1F28(slot_entry, (s16)slot);
-            }
-            slot += 1;
-            if (slot < 2) {
-                goto process_slot;
-            }
+            do {
+                slot_entry = *(s32 *)((u8 *)*(u8 **)(global_page + 0x3D7C) + 0xAC + slot * 4);
+                if (slot_entry != 0) {
+                    func_800C1F28(slot_entry, (s16)slot);
+                }
+                slot += 1;
+            } while (slot < 2);
             message_end = func_80099194(D_800E1532, message_end);
             func_800A56E0(0x501);
         } else {

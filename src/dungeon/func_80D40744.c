@@ -72,7 +72,7 @@ void func_80175F44(S_func_80D40744_0 *entity, s32 unused_1, s32 unused_2, s32 un
 
 reject_entity:
         entity->unk_9A.u8 = 14;
-        goto done;
+        return;
     }
 
     state_or_flags = (s32)&dungeonStatus.unk_00;
@@ -85,7 +85,7 @@ reject_entity:
 
 reject_saved:
     saved_entity->unk_9A.u8 = 14;
-    goto done;
+    return;
 
 increment_state:
     ((S_func_80D40744_1 *)state_or_flags)->unk_0A.s16 =
@@ -113,7 +113,6 @@ accepted:
         }
     }
 
-done:
     return;
 }
 

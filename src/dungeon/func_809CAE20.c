@@ -101,7 +101,7 @@ void func_80172620(void *action, void *transform, void *sprite, void *actor)
         if (state == 1) {
             goto state_one;
         }
-        goto done;
+        return;
     }
     if (state == 3) {
         goto state_three;
@@ -109,14 +109,14 @@ void func_80172620(void *action, void *transform, void *sprite, void *actor)
     if (state == 0xFF) {
         goto state_ff;
     }
-    goto done;
+    return;
 
 state_zero:
     if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
         ((S_80172620_0 *)action)->unk_9B = 0xFF;
         ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x6000;
         func_8009C12C(actor, sprite, ((S_80172620_2 *)actor)->unk_2A.s, 1);
-        goto done;
+        return;
     }
 
     if (rand() & 3) {
@@ -127,14 +127,14 @@ state_zero:
                 [((gameWork.view.viewAngle + ((S_80172620_2 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
             0);
         ((S_80172620_0 *)action)->unk_9B = 3;
-        goto done;
+        return;
     }
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80173CA4;
     func_80047784(sprite,
         D_80173CA4[((gameWork.view.viewAngle + ((S_80172620_2 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
         0);
     ((S_80172620_0 *)action)->unk_9B++;
-    goto done;
+    return;
 
 state_one:
     if ((((Rec_D_80082E80 *)sprite)->unk_04.as_s8 == 2) &&
@@ -170,14 +170,14 @@ state_one:
     }
 
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
-        goto done;
+        return;
     }
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80173CAC;
     func_80047784(sprite,
         D_80173CAC[((gameWork.view.viewAngle + ((S_80172620_2 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
         0);
     ((S_80172620_0 *)action)->unk_9B++;
-    goto done;
+    return;
 
 state_two:
     if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) {
@@ -203,11 +203,11 @@ state_three:
         func_8009C12C(actor, sprite, ((S_80172620_2 *)actor)->unk_2A.s, 1);
         ((S_80172620_0 *)action)->unk_9B = 0xFF;
     }
-    goto done;
+    return;
 
 state_ff:
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
-        goto done;
+        return;
     }
     func_800A2B04(transform, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
     func_800AD594(actor, 0x180);
@@ -220,6 +220,5 @@ state_ff:
         D_800E3DE8 = (u8 *)actor - 0x20;
     }
 
-done:
     return;
 }

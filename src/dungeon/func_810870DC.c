@@ -48,7 +48,7 @@ void func_801748DC(S_func_810870DC_0 *entity, void *unused, S_func_810870DC_1 *a
     if (state == 1) {
         goto state_one;
     }
-    goto done;
+    return;
 
 state_zero:
     if (animation->unk_14 & 0xE000) {
@@ -58,7 +58,7 @@ state_zero:
                 orientation->unk_2A + 0x100) >> 9) & 7], 0);
         entity->unk_9B++;
     }
-    goto done;
+    return;
 
 state_one:
     {
@@ -75,7 +75,6 @@ state_one:
         }
     }
 
-done:
     return;
 }
 

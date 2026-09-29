@@ -227,7 +227,7 @@ state_2:
     ((S_80175CD8_0 *)action)->unk_96.s = 0;
     ((S_80175CD8_0 *)action)->unk_9B++;
     func_80094E34();
-    goto done;
+    return;
 
 state_3:
     {
@@ -235,7 +235,7 @@ state_3:
 
         ((S_80175CD8_0 *)action)->unk_96.s = old_timer + 1;
         if ((s16)old_timer < 7) {
-            goto done;
+            return;
         }
     }
     ((S_80175CD8_0 *)action)->unk_9B++;
@@ -246,7 +246,7 @@ state_3:
         ((S_80175CD8_4 *)player)->unk_14 |= 0x100000;
     }
     func_800A56E0(0x603);
-    goto done;
+    return;
 
 state_4:
     {
@@ -261,7 +261,7 @@ state_4:
 
         ((S_80175CD8_0 *)action)->unk_96.s = old_timer + 1;
         if ((s16)old_timer < 0x1B) {
-            goto done;
+            return;
         }
     }
     ((S_80175CD8_0 *)action)->unk_96.s = 0;
@@ -273,12 +273,12 @@ state_4:
     } else {
         ((S_80175CD8_0 *)action)->unk_9B = 7;
     }
-    goto done;
+    return;
 
 state_5:
     ((S_80175CD8_0 *)action)->unk_96.s = 0;
     ((S_80175CD8_0 *)action)->unk_9B++;
-    goto done;
+    return;
 
 state_6:
     func_800945E8(((u8 *)D_800E3D7C));
@@ -384,7 +384,7 @@ decrement_timer:
     ticks_left = ((S_80175CD8_0 *)action)->unk_96.u - 1;
     ((S_80175CD8_0 *)action)->unk_96.s = ticks_left;
     if ((ticks_left << 16) != 0) {
-        goto done;
+        return;
     }
     ((S_80175CD8_0 *)action)->unk_96.s = 0;
     ((S_80175CD8_0 *)action)->unk_9B++;

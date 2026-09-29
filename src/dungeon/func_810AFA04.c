@@ -83,17 +83,17 @@ dispatch:
         if (state == 0) {
             goto state_0;
         }
-        goto done;
+        return;
     }
     if (state == 2) {
         goto state_2;
     }
-    goto done;
+    return;
 
 state_0:
     entity->flags1C |= 0x10000000;
     if (!(sprite->unk_14 & 0xE000)) {
-        goto done;
+        return;
     }
     sprite->unk_2C = D_80173C9C;
     func_80047784(
@@ -104,7 +104,7 @@ state_0:
     ((S_80173204_3 *)counter_base)->unk_0A =
         ((S_80173204_3 *)counter_base)->unk_0A - 1;
     controller->unk_9B++;
-    goto done;
+    return;
 
 state_1:
     if ((func_80042900(entity, 1) << 16) == 0) {
@@ -118,50 +118,50 @@ state_1:
             entity->flags1C &= 0xEFFFFFFF;
             sprite->unk_0C.s32 = 0x808080;
             controller->unk_8C.as_pu8 = &D_80170E54;
-            goto done;
+            return;
         }
         dungeonStatus.unk_0A++;
         controller->unk_9B++;
-        goto done;
+        return;
     }
 
     if (dungeonStatus.flags & 0x1000) {
-        goto done;
+        return;
     }
     if (entity->unk_64 != 0) {
         if (func_800AA6B4(controller, update_mode, sprite, 0) != 0) {
-            goto done;
+            return;
         }
     }
     if (entity->tileY == 0) {
         if (dungeonStatus.flags & 0x2008) {
-            goto done;
+            return;
         }
         func_800AA79C(controller, update_mode, sprite, entity);
-        goto done;
+        return;
     }
     if ((func_800A2C34(entity) << 16) != 0) {
-        goto done;
+        return;
     }
 
     flags = entity->flags1C;
     if (flags & 0x100) {
         func_800AA258(controller, update_mode, sprite, entity);
-        goto done;
+        return;
     }
     if (flags & 0x80000) {
         func_800AA888(controller, update_mode, sprite, entity);
         func_80173A20(controller, update_mode, sprite, entity);
-        goto done;
+        return;
     }
     if (entity->unk_6D == 0) {
-        goto done;
+        return;
     }
     if ((func_800A2C34(entity) << 16) != 0) {
         if ((func_8009A180(
                  entity,
                  ((s32)D_800814A8->unk_58) + 0x20) << 16) != 0) {
-            goto done;
+            return;
         }
     }
     func_800A9A0C(entity);
@@ -181,7 +181,7 @@ state_1:
 
 second_check:
     if ((func_80042900(entity, 1) << 16) != 0) {
-        goto done;
+        return;
     }
     sprite->unk_2C = D_80173CA4;
     func_80047784(
@@ -193,7 +193,7 @@ second_check:
         entity->flags1C &= 0xEFFFFFFF;
         sprite->unk_0C.s32 = 0x808080;
         controller->unk_8C.as_pu8 = &D_80170E54;
-        goto done;
+        return;
     }
     {
         u8 *counter;
@@ -204,12 +204,12 @@ second_check:
 
 increment_state:
     controller->unk_9B++;
-    goto done;
+    return;
 
 state_2:
     if (!(sprite->unk_14 & 0x8000)) {
         if (sprite->unk_0C.u8 < 0x80U) {
-            goto done;
+            return;
         }
     }
     {
@@ -221,6 +221,5 @@ state_2:
     entity->flags1C &= ~0x200;
     controller->unk_8C.as_pu8 = &D_80170E54;
 
-done:
     return;
 }

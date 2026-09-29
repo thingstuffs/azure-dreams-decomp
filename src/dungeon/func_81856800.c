@@ -377,7 +377,7 @@ dispatch_range:
     in_range = (u32)(s32)state < 6;
 dispatch_test:
     if (!in_range) {
-        goto done;
+        return;
     }
     goto *D_80024008[(u32)state];
 
@@ -387,7 +387,7 @@ case0:
 
         control = action->unk_04;
         if ((control->unk_00 & 0x80) == 0) {
-            goto done;
+            return;
         }
     }
     if (object->unk_60 == 0) {
@@ -461,7 +461,7 @@ case1:
     action->unk_50.u16_50 = timer;
     next_timer = 10;
     if ((s16)timer > 0) {
-        goto done;
+        return;
     }
     next_state = action->unk_0A.u16_0A;
     action->unk_50.u16_50 = next_timer;
@@ -478,11 +478,11 @@ case2:
     timer = action->unk_50.u16_50 - 1;
     action->unk_50.u16_50 = timer;
     if ((s16)timer > 0) {
-        goto done;
+        return;
     }
     if (object->unk_60 == 0) {
         action->unk_0A.u16_0A = 5;
-        goto done;
+        return;
     }
     index = 8;
     page_or_magic = (s32)0x80080000;
@@ -613,7 +613,7 @@ case3_tick:
     timer = action->unk_50.u16_50 - 1;
     action->unk_50.u16_50 = timer;
     if ((s16)timer > 0) {
-        goto done;
+        return;
     }
     if (object->unk_60 != 0) {
         func_8009CE1C(object->unk_60, 10,
@@ -669,7 +669,7 @@ case5:
     timer = action->unk_50.u16_50 - 1;
     action->unk_50.u16_50 = timer;
     if ((s16)timer > 0) {
-        goto done;
+        return;
     }
     goto increment_state;
 }
@@ -679,7 +679,7 @@ increment_state:
 increment_loaded:
     next_state++;
     action->unk_0A.u16_0A = next_state;
-    goto done;
+    return;
 
 case4:
 {

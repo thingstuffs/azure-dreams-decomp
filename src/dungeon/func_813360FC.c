@@ -75,16 +75,16 @@ void func_8016D0FC(void *context, s32 callback_arg, void *object_arg, void *acto
         if (state == 0) {
             goto state_0;
         }
-        goto done;
+        return;
     }
     if (state == 2) {
         goto state_2;
     }
-    goto done;
+    return;
 
 state_0:
     if (!(((S_8016D0FC_1 *)object)->unk_14 & 0xE000)) {
-        goto done;
+        return;
     }
     current_table = ((u16)dungeonStatus.unk_0A);
     current_table--;
@@ -143,38 +143,38 @@ after_ac8:
         goto kind_ge_15;
     }
     if (dungeonStatus.flags & 0x1000) {
-        goto done;
+        return;
     }
     if (((S_8016D0FC_3 *)actor)->unk_64 != 0) {
         if (func_800AA6B4(context, callback_arg, object, 0) != 0) {
-            goto done;
+            return;
         }
     }
     if ((func_800A2C34(actor) << 16) != 0) {
-        goto done;
+        return;
     }
     actor_flags = ((S_8016D0FC_3 *)actor)->unk_1C;
     if (actor_flags & 0x100) {
         func_800AA258(context, callback_arg, object, actor);
-        goto done;
+        return;
     }
     if (actor_flags & 0x80000) {
         func_800AA888(context, callback_arg, object, actor);
         func_8016D4B8(context, callback_arg, object, actor);
-        goto done;
+        return;
     }
     if (((S_8016D0FC_3 *)actor)->unk_6D == 0) {
-        goto done;
+        return;
     }
     if ((func_800A2C34(actor) << 16) != 0) {
         if ((func_8009A180(actor, ((EntityRec *)((u8 *)D_800814A8))->unk_58 + 0x20) << 16) != 0) {
-            goto done;
+            return;
         }
     }
     func_800A9A0C(actor);
     func_800A9A04(actor);
     if (((S_8016D0FC_3 *)actor)->unk_25 == 0) {
-        goto done;
+        return;
     }
     kind = ((S_8016D0FC_0 *)context)->unk_AC;
     if (kind == 0xE) {
@@ -202,7 +202,7 @@ increment_counter:
     dungeonStatus.unk_0A = current_table;
 increment_state:
     ((S_8016D0FC_0 *)context)->unk_9B++;
-    goto done;
+    return;
 
 state_2:
     if (((S_8016D0FC_1 *)object)->unk_14 & 0xE000) {
@@ -211,6 +211,5 @@ state_2:
         dungeonStatus.unk_0A = current_table;
         ((S_8016D0FC_0 *)context)->unk_8C = D_8016A36C;
     }
-done:
     return;
 }

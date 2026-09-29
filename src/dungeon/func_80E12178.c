@@ -60,7 +60,7 @@ special_case:
     }
     *((u16 *)motion - 1) |= 0x8000;
     objectFlagBlock.flags |= 0x8000;
-    goto done;
+    return;
 
 state0_tail:
     object = (void *)((s8 *)motion - 0x20);
@@ -72,6 +72,5 @@ common_call:
         func_80047784(output, 0x47, 0);
     }
 
-done:
     return;
 }

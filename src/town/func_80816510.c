@@ -48,19 +48,19 @@ void func_80020510(void *entry) {
     if (state == 1) {
         goto state_one;
     }
-    goto done;
+    return;
 
 state_zero:
     ticks_left = ((S_80020510_0 *)entry)->unk_02 - 1;
     ((S_80020510_0 *)entry)->unk_02 = ticks_left;
     if ((ticks_left << 0x10) > 0) {
-        goto done;
+        return;
     }
     ((S_80020510_0 *)entry)->unk_1C =
         (u16) (((S_80020510_0 *)entry)->unk_1C & 0xFFFD);
     ((S_80020510_0 *)entry)->unk_00.u =
         (u16) (((S_80020510_0 *)entry)->unk_00.u + 1);
-    goto done;
+    return;
 
 state_one:
     func_800537D0(value_sum, strlen(((S_80020510_0 *)entry)->unk_04),
@@ -71,6 +71,5 @@ state_one:
         objectFlagBlock.flags |= 0x8000;
     }
 
-done:
     return;
 }

@@ -101,7 +101,7 @@ update_offset:
 
 check_done:
     if (!(((S_801740F8_2 *)motion)->unk_1C & 0x08000000)) {
-        goto end;
+        return;
     }
     ((S_801740F8_0 *)actor)->unk_98 &= 0xFFF7;
     ((EntityRec *)transform)->flags14 = 0;
@@ -120,6 +120,5 @@ restore_animation:
             0);
     }
 
-end:
     return;
 }

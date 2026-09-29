@@ -104,20 +104,20 @@ void func_801717D0(u8 *entity, s32 action_param, u8 *sprite, u8 *direction_frame
             func_800A4ACC(self);
             ((S_801717D0_0 *)self)->unk_6D--;
             ((Rec_func_800A9E70_arg0 *)entity)->unk_8C = fallback_state;
-            goto done;
+            return;
         }
     }
 
     if (dungeonStatus.flags & 8) {
-        goto done;
+        return;
     }
     if ((func_800A2B5C(self) << 16) != 0) {
-        goto done;
+        return;
     }
 
     func_800C77D0(self - 0x20, action_param, 8, 0x300);
     if ((func_800A2B5C(self) << 16) != 0) {
-        goto done;
+        return;
     }
 
 process:
@@ -164,6 +164,5 @@ process:
 
     ((S_801717D0_2 *)((u8 *)&dungeonStatus.unk_00))->unk_0A++;
 
-done:
     return;
 }

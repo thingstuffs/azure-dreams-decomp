@@ -103,11 +103,11 @@ case_1:
             if (state->table_x >= 10) {
                 state->state = 3;
                 state->timer = 30;
-                goto done;
+                return;
             }
             state->timer = *(u16 *)(D_80026F80 +
                                     state->table_x * 40 + state->table_y * 400);
-            goto done;
+            return;
         }
     }
 
@@ -224,6 +224,5 @@ case_4:
 case_5:
 cleanup:
     state->flags &= ~6;
-done:
     return;
 }

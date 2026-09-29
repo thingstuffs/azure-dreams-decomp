@@ -86,7 +86,7 @@ phase0:
     state->unk96 = 0;
     state->unk9b = state->unk9b + 1;
     if (!(animation->flags & 0x8000)) {
-        goto done;
+        return;
     }
 
 phase1:
@@ -106,7 +106,7 @@ phase2:
         func_800A56E0(0x804);
         return;
     }
-    goto done;
+    return;
 
 phase3:
     if (animation->flags & 0xE000) {
@@ -143,7 +143,7 @@ phase3:
                 }
                 entry_index++;
                 if (entry_index >= 2) {
-                    goto done;
+                    return;
                 }
             }
         } else {
@@ -154,6 +154,5 @@ phase3:
         }
     }
 
-done:
     return;
 }

@@ -82,7 +82,7 @@ void func_800B7D74(s32 pos_x, s32 pos_y, s32 pos_z, u32 variant) {
 
     effect = func_8003FC64(0x212);
     if (effect == NULL) {
-        goto block_12;
+        return;
     }
     ((S_800B7D74_0 *)effect)->unk_10 = &D_800B7C14;
     func_8004491C(effect, func_80045340);
@@ -142,6 +142,5 @@ block_11:
     effect_data->unk_14 = (s16) ((rand() & 0x1FF) - 0x100);
     effect_data->unk_16 = (s16) ((rand() & 0x1FF) - 0x100);
     effect_data->unk_10 = (s16) ((rand() & 0x1F) + 0x20);
-block_12:
     return;
 }

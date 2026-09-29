@@ -101,7 +101,7 @@ void func_801738E0(void *actor_arg, void *motion_arg, void *sprite_arg, void *en
 
     state = ((S_801738E0_0 *)actor)->unk_9B;
     if (state >= 17U) {
-        goto done;
+        return;
     }
     (void)state_labels;
     goto *D_80170858[state];
@@ -121,7 +121,7 @@ state_zero:
     ((S_801738E0_2 *)entity)->unk_1C &= 0xF7FFFFFF;
     ((S_801738E0_2 *)entity)->unk_1C &= 0xFFFBFFFF;
     if (!(((S_801738E0_1 *)sprite)->unk_14 & 0x6000)) {
-        goto done;
+        return;
     }
     {
         s32 initial_speed = 0xFFF80000;
@@ -134,14 +134,14 @@ state_zero:
         *(u8 *)((((gameWork.view.viewAngle + ((S_801738E0_2 *)entity)->unk_2A + 0x100) >> 9) & 7) + (u32)anim_table),
         0);
     ((S_801738E0_0 *)actor)->unk_9B++;
-    goto done;
+    return;
 
 state_one:
     if (((S_801738E0_3 *)motion)->unk_14 <= 0xFFFFF) {
         ((S_801738E0_3 *)motion)->unk_14 += 0x20000;
     }
     if (((S_801738E0_0 *)actor)->unk_90 < 0) {
-        goto done;
+        return;
     }
     ((S_801738E0_0 *)actor)->unk_90 = 0;
     ((S_801738E0_3 *)motion)->unk_14 = 0;
@@ -159,7 +159,7 @@ state_to_two:
         globals->counter--;
     }
     ((S_801738E0_0 *)actor)->unk_9B = 2;
-    goto done;
+    return;
 
 state_two:
     ((S_801738E0_0 *)actor)->unk_98 &= 0xFFF7;
@@ -184,48 +184,48 @@ state_two:
             globals->counter = entity_flags;
         }
         ((S_801738E0_0 *)actor)->unk_9B++;
-        goto done;
+        return;
     } else {
         global_state = ((struct GlobalStruct *)&dungeonStatus);
     }
 
     if (global_state->flags & 0x1000) {
-        goto done;
+        return;
     }
     if (((S_801738E0_2 *)entity)->unk_64 != 0) {
         if (func_800AA6B4(actor, motion, sprite, 0) != 0) {
-            goto done;
+            return;
         }
     }
     if (((S_801738E0_2 *)entity)->unk_25 == 0) {
         if (global_state->flags & 0x2008) {
-            goto done;
+            return;
         }
         func_800AA79C(actor, motion, sprite, entity);
-        goto done;
+        return;
     }
     if ((func_800A2C34(entity) << 16) != 0) {
-        goto done;
+        return;
     }
     entity_flags = ((S_801738E0_2 *)entity)->unk_1C;
     if (entity_flags & 0x100) {
         func_800AA258(actor, motion, sprite, entity);
-        goto done;
+        return;
     }
     if (entity_flags & 0x80000) {
         func_800AA888(actor, motion, sprite, entity);
         ((S_801738E0_0 *)actor)->unk_A8 = 0;
         func_80174250(actor, motion, sprite, entity);
-        goto done;
+        return;
     }
     if (((S_801738E0_2 *)entity)->unk_6D == 0) {
-        goto done;
+        return;
     }
     if ((func_800A2C34(entity) << 16) != 0) {
         if ((func_8009A180(
                  entity, (u8 *)D_800814A8->unk_58 + 0x20)
              << 16) != 0) {
-            goto done;
+            return;
         }
     }
     func_800A9A0C(entity);

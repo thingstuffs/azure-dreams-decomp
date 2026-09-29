@@ -173,12 +173,12 @@ check_zone:
         box_height = (u16)box->h;
         if (edge_delta) {
             actor->y = edge_y;
-            goto adjusted;
+            return 2;
         }
         edge_y = edge_y + box_height;
         actor->y = edge_y;
     }
-    goto adjusted;
+    return 2;
 
 clamp_x:
     *offset_x -= actor->dx;
@@ -216,7 +216,7 @@ clamp_x:
 store_x:
     ASM_KEEP(edge_x);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     actor->x = edge_x;
-    goto adjusted;
+    return 2;
 
 check_edges:
     zone_kind = CURRENT_ZONE(kind);

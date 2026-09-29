@@ -100,7 +100,7 @@ callback_path:
 
     callback = D_80701984_ALT[0]->callback(2);
     if (callback == 0) {
-        goto return_arg;
+        return slot;
     }
     slot += 1;
     goto return_arg;

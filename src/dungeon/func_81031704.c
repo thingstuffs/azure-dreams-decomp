@@ -65,7 +65,7 @@ void func_80172F04(S_80172F04_0 *action, S_80172F04_3 *motion, Rec_D_80082E80 *a
         if (state == 0) {
             goto state_0;
         }
-        goto end;
+        return;
     }
     if (state == 2) {
         goto state_2;
@@ -73,14 +73,14 @@ void func_80172F04(S_80172F04_0 *action, S_80172F04_3 *motion, Rec_D_80082E80 *a
     if (state == 3) {
         goto state_3;
     }
-    goto end;
+    return;
 
 state_0:
     if (animation->unk_14.at00_u16.v & 0x8000) {
         action->unk_9B = 3;
         animation->unk_14.at00_u16.v |= 0x6000;
         func_8009C12C(actor, animation, ((S_80172F04_2 *)actor)->unk_2A, 1);
-        goto end;
+        return;
     }
     motion->unk_14 = 0;
     motion->unk_10 = 0;
@@ -101,7 +101,7 @@ state_1:
         func_800A56E0(0x809);
         goto advance;
     }
-    goto end;
+    return;
 
 state_2:
     timer = action->unk_96 + 1;
@@ -110,13 +110,13 @@ state_2:
         func_8009C12C(actor, animation, ((S_80172F04_2 *)actor)->unk_2A, 1);
         goto advance;
     }
-    goto end;
+    return;
 
 advance:
     current_state = action->unk_9B;
     action->unk_96 = 0;
     action->unk_9B = current_state + 1;
-    goto end;
+    return;
 
 state_3:
     if (animation->unk_14.at00_u16.v & 0xE000) {
@@ -128,6 +128,5 @@ state_3:
         ((S_80172F04_2 *)actor)->unk_46 &= 0x7FFF;
     }
 
-end:
     return;
 }

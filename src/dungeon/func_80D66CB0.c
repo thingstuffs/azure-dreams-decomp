@@ -99,7 +99,7 @@ post_state:
         (*(s32 *)((u8 *)move_data + 0x1C)) |= 0x40000000;
         if (dungeonStatus.flags & 0x80) {
             ((Rec_func_801724B0_arg0 *)motion)->unk_96 = 0;
-            goto end;
+            return;
         }
 
         ((Rec_func_801724B0_arg0 *)motion)->unk_96 = 8;
@@ -109,7 +109,6 @@ post_state:
         }
     }
 
-end:
     return;
 }
 

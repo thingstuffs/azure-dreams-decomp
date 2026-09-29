@@ -211,7 +211,7 @@ check_settled:
     ((S_800B490C_0 *)effect)->unk_0A = 8U;
 update_flash:
     if (((S_800B490C_0 *)effect)->unk_0E == 0) {
-        goto done;
+        return;
     }
     update_value = 0x2CF0F0F0;
     if (!(((S_800B490C_0 *)effect)->unk_0C & 3)) {
@@ -220,6 +220,5 @@ update_flash:
     update_value = 0x2C404040;
 set_flash_color:
     sprite->unk_0C.at00u.v = update_value;
-done:
     return;
 }

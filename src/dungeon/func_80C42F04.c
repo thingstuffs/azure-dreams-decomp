@@ -150,7 +150,7 @@ void func_80174704(void *action, EntityRec *position, Rec_D_80082E80 *entity, vo
 
     state = ((S_80174704_0 *)action)->unk_9B;
     if (state >= 9U) {
-        goto done;
+        return;
     }
     (void)state_labels;
     goto *D_80170858[state];
@@ -183,7 +183,7 @@ wait_turn:
         }
 direction_not_ready:
         if (direction == 2) {
-            goto done;
+            return;
         }
         ((S_80174704_1 *)actor)->unk_2A.u = angle + 0x200;
         return;
@@ -210,7 +210,7 @@ fade_color:
             u8 cd_done = D_80174E3D[0];
             ((S_80174704_0 *)action)->unk_96.u = old_timer;
             if (cd_done == 0) {
-                goto done;
+                return;
             }
             ((S_80174704_0 *)action)->unk_9B++;
             func_800A56E0(0x300);
@@ -233,7 +233,7 @@ fade_color:
 create_effect:
     object = func_8003FC64(0x12);
     if (object == NULL) {
-        goto done;
+        return;
     }
     ((S_80174704_3 *)object)->unk_10.p = D_801745D8;
     func_8004491C(object, D_80173F68);
@@ -294,10 +294,10 @@ animate_effect:
 
 wait_motion:
     if (((S_80174704_0 *)action)->unk_9B != 6) {
-        goto done;
+        return;
     }
     if (func_800ADC4C(position, D_80174E40[0], D_80174E38[0], D_800DCF5C) == 0) {
-        goto done;
+        return;
     }
     ((S_80174704_0 *)action)->unk_96.u = 0x10;
     ((S_80174704_0 *)action)->unk_9B++;
@@ -313,7 +313,7 @@ create_replacement:
         u8 *replacement = func_800A504C(entity, actor);
         ((S_80174704_1 *)actor)->unk_60 = replacement;
         if (replacement == NULL) {
-            goto done;
+            return;
         }
         ((S_80174704_0 *)action)->unk_96.u = 0x10;
         ((S_80174704_0 *)action)->unk_9B++;
@@ -336,7 +336,7 @@ finish_transition:
         u16 timer = ((S_80174704_0 *)action)->unk_96.u - 1;
         ((S_80174704_0 *)action)->unk_96.u = timer;
         if ((s32)(timer << 16) > 0) {
-            goto done;
+            return;
         }
     }
     {
@@ -348,6 +348,5 @@ finish_transition:
         ((S_80174704_1 *)actor)->unk_6D = 0;
     }
 
-done:
     return;
 }

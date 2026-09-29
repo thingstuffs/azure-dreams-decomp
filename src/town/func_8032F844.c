@@ -126,60 +126,58 @@ void func_8001A044(s32 *records, void *ost_w, void *osel_w)
         if (*records != 0) {
             data_page = (u8 *)0x80010000;
             goto first_record;
-    next_record:
-            scaled_index = record_index * 8;
-            goto read_record;
-    first_record:
-            scaled_index = record_index * 8;
-    read_record:
-            flag_bits = *(s32 *)(((scaled_index - record_index) * 4) + (u8 *)records);
-            group_bits = flag_bits >> 0x13;
-            flag_bits = flag_bits >> 0x17;
-            bank_bits = flag_bits & 1;
-            group_entry = ((S_8001A044_10 *)(((S_8001A044_0 *)data_page)->unk_6000))->unk_30;
-            group_bank = (void *)(bank_bits * 4);
-            group_bank = (void *)((u32)group_bank + (u32)group_entry);
-            group_entry = (void *)(group_bits & 0x7E0);
-            group_bank = ((S_8001A044_1 *)group_bank)->unk_00;
-            group_entry = (void *)((u32)group_entry + (u32)group_bank);
-            if (((S_8001A044_2 *)group_entry)->unk_0A != 0) {
-                record = (void *)((u32)(record_index * 0x1C) + (u32)records);
-                goto process_record;
-            }
-            if (bank_bits != 0) {
-                record = (void *)((u32)(record_index * 0x1C) + (u32)records);
-                goto process_record;
-            }
-            goto advance_record;
-    process_record:
-                if (record->unk_08 != 0) {
-                    ((S_8001A044_10 *)(((S_8001A044_0 *)data_page)->unk_6000))->unk_14 = record_index;
-                    variant_index = func_80019F94(record, group_bits);
-                    updated_flags = (record->unk_00 & ~0xFF) |
-                               (variant_index & 0xFF);
-                    record->unk_00 = updated_flags;
-                    next_object_set = func_8001976C(p,
-                          (void *)((S_8001A044_11 *)((variant_index * 0x10) +
-                                        (u8 *)record->unk_10))->unk_08,
-                          updated_flags, record_index);
-                    if ((next_object_set - 0x14) != p) {
-                        func_800196E4(D_8001DC10, record);
-                        record->unk_04 = p;
-                        p = next_object_set;
-                    }
-                } else {
-                    direct_record = (void *)((u32)(record_index * 0x1C) +
-                                             (u32)records);
-                    direct_record->unk_04 = p;
-                    p = func_8001976C(p,
-                        (void *)direct_record->unk_10, 0, record_index);
-                }
-    advance_record:
-            record_index += 1;
-            scaled_index = record_index * 8;
-            if (*(s32 *)(((scaled_index - record_index) * 4) + (u8 *)records) != 0) {
-                goto next_record;
-            }
+            do {
+                        scaled_index = record_index * 8;
+                        goto read_record;
+                first_record:
+                        scaled_index = record_index * 8;
+                read_record:
+                        flag_bits = *(s32 *)(((scaled_index - record_index) * 4) + (u8 *)records);
+                        group_bits = flag_bits >> 0x13;
+                        flag_bits = flag_bits >> 0x17;
+                        bank_bits = flag_bits & 1;
+                        group_entry = ((S_8001A044_10 *)(((S_8001A044_0 *)data_page)->unk_6000))->unk_30;
+                        group_bank = (void *)(bank_bits * 4);
+                        group_bank = (void *)((u32)group_bank + (u32)group_entry);
+                        group_entry = (void *)(group_bits & 0x7E0);
+                        group_bank = ((S_8001A044_1 *)group_bank)->unk_00;
+                        group_entry = (void *)((u32)group_entry + (u32)group_bank);
+                        if (((S_8001A044_2 *)group_entry)->unk_0A != 0) {
+                            record = (void *)((u32)(record_index * 0x1C) + (u32)records);
+                            goto process_record;
+                        }
+                        if (bank_bits != 0) {
+                            record = (void *)((u32)(record_index * 0x1C) + (u32)records);
+                            goto process_record;
+                        }
+                        goto advance_record;
+                process_record:
+                            if (record->unk_08 != 0) {
+                                ((S_8001A044_10 *)(((S_8001A044_0 *)data_page)->unk_6000))->unk_14 = record_index;
+                                variant_index = func_80019F94(record, group_bits);
+                                updated_flags = (record->unk_00 & ~0xFF) |
+                                           (variant_index & 0xFF);
+                                record->unk_00 = updated_flags;
+                                next_object_set = func_8001976C(p,
+                                      (void *)((S_8001A044_11 *)((variant_index * 0x10) +
+                                                    (u8 *)record->unk_10))->unk_08,
+                                      updated_flags, record_index);
+                                if ((next_object_set - 0x14) != p) {
+                                    func_800196E4(D_8001DC10, record);
+                                    record->unk_04 = p;
+                                    p = next_object_set;
+                                }
+                            } else {
+                                direct_record = (void *)((u32)(record_index * 0x1C) +
+                                                         (u32)records);
+                                direct_record->unk_04 = p;
+                                p = func_8001976C(p,
+                                    (void *)direct_record->unk_10, 0, record_index);
+                            }
+                advance_record:
+                        record_index += 1;
+                        scaled_index = record_index * 8;
+            } while (*(s32 *)(((scaled_index - record_index) * 4) + (u8 *)records) != 0);
         }
 
         callbacks = ((S_8001A044_12 *)(((Rec_D_80016000 *)((u8 *)(&D_80016000)))->unk_00.at00_pv.v))->unk_20;

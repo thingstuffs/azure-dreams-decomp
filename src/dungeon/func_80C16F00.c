@@ -61,12 +61,12 @@ void func_80172700(void *action_arg, void *motion_arg, void *sprite_arg, void *a
     if (state < 3) {
         if (state == 0) goto state_0;
         if (state == 1) goto state_1;
-        goto done;
+        return;
     }
     if (state == 4) goto state_4;
     if (state <= 3) goto state_3;
     if (state == 0xFF) goto state_ff;
-    goto done;
+    return;
 
 state_0:
     flags = F16(sprite, 0x14);
@@ -75,9 +75,9 @@ state_0:
         F8(action, 0x9B) = 0xFF;
         F16(sprite, 0x14) |= 0x6000;
         func_8009C12C(turn_actor, sprite, FS16(turn_actor, 0x2A), 1);
-        goto done;
+        return;
     }
-    if (!(flags & 0xE000)) goto done;
+    if (!(flags & 0xE000)) return;
     FPTR(sprite, 0x2C) = D_801744B4;
     result = (gameWork.view.viewAngle + FS16(actor, 0x2A) + 0x100) >> 9;
     func_80047784(sprite, D_801744B4[result & 7], 0);
@@ -93,7 +93,7 @@ state_0:
 state_1:
     result = F32(motion, 0x14);
     F32(motion, 0x14) = result + (result >> 2);
-    if (FS16(action, 0x96) > 0) goto done;
+    if (FS16(action, 0x96) > 0) return;
     adjustment = 8;
     result = F8(action, 0x9B);
     F16(action, 0x96) = adjustment;
@@ -118,8 +118,8 @@ state_2:
         result = (gameWork.view.viewAngle + FS16(actor, 0x2A) + 0x100) >> 9;
         func_80047784(sprite, D_801744BC[result & 7], 0);
     }
-    if (FS16(action, 0x96) > 0) goto done;
-    if (!(F16(sprite, 0x14) & 0xE000)) goto done;
+    if (FS16(action, 0x96) > 0) return;
+    if (!(F16(sprite, 0x14) & 0xE000)) return;
     F16(action, 0x96) = phase_ticks;
     F32(motion, 0xC) = (step_x << 18) + (step_x << 17);
     F32(motion, 0x10) = (step_y << 18) + (step_y << 17);
@@ -136,7 +136,7 @@ state_3:
         func_800A56E0(0x809);
     }
     turn_actor = actor;
-    if (FS16(action, 0x96) > 0) goto done;
+    if (FS16(action, 0x96) > 0) return;
     func_8009C12C(turn_actor, sprite, FS16(turn_actor, 0x2A), 1);
 
 increment:
@@ -144,11 +144,11 @@ increment:
 increment_loaded:
     result++;
     F8(action, 0x9B) = result;
-    goto done;
+    return;
 
 state_4:
     F32(action, 0x90) += 0x80000;
-    if (!(F16(sprite, 0x14) & 0xE000)) goto done;
+    if (!(F16(sprite, 0x14) & 0xE000)) return;
     FPTR(sprite, 0x2C) = D_801744CC;
     result = (gameWork.view.viewAngle + FS16(actor, 0x2A) + 0x100) >> 9;
     func_80047784(sprite, D_801744CC[result & 7], 0);
@@ -157,7 +157,7 @@ state_4:
     F16(action, 0x98) &= 0xFFF7;
     F32(actor, 0x1C) |= 0x08000000;
     F8(action, 0x9B) = 0xFF;
-    goto done;
+    return;
 
 state_ff:
     result = F8(sprite, 0x24) << 6;
@@ -174,7 +174,7 @@ state_ff:
     result <<= 15;
     result >>= 1;
     F32(motion, 0x10) = result;
-    if (!(F16(sprite, 0x14) & 0xE000)) goto done;
+    if (!(F16(sprite, 0x14) & 0xE000)) return;
     F32(motion, 0x10) = 0;
     F32(motion, 0xC) = 0;
     F32(actor, 0x1C) |= 0x40000;
@@ -188,10 +188,9 @@ state_ff:
     func_80047784(sprite, D_8017449C[result & 7], 0);
     if (FS8(actor, 0x6D) == 0) {
         F16(actor, 0x46) &= 0x7FFF;
-        goto done;
+        return;
     }
     D_800E3DE8 = (u8 *)actor - 0x20;
 
-done:
     return;
 }

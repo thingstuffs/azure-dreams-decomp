@@ -110,21 +110,21 @@ block_7:
     return;
 block_9:
     if (((S_801724BC_2 *)sprite)->unk_2C == &D_80175E54) {
-        goto block_109;
+        return;
     }
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80175E84;
     func_80047784(sprite, ((u8 *)&D_80175E84)[((s32) (gameWork.view.viewAngle + ((EntityRec *)state)->facing + 0x100) >> 9) & 7], 0);
     return;
 block_11:
     if (((S_801724BC_2 *)sprite)->unk_2C == &D_80175E5C) {
-        goto block_109;
+        return;
     }
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80175E8C;
     func_80047784(sprite, ((u8 *)&D_80175E8C)[((s32) (gameWork.view.viewAngle + ((EntityRec *)state)->facing + 0x100) >> 9) & 7], 0);
     return;
 block_13:
     if (((S_801724BC_2 *)sprite)->unk_2C == &D_80175E64) {
-        goto block_109;
+        return;
     }
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80175E94;
     func_80047784(sprite, ((u8 *)&D_80175E94)[((s32) (gameWork.view.viewAngle + ((EntityRec *)state)->facing + 0x100) >> 9) & 7], 0);
@@ -162,7 +162,7 @@ block_22:
     return;
 block_24:
     if (func_800AA924(actor, context, sprite, &D_80175E84) != 0) {
-        goto block_109;
+        return;
     }
     goto block_32;
 block_25:
@@ -170,7 +170,7 @@ block_25:
         goto block_28;
     }
     if (func_800AA924(actor, context, sprite, &D_80175E8C) != 0) {
-        goto block_109;
+        return;
     }
     goto block_32;
 block_27:
@@ -186,7 +186,7 @@ block_29:
     return;
 block_30:
     if (func_800AA924(actor, context, sprite, &D_80175E94) != 0) {
-        goto block_109;
+        return;
     }
 block_32:
     flags_page = (u16 *)0x80080000;
@@ -252,17 +252,17 @@ block_54:
     goto block_60;
 block_56:
     if (func_800AA6B4(actor, context, sprite, &D_80175E3C) != 0) {
-        goto block_109;
+        return;
     }
     goto block_60;
 block_57:
     if (func_800AA6B4(actor, context, sprite, &D_80175E44) != 0) {
-        goto block_109;
+        return;
     }
     goto block_60;
 block_58:
     if (func_800AA6B4(actor, context, sprite, &D_80175E4C) != 0) {
-        goto block_109;
+        return;
     }
 block_60:
     if (!(((EntityRec *)state)->flags1C & 0x80000)) {
@@ -295,11 +295,11 @@ block_64:
         goto block_70;
     }
     if ((func_8009A180(state, ((s32)D_800814A8->unk_58) + 0x20) << 0x10) != 0) {
-        goto block_109;
+        return;
     }
 block_70:
     if ((func_80173EAC(actor, context, sprite, 0) << 0x10) == 0) {
-        goto block_109;
+        return;
     }
     action_flags = ((EntityRec *)state)->unk_46 | 0x4000;
     ((EntityRec *)state)->unk_46 = action_flags;
@@ -316,7 +316,7 @@ block_72:
 jt_c8:
 jt_c9:
     if ((func_80173734(actor, context, sprite, state) << 0x10) != 0) {
-        goto block_109;
+        return;
     }
     func_80173B48(actor, context, sprite, state);
     return;
@@ -375,7 +375,7 @@ block_89:
     state_flags = ((EntityRec *)state)->flags1C;
     if (state_flags & 0x2000) {
         if (dungeonStatus.flags & 0x2000) {
-            goto block_109;
+            return;
         }
         goto block_97;
     }
@@ -384,14 +384,14 @@ block_89:
     }
     if (D_800E2970[room_id].flags & 2) {
         if (dungeonStatus.flags & 0x2000) {
-            goto block_109;
+            return;
         }
         goto block_97;
     }
 block_92:
     if (state_flags & 0x430) {
         if (dungeonStatus.flags & 0x2000) {
-            goto block_109;
+            return;
         }
         goto block_97;
     }
@@ -403,11 +403,11 @@ block_92:
     }
 block_95:
     if (dungeonStatus.flags & 0x2000) {
-        goto block_109;
+        return;
     }
 block_97:
     if (((S_801724BC_2 *)sprite)->unk_14 & 0x40) {
-        goto block_109;
+        return;
     }
     rest_mode = ((EntityRec *)state)->unk_48;
     if (rest_mode == 0xE) {
@@ -438,11 +438,10 @@ block_106:
     next_row = (u8 *)&D_80175E34;
 block_107:
     if (current_row == next_row) {
-        goto block_109;
+        return;
     }
 block_108:
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = next_row;
     func_80047784(sprite, *(u8 *)((unsigned long)(((s32) (gameWork.view.viewAngle + ((EntityRec *)state)->facing + 0x100) >> 9) & 7) + (unsigned long)next_row), 0);
-block_109:
     return;
 }

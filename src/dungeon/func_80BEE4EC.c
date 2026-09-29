@@ -120,7 +120,7 @@ void func_80173CEC(Rec_func_801732A4_arg0 *state, EntityRec *position, Rec_D_800
     scene_color = &gameWork;
     phase = state->unk_9B;
     if (phase >= 8U) {
-        goto done;
+        return;
     }
     (void)state_labels; goto *D_80170858[(u32)(phase)];
 jt_c0:
@@ -142,7 +142,7 @@ jt_c2:
     }
 turn_model:
     if (direction == 2) {
-        goto done;
+        return;
     }
     ((Rec_D_80082E80 *)model)->unk_28.at02_u16.v = (u16) (((Rec_D_80082E80 *)model)->unk_28.at02_u16.v + 0x200);
     return;
@@ -165,7 +165,7 @@ jt_c3:
     event_done = ((S_80173CEC_2 *)(&D_801742E5))->unk_00;
     state->unk_96 = fade_timer;
     if (event_done == 0) {
-        goto done;
+        return;
     }
     state->unk_9B = (u8) (state->unk_9B + 1);
     func_800A56E0(0x300);
@@ -179,7 +179,7 @@ blend_color:
 jt_c4:
     effect = func_8003FC64(0x12);
     if (effect == NULL) {
-        goto done;
+        return;
     }
     effect->unk_10 = &D_80173B94;
     func_8004491C(effect, &D_801736AC);
@@ -213,7 +213,7 @@ do {
     next_spawn = spawn_count + 1;
     spawn_count = next_spawn;
     if (next_spawn >= 8) {
-        goto done;
+        return;
     }
     } while (1);
 jt_c5:
@@ -223,13 +223,11 @@ jt_c5:
         goto check_animation;
     }
     trail_count = 0;
-spawn_trail:
-    func_80173904(state, position, actor, model, func_80069EF8() & 0xFFF, 0);
-    next_trail = trail_count + 1;
-    trail_count = next_trail;
-    if (next_trail < 8) {
-        goto spawn_trail;
-    }
+    do {
+        func_80173904(state, position, actor, model, func_80069EF8() & 0xFFF, 0);
+        next_trail = trail_count + 1;
+        trail_count = next_trail;
+    } while (next_trail < 8);
 check_animation:
     effect_sprite = state->unk_AC;
     effect_sprite = effect_sprite->unk_0C.u;
@@ -240,10 +238,10 @@ check_animation:
 jt_c6:
 check_movement:
     if (state->unk_9B != 6) {
-        goto done;
+        return;
     }
     if (func_800ADC4C(position, D_801742E8, D_801742E0, &D_800DCF5C) == 0) {
-        goto done;
+        return;
     }
     state->unk_96 = 0x10U;
     state->unk_9B = (u8) (state->unk_9B + 1);
@@ -255,6 +253,5 @@ check_movement:
     return;
 jt_c7:
     ((Rec_D_80082E80 *)model)->unk_60.as_s32 = func_800A504C(actor, model);
-done:
     return;
 }

@@ -286,13 +286,13 @@ state_two_finish:
         ((S_80F03000_3 *)(((S_80F03000_0 *)actor)->unk_40))->unk_A4 = 0;
         ((S_80F03000_0_pre *)actor)[-1].unk_00 |= 0x8000;
         objectFlagBlock.flags |= 0x8000;
-        goto done;
+        return;
     }
     } while (((S_80F03000_2 *)effect)->unk_14 & 0x8000);
 
 state_zero_check:
     if (((S_80F03000_0 *)actor)->unk_2C != 0) {
-        goto done;
+        return;
     }
 
     ((S_80F03000_1 *)position)->unk_00.at00.v += ((S_80F03000_0 *)actor)->unk_6C;
@@ -380,18 +380,17 @@ state_zero_z:
                           (u8 *)position + 14,
                           (u8 *)position + 18,
                           (u8 *)position + 22) != 0) {
-            goto done;
+            return;
         }
         ((S_80F03000_0 *)actor)->unk_2C = 2;
         ((S_80F03000_0 *)actor)->unk_74 = -0x80000;
-        goto done;
+        return;
     }
     if (((S_80F03000_2 *)effect)->unk_14 & 0x8000) {
         goto state_zero_check;
     }
-    goto done;
+    return;
 
-done:
     return;
 }
 

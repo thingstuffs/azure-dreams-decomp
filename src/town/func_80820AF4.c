@@ -41,14 +41,14 @@ void func_800232F4(void *object)
     if (state == 1) {
         goto state_one;
     }
-    goto done;
+    return;
 
 state_zero:
     step = *((S_800232F4_0 *)obj)->unk_08;
     func_800537D0(step * 100, 5,
                   ((S_800232F4_0 *)obj)->unk_04 + 4);
     if (((S_800232F4_1 *)owner)->unk_5C != 3) {
-        goto done;
+        return;
     }
 
     if (((S_800232F4_0 *)obj)->unk_16 < 120) {
@@ -57,7 +57,7 @@ state_zero:
         ((S_800232F4_0 *)obj)->unk_02.s = 8;
     }
     ((S_800232F4_0 *)obj)->unk_00.u++;
-    goto done;
+    return;
 
 state_one:
     step = ((S_800232F4_0 *)obj)->unk_02.u;
@@ -75,6 +75,5 @@ state_one:
         objectFlagBlock.flags |= 0x8000;
     }
 
-done:
     return;
 }

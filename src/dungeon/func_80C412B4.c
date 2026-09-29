@@ -127,7 +127,7 @@ void func_80172AB4(void *action_in, void *motion_in, void *sprite_in, void *acto
         if (state == 0) {
             goto state_0;
         }
-        goto done;
+        return;
     }
     {
         s32 finish_state = 5;
@@ -142,7 +142,7 @@ void func_80172AB4(void *action_in, void *motion_in, void *sprite_in, void *acto
     if (state == 0xFF) {
         goto state_ff;
     }
-    goto done;
+    return;
 
 state_0:
     if (((S_80172AB4_1 *)actor)->unk_1C & 0x2000) {
@@ -232,7 +232,7 @@ apply_move:
         position[2] = ((S_80172AB4_5 *)motion)->unk_0A;
         if (func_800A94A0(actor, move_id, use_player,
                           (u16 *)((u8 *)action + 0x98)) == 0) {
-            goto done;
+            return;
         }
         ((S_80172AB4_4 *)sprite)->unk_14 &= 0xF7FF;
         func_800A56E0(0x703);
@@ -252,15 +252,15 @@ apply_move:
     ((S_80172AB4_1 *)actor)->unk_73.s = 0;
     ((S_80172AB4_1 *)actor)->unk_72.s = 0;
     ((S_80172AB4_1 *)actor)->unk_46 &= 0x7FFF;
-    goto done;
+    return;
 
 state_1:
     if (((S_80172AB4_4 *)sprite)->unk_14 & 0x8000) {
         ((S_80172AB4_0 *)action)->unk_9B = 3;
-        goto done;
+        return;
     }
     if (!(((S_80172AB4_4 *)sprite)->unk_14 & 0x6000)) {
-        goto done;
+        return;
     }
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80174D9C;
     func_80047784(
@@ -278,7 +278,7 @@ state_2:
     ticks_left = ((S_80172AB4_0 *)action)->unk_96 - 1;
     ((S_80172AB4_0 *)action)->unk_96 = ticks_left;
     if ((s32)(ticks_left << 16) > 0) {
-        goto done;
+        return;
     }
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80174DA4;
     func_80047784(
@@ -291,7 +291,7 @@ state_2:
 state_3:
     if (func_8003F270() != 0) {
         ((S_80172AB4_4 *)sprite)->unk_14 |= 0x800;
-        goto done;
+        return;
     }
     ((S_80172AB4_4 *)sprite)->unk_14 &= 0xF7FF;
     ((S_80172AB4_0 *)action)->unk_9B++;
@@ -300,12 +300,12 @@ state_4:
     if (!(((((S_80172AB4_4 *)sprite)->unk_04 == 1) &&
            (((S_80172AB4_4 *)sprite)->unk_14 & 0x1000)) ||
           (((S_80172AB4_4 *)sprite)->unk_14 & 0xE000))) {
-        goto done;
+        return;
     }
     ((S_80172AB4_0 *)action)->unk_96 = 3;
     ((S_80172AB4_0 *)action)->unk_98 |= 0x80;
     if (!(((S_80172AB4_4 *)sprite)->unk_14 & 0xE000)) {
-        goto done;
+        return;
     }
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80174D9C;
     func_80047784(
@@ -317,11 +317,11 @@ state_4:
 
 advance_state:
     ((S_80172AB4_0 *)action)->unk_9B++;
-    goto done;
+    return;
 
 state_5:
     if (!(((S_80172AB4_4 *)sprite)->unk_14 & 0xE000)) {
-        goto done;
+        return;
     }
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80174D94;
     func_80047784(
@@ -329,11 +329,11 @@ state_5:
         D_80174D94[((gameWork.view.viewAngle + ((S_80172AB4_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
         0);
     ((S_80172AB4_0 *)action)->unk_9B = 0xFF;
-    goto done;
+    return;
 
 state_ff:
     if (!(((S_80172AB4_4 *)sprite)->unk_14 & 0xE000)) {
-        goto done;
+        return;
     }
     ((S_80172AB4_5 *)motion)->unk_14 = 0;
     ((S_80172AB4_5 *)motion)->unk_10 = 0;
@@ -349,7 +349,7 @@ state_ff:
     {
 
         if (((s32)dungeonStatus.unk_0C) != 0) {
-            goto done;
+            return;
         }
         dungeonStatus.unk_0A--;
     }
@@ -364,6 +364,5 @@ state_ff:
     ((S_80172AB4_1 *)actor)->unk_46 &= 0x7FFF;
     func_800A56E0(0xB4);
 
-done:
     return;
 }

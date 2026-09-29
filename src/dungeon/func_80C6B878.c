@@ -74,7 +74,7 @@ void func_80173078(void *action, void *movement, void *sprite, void *actor)
     special = 0;
     state = ((S_80173078_0 *)action)->unk_9B;
     if ((u32)state >= 5) {
-        goto end;
+        return;
     }
     (void)state_labels;
     goto *D_80170850[state];
@@ -182,7 +182,7 @@ copy_active_coords:
 
 invoke_item:
     if (func_800A94A0(actor, item_slot, special, (u8 *)action + 0x98) == 0) {
-        goto end;
+        return;
     }
     next_state = ((S_80173078_0 *)action)->unk_9B + 1;
     goto store_next_state;
@@ -200,12 +200,12 @@ empty_selection:
     (*(u8 *)((u8 *)actor + 0x73)) = 0;
     (*(u8 *)((u8 *)actor + 0x72)) = 0;
     (*(u16 *)((u8 *)actor + 0x46)) &= 0x7FFF;
-    goto end;
+    return;
 
 state_1:
     if (func_8003F270()) {
         ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x800;
-        goto end;
+        return;
     }
     ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
     ((S_80173078_0 *)action)->unk_9B++;
@@ -222,14 +222,14 @@ state_2:
             ((S_80173078_0 *)action)->unk_96.u = 0;
 store_next_state:
             ((S_80173078_0 *)action)->unk_9B = next_state;
-            goto end;
+            return;
         }
         if (((Rec_D_80082E80 *)sprite)->unk_04.as_s8 == 2 && (flags & 0x1000)) {
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = flags | 0x800;
             ((S_80173078_0 *)action)->unk_96.u = 0x16;
         }
         if (((Rec_D_80082E80 *)sprite)->unk_04.as_s8 < 2) {
-            goto end;
+            return;
         }
         timer = ((S_80173078_0 *)action)->unk_96.u - 1;
         ((S_80173078_0 *)action)->unk_96.u = timer;
@@ -239,7 +239,7 @@ store_next_state:
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
         }
         if (((S_80173078_0 *)action)->unk_96.s < 7) {
-            goto end;
+            return;
         }
     }
 
@@ -270,7 +270,7 @@ particle_loop:
             goto particle_loop;
         }
     }
-    goto end;
+    return;
 
 state_3:
     if ((((Rec_D_80082E80 *)sprite)->unk_04.as_s8 == 4 &&
@@ -304,7 +304,7 @@ state_4:
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
         }
         if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
-            goto end;
+            return;
         }
         ((EntityRec *)movement)->flags14 = 0;
         ((EntityRec *)movement)->unk_10 = 0;
@@ -320,7 +320,7 @@ state_4:
             func_80047784(sprite, animation_table[direction], 0);
         }
         if (((s32)dungeonStatus.unk_0C) != 0) {
-            goto end;
+            return;
         }
         dungeonStatus.unk_0A--;
         ((S_80173078_0 *)action)->unk_8C = D_80171650;
@@ -332,6 +332,5 @@ state_4:
         func_800A56E0(0xB4);
     }
 
-end:
     return;
 }

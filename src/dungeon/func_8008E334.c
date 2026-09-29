@@ -34,7 +34,7 @@ void func_80093A94(void *object_data, void *unused, void *state_data) {
         if (mode == 0) {
             goto mode_zero;
         }
-        goto epilogue;
+        return;
     }
     if (mode == 2) {
         goto mode_two;
@@ -42,7 +42,7 @@ void func_80093A94(void *object_data, void *unused, void *state_data) {
     if (mode == 3) {
         goto set_high;
     }
-    goto epilogue;
+    return;
 
 mode_zero:
     grow_scale = *(u16 *)(state + 0x1C);
@@ -53,7 +53,7 @@ mode_zero:
         *(u16 *)(state + 0x1C) = 0x1000;
         goto increment_mode;
     }
-    goto epilogue;
+    return;
 
 mode_one:
     if (*(s16 *)(obj + 8) == 0) {
@@ -66,7 +66,7 @@ mode_one:
         }
     }
     if (*(s32 *)(*(u8 **)obj + 0x2C) != (s32)&D_800DD140) {
-        goto epilogue;
+        return;
     }
     if (*(s16 *)(obj + 8) == 0) {
         scale_or_ticks = 8;
@@ -85,17 +85,16 @@ mode_two:
         *(u16 *)(state + 0x1C) = 0;
         goto increment_mode;
     }
-    goto epilogue;
+    return;
 
 increment_mode:
     mode_next = *(u16 *)(obj + 4);
 increment_tail:
     mode_next += 1;
     *(u16 *)(obj + 4) = mode_next;
-    goto epilogue;
+    return;
 set_high:
     *(u16 *)(obj - 2) |= 0x8000;
     objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
-epilogue:
     return;
 }

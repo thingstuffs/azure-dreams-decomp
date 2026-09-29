@@ -54,7 +54,7 @@ void func_80165AB8(u8 *object, u8 *motion, u8 *sprite)
 
     state = ((S_80165AB8_0 *)object)->unk_17;
     if (state >= 5) {
-        goto done;
+        return;
     }
     goto *D_80164808[state];
 
@@ -93,13 +93,13 @@ case_1: {
 
 case_2:
         if (D_801760D8 == 0) {
-            goto done;
+            return;
         }
         goto advance_state;
 
 case_3:
         if ((s16)((S_80165AB8_0 *)object)->unk_32.u++ < 20) {
-            goto done;
+            return;
         }
         ((S_80165AB8_2 *)sprite)->unk_10 = 0;
         ((S_80165AB8_2 *)sprite)->unk_14 |= 0xC;
@@ -120,13 +120,12 @@ case_4:
 check_counter:
         ((S_80165AB8_0 *)object)->unk_32.u = next_tick;
         if (counter_check) {
-            goto done;
+            return;
         }
 
 finish:
     (*(u16 *)((u8 *)object + (-2))) |= 0x8000;
     objectFlagBlock.flags |= 0x8000;
 
-done:
     return;
 }

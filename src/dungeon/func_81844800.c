@@ -311,7 +311,7 @@ dispatch:
     {
         s32 state_index = ((S_81844800_0 *)effect)->unk_0A.s;
         if ((u32)state_index >= 6) {
-            goto done;
+            return;
         }
         (void)state_labels;
         goto *jtbl_80024008[state_index];
@@ -321,7 +321,7 @@ case0:
     {
         void *target;
         if ((((S_81844800_15 *)(((S_81844800_0 *)effect)->unk_04))->unk_00 & 0x80) == 0) {
-            goto done;
+            return;
         }
         target = func_800A05A4(
             owner,
@@ -400,7 +400,7 @@ case1:
     state = ((S_81844800_0 *)effect)->unk_50.s - 1;
     ((S_81844800_0 *)effect)->unk_50.s = state;
     if ((state << 16) > 0) {
-        goto done;
+        return;
     }
     {
         target_timer = 12;
@@ -415,7 +415,7 @@ case2:
         state = ((S_81844800_0 *)effect)->unk_50.s - 1;
         ((S_81844800_0 *)effect)->unk_50.s = state;
         if ((state << 16) > 0) {
-            goto done;
+            return;
         }
         if (((S_81844800_1 *)owner)->unk_60 != 0) {
             target_timer = 10;
@@ -499,7 +499,7 @@ case3:
     state = ((S_81844800_0 *)effect)->unk_50.s - 1;
     ((S_81844800_0 *)effect)->unk_50.s = state;
     if ((state << 16) > 0) {
-        goto done;
+        return;
     }
     {
         u16 timer_reset = 8;
@@ -513,7 +513,7 @@ case4:
     state = ((S_81844800_0 *)effect)->unk_50.s - 1;
     ((S_81844800_0 *)effect)->unk_50.s = state;
     if ((state << 16) > 0) {
-        goto done;
+        return;
     }
     ((S_81844800_0 *)effect)->unk_0A.u++;
     return;
@@ -531,6 +531,5 @@ case5:
         objectFlagBlock.flags |= 0x8000;
     }
 
-done:
     return;
 }

@@ -80,7 +80,7 @@ void func_80173614(S_func_80C17E14_0 *action, S_func_80C17E14_1 *motion, S_func_
     if (state == 0) {
         goto initialize;
     }
-    goto done;
+    return;
 
 high_states:
     if (state == 2) {
@@ -89,14 +89,14 @@ high_states:
     if (state == 3) {
         goto fade_out;
     }
-    goto done;
+    return;
 
 initialize:
     *(s32 *)((u8 *)motion + 0xC) = offset_x << 16;
     *(s32 *)((u8 *)motion + 0x10) = offset_y << 16;
     *(s32 *)((u8 *)motion + 0x14) = 0x8000;
     if (dungeonStatus.unk_0A != 0) {
-        goto done;
+        return;
     }
     action->unk_9B = action->unk_9B + 1;
 
@@ -132,16 +132,16 @@ flags_done:
         sprite->unk_12 = 0xFF80;
         sprite->unk_14 |= 0xC;
         action->unk_9B = action->unk_9B + 1;
-        goto done;
+        return;
     }
 
 wait_animation:
     if (!(sprite->unk_14 & 0x6000)) {
-        goto done;
+        return;
     }
     action->unk_96.unk_00_u16 = 0x80;
     action->unk_9B = action->unk_9B + 1;
-    goto done;
+    return;
 
 fade_out:
     {
@@ -160,7 +160,7 @@ fade_out:
         next_brightness = action->unk_96.unk_00_u16 - 0x10;
         action->unk_96.unk_00_u16 = next_brightness;
         if ((s16)next_brightness >= 0x10) {
-            goto done;
+            return;
         }
 
         if (((s32)dungeonStatus.unk_10) == (s32)((u8 *)entity - 0x20)) {
@@ -182,6 +182,5 @@ fade_out:
         objectFlagBlock.flags |= 0x8000;
     }
 
-done:
     return;
 }

@@ -272,36 +272,34 @@ high_sum:
         count = 1;
         ((S_8052F2C8_7 *)spawn_data)->unk_14++;
         scale = 0x1000;
-entity_loop:
-        work = func_800373DC(0x136);
-        if (work != NULL) {
-            ((S_8052F2C8_3 *)work)->unk_10 = D_8052F8C4;
-            func_8003BC18(work, D_8003C558);
-            position = ((S_8052F2C8_3 *)work)->unk_08;
-            entity_data = ((S_8052F2C8_3 *)work)->unk_0C.p32;
-            ((S_8052F2C8_8 *)position)->unk_00 = ((S_8052F2C8_2 *)state_held)->unk_00;
-            ((S_8052F2C8_8 *)position)->unk_04 = ((S_8052F2C8_2 *)state_held)->unk_04;
-            ((S_8052F2C8_8 *)position)->unk_08 = ((S_8052F2C8_2 *)state_held)->unk_08;
-            work_value = ((S_8052F2C8_0 *)obj_held)->unk_04;
-            ((S_8052F2C8_3 *)work)->unk_20 = root;
-            ((S_8052F2C8_3 *)work)->unk_24 = work_value;
-            ((S_8052F2C8_9 *)entity_data)->unk_1E = scale;
-            ((S_8052F2C8_9 *)entity_data)->unk_1C = scale;
-            if (count != 0) {
-                ((S_8052F2C8_9 *)entity_data)->unk_08 = D_8028E188;
-                ((S_8052F2C8_8 *)position)->unk_10 = 0x80000;
-            } else {
-                ((S_8052F2C8_9 *)entity_data)->unk_08 = D_8028E17C;
-                ((S_8052F2C8_8 *)position)->unk_10 = 0xFFF80000;
+        do {
+            work = func_800373DC(0x136);
+            if (work != NULL) {
+                ((S_8052F2C8_3 *)work)->unk_10 = D_8052F8C4;
+                func_8003BC18(work, D_8003C558);
+                position = ((S_8052F2C8_3 *)work)->unk_08;
+                entity_data = ((S_8052F2C8_3 *)work)->unk_0C.p32;
+                ((S_8052F2C8_8 *)position)->unk_00 = ((S_8052F2C8_2 *)state_held)->unk_00;
+                ((S_8052F2C8_8 *)position)->unk_04 = ((S_8052F2C8_2 *)state_held)->unk_04;
+                ((S_8052F2C8_8 *)position)->unk_08 = ((S_8052F2C8_2 *)state_held)->unk_08;
+                work_value = ((S_8052F2C8_0 *)obj_held)->unk_04;
+                ((S_8052F2C8_3 *)work)->unk_20 = root;
+                ((S_8052F2C8_3 *)work)->unk_24 = work_value;
+                ((S_8052F2C8_9 *)entity_data)->unk_1E = scale;
+                ((S_8052F2C8_9 *)entity_data)->unk_1C = scale;
+                if (count != 0) {
+                    ((S_8052F2C8_9 *)entity_data)->unk_08 = D_8028E188;
+                    ((S_8052F2C8_8 *)position)->unk_10 = 0x80000;
+                } else {
+                    ((S_8052F2C8_9 *)entity_data)->unk_08 = D_8028E17C;
+                    ((S_8052F2C8_8 *)position)->unk_10 = 0xFFF80000;
+                }
+                ((S_8052F2C8_9 *)entity_data)->unk_04 = 0;
+                ((S_8052F2C8_9 *)entity_data)->unk_05 = 0;
+                ((S_8052F2C8_9 *)entity_data)->unk_0C = 0x808080;
             }
-            ((S_8052F2C8_9 *)entity_data)->unk_04 = 0;
-            ((S_8052F2C8_9 *)entity_data)->unk_05 = 0;
-            ((S_8052F2C8_9 *)entity_data)->unk_0C = 0x808080;
-        }
-        count--;
-        if (count >= 0) {
-            goto entity_loop;
-        }
+            count--;
+        } while (count >= 0);
         ((S_8052F2C8_0 *)obj_held)->unk_0C.u = 0xFF;
         break;
 

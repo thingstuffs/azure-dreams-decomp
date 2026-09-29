@@ -39,7 +39,7 @@ void func_801712C4(void *effect, void *position, s32 update_param)
     if (state == 1) {
         goto state_one;
     }
-    goto done;
+    return;
 
 state_zero:
     func_801710B8(effect, position, update_param);
@@ -50,7 +50,7 @@ state_zero:
         ((S_801712C4_0 *)effect)->unk_17++;
     }
     ((S_801712C4_0 *)effect)->unk_08 = ((S_801712C4_0 *)effect)->unk_00.at00.v;
-    goto done;
+    return;
 
 state_one:
     ((S_801712C4_1 *)position)->unk_00 += ((S_801712C4_0 *)effect)->unk_40;
@@ -76,6 +76,5 @@ state_one:
         objectFlagBlock.flags |= 0x8000;
     }
 
-done:
     return;
 }

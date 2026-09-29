@@ -111,7 +111,7 @@ void *func_8004C080(Tint8004C080 *tint0, Tint8004C080 *tint1,
         ((S_8004C080_1 *)packet)->unk_1C = ((S_8004C080_2 *)record)->unk_08;
         func_8004C010(packet_color, tint0);
         func_8004C010(packet_color, tint1);
-        goto done;
+        return record;
     }
 
     if (primitive_type == 0x3C) {
@@ -120,7 +120,7 @@ void *func_8004C080(Tint8004C080 *tint0, Tint8004C080 *tint1,
     }
 
     if (!(opcode & 0x80)) {
-        goto done;
+        return record;
     }
 
     length_or_code = opcode & 0x7F;

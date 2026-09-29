@@ -17,18 +17,17 @@ void func_80054A7C(s32 action) {
     if (action == 4) {
         goto case4;
     }
-    goto end;
+    return;
 rangelow:
     if (action == 0) {
-        goto end;
+        return;
     }
     func_80055B44(action_value & 0xFFFF);
-    goto end;
+    return;
 case3:
     func_800540A8();
-    goto end;
+    return;
 case4:
     func_800541E8();
-end:
     return;
 }

@@ -135,7 +135,7 @@ void func_80C97514(void *state, EntityRec *position, Rec_D_80082E80 *entity, voi
 
     status = ((S_80C97514_0 *)state)->unk_9B;
     if (status >= 9U) {
-        goto done;
+        return;
     }
     (void)state_labels; goto *D_80170858[(u32)(status)];
 jt_c0:
@@ -156,7 +156,7 @@ jt_c2:
     }
 turn_actor:
     if (direction == 2) {
-        goto done;
+        return;
     }
     ((Rec_D_80082E80 *)actor)->unk_28.at02_u16.v = (u16) (((Rec_D_80082E80 *)actor)->unk_28.at02_u16.v + 0x200);
     return;
@@ -180,7 +180,7 @@ jt_c3:
     status = ((S_80C97514_2 *)(&D_801753A9))->unk_00;
     ((S_80C97514_0 *)state)->unk_96 = previous_ticks;
     if (status == 0) {
-        goto done;
+        return;
     }
     ((S_80C97514_0 *)state)->unk_9B = (u8) (((S_80C97514_0 *)state)->unk_9B + 1);
     func_800A56E0(0x300);
@@ -198,7 +198,7 @@ jt_c4:
 
     effect = func_8003FC64(0x12);
     if (effect == NULL) {
-        goto done;
+        return;
     }
     effect->unk_10 = &D_80174BE8;
     func_8004491C(effect, func_80045340);
@@ -236,10 +236,10 @@ jt_c5:
 jt_c6:
 check_transition:
     if (((S_80C97514_0 *)state)->unk_9B != 6) {
-        goto done;
+        return;
     }
     if (func_800ADC4C(position, D_801753AC, D_80175314, &D_800DCF5C) == 0) {
-        goto done;
+        return;
     }
     ((S_80C97514_0 *)state)->unk_96 = 0x10U;
     ((S_80C97514_0 *)state)->unk_9B = (u8) (((S_80C97514_0 *)state)->unk_9B + 1);
@@ -253,7 +253,7 @@ jt_c7:
     new_model = func_800A504C(entity, actor);
     ((Rec_D_80082E80 *)actor)->unk_60.as_pv = new_model;
     if (new_model == NULL) {
-        goto done;
+        return;
     }
     ((S_80C97514_0 *)state)->unk_96 = 0x10U;
     ((S_80C97514_0 *)state)->unk_9B = (u8) (((S_80C97514_0 *)state)->unk_9B + 1);
@@ -266,13 +266,12 @@ jt_c8:
     finish_ticks = ((S_80C97514_0 *)state)->unk_96 - 1;
     ((S_80C97514_0 *)state)->unk_96 = finish_ticks;
     if ((finish_ticks << 0x10) > 0) {
-        goto done;
+        return;
     }
     ((S_80C97514_15 *)(((Rec_D_80082E80 *)actor)->unk_60.as_pv))->unk_2A = (u16) ((Rec_D_80082E80 *)actor)->unk_8A;
     ((S_80C97514_0_pre *)state)[-1].unk_00 = (u16) (((S_80C97514_0_pre *)state)[-1].unk_00 | 0x8000);
     (*(s32 *)&objectFlagBlock.flags) = (s32) (objectFlagBlock.flags | 0x8000);
     dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
     ((Rec_D_80082E80 *)actor)->unk_6D = 0;
-done:
     return;
 }

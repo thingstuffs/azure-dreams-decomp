@@ -55,23 +55,21 @@ s32 func_800B8834(s32 record_id, s32 entity_id)
         slot_index = 0;
         scan_link_page = (u8 *)0x80010000;
         match_index = entity_index;
-loop:
-        slot = (u8 *)(((u32)(slot_index & 0xFF) << 1) + (u32)scan_link_page);
-        if (slot[0x33A4] == match_index) {
-            goto return_zero;
-        }
-        slot_index++;
-        if (slot[0x33A5] != match_index) {
-            goto continue_loop;
-        }
+        do {
+                    slot = (u8 *)(((u32)(slot_index & 0xFF) << 1) + (u32)scan_link_page);
+                    if (slot[0x33A4] == match_index) {
+                        goto return_zero;
+                    }
+                    slot_index++;
+                    if (slot[0x33A5] != match_index) {
+                        goto continue_loop;
+                    }
 
-return_zero:
-        return 0;
+            return_zero:
+                    return 0;
 
-continue_loop:
-        if ((u32)(slot_index & 0xFF) < 0x21U) {
-            goto loop;
-        }
+            continue_loop:
+        } while ((u32)(slot_index & 0xFF) < 0x21U);
         goto return_tail_2;
 
     case 2:

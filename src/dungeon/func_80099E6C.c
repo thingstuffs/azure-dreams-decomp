@@ -11,7 +11,7 @@ s32 func_8009F5CC(void) {
 
     if (flags & 0x10000000) {
         changed = 0;
-        goto done;
+        return changed;
     }
 
     if (*(u16 *)(((u8 *)D_800E3D7C) + 0x118) < 0x401) {
@@ -19,7 +19,7 @@ s32 func_8009F5CC(void) {
             do {
                 changed = 0;
             } while (0);
-            goto done;
+            return changed;
         }
     }
 
@@ -29,6 +29,5 @@ s32 func_8009F5CC(void) {
     } else {
         changed = 0;
     }
-done:
     return changed;
 }

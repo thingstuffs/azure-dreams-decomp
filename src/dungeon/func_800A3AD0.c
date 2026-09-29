@@ -43,13 +43,13 @@ s32 func_800A9230(void *actor)
     }
 
     if (*(u8 *)&D_800DCF5A == 0) {
-        goto done;
+        return result;
     }
     if (*(u8 *)((u8 *)actor + 0x49) != 0) {
-        goto done;
+        return result;
     }
     if ((func_800A6D30() & 3) != 0) {
-        goto done;
+        return result;
     }
 
     index = func_800A6DA4(1, 0x1F) & 0xFFFF;
@@ -57,21 +57,20 @@ s32 func_800A9230(void *actor)
     entry = &base[index * 4];
     kind = entry[1];
     if (kind == 0) {
-        goto done;
+        return result;
     }
     if (kind >= 0xB) {
-        goto done;
+        return result;
     }
     if (kind != 1) {
-        goto done;
+        return result;
     }
     if (entry[0] != 8) {
-        goto done;
+        return result;
     }
     result = *(s32 *)entry;
     *(s32 *)entry = 0;
 
-done:
     return result;
 }
 

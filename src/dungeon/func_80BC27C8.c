@@ -123,7 +123,7 @@ update_state:
 
     if (dungeonStatus.flags & 0x80) {
         ((S_80171FC8_3 *)motion_state)->unk_96 = 0;
-        goto done;
+        return;
     }
 
     ((S_80171FC8_3 *)motion_state)->unk_96 = 8;
@@ -132,6 +132,5 @@ update_state:
         ((S_80171FC8_3 *)motion_state)->unk_96 = 8 / step_count;
     }
 
-done:
     return;
 }

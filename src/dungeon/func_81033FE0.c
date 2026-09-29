@@ -160,7 +160,7 @@ void func_801757E0(void *actor, void *motion, void *animation, void *entity)
         u32 state = ((S_801757E0_0 *)actor)->unk_9B;
 
         if (state >= 17) {
-            goto end;
+            return;
         }
         goto *D_80170890[state];
     }
@@ -172,7 +172,7 @@ state_0:
     if (((S_801757E0_1 *)animation)->unk_14 & 0x8000) {
         ((S_801757E0_0 *)actor)->unk_9B = 2;
         ((S_801757E0_1 *)animation)->unk_14 |= 0x6000;
-        goto end;
+        return;
     }
     ((S_801757E0_2 *)motion)->unk_14 = 0;
     ((S_801757E0_2 *)motion)->unk_10 = 0;
@@ -182,7 +182,7 @@ state_0:
     ((S_801757E0_0 *)actor)->unk_AD.u = 0;
     ((S_801757E0_0 *)actor)->unk_9B++;
     func_800A56E0(0x80A);
-    goto end;
+    return;
 
 #ifdef __mips__
 state_1:
@@ -241,11 +241,11 @@ state_1:
     timer = ((S_801757E0_0 *)actor)->unk_96.u - 1;
     ((S_801757E0_0 *)actor)->unk_96.u = timer;
     if (timer > 0 && !(((S_801757E0_1 *)animation)->unk_14 & 0x8000)) {
-        goto end;
+        return;
     }
     ((S_801757E0_0 *)actor)->unk_96.u = 0x78;
     ((S_801757E0_0 *)actor)->unk_9B++;
-    goto end;
+    return;
 
 #ifdef __mips__
 state_2:
@@ -319,7 +319,7 @@ check_effect_trigger:
 
 final_flags:
     if (!(((S_801757E0_1 *)animation)->unk_14 & 0xE000)) {
-        goto end;
+        return;
     }
     ((S_801757E0_2 *)motion)->unk_14 = 0;
     ((S_801757E0_2 *)motion)->unk_10 = 0;
@@ -337,10 +337,10 @@ final_flags:
     ((S_801757E0_0 *)actor)->unk_96.u = 0;
     if (((S_801757E0_0 *)actor)->unk_AD.s == 0) {
         ((S_801757E0_0 *)actor)->unk_9B++;
-        goto end;
+        return;
     }
     ((S_801757E0_0 *)actor)->unk_9B = 0x10;
-    goto end;
+    return;
 
 #ifdef __mips__
 state_3:
@@ -363,7 +363,7 @@ state_3:
         }
     }
     if (((S_801757E0_0 *)actor)->unk_96.s != 0x13) {
-        goto end;
+        return;
     }
     goto bump_state;
 
@@ -375,7 +375,7 @@ state_4:
     timer = ((S_801757E0_0 *)actor)->unk_96.u + 1;
     ((S_801757E0_0 *)actor)->unk_96.u = timer;
     if (timer < 0x0A && !(((S_801757E0_1 *)animation)->unk_14 & 0x8000)) {
-        goto end;
+        return;
     }
     ((S_801757E0_0 *)actor)->unk_96.u = 0;
     ((S_801757E0_0 *)actor)->unk_9B++;
@@ -383,7 +383,7 @@ state_4:
     func_80047784(animation,
         D_801760A4[((gameWork.view.viewAngle + ((S_801757E0_8 *)entity)->unk_2A.s + 0x100) >> 9) & 7],
         0);
-    goto end;
+    return;
 
 #ifdef __mips__
 state_5:
@@ -397,7 +397,7 @@ state_5:
             0);
         goto bump_state;
     }
-    goto end;
+    return;
 
 #ifdef __mips__
 state_6:
@@ -407,7 +407,7 @@ state_6:
     timer = ((S_801757E0_0 *)actor)->unk_96.u + 1;
     ((S_801757E0_0 *)actor)->unk_96.u = timer;
     if (timer < 0x14 && !(((S_801757E0_1 *)animation)->unk_14 & 0x8000)) {
-        goto end;
+        return;
     }
     goto bump_state;
 
@@ -432,7 +432,7 @@ state_7:
         }
     }
     if (((S_801757E0_0 *)actor)->unk_96.s != 0x13) {
-        goto end;
+        return;
     }
     goto bump_state;
 
@@ -442,7 +442,7 @@ state_8:
     case 8:
 #endif
     if (((S_801757E0_0 *)actor)->unk_AC.s != 0x4D) {
-        goto end;
+        return;
     }
     goto bump_state;
 

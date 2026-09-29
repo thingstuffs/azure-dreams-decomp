@@ -112,7 +112,7 @@ alloc_loop:
         break;
 
     default:
-        goto done;
+        return;
     }
 
     blink_ticks = U16_AT(state, 0x1A) + 1;
@@ -134,7 +134,7 @@ color_done:
         S16_AT(state, 8) = U16_AT(state, 8) + first_step;
         S16_AT(state, 0x10) = U16_AT(state, 0x10) + second_step;
         U16_AT(state, 0x24) &= ~1;
-        goto done;
+        return;
     }
 
     {
@@ -153,7 +153,6 @@ color_done:
         }
     }
 
-done:
     return;
 }
 

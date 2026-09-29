@@ -21,15 +21,14 @@ s32 func_8009A2B8(s16 origin_x, s16 origin_y, s32 direction) {
     result = *(u16 *)(tile + 4) & 0xF320;
     if (result != 0) {
         result = 1;
-        goto done;
+        return result;
     }
     result = *(u16 *)tile;
     if (result != 0) {
         result = 0;
-        goto done;
+        return result;
     }
     result = 1;
-done:
     return result;
 }
 

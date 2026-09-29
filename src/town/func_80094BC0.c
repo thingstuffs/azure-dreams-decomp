@@ -48,7 +48,7 @@ void func_80092320(Rec_func_80094268_arg0 *action, EntityRec *actor, M2C_UNK con
     if ((reference_value - actor->z.w.i) >= 4) {
         if (((S_80092320_1 *)(&D_800CFCEF))->unk_00 == 0) {
             func_80094378(action, actor, context);
-            goto done;
+            return;
         }
         goto check_state;
     }
@@ -58,31 +58,30 @@ void func_80092320(Rec_func_80094268_arg0 *action, EntityRec *actor, M2C_UNK con
 check_state:
     if (((s32)state->unk_010) & 0x10) {
         func_800942B0(action, actor, context);
-        goto done;
+        return;
     }
     ticks_left = action->unk_0A.as_u16 - 1;
     action->unk_0A.as_u16 = ticks_left;
     if ((s16) ticks_left < 0) {
         func_80094414(action, actor, context);
-        goto done;
+        return;
     }
     if (((s32)state->unk_010) & 0x40) {
         action_result = func_80095840(action, &D_800CFCB4);
         if (action_result != 0) {
             if (action_result == 2) {
                 func_8009451C(action, actor, context);
-                goto done;
+                return;
             }
             func_800944BC(action, actor, context);
-            goto done;
+            return;
         }
         if (func_80033B2C(0xA4) != 0) {
             func_80094088(action, actor, context);
-            goto done;
+            return;
         }
     } else if (func_8009567C(&D_800CFCB4) <= 0) {
         func_80094474(action, actor, context);
     }
-done:
     return;
 }

@@ -52,7 +52,7 @@ void func_8008BC58(u8 *object, S_8008BC58_2 *view_params, void *update_context)
 
     if (D_800FC418 != 0) {
         ((S_8008BC58_0 *)object)->unk_68 = D_8008BED8;
-        goto done;
+        return;
     }
 
     state = ((S_8008BC58_0 *)object)->unk_66;
@@ -74,15 +74,15 @@ void func_8008BC58(u8 *object, S_8008BC58_2 *view_params, void *update_context)
             if (buttons & 0x40) {
                 D_800FC418 = 1;
                 func_80035208(D_80072214);
-                goto done;
+                return;
             }
             if (buttons & 0x20) {
                 D_800FC418 = 1;
                 func_80035208(D_80072210);
-                goto done;
+                return;
             }
         } else {
-            goto done;
+            return;
         }
     } else if (state == 9) {
         s32 x;
@@ -95,7 +95,7 @@ void func_8008BC58(u8 *object, S_8008BC58_2 *view_params, void *update_context)
         display_record = *(u8 **)object;
         y = D_80083780.y.w.i / 64 - 0x40;
         ((S_8008BC58_3 *)display_record)->unk_34 = y;
-        goto done;
+        return;
     } else if (state == 10) {
         s32 selection_index;
         s32 selection_index_2;
@@ -144,6 +144,5 @@ update:
         D_80082ABC = selection_id;
     }
 
-done:
     return;
 }

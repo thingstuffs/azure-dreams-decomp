@@ -313,17 +313,15 @@ jt_c11:
     func_80047784(sprite, D_80174C6C[((s32) (gameWork.view.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
     end_particle_count = 0;
     func_800A56E0(0x706);
-loop_36:
-    end_particle_count += 1;
-    particle_random = func_80069EF8();
-    particle_a0 = (u8 *)actor - 0x20;
-    particle_color = 0x8080FF;
-    particle_variation = (particle_random & 0xFF) | 0x80;
-    ASM_KEEP4(particle_a0, particle_color, particle_variation, beldo);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    func_80171A10(particle_a0, beldo->unk_2A.s, particle_color, particle_variation, 0);
-    if (end_particle_count < 0x14) {
-        goto loop_36;
-    }
+    do {
+        end_particle_count += 1;
+        particle_random = func_80069EF8();
+        particle_a0 = (u8 *)actor - 0x20;
+        particle_color = 0x8080FF;
+        particle_variation = (particle_random & 0xFF) | 0x80;
+        ASM_KEEP4(particle_a0, particle_color, particle_variation, beldo);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        func_80171A10(particle_a0, beldo->unk_2A.s, particle_color, particle_variation, 0);
+    } while (end_particle_count < 0x14);
 block_37:
     path_end_timer = actor->unk_96 - 1;
     actor->unk_96 = path_end_timer;
@@ -590,7 +588,7 @@ jt_c4:
 block_97:
 block_98:
     if (D_80174CE0 == 0) {
-        goto block_105;
+        return;
     }
     final_direction = ((s32) (gameWork.view.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7;
     sprite_direction = final_direction;
@@ -607,6 +605,5 @@ block_104:
         tail_test = sprite->unk_14 & 0xFFFE;
     }
     sprite->unk_14 = (u16) tail_test;
-block_105:
     return;
 }

@@ -45,7 +45,7 @@ loop_1:
         entry_slot = (void **)((s8 *)entry_slot + 4);
         entry_index += 1;
         if (*entry_slot == 0) {
-            goto done;
+            return result;
         }
         goto loop_1;
     }

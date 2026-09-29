@@ -46,7 +46,7 @@ block_17:
                     /* Duplicate return node #25. Try simplifying control flow for better match */
                     return 0;
                 }
-                goto block_24;
+                return 0;
             }
             /* Duplicate return node #25. Try simplifying control flow for better match */
             return 0;
@@ -55,7 +55,6 @@ block_22:
         func_800CB82C(((S_8009D218_1_pre *)arg0)[-1].unk_00, arg0, arg2);
         goto return_tail;
     }
-block_24:
     return 0;
 }
 

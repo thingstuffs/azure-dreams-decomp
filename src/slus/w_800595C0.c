@@ -60,7 +60,7 @@ s32 func_800595C0(Entity *entity)
             func_80057948(ent->field_4C, command & 0x7F, 0);
         }
         ent->field_4A = saved_command;
-        goto ret_bool;
+        return 0 < (operand & 0x80);
     }
 
     command_index = (command & 0x7F) - 0x46;
@@ -90,7 +90,7 @@ L_case_48: {
             slot_index++;
         } while (slot_index < slot_count);
     }
-    goto ret_bool;
+    return 0 < (operand & 0x80);
 }
 L_case_49: {
     s32 next_byte = func_800589B8(ent);

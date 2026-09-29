@@ -31,7 +31,7 @@ s32 func_8009FBF0(s32 pos_x, s32 pos_y) {
                     u16 top = *(u16 *)(record + 2);
                     if (y >= top - 1 && top + *(u16 *)(record + 6) >= y) {
                         result = (s16)index;
-                        goto done;
+                        return result;
                     }
                 }
             }
@@ -40,6 +40,5 @@ s32 func_8009FBF0(s32 pos_x, s32 pos_y) {
         } while (index < count);
     }
     result = -1;
-done:
     return result;
 }

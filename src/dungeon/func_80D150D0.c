@@ -192,7 +192,7 @@ void func_801748D0(void *effect_state, EntityRec *position, void *source_mesh, E
         if (phase == 0) {
             goto wait_start;
         }
-        goto done;
+        return;
     }
     if (phase == 2) {
         goto wait_finish;
@@ -200,7 +200,7 @@ void func_801748D0(void *effect_state, EntityRec *position, void *source_mesh, E
     if (phase == 3) {
         goto finish_effect;
     }
-    goto done;
+    return;
 
 wait_start:
     position->flags14 = 0;
@@ -215,7 +215,7 @@ wait_start:
         flags = ((S_801748D0_2 *)source_mesh)->unk_14;
         ((S_801748D0_2 *)source_mesh)->unk_14 = flags & 0xF7FF;
     }
-    goto done;
+    return;
 
 spawn_effect:
     if (!(((S_801748D0_2 *)source_mesh)->unk_14 & 0x8000)) {
@@ -394,7 +394,7 @@ wait_finish:
         timer = ((S_801748D0_0 *)effect_state)->unk_96 - 1;
         ((S_801748D0_0 *)effect_state)->unk_96 = timer;
         if ((s32)(timer << 16) > 0) {
-            goto done;
+            return;
         }
     }
     position->flags14 = 0;
@@ -429,7 +429,7 @@ wait_finish:
 increment_state_loaded:
     next_state++;
     ((S_801748D0_0 *)effect_state)->unk_9B = next_state;
-    goto done;
+    return;
 
 finish_effect:
     owner_link = actor->target;
@@ -447,6 +447,5 @@ finish_effect:
     ((S_801748D0_6 *)linked_body)->unk_346C = 0;
     actor->unk_46 &= 0x7FFF;
 
-done:
     return;
 }

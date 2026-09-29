@@ -33,7 +33,7 @@ void func_8016DBB4(u8 *sequence, u8 *transform, u8 *sprite_arg, u8 *actor_arg) {
     u8 *actor = actor_arg;
     state = sequence[0x9B];
     if (state >= 6U) {
-        goto epilogue;
+        return;
     }
     (void)jt_keep;
     goto *D_801649B8[(u32)state];
@@ -44,7 +44,7 @@ jt_c0:
     sequence[0x9B] = sequence[0x9B] + 1;
     func_800A56E0(0x703);
     D_801760D8[0] = 0;
-    goto epilogue;
+    return;
 
 jt_c1:
     timer = *(u16 *)(sequence + 0x96) - 1;
@@ -53,7 +53,7 @@ jt_c1:
         goto advance;
     }
     if (!( *(u16 *)(sprite + 0x14) & 0xE000)) {
-        goto epilogue;
+        return;
     }
     goto advance;
 
@@ -74,11 +74,11 @@ jt_c2:
     if (*(s16 *)(sequence + 0x96) == 0xB) {
         goto advance;
     }
-    goto epilogue;
+    return;
 
 jt_c3:
     if (!( *(u16 *)(sprite + 0x14) & 0xE000)) {
-        goto epilogue;
+        return;
     }
     *(s32 *)(transform + 0x14) = 0;
     *(s32 *)(transform + 0x10) = 0;
@@ -132,7 +132,7 @@ jt_c4:
     next_timer = old_timer + 1;
     *(u16 *)(sequence + 0x96) = next_timer;
     if (old_timer < 0x50) {
-        goto epilogue;
+        return;
     }
     goto advance;
 
@@ -140,7 +140,7 @@ advance:
     state = sequence[0x9B];
     *(u16 *)(sequence + 0x96) = 0;
     sequence[0x9B] = state + 1;
-    goto epilogue;
+    return;
 
 jt_c5:
     actor[0x73] = 0;
@@ -149,6 +149,5 @@ jt_c5:
     dungeonStatus.unk_0C = 0;
     *(u16 *)(actor + 0x46) &= 0x7FFF;
 
-epilogue:
     return;
 }

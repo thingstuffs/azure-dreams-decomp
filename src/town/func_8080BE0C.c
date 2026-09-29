@@ -58,7 +58,7 @@ state_0:
     temp_v0_2 = ((S_8080BE0C_0 *)arg0)->unk_02 - 1;
     ((S_8080BE0C_0 *)arg0)->unk_02 = temp_v0_2;
     if ((temp_v0_2 << 0x10) > 0) {
-        goto done;
+        return;
     }
     state_value = ((S_8080BE0C_0 *)arg0)->unk_00.u;
     flags_value = ((S_8080BE0C_0 *)arg0)->unk_1C;
@@ -75,7 +75,6 @@ state_1:
         D_80084D5C |= 0x8000;
     }
 
-done:
     return;
 }
 /* MECHANISM: The page-base symbol plus &D_80530000[0x333] emits retail's entry lui/addiu in v1.

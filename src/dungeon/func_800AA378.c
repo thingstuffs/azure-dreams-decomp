@@ -26,7 +26,7 @@ void func_800AFAD8(Obj *obj)
         if (state == 0) {
             goto state_0;
         }
-        goto done;
+        return;
     }
     if (state == 2) {
         goto state_2;
@@ -34,7 +34,7 @@ void func_800AFAD8(Obj *obj)
     if (state == 3) {
         goto state_3;
     }
-    goto done;
+    return;
 
 state_0:
     offset = obj->field_6;
@@ -51,12 +51,12 @@ update_0_1:
     tick++;
     obj->field_6 = offset;
     obj->field_0 = tick;
-    goto done;
+    return;
 
 state_2:
     phase = obj->field_8 + 0x40;
     obj->field_8 = phase % 0x1C00;
-    goto done;
+    return;
 
 state_3:
     obj->field_6 += 8;
@@ -64,6 +64,5 @@ state_3:
     obj->field_0++;
     obj->field_8 = phase % 0x1C00;
 
-done:
     return;
 }

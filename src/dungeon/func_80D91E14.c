@@ -42,7 +42,7 @@ void func_80173614(void *work, void *part_a, void *part_b, void *actor)
     if (state == 1) {
         goto state_one;
     }
-    goto done;
+    return;
 
 state_zero:
     result = func_80099734(actor, first = func_800990FC());
@@ -62,11 +62,11 @@ state_zero:
     S32(part_a, 0x14) = 0;
     S32(part_a, 0x10) = 0;
     S32(part_a, 0x0C) = 0;
-    goto done;
+    return;
 
 state_one:
     if (!(U16(part_b, 0x14) & 0xE000)) {
-        goto done;
+        return;
     }
     func_800AD594(actor, 0xC00);
     PTR(work, 0x8C) = &D_80170E68;
@@ -82,7 +82,6 @@ state_one:
         func_800C8A3C(object, 0x10, 0x10);
     }
 
-done:
     return;
 }
 

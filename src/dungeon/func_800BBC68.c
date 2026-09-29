@@ -68,12 +68,11 @@ s32 func_800C13C8(void *object, s32 value, s16 operation, M2C_UNK context) {
         goto success;
     }
     result = 0;
-    goto done;
+    return result;
 success:
     func_800997FC(&D_800E1482);
 shared:
     func_80098B38(value);
     result = 1;
-done:
     return result;
 }

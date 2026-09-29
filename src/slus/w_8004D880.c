@@ -24,7 +24,7 @@ s32 func_8004D880(s32 char_code)
     char_code = code;
     if ((u32)(range_index & 0xFFFF) < 10) {
         output_char = range_index + 0x30;
-        goto done;
+        return output_char & 0xFF;
     }
 
     if (code & 4) {
@@ -39,7 +39,7 @@ s32 func_8004D880(s32 char_code)
     }
     if ((u32)(range_index & 0xFFFF) < 26) {
         output_char = range_index + 0x41;
-        goto done;
+        return output_char & 0xFF;
     }
 
     letter_code += 0x7D7F;
@@ -49,6 +49,5 @@ s32 func_8004D880(s32 char_code)
         output_char = func_8004D828(char_code & 0xFFFF);
     }
 
-done:
     return output_char & 0xFF;
 }

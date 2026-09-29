@@ -50,16 +50,14 @@ u32 func_800C8150(EntityRec *actor, s16 action_arg_1, s16 action_arg_2, s32 stat
         object_page = (u8 *)0x800E0000;
         slot_entry = *(u8 **)(object_page + 0x3D7C) + 4;
         status_mask = 0x40000;
-loop:
-        linked_object = ((S_800C8150_1 *)slot_entry)->unk_AC;
-        if ((linked_object != 0) && (linked_object->unk_54 & status_mask)) {
-            goto marked_move;
-        }
-        slot--;
-        slot_entry -= 4;
-        if (slot >= 0) {
-            goto loop;
-        }
+        do {
+            linked_object = ((S_800C8150_1 *)slot_entry)->unk_AC;
+            if ((linked_object != 0) && (linked_object->unk_54 & status_mask)) {
+                goto marked_move;
+            }
+            slot--;
+            slot_entry -= 4;
+        } while (slot >= 0);
         goto common;
     } else if (((u32)actor->unk_54) & 0x40000) {
         message_target = actor;

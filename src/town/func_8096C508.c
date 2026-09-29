@@ -51,7 +51,7 @@ void func_801249A0(Object *object)
         register Object *slot_object ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
         if (!func_80123200(object->field_13)) {
-            goto end;
+            return;
         }
         SD_Call(0x702);
         slot_index = object->field_16;
@@ -72,7 +72,7 @@ matched_six:
         object->field_A = 6;
         object->field_4 = 1;
         object->field_6 = 0x19;
-        goto end;
+        return;
 check_five:
         if (active_value == 0xFF) {
             goto matched_five;
@@ -85,7 +85,7 @@ check_five:
 matched_five:
         object->field_A = 5;
         object->field_B = 0;
-        goto end;
+        return;
     }
 
     if (input_flags & 0x20) {
@@ -102,7 +102,7 @@ matched_five:
             objectFlagBlock.flags |= 0x8000;
             func_801231DC();
             D_80080A84 = 2;
-            goto end;
+            return;
         }
     }
 
@@ -120,7 +120,7 @@ matched_five:
             object->field_F = 2;
         }
         object->field_A = 0;
-        goto end;
+        return;
     }
     if (input_flags & 0x2000) {
         u8 selection_group;
@@ -135,7 +135,7 @@ matched_five:
             object->field_F = 0;
         }
         object->field_A = 0;
-        goto end;
+        return;
     }
 
     input_flags = ((u32)input_state->buttons);
@@ -166,7 +166,7 @@ matched_five:
         goto toggle_done;
     }
     if (!(input_flags & 0x4000)) {
-        goto end;
+        return;
     }
     {
         u32 selection_value;
@@ -195,7 +195,7 @@ matched_five:
 
 set_two:
     object->field_A = 2;
-    goto end;
+    return;
 reset_four:
     side_value = 1;
     object->field_4 = side_value;
@@ -204,6 +204,5 @@ reset_four:
     object->field_10 = object->field_10 ^ 1;
     toggle_done:
     ;
-end:
     return;
 }

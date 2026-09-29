@@ -29,7 +29,7 @@ s32 func_8009FE94(s32 x0, s32 y0, s32 check_param, s32 x1, volatile s32 y1) {
     x_adjacent = dx < 2;
     loaded_y1 = y1;
     held_y1 = loaded_y1;
-    if (!x_adjacent) goto reject;
+    if (!x_adjacent) return 0;
     y1_short = (s16)loaded_y1;
     axis_delta = y1_short - (s16)y0;
     dy = __builtin_abs(axis_delta);

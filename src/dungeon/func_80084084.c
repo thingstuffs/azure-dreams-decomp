@@ -43,38 +43,36 @@ void func_800897E4(void)
         callback_base = D_80083360;
         callback_slot = callback_base;
         entry_slot = D_800833E0;
-loop_first:
-        callback = *callback_slot;
-        if (callback != 0) {
-            entry_m = *entry_slot;
-            if (entry_m != 0) {
-                if (!(entry_m->flags & 0x800)) {
-                    register Callback *special_scan;
+        do {
+                    callback = *callback_slot;
+                    if (callback != 0) {
+                        entry_m = *entry_slot;
+                        if (entry_m != 0) {
+                            if (!(entry_m->flags & 0x800)) {
+                                register Callback *special_scan;
 
-                    sentinel_scan = (Callback *)(D_800E0000 - 0x3080);
-                    special_scan = special_start;
-first_scan:
-                    if (*special_scan == callback) {
-                        callback(entry_m->data, entry_m->arg1, entry_m->arg2);
-                        callback_slot++;
-                        goto first_advance;
+                                sentinel_scan = (Callback *)(D_800E0000 - 0x3080);
+                                special_scan = special_start;
+            first_scan:
+                                if (*special_scan == callback) {
+                                    callback(entry_m->data, entry_m->arg1, entry_m->arg2);
+                                    callback_slot++;
+                                    goto first_advance;
+                                }
+                                if (*sentinel_scan != 0) {
+                                    sentinel_scan++;
+                                    special_scan++;
+                                    goto first_scan;
+                                }
+                            }
+                        } else {
+                            *callback_slot = 0;
+                        }
                     }
-                    if (*sentinel_scan != 0) {
-                        sentinel_scan++;
-                        special_scan++;
-                        goto first_scan;
-                    }
-                }
-            } else {
-                *callback_slot = 0;
-            }
-        }
-        callback_slot++;
-first_advance:
-        entry_slot++;
-        if ((s32)callback_slot < (s32)(callback_base + 0x20)) {
-            goto loop_first;
-        }
+                    callback_slot++;
+            first_advance:
+                    entry_slot++;
+        } while ((s32)callback_slot < (s32)(callback_base + 0x20));
         return;
     }
 
@@ -97,56 +95,54 @@ first_advance:
         callback_base = D_80083360;
         callback_slot = callback_base;
         entry_slot = D_800833E0;
-loop_second:
-        callback = *callback_slot;
-        if (callback != 0) {
-            entry_m = *entry_slot;
-            if (entry_m != 0) {
-                if (!(entry_m->flags & 0x800)) {
-                    callback_data = *(Callback *)(D_800E0000 - 0x3080);
-                    special_scan = special_start + 1;
-                    if (callback_data != callback) {
-                        goto second_scan_check;
+        do {
+                    callback = *callback_slot;
+                    if (callback != 0) {
+                        entry_m = *entry_slot;
+                        if (entry_m != 0) {
+                            if (!(entry_m->flags & 0x800)) {
+                                callback_data = *(Callback *)(D_800E0000 - 0x3080);
+                                special_scan = special_start + 1;
+                                if (callback_data != callback) {
+                                    goto second_scan_check;
+                                }
+                                entry_m = ((Entry *)&D_80083498);
+                                if (entry_m->active != 0) {
+                                    callback_data = entry_m->data;
+                                    callback_arg1 = entry_m->arg1;
+                                    do {
+                                        callback_arg2 = entry_m->arg2;
+                                    } while (0);
+                                    saved = entry_m->saved;
+                                    entry_m->saved = 0;
+                                    callback(callback_data, callback_arg1, callback_arg2);
+                                    ASM_KEEP(callback_base);
+                                    ASM_KEEP(entry_slot);
+                                    entry_m->saved = saved;
+                                    goto second_next;
+                                }
+                                goto second_next;
+            loop_0: {
+                                callback(entry_m->data, entry_m->arg1, entry_m->arg2);
+                                callback_slot++;
+                                goto second_advance;
+            second_scan_check: ;
+            } if (*special_scan == callback) goto loop_0;
+                                if (*special_scan == 0) {
+                                    goto second_next;
+                                }
+                                special_scan++;
+                                goto second_scan_check;
+                            }
+                        } else {
+                            *callback_slot = 0;
+                        }
                     }
-                    entry_m = ((Entry *)&D_80083498);
-                    if (entry_m->active != 0) {
-                        callback_data = entry_m->data;
-                        callback_arg1 = entry_m->arg1;
-                        do {
-                            callback_arg2 = entry_m->arg2;
-                        } while (0);
-                        saved = entry_m->saved;
-                        entry_m->saved = 0;
-                        callback(callback_data, callback_arg1, callback_arg2);
-                        ASM_KEEP(callback_base);
-                        ASM_KEEP(entry_slot);
-                        entry_m->saved = saved;
-                        goto second_next;
-                    }
-                    goto second_next;
-loop_0: {
-                    callback(entry_m->data, entry_m->arg1, entry_m->arg2);
+            second_next:
                     callback_slot++;
-                    goto second_advance;
-second_scan_check: ;
-} if (*special_scan == callback) goto loop_0;
-                    if (*special_scan == 0) {
-                        goto second_next;
-                    }
-                    special_scan++;
-                    goto second_scan_check;
-                }
-            } else {
-                *callback_slot = 0;
-            }
-        }
-second_next:
-        callback_slot++;
-second_advance:
-        entry_slot++;
-        if ((s32)callback_slot < (s32)(callback_base + 0x20)) {
-            goto loop_second;
-        }
+            second_advance:
+                    entry_slot++;
+        } while ((s32)callback_slot < (s32)(callback_base + 0x20));
         return;
     }
 

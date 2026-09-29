@@ -68,7 +68,7 @@ void func_80173F0C(void *effect, void *position, void *visual)
     if (state == 1) {
         goto state_one;
     }
-    goto done;
+    return;
 
 state_zero:
     func_800478B8(visual);
@@ -113,12 +113,11 @@ state_zero:
     ((S_80173F0C_2 *)position)->unk_06 = transformed_pos.y;
     ((S_80173F0C_2 *)position)->unk_0A = transformed_pos.z;
     ((S_80173F0C_0 *)effect)->unk_48--;
-    goto done;
+    return;
 
 state_one:
     (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
     objectFlagBlock.flags |= 0x8000;
 
-done:
     return;
 }

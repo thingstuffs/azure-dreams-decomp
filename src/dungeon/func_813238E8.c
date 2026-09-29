@@ -227,7 +227,7 @@ void func_8016B0E8(void *entity, void *motion, void *sprite) {
     }
     if (((S_8016B0E8_0 *)entity)->unk_B4 != 0) {
         if ((((s32)dungeonStatus.unk_0C) != 0) || (dungeonStatus.unk_0A != 1)) {
-            goto done;
+            return;
         }
         if (((S_8016B0E8_0 *)entity)->unk_B4 == dungeonStatus.unk_0A) {
             message = D_800F927E;
@@ -283,10 +283,10 @@ void func_8016B0E8(void *entity, void *motion, void *sprite) {
         paused_callback = ((S_8016B0E8_0 *)entity)->unk_8C;
         if (paused_callback == &D_8016B778) {
             paused_callback(entity, motion, sprite, actor);
-            goto done;
+            return;
         }
         ((S_8016B0E8_2 *)actor)->unk_71 = (u8) (((S_8016B0E8_2 *)actor)->unk_71 & 0x7F);
-        goto done;
+        return;
     }
     prior_state = (s8) ((S_8016B0E8_2 *)actor)->unk_6D;
     if (func_800A9E70(entity, motion, sprite, actor) == 0) {
@@ -388,6 +388,5 @@ update_height:
         ((S_8016B0E8_15 *)motion)->unk_0A = (s16) (((S_8016B0E8_2 *)actor)->unk_88.u + (u16) ((S_8016B0E8_0 *)entity)->unk_90.at02.v);
         ((S_8016B0E8_14 *)sprite)->unk_14.n = (u16) (((S_8016B0E8_14 *)sprite)->unk_14.n | 0x40);
     }
-done:
     return;
 }

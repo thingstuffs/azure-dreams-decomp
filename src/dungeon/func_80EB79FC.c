@@ -88,7 +88,7 @@ void func_801731FC(S_801731FC_0 *state, S_801731FC_2 *motion, S_801731FC_3 *spri
     velocity_x = *(s16 *)((u8 *)((s8 *)dirStepX) + direction_offset);
     velocity_y = *(s16 *)((u8 *)((s8 *)dirStepY) + direction_offset);
     if (phase >= 5U) {
-        goto done;
+        return;
     }
     (void)phase_labels;
     goto *D_80170858[(u32)phase];
@@ -123,7 +123,7 @@ wait_motion:
     motion->unk_0C = 0;
 check_motion_done:
     if (dungeonStatus.unk_0A != 0) {
-        goto done;
+        return;
     }
     state->unk_9B = state->unk_9B + 1;
 start_effect:
@@ -144,7 +144,7 @@ configure_effect:
 wait_effect:
     motion->unk_14 += 0x1C000;
     if (!(sprite->unk_14 & 0x6000)) {
-        goto done;
+        return;
     }
     state->unk_96 = 0x80U;
     state->unk_9B = state->unk_9B + 1;
@@ -158,7 +158,7 @@ fade_out:
     next_brightness = state->unk_96 - 0x18;
     state->unk_96 = next_brightness;
     if ((s16)next_brightness >= 0x18) {
-        goto done;
+        return;
     }
     if (((s32)dungeonStatus.unk_10) != (entity - 0x20)) {
         goto remove_entity;
@@ -179,6 +179,5 @@ play_sound:
     func_8009A028(entity);
     ((S_801731FC_1_pre *)entity)[-1].unk_00 |= 0x8000;
     objectFlagBlock.flags |= 0x8000;
-done:
     return;
 }

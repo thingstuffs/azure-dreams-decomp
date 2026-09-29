@@ -118,10 +118,10 @@ jt_c0:
     ((Rec_func_80173D78_arg0 *)action)->unk_9B = ((Rec_func_80173D78_arg0 *)action)->unk_9B + 1;
     if (sprite->unk_14 & 0x8000) {
         ((Rec_func_80173D78_arg0 *)action)->unk_96 = 0;
-        goto jt_c4;
+        return;
     }
     ((Rec_func_80173D78_arg0 *)action)->unk_96 = 0x10;
-    goto jt_c4;
+    return;
 
 jt_c1:
     if (!(((Rec_func_80173D78_arg0 *)action)->unk_96 & 3)) {
@@ -180,7 +180,7 @@ jt_c1:
         dungeonStatus.unk_0A =
             ((u16)dungeonStatus.unk_0A) - 1;
         actor->unk_1C &= 0xEFFFFFFF;
-        goto jt_c4;
+        return;
     }
 
     ((Rec_func_80173D78_arg0 *)action)->unk_9B = ((Rec_func_80173D78_arg0 *)action)->unk_9B + 1;
@@ -217,7 +217,7 @@ jt_c1:
     }
     func_8009A21C(sound_x, sound_y, tile_mask);
     actor->unk_1C &= 0xFFFEFFFF;
-    goto jt_c4;
+    return;
 
 jt_c2:
     state = sprite->unk_0C.at03.v;
@@ -235,7 +235,7 @@ jt_c2:
             sprite->unk_0C.at02.v +
             (-(s32)sprite->unk_0C.at02.v /
              (8 - sprite->unk_0C.at03.v));
-        goto jt_c4;
+        return;
     }
 
     object = (s8 *)action - 0x20;

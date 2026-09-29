@@ -59,18 +59,18 @@ void func_80097AF8(S_80097AF8_0 *actor, S_80097AF8_1 *motion, S_80097AF8_2 *stat
         if (state == 0) {
             goto state_zero;
         }
-        goto done;
+        return;
     }
     if (state == 2) {
         goto state_two;
     }
-    goto done;
+    return;
 
 state_zero:
     state_ticks = actor->unk_96 - 1;
     actor->unk_96 = state_ticks;
     if ((state_ticks << 16) > 0) {
-        goto done;
+        return;
     }
     motion->unk_14 = 0xFFEA0000;
     next_state = actor->unk_9B;
@@ -81,10 +81,10 @@ state_one:
     state_ticks = actor->unk_96 + 1;
     actor->unk_96 = state_ticks;
     if ((actor->unk_A2 & 0x10) == 0) {
-        goto done;
+        return;
     }
     if ((s16)state_ticks < 4) {
-        goto done;
+        return;
     }
     motion->unk_14 = 0;
     next_state = actor->unk_9B;
@@ -92,14 +92,14 @@ state_one:
 increment_state:
     next_state++;
     actor->unk_9B = next_state;
-    goto done;
+    return;
 
 state_two:
     if ((status->unk_14 & 0x6000) == 0) {
-        goto done;
+        return;
     }
     if (dungeonStatus.unk_0A != 0) {
-        goto done;
+        return;
     }
     owner_flags = owner->unk_1C;
     if (owner_flags & 0x200000) {
@@ -110,6 +110,5 @@ state_two:
     }
     actor->unk_8C = D_80096384;
 
-done:
     return;
 }

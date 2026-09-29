@@ -58,17 +58,17 @@ void func_80173450(void *action, void *unused, void *sprite, void *entity)
     if (state == 0) {
         goto state_zero;
     }
-    goto end;
+    return;
 
 state_ge_2:
     if (state == 2) {
         goto update;
     }
-    goto end;
+    return;
 
 state_zero:
     if (*(s16 *)((u8 *)&dungeonStatus.unk_0A) != 0) {
-        goto end;
+        return;
     }
     ((S_80173450_0 *)action)->unk_9B = 1;
 
@@ -100,7 +100,7 @@ update:
 
     if (!(((S_80173450_2 *)sprite)->unk_14 & 0x8000)) {
         if (((S_80173450_2 *)sprite)->unk_0C.u8 >= 0x10) {
-            goto end;
+            return;
         }
     }
 
@@ -122,6 +122,5 @@ update:
     (*(u16 *)((u8 *)entity + -2)) |= 0x8000;
     objectFlagBlock.flags |= 0x8000;
 
-end:
     return;
 }

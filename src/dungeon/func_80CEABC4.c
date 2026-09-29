@@ -47,7 +47,7 @@ void func_801743C4(void *action, void *motion, void *sprite, void *entity)
 
     state = ((S_801743C4_0 *)action)->unk_9B;
     if (state >= 6) {
-        goto jt_c4;
+        return;
     }
     (void)state_labels;
     goto *D_80170838[state];
@@ -59,14 +59,14 @@ jt_c0:
     ((S_801743C4_0 *)action)->unk_96.s = 0;
     ((S_801743C4_0 *)action)->unk_9B++;
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
-        goto jt_c4;
+        return;
     }
 
 jt_c1:
     timer = ((S_801743C4_0 *)action)->unk_96.s + 1;
     ((S_801743C4_0 *)action)->unk_96.s = timer;
     if ((timer != 4) && !(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
-        goto jt_c4;
+        return;
     }
     ((S_801743C4_0 *)action)->unk_96.s = 0;
     ((S_801743C4_0 *)action)->unk_9B++;
@@ -76,13 +76,13 @@ jt_c1:
         func_80047784(sprite,
             D_80175DDC[((gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
             0);
-        goto jt_c4;
+        return;
     case 14:
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80175DE4;
         func_80047784(sprite,
             D_80175DE4[((gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
             0);
-        goto jt_c4;
+        return;
     case 15:
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80175DEC;
         func_80047784(sprite,
@@ -90,9 +90,9 @@ jt_c1:
             0);
         ((S_801743C4_0 *)action)->unk_9B = 5;
         func_800A56E0(0x60C);
-        goto jt_c4;
+        return;
     default:
-        goto jt_c4;
+        return;
     }
 
 jt_c2:
@@ -105,9 +105,9 @@ jt_c2:
     }
     if (((S_801743C4_0 *)action)->unk_96.u == 3) {
         func_800A56E0(0x804);
-        goto jt_c4;
+        return;
     }
-    goto jt_c4;
+    return;
 
 jt_c3:
     if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) {
@@ -117,7 +117,7 @@ jt_c3:
         func_800A4ACC(entity);
         ((EntityRec *)entity)->unk_46 &= 0x7FFF;
     }
-    goto jt_c4;
+    return;
 
 jt_c5:
     timer = ((S_801743C4_0 *)action)->unk_96.s + 1;

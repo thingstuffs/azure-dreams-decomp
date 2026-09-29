@@ -302,7 +302,7 @@ void func_800259D8(void *arg0, void *arg1, S_800259D8_2 *arg2)
         ((S_800259D8_1 *)base)->unk_0C, &delta, 0);
     if (result == 0) {
         if (!(((S_800259D8_13 *)(((S_800259D8_1 *)base)->unk_0C))->unk_14 & 0x8000U)) {
-            goto done;
+            return;
         }
     }
     {
@@ -322,7 +322,7 @@ L0_adjust_z:
     }
     }
     if (!(((S_800259D8_14 *)(((S_800259D8_0 *)arg0)->unk_04))->unk_00 & 0x80U)) {
-        goto done;
+        return;
     }
     if (!(((S_800259D8_0 *)arg0)->unk_7A & 4U)) {
         func_8004491C((u8 *)arg0 - 0x20, func_80045340);
@@ -455,7 +455,7 @@ L_calc2:
             continue;
         }
     } while (i < 8);
-    goto done;
+    return;
 
     case 2:
     if (((S_800259D8_0 *)arg0)->unk_A0 == 0) {
@@ -492,7 +492,7 @@ L_calc2:
         ((S_800259D8_4 *)arg1)->unk_04.at02u.v = ((S_800259D8_5 *)entry)->unk_04.at02u.v;
         ((S_800259D8_4 *)arg1)->unk_08.at02.v = ((S_800259D8_0 *)arg0)->unk_78.u;
         func_800A56E0(0x300);
-        goto done;
+        return;
     }
 L1_state7:
     ((S_800259D8_0 *)arg0)->unk_0A.u = 7;
@@ -500,7 +500,7 @@ L1_state7:
     arg2->unk_0C.at02.v = 0;
     arg2->unk_0C.at01.v = 0;
     arg2->unk_0C.at00u.v = 0;
-    goto done;
+    return;
 
 L1_calc:
     ((S_800259D8_4 *)arg1)->unk_0C =
@@ -514,7 +514,7 @@ L1_calc:
     ((S_800259D8_4 *)arg1)->unk_00.at00.v += ((S_800259D8_4 *)arg1)->unk_0C;
     ((S_800259D8_4 *)arg1)->unk_04.at00.v += ((S_800259D8_4 *)arg1)->unk_10;
     ((S_800259D8_4 *)arg1)->unk_08.at00.v += ((S_800259D8_4 *)arg1)->unk_14;
-    goto done;
+    return;
 
     case 3:
     if (((S_800259D8_0 *)arg0)->unk_A0 == 0) {
@@ -568,7 +568,7 @@ L1_calc:
     }
         ((S_800259D8_0 *)arg0)->unk_0A.u = 4;
     ((S_800259D8_0 *)arg0)->unk_84.u = 0;
-    goto done;
+    return;
 
     case 4:
     count = ((S_800259D8_0 *)arg0)->unk_84.u + 1;
@@ -590,23 +590,23 @@ L1_calc:
             func_80025338((u8 *)arg0 - 0x20, ((S_800259D8_0 *)arg0)->unk_80, 0x00E02020, (value & 0xFF) | 0x80, 0, 0, 0);
             i++;
             if (i >= 4) {
-                goto done;
+                return;
             }
         }
     }
     ((S_800259D8_0 *)arg0)->unk_0A.u++;
     ((S_800259D8_0 *)arg0)->unk_84.u = 0;
     arg2->unk_14 |= 0x80;
-    goto done;
+    return;
 
     case 5:
     if (((S_800259D8_0 *)arg0)->unk_88 == 0) {
-        goto done;
+        return;
     }
     {
         ((S_800259D8_0 *)arg0)->unk_84.u = 0;
         ((S_800259D8_0 *)arg0)->unk_0A.u++;
-        goto done;
+        return;
     }
 
     case 6:
@@ -628,7 +628,7 @@ L1_calc:
         ((S_800259D8_11 *)fade_entry)->unk_0E += 3;
     }
     if (((S_800259D8_0 *)arg0)->unk_84.s < 71) {
-        goto done;
+        return;
     }
     {
         void *tail_node;
@@ -642,14 +642,14 @@ L1_calc:
     }
     ((S_800259D8_0 *)arg0)->unk_84.u = 13;
     ((S_800259D8_0 *)arg0)->unk_0A.u++;
-    goto done;
+    return;
     }
 
     case 7:
     old_count = ((S_800259D8_0 *)arg0)->unk_84.u;
     ((S_800259D8_0 *)arg0)->unk_84.u = old_count + 1;
     if ((s16)old_count < 15) {
-        goto done;
+        return;
     }
     {
         s32 seen;
@@ -659,13 +659,12 @@ L1_calc:
             dungeonStatus.unk_0C = 0;
             ((S_800259D8_0_pre *)arg0)[-1].unk_00 |= 0x8000;
             objectFlagBlock.flags |= 0x8000;
-            goto done;
+            return;
         }
     }
     D_80026664[0] = 0;
-    goto done;
+    return;
     }
 
-done:
     return;
 }

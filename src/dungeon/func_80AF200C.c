@@ -42,7 +42,7 @@ void func_8017380C(void *action, void *motion, void *entity, void *actor)
         if (state == 0) {
             goto init_movement;
         }
-        goto end;
+        return;
     }
     if (state == 2) {
         goto return_to_tile;
@@ -50,7 +50,7 @@ void func_8017380C(void *action, void *motion, void *entity, void *actor)
     if (state == 3) {
         goto finish_movement;
     }
-    goto end;
+    return;
 
 init_movement:
     func_800AD4D0(actor);
@@ -60,11 +60,11 @@ init_movement:
         goto stop_movement;
     }
     if (!(((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v & 0x8000)) {
-        goto end;
+        return;
     }
     ((S_8017380C_0 *)action)->unk_96.s = 0;
     ((S_8017380C_0 *)action)->unk_9B = 3;
-    goto end;
+    return;
 
 move_outward:
     {
@@ -79,10 +79,10 @@ move_outward:
             ((EntityRec *)motion)->unk_10 =
                 *(s16 *)((u8 *)((s8 *)dirStepY) +
                     ((((EntityRec *)actor)->unk_6A >> 8) & 0xE)) << 19;
-            goto end;
+            return;
         }
         if (frames_left != 0) {
-            goto end;
+            return;
         }
         ((EntityRec *)motion)->unk_0C =
             *(s16 *)((u8 *)((s8 *)dirStepX) +
@@ -92,7 +92,7 @@ move_outward:
                 ((((EntityRec *)actor)->unk_6A >> 8) & 0xE)) << 18;
         ((S_8017380C_0 *)action)->unk_96.s = 6;
         ((S_8017380C_0 *)action)->unk_9B++;
-        goto end;
+        return;
     }
 
 return_to_tile:
@@ -104,7 +104,7 @@ stop_movement:
     ((EntityRec *)motion)->unk_10 = 0;
     ((EntityRec *)motion)->unk_0C = 0;
     func_800AAA54(action, motion, entity, D_801759C8);
-    goto end;
+    return;
 
 interpolate_return:
     {
@@ -124,13 +124,13 @@ interpolate_return:
         previous_frames = ((S_8017380C_0 *)action)->unk_96.u;
         ((S_8017380C_0 *)action)->unk_96.s = previous_frames - 1;
         if ((s32)(previous_frames << 16) > 0) {
-            goto end;
+            return;
         }
         ((EntityRec *)motion)->flags14 = 0;
         ((EntityRec *)motion)->unk_10 = 0;
         ((EntityRec *)motion)->unk_0C = 0;
         ((S_8017380C_0 *)action)->unk_9B++;
-        goto end;
+        return;
     }
 
 finish_movement:
@@ -157,6 +157,5 @@ finish_movement:
     }
     ((S_8017380C_0 *)action)->unk_8C = &D_801717F4;
 
-end:
     return;
 }

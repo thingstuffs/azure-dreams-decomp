@@ -79,7 +79,7 @@ s32 func_800A0B94(s32 resource_id, u8 *resource_entry, s32 wait_for_read) {
             }
             entry += 4;
             *(s32 *)entry = result;
-            goto done;
+            return result;
         }
 
         if (entry[0] != 2) {

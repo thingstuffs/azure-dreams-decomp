@@ -41,7 +41,7 @@ s32 func_800CBCA0(void *entity, s32 input_a, s32 input_b, s32 input_c)
     }
     ASM_KEEP(entity);   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
     roll = 1;
-    goto done;
+    return roll;
 
 check_global:
     if (D_800E3D40 == 0) {
@@ -76,6 +76,5 @@ value_ready:
     }
     return 1;
 
-done:
     return roll;
 }

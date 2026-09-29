@@ -82,7 +82,7 @@ void func_80173724(void *anim_state, void *motion, void *sprite, void *entity) {
     direction_x = *(s16 *)((u8 *)((s8 *)dirStepX) + direction_offset);
     direction_y = *(s16 *)((u8 *)((s8 *)dirStepY) + direction_offset);
     if (phase >= 5U) {
-        goto block_20;
+        return;
     }
     (void)state_labels;
     goto *D_801708A0[(u32)phase];
@@ -110,7 +110,7 @@ jt_c0:
 jt_c1:
     (*(s32 *)((u8 *)motion + (0x14))) += 0x1C000;
     if (dungeonStatus.unk_0A != 0) {
-        goto block_20;
+        return;
     }
     ((S_80173724_0 *)anim_state)->unk_9B = ((S_80173724_0 *)anim_state)->unk_9B + 1;
 jt_c2:
@@ -129,7 +129,7 @@ block_10:
 jt_c3:
     ((S_80173724_2 *)motion)->unk_14 += 0x1C000;
     if (!(((S_80173724_3 *)sprite)->unk_14 & 0x6000)) {
-        goto block_20;
+        return;
     }
     ((S_80173724_0 *)anim_state)->unk_96 = 0x80U;
     ((S_80173724_0 *)anim_state)->unk_9B = ((S_80173724_0 *)anim_state)->unk_9B + 1;
@@ -144,7 +144,7 @@ jt_c4:
     next_brightness = ((S_80173724_0 *)anim_state)->unk_96 - 0x18;
     ((S_80173724_0 *)anim_state)->unk_96 = next_brightness;
     if ((s16)next_brightness >= 0x18) {
-        goto block_20;
+        return;
     }
     if (((s32)dungeonStatus.unk_10) != (entity - 0x20)) {
         goto block_17;
@@ -165,6 +165,5 @@ block_19:
     func_8009A028(entity);
     ((S_80173724_1_pre *)entity)[-1].unk_00 |= 0x8000;
     objectFlagBlock.flags |= 0x8000;
-block_20:
     return;
 }

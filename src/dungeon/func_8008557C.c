@@ -164,7 +164,7 @@ void func_8008ACDC(void *actor, void *motion, register void *sprite, void *stats
         if (action_state != 0x17) {
             if (((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 & 0x100) {
                 func_8008D94C(actor);
-                goto epilogue;
+                return;
             }
             ((Rec_func_8008ACDC_arg0 *)actor)->unk_9A.as_u8 = 0xEU;
             ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 = (u16) (((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 & 0xFEFF);
@@ -186,28 +186,28 @@ check_status:
     status_count = ((S_8008ACDC_4 *)stats)->unk_64;
     if ((status_count < 0) || (((Rec_func_8008ACDC_arg0 *)actor)->unk_10C & 1)) {
         func_8008CAA0(actor, motion, sprite, stats);
-        goto epilogue;
+        return;
     }
     if (status_count > 0) {
         func_8008CBA0(actor, motion, sprite, stats);
     }
     if (((S_8008ACDC_4 *)stats)->unk_14 & 0x20000) {
         func_80091B5C(actor, motion, sprite, stats);
-        goto epilogue;
+        return;
     }
     if (!(((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 & 0x10)) {
         func_8008C468(actor, motion, sprite, stats);
-        goto epilogue;
+        return;
     }
     if (((S_8008ACDC_4 *)stats)->unk_1C & 0x200) {
         func_80090200(actor, motion, sprite, stats);
-        goto epilogue;
+        return;
     }
     if (((func_800A1C58(stats) << 0x10) == 0) || (func_8008D1D0(actor, motion, sprite, stats) == 0)) {
         action_flags = ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2;
         if (action_flags & 0x80) {
             func_8008D7D0(actor, motion, sprite, stats);
-            goto epilogue;
+            return;
         }
         if (!(dungeonStatus.flags & 4)) {
             if (((S_8008ACDC_4 *)stats)->unk_1C & 0x20) {
@@ -218,7 +218,7 @@ check_status:
                     D_80082E80.unk_030 = 0;
                     ((Rec_func_8008ACDC_arg0 *)actor)->unk_C8 = 0;
                     ((Rec_func_8008ACDC_arg0 *)actor)->unk_104 = 0;
-                    goto epilogue;
+                    return;
                 }
                 goto handle_action;
             }
@@ -282,7 +282,7 @@ check_status:
                     D_800E3544 = (u8) (((S_8008ACDC_6 *)command)->unk_01 & 0xF8);
                     switch (D_800E3544) {
                     default:
-                        goto epilogue;
+                        return;
                     case 0x08:
                     case 0xE0:
                     case 0xE8:
@@ -290,26 +290,26 @@ check_status:
                     case 0xF8:
                         action_actor = actor;
                         func_8008B9FC(action_actor, motion, sprite, stats);
-                        goto epilogue;
+                        return;
                     case 0x10:
 handle_action:
                         func_8008C7B4(actor, motion, sprite, stats);
-                        goto epilogue;
+                        return;
                     case 0x18:
                         func_8008C8BC(actor, motion, sprite, stats);
-                        goto epilogue;
+                        return;
                     case 0x20:
                         func_8008C5C4(actor, motion, sprite, stats);
-                        goto epilogue;
+                        return;
                     case 0x30:
                         func_8008C514(actor, motion, sprite, stats);
-                        goto epilogue;
+                        return;
                     case 0x48:
                         if ((s16) func_80095538(actor, ((S_8008ACDC_6 *)command)->unk_00 & 0x1F, ((S_8008ACDC_6 *)command)->unk_02 & 0x1F) < 0) {
                             goto finish_command;
                         }
                         func_8009FAAC();
-                        goto epilogue;
+                        return;
                     case 0x50: {
                         u8 target_cmd;
                         s32 target_slot_addr;
@@ -323,15 +323,15 @@ handle_action:
                         action_kind = 0x15;
                         
                         if (func_80098920(((S_8008ACDC_7 *)((((s32)command << 2) + (s32)actor)))->unk_AC, func_8009FADC(target_cmd & 0x1F, old_angle), action_kind, 0) >= 0) {
-                            goto epilogue;
+                            return;
                         }
                     }
 finish_command:
                         func_8009F988();
-                        goto epilogue;
+                        return;
                     case 0x58:
                         func_80098CF8(actor, motion, sprite, func_8009FADC(((S_8008ACDC_6 *)command)->unk_00 & 0x1F, old_angle));
-                        goto epilogue;
+                        return;
                     case 0x68:
                         selected_target = func_8009FADC(((S_8008ACDC_6 *)command)->unk_00 & 0x1F, old_angle);
                         call_actor = actor;
@@ -354,23 +354,23 @@ finish_command:
                         call_sprite = sprite;
 apply_target_action:
                         func_80094270(call_actor, call_motion, call_sprite, target, (u32)angle_bits);
-                        goto epilogue;
+                        return;
                     case 0x70:
                         mode_cmd = ((S_8008ACDC_6 *)command)->unk_00;
                         func_80094548((u32) (mode_cmd & 0x60) >> 5, mode_cmd & 7);
-                        goto epilogue;
+                        return;
                     case 0x78:
                         item_cmd = ((S_8008ACDC_6 *)command)->unk_00;
                         func_8009458C((u32) (item_cmd & 0x60) >> 5, item_cmd & 0x1F);
-                        goto epilogue;
+                        return;
                     case 0x80:
                         spell_cmd = ((S_8008ACDC_6 *)command)->unk_00;
                         func_800945C4((u32) (spell_cmd & 0x60) >> 5, spell_cmd & 0x1F);
-                        goto epilogue;
+                        return;
                     case 0x90:
                         order_cmd = ((S_8008ACDC_6 *)command)->unk_00;
                         func_8009456C((u32) (order_cmd & 0x60) >> 5, order_cmd & 7);
-                        goto epilogue;
+                        return;
                     case 0x98:
                         target = func_8009FADC(((S_8008ACDC_6 *)command)->unk_00 & 0x1F, old_angle);
                         if (((S_8008ACDC_9 *)target)->unk_03 & 0x20) {
@@ -378,17 +378,17 @@ apply_target_action:
                         } else {
                             func_80095854(actor, motion, sprite, target);
                         }
-                        goto epilogue;
+                        return;
                     case 0xA0:
                         func_8002534C(actor, motion, sprite, stats);
-                        goto epilogue;
+                        return;
                     case 0xC8:
                         ((Rec_func_8008ACDC_arg0 *)actor)->unk_96.as_s16 = (s16) (((S_8008ACDC_6 *)command)->unk_00 & 0x7F);
                         func_8008D368(actor, motion, sprite, &D_800DD148, 2);
-                        goto epilogue;
+                        return;
                     case 0xD8:
                         D_800DD830[((S_8008ACDC_6 *)command)->unk_00 & 0x7F]();
-                        goto epilogue;
+                        return;
                     }
                 }
             } else {
@@ -397,7 +397,7 @@ apply_target_action:
                     if ((*(u8 *)D_800E3CD0) == 0) {
                         (*(s8 *)D_800E3CD0) = 1;
                         func_80040AA0(3);
-                        goto epilogue;
+                        return;
                     }
                 } else {
                     if ((func_80094EA4(input_flags) << 0x10) != 0) {
@@ -407,12 +407,12 @@ apply_target_action:
                         ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 = (u16) (((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 & 0xFDFF);
                         if ((func_800A4474(((S_8008ACDC_1 *)sprite)->unk_24, ((S_8008ACDC_1 *)sprite)->unk_25) << 0x10) != 0) {
                             func_8008CF6C(actor, motion, sprite, &D_800245A8);
-                            goto epilogue;
+                            return;
                         }
                     }
                     if (((u32)input->buttons) & 0x80) {
                         func_8008CF6C(actor, motion, sprite, &D_80050CAC);
-                        goto epilogue;
+                        return;
                     }
                     if ((((u32)input->buttons) & 0x10) || !(((u32)input->buttons) & 3) || (func_8008D024(actor, motion, sprite, (((u32) ((u32)input->buttons) >> 1) ^ 1) & 1, 0) == 0)) {
                         input_angle = func_8009074C(((Rec_func_8008ACDC_arg0 *)actor)->unk_9E, actor + 0xA2, stats + 0x2A);
@@ -427,7 +427,7 @@ apply_target_action:
                                     }
                                     func_8008B9FC(actor, motion, sprite, stats);
                                     if (((Rec_func_8008ACDC_arg0 *)actor)->unk_9A.as_u8 != 0xE) {
-                                        goto epilogue;
+                                        return;
                                     }
                                     goto check_buttons;
                                 }
@@ -440,7 +440,7 @@ check_buttons:
                         if ((button_bits & 0x30) == 0x30) {
                             ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 = (u16) (((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 & 0xFFFE);
                             func_8008C7B4(actor, motion, sprite, stats);
-                            goto epilogue;
+                            return;
                         }
                         button_flags = ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2;
                         angle_or_flags = button_flags & 0x40;
@@ -472,7 +472,7 @@ update_idle:
                                 if ((s16) idle_ticks >= 0x3D) {
                                     ((Rec_func_8008ACDC_arg0 *)actor)->unk_A4.as_u16 = 0x3CU;
                                     func_8008CCB0(actor, motion, sprite, stats);
-                                    goto epilogue;
+                                    return;
                                 }
                             }
                             goto update_facing;
@@ -495,6 +495,5 @@ update_animation:
             }
         }
     }
-epilogue:
     return;
 }

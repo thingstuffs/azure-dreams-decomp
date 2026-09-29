@@ -120,7 +120,7 @@ void func_801732C4(void *action, void *motion, void *sprite, void *actor)
     special = 0;
     state = ((S_801732C4_0 *)action)->unk_9B;
     if ((u32)state >= 6) {
-        goto end;
+        return;
     }
     (void)state_labels;
     goto *D_80170850[state];
@@ -236,7 +236,7 @@ copy_active_coords:
 
 invoke_item:
     if (func_800A94A0(actor, item_slot, special, (u8 *)action + 0x98) == 0) {
-        goto end;
+        return;
     }
     goto increment_state;
 
@@ -253,12 +253,12 @@ empty_selection:
     (*(u8 *)((u8 *)actor + 0x73)) = 0;
     (*(u8 *)((u8 *)actor + 0x72)) = 0;
     (*(u16 *)((u8 *)actor + 0x46)) &= 0x7FFF;
-    goto end;
+    return;
 
 state_1:
     if (func_8003F270()) {
         ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x800;
-        goto end;
+        return;
     }
     ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
     ((S_801732C4_0 *)action)->unk_9B++;
@@ -280,7 +280,7 @@ state_2:
             ((S_801732C4_0 *)action)->unk_96.u = 0x16;
         }
         if (((Rec_D_80082E80 *)sprite)->unk_04.as_s8 < 2) {
-            goto end;
+            return;
         }
         timer = ((S_801732C4_0 *)action)->unk_96.u - 1;
         ((S_801732C4_0 *)action)->unk_96.u = timer;
@@ -325,11 +325,11 @@ particle_done:
 
         timer = ((S_801732C4_0 *)action)->unk_96.u;
         if (!(timer & 1) || (s16)timer < 0x13) {
-            goto end;
+            return;
         }
         object = func_8003FC64(0x212);
         if (object == 0) {
-            goto end;
+            return;
         }
         object_base = (u8 *)object + 0x20;
         ((S_801732C4_5 *)object_base)->unk_1A = 0x19;
@@ -354,7 +354,7 @@ particle_done:
         ((S_801732C4_5 *)object_base)->unk_03 = 0x80;
         ((S_801732C4_5 *)object_base)->unk_02 = 0x80;
     }
-    goto end;
+    return;
 
 state_3:
     if ((((Rec_D_80082E80 *)sprite)->unk_04.as_s8 == 5 &&
@@ -375,11 +375,11 @@ do {
                           brightness, 0, 0, 0);
         }
         if ((u16)special >= 20) {
-            goto end;
+            return;
         }
         } while (1);
     }
-    goto end;
+    return;
 
 state_4:
     {
@@ -391,7 +391,7 @@ state_4:
         timer = ((S_801732C4_0 *)action)->unk_96.u - 1;
         ((S_801732C4_0 *)action)->unk_96.u = timer;
         if (timer > 0 && !(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
-            goto end;
+            return;
         }
         ((S_801732C4_0 *)action)->unk_96.u = 0;
         ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
@@ -400,12 +400,12 @@ increment_state:
 increment_state_loaded:
         next_state++;
         ((S_801732C4_0 *)action)->unk_9B = next_state;
-        goto end;
+        return;
     }
 
 state_5:
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
-        goto end;
+        return;
     }
     ((EntityRec *)motion)->flags14 = 0;
     ((EntityRec *)motion)->unk_10 = 0;
@@ -431,7 +431,7 @@ state_5:
     {
 
         if (((s32)dungeonStatus.unk_0C) != 0) {
-            goto end;
+            return;
         }
         dungeonStatus.unk_0A--;
         ((S_801732C4_0 *)action)->unk_8C = &D_801719DC;
@@ -443,6 +443,5 @@ state_5:
         func_800A56E0(0xB4);
     }
 
-end:
     return;
 }

@@ -87,7 +87,7 @@ void func_80173B08(void *action, void *motion, void *sprite, void *actor)
     mode_or_angle = 0;
     state = ((S_80173B08_0 *)action)->unk_9B;
     if ((u32)state >= 8) {
-        goto end;
+        return;
     }
     (void)state_labels;
     goto *D_80170850[state];
@@ -202,10 +202,10 @@ copy_active_coords:
 invoke_item:
     if (func_800A94A0(actor, item_slot, mode_or_angle,
                       (u8 *)action + 0x98) == 0) {
-        goto end;
+        return;
     }
     ((S_80173B08_0 *)action)->unk_9B++;
-    goto end;
+    return;
 
 empty_selection:
     ((EntityRec *)motion)->flags14 = 0;
@@ -220,12 +220,12 @@ empty_selection:
     (*(u8 *)((u8 *)actor + 0x73)) = 0;
     (*(u8 *)((u8 *)actor + 0x72)) = 0;
     (*(u16 *)((u8 *)actor + 0x46)) &= 0x7FFF;
-    goto end;
+    return;
 
 state_1:
     if (func_8003F270()) {
         ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x800;
-        goto end;
+        return;
     }
     ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
     ((S_80173B08_0 *)action)->unk_9B++;
@@ -246,7 +246,7 @@ state_3:
         ((S_80173B08_0 *)action)->unk_9B = 7;
         ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x6000;
         ((S_80173B08_0 *)action)->unk_98 |= 0x80;
-        goto end;
+        return;
     }
     {
         s16 floor_height;
@@ -256,7 +256,7 @@ state_3:
                               (s16)((*(u16 *)((u8 *)actor + 0x88)) - 0x20));
         if ((((S_80173B08_0 *)action)->unk_92.s -
              (s16)(floor_height - (*(u16 *)((u8 *)actor + 0x88)))) != 0) {
-            goto end;
+            return;
         }
     }
     anim_table = D_800E2398;
@@ -274,7 +274,7 @@ state_4:
         timer = ((S_80173B08_0 *)action)->unk_96.u;
         ((S_80173B08_0 *)action)->unk_96.u = timer + 1;
         if (timer < 12 && !(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
-            goto end;
+            return;
         }
     }
     ((S_80173B08_0 *)action)->unk_98 |= 0x80;
@@ -287,7 +287,7 @@ state_4:
                       (*(s16 *)((u8 *)actor + 0x2A)), 0xE0E0E0);
         effect_count++;
     } while ((s16)effect_count < 3);
-    goto end;
+    return;
 
 state_5:
     if (((s32)dungeonStatus.unk_0C) == 0) {
@@ -331,7 +331,7 @@ state_5:
         timer = ((S_80173B08_0 *)action)->unk_96.u - 1;
         ((S_80173B08_0 *)action)->unk_96.u = timer;
         if (timer > 0 && !(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
-            goto end;
+            return;
         }
     }
     anim_table = D_800E2388;
@@ -357,18 +357,18 @@ update_table:
                      (u32)anim_table;
         func_80047784(sprite, *(u8 *)anim_addr, 0);
     }
-    goto end;
+    return;
 
 state_6:
     if (((S_80173B08_0 *)action)->unk_92.s >= -0x1F) {
         ((S_80173B08_0 *)action)->unk_92.u -= 4;
-        goto end;
+        return;
     }
     ((S_80173B08_0 *)action)->unk_9B++;
 
 state_7:
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
-        goto end;
+        return;
     }
     ((EntityRec *)motion)->flags14 = 0;
     ((EntityRec *)motion)->unk_10 = 0;
@@ -389,7 +389,7 @@ state_7:
     {
 
         if (((s32)dungeonStatus.unk_0C) != 0) {
-            goto end;
+            return;
         }
         dungeonStatus.unk_0A--;
         ((S_80173B08_0 *)action)->unk_8C = &D_80171F1C;
@@ -401,6 +401,5 @@ state_7:
     (*(u16 *)((u8 *)actor + 0x46)) &= 0x7FFF;
     func_800A56E0(0xB4);
 
-end:
     return;
 }

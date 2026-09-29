@@ -137,16 +137,16 @@ void func_801715F4(void *move_state, void *caller_context, void *position_arg, v
         if ((((S_801715F4_1 *)actor_arg)->unk_12 >= 2) ||
             ((s16)func_80171EBC(move_state, caller_context, position_arg, actor_arg) == 0)) {
             func_800A9A0C(actor_arg);
-            goto end;
+            return;
         }
         if (dungeon_state->unk_0C == actor_arg) {
             ((S_801715F4_1 *)actor_arg)->unk_46 = 0xC008;
         }
-        goto end;
+        return;
     }
 
     if (!(flags & 0x2000)) {
-        goto end;
+        return;
     }
 
     func_800A19E4(position_arg, actor_arg, 3, 6, (u8 *)move_state + 0x9C);
@@ -163,7 +163,7 @@ void func_801715F4(void *move_state, void *caller_context, void *position_arg, v
                     other->unk_24, other->unk_25,
                     (u8 *)move_state + 0x98);
                 ((S_801715F4_1 *)actor_arg)->unk_71.u &= 0x7F;
-                goto end;
+                return;
             }
             {
                 s32 sign_mask = 0x80000000;
@@ -409,7 +409,7 @@ loop_setup:
                 if ((s16)func_8009A180(
                         actor_arg,
                         (u8 *)D_800814A8->unk_58 + 0x20) != 0) {
-                    goto end;
+                    return;
                 }
             }
         }
@@ -425,7 +425,7 @@ after_loop:
         ((S_801715F4_1 *)actor_arg)->unk_71.u &= 0x7F;
         ((S_801715F4_1 *)actor_arg)->unk_46 &= 0x7FFF;
         func_800A9A0C(actor_arg);
-        goto end;
+        return;
     }
 
     ((S_801715F4_1 *)actor_arg)->unk_46 &= 0x7FFF;
@@ -442,7 +442,7 @@ after_loop:
 
 clear_history:
     ((S_801715F4_1 *)actor_arg)->unk_71.u &= 0x7F;
-    goto end;
+    return;
 
 remaining_count:
     turn_index = func_800BCB04((((S_801715F4_2 *)position_arg)->unk_24.at00.v << 6) | 0x20,
@@ -451,8 +451,7 @@ remaining_count:
     if (turn_index < 0x200) {
         ((S_801715F4_1 *)actor_arg)->unk_88 = turn_index;
     }
-    goto end;
+    return;
 
-end:
     return;
 }

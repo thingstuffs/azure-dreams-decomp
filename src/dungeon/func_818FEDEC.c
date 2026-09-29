@@ -88,10 +88,9 @@ block_9:
     ((S_818FEDEC_0 *)anim_state)->unk_1C = (s16) ((u16) ((S_818FEDEC_0 *)anim_state)->unk_1C + 1);
 block_10:
     if ((s16) ((S_818FEDEC_0 *)anim_state)->unk_02 > 0) {
-        goto block_12;
+        return;
     }
     (*(u16 *)((u8 *)anim_state + -2)) = (u16) (((S_818FEDEC_0_pre *)anim_state)[-1].unk_00 | 0x8000);
     objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
-block_12:
     return;
 }

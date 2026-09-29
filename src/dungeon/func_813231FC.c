@@ -87,7 +87,7 @@ wait_frames:
     frames = ((S_8016A9FC_0 *)effect)->unk_1A;
     ((S_8016A9FC_0 *)effect)->unk_1A = frames + 1;
     if ((s16)frames < 0x3C) {
-        goto finish;
+        return;
     }
     ((S_8016A9FC_0 *)effect)->unk_1A = 0;
     ((S_8016A9FC_0 *)effect)->unk_12.u++;
@@ -111,6 +111,5 @@ store_fades:
     (*(u16 *)((u8 *)effect + (-2))) |= 0x8000;
     objectFlagBlock.flags |= 0x8000;
 
-finish:
     return;
 }

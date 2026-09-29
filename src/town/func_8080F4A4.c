@@ -223,22 +223,20 @@ void func_8052A0A4(S_func_8080F4A4_1 *game) {
         coin_kind = 2;
         do {
             coin_index = 9;
-spawn_column:
-            spawn_y = 0x03E00000;
-            velocity_z = 0;
-            velocity_y = 0;
-            velocity_x = 0;
-            column_offset = coin_kind << 0x16;
-            state_or_x = 0x05200000 - column_offset;
-            spawn_x = state_or_x;
-            flags_or_z = 0 - (coin_index << 0x13);
-            spawn_z = flags_or_z;
-            func_80529438(&spawn_mode, &spawn_x, column_offset);
-            next_coin = (u16) coin_index - 1;
-            coin_index = next_coin;
-            if ((s16) next_coin >= 0) {
-                goto spawn_column;
-            }
+            do {
+                spawn_y = 0x03E00000;
+                velocity_z = 0;
+                velocity_y = 0;
+                velocity_x = 0;
+                column_offset = coin_kind << 0x16;
+                state_or_x = 0x05200000 - column_offset;
+                spawn_x = state_or_x;
+                flags_or_z = 0 - (coin_index << 0x13);
+                spawn_z = flags_or_z;
+                func_80529438(&spawn_mode, &spawn_x, column_offset);
+                next_coin = (u16) coin_index - 1;
+                coin_index = next_coin;
+            } while ((s16) next_coin >= 0);
             next_kind = (u16) coin_kind - 1;
             coin_kind = next_kind;
         } while ((s16) next_kind >= 0);

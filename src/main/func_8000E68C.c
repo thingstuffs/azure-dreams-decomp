@@ -58,13 +58,13 @@ state_5:
 check_count:
     if (*(s32 *)(count_offset + (s32)repeat_counts) < 0xB) {
         func_80020924(slot, (s32 *)(count_offset + (s32)repeat_counts));
-        goto done;
+        return state;
     }
     *(s32 *)((s8 *)&D_800287D0 + count_offset) = state;
     *(s32 *)(count_offset + (s32)repeat_counts) = 0;
     *(s32 *)((s8 *)&D_80028538 + count_offset) = 0;
     func_80020924(slot, (s32 *)(count_offset + (s32)repeat_counts));
-    goto done;
+    return state;
 update_slot:
     func_80020924(slot, (s32 *)slot_offset);
 done:

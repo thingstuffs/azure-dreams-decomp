@@ -63,7 +63,7 @@ void func_801717A8(Entity *entity) {
     if ((u32)state < 22) {
         goto *D_80164A68[state];
     } else {
-        goto jt_exit;
+        return;
     }
 
 jt_c0: {
@@ -92,7 +92,7 @@ jt_c0: {
 jt_c1:
     entity->timer++;
     if (entity->timer < 0x28) {
-        goto jt_exit;
+        return;
     } else {
         focus_arg = D_801760E8;
         offset_arg = D_801760E0;
@@ -101,13 +101,13 @@ jt_c1:
         entity->timer = 0;
         entity->state = previous_state + 1;
         func_8004D294(focus_arg, offset_arg, transition_ticks);
-        goto jt_exit;
+        return;
     }
 
 jt_c2:
     entity->timer++;
     if (entity->timer < 0x28) {
-        goto jt_exit;
+        return;
     }
     focus_arg = 0;
     offset_arg = D_800DCE60;
@@ -118,7 +118,7 @@ jt_call_common:
     entity->timer = 0;
     entity->state = previous_state + 1;
     func_8004D294(focus_arg, offset_arg, transition_ticks);
-    goto jt_exit;
+    return;
 
 jt_c4: {
     s16 *height_base;
@@ -155,7 +155,7 @@ jt_case0_tail:
     func_8004D7A8(camera_mode);
     func_8004D7A8(0);
     func_8004D294(focus_pos, camera_offset, 0xA);
-    goto jt_exit;
+    return;
 }
 
 jt_c6: {

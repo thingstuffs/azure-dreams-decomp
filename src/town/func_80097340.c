@@ -8,7 +8,7 @@ s32 func_80094AA0(s32 angle_delta, s32 target_angle, s32 step) {
     angle_delta &= 0xFFF;
     target_angle &= 0xFFF;
     if (angle_delta == target_angle) {
-        goto return_arg1;
+        return target_angle;
     }
 
     start_angle = angle_delta;
@@ -26,6 +26,5 @@ s32 func_80094AA0(s32 angle_delta, s32 target_angle, s32 step) {
             return start_angle + step;
         }
     }
-return_arg1:
     return target_angle;
 }

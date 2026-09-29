@@ -164,7 +164,7 @@ void func_80172FFC(void *action, void *motion, void *sprite, void *actor) {
         if (state == 0) {
             goto init;
         }
-        goto done;
+        return;
     }
     if (state == 2) {
         goto emit;
@@ -172,27 +172,27 @@ void func_80172FFC(void *action, void *motion, void *sprite, void *actor) {
     if (state == 3) {
         goto finish;
     }
-    goto done;
+    return;
 
 init:
     if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
         ((S_80172FFC_0 *)action)->unk_9B = 3U;
         ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = (u16) (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v | 0x6000);
         func_8009C12C(actor, sprite, ((EntityRec *)actor)->facing, 1);
-        goto done;
+        return;
     }
     ((S_80172FFC_3 *)motion)->unk_14 = 0;
     ((S_80172FFC_3 *)motion)->unk_10 = 0;
     ((S_80172FFC_3 *)motion)->unk_0C = 0;
     ((S_80172FFC_0 *)action)->unk_96 = 0U;
     ((S_80172FFC_0 *)action)->unk_9B = (u8) (((S_80172FFC_0 *)action)->unk_9B + 1);
-    goto done;
+    return;
 
 wait:
     wait_tick = ((S_80172FFC_0 *)action)->unk_96 + 1;
     ((S_80172FFC_0 *)action)->unk_96 = wait_tick;
     if (((s16) wait_tick != 4) && !(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
-        goto done;
+        return;
     }
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80174EB8;
     func_80047784(sprite, D_80174EB8[((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7], 0);
@@ -200,7 +200,7 @@ wait:
 advance:
     ((S_80172FFC_0 *)action)->unk_96 = 0U;
     ((S_80172FFC_0 *)action)->unk_9B = (u8) (((S_80172FFC_0 *)action)->unk_9B + 1);
-    goto done;
+    return;
 
 emit:
     effect_tick = ((S_80172FFC_0 *)action)->unk_96 + 1;
@@ -292,7 +292,7 @@ emit:
             spawn_count = next_count;
         } while (next_count < 2);
     }
-    goto done;
+    return;
 
 finish:
     if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) {
@@ -303,6 +303,5 @@ finish:
         ((EntityRec *)actor)->unk_46 = (u16) (((EntityRec *)actor)->unk_46 & 0x7FFF);
     }
 
-done:
     return;
 }

@@ -75,16 +75,16 @@ void func_80173B48(void *action_input, s32 x_offset_input, void *position_input,
 
     ((S_80173B48_0 *)actor)->unk_71 &= 0x7F;
     if (dungeonStatus.flags & 0x2000) {
-        goto done;
+        return;
     }
 
     if ((func_800A2B5C(actor) << 16) != 0) {
-        goto done;
+        return;
     }
 
     func_800C7930((u8 *)actor - 0x20, x_offset_input, 8, 0x300);
     if ((func_800A2B5C(actor) << 16) != 0) {
-        goto done;
+        return;
     }
 
     ((S_80173B48_1 *)action_input)->unk_8C = 0;
@@ -189,12 +189,12 @@ final_state:
         if (action_state == 13) {
             goto state_13;
         }
-        goto done;
+        return;
     }
     if (action_state == 15) {
         goto state_15;
     }
-    goto done;
+    return;
 
 state_13:
     ((S_80173B48_0 *)actor)->unk_84 = 0x78;
@@ -213,6 +213,5 @@ state_15:
 store_state:
     ((S_80173B48_0 *)actor)->unk_85 = state_param;
 
-done:
     return;
 }

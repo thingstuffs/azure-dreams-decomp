@@ -45,7 +45,7 @@ void func_80173D34(S_80173D34_0 *controller, EntityRec *motion, Rec_D_80082E80 *
     case 2:
         goto state_two;
     default:
-        goto epilogue;
+        return;
     }
 
     func_800AD4D0(entity_data);
@@ -59,7 +59,7 @@ void func_80173D34(S_80173D34_0 *controller, EntityRec *motion, Rec_D_80082E80 *
     if (actor->unk_14.at00_u16.v & 0x8000) {
         controller->unk_96.s = 0;
         controller->unk_9B = 2;
-        goto epilogue;
+        return;
     }
 
     timer_init = -1;
@@ -81,7 +81,7 @@ state_one:
 
 check_timer:
     if (controller->unk_96.u != 0) {
-        goto epilogue;
+        return;
     }
     if (((EntityRec *)entity_data)->unk_28 == 0) {
 call_update:
@@ -89,17 +89,17 @@ call_update:
         motion->unk_10 = 0;
         motion->unk_0C = 0;
         func_800AAA54(controller, motion, actor, 0);
-        goto epilogue;
+        return;
     }
     controller->unk_96.s = 1;
     controller->unk_9B++;
-    goto epilogue;
+    return;
 
 state_two:
     timer_next = controller->unk_96.s - 1;
     controller->unk_96.s = timer_next;
     if ((timer_next << 16) > 0) {
-        goto epilogue;
+        return;
     }
 
     motion->flags14 = 0;
@@ -112,6 +112,5 @@ state_two:
     }
     controller->unk_8C = &D_80171CE8;
 
-epilogue:
     return;
 }

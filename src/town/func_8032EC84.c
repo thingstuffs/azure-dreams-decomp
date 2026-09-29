@@ -11,16 +11,14 @@ u8 *func_80019484(u8 *dst, volatile u8 *src) {
         dst++;
     } while (*dst != 0);
     goto check_src;
-copy_byte:
     do {
-        *dst = *src;
-    } while (0);
-    dst++;
-    src++;
-check_src:
-    if (*src != 0) {
-        goto copy_byte;
-    }
+            do {
+                *dst = *src;
+            } while (0);
+            dst++;
+            src++;
+        check_src:
+    } while (*src != 0);
     *dst = 0;
     return dst_start;
 }

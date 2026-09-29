@@ -119,16 +119,16 @@ void func_8017516C(u8 *owner_data, Position *position_arg, Source *source_arg, C
         special_data = *(u8 **)((u8 *)context->f60 + 0x4C);
         if (special_data != 0) {
             if (special_data[1] == 15 && special_data[0] == 8) {
-                goto exit;
+                return;
             }
         }
     }
 
     if (dungeonStatus.unk_1C >= 32) {
-        goto exit;
+        return;
     }
     if (!func_800A1618(context->f13, 1) && !func_800A1618(context->f13, 3)) {
-        goto exit;
+        return;
     }
 
     direction = (((s16)context->f2A >> 9) + 4) & 7;
@@ -171,7 +171,7 @@ search:
 
 search_done:
         if (trial_dir >= 8) {
-            goto exit;
+            return;
         }
         ASM_USE_NV(trial_dir);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         goto allocate;
@@ -208,7 +208,7 @@ allocate:
     table_or_owner = *(u8 * volatile *)&owner_data;
     object = func_8003FD64(0x100, table_or_owner - 0x20);
     if (object == 0) {
-        goto exit;
+        return;
     }
 
     display = object->display;
@@ -251,6 +251,5 @@ allocate:
 
     dungeonStatus.unk_0A++;
 
-exit:
     return;
 }

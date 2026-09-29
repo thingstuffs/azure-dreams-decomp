@@ -64,7 +64,7 @@ void func_801724F4(void *action, void *motion, void *sprite, void *actor)
         if (state == 0) {
             goto state_zero;
         }
-        goto done;
+        return;
     }
     if (state == 2) {
         goto state_two;
@@ -72,14 +72,14 @@ void func_801724F4(void *action, void *motion, void *sprite, void *actor)
     if (state == 0xFF) {
         goto state_ff;
     }
-    goto done;
+    return;
 
 state_zero:
     if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
         ((S_801724F4_1 *)action)->unk_9B = 0xFF;
         ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x6000;
         func_8009C12C(actor, sprite, ((S_801724F4_0 *)actor)->unk_2A.u, 1);
-        goto done;
+        return;
     }
     (*(void * *)((u8 *)sprite + 0x2C)) = D_8017419C;
     func_80047784(sprite,
@@ -100,14 +100,14 @@ state_one:
 increment_state:
         ((S_801724F4_1 *)action)->unk_9B++;
     }
-    goto done;
+    return;
 
 state_two:
     if ((ticks_left << 16) <= 0) {
         func_8009C12C(actor, sprite, ((S_801724F4_0 *)actor)->unk_2A.u, 1);
         ((S_801724F4_1 *)action)->unk_9B = 0xFF;
     }
-    goto done;
+    return;
 
 state_ff:
     {
@@ -136,6 +136,5 @@ state_ff:
         }
     }
 
-done:
     return;
 }

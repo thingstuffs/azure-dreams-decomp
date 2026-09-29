@@ -141,12 +141,12 @@ void func_80095A10(u8 *actor_in, void *position_in, void *animation_in, u8 *cont
     state = ((S_80095A10_0 *)actor)->unk_9B;
     resource_info = ((u8 *)D_80082E80.unk_030);
     if (state >= 7U) {
-        goto done;
+        return;
     }
     (void)state_labels; goto *D_80088AF8[(u32)(state)];
 jt_c0:
     if (!(((S_80095A10_1 *)animation)->unk_14 & 0xE000)) {
-        goto done;
+        return;
     }
     (*(M2C_UNK **)((u8 *)animation + 0x2C)) = D_800DD138;
     func_80048A44(animation, *((((s32) (gameWork.view.viewAngle + ((S_80095A10_2 *)context)->unk_2A + 0x100) >> 9) & 7) + D_800DD138), 0, 1);
@@ -166,14 +166,14 @@ jt_c1:
     goto advance_state;
 jt_c2:
     if (((S_80095A10_4 *)(&D_800E3E40))->unk_00 == 0) {
-        goto done;
+        return;
     }
     func_80047DF0(state);
     goto advance_state;
 jt_c3:
     spawn_resource = func_800A1618(((S_80095A10_3 *)resource_info)->unk_00, 2);
     if (spawn_resource == 0) {
-        goto done;
+        return;
     }
     func_80043914(((u8 *)D_80082E80.unk_030));
     object = func_800A0B94(((S_80095A10_3 *)resource_info)->unk_00, spawn_resource, 1)(6, ((S_80095A10_2 *)context)->unk_72, ((S_80095A10_2 *)context)->unk_73, (s16) (((S_80095A10_2 *)context)->unk_88 - 0x20));
@@ -214,7 +214,7 @@ jt_c4:
     ticks_left = ((S_80095A10_0 *)actor)->unk_96 - 1;
     ((S_80095A10_0 *)actor)->unk_96 = ticks_left;
     if ((ticks_left << 0x10) > 0) {
-        goto done;
+        return;
     }
     (*(M2C_UNK **)((u8 *)animation + 0x2C)) = D_800DD140;
     func_80048A44(animation, *((((s32) (gameWork.view.viewAngle + ((S_80095A10_2 *)context)->unk_2A + 0x100) >> 9) & 7) + D_800DD140), 0, 1);
@@ -222,7 +222,7 @@ jt_c4:
 jt_c5:
     animation_flags = ((S_80095A10_1 *)animation)->unk_14;
     if (!(animation_flags & 0x6000)) {
-        goto done;
+        return;
     }
     animation_table = D_800DCFB0;
     ((S_80095A10_1 *)animation)->unk_14 = (u16) (animation_flags & 0xFDFF);
@@ -236,13 +236,12 @@ store_next_state:
     return;
 jt_c6:
     if (((S_80095A10_10 *)(((S_80095A10_2 *)context)->unk_60))->unk_14 & 0x100000) {
-        goto done;
+        return;
     }
     func_800956B8(actor, position, animation, resource_info);
     ((S_80095A10_0 *)actor)->unk_8C = &D_8008ACDC;
     func_80099F70(((S_80095A10_2 *)context)->unk_5C);
     func_80099F04(((S_80095A10_2 *)context)->unk_5C);
     dungeonStatus.flags = (u16) (dungeonStatus.flags | 0x812);
-done:
     return;
 }

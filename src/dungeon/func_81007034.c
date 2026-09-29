@@ -91,12 +91,12 @@ void func_80172834(void *action_state, void *motion, void *sprite, void *actor)
         if (phase == 0) {
             goto state_0;
         }
-        goto done;
+        return;
     }
     if (phase == 2) {
         goto state_2;
     }
-    goto done;
+    return;
 
 state_0:
     if (((S_80172834_1 *)actor)->unk_1C & 0x2000) {
@@ -196,13 +196,13 @@ apply_move:
         position[2] = ((u16)((EntityRec *)motion)->z.w.i);
         if (func_800A94A0(actor, action_data, is_special,
                           (u16 *)((u8 *)action_state + 0x98)) == 0) {
-            goto done;
+            return;
         }
         ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
         func_800DA840(position, (s16)(((s32)*action_data - 1) % 3));
         func_800A56E0(0x703);
         ((S_80172834_0 *)action_state)->unk_9B++;
-        goto done;
+        return;
     }
 
     ((EntityRec *)motion)->flags14 = 0;
@@ -217,12 +217,12 @@ apply_move:
     ((S_80172834_1 *)actor)->unk_73.s = 0;
     ((S_80172834_1 *)actor)->unk_72.s = 0;
     ((S_80172834_1 *)actor)->unk_46 &= 0x7FFF;
-    goto done;
+    return;
 
 state_1:
     if (func_8003F270() != 0) {
         ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x800;
-        goto done;
+        return;
     }
     ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
     ((S_80172834_0 *)action_state)->unk_9B++;
@@ -233,13 +233,13 @@ state_2:
         goto state_2_ready;
     }
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
-        goto done;
+        return;
     }
 
 state_2_ready:
     ((S_80172834_0 *)action_state)->unk_98 |= 0x80;
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
-        goto done;
+        return;
     }
     ((EntityRec *)motion)->flags14 = 0;
     ((EntityRec *)motion)->unk_10 = 0;
@@ -255,7 +255,7 @@ state_2_ready:
     {
 
         if (((s32)dungeonStatus.unk_0C) != 0) {
-            goto done;
+            return;
         }
         dungeonStatus.unk_0A--;
     }
@@ -270,7 +270,6 @@ state_2_ready:
     ((S_80172834_1 *)actor)->unk_46 &= 0x7FFF;
     func_800A56E0(0xB4);
 
-done:
     return;
 }
 

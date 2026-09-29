@@ -58,7 +58,7 @@ void func_800BF72C(S_800BF72C_0 *object, S_800BF72C_1 *position) {
         object->unk_68 = (s16)linked_state;
     move_state = object->unk_68;
     state_index = move_state;
-    if (state_index >= 5) goto block_0;
+    if (state_index >= 5) return;
     (void)state_labels;
     goto *D_80089930[state_index];
 
@@ -69,7 +69,7 @@ block_1:
         position->unk_04 = 0x02400000;
         goto block_15;
     }
-    goto block_0;
+    return;
 
 block_2:
     increased_x = position->unk_00 + 0x40000;
@@ -89,7 +89,7 @@ block_2:
         position->unk_00 = 0x10600000;
         goto block_18;
     }
-    goto block_0;
+    return;
 
 block_3:
     decreased_x = position->unk_00 + 0xFFFC0000;
@@ -98,18 +98,18 @@ block_3:
         position->unk_00 = 0x0FA00000;
         goto block_15;
     }
-    goto block_0;
+    return;
 
 block_15:
     object->unk_68 =
         (s16)((u16)object->unk_68 + 1);
-    goto block_0;
+    return;
 
 block_4:
     decreased_y = position->unk_04 + 0xFFFC0000;
     position->unk_04 = decreased_y;
     if (decreased_y > 0x02300000)
-        goto block_0;
+        return;
     position->unk_04 = 0x02300000;
     object->unk_68 = 0;
     goto block_0;

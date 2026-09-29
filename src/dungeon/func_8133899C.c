@@ -51,12 +51,12 @@ void func_8016F99C(void *transition, S_8016F99C_1 *target)
         goto case_11;
     case 0:
     default:
-        goto done;
+        return;
     }
 
 case_1:
     target->unk_0A = 1;
-    goto done;
+    return;
 
 case_2:
     next_state = ((S_8016F99C_0 *)transition)->unk_12.u;
@@ -68,19 +68,19 @@ case_3:
     timer = ((S_8016F99C_0 *)transition)->unk_18 - 1;
     ((S_8016F99C_0 *)transition)->unk_18 = timer;
     if ((timer << 16) > 0) {
-        goto done;
+        return;
     }
     ((S_8016F99C_0 *)transition)->unk_18 = 0x11;
     ((S_8016F99C_0 *)transition)->unk_12.u = ((S_8016F99C_0 *)transition)->unk_12.u + 1;
     target->unk_0A = 3;
-    goto done;
+    return;
 
 case_4:
     target->unk_06 = target->unk_06 + 8;
     timer = ((S_8016F99C_0 *)transition)->unk_18 - 1;
     ((S_8016F99C_0 *)transition)->unk_18 = timer;
     if ((timer << 16) > 0) {
-        goto done;
+        return;
     }
     if (((S_8016F99C_0 *)transition)->unk_1C == 0) {
         goto clear_58;
@@ -94,14 +94,14 @@ case_10:
 advance_state:
     ((S_8016F99C_0 *)transition)->unk_18 = next_timer;
     ((S_8016F99C_0 *)transition)->unk_12.u = next_state + 1;
-    goto done;
+    return;
 
 case_11:
     target->unk_06 = target->unk_06 - 8;
     timer = ((S_8016F99C_0 *)transition)->unk_18 - 1;
     ((S_8016F99C_0 *)transition)->unk_18 = timer;
     if ((timer << 16) > 0) {
-        goto done;
+        return;
     }
     if (((S_8016F99C_0 *)transition)->unk_1C != 0) {
         goto clear_5C;
@@ -115,7 +115,6 @@ finish:
     ((S_8016F99C_0_pre *)transition)[-1].unk_00 |= 0x8000;
     next_timer = 0x80080000;
     *(s32 *)(next_timer + 0x14A0) |= 0x8000;
-done:
     return;
 }
 

@@ -232,30 +232,28 @@ state_0:
     message.kind = 0;
     message.owner = effect;
     message.x = 2;
-state0_outer:
-    message.y = 9;
-    message_ptr = &message;
-state0_inner:
-    {
-        s32 row_depth;
-        s32 grid_x;
-        grid_x = message.x;
-        row_depth = 0x03E00000;
-        scratch.b = row_depth;
-        scratch.f = 0;
-        scratch.e = 0;
-        scratch.d = 0;
-        scratch.a = grid_origin_x - (grid_x << 22);
-        scratch.c = -((s32)message.y << 19);
-        func_80020570(message_ptr, &scratch);
-    }
-    if (--message.y >= 0) {
-        message_ptr = &message;
-        goto state0_inner;
-    }
-    if (--message.x >= 0) {
-        goto state0_outer;
-    }
+    do {
+            message.y = 9;
+            message_ptr = &message;
+        state0_inner:
+            {
+                s32 row_depth;
+                s32 grid_x;
+                grid_x = message.x;
+                row_depth = 0x03E00000;
+                scratch.b = row_depth;
+                scratch.f = 0;
+                scratch.e = 0;
+                scratch.d = 0;
+                scratch.a = grid_origin_x - (grid_x << 22);
+                scratch.c = -((s32)message.y << 19);
+                func_80020570(message_ptr, &scratch);
+            }
+            if (--message.y >= 0) {
+                message_ptr = &message;
+                goto state0_inner;
+            }
+    } while (--message.x >= 0);
 
     for (column = 2; column >= 0; column--) {
         object = func_8003FD64(0x112, ((u8 *)(&D_80083498)));

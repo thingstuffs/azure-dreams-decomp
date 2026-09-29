@@ -500,7 +500,7 @@ case_3:
         index--;
     } if (index >= 0) goto create_loop;
     state_arg->field14 = 0;
-    goto epilogue;
+    return;
 
 case_4: {
     Effect *effect;
@@ -578,7 +578,7 @@ case_6: {
         index--;
     } while (index >= 0);
     state_arg->field14 = 0;
-    goto epilogue;
+    return;
 }
 
 case_7:
@@ -622,6 +622,5 @@ reset_state:
 
 end:
     state_arg->field14 = 0;
-epilogue:
     return;
 }

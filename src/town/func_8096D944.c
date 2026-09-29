@@ -35,7 +35,7 @@ void func_80125DDC(Rec_func_801237A4_arg0 *request)
 
     action_index = (s16)(request->unk_04.as_u16 - 1);
     if ((u32)action_index >= 20) {
-        goto done;
+        return;
     }
     (void)dispatch_labels;
     goto *D_8011AD08[action_index];
@@ -43,7 +43,7 @@ void func_80125DDC(Rec_func_801237A4_arg0 *request)
 case_0:
     func_801235EC();
     func_801247F8(request);
-    goto done;
+    return;
 
 case_789:
     {
@@ -69,7 +69,7 @@ case_789:
             entry_slot = (void **)((u8 *)entry_slot + 4);
         } while (entry_index < 0x62);
     }
-    goto done;
+    return;
 
 case_10:
     {

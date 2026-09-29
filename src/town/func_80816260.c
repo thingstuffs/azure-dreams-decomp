@@ -39,21 +39,21 @@ void func_80020260(void *effect) {
     if (state == 0) {
         goto state_0;
     }
-    goto done;
+    return;
 
 state_ge_2:
     if (state == 2) {
         goto state_2;
     }
-    goto done;
+    return;
 
 state_0:
     if (((S_80020260_1 *)object)->unk_36 != 0xFF) {
-        goto done;
+        return;
     }
     ((S_80020260_0 *)effect)->unk_16 &= 0xFFFD;
     ((S_80020260_0 *)effect)->unk_00.u++;
-    goto done;
+    return;
 
 state_1:
     color = ((S_80020260_0 *)effect)->unk_08;
@@ -61,10 +61,10 @@ state_1:
         ((S_80020260_0 *)effect)->unk_08 = color + 0x80808;
     }
     if ((((S_80020260_1 *)object)->unk_2A & 1) == 0) {
-        goto done;
+        return;
     }
     ((S_80020260_0 *)effect)->unk_00.u++;
-    goto done;
+    return;
 
 state_2:
     faded_color = ((S_80020260_0 *)effect)->unk_08 + (s32)0xFFF7F7F8;
@@ -74,7 +74,6 @@ state_2:
         objectFlagBlock.flags |= 0x8000;
     }
 
-done:
     return;
 }
 

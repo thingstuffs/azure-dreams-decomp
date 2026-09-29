@@ -536,7 +536,7 @@ update_position:
             ticks = (*(u16 *)((u8 *)self + 0x82)) + 1;
             (*(u16 *)((u8 *)self + 0x82)) = ticks;
             if ((s16)ticks != 4) {
-                goto done;
+                return;
             }
             impact = func_8003FC64(0x212);
             if (impact != 0) {
@@ -573,7 +573,7 @@ update_position:
                 ((S_818FA12C_8 *)flash_data)->unk_08 = particle_state + 0x1A;
             }
             if ((s16)(*(u16 *)((u8 *)self + 0x82)) != 4) {
-                goto done;
+                return;
             }
             (*(u16 *)((u8 *)self + 0x0A)) = 4;
             (*(u16 *)((u8 *)self + 0x82)) = 0;
@@ -666,7 +666,7 @@ case_4_tail:
     case 5:
         {
             if ((*(s16 *)((u8 *)self + 0x9C)) == 0) {
-                goto done;
+                return;
             }
         }
 
@@ -681,7 +681,7 @@ state_advance:
             ticks = (*(u16 *)((u8 *)self + 0x82)) + 1;
             (*(u16 *)((u8 *)self + 0x82)) = ticks;
             if ((s16)ticks < 11) {
-                goto done;
+                return;
             }
             (*(u16 *)((u8 *)self + 0x0A)) = 8;
             (*(u16 *)((u8 *)self + 0x82)) = 30;
@@ -695,7 +695,7 @@ state_advance:
             ticks = (*(u16 *)((u8 *)self + 0x82));
             (*(u16 *)((u8 *)self + 0x82)) = ticks + 1;
             if ((s16)(ticks + 1) < 31) {
-                goto done;
+                return;
             }
             effect_active = D_800266BC[0];
             (*(u16 *)((u8 *)self + 0x82)) = ticks;
@@ -706,14 +706,13 @@ state_advance:
                 return;
             }
             D_800266BC[0] = 0;
-            goto done;
+            return;
         }
 
     case 7:
     default:
-        goto done;
+        return;
     }
 
-done:
     return;
 }

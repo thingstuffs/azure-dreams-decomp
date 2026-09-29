@@ -77,7 +77,7 @@ void func_80170A28(void *entity, S_80170A28_2 *motion, void *part)
             return;
         }
         (*(u8 *)((u8 *)entity + 0x71)) &= 0x7F;
-        goto done;
+        return;
     }
 
     call_entity = entity;
@@ -205,6 +205,5 @@ finish:
         *(u16 *)entity_base + (*(u16 *)((u8 *)entity + 0x92));
     ((S_80170A28_0 *)part)->unk_14.n |= 0x40;
 
-done:
     return;
 }

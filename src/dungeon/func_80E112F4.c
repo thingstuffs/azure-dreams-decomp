@@ -82,7 +82,7 @@ state0:
     if (object_flags & 0x8000) {
         object->field14 = (u16) (object_flags | 0x6000);
         controller->state9b = 2;
-        goto epilogue;
+        return;
     }
     if (object->field04 != actor_selector) {
         if ((object_flags & 0x6000) == 0) {
@@ -124,7 +124,7 @@ state2:
     ticks_left = controller->field96 - 1;
     controller->field96 = ticks_left;
     if ((ticks_left << 0x10) != 0 && (object->field14 & 0xE000) == 0) {
-        goto epilogue;
+        return;
     }
     func_800AD594(actor, 0x400);
     func_800A2B04(context, object->field24, object->field25);
@@ -140,6 +140,5 @@ common:
         controller->field98 &= 0xFFF7;
     }
 
-epilogue:
     return;
 }

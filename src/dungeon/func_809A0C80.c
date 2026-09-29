@@ -95,7 +95,7 @@ jt_c2:
             table_page += 0x5ED0;
             goto start_animation;
         }
-        goto done;
+        return;
 jt_c3:
         {
             u16 scene_status = ((u16)scene_state->buttons);
@@ -108,7 +108,7 @@ jt_c3:
                 goto resolve_table;
             }
         }
-        goto done;
+        return;
 resolve_table:
         table_page += 0x5EC8;
 start_animation:
@@ -140,6 +140,5 @@ jt_c4:
             actor->unk_B2 = 0;
             dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
         }
-done:
         return;
 }

@@ -53,7 +53,7 @@ s32 func_8009ABA0(u32 direction_bits, Func95440Input *position, Func95440Actor *
     initial_height = (s16)(source_height - height_offset);
     saved_height = source_height;
     if ((func_8009A540(direction, x >> 6, y >> 6, initial_height) << 16) == 0) {
-        goto return_minus2;
+        return -2;
     }
     target_height = initial_height;
 
@@ -63,7 +63,7 @@ s32 func_8009ABA0(u32 direction_bits, Func95440Input *position, Func95440Actor *
         return 0;
     }
     if (tile_flags & 0x8000) {
-        goto return_minus2;
+        return -2;
     }
     if (tile_flags & 0x400) {
         return 0;

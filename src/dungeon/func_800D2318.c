@@ -105,12 +105,12 @@ void func_800D7A78(DungeonState *effect) {
         if (effect->state == 0) {
             goto start_objects;
         }
-        goto done;
+        return;
     }
     if (effect->state == 0xFF) {
         goto expired;
     }
-    goto done;
+    return;
 
 start_objects:
     func_800A56E0(0x600);
@@ -166,7 +166,7 @@ spawn_objects:
             effect->state = 0xFF;
         }
     }
-    goto done;
+    return;
 
 expired:
     {
@@ -179,6 +179,5 @@ expired:
         }
     }
 
-done:
     return;
 }

@@ -140,7 +140,7 @@ void func_80025C94(void *object_arg, void *position_arg, void *sprite_arg) {
         goto fade_out;
     default:
         motion->unk_96 = 0;
-        goto done;
+        return;
     }
 initialize:
     sprite->unk_1E = 0x1000;
@@ -251,7 +251,6 @@ prepare_draw:
         blue = blue >> 1;
     }
     sprite->unk_0E = blue;
-    goto done;
-done:
+    return;
     return;
 }

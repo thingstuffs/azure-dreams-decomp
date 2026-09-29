@@ -24,20 +24,18 @@ s16 func_8005AE08(void *header, s32 sequence_id)
     }
     return -1;
 
-found:
-    slot->field_4 = (s32)header;
-    slot->field_0 = sequence_id;
-    slot->field_2 = 2;
-    return slot_index;
+    do {
+            slot->field_4 = (s32)header;
+            slot->field_0 = sequence_id;
+            slot->field_2 = 2;
+            return slot_index;
 
-search:
-    slot_index = 0;
-    free_id = -1;
-    slot = D_80086C00;
-loop:
-    if (slot->field_0 == free_id) {
-        goto found;
-    }
+        search:
+            slot_index = 0;
+            free_id = -1;
+            slot = D_80086C00;
+        loop:
+    } while (slot->field_0 == free_id);
     slot_index++;
     slot++;
     if (slot_index < 8) {

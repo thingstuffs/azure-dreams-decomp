@@ -215,7 +215,7 @@ void func_80172790(void *action, void *motion, void *tile, void *actor)
             ((S_80172790_1 *)action)->unk_9B = 0xFF;
             ((S_80172790_6 *)tile)->unk_14 |= 0x6000;
             func_8009C12C(actor, tile, ((S_80172790_0 *)actor)->unk_2A.u, 1);
-            goto end;
+            return;
         }
         if (flags & 0xE000) {
             move_frames = D_80175160;
@@ -232,7 +232,7 @@ void func_80172790(void *action, void *motion, void *tile, void *actor)
             ((S_80172790_4 *)motion)->unk_14 = 0xFFFC0000;
             goto advance;
         }
-        goto end;
+        return;
 
     case 1:
         vertical_speed = ((S_80172790_4 *)motion)->unk_14;
@@ -240,9 +240,9 @@ void func_80172790(void *action, void *motion, void *tile, void *actor)
         if (((S_80172790_1 *)action)->unk_96.u <= 0) {
             ((S_80172790_1 *)action)->unk_96.u = 3;
             ((S_80172790_1 *)action)->unk_9B++;
-            goto end;
+            return;
         }
-        goto end;
+        return;
 
     case 2:
         x_speed = ((S_80172790_4 *)motion)->unk_0C;
@@ -259,11 +259,11 @@ void func_80172790(void *action, void *motion, void *tile, void *actor)
             func_800A56E0(0x80E);
             goto advance;
         }
-        goto end;
+        return;
 
 advance:
         ((S_80172790_1 *)action)->unk_9B++;
-        goto end;
+        return;
 
     case 3:
         ((S_80172790_4 *)motion)->unk_0C += x_step << 0x12;
@@ -281,7 +281,7 @@ advance:
             ((S_80172790_1 *)action)->unk_96.u = 0x14;
             ((S_80172790_1 *)action)->unk_9B = 0xFF;
         }
-        goto end;
+        return;
 
     case 0xFF:
         return_speed_2 = ((S_80172790_6 *)tile)->unk_24 << 6;
@@ -302,7 +302,7 @@ advance:
             ((S_80172790_4 *)motion)->unk_14 = -((S_80172790_1 *)action)->unk_92 << 0xD;
         }
         if (((S_80172790_1 *)action)->unk_96.u > 0 && !(((S_80172790_6 *)tile)->unk_14 & 0x8000)) {
-            goto end;
+            return;
         }
         ((S_80172790_4 *)motion)->unk_10 = 0;
         ((S_80172790_4 *)motion)->unk_0C = 0;
@@ -326,11 +326,10 @@ advance:
         } else {
             D_800E3DE8 = (u8 *)actor - 0x20;
         }
-        goto end;
+        return;
 
     default:
-        goto end;
+        return;
     }
-end:
     return;
 }

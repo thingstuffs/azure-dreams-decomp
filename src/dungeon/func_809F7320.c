@@ -182,7 +182,7 @@ void func_80174B20(void *state, EntityRec *position, Rec_D_80082E80 *entity, voi
     scene_color = &gameWork;
     phase = ((Rec_func_80174800_arg0 *)state)->unk_9B;
     if (phase >= 9U) {
-        goto done;
+        return;
     }
     (void)phase_labels; goto *D_801708B8[(u32)(phase)];
 jt_c0:
@@ -204,7 +204,7 @@ jt_c2:
     }
 turn_actor:
     if (direction == 2) {
-        goto done;
+        return;
     }
     ((S_80174B20_1 *)actor)->unk_2A = (u16) (((S_80174B20_1 *)actor)->unk_2A + 0x200);
     return;
@@ -227,7 +227,7 @@ jt_c3:
     effect_ready = ((S_80174B20_2 *)(&D_8017521D))->unk_00;
     ((Rec_func_80174800_arg0 *)state)->unk_96 = previous_ticks;
     if (effect_ready == 0) {
-        goto done;
+        return;
     }
     ((Rec_func_80174800_arg0 *)state)->unk_9B = (u8) (((Rec_func_80174800_arg0 *)state)->unk_9B + 1);
     func_800A56E0(0x300);
@@ -242,7 +242,7 @@ fade_color:
 jt_c4:
     effect = func_8003FC64(0x12);
     if (effect == NULL) {
-        goto done;
+        return;
     }
     effect->unk_10 = &D_801749F4;
     func_8004491C(effect, &D_80174574);
@@ -275,13 +275,11 @@ set_animation:
     ray_index = 1;
     ((Rec_func_80174800_arg0 *)state)->unk_96 = 0U;
     ((Rec_func_80174800_arg0 *)state)->unk_9B = (u8) (((Rec_func_80174800_arg0 *)state)->unk_9B + 1);
-spawn_rays:
-    func_80174800(state, position, entity, (s16) (ray_index << 0xA));
-    next_ray = ray_index + 1;
-    ray_index = next_ray;
-    if (next_ray < 8) {
-        goto spawn_rays;
-    }
+    do {
+        func_80174800(state, position, entity, (s16) (ray_index << 0xA));
+        next_ray = ray_index + 1;
+        ray_index = next_ray;
+    } while (next_ray < 8);
     return;
 jt_c5:
     sprite = ((Rec_func_80174800_arg0 *)state)->unk_AC;
@@ -299,10 +297,10 @@ jt_c5:
 jt_c6:
 check_motion:
     if (((Rec_func_80174800_arg0 *)state)->unk_9B != 6) {
-        goto done;
+        return;
     }
     if (func_800ADC4C(position, D_80175220, D_80175218, &D_800DCF5C) == 0) {
-        goto done;
+        return;
     }
     ((Rec_func_80174800_arg0 *)state)->unk_96 = 0x10U;
     ((Rec_func_80174800_arg0 *)state)->unk_9B = (u8) (((Rec_func_80174800_arg0 *)state)->unk_9B + 1);
@@ -316,7 +314,7 @@ jt_c7:
     new_actor = func_800A504C(entity, actor);
     ((S_80174B20_1 *)actor)->unk_60 = new_actor;
     if (new_actor == NULL) {
-        goto done;
+        return;
     }
     ((Rec_func_80174800_arg0 *)state)->unk_96 = 0x10U;
     ((Rec_func_80174800_arg0 *)state)->unk_9B = (u8) (((Rec_func_80174800_arg0 *)state)->unk_9B + 1);
@@ -329,7 +327,7 @@ jt_c8:
     finish_ticks = ((Rec_func_80174800_arg0 *)state)->unk_96 - 1;
     ((Rec_func_80174800_arg0 *)state)->unk_96 = finish_ticks;
     if ((finish_ticks << 0x10) > 0) {
-        goto done;
+        return;
     }
     globals_base = (void *)0x80080000;
     ((S_80174B20_16 *)(((S_80174B20_14 *)actor)->unk_60))->unk_2A = (u16) ((S_80174B20_1 *)actor)->unk_8A;
@@ -339,6 +337,5 @@ jt_c8:
     globals_base->unk_14A0 = global_flags | 0x8000;
     dungeonStatus.unk_0A = active_count - 1;
     ((S_80174B20_1 *)actor)->unk_6D = 0;
-done:
     return;
 }

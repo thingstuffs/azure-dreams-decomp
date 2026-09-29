@@ -155,7 +155,7 @@ void func_80175398(void *transition, void *position, Rec_D_80082E80 *record, voi
 
     state = ((S_80175398_0 *)transition)->unk_9B;
     if (state >= 9U) {
-        goto done;
+        return;
     }
     (void)state_labels;
     goto *D_80170908[state];
@@ -185,7 +185,7 @@ jt_c2:
         }
 direction_not_ready:
         if (direction == 2) {
-            goto done;
+            return;
         }
         ((S_80175398_1 *)actor)->unk_2A.u = angle + 0x200;
         return;
@@ -212,7 +212,7 @@ jt_c3:
             u8 cd_finished = D_80175A81;
             ((S_80175398_0 *)transition)->unk_96.u = old_timer;
             if (cd_finished == 0) {
-                goto done;
+                return;
             }
             ((S_80175398_0 *)transition)->unk_9B++;
             func_800A56E0(0x300);
@@ -235,7 +235,7 @@ jt_c3:
 jt_c4:
     object_data = func_8003FC64(0x12);
     if (object_data == NULL) {
-        goto done;
+        return;
     }
     {
         DungeonEffect *effect = (DungeonEffect *)object_data;
@@ -289,10 +289,10 @@ jt_c5:
 
 jt_c6:
     if (((S_80175398_0 *)transition)->unk_9B != 6) {
-        goto done;
+        return;
     }
     if (func_800ADC4C(position, D_80175A84, D_80175A18, D_800DCF5C) == 0) {
-        goto done;
+        return;
     }
     ((S_80175398_0 *)transition)->unk_96.u = 0x10;
     ((S_80175398_0 *)transition)->unk_9B++;
@@ -308,7 +308,7 @@ jt_c7:
         u8 *linked_actor = func_800A504C(record, actor);
         ((S_80175398_1 *)actor)->unk_60 = linked_actor;
         if (linked_actor == NULL) {
-            goto done;
+            return;
         }
         ((S_80175398_0 *)transition)->unk_96.u = 0x10;
         ((S_80175398_0 *)transition)->unk_9B++;
@@ -331,7 +331,7 @@ jt_c8:
         u16 timer = ((S_80175398_0 *)transition)->unk_96.u - 1;
         ((S_80175398_0 *)transition)->unk_96.u = timer;
         if ((s32)(timer << 16) > 0) {
-            goto done;
+            return;
         }
         {
 
@@ -343,6 +343,5 @@ jt_c8:
     }
     ((S_80175398_1 *)actor)->unk_6D = 0;
 
-done:
     return;
 }

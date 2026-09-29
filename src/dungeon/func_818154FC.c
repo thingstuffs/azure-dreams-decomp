@@ -262,7 +262,7 @@ update_position:
             func_800A56E0(0x300);
         }
     }
-    goto done;
+    return;
   }
 
 spawn_effects:
@@ -413,7 +413,7 @@ finish_spawning:
         old_state++;
         ((S_818154FC_0 *)effect)->unk_0A.u = old_state;
     }
-    goto done;
+    return;
 
 wait_effects:
     if (((S_818154FC_0 *)effect)->unk_88 == 0x63) {
@@ -449,6 +449,5 @@ check_timeout:
     }
   }
 
-done:
     return;
 }

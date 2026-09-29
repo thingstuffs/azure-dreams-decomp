@@ -69,21 +69,19 @@ void func_800CE028(DungeonEffect *effect) {
         do {
             target_col = 0;
             target_ptr = (s16 *)(target_row_base + 0x36);
-step_target_tile:
-            origin_y = effect->y;
-            row_shift = grid->shiftX;
-            origin_x = effect->x;
-            target_step = (s32)(*target_ptr - tiles[((target_row + origin_y) << row_shift) + origin_x + target_col].height) / effect->timer;
-            target_ptr++;
-            tiles[((target_row + origin_y) << row_shift) + origin_x + target_col].height =
-                (u16)tiles[((target_row + origin_y) << row_shift) + origin_x + target_col].height + target_step;
-            func_800CDE40((s16)((u16)effect->x + target_col),
-                          (s16)((u16)effect->y + target_row),
-                          (s16)-target_step);
-            target_col++;
-            if (target_col < 5) {
-                goto step_target_tile;
-            }
+            do {
+                origin_y = effect->y;
+                row_shift = grid->shiftX;
+                origin_x = effect->x;
+                target_step = (s32)(*target_ptr - tiles[((target_row + origin_y) << row_shift) + origin_x + target_col].height) / effect->timer;
+                target_ptr++;
+                tiles[((target_row + origin_y) << row_shift) + origin_x + target_col].height =
+                    (u16)tiles[((target_row + origin_y) << row_shift) + origin_x + target_col].height + target_step;
+                func_800CDE40((s16)((u16)effect->x + target_col),
+                              (s16)((u16)effect->y + target_row),
+                              (s16)-target_step);
+                target_col++;
+            } while (target_col < 5);
             target_row++;
             target_row_base += 0xA;
         } while (target_row < 5);
@@ -121,7 +119,7 @@ snap_target_tile:
             dungeonStatus.unk_0A--;
             D_800E296C &= 0xFFF7FFFF;
             effect->state++;
-            goto end;
+            return;
         }
     } else if (state == 1) {
         if (dungeonStatus.flags & 0x10) {
@@ -143,21 +141,19 @@ snap_target_tile:
         do {
             restore_col = 0;
             initial_ptr = (s16 *)(initial_row_base + 4);
-step_initial_tile:
-            origin_y = effect->y;
-            row_shift = grid->shiftX;
-            origin_x = effect->x;
-            restore_step = (s32)(*initial_ptr - tiles[((restore_row + origin_y) << row_shift) + origin_x + restore_col].height) / effect->timer;
-            initial_ptr++;
-            tiles[((restore_row + origin_y) << row_shift) + origin_x + restore_col].height =
-                (u16)tiles[((restore_row + origin_y) << row_shift) + origin_x + restore_col].height + restore_step;
-            func_800CDE40((s16)((u16)effect->x + restore_col),
-                          (s16)((u16)effect->y + restore_row),
-                          (s16)-restore_step);
-            restore_col++;
-            if (restore_col < 5) {
-                goto step_initial_tile;
-            }
+            do {
+                origin_y = effect->y;
+                row_shift = grid->shiftX;
+                origin_x = effect->x;
+                restore_step = (s32)(*initial_ptr - tiles[((restore_row + origin_y) << row_shift) + origin_x + restore_col].height) / effect->timer;
+                initial_ptr++;
+                tiles[((restore_row + origin_y) << row_shift) + origin_x + restore_col].height =
+                    (u16)tiles[((restore_row + origin_y) << row_shift) + origin_x + restore_col].height + restore_step;
+                func_800CDE40((s16)((u16)effect->x + restore_col),
+                              (s16)((u16)effect->y + restore_row),
+                              (s16)-restore_step);
+                restore_col++;
+            } while (restore_col < 5);
             restore_row++;
             initial_row_base += 0xA;
         } while (restore_row < 5);
@@ -204,6 +200,5 @@ snap_initial_tile:
         }
         func_800CDE0C();
     }
-end:
     return;
 }

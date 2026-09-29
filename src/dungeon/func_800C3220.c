@@ -22,7 +22,7 @@ s32 func_800C8980(State *state, s32 value, s8 flag) {
 
     if (func_800C8484() != 0) {
         result = 0;
-        goto done;
+        return result;
     }
     dividend = func_800A6D30() & 0xFFFF;
     dispatch_v1 = state->divisor;

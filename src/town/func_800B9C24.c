@@ -12,14 +12,12 @@ void func_800B7384(s16 *grid) {
     row = 0;
     do {
         column = 0;
-loop_2:
-        *cell = 0;
-        next_column = column + 1;
-        column = next_column;
-        cell += 1;
-        if (next_column < 0x80) {
-            goto loop_2;
-        }
+        do {
+            *cell = 0;
+            next_column = column + 1;
+            column = next_column;
+            cell += 1;
+        } while (next_column < 0x80);
         next_row = row + 1;
         row = next_row;
     } while (next_row < 0x80);

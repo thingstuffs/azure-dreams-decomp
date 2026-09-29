@@ -25,7 +25,7 @@ s32 func_80025020(void *effect, s32 position, s32 render_param)
 
     dispatch_index = *(s16 *)((u8 *)effect + 0xA);
     if ((u32)dispatch_index >= 7) {
-        goto L_default;
+        return 0;
     }
     dispatch_index <<= 2;
     dispatch_table = jtbl_80024008;
@@ -36,7 +36,7 @@ s32 func_80025020(void *effect, s32 position, s32 render_param)
 
 L_case0:
     func_80024CFC(effect, position, render_param);
-    goto L_default;
+    return 0;
 L_case1:
     func_80024E44(effect, position, render_param);
     goto L_default;

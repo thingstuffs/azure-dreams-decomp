@@ -116,14 +116,14 @@ FUNC_8183E800_LINKAGE void FUNC_8183E800_BODY(u8 *self, u8 *motion)
     state = F(self, s16, 10);
     state_index = state;
     if (state_index >= 6)
-        goto return_done;
+        return;
     (void)state_labels;
     goto *D_80024008[state_index];
 
 state_2:
     animation = F(self, u8 *, 4);
     if ((F(animation, u16, 0) & 0x80) == 0)
-        goto return_done;
+        return;
     if ((F(owner, u8 *, 96) = func_800A05A4(
              owner, F(owner_record, u8, 36), F(owner_record, u8, 37),
              F(owner, s16, 42), (s16)func_800A3820(8))) == 0) {
@@ -169,7 +169,7 @@ state_2_common:
 advance_simple:
     state = F(self, s16, 10) + 1;
     F(self, s16, 10) = state;
-    goto return_done;
+    return;
 
 state_3:
     F(motion, u32, 0) += F(motion, s32, 12);
@@ -178,26 +178,26 @@ state_3:
     timer = F(self, u16, 80) - 1;
     F(self, u16, 80) = timer;
     if (timer > 0)
-        goto return_done;
+        return;
     F(self, u16, 80) = 12;
     state = F(self, s16, 10) + 1;
     F(self, s16, 10) = state;
-    goto return_done;
+    return;
 
 state_4:
     timer = F(self, u16, 80) - 1;
     F(self, u16, 80) = timer;
     if (timer > 0)
-        goto return_done;
+        return;
     if (F(owner, s32, 96) == 0) {
         F(self, u16, 80) = 8;
         F(self, u16, 10) = 5;
-        goto return_done;
+        return;
     }
     state = F(self, s16, 10) + 1;
     F(self, u16, 80) = 20;
     F(self, s16, 10) = state;
-    goto return_done;
+    return;
 
 state_5:
     timer = F(self, s16, 80);
@@ -249,17 +249,17 @@ state_5:
     timer = F(self, u16, 80) - 1;
     F(self, u16, 80) = timer;
     if (timer > 0)
-        goto return_done;
+        return;
     state = F(self, s16, 10) + 1;
     F(self, u16, 80) = 13;
     F(self, s16, 10) = state;
-    goto return_done;
+    return;
 
 advance_state:
     timer = F(self, u16, 80) - 1;
     F(self, u16, 80) = timer;
     if (timer > 0)
-        goto return_done;
+        return;
     if (F(owner, s32, 96) != 0) {
         func_8009CE1C(F(owner, void *, 96), 10, F(self, u8, 9), 2,
                       F(owner, s16, 42), owner, 2);
@@ -267,21 +267,20 @@ advance_state:
     F(self, u16, 80) = 16;
     state = F(self, s16, 10) + 1;
     F(self, s16, 10) = state;
-    goto return_done;
+    return;
 
 state_7:
     timer = F(self, u16, 80) - 1;
     F(self, u16, 80) = timer;
     if ((F(self, s16, 82) & 0x8000) != 0) {
         F(self, u16, 82) &= 0x7fff;
-        goto return_done;
+        return;
     }
     if (timer > 0)
-        goto return_done;
+        return;
     dungeonStatus.unk_0C = 0;
     F(self, u16, -2) |= 0x8000;
     objectFlagBlock.flags |= 0x8000;
 
-return_done:
     return;
 }

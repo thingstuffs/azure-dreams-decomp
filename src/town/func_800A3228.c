@@ -36,27 +36,24 @@ void *func_800A0988(s32 requested_value)
         goto not_found;
     }
     required_node_key = (s32)&D_800A0708;
-loop:
-    node_key = node->field_10;
-    next_node = node->next;
-    if (node_key >= 0) {
-        goto cont;
-    }
-    if (node->flags & 0x400) {
-        goto cont;
-    }
-    node_data = (NodeData *)((u8 *)node + 0x20);
-    if ((node_key == required_node_key) && (node_data->field_48 == requested_value)) {
-        result = node;
-        goto done;
-    }
-cont:
-    node = next_node;
-    if (node != 0) {
-        goto loop;
-    }
+    do {
+            node_key = node->field_10;
+            next_node = node->next;
+            if (node_key >= 0) {
+                goto cont;
+            }
+            if (node->flags & 0x400) {
+                goto cont;
+            }
+            node_data = (NodeData *)((u8 *)node + 0x20);
+            if ((node_key == required_node_key) && (node_data->field_48 == requested_value)) {
+                result = node;
+                return result;
+            }
+        cont:
+            node = next_node;
+    } while (node != 0);
 not_found:
     result = 0;
-done:
     return result;
 }

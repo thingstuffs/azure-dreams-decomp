@@ -85,7 +85,7 @@ moving:
         next_distance = next_x - target_x;
         next_distance = abs(next_distance);
         if (next_distance < distance) {
-            goto done;
+            return;
         }
     }
     func_80024A34(motion, position, effect);
@@ -112,6 +112,5 @@ fading:
         *global_flags |= 0x8000;
     }
 
-done:
     return;
 }

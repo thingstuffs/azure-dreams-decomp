@@ -57,7 +57,7 @@ void func_80172830(void *action, void *motion, void *sprite, void *actor)
         if (state == 0) {
             goto state_0;
         }
-        goto end;
+        return;
     }
     if (state == 2) {
         goto state_2;
@@ -65,14 +65,14 @@ void func_80172830(void *action, void *motion, void *sprite, void *actor)
     if (state == 3) {
         goto state_3;
     }
-    goto end;
+    return;
 
 state_0:
     if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
         ((S_80172830_0 *)action)->unk_9B = 3;
         ((S_80172830_0 *)action)->unk_96 = 0;
         ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x6000;
-        goto end;
+        return;
     }
 
     direction_offset = (((((S_80172830_2 *)actor)->unk_2A.s >> 9) & 7) + 4) % 8;
@@ -92,14 +92,14 @@ state_0:
         ((S_80172830_0 *)action)->unk_96 = 0;
         next_state++;
         ((S_80172830_0 *)action)->unk_9B = next_state;
-        goto end;
+        return;
     }
 
 state_1:
     ((EntityRec *)motion)->unk_0C -= ((EntityRec *)motion)->unk_0C >> 2;
     ((EntityRec *)motion)->unk_10 -= ((EntityRec *)motion)->unk_10 >> 2;
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
-        goto end;
+        return;
     }
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80174C64;
     func_80047784(sprite,
@@ -112,12 +112,12 @@ state_1:
         ((S_80172830_0 *)action)->unk_96 = 4;
         next_state++;
         ((S_80172830_0 *)action)->unk_9B = next_state;
-        goto end;
+        return;
     }
 
 state_2:
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
-        goto end;
+        return;
     }
     func_800A56E0(0x808);
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80174C6C;
@@ -134,7 +134,7 @@ state_2:
         next_state = ((S_80172830_0 *)action)->unk_9B;
         next_state++;
         ((S_80172830_0 *)action)->unk_9B = next_state;
-        goto end;
+        return;
     }
 
 state_3:
@@ -190,7 +190,7 @@ state_3:
 
     if (((s16)((S_80172830_0 *)action)->unk_96 > 0) &&
         !(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
-        goto end;
+        return;
     }
     ((EntityRec *)motion)->flags14 = 0;
     ((EntityRec *)motion)->unk_10 = 0;
@@ -203,10 +203,9 @@ state_3:
     func_800A4ACC(actor);
     if (((S_80172830_2 *)actor)->unk_6D == 0) {
         ((S_80172830_2 *)actor)->unk_46 &= 0x7FFF;
-        goto end;
+        return;
     }
     D_800E3DE8[0] = (u8 *)actor - 0x20;
 
-end:
     return;
 }

@@ -30,17 +30,15 @@ void func_800255FC(char *text, s32 type, s32 value) {
     cursor = 0;
     record = (Record818105FC *)0x800157C0;
     type_base = (u8 *)0x80010000;
-loop_records:
-    if ((type_base[0x57D2] == type) &&
-        (strncmp(text, (char *)record, 18) == 0)) {
-        return;
-    }
-    record++;
-    cursor++;
-    type_base += 19;
-    if (cursor < 64) {
-        goto loop_records;
-    }
+    do {
+        if ((type_base[0x57D2] == type) &&
+            (strncmp(text, (char *)record, 18) == 0)) {
+            return;
+        }
+        record++;
+        cursor++;
+        type_base += 19;
+    } while (cursor < 64);
 
     write_slot = *(s32 *)0x80015C80;
     *(s32 *)0x80015C80 = write_slot + 1;

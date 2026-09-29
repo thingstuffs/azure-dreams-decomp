@@ -213,7 +213,7 @@ s32 func_800A504C(s32 unused, void *source_entity)
     SpawnFunc spawn;
 
     if (count != 1) {
-        goto done;
+        return 0;
     }
     if (func_8003FA44(8) == 0) {
         return 0;
@@ -263,14 +263,14 @@ wait_copy:
 spawn_copy:
     spawned = (u8 *)func_800A1618(((S_800A504C_1 *)entity)->unk_13, 2);
     if (spawned == NULL) {
-        goto done;
+        return 0;
     }
     entity_data = ((S_800A504C_1_pre *)entity)[-1].unk_00;
     spawn = func_800A0B94(((S_800A504C_1 *)entity)->unk_13, spawned, 1);
     spawned = spawn(6, entity_data[0x24], entity_data[0x25],
                     (s16)(((S_800A504C_1 *)entity)->unk_88 - 0x20));
     if (spawned == NULL) {
-        goto done;
+        return 0;
     }
     base = entity;
     tail_dst = spawned;
@@ -372,7 +372,7 @@ load_replacement:
 
 wait_replacement:
     if (D_800E3E40[0] == 0) {
-        goto done;
+        return 0;
     }
     if (D_80081488 != 0) {
         func_80047FF4(((S_800A504C_1 *)entity)->unk_13, D_80081488);
@@ -385,7 +385,7 @@ increment_mode:
 spawn_replacement:
     spawned = (u8 *)func_800A1618(((S_800A504C_1 *)entity)->unk_13, 3);
     if (spawned == NULL) {
-        goto done;
+        return 0;
     }
     entity_data = ((S_800A504C_1_pre *)entity)[-1].unk_00;
     spawn = func_800A0B94(((S_800A504C_1 *)entity)->unk_13, spawned, 1);

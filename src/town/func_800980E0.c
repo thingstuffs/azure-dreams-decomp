@@ -76,7 +76,7 @@ s32 func_80095840(void *destination, void *source)
         }
         selection = 2;
         result->unk_2C.s = entry;
-        goto done;
+        return selection;
     }
 
     selection = (s32)candidates + offset;
@@ -92,13 +92,12 @@ s32 func_80095840(void *destination, void *source)
         if ((entry_kind != 1) && (entry_kind != 3)) {
             selection = 1;
             result->unk_2C.s = entry;
-            goto done;
+            return selection;
         }
     }
 
 none:
     result->unk_2C.u = 0;
     selection = 0;
-done:
     return selection;
 }

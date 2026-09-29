@@ -93,13 +93,11 @@ mode0:
 mode1:
     if (state->unk1a > 0) {
         update_count = 0;
-update_loop:
-        func_800478B8(flags);
-        update_count = update_count + 1;
-        more_updates = update_count < state->unk1a;
-        if (more_updates) {
-            goto update_loop;
-        }
+        do {
+            func_800478B8(flags);
+            update_count = update_count + 1;
+            more_updates = update_count < state->unk1a;
+        } while (more_updates);
     }
     goto done;
 

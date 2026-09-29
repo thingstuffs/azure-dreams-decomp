@@ -52,7 +52,7 @@ void func_801729A8(void *action, void *motion, void *sprite, void *actor)
     if (state == 0) {
         goto state_0;
     }
-    goto end;
+    return;
 
 state_ge_2:
     if (state == 2) {
@@ -61,7 +61,7 @@ state_ge_2:
     if (state == 3) {
         goto state_3;
     }
-    goto end;
+    return;
 
 state_0:
     ((S_801729A8_0 *)action)->unk_9B = start_state;
@@ -71,7 +71,7 @@ state_1:
         ((S_801729A8_0 *)action)->unk_9B = 3;
         ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x6000;
         func_8009C12C(actor, sprite, ((EntityRec *)actor)->facing, 1);
-        goto end;
+        return;
     }
 
     ((S_801729A8_3 *)motion)->unk_14 = 0;
@@ -103,12 +103,12 @@ state_2:
         next_state = ((S_801729A8_0 *)action)->unk_9B;
         goto bump_state;
     }
-    goto end;
+    return;
 
 bump_state:
     next_state++;
     ((S_801729A8_0 *)action)->unk_9B = next_state;
-    goto end;
+    return;
 
 state_3:
     if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) {
@@ -119,6 +119,5 @@ state_3:
         ((EntityRec *)actor)->unk_46 &= 0x7FFF;
     }
 
-end:
     return;
 }

@@ -28,7 +28,7 @@ void func_80023404(S_80023404_0 *scroll)
     s32 state;
     state = scroll->unk_04.s;
     if ((u32)state >= 5) {
-        goto done;
+        return;
     }
     (void)switch_labels;
     goto *D_80020264[state];
@@ -40,7 +40,7 @@ case_0:
                   scroll->unk_0A,
                   scroll->unk_0E.s);
     scroll->unk_04.s = 1;
-    goto done;
+    return;
 
 case_2:
     {
@@ -76,9 +76,8 @@ common_call:
     func_80023578(scroll->unk_08,
                   scroll->unk_0A,
                   scroll->unk_0E.s);
-    goto done;
+    return;
 
 case_1:
-done:
     return;
 }

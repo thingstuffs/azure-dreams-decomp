@@ -81,7 +81,7 @@ void func_80173294(void *effect_data, void *motion_data, void *sprite_data, void
     case 3:
         goto state_3;
     default:
-        goto done;
+        return;
     }
 
 state_0:
@@ -91,7 +91,7 @@ state_0:
     motion_value = direction_y << 16;
     (*(s32 *)((u8 *)motion_data + 0x10)) = motion_value;
     (*(s32 *)((u8 *)motion_data + 0x14)) = state;
-    if (dungeonStatus.unk_0A != 0) goto done;
+    if (dungeonStatus.unk_0A != 0) return;
     ((S_80173294_2 *)effect_data)->unk_9B++;
 
 state_1:
@@ -129,16 +129,16 @@ state_1:
         ((S_80173294_3 *)sprite_data)->unk_14 = sprite_flags;
         state_byte = (volatile u8 *)((u8 *)effect_data + 0x9B);
         ((S_80173294_2 *)effect_data)->unk_9B = (s32)((u8 *)((u8 *)(*state_byte + 1)));
-        goto done;
+        return;
     }
 
 state_2:
-    if (!(((S_80173294_3 *)sprite_data)->unk_14 & 0x6000)) goto done;
+    if (!(((S_80173294_3 *)sprite_data)->unk_14 & 0x6000)) return;
     ((S_80173294_2 *)effect_data)->unk_96.s16 = 0x80;
     direction_y_table = (u8 *)(((S_80173294_2 *)effect_data)->unk_9B + 1);
 store_state:
     ((S_80173294_2 *)effect_data)->unk_9B = (s32)direction_y_table;
-    goto done;
+    return;
 
 state_3:
     {
@@ -157,7 +157,7 @@ state_3:
         ((S_80173294_3 *)sprite_data)->unk_0C = brightness;
         fade_level = ((S_80173294_2 *)effect_data)->unk_96.u16 - 0x10;
         ((S_80173294_2 *)effect_data)->unk_96.u16 = fade_level;
-        if ((s16)fade_level >= 0x10) goto done;
+        if ((s16)fade_level >= 0x10) return;
         linked_object = ((s32)dungeonStatus.unk_10);
         if (linked_object == (s32)(object_data - 0x20)) dungeonStatus.unk_10 = linked_object & 0x7FFFFFFF;
         func_800A2FE0(object_data);
@@ -173,6 +173,5 @@ state_3:
         objectFlagBlock.flags |= 0x8000;
     }
 
-done:
     return;
 }

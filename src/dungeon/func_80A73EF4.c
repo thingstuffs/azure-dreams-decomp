@@ -48,16 +48,16 @@ void func_801736F4(void *controller, s32 actor_index, void *sprite, void *actor)
         if (state == 0) {
             goto state_zero;
         }
-        goto exit;
+        return;
     }
     if (state == 2) {
         goto state_two;
     }
-    goto exit;
+    return;
 
 state_zero:
     if (!(((Rec_func_800AA258_arg2 *)sprite)->unk_14 & 0xE000)) {
-        goto exit;
+        return;
     }
     {
         (*(void * *)((u8 *)sprite + 0x2C)) = D_80174190;
@@ -74,7 +74,7 @@ state_zero:
         (*(u16 *)&dungeon_counters->unk_0A)--;
     }
     ((Rec_func_801736F4_arg0 *)controller)->unk_9B++;
-    goto exit;
+    return;
 
 state_one:
     if (((Rec_func_800AA258_arg2 *)sprite)->unk_14 & 0xE000) {
@@ -104,14 +104,14 @@ state_one:
         if (((Rec_func_800AA258_arg2 *)sprite)->unk_14 & 0x8000) {
             ((EntityRec *)actor)->flags1C &= ~0x200;
             ((Rec_func_801736F4_arg0 *)controller)->unk_8C = &D_80170E54;
-            goto exit;
+            return;
         }
         {
             DungeonGlobalStatus *dungeon_counters = &dungeonStatus;
             (*(u16 *)&dungeon_counters->unk_0A)++;
         }
         ((Rec_func_801736F4_arg0 *)controller)->unk_9B++;
-        goto exit;
+        return;
     } else {
         dungeon_status = &dungeonStatus;
         if (!(dungeon_status->flags & 0x1000)
@@ -120,27 +120,27 @@ state_one:
 
             if (((EntityRec *)actor)->tileY == 0) {
                 if (dungeon_status->flags & 0x2008) {
-                    goto exit;
+                    return;
                 }
                 func_800AA79C(controller, actor_index, sprite, actor);
-                goto exit;
+                return;
             }
 
             if ((func_800A2C34(actor) << 16) != 0) {
-                goto exit;
+                return;
             }
             actor_flags = ((EntityRec *)actor)->flags1C;
             if (actor_flags & 0x100) {
                 func_800AA258(controller, actor_index, sprite, actor);
-                goto exit;
+                return;
             }
             if (actor_flags & 0x80000) {
                 func_800AA888(controller, actor_index, sprite, actor);
                 func_80173EF4(controller, actor_index, sprite, actor);
-                goto exit;
+                return;
             }
             if (((EntityRec *)actor)->unk_6D == 0) {
-                goto exit;
+                return;
             }
             if ((func_800A2C34(actor) << 16) != 0) {
                 if ((func_8009A180(
@@ -149,7 +149,7 @@ state_one:
                              + 0x20)
                      << 16)
                     != 0) {
-                    goto exit;
+                    return;
                 }
             }
 
@@ -169,7 +169,7 @@ state_one:
                 }
             }
             if ((func_80042900(actor, 1) << 16) != 0) {
-                goto exit;
+                return;
             }
 
             (*(void * *)((u8 *)sprite + 0x2C)) = D_80174188;
@@ -181,21 +181,21 @@ state_one:
             if (((Rec_func_800AA258_arg2 *)sprite)->unk_14 & 0x8000) {
                 ((EntityRec *)actor)->flags1C &= ~0x200;
                 ((Rec_func_801736F4_arg0 *)controller)->unk_8C = &D_80170E54;
-                goto exit;
+                return;
             }
             {
                 DungeonGlobalStatus *dungeon_counters = &dungeonStatus;
                 (*(u16 *)&dungeon_counters->unk_0A)++;
             }
             ((Rec_func_801736F4_arg0 *)controller)->unk_9B++;
-            goto exit;
+            return;
         }
     }
-    goto exit;
+    return;
 
 state_two:
     if (!(((Rec_func_800AA258_arg2 *)sprite)->unk_14 & 0xE000)) {
-        goto exit;
+        return;
     }
     {
         DungeonGlobalStatus *dungeon_counters;
@@ -210,8 +210,7 @@ state_two:
                     >> 9) & 7],
         0);
     ((Rec_func_801736F4_arg0 *)controller)->unk_8C = &D_80170E54;
-    goto exit;
+    return;
 
-exit:
     return;
 }

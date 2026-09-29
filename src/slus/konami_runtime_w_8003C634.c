@@ -16,7 +16,7 @@ s32 func_8003C634(s32 key)
         do {
             if (key == *entry_key) {
                 result = entry_index;
-                goto done;
+                return result;
             }
             entry_index++;
             entry_key += 2;
@@ -24,7 +24,6 @@ s32 func_8003C634(s32 key)
     }
 
     result = -1;
-done:
     return result;
 }
 

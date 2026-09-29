@@ -35,7 +35,7 @@ void func_800BB030(void *entity, void *context) {
         }
         ((S_800BB030_0_pre *)entity)[-1].unk_00 |= 0x8000;
         objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
-        goto end;
+        return;
     }
 
     phase_ticks = ((S_800BB030_0 *)entity)->unk_6C.s + 1;
@@ -48,7 +48,7 @@ void func_800BB030(void *entity, void *context) {
         if (phase == 0) {
             goto state_0;
         }
-        goto end;
+        return;
     }
     if (phase == 2) {
         goto state_2;
@@ -56,7 +56,7 @@ void func_800BB030(void *entity, void *context) {
     if (phase == 3) {
         goto state_3;
     }
-    goto end;
+    return;
 
 state_0:
     quarter_ticks = (s16)phase_ticks / 4;
@@ -64,11 +64,11 @@ state_0:
     intensity = (s16)((S_800BB030_0 *)entity)->unk_6C.s / 2;
     ((S_800BB030_0 *)entity)->unk_97 = intensity;
     if (((S_800BB030_0 *)entity)->unk_6C.u < 0x40) {
-        goto end;
+        return;
     }
     ((S_800BB030_0 *)entity)->unk_6C.s = 0;
     ((S_800BB030_0 *)entity)->unk_68.u++;
-    goto end;
+    return;
 
 state_1: {
     s32 quarter_ticks;
@@ -80,7 +80,7 @@ state_1: {
         ((S_800BB030_0 *)entity)->unk_6C.s = 0;
         ((S_800BB030_0 *)entity)->unk_68.u++;
     }
-    goto end;
+    return;
 }
 
 state_2: {
@@ -92,11 +92,11 @@ state_2: {
     intensity = 0x20 - half_ticks;
     ((S_800BB030_0 *)entity)->unk_97 = intensity;
     if (((S_800BB030_0 *)entity)->unk_6C.u < 0x40) {
-        goto end;
+        return;
     }
     ((S_800BB030_0 *)entity)->unk_6C.s = 0;
     ((S_800BB030_0 *)entity)->unk_68.u++;
-    goto end;
+    return;
 }
 
 state_3: {
@@ -106,12 +106,11 @@ state_3: {
     ((S_800BB030_0 *)entity)->unk_66 = 0x30 - quarter_ticks * 3;
     ((S_800BB030_0 *)entity)->unk_97 = 0;
     if (((S_800BB030_0 *)entity)->unk_6C.u < 0x40) {
-        goto end;
+        return;
     }
     ((S_800BB030_0 *)entity)->unk_6C.s = 0;
     ((S_800BB030_0 *)entity)->unk_68.s = 0;
 }
 
-end:
     return;
 }

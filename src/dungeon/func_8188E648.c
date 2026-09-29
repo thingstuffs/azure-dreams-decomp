@@ -143,7 +143,7 @@ state_0:
         frames_left = ((S_80025E48_0 *)effect)->unk_1A.u - 1;
         ((S_80025E48_0 *)effect)->unk_1A.u = frames_left;
         if ((frames_left << 16) > 0) {
-            goto epilogue;
+            return;
         }
         phase_duration = 0x18;
         phase = ((S_80025E48_0 *)effect)->unk_0A.u;
@@ -165,7 +165,7 @@ state_1:
         ((S_80025E48_0 *)effect)->unk_1A.u = frames_left;
         ((S_80025E48_0 *)effect)->unk_26 = update_count;
         if ((frames_left << 16) > 0) {
-            goto epilogue;
+            return;
         }
         phase = ((S_80025E48_0 *)effect)->unk_0A.u;
         phase_duration = 0x10;
@@ -196,7 +196,7 @@ state_2:
         frames_left = ((S_80025E48_0 *)effect)->unk_1A.u - 1;
         ((S_80025E48_0 *)effect)->unk_1A.u = frames_left;
         if ((frames_left << 16) > 0) {
-            goto epilogue;
+            return;
         }
         ((S_80025E48_0 *)effect)->unk_1A.u = 8;
         ((S_80025E48_0 *)effect)->unk_0A.u++;
@@ -252,7 +252,7 @@ fade_fast:
         if ((s16)frames_left < 7) {
             goto finish;
         }
-        goto epilogue;
+        return;
 
 fade_slow:
         slow_color = tint->unk_0D;
@@ -263,7 +263,7 @@ fade_slow:
         frames_left = ((S_80025E48_0 *)effect)->unk_1A.u - 1;
         ((S_80025E48_0 *)effect)->unk_1A.u = frames_left;
         if ((frames_left << 16) > 0) {
-            goto epilogue;
+            return;
         }
 
 finish:
@@ -271,6 +271,5 @@ finish:
         objectFlagBlock.flags |= 0x8000;
     }
 
-epilogue:
     return;
 }

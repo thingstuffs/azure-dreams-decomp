@@ -49,7 +49,7 @@ void func_80172864(void *action_data, void *unused, Rec_D_80082E80 *sprite, void
 
     state = ((S_80172864_0 *)action)->unk_9B.n;
     if ((u32)state >= 5) {
-        goto done;
+        return;
     }
     (void)state_labels;
     goto *D_80170838[state];
@@ -58,7 +58,7 @@ state_0:
     timer = ((S_80172864_0 *)action)->unk_96.u;
     ((S_80172864_0 *)action)->unk_96.u = timer + 1;
     if ((s16)timer < 4 && !(sprite->unk_14.at00_u16.v & 0x8000)) {
-        goto done;
+        return;
     }
     state = ((S_80172864_0 *)action)->unk_9B.v;
     ((S_80172864_0 *)action)->unk_96.u = 0;
@@ -67,7 +67,7 @@ state_0:
 state_1:
     if (((S_80172864_0 *)action)->unk_A2 != 0 &&
         !(sprite->unk_14.at00_u16.v & 0x8000)) {
-        goto done;
+        return;
     }
     sprite->unk_2C.as_pu8 = D_80174108;
     func_80047784(
@@ -91,7 +91,7 @@ state_2:
         ((S_80172864_0 *)action)->unk_9B.n++;
     }
     if (((S_80172864_0 *)action)->unk_96.s != 6) {
-        goto done;
+        return;
     }
     func_800A56E0(0x808);
     return;
@@ -102,7 +102,7 @@ state_4:
     ((S_80172864_0 *)action)->unk_96.u = 0;
     ((S_80172864_0 *)action)->unk_9B.n = state + 1;
     if (!(sprite->unk_14.at00_u16.v & 0xE000)) {
-        goto done;
+        return;
     }
     func_800AD594(actor, 0x100);
     ((S_80172864_0 *)action)->unk_8C = D_801714D4;
@@ -110,6 +110,5 @@ state_4:
     func_800A4ACC(actor);
     ((S_80172864_2 *)actor)->unk_46 &= 0x7FFF;
 
-done:
     return;
 }

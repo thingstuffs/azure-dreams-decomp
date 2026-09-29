@@ -90,20 +90,20 @@ void func_80173CD4(void *action_in, void *context_in, void *sprite_in, void *act
     if (state == 0) {
         goto state_zero;
     }
-    goto done;
+    return;
 
 at_least_two:
     if (state == 2) {
         goto state_two;
     }
-    goto done;
+    return;
 
 state_zero:
     {
         DungeonGlobalStatus *world_counters;
         u8 *direction_anims;
         if (!(((S_80173CD4_1 *)sprite)->unk_14 & 0xE000)) {
-            goto done;
+            return;
         }
         direction_anims = D_80174684;
         (*(void * *)((u8 *)sprite + 0x2C)) = direction_anims;
@@ -127,31 +127,31 @@ state_one:
         world_page = 0x80080000;
         world_state = (u8 *)((u32)&dungeonStatus.unk_00);
         if (((S_80173CD4_4 *)world_state)->unk_02 & 0x1000) {
-            goto done;
+            return;
         }
 
         if (((S_80173CD4_2 *)actor)->unk_64 != 0) {
             if (func_800AA6B4(action, context, sprite, 0) != 0) {
-                goto done;
+                return;
             }
         }
 
         if (((S_80173CD4_2 *)actor)->unk_25 == 0) {
             if (((S_80173CD4_4 *)world_state)->unk_02 & 0x2008) {
-                goto done;
+                return;
             }
             func_800AA79C(action, context, sprite, actor);
-            goto done;
+            return;
         }
 
         if ((func_800A2C34(actor) << 16) != 0) {
-            goto done;
+            return;
         }
 
         actor_flags = ((S_80173CD4_2 *)actor)->unk_1C;
         if (actor_flags & 0x100) {
             func_800AA258(action, context, sprite, actor);
-            goto done;
+            return;
         }
 
         if (actor_flags & 0x80000) {
@@ -170,16 +170,16 @@ state_one:
             ((S_80173CD4_0 *)action)->unk_92 = current_amount - pending_amount;
             ((S_80173CD4_0 *)action)->unk_A8 = packed_adjustment;
             func_801743F0(action, context, sprite, actor);
-            goto done;
+            return;
         }
 
         if (((S_80173CD4_2 *)actor)->unk_6D == 0) {
-            goto done;
+            return;
         }
         if ((func_800A2C34(actor) << 16) != 0) {
             if ((func_8009A180(actor,
                     (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
-                goto done;
+                return;
             }
         }
 
@@ -200,7 +200,7 @@ state_one:
         }
 
         if ((func_80042900(actor, 1) << 16) != 0) {
-            goto done;
+            return;
         }
     }
 
@@ -226,7 +226,7 @@ animate:
 
 increment_state:
     ((S_80173CD4_0 *)action)->unk_9B++;
-    goto done;
+    return;
 
 state_two:
     if (((S_80173CD4_1 *)sprite)->unk_14 & 0xE000) {
@@ -235,12 +235,11 @@ state_two:
         (*(u16 *)&world_counters_m->unk_0A)--;
         goto set_pointer;
     }
-    goto done;
+    return;
 
 set_pointer:
     ((S_80173CD4_0 *)action)->unk_8C = &D_801719DC;
 
-done:
     return;
 }
 

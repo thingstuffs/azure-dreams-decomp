@@ -99,7 +99,7 @@ void func_80091430(void *state, M2C_UNK context_a, M2C_UNK context_b, void *acto
             goto begin_selection;
         }
         {
-            goto done;
+            return;
         }
     } else {
         s32 exit_phase;
@@ -108,7 +108,7 @@ void func_80091430(void *state, M2C_UNK context_a, M2C_UNK context_b, void *acto
         if (phase == exit_phase) {
             goto finish_selection;
         }
-        goto done;
+        return;
     }
 begin_selection:
     {
@@ -159,7 +159,7 @@ update_selection:
                         (*(void **)((u8 *)state + 0x104)) = NULL;
                         D_800E296C = tail_flags & ~0x2000;
                     }
-                    goto done;
+                    return;
                 }
             } else {
                 if (((s32)dungeon_state->unk_010) & 0x10) {
@@ -172,7 +172,7 @@ update_selection:
                     (*(s32 *)((u8 *)state + 0xC8)) = 0;
                     (*(void **)((u8 *)state + 0x104)) = NULL;
                     func_8004E130();
-                    goto done;
+                    return;
                 }
                 if (((s32)dungeon_state->unk_010) & 0x20) {
                     slot_index = (s32) (*(void **)((u8 *)state + 0x104)) != (*(s32 *)((u8 *)state + 0xAC));
@@ -183,7 +183,7 @@ update_selection:
                     (*(s32 *)((u8 *)state + 0xC8)) = 0;
                     (*(void **)((u8 *)state + 0x104)) = NULL;
                     func_8004E130();
-                    goto done;
+                    return;
                 }
                 if (((s32)dungeon_state->unk_010) & 0x40) {
                     func_800C77D0(selection_data - 0x20, ((S_80091430_2_pre *)selection_data)[-1].unk_00, 8, *D_800DCE66);
@@ -195,7 +195,7 @@ update_selection:
                     (*(s32 *)((u8 *)state + 0xC8)) = 0;
                     (*(void **)((u8 *)state + 0x104)) = NULL;
                     func_8004E130();
-                    goto done;
+                    return;
                 }
                 goto check_selection;
             }
@@ -217,14 +217,14 @@ check_selection:
                             if (!(candidate_flags & 0x80000)) {
                                 (*(void **)((u8 *)state + 0x104)) = candidate;
                                 func_800B0F50(candidate);
-                                goto done;
+                                return;
                             }
                         }
                     }
                 } else {
                     (*(void **)((u8 *)state + 0x104)) = NULL;
                     (*(u8 *)((u8 *)state + 0x9B)) = (u8) ((*(u8 *)((u8 *)state + 0x9B)) + 1);
-                    goto done;
+                    return;
                 }
             }
         }
@@ -252,7 +252,7 @@ check_selection:
                 (*(void **)((u8 *)state + 0x8C)) = callback;
             }
             func_800BA810(NULL, 0U);
-            goto done;
+            return;
         }
     }
     return;
@@ -271,7 +271,6 @@ finish_selection:
         (*(void **)((u8 *)state + 0x8C)) = callback;
     }
 
-done:
     return;
 }
 /* Warning: struct S_8003E2D8 is not defined (only forward-declared) */

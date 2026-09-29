@@ -237,13 +237,13 @@ void FUNC_80024000_BODY(S_func_81838800_1 *effect, S_func_81838800_2 *motion, S_
     effect->unk_50.u = effect->unk_50.u - 1;
     state = effect->unk_0A.s;
     if ((u32)state >= 6) {
-        goto done;
+        return;
     }
     goto *(void (**)(void))((void **)D_80024008)[state];
 
 launch:
     if ((((S_func_81838800_7 *)effect->unk_04)->unk_00 & 0x80) == 0) {
-        goto done;
+        return;
     }
     if (func_8003DE58(((S_func_81838800_3 *)caster_obj->unk_0C)->unk_08,
                       caster_obj->unk_0C, launch_offset, 0) == 0) {
@@ -298,7 +298,7 @@ target_found:
     sprite_or_x = (s32)((S_func_81838800_5 *)((u8 *)target - 0x20))->unk_0C;
     if ((((S_func_81838800_3 *)sprite_or_x)->unk_14 & 0x8000) && (effect_sprite->unk_14 & 0x8000)) {
         effect->unk_0A.s = 3;
-        goto done;
+        return;
     }
     caster->unk_72.u = ((S_func_81838800_3 *)sprite_or_x)->unk_24;
     target_tile = ((S_func_81838800_3 *)sprite_or_x)->unk_25;
@@ -334,16 +334,16 @@ set_destination:
     effect->unk_50.u = effect->unk_50.u + effect->unk_0C.u;
     func_800A56E0(0x300);
     effect->unk_0A.u = effect->unk_0A.u + 1;
-    goto done;
+    return;
 
 wait_launch:
     effect->unk_0C.s = effect->unk_0C.s - 1;
     if (effect->unk_0C.s > 0) {
-        goto done;
+        return;
     }
     effect->unk_0C.s = 12;
     effect->unk_0A.u = effect->unk_0A.u + 1;
-    goto done;
+    return;
 
 travel:
     effect->unk_0C.s = effect->unk_0C.s - 1;
@@ -368,12 +368,12 @@ travel:
         }
     }
     if (effect->unk_50.s > 0) {
-        goto done;
+        return;
     }
     effect->unk_0A.u = effect->unk_0A.u + 1;
     motion->unk_0C = step_x << 16;
     motion->unk_10 = step_y << 16;
-    goto done;
+    return;
 
 impact:
     motion->unk_00.s += motion->unk_0C;
@@ -385,7 +385,7 @@ impact:
     }
     effect->unk_50.s = 16;
     effect->unk_0A.u = effect->unk_0A.u + 1;
-    goto done;
+    return;
 
 stop_motion:
     func_80044A50((u8 *)effect - 0x20);
@@ -393,20 +393,19 @@ stop_motion:
     motion->unk_10 = 0;
     motion->unk_0C = 0;
     effect->unk_0A.u = effect->unk_0A.u + 1;
-    goto done;
+    return;
 
 cleanup:
     flags = effect->unk_10;
     if (flags & 0x8000) {
         effect->unk_10 = flags & ~0x8000;
-        goto done;
+        return;
     }
     if (effect->unk_50.s > 0) {
-        goto done;
+        return;
     }
     dungeonStatus.unk_0C = 0;
     ((S_func_81838800_8 *)((u8 *)effect - 0x20))->unk_1E |= 0x8000;
     objectFlagBlock.flags |= 0x8000;
-done:
     return;
 }

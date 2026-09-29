@@ -90,7 +90,7 @@ s32 func_800A2DB8(S_800A2DB8_0 *source)
     initial_target = source->unk_60;
     experience = 0;
     if (initial_target == NULL) {
-        goto done;
+        return experience;
     }
     if (((S_800A2DB8_1 *)initial_target)->unk_13 < 0) {
         goto done;

@@ -25,18 +25,18 @@ s32 func_80018304(s32 input_x, s32 input_y, s32 current_height, s32 direction)
     tile_x = raw_x;
     tile_y = raw_y;
     if ((func_8009A540(direction & 0xFFFF, tile_x, tile_y, probe_height) << 16) == 0) {
-        goto failure;
+        return 0;
     }
 
     dir = direction;
     if ((func_8009A350(tile_x, tile_y, dir, &tile_flags) << 16) == 0) {
-        goto failure;
+        return 0;
     }
 
     next_x = raw_x + ((u16 *)((s8 *)dirStepX))[dir];
     next_y = raw_y + ((u16 *)((s8 *)dirStepY))[dir];
     if (tile_flags & 0x8400) {
-        goto failure;
+        return 0;
     }
 
     target_height = func_800BCB04(

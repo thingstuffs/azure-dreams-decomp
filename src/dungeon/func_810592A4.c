@@ -87,7 +87,7 @@ void func_80170AA4(void *entity_input, void *motion_input, void *part_input)
             return;
         }
         (*(u8 *)((u8 *)actor + 0x71)) &= 0x7F;
-        goto done;
+        return;
     }
 
     call_entity = actor;
@@ -238,6 +238,5 @@ finish:
         ((S_80170AA4_1 *)entity)->unk_88 + (*(u16 *)((u8 *)actor + 0x92));
     ((S_80170AA4_0 *)part)->unk_14.n |= 0x40;
 
-done:
     return;
 }

@@ -35,19 +35,19 @@ void func_80172698(void *action, void *motion, void *sprite, void *actor)
         if (phase == 0) {
             goto begin_action;
         }
-        goto done;
+        return;
     }
     if (phase == 2) {
         goto finish_action;
     }
-    goto done;
+    return;
 
 begin_action:
     if (U16(sprite, 0x14) & 0x8000) {
         U8(action, 0x9B) = 2;
         U16(sprite, 0x14) |= 0x6000;
         func_8009C12C(actor, sprite, S16(actor, 0x2A), 1);
-        goto done;
+        return;
     }
 
     S32(motion, 0x14) = 0;
@@ -65,7 +65,7 @@ wait_delay:
     delay_ticks = U16(action, 0x96) + 1;
     U16(action, 0x96) = delay_ticks;
     if ((s16)delay_ticks != 10) {
-        goto done;
+        return;
     }
     func_800A56E0(0x808);
     func_8009C12C(actor, sprite, S16(actor, 0x2A), 1);
@@ -73,11 +73,11 @@ wait_delay:
 
 advance_phase:
     U8(action, 0x9B) = loaded_phase + 1;
-    goto done;
+    return;
 
 finish_action:
     if (!(U16(sprite, 0x14) & 0xE000)) {
-        goto done;
+        return;
     }
     func_800A2B04(motion, U8(sprite, 0x24), U8(sprite, 0x25));
     func_800AD594(actor, 0x100);
@@ -90,7 +90,6 @@ finish_action:
         D_800E3DE8 = (u8 *)actor - 0x20;
     }
 
-done:
     return;
 }
 

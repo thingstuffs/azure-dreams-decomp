@@ -191,17 +191,16 @@ block_31:
     ((S_807AE960_4 *)actor)->unk_0A = (s16) ((S_807AE960_1 *)state)->unk_0E;
 block_33:
     if (((S_807AE960_1 *)state)->unk_00.u != 0) {
-        goto block_37;
+        return;
     }
     if ((u8) D_80082E80.tileY >= 0x3DU) {
-        goto block_37;
+        return;
     }
     if (((S_807AE960_1 *)state)->unk_0A == (s16) ((S_807AE960_1 *)state)->unk_02) {
-        goto block_37;
+        return;
     }
     ((S_807AE960_1 *)state)->unk_00.s = 4U;
     entry = ((0x3E << ((S_807AE960_5 *)global_end)->unk_14) * 6) + table_base + 0xBA;
     entry->unk_04 = (u16) (entry->unk_04 | 0x8000);
-block_37:
     return;
 }

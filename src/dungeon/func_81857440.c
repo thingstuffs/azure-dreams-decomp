@@ -48,12 +48,12 @@ void func_80024C40(Entity *entity)
         if (state == 0) {
             goto initialize;
         }
-        goto end;
+        return;
     }
     if (state == 2) {
         goto finish;
     }
-    goto end;
+    return;
 
 initialize:
     entity->timer48--;
@@ -131,11 +131,11 @@ animate:
             state = (u16)entity->state4A + 1;
 store_state:
             entity->state4A = state;
-            goto end;
+            return;
         }
         update_value = 0xFFEFEFF0;
         entity->value34 += update_value;
-        goto end;
+        return;
     }
 
 finish:
@@ -145,6 +145,5 @@ finish:
         *(u16 *)((u8 *)entity - 2) |= 0x8000;
         flags_page[0x528] |= 0x8000;
     }
-end:
     return;
 }

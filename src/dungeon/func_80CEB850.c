@@ -144,7 +144,7 @@ state0_decrement:
         ((S_80175050_3 *)((u8 *)(&dungeonStatus)))->unk_0A--;
         ((S_80175050_4 *)starting_task)->unk_9B++;
         func_80171BEC_returning(starting_task, task_id, sprite_in);
-        goto done;
+        return;
 
     case 1:
         kind = ((S_80175050_2 *)actor)->unk_48;
@@ -189,37 +189,37 @@ state1_check:
         }
 
         if (dungeonStatus.flags & 0x1000) {
-            goto done;
+            return;
         }
         if (((S_80175050_2 *)actor)->unk_64 != 0 && func_800AA6B4(task, task_id, sprite_in, 0) != 0) {
-            goto done;
+            return;
         }
         if (((S_80175050_2 *)actor)->unk_25 == 0) {
             if (dungeonStatus.flags & 0x2008) {
-                goto done;
+                return;
             }
             func_800AA79C(task, task_id, sprite_in, actor);
-            goto done;
+            return;
         }
         if ((func_800A2C34(actor) << 16) != 0) {
-            goto done;
+            return;
         }
         flags = ((S_80175050_2 *)actor)->unk_1C;
         if (flags & 0x100) {
             func_800AA258(task, task_id, sprite_in, actor);
-            goto done;
+            return;
         }
         if (flags & 0x80000) {
             func_800AA888(task, task_id, sprite_in, actor);
             func_801759A0(task, task_id, sprite_in, actor);
-            goto done;
+            return;
         }
         if (((S_80175050_2 *)actor)->unk_6D == 0) {
-            goto done;
+            return;
         }
         if ((func_800A2C34(actor) << 16) != 0) {
             if ((func_8009A180(actor, *(u8 **)(((u8 *)D_800814A8) + 0x58) + 0x20) << 16) != 0) {
-                goto done;
+                return;
             }
         }
         func_800A9A0C(actor);
@@ -239,7 +239,7 @@ state1_check:
 
 second_check:
         if ((func_80042900(actor, 1) << 16) != 0) {
-            goto done;
+            return;
         }
         kind = ((S_80175050_2 *)actor)->unk_48;
         if (kind != 14) {
@@ -273,24 +273,23 @@ state1_notify:
 suffix:
         if (((S_80175050_1 *)sprite_in)->unk_14 & 0x8000) {
             ((S_80175050_0 *)task)->unk_8C = D_801724BC;
-            goto done;
+            return;
         }
         ((S_80175050_3 *)((u8 *)(&dungeonStatus)))->unk_0A++;
         ((S_80175050_0 *)task)->unk_9B++;
 
-        goto done;
+        return;
 
     case 2:
         if (((S_80175050_1 *)sprite_in)->unk_14 & 0xE000) {
             ((S_80175050_3 *)((u8 *)(&dungeonStatus)))->unk_0A--;
             ((S_80175050_0 *)task)->unk_8C = D_801724BC;
         }
-        goto done;
+        return;
 
     default:
-        goto done;
+        return;
     }
 
-done:
     return;
 }

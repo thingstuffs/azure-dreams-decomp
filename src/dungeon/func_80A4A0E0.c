@@ -78,13 +78,13 @@ void func_801738E0(void *entity, void *context, void *anim, void *actor)
     if (state == 0) {
         goto state_zero;
     }
-    goto done;
+    return;
 
 at_least_two:
     if (state == 2) {
         goto state_two;
     }
-    goto done;
+    return;
 
 state_zero:
     {
@@ -92,7 +92,7 @@ state_zero:
         u8 *direction_anims;
 
         if (!(((S_801738E0_1 *)anim)->unk_14 & 0xE000)) {
-            goto done;
+            return;
         }
 
         scene_state = &dungeonStatus.unk_00;
@@ -125,23 +125,23 @@ state_one:
 
         scene_state = (u8 *)&dungeonStatus.unk_00;
         if (((S_801738E0_4 *)scene_state)->unk_02 & 0x1000) {
-            goto done;
+            return;
         }
 
         if (((S_801738E0_3 *)actor)->unk_64 != 0) {
             if (func_800AA6B4(entity, context, anim, 0) != 0) {
-                goto done;
+                return;
             }
         }
 
         if ((func_800A2C34(actor) << 16) != 0) {
-            goto done;
+            return;
         }
 
         actor_flags = ((S_801738E0_3 *)actor)->unk_1C;
         if (actor_flags & 0x100) {
             func_800AA258(entity, context, anim, actor);
-            goto done;
+            return;
         }
 
         if (actor_flags & 0x80000) {
@@ -155,23 +155,23 @@ state_one:
             ((S_801738E0_0 *)entity)->unk_B8 = 0;
             ((S_801738E0_0 *)entity)->unk_92 = entity_value - pending_delta;
             func_80173C34(entity, context, anim, actor);
-            goto done;
+            return;
         }
 
         if (((S_801738E0_3 *)actor)->unk_6D == 0) {
-            goto done;
+            return;
         }
         if ((func_800A2C34(actor) << 16) != 0) {
             if ((func_8009A180(actor,
                     (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
-                goto done;
+                return;
             }
         }
 
         func_800A9A0C(actor);
         func_800A9A04(actor);
         if (((S_801738E0_3 *)actor)->unk_25 == 0) {
-            goto done;
+            return;
         }
 
         (*(void * *)((u8 *)anim + 0x2C)) = D_8017588C;
@@ -184,7 +184,7 @@ state_one:
 
 increment_state:
     ((S_801738E0_0 *)entity)->unk_9B++;
-    goto done;
+    return;
 
 state_two:
     if (((S_801738E0_1 *)anim)->unk_14 & 0xE000) {
@@ -196,6 +196,5 @@ state_two:
         ((S_801738E0_0 *)entity)->unk_8C = &D_8017140C;
     }
 
-done:
     return;
 }

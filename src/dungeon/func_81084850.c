@@ -60,35 +60,35 @@ s32 func_80172050(void *action_out, s32 action_param, void *actor_info, void *ac
     ((S_80172050_0 *)acting_actor)->unk_71 &= 0x7F;
     if (dungeonStatus.flags & 0x2000) {
         result = -1;
-        goto done;
+        return result;
     }
 
     computed_angle = func_800A04F0(acting_actor, ((S_80172050_1 *)actor_info)->unk_24,
         ((S_80172050_1 *)actor_info)->unk_25, ((S_80172050_0 *)acting_actor)->unk_2A);
     if ((func_800A2CB8(((void *)(acting_actor)), computed_angle) << 16) == 0) {
         result = 0;
-        goto done;
+        return result;
     }
 
     state_flags = dungeonStatus.flags;
     if (state_flags & 0x2000) {
         result = -1;
-        goto done;
+        return result;
     }
     if (!(((S_80172050_0 *)acting_actor)->unk_46 & 0x8000)) {
         if (state_flags & 8) {
             result = -1;
-            goto done;
+            return result;
         }
     }
 
     if ((u16)(-func_800A0134(computed_angle, acting_actor) + 0x3F) >= 0x7F) {
         result = 0;
-        goto done;
+        return result;
     }
     if ((func_800A2B5C(acting_actor) << 16) != 0) {
         result = -1;
-        goto done;
+        return result;
     }
 
     func_800C7930((u8 *)acting_actor - 0x20, action_param, 8, 0x300);

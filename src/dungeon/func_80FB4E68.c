@@ -184,12 +184,12 @@ void func_80174668(S_80174668_0 *effect, S_80174668_3 *motion, S_80174668_1 *spr
         if (state == 0) {
             goto init_effect;
         }
-        goto done;
+        return;
     }
     if (state == 2) {
         goto finish_effect;
     }
-    goto done;
+    return;
 
 init_effect:
     spawned_object = func_800A05A4(actor, sprite->unk_24,
@@ -202,7 +202,7 @@ init_effect:
         0);
     if (sprite->unk_14 & 0x8000) {
         effect->unk_9B = 2;
-        goto done;
+        return;
     }
 
     effect->unk_9B = 1;
@@ -210,7 +210,7 @@ init_effect:
     motion->unk_10 = 0;
     motion->unk_0C = 0;
     if (((S_80174668_2 *)actor)->unk_60.s == 0) {
-        goto done;
+        return;
     }
 
     result = func_80099734(actor, context = func_800990FC());
@@ -230,7 +230,7 @@ init_effect:
 
     effect_alloc = func_8003FD64(0x201, ((u8 *)(&D_80083498)));
     if (effect_alloc == 0) {
-        goto done;
+        return;
     }
     func_8004491C(effect_alloc, D_80174B98);
     ((S_80174668_5 *)effect_alloc)->unk_10 = D_80174B20;
@@ -248,7 +248,7 @@ init_effect:
         ((S_80174668_6 *)effect_data)->unk_96 = countdown;
         ((S_80174668_6 *)effect_data)->unk_A6 = motion_param;
         effect->unk_96.s = countdown;
-        goto done;
+        return;
     }
 
 emit_particles:
@@ -305,14 +305,14 @@ update_timer:
     ticks_left = effect->unk_96.u - 1;
     effect->unk_96.u = ticks_left;
     if ((ticks_left << 16) > 0) {
-        goto done;
+        return;
     }
     effect->unk_9B++;
-    goto done;
+    return;
 
 finish_effect:
     if (!(sprite->unk_14 & 0xE000)) {
-        goto done;
+        return;
     }
     ((S_80174668_2 *)actor)->unk_73.s = 0;
     ((S_80174668_2 *)actor)->unk_72.s = 0;
@@ -335,6 +335,5 @@ finish_effect:
         func_800C8CD8(spawned_object, 0x28, 0x10);
     }
 
-done:
     return;
 }

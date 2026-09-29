@@ -85,7 +85,7 @@ void func_80092018(void *actor, void *motion, void *sprite, void *model) {
 
     action_state = ((S_80092018_0 *)actor)->unk_9B;
     if (action_state >= 0x14U) {
-        goto block_29;
+        return;
     }
     (void)jt_keep; goto *D_800889C0[(u32)(action_state)];
 jt_c0:
@@ -101,13 +101,13 @@ jt_c0:
 block_5:
     heading_or_coord = func_8009074C(((S_80092018_0 *)actor)->unk_9E, actor + 0xA2, model + 0x2A) << 0x10;
     if ((heading_or_coord >> 0x10) == 0xFFF) {
-        goto block_29;
+        return;
     }
     if ((((u16) ((S_80092018_2 *)model)->unk_2A >> 9) & 7) == ((heading_or_coord >> 0x19) & 7)) {
-        goto block_29;
+        return;
     }
     if ((func_80094EA4(heading_or_coord) << 0x10) == 0) {
-        goto block_29;
+        return;
     }
     goto block_28;
 jt_c16:
@@ -116,7 +116,7 @@ jt_c16:
     start_frames_left = ((S_80092018_0 *)actor)->unk_96.s - 1;
     ((S_80092018_0 *)actor)->unk_96.s = start_frames_left;
     if ((start_frames_left << 0x10) > 0) {
-        goto block_29;
+        return;
     }
     (*(u8 **)((u8 *)sprite + 0x2C)) = D_800DD018;
     func_80048A44(sprite, *((((s32) (gameWork.view.viewAngle + ((S_80092018_2 *)model)->unk_2A + 0x100) >> 9) & 7) + D_800DD018), 0, 1);
@@ -170,7 +170,7 @@ block_17:
     move_frames_left = (u16) ((S_80092018_5 *)move_state)->unk_04 - 1;
     ((S_80092018_5 *)move_state)->unk_04 = move_frames_left;
     if ((move_frames_left << 0x10) > 0) {
-        goto block_29;
+        return;
     }
     ((S_80092018_5 *)move_state)->unk_04 = 0;
     ((S_80092018_3 *)motion)->unk_14 = 0;
@@ -220,10 +220,10 @@ block_23:
         goto block_26;
     }
     if (!(anim_flags & 0x6000)) {
-        goto block_29;
+        return;
     }
     if (((S_80092018_0 *)actor)->unk_96.u != 0) {
-        goto block_29;
+        return;
     }
 block_26:
     ((S_80092018_3 *)motion)->unk_14 = 0;
@@ -244,6 +244,5 @@ block_26:
 block_27:
 block_28:
     ((S_80092018_0 *)actor)->unk_8C = &D_8008ACDC;
-block_29:
     return;
 }

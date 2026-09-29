@@ -32,7 +32,7 @@ void func_8002663C(void *effect, void *control)
     if (state == 0) {
         goto initialize;
     }
-    goto done;
+    return;
 
 check_dark:
     if (state == 3) {
@@ -41,7 +41,7 @@ check_dark:
     if (state == 4) {
         goto dark;
     }
-    goto done;
+    return;
 
 initialize:
     func_8004491C((u8 *)effect - 0x20, &D_80026F68);
@@ -66,13 +66,13 @@ light:
     light_frames_left = U16_AT(effect, 0xC) - 1;
     S16_AT(effect, 0xC) = light_frames_left;
     if ((light_frames_left << 0x10) > 0) {
-        goto done;
+        return;
     }
     U8_AT(effect, 0xA) = 0x60;
     U8_AT(effect, 9) = 0x60;
     U8_AT(effect, 8) = 0x60;
     S16_AT(effect, 0xE) = (s16)(U16_AT(effect, 0xE) + 1);
-    goto done;
+    return;
 
 start_dark:
     S16_AT(effect, 0xC) = 8;
@@ -90,11 +90,10 @@ dark:
     dark_frames_left = U16_AT(effect, 0xC) - 1;
     S16_AT(effect, 0xC) = dark_frames_left;
     if ((dark_frames_left << 0x10) > 0) {
-        goto done;
+        return;
     }
     U16_AT(effect, -2) |= 0x8000;
     objectFlagBlock.flags |= 0x8000;
 
-done:
     return;
 }

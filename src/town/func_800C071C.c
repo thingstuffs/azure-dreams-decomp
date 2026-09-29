@@ -36,7 +36,7 @@ void func_800BDE7C(S_800BDE7C_0 *arg0, s32 arg1, S_800BDE7C_1 *arg2, s32 arg3)
         if (state == 0) {
             goto state_0;
         }
-        goto done;
+        return;
     }
     if (state == 2) {
         goto state_2;
@@ -44,14 +44,14 @@ void func_800BDE7C(S_800BDE7C_0 *arg0, s32 arg1, S_800BDE7C_1 *arg2, s32 arg3)
     if (state == 3) {
         goto state_1_or_3;
     }
-    goto done;
+    return;
 
 state_0:
     if (func_800352FC() == 0) {
-        goto done;
+        return;
     }
     if (func_800C2AB4(arg0) == 0) {
-        goto done;
+        return;
     }
     arg2->unk_08 = source[1];
     goto increment;
@@ -60,21 +60,20 @@ state_1_or_3:
     if ((func_800352FC() == 0) || (func_800C2AB4(arg0) == 0)) {
         arg0->unk_68.u = (arg0->unk_68.u + 1) & 3;
     }
-    goto done;
+    return;
 
 state_2:
     if (func_800352FC() == 0) {
-        goto done;
+        return;
     }
     if (func_800C2AB4(arg0) == 0) {
-        goto done;
+        return;
     }
     arg2->unk_08 = source[0];
 
 increment:
     arg0->unk_68.u = arg0->unk_68.u + 1;
 
-done:
     return;
 }
 

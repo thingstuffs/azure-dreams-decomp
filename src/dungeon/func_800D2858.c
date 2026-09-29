@@ -106,13 +106,13 @@ void func_800D7FB8(S_func_800D7FB8_0 *controller) {
     if (state == 0) {
         goto init_state;
     }
-    goto done;
+    return;
 
 check_ff:
     if (state == 0xFF) {
         goto ff_state;
     }
-    goto done;
+    return;
 
 init_state:
     controller->unk_02.s16_value = 0x3C;
@@ -153,7 +153,7 @@ timer_state:
         controller->unk_02.u16_value = 8U;
         controller->unk_00 = (s16)0xFF;
     }
-    goto done;
+    return;
 
 ff_state:
     finish_timer = (u16)(controller->unk_02.u16_value - 1);
@@ -164,6 +164,5 @@ ff_state:
         ((S_func_800D7FB8_6 *)((s32 *)(&objectFlagBlock)))->unk_00 = ((S_func_800D7FB8_6 *)((s32 *)(&objectFlagBlock)))->unk_00 | 0x8000;
     }
 
-done:
     return;
 }

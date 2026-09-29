@@ -102,7 +102,7 @@ extern s32 D_8029070C[3];
 extern u8 D_80529080[12];
 extern s16 D_80530658[];
 extern s16 D_80530666;
-void func_8080C650(void *in0, void *in1, void *in2) {
+void func_8080C650(void *in0, void *arg1, void *in2) {
     s16 *var_v1;
     s16 raw_s1;
     s32 temp_v0_4;
@@ -136,14 +136,12 @@ void func_8080C650(void *in0, void *in1, void *in2) {
     void *temp_v0_3;
     void *var_s0;
     void *var_s0_2;
-    register void *arg1 ASM_REG("$19") = in1;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     void *arg2 = in2;
     s32 *global_s7;
     s32 *global_s5;
 
     var_s2 = 0;
     var_s0 = NULL;
-    ASM_KEEP_NV(arg1);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     ASM_KEEP_NV(arg2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     raw_s1 = func_8025E01C(arg1);
     global_s7 = D_8012F130;
@@ -415,23 +413,20 @@ block_100:
                         global_s5 = (s32 *)0x1000;
                         ((S_8080C650_0 *)in0)->unk_A8 = (s32) (((S_8080C650_0 *)in0)->unk_A8 | 1);
                         {
-loop_920:
-                            temp_v0_3 = func_800374FC(0x136, D_801328C8);
-                            if (temp_v0_3 != NULL) {
-                                var_s0_2 = ((S_8080C650_4 *)temp_v0_3)->unk_0C;
-                                func_8003BC18(temp_v0_3, D_8003C558);
-                                ((S_8080C650_1 *)var_s0_2)->unk_0C = 0x808080;
-                                ((S_8080C650_1 *)var_s0_2)->unk_1E = (s16)(s32)global_s5;
-                                ((S_8080C650_1 *)var_s0_2)->unk_1C = (s16)(s32)global_s5;
-                                ((S_8080C650_4 *)temp_v0_3)->unk_22 = 0x78;
-                                ((S_8080C650_4 *)temp_v0_3)->unk_24 = arg1;
-                                ((S_8080C650_4 *)temp_v0_3)->unk_10 = (s32)D_80529080;
-                                func_80034A1C(var_s0_2, D_8028954C, (s16)(var_s2 * 4));
-                            }
-                            var_s2 -= 1;
-                            if (var_s2 >= 0) {
-                                goto loop_920;
-                            }
+                            do {
+                                temp_v0_3 = func_800374FC(0x136, D_801328C8);
+                                if (temp_v0_3 != NULL) {
+                                    var_s0_2 = ((S_8080C650_4 *)temp_v0_3)->unk_0C;
+                                    func_8003BC18(temp_v0_3, D_8003C558);
+                                    ((S_8080C650_1 *)var_s0_2)->unk_0C = 0x808080;
+                                    ((S_8080C650_1 *)var_s0_2)->unk_1E = (s16)(s32)global_s5;
+                                    ((S_8080C650_1 *)var_s0_2)->unk_1C = (s16)(s32)global_s5;
+                                    ((S_8080C650_4 *)temp_v0_3)->unk_22 = 0x78;
+                                    ((S_8080C650_4 *)temp_v0_3)->unk_24 = arg1;
+                                    ((S_8080C650_4 *)temp_v0_3)->unk_10 = (s32)D_80529080;
+                                    func_80034A1C(var_s0_2, D_8028954C, (s16)(var_s2 * 4));
+                                }
+                            } while (--var_s2 >= 0);
                             goto block_after;
                         }
                     }

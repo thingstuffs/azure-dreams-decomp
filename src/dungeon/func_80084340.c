@@ -317,7 +317,7 @@ void func_80089AA0(void *in_actor, void *in_motion, void *in_sprite) {
         if ((D_800E3CD0 == 0) && (((s32)world_state->unk_010) != 0)) {
             D_800E3CD0 = 1;
             func_80040AA0(3);
-            goto function_end;
+            return;
         }
         goto update_audio;
     }
@@ -924,21 +924,20 @@ store_pending_actor:
             if (func_800A5C70() != 0) {
                 ((S_80089AA0_24 *)loop_status)->unk_02 =
                     (u16)(((S_80089AA0_24 *)loop_status)->unk_02 | 0x80);
-                goto function_end;
+                return;
             }
         }
-        goto function_end;
+        return;
 check_pass_completion:
         if ((actor == ((S_80089AA0_26 *)actor_root_page)->unk_3D7C) && (motion_or_count == NULL)) {
             ((S_80089AA0_24 *)loop_status)->unk_02 = (u16) (((S_80089AA0_24 *)loop_status)->unk_02 & 0xFFFE);
         }
         final_flags = ((S_80089AA0_24 *)loop_status)->unk_02;
         if (!(final_flags & 0x80) || (((S_80089AA0_24 *)loop_status)->unk_0C != NULL) || (((S_80089AA0_24 *)loop_status)->unk_10 != 0) || (((S_80089AA0_24 *)loop_status)->unk_0A != 0) || (((S_80089AA0_24 *)loop_status)->unk_08 == 0)) {
-            goto function_end;
+            return;
         }
         next_flags = final_flags & 0xFFF7;
         goto store_loop_flags;
     }
-function_end:
     return;
 }

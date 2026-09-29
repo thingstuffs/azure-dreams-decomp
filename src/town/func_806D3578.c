@@ -24,15 +24,14 @@ s32 func_80016D78(s32 flagIndex)
     flagWord = flagWords[wordIndex];
     result = 1 << (flagIndex - wordIndex * 32);
     result &= flagWord;
-    goto done;
+    return result;
 
 one:
     result = 1;
-    goto done;
+    return result;
 
 zero:
     result = 0;
 
-done:
     return result;
 }

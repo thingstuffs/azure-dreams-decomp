@@ -51,50 +51,50 @@ void func_80057A94(S_80057A94 *command) {
     cell = (S_80057A94_cell *)func_80057A50(command, command->f4D & 0xF);
     operation = command->f4C;
     if (operation >= 23) {
-        goto L_default;
+        return;
     }
     goto *jtbl_80032EA4[operation];
 
 L1:
     cell->x1 = command->f4E;
-    goto L_default;
+    return;
 L2:
     cell->x6 = command->f4E;
-    goto L_default;
+    return;
 L3:
     cell->x7 = command->f4E;
-    goto L_default;
+    return;
 L4:
     cell->h10 = (cell->h10 & 0xFF) | ((0x7F - command->f4E) << 8);
-    goto L_default;
+    return;
 L5:
     cell->h10 = (cell->h10 & 0xFF) | ((0x7F - command->f4E) << 8) | 0x8000;
-    goto L_default;
+    return;
 L6:
     cell->h10 = (cell->h10 & 0xFF0F) | ((command->f4E << 1) & 0xF0);
-    goto L_default;
+    return;
 L7:
     cell->h10 = (cell->h10 & 0xFFF0) | (command->f4E >> 3);
-    goto L_default;
+    return;
 L8:
     cell->h12 = (cell->h12 & 0x603F) | ((0x7F - command->f4E) << 6);
-    goto L_default;
+    return;
 L9:
     cell->h12 = (cell->h12 & 0x603F) | ((0x7F - command->f4E) << 6) | 0x8000;
-    goto L_default;
+    return;
 L10:
     cell->h12 = (cell->h12 & 0xFFC0) | ((0x7F - command->f4E) >> 3);
-    goto L_default;
+    return;
 L11:
     cell->h12 = ((cell->h12 & 0xFFC0) | ((0x7F - command->f4E) >> 3)) | 0x20;
-    goto L_default;
+    return;
 L12:
     if (command->f4E < 0x41) {
         cell->h12 |= 0x4000;
     } else {
         cell->h12 &= 0xBFFF;
     }
-    goto L_default;
+    return;
 L15:
     if (func_8005DA68() == 1) {
         func_8005D88C(0);
@@ -106,23 +106,22 @@ L15:
         func_8005DA88(&message);
         func_8005D88C(1);
     }
-    goto L_default;
+    return;
 L16:
     message.type = 6;
     message.x = command->f4E << 8;
     message.y = command->f4E << 8;
     func_8005DA88(&message);
     func_8005D88C(1);
-    goto L_default;
+    return;
 L17:
     message.type = 0x10;
     message.f10 = command->f4E;
     func_8005DA88(&message);
-    goto L_default;
+    return;
 L18:
     message.type = 8;
     message.fc = command->f4E;
     func_8005DA88(&message);
-L_default:
     return;
 }

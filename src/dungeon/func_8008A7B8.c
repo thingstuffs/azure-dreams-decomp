@@ -30,14 +30,14 @@ void func_8008FF18(u8 *entity_in, s32 *motion_in, u16 *sprite_in, s32 *actor_in)
 
     phase = *(u8 *)(entity + 0x9B);
     if (phase >= 0xDU) {
-        goto block_25;
+        return;
     }
     (void)jt_keep; goto *D_80088848[(u32)(phase)];
 jt_c0:
 jt_c8:
 jt_c10:
     if (!(*(u16 *)((u8 *)sprite + 0x14) & 0x6000)) {
-        goto block_25;
+        return;
     }
     phase = *(u8 *)(entity + 0x9B);
     vertical_speed = 8;
@@ -84,7 +84,7 @@ jt_c11:
     frames_left = (u16) dungeonStatus.unk_04 - 1;
     dungeonStatus.unk_04 = frames_left;
     if ((frames_left << 0x10) > 0) {
-        goto block_25;
+        return;
     }
     dungeonStatus.unk_04 = 0;
     *(s32 *)((u8 *)motion + 0x10) = 0;
@@ -94,7 +94,7 @@ jt_c11:
         goto block_17;
     }
     if ((func_80094F74(entity, motion, sprite, actor) << 0x10) <= 0) {
-        goto block_25;
+        return;
     }
     next_handler = (u8 *)&D_8008EAC8;
     goto block_24;
@@ -110,16 +110,15 @@ block_19:
     return;
 jt_c12:
     if (!(*(u16 *)((u8 *)sprite + 0x14) & 0x6000)) {
-        goto block_25;
+        return;
     }
     dungeonStatus.unk_04 = 0;
 block_22:
     if ((func_80094F74(entity, motion, sprite, actor) << 0x10) <= 0) {
-        goto block_25;
+        return;
     }
     next_handler = (u8 *)&D_8008ACDC;
 block_24:
     *(u8 **)((u8 *)entity + 0x8C) = next_handler;
-block_25:
     return;
 }

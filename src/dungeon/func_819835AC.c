@@ -932,7 +932,7 @@ block_126:
     fade_ticks = effect->unk_8A - 1;
     effect->unk_8A = fade_ticks;
     if ((fade_ticks << 0x10) > 0) {
-        goto block_146;
+        return;
     }
     D_80027C94 = 0;
     goto block_139;
@@ -1041,6 +1041,5 @@ block_143:
     func_80026240(effect, visual->unk_00);
 block_145:
     effect->unk_94 = (u16) (effect->unk_94 + 1);
-block_146:
     return;
 }

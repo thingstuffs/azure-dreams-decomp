@@ -76,7 +76,7 @@ init_entities:
     {
         entity_index = 0;
         if (D_800869B4 == 0) {
-            goto done;
+            return 0;
         }
         default_value = 0x68;
         entity = D_80085FA8;
@@ -101,14 +101,14 @@ init_entities:
             entity++;
             entity_index++;
         } while (entity_index < (u32)D_800869B4);
-        goto done;
+        return 0;
     }
 init_spans:
     offset = 0x50;
     data = D_80085FA4;
     entity_index = 0;
     if (D_800869B4 == 0) {
-        goto done;
+        return 0;
     }
     packed_default = 0x68;
     entity = D_80085FA8;

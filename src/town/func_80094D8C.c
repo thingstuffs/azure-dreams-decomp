@@ -48,7 +48,7 @@ void func_800924EC(void *context, void *entity, s32 update_arg)
         if (D_800CFCEF == 0)
         {
             func_80094378(context, entity, update_arg);
-            goto block_end;
+            return;
         }
     }
     else if (D_800CFCEF == 0)
@@ -60,7 +60,7 @@ void func_800924EC(void *context, void *entity, s32 update_arg)
     if (state_flags & 0x10)
     {
         func_800942B0(context, entity, update_arg);
-        goto block_end;
+        return;
     }
     if (state_flags & 0x40)
     {
@@ -70,15 +70,15 @@ void func_800924EC(void *context, void *entity, s32 update_arg)
             if (check_result == 2)
             {
                 func_8009451C(context, entity, update_arg);
-                goto block_end;
+                return;
             }
             func_800944BC(context, entity, update_arg);
-            goto block_end;
+            return;
         }
         if (func_80033B2C(0xA4) != 0)
         {
             func_80094088(context, entity, update_arg);
-            goto block_end;
+            return;
         }
     }
     else
@@ -88,12 +88,11 @@ void func_800924EC(void *context, void *entity, s32 update_arg)
             func_80094C1C(context);
             if (func_8009567C(&D_800CFCB4) > 0)
             {
-                goto block_end;
+                return;
             }
         }
         func_80094474(context, entity, update_arg);
     }
 
-block_end:
     return;
 }

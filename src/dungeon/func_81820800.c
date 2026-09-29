@@ -206,13 +206,13 @@ dispatch:
     phase = state_obj->unk_0A;
     state_obj->unk_50 = (u16) (state_obj->unk_50 - 1);
     if ((u32) phase >= 6U) {
-        goto done;
+        return;
     }
     (void)state_labels;
     goto *jtbl_80024008[(u32) phase];
 state_aim:
     if (!(*state_obj->unk_04 & 0x80)) {
-        goto done;
+        return;
     }
     {
         S_func_81820800_5 *tile_data;
@@ -227,27 +227,25 @@ state_aim:
     distance_or_script = 0;
     offset_y = 0;
     offset_x = 0;
-scan_tiles:
-    {
-        S_func_81820800_5 *tile_data = actor_data;
-        s32 tile_left;
-        s32 tile_left_2;
-        s32 tile_top;
-        tile_left_2 = (tile_data->unk_24 + offset_x) << 6;
-        coord_x = tile_left_2 + 0x20;
-        tile_top = (tile_data->unk_25 + offset_y) << 6;
-        coord_y = tile_top + 0x20;
-        ASM_KEEP_NV(coord_x);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    }
-    if ((func_800A4688((u16) coord_x, (u16) coord_y, func_800BCB04((u16) coord_x, (u16) coord_y, -0x400), (s16) actor->unk_2A, actor->unk_60) << 0x10) != 0) {
-        goto set_endpoint;
-    }
-    distance_or_script += 1;
-    offset_y += step_y;
-    offset_x += step_x;
-    if (distance_or_script < 2) {
-        goto scan_tiles;
-    }
+    do {
+        {
+            S_func_81820800_5 *tile_data = actor_data;
+            s32 tile_left;
+            s32 tile_left_2;
+            s32 tile_top;
+            tile_left_2 = (tile_data->unk_24 + offset_x) << 6;
+            coord_x = tile_left_2 + 0x20;
+            tile_top = (tile_data->unk_25 + offset_y) << 6;
+            coord_y = tile_top + 0x20;
+            ASM_KEEP_NV(coord_x);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        }
+        if ((func_800A4688((u16) coord_x, (u16) coord_y, func_800BCB04((u16) coord_x, (u16) coord_y, -0x400), (s16) actor->unk_2A, actor->unk_60) << 0x10) != 0) {
+            goto set_endpoint;
+        }
+        distance_or_script += 1;
+        offset_y += step_y;
+        offset_x += step_x;
+    } while (distance_or_script < 2);
 set_endpoint:
     ASM_USE(coord_x);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     {
@@ -354,12 +352,12 @@ effect_spawned:
         goto next_effect;
     }
     if ((s16) state_obj->unk_50 > 0) {
-        goto done;
+        return;
     }
     state_obj->unk_50 = 5U;
     state_obj->unk_0A = (s16) ((u16) state_obj->unk_0A + 1);
     if (actor->unk_60 != NULL) {
-        goto done;
+        return;
     }
 start_hit:
     state_obj->unk_0A = 3;
@@ -375,7 +373,7 @@ wait_hit:
     return;
 state_wait:
     if ((s16) state_obj->unk_50 > 0) {
-        goto done;
+        return;
     }
     state_obj->unk_0A = (s16) ((u16) state_obj->unk_0A + 1);
     return;
@@ -389,6 +387,5 @@ finish:
     dungeonStatus.unk_0C = 0;
     *(u16 *)((u8 *)state_obj - 2) = (u16) (*(u16 *)((u8 *)state_obj - 2) | 0x8000);
     objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
-done:
     return;
 }

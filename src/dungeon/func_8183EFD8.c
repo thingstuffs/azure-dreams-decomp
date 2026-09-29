@@ -133,7 +133,7 @@ brighten:
         ((S_8183EFD8_0 *)effect_arg)->unk_4C.u = (u16) (((S_8183EFD8_0 *)effect_arg)->unk_4C.u + 1);
         return;
     }
-    goto end;
+    return;
 
 accelerate:
     z_velocity = motion->unk_14 + 0x8000;
@@ -181,7 +181,7 @@ accelerate:
         } while (count_or_step >= 0);
         return;
     }
-    goto end;
+    return;
 
 fade_out:
     if (count_or_step >= (s32) sprite->unk_0C.at00.v) {
@@ -195,6 +195,5 @@ fade_out:
     sprite->unk_0C.at01.v = fade_level;
     sprite->unk_0C.at00.v = fade_level;
 
-end:
     return;
 }

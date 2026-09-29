@@ -143,7 +143,7 @@ BODY_STORAGE void BODY_NAME(S_func_819B2800_0 *effect, S_func_819B2800_1 *positi
     effect->unk_50 = (u16) (timer - 1);
     location = (S_func_819B2800_3 *) ((u8 *) object_data - 0x20);
     if ((u32) phase_or_delay >= 5U) {
-        goto done;
+        return;
     }
     (void)phase_labels;
     goto *D_80024008[(u32)(phase_or_delay)];
@@ -156,7 +156,7 @@ init_effect:
     effect->unk_0A.unk_0A = (s16) ((u16) effect->unk_0A.unk_0A + 1);
 wait_trigger:
     if (!(*effect->unk_04 & 0x80)) {
-        goto done;
+        return;
     }
     actor = (void *) ((s32*)((int *)(&D_800814A8)))[0];
     effect->unk_50 = 0xAU;
@@ -193,7 +193,7 @@ advance_phase:
     goto store_phase;
 start_effect:
     if ((s16) effect->unk_50 > 0) {
-        goto done;
+        return;
     }
     if (func_80053EF0(4) != 2) {
         effect_code = 0x300;
@@ -211,7 +211,7 @@ spawn_visual:
     func_800419EC(0x18, 0x10);
 wait_visual:
     if ((s16) effect->unk_50 > 0) {
-        goto done;
+        return;
     }
     object_data = (S_func_819B2800_2 *) func_8003FD64(0x302, ((u8 *)(&D_80083498)));
     data_bytes = (u8 *) object_data;
@@ -236,7 +236,7 @@ set_timer:
     next_phase++;
 store_phase:
     effect->unk_0A.unk_A = next_phase;
-    goto done;
+    return;
 apply_effect:
     if ((s16) effect->unk_50 != 8) {
         goto check_completion;
@@ -262,19 +262,18 @@ check_completion:
         goto check_hold;
     }
     if ((s16) effect->unk_50 >= 0) {
-        goto done;
+        return;
     }
 check_hold:
     if (!(effect->unk_52.unk_052 & 0x8000)) {
         goto finish_effect;
     }
     effect->unk_52.unk_52 = (u16) (effect->unk_52.unk_52 & 0x7FFF);
-    goto done;
+    return;
 finish_effect:
     dungeonStatus.unk_0C = 0;
     dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
     ((S_func_819B2800_8 *) ((u8 *) effect - 2))->unk_00 = (u16) (((S_func_819B2800_8 *) ((u8 *) effect - 2))->unk_00 | 0x8000);
     objectFlagBlock.flags |= 0x8000;
-done:
     return;
 }

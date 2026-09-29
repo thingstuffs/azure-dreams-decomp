@@ -102,7 +102,7 @@ void func_80172874(void *effect, EntityRec *position, S_80172874_2 *transform)
     case 2:
         goto shrink;
     default:
-        goto done;
+        return;
     }
 
 grow:
@@ -115,9 +115,9 @@ grow:
     transform->unk_0E = grow_scale;
     if (((S_80172874_0 *)base)->unk_16.u >= 5) {
         ((S_80172874_0 *)base)->unk_12.p = ((S_80172874_0 *)base)->unk_12.p + 1;
-        goto done;
+        return;
     }
-    goto done;
+    return;
 
 track:
     {
@@ -136,7 +136,7 @@ track:
         position->x.v = source->unk_00;
         position->y.v = source->unk_04;
         position->z.v = source->unk_08;
-        goto done;
+        return;
     }
 
 shrink:
@@ -153,6 +153,5 @@ shrink:
         ((S_80172874_7 *)global_base)->unk_14A0 |= 0x8000;
     }
 
-done:
     return;
 }

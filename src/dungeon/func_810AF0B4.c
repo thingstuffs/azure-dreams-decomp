@@ -228,7 +228,7 @@ block_33:
     saved_pos[1] = ((S_801728B4_5 *)motion)->unk_04.at02.v;
     saved_pos[2] = ((S_801728B4_5 *)motion)->unk_08.at02.v;
     if (func_800A94A0(action, slot_or_effect, use_player, actor + 0x98) == 0) {
-        goto block_56;
+        return;
     }
     ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = (u16) (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xF7FF);
     func_800A56E0(0x703);
@@ -236,7 +236,7 @@ block_33:
     new_effect = func_8003FD64(0x112, ((M2C_UNK *)&D_80083498.next));
     ((S_801728B4_0 *)actor)->unk_A0 = new_effect;
     if (new_effect == NULL) {
-        goto block_56;
+        return;
     }
     func_8004491C(new_effect, func_80045340);
     ((S_801728B4_6 *)new_effect)->unk_10 = &D_800D7960;
@@ -320,7 +320,7 @@ block_47:
     ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = (u16) (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xF7FF);
 block_49:
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
-        goto block_56;
+        return;
     }
     ((S_801728B4_5 *)motion)->unk_14 = 0;
     ((S_801728B4_5 *)motion)->unk_10 = 0;
@@ -333,7 +333,7 @@ block_49:
     func_80047784(sprite, D_80173C6C[((s32) (gameWork.view.viewAngle + ((EntityRec *)action)->facing + 0x100) >> 9) & 7], 0);
 block_52:
     if (((s32)dungeonStatus.unk_0C) != 0) {
-        goto block_56;
+        return;
     }
     dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
     ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = (u16) (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xF7FF);
@@ -348,6 +348,5 @@ block_55:
     ((EntityRec *)action)->unk_72 = 0;
     ((EntityRec *)action)->unk_46 = (u16) (((EntityRec *)action)->unk_46 & 0x7FFF);
     func_800A56E0(0xB4);
-block_56:
     return;
 }

@@ -419,7 +419,7 @@ state_launch:
                 if ((target_sprite->unk_14 & 0x8000) && (((S_8182C800_6 *)sprite_or_step_x)->unk_14 & 0x8000)) {
                     func_8009CE1C(((S_8182C800_1 *)owner)->unk_60, 8, (*(u8 *)((u8 *)&((EntityRec *)effect)->z + 1)), 2, (s32) ((S_8182C800_1 *)owner)->unk_2A.u, owner, 2);
                     ((EntityRec *)effect)->z.w.i = 4;
-                    goto done;
+                    return;
                 }
                 ((S_8182C800_1 *)owner)->unk_72.s = (u8) target_sprite->unk_24;
                 ((S_8182C800_1 *)owner)->unk_73.s = (u8) target_sprite->unk_25;
@@ -488,9 +488,9 @@ state_launch:
             ((EntityRec *)effect)->unk_52 = (u16) ((EntityRec *)effect)->unk_50;
             func_800A56E0(0x300, accel_x);
             ((EntityRec *)effect)->z.w.i += 1;
-            goto done;
+            return;
         }
-        goto done;
+        return;
 state_flight:
         trail_count = 0x14;
         trail_texture = D_800DEC28;
@@ -603,7 +603,7 @@ check_timeout:
 arrive:
                 if (((S_8182C800_1 *)owner)->unk_60 == 0) {
                     ((EntityRec *)effect)->z.w.i = 3;
-                    goto done;
+                    return;
                 }
                 hit_texture = (u8 *) &D_800DEB70;
                 ((S_8182C800_6 *)sprite_or_step_x)->unk_00 = hit_texture;
@@ -622,12 +622,12 @@ arrive:
                 ((S_8182C800_5 *)motion)->unk_0C = 0;
                 ((S_8182C800_5 *)motion)->unk_04.at02.v = (s16) ((target_tile_y << 6) + 0x20);
                 ((EntityRec *)effect)->z.w.i += 1;
-                goto done;
+                return;
             }
         } else {
             goto spawn_trail;
         }
-        goto done;
+        return;
 state_hit:
         func_800478B8((void *) sprite_or_step_x);
         if (((S_8182C800_6 *)sprite_or_step_x)->unk_14 & 0x6000) {
@@ -666,25 +666,24 @@ state_hit:
                 } while (burst_count >= 0);
             }
             ((EntityRec *)effect)->z.w.i += 1;
-            goto done;
+            return;
         }
-        goto done;
+        return;
 state_fade:
         ((S_8182C800_6 *)sprite_or_step_x)->unk_0C = (s32) (((S_8182C800_6 *)sprite_or_step_x)->unk_0C + 0xFFEFEFF0);
         if ((u8) ((S_8182C800_6 *)sprite_or_step_x)->unk_0C == 0) {
             ((EntityRec *)effect)->z.w.i += 1;
-            goto done;
+            return;
         }
-        goto done;
+        return;
 state_finish:
         effect_flags = ((EntityRec *)effect)->unk_0C;
         if (effect_flags & 0x8000) {
             ((EntityRec *)effect)->unk_0C = effect_flags & 0xFFFF7FFF;
-            goto done;
+            return;
         }
         dungeonStatus.unk_0C = 0;
         ((S_8182C800_0_pre *)effect)[-1].unk_00 = (u16) (((S_8182C800_0_pre *)effect)[-1].unk_00 | 0x8000);
         ((S_8182C800_22 *)((s32 *)(&objectFlagBlock)))->unk_00 = (s32) (((S_8182C800_22 *)((s32 *)(&objectFlagBlock)))->unk_00 | 0x8000);
-done:
         return;
 }

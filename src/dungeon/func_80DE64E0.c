@@ -41,19 +41,19 @@ void func_80173CE0(void *state_ctx, s32 entity_id, void *action, void *entity)
         if (state == 0) {
             goto state_zero;
         }
-        goto end;
+        return;
     }
     if (state == 2) {
         goto state_two;
     }
-    goto end;
+    return;
 
 state_zero:
     flags = ((S_80173CE0_1 *)action)->unk_14;
     if (flags & 0x8000) {
         ((S_80173CE0_1 *)action)->unk_14 = flags | 0x6000;
         ((S_80173CE0_0 *)state_ctx)->unk_9B = 2;
-        goto end;
+        return;
     }
     ((S_80173CE0_0 *)state_ctx)->unk_9B = 1;
 
@@ -63,14 +63,14 @@ state_one:
         goto run_one;
     }
     if (!(((S_80173CE0_1 *)action)->unk_14 & 0xE000)) {
-        goto end;
+        return;
     }
 run_one:
     func_801744B8(entity);
     func_800A56E0(0x80C);
     func_80174084(state_ctx, entity_id, action);
     ((S_80173CE0_0 *)state_ctx)->unk_9B++;
-    goto end;
+    return;
 
 state_two:
     if (((S_80173CE0_1 *)action)->unk_14 & 0xE000) {
@@ -81,6 +81,5 @@ state_two:
         (*(u16 *)((u8 *)entity + 0x46)) &= 0x7FFF;
     }
 
-end:
     return;
 }

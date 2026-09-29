@@ -20,10 +20,9 @@ s32 func_8008B328(void) {
 
         if (found != 0) {
             any_found = 1;
-            goto epilogue;
+            return any_found;
         }
     }
     any_found = 0;
-epilogue:
     return any_found;
 }

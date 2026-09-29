@@ -129,13 +129,12 @@ coordinates_ready:
     if ((((s32)globals->unk_010) & 0x10) &&
         (D_800CFCEE[0] == 0)) {
         func_800A55CC(state, table, context);
-        goto done;
+        return;
     }
 
     if (((s32)globals->unk_010) & 0x100) {
         ((S_800A5FDC_0 *)state)->unk_00 = (s32)&D_800A58CC;
         ((S_800A5FDC_0 *)state)->unk_0A.u = 8;
     }
-done:
     return;
 }

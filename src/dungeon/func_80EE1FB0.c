@@ -85,7 +85,7 @@ void func_801737B0(void *action, void *motion, void *sprite, void *actor) {
     state = ((S_801737B0_0 *)action)->unk_9B;
     use_player_target = 0;
     if ((u32)state >= 5U) {
-        goto done;
+        return;
     }
     (void)state_jt;
     goto *D_80170888[(u32)state];
@@ -182,10 +182,10 @@ copy_facing:
     }
 
     if (func_800A94A0(actor, action_data, use_player_target, (u8 *)action + 0x98) == 0) {
-        goto done;
+        return;
     }
     ((S_801737B0_0 *)action)->unk_9B++;
-    goto done;
+    return;
 
 remove_actor:
     ((EntityRec *)motion)->flags14 = 0;
@@ -200,12 +200,12 @@ remove_actor:
     ((EntityRec *)actor)->unk_73 = 0;
     ((EntityRec *)actor)->unk_72 = 0;
     ((EntityRec *)actor)->unk_46 &= 0x7FFF;
-    goto done;
+    return;
 
 state_1:
     if (func_8003F270(motion) != 0) {
         ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x800;
-        goto done;
+        return;
     }
     ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
     ((S_801737B0_0 *)action)->unk_9B++;
@@ -217,7 +217,7 @@ state_2:
         ((S_801737B0_0 *)action)->unk_96.s = 0;
         ((S_801737B0_0 *)action)->unk_9B++;
         ((S_801737B0_0 *)action)->unk_98 |= 0x80;
-        goto done;
+        return;
     }
 
     if ((((Rec_D_80082E80 *)sprite)->unk_04.as_s8 == 2) && (sprite_flags & 0x1000)) {
@@ -225,7 +225,7 @@ state_2:
         ((S_801737B0_0 *)action)->unk_96.s = 0x16;
     }
     if (((Rec_D_80082E80 *)sprite)->unk_04.as_s8 < 2) {
-        goto done;
+        return;
     }
 
     timer = ((S_801737B0_0 *)action)->unk_96.s - 1;
@@ -238,7 +238,7 @@ state_2:
         ((S_801737B0_0 *)action)->unk_98 |= 0x80;
     }
     if (((S_801737B0_0 *)action)->unk_96.u < 0xA) {
-        goto done;
+        return;
     }
 
     particle_count = 0;
@@ -260,7 +260,7 @@ do {
         offset_y,
         offset_z);
     if ((u32)(particle_count & 0xFFFF) >= 3U) {
-        goto done;
+        return;
     }
     } while (1);
 
@@ -279,7 +279,7 @@ state_4:
         ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
     }
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
-        goto done;
+        return;
     }
 
     ((EntityRec *)motion)->flags14 = 0;
@@ -293,7 +293,7 @@ state_4:
         func_80047784(sprite, D_80174EB8[direction], 0);
     }
     if (((s32)dungeonStatus.unk_0C) != 0) {
-        goto done;
+        return;
     }
 
     dungeonStatus.unk_0A--;
@@ -305,6 +305,5 @@ state_4:
     ((EntityRec *)actor)->unk_46 &= 0x7FFF;
     func_800A56E0(0xB4);
 
-done:
     return;
 }

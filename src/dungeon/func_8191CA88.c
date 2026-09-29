@@ -88,7 +88,7 @@ void func_8191CA88(void *object, S_8191CA88_3 *motion, S_8191CA88_2 *effect) {
     if (state == 3) {
         goto state_3;
     }
-    goto done;
+    return;
 
 state_0:
     x_position = motion->unk_00;
@@ -100,11 +100,11 @@ state_0:
     motion->unk_08 += z_velocity;
     move_timer = ((S_8191CA88_0 *)object)->unk_10.p;
     move_duration = ((S_8191CA88_0 *)object)->unk_14;
-    if (move_timer < move_duration) goto done;
+    if (move_timer < move_duration) return;
     next_state = ((S_8191CA88_0 *)object)->unk_0E.p + 1;
     ((S_8191CA88_0 *)object)->unk_10.u = 0;
     ((S_8191CA88_0 *)object)->unk_0E.p = next_state;
-    goto done;
+    return;
 
 state_1:
     signed_timer = timer << 16;
@@ -112,28 +112,27 @@ state_1:
     signed_timer >>= 16;
     waiting = signed_timer < wait_duration;
     if (waiting != 0) {
-        goto done;
+        return;
     }
     ((S_8191CA88_0 *)object)->unk_0E.s = state_unsigned + 1;
     ((S_8191CA88_0 *)object)->unk_10.u = 0;
-    goto done;
+    return;
 
 state_2:
     motion->unk_08 -= timer << 16;
     if (((S_8191CA88_0 *)object)->unk_10.p < 0x18) {
-        goto done;
+        return;
     }
     next_state = ((S_8191CA88_0 *)object)->unk_0E.p + 1;
     ((S_8191CA88_0 *)object)->unk_10.u = 0;
     ((S_8191CA88_0 *)object)->unk_0E.p = next_state;
-    goto done;
+    return;
 
 state_3:
     ((S_8191CA88_0_pre *)object)[-1].unk_00 |= 0x8000;
     global_base = (u8 *)0x80080000;
     ((S_8191CA88_4 *)global_base)->unk_14A0 |= 0x8000;
 
-done:
     return;
 }
 

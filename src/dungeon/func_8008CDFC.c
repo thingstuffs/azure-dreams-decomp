@@ -85,12 +85,12 @@ void func_8009255C(void *controller, s32 action_id, Rec_D_80082E80 *actor, Entit
         if (state == 0) {
             goto state_0;
         }
-        goto end;
+        return;
     }
     if (state == 2) {
         goto state_2;
     }
-    goto end;
+    return;
 
 state_0:
     if ((((gameWork.view.viewAngle +
@@ -108,15 +108,15 @@ state_0:
             0,
             1);
         ((Rec_func_8008ACDC_arg0 *)controller)->unk_9B.as_u8++;
-        goto end;
+        return;
     }
     transform->facing =
         (u16)transform->facing + 0x200;
-    goto end;
+    return;
 
 state_1:
     if (func_8004CAE8(actor->unk_08, 0) == 0) {
-        goto end;
+        return;
     }
     if (((Rec_func_8008ACDC_arg0 *)controller)->unk_110 == (s32)&D_80081484) {
         ((Rec_func_8008ACDC_arg0 *)controller)->unk_124 = 0;
@@ -156,19 +156,18 @@ state_1:
 
 increment:
     ((Rec_func_8008ACDC_arg0 *)controller)->unk_9B.as_u8++;
-    goto end;
+    return;
 
 state_2:
     if ((actor->unk_14.at00_u16.v & 0xE000) == 0) {
-        goto end;
+        return;
     }
     if (((Rec_func_8008ACDC_arg0 *)controller)->unk_110 != 0) {
         func_80091934(controller, action_id, actor, transform);
-        goto end;
+        return;
     }
     ((Rec_func_8008ACDC_arg0 *)controller)->unk_8C.as_s32 = (s32)&D_8008ACDC;
 
-end:
     return;
 }
 

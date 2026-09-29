@@ -74,7 +74,7 @@ s32 func_800CCC20(void *object, s16 slot)
     if (value >= 0x40) {
         func_800A6508();
         value = 1;
-        goto epilogue;
+        return value;
     }
 
     D_800DCF78 = 0x00202080;
@@ -92,7 +92,6 @@ update_item:
 
 return_one:
     value = 1;
-epilogue:
     return value;
 }
 

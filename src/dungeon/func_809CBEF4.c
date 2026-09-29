@@ -53,20 +53,20 @@ void func_801736F4(void *controller, void *context, void *sprite, void *entity)
     if (state == 0) {
         goto state_zero;
     }
-    goto done;
+    return;
 
 at_least_two:
     if (state == 2) {
         goto state_two;
     }
-    goto done;
+    return;
 
 state_zero:
     {
         u8 *direction_anims;
 
         if (!(((Rec_func_800AA258_arg2 *)sprite)->unk_14 & 0xE000)) {
-            goto done;
+            return;
         }
 
         dungeonStatus.unk_0A--;
@@ -94,45 +94,45 @@ state_one:
         }
 
         if (dungeonStatus.flags & 0x1000) {
-            goto done;
+            return;
         }
 
         if (((EntityRec *)entity)->unk_64 != 0) {
             if (func_800AA6B4(controller, context, sprite, 0) != 0) {
-                goto done;
+                return;
             }
         }
 
         if ((func_800A2C34(entity) << 16) != 0) {
-            goto done;
+            return;
         }
 
         entity_flags = ((u32)((EntityRec *)entity)->flags1C);
         if (entity_flags & 0x100) {
             func_800AA258(controller, context, sprite, entity);
-            goto done;
+            return;
         }
 
         if (entity_flags & 0x80000) {
             func_800AA888(controller, context, sprite, entity);
             func_80173A30(controller, context, sprite, entity);
-            goto done;
+            return;
         }
 
         if (((EntityRec *)entity)->unk_6D == 0) {
-            goto done;
+            return;
         }
         if ((func_800A2C34(entity) << 16) != 0) {
             if ((func_8009A180(entity,
                     (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
-                goto done;
+                return;
             }
         }
 
         func_800A9A0C(entity);
         func_800A9A04(entity);
         if (((EntityRec *)entity)->tileY == 0) {
-            goto done;
+            return;
         }
 
         (*(void * *)((u8 *)sprite + 0x2C)) = D_80173CD4;
@@ -145,7 +145,7 @@ state_one:
 
 increment_state:
     ((Rec_func_801736F4_arg0 *)controller)->unk_9B++;
-    goto done;
+    return;
 
 state_two:
     if (((Rec_func_800AA258_arg2 *)sprite)->unk_14 & 0xE000) {
@@ -155,6 +155,5 @@ state_two:
         ((Rec_func_801736F4_arg0 *)controller)->unk_8C = &D_80170E54;
     }
 
-done:
     return;
 }

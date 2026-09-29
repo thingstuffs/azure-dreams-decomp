@@ -81,17 +81,17 @@ void func_80173D4C(void *action_in, void *context_in, void *sprite_in, void *act
     if (state == 0) {
         goto state_zero;
     }
-    goto done;
+    return;
 
 state_ge_two:
     if (state == 2) {
         goto state_two;
     }
-    goto done;
+    return;
 
 state_zero:
     if (!(((S_80173D4C_1 *)sprite)->unk_14 & 0xE000)) {
-        goto done;
+        return;
     }
     (*(void * *)((u8 *)sprite + 0x2C)) = D_80174E4C;
     func_80047784(sprite,
@@ -112,40 +112,40 @@ active:
     }
     status = &dungeonStatus;
     if (status->flags & 0x1000) {
-        goto done;
+        return;
     }
     if (((S_80173D4C_2 *)actor)->unk_64 != 0) {
         if (func_800AA6B4(action, context, sprite, 0) != 0) {
-            goto done;
+            return;
         }
     }
     if (((S_80173D4C_2 *)actor)->unk_25 == 0) {
         if (status->flags & 0x2008) {
-            goto done;
+            return;
         }
         func_800AA79C(action, context, sprite, actor);
-        goto done;
+        return;
     }
     if ((func_800A2C34(actor) << 16) != 0) {
-        goto done;
+        return;
     }
     actor_flags = ((S_80173D4C_2 *)actor)->unk_1C;
     if (actor_flags & 0x100) {
         func_800AA258(action, context, sprite, actor);
-        goto done;
+        return;
     }
     if (actor_flags & 0x80000) {
         func_800AA888(action, context, sprite, actor);
         func_801743E8(action, context, sprite, actor);
-        goto done;
+        return;
     }
     if (((S_80173D4C_2 *)actor)->unk_6D == 0) {
-        goto done;
+        return;
     }
     if ((func_800A2C34(actor) << 16) != 0) {
         if ((func_8009A180(actor,
                 (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
-            goto done;
+            return;
         }
     }
     func_800A9A0C(actor);
@@ -174,7 +174,7 @@ active:
     actor_to_check = actor;
 final_check_call:
     if ((func_80042900(actor_to_check, 1) << 16) != 0) {
-        goto done;
+        return;
     }
 
 update_table:
@@ -193,11 +193,11 @@ update_table:
 
 increment_state:
     ((S_80173D4C_0 *)action)->unk_9B++;
-    goto done;
+    return;
 
 state_two:
     if (!(((S_80173D4C_1 *)sprite)->unk_14 & 0xE000)) {
-        goto done;
+        return;
     }
     {
 
@@ -208,7 +208,6 @@ state_two:
 assign_owner:
     ((S_80173D4C_0 *)action)->unk_8C = &D_80171728;
 
-done:
     return;
 }
 

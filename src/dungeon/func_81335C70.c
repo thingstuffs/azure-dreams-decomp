@@ -77,16 +77,16 @@ void func_8016CC70(void *obj_arg, s32 context_arg, void *target_arg, void *actor
         if (action_state == 0) {
             goto state_zero;
         }
-        goto done;
+        return;
     }
     if (action_state == 2) {
         goto state_two;
     }
-    goto done;
+    return;
 
 state_zero:
     if (!(((S_8016CC70_1 *)target)->unk_14 & 0xE000)) {
-        goto done;
+        return;
     }
     obj_kind = ((S_8016CC70_0 *)obj_arg)->unk_AC;
     if (obj_kind == 0xE) {
@@ -108,7 +108,7 @@ decrement_counter:
     counter_base = &dungeonStatus;
     (*(u16 *)&counter_base->unk_0A)--;
     ((S_8016CC70_0 *)obj_arg)->unk_9B++;
-    goto done;
+    return;
 
 state_one:
     obj_kind = ((S_8016CC70_0 *)obj_arg)->unk_AC;
@@ -145,39 +145,39 @@ call_check:
 action_body:
     held_base = &dungeonStatus;
     if (held_base->flags & 0x1000) {
-        goto done;
+        return;
     }
     if (((S_8016CC70_2 *)actor)->unk_64 != 0) {
         if (func_800AA6B4(obj_arg, context_arg, target, 0) != 0) {
-            goto done;
+            return;
         }
     }
     if (((S_8016CC70_2 *)actor)->unk_25 == 0) {
         if (held_base->flags & 0x2008) {
-            goto done;
+            return;
         }
         func_800AA79C(obj_arg, context_arg, target, actor);
-        goto done;
+        return;
     }
     if ((func_800A2C34(actor) << 0x10) != 0) {
-        goto done;
+        return;
     }
     actor_flags = ((S_8016CC70_2 *)actor)->unk_1C;
     if (actor_flags & 0x100) {
         func_800AA258(obj_arg, context_arg, target, actor);
-        goto done;
+        return;
     }
     if (actor_flags & 0x80000) {
         func_800AA888(obj_arg, context_arg, target, actor);
         func_8016D4B8(obj_arg, context_arg, target, actor);
-        goto done;
+        return;
     }
     if (((S_8016CC70_2 *)actor)->unk_6D == 0) {
-        goto done;
+        return;
     }
     if ((func_800A2C34(actor) << 0x10) != 0) {
         if ((func_8009A180(actor, (u8 *)D_800814A8->unk_58 + 0x20) << 0x10) != 0) {
-            goto done;
+            return;
         }
     }
     func_800A9A0C(actor);
@@ -196,7 +196,7 @@ action_body:
     }
 second_check:
     if ((func_80042900(actor, 1) << 0x10) != 0) {
-        goto done;
+        return;
     }
 
 post_actions:
@@ -227,11 +227,11 @@ after_tiles:
     (*(u16 *)&counter_base->unk_0A)++;
 counter_changed:
     ((S_8016CC70_0 *)obj_arg)->unk_9B++;
-    goto done;
+    return;
 
 state_two:
     if (!(((S_8016CC70_1 *)target)->unk_14 & 0xE000)) {
-        goto done;
+        return;
     }
     counter_base = &dungeonStatus;
     (*(u16 *)&counter_base->unk_0A)--;
@@ -239,6 +239,5 @@ set_callback:
     callback = &D_8016A36C;
     ((S_8016CC70_0 *)obj_arg)->unk_8C = callback;
 
-done:
     return;
 }

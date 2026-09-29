@@ -80,16 +80,16 @@ void func_801730B4(void *actor_in, void *context_in, void *sprite_in, void *enti
         if (state == 0) {
             goto state_zero;
         }
-        goto done;
+        return;
     }
     if (state == 2) {
         goto state_two;
     }
-    goto done;
+    return;
 
 state_zero:
     if (!(((S_801730B4_1 *)sprite_in)->unk_14 & 0xE000)) {
-        goto done;
+        return;
     }
     (*(void * *)((u8 *)sprite_in + 0x2C)) = D_801748E0;
     func_80047784(sprite_in,
@@ -103,7 +103,7 @@ state_zero:
         dungeonStatus.unk_0A = counter_value;
     }
     ((S_801730B4_0 *)actor_in)->unk_9B++;
-    goto done;
+    return;
 
 state_one:
     if ((func_80042900(entity_in, 1) << 16) != 0) {
@@ -121,36 +121,36 @@ state_one:
         state++;
         dungeonStatus.unk_0A = state;
         ((S_801730B4_0 *)actor_in)->unk_9B++;
-        goto done;
+        return;
     }
     ((S_801730B4_2 *)entity_in)->unk_1C.s &= ~0x200;
     ((S_801730B4_0 *)actor_in)->unk_8C = D_80171058;
-    goto done;
+    return;
 
 state_one_active:
     {
         if (dungeonStatus.flags & 0x1000) {
-            goto done;
+            return;
         }
         if (((S_801730B4_2 *)entity_in)->unk_64 != 0) {
             if (func_800AA6B4(actor_in, context, sprite_in, 0) != 0) {
-                goto done;
+                return;
             }
         }
         if (((S_801730B4_2 *)entity_in)->unk_25 == 0) {
             if (dungeonStatus.flags & 0x2008) {
-                goto done;
+                return;
             }
             func_800AA79C(actor_in, context, sprite_in, entity_in);
-            goto done;
+            return;
         }
         if ((func_800A2C34(entity_in) << 16) != 0) {
-            goto done;
+            return;
         }
         status_flags = ((S_801730B4_2 *)entity_in)->unk_1C.u;
         if (status_flags & 0x100) {
             func_800AA258(actor_in, context, sprite_in, entity_in);
-            goto done;
+            return;
         }
         if (status_flags & 0x80000) {
 
@@ -161,17 +161,17 @@ state_one_active:
             ((S_801730B4_5 *)actor_in)->unk_B2 = 0;
             ((S_801730B4_5 *)actor_in)->unk_92 = current_value - value_adjustment;
             func_80173834(actor_in, context, sprite_in, entity_in);
-            goto done;
+            return;
         }
         if (((S_801730B4_2 *)entity_in)->unk_6D == 0) {
-            goto done;
+            return;
         }
         if ((func_800A2C34(entity_in) << 16) != 0) {
             EntityRec *owner = D_800814A8;
 
             if ((func_8009A180(entity_in,
                     (u8 *)owner->unk_58 + 0x20) << 16) != 0) {
-                goto done;
+                return;
             }
         }
         func_800A9A0C(entity_in);
@@ -188,7 +188,7 @@ state_one_active:
             }
         }
         if ((func_80042900(entity_in, 1) << 16) != 0) {
-            goto done;
+            return;
         }
     }
     (*(void * *)((u8 *)sprite_in + 0x2C)) = D_801748E8;
@@ -205,7 +205,7 @@ state_one_active:
     if (((S_801730B4_1 *)sprite_in)->unk_14 & 0x8000) {
         ((S_801730B4_2 *)entity_in)->unk_1C.u &= ~0x200;
         ((S_801730B4_0 *)actor_in)->unk_8C = D_80171058;
-        goto done;
+        return;
     }
 
     {
@@ -216,11 +216,11 @@ state_one_active:
     }
 
     ((S_801730B4_0 *)actor_in)->unk_9B++;
-    goto done;
+    return;
 
 state_two:
     if (!(((S_801730B4_1 *)sprite_in)->unk_14 & 0xE000)) {
-        goto done;
+        return;
     }
     {
 
@@ -232,6 +232,5 @@ clear_callback:
 
     ((S_801730B4_0 *)actor_in)->unk_8C = D_80171058;
 
-done:
     return;
 }

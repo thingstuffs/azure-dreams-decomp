@@ -178,7 +178,7 @@ void FUNC_819A6800_BODY(void *sequence, void *out_position)
     state = SELF->unk_0A.s;
     SELF->unk_50.u = timer;
     if ((u32)state >= 6U) {
-        goto return_done;
+        return;
     }
     (void)state_labels;
     goto *D_80024008[state];
@@ -219,7 +219,7 @@ state2:
 
         ((volatile S_func_819A6800_1 *)(SELF))->unk_0A.u++;
         if ((((S_func_819A6800_6 *)(((volatile S_func_819A6800_1 *)(SELF))->unk_04))->unk_00 & 0x80) == 0) {
-            goto return_done;
+            return;
         }
 
         counter_object = GLOBAL_OBJECT;
@@ -270,7 +270,7 @@ state2:
 
 state4:
     if ((s16)SELF->unk_50.u > 0) {
-        goto return_done;
+        return;
     }
     {
         s32 mode = func_80053EF0(4);
@@ -326,7 +326,7 @@ state5:
     }
     if ((D_80082E80.unk_014 & 0x8000) == 0 &&
         SELF->unk_50.s >= 0) {
-        goto return_done;
+        return;
     }
     {
         u16 next_state5 = SELF->unk_0A.u;
@@ -339,7 +339,7 @@ state5:
 
 state6:
     if ((s16)SELF->unk_50.u > 0) {
-        goto return_done;
+        return;
     }
 
 advance_state:
@@ -362,6 +362,5 @@ state7:
     ((S_func_819A6800_6 *)((u8 *)SELF - 2))->unk_00 |= 0x8000;
     D_800814A0[0] |= 0x8000;
 
-return_done:
     return;
 }

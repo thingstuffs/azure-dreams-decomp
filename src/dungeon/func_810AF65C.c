@@ -70,7 +70,7 @@ void func_80172E5C(S810AF65C_0 *animation, S810AF65C_1 *motion,
         if (state == 0) {
             goto state_0;
         }
-        goto done;
+        return;
     }
     if (state == 2) {
         goto state_2;
@@ -78,7 +78,7 @@ void func_80172E5C(S810AF65C_0 *animation, S810AF65C_1 *motion,
     if (state == 3) {
         goto state_3;
     }
-    goto done;
+    return;
 
 state_0:
     func_800AD4D0(actor);
@@ -90,17 +90,17 @@ state_0:
         motion->field_0c = 0;
         animation->field_96 = 0;
         func_800AAA54(animation, motion, tile, D_80173C94);
-        goto done;
+        return;
     }
     if ((tile->field_14 & 0x8000) != 0) {
         animation->field_9b = 3;
-        goto done;
+        return;
     }
     goto state_1;
 
 state_1:
     if ((s16)animation->field_96 > 0) {
-        goto done;
+        return;
     }
     motion->field_0c = (s16)dirStepX[direction] << 18;
     motion->field_10 = (s16)dirStepY[direction] << 18;
@@ -128,20 +128,20 @@ state_2:
     motion->field_0c = motion->field_0c - ((s16)dirStepX[direction] << 15);
     motion->field_10 = motion->field_10 - ((s16)dirStepY[direction] << 15);
     if ((s16)animation->field_96 != 0) {
-        goto done;
+        return;
     }
     if (actor->field_28 == 0) {
         motion->field_14 = 0;
         motion->field_10 = 0;
         motion->field_0c = 0;
         func_800AAA54(animation, motion, tile, D_80173C94);
-        goto done;
+        return;
     }
     animation->field_96 = 4;
     animation->field_9b = animation->field_9b + 1;
 
 state_tail:
-    goto done;
+    return;
 
 state_3:
     if ((timer << 16) == 0) {
@@ -164,7 +164,7 @@ state_3:
         motion->field_10 = (tile_y - origin_y) << 15;
     }
     if ((s16)animation->field_96 > 0) {
-        goto done;
+        return;
     }
 
 reset:
@@ -177,6 +177,5 @@ reset:
     }
     animation->field_8c = D_80170E54;
 
-done:
     return;
 }

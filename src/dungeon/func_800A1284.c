@@ -21,11 +21,10 @@ sequence_loop:
     call_index = 0;
     if (call_index >= repeat_count)
         goto done;
-repeat_loop:
-    func_800A08A0(1);
-    call_index += 1;
-    if (call_index < repeat_count)
-        goto repeat_loop;
+    do {
+        func_800A08A0(1);
+        call_index += 1;
+    } while (call_index < repeat_count);
 done:
     ;
 }

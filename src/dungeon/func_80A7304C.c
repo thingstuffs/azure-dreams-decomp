@@ -55,7 +55,7 @@ void func_8017284C(S_8017284C_0 *action, EntityRec *motion, Rec_D_80082E80 *spri
         if (state == 0) {
             goto state0;
         }
-        goto done;
+        return;
     }
     if (state == 2) {
         goto state2;
@@ -63,7 +63,7 @@ void func_8017284C(S_8017284C_0 *action, EntityRec *motion, Rec_D_80082E80 *spri
     if (state == 3) {
         goto state3;
     }
-    goto done;
+    return;
 
 state0:
     if (sprite->unk_14.at00_u16.v & 0x8000) {
@@ -71,7 +71,7 @@ state0:
         action->unk_96.s = 0;
         sprite->unk_14.at00_u16.v |= 0x6000;
         func_8009C12C(actor, sprite, ((EntityRec *)actor)->facing, 1);
-        goto done;
+        return;
     }
 
     facing = ((u16)((EntityRec *)actor)->facing >> 9) & 7;
@@ -92,7 +92,7 @@ state0:
         0);
     action->unk_96.s = 0;
     action->unk_9B += 1;
-    goto done;
+    return;
 
 state1:
     x_velocity = motion->unk_0C;
@@ -106,9 +106,9 @@ state1:
             0);
         action->unk_96.s = 0x14;
         action->unk_9B += 1;
-        goto done;
+        return;
     }
-    goto done;
+    return;
 
 state2:
     timer = action->unk_96.u - 1;
@@ -151,9 +151,9 @@ state2:
     if ((action->unk_96.s <= 0) ||
         (sprite->unk_14.at00_u16.v & 0x8000)) {
         action->unk_9B += 1;
-        goto done;
+        return;
     }
-    goto done;
+    return;
 
 state3:
     if ((action->unk_96.s <= 0) ||
@@ -169,12 +169,11 @@ state3:
         func_800A4ACC(actor);
         if (((EntityRec *)actor)->unk_6D == 0) {
             ((EntityRec *)actor)->unk_46 &= 0x7FFF;
-            goto done;
+            return;
         }
         D_800E3DE8[0] = (u8 *)actor - 0x20;
     }
-    goto done;
+    return;
 
-done:
     return;
 }

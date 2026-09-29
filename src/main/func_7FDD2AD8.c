@@ -54,16 +54,16 @@ void func_80089A38(State *state, Motion *motion, void *update_data)
     if (step != 2) {
         if (step < 3) {
             if (step == 0)
-                goto epilogue;
+                return;
             if (step == 1)
                 goto advance_motion;
-            goto epilogue;
+            return;
         }
         if (step == 3)
             goto accelerate_motion;
         if (step == 255)
             goto mark_complete;
-        goto epilogue;
+        return;
     }
     goto reset_motion;
 
@@ -73,7 +73,7 @@ advance_motion:
     motion->dx += state->direction != 0 ? -0x10000 : 0x10000;
     motion->dy += 0x8000;
     if (motion->dx != 0)
-        goto epilogue;
+        return;
     goto advance_step;
 
 reset_motion:
@@ -83,7 +83,7 @@ reset_motion:
     *(s16 *)((unsigned char *)motion + 2) = horizontal_value;
     *(s16 *)((unsigned char *)motion + 6) = owner->height * 16 + 168;
     if (owner->kind != 32)
-        goto epilogue;
+        return;
     horizontal_value = -0x20000;
     if (state->direction != 0)
         horizontal_value = 0x20000;
@@ -92,7 +92,7 @@ reset_motion:
 
 advance_step:
     state->step++;
-    goto epilogue;
+    return;
 
 accelerate_motion:
     {
@@ -102,15 +102,14 @@ accelerate_motion:
         x_velocity = motion->dx;
         motion->dx = x_velocity + (x_velocity >> 3);
         if (abs(((MotionView *)motion)->half[1]) < 361)
-            goto epilogue;
+            return;
         state->step = 255;
-        goto epilogue;
+        return;
     }
 
 mark_complete:
     *(u16 *)((unsigned char *)state - 2) |= 0x8000;
     objectFlagBlock.flags |= 0x8000;
 
-epilogue:
     return;
 }

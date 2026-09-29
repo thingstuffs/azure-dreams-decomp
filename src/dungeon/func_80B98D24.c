@@ -40,7 +40,7 @@ void func_80172524(void *action, void *motion, void *sprite, void *actor) {
 
     phase = ((S_80172524_0 *)action)->unk_9B.n;
     if (phase >= 6U) {
-        goto done;
+        return;
     }
     (void)phase_labels; goto *D_80170838[(u32)(phase)];
 jt_c0:
@@ -64,7 +64,7 @@ jt_c1:
     ((EntityRec *)motion)->unk_0C = (s32) ((s32) ((EntityRec *)motion)->unk_0C >> 1);
     ((EntityRec *)motion)->unk_10 = (s32) ((s32) ((EntityRec *)motion)->unk_10 >> 1);
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
-        goto done;
+        return;
     }
     (*(M2C_UNK **)((u8 *)sprite + (0x2C))) = (M2C_UNK *)&D_80174F30;
     func_80047784(sprite, *(u8 *)((((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7) + (u32)&D_80174F30), 0);
@@ -73,7 +73,7 @@ jt_c2:
     ((EntityRec *)motion)->unk_0C = (s32) ((s32) ((EntityRec *)motion)->unk_0C >> 1);
     ((EntityRec *)motion)->unk_10 = (s32) ((s32) ((EntityRec *)motion)->unk_10 >> 1);
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
-        goto done;
+        return;
     }
     func_800A56E0(0x808);
     (*(M2C_UNK **)((u8 *)sprite + (0x2C))) = (M2C_UNK *)&D_80174F38;
@@ -95,7 +95,7 @@ jt_c3:
     return;
 check_animation:
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
-        goto done;
+        return;
     }
     (*(M2C_UNK **)((u8 *)sprite + (0x2C))) = &D_80174F40;
     func_80047784(sprite, *((((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7) + &D_80174F40), 0);
@@ -126,7 +126,7 @@ stop_motion:
     ((EntityRec *)motion)->unk_0C = 0;
 check_move_done:
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
-        goto done;
+        return;
     }
     (*(M2C_UNK **)((u8 *)sprite + (0x2C))) = (M2C_UNK *)&D_80174F40;
     func_80047784(sprite, *(u8 *)((((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7) + (u32)&D_80174F40), 0);
@@ -156,7 +156,7 @@ stop_settling:
     ((EntityRec *)motion)->unk_0C = 0;
 check_settle_done:
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
-        goto done;
+        return;
     }
     func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
     ((EntityRec *)motion)->flags14 = 0;
@@ -168,6 +168,5 @@ check_settle_done:
     dungeonStatus.unk_0C = 0;
     ((EntityRec *)actor)->unk_46 = (u16) ((*(u16 *)((u8 *)actor + (0x46))) & 0x7FFF);
     func_800A4ACC(actor);
-done:
     return;
 }

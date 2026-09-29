@@ -200,7 +200,7 @@ compare_z:
     }
     U16_AT(obj, -2) |= 0x8000;
     objectFlagBlock.flags |= 0x8000;
-    goto done;
+    return;
 
 copy_out:
     U16_AT(coords_out, 2) = U16_AT(obj, 0x1A);
@@ -211,6 +211,5 @@ copy_out:
     U16_AT(coords_out, 0x16) = U16_AT(obj, 0x16);
     U16_AT(obj, 0x68)++;
 
-done:
     return;
 }

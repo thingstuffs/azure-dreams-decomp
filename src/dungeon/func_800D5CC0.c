@@ -50,7 +50,7 @@ void func_800DB420(D_800DB420_Obj *state, D_800DB420_RngOut *position, D_800DB42
         func_80047784(effect, effect->data2c[((gameWork.view.viewAngle + state->value2a + 0x100) >> 9) & 7], 0);
     common:
         *(u16 *)((u8 *)state + 4) += 1;
-        goto done;
+        return;
     case 2:
         func_800478B8(effect);
         {
@@ -62,9 +62,8 @@ void func_800DB420(D_800DB420_Obj *state, D_800DB420_RngOut *position, D_800DB42
             }
         }
     default:
-        goto done;
+        return;
     }
 
-done:
     return;
 }

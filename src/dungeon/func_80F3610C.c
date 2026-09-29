@@ -95,17 +95,17 @@ void func_8017390C(S_8017390C_0 *actor, void *transform, Rec_func_800AD058_arg2 
     if (state == 0) {
         goto state_zero;
     }
-    goto done;
+    return;
 
 high_state:
     if (state == 2) {
         goto state_two;
     }
-    goto done;
+    return;
 
 state_zero:
     if (dungeonStatus.unk_0A != 0) {
-        goto done;
+        return;
     }
     actor->unk_9B = 1;
 
@@ -158,11 +158,10 @@ active:
     actor->unk_96 = 0x10;
     actor->unk_9B++;
     func_800A56E0(0x805);
-    goto done;
+    return;
 
 state_two:
     func_800AD058(actor, transform, render, actor_data);
 
-done:
     return;
 }

@@ -102,7 +102,7 @@ store_upper:
 
 check_count:
     if (sequence->unk_02.s < sequence->unk_04) {
-        goto done;
+        return;
     }
     sequence->unk_02.u = 0;
     sequence->unk_00.u++;
@@ -111,6 +111,5 @@ check_count:
 state_3:
     func_800478B8(record);
 
-done:
     return;
 }

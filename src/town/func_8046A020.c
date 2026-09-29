@@ -13,7 +13,7 @@ M2C_UNK *func_8001B020(s32 setup_value, s32 setup_option, s32 mode) {
 
     if (mode == 5) {
         selected_data = (M2C_UNK *)D_80017774;
-        goto done;
+        return selected_data;
     }
     if (mode == 4) {
         goto case_4;

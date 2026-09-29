@@ -72,7 +72,7 @@ state_1:
         action->unk_9B = 3;
         animation->unk_14 |= 0x6000;
         func_8009C12C(actor, animation, actor->unk_2A, 1);
-        goto end;
+        return;
     }
     motion->unk_14 = 0;
     motion->unk_10 = 0;
@@ -83,22 +83,22 @@ state_1:
         0);
     action->unk_96 = 0;
     action->unk_9B++;
-    goto end;
+    return;
 
 state_2:
     delay_ticks = action->unk_96 + 1;
     action->unk_96 = delay_ticks;
     if ((s16)delay_ticks != 2) {
-        goto end;
+        return;
     }
     func_800A56E0(0x804);
     func_8009C12C(actor, animation, actor->unk_2A, 1);
     action->unk_9B++;
-    goto end;
+    return;
 
 state_3:
     if (!(animation->unk_14 & 0xE000)) {
-        goto end;
+        return;
     }
     func_800A2B04(motion, animation->unk_24, animation->unk_25);
     func_800AD594(actor, 0x100);
@@ -107,10 +107,9 @@ state_3:
     func_800A4ACC(actor);
     if (actor->unk_6D == 0) {
         actor->unk_46 &= 0x7FFF;
-        goto end;
+        return;
     }
     D_800E3DE8 = (u8 *)actor - 0x20;
 
-end:
     return;
 }

@@ -175,9 +175,9 @@ object_ready:
             func_800A56E0(0x703);
             func_800DA840(pos, (s16)((*item - 1) % 3));
             ((Rec_func_80172CC0_arg0 *)action)->unk_9B.as_u8++;
-            goto end;
+            return;
         }
-        goto end;
+        return;
 
 no_item:
         ((EntityRec *)motion)->flags14 = 0;
@@ -195,11 +195,11 @@ no_item:
         (*(u8 *)((u8 *)entity + 0x73)) = 0;
         (*(u8 *)((u8 *)entity + 0x72)) = 0;
         (*(u16 *)((u8 *)entity + 0x46)) &= 0x7FFF;
-        goto end;
+        return;
     case 1:
         if (func_8003F270()) {
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x800;
-            goto end;
+            return;
         }
         ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
         ((Rec_func_80172CC0_arg0 *)action)->unk_9B.as_u8++;
@@ -207,7 +207,7 @@ no_item:
 
     case 2:
         if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
-            goto end;
+            return;
         }
         (*(void * *)((u8 *)sprite + 0x2C)) = D_80174180;
         func_80047784(
@@ -216,7 +216,7 @@ no_item:
             0);
         ((Rec_func_80172CC0_arg0 *)action)->unk_A8 = 0x10;
         ((Rec_func_80172CC0_arg0 *)action)->unk_9B.as_u8++;
-        goto end;
+        return;
 
     case 3:
         {
@@ -245,7 +245,7 @@ no_item:
         }
 
         if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
-            goto end;
+            return;
         }
 
         ((EntityRec *)motion)->flags14 = 0;
@@ -263,7 +263,7 @@ no_item:
 
         {
             if (((s32)dungeonStatus.unk_0C) != 0) {
-                goto end;
+                return;
             }
             dungeonStatus.unk_0A--;
         }
@@ -283,6 +283,5 @@ no_item:
         break;
     }
 
-end:
     return;
 }

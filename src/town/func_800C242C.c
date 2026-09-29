@@ -124,15 +124,15 @@ void func_800BFB8C(void *source)
     if (state == 1) {
         goto state_one;
     }
-    goto done;
+    return;
 
 state_zero:
     if (func_80033BC0(0xA1) == 0) {
-        goto done;
+        return;
     }
     next_value = ((S_800BFB8C_0 *)source)->unk_0C.u + 1;
     ((S_800BFB8C_0 *)source)->unk_0C.u = next_value;
-    goto done;
+    return;
 
 state_one:
     next_value = ((S_800BFB8C_0 *)source)->unk_0E - 1;
@@ -143,6 +143,5 @@ state_one:
         objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
     }
 
-done:
     return;
 }

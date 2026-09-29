@@ -47,7 +47,7 @@ void func_801723F0(void *action, void *motion, void *anim, void *actor) {
     if (state == 0) {
         goto set_state1;
     }
-    goto done;
+    return;
 
 state_ge2:
     if (state == 2) {
@@ -56,7 +56,7 @@ state_ge2:
     if (state == 3) {
         goto state3;
     }
-    goto done;
+    return;
 
 set_state1:
     ((S_801723F0_0 *)action)->unk_9B = 1;
@@ -66,7 +66,7 @@ state1:
         ((S_801723F0_0 *)action)->unk_9B = 3;
         ((Rec_D_80082E80 *)anim)->unk_14.at00_u16.v |= 0x6000;
         func_8009C12C(actor, anim, ((EntityRec *)actor)->facing, 1);
-        goto done;
+        return;
     }
     ((S_801723F0_3 *)motion)->unk_14 = 0;
     ((S_801723F0_3 *)motion)->unk_10 = 0;
@@ -78,7 +78,7 @@ state1:
     ((S_801723F0_0 *)action)->unk_96 = 0;
     ((S_801723F0_0 *)action)->unk_9B++;
     func_800A56E0(0x804);
-    goto done;
+    return;
 
 state2:
     ticks = ((S_801723F0_0 *)action)->unk_96 + 1;
@@ -96,6 +96,5 @@ state3:
         func_800A4ACC(actor);
     }
 
-done:
     return;
 }

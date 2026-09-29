@@ -50,7 +50,7 @@ void func_80174C44(S_80174C44_0 *controller, EntityRec *transform, Rec_D_80082E8
         if (state == 0) {
             goto state_0;
         }
-        goto done;
+        return;
     }
     if (state == 2) {
         goto state_2;
@@ -58,7 +58,7 @@ void func_80174C44(S_80174C44_0 *controller, EntityRec *transform, Rec_D_80082E8
     if (state == 3) {
         goto state_3;
     }
-    goto done;
+    return;
 
 state_0:
     func_800AD4D0(actor);
@@ -79,17 +79,17 @@ state_0:
         goto kind_less_15;
     }
     if (actor_kind != 15) {
-        goto done;
+        return;
     }
     goto kind_15_from_state_0;
 
 state_0_active:
     if ((entity->unk_14.at00_u16.v & 0x8000) == 0) {
-        goto done;
+        return;
     }
     controller->unk_96.s = 0;
     controller->unk_9B = 3;
-    goto done;
+    return;
 
 state_1:
     timer = (u16)controller->unk_96.u - 1;
@@ -104,11 +104,11 @@ state_1:
     transform->unk_10 =
         *(s16 *)((u8 *)((s8 *)dirStepY) +
             ((((EntityRec *)actor)->unk_6A >> 8) & 0xE)) << 18;
-    goto done;
+    return;
 
 state_1_nonpositive:
     if (timer != 0) {
-        goto done;
+        return;
     }
     transform->unk_0C =
         *(s16 *)((u8 *)((s8 *)dirStepX) +
@@ -118,7 +118,7 @@ state_1_nonpositive:
             ((((EntityRec *)actor)->unk_6A >> 8) & 0xE)) << 18;
     controller->unk_96.s = 12;
     controller->unk_9B = controller->unk_9B + 1;
-    goto done;
+    return;
 
 state_2:
     if (((EntityRec *)actor)->unk_28 != 0) {
@@ -140,29 +140,29 @@ kind_less_15:
     if (actor_kind == 13) {
         goto kind_13;
     }
-    goto done;
+    return;
 
 kind_at_least_15:
     if (actor_kind == 15) {
         goto kind_15;
     }
-    goto done;
+    return;
 
 kind_13:
     func_800AAA54(controller, transform, entity, D_80175E3C);
-    goto done;
+    return;
 
 kind_14:
     func_800AAA54(controller, transform, entity, D_80175E44);
-    goto done;
+    return;
 
 kind_15:
     func_800AAA54(controller, transform, entity, D_80175E4C);
-    goto done;
+    return;
 
 kind_15_from_state_0:
     func_800AAA54(controller, transform, entity, D_80175E4C);
-    goto done;
+    return;
 
 state_2_active:
     timer = controller->unk_96.s;
@@ -184,13 +184,13 @@ state_2_active:
     old_timer = controller->unk_96.u;
     controller->unk_96.s = old_timer - 1;
     if ((s32)(old_timer << 16) > 0) {
-        goto done;
+        return;
     }
     transform->flags14 = 0;
     transform->unk_10 = 0;
     transform->unk_0C = 0;
     controller->unk_9B = controller->unk_9B + 1;
-    goto done;
+    return;
 
 state_3:
     transform->flags14 = 0;
@@ -202,6 +202,5 @@ state_3:
     }
     controller->unk_8C = D_801724BC;
 
-done:
     return;
 }

@@ -417,7 +417,7 @@ jt_c1:
         goto set_launch_position;
     }
     if (!(((S_818FF710_30 *)(parent_object->unk_0C))->unk_14 & 0x8000)) {
-        goto done;
+        return;
     }
 set_launch_position:
     ((S_818FF710_5 *)motion)->unk_00.at02.v = (u16) parent_position->unk_02;
@@ -445,7 +445,7 @@ set_launch_position:
     (*(u8 *)((u8 *)effect + 0x7A)) = (u8) ((*(u8 *)((u8 *)effect + 0x7A)) | 4);
 check_launch:
     if (!(*(*(u16 **)((u8 *)effect + 4)) & 0x80)) {
-        goto done;
+        return;
     }
     flight_target = ((S_818FF710_2 *)parent)->unk_60;
     if (flight_target == NULL) {
@@ -488,7 +488,7 @@ flight_setup:
     (*(s16 *)((u8 *)effect + 0x88)) = (s16) (s8) (u8) (*(s8 *)((u8 *)effect + 0x7B));
     (*(s16 *)((u8 *)effect + 0x8A)) = (s16) ((s8) flight_ticks * (s8) flight_ticks);
     func_80024DB8(effect, motion, sprite);
-    goto done;
+    return;
 jt_c2:
     launch_particle = 0;
 launch_particles:
@@ -531,7 +531,7 @@ update_flight_color:
     ((S_818FF710_1 *)sprite)->unk_0C.at02.v = 0;
     ((S_818FF710_1 *)sprite)->unk_0C.at01.v = 0;
     ((S_818FF710_1 *)sprite)->unk_0C.at00u.v = 0;
-    goto done;
+    return;
 advance_flight:
     remaining_ticks = (u8) (*(s8 *)((u8 *)effect + 0x7B)) - 1;
     (*(s8 *)((u8 *)effect + 0x7B)) = remaining_ticks;
@@ -558,7 +558,7 @@ snap_to_target:
     ((S_818FF710_5 *)motion)->unk_04.at02.v = (u16) ((S_818FF710_13 *)target_pos_or_step)->unk_06;
     ((S_818FF710_5 *)motion)->unk_08.at02.v = (u16) (*(s16 *)((u8 *)effect + 0x78));
     func_80024DB8(effect, motion, sprite, target_pos_or_step);
-    goto done;
+    return;
 finish_untargeted_flight:
     (*(s16 *)((u8 *)effect + 0xA)) = 8;
     (*(u16 *)((u8 *)effect + 0x82)) = 0U;
@@ -566,14 +566,14 @@ finish_untargeted_flight:
     ((S_818FF710_1 *)sprite)->unk_0C.at01.v = 0;
     ((S_818FF710_1 *)sprite)->unk_0C.at00u.v = 0;
     func_80024DB8(effect, motion, sprite);
-    goto done;
+    return;
 move_effect:
     target_pos_or_step = ((S_818FF710_5 *)motion)->unk_10.p;
     ((S_818FF710_5 *)motion)->unk_00.at00.v = (s32) (((S_818FF710_5 *)motion)->unk_00.at00.v + ((S_818FF710_5 *)motion)->unk_0C);
     ((S_818FF710_5 *)motion)->unk_04.at00.v = (s32) (((S_818FF710_5 *)motion)->unk_04.at00.v + (s32) target_pos_or_step);
     ((S_818FF710_5 *)motion)->unk_08.at00.v = (s32) (((S_818FF710_5 *)motion)->unk_08.at00.v + ((S_818FF710_5 *)motion)->unk_14);
     func_80024DB8(effect, motion, sprite, target_pos_or_step);
-    goto done;
+    return;
 jt_c3: {
     s32 impact_tick;
     s32 rect_value;
@@ -633,7 +633,7 @@ update_hit:
 check_spawn_tick:
     impact_tick = (s16) (*(u16 *)((u8 *)effect + 0x82));
     if (impact_tick != 4) {
-        goto done;
+        return;
     }
     first_object = func_8003FC64(0x212);
     child_effect = first_object + 0x20;
@@ -776,12 +776,12 @@ spawn_fourth:
 finish_spawn:
     spawn_tick = (s16) (*(u16 *)((u8 *)effect + 0x82));
     if (spawn_tick != impact_tick) {
-        goto done;
+        return;
     }
     (*(s16 *)((u8 *)effect + 0xA)) = spawn_tick;
     (*(u16 *)((u8 *)effect + 0x82)) = 0U;
     (*(s16 *)((u8 *)effect + 0x90)) = 0;
-    goto done;
+    return;
 }
 jt_c4:
     impact_particle = 0;
@@ -824,10 +824,10 @@ check_impact_duration:
     if ((s16) (*(u16 *)((u8 *)effect + 0x82)) >= 0x64) {
         goto next_state;
     }
-    goto done;
+    return;
 jt_c5:
     if ((*(s16 *)((u8 *)effect + 0x90)) == 0) {
-        goto done;
+        return;
     }
     source_id = 0xFF;
     if (D_800E3D68 == 0xFF) {
@@ -839,12 +839,12 @@ apply_target_effect:
 next_state:
     (*(u16 *)((u8 *)effect + 0x82)) = 0U;
     (*(s16 *)((u8 *)effect + 0xA)) = (s16) ((u16) (*(s16 *)((u8 *)effect + 0xA)) + 1);
-    goto done;
+    return;
 jt_c6:
     release_tick = (*(u16 *)((u8 *)effect + 0x82)) + 1;
     (*(u16 *)((u8 *)effect + 0x82)) = release_tick;
     if ((s16) release_tick < 0x1F) {
-        goto done;
+        return;
     }
     target_release_flags = ((S_818FF710_31_pre *)(((S_818FF710_2 *)parent)->unk_60))[-1].unk_04;
     target_release_flags->unk_14 = (u16) (target_release_flags->unk_14 & 0xF7FF);
@@ -852,13 +852,13 @@ jt_c6:
     released_target->unk_14 = (s32) (released_target->unk_14 & 0xFFEFFFFF);
     (*(s16 *)((u8 *)effect + 0xA)) = 8;
     (*(u16 *)((u8 *)effect + 0x82)) = 0x1EU;
-    goto done;
+    return;
 jt_c8:
     old_cleanup_tick = (*(u16 *)((u8 *)effect + 0x82));
     cleanup_tick = old_cleanup_tick + 1;
     (*(u16 *)((u8 *)effect + 0x82)) = cleanup_tick;
     if ((s16) cleanup_tick < 0x1F) {
-        goto done;
+        return;
     }
     effect_active = (s32) ((S_818FF710_3 *)(&D_80025E80))->unk_00;
     (*(u16 *)((u8 *)effect + 0x82)) = old_cleanup_tick;
@@ -868,9 +868,8 @@ jt_c8:
     dungeonStatus.unk_0C = 0;
     (*(u16 *)((u8 *)effect + -2)) = (u16) ((*(u16 *)((u8 *)effect + -2)) | 0x8000);
     (*(s32 *)&objectFlagBlock.flags) = (s32) (objectFlagBlock.flags | 0x8000);
-    goto done;
+    return;
 clear_active:
     (*(s16 *)&D_80025E80) = 0;
-done:
     return;
 }

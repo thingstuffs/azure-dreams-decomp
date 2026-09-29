@@ -140,12 +140,12 @@ void func_8017352C(void *in_entity, void *in_motion, void *in_sprite, void *in_a
     if (state == 2) {
         goto state_two;
     }
-    goto done;
+    return;
 
 state_zero:
     ((S_8017352C_0 *)entity)->unk_90 += 0x80000;
     if (!(((S_8017352C_1 *)sprite)->unk_14 & 0xE000)) {
-        goto done;
+        return;
     }
     (*(void * *)((u8 *)sprite + 0x2C)) = D_801741CC;
     func_80047784(sprite,
@@ -156,7 +156,7 @@ state_zero:
     count = ((S_8017352C_3 *)state_zero_counter_base)->unk_0A - 1;
     ((S_8017352C_3 *)state_zero_counter_base)->unk_0A = count;
     ((S_8017352C_0 *)entity)->unk_9B++;
-    goto done;
+    return;
 
 state_one:
     if ((func_80042900(actor, 1) << 16) == 0) {
@@ -164,33 +164,33 @@ state_one:
     }
     global_base = (u8 *)&dungeonStatus.unk_00;
     if (((S_8017352C_4 *)global_base)->unk_02 & 0x1000) {
-        goto done;
+        return;
     }
     if (((S_8017352C_2 *)actor)->unk_64 != 0) {
         if (func_800AA6B4(entity, motion, sprite, 0) != 0) {
-            goto done;
+            return;
         }
     }
     if (((S_8017352C_2 *)actor)->unk_25 == 0) {
         if (((S_8017352C_4 *)global_base)->unk_02 & 0x2008) {
-            goto done;
+            return;
         }
         func_800AA79C(entity, motion, sprite, actor);
-        goto done;
+        return;
     }
     if ((func_800A2C34(actor) << 16) != 0) {
-        goto done;
+        return;
     }
     actor_flags = ((S_8017352C_2 *)actor)->unk_1C.s;
     if (actor_flags & 0x100) {
         func_800AA258(entity, motion, sprite, actor);
-        goto done;
+        return;
     }
     if (actor_flags & 0x80000) {
         func_800AA888(entity, motion, sprite, actor);
         ((S_8017352C_0 *)entity)->unk_A8 = 0;
         func_80173D10(entity, motion, sprite, actor);
-        goto done;
+        return;
     }
 
     timer = ((S_8017352C_0 *)entity)->unk_96 - 1;
@@ -204,14 +204,14 @@ state_one:
         ((S_8017352C_5 *)body_part)->unk_04 |= 0x8000;
     }
     if (((S_8017352C_2 *)actor)->unk_6D == 0) {
-        goto done;
+        return;
     }
     if ((func_800A2C34(actor) << 16) != 0) {
         void *owner = D_800814A8;
 
         if ((func_8009A180(actor,
                 (u8 *)((S_8017352C_7 *)owner)->unk_58 + 0x20) << 16) != 0) {
-            goto done;
+            return;
         }
     }
     func_800A9A0C(actor);
@@ -228,7 +228,7 @@ state_one:
         }
     }
     if ((func_80042900(actor, 1) << 16) != 0) {
-        goto done;
+        return;
     }
 
 animate:
@@ -248,7 +248,7 @@ animate:
     count = ((S_8017352C_3 *)animate_counter_base)->unk_0A + 1;
     ((S_8017352C_3 *)animate_counter_base)->unk_0A = count;
     ((S_8017352C_0 *)entity)->unk_9B++;
-    goto done;
+    return;
 
 state_two:
     timer = ((S_8017352C_0 *)entity)->unk_96 - 1;
@@ -258,7 +258,7 @@ state_two:
         ((S_8017352C_9 *)motion)->unk_14 = 0xFFF80000;
     }
     if (!(((S_8017352C_1 *)sprite)->unk_14 & 0xE000)) {
-        goto done;
+        return;
     }
     state_two_counter_base = (u8 *)&dungeonStatus.unk_00;
     ((S_8017352C_9 *)motion)->unk_14 = 0;
@@ -269,6 +269,5 @@ clear_flag:
     ((S_8017352C_2 *)actor)->unk_1C.u &= -0x201;
     ((S_8017352C_0 *)entity)->unk_8C = D_801711A4;
 
-done:
     return;
 }

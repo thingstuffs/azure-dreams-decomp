@@ -27,20 +27,20 @@ void func_800BC390(void *object)
         goto state_0;
     }
     return;
-    goto done;
+    return;
 
 state_ge_2:
     if (state == 2) {
         goto state_2;
     }
     return;
-    goto done;
+    return;
 
 state_0:
 {
 
     if ((timer << 16) > 0) {
-        goto done;
+        return;
     }
     VU16_AT(object, 2) = 12;
     prior_state = VU16_AT(object, 0);
@@ -55,12 +55,12 @@ state_1:
         S32_AT(object, 8) = decay_value + (s32)0xFFF7FBFC;
     }
     if (S16_AT(object, 2) > 0) {
-        goto done;
+        return;
     }
     prior_state = U16_AT(object, 0);
 advance_state:
     U16_AT(object, 0) = prior_state + 1;
-    goto done;
+    return;
 
 state_2:
 {
@@ -69,6 +69,5 @@ state_2:
     S32_AT((void *)D_80080000, 0x14A0) |= 0x8000;
 }
 
-done:
     return;
 }

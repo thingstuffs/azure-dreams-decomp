@@ -71,14 +71,14 @@ void func_80091C64(void *motion, void *position, void *entity, void *actor) {
 
     phase = ((S_80091C64_0 *)motion)->unk_9B;
     if (phase >= 5U) {
-        goto done;
+        return;
     }
     (void)jt_keep; goto *D_800889A8[(u32)(phase)];
 jt_c0:
     delay_left = ((S_80091C64_0 *)motion)->unk_96.s - 1;
     ((S_80091C64_0 *)motion)->unk_96.s = delay_left;
     if ((s16) delay_left >= 9) {
-        goto done;
+        return;
     }
     (*(u8 **)((u8 *)entity + 0x2C)) = D_800DD038;
     func_80048A44(entity, D_800DD038[((s32) (gameWork.view.viewAngle + ((S_80091C64_1 *)actor)->unk_2A + 0x100) >> 9) & 7], 0, 1);
@@ -97,7 +97,7 @@ tick_hop:
     hop_frames_left = ((S_80091C64_0 *)motion)->unk_96.s - 1;
     ((S_80091C64_0 *)motion)->unk_96.s = hop_frames_left;
     if ((hop_frames_left << 0x10) > 0) {
-        goto done;
+        return;
     }
     (*(u8 **)((u8 *)entity + 0x2C)) = D_800DD058;
     func_80048A44(entity, D_800DD058[((s32) (gameWork.view.viewAngle + ((S_80091C64_1 *)actor)->unk_2A + 0x100) >> 9) & 7], 0, 1);
@@ -106,7 +106,7 @@ tick_hop:
     return;
 jt_c2:
     if (((s32)dungeonStatus.unk_0C) != 0) {
-        goto done;
+        return;
     }
     (*(u8 **)((u8 *)entity + 0x2C)) = D_800DD038;
     func_80048A44(entity, D_800DD038[((s32) (gameWork.view.viewAngle + ((S_80091C64_1 *)actor)->unk_2A + 0x100) >> 9) & 7], 0, 1);
@@ -138,7 +138,7 @@ tick_return:
     return_frames_left = ((S_80091C64_0 *)motion)->unk_96.s - 1;
     ((S_80091C64_0 *)motion)->unk_96.s = return_frames_left;
     if ((return_frames_left << 0x10) > 0) {
-        goto done;
+        return;
     }
     func_800A2B04(position, ((Rec_D_80082E80 *)entity)->unk_24, ((Rec_D_80082E80 *)entity)->unk_25);
     ((S_80091C64_0 *)motion)->unk_92 = 0;
@@ -161,6 +161,5 @@ restore_behavior:
     ((S_80091C64_1 *)actor)->unk_14 = (s32) (((S_80091C64_1 *)actor)->unk_14 & 0xFFFDFFFF);
     ((S_80091C64_0 *)motion)->unk_98 = (u16) (((S_80091C64_0 *)motion)->unk_98 & 0xFFF3);
     ((S_80091C64_0 *)motion)->unk_A2 = (u16) (((S_80091C64_0 *)motion)->unk_A2 | 0x10);
-done:
     return;
 }

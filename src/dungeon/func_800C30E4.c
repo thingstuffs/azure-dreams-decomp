@@ -23,7 +23,7 @@ s32 func_800C8844(State *arg0, s16 arg1, s8 arg2_in) {
 
     if (func_800C7FFC(state) != 0) {
         result = 0;
-        goto done;
+        return result;
     }
     dividend = func_800A6D30() & 0xFFFF;
     if (state->divisor != 0) {

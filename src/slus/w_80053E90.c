@@ -15,19 +15,18 @@ s32 func_80053E90(s32 selector) {
         goto L_case1;
     }
     scale = 0;
-    goto L_end;
+    return scale;
 L_ge3:
     if (selector != 4) {
         scale = 0;
-        goto L_end;
+        return scale;
     }
     scale = volumeScale[2];
-    goto L_end;
+    return scale;
 L_case1:
     scale = volumeScale[1];
-    goto L_end;
+    return scale;
 L_case2:
     scale = volumeScale[0];
-L_end:
     return scale;
 }

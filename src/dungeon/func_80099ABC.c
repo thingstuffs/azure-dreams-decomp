@@ -65,7 +65,7 @@ void func_8009F21C(InterpState *state, void *unused, InterpTarget *target) {
             *(u32 *)((u8 *)target + 0x0c) = *(u32 *)state;
             state->counter = 0x10;
             state->state++;
-            goto done;
+            return;
         }
     } else {
         target_counter = target->counter;
@@ -90,6 +90,5 @@ void func_8009F21C(InterpState *state, void *unused, InterpTarget *target) {
         }
     }
 
-done:
     return;
 }

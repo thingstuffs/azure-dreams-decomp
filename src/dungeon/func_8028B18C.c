@@ -81,7 +81,7 @@ void func_8001E18C(void)
             count++;
             item_state++;
         } while (count < 0x40);
-        goto function_end;
+        return;
     }
 
     setup_globals = (u8 *)0x80010000;
@@ -241,6 +241,5 @@ cleanup:
     }
     func_8001EC54();
 
-function_end:
     return;
 }

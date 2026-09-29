@@ -122,7 +122,7 @@ store_timer:
         motion->dy = 0;
         motion->dx = 0;
         obj->state = obj->state + 1;
-        goto epilogue;
+        return;
     }
 
     case 1:
@@ -133,7 +133,7 @@ store_timer:
         motion->dx = ((s32)0x02A00000 - motion->x) / obj->timer;
         motion->dy = ((s32)0xFFC00000 - motion->y) / obj->timer;
         obj->state = obj->state + 1;
-        goto epilogue;
+        return;
 
     case 2:
         if ((ticks_left << 16) >= 0) {
@@ -150,7 +150,7 @@ store_timer:
         }
         obj->timer = 10;
         obj->state = (u16)obj->state + 1;
-        goto epilogue;
+        return;
 
     case 0x21: {
         TownTarget *target = D_80083780;
@@ -181,11 +181,11 @@ store_timer:
         state = obj->state;
         obj->timer = 7;
         obj->state = state + 1;
-        goto epilogue;
+        return;
     }
 
         obj->state = state + 1;
-        goto epilogue;
+        return;
 
     case 0x42: {
         child->flags |= 2;
@@ -207,7 +207,7 @@ store_timer:
 
 set_state_ff:
         obj->state = 0xFF;
-        goto epilogue;
+        return;
 
     case 0xFF: {
         u16 *object_flags = (u16 *)obj - 1;
@@ -228,6 +228,5 @@ set_state_ff:
         break;
     }
 
-epilogue:
     return;
 }

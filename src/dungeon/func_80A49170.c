@@ -101,12 +101,12 @@ void func_80172970(void *action, void *position, void *sprite, void *actor)
         if (phase == 0) {
             goto state_0;
         }
-        goto done;
+        return;
     }
     if (phase == 2) {
         goto state_2;
     }
-    goto done;
+    return;
 
 state_0:
     if (((S_80172970_1 *)actor)->unk_1C & 0x2000) {
@@ -195,13 +195,13 @@ apply_move:
         ((S_80172970_0 *)action)->unk_98 |= 0x1000;
         if (func_800A94A0(actor, move_data, is_special,
                           (u16 *)((u8 *)action + 0x98)) == 0) {
-            goto done;
+            return;
         }
         ((S_80172970_4 *)sprite)->unk_14 &= 0xF7FF;
         func_800A56E0(0x703);
         ((S_80172970_0 *)action)->unk_96 = 0xE;
         ((S_80172970_0 *)action)->unk_9B++;
-        goto done;
+        return;
     }
 
     ((EntityRec *)position)->flags14 = 0;
@@ -216,12 +216,12 @@ apply_move:
     ((S_80172970_1 *)actor)->unk_73.s = 0;
     ((S_80172970_1 *)actor)->unk_72.s = 0;
     ((S_80172970_1 *)actor)->unk_46 &= 0x7FFF;
-    goto done;
+    return;
 
 state_1:
     if (func_8003F270() != 0) {
         ((S_80172970_4 *)sprite)->unk_14 |= 0x800;
-        goto done;
+        return;
     }
     ((S_80172970_4 *)sprite)->unk_14 &= 0xF7FF;
     ((S_80172970_0 *)action)->unk_9B++;
@@ -231,12 +231,12 @@ state_2:
     ((S_80172970_0 *)action)->unk_96 = recovery_ticks;
     if ((s32)(recovery_ticks << 16) > 0) {
         if (!(((S_80172970_4 *)sprite)->unk_14 & 0xE000)) {
-            goto done;
+            return;
         }
     }
     ((S_80172970_0 *)action)->unk_98 |= 0x80;
     if (!(((S_80172970_4 *)sprite)->unk_14 & 0xE000)) {
-        goto done;
+        return;
     }
     ((EntityRec *)position)->flags14 = 0;
     ((EntityRec *)position)->unk_10 = 0;
@@ -252,7 +252,7 @@ state_2:
     {
 
         if (((s32)dungeonStatus.unk_0C) != 0) {
-            goto done;
+            return;
         }
         dungeonStatus.unk_0A--;
     }
@@ -267,7 +267,6 @@ state_2:
     ((S_80172970_1 *)actor)->unk_46 &= 0x7FFF;
     func_800A56E0(0xB4);
 
-done:
     return;
 }
 

@@ -240,7 +240,7 @@ void func_800B9A78(Work *work, Out *out, Render *render_arg)
                            *(s16 *)(counter_base_2 - 0x319A));
             result = func_80098920(work->node->entity, work->handle, 0x15, 0);
             if ((s16)result < 0) {
-                goto done;
+                return;
             }
 decrement_counter:
             (dungeonStatus.unk_0A)--;
@@ -280,6 +280,5 @@ finish:
     trig_value = func_800644B8(controls->view.viewAngle);
     out->y = (trig_value * work->amp >> 11) + *(u16 *)((u8 *)&work->cur_y + 2);
     out->z = work->x + work->y.whole + (work->bias << 15);
-done:
     return;
 }

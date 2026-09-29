@@ -44,13 +44,13 @@ void func_8017278C(S_8017278C_0 *action, EntityRec *motion, Rec_D_80082E80 *spri
         if (state == 0) {
             goto state_0_set;
         }
-        goto cleanup;
+        return;
     } else {
         if (state == 2) {
             goto state_2;
         }
         if (state != 3) {
-            goto cleanup;
+            return;
         }
         goto state_3;
     }
@@ -63,7 +63,7 @@ state_1:
         action->unk_9B = 3U;
         sprite->unk_14.at00_u16.v = (u16) (sprite->unk_14.at00_u16.v | 0x6000);
         func_8009C12C(actor, sprite, ((EntityRec *)actor)->facing, 1);
-        goto cleanup;
+        return;
     }
 
 state_0:
@@ -75,18 +75,18 @@ state_0:
     func_80047784(sprite, direction_frames[((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7], 0);
     action->unk_96 = 9;
     action->unk_9B++;
-    goto cleanup;
+    return;
 
 state_2:
     ticks_left = action->unk_96 - 1;
     action->unk_96 = ticks_left;
     if ((ticks_left << 0x10) > 0) {
-        goto cleanup;
+        return;
     }
     func_800A56E0(0x804);
     func_8009C12C(actor, sprite, ((EntityRec *)actor)->facing, 1);
     action->unk_9B++;
-    goto cleanup;
+    return;
 
 state_3:
     if (sprite->unk_14.at00_u16.v & 0xE000) {
@@ -102,6 +102,5 @@ state_3:
         }
     }
 
-cleanup:
     return;
 }

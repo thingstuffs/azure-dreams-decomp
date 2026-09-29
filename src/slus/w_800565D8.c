@@ -35,7 +35,7 @@ s32 func_800565D8(S_800565D8 *scales, u32 level)
 
 zero:
     result = 0;
-    goto done;
+    return result;
 
 positive:
     {
@@ -54,6 +54,5 @@ positive:
 sign:
     result = (s16)result;
 
-done:
     return result;
 }

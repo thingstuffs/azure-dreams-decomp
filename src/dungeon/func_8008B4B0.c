@@ -201,7 +201,7 @@ block_14:
     menu = ((S_80090C10_1 *)(&D_800E4938))->unk_00.u(((S_80090C10_1 *)(&D_800E4938))->unk_04, ((S_80090C10_1 *)(&D_800E4938))->unk_08);
     ((Rec_func_8008D024_arg0 *)state)->unk_C8 = menu;
     if (menu == NULL) {
-        goto block_68;
+        return;
     }
     ((Rec_func_8008D024_arg0 *)state)->unk_96 = 0;
     ((Rec_D_80082EB0 *)(&D_80082EB0))->unk_00.as_pv = NULL;
@@ -219,7 +219,7 @@ block_16:
     (*(s32 *)&D_800E296C) = ui_flags & ~0x2000;
 block_18:
     if (((Rec_func_8008D024_arg0 *)state)->unk_C8 != NULL) {
-        goto block_68;
+        return;
     }
     if ((u32) (D_80082EB8 - 1) >= 0x15U) {
         goto block_64;
@@ -278,11 +278,11 @@ jt_c20:
         goto block_64;
     }
     if (item_result >= 0) {
-        goto block_68;
+        return;
     }
 block_36:
     if (((S_80090C10_6 *)((*(void **)&D_80082EB0)))->unk_01 != 0x15) {
-        goto block_68;
+        return;
     }
     ((Rec_func_8008D024_arg0 *)state)->unk_9B.as_u8 = 3U;
     return;
@@ -310,7 +310,7 @@ block_41:
     goto block_64;
 block_43:
     if (func_80095854(state, context, sprite, (*(void **)&D_80082EB0)) != 0) {
-        goto block_68;
+        return;
     }
     text_buffer = func_800990FC();
     text_end = func_80099734(D_800E3DF0[((S_80090C10_6 *)((*(void **)&D_80082EB0)))->unk_03 & 0x1F], func_80099194(&D_800E06C0, text_buffer));
@@ -355,14 +355,14 @@ block_55:
     }
 block_56:
     if (func_8008D024(state, context, sprite, (s16) ((Rec_D_80082EB0 *)(&D_80082EB0))->unk_00.as_pv, 1) != 0) {
-        goto block_68;
+        return;
     }
     D_80082EB8 = 0;
     goto block_66;
 jt_c16:
     ((Rec_func_8008D024_arg0 *)state)->unk_BC = (void *) ((Rec_D_80082EB0 *)(&D_80082EB0))->unk_00.as_pv;
     if (func_8008D388(state, context, sprite, actor) != 0) {
-        goto block_68;
+        return;
     }
     D_80082EB8 = 0;
     goto block_66;
@@ -373,7 +373,7 @@ jt_c7:
         action_index = ((S_80090C10_11 *)action_data)->unk_08 - 6;
         ((EntityRec *)actor)->unk_8A = action_index;
         if (func_80094270(state, context, sprite, ((S_80090C10_11 *)action_data)->unk_00, (s32) action_index) == 0) {
-            goto block_68;
+            return;
         }
         D_80082EB8 = 0;
         goto block_66;
@@ -392,10 +392,9 @@ block_64:
     D_80082EB8 = 0;
 block_66:
     if (((Rec_func_8008D024_arg0 *)state)->unk_C8 != NULL) {
-        goto block_68;
+        return;
     }
     ((Rec_func_8008D024_arg0 *)state)->unk_A2 = (u16) (((Rec_func_8008D024_arg0 *)state)->unk_A2 | 0x40);
     func_80096088(state, actor);
-block_68:
     return;
 }
