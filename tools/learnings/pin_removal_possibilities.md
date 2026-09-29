@@ -191,3 +191,24 @@ base staged in pinned locals (GetTPage(0,1,0,0)) let sched1 hoist the a0/a1 sets
   sched1 blocks exactly where the barriers stood; cse removes the repeated divides (dungeon/func_81339D2C 4->0).
 - **A pinned pointer whose stores are duplicated in both arms of an if/else:** one conditional-expression store per
   field (fewer refs -> the allocation order flips; dungeon/func_81959E04).
+
+## Round-80 Opus harvest, lanes p8/p10/p11/p12/q2 (short)
+
+- A pinned register copy of a just-loaded field is often a SECOND READ of that field: sched1 hoists it and
+  post-reload CSE turns the `lhu` into `move` (town/func_80820AF4: `obj->f += obj->g; obj->f += obj->g >> 2;`).
+- A table base reused as a loop variable: give the base its own block-local variable, so local-alloc puts the
+  split-address `lui` straight into $s0; pass literal 0 and zero the local after the call (town/func_8046BD98).
+- Volatile field + CLOBBER/KEEP around an OR-ed copy -> non-volatile field with compound `|=` twice (cse keeps the
+  two ORs apart: `move $3,$2; ori 0x80`) (dungeon/func_819411F0).
+- `x <<= 16; x >>= 16;` on an s32 parameter behind KEEP_NV -> declare the parameter s16 (slus/w_8005A778; the
+  caller's extern still says s32 - align it).
+- Keeps around `(cur -= 0x20), cur` comma forms -> shift in the target statement and plain subtraction (combine
+  rewrites `(t<<6) - (c-32)` as `+32 - c`) (dungeon/func_8180D0DC).
+- KEEP_DEP_NV(x, call()>>k) -> one multi-set local for the block's shifts (sched1 birthing boost launches a
+  single-set shift next to its mult) (dungeon/func_818B7264).
+- Barrier + keep over staged fade locals -> field compound assignments (dungeon/func_8195A480).
+- One temp reused for two axes across a barrier/$3 pin -> one fresh local per axis (dungeon/func_80F03000).
+- 19-byte record walks spelled `(x*4+s)*4-s` in a goto loop + KEEP on a copied parameter -> natural `i*19` for loop
+  (loop.c makes the biv copy itself) (dungeon/func_81811FA8, Sonnet).
+- Scalar global RMW next to a struct-field RMW with a register pin between -> access the global through its shared
+  struct type (objectFlagBlock.flags): MEM_IN_STRUCT_P keeps them ordered (dungeon/func_800BF6A0, Sonnet).
