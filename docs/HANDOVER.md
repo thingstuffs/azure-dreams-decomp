@@ -1,3 +1,32 @@
+# Handover (2026-09-29, round 80: Sonnet 5.5 live, goto readability campaign, phase 11) - start here
+
+**State.** 2,762 / 735 at pickup -> **2,754 / 734** landed (86ed9a80), plus ~100 pins STAGED in finished Opus lanes and
+~60 goto lanes waiting for the lander (land_finished2.sh, pid 536862 from the r79 session, lands `r7[0-9]_*` lanes every
+15 min; name new lanes r79_*). Record: [r80 wave record](evidence/r80_wave_report.md). Type consolidation phase 11
+landed (a70acf15: 430 EntityRec params, include/shared/town_root.h).
+
+**Routing (owner 09-29, measured this round).** Agent `sonnet` = claude-sonnet-5-5. Sonnet = readability/cleanup lanes
+(goto lanes: ~7 gotos per 10k tokens, densest-first packs ~100 gotos/lane, ~100k tokens) and bounded tooling (built
+clone_transfer --metric gotos in a worktree, 76k tokens). Sonnet pin lanes paid 1.5 pins/lane (< Opus 2.8): pins stay
+Opus. Opus fresh/family/big-row lanes paid 88+ pins this round (families with an exemplar pay best: byte sign-extension
+39 pins in 2 lanes). Fable: last resort, candidate dungeon/func_800AFA68 (total 2 at 12/20 pins after two Opus lanes).
+
+**Goto campaign.** Generators t122_gotowhile / t123_returntail (449 rows landed). Sonnet lanes via
+`python3 tools/lanes/build_goto_lane.py <lane> --pick 8 --densest --busy <files>` (brief: tools/lanes/goto_lane_brief.md
+with every coordinator ruling: no dummy cases, no labels moved into blocks, copies <= ~6 lines only instead of a goto
+into a block). Lander + kitlib accept equal-pin candidates with fewer gotos. Clone replay:
+`clone_transfer.py --metric gotos --lanes-glob 'r79_sonnet_g*'` (63 rows staged in r79_clone_goto). Remaining pool:
+~400 pin-free rows / ~2,000 gotos + 48 big files; goto loops mostly stay (loop.c evidence, recorded per row).
+
+**Rules learned (do these):** commit sweep results BEFORE a landing starts (the lander's cascade runs over `git diff`);
+a type phase apply stales goto candidates on its rows (46 conflicted -> port lanes r79_sonnet_p1-p6 with prior/);
+review Sonnet candidates for compiler-steering spellings (the brief lists the rejected ones).
+
+**Open question (next).** Cell audit: 47 non-cdk pinned dungeon rows carry the heaviest pins (2.7.2-G0: 29 rows / 161
+pins incl. 818D4E68 37, 819B3414 34, 818CFB74 29). Opus lanes bo1/b6 saw split-address signatures only cdk makes. Round
+56 rule: cdk always splits, FSF never; a retail `$at` expansion rules cdk out (merged TUs). Run that discriminator
+before any cell-move lane; moves are recipe trades (ledger/recipe_trades.jsonl, CELLS= on the lander).
+
 # Handover (2026-09-29, round 79: short wave, paused for a Sonnet 5.5 restart) - start here
 
 **Why paused.** Owner (09-28 ~23:40Z): Sonnet 5.5 may be available in fresh Claude instances; if a restart is needed,
