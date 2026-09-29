@@ -65,14 +65,12 @@ s32 func_800599B0(void)
     if (mode < 0) {
         goto done;
     }
-    if (mode < 2) {
-        goto init_entities;
+    if (mode >= 2) {
+        if (mode == 2) {
+            goto init_spans;
+        }
+        return 0;
     }
-    if (mode == 2) {
-        goto init_spans;
-    }
-    return 0;
-init_entities:
     {
         entity_index = 0;
         if (D_800869B4 == 0) {

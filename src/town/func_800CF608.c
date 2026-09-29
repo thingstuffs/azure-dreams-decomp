@@ -23,18 +23,15 @@ void func_800CCD68(S_800CCD68_0 *sequence)
         goto state_1;
     }
     value = state < 2;
-    if (value == 0) {
-        goto state_ge_2;
+    if (value != 0) {
+        value = 2;
+        ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+        value = 0xC00;
+        if (state == 0) {
+            goto set_value;
+        }
+        return;
     }
-    value = 2;
-    ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-    value = 0xC00;
-    if (state == 0) {
-        goto set_value;
-    }
-    return;
-
-state_ge_2:
 #ifdef NON_MATCHING
     value = 2;
 #endif

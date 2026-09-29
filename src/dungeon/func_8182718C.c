@@ -35,15 +35,12 @@ void func_8002498C(void *state_data, void *unused, Rec_D_80082E80 *target) {
     linked_data = ((S_8182718C_0 *)state_data)->unk_00;
     linked_data->unk_52 = (s16) (linked_data->unk_52 | 0x8000);
     state = ((S_8182718C_0 *)state_data)->unk_4C.s;
-    if (state == 0) {
-        goto zero_state;
+    if (state != 0) {
+        if (state == 1) {
+            goto one_state;
+        }
+        return;
     }
-    if (state == 1) {
-        goto one_state;
-    }
-    return;
-
-zero_state:
     {
         u16 old_state;
         u16 interval;

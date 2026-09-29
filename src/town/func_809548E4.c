@@ -750,58 +750,56 @@ do {
                             bounce_x = 0 - state_value;
                         }
                         collision_value = 0x30000;
-                        if (object_index == 0) {
-                            goto base_collision;
+                        if (object_index != 0) {
+                            state_value = motion_slot->unk_1C;
+                            object_motion = state_value + 0x20;
+                            object_motion->unk_0C = (s32) (object_motion->unk_0C + bounce_x);
+                            object_motion->unk_10 = (s32) (object_motion->unk_10 + bounce_y);
+                            pair_value = (s32)(((S_800218E4_17 *)partner_slot)->unk_00);
+                            do {
+                                collision_value |= 0xFFFF;
+                            } while (0);
+                            other_speed_y = ((S_800218E4_23 *)pair_value)->unk_0C;
+                            pair_value = ((S_800218E4_23 *)pair_value)->unk_10;
+                            other_speed_y = abs(other_speed_y);
+                            pair_value = abs(pair_value);
+                            if ((other_speed_y + pair_value) <= collision_value) {
+                                ((S_800218E4_29 *)(((S_800218E4_17 *)partner_slot)->unk_00))->unk_0C = (s32) (func_80064584(*((S_800218E4_17 *)partner_slot)->unk_10, (void *) bounce_y, y_step, other_y) << 6);
+                                ((S_800218E4_29 *)(((S_800218E4_17 *)partner_slot)->unk_00))->unk_10 = (s32) (func_800644B8(*((S_800218E4_17 *)partner_slot)->unk_10) << 6);
+                            }
+                            partner_velocity = ((S_800218E4_17 *)partner_slot)->unk_00;
+                            object_xy = motion_slot->unk_00;
+                            x_or_distance = partner_velocity->unk_02;
+                            x_step = partner_velocity->unk_10.at02.v;
+                            other_x = object_xy->unk_02;
+                            pair_value = partner_velocity->unk_06;
+                            y_step = partner_velocity->unk_0C.at02.v;
+                            other_y = object_xy->unk_06;
+                            collision_value = (x_or_distance + x_step) - other_x;
+                            collision_value = abs(collision_value);
+                            other_forward_y_gap = (pair_value - y_step) - other_y;
+                            other_forward_y_gap = abs(other_forward_y_gap);
+                            bounce_x = collision_value + other_forward_y_gap;
+                            x_or_distance = (x_or_distance - x_step) - other_x;
+                            x_or_distance = abs(x_or_distance);
+                            pair_value += y_step;
+                            pair_value -= other_y;
+                            pair_value = abs(pair_value);
+                            x_or_distance += pair_value;
+                            state_value = x_or_distance < bounce_x;
+                            if (state_value) {
+                                state_value = partner_velocity->unk_0C.at00.v;
+                                bounce_x = partner_velocity->unk_10.at00.v;
+                                bounce_y = 0 - state_value;
+                            } else {
+                                state_value = partner_velocity->unk_10.at00.v;
+                                bounce_y = partner_velocity->unk_0C.at00.v;
+                                bounce_x = 0 - state_value;
+                            }
+                            if (partner_index != 0) {
+                                goto object_collision;
+                            }
                         }
-                        state_value = motion_slot->unk_1C;
-                        object_motion = state_value + 0x20;
-                        object_motion->unk_0C = (s32) (object_motion->unk_0C + bounce_x);
-                        object_motion->unk_10 = (s32) (object_motion->unk_10 + bounce_y);
-                        pair_value = (s32)(((S_800218E4_17 *)partner_slot)->unk_00);
-                        do {
-                            collision_value |= 0xFFFF;
-                        } while (0);
-                        other_speed_y = ((S_800218E4_23 *)pair_value)->unk_0C;
-                        pair_value = ((S_800218E4_23 *)pair_value)->unk_10;
-                        other_speed_y = abs(other_speed_y);
-                        pair_value = abs(pair_value);
-                        if ((other_speed_y + pair_value) <= collision_value) {
-                            ((S_800218E4_29 *)(((S_800218E4_17 *)partner_slot)->unk_00))->unk_0C = (s32) (func_80064584(*((S_800218E4_17 *)partner_slot)->unk_10, (void *) bounce_y, y_step, other_y) << 6);
-                            ((S_800218E4_29 *)(((S_800218E4_17 *)partner_slot)->unk_00))->unk_10 = (s32) (func_800644B8(*((S_800218E4_17 *)partner_slot)->unk_10) << 6);
-                        }
-                        partner_velocity = ((S_800218E4_17 *)partner_slot)->unk_00;
-                        object_xy = motion_slot->unk_00;
-                        x_or_distance = partner_velocity->unk_02;
-                        x_step = partner_velocity->unk_10.at02.v;
-                        other_x = object_xy->unk_02;
-                        pair_value = partner_velocity->unk_06;
-                        y_step = partner_velocity->unk_0C.at02.v;
-                        other_y = object_xy->unk_06;
-                        collision_value = (x_or_distance + x_step) - other_x;
-                        collision_value = abs(collision_value);
-                        other_forward_y_gap = (pair_value - y_step) - other_y;
-                        other_forward_y_gap = abs(other_forward_y_gap);
-                        bounce_x = collision_value + other_forward_y_gap;
-                        x_or_distance = (x_or_distance - x_step) - other_x;
-                        x_or_distance = abs(x_or_distance);
-                        pair_value += y_step;
-                        pair_value -= other_y;
-                        pair_value = abs(pair_value);
-                        x_or_distance += pair_value;
-                        state_value = x_or_distance < bounce_x;
-                        if (state_value) {
-                            state_value = partner_velocity->unk_0C.at00.v;
-                            bounce_x = partner_velocity->unk_10.at00.v;
-                            bounce_y = 0 - state_value;
-                        } else {
-                            state_value = partner_velocity->unk_10.at00.v;
-                            bounce_y = partner_velocity->unk_0C.at00.v;
-                            bounce_x = 0 - state_value;
-                        }
-                        if (partner_index != 0) {
-                            goto object_collision;
-                        }
-base_collision:
                         ASM_KEEP(collision_value); /* MATCH: retain the collision threshold across the base-object arm. */
                         ((S_800218E4_5 *)base_object)->unk_58 = (s32) (((S_800218E4_5 *)base_object)->unk_58 + bounce_x);
                         ((S_800218E4_5 *)base_object)->unk_5C = (s32) (((S_800218E4_5 *)base_object)->unk_5C + bounce_y);

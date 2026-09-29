@@ -118,15 +118,12 @@ void func_800BFB8C(void *source)
         } while (spawn_count >= 0);
     }
     state = ((S_800BFB8C_0 *)source)->unk_0C.s;
-    if (state == 0) {
-        goto state_zero;
+    if (state != 0) {
+        if (state == 1) {
+            goto state_one;
+        }
+        return;
     }
-    if (state == 1) {
-        goto state_one;
-    }
-    return;
-
-state_zero:
     if (func_80033BC0(0xA1) == 0) {
         return;
     }

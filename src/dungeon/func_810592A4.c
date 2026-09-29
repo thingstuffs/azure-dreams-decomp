@@ -183,12 +183,10 @@ motion:
 
     if ((*(u16 *)((u8 *)actor + 0x98)) & 8) {
         (*(s8 *)((u8 *)actor + 0x9D)) = 0;
-        goto accumulate;
+    } else {
+        motion->unk_14 += (*(s8 *)((u8 *)actor + 0x9D)) * 0x14000;
+        (*(s8 *)((u8 *)actor + 0x9D)) = (u8)(*(s8 *)((u8 *)actor + 0x9D)) + 1;
     }
-
-    motion->unk_14 += (*(s8 *)((u8 *)actor + 0x9D)) * 0x14000;
-    (*(s8 *)((u8 *)actor + 0x9D)) = (u8)(*(s8 *)((u8 *)actor + 0x9D)) + 1;
-accumulate:
     (*(s32 *)((u8 *)actor + 0x90)) += motion->unk_14;
 
     if (!((*(u16 *)((u8 *)actor + 0x98)) & 4)) {
@@ -199,22 +197,19 @@ accumulate:
             base_height = (s16)((S_80170AA4_1 *)entity)->unk_88;
             if ((*(s16 *)((u8 *)actor + 0x92)) + base_height < ground_height) {
                 ((S_80170AA4_1 *)entity)->unk_1C &= 0xF7FFFFFF;
-                goto flags_test;
+            } else {
+                if (ground_height >= base_height) {
+                    (*(s32 *)((u8 *)actor + 0x90)) = 0;
+                    motion->unk_14 = 0;
+                    ((S_80170AA4_1 *)entity)->unk_1C |= 0x08000000;
+                    (*(s8 *)((u8 *)actor + 0x9D)) = 0;
+                } else {
+                    motion->unk_14 = 0;
+                    ((S_80170AA4_1 *)entity)->unk_1C |= 0x08000000;
+                    (*(s8 *)((u8 *)actor + 0x9D)) = 0;
+                    (*(s16 *)((u8 *)actor + 0x92)) = ground_height - ((S_80170AA4_1 *)entity)->unk_88;
+                }
             }
-            if (ground_height >= base_height) {
-                (*(s32 *)((u8 *)actor + 0x90)) = 0;
-                motion->unk_14 = 0;
-                ((S_80170AA4_1 *)entity)->unk_1C |= 0x08000000;
-                (*(s8 *)((u8 *)actor + 0x9D)) = 0;
-                goto flags_test;
-            }
-
-            motion->unk_14 = 0;
-            ((S_80170AA4_1 *)entity)->unk_1C |= 0x08000000;
-            (*(s8 *)((u8 *)actor + 0x9D)) = 0;
-            (*(s16 *)((u8 *)actor + 0x92)) = ground_height - ((S_80170AA4_1 *)entity)->unk_88;
-
-flags_test:
             entity_flags = ((S_80170AA4_1 *)entity)->unk_1C;
             if (entity_flags & 0x40000000) {
                 ((S_80170AA4_1 *)entity)->unk_1C = entity_flags & 0xBFFFFFFF;

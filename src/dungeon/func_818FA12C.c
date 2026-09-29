@@ -596,53 +596,49 @@ update_position:
 
             ticks = (*(u16 *)((u8 *)self + 0x82)) + 1;
             (*(u16 *)((u8 *)self + 0x82)) = ticks;
-            if ((ticks & 3) != 0 || (s16)ticks >= 80) {
-                goto case_4_tail;
+            if (!((ticks & 3) != 0 || (s16)ticks >= 80)) {
+                impact = func_8003FC64(0x212);
+                if (impact != 0) {
+                    particle_state = impact + 0x20;
+                    (*(u16 *)((u8 *)particle_state + 2)) = 20;
+                    (*(u16 *)((u8 *)particle_state + 0x0A)) = 10;
+                    (*(u16 *)((u8 *)particle_state + 4)) = 0;
+                    (*(u32 *)((u8 *)impact + 0x10)) = (u32)D_8002558C;
+                    func_8004491C(impact, func_80045340);
+                    particle_data = (*(u8 * *)((u8 *)impact + 0x0C));
+                    ((S_818FA12C_8 *)particle_data)->unk_10.u = 0x20;
+                    ((S_818FA12C_8 *)particle_data)->unk_14 |= 0x0C;
+                    target_pos = ((S_818FA12C_14 *)(((S_818FA12C_2 *)parent)->unk_60.p - 0x18))->unk_00;
+                    flash_pos = (*(s32 * *)((u8 *)impact + 8));
+                    offset_radius = func_80069EF8();
+                    offset_sign = func_8002512C();
+                    offset_radius &= 0x1F;
+                    offset_radius += 16;
+                    frames_squared = (u32)((u8 *)(offset_radius * offset_sign));
+                    angle = (s32)((u8 *)frames_squared) << 16;
+                    flash_pos[0] = ((S_818FA12C_7 *)target_pos)->unk_00.at00.v + angle;
+                    offset_radius = func_80069EF8();
+                    offset_sign = func_8002512C();
+                    offset_radius &= 0x1F;
+                    offset_radius += 16;
+                    frames_squared = (u32)((u8 *)(offset_radius * offset_sign));
+                    angle = (s32)((u8 *)frames_squared) << 16;
+                    flash_pos[1] = ((S_818FA12C_7 *)target_pos)->unk_04.at00.v + angle;
+                    height_random = func_80069EF8();
+                    flash_pos[2] = ((S_818FA12C_7 *)target_pos)->unk_08.at00.v
+                        - (D_800DDC40[((S_818FA12C_2 *)parent)->unk_60.p[0x13]] << 15)
+                        - ((height_random & 0x1F) << 16);
+                    particle_data = (*(u8 * *)((u8 *)impact + 0x0C));
+                    target_data = ((S_818FA12C_16 *)(((S_818FA12C_2 *)parent)->unk_60.p - 0x14))->unk_00;
+                    ((S_818FA12C_8 *)particle_data)->unk_1C = ((S_818FA12C_11 *)target_data)->unk_1C >> 1;
+                    ((S_818FA12C_8 *)particle_data)->unk_1E = ((S_818FA12C_11 *)target_data)->unk_1E >> 1;
+                    ((S_818FA12C_8 *)particle_data)->unk_0E = 0;
+                    ((S_818FA12C_8 *)particle_data)->unk_0D = 0;
+                    ((S_818FA12C_8 *)particle_data)->unk_0C = 0;
+                    (*(Copy12 *)((u8 *)impact + 0x3A)) = D_80026668;
+                    ((S_818FA12C_8 *)particle_data)->unk_08 = impact + 0x3A;
+                }
             }
-            impact = func_8003FC64(0x212);
-            if (impact == 0) {
-                goto case_4_tail;
-            }
-            particle_state = impact + 0x20;
-            (*(u16 *)((u8 *)particle_state + 2)) = 20;
-            (*(u16 *)((u8 *)particle_state + 0x0A)) = 10;
-            (*(u16 *)((u8 *)particle_state + 4)) = 0;
-            (*(u32 *)((u8 *)impact + 0x10)) = (u32)D_8002558C;
-            func_8004491C(impact, func_80045340);
-            particle_data = (*(u8 * *)((u8 *)impact + 0x0C));
-            ((S_818FA12C_8 *)particle_data)->unk_10.u = 0x20;
-            ((S_818FA12C_8 *)particle_data)->unk_14 |= 0x0C;
-            target_pos = ((S_818FA12C_14 *)(((S_818FA12C_2 *)parent)->unk_60.p - 0x18))->unk_00;
-            flash_pos = (*(s32 * *)((u8 *)impact + 8));
-            offset_radius = func_80069EF8();
-            offset_sign = func_8002512C();
-            offset_radius &= 0x1F;
-            offset_radius += 16;
-            frames_squared = (u32)((u8 *)(offset_radius * offset_sign));
-            angle = (s32)((u8 *)frames_squared) << 16;
-            flash_pos[0] = ((S_818FA12C_7 *)target_pos)->unk_00.at00.v + angle;
-            offset_radius = func_80069EF8();
-            offset_sign = func_8002512C();
-            offset_radius &= 0x1F;
-            offset_radius += 16;
-            frames_squared = (u32)((u8 *)(offset_radius * offset_sign));
-            angle = (s32)((u8 *)frames_squared) << 16;
-            flash_pos[1] = ((S_818FA12C_7 *)target_pos)->unk_04.at00.v + angle;
-            height_random = func_80069EF8();
-            flash_pos[2] = ((S_818FA12C_7 *)target_pos)->unk_08.at00.v
-                - (D_800DDC40[((S_818FA12C_2 *)parent)->unk_60.p[0x13]] << 15)
-                - ((height_random & 0x1F) << 16);
-            particle_data = (*(u8 * *)((u8 *)impact + 0x0C));
-            target_data = ((S_818FA12C_16 *)(((S_818FA12C_2 *)parent)->unk_60.p - 0x14))->unk_00;
-            ((S_818FA12C_8 *)particle_data)->unk_1C = ((S_818FA12C_11 *)target_data)->unk_1C >> 1;
-            ((S_818FA12C_8 *)particle_data)->unk_1E = ((S_818FA12C_11 *)target_data)->unk_1E >> 1;
-            ((S_818FA12C_8 *)particle_data)->unk_0E = 0;
-            ((S_818FA12C_8 *)particle_data)->unk_0D = 0;
-            ((S_818FA12C_8 *)particle_data)->unk_0C = 0;
-            (*(Copy12 *)((u8 *)impact + 0x3A)) = D_80026668;
-            ((S_818FA12C_8 *)particle_data)->unk_08 = impact + 0x3A;
-
-case_4_tail:
             if ((s16)(*(u16 *)((u8 *)self + 0x82)) == 80) {
                 if (func_8009D218(((S_818FA12C_2 *)parent)->unk_60.p2, 4, parent) == 0) {
                     random_bonus = func_800A6D30();

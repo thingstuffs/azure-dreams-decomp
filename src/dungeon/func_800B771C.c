@@ -33,35 +33,32 @@ s32 func_800BCE7C(S_800BCE7C_0 *state) {
     s32 third_to_fourth;
 
     if (state->unk_154.at00.v != 0) {
-        if (state->unk_160.at00.v == 0) {
-            goto accept;
+        if (state->unk_160.at00.v != 0) {
+            state->unk_164 = func_80065F90(state->unk_154.at02.v, (s16) state->unk_154.at00.v);
+            fourth_angle = func_80065F90(state->unk_160.at02.v, (s16) state->unk_160.at00.v);
+            state->unk_170 = fourth_angle;
+            fourth_offset = fourth_angle - state->unk_164;
+            fourth_to_first = (0x1000 - fourth_offset) & 0xFFF;
+            state->unk_180 = fourth_to_first;
+            state->unk_170 = fourth_offset;
+            if (fourth_to_first >= 0x801) {
+                return 0;
+            }
+            if (state->unk_15C.at00.v != 0) {
+                third_angle = func_80065F90(state->unk_15C.at02.v, (s16) state->unk_15C.at00.v);
+                state->unk_16C = third_angle;
+                third_offset = third_angle - state->unk_164;
+                third_to_fourth = (state->unk_170 - third_offset) & 0xFFF;
+                state->unk_17C = third_to_fourth;
+                state->unk_16C = third_offset;
+                if (third_to_fourth >= 0x801) {
+                    return 0;
+                }
+                if (state->unk_158.at00.v != 0) {
+                    goto check_second;
+                }
+            }
         }
-        state->unk_164 = func_80065F90(state->unk_154.at02.v, (s16) state->unk_154.at00.v);
-        fourth_angle = func_80065F90(state->unk_160.at02.v, (s16) state->unk_160.at00.v);
-        state->unk_170 = fourth_angle;
-        fourth_offset = fourth_angle - state->unk_164;
-        fourth_to_first = (0x1000 - fourth_offset) & 0xFFF;
-        state->unk_180 = fourth_to_first;
-        state->unk_170 = fourth_offset;
-        if (fourth_to_first >= 0x801) {
-            return 0;
-        }
-        if (state->unk_15C.at00.v == 0) {
-            goto accept;
-        }
-        third_angle = func_80065F90(state->unk_15C.at02.v, (s16) state->unk_15C.at00.v);
-        state->unk_16C = third_angle;
-        third_offset = third_angle - state->unk_164;
-        third_to_fourth = (state->unk_170 - third_offset) & 0xFFF;
-        state->unk_17C = third_to_fourth;
-        state->unk_16C = third_offset;
-        if (third_to_fourth >= 0x801) {
-            return 0;
-        }
-        if (state->unk_158.at00.v != 0) {
-            goto check_second;
-        }
-accept:
         ASM_KEEP(state);   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
         return 1;
 check_second:

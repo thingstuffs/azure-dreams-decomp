@@ -152,47 +152,50 @@ void func_801730AC(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *motion, void *sp
     initial_timer = actor->unk_96;
     actor->unk_96 = (u16) (initial_timer + 1);
     if ((s16) initial_timer < 0x1E) {
-        goto block_97;
+        break;
     }
     actor->unk_96 = 0U;
     actor->unk_9A = (u8) (actor->unk_9A + 1);
     motion->unk_0C.unk_0C = 0xFFF80000;
-    goto block_97;
+    break;
     case 1:
     motion->unk_00 = (s32) (motion->unk_00 + motion->unk_0C.unk_0C);
     tail_test = actor->unk_96 + 1;
     actor->unk_96 = (u16) tail_test;
     tail_test = (s16) tail_test < 0x28;
-    goto pause_complete;
+    if (!tail_test) {
+        actor->unk_96 = 0U;
+        actor->unk_9A = (u8) (actor->unk_9A + 1);
+        motion->unk_0C.unk_0C = 0;
+    }
+    break;
     case 3:
     sprite->unk_14 = (u16) (sprite->unk_14 & 0xFF7F);
     tail_test = actor->unk_96 + 1;
     pause_timer = (u16) tail_test;
     actor->unk_96 = pause_timer;
     tail_test = (s16) tail_test < 0xA;
-pause_complete:
-    if (tail_test) {
-        goto block_98;
+    if (!tail_test) {
+        actor->unk_96 = 0U;
+        actor->unk_9A = (u8) (actor->unk_9A + 1);
+        motion->unk_0C.unk_0C = 0;
     }
-    actor->unk_96 = 0U;
-    actor->unk_9A = (u8) (actor->unk_9A + 1);
-    motion->unk_0C.unk_0C = 0;
-    goto block_97;
+    break;
     case 5:
     *(u8 **)((u8 *)sprite + 0x2C) = D_80174C8C;
     func_80047784(sprite, D_80174C8C[((s32) (gameWork.view.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
     func_800A56E0(0x801);
     actor->unk_96 = 0U;
     actor->unk_9A = (u8) (actor->unk_9A + 1);
-    goto block_97;
+    break;
     case 6:
     if (!(sprite->unk_14 & 0x6000)) {
-        goto block_98;
+        break;
     }
     actor->unk_B6 = 0;
     beldo->unk_88 = (u16) motion->unk_0A;
     if (sprite->unk_2C == D_80174C64) {
-        goto block_97;
+        break;
     }
     *(u8 **)((u8 *)sprite + 0x2C) = D_80174C64;
     func_80047784(sprite, D_80174C64[((s32) (gameWork.view.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
@@ -209,13 +212,13 @@ pause_complete:
         actor->unk_9A = (u8) (previous_state + 1);
         func_80172B00(case6_a0, saved_motion, saved_sprite);
     }
-    goto block_98;
+    break;
     case 7:
     motion->unk_0A = (u16) (motion->unk_0A - 8);
     rise_timer = actor->unk_96 + 1;
     actor->unk_96 = rise_timer;
     if ((s16) rise_timer < 4) {
-        goto block_98;
+        break;
     }
     actor->unk_96 = 0U;
     actor->unk_9A = (u8) (actor->unk_9A + 1);
@@ -223,12 +226,12 @@ pause_complete:
     actor->unk_9E = 0U;
     actor->unk_A0.unk_A2.unk_A2 = 0U;
     actor->unk_92.s = -0x20;
-    goto block_97;
+    break;
     case 9:
     path_start_timer = actor->unk_96;
     actor->unk_96 = (u16) (path_start_timer + 1);
     if ((s16) path_start_timer < 7) {
-        goto block_97;
+        break;
     }
     actor->unk_9A = (u8) (actor->unk_9A + 1);
     *(u8 **)((u8 *)sprite + 0x2C) = D_80174C6C;
@@ -243,11 +246,9 @@ pause_complete:
     motion->unk_0C.unk_0E.unk_0E = (s16) (start_vector->x * 0x10);
     motion->unk_10.unk_12.unk_12 = (s16) (start_vector->y * 0x10);
     beldo->unk_2A.s = (s16) (start_direction << 9);
-    goto block_97;
+    break;
     case 10:
-    if ((s16) actor->unk_96 > 0) {
-        goto block_29;
-    }
+    if ((s16) actor->unk_96 <= 0) {
     path_table = D_80174C94;
     actor->unk_96 = (u16) ((path_table[actor->unk_B4.s * 2] * 4) + 1);
     path_direction = path_table[actor->unk_B4.s * 2 + 1] & 7;
@@ -255,31 +256,24 @@ pause_complete:
     motion->unk_0C.unk_0E.unk_0E = (s16) (path_vector->x * 0x10);
     motion->unk_10.unk_12.unk_12 = (s16) (path_vector->y * 0x10);
     path_angle = path_direction << 9;
-    if (path_angle != beldo->unk_2A.s) {
-        goto block_25;
+    if (path_angle == beldo->unk_2A.s) {
+        motion->unk_00 = (s32) (motion->unk_00 + motion->unk_0C.unk_0C);
+        motion->unk_04 = (s32) (motion->unk_04 + motion->unk_10.unk_10);
+        actor->unk_96 = (u16) (actor->unk_96 - 1);
     }
-    motion->unk_00 = (s32) (motion->unk_00 + motion->unk_0C.unk_0C);
-    motion->unk_04 = (s32) (motion->unk_04 + motion->unk_10.unk_10);
-    actor->unk_96 = (u16) (actor->unk_96 - 1);
-block_25:
     beldo->unk_2A.s = path_angle;
-    if ((path_table[actor->unk_B4.s * 2 + 1] & 0xF8) != 0xF8) {
-        goto block_27;
+    if ((path_table[actor->unk_B4.s * 2 + 1] & 0xF8) == 0xF8) {
+        actor->unk_96 = 0x13U;
+        actor->unk_9A = (u8) (actor->unk_9A + 1);
+        motion->unk_00 = (s32) (motion->unk_00 + motion->unk_0C.unk_0C);
+        motion->unk_04 = (s32) (motion->unk_04 + motion->unk_10.unk_10);
     }
-    actor->unk_96 = 0x13U;
-    actor->unk_9A = (u8) (actor->unk_9A + 1);
-    motion->unk_00 = (s32) (motion->unk_00 + motion->unk_0C.unk_0C);
-    motion->unk_04 = (s32) (motion->unk_04 + motion->unk_10.unk_10);
-block_27:
     actor->unk_B4.u = (u16) (actor->unk_B4.u + 1);
-    goto path_particles;
-block_29:
+    } else {
     motion->unk_00 = (s32) (motion->unk_00 + motion->unk_0C.unk_0C);
     motion->unk_04 = (s32) (motion->unk_04 + motion->unk_10.unk_10);
-path_particles:
-    if (sprite->unk_04 != 5) {
-        goto block_32;
     }
+    if (sprite->unk_04 == 5) {
     particle_a0 = sprite;
     *(u8 **)((u8 *)sprite + 0x2C) = D_80174C6C;
     func_80047784(particle_a0, D_80174C6C[((s32) (gameWork.view.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
@@ -295,15 +289,13 @@ loop_31:
     if (path_particle_count < 0x14) {
         goto loop_31;
     }
-block_32:
+    }
     actor->unk_96 = (u16) (actor->unk_96 - 1);
-    goto block_97;
+    break;
     case 11:
     motion->unk_00 = (s32) (motion->unk_00 + motion->unk_0C.unk_0C);
     motion->unk_04 = (s32) (motion->unk_04 + motion->unk_10.unk_10);
-    if (sprite->unk_04 != 5) {
-        goto block_37;
-    }
+    if (sprite->unk_04 == 5) {
     *(u8 **)((u8 *)sprite + 0x2C) = D_80174C6C;
     func_80047784(sprite, D_80174C6C[((s32) (gameWork.view.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
     end_particle_count = 0;
@@ -317,11 +309,11 @@ block_32:
         ASM_KEEP4(particle_a0, particle_color, particle_variation, beldo);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         func_80171A10(particle_a0, beldo->unk_2A.s, particle_color, particle_variation, 0);
     } while (end_particle_count < 0x14);
-block_37:
+    }
     path_end_timer = actor->unk_96 - 1;
     actor->unk_96 = path_end_timer;
     if ((path_end_timer << 0x10) > 0) {
-        goto block_98;
+        break;
     }
     actor->unk_96 = 0x2EU;
     actor->unk_9A++;
@@ -331,7 +323,7 @@ block_37:
     tail_sprite = D_80174C64;
 #endif
     if (sprite->unk_2C == tail_sprite) {
-        goto block_97;
+        break;
     }
 #ifndef NON_MATCHING
     tail_state = 0x80080000;
@@ -341,49 +333,34 @@ block_37:
     case 12:
     turn_timer = actor->unk_96 - 1;
     actor->unk_96 = turn_timer;
-    if ((turn_timer << 0x10) > 0) {
-        goto block_46;
+    if ((turn_timer << 0x10) <= 0) {
+        actor->unk_96 = 6U;
+        if (beldo->unk_2A.s < 0x800) {
+            beldo->unk_2A.s = (s16) (beldo->unk_2A.u + 0x200);
+        } else {
+            actor->unk_96 = 0U;
+            actor->unk_9A = (u8) (actor->unk_9A + 1);
+        }
     }
-    actor->unk_96 = 6U;
-    if (beldo->unk_2A.s >= 0x800) {
-        goto block_45;
+    if ((s16) actor->unk_96 == 0x28) {
+        beldo->unk_2A.s = 0xE00;
     }
-    beldo->unk_2A.s = (s16) (beldo->unk_2A.u + 0x200);
-    goto block_46;
-block_45:
-    actor->unk_96 = 0U;
-    actor->unk_9A = (u8) (actor->unk_9A + 1);
-block_46:
-    if ((s16) actor->unk_96 != 0x28) {
-        goto block_48;
+    if ((s16) actor->unk_96 == 0x1E) {
+        beldo->unk_2A.s = 0;
     }
-    beldo->unk_2A.s = 0xE00;
-block_48:
-    if ((s16) actor->unk_96 != 0x1E) {
-        goto block_50;
+    if ((s16) actor->unk_96 == 0x1D) {
+        beldo->unk_2A.s = 0x200;
     }
-    beldo->unk_2A.s = 0;
-block_50:
-    if ((s16) actor->unk_96 != 0x1D) {
-        goto block_52;
+    if ((s16) actor->unk_96 == 0x12) {
+        beldo->unk_2A.s = 0;
     }
-    beldo->unk_2A.s = 0x200;
-block_52:
-    if ((s16) actor->unk_96 != 0x12) {
-        goto block_54;
+    if ((s16) actor->unk_96 == 0x11) {
+        beldo->unk_2A.s = 0xE00;
     }
-    beldo->unk_2A.s = 0;
-block_54:
-    if ((s16) actor->unk_96 != 0x11) {
-        goto block_56;
+    if ((s16) actor->unk_96 == 0xA) {
+        beldo->unk_2A.s = 0;
     }
-    beldo->unk_2A.s = 0xE00;
-block_56:
-    if ((s16) actor->unk_96 != 0xA) {
-        goto block_98;
-    }
-    beldo->unk_2A.s = 0;
-    goto block_98;
+    break;
     case 8:
     case 13:
     bob_phase = actor->unk_9E;
@@ -391,12 +368,12 @@ block_56:
     actor->unk_A0.unk_A0 = (s32) (actor->unk_A0.unk_A0 + (func_800644B8((s16) bob_phase * 0x55) * 0x10));
     motion->unk_0A = (u16) (beldo->unk_88
         + actor->unk_92.u - actor->unk_A0.unk_A2.unk_A2);
-    goto block_97;
+    break;
     case 14:
     animation_timer = actor->unk_96 + 1;
     actor->unk_96 = animation_timer;
     if ((s16) animation_timer < 3) {
-        goto block_98;
+        break;
     }
 #ifdef NON_MATCHING
     tail_sprite = D_80174C6C;
@@ -410,9 +387,7 @@ block_56:
     actor->unk_96 = 0U;
     goto advance_animation;
     case 15:
-    if (sprite->unk_04 != 5) {
-        goto block_67;
-    }
+    if (sprite->unk_04 == 5) {
     particle_a0 = sprite;
     particle_color = 0;
     *(u8 **)((u8 *)sprite + 0x2C) = D_80174C6C;
@@ -432,23 +407,21 @@ loop_66:
     if (wait_particle_count < 0x14) {
         goto loop_66;
     }
-block_67:
+    }
     particle_timer = actor->unk_96 + 1;
     actor->unk_96 = particle_timer;
     if ((s16) particle_timer < 0x19) {
-        goto block_98;
+        break;
     }
     actor->unk_96 = 0U;
     actor->unk_9A = (u8) (actor->unk_9A + 1);
     motion->unk_0C.unk_0E.unk_0E = -0x10;
     motion->unk_10.unk_12.unk_12 = 0;
-    goto block_97;
+    break;
     case 16:
     move_timer = actor->unk_96 + 1;
     actor->unk_96 = move_timer;
-    if ((s16) move_timer < 0xA) {
-        goto block_72;
-    }
+    if ((s16) move_timer >= 0xA) {
     actor->unk_96 = 0U;
     actor->unk_9A = (u8) (actor->unk_9A + 1);
     motion->unk_0C.unk_0E.unk_0E = 4;
@@ -458,21 +431,17 @@ block_67:
     func_80172CC8(motion, -0x1C, 0, -0x1E, 0);
     func_800419EC(6, 0xC);
     func_800A56E0(0x601);
-block_72:
-    if ((s16) actor->unk_96 != 8) {
-        goto block_74;
     }
+    if ((s16) actor->unk_96 == 8) {
     func_80172CC8(motion, -0x30, 0, -0xA, 1);
     func_80172CC8(motion, -0x18, 0, -0x18, 1);
     func_80172CC8(motion, 0, 0, -0x10, 1);
     func_800419EC(6, 0xC);
     func_800A56E0(0x601);
-block_74:
+    }
     motion->unk_00 = (s32) (motion->unk_00 + motion->unk_0C.unk_0C);
     motion->unk_04 = (s32) (motion->unk_04 + motion->unk_10.unk_10);
-    if (sprite->unk_04 != 5) {
-        goto block_98;
-    }
+    if (sprite->unk_04 == 5) {
     particle_a0 = sprite;
     particle_color = 0;
     *(u8 **)((u8 *)sprite + 0x2C) = D_80174C6C;
@@ -492,67 +461,62 @@ loop_76:
     if (move_particle_count < 0x14) {
         goto loop_76;
     }
-    goto block_98;
+    }
+    break;
     case 17:
     spin_timer = actor->unk_96 + 1;
     actor->unk_96 = (u16) spin_timer;
-    if (spin_timer >= 0xE) {
-        goto block_83;
-    }
-    if (spin_timer & 1) {
-        goto block_83;
-    }
+    if (spin_timer < 0xE) {
+    if (!(spin_timer & 1)) {
     previous_angle = (u16) beldo->unk_2A.s;
     next_angle = previous_angle + 0x200;
     beldo->unk_2A.s = next_angle;
-    if (next_angle < 0x1000) {
-        goto block_83;
-    }
+    if (next_angle >= 0x1000) {
     beldo->unk_2A.s = (s16) (previous_angle - 0xE00);
-block_83:
+    }
+    }
+    }
     position_x = motion->unk_00;
     velocity_x = motion->unk_0C.unk_0C;
     position_y = motion->unk_04;
     velocity_y = motion->unk_10.unk_10;
     motion->unk_00 = position_x + velocity_x;
     motion->unk_04 = position_y + velocity_y;
-    if ((s16) motion->unk_0A >= (s16) beldo->unk_88) {
-        goto block_85;
+    if ((s16) motion->unk_0A < (s16) beldo->unk_88) {
+        motion->unk_0A = (u16) (motion->unk_0A + 6);
     }
-    motion->unk_0A = (u16) (motion->unk_0A + 6);
-block_85:
-    if ((s16) actor->unk_96 < 0x13) {
-        goto block_90;
+    if ((s16) actor->unk_96 >= 0x13) {
+        actor->unk_96 = 0U;
+        actor->unk_9A = (u8) (actor->unk_9A + 1);
+        motion->unk_10.unk_12.unk_12 = 0;
+        motion->unk_0C.unk_0E.unk_0E = 0;
     }
-    actor->unk_96 = 0U;
-    actor->unk_9A = (u8) (actor->unk_9A + 1);
-    motion->unk_10.unk_12.unk_12 = 0;
-    motion->unk_0C.unk_0E.unk_0E = 0;
-    goto block_90;
+    if ((actor->unk_96 & 3) == 1) {
+    func_80172F44(motion, -0x10, 0, -4);
+    func_80172F44(motion, 0xC, 0, -0xC);
+    }
+    break;
     case 18:
     idle_timer = actor->unk_96 + 1;
     actor->unk_96 = idle_timer;
-    if ((s16) idle_timer < 0x3C) {
-        goto block_90;
-    }
+    if ((s16) idle_timer >= 0x3C) {
     actor->unk_96 = 4U;
     actor->unk_9A = (u8) (actor->unk_9A + 1);
     func_80172A14(actor, motion, sprite);
     *(u8 **)((u8 *)sprite + 0x2C) = D_80174C7C;
     func_80047784(sprite, D_80174C7C[((s32) (gameWork.view.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
     func_800A56E0(0x800);
-block_90:
-    if ((actor->unk_96 & 3) != 1) {
-        goto block_98;
     }
+    if ((actor->unk_96 & 3) == 1) {
     func_80172F44(motion, -0x10, 0, -4);
     func_80172F44(motion, 0xC, 0, -0xC);
-    goto block_98;
+    }
+    break;
     case 19:
     final_timer = actor->unk_96 - 1;
     actor->unk_96 = final_timer;
     if ((final_timer << 0x10) > 0) {
-        goto block_98;
+        break;
     }
 #ifdef NON_MATCHING
     tail_sprite = D_80174C84;
@@ -575,30 +539,25 @@ update_animation:
     tail_state = (((s32) (((S_func_8132B8AC_4 *)tail_state)->unk_3228 + beldo->unk_2A.s + 0x100) >> 9) & 7) + (s32) tail_sprite;
     func_80047784(sprite, ((S_func_8132B8AC_5 *)tail_state)->unk_00, 0);
 #endif
-    goto block_98;
+    break;
     case 20:
         func_80170C3C();
         break;
     default:
         break;
     }
-block_97:
-block_98:
     if (D_80174CE0 == 0) {
         return;
     }
     final_direction = ((s32) (gameWork.view.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7;
     sprite_direction = final_direction;
-    if (actor->unk_94 == sprite_direction) {
-        goto block_101;
+    if (actor->unk_94 != sprite_direction) {
+        func_80047738(sprite, sprite->unk_2C[sprite_direction], sprite->unk_04);
+        actor->unk_94 = sprite_direction;
     }
-    func_80047738(sprite, sprite->unk_2C[sprite_direction], sprite->unk_04);
-    actor->unk_94 = sprite_direction;
-block_101:
     if (dirSpriteFlag[sprite_direction] != 0) {
         tail_test = sprite->unk_14 | 1;
     } else {
-block_104:
         tail_test = sprite->unk_14 & 0xFFFE;
     }
     sprite->unk_14 = (u16) tail_test;

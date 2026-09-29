@@ -64,15 +64,12 @@ void func_8017388C(void *in_action, void *in_context, void *in_sprite, void *in_
     if (state == 1) {
         goto state_one;
     }
-    if (state >= 2) {
-        goto state_ge_two;
+    if (state < 2) {
+        if (state == 0) {
+            goto state_zero;
+        }
+        return;
     }
-    if (state == 0) {
-        goto state_zero;
-    }
-    return;
-
-state_ge_two:
     if (state == 2) {
         goto state_two;
     }

@@ -11,15 +11,12 @@ void func_80092DFC(void *object) {
     u8 current_state;
     u16 timer;
 
-    if (state == 0) {
-        goto state_zero;
+    if (state != 0) {
+        if (state == 1) {
+            goto state_one;
+        }
+        return;
     }
-    if (state == 1) {
-        goto state_one;
-    }
-    return;
-
-state_zero:
     current_state = *(volatile u8 *)((u8 *)object + 0x9B);
     *(u16 *)((u8 *)object + 0x96) = 0x10;
     *(u8 *)((u8 *)object + 0x9B) = current_state + 1;
@@ -28,18 +25,15 @@ state_zero:
 state_one:
     timer = *(u16 *)((u8 *)object + 0x96) - 1;
     *(u16 *)((u8 *)object + 0x96) = timer;
-    if ((s16)timer < 0) {
-        goto reset;
+    if ((s16)timer >= 0) {
+        if (((s32)shared_data->unk_010) == 0) {
+            return;
+        }
+        ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        if (D_80012090[0] == state) {
+            return;
+        }
     }
-    if (((s32)shared_data->unk_010) == 0) {
-        return;
-    }
-    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    if (D_80012090[0] == state) {
-        return;
-    }
-
-reset:
     *(s32 *)((u8 *)object + 0x124) = 0;
     *(void **)((u8 *)object + 0x8C) = &D_8008ACDC;
 }

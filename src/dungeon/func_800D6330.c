@@ -57,35 +57,34 @@ void func_800DBA90(Struct_800D6330 *transform) {
     func_80064D80(scratch.sp10);
     if (transform->unk1A == 0) {
         func_80065820((s8 *) transform + 8, scratch.sp10);
-        goto post_init;
-    }
-    row_vertex_index = 2;
-    if (transform->unk1A != 0x8000) {
-        last_column = row_vertex_index;
-        unit_scale = 0x1000;
-        matrix_row = scratch.sp10 + 6;
-        do {
-            column_flags = last_column;
-            row_base = matrix_row;
+    } else {
+        row_vertex_index = 2;
+        if (transform->unk1A != 0x8000) {
+            last_column = row_vertex_index;
+            unit_scale = 0x1000;
+            matrix_row = scratch.sp10 + 6;
             do {
-                matrix_cell = (s16 *) ((column_flags << 1) + (u32) row_base);
-                if (row_vertex_index == column_flags) {
-                    *matrix_cell = unit_scale;
-                } else {
-                    *matrix_cell = 0;
-                }
-                column_flags--;
-            } while (column_flags >= 0);
-            row_vertex_index--;
-            matrix_row -= 3;
-        } while (row_vertex_index >= 0);
-        if (transform->unk1A == 1) {
-            func_80065AB0(transform->unk08, scratch.sp10, unit_scale, last_column);
-            func_80065C50(transform->unk0A, scratch.sp10);
-            func_80065DF0(transform->unk0C, scratch.sp10);
+                column_flags = last_column;
+                row_base = matrix_row;
+                do {
+                    matrix_cell = (s16 *) ((column_flags << 1) + (u32) row_base);
+                    if (row_vertex_index == column_flags) {
+                        *matrix_cell = unit_scale;
+                    } else {
+                        *matrix_cell = 0;
+                    }
+                    column_flags--;
+                } while (column_flags >= 0);
+                row_vertex_index--;
+                matrix_row -= 3;
+            } while (row_vertex_index >= 0);
+            if (transform->unk1A == 1) {
+                func_80065AB0(transform->unk08, scratch.sp10, unit_scale, last_column);
+                func_80065C50(transform->unk0A, scratch.sp10);
+                func_80065DF0(transform->unk0C, scratch.sp10);
+            }
         }
     }
-post_init:
     func_80064CF0(scratch.sp10);
     row_vertex_index = 0;
     if (transform->unk18 > 0) {

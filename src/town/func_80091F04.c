@@ -278,42 +278,37 @@ void func_8008F664(void *collider, void *position) {
                 goto next_object;
             }
             shift_z = SC32(scratch, 0x20);
-            if (shift_z > 0 && S32_AT(position, 0x14) >= shift_z && shift_x != 0 && shift_y != 0) {
-                goto call_60c;
-            }
+            if (!(shift_z > 0 && S32_AT(position, 0x14) >= shift_z && shift_x != 0 && shift_y != 0)) {
+                {
+                    s32 abs_x;
+                    s32 y_depth;
+                    s32 z_depth;
+                    s32 abs_z;
 
-            {
-                s32 abs_x;
-                s32 y_depth;
-                s32 z_depth;
-                s32 abs_z;
-
-                abs_x = abs(VSC32(scratch, 0x10));
-                y_depth = abs(VSC32(scratch, 0x18));
-                if (abs_x < y_depth) {
-                    z_depth = VSC32(scratch, 0x20);
-                    abs_z = z_depth;
-                    abs_z = abs(abs_z);
-                    z_depth = y_depth < abs_z;
-                    if (z_depth) {
-                        goto call_55c;
-                    }
-                    z_depth = abs_x < abs_z;
-                    if (!z_depth) {
-                        goto call_60c;
-                    }
-        call_55c:
-                    func_8008F55C(collider, position, scratch);
-                    goto next_object;
-                } else {
-                    z_depth = VSC32(scratch, 0x20);
-                    z_depth = abs(z_depth);
-                    if (y_depth < z_depth) {
-                        goto call_5b4;
+                    abs_x = abs(VSC32(scratch, 0x10));
+                    y_depth = abs(VSC32(scratch, 0x18));
+                    if (abs_x < y_depth) {
+                        z_depth = VSC32(scratch, 0x20);
+                        abs_z = z_depth;
+                        abs_z = abs(abs_z);
+                        z_depth = y_depth < abs_z;
+                        if (!z_depth) {
+                            z_depth = abs_x < abs_z;
+                            if (!z_depth) {
+                                goto call_60c;
+                            }
+                        }
+                        func_8008F55C(collider, position, scratch);
+                        goto next_object;
+                    } else {
+                        z_depth = VSC32(scratch, 0x20);
+                        z_depth = abs(z_depth);
+                        if (y_depth < z_depth) {
+                            goto call_5b4;
+                        }
                     }
                 }
             }
-
         call_60c:
             func_8008F60C(collider, position, scratch);
             goto next_object;

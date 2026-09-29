@@ -90,19 +90,17 @@ state_0:
     current_table--;
     dungeonStatus.unk_0A = current_table;
     kind = ((S_8016D0FC_0 *)context)->unk_AC;
-    if (kind == 0xE) {
-        goto set_ac8_pre;
-    }
-    if (kind < 0xF) {
-        if (kind == 0xD) {
-            goto set_ac8;
+    if (kind != 0xE) {
+        if (kind < 0xF) {
+            if (kind == 0xD) {
+                goto set_ac8;
+            }
+            goto increment_state;
         }
-        goto increment_state;
+        if (kind != 0xF) {
+            goto increment_state;
+        }
     }
-    if (kind != 0xF) {
-        goto increment_state;
-    }
-set_ac8_pre:
 set_ac8:
     (*(u8 * *)((u8 *)object + 0x2C)) = D_80173AC8;
     direction_index = (gameWork.view.viewAngle + ((S_8016D0FC_3 *)actor)->unk_2A + 0x100) >> 9;
@@ -111,17 +109,16 @@ set_ac8:
 
 state_1:
     kind = ((S_8016D0FC_0 *)context)->unk_AC;
-    if (kind == 0xE) {
-        goto maybe_set_ac8;
-    }
-    if (kind < 0xF) {
-        if (kind == 0xD) {
-            goto maybe_set_ac8;
+    if (kind != 0xE) {
+        if (kind < 0xF) {
+            if (kind == 0xD) {
+                goto maybe_set_ac8;
+            }
+            goto after_ac8;
         }
-        goto after_ac8;
-    }
-    if (kind != 0xF) {
-        goto after_ac8;
+        if (kind != 0xF) {
+            goto after_ac8;
+        }
     }
 maybe_set_ac8:
     current_table = ((S_8016D0FC_1 *)object)->unk_2C;

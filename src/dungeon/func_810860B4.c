@@ -70,214 +70,181 @@ void func_801738B4(void *action_ctx, void *scene_object, void *entity, void *act
     void *active_object;
     void *copy_object;
     u8 *action_status;
+    s32 use_shared_object;
 
     special_mode = 0;
     action_state = ((S_801738B4_0 *)action_ctx)->unk_9B;
-    if (action_state == 1) {
-        goto state_1;
-    }
-    if (action_state < 2) {
-        if (action_state == 0) {
-            goto state_0;
-        }
-        goto done;
-    }
-    if (action_state == 2) {
-        goto state_2;
-    }
-    if (action_state == 3) {
-        goto state_3;
-    }
-    goto done;
-
-state_0:
-    if ((*(u32 *)((u8 *)actor + 0x1C)) & 0x2000) {
-        item_selector = ((*(u16 *)((u8 *)actor + 0x46)) & 0x3FFF) - 1;
-        switch (item_selector) {
-        case 0:
-            goto item_1;
-        case 1:
-            goto item_2;
-        case 2:
-            goto item_3;
-        case 6:
-            special_mode = 1;
-            goto item_3;
-        case 5:
-            special_mode = 1;
-            goto item_2;
-        case 4:
-            special_mode = 1;
-            goto item_1;
-        default:
-            goto no_item;
-        }
-    } else {
-        item_selector = (*(u16 *)((u8 *)actor + 0x46)) & 0x3FFF;
-        if (item_selector == 2) {
-            goto item_2;
-        }
-        if (item_selector < 3) {
-            if (item_selector == 1) {
+    switch (action_state) {
+    case 0:
+        if ((*(u32 *)((u8 *)actor + 0x1C)) & 0x2000) {
+            item_selector = ((*(u16 *)((u8 *)actor + 0x46)) & 0x3FFF) - 1;
+            switch (item_selector) {
+            case 0:
                 goto item_1;
+            case 1:
+                goto item_2;
+            case 2:
+                goto item_3;
+            case 6:
+                special_mode = 1;
+                goto item_3;
+            case 5:
+                special_mode = 1;
+                goto item_2;
+            case 4:
+                special_mode = 1;
+                goto item_1;
+            default:
+                goto no_item;
+            }
+        } else {
+            item_selector = (*(u16 *)((u8 *)actor + 0x46)) & 0x3FFF;
+            if (item_selector == 2) {
+                goto item_2;
+            }
+            if (item_selector < 3) {
+                if (item_selector == 1) {
+                    goto item_1;
+                }
+                goto no_item;
+            }
+            if (item_selector == 3) {
+                goto item_3;
             }
             goto no_item;
         }
-        if (item_selector == 3) {
-            goto item_3;
+
+    item_3:
+        item = (u8 *)actor + 0x0E;
+        goto have_item;
+    item_2:
+        item = (u8 *)actor + 0x0B;
+        goto have_item;
+    item_1:
+        item = (u8 *)actor;
+        item += 8;
+        goto have_item;
+    no_item:
+        item = 0;
+
+    have_item:
+        if (*item != 0) {
+
+            ((S_801738B4_0 *)action_ctx)->unk_98 &= 0xFF7F;
+            use_shared_object = (special_mode == 1);
+            if (use_shared_object) {
+                copy_object = D_800814A8;
+                (*(void * *)((u8 *)actor + 0x60)) = copy_object;
+                action_status = ((S_801738B4_1_pre *)copy_object)[-1].unk_00;
+                (*(u8 *)((u8 *)actor + 0x72)) = action_status[0x24];
+                (*(u8 *)((u8 *)actor + 0x73)) = action_status[0x25];
+            } else if (D_8006DE24[*item].kind == 2) {
+                copy_object = (*(void * *)((u8 *)actor + 0x60));
+                if (copy_object != 0) {
+                    action_status = ((S_801738B4_1_pre *)copy_object)[-1].unk_00;
+                    (*(u8 *)((u8 *)actor + 0x72)) = action_status[0x24];
+                    (*(u8 *)((u8 *)actor + 0x73)) = action_status[0x25];
+                }
+            } else {
+                target_x = (s32)func_800A05A4(actor,
+                    ((S_801738B4_2 *)entity)->unk_24,
+                    ((S_801738B4_2 *)entity)->unk_25,
+                    (*(s16 *)((u8 *)actor + 0x2A)), 0x10);
+                (*(void * volatile *)((u8 *)actor + 0x60)) = (void *)target_x;
+                target_x = (*(s8 *)((u8 *)actor + 0x72));
+                target_y = (*(s8 *)((u8 *)actor + 0x73));
+                if (target_x < 0) {
+                    target_x = -target_x;
+                }
+                if (target_y < 0) {
+                    target_y = -target_y;
+                }
+                (*(s8 *)((u8 *)actor + 0x72)) = target_x;
+                (*(s8 *)((u8 *)actor + 0x73)) = target_y;
+            }
+            if (func_800A94A0(actor, item, special_mode, &((S_801738B4_0 *)action_ctx)->unk_98)) {
+                func_800BB044(actor);
+                ((S_801738B4_0 *)action_ctx)->unk_9B++;
+            }
+            break;
+        } else {
+            ((EntityRec *)scene_object)->flags14 = 0;
+            ((EntityRec *)scene_object)->unk_10 = 0;
+            ((EntityRec *)scene_object)->unk_0C = 0;
+            func_800A2B04(scene_object, ((S_801738B4_2 *)entity)->unk_24, ((S_801738B4_2 *)entity)->unk_25);
+            active_object = D_800814A8;
+            dungeonStatus.unk_0C = 0;
+            (*(u16 *)((u8 *)active_object + 0xA6))--;
+            func_800A4ACC(actor);
+            (*(u8 *)((u8 *)actor + 0x6D))--;
+            ((S_801738B4_0 *)action_ctx)->unk_8C = &D_80170E94;
+            (*(u8 *)((u8 *)actor + 0x73)) = 0;
+            (*(u8 *)((u8 *)actor + 0x72)) = 0;
+            (*(u16 *)((u8 *)actor + 0x46)) &= 0x7FFF;
+            break;
         }
-        goto no_item;
-    }
 
-item_3:
-    item = (u8 *)actor + 0x0E;
-    goto have_item;
-item_2:
-    item = (u8 *)actor + 0x0B;
-    goto have_item;
-item_1:
-    item = (u8 *)actor;
-    item += 8;
-    goto have_item;
-no_item:
-    item = 0;
-
-have_item:
-    if (*item == 0) {
-        goto empty_item;
-    }
-
-    ((S_801738B4_0 *)action_ctx)->unk_98 &= 0xFF7F;
-    {
-        s32 use_shared_object = (special_mode == 1);
-        if (use_shared_object) {
-            copy_object = D_800814A8;
-            (*(void * *)((u8 *)actor + 0x60)) = copy_object;
-            goto copy_position_object;
+    case 1:
+        if (func_8003F270()) {
+            ((S_801738B4_2 *)entity)->unk_14 |= 0x0800;
+            break;
         }
-    }
-    {
-        u8 item_id;
-
-        item_id = *item;
-        if (D_8006DE24[item_id].kind != 2) {
-            goto spawn_object;
-        }
-    }
-    copy_object = (*(void * *)((u8 *)actor + 0x60));
-    if (copy_object == 0) {
-        goto apply_item;
-    }
-
-copy_position_object:
-    action_status = ((S_801738B4_1_pre *)copy_object)[-1].unk_00;
-    (*(u8 *)((u8 *)actor + 0x72)) = action_status[0x24];
-    (*(u8 *)((u8 *)actor + 0x73)) = action_status[0x25];
-    goto call_item;
-
-spawn_object:
-    target_x = (s32)func_800A05A4(actor,
-        ((S_801738B4_2 *)entity)->unk_24,
-        ((S_801738B4_2 *)entity)->unk_25,
-        (*(s16 *)((u8 *)actor + 0x2A)), 0x10);
-    (*(void * volatile *)((u8 *)actor + 0x60)) = (void *)target_x;
-    target_x = (*(s8 *)((u8 *)actor + 0x72));
-    target_y = (*(s8 *)((u8 *)actor + 0x73));
-    if (target_x < 0) {
-        target_x = -target_x;
-    }
-    if (target_y < 0) {
-        target_y = -target_y;
-    }
-    (*(s8 *)((u8 *)actor + 0x72)) = target_x;
-    (*(s8 *)((u8 *)actor + 0x73)) = target_y;
-
-call_item:
-apply_item:
-    if (!func_800A94A0(actor, item, special_mode, &((S_801738B4_0 *)action_ctx)->unk_98)) {
-        goto epilogue;
-    }
-    func_800BB044(actor);
-    ((S_801738B4_0 *)action_ctx)->unk_9B++;
-    goto done;
-
-empty_item:
-    ((EntityRec *)scene_object)->flags14 = 0;
-    ((EntityRec *)scene_object)->unk_10 = 0;
-    ((EntityRec *)scene_object)->unk_0C = 0;
-    func_800A2B04(scene_object, ((S_801738B4_2 *)entity)->unk_24, ((S_801738B4_2 *)entity)->unk_25);
-    active_object = D_800814A8;
-    dungeonStatus.unk_0C = 0;
-    (*(u16 *)((u8 *)active_object + 0xA6))--;
-    func_800A4ACC(actor);
-    (*(u8 *)((u8 *)actor + 0x6D))--;
-    ((S_801738B4_0 *)action_ctx)->unk_8C = &D_80170E94;
-    (*(u8 *)((u8 *)actor + 0x73)) = 0;
-    (*(u8 *)((u8 *)actor + 0x72)) = 0;
-    (*(u16 *)((u8 *)actor + 0x46)) &= 0x7FFF;
-    goto done;
-
-state_1:
-    if (func_8003F270()) {
-        ((S_801738B4_2 *)entity)->unk_14 |= 0x0800;
-        goto done;
-    }
-    ((S_801738B4_2 *)entity)->unk_14 &= 0xF7FF;
-    ((S_801738B4_0 *)action_ctx)->unk_9B++;
-
-state_2:
-    if ((((S_801738B4_2 *)entity)->unk_04 == 3 &&
-         (((S_801738B4_2 *)entity)->unk_14 & 0x1000)) ||
-        (((S_801738B4_2 *)entity)->unk_14 & 0xE000)) {
-        func_80174BC8(action_ctx, scene_object, entity);
-        ((S_801738B4_0 *)action_ctx)->unk_9B++;
-    }
-
-state_3:
-    if ((((S_801738B4_2 *)entity)->unk_04 == 4 &&
-         (((S_801738B4_2 *)entity)->unk_14 & 0x1000)) ||
-        (((S_801738B4_2 *)entity)->unk_14 & 0xE000)) {
-        ((S_801738B4_2 *)entity)->unk_14 |= 0x0800;
-        ((S_801738B4_0 *)action_ctx)->unk_96 = 1;
-        ((S_801738B4_0 *)action_ctx)->unk_98 |= 0x0080;
-    }
-
-    remaining_ticks = ((S_801738B4_0 *)action_ctx)->unk_96 - 1;
-    ((S_801738B4_0 *)action_ctx)->unk_96 = remaining_ticks;
-    if ((s16)remaining_ticks <= 0) {
-        ((S_801738B4_0 *)action_ctx)->unk_96 = 0;
         ((S_801738B4_2 *)entity)->unk_14 &= 0xF7FF;
-    }
-    if (!(((S_801738B4_2 *)entity)->unk_14 & 0xE000)) {
-        goto epilogue;
+        ((S_801738B4_0 *)action_ctx)->unk_9B++;
+
+    case 2:
+        if ((((S_801738B4_2 *)entity)->unk_04 == 3 &&
+             (((S_801738B4_2 *)entity)->unk_14 & 0x1000)) ||
+            (((S_801738B4_2 *)entity)->unk_14 & 0xE000)) {
+            func_80174BC8(action_ctx, scene_object, entity);
+            ((S_801738B4_0 *)action_ctx)->unk_9B++;
+        }
+
+    case 3:
+        if ((((S_801738B4_2 *)entity)->unk_04 == 4 &&
+             (((S_801738B4_2 *)entity)->unk_14 & 0x1000)) ||
+            (((S_801738B4_2 *)entity)->unk_14 & 0xE000)) {
+            ((S_801738B4_2 *)entity)->unk_14 |= 0x0800;
+            ((S_801738B4_0 *)action_ctx)->unk_96 = 1;
+            ((S_801738B4_0 *)action_ctx)->unk_98 |= 0x0080;
+        }
+
+        remaining_ticks = ((S_801738B4_0 *)action_ctx)->unk_96 - 1;
+        ((S_801738B4_0 *)action_ctx)->unk_96 = remaining_ticks;
+        if ((s16)remaining_ticks <= 0) {
+            ((S_801738B4_0 *)action_ctx)->unk_96 = 0;
+            ((S_801738B4_2 *)entity)->unk_14 &= 0xF7FF;
+        }
+        if (!(((S_801738B4_2 *)entity)->unk_14 & 0xE000)) {
+            break;
+        }
+
+        ((EntityRec *)scene_object)->flags14 = 0;
+        ((EntityRec *)scene_object)->unk_10 = 0;
+        ((EntityRec *)scene_object)->unk_0C = 0;
+        func_800A2B04(scene_object, ((S_801738B4_2 *)entity)->unk_24, ((S_801738B4_2 *)entity)->unk_25);
+        if (((S_801738B4_2 *)entity)->unk_2C != D_80175F10) {
+            (*(u8 * *)((u8 *)entity + 0x2C)) = D_80175F10;
+            func_80047784(entity,
+                D_80175F10[((gameWork.view.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7],
+                0);
+        }
+
+        action_status = (u8 *)&dungeonStatus.unk_00;
+        if (((S_801738B4_4 *)action_status)->unk_0C != 0) {
+            break;
+        }
+        ((S_801738B4_4 *)action_status)->unk_0A--;
+        ((S_801738B4_0 *)action_ctx)->unk_8C = &D_80170E94;
+        func_800A4ACC(actor);
+        (*(u8 *)((u8 *)actor + 0x73)) = 0;
+        (*(u8 *)((u8 *)actor + 0x72)) = 0;
+        (*(u8 *)((u8 *)actor + 0x6D))--;
+        (*(u16 *)((u8 *)actor + 0x46)) &= 0x7FFF;
+        func_800A56E0(0xB4);
+
     }
 
-    ((EntityRec *)scene_object)->flags14 = 0;
-    ((EntityRec *)scene_object)->unk_10 = 0;
-    ((EntityRec *)scene_object)->unk_0C = 0;
-    func_800A2B04(scene_object, ((S_801738B4_2 *)entity)->unk_24, ((S_801738B4_2 *)entity)->unk_25);
-    if (((S_801738B4_2 *)entity)->unk_2C != D_80175F10) {
-        (*(u8 * *)((u8 *)entity + 0x2C)) = D_80175F10;
-        func_80047784(entity,
-            D_80175F10[((gameWork.view.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7],
-            0);
-    }
-
-    action_status = (u8 *)&dungeonStatus.unk_00;
-    if (((S_801738B4_4 *)action_status)->unk_0C != 0) {
-        goto epilogue;
-    }
-    ((S_801738B4_4 *)action_status)->unk_0A--;
-    ((S_801738B4_0 *)action_ctx)->unk_8C = &D_80170E94;
-    func_800A4ACC(actor);
-    (*(u8 *)((u8 *)actor + 0x73)) = 0;
-    (*(u8 *)((u8 *)actor + 0x72)) = 0;
-    (*(u8 *)((u8 *)actor + 0x6D))--;
-    (*(u16 *)((u8 *)actor + 0x46)) &= 0x7FFF;
-    func_800A56E0(0xB4);
-
-done:
-epilogue:
     ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     return;
 }

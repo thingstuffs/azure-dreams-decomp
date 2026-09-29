@@ -27,15 +27,12 @@ s32 func_8005D598(s32 index, u32 value)
 
     shifted_value = value >> D_80079980.value;
 
-    if (store_index == -2) {
-        goto return_value;
+    if (store_index != -2) {
+        if (store_index != -1) {
+            goto store_value;
+        }
+        return (u16)shifted_value;
     }
-    if (store_index != -1) {
-        goto store_value;
-    }
-    return (u16)shifted_value;
-
-return_value:
     return value;
 
 store_value:

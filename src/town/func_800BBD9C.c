@@ -51,141 +51,80 @@ void func_800B94FC(void) {
 
     map_records = D_800D2FB4;
     map_kind = map_records[D_800D3814[6] << 5];
-    selector = 0xF;
-    if (map_kind == selector) {
-        goto kind_15_prep;
-    }
-    selector = ((s32)map_kind < 0x10);
-    if (selector) {
-        selector = 5;
-        if (map_kind == selector) {
-            goto kind_5_prep;
-        }
+    switch (map_kind) {
+    default:
         choice_index = 0;
         goto fallback;
-    }
-    selector = 0x10;
-    if (map_kind == selector) {
-        goto kind_16_prep;
-    }
-    choice_index = 0;
-    goto fallback;
-
-kind_5_prep:
-    selector = 0xC;
-kind_5:
-    variant = (*(u8 *)0x800136B8);
-    if (variant == selector) {
-        goto kind_5_12;
-    }
-    if ((s32)variant < 0xD) {
-        if (variant == 0xB) {
-            goto kind_5_11;
+    case 5:
+        variant = (*(u8 *)0x800136B8);
+        switch (variant) {
+        default:
+            entries_base = D_800718E4;
+            entry_slot = &entries_base[entry_count];
+            entry = D_800D1D54;
+            break;
+        case 0xB:
+            entry_slot = &entries[entry_count];
+            entry = D_800D1D5C;
+            break;
+        case 0xC:
+            entry_slot = &entries[entry_count];
+            entry = D_800D1D64;
+            break;
+        case 0xD:
+            entry_slot = &entries[entry_count];
+            entry = D_800D1D6C;
+            break;
         }
-        goto kind_5_default;
-    }
-    if (variant == 0xD) {
-        goto kind_5_13;
-    }
-
-kind_5_default:
-    entries_base = D_800718E4;
-    entry_slot = &entries_base[entry_count];
-    entry = D_800D1D54;
-    goto store_value;
-
-kind_5_11:
-    entry_slot = &entries[entry_count];
-    entry = D_800D1D5C;
-    goto store_value;
-
-kind_5_12:
-    entry_slot = &entries[entry_count];
-    entry = D_800D1D64;
-    goto store_value;
-
-kind_5_13:
-    entry_slot = &entries[entry_count];
-    entry = D_800D1D6C;
-    goto store_value;
-
-kind_15_prep:
-    ASM_UNDEF(selector);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-kind_15:
-    variant = D_800136B8;
-    ASM_KEEP(selector);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    if (variant == 0xC) {
-        goto kind_15_12;
-    }
-    if ((s32)variant < 0xD) {
-        if (variant == 0xB) {
-            goto kind_15_11;
+        break;
+    case 0xF:
+        ASM_UNDEF(selector);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        variant = D_800136B8;
+        ASM_KEEP(selector);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        switch (variant) {
+        default:
+            entries_base = D_800718E4;
+            entry_slot = &entries_base[entry_count];
+            entry = D_800D1DB4;
+            break;
+        case 0xB:
+            entry_slot = &entries[entry_count];
+            entry = D_800D1DBC;
+            break;
+        case 0xC:
+            entry_slot = &entries[entry_count];
+            entry = D_800D1DC4;
+            break;
+        case 0xD:
+            entry_slot = &entries[entry_count];
+            entry = D_800D1DCC;
+            break;
         }
-        goto kind_15_default;
-    }
-    if (variant == 0xD) {
-        goto kind_15_13;
-    }
-
-kind_15_default:
-    entries_base = D_800718E4;
-    entry_slot = &entries_base[entry_count];
-    entry = D_800D1DB4;
-    goto store_value;
-
-kind_15_11:
-    entry_slot = &entries[entry_count];
-    entry = D_800D1DBC;
-    goto store_value;
-
-kind_15_12:
-    entry_slot = &entries[entry_count];
-    entry = D_800D1DC4;
-    goto store_value;
-
-kind_15_13:
-    entry_slot = &entries[entry_count];
-    entry = D_800D1DCC;
-    goto store_value;
-
-kind_16_prep:
-    selector = 0xC;
-kind_16:
-    variant = (*(u8 *)0x800136B8);
-    if (variant == selector) {
-        goto kind_16_12;
-    }
-    if ((s32)variant < 0xD) {
-        if (variant == 0xB) {
-            goto kind_16_11;
+        break;
+    case 0x10:
+        variant = (*(u8 *)0x800136B8);
+        switch (variant) {
+        default:
+            entries_base = D_800718E4;
+            entry_slot = &entries_base[entry_count];
+            entry = D_800D1DD4;
+            break;
+        case 0xB:
+            entry_slot = &entries[entry_count];
+            entry = D_800D1DDC;
+            break;
+        case 0xC:
+            entry_slot = &entries[entry_count];
+            entry = D_800D1DE4;
+            break;
+        case 0xD:
+            entry_slot = &entries[entry_count];
+            entry = D_800D1DEC;
+            break;
         }
-        goto kind_16_default;
-    }
-    if (variant == 0xD) {
-        goto kind_16_13;
+        break;
     }
 
-kind_16_default:
-    entries_base = D_800718E4;
-    entry_slot = &entries_base[entry_count];
-    entry = D_800D1DD4;
-    goto store_value;
-
-kind_16_11:
-    entry_slot = &entries[entry_count];
-    entry = D_800D1DDC;
-    goto store_value;
-
-kind_16_12:
-    entry_slot = &entries[entry_count];
-    entry = D_800D1DE4;
-    goto store_value;
-
-kind_16_13:
-    entry_slot = &entries[entry_count];
-    entry = D_800D1DEC;
-
-store_value:
     *entry_slot = entry;
     ASM_KEEP(entry);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     entry_count++;

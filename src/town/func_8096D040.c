@@ -52,17 +52,14 @@ void func_801254D8(void *context) {
         if (load_phase != 1) {
             return;
         }
-        goto state_ready;
+    } else {
+        func_8003F6D4(8, D_8012A998, D_80133198,
+                      D_80126D44[((S_801254D8_0 *)context)->unk_13][1]);
+        Control_CD(6, D_80133198, 0);
+        ((S_801254D8_0 *)context)->unk_0D = 0;
+        Control_CD(0xFF, D_8003E140, (u8 *)context + 0xD);
+        ((S_801254D8_0 *)context)->unk_0B++;
     }
-
-    func_8003F6D4(8, D_8012A998, D_80133198,
-                  D_80126D44[((S_801254D8_0 *)context)->unk_13][1]);
-    Control_CD(6, D_80133198, 0);
-    ((S_801254D8_0 *)context)->unk_0D = 0;
-    Control_CD(0xFF, D_8003E140, (u8 *)context + 0xD);
-    ((S_801254D8_0 *)context)->unk_0B++;
-
-state_ready:
     if (((S_801254D8_0 *)context)->unk_0D == 0) {
         return;
     }

@@ -23,19 +23,13 @@ s32 func_80017EF0(void) {
         return 1;
     }
 
-    if (func_8001A64C(0x946) != 0) {
-        goto return_one;
+    if (func_8001A64C(0x946) == 0) {
+        func_8001A554(0x942);
+        callback_owner = *(s8 **)(*(s8 **)((s8 *)(&D_80016000)) + 0x20);
+        (*(TownCallback *)(callback_owner + 0x2F8))(0xE, 0x200);
+        status = 0;
+    } else {
+        status = 1;
     }
-
-    func_8001A554(0x942);
-    callback_owner = *(s8 **)(*(s8 **)((s8 *)(&D_80016000)) + 0x20);
-    (*(TownCallback *)(callback_owner + 0x2F8))(0xE, 0x200);
-    status = 0;
-    goto done;
-
-return_one:
-    status = 1;
-
-done:
     return status;
 }

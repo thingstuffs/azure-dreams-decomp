@@ -72,16 +72,15 @@ update:
         *(s32 *)(motion + 0x14) = 0;
         if (*(s32 *)(entity + 0x1C) & 0x100000) {
             *(u8 **)(action + 0x8C) = D_8008EAC8;
-            goto advance_phase;
+        } else {
+            anim_sprite = sprite;
+            animations = D_800DD060;
+            *(u8 **)(anim_sprite + 0x2C) = animations;
+            direction = gameWork.view.viewAngle;
+            heading = *(s16 *)(entity + 0x2A);
+            direction = ((direction + heading + 0x100) >> 9) & 7;
+            func_80048A44(anim_sprite, animations[direction], 0, 1);
         }
-        anim_sprite = sprite;
-        animations = D_800DD060;
-        *(u8 **)(anim_sprite + 0x2C) = animations;
-        direction = gameWork.view.viewAngle;
-        heading = *(s16 *)(entity + 0x2A);
-        direction = ((direction + heading + 0x100) >> 9) & 7;
-        func_80048A44(anim_sprite, animations[direction], 0, 1);
-    advance_phase:
         action[0x9B]++;
         return;
     }

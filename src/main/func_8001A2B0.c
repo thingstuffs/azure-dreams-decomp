@@ -21,12 +21,11 @@ s32 func_804012B0(void)
     selection_state = D_804094E8;
     return_code = 0;
     if (selection_state == 0) goto done;
-    if (selection_state == 1) goto case_one;
-    if (selection_state == 3) goto case_three;
-    return_code = 5;
-    goto done;
-
-case_one:
+    if (selection_state != 1) {
+        if (selection_state == 3) goto case_three;
+        return_code = 5;
+        goto done;
+    }
     func_80401578();
     if ((func_80408684(D_804094EC) != 0) &&
         ((func_80408644(D_804094EC != 0) & 4) != 0)) {

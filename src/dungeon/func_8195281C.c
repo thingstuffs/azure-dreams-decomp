@@ -144,11 +144,9 @@ jt_c1:
     ((S_8195281C_0 *)effect)->unk_14.u = actor_param;
     goto block_28;
 jt_c2:
-    if (((S_8195281C_0 *)effect)->unk_18 != 8) {
-        goto block_8;
+    if (((S_8195281C_0 *)effect)->unk_18 == 8) {
+        func_800A56E0(0x300);
     }
-    func_800A56E0(0x300);
-block_8:
     delay_left = (u16) ((S_8195281C_0 *)effect)->unk_18 - 1;
     ((S_8195281C_0 *)effect)->unk_18 = delay_left;
     if ((delay_left << 0x10) > 0) {
@@ -161,45 +159,34 @@ block_8:
     goto block_28;
 jt_c3:
     model = ((S_8195281C_10 *)(((S_8195281C_1 *)((int *)(&D_800814A8)))->unk_00.i))->unk_60;
-    if (model == NULL) {
-        goto block_18;
+    if (model != NULL) {
+        model_colors = ((S_8195281C_5_pre *)model)[-1].unk_00;
+        ((S_8195281C_5 *)model)->unk_1C = (s32) (((S_8195281C_5 *)model)->unk_1C | 0x10000000);
+        model_colors->unk_0C.at00.v = (u8) (model_colors->unk_0C.at00.v - 4);
+        model_colors->unk_0C.at01.v = (u8) (model_colors->unk_0C.at01.v - 4);
+        model_colors->unk_0C.at02.v = (u8) (model_colors->unk_0C.at02.v - 4);
+        if ((u8) model_colors->unk_0C.at00.v < 0x20U) {
+            model_colors->unk_0C.at00.v = 0x20U;
+        }
+        if ((u8) model_colors->unk_0C.at01.v < 0x20U) {
+            model_colors->unk_0C.at01.v = 0x20U;
+        }
+        if ((u8) model_colors->unk_0C.at02.v < 0x20U) {
+            model_colors->unk_0C.at02.v = 0x20U;
+        }
     }
-    model_colors = ((S_8195281C_5_pre *)model)[-1].unk_00;
-    ((S_8195281C_5 *)model)->unk_1C = (s32) (((S_8195281C_5 *)model)->unk_1C | 0x10000000);
-    model_colors->unk_0C.at00.v = (u8) (model_colors->unk_0C.at00.v - 4);
-    model_colors->unk_0C.at01.v = (u8) (model_colors->unk_0C.at01.v - 4);
-    model_colors->unk_0C.at02.v = (u8) (model_colors->unk_0C.at02.v - 4);
-    if ((u8) model_colors->unk_0C.at00.v >= 0x20U) {
-        goto block_14;
+    if (!(D_80082E80.unk_014 & 0x8000)) {
+        fade_left = (u16) ((S_8195281C_0 *)effect)->unk_18 - 1;
+        ((S_8195281C_0 *)effect)->unk_18 = fade_left;
+        if ((fade_left << 0x10) >= 0) {
+            goto block_28;
+        }
     }
-    model_colors->unk_0C.at00.v = 0x20U;
-block_14:
-    if ((u8) model_colors->unk_0C.at01.v >= 0x20U) {
-        goto block_16;
-    }
-    model_colors->unk_0C.at01.v = 0x20U;
-block_16:
-    if ((u8) model_colors->unk_0C.at02.v >= 0x20U) {
-        goto block_18;
-    }
-    model_colors->unk_0C.at02.v = 0x20U;
-block_18:
-    if (D_80082E80.unk_014 & 0x8000) {
-        goto block_21;
-    }
-    fade_left = (u16) ((S_8195281C_0 *)effect)->unk_18 - 1;
-    ((S_8195281C_0 *)effect)->unk_18 = fade_left;
-    if ((fade_left << 0x10) >= 0) {
-        goto block_28;
-    }
-block_21:
     model = ((S_8195281C_7 *)(((u8 *)D_800E3D7C)))->unk_60;
-    if (model == NULL) {
-        goto block_23;
+    if (model != NULL) {
+        model_colors = ((S_8195281C_5_pre *)model)[-1].unk_00;
+        model_colors->unk_0C.at00u.v = 0x808080;
     }
-    model_colors = ((S_8195281C_5_pre *)model)[-1].unk_00;
-    model_colors->unk_0C.at00u.v = 0x808080;
-block_23:
     fade_stage = ((S_8195281C_0 *)effect)->unk_0A.u;
     D_800249A4 = 1;
     ((S_8195281C_0 *)effect)->unk_0A.u = fade_stage + 1;

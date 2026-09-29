@@ -50,125 +50,102 @@ void func_80171768(u8 *move_work, void *entry_context, u8 *position, u8 *actor)
     state_flags = U16_AT(state, 2);
     limit_turn = 0;
 
-    if (state_flags & 0x4000) {
-        goto check_entry;
-    }
-    if (S8_AT(actor, 0x71) < 0) {
-        goto negative_entry;
-    }
-
-check_entry:
-    if (U8_AT(actor, 0x12) >= 2) {
-        goto reject_entry;
-    }
-    if ((func_80171F24(move_work, entry_context, position, actor) << 16) != 0) {
-        goto accepted_entry;
+    if ((state_flags & 0x4000) || S8_AT(actor, 0x71) >= 0) {
+        if (U8_AT(actor, 0x12) >= 2 ||
+            (func_80171F24(move_work, entry_context, position, actor) << 16) == 0) {
+            func_800A9A0C(actor);
+            return;
+        }
+        if (PTR_AT(state, 0xC) == actor) {
+            U16_AT(actor, 0x46) = 0xC008;
+        }
+        return;
     }
 
-reject_entry:
-    func_800A9A0C(actor);
-    return;
-
-accepted_entry:
-    if (PTR_AT(state, 0xC) == actor) {
-        U16_AT(actor, 0x46) = 0xC008;
-    }
-    return;
-
-negative_entry:
     if (!(state_flags & 0x2000)) {
         return;
     }
 
     func_800A19E4(position, actor, 3, 6, move_work + 0x9C);
     actor_flags = S32_AT(actor, 0x1C);
-    if (!(actor_flags & 0x410)) {
-        goto check_mode_2000;
-    }
-    if (!(actor_flags & 0x400)) {
-        goto mode_410_without_400;
-    }
-
-    target_link = func_800A02AC(actor, U8_AT(position, 0x24), U8_AT(position, 0x25));
-    if (target_link != 0) {
-        goto found_actor;
-    }
-    {
-        turn_flags = S32_AT(actor, 0x14);
-
-        if (turn_flags & 0x80000000) {
-            goto zero_counter;
-        }
-        S32_AT(actor, 0x14) = turn_flags | 0x80000000;
-    }
-    turn_limit = func_800A6D30();
-    U16_AT(actor, 0x2A) += (turn_limit & 7) << 9;
-    goto zero_counter;
-
-mode_410_without_400:
-    if (func_800A04F0(actor, U8_AT(position, 0x24), U8_AT(position, 0x25),
-                      S16_AT(actor, 0x2A)) == 0) {
-        goto loop_setup;
-    }
-    goto clear_path;
-
-check_mode_2000:
-    if (!(actor_flags & 0x2000)) {
-        goto check_tile_kind;
-    }
-    if (U16_AT(actor, 0x46) & 0x8000) {
-        goto loop_setup;
-    }
-    if (!(actor_flags & 0x20000)) {
-        goto invoke_fallback;
-    }
-
-    {
-        s32 direction;
-        s32 offset;
-        s32 target_x;
-        s32 target_y;
-        u8 *target = D_80082E80;
-
-        direction = (U8_AT(actor, 0x45) +
-                     ((s32)(U16_AT(D_800814A8, 0x2A) << 16) >> 25)) & 7;
-        offset = direction * 2;
-        target_x = U8_AT(target, 0x24) + U16_AT(((s8 *)dirStepX), offset);
-        target_y = U8_AT(target, 0x25) + U16_AT(((s8 *)dirStepY), offset);
-        if ((U8_AT(position, 0x24) == (u16)target_x) &&
-            (U8_AT(position, 0x25) == (u16)target_y)) {
-            goto clear_path;
-        }
-
-        {
-            u8 *angle_work = move_work + 0x98;
-            s16 next_angle = func_800A0818(
-                U8_AT(position, 0x24), U8_AT(position, 0x25),
-                (s16)target_x, (s16)target_y, angle_work);
-
-            U16_AT(actor, 0x2A) = next_angle;
-            if ((func_8009A66C(next_angle, position, actor, 0x20) << 16) <= 0) {
-                u8 *fallback = (u8 *)&D_80082EA4 - 0x24;
+    if (actor_flags & 0x410) {
+        if (actor_flags & 0x400) {
+            target_link = func_800A02AC(actor, U8_AT(position, 0x24), U8_AT(position, 0x25));
+            if (target_link != 0) {
+                turn_flags = (s32)PTR_AT(target_link, -0x14);
 
                 U16_AT(actor, 0x2A) = func_800A0818(
                     U8_AT(position, 0x24), U8_AT(position, 0x25),
-                    U8_AT(fallback, 0x24), U8_AT(fallback, 0x25), angle_work);
+                    U8_AT(turn_flags, 0x24), U8_AT(turn_flags, 0x25), move_work + 0x98);
+                U8_AT(actor, 0x71) &= 0x7F;
+                return;
+            }
+            {
+                turn_flags = S32_AT(actor, 0x14);
+
+                if (!(turn_flags & 0x80000000)) {
+                    S32_AT(actor, 0x14) = turn_flags | 0x80000000;
+                    turn_limit = func_800A6D30();
+                    U16_AT(actor, 0x2A) += (turn_limit & 7) << 9;
+                }
+            }
+        } else {
+            if (func_800A04F0(actor, U8_AT(position, 0x24), U8_AT(position, 0x25),
+                              S16_AT(actor, 0x2A)) != 0) {
+                U8_AT(actor, 0x71) &= 0x7F;
+                return;
             }
         }
-    }
-    {
-        u8 *target = (u8 *)&D_80082EA4 - 0x24;
+    } else if (actor_flags & 0x2000) {
+        if (U16_AT(actor, 0x46) & 0x8000) {
+        } else if (!(actor_flags & 0x20000)) {
+            func_800A0E6C(position, S8_AT(move_work, 0x9C), actor, move_work + 0x98);
+        } else {
+            {
+                s32 direction;
+                s32 offset;
+                s32 target_x;
+                s32 target_y;
+                u8 *target = D_80082E80;
 
-        if ((func_8009FD7C(
-                 U8_AT(position, 0x24), U8_AT(position, 0x25),
-                 U8_AT(target, 0x24), U8_AT(target, 0x25)) << 16) != 0) {
-            limit_turn = 1;
+                direction = (U8_AT(actor, 0x45) +
+                             ((s32)(U16_AT(D_800814A8, 0x2A) << 16) >> 25)) & 7;
+                offset = direction * 2;
+                target_x = U8_AT(target, 0x24) + U16_AT(((s8 *)dirStepX), offset);
+                target_y = U8_AT(target, 0x25) + U16_AT(((s8 *)dirStepY), offset);
+                if ((U8_AT(position, 0x24) == (u16)target_x) &&
+                    (U8_AT(position, 0x25) == (u16)target_y)) {
+                    U8_AT(actor, 0x71) &= 0x7F;
+                    return;
+                }
+
+                {
+                    u8 *angle_work = move_work + 0x98;
+                    s16 next_angle = func_800A0818(
+                        U8_AT(position, 0x24), U8_AT(position, 0x25),
+                        (s16)target_x, (s16)target_y, angle_work);
+
+                    U16_AT(actor, 0x2A) = next_angle;
+                    if ((func_8009A66C(next_angle, position, actor, 0x20) << 16) <= 0) {
+                        u8 *fallback = (u8 *)&D_80082EA4 - 0x24;
+
+                        U16_AT(actor, 0x2A) = func_800A0818(
+                            U8_AT(position, 0x24), U8_AT(position, 0x25),
+                            U8_AT(fallback, 0x24), U8_AT(fallback, 0x25), angle_work);
+                    }
+                }
+            }
+            {
+                u8 *target = (u8 *)&D_80082EA4 - 0x24;
+
+                if ((func_8009FD7C(
+                         U8_AT(position, 0x24), U8_AT(position, 0x25),
+                         U8_AT(target, 0x24), U8_AT(target, 0x25)) << 16) != 0) {
+                    limit_turn = 1;
+                }
+            }
         }
-    }
-    goto loop_setup;
-
-check_tile_kind:
-    {
+    } else {
         s32 tile_kind;
         s32 offset;
         u8 *tile_table;
@@ -178,81 +155,62 @@ check_tile_kind:
             tile_table = (u8 *)D_800E2970;
             offset = tile_kind * 0x14;
             offset += (s32)tile_table;
-            if (U16_AT((u8 *)offset, 0xC) & 2) {
-                goto invoke_fallback;
+        }
+        if (tile_kind >= 0 && (U16_AT((u8 *)offset, 0xC) & 2)) {
+            func_800A0E6C(position, S8_AT(move_work, 0x9C), actor, move_work + 0x98);
+        } else
+        if (U16_AT(actor, 0x46) & 0x8000) {
+        } else {
+            target_link = func_800A02AC(actor, U8_AT(position, 0x24), U8_AT(position, 0x25));
+            if (!(U16_AT(move_work, 0x98) & 0x8000)) {
+            } else if (target_link == 0) {
+            } else if ((func_8009A540(
+                     ((S16_AT(actor, 0x2A) >> 9) & 0xFFFF),
+                     U8_AT(position, 0x24), U8_AT(position, 0x25),
+                     (s16)(U16_AT(actor, 0x88) - 0x20)) << 16) != 0) {
+                turn_flags = (s32)PTR_AT(target_link, -0x14);
+
+                U16_AT(actor, 0x2A) = func_800A0818(
+                    U8_AT(position, 0x24), U8_AT(position, 0x25),
+                    U8_AT(turn_flags, 0x24), U8_AT(turn_flags, 0x25), move_work + 0x98);
+                U8_AT(actor, 0x71) &= 0x7F;
+                return;
+            } else {
+                if (func_800A04F0(actor, U8_AT(position, 0x24), U8_AT(position, 0x25),
+                                  S16_AT(actor, 0x2A)) != 0) {
+                    if ((func_8009A540(
+                             ((S16_AT(actor, 0x2A) >> 9) & 0xFFFF),
+                             U8_AT(position, 0x24), U8_AT(position, 0x25),
+                             (s16)(U16_AT(actor, 0x88) - 0x20)) << 16) != 0) {
+                        U8_AT(actor, 0x71) &= 0x7F;
+                        return;
+                    }
+                }
+                if (!(S32_AT(actor, 0x1C) & 0x20000)) {
+                    func_800A0E6C(position, S8_AT(move_work, 0x9C), actor, move_work + 0x98);
+                } else {
+                    u8 *goal = (u8 *)&D_80082EA4 - 0x24;
+                    u8 *angle_work = move_work + 0x98;
+
+                    U16_AT(actor, 0x2A) = func_800A0818(
+                        U8_AT(position, 0x24), U8_AT(position, 0x25),
+                        U8_AT(goal, 0x24), U8_AT(goal, 0x25), angle_work);
+                    if ((func_8009FD7C(
+                             U8_AT(position, 0x24), U8_AT(position, 0x25),
+                             U8_AT(goal, 0x24), U8_AT(goal, 0x25)) << 16) != 0) {
+                        if ((func_8009A540(
+                                 ((S16_AT(actor, 0x2A) >> 9) & 0xFFFF),
+                                 U8_AT(position, 0x24), U8_AT(position, 0x25),
+                                 (s16)(U16_AT(actor, 0x88) - 0x20)) << 16) != 0) {
+                            U8_AT(actor, 0x71) &= 0x7F;
+                            return;
+                        }
+                    }
+                }
             }
         }
     }
-    if (U16_AT(actor, 0x46) & 0x8000) {
-        goto loop_setup;
-    }
 
-    target_link = func_800A02AC(actor, U8_AT(position, 0x24), U8_AT(position, 0x25));
-    if (!(U16_AT(move_work, 0x98) & 0x8000)) {
-        goto zero_counter;
-    }
-    if (target_link == 0) {
-        goto loop_setup;
-    }
-    if ((func_8009A540(
-             ((S16_AT(actor, 0x2A) >> 9) & 0xFFFF),
-             U8_AT(position, 0x24), U8_AT(position, 0x25),
-             (s16)(U16_AT(actor, 0x88) - 0x20)) << 16) != 0) {
-        goto found_actor;
-    }
-    goto found_retry;
-
-found_actor:
-    {
-        turn_flags = (s32)PTR_AT(target_link, -0x14);
-
-        U16_AT(actor, 0x2A) = func_800A0818(
-            U8_AT(position, 0x24), U8_AT(position, 0x25),
-            U8_AT(turn_flags, 0x24), U8_AT(turn_flags, 0x25), move_work + 0x98);
-        U8_AT(actor, 0x71) &= 0x7F;
-        return;
-    }
-
-found_retry:
-    if (func_800A04F0(actor, U8_AT(position, 0x24), U8_AT(position, 0x25),
-                      S16_AT(actor, 0x2A)) != 0) {
-        if ((func_8009A540(
-                 ((S16_AT(actor, 0x2A) >> 9) & 0xFFFF),
-                 U8_AT(position, 0x24), U8_AT(position, 0x25),
-                 (s16)(U16_AT(actor, 0x88) - 0x20)) << 16) != 0) {
-            goto clear_path;
-        }
-    }
-    if (!(S32_AT(actor, 0x1C) & 0x20000)) {
-        goto invoke_fallback;
-    }
-    {
-        u8 *goal = (u8 *)&D_80082EA4 - 0x24;
-        u8 *angle_work = move_work + 0x98;
-
-        U16_AT(actor, 0x2A) = func_800A0818(
-            U8_AT(position, 0x24), U8_AT(position, 0x25),
-            U8_AT(goal, 0x24), U8_AT(goal, 0x25), angle_work);
-        if ((func_8009FD7C(
-                 U8_AT(position, 0x24), U8_AT(position, 0x25),
-                 U8_AT(goal, 0x24), U8_AT(goal, 0x25)) << 16) == 0) {
-            goto loop_setup;
-        }
-        if ((func_8009A540(
-                 ((S16_AT(actor, 0x2A) >> 9) & 0xFFFF),
-                 U8_AT(position, 0x24), U8_AT(position, 0x25),
-                 (s16)(U16_AT(actor, 0x88) - 0x20)) << 16) == 0) {
-            goto loop_setup;
-        }
-    }
-    goto clear_path;
-
-invoke_fallback:
-    func_800A0E6C(position, S8_AT(move_work, 0x9C), actor, move_work + 0x98);
-
-zero_counter:
-
-loop_setup:
     step_index = 0;
     angle_steps = D_8006CD00;
 
@@ -267,7 +225,8 @@ loop_setup:
             if (step_index >= 3) {
                 turn_limit = limit_turn;
                 if (turn_limit != 0) {
-                    goto clear_path;
+                    U8_AT(actor, 0x71) &= 0x7F;
+                    return;
                 }
             }
             U16_AT(actor, 0x2A) = trial_angle;
@@ -308,7 +267,6 @@ loop_setup:
         }
     }
 
-post_loop_test:
     if (step_index >= 8) {
         U8_AT(actor, 0x71) &= 0x7F;
         U16_AT(actor, 0x46) &= 0x7FFF;
@@ -324,15 +282,11 @@ post_loop_test:
 
         U16_AT(move_state, 8)++;
     }
-    if (S8_AT(actor, 0x6D) != 0) {
-        goto actor_survives;
+    if (S8_AT(actor, 0x6D) == 0) {
+        U8_AT(actor, 0x71) &= 0x7F;
+        return;
     }
 
-clear_path:
-    U8_AT(actor, 0x71) &= 0x7F;
-    return;
-
-actor_survives:
     step_index = func_800BCB04(
         (U8_AT(position, 0x24) << 6) | 0x20,
         (U8_AT(position, 0x25) << 6) | 0x20,
@@ -340,7 +294,5 @@ actor_survives:
     if (step_index < 0x200) {
         U16_AT(actor, 0x88) = step_index;
     }
-    return;
-
     return;
 }

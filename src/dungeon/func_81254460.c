@@ -50,13 +50,11 @@ void func_81254460(void) {
     do {
         slot_offset = (slot_index << 16) >> 14;
         object_addr = *(s32 *)(slot_offset + *(s32 *)(table_page + 0x3D7C) + 0xAC);
-        if (object_addr == 0) {
-            goto skip_body;
+        if (object_addr != 0) {
+            func_8009A028(object_addr);
+            object_header = (void *)(*(s32 *)(slot_offset + *(s32 *)(table_page + 0x3D7C) + 0xAC) - 0x20);
+            *(u32 *)((u8 *)object_header + 0x10) |= high_bit;
         }
-        func_8009A028(object_addr);
-        object_header = (void *)(*(s32 *)(slot_offset + *(s32 *)(table_page + 0x3D7C) + 0xAC) - 0x20);
-        *(u32 *)((u8 *)object_header + 0x10) |= high_bit;
-    skip_body:
         next_slot = slot_index + 1;
         slot_index = next_slot;
     } while (next_slot < 2);

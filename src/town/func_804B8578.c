@@ -12,16 +12,11 @@ void *func_80016D78(s32 first_input, s32 second_input) {
     void *result;
 
     func_80017BA0(first_input, second_input);
-    if (func_8001894C(0x507) != 0) {
-        goto nonzero;
+    if (func_8001894C(0x507) == 0) {
+        func_80018854(0x507);
+        result = D_80019950;
+    } else {
+        result = D_80019A10;
     }
-    func_80018854(0x507);
-    result = D_80019950;
-    goto done;
-
-nonzero:
-    result = D_80019A10;
-
-done:
     return result;
 }

@@ -44,16 +44,14 @@ void func_800BC290(void *fade_state, s32 unused, void *visual)
         s32 color;
         s32 color_step;
 
-        if (((S_800BC290_1 *)visual)->unk_0C.u8 < 0x10U) {
-            goto color_done;
+        if (((S_800BC290_1 *)visual)->unk_0C.u8 >= 0x10U) {
+            color = ((S_800BC290_1 *)visual)->unk_0C.s32;
+            color_step = 0xFFEFEFF0;
+            do {
+                color = color + color_step;
+            } while (0);
+            ((S_800BC290_1 *)visual)->unk_0C.s32 = color;
         }
-        color = ((S_800BC290_1 *)visual)->unk_0C.s32;
-        color_step = 0xFFEFEFF0;
-        do {
-            color = color + color_step;
-        } while (0);
-        ((S_800BC290_1 *)visual)->unk_0C.s32 = color;
-color_done:
         if (((S_800BC290_0 *)fade_state)->unk_02.s <= 0) {
             func_8004E994(D_80111FB0);
             next_state = ((S_800BC290_0 *)fade_state)->unk_00.u;

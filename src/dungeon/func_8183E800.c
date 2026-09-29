@@ -124,18 +124,14 @@ state_2:
     animation = F(self, u8 *, 4);
     if ((F(animation, u16, 0) & 0x80) == 0)
         return;
-    if ((F(owner, u8 *, 96) = func_800A05A4(
-             owner, F(owner_record, u8, 36), F(owner_record, u8, 37),
-             F(owner, s16, 42), (s16)func_800A3820(8))) == 0) {
+    if ((F(owner, u8 *, 96) = func_800A05A4( owner, F(owner_record, u8, 36), F(owner_record, u8, 37), F(owner, s16, 42), (s16)func_800A3820(8))) == 0) {
         F(owner, u8, 114) = F(owner_record, u8, 36);
         F(owner, u8, 115) = F(owner_record, u8, 37);
-        goto state_2_common;
+    } else {
+        child_data = F(F(owner, u8 *, 96), u8 *, -20);
+        F(owner, u8, 114) = F(child_data, u8, 36);
+        F(owner, u8, 115) = F(child_data, u8, 37);
     }
-    child_data = F(F(owner, u8 *, 96), u8 *, -20);
-    F(owner, u8, 114) = F(child_data, u8, 36);
-    F(owner, u8, 115) = F(child_data, u8, 37);
-
-state_2_common:
     if (func_8003DE58(F(F(owner_object, u8 *, 12), u8 *, 8),
                       F(owner_object, u8 *, 12), origin_offset, 0) == 0) {
         origin_offset[2] = 0;

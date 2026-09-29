@@ -149,17 +149,15 @@ void func_80023260(void *actor, void *motion, void *sprite) {
     if (state == idle_state) {
         goto update_motion;
     }
-    if (state >= 3) {
-        goto check_path_state;
+    if (state < 3) {
+        if (state == 0) {
+            goto init_state;
+        }
+        if (state == 1) {
+            goto init_sprite;
+        }
+        goto update_motion;
     }
-    if (state == 0) {
-        goto init_state;
-    }
-    if (state == 1) {
-        goto init_sprite;
-    }
-    goto update_motion;
-check_path_state:
     if (state == 0x100) {
         goto follow_path;
     }
@@ -221,13 +219,12 @@ follow_path:
             if (((S_80023260_1 *)motion)->unk_00.at02.v >= target_x) {
                 reached_point = 1;
             }
-            goto steer_along_x;
+        } else {
+            turn_limit = 0 - D_800242D8[((S_80023260_0 *)actor)->unk_22].field8;
+            if (((S_80023260_1 *)motion)->unk_00.at02.v <= ((S_80023260_3 *)waypoint)->unk_00) {
+                reached_point = 1;
+            }
         }
-        turn_limit = 0 - D_800242D8[((S_80023260_0 *)actor)->unk_22].field8;
-        if (((S_80023260_1 *)motion)->unk_00.at02.v <= ((S_80023260_3 *)waypoint)->unk_00) {
-            reached_point = 1;
-        }
-steer_along_x:
         steer_y = ((S_80023260_3 *)waypoint)->unk_02;
         pos_y = ((S_80023260_1 *)motion)->unk_04.at02.v;
         distance_y = steer_y - pos_y;
@@ -253,13 +250,12 @@ steer_along_x:
         if (((S_80023260_1 *)motion)->unk_04.at02.v >= target_y) {
             reached_point = 1;
         }
-        goto steer_along_y;
+    } else {
+        turn_limit = 0 - D_800242D8[((S_80023260_0 *)actor)->unk_22].field8;
+        if (((S_80023260_1 *)motion)->unk_04.at02.v <= ((S_80023260_3 *)waypoint)->unk_02) {
+            reached_point = 1;
+        }
     }
-    turn_limit = 0 - D_800242D8[((S_80023260_0 *)actor)->unk_22].field8;
-    if (((S_80023260_1 *)motion)->unk_04.at02.v <= ((S_80023260_3 *)waypoint)->unk_02) {
-        reached_point = 1;
-    }
-steer_along_y:
     steer_x = ((S_80023260_3 *)waypoint)->unk_00;
     pos_x = ((S_80023260_1 *)motion)->unk_00.at02.v;
     distance_x = steer_x - pos_x;
@@ -312,14 +308,13 @@ update_motion:
     damped_bias = (s16) ((S_80023260_0 *)actor)->unk_1E;
     if (damped_bias < -9) {
         clamp_value = -9;
-        goto clamp_store;
+    } else {
+        clamp_value = damped_bias < 0xA;
+        if (clamp_value != 0) {
+            goto clamp_done;
+        }
+        clamp_value = 9;
     }
-    clamp_value = damped_bias < 0xA;
-    if (clamp_value != 0) {
-        goto clamp_done;
-    }
-    clamp_value = 9;
-clamp_store:
     ((S_80023260_0 *)actor)->unk_1E = clamp_value;
 clamp_done:
     abs_bias = (s16) ((S_80023260_0 *)actor)->unk_1E;

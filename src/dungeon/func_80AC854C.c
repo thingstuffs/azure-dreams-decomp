@@ -75,15 +75,12 @@ void func_80173D4C(void *action_in, void *context_in, void *sprite_in, void *act
     if (state == 1) {
         goto active;
     }
-    if (state >= 2) {
-        goto state_ge_two;
+    if (state < 2) {
+        if (state == 0) {
+            goto state_zero;
+        }
+        return;
     }
-    if (state == 0) {
-        goto state_zero;
-    }
-    return;
-
-state_ge_two:
     if (state == 2) {
         goto state_two;
     }

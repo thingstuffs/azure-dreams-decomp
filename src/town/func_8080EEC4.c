@@ -130,11 +130,9 @@ void func_80529AC4(u8 **ctrl, u8 *setup, u8 *view)
         goto far_test;
     }
 
-    if (distance < 0xC1) {
-        goto close_range;
+    if (distance >= 0xC1) {
+        goto far_check;
     }
-    goto far_check;
-
 close_range:
     if (D_80132AF2 >= ((S_8080EEC4_1 *)setup)->unk_08.at02.v) {
         D_80132AE8 = ((S_8080EEC4_2 *)ctrl)->unk_04;
@@ -150,41 +148,37 @@ close_range:
 far_check:
     early_far = distance < 0xD1;
 far_test:
-    if (!early_far) {
-        goto set_far_default;
-    }
+    if (early_far) {
+        if (D_80132AF2 >= ((S_8080EEC4_1 *)setup)->unk_08.at02.v) {
+            D_80132AE8 = ((S_8080EEC4_2 *)ctrl)->unk_04;
+            D_80132AEC = (*(s32 *)((u8 *)ctrl + (8)));
+        }
 
-    if (D_80132AF2 >= ((S_8080EEC4_1 *)setup)->unk_08.at02.v) {
-        D_80132AE8 = ((S_8080EEC4_2 *)ctrl)->unk_04;
-        D_80132AEC = (*(s32 *)((u8 *)ctrl + (8)));
-    }
-
-    {
-        s32 dx_abs;
-        s32 dy_abs;
-        dx_abs = abs(dx);
-        dy_abs = dy;
-        dy_abs = abs(dy_abs);
-        if (dx_abs > dy_abs || D_80132AEC <= 0x033FFFFF) {
-        ((S_8080EEC4_2 *)ctrl)->unk_5C = D_80132AEC;
-        if (dx > 0) {
-            ((S_8080EEC4_2 *)ctrl)->unk_58 = D_80132AE8 - 0x00280000;
+        {
+            s32 dx_abs;
+            s32 dy_abs;
+            dx_abs = abs(dx);
+            dy_abs = dy;
+            dy_abs = abs(dy_abs);
+            if (dx_abs > dy_abs || D_80132AEC <= 0x033FFFFF) {
+            ((S_8080EEC4_2 *)ctrl)->unk_5C = D_80132AEC;
+            if (dx > 0) {
+                ((S_8080EEC4_2 *)ctrl)->unk_58 = D_80132AE8 - 0x00280000;
+                goto copy_position;
+            }
+            ((S_8080EEC4_2 *)ctrl)->unk_58 = D_80132AE8 + 0x00280000;
             goto copy_position;
-        }
-        ((S_8080EEC4_2 *)ctrl)->unk_58 = D_80132AE8 + 0x00280000;
-        goto copy_position;
-    } else {
-        ((S_8080EEC4_2 *)ctrl)->unk_58 = D_80132AE8;
-        if (dy > 0) {
-            ((S_8080EEC4_2 *)ctrl)->unk_5C = D_80132AEC - 0x00280000;
+        } else {
+            ((S_8080EEC4_2 *)ctrl)->unk_58 = D_80132AE8;
+            if (dy > 0) {
+                ((S_8080EEC4_2 *)ctrl)->unk_5C = D_80132AEC - 0x00280000;
+                goto copy_position;
+            }
+            ((S_8080EEC4_2 *)ctrl)->unk_5C = D_80132AEC + 0x00280000;
             goto copy_position;
-        }
-        ((S_8080EEC4_2 *)ctrl)->unk_5C = D_80132AEC + 0x00280000;
-        goto copy_position;
+            }
         }
     }
-
-set_far_default:
     ((S_8080EEC4_2 *)ctrl)->unk_58 = 0x03600000;
     ((S_8080EEC4_2 *)ctrl)->unk_5C = 0x03600000;
 

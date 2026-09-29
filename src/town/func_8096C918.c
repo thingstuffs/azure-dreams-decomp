@@ -56,17 +56,14 @@ void func_80124DB0(void *loader)
         if (load_state != 1) {
             return;
         }
-        goto active;
+    } else {
+        func_8003F6D4(8, D_8012A998, D_80133198,
+                      D_80126D44[((S_80124DB0_0 *)loader)->unk_13][1]);
+        Control_CD(6, D_80133198, 0);
+        ((S_80124DB0_0 *)loader)->unk_0D = 0;
+        Control_CD(0xFF, D_8003E140, (u8 *)loader + 0xD);
+        ((S_80124DB0_0 *)loader)->unk_0B++;
     }
-
-    func_8003F6D4(8, D_8012A998, D_80133198,
-                  D_80126D44[((S_80124DB0_0 *)loader)->unk_13][1]);
-    Control_CD(6, D_80133198, 0);
-    ((S_80124DB0_0 *)loader)->unk_0D = 0;
-    Control_CD(0xFF, D_8003E140, (u8 *)loader + 0xD);
-    ((S_80124DB0_0 *)loader)->unk_0B++;
-
-active:
     if (((S_80124DB0_0 *)loader)->unk_0D == 0) {
         return;
     }

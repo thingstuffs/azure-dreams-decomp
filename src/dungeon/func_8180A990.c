@@ -296,118 +296,114 @@ void func_80026190(void *owner_arg)
     flag_page = (u8 *)0x80080000;
 loop:
     source = *(void **)(((u8 *)D_800E3D7C) + (source_slot * 4) + 0xAC);
-    if (source == NULL) {
-        goto next;
-    }
-
-    object_or_kind = 0x1E;
-    if (!(((S_80026190_10 *)source)->unk_14 & 0x20000000)) {
-        object_or_kind = ((S_80026190_10 *)source)->unk_13;
-    }
-    if (((S_80026190_10 *)source)->unk_13 == 0x2E) {
-        object_or_kind = ((S_80026190_10 *)source)->unk_A8;
-    }
-    func_8004397C(source);
-
-    status_page = (u8 *)0x80010000;
-    mode = ((S_80026190_11 *)status_page)->unk_2090;
-    if (mode == 1) {
-        if ((s16)object_or_kind == 2) {
-            object_or_kind = 0x39;
+    if (source != NULL) {
+        object_or_kind = 0x1E;
+        if (!(((S_80026190_10 *)source)->unk_14 & 0x20000000)) {
+            object_or_kind = ((S_80026190_10 *)source)->unk_13;
         }
-    }
-    shifted_kind = object_or_kind << 16;
-    signed_kind = shifted_kind >> 16;
-
-    entity = func_800A0B94(signed_kind, func_800A1618(signed_kind, 3), 1);
-    func_8003F320();
-    entity = ((SpawnFunc)entity)(1, 0, 0, ((S_80026190_10 *)source)->unk_88);
-
-    status_page = (u8 *)0x80010000;
-    mode = ((S_80026190_11 *)status_page)->unk_2090;
-    if ((mode == 1) && (signed_kind == 0x39)) {
-        object_or_kind = 2;
-    }
-
-    if (entity == NULL) {
-        spawn_container = ((S_80026190_0 *)owner)->unk_00;
-        ((S_80026190_12_pre *)spawn_container)[-1].unk_00 |= 0x8000;
-        ((S_80026190_0 *)owner)->unk_00 = NULL;
-
-        spawn_child = ((S_80026190_5 *)owner_arg)->unk_08;
-        ((S_80026190_13 *)spawn_child)->unk_1E |= 0x8000;
-        ((S_80026190_5 *)owner_arg)->unk_08 = NULL;
-
-        spawn_resource = ((S_80026190_5 *)owner_arg)->unk_14;
-        ((S_80026190_14 *)spawn_resource)->unk_1E |= 0x8000;
-
-        parent_value = ((S_80026190_15 *)flag_page)->unk_14A0.s;
-        entity_arg = ((S_80026190_5 *)owner_arg)->unk_0C;
-        ((S_80026190_5 *)owner_arg)->unk_14 = NULL;
-        fail_flags = parent_value | 0x8000;
-        ((S_80026190_15 *)flag_page)->unk_14A0.u = fail_flags;
-        if (entity_arg != NULL) {
-            spawn_bits = ((S_80026190_16 *)entity_arg)->unk_1E;
-            ((S_80026190_15 *)flag_page)->unk_14A0.s = fail_flags;
-            ((S_80026190_16 *)entity_arg)->unk_1E = spawn_bits | 0x8000;
-            ((S_80026190_5 *)owner_arg)->unk_0C = NULL;
+        if (((S_80026190_10 *)source)->unk_13 == 0x2E) {
+            object_or_kind = ((S_80026190_10 *)source)->unk_A8;
         }
-        return;
+        func_8004397C(source);
+
+        status_page = (u8 *)0x80010000;
+        mode = ((S_80026190_11 *)status_page)->unk_2090;
+        if (mode == 1) {
+            if ((s16)object_or_kind == 2) {
+                object_or_kind = 0x39;
+            }
+        }
+        shifted_kind = object_or_kind << 16;
+        signed_kind = shifted_kind >> 16;
+
+        entity = func_800A0B94(signed_kind, func_800A1618(signed_kind, 3), 1);
+        func_8003F320();
+        entity = ((SpawnFunc)entity)(1, 0, 0, ((S_80026190_10 *)source)->unk_88);
+
+        status_page = (u8 *)0x80010000;
+        mode = ((S_80026190_11 *)status_page)->unk_2090;
+        if ((mode == 1) && (signed_kind == 0x39)) {
+            object_or_kind = 2;
+        }
+
+        if (entity == NULL) {
+            spawn_container = ((S_80026190_0 *)owner)->unk_00;
+            ((S_80026190_12_pre *)spawn_container)[-1].unk_00 |= 0x8000;
+            ((S_80026190_0 *)owner)->unk_00 = NULL;
+
+            spawn_child = ((S_80026190_5 *)owner_arg)->unk_08;
+            ((S_80026190_13 *)spawn_child)->unk_1E |= 0x8000;
+            ((S_80026190_5 *)owner_arg)->unk_08 = NULL;
+
+            spawn_resource = ((S_80026190_5 *)owner_arg)->unk_14;
+            ((S_80026190_14 *)spawn_resource)->unk_1E |= 0x8000;
+
+            parent_value = ((S_80026190_15 *)flag_page)->unk_14A0.s;
+            entity_arg = ((S_80026190_5 *)owner_arg)->unk_0C;
+            ((S_80026190_5 *)owner_arg)->unk_14 = NULL;
+            fail_flags = parent_value | 0x8000;
+            ((S_80026190_15 *)flag_page)->unk_14A0.u = fail_flags;
+            if (entity_arg != NULL) {
+                spawn_bits = ((S_80026190_16 *)entity_arg)->unk_1E;
+                ((S_80026190_15 *)flag_page)->unk_14A0.s = fail_flags;
+                ((S_80026190_16 *)entity_arg)->unk_1E = spawn_bits | 0x8000;
+                ((S_80026190_5 *)owner_arg)->unk_0C = NULL;
+            }
+            return;
+        }
+
+        func_80042640(entity, (s16)object_or_kind);
+        ((S_80026190_17 *)entity)->unk_14 = 0;
+        ((S_80026190_17 *)entity)->unk_1C = 0;
+        func_80042710(entity, source);
+
+        clear_pairs_left = 3;
+        clear_cursor = (u8 *)entity + 6;
+        ((S_80026190_17 *)entity)->unk_13 = object_or_kind;
+        do {
+            clear_cursor[0x2C] = 0;
+            clear_cursor[0x2D] = 0;
+            clear_cursor -= 2;
+        } while (--clear_pairs_left >= 0);
+
+        clear_mask = 0xBFFFFFFF;
+        ASM_KEEP(clear_mask);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        entity_arg = entity;
+        entity_flags = 0x64;
+        ((S_80026190_17 *)entity)->unk_25 = entity_flags;
+        ((S_80026190_17 *)entity)->unk_88 = 0;
+        entity_flags = ((S_80026190_17 *)entity)->unk_1C;
+        flags_mask = ~0x1EF8;
+        entity_flags &= flags_mask;
+        entity_flags &= clear_mask;
+        flags_mask = 0x40000;
+        entity_flags |= flags_mask;
+        ((S_80026190_17 *)entity)->unk_1C = entity_flags;
+        func_8009A028(entity_arg, clear_mask);
+
+        source_check_mask = 0x20000000;
+        flags_mask = ((S_80026190_10 *)source)->unk_14;
+        parent = ((S_80026190_17_pre *)entity)[-1].unk_00;
+        flags_mask &= source_check_mask;
+        if (flags_mask) {
+            parent_value = func_800429E4(source) << 2;
+        } else {
+            parent_value = ((S_80026190_19 *)(((S_80026190_10_pre *)source)[-1].unk_00))->unk_12;
+        }
+        ((S_80026190_18 *)parent)->unk_12 = parent_value;
+        ASM_KEEP(entity);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+
+        object_or_kind = (s32)entity - 0x20;
+        *(s32 *)((u8 *)owner_arg + (source_slot * 4) + 0xC) = object_or_kind;
+        ((S_80026190_17 *)entity)->unk_5C = ((S_80026190_4 *)((void *)object_or_kind))->unk_10.u | 0x80000000;
+        ((S_80026190_17 *)entity)->unk_58 = ((S_80026190_0 *)owner)->unk_00;
+        ((S_80026190_17 *)entity)->unk_6A = source_slot;
+        func_80044A50((void *)object_or_kind);
+        func_800BC318((void *)object_or_kind);
+        func_8009A3D0(((S_80026190_18 *)parent)->unk_24, ((S_80026190_18 *)parent)->unk_25, 0x300);
+        ((S_80026190_17 *)entity)->unk_87 = 0xFF;
+        ((S_80026190_4 *)((void *)object_or_kind))->unk_10.s = D_80025C94;
     }
-
-    func_80042640(entity, (s16)object_or_kind);
-    ((S_80026190_17 *)entity)->unk_14 = 0;
-    ((S_80026190_17 *)entity)->unk_1C = 0;
-    func_80042710(entity, source);
-
-    clear_pairs_left = 3;
-    clear_cursor = (u8 *)entity + 6;
-    ((S_80026190_17 *)entity)->unk_13 = object_or_kind;
-    do {
-        clear_cursor[0x2C] = 0;
-        clear_cursor[0x2D] = 0;
-        clear_cursor -= 2;
-    } while (--clear_pairs_left >= 0);
-
-    clear_mask = 0xBFFFFFFF;
-    ASM_KEEP(clear_mask);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    entity_arg = entity;
-    entity_flags = 0x64;
-    ((S_80026190_17 *)entity)->unk_25 = entity_flags;
-    ((S_80026190_17 *)entity)->unk_88 = 0;
-    entity_flags = ((S_80026190_17 *)entity)->unk_1C;
-    flags_mask = ~0x1EF8;
-    entity_flags &= flags_mask;
-    entity_flags &= clear_mask;
-    flags_mask = 0x40000;
-    entity_flags |= flags_mask;
-    ((S_80026190_17 *)entity)->unk_1C = entity_flags;
-    func_8009A028(entity_arg, clear_mask);
-
-    source_check_mask = 0x20000000;
-    flags_mask = ((S_80026190_10 *)source)->unk_14;
-    parent = ((S_80026190_17_pre *)entity)[-1].unk_00;
-    flags_mask &= source_check_mask;
-    if (flags_mask) {
-        parent_value = func_800429E4(source) << 2;
-    } else {
-        parent_value = ((S_80026190_19 *)(((S_80026190_10_pre *)source)[-1].unk_00))->unk_12;
-    }
-    ((S_80026190_18 *)parent)->unk_12 = parent_value;
-    ASM_KEEP(entity);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-
-    object_or_kind = (s32)entity - 0x20;
-    *(s32 *)((u8 *)owner_arg + (source_slot * 4) + 0xC) = object_or_kind;
-    ((S_80026190_17 *)entity)->unk_5C = ((S_80026190_4 *)((void *)object_or_kind))->unk_10.u | 0x80000000;
-    ((S_80026190_17 *)entity)->unk_58 = ((S_80026190_0 *)owner)->unk_00;
-    ((S_80026190_17 *)entity)->unk_6A = source_slot;
-    func_80044A50((void *)object_or_kind);
-    func_800BC318((void *)object_or_kind);
-    func_8009A3D0(((S_80026190_18 *)parent)->unk_24, ((S_80026190_18 *)parent)->unk_25, 0x300);
-    ((S_80026190_17 *)entity)->unk_87 = 0xFF;
-    ((S_80026190_4 *)((void *)object_or_kind))->unk_10.s = D_80025C94;
-
-next:
     source_slot++;
     if (source_slot < 2) {
         goto loop;

@@ -150,16 +150,14 @@ advance_state:
         goto common_tail;
 
 jt_c5:
-        if (*(s16 *)D_80027452 != 0) {
-            goto common_tail;
+        if (*(s16 *)D_80027452 == 0) {
+            {
+                dungeonStatus.unk_0C = 0;
+                dungeonStatus.unk_0A--;
+            }
+            *(u16 *)((u8 *)event - 2) |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
         }
-        {
-            dungeonStatus.unk_0C = 0;
-            dungeonStatus.unk_0A--;
-        }
-        *(u16 *)((u8 *)event - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
-
 common_tail:
     if (event->mode20 < 0) {
         s16 fade_ticks;

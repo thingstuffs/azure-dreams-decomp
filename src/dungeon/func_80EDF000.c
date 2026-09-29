@@ -242,16 +242,15 @@ advance_interpolation:
         }
     }
 check_arrival:
-    if ((s16)motion->unk_36 > 0)
-        goto repeat_interpolation;
-    command[0] = 6;
-    command[1] = 12;
-    command[2] = 0;
-    command[3] = 0;
-    func_800A7A7C(position->unk_0E, position->unk_12,
-                  position->unk_16, render->unk_08, command);
-    goto finish_motion;
-repeat_interpolation:
+    if ((s16)motion->unk_36 <= 0) {
+        command[0] = 6;
+        command[1] = 12;
+        command[2] = 0;
+        command[3] = 0;
+        func_800A7A7C(position->unk_0E, position->unk_12,
+                      position->unk_16, render->unk_08, command);
+        goto finish_motion;
+    }
     if (render->unk_14 & 0x8000)
         goto interpolate;
 
@@ -324,13 +323,11 @@ move:
         if (interp_goal != coord)
             goto update_height;
     }
-    if ((func_800A45D8(position->unk_00.parts.unk_02.u16, position->unk_04.parts.unk_06.u16,
-                       position->unk_08.parts.unk_0A) << 16) != 0)
-        goto stop_horizontal;
-    if (func_800BCB04(position->unk_00.parts.unk_02.u16, position->unk_04.parts.unk_06.u16,
-                      position->unk_08.parts.unk_0A) < 0x200)
-        goto advance_tile;
-stop_horizontal:
+    if ((func_800A45D8(position->unk_00.parts.unk_02.u16, position->unk_04.parts.unk_06.u16, position->unk_08.parts.unk_0A) << 16) == 0) {
+        if (func_800BCB04(position->unk_00.parts.unk_02.u16, position->unk_04.parts.unk_06.u16,
+                          position->unk_08.parts.unk_0A) < 0x200)
+            goto advance_tile;
+    }
     position->unk_00.s32 -= motion->unk_6C;
     motion->unk_6C = 0;
     motion->unk_78 = 0;
@@ -349,30 +346,26 @@ update_height:
     position->unk_08.s32 += motion->unk_74;
     motion->unk_74 += motion->unk_80;
     move_height = position->unk_08.parts.unk_0A;
-    if (func_800BCB04((motion->unk_5C << 6) & 0xFFC0,
-                      (motion->unk_5D << 6) & 0xFFC0,
-                      (s16)((u16)position->unk_08.parts.unk_0A - 0x20)) - 0x10 >=
-        move_height)
-        goto repeat_move;
-    position->unk_08.parts.unk_0A = func_800BCB04(
-        (motion->unk_5C << 6) & 0xFFC0,
-        (motion->unk_5D << 6) & 0xFFC0,
-        (s16)((u16)position->unk_08.parts.unk_0A - 0x20));
-    position->unk_08.parts.unk_08 = 0;
-    motion->unk_7C = 0;
-    motion->unk_70 = 0;
-    motion->unk_78 = 0;
-    motion->unk_6C = 0;
-    motion->unk_2C = (s16)((u16)motion->unk_2C + 1);
-    if ((func_800A7234(motion->unk_5C, motion->unk_5D,
-                       (s16)((u16)position->unk_08.parts.unk_0A - 0x20),
-                       &position->unk_0E, &position->unk_12,
-                       &position->unk_16) << 16) != 0)
+    if (func_800BCB04((motion->unk_5C << 6) & 0xFFC0, (motion->unk_5D << 6) & 0xFFC0, (s16)((u16)position->unk_08.parts.unk_0A - 0x20)) - 0x10 < move_height) {
+        position->unk_08.parts.unk_0A = func_800BCB04(
+            (motion->unk_5C << 6) & 0xFFC0,
+            (motion->unk_5D << 6) & 0xFFC0,
+            (s16)((u16)position->unk_08.parts.unk_0A - 0x20));
+        position->unk_08.parts.unk_08 = 0;
+        motion->unk_7C = 0;
+        motion->unk_70 = 0;
+        motion->unk_78 = 0;
+        motion->unk_6C = 0;
+        motion->unk_2C = (s16)((u16)motion->unk_2C + 1);
+        if ((func_800A7234(motion->unk_5C, motion->unk_5D,
+                           (s16)((u16)position->unk_08.parts.unk_0A - 0x20),
+                           &position->unk_0E, &position->unk_12,
+                           &position->unk_16) << 16) != 0)
+            return;
+        motion->unk_2C = 2;
+        motion->unk_74 = (s32)0xFFF80000;
         return;
-    motion->unk_2C = 2;
-    motion->unk_74 = (s32)0xFFF80000;
-    return;
-repeat_move:
+    }
     if (render->unk_14 & 0x8000)
         goto move;
     return;

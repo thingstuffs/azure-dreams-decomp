@@ -193,30 +193,29 @@ void func_80024E5C(void *effect, void *motion, void *sprite) {
                     ((S_80024E5C_2 *)motion)->unk_0C = (s32) ((target_x_or_z_step - current_x) / (s32) (travel_frames - 0xB));
                     ((S_80024E5C_2 *)motion)->unk_10 = (s32) ((s32) (target_y - ((S_80024E5C_2 *)motion)->unk_04.at00.v) / (s32) ((s16) ((S_80024E5C_0 *)effect)->unk_5A.u - 0xB));
                     ((S_80024E5C_2 *)motion)->unk_14 = (target_z - ((S_80024E5C_2 *)motion)->unk_08.at00.v) / (((S_80024E5C_0 *)effect)->unk_5A.s - 0xB);
-                    goto integrate;
+                } else {
+                    if (travel_frames >= 0xB) {
+                        current_x = ((S_80024E5C_2 *)motion)->unk_00.at00.v;
+                        ((S_80024E5C_2 *)motion)->unk_0C = (s32) ((target_x_or_z_step - current_x) / (s32) (travel_frames - 9));
+                        ((S_80024E5C_2 *)motion)->unk_10 = (s32) ((s32) (target_y - ((S_80024E5C_2 *)motion)->unk_04.at00.v) / (s32) ((s16) ((S_80024E5C_0 *)effect)->unk_5A.u - 9));
+                        ((S_80024E5C_2 *)motion)->unk_14 = (target_z - ((S_80024E5C_2 *)motion)->unk_08.at00.v) / (((S_80024E5C_0 *)effect)->unk_5A.s - 9);
+                    } else {
+                        if (travel_frames >= 5) {
+                            s32 divisor;
+                            current_x = ((S_80024E5C_2 *)motion)->unk_00.at00.v;
+                            ((S_80024E5C_2 *)motion)->unk_0C = (s32) ((target_x_or_z_step - current_x) / (s32) (travel_frames - 4));
+                            ((S_80024E5C_2 *)motion)->unk_10 = (s32) ((s32) (target_y - ((S_80024E5C_2 *)motion)->unk_04.at00.v) / (s32) ((s16) ((S_80024E5C_0 *)effect)->unk_5A.u - 4));
+                            target_x_or_z_step = target_z - ((S_80024E5C_2 *)motion)->unk_08.at00.v;
+                            divisor = ((S_80024E5C_0 *)effect)->unk_5A.s - 4;
+                            target_x_or_z_step /= divisor;
+                            ((S_80024E5C_2 *)motion)->unk_14 = target_x_or_z_step;
+                        } else {
+                            ((S_80024E5C_2 *)motion)->unk_0C = (s32) ((s32) (target_x_or_z_step - ((S_80024E5C_2 *)motion)->unk_00.at00.v) / travel_frames);
+                            ((S_80024E5C_2 *)motion)->unk_10 = (s32) ((s32) (target_y - ((S_80024E5C_2 *)motion)->unk_04.at00.v) / (s16) ((S_80024E5C_0 *)effect)->unk_5A.u);
+                            ((S_80024E5C_2 *)motion)->unk_14 = (s32) ((s32) (target_z - ((S_80024E5C_2 *)motion)->unk_08.at00.v) / (s16) ((S_80024E5C_0 *)effect)->unk_5A.u);
+                        }
+                    }
                 }
-                if (travel_frames >= 0xB) {
-                    current_x = ((S_80024E5C_2 *)motion)->unk_00.at00.v;
-                    ((S_80024E5C_2 *)motion)->unk_0C = (s32) ((target_x_or_z_step - current_x) / (s32) (travel_frames - 9));
-                    ((S_80024E5C_2 *)motion)->unk_10 = (s32) ((s32) (target_y - ((S_80024E5C_2 *)motion)->unk_04.at00.v) / (s32) ((s16) ((S_80024E5C_0 *)effect)->unk_5A.u - 9));
-                    ((S_80024E5C_2 *)motion)->unk_14 = (target_z - ((S_80024E5C_2 *)motion)->unk_08.at00.v) / (((S_80024E5C_0 *)effect)->unk_5A.s - 9);
-                    goto integrate;
-                }
-                if (travel_frames >= 5) {
-                    s32 divisor;
-                    current_x = ((S_80024E5C_2 *)motion)->unk_00.at00.v;
-                    ((S_80024E5C_2 *)motion)->unk_0C = (s32) ((target_x_or_z_step - current_x) / (s32) (travel_frames - 4));
-                    ((S_80024E5C_2 *)motion)->unk_10 = (s32) ((s32) (target_y - ((S_80024E5C_2 *)motion)->unk_04.at00.v) / (s32) ((s16) ((S_80024E5C_0 *)effect)->unk_5A.u - 4));
-                    target_x_or_z_step = target_z - ((S_80024E5C_2 *)motion)->unk_08.at00.v;
-                    divisor = ((S_80024E5C_0 *)effect)->unk_5A.s - 4;
-                    target_x_or_z_step /= divisor;
-                    ((S_80024E5C_2 *)motion)->unk_14 = target_x_or_z_step;
-                    goto integrate;
-                }
-                ((S_80024E5C_2 *)motion)->unk_0C = (s32) ((s32) (target_x_or_z_step - ((S_80024E5C_2 *)motion)->unk_00.at00.v) / travel_frames);
-                ((S_80024E5C_2 *)motion)->unk_10 = (s32) ((s32) (target_y - ((S_80024E5C_2 *)motion)->unk_04.at00.v) / (s16) ((S_80024E5C_0 *)effect)->unk_5A.u);
-                ((S_80024E5C_2 *)motion)->unk_14 = (s32) ((s32) (target_z - ((S_80024E5C_2 *)motion)->unk_08.at00.v) / (s16) ((S_80024E5C_0 *)effect)->unk_5A.u);
-integrate:
                 velocity_y = ((S_80024E5C_2 *)motion)->unk_10;
                 velocity_z = ((S_80024E5C_2 *)motion)->unk_14;
                 ((S_80024E5C_2 *)motion)->unk_00.at00.v = (s32) (((S_80024E5C_2 *)motion)->unk_00.at00.v + ((S_80024E5C_2 *)motion)->unk_0C);

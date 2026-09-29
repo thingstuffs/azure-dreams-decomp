@@ -450,41 +450,41 @@ scan_abilities:
                 other_match = func_800A57B4(other, merge_key);
                 if (other_match < 0) {
                     clear_result_seen = donor;
-                    goto copy_source_ability;
-                }
-                if (other_match >= 0) {
-                    other_data = (u8 *)result_seen;
-                    if (source_side == 0) {
-                        other_data = donor_seen;
-                    }
-                    *(other_data + other_match) = 1;
-                    level_source = donor;
-                    if (source_side == 0) {
-                        level_source = result;
-                    }
-                    other_data = donor;
+                } else {
+                    if (other_match >= 0) {
+                        other_data = (u8 *)result_seen;
+                        if (source_side == 0) {
+                            other_data = donor_seen;
+                        }
+                        *(other_data + other_match) = 1;
+                        level_source = donor;
+                        if (source_side == 0) {
+                            level_source = result;
+                        }
+                        other_data = donor;
 
-                    ability_data = level_source + ability_offset;
-                    if (source_side != 0) {
-                        other_data = result;
-                    }
-                    match_offset = other_match * 3;
-                    if ((u8) ((S_800277F4_11 *)ability_data)->unk_0A < (u8) ((S_800277F4_12 *)((other_data + match_offset)))->unk_0A) {
-                        other_data = donor;
-                        ability_data = merge_out + (ability_count * 3);
+                        ability_data = level_source + ability_offset;
                         if (source_side != 0) {
                             other_data = result;
                         }
-                        *ability_data = ((S_800277F4_12 *)((other_data + match_offset)))->unk_08;
-                        other_data = donor;
-                        if (source_side != 0) {
-                            other_data = result;
+                        match_offset = other_match * 3;
+                        if ((u8) ((S_800277F4_11 *)ability_data)->unk_0A < (u8) ((S_800277F4_12 *)((other_data + match_offset)))->unk_0A) {
+                            other_data = donor;
+                            ability_data = merge_out + (ability_count * 3);
+                            if (source_side != 0) {
+                                other_data = result;
+                            }
+                            *ability_data = ((S_800277F4_12 *)((other_data + match_offset)))->unk_08;
+                            other_data = donor;
+                            if (source_side != 0) {
+                                other_data = result;
+                            }
+                            ability_data[2] = ((S_800277F4_12 *)((other_data + match_offset)))->unk_0A;
+                            goto finish_ability;
                         }
-                        ability_data[2] = ((S_800277F4_12 *)((other_data + match_offset)))->unk_0A;
-                        goto finish_ability;
+                        clear_result_seen = donor;
+                        goto copy_source_ability;
                     }
-                    clear_result_seen = donor;
-                    goto copy_source_ability;
                 }
 copy_source_ability:
                 fallback_output = merge_out + (ability_count * 3);

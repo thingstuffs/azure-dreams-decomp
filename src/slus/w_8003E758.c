@@ -356,30 +356,30 @@ process_queue:
                 }
                 D_80080AD8 = CdReadSync(1, D_800814D8);
                 if (D_80080AD8 > 0) goto finish;
-                if (D_80080AD8 != 0) goto read_failed;
-                if (D_80080AD0 == 0) goto read_complete;
-                if ((*(u32 *)D_800814CC & 0xFFFF0000) == 0x10120000) goto finish;
-                func_8003E70C();
-                D_800814D2[0] = 0;
-                D_80080AD2 = D_80080AD2 + 1;
-                if ((D_80080AD2 & 3) == 3) {
-                    CdReset(0);
-                    func_8003F5EC();
+                if (D_80080AD8 == 0) {
+                    if (D_80080AD0 != 0) {
+                        if ((*(u32 *)D_800814CC & 0xFFFF0000) == 0x10120000) goto finish;
+                        func_8003E70C();
+                        D_800814D2[0] = 0;
+                        D_80080AD2 = D_80080AD2 + 1;
+                        if ((D_80080AD2 & 3) == 3) {
+                            CdReset(0);
+                            func_8003F5EC();
+                        }
+                        D_800814D3[0] = 0xFF;
+                        goto finish;
+                    }
+                    {
+                        u8 *state_ptr = &D_800814D3_15[0];
+                        SlusCdDriverPrefix *read_driver = &D_80083958[0];
+                        D_800814D3[0] = 0xFF;
+                        read_driver->unk4 = 2;
+                        state_ptr[-3] += 1;
+                        D_800814D2[0] = D_800814D2_R[0] | 1;
+                        read_driver->unk5 = read_driver->unk5 + 1;
+                        goto finish;
+                    }
                 }
-                D_800814D3[0] = 0xFF;
-                goto finish;
-            read_complete:
-                {
-                    u8 *state_ptr = &D_800814D3_15[0];
-                    SlusCdDriverPrefix *read_driver = &D_80083958[0];
-                    D_800814D3[0] = 0xFF;
-                    read_driver->unk4 = 2;
-                    state_ptr[-3] += 1;
-                    D_800814D2[0] = D_800814D2_R[0] | 1;
-                    read_driver->unk5 = read_driver->unk5 + 1;
-                    goto finish;
-                }
-            read_failed:
                 if (D_80080AD8 >= 0) goto finish;
                 goto command_failed;
 

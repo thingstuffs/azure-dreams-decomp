@@ -140,15 +140,13 @@ void *BODY_NAME(s32 spawn_flags, s16 pos_x, s16 pos_y, s16 part_a_value)
         if (kind == 1) {
             primary_flags = ((S_80FB7000_1 *)work)->unk_14 | 0x6000;
             secondary_flags = ((S_80FB7000_1 *)work)->unk_1C | 0x6000;
-            goto write_kind;
+        } else {
+            if (kind < 2) {
+                goto normal_kind;
+            }
+            primary_flags = ((S_80FB7000_1 *)work)->unk_14 | 0x2000;
+            secondary_flags = ((S_80FB7000_1 *)work)->unk_1C | 0x2000;
         }
-        if (kind < 2) {
-            goto normal_kind;
-        }
-        primary_flags = ((S_80FB7000_1 *)work)->unk_14 | 0x2000;
-        secondary_flags = ((S_80FB7000_1 *)work)->unk_1C | 0x2000;
-
-write_kind:
         ((S_80FB7000_1 *)work)->unk_14 = primary_flags;
         ((S_80FB7000_1 *)work)->unk_1C = secondary_flags;
         goto post_kind;
@@ -186,13 +184,11 @@ post_kind:
         entry = part_b->unk_08;
     scan_entries:
         twice_index = entry_index << 1;
-        if (!(*entry & 0x20)) {
-            goto scan_done;
+        if (*entry & 0x20) {
+            entry += 12;
+            entry_index += 1;
+            goto scan_entries;
         }
-        entry += 12;
-        entry_index += 1;
-        goto scan_entries;
-scan_done:
 
         rect_ptr = rect;
         ASM_KEEP(rect_ptr);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */

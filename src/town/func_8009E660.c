@@ -85,24 +85,17 @@ void func_8009BDC0(Actor *actor, Subject *subject, Motion *motion,
     s32 control_index;
     s32 *actor_value;
 
-    if ((control->subject != subject) ||
-        ((control_index = control->index),
-         ((u8 *)control)[control_index + 0x3A] != 1) ||
-        ((town_callback = &D_80083498.current),
-         (*town_callback != D_800924EC))) {
+    if ((control->subject != subject) || ((control_index = control->index), ((u8 *)control)[control_index + 0x3A] != 1) || ((town_callback = &D_80083498.current), (*town_callback != D_800924EC))) {
         func_8009BFD8(actor, subject, motion, context);
-        goto motion_common;
+    } else {
+        town_state = &D_80083498;
+        x_deltas = D_800CFDF0;
+        motion->x += x_deltas[control_index].x;
+        y_deltas = D_800CFE08;
+        motion->y += y_deltas[control->index].x;
+        town_state->target->x += x_deltas[control->index].x;
+        town_state->target->y += y_deltas[control->index].x;
     }
-
-    town_state = &D_80083498;
-    x_deltas = D_800CFDF0;
-    motion->x += x_deltas[control_index].x;
-    y_deltas = D_800CFE08;
-    motion->y += y_deltas[control->index].x;
-    town_state->target->x += x_deltas[control->index].x;
-    town_state->target->y += y_deltas[control->index].x;
-
-motion_common:
     surface_height = func_8008F170(motion, D_800FE488);
     func_8008F294(subject, motion);
     func_8008F664(subject, motion);

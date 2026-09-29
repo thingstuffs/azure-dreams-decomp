@@ -39,12 +39,11 @@ void func_80091000(s32 controller, EntityRec *actor, M2C_UNK context) {
             func_80094378(controller, actor, context);
             return;
         }
-        goto handle_input;
+    } else {
+        if (((S_80091000_1 *)(&D_800CFCEF))->unk_00 == 0) {
+            func_80095A94(actor, ground_height, &D_800FE488);
+        }
     }
-    if (((S_80091000_1 *)(&D_800CFCEF))->unk_00 == 0) {
-        func_80095A94(actor, ground_height, &D_800FE488);
-    }
-handle_input:
     if (((s32)input_state->unk_010) & 0x10) {
         func_800942B0(controller, actor, context);
         return;

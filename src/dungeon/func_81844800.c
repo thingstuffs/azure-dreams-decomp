@@ -264,50 +264,47 @@ BODY_STORAGE void BODY_NAME(void *effect, void *motion, void *source_render) {
     }
     state = ((S_81844800_0 *)effect)->unk_0A.s;
     owner_sprite = ((S_81844800_1_pre *)owner)[-1].unk_00;
-    if (state == 0) {
-        goto dispatch;
-    }
-    if (state < 5) {
-        particles_left = 12;
-        sprite_page = D_800DEA68;
-        do {
-            spawned = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
-            if (spawned != 0) {
-                particle_data = (u8 *)spawned + 0x20;
-                sprite = ((S_81844800_2 *)spawned)->unk_0C;
-                ((S_81844800_2 *)spawned)->unk_10 = func_80024C84;
-                ((S_81844800_14 *)(((S_81844800_2 *)spawned)->unk_08))->unk_00.s =
-                    ((S_81844800_3 *)motion)->unk_00.at00.v + (((func_80069EF8() & 0x1FF) - 255) << 13);
-                ((S_81844800_14 *)(((S_81844800_2 *)spawned)->unk_08))->unk_04.s =
-                    ((S_81844800_3 *)motion)->unk_04.at00.v + (((func_80069EF8() & 0x1FF) - 255) << 13);
-                ((S_81844800_14 *)(((S_81844800_2 *)spawned)->unk_08))->unk_08.at00.v =
-                    ((S_81844800_3 *)motion)->unk_08.at00.v + (((func_80069EF8() & 0x1FF) - 255) << 10);
+    if (state != 0) {
+        if (state < 5) {
+            particles_left = 12;
+            sprite_page = D_800DEA68;
+            do {
+                spawned = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
+                if (spawned != 0) {
+                    particle_data = (u8 *)spawned + 0x20;
+                    sprite = ((S_81844800_2 *)spawned)->unk_0C;
+                    ((S_81844800_2 *)spawned)->unk_10 = func_80024C84;
+                    ((S_81844800_14 *)(((S_81844800_2 *)spawned)->unk_08))->unk_00.s =
+                        ((S_81844800_3 *)motion)->unk_00.at00.v + (((func_80069EF8() & 0x1FF) - 255) << 13);
+                    ((S_81844800_14 *)(((S_81844800_2 *)spawned)->unk_08))->unk_04.s =
+                        ((S_81844800_3 *)motion)->unk_04.at00.v + (((func_80069EF8() & 0x1FF) - 255) << 13);
+                    ((S_81844800_14 *)(((S_81844800_2 *)spawned)->unk_08))->unk_08.at00.v =
+                        ((S_81844800_3 *)motion)->unk_08.at00.v + (((func_80069EF8() & 0x1FF) - 255) << 10);
 
-                {
-                    u16 flags = ((S_81844800_4 *)sprite)->unk_14;
-                    ((S_81844800_4 *)sprite)->unk_1E = 0x1000;
-                    ((S_81844800_4 *)sprite)->unk_1C = 0x1000;
-                    ((S_81844800_4 *)sprite)->unk_10 = 0x40;
-                    ((S_81844800_4 *)sprite)->unk_00 = sprite_page;
-                    ((S_81844800_4 *)sprite)->unk_14 = flags | 0xC;
                     {
-                        u32 texture_page = sprite_page->unk_04;
-                        ((S_81844800_4 *)sprite)->unk_04 = 0;
-                        ((S_81844800_4 *)sprite)->unk_05 = 0;
-                        ((S_81844800_4 *)sprite)->unk_0C = 0x00404040;
-                        ((S_81844800_4 *)sprite)->unk_08 = texture_page;
+                        u16 flags = ((S_81844800_4 *)sprite)->unk_14;
+                        ((S_81844800_4 *)sprite)->unk_1E = 0x1000;
+                        ((S_81844800_4 *)sprite)->unk_1C = 0x1000;
+                        ((S_81844800_4 *)sprite)->unk_10 = 0x40;
+                        ((S_81844800_4 *)sprite)->unk_00 = sprite_page;
+                        ((S_81844800_4 *)sprite)->unk_14 = flags | 0xC;
+                        {
+                            u32 texture_page = sprite_page->unk_04;
+                            ((S_81844800_4 *)sprite)->unk_04 = 0;
+                            ((S_81844800_4 *)sprite)->unk_05 = 0;
+                            ((S_81844800_4 *)sprite)->unk_0C = 0x00404040;
+                            ((S_81844800_4 *)sprite)->unk_08 = texture_page;
+                        }
                     }
+                    ((S_81844800_2 *)spawned)->unk_20 = effect;
+                    ((S_81844800_6 *)particle_data)->unk_48 = func_80069EF8() & 3;
+                    ((S_81844800_6 *)particle_data)->unk_4A = 8;
+                    ((S_81844800_6 *)particle_data)->unk_4C = 0;
                 }
-                ((S_81844800_2 *)spawned)->unk_20 = effect;
-                ((S_81844800_6 *)particle_data)->unk_48 = func_80069EF8() & 3;
-                ((S_81844800_6 *)particle_data)->unk_4A = 8;
-                ((S_81844800_6 *)particle_data)->unk_4C = 0;
-            }
-            particles_left--;
-        } while (particles_left >= 0);
+                particles_left--;
+            } while (particles_left >= 0);
+        }
     }
-
-dispatch:
     {
         s32 state_index = ((S_81844800_0 *)effect)->unk_0A.s;
         if ((u32)state_index >= 6) {
@@ -333,25 +330,24 @@ case0:
         if (target == 0) {
             ((S_81844800_1 *)owner)->unk_72.s = ((S_81844800_7 *)owner_sprite)->unk_24;
             ((S_81844800_1 *)owner)->unk_73.s = ((S_81844800_7 *)owner_sprite)->unk_25;
-            goto have_target_tile;
-        }
-        sprite = ((S_81844800_8_pre *)target)[-1].unk_00;
-        if ((((S_81844800_4 *)sprite)->unk_14 & 0x8000) != 0) {
-            if ((((S_81844800_9 *)source_render)->unk_14 & 0x8000) != 0) {
-                func_8009CE1C(
-                    ((S_81844800_1 *)owner)->unk_60,
-                    10,
-                    ((S_81844800_0 *)effect)->unk_09,
-                    4,
-                    ((S_81844800_1 *)owner)->unk_2A,
-                    owner,
-                    2);
-                goto set_state_5;
+        } else {
+            sprite = ((S_81844800_8_pre *)target)[-1].unk_00;
+            if ((((S_81844800_4 *)sprite)->unk_14 & 0x8000) != 0) {
+                if ((((S_81844800_9 *)source_render)->unk_14 & 0x8000) != 0) {
+                    func_8009CE1C(
+                        ((S_81844800_1 *)owner)->unk_60,
+                        10,
+                        ((S_81844800_0 *)effect)->unk_09,
+                        4,
+                        ((S_81844800_1 *)owner)->unk_2A,
+                        owner,
+                        2);
+                    goto set_state_5;
+                }
             }
+            ((S_81844800_1 *)owner)->unk_72.s = ((S_81844800_4 *)sprite)->unk_24;
+            ((S_81844800_1 *)owner)->unk_73.s = ((S_81844800_4 *)sprite)->unk_25;
         }
-        ((S_81844800_1 *)owner)->unk_72.s = ((S_81844800_4 *)sprite)->unk_24;
-        ((S_81844800_1 *)owner)->unk_73.s = ((S_81844800_4 *)sprite)->unk_25;
-    have_target_tile:
         {
             if (func_8003DE58(
                 ((S_81844800_16 *)(((S_81844800_10 *)owner_start)->unk_0C))->unk_08,

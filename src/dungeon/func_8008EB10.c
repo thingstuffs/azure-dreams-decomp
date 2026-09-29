@@ -118,7 +118,6 @@ s32 func_80094270(void *actor, M2C_UNK param_a, M2C_UNK param_b, S_80094270_2 *i
         if (kind != 0) {
             msg = func_800990FC((s32)hdr3);
             if (kind == 1) {
-
                 s32 *table_base;
                 register u32 table_entry ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
@@ -132,24 +131,23 @@ s32 func_80094270(void *actor, M2C_UNK param_a, M2C_UNK param_b, S_80094270_2 *i
                 table_entry += (u32) table_base;
                 call_result = func_80099734(*(s32 *) table_entry, text);
                 hdr3 = &D_800E0766;
-                goto use_result;
-            }
-            if (kind == 2) {
-                text = func_80099194(&D_800E0769, msg);
-                if ((s16) slot != 0) {
-                    hdr = &D_800E05F0;
-                } else {
-                    hdr = &D_800E05E1;
+            } else {
+                if (kind == 2) {
+                    text = func_80099194(&D_800E0769, msg);
+                    if ((s16) slot != 0) {
+                        hdr = &D_800E05F0;
+                    } else {
+                        hdr = &D_800E05E1;
+                    }
+                    text = func_80099194(hdr, text);
+                    hdr3 = &D_800E077C;
+                    text -= 3;
+                    goto call3;
                 }
-                text = func_80099194(hdr, text);
-                hdr3 = &D_800E077C;
-                text -= 3;
-                goto call3;
+                bits = item->unk_03 & 0x1F;
+                call_result = func_80099734(D_800E3DF0[bits], msg);
+                hdr3 = &D_800E078A;
             }
-            bits = item->unk_03 & 0x1F;
-            call_result = func_80099734(D_800E3DF0[bits], msg);
-            hdr3 = &D_800E078A;
-        use_result:
             text = call_result;
         call3:
             /* one physical "jal func_80099194(hdr3,.)" call shared by all

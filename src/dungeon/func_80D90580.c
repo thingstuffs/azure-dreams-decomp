@@ -29,38 +29,35 @@ s32 func_80171D80(void *state, s32 action_id, void *sprite, EntityRec *actor)
     actor->unk_71 &= 0x7F;
     status = ((u16 *)(&dungeonStatus));
     transitioned = 0;
-    if (((volatile u16 *)status)[1] & 0x2000) {
-        goto abort_transition;
-    }
-    target = func_800A04F0(actor, ((Rec_D_80082E80 *)sprite)->unk_24,
-                           ((Rec_D_80082E80 *)sprite)->unk_25, actor->facing);
-    if ((func_800A2CB8(actor, target) << 16) == 0) {
-        goto return_zero;
-    }
-    {
-        u16 status_flags = status[1];
+    if (!(((volatile u16 *)status)[1] & 0x2000)) {
+        target = func_800A04F0(actor, ((Rec_D_80082E80 *)sprite)->unk_24,
+                               ((Rec_D_80082E80 *)sprite)->unk_25, actor->facing);
+        if ((func_800A2CB8(actor, target) << 16) == 0) {
+            goto return_zero;
+        }
+        {
+            u16 status_flags = status[1];
 
-        if (status_flags & 0x2000) {
+            if (status_flags & 0x2000) {
+                return -1;
+            }
+            if (!(actor->unk_46 & 0x8000) && (status_flags & 8)) {
+                return -1;
+            }
+        }
+        if ((s16)(-func_800A0134(target, actor) + 0x40) >= 0x81U) {
+            return transitioned;
+        }
+
+        transitioned = 1;
+        if ((func_800A2B5C(actor) << 16) != 0) {
             return -1;
         }
-        if (!(actor->unk_46 & 0x8000) && (status_flags & 8)) {
-            return -1;
+        func_800C7930((u8 *)actor - 0x20, action_id, 8, 0x300);
+        if ((func_800A2B5C(actor) << 16) == 0) {
+            goto transition_ok;
         }
     }
-    if ((s16)(-func_800A0134(target, actor) + 0x40) >= 0x81U) {
-        return transitioned;
-    }
-
-    transitioned = 1;
-    if ((func_800A2B5C(actor) << 16) != 0) {
-        return -1;
-    }
-    func_800C7930((u8 *)actor - 0x20, action_id, 8, 0x300);
-    if ((func_800A2B5C(actor) << 16) == 0) {
-        goto transition_ok;
-    }
-
-abort_transition:
     return -1;
 
 transition_ok:

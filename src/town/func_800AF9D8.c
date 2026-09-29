@@ -255,19 +255,15 @@ void func_800AD138(u32 packet_limit)
             (*(s32 *)((u8 *)scratch + 0x138)) = row;
             if (row < 0) {
                 (*(s32 *)((u8 *)scratch + 0x138)) = 0;
-                goto row_ready;
+            } else {
+                row_bound = (*(s32 *)((u8 *)scratch + 0x120));
+                if (row >= row_bound) {
+                    row_base = row_bound << (*(s32 *)((u8 *)scratch + 0x124));
+                } else {
+                    row_base = row << (*(s32 *)((u8 *)scratch + 0x124));
+                }
+                (*(s32 *)((u8 *)scratch + 0x138)) = row_base;
             }
-            row_bound = (*(s32 *)((u8 *)scratch + 0x120));
-            if (row < row_bound) {
-                goto row_in_range;
-            }
-            row_base = row_bound << (*(s32 *)((u8 *)scratch + 0x124));
-            goto store_row_base;
-    row_in_range:
-            row_base = row << (*(s32 *)((u8 *)scratch + 0x124));
-    store_row_base:
-            (*(s32 *)((u8 *)scratch + 0x138)) = row_base;
-    row_ready:
 
             edge_index = 3;
             if ((*(s32 *)((u8 *)scratch + 0x14)) <= (*(s32 *)((u8 *)scratch + 0x18))) {

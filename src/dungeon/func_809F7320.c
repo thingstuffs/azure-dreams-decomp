@@ -192,13 +192,11 @@ void func_80174B20(void *state, EntityRec *position, Rec_D_80082E80 *entity, voi
     ((S_80174B20_1 *)actor)->unk_1C = (s32) (((S_80174B20_1 *)actor)->unk_1C & 0xFFFBFFFF);
     case 2:
     direction = ((s32) (gameWork.view.viewAngle + (s16) ((S_80174B20_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
-    if ((*(u8 *)&D_8017521C) == 0) {
-        goto turn_actor;
+    if ((*(u8 *)&D_8017521C) != 0) {
+        if (direction == 2) {
+            goto start_effect;
+        }
     }
-    if (direction == 2) {
-        goto start_effect;
-    }
-turn_actor:
     if (direction == 2) {
         return;
     }
@@ -217,18 +215,16 @@ start_effect:
     previous_ticks = ((Rec_func_80174800_arg0 *)state)->unk_96;
     fade_ticks = previous_ticks - 1;
     ((Rec_func_80174800_arg0 *)state)->unk_96 = fade_ticks;
-    if ((fade_ticks << 0x10) > 0) {
-        goto fade_color;
-    }
-    effect_ready = ((S_80174B20_2 *)(&D_8017521D))->unk_00;
-    ((Rec_func_80174800_arg0 *)state)->unk_96 = previous_ticks;
-    if (effect_ready == 0) {
+    if ((fade_ticks << 0x10) <= 0) {
+        effect_ready = ((S_80174B20_2 *)(&D_8017521D))->unk_00;
+        ((Rec_func_80174800_arg0 *)state)->unk_96 = previous_ticks;
+        if (effect_ready == 0) {
+            return;
+        }
+        ((Rec_func_80174800_arg0 *)state)->unk_9B = (u8) (((Rec_func_80174800_arg0 *)state)->unk_9B + 1);
+        func_800A56E0(0x300);
         return;
     }
-    ((Rec_func_80174800_arg0 *)state)->unk_9B = (u8) (((Rec_func_80174800_arg0 *)state)->unk_9B + 1);
-    func_800A56E0(0x300);
-    return;
-fade_color:
     color_index = func_800498A0(actor);
     target_color = D_800DCEEC[color_index];
     scene_color->view.unk_090 = (u8) (scene_color->view.unk_090 + ((s32) (target_color->unk_00 - scene_color->view.unk_090) / (s16) ((Rec_func_80174800_arg0 *)state)->unk_96));
@@ -257,15 +253,13 @@ fade_color:
     style_index = func_800498A0(actor) - 1;
     style = style_index;
     call_arg = sprite;
-    if ((style_index << 0x10) >= 0) {
-        goto set_animation;
+    if ((style_index << 0x10) < 0) {
+        random_value = func_80069EF8(call_arg);
+        style = random_value % 3;
+        do {
+            call_arg = sprite;
+        } while (0);
     }
-    random_value = func_80069EF8(call_arg);
-    style = random_value % 3;
-    do {
-        call_arg = sprite;
-    } while (0);
-set_animation:
     func_8003DB94(call_arg, &D_8014A000[(*(s32 *)((u8 *)D_80175200 + (s16) style * 4))], 0);
     entity->unk_14.at00_u16.v = (u16) (entity->unk_14.at00_u16.v | 0x80);
     ray_index = 1;

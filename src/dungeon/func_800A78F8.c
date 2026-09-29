@@ -199,10 +199,9 @@ update_spiral:
         ((S_800AD058_5 *)shared_state)->unk_0A = (u16) (((S_800AD058_5 *)shared_state)->unk_0A - 1);
         func_800A2FE0(entity);
         func_800A32A4(entity);
-        goto finish_removal;
+    } else {
+        return finished;
     }
-    return finished;
-
 finish_removal:
     if ((func_80042900(entity, 0x1B) << 0x10) == 0) {
         effect_flags = ((S_800AD058_2 *)entity)->unk_1C;

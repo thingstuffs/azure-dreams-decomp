@@ -139,11 +139,11 @@ void func_800CA444(void *motion_input, s32 unused, void *tile_input, void *actor
             if (((S_800CA444_2 *)motion)->unk_98 & 2) {
                 heading_offset = ((S_800CA444_3 *)(((s32) (scan_result << 0x10) >> 0xF) + (u32) heading_offsets))->unk_00;
                 next_heading = heading - heading_offset;
+            } else {
+                heading_offset = ((S_800CA444_3 *)(((s32) (scan_result << 0x10) >> 0xF) + (u32) heading_offsets))->unk_00;
+                next_heading = heading + heading_offset;
                 goto calc_call;
             }
-            heading_offset = ((S_800CA444_3 *)(((s32) (scan_result << 0x10) >> 0xF) + (u32) heading_offsets))->unk_00;
-            next_heading = heading + heading_offset;
-            goto calc_call;
         calc_call:
     } while ((func_800CA1E0(next_heading, tile, actor, 0x20) << 0x10) > 0);
     if (scan_result != 0) {
@@ -152,39 +152,35 @@ void func_800CA444(void *motion_input, s32 unused, void *tile_input, void *actor
         if (next_index < 8) {
             goto scan_loop;
         }
-        goto state_done;
-    }
-    if (*(u16 *)(&map_state->tileX) == tile->unk_24.at00u.v) {
-        next_index = scan_result + 1;
-        scan_result = next_index;
-        if (next_index < 8) {
-            goto scan_loop;
+    } else {
+        if (*(u16 *)(&map_state->tileX) == tile->unk_24.at00u.v) {
+            next_index = scan_result + 1;
+            scan_result = next_index;
+            if (next_index < 8) {
+                goto scan_loop;
+            }
+        } else {
+            if ((func_8009A180(actor, ((S_800CA444_4 *)(((int)D_800814A8)))->unk_58 + 0x20) << 0x10) != 0) {
+                return;
+            }
+            do {
+                next_index = scan_result + 1;
+            } while (0);
+            scan_result = next_index;
+            if (next_index < 8) {
+                goto scan_loop;
+            }
+            goto state_done;
         }
-        goto state_done;
     }
-    if ((func_8009A180(actor, ((S_800CA444_4 *)(((int)D_800814A8)))->unk_58 + 0x20) << 0x10) != 0) {
-        return;
-    }
-    do {
-        next_index = scan_result + 1;
-    } while (0);
-    scan_result = next_index;
-    if (next_index < 8) {
-        goto scan_loop;
-    }
-    goto state_done;
-
 state_done:
     scan_index = ((s32) (scan_result << 0x10)) >> 0x10;
-    if (scan_index < 8) {
-        goto state_long;
+    if (scan_index >= 8) {
+        ((S_800CA444_1 *)actor)->unk_71 = (u8) (((S_800CA444_1 *)actor)->unk_71 & 0x7F);
+        ((S_800CA444_1 *)actor)->unk_46 = (u16) (((S_800CA444_1 *)actor)->unk_46 & 0x7FFF);
+        func_800A9A0C(actor);
+        return;
     }
-    ((S_800CA444_1 *)actor)->unk_71 = (u8) (((S_800CA444_1 *)actor)->unk_71 & 0x7F);
-    ((S_800CA444_1 *)actor)->unk_46 = (u16) (((S_800CA444_1 *)actor)->unk_46 & 0x7FFF);
-    func_800A9A0C(actor);
-    return;
-
-state_long:
     ((S_800CA444_1 *)actor)->unk_46 = (u16) (((S_800CA444_1 *)actor)->unk_46 & 0x7FFF);
     ((S_800CA444_2 *)motion)->unk_9C = (s8) (u8) tile->unk_26;
     ((S_800CA444_1 *)actor)->unk_6D.u = (u8) (((S_800CA444_1 *)actor)->unk_6D.u - 1);

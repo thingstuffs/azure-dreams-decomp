@@ -24,15 +24,12 @@ void func_8183EE88(void *effect, StateBlock *motion, void *sprite) {
     owner = *(void **)effect;
     *(u16 *)((u8 *)owner + 0x52) |= 0x8000;
     phase = *(s16 *)((u8 *)effect + 0x4C);
-    if (phase == 0) {
-        goto tick_delay;
+    if (phase != 0) {
+        if (phase == 1) {
+            goto update_sprite;
+        }
+        return;
     }
-    if (phase == 1) {
-        goto update_sprite;
-    }
-    return;
-
-tick_delay:
     delay = *(u16 *)((u8 *)effect + 0x48) - 1;
     *(u16 *)((u8 *)effect + 0x48) = delay;
     if ((delay << 0x10) <= 0) {

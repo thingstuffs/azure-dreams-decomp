@@ -37,15 +37,12 @@ s32 func_800182FC(s32 kind, void *param)
             ptr = *(void **)((s8 *)ptr + 0x1C);
             *(void **)((s8 *)ptr + 0x40) = (s8 *)D_8001D7A0;
         }
-        goto dispatch;
+    } else {
+        func_80019988();
+        if (func_8001991C(kind, param) != 0) {
+            return 1;
+        }
     }
-
-    func_80019988();
-    if (func_8001991C(kind, param) != 0) {
-        return 1;
-    }
-
-dispatch:
     {
         void *ptr;
         s32 first_arg;

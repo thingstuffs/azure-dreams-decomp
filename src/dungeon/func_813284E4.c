@@ -188,14 +188,12 @@ start_turn_search:
             trial_heading = heading + move_result;
         }
         if ((func_8009A66C((s16) trial_heading, position_in, actor_in, 0x20) << 0x10) > 0) {
-            if (turn_index < 3) {
-                goto take_step;
+            if (turn_index >= 3) {
+                move_result = limit_turns;
+                if (move_result != 0) {
+                    goto finish_move;
+                }
             }
-            move_result = limit_turns;
-            if (move_result != 0) {
-                goto finish_move;
-            }
-take_step:
             {
                 ((S_8016FCE4_0 *)actor_in)->unk_2A.u = (u16) trial_heading;
                 ((S_8016FCE4_8 *)((actor_in + ((u8) ((S_8016FCE4_0 *)actor_in)->unk_71.s & 0x7F))))->unk_74 = (u8) ((S_8016FCE4_1 *)position_in)->unk_24.at00.v;

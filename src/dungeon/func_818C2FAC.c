@@ -120,11 +120,11 @@ s32 func_818C2FAC(void *data_addr, Copy24 *position_addr, s32 direction)
         variant = variant_seed - ((biased_seed >> 2) * 4);
 
         if (variant == 1) goto case1;
-        if (variant >= 2) goto tree2;
-        render_arg_low = (s32)render_or_radius;
-        if (variant == 0) goto case0;
-        goto render_call;
-    tree2:
+        if (variant < 2) {
+            render_arg_low = (s32)render_or_radius;
+            if (variant == 0) goto case0;
+            goto render_call;
+        }
         if (variant == 2) goto case2;
         render_arg_high = (s32)render_or_radius;
         if (variant == 3) goto case3;

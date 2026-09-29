@@ -78,16 +78,13 @@ void func_800D9C7C(S_800D9C7C_1 *controller, EntityRec *motion, Rec_D_80082E80 *
         if (controller->unk_96.s != 0) {
             return;
         }
-        if (source->unk_28 != 0) {
-            goto increment_state;
+        if (source->unk_28 == 0) {
+            motion->flags14 = 0;
+            motion->unk_10 = 0;
+            motion->unk_0C = 0;
+            func_800AAA54(controller, motion, entity, 0);
+            return;
         }
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
-        func_800AAA54(controller, motion, entity, 0);
-        return;
-
-increment_state:
         controller->unk_96.s = 8;
         controller->unk_9B++;
         return;

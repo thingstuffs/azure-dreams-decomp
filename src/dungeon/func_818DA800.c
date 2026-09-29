@@ -448,16 +448,14 @@ case4:
 case5:
     if (effect_state->unk_52.as_s16 & (u16)0x8000) {
         effect_state->unk_52.as_u16 &= 0x7FFF;
-        goto finish;
+    } else {
+        if (effect_state->unk_50.as_s16 <= 0) {
+            dungeonStatus.unk_0C = 0;
+            ((S_func_818DA800_11 *)((u8 *)effect_state - 4))->unk_02 |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
+            goto finish;
+        }
     }
-    if (effect_state->unk_50.as_s16 > 0) {
-        goto finish;
-    }
-    dungeonStatus.unk_0C = 0;
-    ((S_func_818DA800_11 *)((u8 *)effect_state - 4))->unk_02 |= 0x8000;
-    objectFlagBlock.flags |= 0x8000;
-    goto finish;
-
 finish:
     ;
 }

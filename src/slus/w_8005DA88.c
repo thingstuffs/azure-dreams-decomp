@@ -214,29 +214,27 @@ s32 func_8005DA88(S_8005DA88 *settings, s32 unused_1, s32 *unused_2, s32 unused_
       }
     }
   }
-  if (mode_changed)
-  {
-    reverb_enabled = (D_80079958->field_1AA >> 7) & 1;
-    if (reverb_enabled)
-    {
-      spu_control = D_80079958->field_1AA;
-      spu_control &= 0xFF7F;
-      D_80079958->field_1AA = spu_control;
-    }
-    goto clear_depth;
+  if (mode_changed) {
+      reverb_enabled = (D_80079958->field_1AA >> 7) & 1;
+      if (reverb_enabled)
+      {
+        spu_control = D_80079958->field_1AA;
+        spu_control &= 0xFF7F;
+        D_80079958->field_1AA = spu_control;
+      }
+  } else {
+      if (update_all || (flags & 2))
+      {
+        D_80079958->field_184 = settings->unk08;
+        D_8007950C[0] = settings->unk08;
+      }
+      if (update_all || (flags & 4))
+      {
+        D_80079958->field_186 = settings->unk0A;
+        D_8007950E[0] = settings->unk0A;
+      }
+      goto apply_params;
   }
-  if (update_all || (flags & 2))
-  {
-    D_80079958->field_184 = settings->unk08;
-    D_8007950C[0] = settings->unk08;
-  }
-  if (update_all || (flags & 4))
-  {
-    D_80079958->field_186 = settings->unk0A;
-    D_8007950E[0] = settings->unk0A;
-  }
-  goto apply_params;
-clear_depth:
   D_80079958->field_184 = 0;
   D_80079958->field_186 = 0;
   D_8007950C[0] = 0;

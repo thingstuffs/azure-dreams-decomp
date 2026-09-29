@@ -213,60 +213,56 @@ phase_aim:
     source_data = ((S_80025738_3 *)source_header)->unk_0C;
     if (func_8003DE58(((S_80025738_4 *)source_data)->unk_08, source_data, frame.delta, 0) != 0) {
         source_position = ((S_80025738_3 *)source_header)->unk_08;
-        goto copy_source_position_done;
+    } else {
+        if (!(((S_80025738_13 *)(((S_80025738_3 *)source_header)->unk_0C))->unk_14 & 0x8000)) {
+            goto clear_update_flag;
+        }
+        source_position = ((S_80025738_3 *)source_header)->unk_08;
     }
-    if (!(((S_80025738_13 *)(((S_80025738_3 *)source_header)->unk_0C))->unk_14 & 0x8000)) {
-        goto clear_update_flag;
-    }
-    source_position = ((S_80025738_3 *)source_header)->unk_08;
-    copy_source_position_done:
     ;
     ((S_80025738_5 *)motion_in)->unk_00.at02.v = (u16) ((S_80025738_6 *)source_position)->unk_02;
     ((S_80025738_5 *)motion_in)->unk_04.at02.v = (u16) ((S_80025738_6 *)source_position)->unk_06;
     source_z = ((S_80025738_6 *)source_position)->unk_0A;
     ((S_80025738_5 *)motion_in)->unk_08.at02.v = source_z;
-    if (((S_80025738_13 *)(((S_80025738_3 *)source_header)->unk_0C))->unk_14 & 0x8000) {
-        goto lower_source_z;
+    if (!(((S_80025738_13 *)(((S_80025738_3 *)source_header)->unk_0C))->unk_14 & 0x8000)) {
+        ((S_80025738_5 *)motion_in)->unk_00.at02.v = (u16) (((S_80025738_5 *)motion_in)->unk_00.at02.v + frame.delta[0]);
+        ((S_80025738_5 *)motion_in)->unk_04.at02.v = (u16) (((S_80025738_5 *)motion_in)->unk_04.at02.v + frame.delta[1]);
+        base_z = ((S_80025738_5 *)motion_in)->unk_08.at02.v;
+        ((S_80025738_5 *)motion_in)->unk_08.at02.v = base_z + frame.delta[2];
+        if (!(*((S_80025738_0 *)state)->unk_04 & 0x80)) {
+            goto clear_update_flag;
+        }
+        target = ((S_80025738_1 *)owner)->unk_60;
+        index = 1;
+        if (target == NULL) {
+            goto scan_path;
+        }
+        ((S_80025738_0 *)state)->unk_18 = target;
+        destination = ((S_80025738_14_pre *)(((S_80025738_1 *)owner)->unk_60))[-1].unk_00;
+        target_dx = ((S_80025738_7 *)destination)->unk_00.at02.v;
+        target_dx -= ((S_80025738_5 *)motion_in)->unk_00.at02u.v;
+        if (target_dx >= 0) {
+            goto store_target_dx;
+        }
+        target_dx = 0 - target_dx;
+    } else {
+        ((S_80025738_5 *)motion_in)->unk_08.at02.v = source_z - 0x40;
+        if (!(*((S_80025738_0 *)state)->unk_04 & 0x80)) {
+            goto clear_update_flag;
+        }
+        target = ((S_80025738_1 *)owner)->unk_60;
+        index = 1;
+        if (target == NULL) {
+            goto scan_path;
+        }
+        ((S_80025738_0 *)state)->unk_18 = target;
+        destination = ((S_80025738_14_pre *)(((S_80025738_1 *)owner)->unk_60))[-1].unk_00;
+        target_dx = ((S_80025738_7 *)destination)->unk_00.at02.v;
+        target_dx -= ((S_80025738_5 *)motion_in)->unk_00.at02u.v;
+        if (target_dx < 0) {
+            target_dx = 0 - target_dx;
+        }
     }
-    ((S_80025738_5 *)motion_in)->unk_00.at02.v = (u16) (((S_80025738_5 *)motion_in)->unk_00.at02.v + frame.delta[0]);
-    ((S_80025738_5 *)motion_in)->unk_04.at02.v = (u16) (((S_80025738_5 *)motion_in)->unk_04.at02.v + frame.delta[1]);
-    base_z = ((S_80025738_5 *)motion_in)->unk_08.at02.v;
-    ((S_80025738_5 *)motion_in)->unk_08.at02.v = base_z + frame.delta[2];
-    if (!(*((S_80025738_0 *)state)->unk_04 & 0x80)) {
-        goto clear_update_flag;
-    }
-    target = ((S_80025738_1 *)owner)->unk_60;
-    index = 1;
-    if (target == NULL) {
-        goto scan_path;
-    }
-    ((S_80025738_0 *)state)->unk_18 = target;
-    destination = ((S_80025738_14_pre *)(((S_80025738_1 *)owner)->unk_60))[-1].unk_00;
-    target_dx = ((S_80025738_7 *)destination)->unk_00.at02.v;
-    target_dx -= ((S_80025738_5 *)motion_in)->unk_00.at02u.v;
-    if (target_dx >= 0) {
-        goto store_target_dx;
-    }
-    target_dx = 0 - target_dx;
-    goto store_target_dx;
-lower_source_z:
-    ((S_80025738_5 *)motion_in)->unk_08.at02.v = source_z - 0x40;
-    if (!(*((S_80025738_0 *)state)->unk_04 & 0x80)) {
-        goto clear_update_flag;
-    }
-    target = ((S_80025738_1 *)owner)->unk_60;
-    index = 1;
-    if (target == NULL) {
-        goto scan_path;
-    }
-    ((S_80025738_0 *)state)->unk_18 = target;
-    destination = ((S_80025738_14_pre *)(((S_80025738_1 *)owner)->unk_60))[-1].unk_00;
-    target_dx = ((S_80025738_7 *)destination)->unk_00.at02.v;
-    target_dx -= ((S_80025738_5 *)motion_in)->unk_00.at02u.v;
-    if (target_dx >= 0) {
-        goto store_target_dx;
-    }
-    target_dx = 0 - target_dx;
 store_target_dx:
     frame.delta[0] = (u16) target_dx;
     target_dy = ((S_80025738_7 *)destination)->unk_04.at02.v;
@@ -291,11 +287,9 @@ next_target_axis:
     } if (index < 3) goto loop_0;
     target_ticks = (s32) ((u16) ((S_80025738_0 *)state)->unk_12 << 0x10) >> 0x14;
     ((S_80025738_0 *)state)->unk_12 = (s16) target_ticks;
-    if (target_ticks != 0) {
-        goto set_target_velocity;
+    if (target_ticks == 0) {
+        ((S_80025738_0 *)state)->unk_12 = 1;
     }
-    ((S_80025738_0 *)state)->unk_12 = 1;
-set_target_velocity:
     ((S_80025738_5 *)motion_in)->unk_0C = (s32) ((s32) (((S_80025738_7 *)destination)->unk_00.at00.v - ((S_80025738_5 *)motion_in)->unk_00.at00.v) / (s16) ((S_80025738_0 *)state)->unk_12);
     ((S_80025738_5 *)motion_in)->unk_10 = (s32) ((s32) (((S_80025738_7 *)destination)->unk_04.at00.v - ((S_80025738_5 *)motion_in)->unk_04.at00.v) / (s16) ((S_80025738_0 *)state)->unk_12);
     ((S_80025738_5 *)motion_in)->unk_14 = (s32) ((s32) ((((S_80025738_14 *)(((S_80025738_1 *)owner)->unk_60))->unk_88 << 0x10) - ((S_80025738_5 *)motion_in)->unk_08.at00.v) / (s16) ((S_80025738_0 *)state)->unk_12);
@@ -412,11 +406,9 @@ next_path_axis:
     } while (index < 3);
     path_ticks = (s32) ((u16) ((S_80025738_0 *)state)->unk_12 << 0x10) >> 0x14;
     ((S_80025738_0 *)state)->unk_12 = (s16) path_ticks;
-    if (path_ticks != 0) {
-        goto set_path_velocity;
+    if (path_ticks == 0) {
+        ((S_80025738_0 *)state)->unk_12 = 1;
     }
-    ((S_80025738_0 *)state)->unk_12 = 1;
-set_path_velocity:
     ((S_80025738_5 *)motion_in)->unk_0C = (s32) ((s32) (((S_80025738_7 *)destination)->unk_00.at00.v - ((S_80025738_5 *)motion_in)->unk_00.at00.v) / (s16) ((S_80025738_0 *)state)->unk_12);
     ((S_80025738_5 *)motion_in)->unk_10 = (s32) ((s32) (((S_80025738_7 *)destination)->unk_04.at00.v - ((S_80025738_5 *)motion_in)->unk_04.at00.v) / (s16) ((S_80025738_0 *)state)->unk_12);
     ((S_80025738_5 *)motion_in)->unk_14 = (s32) ((s32) (((S_80025738_7 *)destination)->unk_08.at00.v - ((S_80025738_5 *)motion_in)->unk_08.at00.v) / (s16) ((S_80025738_0 *)state)->unk_12);

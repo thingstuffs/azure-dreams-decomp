@@ -39,15 +39,12 @@ void func_80173DD4(void *action, void *motion, void *object, void *actor)
     if (state == 1) {
         goto state_one;
     }
-    if ((s32)state >= 2) {
-        goto state_two_test;
+    if ((s32)state < 2) {
+        if (state == 0) {
+            goto state_zero;
+        }
+        return;
     }
-    if (state == 0) {
-        goto state_zero;
-    }
-    return;
-
-state_two_test:
     if (state == 2) {
         goto state_two;
     }

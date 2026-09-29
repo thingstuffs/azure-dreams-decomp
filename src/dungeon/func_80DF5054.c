@@ -99,35 +99,30 @@ void *func_8015E854(s32 flags, s8 kind_id, s16 variant, s16 spawn_value)
             ((S_8015E854_0 *)work)->unk_14 = left;
             ((S_8015E854_0 *)work)->unk_1C = right;
             part_b->unk_2C = D_80162510;
-            goto common_tail;
-        }
-        if (kind >= 2) {
-            ((S_8015E854_0 *)work)->unk_8C = D_8015EE5C;
-            left = ((S_8015E854_0 *)work)->unk_14 | 0x2000;
-            right = ((S_8015E854_0 *)work)->unk_1C | 0x2000;
-            ((S_8015E854_0 *)work)->unk_14 = left;
-            ((S_8015E854_0 *)work)->unk_1C = right;
-            part_b->unk_2C = D_80162510;
-            goto common_tail;
-        }
-
-        if (((flags & ~3) << 16) == 0) {
-            if (!(((S_8015E854_0 *)work)->unk_14 & 0x200)) {
-                if (func_800A6D30() & 1) {
-                    func_800A48F0(work, 1,
-                                  (func_800A6D30() & 0x3F) | 0x20);
-                    part_b->unk_2C = D_80162538;
+        } else {
+            if (kind >= 2) {
+                ((S_8015E854_0 *)work)->unk_8C = D_8015EE5C;
+                left = ((S_8015E854_0 *)work)->unk_14 | 0x2000;
+                right = ((S_8015E854_0 *)work)->unk_1C | 0x2000;
+                ((S_8015E854_0 *)work)->unk_14 = left;
+                ((S_8015E854_0 *)work)->unk_1C = right;
+                part_b->unk_2C = D_80162510;
+            } else {
+                if (((flags & ~3) << 16) == 0) {
+                    if (!(((S_8015E854_0 *)work)->unk_14 & 0x200)) {
+                        if (func_800A6D30() & 1) {
+                            func_800A48F0(work, 1,
+                                          (func_800A6D30() & 0x3F) | 0x20);
+                            part_b->unk_2C = D_80162538;
+                        }
+                    }
+                    ((S_8015E854_4 *)actor)->unk_8C = D_8015EE5C;
+                } else {
+                    ((S_8015E854_0 *)work)->unk_8C = D_8015EE5C;
                 }
+                part_b->unk_2C = D_80162510;
             }
-            ((S_8015E854_4 *)actor)->unk_8C = D_8015EE5C;
-            goto normal_done;
         }
-        ((S_8015E854_0 *)work)->unk_8C = D_8015EE5C;
-
-normal_done:
-        part_b->unk_2C = D_80162510;
-
-common_tail:
         ((S_8015E854_1 *)obj)->unk_10 = D_8015EA58;
         func_800A9C18(obj, part_a, part_b, (s16)final_arg0);
         ((S_8015E854_4 *)actor)->unk_9A = 0xFF;

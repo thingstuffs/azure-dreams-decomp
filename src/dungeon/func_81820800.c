@@ -192,17 +192,14 @@ BODY_STORAGE void BODY_NAME(void *state, S_func_81820800_2 *motion, void *source
     actor_data = ((S_func_81820800_4 *) ((u8 *) actor - 0x20))->unk_0C;
     step_x = *(s16 *)((M2C_UNK)abs_y + x_steps);
     step_y = *(s16 *)((M2C_UNK)abs_y + (s8 *)((M2C_UNK *)dirStepY));
-    if (state_obj->unk_0A != 1) {
-        goto dispatch;
+    if (state_obj->unk_0A == 1) {
+        motion->unk_00.unk_00 = (s32) (motion->unk_00.unk_00 + motion->unk_0C);
+        motion->unk_04.unk_04 = (s32) (motion->unk_04.unk_04 + motion->unk_10);
+        delta_x = func_800BCB04(motion->unk_00.unk_02.unk_02, motion->unk_04.unk_06.unk_06, (s16) (((S_func_81820800_8 *) owner->unk_08)->unk_0A - 0x30));
+        if (delta_x < 0x200) {
+            motion->unk_0A = delta_x;
+        }
     }
-    motion->unk_00.unk_00 = (s32) (motion->unk_00.unk_00 + motion->unk_0C);
-    motion->unk_04.unk_04 = (s32) (motion->unk_04.unk_04 + motion->unk_10);
-    delta_x = func_800BCB04(motion->unk_00.unk_02.unk_02, motion->unk_04.unk_06.unk_06, (s16) (((S_func_81820800_8 *) owner->unk_08)->unk_0A - 0x30));
-    if (delta_x >= 0x200) {
-        goto dispatch;
-    }
-    motion->unk_0A = delta_x;
-dispatch:
     phase = state_obj->unk_0A;
     state_obj->unk_50 = (u16) (state_obj->unk_50 - 1);
     if ((u32) phase >= 6U) {
@@ -258,11 +255,10 @@ use_target:
     target_data = ((S_func_81820800_4 *) ((u8 *) ((S_func_81820800_3 *)header_raw) - 0x20))->unk_0C;
     actor->unk_72 = (u8) target_data->unk_24;
     actor->unk_73 = (u8) target_data->unk_25;
-    if (!(target_data->unk_14 & 0x8000)) {
-        goto start_motion;
-    }
-    if (source->unk_14 & 0x8000) {
-        goto start_hit;
+    if (target_data->unk_14 & 0x8000) {
+        if (source->unk_14 & 0x8000) {
+            goto start_hit;
+        }
     }
 start_motion:
     {
@@ -283,22 +279,16 @@ start_motion:
         ASM_KEEP(end_x);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     }
     distance_or_script = delta_x;
-    if (delta_x >= 0) {
-        goto abs_delta_y;
+    if (delta_x < 0) {
+        distance_or_script = 0 - distance_or_script;
     }
-    distance_or_script = 0 - distance_or_script;
-abs_delta_y:
     abs_y = delta_y;
-    if (delta_y >= 0) {
-        goto max_distance;
+    if (delta_y < 0) {
+        abs_y = 0 - abs_y;
     }
-    abs_y = 0 - abs_y;
-max_distance:
-    if (distance_or_script >= abs_y) {
-        goto set_motion;
+    if (distance_or_script < abs_y) {
+        distance_or_script = abs_y;
     }
-    distance_or_script = abs_y;
-set_motion:
     state_obj->unk_50 = (u16) (distance_or_script * 0xC);
     motion->unk_00.unk_00 = (s32) (((actor_data->unk_24 << 6) + 0x20) << 0x10);
     motion->unk_04.unk_04 = (s32) (((actor_data->unk_25 << 6) + 0x20) << 0x10);
@@ -312,41 +302,37 @@ state_move:
 state_trail:
     motion->unk_14 = (s32) (motion->unk_14 + 0x100);
     coord_y = 0;
-    if (actor->unk_60 != NULL) {
-        goto spawn_effects;
+    if (actor->unk_60 == NULL) {
+        coord_y = -1;
     }
-    coord_y = -1;
-spawn_effects:
     effects_left = 2;
     distance_or_script = (s32)&D_800245B4;
 next_effect:
     effect = func_8003FD64(0x201, ((M2C_UNK *)&D_80083498.next));
-    if (effect == NULL) {
-        goto effect_spawned;
+    if (effect != NULL) {
+        effect->unk_10 = distance_or_script;
+        func_8004491C(effect, &D_80024A1C);
+        duration = state_obj->unk_50;
+        effect_data = (S_func_81820800_7 *) ((u8 *) effect + 0x20);
+        effect_data->unk_54 = coord_y;
+        effect_data->unk_52 = duration;
+        effect_data->unk_4C = (s16) (func_80069EF8() & 0xFFF);
+        effect_data->unk_4E = (u16) motion->unk_14;
+        effect_data->unk_04 = (s32) motion->unk_00.unk_00;
+        effect_data->unk_08 = (s32) motion->unk_04.unk_04;
+        effect_data->unk_0C = 0;
+        velocity_x = motion->unk_0C;
+        effect_data->unk_1C = velocity_x;
+        effect_data->unk_10 = velocity_x;
+        velocity_y = motion->unk_10;
+        effect_data->unk_24 = 0xFFFD0000;
+        effect_data->unk_18 = 0xFFFD0000;
+        effect_data->unk_20 = velocity_y;
+        effect_data->unk_14 = velocity_y;
+        effect_data->unk_50 = (u16) motion->unk_0A;
+        effect->unk_20 = state_obj;
+        effect_data->unk_56 = (s16) ((u16) state_obj->unk_0A - 1);
     }
-    effect->unk_10 = distance_or_script;
-    func_8004491C(effect, &D_80024A1C);
-    duration = state_obj->unk_50;
-    effect_data = (S_func_81820800_7 *) ((u8 *) effect + 0x20);
-    effect_data->unk_54 = coord_y;
-    effect_data->unk_52 = duration;
-    effect_data->unk_4C = (s16) (func_80069EF8() & 0xFFF);
-    effect_data->unk_4E = (u16) motion->unk_14;
-    effect_data->unk_04 = (s32) motion->unk_00.unk_00;
-    effect_data->unk_08 = (s32) motion->unk_04.unk_04;
-    effect_data->unk_0C = 0;
-    velocity_x = motion->unk_0C;
-    effect_data->unk_1C = velocity_x;
-    effect_data->unk_10 = velocity_x;
-    velocity_y = motion->unk_10;
-    effect_data->unk_24 = 0xFFFD0000;
-    effect_data->unk_18 = 0xFFFD0000;
-    effect_data->unk_20 = velocity_y;
-    effect_data->unk_14 = velocity_y;
-    effect_data->unk_50 = (u16) motion->unk_0A;
-    effect->unk_20 = state_obj;
-    effect_data->unk_56 = (s16) ((u16) state_obj->unk_0A - 1);
-effect_spawned:
     effects_left -= 1;
     if (effects_left >= 0) {
         goto next_effect;
@@ -363,11 +349,9 @@ start_hit:
     state_obj->unk_0A = 3;
     return;
 state_hit:
-    if (actor->unk_60 == NULL) {
-        goto wait_hit;
+    if (actor->unk_60 != NULL) {
+        func_8009CE1C(actor->unk_60, 0x10, state_obj->unk_09, 4, (s32) (s16) actor->unk_2A, actor, 2);
     }
-    func_8009CE1C(actor->unk_60, 0x10, state_obj->unk_09, 4, (s32) (s16) actor->unk_2A, actor, 2);
-wait_hit:
     state_obj->unk_50 = 0x10U;
     state_obj->unk_0A = (s16) ((u16) state_obj->unk_0A + 1);
     return;
@@ -378,12 +362,10 @@ state_wait:
     state_obj->unk_0A = (s16) ((u16) state_obj->unk_0A + 1);
     return;
 state_finish:
-    if (!(state_obj->unk_52 & 0x8000)) {
-        goto finish;
+    if (state_obj->unk_52 & 0x8000) {
+        state_obj->unk_52 = (s16) ((u16) state_obj->unk_52 & 0x7FFF);
+        return;
     }
-    state_obj->unk_52 = (s16) ((u16) state_obj->unk_52 & 0x7FFF);
-    return;
-finish:
     dungeonStatus.unk_0C = 0;
     *(u16 *)((u8 *)state_obj - 2) = (u16) (*(u16 *)((u8 *)state_obj - 2) | 0x8000);
     objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);

@@ -21,16 +21,14 @@ void *func_80023FF0(s32 parent_object, s32 object_index)
 
     object = D_80029618 + object_index * 0x3E4;
     runtime = object + 0x20;
-    if (func_8004B4A8(object) != 0)
-        goto normal;
-    object = func_8003FE78(0, object, 0xF9);
-    func_8004491C(object, D_80027DD0);
-    goto shared;
-normal:
-    func_80024184(object);
-    *(u16 *)(object + 0x1E) &= 0x7FFF;
-    func_80069EC8(runtime, 0x3C4);
-shared:
+    if (func_8004B4A8(object) == 0) {
+        object = func_8003FE78(0, object, 0xF9);
+        func_8004491C(object, D_80027DD0);
+    } else {
+        func_80024184(object);
+        *(u16 *)(object + 0x1E) &= 0x7FFF;
+        func_80069EC8(runtime, 0x3C4);
+    }
     func_80023EF4(runtime, 0xA);
     *(void **)(object + 0xC) = runtime + 0x24C;
     *(s32 *)(runtime + 0x258) = func_80023ECC(runtime + 0x25C);

@@ -86,22 +86,20 @@ s32 func_800A0B94(s32 resource_id, u8 *resource_entry, s32 wait_for_read) {
             D_800E3DA0[entry[3]] = -asset_id;
             goto done;
         }
-        goto done;
-    }
-
-    if (entry[0] != 2) {
-        D_800E3DA0[entry[3]] = asset_id;
-    }
-    loaded_id = (s16)asset_id;
-    if (loaded_id == 0x38) {
-        data = D_80164800;
-    } else if (loaded_id == 0x31) {
-        data = D_8016A800;
     } else {
-        data = D_80170800 - (entry[3] * 0x6000);
+        if (entry[0] != 2) {
+            D_800E3DA0[entry[3]] = asset_id;
+        }
+        loaded_id = (s16)asset_id;
+        if (loaded_id == 0x38) {
+            data = D_80164800;
+        } else if (loaded_id == 0x31) {
+            data = D_8016A800;
+        } else {
+            data = D_80170800 - (entry[3] * 0x6000);
+        }
+        result = *(s32 *)data;
     }
-    result = *(s32 *)data;
-
 done:
     return result;
 }

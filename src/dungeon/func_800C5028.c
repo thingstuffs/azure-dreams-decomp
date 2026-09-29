@@ -50,22 +50,20 @@ s32 func_800CA788(void *object_ptr, void *action_context, void *target_ptr, void
     actor = actor_ptr;
     actor[0x71] &= 0x7F;
     context = action_context;
-    if (dungeonStatus.flags & 0x2000) {
-        goto return_negative;
-    }
-    target = target_ptr;
+    if (!(dungeonStatus.flags & 0x2000)) {
+        target = target_ptr;
 
-    ((S_800CA788_1 *)actor)->unk_14 |= 0x2000;
-    ((S_800CA788_1 *)actor)->unk_1C |= 0x2000;
-    target_direction = func_8009B4B0(actor, ((S_800CA788_2 *)target)->unk_24, ((S_800CA788_2 *)target)->unk_25);
-    clear_action_flag = ~0x2000;
-    ((S_800CA788_1 *)actor)->unk_14 &= clear_action_flag;
-    ((S_800CA788_1 *)actor)->unk_1C &= clear_action_flag;
-    global_flags = dungeonStatus.flags;
-    if (!(global_flags & 0x2000)) {
-        goto check_flag_8;
+        ((S_800CA788_1 *)actor)->unk_14 |= 0x2000;
+        ((S_800CA788_1 *)actor)->unk_1C |= 0x2000;
+        target_direction = func_8009B4B0(actor, ((S_800CA788_2 *)target)->unk_24, ((S_800CA788_2 *)target)->unk_25);
+        clear_action_flag = ~0x2000;
+        ((S_800CA788_1 *)actor)->unk_14 &= clear_action_flag;
+        ((S_800CA788_1 *)actor)->unk_1C &= clear_action_flag;
+        global_flags = dungeonStatus.flags;
+        if (!(global_flags & 0x2000)) {
+            goto check_flag_8;
+        }
     }
-return_negative:
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
     return -1;
 check_flag_8:

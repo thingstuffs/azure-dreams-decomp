@@ -59,43 +59,40 @@ s32 func_80095840(void *destination, void *source)
     selection &= 0x1C;
     selection += offset;
     offset = *(s32 *)selection;
-    if (offset == -1) {
-        goto none;
-    }
+    if (offset != -1) {
+        selection = ((S_80095840_1 *)candidates)->unk_3A;
+        if (selection != 0) {
 
-    selection = ((S_80095840_1 *)candidates)->unk_3A;
-    if (selection != 0) {
-
-        selection = ((S_80095840_1 *)candidates)->unk_1C;
-        ((S_80095840_1 *)candidates)->unk_18 = 0;
-        ((S_80095840_1 *)candidates)->unk_10 = selection;
-        entry = (void *)selection;
-        entry_kind = ((S_80095840_2 *)((void *)selection))->unk_14;
-        if ((entry_kind == 1) || (entry_kind == 3)) {
-            goto none;
-        }
-        selection = 2;
-        result->unk_2C.s = entry;
-        return selection;
-    }
-
-    selection = (s32)candidates + offset;
-    if (((S_80095840_2 *)((void *)selection))->unk_3A != 0) {
-
-        selection = offset * 4;
-        selection += (s32)candidates;
-        selection = ((S_80095840_2 *)((void *)selection))->unk_1C;
-        ((S_80095840_1 *)candidates)->unk_18 = offset;
-        ((S_80095840_1 *)candidates)->unk_10 = selection;
-        entry = (void *)selection;
-        entry_kind = ((S_80095840_3 *)entry)->unk_14;
-        if ((entry_kind != 1) && (entry_kind != 3)) {
-            selection = 1;
+            selection = ((S_80095840_1 *)candidates)->unk_1C;
+            ((S_80095840_1 *)candidates)->unk_18 = 0;
+            ((S_80095840_1 *)candidates)->unk_10 = selection;
+            entry = (void *)selection;
+            entry_kind = ((S_80095840_2 *)((void *)selection))->unk_14;
+            if ((entry_kind == 1) || (entry_kind == 3)) {
+                goto none;
+            }
+            selection = 2;
             result->unk_2C.s = entry;
             return selection;
         }
-    }
 
+        selection = (s32)candidates + offset;
+        if (((S_80095840_2 *)((void *)selection))->unk_3A != 0) {
+
+            selection = offset * 4;
+            selection += (s32)candidates;
+            selection = ((S_80095840_2 *)((void *)selection))->unk_1C;
+            ((S_80095840_1 *)candidates)->unk_18 = offset;
+            ((S_80095840_1 *)candidates)->unk_10 = selection;
+            entry = (void *)selection;
+            entry_kind = ((S_80095840_3 *)entry)->unk_14;
+            if ((entry_kind != 1) && (entry_kind != 3)) {
+                selection = 1;
+                result->unk_2C.s = entry;
+                return selection;
+            }
+        }
+    }
 none:
     result->unk_2C.u = 0;
     selection = 0;

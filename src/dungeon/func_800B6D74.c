@@ -132,14 +132,6 @@ typedef struct ScratchGeom {
     u8 padFE[2];
 } ScratchGeom;
 
-typedef struct GeomTailArgs {
-    s16 *arg9;
-    s16 *arg10;
-} GeomTailArgs;
-
-typedef struct GeomSideEffects {
-} GeomSideEffects;
-
 extern void func_80064840(void *, void *, void *);
 extern void func_800649A0(void);
 extern void func_80064A40(void);
@@ -148,29 +140,22 @@ extern void func_80064CF0(void *);
 extern void func_80064D80(void *);
 extern u32 func_80065420(void *, void *, void *, void *);
 extern void func_800654B0(s16 *, s16 *, s16 *, s16 *, s16 *, s16 *, s16 *, s16 *,
-                          GeomTailArgs, GeomSideEffects);
+                          s16 *, s16 *);
 extern void func_80065820(void *, void *);
 extern void func_8006658C(void *, void *);
 extern void func_80067EF4(void *, s32, s32);
 extern u8 D_8006CD30[];
 
-#ifdef NON_MATCHING
-#define GLOBAL_PAGE_8008 (((u8 *)(&gameWork)) - 0x3160)
-#else
-#define GLOBAL_PAGE_8008 ((u8 *)0x80080000)
-#endif
 
 /* Project sprite tiles and append textured quads to the ordering table. */
 void func_800BC4D4(void *position, void *sprite, u16 world_z, s32 depth_bias)
 {
-    register u8 *scratch_base ASM_REG("$4") = (u8 *)0x1F800000;
-    register u8 *screen_pos ASM_REG("$5") = scratch_base;
+    u8 *scratch_base = (u8 *)0x1F800000;
+    u8 *screen_pos = scratch_base;
     u8 *perspective;
     u8 *clip_flags;
-    register u8 *scratch ASM_REG("$17");
-    u8 *global_page;
+    u8 *scratch;
     u8 **root_ptr;
-    register u8 *page_reg ASM_REG("$2");
     u8 *matrix;
     u8 *packet;
     u8 *packet_next;
@@ -193,19 +178,12 @@ void func_800BC4D4(void *position, void *sprite, u16 world_z, s32 depth_bias)
     u16 world_y;
 
     screen_pos = (u8 *)((u32)screen_pos | 0xB8);
-    ASM_KEEP_MEMDEP_NV(scratch_base, page_reg, *(u8 **)((u8 *)(&gameWork)));
     perspective = scratch_base;
-    ASM_KEEP_NV(perspective);
     scratch = scratch_base;
     perspective = (u8 *)((u32)perspective | 0x90);
     root = *(u8 **)((u8 *)(&gameWork));
     packet = ((S_800BC4D4_0 *)root)->unk_8D0;
     ((S_800BC4D4_1 *)scratch)->unk_20 = root + 0xB0;
-#ifdef NON_MATCHING
-    global_page = ((u8 *)(&gameWork)) - 0x3160;
-#else
-    ASM_SET(global_page);
-#endif
     ((S_800BC4D4_1 *)scratch)->unk_EC = 0;
     ((S_800BC4D4_1 *)scratch)->unk_E8 = 0;
     ((S_800BC4D4_1 *)scratch)->unk_E4 = 0;
@@ -216,15 +194,13 @@ void func_800BC4D4(void *position, void *sprite, u16 world_z, s32 depth_bias)
 
     texture = ((S_800BC4D4_2 *)sprite)->unk_08;
     sprite_flags = ((S_800BC4D4_2 *)sprite)->unk_14;
-    ASM_CLOBBER("$7");
     clip_flags = scratch_base;
-    ASM_KEEP_NV(clip_flags);
     ((S_800BC4D4_1 *)scratch)->unk_24 = sprite_flags;
     world_x = ((S_800BC4D4_3 *)position)->unk_02;
     clip_flags = (u8 *)((u32)clip_flags | 0x94);
     ((S_800BC4D4_1 *)scratch)->unk_00 = world_x;
     world_y = ((S_800BC4D4_3 *)position)->unk_06;
-    root_ptr = (u8 **)(global_page + 0x3160);
+    root_ptr = (u8 **)&gameWork;
     ((S_800BC4D4_1 *)scratch)->unk_02 = world_y;
     ((S_800BC4D4_1 *)scratch)->unk_04 = world_z;
 
@@ -313,31 +289,13 @@ void func_800BC4D4(void *position, void *sprite, u16 world_z, s32 depth_bias)
                     ((S_800BC4D4_1 *)scratch)->unk_82 = coord_y;
                 }
 
-                ASM_KEEP_NV(scratch);
-                {
-                    s16 *top_left = (s16 *)(scratch + 0x70);
-                    s16 *top_right = (s16 *)(scratch + 0x78);
-                    s16 *bottom_left = (s16 *)(scratch + 0x80);
-                    s16 *bottom_right = (s16 *)(scratch + 0x88);
-                    s32 left_vertex_x;
-                    u16 right_vertex_x;
-
-                    ASM_KEEP4_NV(top_left, top_right, bottom_left, bottom_right);
-                    func_800654B0(top_left, top_right, bottom_left, bottom_right,
-                                  (s16 *)(scratch + 0xF0), (s16 *)(scratch + 0xF4),
-                                  (s16 *)(scratch + 0xF8), (s16 *)(scratch + 0xFC),
-                                  (GeomTailArgs){(s16 *)(scratch + 0x90),
-                                                 (s16 *)(scratch + 0x94)},
-                                  (left_vertex_x = ((S_800BC4D4_1 *)scratch)->unk_70.u,
-                                   ({  0; }),
-                                   right_vertex_x = ((S_800BC4D4_1 *)scratch)->unk_78.u,
-                                   left_vertex_x += 6,
-                                   right_vertex_x += 6,
-                                   ({  0; }),
-                                   ((S_800BC4D4_1 *)scratch)->unk_70.u = left_vertex_x,
-                                   ((S_800BC4D4_1 *)scratch)->unk_78.u = right_vertex_x,
-                                   (GeomSideEffects){}));
-                }
+                ((S_800BC4D4_1 *)scratch)->unk_70.u += 6;
+                ((S_800BC4D4_1 *)scratch)->unk_78.u += 6;
+                func_800654B0((s16 *)(scratch + 0x70), (s16 *)(scratch + 0x78),
+                              (s16 *)(scratch + 0x80), (s16 *)(scratch + 0x88),
+                              (s16 *)(scratch + 0xF0), (s16 *)(scratch + 0xF4),
+                              (s16 *)(scratch + 0xF8), (s16 *)(scratch + 0xFC),
+                              (s16 *)(scratch + 0x90), (s16 *)(scratch + 0x94));
 
                 (*(s16 *)((u8 *)packet_field + 1)) = ((S_800BC4D4_1 *)scratch)->unk_F0 + ((S_800BC4D4_1 *)scratch)->unk_B8;
                 (*(s16 *)((u8 *)packet_field + 3)) = ((S_800BC4D4_1 *)scratch)->unk_F2 + ((S_800BC4D4_1 *)scratch)->unk_BA;

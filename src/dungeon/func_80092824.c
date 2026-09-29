@@ -49,15 +49,12 @@ void *func_80097F84(void *arg0, void *arg1, void *arg2, s16 arg3)
     narrowed = first << 16;
     index = narrowed >> 16;
 
-    if (index < 0) {
-        goto invalid_index;
+    if (index >= 0) {
+        narrowed = second << 16;
+        if (narrowed >= 0) {
+            goto valid_index;
+        }
     }
-    narrowed = second << 16;
-    if (narrowed >= 0) {
-        goto valid_index;
-    }
-
-invalid_index:
     {
         object = func_800990FC();
         func_80099290(func_80099194(held_arg2,

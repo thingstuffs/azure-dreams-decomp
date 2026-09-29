@@ -45,15 +45,12 @@ void func_800C1F8C(S_800C1F8C_0 *object)
         y_distance = -y_distance;
     }
 
-    if (object->unk_0C < (axis_distance >> 16)) {
-        goto trigger;
+    if (object->unk_0C >= (axis_distance >> 16)) {
+        axis_distance = (s16)y_distance;
+        if (object->unk_0E >= axis_distance) {
+            return;
+        }
     }
-    axis_distance = (s16)y_distance;
-    if (object->unk_0E >= axis_distance) {
-        return;
-    }
-
-trigger:
     SD_Call(object->unk_10 | 0x1000);
     object->unk_00 = D_800C1EA4;
 }

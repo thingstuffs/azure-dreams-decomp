@@ -48,31 +48,25 @@ s32 func_8005C4D0(s16 slot_id)
     slot = slots + slot_index * 0x78;
     active = *(u16 *)(slot + 0x1A);
     *(s32 *)busy_or_slot = 1;
-    if (active == 0 || *(u16 *)(slot + 6) < 0x10) {
-        goto fail;
+    if (!(active == 0 || *(u16 *)(slot + 6) < 0x10)) {
+        slot_handle = D_80073740[slot_index];
+        busy_or_slot = slot;
+        *(u16 *)(busy_or_slot + 0x1A) = 0;
+        *(u16 *)(busy_or_slot + 0x0A) = 0;
+        func_80056D44(slot_index, (S_80085458 *)busy_or_slot);
+        func_80056DB4(slot_index);
+        func_8005E97C(0, D_80073740[slot_index]);
+        do {
+            func_8005E97C(0, slot_handle);
+            status = func_8005EB78(slot_handle);
+            if (status == 2) {
+                break;
+            }
+        } while (status != 0);
+    } else {
+        D_80085F98[0] = 0;
+        return -1;
     }
-
-    slot_handle = D_80073740[slot_index];
-    busy_or_slot = slot;
-    *(u16 *)(busy_or_slot + 0x1A) = 0;
-    *(u16 *)(busy_or_slot + 0x0A) = 0;
-    func_80056D44(slot_index, (S_80085458 *)busy_or_slot);
-    func_80056DB4(slot_index);
-    func_8005E97C(0, D_80073740[slot_index]);
-    do {
-        func_8005E97C(0, slot_handle);
-        status = func_8005EB78(slot_handle);
-        if (status == 2) {
-            break;
-        }
-    } while (status != 0);
-    goto success;
-
-fail:
-    D_80085F98[0] = 0;
-    return -1;
-
-success:
     D_80085F98[0] = 0;
     return 0;
 }

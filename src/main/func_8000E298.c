@@ -20,16 +20,13 @@ s32 func_80021298(void)
     if (state == 0) {
         return status;
     }
-    if (state == 1) {
-        goto state_one;
+    if (state != 1) {
+        status = 5;
+        if (state == 3) {
+            goto state_three;
+        }
+        goto done;
     }
-    status = 5;
-    if (state == 3) {
-        goto state_three;
-    }
-    goto done;
-
-state_one:
     func_80021538();
     if (func_80069C38(D_800287CC) != 0) {
         if ((func_80069C18(D_800287CC != 0) & 4) != 0) {

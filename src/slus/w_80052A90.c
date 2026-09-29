@@ -57,34 +57,28 @@ void func_80052A90(u8 *text, s16 start_x, s16 start_y)
         draw_tile = draw_enabled;
         goto do_blit_done;
       }
-      if (((u32) ((glyph_code + 0x7DA0) & 0xFFFF)) < 0x1AU)
-      {
-        goto shared_map;
+      if (((u32) ((glyph_code + 0x7DA0) & 0xFFFF)) >= 0x1AU) {
+          if (((u32) ((glyph_code + 0x7D7F) & 0xFFFF)) < 0x1AU)
+          {
+            tile_index = glyph_code + 0x7DC0;
+            goto do_blit;
+          }
+          if (((u32) ((glyph_code + 0x7DB1) & 0xFFFF)) >= 0xAU)
+          {
+            goto check_punctuation;
+          }
       }
-      if (((u32) ((glyph_code + 0x7D7F) & 0xFFFF)) < 0x1AU)
-      {
-        tile_index = glyph_code + 0x7DC0;
-        goto do_blit;
-      }
-      if (((u32) ((glyph_code + 0x7DB1) & 0xFFFF)) >= 0xAU)
-      {
-        goto check_punctuation;
-      }
-      shared_map:
       tile_index = glyph_code + 0x7DC1;
       goto do_blit;
       check_punctuation:
-      if (code_u16 == 0x8144)
-      {
-        goto set_period;
+      if (code_u16 != 0x8144) {
+          if (code_u16 == 0x817C)
+          {
+            goto set_minus;
+          }
+          draw_enabled = 0;
+          goto do_blit;
       }
-      if (code_u16 == 0x817C)
-      {
-        goto set_minus;
-      }
-      draw_enabled = 0;
-      goto do_blit;
-      set_period:
       tile_index = 0xE;
       goto do_blit;
       set_minus:

@@ -44,15 +44,12 @@ void func_8016A9FC(void *effect) {
     if (state == 1) {
         goto wait_frames;
     }
-    if (state >= 2) {
-        goto check_fade_in;
+    if (state < 2) {
+        if (state == 0) {
+            goto fade_out;
+        }
+        return;
     }
-    if (state == 0) {
-        goto fade_out;
-    }
-    return;
-
-check_fade_in:
     if (state == 2) {
         goto fade_in;
     }

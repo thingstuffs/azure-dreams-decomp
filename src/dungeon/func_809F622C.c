@@ -104,76 +104,74 @@ state_one:
             actor->flags1C = actor_flags & ~0x200;
             goto set_callback;
         }
-        goto increment_state;
-    }
-    if (dungeonStatus.flags & 0x1000) {
-        return;
-    }
-    if (actor->unk_64 != 0) {
-        if (func_800AA6B4(controller_in, motion, sprite, 0) != 0) {
+    } else {
+        if (dungeonStatus.flags & 0x1000) {
             return;
         }
-    }
-    if (actor->tileY == 0) {
-        if (dungeonStatus.flags & 0x2008) {
-            return;
-        }
-        func_800AA79C(controller_in, motion, sprite, actor);
-        return;
-    }
-    if ((func_800A2C34(actor) << 16) != 0) {
-        return;
-    }
-    actor_flags = actor->flags1C;
-    if (actor_flags & 0x100) {
-        func_800AA258(controller_in, motion, sprite, actor);
-        return;
-    }
-    if (actor_flags & 0x80000) {
-        func_800AA888(controller_in, motion, sprite, actor);
-        ((S_80173A2C_0 *)controller_in)->unk_A8 = 0;
-        func_80174218(controller_in, motion, sprite, actor);
-        return;
-    }
-    if (actor->unk_6D == 0) {
-        return;
-    }
-    if ((func_800A2C34(actor) << 16) != 0) {
-        EntityRec *owner = D_800814A8;
-
-        if ((func_8009A180(actor,
-                (u8 *)owner->unk_58 + 0x20) << 16) != 0) {
-            return;
-        }
-    }
-    func_800A9A0C(actor);
-    func_800A9A04(actor);
-    if ((func_80042900(actor, 1) << 16) != 0) {
-        TileObject *origin = &D_80082E80;
-        s8 tile = ((Rec_D_80082E80 *)sprite)->unk_26.as_s8;
-
-        if (((tile == origin->unk_026) && (tile >= 0)) ||
-            ((s16)func_8009FD40(origin, sprite) < 2)) {
-            if (!(func_800A6D30() & 7)) {
-                func_80042B68(actor, 1);
+        if (actor->unk_64 != 0) {
+            if (func_800AA6B4(controller_in, motion, sprite, 0) != 0) {
+                return;
             }
         }
-    }
-    if ((func_80042900(actor, 1) << 16) != 0) {
-        return;
-    }
-    (*(void * *)((u8 *)sprite + 0x2C)) = D_80175190;
-    func_80047784(sprite,
-        D_80175190[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
-        0);
-    actor_flags = actor->flags1C | 0x40000;
-    actor->flags1C = actor_flags;
-    if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
-        actor->flags1C = actor_flags & ~0x200;
-        goto set_callback;
-    }
+        if (actor->tileY == 0) {
+            if (dungeonStatus.flags & 0x2008) {
+                return;
+            }
+            func_800AA79C(controller_in, motion, sprite, actor);
+            return;
+        }
+        if ((func_800A2C34(actor) << 16) != 0) {
+            return;
+        }
+        actor_flags = actor->flags1C;
+        if (actor_flags & 0x100) {
+            func_800AA258(controller_in, motion, sprite, actor);
+            return;
+        }
+        if (actor_flags & 0x80000) {
+            func_800AA888(controller_in, motion, sprite, actor);
+            ((S_80173A2C_0 *)controller_in)->unk_A8 = 0;
+            func_80174218(controller_in, motion, sprite, actor);
+            return;
+        }
+        if (actor->unk_6D == 0) {
+            return;
+        }
+        if ((func_800A2C34(actor) << 16) != 0) {
+            EntityRec *owner = D_800814A8;
 
-increment_state:
+            if ((func_8009A180(actor,
+                    (u8 *)owner->unk_58 + 0x20) << 16) != 0) {
+                return;
+            }
+        }
+        func_800A9A0C(actor);
+        func_800A9A04(actor);
+        if ((func_80042900(actor, 1) << 16) != 0) {
+            TileObject *origin = &D_80082E80;
+            s8 tile = ((Rec_D_80082E80 *)sprite)->unk_26.as_s8;
+
+            if (((tile == origin->unk_026) && (tile >= 0)) ||
+                ((s16)func_8009FD40(origin, sprite) < 2)) {
+                if (!(func_800A6D30() & 7)) {
+                    func_80042B68(actor, 1);
+                }
+            }
+        }
+        if ((func_80042900(actor, 1) << 16) != 0) {
+            return;
+        }
+        (*(void * *)((u8 *)sprite + 0x2C)) = D_80175190;
+        func_80047784(sprite,
+            D_80175190[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            0);
+        actor_flags = actor->flags1C | 0x40000;
+        actor->flags1C = actor_flags;
+        if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
+            actor->flags1C = actor_flags & ~0x200;
+            goto set_callback;
+        }
+    }
     ((S_80173A2C_0 *)controller_in)->unk_96 = 3;
     ((S_80173A2C_0 *)controller_in)->unk_98 &= 0xBFFF;
     {

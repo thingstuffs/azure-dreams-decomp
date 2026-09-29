@@ -121,36 +121,34 @@ s32 func_800ABEEC(s32 dir, s32 start_x, s32 start_y) {
         } else {
             fwd_stopped = fwd_blocked;
         }
-        if (fwd_stopped != 0) {
-            goto second_walker;
-        }
-        fwd_map_x = (fwd_x << 0x10) >> 0x10;
-        fwd_map_y = (fwd_y << 0x10) >> 0x10;
-        fwd_row_shift = grid->x_shift;
-        fwd_map_base = map_base;
-        fwd_cell = (u16 *)(fwd_map_base +
-            ((fwd_map_x + (fwd_map_y << fwd_row_shift)) << 1));
-        fwd_cell_flags = *fwd_cell;
-        if (fwd_cell_flags & 0x8000) {
-            *fwd_cell = fwd_cell_flags | 0x4000;
-            func_800ABE60(fwd_x & 0xFFFF, fwd_y & 0xFFFF, fwd_cell_flags);
-            {
-                u16 *fwd_y_step;
-                u16 *fwd_x_step_ptr;
+        if (fwd_stopped == 0) {
+            fwd_map_x = (fwd_x << 0x10) >> 0x10;
+            fwd_map_y = (fwd_y << 0x10) >> 0x10;
+            fwd_row_shift = grid->x_shift;
+            fwd_map_base = map_base;
+            fwd_cell = (u16 *)(fwd_map_base +
+                ((fwd_map_x + (fwd_map_y << fwd_row_shift)) << 1));
+            fwd_cell_flags = *fwd_cell;
+            if (fwd_cell_flags & 0x8000) {
+                *fwd_cell = fwd_cell_flags | 0x4000;
+                func_800ABE60(fwd_x & 0xFFFF, fwd_y & 0xFFFF, fwd_cell_flags);
+                {
+                    u16 *fwd_y_step;
+                    u16 *fwd_x_step_ptr;
 
-                fwd_count += 1;
-                y_steps_addr = (s32)((s8 *)dirStepX) + 0x10;
-                fwd_y_step = (u16 *)(fwd_step_offset + y_steps_addr);
-                fwd_x_step_ptr = fwd_x_step;
-                fwd_dy = *fwd_y_step;
-                fwd_dx = *fwd_x_step_ptr;
-                fwd_y += fwd_dy;
-                fwd_x += fwd_dx;
+                    fwd_count += 1;
+                    y_steps_addr = (s32)((s8 *)dirStepX) + 0x10;
+                    fwd_y_step = (u16 *)(fwd_step_offset + y_steps_addr);
+                    fwd_x_step_ptr = fwd_x_step;
+                    fwd_dy = *fwd_y_step;
+                    fwd_dx = *fwd_x_step_ptr;
+                    fwd_y += fwd_dy;
+                    fwd_x += fwd_dx;
+                }
+            } else {
+                fwd_blocked = 1;
             }
-            goto second_walker;
         }
-        fwd_blocked = 1;
-    second_walker:
         rev_x_high = rev_x << 0x10;
         rev_check_x = rev_x_high >> 0x10;
         if ((rev_check_x < 0) ||

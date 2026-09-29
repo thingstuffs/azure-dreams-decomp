@@ -92,18 +92,16 @@ scan_inner:
     call_x = inner_x;
     call_y = inner_y;
     call_dir = inner_dir;
-    if (((func_8009A350(call_x, call_y, call_dir, &tile_flags) << 0x10) == 0) || (tile_flags & 0x8820)) {
-        goto next_inner;
+    if (!(((func_8009A350(call_x, call_y, call_dir, &tile_flags) << 0x10) == 0) || (tile_flags & 0x8820))) {
+        inner_offset = call_dir << 1;
+        dx = (u16 *)(inner_offset + (u32)tab_x);
+        distance_z = (s16)(base_z - 0x20);
+        dy = (u16 *)((u8 *)dirStepY + inner_offset);
+        distance = func_800BCB04(((((inner_x + (s16)*dx) << 6) + 0x20) & 0xFFE0), ((((inner_y + (s16)*dy) << 6) + 0x20) & 0xFFE0), distance_z);
+        if ((s16)distance < 0x200) {
+            goto found;
+        }
     }
-    inner_offset = call_dir << 1;
-    dx = (u16 *)(inner_offset + (u32)tab_x);
-    distance_z = (s16)(base_z - 0x20);
-    dy = (u16 *)((u8 *)dirStepY + inner_offset);
-    distance = func_800BCB04(((((inner_x + (s16)*dx) << 6) + 0x20) & 0xFFE0), ((((inner_y + (s16)*dy) << 6) + 0x20) & 0xFFE0), distance_z);
-    if ((s16)distance < 0x200) {
-        goto found;
-    }
-next_inner:
     inner_count += 1;
     next_inner_dir = inner_dir + 1;
     inner_dir = next_inner_dir & 7;
@@ -128,19 +126,17 @@ scan_outer:
     call_y = *oy;
     call_x = (s16)(base_x + call_x - 1);
     call_y = (s16)(base_y + call_y);
-    if (((func_8009A350(call_x, call_y, distance_z, flags_ptr) << 0x10) == 0) || (tile_flags & 0x8820)) {
-        goto next_outer;
+    if (!(((func_8009A350(call_x, call_y, distance_z, flags_ptr) << 0x10) == 0) || (tile_flags & 0x8820))) {
+        call_x = (s16)*dx;
+        call_y = (s16)*oy;
+        call_x = (((outer_x + call_x) << 6) + 0x20) & 0xFFE0;
+        call_y = (((probe_x + call_y) << 6) + 0x20) & 0xFFE0;
+        dy = oy;
+        distance = func_800BCB04(call_x, call_y, (s16)(base_z - 0x20));
+        if ((s16)distance < 0x200) {
+            goto found;
+        }
     }
-    call_x = (s16)*dx;
-    call_y = (s16)*oy;
-    call_x = (((outer_x + call_x) << 6) + 0x20) & 0xFFE0;
-    call_y = (((probe_x + call_y) << 6) + 0x20) & 0xFFE0;
-    dy = oy;
-    distance = func_800BCB04(call_x, call_y, (s16)(base_z - 0x20));
-    if ((s16)distance < 0x200) {
-        goto found;
-    }
-next_outer:
     outer_count += 1;
     next_outer_dir = outer_dir + 1;
     outer_dir = next_outer_dir & 0xF;

@@ -95,73 +95,66 @@ void *func_8195EF44(s16 world_x, s16 world_y, s16 world_z, s16 coord_60)
     ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     map = page;
     map += 0x333C;
-    if (obj == NULL) {
-        goto done;
+    if (obj != NULL) {
+        work = (*(void * *)((u8 *)obj + 0xC));
+        shifted_coord = (s32)((u32)(u16)saved_x << 16);
+        cell_x = shifted_coord >> 16;
+        if (cell_x < 0) {
+            cell_x += 0x3F;
+        }
+        shifted_coord = (s32)((u32)(u16)saved_y << 16);
+        cell_index = shifted_coord >> 16;
+        cell_x >>= 6;
+        if (cell_index < 0) {
+            cell_index += 0x3F;
+        }
+        cell_index >>= 6;
+        cell_index <<= ((S_8195EF44_0 *)map)->unk_14;
+        cell_total = cell_index;
+        cell_index = cell_x + cell_total;
+        cells = ((S_8195EF44_1 *)page)->unk_333C;
+        cell = cells[cell_index * 3];
+        work->unk_08 = cell;
+
+        if (cell == 0) {
+            zero_return = NULL;
+            global_page = (u8 *)0x80080000;
+            ASM_KEEP(global_page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            obj_flags = (*(u16 *)((u8 *)obj + 0x1E));
+            global_flags = ((S_8195EF44_3 *)global_page)->unk_14A0;
+            obj_flags |= 0x8000;
+            global_flags |= 0x8000;
+            (*(u16 *)((u8 *)obj + 0x1E)) = obj_flags;
+            ((S_8195EF44_3 *)global_page)->unk_14A0 = global_flags;
+            return zero_return;
+        }
+        call_obj = obj;
+        render_2 = &D_80024648;
+        call_addr = &D_80046398;
+        (*(void * *)((u8 *)obj + 0x10)) = render_2;
+        func_8004491C(call_obj, call_addr);
+
+        color = 0x808080;
+        render = (*(void * volatile *)((u8 *)obj + 8));
+        ASM_CLOBBER("$3");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        coord = (u8 *)obj + 0x20;
+        ASM_KEEP_NV(coord);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        ((S_8195EF44_4 *)render)->unk_02 = saved_x;
+        ((S_8195EF44_5 *)coord)->unk_38 = saved_x;
+        ((S_8195EF44_4 *)render)->unk_06 = saved_y;
+        ((S_8195EF44_5 *)coord)->unk_3A = saved_y;
+        ((S_8195EF44_4 *)render)->unk_0A = saved_z;
+        ((S_8195EF44_5 *)coord)->unk_3C = saved_z;
+        work->unk_20 = 0x1000;
+        work->unk_1E = 0x1000;
+        work->unk_1C = 0x1000;
+        work->unk_10 = 0x20;
+        work->unk_0C = color;
+        work->unk_14 = 0xC;
+        ((S_8195EF44_5 *)coord)->unk_4C = 0xC;
+        ((S_8195EF44_5 *)coord)->unk_60 = saved_coord_60;
+        ((S_8195EF44_5 *)coord)->unk_62 = saved_z;
     }
-
-    work = (*(void * *)((u8 *)obj + 0xC));
-    shifted_coord = (s32)((u32)(u16)saved_x << 16);
-    cell_x = shifted_coord >> 16;
-    if (cell_x < 0) {
-        cell_x += 0x3F;
-    }
-    shifted_coord = (s32)((u32)(u16)saved_y << 16);
-    cell_index = shifted_coord >> 16;
-    cell_x >>= 6;
-    if (cell_index < 0) {
-        cell_index += 0x3F;
-    }
-    cell_index >>= 6;
-    cell_index <<= ((S_8195EF44_0 *)map)->unk_14;
-    cell_total = cell_index;
-    cell_index = cell_x + cell_total;
-    cells = ((S_8195EF44_1 *)page)->unk_333C;
-    cell = cells[cell_index * 3];
-    work->unk_08 = cell;
-
-    if (cell != 0) {
-        goto nonzero;
-    }
-
-    zero_return = NULL;
-    global_page = (u8 *)0x80080000;
-    ASM_KEEP(global_page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    obj_flags = (*(u16 *)((u8 *)obj + 0x1E));
-    global_flags = ((S_8195EF44_3 *)global_page)->unk_14A0;
-    obj_flags |= 0x8000;
-    global_flags |= 0x8000;
-    (*(u16 *)((u8 *)obj + 0x1E)) = obj_flags;
-    ((S_8195EF44_3 *)global_page)->unk_14A0 = global_flags;
-    return zero_return;
-
-nonzero:
-    call_obj = obj;
-    render_2 = &D_80024648;
-    call_addr = &D_80046398;
-    (*(void * *)((u8 *)obj + 0x10)) = render_2;
-    func_8004491C(call_obj, call_addr);
-
-    color = 0x808080;
-    render = (*(void * volatile *)((u8 *)obj + 8));
-    ASM_CLOBBER("$3");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    coord = (u8 *)obj + 0x20;
-    ASM_KEEP_NV(coord);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    ((S_8195EF44_4 *)render)->unk_02 = saved_x;
-    ((S_8195EF44_5 *)coord)->unk_38 = saved_x;
-    ((S_8195EF44_4 *)render)->unk_06 = saved_y;
-    ((S_8195EF44_5 *)coord)->unk_3A = saved_y;
-    ((S_8195EF44_4 *)render)->unk_0A = saved_z;
-    ((S_8195EF44_5 *)coord)->unk_3C = saved_z;
-    work->unk_20 = 0x1000;
-    work->unk_1E = 0x1000;
-    work->unk_1C = 0x1000;
-    work->unk_10 = 0x20;
-    work->unk_0C = color;
-    work->unk_14 = 0xC;
-    ((S_8195EF44_5 *)coord)->unk_4C = 0xC;
-    ((S_8195EF44_5 *)coord)->unk_60 = saved_coord_60;
-    ((S_8195EF44_5 *)coord)->unk_62 = saved_z;
-done:
     return obj;
     return zero_return;
 }

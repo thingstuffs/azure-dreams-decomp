@@ -88,21 +88,19 @@ col_loop:
                 level = value_bits_2;
                 if (level >= 0x10) {
                     clamped_level = 15;
-                    goto clamp_value;
+                } else {
+                    if (level <= 0) {
+                        clamped_level = 1;
+                    }
                 }
-                if (level <= 0) {
-                    clamped_level = 1;
-                }
-clamp_value:
                 value_bits = clamped_level << 0x10;
                 level = value_bits >> 0x10;
                 packed_output = *cursor;
                 if (col_index & 1) {
                     value_bits = packed_output | (level << 4);
-                    goto store_value;
+                } else {
+                    value_bits = packed_output | level;
                 }
-                value_bits = packed_output | level;
-store_value:
                 *cursor = value_bits;
                 goto advance_col;
             }

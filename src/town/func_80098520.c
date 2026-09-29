@@ -131,10 +131,9 @@ void func_80095C80(EntityRec *position) {
                     func_800961A8(position);
                     return;
                 }
-                goto check_pos_xy_corner;
+            } else {
+                probe_ptr = (M2C_UNK *)D_80100000;
             }
-            probe_ptr = (M2C_UNK *)D_80100000;
-check_pos_xy_corner:
             probe_ptr = (M2C_UNK *)((s8 *)probe_ptr - 0x1A40);
             probe.x = position->x.v - ((S_80095C80_2 *)probe_ptr)->unk_0C;
             pos_xy_y = position->y.v;
@@ -180,10 +179,9 @@ check_pos_xy_corner:
                     }
                     goto resolve_y;
                 }
-                goto check_pos_x_neg_y_corner;
+            } else {
+                pos_x_neg_y_motion = (M2C_UNK *)D_80100000;
             }
-            pos_x_neg_y_motion = (M2C_UNK *)D_80100000;
-check_pos_x_neg_y_corner:
             pos_x_neg_y_motion = (M2C_UNK *)((s8 *)pos_x_neg_y_motion - 0x1A40);
             probe.x = position->x.v - ((S_80095C80_3 *)pos_x_neg_y_motion)->unk_0C;
             pos_x_neg_y_y = position->y.v;
@@ -250,10 +248,9 @@ check_neg_x:
                         }
                         goto resolve_y;
                     }
-                    goto check_neg_x_pos_y_corner;
+                } else {
+                    neg_x_pos_y_motion = (M2C_UNK *)D_80100000;
                 }
-                neg_x_pos_y_motion = (M2C_UNK *)D_80100000;
-check_neg_x_pos_y_corner:
                 neg_x_pos_y_motion = (M2C_UNK *)((s8 *)neg_x_pos_y_motion - 0x1A40);
                 probe.x = position->x.v - ((S_80095C80_5 *)neg_x_pos_y_motion)->unk_0C;
                 neg_x_pos_y_y = position->y.v;
@@ -309,10 +306,9 @@ check_neg_x_pos_y_corner:
                         func_800961A8(position);
                         return;
                     }
-                    goto check_neg_xy_corner;
+                } else {
+                    neg_xy_motion = (M2C_UNK *)D_80100000;
                 }
-                neg_xy_motion = (M2C_UNK *)D_80100000;
-check_neg_xy_corner:
                 neg_xy_motion = (M2C_UNK *)((s8 *)neg_xy_motion - 0x1A40);
                 probe.x = position->x.v - ((S_80095C80_6 *)neg_xy_motion)->unk_0C;
                 neg_xy_y = position->y.v;

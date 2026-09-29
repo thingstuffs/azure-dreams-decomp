@@ -34,21 +34,20 @@ void func_800969B8(void *object, s32 unused_1, s32 unused_2, s32 target) {
 
     if (D_80013714 & 2) {
         dungeonStatus.flags |= 0x80;
-        goto apply_flag_done;
-    }
-    dispatch_target = saved_target;
-    if (!(gameWork.buttons & 0x20)) {
-        goto done;
-    }
-    dispatch_target = func_800A5C70(dispatch_target);
-    target_check = dispatch_target;
-    dispatch_target = saved_target;
-    if (!target_check) {
-        goto done;
-    }
+    } else {
+        dispatch_target = saved_target;
+        if (!(gameWork.buttons & 0x20)) {
+            goto done;
+        }
+        dispatch_target = func_800A5C70(dispatch_target);
+        target_check = dispatch_target;
+        dispatch_target = saved_target;
+        if (!target_check) {
+            goto done;
+        }
 
-    dungeonStatus.flags |= 0x80;
-    apply_flag_done:
+        dungeonStatus.flags |= 0x80;
+    }
     ;
     dispatch_target = saved_target;
 

@@ -396,16 +396,17 @@ frame_loop:
             scratch->unk_7A = tail_value;
             scratch->unk_72 = tail_value;
             tail_value = tail_value - scratch->unk_14.as_u16_14;
+            scratch->unk_8A = tail_value;
+            scratch->unk_82 = tail_value;
         } else {
             origin_byte = ((volatile S_func_81904990_3 *)(frame_data - 8))->unk_03;
             tail_value = (s32)(s8) origin_byte - scratch->unk_10A;
             scratch->unk_7A = tail_value;
             scratch->unk_72 = tail_value;
             tail_value = tail_value + (u16) scratch->unk_14.as_s32_14;
+            scratch->unk_8A = tail_value;
+            scratch->unk_82 = tail_value;
         }
-        scratch->unk_8A = tail_value;
-        scratch->unk_82 = tail_value;
-        ASM_SCHED_BARRIER();
         func_800654B0((u8 *)scratch + 0x70, (u8 *)scratch + 0x78, (u8 *)scratch + 0x80, (u8 *)scratch + 0x88, (u8 *)scratch + 0xF0, (u8 *)scratch + 0xF4, (u8 *)scratch + 0xF8, (u8 *)scratch + 0xFC, (u8 *)scratch + 0x90, (u8 *)scratch + 0x94);
         packet->unk_08.as_s16_08 = (s16) (scratch->unk_F0 + scratch->unk_B8);
         packet->unk_0A = (s16) (scratch->unk_F2 + scratch->unk_BA);

@@ -380,12 +380,10 @@ advance_object:
     base = (s8 *) object;
     ASM_KEEP_NV(base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     next_object = ((S_80F90E88_0 *)((u8 *)base - 0x8))->unk_00;
-    if (next_object == 0) {
-        goto return_zero;
+    if (next_object != 0) {
+        object = (void *) (next_object + 0x20);
+        goto draw_object;
     }
-    object = (void *) (next_object + 0x20);
-    goto draw_object;
-return_zero:
     {
         s32 hard_zero = 0;
 #ifdef NON_MATCHING

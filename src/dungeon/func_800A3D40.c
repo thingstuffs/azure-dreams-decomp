@@ -173,17 +173,17 @@ void *func_800A94A0(void *actor, EntityRec *effect_record, s16 mode, void *conte
             }
             func_800C77D0(effect, effect_position, 8, 0x300);
             ASM_KEEP(text_context);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            goto set_effect_scale;
-        }
-        map_state = &D_80082E80;
-        if (!(actor_state->unk_14 & 0x8000)) {
-            if (!(map_state->unk_014 & 0x8000)) {
-                func_800C7A3C(map_state, actor_state, ((S_800A94A0_9 *)(((u8 *)D_800E3D7C)))->unk_88, ((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_A0, 8, 0x300);
-                goto set_effect_scale;
+        } else {
+            map_state = &D_80082E80;
+            if (!(actor_state->unk_14 & 0x8000)) {
+                if (!(map_state->unk_014 & 0x8000)) {
+                    func_800C7A3C(map_state, actor_state, ((S_800A94A0_9 *)(((u8 *)D_800E3D7C)))->unk_88, ((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_A0, 8, 0x300);
+                    goto set_effect_scale;
+                }
             }
+            direction_offset = ((u16) ((S_800A94A0_9 *)(((u8 *)D_800E3D7C)))->unk_2A >> 8) & 0xE;
+            func_800C78A0(actor - 0x20, (map_state->tileX << 6) + ((s32) (*(u16 *)((u8 *)D_800DCEAC + direction_offset) << 0x10) >> 0x11) + 0x20, (map_state->tileY << 6) + ((s32) (*(u16 *)((u8 *)D_800DCEBC + direction_offset) << 0x10) >> 0x11) + 0x20, ((S_800A94A0_9 *)(((u8 *)D_800E3D7C)))->unk_88, 8, 0x300);
         }
-        direction_offset = ((u16) ((S_800A94A0_9 *)(((u8 *)D_800E3D7C)))->unk_2A >> 8) & 0xE;
-        func_800C78A0(actor - 0x20, (map_state->tileX << 6) + ((s32) (*(u16 *)((u8 *)D_800DCEAC + direction_offset) << 0x10) >> 0x11) + 0x20, (map_state->tileY << 6) + ((s32) (*(u16 *)((u8 *)D_800DCEBC + direction_offset) << 0x10) >> 0x11) + 0x20, ((S_800A94A0_9 *)(((u8 *)D_800E3D7C)))->unk_88, 8, 0x300);
 set_effect_scale:
         if ((mode << 0x10) != 0) {
             lookup_index = effect_id;

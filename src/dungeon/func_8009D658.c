@@ -83,78 +83,75 @@ s32 func_800A2DB8(S_800A2DB8_0 *source)
     if (initial_target == NULL) {
         return experience;
     }
-    if (((S_800A2DB8_1 *)initial_target)->unk_13 < 0) {
-        goto done;
-    }
-
-    experience = source->unk_06.u;
-    if (((S_800A2DB8_1 *)initial_target)->unk_54 & 0x20) {
-        experience *= 2;
-    }
-
-    if (source->unk_54 & 0x40) {
-        experience *= 2;
-        recipient_count = 1;
-    } else {
-        recipient_count = 1;
-    }
-
-    member_index = recipient_count;
-    member_slot = (u8 *)D_800E3D7C + 4;
-    do {
-        member = ((S_800A2DB8_2 *)member_slot)->unk_AC;
-        if ((member != NULL) && (member->unk_28 != 0)) {
-            recipient_count++;
+    if (((S_800A2DB8_1 *)initial_target)->unk_13 >= 0) {
+        experience = source->unk_06.u;
+        if (((S_800A2DB8_1 *)initial_target)->unk_54 & 0x20) {
+            experience *= 2;
         }
-        member_index--;
-        member_slot -= 4;
-    } while (member_index >= 0);
 
-    rounded_exp = experience + recipient_count;
-    target = source->unk_60;
-    experience = (rounded_exp - 1) / recipient_count;
+        if (source->unk_54 & 0x40) {
+            experience *= 2;
+            recipient_count = 1;
+        } else {
+            recipient_count = 1;
+        }
 
-    if (target->flags14 & 0x4000) {
-        member_index = 1;
+        member_index = recipient_count;
+        member_slot = (u8 *)D_800E3D7C + 4;
         do {
-            member = ((S_800A2DB8_5 *)((u8 *)D_800E3D7C + member_index * 4))->unk_AC;
+            member = ((S_800A2DB8_2 *)member_slot)->unk_AC;
             if ((member != NULL) && (member->unk_28 != 0)) {
-                level_delta = member->unk_11 - source->unk_11;
-                award = experience;
-                if (level_delta < 0) {
-                    bonus_shift = (level_delta < 2) ^ 1;
-                    award = experience + (experience >> bonus_shift);
-                }
-                func_800B4C7C(0x82, member, (s16)award, 1);
-                func_800A2D68(member, award & 0xFFFF);
+                recipient_count++;
             }
             member_index--;
+            member_slot -= 4;
         } while (member_index >= 0);
 
-        global_page = (u8 *)0x800E0000;
-        global_member = ((S_800A2DB8_6 *)global_page)->unk_3D7C;
-        if (global_member->unk_28 == 0) {
-            return 0;
-        }
-        level_delta = global_member->unk_11 - source->unk_11;
-        award = experience;
-        if (level_delta < 0) {
-            bonus_shift = (level_delta < 2) ^ 1;
-            award = experience + (experience >> bonus_shift);
-        }
-        func_800A2D68(global_member, award & 0xFFFF);
-        func_800B4C7C(0x82, ((S_800A2DB8_6 *)global_page)->unk_3D7C, (s16)award, 1);
-        return award;
-    }
+        rounded_exp = experience + recipient_count;
+        target = source->unk_60;
+        experience = (rounded_exp - 1) / recipient_count;
 
-    experience = source->unk_06.u;
-    func_800A2D68(target, experience);
-    final_target = source->unk_60;
-    popup_code = 0x83;
-    if (final_target->flags14 & 0x2000) {
-        popup_code = 0x82;
+        if (target->flags14 & 0x4000) {
+            member_index = 1;
+            do {
+                member = ((S_800A2DB8_5 *)((u8 *)D_800E3D7C + member_index * 4))->unk_AC;
+                if ((member != NULL) && (member->unk_28 != 0)) {
+                    level_delta = member->unk_11 - source->unk_11;
+                    award = experience;
+                    if (level_delta < 0) {
+                        bonus_shift = (level_delta < 2) ^ 1;
+                        award = experience + (experience >> bonus_shift);
+                    }
+                    func_800B4C7C(0x82, member, (s16)award, 1);
+                    func_800A2D68(member, award & 0xFFFF);
+                }
+                member_index--;
+            } while (member_index >= 0);
+
+            global_page = (u8 *)0x800E0000;
+            global_member = ((S_800A2DB8_6 *)global_page)->unk_3D7C;
+            if (global_member->unk_28 == 0) {
+                return 0;
+            }
+            level_delta = global_member->unk_11 - source->unk_11;
+            award = experience;
+            if (level_delta < 0) {
+                bonus_shift = (level_delta < 2) ^ 1;
+                award = experience + (experience >> bonus_shift);
+            }
+            func_800A2D68(global_member, award & 0xFFFF);
+            func_800B4C7C(0x82, ((S_800A2DB8_6 *)global_page)->unk_3D7C, (s16)award, 1);
+            return award;
+        }
+
+        experience = source->unk_06.u;
+        func_800A2D68(target, experience);
+        final_target = source->unk_60;
+        popup_code = 0x83;
+        if (final_target->flags14 & 0x2000) {
+            popup_code = 0x82;
+        }
+        func_800B4C7C(popup_code, final_target, source->unk_06.s, 1);
     }
-    func_800B4C7C(popup_code, final_target, source->unk_06.s, 1);
-done:
     return experience;
 }

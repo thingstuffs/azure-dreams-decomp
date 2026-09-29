@@ -185,7 +185,8 @@ void func_801715F4(void *move_state, void *caller_context, void *position_arg, v
         if (angle == 0) {
             goto reset_turn_index;
         }
-        goto clear_history;
+        ((S_801715F4_1 *)actor_arg)->unk_71.u &= 0x7F;
+        return;
     }
 
     if (flags & 0x2000) {
@@ -212,7 +213,8 @@ void func_801715F4(void *move_state, void *caller_context, void *position_arg, v
 
             if ((((S_801715F4_2 *)position_arg)->unk_24.at00.v == (u16)follow_x) &&
                 (((S_801715F4_2 *)position_arg)->unk_24.at01.v == (u16)follow_y)) {
-                goto clear_history;
+                ((S_801715F4_1 *)actor_arg)->unk_71.u &= 0x7F;
+                return;
             }
 
             ((S_801715F4_1 *)actor_arg)->unk_2A.u = func_800A0818(
@@ -263,7 +265,8 @@ void func_801715F4(void *move_state, void *caller_context, void *position_arg, v
              ((s32)(((S_801715F4_1 *)actor_arg)->unk_2A.u << 16) >> 25) & 0xFFFF,
              ((S_801715F4_2 *)position_arg)->unk_24.at00.v, ((S_801715F4_2 *)position_arg)->unk_24.at01.v,
              (s16)(((S_801715F4_1 *)actor_arg)->unk_88 - 0x20)) != 0)) {
-        goto clear_history;
+        ((S_801715F4_1 *)actor_arg)->unk_71.u &= 0x7F;
+        return;
     }
 
     if (((S_801715F4_1 *)actor_arg)->unk_1C & 0x20000) {
@@ -285,7 +288,8 @@ void func_801715F4(void *move_state, void *caller_context, void *position_arg, v
                 ((s32)(((S_801715F4_1 *)actor_arg)->unk_2A.u << 16) >> 25) & 0xFFFF,
                 ((S_801715F4_2 *)position_arg)->unk_24.at00.v, ((S_801715F4_2 *)position_arg)->unk_24.at01.v,
                 (s16)(((S_801715F4_1 *)actor_arg)->unk_88 - 0x20)) != 0) {
-            goto clear_history;
+            ((S_801715F4_1 *)actor_arg)->unk_71.u &= 0x7F;
+            return;
         }
         if (turn_index == 0) {
             goto reset_turn_index;
@@ -294,25 +298,13 @@ void func_801715F4(void *move_state, void *caller_context, void *position_arg, v
         dx = ((S_801715F4_2 *)position_arg)->unk_24.at00.v;
         dx -= (target_x_wide = (u16)target_x);
         dx = abs(dx);
-        if (dx >= 2) {
-            goto call_path_held;
+        if (dx >= 2 || (dy = abs(((S_801715F4_2 *)position_arg)->unk_24.at01.v - (u16)target_y)) >= 2) {
+            ((S_801715F4_1 *)actor_arg)->unk_2A.u = func_800A0818(
+                ((S_801715F4_2 *)position_arg)->unk_24.at00.v, ((S_801715F4_2 *)position_arg)->unk_24.at01.v, (s16)target_x_wide, target_y,
+                follow_context);
+            goto reset_turn_index;
         }
-        {
-            s32 current_y;
-
-            current_y = ((S_801715F4_2 *)position_arg)->unk_24.at01.v;
-            dy = current_y - (u16)target_y;
-        }
-        dy = abs(dy);
-        if (dy < 2) {
-            goto random_angle;
-        }
-
-call_path_held:
-        ((S_801715F4_1 *)actor_arg)->unk_2A.u = func_800A0818(
-            ((S_801715F4_2 *)position_arg)->unk_24.at00.v, ((S_801715F4_2 *)position_arg)->unk_24.at01.v, (s16)target_x_wide, target_y,
-            follow_context);
-        goto reset_turn_index;
+        goto random_angle;
     }
 
     if (turn_index == 0) {
@@ -321,25 +313,12 @@ call_path_held:
     dx = ((S_801715F4_2 *)position_arg)->unk_24.at00.v;
     dx -= (target_x_wide = (u16)target_x);
     dx = abs(dx);
-    if (dx >= 2) {
-        goto call_path_direct;
+    if (dx >= 2 || (dy = abs(((S_801715F4_2 *)position_arg)->unk_24.at01.v - (u16)target_y)) >= 2) {
+        ((S_801715F4_1 *)actor_arg)->unk_2A.u = func_800A0818(
+            ((S_801715F4_2 *)position_arg)->unk_24.at00.v, ((S_801715F4_2 *)position_arg)->unk_24.at01.v, (s16)target_x_wide, target_y,
+            (u8 *)move_state + 0x98);
+        goto reset_turn_index;
     }
-    {
-        s32 current_y;
-
-        current_y = ((S_801715F4_2 *)position_arg)->unk_24.at01.v;
-        dy = current_y - (u16)target_y;
-    }
-    dy = abs(dy);
-    if (dy < 2) {
-        goto random_angle;
-    }
-
-call_path_direct:
-    ((S_801715F4_1 *)actor_arg)->unk_2A.u = func_800A0818(
-        ((S_801715F4_2 *)position_arg)->unk_24.at00.v, ((S_801715F4_2 *)position_arg)->unk_24.at01.v, (s16)target_x_wide, target_y,
-        (u8 *)move_state + 0x98);
-    goto reset_turn_index;
 
 random_angle:
     ((S_801715F4_1 *)actor_arg)->unk_2A.u = (func_800A6D30() & 7) << 9;
@@ -373,7 +352,8 @@ loop_setup:
 
                 turn_limit = limit_turns;
                 if (turn_limit != 0) {
-                    goto clear_history;
+                    ((S_801715F4_1 *)actor_arg)->unk_71.u &= 0x7F;
+                    return;
                 }
             }
 
@@ -400,7 +380,7 @@ loop_setup:
 
             func_8009A21C(((S_801715F4_2 *)position_arg)->unk_24.at00.v, ((S_801715F4_2 *)position_arg)->unk_24.at01.v,
                           (((S_801715F4_1 *)actor_arg)->unk_1C & 0x2000) ? 0x300 : 0x3000);
-            goto after_loop;
+            break;
         }
 
         if (turn_index == 0) {
@@ -420,7 +400,6 @@ loop_setup:
         }
     } while (1);
 
-after_loop:
     if (turn_index >= 8) {
         ((S_801715F4_1 *)actor_arg)->unk_71.u &= 0x7F;
         ((S_801715F4_1 *)actor_arg)->unk_46 &= 0x7FFF;
@@ -436,15 +415,11 @@ after_loop:
 
         counter_state->unk_08++;
     }
-    if (((S_801715F4_1 *)actor_arg)->unk_6D.s != 0) {
-        goto remaining_count;
+    if (((S_801715F4_1 *)actor_arg)->unk_6D.s == 0) {
+        ((S_801715F4_1 *)actor_arg)->unk_71.u &= 0x7F;
+        return;
     }
 
-clear_history:
-    ((S_801715F4_1 *)actor_arg)->unk_71.u &= 0x7F;
-    return;
-
-remaining_count:
     turn_index = func_800BCB04((((S_801715F4_2 *)position_arg)->unk_24.at00.v << 6) | 0x20,
                             (((S_801715F4_2 *)position_arg)->unk_24.at01.v << 6) | 0x20,
                             (s16)(((S_801715F4_1 *)actor_arg)->unk_88 - 0x20));

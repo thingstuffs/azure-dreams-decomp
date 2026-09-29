@@ -144,17 +144,15 @@ case_2:
     goto default_case;
 
 case_3:
-    if (S16_AT(D_80024A70, 0) != 0) {
-        goto default_case;
+    if (S16_AT(D_80024A70, 0) == 0) {
+        {
+            DungeonGlobalStatus *sequence_state = &dungeonStatus;
+            U16_AT(sequence_state, 0x0A)--;
+            U32_AT(sequence_state, 0x0C) = 0;
+        }
+        U16_AT(state, -2) |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
-    {
-        DungeonGlobalStatus *sequence_state = &dungeonStatus;
-        U16_AT(sequence_state, 0x0A)--;
-        U32_AT(sequence_state, 0x0C) = 0;
-    }
-    U16_AT(state, -2) |= 0x8000;
-    objectFlagBlock.flags |= 0x8000;
-
 default_case:
     if (S16_AT(state, 0x0A) >= 2) {
         u8 *draw_data = (u8 *)&D_80024A70[2];

@@ -94,20 +94,14 @@ callback_path:
         clear_value &= clear_mask;
         ((State *)state)->flags = clear_value;
     }
-    if (func_807018AC(D_80700BB2[0]) != 0) {
-        goto zero_return;
+    if (func_807018AC(D_80700BB2[0]) == 0) {
+        callback = D_80701984_ALT[0]->callback(2);
+        if (callback == 0) {
+            return slot;
+        }
+        slot += 1;
+    } else {
+        slot = 0;
     }
-
-    callback = D_80701984_ALT[0]->callback(2);
-    if (callback == 0) {
-        return slot;
-    }
-    slot += 1;
-    goto return_arg;
-
-zero_return:
-    slot = 0;
-
-return_arg:
     return slot;
 }

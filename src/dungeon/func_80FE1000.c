@@ -161,15 +161,14 @@ void *BODY_NAME(s16 kind_flags, s32 part_value_24, s32 part_value_25, s16 part_v
         if (kind == 1) {
             flags = ((S_80FE1000_1 *)work)->unk_14 | 0x6000;
             paired_flags = ((S_80FE1000_1 *)work)->unk_1C | 0x6000;
-            goto write_kind;
-        }
-        if (kind < 2) {
-            goto normal_kind;
-        }
+        } else {
+            if (kind < 2) {
+                goto normal_kind;
+            }
 
-        flags = ((S_80FE1000_1 *)work)->unk_14 | 0x2000;
-        paired_flags = ((S_80FE1000_1 *)work)->unk_1C | 0x2000;
-write_kind:
+            flags = ((S_80FE1000_1 *)work)->unk_14 | 0x2000;
+            paired_flags = ((S_80FE1000_1 *)work)->unk_1C | 0x2000;
+        }
         ((S_80FE1000_1 *)work)->unk_14 = flags;
         ((S_80FE1000_1 *)work)->unk_1C = paired_flags;
         goto post_kind;

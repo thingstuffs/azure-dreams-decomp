@@ -95,11 +95,9 @@ s32 func_800BC00C(void *effect_fields, S_800BC00C_2 *position, Rec_D_80082E80 *s
         position->unk_06 = (s16) ((u16) position->unk_06 + ((s32) (((S_800BC00C_0 *)((u8 *)effect_fields - 0x2))->unk_10 - position->unk_06) >> 2));
         position->unk_0A = (s16) ((u16) position->unk_0A + ((s32) (((S_800BC00C_0 *)((u8 *)effect_fields - 0x2))->unk_12 - position->unk_0A) >> 2));
         grow_end_state = 0xFF;
-        if ((s16) ((S_800BC00C_0 *)((u8 *)effect_fields - 0x2))->unk_4A > 0) {
-            goto grow_done;
+        if ((s16) ((S_800BC00C_0 *)((u8 *)effect_fields - 0x2))->unk_4A <= 0) {
+            ((S_800BC00C_0 *)((u8 *)effect_fields - 0x2))->unk_4E = grow_end_state;
         }
-        ((S_800BC00C_0 *)((u8 *)effect_fields - 0x2))->unk_4E = grow_end_state;
-    grow_done:
         return grow_end_state;
 
     fade:

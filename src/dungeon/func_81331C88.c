@@ -172,16 +172,13 @@ void func_80168C88(u8 *effect, void *origin, void *color_in)
     phase = ((S_80168C88_0 *)effect)->unk_12.s;
     phase_bits = *(volatile u16 *)(effect + 0x12);
     color = color_in;
-    if (phase == 0) {
-        goto status_zero;
+    if (phase != 0) {
+        if (phase == 1) {
+            goto status_one;
+        }
+        step = 1;
+        goto table_setup;
     }
-    if (phase == 1) {
-        goto status_one;
-    }
-    step = 1;
-    goto table_setup;
-
-status_zero:
     if (((S_80168C88_0 *)effect)->unk_18.s < 6) {
         ((S_80168C88_0 *)effect)->unk_12.u = phase_bits + 1;
     }

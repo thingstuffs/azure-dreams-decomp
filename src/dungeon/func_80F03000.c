@@ -318,18 +318,13 @@ state_zero_check:
     if (next_tile_y != tile_y) {
         goto state_zero_z;
     }
-    if (func_800A45D8(((S_80F03000_1 *)position)->unk_00.at02u.v,
-                      ((S_80F03000_1 *)position)->unk_04.at02u.v,
-                      ((S_80F03000_1 *)position)->unk_08.at02.v) != 0) {
-        goto state_zero_collision;
+    if (func_800A45D8(((S_80F03000_1 *)position)->unk_00.at02u.v, ((S_80F03000_1 *)position)->unk_04.at02u.v, ((S_80F03000_1 *)position)->unk_08.at02.v) == 0) {
+        if (func_800BCB04(((S_80F03000_1 *)position)->unk_00.at02u.v,
+                          ((S_80F03000_1 *)position)->unk_04.at02u.v,
+                          ((S_80F03000_1 *)position)->unk_08.at02.v) < 0x200) {
+            goto state_zero_update;
+        }
     }
-    if (func_800BCB04(((S_80F03000_1 *)position)->unk_00.at02u.v,
-                      ((S_80F03000_1 *)position)->unk_04.at02u.v,
-                      ((S_80F03000_1 *)position)->unk_08.at02.v) < 0x200) {
-        goto state_zero_update;
-    }
-
-state_zero_collision:
     ((S_80F03000_1 *)position)->unk_00.at00.v -= ((S_80F03000_0 *)actor)->unk_6C;
     ((S_80F03000_0 *)actor)->unk_6C = 0;
     ((S_80F03000_0 *)actor)->unk_78 = 0;

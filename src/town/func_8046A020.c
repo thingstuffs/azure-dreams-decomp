@@ -15,16 +15,11 @@ M2C_UNK *func_8001B020(s32 setup_value, s32 setup_option, s32 mode) {
         selected_data = (M2C_UNK *)D_80017774;
         return selected_data;
     }
-    if (mode == 4) {
-        goto case_4;
+    if (mode != 4) {
+        func_80019730(setup_value, setup_option);
+        selected_data = &D_8002576F;
+    } else {
+        selected_data = &D_8001601C;
     }
-    func_80019730(setup_value, setup_option);
-    selected_data = &D_8002576F;
-    goto done;
-
-case_4:
-    selected_data = &D_8001601C;
-
-done:
     return selected_data;
 }

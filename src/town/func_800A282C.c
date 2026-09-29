@@ -64,14 +64,11 @@ s32 func_8009FF8C(s32 record_set, void *target)
             flag_base += 4;
         } while (record_index < count);
     }
-    if (best_distance == 0x7FFFFFFF) {
-        goto no_best;
+    if (best_distance != 0x7FFFFFFF) {
+        result = records[record_set].result;
+    } else {
+        result = -1;
     }
-    result = records[record_set].result;
-    goto done;
-no_best:
-    result = -1;
-done:
     return result;
 }
 

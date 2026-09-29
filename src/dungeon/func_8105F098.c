@@ -89,32 +89,29 @@ void *func_8016A898(s32 spawn_flags, s16 param_a, s32 param_b, s32 param_c)
             ((S_8016A898_0 *)result)->unk_98 = attr_a;
             more_a |= 0x6000;
             ((S_8016A898_0 *)result)->unk_1C.n = more_a;
-            goto initialize;
-        }
-        if ((spawn_flags & 3) >= 2) {
-            flags_b = ((S_8016A898_0 *)result)->unk_14.u32;
-            attr_b = ((S_8016A898_0 *)result)->unk_98;
-            flags_b |= 0x2000;
-            ((S_8016A898_0 *)result)->unk_14.u32 = flags_b;
-            more_b = ((S_8016A898_0 *)result)->unk_1C.v;
-            attr_b |= 0x4000;
-            ((S_8016A898_0 *)result)->unk_98 = attr_b;
-            more_b |= 0x2000;
-            ((S_8016A898_0 *)result)->unk_1C.n = more_b;
-            goto initialize;
-        }
-
-        if (((spawn_flags & -4) << 16) == 0 &&
-            !(((S_8016A898_0 *)result)->unk_14.u322 & 0x200)) {
-            if (func_800A6D30() & 1) {
-                ((S_8016A898_0 *)result)->unk_1C.n |= 0x200;
-                value = func_800A6D30();
-                func_800A48F0(result, 1, (value & 0x3F) | 0x20);
-                (*(Callback *)((u8 *)((void *)part_data) + 0x2C)) = D_8016E000;
+        } else {
+            if ((spawn_flags & 3) >= 2) {
+                flags_b = ((S_8016A898_0 *)result)->unk_14.u32;
+                attr_b = ((S_8016A898_0 *)result)->unk_98;
+                flags_b |= 0x2000;
+                ((S_8016A898_0 *)result)->unk_14.u32 = flags_b;
+                more_b = ((S_8016A898_0 *)result)->unk_1C.v;
+                attr_b |= 0x4000;
+                ((S_8016A898_0 *)result)->unk_98 = attr_b;
+                more_b |= 0x2000;
+                ((S_8016A898_0 *)result)->unk_1C.n = more_b;
+            } else {
+                if (((spawn_flags & -4) << 16) == 0 &&
+                    !(((S_8016A898_0 *)result)->unk_14.u322 & 0x200)) {
+                    if (func_800A6D30() & 1) {
+                        ((S_8016A898_0 *)result)->unk_1C.n |= 0x200;
+                        value = func_800A6D30();
+                        func_800A48F0(result, 1, (value & 0x3F) | 0x20);
+                        (*(Callback *)((u8 *)((void *)part_data) + 0x2C)) = D_8016E000;
+                    }
+                }
             }
         }
-
-initialize:
         func_800A9C18(object, motion, (void *)part_data, flags_held);
 
         tail_actor = (void *)param_b;

@@ -142,10 +142,9 @@ void func_800B1768(s16 icon, s32 value_a, s32 value_b, s32 style, s16 compact, u
                 buf = func_800B1434(call_arg, D_80073618[icon_held]);
                 index = count;
                 *(u32 *)((u8 *)obj + 0x58) = 0x808080;
-                goto shared_setup;
+            } else {
+                index = 0;
             }
-            index = 0;
-shared_setup:
             call_arg = buf;
             base_2 = (u8 *)D_800DF03C;
             table_entry = (s32 *)((style_byte * 4) + (s32)base_2);

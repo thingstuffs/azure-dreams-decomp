@@ -93,15 +93,14 @@ void *func_800B23F8(s32 mode, s32 part_b_byte_24, s32 part_b_byte_25, s32 part_a
         if (kind == kind_test) {
             flags_14 = ((S_800B23F8_1 *)work)->unk_14 | 0x6000;
             flags_1c = ((S_800B23F8_1 *)work)->unk_1C | 0x6000;
-            goto write_kind;
+        } else {
+            kind_test = kind < 2;
+            if (kind_test) {
+                goto post_kind;
+            }
+            flags_14 = ((S_800B23F8_1 *)work)->unk_14 | 0x2000;
+            flags_1c = ((S_800B23F8_1 *)work)->unk_1C | 0x2000;
         }
-        kind_test = kind < 2;
-        if (kind_test) {
-            goto post_kind;
-        }
-        flags_14 = ((S_800B23F8_1 *)work)->unk_14 | 0x2000;
-        flags_1c = ((S_800B23F8_1 *)work)->unk_1C | 0x2000;
-write_kind:
         ((S_800B23F8_1 *)work)->unk_14 = flags_14;
         ((S_800B23F8_1 *)work)->unk_1C = flags_1c;
 

@@ -192,12 +192,10 @@ void func_800C2824(void *effect, void *vertices, void *sprite) {
     state = ((S_800C2824_0 *)effect)->unk_04;
     switch (state) {
     case 0:
-    if (((S_800C2824_16 *)(((S_800C2824_0 *)effect)->unk_00))->unk_14 & 0x4000) {
-        goto init_fade;
+    if (!(((S_800C2824_16 *)(((S_800C2824_0 *)effect)->unk_00))->unk_14 & 0x4000)) {
+        ((S_800C2824_0 *)effect)->unk_04 = 0x10;
+        return;
     }
-    ((S_800C2824_0 *)effect)->unk_04 = 0x10;
-    return;
-init_fade:
     effect_args.sp20 = 0x01800340;
     effect_args.sp24 = 0x400040;
     effect_args.sp28 = 0x360;
@@ -241,34 +239,27 @@ init_fade:
     return;
     case 2:
     linked_object = func_800A32A4(((S_800C2824_0 *)effect)->unk_00);
-    if (linked_object == 0) {
-        goto release_tile;
+    if (linked_object != 0) {
+        object_slot = func_800A6620(linked_object, 0);
+        if (object_slot < 0x40) {
+            slots_page = (u8 *)0x80010000;
+            ((S_800C2824_5 *)(slots_page + (object_slot * 0x54)))->unk_A93 = 0;
+            ((s32 *)0x80010980)[object_slot] = 0;
+        }
     }
-    object_slot = func_800A6620(linked_object, 0);
-    if (object_slot >= 0x40) {
-        goto release_tile;
+    if ((func_80042900(((S_800C2824_0 *)effect)->unk_00, 0x1B) << 0x10) == 0) {
+        release_object = ((S_800C2824_0 *)effect)->unk_00;
+        release_status = ((S_800C2824_6 *)release_object)->unk_1C;
+        release_coord = (u32)((S_800C2824_6_pre *)release_object)[-1].unk_00;
+        release_status &= 0x2000;
+        release_x = ((S_800C2824_7 *)((void *)release_coord))->unk_24;
+        release_coord = ((S_800C2824_7 *)((void *)release_coord))->unk_25;
+        release_flags = 0x3000;
+        if (release_status) {
+            release_flags = 0x300;
+        }
+        func_8009A3D0(release_x, release_coord, release_flags);
     }
-    slots_page = (u8 *)0x80010000;
-    ((S_800C2824_5 *)(slots_page + (object_slot * 0x54)))->unk_A93 = 0;
-    ((s32 *)0x80010980)[object_slot] = 0;
-release_tile:
-    if ((func_80042900(((S_800C2824_0 *)effect)->unk_00, 0x1B) << 0x10) != 0) {
-        goto finish_release;
-    }
-    release_object = ((S_800C2824_0 *)effect)->unk_00;
-    release_status = ((S_800C2824_6 *)release_object)->unk_1C;
-    release_coord = (u32)((S_800C2824_6_pre *)release_object)[-1].unk_00;
-    release_status &= 0x2000;
-    release_x = ((S_800C2824_7 *)((void *)release_coord))->unk_24;
-    release_coord = ((S_800C2824_7 *)((void *)release_coord))->unk_25;
-    release_flags = 0x3000;
-    if (!release_status) {
-        goto clear_release_tile;
-    }
-    release_flags = 0x300;
-clear_release_tile:
-    func_8009A3D0(release_x, release_coord, release_flags);
-finish_release:
     func_8009A028(((S_800C2824_0 *)effect)->unk_00);
     func_80099844(((S_800C2824_0 *)effect)->unk_00, &D_800E1640);
     ((S_800C2824_0 *)effect)->unk_04 = (u16) ((S_800C2824_0 *)effect)->unk_04 + 1;
@@ -315,28 +306,25 @@ finish_release:
         final_object = D_800DF560;
         flags_page = (u8 *)0x80080000;
         effect_flags = ((S_800C2824_10 *)flags_page)->unk_14A0;
-        goto finish_expired_done;
+    } else {
+        expired_object = ((S_800C2824_0 *)effect)->unk_00;
+        expired_status = ((S_800C2824_12 *)expired_object)->unk_1C;
+        expired_coord = (u32)((S_800C2824_12_pre *)expired_object)[-1].unk_00;
+        expired_status &= 0x2000;
+        expired_x = ((S_800C2824_13 *)((void *)expired_coord))->unk_24;
+        expired_coord = ((S_800C2824_13 *)((void *)expired_coord))->unk_25;
+        tile_flags = 0x3000;
+        if (expired_status) {
+            tile_flags = 0x300;
+        }
+        func_8009A3D0(expired_x, expired_coord, tile_flags);
+        func_8009A028(((S_800C2824_0 *)effect)->unk_00);
+        finished_object = ((S_800C2824_0 *)effect)->unk_00;
+        (*(u16 *)((u8 *)finished_object + -2)) = (u16) (((S_800C2824_14_pre *)finished_object)[-1].unk_00 | 0x8000);
+        final_object = D_800DF560;
+        flags_page = (u8 *)0x80080000;
+        effect_flags = ((S_800C2824_10 *)flags_page)->unk_14A0;
     }
-    expired_object = ((S_800C2824_0 *)effect)->unk_00;
-    expired_status = ((S_800C2824_12 *)expired_object)->unk_1C;
-    expired_coord = (u32)((S_800C2824_12_pre *)expired_object)[-1].unk_00;
-    expired_status &= 0x2000;
-    expired_x = ((S_800C2824_13 *)((void *)expired_coord))->unk_24;
-    expired_coord = ((S_800C2824_13 *)((void *)expired_coord))->unk_25;
-    tile_flags = 0x3000;
-    if (!expired_status) {
-        goto clear_expired_tile;
-    }
-    tile_flags = 0x300;
-clear_expired_tile:
-    func_8009A3D0(expired_x, expired_coord, tile_flags);
-    func_8009A028(((S_800C2824_0 *)effect)->unk_00);
-    finished_object = ((S_800C2824_0 *)effect)->unk_00;
-    (*(u16 *)((u8 *)finished_object + -2)) = (u16) (((S_800C2824_14_pre *)finished_object)[-1].unk_00 | 0x8000);
-    final_object = D_800DF560;
-    flags_page = (u8 *)0x80080000;
-    effect_flags = ((S_800C2824_10 *)flags_page)->unk_14A0;
-    finish_expired_done:
     ;
     final_flags = ((S_800C2824_15 *)final_object)->unk_1E;
     effect_flags |= 0x8000;

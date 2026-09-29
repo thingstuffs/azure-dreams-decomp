@@ -21,17 +21,14 @@ void func_8003F6F4(void)
 do {
   signed_type = entry->type;
   type = (signed_type < 0) ? -signed_type : signed_type;
-  if (type == 5)
-  {
-    goto case5;
+  if (type != 5) {
+      if (type == 6)
+      {
+        goto case6;
+      }
+      entry--;
+      goto next;
   }
-  if (type == 6)
-  {
-    goto case6;
-  }
-  entry--;
-  goto next;
-case5:
   if (func_80053428(entry) != 0)
   {
     entry->type = 0;

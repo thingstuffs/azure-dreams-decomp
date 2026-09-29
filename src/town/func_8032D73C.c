@@ -9,13 +9,11 @@ s32 func_80017F3C(s32 check_input_1, s32 check_input_2) {
     s32 result;
 
     result = func_80019C68(check_input_1, check_input_2);
-    if (result == 0)
-        goto zero_result;
-    D_8001F15A[0] = 0;
-    goto done;
-zero_result:
-    D_8001F15A[0] = 1;
-    func_8001AD60(0xD7A);
-done:
+    if (result != 0) {
+        D_8001F15A[0] = 0;
+    } else {
+        D_8001F15A[0] = 1;
+        func_8001AD60(0xD7A);
+    }
     return result;
 }

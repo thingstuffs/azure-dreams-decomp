@@ -94,24 +94,21 @@ Body *func_8015E894(s32 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c) {
             child_b->field_2C = D_80162ED8;
             goto after_child_value;
         }
-        if ((s16)(held_flags & ~3) != 0) {
-            goto callback_on_body;
-        }
-        if (body->flags_14 & 0x200) {
+        if ((s16)(held_flags & ~3) == 0) {
+            if (body->flags_14 & 0x200) {
+                body_alias->callback_8C = D_8015EE9C;
+                goto load_child_value;
+            }
+            if (!(func_800A6D30() & 1)) {
+                body_alias->callback_8C = D_8015EE9C;
+                goto load_child_value;
+            }
+            func_800A48F0(body, 1, (func_800A6D30() & 0x3F) | 0x20);
+            child_b->field_2C = D_80162F00;
             body_alias->callback_8C = D_8015EE9C;
-            goto load_child_value;
+        } else {
+            body->callback_8C = D_8015EE9C;
         }
-        if (!(func_800A6D30() & 1)) {
-            body_alias->callback_8C = D_8015EE9C;
-            goto load_child_value;
-        }
-        func_800A48F0(body, 1, (func_800A6D30() & 0x3F) | 0x20);
-        child_b->field_2C = D_80162F00;
-        body_alias->callback_8C = D_8015EE9C;
-        goto load_child_value;
-
-callback_on_body:
-        body->callback_8C = D_8015EE9C;
 load_child_value:
         child_b->field_2C = D_80162ED8;
 after_child_value:

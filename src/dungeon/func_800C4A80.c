@@ -88,27 +88,25 @@ s32 func_800CA1E0(u32 action_flags, void *position, void *volatile object, u32 h
     ASM_KEEP_DEP_NV(bounds_page, target_x);
     coord_value = target_x & 0xFFFF;
     bounds = (u8 *)(bounds_page + 0x333C);
-    if (coord_value == 0) {
-        goto out_of_bounds;
+    if (coord_value != 0) {
+        ASM_KEEP_NV(bounds);
+        position_copy = (void *)1;
+        if (((1 << ((S_800CA1E0_1 *)bounds)->unk_14) - 1) < coord_value) {
+            return -1;
+        }
+        bounds_page = (u32)((s32)(dirStepY));
+        step_y = (u16 *)((u32)direction_offset + (u32)(u16 *)(s32)bounds_page);
+        coord_value = coords->unk_25.s;
+        bounds_page = (u32)(*step_y);
+        target_coord = coord_value + (s32)bounds_page;
+        coord_value = target_coord & 0xFFFF;
+        if (coord_value == 0) {
+            return -1;
+        }
+        if (!(((1 << ((S_800CA1E0_1 *)bounds)->unk_16) - 1) < coord_value)) {
+            goto check_step;
+        }
     }
-    ASM_KEEP_NV(bounds);
-    position_copy = (void *)1;
-    if (((1 << ((S_800CA1E0_1 *)bounds)->unk_14) - 1) < coord_value) {
-        return -1;
-    }
-    bounds_page = (u32)((s32)(dirStepY));
-    step_y = (u16 *)((u32)direction_offset + (u32)(u16 *)(s32)bounds_page);
-    coord_value = coords->unk_25.s;
-    bounds_page = (u32)(*step_y);
-    target_coord = coord_value + (s32)bounds_page;
-    coord_value = target_coord & 0xFFFF;
-    if (coord_value == 0) {
-        return -1;
-    }
-    if (!(((1 << ((S_800CA1E0_1 *)bounds)->unk_16) - 1) < coord_value)) {
-        goto check_step;
-    }
-out_of_bounds:
     early_result = -1;
     return early_result;
 check_step:
@@ -147,10 +145,9 @@ check_step:
     target_x = coord_value + target_coord;
     target_coord = (s32)bounds_page + center_y;
     func_8009A350(lookup_arg, query_arg, direction_arg, tile_flags_out);
-    if ((tile_flags & 0x8002) != 0) {
-        goto blocked;
+    if ((tile_flags & 0x8002) == 0) {
+        goto check_entity;
     }
-    goto check_entity;
 blocked:
     early_result = 0;
     return early_result;

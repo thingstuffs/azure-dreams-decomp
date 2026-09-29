@@ -66,61 +66,58 @@ s32 func_800BDEB8(void *entity, s32 action_id, s16 mode) {
     if (entity == current_entity) {
         ((S_800BDEB8_0 *)entity)->unk_110 = action_id;
         func_8008D330(target, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), target);
-        goto return_zero;
-    }
-
-    if ((u32)entity <= 0x9FFFFFFF) {
-        func_800A63B8(entity, action_id, mode);
-        if (func_800AD6FC(entity, (D_800DDE84[((S_800BDEB8_0 *)entity)->unk_13] >> 6) & 3, 0) == 0) {
-            func_800A5F38(entity, action_id);
-            return 1;
-        }
-    }
-
-    entity_id = ((S_800BDEB8_0 *)entity)->unk_13;
-    if (entity_id >= 0x2E) {
-        goto set_special;
-    }
-    if (entity_id == 0x1E) {
-        if ((((S_800BDEB8_0 *)entity)->unk_A4 != 0) || (((S_800BDEB8_0 *)entity)->unk_AA != 0)) {
-            special_case = 1;
-        }
-        result = special_case;
     } else {
-        result = special_case;
-    }
-    if (result != 0) {
-        goto show_special;
-    }
-
-    flag_mask = 0x80000;
-    original_id = ((S_800BDEB8_0 *)entity)->unk_13;
-    if (((S_800BDEB8_0 *)entity)->unk_1C & flag_mask) {
-        ((S_800BDEB8_1 *)(((S_800BDEB8_0_pre *)entity)[-1].unk_00))->unk_06 = 0;
-    }
-    {
-        u8 *message; /* MATCH: Keep the merged message address in retail's argument register. */
-        result = func_800A48F0(entity, 10, 0x20);
-        if ((s16)result >= 0) {
-            saved_id_2 = ((S_800BDEB8_0 *)entity)->unk_13;
-            message_handle = func_800990FC();
-            ((S_800BDEB8_0 *)entity)->unk_13 = original_id;
-            result = func_80099734(entity, message_handle);
-            ((S_800BDEB8_0 *)entity)->unk_13 = saved_id_2;
-            message = D_800E0FA4;
-            result = func_80099194(message, result);
-        } else {
-            message_handle = func_800990FC();
-            message = D_800E0FB9;
-            result = func_80099194(message, message_handle);
+        if ((u32)entity <= 0x9FFFFFFF) {
+            func_800A63B8(entity, action_id, mode);
+            if (func_800AD6FC(entity, (D_800DDE84[((S_800BDEB8_0 *)entity)->unk_13] >> 6) & 3, 0) == 0) {
+                func_800A5F38(entity, action_id);
+                return 1;
+            }
         }
-    }
-    func_80099290(result);
-    func_800A5720(message_handle);
-    func_800D5460((u8 *)entity - 0x20, 0x20A0A0, 0x613);
-    goto check_special;
 
-return_zero:
+        entity_id = ((S_800BDEB8_0 *)entity)->unk_13;
+        if (entity_id >= 0x2E) {
+            goto set_special;
+        }
+        if (entity_id == 0x1E) {
+            if ((((S_800BDEB8_0 *)entity)->unk_A4 != 0) || (((S_800BDEB8_0 *)entity)->unk_AA != 0)) {
+                special_case = 1;
+            }
+            result = special_case;
+        } else {
+            result = special_case;
+        }
+        if (result != 0) {
+            goto show_special;
+        }
+
+        flag_mask = 0x80000;
+        original_id = ((S_800BDEB8_0 *)entity)->unk_13;
+        if (((S_800BDEB8_0 *)entity)->unk_1C & flag_mask) {
+            ((S_800BDEB8_1 *)(((S_800BDEB8_0_pre *)entity)[-1].unk_00))->unk_06 = 0;
+        }
+        {
+            u8 *message; /* MATCH: Keep the merged message address in retail's argument register. */
+            result = func_800A48F0(entity, 10, 0x20);
+            if ((s16)result >= 0) {
+                saved_id_2 = ((S_800BDEB8_0 *)entity)->unk_13;
+                message_handle = func_800990FC();
+                ((S_800BDEB8_0 *)entity)->unk_13 = original_id;
+                result = func_80099734(entity, message_handle);
+                ((S_800BDEB8_0 *)entity)->unk_13 = saved_id_2;
+                message = D_800E0FA4;
+                result = func_80099194(message, result);
+            } else {
+                message_handle = func_800990FC();
+                message = D_800E0FB9;
+                result = func_80099194(message, message_handle);
+            }
+        }
+        func_80099290(result);
+        func_800A5720(message_handle);
+        func_800D5460((u8 *)entity - 0x20, 0x20A0A0, 0x613);
+        goto check_special;
+    }
     return 0;
 
 set_special:

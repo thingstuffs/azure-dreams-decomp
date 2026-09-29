@@ -131,7 +131,6 @@ void func_8008EAC8(void *arg0, void *arg1, void *arg2, void *arg3) {
     void *code8_a0;
     s32 tail_data_flags;
     void *call_arg;
-    u8 *data;
     void *temp_v0;
     void *temp_v0_2;
 
@@ -140,9 +139,7 @@ void func_8008EAC8(void *arg0, void *arg1, void *arg2, void *arg3) {
             func_8008D94C(arg0, arg1, arg2, arg3);
             return;
         }
-        goto block_5;
     }
-block_5:
     ((Rec_func_8008ACDC_arg0 *)arg0)->unk_9A.as_u8 = 0xEU;
     if (!(((S_8008EAC8_1 *)arg3)->unk_14 & 0x100000)) {
         func_800A4300(arg2, arg3);
@@ -197,7 +194,8 @@ block_5:
                     ((Rec_func_8008ACDC_arg0 *)arg0)->unk_104 = 0;
                     return;
                 }
-                goto code_10;
+                func_8008C7B4(arg0, arg1, arg2, arg3);
+                return;
             }
             ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             if (D_80013714_second & 1) {
@@ -261,115 +259,94 @@ block_5:
                             ((S_8008EAC8_1 *)arg3)->unk_2A.u = step;
                         }
                         func_8009F988(temp_a0);
-                        goto block_153;
-                    }
-                    *(volatile s8 *) &D_800E3544 = (s8) (((S_8008EAC8_6 *)temp_v0)->unk_01 & 0xF8);
-                    temp_code = *(u8 *) &D_800E3544;
-                    if (temp_code == 0x70) goto code_70;
-                    if (temp_code >= 0x71) goto code_high;
-                    if (temp_code == 0x30) goto code_30;
-                    if (temp_code >= 0x31) goto code_mid;
-                    if (temp_code == 0x10) goto code_10;
-                    if (temp_code >= 0x11) goto code_low_mid;
-                    code8_a0 = arg0;
-                    if (temp_code == 8) goto code_8;
-                    return;
-code_low_mid:
-                    if (temp_code == 0x28) goto code_28;
-                    return;
-code_mid:
-                    if (temp_code == 0x50) goto code_50;
-                    if (temp_code >= 0x51) goto code_mid_high;
-                    if (temp_code == 0x48) goto code_48;
-                    return;
-code_mid_high:
-                    if (temp_code == 0x68) goto code_68;
-                    return;
-code_high:
-                    if (temp_code == 0x90) goto code_90;
-                    if (temp_code >= 0x91) goto code_top;
-                    if (temp_code == 0x80) goto code_80;
-                    if (temp_code >= 0x81) goto code_high_mid;
-                    if (temp_code == 0x78) goto code_78;
-                    return;
-code_high_mid:
-                    if (temp_code == 0x88) goto code_88;
-                    return;
-code_top:
-                    if (temp_code == 0xA0) goto code_A0;
-                    if (temp_code >= 0xA1) goto code_top_high;
-                    if (temp_code == 0x98) goto code_98;
-                    return;
-code_top_high:
-                    if (temp_code == 0xD8) goto code_D8;
-                    return;
-code_10:
-                    func_8008C7B4(arg0, arg1, arg2, arg3);
-                    return;
-                    return;
-code_48:
-                    if (func_80095538(arg0, ((S_8008EAC8_6 *)temp_v0)->unk_00 & 0x1F, ((S_8008EAC8_6 *)temp_v0)->unk_02 & 0x1F) >= 0) {
-                        func_8009FAAC();
+                        call_arg = arg2;
+                        (*(u8 **)((u8 *)call_arg + (0x2C))) = D_800DD0B8;
+                        func_80048A44(call_arg, *((u8 *) (((s32) (gameWork.view.viewAngle + (s16) ((S_8008EAC8_1 *)arg3)->unk_2A.u + 0x100) >> 9) & 7) + (u32) D_800DD0B8), 0, 1);
                         return;
                     }
-                    func_8009F988();
-                    return;
-code_50:
-                    temp_a0_2 = ((S_8008EAC8_6 *)temp_v0)->unk_00;
-                    temp_v0 = (void *) ((u32) (temp_a0_2 & 0x60) >> 5);
-                    temp_v0_2 = func_8009FADC(temp_a0_2 & 0x1F, temp_a1);
-                    if (func_80098920(((S_8008EAC8_7 *)(((((u32) temp_v0) * 4) + arg0)))->unk_AC, temp_v0_2, 0x15, 0) < 0) {
+                    ((S_8008EAC8_10 *)(&D_800E3544))->unk_00 = (s8) (((S_8008EAC8_6 *)temp_v0)->unk_01 & 0xF8);
+                    temp_code = *(u8 *) &D_800E3544;
+                    switch (temp_code) {
+                    case 0x10:
+                        func_8008C7B4(arg0, arg1, arg2, arg3);
+                        return;
+                    case 0x48:
+                        if (func_80095538(arg0, ((S_8008EAC8_6 *)temp_v0)->unk_00 & 0x1F, ((S_8008EAC8_6 *)temp_v0)->unk_02 & 0x1F) >= 0) {
+                            func_8009FAAC();
+                            return;
+                        }
                         func_8009F988();
                         return;
-                    }
-                    return;
-code_68:
-                    temp_v0_2 = func_8009FADC(((S_8008EAC8_6 *)temp_v0)->unk_00 & 0x1F, temp_a1);
-                    temp_v1_7 = ((S_8008EAC8_6 *)temp_v0)->unk_00;
-                    temp_v1_7 &= 0x60;
-                    temp_v1_7 >>= 5;
-                    func_80094270(arg0, arg1, arg2, (s32) temp_v0_2, temp_v1_7);
-                    return;
-code_88:
-                    temp_v1_7 = ((S_8008EAC8_6 *)temp_v0)->unk_00;
-                    temp_v1_7 &= 0x60;
-                    temp_v1_7 >>= 5;
-                    {
-                        s32 fourth;
-                        fourth = ((S_8008EAC8_8 *)(((temp_v1_7 * 4) + (u8 *)arg0)))->unk_D0;
-                        func_80094270(arg0, arg1, arg2, fourth, temp_v1_7);
-                    }
-                    return;
-code_70:
-                    temp_a1_5 = ((S_8008EAC8_6 *)temp_v0)->unk_00;
-                    func_80094548((u32) (temp_a1_5 & 0x60) >> 5, temp_a1_5 & 7);
-                    return;
-code_78:
-                    temp_a1_2 = ((S_8008EAC8_6 *)temp_v0)->unk_00;
-                    func_8009458C((u32) (temp_a1_2 & 0x60) >> 5, temp_a1_2 & 0x1F);
-                    return;
-code_80:
-                    temp_a1_3 = ((S_8008EAC8_6 *)temp_v0)->unk_00;
-                    func_800945C4((u32) (temp_a1_3 & 0x60) >> 5, temp_a1_3 & 0x1F);
-                    return;
-code_90:
-                    temp_a1_4 = ((S_8008EAC8_6 *)temp_v0)->unk_00;
-                    func_8009456C((u32) (temp_a1_4 & 0x60) >> 5, temp_a1_4 & 7);
-                    return;
-code_98:
-                    temp_v0_2 = func_8009FADC(((S_8008EAC8_6 *)temp_v0)->unk_00 & 0x1F, temp_a1);
-                    if (((S_8008EAC8_9 *)temp_v0_2)->unk_03 & 0x20) {
-                        func_800956B8(arg0, arg1, arg2, temp_v0_2);
+                    case 0x50:
+                        temp_a0_2 = ((S_8008EAC8_6 *)temp_v0)->unk_00;
+                        temp_v0 = (void *) ((u32) (temp_a0_2 & 0x60) >> 5);
+                        temp_v0_2 = func_8009FADC(temp_a0_2 & 0x1F, temp_a1);
+                        if (func_80098920(((S_8008EAC8_7 *)(((((u32) temp_v0) * 4) + arg0)))->unk_AC, temp_v0_2, 0x15, 0) < 0) {
+                            func_8009F988();
+                            return;
+                        }
+                        return;
+                    case 0x68:
+                        temp_v0_2 = func_8009FADC(((S_8008EAC8_6 *)temp_v0)->unk_00 & 0x1F, temp_a1);
+                        temp_v1_7 = ((S_8008EAC8_6 *)temp_v0)->unk_00;
+                        temp_v1_7 &= 0x60;
+                        temp_v1_7 >>= 5;
+                        func_80094270(arg0, arg1, arg2, (s32) temp_v0_2, temp_v1_7);
+                        return;
+                    case 0x88:
+                        temp_v1_7 = ((S_8008EAC8_6 *)temp_v0)->unk_00;
+                        temp_v1_7 &= 0x60;
+                        temp_v1_7 >>= 5;
+                        {
+                            s32 fourth;
+                            fourth = ((S_8008EAC8_8 *)(((temp_v1_7 * 4) + (u8 *)arg0)))->unk_D0;
+                            func_80094270(arg0, arg1, arg2, fourth, temp_v1_7);
+                        }
+                        return;
+                    case 0x70:
+                        temp_a1_5 = ((S_8008EAC8_6 *)temp_v0)->unk_00;
+                        func_80094548((u32) (temp_a1_5 & 0x60) >> 5, temp_a1_5 & 7);
+                        return;
+                    case 0x78:
+                        temp_a1_2 = ((S_8008EAC8_6 *)temp_v0)->unk_00;
+                        func_8009458C((u32) (temp_a1_2 & 0x60) >> 5, temp_a1_2 & 0x1F);
+                        return;
+                    case 0x80:
+                        temp_a1_3 = ((S_8008EAC8_6 *)temp_v0)->unk_00;
+                        func_800945C4((u32) (temp_a1_3 & 0x60) >> 5, temp_a1_3 & 0x1F);
+                        return;
+                    case 0x90:
+                        temp_a1_4 = ((S_8008EAC8_6 *)temp_v0)->unk_00;
+                        func_8009456C((u32) (temp_a1_4 & 0x60) >> 5, temp_a1_4 & 7);
+                        return;
+                    case 0x98:
+                        temp_v0_2 = func_8009FADC(((S_8008EAC8_6 *)temp_v0)->unk_00 & 0x1F, temp_a1);
+                        if (((S_8008EAC8_9 *)temp_v0_2)->unk_03 & 0x20) {
+                            func_800956B8(arg0, arg1, arg2, temp_v0_2);
+                            return;
+                        }
+                        func_80095854(arg0, arg1, arg2, temp_v0_2);
+                        return;
+                    case 0xA0:
+                        func_8002534C(arg0, arg1, arg2, arg3);
+                        return;
+                    case 0xD8:
+                        D_800DD830[((S_8008EAC8_6 *)temp_v0)->unk_00 & 0x7F](temp_a0, temp_a1);
+                        return;
+                    case 8:
+                            code8_a0 = arg0;
+                            func_8008C13C(code8_a0, arg1, arg2, arg3);
+                            return;
+                    case 0x28:
+                            func_8008F6EC(arg0, arg1, arg2, arg3);
+                            return;
+                    case 0x30:
+                            ((Rec_func_8008ACDC_arg0 *)arg0)->unk_96.as_s16 = 6;
+                            func_8008FA14(arg0, arg1, arg2, arg3);
+                            return;
+                    default:
                         return;
                     }
-                    func_80095854(arg0, arg1, arg2, temp_v0_2);
-                    return;
-code_A0:
-                    func_8002534C(arg0, arg1, arg2, arg3);
-                    return;
-code_D8:
-                    D_800DD830[((S_8008EAC8_6 *)temp_v0)->unk_00 & 0x7F](temp_a0, temp_a1);
-                    return;
                 }
             } else {
                 s32 flag_200;
@@ -403,7 +380,6 @@ code_D8:
                                         code8_a0 = arg0;
                                     } while (0);
                                 }
-code_8:
                                 func_8008C13C(code8_a0, arg1, arg2, arg3);
                                 return;
                             }
@@ -423,35 +399,27 @@ code_8:
                         if (flag40) {
                             flag40 = tail_data_flags & 0x40;
                             if (flag40 == 0) {
-                                void *tail_a0 = arg2;
-                                void *tail_a1 = arg1;
-
                                 ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 = (u16) (temp_v1_6 & 0xFFBF);
-                                goto block_153;
                             }
-                            goto block_153;
-                        }
-                    }
-                    if (tail_data_flags & 0x40) {
-                        if (!(tail_data_flags & 0x20)) {
-code_28:
-                            func_8008F6EC(arg0, arg1, arg2, arg3);
+                        } else if (tail_data_flags & 0x40) {
+                            if (!(tail_data_flags & 0x20)) {
+                                func_8008F6EC(arg0, arg1, arg2, arg3);
+                                return;
+                            }
+                            ((Rec_func_8008ACDC_arg0 *)arg0)->unk_96.as_s16 = 6;
+                            func_8008FA14(arg0, arg1, arg2, arg3);
                             return;
                         }
-code_30:
-                        ((Rec_func_8008ACDC_arg0 *)arg0)->unk_96.as_s16 = 6;
-                        func_8008FA14(arg0, arg1, arg2, arg3);
-                        return;
                     }
-                    goto block_153;
+                    call_arg = arg2;
+                    (*(u8 **)((u8 *)call_arg + (0x2C))) = D_800DD0B8;
+                    func_80048A44(call_arg, *((u8 *) (((s32) (gameWork.view.viewAngle + (s16) ((S_8008EAC8_1 *)arg3)->unk_2A.u + 0x100) >> 9) & 7) + (u32) D_800DD0B8), 0, 1);
                 }
             }
         } else {
-block_153:
             call_arg = arg2;
-            data = D_800DD0B8;
-            (*(u8 **)((u8 *)call_arg + (0x2C))) = data;
-            func_80048A44(call_arg, *((u8 *) (((s32) (gameWork.view.viewAngle + (s16) ((S_8008EAC8_1 *)arg3)->unk_2A.u + 0x100) >> 9) & 7) + (u32) data), 0, 1);
+            (*(u8 **)((u8 *)call_arg + (0x2C))) = D_800DD0B8;
+            func_80048A44(call_arg, *((u8 *) (((s32) (gameWork.view.viewAngle + (s16) ((S_8008EAC8_1 *)arg3)->unk_2A.u + 0x100) >> 9) & 7) + (u32) D_800DD0B8), 0, 1);
         }
     }
 }

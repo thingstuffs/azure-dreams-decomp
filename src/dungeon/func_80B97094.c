@@ -125,22 +125,21 @@ void *func_80170894(s32 spawn_flags, s8 attr_a, s16 attr_b, s16 attr_c)
             test <<= 16;
             if (test != 0) {
                 callback_page = (u8 *)0x80170000;
-                goto work_callback;
-            }
-            if (((S_80170894_0 *)work)->unk_14 & 0x200) {
-                callback_page = (u8 *)0x80170000;
-            } else if (!(func_800A6D30() & 1)) {
-                callback_page = (u8 *)0x80170000;
             } else {
-                func_800A48F0(work, 1,
-                              (func_800A6D30() & 0x3F) | 0x20);
-                ((S_80170894_3 *)part_b)->unk_2C = func_80174F00;
-                callback_page = (u8 *)0x80170000;
+                if (((S_80170894_0 *)work)->unk_14 & 0x200) {
+                    callback_page = (u8 *)0x80170000;
+                } else if (!(func_800A6D30() & 1)) {
+                    callback_page = (u8 *)0x80170000;
+                } else {
+                    func_800A48F0(work, 1,
+                                  (func_800A6D30() & 0x3F) | 0x20);
+                    ((S_80170894_3 *)part_b)->unk_2C = func_80174F00;
+                    callback_page = (u8 *)0x80170000;
+                }
+                ((S_80170894_4 *)actor)->unk_8C = callback_page + 0xE9C;
+                ((S_80170894_3 *)part_b)->unk_2C = func_80174ED8;
+                goto callback_done;
             }
-            ((S_80170894_4 *)actor)->unk_8C = callback_page + 0xE9C;
-            ((S_80170894_3 *)part_b)->unk_2C = func_80174ED8;
-            goto callback_done;
-work_callback:
             ((S_80170894_0 *)work)->unk_8C = callback_page + 0xE9C;
             ((S_80170894_3 *)part_b)->unk_2C = func_80174ED8;
         }

@@ -39,15 +39,12 @@ void func_8017328C(void *action, void *motion, void *sprite, void *actor)
     if (state == 1) {
         goto state_one;
     }
-    if ((s32)state >= 2) {
-        goto state_two_test;
+    if ((s32)state < 2) {
+        if (state == 0) {
+            goto state_zero;
+        }
+        return;
     }
-    if (state == 0) {
-        goto state_zero;
-    }
-    return;
-
-state_two_test:
     if (state == 2) {
         goto state_two;
     }

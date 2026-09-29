@@ -57,32 +57,28 @@ void func_801249A0(Object *object)
         slot_index = object->field_16;
         target_value = object->field_13;
         active_value = *((u8 *)object + slot_index + 0x17);
-        if (active_value == target_value) {
-            goto matched_six;
+        if (active_value != target_value) {
+            slot_index ^= 1;
+            alternate_value = *((u8 *)object + slot_index + 0x17);
+            if (alternate_value != target_value) {
+                goto check_five;
+            }
+            slot_object = object;
+            object->field_16 = slot_index;
+            func_801237A4(slot_object);
         }
-        slot_index ^= 1;
-        alternate_value = *((u8 *)object + slot_index + 0x17);
-        if (alternate_value != target_value) {
-            goto check_five;
-        }
-        slot_object = object;
-        object->field_16 = slot_index;
-        func_801237A4(slot_object);
-matched_six:
         object->field_A = 6;
         object->field_4 = 1;
         object->field_6 = 0x19;
         return;
 check_five:
-        if (active_value == 0xFF) {
-            goto matched_five;
+        if (active_value != 0xFF) {
+            if (alternate_value == 0xFF) {
+                slot_object = object;
+                object->field_16 = slot_index;
+                func_801237A4(slot_object);
+            }
         }
-        if (alternate_value == 0xFF) {
-            slot_object = object;
-            object->field_16 = slot_index;
-            func_801237A4(slot_object);
-        }
-matched_five:
         object->field_A = 5;
         object->field_B = 0;
         return;
@@ -185,14 +181,12 @@ matched_five:
         object->field_12 = previous_selection;
     }
     object->field_6 = 4;
-    if ((*(volatile u8 *)&object->field_11) != 0) {
-        goto set_two;
+    if ((*(volatile u8 *)&object->field_11) == 0) {
+        side_value = object->field_10;
+        object->field_A = 3;
+        object->field_10 = side_value ^ 1;
+        goto toggle_done;
     }
-    side_value = object->field_10;
-    object->field_A = 3;
-    object->field_10 = side_value ^ 1;
-    goto toggle_done;
-
 set_two:
     object->field_A = 2;
     return;

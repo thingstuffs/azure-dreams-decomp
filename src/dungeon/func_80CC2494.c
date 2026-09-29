@@ -22,23 +22,18 @@ s32 func_80175C94(void *object, s32 query_x, s32 query_y, s32 action_override) {
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     override_bits = saved_override << 16;
     ASM_KEEP(saved_override);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    if (override_bits != 0) {
-        goto call_block;
+    if (override_bits == 0) {
+        next_state = 0xE;
+        if (action_result != 0) {
+            if (action_result == 2) {
+                goto call_block;
+            }
+            goto tail_block;
+        }
+        *((s8 *)saved_object + 0x9A) = next_state;
+        func_800A9A0C(saved_object);
+        return 0;
     }
-    next_state = 0xE;
-    if (action_result == 0) {
-        goto zero_block;
-    }
-    if (action_result == 2) {
-        goto call_block;
-    }
-    goto tail_block;
-
-zero_block:
-    *((s8 *)saved_object + 0x9A) = next_state;
-    func_800A9A0C(saved_object);
-    return 0;
-
 call_block:
     func_8017405C(saved_object, query_x, query_y, saved_object);
     return 0;
@@ -47,11 +42,9 @@ tail_block:
     *((u8 *)saved_object + 0x71) &= 0x7F;
     if (dungeonStatus.flags & 8) {
         clear_result = 0;
-        goto clear_halfword;
+    } else {
+        return 1;
     }
-    return 1;
-
-clear_halfword:
     *(u16 *)((u8 *)saved_object + 0x46) &= 0x7FFF;
     return clear_result;
 

@@ -126,23 +126,21 @@ state_2:
     ((Rec_func_800206D0_arg1 *)motion)->unk_14 += 0x30000;
     ((S_800236BC_1 *)object)->unk_06.u--;
     collision_addr = 0x80020000;
-    if (((Rec_func_800206D0_arg1 *)motion)->unk_08 < 0) {
-        goto state_2_collision;
+    if (((Rec_func_800206D0_arg1 *)motion)->unk_08 >= 0) {
+        ((Rec_func_800206D0_arg1 *)motion)->unk_08 = 0;
+        if (((S_800236BC_1 *)object)->unk_06.s < 0) {
+            sprite_data = D_800244DC[((S_800236BC_1 *)object)->unk_54];
+            ((Rec_D_80082E80 *)sprite)->unk_12.at00_s16.v = 0;
+            ((Rec_D_80082E80 *)sprite)->unk_04.as_u8 = 0;
+            ((Rec_D_80082E80 *)sprite)->unk_05.as_u8 = 0;
+            ((Rec_D_80082E80 *)sprite)->unk_08 = sprite_data;
+            ((Rec_func_800206D0_arg1 *)motion)->unk_14 = 0;
+            ((S_800236BC_1 *)object)->unk_06.s = 150;
+            ((S_800236BC_1 *)object)->unk_04.u++;
+        } else {
+            ((Rec_func_800206D0_arg1 *)motion)->unk_14 = -((Rec_func_800206D0_arg1 *)motion)->unk_14 >> 1;
+        }
     }
-    ((Rec_func_800206D0_arg1 *)motion)->unk_08 = 0;
-    if (((S_800236BC_1 *)object)->unk_06.s < 0) {
-        sprite_data = D_800244DC[((S_800236BC_1 *)object)->unk_54];
-        ((Rec_D_80082E80 *)sprite)->unk_12.at00_s16.v = 0;
-        ((Rec_D_80082E80 *)sprite)->unk_04.as_u8 = 0;
-        ((Rec_D_80082E80 *)sprite)->unk_05.as_u8 = 0;
-        ((Rec_D_80082E80 *)sprite)->unk_08 = sprite_data;
-        ((Rec_func_800206D0_arg1 *)motion)->unk_14 = 0;
-        ((S_800236BC_1 *)object)->unk_06.s = 150;
-        ((S_800236BC_1 *)object)->unk_04.u++;
-        goto state_2_collision;
-    }
-    ((Rec_func_800206D0_arg1 *)motion)->unk_14 = -((Rec_func_800206D0_arg1 *)motion)->unk_14 >> 1;
-state_2_collision:
     collision_addr = (u32)&D_80024488;
     if (func_8008FD9C((void *)collision_addr, motion, &D_800D0420, ((u8 *)(&D_80083780))) == 0) {
         return;

@@ -165,15 +165,12 @@ void func_80172D1C(void *actor, void *motion, void *sprite, void *entity) {
     if (state == 1) {
         goto state_1;
     }
-    if (state >= 2) {
-        goto check_state_2;
+    if (state < 2) {
+        if (state == 0) {
+            goto state_0;
+        }
+        goto end;
     }
-    if (state == 0) {
-        goto state_0;
-    }
-    goto end;
-
-check_state_2:
     if (state == 2) {
         goto state_2;
     }
@@ -214,13 +211,11 @@ state_1:
     timer = ((S_80172D1C_0 *)actor)->unk_96.s;
     if (timer > 0) {
         ((S_80172D1C_0 *)actor)->unk_96.s = ((S_80172D1C_0 *)actor)->unk_96.u - 1;
-        goto timer_join;
+    } else {
+        if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000) {
+            ((S_80172D1C_0 *)actor)->unk_96.s = 0;
+        }
     }
-    if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000) {
-        ((S_80172D1C_0 *)actor)->unk_96.s = 0;
-    }
-
-timer_join:
     if (((S_80172D1C_0 *)actor)->unk_96.s != 0) {
         goto end;
     }
@@ -265,22 +260,20 @@ state_2:
     }
     next_timer = ((S_80172D1C_0 *)actor)->unk_96.u - 1;
     ((S_80172D1C_0 *)actor)->unk_96.s = next_timer;
-    if ((next_timer << 16) > 0) {
-        goto end;
+    if ((next_timer << 16) <= 0) {
+        ((S_80172D1C_2 *)motion)->unk_14 = 0;
+        ((S_80172D1C_2 *)motion)->unk_10.s = 0;
+        ((S_80172D1C_2 *)motion)->unk_0C.s = 0;
+        func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+        (*(void * *)((u8 *)sprite + 0x2C)) = D_8017418C;
+        func_80047784(sprite,
+                      D_8017418C[((gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
+                      0);
+        if (((s32)dungeonStatus.unk_10) == (s32)((u8 *)entity - 0x20)) {
+            *(s32 *)&dungeonStatus.unk_10 &= 0x7FFFFFFF;
+        }
+        ((S_80172D1C_0 *)actor)->unk_8C = D_801711A4;
     }
-    ((S_80172D1C_2 *)motion)->unk_14 = 0;
-    ((S_80172D1C_2 *)motion)->unk_10.s = 0;
-    ((S_80172D1C_2 *)motion)->unk_0C.s = 0;
-    func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
-    (*(void * *)((u8 *)sprite + 0x2C)) = D_8017418C;
-    func_80047784(sprite,
-                  D_8017418C[((gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
-                  0);
-    if (((s32)dungeonStatus.unk_10) == (s32)((u8 *)entity - 0x20)) {
-        *(s32 *)&dungeonStatus.unk_10 &= 0x7FFFFFFF;
-    }
-    ((S_80172D1C_0 *)actor)->unk_8C = D_801711A4;
-
 end:
     return;
 }

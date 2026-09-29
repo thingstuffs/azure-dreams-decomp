@@ -33,24 +33,19 @@ void func_800B81AC(void) {
         entry = entry_table + (entry_index << 5);
         entry_kind = (obj->field22 = entry[0]);
 
-        if (entry_kind == 0x21) {
-            goto handler_21;
-        }
-        if (entry_kind >= 0x21) {
-            if (entry_kind < 0x29) {
-                if (entry_kind >= 0x26) {
-                    obj->handler = &D_800B7B8C;
-                    return;
+        if (entry_kind != 0x21) {
+            if (entry_kind >= 0x21) {
+                if (entry_kind < 0x29) {
+                    if (entry_kind >= 0x26) {
+                        obj->handler = &D_800B7B8C;
+                        return;
+                    }
                 }
             }
+        } else {
+            obj->handler = &D_800B7F8C;
+            return;
         }
-        goto default_handler;
-
-handler_21:
-        obj->handler = &D_800B7F8C;
-        return;
-
-default_handler:
         obj->handler = &D_800B7E78;
     }
 }
