@@ -161,13 +161,13 @@ def module_fingerprint(row):
 
 # ------------------------------------------------------------------- substitution helper (item 6)
 
-def rep(text, old, new, label=""):
-    """`text` with the first `old` replaced by `new`; on a miss, the nearest lines in the text.
+def rep(text, old, new, label="", count=1):
+    """`text` with the first `old` (every `old` when count=0) replaced by `new`; on a miss, the nearest lines.
 
     Six lanes hit an `AssertionError: old in text` from a stale literal and paid one exec each
     working out which literal had drifted.  The message does that work."""
     if old in text:
-        return text.replace(old, new, 1)
+        return text.replace(old, new, count if count else -1)
     lines = [l.strip() for l in text.splitlines() if l.strip()]
     near = difflib.get_close_matches(old.strip(), lines, n=3, cutoff=0.4)
     raise KeyError("%spattern not in text: %r\n  nearest lines in the text:\n%s"
@@ -177,11 +177,14 @@ def rep(text, old, new, label=""):
 
 def apply_subs(base, reps, label=""):
     """`variants.json` semantics, byte-compatible with `tools/xform/variant_screen.py`:
-    a list of `[old, new]` pairs applied in order, each replacing the FIRST occurrence."""
+    a list of `[old, new]` pairs applied in order, each replacing the FIRST occurrence.  A third element
+    `"all"` (`[old, new, "all"]`) replaces EVERY occurrence (round 80: r80_sonnet_vol4 measured two-site
+    volatile rows with only the first site edited before noticing)."""
     out = base
     for i, pair in enumerate(reps):
         old, new = pair[0], pair[1]
-        out = rep(out, old, new, label="%s[%d]" % (label, i) if label else "sub[%d]" % i)
+        every = len(pair) > 2 and pair[2] == "all"
+        out = rep(out, old, new, label="%s[%d]" % (label, i) if label else "sub[%d]" % i, count=0 if every else 1)
     return out
 
 
