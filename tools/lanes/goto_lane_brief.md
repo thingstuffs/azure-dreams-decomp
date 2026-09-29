@@ -32,6 +32,20 @@ compiler decision each remaining goto holds, measured, not guessed.
 | zero / calculate / finish trio | `if (A \|\| (b = e) == 0) { zero } else { calc }` | 2 / 6 |
 | a label shared by several arms | keep ONE label inside an else arm (pure C) | 1 / 1 |
 
+r79_sonnet_g5 (8 rows, 38 -> 1 gotos, 7 volatile sites removed as well):
+
+| shape | rewrite | note |
+|---|---|---|
+| a state/phase ladder (`if (p == 0) goto a; if (p == 1) goto b; ...`) | `switch (p)` with fallthrough where one arm runs into the next | an if/else chain measured dist 20 on the same row |
+| a goto pair into a shared tail | `if (a \|\| !b) { default } else { alt }`, DEFAULT ARM FIRST | alt-first `&&` form: dist 111 |
+| a jump into an else arm | early `return;` in the arm, shared tail after the if/else | |
+| a one-line shared case tail (`next++; goto out;`) | copy the line into each case (owner: a duplicated statement in both arms is fine) | hoisting it after the switch: dist 9 |
+| backward goto loop with the exit test mid-body | `while (1) { ...; if (!next) break; ... }` | do/while and for(;;) also matched |
+| `*(volatile T *)&x` read / volatile field stores | plain read/store - try it on every row, it often stays exact | 7 of 9 removed |
+
+Never merge different bit tests of one word into a single `&&` (`(f & 0x410) && (f & 0x20000)`): combine merges
+them (dist 12) - nest the ifs.
+
 Never merge redundant range tests into one `&&` chain (`kind != 0 && kind < 0xB && kind == 1`): combine folds
 them and drops a branch group (dist 3-4) - nest the ifs instead. Merged flag tests (`flags & (A|B|C)`) and
 duplicated shared calls per arm measured 46-51: keep the original test order and one call site. A removed
