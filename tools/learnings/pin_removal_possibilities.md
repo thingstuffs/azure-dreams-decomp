@@ -97,3 +97,15 @@ dependencies, one-trip blocks, or unused declarations with no credible source ro
 
 All four run in one command: `tools/lanes/lanekit/checks.py <row> cand.c [--cfg CFG]` (a verdict and the evidence
 line per residue insn); `why.py --trace --block/--insn` and `why.py --deps` show the trace each verdict reads.
+
+## Three-pseudo copy shape: `andi aN / move sK,aN / ... move aN,sK` (round 80, r80_cell_c3b on dungeon/func_800C4A80)
+
+Retail keeps a masked temp T, a callee-saved copy D and a later argument P that re-reads D (`move a0,s5`). Measured
+mechanism at 2.7.2-cdk (expensive-optimizations ON): (1) P must have a DIFFERENT mode from D (e.g. a `u8` argument
+local) - a same-mode P is merged into D by cse and the move vanishes (20+ same-mode spellings, totals 7-36); the
+zero_extend is folded back to a copy by combine because D's nonzero_bits fit; (2) P's set must be T's FIRST use, so
+combine never links the andi into D's copy; (3) `optimize_reg_copy_1` (local-alloc.c ~700, only with
+-fexpensive-optimizations) then rewrites T -> D from D's copy to T's death, turning P's set into `move a0,s5`. A
+cfg with -fno-expensive-optimizations cannot produce it - such rows pinned it as `ASM_KEEP_NV(direction)`.
+Side effect: the extra reference optimize_reg_copy_1 adds raises D's allocation priority (prio.py), which can move
+D to an earlier callee-saved register. Candidate shape: `s32 arg = (f >> 9) & 7; u8 check = arg; s32 dir = arg;`.
