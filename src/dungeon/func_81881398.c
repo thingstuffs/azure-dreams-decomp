@@ -48,18 +48,15 @@ void func_80024B98(void *effect, void *motion, void *primitive) {
         if (state == 0) {
             frame_count = ((S_80024B98_0 *)effect)->unk_1E - 1;
             ((S_80024B98_0 *)effect)->unk_1E = frame_count;
-            if ((s16)frame_count <= 0) {
-                ((S_80024B98_0 *)effect)->unk_0A.u++;
-                goto advance_frame;
+            if ((s16)frame_count > 0) {
+                return;
             }
-        } else {
-advance_frame:
-            frame_count = ((S_80024B98_0 *)effect)->unk_1C + 1;
-            ((S_80024B98_0 *)effect)->unk_1C = frame_count;
-            if ((s16)frame_count >= 0x41) {
-                ((S_80024B98_0 *)effect)->unk_0A.u = 2;
-            }
-            goto update_effect;
+            ((S_80024B98_0 *)effect)->unk_0A.u++;
+        }
+        frame_count = ((S_80024B98_0 *)effect)->unk_1C + 1;
+        ((S_80024B98_0 *)effect)->unk_1C = frame_count;
+        if ((s16)frame_count >= 0x41) {
+            ((S_80024B98_0 *)effect)->unk_0A.u = 2;
         }
     } else {
         ((S_80024B98_1 *)primitive)->unk_0C.s32 += 0xFFFBFBFC;
@@ -69,20 +66,19 @@ advance_frame:
             objectFlagBlock.flags |= 0x8000;
             return;
         }
-update_effect:
-        ((S_80024B98_2 *)motion)->unk_08.at00.v += ((S_80024B98_2 *)motion)->unk_14;
-        ((S_80024B98_2 *)motion)->unk_14 += 0x10000;
-        if (((S_80024B98_2 *)motion)->unk_08.at02.v > ((S_80024B98_0 *)effect)->unk_14)
-            ((S_80024B98_2 *)motion)->unk_08.at02.v = ((S_80024B98_0 *)effect)->unk_14;
-        wave_value = func_800644B8((s16)((S_80024B98_0 *)effect)->unk_1C << 6);
-        ((S_80024B98_1 *)primitive)->unk_0C.s32 += 0x20202;
-        ((S_80024B98_1 *)primitive)->unk_1E -= wave_value >> 5;
-        if (((S_80024B98_1 *)primitive)->unk_0C.u8 >= 0x41)
-            ((S_80024B98_1 *)primitive)->unk_0C.s32 = 0x404040;
-        func_800478B8(primitive);
-        if (!(((S_80024B98_0 *)effect)->unk_1C & 0x1F))
-            func_80024FD8(motion, ((S_80024B98_0 *)effect)->unk_14, ((S_80024B98_0 *)effect)->unk_24);
-        if (!(((S_80024B98_0 *)effect)->unk_1C & 3))
-            func_800254C4(motion, (((S_80024B98_0 *)effect)->unk_24 << 24) >> 16, 0x10, 0);
     }
+    ((S_80024B98_2 *)motion)->unk_08.at00.v += ((S_80024B98_2 *)motion)->unk_14;
+    ((S_80024B98_2 *)motion)->unk_14 += 0x10000;
+    if (((S_80024B98_2 *)motion)->unk_08.at02.v > ((S_80024B98_0 *)effect)->unk_14)
+        ((S_80024B98_2 *)motion)->unk_08.at02.v = ((S_80024B98_0 *)effect)->unk_14;
+    wave_value = func_800644B8((s16)((S_80024B98_0 *)effect)->unk_1C << 6);
+    ((S_80024B98_1 *)primitive)->unk_0C.s32 += 0x20202;
+    ((S_80024B98_1 *)primitive)->unk_1E -= wave_value >> 5;
+    if (((S_80024B98_1 *)primitive)->unk_0C.u8 >= 0x41)
+        ((S_80024B98_1 *)primitive)->unk_0C.s32 = 0x404040;
+    func_800478B8(primitive);
+    if (!(((S_80024B98_0 *)effect)->unk_1C & 0x1F))
+        func_80024FD8(motion, ((S_80024B98_0 *)effect)->unk_14, ((S_80024B98_0 *)effect)->unk_24);
+    if (!(((S_80024B98_0 *)effect)->unk_1C & 3))
+        func_800254C4(motion, (((S_80024B98_0 *)effect)->unk_24 << 24) >> 16, 0x10, 0);
 }

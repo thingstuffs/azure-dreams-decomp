@@ -113,7 +113,12 @@ void func_800246B4(void *effect, s32 *position, void *transform)
         position[2] -= 0x100000;
         next_y = ((S_8190AEB4_1 *)transform)->unk_1E - 0x200;
         next_x = ((S_8190AEB4_1 *)transform)->unk_1C + 0x200;
-        goto store_xy;
+        ((S_8190AEB4_1 *)transform)->unk_1E = next_y;
+        ((S_8190AEB4_1 *)transform)->unk_1C = next_x;
+        next_state = ((S_8190AEB4_0 *)effect)->unk_00.u;
+        next_state++;
+        ((S_8190AEB4_0 *)effect)->unk_00.p = next_state;
+        return;
 
     case 3:
         position[2] += 0x180000;

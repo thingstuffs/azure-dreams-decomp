@@ -30,66 +30,62 @@ s32 func_80026F68(void *rect_arg, void *owner_arg)
     rect_data = rect_arg;
     owner = owner_arg;
     render_state_ptr = (u8 **)((s8 *)(&gameWork));
-    do {
+    for (;;) {
         quadrant = 3;
-    } while (0);
+        do {
+            render_state = *render_state_ptr;
+            packet = PTR(render_state, 0x8D0);
+            PTR(render_state, 0x8D0) = packet + 0x24;
 
-loop:
-    render_state = *render_state_ptr;
-    packet = PTR(render_state, 0x8D0);
-    PTR(render_state, 0x8D0) = packet + 0x24;
+            center_coord = U16(rect_data, 0);
+            U16(packet, 0x18) = center_coord;
+            U16(packet, 8) = center_coord;
 
-    center_coord = U16(rect_data, 0);
-    U16(packet, 0x18) = center_coord;
-    U16(packet, 8) = center_coord;
+            if (quadrant & 1) {
+                edge_coord = U16(rect_data, 0) - U16(rect_data, 4);
+            } else {
+                edge_coord = U16(rect_data, 0) + U16(rect_data, 4);
+            }
+            S16(packet, 0x20) = edge_coord;
+            S16(packet, 0x10) = edge_coord;
 
-    if (quadrant & 1) {
-        edge_coord = U16(rect_data, 0) - U16(rect_data, 4);
-    } else {
-        edge_coord = U16(rect_data, 0) + U16(rect_data, 4);
-    }
-    S16(packet, 0x20) = edge_coord;
-    S16(packet, 0x10) = edge_coord;
+            center_coord = U16(rect_data, 2);
+            U16(packet, 0x12) = center_coord;
+            U16(packet, 0xA) = center_coord;
 
-    center_coord = U16(rect_data, 2);
-    U16(packet, 0x12) = center_coord;
-    U16(packet, 0xA) = center_coord;
+            if (quadrant & 2) {
+                edge_coord = U16(rect_data, 2) - U16(rect_data, 6);
+            } else {
+                edge_coord = U16(rect_data, 2) + U16(rect_data, 6);
+            }
+            S16(packet, 0x22) = edge_coord;
+            S16(packet, 0x1A) = edge_coord;
 
-    if (quadrant & 2) {
-        edge_coord = U16(rect_data, 2) - U16(rect_data, 6);
-    } else {
-        edge_coord = U16(rect_data, 2) + U16(rect_data, 6);
-    }
-    S16(packet, 0x22) = edge_coord;
-    S16(packet, 0x1A) = edge_coord;
+            packet_word = S32(rect_data, 8);
+            S32(packet, 0x1C) = 0;
+            S32(packet, 0xC) = 0;
+            S32(packet, 0x14) = 0;
+            S32(packet, 4) = packet_word;
+            func_80066708(packet);
 
-    packet_word = S32(rect_data, 8);
-    S32(packet, 0x1C) = 0;
-    S32(packet, 0xC) = 0;
-    S32(packet, 0x14) = 0;
-    S32(packet, 4) = packet_word;
-    func_80066708(packet);
+            quadrant--;
+            U8(packet, 7) |= 2;
+            func_8006658C(*render_state_ptr + ((S16(owner, 0xA) * 4) + 0xB0), packet);
+        } while (quadrant >= 0);
 
-    quadrant--;
-    U8(packet, 7) |= 2;
-    func_8006658C(*render_state_ptr + ((S16(owner, 0xA) * 4) + 0xB0), packet);
-    if (quadrant >= 0) {
-        goto loop;
-    }
+        render_state = *render_state_ptr;
+        packet = PTR(render_state, 0x8D0);
+        PTR(render_state, 0x8D0) = packet + 0xC;
+        packet_word = func_80066460(0, 2, 0, 0);
+        func_80067F20(packet, 0, 0, packet_word & 0xFFFF, 0);
+        func_8006658C(*render_state_ptr + ((S16(owner, 0xA) * 4) + 0xB0), packet);
 
-    render_state = *render_state_ptr;
-    packet = PTR(render_state, 0x8D0);
-    PTR(render_state, 0x8D0) = packet + 0xC;
-    packet_word = func_80066460(0, 2, 0, 0);
-    func_80067F20(packet, 0, 0, packet_word & 0xFFFF, 0);
-    func_8006658C(*render_state_ptr + ((S16(owner, 0xA) * 4) + 0xB0), packet);
-
-    next_node = PTR(rect_data, -8);
-    rect_data = next_node + 0x20;
-    if (next_node != 0) {
+        next_node = PTR(rect_data, -8);
+        rect_data = next_node + 0x20;
+        if (next_node == 0) {
+            break;
+        }
         owner = PTR(next_node, 8);
-        quadrant = 3;
-        goto loop;
     }
     return 0;
 }
