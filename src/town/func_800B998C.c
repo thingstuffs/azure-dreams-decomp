@@ -118,9 +118,7 @@ common:
     scene_index = D_800D381A[0];
     scene_offset = scene_index << 5;
     scene_entry = size + scene_offset;
-    ASM_KEEP(scene_entry);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    size = *scene_entry;
-    if (size != 0x29) {
-        func_80046E38(size, D_8012F004);
+    if (*scene_entry != 0x29) {
+        func_80046E38(*scene_entry, D_8012F004);
     }
 }

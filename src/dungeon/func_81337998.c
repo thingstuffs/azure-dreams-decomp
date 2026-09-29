@@ -75,13 +75,9 @@ void func_8016E998(EntityRec *origin) {
     s32 end_z;
     s16 unit_scale;
     s32 initial_count;
-    register s32 intensity ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    void *init_effect;
-    register s32 color_level ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    u16 flags_copy;
+    s8 color_level = 0;
     s32 end_angle;
     s32 segment_index;
-    u16 render_flags;
     M2C_UNK *effect_handler;
     void **effect_slot;
     S_8016E998_5 *appearance;
@@ -96,23 +92,16 @@ void func_8016E998(EntityRec *origin) {
     do {
         effect = func_8003FC64(0x12);
         if (effect != NULL) {
-            init_effect = effect;
-            ASM_KEEP(init_effect);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             effect_data = effect + 0x20;
             initial_count = 0x32;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             effect_data->unk_18 = (s16) initial_count;
             effect_data->unk_1A = (s16) initial_count;
             ((S_8016E998_1 *)effect)->unk_10 = effect_handler;
-            func_8004491C(init_effect, func_80045340);
-            origin_z = (s32)(((S_8016E998_1 *)effect)->unk_0C);
-            render_flags = ((S_8016E998_2 *)origin_z)->unk_14 | 0xC;
-            ((S_8016E998_2 *)origin_z)->unk_14 = render_flags;
-            ASM_KEEP(render_flags);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            flags_copy = render_flags;
-            ASM_KEEP(flags_copy);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            ((S_8016E998_2 *)origin_z)->unk_10 = 0x20;
-            ((S_8016E998_2 *)origin_z)->unk_14 = (u16) (flags_copy | 0x80);
+            func_8004491C(effect, func_80045340);
+            appearance = ((S_8016E998_1 *)effect)->unk_0C;
+            ((S_8016E998_2 *)appearance)->unk_14 |= 0xC;
+            ((S_8016E998_2 *)appearance)->unk_10 = 0x20;
+            ((S_8016E998_2 *)appearance)->unk_14 |= 0x80;
             position = ((S_8016E998_1 *)effect)->unk_08;
             position->unk_00 = (s32) origin->x.v;
             position->unk_04.at00.v = (s32) origin->y.v;
@@ -124,7 +113,7 @@ void func_8016E998(EntityRec *origin) {
             effect_data->unk_8A = 0;
             effect_data->unk_84 = 0;
             start_angle = segment_index << 8;
-            end_x = (s32) (func_80064584(end_angle, origin_z) << 5) >> 0xC;
+            end_x = (s32) (func_80064584(end_angle) << 5) >> 0xC;
             effect_data->unk_80 = (s16) end_x;
             effect_data->unk_74 = (s16) end_x;
             start_x = (s32) (func_80064584(start_angle) << 5) >> 0xC;
@@ -134,21 +123,18 @@ void func_8016E998(EntityRec *origin) {
             effect_data->unk_82 = (s16) end_z;
             effect_data->unk_76 = (s16) end_z;
             unit_scale = (s32) (func_800644B8(start_angle) << 5) >> 0xC;
-            color_level = 0x40;
             effect_data->unk_88 = (s16) unit_scale;
             effect_data->unk_7C = (s16) unit_scale;
             appearance = ((S_8016E998_1 *)effect)->unk_0C;
-            unit_scale = 0x1000;
-            appearance->unk_0C = (s8) color_level;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            intensity = color_level;
-            appearance->unk_1E = (s16) unit_scale;
-            appearance->unk_1C = (s16) unit_scale;
-            appearance->unk_0D = (u8) color_level;
-            appearance->unk_0E = (u8) color_level;
-            ((S_8016E998_1 *)effect)->unk_20 = (s8) intensity;
-            effect_data->unk_01 = (u8) appearance->unk_0D;
-            effect_data->unk_02 = (u8) appearance->unk_0E;
+            color_level = 0x40;
+            appearance->unk_0C = color_level;
+            appearance->unk_1E = 0x1000;
+            appearance->unk_1C = 0x1000;
+            appearance->unk_0D = color_level;
+            appearance->unk_0E = color_level;
+            ((S_8016E998_1 *)effect)->unk_20 = appearance->unk_0C;
+            effect_data->unk_01 = appearance->unk_0D;
+            effect_data->unk_02 = appearance->unk_0E;
             *effect_slot = effect;
         }
         effect_slot = (void **)((s8 *)((void **)((s8 *)effect_slot + 4)));
@@ -157,6 +143,8 @@ void func_8016E998(EntityRec *origin) {
     } while (segment_index < 0x10);
 }
 
-/* MECHANISM: Held global bases and caller-saved constant pins restore the 0x38
-   s0-s7 prologue; split RMW names and schedule seams preserve retail copies,
-   delay-slot fills, and tail store order. */
+/* MECHANISM: the flag word is two compound ORs (cse keeps them apart and
+   post-reload CSE turns the re-read into `move`); effect->unk_20 re-reads the
+   just-stored colour byte; one pointer variable carries both effect->unk_0C
+   loads (two sets -> global pseudo -> $a1); color_level is a user variable
+   declared with an initialiser, so loop.c does not hoist the 0x40 set. */
