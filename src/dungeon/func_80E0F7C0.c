@@ -100,8 +100,6 @@ extern s32 func_800A94A0(void *, u8 *, s32, void *);
 extern void func_800BB044(void *);
 extern void *func_80175858(void *, void *, void *);
 
-extern void *D_80170850[];
-extern void *D_80170870[];
 extern u8 D_80171094[];
 extern u8 D_80176460[];
 extern u8 D_80176490[];
@@ -110,10 +108,6 @@ extern u8 D_80176498[];
 /* Updates an actor effect through shrinking, fading, and restoring its sprite. */
 void func_80172FC0(void *anim, void *transform_arg, void *sprite, void *actor)
 {
-    static void *const dispatch_labels[] = {
-        &&start_effect, &&wait_effect, &&shrink_sprite, &&grow_sprite, &&wait_fade, &&fade_sprite, &&restore_sprite,
-        &&select_first, &&select_second, &&select_third, &&no_effect, &&special_first, &&special_second, &&special_third
-    };
     u16 offset[3];
     s32 is_special;
     u8 *effect_id;
@@ -124,32 +118,31 @@ void func_80172FC0(void *anim, void *transform_arg, void *sprite, void *actor)
 
     state = ((S_80172FC0_0 *)anim)->unk_9B;
     is_special = 0;
-    if (state >= 7U) {
-        return;
-    }
-    (void)dispatch_labels;
-    goto *D_80170850[state];
-
-start_effect:
+    switch (state) {
+    case 0:
     if (((u32)((EntityRec *)actor)->flags1C) & 0x2000) {
         s32 effect_kind;
-        u32 effect_index;
 
         effect_kind = ((EntityRec *)actor)->unk_46 & 0x3FFF;
-        effect_index = effect_kind - 1;
-        if (effect_index >= 7U) {
+        switch (effect_kind) {
+        case 1:
+            goto select_first;
+        case 2:
+            goto select_second;
+        case 3:
+            goto select_third;
+        case 7:
+            is_special = 1;
+            goto select_third;
+        case 6:
+            is_special = 1;
+            goto select_second;
+        case 5:
+            is_special = 1;
+            goto select_first;
+        default:
             goto no_effect;
         }
-        goto *D_80170870[effect_index];
-special_third:
-        is_special = 1;
-        goto select_third;
-special_second:
-        is_special = 1;
-        goto select_second;
-special_first:
-        is_special = 1;
-        goto select_first;
     }
 
     {
@@ -246,7 +239,7 @@ copy_effect:
     ((EntityRec *)actor)->unk_46 &= 0x7FFF;
     return;
 
-wait_effect:
+    case 1:
     if (func_8003F270() != 0) {
         ((S_80172FC0_4 *)sprite)->unk_14 |= 0x800;
         return;
@@ -255,7 +248,7 @@ wait_effect:
     ((S_80172FC0_0 *)anim)->unk_AE.u = 8;
     ((S_80172FC0_0 *)anim)->unk_9B++;
 
-shrink_sprite:
+    case 2:
     timer = ((S_80172FC0_0 *)anim)->unk_AE.u - 1;
     ((S_80172FC0_0 *)anim)->unk_AE.u = timer;
     if ((s16)timer > 0) {
@@ -327,7 +320,7 @@ shrink_sprite:
     }
     goto advance_state;
 
-grow_sprite:
+    case 3:
     timer = ((S_80172FC0_0 *)anim)->unk_AE.u - 1;
     ((S_80172FC0_0 *)anim)->unk_AE.u = timer;
     if ((s16)timer >= 0) {
@@ -344,7 +337,7 @@ grow_sprite:
     ((S_80172FC0_0 *)anim)->unk_9B++;
     return;
 
-wait_fade:
+    case 4:
     timer = ((S_80172FC0_0 *)anim)->unk_AE.u - 1;
     ((S_80172FC0_0 *)anim)->unk_AE.u = timer;
     if ((s16)timer >= 0) {
@@ -365,7 +358,7 @@ wait_fade:
         return;
     }
 
-fade_sprite:
+    case 5:
     timer = ((S_80172FC0_0 *)anim)->unk_AE.u - 1;
     ((S_80172FC0_0 *)anim)->unk_AE.u = timer;
     if ((s16)timer <= 0) {
@@ -392,7 +385,7 @@ advance_state:
         return;
     }
 
-restore_sprite:
+    case 6:
     timer = ((S_80172FC0_0 *)anim)->unk_AE.u - 1;
     ((S_80172FC0_0 *)anim)->unk_AE.u = timer;
     if ((s16)timer > 0 && !(((S_80172FC0_4 *)sprite)->unk_14 & 0x8000)) {
@@ -451,4 +444,7 @@ restore_sprite:
     ((EntityRec *)actor)->unk_6D--;
     ((EntityRec *)actor)->unk_46 &= 0x7FFF;
     func_800A56E0(0xB4);
+    default:
+        return;
+    }
 }

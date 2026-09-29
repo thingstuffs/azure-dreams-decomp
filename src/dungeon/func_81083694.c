@@ -13,7 +13,6 @@ typedef struct TileEntry {
     u8 tail[6];
 } TileEntry;
 
-extern void *D_80170808[];
 extern u8 D_80175F10[];
 extern u8 D_80175F20;
 extern u8 D_80175F28;
@@ -60,11 +59,7 @@ void func_80170E94(void *actor, void *context, void *sprite, void *stats) {
     u8 *active_anims;
     register u8 *next_anims ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u8 *anim_entry;
-    static void *const action_labels[] = {
-        &&case_1, &&case_1, &&case_1, &&case_default,
-        &&case_5, &&case_5, &&case_5, &&case_8,
-        &&case_9, &&case_default, &&case_11, &&case_12,
-    };
+    register void *anim_sprite;
 
     if ((F(actor, u8, 0xAE) == 0) && (dungeonStatus.flags & 0x1000)) {
         F(actor, u8, 0x9A) = 14;
@@ -187,13 +182,8 @@ state_done:
     }
 
     action_index = (F(stats, u16, 0x46) & 0x3FFF) - 1;
-    if (action_index >= 12) {
-        goto case_default;
-    }
-    (void)action_labels;
-    goto *D_80170808[action_index];
-
-case_12:
+    switch (action_index) {
+    case 11:
     if (func_80175ED4(actor, stats) == 0) {
         goto kill;
     }
@@ -203,11 +193,11 @@ case_12:
         next_anims[((gameWork.view.viewAngle + F(stats, s16, 0x2A) + 0x100) >> 9) & 7], 0);
     goto kill;
 
-case_11:
+    case 10:
     func_801718F8(actor, context, sprite, stats);
     goto final_cleanup;
 
-case_8:
+    case 7:
     func_80175ED4(actor, stats);
     if ((s16)func_80172050(actor, context, sprite, stats) != 0) {
         goto done;
@@ -215,10 +205,7 @@ case_8:
     func_80172218(actor, context, sprite, stats);
     goto done;
 
-case_9:
-    {
-    register void *anim_sprite;
-
+    case 8:
     if (F(actor, u8, 0xAE) != 0) {
         if (F(stats, u32, 0x1C) & 0x400) {
             register s32 turn_flags ASM_REG("$2") = F(stats, s32, 0x14);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -236,7 +223,9 @@ case_9:
     func_801723D8(actor, context, sprite, stats);
     goto done;
 
-case_5: {
+    case 4:
+    case 5:
+    case 6: {
         s16 heading;
         void *leader;
 
@@ -254,11 +243,15 @@ kill:
     func_800A9A0C(stats);
     goto done;
 
+    case 0:
+    case 1:
+    case 2:
 case_1:
     func_80175ED4(actor, stats);
     func_800AAF00(actor, context, sprite, &D_80175F60, func_80170E94);
     goto done;
 
+    default:
 case_default:
     func_801718F8(actor, context, sprite, stats);
     if (F(actor, u8, 0xAE) == 0) {
@@ -268,6 +261,7 @@ case_default:
 final_cleanup:
     func_80175ED4(actor, stats);
     goto done;
+    }
 
 health_zero:
     if (F(actor, u8, 0xAE) == 0) {
@@ -336,7 +330,6 @@ set_anims:
     }
 
     func_80047784(anim_sprite, *anim_entry, 0);
-    }
 
 done:
     return;

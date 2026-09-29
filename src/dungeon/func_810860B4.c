@@ -18,7 +18,6 @@ extern s32 func_800A94A0(void *, u8 *, s32, u16 *);
 extern void func_800BB044(void *);
 extern void func_80174BC8(void *, void *, void *);
 
-extern void *D_80170868[];
 extern M2C_UNK D_80170E94;
 extern u8 D_80175F10[8];
 
@@ -61,10 +60,6 @@ typedef struct S_801738B4_4 {
 void func_801738B4(void *action_ctx, void *scene_object, void *entity, void *actor_arg)
 {
     register void *actor ASM_REG("$17") = actor_arg;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    static void *const keep_cases[] = {
-        &&case_1, &&case_2, &&case_3, &&case_4,
-        &&case_5, &&case_6, &&case_7
-    };
     u8 *item;
     s32 special_mode;
     s32 action_state;
@@ -98,21 +93,25 @@ void func_801738B4(void *action_ctx, void *scene_object, void *entity, void *act
 state_0:
     if ((*(u32 *)((u8 *)actor + 0x1C)) & 0x2000) {
         item_selector = ((*(u16 *)((u8 *)actor + 0x46)) & 0x3FFF) - 1;
-        if ((u32)item_selector >= 7) {
+        switch (item_selector) {
+        case 0:
+            goto item_1;
+        case 1:
+            goto item_2;
+        case 2:
+            goto item_3;
+        case 6:
+            special_mode = 1;
+            goto item_3;
+        case 5:
+            special_mode = 1;
+            goto item_2;
+        case 4:
+            special_mode = 1;
+            goto item_1;
+        default:
             goto no_item;
         }
-        (void)keep_cases;
-        goto *D_80170868[item_selector];
-
-case_7:
-        special_mode = 1;
-        goto item_3;
-case_6:
-        special_mode = 1;
-        goto item_2;
-case_5:
-        special_mode = 1;
-        goto item_1;
     } else {
         item_selector = (*(u16 *)((u8 *)actor + 0x46)) & 0x3FFF;
         if (item_selector == 2) {
@@ -130,20 +129,16 @@ case_5:
         goto no_item;
     }
 
-case_3:
 item_3:
     item = (u8 *)actor + 0x0E;
     goto have_item;
-case_2:
 item_2:
     item = (u8 *)actor + 0x0B;
     goto have_item;
-case_1:
 item_1:
     item = (u8 *)actor;
     item += 8;
     goto have_item;
-case_4:
 no_item:
     item = 0;
 

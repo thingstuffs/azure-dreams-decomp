@@ -78,7 +78,6 @@ typedef struct S_80024660_12 {
 } S_80024660_12;   /* ((S_80024660_3 *)temp_s0)->unk_0C in func_80024660 */
 
 
-extern void *D_80024020[];
 M2C_UNK func_8002403C();
 s32 func_800243B8();
 s32 func_8003DE58();
@@ -100,7 +99,6 @@ typedef struct {
 
 /* Update an effect that travels toward a target or along a clear path and spawns child effects. */
 void func_80024660(void *effect, void *motion, void *appearance) {
-    static void *const state_labels[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6 };
     Func818AAE60Scratch scratch;
     s16 *target_dist_cursor;
     s16 *path_dist_cursor;
@@ -136,17 +134,13 @@ void func_80024660(void *effect, void *motion, void *appearance) {
     state = ((Rec_func_800243B8_arg0 *)effect)->unk_0A;
     source = ((Rec_func_800243B8_arg0 *)effect)->unk_00;
     ((Rec_func_800243B8_arg0 *)effect)->unk_10 = elapsed + 1;
-    if ((u32) state >= 7U) {
-        goto finish;
-    }
-    (void)state_labels;
-    goto *D_80024020[(u32)(state)];
-jt_c0:
+    switch (state) {
+    case 0:
     ((Rec_func_800243B8_arg0 *)effect)->unk_10 = 0U;
     ((Rec_func_800243B8_arg0 *)effect)->unk_0A = (s16) ((u16) ((Rec_func_800243B8_arg0 *)effect)->unk_0A + 1);
     ((Rec_func_800243B8_arg0 *)effect)->unk_0E = (u16) (((u16) ((S_80024660_1 *)source)->unk_2A >> 9) & 7);
     ((S_80024660_2 *)appearance)->unk_0C = 0x808080;
-jt_c1:
+    case 1:
     source_record = source - 0x20;
     source_info = ((S_80024660_3 *)source_record)->unk_0C;
     if (func_8003DE58(((S_80024660_4 *)source_info)->unk_08, source_info, &scratch.dist[0], 0) != 0) {
@@ -357,39 +351,42 @@ spawn_children:
         tile_x -= 4;
     } while (index >= 0);
     ((Rec_func_800243B8_arg0 *)effect)->unk_10 = 0U;
-    goto finish;
-jt_c3:
+    break;
+    case 3:
     if ((s16) ((Rec_func_800243B8_arg0 *)effect)->unk_10 < 0x28) {
-        goto finish;
+        break;
     }
     func_8002403C(((S_80024660_1 *)source)->unk_60, ((Rec_func_800243B8_arg0 *)effect)->unk_09, source);
     goto advance_state;
-jt_c4:
+    case 4:
     if (((Rec_func_800243B8_arg0 *)effect)->unk_14 != 0) {
-        goto finish;
+        break;
     }
     dungeonStatus.unk_0C = 0;
     (*(u16 *)((u8 *)effect + -2)) = (u16) ((*(u16 *)((u8 *)effect + -2)) | 0x8000);
     (*(s32 *)&objectFlagBlock.flags) = (s32) (objectFlagBlock.flags | 0x8000);
-    goto finish;
-jt_c2:
-jt_c5:
+    break;
+    case 2:
+    case 5:
     ((S_80024660_5 *)motion)->unk_00.at00.v = (s32) (((S_80024660_5 *)motion)->unk_00.at00.v + ((S_80024660_5 *)motion)->unk_0C);
     ((S_80024660_5 *)motion)->unk_04.at00.v = (s32) (((S_80024660_5 *)motion)->unk_04.at00.v + ((S_80024660_5 *)motion)->unk_10);
     ((S_80024660_5 *)motion)->unk_08.at00.v = (s32) (((S_80024660_5 *)motion)->unk_08.at00.v + ((S_80024660_5 *)motion)->unk_14);
     if ((s16) ((Rec_func_800243B8_arg0 *)effect)->unk_10 < ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16) {
-        goto finish;
+        break;
     }
 advance_state:
     ((Rec_func_800243B8_arg0 *)effect)->unk_10 = 0U;
     ((Rec_func_800243B8_arg0 *)effect)->unk_0A = (s16) ((u16) ((Rec_func_800243B8_arg0 *)effect)->unk_0A + 1);
-    goto finish;
-jt_c6:
+    break;
+    case 6:
     if ((s16) ((Rec_func_800243B8_arg0 *)effect)->unk_10 < 0x28) {
-        goto finish;
+        break;
     }
     ((Rec_func_800243B8_arg0 *)effect)->unk_0A = 4;
     ((Rec_func_800243B8_arg0 *)effect)->unk_10 = 0U;
+    default:
+        break;
+    }
 finish:
     ((Rec_func_800243B8_arg0 *)effect)->unk_14 = 0;
     return;

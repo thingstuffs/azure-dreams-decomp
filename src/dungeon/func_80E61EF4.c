@@ -32,7 +32,6 @@ extern s32 func_8017298C(void *, void *, void *, s32);
 extern void func_8017430C(void *, void *, void *, void *);
 extern void func_80174FE4(void *, void *, void *, void *);
 
-extern void *D_80170808[];
 extern u8 D_801716F4[];
 extern u8 D_80175554[];
 extern u8 D_8017555C[];
@@ -58,11 +57,6 @@ typedef struct S_801716F4_2 {
 /* Updates a dungeon actor's behavior, facing, and directional animation. */
 void func_801716F4(void *actor_arg, void *context_arg, void *sprite_arg, EntityRec *entity_arg)
 {
-    static void *const dispatch_labels[] = {
-        &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4,
-        &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8,
-        &&jt_c9, &&jt_c10, &&jt_c11, &&jt_c12,
-    };
     void *sprite;
     u8 *anim_table;
     register u8 *next_table ASM_REG("$5"); /* MATCH: both paths merge their table pointer in a1. */
@@ -186,26 +180,21 @@ void func_801716F4(void *actor_arg, void *context_arg, void *sprite_arg, EntityR
         }
 
         action_flags = entity_arg->unk_46 & 0x3FFF;
-        if ((u32)(action_flags - 1) >= 12) {
-            goto generic;
-        }
-        (void)dispatch_labels;
-        goto *D_80170808[(u32)(action_flags - 1)];
-
-jt_c8:
+        switch (action_flags) {
+        case 8:
         if ((func_801726B0(actor_arg, context_arg, sprite, entity_arg) << 16) != 0) {
             return;
         }
         func_80172874(actor_arg, context_arg, sprite, entity_arg);
         return;
 
-jt_c9:
+        case 9:
         func_80174FE4(actor_arg, context_arg, sprite, entity_arg);
         return;
 
-jt_c5:
-jt_c6:
-jt_c7:
+        case 5:
+        case 6:
+        case 7:
         {
             EntityRec *player;
             s16 heading;
@@ -221,24 +210,23 @@ jt_c7:
             }
         }
 
-jt_c12:
+        case 12:
 case_12:
         func_800A9A0C(entity_arg);
         return;
 
-jt_c1:
-jt_c2:
-jt_c3:
+        case 1:
+        case 2:
+        case 3:
 case_123:
         func_800AAF00(actor_arg, context_arg, sprite, D_80175594, D_801716F4);
         return;
 
-jt_c4:
-jt_c10:
-jt_c11:
+        default:
 generic:
         func_80171EEC(actor_arg, context_arg, sprite, entity_arg);
         return;
+        }
     } else if (!(((u32)entity_arg->flags1C) & 0x2000)) {
         s32 room_index = (s8)room_id;
 

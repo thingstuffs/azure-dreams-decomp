@@ -132,7 +132,6 @@ typedef struct {
 } ByteEntry;
 
 extern PackedOffsets D_80024004;
-extern void *D_80024028[];
 extern s16 D_80025924;
 extern u8 D_800DEC00[12];
 extern PackedTemplate D_80025900;
@@ -153,12 +152,8 @@ void func_80025374(State *state, Vec12 *position, Graphic *graphic)
     EntityHeader *header;
     Vec12 *source;
     Spawned *spawn;
-    u32 dispatch;
     s32 advance;
     s32 state_index;
-    static void *const state_labels[] = {
-        &&initialize, &&create_spawn, &&follow_spawn, &&wait_finish, &&inactive
-    };
     Vec12 *spawn_position;
     register u32 flags_or_result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
@@ -166,14 +161,9 @@ void func_80025374(State *state, Vec12 *position, Graphic *graphic)
     offsets = D_80024004;
     state_index = state->stateA;
     header = (EntityHeader *)((u8 *)entity - 0x20);
-    dispatch = (u32)state_index < 5;
     source = header->source8;
-    if (!dispatch) {
-        goto done;
-    }
-    goto *D_80024028[state_index];
-
-initialize:
+    switch (state_index) {
+    case 0:
     {
         s32 next_state;
         u16 source_z;
@@ -217,7 +207,7 @@ position_ready:
         goto advance_check;
     }
 
-create_spawn:
+    case 1:
     {
         RoomData *room;
         SpawnData *data;
@@ -308,7 +298,7 @@ create_spawn:
         goto done;
     }
 
-follow_spawn:
+    case 2:
     {
 
         if (state->sentinel88 == 99) {
@@ -332,7 +322,7 @@ advance_check:
     }
     goto done;
 
-wait_finish:
+    case 3:
     {
         s32 pending;
         s32 ticks;
@@ -353,9 +343,11 @@ wait_finish:
         goto done;
     }
 
-inactive:
-    goto done;
+    case 4:
+    default:
+        break;
+    }
 
 done:
-    (void)state_labels;
+    return;
 }
