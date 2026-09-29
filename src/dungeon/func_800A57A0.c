@@ -94,70 +94,70 @@ void func_800AAF00(void *actor, s32 effect_param, void *target, u8 *direction_ta
                 ((S_800AAF00_2 *)((u8 *)D_800E3D7C))->unk_98.u16 |= 0x1000;
                 ((S_800AAF00_2 *)((u8 *)D_800E3D7C))->unk_A6++;
                 dungeonStatus.unk_0A++;
+            } else {
+                func_800A4ACC(object);
+                ((S_800AAF00_0 *)object)->unk_6D--;
+                ((S_800AAF00_3 *)actor)->unk_8C = next_state;
 
-                goto shared_body;
+                return;
             }
-            func_800A4ACC(object);
-            ((S_800AAF00_0 *)object)->unk_6D--;
-            ((S_800AAF00_3 *)actor)->unk_8C = next_state;
-
-            return;
-        }
-
-        if (!(input_flags & 8) && ((func_800A2B5C(object) << 16) == 0)) {
+        } else {
+            if ((input_flags & 8) || ((func_800A2B5C(object) << 16) != 0)) {
+                return;
+            }
             func_800C77D0((u8 *)object - 0x20, effect_param, 8, 0x300);
-            if ((func_800A2B5C(object) << 16) == 0) {
-shared_body:
-                if (!special_action) {
-                    if (((S_800AAF00_0 *)object)->unk_1C & 0x400) {
-                        s32 object_flags;
-                        object_flags = ((S_800AAF00_0 *)object)->unk_14;
-                        if (!(object_flags & 0x80000000)) {
-                            object_flags |= 0x80000000;
-                            ((S_800AAF00_0 *)object)->unk_14 = object_flags;
-                            ((S_800AAF00_0 *)object)->unk_2A.u += (func_800A6D30() & 7) << 9;
-                        }
-                    }
-
-                    slot_flags = (volatile u16 *)((u8 *)object + 0x46);
-                    if (!(*slot_flags & 0x4000)) {
-                        slot_offset = *slot_flags & 0x3FFF;
-                        type_index = slot_offset;
-                        type_index--;
-                        type_table = D_8006DE24;
-                        slot_offset = type_index * 3;
-                        slot_data = object;
-                        slot_data += slot_offset;
-                        type_index = slot_data[8];
-                        type_data = type_table + type_index * 20;
-                        if ((type_data[0x12] == 2) && (((S_800AAF00_0 *)object)->unk_60 == 0)) {
-                            ((S_800AAF00_0 *)object)->unk_60 = func_800A05A4(
-                                object,
-                                ((S_800AAF00_4 *)target)->unk_24,
-                                ((S_800AAF00_4 *)target)->unk_25,
-                                ((S_800AAF00_0 *)object)->unk_2A.s,
-                                type_data[0x13]);
-
-                        }
-                    }
-                } else {
-                    ((S_800AAF00_2 *)((u8 *)D_800E3D7C))->unk_11C = object;
-                }
-
-                ((S_800AAF00_3 *)actor)->unk_9A = 0x12;
-                ((S_800AAF00_3 *)actor)->unk_9B = 0;
-                ((S_800AAF00_3 *)actor)->unk_8C = 0;
-                if (direction_table != 0) {
-                    (*(u8 * *)((u8 *)target + 0x2C)) = direction_table;
-                    func_80047784(
-                        target,
-                        direction_table[((gameWork.view.viewAngle + ((S_800AAF00_0 *)object)->unk_2A.s + 0x100) >> 9) & 7],
-                        0);
-                }
-                ((S_800AAF00_4 *)target)->unk_14 |= 0x800;
-                dungeonStatus.unk_0A++;
+            if ((func_800A2B5C(object) << 16) != 0) {
+                return;
             }
         }
+        if (!special_action) {
+            if (((S_800AAF00_0 *)object)->unk_1C & 0x400) {
+                s32 object_flags;
+                object_flags = ((S_800AAF00_0 *)object)->unk_14;
+                if (!(object_flags & 0x80000000)) {
+                    object_flags |= 0x80000000;
+                    ((S_800AAF00_0 *)object)->unk_14 = object_flags;
+                    ((S_800AAF00_0 *)object)->unk_2A.u += (func_800A6D30() & 7) << 9;
+                }
+            }
+
+            slot_flags = (volatile u16 *)((u8 *)object + 0x46);
+            if (!(*slot_flags & 0x4000)) {
+                slot_offset = *slot_flags & 0x3FFF;
+                type_index = slot_offset;
+                type_index--;
+                type_table = D_8006DE24;
+                slot_offset = type_index * 3;
+                slot_data = object;
+                slot_data += slot_offset;
+                type_index = slot_data[8];
+                type_data = type_table + type_index * 20;
+                if ((type_data[0x12] == 2) && (((S_800AAF00_0 *)object)->unk_60 == 0)) {
+                    ((S_800AAF00_0 *)object)->unk_60 = func_800A05A4(
+                        object,
+                        ((S_800AAF00_4 *)target)->unk_24,
+                        ((S_800AAF00_4 *)target)->unk_25,
+                        ((S_800AAF00_0 *)object)->unk_2A.s,
+                        type_data[0x13]);
+
+                }
+            }
+        } else {
+            ((S_800AAF00_2 *)((u8 *)D_800E3D7C))->unk_11C = object;
+        }
+
+        ((S_800AAF00_3 *)actor)->unk_9A = 0x12;
+        ((S_800AAF00_3 *)actor)->unk_9B = 0;
+        ((S_800AAF00_3 *)actor)->unk_8C = 0;
+        if (direction_table != 0) {
+            (*(u8 * *)((u8 *)target + 0x2C)) = direction_table;
+            func_80047784(
+                target,
+                direction_table[((gameWork.view.viewAngle + ((S_800AAF00_0 *)object)->unk_2A.s + 0x100) >> 9) & 7],
+                0);
+        }
+        ((S_800AAF00_4 *)target)->unk_14 |= 0x800;
+        dungeonStatus.unk_0A++;
     }
 
 }

@@ -58,17 +58,17 @@ void func_800D34CC(void *arg0, void *arg1, void *arg2, void *arg3) {
     u8 temp_v1_3;
 
     temp_v1 = ((S_800D34CC_0 *)arg0)->unk_9B;
-    if (temp_v1 != 0) {
-        if (temp_v1 == 1) {
-            goto block_6;
+    switch (temp_v1) {
+    case 0:
+        if (dungeonStatus.unk_0A != 0) {
+            break;
         }
-    } else if (dungeonStatus.unk_0A == 0) {
         ((EntityRec *)arg3)->flags1C = (s32) (((EntityRec *)arg3)->flags1C | 0x10000000);
         func_800A56E0(0x805);
         ((S_800D34CC_2 *)arg2)->unk_0C.at00.v = 0x808080;
         ((S_800D34CC_0 *)arg0)->unk_96 = 0x10;
         ((S_800D34CC_0 *)arg0)->unk_9B = (u8) (((S_800D34CC_0 *)arg0)->unk_9B + 1);
-block_6:
+    case 1:
         temp_v1_2 = (u8) ((S_800D34CC_2 *)arg2)->unk_0C.at00.v;
         ((S_800D34CC_2 *)arg2)->unk_0C.at00u.v = (u8) (temp_v1_2 + ((0x20 - temp_v1_2) / (s16) ((S_800D34CC_0 *)arg0)->unk_96));
         temp_v1_3 = ((S_800D34CC_2 *)arg2)->unk_0C.at01.v;

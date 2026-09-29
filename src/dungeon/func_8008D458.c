@@ -51,70 +51,46 @@ void func_80092BB8(S_8003E2D8 *controller, void *context, S_arg2 *actor, S_arg3 
     s32 direction;
 
     state = controller->state;
-    if (state == 1) {
-        goto state1_body;
-    }
-    if ((s32)state < 2) {
-        if (state == 0) {
-            goto state0_body;
+    switch (state) {
+    case 0:
+        if ((s32)((((s32)gameWork.view.viewAngle + facing->coord + 0x100) >> 9) & 7) == 2) {
+            u8 *animation_table;
+
+            animation_table = controller->table;
+            actor->field2c = animation_table;
+            direction = (((s32)gameWork.view.viewAngle + facing->coord + 0x100) >> 9) & 7;
+            func_80048A44(actor, animation_table[direction], controller->field10e, 1);
+            controller->state++;
+        } else {
+            facing->coord = (u16)facing->coord + 0x200;
         }
-        return;
-    }
-    if (state == 2) {
-        goto state2_body;
-    }
-    if (state == 0x10) {
-        goto state10_body;
-    }
-    return;
-
-state0_body:
-    if ((s32)((((s32)gameWork.view.viewAngle + facing->coord + 0x100) >> 9) & 7) == 2) {
-        u8 *animation_table;
-
-        animation_table = controller->table;
-        actor->field2c = animation_table;
-        direction = (((s32)gameWork.view.viewAngle + facing->coord + 0x100) >> 9) & 7;
-        func_80048A44(actor, animation_table[direction], controller->field10e, 1);
-        controller->state++;
-    } else {
-        facing->coord = (u16)facing->coord + 0x200;
-    }
-    return;
-
-state1_body:
-    if (D_80013714 & 8) {
-        if (actor->flags & 0x6000) {
-            if (actor->field2c == D_800DD148) {
-                controller->state = 0x10;
-            } else {
-                goto state2_store;
+        break;
+    case 1:
+        if (D_80013714 & 8) {
+            if (actor->flags & 0x6000) {
+                if (actor->field2c == D_800DD148) {
+                    controller->state = 0x10;
+                } else {
+                    controller->field8c = D_8008ACDC;
+                }
             }
+        } else if ((func_8003DE58(actor->field08, actor, &query_result, 0) != 0) || (actor->flags & 0x8000)) {
+            func_800D7A14(controller->field114);
+            controller->state++;
         }
-    } else if ((func_8003DE58(actor->field08, actor, &query_result, 0) != 0) || (actor->flags & 0x8000)) {
-        func_800D7A14(controller->field114);
-        controller->state++;
-    }
-    return;
-
-state2_body:
-    if ((actor->flags & 0x8000) || (dungeonStatus.unk_0A < 2)) {
-        if (controller->field110 != 0) {
-            func_80091934(controller, context, actor);
-            return;
+        break;
+    case 2:
+        if ((actor->flags & 0x8000) || (dungeonStatus.unk_0A < 2)) {
+            if (controller->field110 != 0) {
+                func_80091934(controller, context, actor);
+                return;
+            }
+            actor->field2c = D_800DD150;
+            func_80048A44(actor, D_800DD150[(((s32)gameWork.view.viewAngle + facing->coord + 0x100) >> 9) & 7], 2, 1);
+            controller->field8c = D_8008ACDC;
         }
-        actor->field2c = D_800DD150;
-        func_80048A44(actor, D_800DD150[(((s32)gameWork.view.viewAngle + facing->coord + 0x100) >> 9) & 7], 2, 1);
-        goto state2_store;
-    }
-    return;
-
-state2_store:
-    controller->field8c = D_8008ACDC;
-    return;
-
-state10_body:
-    {
+        break;
+    case 0x10: {
         u16 countdown;
 
         countdown = controller->countdown - 1;
@@ -122,7 +98,7 @@ state10_body:
         if ((s32)(countdown << 16) <= 0) {
             func_8008D368(controller, context, actor, D_800DD150, 0);
         }
+        break;
     }
-
-    return;
+    }
 }

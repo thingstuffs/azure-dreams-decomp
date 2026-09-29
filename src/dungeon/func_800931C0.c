@@ -69,13 +69,11 @@ s32 func_80098920(void *actor, void *action, s16 dispatch_mode, s32 handler_para
                 }
             }
         }
-        if ((s16)dispatch_mode != 0x15) {
-            goto tail;
-        }
     }
-    func_80099F70(*(s32 *)((u8 *)D_800E3D7C + 0x5C));
-    func_80099F04(*(s32 *)((u8 *)D_800E3D7C + 0x5C));
-    dungeonStatus.flags |= 0x812;
-tail:
+    if ((s16)dispatch_mode == 0x15) {
+        func_80099F70(*(s32 *)((u8 *)D_800E3D7C + 0x5C));
+        func_80099F04(*(s32 *)((u8 *)D_800E3D7C + 0x5C));
+        dungeonStatus.flags |= 0x812;
+    }
     handler(actor, action, dispatch_mode, handler_param);
 }

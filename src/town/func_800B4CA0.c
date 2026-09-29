@@ -79,7 +79,6 @@ s32 func_800B2400(void *state) {
     s32 source_index;
     s32 remove_index;
     s32 result;
-    u8 item_type;
     S_800B2400_2 *source_list;
     S_800B2400_4 *dest_slot;
     S_800B2400_3 *selected_item;
@@ -94,40 +93,33 @@ s32 func_800B2400(void *state) {
         result = 1;
         if (((Rec_func_800B1DCC_arg0 *)state)->unk_0C == 0) {
             result = 2;
-            goto done;
         }
-        goto done;
-    }
-    source_index = ((Rec_func_800B1DCC_arg0 *)state)->unk_14;
-    source_list = state + (source_index * 0x10);
-    if (source_list->unk_28 == 0) {
-        result = 4;
-        goto done;
-    }
-    selected_item = ((S_800B2400_11 *)((source_list->unk_24 * 4) + ((S_800B2400_8 *)(((source_index * 4) + state)))->unk_3C))->unk_00;
-    if (((Rec_func_800B1DCC_arg0 *)state)->unk_0C == 0) {
-        item_type = selected_item->unk_01;
-        if (item_type == 0x13) {
-            result = 3;
-            goto done;
+    } else {
+        source_index = ((Rec_func_800B1DCC_arg0 *)state)->unk_14;
+        source_list = state + (source_index * 0x10);
+        if (source_list->unk_28 == 0) {
+            result = 4;
+        } else {
+            selected_item = ((S_800B2400_11 *)((source_list->unk_24 * 4) + ((S_800B2400_8 *)(((source_index * 4) + state)))->unk_3C))->unk_00;
+            if (((Rec_func_800B1DCC_arg0 *)state)->unk_0C == 0 && selected_item->unk_01 == 0x13) {
+                result = 3;
+            } else {
+                dest_slot = ((S_800B2400_9 *)(((((Rec_func_800B1DCC_arg0 *)state)->unk_18 * 4) + state)))->unk_3C + (func_800B29A4(((S_800B2400_9 *)(((((Rec_func_800B1DCC_arg0 *)state)->unk_18 * 4) + state)))->unk_3C) * 4);
+                new_item = func_800B2280(((S_800B2400_9 *)(((((Rec_func_800B1DCC_arg0 *)state)->unk_18 * 4) + state)))->unk_3C, ((Rec_func_800B1DCC_arg0 *)state)->unk_18, dest_capacity);
+                *(M2C_UNALIGNED_WORD *)new_item = *(M2C_UNALIGNED_WORD *)selected_item;
+                dest_slot->unk_00 = new_item;
+                dest_slot->unk_04 = 0;
+                remove_index = ((Rec_func_800B1DCC_arg0 *)state)->unk_14;
+                func_800B2190(((S_800B2400_10 *)(((remove_index * 4) + state)))->unk_3C, (source_selection = state + (remove_index * 0x10), source_selection->unk_24));
+                source_count = (((Rec_func_800B1DCC_arg0 *)state)->unk_14 * 0x10) + state;
+                source_count->unk_28 = (s32) (source_count->unk_28 - 1);
+                func_800B23C0(state + ((((Rec_func_800B1DCC_arg0 *)state)->unk_14 * 0x10) + 0x1C));
+                dest_count = state + (((Rec_func_800B1DCC_arg0 *)state)->unk_18 * 0x10);
+                dest_count->unk_28 = (s32) (dest_count->unk_28 + 1);
+                func_800B23C0(state + ((((Rec_func_800B1DCC_arg0 *)state)->unk_18 * 0x10) + 0x1C));
+                result = 0;
+            }
         }
     }
-    {
-        dest_slot = ((S_800B2400_9 *)(((((Rec_func_800B1DCC_arg0 *)state)->unk_18 * 4) + state)))->unk_3C + (func_800B29A4(((S_800B2400_9 *)(((((Rec_func_800B1DCC_arg0 *)state)->unk_18 * 4) + state)))->unk_3C) * 4);
-        new_item = func_800B2280(((S_800B2400_9 *)(((((Rec_func_800B1DCC_arg0 *)state)->unk_18 * 4) + state)))->unk_3C, ((Rec_func_800B1DCC_arg0 *)state)->unk_18, dest_capacity);
-        *(M2C_UNALIGNED_WORD *)new_item = *(M2C_UNALIGNED_WORD *)selected_item;
-        dest_slot->unk_00 = new_item;
-        dest_slot->unk_04 = 0;
-        remove_index = ((Rec_func_800B1DCC_arg0 *)state)->unk_14;
-        func_800B2190(((S_800B2400_10 *)(((remove_index * 4) + state)))->unk_3C, (source_selection = state + (remove_index * 0x10), source_selection->unk_24));
-        source_count = (((Rec_func_800B1DCC_arg0 *)state)->unk_14 * 0x10) + state;
-        source_count->unk_28 = (s32) (source_count->unk_28 - 1);
-        func_800B23C0(state + ((((Rec_func_800B1DCC_arg0 *)state)->unk_14 * 0x10) + 0x1C));
-        dest_count = state + (((Rec_func_800B1DCC_arg0 *)state)->unk_18 * 0x10);
-        dest_count->unk_28 = (s32) (dest_count->unk_28 + 1);
-        func_800B23C0(state + ((((Rec_func_800B1DCC_arg0 *)state)->unk_18 * 0x10) + 0x1C));
-        result = 0;
-    }
-done:
     return result;
 }

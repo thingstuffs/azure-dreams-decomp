@@ -77,62 +77,47 @@ s32 func_800BEB30(u32 target, u8 *action, s16 action_kind, s32 context) {
             func_800A5F38(target, action);
             return 1;
         }
-        goto decrement;
-    }
-
-    item = ((S_800BEB30_0 *)state)->unk_4C;
-    if (item != 0) {
-        if (!(action[3] & 0x20)) {
-            ((S_800BEB30_0 *)state)->unk_114 = 0x202080;
-            func_8008D368(state, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), D_800DD148, 2);
-            action[3] |= 0x20;
-            return 0;
-        }
-
-        action_value = func_800990FC(state, call_context, action_kind);
-        value = action_value;
-        item_type = item[1];
-        if (item_type != 0xF) {
-            if (item_type != 0x10) {
-                goto other;
+    } else {
+        item = ((S_800BEB30_0 *)state)->unk_4C;
+        if (item != 0) {
+            if (!(action[3] & 0x20)) {
+                ((S_800BEB30_0 *)state)->unk_114 = 0x202080;
+                func_8008D368(state, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), D_800DD148, 2);
+                action[3] |= 0x20;
+                return 0;
             }
-            if (item[0] != 2) {
-                goto other;
-            }
-        }
-        {
-            if (!(item[3] & 0x40)) {
-                value = func_8009955C(item, action_value);
-                if ((s8)item[2] < 0x63) {
-                    item[2] = (u8)(item[2] + 1);
+
+            action_value = func_800990FC(state, call_context, action_kind);
+            value = action_value;
+            item_type = item[1];
+            if (item_type == 0xF || (item_type == 0x10 && item[0] == 2)) {
+                if (!(item[3] & 0x40)) {
+                    value = func_8009955C(item, action_value);
+                    if ((s8)item[2] < 0x63) {
+                        item[2] = (u8)(item[2] + 1);
+                    }
+                    value = func_80099978(func_80099194(D_800E110B, value));
+                    choice_index = value - 2;
+                    value = func_80099194(D_80089364, value);
+                    result_value = func_80099368(item, value);
+                    value_arg = value;
+                    value = result_value;
+                    func_800998C0(choice_index, value_arg);
+                    value = func_80099194(D_80089368, value);
+                } else {
+                    value = func_80099194(D_800E112A, func_80099368(item, action_value));
                 }
-                value = func_80099978(func_80099194(D_800E110B, value));
-                choice_index = value - 2;
-                value = func_80099194(D_80089364, value);
-                result_value = func_80099368(item, value);
-                value_arg = value;
-                value = result_value;
-                func_800998C0(choice_index, value_arg);
-                value = func_80099194(D_80089368, value);
-                goto shared_tail;
+            } else {
+                value = func_80099194(D_800E1156, func_80099368(item, value));
             }
-            value = func_80099194(D_800E112A, func_80099368(item, action_value));
-            goto shared_tail;
+            func_80099290(value);
+            func_800A5720(action_value);
+        } else {
+            func_800997FC(D_800E116E, call_context, action_kind);
         }
-
-other:
-        value = func_80099194(D_800E1156, func_80099368(item, value));
-        shared_tail:
-        func_80099290(value);
-        func_800A5720(action_value);
-        goto decrement;
     }
 
-    func_800997FC(D_800E116E, call_context, action_kind);
-
-decrement:
     dungeonStatus.unk_0A--;
     func_80098B38(action);
     return 1;
 }
-

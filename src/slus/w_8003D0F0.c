@@ -31,8 +31,8 @@ void func_8003D0F0(void)
     u8 *context;
     s32 tex_start;
     s32 tex_size;
-    s32 x_end;
-    s32 y_end;
+    s16 x_end;
+    s16 y_end;
     s32 width;
     s32 height;
 
@@ -77,44 +77,38 @@ void func_8003D0F0(void)
         }
 
         if (sprite[0] & 1) {
-            s32 x_offset_byte = U8_AT((sprite + 4), -2);
-            s32 x_start;
+            s16 x_start;
+            x_start = -S8_AT((sprite + 4), -2);
             width = U16_AT(scratch, 0x10);
-            ASM_KEEP_DEP_NV(x_offset_byte, width);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            x_start = -((x_offset_byte << 24) >> 24);
             S16_AT(scratch, 0x80) = x_start;
             S16_AT(scratch, 0x70) = x_start;
             x_end = x_start - width;
+            S16_AT(scratch, 0x88) = x_end;
+            S16_AT(scratch, 0x78) = x_end;
         } else {
-            s32 x_offset_byte = U8_AT((sprite + 4), -2);
-            s32 x_start;
+            s16 x_start;
+            x_start = S8_AT((sprite + 4), -2);
             width = U16_AT(scratch, 0x10);
-            ASM_KEEP_DEP_NV(x_offset_byte, width);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            x_start = (x_offset_byte << 24) >> 24;
             S16_AT(scratch, 0x80) = x_start;
             S16_AT(scratch, 0x70) = x_start;
             x_end = x_start + width;
+            S16_AT(scratch, 0x88) = x_end;
+            S16_AT(scratch, 0x78) = x_end;
         }
-        S16_AT(scratch, 0x88) = x_end;
-        S16_AT(scratch, 0x78) = x_end;
 
         if (sprite[0] & 2) {
-            s32 y_offset_byte = U8_AT((sprite + 4), -1);
-            s32 y_start;
+            s16 y_start;
+            y_start = -S8_AT((sprite + 4), -1);
             height = U16_AT(scratch, 0x14);
-            ASM_KEEP_DEP_NV(y_offset_byte, height);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            y_start = -((y_offset_byte << 24) >> 24);
             S16_AT(scratch, 0x7A) = y_start;
             S16_AT(scratch, 0x72) = y_start;
             y_end = y_start - height;
             S16_AT(scratch, 0x8A) = y_end;
             S16_AT(scratch, 0x82) = y_end;
         } else {
-            s32 y_offset_byte = U8_AT((sprite + 4), -1);
-            s32 y_start;
+            s16 y_start;
+            y_start = S8_AT((sprite + 4), -1);
             height = U16_AT(scratch, 0x14);
-            ASM_KEEP_DEP_NV(y_offset_byte, height);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            y_start = (y_offset_byte << 24) >> 24;
             S16_AT(scratch, 0x7A) = y_start;
             S16_AT(scratch, 0x72) = y_start;
             y_end = y_start + height;

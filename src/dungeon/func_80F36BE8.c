@@ -32,64 +32,44 @@ void func_801743E8(void *effect, EntityRec *position, Rec_func_800AA258_arg2 *vi
     state = ((S_801743E8_0 *)effect)->unk_9B;
     ((S_801743E8_0 *)effect)->unk_96.s--;
 
-    if (state == 1) {
-        goto state_1;
-    }
-    if (state < 2) {
-        if (state == 0) {
-            goto state_0;
+    switch (state) {
+    case 0:
+        if (visual->unk_14 & 0x8000) {
+            ((S_801743E8_0 *)effect)->unk_9B = 3;
+            return;
+        }
+        ((S_801743E8_0 *)effect)->unk_96.s = 3;
+        ((S_801743E8_0 *)effect)->unk_9B++;
+        /* fall through */
+    case 1:
+        size_or_state = visual->unk_1E - 0x50;
+        visual->unk_1E = size_or_state;
+        visual->unk_1C = size_or_state;
+        if (((S_801743E8_0 *)effect)->unk_96.u < 0) {
+            state = 2;
+            size_or_state = ((S_801743E8_0 *)effect)->unk_9B;
+            ((S_801743E8_0 *)effect)->unk_96.s = state;
+            size_or_state++;
+            ((S_801743E8_0 *)effect)->unk_9B = size_or_state;
         }
         return;
-    }
-    if (state == 2) {
-        goto state_2;
-    }
-    if (state == 3) {
-        goto state_3;
-    }
-    return;
-
-state_0:
-    if (visual->unk_14 & 0x8000) {
-        ((S_801743E8_0 *)effect)->unk_9B = 3;
+    case 2:
+        position->z.v += 0x28000;
+        size_or_state = visual->unk_1E - 0x80;
+        visual->unk_1E = size_or_state;
+        visual->unk_1C = size_or_state;
+        if (((S_801743E8_0 *)effect)->unk_96.u < 0) {
+            size_or_state = ((S_801743E8_0 *)effect)->unk_9B;
+            size_or_state++;
+            ((S_801743E8_0 *)effect)->unk_9B = size_or_state;
+        }
         return;
-    }
-    ((S_801743E8_0 *)effect)->unk_96.s = 3;
-    ((S_801743E8_0 *)effect)->unk_9B++;
-
-state_1:
-    size_or_state = visual->unk_1E - 0x50;
-    visual->unk_1E = size_or_state;
-    visual->unk_1C = size_or_state;
-    if (((S_801743E8_0 *)effect)->unk_96.u < 0) {
-        state = 2;
-        size_or_state = ((S_801743E8_0 *)effect)->unk_9B;
-        ((S_801743E8_0 *)effect)->unk_96.s = state;
-        goto increment_state;
-    }
-    return;
-
-state_2:
-    position->z.v += 0x28000;
-    size_or_state = visual->unk_1E - 0x80;
-    visual->unk_1E = size_or_state;
-    visual->unk_1C = size_or_state;
-    if (((S_801743E8_0 *)effect)->unk_96.u >= 0) {
-        return;
-    }
-    size_or_state = ((S_801743E8_0 *)effect)->unk_9B;
-
-increment_state:
-    size_or_state++;
-    ((S_801743E8_0 *)effect)->unk_9B = size_or_state;
-    return;
-
-state_3:
-    flag_page = (Page8008 *)0x80080000;
-    ((S_801743E8_0_pre *)effect)[-1].unk_00 |= 0x8000;
-    do {
+    case 3:
+        flag_page = (Page8008 *)0x80080000;
+        ((S_801743E8_0_pre *)effect)[-1].unk_00 |= 0x8000;
         flag_page->flags |= 0x8000;
-    } while (0);
-
-    return;
+        return;
+    default:
+        return;
+    }
 }

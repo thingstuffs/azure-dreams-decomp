@@ -71,39 +71,26 @@ void func_80172CC0(void *movement, s32 actor_index, void *actor, void *path_stat
     }
 
     move_kind = ((S_80172CC0_0 *)state)->unk_48;
-    if (move_kind == 0xE) {
-        goto kind_0e;
-    }
-    if ((s32)move_kind < 0xF) {
-        if (move_kind == 0xD) {
-            goto kind_0d;
-        }
+    switch (move_kind) {
+    case 0xD:
+        current_table = ((Rec_D_80082E80 *)actor)->unk_2C.as_pu8;
+        direction_table = (u8 *)&D_80175DC4;
+        break;
+    case 0xE:
+        current_table = ((Rec_D_80082E80 *)actor)->unk_2C.as_pu8;
+        direction_table = (u8 *)&D_80175DCC;
+        break;
+    case 0xF:
+        current_table = ((Rec_D_80082E80 *)actor)->unk_2C.as_pu8;
+        direction_table = (u8 *)&D_80175DD4;
+        break;
+    default:
         goto setup;
     }
-    if (move_kind == 0xF) {
-        goto kind_0f;
-    }
-    goto setup;
-
-kind_0d:
-    current_table = ((Rec_D_80082E80 *)actor)->unk_2C.as_pu8;
-    direction_table = (u8 *)&D_80175DC4;
-    goto selected_kind;
-
-kind_0e:
-    current_table = ((Rec_D_80082E80 *)actor)->unk_2C.as_pu8;
-    direction_table = (u8 *)&D_80175DCC;
-    goto selected_kind;
-
-kind_0f:
-    current_table = ((Rec_D_80082E80 *)actor)->unk_2C.as_pu8;
-    direction_table = (u8 *)&D_80175DD4;
-
-selected_kind:
     if (current_table != direction_table) {
         (*(u8 * *)((u8 *)actor + 0x2C)) = direction_table;
         direction_addr =
-            ((gameWork.view.viewAngle + ((S_80172CC0_0 *)state)->unk_2A + 0x100) >> 9) & 7;
+        ((gameWork.view.viewAngle + ((S_80172CC0_0 *)state)->unk_2A + 0x100) >> 9) & 7;
         direction_addr += (unsigned long)direction_table;
         func_80047784(actor, *(u8 *)direction_addr, 0);
     }
@@ -142,18 +129,13 @@ setup:
     }
 
     ((S_80172CC0_0 *)state)->unk_2A = heading;
-    if (move_result == 3) {
-        if (!(dungeonStatus.flags & 0x80) && !(((Rec_D_80082E80 *)actor)->unk_14.at00_u16.v & 0x8000)) {
-            func_80173678(movement, actor_index, actor, state);
-            ((Rec_func_80172CC0_arg0 *)movement)->unk_8C.as_s32 = 0;
-            goto finish_state;
-        }
+    if (move_result == 3 && !(dungeonStatus.flags & 0x80) && !(((Rec_D_80082E80 *)actor)->unk_14.at00_u16.v & 0x8000)) {
+        func_80173678(movement, actor_index, actor, state);
+        ((Rec_func_80172CC0_arg0 *)movement)->unk_8C.as_s32 = 0;
+    } else {
+        ((Rec_func_80172CC0_arg0 *)movement)->unk_9A.as_u8 = 0xF;
+        ((Rec_func_80172CC0_arg0 *)movement)->unk_8C.as_s32 = 0;
     }
-
-    ((Rec_func_80172CC0_arg0 *)movement)->unk_9A.as_u8 = 0xF;
-    ((Rec_func_80172CC0_arg0 *)movement)->unk_8C.as_s32 = 0;
-
-finish_state:
     (*(s32 *)((u8 *)state + 0x1C)) |= 0x40000000;
     if (dungeonStatus.flags & 0x80) {
         ((Rec_func_80172CC0_arg0 *)movement)->unk_96.as_s16 = 0;

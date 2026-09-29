@@ -109,10 +109,8 @@ void func_800240D8(void *effect, void *position, void *sprite)
       {
         break;
       }
-      goto deactivate;
 
     default:
-    deactivate:
       *(u16 *)((u8 *) effect + (-2)) |= 0x8000;
       objectFlagBlock.flags |= 0x8000;
       break;

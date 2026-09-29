@@ -66,10 +66,10 @@ s32 func_800AE324(s32 selector) {
         result = func_800B1BEC(object, 0x48, -0x5C);
         state->unk_08 = result;
         if (result == 0) {
-            goto failure;
+            func_800AE414(state);
+            return 0;
         }
     }
-cleanup:
     return (s32)object;
 failure:
     func_800AE414(state);

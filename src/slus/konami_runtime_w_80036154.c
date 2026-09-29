@@ -38,30 +38,19 @@ extern M2C_UNK func_80038A00;
 
 /* Selects a handler from the linked object, initializes its data, and sets its flag. */
 void func_80036154(void *object) {
-    M2C_UNK *handler;
     s32 source_handler;
 
     source_handler = ((S_80036154_2 *)(((S_80036154_1 *)object)->unk_74))->unk_10;
     if (source_handler == &func_80038478) {
-        handler = &func_80036210;
-        goto set_handler;
-    }
-    if (source_handler == &func_80038588) {
-        handler = &func_800362D0;
-        goto set_handler;
-    }
-    if (source_handler == &func_800385E8) {
-        handler = &func_800364EC;
-        goto set_handler;
-    }
-    if (source_handler == &func_80038648) {
-        handler = &func_8003666C;
-        goto set_handler;
-    }
-    if (source_handler == &func_80038A00) {
-        handler = &func_800368D0;
-set_handler:
-        ((S_80036154_0 *)object)->unk_68 = handler;
+        ((S_80036154_0 *)object)->unk_68 = &func_80036210;
+    } else if (source_handler == &func_80038588) {
+        ((S_80036154_0 *)object)->unk_68 = &func_800362D0;
+    } else if (source_handler == &func_800385E8) {
+        ((S_80036154_0 *)object)->unk_68 = &func_800364EC;
+    } else if (source_handler == &func_80038648) {
+        ((S_80036154_0 *)object)->unk_68 = &func_8003666C;
+    } else if (source_handler == &func_80038A00) {
+        ((S_80036154_0 *)object)->unk_68 = &func_800368D0;
     }
     func_80036988(object + 0xC, ((S_80036154_0 *)object)->unk_74);
     ((S_80036154_2 *)(((S_80036154_1 *)object)->unk_74))->unk_85 = 1;

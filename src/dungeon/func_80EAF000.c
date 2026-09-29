@@ -73,76 +73,70 @@ BODY_STORAGE s32 BODY_NAME(void *origin, void *actor) {
 
     target = func_800A04F0(actor, *(u8 *)(origin_bytes + 0x24), *(u8 *)(origin_bytes + 0x25),
                           *(s16 *)(actor_bytes + 0x2A));
-    if (target == NULL) {
-        goto return_zero;
-    }
-    if (target == (void *)D_800E3D7C[0]) {
-        if (func_800C8310(target, target) != 0) {
+    if (target != NULL) {
+        if (target == (void *)D_800E3D7C[0]) {
+            if (func_800C8310(target, target) != 0) {
+                return 0;
+            }
+            {
+#ifdef __mips__
+                s16 item_count;
+                register s32 slot_index;
+#else
+                s32 slot_index;
+                s16 item_count;
+                s32 *inventory_scan;
+#endif
+                slot_index = 0;
+                item_count = slot_index;
+                item_ptr = (u8 *)0x80010000;
+    scan_loop:
+                    if (((s32 *)item_ptr)[167] != 0) {
+                        item_count++;
+                    }
+                    slot_index++;
+                    item_ptr += sizeof(s32);
+                if (slot_index < 20) {
+                    goto scan_loop;
+                }
+                if (item_count == 0) {
+                    return 0;
+                }
+                slot_offset = (s32)((((func_800A6D30() & 0xFFFF) % item_count) << 16) >> 14);
+                slot_base = (u8 *)(slot_offset + 0x80010000);
+                item_ptr = (u8 *)(u32)*(u8 *)(slot_base + 0x249);
+                if ((u32)item_ptr == 0 || (u32)item_ptr == 0x13) {
+                    return 0;
+                }
+                if (*(u8 *)(slot_base + 0x24B) & 0x20) {
+                    return 0;
+                }
+                {
+                    s32 item_word;
+
+                    item_ptr = (u8 *)0x80010248;
+                    item_ptr += slot_offset;
+                    item_word = *(s32 *)item_ptr;
+                    D_80150FE4[0] = item_word;
+                    func_80098B38(item_ptr, slot_base);
+                    return (s32)D_80150FE4;
+                }
+            }
+        }
+        if (*(u8 *)((u8 *)target + 0x49) == 0) {
+            return 0;
+        }
+        if (*(u8 *)((u8 *)target + 0x4B) & 0x20) {
             return 0;
         }
         {
-#ifdef __mips__
-            s16 item_count;
-            register s32 slot_index;
-#else
-            s32 slot_index;
-            s16 item_count;
-            s32 *inventory_scan;
-#endif
-            slot_index = 0;
-            item_count = slot_index;
-            item_ptr = (u8 *)0x80010000;
-scan_loop:
-                if (((s32 *)item_ptr)[167] != 0) {
-                    item_count++;
-                }
-                slot_index++;
-                item_ptr += sizeof(s32);
-            if (slot_index < 20) {
-                goto scan_loop;
-            }
-            if (item_count == 0) {
-                return 0;
-            }
-            slot_offset = (s32)((((func_800A6D30() & 0xFFFF) % item_count) << 16) >> 14);
-            slot_base = (u8 *)(slot_offset + 0x80010000);
-            item_ptr = (u8 *)(u32)*(u8 *)(slot_base + 0x249);
-            if ((u32)item_ptr == 0) {
-                goto return_zero;
-            }
-            if ((u32)item_ptr == 0x13) {
-                return 0;
-            }
-            if (*(u8 *)(slot_base + 0x24B) & 0x20) {
-                goto entry_zero;
-            }
-            {
-                s32 item_word;
+            s32 item_word;
 
-                item_ptr = (u8 *)0x80010248;
-                item_ptr += slot_offset;
-                item_word = *(s32 *)item_ptr;
-                D_80150FE4[0] = item_word;
-                func_80098B38(item_ptr, slot_base);
-                return (s32)D_80150FE4;
-            }
+            item_word = *(s32 *)((u8 *)target + 0x48);
+            D_80150FE4[0] = item_word;
+            *(s32 *)((u8 *)target + 0x48) = 0;
+            return (s32)D_80150FE4;
         }
     }
-    if (*(u8 *)((u8 *)target + 0x49) == 0) {
-        return 0;
-    }
-    if (*(u8 *)((u8 *)target + 0x4B) & 0x20) {
-        return 0;
-    }
-    {
-        s32 item_word;
-
-        item_word = *(s32 *)((u8 *)target + 0x48);
-        D_80150FE4[0] = item_word;
-        *(s32 *)((u8 *)target + 0x48) = 0;
-        return (s32)D_80150FE4;
-    }
-entry_zero:
-return_zero:
     return 0;
 }

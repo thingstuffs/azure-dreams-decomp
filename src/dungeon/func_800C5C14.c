@@ -59,15 +59,15 @@ void func_800CB374(void *effect, void *unused, S_800CB374_1 *primitive) {
         if ((fade_steps << 0x10) > 0) {
             return;
         }
-        goto mark_complete;
+    } else {
+        primitive->unk_0C.at00u.v = ((S_800CB374_3 *)(((S_800CB374_0 *)effect)->unk_A8))->unk_CC;
+        source_primitive = ((S_800CB374_3 *)(((S_800CB374_0 *)effect)->unk_A8))->unk_0C;
+        primitive->unk_1C = (u16) source_primitive->unk_1C;
+        primitive->unk_1E = (u16) source_primitive->unk_1E;
+        if (!(((S_800CB374_3 *)(((S_800CB374_0 *)effect)->unk_A8))->unk_1E & 0x8000)) {
+            return;
+        }
     }
-    primitive->unk_0C.at00u.v = ((S_800CB374_3 *)(((S_800CB374_0 *)effect)->unk_A8))->unk_CC;
-    source_primitive = ((S_800CB374_3 *)(((S_800CB374_0 *)effect)->unk_A8))->unk_0C;
-    primitive->unk_1C = (u16) source_primitive->unk_1C;
-    primitive->unk_1E = (u16) source_primitive->unk_1E;
-    if (((S_800CB374_3 *)(((S_800CB374_0 *)effect)->unk_A8))->unk_1E & 0x8000) {
-mark_complete:
-        ((S_800CB374_0_pre *)effect)[-1].unk_00 = (u16) (((S_800CB374_0_pre *)effect)[-1].unk_00 | 0x8000);
-        objectFlagBlock.flags |= 0x8000;
-    }
+    ((S_800CB374_0_pre *)effect)[-1].unk_00 = (u16) (((S_800CB374_0_pre *)effect)[-1].unk_00 | 0x8000);
+    objectFlagBlock.flags |= 0x8000;
 }

@@ -30,9 +30,8 @@ extern u8 D_800C21F8[];
 /* Applies an eligible nearby object's effects and updates its callback. */
 s32 func_800C2124(TownObject *object) {
     TownPosition *position;
-    s32 coord_value_2;
     s32 coord_value_3;
-    register s32 offset_x ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 offset_x;
     s32 check_id;
     register void *callback;
     s16 distance_x;
@@ -40,19 +39,10 @@ s32 func_800C2124(TownObject *object) {
 
     position = (TownPosition *)((u8 *)(&D_80083780));
     ASM_KEEP(position);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    offset_x = object->x;
-    coord_value_2 = position->x;
+    offset_x = object->x - position->x;
+    distance_x = abs(offset_x);
+    distance_z = abs(object->z - position->z);
     check_id = object->check_id;
-    position = (TownPosition *)(s32)position->z;
-    offset_x -= coord_value_2;
-    coord_value_2 = object->z;
-    distance_x = offset_x;
-    if (offset_x < 0) {
-        distance_x = -distance_x;
-    }
-    coord_value_2 -= (s32)position;
-    distance_z = abs(coord_value_2);
-    ASM_KEEP(check_id);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     if (func_80033B2C(check_id, offset_x) != 0) {
         if (object->range_x >= distance_x) {
             coord_value_3 = distance_z;

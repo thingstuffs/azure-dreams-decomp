@@ -8,7 +8,7 @@
 
 typedef struct S_819ACDA0_1 {
     u8 pad_00[0x2C];
-    volatile u16 unk_2C;
+    u16 unk_2C;
 } S_819ACDA0_1;   /* motion in func_819ACDA0 */
 
 
@@ -75,47 +75,28 @@ void func_819ACDA0(Motion *motion, Position *position, u8 *color)
 
     *(u16 *)D_80027452 = *(u16 *)D_80027452 + 1;
 
-    if (motion->state == 1) {
-        goto update_position;
-    }
-    if (motion->state >= 2) {
-        goto check_upper_states;
-    }
-    if (motion->state == 0) {
-        goto initialize;
-    }
-    return;
+    switch (motion->state) {
+    case 0:
+        base.x = D_80083780.x.w.i;
+        base.y = D_80083780.y.w.i;
+        entity = D_800E3D7C;
+        base.z = ((u16)entity->unk_88) - 0x50;
+        index =
+            ((gameWork.view.viewAngle + entity->facing + 0x100) >> 7) & 0x1C;
 
-check_upper_states:
-    if (motion->state == 2) {
-        goto fade;
-    }
-    if (motion->state == 3) {
-        goto effect;
-    }
-    return;
+        func_8003DE58(
+            *(void **)(index + (s32)D_800E3D18),
+            ((u8 *)(&D_80082E80)), &delta, 0);
 
-initialize:
-    base.x = D_80083780.x.w.i;
-    base.y = D_80083780.y.w.i;
-    entity = D_800E3D7C;
-    base.z = ((u16)entity->unk_88) - 0x50;
-    index =
-        ((gameWork.view.viewAngle + entity->facing + 0x100) >> 7) & 0x1C;
+        base.x += delta.x;
+        motion->target_x = base.x;
+        base.y += delta.y;
+        motion->target_y = base.y;
+        base.z += delta.z;
+        motion->target_z = base.z;
+        motion->state++;
 
-    func_8003DE58(
-        *(void **)(index + (s32)D_800E3D18),
-        ((u8 *)(&D_80082E80)), &delta, 0);
-
-    base.x += delta.x;
-    motion->target_x = base.x;
-    base.y += delta.y;
-    motion->target_y = base.y;
-    base.z += delta.z;
-    motion->target_z = base.z;
-    motion->state++;
-
-update_position:
+    case 1:
         position->next_x +=
             (motion->current_x +
                  ((motion->target_x - motion->current_x) / 8) *
@@ -150,51 +131,49 @@ update_position:
         }
         func_800B8D64(motion->target_x, motion->target_y, motion->target_z);
         final_state = ((S_819ACDA0_1 *)motion)->unk_2C;
-        {
-            s32 five;   /* still load-bearing after the honest shared state advance */
-
-            five = 5;
-            motion->timer = five;
-        }
+        motion->timer = 5;
         motion->state = final_state + 1;
         return;
+    case 2:
+        color[0xD] -= color[0xD] / motion->timer;
+        motion->timer--;
+        if (motion->timer > 0) {
+            return;
+        }
+        if (motion->phase == 0) {
+            color[0xD] = 0;
+            motion->effect_timer = 4;
+            D_80027450 = 0;
+            motion->state++;
+            return;
+        }
+        break;
 
-fade:
-    color[0xD] -= color[0xD] / motion->timer;
-    motion->timer--;
-    if (motion->timer > 0) {
+    case 3:
+        source = &D_80082E80;
+        if (func_8003DE58(((void *)source->unk_008), source, &base, 0) != 0) {
+            func_8002614C(
+                D_80083780.x.w.i + base.x,
+                D_80083780.y.w.i + base.y,
+                D_80083780.z.w.i + base.z,
+                ((EntityRec *)((u8 *)D_800E3D7C))->facing, 0);
+        }
+
+        motion->effect_timer--;
+        if (motion->effect_timer > 0) {
+            return;
+        }
+        func_800255B8(
+            D_80083780.x.w.i,
+            D_80083780.y.w.i,
+            D_80083780.z.w.i - 0x20,
+            ((EntityRec *)((u8 *)D_800E3D7C))->facing);
+
+        break;
+    default:
         return;
     }
-    if (motion->phase == 0) {
-        color[0xD] = 0;
-        motion->effect_timer = 4;
-        D_80027450 = 0;
-        motion->state++;
-        return;
-    }
-    goto finish;
 
-effect:
-    source = &D_80082E80;
-    if (func_8003DE58(((void *)source->unk_008), source, &base, 0) != 0) {
-        func_8002614C(
-            D_80083780.x.w.i + base.x,
-            D_80083780.y.w.i + base.y,
-            D_80083780.z.w.i + base.z,
-            ((EntityRec *)((u8 *)D_800E3D7C))->facing, 0);
-    }
-
-    motion->effect_timer--;
-    if (motion->effect_timer > 0) {
-        return;
-    }
-    func_800255B8(
-        D_80083780.x.w.i,
-        D_80083780.y.w.i,
-        D_80083780.z.w.i - 0x20,
-        ((EntityRec *)((u8 *)D_800E3D7C))->facing);
-
-finish:
     (*(u16 *)((u8 *)motion + -2)) |= 0x8000;
     objectFlagBlock.flags |= 0x8000;
 }

@@ -38,59 +38,49 @@ s32 func_80059BC4(void)
     }
     entity = D_80085FA8;
     do {
-        if (entity->f2c != 0) {
-            goto next_entity;
-        }
-        step_or_count = entity->f24;
-        tick_total = entity->f3c;
-        tick_total = tick_total + step_or_count;
-        entity->f3c = tick_total;
-        if ((unsigned int)tick_total < 0x100) {
-            goto next_entity;
-        }
-        delay_ticks = entity->f10;
-        entity->f3c = tick_total & 0xFF;
-        if (delay_ticks == 0) {
+        if (entity->f2c == 0) {
+            step_or_count = entity->f24;
+            tick_total = entity->f3c;
+            tick_total = tick_total + step_or_count;
+            entity->f3c = tick_total;
+            if ((unsigned int)tick_total >= 0x100) {
+                delay_ticks = entity->f10;
+                entity->f3c = tick_total & 0xFF;
+                if (delay_ticks == 0) {
 
 process_action:
-            if (D_800737C8[0] == 2) {
-                goto decode_check;
-            }
-            func_8005947C(entity);
-            goto decode;
-
-decode_check:
-            if ((func_800595C0(entity) & 0xFF) != 0) {
-                goto decode_nonzero;
-            }
-decode:
-            if (entity->f2c != 0) {
-                goto update_delay;
-            }
-            entity->f10 = func_80058A04(entity);
-            goto post_decode;
-decode_nonzero:
-            if (entity->f2c != 0) {
-                goto update_delay;
-            }
-post_decode:
-            if (entity->f10 == 0) {
-                goto process_action;
-            }
-            if (D_800737C4[0] != 0) {
-                func_80059814(entity);
-            }
-            if (entity->f10 == 0) {
-                goto process_action;
-            }
+                    if (D_800737C8[0] != 2) {
+                        func_8005947C(entity);
+                        if (entity->f2c != 0) {
+                            goto update_delay;
+                        }
+                        entity->f10 = func_80058A04(entity);
+                    } else if ((func_800595C0(entity) & 0xFF) == 0) {
+                        if (entity->f2c != 0) {
+                            goto update_delay;
+                        }
+                        entity->f10 = func_80058A04(entity);
+                    } else if (entity->f2c != 0) {
+                        goto update_delay;
+                    }
+                    if (entity->f10 == 0) {
+                        goto process_action;
+                    }
+                    if (D_800737C4[0] != 0) {
+                        func_80059814(entity);
+                    }
+                    if (entity->f10 == 0) {
+                        goto process_action;
+                    }
 update_delay:
-            if (entity->f10 != 0) {
-                entity->f10 -= 1;
+                    if (entity->f10 != 0) {
+                        entity->f10 -= 1;
+                    }
+                } else {
+                    entity->f10 = delay_ticks - 1;
+                }
             }
-        } else {
-            entity->f10 = delay_ticks - 1;
         }
-next_entity:
         step_or_count = D_800869B4[0];
         entity_index++;
         entity++;

@@ -136,16 +136,12 @@ s32 func_8008D0B8(u32 query_x, u32 query_y, s16 query_height, void **plane_out)
     while (scratch->outer_count < 2) {
         y = scratch->y_scan + scratch->outer_offset;
         if (scratch->y_step >= 0) {
-            if (y < D_800FE484) {
-                goto y_valid;
+            if (y >= D_800FE484) {
+                break;
             }
-            goto done;
+        } else if (y < 0) {
+            break;
         }
-        if (y < 0) {
-            goto done;
-        }
-
-    y_valid:
         scratch->inner_count = 0;
         scratch->inner_offset = 0;
         scratch->origin_y = scratch->y_base - scratch->outer_offset;
@@ -162,16 +158,14 @@ s32 func_8008D0B8(u32 query_x, u32 query_y, s16 query_height, void **plane_out)
             x = scan_x_value;
             if (x_step >= 0) {
                 if ((s16)x_sum >= D_800FE480) {
-                    goto next_outer;
+                    break;
                 }
-                goto x_valid;
+            } else {
+                signed_x = (s16)x_sum;
+                if ((s16)signed_x < 0) {
+                    break;
+                }
             }
-            signed_x = (s16)x_sum;
-            if ((s16)signed_x < 0) {
-                goto next_outer;
-            }
-
-        x_valid:
             cell_x_coord = (s16)x;
             if (cell_x_coord < 0) {
                 cell_x_coord += 0x3F;
@@ -184,73 +178,68 @@ s32 func_8008D0B8(u32 query_x, u32 query_y, s16 query_height, void **plane_out)
             }
             cell += (s16)(world->y_mask & (cell_y_coord >> 6)) << world->shift;
             scratch->cell = cell;
-            if (tiles[(s16)cell] == 0) {
-                goto next_inner;
-            }
+            if (tiles[(s16)cell] != 0) {
+                scratch->origin_x = scratch->x_base - scratch->inner_offset;
+                face = world->cells[(tiles[(s16)scratch->cell] & 0x3FFF)];
+                while (scratch->planes[*(u16 *)(face + 0x10)].z < 0) {
+                    if (!(face[0x17] & 1)) {
+                        local_x = scratch->origin_x;
+                        local_y = scratch->origin_y;
 
-            scratch->origin_x = scratch->x_base - scratch->inner_offset;
-            face = world->cells[(tiles[(s16)scratch->cell] & 0x3FFF)];
-            while (scratch->planes[*(u16 *)(face + 0x10)].z < 0) {
-                if (!(face[0x17] & 1)) {
-                    local_x = scratch->origin_x;
-                    local_y = scratch->origin_y;
+                        scratch->quad.words[0] = vertices[*(u16 *)(face + 0)].xy;
+                        scratch->quad.halves[0] -= local_x;
+                        scratch->quad.halves[1] -= local_y;
 
-                    scratch->quad.words[0] = vertices[*(u16 *)(face + 0)].xy;
-                    scratch->quad.halves[0] -= local_x;
-                    scratch->quad.halves[1] -= local_y;
+                        scratch->quad.words[1] = vertices[*(u16 *)(face + 2)].xy;
+                        scratch->quad.halves[2] -= local_x;
+                        scratch->quad.halves[3] -= local_y;
 
-                    scratch->quad.words[1] = vertices[*(u16 *)(face + 2)].xy;
-                    scratch->quad.halves[2] -= local_x;
-                    scratch->quad.halves[3] -= local_y;
+                        scratch->quad.words[2] = vertices[*(u16 *)(face + 6)].xy;
+                        scratch->quad.halves[4] -= local_x;
+                        scratch->quad.halves[5] -= local_y;
 
-                    scratch->quad.words[2] = vertices[*(u16 *)(face + 6)].xy;
-                    scratch->quad.halves[4] -= local_x;
-                    scratch->quad.halves[5] -= local_y;
-
-                    scratch->quad.words[3] = vertices[*(u16 *)(face + 4)].xy;
-                    scratch->quad.halves[6] -= local_x;
-                    scratch->quad.halves[7] -= local_y;
-                    if (func_8008CE08(scratch) != 0) {
-                        height = ((s16)scratch->planes[*(u16 *)(face + 0x10)].xy *
-                                      ((s16)vertices[*(u16 *)face].xy -
-                                       (s16)scratch->origin_x) +
-                                  (s16)(scratch->planes[*(u16 *)(face + 0x10)].xy >> 16) *
-                                      ((s16)(vertices[*(u16 *)face].xy >> 16) -
-                                       (s16)scratch->origin_y) +
-                                  scratch->planes[*(u16 *)(face + 0x10)].z *
-                                      vertices[*(u16 *)face].z) /
-                                 scratch->planes[*(u16 *)(face + 0x10)].z;
-                        scratch->height = height;
-                        if (height >= scratch->threshold && height < scratch->best) {
-                            scratch->best = height;
-                            scratch->result = &scratch->planes[*(u16 *)(face + 0x10)];
+                        scratch->quad.words[3] = vertices[*(u16 *)(face + 4)].xy;
+                        scratch->quad.halves[6] -= local_x;
+                        scratch->quad.halves[7] -= local_y;
+                        if (func_8008CE08(scratch) != 0) {
+                            height = ((s16)scratch->planes[*(u16 *)(face + 0x10)].xy *
+                                          ((s16)vertices[*(u16 *)face].xy -
+                                           (s16)scratch->origin_x) +
+                                      (s16)(scratch->planes[*(u16 *)(face + 0x10)].xy >> 16) *
+                                          ((s16)(vertices[*(u16 *)face].xy >> 16) -
+                                           (s16)scratch->origin_y) +
+                                      scratch->planes[*(u16 *)(face + 0x10)].z *
+                                          vertices[*(u16 *)face].z) /
+                                     scratch->planes[*(u16 *)(face + 0x10)].z;
+                            scratch->height = height;
+                            if (height >= scratch->threshold && height < scratch->best) {
+                                scratch->best = height;
+                                scratch->result = &scratch->planes[*(u16 *)(face + 0x10)];
+                            }
                         }
                     }
-                }
 
-                flags = face[0x16];
-                if ((flags & 0xF) == 1) {
-                    if ((s8)face[0x17] < 0) {
-                        goto next_inner;
+                    flags = face[0x16];
+                    if ((flags & 0xF) == 1) {
+                        if ((s8)face[0x17] < 0) {
+                            break;
+                        }
+                        if (flags & 0xF0) {
+                            face += ((flags >> 4) * 3 << 3) + 0x18;
+                            continue;
+                        }
                     }
-                    if (flags & 0xF0) {
-                        face += ((flags >> 4) * 3 << 3) + 0x18;
-                        continue;
-                    }
+                    face += 0x18;
                 }
-                face += 0x18;
             }
-        next_inner:
             scratch->inner_count++;
             scratch->inner_offset += scratch->x_step;
         }
 
-    next_outer:
         scratch->outer_count++;
         scratch->outer_offset += scratch->y_step;
     }
 
-done:
     *result_plane = scratch->result;
     return (s16)scratch->best;
 }

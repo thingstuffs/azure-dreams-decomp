@@ -42,6 +42,8 @@ void func_800174E8(void) {
     state = root->state;
 
     switch (state->mode) {
+    case 1:
+        break;
     case 2:
         state->value4++;
         return;
@@ -49,16 +51,8 @@ void func_800174E8(void) {
     case 3:
         state->value4--;
         return;
-    case 1:
-        goto set_root_page;
-    default:
-        root_page = (u8 *) 0x80010000;
-        goto reload_state;
     }
-
-set_root_page:
     root_page = (u8 *) 0x80010000;
-reload_state:
     state = (*(TownRoot * volatile *) (root_page + 0x6000))->state;
     state->value8--;
 }

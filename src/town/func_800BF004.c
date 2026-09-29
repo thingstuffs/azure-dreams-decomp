@@ -21,36 +21,24 @@ void func_800BC764(S_800BC764_0 *context, void *unused, Rec_D_80082E80 *record) 
     u16 ticks_left;
 
     state = context->unk_68;
-    if (state == 1) {
-        goto tick_delay;
-    }
-    if (state < 2) {
-        if (state == 0) {
-            goto start_delay;
+    switch (state) {
+    case 0:
+        context->unk_6C = 0x3CU;
+        context->unk_68 = (s16) ((u16) context->unk_68 + 1);
+    case 1:
+        ticks_left = context->unk_6C - 1;
+        context->unk_6C = ticks_left;
+        if ((ticks_left << 0x10) <= 0) {
+            context->unk_68 = (s16) ((u16) context->unk_68 + 1);
+            return;
         }
         return;
-    }
-    if (state == 2) {
-        goto process_record;
-    }
-    return;
-
-start_delay:
-    context->unk_6C = 0x3CU;
-    context->unk_68 = (s16) ((u16) context->unk_68 + 1);
-tick_delay:
-    ticks_left = context->unk_6C - 1;
-    context->unk_6C = ticks_left;
-    if ((ticks_left << 0x10) <= 0) {
-        context->unk_68 = (s16) ((u16) context->unk_68 + 1);
-        return;
-    }
-    return;
-
-process_record:
-    func_800478B8(record);
-    if (record->unk_14.at00_u16.v & 0x6000) {
-        func_8003DB94(record, &D_800F15E4, 0);
-        context->unk_68 = 0;
+    case 2:
+        func_800478B8(record);
+        if (record->unk_14.at00_u16.v & 0x6000) {
+            func_8003DB94(record, &D_800F15E4, 0);
+            context->unk_68 = 0;
+        }
+        break;
     }
 }

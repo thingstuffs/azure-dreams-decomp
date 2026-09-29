@@ -63,119 +63,90 @@ void func_80172E5C(S810AF65C_0 *animation, S810AF65C_1 *motion,
     state = animation->field_9b;
     animation->field_96 = timer;
 
-    if (state == 1) {
-        goto state_1;
-    }
-    if (state < 2) {
-        if (state == 0) {
-            goto state_0;
+    switch (state) {
+    case 0:
+        func_800AD4D0(actor);
+        animation->field_96 = 2;
+        animation->field_9b = animation->field_9b + 1;
+        if (actor->field_28 == 0) {
+            motion->field_14 = 0;
+            motion->field_10 = 0;
+            motion->field_0c = 0;
+            animation->field_96 = 0;
+            func_800AAA54(animation, motion, tile, D_80173C94);
+            return;
         }
-        return;
-    }
-    if (state == 2) {
-        goto state_2;
-    }
-    if (state == 3) {
-        goto state_3;
-    }
-    return;
+        if ((tile->field_14 & 0x8000) != 0) {
+            animation->field_9b = 3;
+            return;
+        }
+        /* fall through */
+    case 1:
+        if ((s16)animation->field_96 > 0) {
+            return;
+        }
+        motion->field_0c = (s16)dirStepX[direction] << 18;
+        motion->field_10 = (s16)dirStepY[direction] << 18;
+        move_ticks = 5;
+        if ((actor->field_1c & 0x228) != 0) {
+            move_ticks = 8;
+        }
+        animation->field_96 = move_ticks;
+        velocity_x = motion->field_0c;
+        biased_x = velocity_x;
+        if (velocity_x < 0) {
+            biased_x = velocity_x + 3;
+        }
+        velocity_y = motion->field_10;
+        motion->field_0c = velocity_x - (biased_x >> 2);
+        biased_y = velocity_y;
+        if (velocity_y < 0) {
+            biased_y = velocity_y + 3;
+        }
+        motion->field_10 = velocity_y - (biased_y >> 2);
+        animation->field_9b = animation->field_9b + 1;
+        break;
+    case 2:
+        motion->field_0c = motion->field_0c - ((s16)dirStepX[direction] << 15);
+        motion->field_10 = motion->field_10 - ((s16)dirStepY[direction] << 15);
+        if ((s16)animation->field_96 != 0) {
+            return;
+        }
+        if (actor->field_28 == 0) {
+            motion->field_14 = 0;
+            motion->field_10 = 0;
+            motion->field_0c = 0;
+            func_800AAA54(animation, motion, tile, D_80173C94);
+            return;
+        }
+        animation->field_96 = 4;
+        animation->field_9b = animation->field_9b + 1;
+        break;
+    case 3:
+        if ((timer << 16) != 0) {
+            s32 tile_x;
+            s32 origin_x;
+            s32 tile_y;
+            s32 origin_y;
 
-state_0:
-    func_800AD4D0(actor);
-    animation->field_96 = 2;
-    animation->field_9b = animation->field_9b + 1;
-    if (actor->field_28 == 0) {
+            tile_x = tile->field_24 << 6;
+            origin_x = motion->field_02 - 0x20;
+            motion->field_0c = (tile_x - origin_x) << 15;
+            tile_y = tile->field_25 << 6;
+            origin_y = motion->field_06 - 0x20;
+            motion->field_10 = (tile_y - origin_y) << 15;
+            if ((s16)animation->field_96 > 0) {
+                return;
+            }
+        }
         motion->field_14 = 0;
         motion->field_10 = 0;
         motion->field_0c = 0;
-        animation->field_96 = 0;
-        func_800AAA54(animation, motion, tile, D_80173C94);
-        return;
+        func_800A2B04(motion, tile->field_24, tile->field_25);
+        if (((s32)dungeonStatus.unk_10) == (s32)((u8 *)actor - 0x20)) {
+            dungeonStatus.unk_10 = ((s32)dungeonStatus.unk_10) & 0x7fffffff;
+        }
+        animation->field_8c = D_80170E54;
+        break;
     }
-    if ((tile->field_14 & 0x8000) != 0) {
-        animation->field_9b = 3;
-        return;
-    }
-    goto state_1;
-
-state_1:
-    if ((s16)animation->field_96 > 0) {
-        return;
-    }
-    motion->field_0c = (s16)dirStepX[direction] << 18;
-    motion->field_10 = (s16)dirStepY[direction] << 18;
-    move_ticks = 5;
-    if ((actor->field_1c & 0x228) != 0) {
-        move_ticks = 8;
-    }
-    animation->field_96 = move_ticks;
-    velocity_x = motion->field_0c;
-    biased_x = velocity_x;
-    if (velocity_x < 0) {
-        biased_x = velocity_x + 3;
-    }
-    velocity_y = motion->field_10;
-    motion->field_0c = velocity_x - (biased_x >> 2);
-    biased_y = velocity_y;
-    if (velocity_y < 0) {
-        biased_y = velocity_y + 3;
-    }
-    motion->field_10 = velocity_y - (biased_y >> 2);
-    animation->field_9b = animation->field_9b + 1;
-    goto state_tail;
-
-state_2:
-    motion->field_0c = motion->field_0c - ((s16)dirStepX[direction] << 15);
-    motion->field_10 = motion->field_10 - ((s16)dirStepY[direction] << 15);
-    if ((s16)animation->field_96 != 0) {
-        return;
-    }
-    if (actor->field_28 == 0) {
-        motion->field_14 = 0;
-        motion->field_10 = 0;
-        motion->field_0c = 0;
-        func_800AAA54(animation, motion, tile, D_80173C94);
-        return;
-    }
-    animation->field_96 = 4;
-    animation->field_9b = animation->field_9b + 1;
-
-state_tail:
-    return;
-
-state_3:
-    if ((timer << 16) == 0) {
-        goto reset;
-    }
-    {
-        s32 tile_x;
-        s32 origin_x;
-
-        tile_x = tile->field_24 << 6;
-        origin_x = motion->field_02 - 0x20;
-        motion->field_0c = (tile_x - origin_x) << 15;
-    }
-    {
-        s32 tile_y;
-        s32 origin_y;
-
-        tile_y = tile->field_25 << 6;
-        origin_y = motion->field_06 - 0x20;
-        motion->field_10 = (tile_y - origin_y) << 15;
-    }
-    if ((s16)animation->field_96 > 0) {
-        return;
-    }
-
-reset:
-    motion->field_14 = 0;
-    motion->field_10 = 0;
-    motion->field_0c = 0;
-    func_800A2B04(motion, tile->field_24, tile->field_25);
-    if (((s32)dungeonStatus.unk_10) == (s32)((u8 *)actor - 0x20)) {
-        dungeonStatus.unk_10 = ((s32)dungeonStatus.unk_10) & 0x7fffffff;
-    }
-    animation->field_8c = D_80170E54;
-
-    return;
 }

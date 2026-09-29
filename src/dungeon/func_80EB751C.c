@@ -145,12 +145,9 @@ void func_80172D1C(void *actor, void *motion, void *sprite, void *entity) {
                 ASM_KEEP(component_work);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                 ((S_80172D1C_3 *)((u8 *)component_work))->unk_48 = 10;
                 sprite_flags = ((Rec_D_80082E80 *)sprite)->unk_28.at00_s32.v;
-                ASM_KEEP(sprite_flags);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                component_work = ((S_80172D1C_5 *)particle_sprite)->unk_14;
+                component_work = ((S_80172D1C_5 *)particle_sprite)->unk_14 | 0xC;
                 ((S_80172D1C_5 *)particle_sprite)->unk_1E = 0x1800;
                 ((S_80172D1C_5 *)particle_sprite)->unk_1C = 0x1800;
-                component_work |= 0xC;
-                ASM_KEEP(component_work);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                 ((S_80172D1C_5 *)particle_sprite)->unk_28 = sprite_flags;
                 ((S_80172D1C_5 *)particle_sprite)->unk_14 = component_work;
                 component_work_2 = ((Rec_D_80082E80 *)sprite)->unk_12.at00_u16.v;

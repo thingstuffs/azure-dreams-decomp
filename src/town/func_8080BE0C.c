@@ -46,36 +46,30 @@ void func_80526A0C(void *arg0) {
         var_a0 -= 1;
     } while (var_a0 >= 0);
     temp_v1 = ((S_8080BE0C_0 *)arg0)->unk_00.s;
-    if (temp_v1 == 0) {
-        goto state_0;
-    }
-    if (temp_v1 == 1) {
-        goto state_1;
-    }
-    return;
-
-state_0:
-    temp_v0_2 = ((S_8080BE0C_0 *)arg0)->unk_02 - 1;
-    ((S_8080BE0C_0 *)arg0)->unk_02 = temp_v0_2;
-    if ((temp_v0_2 << 0x10) > 0) {
+    switch (temp_v1) {
+    case 0:
+            temp_v0_2 = ((S_8080BE0C_0 *)arg0)->unk_02 - 1;
+        ((S_8080BE0C_0 *)arg0)->unk_02 = temp_v0_2;
+        if ((temp_v0_2 << 0x10) > 0) {
+            return;
+        }
+        state_value = ((S_8080BE0C_0 *)arg0)->unk_00.u;
+        flags_value = ((S_8080BE0C_0 *)arg0)->unk_1C;
+        state_value += 1;
+        flags_value &= 0xFFFD;
+        ((S_8080BE0C_0 *)arg0)->unk_1C = flags_value;
+        ((S_8080BE0C_0 *)arg0)->unk_00.u = state_value;
+        return;
+    case 1:
+            func_80058588(var_s1, func_80071424(((S_8080BE0C_0 *)arg0)->unk_04), ((S_8080BE0C_0 *)arg0)->unk_04);
+        if (((S_8080BE0C_1 *)temp_s2)->unk_2A & 1) {
+            (*(u16 *)((u8 *)arg0 + -2)) = (u16) (((S_8080BE0C_0_pre *)arg0)[-1].unk_00 | 0x8000);
+            D_80084D5C |= 0x8000;
+        }
+        return;
+    default:
         return;
     }
-    state_value = ((S_8080BE0C_0 *)arg0)->unk_00.u;
-    flags_value = ((S_8080BE0C_0 *)arg0)->unk_1C;
-    state_value += 1;
-    flags_value &= 0xFFFD;
-    ((S_8080BE0C_0 *)arg0)->unk_1C = flags_value;
-    ((S_8080BE0C_0 *)arg0)->unk_00.u = state_value;
-    return;
-
-state_1:
-    func_80058588(var_s1, func_80071424(((S_8080BE0C_0 *)arg0)->unk_04), ((S_8080BE0C_0 *)arg0)->unk_04);
-    if (((S_8080BE0C_1 *)temp_s2)->unk_2A & 1) {
-        (*(u16 *)((u8 *)arg0 + -2)) = (u16) (((S_8080BE0C_0_pre *)arg0)[-1].unk_00 | 0x8000);
-        D_80084D5C |= 0x8000;
-    }
-
-    return;
 }
 /* MECHANISM: The page-base symbol plus &D_80530000[0x333] emits retail's entry lui/addiu in v1.
    A noreturn tail ABI and explicit label order preserve default/state-0/state-1 CFG and jump slots.

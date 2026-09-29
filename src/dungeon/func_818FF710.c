@@ -368,7 +368,7 @@ void func_80024F10(void *effect, void *motion, void *sprite) {
     S_818FF710_12 *hit_target;
     S_818FF710_28 *released_target;
     S_818FF710_4 *parent_sprite;
-    register void *target_pos_or_step ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    void *target_pos_or_step;
     void *sprite_resource;
     S_818FF710_0 *parent_object;
     S_818FF710_15 *first_sprite;
@@ -557,7 +557,7 @@ snap_to_target:
     ((S_818FF710_5 *)motion)->unk_00.at02.v = (u16) ((S_818FF710_13 *)target_pos_or_step)->unk_02;
     ((S_818FF710_5 *)motion)->unk_04.at02.v = (u16) ((S_818FF710_13 *)target_pos_or_step)->unk_06;
     ((S_818FF710_5 *)motion)->unk_08.at02.v = (u16) (*(s16 *)((u8 *)effect + 0x78));
-    func_80024DB8(effect, motion, sprite, target_pos_or_step);
+    func_80024DB8(effect, motion, sprite);
     return;
 finish_untargeted_flight:
     (*(s16 *)((u8 *)effect + 0xA)) = 8;
@@ -568,11 +568,10 @@ finish_untargeted_flight:
     func_80024DB8(effect, motion, sprite);
     return;
 move_effect:
-    target_pos_or_step = ((S_818FF710_5 *)motion)->unk_10.p;
-    ((S_818FF710_5 *)motion)->unk_00.at00.v = (s32) (((S_818FF710_5 *)motion)->unk_00.at00.v + ((S_818FF710_5 *)motion)->unk_0C);
-    ((S_818FF710_5 *)motion)->unk_04.at00.v = (s32) (((S_818FF710_5 *)motion)->unk_04.at00.v + (s32) target_pos_or_step);
-    ((S_818FF710_5 *)motion)->unk_08.at00.v = (s32) (((S_818FF710_5 *)motion)->unk_08.at00.v + ((S_818FF710_5 *)motion)->unk_14);
-    func_80024DB8(effect, motion, sprite, target_pos_or_step);
+    ((S_818FF710_5 *)motion)->unk_00.at00.v += ((S_818FF710_5 *)motion)->unk_0C;
+    ((S_818FF710_5 *)motion)->unk_04.at00.v += ((S_818FF710_5 *)motion)->unk_10.i;
+    ((S_818FF710_5 *)motion)->unk_08.at00.v += ((S_818FF710_5 *)motion)->unk_14;
+    func_80024DB8(effect, motion, sprite);
     return;
 jt_c3: {
     s32 impact_tick;

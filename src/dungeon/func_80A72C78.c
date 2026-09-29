@@ -169,22 +169,17 @@ tick:
         if (((S_80172478_2 *)actor)->unk_46 & 0x8000) {
             ((S_80172478_2 *)actor)->unk_46 &= 0x7FFF;
         }
-        goto collision_check;
+    } else if (!(actor_flags & 0x410)) {
+        if (actor_flags & 0x20000) {
+            ((S_80172478_2 *)actor)->unk_2A = func_800A0818(
+                ((Rec_D_80082E80 *)sprite)->unk_24,
+                ((Rec_D_80082E80 *)sprite)->unk_25,
+                D_80082E80.tileX,
+                D_80082E80.tileY,
+                &direction_aux);
+        }
     }
-    if (actor_flags & 0x410) {
-        goto collision_check;
-    }
-    if (!(actor_flags & 0x20000)) {
-        goto collision_check;
-    }
-    ((S_80172478_2 *)actor)->unk_2A = func_800A0818(
-        ((Rec_D_80082E80 *)sprite)->unk_24,
-        ((Rec_D_80082E80 *)sprite)->unk_25,
-        D_80082E80.tileX,
-        D_80082E80.tileY,
-        &direction_aux);
 
-collision_check:
     if ((func_800AD9B4(sprite, actor) << 16) > 0) {
         ((S_80172478_0 *)action)->unk_8C = &D_80170E54;
         func_800A9A04(actor);

@@ -123,25 +123,24 @@ void func_8008A288(Menu *menu)
       {
         delta = ((buttons & 0x2000) != 0) * 8;
       }
-      if (delta == 0)
+      if (delta != 0)
       {
-        goto check_confirm;
+        row = menu->row;
+        if (row > 0)
+        {
+          channel_or_color = row - 1;
+          if (row < 4)
+          {
+            goto adjust_volume;
+          }
+          if (row >= 7)
+          {
+            goto check_confirm;
+          }
+          goto adjust_color;
+        }
       }
-      row = menu->row;
-      if (row <= 0)
-      {
-        goto check_confirm;
-      }
-      channel_or_color = row - 1;
-      if (row < 4)
-      {
-        goto adjust_volume;
-      }
-      if (row >= 7)
-      {
-        goto check_confirm;
-      }
-      goto adjust_color;
+      goto check_confirm;
     adjust_volume:
       levels = D_8008B2F0;
 
@@ -202,9 +201,8 @@ void func_8008A288(Menu *menu)
       if (adjusted_value < 0)
       {
         color_base[7] = 0;
-        goto check_confirm;
       }
-      if (adjusted_value >= 0x101)
+      else if (adjusted_value >= 0x101)
       {
         color_base[7] = 0x100;
       }

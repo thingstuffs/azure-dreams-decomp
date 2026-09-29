@@ -149,7 +149,6 @@ normal_kind:
                 func_800A48F0(work, 1,
                               (func_800A6D30() & 0x3F) | 0x20);
                 part_b->unk_2C = D_80156AFC;
-                goto post_kind;
             }
         }
         goto call_a1_setup;

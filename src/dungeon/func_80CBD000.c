@@ -107,73 +107,56 @@ void *BODY_NAME(s16 flags, s16 unused_kind_id, s16 variant, s16 unused_spawn)
     spawn_value = unused_spawn;
     part = func_8003FD64(alloc_id, alloc_base);
     arg0_copy = flags;
-    if (part == 0) {
-        goto done;
-    }
+    if (part != 0) {
+        work = (u8 *)part + 0x20;
+        ((S_80CBD000_0 *)work)->unk_13 = 0x15;
+        func_8004491C(part, func_80045340);
+        coord = ((S_80CBD000_1 *)part)->unk_08;
+        kind = flags & 3;
+        coord->unk_0A = spawn_value;
+        state = ((S_80CBD000_1 *)part)->unk_0C;
+        state->unk_25 = variant;
+        actor = work;
+        state->unk_24 = kind_id;
 
-    work = (u8 *)part + 0x20;
-    ((S_80CBD000_0 *)work)->unk_13 = 0x15;
-    func_8004491C(part, func_80045340);
-    coord = ((S_80CBD000_1 *)part)->unk_08;
-    kind = flags & 3;
-    coord->unk_0A = spawn_value;
-    state = ((S_80CBD000_1 *)part)->unk_0C;
-    state->unk_25 = variant;
-    actor = work;
-    state->unk_24 = kind_id;
-
-    if (kind == 1) {
-        ((S_80CBD000_0 *)work)->unk_8C = D_80170F20;
-        ((S_80CBD000_0 *)work)->unk_14 |= 0x6000;
-        ((S_80CBD000_0 *)work)->unk_1C |= 0x6000;
-        state->unk_2C = D_801762C0;
-        goto next_done;
-    }
-    if (kind >= 2) {
-        ((S_80CBD000_0 *)work)->unk_8C = D_80170F20;
-        ((S_80CBD000_0 *)work)->unk_14 |= 0x2000;
-        ((S_80CBD000_0 *)work)->unk_1C |= 0x2000;
-        state->unk_2C = D_801762C0;
-        goto next_done;
-    }
-
-    if (((flags & -4) << 16) != 0) {
-        goto nonzero_kind;
-    }
-
-    if (!(((S_80CBD000_0 *)work)->unk_14 & 0x200)) {
-        random = func_800A6D30();
-        if (random & 1) {
-            random = func_800A6D30();
-            func_800A48F0(work, 1, (random & 0x3F) | 0x20);
-            state->unk_2C = D_80176300;
+        if (kind == 1) {
+            ((S_80CBD000_0 *)work)->unk_8C = D_80170F20;
+            ((S_80CBD000_0 *)work)->unk_14 |= 0x6000;
+            ((S_80CBD000_0 *)work)->unk_1C |= 0x6000;
+            state->unk_2C = D_801762C0;
+        } else if (kind >= 2) {
+            ((S_80CBD000_0 *)work)->unk_8C = D_80170F20;
+            ((S_80CBD000_0 *)work)->unk_14 |= 0x2000;
+            ((S_80CBD000_0 *)work)->unk_1C |= 0x2000;
+            state->unk_2C = D_801762C0;
+        } else if (((flags & -4) << 16) == 0) {
+            if (!(((S_80CBD000_0 *)work)->unk_14 & 0x200)) {
+                random = func_800A6D30();
+                if (random & 1) {
+                    random = func_800A6D30();
+                    func_800A48F0(work, 1, (random & 0x3F) | 0x20);
+                    state->unk_2C = D_80176300;
+                }
+            }
+            if (D_800E2968 < 10) {
+                ((S_80CBD000_4 *)actor)->unk_8C = D_80170F20;
+                state->unk_2C = D_801762C0;
+            } else {
+                ((S_80CBD000_4 *)actor)->unk_A7 = 1;
+                ((S_80CBD000_4 *)actor)->unk_8C = D_80173B98;
+                state->unk_2C = D_80176320;
+            }
+        } else {
+            ((S_80CBD000_0 *)work)->unk_8C = D_80170F20;
+            state->unk_2C = D_801762C0;
         }
+
+        ((S_80CBD000_1 *)part)->unk_10 = D_80170AE0;
+        func_800A9C18(part, coord, state, arg0_copy);
+        ((S_80CBD000_4 *)actor)->unk_9A = 0xFF;
+        ((S_80CBD000_4 *)actor)->unk_9C = -1;
+        ((S_80CBD000_4 *)actor)->unk_A8 = 0;
+        func_800AA36C(actor, coord, state, work);
     }
-
-    if (D_800E2968 >= 10) {
-        goto ordinary_kind;
-    }
-    ((S_80CBD000_4 *)actor)->unk_8C = D_80170F20;
-    state->unk_2C = D_801762C0;
-    goto next_done;
-
-ordinary_kind:
-    ((S_80CBD000_4 *)actor)->unk_A7 = 1;
-    ((S_80CBD000_4 *)actor)->unk_8C = D_80173B98;
-    state->unk_2C = D_80176320;
-    goto next_done;
-
-nonzero_kind:
-    ((S_80CBD000_0 *)work)->unk_8C = D_80170F20;
-    state->unk_2C = D_801762C0;
-next_done:
-    ((S_80CBD000_1 *)part)->unk_10 = D_80170AE0;
-    func_800A9C18(part, coord, state, arg0_copy);
-    ((S_80CBD000_4 *)actor)->unk_9A = 0xFF;
-    ((S_80CBD000_4 *)actor)->unk_9C = -1;
-    ((S_80CBD000_4 *)actor)->unk_A8 = 0;
-    func_800AA36C(actor, coord, state, work);
-
-done:
     return work;
 }

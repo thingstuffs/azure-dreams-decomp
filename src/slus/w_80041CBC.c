@@ -51,11 +51,7 @@ void func_80041CBC(void)
 #ifdef NON_MATCHING
     D_80081480 = copied_value;
 #else
-    {
-        register s32 *state_page ASM_REG("$1");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        state_page = (s32 *)0x80080000;
-        state_page[0x520] = copied_value;
-    }
+    ((s32 *)0x80080000)[0x520] = copied_value;
 #endif
     func_800411AC();
     func_8003E2D8();

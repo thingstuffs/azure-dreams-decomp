@@ -50,45 +50,28 @@ void func_8005BAB0(s32 packed_key, s32 packed_channel)
     combined_flags = slot_index;
     D_80085F98[0] = 1;
 
-    if (D_80073734[0] <= 0) {
-        goto done;
-    }
-
-    slot_flags = D_80073740;
-    slot = D_80085458;
+    if (D_80073734[0] > 0) {
+        slot_flags = D_80073740;
+        slot = D_80085458;
 loop:
-    if (slot->f1a == 0) {
-        goto next;
+        if (slot->f1a != 0 && (u16)slot->f06 >= 0x10 && slot->f0a == (packed_channel >> 8) &&
+            slot->f5c == (packed_key >> 8) && slot->f04 == (u16)(packed_key & 0x7F)) {
+            combined_flags |= *slot_flags;
+            slot->f1a = 0;
+            slot->f0a = 0;
+            func_80056D44(slot_index, slot);
+            func_8005E97C(0, *slot_flags);
+            func_80056D44(slot_index, slot);
+            func_8005E97C(0, *slot_flags);
+            combined_flags |= *slot_flags;
+        }
+        slot_flags++;
+        slot++;
+        slot_index++;
+        if (slot_index < D_80073734[0]) {
+            goto loop;
+        }
     }
-    if ((u16)slot->f06 < 0x10) {
-        goto next;
-    }
-    if (slot->f0a != (packed_channel >> 8)) {
-        goto next;
-    }
-    if (slot->f5c != (packed_key >> 8)) {
-        goto next;
-    }
-    if (slot->f04 != (u16)(packed_key & 0x7F)) {
-        goto next;
-    }
-    combined_flags |= *slot_flags;
-    slot->f1a = 0;
-    slot->f0a = 0;
-    func_80056D44(slot_index, slot);
-    func_8005E97C(0, *slot_flags);
-    func_80056D44(slot_index, slot);
-    func_8005E97C(0, *slot_flags);
-    combined_flags |= *slot_flags;
-next:
-    slot_flags++;
-    slot++;
-    slot_index++;
-    if (slot_index < D_80073734[0]) {
-        goto loop;
-    }
-
-done:
 
     func_8005E97C(0, combined_flags);
     D_80085F98[0] = 0;

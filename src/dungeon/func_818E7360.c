@@ -20,48 +20,31 @@ void func_80024B60(void *effect)
     timer = U16_AT(effect, 0x4E) + 1;
     U16_AT(effect, 0x4E) = timer;
 
-    if (state == 1) {
-        goto update_counter;
-    }
-    if (state >= 2) {
-        goto check_final_state;
-    }
-    if (state == 0) {
-        goto initialize;
-    }
-    goto update_position;
-
-check_final_state:
-    if (state == 2) {
-        goto check_completion;
-    }
-    goto update_position;
-
-initialize:
-    U16_AT(effect, 0x4E) = 0;
-    U16_AT(effect, 0x48) = 0;
-    S16_AT(effect, 0x46) = 0x1F;
-    S16_AT(effect, 0x44) = 0x1F;
-    U16_AT(effect, 0x4C)++;
-
-update_counter:
-    counter = U16_AT(effect, 0x48) + 1;
-    U16_AT(effect, 0x48) = counter;
-    S16_AT(effect, 0x4A) = (s16)counter * 0x30;
-
-    if (S16_AT(effect, 0x48) >= 4) {
+    switch (state) {
+    case 0:
+        U16_AT(effect, 0x4E) = 0;
+        U16_AT(effect, 0x48) = 0;
+        S16_AT(effect, 0x46) = 0x1F;
+        S16_AT(effect, 0x44) = 0x1F;
         U16_AT(effect, 0x4C)++;
-        goto update_position;
-    }
-    goto update_position;
+        /* fallthrough */
+    case 1:
+        counter = U16_AT(effect, 0x48) + 1;
+        U16_AT(effect, 0x48) = counter;
+        S16_AT(effect, 0x4A) = (s16)counter * 0x30;
 
-check_completion:
-    if ((s16)timer >= 0xF) {
-        U16_AT(effect, -2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        if (S16_AT(effect, 0x48) >= 4) {
+            U16_AT(effect, 0x4C)++;
+        }
+        break;
+    case 2:
+        if ((s16)timer >= 0xF) {
+            U16_AT(effect, -2) |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
+        }
+        break;
     }
 
-update_position:
     S16_AT(effect, 0x40) = ((U16_AT(effect, 0x4E) & 3) << 5) + 0x80;
     S16_AT(effect, 0x42) = ((s16)U16_AT(effect, 0x4E) >> 2) << 5;
 }

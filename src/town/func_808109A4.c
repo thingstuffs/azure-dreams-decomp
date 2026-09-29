@@ -137,7 +137,7 @@ void func_8052B5A4(TownState *self) {
         }
         if (self->flags & 4) {
             self->state = 2;
-            goto done;
+            break;
         }
         /* fall through */
     case 1:
@@ -166,7 +166,7 @@ void func_8052B5A4(TownState *self) {
         }
         self->timer = 0x96;
         self->state = 3;
-        goto done;
+        break;
 
     case 2:
         obj = func_800374FC(1, D_801328C8);
@@ -194,7 +194,7 @@ void func_8052B5A4(TownState *self) {
         }
         self->state = 4;
         self->timer = 0x64;
-        goto done;
+        break;
 
     case 3:
         self->timer--;
@@ -203,7 +203,7 @@ void func_8052B5A4(TownState *self) {
         }
         self->timer = 0;
         self->state = 1;
-        goto done;
+        break;
 
     case 4:
         self->timer--;
@@ -213,10 +213,9 @@ void func_8052B5A4(TownState *self) {
         if (D_8001339C < self->value) {
             D_8001339C = self->value;
             func_80050BFC(0x553);
-            goto sound_done;
+        } else {
+            func_80050BD8(0x553);
         }
-        func_80050BD8(0x553);
-sound_done:
         func_8003F75C(1);
         *(u16 *)((u8 *)self - sizeof(u16)) |= 0x8000;
         self->flags |= 2;
@@ -226,6 +225,5 @@ sound_done:
     default:
         break;
     }
-done:
     self->flags &= 0xFFFE;
 }

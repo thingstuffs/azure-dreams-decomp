@@ -36,54 +36,50 @@ void func_800B253C(Rec_func_800A9E70_arg0 *actor, s32 update_arg1, s32 update_ar
                     if ((func_800A2BDC(entity) << 0x10) != 0) {
                         return;
                     }
-                    goto update_state;
-                }
-                active_entity = dungeonStatus.unk_0C;
-                if (active_entity != entity) {
-                    if ((((s32)dungeonStatus.unk_10) == 0) && (active_entity == 0) &&
-                        (dungeonStatus.unk_08 == 0) &&
-                        !(dungeonStatus.flags & 0x2008) &&
-                        (entity->unk_43 == 0xFD)) {
-                        dungeonStatus.unk_0C = entity;
-                        goto check_entity;
-                    }
                 } else {
-                check_entity:
-                    if (entity->unk_43 == 0xFD) {
-                    update_state:
-                        if (entity->flags1C & 0x400000) {
-                            actor->unk_8C = 0;
-                            entity_flags = entity->flags14;
-                            entity->flags1C &= 0xFFBFFFFF;
-                            if (entity_flags & 0x20000000) {
-                                entity->flags14 = entity_flags | 0x400000;
-                                actor->unk_AD = 0;
-                                func_800ACB98(actor, update_arg1, update_arg2, entity);
-                                return;
-                            }
-                            entity->flags14 = entity_flags & 0xFFBFFFFF;
-                            next_state = entity_flags & 0x4000;
-                            if (!next_state) {
-                                next_state = 2;
-                            } else {
-                                next_state = 1;
-                            }
-                            actor->unk_9A.as_u8 = next_state;
-                            goto reset_phase;
+                    active_entity = dungeonStatus.unk_0C;
+                    if (active_entity != entity) {
+                        if (!((((s32)dungeonStatus.unk_10) == 0) && (active_entity == 0) &&
+                            (dungeonStatus.unk_08 == 0) &&
+                            !(dungeonStatus.flags & 0x2008) &&
+                            (entity->unk_43 == 0xFD))) {
+                            return;
                         }
-                        if (entity->flags1C & 0x02000000) {
-                            actor->unk_8C = 0;
-                            entity->unk_71 = 0;
-                            entity->flags1C &= 0xFDFFFFFF;
-                            if (entity->flags14 & 0x20000000) {
-                                func_800ACD74(actor, update_arg1, update_arg2, entity);
-                                return;
-                            }
-                            actor->unk_9A.as_u8 = 0;
-                        reset_phase:
-                            actor->unk_9B.as_u8 = 0;
-                        }
+                        dungeonStatus.unk_0C = entity;
                     }
+                    if (entity->unk_43 != 0xFD) {
+                        return;
+                    }
+                }
+                if (entity->flags1C & 0x400000) {
+                    actor->unk_8C = 0;
+                    entity_flags = entity->flags14;
+                    entity->flags1C &= 0xFFBFFFFF;
+                    if (entity_flags & 0x20000000) {
+                        entity->flags14 = entity_flags | 0x400000;
+                        actor->unk_AD = 0;
+                        func_800ACB98(actor, update_arg1, update_arg2, entity);
+                        return;
+                    }
+                    entity->flags14 = entity_flags & 0xFFBFFFFF;
+                    next_state = entity_flags & 0x4000;
+                    if (!next_state) {
+                        next_state = 2;
+                    } else {
+                        next_state = 1;
+                    }
+                    actor->unk_9A.as_u8 = next_state;
+                    actor->unk_9B.as_u8 = 0;
+                } else if (entity->flags1C & 0x02000000) {
+                    actor->unk_8C = 0;
+                    entity->unk_71 = 0;
+                    entity->flags1C &= 0xFDFFFFFF;
+                    if (entity->flags14 & 0x20000000) {
+                        func_800ACD74(actor, update_arg1, update_arg2, entity);
+                        return;
+                    }
+                    actor->unk_9A.as_u8 = 0;
+                    actor->unk_9B.as_u8 = 0;
                 }
             }
         }

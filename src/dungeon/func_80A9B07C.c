@@ -94,38 +94,32 @@ void *func_8017087C(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id)
         if (kind == 1) {
             flags_or_roll = work->unk_14 | 0x6000;
             secondary_flags = work->unk_1C | 0x6000;
-            goto write_kind;
-        }
-        if (kind < 2) {
-            goto normal_kind;
-        }
-
-        flags_or_roll = work->unk_14 | 0x2000;
-        secondary_flags = work->unk_1C | 0x2000;
-write_kind:
-        work->unk_14 = flags_or_roll;
-        work->unk_1C = secondary_flags;
-        goto post_kind;
-
-normal_kind:
-        object_arg = obj;
-        if (((kind_flags & ~3) << 16) == 0) {
-            if (!(work->unk_14 & 0x200)) {
-                part_arg = part_a;
-                object_arg = (void *)func_800A6D30(object_arg);
-                flags_or_roll = (s32)object_arg;
-                object_arg = obj;
-                if (!(flags_or_roll & 1)) {
-                    goto init_actor;
+            work->unk_14 = flags_or_roll;
+            work->unk_1C = secondary_flags;
+        } else if (kind >= 2) {
+            flags_or_roll = work->unk_14 | 0x2000;
+            secondary_flags = work->unk_1C | 0x2000;
+            work->unk_14 = flags_or_roll;
+            work->unk_1C = secondary_flags;
+        } else {
+            object_arg = obj;
+            if (((kind_flags & ~3) << 16) == 0) {
+                if (!(work->unk_14 & 0x200)) {
+                    part_arg = part_a;
+                    object_arg = (void *)func_800A6D30(object_arg);
+                    flags_or_roll = (s32)object_arg;
+                    object_arg = obj;
+                    if (flags_or_roll & 1) {
+                    work->unk_1C |= 0x200;
+                    func_800A48F0(work, 1,
+                                  (func_800A6D30(obj) & 0x3F) | 0x20);
+                    part_b->unk_2C = D_80174C8C;
+                    goto post_kind;
+                    }
                 }
-                work->unk_1C |= 0x200;
-                func_800A48F0(work, 1,
-                              (func_800A6D30(obj) & 0x3F) | 0x20);
-                part_b->unk_2C = D_80174C8C;
-                goto post_kind;
             }
+            goto init_actor;
         }
-        goto init_actor;
 
 post_kind:
         object_arg = obj;

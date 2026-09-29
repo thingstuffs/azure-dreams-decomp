@@ -29,31 +29,29 @@ void func_800C0C88(void)
 
 loop:
         entry_kind = table_base[entry_index * 4 + 0x981];
-        if (entry_kind == 0) goto zero_kind;
-        if (entry_kind != 0x13) goto ordinary;
-        if (record_base[0xAC4] == 0) goto ordinary;
+        if (entry_kind != 0) {
+            if (entry_kind == 0x13 && record_base[0xAC4] != 0) {
+                func_80033AE8(*primary_value);
+                primary_value++;
+                func_80033AA8(*secondary_value);
+                secondary_value++;
+                record_base += 0x54;
+            } else {
+                func_80033AA8(*primary_value);
+                func_80033AE8(*secondary_value);
+                primary_value++;
+                secondary_value++;
+                record_base += 0x54;
 
-        func_80033AE8(*primary_value);
-        primary_value++;
-        func_80033AA8(*secondary_value);
-        secondary_value++;
-        record_base += 0x54;
-        goto check;
+            }
+        } else {
+            func_80033AE8(*primary_value);
+            func_80033AE8(*secondary_value);
+            primary_value++;
+            secondary_value++;
+            record_base += 0x54;
 
-ordinary:
-        func_80033AA8(*primary_value);
-        goto common;
-
-zero_kind:
-        func_80033AE8(*primary_value);
-
-common:
-        func_80033AE8(*secondary_value);
-        primary_value++;
-        secondary_value++;
-        record_base += 0x54;
-
-check:
+        }
         entry_index++;
         if (*primary_value != 0) goto loop;
     }

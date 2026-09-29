@@ -20,7 +20,7 @@ typedef struct S_80170A28_0 {
     u8 pad_00[0x4];
     s8 unk_04;
     u8 pad_05[0xF];
-    union { u16 n; volatile u16 v; } unk_14;   /* accessed as both */
+    u16 unk_14;
     u8 pad_16[0xE];
     u8 unk_24;
     u8 unk_25;
@@ -102,7 +102,7 @@ void func_80170A28(void *entity, S_80170A28_2 *motion, void *part)
         func_800AA36C(entity, motion, part, entity);
     }
 
-    part_flags = ((S_80170A28_0 *)part)->unk_14.n;
+    part_flags = ((S_80170A28_0 *)part)->unk_14;
     if (!(part_flags & 0x8000)) {
         rounded_angle = gameWork.view.viewAngle + (*(s16 *)((u8 *)entity + 0x2A)) + 0x100;
         state_or_direction = (rounded_angle >> 9) & 7;
@@ -119,42 +119,36 @@ void func_80170A28(void *entity, S_80170A28_2 *motion, void *part)
 
         direction_flag = dirSpriteFlag[direction_index];
         if (direction_flag != 0) {
-            ((S_80170A28_0 *)part)->unk_14.n |= 1;
+            ((S_80170A28_0 *)part)->unk_14 |= 1;
         } else {
-            ((S_80170A28_0 *)part)->unk_14.n &= 0xFFFE;
+            ((S_80170A28_0 *)part)->unk_14 &= 0xFFFE;
         }
         if (!(((S_80170A28_1 *)entity_base)->unk_1C & 0x20)) {
-            if (!(((S_80170A28_0 *)part)->unk_14.v & 0x40)) {
+            if (!(((S_80170A28_0 *)part)->unk_14 & 0x40)) {
                 func_800478B8(part);
-                goto after_part_flags;
             }
         } else {
-            ((S_80170A28_0 *)part)->unk_14.v |= 0x7000;
+            ((S_80170A28_0 *)part)->unk_14 |= 0x7000;
         }
-after_part_flags:
         func_800A020C(((S_80170A28_1 *)entity_base)->unk_1C, (u8 *)part + 0xC);
-        goto motion;
-    }
-
-    if (part_flags & 0x800) {
-        new_part_flags = part_flags & 0x8FFF;
     } else {
-        new_part_flags = part_flags | 0x7000;
+        if (part_flags & 0x800) {
+            new_part_flags = part_flags & 0x8FFF;
+        } else {
+            new_part_flags = part_flags | 0x7000;
+        }
+        ((S_80170A28_0 *)part)->unk_14 = new_part_flags;
     }
-    ((S_80170A28_0 *)part)->unk_14.n = new_part_flags;
 
-motion:
     motion->unk_00.at00.v += motion->unk_0C;
     motion->unk_04.at00.v += motion->unk_10;
 
     if ((*(u16 *)((u8 *)entity + 0x98)) & 8) {
         (*(s8 *)((u8 *)entity + 0x9D)) = 0;
-        goto accumulate;
+    } else {
+        motion->unk_14 += (*(s8 *)((u8 *)entity + 0x9D)) * 0x14000;
+        (*(s8 *)((u8 *)entity + 0x9D)) = (u8)(*(s8 *)((u8 *)entity + 0x9D)) + 1;
     }
-
-    motion->unk_14 += (*(s8 *)((u8 *)entity + 0x9D)) * 0x14000;
-    (*(s8 *)((u8 *)entity + 0x9D)) = (u8)(*(s8 *)((u8 *)entity + 0x9D)) + 1;
-accumulate:
     (*(s32 *)((u8 *)entity + 0x90)) += motion->unk_14;
 
     if (!((*(u16 *)((u8 *)entity + 0x98)) & 4)) {
@@ -165,22 +159,18 @@ accumulate:
             base_height = (s16)((S_80170A28_1 *)entity_base)->unk_88;
             if ((*(s16 *)((u8 *)entity + 0x92)) + base_height < ground_height) {
                 ((S_80170A28_1 *)entity_base)->unk_1C &= 0xF7FFFFFF;
-                goto flags_test;
-            }
-            if (ground_height >= base_height) {
+            } else if (ground_height >= base_height) {
                 (*(s32 *)((u8 *)entity + 0x90)) = 0;
                 motion->unk_14 = 0;
                 ((S_80170A28_1 *)entity_base)->unk_1C |= 0x08000000;
                 (*(s8 *)((u8 *)entity + 0x9D)) = 0;
-                goto flags_test;
+            } else {
+                motion->unk_14 = 0;
+                ((S_80170A28_1 *)entity_base)->unk_1C |= 0x08000000;
+                (*(s8 *)((u8 *)entity + 0x9D)) = 0;
+                (*(s16 *)((u8 *)entity + 0x92)) = ground_height - ((S_80170A28_1 *)entity_base)->unk_88;
             }
 
-            motion->unk_14 = 0;
-            ((S_80170A28_1 *)entity_base)->unk_1C |= 0x08000000;
-            (*(s8 *)((u8 *)entity + 0x9D)) = 0;
-            (*(s16 *)((u8 *)entity + 0x92)) = ground_height - ((S_80170A28_1 *)entity_base)->unk_88;
-
-flags_test:
             entity_flags = ((S_80170A28_1 *)entity_base)->unk_1C;
             if (entity_flags & 0x40000000) {
                 ((S_80170A28_1 *)entity_base)->unk_1C = entity_flags & 0xBFFFFFFF;
@@ -191,19 +181,18 @@ flags_test:
                 (*(s16 *)((u8 *)entity + 0x92)) +=
                     ((S_80170A28_1 *)entity_base)->unk_88 - ground_height;
                 ((S_80170A28_1 *)entity_base)->unk_88 = ground_height;
-                goto finish;
             }
-            goto finish;
+        } else {
+            ((S_80170A28_1 *)entity_base)->unk_1C &= 0xF7FFFFFF;
         }
+    } else {
+        ((S_80170A28_1 *)entity_base)->unk_1C &= 0xF7FFFFFF;
     }
 
-    ((S_80170A28_1 *)entity_base)->unk_1C &= 0xF7FFFFFF;
-
-finish:
     entity_base = (u8 *)entity_base + 0x88;
     motion->unk_0A =
         *(u16 *)entity_base + (*(u16 *)((u8 *)entity + 0x92));
-    ((S_80170A28_0 *)part)->unk_14.n |= 0x40;
+    ((S_80170A28_0 *)part)->unk_14 |= 0x40;
 
     return;
 }

@@ -34,24 +34,17 @@ void func_800398BC(Func800398BCOwner *owner)
     runtime_state = func_80053EF0(4);
     owner_gate = func_80039884(owner);
     if (owner_gate != 0) {
-        if (runtime_state == 0) {
-            goto decode;
+        if (runtime_state != 0) {
+            owner->field_10 = 0;
+            owner->read_ptr--;
+            return;
         }
-        goto rewind;
-    }
-    if (runtime_state == 0x100) {
-        goto rewind;
-    }
-    if (runtime_state != 3) {
-        goto decode;
+    } else if (runtime_state == 0x100 || runtime_state == 3) {
+        owner->field_10 = 0;
+        owner->read_ptr--;
+        return;
     }
 
-rewind:
-    owner->field_10 = 0;
-    owner->read_ptr--;
-    return;
-
-decode:
     command_ptr = owner->read_ptr;
     command_word = command_ptr[0] + (command_ptr[1] << 8) +
             (command_ptr[2] << 16) + (command_ptr[3] << 24);

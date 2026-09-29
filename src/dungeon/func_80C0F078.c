@@ -75,46 +75,44 @@ void *func_8014C878(s16 init_flags, s16 grid_x, s16 grid_y, s16 type_id)
     saved_type = type_id;
     saved_y = grid_y;
     object = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
-    if (object == 0) {
-        goto done;
-    }
-    state = object + 0x20;
-    ((S_8014C878_0 *)object)->unk_10 = &D_8014CA58;
-    state->unk_13 = 0x10;
-    func_8004491C(object, func_80045340);
-    config = ((S_8014C878_0 *)object)->unk_08;
-    config->unk_0A = saved_type;
-    placement = ((S_8014C878_0 *)object)->unk_0C;
-    mode = init_flags & 3;
-    placement->unk_25 = saved_y;
-    extended_state = state;
-    placement->unk_2C = &D_8015020C;
-    placement->unk_24 = saved_x;
-    if (mode == 1) {
-        state_flags = state->unk_14 | 0x6000;
-        update_flags = state->unk_1C | 0x6000;
-        state->unk_14 = state_flags;
-        state->unk_1C = update_flags;
-    } else if (mode >= 2) {
-        state_flags = state->unk_14 | 0x2000;
-        update_flags = state->unk_1C | 0x2000;
-        state->unk_14 = state_flags;
-        state->unk_1C = update_flags;
-    } else if (((init_flags & ~3) << 0x10) == 0) {
-        if (!(state->unk_14 & 0x200)) {
-            if (func_800A6D30() & 1) {
-                func_800A48F0(state, 1, (func_800A6D30() & 0x3F) | 0x20);
-                placement->unk_2C = &D_8015025C;
+    if (object != 0) {
+        state = object + 0x20;
+        ((S_8014C878_0 *)object)->unk_10 = &D_8014CA58;
+        state->unk_13 = 0x10;
+        func_8004491C(object, func_80045340);
+        config = ((S_8014C878_0 *)object)->unk_08;
+        config->unk_0A = saved_type;
+        placement = ((S_8014C878_0 *)object)->unk_0C;
+        mode = init_flags & 3;
+        placement->unk_25 = saved_y;
+        extended_state = state;
+        placement->unk_2C = &D_8015020C;
+        placement->unk_24 = saved_x;
+        if (mode == 1) {
+            state_flags = state->unk_14 | 0x6000;
+            update_flags = state->unk_1C | 0x6000;
+            state->unk_14 = state_flags;
+            state->unk_1C = update_flags;
+        } else if (mode >= 2) {
+            state_flags = state->unk_14 | 0x2000;
+            update_flags = state->unk_1C | 0x2000;
+            state->unk_14 = state_flags;
+            state->unk_1C = update_flags;
+        } else if (((init_flags & ~3) << 0x10) == 0) {
+            if (!(state->unk_14 & 0x200)) {
+                if (func_800A6D30() & 1) {
+                    func_800A48F0(state, 1, (func_800A6D30() & 0x3F) | 0x20);
+                    placement->unk_2C = &D_8015025C;
+                }
             }
         }
+        func_800A9C18(object, config, placement, init_flags);
+        extended_state->unk_9A = 0xFF;
+        extended_state->unk_9C = -1;
+        extended_state->unk_8C = &D_8014D014;
+        state->unk_1C = (s32)(state->unk_1C | 0x40000);
+        extended_state->unk_92 = -0x20;
+        func_800AA36C(extended_state, config, placement, state);
     }
-    func_800A9C18(object, config, placement, init_flags);
-    extended_state->unk_9A = 0xFF;
-    extended_state->unk_9C = -1;
-    extended_state->unk_8C = &D_8014D014;
-    state->unk_1C = (s32)(state->unk_1C | 0x40000);
-    extended_state->unk_92 = -0x20;
-    func_800AA36C(extended_state, config, placement, state);
-done:
     return state;
 }

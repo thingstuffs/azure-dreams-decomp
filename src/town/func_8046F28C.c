@@ -20,41 +20,26 @@ M2C_UNK *func_8001628C(s32 arg0, s32 arg1) {
 
     if (func_80016164(arg0, arg1) != 0) {
         var_s0 = &D_8001EC04;
-        goto done;
+    } else {
+        temp_s0 = func_8001A7F8();
+        if ((func_8001A510(0x79A) == 0) && ((temp_s0 < 5) || (func_80016224(0x47E, 0x79A) != 0))) {
+            var_s0 = &D_8001E2F8;
+        } else if ((func_8001A510(0x79B) == 0) && ((temp_s0 < 0xA) || (func_80016224(0x47E, 0x79B) != 0))) {
+            var_s0 = &D_8001E634;
+        } else if ((func_8001A510(0x79C) == 0) && ((temp_s0 < 0xF) || (func_80016224(0x47E, 0x79C) != 0))) {
+            var_s0 = &D_8001E79C;
+        } else if ((func_8001A510(0x79D) == 0) && (((temp_s0 < 0x19) && (func_800161C8() != 0)) || (func_80016224(0x47E, 0x79D) != 0))) {
+            var_s0 = &D_8001E9C0;
+        } else {
+            goto use_default;
+        }
+        func_8001A418(0x47E);
+        goto finalize;
+    use_default:
+        var_s0 = &D_8001EB10;
+    finalize:
+        func_8001A418(0x7A3);
     }
-    temp_s0 = func_8001A7F8();
-    if ((func_8001A510(0x79A) == 0) && ((temp_s0 < 5) || (func_80016224(0x47E, 0x79A) != 0))) {
-        var_s0 = &D_8001E2F8;
-        goto selected;
-    }
-    if ((func_8001A510(0x79B) == 0) && ((temp_s0 < 0xA) || (func_80016224(0x47E, 0x79B) != 0))) {
-        var_s0 = &D_8001E634;
-        goto selected;
-    }
-    if ((func_8001A510(0x79C) == 0) && ((temp_s0 < 0xF) || (func_80016224(0x47E, 0x79C) != 0))) {
-        var_s0 = &D_8001E79C;
-        goto selected;
-    }
-    if (func_8001A510(0x79D) != 0) {
-        goto use_default;
-    }
-    if ((temp_s0 < 0x19) && (func_800161C8() != 0)) {
-        goto select_last;
-    }
-    if (func_80016224(0x47E, 0x79D) != 0) {
-        goto select_last;
-    }
-    goto use_default;
-select_last:
-    var_s0 = &D_8001E9C0;
-selected:
-    func_8001A418(0x47E);
-    goto finalize;
-use_default:
-    var_s0 = &D_8001EB10;
-finalize:
-    func_8001A418(0x7A3);
-done:
     return var_s0;
 }
 /* MECHANISM: The true-space CFG turns apparent func_80016398/B0/B8 calls into local joins.

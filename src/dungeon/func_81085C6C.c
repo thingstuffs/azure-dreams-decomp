@@ -45,18 +45,17 @@ void func_8017346C(S_8017346C_0 *actor, EntityRec *motion, S_8017346C_1 *action,
         if (phase != 1) {
             return;
         }
-        goto apply_action;
+    } else {
+        if (action->unk_14 & 0x8000) {
+            actor->unk_9B = 1U;
+            action->unk_14 |= 0x6000;
+            return;
+        }
+        motion->flags14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
+        actor->unk_9B = (u8) (actor->unk_9B + 1);
     }
-    if (action->unk_14 & 0x8000) {
-        actor->unk_9B = 1U;
-        action->unk_14 |= 0x6000;
-        return;
-    }
-    motion->flags14 = 0;
-    motion->unk_10 = 0;
-    motion->unk_0C = 0;
-    actor->unk_9B = (u8) (actor->unk_9B + 1);
-apply_action:
     if (((action->unk_04 == 5) && (action->unk_14 & 0x1000)) || (action->unk_14 & 0x8000)) {
         func_800A56E0(0x803);
     }

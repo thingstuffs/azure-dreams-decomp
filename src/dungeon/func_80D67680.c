@@ -38,7 +38,7 @@ s32 func_80172E80(void *action_state, M2C_UNK action_param, void *sprite, void *
     ((EntityRec *)actor)->unk_71 &= 0x7F;
     action_ready = 0;
     if (dungeonStatus.flags & 0x2000) {
-        goto return_minus_one;
+        return -1;
     }
 
     direction = func_800A04F0(actor, ((Rec_D_80082E80 *)sprite)->unk_24,
@@ -46,7 +46,7 @@ s32 func_80172E80(void *action_state, M2C_UNK action_param, void *sprite, void *
                          ((EntityRec *)actor)->facing);
     result = 0;
     if ((func_800A2CB8(actor, direction) << 16) == 0) {
-        goto return_zero;
+        return 0;
     }
 
     result = -1;
@@ -76,7 +76,6 @@ s32 func_80172E80(void *action_state, M2C_UNK action_param, void *sprite, void *
 
     func_800C7930((s8 *)actor - 0x20, action_param, 8, 0x300);
     if ((func_800A2B5C(actor) << 16) != 0) {
-return_minus_one:
         return -1;
     }
 
@@ -98,7 +97,4 @@ return_minus_one:
         func_8009C93C(actor, sprite, ((EntityRec *)actor)->facing, 1, 0);
     }
     return result;
-
-return_zero:
-    return 0;
 }

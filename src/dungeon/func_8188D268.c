@@ -62,90 +62,87 @@ s32 func_80024A68(void)
     {
         u8 **state_slot = &gameWork.unk_000;
 
-        if (D_80026476 <= 0)
-            goto done;
+        if (D_80026476 > 0) {
+            vertices = D_800265C8;
+            vertex_record = (u8 *)vertices;
 
-        vertices = D_800265C8;
-        vertex_record = (u8 *)vertices;
+            do {
+                Entry *quad;
+                u32 *row_left;
+                u32 *row_right;
+                u32 *next_row_left;
+                u32 *next_row_right;
+                u32 *next_row;
+                u32 *next_right_ptr;
+                u32 next_right_xy;
+                s32 row_start;
+                s32 next_row_index;
+                u16 row_z;
+                u16 next_row_z;
+                EmptyCallArg late_stores;
 
-        do {
-            Entry *quad;
-            u32 *row_left;
-            u32 *row_right;
-            u32 *next_row_left;
-            u32 *next_row_right;
-            u32 *next_row;
-            u32 *next_right_ptr;
-            u32 next_right_xy;
-            s32 row_start;
-            s32 next_row_index;
-            u16 row_z;
-            u16 next_row_z;
-            EmptyCallArg late_stores;
+                row_left = &scratch->value70;
+                row_start = quad_index & ~0xF;
+                quad = (Entry *)scratch->current;
+                row_right = &scratch->value78;
+                next_row_left = &scratch->value80;
+                scratch->current = (u8 *)quad + 0x24;
+                scratch->value70 = *(u32 *)vertex_record;
+                scratch->value78 = vertices[
+                    ((u32)row_start + (u32)((quad_index + 1) & 0xF)) * 2];
+                next_row = vertices + 0x20;
+                next_right_ptr = (u32 *)(((u32)row_start + (u32)((quad_index + 1) & 0xF)) * 8 + (u32)next_row);
+                scratch->value80 = next_row[quad_index * 2];
+                next_right_xy = *next_right_ptr;
+                next_row_right = &scratch->value88;
+                row_z = *(u16 *)(vertex_record + 4);
+                scratch->half74 = row_z;
+                scratch->half7c = row_z;
+                next_row_index = quad_index + 16;
+                next_row_z = ((u16 *)vertices)[(next_row_index * 4) + 2];
 
-            row_left = &scratch->value70;
-            row_start = quad_index & ~0xF;
-            quad = (Entry *)scratch->current;
-            row_right = &scratch->value78;
-            next_row_left = &scratch->value80;
-            scratch->current = (u8 *)quad + 0x24;
-            scratch->value70 = *(u32 *)vertex_record;
-            scratch->value78 = vertices[
-                ((u32)row_start + (u32)((quad_index + 1) & 0xF)) * 2];
-            next_row = vertices + 0x20;
-            next_right_ptr = (u32 *)(((u32)row_start + (u32)((quad_index + 1) & 0xF)) * 8 + (u32)next_row);
-            scratch->value80 = next_row[quad_index * 2];
-            next_right_xy = *next_right_ptr;
-            next_row_right = &scratch->value88;
-            row_z = *(u16 *)(vertex_record + 4);
-            scratch->half74 = row_z;
-            scratch->half7c = row_z;
-            next_row_index = quad_index + 16;
-            next_row_z = ((u16 *)vertices)[(next_row_index * 4) + 2];
+                scratch->index = func_800654B0(
+                    row_left, row_right, next_row_left, next_row_right,
+                    (u32 *)((u8 *)quad + 8), (u32 *)((u8 *)quad + 16),
+                    (u32 *)((u8 *)quad + 24), (u32 *)((u8 *)quad + 32),
+                    &scratch->out90, &scratch->out94,
+                    (scratch->value88 = next_right_xy,
+                     scratch->half84 = next_row_z,
+                     scratch->half8c = next_row_z,
+                     late_stores));
+                scratch->index -= 8;
 
-            scratch->index = func_800654B0(
-                row_left, row_right, next_row_left, next_row_right,
-                (u32 *)((u8 *)quad + 8), (u32 *)((u8 *)quad + 16),
-                (u32 *)((u8 *)quad + 24), (u32 *)((u8 *)quad + 32),
-                &scratch->out90, &scratch->out94,
-                (scratch->value88 = next_right_xy,
-                 scratch->half84 = next_row_z,
-                 scratch->half8c = next_row_z,
-                 late_stores));
-            scratch->index -= 8;
+                if (scratch->index < 0x1E0U) {
+                    if ((quad_index % 32) < 16) {
+                        *(u32 *)((u8 *)quad + 12) = D_800265C0;
+                        *(u32 *)((u8 *)quad + 4) = D_800265C0;
+                        *(u32 *)((u8 *)quad + 28) = D_800265C4;
+                        *(u32 *)((u8 *)quad + 20) = D_800265C4;
+                    } else {
+                        *(u32 *)((u8 *)quad + 28) = D_800265C0;
+                        *(u32 *)((u8 *)quad + 20) = D_800265C0;
+                        *(u32 *)((u8 *)quad + 12) = D_800265C4;
+                        *(u32 *)((u8 *)quad + 4) = D_800265C4;
+                    }
 
-            if (scratch->index < 0x1E0U) {
-                if ((quad_index % 32) < 16) {
-                    *(u32 *)((u8 *)quad + 12) = D_800265C0;
-                    *(u32 *)((u8 *)quad + 4) = D_800265C0;
-                    *(u32 *)((u8 *)quad + 28) = D_800265C4;
-                    *(u32 *)((u8 *)quad + 20) = D_800265C4;
-                } else {
-                    *(u32 *)((u8 *)quad + 28) = D_800265C0;
-                    *(u32 *)((u8 *)quad + 20) = D_800265C0;
-                    *(u32 *)((u8 *)quad + 12) = D_800265C4;
-                    *(u32 *)((u8 *)quad + 4) = D_800265C4;
+                    func_80066708(quad);
+                    quad->bytes[7] |= 2;
+                    func_8006658C(scratch->table + scratch->index, quad);
+
+                    {
+                        u8 *draw_mode = scratch->current;
+                        scratch->current = draw_mode + 0x0C;
+                        func_80067F20(draw_mode, 0, 0,
+                                      (u16)func_80066460(0, 1, 0, 0), 0);
+                        func_8006658C(scratch->table + scratch->index,
+                                      (Entry *)draw_mode);
+                    }
                 }
 
-                func_80066708(quad);
-                quad->bytes[7] |= 2;
-                func_8006658C(scratch->table + scratch->index, quad);
-
-                {
-                    u8 *draw_mode = scratch->current;
-                    scratch->current = draw_mode + 0x0C;
-                    func_80067F20(draw_mode, 0, 0,
-                                  (u16)func_80066460(0, 1, 0, 0), 0);
-                    func_8006658C(scratch->table + scratch->index,
-                                  (Entry *)draw_mode);
-                }
-            }
-
-            vertex_record += 8;
-            quad_index++;
-        } while (quad_index < D_80026476);
-
-done:
+                vertex_record += 8;
+                quad_index++;
+            } while (quad_index < D_80026476);
+        }
         *(u8 **)(*state_slot + 0x8D0) = scratch->current;
     }
     return 0;

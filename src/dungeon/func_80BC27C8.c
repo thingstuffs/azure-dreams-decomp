@@ -92,31 +92,29 @@ void func_80171FC8(void *motion_state, s32 unused, void *entity, void *path_stat
         step_index = ((S_80171FC8_0 *)path_state)->unk_8A.u;
         ((S_80171FC8_0 *)path_state)->unk_88 = energy - 0x20;
         ((S_80171FC8_0 *)path_state)->unk_8A.u = step_index + 1;
-        goto update_state;
-    }
-
-    flags = ((S_80171FC8_0 *)path_state)->unk_1C;
-    old_x = ((S_80171FC8_1 *)entity)->unk_24;
-    old_y = ((S_80171FC8_1 *)entity)->unk_25;
-    distance = 0x3000;
-    if (flags & 0x2000) {
-        distance = 0x300;
-    }
+    } else {
+        flags = ((S_80171FC8_0 *)path_state)->unk_1C;
+        old_x = ((S_80171FC8_1 *)entity)->unk_24;
+        old_y = ((S_80171FC8_1 *)entity)->unk_25;
+        distance = 0x3000;
+        if (flags & 0x2000) {
+            distance = 0x300;
+        }
     
-    func_8009A3D0(old_x, old_y, distance);
+        func_8009A3D0(old_x, old_y, distance);
 
-    ((S_80171FC8_1 *)entity)->unk_24 = ((S_80171FC8_4 *)((u8 *)path_state + ((S_80171FC8_0 *)path_state)->unk_8A.s))->unk_74;
-    ((S_80171FC8_1 *)entity)->unk_25 = ((S_80171FC8_4 *)((u8 *)path_state + ((S_80171FC8_0 *)path_state)->unk_8A.s))->unk_7C;
-    ((S_80171FC8_0 *)path_state)->unk_8A.u += 1;
+        ((S_80171FC8_1 *)entity)->unk_24 = ((S_80171FC8_4 *)((u8 *)path_state + ((S_80171FC8_0 *)path_state)->unk_8A.s))->unk_74;
+        ((S_80171FC8_1 *)entity)->unk_25 = ((S_80171FC8_4 *)((u8 *)path_state + ((S_80171FC8_0 *)path_state)->unk_8A.s))->unk_7C;
+        ((S_80171FC8_0 *)path_state)->unk_8A.u += 1;
 
-    func_8009A21C(((S_80171FC8_1 *)entity)->unk_24, ((S_80171FC8_1 *)entity)->unk_25,
-                  (((S_80171FC8_0 *)path_state)->unk_1C & 0x2000) ? 0x300 : 0x3000);
+        func_8009A21C(((S_80171FC8_1 *)entity)->unk_24, ((S_80171FC8_1 *)entity)->unk_25,
+                      (((S_80171FC8_0 *)path_state)->unk_1C & 0x2000) ? 0x300 : 0x3000);
 
-    ((S_80171FC8_0 *)path_state)->unk_2A =
-        func_800A0818(old_x, old_y, ((S_80171FC8_1 *)entity)->unk_24,
-                      ((S_80171FC8_1 *)entity)->unk_25, (u8 *)motion_state + 0x98);
+        ((S_80171FC8_0 *)path_state)->unk_2A =
+            func_800A0818(old_x, old_y, ((S_80171FC8_1 *)entity)->unk_24,
+                          ((S_80171FC8_1 *)entity)->unk_25, (u8 *)motion_state + 0x98);
+    }
 
-update_state:
     ((S_80171FC8_3 *)motion_state)->unk_9A = 0xF;
     ((S_80171FC8_3 *)motion_state)->unk_8C = 0;
     (*(s32 *)((u8 *)path_state + 0x1C)) |= 0x40000000;

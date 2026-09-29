@@ -8,7 +8,7 @@ typedef struct S_8008BC58_0 {
     s16 unk_66;
     void * unk_68;
     u8 pad_6C[0x8];
-    union { s32 s; volatile s32 u; } unk_74;   /* accessed as both */
+    s32 unk_74;
     s32 unk_78;
     u8 * unk_7C;
 } S_8008BC58_0;   /* object in func_8008BC58 */
@@ -110,36 +110,33 @@ void func_8008BC58(u8 *object, S_8008BC58_2 *view_params, void *update_context)
         func_800478B8(update_context);
         buttons = ((s32)input->unk_010);
         if (buttons & 0x6000) {
-            selection_index = ((S_8008BC58_0 *)object)->unk_74.s + 1;
-            ((S_8008BC58_0 *)object)->unk_74.s = selection_index;
+            selection_index = ((S_8008BC58_0 *)object)->unk_74 + 1;
+            ((S_8008BC58_0 *)object)->unk_74 = selection_index;
             if (selection_index >= ((S_8008BC58_0 *)object)->unk_78) {
-                ((S_8008BC58_0 *)object)->unk_74.s = 0;
+                ((S_8008BC58_0 *)object)->unk_74 = 0;
             }
+            func_8008B620(selection_ids[((S_8008BC58_0 *)object)->unk_74]);
         } else if (buttons & 0x9000) {
-            selection_index_2 = ((S_8008BC58_0 *)object)->unk_74.s - 1;
-            ((S_8008BC58_0 *)object)->unk_74.s = selection_index_2;
+            selection_index_2 = ((S_8008BC58_0 *)object)->unk_74 - 1;
+            ((S_8008BC58_0 *)object)->unk_74 = selection_index_2;
             if (selection_index_2 < 0) {
                 selection_index_3 = ((S_8008BC58_0 *)object)->unk_78 - 1;
-                ((S_8008BC58_0 *)object)->unk_74.s = selection_index_3;
+                ((S_8008BC58_0 *)object)->unk_74 = selection_index_3;
             }
-        } else {
-            goto update;
+            func_8008B620(selection_ids[((S_8008BC58_0 *)object)->unk_74]);
         }
 
-        func_8008B620(selection_ids[((S_8008BC58_0 *)object)->unk_74.u]);
-
-update:
-        selection_index_4 = ((S_8008BC58_0 *)object)->unk_74.s;
+        selection_index_4 = ((S_8008BC58_0 *)object)->unk_74;
         selection_positions = D_800D2EA4;
         selection_id = selection_ids[selection_index_4];
         ((S_8008BC58_3 *)(*(u8 **)object))->unk_30 = selection_positions[selection_id * 8] - 0x18;
 
-        selection_index_5 = ((S_8008BC58_0 *)object)->unk_74.s;
+        selection_index_5 = ((S_8008BC58_0 *)object)->unk_74;
         selection_id = selection_ids[selection_index_5];
         display_record = *(u8 **)object;
         ((S_8008BC58_3 *)display_record)->unk_34 = selection_positions[selection_id * 8 + 1] - 0x40;
 
-        selection_index_6 = ((S_8008BC58_0 *)object)->unk_74.s;
+        selection_index_6 = ((S_8008BC58_0 *)object)->unk_74;
         selection_id = selection_ids[selection_index_6];
         D_80082ABC = selection_id;
     }

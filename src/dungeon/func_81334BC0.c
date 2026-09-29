@@ -36,51 +36,33 @@ s32 func_8016BBC0(Rec_func_800A9E70_arg0 *entity, s32 action_ctx, s32 position, 
             func_8016B230(actor, action_ctx, position, actor);
             return 0;
         }
-        goto dispatch_action;
+    } else {
+        ((S_8016BBC0_0 *)actor)->unk_AE = delay - 1;
     }
-    ((S_8016BBC0_0 *)actor)->unk_AE = delay - 1;
 
-dispatch_action:
-    if (action_result == 1) {
-        goto check_action;
-    }
-    if (action_result < 2) {
+    switch (action_result) {
+    case 0:
         result = 0xE;
-        if (action_result == 0) {
-            goto idle;
+        entity->unk_9A.as_s8 = result;
+        func_800A9A0C(actor);
+        return 0;
+    case 2:
+        func_8016B230(entity, action_ctx, position, actor);
+        return 0;
+    case 1:
+        ((S_8016BBC0_0 *)actor)->unk_71 &= 0x7F;
+        if ((func_800A2BDC(actor) << 16) != 0) {
+            result = 0;
+            ((S_8016BBC0_0 *)actor)->unk_46 &= 0x7FFF;
+            return result;
         }
-        goto finish_action;
+        break;
     }
-
-    if (action_result == 2) {
-        goto move;
-    }
-    goto finish_action;
-
-idle:
-    entity->unk_9A.as_s8 = result;
-    func_800A9A0C(actor);
-    return 0;
-
-move:
-    func_8016B230(entity, action_ctx, position, actor);
-    return 0;
-
-check_action:
-    ((S_8016BBC0_0 *)actor)->unk_71 &= 0x7F;
-    if ((func_800A2BDC(actor) << 16) != 0) {
-        goto clear_active;
-    }
-    goto finish_action;
-
-finish_action:
     ((S_8016BBC0_0 *)actor)->unk_71 &= 0x7F;
     result = 1;
     if (!(dungeonStatus.flags & 8)) {
         return result;
     }
-
-clear_active:
     result = 0;
     ((S_8016BBC0_0 *)actor)->unk_46 &= 0x7FFF;
     return result;

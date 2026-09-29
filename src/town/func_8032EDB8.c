@@ -47,13 +47,10 @@ s32 func_800195B8(void *entries, s32 entry_id) {
 check_entry:
         if (((S_800195B8_0 *)((((entry_index * 8) - entry_index) * 4) + entries))->unk_00 != entry_id) {
             entry_index += 1;
-            if (((S_800195B8_1 *)(((entry_index * 0x1C) + entries)))->unk_08 == 0) {
-                goto search_done;
+            if (((S_800195B8_1 *)(((entry_index * 0x1C) + entries)))->unk_08 != 0) {
+                goto check_entry;
             }
-            goto check_entry;
         }
-    } else {
-search_done:
     }
     if (((S_800195B8_2 *)(((((entry_index * 8) - entry_index) * 4) + entries)))->unk_08 == 0) {
         u8 *page = (u8 *)0x80010000;

@@ -42,7 +42,9 @@ s32 func_800A4E2C(u8 *arg0, u8 *arg1)
             if ((s16)func_8009A350((s16)(x - 1), y, 0, &tile) != 0) {
                 if ((tile & 0xF720) == 0) {
                     result = areaIndex;
-                    goto found;
+                    *arg0 = x;
+                    *arg1 = y;
+                    return result;
                 }
             }
         }
@@ -54,27 +56,20 @@ s32 func_800A4E2C(u8 *arg0, u8 *arg1)
             if ((s16)func_8009A350((s16)(x - 1), y, 0, &tile) != 0) {
                 if ((tile & 0xF720) == 0) {
                     result = 0;
-                    goto found;
+                    *arg0 = x;
+                    *arg1 = y;
+                    return result;
                 }
             }
         }
     }
 
-    if ((u32)(*arg0 - 1) >= 0x3E) {
-        goto fallback;
+    if ((u32)(*arg0 - 1) < 0x3E) {
+        if ((u32)(*arg1 - 1) < 0x3E) {
+            result = 0;
+            return result;
+        }
     }
-    if ((u32)(*arg1 - 1) >= 0x3E) {
-        goto fallback;
-    }
-    result = 0;
-    return result;
-
-found:
-    *arg0 = x;
-    *arg1 = y;
-    return result;
-
-fallback:
     *arg0 = 1;
     *arg1 = 1;
     result = 0;

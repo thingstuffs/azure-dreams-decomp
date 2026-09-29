@@ -63,38 +63,35 @@ scan_neighbors:
     if (neighbor != NULL) {
         if (neighbor == ((u8 *)D_800E3D7C)) {
             reference_found = 1;
-            goto next_direction;
-        }
-        neighbor_flags = ((S_80175E6C_2 *)neighbor)->unk_14;
-        if (neighbor_flags & 0x4000) {
-            if (!(neighbor_flags & 0x20000000)) {
-                target = neighbor;
+        } else {
+            neighbor_flags = ((S_80175E6C_2 *)neighbor)->unk_14;
+            if (neighbor_flags & 0x4000) {
+                if (!(neighbor_flags & 0x20000000)) {
+                    target = neighbor;
+                }
             }
         }
-        goto next_direction;
     }
-next_direction:
-    direction += 1;
-    if (direction >= 8) {
-        if ((target != NULL) && (reference_found & 0xFFFF)) {
-            reference_found = (s16) (dungeonStatus.unk_0A + 1);
-            dungeonStatus.unk_0A = reference_found;
-            ((EntityRec *)actor)->target = target;
-            func_800A9A0C(target);
-            ((Rec_func_800A9E70_arg0 *)action_state)->unk_9A.as_s8 = 0x17;
-            ((Rec_func_800A9E70_arg0 *)action_state)->unk_9B.as_s8 = 0;
-            ((Rec_func_800A9E70_arg0 *)action_state)->unk_8C = 0;
-            target_pos = ((S_80175E6C_6_pre *)(((EntityRec *)actor)->target))[-1].unk_00;
-            ((EntityRec *)actor)->facing = func_800A0818(((S_80175E6C_1 *)actor_pos_arg)->unk_24, ((S_80175E6C_1 *)actor_pos_arg)->unk_25, ((S_80175E6C_5 *)target_pos)->unk_24, ((S_80175E6C_5 *)target_pos)->unk_25, &distance);
-            (*(u8 **)((u8 *)actor_pos_arg + 0x2C)) = D_80176348;
-            func_80047784(actor_pos_arg, D_80176348[((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7], 0);
-            func_80175E14(actor);
-            result = 1;
-            return result;
-        }
-        result = 0;
+    direction++;
+    if (direction < 8) {
+        goto scan_neighbors;
+    }
+    if ((target != NULL) && (reference_found & 0xFFFF)) {
+        reference_found = (s16) (dungeonStatus.unk_0A + 1);
+        dungeonStatus.unk_0A = reference_found;
+        ((EntityRec *)actor)->target = target;
+        func_800A9A0C(target);
+        ((Rec_func_800A9E70_arg0 *)action_state)->unk_9A.as_s8 = 0x17;
+        ((Rec_func_800A9E70_arg0 *)action_state)->unk_9B.as_s8 = 0;
+        ((Rec_func_800A9E70_arg0 *)action_state)->unk_8C = 0;
+        target_pos = ((S_80175E6C_6_pre *)(((EntityRec *)actor)->target))[-1].unk_00;
+        ((EntityRec *)actor)->facing = func_800A0818(((S_80175E6C_1 *)actor_pos_arg)->unk_24, ((S_80175E6C_1 *)actor_pos_arg)->unk_25, ((S_80175E6C_5 *)target_pos)->unk_24, ((S_80175E6C_5 *)target_pos)->unk_25, &distance);
+        (*(u8 **)((u8 *)actor_pos_arg + 0x2C)) = D_80176348;
+        func_80047784(actor_pos_arg, D_80176348[((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7], 0);
+        func_80175E14(actor);
+        result = 1;
         return result;
     }
-    goto scan_neighbors;
+    result = 0;
     return result;
 }

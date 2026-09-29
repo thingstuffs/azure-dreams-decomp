@@ -148,7 +148,6 @@ follow_source:
     if (((S_81976850_9 *)(((S_81976850_0 *)effect)->unk_08))->unk_00 & 0x80) {
         ((S_81976850_0 *)effect)->unk_0E.s = 10;
         ((S_81976850_0 *)effect)->unk_0C.u++;
-        goto update_visual;
     }
     goto update_visual;
 

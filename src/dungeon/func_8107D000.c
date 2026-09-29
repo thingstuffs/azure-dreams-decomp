@@ -102,10 +102,7 @@ void *BODY_NAME(s16 arg0, s16 arg1, s16 arg2, s16 arg3) {
     saved_arg3 = arg3;
     saved_arg2 = arg2;
     temp_v0 = func_8003FD64(0x112, ((M2C_UNK *)&D_80083498.next));
-    if (temp_v0 == NULL) {
-        goto done;
-    }
-    {
+    if (temp_v0 != NULL) {
         var_s0 = temp_v0 + 0x20;
         ((S_8107D000_0 *)temp_v0)->unk_10 = &D_8014CAA4;
         var_s0->unk_13 = 0x2B;
@@ -147,6 +144,5 @@ void *BODY_NAME(s16 arg0, s16 arg1, s16 arg2, s16 arg3) {
         temp_s5->unk_AA = (s16) ((u16) var_s0->unk_14 & 7);
         func_800AA36C(temp_s5, temp_s4, temp_s2, var_s0);
     }
-done:
     return var_s0;
 }

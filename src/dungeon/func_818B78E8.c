@@ -79,92 +79,74 @@ void func_800250E8(S818B78E8_Obj *obj, S818B78E8_Vec *motion, S818B78E8_State *g
     func_800478B8(gfx);
     gfx->field1A = (u16) (gfx->field1A + 0x300);
     phase = obj->state;
-    if (phase == 1) {
-        goto state1;
-    }
-    if (phase < 2) {
-        if (phase == 0) {
-            goto state0;
+    switch (phase) {
+    case 0:
+        vec_x10 = motion->x10;
+        vec_x14 = motion->x14;
+        motion->x0 = (s32) (motion->x0 + motion->xC);
+        motion->x4 = (s32) (motion->x4 + vec_x10);
+        motion->x8 = (s32) (motion->x8 + vec_x14);
+        elapsed = (s16) obj->field10;
+        limit = obj->field14;
+        if (elapsed >= limit) {
+            phase_value = (u16) obj->state;
+            obj->field10 = 0U;
+            obj->state = (s16) (phase_value + 1);
         }
-        goto done;
-    }
-    if (phase == 2) {
-        goto state2;
-    }
-    if (phase != 3) {
-        goto done;
-    }
-    goto state3;
+        break;
 
-state0:
-    vec_x10 = motion->x10;
-    vec_x14 = motion->x14;
-    motion->x0 = (s32) (motion->x0 + motion->xC);
-    motion->x4 = (s32) (motion->x4 + vec_x10);
-    motion->x8 = (s32) (motion->x8 + vec_x14);
-    elapsed = (s16) obj->field10;
-    limit = obj->field14;
-    if (elapsed >= limit) {
-        phase_value = (u16) obj->state;
-        obj->field10 = 0U;
-        obj->state = (s16) (phase_value + 1);
-    }
-    goto done;
+    case 1:
+        variant_s16 = (s16) variant_index;
+        red = variant_s16;
+        gfx->field12 = 0;
+        gfx->flags = (u16) (gfx->flags & 0xFEFF);
+        if (variant_s16 < 0) {
+            red = variant_s16 + 3;
+        }
+        half_variant = variant_s16 / 2;
+        red >>= 2;
+        red <<= 7;
+        fade_offset = ((s16) obj->field10 * 8) - 0x80;
 
-state1:
-    variant_s16 = (s16) variant_index;
-    red = variant_s16;
-    gfx->field12 = 0;
-    gfx->flags = (u16) (gfx->flags & 0xFEFF);
-    if (variant_s16 < 0) {
-        red = variant_s16 + 3;
-    }
-    half_variant = variant_s16 / 2;
-    red >>= 2;
-    red <<= 7;
-    fade_offset = ((s16) obj->field10 * 8) - 0x80;
+        red -= fade_offset;
+        gfx->fieldC = (s8) red;
+        gfx->fieldD = (s8) (((s32) (((s16) half_variant - (((s32) ((s16) half_variant + ((u32) (half_variant << 0x10) >> 0x1F)) >> 1) * 2)) << 0x10) >> 9) - (s16) (((s16) obj->field10 * 8) - 0x80));
+        gfx->fieldE = (s8) (((s32) ((variant_s16 - (half_variant * 2)) << 0x10) >> 9) - (s16) (((s16) obj->field10 * 8) - 0x80));
+        elapsed_now = obj->field10;
 
-    red -= fade_offset;
-    gfx->fieldC = (s8) red;
-    gfx->fieldD = (s8) (((s32) (((s16) half_variant - (((s32) ((s16) half_variant + ((u32) (half_variant << 0x10) >> 0x1F)) >> 1) * 2)) << 0x10) >> 9) - (s16) (((s16) obj->field10 * 8) - 0x80));
-    gfx->fieldE = (s8) (((s32) ((variant_s16 - (half_variant * 2)) << 0x10) >> 9) - (s16) (((s16) obj->field10 * 8) - 0x80));
-    elapsed_now = obj->field10;
+        fade = (0x19 - elapsed_now) << 8;
+        gfx->field1E = fade;
+        gfx->field1C = fade;
+        if ((s16) obj->field10 >= 0x10) {
+            func_80024FD4((void *)obj, (void *)motion);
+            phase_value = (u16) obj->state;
+            obj->field10 = 0U;
+            obj->state = (s16) (phase_value + 1);
+        }
+        break;
 
-    fade = (0x19 - elapsed_now) << 8;
-    gfx->field1E = fade;
-    gfx->field1C = fade;
-    if ((s16) obj->field10 >= 0x10) {
-        func_80024FD4((void *)obj, (void *)motion);
-        phase_value = (u16) obj->state;
-        obj->field10 = 0U;
-        obj->state = (s16) (phase_value + 1);
-    }
-    goto done;
+    case 2:
+        variant_s16 = (s16) variant_index;
+        red_state2 = variant_s16;
+        if (variant_s16 < 0) {
+            red_state2 = variant_s16 + 3;
+        }
+        half_variant_b = variant_s16 / 2;
+        gfx->fieldC = (s8) ((red_state2 >> 2) << 7);
+        blue_component = (s32) ((variant_s16 - (half_variant_b * 2)) << 0x10) >> 9;
+        gfx->fieldD = (s8) ((s32) (((s16) half_variant_b - (((s32) ((s16) half_variant_b + ((u32) (half_variant_b << 0x10) >> 0x1F)) >> 1) * 2)) << 0x10) >> 9);
+        gfx->fieldE = (s8) blue_component;
+        if ((s16) obj->field10 >= 0x20) {
+            phase_value = (u16) obj->state;
+            obj->field10 = 0U;
+            obj->state = (s16) (phase_value + 1);
+        }
+        break;
 
-state2:
-    variant_s16 = (s16) variant_index;
-    red_state2 = variant_s16;
-    if (variant_s16 < 0) {
-        red_state2 = variant_s16 + 3;
+    case 3:
+        if (gfx->flags & 0x6000) {
+            *((u16 *)obj - 1) = (u16) (*((u16 *)obj - 1) | 0x8000);
+            objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
+        }
     }
-    half_variant_b = variant_s16 / 2;
-    gfx->fieldC = (s8) ((red_state2 >> 2) << 7);
-    blue_component = (s32) ((variant_s16 - (half_variant_b * 2)) << 0x10) >> 9;
-    gfx->fieldD = (s8) ((s32) (((s16) half_variant_b - (((s32) ((s16) half_variant_b + ((u32) (half_variant_b << 0x10) >> 0x1F)) >> 1) * 2)) << 0x10) >> 9);
-    gfx->fieldE = (s8) blue_component;
-    if ((s16) obj->field10 >= 0x20) {
-        phase_value = (u16) obj->state;
-        obj->field10 = 0U;
-        obj->state = (s16) (phase_value + 1);
-    }
-    goto done;
-
-state3:
-    if (gfx->flags & 0x6000) {
-        *((u16 *)obj - 1) = (u16) (*((u16 *)obj - 1) | 0x8000);
-        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
-    }
-
-done:
-    ;
 }

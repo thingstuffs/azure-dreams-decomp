@@ -40,25 +40,19 @@ void func_800478E8(S_800478E8_0 *owner, s32 value, s32 entry_id) {
     if (slot_addr < (u32)table->unk_08) {
         list_type = 2;
         slot_entries = (void *)(slot_addr + 4);
-    process_slot:
-        if (((S_800478E8_2 *)((u8 *)slot_entries - 4))->unk_02 == list_type) {
-            entry = ((S_800478E8_2 *)((u8 *)slot_entries - 4))->unk_04;
-            entry_value = (s8 *)entry + 8;
-            do {
-                if ((entry->flags & 0x20) && (((S_Entry *)((u8 *)entry_value - 8))->unk_06 == entry_id)) {
-                    ((S_Entry *)((u8 *)entry_value - 8))->unk_08 = value;
-                }
-                entry_value = (s8 *)entry_value + 0xC;
-            } while (!((entry++)->flags & 0x80));
-        }
-        {
-            S_800478E8_1 *current_table = *(void **)owner->unk_28;
-            u32 table_end = (u32)current_table->unk_08;
+        do {
+            if (((S_800478E8_2 *)((u8 *)slot_entries - 4))->unk_02 == list_type) {
+                entry = ((S_800478E8_2 *)((u8 *)slot_entries - 4))->unk_04;
+                entry_value = (s8 *)entry + 8;
+                do {
+                    if ((entry->flags & 0x20) && (((S_Entry *)((u8 *)entry_value - 8))->unk_06 == entry_id)) {
+                        ((S_Entry *)((u8 *)entry_value - 8))->unk_08 = value;
+                    }
+                    entry_value = (s8 *)entry_value + 0xC;
+                } while (!((entry++)->flags & 0x80));
+            }
             slot_entries = (s8 *)slot_entries + 8;
             slot_addr += 8;
-            if (slot_addr < table_end) {
-                goto process_slot;
-            }
-        }
+        } while (slot_addr < (u32)((S_800478E8_1 *)*(void **)owner->unk_28)->unk_08);
     }
 }

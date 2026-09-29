@@ -38,30 +38,25 @@ s32 func_80017DBC(void)
     s32 entry_offset;
 
     if (D_80019BB0 == 2) {
-        do { entry_index = 1; } while (0);
+        entry_index = 1;
         mark_value = 0x400;
         dest_state = &D_80016608;
         dest_entry = dest_state + 0x14;
-        do {
-            entry_offset = 0xC;
-            source_entry = (u8 *)&D_80016470 + entry_offset;
-        } while (0);
+        entry_offset = 0xC;
+        source_entry = (u8 *)&D_80016470 + entry_offset;
 check_entry:
         if (func_800198D0(((S_80017DBC_0 *)source_entry)->unk_04) != 0) {
             if (((S_80017DBC_0 *)source_entry)->unk_08 != 0) {
                 ((S_80017DBC_1 *)dest_entry)->unk_02 = mark_value;
                 if (entry_index == 1) {
                     ((S_80017DBC_2 *)dest_state)->unk_A2 = mark_value;
-                    goto next_entry;
+                } else {
+                    ((S_80017DBC_2 *)dest_state)->unk_B6 = mark_value;
                 }
-                ((S_80017DBC_2 *)dest_state)->unk_B6 = mark_value;
-                goto next_entry;
-            }
-            if (D_80019BB4 == entry_index) {
+            } else if (D_80019BB4 == entry_index) {
                 ((S_80017DBC_1 *)dest_entry)->unk_02 = mark_value;
             }
         }
-next_entry:
         dest_entry += 0x14;
         entry_index += 1;
         source_entry += 0xC;

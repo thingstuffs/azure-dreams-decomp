@@ -42,39 +42,30 @@ void func_801748DC(S_func_810870DC_0 *entity, void *unused, S_func_810870DC_1 *a
     GameWork *scene_data = &gameWork;
     u8 state = entity->unk_9B;
 
-    if (state == 0) {
-        goto state_zero;
-    }
-    if (state == 1) {
-        goto state_one;
-    }
-    return;
-
-state_zero:
-    if (animation->unk_14 & 0xE000) {
-        animation->unk_2C = D_80175F28;
-        func_80047784(animation,
-            D_80175F28[((scene_data->view.viewAngle +
-                orientation->unk_2A + 0x100) >> 9) & 7], 0);
-        entity->unk_9B++;
-    }
-    return;
-
-state_one:
-    {
-        s32 scene_flags = scene_data->buttons;
-
-        if (!(scene_flags & 0x100) && (scene_flags & 0xFFFF)) {
-            animation->unk_2C = D_80175F10;
+    switch (state) {
+    case 0:
+        if (animation->unk_14 & 0xE000) {
+            animation->unk_2C = D_80175F28;
             func_80047784(animation,
-                D_80175F10[((scene_data->view.viewAngle +
+                D_80175F28[((scene_data->view.viewAngle +
                     orientation->unk_2A + 0x100) >> 9) & 7], 0);
-            entity->unk_8C = D_80170E94;
-            entity->unk_A6 = 0;
-            dungeonStatus.unk_0A--;
+            entity->unk_9B++;
         }
+        break;
+    case 1:
+        {
+            s32 scene_flags = scene_data->buttons;
+
+            if (!(scene_flags & 0x100) && (scene_flags & 0xFFFF)) {
+                animation->unk_2C = D_80175F10;
+                func_80047784(animation,
+                    D_80175F10[((scene_data->view.viewAngle +
+                        orientation->unk_2A + 0x100) >> 9) & 7], 0);
+                entity->unk_8C = D_80170E94;
+                entity->unk_A6 = 0;
+                dungeonStatus.unk_0A--;
+            }
+        }
+        break;
     }
-
-    return;
 }
-

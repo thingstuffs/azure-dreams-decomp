@@ -48,59 +48,83 @@ s32 func_800BC00C(void *effect_fields, S_800BC00C_2 *position, Rec_D_80082E80 *s
     ((S_800BC00C_0 *)((u8 *)effect_fields - 0x2))->unk_4A = (u16) (((S_800BC00C_0 *)((u8 *)effect_fields - 0x2))->unk_4A - 1);
     func_800478B8(sprite);
     state = ((S_800BC00C_0 *)((u8 *)effect_fields - 0x2))->unk_4E;
-    if (state == 1) {
-        goto fade;
-    }
-    if (state >= 2) {
-        goto check_finished;
-    }
-    if (state == 0) {
-        goto grow;
-    }
-    return;
+    switch (state) {
+    case 0:
+        size = sprite->unk_1C.at02_u16.v + 0x80;
+        sprite->unk_1C.at02_u16.v = size;
+        sprite->unk_1C.at00_u16.v = size;
+        sprite->unk_0C.at00_s32.v = (s32) (sprite->unk_0C.at00_s32.v + 0x80808);
+        position->unk_02 = (s16) ((u16) position->unk_02 + ((s32) (((S_800BC00C_0 *)((u8 *)effect_fields - 0x2))->unk_0E - position->unk_02) >> 2));
+        position->unk_06 = (s16) ((u16) position->unk_06 + ((s32) (((S_800BC00C_0 *)((u8 *)effect_fields - 0x2))->unk_10 - position->unk_06) >> 2));
+        position->unk_0A = (s16) ((u16) position->unk_0A + ((s32) (((S_800BC00C_0 *)((u8 *)effect_fields - 0x2))->unk_12 - position->unk_0A) >> 2));
+        grow_end_state = 0xFF;
+        if (!((s16) ((S_800BC00C_0 *)((u8 *)effect_fields - 0x2))->unk_4A > 0)) {
+            ((S_800BC00C_0 *)((u8 *)effect_fields - 0x2))->unk_4E = grow_end_state;
+        }
+        return grow_end_state;
 
-check_finished:
-    if (state == 0xFF) {
-        goto finished;
-    }
-    return 255;
+    case 1:
+        {
+            State1 *motion = (State1 *)position;
+            motion->f0 = motion->f0 + motion->fc;
+            motion->f4 = motion->f4 + motion->f10;
+            motion->f8 = motion->f8 + motion->f14;
+            motion->fc = motion->fc - (motion->fc >> 3);
+            motion->f10 = motion->f10 - (motion->f10 >> 3);
+            motion->f14 = motion->f14 - (motion->f14 >> 3);
+        }
+        sprite->unk_0C.at00_s32.v = (s32) (sprite->unk_0C.at00_s32.v + 0xFFF7F7F8);
+        fade_end_state = 0xFF;
+        if ((u8) sprite->unk_0C.at00_s32.v == 0) {
+            return (((S_800BC00C_0 *)((u8 *)effect_fields - 0x2))->unk_4E = fade_end_state);
+        }
+        return fade_end_state;
 
-grow:
-    size = sprite->unk_1C.at02_u16.v + 0x80;
-    sprite->unk_1C.at02_u16.v = size;
-    sprite->unk_1C.at00_u16.v = size;
-    sprite->unk_0C.at00_s32.v = (s32) (sprite->unk_0C.at00_s32.v + 0x80808);
-    position->unk_02 = (s16) ((u16) position->unk_02 + ((s32) (((S_800BC00C_0 *)((u8 *)effect_fields - 0x2))->unk_0E - position->unk_02) >> 2));
-    position->unk_06 = (s16) ((u16) position->unk_06 + ((s32) (((S_800BC00C_0 *)((u8 *)effect_fields - 0x2))->unk_10 - position->unk_06) >> 2));
-    position->unk_0A = (s16) ((u16) position->unk_0A + ((s32) (((S_800BC00C_0 *)((u8 *)effect_fields - 0x2))->unk_12 - position->unk_0A) >> 2));
-    grow_end_state = 0xFF;
-    if ((s16) ((S_800BC00C_0 *)((u8 *)effect_fields - 0x2))->unk_4A > 0) {
-        goto grow_done;
-    }
-    ((S_800BC00C_0 *)((u8 *)effect_fields - 0x2))->unk_4E = grow_end_state;
-grow_done:
-    return grow_end_state;
+    case 0xFF:
+        if (state == 0xFF) {
+            goto finished;
+        }
+        return 255;
 
-fade:
-    {
-        State1 *motion = (State1 *)position;
-        motion->f0 = motion->f0 + motion->fc;
-        motion->f4 = motion->f4 + motion->f10;
-        motion->f8 = motion->f8 + motion->f14;
-        motion->fc = motion->fc - (motion->fc >> 3);
-        motion->f10 = motion->f10 - (motion->f10 >> 3);
-        motion->f14 = motion->f14 - (motion->f14 >> 3);
-    }
-    sprite->unk_0C.at00_s32.v = (s32) (sprite->unk_0C.at00_s32.v + 0xFFF7F7F8);
-    fade_end_state = 0xFF;
-    if ((u8) sprite->unk_0C.at00_s32.v == 0) {
-        return (((S_800BC00C_0 *)((u8 *)effect_fields - 0x2))->unk_4E = fade_end_state);
-    }
-    return fade_end_state;
+    grow:
+        size = sprite->unk_1C.at02_u16.v + 0x80;
+        sprite->unk_1C.at02_u16.v = size;
+        sprite->unk_1C.at00_u16.v = size;
+        sprite->unk_0C.at00_s32.v = (s32) (sprite->unk_0C.at00_s32.v + 0x80808);
+        position->unk_02 = (s16) ((u16) position->unk_02 + ((s32) (((S_800BC00C_0 *)((u8 *)effect_fields - 0x2))->unk_0E - position->unk_02) >> 2));
+        position->unk_06 = (s16) ((u16) position->unk_06 + ((s32) (((S_800BC00C_0 *)((u8 *)effect_fields - 0x2))->unk_10 - position->unk_06) >> 2));
+        position->unk_0A = (s16) ((u16) position->unk_0A + ((s32) (((S_800BC00C_0 *)((u8 *)effect_fields - 0x2))->unk_12 - position->unk_0A) >> 2));
+        grow_end_state = 0xFF;
+        if ((s16) ((S_800BC00C_0 *)((u8 *)effect_fields - 0x2))->unk_4A > 0) {
+            goto grow_done;
+        }
+        ((S_800BC00C_0 *)((u8 *)effect_fields - 0x2))->unk_4E = grow_end_state;
+    grow_done:
+        return grow_end_state;
 
-finished:
-    ((S_800BC00C_0 *)((u8 *)effect_fields - 0x2))->unk_00 = (u16) (((S_800BC00C_0 *)((u8 *)effect_fields - 0x2))->unk_00 | 0x8000);
-    global_flags = objectFlagBlock.flags | 0x8000;
-    objectFlagBlock.flags = global_flags;
-    return global_flags;
+    fade:
+        {
+            State1 *motion = (State1 *)position;
+            motion->f0 = motion->f0 + motion->fc;
+            motion->f4 = motion->f4 + motion->f10;
+            motion->f8 = motion->f8 + motion->f14;
+            motion->fc = motion->fc - (motion->fc >> 3);
+            motion->f10 = motion->f10 - (motion->f10 >> 3);
+            motion->f14 = motion->f14 - (motion->f14 >> 3);
+        }
+        sprite->unk_0C.at00_s32.v = (s32) (sprite->unk_0C.at00_s32.v + 0xFFF7F7F8);
+        fade_end_state = 0xFF;
+        if ((u8) sprite->unk_0C.at00_s32.v == 0) {
+            return (((S_800BC00C_0 *)((u8 *)effect_fields - 0x2))->unk_4E = fade_end_state);
+        }
+        return fade_end_state;
+
+    finished:
+        ((S_800BC00C_0 *)((u8 *)effect_fields - 0x2))->unk_00 = (u16) (((S_800BC00C_0 *)((u8 *)effect_fields - 0x2))->unk_00 | 0x8000);
+        global_flags = objectFlagBlock.flags | 0x8000;
+        objectFlagBlock.flags = global_flags;
+        return global_flags;
+    default:
+        return;
+    }
 }

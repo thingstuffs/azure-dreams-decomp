@@ -71,107 +71,89 @@ void func_8186EDA8(DungeonState *anim, S_8186EDA8_0 *position, DungeonEffect *in
     position->unk_04 = (s32) (anim->base1 + (anim->count * func_80064584(anim->angle) * 0x10));
     func_800478B8(effect);
     phase = anim->state;
-    if (phase == 1) {
-        goto case_1;
-    }
-    if (phase < 2) {
-        if (phase == 0) {
-    goto case_0;
+    switch (phase) {
+    case 0:
+        delay_timer = ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_04 - 1;
+        ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_04 = delay_timer;
+        if ((delay_timer << 0x10) <= 0) {
+            ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_02.u = (s16) ((u16) ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_02.u + 1);
         }
-        goto check_effect_done;
-    }
-    if (phase == 2) {
-        goto case_2;
-    }
-    if (phase == 3) {
-        goto case_3;
-    }
-    goto check_effect_done;
-
-case_0:
-    delay_timer = ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_04 - 1;
-    ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_04 = delay_timer;
-    if ((delay_timer << 0x10) <= 0) {
-        ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_02.u = (s16) ((u16) ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_02.u + 1);
-    }
-    goto check_effect_done;
-
-case_1:
-    shrink_angle = (u16) ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_0E - ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_10;
-    ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_0E = shrink_angle;
-    if (shrink_angle < 0) {
-        ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_0E = (s16) (shrink_angle + 0x1000);
-    }
-    if ((s16) ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_10 < 0x7F8) {
-        ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_10 = (u16) (((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_10 + 8);
-    }
-    radius = ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_0C;
-    if (radius >= 0x41) {
-        if (radius >= 0x65) {
-            radius_step = 3;
-        } else if (radius >= 0x47) {
-            radius_step = 2;
-        } else if (radius >= 0x33) {
-            radius_step = 2;
-        } else {
-            radius_step = 1;
+        break;
+    case 1:
+        shrink_angle = (u16) ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_0E - ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_10;
+        ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_0E = shrink_angle;
+        if (shrink_angle < 0) {
+            ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_0E = (s16) (shrink_angle + 0x1000);
         }
-        ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_0C = (s16) ((u16) ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_0C - radius_step);
-        effect_x = ((volatile DungeonEffect *)effect)->x1C;
-        effect_c = ((volatile DungeonEffect *)effect)->c;
-        effect_x -= 0x46;
-        ((volatile DungeonEffect *)effect)->x1C = effect_x;
-        effect_y = ((volatile DungeonEffect *)effect)->y1E;
-        effect_c += 4;
-        ((volatile DungeonEffect *)effect)->c = effect_c;
-        effect_e = ((volatile DungeonEffect *)effect)->e;
-        effect_y -= 0x46;
-        ((volatile DungeonEffect *)effect)->y1E = effect_y;
-        effect_d = ((volatile DungeonEffect *)effect)->d;
-        effect_e += 4;
-        ((volatile DungeonEffect *)effect)->e = effect_e;
-        effect->d = effect_d + 4;
-        goto check_effect_done;
-    }
-    ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_04 = 0x28U;
-    ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_02.u = (s16) ((u16) ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_02.u + 1);
-    goto check_effect_done;
-
-case_2:
-    fade_angle = (u16) ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_0E - ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_10;
-    ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_0E = fade_angle;
-    if (fade_angle < 0) {
-        ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_0E = (s16) (fade_angle + 0x1000);
-    }
-    if ((s16) ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_10 < 0x100) {
-        ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_10 = (u16) (((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_10 + 8);
-    }
-    radius = ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_0C;
-    if (radius >= 0x1B) {
-        ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_0C = (s16) (radius - 1);
-    }
-    fade_level = effect->c;
-    if (fade_level >= 2U) {
-        effect->c = (u8) (fade_level - 2);
-        effect->d -= 2;
-        effect->e -= 2;
-    }
-    if (effect->c == 0) {
-        ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_04 = 0U;
+        if ((s16) ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_10 < 0x7F8) {
+            ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_10 = (u16) (((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_10 + 8);
+        }
+        radius = ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_0C;
+        if (radius >= 0x41) {
+            if (radius >= 0x65) {
+                radius_step = 3;
+            } else if (radius >= 0x47) {
+                radius_step = 2;
+            } else if (radius >= 0x33) {
+                radius_step = 2;
+            } else {
+                radius_step = 1;
+            }
+            ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_0C = (s16) ((u16) ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_0C - radius_step);
+            effect_x = ((DungeonEffect *)effect)->x1C;
+            effect_c = ((DungeonEffect *)effect)->c;
+            effect_x -= 0x46;
+            ((DungeonEffect *)effect)->x1C = effect_x;
+            effect_y = ((DungeonEffect *)effect)->y1E;
+            effect_c += 4;
+            ((DungeonEffect *)effect)->c = effect_c;
+            effect_e = ((volatile DungeonEffect *)effect)->e;
+            effect_y -= 0x46;
+            ((volatile DungeonEffect *)effect)->y1E = effect_y;
+            effect_d = ((volatile DungeonEffect *)effect)->d;
+            effect_e += 4;
+            ((DungeonEffect *)effect)->e = effect_e;
+            effect->d = effect_d + 4;
+            break;
+        }
+        ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_04 = 0x28U;
         ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_02.u = (s16) ((u16) ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_02.u + 1);
+        break;
+    case 2:
+        fade_angle = (u16) ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_0E - ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_10;
+        ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_0E = fade_angle;
+        if (fade_angle < 0) {
+            ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_0E = (s16) (fade_angle + 0x1000);
+        }
+        if ((s16) ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_10 < 0x100) {
+            ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_10 = (u16) (((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_10 + 8);
+        }
+        radius = ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_0C;
+        if (radius >= 0x1B) {
+            ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_0C = (s16) (radius - 1);
+        }
+        fade_level = effect->c;
+        if (fade_level >= 2U) {
+            effect->c = (u8) (fade_level - 2);
+            effect->d -= 2;
+            effect->e -= 2;
+        }
+        if (effect->c == 0) {
+            ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_04 = 0U;
+            ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_02.u = (s16) ((u16) ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_02.u + 1);
+        }
+        effect->x1C -= 0x14;
+        effect->y1E += 0xC8;
+        break;
+    case 3:
+        finish_timer = ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_04 - 1;
+        ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_04 = finish_timer;
+        if ((finish_timer << 0x10) <= 0) {
+            ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_00 = (u16) (((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_00 | 0x8000);
+            objectFlagBlock.flags |= 0x8000;
+        }
+        break;
     }
-    effect->x1C -= 0x14;
-    effect->y1E += 0xC8;
-    goto check_effect_done;
-
-case_3:
-    finish_timer = ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_04 - 1;
-    ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_04 = finish_timer;
-    if ((finish_timer << 0x10) <= 0) {
-        ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_00 = (u16) (((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_00 | 0x8000);
-        objectFlagBlock.flags |= 0x8000;
-    }
-check_effect_done:
     if (effect->flags14 & 0x8000) {
         ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_00 = (u16) (((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_00 | 0x8000);
         objectFlagBlock.flags |= 0x8000;

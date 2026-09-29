@@ -71,42 +71,36 @@ void func_800C7674(S_800C7674_0 *entity, EntityRec *motion_state, s32 context)
         return;
     }
 
-    if (quadrant == 1) goto case_one;
-    if (quadrant < 2) {
-        if (quadrant == 0) goto case_zero;
-        goto case_three;
+    switch (quadrant) {
+    case 0:
+        if (entity->unk_84.s + entity->unk_8C.s < motion_state->x.w.i) {
+            motion_state->x.w.i = entity->unk_84.u + entity->unk_8C.u;
+            func_800C7A6C(entity, motion_state, context);
+            return;
+        }
+        break;
+    case 1:
+        if (entity->unk_86.s + entity->unk_8E.s < motion_state->y.w.i) {
+            motion_state->y.w.i = entity->unk_86.u + entity->unk_8E.u;
+            func_800C7A6C(entity, motion_state, context);
+            return;
+        }
+        break;
+    case 2:
+        if (motion_state->x.w.i < entity->unk_84.s - entity->unk_8C.s) {
+            motion_state->x.w.i = entity->unk_84.u - entity->unk_8C.u;
+            func_800C7A6C(entity, motion_state, context);
+            return;
+        }
+        break;
+    default:
+        if (motion_state->y.w.i < entity->unk_86.s - entity->unk_8E.s) {
+            motion_state->y.w.i = entity->unk_86.u - entity->unk_8E.u;
+            func_800C7A6C(entity, motion_state, context);
+            return;
+        }
+        break;
     }
-    if (quadrant == 2) goto case_two;
-    goto case_three;
-
-case_zero:
-    if (entity->unk_84.s + entity->unk_8C.s < motion_state->x.w.i) {
-        motion_state->x.w.i = entity->unk_84.u + entity->unk_8C.u;
-        goto position_clamped;
-    }
-    goto apply_velocity;
-case_one:
-    if (entity->unk_86.s + entity->unk_8E.s < motion_state->y.w.i) {
-        motion_state->y.w.i = entity->unk_86.u + entity->unk_8E.u;
-        goto position_clamped;
-    }
-    goto apply_velocity;
-case_two:
-    if (motion_state->x.w.i < entity->unk_84.s - entity->unk_8C.s) {
-        motion_state->x.w.i = entity->unk_84.u - entity->unk_8C.u;
-        goto position_clamped;
-    }
-    goto apply_velocity;
-case_three:
-    if (motion_state->y.w.i < entity->unk_86.s - entity->unk_8E.s) {
-        motion_state->y.w.i = entity->unk_86.u - entity->unk_8E.u;
-        goto position_clamped;
-    }
-    goto apply_velocity;
-position_clamped:
-    func_800C7A6C(entity, motion_state, context);
-    return;
-apply_velocity:
     step_x = 0x20000;
     speed = motion_state->unk_0C + D_800D4FE8[quadrant];
     motion_state->unk_0C = speed;

@@ -46,24 +46,22 @@ s32 func_800C0230(u8 *entity, s32 event, s16 target_type, s32 target_record) {
             return 1;
         }
         ((Struct_80083460 *)&dungeonStatus)->count--;
-        goto block_update;
+    } else {
+        if (*(s32 *)0x80012090 == 0 && D_8008146C == 0x28 && func_80033BC0(0xA2) == 0) {
+            func_800997FC(D_800E1375);
+            ((Struct_80083460 *)&dungeonStatus)->count--;
+            func_80098B38(event);
+            return 1;
+        }
+        entity_info = *(u8 **)(entity - 0x14);
+        if (func_800BBA40(entity_info[0x24], entity_info[0x25],
+                          *(s16 *)(entity + 0x88), D_800DF45C,
+                          0x2800, 0x208020, D_800C0180) == 0) {
+            return 0;
+        }
+        func_800997FC(D_800E13B7);
+        ((Struct_80083460 *)&dungeonStatus)->count++;
     }
-    if (*(s32 *)0x80012090 == 0 && D_8008146C == 0x28 && func_80033BC0(0xA2) == 0) {
-        func_800997FC(D_800E1375);
-        ((Struct_80083460 *)&dungeonStatus)->count--;
-        func_80098B38(event);
-        return 1;
-    }
-    entity_info = *(u8 **)(entity - 0x14);
-    if (func_800BBA40(entity_info[0x24], entity_info[0x25],
-                      *(s16 *)(entity + 0x88), D_800DF45C,
-                      0x2800, 0x208020, D_800C0180) == 0) {
-        return 0;
-    }
-    func_800997FC(D_800E13B7);
-    ((Struct_80083460 *)&dungeonStatus)->count++;
-
-block_update:
     func_80098B38(event);
     return 1;
 }

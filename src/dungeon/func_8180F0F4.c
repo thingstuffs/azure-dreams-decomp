@@ -50,11 +50,10 @@ void *func_800280F4(Func8180F0F4_Obj *first, Func8180F0F4_Obj *second, s16 *out_
                     choose_first = second_key < first_key;
                 }
                 if (choose_first != 0) {
-                    goto select_first;
+                    selected = first;
                 }
             }
         } else {
-    select_first:
             selected = first;
         }
         result = selected;

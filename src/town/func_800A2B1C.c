@@ -104,13 +104,12 @@ void *func_800A027C(S_800A027C_5 *config, S_800A027C_2 *position) {
     type = state->unk_4D;
     if (type == 0x12) {
         state->unk_0C = &D_800D0754;
-        if (type == state->unk_4D) {
-            graphic = (s32) &D_8006E240;
-            goto set_graphic;
-        }
     }
-    graphic = func_8004A658(state->unk_4D, state->unk_4C);
-set_graphic:
+    if (type == 0x12 && type == state->unk_4D) {
+        graphic = (s32) &D_8006E240;
+    } else {
+        graphic = func_8004A658(state->unk_4D, state->unk_4C);
+    }
     render->unk_08 = graphic;
     ((S_800A027C_0 *)object)->unk_10 = &D_8009DEBC;
     do {

@@ -37,7 +37,7 @@ void func_80051CC4(S_80051CC4_Sub *state, void *unused_arg, S_80051CC4_Ptr *visu
   u8 *flags_page;
   u16 next_tick = state->field_0x06 + 1;
   s32 phase = state->field_0x04;
-  u16 saved_phase = *((volatile u16 *) (&state->field_0x04));
+  u16 saved_phase = state->field_0x04;
   u16 advance_phase;
   u32 flags;
   state->field_0x06 = next_tick;
@@ -48,7 +48,8 @@ void func_80051CC4(S_80051CC4_Sub *state, void *unused_arg, S_80051CC4_Ptr *visu
       {
         advance_phase = state->field_0x04;
         state->field_0x0C = 0;
-        goto reset_bump;
+        state->field_0x06 = 0;
+        state->field_0x04 = advance_phase + 1;
       }
       break;
 
@@ -64,8 +65,7 @@ void func_80051CC4(S_80051CC4_Sub *state, void *unused_arg, S_80051CC4_Ptr *visu
         break;
       }
       advance_phase = state->field_0x04;
-    reset_bump:
-      do { state->field_0x06 = 0; } while (0);
+      state->field_0x06 = 0;
 
       state->field_0x04 = advance_phase + 1;
       break;
@@ -102,13 +102,19 @@ void func_80051CC4(S_80051CC4_Sub *state, void *unused_arg, S_80051CC4_Ptr *visu
           return;
         }
       }
-      goto shared_end;
+      state->owner->field_0x14 = 0;
+      state->owner->field_0x06 = state->owner->field_0x06 + 1;
+      *((u16 *) (((u8 *) state) - 2)) |= 0x8000;
+      flags = ((u32)objectFlagBlock.flags);
+      flags |= 0x8000;
+      flags_page = (u8 *) 0x80080000;
+      *((u32 *) (flags_page + 0x14A0)) = flags;
+      break;
 
     default:
       visual->field_0x0E = 0;
       visual->field_0x0D = 0;
       visual->field_0x0C = 0;
-    shared_end:
       state->owner->field_0x14 = 0;
       state->owner->field_0x06 = state->owner->field_0x06 + 1;
       *((u16 *) (((u8 *) state) - 2)) |= 0x8000;

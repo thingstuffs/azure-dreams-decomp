@@ -36,11 +36,10 @@ s32 func_800C8078(S_800C8078_0 *entity) {
             slot_index -= 1;
             slot_cursor -= 4;
         } while (slot_index >= 0);
-        goto zero;
+    } else {
+        if ((entity->unk_54 & 0x4000) != 0) {
+            return 1;
+        }
     }
-    if ((entity->unk_54 & 0x4000) != 0) {
-        return 1;
-    }
-zero:
     return 0;
 }

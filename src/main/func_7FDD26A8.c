@@ -155,59 +155,43 @@ void func_80089608(void *effect) {
     }
     phase = ((S_80089608_0 *)effect)->unk_08;
     switch (phase) {
-    case 1:
-        goto angle_mode;
     case 0:
         ((S_80089608_0 *)effect)->unk_04 = (s32) (((S_80089608_0 *)effect)->unk_04 + 0x20202);
         if (((S_80089608_1 *)owner)->unk_20 == 1) {
             ((S_80089608_0 *)effect)->unk_08++;
-            goto set_spawn_count;
         }
-        color_step_or_index = 9;
-        goto spawn_setup;
+        break;
+    case 1:
+        phase_frame = ((S_80089608_0 *)effect)->unk_0A + 1;
+        ((S_80089608_0 *)effect)->unk_0A = (u16) phase_frame;
+        if (phase_frame < 0x80) {
+            if (!(phase_frame & 3)) {
+                ((S_80089608_0 *)effect)->unk_04 += 0x10101;
+            }
+        } else if (phase_frame < 0x91) {
+            brighten_rgb = ((S_80089608_0 *)effect)->unk_04;
+            color_step_or_index = ((s32) (~brighten_rgb & 0xFF) >> 1);
+            color_step_or_index = ((color_step_or_index << 8) + (color_step_or_index << 16)) + color_step_or_index;
+            ((S_80089608_0 *)effect)->unk_04 = brighten_rgb + color_step_or_index;
+        } else if (phase_frame < 0xA0) {
+            fade_rgb = ((S_80089608_0 *)effect)->unk_04;
+            color_step_or_index = ((s32) (fade_rgb & 0xFF) >> 3);
+            color_step_or_index = ((color_step_or_index << 8) + (color_step_or_index << 16)) + color_step_or_index;
+            ((S_80089608_0 *)effect)->unk_04 = fade_rgb - color_step_or_index;
+        } else {
+            ((S_80089608_0 *)effect)->unk_08 = 0xFF;
+            ((S_80089608_0 *)effect)->unk_04 = 0;
+        }
+        ((S_80089608_0 *)effect)->unk_0E.s -= 12;
+        break;
     case 0xFF:
-        goto error_mode;
+        (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_80089608_0_pre *)effect)[-1].unk_00 | 0x8000);
+        objectFlagBlock.flags |= 0x8000;
+        return;
     default:
-        color_step_or_index = 9;
-        goto spawn_setup;
+        break;
     }
-
-angle_mode:
-    phase_frame = ((S_80089608_0 *)effect)->unk_0A + 1;
-    ((S_80089608_0 *)effect)->unk_0A = (u16) phase_frame;
-    if (phase_frame < 0x80) {
-        if (!(phase_frame & 3)) {
-            ((S_80089608_0 *)effect)->unk_04 += 0x10101;
-        }
-        goto pre_spawn_angle;
-    }
-    if (phase_frame < 0x91) {
-        brighten_rgb = ((S_80089608_0 *)effect)->unk_04;
-        color_step_or_index = ((s32) (~brighten_rgb & 0xFF) >> 1);
-        color_step_or_index = ((color_step_or_index << 8) + (color_step_or_index << 16)) + color_step_or_index;
-        ((S_80089608_0 *)effect)->unk_04 = brighten_rgb + color_step_or_index;
-        goto pre_spawn_angle;
-    }
-    if (phase_frame < 0xA0) {
-        fade_rgb = ((S_80089608_0 *)effect)->unk_04;
-        color_step_or_index = ((s32) (fade_rgb & 0xFF) >> 3);
-        color_step_or_index = ((color_step_or_index << 8) + (color_step_or_index << 16)) + color_step_or_index;
-        ((S_80089608_0 *)effect)->unk_04 = fade_rgb - color_step_or_index;
-        goto pre_spawn_angle;
-    }
-    ((S_80089608_0 *)effect)->unk_08 = 0xFF;
-    ((S_80089608_0 *)effect)->unk_04 = 0;
-pre_spawn_angle:
-    ((S_80089608_0 *)effect)->unk_0E.s -= 12;
-    goto set_spawn_count;
-
-error_mode:
-    (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_80089608_0_pre *)effect)[-1].unk_00 | 0x8000);
-    objectFlagBlock.flags |= 0x8000;
-    return;
-set_spawn_count:
     color_step_or_index = 9;
-spawn_setup:
     callback = &D_80089A14;
     style_cursor = (M2C_UNK *)&effect_tables[36];
     radius_cursor = (M2C_UNK *)&effect_tables[18];
@@ -228,12 +212,9 @@ spawn_setup:
             ((S_80089608_4 *)sprite)->unk_1C = 0x1000;
             if (color_step_or_index == 0) {
                 ((S_80089608_4 *)sprite)->unk_1A = ((S_80089608_0 *)effect)->unk_0E.u;
-                goto configure_spawn;
-            }
-            if (color_step_or_index == 1) {
+            } else if (color_step_or_index == 1) {
                 ((S_80089608_4 *)sprite)->unk_1A = (s16) (0 - (u16) ((S_80089608_0 *)effect)->unk_0E.u);
             }
-configure_spawn:
             ((S_80089608_4 *)sprite)->unk_10 = 0x60;
             ((S_80089608_4 *)sprite)->unk_14 = (u16) (((S_80089608_4 *)sprite)->unk_14 | 0xC);
             ((S_80089608_4 *)sprite)->unk_08 = (s32) ((S_80089608_5 *)style_cursor)->unk_00;
@@ -241,13 +222,9 @@ configure_spawn:
             ((S_80089608_4 *)sprite)->unk_05 = 0;
             ((S_80089608_4 *)sprite)->unk_0C = (s32) (((S_80089608_0 *)effect)->unk_04 & ((S_80089608_5 *)style_cursor)->unk_40);
             ((S_80089608_6 *)element_state)->unk_0C = color_step_or_index;
-            goto next_element;
         }
-next_element:
         style_cursor -= 4;
         color_step_or_index -= 1;
         radius_cursor -= 2;
     } while (color_step_or_index >= 0);
-    return;
-    return;
 }

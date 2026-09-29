@@ -20,15 +20,13 @@ void func_801722DC(S_801722DC_0 *state, M2C_UNK context, M2C_UNK source, M2C_UNK
     if (func_800AB1C0(state, context, source, target) != 0) {
         func_800AD594(target, 5);
         func_800A4ACC(target);
-        if ((func_800AD9B4(source, target) << 0x10) > 0) {
-            state->unk_8C = &D_80170E54;
-            state->unk_90.at00.v = 0;
-            goto check_reset;
+        if ((func_800AD9B4(source, target) << 0x10) <= 0) {
+            return;
         }
-    } else {
-check_reset:
-        if (dungeonStatus.flags & 0x80) {
-            state->unk_90.at02.v = 0;
-        }
+        state->unk_8C = &D_80170E54;
+        state->unk_90.at00.v = 0;
+    }
+    if (dungeonStatus.flags & 0x80) {
+        state->unk_90.at02.v = 0;
     }
 }

@@ -36,64 +36,38 @@ s32 func_80016E48(s32 arg0)
 
     base = D_8001B160;
     slot = &base[index];
-    if (*slot != 0) {
-        goto done;
+    if (*slot == 0) {
+        count = func_8001A934();
+        less = count < 5;
+        if (less || (event_base = (s16 *)((u8 *)D_8001AA6C - 0x14), events = &event_base[index * 3], func_8001A64C(events[0])) == 0) {
+            award_base = D_8001AA58;
+            func_8001A554(award_base[index * 3]);
+            result = 1;
+            *slot = result;
+        } else {
+            less = count < 10;
+            if (less || func_8001A64C(events[1]) == 0) {
+                func_8001A554(events[1]);
+                result = 2;
+                *slot = result;
+            } else {
+                less = count < 20;
+                if (less || func_8001A64C(events[2]) == 0) {
+                    func_8001A554(events[2]);
+                    result = 3;
+                    *slot = result;
+                } else {
+                    result = 5;
+                    if (func_8001A64C(0x1391) != 0) {
+                        *slot = 5;
+                    } else {
+                        *slot = 4;
+                    }
+                }
+            }
+        }
     }
 
-    count = func_8001A934();
-    less = count < 5;
-    if (less) {
-        goto award_first;
-    }
-
-    event_base = (s16 *)((u8 *)D_8001AA6C - 0x14);
-    events = &event_base[index * 3];
-    if (func_8001A64C(events[0]) == 0) {
-award_first:
-        award_base = D_8001AA58;
-        func_8001A554(award_base[index * 3]);
-        result = 1;
-        *slot = result;
-        goto store_done;
-    }
-
-    less = count < 10;
-    if (less) {
-        goto award_second;
-    }
-    if (func_8001A64C(events[1]) == 0) {
-award_second:
-        func_8001A554(events[1]);
-        result = 2;
-        *slot = result;
-        goto store_done;
-    }
-
-    less = count < 20;
-    if (less) {
-        goto award_third;
-    }
-    if (func_8001A64C(events[2]) == 0) {
-award_third:
-        func_8001A554(events[2]);
-        result = 3;
-        *slot = result;
-        goto store_done;
-    }
-
-    result = 5;
-    if (func_8001A64C(0x1391) != 0) {
-        *slot = 5;
-        goto done;
-    }
-    *slot = 4;
-    goto done;
-
-    *slot = result;
-    store_done:
-    ;
-
-done:
     {
         s32 scaled;
         s32 row_offset;
@@ -106,7 +80,7 @@ done:
         row_offset = (scaled + index) * 4;
         fresh_base = (s32 *)((u8 *)D_8001AA58 + 0x708);
         reward_addr = (s32 *)(u32)(scaled + (u32)fresh_base);
-        reward = *(volatile s32 *)reward_addr;
+        reward = *reward_addr;
         result_base = (s32 *)(u32)(row_offset + (u32)reward_base);
         return result_base[reward - 1];
     }

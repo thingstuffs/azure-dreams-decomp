@@ -75,41 +75,27 @@ void func_8017414C(EffectState *state, s32 *position, EffectColor *color)
     s16 next_offset;
     s16 current_offset;
 
-    if (state->phase == 1) {
-        goto hold_color;
-    } else if (state->phase < 2) {
-        if (state->phase == 0) {
-            goto fade_in;
+    switch (state->phase) {
+    case 0:
+        color->red = state->red * (50 - state->lifetime) / 10;
+        color->green = state->green * (50 - state->lifetime) / 10;
+        color->blue = state->blue * (50 - state->lifetime) / 10;
+        if (state->lifetime < 41) {
+            state->phase++;
         }
-        goto spawn_objects;
-    } else {
-        if (state->phase == 2) {
-            goto fade_out;
+        break;
+    case 1:
+        if (state->lifetime < 12) {
+            state->phase++;
         }
-        goto spawn_objects;
+        break;
+    case 2:
+        color->red = state->red * state->lifetime / 10;
+        color->green = state->green * state->lifetime / 10;
+        color->blue = state->blue * state->lifetime / 10;
+        break;
     }
 
-fade_in:
-    color->red = state->red * (50 - state->lifetime) / 10;
-    color->green = state->green * (50 - state->lifetime) / 10;
-    color->blue = state->blue * (50 - state->lifetime) / 10;
-    if (state->lifetime < 41) {
-        state->phase++;
-    }
-    goto spawn_objects;
-
-hold_color:
-    if (state->lifetime < 12) {
-        state->phase++;
-    }
-    goto spawn_objects;
-
-fade_out:
-    color->red = state->red * state->lifetime / 10;
-    color->green = state->green * state->lifetime / 10;
-    color->blue = state->blue * state->lifetime / 10;
-
-spawn_objects:
     state->spawn_count++;
     for (object_index = 0; object_index < 4; object_index++) {
         object = func_8003FC64(0x12);

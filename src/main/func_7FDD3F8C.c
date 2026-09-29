@@ -25,8 +25,6 @@ static __inline__ s16 load_signed_state(ColorEffect *effect)
     s16 value;
 
     value = ((SignedStateView *)effect)->value;
-    value++;
-    value--;
     return value;
 }
 
@@ -45,59 +43,37 @@ void func_7FDD3F8C(ColorEffect *effect)
     timer = old_timer - 1;
     effect->timer = timer;
 
-    if (state == 1) {
-        goto state_1;
-    }
-    if (state < 2) {
-        if (state == 0) {
-            goto state_0;
+    switch (state) {
+    case 0:
+        if ((s16)timer <= 0) {
+            effect->color = 0xC0C0C0;
+            effect->flags |= 1;
+            effect->state++;
         }
-        goto shared_tail;
+        break;
+    case 1:
+        effect->color -= 0x101010;
+        if (effect->color == 0) {
+            effect->timer = 60;
+            effect->state++;
+        }
+        break;
+    case 2:
+        if ((s16)timer <= 0) {
+            effect->state = initial_state + 1;
+        }
+        break;
+    case 3:
+        effect->color += 0x101010;
+        if (effect->color == 0xC0C0C0) {
+            effect->color = 0x808080;
+            effect->timer = 90;
+            effect->state = 0;
+            effect->flags &= 0xFFFE;
+        }
+        break;
     }
-    if (state == 2) {
-        goto state_2;
-    }
-    if (state == 3) {
-        goto state_3;
-    }
-    goto shared_tail;
 
-state_0:
-    if ((s16)timer > 0) {
-        goto shared_tail;
-    }
-    effect->color = 0xC0C0C0;
-    effect->flags |= 1;
-    effect->state++;
-    goto shared_tail;
-
-state_1:
-    effect->color -= 0x101010;
-    if (effect->color == 0) {
-        effect->timer = 60;
-        effect->state++;
-        goto shared_tail;
-    }
-    goto shared_tail;
-
-state_2:
-    if ((s16)timer <= 0) {
-        effect->state = initial_state + 1;
-        goto shared_tail;
-    }
-    goto shared_tail;
-
-state_3:
-    effect->color += 0x101010;
-    if (effect->color != 0xC0C0C0) {
-        goto shared_tail;
-    }
-    effect->color = 0x808080;
-    effect->timer = 90;
-    effect->state = 0;
-    effect->flags &= 0xFFFE;
-
-shared_tail:
     if ((owner->flags & 0x8000) != 0) {
         ((u16 *)effect)[-1] |= 0x8000;
         objectFlagBlock.flags |= 0x8000;

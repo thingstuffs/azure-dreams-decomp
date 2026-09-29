@@ -59,7 +59,8 @@ approach:
     }
     ((S_800220A8_0 *)motion_state)->unk_02 = 0;
     ((S_800220A8_1 *)motion)->unk_14 = -0x40000;
-    goto start_acceleration;
+    ((S_800220A8_0 *)motion_state)->unk_00 = 1;
+    return;
 
 accelerate:
 {

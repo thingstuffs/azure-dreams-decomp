@@ -94,38 +94,27 @@ void *func_80171190(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
             right = work->flags1c | 0x6000;
             work->flags14 = left;
             work->flags1c = right;
-            goto post_kind;
-        }
-        if (kind < 2) {
-            goto normal_kind;
-        }
-
-        left = work->flags14 | 0x2000;
-        right = work->flags1c | 0x2000;
-write_kind:
-        work->flags14 = left;
-        work->flags1c = right;
-        goto post_kind;
-
-    normal_kind:
-        call_a1 = obj;
-        if (((flags & ~3) << 16) == 0) {
-            if (!(work->flags14 & 0x200)) {
-                call_a1 = part_a;
-                left = func_800A6D30();
-                call_a1 = obj;
-                if (!(left & 1)) {
-                    goto call_a1_setup;
+        } else if (kind >= 2) {
+            left = work->flags14 | 0x2000;
+            right = work->flags1c | 0x2000;
+            work->flags14 = left;
+            work->flags1c = right;
+        } else {
+            call_a1 = obj;
+            if (((flags & ~3) << 16) == 0) {
+                if (!(work->flags14 & 0x200)) {
+                    call_a1 = part_a;
+                    left = func_800A6D30();
+                    call_a1 = obj;
+                    if (!(left & 1)) {
+                        goto call_a1_setup;
+                    }
+                    func_800A48F0(work, 1,
+                                  (func_800A6D30(obj) & 0x3F) | 0x20);
+                    part_b->unk_2C = D_80174EF0;
                 }
-                func_800A48F0(work, 1,
-                              (func_800A6D30(obj) & 0x3F) | 0x20);
-                part_b->unk_2C = D_80174EF0;
-                goto post_kind;
             }
         }
-        goto call_a1_setup;
-
-post_kind:
         call_a1 = obj;
 call_a1_setup:
         func_800A9C18(call_a1, part_a, part_b, flags);

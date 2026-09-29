@@ -94,39 +94,30 @@ void *func_80B85054(s16 spawn_flags, s16 part_byte_24, s16 part_byte_25, s16 par
         if (kind == 1) {
             flags_or_roll = work->unk_14 | 0x6000;
             secondary_flags = work->unk_1C | 0x6000;
-            goto write_kind;
-        }
-        if (kind < 2) {
-            goto normal_kind;
-        }
-
-        flags_or_roll = work->unk_14 | 0x2000;
-        secondary_flags = work->unk_1C | 0x2000;
-write_kind:
-        work->unk_14 = flags_or_roll;
-        work->unk_1C = secondary_flags;
-        goto post_kind;
-
-normal_kind:
-        part_arg = obj;
-        if (((spawn_flags & ~3) << 16) == 0) {
-            if (!(work->unk_14 & 0x200)) {
-                part_arg = part_a;
-                flags_or_roll = func_800A6D30();
-                part_arg = obj;
-                if (!(flags_or_roll & 1)) {
-                    goto init_actor;
+            work->unk_14 = flags_or_roll;
+            work->unk_1C = secondary_flags;
+        } else if (kind >= 2) {
+            flags_or_roll = work->unk_14 | 0x2000;
+            secondary_flags = work->unk_1C | 0x2000;
+            work->unk_14 = flags_or_roll;
+            work->unk_1C = secondary_flags;
+        } else {
+            part_arg = obj;
+            if (((spawn_flags & ~3) << 16) == 0) {
+                if (!(work->unk_14 & 0x200)) {
+                    part_arg = part_a;
+                    flags_or_roll = func_800A6D30();
+                    part_arg = obj;
+                    if (!(flags_or_roll & 1)) {
+                        goto init_actor;
+                    }
+                    work->unk_1C |= 0x200;
+                    func_800A48F0(work, 1,
+                                  (func_800A6D30(obj) & 0x3F) | 0x20);
+                    part_b->unk_2C = D_8015BD4C;
                 }
-                work->unk_1C |= 0x200;
-                func_800A48F0(work, 1,
-                              (func_800A6D30(obj) & 0x3F) | 0x20);
-                part_b->unk_2C = D_8015BD4C;
-                goto post_kind;
             }
         }
-        goto init_actor;
-
-post_kind:
         part_arg = obj;
 init_actor:
         func_800A9C18(part_arg, part_a, part_b, spawn_flags);

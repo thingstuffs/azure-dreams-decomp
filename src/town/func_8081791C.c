@@ -178,7 +178,7 @@ void func_8002191C(void *scene)
         value = ((S_8002191C_0 *)scene)->unk_28.s - 1;
         ((S_8002191C_0 *)scene)->unk_28.s = value;
         if ((s16)value > 0) {
-            goto finish;
+            break;
         }
         ((S_8002191C_0 *)scene)->unk_28.s = 0x10;
         ((S_8002191C_0 *)scene)->unk_36.s = 2;
@@ -193,7 +193,7 @@ void func_8002191C(void *scene)
             ((S_8002191C_2 *)motion)->unk_14 = (s32)0xFFF40000;
             ((S_8002191C_2 *)motion)->unk_10 = n2 / d2;
         }
-        goto finish;
+        break;
     }
 
     case 2: {
@@ -211,12 +211,12 @@ void func_8002191C(void *scene)
         value = ((S_8002191C_0 *)scene)->unk_28.s - 1;
         ((S_8002191C_0 *)scene)->unk_28.s = value;
         if ((s16)value > 0) {
-            goto finish;
+            break;
         }
         ((S_8002191C_2 *)motion)->unk_10 = 0;
         ((S_8002191C_2 *)motion)->unk_0C = 0;
         ((S_8002191C_0 *)scene)->unk_36.s = 3;
-        goto finish;
+        break;
     }
 
     case 3: {
@@ -227,30 +227,30 @@ void func_8002191C(void *scene)
         if (((s32 *)work)[1] <= lim) {
             ((s32 *)work)[1] += (0x04500000 - ((s32 *)work)[1]) >> 1;
         }
-        m1 = ((s32 volatile *)work)[1];
+        m1 = ((s32 *)work)[1];
         if (m1 > 0x04700000) {
             ((s32 *)work)[1] = m1 + ((0x04700000 - m1) >> 1);
         }
         ((S_8002191C_3 *)global)->unk_10.s = (((S_8002191C_3 *)global)->unk_10.u + 0x200) & 0xFFF;
         i = func_800C2AE8(work);
         if (((S_8002191C_4 *)work)->unk_08.at02.v < i) {
-            goto finish;
+            break;
         }
     }
         if (((S_8002191C_3 *)global)->unk_10.s != 0x800) {
-            goto finish;
+            break;
         }
         tw_sd_sq_ld_call(0x24, 0x200);
         ((S_8002191C_0 *)scene)->unk_36.s = 4;
         func_8002082C(scene);
         func_80093D48(global, work, ((u8 *)(&D_80082E80)));
-        goto finish;
+        break;
 
     case 4:
         if (((S_8002191C_5 *)part)->unk_68 == 7) {
             ((S_8002191C_0 *)scene)->unk_36.s = 5;
         }
-        goto finish;
+        break;
 
     case 5: {
         u8 *motion;
@@ -262,10 +262,10 @@ void func_8002191C(void *scene)
         }
         func_80043FB8(D_8002003C, ((S_8002191C_3 *)global)->unk_10.s);
         if (func_800352FC() != 0) {
-            goto finish;
+            break;
         }
         if (((S_8002191C_5 *)part)->unk_68 != 8) {
-            goto finish;
+            break;
         }
         ((S_8002191C_3 *)global)->unk_10.s = 0x800;
         func_80093C70();
@@ -276,7 +276,7 @@ void func_8002191C(void *scene)
         ((S_8002191C_0 *)scene)->unk_2C.s = 0;
         ((S_8002191C_0 *)scene)->unk_2A.s &= 0x7FFF;
         ((S_8002191C_0 *)scene)->unk_36.s = 6;
-        goto finish;
+        break;
     }
 
     case 6: {
@@ -326,7 +326,7 @@ void func_8002191C(void *scene)
         } else {
             func_80020948(D_8002241C, &pos, color, scene);
         }
-        goto finish;
+        break;
     }
 
     case 7: {
@@ -356,7 +356,7 @@ void func_8002191C(void *scene)
             (((S_8002191C_0 *)scene)->unk_28.s + ((S_8002191C_0 *)scene)->unk_2E.s + 0x1000) & 0xFFF;
         func_80022494(scene);
         if (((S_8002191C_5 *)part)->unk_68 != 0xA) {
-            goto finish;
+            break;
         }
         func_80093864();
         ((S_8002191C_3 *)global)->unk_00 = D_800930E4;
@@ -373,7 +373,7 @@ void func_8002191C(void *scene)
         draw.p0C = scene;
         func_800206F4(D_80020618, &draw);
         ((S_8002191C_0 *)scene)->unk_36.s = 8;
-        goto finish;
+        break;
     }
 
     case 8:
@@ -424,7 +424,7 @@ void func_8002191C(void *scene)
             ((S_8002191C_0 *)scene)->unk_28.s = 0x1E;
             ((S_8002191C_0 *)scene)->unk_36.s = 9;
         }
-        goto finish;
+        break;
 
     case 9:
         value = ((S_8002191C_0 *)scene)->unk_28.s - 1;
@@ -432,12 +432,12 @@ void func_8002191C(void *scene)
         if ((s16)value <= 0) {
             ((S_8002191C_0 *)scene)->unk_36.s = 0xA;
         }
-        goto finish;
+        break;
 
     case 10:
         flags = ((S_8002191C_0 *)scene)->unk_2A.s;
         if ((flags & 2) == 0) {
-            goto finish;
+            break;
         }
         ((S_8002191C_0 *)scene)->unk_2A.s = flags & 0xFFFD;
         func_80093864();
@@ -451,7 +451,7 @@ void func_8002191C(void *scene)
             func_8002082C(scene);
             ((S_8002191C_0 *)scene)->unk_36.s = 4;
         }
-        goto finish;
+        break;
 
     case 0xFF:
         value = ((S_8002191C_0 *)scene)->unk_28.s - 1;
@@ -461,19 +461,16 @@ void func_8002191C(void *scene)
             ((S_8002191C_0 *)scene)->unk_2A.s |= 1;
             ((S_8002191C_0 *)scene)->unk_36.u++;
         }
-        goto finish;
+        break;
 
     case 0x100:
         func_80033B78(0xA5);
         (*(u16 *)((u8 *)scene + -2)) |= 0x8000;
         objectFlagBlock.flags |= 0x8000;
-        goto finish;
+        break;
 
-    default:
-        goto finish;
     }
 
-finish:
     if (((S_8002191C_0 *)scene)->unk_36.s >= 4) {
         s32 *motion = (s32 *)((u8 *)(&D_80083780));
 

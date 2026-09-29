@@ -62,97 +62,77 @@ void func_8016CF30(DungeonState *state, Arg1 *motion, Arg2 *animation, Arg3 *act
     s32 stage;
 
     stage = state->unk9b;
-    if (stage == 1) {
-        goto phase1;
-    }
-    if (stage < 2) {
-        if (stage == 0) {
-            goto phase0;
-        }
-        return;
-    }
-    if (stage == 2) {
-        goto phase2;
-    }
-    if (stage == 3) {
-        goto phase3;
-    }
-    return;
-
-phase0:
-    motion->unk14 = 0;
-    motion->unk10 = 0;
-    motion->unkC = 0;
-    state->unk96 = 0;
-    state->unk9b = state->unk9b + 1;
-    if (!(animation->flags & 0x8000)) {
-        return;
-    }
-
-phase1:
-    state->unk96 = 0;
-    state->unk9b = state->unk9b + 1;
-    animation->unk2c = D_801746B4;
-    func_80047784(animation, D_801746B4[(((s32)gameWork.view.viewAngle + actor->unk2a + 0x100) >> 9) & 7], 0);
-
-phase2:
-    state->unk96 = state->unk96 + 1;
-    if ((s16)state->unk96 == 10 || (animation->flags & 0x8000)) {
-        func_8009C12C(actor, animation, actor->unk2a, 1);
+    switch (stage) {
+    case 0:
+        motion->unk14 = 0;
+        motion->unk10 = 0;
+        motion->unkC = 0;
         state->unk96 = 0;
         state->unk9b = state->unk9b + 1;
-    }
-    if ((s16)state->unk96 == 8) {
-        func_800A56E0(0x804);
-        return;
-    }
-    return;
-
-phase3:
-    if (animation->flags & 0xE000) {
-        if (D_800E3D7C->unk_28 < 2) {
-            s32 entry_index;
-            s32 resource_flag;
-            void *effect;
-
-            func_8016AD00();
-            effect = D_800F93AA;
-            state->unk8c = D_8016B778;
-            dungeonStatus.unk_0C = 0;
-            dungeonStatus.unk_0A = ((u16)dungeonStatus.unk_0A) + 1;
-            ((volatile Arg3 *)actor)->flags46 = ((volatile Arg3 *)actor)->flags46 & 0x7FFF;
-            *(u16 *)&D_80013714 = D_80013714 | 8;
-            func_800353F4(effect);
-            entry_index = 0;
-            resource_flag = 0x80000000;
-            actor->unk6d = 0;
-            state->unk9b = 0;
-            for (;;) {
-                DungeonEntry *entry;
-                u32 entry_addr;
-
-                entry_addr = (u32)(entry_index * 4) + (u32)((DungeonEntry *)D_800E3D7C);
-                entry = (DungeonEntry *)entry_addr;
-                if (entry->unkac != 0) {
-                    u32 *resource_header;
-
-                    func_8016A908(entry->unkac);
-                    entry = (DungeonEntry *)((u32)(entry_index * 4) + (u32)((DungeonEntry *)D_800E3D7C));
-                    resource_header = (u32 *)(entry->unkac - 0x20);
-                    resource_header[4] = resource_header[4] | resource_flag;
-                }
-                entry_index++;
-                if (entry_index >= 2) {
-                    return;
-                }
-            }
-        } else {
-            state->unk8c = D_8016B778;
-            dungeonStatus.unk_0C = 0;
-            func_800A4ACC(actor);
-            actor->flags46 = actor->flags46 & 0x7FFF;
+        if (!(animation->flags & 0x8000)) {
+            break;
         }
-    }
+    case 1:
+        state->unk96 = 0;
+        state->unk9b = state->unk9b + 1;
+        animation->unk2c = D_801746B4;
+        func_80047784(animation, D_801746B4[(((s32)gameWork.view.viewAngle + actor->unk2a + 0x100) >> 9) & 7], 0);
+    case 2:
+        state->unk96 = state->unk96 + 1;
+        if ((s16)state->unk96 == 10 || (animation->flags & 0x8000)) {
+            func_8009C12C(actor, animation, actor->unk2a, 1);
+            state->unk96 = 0;
+            state->unk9b = state->unk9b + 1;
+        }
+        if ((s16)state->unk96 == 8) {
+            func_800A56E0(0x804);
+        }
+        break;
+    case 3:
+        if (animation->flags & 0xE000) {
+            if (D_800E3D7C->unk_28 < 2) {
+                s32 entry_index;
+                s32 resource_flag;
+                void *effect;
 
-    return;
+                func_8016AD00();
+                effect = D_800F93AA;
+                state->unk8c = D_8016B778;
+                dungeonStatus.unk_0C = 0;
+                dungeonStatus.unk_0A = ((u16)dungeonStatus.unk_0A) + 1;
+                ((volatile Arg3 *)actor)->flags46 = ((volatile Arg3 *)actor)->flags46 & 0x7FFF;
+                *(u16 *)&D_80013714 = D_80013714 | 8;
+                func_800353F4(effect);
+                entry_index = 0;
+                resource_flag = 0x80000000;
+                actor->unk6d = 0;
+                state->unk9b = 0;
+                for (;;) {
+                    DungeonEntry *entry;
+                    u32 entry_addr;
+
+                    entry_addr = (u32)(entry_index * 4) + (u32)((DungeonEntry *)D_800E3D7C);
+                    entry = (DungeonEntry *)entry_addr;
+                    if (entry->unkac != 0) {
+                        u32 *resource_header;
+
+                        func_8016A908(entry->unkac);
+                        entry = (DungeonEntry *)((u32)(entry_index * 4) + (u32)((DungeonEntry *)D_800E3D7C));
+                        resource_header = (u32 *)(entry->unkac - 0x20);
+                        resource_header[4] = resource_header[4] | resource_flag;
+                    }
+                    entry_index++;
+                    if (entry_index >= 2) {
+                        return;
+                    }
+                }
+            } else {
+                state->unk8c = D_8016B778;
+                dungeonStatus.unk_0C = 0;
+                func_800A4ACC(actor);
+                actor->flags46 = actor->flags46 & 0x7FFF;
+            }
+        }
+        break;
+    }
 }

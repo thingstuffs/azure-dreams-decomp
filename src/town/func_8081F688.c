@@ -59,66 +59,52 @@ void func_80021E88(S_80021E88_0 *controller, Rec_func_80021E88_arg1 *position, S
     }
 
     state = controller->unk_00;
-    if (state == 1) {
-        goto state_1;
-    }
-    if (state < 2) {
-        if (state == 0) {
-            goto state_0;
+    switch (state) {
+    case 0:
+        position->unk_08 += 0xFFF80000;
+        if (position->unk_08 > 0) {
+            return;
+        }
+        position->unk_08 = 0;
+        display->unk_0C = 0x808080;
+        controller->unk_00 = 1;
+        return;
+
+    case 1:
+        transition_pending = transition;
+        if (transition_pending) {
+            if (((S_80021E88_4 *)(controller->unk_04))->unk_22 == 3) {
+                object->unk_20 |= 1;
+                display->unk_08 = D_80024444[controller->unk_54.s];
+                object->unk_22 = controller->unk_54.u;
+            }
+        }
+        if (object->unk_22 == 3) {
+            return;
+        }
+        if (((S_80021E88_4 *)(controller->unk_04))->unk_22 == controller->unk_54.s) {
+            controller->unk_00 = 3;
+            return;
+        }
+        controller->unk_00 = 2;
+        return;
+
+    case 2:
+        position->unk_08 += 0x80000;
+        if (position->unk_08 > 0x3FFFFF) {
+            position->unk_08 = 0x400000;
+            return;
         }
         return;
-    }
-    if (state == 2) {
-        goto state_2;
-    }
-    if (state == 3) {
-        goto state_3;
-    }
-    return;
 
-state_0:
-    position->unk_08 += 0xFFF80000;
-    if (position->unk_08 > 0) {
-        return;
-    }
-    position->unk_08 = 0;
-    display->unk_0C = 0x808080;
-    controller->unk_00 = 1;
-    return;
-
-state_1:
-    transition_pending = transition;
-    if (transition_pending) {
-        if (((S_80021E88_4 *)(controller->unk_04))->unk_22 == 3) {
-            object->unk_20 |= 1;
+    case 3:
+        flags = object->unk_20;
+        if (flags & 1) {
+            object->unk_20 = flags | 1;
             display->unk_08 = D_80024444[controller->unk_54.s];
-            object->unk_22 = controller->unk_54.u;
         }
-    }
-    if (object->unk_22 == 3) {
+        return;
+    default:
         return;
     }
-    if (((S_80021E88_4 *)(controller->unk_04))->unk_22 == controller->unk_54.s) {
-        controller->unk_00 = 3;
-        return;
-    }
-    controller->unk_00 = 2;
-    return;
-
-state_2:
-    position->unk_08 += 0x80000;
-    if (position->unk_08 > 0x3FFFFF) {
-        position->unk_08 = 0x400000;
-        return;
-    }
-    return;
-
-state_3:
-    flags = object->unk_20;
-    if (flags & 1) {
-        object->unk_20 = flags | 1;
-        display->unk_08 = D_80024444[controller->unk_54.s];
-    }
-
-    return;
 }

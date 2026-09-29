@@ -49,91 +49,69 @@ s32 func_800AC5C8(S_800AC5C8_0 *animation, EntityRec *position, S_800AC5C8_3 *ti
     u8 tile_y;
 
     state = animation->unk_9B;
-    if (state == 1) {
-        goto state_1;
-    }
-    if ((s32)state >= 2) {
-        goto state_ge_2;
-    }
-    if (state == 0) {
-        goto state_0;
-    }
-    return 0;
+    switch (state) {
+    case 0:
+        ((Rec_D_80082E80 *)object)->unk_6A = ((Rec_D_80082E80 *)object)->unk_28.at02_u16.v & 0xFFF;
+        animation->unk_9B++;
+        /* fall through */
+    case 1:
+        ((Rec_D_80082E80 *)object)->unk_28.at02_u16.v += 0x200;
+        position->flags14 -= 0x10000;
 
-state_ge_2:
-    if (state == 2) {
-        goto state_2;
-    }
-    return 0;
+        ticks_left = animation->unk_96 - 1;
+        animation->unk_96 = ticks_left;
+        if ((s16)ticks_left > 0) {
+            return 0;
+        }
 
-state_0:
-    ((Rec_D_80082E80 *)object)->unk_6A = ((Rec_D_80082E80 *)object)->unk_28.at02_u16.v & 0xFFF;
-    animation->unk_9B++;
-    /* fall through */
+        position->flags14 = 0;
+        func_800A2B04(position, tile->unk_24, tile->unk_25);
+        animation->unk_96 = 0x10;
 
-state_1:
-    ((Rec_D_80082E80 *)object)->unk_28.at02_u16.v += 0x200;
-    position->flags14 -= 0x10000;
+        if (!(((Rec_D_80082E80 *)object)->unk_14.at00_s32.v & 0x4000)) {
+            dungeonStatus.unk_0A--;
+            func_800A32A4(object);
+            func_8009A028(object);
+            ((S_800AC5C8_1_pre *)object)[-1].unk_00 |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
+        } else {
+            ((Rec_D_80082E80 *)object)->unk_88.as_u16 = func_800BCB04(
+                (tile->unk_24 << 6) | 0x20,
+                (tile->unk_25 << 6) | 0x20,
+                -0x400);
+            animation->unk_98 &= 0xFFF7;
+            ((Rec_D_80082E80 *)object)->unk_1C.at00_s32.v &= 0xFFFEFFFF;
+            animation->unk_96 = 0x10;
+            animation->unk_9B++;
+        }
+        break;
+    case 2:
+        ((Rec_D_80082E80 *)object)->unk_28.at02_u16.v += 0x200;
+        ticks_left = animation->unk_96 - 1;
+        animation->unk_96 = ticks_left;
+        if ((s16)ticks_left > 0) {
+            return 0;
+        }
 
-    ticks_left = animation->unk_96 - 1;
-    animation->unk_96 = ticks_left;
-    if ((s16)ticks_left > 0) {
-        return 0;
-    }
-
-    position->flags14 = 0;
-    func_800A2B04(position, tile->unk_24, tile->unk_25);
-    animation->unk_96 = 0x10;
-
-    if (!(((Rec_D_80082E80 *)object)->unk_14.at00_s32.v & 0x4000)) {
+        animation->unk_90 = 0;
+        tile_x = tile->unk_24;
+        tile_y = tile->unk_25;
+        if (((Rec_D_80082E80 *)object)->unk_1C.at00_s32.v & 0x2000) {
+            force = 0x300;
+        } else {
+            force = 0x3000;
+        }
+        func_8009A21C(tile_x, tile_y, force);
         dungeonStatus.unk_0A--;
-        func_800A32A4(object);
-        func_8009A028(object);
-        ((S_800AC5C8_1_pre *)object)[-1].unk_00 |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
-        goto return_zero;
-    }
+        {
+            u16 saved_angle;
+            s32 finished;
 
-    ((Rec_D_80082E80 *)object)->unk_88.as_u16 = func_800BCB04(
-        (tile->unk_24 << 6) | 0x20,
-        (tile->unk_25 << 6) | 0x20,
-        -0x400);
-    animation->unk_98 &= 0xFFF7;
-    ((Rec_D_80082E80 *)object)->unk_1C.at00_s32.v &= 0xFFFEFFFF;
-    animation->unk_96 = 0x10;
-    animation->unk_9B++;
-    goto return_zero;
-
-state_2:
-    ((Rec_D_80082E80 *)object)->unk_28.at02_u16.v += 0x200;
-    ticks_left = animation->unk_96 - 1;
-    animation->unk_96 = ticks_left;
-    if ((s16)ticks_left > 0) {
-        return 0;
+            saved_angle = ((Rec_D_80082E80 *)object)->unk_6A;
+            finished = 1;
+            ((Rec_D_80082E80 *)object)->unk_28.at02_u16.v = saved_angle;
+            return finished;
+        }
     }
-
-    animation->unk_90 = 0;
-    tile_x = tile->unk_24;
-    tile_y = tile->unk_25;
-    if (((Rec_D_80082E80 *)object)->unk_1C.at00_s32.v & 0x2000) {
-        force = 0x300;
-    } else {
-        force = 0x3000;
-    }
-    func_8009A21C(tile_x, tile_y, force);
-    {
-
-        dungeonStatus.unk_0A--;
-    }
-    {
-        u16 saved_angle;
-        s32 finished;
-
-        saved_angle = ((Rec_D_80082E80 *)object)->unk_6A;
-        finished = 1;
-        ((Rec_D_80082E80 *)object)->unk_28.at02_u16.v = saved_angle;
-        return finished;
-    }
-return_zero:
     return 0;
 }

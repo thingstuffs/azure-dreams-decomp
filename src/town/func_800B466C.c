@@ -39,11 +39,9 @@ void func_800B1DCC(void **pair_state)
       delta = (preset_index * 0x28) + 0x200;
       delta -= loaded_coord;
     }
-    if (preset_index == 0) {
-      goto no_round;
+    if (preset_index != 0) {
+      delta++;
     }
-    delta++;
-  no_round:
     next_coord = (s16) (current_coord + (delta >> 1));
     *((s16 *) (((u8 *) visual_data) + 0xC)) = next_coord;
     second_index = 1;

@@ -33,32 +33,28 @@ void *func_8009F9E8(s32 wanted_kind, s32 wanted_flag) {
     kind_group = *(volatile u16 *)(kind_group + 0x3716);
     entry_index = kind_group - 1;
     entries = (void *)((u32)entries | 0x3720);
-    if (entry_index < 0) {
-        goto return_tail;
-    }
-
-    group_70 = 0x70;
-    group_78 = 0x78;
-    group_80 = 0x80;
-    group_90 = 0x90;
-    wanted_kind &= 0xFF;
-    wanted_flag &= 0xFF;
-    count_page = 0x80010000;
-    kind_group = entry_index * 2;
-    entry = (void *)((u32)kind_group + (u32)entries);
-    do {
-        kind_group = ((S_8009F9E8_0 *)entry)->unk_01 & 0xF8;
-        if (kind_group == group_70 || kind_group == group_78 || kind_group == group_80 || kind_group == group_90) {
-            if (((S_8009F9E8_0 *)entry)->unk_01 == wanted_kind && (((S_8009F9E8_0 *)entry)->unk_00 & 0x20) == wanted_flag) {
-                return entry;
+    if (entry_index >= 0) {
+        group_70 = 0x70;
+        group_78 = 0x78;
+        group_80 = 0x80;
+        group_90 = 0x90;
+        wanted_kind &= 0xFF;
+        wanted_flag &= 0xFF;
+        count_page = 0x80010000;
+        kind_group = entry_index * 2;
+        entry = (void *)((u32)kind_group + (u32)entries);
+        do {
+            kind_group = ((S_8009F9E8_0 *)entry)->unk_01 & 0xF8;
+            if (kind_group == group_70 || kind_group == group_78 || kind_group == group_80 || kind_group == group_90) {
+                if (((S_8009F9E8_0 *)entry)->unk_01 == wanted_kind && (((S_8009F9E8_0 *)entry)->unk_00 & 0x20) == wanted_flag) {
+                    return entry;
+                }
+            } else {
+                return (*(u16 *)(count_page + 0x3716) * 2) + entries;
             }
-        } else {
-            return (*(volatile u16 *)(count_page + 0x3716) * 2) + entries;
-        }
-        entry_index--;
-        entry -= 2;
-    } while (entry_index >= 0);
-
-    return_tail:
+            entry_index--;
+            entry -= 2;
+        } while (entry_index >= 0);
+    }
     return entries;
 }

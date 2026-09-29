@@ -160,20 +160,17 @@ void func_80170AE0(void *entity, S_80170AE0_2 *motion, void *monster)
             actor_height = ((S_80170AE0_1 *)actor)->unk_88.s;
             if ((*(s16 *)((u8 *)entity + 0x92)) + actor_height < floor_height) {
                 (void)(*(volatile u16 *)((u8 *)entity + 0x98));
-                goto check_adjustment;
-            }
-
-            if (floor_height >= actor_height) {
-                (*(s32 *)((u8 *)entity + 0x90)) = 0;
             } else {
-                (*(s16 *)((u8 *)entity + 0x92)) = floor_height - ((S_80170AE0_1 *)actor)->unk_88.u;
+                if (floor_height >= actor_height) {
+                    (*(s32 *)((u8 *)entity + 0x90)) = 0;
+                } else {
+                    (*(s16 *)((u8 *)entity + 0x92)) = floor_height - ((S_80170AE0_1 *)actor)->unk_88.u;
+                }
+
+                motion->unk_14 = 0;
+                ((S_80170AE0_1 *)actor)->unk_1C |= 0x08000000;
+                (*(u8 *)((u8 *)entity + 0x9D)) = 0;
             }
-
-            motion->unk_14 = 0;
-            ((S_80170AE0_1 *)actor)->unk_1C |= 0x08000000;
-            (*(u8 *)((u8 *)entity + 0x9D)) = 0;
-
-check_adjustment:
             if (((S_80170AE0_1 *)actor)->unk_1C & 0x40000000) {
                 ((S_80170AE0_1 *)actor)->unk_1C &= 0xBFFFFFFF;
                 floor_height = func_800BCB04((((S_80170AE0_0 *)monster)->unk_24 << 6) | 0x20,
@@ -181,15 +178,14 @@ check_adjustment:
                                       (s16)(((S_80170AE0_1 *)actor)->unk_88.u - 0x20));
                 (*(s16 *)((u8 *)entity + 0x92)) += ((S_80170AE0_1 *)actor)->unk_88.u - floor_height;
                 ((S_80170AE0_1 *)actor)->unk_88.u = floor_height;
-                goto finish;
             }
-            goto finish;
+        } else {
+            ((S_80170AE0_1 *)actor)->unk_1C &= 0xF7FFFFFF;
         }
+    } else {
+        ((S_80170AE0_1 *)actor)->unk_1C &= 0xF7FFFFFF;
     }
 
-    ((S_80170AE0_1 *)actor)->unk_1C &= 0xF7FFFFFF;
-
-finish:
     actor = (u8 *)actor + 0x88;
     motion->unk_0A =
         *(u16 *)actor + (*(u16 *)((u8 *)entity + 0x92));

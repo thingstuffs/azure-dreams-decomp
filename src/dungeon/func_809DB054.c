@@ -94,40 +94,30 @@ void *func_8015E854(s16 flags, s16 x, s16 y, s16 part_id)
         if (kind == 1) {
             flag_bits = work->unk_14 | 0x6000;
             secondary_flags = work->unk_1C | 0x6000;
-            goto apply_kind_flags;
-        }
-        if (kind < 2) {
-            goto default_kind;
-        }
-
-        flag_bits = work->unk_14 | 0x2000;
-        secondary_flags = work->unk_1C | 0x2000;
-apply_kind_flags:
-        work->unk_14 = flag_bits;
-        work->unk_1C = secondary_flags;
-        goto kind_ready;
-
-default_kind:
-        init_obj = obj;
-        if (((flags & ~3) << 16) == 0) {
-            if (!(work->unk_14 & 0x200)) {
-                query_part = part_a;
-                init_obj = (void *)func_800A6D30(init_obj);
-                flag_bits = (s32)init_obj;
-                init_obj = obj;
-                if (!(flag_bits & 1)) {
-                    goto init_parts;
-                }
-                work->unk_1C |= 0x200;
-                func_800A48F0(work, 1,
-                              (func_800A6D30(obj) & 0x3F) | 0x20);
-                part_b->unk_2C = D_80161CDC;
-                goto kind_ready;
+            work->unk_14 = flag_bits;
+            work->unk_1C = secondary_flags;
+        } else if (kind >= 2) {
+            flag_bits = work->unk_14 | 0x2000;
+            secondary_flags = work->unk_1C | 0x2000;
+            work->unk_14 = flag_bits;
+            work->unk_1C = secondary_flags;
+        } else {
+            init_obj = obj;
+            if (((flags & ~3) << 16) != 0 || (work->unk_14 & 0x200)) {
+                goto init_parts;
             }
+            query_part = part_a;
+            init_obj = (void *)func_800A6D30(init_obj);
+            flag_bits = (s32)init_obj;
+            init_obj = obj;
+            if (!(flag_bits & 1)) {
+                goto init_parts;
+            }
+            work->unk_1C |= 0x200;
+            func_800A48F0(work, 1,
+                          (func_800A6D30(obj) & 0x3F) | 0x20);
+            part_b->unk_2C = D_80161CDC;
         }
-        goto init_parts;
-
-kind_ready:
         init_obj = obj;
 init_parts:
         func_800A9C18(init_obj, part_a, part_b, flags);

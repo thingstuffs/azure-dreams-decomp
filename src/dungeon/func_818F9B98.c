@@ -125,17 +125,17 @@ void func_80025398(void *effect, void *unused, void *primitive)
     }
     ((S_80025398_0 *)effect)->unk_9A = 0x64;
     next_state = ((S_80025398_0 *)effect)->unk_00.u + 1;
-    if (state != 0) {
-        if (state == 1) {
-            goto render;
-        }
-        return;
-    } else {
+    switch (state) {
+    case 0:
         ((S_80025398_0 *)effect)->unk_00.p = next_state;
         ((S_80025398_1 *)output)->unk_14 &= 0xFF7F;
+        break;
+    case 1:
+        break;
+    default:
+        return;
     }
 
-render:
     render_source = &source;
     derived_ptr = &derived;
     derived.x = source.x + ((s16)source.z >> 1);

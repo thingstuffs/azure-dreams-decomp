@@ -30,32 +30,27 @@ void func_805268D4(void *arg0) {
 
     temp_v1 = ((S_8080BCD4_0 *)arg0)->unk_00.s;
     temp_a1 = ((S_8080BCD4_0 *)arg0)->unk_04;
-    if (temp_v1 == 0) {
-        goto state_zero;
-    }
-    if (temp_v1 == 1) {
-        goto state_one;
-    }
-    return;
-
-state_zero:
-    temp_v0 = ((S_8080BCD4_0 *)arg0)->unk_02 - 1;
-    ((S_8080BCD4_0 *)arg0)->unk_02 = temp_v0;
-    if ((temp_v0 << 0x10) <= 0) {
-        next_state = ((S_8080BCD4_0 *)arg0)->unk_00.u;
-        flags = ((S_8080BCD4_0 *)arg0)->unk_16;
-        next_state++;
-        flags &= 0xFFFD;
-        ((S_8080BCD4_0 *)arg0)->unk_16 = flags;
-        ((S_8080BCD4_0 *)arg0)->unk_00.u = next_state;
+    switch (temp_v1) {
+    case 0:
+        temp_v0 = ((S_8080BCD4_0 *)arg0)->unk_02 - 1;
+        ((S_8080BCD4_0 *)arg0)->unk_02 = temp_v0;
+        if ((temp_v0 << 0x10) <= 0) {
+            next_state = ((S_8080BCD4_0 *)arg0)->unk_00.u;
+            flags = ((S_8080BCD4_0 *)arg0)->unk_16;
+            next_state++;
+            flags &= 0xFFFD;
+            ((S_8080BCD4_0 *)arg0)->unk_16 = flags;
+            ((S_8080BCD4_0 *)arg0)->unk_00.u = next_state;
+            return;
+        }
         return;
-    }
-    return;
-
-state_one:
-    if (temp_a1->unk_2A & 1) {
-        ((S_8080BCD4_0_pre *)arg0)[-1].unk_00 = (u16) (((S_8080BCD4_0_pre *)arg0)[-1].unk_00 | 0x8000);
-        D_80084D5C |= 0x8000;
+    case 1:
+        if (temp_a1->unk_2A & 1) {
+            ((S_8080BCD4_0_pre *)arg0)[-1].unk_00 = (u16) (((S_8080BCD4_0_pre *)arg0)[-1].unk_00 | 0x8000);
+            D_80084D5C |= 0x8000;
+        }
+    default:
+        return;
     }
 }
 

@@ -52,63 +52,48 @@ void func_80097AF8(S_80097AF8_0 *actor, S_80097AF8_1 *motion, S_80097AF8_2 *stat
     u8 next_state;
 
     state = actor->unk_9B;
-    if (state == 1) {
-        goto state_one;
-    }
-    if (state < 2) {
-        if (state == 0) {
-            goto state_zero;
+    switch (state) {
+    case 0:
+        state_ticks = actor->unk_96 - 1;
+        actor->unk_96 = state_ticks;
+        if ((state_ticks << 16) > 0) {
+            return;
         }
+        motion->unk_14 = 0xFFEA0000;
+        next_state = actor->unk_9B;
+        actor->unk_96 = 0;
+        next_state++;
+        actor->unk_9B = next_state;
+        return;
+    case 1:
+        state_ticks = actor->unk_96 + 1;
+        actor->unk_96 = state_ticks;
+        if ((actor->unk_A2 & 0x10) == 0) {
+            return;
+        }
+        if ((s16)state_ticks < 4) {
+            return;
+        }
+        motion->unk_14 = 0;
+        next_state = actor->unk_9B;
+        next_state++;
+        actor->unk_9B = next_state;
+        return;
+    case 2:
+        if ((status->unk_14 & 0x6000) == 0) {
+            return;
+        }
+        if (dungeonStatus.unk_0A != 0) {
+            return;
+        }
+        owner_flags = owner->unk_1C;
+        if (owner_flags & 0x200000) {
+            owner->unk_1C = owner_flags & 0xFFDFFFFF;
+            dungeonStatus.flags |= 0x412;
+            func_80099F70(owner->unk_5C);
+            func_80099F04(owner->unk_5C);
+        }
+        actor->unk_8C = D_80096384;
         return;
     }
-    if (state == 2) {
-        goto state_two;
-    }
-    return;
-
-state_zero:
-    state_ticks = actor->unk_96 - 1;
-    actor->unk_96 = state_ticks;
-    if ((state_ticks << 16) > 0) {
-        return;
-    }
-    motion->unk_14 = 0xFFEA0000;
-    next_state = actor->unk_9B;
-    actor->unk_96 = 0;
-    goto increment_state;
-
-state_one:
-    state_ticks = actor->unk_96 + 1;
-    actor->unk_96 = state_ticks;
-    if ((actor->unk_A2 & 0x10) == 0) {
-        return;
-    }
-    if ((s16)state_ticks < 4) {
-        return;
-    }
-    motion->unk_14 = 0;
-    next_state = actor->unk_9B;
-
-increment_state:
-    next_state++;
-    actor->unk_9B = next_state;
-    return;
-
-state_two:
-    if ((status->unk_14 & 0x6000) == 0) {
-        return;
-    }
-    if (dungeonStatus.unk_0A != 0) {
-        return;
-    }
-    owner_flags = owner->unk_1C;
-    if (owner_flags & 0x200000) {
-        owner->unk_1C = owner_flags & 0xFFDFFFFF;
-        dungeonStatus.flags |= 0x412;
-        func_80099F70(owner->unk_5C);
-        func_80099F04(owner->unk_5C);
-    }
-    actor->unk_8C = D_80096384;
-
-    return;
 }

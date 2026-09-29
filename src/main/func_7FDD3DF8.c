@@ -44,20 +44,15 @@ void func_8008AD58(ColorRampEffect *effect)
             brighten = 1;
             break;
         }
-        goto update_color;
-    }
-
-    if (effect->active == 0) {
+    } else if (effect->active == 0) {
         brighten = 1;
     }
-update_color:
     if (brighten != 0) {
         next_color = effect->color + 0x101010;
         effect->color = next_color;
         if (next_color > 0x808080) {
             next_color = 0x808080;
             effect->color = next_color;
-            goto propagate_flag;
         }
     } else {
         effect->color -= 0x101010;
@@ -66,7 +61,6 @@ update_color:
         }
     }
 
-propagate_flag:
     state_bits = (s16)owner->flags;
     if ((state_bits & 0x8000) != 0) {
         ((u16 *)effect)[-1] |= 0x8000;

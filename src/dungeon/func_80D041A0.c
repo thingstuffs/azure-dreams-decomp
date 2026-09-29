@@ -50,60 +50,39 @@ void func_8015D9A0(Obj0 *owner, void *context, Obj2 *display_arg, Obj3 *state_ar
     kind = state->kind48;
     switch (kind) {
     case 13:
-        if ((state->flags1c & 0x200) != 0) {
-            goto kind13_default;
+        if ((state->flags1c & 0x200) != 0 || state->flag25 == 0) {
+            current_table = (u32)display->table2c;
+            selected_table = (u32)D_8015DE54;
+        } else {
+            current_table = (u32)display->table2c;
+            selected_table = (u32)D_8015DE24;
         }
-        if (state->flag25 != 0) {
-            goto kind13_alternate;
-        }
-kind13_default:
-        current_table = (u32)display->table2c;
-        selected_table = (u32)D_8015DE54;
-        goto apply_table;
-kind13_alternate:
-        current_table = (u32)display->table2c;
-        selected_table = (u32)D_8015DE24;
-        goto apply_table;
-
+        break;
     case 14:
-        if ((state->flags1c & 0x200) != 0) {
-            goto kind14_default;
+        if ((state->flags1c & 0x200) != 0 || state->flag25 == 0) {
+            current_table = (u32)display->table2c;
+            selected_table = (u32)D_8015DE5C;
+        } else {
+            current_table = (u32)display->table2c;
+            selected_table = (u32)D_8015DE2C;
         }
-        if (state->flag25 != 0) {
-            goto kind14_alternate;
-        }
-kind14_default:
-        current_table = (u32)display->table2c;
-        selected_table = (u32)D_8015DE5C;
-        goto apply_table;
-kind14_alternate:
-        current_table = (u32)display->table2c;
-        selected_table = (u32)D_8015DE2C;
-        goto apply_table;
-
+        break;
     case 15:
-        if ((state->flags1c & 0x200) != 0) {
-            goto kind15_default;
+        if ((state->flags1c & 0x200) != 0 || state->flag25 == 0) {
+            current_table = (u32)display->table2c;
+            selected_table = (u32)D_8015DE64;
+        } else {
+            current_table = (u32)display->table2c;
+            selected_table = (u32)D_8015DE34;
         }
-        if (state->flag25 != 0) {
-            goto kind15_alternate;
-        }
-kind15_default:
-        current_table = (u32)display->table2c;
-        selected_table = (u32)D_8015DE64;
-        goto apply_table;
-kind15_alternate:
-        current_table = (u32)display->table2c;
-        selected_table = (u32)D_8015DE34;
-        goto apply_table;
-
+        break;
     default:
         goto update_state;
     }
 
 apply_table:
     if (current_table != selected_table) {
-        *(u32 * volatile)((u8 *)display + 0x2c) = selected_table;
+        *(u32 *)((u8 *)display + 0x2c) = selected_table;
         direction_index = (gameWork.view.viewAngle + state->value2a + 0x100) >> 9;
         func_80047784(display, *(u8 *)((direction_index & 7) + selected_table), 0);
     }
@@ -122,7 +101,7 @@ update_state:
             (state->flags1c & 0x208) != 0) {
             return;
         }
-        *(u32 * volatile)((u8 *)display + 0x2c) = (u32)&D_8015DDC4;
+        *(u32 *)((u8 *)display + 0x2c) = (u32)&D_8015DDC4;
         direction_index = (gameWork.view.viewAngle + state->value2a + 0x100) >> 9;
         func_80047784(display, *(u8 *)((direction_index & 7) + (u32)&D_8015DDC4), 0);
         return;
@@ -131,7 +110,7 @@ update_state:
             (state->flags1c & 0x208) != 0) {
             return;
         }
-        *(u32 * volatile)((u8 *)display + 0x2c) = (u32)&D_8015DDCC;
+        *(u32 *)((u8 *)display + 0x2c) = (u32)&D_8015DDCC;
         direction_index = (gameWork.view.viewAngle + state->value2a + 0x100) >> 9;
         func_80047784(display, *(u8 *)((direction_index & 7) + (u32)&D_8015DDCC), 0);
         return;
@@ -140,7 +119,7 @@ update_state:
             (state->flags1c & 0x208) != 0) {
             return;
         }
-        *(u32 * volatile)((u8 *)display + 0x2c) = (u32)&D_8015DDD4;
+        *(u32 *)((u8 *)display + 0x2c) = (u32)&D_8015DDD4;
         direction_index = (gameWork.view.viewAngle + state->value2a + 0x100) >> 9;
         func_80047784(display, *(u8 *)((direction_index & 7) + (u32)&D_8015DDD4), 0);
         return;

@@ -61,66 +61,44 @@ void func_800B274C(u8 *actor, u8 *motion, u8 *render) {
 
     if (U16_AT(actor, 0x98) & 8) {
         U8_AT(actor, 0x9D) = 0;
-        goto update_height;
+    } else {
+        S32_AT(motion, 0x14) += (S8_AT(actor, 0x9D) * 5) << 14;
+        U8_AT(actor, 0x9D)++;
     }
 
-    S32_AT(motion, 0x14) += (S8_AT(actor, 0x9D) * 5) << 14;
-    U8_AT(actor, 0x9D)++;
-
-update_height:
     S32_AT(actor, 0x90) += S32_AT(motion, 0x14);
 
-    if (U16_AT(actor, 0x98) & 4) {
-        goto clear_active;
-    }
-
-    ground_height = func_800BCB04(
-        U16_AT(motion, 2),
-        U16_AT(motion, 6),
-        (s16)(U16_AT(actor_alias, 0x88) - 0x20));
-
-    if ((s16)ground_height >= 0x200) {
-        goto clear_active;
-    }
-
-    old_height = U16_AT(actor_alias, 0x88);
-    if ((S16_AT(actor, 0x92) + S16_AT(actor_alias, 0x88)) < (s16)ground_height) {
-        do {
+    if (!(U16_AT(actor, 0x98) & 4) &&
+        (ground_height = func_800BCB04(
+             U16_AT(motion, 2),
+             U16_AT(motion, 6),
+             (s16)(U16_AT(actor_alias, 0x88) - 0x20))) < 0x200) {
+        old_height = U16_AT(actor_alias, 0x88);
+        if ((S16_AT(actor, 0x92) + S16_AT(actor_alias, 0x88)) < (s16)ground_height) {
             U32_AT(actor_alias, 0x1C) &= 0xF7FFFFFF;
-        } while (0);
-        goto active_flags_set;
+        } else {
+            if ((s16)ground_height >= S16_AT(actor_alias, 0x88)) {
+                S32_AT(actor, 0x90) = 0;
+            } else {
+                S16_AT(actor, 0x92) = (s16)ground_height - old_height;
+            }
+            U8_AT(actor, 0x9D) = 0;
+            S32_AT(motion, 0x14) = 0;
+            U32_AT(actor_alias, 0x1C) |= 0x08000000;
+        }
+        if (U32_AT(actor_alias, 0x1C) & 0x40000000) {
+            U32_AT(actor_alias, 0x1C) &= 0xBFFFFFFF;
+            ground_height = func_800BCB04(
+                (U8_AT(render, 0x24) << 6) | 0x20,
+                (U8_AT(render, 0x25) << 6) | 0x20,
+                (s16)(U16_AT(actor_alias, 0x88) - 0x20));
+            S16_AT(actor, 0x92) += U16_AT(actor_alias, 0x88) - (s16)ground_height;
+            U16_AT(actor_alias, 0x88) = ground_height;
+        }
+    } else {
+        U32_AT(actor_alias, 0x1C) &= 0xF7FFFFFF;
     }
 
-    if ((s16)ground_height >= S16_AT(actor_alias, 0x88)) {
-        S32_AT(actor, 0x90) = 0;
-        goto reset_active;
-    }
-
-    S16_AT(actor, 0x92) = (s16)ground_height - old_height;
-
-reset_active:
-    U8_AT(actor, 0x9D) = 0;
-    S32_AT(motion, 0x14) = 0;
-    U32_AT(actor_alias, 0x1C) |= 0x08000000;
-
-active_flags_set:
-    if (U32_AT(actor_alias, 0x1C) & 0x40000000) {
-        U32_AT(actor_alias, 0x1C) &= 0xBFFFFFFF;
-        ground_height = func_800BCB04(
-            (U8_AT(render, 0x24) << 6) | 0x20,
-            (U8_AT(render, 0x25) << 6) | 0x20,
-            (s16)(U16_AT(actor_alias, 0x88) - 0x20));
-        S16_AT(actor, 0x92) += U16_AT(actor_alias, 0x88) - (s16)ground_height;
-        U16_AT(actor_alias, 0x88) = ground_height;
-        goto clear_active_tail;
-    }
-
-    goto clear_active_tail;
-
-clear_active:
-    U32_AT(actor_alias, 0x1C) &= 0xF7FFFFFF;
-
-clear_active_tail:
     U16_AT(motion, 0xA) = U16_AT(actor_alias, 0x88) + U16_AT(actor, 0x92);
     U16_AT(render, 0x14) |= 0x40;
 }

@@ -86,7 +86,6 @@ void *BODY_NAME(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c) {
     s32 kind;
     s16 final_arg0;
     s32 left;
-    s32 right;
     S_81029000_1 *work = NULL;
     void *obj;
     S_81029000_2 *part_a;
@@ -95,8 +94,6 @@ void *BODY_NAME(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c) {
     s8 held_a;
     s16 held_c;
     s8 held_b;
-    void *call_a0;
-    void *call_a1;
 
     held_a = attr_a;
     held_c = attr_c;
@@ -117,37 +114,24 @@ void *BODY_NAME(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c) {
         part_b->unk_2C = &D_80150880;
         part_b->unk_24 = held_a;
         if (kind == 1) {
-            left = work->unk_14 | 0x6000;
-            right = work->unk_1C | 0x6000;
-            goto write_kind;
-        }
-        if (kind < 2) {
-            goto normal_kind;
-        }
-        left = work->unk_14 | 0x2000;
-        right = work->unk_1C | 0x2000;
-write_kind:
-        work->unk_14 = left;
-        work->unk_1C = right;
-        goto post_kind;
-
-normal_kind:
-        call_a0 = obj;
-        if (((spawn_flags & ~3) << 16) == 0) {
-            if (!(work->unk_14 & 0x200)) {
-                call_a1 = part_a;
-                left = func_800A6D30();
-                call_a0 = obj;
-                if (!(left & 1)) {
-                    goto post_kind;
+            work->unk_14 |= 0x6000;
+            work->unk_1C |= 0x6000;
+        } else if (kind >= 2) {
+            work->unk_14 |= 0x2000;
+            work->unk_1C |= 0x2000;
+        } else {
+            if (((spawn_flags & ~3) << 16) == 0) {
+                if (!(work->unk_14 & 0x200)) {
+                    left = func_800A6D30();
+                            if (left & 1) {
+                        work->unk_1C |= 0x200;
+                        func_800A48F0(work, 1,
+                                      (func_800A6D30() & 0x3F) | 0x20);
+                        part_b->unk_2C = &D_801508E0;
+                    }
                 }
-                    work->unk_1C |= 0x200;
-                    func_800A48F0(work, 1,
-                                  (func_800A6D30() & 0x3F) | 0x20);
-                    part_b->unk_2C = &D_801508E0;
             }
         }
-post_kind:
         func_800A9C18(obj, part_a, part_b, final_arg0);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;

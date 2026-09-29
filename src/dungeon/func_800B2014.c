@@ -120,123 +120,104 @@ void func_800B7774(void *egg_bomb, Coord *position, void *effect) {
 
     state_base = &gameWork;
     phase = ((S_800B7774_0 *)egg_bomb)->unk_0A.s;
-    if (phase == 1) {
-        goto state_1;
-    }
-    if (phase < 2) {
-        if (phase != 0) {
-            void *null_arg;
-            do {
-                null_arg = NULL;
-            } while (0);
-             /* MATCH: preserve the low-phase guard before the shared-tail jump. */
-            goto block_30;
+    switch (phase) {
+    case 0:
+        if ((func_8009B88C(0, (u16) coord_arg->x >> 6, (u16) coord_arg->y >> 6, &spawn_x, &spawn_y) << 0x10) == 0) {
+            {
+            dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
+            }
+            func_800997FC(&D_800E0A42);
+            (*(u16 *)((u8 *)egg_bomb + (-2))) = (u16) (((S_800B7774_0_pre *)egg_bomb)[-1].unk_00 | 0x8000);
+            objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
+            return;
         }
-        goto state_0;
-    }
-    if (phase == 2) {
-        goto state_2;
-    }
-    goto block_30;
+        held_x = spawn_x;
+        held_y = spawn_y;
+        monster = func_800A0B94(((S_800B7774_0 *)egg_bomb)->unk_00, func_800A1618(((S_800B7774_0 *)egg_bomb)->unk_00, 2), 1)(2, held_x, held_y, (s16) (coord_arg->z - 0x20));
+        ((S_800B7774_0 *)egg_bomb)->unk_04 = monster;
+        if (monster != NULL) {
+            func_8003E188(((S_800B7774_2 *)monster)->unk_13, 0);
+            func_800A90E8(egg_bomb);
+            func_80042640(monster, ((S_800B7774_2 *)monster)->unk_13);
+            func_800424E0(monster, ((S_800B7774_2 *)monster)->unk_13, 0);
+            ((S_800B7774_2 *)monster)->unk_43 = 0xFE;
+            func_800A48F0(monster, 0x1B, 0);
+            {
+            s32 clamp_value;
+            u32 first_call_arg;
+            s32 first_call_mode;
+            s32 raw_first_result;
+            clamp_value = (*(u8 *)((u8 *)&((EntityRec *)((u8 *)D_800E3D7C))->unk_10 + 1)) + 0x32;
+            egg_bomb_level = clamp_value;
+            if (clamp_value >= 0x64) {
+                egg_bomb_level = 0x63;
+            }
+            {
+            s32 *scan_arg = D_800835E8;
+            target_experience = D_800835E8[egg_bomb_level];
+            ((S_800B7774_2 *)monster)->unk_18 = target_experience;
+            if ((u32) target_experience >= (u32) D_800835E8[((S_800B7774_2 *)monster)->unk_11]) {
+                s32 *loop_base = D_800835E8;
+                do {
+                    func_800A1D4C(monster, 0);
+                } while ((u32) loop_base[((S_800B7774_2 *)monster)->unk_11] <= (u32) ((S_800B7774_2 *)monster)->unk_18);
+                scan_arg = monster;
+            }
+            raw_first_result = func_800990FC(scan_arg);
+            }
+            first_call_mode = 8;
+            first_call_arg = raw_first_result;
+            message_id = first_call_arg;
+            raw_first_result = func_8009929C(first_call_mode, first_call_arg);
+            func_80099290(func_80099194(&D_800E0A6A, func_8009929C(0xA, func_80099734(monster, func_80099194(&D_800E0A56, raw_first_result)))));
+            }
+            func_800A5720(message_id);
+            {
+            s32 *call_obj;
+            u8 *call_state;
+            call_obj = monster;
+            call_state = ((u8 *)D_800E3D7C);
+            ((S_800B7774_0 *)egg_bomb)->unk_0C = 0x10U;
+            func_8009A180(call_obj, call_state);
+            }
+            ((S_800B7774_0 *)egg_bomb)->unk_0A.u = (u16) (((S_800B7774_0 *)egg_bomb)->unk_0A.u + 1);
+        }
 
-state_0:
-    if ((func_8009B88C(0, (u16) coord_arg->x >> 6, (u16) coord_arg->y >> 6, &spawn_x, &spawn_y) << 0x10) == 0) {
+        break;
+    case 1:
+        remaining_frames = ((S_800B7774_0 *)egg_bomb)->unk_0C - 1;
+        ((S_800B7774_0 *)egg_bomb)->unk_0C = remaining_frames;
+        if (((remaining_frames << 0x10) > 0) && !(((S_800B7774_4 *)effect)->unk_14 & 0x8000) && (((s32)state_base->unk_010) == 0)) {
+            break;
+        }
+        ((S_800B7774_0 *)egg_bomb)->unk_0A.u = (u16) (((S_800B7774_0 *)egg_bomb)->unk_0A.u + 1);
+        break;
+    case 2:
+        monster = ((S_800B7774_0 *)egg_bomb)->unk_04;
+        if (((S_800B7774_0 *)egg_bomb)->unk_0E == 0) {
+            ((S_800B7774_2 *)monster)->unk_60 = func_800A3D18(((S_800B7774_2_pre *)monster)[-1].unk_00, monster, 2);
+            {
+            dungeonStatus.flags = (u16) (dungeonStatus.flags | 2);
+            }
+            action_data = ((S_800B7774_2 *)monster)->unk_60;
+            ((S_800B7774_2 *)monster)->unk_46.u = 0x800C;
+            if (action_data != 0) {
+                action_id = func_800A384C(monster, action_data, &action_parameter, 1);
+                ((S_800B7774_2 *)monster)->unk_2A = action_parameter;
+                if ((s16) action_id >= 0) {
+                    ((S_800B7774_2 *)monster)->unk_46.s = (s16) (action_id | 0x8000);
+                }
+            }
+        }
+        ((EntityRec *)((u8 *)D_800E3D7C))->unk_110 = 0;
+        (*(s32 *)((u8 *)monster + (0x1C))) = (s32) (((S_800B7774_2 *)monster)->unk_1C | 0x400000);
         {
         dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
         }
-        func_800997FC(&D_800E0A42);
         (*(u16 *)((u8 *)egg_bomb + (-2))) = (u16) (((S_800B7774_0_pre *)egg_bomb)[-1].unk_00 | 0x8000);
         objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
-        return;
+        break;
     }
-    held_x = spawn_x;
-    held_y = spawn_y;
-    monster = func_800A0B94(((S_800B7774_0 *)egg_bomb)->unk_00, func_800A1618(((S_800B7774_0 *)egg_bomb)->unk_00, 2), 1)(2, held_x, held_y, (s16) (coord_arg->z - 0x20));
-    ((S_800B7774_0 *)egg_bomb)->unk_04 = monster;
-    if (monster != NULL) {
-        func_8003E188(((S_800B7774_2 *)monster)->unk_13, 0);
-        func_800A90E8(egg_bomb);
-        func_80042640(monster, ((S_800B7774_2 *)monster)->unk_13);
-        func_800424E0(monster, ((S_800B7774_2 *)monster)->unk_13, 0);
-        ((S_800B7774_2 *)monster)->unk_43 = 0xFE;
-        func_800A48F0(monster, 0x1B, 0);
-        {
-        s32 clamp_value;
-        u32 first_call_arg;
-        s32 first_call_mode;
-        s32 raw_first_result;
-        clamp_value = (*(u8 *)((u8 *)&((EntityRec *)((u8 *)D_800E3D7C))->unk_10 + 1)) + 0x32;
-        egg_bomb_level = clamp_value;
-        if (clamp_value >= 0x64) {
-            egg_bomb_level = 0x63;
-        }
-        {
-        s32 *scan_arg = D_800835E8;
-        target_experience = D_800835E8[egg_bomb_level];
-        ((S_800B7774_2 *)monster)->unk_18 = target_experience;
-        if ((u32) target_experience >= (u32) D_800835E8[((S_800B7774_2 *)monster)->unk_11]) {
-            s32 *loop_base = D_800835E8;
-            do {
-                func_800A1D4C(monster, 0);
-            } while ((u32) loop_base[((S_800B7774_2 *)monster)->unk_11] <= (u32) ((S_800B7774_2 *)monster)->unk_18);
-            scan_arg = monster;
-        }
-        raw_first_result = func_800990FC(scan_arg);
-        }
-        first_call_mode = 8;
-        first_call_arg = raw_first_result;
-        message_id = first_call_arg;
-        raw_first_result = func_8009929C(first_call_mode, first_call_arg);
-        func_80099290(func_80099194(&D_800E0A6A, func_8009929C(0xA, func_80099734(monster, func_80099194(&D_800E0A56, raw_first_result)))));
-        }
-        func_800A5720(message_id);
-        {
-        s32 *call_obj;
-        u8 *call_state;
-        call_obj = monster;
-        call_state = ((u8 *)D_800E3D7C);
-        ((S_800B7774_0 *)egg_bomb)->unk_0C = 0x10U;
-        func_8009A180(call_obj, call_state);
-        }
-        goto advance_phase;
-    }
-    goto block_30;
-
-state_1:
-    remaining_frames = ((S_800B7774_0 *)egg_bomb)->unk_0C - 1;
-    ((S_800B7774_0 *)egg_bomb)->unk_0C = remaining_frames;
-    if (((remaining_frames << 0x10) > 0) && !(((S_800B7774_4 *)effect)->unk_14 & 0x8000) && (((s32)state_base->unk_010) == 0)) {
-        goto block_30;
-    }
-advance_phase:
-    ((S_800B7774_0 *)egg_bomb)->unk_0A.u = (u16) (((S_800B7774_0 *)egg_bomb)->unk_0A.u + 1);
-    goto block_30;
-
-state_2:
-    monster = ((S_800B7774_0 *)egg_bomb)->unk_04;
-    if (((S_800B7774_0 *)egg_bomb)->unk_0E == 0) {
-        ((S_800B7774_2 *)monster)->unk_60 = func_800A3D18(((S_800B7774_2_pre *)monster)[-1].unk_00, monster, 2);
-        {
-        dungeonStatus.flags = (u16) (dungeonStatus.flags | 2);
-        }
-        action_data = ((S_800B7774_2 *)monster)->unk_60;
-        ((S_800B7774_2 *)monster)->unk_46.u = 0x800C;
-        if (action_data != 0) {
-            action_id = func_800A384C(monster, action_data, &action_parameter, 1);
-            ((S_800B7774_2 *)monster)->unk_2A = action_parameter;
-            if ((s16) action_id >= 0) {
-                ((S_800B7774_2 *)monster)->unk_46.s = (s16) (action_id | 0x8000);
-            }
-        }
-    }
-    ((EntityRec *)((u8 *)D_800E3D7C))->unk_110 = 0;
-    (*(s32 *)((u8 *)monster + (0x1C))) = (s32) (((S_800B7774_2 *)monster)->unk_1C | 0x400000);
-    {
-    dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
-    }
-    (*(u16 *)((u8 *)egg_bomb + (-2))) = (u16) (((S_800B7774_0_pre *)egg_bomb)[-1].unk_00 | 0x8000);
-    objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
-block_30:
     tracked_monster = ((S_800B7774_0 *)egg_bomb)->unk_04;
     if ((tracked_monster != NULL) && (((S_800B7774_6_pre *)tracked_monster)[-1].unk_00 & 0x8000)) {
         ((S_800B7774_0 *)egg_bomb)->unk_0E = 1;

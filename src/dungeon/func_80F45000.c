@@ -128,18 +128,16 @@ void *BODY_NAME(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 part_value)
                     part_arg = part_a;
                     random_bits = func_800A6D30();
                     obj_arg = obj;
-                    if (!(random_bits & 1)) {
-                        goto finish_init;
+                    if (random_bits & 1) {
+                        ((S_80F45000_1 *)work)->unk_1C |= 0x200;
+                        func_800A48F0(work, 1,
+                                      (func_800A6D30() & 0x3F) | 0x20);
+                        ((S_80F45000_3 *)part_b)->unk_2C = D_80162AD4;
                     }
-                    ((S_80F45000_1 *)work)->unk_1C |= 0x200;
-                    func_800A48F0(work, 1,
-                                  (func_800A6D30() & 0x3F) | 0x20);
-                    ((S_80F45000_3 *)part_b)->unk_2C = D_80162AD4;
                 }
             }
         }
 
-finish_init:
         func_800A9C18(obj, part_a, part_b, spawn_flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;

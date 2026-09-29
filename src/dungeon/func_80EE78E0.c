@@ -61,98 +61,85 @@ void func_8016D0E0(void *action, void *motion, void *sprite, void *actor)
     u8 *anim_table;
 
     state = ((S_8016D0E0_0 *)action)->unk_9B;
-    if (state == 1) {
-        goto state_one;
-    }
-    if (state < 2) {
-        if (state == 0) {
-            goto state_zero;
+    switch (state) {
+    case 0:
+        phase_timer = ((S_8016D0E0_0 *)action)->unk_9E.s - 1;
+        ((S_8016D0E0_0 *)action)->unk_9E.s = phase_timer;
+        if ((phase_timer << 16) != 0) {
+            break;
         }
-        goto update_countdown;
-    }
-    if (state == 2) {
-        goto state_two;
-    }
-    if (state == 3) {
-        goto state_three;
-    }
-    goto update_countdown;
 
-state_zero:
-    phase_timer = ((S_8016D0E0_0 *)action)->unk_9E.s - 1;
-    ((S_8016D0E0_0 *)action)->unk_9E.s = phase_timer;
-    if ((phase_timer << 16) != 0) {
-        goto update_countdown;
-    }
-
-    (*(u8 * *)((u8 *)sprite + 0x2C)) = D_8016EED0;
-    func_80047784(
-        sprite,
-        D_8016EED0[((gameWork.view.viewAngle + ((S_8016D0E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
-        0);
-    ((S_8016D0E0_0 *)action)->unk_98 |= 8;
-    ((S_8016D0E0_1 *)actor)->unk_1C.s &= 0xF7FFFFFF;
-    ((S_8016D0E0_0 *)action)->unk_9E.u = 5;
-    ((S_8016D0E0_0 *)action)->unk_A0 = 0;
-    ((S_8016D0E0_0 *)action)->unk_9B++;
-
-state_one:
-    move_ticks = ((S_8016D0E0_0 *)action)->unk_9E.u;
-    ((S_8016D0E0_0 *)action)->unk_90 -= ((S_8016D0E0_0 *)action)->unk_A0;
-    if (move_ticks != 0) {
-        tile_x = ((Rec_D_80082E80 *)sprite)->unk_24;
-        position_x = ((EntityRec *)motion)->x.w.i;
-        tile_x <<= 6;
-        position_x -= 0x20;
-        ((EntityRec *)motion)->unk_0C = ((tile_x - position_x) << 16) / move_ticks;
-
-        position_y = ((EntityRec *)motion)->y.w.i;
-        position_y -= 0x20;
-        ((EntityRec *)motion)->unk_10 =
-            (((((Rec_D_80082E80 *)sprite)->unk_25 << 6) - position_y) << 16) /
-            ((S_8016D0E0_0 *)action)->unk_9E.u;
-        ((S_8016D0E0_0 *)action)->unk_A0 =
-            (-func_800644B8(((S_8016D0E0_0 *)action)->unk_9E.u * 0x199)) << 10;
-    }
-
-    ((S_8016D0E0_0 *)action)->unk_90 += ((S_8016D0E0_0 *)action)->unk_A0;
-    phase_timer = ((S_8016D0E0_0 *)action)->unk_9E.s - 1;
-    ((S_8016D0E0_0 *)action)->unk_9E.s = phase_timer;
-    if (phase_timer < 0) {
-        ((S_8016D0E0_0 *)action)->unk_90 = 0;
-        ((S_8016D0E0_0 *)action)->unk_98 &= 0xFFF7;
-        ((S_8016D0E0_1 *)actor)->unk_1C.s |= 0x08000000;
-        ((S_8016D0E0_0 *)action)->unk_9B++;
-    }
-
-state_two:
-    if (((S_8016D0E0_1 *)actor)->unk_1C.s & 0x08000000) {
-        ((S_8016D0E0_0 *)action)->unk_98 &= 0xFFF7;
-        ((EntityRec *)motion)->flags14 = 0;
-        ((EntityRec *)motion)->unk_10 = 0;
-        ((EntityRec *)motion)->unk_0C = 0;
-        func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
-
-        (*(u8 * *)((u8 *)sprite + 0x2C)) = D_8016EED8;
+        (*(u8 * *)((u8 *)sprite + 0x2C)) = D_8016EED0;
         func_80047784(
             sprite,
-            D_8016EED8[((gameWork.view.viewAngle + ((S_8016D0E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            D_8016EED0[((gameWork.view.viewAngle + ((S_8016D0E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
+        ((S_8016D0E0_0 *)action)->unk_98 |= 8;
+        ((S_8016D0E0_1 *)actor)->unk_1C.s &= 0xF7FFFFFF;
+        ((S_8016D0E0_0 *)action)->unk_9E.u = 5;
+        ((S_8016D0E0_0 *)action)->unk_A0 = 0;
         ((S_8016D0E0_0 *)action)->unk_9B++;
-    }
-    goto update_countdown;
 
-state_three:
-    anim_table = D_8016EEB8;
-    if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 != anim_table) {
-        (*(u8 * *)((u8 *)sprite + 0x2C)) = anim_table;
-        func_80047784(
-            sprite,
-            anim_table[((gameWork.view.viewAngle + ((S_8016D0E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
-            0);
+    case 1:
+        move_ticks = ((S_8016D0E0_0 *)action)->unk_9E.u;
+        ((S_8016D0E0_0 *)action)->unk_90 -= ((S_8016D0E0_0 *)action)->unk_A0;
+        if (move_ticks != 0) {
+            tile_x = ((Rec_D_80082E80 *)sprite)->unk_24;
+            position_x = ((EntityRec *)motion)->x.w.i;
+            tile_x <<= 6;
+            position_x -= 0x20;
+            ((EntityRec *)motion)->unk_0C = ((tile_x - position_x) << 16) / move_ticks;
+
+            position_y = ((EntityRec *)motion)->y.w.i;
+            position_y -= 0x20;
+            ((EntityRec *)motion)->unk_10 =
+                (((((Rec_D_80082E80 *)sprite)->unk_25 << 6) - position_y) << 16) /
+                ((S_8016D0E0_0 *)action)->unk_9E.u;
+            ((S_8016D0E0_0 *)action)->unk_A0 =
+                (-func_800644B8(((S_8016D0E0_0 *)action)->unk_9E.u * 0x199)) << 10;
+        }
+
+        ((S_8016D0E0_0 *)action)->unk_90 += ((S_8016D0E0_0 *)action)->unk_A0;
+        phase_timer = ((S_8016D0E0_0 *)action)->unk_9E.s - 1;
+        ((S_8016D0E0_0 *)action)->unk_9E.s = phase_timer;
+        if (phase_timer < 0) {
+            ((S_8016D0E0_0 *)action)->unk_90 = 0;
+            ((S_8016D0E0_0 *)action)->unk_98 &= 0xFFF7;
+            ((S_8016D0E0_1 *)actor)->unk_1C.s |= 0x08000000;
+            ((S_8016D0E0_0 *)action)->unk_9B++;
+        }
+
+    case 2:
+        if (((S_8016D0E0_1 *)actor)->unk_1C.s & 0x08000000) {
+            ((S_8016D0E0_0 *)action)->unk_98 &= 0xFFF7;
+            ((EntityRec *)motion)->flags14 = 0;
+            ((EntityRec *)motion)->unk_10 = 0;
+            ((EntityRec *)motion)->unk_0C = 0;
+            func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+
+            (*(u8 * *)((u8 *)sprite + 0x2C)) = D_8016EED8;
+            func_80047784(
+                sprite,
+                D_8016EED8[((gameWork.view.viewAngle + ((S_8016D0E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                0);
+            ((S_8016D0E0_0 *)action)->unk_9B++;
+        }
+        break;
+
+    case 3:
+        anim_table = D_8016EEB8;
+        if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 != anim_table) {
+            (*(u8 * *)((u8 *)sprite + 0x2C)) = anim_table;
+            func_80047784(
+                sprite,
+                anim_table[((gameWork.view.viewAngle + ((S_8016D0E0_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                0);
+        }
+
+    default:
+        break;
     }
 
-update_countdown:
     action_timer = ((S_8016D0E0_0 *)action)->unk_96 - 1;
     ((S_8016D0E0_0 *)action)->unk_96 = action_timer;
     if ((s16)action_timer > 0) {

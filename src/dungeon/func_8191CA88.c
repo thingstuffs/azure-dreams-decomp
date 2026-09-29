@@ -7,8 +7,8 @@ typedef struct S_8191CA88_0_pre {
 typedef struct S_8191CA88_0 {
     void * unk_00;
     u8 pad_04[0xA];
-    union { s16 s; volatile u16 u; u16 p; } unk_0E;   /* accessed as both */
-    union { volatile u16 s; u16 u; s16 p; } unk_10;   /* accessed as both */
+    union { s16 s; u16 u; u16 p; } unk_0E;   /* accessed as both */
+    union { u16 s; u16 u; s16 p; } unk_10;   /* accessed as both */
     u8 pad_12[0x2];
     s16 unk_14;
     s16 unk_16;
@@ -73,66 +73,52 @@ void func_8191CA88(void *object, S_8191CA88_3 *motion, S_8191CA88_2 *effect) {
     timer = old_timer + 1;
     ((S_8191CA88_0 *)object)->unk_10.u = timer;
 
-    if (state == 1) {
-        goto state_1;
-    }
-    if (state < 2) {
-        if (state == 0) {
-            goto state_0;
+    switch (state) {
+    case 0:
+        x_position = motion->unk_00;
+        x_velocity = motion->unk_0C;
+        y_velocity = motion->unk_10;
+        z_velocity = motion->unk_14;
+        motion->unk_00 = x_position + x_velocity;
+        motion->unk_04 += y_velocity;
+        motion->unk_08 += z_velocity;
+        move_timer = ((S_8191CA88_0 *)object)->unk_10.p;
+        move_duration = ((S_8191CA88_0 *)object)->unk_14;
+        if (move_timer < move_duration) return;
+        next_state = ((S_8191CA88_0 *)object)->unk_0E.p + 1;
+        ((S_8191CA88_0 *)object)->unk_10.u = 0;
+        ((S_8191CA88_0 *)object)->unk_0E.p = next_state;
+        return;
+
+    case 1:
+        signed_timer = timer << 16;
+        wait_duration = ((S_8191CA88_0 *)object)->unk_16;
+        signed_timer >>= 16;
+        waiting = signed_timer < wait_duration;
+        if (waiting != 0) {
+            return;
         }
+        ((S_8191CA88_0 *)object)->unk_0E.s = state_unsigned + 1;
+        ((S_8191CA88_0 *)object)->unk_10.u = 0;
+        return;
+
+    case 2:
+        motion->unk_08 -= timer << 16;
+        if (((S_8191CA88_0 *)object)->unk_10.p < 0x18) {
+            return;
+        }
+        next_state = ((S_8191CA88_0 *)object)->unk_0E.p + 1;
+        ((S_8191CA88_0 *)object)->unk_10.u = 0;
+        ((S_8191CA88_0 *)object)->unk_0E.p = next_state;
+        return;
+
+    case 3:
+        ((S_8191CA88_0_pre *)object)[-1].unk_00 |= 0x8000;
+        global_base = (u8 *)0x80080000;
+        ((S_8191CA88_4 *)global_base)->unk_14A0 |= 0x8000;
+
+        return;
+    default:
         return;
     }
-    if (state == 2) {
-        goto state_2;
-    }
-    if (state == 3) {
-        goto state_3;
-    }
-    return;
-
-state_0:
-    x_position = motion->unk_00;
-    x_velocity = motion->unk_0C;
-    y_velocity = motion->unk_10;
-    z_velocity = motion->unk_14;
-    motion->unk_00 = x_position + x_velocity;
-    motion->unk_04 += y_velocity;
-    motion->unk_08 += z_velocity;
-    move_timer = ((S_8191CA88_0 *)object)->unk_10.p;
-    move_duration = ((S_8191CA88_0 *)object)->unk_14;
-    if (move_timer < move_duration) return;
-    next_state = ((S_8191CA88_0 *)object)->unk_0E.p + 1;
-    ((S_8191CA88_0 *)object)->unk_10.u = 0;
-    ((S_8191CA88_0 *)object)->unk_0E.p = next_state;
-    return;
-
-state_1:
-    signed_timer = timer << 16;
-    wait_duration = ((S_8191CA88_0 *)object)->unk_16;
-    signed_timer >>= 16;
-    waiting = signed_timer < wait_duration;
-    if (waiting != 0) {
-        return;
-    }
-    ((S_8191CA88_0 *)object)->unk_0E.s = state_unsigned + 1;
-    ((S_8191CA88_0 *)object)->unk_10.u = 0;
-    return;
-
-state_2:
-    motion->unk_08 -= timer << 16;
-    if (((S_8191CA88_0 *)object)->unk_10.p < 0x18) {
-        return;
-    }
-    next_state = ((S_8191CA88_0 *)object)->unk_0E.p + 1;
-    ((S_8191CA88_0 *)object)->unk_10.u = 0;
-    ((S_8191CA88_0 *)object)->unk_0E.p = next_state;
-    return;
-
-state_3:
-    ((S_8191CA88_0_pre *)object)[-1].unk_00 |= 0x8000;
-    global_base = (u8 *)0x80080000;
-    ((S_8191CA88_4 *)global_base)->unk_14A0 |= 0x8000;
-
-    return;
 }
-

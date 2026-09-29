@@ -121,14 +121,10 @@ scan_slots:
             ((S_800A32A4_5 *)copy_dst)->unk_00 = tail_w0;
             ((S_800A32A4_5 *)copy_dst)->unk_04 = tail_w4;
             ((S_800A32A4_5 *)copy_dst)->unk_08 = tail_w8;
-            goto update_count;
+        } else if (slot_index < 4) {
+            goto scan_slots;
         }
-        if (slot_index >= 4) {
-            goto update_count;
-        }
-        goto scan_slots;
     }
-update_count:
     if (update_mode == 0) {
         state_flags = ((EntityRec *)record)->flags14;
         update_mode = 3;

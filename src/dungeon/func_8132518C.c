@@ -23,82 +23,49 @@ s32 func_8016C98C(Rec_func_800A9E70_arg0 *actor, s32 x, s32 y, s32 force_action)
     void *base = actor;
     s16 action_state;
     s32 result;
-    void *action_actor;
-
-    s32 action_x;
-    s32 action_y;
-    void *action_base;
 
     if (((S_8016C98C_0 *)base)->unk_AE != 0) {
         action_state = func_800ADDA0(x, y, base, 3, 6,
                               (u8 *)base + 0x9C);
         if ((s16)action_state < 0) {
-            s32 tail_result = 0;
-            return tail_result;
+            return 0;
         }
         if ((force_action << 16) != 0) {
-            action_actor = base;
-            action_x = x;
-            action_y = y;
-            action_base = base;
-            goto call_action;
+            func_8016BF74(base, x, y, base);
+            return 0;
         }
-        goto dispatch_state;
+    } else {
+        action_state = 0;
     }
-    action_state = 0;
 
-dispatch_state:
-    if (action_state == 1) {
-        goto check_action;
-    }
-    if (action_state < 2) {
+    switch (action_state) {
+    case 0:
         result = 0xE;
-        if (action_state == 0) {
-            goto reset_action;
-        }
-        goto finish_action;
-    }
-    action_actor = actor;
-    if (action_state == 2) {
-        goto perform_action;
-    }
-    goto finish_action;
-
-reset_action: {
-        s32 tail_result = 0;
         actor->unk_9A.as_s8 = result;
         func_800A9A0C(base);
-        tail_result = 0;
-        return tail_result;
-    }
+        return 0;
 
-perform_action: {
-        s32 tail_result = 0;
-        action_x = x;
-        action_y = y;
-        action_base = base;
-call_action:
-        func_8016BF74(action_actor, action_x, action_y, action_base);
-        tail_result = 0;
-        return tail_result;
-    }
+    case 2:
+        func_8016BF74(actor, x, y, base);
+        return 0;
 
-check_action:
-    ((S_8016C98C_0 *)base)->unk_71 &= 0x7F;
-    if ((func_800A2BDC(base) << 16) != 0) {
-        goto clear_flags;
-    }
+    case 1:
+        ((S_8016C98C_0 *)base)->unk_71 &= 0x7F;
+        if ((func_800A2BDC(base) << 16) != 0) {
+            result = 0;
+            ((S_8016C98C_0 *)base)->unk_46 &= 0x7FFF;
+            return result;
+        }
+        /* fall through */
 
-finish_action:
-    ((S_8016C98C_0 *)base)->unk_71 &= 0x7F;
-    result = 1;
-    if (!(dungeonStatus.flags & 8)) {
+    default:
+        ((S_8016C98C_0 *)base)->unk_71 &= 0x7F;
+        result = 1;
+        if (!(dungeonStatus.flags & 8)) {
+            return result;
+        }
+        result = 0;
+        ((S_8016C98C_0 *)base)->unk_46 &= 0x7FFF;
         return result;
     }
-
-clear_flags:
-    result = 0;
-    ((S_8016C98C_0 *)base)->unk_46 &= 0x7FFF;
-    return result;
 }
-

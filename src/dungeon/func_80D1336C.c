@@ -70,28 +70,14 @@ void func_80172B6C(State *state, Motion *motion, Sprite *sprite, Actor *actor) {
     s16 direction_scratch;
     s32 current_state;
 
-    current_state = state->state_9b;
-    if (current_state == 1)
-        goto L_state_1;
-    if (current_state < 2) {
-        if (current_state == 0)
-            goto L_state_0;
-        goto L_update_96;
-    } else {
-        if (current_state == 2)
-            goto L_flagged;
-        if (current_state == 3)
-            goto L_state_3;
-        goto L_update_96;
-    }
-
-L_state_0: {
+    switch (state->state_9b) {
+    case 0: {
         u16 next_count;
 
         next_count = state->count_9e.u - 1;
         state->count_9e.u = next_count;
         if ((next_count << 16) > 0)
-            goto L_update_96;
+            break;
         sprite->ptr_2c = D_80174EA8;
         func_80047784(sprite,
                       D_80174EA8[((gameWork.view.viewAngle + actor->value_2a + 0x100) >> 9) & 7],
@@ -101,15 +87,15 @@ L_state_0: {
         state->count_9e.u = 5;
         state->value_a4 = 0;
         state->state_9b += 1;
-        goto L_state_1;
     }
-
-L_state_1:
-    {
+    /* fall through */
+    case 1: {
         s16 frames_left;
         s32 target_x;
         s32 current_x;
         s32 current_y;
+        s16 scale_frame;
+        u16 next_count;
 
         state->value_90 -= state->value_a4;
         frames_left = state->count_9e.s;
@@ -123,50 +109,27 @@ L_state_1:
             frames_left = state->count_9e.s;
             state->value_a4 = (-func_800644B8(frames_left * 0x199)) << 9;
         }
-    }
 
-L_after_motion:
-    state->value_90 += state->value_a4;
-    {
-        s16 scale_frame;
-
+        state->value_90 += state->value_a4;
         scale_frame = state->count_9e.s;
-        if (scale_frame == 3)
-            goto L_count_3;
-        if (scale_frame < 4) {
-            if (scale_frame == 2)
-                goto L_count_2;
-            goto L_decrement_count;
+        switch (scale_frame) {
+        case 5:
+            sprite->value_1c = 0xc00;
+            sprite->value_1e = 0x1400;
+            break;
+        case 4:
+            sprite->value_1c = 0xa00;
+            sprite->value_1e = 0x1600;
+            break;
+        case 3:
+            sprite->value_1c = 0xe00;
+            sprite->value_1e = 0x1200;
+            break;
+        case 2:
+            sprite->value_1c = 0x1000;
+            sprite->value_1e = 0x1000;
+            break;
         }
-        if (scale_frame == 4)
-            goto L_count_4;
-        if (scale_frame == 5)
-            goto L_count_5;
-        goto L_decrement_count;
-    }
-
-L_count_5:
-    sprite->value_1c = 0xc00;
-    sprite->value_1e = 0x1400;
-    goto L_decrement_count;
-
-L_count_4:
-    sprite->value_1c = 0xa00;
-    sprite->value_1e = 0x1600;
-    goto L_decrement_count;
-
-L_count_3:
-    sprite->value_1c = 0xe00;
-    sprite->value_1e = 0x1200;
-    goto L_decrement_count;
-
-L_count_2:
-    sprite->value_1c = 0x1000;
-    sprite->value_1e = 0x1000;
-
-L_decrement_count: {
-        u16 next_count;
-
         next_count = state->count_9e.u - 1;
         state->count_9e.u = next_count;
         if ((next_count << 16) < 0) {
@@ -176,30 +139,30 @@ L_decrement_count: {
             state->state_9b += 1;
         }
     }
-
-L_flagged:
-    if (actor->flags_1c & 0x08000000) {
-        state->flags_98 &= 0xfff7;
-        motion->value_14 = 0;
-        motion->value_10 = 0;
-        motion->value_0c = 0;
-        func_800A2B04(motion, sprite->value_24, sprite->value_25);
-        sprite->value_1e = 0x1000;
+    /* fall through */
+    case 2:
+        if (actor->flags_1c & 0x08000000) {
+            state->flags_98 &= 0xfff7;
+            motion->value_14 = 0;
+            motion->value_10 = 0;
+            motion->value_0c = 0;
+            func_800A2B04(motion, sprite->value_24, sprite->value_25);
+            sprite->value_1e = 0x1000;
+            sprite->value_1c = 0x1000;
+            sprite->ptr_2c = D_80174EB0;
+            func_80047784(sprite,
+                          D_80174EB0[((gameWork.view.viewAngle + actor->value_2a + 0x100) >> 9) & 7],
+                          0);
+            state->state_9b += 1;
+        }
+        break;
+    case 3:
         sprite->value_1c = 0x1000;
-        sprite->ptr_2c = D_80174EB0;
-        func_80047784(sprite,
-                      D_80174EB0[((gameWork.view.viewAngle + actor->value_2a + 0x100) >> 9) & 7],
-                      0);
-        state->state_9b += 1;
-        goto L_update_96;
+        sprite->value_1e = 0x1000;
+        break;
     }
-    goto L_update_96;
 
-L_state_3:
-    sprite->value_1c = 0x1000;
-    sprite->value_1e = 0x1000;
-
-L_update_96: {
+{
         u16 next_timer;
 
         next_timer = state->value_96 - 1;
@@ -221,18 +184,16 @@ L_update_96: {
             if (actor_flags & 0x2000) {
                 if (actor->flags_46 & 0x8000) {
                     actor->flags_46 &= 0x7fff;
-                    goto L_after_flag;
                 }
             } else {
-                if (actor_flags & 0x410)
-                    goto L_after_flag;
-                if (!(actor_flags & 0x20000))
-                    goto L_after_flag;
-                actor->value_2a = func_800A0818(sprite->value_24, sprite->value_25,
-                                                 D_80082E80.tileX, D_80082E80.tileY,
-                                                 &direction_scratch);
+                if (!(actor_flags & 0x410)) {
+                    if (actor_flags & 0x20000) {
+                        actor->value_2a = func_800A0818(sprite->value_24, sprite->value_25,
+                                                         D_80082E80.tileX, D_80082E80.tileY,
+                                                         &direction_scratch);
+                    }
+                }
             }
-L_after_flag:
             if ((func_800AD9B4(sprite, actor) << 16) > 0) {
                 state->ptr_8c = D_80171760;
                 func_800A9A04(actor);

@@ -23,21 +23,11 @@ typedef struct S_800BE6F0_1 {
     s16 unk_0A;
 } S_800BE6F0_1;   /* record1 in func_800BE6F0 */
 
-typedef struct S_800BE6F0_2 {
-    u8 pad_00[0x10];
-    s32 unk_10;
-} S_800BE6F0_2;   /* state_base1 in func_800BE6F0 */
-
 typedef struct S_800BE6F0_3 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
 } S_800BE6F0_3;   /* record2 in func_800BE6F0 */
-
-typedef struct S_800BE6F0_4 {
-    u8 pad_00[0x14A0];
-    s32 unk_14A0;
-} S_800BE6F0_4;   /* flags_page in func_800BE6F0 */
 
 typedef struct S_800BE6F0_5 {
     u8 pad_00[0xA];
@@ -85,14 +75,9 @@ s32 func_800BE6F0(void *entity, s32 source, s16 reason)
     u8 tile_y;
     S_800BE6F0_1 *position;
     S_800BE6F0_3 *map_position;
-    u8 *message;
-    s32 *selection_state;
-    DungeonGlobalStatus *dungeon_state;
-    s32 *state_page;
     s32 *entity_table;
-    s32 *flags_page;
-    u8 *entity_base;
     s32 cleared_selection;
+    u8 *entity_base;
 
     if (entity == ((u8 *)D_800E3D7C)) {
         ((EntityRec *)entity)->unk_110 = source;
@@ -108,16 +93,13 @@ s32 func_800BE6F0(void *entity, s32 source, s16 reason)
         text_buffer = func_800990FC();
         if ((u32)((*(u8 *)((u8 *)&((EntityRec *)entity)->unk_10 + 3)) - 3) < 0x2B) {
             text_end = func_80099734(entity, text_buffer);
-            message = (u8 *)0x800E0000;
-            ASM_KEEP(message);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            message += 0x1095;
+            text_end = func_80099194(D_800E1095, text_end);
         } else {
             text_end = func_80099734(entity, text_buffer);
             text_end = func_80099194(D_800E10B3, text_end);
             text_end = func_80099368(source, text_end);
-            message = D_80089360;
+            text_end = func_80099194(D_80089360, text_end);
         }
-        text_end = func_80099194(message, text_end);
         func_80099290(text_end);
         func_800A5720(text_buffer);
     }
@@ -143,14 +125,10 @@ s32 func_800BE6F0(void *entity, s32 source, s16 reason)
             position->unk_0A,
             spawn_data);
 
-        state_page = (s32 *)0x80080000;
-        ASM_KEEP(state_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-        selection_state = (s32 *)((u8 *)state_page + 0x3460);
-        ASM_KEEP(selection_state);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-        spawn_type = ((S_800BE6F0_2 *)selection_state)->unk_10;
+        spawn_type = (s32)dungeonStatus.unk_10;
         if (spawn_type == (s32)((u8 *)entity - 0x20)) {
             cleared_selection = spawn_type & 0x7FFFFFFF;
-            ((S_800BE6F0_2 *)selection_state)->unk_10 = cleared_selection;
+            dungeonStatus.unk_10 = (void *)cleared_selection;
         }
 
         linked_entity = func_800A32A4(entity);
@@ -159,7 +137,6 @@ s32 func_800BE6F0(void *entity, s32 source, s16 reason)
             if (entity_index < 0x40) {
                 entity_table = (s32 *)0x80010980;
                 entity_base = (u8 *)0x80010000;
-                ASM_KEEP(entity_base);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
                 entity_base[entity_index * 0x54 + 0xA93] = 0;
                 entity_table[entity_index] = 0;
             }
@@ -178,9 +155,7 @@ s32 func_800BE6F0(void *entity, s32 source, s16 reason)
 
         func_8009A028(entity);
         ((S_800BE6F0_0_pre *)entity)[-1].unk_16 |= 0x8000;
-        flags_page = (s32 *)0x80080000;
-        ASM_KEEP(flags_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        ((S_800BE6F0_4 *)flags_page)->unk_14A0 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         goto success_cleanup;
     }
 
@@ -189,12 +164,8 @@ s32 func_800BE6F0(void *entity, s32 source, s16 reason)
 
 success_cleanup:
     func_80098B38(source);
-    dungeon_state = &dungeonStatus;
-    ASM_KEEP(dungeon_state);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    dungeon_state->unk_0A--;
+    dungeonStatus.unk_0A--;
     return 1;
 }
 
-/* MECHANISM: A four-byte stack array and true local joins reproduce the 0x28 frame and complete CFG.
-   Held literal bases preserve the a0/a1/a2 index roles and the v1 flags-page RMW.
-   Splitting runtime RMW values pins v1/v0; a keep between page and low addiu fills the local-j slot. */
+/* 2.7.2-cdk-G0: symbols by name; the cdk cell splits each address itself. */

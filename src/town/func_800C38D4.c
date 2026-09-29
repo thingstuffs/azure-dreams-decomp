@@ -34,54 +34,41 @@ s16 *func_800C1034(s32 unused, s32 index) {
 
     if (D_8006ADD4 != 12) {
         entry_index = index;
-        goto fallback;
-    }
-
-    entry_index = func_800C0F60(index);
-    {
+    } else {
         TownEntry *entries;
         TownEntry *entry;
 
+        entry_index = func_800C0F60(index);
         entries = (TownEntry *)&D_800D4094;
 
         entry = (TownEntry *)((u32)(entry_index * 10) + (u32)entries);
-        if (entry->unk0 == 0) {
-            goto fallback;
+        if (entry->unk0 != 0) {
+            D_80113200[0] = entry->unk2;
+            output[1] = entry->unk4;
+            entry_code = entry->unk8;
+            switch (entry_code) {
+            case -4:
+                output[2] = D_800D4268[2];
+                output[3] = D_800D4268[3];
+                break;
+            case -2:
+                func_800C0FE4(output, entry_index);
+                break;
+            default:
+                {
+                    TownEntry *entry;
+
+                    copy_dest = (u16 *)&D_80110004[0x31FC];
+                    copy_entries = (TownEntry *)&D_800D0004[0x4090];
+                    entry = (TownEntry *)((u8 *)copy_entries + entry_index * 10);
+                    copy_dest[2] = entry->unk6;
+                    copy_dest[3] = entry->unk8;
+                }
+                break;
+            }
+            return D_80113200;
         }
-        D_80113200[0] = entry->unk2;
-        output[1] = entry->unk4;
-        entry_code = entry->unk8;
-    }
-
-    switch (entry_code) {
-    case -4:
-        output[2] = D_800D4268[2];
-        output[3] = D_800D4268[3];
-        goto done;
-    case -2:
-        break;
-    default:
-        goto copy_entry;
     }
     func_800C0FE4(output, entry_index);
-    goto fallback_done;
-copy_entry:
-    {
-        TownEntry *entry;
-
-        copy_dest = (u16 *)&D_80110004[0x31FC];
-        copy_entries = (TownEntry *)&D_800D0004[0x4090];
-        entry = (TownEntry *)((u8 *)copy_entries + entry_index * 10);
-        copy_dest[2] = entry->unk6;
-        copy_dest[3] = entry->unk8;
-    }
-    goto done;
-fallback:
-
-    func_800C0FE4(output, entry_index);
-    fallback_done:
-    ;
-done:
     return D_80113200;
 }
-

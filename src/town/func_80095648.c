@@ -40,20 +40,13 @@ void func_80092DA8(s32 object_id, EntityRec *object, M2C_UNK update_context) {
         func_80094910();
         func_80095A94(object, update_threshold, &D_800FE488);
         func_800ABD74(object);
-        goto shared_update;
+        func_8009451C(object_id, object, update_context);
+    } else if (D_800CFCEF != 0) {
+        func_80094910();
+        object->flags14 = 0;
+        func_800954F4(object);
+        func_8009451C(object_id, object, update_context);
+    } else {
+        func_80095388(object);
     }
-
-    if (D_800CFCEF == 0) {
-        goto no_update;
-    }
-    func_80094910();
-    object->flags14 = 0;
-    func_800954F4(object);
-
-shared_update:
-    func_8009451C(object_id, object, update_context);
-    return;
-
-no_update:
-    func_80095388(object);
 }

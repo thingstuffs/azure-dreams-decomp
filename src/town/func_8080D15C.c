@@ -179,342 +179,282 @@ void func_80527D5C(void *sequence) {
     position = ((S_80527D5C_1 *)owner)->unk_08;
     render_or_counts = D_801328E8;
     phase_data = (u8 *) owner + 0x20;
-    if (state == 6) {
-        goto block_state6;
-    }
-    if (state < 7) {
-        if (state == 2) {
-            goto block_state2;
-        }
-        if (state < 3) {
-            if (state == 0) {
-                goto block_state0;
-            }
-            if (state == 1) {
-                goto block_state1;
-            }
-            goto clamp_position;
-        }
-        if (state == 4) {
-            goto block_state4;
-        }
-        if (state >= 5) {
-            goto block_state5;
-        }
-        goto block_state3;
-    }
-    if (state == 9) {
-        goto block_state9;
-    }
-    if (state < 0xA) {
-        if (state == 7) {
-            goto block_state7;
-        }
-        if (state == 8) {
-            goto block_state8;
-        }
-        goto clamp_position;
-    }
-    if (state == 0xFF) {
-        goto block_state255;
-    }
-    if (state < 0x100) {
-        if (state == 0xA) {
-            goto block_state10;
-        }
-        goto clamp_position;
-    }
-    if (state != 0x100) {
-        goto clamp_position;
-    }
-    goto block_state256;
+    switch (state) {
+    case 0:
+        start_x = ((S_80527D5C_2 *)(&D_80132AE8))->unk_00.at02.v;
+        ((S_80527D5C_0 *)sequence)->unk_30 = start_x;
+        start_y = ((S_80527D5C_2 *)(&D_80132AE8))->unk_04.at02.v;
+        ((S_80527D5C_0 *)sequence)->unk_28 = 4U;
+        ((S_80527D5C_0 *)sequence)->unk_36.s = 1;
+        ((S_80527D5C_0 *)sequence)->unk_32 = start_y;
+        ((S_80527D5C_2 *)(&D_80132AE8))->unk_14 = 0xFFE00000;
+        ((S_80527D5C_2 *)(&D_80132AE8))->unk_10 = -0x200000;
+        ((S_80527D5C_2 *)(&D_80132AE8))->unk_0C = -0x200000;
+        (*(s32 *)((u8 *)render_or_counts + (0))) = (s32) &func_802483B8;
+        ((S_80527D5C_3 *)(&D_801328E8))->unk_04 = (s32) &func_80529134;
 
-block_state0:
-    start_x = ((S_80527D5C_2 *)(&D_80132AE8))->unk_00.at02.v;
-    ((S_80527D5C_0 *)sequence)->unk_30 = start_x;
-    start_y = ((S_80527D5C_2 *)(&D_80132AE8))->unk_04.at02.v;
-    ((S_80527D5C_0 *)sequence)->unk_28 = 4U;
-    ((S_80527D5C_0 *)sequence)->unk_36.s = 1;
-    ((S_80527D5C_0 *)sequence)->unk_32 = start_y;
-    ((S_80527D5C_2 *)(&D_80132AE8))->unk_14 = 0xFFE00000;
-    ((S_80527D5C_2 *)(&D_80132AE8))->unk_10 = -0x200000;
-    ((S_80527D5C_2 *)(&D_80132AE8))->unk_0C = -0x200000;
-    (*(s32 *)((u8 *)render_or_counts + (0))) = (s32) &func_802483B8;
-    ((S_80527D5C_3 *)(&D_801328E8))->unk_04 = (s32) &func_80529134;
-
-block_state1:
-    (*(u16 *)((u8 *)render_or_counts + (0x10))) = (u16) (((*(u16 *)((u8 *)render_or_counts + (0x10))) + 0x200) & 0xFFF);
-    start_ticks = ((S_80527D5C_0 *)sequence)->unk_28 - 1;
-    ((S_80527D5C_0 *)sequence)->unk_28 = start_ticks;
-    if ((start_ticks << 0x10) <= 0) {
-        ((S_80527D5C_0 *)sequence)->unk_28 = 0x10U;
-        ((S_80527D5C_0 *)sequence)->unk_36.s = 2;
-        ((S_80527D5C_2 *)(&D_80132AE8))->unk_0C = (s32) ((0x420 - (s16) ((S_80527D5C_0 *)sequence)->unk_30) << 0x10) / (s16) ((S_80527D5C_0 *)sequence)->unk_28;
-        ((S_80527D5C_2 *)(&D_80132AE8))->unk_10 = (s32) ((0x460 - (s16) ((S_80527D5C_0 *)sequence)->unk_32) << 0x10) / (s16) ((S_80527D5C_0 *)sequence)->unk_28;
-        ((S_80527D5C_2 *)(&D_80132AE8))->unk_14 = 0xFFF40000;
-        goto clamp_position;
-    }
-    goto clamp_position;
-
-block_state2:
-    position_x = (u16 *)((s8 *)&D_80132AE8 + 2);
-    ((S_80527D5C_3 *)(&D_801328E8))->unk_10.s = ((u16) ((S_80527D5C_3 *)(&D_801328E8))->unk_10.s + 0x200) & 0xFFF;
-    if ((s16) *position_x < 0x420) {
-        *position_x = 0x420;
-    }
-    move_ticks = ((S_80527D5C_0 *)sequence)->unk_28 - 1;
-    ((S_80527D5C_0 *)sequence)->unk_28 = move_ticks;
-    if ((move_ticks << 0x10) <= 0) {
-        ((S_80527D5C_2 *)(&D_80132AE8))->unk_10 = 0;
-        ((S_80527D5C_2 *)(&D_80132AE8))->unk_0C = 0;
-        ((S_80527D5C_0 *)sequence)->unk_36.s = 3;
-        goto clamp_position;
-    }
-    goto clamp_position;
-
-block_state3:
-    {
-        s32 *position_y = (s32 *)((s8 *)&D_80132AE8 + 4);
-        s32 current_y = *position_y;
-
-        if (current_y <= 0x44FFFFF) {
-            eased_y = ((0x4500000 - current_y) >> 1) + current_y;
-            *position_y = eased_y;
+    case 1:
+        (*(u16 *)((u8 *)render_or_counts + (0x10))) = (u16) (((*(u16 *)((u8 *)render_or_counts + (0x10))) + 0x200) & 0xFFF);
+        start_ticks = ((S_80527D5C_0 *)sequence)->unk_28 - 1;
+        ((S_80527D5C_0 *)sequence)->unk_28 = start_ticks;
+        if ((start_ticks << 0x10) <= 0) {
+            ((S_80527D5C_0 *)sequence)->unk_28 = 0x10U;
+            ((S_80527D5C_0 *)sequence)->unk_36.s = 2;
+            ((S_80527D5C_2 *)(&D_80132AE8))->unk_0C = (s32) ((0x420 - (s16) ((S_80527D5C_0 *)sequence)->unk_30) << 0x10) / (s16) ((S_80527D5C_0 *)sequence)->unk_28;
+            ((S_80527D5C_2 *)(&D_80132AE8))->unk_10 = (s32) ((0x460 - (s16) ((S_80527D5C_0 *)sequence)->unk_32) << 0x10) / (s16) ((S_80527D5C_0 *)sequence)->unk_28;
+            ((S_80527D5C_2 *)(&D_80132AE8))->unk_14 = 0xFFF40000;
         }
-        current_y = *position_y;
-        if (current_y > 0x4700000) {
-            eased_y = ((0x4700000 - current_y) >> 1) + current_y;
-            *position_y = eased_y;
-        }
-        position = position_y - 1;
-        (*(u16 *)((u8 *)render_or_counts + (0x10))) =
-            (u16) (((*(u16 *)((u8 *)render_or_counts + (0x10))) + 0x200) & 0xFFF);
-        height_or_index = (s16) func_8025E01C(position);
-        if (((S_80527D5C_2 *)(&D_80132AE8))->unk_0A < height_or_index) {
-            goto clamp_position;
-        }
-        if ((*(s16 *)((u8 *)render_or_counts + (0x10))) != 0x800) {
-            goto clamp_position;
-        }
-        ((S_80527D5C_0 *)sequence)->unk_36.s = 4;
-        func_80526D34(sequence);
-        func_80244660(render_or_counts, position, D_80095AA0);
-        goto clamp_position;
-    }
+        break;
 
-block_state4:
-    if (((S_80527D5C_1 *)owner)->unk_88 == 7) {
-        ((S_80527D5C_0 *)sequence)->unk_36.s = 5;
-        goto clamp_position;
-    }
-    goto clamp_position;
-
-block_state5:
-    angle = ((S_80527D5C_3 *)(&D_801328E8))->unk_10.s;
-    if (angle >= 0x801) {
-        ((S_80527D5C_3 *)(&D_801328E8))->unk_10.u =
-            ((S_80527D5C_3 *)(&D_801328E8))->unk_10.u - 0x200;
-    } else if (angle < 0x800) {
-        ((S_80527D5C_3 *)(&D_801328E8))->unk_10.u =
-            ((S_80527D5C_3 *)(&D_801328E8))->unk_10.u + 0x200;
-    }
-    if ((func_80052374(angle) == 0) && (((S_80527D5C_4 *)phase_data)->unk_68 == 8)) {
-        (*(u16 *)((u8 *)render_or_counts + (0x10))) = 0x800U;
-        func_80244588();
-        func_802445FC((s32) &func_80290318);
-        ((S_80527D5C_0 *)sequence)->unk_30 = (u16) ((S_80527D5C_2 *)(&D_80132AE8))->unk_00.at02.v;
-        center_y = (u16) ((S_80527D5C_2 *)(&D_80132AE8))->unk_04.at02.v;
-        ((S_80527D5C_0 *)sequence)->unk_2C.u = 0U;
-        ((S_80527D5C_0 *)sequence)->unk_2A.u = (u16) (((S_80527D5C_0 *)sequence)->unk_2A.u & 0x7FFF);
-        ((S_80527D5C_0 *)sequence)->unk_36.s = 6;
-        ((S_80527D5C_0 *)sequence)->unk_32 = center_y;
-        goto clamp_position;
-    }
-    goto clamp_position;
-
-block_state6:
-    if ((s16) ((S_80527D5C_0 *)sequence)->unk_2A.u & 0x8000) {
-        ((S_80527D5C_0 *)sequence)->unk_2C.u -= 0x20;
-    } else {
-        ((S_80527D5C_0 *)sequence)->unk_2C.u += 0x20;
-    }
-    angle_magnitude = ((S_80527D5C_0 *)sequence)->unk_2C.s;
-    if (angle_magnitude < 0) {
-        angle_magnitude = 0 - angle_magnitude;
-    }
-    if (angle_magnitude >= 0x200) {
-        direction_flags = ((S_80527D5C_0 *)sequence)->unk_2A.s;
-        saved_flags = direction_flags;
-        direction_flags &= 0x8000;
-        if (direction_flags) {
-            direction_flags = saved_flags & 0x7FFF;
-        } else {
-            direction_flags = saved_flags | 0x8000;
+    case 2:
+        position_x = (u16 *)((s8 *)&D_80132AE8 + 2);
+        ((S_80527D5C_3 *)(&D_801328E8))->unk_10.s = ((u16) ((S_80527D5C_3 *)(&D_801328E8))->unk_10.s + 0x200) & 0xFFF;
+        if ((s16) *position_x < 0x420) {
+            *position_x = 0x420;
         }
-        ((S_80527D5C_0 *)sequence)->unk_2A.u = direction_flags;
-    }
-    ((S_80527D5C_5 *)line_params)->unk_0C = 0;
-    ((S_80527D5C_5 *)line_params)->unk_04 = 0;
-    ((S_80527D5C_5 *)line_params)->unk_00 = ((S_80527D5C_0 *)sequence)->unk_30;
-    ((S_80527D5C_5 *)line_params)->unk_02 = ((S_80527D5C_0 *)sequence)->unk_32;
-    orbit_offset = func_8006A3A4((s16) ((S_80527D5C_0 *)sequence)->unk_2C.u) / 24;
-    ((S_80527D5C_5 *)line_params)->unk_08 = ((S_80527D5C_0 *)sequence)->unk_30 + orbit_offset;
-    cosine = func_8006A470((s16) ((S_80527D5C_0 *)sequence)->unk_2C.u);
-    orbit_offset = cosine / 24;
-    ((S_80527D5C_5 *)line_params)->unk_14 = 0x202020;
-    ((S_80527D5C_5 *)line_params)->unk_10 = 0x202020;
-    ((S_80527D5C_5 *)line_params)->unk_0A = ((S_80527D5C_0 *)sequence)->unk_32 - orbit_offset;
-    if (((S_80527D5C_4 *)phase_data)->unk_68 == 9) {
-        func_80244588();
-        func_802445FC((s32) &func_80290318);
-        func_80526E4C((s32) &func_80528950, line_params, line_params + 0x10, sequence);
-        ((S_80527D5C_0 *)sequence)->unk_28 = 0x200U;
-        ((S_80527D5C_0 *)sequence)->unk_2E.u = 0U;
-        ((S_80527D5C_0 *)sequence)->unk_36.s = 7;
-        ((S_80527D5C_0 *)sequence)->unk_2A.u &= 0x7FFF;
-        goto clamp_position;
-    }
-    func_80526E4C((s32) &func_80528910, line_params, line_params + 0x10, sequence);
-    goto clamp_position;
-
-block_state7:
-    if ((s16) ((S_80527D5C_0 *)sequence)->unk_2A.u & 0x8000) {
-        ((S_80527D5C_0 *)sequence)->unk_2E.u -= 4;
-    } else {
-        ((S_80527D5C_0 *)sequence)->unk_2E.u += 4;
-    }
-    speed_magnitude = ((S_80527D5C_0 *)sequence)->unk_2E.s;
-    if (speed_magnitude < 0) {
-        speed_magnitude = 0 - speed_magnitude;
-    }
-    if (speed_magnitude >= 0x100) {
-        direction_flags = ((S_80527D5C_0 *)sequence)->unk_2A.s;
-        saved_flags = direction_flags;
-        direction_flags &= 0x8000;
-        if (direction_flags) {
-            direction_flags = saved_flags & 0x7FFF;
-        } else {
-            direction_flags = saved_flags | 0x8000;
+        move_ticks = ((S_80527D5C_0 *)sequence)->unk_28 - 1;
+        ((S_80527D5C_0 *)sequence)->unk_28 = move_ticks;
+        if ((move_ticks << 0x10) <= 0) {
+            ((S_80527D5C_2 *)(&D_80132AE8))->unk_10 = 0;
+            ((S_80527D5C_2 *)(&D_80132AE8))->unk_0C = 0;
+            ((S_80527D5C_0 *)sequence)->unk_36.s = 3;
         }
-        ((S_80527D5C_0 *)sequence)->unk_2A.u = direction_flags;
-    }
-    ((S_80527D5C_0 *)sequence)->unk_28 = (u16) ((((S_80527D5C_0 *)sequence)->unk_28 + ((S_80527D5C_0 *)sequence)->unk_2E.u + 0x1000) & 0xFFF);
-    func_80528998(sequence);
-    if (((S_80527D5C_4 *)phase_data)->unk_68 == 0xA) {
-        func_802441A4();
-        record_color = 0x808080;
-        (*(s32 *)((u8 *)render_or_counts + (0))) = (s32) &func_80243A38;
-        round_index = ((S_80527D5C_0 *)sequence)->unk_34;
-        ((S_80527D5C_6 *)record_params)->unk_16 = 0xB6;
-        ((S_80527D5C_6 *)record_params)->unk_18 = 3;
-        ((S_80527D5C_6 *)record_params)->unk_10 = record_color;
-        ((S_80527D5C_6 *)record_params)->unk_1A = 0x7C80;
-        ((S_80527D5C_6 *)record_params)->unk_14 = (round_index * 0x10) + 0x64;
-        ((S_80527D5C_6 *)record_params)->unk_1C &= 0xFFFE;
-        record_addr = ((S_80527D5C_0 *)sequence)->unk_34 * 2;
-        record_addr += (s32) D_805306C8;
-        ((S_80527D5C_6 *)record_params)->unk_04 = record_addr;
-        round_count_addr = ((S_80527D5C_0 *)sequence)->unk_34 * 2;
-        ((S_80527D5C_6 *)record_params)->unk_00 = 0;
-        ((S_80527D5C_6 *)record_params)->unk_0C = sequence;
-        round_count_addr += (s32) D_80530658;
-        ((S_80527D5C_6 *)record_params)->unk_08 = round_count_addr;
-        func_80526BFC((s32) &func_80526B18, record_params);
-        ((S_80527D5C_0 *)sequence)->unk_36.s = 8;
-        goto clamp_position;
-    }
-    goto clamp_position;
+        break;
 
-block_state8:
-    render_or_counts = D_80530658;
-    for (height_or_index = 7; height_or_index >= 0; height_or_index--) {
-        item_slot = (height_or_index << 2) + (s32) sequence;
-        item = ((S_80527D5C_7 *)item_slot)->unk_08;
-        item_flags = ((S_80527D5C_8 *)item)->unk_28;
+    case 3:
         {
-            coord_or_sound = (s32) ((S_80527D5C_8 *)item)->unk_08;
-            if (!(item_flags & 3)) {
-                s32 distance_x;
-                s32 delta_x;
+            s32 *position_y = (s32 *)((s8 *)&D_80132AE8 + 4);
+            s32 current_y = *position_y;
 
-                delta_x = ((S_80527D5C_9 *)((void *) coord_or_sound))->unk_02;
-                coord_delta = ((S_80527D5C_10 *)position)->unk_02;
-                delta_x -= coord_delta;
-                coord_delta = ((S_80527D5C_9 *)((void *) coord_or_sound))->unk_06;
-                coord_or_sound = ((S_80527D5C_10 *)position)->unk_06;
-                distance_x = __builtin_abs(delta_x);
-                coord_delta -= coord_or_sound;
-                if (coord_delta < 0) {
-                    coord_delta = -coord_delta;
+            if (current_y <= 0x44FFFFF) {
+                eased_y = ((0x4500000 - current_y) >> 1) + current_y;
+                *position_y = eased_y;
+            }
+            current_y = *position_y;
+            if (current_y > 0x4700000) {
+                eased_y = ((0x4700000 - current_y) >> 1) + current_y;
+                *position_y = eased_y;
+            }
+            position = position_y - 1;
+            (*(u16 *)((u8 *)render_or_counts + (0x10))) =
+                (u16) (((*(u16 *)((u8 *)render_or_counts + (0x10))) + 0x200) & 0xFFF);
+            height_or_index = (s16) func_8025E01C(position);
+            if (!(((S_80527D5C_2 *)(&D_80132AE8))->unk_0A < height_or_index)) {
+                if ((*(s16 *)((u8 *)render_or_counts + (0x10))) == 0x800) {
+                    ((S_80527D5C_0 *)sequence)->unk_36.s = 4;
+                    func_80526D34(sequence);
+                    func_80244660(render_or_counts, position, D_80095AA0);
                 }
-                if ((distance_x + coord_delta) < 0x20) {
-                    ((S_80527D5C_8 *)item)->unk_28 = (u16) (item_flags | 1);
-                    count_addr = ((S_80527D5C_0 *)sequence)->unk_34 * 2;
-                    count_addr += (s32) render_or_counts;
-                    ((S_80527D5C_11 *)count_addr)->unk_00 = (u16) (((S_80527D5C_11 *)count_addr)->unk_00 + 1);
-                    coord_or_sound = 0x703;
-                    if ((*(s16 *)((u8 *)render_or_counts + ((((S_80527D5C_0 *)sequence)->unk_34 * 2)))) < 7) {
-                        coord_or_sound = 0x702;
+            }
+            break;
+        }
+
+    case 4:
+        if (((S_80527D5C_1 *)owner)->unk_88 == 7) {
+            ((S_80527D5C_0 *)sequence)->unk_36.s = 5;
+        }
+        break;
+
+    case 5:
+        angle = ((S_80527D5C_3 *)(&D_801328E8))->unk_10.s;
+        if (angle >= 0x801) {
+            ((S_80527D5C_3 *)(&D_801328E8))->unk_10.u =
+                ((S_80527D5C_3 *)(&D_801328E8))->unk_10.u - 0x200;
+        } else if (angle < 0x800) {
+            ((S_80527D5C_3 *)(&D_801328E8))->unk_10.u =
+                ((S_80527D5C_3 *)(&D_801328E8))->unk_10.u + 0x200;
+        }
+        if ((func_80052374(angle) == 0) && (((S_80527D5C_4 *)phase_data)->unk_68 == 8)) {
+            (*(u16 *)((u8 *)render_or_counts + (0x10))) = 0x800U;
+            func_80244588();
+            func_802445FC((s32) &func_80290318);
+            ((S_80527D5C_0 *)sequence)->unk_30 = (u16) ((S_80527D5C_2 *)(&D_80132AE8))->unk_00.at02.v;
+            center_y = (u16) ((S_80527D5C_2 *)(&D_80132AE8))->unk_04.at02.v;
+            ((S_80527D5C_0 *)sequence)->unk_2C.u = 0U;
+            ((S_80527D5C_0 *)sequence)->unk_2A.u = (u16) (((S_80527D5C_0 *)sequence)->unk_2A.u & 0x7FFF);
+            ((S_80527D5C_0 *)sequence)->unk_36.s = 6;
+            ((S_80527D5C_0 *)sequence)->unk_32 = center_y;
+        }
+        break;
+
+    case 6:
+        if ((s16) ((S_80527D5C_0 *)sequence)->unk_2A.u & 0x8000) {
+            ((S_80527D5C_0 *)sequence)->unk_2C.u -= 0x20;
+        } else {
+            ((S_80527D5C_0 *)sequence)->unk_2C.u += 0x20;
+        }
+        angle_magnitude = ((S_80527D5C_0 *)sequence)->unk_2C.s;
+        if (angle_magnitude < 0) {
+            angle_magnitude = 0 - angle_magnitude;
+        }
+        if (angle_magnitude >= 0x200) {
+            direction_flags = ((S_80527D5C_0 *)sequence)->unk_2A.s;
+            saved_flags = direction_flags;
+            direction_flags &= 0x8000;
+            if (direction_flags) {
+                direction_flags = saved_flags & 0x7FFF;
+            } else {
+                direction_flags = saved_flags | 0x8000;
+            }
+            ((S_80527D5C_0 *)sequence)->unk_2A.u = direction_flags;
+        }
+        ((S_80527D5C_5 *)line_params)->unk_0C = 0;
+        ((S_80527D5C_5 *)line_params)->unk_04 = 0;
+        ((S_80527D5C_5 *)line_params)->unk_00 = ((S_80527D5C_0 *)sequence)->unk_30;
+        ((S_80527D5C_5 *)line_params)->unk_02 = ((S_80527D5C_0 *)sequence)->unk_32;
+        orbit_offset = func_8006A3A4((s16) ((S_80527D5C_0 *)sequence)->unk_2C.u) / 24;
+        ((S_80527D5C_5 *)line_params)->unk_08 = ((S_80527D5C_0 *)sequence)->unk_30 + orbit_offset;
+        cosine = func_8006A470((s16) ((S_80527D5C_0 *)sequence)->unk_2C.u);
+        orbit_offset = cosine / 24;
+        ((S_80527D5C_5 *)line_params)->unk_14 = 0x202020;
+        ((S_80527D5C_5 *)line_params)->unk_10 = 0x202020;
+        ((S_80527D5C_5 *)line_params)->unk_0A = ((S_80527D5C_0 *)sequence)->unk_32 - orbit_offset;
+        if (((S_80527D5C_4 *)phase_data)->unk_68 == 9) {
+            func_80244588();
+            func_802445FC((s32) &func_80290318);
+            func_80526E4C((s32) &func_80528950, line_params, line_params + 0x10, sequence);
+            ((S_80527D5C_0 *)sequence)->unk_28 = 0x200U;
+            ((S_80527D5C_0 *)sequence)->unk_2E.u = 0U;
+            ((S_80527D5C_0 *)sequence)->unk_36.s = 7;
+            ((S_80527D5C_0 *)sequence)->unk_2A.u &= 0x7FFF;
+            break;
+        }
+        func_80526E4C((s32) &func_80528910, line_params, line_params + 0x10, sequence);
+        break;
+
+    case 7:
+        if ((s16) ((S_80527D5C_0 *)sequence)->unk_2A.u & 0x8000) {
+            ((S_80527D5C_0 *)sequence)->unk_2E.u -= 4;
+        } else {
+            ((S_80527D5C_0 *)sequence)->unk_2E.u += 4;
+        }
+        speed_magnitude = ((S_80527D5C_0 *)sequence)->unk_2E.s;
+        if (speed_magnitude < 0) {
+            speed_magnitude = 0 - speed_magnitude;
+        }
+        if (speed_magnitude >= 0x100) {
+            direction_flags = ((S_80527D5C_0 *)sequence)->unk_2A.s;
+            saved_flags = direction_flags;
+            direction_flags &= 0x8000;
+            if (direction_flags) {
+                direction_flags = saved_flags & 0x7FFF;
+            } else {
+                direction_flags = saved_flags | 0x8000;
+            }
+            ((S_80527D5C_0 *)sequence)->unk_2A.u = direction_flags;
+        }
+        ((S_80527D5C_0 *)sequence)->unk_28 = (u16) ((((S_80527D5C_0 *)sequence)->unk_28 + ((S_80527D5C_0 *)sequence)->unk_2E.u + 0x1000) & 0xFFF);
+        func_80528998(sequence);
+        if (((S_80527D5C_4 *)phase_data)->unk_68 == 0xA) {
+            func_802441A4();
+            record_color = 0x808080;
+            (*(s32 *)((u8 *)render_or_counts + (0))) = (s32) &func_80243A38;
+            round_index = ((S_80527D5C_0 *)sequence)->unk_34;
+            ((S_80527D5C_6 *)record_params)->unk_16 = 0xB6;
+            ((S_80527D5C_6 *)record_params)->unk_18 = 3;
+            ((S_80527D5C_6 *)record_params)->unk_10 = record_color;
+            ((S_80527D5C_6 *)record_params)->unk_1A = 0x7C80;
+            ((S_80527D5C_6 *)record_params)->unk_14 = (round_index * 0x10) + 0x64;
+            ((S_80527D5C_6 *)record_params)->unk_1C &= 0xFFFE;
+            record_addr = ((S_80527D5C_0 *)sequence)->unk_34 * 2;
+            record_addr += (s32) D_805306C8;
+            ((S_80527D5C_6 *)record_params)->unk_04 = record_addr;
+            round_count_addr = ((S_80527D5C_0 *)sequence)->unk_34 * 2;
+            ((S_80527D5C_6 *)record_params)->unk_00 = 0;
+            ((S_80527D5C_6 *)record_params)->unk_0C = sequence;
+            round_count_addr += (s32) D_80530658;
+            ((S_80527D5C_6 *)record_params)->unk_08 = round_count_addr;
+            func_80526BFC((s32) &func_80526B18, record_params);
+            ((S_80527D5C_0 *)sequence)->unk_36.s = 8;
+        }
+        break;
+
+    case 8:
+        render_or_counts = D_80530658;
+        for (height_or_index = 7; height_or_index >= 0; height_or_index--) {
+            item_slot = (height_or_index << 2) + (s32) sequence;
+            item = ((S_80527D5C_7 *)item_slot)->unk_08;
+            item_flags = ((S_80527D5C_8 *)item)->unk_28;
+            {
+                coord_or_sound = (s32) ((S_80527D5C_8 *)item)->unk_08;
+                if (!(item_flags & 3)) {
+                    s32 distance_x;
+                    s32 delta_x;
+
+                    delta_x = ((S_80527D5C_9 *)((void *) coord_or_sound))->unk_02;
+                    coord_delta = ((S_80527D5C_10 *)position)->unk_02;
+                    delta_x -= coord_delta;
+                    coord_delta = ((S_80527D5C_9 *)((void *) coord_or_sound))->unk_06;
+                    coord_or_sound = ((S_80527D5C_10 *)position)->unk_06;
+                    distance_x = __builtin_abs(delta_x);
+                    coord_delta -= coord_or_sound;
+                    if (coord_delta < 0) {
+                        coord_delta = -coord_delta;
                     }
-                    func_80058F88(coord_or_sound, item, item_flags);
+                    if ((distance_x + coord_delta) < 0x20) {
+                        ((S_80527D5C_8 *)item)->unk_28 = (u16) (item_flags | 1);
+                        count_addr = ((S_80527D5C_0 *)sequence)->unk_34 * 2;
+                        count_addr += (s32) render_or_counts;
+                        ((S_80527D5C_11 *)count_addr)->unk_00 = (u16) (((S_80527D5C_11 *)count_addr)->unk_00 + 1);
+                        coord_or_sound = 0x703;
+                        if ((*(s16 *)((u8 *)render_or_counts + ((((S_80527D5C_0 *)sequence)->unk_34 * 2)))) < 7) {
+                            coord_or_sound = 0x702;
+                        }
+                        func_80058F88(coord_or_sound, item, item_flags);
+                    }
                 }
             }
         }
-    }
-    if (((S_80527D5C_4 *)phase_data)->unk_68 == 0xB) {
-        ((S_80527D5C_0 *)sequence)->unk_28 = 0x1EU;
-        ((S_80527D5C_0 *)sequence)->unk_36.s = 9;
-        goto clamp_position;
-    }
-    goto clamp_position;
-
-block_state9:
-    round_ticks = ((S_80527D5C_0 *)sequence)->unk_28 - 1;
-    ((S_80527D5C_0 *)sequence)->unk_28 = round_ticks;
-    if ((round_ticks << 0x10) <= 0) {
-        ((S_80527D5C_0 *)sequence)->unk_36.s = 0xA;
-        goto clamp_position;
-    }
-    goto clamp_position;
-
-block_state10:
-    round_flags = ((S_80527D5C_0 *)sequence)->unk_2A.u;
-    if (round_flags & 2) {
-        ((S_80527D5C_0 *)sequence)->unk_2A.u = (u16) (round_flags & 0xFFFD);
-        func_802441A4();
-        next_round = (u16) ((S_80527D5C_0 *)sequence)->unk_34 + 1;
-        ((S_80527D5C_0 *)sequence)->unk_34 = next_round;
-        if (next_round == 8) {
+        if (((S_80527D5C_4 *)phase_data)->unk_68 == 0xB) {
             ((S_80527D5C_0 *)sequence)->unk_28 = 0x1EU;
-            ((S_80527D5C_0 *)sequence)->unk_36.s = 0xFF;
-            goto clamp_position;
+            ((S_80527D5C_0 *)sequence)->unk_36.s = 9;
         }
-        func_80526D34(sequence);
-        ((S_80527D5C_0 *)sequence)->unk_36.s = 4;
-        goto clamp_position;
+        break;
+
+    case 9:
+        round_ticks = ((S_80527D5C_0 *)sequence)->unk_28 - 1;
+        ((S_80527D5C_0 *)sequence)->unk_28 = round_ticks;
+        if ((round_ticks << 0x10) <= 0) {
+            ((S_80527D5C_0 *)sequence)->unk_36.s = 0xA;
+        }
+        break;
+
+    case 0xA:
+        round_flags = ((S_80527D5C_0 *)sequence)->unk_2A.u;
+        if (round_flags & 2) {
+            ((S_80527D5C_0 *)sequence)->unk_2A.u = (u16) (round_flags & 0xFFFD);
+            func_802441A4();
+            next_round = (u16) ((S_80527D5C_0 *)sequence)->unk_34 + 1;
+            ((S_80527D5C_0 *)sequence)->unk_34 = next_round;
+            if (next_round == 8) {
+                ((S_80527D5C_0 *)sequence)->unk_28 = 0x1EU;
+                ((S_80527D5C_0 *)sequence)->unk_36.s = 0xFF;
+                break;
+            }
+            func_80526D34(sequence);
+            ((S_80527D5C_0 *)sequence)->unk_36.s = 4;
+        }
+        break;
+
+    case 0xFF:
+        finish_ticks = ((S_80527D5C_0 *)sequence)->unk_28 - 1;
+        ((S_80527D5C_0 *)sequence)->unk_28 = finish_ticks;
+        if ((finish_ticks << 0x10) <= 0) {
+            next_state = ((S_80527D5C_0 *)sequence)->unk_36.u;
+            finish_flags = ((S_80527D5C_0 *)sequence)->unk_2A.u;
+            next_state++;
+            finish_flags |= 1;
+            ((S_80527D5C_0 *)sequence)->unk_2A.u = finish_flags;
+            ((S_80527D5C_0 *)sequence)->unk_36.u = next_state;
+        }
+        break;
+
+    case 0x100:
+        (*(u16 *)((u8 *)sequence + (-2))) = (u16) (((S_80527D5C_0_pre *)sequence)[-1].unk_00 | 0x8000);
+        D_80084D5C |= 0x8000;
+        break;
     }
-    goto clamp_position;
 
-block_state255:
-    finish_ticks = ((S_80527D5C_0 *)sequence)->unk_28 - 1;
-    ((S_80527D5C_0 *)sequence)->unk_28 = finish_ticks;
-    if ((finish_ticks << 0x10) <= 0) {
-        next_state = ((S_80527D5C_0 *)sequence)->unk_36.u;
-        finish_flags = ((S_80527D5C_0 *)sequence)->unk_2A.u;
-        next_state++;
-        finish_flags |= 1;
-        ((S_80527D5C_0 *)sequence)->unk_2A.u = finish_flags;
-        ((S_80527D5C_0 *)sequence)->unk_36.u = next_state;
-        goto clamp_position;
-    }
-    goto clamp_position;
-
-block_state256:
-    (*(u16 *)((u8 *)sequence + (-2))) = (u16) (((S_80527D5C_0_pre *)sequence)[-1].unk_00 | 0x8000);
-    D_80084D5C |= 0x8000;
-    goto clamp_position;
-
-clamp_position:
     if (((S_80527D5C_0 *)sequence)->unk_36.s >= 4) {
         if (((S_80527D5C_2 *)(&D_80132AE8))->unk_00.at00.v <= 0x03CFFFFF) {
             ((S_80527D5C_2 *)(&D_80132AE8))->unk_00.at00.v = 0x03D00000;

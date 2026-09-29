@@ -89,58 +89,53 @@ BODY_STORAGE void *func_80170854(s16 flags, s16 kind_id, s16 variant, s16 spawn_
     result = 0;
     mode = 1;
     object = func_8003FD64(274, ((u8 *)(&D_80083498)));
-    if (object == 0) {
-        goto done;
+    if (object != 0) {
+        result = (u8 *)object + 0x20;
+        ((S_80170854_0 *)object)->unk_10 = D_80170A8C;
+        result->unk_13 = 0x23;
+        func_8004491C(object, func_80045340);
+        part0 = ((S_80170854_0 *)object)->unk_08;
+        part0->unk_0A = spawn_value;
+        part1 = ((S_80170854_0 *)object)->unk_0C;
+        part1->unk_25 = variant;
+        actor = result;
+        part1->unk_2C = D_80173D30;
+        kind = flags & 3;
+        part1->unk_24 = kind_id;
+        if (kind == 1) {
+            result->unk_14 |= 0x6000;
+            result->unk_1C |= 0x6000;
+        } else if (kind >= 2) {
+            result->unk_14 |= 0x2000;
+            result->unk_1C |= 0x2000;
+        } else if (((flags & ~3) << 16) == 0) {
+            if (!(result->unk_14 & 0x200)) {
+                if (func_800A6D30() & 1) {
+                    result->unk_1C |= 0x200;
+                    func_800A48F0(result, 1, (func_800A6D30() & 0x3F) | 0x20);
+                    part1->unk_2C = D_80173D78;
+                }
+            }
+            mode = func_800A6D30() & 3;
+        }
+        func_800A9C18(object, part0, part1, flags);
+        ((S_80170854_4 *)actor)->unk_9A = 0xFF;
+        ((S_80170854_4 *)actor)->unk_9C = -1;
+        ((S_80170854_4 *)actor)->unk_8C = D_80170F74;
+        ((S_80170854_4 *)actor)->unk_A4 = -1;
+        if (mode != 0) {
+            ((S_80170854_4 *)actor)->unk_A6 = 0;
+        } else {
+            object_base = (u8 *)actor - 0x20;
+            ((S_80170854_4 *)actor)->unk_A6 = 1;
+            part1->unk_10 = 0x60;
+            part1->unk_14 |= 0xC;
+            part1->unk_12 -= 0x80;
+            func_80044A50(object_base);
+            func_800BC318(object_base);
+        }
+        func_800AA36C(actor, part0, part1, result);
     }
 
-    result = (u8 *)object + 0x20;
-    ((S_80170854_0 *)object)->unk_10 = D_80170A8C;
-    result->unk_13 = 0x23;
-    func_8004491C(object, func_80045340);
-    part0 = ((S_80170854_0 *)object)->unk_08;
-    part0->unk_0A = spawn_value;
-    part1 = ((S_80170854_0 *)object)->unk_0C;
-    part1->unk_25 = variant;
-    actor = result;
-    part1->unk_2C = D_80173D30;
-    kind = flags & 3;
-    part1->unk_24 = kind_id;
-    if (kind == 1) {
-        result->unk_14 |= 0x6000;
-        result->unk_1C |= 0x6000;
-    } else if (kind >= 2) {
-        result->unk_14 |= 0x2000;
-        result->unk_1C |= 0x2000;
-    } else if (((flags & ~3) << 16) == 0) {
-        if (result->unk_14 & 0x200) {
-            goto status_done;
-        }
-        if (!(func_800A6D30() & 1)) {
-            goto status_done;
-        }
-        result->unk_1C |= 0x200;
-        func_800A48F0(result, 1, (func_800A6D30() & 0x3F) | 0x20);
-        part1->unk_2C = D_80173D78;
-    status_done:
-        mode = func_800A6D30() & 3;
-    }
-    func_800A9C18(object, part0, part1, flags);
-    ((S_80170854_4 *)actor)->unk_9A = 0xFF;
-    ((S_80170854_4 *)actor)->unk_9C = -1;
-    ((S_80170854_4 *)actor)->unk_8C = D_80170F74;
-    ((S_80170854_4 *)actor)->unk_A4 = -1;
-    if (mode != 0) {
-        ((S_80170854_4 *)actor)->unk_A6 = 0;
-    } else {
-        object_base = (u8 *)actor - 0x20;
-        ((S_80170854_4 *)actor)->unk_A6 = 1;
-        part1->unk_10 = 0x60;
-        part1->unk_14 |= 0xC;
-        part1->unk_12 -= 0x80;
-        func_80044A50(object_base);
-        func_800BC318(object_base);
-    }
-    func_800AA36C(actor, part0, part1, result);
-done:
     return result;
 }

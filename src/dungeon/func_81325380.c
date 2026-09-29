@@ -66,76 +66,58 @@ void func_8016CB80(void *state, void *motion_arg, void *actor_arg, void *entity_
     u8 *anims;
 
     phase = ((S_8016CB80_0 *)state)->unk_9B;
-    if (phase == 1) {
-        goto update_move;
-    }
-    if ((s32) phase < 2) {
-        if (phase == 0) {
-            goto start_move;
+    switch (phase) {
+    case 0:
+        ((S_8016CB80_0 *)state)->unk_98 = (u16) (((S_8016CB80_0 *)state)->unk_98 | 8);
+        ((EntityRec *)entity)->flags1C = (s32) (((EntityRec *)entity)->flags1C & 0xF7FFFFFF);
+        ((S_8016CB80_0 *)state)->unk_9E = 5;
+        ((S_8016CB80_0 *)state)->unk_A0 = 0;
+        ((S_8016CB80_0 *)state)->unk_9B = (u8) (((S_8016CB80_0 *)state)->unk_9B + 1);    case 1:
+        move_ticks = ((S_8016CB80_0 *)state)->unk_9E;
+        ((S_8016CB80_0 *)state)->unk_90 = (s32) (((S_8016CB80_0 *)state)->unk_90 - ((S_8016CB80_0 *)state)->unk_A0);
+        if (move_ticks != 0) {
+            tile_x = ((S_8016CB80_2 *)actor)->unk_24 << 6;
+            pixel_offset = ((EntityRec *)motion)->x.w.i - 0x20;
+            ((EntityRec *)motion)->unk_0C = (s32) ((s32) ((tile_x - pixel_offset) << 0x10) / move_ticks);
+            pixel_y = ((EntityRec *)motion)->y.w.i - 0x20;
+            ((EntityRec *)motion)->unk_10 = (s32) ((s32) (((((S_8016CB80_2 *)actor)->unk_25 << 6) - pixel_y) << 0x10) / (s16) ((S_8016CB80_0 *)state)->unk_9E);
+            ((S_8016CB80_0 *)state)->unk_A0 = (s32) ((0 - func_800644B8(((S_8016CB80_0 *)state)->unk_9E * 0x199)) << 0xA);
         }
-        goto update_timer;
-    }
-    if (phase == 2) {
-        goto finish_move;
-    }
-    if (phase == 3) {
-        goto update_animation;
-    }
-    goto update_timer;
-start_move:
-    ((S_8016CB80_0 *)state)->unk_98 = (u16) (((S_8016CB80_0 *)state)->unk_98 | 8);
-    ((EntityRec *)entity)->flags1C = (s32) (((EntityRec *)entity)->flags1C & 0xF7FFFFFF);
-    ((S_8016CB80_0 *)state)->unk_9E = 5;
-    ((S_8016CB80_0 *)state)->unk_A0 = 0;
-    ((S_8016CB80_0 *)state)->unk_9B = (u8) (((S_8016CB80_0 *)state)->unk_9B + 1);
-update_move:
-    move_ticks = ((S_8016CB80_0 *)state)->unk_9E;
-    ((S_8016CB80_0 *)state)->unk_90 = (s32) (((S_8016CB80_0 *)state)->unk_90 - ((S_8016CB80_0 *)state)->unk_A0);
-    if (move_ticks != 0) {
-        tile_x = ((S_8016CB80_2 *)actor)->unk_24 << 6;
-        pixel_offset = ((EntityRec *)motion)->x.w.i - 0x20;
-        ((EntityRec *)motion)->unk_0C = (s32) ((s32) ((tile_x - pixel_offset) << 0x10) / move_ticks);
-        pixel_y = ((EntityRec *)motion)->y.w.i - 0x20;
-        ((EntityRec *)motion)->unk_10 = (s32) ((s32) (((((S_8016CB80_2 *)actor)->unk_25 << 6) - pixel_y) << 0x10) / (s16) ((S_8016CB80_0 *)state)->unk_9E);
-        ((S_8016CB80_0 *)state)->unk_A0 = (s32) ((0 - func_800644B8(((S_8016CB80_0 *)state)->unk_9E * 0x199)) << 0xA);
-    }
-    ((S_8016CB80_0 *)state)->unk_90 = (s32) (((S_8016CB80_0 *)state)->unk_90 + ((S_8016CB80_0 *)state)->unk_A0);
-    next_move_ticks = (u16) ((S_8016CB80_0 *)state)->unk_9E - 1;
-    ((S_8016CB80_0 *)state)->unk_9E = next_move_ticks;
-    if ((next_move_ticks << 0x10) < 0) {
-        ((S_8016CB80_0 *)state)->unk_90 = 0;
-        ((S_8016CB80_0 *)state)->unk_98 = (u16) (((S_8016CB80_0 *)state)->unk_98 & 0xFFF7);
-        ((EntityRec *)entity)->flags1C = (s32) (((EntityRec *)entity)->flags1C | 0x08000000);
-        ((S_8016CB80_0 *)state)->unk_9B = (u8) (((S_8016CB80_0 *)state)->unk_9B + 1);
-    }
-finish_move:
-    if (((EntityRec *)entity)->flags1C & 0x08000000) {
-        ((S_8016CB80_0 *)state)->unk_98 = (u16) (((S_8016CB80_0 *)state)->unk_98 & 0xFFF7);
-        ((EntityRec *)motion)->flags14 = 0;
-        ((EntityRec *)motion)->unk_10 = 0;
-        ((EntityRec *)motion)->unk_0C = 0;
-        func_800A2B04(motion, ((S_8016CB80_2 *)actor)->unk_24, ((S_8016CB80_2 *)actor)->unk_25);
-        ((S_8016CB80_0 *)state)->unk_9B = (u8) (((S_8016CB80_0 *)state)->unk_9B + 1);
-        goto update_timer;
-    }
-    goto update_timer;
-update_animation:
-    if (((S_8016CB80_0 *)state)->unk_B3 == 0) {
-        current_anims = ((S_8016CB80_2 *)actor)->unk_2C.p;
-        anims = (u8 *)&D_8017467C;
-        if (current_anims != anims) {
-            (*(u8 **)((u8 *)actor + 0x2C)) = anims;
-            func_80047784(actor, *(u8 *)((((s32) (gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7) + (u32)anims), 0);
+        ((S_8016CB80_0 *)state)->unk_90 = (s32) (((S_8016CB80_0 *)state)->unk_90 + ((S_8016CB80_0 *)state)->unk_A0);
+        next_move_ticks = (u16) ((S_8016CB80_0 *)state)->unk_9E - 1;
+        ((S_8016CB80_0 *)state)->unk_9E = next_move_ticks;
+        if ((next_move_ticks << 0x10) < 0) {
+            ((S_8016CB80_0 *)state)->unk_90 = 0;
+            ((S_8016CB80_0 *)state)->unk_98 = (u16) (((S_8016CB80_0 *)state)->unk_98 & 0xFFF7);
+            ((EntityRec *)entity)->flags1C = (s32) (((EntityRec *)entity)->flags1C | 0x08000000);
+            ((S_8016CB80_0 *)state)->unk_9B = (u8) (((S_8016CB80_0 *)state)->unk_9B + 1);
+        }    case 2:
+        if (((EntityRec *)entity)->flags1C & 0x08000000) {
+            ((S_8016CB80_0 *)state)->unk_98 = (u16) (((S_8016CB80_0 *)state)->unk_98 & 0xFFF7);
+            ((EntityRec *)motion)->flags14 = 0;
+            ((EntityRec *)motion)->unk_10 = 0;
+            ((EntityRec *)motion)->unk_0C = 0;
+            func_800A2B04(motion, ((S_8016CB80_2 *)actor)->unk_24, ((S_8016CB80_2 *)actor)->unk_25);
+            ((S_8016CB80_0 *)state)->unk_9B = (u8) (((S_8016CB80_0 *)state)->unk_9B + 1);
         }
-    } else {
-        current_anims = ((S_8016CB80_2 *)actor)->unk_2C.p;
-        anims = D_80174684;
-        if (current_anims != anims) {
-            (*(u8 **)((u8 *)actor + 0x2C)) = anims;
-            func_80047784(actor, *(u8 *)((((s32) (gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7) + (u32)anims), 0);
-        }
+        break;    case 3:
+        if (((S_8016CB80_0 *)state)->unk_B3 == 0) {
+            current_anims = ((S_8016CB80_2 *)actor)->unk_2C.p;
+            anims = (u8 *)&D_8017467C;
+            if (current_anims != anims) {
+                (*(u8 **)((u8 *)actor + 0x2C)) = anims;
+                func_80047784(actor, *(u8 *)((((s32) (gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7) + (u32)anims), 0);
+            }
+        } else {
+            current_anims = ((S_8016CB80_2 *)actor)->unk_2C.p;
+            anims = D_80174684;
+            if (current_anims != anims) {
+                (*(u8 **)((u8 *)actor + 0x2C)) = anims;
+                func_80047784(actor, *(u8 *)((((s32) (gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7) + (u32)anims), 0);
+            }
+        }        break;
     }
-update_timer:
+
     action_ticks = ((S_8016CB80_0 *)state)->unk_96 - 1;
     ((S_8016CB80_0 *)state)->unk_96 = action_ticks;
     if ((action_ticks << 0x10) <= 0) {
@@ -150,20 +132,16 @@ update_timer:
         entity_flags = ((EntityRec *)entity)->flags1C;
         if (entity_flags & 0x2000) {
             status_flags = ((EntityRec *)entity)->unk_46;
-            if (!(status_flags & 0x8000)) {
-                goto finish_action;
+            if (status_flags & 0x8000) {
+                ((EntityRec *)entity)->unk_46 = status_flags & 0x7FFF;
             }
-            ((EntityRec *)entity)->unk_46 = status_flags & 0x7FFF;
-            goto finish_action;
+        } else {
+            if (!(entity_flags & 0x410)) {
+                if (entity_flags & 0x20000) {
+                    ((EntityRec *)entity)->facing = func_800A0818(((S_8016CB80_2 *)actor)->unk_24, ((S_8016CB80_2 *)actor)->unk_25, D_80082E80.tileX, D_80082E80.tileY, &direction_info);
+                }
+            }
         }
-        if (entity_flags & 0x410) {
-            goto finish_action;
-        }
-        if (!(entity_flags & 0x20000)) {
-            goto finish_action;
-        }
-        ((EntityRec *)entity)->facing = func_800A0818(((S_8016CB80_2 *)actor)->unk_24, ((S_8016CB80_2 *)actor)->unk_25, D_80082E80.tileX, D_80082E80.tileY, &direction_info);
-finish_action:
         if ((func_800AD9B4(actor, entity) << 0x10) > 0) {
             ((S_8016CB80_0 *)state)->unk_8C = D_8016B778;
             func_800A9A04(entity);

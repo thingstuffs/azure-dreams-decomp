@@ -31,7 +31,7 @@ typedef struct S_8008E504_2 {
 
 typedef struct S_8008E504_3 {
     u8 pad_00[0x1C];
-    volatile s32 unk_1C;
+    s32 unk_1C;
 } S_8008E504_3;   /* temp_a0 in func_8008E504 */
 
 typedef struct S_8008E504_4 {
@@ -43,7 +43,7 @@ typedef struct S_8008E504_4 {
 
 
 
-extern volatile s32 D_80081484;
+extern s32 D_80081484;
 extern s32 D_800E3540;
 extern u8 D_8008ACDC[];
 extern u8 D_8008EAC8[];
@@ -64,81 +64,55 @@ void func_8008E504(S_8008E504_0 *actor, S_8008E504_1 *action, S_8008E504_4 *spri
     S_8008E504_3 *linked_object;
 
     state = actor->unk_9B;
-    if (state == 1) {
-        goto state_one;
-    }
-    if (state >= 2) {
-        goto state_two_check;
-    }
-    if (state == 0) {
-        goto state_zero;
-    }
-    return;
+    switch (state) {
+    case 0:
+        if (!(actor->unk_A2 & 0x10)) {
+            return;
+        }
+        action->unk_14 = 0;
+        if ((entity->unk_88 - entity->unk_8A) >= 0x41) {
+            func_800419EC(8, 0x10);
+            if (entity->unk_1C & 0x100000) {
+                linked_object = actor->unk_124;
+                saved_status = D_80081484;
+                object_flags = linked_object->unk_1C;
+                D_80081484 = 0;
+                linked_object->unk_1C = object_flags & 0xFFF7FFFF;
+                entity_flags = entity->unk_1C;
+                D_800E3540 = saved_status;
+                entity->unk_1C = entity_flags & 0xFFEFFFFF;
+            }
+            state_or_ticks = 0xC;
+            actor->unk_96 = state_or_ticks;
+        } else {
+            actor->unk_96 = 1U;
+        }
+        actor->unk_9B = (u8)(actor->unk_9B + 1);
+        /* fall through */
+    case 1:
+        if (entity->unk_1C & 0x100000) {
+            actor->unk_8C = D_8008EAC8;
+            return;
+        }
+        sprite->unk_2C = D_800DD058;
+        func_80048A44(sprite,
+            D_800DD058[((gameWork.view.viewAngle + entity->unk_2A + 0x100) >> 9) & 7],
+            0, 1);
+        sprite->unk_14 = (u16)(sprite->unk_14 | 0x800);
+        actor->unk_9B = (u8)(actor->unk_9B + 1);
+        return;
 
-state_two_check:
-    state_or_ticks = 2;
-    if (state == state_or_ticks) {
-        goto state_two_body;
-    }
-    return;
-
-state_zero:
-    if (!(actor->unk_A2 & 0x10)) {
+    case 2:
+        state_or_ticks = actor->unk_96 - 1;
+        actor->unk_96 = state_or_ticks;
+        if ((state_or_ticks << 0x10) > 0) {
+            return;
+        }
+        sprite_flags = sprite->unk_14;
+        sprite->unk_14 = (u16)(sprite_flags & 0xF7FF);
+        if ((sprite_flags & 0xE000) != 0 || ((func_80094EA4() << 0x10) != 0)) {
+            actor->unk_8C = D_8008ACDC;
+        }
         return;
     }
-    action->unk_14 = 0;
-    if ((entity->unk_88 - entity->unk_8A) < 0x41) {
-        goto state_zero_short;
-    }
-    func_800419EC(8, 0x10);
-    if (entity->unk_1C & 0x100000) {
-        linked_object = actor->unk_124;
-        saved_status = D_80081484;
-        object_flags = linked_object->unk_1C;
-        D_80081484 = 0;
-        linked_object->unk_1C = object_flags & 0xFFF7FFFF;
-        entity_flags = entity->unk_1C;
-        D_800E3540 = saved_status;
-        entity->unk_1C = entity_flags & 0xFFEFFFFF;
-    }
-    state_or_ticks = 0xC;
-    actor->unk_96 = state_or_ticks;
-    goto increment_state;
-
-state_zero_short:
-    actor->unk_96 = 1U;
-
-increment_state:
-    actor->unk_9B = (u8)(actor->unk_9B + 1);
-
-state_one:
-    if (entity->unk_1C & 0x100000) {
-        actor->unk_8C = D_8008EAC8;
-        return;
-    }
-    sprite->unk_2C = D_800DD058;
-    func_80048A44(sprite,
-        D_800DD058[((gameWork.view.viewAngle + entity->unk_2A + 0x100) >> 9) & 7],
-        0, 1);
-    sprite->unk_14 = (u16)(sprite->unk_14 | 0x800);
-    actor->unk_9B = (u8)(actor->unk_9B + 1);
-    return;
-
-state_two_body:
-    state_or_ticks = actor->unk_96 - 1;
-    actor->unk_96 = state_or_ticks;
-    if ((state_or_ticks << 0x10) > 0) {
-        return;
-    }
-    sprite_flags = sprite->unk_14;
-    sprite->unk_14 = (u16)(sprite_flags & 0xF7FF);
-    if ((sprite_flags & 0xE000) != 0 || ((func_80094EA4() << 0x10) != 0)) {
-        goto assign_dispatch;
-    }
-    return;
-
-assign_dispatch:
-    actor->unk_8C = D_8008ACDC;
-
-    return;
 }

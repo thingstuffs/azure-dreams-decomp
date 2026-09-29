@@ -37,55 +37,36 @@ void func_800DB164(void *effect, void *motion, void *visual) {
     phase = ((S_800DB164_0 *)effect)->unk_4C.s;
     ticks_left = ((S_800DB164_0 *)effect)->unk_48 - 1;
     ((S_800DB164_0 *)effect)->unk_48 = ticks_left;
-    if (phase == 1) {
-        goto case_1;
-    }
-    if (phase >= 2) {
-        goto check_2;
-    }
-    if (phase == 0) {
-        goto case_0;
-    }
-    goto update_motion;
-
-check_2:
-    if (phase == 2) {
-        goto case_2;
-    }
-    goto update_motion;
-
-case_0:
-    ((Rec_D_80082E80 *)visual)->unk_1C.at00_u16.v = (u16) (((Rec_D_80082E80 *)visual)->unk_1C.at00_u16.v - ((rand(ticks_left) & 0xFF) + 0x300));
-    ((Rec_D_80082E80 *)visual)->unk_1C.at02_u16.v = (u16) (((Rec_D_80082E80 *)visual)->unk_1C.at02_u16.v + ((rand() & 0xFF) + 0x200));
-    if ((s16) ((S_800DB164_0 *)effect)->unk_48 > 0) {
-        goto update_motion;
-    }
-    next_phase = ((S_800DB164_0 *)effect)->unk_4C.u + 1;
-    goto advance_phase;
-
-case_1:
-    ((Rec_D_80082E80 *)visual)->unk_0C.at00_s32.v = (s32) (((Rec_D_80082E80 *)visual)->unk_0C.at00_s32.v + 0xFFF3F3F4);
-    ((S_800DB164_2 *)motion)->unk_14 = (s32) (((S_800DB164_2 *)motion)->unk_14 - ((rand(ticks_left) & 0xFF) << 0xA));
-    if (((S_800DB164_2 *)motion)->unk_08.at02.v < ((S_800DB164_0 *)effect)->unk_10) {
-        phase = 4;
-        ((S_800DB164_0 *)effect)->unk_48 = phase;
+    switch (phase) {
+    case 0:
+        ((Rec_D_80082E80 *)visual)->unk_1C.at00_u16.v = (u16) (((Rec_D_80082E80 *)visual)->unk_1C.at00_u16.v - ((rand(ticks_left) & 0xFF) + 0x300));
+        ((Rec_D_80082E80 *)visual)->unk_1C.at02_u16.v = (u16) (((Rec_D_80082E80 *)visual)->unk_1C.at02_u16.v + ((rand() & 0xFF) + 0x200));
+        if ((s16) ((S_800DB164_0 *)effect)->unk_48 > 0) {
+            break;
+        }
         next_phase = ((S_800DB164_0 *)effect)->unk_4C.u + 1;
-        goto advance_phase;
+        ((S_800DB164_0 *)effect)->unk_4C.u = next_phase;
+        break;
+
+    case 1:
+        ((Rec_D_80082E80 *)visual)->unk_0C.at00_s32.v = (s32) (((Rec_D_80082E80 *)visual)->unk_0C.at00_s32.v + 0xFFF3F3F4);
+        ((S_800DB164_2 *)motion)->unk_14 = (s32) (((S_800DB164_2 *)motion)->unk_14 - ((rand(ticks_left) & 0xFF) << 0xA));
+        if (((S_800DB164_2 *)motion)->unk_08.at02.v < ((S_800DB164_0 *)effect)->unk_10) {
+            phase = 4;
+            ((S_800DB164_0 *)effect)->unk_48 = phase;
+            next_phase = ((S_800DB164_0 *)effect)->unk_4C.u + 1;
+            ((S_800DB164_0 *)effect)->unk_4C.u = next_phase;
+        }
+        break;
+
+    case 2:
+        if ((ticks_left << 0x10) <= 0) {
+            (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_800DB164_0_pre *)effect)[-1].unk_00 | 0x8000);
+            objectFlagBlock.flags |= 0x8000;
+        }
+        break;
     }
 
-    goto update_motion;
-
-advance_phase:
-    ((S_800DB164_0 *)effect)->unk_4C.u = next_phase;
-    goto update_motion;
-
-case_2:
-    if ((ticks_left << 0x10) <= 0) {
-        (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_800DB164_0_pre *)effect)[-1].unk_00 | 0x8000);
-        objectFlagBlock.flags |= 0x8000;
-    }
-
-update_motion:
     if (((S_800DB164_0 *)effect)->unk_4C.s != 0) {
         ((S_800DB164_2 *)motion)->unk_08.at00.v = (s32) (((S_800DB164_2 *)motion)->unk_08.at00.v + ((S_800DB164_2 *)motion)->unk_14);
         func_800478B8(visual);

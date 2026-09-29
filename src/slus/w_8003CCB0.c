@@ -54,10 +54,6 @@ void func_8003CCB0(s32 blend_step)
     s32 path_offset;
     s32 shade;
     s32 colour;
-    register u8 *vertex_in ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-    register u8 *vertex_out ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-    register u8 *flags_out ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-    register u8 *first_sprite ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
     scratch = (u8 *)0x1F800000;
     render_state = (u8 **)D_80083160;
@@ -74,11 +70,11 @@ void func_8003CCB0(s32 blend_step)
         sprite_key[1] = 0;
         do {
             sprite_key[0] = *(u8 *)(sprite_index + (u32)sprite_ids);
-            first_sprite = (u8 *)func_8004E298(sprite_slot, sprite_key, 0);
-            S8_AT(first_sprite, 3) = origin_offset;
-            S8_AT(first_sprite, 2) = origin_offset;
+            colour = (s32)((u8 *)func_8004E298(sprite_slot, sprite_key, 0));
+            S8_AT((u8 *)colour, 3) = origin_offset;
+            S8_AT((u8 *)colour, 2) = origin_offset;
             if (sprite_index == 0) {
-                D_80080AB0 = first_sprite;
+                D_80080AB0 = (u8 *)colour;
             }
             sprite_index++;
             sprite_slot += 0xC;
@@ -95,8 +91,8 @@ void func_8003CCB0(s32 blend_step)
     U16_AT(scratch, 0x74) = 0;
     PushMatrix();
     {
-        first_sprite = (u8 *)D_80080AB0;
-        sprite_uv = first_sprite + 4;
+        colour = (s32)((u8 *)D_80080AB0);
+        sprite_uv = ((u8 *)colour) + 4;
     }
     U16_AT(scratch, 0x28) = 0;
     U16_AT(scratch, 0x2A) = 0;
@@ -135,15 +131,9 @@ void func_8003CCB0(s32 blend_step)
             U32_AT(scratch, 0x14) = uv_size - 1;
         }
 
-        vertex_in = scratch + 0x70;
-        vertex_out = quad + 0x08;
-        flags_out = transform_flags;
         {
-            s32 origin_x = U8_AT(sprite_uv, -2);
-            s32 edge_x;
+            s16 edge_x = S8_AT(sprite_uv, -2);
             width = ((u16 *)scratch)[8];
-            ASM_KEEP_DEP_NV(origin_x, width);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            edge_x = (origin_x << 24) >> 24;
             S16_AT(scratch, 0x80) = edge_x;
             S16_AT(scratch, 0x70) = edge_x;
             edge_x = edge_x + width;
@@ -151,11 +141,8 @@ void func_8003CCB0(s32 blend_step)
             S16_AT(scratch, 0x78) = edge_x;
         }
         {
-            s32 origin_y = U8_AT(sprite_uv, -1);
-            s32 edge_y;
+            s16 edge_y = S8_AT(sprite_uv, -1);
             height = ((u16 *)scratch)[10];
-            ASM_KEEP_DEP_NV(origin_y, height);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            edge_y = (origin_y << 24) >> 24;
             S16_AT(scratch, 0x7A) = edge_y;
             S16_AT(scratch, 0x72) = edge_y;
             edge_y = edge_y + height;
@@ -163,23 +150,16 @@ void func_8003CCB0(s32 blend_step)
             S16_AT(scratch, 0x82) = edge_y;
         }
 
-        RotTransSV(vertex_in, vertex_out, flags_out);
+        RotTransSV(scratch + 0x70, quad + 0x08, transform_flags);
         RotTransSV(scratch + 0x78, quad + 0x10, transform_flags);
         RotTransSV(scratch + 0x80, quad + 0x18, transform_flags);
         RotTransSV(scratch + 0x88, quad + 0x20, transform_flags);
 
         {
-            s32 uv_coord = U32_AT(scratch, 0x10);
-            vertex_in = (u8 *)(U32_AT(scratch, 0x08));
-            first_sprite = (u8 *)(U32_AT(scratch, 0x14));
-            vertex_out = (u8 *)(U32_AT(scratch, 0x0C));
-            uv_coord += (s32)vertex_in;
-            first_sprite = (u8 *)(((s32)first_sprite) + ((s32)vertex_out));
-            U32_AT(scratch, 0x10) = uv_coord;
-            uv_coord = (s32)vertex_out;
-            ASM_KEEP_NV(uv_coord);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            U32_AT(scratch, 0x14) = (s32)first_sprite << 8;
-            U32_AT(scratch, 0x0C) = uv_coord << 8;
+            U32_AT(scratch, 0x10) += U32_AT(scratch, 0x08);
+            U32_AT(scratch, 0x14) += U32_AT(scratch, 0x0C);
+            U32_AT(scratch, 0x14) <<= 8;
+            U32_AT(scratch, 0x0C) <<= 8;
         }
 
         packet->clut = U16_AT(sprite_uv, 2);

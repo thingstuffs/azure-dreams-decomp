@@ -108,26 +108,25 @@ state_zero:
     return;
 
 state_one:
-    if ((func_80042900(in_entity, 1) << 16) != 0) {
-        page_base = (u8 *)0x80080000;
-        goto state_one_active;
-    }
-    (*(void * *)((u8 *)in_sprite + 0x2C)) = D_80175894;
-    func_80047784(in_sprite,
-        D_80175894[((gameWork.view.viewAngle + ((S_801734B0_2 *)in_entity)->unk_2A + 0x100) >> 9) & 7],
-        0);
-    ((S_801734B0_2 *)in_entity)->unk_1C.s |= 0x40000;
-    if (!(((S_801734B0_1 *)in_sprite)->unk_14 & 0x8000)) {
+    if ((func_80042900(in_entity, 1) << 16) == 0) {
+        (*(void * *)((u8 *)in_sprite + 0x2C)) = D_80175894;
+        func_80047784(in_sprite,
+            D_80175894[((gameWork.view.viewAngle + ((S_801734B0_2 *)in_entity)->unk_2A + 0x100) >> 9) & 7],
+            0);
+        ((S_801734B0_2 *)in_entity)->unk_1C.s |= 0x40000;
+        if (!(((S_801734B0_1 *)in_sprite)->unk_14 & 0x8000)) {
 
-        state = ((u16)dungeonStatus.unk_0A);
-        state++;
-        dungeonStatus.unk_0A = state;
-        ((S_801734B0_0 *)in_actor)->unk_9B++;
+            state = ((u16)dungeonStatus.unk_0A);
+            state++;
+            dungeonStatus.unk_0A = state;
+            ((S_801734B0_0 *)in_actor)->unk_9B++;
+            return;
+        }
+        ((S_801734B0_2 *)in_entity)->unk_1C.s &= ~0x200;
+        ((S_801734B0_0 *)in_actor)->unk_8C = D_8017140C;
         return;
     }
-    ((S_801734B0_2 *)in_entity)->unk_1C.s &= ~0x200;
-    ((S_801734B0_0 *)in_actor)->unk_8C = D_8017140C;
-    return;
+    page_base = (u8 *)0x80080000;
 
 state_one_active:
     {

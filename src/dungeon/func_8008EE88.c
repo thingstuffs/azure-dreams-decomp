@@ -60,11 +60,10 @@ void func_800945E8(void *input_state) {
                     record_offset = record_index * 0x8C;
                     copy_dst = (Blob140 *)(record_offset + (unsigned long)record_buffer);
                     copy_src = (Blob140 *)record;
-                    ASM_KEEP_NV(copy_dst);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                     ASM_KEEP_NV(copy_src);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                     {
-                        u32 *copy_src_cursor = copy_src->word;
                         volatile u32 *copy_dst_cursor = copy_dst->word;
+                        u32 *copy_src_cursor = copy_src->word;
                         u32 *copy_end = copy_src_cursor + 32;
 
                         do {

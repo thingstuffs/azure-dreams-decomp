@@ -50,12 +50,9 @@ void func_80092320(Rec_func_80094268_arg0 *action, EntityRec *actor, M2C_UNK con
             func_80094378(action, actor, context);
             return;
         }
-        goto check_state;
-    }
-    if (((S_80092320_1 *)(&D_800CFCEF))->unk_00 == 0) {
+    } else if (((S_80092320_1 *)(&D_800CFCEF))->unk_00 == 0) {
         func_80095A94(actor, reference_value, &D_800FE488);
     }
-check_state:
     if (((s32)state->unk_010) & 0x10) {
         func_800942B0(action, actor, context);
         return;

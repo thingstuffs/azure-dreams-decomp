@@ -27,72 +27,58 @@ s32 func_80059F8C(u32 addr, s32 size)
         return -1;
     }
     block = D_800869C0;
-    if (D_800869C0[0].addr != 0) {
-        goto scan;
-    }
-    if (addr + size < (u32)(0x80000 - D_80073830[D_8007382B])) {
-        D_800869C0[0].addr = addr;
-        block->size = size;
-        goto sort_return;
-    }
-    return -1;
-
-update_block:
-    block->addr = addr;
-    block->size = size;
-    return addr;
-
-append_block:
-    next_block->addr = addr;
-    next_block->size = size;
-    goto sort_return;
-
-scan:
-    slot = 0;
-    do {
-        if (slot != 0) {
-            goto check_start;
+    if (D_800869C0[0].addr == 0) {
+        if (addr + size < (u32)(0x80000 - D_80073830[D_8007382B])) {
+            D_800869C0[0].addr = addr;
+            block->size = size;
+            func_80059DAC();
+            return addr;
         }
-        next_addr = D_800869C0[0].addr;
-        if (addr < next_addr) {
-            if (next_addr < size + addr) {
-                return -1;
-            }
-            for (; slot < 16; slot++) {
-                if (D_800869C0[slot].size == 0) {
-                    goto insert_first;
+        return -1;
+    }
+    for (slot = 0; slot < 16; slot++, block++) {
+        if (slot == 0) {
+            next_addr = D_800869C0[0].addr;
+            if (addr < next_addr) {
+                if (next_addr < size + addr) {
+                    return -1;
                 }
-            }
-            goto check_slot;
+                for (; slot < 16; slot++) {
+                    if (D_800869C0[slot].size == 0) {
+                        goto insert_first;
+                    }
+                }
+                goto check_slot;
 insert_first:
-            D_800869C0[slot].addr = addr;
-            D_800869C0[slot].size = size;
-            goto check_slot;
+                D_800869C0[slot].addr = addr;
+                D_800869C0[slot].size = size;
+                goto check_slot;
+            }
+        } else if (addr < block->addr) {
+            continue;
         }
-        goto check_gap;
-check_start:
-        if (addr < block->addr) {
-            goto advance;
-        }
-check_gap:
         block_addr = block->addr;
         if (block_addr == addr) {
-            goto update_block;
+            block->addr = addr;
+            block->size = size;
+            return addr;
         }
         next_slot = slot + 1;
         next_block = &D_800869C0[next_slot];
         if (next_block->size == 0) {
             if (size + addr < (u32)(0x80000 - D_80073830[D_8007382B])) {
-                goto append_block;
+                next_block->addr = addr;
+                next_block->size = size;
+                break;
             }
             return -1;
         }
         if (block_addr >= addr) {
-            goto advance;
+            continue;
         }
         next_addr = next_block->addr;
         if (addr >= next_addr) {
-            goto advance;
+            continue;
         }
         if (addr < block_addr + block->size) {
             return -1;
@@ -109,15 +95,11 @@ check_gap:
         }
 check_slot:
         if (slot != 16) {
-            goto sort_return;
+            break;
         }
         return -1;
-advance:
-        slot++;
-        block++;
-    } while (slot < 16);
+    }
 
-sort_return:
     func_80059DAC();
     return addr;
 }

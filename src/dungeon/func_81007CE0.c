@@ -101,7 +101,8 @@ state_one:
                 0);
             ((EntityRec *)actor)->flags1C |= 0x40000;
             dungeonStatus.unk_0A++;
-            goto increment_state;
+            ((S_801734E0_0 *)entity)->unk_9B++;
+            return;
         }
 
         if (dungeonStatus.flags & 0x1000) {

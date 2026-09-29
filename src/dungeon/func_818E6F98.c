@@ -120,11 +120,11 @@ loop:
         primitive->v0 = primitive->v2 = uv_low;
         primitive->v1 = primitive->v3 = uv_high;
 
-        table_state = *(DungeonState *volatile *)state_address;
+        table_state = *state_address;
         (*(u32 *)((u8 *)primitive + 0)) = (primitive->tag & 0xFF000000) |
                          (*(u32 *)((u8 *)table_state + 0xB0 + table_offset) &
                           0x00FFFFFF);
-        table_state = *(DungeonState *volatile *)state_address;
+        table_state = *state_address;
         *(u32 *)((u8 *)table_state + 0xB0 + table_offset) =
             (*(u32 *)((u8 *)table_state + 0xB0 + table_offset) & 0xFF000000) |
             ((u32)primitive & 0x00FFFFFF);

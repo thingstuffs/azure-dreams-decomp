@@ -51,50 +51,32 @@ s32 func_800AD6FC(DungeonState *state, s32 mode, u8 *item, s32 text_arg) {
 
     meter = state->unk24;
     old_meter = meter;
-    if (mode == 1) {
-        goto mode_one;
-    }
-    if (mode < 2) {
-        if (mode == 0) {
-            goto mode_zero;
+    switch (mode) {
+    case 0:
+        message = func_80099194(D_80089084,
+                               func_80099734(state,
+                                             func_80099194(D_800E0CDC, message)));
+        break;
+    case 1:
+        do {
+            message = func_80099194(D_800E0CF3, func_80099734(state, message));
+        } while (0);
+        meter += 0x300;
+        break;
+    case 2:
+        message = func_80099194(D_800E0D1B, func_80099734(state, message));
+        if ((item != 0) && (item[1] == 0xC) && (item[0] == 6)) {
+            meter += 0xA00;
+        } else {
+            meter += 0x3200;
         }
-        goto dispatch_done;
+        break;
+    case 3:
+        message = func_80099194(D_800E0D36, func_80099734(state, message));
+        meter += 0x6400;
+        break;
     }
-    if (mode == 2) {
-        goto mode_two;
-    }
-    if (mode == 3) {
-        goto mode_three;
-    }
-    goto dispatch_done;
 
-mode_zero:
-    message = func_80099194(D_80089084,
-                           func_80099734(state,
-                                         func_80099194(D_800E0CDC, message)));
-    goto dispatch_done;
-
-mode_one:
-    do {
-        message = func_80099194(D_800E0CF3, func_80099734(state, message));
-    } while (0);
-    meter += 0x300;
-    goto dispatch_done;
-
-mode_two:
-    message = func_80099194(D_800E0D1B, func_80099734(state, message));
-    if ((item != 0) && (item[1] == 0xC) && (item[0] == 6)) {
-        meter += 0xA00;
-    } else {
-        meter += 0x3200;
-    }
-    goto dispatch_done;
-
-mode_three:
-    message = func_80099194(D_800E0D36, func_80099734(state, message));
-    meter += 0x6400;
-
-dispatch_done:
     if ((item != 0) || (mode == 0)) {
         func_80099290(message);
         func_800A5720(base_message);

@@ -73,10 +73,12 @@ void func_8009C648(u8 *source_data, M2C_UNK spawn_arg) {
     part_index = 0;
     velocity_bias = 0xFFFC0000;
     part_params = D_800D06C8;
-spawn_part:
-    source_object = (u8 *)source_data - 0x20;
-    part_object = func_8009C390(source_object, spawn_arg, ((S_8009C648_0 *)part_params)->unk_00, ((S_8009C648_0 *)part_params)->unk_04);
-    if (part_object != NULL) {
+    do {
+        source_object = (u8 *)source_data - 0x20;
+        part_object = func_8009C390(source_object, spawn_arg, ((S_8009C648_0 *)part_params)->unk_00, ((S_8009C648_0 *)part_params)->unk_04);
+        if (part_object == NULL) {
+            break;
+        }
         velocity = ((S_8009C648_1 *)part_object)->unk_08;
         part_data = (u8 *)part_object + 0x20;
         ((S_8009C648_7 *)(((S_8009C648_6 *)part_object)->unk_0C))->unk_08 =
@@ -94,8 +96,5 @@ spawn_part:
             (s32)(motion->unk_04 + (motion->unk_10 * 8));
         func_8009C46C(part_data, motion, ((S_8009C648_1 *)part_object)->unk_0C);
         part_index += 1;
-        if (part_index < 6) {
-            goto spawn_part;
-        }
-    }
+    } while (part_index < 6);
 }

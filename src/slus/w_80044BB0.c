@@ -18,19 +18,20 @@ s32 func_80044BB0(void *first_payload, void *first_coords, void *first_record) {
     record = first_record;
     scratch = (u16 *)0x1F800000;
 
-loop:
-    if (!(U16_AT(record, 0x14) & 0x80)) {
-        scratch[0] = U16_AT(coords, 2);
-        scratch[1] = U16_AT(coords, 6);
-        func_80044D24(payload, record, (s16)(U16_AT(coords, 0xA) + U16_AT(record, 6)));
-    }
+    while (1) {
+        if (!(U16_AT(record, 0x14) & 0x80)) {
+            scratch[0] = U16_AT(coords, 2);
+            scratch[1] = U16_AT(coords, 6);
+            func_80044D24(payload, record, (s16)(U16_AT(coords, 0xA) + U16_AT(record, 6)));
+        }
 
-    next_node = PTR_AT(payload, -8);
-    payload = (s8 *)next_node + 0x20;
-    if (next_node != 0) {
+        next_node = PTR_AT(payload, -8);
+        payload = (s8 *)next_node + 0x20;
+        if (next_node == 0) {
+            break;
+        }
         coords = PTR_AT(next_node, 8);
         record = PTR_AT(next_node, 0xC);
-        goto loop;
     }
 
     return 0;

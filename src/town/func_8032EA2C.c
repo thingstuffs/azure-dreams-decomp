@@ -23,22 +23,21 @@ void func_8001922C(void *entries, s32 entry_mode)
     entry_index = 0;
     if (entry[1] != 0) {
         entry_list = 0x18;
-loop:
-        if ((entry[3] & 0x20) && entry[1] != entry_list) {
-            if (mode == 0) {
-                func_800190C0(entry);
+        do {
+            if ((entry[3] & 0x20) && entry[1] != entry_list) {
+                if (mode == 0) {
+                    func_800190C0(entry);
+                    entry += 4;
+                } else {
+                    func_800191EC(entry);
+                    func_80018E34(entry_index);
+                    entry += 4;
+                }
+            } else {
                 entry += 4;
-                goto next;
             }
-            func_800191EC(entry);
-            func_80018E34(entry_index);
-        }
-        entry += 4;
-next:
-        entry_index++;
-        if (entry[1] != 0) {
-            goto loop;
-        }
+            entry_index++;
+        } while (entry[1] != 0);
     }
     func_80018EA8();
 }

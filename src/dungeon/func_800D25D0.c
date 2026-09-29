@@ -55,65 +55,58 @@ void func_800D7D30(void *effect, void *motion, void *sprite) {
     ((S_800D7D30_0 *)motion)->unk_08.at00.v += velocity_z;
 
     state = ((S_800D7D30_1 *)effect)->unk_4C.s;
-    if (state != 0) {
-        if (state == 1) {
-            goto retire;
+    switch (state) {
+    case 0:
+        func_800478B8(sprite);
+        if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000) {
+            ((Rec_D_80082E80 *)sprite)->unk_04.as_s8 = 0;
+            ((Rec_D_80082E80 *)sprite)->unk_05.as_s8 = 0;
         }
-        return;
-    }
 
-    func_800478B8(sprite);
-    if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000) {
-        ((Rec_D_80082E80 *)sprite)->unk_04.as_s8 = 0;
-        ((Rec_D_80082E80 *)sprite)->unk_05.as_s8 = 0;
-    }
+        ((S_800D7D30_0 *)motion)->unk_00.at02.v = (s16)(((S_800D7D30_1 *)effect)->unk_0C +
+            ((func_800644B8(((S_800D7D30_1 *)effect)->unk_18.s) *
+              ((S_800D7D30_1 *)effect)->unk_1C.at02.v) >> 12));
+        ((S_800D7D30_0 *)motion)->unk_04.at02.v = (s16)(((S_800D7D30_1 *)effect)->unk_0E +
+            ((func_80064584(((S_800D7D30_1 *)effect)->unk_18.s) *
+              ((S_800D7D30_1 *)effect)->unk_1C.at02.v) >> 12));
 
-    ((S_800D7D30_0 *)motion)->unk_00.at02.v = (s16)(((S_800D7D30_1 *)effect)->unk_0C +
-        ((func_800644B8(((S_800D7D30_1 *)effect)->unk_18.s) *
-          ((S_800D7D30_1 *)effect)->unk_1C.at02.v) >> 12));
-    ((S_800D7D30_0 *)motion)->unk_04.at02.v = (s16)(((S_800D7D30_1 *)effect)->unk_0E +
-        ((func_80064584(((S_800D7D30_1 *)effect)->unk_18.s) *
-          ((S_800D7D30_1 *)effect)->unk_1C.at02.v) >> 12));
+        ((S_800D7D30_0 *)motion)->unk_14 += 0xFFFE0000 +
+            ((rand() & 0xFF) << 9);
+        ((S_800D7D30_1 *)effect)->unk_18.s = (s16)(((S_800D7D30_1 *)effect)->unk_18.u + 0x80 +
+            (rand() & 0x3F));
 
-    ((S_800D7D30_0 *)motion)->unk_14 += 0xFFFE0000 +
-        ((rand() & 0xFF) << 9);
-    ((S_800D7D30_1 *)effect)->unk_18.s = (s16)(((S_800D7D30_1 *)effect)->unk_18.u + 0x80 +
-        (rand() & 0x3F));
+        do {
+        } while (0);
 
-    do {
-    } while (0);
+        radius_step = ((S_800D7D30_1 *)effect)->unk_28 + ((S_800D7D30_1 *)effect)->unk_34;
+        ((S_800D7D30_1 *)effect)->unk_28 = radius_step;
+        radius = ((S_800D7D30_1 *)effect)->unk_1C.at00.v;
+        if (radius <= 0) {
+            radius_step >>= 2;
+            ((S_800D7D30_1 *)effect)->unk_1C.at00.v = radius_step + radius;
+        } else {
+            ((S_800D7D30_1 *)effect)->unk_1C.at00.v = radius + radius_step;
+        }
 
-    radius_step = ((S_800D7D30_1 *)effect)->unk_28 + ((S_800D7D30_1 *)effect)->unk_34;
-    ((S_800D7D30_1 *)effect)->unk_28 = radius_step;
-    radius = ((S_800D7D30_1 *)effect)->unk_1C.at00.v;
-    if (radius <= 0) {
-        radius_step >>= 2;
-        ((S_800D7D30_1 *)effect)->unk_1C.at00.v = radius_step + radius;
-    } else {
-        ((S_800D7D30_1 *)effect)->unk_1C.at00.v = radius + radius_step;
-    }
+        red = ((Rec_D_80082E80 *)sprite)->unk_0C.at00_u8.v;
+        green = ((Rec_D_80082E80 *)sprite)->unk_0C.at01_u8.v;
+        ((Rec_D_80082E80 *)sprite)->unk_0C.at00_u8.v = red - (red >> 4);
+        ((Rec_D_80082E80 *)sprite)->unk_0C.at01_u8.v = green - (green >> 4);
+        blue = ((Rec_D_80082E80 *)sprite)->unk_0C.at02_u8.v;
+        ((Rec_D_80082E80 *)sprite)->unk_0C.at02_u8.v = blue - (blue >> 4);
+        if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000) {
+            ((Rec_D_80082E80 *)sprite)->unk_04.as_s8 = 0;
+            ((Rec_D_80082E80 *)sprite)->unk_05.as_s8 = 0;
+        }
 
-    red = ((Rec_D_80082E80 *)sprite)->unk_0C.at00_u8.v;
-    green = ((Rec_D_80082E80 *)sprite)->unk_0C.at01_u8.v;
-    ((Rec_D_80082E80 *)sprite)->unk_0C.at00_u8.v = red - (red >> 4);
-    ((Rec_D_80082E80 *)sprite)->unk_0C.at01_u8.v = green - (green >> 4);
-    blue = ((Rec_D_80082E80 *)sprite)->unk_0C.at02_u8.v;
-    ((Rec_D_80082E80 *)sprite)->unk_0C.at02_u8.v = blue - (blue >> 4);
-    if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000) {
-        ((Rec_D_80082E80 *)sprite)->unk_04.as_s8 = 0;
-        ((Rec_D_80082E80 *)sprite)->unk_05.as_s8 = 0;
-    }
-
-    if (((S_800D7D30_0 *)motion)->unk_08.at02.v < ((S_800D7D30_1 *)effect)->unk_10 - 0x60) {
-        ((S_800D7D30_1 *)effect)->unk_4C.u++;
-        return;
-    }
-    return;
-
-retire:
-    {
+        if (((S_800D7D30_0 *)motion)->unk_08.at02.v < ((S_800D7D30_1 *)effect)->unk_10 - 0x60) {
+            ((S_800D7D30_1 *)effect)->unk_4C.u++;
+        }
+        break;
+    case 1:
         dungeonStatus.unk_0A--;
+        (*(u16 *)((u8 *)effect + (-2))) |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
+        break;
     }
-    (*(u16 *)((u8 *)effect + (-2))) |= 0x8000;
-    objectFlagBlock.flags |= 0x8000;
 }

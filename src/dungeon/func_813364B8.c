@@ -35,39 +35,26 @@ void func_8016D4B8(DungeonObject *object, s32 update_param, DungeonState *state,
     u8 *current_table;
 
     mode = object->mode;
-    if (mode == 1)
-        goto mode_1;
-    if (mode < 2) {
-        if (mode == 0)
-            goto mode_0;
+    switch (mode) {
+    case 0:
+        current_table = state->field_2C;
+        mode_table = D_801739A0;
+        break;
+    case 1:
+        current_table = state->field_2C;
+        mode_table = D_801739A8;
+        break;
+    case 2:
+        current_table = state->field_2C;
+        mode_table = D_801739B0;
+        break;
+    case 3:
+        current_table = state->field_2C;
+        mode_table = D_801739B8;
+        break;
+    default:
         goto call_common;
     }
-    if (mode == 2)
-        goto mode_2;
-    if (mode == 3)
-        goto mode_3;
-    goto call_common;
-
-mode_0:
-    current_table = state->field_2C;
-    mode_table = D_801739A0;
-    goto update_table;
-
-mode_1:
-    current_table = state->field_2C;
-    mode_table = D_801739A8;
-    goto update_table;
-
-mode_2:
-    current_table = state->field_2C;
-    mode_table = D_801739B0;
-    goto update_table;
-
-mode_3:
-    current_table = state->field_2C;
-    mode_table = D_801739B8;
-
-update_table:
     if (current_table != mode_table) {
         state->field_2C = mode_table;
         func_80047784(state, *(u8 *)((((s32) (gameWork.view.viewAngle + input->field_2A + 0x100) >> 9) & 7) + (u32) mode_table), 0);

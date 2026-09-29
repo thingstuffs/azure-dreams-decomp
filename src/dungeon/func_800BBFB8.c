@@ -59,18 +59,8 @@ void func_800C1718(DungeonState *state, RenderSource *render_source, u8 *effect_
     void *object_entry;
     u8 *object;
 
-    if (mode == 1)
-        goto mode_one;
-    if (mode < 2) {
-        if (mode == 0)
-            goto mode_zero;
-        return;
-    }
-    if (mode == 2)
-        goto mode_two;
-    return;
-
-mode_zero:
+    switch (mode) {
+    case 0:
     {
         u16 effect_scale = *(u16 *)(effect_data + 0x1c);
         effect_scale += (u16)((0x800 - effect_scale) / state->count);
@@ -110,7 +100,7 @@ mode_zero:
     state->mode += 1;
     return;
 
-mode_one:
+    case 1:
     state->field50 = (s16)((u16)state->field50 +
         ((0xc0 - state->field50) / state->count));
     step_index = 0;
@@ -130,7 +120,7 @@ mode_one:
     state->mode += 1;
     return;
 
-mode_two:
+    case 2:
     state->field50 = (s16)((u16)state->field50 -
         (state->field50 / state->count));
     *(u8 *)(effect_data + 0xc) = (u8)(*(u8 *)(effect_data + 0xc) -
@@ -156,4 +146,5 @@ mode_two:
     objectFlagBlock.flags |= 0x8000;
 
     return;
+    }
 }

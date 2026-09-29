@@ -39,7 +39,8 @@ void func_80023158(S_80023158_0 *sequence, EntityRec *target)
         state = 0x18;
         next_state = sequence->unk_18.u;
         sequence->unk_1A = state;
-        goto increment_state;
+        sequence->unk_18.u = next_state + 1;
+        break;
     }
 
     case 1:
@@ -54,9 +55,7 @@ void func_80023158(S_80023158_0 *sequence, EntityRec *target)
         }
         next_state = sequence->unk_18.u;
 
-increment_state:
-        next_state++;
-        sequence->unk_18.u = next_state;
+        sequence->unk_18.u = next_state + 1;
         break;
 
     case 2:

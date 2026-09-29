@@ -80,17 +80,13 @@ void func_8008DDE8(void *state, void *motion, void *sprite, void *actor) {
         if (((EntityRec *)actor)->unk_28 == 0) {
             if (D_800E296C & 0x08000000) {
                 ((EntityRec *)actor)->unk_28 = 1U;
-                goto assign_timer;
+            } else {
+                ((EntityRec *)actor)->unk_28 = 0U;
+                func_8008CBD4(state, motion, sprite, actor);
+                return;
             }
-            ((EntityRec *)actor)->unk_28 = 0U;
-            func_8008CBD4(state, motion, sprite, actor);
-            return;
         }
         next_timer = 8U;
-        goto store_timer;
-assign_timer:
-        next_timer = 8U;
-store_timer:
         ((Rec_func_8008ACDC_arg0 *)state)->unk_96.as_u16 = next_timer;
         ((Rec_func_8008ACDC_arg0 *)state)->unk_8C.as_pm = &D_8008ACDC;
     }

@@ -35,120 +35,111 @@ void func_80173294(S_80173294_0 *motion_state, EntityRec *motion, Rec_D_80082E80
     s32 state;
     s32 countdown;
 
-    state = motion_state->unk_9B;
-    if (state == 1) {
-        goto slow_motion;
-    }
-    if ((s32)state < 2) {
-        if (state == 0) {
-            goto start_motion;
-        }
-        return;
-    }
-    if (state == 2) {
-        goto center_on_tile;
-    }
-    return;
-
-start_motion:
-    func_800AD4D0(entity);
-    motion->unk_0C =
-        -*(s16 *)((u8 *)((s8 *)dirStepX) +
-            ((((EntityRec *)entity)->unk_6A >> 8) & 0xE)) << 15;
-    motion->unk_10 =
-        -*(s16 *)((u8 *)((s8 *)dirStepY) +
-            ((((EntityRec *)entity)->unk_6A >> 8) & 0xE)) << 15;
-    motion_state->unk_9B++;
-
-    if (((EntityRec *)entity)->unk_28 == 0) {
-        goto reset_motion;
-    }
-    if (tile_state->unk_14.at00_u16.v & 0x8000) {
-        motion_state->unk_96.s = 0;
-        motion_state->unk_9B = 2;
-        return;
-    }
-    timer = -1;
-    if (((EntityRec *)entity)->flags1C & 0x228) {
-        timer = 8;
-    }
-    motion_state->unk_96.s = timer;
-
-slow_motion:
-    x_speed_or_entity = motion->unk_0C;
-    rounded_velocity = x_speed_or_entity;
-    if (x_speed_or_entity < 0) {
-        rounded_velocity = x_speed_or_entity + 3;
-    }
-    velocity_z = motion->unk_10;
-    motion->unk_0C = x_speed_or_entity - (rounded_velocity >> 2);
-
-    rounded_velocity = velocity_z;
-    if (velocity_z < 0) {
-        rounded_velocity = velocity_z + 3;
-    }
-    motion->unk_10 = velocity_z - (rounded_velocity >> 2);
-
-    if (motion_state->unk_96.s > 0) {
-        motion_state->unk_96.u = motion_state->unk_96.u - 1;
-    } else if (tile_state->unk_14.at00_u16.v & 0x6000) {
-        motion_state->unk_96.s = 0;
-    }
-
-    if (motion_state->unk_96.s != 0) {
-        return;
-    }
-    if (((EntityRec *)entity)->unk_28 != 0) {
-        goto start_centering;
-    }
-
-reset_motion:
-    motion->flags14 = 0;
-    motion->unk_10 = 0;
-    motion->unk_0C = 0;
-    func_800AAA54(motion_state, motion, tile_state, &D_80174148);
-    return;
-
-start_centering:
-    motion_state->unk_96.s = 8;
-    motion_state->unk_9B++;
-    return;
-
-center_on_tile:
-    timer = motion_state->unk_96.s;
-    if (timer != 0) {
-        s32 tile_coord;
-        s32 offset_coord;
-
-        tile_coord = tile_state->unk_24 << 6;
-        offset_coord = motion->x.w.i;
-        offset_coord -= 0x20;
-        motion->unk_0C = ((tile_coord - offset_coord) << 15) / timer;
-
-        offset_coord = motion->y.w.i;
-        offset_coord -= 0x20;
-        tile_coord = tile_state->unk_25 << 6;
+    switch (motion_state->unk_9B) {
+    case 0:
+        func_800AD4D0(entity);
+        motion->unk_0C =
+            -*(s16 *)((u8 *)((s8 *)dirStepX) +
+                ((((EntityRec *)entity)->unk_6A >> 8) & 0xE)) << 15;
         motion->unk_10 =
-            ((tile_coord - offset_coord) << 15) / motion_state->unk_96.s;
-    }
+            -*(s16 *)((u8 *)((s8 *)dirStepY) +
+                ((((EntityRec *)entity)->unk_6A >> 8) & 0xE)) << 15;
+        motion_state->unk_9B++;
 
-    countdown = motion_state->unk_96.u - 1;
-    motion_state->unk_96.p = countdown;
-    if ((countdown << 16) > 0) {
+        if (((EntityRec *)entity)->unk_28 == 0) {
+            motion->flags14 = 0;
+            motion->unk_10 = 0;
+            motion->unk_0C = 0;
+            func_800AAA54(motion_state, motion, tile_state, &D_80174148);
+            return;
+        }
+        if (tile_state->unk_14.at00_u16.v & 0x8000) {
+            motion_state->unk_96.s = 0;
+            motion_state->unk_9B = 2;
+            return;
+        }
+        timer = -1;
+        if (((EntityRec *)entity)->flags1C & 0x228) {
+            timer = 8;
+        }
+        motion_state->unk_96.s = timer;
+        /* fall through */
+
+    case 1:
+        x_speed_or_entity = motion->unk_0C;
+        rounded_velocity = x_speed_or_entity;
+        if (x_speed_or_entity < 0) {
+            rounded_velocity = x_speed_or_entity + 3;
+        }
+        velocity_z = motion->unk_10;
+        motion->unk_0C = x_speed_or_entity - (rounded_velocity >> 2);
+
+        rounded_velocity = velocity_z;
+        if (velocity_z < 0) {
+            rounded_velocity = velocity_z + 3;
+        }
+        motion->unk_10 = velocity_z - (rounded_velocity >> 2);
+
+        if (motion_state->unk_96.s > 0) {
+            motion_state->unk_96.u = motion_state->unk_96.u - 1;
+        } else if (tile_state->unk_14.at00_u16.v & 0x6000) {
+            motion_state->unk_96.s = 0;
+        }
+
+        if (motion_state->unk_96.s != 0) {
+            return;
+        }
+        if (((EntityRec *)entity)->unk_28 == 0) {
+            motion->flags14 = 0;
+            motion->unk_10 = 0;
+            motion->unk_0C = 0;
+            func_800AAA54(motion_state, motion, tile_state, &D_80174148);
+            return;
+        }
+        motion_state->unk_96.s = 8;
+        motion_state->unk_9B++;
+        return;
+
+    case 2:
+        timer = motion_state->unk_96.s;
+        if (timer != 0) {
+            s32 tile_coord;
+            s32 offset_coord;
+
+            tile_coord = tile_state->unk_24 << 6;
+            offset_coord = motion->x.w.i;
+            offset_coord -= 0x20;
+            motion->unk_0C = ((tile_coord - offset_coord) << 15) / timer;
+
+            offset_coord = motion->y.w.i;
+            offset_coord -= 0x20;
+            tile_coord = tile_state->unk_25 << 6;
+            motion->unk_10 =
+                ((tile_coord - offset_coord) << 15) / motion_state->unk_96.s;
+        }
+
+        countdown = motion_state->unk_96.u - 1;
+        motion_state->unk_96.p = countdown;
+        if ((countdown << 16) > 0) {
+            return;
+        }
+
+        motion->flags14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
+        func_800A2B04(motion, tile_state->unk_24,
+            tile_state->unk_25);
+        {
+
+            x_speed_or_entity = ((s32)dungeonStatus.unk_10);
+            if (x_speed_or_entity == (s32)((u8 *)entity - 0x20)) {
+                dungeonStatus.unk_10 = x_speed_or_entity & 0x7FFFFFFF;
+            }
+        }
+        motion_state->unk_8C = &D_801714D4;
+        return;
+
+    default:
         return;
     }
-
-    motion->flags14 = 0;
-    motion->unk_10 = 0;
-    motion->unk_0C = 0;
-    func_800A2B04(motion, tile_state->unk_24,
-        tile_state->unk_25);
-    {
-
-        x_speed_or_entity = ((s32)dungeonStatus.unk_10);
-        if (x_speed_or_entity == (s32)((u8 *)entity - 0x20)) {
-            dungeonStatus.unk_10 = x_speed_or_entity & 0x7FFFFFFF;
-        }
-    }
-    motion_state->unk_8C = &D_801714D4;
 }

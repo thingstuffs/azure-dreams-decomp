@@ -271,15 +271,15 @@ check_neighbor:
         offset_index = direction & 7;
         {
             u8 sample_tile_y;
+            s32 sample_y_sum;
 
             sample_tile_y = pos_y;
             sample_x = (pos_x << 6) + 0x20;
             sample_x += delta_x[offset_index] << 6;
             sample_x &= 0xFFE0;
-            ASM_KEEP_NV(sample_x);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             sample_y = ((s32)sample_tile_y << 6) + 0x20;
-            sample_y += delta_y[offset_index] << 6;
-            sample_y &= 0xFFE0;
+            sample_y_sum = sample_y + (delta_y[offset_index] << 6);
+            sample_y = sample_y_sum & 0xFFE0;
         }
         height = func_800BCB04(sample_x, sample_y, (s32)bind_state);
         height_diff = (height & 0xFF) - (first_height & 0xFF);

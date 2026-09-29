@@ -78,57 +78,50 @@ void func_80038CB8(S_func_80038CB8_0 *text)
                         }
                     }
                 } else {
-                    goto advance_line;
+                    func_80039148(text);
+                    return;
                 }
                 break;
             } while (1);
         }
-    } else {
-        if (text->unk_28 >= 0) {
-            goto render_one;
-        }
+    } else if (text->unk_28 < 0) {
         batch_cursor = text->unk_1C;
-        if (*(s8 *)batch_cursor > 0) {
-            goto reset_rate;
+        if (*(s8 *)batch_cursor <= 0) {
+            neg_glyph_count = 0;
+            do {
+                if ((*batch_cursor != 0) &&
+                    (text->unk_20.s >= (s32)text->unk_24)) {
+                    func_80039148(text);
+                    return;
+                }
+                func_80038F48(text);
+                if (*(s8 *)text->unk_1C > 0) {
+                    return;
+                }
+                neg_glyph_count -= 1;
+                func_8003AB44(
+                    text->unk_1C,
+                    text->unk_20.s,
+                    text->unk_22,
+                    text->unk_2A,
+                    (s32)text->unk_00,
+                    (s32)(s16)(text->unk_02 + 2),
+                    1);
+                column_or_rate = text->unk_20.u;
+                batch_glyph = text->unk_1C;
+                column_or_rate += 1;
+                text->unk_20.s = (s16)column_or_rate;
+                column_or_rate = text->unk_28;
+                batch_cursor = batch_glyph + 2;
+                text->unk_1C = batch_cursor;
+                if (neg_glyph_count < column_or_rate) {
+                    break;
+                }
+            } while (*(s8 *)(batch_glyph + 2) <= 0);
         }
-        neg_glyph_count = 0;
-        do {
-            if ((*batch_cursor != 0) &&
-                (text->unk_20.s >= (s32)text->unk_24)) {
-                goto advance_line;
-            }
-            func_80038F48(text);
-            if (*(s8 *)text->unk_1C > 0) {
-                goto done;
-            }
-            neg_glyph_count -= 1;
-            func_8003AB44(
-                text->unk_1C,
-                text->unk_20.s,
-                text->unk_22,
-                text->unk_2A,
-                (s32)text->unk_00,
-                (s32)(s16)(text->unk_02 + 2),
-                1);
-            column_or_rate = text->unk_20.u;
-            batch_glyph = text->unk_1C;
-            column_or_rate += 1;
-            text->unk_20.s = (s16)column_or_rate;
-            column_or_rate = text->unk_28;
-            batch_cursor = batch_glyph + 2;
-            text->unk_1C = batch_cursor;
-            if (neg_glyph_count < column_or_rate) {
-                goto reset_rate;
-            }
-        } while (*(s8 *)(batch_glyph + 2) <= 0);
-reset_rate:
         text->unk_28 =
             ((S_func_80038CB8_1 *)text->unk_80)->unk_03;
-        goto done;
-advance_line:
-        func_80039148(text);
-        goto done;
-render_one:
+    } else {
         func_80038F48(text);
         if (*(s8 *)text->unk_1C <= 0) {
             func_8003AB44(
@@ -148,7 +141,5 @@ render_one:
                 text->unk_10 = func_80038128;
             }
         }
-done:
-        ;
     }
 }

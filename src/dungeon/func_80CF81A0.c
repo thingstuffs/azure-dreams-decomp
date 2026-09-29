@@ -50,65 +50,50 @@ void func_801699A0(Obj0 *owner, void *context, Obj2 *sprite_arg, Obj3 *entity_ar
     kind = entity->kind48;
     switch (kind) {
     case 13:
-        if ((entity->flags1c & 0x200) != 0) {
-            goto kind13_default;
+        if ((entity->flags1c & 0x200) != 0 || entity->flag25 == 0) {
+            current_table = (u32)sprite->table2c;
+            selected_table = (u32)D_80169E54;
+        } else {
+            current_table = (u32)sprite->table2c;
+            selected_table = (u32)D_80169E24;
         }
-        if (entity->flag25 != 0) {
-            goto kind13_alternate;
+        if (current_table != selected_table) {
+            *(u32 *)((u8 *)sprite + 0x2c) = selected_table;
+            direction_index = (gameWork.view.viewAngle + entity->value2a + 0x100) >> 9;
+            func_80047784(sprite, *(u8 *)((direction_index & 7) + selected_table), 0);
         }
-kind13_default:
-        current_table = (u32)sprite->table2c;
-        selected_table = (u32)D_80169E54;
-        goto first_join;
-kind13_alternate:
-        current_table = (u32)sprite->table2c;
-        selected_table = (u32)D_80169E24;
-        goto first_join;
-
+        break;
     case 14:
-        if ((entity->flags1c & 0x200) != 0) {
-            goto kind14_default;
+        if ((entity->flags1c & 0x200) != 0 || entity->flag25 == 0) {
+            current_table = (u32)sprite->table2c;
+            selected_table = (u32)D_80169E5C;
+        } else {
+            current_table = (u32)sprite->table2c;
+            selected_table = (u32)D_80169E2C;
         }
-        if (entity->flag25 != 0) {
-            goto kind14_alternate;
+        if (current_table != selected_table) {
+            *(u32 *)((u8 *)sprite + 0x2c) = selected_table;
+            direction_index = (gameWork.view.viewAngle + entity->value2a + 0x100) >> 9;
+            func_80047784(sprite, *(u8 *)((direction_index & 7) + selected_table), 0);
         }
-kind14_default:
-        current_table = (u32)sprite->table2c;
-        selected_table = (u32)D_80169E5C;
-        goto first_join;
-kind14_alternate:
-        current_table = (u32)sprite->table2c;
-        selected_table = (u32)D_80169E2C;
-        goto first_join;
-
+        break;
     case 15:
-        if ((entity->flags1c & 0x200) != 0) {
-            goto kind15_default;
+        if ((entity->flags1c & 0x200) != 0 || entity->flag25 == 0) {
+            current_table = (u32)sprite->table2c;
+            selected_table = (u32)D_80169E64;
+        } else {
+            current_table = (u32)sprite->table2c;
+            selected_table = (u32)D_80169E34;
         }
-        if (entity->flag25 != 0) {
-            goto kind15_alternate;
+        if (current_table != selected_table) {
+            *(u32 *)((u8 *)sprite + 0x2c) = selected_table;
+            direction_index = (gameWork.view.viewAngle + entity->value2a + 0x100) >> 9;
+            func_80047784(sprite, *(u8 *)((direction_index & 7) + selected_table), 0);
         }
-kind15_default:
-        current_table = (u32)sprite->table2c;
-        selected_table = (u32)D_80169E64;
-        goto first_join;
-kind15_alternate:
-        current_table = (u32)sprite->table2c;
-        selected_table = (u32)D_80169E34;
-        goto first_join;
-
+        break;
     default:
-        goto after_first_update;
+        break;
     }
-
-first_join:
-    if (current_table != selected_table) {
-        *(u32 * volatile)((u8 *)sprite + 0x2c) = selected_table;
-        direction_index = (gameWork.view.viewAngle + entity->value2a + 0x100) >> 9;
-        func_80047784(sprite, *(u8 *)((direction_index & 7) + selected_table), 0);
-    }
-
-after_first_update:
     if (func_800AC82C(owner, context, sprite, entity) != 0) {
         if ((func_800AD9B4(sprite, entity) << 16) > 0) {
             owner->field8c = D_801664BC;
@@ -122,7 +107,7 @@ after_first_update:
             (entity->flags1c & 0x208) != 0) {
             return;
         }
-        *(u32 * volatile)((u8 *)sprite + 0x2c) = (u32)&D_80169DC4;
+        *(u32 *)((u8 *)sprite + 0x2c) = (u32)&D_80169DC4;
         direction_index = (gameWork.view.viewAngle + entity->value2a + 0x100) >> 9;
         func_80047784(sprite, *(u8 *)((direction_index & 7) + (u32)&D_80169DC4), 0);
         return;
@@ -131,7 +116,7 @@ after_first_update:
             (entity->flags1c & 0x208) != 0) {
             return;
         }
-        *(u32 * volatile)((u8 *)sprite + 0x2c) = (u32)&D_80169DCC;
+        *(u32 *)((u8 *)sprite + 0x2c) = (u32)&D_80169DCC;
         direction_index = (gameWork.view.viewAngle + entity->value2a + 0x100) >> 9;
         func_80047784(sprite, *(u8 *)((direction_index & 7) + (u32)&D_80169DCC), 0);
         return;
@@ -140,7 +125,7 @@ after_first_update:
             (entity->flags1c & 0x208) != 0) {
             return;
         }
-        *(u32 * volatile)((u8 *)sprite + 0x2c) = (u32)&D_80169DD4;
+        *(u32 *)((u8 *)sprite + 0x2c) = (u32)&D_80169DD4;
         direction_index = (gameWork.view.viewAngle + entity->value2a + 0x100) >> 9;
         func_80047784(sprite, *(u8 *)((direction_index & 7) + (u32)&D_80169DD4), 0);
         return;

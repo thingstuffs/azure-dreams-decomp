@@ -69,24 +69,8 @@ void func_801738E0(void *entity, void *context, void *anim, void *actor)
     s32 state;
 
     state = ((S_801738E0_0 *)entity)->unk_9B;
-    if (state == 1) {
-        goto state_one;
-    }
-    if (state >= 2) {
-        goto at_least_two;
-    }
-    if (state == 0) {
-        goto state_zero;
-    }
-    return;
-
-at_least_two:
-    if (state == 2) {
-        goto state_two;
-    }
-    return;
-
-state_zero:
+    switch (state) {
+    case 0:
     {
         s32 *scene_state;
         u8 *direction_anims;
@@ -102,10 +86,10 @@ state_zero:
         func_80047784(anim,
             direction_anims[((gameWork.view.viewAngle + ((S_801738E0_3 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
-        goto increment_state;
-    }
-
-state_one:
+        ((S_801738E0_0 *)entity)->unk_9B++;
+        return;
+        }
+    case 1:
     {
         u8 *scene_state;
         u32 actor_flags;
@@ -120,7 +104,8 @@ state_one:
             ((S_801738E0_3 *)actor)->unk_1C |= 0x40000;
             scene_state = &dungeonStatus.unk_00;
             ((S_801738E0_2 *)scene_state)->unk_0A++;
-            goto increment_state;
+            ((S_801738E0_0 *)entity)->unk_9B++;
+            return;
         }
 
         scene_state = (u8 *)&dungeonStatus.unk_00;
@@ -180,13 +165,10 @@ state_one:
             0);
         ((S_801738E0_3 *)actor)->unk_1C |= 0x40000;
         ((S_801738E0_4 *)scene_state)->unk_0A++;
-    }
-
-increment_state:
+        }
     ((S_801738E0_0 *)entity)->unk_9B++;
     return;
-
-state_two:
+    case 2:
     if (((S_801738E0_1 *)anim)->unk_14 & 0xE000) {
         s32 *scene_state;
 
@@ -197,4 +179,7 @@ state_two:
     }
 
     return;
+    default:
+        return;
+    }
 }

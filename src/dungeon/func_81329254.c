@@ -32,10 +32,8 @@ void func_80170A54(void *record_data) {
     TileObject *state_data = &D_80082E80;
 
 
-    {
+    if (state_data->unk_004 == 2) {
         u8 direction_entry;
-        if (state_data->unk_004 != 2)
-            goto done;
         direction_entry = ((u8 *)state_data->unk_02C)[
                  (((s32) (gameWork.view.viewAngle +
                           active_object->unk_2A +
@@ -45,6 +43,4 @@ void func_80170A54(void *record_data) {
         ((S_80170A54_2 *)((u8 *)record_data - 0x2))->unk_00 = (u16) (((S_80170A54_2 *)((u8 *)record_data - 0x2))->unk_00 | 0x8000);
         objectFlagBlock.flags |= 0x8000;
     }
-done:
-    ;
 }

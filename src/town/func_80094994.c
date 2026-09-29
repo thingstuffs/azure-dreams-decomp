@@ -36,13 +36,13 @@ void func_800920F4(Rec_func_80094268_arg0 *state, EntityRec *entity, M2C_UNK con
         func_80094910();
         func_80095A94(entity, threshold, &D_800FE488);
         func_800ABD74(entity);
-        goto shared_tail;
+        func_80094330(state, entity, context);
+        return;
     }
     if (D_800CFCEF != 0) {
         func_80094910();
         entity->flags14 = 0;
         func_800954F4(entity);
-shared_tail:
         func_80094330(state, entity, context);
         return;
     }

@@ -90,28 +90,24 @@ void func_80172C10(S_80172C10_0 *state, EntityRec *motion, Rec_D_80082E80 *tile,
         if (state->unk_96.s != 0) {
             return;
         }
-        if (((EntityRec *)entity)->unk_28 != 0) {
-            goto increment_state;
-        }
+        if (((EntityRec *)entity)->unk_28 == 0) {
+            motion->flags14 = 0;
+            motion->unk_10 = 0;
+            motion->unk_0C = 0;
+            if (state->unk_A7 != 0) {
+                func_800AAA54(state, motion, tile, D_80176378);
+                if (state->unk_A8 != 0) {
+                    u8 *mark_base;
 
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
-        if (state->unk_A7 != 0) {
-            func_800AAA54(state, motion, tile, D_80176378);
-            if (state->unk_A8 != 0) {
-                u8 *mark_base;
-
-                mark_base = ((u8 *)D_800E3D7C);
-                mark_base += state->unk_A8;
-                mark_base[0xF9] = 1;
+                    mark_base = ((u8 *)D_800E3D7C);
+                    mark_base += state->unk_A8;
+                    mark_base[0xF9] = 1;
+                }
+                return;
             }
+            func_800AAA54(state, motion, tile, D_80176318);
             return;
         }
-        func_800AAA54(state, motion, tile, D_80176318);
-        return;
-
-increment_state:
         state->unk_96.s = 8;
         state->unk_9B++;
         return;

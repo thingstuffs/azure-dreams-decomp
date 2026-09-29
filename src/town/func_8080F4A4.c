@@ -300,12 +300,10 @@ void func_8052A0A4(S_func_8080F4A4_1 *game) {
         if (((input->unk_10 & 0x1000) || ((input->unk_08 & 0x1000) && ((s16) game->unk_1A <= 0))) && (game->unk_14 <= 0x1869F) && ((u32) D_80012BCC[0] >= 0x3E8U)) {
             D_80012BC8[1] = D_80012BCC[0] - 0x3E8;
             new_bet = game->unk_14 + 0x3E8;
-            goto store_bet;
-        }
-        if (((input->unk_10 & 0x4000) || ((input->unk_08 & 0x4000) && ((s16) game->unk_1A <= 0))) && (game->unk_14 >= 0x3E8)) {
+            game->unk_14 = new_bet;
+        } else if (((input->unk_10 & 0x4000) || ((input->unk_08 & 0x4000) && ((s16) game->unk_1A <= 0))) && (game->unk_14 >= 0x3E8)) {
             D_80012BC8[1] = D_80012BCC[0] + 0x3E8;
             new_bet = game->unk_14 - 0x3E8;
-store_bet:
             game->unk_14 = new_bet;
         }
         game->unk_1E = (u16) (game->unk_14 / 1000);
@@ -382,63 +380,52 @@ store_bet:
         game->unk_1C = (u16) (bounce_frame + 1);
         switch ((s16) bounce_frame) {
         case 0x0:
-            goto bounce_frame_0;
+            bounce_anim = (s32)D_80290298;
+            func_802445FC(bounce_anim);
+            break;
+        case 0x5:
+            bounce_anim = (s32)D_802902A8;
+            func_802445FC(bounce_anim);
+            break;
+        case 0x14:
+            bounce_y_speed = 0x18000;
+            bounce_anim = (s32)D_80290268;
+            D_80132AE8[5] = -0xC0000;
+            D_80132AE8[4] = bounce_y_speed;
+            func_802445FC(bounce_anim);
+            break;
+        case 0x19:
+        case 0x29:
+        case 0x35:
+            bounce_anim = (s32)&D_80290298[0x10];
+            func_802445FC(bounce_anim);
+            break;
         case 0x15:
         case 0x25:
         case 0x31:
         case 0x3E:
-            goto bounce_anim_98;
-        case 0x5:
-            goto bounce_frame_5;
-        case 0x19:
-        case 0x29:
-        case 0x35:
-            goto bounce_anim_a8;
-        case 0x14:
-            goto bounce_frame_20;
+            bounce_anim = (s32)&D_80290290[8];
+            func_802445FC(bounce_anim);
+            break;
         case 0x24:
-            goto bounce_frame_36;
+            bounce_anim = (s32)D_80290268;
+            D_80132AE8[5] = -0x80000;
+            D_80132AE8[4] = 0x20000;
+            func_802445FC(bounce_anim);
+            break;
         case 0x30:
-            goto bounce_frame_48;
+            bounce_speed = -0x40000;
+            D_80132AE8[5] = bounce_speed;
+            bounce_anim = (s32)D_80290268;
+            func_802445FC(bounce_anim);
+            break;
         case 0x3D:
-            goto bounce_frame_61;
-        default:
-            goto bounce_done;
+            bounce_speed = -0x38000;
+            D_80132AE8[5] = bounce_speed;
+            bounce_anim = (s32)D_80290268;
+            func_802445FC(bounce_anim);
+            break;
         }
-bounce_frame_0:
-        bounce_anim = (s32)D_80290298;
-        goto set_bounce_anim;
-bounce_frame_5:
-        bounce_anim = (s32)D_802902A8;
-        goto set_bounce_anim;
-bounce_frame_20:
-        bounce_y_speed = 0x18000;
-        bounce_anim = (s32)D_80290268;
-        D_80132AE8[5] = -0xC0000;
-        D_80132AE8[4] = bounce_y_speed;
-        goto set_bounce_anim;
-bounce_anim_a8:
-        bounce_anim = (s32)&D_80290298[0x10];
-        goto set_bounce_anim;
-bounce_anim_98:
-        bounce_anim = (s32)&D_80290290[8];
-        goto set_bounce_anim;
-bounce_frame_36:
-        bounce_anim = (s32)D_80290268;
-        D_80132AE8[5] = -0x80000;
-        D_80132AE8[4] = 0x20000;
-        goto set_bounce_anim;
-bounce_frame_48:
-        bounce_speed = -0x40000;
-        goto set_bounce_speed;
-bounce_frame_61:
-        bounce_speed = -0x38000;
-set_bounce_speed:
-        D_80132AE8[5] = bounce_speed;
-        bounce_anim = (s32)D_80290268;
-        goto set_bounce_anim;
-set_bounce_anim:
-        func_802445FC(bounce_anim);
 bounce_done:
         if (game_data->unk_70 == 3) {
             D_80132AE8[5] = -0x50000;
@@ -458,36 +445,27 @@ bounce_done:
         case 0:
         case 11:
         case 19:
-            goto settle_anim_98;
+            settle_anim = (s32)D_80290298;
+            func_802445FC(settle_anim);
+            break;
         case 5:
-            goto settle_anim_a8;
+            settle_anim = (s32)D_802902A8;
+            func_802445FC(settle_anim);
+            break;
         case 10:
-            goto settle_frame_10;
-        case 26:
-            goto settle_frame_26;
+            settle_speed = -0x40000;
+            D_80132AE8[5] = settle_speed;
+            settle_anim = (s32)D_80290268;
+            func_802445FC(settle_anim);
+            break;
         case 18:
-            goto settle_frame_18;
-        default:
-            goto settle_done;
+            settle_speed = -0x30000;
+            D_80132AE8[5] = settle_speed;
+        case 26:
+            settle_anim = (s32)D_80290268;
+            func_802445FC(settle_anim);
+            break;
         }
-settle_anim_98:
-        settle_anim = (s32)D_80290298;
-        goto set_settle_anim;
-settle_anim_a8:
-        settle_anim = (s32)D_802902A8;
-        goto set_settle_anim;
-settle_frame_10:
-        settle_speed = -0x40000;
-        goto set_settle_speed;
-settle_frame_18:
-        settle_speed = -0x30000;
-set_settle_speed:
-        D_80132AE8[5] = settle_speed;
-settle_frame_26:
-        settle_anim = (s32)D_80290268;
-        goto set_settle_anim;
-set_settle_anim:
-        func_802445FC(settle_anim);
 settle_done:
         if ((s16) game->unk_1C == 0x1C) {
             game_data->unk_70 = 4;
@@ -591,7 +569,7 @@ settle_done:
             func_80232A08(D_80530588[0]);
             game->unk_18 = 0;
             finish_flags = game->unk_20 | 2;
-            goto store_finish_flags;
+            game->unk_20 = finish_flags;
         }
         break;
     case 10:
@@ -608,7 +586,6 @@ settle_done:
             game->unk_1E = 0U;
             game->unk_18 = 0;
             finish_flags = game->unk_20 | 0xA;
-store_finish_flags:
             game->unk_20 = finish_flags;
         }
         break;

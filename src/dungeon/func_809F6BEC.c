@@ -57,45 +57,38 @@ void func_801743EC(void *effect, void *position, void *sprite)
     u16 angle;
 
     state = ((S_801743EC_0 *)effect)->unk_4C.s;
-    if (state == 0) {
-        goto state_zero;
+    switch (state) {
+    case 0:
+        func_800478B8(sprite);
+        if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000) {
+            ((Rec_D_80082E80 *)sprite)->unk_04.as_s8 = 0;
+            ((Rec_D_80082E80 *)sprite)->unk_05.as_s8 = 0;
+        }
+        ((Rec_D_80082E80 *)sprite)->unk_0C.at00_s32.v += 0xFFE7E7E8;
+        if ((u8)((Rec_D_80082E80 *)sprite)->unk_0C.at00_s32.v < 0x30U) {
+            ((S_801743EC_0 *)effect)->unk_4C.u++;
+        }
+
+        angle = ((S_801743EC_0 *)effect)->unk_08 + 10;
+        quarter_angle = (s32)(angle << 16) >> 18;
+        ((S_801743EC_0 *)effect)->unk_08 = angle;
+        ((S_801743EC_0 *)effect)->unk_04 = (u16)(-(quarter_angle * quarter_angle) >> 4);
+
+        transform.field0 = (u8 *)effect + 4;
+        transform.field4 = &transformed_position;
+        transform.field8 = *(Unaligned8 *)((u8 *)effect + 0x14);
+        transform.field10 = *(Unaligned8 *)((u8 *)effect + 0xC);
+        transform.field18 = 1;
+        transform.field1A = 1;
+        func_800DBA90(&transform);
+        ((S_801743EC_2 *)position)->unk_02 = transformed_position.x;
+        ((S_801743EC_2 *)position)->unk_06 = transformed_position.y;
+        ((S_801743EC_2 *)position)->unk_0A = transformed_position.z;
+    
+        break;
+    case 1:
+        (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
+        break;
     }
-    if (state == 1) {
-        goto state_one;
-    }
-    return;
-
-state_zero:
-    func_800478B8(sprite);
-    if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000) {
-        ((Rec_D_80082E80 *)sprite)->unk_04.as_s8 = 0;
-        ((Rec_D_80082E80 *)sprite)->unk_05.as_s8 = 0;
-    }
-    ((Rec_D_80082E80 *)sprite)->unk_0C.at00_s32.v += 0xFFE7E7E8;
-    if ((u8)((Rec_D_80082E80 *)sprite)->unk_0C.at00_s32.v < 0x30U) {
-        ((S_801743EC_0 *)effect)->unk_4C.u++;
-    }
-
-    angle = ((S_801743EC_0 *)effect)->unk_08 + 10;
-    quarter_angle = (s32)(angle << 16) >> 18;
-    ((S_801743EC_0 *)effect)->unk_08 = angle;
-    ((S_801743EC_0 *)effect)->unk_04 = (u16)(-(quarter_angle * quarter_angle) >> 4);
-
-    transform.field0 = (u8 *)effect + 4;
-    transform.field4 = &transformed_position;
-    transform.field8 = *(Unaligned8 *)((u8 *)effect + 0x14);
-    transform.field10 = *(Unaligned8 *)((u8 *)effect + 0xC);
-    transform.field18 = 1;
-    transform.field1A = 1;
-    func_800DBA90(&transform);
-    ((S_801743EC_2 *)position)->unk_02 = transformed_position.x;
-    ((S_801743EC_2 *)position)->unk_06 = transformed_position.y;
-    ((S_801743EC_2 *)position)->unk_0A = transformed_position.z;
-    return;
-
-state_one:
-    (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-    objectFlagBlock.flags |= 0x8000;
-
-    return;
 }

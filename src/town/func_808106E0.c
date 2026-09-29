@@ -50,7 +50,6 @@ s32 func_808106E0(void)
     Triple positions1 = D_80526688;
     u8 *object;
     s32 shared_part_y;
-    u8 *selected;
     s32 i;
     s32 y_second;
 
@@ -103,19 +102,15 @@ s32 func_808106E0(void)
             shared_part_y = (s32)object + 0x20;
             switch (i) {
             case 0:
-                selected = anchor + 6;
+                ((S_808106E0_0 *)object)->unk_28.at00.v = anchor + 6;
                 break;
             case 2:
-                selected = anchor + 10;
+                ((S_808106E0_0 *)object)->unk_28.at00.v = anchor + 10;
                 break;
             case 1:
-                selected = anchor + 8;
+                ((S_808106E0_0 *)object)->unk_28.at00.v = anchor + 8;
                 break;
-            default:
-                goto store_anchor;
             }
-            ((S_808106E0_0 *)object)->unk_28.at00.v = selected;
-        store_anchor:
             ((S_808106E0_1 *)shared_part_y)->unk_0C = anchor;
         }
         i--;
@@ -147,7 +142,7 @@ s32 func_808106E0(void)
 
 /* MECHANISM: Declare the held s3 anchor before two independent 12-byte stack locals to match the 0x48 prologue.
    The three-way selection is a switch: gcc 2.7.2 emits the balanced tree (beq ==1, slti 2, beq ==0,
-   beq ==2) retail shows, case 1 last so its addiu falls into the join, and the default arm's
-   `goto store_anchor` becomes the two `j 0x52b4e8` + thread-filled `sw s3,12(s2)` pairs.
-   The switch's default label also ends the fall-through extended block, so shared_part_y stays
+   beq ==2) retail shows, case 1 last so its addiu falls into the join; each case stores its own
+   anchor offset and the join stores the anchor (the old default arm's jump is now the missing-default fall-out).
+   The switch's end label also ends the fall-through extended block, so shared_part_y stays
    s2+0xC instead of CSE-folding to s0+0x2C - no keep needed. */

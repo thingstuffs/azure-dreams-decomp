@@ -17,57 +17,33 @@ void func_800BC390(void *object)
     state = S16_AT(object, 0);
     timer = U16_AT(object, 2) - 1;
     U16_AT(object, 2) = timer;
-    if (state == 1) {
-        goto state_1;
-    }
-    if (state >= 2) {
-        goto state_ge_2;
-    }
-    if (state == 0) {
-        goto state_0;
-    }
-    return;
-    return;
+    switch (state) {
+    case 0:
+        if ((timer << 16) > 0) {
+            return;
+        }
+        VU16_AT(object, 2) = 12;
+        prior_state = VU16_AT(object, 0);
+        state = 3;
+        S16_AT(object, 0x14) = state;
+        U16_AT(object, 0) = prior_state + 1;
+        return;
 
-state_ge_2:
-    if (state == 2) {
-        goto state_2;
-    }
-    return;
-    return;
+    case 1:
+        decay_value = S32_AT(object, 8);
+        if (decay_value > 0) {
+            S32_AT(object, 8) = decay_value + (s32)0xFFF7FBFC;
+        }
+        if (S16_AT(object, 2) > 0) {
+            return;
+        }
+        prior_state = U16_AT(object, 0);
+        U16_AT(object, 0) = prior_state + 1;
+        return;
 
-state_0:
-{
-
-    if ((timer << 16) > 0) {
+    case 2:
+        U16_AT(object, -2) = U16_AT(object, -2) | 0x8000;
+        S32_AT((void *)D_80080000, 0x14A0) |= 0x8000;
         return;
     }
-    VU16_AT(object, 2) = 12;
-    prior_state = VU16_AT(object, 0);
-    state = 3;
-    S16_AT(object, 0x14) = state;
-    goto advance_state;
-}
-
-state_1:
-    decay_value = S32_AT(object, 8);
-    if (decay_value > 0) {
-        S32_AT(object, 8) = decay_value + (s32)0xFFF7FBFC;
-    }
-    if (S16_AT(object, 2) > 0) {
-        return;
-    }
-    prior_state = U16_AT(object, 0);
-advance_state:
-    U16_AT(object, 0) = prior_state + 1;
-    return;
-
-state_2:
-{
-
-    U16_AT(object, -2) = U16_AT(object, -2) | 0x8000;
-    S32_AT((void *)D_80080000, 0x14A0) |= 0x8000;
-}
-
-    return;
 }

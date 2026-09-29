@@ -67,68 +67,55 @@ void *func_80170E74(s16 flags, s16 kind_id, s16 variant, s32 spawn_value)
 
     result = 0;
     object = func_8003FD64(0x112, ((s32 *)&D_80083498.next));
-    if (object == 0) {
-        goto done;
+    if (object != 0) {
+        result = object;
+        result = (S_80170E74_1 *)((u8 *)result + 0x20);
+        ((S_80170E74_0 *)object)->unk_10 = D_8017103C;
+        result->unk_13 = 42;
+        func_8004491C(object, func_80045340);
+
+        {
+            void *handler;
+
+            part0 = ((S_80170E74_0 *)object)->unk_08;
+            handler = D_8017609C;
+            part0->unk_0A = spawn_value;
+            part1 = ((S_80170E74_0 *)object)->unk_0C;
+            kind = flags & 3;
+            part1->unk_25 = variant;
+            result_copy = result;
+            part1->unk_2C = handler;
+        }
+        part1->unk_24 = kind_id;
+
+        if (kind == 1) {
+            flags0 = result->unk_14;
+            flags1 = result->unk_1C;
+            flags0 |= 0x6000;
+            flags1 |= 0x6000;
+            result->unk_14 = flags0;
+            result->unk_1C = flags1;
+        } else if (kind >= 2) {
+            flags0 = result->unk_14;
+            flags1 = result->unk_1C;
+            flags0 |= 0x2000;
+            flags1 |= 0x2000;
+            result->unk_14 = flags0;
+            result->unk_1C = flags1;
+        } else if (((flags & -4) << 16) == 0) {
+            if ((result->unk_14 & 0x200) == 0) {
+                if ((func_800A6D30() & 1) != 0) {
+                    func_800A48F0(result, 1, (func_800A6D30() & 0x3F) | 0x20);
+                    part1->unk_2C = D_801760EC;
+                }
+            }
+        }
+
+        func_800A9C18(object, part0, part1, flags);
+        result_copy->unk_9A = 0xFF;
+        result_copy->unk_9C = -1;
+        result_copy->unk_8C = &D_801714B8;
+        func_800AA36C(result_copy, part0, part1, result);
     }
-
-    result = object;
-    result = (S_80170E74_1 *)((u8 *)result + 0x20);
-    ((S_80170E74_0 *)object)->unk_10 = D_8017103C;
-    result->unk_13 = 42;
-    func_8004491C(object, func_80045340);
-
-    {
-        void *handler;
-
-        part0 = ((S_80170E74_0 *)object)->unk_08;
-        handler = D_8017609C;
-        part0->unk_0A = spawn_value;
-        part1 = ((S_80170E74_0 *)object)->unk_0C;
-        kind = flags & 3;
-        part1->unk_25 = variant;
-        result_copy = result;
-        part1->unk_2C = handler;
-    }
-    part1->unk_24 = kind_id;
-
-    if (kind == 1) {
-        flags0 = result->unk_14;
-        flags1 = result->unk_1C;
-        flags0 |= 0x6000;
-        flags1 |= 0x6000;
-        result->unk_14 = flags0;
-        result->unk_1C = flags1;
-        goto common;
-    }
-
-    if (kind >= 2) {
-        flags0 = result->unk_14;
-        flags1 = result->unk_1C;
-        flags0 |= 0x2000;
-        flags1 |= 0x2000;
-        result->unk_14 = flags0;
-        result->unk_1C = flags1;
-        goto common;
-    }
-
-    if (((flags & -4) << 16) != 0) {
-        goto common;
-    }
-    if ((result->unk_14 & 0x200) != 0) {
-        goto common;
-    }
-    if ((func_800A6D30() & 1) != 0) {
-        func_800A48F0(result, 1, (func_800A6D30() & 0x3F) | 0x20);
-        part1->unk_2C = D_801760EC;
-    }
-
-common:
-    func_800A9C18(object, part0, part1, flags);
-    result_copy->unk_9A = 0xFF;
-    result_copy->unk_9C = -1;
-    result_copy->unk_8C = &D_801714B8;
-    func_800AA36C(result_copy, part0, part1, result);
-
-done:
     return result;
 }

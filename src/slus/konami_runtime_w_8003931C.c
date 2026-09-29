@@ -59,7 +59,7 @@ void func_8003931C(State *state)
     Entry *entry;
     AuxState *aux;
     ObjectBlock *object;
-    volatile ObjectBlock *object_header;
+    ObjectBlock *object_header;
     void *object_type;
 
     cursor++;
@@ -68,53 +68,44 @@ void func_8003931C(State *state)
     entries = D_80082660;
     entry = entries + entry_index;
     aux = state->aux;
-    if (entry->active != 0) {
-        goto active;
+    if (entry->active == 0) {
+        if (entry_index == 0) {
+            return;
+        }
+
+        do {
+            object = ms_mot_accpt_ow(entry_index);
+        } while (0);
+        if (object != 0) {
+            object_header = object - 1;
+            value_ptr = state->read_ptr;
+            entry->value = *value_ptr;
+            value_ptr++;
+            state->read_ptr = value_ptr;
+            entry->active = 1;
+            entry->aux_value = aux->value_48;
+
+            if (entry_index == 1 &&
+                (object_type = object_header->type) != (void *)D_800C3174 &&
+                object_type != (void *)D_800C321C) {
+                *(s16 *)((u8 *)object + 0x36) = aux->value_4c;
+                *(s16 *)((u8 *)object + 0x38) = aux->value_50;
+                return;
+            }
+
+            *(s16 *)((u8 *)object + 0x88) = aux->value_4c;
+            *(s16 *)((u8 *)object + 0x8A) = aux->value_50;
+        } else {
+            state->callback = func_80038408;
+            state->entry_index = index_byte;
+            state->timer = 0x10;
+            state->read_ptr -= 2;
+        }
+    } else {
+        do {
+            state->read_ptr = cursor - 2;
+            state->entry_index = index_byte;
+            state->callback = func_800383D4;
+        } while (0);
     }
-    if (entry_index == 0) {
-        return;
-    }
-
-    do {
-        object = ms_mot_accpt_ow(entry_index);
-    } while (0);
-    if (object == 0) {
-        goto unavailable;
-    }
-
-    object_header = object - 1;
-    value_ptr = state->read_ptr;
-    entry->value = *value_ptr;
-    value_ptr++;
-    state->read_ptr = value_ptr;
-    entry->active = 1;
-    entry->aux_value = aux->value_48;
-
-    if (entry_index == 1 &&
-        (object_type = object_header->type) != (void *)D_800C3174 &&
-        object_type != (void *)D_800C321C) {
-        *(s16 *)((u8 *)object + 0x36) = aux->value_4c;
-        *(s16 *)((u8 *)object + 0x38) = aux->value_50;
-        return;
-    }
-
-    *(s16 *)((u8 *)object + 0x88) = aux->value_4c;
-    *(s16 *)((u8 *)object + 0x8A) = aux->value_50;
-    return;
-
-unavailable:
-    state->callback = func_80038408;
-    state->entry_index = index_byte;
-    state->timer = 0x10;
-    state->read_ptr -= 2;
-    return;
-
-active:
-    do {
-        state->read_ptr = cursor - 2;
-        state->entry_index = index_byte;
-        state->callback = func_800383D4;
-    } while (0);
-
-    return;
 }

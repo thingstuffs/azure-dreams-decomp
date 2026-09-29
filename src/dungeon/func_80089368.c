@@ -121,7 +121,7 @@ void func_8008EAC8(void *arg0, void *arg1, void *arg2, void *arg3) {
     u16 temp_v1_6;
     u16 var_v0;
     u16 var_v0_4;
-    u32 temp_v1_7; /* MATCH: both arms merge the fifth argument in v1. */
+    u32 temp_v1_7;
     u8 temp_a0_2;
     u8 temp_a1_2;
     u8 temp_a1_3;
@@ -129,13 +129,9 @@ void func_8008EAC8(void *arg0, void *arg1, void *arg2, void *arg3) {
     u8 temp_a1_5;
     s32 temp_angle;
     void *code8_a0;
-    void *call0; /* MATCH: both arms prepare a0 before the shared call. */
-    void *call1; /* MATCH: both arms prepare a1 before the shared call. */
-    void *call2; /* MATCH: both arms prepare a2 before the shared call. */
-    register s32 temp_v0_4 ASM_REG("$7"); /* MATCH: merge the fourth argument in a3. */
     s32 tail_data_flags;
     void *call_arg;
-    register u8 *data ASM_REG("$5"); /* MATCH: shared tail receives its data pointer in a1. */
+    u8 *data;
     void *temp_v0;
     void *temp_v0_2;
 
@@ -182,13 +178,10 @@ block_5:
         call_arg = arg2;
         {
             void *callback = &D_8008ACDC;
-            {
-                do {
-                    data = (u8 *) &D_800DCFB0;
-                } while (0);
-                ((Rec_func_8008ACDC_arg0 *)arg0)->unk_8C.as_pv = callback;
-                goto block_154;
-            }
+            u8 *table = (u8 *) &D_800DCFB0;
+            ((Rec_func_8008ACDC_arg0 *)arg0)->unk_8C.as_pv = callback;
+            (*(u8 **)((u8 *)call_arg + (0x2C))) = table;
+            func_80048A44(call_arg, *((u8 *) (((s32) (gameWork.view.viewAngle + (s16) ((S_8008EAC8_1 *)arg3)->unk_2A.u + 0x100) >> 9) & 7) + (u32) table), 0, 1);
         }
         return;
     }
@@ -332,28 +325,20 @@ code_50:
                     return;
 code_68:
                     temp_v0_2 = func_8009FADC(((S_8008EAC8_6 *)temp_v0)->unk_00 & 0x1F, temp_a1);
-                    {
-                        void *call3 = temp_v0_2; /* MATCH: retain the returned pointer in v0 until argument setup. */
-                        call0 = arg0;
-                        call1 = arg1;
-                        call2 = arg2;
-                         /* MATCH: prepare argument registers before loading the mode. */
-                        temp_v1_7 = (u32) (((S_8008EAC8_6 *)temp_v0)->unk_00 & 0x60) >> 5;
-                        temp_v0_4 = (s32) call3;
-                        goto block_94270;
-                    }
-code_88:
-                    call0 = arg0;
                     temp_v1_7 = ((S_8008EAC8_6 *)temp_v0)->unk_00;
-                     /* MATCH: load the mode before preparing a1. */
-                    call1 = arg1;
                     temp_v1_7 &= 0x60;
                     temp_v1_7 >>= 5;
-                    temp_v0_4 = ((S_8008EAC8_8 *)(((temp_v1_7 * 4) + call0)))->unk_D0;
-                    ASM_SCHED_BARRIER(); /* MATCH: prepare a2 after loading the fourth argument. */
-                    call2 = arg2;
-block_94270:
-                    func_80094270(call0, call1, call2, temp_v0_4, temp_v1_7);
+                    func_80094270(arg0, arg1, arg2, (s32) temp_v0_2, temp_v1_7);
+                    return;
+code_88:
+                    temp_v1_7 = ((S_8008EAC8_6 *)temp_v0)->unk_00;
+                    temp_v1_7 &= 0x60;
+                    temp_v1_7 >>= 5;
+                    {
+                        s32 fourth;
+                        fourth = ((S_8008EAC8_8 *)(((temp_v1_7 * 4) + (u8 *)arg0)))->unk_D0;
+                        func_80094270(arg0, arg1, arg2, fourth, temp_v1_7);
+                    }
                     return;
 code_70:
                     temp_a1_5 = ((S_8008EAC8_6 *)temp_v0)->unk_00;
@@ -446,11 +431,8 @@ code_8:
                             }
                             goto block_153;
                         }
-                        flag40 = tail_data_flags & 0x40;
-                        ASM_KEEP_NV(flag40);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                        temp_v0_4 = flag40;
                     }
-                    if (temp_v0_4 != 0) {
+                    if (tail_data_flags & 0x40) {
                         if (!(tail_data_flags & 0x20)) {
 code_28:
                             func_8008F6EC(arg0, arg1, arg2, arg3);
@@ -468,7 +450,6 @@ code_30:
 block_153:
             call_arg = arg2;
             data = D_800DD0B8;
-block_154:
             (*(u8 **)((u8 *)call_arg + (0x2C))) = data;
             func_80048A44(call_arg, *((u8 *) (((s32) (gameWork.view.viewAngle + (s16) ((S_8008EAC8_1 *)arg3)->unk_2A.u + 0x100) >> 9) & 7) + (u32) data), 0, 1);
         }

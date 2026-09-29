@@ -93,12 +93,9 @@ void func_80173354(void *action, void *motion, void *sprite, void *actor)
 
         if (((S_80173354_1 *)action)->unk_96.s > 0) {
             ((S_80173354_1 *)action)->unk_96.u--;
-            goto state1_timer_done;
-        }
-        if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000) {
+        } else if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000) {
             ((S_80173354_1 *)action)->unk_96.s = 0;
         }
-state1_timer_done:
         if (((S_80173354_1 *)action)->unk_96.s != 0) {
             return;
         }

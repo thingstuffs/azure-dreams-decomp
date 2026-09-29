@@ -39,7 +39,7 @@ typedef struct S_819598B4_2 {
     u8 pad_04[0x2];
     s16 unk_06;
     u8 pad_08[0x2];
-    union { s16 n; volatile u16 v; } unk_0A;   /* accessed as both */
+    union { s16 n; u16 v; } unk_0A;   /* accessed as both */
 } S_819598B4_2;   /* arg1 in func_819598B4 */
 
 typedef struct S_819598B4_3 {
@@ -70,80 +70,59 @@ void func_819598B4(void *arg0, S_819598B4_2 *arg1, S_819598B4_1 *arg2) {
 
     D_800281F8[0]++;
     temp_v1 = ((S_819598B4_0 *)arg0)->unk_2C.s;
-    if (temp_v1 == 1) {
-        goto state_1;
+    switch (temp_v1) {
+    case 0:
+            temp_v1_2 = arg2->unk_1E;
+            temp_a0 = arg2->unk_0C.at00.v;
+            arg2->unk_1E = (u16)(temp_v1_2 + ((s32)(0x1000 - temp_v1_2) / ((S_819598B4_0 *)arg0)->unk_30));
+            temp_x = 0x80 - temp_a0;
+            temp_a1 = ((S_819598B4_0 *)arg0)->unk_3C;
+            temp_a0_2 = temp_a0 + ((temp_x - temp_a1) / ((S_819598B4_0 *)arg0)->unk_30);
+            arg2->unk_0C.at00.v = temp_a0_2;
+            arg2->unk_0C.at01.v = temp_a0_2;
+            arg2->unk_0C.at02.v = temp_a0_2;
+            arg1->unk_02 = (s16)((u16)arg1->unk_02 + ((s32)(((S_819598B4_0 *)arg0)->unk_14 - arg1->unk_02) / ((S_819598B4_0 *)arg0)->unk_30));
+            arg1->unk_06 = (s16)((u16)arg1->unk_06 + ((s32)(((S_819598B4_0 *)arg0)->unk_16 - arg1->unk_06) / ((S_819598B4_0 *)arg0)->unk_30));
+            temp_a0_3 = arg1->unk_0A.n;
+            arg1->unk_0A.n = (s16)(arg1->unk_0A.v + ((s32)(((S_819598B4_0 *)arg0)->unk_18 - temp_a0_3) / ((S_819598B4_0 *)arg0)->unk_30));
+            temp_v0 = (u16)((S_819598B4_0 *)arg0)->unk_30 - 1;
+            ((S_819598B4_0 *)arg0)->unk_30 = temp_v0;
+        if ((temp_v0 << 0x10) <= 0) {
+            ((S_819598B4_0 *)arg0)->unk_30 = 0x10;
+            arg2->unk_1E = 0x1000;
+            arg2->unk_0C.at00u.v = 0x00808080;
+            if (((S_819598B4_0 *)arg0)->unk_3C != 0) {
+                ((S_819598B4_0 *)arg0)->unk_2C.s = 2;
+            } else {
+                ((S_819598B4_0 *)arg0)->unk_2C.s++;
+            }
+        }
+        break;
+    case 1:
+        if (((S_819598B4_0 *)arg0)->unk_38 == 0) {
+            if (func_80026384(((S_819598B4_0 *)arg0)->unk_1C, ((S_819598B4_0 *)arg0)->unk_1E, ((S_819598B4_0 *)arg0)->unk_20, D_800E3D7C->facing) == 0) {
+                break;
+            }
+            func_80025604(((S_819598B4_0 *)arg0)->unk_1C, ((S_819598B4_0 *)arg0)->unk_1E, ((S_819598B4_0 *)arg0)->unk_20);
+        }
+        ((S_819598B4_0 *)arg0)->unk_30 = 0x10;
+        ((S_819598B4_0 *)arg0)->unk_2C.s++;
+        break;
+    case 2:
+            temp_v1_3 = arg2->unk_0C.at00.v;
+            temp_v1_3 -= (s32)temp_v1_3 / ((S_819598B4_0 *)arg0)->unk_30;
+            arg2->unk_0C.at00.v = temp_v1_3;
+            arg2->unk_0C.at01.v = temp_v1_3;
+            arg2->unk_0C.at02.v = temp_v1_3;
+            temp_v0_2 = (u16)((S_819598B4_0 *)arg0)->unk_30 - 1;
+            ((S_819598B4_0 *)arg0)->unk_30 = temp_v0_2;
+        if ((temp_v0_2 << 0x10) <= 0) {
+            ((S_819598B4_0_pre *)arg0)[-1].unk_00 |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
+        }
+        break;
     }
-    if (temp_v1 >= 2) {
-        goto state_ge_2;
-    }
-    if (temp_v1 == 0) {
-        goto state_0;
-    }
-    goto common;
 
-state_ge_2:
-    if (temp_v1 == 2) {
-        goto state_2;
-    }
-    goto common;
-
-state_0:
-    temp_v1_2 = arg2->unk_1E;
-    temp_a0 = arg2->unk_0C.at00.v;
-    arg2->unk_1E = (u16)(temp_v1_2 + ((s32)(0x1000 - temp_v1_2) / ((S_819598B4_0 *)arg0)->unk_30));
-    temp_x = 0x80 - temp_a0;
-    temp_a1 = ((S_819598B4_0 *)arg0)->unk_3C;
-    temp_a0_2 = temp_a0 + ((temp_x - temp_a1) / ((S_819598B4_0 *)arg0)->unk_30);
-    arg2->unk_0C.at00.v = temp_a0_2;
-    arg2->unk_0C.at01.v = temp_a0_2;
-    arg2->unk_0C.at02.v = temp_a0_2;
-    arg1->unk_02 = (s16)((u16)arg1->unk_02 + ((s32)(((S_819598B4_0 *)arg0)->unk_14 - arg1->unk_02) / ((S_819598B4_0 *)arg0)->unk_30));
-    arg1->unk_06 = (s16)((u16)arg1->unk_06 + ((s32)(((S_819598B4_0 *)arg0)->unk_16 - arg1->unk_06) / ((S_819598B4_0 *)arg0)->unk_30));
-    temp_a0_3 = arg1->unk_0A.n;
-    arg1->unk_0A.n = (s16)(arg1->unk_0A.v + ((s32)(((S_819598B4_0 *)arg0)->unk_18 - temp_a0_3) / ((S_819598B4_0 *)arg0)->unk_30));
-    temp_v0 = (u16)((S_819598B4_0 *)arg0)->unk_30 - 1;
-    ((S_819598B4_0 *)arg0)->unk_30 = temp_v0;
-    if ((temp_v0 << 0x10) > 0) {
-        goto common;
-    }
-    ((S_819598B4_0 *)arg0)->unk_30 = 0x10;
-    arg2->unk_1E = 0x1000;
-    arg2->unk_0C.at00u.v = 0x00808080;
-    if (((S_819598B4_0 *)arg0)->unk_3C != 0) {
-        ((S_819598B4_0 *)arg0)->unk_2C.s = 2;
-        goto common;
-    }
-    ((S_819598B4_0 *)arg0)->unk_2C.s++;
-    goto common;
-
-state_1:
-    if (((S_819598B4_0 *)arg0)->unk_38 != 0) {
-        goto finish_state_1;
-    }
-    if (func_80026384(((S_819598B4_0 *)arg0)->unk_1C, ((S_819598B4_0 *)arg0)->unk_1E, ((S_819598B4_0 *)arg0)->unk_20, D_800E3D7C->facing) == 0) {
-        goto common;
-    }
-    func_80025604(((S_819598B4_0 *)arg0)->unk_1C, ((S_819598B4_0 *)arg0)->unk_1E, ((S_819598B4_0 *)arg0)->unk_20);
-finish_state_1:
-    ((S_819598B4_0 *)arg0)->unk_30 = 0x10;
-    ((S_819598B4_0 *)arg0)->unk_2C.s++;
-    goto common;
-
-state_2:
-    temp_v1_3 = arg2->unk_0C.at00.v;
-    temp_v1_3 -= (s32)temp_v1_3 / ((S_819598B4_0 *)arg0)->unk_30;
-    arg2->unk_0C.at00.v = temp_v1_3;
-    arg2->unk_0C.at01.v = temp_v1_3;
-    arg2->unk_0C.at02.v = temp_v1_3;
-    temp_v0_2 = (u16)((S_819598B4_0 *)arg0)->unk_30 - 1;
-    ((S_819598B4_0 *)arg0)->unk_30 = temp_v0_2;
-    if ((temp_v0_2 << 0x10) > 0) {
-        goto common;
-    }
-    ((S_819598B4_0_pre *)arg0)[-1].unk_00 |= 0x8000;
-    objectFlagBlock.flags |= 0x8000;
-
-common:
     if (((S_819598B4_0 *)arg0)->unk_38 != 0) {
         return;
     }

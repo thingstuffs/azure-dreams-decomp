@@ -49,15 +49,13 @@ void func_8016F5D8(S_8016F5D8_1 *state, S_8016F5D8_2 *output, S_8016F5D8_0 *comm
             signed_count = slow_count;
             phase = signed_count * 0xAA;
             state->unk_A0.at00.v += func_800644B8(phase) << 5;
-            goto finish;
+        } else {
+            slow_count = state->unk_9E++;
+            signed_count = slow_count;
+            phase = signed_count * 0xAA;
+            state->unk_A0.at00.v += func_800644B8(phase) << 6;
         }
-        slow_count = state->unk_9E++;
-        signed_count = slow_count;
-        phase = signed_count * 0xAA;
-        state->unk_A0.at00.v += func_800644B8(phase) << 6;
-        goto finish;
-    }
-    if (command_table == &D_80173DB4) {
+    } else if (command_table == &D_80173DB4) {
         if (command->unk_04 == 0x100) {
             state->unk_9E = 0U;
             state->unk_A0.at00.v = 0;
@@ -69,14 +67,13 @@ void func_8016F5D8(S_8016F5D8_1 *state, S_8016F5D8_2 *output, S_8016F5D8_0 *comm
             phase = signed_count * 0x155;
             fast_count++;
             state->unk_A0.at00.v += func_800644B8(phase, fast_count) << 5;
-            goto finish;
+        } else {
+            fast_wide_count = state->unk_9E;
+            signed_count = fast_wide_count++;
+            phase = signed_count * 0x155;
+            state->unk_9E = fast_wide_count;
+            state->unk_A0.at00.v += func_800644B8(phase) << 6;
         }
-        fast_wide_count = state->unk_9E;
-        signed_count = fast_wide_count++;
-        phase = signed_count * 0x155;
-        state->unk_9E = fast_wide_count;
-        state->unk_A0.at00.v += func_800644B8(phase) << 6;
     }
-finish:
     output->unk_0A = (s16) ((((Rec_D_80175D54 *)D_80175D54)->unk_A8 + state->unk_92) - state->unk_A0.at02.v);
 }

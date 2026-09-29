@@ -34,43 +34,36 @@ void func_8052D3A4(void *arg0) {
 
     temp_v1 = ((S_808127A4_0 *)arg0)->unk_00.s;
     temp_s1 = ((S_808127A4_0 *)arg0)->unk_0C;
-    if (temp_v1 == 0) {
-        goto state_0;
-    }
-    if (temp_v1 == 1) {
-        goto state_1;
-    }
-    return;
-
-state_0:
-    func_80058588(*((S_808127A4_0 *)arg0)->unk_08 * 0x3E8, 5, ((S_808127A4_0 *)arg0)->unk_04 + 4);
-    if (((S_808127A4_1 *)temp_s1)->unk_5C != 3) {
-        return;
-    }
-    if (((S_808127A4_0 *)arg0)->unk_16.s >= 0x78) {
-        ((S_808127A4_0 *)arg0)->unk_02.s = 8;
-    } else {
-        ((S_808127A4_0 *)arg0)->unk_02.s = -8;
-    }
-    ((S_808127A4_0 *)arg0)->unk_00.u++;
-    return;
-
-state_1:
-    temp_a0 = ((S_808127A4_0 *)arg0)->unk_16.u;
-    temp_step = ((S_808127A4_0 *)arg0)->unk_02.u;
-    temp_v0 = ((S_808127A4_0 *)arg0)->unk_02.p;
-    temp_a0 += temp_step;
-    temp_v0 = temp_a0 + ((s32) (temp_v0 << 0x10) >> 0x12);
-    temp_condition = (temp_v0 + 8) & 0xFFFF;
-    ((S_808127A4_0 *)arg0)->unk_16.p = temp_a0;
-    ((S_808127A4_0 *)arg0)->unk_16.u = temp_v0;
-    if (temp_condition >= 0xF9U) {
-        (*(u16 *)((u8 *)arg0 + -2)) = (u16) (((S_808127A4_0_pre *)arg0)[-1].unk_00 | 0x8000);
-        *(s32 *) 0x80084D5C = D_80084D5C | 0x8000;
+    switch (temp_v1) {
+    case 0:
+        func_80058588(*((S_808127A4_0 *)arg0)->unk_08 * 0x3E8, 5, ((S_808127A4_0 *)arg0)->unk_04 + 4);
+        if (((S_808127A4_1 *)temp_s1)->unk_5C != 3) {
+            break;
+        }
+        if (((S_808127A4_0 *)arg0)->unk_16.s >= 0x78) {
+            ((S_808127A4_0 *)arg0)->unk_02.s = 8;
+        } else {
+            ((S_808127A4_0 *)arg0)->unk_02.s = -8;
+        }
+        ((S_808127A4_0 *)arg0)->unk_00.u++;
+        break;
+    case 1:
+        temp_a0 = ((S_808127A4_0 *)arg0)->unk_16.u;
+        temp_step = ((S_808127A4_0 *)arg0)->unk_02.u;
+        temp_v0 = ((S_808127A4_0 *)arg0)->unk_02.p;
+        temp_a0 += temp_step;
+        temp_v0 = temp_a0 + ((s32) (temp_v0 << 0x10) >> 0x12);
+        temp_condition = (temp_v0 + 8) & 0xFFFF;
+        ((S_808127A4_0 *)arg0)->unk_16.p = temp_a0;
+        ((S_808127A4_0 *)arg0)->unk_16.u = temp_v0;
+        if (temp_condition >= 0xF9U) {
+            (*(u16 *)((u8 *)arg0 + -2)) = (u16) (((S_808127A4_0_pre *)arg0)[-1].unk_00 | 0x8000);
+            *(s32 *) 0x80084D5C = D_80084D5C | 0x8000;
+        }
     }
 }
 
-/* MECHANISM: Retail-order state labels preserve the 0x20 s0/s1 frame and CFG.
+/* MECHANISM: Retail-order state cases preserve the 0x20 s0/s1 frame and CFG.
    Noreturn tails plus named fences hold both RMW and delay-slot store shapes.
    Split predicate/read lifetimes and signed s16 arm stores recover a0/v1/v0 roles.
    Symbolic load plus literal store forces independent global load/store bases. */

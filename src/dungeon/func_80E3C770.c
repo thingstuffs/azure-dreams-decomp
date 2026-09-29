@@ -30,7 +30,8 @@ void func_80175F70(u8 *effect_state, s32 unused, u8 *render_data) {
             break;
         }
         U32_AT(render_data, 0xC) = 0x00808080;
-        goto advance_state;
+        U16_AT(effect_state, 0x1E)++;
+        break;
 
     case 1:
         U8_AT(render_data, 0xF)--;
@@ -42,7 +43,8 @@ void func_80175F70(u8 *effect_state, s32 unused, u8 *render_data) {
         U16_AT(render_data, 0x12) += 0x80;
         U16_AT(render_data, 0x14) &= 0xFFF3;
         func_8004491C(effect, func_80045340);
-        goto advance_state;
+        U16_AT(effect_state, 0x1E)++;
+        break;
 
     case 2:
         if (**(u8 **)(effect_state + 4) != 0x14) {
@@ -54,7 +56,6 @@ void func_80175F70(u8 *effect_state, s32 unused, u8 *render_data) {
         U16_AT(render_data, 0x14) |= 0xC;
         func_8004491C(effect, &D_800C6AEC);
         U8_AT(render_data, 0xF) = 0;
-advance_state:
         U16_AT(effect_state, 0x1E)++;
         break;
 

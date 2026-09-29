@@ -13,7 +13,7 @@ typedef struct {
     s32 flags;
 } Entity;
 
-extern volatile InitialStats initialStatsTable[1];
+extern InitialStats initialStatsTable[1];
 extern u8 D_8006D160[9];
 
 /* Returns the entity class from shared initial-stat flags or its lowest class flag. */
@@ -30,31 +30,20 @@ s32 func_800429E4(Entity *entity)
 
         stats_offset += entity_id;
         stats_offset <<= 3;
-        shared_flags = ((volatile InitialStats *)((volatile u8 *)initialStatsTable + stats_offset))->flags & flags;
+        shared_flags = ((InitialStats *)((u8 *)initialStatsTable + stats_offset))->flags & flags;
         class_bits = shared_flags & 7;
 
         if (class_bits != 0) {
             u8 *class_table = D_8006D160;
             class_id = class_table[class_bits];
-            goto done_alt;
-        }
-
-        if (flags & 1) {
+        } else if (flags & 1) {
             class_id = 1;
-            goto done;
-        }
-        if (flags & 2) {
+        } else if (flags & 2) {
             class_id = 2;
-            goto done;
-        }
-        if (flags & 4) {
+        } else if (flags & 4) {
             class_id = 3;
         }
     }
 
-done:
-    return class_id;
-
-done_alt:
     return class_id;
 }

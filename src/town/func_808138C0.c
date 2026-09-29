@@ -65,14 +65,11 @@ void func_808138C0(s32 color, s32 x, s32 y, s32 z) {
         render_data->unk_05 = 0;
         render_data->unk_0C = color;
         render_data->unk_08 = resource_word;
-        if (color != 0x808080) {
-            if (color == 0xF0F0F0) {
-                render_data->unk_10 = 0x60;
-                ((S_808138C0_2 *)(object->unk_08))->unk_14 = 0xFFF00000;
-                goto block_4;
-            }
-        } else {
-block_4:
+        if (color == 0x808080) {
+            render_data->unk_14 = render_data->unk_14 | 0xC;
+        } else if (color == 0xF0F0F0) {
+            render_data->unk_10 = 0x60;
+            ((S_808138C0_2 *)(object->unk_08))->unk_14 = 0xFFF00000;
             render_data->unk_14 = render_data->unk_14 | 0xC;
         }
     }

@@ -35,36 +35,25 @@ void func_8017573C(S_8017573C_0 *animation, s32 unused, Rec_D_80082E80 *object) 
 
     phase = animation->unk_00.s;
     phase_u = animation->unk_00.u;
-    if (phase == 1) {
-        goto grow;
-    }
-    if (phase >= 2) {
+    if (phase != 1) {
+        if (phase >= 2) {
+            return;
+        }
+        if (phase != 0) {
+            return;
+        }
+        if (animation->unk_02.u < 8) {
+            return;
+        }
+        animation->unk_00.u = phase_u + 1;
         return;
     }
-    if (phase != 0) {
-        return;
-    }
-    if (animation->unk_02.u < 8) {
-        return;
-    }
-    animation->unk_00.u = phase_u + 1;
-    return;
-
-grow:
     scale = object->unk_1C.at02_u16.v + 0x100;
     object->unk_1C.at02_u16.v = scale;
     object->unk_1C.at00_u16.v = scale;
-    if ((u16)scale >= 0x1000U) {
-        goto clamp;
+    if ((u16)scale >= 0x1000U || object->unk_1C.at02_u16.v >= 0x1000U) {
+        object->unk_1C.at02_u16.v = 0x1000;
+        object->unk_1C.at00_u16.v = 0x1000;
+        animation->unk_00.u = animation->unk_00.u + 1;
     }
-    if (object->unk_1C.at02_u16.v < 0x1000U) {
-        return;
-    }
-
-clamp:
-    object->unk_1C.at02_u16.v = 0x1000;
-    object->unk_1C.at00_u16.v = 0x1000;
-    animation->unk_00.u = animation->unk_00.u + 1;
-
-    return;
 }

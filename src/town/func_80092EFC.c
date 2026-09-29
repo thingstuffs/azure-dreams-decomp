@@ -33,83 +33,54 @@ void func_8009065C(void *arg0, void *arg1, void *arg2) {
 
     func_80095544(arg1);
 
-    if (D_80100DB0[0] != 0) {
-        goto after_initial;
-    }
-    if (((u16)base->view.viewAngle) >= 0x800) {
-        base->view.viewAngle |= 0xF000;
-    }
-
-    callback = *(void **)arg0;
-    if (callback == (void *)D_80097D2C) {
-        goto active_callback;
-    }
-    if (callback == (void *)&D_80090A64) {
-        goto active_callback;
-    }
-    /* garbage-passthru: a1/a2/a3 are caller-saved residue after func_80095544. */
-    if (func_800352FC() == 0) {
-        goto inactive_callback;
-    }
-
-active_callback:
-    if (D_8006ADD4[0] != 12) {
-        goto active_height;
-    }
-shared_exit:
-    to_camera_zero_00();
-    goto after_initial;
-
-active_height:
-    if (*(s16 *)((u8 *)arg1 + 6) < 0x400) {
-        goto low_height;
-    }
-    goto after_initial;
-
-inactive_callback:
-    if (D_8006ADD4[0] != 12) {
-        goto movement_path;
-    }
-    initial_flags = base->buttons;
-    if (initial_flags & 8) {
-        base->view.viewAngle -= 0x20;
-        if (base->view.viewAngle < -0x1E0) {
-            base->view.viewAngle = -0x1E0;
-            goto after_initial;
+    if (D_80100DB0[0] == 0) {
+        if (((u16)base->view.viewAngle) >= 0x800) {
+            base->view.viewAngle |= 0xF000;
         }
-    } else if (initial_flags & 4) {
-        base->view.viewAngle += 0x20;
-        if (base->view.viewAngle > 0x1E0) {
-            base->view.viewAngle = 0x1E0;
-            goto after_initial;
+
+        callback = *(void **)arg0;
+        /* garbage-passthru: a1/a2/a3 are caller-saved residue after func_80095544. */
+        if (callback == (void *)D_80097D2C || callback == (void *)&D_80090A64 ||
+            func_800352FC() != 0) {
+            if (D_8006ADD4[0] == 12) {
+                to_camera_zero_00();
+            } else if (*(s16 *)((u8 *)arg1 + 6) < 0x400) {
+                func_80090A04(arg1);
+            }
+        } else if (D_8006ADD4[0] == 12) {
+            initial_flags = base->buttons;
+            if (initial_flags & 8) {
+                base->view.viewAngle -= 0x20;
+                if (base->view.viewAngle < -0x1E0) {
+                    base->view.viewAngle = -0x1E0;
+                }
+            } else if (initial_flags & 4) {
+                base->view.viewAngle += 0x20;
+                if (base->view.viewAngle > 0x1E0) {
+                    base->view.viewAngle = 0x1E0;
+                }
+            } else {
+                to_camera_zero_00();
+            }
+        } else if (*(s16 *)((u8 *)arg1 + 6) < 0x400) {
+            func_80090A04(arg1);
+        } else {
+            movement = func_8003BD84(*(s32 *)((u8 *)arg1 + 0xC),
+                                     *(s32 *)((u8 *)arg1 + 0x10));
+            if (movement == 0) {
+                base->view.viewAngle =
+                    (((u16)base->view.viewAngle) + 8) & 0xFFF0;
+            }
+            movement /= 0x10000;
+            flags = base->buttons;
+            if (flags & 8) {
+                base->view.viewAngle -= 0x10 + movement;
+            }
+            if (flags & 4) {
+                base->view.viewAngle += 0x10 + movement;
+            }
         }
-    } else {
-        goto shared_exit;
     }
-    goto after_initial;
-
-movement_path:
-    if (*(s16 *)((u8 *)arg1 + 6) < 0x400) {
-low_height:
-        func_80090A04(arg1);
-        goto after_initial;
-    }
-    movement = func_8003BD84(*(s32 *)((u8 *)arg1 + 0xC),
-                             *(s32 *)((u8 *)arg1 + 0x10));
-    if (movement == 0) {
-        base->view.viewAngle =
-            (((u16)base->view.viewAngle) + 8) & 0xFFF0;
-    }
-    movement /= 0x10000;
-    flags = base->buttons;
-    if (flags & 8) {
-        base->view.viewAngle -= 0x10 + movement;
-    }
-    if (flags & 4) {
-        base->view.viewAngle += 0x10 + movement;
-    }
-
-after_initial:
 
     callback = *(void **)arg0;
     if ((callback == (void *)&D_80091260) ||
@@ -147,12 +118,12 @@ after_initial:
         u8 *state = D_80100D98;
 
         func_800A48B0(state, arg1);
-    if (D_80100E18[0] == 0) {
-        *(s32 *)(state + 8) = 0;
-        return;
-    }
-    if (D_80100E18[0] == 2) {
-        *(s32 *)(state + 8) /= 2;
+        if (D_80100E18[0] == 0) {
+            *(s32 *)(state + 8) = 0;
+            return;
+        }
+        if (D_80100E18[0] == 2) {
+            *(s32 *)(state + 8) /= 2;
         }
     }
 }

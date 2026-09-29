@@ -42,46 +42,32 @@ void func_818DAD38(Unk818DAD38Owner *owner, s32 unused,
     }
 
     state = owner->state;
-    if (state == 0) {
-        goto grow;
-    }
-    if (state == 1) {
-        goto fade;
-    }
-    return;
-
-grow:
-    target->unk1C += 0x200;
-    next_scale = target->unk1E + 0x200;
-    target->unk1E = next_scale;
-    if (next_scale >= 0x1C00) {
-        target->unk1C = 0xC00;
-        target->unk1E = 0x1800;
-        owner->unk4A = 0;
-        target->unkC = 0x808080;
-    }
-    if ((s16)owner->timer <= 0) {
-        owner->state++;
-        return;
-    }
-    goto done;
-
-fade:
-    do {
+    switch (state) {
+    case 0:
+        target->unk1C += 0x200;
+        next_scale = target->unk1E + 0x200;
+        target->unk1E = next_scale;
+        if (next_scale >= 0x1C00) {
+            target->unk1C = 0xC00;
+            target->unk1E = 0x1800;
+            owner->unk4A = 0;
+            target->unkC = 0x808080;
+        }
+        if ((s16)owner->timer <= 0) {
+            owner->state++;
+        }
+        break;
+    case 1:
         if ((u8)target->unkC < 9) {
             target->unkC = 0;
             ((u16 *)owner)[-1] |= 0x8000;
             objectFlagBlock.flags |= 0x8000;
-            return;
+        } else {
+            target->unkC += 0xFFEFEFF0;
         }
-    } while (0);
-    target->unkC += 0xFFEFEFF0;
-
-done:
+        break;
+    }
 }
 
-/* MECHANISM: Explicit state-test labels keep all three noreturn dispatcher tails at their retail sites.
-   A do-while(0) wrapped around the fade if-block blocks the else constant hoist (gcc otherwise lifts
-   the 0xFFEFEFF0 lui ahead of the if, sharing it with the not-taken path), restoring the global-page
-   delay slot and 83-word length. Updating unk1C before unk1E selects retail's v1/v0 load-add order
-   while held s1/s0 preserve the 0x20 frame. */
+/* MECHANISM: Updating unk1C before unk1E selects retail's v1/v0 load-add order while held s1/s0
+   preserve the 0x20 frame. The state ladder is a switch; the fade arm needs no barrier here. */

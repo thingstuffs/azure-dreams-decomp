@@ -65,94 +65,63 @@ void func_80024CD4(void *effect, S_80024CD4_2 *transform, S_80024CD4_1 *visual) 
 
     D_80026472.value++;
     state = ((S_80024CD4_0 *)effect)->unk_0A.s;
-    if (state == 1) {
-        goto wait_signal;
-    }
-    if (state < 2) {
-        if (state == 0) {
-            goto ramp_up;
+    switch (state) {
+    case 0:
+        ramp_or_red = visual->unk_06.s + 0x80;
+        visual->unk_06.s = ramp_or_red;
+        if ((s16) ramp_or_red < 0x101) {
+            break;
         }
-        ramp_or_red = 0x20;
-        visual->unk_0C = ramp_or_red;
-        goto finish_colors;
+        visual->unk_06.s = 0x100U;
+        if (((S_80024CD4_0 *)effect)->unk_22 < 0x61) {
+            call_transform = transform;
+            base_value = ((S_80024CD4_0 *)effect)->unk_16;
+            decaying_value = ((S_80024CD4_0 *)effect)->unk_18.s;
+            do {
+                rising_value = ((S_80024CD4_0 *)effect)->unk_1C;
+            } while (0);
+            decaying_value =
+                (u16) (decaying_value - ((s32) (decaying_value << 0x10) >> 0x13));
+            do {
+            } while (0);
+            rising_value += 0x80;
+            ((S_80024CD4_0 *)effect)->unk_1C = rising_value;
+            ((S_80024CD4_0 *)effect)->unk_18.u = decaying_value;
+            func_8002522C(call_transform, base_value,
+                ((S_80024CD4_0 *)effect)->unk_18.p, (s16) rising_value,
+                effect - 0x20);
+        }
+        ((S_80024CD4_0 *)effect)->unk_0A.u++;
+        if (((S_80024CD4_0 *)effect)->unk_22 == 0x6F) {
+            D_80026474.value = 1;
+        }
+        break;
+    case 1:
+        if (D_80026474.value != 0) {
+            visual->unk_06.u = -0x100;
+            ((S_80024CD4_0 *)effect)->unk_1A = 0x10U;
+            ((S_80024CD4_0 *)effect)->unk_0A.u++;
+        }
+        break;
+    case 2:
+        delay_left = ((S_80024CD4_0 *)effect)->unk_1A - 1;
+        ((S_80024CD4_0 *)effect)->unk_1A = delay_left;
+        if ((delay_left << 0x10) > 0) {
+            break;
+        }
+        ((S_80024CD4_0 *)effect)->unk_0A.u++;
+    case 3:
+        final_ramp = visual->unk_06.s + 0x80;
+        visual->unk_06.s = final_ramp;
+        if ((s16) final_ramp >= 0) {
+            ((S_80024CD4_0_pre *)effect)[-1].unk_00 |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
+        }
+        break;
+    default:
+        break;
     }
-    if (state == 2) {
-        goto wait_delay;
-    }
-    if (state == 3) {
-        goto ramp_out;
-    }
-
-    ramp_or_red = 0x20;
-    visual->unk_0C = ramp_or_red;
-    goto finish_colors;
-
-ramp_up:
-    ramp_or_red = visual->unk_06.s + 0x80;
-    visual->unk_06.s = ramp_or_red;
-    if ((s16) ramp_or_red < 0x101) {
-        ramp_or_red = 0x20;
-        goto finish;
-    }
-    visual->unk_06.s = 0x100U;
-    if (((S_80024CD4_0 *)effect)->unk_22 < 0x61) {
-        call_transform = transform;
-        base_value = ((S_80024CD4_0 *)effect)->unk_16;
-        decaying_value = ((S_80024CD4_0 *)effect)->unk_18.s;
-        do {
-            rising_value = ((S_80024CD4_0 *)effect)->unk_1C;
-        } while (0);
-        decaying_value =
-            (u16) (decaying_value - ((s32) (decaying_value << 0x10) >> 0x13));
-        do {
-        } while (0);
-        rising_value += 0x80;
-        ((S_80024CD4_0 *)effect)->unk_1C = rising_value;
-        ((S_80024CD4_0 *)effect)->unk_18.u = decaying_value;
-        func_8002522C(call_transform, base_value,
-            ((S_80024CD4_0 *)effect)->unk_18.p, (s16) rising_value,
-            effect - 0x20);
-    }
-    ((S_80024CD4_0 *)effect)->unk_0A.u++;
-    if (((S_80024CD4_0 *)effect)->unk_22 != 0x6F) {
-        ramp_or_red = 0x20;
-        goto finish;
-    }
-    D_80026474.value = 1;
-    goto set_red;
-
-wait_signal:
-    if (D_80026474.value == 0) {
-        goto set_red;
-    }
-    visual->unk_06.u = -0x100;
-    ((S_80024CD4_0 *)effect)->unk_1A = 0x10U;
-    ((S_80024CD4_0 *)effect)->unk_0A.u++;
-    goto set_red;
-
-wait_delay:
-    delay_left = ((S_80024CD4_0 *)effect)->unk_1A - 1;
-    ((S_80024CD4_0 *)effect)->unk_1A = delay_left;
-    if ((delay_left << 0x10) > 0) {
-        ramp_or_red = 0x20;
-        goto finish;
-    }
-    ((S_80024CD4_0 *)effect)->unk_0A.u++;
-
-ramp_out:
-    final_ramp = visual->unk_06.s + 0x80;
-    visual->unk_06.s = final_ramp;
-    if ((s16) final_ramp >= 0) {
-        ((S_80024CD4_0_pre *)effect)[-1].unk_00 |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
-    }
-
-set_red:
-    ramp_or_red = 0x20;
-
-finish:
-    visual->unk_0C = ramp_or_red;
-finish_colors:
+    visual->unk_0C = 0x20;
     visual->unk_0D = 0xE0;
     visual->unk_0E = 0x40;
     func_800262AC(transform->unk_02, transform->unk_06, transform->unk_0A);

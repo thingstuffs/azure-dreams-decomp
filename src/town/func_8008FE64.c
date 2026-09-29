@@ -88,12 +88,11 @@ s32 func_8008D5C4(s32 world_x, s32 world_y, s16 height) {
     while (scratch->outer_count < 2) {
         scan_y = (u16)scratch->orig_y + (u16)scratch->outer_delta;
         row_y = scan_y;
-        if (scratch->step_y < 0) goto negative_y;
-        if (row_y >= D_800FE484) return (s16)(u16)scratch->best;
-        goto scan_row;
-negative_y:
-        if (row_y < 0) return (s16)(u16)scratch->best;
-scan_row:
+        if (scratch->step_y >= 0) {
+            if (row_y >= D_800FE484) return (s16)(u16)scratch->best;
+        } else {
+            if (row_y < 0) return (s16)(u16)scratch->best;
+        }
         scratch->inner_count = 0;
         scratch->inner_delta = 0;
         scratch->y = (u16)scratch->base_y - (u16)scratch->outer_delta;
@@ -103,13 +102,12 @@ scan_row:
             x_step = scratch->step_x;
             scan_x = x_sum;
             col_x = x_sum;
-            if (x_step < 0) goto negative_x;
-            if (col_x >= D_800FE480) break;
-            goto scan_cell;
-negative_x:
-            col_x = x_sum;
-            if (col_x < 0) break;
-scan_cell:
+            if (x_step >= 0) {
+                if (col_x >= D_800FE480) break;
+            } else {
+                col_x = x_sum;
+                if (col_x < 0) break;
+            }
             biased_x = (s16)scan_x;
             if (biased_x < 0) biased_x += 0x3F;
             tile_x = map->x_mask & (biased_x >> 6);

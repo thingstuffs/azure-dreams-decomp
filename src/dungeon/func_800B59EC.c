@@ -32,68 +32,48 @@ void func_800BB14C(void *effect_data, register S_800BB14C *effect, S_800BB14C_TA
   s16 state;
   effect = (S_800BB14C *) effect_data;
   state = effect->state;
-  if (state == 1)
+  switch (state)
   {
-    goto check_status;
-  }
-  if (state < 2)
-  {
-    if (state == 0)
+  case 0:
     {
-      goto state_zero;
+      s16 phase = effect->phase;
+      u16 amount = target->amount + (phase * 0x10);
+      target->amount = amount;
+      if (amount < 0x4001U)
+      {
+        target->amount = 0x4000;
+        effect->state = ((s16) effect->state) + 1;
+      }
     }
-    goto update_values;
-  }
-  if (state == 2)
-  {
-    goto state_two;
-  }
-  goto update_values;
-  state_zero:
-  {
-    s16 phase = effect->phase;
-    u16 amount = target->amount + (phase * 0x10);
-    target->amount = amount;
-    if (amount < 0x4001U)
+  case 1:
+    if ((((S_800BB14C_TARGET *) effect->next)->amount & 0x8000) != 0)
     {
-      target->amount = 0x4000;
-      effect->state = ((s16) effect->state) + 1;
+      effect->count = 4;
+      effect->state = 2;
     }
-  }
-
-  goto check_status;
-  check_status:
-  if ((((S_800BB14C_TARGET *) effect->next)->amount & 0x8000) == 0)
-  {
-    goto update_values;
-  }
-
-  effect->count = 4;
-  effect->state = 2;
-  goto update_values;
-  state_two:
-  {
-    s16 fade_ticks = effect->count;
-    if (fade_ticks != 0)
+    break;
+  case 2:
     {
-      u16 amount = target->amount;
-      target->amount = amount - (((s32) amount) / fade_ticks);
+      s16 fade_ticks = effect->count;
+      if (fade_ticks != 0)
+      {
+        u16 amount = target->amount;
+        target->amount = amount - (((s32) amount) / fade_ticks);
+      }
     }
-  }
-
-  {
-    s16 fade_ticks = ((u16) effect->count) - 1;
-    effect->count = fade_ticks;
-    if (fade_ticks < 0)
     {
-      u16 header_flags = ((volatile u16 *) effect)[-1];
-      ((u16 *) effect)[-1] = header_flags | 0x8000;
-      objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
-      return;
+      s16 fade_ticks = ((u16) effect->count) - 1;
+      effect->count = fade_ticks;
+      if (fade_ticks < 0)
+      {
+        u16 header_flags = ((u16 *) effect)[-1];
+        ((u16 *) effect)[-1] = header_flags | 0x8000;
+        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
+        return;
+      }
     }
+    break;
   }
-  goto update_values;
-  update_values:
   {
     u16 phase;
     s8 pulse_value;

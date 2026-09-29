@@ -32,75 +32,61 @@ void func_80024264(S_80024264_0 *sequence, s32 unused, Rec_D_80082E80 *record)
     func_800478B8(record);
 
     state = sequence->unk_00.s;
-    if (state == 1) {
-        goto state_1;
+    switch (state) {
+    case 0: {
+        u8 channel_value;
+        u16 high_word;
+        u16 low_word;
+
+        channel_value = record->unk_0C.at02_u8.v;
+        high_word = record->unk_1C.at02_u16.v;
+        channel_value++;
+        record->unk_0C.at02_u8.v = channel_value;
+        record->unk_0C.at01_u8.v = channel_value;
+        record->unk_0C.at00_u8.v = channel_value;
+        low_word = record->unk_1C.at00_u16.v;
+        high_word += 0x10;
+        record->unk_1C.at02_u16.v = high_word;
+        low_word += 0x100;
+        record->unk_1C.at00_u16.v = low_word;
+        break;
     }
-    if (state < 2) {
-        if (state == 0) {
-            goto state_0;
-        }
+    case 1: {
+        u8 channel_value;
+        u16 low_word;
+
+        channel_value = record->unk_0C.at02_u8.v;
+        low_word = record->unk_1C.at00_u16.v;
+        channel_value++;
+        low_word += 0x80;
+        record->unk_0C.at02_u8.v = channel_value;
+        record->unk_0C.at01_u8.v = channel_value;
+        record->unk_0C.at00_u8.v = channel_value;
+        record->unk_1C.at00_u16.v = low_word;
+        next_high_word = sequence->unk_02.s << 8;
+        record->unk_1C.at02_u16.v = next_high_word;
+        break;
+    }
+    case 2: {
+        u8 channel_value;
+        s32 frame;
+
+        channel_value = record->unk_0C.at02_u8.v + 6;
+        record->unk_0C.at02_u8.v = channel_value;
+        record->unk_0C.at01_u8.v = channel_value;
+        record->unk_0C.at00_u8.v = channel_value;
+        frame = sequence->unk_02.s;
+
+        next_high_word = (frame + 0x10) << 8;
+        record->unk_1C.at02_u16.v = next_high_word;
+        break;
+    }
+    case 3:
+        goto state_3;
+    default:
         return;
     }
-    if (state == 2) {
-        goto state_2;
-    }
-    if (state == 3) {
-        goto state_3;
-    }
-    return;
 
-state_0: {
-    u8 channel_value;
-    u16 high_word;
-    u16 low_word;
-
-    channel_value = record->unk_0C.at02_u8.v;
-    high_word = record->unk_1C.at02_u16.v;
-    channel_value++;
-    record->unk_0C.at02_u8.v = channel_value;
-    record->unk_0C.at01_u8.v = channel_value;
-    record->unk_0C.at00_u8.v = channel_value;
-    low_word = record->unk_1C.at00_u16.v;
-    high_word += 0x10;
-    record->unk_1C.at02_u16.v = high_word;
-    low_word += 0x100;
-    record->unk_1C.at00_u16.v = low_word;
-    goto check_count;
-}
-
-state_1: {
-    u8 channel_value;
-    u16 low_word;
-
-    channel_value = record->unk_0C.at02_u8.v;
-    low_word = record->unk_1C.at00_u16.v;
-    channel_value++;
-    low_word += 0x80;
-    record->unk_0C.at02_u8.v = channel_value;
-    record->unk_0C.at01_u8.v = channel_value;
-    record->unk_0C.at00_u8.v = channel_value;
-    record->unk_1C.at00_u16.v = low_word;
-    next_high_word = sequence->unk_02.s << 8;
-    goto store_upper;
-}
-
-state_2: {
-    u8 channel_value;
-    s32 frame;
-
-    channel_value = record->unk_0C.at02_u8.v + 6;
-    record->unk_0C.at02_u8.v = channel_value;
-    record->unk_0C.at01_u8.v = channel_value;
-    record->unk_0C.at00_u8.v = channel_value;
-    frame = sequence->unk_02.s;
-
-    next_high_word = (frame + 0x10) << 8;
-}
-
-store_upper:
-    record->unk_1C.at02_u16.v = next_high_word;
-
-check_count:
     if (sequence->unk_02.s < sequence->unk_04) {
         return;
     }
@@ -110,6 +96,4 @@ check_count:
 
 state_3:
     func_800478B8(record);
-
-    return;
 }

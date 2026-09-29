@@ -94,18 +94,17 @@ void *func_8016A854(s16 kind_flags, s16 byte_24, s16 byte_25, s16 value_0a)
         if (kind == 1) {
             primary_bits = work->unk_14 | 0x6000;
             secondary_flags = work->unk_1C | 0x6000;
-            goto write_kind;
+            work->unk_14 = primary_bits;
+            work->unk_1C = secondary_flags;
+            goto post_kind;
         }
-        if (kind < 2) {
-            goto normal_kind;
+        if (kind >= 2) {
+            primary_bits = work->unk_14 | 0x2000;
+            secondary_flags = work->unk_1C | 0x2000;
+            work->unk_14 = primary_bits;
+            work->unk_1C = secondary_flags;
+            goto post_kind;
         }
-
-        primary_bits = work->unk_14 | 0x2000;
-        secondary_flags = work->unk_1C | 0x2000;
-write_kind:
-        work->unk_14 = primary_bits;
-        work->unk_1C = secondary_flags;
-        goto post_kind;
 
 normal_kind:
         call_obj = obj;
@@ -115,14 +114,13 @@ normal_kind:
                 call_obj = (void *)func_800A6D30(call_obj);
                 primary_bits = (s32)call_obj;
                 call_obj = obj;
-                if (!(primary_bits & 1)) {
-                    goto init_actor;
+                if (primary_bits & 1) {
+                    work->unk_1C |= 0x200;
+                    func_800A48F0(work, 1,
+                                  (func_800A6D30(obj) & 0x3F) | 0x20);
+                    part_b->unk_2C = D_8016DCDC;
+                    goto post_kind;
                 }
-                work->unk_1C |= 0x200;
-                func_800A48F0(work, 1,
-                              (func_800A6D30(obj) & 0x3F) | 0x20);
-                part_b->unk_2C = D_8016DCDC;
-                goto post_kind;
             }
         }
         goto init_actor;

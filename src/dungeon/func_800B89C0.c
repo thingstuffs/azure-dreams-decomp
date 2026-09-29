@@ -70,7 +70,8 @@ s32 func_800BE120(void *entity, S_800BE120_1 *data, s16 mode) {
                     if (func_800AD6FC(entity,
                             (D_800DDE84[((S_800BE120_0 *)entity)->unk_13] >> 6) & 3,
                             0) == 0) {
-                        goto finalize;
+                        func_800A5F38(entity, data);
+                        return 1;
                     }
                     ((S_800BE120_0 *)entity)->unk_48.at00.v = *(s32 *)data;
                     ((S_800BE120_0 *)entity)->unk_48.at00u.v = data->unk_00;
@@ -89,12 +90,10 @@ s32 func_800BE120(void *entity, S_800BE120_1 *data, s16 mode) {
     }
 
     new_context = stored;
-    if (new_context != 0) {
-        goto consume_data;
-    }
-    if ((((S_800BE120_0 *)entity)->unk_13 < 2) ||
-        (((S_800BE120_0 *)entity)->unk_54 & 0x800000) ||
-        (((S_800BE120_0 *)entity)->unk_48.at01.v != 0)) {
+    if (new_context == 0 &&
+        ((((S_800BE120_0 *)entity)->unk_13 < 2) ||
+         (((S_800BE120_0 *)entity)->unk_54 & 0x800000) ||
+         (((S_800BE120_0 *)entity)->unk_48.at01.v != 0))) {
         new_context = func_800990FC();
         call_entity = entity;
         context_arg = new_context;
@@ -102,15 +101,9 @@ s32 func_800BE120(void *entity, S_800BE120_1 *data, s16 mode) {
         new_context = func_80099734((s32)call_entity, context_arg);
         func_80099290(func_80099194(D_8008935C, func_80099368(data, func_80099194(D_800E100F, new_context))));
         func_800A5720(context);
-        goto finalize;
+        func_800A5F38(entity, data);
+        return 1;
     }
-    goto consume_data;
-
-finalize:
-    func_800A5F38(entity, data);
-    return 1;
-
-consume_data:
     func_80098B38(data);
     dungeonStatus.unk_0A = (u16)(((u16)dungeonStatus.unk_0A) - 1);
     return 1;

@@ -71,7 +71,9 @@ void func_800274F0(S_800274F0_Arg *menu) {
     }
     if (pressed_buttons & 0x10) {
         SD_Call(0x503, input);
-        goto finish_effect;
+        func_800274A8(menu);
+        func_800255AC(menu->unk44);
+        return;
     }
     if (pressed_buttons & 0x40) {
         SD_Call(0x503, input);
@@ -80,66 +82,46 @@ void func_800274F0(S_800274F0_Arg *menu) {
         func_800265B8(func_8002553C(menu->unk44),
                       menu->unk40 + ((menu->unk8 % 72) * 2));
         if (menu->unk14 == 1 ||
-            func_80026BFC(menu->unk48->unk28) != 0)
-            goto finish_effect;
+            func_80026BFC(menu->unk48->unk28) != 0) {
+            func_800274A8(menu);
+            func_800255AC(menu->unk44);
+        }
         return;
     }
 
-    goto direction_entry;
-
-finish_effect:
-    func_800274A8(menu);
-    func_800255AC(menu->unk44);
-    return;
-
-direction_entry:
-    if (!(held_buttons & 0xF000))
-        goto direction_common;
-    if (pressed_buttons & 0xF000) {
-        menu->unkC = 0;
-        pressed_buttons = ((s32)input->unk_010);
-        if (pressed_buttons & 0x8000) {
-            index_step = -1;
-            goto direction_common;
+    if (held_buttons & 0xF000) {
+        if (pressed_buttons & 0xF000) {
+            menu->unkC = 0;
+            pressed_buttons = ((s32)input->unk_010);
+            if (pressed_buttons & 0x8000) {
+                index_step = -1;
+            } else if (pressed_buttons & 0x2000) {
+                index_step = 1;
+            } else if (pressed_buttons & 0x1000) {
+                index_step = -9;
+            } else if (pressed_buttons & 0x4000) {
+                index_step = 9;
+            }
+        } else {
+            repeat_ticks = menu->unkC;
+            if (repeat_ticks >= 9) {
+                menu->unkC = repeat_ticks - 1;
+                repeat_buttons = input->buttons;
+                if (repeat_buttons & 0x8000) {
+                    index_step = -1;
+                } else if (repeat_buttons & 0x2000) {
+                    index_step = 1;
+                } else if (repeat_buttons & 0x1000) {
+                    index_step = -9;
+                } else if (repeat_buttons & 0x4000) {
+                    index_step = 9;
+                }
+            } else {
+                menu->unkC = repeat_ticks + 1;
+            }
         }
-        if (pressed_buttons & 0x2000) {
-            index_step = 1;
-            goto direction_common;
-        }
-        if (pressed_buttons & 0x1000) {
-            index_step = -9;
-            goto direction_common;
-        }
-        if (pressed_buttons & 0x4000)
-            index_step = 9;
-        goto direction_common;
     }
 
-    repeat_ticks = menu->unkC;
-    if (repeat_ticks < 9)
-        goto increment_done;
-    menu->unkC = repeat_ticks - 1;
-    repeat_buttons = input->buttons;
-    if (repeat_buttons & 0x8000) {
-        index_step = -1;
-        goto direction_common;
-    }
-    if (repeat_buttons & 0x2000) {
-        index_step = 1;
-        goto direction_common;
-    }
-    if (repeat_buttons & 0x1000) {
-        index_step = -9;
-        goto direction_common;
-    }
-    if (repeat_buttons & 0x4000)
-        index_step = 9;
-    goto direction_common;
-
-increment_done:
-    menu->unkC = repeat_ticks + 1;
-
-direction_common:
     if (index_step == 0)
         return;
     SD_Call(0x502, input);

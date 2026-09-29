@@ -72,7 +72,7 @@ void func_80173210(State *action, Motion *motion, Actor *actor, Entity *entity)
     switch (phase) {
     case 0:
         if ((actor->flags14 & 0x6000) == 0) {
-            goto end_state;
+            break;
         }
         *(u32 * volatile)((u8 *)actor + 0x2C) = (u32)D_801753D4;
         facing_index = (gameWork.view.viewAngle + entity->direction2A + 0x100) >> 9;
@@ -103,18 +103,16 @@ void func_80173210(State *action, Motion *motion, Actor *actor, Entity *entity)
         }
         action->position90 += action->velocityA0;
         action->timer9E--;
-        if (action->timer9E >= 0) {
-            goto state_two;
+        if (action->timer9E < 0) {
+            action->flags98 &= 0xFFF7;
+            action->position90 = 0;
+            entity->flags1C |= 0x08000000;
+            action->state9B++;
         }
-        action->flags98 &= 0xFFF7;
-        action->position90 = 0;
-        entity->flags1C |= 0x08000000;
-        action->state9B++;
         /* fallthrough */
     case 2:
-state_two:
         if ((entity->flags1C & 0x08000000) == 0) {
-            goto end_state;
+            break;
         }
         action->flags98 &= 0xFFF7;
         motion->dz14 = 0;

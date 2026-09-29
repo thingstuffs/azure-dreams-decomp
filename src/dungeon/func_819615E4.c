@@ -104,8 +104,8 @@ extern void func_800B8D64(s16, s16, s16);
    dispatch tree's last `beq ==3` is followed by case 0's body (an if-chain puts case 3's body
    right after the default jump and jump.c inverts the test).  case 0 falls through into case 1.
    The `j 0x271ec` sites are the switch's end-of-switch edge = `return`; the `j 0x2711c` from
-   case 1 is a goto into case 2's shared `state->state = value + 1; return` tail, entered one
-   statement deeper than the fade path.  The 0x80080000 page plus 0x2E80 is the symbol D_80082E80,
+   case 1 ends with the same `state->state = value + 1; return` tail as case 2 (written out
+   in both arms), and case 2's step != 0 path repeats case 3's flag-setting tail.  The 0x80080000 page plus 0x2E80 is the symbol D_80082E80,
    which is what frees the $2 pin; one u16 carrying the 5 and the 4 keeps the join value in v0. */
 void func_819615E4(State *state, Target *target, S_func_819615E4_0 *color)
 {
@@ -195,7 +195,8 @@ void func_819615E4(State *state, Target *target, S_func_819615E4_0 *color)
     phase_value = state->state;
     const_reg = 5;
     state->timer = const_reg;
-    goto bump_state;
+    state->state = phase_value + 1;
+    return;
 
     case 2:
     color->unk_0C -= color->unk_0C / state->timer;
@@ -209,11 +210,12 @@ void func_819615E4(State *state, Target *target, S_func_819615E4_0 *color)
         const_reg = 4;
         state->phase = const_reg;
         phase_value = state->state;
-    bump_state:
         state->state = phase_value + 1;
         return;
     }
-    goto finish;
+    *(u16 *)((u8 *)state - 2) |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
+    return;
 
     case 3:
     {
@@ -234,7 +236,6 @@ void func_819615E4(State *state, Target *target, S_func_819615E4_0 *color)
             (s16)(((table->tileY +
                     (((S_func_819615E4_6 *)((u8 *)((s8 *)dirStepY) + direction_offset))->unk_00 * 4)) << 6) + 0x20),
             ((S_func_819615E4_2 *)((u8 *)D_800E3D7C))->unk_88.s16_value);
-finish:
         *(u16 *)((u8 *)state - 2) |= 0x8000;
         objectFlagBlock.flags |= 0x8000;
         return;

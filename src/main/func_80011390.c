@@ -198,24 +198,21 @@ void func_80024390(void *arg0) {
     temp_s3->unk_00.s = asset6;
     ((S_80024390_7 *)(((S_80024390_5 *)temp_s3)->unk_04))->unk_08 = 0x188;
     ((S_80024390_7 *)(((S_80024390_5 *)temp_s3)->unk_04))->unk_0A = 0x130;
-loop_7:
-    temp_s3 = ((S_80024390_4 *)var_a1)->unk_B68;
-    temp_v0 = (void *)(((S_80024390_0 *)arg0)->unk_7C << 7);
-    temp_v0 = (void *)((u32)temp_v0 + (u32)loop_base);
-    if (((S_80024390_3 *)temp_v0)->unk_30 & (one << var_a0_3)) {
-        temp_v1 = *(volatile s32 *)var_a2;
-    } else {
-        temp_v1 = global_table[8];
-    }
-    var_a2 += 1;
-    var_a1 += 4;
-    var_a0_3 += 1;
-    temp_s3->unk_00.u = (s32) temp_v1;
-    ((S_80024390_7 *)(((S_80024390_5 *)temp_s3)->unk_04))->unk_08 = var_a3;
-    ((S_80024390_7 *)(((S_80024390_5 *)temp_s3)->unk_04))->unk_0A = width;
-    var_a3 += 0x10;
-    if (var_a0_3 >= 8) {
-        return;
-    }
-    goto loop_7;
+    do {
+        temp_s3 = ((S_80024390_4 *)var_a1)->unk_B68;
+        temp_v0 = (void *)(((S_80024390_0 *)arg0)->unk_7C << 7);
+        temp_v0 = (void *)((u32)temp_v0 + (u32)loop_base);
+        if (((S_80024390_3 *)temp_v0)->unk_30 & (one << var_a0_3)) {
+            temp_v1 = *var_a2;
+        } else {
+            temp_v1 = global_table[8];
+        }
+        var_a2 += 1;
+        var_a1 += 4;
+        var_a0_3 += 1;
+        temp_s3->unk_00.u = (s32) temp_v1;
+        ((S_80024390_7 *)(((S_80024390_5 *)temp_s3)->unk_04))->unk_08 = var_a3;
+        ((S_80024390_7 *)(((S_80024390_5 *)temp_s3)->unk_04))->unk_0A = width;
+        var_a3 += 0x10;
+    } while (var_a0_3 < 8);
 }

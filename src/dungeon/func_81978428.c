@@ -28,13 +28,6 @@ typedef struct S_81978428_3 {
     u16 unk_2A;
 } S_81978428_3;   /* angle_global in func_81978428 */
 
-typedef struct S_81978428_4 {
-    u8 pad_00[0x4];
-    s32 unk_04;
-    u8 pad_08[0x3778];
-    s32 unk_3780;
-} S_81978428_4;   /* copy_page in func_81978428 */
-
 typedef struct S_81978428_5 {
     u8 pad_00[0x2A];
     union { s16 s; u16 u; } unk_2A;   /* accessed as both */
@@ -70,14 +63,6 @@ typedef struct S_81978428_10 {
     u8 pad_00[0xC];
     u32 unk_0C;
 } S_81978428_10;   /* after_aux in func_81978428 */
-
-typedef struct S_81978428_11 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-    s32 unk_0C;
-    u8 pad_10[0x1490];
-    u32 unk_14A0;
-} S_81978428_11;   /* tail_page in func_81978428 */
 
 typedef struct S_81978428_12_pre {
     u16 unk_00;
@@ -124,11 +109,6 @@ extern void func_80025508(void *, void *);
 extern void func_8009CE1C(void *, s32, u8, s32, s16, void *, s32);
 
 /* Advances the object effect through placement, animation, and cleanup states. */
-static __inline__ u16 initial_count(u16 count)
-{
-    return count;
-}
-
 void func_81978428(State81978428 *state, s32 *position_out)
 {
     static void *const state_labels[] = {
@@ -138,15 +118,12 @@ void func_81978428(State81978428 *state, s32 *position_out)
     s32 *position = position_out;
     void *target_pos;
     s32 step_count;
-    register u8 *map_or_y_steps ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register u8 *player_page ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s16 *x_steps;
-    u8 *data_page;
+    u8 *tile_map;
+    u8 *tint_data;
     Scratch81978428 fallback_pos;
-    register void *spawned_object ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    void *spawned_object;
     u16 timer;
     s32 state_index;
-    s16 direction_offset;
     s32 tile_step;
     s32 tile_step_2;
     s32 tile_step_3;
@@ -166,15 +143,14 @@ void func_81978428(State81978428 *state, s32 *position_out)
 
 case0:
     {
-        u8 *init_page = (u8 *)0x80080000;
+        u8 *init_page;
         u8 *player_page;
         u8 *player_state;
         u8 *facing_player;
         u16 next_state;
 
-        ASM_KEEP(init_page);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         next_state = self->state;
-        init_page = *(u8 **)(init_page + 0x14A8);
+        init_page = (u8 *)D_800814A8;
         self->counter = 0;
         next_state++;
         self->state = next_state;
@@ -184,7 +160,6 @@ case0:
             goto done;
         }
         player_page = (u8 *)0x80080000;
-        ASM_KEEP(player_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         player_state = *(u8 **)(player_page + 0x14A8);
         self->timer = 10;
         ((S_81978428_2 *)player_state)->unk_96 = 8;
@@ -210,41 +185,17 @@ case1:
     }
 
     {
-        u8 *copy_page = (u8 *)0x80080000;
         u8 *player;
         s32 spawn_angle;
         s32 player_x;
-        register s32 spawn_mode ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-#ifndef NON_MATCHING
-        register s32 *stack_args ASM_REG("$29");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-#endif
-
-        player_page = (u8 *)0x80080000;
-        ASM_KEEP(copy_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(player_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        player_x = ((S_81978428_4 *)copy_page)->unk_3780;
-        player = *(u8 **)(player_page + 0x14A8);
+        player_x = D_80083780.x.v;
+        player = (u8 *)D_800814A8;
         position[0] = player_x;
-        copy_page += 0x3780;
-        ASM_KEEP(copy_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        position[1] = ((S_81978428_4 *)copy_page)->unk_04;
+        position[1] = D_80083780.y.v;
         position[2] = (s32)((S_81978428_5 *)player)->unk_88.s << 16;
         spawn_angle = ((S_81978428_5 *)player)->unk_2A.s;
-        ASM_KEEP(spawn_angle);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        spawn_mode = 8;
-#ifndef NON_MATCHING
-        stack_args[4] = spawn_mode;
-#endif
-        spawned_object = (void *)0x80080000;
-        ASM_KEEP_NV(spawned_object);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        map_or_y_steps = spawned_object;
-        map_or_y_steps = (u8 *)((u8 *)map_or_y_steps + 0x2E80);
-#ifndef NON_MATCHING
-        spawned_object = func_800A05A4(player, map_or_y_steps[0x24], map_or_y_steps[0x25], spawn_angle);
-#else
-        spawned_object = func_800A05A4(player, map_or_y_steps[0x24], map_or_y_steps[0x25],
-                                spawn_angle, spawn_mode);
-#endif
+        tile_map = (u8 *)&D_80082E80;
+        spawned_object = func_800A05A4(player, tile_map[0x24], tile_map[0x25], spawn_angle, 8);
     }
     self->object = spawned_object;
     if (spawned_object != 0) {
@@ -253,41 +204,31 @@ case1:
     }
 
     target_pos = &fallback_pos;
-    ASM_KEEP(target_pos);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    step_count = initial_count(0);
     {
         u8 tile_x;
         u8 tile_y;
 
-        data_page = (u8 *)0x80070000;
-        ASM_KEEP(data_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        x_steps = (s16 *)(data_page - 0x3328);
-        tile_x = map_or_y_steps[0x24];
-        data_page = (u8 *)0x80070000;
+        tile_x = tile_map[0x24];
         ((S_81978428_6 *)target_pos)->unk_02.s = (tile_x << 6) + 0x20;
-        ASM_KEEP(data_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        tile_y = map_or_y_steps[0x25];
-        map_or_y_steps = data_page - 0x3318;
+        tile_y = tile_map[0x25];
         ((S_81978428_6 *)target_pos)->unk_06.s = (tile_y << 6) + 0x20;
     }
 
-loop:
+    for (step_count = 0; step_count < 8; step_count++) {
     {
         u8 *player;
 
-        player = *(u8 **)(player_page + 0x14A8);
-        direction_offset = (((S_81978428_5 *)player)->unk_2A.u >> 8) & 0xE;
-        tile_step = *(s16 *)((u32)direction_offset + (u32)x_steps);
+        player = (u8 *)D_800814A8;
+        tile_step = dirStepX[(((S_81978428_5 *)player)->unk_2A.u >> 9) & 7];
         ((S_81978428_6 *)target_pos)->unk_02.u += tile_step << 6;
-        direction_offset = (((S_81978428_5 *)player)->unk_2A.u >> 8) & 0xE;
-        tile_step_2 = *(s16 *)((u32)direction_offset + (u32)map_or_y_steps);
+        tile_step_2 = dirStepY[(((S_81978428_5 *)player)->unk_2A.u >> 9) & 7];
         ((S_81978428_6 *)target_pos)->unk_06.u += tile_step_2 << 6;
         ((S_81978428_6 *)target_pos)->unk_0A.s = ((S_81978428_5 *)player)->unk_88.u;
     }
     ((S_81978428_6 *)target_pos)->unk_0A.s = func_800BCAD0(target_pos);
     if (((S_81978428_6 *)target_pos)->unk_0A.u >= 0x201) {
         u8 *player;
-        player = *(u8 **)(player_page + 0x14A8);
+        player = (u8 *)D_800814A8;
         ((S_81978428_6 *)target_pos)->unk_0A.s = ((S_81978428_5 *)player)->unk_88.u;
     }
 
@@ -295,12 +236,10 @@ loop:
                         ((S_81978428_6 *)target_pos)->unk_0A.u) << 16) != 0) {
         u8 *player;
 
-        player = *(u8 **)(player_page + 0x14A8);
-        direction_offset = (((S_81978428_5 *)player)->unk_2A.u >> 8) & 0xE;
-        tile_step_3 = *(s16 *)((u32)direction_offset + (u32)x_steps);
+        player = (u8 *)D_800814A8;
+        tile_step_3 = dirStepX[(((S_81978428_5 *)player)->unk_2A.u >> 9) & 7];
         ((S_81978428_6 *)target_pos)->unk_02.u -= tile_step_3 << 6;
-        direction_offset = (((S_81978428_5 *)player)->unk_2A.u >> 8) & 0xE;
-        tile_step_4 = *(s16 *)((u32)direction_offset + (u32)map_or_y_steps);
+        tile_step_4 = dirStepY[(((S_81978428_5 *)player)->unk_2A.u >> 9) & 7];
         ((S_81978428_6 *)target_pos)->unk_06.u -= tile_step_4 << 6;
         ((S_81978428_6 *)target_pos)->unk_0A.s = ((S_81978428_5 *)player)->unk_88.u;
         ((S_81978428_6 *)target_pos)->unk_0A.s = func_800BCAD0(target_pos);
@@ -309,14 +248,11 @@ loop:
         }
         {
             u8 *height_player;
-            height_player = *(u8 **)(player_page + 0x14A8);
+            height_player = (u8 *)D_800814A8;
             ((S_81978428_6 *)target_pos)->unk_0A.s = ((S_81978428_7 *)height_player)->unk_88;
             goto position_ready;
         }
     }
-    step_count++;
-    if (step_count < 8) {
-        goto loop;
     }
 
 position_ready:
@@ -358,7 +294,6 @@ case3:
 
         if (tinted_object != 0) {
             u8 *reloaded_object;
-            register u8 *tint_data ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             s16 tint_timer;
 
             ((S_81978428_8 *)tinted_object)->unk_1C |= 0x10000000;
@@ -382,8 +317,7 @@ case3:
     }
 
     {
-        u32 map_flags = 0x80080000;
-        map_flags = *(u16 *)(map_flags + 0x2E94);
+        u32 map_flags = D_80082E80.unk_014;
         if ((map_flags & 0x8000) == 0) {
             timer = self->timer;
             timer--;
@@ -400,7 +334,6 @@ case3:
         if (effect_object != 0) {
             s32 effect_size = 10;
             s32 effect_scale;
-            ASM_KEEP(effect_size);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             effect_scale = effect_size;
             func_8009CE1C(self->object, effect_size, self->effect, effect_scale,
                           (s16)((self->angle << 9) + 0x800), self->part0, 1);
@@ -408,16 +341,14 @@ case3:
                 u32 clear_tint_mask = 0xEFFFFFFF;
                 u32 neutral_color = 0x00808080;
                 u8 *reset_object = self->object;
-                register u8 *color_data ASM_REG("$6") =
-                    *(u8 **)(reset_object - 0x14);
+                tint_data = *(u8 **)(reset_object - 0x14);
 
                 ((S_81978428_9 *)reset_object)->unk_1C &= clear_tint_mask;
-                ((S_81978428_10 *)color_data)->unk_0C = neutral_color;
+                ((S_81978428_10 *)tint_data)->unk_0C = neutral_color;
             }
         }
     }
 case4:
-    data_page = (u8 *)0x80080000;
     if (self->flag != 0) {
         self->state++;
         goto done;
@@ -425,19 +356,15 @@ case4:
     goto cleanup;
 
 case5:
-    data_page = (u8 *)0x80080000;
     if (self->flag != 0) {
         goto done;
     }
 
 cleanup:
-    data_page += 0x3460;
-    ((S_81978428_11 *)data_page)->unk_0C = 0;
-    ((S_81978428_11 *)data_page)->unk_0A--;
+    dungeonStatus.unk_0C = 0;
+    dungeonStatus.unk_0A--;
     ((S_81978428_12_pre *)self)[-1].unk_00 |= 0x8000;
-    data_page = (u8 *)0x80080000;
-    ASM_KEEP(data_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    ((S_81978428_11 *)data_page)->unk_14A0 |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
     return;
 
 done:

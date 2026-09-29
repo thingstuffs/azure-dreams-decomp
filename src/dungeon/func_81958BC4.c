@@ -88,7 +88,7 @@ void func_800243C4(void *effect, Rec_func_800243C4_arg1 *position, S_800243C4_4 
                 ((S_800243C4_0 *)effect)->unk_28.s = -0x40;
             }
             if (((S_800243C4_0 *)effect)->unk_2E == 0) {
-                goto end;
+                return;
             }
         }
 
@@ -118,6 +118,4 @@ void func_800243C4(void *effect, Rec_func_800243C4_arg1 *position, S_800243C4_4 
             objectFlagBlock.flags |= 0x8000;
         }
     }
-end:
-    ;
 }

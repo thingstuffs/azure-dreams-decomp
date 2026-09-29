@@ -36,33 +36,29 @@ void func_80025398(void *context) {
     void *owner;
     void *entry_cursor;
 
-    if (func_80021FF0(((S_80025398_0 *)context)->unk_2C, 0x80010000, 0) == 0) {
-        owner = (u8 *)context - 0x20;
-        goto tail;
+    if (func_80021FF0(((S_80025398_0 *)context)->unk_2C, 0x80010000, 0) != 0) {
+        func_80025358(0x80010000, ((S_80025398_0 *)context)->unk_28);
+        if (func_80021F18(((S_80025398_0 *)context)->unk_28, 0x80010000) != 0) {
+            func_8002519C(0x80010000);
+            entry_count = 0;
+            func_800220DC();
+            entry_cursor = context;
+            do {
+                entry_value = ((S_80025398_1 *)entry_cursor)->unk_04;
+                entry_cursor = (u8 *)entry_cursor + 4;
+                entry_count += 1;
+                func_80024298(entry_value);
+            } while (entry_count < 5);
+            func_80024FFC(context);
+            func_80020984();
+            ((S_80025398_0 *)context)->unk_40 = 0;
+            return;
+        }
     }
-    func_80025358(0x80010000, ((S_80025398_0 *)context)->unk_28);
-    if (func_80021F18(((S_80025398_0 *)context)->unk_28, 0x80010000) == 0) {
-        owner = (u8 *)context - 0x20;
-        goto tail;
-    }
-    func_8002519C(0x80010000);
-    entry_count = 0;
-    func_800220DC();
-    entry_cursor = context;
-    do {
-        entry_value = ((S_80025398_1 *)entry_cursor)->unk_04;
-        entry_cursor = (u8 *)entry_cursor + 4;
-        entry_count += 1;
-        func_80024298(entry_value);
-    } while (entry_count < 5);
-    func_80024FFC(context);
-    goto finish;
-
-tail:
+    owner = (u8 *)context - 0x20;
     *(void (**)(void))((u8 *)context + 0x34) = (void (*)(void))func_80024FFC;
     func_800230F4(owner);
-    *(void * volatile *)((u8 *)context - 0x10) = (void *)D_80024F7C;
-finish:
+    *(void **)((u8 *)context - 0x10) = (void *)D_80024F7C;
     func_80020984();
     ((S_80025398_0 *)context)->unk_40 = 0;
 }

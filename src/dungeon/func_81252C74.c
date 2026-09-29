@@ -26,18 +26,16 @@ void func_80172474(void *entity_ptr, M2C_UNK unused, M2C_UNK check_arg, M2C_UNK 
     M2C_UNK check_value = check_arg;
     M2C_UNK actor = actor_arg;
 
-    if (func_800AB1C0() == 0) {
-        goto check_flag;
+    if (func_800AB1C0() != 0) {
+        func_800AD594(actor, 0);
+        func_800A4ACC(actor);
+        if ((func_800AD9B4(check_value, actor) << 0x10) <= 0) {
+            return;
+        }
+        do {
+            entity->unk_8C = &D_80171514;
+        } while (0);
     }
-    func_800AD594(actor, 0);
-    func_800A4ACC(actor);
-    if ((func_800AD9B4(check_value, actor) << 0x10) <= 0) {
-        return;
-    }
-    do {
-        entity->unk_8C = &D_80171514;
-    } while (0);
-check_flag:
     if (dungeonStatus.flags & 0x80) {
         entity->unk_92 = -0x20;
     }

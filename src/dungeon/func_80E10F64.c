@@ -56,27 +56,23 @@ void func_80174764(void *action, void *scene, void *sprite, void *actor)
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = sprite_flags | 0x6000;
             if (((EntityRec *)actor)->flags14 & 0x4000) {
                 target = ((EntityRec *)actor)->target;
-                if (!func_80176258(target))
-                    goto state0_cc_false;
-                func_801763CC(1, ((EntityRec *)actor)->target);
-                goto state0_done;
-state0_cc_false:
-                func_801763CC(0, ((EntityRec *)actor)->target);
-                goto state0_done;
+                if (func_80176258(target)) {
+                    func_801763CC(1, ((EntityRec *)actor)->target);
+                } else {
+                    func_801763CC(0, ((EntityRec *)actor)->target);
+                }
+            } else {
+                target = ((EntityRec *)actor)->target;
+                if (((S_80174764_3 *)target)->unk_14 & 0x4000) {
+                    if (func_801761AC(target)) {
+                        func_80176330(1, ((EntityRec *)actor)->target);
+                    } else {
+                        func_80176330(0, ((EntityRec *)actor)->target);
+                    }
+                } else {
+                    func_801761AC(target);
+                }
             }
-
-            target = ((EntityRec *)actor)->target;
-            if (((S_80174764_3 *)target)->unk_14 & 0x4000) {
-                if (!func_801761AC(target))
-                    goto state0_330_false;
-                func_80176330(1, ((EntityRec *)actor)->target);
-                goto state0_done;
-state0_330_false:
-                func_80176330(0, ((EntityRec *)actor)->target);
-                goto state0_done;
-            }
-            func_801761AC(target);
-state0_done:
             ((S_80174764_0 *)action)->unk_9B = 2;
             return;
         }
@@ -109,28 +105,23 @@ state0_done:
         if ((timer << 16) == 0 || (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
             if (((EntityRec *)actor)->flags14 & 0x4000) {
                 target = ((EntityRec *)actor)->target;
-                if (!func_80176258(target))
-                    goto state1_cc_false;
-                func_801763CC(1, ((EntityRec *)actor)->target);
-                goto state1_done;
-state1_cc_false:
-                func_801763CC(0, ((EntityRec *)actor)->target);
-                goto state1_done;
+                if (func_80176258(target)) {
+                    func_801763CC(1, ((EntityRec *)actor)->target);
+                } else {
+                    func_801763CC(0, ((EntityRec *)actor)->target);
+                }
             } else {
                 target = ((EntityRec *)actor)->target;
                 if (((S_80174764_3 *)target)->unk_14 & 0x4000) {
-                    if (!func_801761AC(target))
-                        goto state1_330_false;
-                    func_80176330(1, ((EntityRec *)actor)->target);
-                    goto state1_done;
-state1_330_false:
-                    func_80176330(0, ((EntityRec *)actor)->target);
-                    goto state1_done;
+                    if (func_801761AC(target)) {
+                        func_80176330(1, ((EntityRec *)actor)->target);
+                    } else {
+                        func_80176330(0, ((EntityRec *)actor)->target);
+                    }
                 } else {
                     func_801761AC(target);
                 }
             }
-state1_done:
             ((S_80174764_0 *)action)->unk_96 = 4;
             ((S_80174764_0 *)action)->unk_9B++;
         }

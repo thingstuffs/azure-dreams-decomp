@@ -51,79 +51,62 @@ void func_801704A0(S_801704A0_0 *action, EntityRec *motion, Rec_D_80082E80 *tile
     s32 y_offset;
     s32 entity_flags;
     u16 action_timer;
-    s32 phase;
 
-    phase = action->unk_9B;
-    if (phase == 1) {
-        goto update_motion;
-    }
-    if (phase >= 2) {
-        goto check_later_phase;
-    }
-    if (phase == 0) {
-        goto start_motion;
-    }
-    goto update_timer;
-check_later_phase:
-    if (phase == 2) {
-        goto check_landing;
-    }
-    if (phase == 3) {
-        goto update_animation;
-    }
-    goto update_timer;
-start_motion:
-    action->unk_98 = (u16) (action->unk_98 | 8);
-    entity->flags1C = (s32) (entity->flags1C & 0xF7FFFFFF);
-    action->unk_9E.s = 5;
-    action->unk_A4 = 0;
-    action->unk_9B = (u8) (action->unk_9B + 1);
-update_motion:
-    frames_left = action->unk_9E.s;
-    action->unk_90 = (s32) (action->unk_90 - action->unk_A4);
-    if (frames_left != 0) {
-        s32 x_offset;
-        x_step = tile->unk_24;
-
-        x_offset = motion->x.w.i;
-        x_step <<= 6;
-        x_offset -= 0x20;
-
-        x_step = (s32) ((x_step - x_offset) << 0x10) / frames_left;
-        y_offset = motion->y.w.i - 0x20;
-        motion->unk_0C = x_step;
-        motion->unk_10 = (s32) ((s32) (((tile->unk_25 << 6) - y_offset) << 0x10) / (s16) action->unk_9E.s);
-        action->unk_A4 = (s32) ((0 - func_800644B8(action->unk_9E.s * 0x199)) << 0xA);
-    }
-    height = action->unk_90;
-    height += action->unk_A4;
-    next_frame = action->unk_9E.u - 1;
-
-    action->unk_9E.s = next_frame;
-    action->unk_90 = height;
-    if ((next_frame << 0x10) < 0) {
-        action->unk_90 = 0;
-        action->unk_98 = (u16) (action->unk_98 & 0xFFF7);
-        entity->flags1C = (s32) (entity->flags1C | 0x08000000);
+    switch (action->unk_9B) {
+    case 0:
+        action->unk_98 = (u16) (action->unk_98 | 8);
+        entity->flags1C = (s32) (entity->flags1C & 0xF7FFFFFF);
+        action->unk_9E.s = 5;
+        action->unk_A4 = 0;
         action->unk_9B = (u8) (action->unk_9B + 1);
+        /* fall through */
+    case 1:
+        frames_left = action->unk_9E.s;
+        action->unk_90 = (s32) (action->unk_90 - action->unk_A4);
+        if (frames_left != 0) {
+            s32 x_offset;
+            x_step = tile->unk_24;
+
+            x_offset = motion->x.w.i;
+            x_step <<= 6;
+            x_offset -= 0x20;
+
+            x_step = (s32) ((x_step - x_offset) << 0x10) / frames_left;
+            y_offset = motion->y.w.i - 0x20;
+            motion->unk_0C = x_step;
+            motion->unk_10 = (s32) ((s32) (((tile->unk_25 << 6) - y_offset) << 0x10) / (s16) action->unk_9E.s);
+            action->unk_A4 = (s32) ((0 - func_800644B8(action->unk_9E.s * 0x199)) << 0xA);
+        }
+        height = action->unk_90;
+        height += action->unk_A4;
+        next_frame = action->unk_9E.u - 1;
+
+        action->unk_9E.s = next_frame;
+        action->unk_90 = height;
+        if ((next_frame << 0x10) < 0) {
+            action->unk_90 = 0;
+            action->unk_98 = (u16) (action->unk_98 & 0xFFF7);
+            entity->flags1C = (s32) (entity->flags1C | 0x08000000);
+            action->unk_9B = (u8) (action->unk_9B + 1);
+        }
+        /* fall through */
+    case 2:
+        if (entity->flags1C & 0x08000000) {
+            action->unk_98 = (u16) (action->unk_98 & 0xFFF7);
+            motion->flags14 = 0;
+            motion->unk_10 = 0;
+            motion->unk_0C = 0;
+            func_800A2B04(motion, tile->unk_24, tile->unk_25);
+            action->unk_9B = action->unk_9B + 1;
+        }
+        break;
+    case 3:
+        if (tile->unk_2C.as_pu8 != D_80174A2C) {
+            tile->unk_2C.as_pu8 = D_80174A2C;
+            func_80047784(tile, D_80174A2C[((s32) (gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7], 0);
+        }
+        break;
     }
-check_landing:
-    if (!(entity->flags1C & 0x08000000)) {
-        goto update_timer;
-    }
-    action->unk_98 = (u16) (action->unk_98 & 0xFFF7);
-    motion->flags14 = 0;
-    motion->unk_10 = 0;
-    motion->unk_0C = 0;
-    func_800A2B04(motion, tile->unk_24, tile->unk_25);
-    action->unk_9B = action->unk_9B + 1;
-    goto update_timer;
-update_animation:
-    if (tile->unk_2C.as_pu8 != D_80174A2C) {
-        tile->unk_2C.as_pu8 = D_80174A2C;
-        func_80047784(tile, D_80174A2C[((s32) (gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7], 0);
-    }
-update_timer:
     action_timer = action->unk_96 - 1;
     action->unk_96 = action_timer;
     if ((action_timer << 0x10) <= 0) {
@@ -136,24 +119,18 @@ update_timer:
             dungeonStatus.unk_08 = (u16) dungeonStatus.unk_08 - 1;
         }
         entity_flags = entity->flags1C;
-        if (!(entity_flags & 0x2000)) {
-            goto check_facing;
+        if (entity_flags & 0x2000) {
+            status_flags = entity->unk_46;
+            if (status_flags & 0x8000) {
+                entity->unk_46 = status_flags & 0x7FFF;
+            }
+        } else {
+            if (!(entity_flags & 0x410)) {
+                if (entity_flags & 0x20000) {
+                    entity->facing = func_800A0818(tile->unk_24, tile->unk_25, D_80082E80.tileX, D_80082E80.tileY, &facing_aux);
+                }
+            }
         }
-        status_flags = entity->unk_46;
-        if (!(status_flags & 0x8000)) {
-            goto finish_action;
-        }
-        entity->unk_46 = status_flags & 0x7FFF;
-        goto finish_action;
-check_facing:
-        if (entity_flags & 0x410) {
-            goto finish_action;
-        }
-        if (!(entity_flags & 0x20000)) {
-            goto finish_action;
-        }
-        entity->facing = func_800A0818(tile->unk_24, tile->unk_25, D_80082E80.tileX, D_80082E80.tileY, &facing_aux);
-finish_action:
         if ((func_800AD9B4(tile, entity) << 0x10) > 0) {
             action->unk_8C = D_8016F78C;
             func_800A9A04(entity);
