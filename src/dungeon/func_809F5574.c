@@ -63,8 +63,6 @@ extern void func_800A56E0(s32);
 extern s32 func_800A94A0(void *, void *, s32, void *);
 extern void func_800DAE44(void *, s32);
 
-extern void *D_80170838[];
-extern void *D_80170880[];
 extern u8 D_80171400[];
 extern u8 D_80175140[];
 extern u8 D_80175148[];
@@ -84,12 +82,6 @@ void func_80172D74(void *action, EntityRec *motion, void *sprite, EntityRec *act
     s32 step_z;
     s32 next_state;
     u8 state_value;
-    static void *const state_labels[] = {
-        &&state0, &&state1, &&state2, &&state3, &&state16
-    };
-    static void *const kind_labels[] = {
-        &&kind1, &&kind2, &&kind3, &&kind4, &&kind5, &&kind6, &&kind7
-    };
 
     special_item = 0;
     {
@@ -102,34 +94,30 @@ void func_80172D74(void *action, EntityRec *motion, void *sprite, EntityRec *act
         owner_sprite = (u8 *)owner + 0x28;
     }
     ((S_80172D74_1 *)action)->unk_96.s--;
-    {
-        u8 state = ((S_80172D74_1 *)action)->unk_9B;
-
-        if ((u32)state >= 17) {
-            return;
-        }
-        (void)state_labels;
-        goto *D_80170838[state];
-    }
-
-state0:
+    switch (((S_80172D74_1 *)action)->unk_9B) {
+    case 0:
     if (actor->flags1C & 0x2000) {
         s32 kind_index = (actor->unk_46 & 0x3FFF) - 1;
 
-        if ((u32)kind_index >= 7) {
+        switch (kind_index) {
+        case 0:
+            goto kind1;
+        case 1:
+            goto kind2;
+        case 2:
+            goto kind3;
+        case 4:
+            special_item = 1;
+            goto kind3;
+        case 5:
+            special_item = 1;
+            goto kind2;
+        case 6:
+            special_item = 1;
+            goto kind1;
+        default:
             goto kind4;
         }
-        (void)kind_labels;
-        goto *D_80170880[kind_index];
-kind5:
-        special_item = 1;
-        goto kind3;
-kind6:
-        special_item = 1;
-        goto kind2;
-kind7:
-        special_item = 1;
-        goto kind1;
     }
 
     {
@@ -242,7 +230,7 @@ empty_slot:
     actor->unk_46 &= 0x7FFF;
     return;
 
-state1:
+    case 1:
     if (func_8003F270()) {
         ((S_80172D74_4 *)sprite)->unk_14 |= 0x0800;
         return;
@@ -250,7 +238,7 @@ state1:
     ((S_80172D74_4 *)sprite)->unk_14 &= 0xF7FF;
     ((S_80172D74_1 *)action)->unk_9B++;
 
-state2:
+    case 2:
     if (((S_80172D74_1 *)action)->unk_96.u > 0 &&
         !(((S_80172D74_4 *)sprite)->unk_14 & 0xE000)) {
         return;
@@ -266,7 +254,7 @@ increment_state:
     ((S_80172D74_1 *)action)->unk_9B = ((S_80172D74_1 *)action)->unk_9B + 1;
     return;
 
-state3:
+    case 3:
     if (((S_80172D74_1 *)action)->unk_96.u < 4) {
         motion->unk_0C = -step_x << 18;
         motion->unk_10 = -step_z << 18;
@@ -281,7 +269,7 @@ set_state:
     ((S_80172D74_1 *)action)->unk_9B = next_state;
     return;
 
-state16:
+    case 16:
     {
         s32 target_x = ((S_80172D74_4 *)sprite)->unk_24 << 6;
         s32 current_x = motion->x.w.i - 0x20;
@@ -339,4 +327,5 @@ state16:
     actor->unk_72 = 0;
     actor->unk_46 &= 0x7FFF;
     func_800A56E0(0xB4);
+    }
 }

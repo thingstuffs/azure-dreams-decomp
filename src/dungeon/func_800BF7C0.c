@@ -93,7 +93,6 @@ typedef struct S_800C4F20_8 {
 } S_800C4F20_8;   /* temp_a0_7 in func_800C4F20 */
 
 
-extern void *D_800893E4[];
 s32 func_800644B8();
 s32 func_80064584();
 s32 func_80069EF8();
@@ -101,7 +100,6 @@ M2C_UNK func_800A56E0();
 
 /* Updates an object's staged scale and position animation. */
 void func_800C4F20(void *anim, S_800C4F20_5 *position, void *transform_in) {
-    static void *const state_labels[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8, &&jt_c9, &&jt_c10, &&jt_c11, &&jt_c12, &&jt_c13, &&jt_c14, &&jt_c15, &&jt_c16, &&jt_c17 };
     register S_800C4F20_1 *transform ASM_REG("$20") = transform_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s16 exit_mode;
     s16 move_ticks;
@@ -136,11 +134,8 @@ void func_800C4F20(void *anim, S_800C4F20_5 *position, void *transform_in) {
     EntityRec *orbit_center;
 
     state_or_mode = ((S_800C4F20_0 *)anim)->unk_28.s;
-    if ((u32) state_or_mode >= 0x12U) {
-        goto sync_position;
-    }
-    (void)state_labels; goto *D_800893E4[(u32)(state_or_mode)];
-jt_c0:
+    switch (state_or_mode) {
+    case 0:
     grow_ticks = ((S_800C4F20_0 *)anim)->unk_2A;
     if (grow_ticks == 0) {
         goto tick_grow;
@@ -179,7 +174,7 @@ tick_grow:
         next_ticks = orbit_ticks;
         goto advance_state;
     }
-jt_c1:
+    case 1:
     orbit_offset = func_80064584(((S_800C4F20_0 *)anim)->unk_2E);
     orbit_center = &D_80083780;
     target_x = orbit_center->x.w.i + (orbit_offset >> 6);
@@ -216,7 +211,7 @@ move_orbit:
     ((S_800C4F20_0 *)anim)->unk_28.s = (s16) ((u16) ((S_800C4F20_0 *)anim)->unk_28.s + 0x10);
     func_800A56E0(0x518);
     goto sync_position;
-jt_c2:
+    case 2:
     move_ticks = ((S_800C4F20_0 *)anim)->unk_2A;
     if (move_ticks == 0) {
         goto tick_move;
@@ -265,7 +260,7 @@ advance_state:
      /* MATCH: keep the shared count store before the state increment. */
     ((S_800C4F20_0 *)anim)->unk_28.s = (s16) (state + 1);
     goto sync_position;
-jt_c3:
+    case 3:
     shrink_ticks = ((S_800C4F20_0 *)anim)->unk_2A;
     if (shrink_ticks == 0) {
         goto tick_finish;
@@ -283,7 +278,7 @@ jt_c3:
     shrink_target->unk_1C = final_scale;
     ((S_800C4F20_0 *)anim)->unk_32 = (s16) ((u16) ((S_800C4F20_0 *)anim)->unk_32 + ((s32) (0x400 - ((S_800C4F20_0 *)anim)->unk_32) / (s16) ((S_800C4F20_0 *)anim)->unk_2A));
     goto tick_finish;
-jt_c17:
+    case 17:
     rise_ticks = ((S_800C4F20_0 *)anim)->unk_2A;
     if (rise_ticks == 0) {
         goto tick_finish;
@@ -300,19 +295,7 @@ tick_finish:
     ((S_800C4F20_0_pre *)anim)[-1].unk_00 = (u16) (((S_800C4F20_0_pre *)anim)[-1].unk_00 | 0x8000);
     (*(s32 *)&objectFlagBlock.flags) = (s32) (objectFlagBlock.flags | 0x8000);
     return;
-jt_c4:
-jt_c5:
-jt_c6:
-jt_c7:
-jt_c8:
-jt_c9:
-jt_c10:
-jt_c11:
-jt_c12:
-jt_c13:
-jt_c14:
-jt_c15:
-jt_c16:
+    }
 sync_position:
     if (!(((S_800C4F20_11 *)(((S_800C4F20_10 *)anim)->unk_24))->unk_14 & 0x100000)) {
         goto tick_animation;

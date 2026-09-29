@@ -6,7 +6,6 @@
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 
-extern void *D_80088CB8[];
 void func_8009DF0C();
 s32 func_800A2C34();
 M2C_UNK func_800A634C();
@@ -83,7 +82,6 @@ typedef struct S_func_8009E038_8 {
 
 /* Update the viewport transition, blending its bounds, center, scale, and brightness. */
 void func_8009E038(S_func_8009E038_0 *transition, S_func_8009E038_1 *center, S_func_8009E038_2 *render_params, M2C_UNK *context) {
-    static void *const jt_keep[] = { &&jt_c0, &&jt_c1, &&jt_c16, &&jt_c32, &&jt_c48 };
     s32 top_step;
     GameWork *input;
     s16 reset_frames;
@@ -168,11 +166,8 @@ reset_idle:
     (*(s32 *)&D_800E296C) = shared_flags & 0xFEFFFFFF;
 dispatch_state:
     state = transition->unk_1A;
-    if ((u32) state >= 0x31U) {
-        goto apply_transition;
-    }
-    (void)jt_keep; goto *D_80088CB8[(u32)(state)];
-jt_c0:
+    switch (state) {
+    case 0:
     if ((*(s32 *)((u8 *)&D_800E296C + 0)) & 0x800000) {
         goto blend_reset;
     }
@@ -245,7 +240,7 @@ check_move_start:
     transition->unk_1C = 4;
     transition->unk_1A = 0x10;
     goto apply_transition;
-jt_c1:
+    case 1:
     hold_remaining = (u16) transition->unk_1C - 1;
     transition->unk_1C = hold_remaining;
     if ((hold_remaining << 0x10) > 0) {
@@ -258,7 +253,7 @@ jt_c1:
     shared_flags = flags_page->unk_296C;
     transition->unk_1A = 0x10;
     goto store_flags;
-jt_c16:
+    case 16:
     move_frames = transition->unk_1C;
     if (move_frames == 0) {
         goto sync_offsets;
@@ -345,7 +340,7 @@ check_reset_input:
 store_flags:
     flags_page->unk_296C = shared_flags & flags_mask;
     goto apply_transition;
-jt_c32:
+    case 32:
     shrink_scale = render->unk_1E;
     reduced_scale = shrink_scale - (shrink_scale >> 2);
     render->unk_1E = reduced_scale;
@@ -354,9 +349,10 @@ jt_c32:
     }
     render->unk_1E = 0U;
     goto apply_transition;
-jt_c48:
+    case 48:
     transition->unk_1A = 0x10;
     transition->unk_1C = 4;
+    }
 apply_transition:
     func_8009DF0C(transition);
     return;

@@ -91,7 +91,6 @@ typedef struct S_80095A10_10 {
 } S_80095A10_10;   /* ((S_80095A10_2 *)arg3)->unk_60 in func_80095A10 */
 
 
-extern void *D_80088AF8[];
 s32 Control_CD();
 void func_800424E0();
 void func_80042560();
@@ -120,7 +119,6 @@ extern s8 D_800E3E40;
 
 /* Advances the resource loading, object creation, and animation sequence. */
 void func_80095A10(u8 *actor_in, void *position_in, void *animation_in, u8 *context_in) {
-    static void *const state_labels[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6 };
     u8 *actor = actor_in;
     void *position = position_in;
     void *animation = animation_in;
@@ -140,11 +138,8 @@ void func_80095A10(u8 *actor_in, void *position_in, void *animation_in, u8 *cont
 
     state = ((S_80095A10_0 *)actor)->unk_9B;
     resource_info = ((u8 *)D_80082E80.unk_030);
-    if (state >= 7U) {
-        return;
-    }
-    (void)state_labels; goto *D_80088AF8[(u32)(state)];
-jt_c0:
+    switch (state) {
+    case 0:
     if (!(((S_80095A10_1 *)animation)->unk_14 & 0xE000)) {
         return;
     }
@@ -154,7 +149,7 @@ jt_c0:
     func_80093C70(actor, position, animation);
     func_80093D8C(actor, position, animation);
     goto advance_state;
-jt_c1:
+    case 1:
     load_resource = func_800A1618(((S_80095A10_3 *)resource_info)->unk_00, 2);
     if (load_resource == 0) {
         goto advance_state;
@@ -164,13 +159,13 @@ jt_c1:
     (*(s8 *)&D_800E3E40) = 0;
     Control_CD(0xFF, &D_8003E140, &D_800E3E40);
     goto advance_state;
-jt_c2:
+    case 2:
     if (((S_80095A10_4 *)(&D_800E3E40))->unk_00 == 0) {
         return;
     }
     func_80047DF0(state);
     goto advance_state;
-jt_c3:
+    case 3:
     spawn_resource = func_800A1618(((S_80095A10_3 *)resource_info)->unk_00, 2);
     if (spawn_resource == 0) {
         return;
@@ -210,7 +205,7 @@ start_delay:
         ((S_80095A10_0 *)actor)->unk_96 = animation_flags;
         goto store_next_state;
     }
-jt_c4:
+    case 4:
     ticks_left = ((S_80095A10_0 *)actor)->unk_96 - 1;
     ((S_80095A10_0 *)actor)->unk_96 = ticks_left;
     if ((ticks_left << 0x10) > 0) {
@@ -219,7 +214,7 @@ jt_c4:
     (*(M2C_UNK **)((u8 *)animation + 0x2C)) = D_800DD140;
     func_80048A44(animation, *((((s32) (gameWork.view.viewAngle + ((S_80095A10_2 *)context)->unk_2A + 0x100) >> 9) & 7) + D_800DD140), 0, 1);
     goto advance_state;
-jt_c5:
+    case 5:
     animation_flags = ((S_80095A10_1 *)animation)->unk_14;
     if (!(animation_flags & 0x6000)) {
         return;
@@ -234,7 +229,7 @@ advance_state:
 store_next_state:
     ((S_80095A10_0 *)actor)->unk_9B = (u8) (previous_state + 1);
     return;
-jt_c6:
+    case 6:
     if (((S_80095A10_10 *)(((S_80095A10_2 *)context)->unk_60))->unk_14 & 0x100000) {
         return;
     }
@@ -244,4 +239,5 @@ jt_c6:
     func_80099F04(((S_80095A10_2 *)context)->unk_5C);
     dungeonStatus.flags = (u16) (dungeonStatus.flags | 0x812);
     return;
+    }
 }

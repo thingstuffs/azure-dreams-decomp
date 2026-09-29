@@ -2,7 +2,6 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
-extern void *D_80088848[];
 void func_80048A44();
 s32 func_80094F74();
 s32 func_80099F04();
@@ -16,7 +15,6 @@ extern u8 D_800DD0C8[];
 
 /* Updates timed movement and directional animation, then selects the next handler. */
 void func_8008FF18(u8 *entity_in, s32 *motion_in, u16 *sprite_in, s32 *actor_in) {
-    static void *const jt_keep[] = { &&jt_c0, &&jt_c1, &&jt_c8, &&jt_c9, &&jt_c10, &&jt_c11, &&jt_c12 };
     u8 *entity = entity_in;
     s32 *motion = motion_in;
     register u16 *sprite ASM_REG("$18") = sprite_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
@@ -29,13 +27,10 @@ void func_8008FF18(u8 *entity_in, s32 *motion_in, u16 *sprite_in, s32 *actor_in)
     u8 *next_handler;
 
     phase = *(u8 *)(entity + 0x9B);
-    if (phase >= 0xDU) {
-        return;
-    }
-    (void)jt_keep; goto *D_80088848[(u32)(phase)];
-jt_c0:
-jt_c8:
-jt_c10:
+    switch (phase) {
+    case 0:
+    case 8:
+    case 10:
     if (!(*(u16 *)((u8 *)sprite + 0x14) & 0x6000)) {
         return;
     }
@@ -67,9 +62,9 @@ block_10:
     func_80048A44(sprite, *(*(u8 **)((u8 *)sprite + 0x2C) + (((s32) (gameWork.view.viewAngle + *(s16 *)((u8 *)actor + 0x2A) + 0x100) >> 9) & 7)), 0, 1);
     *(u8 *)(entity + 0x9B) = (u8) (*(u8 *)(entity + 0x9B) + 1);
     return;
-jt_c1:
-jt_c9:
-jt_c11:
+    case 1:
+    case 9:
+    case 11:
     if (dungeonStatus.unk_04 != 0) {
         s32 target_x;
         s32 start_x;
@@ -108,7 +103,7 @@ block_17:
 block_19:
     *(u8 *)(entity + 0x9B) = (u8) (*(u8 *)(entity + 0x9B) + 1);
     return;
-jt_c12:
+    case 12:
     if (!(*(u16 *)((u8 *)sprite + 0x14) & 0x6000)) {
         return;
     }
@@ -121,4 +116,5 @@ block_22:
 block_24:
     *(u8 **)((u8 *)entity + 0x8C) = next_handler;
     return;
+    }
 }
