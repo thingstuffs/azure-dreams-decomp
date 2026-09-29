@@ -92,6 +92,8 @@ than 60 variants on one row without `--more`. At most 4 compiles in parallel.
 * Byte-exact by `lab.py --score` / `verify.py`, nothing else counts.
 * No new `ASM_*`, `__asm__`, `volatile`, fences, one-trip blocks (`do {} while (0)`, `while (0)`, `for (;0;)`),
   fake dependencies or dead stores; no new gotos elsewhere to pay for removed ones (net goto count must fall).
+* Never move a label INSIDE a block so a remaining goto jumps into it (`if (c) { L: ... }` with `goto L;` from
+  outside): a goto into a block reads worse than the flat labels it replaced - the coordinator rejects it (g41).
 * Duplication (owner ruling): copying a SHORT shared statement or tail (1-3 lines, e.g. `x++; break;`) into each arm
   is fine - it is likely how the original was written. Copy a longer block only when the alternative is a goto
   that jumps INTO another block; otherwise keep the goto and say what the copy would have cost.
