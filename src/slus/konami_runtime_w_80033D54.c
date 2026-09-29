@@ -69,10 +69,8 @@ s32 func_80033D54(u8 *first_node, u8 *first_transform, u8 *first_context) {
     context = first_context;
 
     render_disabled = D_8008099C;
-    ASM_KEEP_NV(render_disabled);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     state_ptr = D_80083160_init;
     scratch = (u8 *)0x1F800000;
-    ASM_KEEP_NV(scratch);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     if (render_disabled != 0) {
         return 0;
     }
@@ -93,7 +91,7 @@ s32 func_80033D54(u8 *first_node, u8 *first_transform, u8 *first_context) {
     SCR_S32(0x1C) = prim_cursor;
     PushMatrix();
 
-node_loop:
+    while (1) {
     object = PTR_AT(node, 0x0);
     callback = *(void (**)(void *))(node + 0x8);
     SCR_S32(0xC4) = S32_AT(object, 0x60);
@@ -163,7 +161,7 @@ sprite_loop:
         coord = *(volatile u8 *)(sprite + 0x7);
         left_u = U8_AT(sprite, 0x7);
         top_v = U8_AT(sprite, 0x8);
-        SCR_S32(0x0C) = coord;
+        SCR_S32(0x0C) = (u8)coord;
         coord = U8_AT(sprite, 0x8);
         SCR_S32(0x10) = coord;
         SCR_S32(0x14) = U8_AT(sprite, 0x9);
@@ -332,15 +330,15 @@ sprite_loop:
     if (callback != 0) {
         callback(node);
     }
-    ASM_USE_NV(callback);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     SCR_S32(0x1C) = S32_AT(state_ptr[0], 0x8D0);
 
     next_node = PTR_AT(node, -8);
     node = next_node + 0x20;
-    if (next_node != 0) {
-        transform = PTR_AT(next_node, 0x8);
-        context = PTR_AT(next_node, 0xC);
-        goto node_loop;
+    if (next_node == 0) {
+        break;
+    }
+    transform = PTR_AT(next_node, 0x8);
+    context = PTR_AT(next_node, 0xC);
     }
 
     PopMatrix();
