@@ -28,7 +28,8 @@ void func_8009F020(s32 setup_arg_0, s32 setup_arg_1, s32 setup_arg_2, s32 setup_
     entry_state = D_800E3548;
     do {
         if ((((S_8009F020_0 *)entry_state)->unk_01 != 0) && (((S_8009F020_0 *)entry_state)->unk_00 != 0)) {
-            func_8009F3D4(((S_8009F020_1 *)entry_position)->unk_00, ((S_8009F020_1 *)entry_position)->unk_01, 0x802020, 2, entry_index);
+            func_8009F3D4(((S_8009F020_1 *)entry_position)->unk_00, ((S_8009F020_1 *)entry_position)->unk_01, 0x802020,
+                2, entry_index);
         }
         entry_position += 0xC;
         entry_index += 1;

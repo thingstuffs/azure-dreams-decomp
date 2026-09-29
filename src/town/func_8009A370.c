@@ -26,7 +26,6 @@ typedef struct S_80097AD0_3 {
 } S_80097AD0_3;   /* ((S_80097AD0_2 *)object)->unk_08 in func_80097AD0 */
 
 
-
 extern s32 func_800374F4(u16 value);
 extern s32 func_800644B8(s32 value);
 extern s32 func_80064584(s32 value);
@@ -60,7 +59,9 @@ void func_80097AD0(S_80097AD0_0 *origin, S_80097AD0_1 *spread, s32 count) {
 
     if (count != 0) {
         angle_step = 0x1000 / count;
-        do { object_index = 0; } while (0);
+        do {
+            object_index = 0;
+        } while (0);
         angle = rand();
         initial_y = origin->unk_0A;
         record.field16 = -4;

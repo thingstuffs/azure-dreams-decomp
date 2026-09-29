@@ -89,7 +89,7 @@ void func_800244BC(void *object, S_800244BC_2 *position, M2C_UNK context) {
     case 0:
         ((S_800244BC_0 *)object)->unk_48 = 0xAU;
         ((S_800244BC_0 *)object)->unk_4C = (s16) ((u16) ((S_800244BC_0 *)object)->unk_4C + 1);
-                /* fall through */
+                        /* fall through */
     case 1:
         if (func_8003DE58(D_80082E80.unk_008, ((s32 *)(&D_80082E80)), target_pos, 0) != 0) {
             func_800478B8(context);

@@ -18,9 +18,6 @@ M2C_UNK func_800AA5E4(); /* extern */
 s16 func_800BCB04();                   /* extern */
 
 
-
-
-
 typedef struct S_800AC010_4 {
     u8 pad_00[0xA];
     u16 unk_0A;
@@ -58,7 +55,8 @@ s32 func_800AC010(void *move_state, EntityRec *motion, Rec_D_80082E80 *tile_pos,
         axis_pos -= 0x20;
         motion->unk_0C = (s32) ((s32) ((target_x - axis_pos) << 0x10) / move_ticks);
         axis_pos = motion->y.w.i - 0x20;
-        motion->unk_10 = (s32) ((s32) (((tile_pos->unk_25 << 6) - axis_pos) << 0x10) / (s16) ((Rec_func_800A9E70_arg0 *)move_state)->unk_96.as_s16);
+        motion->unk_10 = (s32) ((s32) (((tile_pos->unk_25 << 6) - axis_pos)
+            << 0x10) / (s16) ((Rec_func_800A9E70_arg0 *)move_state)->unk_96.as_s16);
     }
     ticks_left = (u16) ((Rec_func_800A9E70_arg0 *)move_state)->unk_96.as_s16 - 1;
     ((Rec_func_800A9E70_arg0 *)move_state)->unk_96.as_s16 = ticks_left;
@@ -67,7 +65,8 @@ s32 func_800AC010(void *move_state, EntityRec *motion, Rec_D_80082E80 *tile_pos,
         if (hit_object != NULL) {
             func_8009CE1C(actor, 4, 1, 8, (s32) (s16) ((u16) ((s16)actor->unk_6A) + 0x800), 0, 1);
             func_8009CE1C(hit_object, 8, 1, 8, (s32) ((s16)actor->unk_6A), 0, 1);
-            ((Rec_func_800A9E70_arg0 *)move_state)->unk_98 = (u16) (((Rec_func_800A9E70_arg0 *)move_state)->unk_98 & 0xFFF7);
+            ((Rec_func_800A9E70_arg0 *)move_state)->unk_98 =
+                (u16) (((Rec_func_800A9E70_arg0 *)move_state)->unk_98 & 0xFFF7);
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
@@ -108,11 +107,13 @@ object_move_ok:
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            ((Rec_func_800A9E70_arg0 *)move_state)->unk_98 = (u16) (((Rec_func_800A9E70_arg0 *)move_state)->unk_98 & 0xFFF7);
+            ((Rec_func_800A9E70_arg0 *)move_state)->unk_98 =
+                (u16) (((Rec_func_800A9E70_arg0 *)move_state)->unk_98 & 0xFFF7);
             ((Rec_func_800A9E70_arg0 *)move_state)->unk_9C.as_u8 = (u8) tile_pos->unk_26.as_u8;
             tile_pos->unk_26.as_u8 = func_8009FB34(tile_pos->unk_24, tile_pos->unk_25);
             func_800A19E4(tile_pos, actor, 3, 6, move_state + 0x9C);
-            ground_height = func_800BCB04((tile_pos->unk_24 << 6) | 0x20, (tile_pos->unk_25 << 6) | 0x20, (s16) (((u16)motion->z.w.i) - 0x20));
+            ground_height = func_800BCB04((tile_pos->unk_24 << 6) | 0x20, (tile_pos->unk_25 << 6) | 0x20,
+                (s16) (((u16)motion->z.w.i) - 0x20));
             if (ground_height < 0x200) {
                 ((Rec_func_800A9E70_arg0 *)move_state)->unk_90.at02_s16.v = 0;
                 actor->unk_88 = ground_height;

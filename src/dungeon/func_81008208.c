@@ -82,7 +82,7 @@ void func_80173A08(void *action, EntityRec *motion, void *sprite, EntityRec *ent
         ((S_80173A08_0 *)action)->unk_A0 = 0;
         ((S_80173A08_0 *)action)->unk_90 -= 0x400000;
         ((S_80173A08_0 *)action)->unk_9B++;
-                /* fall through */
+                        /* fall through */
     case 2:
         move_ticks = ((S_80173A08_0 *)action)->unk_B0.s;
         ((S_80173A08_0 *)action)->unk_90 -= ((S_80173A08_0 *)action)->unk_A0;
@@ -121,7 +121,7 @@ void func_80173A08(void *action, EntityRec *motion, void *sprite, EntityRec *ent
             func_80047784(sprite, D_801748B0[facing_index & 7], 0);
             ((S_80173A08_0 *)action)->unk_9B++;
         }
-                /* fall through */
+                        /* fall through */
     case 3:
         if (!(entity->flags1C & 0x08000000)) {
             break;

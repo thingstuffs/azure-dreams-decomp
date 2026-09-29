@@ -65,16 +65,20 @@ void func_800D50FC(void *effect, S_800D50FC_1 *motion, S_800D50FC_2 *color) {
     motion->unk_00 = (s32) (motion->unk_00 + motion->unk_0C);
     motion->unk_04 = (s32) (motion->unk_04 + motion->unk_10);
     motion->unk_08 = (s32) (motion->unk_08 + motion->unk_14);
-    color->unk_0C = (s8) ((s32) (((S_800D50FC_0 *)((u8 *)effect - 0x2))->unk_0E * (s16) ((S_800D50FC_0 *)((u8 *)effect - 0x2))->unk_20) / (s16) ((S_800D50FC_0 *)((u8 *)effect - 0x2))->unk_22);
-    color->unk_0D = (s8) ((s32) (((S_800D50FC_0 *)((u8 *)effect - 0x2))->unk_0F * (s16) ((S_800D50FC_0 *)((u8 *)effect - 0x2))->unk_20) / (s16) ((S_800D50FC_0 *)((u8 *)effect - 0x2))->unk_22);
-    color->unk_0E = (s8) ((s32) (((S_800D50FC_0 *)((u8 *)effect - 0x2))->unk_10 * (s16) ((S_800D50FC_0 *)((u8 *)effect - 0x2))->unk_20) / (s16) ((S_800D50FC_0 *)((u8 *)effect - 0x2))->unk_22);
+    color->unk_0C = (s8) ((s32) (((S_800D50FC_0 *)((u8 *)effect - 0x2))->unk_0E * (s16) ((S_800D50FC_0 *)((u8 *)effect
+        - 0x2))->unk_20) / (s16) ((S_800D50FC_0 *)((u8 *)effect - 0x2))->unk_22);
+    color->unk_0D = (s8) ((s32) (((S_800D50FC_0 *)((u8 *)effect - 0x2))->unk_0F * (s16) ((S_800D50FC_0 *)((u8 *)effect
+        - 0x2))->unk_20) / (s16) ((S_800D50FC_0 *)((u8 *)effect - 0x2))->unk_22);
+    color->unk_0E = (s8) ((s32) (((S_800D50FC_0 *)((u8 *)effect - 0x2))->unk_10 * (s16) ((S_800D50FC_0 *)((u8 *)effect
+        - 0x2))->unk_20) / (s16) ((S_800D50FC_0 *)((u8 *)effect - 0x2))->unk_22);
     life_left = ((S_800D50FC_0 *)((u8 *)effect - 0x2))->unk_20 - 1;
     ((S_800D50FC_0 *)((u8 *)effect - 0x2))->unk_20 = life_left;
     if ((life_left << 0x10) <= 0) {
         u32 page;
 
         page = 0x80080000;
-        ((S_800D50FC_0 *)((u8 *)effect - 0x2))->unk_00 = (u16) (((S_800D50FC_0 *)((u8 *)effect - 0x2))->unk_00 | 0x8000);
+        ((S_800D50FC_0 *)((u8 *)effect - 0x2))->unk_00 = (u16) (((S_800D50FC_0 *)((u8 *)effect - 0x2))->unk_00
+            | 0x8000);
         ((S_800D50FC_3 *)page)->unk_14A0 = ((S_800D50FC_3 *)page)->unk_14A0 | 0x8000;
     }
 }

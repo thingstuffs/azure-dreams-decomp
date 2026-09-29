@@ -82,10 +82,11 @@ void func_800B2074(s32 world_x, s32 world_z) {
     if (object != NULL) {
         init_object = object;
         ASM_KEEP(init_object);
-        { InitSlot slot = { D_800B1F34 };
-        init_data = &D_80046398;
-        ((S_800B2074_1 *)object)->unk_10 = slot.pointer;
-        func_8004491C(init_object, init_data);
+        {
+            InitSlot slot = { D_800B1F34 };
+            init_data = &D_80046398;
+            ((S_800B2074_1 *)object)->unk_10 = slot.pointer;
+            func_8004491C(init_object, init_data);
         }
         render_state = ((S_800B2074_1 *)object)->unk_0C;
         render_state->unk_20 = 0x1000;

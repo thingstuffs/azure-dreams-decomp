@@ -64,7 +64,9 @@ void func_800BDC98(s16 start_x, s16 start_y, s16 mode, s32 pair_index) {
                     do {
                         wrapped_y = y & ((S_800BDC98_1 *)buffer_info)->unk_1A;
                         y += 1;
-                        *(u16 *)((long)((s32) (((((S_800BDC98_1 *)buffer_info)->unk_18 & x) + (wrapped_y << ((S_800BDC98_1 *)buffer_info)->unk_14)) << 0x10) >> 0xF) + (long)buffer) = *(u16 *)value_src;
+                        *(u16 *)((long)((s32) (((((S_800BDC98_1 *)buffer_info)->unk_18 & x)
+                            + (wrapped_y << ((S_800BDC98_1 *)buffer_info)->unk_14)) << 0x10) >> 0xF)
+                            + (long)buffer) = *(u16 *)value_src;
                     } while (y < y_end);
                 }
                 x += 1;

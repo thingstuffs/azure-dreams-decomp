@@ -77,7 +77,8 @@ void func_800B328C(void *state, void *position) {
             new_z = ((S_800B328C_3 *)base_position)->unk_0A + offset[2];
             ((S_800B328C_2 *)position)->unk_0A = new_z;
             new_position[2] = new_z;
-            func_800B8EA8(((S_800B328C_0 *)state)->unk_00, old_x, old_y, old_z_shifted >> 0x10, new_position, ((S_800B328C_0 *)state)->unk_04, 2, 0x800, 1);
+            func_800B8EA8(((S_800B328C_0 *)state)->unk_00, old_x, old_y, old_z_shifted >> 0x10, new_position,
+                ((S_800B328C_0 *)state)->unk_04, 2, 0x800, 1);
         } else {
             ((S_800B328C_2 *)position)->unk_02 = (u16) (((S_800B328C_3 *)base_position)->unk_02 + offset[0]);
             ((S_800B328C_2 *)position)->unk_06 = (u16) (((S_800B328C_3 *)base_position)->unk_06 + offset[1]);
@@ -87,7 +88,8 @@ void func_800B328C(void *state, void *position) {
     } else if (((S_800B328C_0 *)state)->unk_8C != 0) {
         goto mark_finished;
     }
-    if (ticks_left = ((S_800B328C_0 *)state)->unk_8E - 1, ((S_800B328C_0 *)state)->unk_8E = ticks_left, ((s16) ticks_left < 0)) {
+    if (ticks_left = ((S_800B328C_0 *)state)->unk_8E - 1, ((S_800B328C_0 *)state)->unk_8E = ticks_left,
+        ((s16) ticks_left < 0)) {
 mark_finished:
         (*(u16 *)((u8 *)state + -2)) = (u16) (((S_800B328C_0_pre *)state)[-1].unk_00 | 0x8000);
         objectFlagBlock.flags |= 0x8000;

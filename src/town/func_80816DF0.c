@@ -147,7 +147,7 @@ void func_80020DF0(void *object, void *motion, void *sprite)
         ((S_80020DF0_0 *)object)->unk_15 = 0;
         ((S_80020DF0_0 *)object)->unk_6C.s = 0x40;
         ((S_80020DF0_0 *)object)->unk_68.s = 1;
-                /* fall through */
+                        /* fall through */
 
     case 1:
         if (((S_80020DF0_3 *)sprite)->unk_14 & 0x6000) {
@@ -467,7 +467,7 @@ void func_80020DF0(void *object, void *motion, void *sprite)
         ((S_80020DF0_0 *)object)->unk_6C.s = 0x1E;
         ((S_80020DF0_0 *)object)->unk_68.u++;
     }
-                /* fall through */
+                        /* fall through */
 
     case 0x100:
     case 0x102:

@@ -309,7 +309,7 @@ void func_8008F664(void *collider, void *position) {
         func_8008F60C(collider, position, scratch);
         continue;
 
-    call_5b4:
+call_5b4:
         func_8008F5B4(collider, position, scratch);
     }
 

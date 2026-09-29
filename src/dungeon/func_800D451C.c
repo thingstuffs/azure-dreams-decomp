@@ -15,8 +15,6 @@ typedef struct S_800D9C7C_1 {
 } S_800D9C7C_1;   /* arg0 in func_800D9C7C */
 
 
-
-
 extern void func_800A2B04();
 extern void func_800AAA54();
 extern void func_800AD4D0();
@@ -63,7 +61,7 @@ void func_800D9C7C(S_800D9C7C_1 *controller, EntityRec *motion, Rec_D_80082E80 *
         controller->unk_96.s = ticks_left;
         motion->unk_0C -= motion->unk_0C / 4;
         motion->unk_10 -= motion->unk_10 / 4;
-        /* fall through */
+                /* fall through */
 
     case 1:
         motion->unk_0C -=

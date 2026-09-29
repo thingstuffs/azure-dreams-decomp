@@ -10,7 +10,6 @@ typedef struct S_800A5FDC_0 {
 } S_800A5FDC_0;   /* state in func_800A5FDC */
 
 
-
 extern s32 func_800374F4();
 extern s32 func_8003BD84();
 extern void SD_Call();
@@ -66,7 +65,7 @@ void func_800A5FDC(u8 *state, EntityRec *table, void *action_context)
     if (input_flags & 0xF000) {
         func_80094C1C(state);
         direction = func_80094BC8(globals->buttons,
-                               globals->view.viewAngle);
+                                  globals->view.viewAngle);
         if (direction != -1) {
             func_80094F58(direction, D_80100E20[0], table);
         }
@@ -89,7 +88,7 @@ void func_800A5FDC(u8 *state, EntityRec *table, void *action_context)
         func_80095388(table);
     }
     tile_id = func_8008C180(D_80083780.x.w.i,
-                          D_80083780.y.w.i);
+                            D_80083780.y.w.i);
     if (func_800C1D44((u16)tile_id) != 0) {
         table->flags14 -= func_800A5894(table);
     }

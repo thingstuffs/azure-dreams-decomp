@@ -1,7 +1,6 @@
 #include "common.h"
 
 
-
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern s8 D_800133A7;
@@ -87,7 +86,7 @@ find_empty_slot:
         return;
     case 0x36:
         stored_code = 0xA;
-        /* fallthrough */
+                /* fallthrough */
     case 0x9:
     case 0x2B:
         store_base = (u8 *)0x80010000;
@@ -100,7 +99,7 @@ find_empty_slot:
         return;
     case 0x37:
         stored_code = 3;
-        /* fallthrough */
+                /* fallthrough */
 store_group_code:
     case 0x0:
     case 0x1:

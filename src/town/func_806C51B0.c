@@ -35,7 +35,7 @@ void func_806C51B0(void) {
 
     D_800190C0[0] =
         ((S_806C51B0_2 *)(((S_806C51B0_1 *)(((Rec_D_80016000 *)(((M2C_UNK *)&D_80016000)))->unk_00.at00_pv.v))->unk_1C))->unk_04
-        << 16;
+    << 16;
     second_value =
         ((S_806C51B0_2 *)(((S_806C51B0_1 *)(((Rec_D_80016000 *)(((M2C_UNK *)&D_80016000)))->unk_00.at00_pv.v))->unk_1C))->unk_08;
     fixed_values = D_800190C0;

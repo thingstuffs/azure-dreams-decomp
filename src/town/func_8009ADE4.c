@@ -36,7 +36,8 @@ void func_80098544(S_80098544_0 *state, void *position_data) {
     state->unk_0A.s = steps_left;
     if ((s16) steps_left > 0) {
         current_coord_2 = position->unk_00;
-        position->unk_00 = (s32) (current_coord_2 + ((s32) ((state->unk_36 << 0x10) - current_coord_2) / (s16) steps_left));
+        position->unk_00 = (s32) (current_coord_2 + ((s32) ((state->unk_36 << 0x10)
+            - current_coord_2) / (s16) steps_left));
         target_y = state->unk_38;
         current_coord = position->unk_04;
         remaining = state->unk_0A.u;

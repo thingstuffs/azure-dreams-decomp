@@ -210,7 +210,8 @@ void func_800AD138(u32 packet_limit)
                     if ((*(s32 *)((u8 *)scratch + 0x18)) < x) {
                         (*(s32 *)((u8 *)scratch + 0x18)) = x;
                     }
-                    edge_error = (*(s32 *)((u8 *)scratch + 0x2C + edge_index * 0x28)) + (*(s32 *)((u8 *)scratch + 0x24 + edge_index * 0x28));
+                    edge_error = (*(s32 *)((u8 *)scratch + 0x2C + edge_index * 0x28)) + (*(s32 *)((u8 *)scratch + 0x24
+                        + edge_index * 0x28));
                     (*(s32 *)((u8 *)scratch + 0x2C + edge_index * 0x28)) = edge_error;
                     if (edge_error >= 0) {
 

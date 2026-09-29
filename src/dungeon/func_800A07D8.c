@@ -12,9 +12,9 @@ void func_800A5F38(void *object_context, void *target) {
 
     object = *(void **)((s8 *)object_context - 0x18);
     func_800A7A7C(*(u16 *)((s8 *)object + 2) >> 6,
-                   *(u16 *)((s8 *)object + 6) >> 6,
-                   *(s16 *)((s8 *)object + 0xA),
-                   func_8004A658(*((u8 *)target + 1), *(u8 *)target), target);
+                  *(u16 *)((s8 *)object + 6) >> 6,
+                  *(s16 *)((s8 *)object + 0xA),
+                  func_8004A658(*((u8 *)target + 1), *(u8 *)target), target);
     func_800A56E0(0x50C);
     func_80098B38(target);
     dungeonStatus.unk_0A--;

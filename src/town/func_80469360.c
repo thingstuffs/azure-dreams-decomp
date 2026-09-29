@@ -23,7 +23,8 @@ s32 func_8001A360(void) {
     table_base = D_8001791C;
     entry = table_base + 0xC;
 check_entry:
-    if ((func_8001E670(((S_8001A360_0 *)entry)->unk_04) != 0) && (func_8001E670(((S_8001A360_0 *)entry)->unk_06) == 0)) {
+    if ((func_8001E670(((S_8001A360_0 *)entry)->unk_04) != 0) && (func_8001E670(((S_8001A360_0 *)entry)->unk_06)
+        == 0)) {
         func_8001E578(((S_8001A360_0 *)entry)->unk_06);
         return entry_index;
     }

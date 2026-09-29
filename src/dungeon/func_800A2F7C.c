@@ -6,11 +6,14 @@ void func_800A86DC(s32 entry_index) {
 
     if (entry_index < 19) {
         ptr += entry_index * 4;
-        loop_0: {
+loop_0:
+        {
             entry_index++;
             *(s32 *)(ptr + 0x29C) = *(s32 *)(ptr + 0x2A0);
             ptr += 4;
-        } if (entry_index < 19) goto loop_0;
+        }
+        if (entry_index < 19)
+            goto loop_0;
     }
     {
         u8 *page = (u8 *)0x80010000;

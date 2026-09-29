@@ -111,7 +111,7 @@ void func_800A2AF8(s32 end_point, s32 start_point)
     {
         u32 *ot_entry =
             (u32 *)(((u32)*(s32 *)(scratch + 0xC4) << 2) +
-                (u32)*(u32 **)(scratch + 0x24));
+                    (u32)*(u32 **)(scratch + 0x24));
         draw_mode[0] = (draw_mode[0] & length_mask) | (*ot_entry & low_mask);
     }
     {

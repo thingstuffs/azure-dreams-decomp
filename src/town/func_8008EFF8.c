@@ -45,7 +45,8 @@ loop:
             radius = abs(offset->x);
             offset_y = offset->y;
             offset_y = abs(offset_y);
-            if (radius < offset_y) radius = offset_y;
+            if (radius < offset_y)
+                radius = offset_y;
             probe.work.z = origin->z - (radius * 2);
             func_8008CF48(&probe.work, &probe.item, radius);
             if (func_8008C3B8(items, item_index, probe.item) < 0) {
@@ -53,11 +54,13 @@ loop:
                 offset_x = offset->x;
                 neg_x = -offset_x;
                 coeff_x = coeffs[0];
-                if (neg_x < 0) neg_x += trunc_bias;
+                if (neg_x < 0)
+                    neg_x += trunc_bias;
                 product_x = coeff_x * (neg_x >> 16);
                 coeff_y = coeffs[1];
                 neg_y = -offset->y;
-                if (neg_y < 0) neg_y += trunc_bias;
+                if (neg_y < 0)
+                    neg_y += trunc_bias;
                 {
                     s32 dot_xy;
                     dot_xy = product_x + coeff_y * (neg_y >> 16);
@@ -80,7 +83,8 @@ loop:
             } while (0);
             if ((s16)value != 0x7FFF) {
                 adjusted_z = offset->z;
-                if (adjusted_z < 0) adjusted_z += trunc_bias;
+                if (adjusted_z < 0)
+                    adjusted_z += trunc_bias;
                 adjusted_z >>= 16;
                 adjusted_z += correction;
                 value -= adjusted_z;
@@ -94,7 +98,8 @@ loop:
         }
         item_index++;
         offset++;
-        if (item_index < count) goto loop;
+        if (item_index < count)
+            goto loop;
     }
     return (s16)min_value;
 }

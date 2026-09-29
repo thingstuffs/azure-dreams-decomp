@@ -18,7 +18,13 @@ typedef struct S_800D34CC_1_pre {
 
 typedef struct S_800D34CC_2 {
     u8 pad_00[0xC];
-    union { struct { s32 v; } at00; struct { u8 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; struct { u8 pad[0x2]; u8 v; } at02; struct { u8 pad[0x2]; u8 v; } at02u; } unk_0C;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { u8 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+        struct { u8 pad[0x2]; u8 v; } at02;
+        struct { u8 pad[0x2]; u8 v; } at02u;
+    } unk_0C;   /* overlapping accesses */
     u8 pad_10[0x4];
     u16 unk_14;
     u8 pad_16[0x6];
@@ -70,13 +76,15 @@ void func_800D34CC(void *arg0, void *arg1, void *arg2, void *arg3) {
         ((S_800D34CC_0 *)arg0)->unk_9B = (u8) (((S_800D34CC_0 *)arg0)->unk_9B + 1);
     case 1:
         temp_v1_2 = (u8) ((S_800D34CC_2 *)arg2)->unk_0C.at00.v;
-        ((S_800D34CC_2 *)arg2)->unk_0C.at00u.v = (u8) (temp_v1_2 + ((0x20 - temp_v1_2) / (s16) ((S_800D34CC_0 *)arg0)->unk_96));
+        ((S_800D34CC_2 *)arg2)->unk_0C.at00u.v = (u8) (temp_v1_2 + ((0x20
+            - temp_v1_2) / (s16) ((S_800D34CC_0 *)arg0)->unk_96));
         temp_v1_3 = ((S_800D34CC_2 *)arg2)->unk_0C.at01.v;
         temp_a1 = ((S_800D34CC_0 *)arg0)->unk_96;
         temp_green = temp_v1_3 + ((0x20 - temp_v1_3) / temp_a1);
         temp_v0 = ((S_800D34CC_2 *)arg2)->unk_0C.at02.v;
         ((S_800D34CC_2 *)arg2)->unk_0C.at01.v = (u8) temp_green;
-        ((S_800D34CC_2 *)arg2)->unk_0C.at02u.v = (u8) (temp_v0 + ((0x20 - temp_v0) / (s16) ((S_800D34CC_0 *)arg0)->unk_96));
+        ((S_800D34CC_2 *)arg2)->unk_0C.at02u.v = (u8) (temp_v0 + ((0x20
+            - temp_v0) / (s16) ((S_800D34CC_0 *)arg0)->unk_96));
         temp_dim = ((S_800D34CC_2 *)arg2)->unk_1C;
         ((S_800D34CC_2 *)arg2)->unk_1C = (u16) (temp_dim - (temp_dim / (s16) ((S_800D34CC_0 *)arg0)->unk_96));
         temp_dim2 = ((S_800D34CC_2 *)arg2)->unk_1E;

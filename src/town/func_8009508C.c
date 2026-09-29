@@ -38,14 +38,12 @@ extern s32 D_800FE518[];
 extern s32 *D_800FE5D8;
 
 
-
 typedef struct S_800927EC_1 {
     u8 pad_00[0x8];
     s32 unk_08;
     u8 pad_0C[0x4];
     s32 unk_10;
 } S_800927EC_1;   /* state in func_800927EC */
-
 
 
 typedef struct S_800927EC_4 {
@@ -114,7 +112,8 @@ void func_800927EC(void *actor, EntityRec *position, M2C_UNK context) {
                 }
             }
             interaction = &D_800CFCB4;
-            interaction_result = func_800A9D74(((S_800927EC_4 *)interaction)->unk_10, ((Rec_func_80094268_arg0 *)actor)->unk_2C);
+            interaction_result = func_800A9D74(((S_800927EC_4 *)interaction)->unk_10,
+                ((Rec_func_80094268_arg0 *)actor)->unk_2C);
             if (interaction_result != 0) {
                 func_80035208(interaction_result);
             } else {

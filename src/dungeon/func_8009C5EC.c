@@ -284,7 +284,8 @@ s32 func_800A1D4C(void *entity_data, s32 show_message) {
             gained_flag = 1;
             levels_left = 100 - level;
             ability_slot = ((u8 *)entity_data) + 6;
-            loop_0: {
+loop_0:
+            {
                 gained = gained_base + slot;
                 *gained = 0;
                 ability_value = ability_slot[8];
@@ -311,7 +312,9 @@ s32 func_800A1D4C(void *entity_data, s32 show_message) {
                 }
                 slot -= 1;
                 ability_slot -= 3;
-            } if (slot >= 0) goto loop_0;
+            }
+            if (slot >= 0)
+                goto loop_0;
         }
 
         func_80041E70(((u8 *)entity_data));

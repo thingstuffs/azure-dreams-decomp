@@ -26,8 +26,8 @@ s32 func_800A45D8(s32 x, s32 y, s32 z)
     }
 
     height_result = func_800BCB04((tile_x << 6) | 0x20,
-                                 (tile_y << 6) | 0x20,
-                                 (s16)(z - 0x20));
+                                  (tile_y << 6) | 0x20,
+                                  (s16)(z - 0x20));
     height = height_result;
     height_result <<= 16;
     height_limit = 0x02000000;

@@ -58,7 +58,7 @@ s32 func_80024EF4(void)
     scratch->table = (u32 *)(state + 0xB0);
     scratch->current = primitive_start;
 
-        /* This address is needed only by the loop's terminal writeback. */
+            /* This address is needed only by the loop's terminal writeback. */
     {
         u8 **state_slot = &gameWork.unk_000;
 

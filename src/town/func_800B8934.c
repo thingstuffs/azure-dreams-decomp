@@ -18,8 +18,6 @@ typedef struct S_800B6094_6 {
 } S_800B6094_6;   /* ((S_800B6094_5 *)(((S_800B6094_4 *)temp_v1)->unk_38))->unk_04 in func_800B6094 */
 
 
-
-
 s32 func_800439BC();
 M2C_UNK func_800498EC();
 s32 func_80049918();

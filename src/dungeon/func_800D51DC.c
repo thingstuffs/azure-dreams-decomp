@@ -80,13 +80,13 @@ s32 func_800DA93C(void *first_quad) {
         ((S_800DA93C_0 *)(render_state->unk_000))->unk_8D0 = (u8 *)packet + 0x28;
 
         depth = func_80065420((u8 *)quad_data + 0x28,
-                           (u8 *)packet + 8, &scratch, &scratch);
+                              (u8 *)packet + 8, &scratch, &scratch);
         depth += func_80065420((u8 *)quad_data + 0x30,
-                            (u8 *)packet + 0x10, &scratch, &scratch);
+                               (u8 *)packet + 0x10, &scratch, &scratch);
         depth += func_80065420((u8 *)quad_data + 0x38,
-                            (u8 *)packet + 0x18, &scratch, &scratch);
+                               (u8 *)packet + 0x18, &scratch, &scratch);
         depth += func_80065420((u8 *)quad_data + 0x40,
-                            (u8 *)packet + 0x20, &scratch, &scratch);
+                               (u8 *)packet + 0x20, &scratch, &scratch);
         depth = (depth >> 2) - 8;
 
         if ((u32)depth < 0x1E0U) {

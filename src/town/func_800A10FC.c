@@ -74,7 +74,9 @@ void func_8009E85C(void *entity, S_8009E85C_1 *placement, S_8009E85C_2 *state) {
     if (entry_type == 0x12) {
         state->unk_08 = &D_8006E240;
     } else {
-        func_8009DC8C(entity, state, ((Rec_func_80094268_arg0 *)entity)->unk_4C, ((S_8009E85C_6 *)(table_page + ((table_page[(((Rec_func_80094268_arg0 *)entity)->unk_95 * 4) + 0x983] & 0x3F) * 0x54)))->unk_A94);
+        func_8009DC8C(entity, state, ((Rec_func_80094268_arg0 *)entity)->unk_4C,
+            ((S_8009E85C_6 *)(table_page + ((table_page[(((Rec_func_80094268_arg0 *)entity)->unk_95 * 4)
+            + 0x983] & 0x3F) * 0x54)))->unk_A94);
     }
     func_80033CD8(entity, func_80045340);
     init_flags = 0x20;

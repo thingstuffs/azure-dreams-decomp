@@ -72,7 +72,6 @@ typedef struct S_8008D470_7 {
 } S_8008D470_7;   /* ((S_8008D470_1 *)target)->unk_124 in func_8008D470 */
 
 
-
 extern u8 D_80081484[];
 
 extern s32 func_8003DE58();
@@ -127,9 +126,12 @@ void func_8008D470(void *effect, S_8008D470_4 *position, S_8008D470_3 *visual) {
                     ((S_8008D470_0 *)effect)->unk_A4.u;
             } else {
                 ((S_8008D470_0 *)effect)->unk_A4.s = 0;
-                position->unk_00.at02.v = ((S_8008D470_6 *)(((S_8008D470_0 *)effect)->unk_8C))->unk_00.at02.v + (u16)offsets[0];
-                position->unk_04.at02.v = ((S_8008D470_6 *)(((S_8008D470_0 *)effect)->unk_8C))->unk_04.at02.v + (u16)offsets[1];
-                position->unk_08.at02.v = ((S_8008D470_6 *)(((S_8008D470_0 *)effect)->unk_8C))->unk_08.at02.v + (u16)offsets[2];
+                position->unk_00.at02.v = ((S_8008D470_6 *)(((S_8008D470_0 *)effect)->unk_8C))->unk_00.at02.v
+                    + (u16)offsets[0];
+                position->unk_04.at02.v = ((S_8008D470_6 *)(((S_8008D470_0 *)effect)->unk_8C))->unk_04.at02.v
+                    + (u16)offsets[1];
+                position->unk_08.at02.v = ((S_8008D470_6 *)(((S_8008D470_0 *)effect)->unk_8C))->unk_08.at02.v
+                    + (u16)offsets[2];
             }
             if (((S_8008D470_0 *)effect)->unk_AA == 0) {
                 ((S_8008D470_0 *)effect)->unk_AA = 1;
@@ -163,7 +165,8 @@ void func_8008D470(void *effect, S_8008D470_4 *position, S_8008D470_3 *visual) {
         expiry_mode = ((S_8008D470_0 *)effect)->unk_AC;
         ((S_8008D470_0 *)effect)->unk_A8.s = 0;
         if (expiry_mode == 1) {
-            spawn_handle = func_800A8E74(effect, position, visual, ((s32)D_800814A8), ((S_8008D470_0 *)effect)->unk_9C, -1);
+            spawn_handle = func_800A8E74(effect, position, visual, ((s32)D_800814A8), ((S_8008D470_0 *)effect)->unk_9C,
+                -1);
             if (spawn_handle != 0) {
                 entity = (void *)(spawn_handle + 0x20);
                 target = D_800E3D7C;

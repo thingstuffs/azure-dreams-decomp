@@ -12,8 +12,6 @@ typedef struct S_800AF8B0_2 {
 } S_800AF8B0_2;   /* ((Rec_func_800AF254_arg1 *)arg0)->unk_00 in func_800AF8B0 */
 
 
-
-
 M2C_UNK func_800B05DC(); /* extern */
 
 
@@ -28,5 +26,7 @@ void func_800AF8B0(Rec_func_800AF254_arg1 *entry) {
         x_pos = 0x28;
     }
     entry->unk_10 = 0;
-    func_800B05DC(entry->unk_18, ((S_800AF8B0_2 *)(((Rec_func_800AF254_arg1 *)entry)->unk_00))->unk_18, x_pos, ((page_slot % 5) * 0x18) - 0x80, ((s32 *)((S_800AF8B0_2 *)(((Rec_func_800AF254_arg1 *)entry)->unk_00))->unk_20)[((S_800AF8B0_2 *)(((Rec_func_800AF254_arg1 *)entry)->unk_00))->unk_18]);
+    func_800B05DC(entry->unk_18, ((S_800AF8B0_2 *)(((Rec_func_800AF254_arg1 *)entry)->unk_00))->unk_18, x_pos,
+        ((page_slot % 5) * 0x18) - 0x80,
+        ((s32 *)((S_800AF8B0_2 *)(((Rec_func_800AF254_arg1 *)entry)->unk_00))->unk_20)[((S_800AF8B0_2 *)(((Rec_func_800AF254_arg1 *)entry)->unk_00))->unk_18]);
 }

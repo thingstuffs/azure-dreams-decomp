@@ -103,7 +103,7 @@ void func_800BFB8C(void *source)
                 ((S_800BFB8C_3 *)coords)->unk_0C = random_coord;
                 ((S_800BFB8C_3 *)coords)->unk_1E = random_coord;
                 coord_term = rand()
-                        % (s16)((S_800BFB8C_0 *)source)->unk_0A;
+                % (s16)((S_800BFB8C_0 *)source)->unk_0A;
                 base_coord = ((S_800BFB8C_0 *)source)->unk_08;
                 fixed_coord = -0x180;
                 ((S_800BFB8C_3 *)coords)->unk_10 = fixed_coord;

@@ -51,7 +51,9 @@ s32 func_800AAB10(s32 buffer_addr, M2C_UNK source, M2C_UNK unused, EntityRec *re
                         }
                         if (!(record->unk_54 & 0x800000) && (record->flags14 & 0x4000)) {
                             type_id = (*(u8 *)((u8 *)&record->unk_10 + 3));
-                            if ((((S_800AAB10_2_pre *)(((type_id * 0x14) + D_8007359C)))[-1].unk_00 & 0x80) && (type_id >= 2U) && ((u8) (*(u8 *)((u8 *)&record->unk_10 + 1)) >= 0x14U) && !(record->flags1C & 0x228) && ((func_80042900(record, 0x18) << 0x10) == 0)) {
+                            if ((((S_800AAB10_2_pre *)(((type_id * 0x14) + D_8007359C)))[-1].unk_00 & 0x80)
+                                && (type_id >= 2U) && ((u8) (*(u8 *)((u8 *)&record->unk_10 + 1)) >= 0x14U)
+                                && !(record->flags1C & 0x228) && ((func_80042900(record, 0x18) << 0x10) == 0)) {
                                 eligible = 1;
                             }
                         }

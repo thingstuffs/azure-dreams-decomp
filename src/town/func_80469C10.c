@@ -16,7 +16,6 @@ extern s32 func_8001A7E8();
 extern void *D_8001E950;
 
 
-
 typedef struct S_8001AC10_1 {
     u8 pad_00[0x10];
     s32 unk_10;

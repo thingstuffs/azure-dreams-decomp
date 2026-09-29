@@ -14,8 +14,6 @@ typedef struct S_800BCE78_1 {
 } S_800BCE78_1;   /* arg1 in func_800BCE78 */
 
 
-
-
 extern s32 func_800352FC(void *, void *, void *, s32);
 extern s32 func_800C2AB4(void *);
 extern void SD_Call(s32);
@@ -96,7 +94,8 @@ void func_800BCE78(void *actor, void *motion, void *sprite, s32 update_mode)
     }
     goto tail;
 
-case_0: {
+case_0:
+    {
         s32 action_choice;
         s32 random_value;
         register s32 quotient;
@@ -118,7 +117,8 @@ case_0: {
             ((Rec_D_80082D58 *)actor)->unk_6C.as_u16 = (rand() % 2) + 2;
             break;
 
-        case 1: {
+        case 1:
+        {
             s32 limit;
             s32 hop_vx;
 
@@ -152,7 +152,8 @@ case_0: {
             break;
         }
 
-        case 2: {
+        case 2:
+        {
             s32 limit;
             s32 random_speed;
             s32 *launch_sequence;
@@ -194,7 +195,8 @@ case_0: {
         goto tail;
     }
 
-case_10: {
+case_10:
+    {
         register u16 timer;
 
         if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000) {
@@ -208,7 +210,8 @@ case_10: {
         goto tail;
     }
 
-case_20: {
+case_20:
+    {
         s32 x;
         s32 vy;
         s32 vx;
@@ -241,7 +244,8 @@ case_20: {
         goto tail;
     }
 
-case_30: {
+case_30:
+    {
         s32 x;
         s32 vx;
         s32 vy;
@@ -262,7 +266,8 @@ case_30: {
         goto tail;
     }
 
-case_31: {
+case_31:
+    {
         register s32 x;
         register s32 vx;
         register s32 y;
@@ -289,7 +294,8 @@ case_31: {
         goto tail;
     }
 
-case_32: {
+case_32:
+    {
         register s32 x;
         register s32 vx;
         register s32 y;
@@ -331,7 +337,8 @@ case_32: {
         goto tail;
     }
 
-case_33: {
+case_33:
+    {
         register s32 x;
         register s32 vx;
         register s32 y;
@@ -358,7 +365,8 @@ case_33: {
         goto tail;
     }
 
-case_34: {
+case_34:
+    {
         register s16 floor;
 
         ((S_800BCE78_1 *)motion)->unk_00 += ((S_800BCE78_1 *)motion)->unk_0C.s;
@@ -372,7 +380,8 @@ case_34: {
         goto tail;
     }
 
-case_40: {
+case_40:
+    {
         register u16 timer;
 
         timer = ((Rec_D_80082D58 *)actor)->unk_6C.as_u16 - 1;
@@ -385,10 +394,10 @@ case_40: {
     }
 
 case_FF:
-        func_8008F134(actor, glide_state, settle_state);
-        func_80033D08(actor);
-        (*(u16 *)((u8 *)actor + -2)) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+    func_8008F134(actor, glide_state, settle_state);
+    func_80033D08(actor);
+    (*(u16 *)((u8 *)actor + -2)) |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
 
 tail:
     func_800478B8(sprite);

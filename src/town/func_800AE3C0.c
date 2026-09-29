@@ -20,7 +20,6 @@ typedef struct S_800ABB20_1 {
 } S_800ABB20_1;   /* arg0 in func_800ABB20; pointer addresses record offset 0x2 */
 
 
-
 extern void func_800478B8(void *arg0);
 
 /* Update effect motion, fade its brightness, and mark it expired when its timer ends. */
@@ -29,7 +28,8 @@ void func_800ABB20(void *effect_record, S_800ABB20_0 *motion, Rec_D_80082E80 *pr
     u8 brightness;
 
     motion->unk_14 = (s32) (motion->unk_14 + (((S_800ABB20_1 *)((u8 *)effect_record - 0x2))->unk_06 << 0xB));
-    ((S_800ABB20_1 *)((u8 *)effect_record - 0x2))->unk_06 = (s16) ((u16) ((S_800ABB20_1 *)((u8 *)effect_record - 0x2))->unk_06 + 1);
+    ((S_800ABB20_1 *)((u8 *)effect_record - 0x2))->unk_06 = (s16) ((u16) ((S_800ABB20_1 *)((u8 *)effect_record
+        - 0x2))->unk_06 + 1);
     motion->unk_00 = (s32) (motion->unk_00 + motion->unk_0C);
     motion->unk_04 = (s32) (motion->unk_04 + motion->unk_10);
     motion->unk_08 = (s32) (motion->unk_08 + motion->unk_14);
@@ -44,7 +44,8 @@ void func_800ABB20(void *effect_record, S_800ABB20_0 *motion, Rec_D_80082E80 *pr
     ticks_left = ((S_800ABB20_1 *)((u8 *)effect_record - 0x2))->unk_04 - 1;
     ((S_800ABB20_1 *)((u8 *)effect_record - 0x2))->unk_04 = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
-        ((S_800ABB20_1 *)((u8 *)effect_record - 0x2))->unk_00 = (u16) (((S_800ABB20_1 *)((u8 *)effect_record - 0x2))->unk_00 | 0x8000);
+        ((S_800ABB20_1 *)((u8 *)effect_record - 0x2))->unk_00 = (u16) (((S_800ABB20_1 *)((u8 *)effect_record
+            - 0x2))->unk_00 | 0x8000);
         objectFlagBlock.flags |= 0x8000;
     }
 }

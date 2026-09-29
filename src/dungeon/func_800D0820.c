@@ -7,7 +7,6 @@ s32 func_800A45D8(s32, s32, s16);
 s16 func_800BCB04(s32, s32, s16);
 
 
-
 typedef struct S_800D5F80_2 {
     s16 unk_00;
     s16 unk_02;

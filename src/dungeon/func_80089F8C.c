@@ -31,7 +31,9 @@ void func_8008F6EC(void *state, EntityRec *target, void *sprite, u32 actor_or_ca
         actor_or_can = animate_result > 0;
     } else if ((func_800A44E0(((u16)target->x.w.i), ((u16)target->y.w.i), actor->unk_88, actor->facing) << 0x10) == 0) {
         direction_offset = ((u16) actor->facing >> 8) & 0xE;
-        if ((func_800A7234((s16) (((Rec_D_80082E80 *)sprite)->unk_24 + *(u16 *)(((u8 *)dirStepX) + direction_offset)), (s16) (((Rec_D_80082E80 *)sprite)->unk_25 + *(u16 *)(((u8 *)dirStepY) + direction_offset)), actor->unk_88, &probe_a, &probe_b, &probe_c) << 0x10) != 0) {
+        if ((func_800A7234((s16) (((Rec_D_80082E80 *)sprite)->unk_24 + *(u16 *)(((u8 *)dirStepX) + direction_offset)),
+            (s16) (((Rec_D_80082E80 *)sprite)->unk_25 + *(u16 *)(((u8 *)dirStepY) + direction_offset)), actor->unk_88,
+            &probe_a, &probe_b, &probe_c) << 0x10) != 0) {
             actor_or_can = 1;
         }
     }

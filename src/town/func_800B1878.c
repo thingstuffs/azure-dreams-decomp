@@ -19,7 +19,7 @@ extern void *func_8003FD64(s32 arg0, void *arg1);
 extern s32 func_800AEF5C(void *arg0, s32 arg1);
 extern void *func_800AEB9C(void *arg0);
 extern void func_800AEEF0(void *arg0, void *arg1, s32 arg2, s32 arg3,
-                         s32 arg4, s32 arg5, s32 arg6);
+                          s32 arg4, s32 arg5, s32 arg6);
 extern void func_8004491C(void *arg0, void *arg1);
 extern void func_8004B248(void *arg0);
 extern void func_8004CAA0(void);

@@ -2,9 +2,6 @@
 #include "records/Rec_func_80094268_arg0.h"
 
 
-
-
-
 typedef struct S_800C4174_1 {
     u8 pad_00[0x4];
     s32 unk_04;

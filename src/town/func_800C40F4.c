@@ -19,15 +19,15 @@ extern u8 D_80080F98;
 /* Initialize town resources and configure the scene. */
 void func_800C1854(void)
 {
-  u8 *resource_data;
-  func_8003AFE0(1, 0x73);
-  func_80066F78(1);
-  file_load_com(&D_80080E28);
-  resource_data = &D_800D1D54;
-  file_load_com(resource_data);
-  func_8003C758(&D_80080F48);
-  func_8003C758(&D_80080F98);
-  reserve_twch_load(6);
-  reserve_twch_load(3);
-  town_seq_reserve(0x27, 0x200);
+    u8 *resource_data;
+    func_8003AFE0(1, 0x73);
+    func_80066F78(1);
+    file_load_com(&D_80080E28);
+    resource_data = &D_800D1D54;
+    file_load_com(resource_data);
+    func_8003C758(&D_80080F48);
+    func_8003C758(&D_80080F98);
+    reserve_twch_load(6);
+    reserve_twch_load(3);
+    town_seq_reserve(0x27, 0x200);
 }

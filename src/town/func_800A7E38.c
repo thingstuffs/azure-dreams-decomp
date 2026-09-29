@@ -8,6 +8,6 @@ void func_800A5598(void) {
     s32 *target = &D_800834B8;
     s32 *source_state = target - 8;
 
-    
+
     func_800A553C(target, source_state[2], source_state[3]);
 }

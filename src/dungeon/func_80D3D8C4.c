@@ -78,7 +78,7 @@ void func_801730C4(void *action, void *motion, void *sprite, void *actor)
         ((S_801730C4_0 *)action)->unk_A8 = 5;
         ((S_801730C4_0 *)action)->unk_A4 = 0;
         ((S_801730C4_0 *)action)->unk_9B++;
-                /* fallthrough */
+                        /* fallthrough */
     case 1:
     {
         s32 move_ticks;
@@ -116,7 +116,7 @@ void func_801730C4(void *action, void *motion, void *sprite, void *actor)
             ((S_801730C4_0 *)action)->unk_9B++;
         }
     }
-                /* fallthrough */
+                        /* fallthrough */
     case 2:
         if (((S_801730C4_2 *)actor)->unk_1C.s & 0x08000000) {
             ((S_801730C4_0 *)action)->unk_98 &= 0xFFF7;

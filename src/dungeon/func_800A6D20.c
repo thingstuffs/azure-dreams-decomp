@@ -60,7 +60,8 @@ s32 func_800AC480(S_800AC480_0 *move_state, EntityRec *motion, S_800AC480_1 *tar
         motion->unk_10 = 0;
         motion->unk_0C = 0;
         func_800A2B04(motion, target_tile->unk_24, target_tile->unk_25);
-        target_height = func_800BCB04((target_tile->unk_24 << 6) | 0x20, (target_tile->unk_25 << 6) | 0x20, (s16) (height_state->unk_88 - 0x20));
+        target_height = func_800BCB04((target_tile->unk_24 << 6) | 0x20, (target_tile->unk_25 << 6) | 0x20,
+            (s16) (height_state->unk_88 - 0x20));
         if (target_height < 0x200) {
             move_state->unk_92 = (u16) (move_state->unk_92 + (height_state->unk_88 - target_height));
             height_state->unk_88 = (u16) target_height;

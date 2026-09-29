@@ -2,7 +2,6 @@
 #include "m2c_compat.h"
 
 
-
 s32 func_8003BD84();                        /* extern */
 s32 func_800644B8();                             /* extern */
 s32 func_80064584();                             /* extern */

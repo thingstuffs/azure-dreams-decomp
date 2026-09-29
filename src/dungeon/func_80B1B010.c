@@ -178,7 +178,7 @@ apply_motion:
         }
         ((S_80172810_4 *)sprite)->unk_14 &= 0xF7FF;
         ((S_80172810_0 *)action_state)->unk_9B = ((S_80172810_0 *)action_state)->unk_9B + 1;
-                /* fallthrough */
+                        /* fallthrough */
     case 2:
         if ((((S_80172810_4 *)sprite)->unk_04 == 14 && (((S_80172810_4 *)sprite)->unk_14 & 0x1000)) ||
             (((S_80172810_4 *)sprite)->unk_14 & 0xE000)) {

@@ -30,7 +30,7 @@ s32 func_8009A540(s32 direction, s16 tile_x, s16 tile_y, s16 height)
         x_table = D_800DCEAC;
         y = tile_y;
         center_y = (y << 6) + 0x20;
-    loop:
+loop:
         if (func_8009A350(x, y, (saved + side) & 7, &tile_flags) != 0) {
             dir = ((u16)saved + side) & 7;
             if (func_800BCB04(x_table[dir] + center_x, D_800DCEBC[dir] + center_y, h) > 0x200) {
@@ -41,7 +41,7 @@ s32 func_8009A540(s32 direction, s16 tile_x, s16 tile_y, s16 height)
         if (side < 2) {
             goto loop;
         }
-    done:
+done:
         if (side < 2) {
             return 0;
         }

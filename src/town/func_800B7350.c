@@ -26,7 +26,6 @@ typedef struct S_800B4AB0_3 {
 } S_800B4AB0_3;   /* ((S_800B4AB0_0 *)arg0)->unk_5C in func_800B4AB0 */
 
 
-
 extern u8 D_800786DC[];
 extern u8 D_800786E8[];
 

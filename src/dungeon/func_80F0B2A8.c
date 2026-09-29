@@ -177,7 +177,7 @@ advance_motion:
         }
         ((S_80172AA8_4 *)sprite)->unk_14 &= 0xF7FF;
         ((S_80172AA8_0 *)motion_state)->unk_9B = ((S_80172AA8_0 *)motion_state)->unk_9B + 1;
-                /* fallthrough */
+                        /* fallthrough */
     case 2:
         if ((((S_80172AA8_4 *)sprite)->unk_04 == 5 && (((S_80172AA8_4 *)sprite)->unk_14 & 0x1000)) ||
             (((S_80172AA8_4 *)sprite)->unk_14 & 0xE000)) {

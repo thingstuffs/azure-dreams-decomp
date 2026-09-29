@@ -12,8 +12,6 @@ typedef struct S_80171ECC_1 {
 } S_80171ECC_1;   /* source in func_80171ECC */
 
 
-
-
 extern s32 func_80047784();
 extern s32 func_8009C93C();
 extern s32 func_800A0134();
@@ -34,7 +32,7 @@ s32 func_80171ECC(void *action_state, s32 action_id, void *source_obj, EntityRec
         return -1;
     }
     target_angle = func_800A04F0(actor, ((S_80171ECC_1 *)source_obj)->unk_24,
-                                ((S_80171ECC_1 *)source_obj)->unk_25, actor->facing);
+                                 ((S_80171ECC_1 *)source_obj)->unk_25, actor->facing);
     if ((func_800A2CB8(actor, target_angle) << 16) == 0) {
         return 0;
     }

@@ -347,7 +347,7 @@ void func_800259D8(void *arg0, void *arg1, S_800259D8_2 *arg2)
                 ((S_800259D8_4 *)arg1)->unk_08.at02u.v = ((S_800259D8_4 *)arg1)->unk_08.at02.v + delta.z;
             } else {
 L0_adjust_z:
-                           /* MATCH: retain the alternate z calculation's scheduling boundary. */
+                                           /* MATCH: retain the alternate z calculation's scheduling boundary. */
                 ((S_800259D8_4 *)arg1)->unk_08.at02u.v = z_value - 0x40;
             }
         }

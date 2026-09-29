@@ -25,7 +25,6 @@ extern void func_800A6480(void *, s32, s16);
 extern s32 func_800AD6FC(void *, s32, s32);
 
 
-
 typedef struct S_800C1B1C_1 {
     u8 pad_00[0x4];
     void * unk_04;

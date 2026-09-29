@@ -18,7 +18,6 @@ typedef struct S_8009B218_0_pre {
 } S_8009B218_0_pre;   /* the 0x10 bytes before arg0 in func_8009B218, addressed as arg0[-1] */
 
 
-
 /* Initialize object and state, using the supplied value or default data. */
 void func_8009B218(void *object, M2C_UNK context, Rec_D_80082E80 *state, s32 init_value) {
     ((S_8009B218_0_pre *)object)[-1].unk_00 = &D_8009B148;

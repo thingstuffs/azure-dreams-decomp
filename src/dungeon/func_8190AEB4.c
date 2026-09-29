@@ -182,7 +182,7 @@ store_xy:
         D_80025638[3] = 0;
         ((S_8190AEB4_0 *)effect)->unk_02.s = 0;
         ((S_8190AEB4_0 *)effect)->unk_00.p++;
-                /* fallthrough */
+                        /* fallthrough */
 
     case 6:
     {

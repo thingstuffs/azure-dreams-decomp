@@ -18,8 +18,6 @@ typedef struct S_800DAE44_4 {
 } S_800DAE44_4;   /* ((S_800DAE44_3 *)temp_v0)->unk_08 in func_800DAE44 */
 
 
-
-
 void *func_8003FD64();            /* extern */
 s16 func_800BCB04();                   /* extern */
 extern M2C_UNK D_800DAEF4;
@@ -49,7 +47,8 @@ void func_800DAE44(EntityRec *source_pos, s16 initial_value) {
         ((S_800DAE44_4 *)(((S_800DAE44_3 *)object)->unk_08))->unk_06 = (u16) ((u16)source_pos->y.w.i);
         object_data = object + 0x20;
         ((S_800DAE44_4 *)(((S_800DAE44_3 *)object)->unk_08))->unk_0A = (u16) ((u16)source_pos->z.w.i);
-        object_data->unk_10 = func_800BCB04(((u16)source_pos->x.w.i), ((u16)source_pos->y.w.i), (s16) (((u16)source_pos->z.w.i) - 0x80));
+        object_data->unk_10 = func_800BCB04(((u16)source_pos->x.w.i), ((u16)source_pos->y.w.i),
+            (s16) (((u16)source_pos->z.w.i) - 0x80));
         object_data->unk_48 = initial_value;
     }
 }

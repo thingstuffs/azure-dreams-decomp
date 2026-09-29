@@ -15,9 +15,9 @@ s32 kewn_namewin_close_check(void) {
         matched_item = func_8009F830(2, 0x13);
         if (matched_item != 0) {
             strcpy(
-                (void *)(0x80010324 +
-                         ((*(u8 *)((u8 *)matched_item + 3) & 0x1F) * 0x54)),
-                (void *)0x80010AB4);
+                   (void *)(0x80010324 +
+                            ((*(u8 *)((u8 *)matched_item + 3) & 0x1F) * 0x54)),
+                   (void *)0x80010AB4);
         }
     }
     return close_flag;

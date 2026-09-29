@@ -81,7 +81,7 @@ void func_8016EE8C(void) {
         if (object_data != 0) {
             func_8009A028(object_data);
             object_header = ((S_8016EE8C_5 *)((slot_offset + ((EntityRec *)(((M2C_UNK *)&D_800E3D7C)))->x.v)))->unk_AC
-                - 0x20;
+            - 0x20;
             ((S_8016EE8C_4 *)object_header)->unk_10 = (s32) (((S_8016EE8C_4 *)object_header)->unk_10 | 0x80000000);
         }
         slot_index += 1;

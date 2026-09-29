@@ -35,7 +35,9 @@ s32 func_8009B164(u32 direction_bits, Arg1 *state_in, Arg2 *position_in) {
         }
         next_x = position->x + ((u16 *)dirStepX)[direction];
         next_y = position->y + ((u16 *)dirStepY)[direction];
-        if (func_800BCB04((((s32) (next_x << 0x10) >> 0xA) | 0x20) & 0xFFE0, (((s32) (next_y << 0x10) >> 0xA) | 0x20) & 0xFFE0, (s32) (state->unk8 + (state->unk14 * 2)) >> 0x10) >= 0x200) {
+        if (func_800BCB04((((s32) (next_x << 0x10) >> 0xA) | 0x20) & 0xFFE0,
+            (((s32) (next_y << 0x10) >> 0xA) | 0x20) & 0xFFE0, (s32) (state->unk8 + (state->unk14 * 2)) >> 0x10)
+            >= 0x200) {
             goto return_zero;
         }
     }

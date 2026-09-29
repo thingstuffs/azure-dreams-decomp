@@ -6,7 +6,6 @@
 extern s16 func_800A0818(s32, s32, s32, s32, void *);
 
 
-
 typedef struct S_800CA0DC_0 {
     u8 pad_00[0x1C];
     s32 unk_1C;

@@ -30,7 +30,11 @@ typedef struct S_800D1E34_1 {
 
 typedef struct S_800D1E34_2 {
     u8 pad_00[0x90];
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; struct { u8 pad[0x2]; u16 v; } at02u; } unk_90;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { u8 pad[0x2]; s16 v; } at02;
+        struct { u8 pad[0x2]; u16 v; } at02u;
+    } unk_90;   /* overlapping accesses */
     u8 pad_94[0x4];
     union { u16 n; volatile u16 v; } unk_98;   /* accessed as both */
     u8 pad_9A[0x3];
@@ -112,7 +116,8 @@ void func_800D1E34(void *object_arg, void *motion_arg, void *entity_arg)
     (*(u32 *)((u8 *)object_base + (0x1C))) &= ~0x08000000;
 
 finish:
-    ((S_800D1E34_1 *)motion)->unk_0A = (*(u16 *)((u8 *)object_base + (0x88))) + ((S_800D1E34_2 *)object)->unk_90.at02u.v;
+    ((S_800D1E34_1 *)motion)->unk_0A = (*(u16 *)((u8 *)object_base + (0x88)))
+        + ((S_800D1E34_2 *)object)->unk_90.at02u.v;
     ((S_800D1E34_0 *)entity)->unk_14 |= 0x40;
     (*(u32 *)((u8 *)object_base + (0x1C))) |= 0x200;
 }

@@ -17,7 +17,6 @@ typedef struct S_80019E7C_1 {
 } S_80019E7C_1;   /* base in func_80019E7C */
 
 
-
 /* Invokes the root callback and adjusts two object fields using signed offsets. */
 void func_80019E7C(void *offsets)
 {

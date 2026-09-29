@@ -56,85 +56,93 @@ void func_800D81D4(S_800D81D4_0 *effect, S_800D81D4_1 *motion, void *primitive_d
     phase_index = effect->unk_4C.s;
     switch (phase_index) {
     default:
-        motion->unk_02 = (s16) (effect->unk_0C + ((s32) (func_800644B8((s16) effect->unk_18) * effect->unk_1C.at02.v) >> 0xC)); motion->unk_06 = (s16) (effect->unk_0E + ((s32) (func_80064584((s16) effect->unk_18) * effect->unk_1C.at02.v) >> 0xC)); return;
+        motion->unk_02 = (s16) (effect->unk_0C + ((s32) (func_800644B8((s16) effect->unk_18) * effect->unk_1C.at02.v)
+            >> 0xC));
+        motion->unk_06 = (s16) (effect->unk_0E + ((s32) (func_80064584((s16) effect->unk_18) * effect->unk_1C.at02.v)
+            >> 0xC));
+        return;
     case 0:
-    effect->unk_48.s = 0x10U;
-    height_offset = (func_80069EF8() % 96) - 0x30;
-    motion->unk_14.at00.v = (s32) ((s32) (height_offset << 0x10) / (s16) effect->unk_48.s);
-    effect->unk_28 = (s32) ((s32) (func_80064710(0x900 - (height_offset * height_offset)) << 0x10) / (s16) effect->unk_48.s);
-    effect->unk_18 = func_80069EF8();
-    effect->unk_4C.s = (s16) ((u16) effect->unk_4C.s + 1);
-    case 1: {
-    s32 motion_value;
-    s32 motion_value_2;
-    s32 motion_step;
-    s32 motion_step_2;
-    s32 color_step;
+        effect->unk_48.s = 0x10U;
+        height_offset = (func_80069EF8() % 96) - 0x30;
+        motion->unk_14.at00.v = (s32) ((s32) (height_offset << 0x10) / (s16) effect->unk_48.s);
+        effect->unk_28 = (s32) ((s32) (func_80064710(0x900 - (height_offset * height_offset))
+            << 0x10) / (s16) effect->unk_48.s);
+        effect->unk_18 = func_80069EF8();
+        effect->unk_4C.s = (s16) ((u16) effect->unk_4C.s + 1);
+    case 1:
+    {
+        s32 motion_value;
+        s32 motion_value_2;
+        s32 motion_step;
+        s32 motion_step_2;
+        s32 color_step;
 
-    motion->unk_08 = (s32) (motion->unk_08 + motion->unk_14.at00.v);
-    motion_value_2 = effect->unk_1C.at00.v;
-    motion_step_2 = effect->unk_28;
-    color_step = 0x40000;
-    effect->unk_1C.at00.v = motion_value_2 + motion_step_2;
-    color_step |= 0x404;
-    primitive->unk_0C = primitive->unk_0C + color_step;
-    motion_step = effect->unk_48.u;
-    motion_value = 0x20 - motion_step;
-    motion_step = effect->unk_4A;
-    motion_value <<= 3;
-    effect->unk_18 = (u16) (effect->unk_18 + (motion_value * motion_step));
-    if ((s16) effect->unk_48.s >= 0) {
-        break;
+        motion->unk_08 = (s32) (motion->unk_08 + motion->unk_14.at00.v);
+        motion_value_2 = effect->unk_1C.at00.v;
+        motion_step_2 = effect->unk_28;
+        color_step = 0x40000;
+        effect->unk_1C.at00.v = motion_value_2 + motion_step_2;
+        color_step |= 0x404;
+        primitive->unk_0C = primitive->unk_0C + color_step;
+        motion_step = effect->unk_48.u;
+        motion_value = 0x20 - motion_step;
+        motion_step = effect->unk_4A;
+        motion_value <<= 3;
+        effect->unk_18 = (u16) (effect->unk_18 + (motion_value * motion_step));
+        if ((s16) effect->unk_48.s >= 0) {
+            break;
+        }
     }
-}
-    effect->unk_48.s = 0x14U;
-    effect->unk_4C.s++;
-    break;
+        effect->unk_48.s = 0x14U;
+        effect->unk_4C.s++;
+        break;
     case 2:
-    effect->unk_18 = (u16) (effect->unk_18 + (effect->unk_4A * 0x140));
-    if ((s16) effect->unk_48.s > 0) {
+        effect->unk_18 = (u16) (effect->unk_18 + (effect->unk_4A * 0x140));
+        if ((s16) effect->unk_48.s > 0) {
+            break;
+        }
+        effect->unk_48.s = 0x1CU;
+        effect->unk_4C.s++;
         break;
-    }
-    effect->unk_48.s = 0x1CU;
-    effect->unk_4C.s++;
-    break;
     case 3:
-    motion->unk_08 = (s32) (motion->unk_08 - ((s32) motion->unk_14.at00.v >> 1));
-    effect->unk_1C.at00.v = (s32) (effect->unk_1C.at00.v - ((s32) effect->unk_28 >> 1));
-    primitive->unk_0C = (s32) (primitive->unk_0C + 0x30303);
-    effect->unk_18 = (u16) (effect->unk_18 + ((((0x1C - (s16) effect->unk_48.s) * 8) + 0x140) * effect->unk_4A));
-    if ((s16) effect->unk_48.s > 0) {
+        motion->unk_08 = (s32) (motion->unk_08 - ((s32) motion->unk_14.at00.v >> 1));
+        effect->unk_1C.at00.v = (s32) (effect->unk_1C.at00.v - ((s32) effect->unk_28 >> 1));
+        primitive->unk_0C = (s32) (primitive->unk_0C + 0x30303);
+        effect->unk_18 = (u16) (effect->unk_18 + ((((0x1C - (s16) effect->unk_48.s) * 8) + 0x140) * effect->unk_4A));
+        if ((s16) effect->unk_48.s > 0) {
+            break;
+        }
+        effect->unk_48.s = 0U;
+        effect->unk_4C.s++;
         break;
-    }
-    effect->unk_48.s = 0U;
-    effect->unk_4C.s++;
-    break;
     case 4:
-    effect->unk_18 = (u16) (effect->unk_18 + ((((0 - (s16) effect->unk_48.s) * 0x10) + 0x1E0) * effect->unk_4A));
-    primitive->unk_0C = (s32) (primitive->unk_0C + 0x40404);
-    if ((u8) primitive->unk_0C < 0xF1U) {
+        effect->unk_18 = (u16) (effect->unk_18 + ((((0 - (s16) effect->unk_48.s) * 0x10) + 0x1E0) * effect->unk_4A));
+        primitive->unk_0C = (s32) (primitive->unk_0C + 0x40404);
+        if ((u8) primitive->unk_0C < 0xF1U) {
+            break;
+        }
+        primitive->unk_10 = 0x60;
+        motion->unk_14.at02.v = (s16) (0 - (func_80069EF8() & 3));
+        effect->unk_4C.s++;
         break;
-    }
-    primitive->unk_10 = 0x60;
-    motion->unk_14.at02.v = (s16) (0 - (func_80069EF8() & 3));
-    effect->unk_4C.s++;
-    break;
     case 5:
-    motion->unk_08 = (s32) (motion->unk_08 + motion->unk_14.at00.v);
-    motion->unk_14.at00.v = (s32) (motion->unk_14.at00.v - ((func_80069EF8() & 0xFFF) << 6));
-    effect->unk_1C.at00.v = (s32) (effect->unk_1C.at00.v - 0x8000);
-    effect->unk_18 = (u16) (effect->unk_18 + ((((0 - (s16) effect->unk_48.s) * 0x10) + 0x1E0) * effect->unk_4A));
-    primitive->unk_0C = (s32) (primitive->unk_0C + 0xFFE7E7E8);
-    if ((u8) primitive->unk_0C >= 0x18U) {
+        motion->unk_08 = (s32) (motion->unk_08 + motion->unk_14.at00.v);
+        motion->unk_14.at00.v = (s32) (motion->unk_14.at00.v - ((func_80069EF8() & 0xFFF) << 6));
+        effect->unk_1C.at00.v = (s32) (effect->unk_1C.at00.v - 0x8000);
+        effect->unk_18 = (u16) (effect->unk_18 + ((((0 - (s16) effect->unk_48.s) * 0x10) + 0x1E0) * effect->unk_4A));
+        primitive->unk_0C = (s32) (primitive->unk_0C + 0xFFE7E7E8);
+        if ((u8) primitive->unk_0C >= 0x18U) {
+            break;
+        }
+        effect->unk_4C.s++;
         break;
-    }
-    effect->unk_4C.s++;
-    break;
     case 6:
-    ((S_800D81D4_0_pre *)effect)[-1].unk_00 = (u16) (((S_800D81D4_0_pre *)effect)[-1].unk_00 | 0x8000);
-    (*(s32 *)&objectFlagBlock.flags) = (s32) (objectFlagBlock.flags | 0x8000);
+        ((S_800D81D4_0_pre *)effect)[-1].unk_00 = (u16) (((S_800D81D4_0_pre *)effect)[-1].unk_00 | 0x8000);
+        (*(s32 *)&objectFlagBlock.flags) = (s32) (objectFlagBlock.flags | 0x8000);
     }
-    motion->unk_02 = (s16) (effect->unk_0C + ((s32) (func_800644B8((s16) effect->unk_18) * effect->unk_1C.at02.v) >> 0xC));
-    motion->unk_06 = (s16) (effect->unk_0E + ((s32) (func_80064584((s16) effect->unk_18) * effect->unk_1C.at02.v) >> 0xC));
+    motion->unk_02 = (s16) (effect->unk_0C + ((s32) (func_800644B8((s16) effect->unk_18) * effect->unk_1C.at02.v)
+        >> 0xC));
+    motion->unk_06 = (s16) (effect->unk_0E + ((s32) (func_80064584((s16) effect->unk_18) * effect->unk_1C.at02.v)
+        >> 0xC));
     return;
 }

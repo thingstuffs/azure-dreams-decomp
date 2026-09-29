@@ -48,7 +48,7 @@ s32 func_80172628(void *entity_arg, M2C_UNK primary_context_arg, M2C_UNK seconda
             if ((func_800A2BDC(entity) << 0x10) != 0) {
                 break;
             }
-                        /* fall through */
+                                    /* fall through */
         default:
             ((S_80172628_0 *)entity)->unk_71 = (u8) (((S_80172628_0 *)entity)->unk_71 & 0x7F);
             if ((dungeonStatus.flags & 8) == 0) {

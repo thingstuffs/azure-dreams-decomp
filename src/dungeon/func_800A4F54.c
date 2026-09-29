@@ -22,7 +22,8 @@ s32 func_800AA6B4(void *entity, M2C_UNK context, Rec_func_800AA258_arg2 *sprite,
     if (direction_frames != 0) {
         if (!(((Rec_func_800A9E70_arg0 *)entity)->unk_1C & 0x20)) {
             sprite->unk_2C.as_s32 = direction_frames;
-            func_80047784(sprite, *((u8 *) direction_frames + (((s32) (gameWork.view.viewAngle + ((Rec_func_800A9E70_arg0 *)entity)->unk_2A + 0x100) >> 9) & 7)), 0);
+            func_80047784(sprite, *((u8 *) direction_frames + (((s32) (gameWork.view.viewAngle
+                + ((Rec_func_800A9E70_arg0 *)entity)->unk_2A + 0x100) >> 9) & 7)), 0);
         }
     }
     return 1;

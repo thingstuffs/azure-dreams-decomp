@@ -44,7 +44,8 @@ s32 func_80098920(void *actor, void *action, s16 dispatch_mode, s32 handler_para
     action_index = *((u8 *)action + 0) - 1;
     if (*((u8 *)action + 1) == 0x15) {
         linked_entity = *(void **)((u8 *)actor - 0x14);
-        result = func_800B500C(*((u8 *)linked_entity + 0x24), *((u8 *)linked_entity + 0x25), *((s16 *)((u8 *)actor + 0x88)));
+        result = func_800B500C(*((u8 *)linked_entity + 0x24), *((u8 *)linked_entity + 0x25),
+            *((s16 *)((u8 *)actor + 0x88)));
         if (result < 0) {
             return -1;
         }

@@ -3,18 +3,49 @@
 
 
 typedef struct Scratch80090320 {
-    u8 pad00[4]; u16 tile; u8 pad06[0x12]; u8 *height_data;
-    s16 result; u16 origin_y; u16 origin_z; u8 pad22[0xE];
-    s32 best; s32 lower_bound; s32 block_base; u8 pad3C[0xC];
-    u16 inner_index; u8 pad4A[4]; u16 saved_y; u16 start_x; u16 start_y;
-    s32 x_step; s32 y_step; s32 inner_count; s32 outer_count;
-    s32 inner_offset; s32 outer_offset;
-    s16 d0; s16 d1; s16 d2; s16 d3; s16 d4; s16 d5; s16 d6; s16 d7;
+    u8 pad00[4];
+    u16 tile;
+    u8 pad06[0x12];
+    u8 * height_data;
+    s16 result;
+    u16 origin_y;
+    u16 origin_z;
+    u8 pad22[0xE];
+    s32 best;
+    s32 lower_bound;
+    s32 block_base;
+    u8 pad3C[0xC];
+    u16 inner_index;
+    u8 pad4A[4];
+    u16 saved_y;
+    u16 start_x;
+    u16 start_y;
+    s32 x_step;
+    s32 y_step;
+    s32 inner_count;
+    s32 outer_count;
+    s32 inner_offset;
+    s32 outer_offset;
+    s16 d0;
+    s16 d1;
+    s16 d2;
+    s16 d3;
+    s16 d4;
+    s16 d5;
+    s16 d6;
+    s16 d7;
 } Scratch80090320;
 
 typedef struct Grid80090320 {
-    u16 *occupancy; u8 **entries; u8 *vertices; u8 *height_data;
-    u8 pad10[4]; s16 shift; u16 pad16; u16 x_mask; u16 y_mask;
+    u16 * occupancy;
+    u8 **entries;
+    u8 * vertices;
+    u8 * height_data;
+    u8 pad10[4];
+    s16 shift;
+    u16 pad16;
+    u16 x_mask;
+    u16 y_mask;
 } Grid80090320;
 
 extern s32 D_800FE480;
@@ -160,14 +191,22 @@ s16 func_8008DA80(s32 query_x, s32 query_y, s32 query_z)
                 for (;;) {
                     if (((S_8008DA80_4 *)(((S_8008DA80_1 *)entry)->unk_10 * 8 + scratch->height_data))->unk_00 < 0 &&
                         !(((S_8008DA80_1 *)entry)->unk_16.at01.v & 1)) {
-                        scratch->d0 = ((S_8008DA80_5 *)(((S_8008DA80_1 *)entry)->unk_00 * 8 + vertices))->unk_02 - scratch->origin_y;
-                        scratch->d1 = ((S_8008DA80_5 *)(((S_8008DA80_1 *)entry)->unk_00 * 8 + vertices))->unk_04 - scratch->origin_z;
-                        scratch->d2 = ((S_8008DA80_6 *)(((S_8008DA80_1 *)entry)->unk_02 * 8 + vertices))->unk_02 - scratch->origin_y;
-                        scratch->d3 = ((S_8008DA80_6 *)(((S_8008DA80_1 *)entry)->unk_02 * 8 + vertices))->unk_04 - scratch->origin_z;
-                        scratch->d4 = ((S_8008DA80_7 *)(((S_8008DA80_1 *)entry)->unk_06 * 8 + vertices))->unk_02 - scratch->origin_y;
-                        scratch->d5 = ((S_8008DA80_7 *)(((S_8008DA80_1 *)entry)->unk_06 * 8 + vertices))->unk_04 - scratch->origin_z;
-                        scratch->d6 = ((S_8008DA80_8 *)(((S_8008DA80_1 *)entry)->unk_04 * 8 + vertices))->unk_02 - scratch->origin_y;
-                        scratch->d7 = ((S_8008DA80_8 *)(((S_8008DA80_1 *)entry)->unk_04 * 8 + vertices))->unk_04 - scratch->origin_z;
+                        scratch->d0 = ((S_8008DA80_5 *)(((S_8008DA80_1 *)entry)->unk_00 * 8 + vertices))->unk_02
+                            - scratch->origin_y;
+                        scratch->d1 = ((S_8008DA80_5 *)(((S_8008DA80_1 *)entry)->unk_00 * 8 + vertices))->unk_04
+                            - scratch->origin_z;
+                        scratch->d2 = ((S_8008DA80_6 *)(((S_8008DA80_1 *)entry)->unk_02 * 8 + vertices))->unk_02
+                            - scratch->origin_y;
+                        scratch->d3 = ((S_8008DA80_6 *)(((S_8008DA80_1 *)entry)->unk_02 * 8 + vertices))->unk_04
+                            - scratch->origin_z;
+                        scratch->d4 = ((S_8008DA80_7 *)(((S_8008DA80_1 *)entry)->unk_06 * 8 + vertices))->unk_02
+                            - scratch->origin_y;
+                        scratch->d5 = ((S_8008DA80_7 *)(((S_8008DA80_1 *)entry)->unk_06 * 8 + vertices))->unk_04
+                            - scratch->origin_z;
+                        scratch->d6 = ((S_8008DA80_8 *)(((S_8008DA80_1 *)entry)->unk_04 * 8 + vertices))->unk_02
+                            - scratch->origin_y;
+                        scratch->d7 = ((S_8008DA80_8 *)(((S_8008DA80_1 *)entry)->unk_04 * 8 + vertices))->unk_04
+                            - scratch->origin_z;
 
                         if (func_8008CE08(scratch) != 0) {
                             plane = (u8 *)(((S_8008DA80_1 *)entry)->unk_10 * 8 +
@@ -176,11 +215,11 @@ s16 func_8008DA80(s32 query_x, s32 query_y, s32 query_z)
                                             (u32)vertices);
                             plane_x =
                                 (((S_8008DA80_2 *)plane)->unk_02 *
-                                     (((S_8008DA80_3 *)vertex)->unk_02 -
-                                      (s16)scratch->origin_y) +
+                                 (((S_8008DA80_3 *)vertex)->unk_02 -
+                                  (s16)scratch->origin_y) +
                                  ((S_8008DA80_2 *)plane)->unk_04 *
-                                     (((S_8008DA80_3 *)vertex)->unk_04 -
-                                      (s16)scratch->origin_z) +
+                                 (((S_8008DA80_3 *)vertex)->unk_04 -
+                                  (s16)scratch->origin_z) +
                                  ((S_8008DA80_2 *)plane)->unk_00 * ((S_8008DA80_3 *)vertex)->unk_00) /
                                 ((S_8008DA80_2 *)plane)->unk_00;
                             scratch->result = plane_x;

@@ -175,7 +175,8 @@ void *func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distanc
         entry_page = (void *)0x800E0000;
         null_result = NULL;
         if (attacker_in == entry_page->unk_3D7C) {
-            tile_result = func_800B5ED0(((S_8009C12C_2 *)(tile_in))->unk_24, ((S_8009C12C_2 *)(tile_in))->unk_25, direction, ((S_8009C12C_0 *)attacker_in)->unk_88);
+            tile_result = func_800B5ED0(((S_8009C12C_2 *)(tile_in))->unk_24, ((S_8009C12C_2 *)(tile_in))->unk_25,
+                direction, ((S_8009C12C_0 *)attacker_in)->unk_88);
             null_result = NULL;
             if (tile_result >= 0) {
                 s32 tile_text;
@@ -204,7 +205,8 @@ void *func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distanc
     if (attacker_kind >= 0) {
         target_data = ((S_8009C12C_3_pre *)target)[-1].unk_00;
         target_traits = target_data->unk_14;
-        if (!(((S_8009C12C_2 *)(tile_in))->unk_14 & target_traits & 0x8000) || ((kind_check == 0x23) && (((S_8009C12C_0 *)attacker_in)->unk_A6 != 0) && !(target_traits & 0x8000))) {
+        if (!(((S_8009C12C_2 *)(tile_in))->unk_14 & target_traits & 0x8000)
+            || ((kind_check == 0x23) && (((S_8009C12C_0 *)attacker_in)->unk_A6 != 0) && !(target_traits & 0x8000))) {
             message_cursor = func_8009929C(0xA, func_80099194(&D_800E0D92, func_80099734(attacker_in, message_start)));
         } else {
             attacker_blocked = ((S_8009C12C_0 *)attacker_in)->unk_14.s32 & 0x4000;
@@ -259,7 +261,8 @@ void *func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distanc
     target_elements = func_8009CD58(target, 7, 0);
     if (attack_elements & 1) {
         if ((func_80042900(target, 0x13) << 0x10) != 0) {
-            ((S_8009C12C_0 *)attacker_in)->unk_20.n = (u16) ((s32) (((S_8009C12C_0 *)attacker_in)->unk_20.n << 0x10) >> 0x12);
+            ((S_8009C12C_0 *)attacker_in)->unk_20.n = (u16) ((s32) (((S_8009C12C_0 *)attacker_in)->unk_20.n << 0x10)
+                >> 0x12);
         } else {
             if (target_elements & 4) {
                 modifier += 1;
@@ -273,7 +276,8 @@ void *func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distanc
     element_match = attack_elements & 2;
     if (element_match != 0) {
         if ((func_80042900(target, 0x14) << 0x10) != 0) {
-            ((S_8009C12C_0 *)attacker_in)->unk_20.n = (u16) ((s32) (((S_8009C12C_0 *)attacker_in)->unk_20.n << 0x10) >> 0x12);
+            ((S_8009C12C_0 *)attacker_in)->unk_20.n = (u16) ((s32) (((S_8009C12C_0 *)attacker_in)->unk_20.n << 0x10)
+                >> 0x12);
         } else {
             if (target_elements & 1) {
                 modifier += 1;
@@ -287,7 +291,8 @@ void *func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distanc
     element_check = attack_elements & 4;
     if (element_check != 0) {
         if ((func_80042900(target, 0x12) << 0x10) != 0) {
-            ((S_8009C12C_0 *)attacker_in)->unk_20.n = (u16) ((s32) (((S_8009C12C_0 *)attacker_in)->unk_20.n << 0x10) >> 0x12);
+            ((S_8009C12C_0 *)attacker_in)->unk_20.n = (u16) ((s32) (((S_8009C12C_0 *)attacker_in)->unk_20.n << 0x10)
+                >> 0x12);
         } else {
             element_check = target_elements & 2;
             if (element_check) {
@@ -331,11 +336,13 @@ void *func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distanc
         ((S_8009C12C_0 *)attacker_in)->unk_20.n = (u16)(bonus_base + scaled_modifier * attack_bonus);
     }
     if (((S_8009C12C_0 *)attacker_in)->unk_1C & 0x01000000) {
-        half_delta = (s32) ((s16) ((S_8009C12C_3 *)target)->unk_22.n - (s16) ((S_8009C12C_0 *)attacker_in)->unk_20.n) / 2;
+        half_delta = (s32) ((s16) ((S_8009C12C_3 *)target)->unk_22.n
+            - (s16) ((S_8009C12C_0 *)attacker_in)->unk_20.n) / 2;
         quarter_delta = (s32) ((s16) half_delta + ((u32) (half_delta << 0x10) >> 0x1F)) >> 1;
         ((S_8009C12C_3 *)target)->unk_64.n = (s16) (half_delta + quarter_delta);
     } else {
-        ((S_8009C12C_3 *)target)->unk_64.v = (s16) ((s32) ((s16) ((S_8009C12C_3 *)target)->unk_22.n - (s16) ((S_8009C12C_0 *)attacker_in)->unk_20.n) / 2);
+        ((S_8009C12C_3 *)target)->unk_64.v = (s16) ((s32) ((s16) ((S_8009C12C_3 *)target)->unk_22.n
+            - (s16) ((S_8009C12C_0 *)attacker_in)->unk_20.n) / 2);
     }
     if (((S_8009C12C_3 *)target)->unk_64.n >= 0) {
         ((S_8009C12C_3 *)target)->unk_64.n = -1;

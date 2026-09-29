@@ -3,9 +3,6 @@
 #include "shared/entity.h"
 
 
-
-
-
 extern s32 func_80094220(void *, void *, s32);
 extern void func_80094984(void *, void *, s32);
 extern void func_80095C80(void *);

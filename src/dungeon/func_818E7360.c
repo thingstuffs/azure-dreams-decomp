@@ -27,7 +27,7 @@ void func_80024B60(void *effect)
         S16_AT(effect, 0x46) = 0x1F;
         S16_AT(effect, 0x44) = 0x1F;
         U16_AT(effect, 0x4C)++;
-                /* fallthrough */
+                        /* fallthrough */
     case 1:
         counter = U16_AT(effect, 0x48) + 1;
         U16_AT(effect, 0x48) = counter;

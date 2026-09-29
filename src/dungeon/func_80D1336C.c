@@ -89,7 +89,7 @@ void func_80172B6C(State *state, Motion *motion, Sprite *sprite, Actor *actor) {
         state->value_a4 = 0;
         state->state_9b += 1;
     }
-            /* fall through */
+                    /* fall through */
     case 1:
     {
         s16 frames_left;
@@ -141,7 +141,7 @@ void func_80172B6C(State *state, Motion *motion, Sprite *sprite, Actor *actor) {
             state->state_9b += 1;
         }
     }
-            /* fall through */
+                    /* fall through */
     case 2:
         if (actor->flags_1c & 0x08000000) {
             state->flags_98 &= 0xfff7;

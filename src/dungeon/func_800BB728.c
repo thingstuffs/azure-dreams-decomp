@@ -44,7 +44,6 @@ typedef struct S_800C0E88_4 {
 } S_800C0E88_4;   /* tail_status in func_800C0E88 */
 
 
-
 extern s32 func_8003F270(void);
 extern void func_8008D344(void *, void *, void *, void *);
 extern s32 func_80098864();

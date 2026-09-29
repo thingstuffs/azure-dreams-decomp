@@ -18,5 +18,7 @@ s32 func_8008C134(s32 tile_x, s32 tile_y) {
 
     map_state = &gameWork;
     map_layout = (u8 *)map_state + 0x1DC;
-    return *(u16 *)(((s32) (((((S_8008C134_0 *)map_layout)->unk_18 & tile_x) + ((s16) (((S_8008C134_0 *)map_layout)->unk_1A & tile_y) << ((S_8008C134_0 *)map_layout)->unk_14)) << 0x10) >> 0xF) + ((s32)map_state->map.cells)) & 0x3FFF;
+    return *(u16 *)(((s32) (((((S_8008C134_0 *)map_layout)->unk_18 & tile_x)
+        + ((s16) (((S_8008C134_0 *)map_layout)->unk_1A & tile_y) << ((S_8008C134_0 *)map_layout)->unk_14)) << 0x10)
+        >> 0xF) + ((s32)map_state->map.cells)) & 0x3FFF;
 }

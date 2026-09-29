@@ -12,5 +12,5 @@ extern unsigned char D_800D4284[16];
 /* Passes the two global buffers to func_8003AF58. */
 void func_800C18CC(void)
 {
-  func_8003AF58(&D_800717D0, &D_800D4284);
+    func_8003AF58(&D_800717D0, &D_800D4284);
 }

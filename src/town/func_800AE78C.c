@@ -14,7 +14,7 @@ extern GridInfo D_8008333C[];
 
 /* Visit and count flagged grid cells along two opposite directions for up to ten steps. */
 s32 func_800ABEEC(s32 dir, s32 start_x, s32 start_y) {
-    /* The six spilled locals. Declaration order == stack slot order:
+        /* The six spilled locals. Declaration order == stack slot order:
        0x10, 0x18, 0x20, 0x28, 0x30, 0x34($sp). */
     s32 map_base;
     u16 reverse_dir;
@@ -65,7 +65,7 @@ s32 func_800ABEEC(s32 dir, s32 start_x, s32 start_y) {
     s32 y_steps_addr;
     u16 *rev_y_step;
     s32 rev_step_dir;
-    /* $0 read as the constant zero.  Spelling `step_count = 0` with a literal
+        /* $0 read as the constant zero.  Spelling `step_count = 0` with a literal
        lets reload's find_equiv_reg re-source the 0 from $s4/$s5 (which hold 0
        here); reading the zero register keeps retail's `move $s7,$zero`. */
     register s32 zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -77,7 +77,7 @@ s32 func_800ABEEC(s32 dir, s32 start_x, s32 start_y) {
     rev_blocked = 0;
     fwd_blocked = rev_blocked;
     rev_x = start_x;
-    /* Copy-propagation pin: this empty asm writes the parameter pseudo, which
+        /* Copy-propagation pin: this empty asm writes the parameter pseudo, which
        stops local-alloc's optimize_reg_copy_1 from re-sourcing the second copy
        below from the first (would give `move $s2,$s3` instead of retail's two
        direct `move $sN,$a1`). */
@@ -96,7 +96,7 @@ s32 func_800ABEEC(s32 dir, s32 start_x, s32 start_y) {
     fwd_dir_offset = ((dir + 2) & 7) << 1;
     fwd_step_offset = fwd_dir_offset;
     fwd_x_step = (u16 *)(x_steps + fwd_dir_offset);
-    /* Dead pre-set (removed by flow): gives `rev_step_dir`'s real definition a
+        /* Dead pre-set (removed by flow): gives `rev_step_dir`'s real definition a
        non-first regno_first_uid so loop.c refuses to hoist the invariant
        reverse_dir read+shift out of the loop, as retail keeps it in-loop. */
     rev_step_dir = dir;
@@ -112,7 +112,7 @@ s32 func_800ABEEC(s32 dir, s32 start_x, s32 start_y) {
         }
         fwd_blocked = 1;
         fwd_y_high = fwd_y << 0x10;
-    check_fwd_y:
+check_fwd_y:
         fwd_check_y = fwd_y_high >> 0x10;
         if ((fwd_check_y < 0) ||
             ((fwd_check_y < (one << grid->y_shift)) == 0)) {
@@ -192,12 +192,12 @@ s32 func_800ABEEC(s32 dir, s32 start_x, s32 start_y) {
             }
             rev_blocked = 1;
         }
-    next_step:
+next_step:
         step_count += 1;
         visit_count = fwd_x << 0x10; /* loop-bottom reference; keeps the s2/s3
                                        walker birth order (do not remove) */
     } while (step_count < 10);
-    /* Two dead stores (removed by flow): they keep the parameter pseudos
+        /* Two dead stores (removed by flow): they keep the parameter pseudos
        cse-canonical for their whole lifetime, so cse leaves both prologue
        copies of each parameter reading the argument register directly. */
     visit_count = start_x;

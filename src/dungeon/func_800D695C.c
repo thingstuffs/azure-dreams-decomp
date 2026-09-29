@@ -20,7 +20,6 @@ typedef struct S_800DC0BC_2 {
 } S_800DC0BC_2;   /* *page in func_800DC0BC */
 
 
-
 extern void func_800DC078(s32, u8);
 
 /* Updates two target entries when their cached values differ from the current values. */

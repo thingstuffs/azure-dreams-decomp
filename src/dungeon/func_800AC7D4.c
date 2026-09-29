@@ -20,8 +20,6 @@ typedef struct S_800B1F34_2 {
 } S_800B1F34_2;   /* global in func_800B1F34 */
 
 
-
-
 /* Advances timed motion phases, updates the output offset, and sets the global update flag. */
 void func_800B1F34(S_800B1F34_0 *animation, S_800B1F34_1 *motion)
 {

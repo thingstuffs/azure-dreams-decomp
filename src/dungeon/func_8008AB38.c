@@ -54,7 +54,8 @@ void func_80090298(Arg0Struct *controller, void *unused, Arg2Struct *animation, 
     case 0:
         if (animation->flags14 & 0xE000) {
             animation->table = &D_800DD0F0;
-            func_80048A44(animation, (&D_800DD0F0)[((s32)(scene->view.viewAngle + actor->angle + 0x100) >> 9) & 7], 0, 1);
+            func_80048A44(animation, (&D_800DD0F0)[((s32)(scene->view.viewAngle + actor->angle + 0x100) >> 9) & 7], 0,
+                1);
             controller->handler = &D_8008B870;
             controller->state = (s8)(controller->state + 1);
         }
@@ -74,7 +75,8 @@ void func_80090298(Arg0Struct *controller, void *unused, Arg2Struct *animation, 
             }
             if ((func_80042900(actor, 1) << 0x10) == 0) {
                 animation->table = D_800DD0F8;
-                func_80048A44(animation, D_800DD0F8[((s32)(gameWork.view.viewAngle + actor->angle + 0x100) >> 9) & 7], 0, 1);
+                func_80048A44(animation, D_800DD0F8[((s32)(gameWork.view.viewAngle + actor->angle + 0x100) >> 9) & 7],
+                    0, 1);
                 controller->handler = NULL;
                 dungeonStatus.unk_0A += 1;
                 controller->state += 1;

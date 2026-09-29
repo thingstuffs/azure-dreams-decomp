@@ -67,9 +67,12 @@ void func_800B96C4(void *state, void *position_arg, void *marker_arg) {
     target = D_800DF364[0];
     target_pos = F((char *)target - 0x18, void *, 0);
     if (F(state, s16, 0xE) != 0) {
-        F(((void *)(position_arg)), s32, 0) = F(((void *)(position_arg)), s32, 0) + (F(target_pos, s32, 0) - F(((void *)(position_arg)), s32, 0)) / F(state, s16, 0xE);
-        F(((void *)(position_arg)), s32, 4) = F(((void *)(position_arg)), s32, 4) + (F(target_pos, s32, 4) - F(((void *)(position_arg)), s32, 4)) / F(state, s16, 0xE);
-        F(((void *)(position_arg)), s32, 8) = F(((void *)(position_arg)), s32, 8) + (((s32)(F(target, s16, 0x88) - F(((void *)(position_arg)), s16, 0xA))) << 16) / F(state, s16, 0xE);
+        F(((void *)(position_arg)), s32, 0) = F(((void *)(position_arg)), s32, 0) + (F(target_pos, s32, 0)
+            - F(((void *)(position_arg)), s32, 0)) / F(state, s16, 0xE);
+        F(((void *)(position_arg)), s32, 4) = F(((void *)(position_arg)), s32, 4) + (F(target_pos, s32, 4)
+            - F(((void *)(position_arg)), s32, 4)) / F(state, s16, 0xE);
+        F(((void *)(position_arg)), s32, 8) = F(((void *)(position_arg)), s32, 8) + (((s32)(F(target, s16, 0x88)
+            - F(((void *)(position_arg)), s16, 0xA))) << 16) / F(state, s16, 0xE);
         {
             s16 frames_left = F(state, u16, 0xE) - 1;
             F(state, u16, 0xE) = frames_left;

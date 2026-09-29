@@ -12,8 +12,6 @@ typedef struct S_800C52D0_7 {
 } S_800C52D0_7;   /* ((S_800C52D0_6 *)temp_a0)->unk_08 in func_800C52D0 */
 
 
-
-
 extern const s32 D_800D5138;
 extern s32 D_800D513C;
 

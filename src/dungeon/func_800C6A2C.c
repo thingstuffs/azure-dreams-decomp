@@ -43,7 +43,8 @@ s32 func_800CC18C(void *entity, s32 forwarded_1, s32 forwarded_2, s32 forwarded_
         roll = 0;
     }
     if (roll < 0x40) {
-        func_800AA5E4(entity, ((S_800CC18C_0 *)((u8 *)entity - 0x18))->unk_00, ((S_800CC18C_0 *)((u8 *)entity - 0x18))->unk_04, entity);
+        func_800AA5E4(entity, ((S_800CC18C_0 *)((u8 *)entity - 0x18))->unk_00,
+            ((S_800CC18C_0 *)((u8 *)entity - 0x18))->unk_04, entity);
         func_800A56E0(0x705);
         if (D_800E3D40[0] != 0) {
             outcome = -1;

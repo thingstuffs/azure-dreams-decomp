@@ -69,7 +69,7 @@ void func_80172458(void *action, EntityRec *motion, void *map_entry, EntityRec *
         ((S_80172458_0 *)action)->unk_A6 = func_800BCB04((((Rec_D_80082E80 *)map_entry)->unk_24 << 6) | 0x20,
             (((Rec_D_80082E80 *)map_entry)->unk_25 << 6) | 0x20, (s16) (((u16)actor->unk_88) - 0x20));
         ((S_80172458_0 *)action)->unk_A8 = (u16) ((u16)motion->z.w.i);
-                /* fall through */
+                        /* fall through */
     case 1:
         move_frames = ((S_80172458_0 *)action)->unk_9E;
         ((S_80172458_0 *)action)->unk_90 = (s32) (((S_80172458_0 *)action)->unk_90 - ((S_80172458_0 *)action)->unk_A0);
@@ -137,7 +137,7 @@ void func_80172458(void *action, EntityRec *motion, void *map_entry, EntityRec *
             actor->flags1C = (s32) (actor->flags1C | 0x08000000);
             ((S_80172458_0 *)action)->unk_9B = (u8) (((S_80172458_0 *)action)->unk_9B + 1);
         }
-                /* fall through */
+                        /* fall through */
     case 2:
         if (actor->flags1C & 0x08000000) {
             ((S_80172458_0 *)action)->unk_98 = (u16) (((S_80172458_0 *)action)->unk_98 & 0xFFF7);

@@ -78,7 +78,8 @@ s32 func_800A4778(s32 x, s32 y, s32 z, s32 skip_check) {
                 } else {
                     y_offset = 0;
                 }
-                probe_result = func_800BCB04((probe_coord + x_offset) & 0xFFFF, (center_y + y_offset) & 0xFFFF, (s16) (source_z - 0x20));
+                probe_result = func_800BCB04((probe_coord + x_offset) & 0xFFFF, (center_y + y_offset) & 0xFFFF,
+                    (s16) (source_z - 0x20));
                 return probe_result > 0x200;
             }
         }

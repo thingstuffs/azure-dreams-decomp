@@ -1,7 +1,7 @@
 #include "common.h"
 
 extern void func_800C3050(void *arg0, s32 arg1, void *arg2, void *arg3,
-                           void *arg4, void *arg5);
+                          void *arg4, void *arg5);
 extern void func_800C6440(void *arg0, s32 arg1, s32 arg2);
 extern void func_800C6C10(void *arg0);
 

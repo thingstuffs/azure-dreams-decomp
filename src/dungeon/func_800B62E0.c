@@ -53,7 +53,8 @@ typedef struct S_800BBA40_3 {
 } S_800BBA40_3;   /* var_v1 in func_800BBA40 */
 
 /* Creates an effect at the tile center and initializes its rendering and five angles. */
-void *func_800BBA40(s32 tile_x, s32 tile_y, s32 pos_z, M2C_UNK transform_data, s32 scale, s32 setup_word_5c, s32 setup_word_60) {
+void *func_800BBA40(s32 tile_x, s32 tile_y, s32 pos_z, M2C_UNK transform_data, s32 scale, s32 setup_word_5c,
+    s32 setup_word_60) {
     s32 call_data[2];
     s16 angle;
     void *effect;
@@ -96,12 +97,15 @@ void *func_800BBA40(s32 tile_x, s32 tile_y, s32 pos_z, M2C_UNK transform_data, s
         ((S_800BBA40_3 *)setup_cursor)->unk_5C = setup_word_5c;
         angle_index = 0;
         ((S_800BBA40_3 *)setup_cursor)->unk_60 = setup_word_60;
-        loop_0: {
+loop_0:
+        {
             ((S_800BBA40_3 *)setup_cursor)->unk_3C = angle;
             angle += 0x999;
             angle_index += 1;
             setup_cursor += 2;
-        } if (angle_index < 5) goto loop_0;
+        }
+        if (angle_index < 5)
+            goto loop_0;
         func_800C77D0(((M2C_UNK *)&D_80083498.next), &D_80083780.x.v, 8, 0x300);
     }
     return effect;

@@ -14,9 +14,9 @@ extern M2C_UNK D_800D429C;
 /* Pass the town data pair to func_8003AF58 and set the shared flag. */
 void func_800C1920(void)
 {
-  long enabled;
-  func_8003AF58(&D_800717D0, &D_800D429C);
-  enabled = 1;
-  D_80080A88 = enabled;
-  D_80080A88 = 1;
+    long enabled;
+    func_8003AF58(&D_800717D0, &D_800D429C);
+    enabled = 1;
+    D_80080A88 = enabled;
+    D_80080A88 = 1;
 }

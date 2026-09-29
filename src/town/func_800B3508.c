@@ -57,16 +57,17 @@ typedef struct S_800B0C68_11 {
 } S_800B0C68_11;   /* ((S_800B0C68_7 *)(((S_800B0C68_3 *)(((Rec_func_800B0C68_arg0 *)arg0)->unk_CC.as_pv))->unk_0C))->unk_04 in func_800B0C68 */
 
 
-
-
-
 /* Position two menu widgets for the selected row on a five-row page. */
 void func_800B0C68(Rec_func_800B0C68_arg0 *menu) {
     S_800B0C68_2 *widgets;
 
-    ((S_800B0C68_10 *)(((S_800B0C68_6 *)(((S_800B0C68_3 *)(((Rec_func_800B0C68_arg0 *)menu)->unk_CC.as_pv))->unk_08))->unk_04))->unk_08 = -0x58;
-    ((S_800B0C68_10 *)(((S_800B0C68_6 *)(((S_800B0C68_3 *)(((Rec_func_800B0C68_arg0 *)menu)->unk_CC.as_pv))->unk_08))->unk_04))->unk_0A = (s16) (((menu->unk_08 % 5) * 0x10) + 8);
-    ((S_800B0C68_11 *)(((S_800B0C68_7 *)(((S_800B0C68_3 *)(((Rec_func_800B0C68_arg0 *)menu)->unk_CC.as_pv))->unk_0C))->unk_04))->unk_08 = 0;
+    ((S_800B0C68_10 *)(((S_800B0C68_6 *)(((S_800B0C68_3 *)(((Rec_func_800B0C68_arg0 *)menu)->unk_CC.as_pv))->unk_08))->unk_04))->unk_08 =
+        -0x58;
+    ((S_800B0C68_10 *)(((S_800B0C68_6 *)(((S_800B0C68_3 *)(((Rec_func_800B0C68_arg0 *)menu)->unk_CC.as_pv))->unk_08))->unk_04))->unk_0A =
+        (s16) (((menu->unk_08 % 5) * 0x10) + 8);
+    ((S_800B0C68_11 *)(((S_800B0C68_7 *)(((S_800B0C68_3 *)(((Rec_func_800B0C68_arg0 *)menu)->unk_CC.as_pv))->unk_0C))->unk_04))->unk_08 =
+        0;
     widgets = menu->unk_CC.as_pv;
-    ((S_800B0C68_8 *)(((S_800B0C68_4 *)(widgets->unk_0C))->unk_04))->unk_0A = (s16) (((S_800B0C68_9 *)(((S_800B0C68_5 *)(widgets->unk_08))->unk_04))->unk_0A - 9);
+    ((S_800B0C68_8 *)(((S_800B0C68_4 *)(widgets->unk_0C))->unk_04))->unk_0A =
+        (s16) (((S_800B0C68_9 *)(((S_800B0C68_5 *)(widgets->unk_08))->unk_04))->unk_0A - 9);
 }

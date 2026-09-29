@@ -58,7 +58,7 @@ void func_80172374(S_80172374_0 *motion, EntityRec *position, Rec_D_80082E80 *ta
         entity->flags1C &= 0xF7FFFFFF;
         motion->unk_A4 = 0;
         motion->unk_9B++;
-                /* fall through */
+                        /* fall through */
     case 1:
         frames_left = motion->unk_96;
         motion->unk_90 -= motion->unk_A4;
@@ -85,7 +85,7 @@ void func_80172374(S_80172374_0 *motion, EntityRec *position, Rec_D_80082E80 *ta
             entity->flags1C |= 0x08000000;
             motion->unk_9B++;
         }
-                /* fall through */
+                        /* fall through */
     case 2:
         if (entity->flags1C & 0x08000000) {
             motion->unk_98 &= 0xFFF7;

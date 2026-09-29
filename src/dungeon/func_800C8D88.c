@@ -22,7 +22,6 @@ typedef struct S_800CE4E8_1 {
 } S_800CE4E8_1;   /* global_base in func_800CE4E8 */
 
 
-
 typedef struct {
     u8 pad_00[0x10];
     void *field_10;

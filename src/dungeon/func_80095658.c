@@ -29,7 +29,8 @@ typedef struct {
 extern s16 func_800BCB04(s32, s32, s16);
 
 /* Checks the facing cell for valid terrain flags and an acceptable height. */
-s32 func_8009ADB8(S_8009ADB8_0 *facing_state, S_8009ADB8_1 *attributes, s32 tile_x, s32 tile_y, volatile s32 initial_height)
+s32 func_8009ADB8(S_8009ADB8_0 *facing_state, S_8009ADB8_1 *attributes, s32 tile_x, s32 tile_y,
+    volatile s32 initial_height)
 {
     register MapCell *map ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *map_state;

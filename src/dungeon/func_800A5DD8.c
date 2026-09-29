@@ -44,7 +44,6 @@ typedef struct S_800AB538_4 {
 } S_800AB538_4;   /* p2 in func_800AB538 */
 
 
-
 extern s32 func_800644B8();
 
 extern u8 D_80083780[];

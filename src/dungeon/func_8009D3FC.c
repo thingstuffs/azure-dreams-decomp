@@ -11,7 +11,6 @@ typedef struct S_800A2B5C_0 {
 } S_800A2B5C_0;   /* state in func_800A2B5C */
 
 
-
 extern u16 func_800A2B28();
 
 /* Sets or reuses the requested value and calls func_800A2B28 when state permits. */

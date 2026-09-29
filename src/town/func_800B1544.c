@@ -77,8 +77,6 @@ typedef struct S_800AECA4_15 {
 } S_800AECA4_15;   /* ((S_800AECA4_10 *)(((S_800AECA4_5 *)(((S_800AECA4_2 *)arg0)->unk_D8))->unk_00))->unk_04 in func_800AECA4 */
 
 
-
-
 int func_80049E6C();
 s32 func_8004DC14();
 s32 func_800AE4E4();
@@ -120,7 +118,8 @@ void func_800AECA4(void *list) {
     *((S_800AECA4_5 *)(((S_800AECA4_2 *)list)->unk_D8))->unk_04 = &D_80077E84;
     row_index = 0;
     *((S_800AECA4_5 *)(((S_800AECA4_2 *)list)->unk_D8))->unk_00 = func_80049E6C(((S_800AECA4_0 *)list)->unk_28);
-    ((S_800AECA4_15 *)(((S_800AECA4_10 *)(((S_800AECA4_5 *)(((S_800AECA4_2 *)list)->unk_D8))->unk_00))->unk_04))->unk_0A = (s16) ((((S_800AECA4_0 *)list)->unk_28 * 8) + 2);
+    ((S_800AECA4_15 *)(((S_800AECA4_10 *)(((S_800AECA4_5 *)(((S_800AECA4_2 *)list)->unk_D8))->unk_00))->unk_04))->unk_0A =
+        (s16) ((((S_800AECA4_0 *)list)->unk_28 * 8) + 2);
     if (((S_800AECA4_0 *)list)->unk_28 > 0) {
         u8 *row_data_a = D_80077EF0;
         u8 *row_data_b = D_80077EFC;

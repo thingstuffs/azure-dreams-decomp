@@ -56,7 +56,7 @@ void func_80172290(void *action, void *motion, void *map_actor, void *actor) {
         ((EntityRec *)actor)->flags1C &= 0xF7FFFFFF;
         ((S_80172290_0 *)action)->unk_A0 = 0;
         ((S_80172290_0 *)action)->unk_9B++;
-                /* fallthrough */
+                        /* fallthrough */
     case 1:
         frames_left = ((S_80172290_0 *)action)->unk_96.s;
         ((S_80172290_0 *)action)->unk_90 -= ((S_80172290_0 *)action)->unk_A0;
@@ -84,7 +84,7 @@ void func_80172290(void *action, void *motion, void *map_actor, void *actor) {
             ((EntityRec *)actor)->flags1C |= 0x08000000;
             ((S_80172290_0 *)action)->unk_9B++;
         }
-                /* fallthrough */
+                        /* fallthrough */
     case 2:
         if (((u32)((EntityRec *)actor)->flags1C) & 0x08000000) {
             ((S_80172290_0 *)action)->unk_98 &= 0xFFF7;

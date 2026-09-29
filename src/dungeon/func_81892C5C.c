@@ -202,7 +202,7 @@ loop:
                     prim_mode = (s32)(((S_81892C5C_4 *)polyline)->unk_00.at00.v & length_mask);
                     ((S_81892C5C_4 *)polyline)->unk_00.at00.v = (u32)prim_mode | (ordering_table[otz] & addr_mask);
                     ot_link = (((S_81892C5C_0 *)scratch)->unk_18.u[((S_81892C5C_0 *)scratch)->unk_B4.u] & length_mask)
-                        | ((u32)polyline & addr_mask);
+                    | ((u32)polyline & addr_mask);
                     ((S_81892C5C_0 *)scratch)->unk_18.u[((S_81892C5C_0 *)scratch)->unk_B4.u] = ot_link;
                 }
 

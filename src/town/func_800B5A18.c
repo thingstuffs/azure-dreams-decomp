@@ -13,8 +13,6 @@ typedef struct S_800B3178_4 {
 } S_800B3178_4;   /* ((S_800B3178_3 *)(*var_s0))->unk_04 in func_800B3178 */
 
 
-
-
 s32 func_8004AC3C();                   /* extern */
 s32 func_8004DC14();                        /* extern */
 

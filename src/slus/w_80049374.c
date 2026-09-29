@@ -44,7 +44,7 @@ s32 func_80049374(Item *item, StrPair *fallbacks) {
     } else if (func_800494FC(item) != 0) {
         item_text = fallbacks->unk0;
     } else {
-                /* 3-statement category_table form: lui fills prior branch delay; category_id then add */
+                        /* 3-statement category_table form: lui fills prior branch delay; category_id then add */
         category_table = itemCategoryTable;
         category_id = item->unk1;
         category = category_table + category_id;

@@ -96,7 +96,7 @@ void func_8002429C(void *effect_data, void *origin, s16 step_index, s16 scale_fa
         if (((u32) avg_depth) < 0x1E0U) {
             u8 *draw_mode;
             *((u32 *) (((u8 *) line_packet) + 0)) = ((*((u32 *) (((u8 *) line_packet) + 0))) & 0xFF000000)
-                | ((*((u32 *) (((u8 *) ((*((u32 **) (((u8 *) scratch) + 0x18))) + avg_depth)) + 0))) & addr_mask);
+            | ((*((u32 *) (((u8 *) ((*((u32 **) (((u8 *) scratch) + 0x18))) + avg_depth)) + 0))) & addr_mask);
             *((u32 *) (((u8 *) ((*((u32 **) (((u8 *) scratch) + 0x18))) + (*((s32 *) (((u8 *) scratch) + 0xB4)))))
                 + 0)) = ((*((u32 *) (((u8 *) ((*((u32 **) (((u8 *) scratch) + 0x18)))
                 + (*((s32 *) (((u8 *) scratch) + 0xB4))))) + 0))) & 0xFF000000) | (((u32) line_packet) & addr_mask);
@@ -107,7 +107,7 @@ void func_8002429C(void *effect_data, void *origin, s16 step_index, s16 scale_fa
             func_80067F20(flags_or_mode, 0, 0, func_80066460(0, *((s16 *) (((u8 *) effect_data) + 0x12)), 0,
                 0) & 0xFFFF, 0);
             *((u32 *) (((u8 *) flags_or_mode) + 0)) = ((*((u32 *) (((u8 *) flags_or_mode) + 0))) & 0xFF000000)
-                | ((*((u32 *) (((u8 *) ((*((u32 **) (((u8 *) scratch) + 0x18)))
+            | ((*((u32 *) (((u8 *) ((*((u32 **) (((u8 *) scratch) + 0x18)))
                 + (*((s32 *) (((u8 *) scratch) + 0xB4))))) + 0))) & addr_mask);
             *((u32 *) (((u8 *) ((*((u32 **) (((u8 *) scratch) + 0x18))) + (*((s32 *) (((u8 *) scratch) + 0xB4)))))
                 + 0)) = ((*((u32 *) (((u8 *) ((*((u32 **) (((u8 *) scratch) + 0x18)))

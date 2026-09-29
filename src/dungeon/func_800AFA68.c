@@ -160,7 +160,7 @@ next_entry:
 
     entry_flags = (void *) ((entry_index * 4) + ((s32) entry_table));
     if ((((!((*((u8 *) (((s8 *) entry_flags) + 3))) & 0x80)) || (D_800E296C[0] & 8))
-        && ((*((u8 *) (((s8 *) entry_flags) + 1))) != 0)) && ((*((u8 *) (((s8 *) entry_flags) + 0))) != 0)) {
+         && ((*((u8 *) (((s8 *) entry_flags) + 1))) != 0)) && ((*((u8 *) (((s8 *) entry_flags) + 0))) != 0)) {
         u8 *entry_table;
         entry_table = &D_800E39C8;
         sprite_entry = (entry_index * 0x18) + entry_table;
@@ -233,9 +233,9 @@ next_world_part:
                             world_bottom_right, quad + 8, quad + 0x10, quad + 0x18, quad + 0x20,
                             (GeomTailArgs) { depth_cue, transform_flags },
                             (world_corner_y = (s8) world_y_byte, *((u16 *) (scratch + 0x07a)) = world_corner_y,
-                            *((u16 *) (scratch + 0x072)) = world_corner_y,
-                            world_corner_y += (u16) (*((u16 *) (scratch + 0x014))), *((u16 *) (scratch + 0x08a)) =
-                            world_corner_y, *((u16 *) (scratch + 0x082)) = world_corner_y, *((GeomSideEffects *) 0)));
+                             *((u16 *) (scratch + 0x072)) = world_corner_y,
+                             world_corner_y += (u16) (*((u16 *) (scratch + 0x014))), *((u16 *) (scratch + 0x08a)) =
+                             world_corner_y, *((u16 *) (scratch + 0x082)) = world_corner_y, *((GeomSideEffects *) 0)));
                         *((s32 *) (scratch + 0x0c0)) = quad_depth;
                     }
                     if (quad_depth < 0x1E0U) {
@@ -351,9 +351,9 @@ next_sprite_part:
                     func_800654B0(scratch + 0x70, scratch + 0x78, scratch + 0x80, scratch + 0x88, scratch + 0xF0,
                         scratch + 0xF4, scratch + 0xF8, scratch + 0xFC, (GeomTailArgs) { depth_cue, transform_flags },
                         (sprite_corner_y = (s8) sprite_y_byte, *((u16 *) (scratch + 0x07a)) = sprite_corner_y,
-                        *((u16 *) (scratch + 0x072)) = sprite_corner_y,
-                        sprite_corner_y += (u16) (*((u16 *) (scratch + 0x014))), *((u16 *) (scratch + 0x08a)) =
-                        sprite_corner_y, *((u16 *) (scratch + 0x082)) = sprite_corner_y, *((GeomSideEffects *) 0)));
+                         *((u16 *) (scratch + 0x072)) = sprite_corner_y,
+                         sprite_corner_y += (u16) (*((u16 *) (scratch + 0x014))), *((u16 *) (scratch + 0x08a)) =
+                         sprite_corner_y, *((u16 *) (scratch + 0x082)) = sprite_corner_y, *((GeomSideEffects *) 0)));
                     quad = *((u8 **) (scratch + 0x018));
                     *((u8 **) (scratch + 0x018)) = quad + 0x28;
                     *((u16 *) (((s8 *) quad) + 8)) = (u16) (((s32) (*((u16 *) (scratch + 0x0f0))))
@@ -502,9 +502,9 @@ next_sprite_part:
                                     world_bottom_right, scratch + 0xF0, scratch + 0xF4, scratch + 0xF8, scratch + 0xFC,
                                     (GeomTailArgs) { depth_cue, transform_flags },
                                     (left_x = *((u16 *) (scratch + 0x070)),
-                                    *((u8 **) (scratch + 0x018)) = ((u8 *) shadow_quad) + 0x28, right_x =
-                                    *((u16 *) (scratch + 0x078)), left_x += 6, *((u16 *) (scratch + 0x070)) = left_x,
-                                    right_x += 6, *((u16 *) (scratch + 0x078)) = right_x, *((GeomSideEffects *) 0)));
+                                     *((u8 **) (scratch + 0x018)) = ((u8 *) shadow_quad) + 0x28, right_x =
+                                     *((u16 *) (scratch + 0x078)), left_x += 6, *((u16 *) (scratch + 0x070)) = left_x,
+                                     right_x += 6, *((u16 *) (scratch + 0x078)) = right_x, *((GeomSideEffects *) 0)));
                             }
                             *((u16 *) (((s8 *) shadow_quad) + 8)) =
                                 (u16) (((s32) (*((u16 *) (scratch + 0x0f0)))) + ((s32) (*((u16 *) (scratch + 0x0b8)))));
@@ -525,7 +525,7 @@ next_sprite_part:
                             *((s8 *) (((s8 *) shadow_quad) + 3)) = 9;
                             *((s32 *) (((s8 *) shadow_quad) + 0xC)) =
                                 (((s32) (*((s32 *) (scratch + 0x00c)))) + ((s32) (*((s32 *) (scratch + 0x008)))))
-                                + 0x7FC00000;
+                            + 0x7FC00000;
                             shadow_yaw = (s32) (*((s32 *) (scratch + 0x00c)));
                             shadow_yaw += ((s32) (*((s32 *) (scratch + 0x010))));
                             *((s32 *) (((s8 *) shadow_quad) + 0x14)) =

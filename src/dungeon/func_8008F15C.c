@@ -32,7 +32,8 @@ void func_800948BC(void)
     record_type = 0x13;
     slot_table = D_800E3DF0;
     record = (u8 *)0x8001024B;
-    loop_1: {
+loop_1:
+    {
         if (record[-2] == record_type) {
             slot_index = record[0] & 0x1F;
             linked_slot = slot_table[slot_index];
@@ -44,5 +45,7 @@ void func_800948BC(void)
         }
         count++;
         record += 4;
-    } if (count < 0x14) goto loop_1;
+    }
+    if (count < 0x14)
+        goto loop_1;
 }

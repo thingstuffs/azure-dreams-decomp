@@ -62,7 +62,7 @@ void func_800245B8(void *object_data)
         do {
             object->unk_A1 = 24;
         } while (0);
-        /* MATCH: keep each arm's stores before the shared tail. */
+                /* MATCH: keep each arm's stores before the shared tail. */
         pair_offset = -12;
         goto shared;
     case 0:
@@ -70,7 +70,7 @@ void func_800245B8(void *object_data)
         do {
             object->unk_A1 = 16;
         } while (0);
-        /* MATCH: keep each arm's stores before the shared tail. */
+                /* MATCH: keep each arm's stores before the shared tail. */
         pair_offset = -8;
 shared:
         object->unk_8D = pair_offset;

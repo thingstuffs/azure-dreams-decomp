@@ -22,7 +22,7 @@ s32 func_800C152C(void)
         if (object != 0) {
             linked_object = *(u8 **)(object - 0x14);
             func_800C1A44(linked_object[0x24], linked_object[0x25],
-                         *(s16 *)(object + 0x88));
+                          *(s16 *)(object + 0x88));
         }
         slot++;
     } while (slot < 2);

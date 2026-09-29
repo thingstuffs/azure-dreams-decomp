@@ -31,7 +31,7 @@ extern M2C_UNK D_800E1C03;
 
 /* Checks the record and triggers the associated visual and sound effects on success. */
 s32 func_800CD294(void *record_data) {
-    /* Retail forwards the current argument registers into func_800A6508
+        /* Retail forwards the current argument registers into func_800A6508
        untouched; this row never writes the fourth argument. */
     M2C_UNK check_mask;
     S_800CD294_1 *entity;
@@ -53,7 +53,8 @@ s32 func_800CD294(void *record_data) {
     }
     entity = ((S_800CD294_0 *)((u8 *)record_data - 0x14))->unk_00;
     if (!(entity->unk_14 & 0x8000)) {
-        func_800C5BBC((entity->unk_24 << 6) | 0x20, (entity->unk_25 << 6) | 0x20, ((S_800CD294_0 *)((u8 *)record_data - 0x14))->unk_9C, 0xFFFFFF, 0x40, 0);
+        func_800C5BBC((entity->unk_24 << 6) | 0x20, (entity->unk_25 << 6) | 0x20,
+            ((S_800CD294_0 *)((u8 *)record_data - 0x14))->unk_9C, 0xFFFFFF, 0x40, 0);
         func_800A56E0(0x612);
     }
     return 1;

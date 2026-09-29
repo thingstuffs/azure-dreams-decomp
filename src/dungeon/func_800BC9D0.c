@@ -6,7 +6,6 @@
 #include "shared/dungeon_status.h"
 
 
-
 extern s32 func_8008D344();
 extern s32 func_80098864();
 extern void func_80098B38();

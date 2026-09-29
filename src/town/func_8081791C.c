@@ -169,7 +169,7 @@ void func_8002191C(void *scene)
         t10 = ((S_8002191C_3 *)global)->unk_10.s;
         ((S_8002191C_3 *)global)->unk_10.s = (t10 + 0x1000) & 0xFE00;
     }
-                /* fall through */
+                        /* fall through */
 
     case 1:
     {

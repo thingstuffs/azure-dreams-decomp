@@ -29,7 +29,6 @@ typedef struct S_800ACBE4_2 {
 } S_800ACBE4_2;   /* actor in func_800ACBE4 */
 
 
-
 extern void func_8004491C(void *, void *);
 extern void func_80044A50(void *);
 extern void func_8009A028(void *);

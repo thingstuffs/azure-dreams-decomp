@@ -26,8 +26,10 @@ void func_8009704C(Rec_func_8008ACDC_arg0 *actor, EntityRec *motion, Rec_D_80082
         dungeonStatus.unk_04 = 0;
     }
     if (dungeonStatus.unk_04 != 0) {
-        motion->unk_0C = (s32) ((s32) ((((destination->unk_24 << 6) + 0x20) << 0x10) - motion->x.v) / (s16) dungeonStatus.unk_04);
-        motion->unk_10 = (s32) ((s32) ((((destination->unk_25 << 6) + 0x20) << 0x10) - motion->y.v) / (s16) dungeonStatus.unk_04);
+        motion->unk_0C = (s32) ((s32) ((((destination->unk_24 << 6) + 0x20) << 0x10)
+            - motion->x.v) / (s16) dungeonStatus.unk_04);
+        motion->unk_10 = (s32) ((s32) ((((destination->unk_25 << 6) + 0x20) << 0x10)
+            - motion->y.v) / (s16) dungeonStatus.unk_04);
     }
     actor_flags = actor->unk_A2;
     if (!(actor_flags & 0x10)) {

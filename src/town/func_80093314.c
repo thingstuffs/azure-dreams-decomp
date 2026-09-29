@@ -26,7 +26,6 @@ extern M2C_UNK D_800CFCEF;
 extern u8 D_800FE488[];
 
 
-
 typedef struct S_80090A74_1 {
     u8 unk_00;
 } S_80090A74_1;   /* &D_800CFCEF in func_80090A74 */

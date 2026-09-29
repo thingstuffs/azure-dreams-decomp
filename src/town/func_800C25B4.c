@@ -11,84 +11,83 @@ extern u8 D_800F15AC[9];
 /* Moves the object through its animation states, spawns an effect, and marks completion. */
 void func_800BFD14(void *object)
 {
-  s32 state;
-  void *effect;
-  void *effect_sprite;
+    s32 state;
+    void *effect;
+    void *effect_sprite;
 
-  state = *((s16 *) (((u8 *) object) + 0x4C));
-  *((u16 *) (((u8 *) object) + 0x48)) = (u16) ((*((u16 *) (((u8 *) object) + 0x48))) - 1);
-  switch (state)
-  {
-  case 0:
-    *((u16 *) (((u8 *) object) + 0x48)) = 3;
-    *((s16 *) (((u8 *) object) + 0x2A)) = -4;
-    *((s16 *) (((u8 *) object) + 0x32)) = 0x14;
-    *((u16 *) (((u8 *) object) + 0x4C)) = (u16) ((*((u16 *) (((u8 *) object) + 0x4C))) + 1);
+    state = *((s16 *) (((u8 *) object) + 0x4C));
+    *((u16 *) (((u8 *) object) + 0x48)) = (u16) ((*((u16 *) (((u8 *) object) + 0x48))) - 1);
+    switch (state) {
+    case 0:
+        *((u16 *) (((u8 *) object) + 0x48)) = 3;
+        *((s16 *) (((u8 *) object) + 0x2A)) = -4;
+        *((s16 *) (((u8 *) object) + 0x32)) = 0x14;
+        *((u16 *) (((u8 *) object) + 0x4C)) = (u16) ((*((u16 *) (((u8 *) object) + 0x4C))) + 1);
 
-  case 1:
-    *((s32 *) (((u8 *) object) + 0x1C)) += *((s32 *) (((u8 *) object) + 0x28));
-    *((s32 *) (((u8 *) object) + 0x24)) += *((s32 *) (((u8 *) object) + 0x30));
-    if ((*((s16 *) (((u8 *) object) + 0x48))) > 0)
-    {
-      return;
+    case 1:
+        *((s32 *) (((u8 *) object) + 0x1C)) += *((s32 *) (((u8 *) object) + 0x28));
+        *((s32 *) (((u8 *) object) + 0x24)) += *((s32 *) (((u8 *) object) + 0x30));
+        if ((*((s16 *) (((u8 *) object) + 0x48))) > 0) {
+            return;
+        }
+        *((u16 *) (((u8 *) object) + 0x4C)) =
+            (u16) ((*((u16 *) (((u8 *) object) + 0x4C))) + 1);
+        return;
+
+    case 2:
+        *((u16 *) (((u8 *) object) + 0xC)) = (u16) ((*((u16 *) (((u8 *) object) + 0xC)))
+            + (((*((s16 *) (((u8 *) object) + 0x2A))) * 3) >> 2));
+        *((u16 *) (((u8 *) object) + 0x10)) = (u16) ((*((u16 *) (((u8 *) object) + 0x10)))
+            + (((*((s16 *) (((u8 *) object) + 0x32))) * 3) >> 2));
+        *((s32 *) (((u8 *) object) + 0x24)) += *((s32 *) (((u8 *) object) + 0x30));
+        *((s32 *) (((u8 *) object) + 0x1C)) += *((s32 *) (((u8 *) object) + 0x28));
+        if ((*((s16 *) (((u8 *) object) + 0x26))) <= 0) {
+            return;
+        }
+        *((s16 *) (((u8 *) object) + 0x26)) = 0;
+        effect = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
+        if (effect != 0) {
+            *((void **) (((u8 *) effect) + 0x10)) = D_800BFF7C;
+            func_8004491C(effect, func_80045340);
+            effect_sprite = *((void **) (((u8 *) effect) + 0xC));
+            *((s32 *) (((u8 *) (*((void **) (((u8 *) effect) + 8)))) + 0)) = *((s32 *) (((u8 *) object) + 0x1C));
+            *((s32 *) (((u8 *) (*((void **) (((u8 *) effect) + 8)))) + 4)) = *((s32 *) (((u8 *) object) + 0x20));
+            *((s32 *) (((u8 *) (*((void **) (((u8 *) effect) + 8)))) + 8)) = *((s32 *) (((u8 *) object) + 0x24));
+            *((s16 *) (((u8 *) effect_sprite) + 0x1E)) = 0xC00;
+            *((s16 *) (((u8 *) effect_sprite) + 0x1C)) = 0xC00;
+            *((s16 *) (((u8 *) effect_sprite) + 0x10)) = 0x60;
+            *((s32 *) (((u8 *) effect_sprite) + 0xC)) = 0xA0A0A0;
+            *((void **) (((u8 *) effect_sprite) + 0)) = D_800F15AC;
+            *((u16 *) (((u8 *) effect_sprite) + 0x14)) |= 0xC;
+            *((s32 *) (((u8 *) effect_sprite) + 8)) = *((s32 *) (D_800F15AC + 4));
+            *((s8 *) (((u8 *) effect_sprite) + 4)) = 0;
+            *((s8 *) (((u8 *) effect_sprite) + 5)) = 0;
+        }
+        *((u16 *) (((u8 *) object) + 0x48)) = 4;
+        *((u16 *) (((u8 *) object) + 0x4C)) =
+            (u16) ((*((u16 *) (((u8 *) object) + 0x4C))) + 1);
+        return;
+
+    case 3:
+        *((u16 *) (((u8 *) object) + 0xC)) = (u16) ((*((u16 *) (((u8 *) object) + 0xC)))
+            + (((*((s16 *) (((u8 *) object) + 0x2A))) * 3) >> 2));
+        *((u16 *) (((u8 *) object) + 0x10)) = (u16) ((*((u16 *) (((u8 *) object) + 0x10)))
+            + (((*((s16 *) (((u8 *) object) + 0x32))) * 3) >> 2));
+        if ((*((s16 *) (((u8 *) object) + 0x48))) > 0) {
+            return;
+        }
+        {
+            u16 *state_field = (u16 *) (((u8 *) object) + 0x4C);
+            *state_field = 0xFF;
+        }
+        return;
+
+    case 0xFF:
+        *((u16 *) (((u8 *) object) + (-2))) |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
+
+        return;
+    default:
+        return;
     }
-    *((u16 *) (((u8 *) object) + 0x4C)) =
-        (u16) ((*((u16 *) (((u8 *) object) + 0x4C))) + 1);
-    return;
-
-  case 2:
-    *((u16 *) (((u8 *) object) + 0xC)) = (u16) ((*((u16 *) (((u8 *) object) + 0xC))) + (((*((s16 *) (((u8 *) object) + 0x2A))) * 3) >> 2));
-    *((u16 *) (((u8 *) object) + 0x10)) = (u16) ((*((u16 *) (((u8 *) object) + 0x10))) + (((*((s16 *) (((u8 *) object) + 0x32))) * 3) >> 2));
-    *((s32 *) (((u8 *) object) + 0x24)) += *((s32 *) (((u8 *) object) + 0x30));
-    *((s32 *) (((u8 *) object) + 0x1C)) += *((s32 *) (((u8 *) object) + 0x28));
-    if ((*((s16 *) (((u8 *) object) + 0x26))) <= 0)
-    {
-      return;
-    }
-    *((s16 *) (((u8 *) object) + 0x26)) = 0;
-    effect = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
-    if (effect != 0)
-    {
-      *((void **) (((u8 *) effect) + 0x10)) = D_800BFF7C;
-      func_8004491C(effect, func_80045340);
-      effect_sprite = *((void **) (((u8 *) effect) + 0xC));
-      *((s32 *) (((u8 *) (*((void **) (((u8 *) effect) + 8)))) + 0)) = *((s32 *) (((u8 *) object) + 0x1C));
-      *((s32 *) (((u8 *) (*((void **) (((u8 *) effect) + 8)))) + 4)) = *((s32 *) (((u8 *) object) + 0x20));
-      *((s32 *) (((u8 *) (*((void **) (((u8 *) effect) + 8)))) + 8)) = *((s32 *) (((u8 *) object) + 0x24));
-      *((s16 *) (((u8 *) effect_sprite) + 0x1E)) = 0xC00;
-      *((s16 *) (((u8 *) effect_sprite) + 0x1C)) = 0xC00;
-      *((s16 *) (((u8 *) effect_sprite) + 0x10)) = 0x60;
-      *((s32 *) (((u8 *) effect_sprite) + 0xC)) = 0xA0A0A0;
-      *((void **) (((u8 *) effect_sprite) + 0)) = D_800F15AC;
-      *((u16 *) (((u8 *) effect_sprite) + 0x14)) |= 0xC;
-      *((s32 *) (((u8 *) effect_sprite) + 8)) = *((s32 *) (D_800F15AC + 4));
-      *((s8 *) (((u8 *) effect_sprite) + 4)) = 0;
-      *((s8 *) (((u8 *) effect_sprite) + 5)) = 0;
-    }
-    *((u16 *) (((u8 *) object) + 0x48)) = 4;
-    *((u16 *) (((u8 *) object) + 0x4C)) =
-        (u16) ((*((u16 *) (((u8 *) object) + 0x4C))) + 1);
-    return;
-
-  case 3:
-    *((u16 *) (((u8 *) object) + 0xC)) = (u16) ((*((u16 *) (((u8 *) object) + 0xC))) + (((*((s16 *) (((u8 *) object) + 0x2A))) * 3) >> 2));
-    *((u16 *) (((u8 *) object) + 0x10)) = (u16) ((*((u16 *) (((u8 *) object) + 0x10))) + (((*((s16 *) (((u8 *) object) + 0x32))) * 3) >> 2));
-    if ((*((s16 *) (((u8 *) object) + 0x48))) > 0)
-    {
-      return;
-    }
-    {
-      u16 *state_field = (u16 *) (((u8 *) object) + 0x4C);
-      *state_field = 0xFF;
-    }
-    return;
-
-  case 0xFF:
-    *((u16 *) (((u8 *) object) + (-2))) |= 0x8000;
-    objectFlagBlock.flags |= 0x8000;
-
-    return;
-  default:
-    return;
-  }
 }

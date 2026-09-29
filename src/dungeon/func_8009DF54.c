@@ -78,8 +78,8 @@ s32 func_800A36B4(void *source, void *target) {
         {
             s32 next_height;
             next_height = func_800BCB04(((tile_x << 6) + 0x20) & 0xFFE0,
-                                     ((tile_y << 6) + 0x20) & 0xFFE0,
-                                     height - 0x20);
+                                        ((tile_y << 6) + 0x20) & 0xFFE0,
+                                        height - 0x20);
             if ((s16)next_height < check_height) {
                 height = next_height;
             }

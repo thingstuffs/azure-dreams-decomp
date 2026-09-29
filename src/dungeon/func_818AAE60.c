@@ -300,7 +300,7 @@ set_path_destination:
                 saved_tile_y = scratch.saved_y;
                 probe_x_dest_y = ((s32) (saved_tile_y << 0x10));
                 probe_x_dest_y = (probe_x_dest_y >> 0xA)
-                    + ((edge_steps[(s16) ((Rec_func_800243B8_arg0 *)effect)->unk_0E] + 1) << 5);
+                + ((edge_steps[(s16) ((Rec_func_800243B8_arg0 *)effect)->unk_0E] + 1) << 5);
                 ((S_80024660_8 *)destination)->unk_04.at02.v = probe_x_dest_y;
                 z_or_state = ((S_80024660_5 *)motion)->unk_08.at02.v + 32;
                 probe_x_dest_y <<= 16;

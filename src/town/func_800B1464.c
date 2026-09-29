@@ -64,7 +64,6 @@ typedef struct S_800AEBC4_6 {
 } S_800AEBC4_6;   /* tail in func_800AEBC4 */
 
 
-
 extern s32 D_8002E5D8[4];
 extern s32 D_8002E5E8[3];
 

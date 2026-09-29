@@ -223,7 +223,7 @@ void func_80025C80(void *effect_in, void *motion_in, void *sprite_in) {
                     (s16) (((S_80025C80_0 *)effect_in)->unk_3A - 0x20),
                     (s16) (((S_80025C80_0 *)effect_in)->unk_40.u << 9)) << 0x10) != 0
                     || (steps_left = ((S_80025C80_0 *)effect_in)->unk_42 - 1,
-                    ((S_80025C80_0 *)effect_in)->unk_42 = steps_left, (steps_left << 0x10) <= 0)) {
+                        ((S_80025C80_0 *)effect_in)->unk_42 = steps_left, (steps_left << 0x10) <= 0)) {
                     ((S_80025C80_0 *)effect_in)->unk_2C = 0x10;
                     ((S_80025C80_2 *)((void *)(motion_in)))->unk_0C.at02.v =
                         dirStepX[((S_80025C80_0 *)effect_in)->unk_40.s] * 8;
@@ -251,7 +251,7 @@ void func_80025C80(void *effect_in, void *motion_in, void *sprite_in) {
             delta_x = ((S_80025C80_2 *)((void *)(motion_in)))->unk_00.at02.v - 0x20;
             ((S_80025C80_2 *)((void *)(motion_in)))->unk_00.at02.v =
                 (u16) ((S_80025C80_2 *)((void *)(motion_in)))->unk_00.at02.v
-                + ((target_x - delta_x) / ((S_80025C80_0 *)effect_in)->unk_30.n);
+            + ((target_x - delta_x) / ((S_80025C80_0 *)effect_in)->unk_30.n);
             target_y = ((S_80025C80_0 *)effect_in)->unk_3E.n << 6;
             delta_y = ((S_80025C80_2 *)((void *)(motion_in)))->unk_04.at02.v - 0x20;
             y_step = (target_y - delta_y) / ((S_80025C80_0 *)effect_in)->unk_30.n;
@@ -280,20 +280,20 @@ void func_80025C80(void *effect_in, void *motion_in, void *sprite_in) {
             ((S_80025C80_2 *)((void *)(motion_in)))->unk_04.at00.v += ((S_80025C80_2 *)((void *)(motion_in)))->unk_10.at00.v;
             ((S_80025C80_2 *)((void *)(motion_in)))->unk_08.at00.v += ((S_80025C80_2 *)((void *)(motion_in)))->unk_14.at00.v;
             ((S_80025C80_2 *)((void *)(motion_in)))->unk_0C.at00.v -= ((S_80025C80_2 *)((void *)(motion_in)))->unk_0C.at00.v
-                >> 2;
+            >> 2;
             ((S_80025C80_2 *)((void *)(motion_in)))->unk_10.at00.v -= ((S_80025C80_2 *)((void *)(motion_in)))->unk_0C.at00.v
-                >> 2;
+            >> 2;
             if (((s16) ((S_80025C80_0 *)effect_in)->unk_3A - 0x10)
                 < ((S_80025C80_2 *)((void *)(motion_in)))->unk_08.at02.v) {
                 ((S_80025C80_2 *)((void *)(motion_in)))->unk_08.at02.v =
                     (s16) (((S_80025C80_0 *)effect_in)->unk_3A - 0x10);
             }
             ((S_80025C80_1 *)sprite)->unk_0C.at00.v = ((S_80025C80_1 *)sprite)->unk_0C.at00.v
-                - ((s32) ((S_80025C80_1 *)sprite)->unk_0C.at00.v / ((S_80025C80_0 *)effect_in)->unk_30.n);
+            - ((s32) ((S_80025C80_1 *)sprite)->unk_0C.at00.v / ((S_80025C80_0 *)effect_in)->unk_30.n);
             ((S_80025C80_1 *)sprite)->unk_0C.at01.v = ((S_80025C80_1 *)sprite)->unk_0C.at01.v
-                - ((s32) ((S_80025C80_1 *)sprite)->unk_0C.at01.v / ((S_80025C80_0 *)effect_in)->unk_30.n);
+            - ((s32) ((S_80025C80_1 *)sprite)->unk_0C.at01.v / ((S_80025C80_0 *)effect_in)->unk_30.n);
             ((S_80025C80_1 *)sprite)->unk_0C.at02.v = ((S_80025C80_1 *)sprite)->unk_0C.at02.v
-                - ((s32) ((S_80025C80_1 *)sprite)->unk_0C.at02.v / ((S_80025C80_0 *)effect_in)->unk_30.n);
+            - ((s32) ((S_80025C80_1 *)sprite)->unk_0C.at02.v / ((S_80025C80_0 *)effect_in)->unk_30.n);
             fade_ticks = (u16) ((S_80025C80_0 *)effect_in)->unk_30.n - 1;
             ((S_80025C80_0 *)effect_in)->unk_30.n = fade_ticks;
             if ((fade_ticks << 0x10) <= 0) {

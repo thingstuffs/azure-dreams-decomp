@@ -1,9 +1,6 @@
 #include "common.h"
 
 
-
-
-
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 s32 func_80048FBC();

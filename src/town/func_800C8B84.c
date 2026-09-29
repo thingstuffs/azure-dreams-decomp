@@ -3,8 +3,6 @@
 #include "records/Rec_func_80094268_arg0.h"
 
 
-
-
 #define M2C_FIELD(expr, type, offset) (*(type)((s8 *)(expr) + (offset)))
 
 extern void func_800C2E84(void *arg0, s32 arg2, void *arg3);

@@ -28,7 +28,8 @@ void func_800A6C4C(S_func_800A6C4C_0 *object, M2C_UNK input, M2C_UNK callback_da
             *status_flag = 0;
         }
         func_80033D08(object);
-        ((S_func_800A6C4C_1 *)((u8 *)object - 2))->unk_00 = (u16) (((S_func_800A6C4C_1 *)((u8 *)object - 2))->unk_00 | 0x8000);
+        ((S_func_800A6C4C_1 *)((u8 *)object - 2))->unk_00 = (u16) (((S_func_800A6C4C_1 *)((u8 *)object - 2))->unk_00
+            | 0x8000);
         objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
         return;
     }

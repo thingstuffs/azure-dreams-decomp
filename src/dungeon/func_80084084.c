@@ -53,7 +53,7 @@ void func_800897E4(void)
 
                         sentinel_scan = (Callback *)(D_800E0000 - 0x3080);
                         special_scan = special_start;
-            first_scan:
+first_scan:
                         if (*special_scan == callback) {
                             callback(entry_m->data, entry_m->arg1, entry_m->arg2);
                         } else if (*sentinel_scan != 0) {

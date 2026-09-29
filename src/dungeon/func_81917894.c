@@ -84,8 +84,8 @@ void func_80025094(void *effect, void *transform, void *visual) {
 
     ((Rec_func_80024E80_arg1 *)transform)->unk_00.at02_s16.v = (s16) (((Rec_func_80024E80_arg1 *)transform)->unk_0E
         + ((s32) ((func_80064584(((S_80025094_0 *)effect)->unk_0C) >> 4) * (s16) ((S_80025094_0 *)effect)->unk_0A)
-        >> 8));
+           >> 8));
     ((Rec_func_80024E80_arg1 *)transform)->unk_04.at02_s16.v = (s16) (((Rec_func_80024E80_arg1 *)transform)->unk_12
         + ((s32) ((func_800644B8(((S_80025094_0 *)effect)->unk_0C) >> 4) * (s16) ((S_80025094_0 *)effect)->unk_0A)
-        >> 8));
+           >> 8));
 }

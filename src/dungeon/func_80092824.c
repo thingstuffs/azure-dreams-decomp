@@ -74,7 +74,9 @@ valid_index:
     func_800A56E0(0x508);
 
     if (held_arg0 == (void *)&D_80081484) {
-        do { ((void **)0x80010248)[index] = D_80081484; } while (0);
+        do {
+            ((void **)0x80010248)[index] = D_80081484;
+        } while (0);
         global_object = D_800814A8;
         flags = *(u32 *)((u8 *)global_object + 0x1C);
         D_80081484 = 0;
@@ -83,7 +85,7 @@ valid_index:
     } else {
 
         narrowed = func_800422A8(*(void **)(((u8 *)D_800E3D7C) + 0xF0),
-                                  D_800E3548, 4, 0x40);
+                                 D_800E3548, 4, 0x40);
         narrowed <<= 16;
         found = narrowed >> 16;
         if (found >= 0) {

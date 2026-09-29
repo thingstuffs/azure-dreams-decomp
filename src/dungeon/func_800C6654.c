@@ -37,17 +37,17 @@ void func_800CBDB4(s16 *transition) {
         return;
 
     case 1:
-        {
-            DungeonGlobalStatus *settings = &dungeonStatus;
-            if ((settings->flags & 0x10) &&
-                ((func_80042900(((u8 *)D_800E3D7C), 0x1C, state) << 16) == 0)) {
-                transition[2] = 0x10;
-                transition[1] = (u16)transition[1] + 1;
-                settings->unk_0A = (u16)((u16)settings->unk_0A) + 1;
-                func_800419EC(0x10, 8);
-                func_800A56E0(0x818);
-            }
+    {
+        DungeonGlobalStatus *settings = &dungeonStatus;
+        if ((settings->flags & 0x10) &&
+            ((func_80042900(((u8 *)D_800E3D7C), 0x1C, state) << 16) == 0)) {
+            transition[2] = 0x10;
+            transition[1] = (u16)transition[1] + 1;
+            settings->unk_0A = (u16)((u16)settings->unk_0A) + 1;
+            func_800419EC(0x10, 8);
+            func_800A56E0(0x818);
         }
+    }
         return;
 
     case 2:

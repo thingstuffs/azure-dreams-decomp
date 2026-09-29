@@ -72,7 +72,7 @@ void func_8015B234(void *action, void *motion, void *sprite, void *entity)
 
         ((S_8015B234_1 *)motion)->unk_0C -= ((S_8015B234_1 *)motion)->unk_0C / 4;
         ((S_8015B234_1 *)motion)->unk_10 -= ((S_8015B234_1 *)motion)->unk_10 / 4;
-                /* fall through */
+                        /* fall through */
     case 1:
         ((S_8015B234_1 *)motion)->unk_0C +=
             ((s16 *)((s8 *)dirStepX))[(((EntityRec *)entity)->unk_6A >> 9) & 7] << 14;

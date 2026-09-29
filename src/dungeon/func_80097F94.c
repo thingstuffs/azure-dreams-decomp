@@ -8,8 +8,6 @@ typedef struct S_8009D6F4_1 {
 } S_8009D6F4_1;   /* ((((row << shift) + col) * 6) + table) in func_8009D6F4 */
 
 
-
-
 typedef struct {
     u32 word[2];
 } __attribute__((packed)) Copy8;

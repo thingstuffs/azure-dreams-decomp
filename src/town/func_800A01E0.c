@@ -36,7 +36,8 @@ void func_8009D940(S_8009D940_1 *query_max, S_8009D940_2 *query_min, void **entr
             left = rect->unk_00 + rect->unk_04;
             if (query_max->unk_00 >= left) {
                 top = rect->unk_02 + rect->unk_06;
-                if ((query_max->unk_02 >= top) && ((left + rect->unk_08) >= query_min->unk_00) && ((top + rect->unk_0A) >= query_min->unk_02)) {
+                if ((query_max->unk_02 >= top) && ((left + rect->unk_08) >= query_min->unk_00)
+                    && ((top + rect->unk_0A) >= query_min->unk_02)) {
                     *match_ptr = rect;
                     match_ptr = (void **)((s8 *)((void **)((s8 *)match_ptr + 4)));
                 }

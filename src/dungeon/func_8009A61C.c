@@ -54,7 +54,8 @@ s32 func_8009FD7C(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y) {
                 query_y = signed_src_y;
                 query_dst_x = signed_dst_x;
                 query_dst_y = signed_dst_y;
-                relation_flags = (s32) (func_800A0818(query_x, query_y, query_dst_x, query_dst_y, &relation_detail) << 0x10) >> 0x19;
+                relation_flags = (s32) (func_800A0818(query_x, query_y, query_dst_x, query_dst_y, &relation_detail)
+                    << 0x10) >> 0x19;
                 relation_detail = (s16) relation_flags;
                 allowed = 1;
                 if (!(relation_flags & 1)) {

@@ -11,7 +11,12 @@ typedef struct S_800B14FC_0 {
 
 typedef struct S_800B14FC_1 {
     u8 pad_00[0xC];
-    union { struct { u8 v; } at00; struct { u32 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; struct { u8 pad[0x2]; u8 v; } at02; } unk_0C;   /* overlapping accesses */
+    union {
+        struct { u8 v; } at00;
+        struct { u32 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+        struct { u8 pad[0x2]; u8 v; } at02;
+    } unk_0C;   /* overlapping accesses */
     u8 pad_10[0xE];
     u16 unk_1E;
     u8 pad_20[0x30];
@@ -26,7 +31,6 @@ typedef struct S_800B14FC_2 {
 typedef struct S_800B14FC_3_pre {
     u16 unk_00;
 } S_800B14FC_3_pre;   /* the 0x2 bytes before object in func_800B14FC, addressed as object[-1] */
-
 
 
 extern s32 (*D_800DF030[])(void);

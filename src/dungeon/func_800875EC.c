@@ -29,7 +29,6 @@ typedef struct S_8008CD4C_3 {
 } S_8008CD4C_3;   /* control in func_8008CD4C */
 
 
-
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((u8 *)(expr) + (offset)))
 
 M2C_UNK func_80048A44();
@@ -45,7 +44,8 @@ extern u8 D_800DCFB8[];
 extern u8 D_800DD018[];
 
 /* Checks the next tile and updates the actor's movement state and directional animation. */
-void func_8008CD4C(Rec_func_8008ACDC_arg0 *action, M2C_UNK context, S_8008CD4C_0 *sprite, S_8008CD4C_2 *actor, s16 move_state) {
+void func_8008CD4C(Rec_func_8008ACDC_arg0 *action, M2C_UNK context, S_8008CD4C_0 *sprite, S_8008CD4C_2 *actor,
+    s16 move_state) {
     s16 state;
     s32 direction_offset;
     s32 next_x;
@@ -67,7 +67,7 @@ void func_8008CD4C(Rec_func_8008ACDC_arg0 *action, M2C_UNK context, S_8008CD4C_0
         y_step = (u16 *)((u8 *)dirStepY + direction_offset);
         next_y = sprite->unk_25.s + *y_step;
         target = func_8009B25C(actor, next_x & 0xFFFF, next_y & 0xFFFF,
-                            actor->unk_88);
+                               actor->unk_88);
         if (target != 0) {
             if ((func_8009ADB8(actor, target, (s16)next_x, (s16)next_y,
                                actor->unk_88) << 16) != 0) {

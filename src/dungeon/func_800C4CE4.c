@@ -8,7 +8,11 @@
 
 typedef struct S_800CA444_0 {
     u8 pad_00[0x24];
-    union { struct { u8 v; } at00; struct { u16 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; } unk_24;   /* overlapping accesses */
+    union {
+        struct { u8 v; } at00;
+        struct { u16 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+    } unk_24;   /* overlapping accesses */
     s8 unk_26;
 } S_800CA444_0;   /* arg2 in func_800CA444 */
 
@@ -104,42 +108,42 @@ void func_800CA444(void *motion_input, s32 unused, void *tile_input, void *actor
     goto scan_start;
 
     do {
-            ((S_800CA444_1 *)actor)->unk_2A = next_heading;
-            ((S_800CA444_5 *)((actor + (((S_800CA444_1 *)actor)->unk_71 & 0x7F))))->unk_74 = (u8) tile->unk_24.at00.v;
-            ((S_800CA444_5 *)((actor + (((S_800CA444_1 *)actor)->unk_71 & 0x7F))))->unk_7C = (u8) tile->unk_24.at01.v;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            x_step_addr = (unsigned long) ((u8 *)dirStepX);
-            trail_count = ((S_800CA444_1 *)actor)->unk_71;
-            direction_index = ((u16) ((S_800CA444_1 *)actor)->unk_2A >> 8) & 0xE;
-            trail_count++;
-            x_step_addr = direction_index + x_step_addr;
-            ((S_800CA444_1 *)actor)->unk_71 = (u8) trail_count;
-            tile->unk_24.at00.v = (u8) (tile->unk_24.at00.v + *(u8 *) x_step_addr);
-            tile->unk_24.at01.v = (u8) (tile->unk_24.at01.v + ((u8 *)dirStepY)[direction_index]);
-            goto state_done;
+        ((S_800CA444_1 *)actor)->unk_2A = next_heading;
+        ((S_800CA444_5 *)((actor + (((S_800CA444_1 *)actor)->unk_71 & 0x7F))))->unk_74 = (u8) tile->unk_24.at00.v;
+        ((S_800CA444_5 *)((actor + (((S_800CA444_1 *)actor)->unk_71 & 0x7F))))->unk_7C = (u8) tile->unk_24.at01.v;
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        x_step_addr = (unsigned long) ((u8 *)dirStepX);
+        trail_count = ((S_800CA444_1 *)actor)->unk_71;
+        direction_index = ((u16) ((S_800CA444_1 *)actor)->unk_2A >> 8) & 0xE;
+        trail_count++;
+        x_step_addr = direction_index + x_step_addr;
+        ((S_800CA444_1 *)actor)->unk_71 = (u8) trail_count;
+        tile->unk_24.at00.v = (u8) (tile->unk_24.at00.v + *(u8 *) x_step_addr);
+        tile->unk_24.at01.v = (u8) (tile->unk_24.at01.v + ((u8 *)dirStepY)[direction_index]);
+        goto state_done;
 
-        scan_start:
-            if (((S_800CA444_1 *)actor)->unk_46 & 0x8000) {
-                scan_result = 0;
-                heading_offsets = D_8006CD00;
-                map_state = &D_80082E80;
-            } else {
-                scan_tile = tile;
-        scan_call:
-                func_800A0E6C(scan_tile, ((S_800CA444_2 *)motion)->unk_9C, actor, motion + 0x98);
-                scan_result = 0;
-                heading_offsets = D_8006CD00;
-                map_state = &D_80082E80;
-            }
-        scan_loop:
-            heading = ((S_800CA444_1 *)actor)->unk_2A;
-            if (((S_800CA444_2 *)motion)->unk_98 & 2) {
-                heading_offset = ((S_800CA444_3 *)(((s32) (scan_result << 0x10) >> 0xF) + (u32) heading_offsets))->unk_00;
-                next_heading = heading - heading_offset;
-            } else {
-                heading_offset = ((S_800CA444_3 *)(((s32) (scan_result << 0x10) >> 0xF) + (u32) heading_offsets))->unk_00;
-                next_heading = heading + heading_offset;
-            }
+scan_start:
+        if (((S_800CA444_1 *)actor)->unk_46 & 0x8000) {
+            scan_result = 0;
+            heading_offsets = D_8006CD00;
+            map_state = &D_80082E80;
+        } else {
+            scan_tile = tile;
+scan_call:
+            func_800A0E6C(scan_tile, ((S_800CA444_2 *)motion)->unk_9C, actor, motion + 0x98);
+            scan_result = 0;
+            heading_offsets = D_8006CD00;
+            map_state = &D_80082E80;
+        }
+scan_loop:
+        heading = ((S_800CA444_1 *)actor)->unk_2A;
+        if (((S_800CA444_2 *)motion)->unk_98 & 2) {
+            heading_offset = ((S_800CA444_3 *)(((s32) (scan_result << 0x10) >> 0xF) + (u32) heading_offsets))->unk_00;
+            next_heading = heading - heading_offset;
+        } else {
+            heading_offset = ((S_800CA444_3 *)(((s32) (scan_result << 0x10) >> 0xF) + (u32) heading_offsets))->unk_00;
+            next_heading = heading + heading_offset;
+        }
     } while ((func_800CA1E0(next_heading, tile, actor, 0x20) << 0x10) > 0);
     if (scan_result != 0) {
         next_index = scan_result + 1;
@@ -184,7 +188,8 @@ state_done:
         ((S_800CA444_1 *)actor)->unk_71 = (u8) (((S_800CA444_1 *)actor)->unk_71 & 0x7F);
         return;
     }
-    scan_result = func_800BCB04((tile->unk_24.at00.v << 6) | 0x20, (tile->unk_24.at01.v << 6) | 0x20, (s16) (((S_800CA444_1 *)actor)->unk_88 - 0x20));
+    scan_result = func_800BCB04((tile->unk_24.at00.v << 6) | 0x20, (tile->unk_24.at01.v << 6) | 0x20,
+        (s16) (((S_800CA444_1 *)actor)->unk_88 - 0x20));
     height = (s16) (((s32) scan_result << 0x10) >> 0x10);
     if (height < 0x200) {
         ((S_800CA444_1 *)actor)->unk_88 = (u16) scan_result;

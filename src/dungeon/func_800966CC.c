@@ -8,7 +8,13 @@
 typedef struct S_8009BE2C_1 {
     u8 pad_00[0x3];
     s8 unk_03;
-    union { struct { s8 v; } at00; struct { s32 v; } at00u; struct { u8 pad[0x1]; s8 v; } at01; struct { u8 pad[0x2]; s8 v; } at02; struct { u8 pad[0x3]; u8 v; } at03; } unk_04;   /* overlapping accesses */
+    union {
+        struct { s8 v; } at00;
+        struct { s32 v; } at00u;
+        struct { u8 pad[0x1]; s8 v; } at01;
+        struct { u8 pad[0x2]; s8 v; } at02;
+        struct { u8 pad[0x3]; u8 v; } at03;
+    } unk_04;   /* overlapping accesses */
     s16 unk_08;
     s16 unk_0A;
     s16 unk_0C;
@@ -42,7 +48,8 @@ typedef struct S_8009BE2C_6 {
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-struct S_8003E2D8; typedef struct S_8003E2D8 S_8003E2D8;
+struct S_8003E2D8;
+typedef struct S_8003E2D8 S_8003E2D8;
 M2C_UNK func_8006658C();              /* extern */
 M2C_UNK func_800667A8();                  /* extern */
 
@@ -55,7 +62,8 @@ void func_8009BE2C(void *effect, s32 unused, S_8009BE2C_2 *fade) {
     void **render_context;
 
     packet = ((S_8009BE2C_5 *)(((Rec_D_80083160 *)(((struct S_8003E2D8 *)&gameWork)))->unk_00.as_pv))->unk_8D0;
-    ((S_8009BE2C_5 *)(((Rec_D_80083160 *)(((struct S_8003E2D8 *)&gameWork)))->unk_00.as_pv))->unk_8D0 = (void *) (packet + 0x10);
+    ((S_8009BE2C_5 *)(((Rec_D_80083160 *)(((struct S_8003E2D8 *)&gameWork)))->unk_00.as_pv))->unk_8D0 =
+        (void *) (packet + 0x10);
     ((S_8009BE2C_1 *)packet)->unk_0C = 0x140;
     ((S_8009BE2C_1 *)packet)->unk_08 = 0;
     ((S_8009BE2C_1 *)packet)->unk_0A = 0;

@@ -33,7 +33,8 @@ extern s32 func_800BCB04(s32, s32, s32);
 extern Func95440Object *func_8009B25C(s32, s32, s32, s32);
 
 /* Checks the adjacent tile and classifies its height relative to the source height. */
-s32 func_8009ABA0(u32 direction_bits, Func95440Input *position, Func95440Actor *actor, u32 source_height, s32 height_offset) {
+s32 func_8009ABA0(u32 direction_bits, Func95440Input *position, Func95440Actor *actor, u32 source_height,
+    s32 height_offset) {
     u16 tile_flags;
     s32 target_height;
     s16 initial_height;

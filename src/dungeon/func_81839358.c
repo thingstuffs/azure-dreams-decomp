@@ -153,7 +153,7 @@ void func_81839358(void *effect, void *motion, void *sprite) {
             ((S_81839358_3 *)sprite)->unk_0C.at02.v = green_blue;
             ((S_81839358_3 *)sprite)->unk_0C.at01.v = green_blue;
         }
-                /* fall through */
+                        /* fall through */
     case 2:
         func_800478B8(sprite);
         if (((S_81839358_3 *)sprite)->unk_14 & 0x6000) {

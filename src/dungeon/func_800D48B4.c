@@ -14,10 +14,6 @@ typedef struct S_800DA014_0 {
 } S_800DA014_0;   /* in_arg0 in func_800DA014 */
 
 
-
-
-
-
 extern s32 func_80042900(void *, s32);
 extern void func_80042B68(void *, s32);
 extern void func_8003DB94(void *, s32, s32);
@@ -59,84 +55,84 @@ void func_800DA014(void *controller, void *action_context, void *sprite, EntityR
         }
         return;
     case 1:
-        {
-            s32 actor_flags;
-            DungeonGlobalStatus *system_base;
+    {
+        s32 actor_flags;
+        DungeonGlobalStatus *system_base;
 
-            system_base = &dungeonStatus;
-            if (system_base->flags & 0x1000) {
+        system_base = &dungeonStatus;
+        if (system_base->flags & 0x1000) {
+            return;
+        }
+
+        if ((actor->unk_64 != 0) &&
+            (func_800AA6B4(controller, action_context, sprite, 0) != 0)) {
+            return;
+        }
+
+        if (actor->tileY == 0) {
+            if (system_base->flags & 0x2008) {
                 return;
             }
+            func_800AA79C(controller, action_context, sprite, actor);
+            return;
+        }
 
-            if ((actor->unk_64 != 0) &&
-                (func_800AA6B4(controller, action_context, sprite, 0) != 0)) {
-                return;
-            }
+        if ((func_800A2C34(actor) << 16) != 0) {
+            return;
+        }
 
-            if (actor->tileY == 0) {
-                if (system_base->flags & 0x2008) {
-                    return;
-                }
-                func_800AA79C(controller, action_context, sprite, actor);
-                return;
-            }
+        actor_flags = actor->flags1C;
+        if (actor_flags & 0x100) {
+            func_800AA258(controller, action_context, sprite, actor);
+            return;
+        }
 
-            if ((func_800A2C34(actor) << 16) != 0) {
-                return;
-            }
+        if (actor_flags & 0x80000) {
+            func_800AA888(controller, action_context, sprite, actor);
+            func_800DA660(controller, action_context, sprite, actor);
+            return;
+        }
 
-            actor_flags = actor->flags1C;
-            if (actor_flags & 0x100) {
-                func_800AA258(controller, action_context, sprite, actor);
-                return;
-            }
+        if (actor->unk_6D == 0) {
+            return;
+        }
 
-            if (actor_flags & 0x80000) {
-                func_800AA888(controller, action_context, sprite, actor);
-                func_800DA660(controller, action_context, sprite, actor);
-                return;
-            }
-
-            if (actor->unk_6D == 0) {
-                return;
-            }
-
-            if ((func_800A2C34(actor) << 16) != 0) {
-                if ((func_8009A180(actor,
-                        (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
-                    return;
-                }
-            }
-
-            func_800A9A0C(actor);
-            func_800A9A04(actor);
-
-            if ((func_80042900(actor, 1) << 16) != 0) {
-                TileObject *reference_sprite;
-                s8 coordinate;
-
-                reference_sprite = &D_80082E80;
-                coordinate = ((Rec_D_80082E80 *)sprite)->unk_26.as_s8;
-                if ((((coordinate == reference_sprite->unk_026) &&
-                            (coordinate >= 0)) ||
-                        (func_8009FD40(reference_sprite, sprite) < 2)) &&
-                    ((func_800A6D30() & 7) == 0)) {
-                    func_80042B68(actor, 1);
-                }
-            }
-
-            if ((func_80042900(actor, 1) << 16) == 0) {
-                u8 *direction_table;
-
-                direction_table = D_800E262C;
-                (*(void * *)((u8 *)sprite + 0x2C)) = direction_table;
-                func_8003DB94(sprite,
-                    *(void **)(direction_table + (((gameWork.view.viewAngle + actor->facing + 0x100) >> 7) & 28)),
-                    0);
-            } else {
+        if ((func_800A2C34(actor) << 16) != 0) {
+            if ((func_8009A180(actor,
+                    (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
                 return;
             }
         }
+
+        func_800A9A0C(actor);
+        func_800A9A04(actor);
+
+        if ((func_80042900(actor, 1) << 16) != 0) {
+            TileObject *reference_sprite;
+            s8 coordinate;
+
+            reference_sprite = &D_80082E80;
+            coordinate = ((Rec_D_80082E80 *)sprite)->unk_26.as_s8;
+            if ((((coordinate == reference_sprite->unk_026) &&
+                        (coordinate >= 0)) ||
+                 (func_8009FD40(reference_sprite, sprite) < 2)) &&
+                ((func_800A6D30() & 7) == 0)) {
+                func_80042B68(actor, 1);
+            }
+        }
+
+        if ((func_80042900(actor, 1) << 16) == 0) {
+            u8 *direction_table;
+
+            direction_table = D_800E262C;
+            (*(void * *)((u8 *)sprite + 0x2C)) = direction_table;
+            func_8003DB94(sprite,
+                *(void **)(direction_table + (((gameWork.view.viewAngle + actor->facing + 0x100) >> 7) & 28)),
+                0);
+        } else {
+            return;
+        }
+    }
 
         if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
             DungeonGlobalStatus *system_base = &dungeonStatus;

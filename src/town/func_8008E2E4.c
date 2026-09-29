@@ -20,7 +20,6 @@ typedef struct S_8008BA44_2 {
 } S_8008BA44_2;   /* test_inner in func_8008BA44 */
 
 
-
 extern u8 D_8008BC58[];
 extern u8 D_800CFC70[];
 extern s32 D_800CFC7C[];

@@ -28,7 +28,6 @@ typedef struct S_800C135C_0 {
 } S_800C135C_0;   /* temp_v0 in func_800C135C */
 
 
-
 /* Looks up an entry, clears its linked state, and processes it if found. */
 s32 func_800C135C(void) {
     s32 found;

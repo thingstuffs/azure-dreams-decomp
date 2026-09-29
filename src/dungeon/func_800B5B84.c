@@ -17,8 +17,17 @@ typedef struct S_800BB2E4_2 {
     u8 pad_00[0x3];
     s8 unk_03;
     union { struct { s32 v; } at00; struct { u8 pad[0x3]; s8 v; } at03; } unk_04;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u16 v; } at00u; struct { u8 pad[0x2]; u16 v; } at02; struct { u8 pad[0x2]; s16 v; } at02u; } unk_08;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u16 v; } at00u; struct { u8 pad[0x2]; u16 v; } at02; } unk_0C;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { u16 v; } at00u;
+        struct { u8 pad[0x2]; u16 v; } at02;
+        struct { u8 pad[0x2]; s16 v; } at02u;
+    } unk_08;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { u16 v; } at00u;
+        struct { u8 pad[0x2]; u16 v; } at02;
+    } unk_0C;   /* overlapping accesses */
 } S_800BB2E4_2;   /* packet in func_800BB2E4 */
 
 

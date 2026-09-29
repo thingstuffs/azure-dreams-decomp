@@ -28,7 +28,7 @@ s32 town_sd_sq_callagain_sub(s32 sequence_flags) {
     u16 *fallback_entries;
     u16 *fallback_entry;
     s32 fallback_index;
-    /* MATCH: Keep the merged sequence argument in a0 through each arm. */
+        /* MATCH: Keep the merged sequence argument in a0 through each arm. */
     s32 sequence;
 
     entry_index = func_800C0F60(D_8006ADBC.index);
@@ -62,7 +62,7 @@ s32 town_sd_sq_callagain_sub(s32 sequence_flags) {
         ((u16 *)D_800D4268)[3] = fallback_sequence;
         sequence = fallback_sequence | sequence_flags;
         sequence = (u16)sequence;
-        /* MATCH: Complete argument preparation before the shared call. */
+                /* MATCH: Complete argument preparation before the shared call. */
     }
     SD_Call(sequence);
     return 1;

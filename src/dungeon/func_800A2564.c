@@ -172,7 +172,8 @@ s32 func_800A7CC4(s32 unused0, s32 unused1, void *render_params) {
                         quad_bottom = quad_top + U16(scratch, 0x14);
                         S16(scratch, 0x8A) = quad_bottom;
                         S16(scratch, 0x82) = quad_bottom;
-                        func_800654B0(vertex0, vertex1, vertex2, vertex3, screen0, screen1, screen2, screen3, depth_out, flags_out);
+                        func_800654B0(vertex0, vertex1, vertex2, vertex3, screen0, screen1, screen2, screen3,
+                            depth_out, flags_out);
                         U16(prim_code, 1) = U16(scratch, 0xF0) + U16(scratch, 0xB8);
                         U16(prim_code, 3) = U16(scratch, 0xF2) + U16(scratch, 0xBA);
                         U16(prim_code, 9) = U16(scratch, 0xF4) + U16(scratch, 0xB8);
@@ -260,7 +261,8 @@ s32 func_800A7CC4(s32 unused0, s32 unused1, void *render_params) {
                             func_80064CF0(transform);
                             U16(scratch, 0x70) = U16(scratch, 0x70) + 6;
                             U16(scratch, 0x78) = U16(scratch, 0x78) + 6;
-                            func_800654B0(vertex0, vertex1, vertex2, vertex3, screen0, screen1, screen2, screen3, depth_out, flags_out);
+                            func_800654B0(vertex0, vertex1, vertex2, vertex3, screen0, screen1, screen2, screen3,
+                                depth_out, flags_out);
                             U16(prim_code, 1) = U16(scratch, 0xF0) + U16(scratch, 0xB8);
                             U16(prim_code, 3) = U16(scratch, 0xF2) + U16(scratch, 0xBA);
                             U16(prim_code, 9) = U16(scratch, 0xF4) + U16(scratch, 0xB8);

@@ -33,17 +33,17 @@ typedef struct S_800A32A4_5 {
 } S_800A32A4_5;   /* var_a2 in func_800A32A4 */
 
 struct S_800E3E48 {
-  u8 pad00[0x14];
-  s32 unk14;
-  u8 pad18[0x1C - 0x18];
-  s32 unk1C;
-  u8 pad20[0x8C - 0x20];
+    u8 pad00[0x14];
+    s32 unk14;
+    u8 pad18[0x1C - 0x18];
+    s32 unk1C;
+    u8 pad20[0x8C - 0x20];
 };
 struct S_16 {
-  s32 w0;
-  s32 w4;
-  s32 w8;
-  s32 wC;
+    s32 w0;
+    s32 w4;
+    s32 w8;
+    s32 wC;
 };
 typedef struct S_800E3E48 S_800E3E48;
 extern S_800E3E48 D_800E3E48[];

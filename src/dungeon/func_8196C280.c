@@ -97,7 +97,7 @@ void func_8196C280(void *effect, void *position, void *sprite) {
             ((S_8196C280_1 *)effect)->unk_8C = 0;
             ((S_8196C280_0 *)position)->unk_08.at02.v = func_800BCB04(((S_8196C280_0 *)position)->unk_00.at02.v,
                 ((S_8196C280_0 *)position)->unk_04.at02.v, (s16)(((S_8196C280_0 *)position)->unk_08.at02u.v - 4))
-                - 0x11;
+            - 0x11;
             ((S_8196C280_0 *)position)->unk_08.at00u.v = 0;
             ((S_8196C280_1 *)effect)->unk_2C = 0;
         }

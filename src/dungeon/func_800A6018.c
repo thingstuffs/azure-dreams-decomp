@@ -230,21 +230,21 @@ s32 func_800AB778(S_800AB778_1 *state, void *unused_context, S_800AB778_3 *visua
     state_or_type = state->unk_9B;
     switch (state_or_type) {
     case 0:
-        {
-            register s32 next_state;
+    {
+        register s32 next_state;
 
-            if (((Rec_D_80082E80 *)actor)->unk_43 != 0xFD) {
-                if ((func_800A2C78(actor) << 0x10) != 0) {
-                    break;
-                }
-            } else {
-                ((S_800AB778_21 *)((*(void * *)&((EntityRec *)(((M2C_UNK *)&D_800E3D7C)))->x)))->unk_110 = 0;
+        if (((Rec_D_80082E80 *)actor)->unk_43 != 0xFD) {
+            if ((func_800A2C78(actor) << 0x10) != 0) {
+                break;
             }
-            dungeonStatus.unk_0A++;
-            next_state = 3;
-            state->unk_9B = next_state;
-            break;
+        } else {
+            ((S_800AB778_21 *)((*(void * *)&((EntityRec *)(((M2C_UNK *)&D_800E3D7C)))->x)))->unk_110 = 0;
         }
+        dungeonStatus.unk_0A++;
+        next_state = 3;
+        state->unk_9B = next_state;
+        break;
+    }
 
     case 3:
         if (((Rec_D_80082E80 *)actor)->unk_1C.at00_s32.v & 0x80000) {
@@ -260,7 +260,9 @@ s32 func_800AB778(S_800AB778_1 *state, void *unused_context, S_800AB778_3 *visua
             ASM_KEEP_NV(event_mode);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             func_800C542C(state4_event,
                 D_800DCED4[event_index],
-                (s32)state4_event == ((S_800AB778_21 *)((*(void * *)&((EntityRec *)(((M2C_UNK *)&D_800E3D7C)))->x)))->unk_AC, event_mode);
+                (s32)state4_event
+                    == ((S_800AB778_21 *)((*(void * *)&((EntityRec *)(((M2C_UNK *)&D_800E3D7C)))->x)))->unk_AC,
+                    event_mode);
             state->unk_96.s = 0;
             state->unk_9B = 0x10;
             break;
@@ -327,7 +329,8 @@ s32 func_800AB778(S_800AB778_1 *state, void *unused_context, S_800AB778_3 *visua
         globals_page4 = (void *)0x800E0000;
         if (((S_800AB778_22 *)(((S_800AB778_19 *)globals_page4)->unk_3D7C))->unk_110 != NULL) {
             func_800A18E8(((Rec_D_80082E80 *)actor)->unk_12.at01_u8.v, 3);
-            object_id4 = ((S_800AB778_24 *)(((S_800AB778_22 *)(((S_800AB778_19 *)globals_page4)->unk_3D7C))->unk_110))->unk_03 & 0x1F;
+            object_id4 =
+                ((S_800AB778_24 *)(((S_800AB778_22 *)(((S_800AB778_19 *)globals_page4)->unk_3D7C))->unk_110))->unk_03 & 0x1F;
             object_slot4 = &D_800E3DF0[object_id4];
             ((S_800AB778_7 *)(*object_slot4))->unk_13 = 0;
             D_800E3E48[object_id4].field13 = 0;
@@ -387,7 +390,8 @@ s32 func_800AB778(S_800AB778_1 *state, void *unused_context, S_800AB778_3 *visua
             actor_entry16->unk_D0 = 0;
         }
         globals_page16 = (void *)0x800E0000;
-        object_id16 = ((S_800AB778_25 *)(((S_800AB778_23 *)(((S_800AB778_20 *)globals_page16)->unk_3D7C))->unk_110))->unk_03 & 0x1F;
+        object_id16 =
+            ((S_800AB778_25 *)(((S_800AB778_23 *)(((S_800AB778_20 *)globals_page16)->unk_3D7C))->unk_110))->unk_03 & 0x1F;
         object_slot16 = &D_800E3DF0[object_id16];
         ((S_800AB778_13 *)(*object_slot16))->unk_13 = 0;
         D_800E3E48[object_id16].field13 = 0;

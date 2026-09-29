@@ -33,7 +33,7 @@ s32 func_800CDC18(void *arg0, s32 arg1, s32 arg2, s32 arg3)
             *(u16 *)(((u8 *)D_800E3D7C) + 0xA2) |= 0x100;
             dungeonStatus.unk_0A += 1;
         } else if (*(u8 *)((u8 *)arg0 + 0x13) == 0) {
-            /* garbage-passthru: a3 is 10 left by func_80042900, not a caller-held C value. */
+                        /* garbage-passthru: a3 is 10 left by func_80042900, not a caller-held C value. */
             func_800A6508();
         }
     }

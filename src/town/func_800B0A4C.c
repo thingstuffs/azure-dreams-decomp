@@ -44,7 +44,8 @@ void *open_shop(M2C_UNK unused, s32 primary_param, s32 secondary_param, s32 shar
         shop_state->unk_14 = 6;
         func_800ADFE8(shop_state);
         ((S_800AE1AC_1 *)shop)->unk_10 = &D_800AE090;
-        shop_state->unk_28 = func_800B14B0(shop, shop_state->unk_04, shop_state->unk_08, shop_state->unk_0C, shop_state->unk_10, shop_state->unk_20, primary_param);
+        shop_state->unk_28 = func_800B14B0(shop, shop_state->unk_04, shop_state->unk_08, shop_state->unk_0C,
+            shop_state->unk_10, shop_state->unk_20, primary_param);
         second_resource = func_800B1BEC(shop, 0x48, -0xC);
         shop_state->unk_2C = second_resource;
         if ((shop_state->unk_28 == 0) || (second_resource == 0)) {

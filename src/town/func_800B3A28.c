@@ -2,7 +2,6 @@
 #include "records/Rec_func_800B0C68_arg0.h"
 
 
-
 typedef s32 M2C_UNK;
 
 
@@ -116,7 +115,8 @@ void func_800B1188(void *ui) {
     *((S_800B1188_3 *)(((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_pv))->unk_00 = &D_800788E0;
     header = ui + 0x34;
     *((S_800B1188_3 *)(((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_pv))->unk_04 = header;
-    ((S_800B1188_15 *)(((S_800B1188_9 *)(((S_800B1188_3 *)(((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_pv))->unk_04))->unk_04))->unk_0A = 0x2F;
+    ((S_800B1188_15 *)(((S_800B1188_9 *)(((S_800B1188_3 *)(((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_pv))->unk_04))->unk_04))->unk_0A =
+        0x2F;
     func_800B08D4(header);
     func_800B0C68(ui);
     func_8004CBFC(ui + 0x28, &D_800792DC, ((S_800B1188_3 *)(((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_pv))->unk_08);
@@ -127,19 +127,29 @@ void func_800B1188(void *ui) {
     *((S_800B1188_3 *)(((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_pv))->unk_0C = &D_800D15F4;
     do {
         row_offset = row * 4;
-        ((S_800B1188_10 *)(((S_800B1188_4 *)(((S_800B1188_2 *)((row_offset + ((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_s32)))->unk_10))->unk_04))->unk_08 = -0x50;
-        ((S_800B1188_10 *)(((S_800B1188_4 *)(((S_800B1188_2 *)((row_offset + ((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_s32)))->unk_10))->unk_04))->unk_0A = left_y;
-        ((S_800B1188_11 *)(((S_800B1188_5 *)(((S_800B1188_2 *)((row_offset + ((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_s32)))->unk_24))->unk_04))->unk_08 = 0x56;
-        ((S_800B1188_11 *)(((S_800B1188_5 *)(((S_800B1188_2 *)((row_offset + ((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_s32)))->unk_24))->unk_04))->unk_0A = right_y;
-        ((S_800B1188_12 *)(((S_800B1188_6 *)(((S_800B1188_2 *)((row_offset + ((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_s32)))->unk_38))->unk_04))->unk_08 = 0x3C;
-        ((S_800B1188_12 *)(((S_800B1188_6 *)(((S_800B1188_2 *)((row_offset + ((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_s32)))->unk_38))->unk_04))->unk_0A = lower_y;
-        ((S_800B1188_13 *)(((S_800B1188_7 *)(((S_800B1188_2 *)((row_offset + ((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_s32)))->unk_4C))->unk_04))->unk_08 = 0x8C;
-        ((S_800B1188_13 *)(((S_800B1188_7 *)(((S_800B1188_2 *)((row_offset + ((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_s32)))->unk_4C))->unk_04))->unk_0A = lower_y;
-        ((S_800B1188_14 *)(((S_800B1188_8 *)(((S_800B1188_2 *)((row_offset + ((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_s32)))->unk_60))->unk_04))->unk_08 = 0x34;
+        ((S_800B1188_10 *)(((S_800B1188_4 *)(((S_800B1188_2 *)((row_offset
+            + ((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_s32)))->unk_10))->unk_04))->unk_08 = -0x50;
+        ((S_800B1188_10 *)(((S_800B1188_4 *)(((S_800B1188_2 *)((row_offset
+            + ((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_s32)))->unk_10))->unk_04))->unk_0A = left_y;
+        ((S_800B1188_11 *)(((S_800B1188_5 *)(((S_800B1188_2 *)((row_offset
+            + ((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_s32)))->unk_24))->unk_04))->unk_08 = 0x56;
+        ((S_800B1188_11 *)(((S_800B1188_5 *)(((S_800B1188_2 *)((row_offset
+            + ((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_s32)))->unk_24))->unk_04))->unk_0A = right_y;
+        ((S_800B1188_12 *)(((S_800B1188_6 *)(((S_800B1188_2 *)((row_offset
+            + ((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_s32)))->unk_38))->unk_04))->unk_08 = 0x3C;
+        ((S_800B1188_12 *)(((S_800B1188_6 *)(((S_800B1188_2 *)((row_offset
+            + ((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_s32)))->unk_38))->unk_04))->unk_0A = lower_y;
+        ((S_800B1188_13 *)(((S_800B1188_7 *)(((S_800B1188_2 *)((row_offset
+            + ((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_s32)))->unk_4C))->unk_04))->unk_08 = 0x8C;
+        ((S_800B1188_13 *)(((S_800B1188_7 *)(((S_800B1188_2 *)((row_offset
+            + ((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_s32)))->unk_4C))->unk_04))->unk_0A = lower_y;
+        ((S_800B1188_14 *)(((S_800B1188_8 *)(((S_800B1188_2 *)((row_offset
+            + ((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_s32)))->unk_60))->unk_04))->unk_08 = 0x34;
         row -= 1;
         left_y -= 0x10;
         right_y -= 0x10;
-        ((S_800B1188_14 *)(((S_800B1188_8 *)(((S_800B1188_2 *)((row_offset + ((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_s32)))->unk_60))->unk_04))->unk_0A = lower_y;
+        ((S_800B1188_14 *)(((S_800B1188_8 *)(((S_800B1188_2 *)((row_offset
+            + ((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_s32)))->unk_60))->unk_04))->unk_0A = lower_y;
         lower_y -= 0x10;
     } while (row >= 0);
     func_800B0D0C(ui, lower_y, row, left_y);

@@ -15,7 +15,6 @@ typedef struct {
 } LocalEntry;
 
 
-
 /* Move the position halfway toward the adjusted target and update the object state. */
 void func_800AB708(Rec_func_800AB014_arg0 *object, Rec_func_800AAE98_arg0 *position) {
     LocalEntry target_entries[6];

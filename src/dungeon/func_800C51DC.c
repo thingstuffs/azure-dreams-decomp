@@ -31,7 +31,6 @@ typedef struct S_800CA93C_3 {
 } S_800CA93C_3;   /* other in func_800CA93C */
 
 
-
 extern s32 func_8009B4B0(void *, u8, u8);
 extern s16 func_800A0818(u8, u8, u8, u8, void *);
 extern void *func_800A3D18();

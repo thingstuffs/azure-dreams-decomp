@@ -236,7 +236,7 @@ void func_801710EC(void *actor, void *context, void *sprite, EntityRec *entity)
                     goto case_123;
                 }
             }
-                            /* fallthrough */
+                                            /* fallthrough */
 
             case 11:
 case_12:

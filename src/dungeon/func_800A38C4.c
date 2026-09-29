@@ -34,7 +34,8 @@ void func_800A9024(s32 group_bit) {
     ram_base = 0x80010000;
     bit_mask = 1;
     group = D_80073414;
-    loop_0: {
+loop_0:
+    {
         if (((s32)*((u8 *)group + 1) >> group_bit) & 1) {
             item_index = 0;
             if (group->count != 0) {
@@ -51,7 +52,8 @@ void func_800A9024(s32 group_bit) {
                         }
                         bitset_base = (void *)(group_bitset_offset + (byte_index_bias >> 3) + ram_base);
                         bit_index = item_index & 7;
-                        *((u8 *) bitset_base + 0x5720) = (u8) (*((u8 *) bitset_base + 0x5720) | (bit_mask << bit_index));
+                        *((u8 *) bitset_base + 0x5720) = (u8) (*((u8 *) bitset_base + 0x5720) | (bit_mask
+                            << bit_index));
                     }
                     item_offset += sizeof(DungeonItem);
                 } while (++item_index < (s32)group->count);
@@ -59,5 +61,7 @@ void func_800A9024(s32 group_bit) {
         }
         group_index += 1;
         group += 1;
-    } if (group_index < 0x13) goto loop_0;
+    }
+    if (group_index < 0x13)
+        goto loop_0;
 }

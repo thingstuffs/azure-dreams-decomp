@@ -33,7 +33,13 @@ typedef struct S_800BE120_0 {
     u8 unk_13;
     u32 unk_14;
     u8 pad_18[0x30];
-    union { struct { s32 v; } at00; struct { u8 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; struct { u8 pad[0x2]; u8 v; } at02; struct { u8 pad[0x3]; u8 v; } at03; } unk_48;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { u8 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+        struct { u8 pad[0x2]; u8 v; } at02;
+        struct { u8 pad[0x3]; u8 v; } at03;
+    } unk_48;   /* overlapping accesses */
     u8 pad_4C[0x8];
     u32 unk_54;
     u8 pad_58[0xB8];

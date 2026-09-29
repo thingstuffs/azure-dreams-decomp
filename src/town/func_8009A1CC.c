@@ -3,7 +3,6 @@
 #include "shared/dir_step.h"
 
 
-
 typedef s32 M2C_UNK;
 
 #ifndef NULL
@@ -11,7 +10,7 @@ typedef s32 M2C_UNK;
 #endif
 
 #define M2C_FIELD(expr, type_ptr, offset) \
-    (*(type_ptr)((s8 *)(expr) + (offset)))
+(*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern s32 func_800374F4();
 extern M2C_UNK func_8003DB94();

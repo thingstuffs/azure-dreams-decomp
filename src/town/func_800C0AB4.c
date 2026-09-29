@@ -75,7 +75,8 @@ void func_800BE214(S_800BE214_0 *actor, S_800BE214_2 *pose, Rec_D_80082E80 *anim
         copy_dst++;
     } while (copy_src != copy_end);
     copy_dst->w0 = copy_src->w0;
-    do { } while (0);
+    do {
+    } while (0);
     func_800478B8(animation);
     state = actor->unk_68;
     switch (state) {
@@ -84,12 +85,14 @@ void func_800BE214(S_800BE214_0 *actor, S_800BE214_2 *pose, Rec_D_80082E80 *anim
             animation_index = rand() & 7;
             actor->unk_68 = animation_index;
             actor->unk_A4 = (u32)animation_index;
-            func_8003DB94((struct Dst *)animation, (struct Elem *)((S_800BE214_3 *)((s8 *)animations + (actor->unk_68 * 4)))->unk_00, 0);
+            func_8003DB94((struct Dst *)animation, (struct Elem *)((S_800BE214_3 *)((s8 *)animations
+                + (actor->unk_68 * 4)))->unk_00, 0);
             actor->unk_68 = (s16)((u16)actor->unk_68 + 0x20);
         }
         break;
     case 0x20:
-        if (!(animation->unk_14.at00_u16.v & 0x6000)) return;
+        if (!(animation->unk_14.at00_u16.v & 0x6000))
+            return;
         func_8003DB94((struct Dst *)animation, (struct Elem *)animations[0], 0);
         actor->unk_6C = 0;
         actor->unk_A4 = 0;
@@ -97,14 +100,16 @@ void func_800BE214(S_800BE214_0 *actor, S_800BE214_2 *pose, Rec_D_80082E80 *anim
         actor->unk_68 = 0x60;
         break;
     case 0x23:
-        if (!(animation->unk_14.at00_u16.v & 0x6000)) return;
+        if (!(animation->unk_14.at00_u16.v & 0x6000))
+            return;
         actor->unk_6C = 6;
         actor->unk_A4 = 8;
         func_8003DB94((struct Dst *)animation, (struct Elem *)animations[8], 0);
         actor->unk_68 = 0x40;
         break;
     case 0x24:
-        if (!(animation->unk_14.at00_u16.v & 0x6000)) return;
+        if (!(animation->unk_14.at00_u16.v & 0x6000))
+            return;
         func_8003DB94((struct Dst *)animation, (struct Elem *)&D_800F9D80, 0);
         {
             StateWord next_state = { 0x20 };
@@ -112,7 +117,8 @@ void func_800BE214(S_800BE214_0 *actor, S_800BE214_2 *pose, Rec_D_80082E80 *anim
         }
         break;
     case 0x25:
-        if (!(animation->unk_14.at00_u16.v & 0x6000)) return;
+        if (!(animation->unk_14.at00_u16.v & 0x6000))
+            return;
         func_8003DB94((struct Dst *)animation, (struct Elem *)D_800F9D80, 0);
         actor->unk_68 = 0x20;
         break;
@@ -120,7 +126,8 @@ void func_800BE214(S_800BE214_0 *actor, S_800BE214_2 *pose, Rec_D_80082E80 *anim
     case 0x22:
     case 0x26:
     case 0x27:
-        if (!(animation->unk_14.at00_u16.v & 0x6000)) return;
+        if (!(animation->unk_14.at00_u16.v & 0x6000))
+            return;
         actor->unk_68 = 0x60;
         break;
     case 0x40:
@@ -139,7 +146,8 @@ void func_800BE214(S_800BE214_0 *actor, S_800BE214_2 *pose, Rec_D_80082E80 *anim
     }
 
     if (animation->unk_14.at00_u16.v & 0x6000) {
-        func_8003DB94((struct Dst *)animation, (struct Elem *)((S_800BE214_4 *)((s8 *)animations + (actor->unk_A4 * 4)))->unk_00, 0);
+        func_8003DB94((struct Dst *)animation, (struct Elem *)((S_800BE214_4 *)((s8 *)animations
+            + (actor->unk_A4 * 4)))->unk_00, 0);
     }
 
     return;

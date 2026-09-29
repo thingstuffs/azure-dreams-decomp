@@ -3,8 +3,6 @@
 #include "shared/object_flags.h"
 
 
-
-
 typedef struct S_800A5AF0_0_pre {
     u16 unk_00;
 } S_800A5AF0_0_pre;   /* the 0x2 bytes before arg0 in func_800A5AF0, addressed as arg0[-1] */

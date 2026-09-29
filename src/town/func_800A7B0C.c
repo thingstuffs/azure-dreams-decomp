@@ -16,7 +16,6 @@ typedef struct S_800A526C_1 {
 } S_800A526C_1;   /* arg0 in func_800A526C */
 
 
-
 extern u8 D_800A51CC[16];
 
 /* Interpolate three state components toward their targets and advance the transition when complete. */

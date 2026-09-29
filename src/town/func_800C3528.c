@@ -14,7 +14,9 @@ void func_800C0C88(void)
 
     first_value = D_800D253C[0];
     entry_index = 0;
-    do { entry_index = 0; } while (0);
+    do {
+        entry_index = 0;
+    } while (0);
     if (first_value != 0) {
         s16 *primary_value;
         s16 *secondary_value;
@@ -53,6 +55,7 @@ loop:
 
         }
         entry_index++;
-        if (*primary_value != 0) goto loop;
+        if (*primary_value != 0)
+            goto loop;
     }
 }

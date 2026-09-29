@@ -68,7 +68,7 @@ void func_8016EFAC(void)
     D_800E296C |= 0x200000;
     object_state = active_object + 0x20;
     direction = func_800A0818(position_data[0x24], position_data[0x25],
-                           D_80082E80.tileX, D_80082E80.tileY, &unused_result);
+                              D_80082E80.tileX, D_80082E80.tileY, &unused_result);
     *(u16 *)(object_state + 0x2A) = direction;
     direction >>= 7;
     D_80175DC8 = 0;

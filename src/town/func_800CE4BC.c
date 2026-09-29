@@ -1,7 +1,7 @@
 #include "common.h"
 
 extern void func_800C3050(void *arg0, u32 arg1, void *arg2, void *arg3,
-                           void *arg4, void *arg5);
+                          void *arg4, void *arg5);
 extern u8 D_800D6AE4[];
 extern u8 D_800D6AEC[];
 extern u8 D_800D6B14[];

@@ -63,7 +63,13 @@ typedef struct S_800BBDEC_4 {
 
 typedef struct S_800BBDEC_5 {
     u8 pad_00[0x4];
-    union { struct { s32 v; } at00; struct { u8 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; struct { u8 pad[0x2]; u8 v; } at02; struct { u8 pad[0x3]; u8 v; } at03; } unk_04;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { u8 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+        struct { u8 pad[0x2]; u8 v; } at02;
+        struct { u8 pad[0x3]; u8 v; } at03;
+    } unk_04;   /* overlapping accesses */
     u8 pad_08[0x4];
     u8 unk_0C;
     u8 unk_0D;
@@ -73,7 +79,6 @@ typedef struct S_800BBDEC_5 {
     u8 pad_18[0x4];
     s32 unk_1C;
 } S_800BBDEC_5;   /* prim in func_800BBDEC */
-
 
 
 extern void func_80064840(void *, void *, void *);
@@ -150,14 +155,14 @@ void func_800BBDEC(S_800BBDEC_4 *object, S_800BBDEC_1 *position, S_800BBDEC_3 *a
         }
 
         func_8006658C((u8 *)((S_800BBDEC_0 *)scratch)->unk_20 +
-                          ((S_800BBDEC_0 *)scratch)->unk_C0 * 4,
+                      ((S_800BBDEC_0 *)scratch)->unk_C0 * 4,
                       prim);
         prim += 0x24;
 
         if (appearance->unk_14 & 4) {
             func_80067F20(prim, 0, 0, 0x20, 0);
             func_8006658C((u8 *)((S_800BBDEC_0 *)scratch)->unk_20 +
-                              ((S_800BBDEC_0 *)scratch)->unk_C0 * 4,
+                          ((S_800BBDEC_0 *)scratch)->unk_C0 * 4,
                           prim);
             prim += 0xC;
         }

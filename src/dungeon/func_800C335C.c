@@ -6,7 +6,6 @@ typedef struct S_800C8ABC_0 {
 } S_800C8ABC_0;   /* held_arg0 in func_800C8ABC */
 
 
-
 extern s32 func_800A48F0();
 extern s32 func_800A6D30();
 extern s32 func_800C8408(void *record);

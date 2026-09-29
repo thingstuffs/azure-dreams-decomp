@@ -16,7 +16,6 @@ extern void func_80065820(void *, void *);
 extern void func_8006658C(void *, void *);
 
 
-
 typedef struct S_800D07C8_0 {
     u8 pad_00[0x8];
     union { s32 s32; u16 u16; } unk_08;   /* accessed as both */
@@ -208,10 +207,10 @@ void func_800D07C8(s32 context, u8 *position, u8 *sprite, s16 depth_bias) {
             ((S_800D07C8_0 *)scratch)->unk_82 = vertex_y;
 
             depth = (func_80065590(scratch + 0x70, scratch + 0x78,
-                                       scratch + 0x80, scratch + 0x88,
-                                       packet + 8, packet + 0x14,
-                                       packet + 0x20, packet + 0x2C,
-                                       scratch + 0x90, scratch + 0x94) - depth_bias) - 6;
+                                   scratch + 0x80, scratch + 0x88,
+                                   packet + 8, packet + 0x14,
+                                   packet + 0x20, packet + 0x2C,
+                                   scratch + 0x90, scratch + 0x94) - depth_bias) - 6;
             ((S_800D07C8_0 *)scratch)->unk_C0 = depth;
             if (depth < 0x1E0U) {
                 vertex_0_visible = 0;
@@ -257,10 +256,13 @@ void func_800D07C8(s32 context, u8 *position, u8 *sprite, s16 depth_bias) {
                     if (((S_800D07C8_0 *)scratch)->unk_24 & 0x100) {
                         (*(s16 *)((u8 *)packet_code + 7)) = ((S_800D07C8_3 *)sprite)->unk_12;
                     } else {
-                        (*(s16 *)((u8 *)packet_code + 7)) = ((S_800D07C8_3 *)sprite)->unk_12 + (*(u16 *)((u8 *)part_uv + -2));
+                        (*(s16 *)((u8 *)packet_code + 7)) = ((S_800D07C8_3 *)sprite)->unk_12 + (*(u16 *)((u8 *)part_uv
+                            + -2));
                     }
-                    (*(s16 *)((u8 *)packet_code + 5)) = ((S_800D07C8_0 *)scratch)->unk_0C.u16 + ((S_800D07C8_0 *)scratch)->unk_08.u16;
-                    (*(s16 *)((u8 *)packet_code + 0x11)) = ((S_800D07C8_0 *)scratch)->unk_0C.u16 + ((S_800D07C8_0 *)scratch)->unk_10.u16;
+                    (*(s16 *)((u8 *)packet_code + 5)) = ((S_800D07C8_0 *)scratch)->unk_0C.u16
+                        + ((S_800D07C8_0 *)scratch)->unk_08.u16;
+                    (*(s16 *)((u8 *)packet_code + 0x11)) = ((S_800D07C8_0 *)scratch)->unk_0C.u16
+                        + ((S_800D07C8_0 *)scratch)->unk_10.u16;
                     {
                         s32 tpage_base = ((S_800D07C8_3 *)sprite)->unk_10;
                         s32 tpage;
@@ -271,8 +273,10 @@ void func_800D07C8(s32 context, u8 *position, u8 *sprite, s16 depth_bias) {
                         }
                         (*(u16 *)((u8 *)packet_code + 0x13)) = tpage;
                     }
-                    (*(s16 *)((u8 *)packet_code + 0x1D)) = ((S_800D07C8_0 *)scratch)->unk_14.u16 + ((S_800D07C8_0 *)scratch)->unk_08.u16;
-                    (*(s16 *)((u8 *)packet_code + 0x29)) = ((S_800D07C8_0 *)scratch)->unk_14.u16 + ((S_800D07C8_0 *)scratch)->unk_10.u16;
+                    (*(s16 *)((u8 *)packet_code + 0x1D)) = ((S_800D07C8_0 *)scratch)->unk_14.u16
+                        + ((S_800D07C8_0 *)scratch)->unk_08.u16;
+                    (*(s16 *)((u8 *)packet_code + 0x29)) = ((S_800D07C8_0 *)scratch)->unk_14.u16
+                        + ((S_800D07C8_0 *)scratch)->unk_10.u16;
                     if ((*(s16 *)((u8 *)packet_code + 1)) > (*(s16 *)((u8 *)packet_code + 0x25))) {
                         ((S_800D07C8_5 *)packet_code)->unk_11--;
                         ((S_800D07C8_5 *)packet_code)->unk_29--;
@@ -305,7 +309,8 @@ void func_800D07C8(s32 context, u8 *position, u8 *sprite, s16 depth_bias) {
                             packet_code += 0x34;
                         } while (0);
                         packet += 0x34;
-                        func_8006658C(((S_800D07C8_0 *)scratch)->unk_20.p2 + (((S_800D07C8_0 *)scratch)->unk_C0 * 4), draw_packet);
+                        func_8006658C(((S_800D07C8_0 *)scratch)->unk_20.p2 + (((S_800D07C8_0 *)scratch)->unk_C0 * 4),
+                            draw_packet);
                     }
                 }
             }

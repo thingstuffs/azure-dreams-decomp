@@ -51,23 +51,23 @@ scan:
     z = (s16)held_z;
     position = (PositionEntry *)D_800E36C8;
     active_entry = (ActiveEntry *)D_800E3548;
-do {
-    if ((active_entry->active != 0) && (position->x == x) && (position->y == y)) {
-        height_delta = z - position->value;
-        if (height_delta < 0) {
-            height_delta = 0 - height_delta;
+    do {
+        if ((active_entry->active != 0) && (position->x == x) && (position->y == y)) {
+            height_delta = z - position->value;
+            if (height_delta < 0) {
+                height_delta = 0 - height_delta;
+            }
+            if (height_delta < 0x40) {
+                goto success;
+            }
         }
-        if (height_delta < 0x40) {
-            goto success;
+        position++;
+        entry_index += 1;
+        active_entry++;
+        if (entry_index >= 0x40) {
+            result = -1;
+            return result;
         }
-    }
-    position++;
-    entry_index += 1;
-    active_entry++;
-    if (entry_index >= 0x40) {
-        result = -1;
-        return result;
-    }
     } while (1);
     return result;
 }

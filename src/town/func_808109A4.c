@@ -139,7 +139,7 @@ void func_8052B5A4(TownState *self) {
             self->state = 2;
             break;
         }
-                /* fall through */
+                        /* fall through */
     case 1:
         obj = func_800374FC(1, D_801328C8);
         if (obj != 0) {

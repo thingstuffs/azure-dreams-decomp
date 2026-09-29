@@ -11,7 +11,7 @@ void func_800A647C(s32 index) {
     s32 shifted_index = index << 0x10;
     s32 entry_address;
     entry_address = (shifted_index >> 0xE) + (s32)**D_80081458;
-    
+
     func_800A63C8(*(s32 *)entry_address);
     D_80100E2C[0] = 0;
 }

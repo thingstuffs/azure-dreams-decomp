@@ -103,7 +103,7 @@ void func_80025A14(void *state_arg, void *buffer_arg, void *obj_arg)
         ((S_80025A14_2 *)obj_arg)->unk_14 |= 0x200;
         ((S_80025A14_0 *)state)->unk_73.s = 8;
         ((S_80025A14_0 *)state)->unk_72.s = ((S_80025A14_0 *)state)->unk_72.u + 1;
-                /* fall through */
+                        /* fall through */
     case 1:
         fade_ticks = (s32)((S_80025A14_0 *)state)->unk_73.s;
         if (fade_ticks != 0) {
@@ -123,7 +123,7 @@ void func_80025A14(void *state_arg, void *buffer_arg, void *obj_arg)
             ((S_80025A14_0 *)state)->unk_73.u = 0;
             ((S_80025A14_0 *)state)->unk_72.u = current_phase + 1;
         }
-                /* fall through */
+                        /* fall through */
     case 2:
         if (D_8002715A != 0) {
             ((S_80025A14_0 *)state)->unk_73.u = 8;

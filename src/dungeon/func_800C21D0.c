@@ -26,7 +26,6 @@ typedef struct S_800C7930_3 {
 } S_800C7930_3;   /* destination in func_800C7930 */
 
 
-
 extern u16 D_800DCEAC;
 extern u16 D_800DCEBC;
 extern u8 D_800E58F8;

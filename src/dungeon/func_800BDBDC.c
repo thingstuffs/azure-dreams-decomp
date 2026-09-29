@@ -13,7 +13,7 @@ typedef struct {
 } D_80083460_Type;
 
 #define M2C_FIELD(expr, type_ptr, offset) \
-    (*(type_ptr)((s8 *)(expr) + (offset)))
+(*(type_ptr)((s8 *)(expr) + (offset)))
 
 M2C_UNK func_8008D330();
 M2C_UNK func_80098B38();

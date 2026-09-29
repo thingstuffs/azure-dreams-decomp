@@ -143,7 +143,7 @@ void func_800257E0(void *state_data, void *source_data) {
         ((S_8187BFE0_0 *)state_data)->unk_1C.s = 0;
         ((S_8187BFE0_0 *)state_data)->unk_02.s = 0;
         ((S_8187BFE0_0 *)state_data)->unk_00.u++;
-                /* fallthrough */
+                        /* fallthrough */
     case 1:
         if (((S_8187BFE0_0 *)state_data)->unk_02.s != 0) {
             goto update_state;

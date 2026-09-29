@@ -68,7 +68,7 @@ loop_0:
             tile->tag = (tile->tag & tag_mask) | (((S_80053A88_Base *)work->unk_000)->unk74 & addr_mask);
             next_link = work->unk_000;
             ((S_80053A88_Base *)next_link)->unk74 = (((S_80053A88_Base *)next_link)->unk74 & tag_mask)
-                | (((u32)tile) & addr_mask);
+            | (((u32)tile) & addr_mask);
         }
         draw_base = ((S_80053A88_Base *)work->unk_000);
         draw_mode = (S_80053A88_DRTPAGE *)draw_base->unk8D0;
@@ -79,7 +79,7 @@ loop_0:
             draw_mode->tag = (draw_mode->tag & tag_mask) | (((S_80053A88_Base *)work->unk_000)->unk74 & addr_mask);
             next_link = work->unk_000;
             ((S_80053A88_Base *)next_link)->unk74 = (((S_80053A88_Base *)next_link)->unk74 & tag_mask)
-                | (((u32)draw_mode) & addr_mask);
+            | (((u32)draw_mode) & addr_mask);
         }
         next_link = *((void **)(((u8 *)node) - 8));
         node = (S_80053A88_Node *)(((u8 *)next_link) + 0x20);

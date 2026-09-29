@@ -9,9 +9,8 @@ typedef struct S_800A55CC_0_pre {
 } S_800A55CC_0_pre;   /* the 0x10 bytes before arg0 in func_800A55CC, addressed as arg0[-1] */
 
 
-
 #define M2C_FIELD(expr, type_ptr, offset) \
-    (*(type_ptr)((s8 *)(expr) + (offset)))
+(*(type_ptr)((s8 *)(expr) + (offset)))
 
 M2C_UNK func_80033CD8();
 M2C_UNK func_800942B0(void *arg0, EntityRec *arg1, s32 arg2);

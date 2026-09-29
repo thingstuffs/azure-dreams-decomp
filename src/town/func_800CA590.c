@@ -50,10 +50,10 @@ void func_800C7CF0(void *moving_object, void *position) {
     ((S_800C7CF0_2 *)out)->unk_02 =
         (u16)(((S_800C7CF0_2 *)out)->unk_02 +
               ((s16)target_x - (s16)((S_800C7CF0_2 *)out)->unk_02) /
-                  signed_frames);
+              signed_frames);
     ((S_800C7CF0_2 *)out)->unk_06 =
         (s16)((u16)((S_800C7CF0_2 *)out)->unk_06 +
               ((s16)target_y - ((S_800C7CF0_2 *)out)->unk_06) /
-                  (s16)((S_800C7CF0_1 *)object)->unk_6C);
+              (s16)((S_800C7CF0_1 *)object)->unk_6C);
 }
 

@@ -7,7 +7,6 @@
 M2C_UNK func_800C4174();
 
 
-
 typedef struct S_800C7DB8_1 {
     u8 pad_00[0x2];
     u16 unk_02;
@@ -27,6 +26,8 @@ void func_800C7DB8(Rec_func_80094268_arg0 *state, S_800C7DB8_1 *values) {
         values->unk_06 = (s16) state->unk_86.as_u16;
         return;
     }
-    values->unk_02 = (u16) (values->unk_02 + ((s32) ((s16) state->unk_84.as_u16 - (s16) values->unk_02) / (s16) steps_left));
-    values->unk_06 = (s16) ((u16) values->unk_06 + ((s32) ((s16) state->unk_86.as_u16 - values->unk_06) / (s16) state->unk_6C.as_u16));
+    values->unk_02 = (u16) (values->unk_02 + ((s32) ((s16) state->unk_84.as_u16
+        - (s16) values->unk_02) / (s16) steps_left));
+    values->unk_06 = (s16) ((u16) values->unk_06 + ((s32) ((s16) state->unk_86.as_u16
+        - values->unk_06) / (s16) state->unk_6C.as_u16));
 }

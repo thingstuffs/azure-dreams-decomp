@@ -78,7 +78,7 @@ void func_80172D04(S_80172D04_0 *script, EntityRec *motion, Rec_D_80082E80 *tile
         } else {
             script->unk_A8.u = one;
         }
-                /* fall through */
+                        /* fall through */
     case 1:
         value = motion->unk_0C;
         adjusted = value;

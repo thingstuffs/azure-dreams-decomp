@@ -34,8 +34,6 @@ typedef struct S_800B9998_3 {
 } S_800B9998_3;   /* p2 in func_800B9998 */
 
 
-
-
 extern void func_80033D08(void *);
 extern s32 func_8009CFE0(void *, void *);
 

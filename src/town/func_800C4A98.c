@@ -38,7 +38,7 @@ s32 func_800C21F8(S_800C21F8_0 *object) {
         ((s16)y_distance > object->unk_0E)) {
         town_sd_sq_callagain(y_distance);
         object->unk_00 = (void (*)(void))func_800C2124;
-        
+
         return 1;
     }
     return 0;

@@ -25,7 +25,7 @@ s32 func_800A1C58(void *entity) {
         return can_level_up;
     }
     if (F(entity, u8, 0x13) == 0) {
-         /* Required for byte-exact code generation. */
+                 /* Required for byte-exact code generation. */
         if (F(F(D_800E0000, u8 *, 0x3D7C), u8, 0x9A) == 0x22) {
             return can_level_up;
         }
@@ -33,12 +33,12 @@ s32 func_800A1C58(void *entity) {
     if (F(entity, u32, 0x1C) & 0x228) {
         return can_level_up;
     }
-     /* Required for byte-exact code generation. */
+         /* Required for byte-exact code generation. */
     level = F(entity, u8, 0x11);
     table_offset = level << 2;
     exp_table = (s32 *)D_800835E8;
     exp_entry = (u8 *)(table_offset + (u32)exp_table);
-     /* Required for byte-exact code generation. */
+         /* Required for byte-exact code generation. */
     if (*(u32 *)exp_entry <= F(entity, u32, 0x18)) {
         can_level_up++;
     }

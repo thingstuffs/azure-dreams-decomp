@@ -47,9 +47,9 @@ s32 func_800C4490(void *target, s32 source, s16 effect_mode) {
     if ((u32)target <= 0x9FFFFFFF) {
         func_800A63B8(target, source, effect_mode);
         if (func_800AD6FC(target,
-                         (*(u16 *)(D_800DDE84 +
-                                   (*(u8 *)((u8 *)&((EntityRec *)target)->unk_10 + 3)) * 2) >> 6) & 3,
-                         source) == 0) {
+                          (*(u16 *)(D_800DDE84 +
+                                    (*(u8 *)((u8 *)&((EntityRec *)target)->unk_10 + 3)) * 2) >> 6) & 3,
+                          source) == 0) {
             func_800A5F38(target, source);
             return 1;
         }

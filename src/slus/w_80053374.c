@@ -12,7 +12,7 @@ typedef struct S_80053374_Sub {
     /* 0x08 */ s16 f08;
     /* 0x0A */ s16 f0A;
     /* 0x0C */ void *tbl;
-        /* 0x10 */ /* s32 slots[16] walked via s32* p = (s32 *)sub; p[4].. */
+            /* 0x10 */ /* s32 slots[16] walked via s32* p = (s32 *)sub; p[4].. */
 } S_80053374_Sub;
 
 typedef struct S_80053374_obj {

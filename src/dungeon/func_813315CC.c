@@ -76,7 +76,7 @@ void func_801685CC(EffectSource *source, Vec3 *origin, void *unused,
     EffectObject *object;
     EffectPayload *payload;
     RenderState *render;
-        /* Retained legacy pin: retail reuses this pointer register for the -1
+            /* Retained legacy pin: retail reuses this pointer register for the -1
        vertex sentinel. Ordinary scalar forms move the sentinel stores. */
     register Vec3 *effect_position ASM_REG("$3");
     register EffectSource *held_source;

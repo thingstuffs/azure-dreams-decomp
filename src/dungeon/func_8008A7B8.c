@@ -31,85 +31,88 @@ void func_8008FF18(u8 *entity_in, s32 *motion_in, u16 *sprite_in, s32 *actor_in)
     case 0:
     case 8:
     case 10:
-    if (!(*(u16 *)((u8 *)sprite + 0x14) & 0x6000)) {
-        return;
-    }
-    phase = *(u8 *)(entity + 0x9B);
-    vertical_speed = 8;
-    if (phase == 0) {
-        vertical_speed = 0xFFF00000;
-    } else {
-        if (phase != vertical_speed) {
-            vertical_speed = 0xFFEC0000;
-        } else {
-            vertical_speed = 0xFFF80000;
+        if (!(*(u16 *)((u8 *)sprite + 0x14) & 0x6000)) {
+            return;
         }
-    }
-    *(s32 *)((u8 *)motion + 0x14) = vertical_speed;
-    if (*(s32 *)((u8 *)actor + 0x1C) & 0x100000) {
-        anim_table = D_800DD0C8;
-    } else {
-        anim_table = D_800DD040;
-    }
-    *(u8 **)((u8 *)sprite + 0x2C) = anim_table;
-    func_80099F70(*(s32 *)((u8 *)actor + 0x5C));
-    func_80099F04(*(s32 *)((u8 *)actor + 0x5C));
-    dungeonStatus.flags = (u16) (dungeonStatus.flags | 0x812);
-    *(u16 *)((u8 *)entity + 0x98) = (u16) (*(u16 *)((u8 *)entity + 0x98) & 0xFFF3);
-    func_80048A44(sprite, *(*(u8 **)((u8 *)sprite + 0x2C) + (((s32) (gameWork.view.viewAngle + *(s16 *)((u8 *)actor + 0x2A) + 0x100) >> 9) & 7)), 0, 1);
-    *(u8 *)(entity + 0x9B) = (u8) (*(u8 *)(entity + 0x9B) + 1);
-    return;
+        phase = *(u8 *)(entity + 0x9B);
+        vertical_speed = 8;
+        if (phase == 0) {
+            vertical_speed = 0xFFF00000;
+        } else {
+            if (phase != vertical_speed) {
+                vertical_speed = 0xFFEC0000;
+            } else {
+                vertical_speed = 0xFFF80000;
+            }
+        }
+        *(s32 *)((u8 *)motion + 0x14) = vertical_speed;
+        if (*(s32 *)((u8 *)actor + 0x1C) & 0x100000) {
+            anim_table = D_800DD0C8;
+        } else {
+            anim_table = D_800DD040;
+        }
+        *(u8 **)((u8 *)sprite + 0x2C) = anim_table;
+        func_80099F70(*(s32 *)((u8 *)actor + 0x5C));
+        func_80099F04(*(s32 *)((u8 *)actor + 0x5C));
+        dungeonStatus.flags = (u16) (dungeonStatus.flags | 0x812);
+        *(u16 *)((u8 *)entity + 0x98) = (u16) (*(u16 *)((u8 *)entity + 0x98) & 0xFFF3);
+        func_80048A44(sprite, *(*(u8 **)((u8 *)sprite + 0x2C) + (((s32) (gameWork.view.viewAngle + *(s16 *)((u8 *)actor
+            + 0x2A) + 0x100) >> 9) & 7)), 0, 1);
+        *(u8 *)(entity + 0x9B) = (u8) (*(u8 *)(entity + 0x9B) + 1);
+        return;
     case 1:
     case 9:
     case 11:
-    if (dungeonStatus.unk_04 != 0) {
-        s32 target_x;
-        s32 start_x;
-        target_x = *(u8 *)((u8 *)sprite + 0x24);
-        target_x <<= 6;
-        start_x = *(s16 *)((u8 *)motion + 2);
-        start_x -= 0x20;
-        *(s32 *)((u8 *)motion + 0xC) = ((target_x - start_x) << 0x10) / (s16) dungeonStatus.unk_04;
-        start_y = *(s16 *)((u8 *)motion + 6) - 0x20;
-        *(s32 *)((u8 *)motion + 0x10) = (s32) ((s32) ((*(u8 *)((u8 *)sprite + 0x25) << 6) - start_y) << 0x10) / (s16) dungeonStatus.unk_04;
-    }
-    frames_left = (u16) dungeonStatus.unk_04 - 1;
-    dungeonStatus.unk_04 = frames_left;
-    if ((frames_left << 0x10) > 0) {
+        if (dungeonStatus.unk_04 != 0) {
+            s32 target_x;
+            s32 start_x;
+            target_x = *(u8 *)((u8 *)sprite + 0x24);
+            target_x <<= 6;
+            start_x = *(s16 *)((u8 *)motion + 2);
+            start_x -= 0x20;
+            *(s32 *)((u8 *)motion + 0xC) = ((target_x - start_x) << 0x10) / (s16) dungeonStatus.unk_04;
+            start_y = *(s16 *)((u8 *)motion + 6) - 0x20;
+            *(s32 *)((u8 *)motion + 0x10) = (s32) ((s32) ((*(u8 *)((u8 *)sprite + 0x25) << 6) - start_y)
+                << 0x10) / (s16) dungeonStatus.unk_04;
+        }
+        frames_left = (u16) dungeonStatus.unk_04 - 1;
+        dungeonStatus.unk_04 = frames_left;
+        if ((frames_left << 0x10) > 0) {
+            return;
+        }
+        dungeonStatus.unk_04 = 0;
+        *(s32 *)((u8 *)motion + 0x10) = 0;
+        *(s32 *)((u8 *)motion + 0xC) = 0;
+        func_800A2B04(motion, *(u8 *)((u8 *)sprite + 0x24), *(u8 *)((u8 *)sprite + 0x25));
+        if (*(s32 *)((u8 *)actor + 0x1C) & 0x100000) {
+            if ((func_80094F74(entity, motion, sprite, actor) << 0x10) <= 0) {
+                return;
+            }
+            next_handler = (u8 *)&D_8008EAC8;
+            goto block_24;
+        }
+        if ((u8) *(u8 *)(entity + 0x9B) < 0xAU) {
+            goto block_22;
+        }
+        *(u8 **)((u8 *)sprite + 0x2C) = D_800DD058;
+        func_80048A44(sprite, *(*(u8 **)((u8 *)sprite + 0x2C) + (((s32) (gameWork.view.viewAngle + *(s16 *)((u8 *)actor
+            + 0x2A) + 0x100) >> 9) & 7)), 0, 1);
+        dungeonStatus.unk_04 = 1;
+block_19:
+        *(u8 *)(entity + 0x9B) = (u8) (*(u8 *)(entity + 0x9B) + 1);
         return;
-    }
-    dungeonStatus.unk_04 = 0;
-    *(s32 *)((u8 *)motion + 0x10) = 0;
-    *(s32 *)((u8 *)motion + 0xC) = 0;
-    func_800A2B04(motion, *(u8 *)((u8 *)sprite + 0x24), *(u8 *)((u8 *)sprite + 0x25));
-    if (*(s32 *)((u8 *)actor + 0x1C) & 0x100000) {
+    case 12:
+        if (!(*(u16 *)((u8 *)sprite + 0x14) & 0x6000)) {
+            return;
+        }
+        dungeonStatus.unk_04 = 0;
+block_22:
         if ((func_80094F74(entity, motion, sprite, actor) << 0x10) <= 0) {
             return;
         }
-        next_handler = (u8 *)&D_8008EAC8;
-        goto block_24;
-    }
-    if ((u8) *(u8 *)(entity + 0x9B) < 0xAU) {
-        goto block_22;
-    }
-    *(u8 **)((u8 *)sprite + 0x2C) = D_800DD058;
-    func_80048A44(sprite, *(*(u8 **)((u8 *)sprite + 0x2C) + (((s32) (gameWork.view.viewAngle + *(s16 *)((u8 *)actor + 0x2A) + 0x100) >> 9) & 7)), 0, 1);
-    dungeonStatus.unk_04 = 1;
-block_19:
-    *(u8 *)(entity + 0x9B) = (u8) (*(u8 *)(entity + 0x9B) + 1);
-    return;
-    case 12:
-    if (!(*(u16 *)((u8 *)sprite + 0x14) & 0x6000)) {
-        return;
-    }
-    dungeonStatus.unk_04 = 0;
-block_22:
-    if ((func_80094F74(entity, motion, sprite, actor) << 0x10) <= 0) {
-        return;
-    }
-    next_handler = (u8 *)&D_8008ACDC;
+        next_handler = (u8 *)&D_8008ACDC;
 block_24:
-    *(u8 **)((u8 *)entity + 0x8C) = next_handler;
-    return;
+        *(u8 **)((u8 *)entity + 0x8C) = next_handler;
+        return;
     }
 }

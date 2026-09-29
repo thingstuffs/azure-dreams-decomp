@@ -86,7 +86,7 @@ void func_800A5DF8(S_800A5DF8_4 *state, S_800A5DF8_0 *actor, M2C_UNK context) {
         next_offset = ticks > 0
             ? (offset_step -= scene_state->view.unk_0AC, offset_step /= ticks,
                ((u16)scene_state->view.unk_0AC) + offset_step)
-            : -0x280;
+        : -0x280;
         scene_state->view.unk_0AC = next_offset;
     }
     if ((state->unk_0A.u == 0) &&

@@ -14,7 +14,6 @@ typedef struct S_800930F0_12 {
 } S_800930F0_12;   /* ((Rec_D_800E3D7C *)arg0)->unk_C8 in func_800930F0 */
 
 
-
 typedef struct S_800930F0_1 {
     u8 pad_00[0x24];
     u8 unk_24;
@@ -113,124 +112,125 @@ void func_800930F0(EntityRec *state, s32 unused, S_800930F0_1 *tile, S_800930F0_
     phase = state->unk_9B;
     switch (phase) {
     case 0:
-    slot_index = 1;
-    state->unk_96 = 0U;
-    func_800B2074((tile->unk_24 << 6) | 0x20, (tile->unk_25 << 6) | 0x20);
-    type_values = &D_800DCED4;
-    slot_cursor = (s32 *)state + 1;
-    actor->unk_1C = (s32) (actor->unk_1C | 0x40000000);
-    do {
-        slot_object = ((S_800930F0_3 *)slot_cursor)->unk_AC;
-        if (slot_object != 0) {
-            func_800C542C(slot_object, type_values[func_800429E4(slot_object)], (s16)slot_index, 0);
-        }
-        slot_index -= 1;
-        slot_cursor -= 1;
-    } while (slot_index >= 0);
-    state->unk_9B = (u8) (state->unk_9B + 1);
+        slot_index = 1;
+        state->unk_96 = 0U;
+        func_800B2074((tile->unk_24 << 6) | 0x20, (tile->unk_25 << 6) | 0x20);
+        type_values = &D_800DCED4;
+        slot_cursor = (s32 *)state + 1;
+        actor->unk_1C = (s32) (actor->unk_1C | 0x40000000);
+        do {
+            slot_object = ((S_800930F0_3 *)slot_cursor)->unk_AC;
+            if (slot_object != 0) {
+                func_800C542C(slot_object, type_values[func_800429E4(slot_object)], (s16)slot_index, 0);
+            }
+            slot_index -= 1;
+            slot_cursor -= 1;
+        } while (slot_index >= 0);
+        state->unk_9B = (u8) (state->unk_9B + 1);
     case 1:
-    wait_ticks = state->unk_96 + 1;
-    state->unk_96 = wait_ticks;
-    if ((s16) wait_ticks < 0x3D) {
+        wait_ticks = state->unk_96 + 1;
+        state->unk_96 = wait_ticks;
+        if ((s16) wait_ticks < 0x3D) {
+            break;
+        }
+        transition_base = (M2C_UNK *)0x800E0000;
+        saved_state_base = (u8 *)0x80010000;
+        if (((S_800930F0_4 *)saved_state_base)->unk_3714.s & 4) {
+            if (((S_800930F0_8 *)transition_base)->unk_3CD0.s != 0) {
+                break;
+            }
+            goto set_wait;
+        }
+        func_800945E8(state);
+        func_800948BC();
+        {
+            UnalignedCopy3 *copy_src;
+            UnalignedCopy3 *copy_dst;
+
+            copy_src = (UnalignedCopy3 *)0x80013710;
+            copy_dst = (UnalignedCopy3 *)0x80012080;
+            *copy_dst = *copy_src;
+            ((S_800930F0_4 *)saved_state_base)->unk_3714.u = 0;
+            ((S_800930F0_4 *)saved_state_base)->unk_3716 = 0;
+            ((S_800930F0_4 *)saved_state_base)->unk_3718 = 0;
+            ((S_800930F0_4 *)saved_state_base)->unk_371A = 0;
+            func_800A6780();
+        }
+        if (((S_800930F0_4 *)saved_state_base)->unk_2090 != 0) {
+            if (((S_800930F0_4 *)saved_state_base)->unk_2090 == 1) {
+                ((S_800930F0_4 *)saved_state_base)->unk_234 = (s32) (((S_800930F0_4 *)saved_state_base)->unk_234 + 1);
+                func_80043568();
+                ((S_800930F0_4 *)saved_state_base)->unk_2090 = 0;
+                goto block_13;
+            }
+        }
+        ((S_800930F0_4 *)saved_state_base)->unk_234 = (s32) (((S_800930F0_4 *)saved_state_base)->unk_234 + 1);
+block_13:
+        func_800A56E0(0x514);
+        ((S_800930F0_5 *)(&D_800E4938))->unk_00.s = &D_80021268;
+        D_80082E80.unk_038 = 0;
+        (*(s32 *)&D_800E296C) = (s32) (((S_800930F0_6 *)(&D_800E296C))->unk_00 | 0x2000);
+        state->unk_9B = (u8) (state->unk_9B + 1);
         break;
-    }
-    transition_base = (M2C_UNK *)0x800E0000;
-    saved_state_base = (u8 *)0x80010000;
-    if (((S_800930F0_4 *)saved_state_base)->unk_3714.s & 4) {
+    case 2:
+        load_status = func_800A613C();
+        D_800DCF64 = load_status;
+        if (load_status == 0) {
+            break;
+        }
+        state->unk_9B = (u8) (state->unk_9B + 1);
+        break;
+    case 3:
+        created_object = ((S_800930F0_5 *)(&D_800E4938))->unk_00.u(((S_800930F0_5 *)(&D_800E4938))->unk_04,
+            ((S_800930F0_5 *)(&D_800E4938))->unk_08);
+        state->unk_C8 = created_object;
+        if (created_object == NULL) {
+            return;
+        }
+        state->unk_9B = (u8) (state->unk_9B + 1);
+    case 4:
+        if (!(((S_800930F0_12 *)(state->unk_C8))->unk_1E & 0x8000)) {
+            break;
+        }
+        func_80040AA0(D_80082E6B);
+        D_8008146C = *(u16 *)0x80010234;
+        func_800481E0();
+        state->unk_9B = (u8) (state->unk_9B + 1);
+        break;
+    case 16:
+        transition_base = (M2C_UNK *)0x800E0000;
+        if (!(((S_800930F0_7 *)(((M2C_UNK *)&D_80013714)))->unk_00 & 4)) {
+            goto block_23;
+        }
+block_21:
         if (((S_800930F0_8 *)transition_base)->unk_3CD0.s != 0) {
             break;
         }
-        goto set_wait;
-    }
-    func_800945E8(state);
-    func_800948BC();
-    {
-        UnalignedCopy3 *copy_src;
-        UnalignedCopy3 *copy_dst;
-
-        copy_src = (UnalignedCopy3 *)0x80013710;
-        copy_dst = (UnalignedCopy3 *)0x80012080;
-        *copy_dst = *copy_src;
-        ((S_800930F0_4 *)saved_state_base)->unk_3714.u = 0;
-        ((S_800930F0_4 *)saved_state_base)->unk_3716 = 0;
-        ((S_800930F0_4 *)saved_state_base)->unk_3718 = 0;
-        ((S_800930F0_4 *)saved_state_base)->unk_371A = 0;
-        func_800A6780();
-    }
-    if (((S_800930F0_4 *)saved_state_base)->unk_2090 != 0) {
-        if (((S_800930F0_4 *)saved_state_base)->unk_2090 == 1) {
-            ((S_800930F0_4 *)saved_state_base)->unk_234 = (s32) (((S_800930F0_4 *)saved_state_base)->unk_234 + 1);
-            func_80043568();
-            ((S_800930F0_4 *)saved_state_base)->unk_2090 = 0;
-            goto block_13;
-        }
-    }
-    ((S_800930F0_4 *)saved_state_base)->unk_234 = (s32) (((S_800930F0_4 *)saved_state_base)->unk_234 + 1);
-block_13:
-    func_800A56E0(0x514);
-    ((S_800930F0_5 *)(&D_800E4938))->unk_00.s = &D_80021268;
-    D_80082E80.unk_038 = 0;
-    (*(s32 *)&D_800E296C) = (s32) (((S_800930F0_6 *)(&D_800E296C))->unk_00 | 0x2000);
-    state->unk_9B = (u8) (state->unk_9B + 1);
-    break;
-    case 2:
-    load_status = func_800A613C();
-    D_800DCF64 = load_status;
-    if (load_status == 0) {
-        break;
-    }
-    state->unk_9B = (u8) (state->unk_9B + 1);
-    break;
-    case 3:
-    created_object = ((S_800930F0_5 *)(&D_800E4938))->unk_00.u(((S_800930F0_5 *)(&D_800E4938))->unk_04, ((S_800930F0_5 *)(&D_800E4938))->unk_08);
-    state->unk_C8 = created_object;
-    if (created_object == NULL) {
-        return;
-    }
-    state->unk_9B = (u8) (state->unk_9B + 1);
-    case 4:
-    if (!(((S_800930F0_12 *)(state->unk_C8))->unk_1E & 0x8000)) {
-        break;
-    }
-    func_80040AA0(D_80082E6B);
-    D_8008146C = *(u16 *)0x80010234;
-    func_800481E0();
-    state->unk_9B = (u8) (state->unk_9B + 1);
-    break;
-    case 16:
-    transition_base = (M2C_UNK *)0x800E0000;
-    if (!(((S_800930F0_7 *)(((M2C_UNK *)&D_80013714)))->unk_00 & 4)) {
-        goto block_23;
-    }
-block_21:
-    if (((S_800930F0_8 *)transition_base)->unk_3CD0.s != 0) {
-        break;
-    }
 set_wait:
-    ((S_800930F0_8 *)transition_base)->unk_3CD0.u = 1;
-    func_80040AA0(3U);
-    break;
+        ((S_800930F0_8 *)transition_base)->unk_3CD0.u = 1;
+        func_80040AA0(3U);
+        break;
 block_23:
-    func_800945E8(state);
-    func_800948BC();
-    {
-        s32 command;
-        s32 zero_arg_1;
-        s32 zero_arg_2;
-        u32 zero_arg_3;
-        u8 *flags_base;
-        u16 flags;
+        func_800945E8(state);
+        func_800948BC();
+        {
+            s32 command;
+            s32 zero_arg_1;
+            s32 zero_arg_2;
+            u32 zero_arg_3;
+            u8 *flags_base;
+            u16 flags;
 
-        command = 6;
-        zero_arg_1 = 0;
-        zero_arg_2 = zero_arg_1;
-        zero_arg_3 = zero_arg_1;
-        flags_base = (u8 *)D_80080000;
-        flags = 0x8000;
-        ((S_800930F0_9 *)flags_base)->unk_2E76 = flags;
-        func_80041094(command, zero_arg_1, zero_arg_2, zero_arg_3, 0x8000);
-    }
-    state->unk_9B = (u8) (state->unk_9B + 1);
+            command = 6;
+            zero_arg_1 = 0;
+            zero_arg_2 = zero_arg_1;
+            zero_arg_3 = zero_arg_1;
+            flags_base = (u8 *)D_80080000;
+            flags = 0x8000;
+            ((S_800930F0_9 *)flags_base)->unk_2E76 = flags;
+            func_80041094(command, zero_arg_1, zero_arg_2, zero_arg_3, 0x8000);
+        }
+        state->unk_9B = (u8) (state->unk_9B + 1);
     case 17:
     default:
         break;

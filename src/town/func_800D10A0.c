@@ -9,7 +9,6 @@ M2C_UNK func_800C4174();     /* extern */
 extern M2C_UNK D_800CE8CC;
 
 
-
 /* Advance vertical motion, clamp at the landing height, and bounce or finish. */
 void func_800CE800(Rec_func_80094268_arg0 *actor, EntityRec *motion, M2C_UNK context) {
     u16 bounces_left;

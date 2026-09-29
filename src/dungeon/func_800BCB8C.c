@@ -22,7 +22,6 @@ extern M2C_UNK D_800E15A2;
 extern void *D_800E3DF0[];
 
 
-
 typedef struct S_800C22EC_1 {
     u8 pad_00[0xA];
     u16 unk_0A;

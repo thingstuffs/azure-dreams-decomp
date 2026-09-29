@@ -11,7 +11,6 @@ typedef struct S_800ADB8C_0 {
 } S_800ADB8C_0;   /* arg0 in func_800ADB8C */
 
 
-
 /* Sets the record and global 0x8000 flags when the referenced byte is nonzero. */
 void func_800ADB8C(void *record) {
     if (*((S_800ADB8C_0 *)record)->unk_00 != 0) {

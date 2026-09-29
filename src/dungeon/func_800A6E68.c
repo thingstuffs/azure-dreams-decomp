@@ -33,7 +33,6 @@ typedef struct S_800AC5C8_1_pre {
 } S_800AC5C8_1_pre;   /* the 0x2 bytes before arg3 in func_800AC5C8, addressed as arg3[-1] */
 
 
-
 typedef struct S_800AC5C8_3 {
     u8 pad_00[0x24];
     u8 unk_24;
@@ -53,7 +52,7 @@ s32 func_800AC5C8(S_800AC5C8_0 *animation, EntityRec *position, S_800AC5C8_3 *ti
     case 0:
         ((Rec_D_80082E80 *)object)->unk_6A = ((Rec_D_80082E80 *)object)->unk_28.at02_u16.v & 0xFFF;
         animation->unk_9B++;
-        /* fall through */
+                /* fall through */
     case 1:
         ((Rec_D_80082E80 *)object)->unk_28.at02_u16.v += 0x200;
         position->flags14 -= 0x10000;

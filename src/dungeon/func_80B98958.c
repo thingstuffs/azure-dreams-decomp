@@ -59,7 +59,7 @@ void func_80172158(void *action, EntityRec *motion, void *sprite, EntityRec *act
         ((S_80172158_0 *)action)->unk_9E = 6;
         ((S_80172158_0 *)action)->unk_A0 = 0;
         ((S_80172158_0 *)action)->unk_9B++;
-                /* fall through */
+                        /* fall through */
     case 1:
         move_ticks = ((S_80172158_0 *)action)->unk_9E;
         ((S_80172158_0 *)action)->unk_90 =
@@ -88,7 +88,7 @@ void func_80172158(void *action, EntityRec *motion, void *sprite, EntityRec *act
             ((S_80172158_0 *)action)->unk_9B++;
         }
 
-                /* fall through */
+                        /* fall through */
     case 2:
         if (((u32)actor->flags1C) & 0x08000000) {
             ((S_80172158_0 *)action)->unk_98 &= 0xFFF7;

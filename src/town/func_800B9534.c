@@ -18,9 +18,6 @@ typedef struct S_800B6C94_2 {
 } S_800B6C94_2;   /* ((S_800B6C94_1 *)(((S_800B6C94_0 *)arg0)->unk_0C))->unk_04 in func_800B6C94 */
 
 
-
-
-
 /* Sets the two coordinates in the nested object data when the object exists. */
 void func_800B6C94(S_800B6C94_0 *object, s16 x, s16 y) {
     if (object != NULL) {

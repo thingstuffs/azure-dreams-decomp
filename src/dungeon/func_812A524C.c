@@ -701,7 +701,7 @@ block_119:
                                                                 - 0x161C) < 7U))
                                                                 && (position_7 = (u8 *)((u8 *)(&D_80083780)),
                                                                     event_x_1 =
-                                                                        ((S_812A524C_23 *)event_7)->unk_24.at00u.v,
+                                                                    ((S_812A524C_23 *)event_7)->unk_24.at00u.v,
                                                                     (((event_x_1 << 6) + 0x20)
                                                                 == ((S_812A524C_24 *)position_7)->unk_02))
                                                                 && (((((S_812A524C_23 *)event_7)->unk_24.at01.v << 6)

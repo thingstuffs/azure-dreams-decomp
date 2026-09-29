@@ -3,7 +3,6 @@
 #include "shared/record_ptrs.h"
 
 
-
 typedef struct S_80099734_2 {
     u8 pad_00[0x359C];
     s32 unk_359C;
@@ -13,7 +12,6 @@ typedef struct S_80099734_3 {
     u8 pad_00[0x4];
     u8 * unk_04;
 } S_80099734_3;   /* (u8 *)((S_80099734_2 *)table_page)->unk_359C + offset * 4 in func_80099734 */
-
 
 
 extern s32 D_8007359C;

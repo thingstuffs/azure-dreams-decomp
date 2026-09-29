@@ -106,9 +106,11 @@ after_amount:
     if (obj->flags & 0x4000) {
         message_handle = func_800990FC();
         if (effect_state > 0) {
-            func_80099290(func_80099194(&D_80089354[0], func_8003AD08(obj->amount, func_80099194(&D_800E0E14[0], func_80099734(obj, message_handle)))));
+            func_80099290(func_80099194(&D_80089354[0], func_8003AD08(obj->amount, func_80099194(&D_800E0E14[0],
+                func_80099734(obj, message_handle)))));
         } else if (effect_state == 0) {
-            func_80099290(func_80099194(&D_80089354[0], func_8003AD08(obj->amount, func_80099194(&D_800E0E34[0], func_80099734(obj, message_handle)))));
+            func_80099290(func_80099194(&D_80089354[0], func_8003AD08(obj->amount, func_80099194(&D_800E0E34[0],
+                func_80099734(obj, message_handle)))));
         } else {
             func_80099290(func_80099194(&D_800E0E50[0], message_handle));
         }

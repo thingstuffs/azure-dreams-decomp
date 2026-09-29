@@ -5,8 +5,6 @@
 #include "records/Rec_D_80082E80.h"
 
 
-
-
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 #ifdef NON_MATCHING
@@ -62,7 +60,7 @@ void func_80172480(S_80172480_0 *actor, s32 unused, Rec_D_80082E80 *animation, S
 
     phase = actor->unk_9B;
     switch (phase) {
-case 0:
+    case 0:
         heading = transform->unk_2A & 0xFFF;
         transform->unk_2A = heading;
         if (((0x400 - ((((u16)scene_state->view.viewAngle) + 0x100) & 0xE00)) & 0xE00) != heading) {
@@ -70,7 +68,7 @@ case 0:
             return;
         }
         goto advance;
-case 1:
+    case 1:
         if (actor->unk_92 == 0) {
             table_page = DGN_TABLE_PAGE(D_80175EC8, 0x5EC8);
             goto resolve_table;
@@ -82,7 +80,7 @@ case 1:
             return;
         }
         goto start_animation;
-case 2:
+    case 2:
         if (animation->unk_14.at00_u16.v & 0xE000) {
             table_page = DGN_TABLE_PAGE(D_80175ED0, 0x5ED0);
             ASM_KEEP(table_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -90,18 +88,18 @@ case 2:
             goto start_animation;
         }
         return;
-case 3:
-        {
-            u16 scene_status = ((u16)scene_state->buttons);
-            if (scene_status != 0) {
-                table_page = DGN_TABLE_PAGE(D_80175EC8, 0x5EC8);
-                goto resolve_table;
-            }
-            if (((S_80172480_4 *)(((u8 *)D_800E3D7C)))->unk_9A != 0x17) {
-                table_page = DGN_TABLE_PAGE(D_80175EC8, 0x5EC8);
-                goto resolve_table;
-            }
+    case 3:
+    {
+        u16 scene_status = ((u16)scene_state->buttons);
+        if (scene_status != 0) {
+            table_page = DGN_TABLE_PAGE(D_80175EC8, 0x5EC8);
+            goto resolve_table;
         }
+        if (((S_80172480_4 *)(((u8 *)D_800E3D7C)))->unk_9A != 0x17) {
+            table_page = DGN_TABLE_PAGE(D_80175EC8, 0x5EC8);
+            goto resolve_table;
+        }
+    }
         return;
 resolve_table:
         table_page += 0x5EC8;
@@ -112,7 +110,8 @@ start_animation:
             animation_table = (u8 *)table_page;
             animation->unk_2C.as_pm = animation_table;
             {
-                unsigned long animation_entry = (unsigned long)(((s32) (gameWork.view.viewAngle + (s16) transform->unk_2A + 0x100) >> 9) & 7);
+                unsigned long animation_entry = (unsigned long)(((s32) (gameWork.view.viewAngle
+                    + (s16) transform->unk_2A + 0x100) >> 9) & 7);
                 animation_entry += (unsigned long)animation_table;
                 func_80047784(animation, *(u8 *)animation_entry, 0);
             }
@@ -121,13 +120,14 @@ advance:
         phase = actor->unk_9B + 1;
         actor->unk_9B = phase;
         return;
-case 4:
+    case 4:
         if (animation->unk_14.at00_u16.v & 0xE000) {
             transform->unk_1C = (s32) (transform->unk_1C | 0x40000);
             {
                 u8 *animation_table = D_80175EB8;
                 animation->unk_2C.as_pm = animation_table;
-                func_80047784(animation, animation_table[((s32) (gameWork.view.viewAngle + (s16) transform->unk_2A + 0x100) >> 9) & 7], 0);
+                func_80047784(animation, animation_table[((s32) (gameWork.view.viewAngle + (s16) transform->unk_2A
+                    + 0x100) >> 9) & 7], 0);
             }
             actor->unk_8C = D_801710EC;
             transform->unk_2A = (u16) actor->unk_B0;

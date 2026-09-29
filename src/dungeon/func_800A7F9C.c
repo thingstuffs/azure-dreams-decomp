@@ -54,8 +54,8 @@ s32 func_800AD6FC(DungeonState *state, s32 mode, u8 *item, s32 text_arg) {
     switch (mode) {
     case 0:
         message = func_80099194(D_80089084,
-                               func_80099734(state,
-                                             func_80099194(D_800E0CDC, message)));
+                                func_80099734(state,
+                                              func_80099194(D_800E0CDC, message)));
         break;
     case 1:
         do {

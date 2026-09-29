@@ -36,7 +36,8 @@ void func_80019560(s32 setup_arg0, s32 setup_arg1, s32 setup_arg2, s32 setup_arg
             func_8001E5F0(0x409);
         }
         if (func_8001E670(0xAD) == 0) {
-            if (((M2C_CALLBACK2 *)((u8 *)((S_80019560_0 *)(*(void **)((s8 *)(&D_80016000))))->unk_20 + 0x350))[0](1, 0x12) != 0) {
+            if (((M2C_CALLBACK2 *)((u8 *)((S_80019560_0 *)(*(void **)((s8 *)(&D_80016000))))->unk_20 + 0x350))[0](1,
+                0x12) != 0) {
                 func_8001E578(0xAD);
                 func_8001E5F0(0x40A);
                 state_page_addr = 0x80020000;

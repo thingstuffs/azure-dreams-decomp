@@ -37,7 +37,7 @@ void func_801743E8(void *effect, EntityRec *position, Rec_func_800AA258_arg2 *vi
         }
         ((S_801743E8_0 *)effect)->unk_96.s = 3;
         ((S_801743E8_0 *)effect)->unk_9B++;
-                /* fall through */
+                        /* fall through */
     case 1:
         size_or_state = visual->unk_1E - 0x50;
         visual->unk_1E = size_or_state;

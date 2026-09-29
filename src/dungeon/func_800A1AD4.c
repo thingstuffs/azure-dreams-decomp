@@ -59,7 +59,8 @@ s32 func_800A7234(s32 x, s32 y, s32 z, s16 *out_x, s16 *out_y, s16 *out_distance
     if ((tile_valid << 0x10) != 0) {
         if (!(tile_flags & 0x8820)) {
             packed_x = x << 0x10;
-            distance = func_800BCB04((((packed_x >> 0xA) + 0x20) & 0xFFE0), ((probe_y << 6) + 0x20) & 0xFFE0, (s16)(outer_count - 0x20));
+            distance = func_800BCB04((((packed_x >> 0xA) + 0x20) & 0xFFE0), ((probe_y << 6) + 0x20) & 0xFFE0,
+                (s16)(outer_count - 0x20));
             if ((s16)distance < 0x200) {
                 *out_x = x;
                 *out_y = outer_dir;
@@ -97,7 +98,8 @@ scan_inner:
         dx = (u16 *)(inner_offset + (u32)tab_x);
         distance_z = (s16)(base_z - 0x20);
         dy = (u16 *)((u8 *)dirStepY + inner_offset);
-        distance = func_800BCB04(((((inner_x + (s16)*dx) << 6) + 0x20) & 0xFFE0), ((((inner_y + (s16)*dy) << 6) + 0x20) & 0xFFE0), distance_z);
+        distance = func_800BCB04(((((inner_x + (s16)*dx) << 6) + 0x20) & 0xFFE0), ((((inner_y + (s16)*dy) << 6)
+            + 0x20) & 0xFFE0), distance_z);
         if ((s16)distance < 0x200) {
             goto found;
         }

@@ -137,8 +137,10 @@ void func_80023260(void *actor, void *motion, void *sprite) {
     func_800239A0(model_base, position_ref, ((S_80023260_0 *)actor)->unk_24);
     func_8009539C(motion);
     reached_point = 0;
-    ((S_80023260_1 *)motion)->unk_00.at00.v = (s32) (((S_80023260_1 *)motion)->unk_00.at00.v + ((S_80023260_0 *)actor)->unk_0C.s);
-    ((S_80023260_1 *)motion)->unk_04.at00.v = (s32) (((S_80023260_1 *)motion)->unk_04.at00.v + ((S_80023260_0 *)actor)->unk_10.s);
+    ((S_80023260_1 *)motion)->unk_00.at00.v = (s32) (((S_80023260_1 *)motion)->unk_00.at00.v
+        + ((S_80023260_0 *)actor)->unk_0C.s);
+    ((S_80023260_1 *)motion)->unk_04.at00.v = (s32) (((S_80023260_1 *)motion)->unk_04.at00.v
+        + ((S_80023260_0 *)actor)->unk_10.s);
     offset_x = ((S_80023260_0 *)actor)->unk_0C.u;
     offset_y = ((S_80023260_0 *)actor)->unk_10.u;
     old_state = ((S_80023260_0 *)actor)->unk_18.s;
@@ -177,12 +179,14 @@ init_sprite:
     directions = D_800D2388;
     ((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 = directions;
     ((Rec_D_80082E80 *)sprite)->unk_28.at00_s32.v = sprite_config;
-    func_80047784(sprite, D_800D2388[((gameWork.view.viewAngle + ((S_80023260_0 *)actor)->unk_2A + 0x100) >> 9) & 7], 0);
+    func_80047784(sprite, D_800D2388[((gameWork.view.viewAngle + ((S_80023260_0 *)actor)->unk_2A + 0x100) >> 9) & 7],
+        0);
     ((S_80023260_0 *)actor)->unk_18.p = (u16) (((S_80023260_0 *)actor)->unk_18.p + 1);
     goto update_motion;
 reset_sprite:
     (*(u8 **)((u8 *)sprite + 0x2C)) = D_800D2388 - 8;
-    func_80047784(sprite, (D_800D2388 - 8)[((gameWork.view.viewAngle + ((S_80023260_0 *)actor)->unk_2A + 0x100) >> 9) & 7], 0);
+    func_80047784(sprite, (D_800D2388 - 8)[((gameWork.view.viewAngle + ((S_80023260_0 *)actor)->unk_2A + 0x100)
+        >> 9) & 7], 0);
     ((S_80023260_0 *)actor)->unk_18.p = idle_state;
     goto update_motion;
 follow_path:
@@ -331,8 +335,10 @@ clamp_done:
             ground_probe.field8 = 0xFE000000;
         }
         ground_height = func_800C2AE8(&ground_probe);
-        ((S_80023260_1 *)motion)->unk_0C = (s32) (func_80064584(((S_80023260_4 *)actor_ref)->unk_2A) * ((s32) ((S_80023260_0 *)actor)->unk_04 >> 0xC));
-        ((S_80023260_1 *)motion)->unk_10 = (s32) (func_800644B8(((S_80023260_4 *)actor_ref)->unk_2A) * ((s32) ((S_80023260_0 *)actor)->unk_04 >> 0xC));
+        ((S_80023260_1 *)motion)->unk_0C =
+            (s32) (func_80064584(((S_80023260_4 *)actor_ref)->unk_2A) * ((s32) ((S_80023260_0 *)actor)->unk_04 >> 0xC));
+        ((S_80023260_1 *)motion)->unk_10 =
+            (s32) (func_800644B8(((S_80023260_4 *)actor_ref)->unk_2A) * ((s32) ((S_80023260_0 *)actor)->unk_04 >> 0xC));
         if (ground_height < ((S_80023260_1 *)motion)->unk_0A) {
             ((S_80023260_1 *)motion)->unk_0A = ground_height;
             if (((S_80023260_1 *)motion)->unk_14 >= 0) {

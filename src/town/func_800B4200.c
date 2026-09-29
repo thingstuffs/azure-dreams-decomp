@@ -59,7 +59,7 @@ void func_800B1960(S_800B4200_a0 *state, S_8002E5D8 *params,
     ((S_8002E5E8 *)data)->unk0 = *first_word;
     ((S_8002E5E8 *)data)->unk4 = data_template->unk4;
     ((S_8002E5E8 *)data)->unk8 = data_template->unk8;
-    
+
 
     state->unk4 = (S_800B4200_a1 *)params;
     state->unk8 = data;

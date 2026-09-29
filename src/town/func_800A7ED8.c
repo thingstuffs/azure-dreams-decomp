@@ -23,7 +23,6 @@ typedef struct S_800A5638_0_pre {
 } S_800A5638_0_pre;   /* the 0x10 bytes before arg0 in func_800A5638, addressed as arg0[-1] */
 
 
-
 /* Updates the record, invokes its handler, clamps values, and dispatches follow-up processing. */
 void func_800A5638(void *handler, EntityRec *record, M2C_UNK context) {
     func_800953D0(record);

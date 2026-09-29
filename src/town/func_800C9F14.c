@@ -13,8 +13,6 @@ typedef struct S_800C7674_0 {
 } S_800C7674_0;   /* arg0 in func_800C7674 */
 
 
-
-
 typedef struct Motion {
     s32 pos_x;
     s32 pos_y;
@@ -106,10 +104,12 @@ void func_800C7674(S_800C7674_0 *entity, EntityRec *motion_state, s32 context)
     motion_state->unk_0C = speed;
     speed = abs(speed);
     speed = step_x < speed;
-    if (speed != 0) motion_state->unk_0C = D_800D4FF8[quadrant];
+    if (speed != 0)
+        motion_state->unk_0C = D_800D4FF8[quadrant];
     speed = motion_state->unk_10 + D_800D5008[quadrant];
     motion_state->unk_10 = speed;
     speed = abs(speed);
     speed = step_x < speed;
-    if (speed != 0) motion_state->unk_10 = D_800D5018[quadrant];
+    if (speed != 0)
+        motion_state->unk_10 = D_800D5018[quadrant];
 }

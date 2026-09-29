@@ -10,7 +10,6 @@ typedef struct S_800C7AC4_1 {
 } S_800C7AC4_1;   /* bounds in func_800C7AC4 */
 
 
-
 extern s32 func_800374F4(s32);
 extern void func_800C2E84(void *, s32, void *);
 extern s32 D_800C7674;

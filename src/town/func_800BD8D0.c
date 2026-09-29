@@ -17,7 +17,6 @@ typedef struct S_800BB030_0 {
 } S_800BB030_0;   /* arg0 in func_800BB030 */
 
 
-
 extern s32 func_8009CFE0(void *, void *);
 
 /* Updates a four-phase animation and clears its activity flag on completion. */
@@ -53,7 +52,8 @@ void func_800BB030(void *entity, void *context) {
         ((S_800BB030_0 *)entity)->unk_6C.s = 0;
         ((S_800BB030_0 *)entity)->unk_68.u++;
         break;
-    case 1: {
+    case 1:
+    {
         s32 quarter_ticks;
 
         quarter_ticks = (s16)phase_ticks / 4;
@@ -65,7 +65,8 @@ void func_800BB030(void *entity, void *context) {
         }
         break;
     }
-    case 2: {
+    case 2:
+    {
         s32 half_ticks;
 
         quarter_ticks = (s16)phase_ticks / 4;
@@ -80,7 +81,8 @@ void func_800BB030(void *entity, void *context) {
         ((S_800BB030_0 *)entity)->unk_68.u++;
         break;
     }
-    case 3: {
+    case 3:
+    {
         s32 quarter_ticks;
 
         quarter_ticks = (s16)phase_ticks / 4;

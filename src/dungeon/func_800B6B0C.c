@@ -20,7 +20,6 @@ typedef struct S_800BC26C_1 {
 } S_800BC26C_1;   /* fields in func_800BC26C */
 
 
-
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
 extern u8 D_800BC388[9];

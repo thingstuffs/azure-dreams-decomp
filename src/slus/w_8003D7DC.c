@@ -7,7 +7,7 @@
  * double buffering: D_801C9E40 (buffer 0) and D_801DA714 (buffer 1), exactly
  * 0x108D4 bytes apart (see func_8003D5A4's `p + 0x108D4` toggle). */
 typedef struct {
-        /* DRAWENV portion */
+            /* DRAWENV portion */
     s16 clip_x, clip_y, clip_w, clip_h; /* 0x00 RECT clip */
     s16 ofs0, ofs1;                     /* 0x08 draw offset */
     s16 tw_x, tw_y, tw_w, tw_h;         /* 0x0C RECT tw */
@@ -15,7 +15,7 @@ typedef struct {
     u8  dtd, dfe;                       /* 0x16, 0x17 */
     s32 isbg;                           /* 0x18: packs isbg + r0,g0,b0 (LE) in one store */
     u8  dr_env[0x40];                   /* 0x1C reserved GPU env packet, pads to 0x5C */
-        /* DISPENV portion */
+            /* DISPENV portion */
     s16 disp_x, disp_y, disp_w, disp_h;         /* 0x5C RECT disp */
     s16 screen_x, screen_y, screen_w, screen_h; /* 0x64 RECT screen */
     u8  isinter, isrgb24, disp_pad0, disp_pad1; /* 0x6C */

@@ -188,11 +188,11 @@ s32 func_8008EA20(s32 world_x, s32 world_z, s32 world_y)
 
                             cell_height =
                                 (scratch->heights[cell->height_index].x *
-                                     (vertices[cell->v0].x - local_x) +
+                                 (vertices[cell->v0].x - local_x) +
                                  scratch->heights[cell->height_index].z *
-                                     (vertices[cell->v0].z - (s16)scratch->y) +
+                                 (vertices[cell->v0].z - (s16)scratch->y) +
                                  scratch->heights[cell->height_index].y *
-                                     vertices[cell->v0].y) /
+                                 vertices[cell->v0].y) /
                                 scratch->heights[cell->height_index].y;
                             scratch->z = cell_height;
                             scratch->z += (u16)scratch->z_offset;

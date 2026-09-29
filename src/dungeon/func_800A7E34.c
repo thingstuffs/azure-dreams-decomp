@@ -7,7 +7,11 @@ typedef struct S_800AD594_0 {
     u8 pad_14[0x8];
     s32 unk_1C;
     u8 pad_20[0x4];
-    union { struct { u16 v; } at00; struct { u8 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; } unk_24;   /* overlapping accesses */
+    union {
+        struct { u16 v; } at00;
+        struct { u8 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+    } unk_24;   /* overlapping accesses */
     u8 pad_26[0x2E];
     s32 unk_54;
     u8 pad_58[0xE];
@@ -18,7 +22,6 @@ typedef struct S_800AD594_1 {
     u8 pad_00[0xA];
     u16 unk_0A;
 } S_800AD594_1;   /* counterBase in func_800AD594 */
-
 
 
 extern s32 func_80042900(void *, s32);

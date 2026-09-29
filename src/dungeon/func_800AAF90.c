@@ -30,9 +30,21 @@ typedef struct S_800B06F0_0 {
     u32 unk_E4;
     u32 unk_E8;
     u32 unk_EC;
-    union { struct { u32 v; } at00; struct { u16 v; } at00u; struct { u8 pad[0x2]; u16 v; } at02; } unk_F0;   /* overlapping accesses */
-    union { struct { u32 v; } at00; struct { u16 v; } at00u; struct { u8 pad[0x2]; u16 v; } at02; } unk_F4;   /* overlapping accesses */
-    union { struct { u32 v; } at00; struct { u16 v; } at00u; struct { u8 pad[0x2]; u16 v; } at02; } unk_F8;   /* overlapping accesses */
+    union {
+        struct { u32 v; } at00;
+        struct { u16 v; } at00u;
+        struct { u8 pad[0x2]; u16 v; } at02;
+    } unk_F0;   /* overlapping accesses */
+    union {
+        struct { u32 v; } at00;
+        struct { u16 v; } at00u;
+        struct { u8 pad[0x2]; u16 v; } at02;
+    } unk_F4;   /* overlapping accesses */
+    union {
+        struct { u32 v; } at00;
+        struct { u16 v; } at00u;
+        struct { u8 pad[0x2]; u16 v; } at02;
+    } unk_F8;   /* overlapping accesses */
     u16 unk_FC;
     u16 unk_FE;
     u16 unk_100;
@@ -97,7 +109,6 @@ typedef struct S_800B06F0_7 {
     u8 pad_00[0x8D0];
     u8 * unk_8D0;
 } S_800B06F0_7;   /* manager in func_800B06F0 */
-
 
 
 typedef struct {
@@ -249,7 +260,8 @@ loop:
                 if (func_80065480(
                         ((S_800B06F0_0 *)scratch)->unk_F0.at00.v,
                         ((S_800B06F0_0 *)scratch)->unk_F4.at00.v,
-                        ((S_800B06F0_0 *)scratch)->unk_F8.at00.v, primitive_flags) <= 0 ? reverse_winding == 0 : reverse_winding != 0) {
+                        ((S_800B06F0_0 *)scratch)->unk_F8.at00.v, primitive_flags) <= 0
+                            ? reverse_winding == 0 : reverse_winding != 0) {
                     if (primitive[1] == 0x2C) {
                         texture_data += 4;
                     }
@@ -262,12 +274,18 @@ loop:
                 func_8003E12C(scratch + 0xF8, scratch + 0xFC);
             }
 
-            ((S_800B06F0_5 *)packet)->unk_08 = ((S_800B06F0_0 *)scratch)->unk_F0.at00u.v + ((S_800B06F0_0 *)scratch)->unk_B8;
-            ((S_800B06F0_5 *)packet)->unk_0A = ((S_800B06F0_0 *)scratch)->unk_F0.at02.v + ((S_800B06F0_0 *)scratch)->unk_BA;
-            ((S_800B06F0_5 *)packet)->unk_10 = ((S_800B06F0_0 *)scratch)->unk_F4.at00u.v + ((S_800B06F0_0 *)scratch)->unk_B8;
-            ((S_800B06F0_5 *)packet)->unk_12 = ((S_800B06F0_0 *)scratch)->unk_F4.at02.v + ((S_800B06F0_0 *)scratch)->unk_BA;
-            ((S_800B06F0_5 *)packet)->unk_18 = ((S_800B06F0_0 *)scratch)->unk_F8.at00u.v + ((S_800B06F0_0 *)scratch)->unk_B8;
-            ((S_800B06F0_5 *)packet)->unk_1A = ((S_800B06F0_0 *)scratch)->unk_F8.at02.v + ((S_800B06F0_0 *)scratch)->unk_BA;
+            ((S_800B06F0_5 *)packet)->unk_08 = ((S_800B06F0_0 *)scratch)->unk_F0.at00u.v
+                + ((S_800B06F0_0 *)scratch)->unk_B8;
+            ((S_800B06F0_5 *)packet)->unk_0A = ((S_800B06F0_0 *)scratch)->unk_F0.at02.v
+                + ((S_800B06F0_0 *)scratch)->unk_BA;
+            ((S_800B06F0_5 *)packet)->unk_10 = ((S_800B06F0_0 *)scratch)->unk_F4.at00u.v
+                + ((S_800B06F0_0 *)scratch)->unk_B8;
+            ((S_800B06F0_5 *)packet)->unk_12 = ((S_800B06F0_0 *)scratch)->unk_F4.at02.v
+                + ((S_800B06F0_0 *)scratch)->unk_BA;
+            ((S_800B06F0_5 *)packet)->unk_18 = ((S_800B06F0_0 *)scratch)->unk_F8.at00u.v
+                + ((S_800B06F0_0 *)scratch)->unk_B8;
+            ((S_800B06F0_5 *)packet)->unk_1A = ((S_800B06F0_0 *)scratch)->unk_F8.at02.v
+                + ((S_800B06F0_0 *)scratch)->unk_BA;
             ((S_800B06F0_5 *)packet)->unk_20 = ((S_800B06F0_0 *)scratch)->unk_FC + ((S_800B06F0_0 *)scratch)->unk_B8;
             primitive_check = primitive;
             ((S_800B06F0_5 *)packet)->unk_22 = ((S_800B06F0_0 *)scratch)->unk_FE + ((S_800B06F0_0 *)scratch)->unk_BA;

@@ -29,7 +29,8 @@ void func_800A8440(void *record_fields, void *unused, Rec_D_80082E80 *primitive)
     ticks_left = ((S_800A8440_1 *)((u8 *)record_fields - 0x2))->unk_04 - 1;
     ((S_800A8440_1 *)((u8 *)record_fields - 0x2))->unk_04 = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
-        ((S_800A8440_1 *)((u8 *)record_fields - 0x2))->unk_00 = (u16) (((S_800A8440_1 *)((u8 *)record_fields - 0x2))->unk_00 | 0x8000);
+        ((S_800A8440_1 *)((u8 *)record_fields - 0x2))->unk_00 = (u16) (((S_800A8440_1 *)((u8 *)record_fields
+            - 0x2))->unk_00 | 0x8000);
         objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
     }
 }

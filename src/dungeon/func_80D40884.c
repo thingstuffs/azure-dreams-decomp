@@ -59,7 +59,7 @@ void func_80176084(void *state, EntityRec *motion, void *sprite, EntityRec *enti
                 func_80047784(sprite, D_800E2448[((s32)(gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
                     0);
                 if (!((((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)
-                    || (func_800A56E0(0x801), ((((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) != 0)))) {
+                      || (func_800A56E0(0x801), ((((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) != 0)))) {
                     return;
                 }
             }

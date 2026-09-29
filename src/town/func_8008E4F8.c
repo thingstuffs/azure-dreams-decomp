@@ -78,7 +78,7 @@ void func_8008BC58(u8 *object, void *transform, void *context) {
             goto update_position;
         }
         func_8008B620(entries[*(s32 *)(object + 0x74)]);
-    update_position:
+update_position:
         entry_index = *(s32 *)(object + 0x74);
         positions = (u8 *)&D_800D2EA4;
         entry_id = entries[entry_index];

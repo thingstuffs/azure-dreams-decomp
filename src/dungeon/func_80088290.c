@@ -6,7 +6,6 @@
 #include "records/Rec_func_8008D024_arg0.h"
 
 
-
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern u8 D_800DCFB0[8];
@@ -16,9 +15,6 @@ extern void func_80048A44(void *, u8, s32, s32);
 extern s16 func_800A4474(u8, u8);
 extern s16 func_8003F794(s32, s32);
 extern void func_800A9024(s32);
-
-
-
 
 
 extern void func_80094E34(Rec_func_8008D024_arg0 *);

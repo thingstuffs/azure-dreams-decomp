@@ -33,7 +33,6 @@ typedef struct S_800D4CB0_2 {
 } S_800D4CB0_2;   /* arg0 in func_800D4CB0 */
 
 
-
 /* Advance and damp motion, fade the effect color, and flag expiration. */
 void func_800D4CB0(void *effect, void *motion, void *color) {
     s16 ticks_left;
@@ -44,9 +43,12 @@ void func_800D4CB0(void *effect, void *motion, void *color) {
     ((S_800D4CB0_0 *)motion)->unk_0C /= 2;
     ((S_800D4CB0_0 *)motion)->unk_10 /= 2;
     ((S_800D4CB0_0 *)motion)->unk_14 /= 2;
-    ((S_800D4CB0_1 *)color)->unk_0C = (s8) ((s32) (((S_800D4CB0_2 *)effect)->unk_0C * ((S_800D4CB0_2 *)effect)->unk_1E) / (s16) ((S_800D4CB0_2 *)effect)->unk_20);
-    ((S_800D4CB0_1 *)color)->unk_0D = (s8) ((s32) (((S_800D4CB0_2 *)effect)->unk_0D * ((S_800D4CB0_2 *)effect)->unk_1E) / (s16) ((S_800D4CB0_2 *)effect)->unk_20);
-    ((S_800D4CB0_1 *)color)->unk_0E = (s8) ((s32) (((S_800D4CB0_2 *)effect)->unk_0E * ((S_800D4CB0_2 *)effect)->unk_1E) / (s16) ((S_800D4CB0_2 *)effect)->unk_20);
+    ((S_800D4CB0_1 *)color)->unk_0C =
+        (s8) ((s32) (((S_800D4CB0_2 *)effect)->unk_0C * ((S_800D4CB0_2 *)effect)->unk_1E) / (s16) ((S_800D4CB0_2 *)effect)->unk_20);
+    ((S_800D4CB0_1 *)color)->unk_0D =
+        (s8) ((s32) (((S_800D4CB0_2 *)effect)->unk_0D * ((S_800D4CB0_2 *)effect)->unk_1E) / (s16) ((S_800D4CB0_2 *)effect)->unk_20);
+    ((S_800D4CB0_1 *)color)->unk_0E =
+        (s8) ((s32) (((S_800D4CB0_2 *)effect)->unk_0E * ((S_800D4CB0_2 *)effect)->unk_1E) / (s16) ((S_800D4CB0_2 *)effect)->unk_20);
     ticks_left = (u16) ((S_800D4CB0_2 *)effect)->unk_1E - 1;
     ((S_800D4CB0_2 *)effect)->unk_1E = ticks_left;
     if ((ticks_left << 0x10) <= 0) {

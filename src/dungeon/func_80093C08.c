@@ -63,7 +63,8 @@ u8 *func_80099368(FuncData *data, u8 *buffer) {
                 value = data->unk2;
                 if (value != 0) {
                     out = func_800992A8(value, out, out);
-                    if (value < 0) value = -value;
+                    if (value < 0)
+                        value = -value;
                     out = func_8003AD08(value, out, out);
                 }
             }

@@ -5,7 +5,6 @@
 #include "records/Rec_D_80082E80.h"
 
 
-
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 typedef struct {
@@ -31,9 +30,9 @@ typedef struct S_8008D024_1 {
 } S_8008D024_1;   /* temp_a0 in func_8008D024 */
 
 
-
 /* Selects an eligible linked target and initializes the actor's action and directional display. */
-s32 func_8008D024(Rec_func_8008D024_arg0 *actor, s32 context, Rec_D_80082E80 *display, s32 target_index, s32 action_mode) {
+s32 func_8008D024(Rec_func_8008D024_arg0 *actor, s32 context, Rec_D_80082E80 *display, s32 target_index,
+    s32 action_mode) {
     s32 target_flags;
     s32 slot_offset;
     S_8008D024_1 *target;
@@ -69,7 +68,8 @@ s32 func_8008D024(Rec_func_8008D024_arg0 *actor, s32 context, Rec_D_80082E80 *di
                     direction_frames = D_800DCFB0;
                 }
                 display->unk_2C.as_pu8 = direction_frames;
-                func_80048A44(display, direction_frames[((s32)(gameWork.view.viewAngle + ((Arg0 *)actor_heading)->field_2A + 0x100) >> 9) & 7], 0, 1);
+                func_80048A44(display, direction_frames[((s32)(gameWork.view.viewAngle
+                    + ((Arg0 *)actor_heading)->field_2A + 0x100) >> 9) & 7], 0, 1);
                 actor->unk_120 = saved_mode;
                 return 1;
             }

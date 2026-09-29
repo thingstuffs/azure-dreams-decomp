@@ -113,7 +113,7 @@ s32 func_80174320(void *object_arg, void *context_arg, void *entity_arg) {
         return result;
     case 0xC0:
         ((S_80174320_1 *)obj)->unk_9B = 0;
-                /* fall through */
+                        /* fall through */
     case 0xC8:
         func_801740F8(call_obj, context_arg, entity, obj);
         break;

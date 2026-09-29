@@ -36,7 +36,7 @@ void func_80173108(void *actor, s32 unused, void *sprite, void *entity)
             break;
         }
         U8(actor, 0x9B) = 1;
-                /* fallthrough */
+                        /* fallthrough */
     case 1:
     {
         s32 entity_flags;

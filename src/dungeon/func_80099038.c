@@ -99,8 +99,22 @@ typedef struct S_8009E798_5 {
     u8 pad_00[0x2];
     u8 unk_02;
     u8 unk_03;
-    union { struct { s16 v; } at00; struct { u32 v; } at00u; struct { u8 v; } at00p; struct { u8 pad[0x1]; u8 v; } at01; struct { u8 pad[0x2]; u16 v; } at02; struct { u8 pad[0x2]; u8 v; } at02u; struct { u8 pad[0x3]; u8 v; } at03; } unk_04;   /* overlapping accesses */
-    union { struct { u8 v; } at00; struct { u32 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; struct { u8 pad[0x2]; u8 v; } at02; struct { u8 pad[0x3]; u8 v; } at03; } unk_08;   /* overlapping accesses */
+    union {
+        struct { s16 v; } at00;
+        struct { u32 v; } at00u;
+        struct { u8 v; } at00p;
+        struct { u8 pad[0x1]; u8 v; } at01;
+        struct { u8 pad[0x2]; u16 v; } at02;
+        struct { u8 pad[0x2]; u8 v; } at02u;
+        struct { u8 pad[0x3]; u8 v; } at03;
+    } unk_04;   /* overlapping accesses */
+    union {
+        struct { u8 v; } at00;
+        struct { u32 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+        struct { u8 pad[0x2]; u8 v; } at02;
+        struct { u8 pad[0x3]; u8 v; } at03;
+    } unk_08;   /* overlapping accesses */
     u32 unk_0C;
     u32 unk_10;
     u32 unk_14;
@@ -245,7 +259,8 @@ s32 func_8009E798(void *draw_area, void *placement, void *sprite)
         (((S_8009E798_1 *)scratch)->unk_14 + ((S_8009E798_1 *)scratch)->unk_0C) << 8;
     ((S_8009E798_1 *)scratch)->unk_0C <<= 8;
 
-    ((S_8009E798_6 *)packet)->unk_0E = ((S_8009E798_3 *)sprite_or_copy)->unk_12 + ((S_8009E798_5 *)frame_or_packet)->unk_04.at02.v;
+    ((S_8009E798_6 *)packet)->unk_0E = ((S_8009E798_3 *)sprite_or_copy)->unk_12
+        + ((S_8009E798_5 *)frame_or_packet)->unk_04.at02.v;
     ((S_8009E798_6 *)packet)->unk_0C = VFIELD(scratch, u16, 0xC) + VFIELD(scratch, u16, 8);
     (*(s32 *)((u8 *)packet + 0x14)) = VFIELD(scratch, s32, 0xC) +
         VFIELD(scratch, s32, 0x10) +

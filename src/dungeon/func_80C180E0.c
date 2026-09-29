@@ -112,7 +112,7 @@ void func_801738E0(void *actor_arg, void *motion_arg, void *sprite_arg, void *en
         func_80047784(
             sprite,
             *(u8 *)((((gameWork.view.viewAngle + ((S_801738E0_2 *)entity)->unk_2A + 0x100) >> 9) & 7)
-                + (u32)anim_table),
+                    + (u32)anim_table),
             0);
         ((S_801738E0_0 *)actor)->unk_9B++;
         return;

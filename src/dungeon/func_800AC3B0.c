@@ -60,7 +60,11 @@ typedef struct S_800B1B10_5 {
     union { u8 n; volatile u8 v; } unk_01;   /* accessed as both */
     s8 unk_02;
     union { u8 u; s8 s; } unk_03;   /* accessed as both */
-    union { struct { s32 v; } at00; struct { s16 v; } at00u; struct { u8 pad[0x2]; s16 v; } at02; } unk_04;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { s16 v; } at00u;
+        struct { u8 pad[0x2]; s16 v; } at02;
+    } unk_04;   /* overlapping accesses */
     s8 unk_08;
     s8 unk_09;
     s8 unk_0A;
@@ -189,7 +193,8 @@ void func_800B1B10(void *owner, s32 value_a, s32 value_b, s32 style, s16 compact
             } else {
                 offset = 0x8A;
             }
-            func_800B1320((void *) b_held, offset, (s16) ((0 - (s8) ((S_800B1B10_5 *)((void *) b_held))->unk_03.u) - 0xE));
+            func_800B1320((void *) b_held, offset, (s16) ((0 - (s8) ((S_800B1B10_5 *)((void *) b_held))->unk_03.u)
+                - 0xE));
             offset = 8;
             if ((compact_s16 << 0x10) != 0) {
                 offset = 4;

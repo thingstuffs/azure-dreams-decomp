@@ -35,7 +35,6 @@ typedef struct S_800BE6F0_5 {
 } S_800BE6F0_5;   /* state_base2 in func_800BE6F0 */
 
 
-
 s32 func_80042900();
 s32 func_8008D330();
 s32 func_80098B38();

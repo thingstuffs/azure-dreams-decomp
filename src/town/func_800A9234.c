@@ -19,9 +19,8 @@ typedef struct S_800A6994_2 {
 } S_800A6994_2;   /* temp_v0 in func_800A6994 */
 
 
-
 #define M2C_FIELD(expr, type_ptr, offset) \
-    (*(type_ptr)((s8 *)(expr) + (offset)))
+(*(type_ptr)((s8 *)(expr) + (offset)))
 
 M2C_UNK func_8009BFD8();
 M2C_UNK func_800A6328();

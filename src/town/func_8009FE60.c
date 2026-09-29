@@ -2,9 +2,20 @@
 
 typedef struct GlobalADBC { u8 pad0[0x18]; s16 field18; s16 field1A; } GlobalADBC;
 typedef struct TownState {
-    s32 field0; s32 field4; s32 field8; u8 pad0C[0xC];
-    void *field18; void *field1C; void *field20; void *field24;
-    u8 pad28[8]; void *field30; void *field34; void *field38; void *field3C; void *field40;
+    s32 field0;
+    s32 field4;
+    s32 field8;
+    u8 pad0C[0xC];
+    void * field18;
+    void * field1C;
+    void * field20;
+    void * field24;
+    u8 pad28[8];
+    void * field30;
+    void * field34;
+    void * field38;
+    void * field3C;
+    void * field40;
 } TownState;
 
 /* Fixed application scratch arena below the PS-X EXE load image.  Resident
@@ -78,7 +89,8 @@ void func_8009D5C0(void **entries) {
     }
     while ((entry = *entry_cursor) != 0) {
         entry_callback = *(ListCallback *)((u8 *)entry + 0x10);
-        if (entry_callback != 0) entry_callback();
+        if (entry_callback != 0)
+            entry_callback();
         entry_cursor++;
     }
     func_80034F88(D_80082A38, *(void **)((u8 *)D_80082A38 + 0x88));

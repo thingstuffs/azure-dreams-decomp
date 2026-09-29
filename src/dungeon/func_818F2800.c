@@ -291,7 +291,7 @@ void BODY(void *shape, void *position, void *render_state, u16 depth_offset)
                         texture_v = texture_v + state_flags;
                         DM_U32(0x0C) = texture_v;
                     }
-                                        /* --- shared tail of the two arms (retail word 146) --- */
+                                                            /* --- shared tail of the two arms (retail word 146) --- */
                     {
                         s32 half_height;
                         half_height = (u32)((S_BODY_2 *)part)->unk_08.at03.v >> 1;
@@ -476,7 +476,7 @@ void BODY(void *shape, void *position, void *render_state, u16 depth_offset)
                                 packed_uv = packed_uv + ((S_BODY_2 *)part)->unk_06;
                                 ((S_BODY_7 *)quad)->unk_0A = (s16)packed_uv;
                             }
-                                                        /* --- retail word 404 --- */
+                                                                                    /* --- retail word 404 --- */
                             packed_uv = DM_U16(0x0C);
                             packed_uv = packed_uv + DM_U16(0x08);
                             ((S_BODY_7 *)quad)->unk_08 = (s16)packed_uv;
@@ -493,7 +493,7 @@ void BODY(void *shape, void *position, void *render_state, u16 depth_offset)
                                 } else {
                                     texture_page = ((S_BODY_2 *)part)->unk_04;
                                 }
-                                                                /* --- retail word 424 --- */
+                                                                                                /* --- retail word 424 --- */
                                 ((S_BODY_7 *)quad)->unk_12 = (u16)texture_page;
                             }
                             packed_uv = DM_U16(0x14);

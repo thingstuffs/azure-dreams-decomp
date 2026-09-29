@@ -60,14 +60,14 @@ void func_80090210(void) {
                 update_state->unk_028 = mode_result;
             }
         } else {
-        ((S_80090210_0 *)((u8 *)handler_state - 0x10))->unk_26 = 1;
-        enabled_flag = func_80033B2C(0x1202);
-        if (enabled_flag != func_80033B2C(0x9D)) {
-            s32 mode_result;
-            mode_result = func_80048D40();
-            D_80080A80 = mode_result;
-            update_state->unk_028 = mode_result;
-        }
+            ((S_80090210_0 *)((u8 *)handler_state - 0x10))->unk_26 = 1;
+            enabled_flag = func_80033B2C(0x1202);
+            if (enabled_flag != func_80033B2C(0x9D)) {
+                s32 mode_result;
+                mode_result = func_80048D40();
+                D_80080A80 = mode_result;
+                update_state->unk_028 = mode_result;
+            }
         }
         if (func_80033B2C(0x1202) != 0) {
             func_80033AA8(0x9D);

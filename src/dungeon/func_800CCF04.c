@@ -21,7 +21,11 @@ typedef struct S_800D2664_0 {
 
 typedef struct S_800D2664_1 {
     u8 pad_00[0x90];
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; struct { u8 pad[0x2]; u16 v; } at02u; } unk_90;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { u8 pad[0x2]; s16 v; } at02;
+        struct { u8 pad[0x2]; u16 v; } at02u;
+    } unk_90;   /* overlapping accesses */
     u8 pad_94[0x4];
     u16 unk_98;
     u8 pad_9A[0x3];

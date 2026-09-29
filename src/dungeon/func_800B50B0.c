@@ -104,7 +104,8 @@ void func_800BA810(S_800B50B0_Entity *entity, s32 selection) {
                     forward_height = height - 0x20;
                     tile_x += (s16) dirStepX[direction];
                     tile_z += (s16) dirStepY[direction];
-                    height = func_800BCB04(((tile_x << 6) + 0x20) & 0xFFE0, ((tile_z << 6) + 0x20) & 0xFFE0, forward_height);
+                    height = func_800BCB04(((tile_x << 6) + 0x20) & 0xFFE0, ((tile_z << 6) + 0x20) & 0xFFE0,
+                        forward_height);
                     if (height >= 0x201) {
                         break;
                     }
@@ -122,7 +123,8 @@ void func_800BA810(S_800B50B0_Entity *entity, s32 selection) {
                 adjacent_height = height - 0x20;
                 tile_x += (s16) dirStepX[direction];
                 tile_z += (s16) dirStepY[direction];
-                height = func_800BCB04(((tile_x << 6) + 0x20) & 0xFFE0, ((tile_z << 6) + 0x20) & 0xFFE0, adjacent_height);
+                height = func_800BCB04(((tile_x << 6) + 0x20) & 0xFFE0, ((tile_z << 6) + 0x20) & 0xFFE0,
+                    adjacent_height);
                 if (height >= 0x201) {
                     break;
                 }
@@ -148,7 +150,8 @@ void func_800BA810(S_800B50B0_Entity *entity, s32 selection) {
                     range_height = height - 0x20;
                     tile_x += (s16) dirStepX[direction];
                     tile_z += (s16) dirStepY[direction];
-                    height = func_800BCB04(((tile_x << 6) + 0x20) & 0xFFE0, ((tile_z << 6) + 0x20) & 0xFFE0, range_height);
+                    height = func_800BCB04(((tile_x << 6) + 0x20) & 0xFFE0, ((tile_z << 6) + 0x20) & 0xFFE0,
+                        range_height);
                     if (height >= 0x201) {
                         break;
                     }
@@ -160,7 +163,8 @@ void func_800BA810(S_800B50B0_Entity *entity, s32 selection) {
             child = entity->child60;
             if (child != NULL) {
                 child_position = ((S_800BA810_2 *)((u8 *)child - 0x18))->unk_00;
-                func_800BA764((u16) child_position->unk_02 >> 6, (u16) child_position->unk_06 >> 6, ((S_800B50B0_Entity *)child)->height88, 0xFF);
+                func_800BA764((u16) child_position->unk_02 >> 6, (u16) child_position->unk_06 >> 6,
+                    ((S_800B50B0_Entity *)child)->height88, 0xFF);
             }
         }
     }

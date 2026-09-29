@@ -46,7 +46,8 @@ void *func_8009F9E8(s32 wanted_kind, s32 wanted_flag) {
         do {
             kind_group = ((S_8009F9E8_0 *)entry)->unk_01 & 0xF8;
             if (kind_group == group_70 || kind_group == group_78 || kind_group == group_80 || kind_group == group_90) {
-                if (((S_8009F9E8_0 *)entry)->unk_01 == wanted_kind && (((S_8009F9E8_0 *)entry)->unk_00 & 0x20) == wanted_flag) {
+                if (((S_8009F9E8_0 *)entry)->unk_01 == wanted_kind
+                    && (((S_8009F9E8_0 *)entry)->unk_00 & 0x20) == wanted_flag) {
                     return entry;
                 }
             } else {

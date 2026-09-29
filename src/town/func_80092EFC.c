@@ -39,7 +39,7 @@ void func_8009065C(void *arg0, void *arg1, void *arg2) {
         }
 
         callback = *(void **)arg0;
-        /* garbage-passthru: a1/a2/a3 are caller-saved residue after func_80095544. */
+                /* garbage-passthru: a1/a2/a3 are caller-saved residue after func_80095544. */
         if (callback == (void *)D_80097D2C || callback == (void *)&D_80090A64 ||
             func_800352FC() != 0) {
             if (D_8006ADD4[0] == 12) {

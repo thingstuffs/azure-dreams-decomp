@@ -19,8 +19,6 @@ typedef struct S_80099FDC_3 {
 } S_80099FDC_3;   /* temp_v1 in func_80099FDC */
 
 
-
-
 /* Clear the entry flag and link the entry into the current owner list. */
 void func_80099FDC(void *entry)
 {

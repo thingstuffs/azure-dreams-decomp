@@ -11,7 +11,6 @@ M2C_UNK func_8009C148(); /* extern */
 extern s32 D_800D0428;
 
 
-
 /* Update motion toward the shared target and advance state when the countdown expires. */
 void func_8009B828(Rec_func_8009B828_arg0 *state, M2C_UNK context, EntityRec *motion, M2C_UNK transition_arg) {
     s32 position;

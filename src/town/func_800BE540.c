@@ -55,7 +55,6 @@ typedef struct S_800BBCA0_5 {
 } S_800BBCA0_5;   /* spriteType in func_800BBCA0 */
 
 
-
 extern s32 func_80033BC0(s32);
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);

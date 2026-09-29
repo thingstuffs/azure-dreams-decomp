@@ -29,7 +29,8 @@ extern void func_8004B248(u16 **a0);
 
 
 /* Allocate and initialize a paged item-list node, returning null on failure. */
-void *func_800B14B0(s32 parent, s32 selected_index, s32 item_count, s32 page_index, s32 last_page, s32 item_base, s32 display_mode)
+void *func_800B14B0(s32 parent, s32 selected_index, s32 item_count, s32 page_index, s32 last_page, s32 item_base,
+    s32 display_mode)
 {
     S_800B3D50_node *node = func_8003FC64(0);
     S_800B3D50_sub *sub;

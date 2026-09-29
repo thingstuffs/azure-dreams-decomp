@@ -12,8 +12,6 @@ typedef struct S_800B65D8_5 {
 } S_800B65D8_5;   /* ((S_800B65D8_4 *)temp_s1)->unk_04 in func_800B65D8 */
 
 
-
-
 s32 func_80048DA0();                         /* extern */
 s32 func_80048DCC();                             /* extern */
 s32 func_80048DE8();                             /* extern */

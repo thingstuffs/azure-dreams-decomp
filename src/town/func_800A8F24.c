@@ -57,7 +57,7 @@ void func_800A6684(void *entity, EntityRec *position, S_800A6684_0 *sprite)
         } else {
             sprite->unk_14 &= 0xFFFE;
         }
-           /* MATCH: keep the flags store before call argument setup. */
+                   /* MATCH: keep the flags store before call argument setup. */
         func_800478B8(sprite);
 
         height_or_shade = position->y.v;

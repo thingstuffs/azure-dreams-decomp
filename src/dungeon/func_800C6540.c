@@ -14,7 +14,6 @@ typedef struct S_800CBCA0_1 {
 } S_800CBCA0_1;   /* parent in func_800CBCA0 */
 
 
-
 extern void func_80094E34(void);
 extern void func_80099844(void *, void *);
 extern void func_800A6508(void);

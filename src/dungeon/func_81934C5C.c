@@ -101,7 +101,7 @@ void func_8002445C(void *effect) {
         ((S_81934C5C_0 *)effect)->unk_30.at02.v = 0x10;
         ((S_81934C5C_0 *)effect)->unk_4C = (s16) ((u16) ((S_81934C5C_0 *)effect)->unk_4C + 1);
 
-                /* fallthrough */
+                        /* fallthrough */
     case 1:
         ((S_81934C5C_0 *)effect)->unk_1C.at00.v = (s32) (((S_81934C5C_0 *)effect)->unk_1C.at00.v
             + ((S_81934C5C_0 *)effect)->unk_28.at00.v);

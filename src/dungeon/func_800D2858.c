@@ -142,8 +142,10 @@ void func_800D7FB8(S_func_800D7FB8_0 *controller) {
         controller->unk_02.u16_value = finish_timer;
         if ((finish_timer << 0x10) <= 0) {
             dungeonStatus.unk_0A = (u16)(((u16)dungeonStatus.unk_0A) - 1);
-            ((S_func_800D7FB8_7 *)((u8 *)controller - 2))->unk_00 = (u16)(((S_func_800D7FB8_7 *)((u8 *)controller - 2))->unk_00 | 0x8000);
-            ((S_func_800D7FB8_6 *)((s32 *)(&objectFlagBlock)))->unk_00 = ((S_func_800D7FB8_6 *)((s32 *)(&objectFlagBlock)))->unk_00 | 0x8000;
+            ((S_func_800D7FB8_7 *)((u8 *)controller - 2))->unk_00 =
+                (u16)(((S_func_800D7FB8_7 *)((u8 *)controller - 2))->unk_00 | 0x8000);
+            ((S_func_800D7FB8_6 *)((s32 *)(&objectFlagBlock)))->unk_00 =
+                ((S_func_800D7FB8_6 *)((s32 *)(&objectFlagBlock)))->unk_00 | 0x8000;
         }
 
         return;

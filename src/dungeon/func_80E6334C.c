@@ -73,7 +73,7 @@ void func_80172B4C(void *action, void *motion, void *sprite, void *actor)
         ((S_80172B4C_0 *)action)->unk_A4 = 0;
         ((S_80172B4C_0 *)action)->unk_9B++;
     }
-                /* fallthrough */
+                        /* fallthrough */
     case 1:
         move_ticks = ((S_80172B4C_0 *)action)->unk_9E.s;
         ((S_80172B4C_0 *)action)->unk_90 -= ((S_80172B4C_0 *)action)->unk_A4;
@@ -107,7 +107,7 @@ void func_80172B4C(void *action, void *motion, void *sprite, void *actor)
             ((EntityRec *)actor)->flags1C |= 0x08000000;
             ((S_80172B4C_0 *)action)->unk_9B++;
         }
-                /* fallthrough */
+                        /* fallthrough */
     case 2:
     {
         u8 *phase_anims;

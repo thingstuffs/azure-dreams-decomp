@@ -36,8 +36,6 @@ extern u8 D_800E3544[];
 extern s32 D_800E4940[];
 
 
-
-
 typedef struct S_80096384_5 {
     u8 unk_00;
     u8 unk_01;
@@ -167,7 +165,7 @@ void func_80096384(void *actor, s32 actor_id, Rec_D_80082E80 *sprite, EntityRec 
                     }
                     if (angle_distance >= 0x801) {
                         actor_data->facing = (u16)
-                            ((turn_angle & ~0xFFF) | (angle & 0xFFF));
+                        ((turn_angle & ~0xFFF) | (angle & 0xFFF));
                     }
                     signed_angle = actor_data->facing;
                     angle_2 = ((u16)actor_data->facing);

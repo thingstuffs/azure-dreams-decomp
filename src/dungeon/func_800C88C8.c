@@ -73,7 +73,8 @@ void func_800CE028(DungeonEffect *effect) {
                 origin_y = effect->y;
                 row_shift = grid->shiftX;
                 origin_x = effect->x;
-                target_step = (s32)(*target_ptr - tiles[((target_row + origin_y) << row_shift) + origin_x + target_col].height) / effect->timer;
+                target_step = (s32)(*target_ptr - tiles[((target_row + origin_y) << row_shift) + origin_x
+                    + target_col].height) / effect->timer;
                 target_ptr++;
                 tiles[((target_row + origin_y) << row_shift) + origin_x + target_col].height =
                     (u16)tiles[((target_row + origin_y) << row_shift) + origin_x + target_col].height + target_step;
@@ -106,8 +107,8 @@ snap_target_tile:
                 target_height = *snap_target_ptr;
                 snap_target_ptr++;
                 func_800CDF40((s16)((u16)effect->x + snap_target_col),
-                                  (s16)((u16)effect->y + target_row),
-                                  (s16)-target_height);
+                              (s16)((u16)effect->y + target_row),
+                              (s16)-target_height);
                 snap_target_col++;
                 if (snap_target_col < 5) {
                     goto snap_target_tile;
@@ -145,7 +146,8 @@ snap_target_tile:
                 origin_y = effect->y;
                 row_shift = grid->shiftX;
                 origin_x = effect->x;
-                restore_step = (s32)(*initial_ptr - tiles[((restore_row + origin_y) << row_shift) + origin_x + restore_col].height) / effect->timer;
+                restore_step = (s32)(*initial_ptr - tiles[((restore_row + origin_y) << row_shift) + origin_x
+                    + restore_col].height) / effect->timer;
                 initial_ptr++;
                 tiles[((restore_row + origin_y) << row_shift) + origin_x + restore_col].height =
                     (u16)tiles[((restore_row + origin_y) << row_shift) + origin_x + restore_col].height + restore_step;
@@ -178,8 +180,8 @@ snap_initial_tile:
                 snap_initial_ptr++;
                 x_or_mask = (s16)((u16)effect->x + snap_initial_col);
                 func_800CDF40(x_or_mask,
-                                  (s16)((u16)effect->y + restore_row),
-                                  (s16)-initial_height);
+                              (s16)((u16)effect->y + restore_row),
+                              (s16)-initial_height);
                 snap_initial_col++;
                 if (snap_initial_col < 5) {
                     goto snap_initial_tile;

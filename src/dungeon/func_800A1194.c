@@ -4,7 +4,6 @@
 #include "m2c_compat.h"
 
 
-
 extern u8 D_800DD878;
 
 /* Restore bit 4 of the current record flags when it was saved as set. */

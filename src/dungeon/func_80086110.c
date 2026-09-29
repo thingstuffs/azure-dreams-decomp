@@ -17,7 +17,8 @@ extern M2C_UNK D_8004F5F4;
 extern s32 D_800E4940[];
 
 /* Reset movement and dispatch actor actions based on state and input flags. */
-void func_8008B870(Rec_func_8008ACDC_arg0 *controller, EntityRec *move_state, Rec_D_80082E80 *entity, EntityRec *actor) {
+void func_8008B870(Rec_func_8008ACDC_arg0 *controller, EntityRec *move_state, Rec_D_80082E80 *entity,
+    EntityRec *actor) {
     s16 action_state;
     GameWork *input_state = &gameWork;
 

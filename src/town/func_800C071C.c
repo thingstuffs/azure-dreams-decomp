@@ -13,16 +13,15 @@ typedef struct S_800BDE7C_1 {
 } S_800BDE7C_1;   /* arg2 in func_800BDE7C */
 
 
-
 s32 func_800352FC(void);
 s32 func_800C2AB4(void *);
 
 void func_800BDE7C(S_800BDE7C_0 *arg0, s32 arg1, S_800BDE7C_1 *arg2, s32 arg3)
 {
     s16 state;
-    /* MATCH: Preserve retail's source register after making call arguments explicit. */
+        /* MATCH: Preserve retail's source register after making call arguments explicit. */
     s32 *source;
-    /* MATCH: Keep incoming call arguments in their ABI registers across dispatch. */
+        /* MATCH: Keep incoming call arguments in their ABI registers across dispatch. */
     S_800BDE7C_0 *call_arg0 = arg0;
     S_800BDE7C_1 *call_arg2 = arg2;
 

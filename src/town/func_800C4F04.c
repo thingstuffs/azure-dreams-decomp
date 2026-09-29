@@ -1,7 +1,6 @@
 #include "common.h"
 
 
-
 typedef s32 M2C_UNK;
 
 #define M2C_FIELD(expr, type, offset) (*(type)((s8 *)(expr) + (offset)))

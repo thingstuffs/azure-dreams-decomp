@@ -2,7 +2,6 @@
 #include "shared/object_node.h"
 
 
-
 typedef s32 M2C_UNK;
 
 typedef struct S_800DB2DC_6 {
@@ -21,7 +20,7 @@ typedef struct S_800DB2DC_7 {
 
 
 #define M2C_FIELD(expr, type_ptr, offset) \
-    (*(type_ptr)((s8 *)(expr) + (offset)))
+(*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern void *func_8003FD64();
 extern M2C_UNK D_800DB420;

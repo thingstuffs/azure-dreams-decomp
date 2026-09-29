@@ -12,5 +12,6 @@ s32 func_800CE69C(void *record) {
         return 1;
     }
     source_record = *(void **)((s8 *)record - 0x14);
-    return func_800CE4E8(((u8 *)source_record)[0x24], ((u8 *)source_record)[0x25], *(s16 *)((s8 *)record + 0x88), record, 0) != 0;
+    return func_800CE4E8(((u8 *)source_record)[0x24], ((u8 *)source_record)[0x25], *(s16 *)((s8 *)record + 0x88),
+        record, 0) != 0;
 }

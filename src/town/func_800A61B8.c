@@ -25,7 +25,6 @@ typedef struct S_800A3918_2 {
 } S_800A3918_2;   /* base in func_800A3918 */
 
 
-
 extern void *D_8008274C;
 extern s32 D_800C5100;
 
@@ -54,7 +53,7 @@ void func_800A3918(S_800A3918_0 *anim, s32 unused) {
         if (((S_800A3918_1 *)D_8008274C)->unk_74 == &D_800C5100) {
             anim->unk_02 = 1;
         }
-            break;
+        break;
     case 1:
         global_base = (u8 *)0x80100000;
         offset = ((S_800A3918_2 *)global_base)->unk_D8A.s;

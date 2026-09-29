@@ -56,7 +56,7 @@ void func_801724E8(void *anim, EntityRec *motion, void *actor, EntityRec *actor_
         ((S_801724E8_0 *)anim)->unk_9E.s = 5;
         ((S_801724E8_0 *)anim)->unk_A0 = 0;
         ((S_801724E8_0 *)anim)->unk_9B++;
-                /* fall through */
+                        /* fall through */
     case 1:
         hop_frames = ((S_801724E8_0 *)anim)->unk_9E.s;
         ((S_801724E8_0 *)anim)->unk_90 -= ((S_801724E8_0 *)anim)->unk_A0;
@@ -79,7 +79,7 @@ void func_801724E8(void *anim, EntityRec *motion, void *actor, EntityRec *actor_
             (*(u32 *)&actor_state->flags1C) |= 0x08000000;
             ((S_801724E8_0 *)anim)->unk_9B++;
         }
-                /* fall through */
+                        /* fall through */
     case 2:
         if (((u32)actor_state->flags1C) & 0x08000000) {
             ((S_801724E8_0 *)anim)->unk_98 &= 0xFFF7;

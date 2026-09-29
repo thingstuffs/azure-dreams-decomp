@@ -37,7 +37,6 @@ typedef struct S_80097AF8_4 {
 } S_80097AF8_4;   /* arg3 in func_80097AF8 */
 
 
-
 extern u8 D_80096384[];
 
 extern void func_80099F04(void *);

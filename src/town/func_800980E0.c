@@ -32,7 +32,6 @@ typedef struct S_80095840_3 {
 } S_80095840_3;   /* entry in func_80095840 */
 
 
-
 extern s32 D_800D0484[8];
 
 /* Selects an eligible source entry and stores its pointer in the destination. */

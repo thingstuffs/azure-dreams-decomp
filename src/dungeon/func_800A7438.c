@@ -4,15 +4,12 @@
 #include "shared/entity.h"
 
 
-
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern struct {
     s8 pad[0xA];
     u16 field_0xA;
 } D_80083460;
-
-
 
 
 /* Sets entity state 0x14, resets progress, sets status flags, and increments the global counter. */

@@ -218,7 +218,7 @@ state_2:
         ((S_8017450C_1 *)monster)->unk_1A.u += 0x20;
     }
 
-        /* angle_store */
+            /* angle_store */
     if (((S_8017450C_1 *)monster)->unk_1A.u >= 0x1000) {
         ((S_8017450C_1 *)monster)->unk_1A.u -= 0x1000;
     }

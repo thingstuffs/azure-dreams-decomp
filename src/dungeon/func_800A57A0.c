@@ -59,7 +59,6 @@ typedef struct S_800AAF00_5 {
 } S_800AAF00_5;   /* state2 in func_800AAF00 */
 
 
-
 extern s32 func_80047784();
 extern s32 func_800A05A4();
 extern s32 func_800A2B5C();

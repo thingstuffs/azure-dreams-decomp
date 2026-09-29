@@ -44,8 +44,8 @@ s32 func_800C3440(void *target, s32 item, s16 use_mode, s32 use_context)
     if ((u32)target <= 0x9FFFFFFF) {
         func_800A6480(target, item);
         if (func_800AD6FC(target,
-                         D_800DDE84[((u8 *)target)[0x13]] & 3,
-                         item) == 0) {
+                          D_800DDE84[((u8 *)target)[0x13]] & 3,
+                          item) == 0) {
             func_800A5F38(target, item);
             return 1;
         }
@@ -60,7 +60,7 @@ s32 func_800C3440(void *target, s32 item, s16 use_mode, s32 use_context)
             equipment[3] &= 0xBF;
             message_buf = func_800990FC();
             func_80099290(func_80099194(D_800E1756,
-                                      func_80099368(equipment, message_buf)));
+                                        func_80099368(equipment, message_buf)));
             func_800A5720(message_buf);
             uncursed = 1;
         }
@@ -70,7 +70,7 @@ s32 func_800C3440(void *target, s32 item, s16 use_mode, s32 use_context)
             equipment[3] &= 0xBF;
             message_buf = func_800990FC();
             func_80099290(func_80099194(D_800E176F,
-                                      func_80099368(equipment, message_buf)));
+                                        func_80099368(equipment, message_buf)));
             func_800A5720(message_buf);
             uncursed = 1;
         }

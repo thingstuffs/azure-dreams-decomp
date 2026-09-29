@@ -27,7 +27,7 @@ void *func_8009F868(void)
     u16 elapsed_ticks;
 
     state = (u8 *)0x80013710;
-    loop_done:
+loop_done:
     ;
     entry = ((S_8009F868_0 *)state)->unk_0C + ((S_8009F868_0 *)state)->unk_0A * 2;
     opcode = entry[1];

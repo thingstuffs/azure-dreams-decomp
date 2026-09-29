@@ -4,26 +4,72 @@
 typedef struct Vec8 { u32 xy; s16 z; s16 pad; } Vec8;
 typedef union Quad { u32 words[4]; s16 vals[8]; } Quad;
 typedef struct CellRecord {
-    u16 v0; u16 v2; u16 v4; u16 v6; u16 v8;
-    u8 pad0A; u8 edge_flags; u8 pad0C[0x0B]; u8 flags;
+    u16 v0;
+    u16 v2;
+    u16 v4;
+    u16 v6;
+    u16 v8;
+    u8 pad0A;
+    u8 edge_flags;
+    u8 pad0C[0x0B];
+    u8 flags;
 } CellRecord;
 typedef struct MapInfo {
-    u16 *grid; CellRecord **records; Vec8 *vertices; Vec8 *planes;
-    u8 pad10[4]; s16 shift; u8 pad16[2]; u16 x_mask; u16 y_mask;
+    u16 * grid;
+    CellRecord **records;
+    Vec8 * vertices;
+    Vec8 * planes;
+    u8 pad10[4];
+    s16 shift;
+    u8 pad16[2];
+    u16 x_mask;
+    u16 y_mask;
 } MapInfo;
 typedef struct GlobalState { u8 pad000[0x1DC]; MapInfo map; } GlobalState;
 typedef struct Scratch {
-    u8 pad00[4]; u16 tile; u8 pad06[0x12]; Vec8 *planes; s16 x; s16 y;
-    u8 pad22[4]; s32 value; s32 best; s32 limit; u8 pad30[0x1C];
-    s16 base_x; s16 base_y; s16 orig_x; s16 orig_y;
-    s32 step_x; s32 step_y; s32 inner_count; s32 outer_count;
-    s32 inner_delta; s32 outer_delta; Quad quad;
+    u8 pad00[4];
+    u16 tile;
+    u8 pad06[0x12];
+    Vec8 * planes;
+    s16 x;
+    s16 y;
+    u8 pad22[4];
+    s32 value;
+    s32 best;
+    s32 limit;
+    u8 pad30[0x1C];
+    s16 base_x;
+    s16 base_y;
+    s16 orig_x;
+    s16 orig_y;
+    s32 step_x;
+    s32 step_y;
+    s32 inner_count;
+    s32 outer_count;
+    s32 inner_delta;
+    s32 outer_delta;
+    Quad quad;
 } Scratch;
 typedef struct ScratchPrefix {
-    u8 pad00[4]; u16 tile; u8 pad06[0x12]; Vec8 *planes; s16 x; s16 y;
-    u8 pad22[4]; s32 value; s32 best; s32 limit; u8 pad30[0x1C];
-    s16 base_x; s16 base_y; s16 orig_x; s16 orig_y;
-    s32 step_x; s32 step_y; s32 inner_count; s32 outer_count;
+    u8 pad00[4];
+    u16 tile;
+    u8 pad06[0x12];
+    Vec8 * planes;
+    s16 x;
+    s16 y;
+    u8 pad22[4];
+    s32 value;
+    s32 best;
+    s32 limit;
+    u8 pad30[0x1C];
+    s16 base_x;
+    s16 base_y;
+    s16 orig_x;
+    s16 orig_y;
+    s32 step_x;
+    s32 step_y;
+    s32 inner_count;
+    s32 outer_count;
 } ScratchPrefix;
 typedef union ScratchArena { Scratch full; ScratchPrefix prefix; } ScratchArena;
 
@@ -70,14 +116,20 @@ s32 func_8008D5C4(s32 world_x, s32 world_y, s16 height) {
     vertices = map->vertices;
     {
         s32 step_x = scratch->x;
-        if (step_x >= 0x20) { offset_x = 0; step_x = 0x40; }
-        else step_x = -0x40;
+        if (step_x >= 0x20) {
+            offset_x = 0;
+            step_x = 0x40;
+        }
+        else
+            step_x = -0x40;
         *(volatile s32 *)&scratch->step_x = step_x;
     }
     {
         s32 step_y = *(volatile s16 *)&scratch->y < 0x20;
-        if (step_y == 0) step_y = 0x40;
-        else step_y = -0x40;
+        if (step_y == 0)
+            step_y = 0x40;
+        else
+            step_y = -0x40;
         *(volatile s32 *)&scratch->step_y = step_y;
     }
     *(volatile s32 *)&scratch->outer_count = 0;
@@ -89,9 +141,11 @@ s32 func_8008D5C4(s32 world_x, s32 world_y, s16 height) {
         scan_y = (u16)scratch->orig_y + (u16)scratch->outer_delta;
         row_y = scan_y;
         if (scratch->step_y >= 0) {
-            if (row_y >= D_800FE484) return (s16)(u16)scratch->best;
+            if (row_y >= D_800FE484)
+                return (s16)(u16)scratch->best;
         } else {
-            if (row_y < 0) return (s16)(u16)scratch->best;
+            if (row_y < 0)
+                return (s16)(u16)scratch->best;
         }
         scratch->inner_count = 0;
         scratch->inner_delta = 0;
@@ -103,17 +157,21 @@ s32 func_8008D5C4(s32 world_x, s32 world_y, s16 height) {
             scan_x = x_sum;
             col_x = x_sum;
             if (x_step >= 0) {
-                if (col_x >= D_800FE480) break;
+                if (col_x >= D_800FE480)
+                    break;
             } else {
                 col_x = x_sum;
-                if (col_x < 0) break;
+                if (col_x < 0)
+                    break;
             }
             biased_x = (s16)scan_x;
-            if (biased_x < 0) biased_x += 0x3F;
+            if (biased_x < 0)
+                biased_x += 0x3F;
             tile_x = map->x_mask & (biased_x >> 6);
             scratch->tile = tile_x;
             biased_y = scan_y;
-            if (biased_y < 0) biased_y += 0x3F;
+            if (biased_y < 0)
+                biased_y += 0x3F;
             tile_index = tile_x + ((s16)(map->y_mask & (biased_y >> 6)) << map->shift);
             scratch->tile = tile_index;
 
@@ -166,10 +224,11 @@ s32 func_8008D5C4(s32 world_x, s32 world_y, s16 height) {
                                 scratch->value = result / normal_z;
                                 if (scratch->limit >= scratch->value &&
                                     scratch->best < scratch->value)
-                                    scratch->best = scratch->value;
+                                scratch->best = scratch->value;
                             }
                         }
-                        if ((s8)cell->edge_flags < 0) break;
+                        if ((s8)cell->edge_flags < 0)
+                            break;
                         cell = (CellRecord *)((u8 *)cell - 0x0C);
                     } while (1);
                 }

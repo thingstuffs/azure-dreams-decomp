@@ -147,7 +147,7 @@ state_0:
         {
             init_frame = *(u8 *)init_entry;
         }
-         /* MATCH: Keep the zero argument in the shared-call jump delay slot. */
+                 /* MATCH: Keep the zero argument in the shared-call jump delay slot. */
         func_80048A44(init_anim, init_frame, 0, 1);
         actor[0x9B]++;
 #else

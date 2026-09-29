@@ -230,7 +230,7 @@ s32 func_80024D58(void *node) {
                             s32 next_index;
                             func_80065420(rotated_points + point_index * 8,
                                           grid + (((ring + (s16) point_count) << 6) - 0x40)
-                                              + (((span_base + (s16) point_count)
+                                          + (((span_base + (s16) point_count)
                                               - (next_index = point_index + 1)) * 4),
                                           &frame.p.f530, &frame.p.f534);
                             point_index = next_index;

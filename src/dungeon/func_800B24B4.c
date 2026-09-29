@@ -48,7 +48,8 @@ void func_800B7C14(void *effect, void *motion, void *primitive) {
     velocity_x = ((S_800B7C14_2 *)motion)->unk_0C;
     ((S_800B7C14_2 *)motion)->unk_08 = (s32) (((S_800B7C14_2 *)motion)->unk_08 + ((S_800B7C14_2 *)motion)->unk_14);
     ((S_800B7C14_2 *)motion)->unk_0C = (s32) (velocity_x - (velocity_x >> 4));
-    ((S_800B7C14_2 *)motion)->unk_10 = (s32) (((S_800B7C14_2 *)motion)->unk_10 - (((S_800B7C14_2 *)motion)->unk_10 >> 4));
+    ((S_800B7C14_2 *)motion)->unk_10 = (s32) (((S_800B7C14_2 *)motion)->unk_10 - (((S_800B7C14_2 *)motion)->unk_10
+        >> 4));
     ((S_800B7C14_2 *)motion)->unk_14 = (s32) (((S_800B7C14_2 *)motion)->unk_14 + 0x40000);
     if (((S_800B7C14_1 *)effect)->unk_12 != 0) {
         brightness = ((Rec_D_80082E80 *)primitive)->unk_0C.at00_u8.v;
@@ -59,8 +60,10 @@ void func_800B7C14(void *effect, void *motion, void *primitive) {
             ((Rec_D_80082E80 *)primitive)->unk_0C.at01_u8.v = brightness;
         }
     }
-    ((Rec_D_80082E80 *)primitive)->unk_14.at02_u16.v = (u16) (((Rec_D_80082E80 *)primitive)->unk_14.at02_u16.v + ((S_800B7C14_1 *)effect)->unk_14);
-    ((Rec_D_80082E80 *)primitive)->unk_18 = (u16) (((Rec_D_80082E80 *)primitive)->unk_18 + ((S_800B7C14_1 *)effect)->unk_16);
+    ((Rec_D_80082E80 *)primitive)->unk_14.at02_u16.v = (u16) (((Rec_D_80082E80 *)primitive)->unk_14.at02_u16.v
+        + ((S_800B7C14_1 *)effect)->unk_14);
+    ((Rec_D_80082E80 *)primitive)->unk_18 = (u16) (((Rec_D_80082E80 *)primitive)->unk_18
+        + ((S_800B7C14_1 *)effect)->unk_16);
     life_left = ((S_800B7C14_1 *)effect)->unk_10 - 1;
     ((S_800B7C14_1 *)effect)->unk_10 = life_left;
     if ((life_left << 0x10) <= 0) {

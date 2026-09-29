@@ -42,8 +42,8 @@ s32 func_800C4324(void *entity_arg, s32 amount_arg, s16 effect_arg)
         entity_type = *((u8 *)entity_arg + 0x13);
         type_table = (u16 *)&D_800DDE84;
         if (func_800AD6FC(lookup_entity,
-                         (type_table[entity_type] >> 6) & 3,
-                         0) == 0) {
+                          (type_table[entity_type] >> 6) & 3,
+                          0) == 0) {
             func_800A5F38(entity_arg, amount);
             return 1;
         }

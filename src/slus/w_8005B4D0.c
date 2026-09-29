@@ -248,7 +248,7 @@ void func_8005B4D0(s32 bank_program, s32 note_pitch, s16 left_gain, s16 right_ga
                 D_80085458[voice_slot].unk17 = tone->unk03;
                 D_80085458[voice_slot].unk5C = bank_id;
                 pan = ((D_80086A40[(s16) bank_id].unk1B + D_80085458[voice_slot].unk16) + D_80085458[voice_slot].unk17)
-                    - 0x80;
+                - 0x80;
                 if (pan < 0) {
                     pan = 0;
                 }
@@ -258,7 +258,7 @@ void func_8005B4D0(s32 bank_program, s32 note_pitch, s16 left_gain, s16 right_ga
                 D_80085458[voice_slot].unk18 = pan;
                 volume =
                     ((D_80086A40[(s16) bank_id].unk18 * D_80085458[voice_slot].unk14) * D_80085458[voice_slot].unk15)
-                    >> 7;
+                >> 7;
                 if (pan >= 0x40) {
                     right_volume = volume;
                     left_volume = ((0x40 - (pan & 0x3F)) * (right_volume << 1)) >> 7;

@@ -40,7 +40,8 @@ void func_800BDDD0(s32 start_x, s16 start_y) {
                 wrapped_y = y & ((S_800BDDD0_0 *)grid)->unk_1A;
                 cell_value += (y - start_y) * 4;
                 y += 1;
-                *((s16 *) (((s32) (((((S_800BDDD0_0 *)grid)->unk_18 & x) + (wrapped_y << ((S_800BDDD0_0 *)grid)->unk_14)) << 0x10) >> 0xF) + cells_addr)) = cell_value;
+                *((s16 *) (((s32) (((((S_800BDDD0_0 *)grid)->unk_18 & x)
+                    + (wrapped_y << ((S_800BDDD0_0 *)grid)->unk_14)) << 0x10) >> 0xF) + cells_addr)) = cell_value;
             }
             x += 1;
         } while (x < x_limit);

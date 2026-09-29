@@ -4,7 +4,6 @@
 #include "shared/entity.h"
 
 
-
 /* Collect nonzero record values, including the extra value for the selected record. */
 void func_800B58B8(s32 *output, EntityRec *record) {
     s32 *write_ptr;

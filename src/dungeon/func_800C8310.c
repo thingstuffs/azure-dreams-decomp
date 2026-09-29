@@ -32,44 +32,44 @@ s32 func_800CDA70(void *object) {
         if (index >= 4) {
             return 1;
         }
-            if (*D_800E3D40 == 0) {
-                seed = func_800A6D30() & 0xFFFF;
-                if (*(u8 *)((u8 *)object + 3) != 0) {
-                    index = seed % *(u8 *)((u8 *)object + 3);
-                } else {
-                    index = 0;
-                }
+        if (*D_800E3D40 == 0) {
+            seed = func_800A6D30() & 0xFFFF;
+            if (*(u8 *)((u8 *)object + 3) != 0) {
+                index = seed % *(u8 *)((u8 *)object + 3);
             } else {
                 index = 0;
             }
-            if (index < 0x40) {
-                entry = *(void **)((u8 *)object - 0x14);
-                if (*(u16 *)((u8 *)entry + 0x14) & 0x8000) {
-                    func_800CD994(object, 0x10);
-                    return -1;
-                }
-                result = 0;
-                if (func_8003FA44(2) != 0) {
-                    effect = func_8003FC64(2);
-                    *(u8 **)((u8 *)effect + 0x10) = D_800CD910;
-                    *(void **)((u8 *)effect + 0x20) = object;
-                    *(s16 *)((u8 *)effect + 0x26) = 0xC;
-                    func_800C5E5C(
-                        ((*(u8 *)((u8 *)entry + 0x24)) << 6) | 0x20,
-                        ((*(u8 *)((u8 *)entry + 0x25)) << 6) | 0x20,
-                        *(s16 *)((u8 *)object + 0x88), D_800DF820, 0);
-                    func_800A56E0(0x613);
-                    {
-                        (((u16)dungeonStatus.unk_0A))++;
-                    }
-                    return -1;
-                }
-                return result;
+        } else {
+            index = 0;
+        }
+        if (index < 0x40) {
+            entry = *(void **)((u8 *)object - 0x14);
+            if (*(u16 *)((u8 *)entry + 0x14) & 0x8000) {
+                func_800CD994(object, 0x10);
+                return -1;
             }
+            result = 0;
+            if (func_8003FA44(2) != 0) {
+                effect = func_8003FC64(2);
+                *(u8 **)((u8 *)effect + 0x10) = D_800CD910;
+                *(void **)((u8 *)effect + 0x20) = object;
+                *(s16 *)((u8 *)effect + 0x26) = 0xC;
+                func_800C5E5C(
+                    ((*(u8 *)((u8 *)entry + 0x24)) << 6) | 0x20,
+                    ((*(u8 *)((u8 *)entry + 0x25)) << 6) | 0x20,
+                    *(s16 *)((u8 *)object + 0x88), D_800DF820, 0);
+                func_800A56E0(0x613);
+                {
+                    (((u16)dungeonStatus.unk_0A))++;
+                }
+                return -1;
+            }
+            return result;
+        }
         if (*(u8 *)((u8 *)object + 0x13) == 0) {
             func_800A6508();
         }
-return result;
+        return result;
     }
     return result;
 }

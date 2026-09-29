@@ -19,7 +19,6 @@ typedef struct S_8009567C_3 {
 } S_8009567C_3;   /* temp_v0_2 in func_8009567C */
 
 
-
 extern s16 D_800D0464;
 extern s32 D_800D046C;
 

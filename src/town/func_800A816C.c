@@ -47,7 +47,7 @@ void func_800A58CC(S_800A58CC_2 *state_arg, void *object) {
     GameWork *town;
     EntityRec *coords;
 
-     /* MATCH: Order the s2 parameter copy before the s0 copy. */
+         /* MATCH: Order the s2 parameter copy before the s0 copy. */
     object_ref = (s32) object;
     town = &gameWork;
     func_80095C80((void *) object_ref);
@@ -95,7 +95,7 @@ void func_800A58CC(S_800A58CC_2 *state_arg, void *object) {
         pitch = ticks_left > 0
             ? (pitch_step -= town->view.unk_0AC, pitch_step /= ticks_left,
                ((u16)town->view.unk_0AC) + pitch_step)
-            : -0x2B0;
+        : -0x2B0;
         town->view.unk_0AC = pitch;
     }
     if ((state_arg->unk_0A.u == 0) && (town->view.viewAngle == target_yaw)) {

@@ -19,7 +19,8 @@ s32 func_800A19E4(void *source, void *state, s32 lower_limit, s32 upper_limit, s
         }
         source_index = F(source, s8, 0x26);
         if (source_index >= 0) {
-            if (source_index == F(D_80080000, s8, 0x2EA6)) goto done;
+            if (source_index == F(D_80080000, s8, 0x2EA6))
+                goto done;
         }
         if ((func_8009FD40(((u8 *)(&D_80082E80)), source) << 16) >= (upper_limit << 16)) {
             F(state, s8, 0x73) = 0;
@@ -33,9 +34,11 @@ s32 func_800A19E4(void *source, void *state, s32 lower_limit, s32 upper_limit, s
     if (!(flags & 0x10)) {
         source_index = F(source, s8, 0x26);
         if (source_index >= 0) {
-            if (source_index == F(D_80080000, s8, 0x2EA6)) goto set_flag;
+            if (source_index == F(D_80080000, s8, 0x2EA6))
+                goto set_flag;
         }
-        if ((func_8009FD40(((u8 *)(&D_80082E80)), source) << 16) >= (lower_limit << 16)) return (F(state, u32, 0x1C) >> 17) & 1;
+        if ((func_8009FD40(((u8 *)(&D_80082E80)), source) << 16) >= (lower_limit << 16))
+            return (F(state, u32, 0x1C) >> 17) & 1;
 set_flag:
         F(state, u32, 0x1C) |= 0x20000;
     }

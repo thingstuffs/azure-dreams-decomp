@@ -94,7 +94,9 @@ s32 func_800C08A4(u8 *source, u8 *target, s16 action, M2C_UNK context) {
         }
         position = ((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_00;
         ((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_63 = (u8) (((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_63 & 0xDF);
-        func_800A7A7C((u16) position->unk_02 >> 6, (u16) position->unk_06 >> 6, position->unk_0A, func_8004A658(((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_61, ((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_60), entity + 0x48);
+        func_800A7A7C((u16) position->unk_02 >> 6, (u16) position->unk_06 >> 6, position->unk_0A,
+            func_8004A658(((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_61,
+            ((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_60), entity + 0x48);
         ((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_60 = (u8) *target;
         ((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_63 = (u8) (((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_63 | 0x20);
         script = func_800990FC();

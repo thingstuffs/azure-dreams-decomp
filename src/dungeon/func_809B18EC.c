@@ -235,7 +235,7 @@ sw_case567:
                     goto case_123;
                 }
             }
-                    /* fallthrough */
+                                /* fallthrough */
 
         case 11:
 case_12:

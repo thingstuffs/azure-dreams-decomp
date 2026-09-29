@@ -3,9 +3,6 @@
 #include "shared/entity.h"
 
 
-
-
-
 typedef struct Position {
     s32 x;
     s32 y;

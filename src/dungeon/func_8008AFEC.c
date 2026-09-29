@@ -26,14 +26,14 @@ s32 func_8009074C(s16 direction_offset, u16 *flags, u16 *angle) {
     input_direction = input_state >> 0xC;
     switch (input_direction) {
     case 2:
-    if (!(*flags & direction_mask)) {
-        s32 offset_angle;
-        s32 relative_angle;
-        offset_angle = ((s32) (direction_offset << 0x10) >> 7);
-        relative_angle = 0 - offset_angle;
-        result_angle = relative_angle;
-    }
-    goto block_19;
+        if (!(*flags & direction_mask)) {
+            s32 offset_angle;
+            s32 relative_angle;
+            offset_angle = ((s32) (direction_offset << 0x10) >> 7);
+            relative_angle = 0 - offset_angle;
+            result_angle = relative_angle;
+        }
+        goto block_19;
     case 6:
     {
         s32 relative_direction;
@@ -48,13 +48,13 @@ s32 func_8009074C(s16 direction_offset, u16 *flags, u16 *angle) {
         goto block_18_c1;
     }
     case 4:
-    if (!(*flags & direction_mask)) {
-        direction_or_angle = (s16)direction_offset;
-        direction_result = 2;
-        direction_result = direction_result - direction_or_angle;
-        result_angle = direction_result << 9;
-    }
-    goto block_19;
+        if (!(*flags & direction_mask)) {
+            direction_or_angle = (s16)direction_offset;
+            direction_result = 2;
+            direction_result = direction_result - direction_or_angle;
+            result_angle = direction_result << 9;
+        }
+        goto block_19;
     case 12:
     {
         s32 relative_direction;
@@ -69,13 +69,13 @@ s32 func_8009074C(s16 direction_offset, u16 *flags, u16 *angle) {
         goto block_18_c3;
     }
     case 8:
-    if (!(*flags & direction_mask)) {
-        direction_or_angle = (s16)direction_offset;
-        direction_result = 4;
-        direction_result = direction_result - direction_or_angle;
-        result_angle = direction_result << 9;
-    }
-    goto block_19;
+        if (!(*flags & direction_mask)) {
+            direction_or_angle = (s16)direction_offset;
+            direction_result = 4;
+            direction_result = direction_result - direction_or_angle;
+            result_angle = direction_result << 9;
+        }
+        goto block_19;
     case 9:
     {
         s32 relative_direction;
@@ -90,13 +90,13 @@ s32 func_8009074C(s16 direction_offset, u16 *flags, u16 *angle) {
         goto block_18_c5;
     }
     case 1:
-    if (!(*flags & direction_mask)) {
-        direction_or_angle = (s16)direction_offset;
-        direction_result = 6;
-        direction_result = direction_result - direction_or_angle;
-        result_angle = direction_result << 9;
-    }
-    goto block_19;
+        if (!(*flags & direction_mask)) {
+            direction_or_angle = (s16)direction_offset;
+            direction_result = 6;
+            direction_result = direction_result - direction_or_angle;
+            result_angle = direction_result << 9;
+        }
+        goto block_19;
     case 3:
     {
         s32 direction_or_flags;
@@ -132,22 +132,22 @@ block_19:
         } else {
             normalized = angle_bits | 0xF800;
         }
-            *angle = normalized;
+        *angle = normalized;
         normalized = result_angle & 0x800;
         if (!normalized) {
             normalized = (u16) result_angle & 0x7FF;
         } else {
             normalized = (u16) result_angle | 0xF800;
         }
-            result_angle = normalized;
+        result_angle = normalized;
         current_angle = (s16) *angle;
         current_bits = *angle;
         angle_distance = current_angle - result_angle;
         if (angle_distance < 0) {
             angle_distance = 0 - angle_distance;
         }
-        if (angle_distance >= 0x801)
-        {        u16 wrap_hi;
+        if (angle_distance >= 0x801) {
+            u16 wrap_hi;
             u16 wrap_lo;
             wrap_hi = current_bits & 0xF000;
             wrap_lo = result_angle & 0xFFF;

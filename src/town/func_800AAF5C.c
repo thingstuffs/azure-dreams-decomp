@@ -22,7 +22,6 @@ typedef struct S_800A86BC_1 {
 } S_800A86BC_1;   /* arg0 in func_800A86BC */
 
 
-
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern void func_800478B8();

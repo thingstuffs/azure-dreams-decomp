@@ -84,26 +84,26 @@ void func_8008F878(S_8008F878_0 *action, void *unused, S_8008F878_1 *action_data
             return;
         }
         if (state == 0) {
-        if (func_8004CAE8(action_data->unk_08, 0) == 0) {
-            target = action->unk_124;
-            ((S_8008F878_2 *)(&D_800DD25C))->unk_00.p = target;
-            if (target->unk_13 <= 0) {
-                ((S_8008F878_2 *)(&D_800DD25C))->unk_00.i = 0;
+            if (func_8004CAE8(action_data->unk_08, 0) == 0) {
+                target = action->unk_124;
+                ((S_8008F878_2 *)(&D_800DD25C))->unk_00.p = target;
+                if (target->unk_13 <= 0) {
+                    ((S_8008F878_2 *)(&D_800DD25C))->unk_00.i = 0;
+                }
+                target_flags = action->unk_124;
+                target_flags->unk_1C = (s32) (target_flags->unk_1C & 0xFFF7FFFF);
+                actor->unk_1C = (s32) (actor->unk_1C & 0xFFEFFFFF);
+                func_8009A350(action_data->unk_24, action_data->unk_25, ((u16) actor->unk_2A >> 9) & 7, &query_flags);
+                event_id = 0x50C;
+                if (query_flags & 0x400) {
+                    event_id = 0x517;
+                }
+                func_800A56E0(event_id);
+                saved_value = ((Rec_D_80016000 *)(&D_80081484))->unk_00.at00_s32.v;
+                ((Rec_D_80016000 *)(&D_80081484))->unk_00.at00_s32.v = 0;
+                D_800E3540 = saved_value;
+                action->unk_9B++;
             }
-            target_flags = action->unk_124;
-            target_flags->unk_1C = (s32) (target_flags->unk_1C & 0xFFF7FFFF);
-            actor->unk_1C = (s32) (actor->unk_1C & 0xFFEFFFFF);
-            func_8009A350(action_data->unk_24, action_data->unk_25, ((u16) actor->unk_2A >> 9) & 7, &query_flags);
-            event_id = 0x50C;
-            if (query_flags & 0x400) {
-                event_id = 0x517;
-            }
-            func_800A56E0(event_id);
-            saved_value = ((Rec_D_80016000 *)(&D_80081484))->unk_00.at00_s32.v;
-            ((Rec_D_80016000 *)(&D_80081484))->unk_00.at00_s32.v = 0;
-            D_800E3540 = saved_value;
-            action->unk_9B++;
-        }
         }
     } else {
         if (action_data->unk_14 & 0x6000) {

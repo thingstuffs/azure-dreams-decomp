@@ -249,8 +249,8 @@ load_copy:
         func_800A0B94(((S_800A504C_1 *)entity)->unk_13, load_spawned, 0);
         D_800E3E40[0] = 0;
         Control_CD(0xFF, D_8003E140, D_800E3E40);
-            ((S_800A504C_2_pre *)mode_page)[-1].unk_00 = (s16)((u16)((S_800A504C_2_pre *)mode_page)[-1].unk_00 + 1);
-            goto done;
+        ((S_800A504C_2_pre *)mode_page)[-1].unk_00 = (s16)((u16)((S_800A504C_2_pre *)mode_page)[-1].unk_00 + 1);
+        goto done;
 
 wait_copy:
         if (D_800E3E40[0] != 0) {
@@ -353,9 +353,9 @@ spawn_copy:
 load_replacement:
         load_kind = 3;
         spawned = (u8 *)func_800A1618(((S_800A504C_1 *)entity)->unk_13 - 1,
-                                       load_kind);
+                                      load_kind);
         if (spawned != NULL) {
-    ((S_800A504C_1 *)entity)->unk_13--;
+            ((S_800A504C_1 *)entity)->unk_13--;
             func_8003E188(((S_800A504C_1 *)entity)->unk_13, 0);
             D_80080A90 = D_80023000;
             load_result = func_80048118(((S_800A504C_1 *)entity)->unk_13, D_8008149C);

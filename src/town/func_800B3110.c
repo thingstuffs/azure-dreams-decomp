@@ -6,7 +6,11 @@ typedef struct S_800B0870_0 {
     union { s8 s; u8 u; } unk_01;   /* accessed as both */
     u8 unk_02;
     u8 unk_03;
-    union { struct { s32 v; } at00; struct { s16 v; } at00u; struct { u8 pad[0x2]; s16 v; } at02; } unk_04;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { s16 v; } at00u;
+        struct { u8 pad[0x2]; s16 v; } at02;
+    } unk_04;   /* overlapping accesses */
     u8 pad_08[0x2];
     u8 unk_0A;
     u8 unk_0B;

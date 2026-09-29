@@ -12,7 +12,6 @@ typedef struct S_800BB894_0_pre {
 } S_800BB894_0_pre;   /* the 0x2 bytes before self in func_800BB894, addressed as self[-1] */
 
 
-
 typedef struct {
     s32 word[6];
 } Copy24;

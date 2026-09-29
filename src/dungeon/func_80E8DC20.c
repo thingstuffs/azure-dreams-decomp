@@ -88,7 +88,7 @@ void func_80173420(S_80173420_0 *action, EntityRec *motion, Rec_D_80082E80 *grid
             biased_velocity_y = velocity_y + 3;
         }
         motion->unk_10 = velocity_y - (biased_velocity_y >> 2);
-                /* fall through */
+                        /* fall through */
     case 1:
         directions_x = (s16 *)((s8 *)dirStepX);
         decel_offset = direction * 2;

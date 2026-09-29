@@ -334,7 +334,7 @@ move:
         position->unk_08.half.unk_0A) << 16) == 0) {
         if (func_800BCB04(position->unk_00.half.unk_02.unk_02_u16, position->unk_04.half.unk_06.unk_06_u16,
                           position->unk_08.half.unk_0A) < 0x200)
-            goto advance_tile;
+        goto advance_tile;
     }
     position->unk_00.unk_00 -= motion->unk_6C;
     motion->unk_6C = 0;

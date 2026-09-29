@@ -42,7 +42,8 @@ check_distance:
                 distance = -distance;
             }
             threshold = threshold < distance;
-            if ((threshold == 0) && (func_800352FC(check_value, position, check_param, check_mode) != 0) && (func_800C2AB4(actor) != 0)) {
+            if ((threshold == 0) && (func_800352FC(check_value, position, check_param, check_mode) != 0)
+                && (func_800C2AB4(actor) != 0)) {
                 SD_Call(0x50B);
                 distance = (u16)actor->unk_68;
                 threshold = 0x20;

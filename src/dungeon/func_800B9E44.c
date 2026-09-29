@@ -7,8 +7,6 @@
 #include "shared/dungeon_status.h"
 
 
-
-
 extern u16 D_800DDE84[];
 extern u8 D_800E1279[];
 

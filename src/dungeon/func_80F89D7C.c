@@ -61,7 +61,7 @@ void func_8017357C(void *controller, EntityRec *motion, void *sprite, EntityRec 
             D_80174AFC[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         ((S_8017357C_3 *)(u8 *)&dungeonStatus.unk_00)->unk_0A = ((S_8017357C_3 *)(u8 *)&dungeonStatus.unk_00)->unk_0A
-            - 1;
+        - 1;
         ((S_8017357C_0 *)controller)->unk_9B++;
         return;
     case 1:

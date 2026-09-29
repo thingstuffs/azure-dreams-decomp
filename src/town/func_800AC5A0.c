@@ -21,7 +21,6 @@ typedef struct S_800A9D00_2 {
 } S_800A9D00_2;   /* ((S_800A9D00_1 *)base)->unk_2C in func_800A9D00 */
 
 
-
 extern s32 func_8009368C();
 extern s32 plt_carry_item_del_ext();
 extern s32 func_800C172C();
@@ -35,7 +34,7 @@ void func_800A9D00(void) {
     stateBase = D_800834B8;
     precedingState = stateBase - 0x20;
     if ((func_8009368C(stateBase, precedingState->unk_08,
-                      precedingState->unk_0C) != 0) &&
+                       precedingState->unk_0C) != 0) &&
         (((S_800A9D00_1 *)stateBase)->unk_2C != NULL) &&
         (((S_800A9D00_2 *)(((S_800A9D00_1 *)stateBase)->unk_2C))->unk_4C == 0xD04)) {
         func_800C172C();

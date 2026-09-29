@@ -35,7 +35,8 @@ void func_8009B014(void *state, EntityRec *motion, M2C_UNK context) {
     target_index = D_800D0620;
     target_bases = D_800D0640;
     target_base = target_bases + target_index;
-    motion->unk_10 = (s32) ((u32) (((S_8009B014_1 *)state)->unk_32 * 0x10000) + (u32) *target_base - (u32) motion->y.v) / ((S_8009B014_1 *)state)->unk_0A.s;
+    motion->unk_10 = (s32) ((u32) (((S_8009B014_1 *)state)->unk_32 * 0x10000) + (u32) *target_base
+        - (u32) motion->y.v) / ((S_8009B014_1 *)state)->unk_0A.s;
     ticks_left = (u16) ((S_8009B014_1 *)state)->unk_0A.s - 1;
     ((S_8009B014_1 *)state)->unk_0A.u = ticks_left;
     if (((s16) ticks_left * 0x10000) <= 0) {

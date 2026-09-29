@@ -17,8 +17,6 @@ typedef struct S_800CB4C0_7 {
 } S_800CB4C0_7;   /* ((S_800CB4C0_6 *)arg0)->unk_08 in func_800CB4C0 */
 
 
-
-
 M2C_UNK func_8003DB94();  /* extern */
 void *func_8003FD64();               /* extern */
 M2C_UNK func_8004491C();           /* extern */

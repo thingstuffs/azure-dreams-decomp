@@ -18,9 +18,15 @@ extern s16 func_800BCB04(u16, u16, s32);
 static __inline__ u8 direction_matches(Elem *entry, u8 direction) {
     u8 match = 0;
     switch (direction) {
-    case 0: match = *(s16 *)&entry->b2 < 2; break;
-    case 1: match = *(s16 *)&entry->b2 == 2; break;
-    case 2: match = *(s16 *)&entry->b2 == 0; break;
+    case 0:
+        match = *(s16 *)& entry->b2 < 2;
+        break;
+    case 1:
+        match = *(s16 *)& entry->b2 == 2;
+        break;
+    case 2:
+        match = *(s16 *)& entry->b2 == 0;
+        break;
     }
     return match;
 }
@@ -85,12 +91,14 @@ s32 func_800A0E6C(void *actor, s32 kind, void *work, u16 *out) {
                     tail = actor_held[0x24];
                     d = *(u8 *)&scan_entry->b0;
                     tail -= d;
-                    if (tail < 0) tail = -tail;
+                    if (tail < 0)
+                        tail = -tail;
                     if (tail < 2) {
                         tail = actor_held[0x25];
                         d = scan_entry->b1;
                         tail -= d;
-                        if (tail < 0) tail = -tail;
+                        if (tail < 0)
+                            tail = -tail;
                         if (tail < 2) {
                             goto L_B998;
                         }
@@ -168,75 +176,77 @@ L_B9A8:
         return 0;
     }
 
-L_BB24: {
-    s32 masked;
-    s32 sh6;
-    u32 base_page;
-    s32 call_a2;
+L_BB24:
+    {
+        s32 masked;
+        s32 sh6;
+        u32 base_page;
+        s32 call_a2;
 
-    tail = (s16)((((s16)*(u16 *)(work_p + 0x2A) >> 9) - 4) & 7);
-    *(s32 *)&bitmap[0] = 0;
-    *(s32 *)&bitmap[4] = 0;
-    bit_next = &bitmap[tail];
-    *bit_next = 1;
-    idx = (tail + 1) & 7;
-    bit_next = &bitmap[idx];
-    tail = (tail - 1) & 7;
-    bit_prev_v0 = &bitmap[tail];
-    *bit_next = 1;
-    *bit_prev_v0 = 1;
-    i = 0;
-    masked = (func_800A0818(actor_held[0x24], actor_held[0x25], *(s8 *)(work_p + 0x72), *(s8 *)(work_p + 0x73), out_p) & 0xFFF) << 16;
-    s5v = masked >> 16;
-    offsets = D_8006CD00;
-    base_page = 0x800E0000;
-    ASM_KEEP_NV(base_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    x_offsets = (u16 *)(base_page - 0x3154);
-    tail = (s16)(((masked >> 25) - 4) & 7);
-    bit_next = &bitmap[tail];
-    *bit_next = 1;
-    idx = (tail + 1) & 7;
-    bit_next = &bitmap[idx];
-    tail = (tail - 1) & 7;
-    bit_prev_s0 = &bitmap[tail];
-    *bit_next = 1;
-    *bit_prev_s0 = 1;
-    do {
-        if (*out_p & 2) {
-            tail = s5v - offsets[(s16)i];
-        } else {
-            tail = s5v + offsets[(s16)i];
-        }
-        scan_s0 = (tail >> 9) & 7;
-        s0 = scan_s0;
-        bitmap_idx = (s16)scan_s0;
-        if (bitmap[bitmap_idx] == 0) {
-            bitmap_idx <<= 1;
-            bit_next = (u8 *)(bitmap_idx + (s32)x_offsets);
-            sh6 = actor_held[0x24];
-            zero = *(u16 *)bit_next;
-            call_a2 = *(u16 *)(work_p + 0x88);
-            sh6 <<= 6;
-            zero += sh6;
-            zero &= 0xFFFF;
-            ASM_USE(zero);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            sh6 = (s32)&D_800DCEBC;
-            bitmap_idx += sh6;
-            call_a2 = (s16)(call_a2 - 0x20);
-            sh6 = actor_held[0x25];
-            bitmap_idx = *(u16 *)bitmap_idx;
-            sh6 <<= 6;
-            bitmap_idx += sh6;
-            bitmap_idx &= 0xFFFF;
-            r = func_800BCB04(zero, bitmap_idx, call_a2);
-            if ((s16)r < 0x200) {
-                goto L_BD8C;
+        tail = (s16)((((s16)*(u16 *)(work_p + 0x2A) >> 9) - 4) & 7);
+        *(s32 *)&bitmap[0] = 0;
+        *(s32 *)&bitmap[4] = 0;
+        bit_next = &bitmap[tail];
+        *bit_next = 1;
+        idx = (tail + 1) & 7;
+        bit_next = &bitmap[idx];
+        tail = (tail - 1) & 7;
+        bit_prev_v0 = &bitmap[tail];
+        *bit_next = 1;
+        *bit_prev_v0 = 1;
+        i = 0;
+        masked = (func_800A0818(actor_held[0x24], actor_held[0x25], *(s8 *)(work_p + 0x72), *(s8 *)(work_p + 0x73),
+            out_p) & 0xFFF) << 16;
+        s5v = masked >> 16;
+        offsets = D_8006CD00;
+        base_page = 0x800E0000;
+        ASM_KEEP_NV(base_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        x_offsets = (u16 *)(base_page - 0x3154);
+        tail = (s16)(((masked >> 25) - 4) & 7);
+        bit_next = &bitmap[tail];
+        *bit_next = 1;
+        idx = (tail + 1) & 7;
+        bit_next = &bitmap[idx];
+        tail = (tail - 1) & 7;
+        bit_prev_s0 = &bitmap[tail];
+        *bit_next = 1;
+        *bit_prev_s0 = 1;
+        do {
+            if (*out_p & 2) {
+                tail = s5v - offsets[(s16)i];
+            } else {
+                tail = s5v + offsets[(s16)i];
             }
-        }
-        i++;
-    } while ((s16)i < 8);
-    return 0;
-}
+            scan_s0 = (tail >> 9) & 7;
+            s0 = scan_s0;
+            bitmap_idx = (s16)scan_s0;
+            if (bitmap[bitmap_idx] == 0) {
+                bitmap_idx <<= 1;
+                bit_next = (u8 *)(bitmap_idx + (s32)x_offsets);
+                sh6 = actor_held[0x24];
+                zero = *(u16 *)bit_next;
+                call_a2 = *(u16 *)(work_p + 0x88);
+                sh6 <<= 6;
+                zero += sh6;
+                zero &= 0xFFFF;
+                ASM_USE(zero);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                sh6 = (s32)&D_800DCEBC;
+                bitmap_idx += sh6;
+                call_a2 = (s16)(call_a2 - 0x20);
+                sh6 = actor_held[0x25];
+                bitmap_idx = *(u16 *)bitmap_idx;
+                sh6 <<= 6;
+                bitmap_idx += sh6;
+                bitmap_idx &= 0xFFFF;
+                r = func_800BCB04(zero, bitmap_idx, call_a2);
+                if ((s16)r < 0x200) {
+                    goto L_BD8C;
+                }
+            }
+            i++;
+        } while ((s16)i < 8);
+        return 0;
+    }
 
 L_BCB8:
     tail = (s16)s0 * sizeof(Elem);
@@ -252,25 +262,26 @@ L_BCB8:
     actor_held[0x27] = s0;
     goto L_RET0;
 
-L_BD00: {
-    register s32 final_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+L_BD00:
+    {
+        register s32 final_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
-    tail = 0xFF;
-    actor_held[0x27] = tail;
-    final_a2 = *(u16 *)(work_p + 0x88);
-    tail = *(s16 *)(work_p + 0x2A);
-    mod = *D_8006CD02;
-    final_a2 = (s16)(final_a2 - 0x20);
-    tail -= mod;
-    tail >>= 9;
-    scan_s0 = tail & 7;
-    r = func_800BCB04(D_800DCEAC[scan_s0] + (actor_held[0x24] << 6),
-                      D_800DCEBC[scan_s0] + (actor_held[0x25] << 6), final_a2);
-    if ((s16)r < 0x200) {
-        goto L_BD8C;
+        tail = 0xFF;
+        actor_held[0x27] = tail;
+        final_a2 = *(u16 *)(work_p + 0x88);
+        tail = *(s16 *)(work_p + 0x2A);
+        mod = *D_8006CD02;
+        final_a2 = (s16)(final_a2 - 0x20);
+        tail -= mod;
+        tail >>= 9;
+        scan_s0 = tail & 7;
+        r = func_800BCB04(D_800DCEAC[scan_s0] + (actor_held[0x24] << 6),
+                          D_800DCEBC[scan_s0] + (actor_held[0x25] << 6), final_a2);
+        if ((s16)r < 0x200) {
+            goto L_BD8C;
+        }
+        return 0;
     }
-    return 0;
-}
 
 L_BD8C:
     tail = scan_s0 << 9;

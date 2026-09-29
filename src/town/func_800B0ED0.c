@@ -12,8 +12,6 @@ typedef struct S_800AE630_3 {
 } S_800AE630_3;   /* ((S_800AE630_2 *)obj)->unk_D0 in func_800AE630 */
 
 
-
-
 typedef struct S_800AE630_0 {
     M2C_UNK * unk_00;
     u8 pad_04[0xC];
@@ -68,7 +66,8 @@ void func_800AE630(void *object) {
         scaled_z += 3;
     }
     position->unk_0C = (s16) (((S_800AE630_0 *)((u8 *)object - 0x10))->unk_20 + (scaled_z >> 2));
-    ((S_800AE630_3 *)(((S_800AE630_2 *)object)->unk_D0))->unk_02 = (s16) ((((S_800AE630_0 *)((u8 *)object - 0x10))->unk_34 * 256) - 0x400);
+    ((S_800AE630_3 *)(((S_800AE630_2 *)object)->unk_D0))->unk_02 =
+        (s16) ((((S_800AE630_0 *)((u8 *)object - 0x10))->unk_34 * 256) - 0x400);
     next_step = ((S_800AE630_0 *)((u8 *)object - 0x10))->unk_34 + 1;
     ((S_800AE630_0 *)((u8 *)object - 0x10))->unk_34 = next_step;
     if (next_step >= 5) {

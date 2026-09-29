@@ -13,8 +13,6 @@ typedef struct S_800B07D0_2 {
 } S_800B07D0_2;   /* ((S_800B07D0_1 *)arg0)->unk_CC in func_800B07D0 */
 
 
-
-
 M2C_UNK func_800497F4();                    /* extern */
 M2C_UNK func_8004CB2C();                         /* extern */
 

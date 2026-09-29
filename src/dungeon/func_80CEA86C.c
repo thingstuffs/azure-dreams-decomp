@@ -53,7 +53,7 @@ void func_8017406C(S_8017406C_0 *animation, EntityRec *motion, Rec_D_80082E80 *t
         animation->unk_9E.s = 5;
         animation->unk_A0 = 0;
         animation->unk_9B++;
-                /* fall through */
+                        /* fall through */
     case 1:
         arc_ticks = animation->unk_9E.s;
         animation->unk_90 -= animation->unk_A0;
@@ -89,7 +89,7 @@ void func_8017406C(S_8017406C_0 *animation, EntityRec *motion, Rec_D_80082E80 *t
             actor->flags1C |= 0x08000000;
             animation->unk_9B++;
         }
-                /* fall through */
+                        /* fall through */
     case 2:
         if (actor->flags1C & 0x08000000) {
             animation->unk_98 &= 0xFFF7;

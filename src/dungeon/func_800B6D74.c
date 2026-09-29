@@ -252,7 +252,7 @@ void func_800BC4D4(void *position, void *sprite, u16 world_z, s32 depth_bias)
                 func_80067EF4(packet, 0, 0);
                 packet_field += 0xC;
                 func_8006658C(((S_800BC4D4_1 *)scratch)->unk_20 +
-                                  ((S_800BC4D4_1 *)scratch)->unk_C0 * 4,
+                              ((S_800BC4D4_1 *)scratch)->unk_C0 * 4,
                               packet);
                 packet_next = packet + 0xC;
                 packet = packet_next;
@@ -297,13 +297,20 @@ void func_800BC4D4(void *position, void *sprite, u16 world_z, s32 depth_bias)
                               (s16 *)(scratch + 0xF8), (s16 *)(scratch + 0xFC),
                               (s16 *)(scratch + 0x90), (s16 *)(scratch + 0x94));
 
-                (*(s16 *)((u8 *)packet_field + 1)) = ((S_800BC4D4_1 *)scratch)->unk_F0 + ((S_800BC4D4_1 *)scratch)->unk_B8;
-                (*(s16 *)((u8 *)packet_field + 3)) = ((S_800BC4D4_1 *)scratch)->unk_F2 + ((S_800BC4D4_1 *)scratch)->unk_BA;
-                (*(s16 *)((u8 *)packet_field + 9)) = ((S_800BC4D4_1 *)scratch)->unk_F4 + ((S_800BC4D4_1 *)scratch)->unk_B8;
-                (*(s16 *)((u8 *)packet_field + 0xB)) = ((S_800BC4D4_1 *)scratch)->unk_F6 + ((S_800BC4D4_1 *)scratch)->unk_BA;
-                (*(s16 *)((u8 *)packet_field + 0x11)) = ((S_800BC4D4_1 *)scratch)->unk_F8 + ((S_800BC4D4_1 *)scratch)->unk_B8;
-                (*(s16 *)((u8 *)packet_field + 0x13)) = ((S_800BC4D4_1 *)scratch)->unk_FA + ((S_800BC4D4_1 *)scratch)->unk_BA;
-                (*(s16 *)((u8 *)packet_field + 0x19)) = ((S_800BC4D4_1 *)scratch)->unk_FC + ((S_800BC4D4_1 *)scratch)->unk_B8;
+                (*(s16 *)((u8 *)packet_field + 1)) = ((S_800BC4D4_1 *)scratch)->unk_F0
+                    + ((S_800BC4D4_1 *)scratch)->unk_B8;
+                (*(s16 *)((u8 *)packet_field + 3)) = ((S_800BC4D4_1 *)scratch)->unk_F2
+                    + ((S_800BC4D4_1 *)scratch)->unk_BA;
+                (*(s16 *)((u8 *)packet_field + 9)) = ((S_800BC4D4_1 *)scratch)->unk_F4
+                    + ((S_800BC4D4_1 *)scratch)->unk_B8;
+                (*(s16 *)((u8 *)packet_field + 0xB)) = ((S_800BC4D4_1 *)scratch)->unk_F6
+                    + ((S_800BC4D4_1 *)scratch)->unk_BA;
+                (*(s16 *)((u8 *)packet_field + 0x11)) = ((S_800BC4D4_1 *)scratch)->unk_F8
+                    + ((S_800BC4D4_1 *)scratch)->unk_B8;
+                (*(s16 *)((u8 *)packet_field + 0x13)) = ((S_800BC4D4_1 *)scratch)->unk_FA
+                    + ((S_800BC4D4_1 *)scratch)->unk_BA;
+                (*(s16 *)((u8 *)packet_field + 0x19)) = ((S_800BC4D4_1 *)scratch)->unk_FC
+                    + ((S_800BC4D4_1 *)scratch)->unk_B8;
                 {
                     u16 bottom_y = ((S_800BC4D4_1 *)scratch)->unk_FE;
                     u16 screen_y = ((S_800BC4D4_1 *)scratch)->unk_BA;
@@ -313,7 +320,8 @@ void func_800BC4D4(void *position, void *sprite, u16 world_z, s32 depth_bias)
                 }
 
                 ((S_800BC4D4_1 *)scratch)->unk_10.s32 += ((S_800BC4D4_1 *)scratch)->unk_08.s32;
-                ((S_800BC4D4_1 *)scratch)->unk_14.s32 = (((S_800BC4D4_1 *)scratch)->unk_0C.s + ((S_800BC4D4_1 *)scratch)->unk_14.s32) << 8;
+                ((S_800BC4D4_1 *)scratch)->unk_14.s32 = (((S_800BC4D4_1 *)scratch)->unk_0C.s
+                    + ((S_800BC4D4_1 *)scratch)->unk_14.s32) << 8;
                 ((S_800BC4D4_1 *)scratch)->unk_0C.s <<= 8;
                 uv_word = ((S_800BC4D4_1 *)scratch)->unk_0C.s + ((S_800BC4D4_1 *)scratch)->unk_08.s32;
 
@@ -370,13 +378,13 @@ void func_800BC4D4(void *position, void *sprite, u16 world_z, s32 depth_bias)
                 ((S_800BC4D4_5 *)packet_field)->unk_00 = 0x2E;
                 packet_field += 0x28;
                 func_8006658C(((S_800BC4D4_1 *)scratch)->unk_20 +
-                                  ((S_800BC4D4_1 *)scratch)->unk_C0 * 4,
+                              ((S_800BC4D4_1 *)scratch)->unk_C0 * 4,
                               packet);
                 packet_field += 0xC;
                 packet += 0x28;
                 func_80067EF4(packet, 1, 0);
                 func_8006658C(((S_800BC4D4_1 *)scratch)->unk_20 +
-                                  ((S_800BC4D4_1 *)scratch)->unk_C0 * 4,
+                              ((S_800BC4D4_1 *)scratch)->unk_C0 * 4,
                               packet);
                 packet += 0xC;
             }

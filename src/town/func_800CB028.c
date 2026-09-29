@@ -9,7 +9,6 @@ extern M2C_UNK D_800C86EC;
 extern M2C_UNK D_800D6290;
 
 
-
 /* Advance the motion state and update the object when its step is nonnegative. */
 void func_800C8788(Rec_func_80094268_arg0 *object, EntityRec *motion, M2C_UNK context) {
     motion->z.v = (s32) (motion->z.v + motion->flags14);

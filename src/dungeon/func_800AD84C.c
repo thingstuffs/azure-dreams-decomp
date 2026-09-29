@@ -17,7 +17,6 @@ typedef struct S_800B2FAC_1_pre {
 } S_800B2FAC_1_pre;   /* the 0x2 bytes before arg3 in func_800B2FAC, addressed as arg3[-1] */
 
 
-
 M2C_UNK func_8009A028();                      /* extern */
 M2C_UNK func_8009A3D0();             /* extern */
 M2C_UNK func_800A2DB8();                      /* extern */

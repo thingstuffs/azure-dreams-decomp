@@ -71,7 +71,7 @@ void func_801721B0(void *action, void *motion, void *sprite, void *actor)
         } else {
             break;
         }
-                /* fallthrough */
+                        /* fallthrough */
 
     case 1:
         hop_frames = ((S_801721B0_0 *)action)->unk_9E.s;
@@ -102,7 +102,7 @@ void func_801721B0(void *action, void *motion, void *sprite, void *actor)
             ((S_801721B0_0 *)action)->unk_9B++;
         }
 
-                /* fallthrough */
+                        /* fallthrough */
 
     case 2:
         if (((EntityRec *)actor)->flags1C & 0x08000000) {

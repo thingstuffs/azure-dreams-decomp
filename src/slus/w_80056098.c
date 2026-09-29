@@ -44,14 +44,14 @@ void func_80056098(S_80085458 *envelope) {
             envelope->f2c = target_level;
         } else {
             if (ramp_ticks != 0) {
-                                /* split so f2c loads into $v0 first, then f38 into $v1 */
+                                                /* split so f2c loads into $v0 first, then f38 into $v1 */
                 envelope->f2c = envelope->f2c + envelope->f38;
             } else {
                 envelope->f2c = envelope->f38;
             }
             envelope->f28 = envelope->f28 + 1;
         }
-                /* Dual-typed pointers defeat store-load CSE → sb then lb.
+                        /* Dual-typed pointers defeat store-load CSE → sb then lb.
            f25=0 early is scheduled into bgez delay under -fno-schedule-insns
            with schedule-insns2 still active. */
         phase_unsigned = (u8 *)&envelope->f27;

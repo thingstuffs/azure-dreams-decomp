@@ -30,9 +30,6 @@ typedef struct S_800AF734_4 {
 } S_800AF734_4;   /* ((S_800AF734_2 *)(((S_800AF734_0 *)arg0)->unk_9C))->unk_04 in func_800AF734 */
 
 
-
-
-
 /* Set the positions of the two linked elements. */
 void func_800AF734(S_800AF734_0 *record) {
     ((S_800AF734_3 *)(((S_800AF734_1 *)(record->unk_98))->unk_04))->unk_08 = -0x40;

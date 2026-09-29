@@ -121,12 +121,18 @@ s32 func_800BABA8(DungeonObject *object, u16 *position) {
                 } else if (particle_level < 16) {
                     intensity = intensity / (16 - particle_level);
                 }
-                ((S_800BABA8_0 *)((void *)(packet_cursor + 7)))->unk_0D = (*(s32 *)((u8 *)object->state + 0x14) & 1) ? intensity : 0;
-                ((S_800BABA8_0 *)((void *)(packet_cursor + 7)))->unk_15 = ((S_800BABA8_0 *)((void *)(packet_cursor + 7)))->unk_0D;
-                ((S_800BABA8_0 *)((void *)(packet_cursor + 7)))->unk_0E = (*(s32 *)((u8 *)object->state + 0x14) & 4) ? intensity : 0;
-                ((S_800BABA8_0 *)((void *)(packet_cursor + 7)))->unk_16 = ((S_800BABA8_0 *)((void *)(packet_cursor + 7)))->unk_0E;
-                ((S_800BABA8_0 *)((void *)(packet_cursor + 7)))->unk_0F = (*(s32 *)((u8 *)object->state + 0x14) & 2) ? intensity : 0;
-                ((S_800BABA8_0 *)((void *)(packet_cursor + 7)))->unk_17 = ((S_800BABA8_0 *)((void *)(packet_cursor + 7)))->unk_0F;
+                ((S_800BABA8_0 *)((void *)(packet_cursor + 7)))->unk_0D = (*(s32 *)((u8 *)object->state + 0x14) & 1)
+                    ? intensity : 0;
+                ((S_800BABA8_0 *)((void *)(packet_cursor + 7)))->unk_15 =
+                    ((S_800BABA8_0 *)((void *)(packet_cursor + 7)))->unk_0D;
+                ((S_800BABA8_0 *)((void *)(packet_cursor + 7)))->unk_0E = (*(s32 *)((u8 *)object->state + 0x14) & 4)
+                    ? intensity : 0;
+                ((S_800BABA8_0 *)((void *)(packet_cursor + 7)))->unk_16 =
+                    ((S_800BABA8_0 *)((void *)(packet_cursor + 7)))->unk_0E;
+                ((S_800BABA8_0 *)((void *)(packet_cursor + 7)))->unk_0F = (*(s32 *)((u8 *)object->state + 0x14) & 2)
+                    ? intensity : 0;
+                ((S_800BABA8_0 *)((void *)(packet_cursor + 7)))->unk_17 =
+                    ((S_800BABA8_0 *)((void *)(packet_cursor + 7)))->unk_0F;
             }
 
             scratch->length = func_80065420(&scratch->x70, (void *)(packet_cursor + 8),

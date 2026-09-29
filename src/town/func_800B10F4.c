@@ -27,24 +27,37 @@ void func_800AE854(void *state) {
     cursor_prim = F(F(F(state, void *, 0xD8), void *, 4), void *, 4);
     F(cursor_prim, s16, 0xA) = (s16)(start_row * 0x10 + cursor_offset);
     slide_offset = (F(state, s32, 8) * 8) / F(state, s32, 4);
-    F(F(F(F(state, s32, 0x20) * 4 + F(state, void *, 0xD8), void *, 0x38), void *, 4), s16, 8) = (s16)(0x28 - slide_offset);
-    F(F(F(F(state, s32, 0x1C) * 4 + F(state, void *, 0xD8), void *, 0x38), void *, 4), s16, 8) = (s16)(slide_offset + 0x20);
-    F(F(F(F(state, s32, 0x20) * 4 + F(state, void *, 0xD8), void *, 0x50), void *, 4), s16, 8) = (s16)(0x97 - slide_offset);
-    F(F(F(F(state, s32, 0x1C) * 4 + F(state, void *, 0xD8), void *, 0x50), void *, 4), s16, 8) = (s16)(slide_offset + 0x8F);
-    F(F(F(F(state, s32, 0x20) * 4 + F(state, void *, 0xD8), void *, 8), void *, 4), s16, 8) = (s16)(0x11 - slide_offset);
+    F(F(F(F(state, s32, 0x20) * 4 + F(state, void *, 0xD8), void *, 0x38), void *, 4), s16, 8) =
+        (s16)(0x28 - slide_offset);
+    F(F(F(F(state, s32, 0x1C) * 4 + F(state, void *, 0xD8), void *, 0x38), void *, 4), s16, 8) =
+        (s16)(slide_offset + 0x20);
+    F(F(F(F(state, s32, 0x20) * 4 + F(state, void *, 0xD8), void *, 0x50), void *, 4), s16, 8) =
+        (s16)(0x97 - slide_offset);
+    F(F(F(F(state, s32, 0x1C) * 4 + F(state, void *, 0xD8), void *, 0x50), void *, 4), s16, 8) =
+        (s16)(slide_offset + 0x8F);
+    F(F(F(F(state, s32, 0x20) * 4 + F(state, void *, 0xD8), void *, 8), void *, 4), s16, 8) =
+        (s16)(0x11 - slide_offset);
     F(F(F(F(state, s32, 0x1C) * 4 + F(state, void *, 0xD8), void *, 8), void *, 4), s16, 8) = (s16)(slide_offset + 9);
-    F(F(F(F(state, s32, 0x20) * 4 + F(state, void *, 0xD8), void *, 0x20), void *, 4), s16, 8) = (s16)(0x41 - slide_offset);
-    F(F(F(F(state, s32, 0x1C) * 4 + F(state, void *, 0xD8), void *, 0x20), void *, 4), s16, 8) = (s16)(slide_offset + 0x39);
+    F(F(F(F(state, s32, 0x20) * 4 + F(state, void *, 0xD8), void *, 0x20), void *, 4), s16, 8) =
+        (s16)(0x41 - slide_offset);
+    F(F(F(F(state, s32, 0x1C) * 4 + F(state, void *, 0xD8), void *, 0x20), void *, 4), s16, 8) =
+        (s16)(slide_offset + 0x39);
     start_r_duration = F(state, s32, 4);
-    F(F(F(F(state, s32, 0x20) * 4 + F(state, void *, 0xD8), void *, 0x38), void *, 4), s8, 0) = (s8)(((start_r_duration - F(state, s32, 8)) * 0x18) / start_r_duration + 0x68);
+    F(F(F(F(state, s32, 0x20) * 4 + F(state, void *, 0xD8), void *, 0x38), void *, 4), s8, 0) =
+        (s8)(((start_r_duration - F(state, s32, 8)) * 0x18) / start_r_duration + 0x68);
     start_g_duration = F(state, s32, 4);
-    F(F(F(F(state, s32, 0x20) * 4 + F(state, void *, 0xD8), void *, 0x38), void *, 4), s8, 1) = (s8)(((start_g_duration - F(state, s32, 8)) * 0x18) / start_g_duration + 0x68);
+    F(F(F(F(state, s32, 0x20) * 4 + F(state, void *, 0xD8), void *, 0x38), void *, 4), s8, 1) =
+        (s8)(((start_g_duration - F(state, s32, 8)) * 0x18) / start_g_duration + 0x68);
     start_b_duration = F(state, s32, 4);
-    F(F(F(F(state, s32, 0x20) * 4 + F(state, void *, 0xD8), void *, 0x38), void *, 4), s8, 2) = (s8)(((start_b_duration - F(state, s32, 8)) << 5) / start_b_duration + 0x60);
+    F(F(F(F(state, s32, 0x20) * 4 + F(state, void *, 0xD8), void *, 0x38), void *, 4), s8, 2) =
+        (s8)(((start_b_duration - F(state, s32, 8)) << 5) / start_b_duration + 0x60);
     end_r_duration = F(state, s32, 4);
-    F(F(F(F(state, s32, 0x1C) * 4 + F(state, void *, 0xD8), void *, 0x38), void *, 4), s8, 0) = (s8)(-0x80 - ((end_r_duration - F(state, s32, 8)) * 0x18) / end_r_duration);
+    F(F(F(F(state, s32, 0x1C) * 4 + F(state, void *, 0xD8), void *, 0x38), void *, 4), s8, 0) =
+        (s8)(-0x80 - ((end_r_duration - F(state, s32, 8)) * 0x18) / end_r_duration);
     end_g_duration = F(state, s32, 4);
-    F(F(F(F(state, s32, 0x1C) * 4 + F(state, void *, 0xD8), void *, 0x38), void *, 4), s8, 1) = (s8)(-0x80 - ((end_g_duration - F(state, s32, 8)) * 0x18) / end_g_duration);
+    F(F(F(F(state, s32, 0x1C) * 4 + F(state, void *, 0xD8), void *, 0x38), void *, 4), s8, 1) =
+        (s8)(-0x80 - ((end_g_duration - F(state, s32, 8)) * 0x18) / end_g_duration);
     end_b_duration = F(state, s32, 4);
-    F(F(F(F(state, s32, 0x1C) * 4 + F(state, void *, 0xD8), void *, 0x38), void *, 4), s8, 2) = (s8)(-0x80 - ((end_b_duration - F(state, s32, 8)) << 5) / end_b_duration);
+    F(F(F(F(state, s32, 0x1C) * 4 + F(state, void *, 0xD8), void *, 0x38), void *, 4), s8, 2) =
+        (s8)(-0x80 - ((end_b_duration - F(state, s32, 8)) << 5) / end_b_duration);
 }

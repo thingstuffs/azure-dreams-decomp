@@ -412,7 +412,7 @@ void func_8002592C(u8 *self, u8 *position, void *volatile render_data)
             frames_squared = (s32)(render_data);
             angle = ((S_818FA12C_1 *)(u8 *)frames_squared)->unk_1A;
             angle += 0x400;
-                               /* retained: removing it changes the angle register */
+                                           /* retained: removing it changes the angle register */
             if (angle >= 0x1001) {
                 angle -= 0x1000;
             }
@@ -442,7 +442,7 @@ void func_8002592C(u8 *self, u8 *position, void *volatile render_data)
                 ((S_818FA12C_4 *)position)->unk_00.at02.v = ((S_818FA12C_7 *)target_pos)->unk_00.at02.v;
                 ((S_818FA12C_4 *)position)->unk_04.at02.v = ((S_818FA12C_7 *)target_pos)->unk_04.at02.v;
                 ((S_818FA12C_4 *)position)->unk_08.at02.v = ((S_818FA12C_7 *)target_pos)->unk_08.at02.v
-                    - D_800DDC40[((S_818FA12C_15 *)(((S_818FA12C_2 *)parent)->unk_60.p))->unk_13];
+                - D_800DDC40[((S_818FA12C_15 *)(((S_818FA12C_2 *)parent)->unk_60.p))->unk_13];
                 func_800A56E0(0x300);
                 flash = func_8003FC64(0x212);
                 if (flash != 0) {
@@ -507,7 +507,7 @@ void func_8002592C(u8 *self, u8 *position, void *volatile render_data)
                     ((S_818FA12C_8 *)impact_data)->unk_0C = 0;
                     (*(Copy12 *)((u8 *)particle_state + 0x1A)) = D_80026674;
                     animation = particle_state + 0x1A;
-                                           /* retained: removing it changes the saved-register set */
+                                                               /* retained: removing it changes the saved-register set */
                     ((S_818FA12C_8 *)impact_data)->unk_08 = animation;
                 }
             } else {

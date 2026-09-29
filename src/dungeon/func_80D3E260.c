@@ -224,7 +224,7 @@ L_copy_linked:
         ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
         ((S_80173A60_0 *)actor_state)->unk_9B++;
         func_800A56E0(0x703);
-                /* fall through */
+                        /* fall through */
 
     case 2:
     {

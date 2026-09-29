@@ -61,7 +61,7 @@ void func_800956B8(void *arg0, s32 arg1, void *arg2, void *arg3)
     object = D_800E3DF0[((S_800956B8_0 *)arg3)->unk_03 & 0x1F];
     if (!(((S_800956B8_1 *)object)->unk_1C & 0x20000)) {
         result = func_800A1BD0(object);
-        /* Retail callee sets a3 = 10 at 0x80099114 before reading it; no incoming argument. */
+                /* Retail callee sets a3 = 10 at 0x80099114 before reading it; no incoming argument. */
         arg0 = func_800990FC();
         {
             u8 *msg3;
@@ -97,7 +97,7 @@ void func_800956B8(void *arg0, s32 arg1, void *arg2, void *arg3)
         if (((S_800956B8_1 *)object)->unk_14 & 0x20000000) {
             ((S_800956B8_1 *)object)->unk_1C |= 0x10000;
             func_800ACB98(object, ((S_800956B8_1_pre *)object)[-1].unk_00,
-                         ((S_800956B8_1_pre *)object)[-1].unk_04, object);
+                          ((S_800956B8_1_pre *)object)[-1].unk_04, object);
             return;
         }
     }

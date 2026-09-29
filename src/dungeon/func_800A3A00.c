@@ -11,7 +11,6 @@ typedef struct S_800A9160_1 {
 } S_800A9160_1;   /* temp_a0 in func_800A9160 */
 
 
-
 typedef struct {
     u16 flags;
     u8 pad02[0x12];

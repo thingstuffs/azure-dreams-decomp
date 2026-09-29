@@ -3,7 +3,6 @@
 #include "records/Rec_D_8001E950.h"
 
 
-
 extern Rec_D_8001E950 *D_8001E950;
 
 /* Returns whether the current record's unk_01 field is 2. */

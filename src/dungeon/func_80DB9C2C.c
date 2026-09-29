@@ -78,7 +78,7 @@ void func_8017142C(void *effect, void *position, void *sprite) {
             ((S_8017142C_0 *)effect)->unk_68 = 0;
             ((S_8017142C_1 *)position)->unk_08.at02.v = func_800BCB04(((S_8017142C_1 *)position)->unk_00.at02.v,
                 ((S_8017142C_1 *)position)->unk_04.at02.v, (s16)((u16)((S_8017142C_1 *)position)->unk_08.at02.v - 4))
-                - 0x11;
+            - 0x11;
             ((S_8017142C_1 *)position)->unk_08.at00u.v = 0;
             if (((S_8017142C_0 *)effect)->unk_1A == 0) {
                 ((S_8017142C_0 *)effect)->unk_1A = 1;
@@ -138,7 +138,7 @@ void func_8017142C(void *effect, void *position, void *sprite) {
             ((S_8017142C_0 *)effect)->unk_68 = 0;
             ((S_8017142C_1 *)position)->unk_08.at02.v = func_800BCB04(((S_8017142C_1 *)position)->unk_00.at02.v,
                 ((S_8017142C_1 *)position)->unk_04.at02.v, (s16)((u16)((S_8017142C_1 *)position)->unk_08.at02.v - 4))
-                - 0x11;
+            - 0x11;
             ((S_8017142C_1 *)position)->unk_08.at00u.v = 0;
             if (((S_8017142C_0 *)effect)->unk_1A == 0) {
                 ((S_8017142C_0 *)effect)->unk_1A = phase;

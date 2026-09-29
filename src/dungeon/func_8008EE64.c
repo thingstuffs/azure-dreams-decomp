@@ -13,10 +13,6 @@ typedef struct S_800945C4_1 {
 } S_800945C4_1;   /* ((S_800945C4_0 *)(temp_a0 + temp_v0))->unk_AC in func_800945C4 */
 
 
-
-
-
-
 /* Store the value with bit 15 set in the indexed entry's linked record. */
 void func_800945C4(s32 entry_index, s32 value) {
     s32 entry_offset;

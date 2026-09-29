@@ -8,7 +8,9 @@ s32 func_800A1BD0(s32 target_value) {
     s32 slot_value;
     s16 match_index;
 
-    do { slot = 0; } while (0);
+    do {
+        slot = 0;
+    } while (0);
     slot_ptr = (s32 *)((u8 *)D_800E3D7C);
 loop:
     slot_value = slot_ptr[0x2B];

@@ -116,48 +116,49 @@ void func_800BEBA4(State *state, Motion *motion, u8 *sprite_data)
         state->state++;
         break;
 
-    case 2: {
-            u16 *output_color;
-            s32 channel_max;
-            s32 color_bias;
+    case 2:
+    {
+        u16 *output_color;
+        s32 channel_max;
+        s32 color_bias;
 
-            func_8006733C(D_800D2324, colors);
-            func_80067014(0);
+        func_8006733C(D_800D2324, colors);
+        func_80067014(0);
 
-            index = 15;
-            channel_max = 0x1F;
-            color_bias = -0x8000;
-            output_color = &colors[15];
-            do {
-                color = *output_color;
-                timer = state->timer;
-                red = channel_max - (((channel_max - (color & 0x1F)) * timer) >> 6);
-                green = channel_max - (((channel_max - ((s16)color >> 5 & 0x1F)) * timer) >> 6);
-                blue = channel_max - (((channel_max - ((s16)color >> 10 & 0x1F)) * timer) >> 6);
-                *output_color = (blue << 10) + ((green << 5) + color_bias) + red;
-                index--;
-                output_color--;
-            } while (index >= 0);
+        index = 15;
+        channel_max = 0x1F;
+        color_bias = -0x8000;
+        output_color = &colors[15];
+        do {
+            color = *output_color;
+            timer = state->timer;
+            red = channel_max - (((channel_max - (color & 0x1F)) * timer) >> 6);
+            green = channel_max - (((channel_max - ((s16)color >> 5 & 0x1F)) * timer) >> 6);
+            blue = channel_max - (((channel_max - ((s16)color >> 10 & 0x1F)) * timer) >> 6);
+            *output_color = (blue << 10) + ((green << 5) + color_bias) + red;
+            index--;
+            output_color--;
+        } while (index >= 0);
 
-            if (state->timer < 0x30) {
-                index = 0;
-                while (index < 0x10 - (state->timer >> 2)) {
-                    index++;
-                    red = (rand() % 3) * 8 + 0xF;
-                    green = (rand() % 3) * 8 + 0xF;
-                    blue = (rand() % 3) * 8 + 0xF;
-                    colors[rand() & 0xF] = (blue << 10) + ((green << 5) - 0x8000) + red;
-                }
+        if (state->timer < 0x30) {
+            index = 0;
+            while (index < 0x10 - (state->timer >> 2)) {
+                index++;
+                red = (rand() % 3) * 8 + 0xF;
+                green = (rand() % 3) * 8 + 0xF;
+                blue = (rand() % 3) * 8 + 0xF;
+                colors[rand() & 0xF] = (blue << 10) + ((green << 5) - 0x8000) + red;
             }
-
-            func_800672D8(D_800D231C, colors);
-            func_80067014(0);
-            if (state->timer <= 0) {
-                state->timer = 0x1E;
-                state->state++;
-            }
-            break;
         }
+
+        func_800672D8(D_800D231C, colors);
+        func_80067014(0);
+        if (state->timer <= 0) {
+            state->timer = 0x1E;
+            state->state++;
+        }
+        break;
+    }
 
     case 3:
         index = 15;
@@ -176,38 +177,39 @@ void func_800BEBA4(State *state, Motion *motion, u8 *sprite_data)
         }
         break;
 
-    case 4: {
-            u16 *output_color;
-            s32 channel_max;
-            s32 color_bias;
+    case 4:
+    {
+        u16 *output_color;
+        s32 channel_max;
+        s32 color_bias;
 
-            index = 15;
-            channel_max = 0x1F;
-            color_bias = -0x8000;
-            output_color = &colors[15];
-            original_palette = D_80113138;
-            source_color = original_palette + 15;
-            do {
-                color = *source_color;
-                timer = state->timer;
-                red = color & 0x1F;
-                green = (color >> 5) & 0x1F;
-                blue = (color >> 10) & 0x1F;
-                red += ((channel_max - red) * timer) >> 5;
-                green += ((channel_max - green) * timer) >> 5;
-                blue += ((channel_max - blue) * timer) >> 5;
-                *output_color = (blue << 10) + ((green << 5) + color_bias) + red;
-                source_color--;
-                output_color--;
-                index--;
-            } while (index >= 0);
-            func_800672D8(D_800D231C, colors);
-            func_80067014(0);
-            if (state->timer <= 0) {
-                state->state++;
-            }
-            break;
+        index = 15;
+        channel_max = 0x1F;
+        color_bias = -0x8000;
+        output_color = &colors[15];
+        original_palette = D_80113138;
+        source_color = original_palette + 15;
+        do {
+            color = *source_color;
+            timer = state->timer;
+            red = color & 0x1F;
+            green = (color >> 5) & 0x1F;
+            blue = (color >> 10) & 0x1F;
+            red += ((channel_max - red) * timer) >> 5;
+            green += ((channel_max - green) * timer) >> 5;
+            blue += ((channel_max - blue) * timer) >> 5;
+            *output_color = (blue << 10) + ((green << 5) + color_bias) + red;
+            source_color--;
+            output_color--;
+            index--;
+        } while (index >= 0);
+        func_800672D8(D_800D231C, colors);
+        func_80067014(0);
+        if (state->timer <= 0) {
+            state->state++;
         }
+        break;
+    }
 
     case 5:
         func_800672D8(D_800D231C, D_80113138);

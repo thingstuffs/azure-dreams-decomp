@@ -69,7 +69,8 @@ next_item:
     if (item_index < ctx->unk_0C) {
         item = item_offset + ctx->unk_24;
         *((S_800B0FD4_2 *)((row_offset + ctx->unk_CC)))->unk_10 = func_8004A658(item->unk_01, item->unk_00);
-        *((S_800B0FD4_2 *)((row_offset + ctx->unk_CC)))->unk_38 = func_8004DC14(func_8004AC3C(ctx->unk_24 + item_offset, &item_info), item_info);
+        *((S_800B0FD4_2 *)((row_offset + ctx->unk_CC)))->unk_38 =
+            func_8004DC14(func_8004AC3C(ctx->unk_24 + item_offset, &item_info), item_info);
         if (func_800B0F94(ctx->unk_24 + item_offset) != 0) {
             if (ctx->unk_18 == 0) {
                 item_value = get_item_buy_money(ctx->unk_24 + item_offset);

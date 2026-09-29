@@ -12,8 +12,6 @@ typedef struct S_8009C648_7 {
 } S_8009C648_7;   /* ((S_8009C648_6 *)temp_v0)->unk_0C in func_8009C648 */
 
 
-
-
 extern s32 rand(void);
 extern void *func_8009C390(void *, M2C_UNK, s32, s32);
 extern void func_8009C46C(void *, void *, void *);
@@ -75,7 +73,8 @@ void func_8009C648(u8 *source_data, M2C_UNK spawn_arg) {
     part_params = D_800D06C8;
     do {
         source_object = (u8 *)source_data - 0x20;
-        part_object = func_8009C390(source_object, spawn_arg, ((S_8009C648_0 *)part_params)->unk_00, ((S_8009C648_0 *)part_params)->unk_04);
+        part_object = func_8009C390(source_object, spawn_arg, ((S_8009C648_0 *)part_params)->unk_00,
+            ((S_8009C648_0 *)part_params)->unk_04);
         if (part_object == NULL) {
             break;
         }

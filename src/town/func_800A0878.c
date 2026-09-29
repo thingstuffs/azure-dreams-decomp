@@ -11,11 +11,11 @@ extern void *func_8003FD64(s32 size, void *template);
 extern s32 func_8004A658(s32 type, s32 value);
 extern void func_8008F0D4(void *object, void *part_a, void *table);
 extern void func_8009B218(void *object, void *part_a, void *part_b,
-                           void *callback);
+                          void *callback);
 extern void func_8009C1B4(void *object, void *object_again, void *part_a,
-                           void *part_b);
+                          void *part_b);
 extern void func_8009DC8C(void *object, void *part_b, s32 value,
-                           void *callback);
+                          void *callback);
 extern void del_t_item_w_ptr(void *arg0);
 
 extern Copy84 D_800102F0[];

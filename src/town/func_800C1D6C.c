@@ -53,7 +53,8 @@ void func_800BF4CC(S0 *self, s32 *position, S1 *target) {
     y_limit = base_y + next_value_2;
     switch (state) {
     case 0:
-    case 3: {
+    case 3:
+    {
         register s32 threshold;
         register s32 x_distance;
         s32 target_x;
@@ -83,7 +84,8 @@ void func_800BF4CC(S0 *self, s32 *position, S1 *target) {
         goto L_NEXT_STATE;
     }
 
-    case 1: {
+    case 1:
+    {
         s32 below_limit;
 
         below_limit = D_80083780.y.v < y_limit;
@@ -96,25 +98,25 @@ void func_800BF4CC(S0 *self, s32 *position, S1 *target) {
 
     case 2:
     case 5:
-    if (func_800352FC((s32)self, position, target) != 0) {
-        if (func_800C2AB4(object) != 0) {
-            return;
+        if (func_800352FC((s32)self, position, target) != 0) {
+            if (func_800C2AB4(object) != 0) {
+                return;
+            }
         }
-    }
-    object->f68 = (object->f68 + 1) % 6;
-    return;
+        object->f68 = (object->f68 + 1) % 6;
+        return;
 
     case 4:
-    next_value = target->f1A + 32;
+        next_value = target->f1A + 32;
 L_STORE_TARGET:
-    target->f1A = next_value;
-    if (object->f6C > 0) {
-        return;
-    }
-    next_value = (u16)object->f68;
+        target->f1A = next_value;
+        if (object->f6C > 0) {
+            return;
+        }
+        next_value = (u16)object->f68;
 L_NEXT_STATE:
-    object->f68 = next_value + 1;
-    return;
+        object->f68 = next_value + 1;
+        return;
     default:
         return;
     }

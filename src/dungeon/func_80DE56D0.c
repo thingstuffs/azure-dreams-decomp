@@ -56,7 +56,7 @@ void func_80172ED0(S_80172ED0_0 *action, EntityRec *motion, Rec_D_80082E80 *tile
             timer = -1;
         }
         action->unk_96.s = timer;
-                /* fall through */
+                        /* fall through */
 
     case 1:
     {

@@ -24,6 +24,7 @@ s32 func_800AF8B0(void *);                                /* extern */
 void func_800AF96C(void *record_data) {
     ((S_800AF96C_2 *)(((S_800AF96C_1 *)record_data)->unk_00))->unk_04 = func_800AF8B0(record_data);
     if (((S_800AF96C_2 *)(((S_800AF96C_1 *)record_data)->unk_00))->unk_04 != 0) {
-        ((S_800AF96C_0 *)((u8 *)record_data - 0x10))->unk_00 = (s32) ((S_800AF96C_0 *)((u8 *)record_data - 0x10))->unk_14;
+        ((S_800AF96C_0 *)((u8 *)record_data - 0x10))->unk_00 = (s32) ((S_800AF96C_0 *)((u8 *)record_data
+            - 0x10))->unk_14;
     }
 }

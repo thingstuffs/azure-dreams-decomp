@@ -121,7 +121,8 @@ s32 func_80094F74(Ctx *ctx, char *text, Item *item, Unit *unit) {
     message_handle = func_800990FC();
     message = func_8009929C(8, message_handle);
     if (D_80081485[0] != 0) {
-        func_80099290(func_80099194(D_80088A80, func_80099368(&D_800E3548[item_id], func_80099194(D_800E0A76, message))));
+        func_80099290(func_80099194(D_80088A80, func_80099368(&D_800E3548[item_id], func_80099194(D_800E0A76,
+            message))));
         func_800A5720(message_handle);
         return 1;
     }
@@ -130,7 +131,8 @@ s32 func_80094F74(Ctx *ctx, char *text, Item *item, Unit *unit) {
     if ((D_80013714 & 1) == 0) {
         if ((sys->buttons & 0x20) != 0) {
             func_8009F644(unit, 64, 0, 0);
-            func_80099290(func_80099194(D_80088A80, func_80099368(&D_800E3548[item_id], func_80099194(D_800E0A83, message))));
+            func_80099290(func_80099194(D_80088A80, func_80099368(&D_800E3548[item_id], func_80099194(D_800E0A83,
+                message))));
             func_800A5720(message_handle);
             return 1;
         }
@@ -145,7 +147,8 @@ s32 func_80094F74(Ctx *ctx, char *text, Item *item, Unit *unit) {
     }
     ground_items = D_800E3548;
     ground_item = &ground_items[(s16) item_lookup];
-    if ((ground_item->b1 == 14) || ((ground_item->b1 == 12) && (ground_item->b0 == 4)) || ((ground_item->b1 == 18) && (ground_item->b0 == 1))) {
+    if ((ground_item->b1 == 14) || ((ground_item->b1 == 12) && (ground_item->b0 == 4))
+        || ((ground_item->b1 == 18) && (ground_item->b0 == 1))) {
         named_item = &D_800E3548[(s16) item_lookup];
         message = func_80099368(named_item, message);
         if (named_item->b1 == 14) {
@@ -159,7 +162,8 @@ s32 func_80094F74(Ctx *ctx, char *text, Item *item, Unit *unit) {
         item_kind = special_item->b1;
         if (item_kind == 12) {
             ASM_USE2(special_item, item_kind);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            message = func_80099194(D_800E0ABC, func_8009929C(10, func_80099194(D_800E0AA1, func_8009929C(10, message))));
+            message = func_80099194(D_800E0ABC, func_8009929C(10, func_80099194(D_800E0AA1, func_8009929C(10,
+                message))));
             ctx->done = 1;
             state_page = (u16 *) 0x80010000;
             if (D_80012094 != 3) {
@@ -188,7 +192,8 @@ s32 func_80094F74(Ctx *ctx, char *text, Item *item, Unit *unit) {
         slot_index = free_slot;
         entry_index = free_entry;
         if ((slot_index < 0) || (entry_index < 0)) {
-            message = func_80099194(D_80088A80, func_80099368(&D_800E3548[(s16) item_lookup], func_80099194(D_800E0AFA, func_8009929C(10, func_80099194(D_800E0AD8, message)))));
+            message = func_80099194(D_80088A80, func_80099368(&D_800E3548[(s16) item_lookup], func_80099194(D_800E0AFA,
+                func_8009929C(10, func_80099194(D_800E0AD8, message)))));
         } else {
             stored_id = item_lookup;
             stored_item = &D_800E3548[stored_id];

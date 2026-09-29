@@ -27,8 +27,6 @@ typedef struct S_800B22F0_1 {
 } S_800B22F0_1;   /* state in func_800B22F0 */
 
 
-
-
 extern s8 func_8009FB34(u8, u8);
 extern void func_800A2B04(void *, u8, u8);
 extern s16 func_800BCB04(u16, u16, s16);

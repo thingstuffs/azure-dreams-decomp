@@ -64,9 +64,21 @@ typedef struct S_800B8830_2 {
 } S_800B8830_2;   /* source in func_800B8830 */
 
 typedef struct S_800B8830_3 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; struct { u8 pad[0x2]; s16 v; } at02u; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; struct { u8 pad[0x2]; s16 v; } at02u; } unk_04;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; struct { u8 pad[0x2]; s16 v; } at02u; } unk_08;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { u8 pad[0x2]; u16 v; } at02;
+        struct { u8 pad[0x2]; s16 v; } at02u;
+    } unk_00;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { u8 pad[0x2]; u16 v; } at02;
+        struct { u8 pad[0x2]; s16 v; } at02u;
+    } unk_04;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { u8 pad[0x2]; u16 v; } at02;
+        struct { u8 pad[0x2]; s16 v; } at02u;
+    } unk_08;   /* overlapping accesses */
 } S_800B8830_3;   /* arg1 in func_800B8830 */
 
 typedef struct S_800B8830_4 {
@@ -137,7 +149,7 @@ void func_800B8830(void *motion, S_800B8830_3 *coords, S_800B8830_1 *render) {
         render->unk_14 = render_flags | 0xC;
         func_8004491C((u8 *)motion - 0x20, func_80045340);
         ((S_800B8830_0 *)motion)->unk_20.u++;
-        /* fallthrough */
+                /* fallthrough */
     case 1:
         source = ((S_800B8830_10 *)(((S_800B8830_0 *)motion)->unk_00))->unk_0C;
         if ((((S_800B8830_2 *)source)->unk_14 & 0x8000) ||
@@ -167,7 +179,8 @@ void func_800B8830(void *motion, S_800B8830_3 *coords, S_800B8830_1 *render) {
             ((S_800B8830_0 *)motion)->unk_20.u++;
         }
         break;
-    case 2: {
+    case 2:
+    {
         void *entry;
         s32 entry_addr;
         s32 start_x;

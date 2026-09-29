@@ -17,7 +17,6 @@ typedef struct S_800BF074_2 {
 } S_800BF074_2;   /* ((S_800BF074_1 *)base)->unk_04 in func_800BF074 */
 
 
-
 extern u8 D_80089374[];
 extern u16 D_800DDE84[];
 extern u8 D_800E11F5[];

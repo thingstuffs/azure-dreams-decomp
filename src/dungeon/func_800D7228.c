@@ -29,7 +29,6 @@ typedef struct S_800DC988_2 {
 } S_800DC988_2;   /* data in func_800DC988 */
 
 
-
 extern s32 func_800DC724();
 extern s32 func_800DC82C();
 extern s16 D_8008146C[];

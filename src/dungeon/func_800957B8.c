@@ -109,7 +109,8 @@ check_tile:
                             {
 
                                 tile_dx_reload = (u16 *)((u8 *)((u8 *)&D_800E3D7C - 15740));
-                                if (((S_8009AF18_4 *)(((S_8009AF18_3 *)(*(void **)((u8 *)tile_dx_reload + 0x3D7C)))->unk_124))->unk_13 < 0) {
+                                if (((S_8009AF18_4 *)(((S_8009AF18_3 *)(*(void **)((u8 *)tile_dx_reload
+                                    + 0x3D7C)))->unk_124))->unk_13 < 0) {
                                     D_800DD7DC = 1;
                                     occupant->unk_14 |= 0x800000;
                                     goto done;

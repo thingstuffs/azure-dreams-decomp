@@ -12,9 +12,9 @@ s32 func_800954E0(void *arg0) {
     result = 1;
     if (cursor >= 0) {
         base = D_800E3648;
-        
+
         cursor = (s32)(base + cursor * 4);
-        
+
         flags = *((u8 *)cursor + 3);
         if (!(flags & 0x80)) {
             return 1;
@@ -26,7 +26,7 @@ s32 func_800954E0(void *arg0) {
         *((u8 *)cursor + 3) = flags & 0x7F;
         result = 0;
     }
-    
+
     return result;
 }
 

@@ -5,7 +5,7 @@
 
 
 #define M2C_FIELD(expr, type_ptr, offset) \
-    (*(type_ptr)((s8 *)(expr) + (offset)))
+(*(type_ptr)((s8 *)(expr) + (offset)))
 
 s32 func_800374F4();
 M2C_UNK func_80094048();
@@ -22,7 +22,6 @@ extern u8 D_800CFCEF[];
 extern u8 D_800D043C[];
 extern u8 D_800FE488[];
 extern s32 D_800FE4E0;
-
 
 
 typedef struct S_800917EC_2 {

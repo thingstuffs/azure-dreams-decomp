@@ -12,8 +12,6 @@ typedef struct S_800C645C_2 {
 } S_800C645C_2;   /* ((S_800C645C_1 *)arg0)->unk_80 in func_800C645C */
 
 
-
-
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern M2C_UNK D_800D58F4;
 

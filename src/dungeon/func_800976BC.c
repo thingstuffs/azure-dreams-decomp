@@ -102,15 +102,20 @@ void func_8009CE1C(void *target, s16 base_power, s16 power_bonus, s16 elements,
         }
         power = ((base_shift >> 0x10) + bonus) * 2;
         ((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_7E = hit_angle;
-        if ((((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_27 != 0) && !(((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_30 & 0x238) && !(((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_5A & 0x8000)) {
+        if ((((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_27 != 0)
+            && !(((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_30 & 0x238)
+            && !(((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_5A & 0x8000)) {
             ((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_3E = (u16) (hit_angle + 0x800);
         }
-        ((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_36.s = (u16) (((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_3B + func_80098250(target));
+        ((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_36.s = (u16) (((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_3B
+            + func_80098250(target));
         if ((func_80042900(target, 0xA) << 0x10) != 0) {
-            ((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_36.s = (u16) ((s32) (((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_36.s << 0x10) >> 0x11);
+            ((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_36.s = (u16) ((s32) (((S_8009CE1C_1 *)((u8 *)target
+                - 0x14))->unk_36.s << 0x10) >> 0x11);
         }
         if (((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_36.u == 0) {
-            ((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_36.s = (u16) (((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_36.s + 1);
+            ((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_36.s = (u16) (((S_8009CE1C_1 *)((u8 *)target
+                - 0x14))->unk_36.s + 1);
         }
         target_elements = func_8009CD58(target, 7, 0);
         if (element_mask & 1) {
@@ -161,7 +166,8 @@ void func_8009CE1C(void *target, s16 base_power, s16 power_bonus, s16 elements,
         if ((s16) damage_delta >= 0) {
             ((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_78.u = -1;
         }
-        ((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_30 = (s32) (((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_30 | 0x20000000);
+        ((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_30 = (s32) (((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_30
+            | 0x20000000);
         if ((func_80042900(target, 0x1D) << 0x10) == 0) {
             shown_damage = (s16) (0 - ((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_78.s);
         } else {

@@ -104,7 +104,7 @@ void func_81820DB4(DungeonObj *obj)
                 break;
             }
             obj->state++;
-                        /* fall through */
+                                    /* fall through */
         case 2:
             obj->timer = 12;
             obj->dx *= 2;

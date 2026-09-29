@@ -129,7 +129,7 @@ void func_800890EC(Obj *obj, s32 *position) {
         obj->f1a = 0;
         obj->f1c = 8;
         obj->state = 17;
-                /* fallthrough */
+                        /* fallthrough */
     case 17:
         if ((s16) func_80053604((u8 *) obj + 24)) {
             position[1] = 0;

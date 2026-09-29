@@ -137,7 +137,7 @@ void func_80172C18(State *state, Position *pos, Actor *actor, Entity *ent)
                 goto slot2;
             case 4:
                 use_main_link = 1;
-                                /* fall through */
+                                                /* fall through */
             case 0:
                 goto slot1;
             case 1:

@@ -3,7 +3,6 @@
 #include "shared/dungeon_status.h"
 
 
-
 typedef s32 M2C_UNK;
 
 #ifndef NULL

@@ -23,8 +23,6 @@ M2C_UNK func_800AA36C();
 s16 func_800BCB04();
 
 
-
-
 typedef struct S_800AC82C_2_pre {
     void * unk_00;
     void * unk_04;
@@ -125,7 +123,8 @@ s32 func_800AC82C(Rec_func_800A9E70_arg0 *state, EntityRec *position, Rec_D_8008
         tile->unk_24 = (u8) (parent_data->unk_24 + *(u8 *) &dirStepX[(facing >> 9) & 7]);
         tile->unk_25 = (u8) (parent_data->unk_25 + *(u8 *) &dirStepY[((u16) (*(u16 *)((u8 *)actor + 0x6A)) >> 9) & 7]);
         func_800A2B04(position, tile->unk_24, tile->unk_25);
-        ground_height = func_800BCB04(((u16)position->x.w.i), ((u16)position->y.w.i), (s16) ((*(u16 *)((u8 *)actor + 0x88)) - 0x20));
+        ground_height = func_800BCB04(((u16)position->x.w.i), ((u16)position->y.w.i), (s16) ((*(u16 *)((u8 *)actor
+            + 0x88)) - 0x20));
         if (ground_height < 0x200) {
             state->unk_90.at02_s16.v = 0;
             (*(u16 *)((u8 *)actor + 0x88)) = (u16) ground_height;

@@ -3,11 +3,10 @@
 #include "records/Rec_func_80090C68_arg0.h"
 
 
-
 typedef s32 M2C_UNK;
 
 #define M2C_FIELD(expr, type_ptr, offset) \
-    (*(type_ptr)((u8 *)(expr) + (offset)))
+(*(type_ptr)((u8 *)(expr) + (offset)))
 
 extern void func_80090A74(void *, void *, s32);
 extern void func_80093D18(void *arg0, void *arg1, s32 arg2);

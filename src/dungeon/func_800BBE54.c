@@ -39,7 +39,8 @@ s32 func_800C15B4(void *target, s32 action_id, s16 action_type, s32 action_arg) 
         dungeonStatus.unk_0A = ((u16)dungeonStatus.unk_0A) - 1;
     } else {
         target_data = *(void **)((u8 *)target - 0x14);
-        if (func_800BBA40(*(u8 *)((u8 *)target_data + 0x24), *(u8 *)((u8 *)target_data + 0x25), *(s16 *)((u8 *)target + 0x88), &D_800DF514, 0x2800, 0x802020, &D_800C152C) == 0) {
+        if (func_800BBA40(*(u8 *)((u8 *)target_data + 0x24), *(u8 *)((u8 *)target_data + 0x25),
+            *(s16 *)((u8 *)target + 0x88), &D_800DF514, 0x2800, 0x802020, &D_800C152C) == 0) {
             return 0;
         }
         func_800997FC(&D_800E14A6);

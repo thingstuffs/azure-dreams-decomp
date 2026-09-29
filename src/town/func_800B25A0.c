@@ -10,8 +10,6 @@ typedef struct S_800AFD00_1 {
 } S_800AFD00_1;   /* ((Rec_func_800AF254_arg1 *)arg0)->unk_A8.as_pv in func_800AFD00 */
 
 
-
-
 M2C_UNK func_800497F4();                /* extern */
 M2C_UNK func_8004CB2C();                         /* extern */
 M2C_UNK func_800AF9C4();                      /* extern */

@@ -13,7 +13,12 @@ typedef struct S_800D1A80_0 {
 
 typedef struct S_800D1A80_1 {
     u8 pad_00[0xC];
-    union { struct { s32 v; } at00; struct { u8 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; struct { u8 pad[0x2]; u8 v; } at02; } unk_0C;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { u8 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+        struct { u8 pad[0x2]; u8 v; } at02;
+    } unk_0C;   /* overlapping accesses */
     s16 unk_10;
     u16 unk_12;
     u16 unk_14;

@@ -105,7 +105,8 @@ void func_800C4944(FuncArg *source) {
             effect_pos->y = y;
             effect_state->fieldE = y;
             source_meta = (FuncMeta *)source->meta;
-            effect_pos->z = ((FuncData *)source->data)->z - *(u8 *)(source_meta->index + (s32)height_offsets) - (random_values[2] & 0xF);
+            effect_pos->z = ((FuncData *)source->data)->z - *(u8 *)(source_meta->index + (s32)height_offsets)
+                - (random_values[2] & 0xF);
             effect_state->field1C = source->data;
             effect_block = effect_item->block;
             effect_block->field14 = 0xC;

@@ -104,7 +104,8 @@ void func_800D8C64(void *actor, EntityRec *motion, void *sprite, EntityRec *stat
             }
         }
 
-        cell_record = func_8009FB34(((Rec_func_800AA258_arg2 *)sprite)->unk_24, ((Rec_func_800AA258_arg2 *)sprite)->unk_25);
+        cell_record = func_8009FB34(((Rec_func_800AA258_arg2 *)sprite)->unk_24,
+            ((Rec_func_800AA258_arg2 *)sprite)->unk_25);
         ((Rec_func_800AA258_arg2 *)sprite)->unk_26.as_u8 = cell_record;
 
         if (status->unk_6D > 0) {

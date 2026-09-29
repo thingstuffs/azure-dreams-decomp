@@ -43,7 +43,6 @@ typedef struct S_80099A1C_4 {
 } S_80099A1C_4;   /* next in func_80099A1C */
 
 
-
 extern s32 func_800644B8(s32);
 extern s32 func_80065420(void *, void *, void *, void *);
 extern void func_800C96E8(void *, void *);

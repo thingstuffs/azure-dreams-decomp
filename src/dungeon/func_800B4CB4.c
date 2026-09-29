@@ -60,7 +60,7 @@ extern void func_80064AE0(void *);
 extern void func_80064CF0(void *);
 extern void func_80064D80(void *);
 extern u32 func_80065590(void *, void *, void *, void *, void *, void *,
-                        void *, void *, void *, void *);
+                         void *, void *, void *, void *);
 extern void func_80065820(void *, void *);
 extern void func_8006658C(void *, void *);
 extern void func_800666E0(void *);
@@ -146,9 +146,9 @@ void func_800BA414(void *unused, S_800BA414_1 *position, void *owner_data, s16 d
     vertex_3 = scratch;
     vertex_3 = (u8 *)((u32)vertex_3 | 0x88);
     ot_index = (func_80065590(vertex_0, vertex_1, vertex_2, vertex_3,
-                           prim + 8, prim + 0xC, prim + 0x10, prim + 0x14,
-                           depth_cue, transform_flags) -
-             depth_offset) - 8;
+                              prim + 8, prim + 0xC, prim + 0x10, prim + 0x14,
+                              depth_cue, transform_flags) -
+                depth_offset) - 8;
     ((S_800BA414_0 *)scratch)->unk_C0 = ot_index;
 
     if (ot_index < 0x1E0U) {
@@ -197,13 +197,13 @@ void func_800BA414(void *unused, S_800BA414_1 *position, void *owner_data, s16 d
             ((S_800BA414_3 *)prim)->unk_04.at03.v |= 2;
             prim += 0x24;
             func_8006658C(((S_800BA414_0 *)scratch)->unk_20 +
-                              ((S_800BA414_0 *)scratch)->unk_C0 * 4,
+                          ((S_800BA414_0 *)scratch)->unk_C0 * 4,
                           quad);
             mode_ptr = draw_mode;
             mode_zero = 0;
             func_80067F20(mode_ptr, (s32)mode_zero, (s32)mode_zero, 0x20, 0);
             func_8006658C(((S_800BA414_0 *)scratch)->unk_20 +
-                              ((S_800BA414_0 *)scratch)->unk_C0 * 4,
+                          ((S_800BA414_0 *)scratch)->unk_C0 * 4,
                           draw_mode);
         }
     }

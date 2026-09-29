@@ -696,7 +696,7 @@ loop_1:
                 }
             }
             entity->state = 4;
-                    /* fallthrough */
+                                /* fallthrough */
 
         case 4:
 cleanup:
