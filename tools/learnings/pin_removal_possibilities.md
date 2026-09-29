@@ -286,6 +286,14 @@ move insns past a volatile store); never name `$8` in C when reload rebuilds a l
 - **ASM_REG $8/$9 on a `lui; addiu %lo(SYM)` pair recomputed after calls** (r80_opus_r7, dungeon/func_80E3B96C 8 -> 4):
   not a colour choice - a set-once pointer local to SYM with the lowest priority gets no register and reload rebuilds
   the address into the spill register at every use. Write `T *p = &SYM;` once and use it across the calls.
+- **Pinned parameter whose register is an argument slot of an earlier call** (r80_opus_r10, town/func_8009CC44 5 -> 0):
+  check the callee's DEFINED arity - the m2c text passed fewer arguments. Calling it at its real arity adds the `$6 =`
+  set (jump2 later deletes it as redundant) and reorders local-alloc; prior lanes all assumed the short call.
+- **Spawner rows with pinned attribute parameters** (r80_opus_r10, dungeon/func_80DE9000 5 -> 1): copy the parameter
+  handling of pin-free sibling spawners - s16 parameters, narrow saved copies at the top in the siblings' order, literal
+  allocator arguments; sched1's birthing boost then orders the prologue by statement position.
+- **Goto loop with callee-saved pins where a real loop hoists a table address** (town/func_800AEA50 5 -> 0): real do/while
+  (loop-depth weighting) plus the address assigned INSIDE the loop to a user pointer declared `= 0` (loop.c:686-692).
 
 ## Scaffolding (volatile / one-trip) on pin-free rows - round 80 (r80_sonnet_vol1/vol2)
 - **Volatile scalars whose address is passed as a rect/vector** (town/func_800B83C0, dungeon/func_80EDFC98): the separate
