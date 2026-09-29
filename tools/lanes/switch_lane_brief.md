@@ -36,8 +36,8 @@ the tree spells the dispatch as
 ```
 
 The pass is being fixed to a no-op, and then the honest spelling reproduces retail: at 2.6.3/2.7.2/2.7.2-cdk
-gcc emits the macro form directly; at 2.8.0/2.8.1 gcc splits the table address itself unless the cell carries
-`-mno-split-addresses` (see "The 2.8.x cell rule"). Four rows already landed as real switches with **zero**
+gcc emits the macro form directly; at 2.8.0/2.8.1 gcc splits the table address itself, which is what retail
+has (see "The 2.8.x rows"). Four rows already landed as real switches with **zero**
 pins and their own `.rdata` jump table -- read them before you start, they are the whole recipe:
 
 * `src/town/func_8080F4A4.c` (2.6.3-G0, 3 switches), `src/town/func_808109A4.c` (2.6.3-G0),
@@ -46,7 +46,7 @@ pins and their own `.rdata` jump table -- read them before you start, they are t
 
 `rows.md` names, per row: the cell, every `goto *` statement and its table symbol(s), the label array with its
 entries **in table order** (index = case number), the case count, the live pin sites per macro, the `$5`/`$6`
-dispatch pins, the bounds guard, and for a 2.8.x row the exact cfg string to use. Start from
+dispatch pins and the bounds guard. Start from
 `base/<container>/<name>.c`. `python3 tools/verify.py <row_id> <file> --diff` prints generated | retail.
 
 ## Recipe
@@ -100,30 +100,13 @@ dispatch pins, the bounds guard, and for a 2.8.x row the exact cfg string to use
    retail must fall through in your C (no `break`), and a case that ends in the function's tail is a
    `break`/`return`, not a `goto` to the epilogue.
 
-## The 2.8.x cell rule
+## The 2.8.x rows (corrected round 80)
 
-At 2.8.0/2.8.1 `mips_split_addresses` is on by default and gcc never emits the macro form. Those rows need
-`-mno-split-addresses` added to the cfg -- a cell change under `tools/pin_cells_land.py` rules 1-2:
-
-1. your candidate is exact at the NEW cfg and NOT exact at the recorded one, and
-2. the row's current PINNED text (`base/<container>/<name>.c`) is also exact at the new cfg, so no byte
-   evidence depends on the change.
-
-`verify.py` has no cfg flag; score at another cfg with (read-only, scores nothing into the ledger):
-
-```sh
-python3 -c "
-import sys; sys.path.insert(0,'tools')
-from pathlib import Path
-from common import rows; from verify import verify
-r = {x['id']: x for x in rows()}['town/func_80813E14']
-print(verify(dict(r, cfg='2.8.1-G0 -mno-split-addresses'), Path('/abs/path/to/candidate.c')))"
-```
-
-(pass a `Path`, as every caller in the tree does). `rows.md` prints the exact cfg string per 2.8.x row;
-copy it verbatim. Both parts must be measured and reported, and the candidate then goes to `out_cell/`
-(see below), never to `out/`. Flags are capped at two per row (owner's rule): if `rows.md` says a row is
-already at the cap, measure and report it, but write no `.cfg`.
+The original claim here was that 2.8.0/2.8.1 rows need `-mno-split-addresses`. MEASURED otherwise: retail
+was compiled with split addresses (every 2.8.x row's current text is NOT exact once the flag is added), and
+an honest `switch` at the row's RECORDED cfg is exact - gcc 2.8 splits the local table address itself, which
+is exactly retail's dispatch (`main/func_8000E68C`, 2.8.1, exact first try). So a 2.8.x row is an ordinary
+row: keep its cfg, stage in `out/`, never write a `.cfg` and never use `out_cell/`.
 
 ## Not allowed (census counts these like pins, so they remove nothing)
 
@@ -140,14 +123,13 @@ case tree or to avoid a jump table (`case 0x101:`, `case 0 ... 0xF:`) is steerin
 ## Tools, budget, output
 
 - Score: `python3 tools/verify.py <row_id> <absolute path to your .c>`; `--diff` for generated | retail.
-- The compiler recipe is fixed per row (`cell` in `rows.md`) except for the 2.8.x rule above.
+- The compiler recipe is fixed per row (`cell` in `rows.md`), 2.8.x rows included.
 - About 30 scorer runs per row.
 - An exact candidate goes to `out/<container>/<name>.c` (with `base/.../<name>.c.base_sha` copied next to it)
   ONLY if `verify.py` said `"exact": true` for that file AND (it has fewer `ASM_*` sites than the base, OR it has
   the same pins and FEWER `goto` statements - the lander counts computed gotos, so replacing `goto *table[i]` with a
   real `switch` lands on a pin-free row) AND it adds none of the forms above. Also remove the plain gotos the switch
-  makes unnecessary (`goto done;` -> `break;`). A cell-dependent candidate goes to `out_cell/<container>/<name>.c` with the
-  `.base_sha` and a `<name>.c.cfg` file holding the new cfg string (e.g. `2.8.1-G0 -mno-split-addresses`).
+  makes unnecessary (`goto done;` -> `break;`). No cell changes (2.8.x rows included).
 - A `slus/w_*` row is scored by object identity against the pinned TU, and a real switch adds a TU-local
   `.rdata` jump table, so the object hash will differ: such a row can only come back exact through the
   text-identical disassembly fallback. Print the whole verdict and quote its `proof` field in `REPORT.md`

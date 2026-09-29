@@ -14,8 +14,8 @@ table (`goto *D_...[v]`) dodges the pass, at the cost of an extern table, a `&&l
 `phase_labels`/`keepalive`/`switch_keepalive`/`switch_keep`/`reachable_arms`) and, on 62 rows,
 `ASM_REG("$5")`/`("$6")` pins on the dispatch value. With the pass fixed to a no-op, an honest
 `switch (value) { case 0: ... }` reproduces retail: at 2.6.3/2.7.2/2.7.2-cdk gcc emits the macro
-form directly, and at 2.8.0/2.8.1 it needs `-mno-split-addresses` in the row's cfg (a cell change
-under tools/pin_cells_land.py rules 1-2). Four landed rows are already real switches with zero
+form directly, and at 2.8.0/2.8.1 gcc splits the table address, as retail does (round 80: no cell change; the old
+-mno-split-addresses cell change was measured wrong). Four landed rows are already real switches with zero
 pins: town/func_8080F4A4, town/func_808109A4, town/func_80811C54, town/func_80813E14.
 
 Pool (default: every src file whose CODE contains `goto *`, matched to a row), sorted:
@@ -192,12 +192,7 @@ def render(info):
     if info["nonmatching"]:
         L.append("- carries a `NON_MATCHING` arm: never edit it; a label array wrapped in `#ifndef NON_MATCHING` "
                  "goes away with the `#ifndef`/`#endif` pair")
-    if info["newcfg"]:
-        L.append("- **2.8.x cell**: gcc splits the table address itself here. Add `%s`; the cfg to write into "
-                 "`out_cell/%s.c.cfg` is exactly `%s` (rules 1-2 in BRIEF.md)" % (MNOSPLIT, rid.split("/")[1], info["newcfg"]))
-        if info["nflags"] >= 2:
-            L.append("  - but this row already carries %d optimization flags: adding one more breaks the owner's "
-                     "two-flag cap. Measure it and report it; write no `.cfg`" % info["nflags"])
+    # 2.8.x rows keep their recorded cfg (round 80: retail is split; an honest switch is exact there)
     elif r["cell"] not in CELL_RANK:
         L.append("- cell `%s` is outside the family's measured cells: split-addresses behaviour unknown, "
                  "measure before assuming (report what you find)" % r["cell"])
