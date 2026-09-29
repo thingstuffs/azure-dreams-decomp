@@ -21,7 +21,6 @@ typedef struct State8081FF68 {
 } State8081FF68;
 
 extern u8 D_80020224[];
-extern void *D_80020244[8];
 extern s32 D_80012D5C[];
 extern s32 D_80024638[];
 extern s16 D_80024630[8];
@@ -34,7 +33,6 @@ extern u8 D_80023BCC[];
 extern u8 D_8007947C[];
 extern s16 D_800834C8[8];
 
-__asm__(".set D_80020244, 0x80020244");
 __asm__(".set D_80024630, 0x80024630");
 __asm__(".set D_80024638, 0x80024638");
 __asm__(".set D_800244E8, 0x800244e8");
@@ -150,10 +148,6 @@ typedef struct S_80022768_14 {
 /* Updates slot machine bets, reel stops, winning lines, and coin payouts. */
 void func_80022768(State8081FF68 *state, void *position)
 {
-    static void *const state_labels[] = {
-        &&sw_0, &&sw_1, &&sw_2, &&sw_3,
-        &&sw_4, &&sw_5, &&sw_6, &&sw_7
-    };
     GameWork *input = &gameWork;
     u8 *payout_callback;
     s32 index;
@@ -163,7 +157,6 @@ void func_80022768(State8081FF68 *state, void *position)
     s32 symbols[3][3];
     void *coin;
 
-    (void)state_labels;
     payout_callback = D_80020224;
 
     if ((u32)((u16)((S_80022768_0 *)state)->unk_5C.u - 2) < 5U) {
@@ -184,15 +177,11 @@ void func_80022768(State8081FF68 *state, void *position)
         }
     }
 
-    {
-        s32 mode = ((S_80022768_0 *)state)->unk_5C.s;
-        if ((u32)mode >= 8U) {
-            return;
-        }
-        goto *D_80020244[mode];
-    }
+    switch (((S_80022768_0 *)state)->unk_5C.s) {
+    default:
+        return;
 
-sw_0:
+    case 0:
     ((S_80022768_0 *)state)->unk_62 = 0;
     ((S_80022768_0 *)state)->unk_64 = 0;
     func_80093864();
@@ -221,7 +210,7 @@ sw_0:
     (*(s16 *)((u8 *)state + (0x5C))) = 2;
     return;
 
-sw_1:
+    case 1:
     if ((((u32)input->buttons) & 0x5000) != 0) {
         u16 timer = ((S_80022768_0 *)state)->unk_5E.u;
         ((S_80022768_0 *)state)->unk_5E.u = (u16)(timer - 1);
@@ -272,7 +261,7 @@ sw_1:
     ((S_80022768_0 *)state)->unk_5C.s = 4;
     return;
 
-sw_2:
+    case 2:
     {
         u16 timer = (u16)(((S_80022768_0 *)state)->unk_5E.u - 1);
         ((S_80022768_0 *)state)->unk_5E.u = timer;
@@ -285,7 +274,7 @@ sw_2:
         return;
     }
 
-sw_5:
+    case 5:
     {
         u16 timer = (u16)(((S_80022768_0 *)state)->unk_5E.u - 1);
         u8 *reel_slot;
@@ -307,7 +296,7 @@ sw_5:
         return;
     }
 
-sw_3:
+    case 3:
     {
         s16 reel_index = ((S_80022768_0 *)state)->unk_5E.s;
         void *reel = ((S_80022768_5 *)((u8 *)(((s32)reel_index << 2) + (s32)state)))->unk_4C;
@@ -319,7 +308,7 @@ sw_3:
         return;
     }
 
-sw_4:
+    case 4:
     SD_Call(0x524);
     {
         u16 timer = ((S_80022768_0 *)state)->unk_60.u;
@@ -337,9 +326,7 @@ sw_4:
         ((S_80022768_0 *)state)->unk_60.u = 10;
         ((S_80022768_0 *)state)->unk_5E.u++;
     }
-    goto sw_6;
-
-sw_6:
+    case 6:
     {
         index = 2;
         if (((S_80022768_0 *)state)->unk_5E.s != 3) {
@@ -522,7 +509,7 @@ sw_6:
         return;
     }
 
-sw_7:
+    case 7:
     ((S_80022768_0 *)state)->unk_5E.u++;
     if ((s16)((S_80022768_0 *)state)->unk_5E.u == 9) {
         func_80093864();
@@ -595,5 +582,6 @@ sw_7:
             ((S_80022768_10 *)payout_state)->unk_50 = payout_callback;
             func_8008F074(payout_state + 8, ((S_80022768_4 *)coin)->unk_08.p2, D_80024488);
         }
+    }
     }
 }

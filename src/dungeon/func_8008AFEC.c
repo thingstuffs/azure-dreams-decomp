@@ -2,11 +2,8 @@
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 
-extern void *D_80088880[];
-
 /* Converts directional input to an angle, optionally stepping from the current angle, and updates flags. */
 s32 func_8009074C(s16 direction_offset, u16 *flags, u16 *angle) {
-    static void *const jt_keep[] = { &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8, &&jt_c9, &&jt_c10, &&jt_c11, &&jt_c12 };
     s32 current_angle;
     s16 result_angle;
     s32 direction_mask;
@@ -29,11 +26,8 @@ s32 func_8009074C(s16 direction_offset, u16 *flags, u16 *angle) {
     *flags &= 0xFFF;
 block_2:
     input_direction = input_state >> 0xC;
-    if ((u32) (input_direction - 1) >= 0xCU) {
-        goto block_17;
-    }
-    (void)jt_keep; goto *D_80088880[(u32)((input_direction) - 1)];
-jt_c2:
+    switch (input_direction) {
+    case 2:
     if (*flags & direction_mask) {
         goto block_19;
     }
@@ -45,7 +39,7 @@ jt_c2:
         result_angle = relative_angle;
         goto block_19;
     }
-jt_c6:
+    case 6:
     {
         s32 relative_direction;
         s32 relative_angle;
@@ -58,7 +52,7 @@ jt_c6:
         updated_flags = direction_or_flags;
         goto block_18_c1;
     }
-jt_c4:
+    case 4:
     if (*flags & direction_mask) {
         goto block_19;
     }
@@ -67,7 +61,7 @@ jt_c4:
         direction_result = 2;
         goto entry_v0_minus_v1;
     }
-jt_c12:
+    case 12:
     {
         s32 relative_direction;
         s32 relative_angle;
@@ -80,7 +74,7 @@ jt_c12:
         updated_flags = direction_or_flags;
         goto block_18_c3;
     }
-jt_c8:
+    case 8:
     if (*flags & direction_mask) {
         goto block_19;
     }
@@ -89,7 +83,7 @@ jt_c8:
         direction_result = 4;
         goto entry_v0_minus_v1;
     }
-jt_c9:
+    case 9:
     {
         s32 relative_direction;
         s32 direction_or_flags;
@@ -102,7 +96,7 @@ jt_c9:
         updated_flags = direction_or_flags;
         goto block_18_c5;
     }
-jt_c1:
+    case 1:
     if (*flags & direction_mask) {
         goto block_19;
     }
@@ -112,7 +106,7 @@ entry_v0_minus_v1:
     direction_result = direction_result - direction_or_angle;
     result_angle = direction_result << 9;
     goto block_19;
-jt_c3:
+    case 3:
     {
         s32 direction_or_flags;
         s32 relative_direction;
@@ -125,12 +119,9 @@ jt_c3:
         updated_flags = direction_or_flags;
         goto block_18_c7;
     }
-jt_c5:
-jt_c7:
-jt_c10:
-jt_c11:
-block_17:
-    updated_flags = *flags & 0xFFF;
+    default:
+        updated_flags = *flags & 0xFFF;
+    }
 block_18_c1:
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 block_18_c3:

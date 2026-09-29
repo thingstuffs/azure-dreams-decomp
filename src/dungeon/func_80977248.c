@@ -15,8 +15,6 @@ extern void func_800A56E0(s32);
 extern s32 func_800A94A0(void *, u8 *, s32, void *);
 extern void func_80170A44(void *, void *, void *, void *);
 
-extern void *D_80170850[];
-extern void *D_801708B0[];
 extern s32 D_801714D4[];
 extern u8 D_801740E0[];
 extern u8 D_80174110[];
@@ -68,18 +66,6 @@ void func_80172A48(void *action_in, void *motion_in, void *actor_in, void *item_
     EntityRec *motion = motion_in;
     register void *actor ASM_REG("$19") = actor_in; /* MATCH: retain the actor register across the shared model tail. */
     register void *item ASM_REG("$18") = item_in; /* MATCH: retain the item register across the shared model tail. */
-    static void *volatile state_labels[] = {
-        &&state_0, &&state_1, &&state_2, &&state_3,
-        &&state_4, &&state_5, &&state_6, &&state_7,
-        &&state_8, &&end, &&end, &&end,
-        &&end, &&end, &&end, &&end,
-        &&state_16, &&state_17, &&state_18, &&state_19,
-        &&state_20, &&state_21, &&state_22, &&state_23
-    };
-    static void *const kind_labels[] = {
-        &&kind_1, &&kind_2, &&kind_3, &&kind_default,
-        &&kind_7, &&kind_6, &&kind_5
-    };
     register u8 *effect_slot;
     s16 is_special;
     s32 effect_special;
@@ -92,32 +78,31 @@ void func_80172A48(void *action_in, void *motion_in, void *actor_in, void *item_
         is_special = 0;
     } while (0);
     state = ((S_80172A48_0 *)action)->unk_9B;
-    if ((u32)state >= 24) {
-        return;
-    }
-    (void)state_labels;
-    goto *D_80170850[state];
-
-state_0:
+    switch (state) {
+    case 0:
     if ((*(u32 *)((u8 *)item + 0x1C)) & 0x2000) {
         u32 kind_index;
 
         kind_index = ((*(u16 *)((u8 *)item + 0x46)) & 0x3FFF) - 1;
-        if (kind_index >= 7) {
+        switch (kind_index) {
+        case 6:
+            is_special = 1;
+            goto kind_3;
+        case 5:
+            is_special = 1;
+            goto kind_2;
+        case 4:
+            is_special = 1;
+            goto kind_1;
+        case 0:
+            goto kind_1;
+        case 1:
+            goto kind_2;
+        case 2:
+            goto kind_3;
+        default:
             goto kind_default;
         }
-        (void)kind_labels;
-        goto *D_801708B0[kind_index];
-
-kind_5:
-        is_special = 1;
-        goto kind_3;
-kind_6:
-        is_special = 1;
-        goto kind_2;
-kind_7:
-        is_special = 1;
-        goto kind_1;
     }
 
     {
@@ -240,14 +225,14 @@ empty_selection:
     (*(u16 *)((u8 *)item + 0x46)) &= 0x7FFF;
     return;
 
-state_1:
+    case 1:
     if (func_8003F270()) {
         goto set_actor_flag;
     }
     ((S_80172A48_3 *)actor)->unk_14 &= 0xF7FF;
     ((S_80172A48_0 *)action)->unk_9B++;
 
-state_2:
+    case 2:
     {
         s16 timer;
 
@@ -265,7 +250,7 @@ state_2:
     next_state++;
     goto store_next_state;
 
-state_3:
+    case 3:
     if (((S_80172A48_0 *)action)->unk_A2 != 0) {
         s16 timer;
 
@@ -286,7 +271,7 @@ state_3:
         0);
     return;
 
-state_4:
+    case 4:
     func_80170A44(action, motion, actor, item);
     {
         s16 timer;
@@ -303,7 +288,7 @@ state_4:
     ((S_80172A48_0 *)action)->unk_9B++;
     return;
 
-state_5:
+    case 5:
     ((S_80172A48_3 *)actor)->unk_14 |= 0x800;
     {
         s16 timer;
@@ -321,13 +306,13 @@ state_5:
     ((S_80172A48_3 *)actor)->unk_14 &= 0xF7FF;
     return;
 
-state_6:
+    case 6:
     ((S_80172A48_0 *)action)->unk_96.u = 0;
     ((S_80172A48_0 *)action)->unk_98 |= 0x80;
     ((S_80172A48_0 *)action)->unk_9B++;
     return;
 
-state_7:
+    case 7:
     if (!(((S_80172A48_3 *)actor)->unk_14 & 0xE000)) {
         return;
     }
@@ -351,7 +336,7 @@ state_7:
     ((S_80172A48_0 *)action)->unk_92 = -0x20;
     return;
 
-state_8:
+    case 8:
     {
 
         if (((s32)dungeonStatus.unk_0C) != 0) {
@@ -368,7 +353,7 @@ state_8:
     }
     return;
 
-state_16:
+    case 16:
     if (func_8003F270()) {
 set_actor_flag:
         ((S_80172A48_3 *)actor)->unk_14 |= 0x800;
@@ -377,7 +362,7 @@ set_actor_flag:
     ((S_80172A48_3 *)actor)->unk_14 &= 0xF7FF;
     ((S_80172A48_0 *)action)->unk_9B++;
 
-state_17:
+    case 17:
     {
         s16 timer;
 
@@ -394,7 +379,7 @@ state_17:
     next_state++;
     goto store_next_state;
 
-state_18:
+    case 18:
     if (((S_80172A48_0 *)action)->unk_A2 != 0) {
         s16 timer;
 
@@ -415,7 +400,7 @@ state_18:
         0);
     return;
 
-state_19:
+    case 19:
     func_80170A44(action, motion, actor, item);
     {
         s16 timer;
@@ -432,7 +417,7 @@ state_19:
     next_state++;
     goto store_next_state;
 
-state_20:
+    case 20:
     ((S_80172A48_3 *)actor)->unk_14 |= 0x800;
     if (((S_80172A48_0 *)action)->unk_96.s < 5) {
         func_80170A44(action, motion, actor, item);
@@ -453,7 +438,7 @@ state_20:
     ((S_80172A48_0 *)action)->unk_98 |= 0x80;
     return;
 
-state_21:
+    case 21:
     if (!(((S_80172A48_3 *)actor)->unk_14 & 0xE000)) {
         goto end;
     }
@@ -469,7 +454,7 @@ state_21:
     }
     return;
 
-state_22:
+    case 22:
     {
         s16 timer;
 
@@ -484,9 +469,13 @@ state_22:
     next_state++;
     goto store_next_state;
 
-state_23:
+    case 23:
     next_state = 6;
     ((S_80172A48_0 *)action)->unk_96.u = 0;
+    break;
+    default:
+        goto end;
+    }
 
 store_next_state:
     ((S_80172A48_0 *)action)->unk_9B = next_state;
