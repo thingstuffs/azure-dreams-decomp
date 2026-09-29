@@ -134,7 +134,7 @@ void func_800CEFB8(void *unused, void *endpoints, void *sprite, s16 depth_bias, 
     s32 mean_depth;
     s32 sort_depth;
     s32 coord_work;
-    register s32 coord_end ASM_REG("$3");
+    s32 coord_end;
     s32 visible_c;
     s32 visible_a;
     s32 visible_b;
@@ -421,7 +421,10 @@ coord_done:
                 coord_work = SP32(0x10);
                 coord_end = SP32(0x08);
                 coord_work -= 1;
-                coord_end = coord_work + coord_end;
+                {
+                    s32 total_coord = coord_work + coord_end;
+                    coord_end = total_coord;
+                }
                 SP32(0x10) = coord_end;
                 if (coord_end & 0x100) {
                     coord_work = coord_end - 1;
@@ -430,7 +433,10 @@ coord_done:
                 coord_work = SP32(0x14);
                 coord_end = SP32(0x0C);
                 coord_work -= 1;
-                coord_end = coord_work + coord_end;
+                {
+                    s32 total_coord = coord_work + coord_end;
+                    coord_end = total_coord;
+                }
                 SP32(0x14) = coord_end;
                 if (coord_end & 0x100) {
                     coord_work = coord_end - 1;

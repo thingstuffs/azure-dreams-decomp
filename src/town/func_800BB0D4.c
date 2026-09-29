@@ -30,11 +30,8 @@ s32 func_800B8834(s32 record_id, s32 entity_id)
     record_base = D_800D2EA4;
     record_index = record_id & 0xFF;
     record = record_base + (record_index << 3);
-    if (record[2] != entity[4]) {
+    if (record[2] != entity[4] || record[3] != entity[5]) {
         return 0;
-    }
-    if (record[3] != entity[5]) {
-        goto return_zero;
     }
 
     record_link_page = (u8 *)0x80010000;
@@ -57,16 +54,12 @@ s32 func_800B8834(s32 record_id, s32 entity_id)
         match_index = entity_index;
         do {
             slot = (u8 *)(((u32)(slot_index & 0xFF) << 1) + (u32)scan_link_page);
-            if (slot[0x33A4] == match_index) {
-                goto return_zero;
-            }
-            slot_index++;
-            if (slot[0x33A5] == match_index) {
-return_zero:
+            if (slot[0x33A4] == match_index || slot[0x33A5] == match_index) {
                 return 0;
             }
+            slot_index++;
         } while ((u32)(slot_index & 0xFF) < 0x21U);
-        goto return_tail_2;
+        break;
 
     case 2:
     case 3:
@@ -85,11 +78,11 @@ return_zero:
             if (other_entity[7] != (entity_id & 0xFF)) {
                 return no_match;
             }
-            return_tail_2:
-            return 1;
+            break;
         }
 
     default:
-        return 1;
+        break;
     }
+    return 1;
 }

@@ -9,6 +9,8 @@ struct S_8008148C_80041284 { s32 field_0; s8 pad[8]; };
 extern struct S_80081480_80041284 D_80081480;
 extern struct S_8008148C_80041284 D_8008148C;
 
+typedef struct { u32 word; } PackedLoc;
+
 extern void DrawSync(int a0);
 extern s32 Control_CD(s32 a0, void *a1, s32 a2);
 extern void func_8003F320(void);
@@ -19,20 +21,20 @@ void file_load_com(void *packed_data)
 {
     s32 id_or_base;
     s32 target_time;
-    register s32 offset_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s32 offset_base;
     s32 id_base;
 
     DrawSync(0);
-    id_or_base = *(s32 *)packed_data & 0x7FFFFF;
+    id_or_base = ((PackedLoc *)packed_data)->word & 0x7FFFFF;
     if (id_or_base == 0) {
         offset_base = D_8008148C.field_0;
+        *(s32 *)&D_80081480 = offset_base;
         id_or_base = offset_base;
-        target_time = id_or_base + ((*(volatile u32 *)packed_data & 0xFF800000) >> 12);
-        D_80081480.field_0 = id_or_base;
+        target_time = id_or_base + ((((PackedLoc *)packed_data)->word & 0xFF800000) >> 12);
     } else {
         id_base = D_8008148C.field_0;
         id_or_base = id_or_base | 0x80000000;
-        D_80081480.field_0 = id_base;
+        *(s32 *)&D_80081480 = id_base;
         target_time = id_base;
     }
     Control_CD(6, packed_data, 0);

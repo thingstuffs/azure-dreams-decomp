@@ -143,7 +143,6 @@ void func_8197CEC0(Actor *actor, Vec3 *target, Sprite *sprite) {
         break;
     }
 
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill (reorg hoists `sprite = 4` to the head of this post-switch join and then copies it into the delay slots of the two jumps that reach it, three copies where retail has one); the source shape that makes it unnecessary has not been found */
     actor->field40 = (s16)(((actor->counter & 3) << 5) + 0x80);
     actor->field42 = (s16)(((((s32)(actor->counter << 16) >> 18) << 5)) + 0x80);
 
@@ -155,11 +154,10 @@ void func_8197CEC0(Actor *actor, Vec3 *target, Sprite *sprite) {
         frame = *(volatile u16 *)&actor->counter;
         if (early_frames) {
             sprite = (Sprite *)4;
+        } else if ((u32)(frame - 8) < 5U) {
+            sprite = (Sprite *)0xC;
         } else {
             sprite = (Sprite *)3;
-            if ((u32)(frame - 8) < 5U) {
-                sprite = (Sprite *)0xC;
-            }
         }
 
         remaining = (s32)sprite;
@@ -170,7 +168,6 @@ void func_8197CEC0(Actor *actor, Vec3 *target, Sprite *sprite) {
                 Spawn *spawn;
                 spawn = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
                 if (spawn != 0) {
-                    register s32 coord_term ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                     s32 coord_magnitude;
                     s32 x_offset;
                     s32 z_jitter;
@@ -178,17 +175,14 @@ void func_8197CEC0(Actor *actor, Vec3 *target, Sprite *sprite) {
                     s32 data_word;
                     SpawnState *state;
                     SpawnChild *child;
-                    s16 target_y;
-                    s16 start_y;
-                    s32 y_delta;
+                    s32 target_y;
+                    s32 start_y;
                     u16 start_y_bits;
 
                     spawn->callback = particle_callback;
                     func_8004491C(spawn, func_80045340);
                     state = spawn->state;
-                    coord_term = (s16)target->x.half.coord;
-                    coord_term -= (s16)start_pos[0];
-                    coord_magnitude = abs(coord_term);
+                    coord_magnitude = abs((s16)target->x.half.coord - (s16)start_pos[0]);
                     child = &spawn->child;
                     if (coord_magnitude == 0) {
                         coord_magnitude = 1;
@@ -198,17 +192,11 @@ void func_8197CEC0(Actor *actor, Vec3 *target, Sprite *sprite) {
                     target_y = (s16)target->y.half.coord;
                     start_y = (s16)start_pos[1];
                     start_y_bits = start_pos[1];
-                    coord_term = target_y;
-                    coord_term += start_y;
-                    coord_magnitude = coord_term;
-                    if (coord_term < 0) {
-                        coord_magnitude = -coord_magnitude;
-                    }
-                    y_delta = target_y - start_y;
+                    coord_magnitude = abs(target_y + start_y);
                     if (coord_magnitude == 0) {
                         spawn->position->y.word = target->y.word;
                     } else {
-                        ((volatile Vec3 *)spawn->position)->y.half.coord = (s16)(start_y_bits + (y_delta * x_offset) / coord_magnitude);
+                        ((volatile Vec3 *)spawn->position)->y.half.coord = (s16)(start_y_bits + ((target_y - start_y) * x_offset) / coord_magnitude);
                     }
                     spawn->position->x.word += (((func_80069EF8() & 0x3FF) - 0x1FF) << 10);
                     spawn->position->y.word += (((func_80069EF8() & 0x3FF) - 0x1FF) << 10);

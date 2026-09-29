@@ -81,38 +81,21 @@ void func_80024E4C(void *self)
     state = ((S_819A764C_0 *)self)->unk_3C.s;
     ((S_819A764C_0 *)self)->unk_2E = ((s16)((S_819A764C_0 *)self)->unk_3E >> 2) << 5;
 
-    if (state == 1) {
-        goto state_one;
+    switch (state) {
+    case 0:
+        object_base = self - 0x20;
+        message = D_80024B20;
+
+        func_8004491C(object_base, message);
+    case 1:
+        ((S_819A764C_0 *)self)->unk_3E = (func_80069EF8() & 3) + 2;
+        ((S_819A764C_0 *)self)->unk_38 += 0xFFF7F7F8;
+        ((S_819A764C_0 *)self)->unk_42 = func_8006649C((func_80069EF8() & 0xF) << 4, 0x1F8);
+        ((S_819A764C_0 *)self)->unk_3C.u++;
+        return;
+    case 2:
+        ((S_819A764C_0_pre *)self)[-1].unk_00 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
+        break;
     }
-    if (state >= 2) {
-        goto high_states;
-    }
-    object_base = self - 0x20;
-    if (state == 0) {
-        goto state_zero;
-    }
-    return;
-
-high_states:
-    if (state == 2) {
-        goto state_two;
-    }
-    return;
-
-state_zero:
-    message = D_80024B20;
-
-    func_8004491C(object_base, message);
-
-state_one:
-    ((S_819A764C_0 *)self)->unk_3E = (func_80069EF8() & 3) + 2;
-    ((S_819A764C_0 *)self)->unk_38 += 0xFFF7F7F8;
-    ((S_819A764C_0 *)self)->unk_42 = func_8006649C((func_80069EF8() & 0xF) << 4, 0x1F8);
-    ((S_819A764C_0 *)self)->unk_3C.u++;
-    return;
-
-state_two:
-
-    ((S_819A764C_0_pre *)self)[-1].unk_00 |= 0x8000;
-    objectFlagBlock.flags |= 0x8000;
 }

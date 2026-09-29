@@ -20,66 +20,53 @@ void to_camera_zero_00(void *actor, void *context, void *animation, void *transf
     s32 phase;
 
     phase = *(u8 *)((u8 *)actor + 0x9B);
-    if (phase == 1) {
-        goto state_1;
-    }
-    if (phase < 2) {
-        if (phase == 0) {
-            goto state_0;
+    switch (phase) {
+    case 0:
+        if (*(u16 *)((u8 *)animation + 0x14) & 0xE000) {
+            *(u8 **)((u8 *)animation + 0x2C) = D_800DD008;
+            func_80048A44(animation,
+                D_800DD008[((camera->view.viewAngle +
+                    *(s16 *)((u8 *)transform + 0x2A) + 0x100) >> 9) & 7], 0, 1);
+            *(u8 *)((u8 *)actor + 0x9B) += 1;
         }
-        return;
-    }
-    if (phase == 2) {
-        goto state_2;
-    }
-    return;
+        break;
+    case 1:
+        if (*(u16 *)(&camera->buttons) != 0) {
+            *(u8 **)((u8 *)animation + 0x2C) = D_800DD010;
+            func_80048A44(animation,
+                D_800DD010[((camera->view.viewAngle +
+                    *(s16 *)((u8 *)transform + 0x2A) + 0x100) >> 9) & 7], 0, 1);
+            *(u8 *)((u8 *)actor + 0x9B) += 1;
 
-state_0:
-    if (*(u16 *)((u8 *)animation + 0x14) & 0xE000) {
-        *(u8 **)((u8 *)animation + 0x2C) = D_800DD008;
-        func_80048A44(animation,
-            D_800DD008[((camera->view.viewAngle +
-                *(s16 *)((u8 *)transform + 0x2A) + 0x100) >> 9) & 7], 0, 1);
-        *(u8 *)((u8 *)actor + 0x9B) += 1;
-    }
-    return;
-
-state_1:
-    if (*(u16 *)(&camera->buttons) != 0) {
-        *(u8 **)((u8 *)animation + 0x2C) = D_800DD010;
-        func_80048A44(animation,
-            D_800DD010[((camera->view.viewAngle +
-                *(s16 *)((u8 *)transform + 0x2A) + 0x100) >> 9) & 7], 0, 1);
-        *(u8 *)((u8 *)actor + 0x9B) += 1;
-
-        dungeonStatus.flags &= 0xFEFF;
+            dungeonStatus.flags &= 0xFEFF;
+            if ((s16)func_80094EA4() != 0) {
+                if (dungeonStatus.unk_0A != 0) {
+                    dungeonStatus.flags |= 4;
+                }
+                func_8008ACDC(actor, context, animation, transform);
+                if (*(u8 *)((u8 *)actor + 0x9A) != 0x17) {
+                    D_800DD168[*(u8 *)((u8 *)actor + 0x9A)](actor, context, animation, transform);
+                }
+            }
+        }
+        break;
+    case 2:
         if ((s16)func_80094EA4() != 0) {
             if (dungeonStatus.unk_0A != 0) {
                 dungeonStatus.flags |= 4;
             }
             func_8008ACDC(actor, context, animation, transform);
             if (*(u8 *)((u8 *)actor + 0x9A) != 0x17) {
-                D_800DD168[*(volatile u8 *)((u8 *)actor + 0x9A)](actor, context, animation, transform);
+                D_800DD168[*(u8 *)((u8 *)actor + 0x9A)](actor, context, animation, transform);
+                return;
             }
         }
-    }
-    return;
 
-state_2:
-    if ((s16)func_80094EA4() != 0) {
-        if (dungeonStatus.unk_0A != 0) {
-            dungeonStatus.flags |= 4;
+        if (*(u16 *)((u8 *)animation + 0x14) & 0xE000) {
+            *(u8 *)((u8 *)actor + 0x9A) = 0xE;
+            *(s16 *)((u8 *)actor + 0xA4) = 0;
+            *(s32 *)((u8 *)actor + 0x8C) = (s32)&D_8008ACDC;
         }
-        func_8008ACDC(actor, context, animation, transform);
-        if (*(u8 *)((u8 *)actor + 0x9A) != 0x17) {
-            D_800DD168[*(volatile u8 *)((u8 *)actor + 0x9A)](actor, context, animation, transform);
-            return;
-        }
-    }
-
-    if (*(u16 *)((u8 *)animation + 0x14) & 0xE000) {
-        *(u8 *)((u8 *)actor + 0x9A) = 0xE;
-        *(s16 *)((u8 *)actor + 0xA4) = 0;
-        *(s32 *)((u8 *)actor + 0x8C) = (s32)&D_8008ACDC;
+        break;
     }
 }

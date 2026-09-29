@@ -36,17 +36,15 @@ void func_800B81AC(void) {
         if (entry_kind == 0x21) {
             goto handler_21;
         }
-        if (entry_kind < 0x21) {
-            goto default_handler;
+        if (entry_kind >= 0x21) {
+            if (entry_kind < 0x29) {
+                if (entry_kind >= 0x26) {
+                    obj->handler = &D_800B7B8C;
+                    return;
+                }
+            }
         }
-        if (entry_kind >= 0x29) {
-            goto default_handler;
-        }
-        if (entry_kind < 0x26) {
-            goto default_handler;
-        }
-        obj->handler = &D_800B7B8C;
-        return;
+        goto default_handler;
 
 handler_21:
         obj->handler = &D_800B7F8C;

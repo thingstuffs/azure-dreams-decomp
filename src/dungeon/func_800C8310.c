@@ -24,14 +24,14 @@ s32 func_800CDA70(void *object) {
     result = 1;
     if ((func_80042900(object, 0xA) << 0x10) == 0) {
         index = 0;
-loop_2:
-        if (*(s8 *)((u8 *)object + ((index << 0x10) >> 0xF) + 0x2C) != 0) {
-            index += 1;
-            if (index < 4) {
-                goto loop_2;
+        for (; index < 4; index++) {
+            if (*(s8 *)((u8 *)object + ((index << 0x10) >> 0xF) + 0x2C) == 0) {
+                break;
             }
         }
-        if (index >= 4) goto done;
+        if (index >= 4) {
+            return 1;
+        }
             if (*D_800E3D40 == 0) {
                 seed = func_800A6D30() & 0xFFFF;
                 if (*(u8 *)((u8 *)object + 3) != 0) {
@@ -69,8 +69,7 @@ loop_2:
         if (*(u8 *)((u8 *)object + 0x13) == 0) {
             func_800A6508();
         }
-done:
-        return result;
+return result;
     }
     return result;
 }

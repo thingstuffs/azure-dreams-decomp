@@ -26,28 +26,20 @@ void func_80020488(void *context) {
 
     state = ((S_80020488_0 *)context)->unk_00.s;
     entity = ((S_80020488_0 *)context)->unk_0C;
-    if (state == 0) {
-        goto state_zero;
+    switch (state) {
+    case 0:
+        if (((S_80020488_1 *)entity)->unk_36 == 0xFF) {
+            ((S_80020488_0 *)context)->unk_1C &= 0xFFFD;
+            ((S_80020488_0 *)context)->unk_00.u++;
+        }
+        break;
+    case 1:
+        if (((S_80020488_1 *)entity)->unk_2A & 1) {
+            (*(u16 *)((u8 *)context + -2)) |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
+        }
+        break;
     }
-    if (state == 1) {
-        goto state_one;
-    }
-    goto done;
-
-state_zero:
-    if (((S_80020488_1 *)entity)->unk_36 == 0xFF) {
-        ((S_80020488_0 *)context)->unk_1C &= 0xFFFD;
-        ((S_80020488_0 *)context)->unk_00.u++;
-    }
-    goto done;
-
-state_one:
-    if (((S_80020488_1 *)entity)->unk_2A & 1) {
-        (*(u16 *)((u8 *)context + -2)) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
-    }
-
-done:
 }
 
 /* MECHANISM: Frameless leaf with an explicit dispatch, state 0 before state 1, and a shared return.

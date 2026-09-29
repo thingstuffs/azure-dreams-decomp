@@ -68,14 +68,10 @@ void BODY_NAME(EntityRec *state) {
         if ((mode[0] != 3) || (mode[1] != 6)) {
             if ((*(s16 *)&state->z) == 0) {
                 (*(s16 *)&state->z) = 0x40;
-                goto check_spawn_delay;
             }
-            goto decrement_spawn_delay;
         }
     }
-check_spawn_delay:
     if ((*(s16 *)&state->z) != 0) {
-decrement_spawn_delay:
         spawn_delay = (u16) (*(s16 *)&state->z) - 1;
         (*(s16 *)&state->z) = spawn_delay;
         if ((spawn_delay << 0x10) == 0) {

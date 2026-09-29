@@ -49,80 +49,66 @@ void func_8017085C(void *motion, void *position, void *effect) {
     u16 old_state;
 
     state = ((S_8017085C_0 *)motion)->unk_12.s;
-    if (state == 1) {
-        goto timed_bob;
-    }
-    if (state < 2) {
-        if (state == 0) {
-            goto bob;
+    switch (state) {
+    case 0:
+        frame_2 = ((S_8017085C_0 *)motion)->unk_18;
+        ((S_8017085C_0 *)motion)->unk_18 = frame_2 + 1;
+        phase = (s32)((u32)frame_2 << 0x10);
+        phase >>= 4;
+        ((S_8017085C_0 *)motion)->unk_5C = (0 - func_800644B8(phase / 80)) << 7;
+        height_offset = ((S_8017085C_0 *)motion)->unk_5C - 0x200000;
+        ((S_8017085C_1 *)position)->unk_08.at00.v = ((S_8017085C_1 *)position)->unk_14 + height_offset;
+
+        return;
+    case 1:
+        frame = ((S_8017085C_0 *)motion)->unk_18;
+        ((S_8017085C_0 *)motion)->unk_18 = frame + 1;
+        phase = (s32)((u32)frame << 0x10);
+        phase >>= 4;
+        ((S_8017085C_0 *)motion)->unk_5C = (0 - func_800644B8(phase / 80)) << 7;
+        height_offset = ((S_8017085C_0 *)motion)->unk_5C - 0x200000;
+        ((S_8017085C_1 *)position)->unk_08.at00.v = ((S_8017085C_1 *)position)->unk_14 + height_offset;
+
+        elapsed = ((S_8017085C_0 *)motion)->unk_18;
+        ((S_8017085C_0 *)motion)->unk_18 = elapsed + 1;
+        if ((s16)elapsed < 0x14) {
+            return;
         }
+
+        old_state = ((S_8017085C_0 *)motion)->unk_12.u;
+        ((S_8017085C_0 *)motion)->unk_18 = 0;
+        ((S_8017085C_0 *)motion)->unk_12.u = old_state + 1;
         return;
+    case 2:
+        ((S_8017085C_1 *)position)->unk_08.at00.v += 0x20000;
+        if (((S_8017085C_1 *)position)->unk_08.at00.v < ((S_8017085C_1 *)position)->unk_14) {
+            return;
+        }
+
+        ((S_8017085C_1 *)position)->unk_08.at00.v = ((S_8017085C_1 *)position)->unk_14;
+        effect_args[1] = 0x12;
+        effect_args[0] = 1;
+        effect_args[2] = 0x32;
+        effect_args[3] = 0;
+
+        world_x = ((S_8017085C_1 *)position)->unk_02;
+        if (world_x - 0x20 >= 0) {
+            ((S_8017085C_0 *)motion)->unk_58 = (world_x - 0x20) >> 6;
+        } else {
+            ((S_8017085C_0 *)motion)->unk_58 = (world_x + 0x1F) >> 6;
+        }
+
+        world_z = ((S_8017085C_1 *)position)->unk_06;
+        centered_z = world_z - 0x20;
+        if (centered_z < 0) {
+            centered_z = world_z + 0x1F;
+        }
+        tile_z = centered_z >> 6;
+        ((S_8017085C_0 *)motion)->unk_59 = tile_z;
+        func_800A7A7C(((S_8017085C_0 *)motion)->unk_58, (s8)tile_z,
+            ((S_8017085C_1 *)position)->unk_08.at02.v, ((S_8017085C_2 *)effect)->unk_08, effect_args);
+
+        (*(u16 *)((u8 *)motion + -2)) |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
-    if (state == 2) {
-        goto settle;
-    }
-    return;
-
-bob:
-    frame_2 = ((S_8017085C_0 *)motion)->unk_18;
-    ((S_8017085C_0 *)motion)->unk_18 = frame_2 + 1;
-    phase = (s32)((u32)frame_2 << 0x10);
-    phase >>= 4;
-    ((S_8017085C_0 *)motion)->unk_5C = (0 - func_800644B8(phase / 80)) << 7;
-    height_offset = ((S_8017085C_0 *)motion)->unk_5C - 0x200000;
-    ((S_8017085C_1 *)position)->unk_08.at00.v = ((S_8017085C_1 *)position)->unk_14 + height_offset;
-
-    return;
-
-timed_bob:
-    frame = ((S_8017085C_0 *)motion)->unk_18;
-    ((S_8017085C_0 *)motion)->unk_18 = frame + 1;
-    phase = (s32)((u32)frame << 0x10);
-    phase >>= 4;
-    ((S_8017085C_0 *)motion)->unk_5C = (0 - func_800644B8(phase / 80)) << 7;
-    height_offset = ((S_8017085C_0 *)motion)->unk_5C - 0x200000;
-    ((S_8017085C_1 *)position)->unk_08.at00.v = ((S_8017085C_1 *)position)->unk_14 + height_offset;
-
-    elapsed = ((S_8017085C_0 *)motion)->unk_18;
-    ((S_8017085C_0 *)motion)->unk_18 = elapsed + 1;
-    if ((s16)elapsed < 0x14) {
-        return;
-    }
-
-    old_state = ((S_8017085C_0 *)motion)->unk_12.u;
-    ((S_8017085C_0 *)motion)->unk_18 = 0;
-    ((S_8017085C_0 *)motion)->unk_12.u = old_state + 1;
-    return;
-
-settle:
-    ((S_8017085C_1 *)position)->unk_08.at00.v += 0x20000;
-    if (((S_8017085C_1 *)position)->unk_08.at00.v < ((S_8017085C_1 *)position)->unk_14) {
-        return;
-    }
-
-    ((S_8017085C_1 *)position)->unk_08.at00.v = ((S_8017085C_1 *)position)->unk_14;
-    effect_args[1] = 0x12;
-    effect_args[0] = 1;
-    effect_args[2] = 0x32;
-    effect_args[3] = 0;
-
-    world_x = ((S_8017085C_1 *)position)->unk_02;
-    if (world_x - 0x20 >= 0) {
-        ((S_8017085C_0 *)motion)->unk_58 = (world_x - 0x20) >> 6;
-    } else {
-        ((S_8017085C_0 *)motion)->unk_58 = (world_x + 0x1F) >> 6;
-    }
-
-    world_z = ((S_8017085C_1 *)position)->unk_06;
-    centered_z = world_z - 0x20;
-    if (centered_z < 0) {
-        centered_z = world_z + 0x1F;
-    }
-    tile_z = centered_z >> 6;
-    ((S_8017085C_0 *)motion)->unk_59 = tile_z;
-    func_800A7A7C(((S_8017085C_0 *)motion)->unk_58, (s8)tile_z,
-        ((S_8017085C_1 *)position)->unk_08.at02.v, ((S_8017085C_2 *)effect)->unk_08, effect_args);
-
-    (*(u16 *)((u8 *)motion + -2)) |= 0x8000;
-    objectFlagBlock.flags |= 0x8000;
 }

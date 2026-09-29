@@ -74,17 +74,14 @@ void func_80172998(S_80172998_0 *motion, EntityRec *transform, Rec_D_80082E80 *t
         motion->unk_90 += motion->unk_A0;
         actor->flags1C &= 0xF7FFFFFF;
         motion->unk_A4--;
-        if (motion->unk_A4 >= 0) {
-            goto check_landing;
+        if (motion->unk_A4 < 0) {
+            motion->unk_90 = 0;
+            motion->unk_98 &= 0xFFF7;
+            actor->flags1C |= 0x08000000;
+            motion->unk_9B++;
         }
 
-        motion->unk_90 = 0;
-        motion->unk_98 &= 0xFFF7;
-        actor->flags1C |= 0x08000000;
-        motion->unk_9B++;
-
     case 2:
-check_landing:
         if (((u32)actor->flags1C) & 0x08000000) {
             motion->unk_98 &= 0xFFF7;
             transform->flags14 = 0;
@@ -123,18 +120,15 @@ check_landing:
             actor->unk_46 &= 0x7FFF;
         }
     } else {
-        if (actor_flags & 0x410) {
-            goto actor_check;
+        if (!(actor_flags & 0x410)) {
+            if (actor_flags & 0x20000) {
+                actor->facing = func_800A0818(
+                    tile->unk_24, tile->unk_25,
+                    D_80082E80.tileX, D_80082E80.tileY, &coord_result);
+            }
         }
-        if (!(actor_flags & 0x20000)) {
-            goto actor_check;
-        }
-        actor->facing = func_800A0818(
-            tile->unk_24, tile->unk_25,
-            D_80082E80.tileX, D_80082E80.tileY, &coord_result);
     }
 
-actor_check:
     if ((func_800AD9B4(tile, actor) << 16) > 0) {
         motion->unk_8C = &D_80170E94;
         func_800A9A04(actor);

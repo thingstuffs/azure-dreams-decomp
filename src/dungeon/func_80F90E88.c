@@ -128,7 +128,7 @@ s32 func_80F90E88(void *object) {
     s32 bottom_y;
     s32 right_color;
     s32 left_color;
-    register s32 quad_ot_slot ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 quad_ot_slot;
     s32 side;
     register s8 *base ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u32 depth;
@@ -243,7 +243,10 @@ draw_object:
         screen_out = &screen_x;
         base = points;
         depth_out = scratch_ptr;
-        quad_ot_slot = (s32) base + quad_ot_slot;
+        {
+            s32 projected_point = (s32) base + quad_ot_slot;
+            quad_ot_slot = projected_point;
+        }
         depth = func_80065420(quad_ot_slot, screen_out, depth_out, depth_out) - 4;
         ASM_KEEP_NV(depth);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         bound_test = (s16) max_xy;
@@ -345,7 +348,11 @@ setup_quad:
         quad_tag |= quad_ot_link;
         ((S_80F90E88_1 *)quad)->unk_00 = quad_tag;
         side -= 1;
-        quad_ot_slot = ((s32)screen_out) + (s32) ((S_80F90E88_0 *)((u8 *)base - 0x8))->unk_08;
+        quad_ot_slot = (s32) ((S_80F90E88_0 *)((u8 *)base - 0x8))->unk_08;
+        {
+            s32 slot = ((s32)screen_out) + quad_ot_slot;
+            quad_ot_slot = slot;
+        }
         ((S_80F90E88_3 *)quad_ot_slot)->unk_B0 = (s32) ((((S_80F90E88_3 *)quad_ot_slot)->unk_B0 & tag_mask) | ((s32) quad & address_mask));
         if (side < 0) {
             draw_mode = ((S_80F90E88_7 *)(((S_80F90E88_6 *)base)->unk_00))->unk_8D0;

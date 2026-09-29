@@ -36,53 +36,45 @@ void func_80173614(void *work, void *part_a, void *part_b, void *actor)
     u8 state;
 
     state = U8(work, 0x9B);
-    if (state == 0) {
-        goto state_zero;
-    }
-    if (state == 1) {
-        goto state_one;
-    }
-    return;
-
-state_zero:
-    result = func_80099734(actor, first = func_800990FC());
-    saved_first = first;
-    first = result;
-    func_80099290(func_80099194(D_80170854, first));
-    func_800A5720(saved_first);
-    object = func_800A05A4(actor, U8(part_b, 0x24), U8(part_b, 0x25),
-                           S16(actor, 0x2A), 0x10);
-    PTR(actor, 0x60) = object;
-    PTR(part_b, 0x2C) = D_801738A4;
-    func_80047784(part_b,
-        D_801738A4[((gameWork.view.viewAngle + S16(actor, 0x2A) + 0x100) >> 9) & 7],
-        0);
-    func_800A56E0(0x812);
-    U8(work, 0x9B) = U8(work, 0x9B) + 1;
-    S32(part_a, 0x14) = 0;
-    S32(part_a, 0x10) = 0;
-    S32(part_a, 0x0C) = 0;
-    return;
-
-state_one:
-    if (!(U16(part_b, 0x14) & 0xE000)) {
+    switch (state) {
+    case 0:
+        result = func_80099734(actor, first = func_800990FC());
+        saved_first = first;
+        first = result;
+        func_80099290(func_80099194(D_80170854, first));
+        func_800A5720(saved_first);
+        object = func_800A05A4(actor, U8(part_b, 0x24), U8(part_b, 0x25),
+                               S16(actor, 0x2A), 0x10);
+        PTR(actor, 0x60) = object;
+        PTR(part_b, 0x2C) = D_801738A4;
+        func_80047784(part_b,
+            D_801738A4[((gameWork.view.viewAngle + S16(actor, 0x2A) + 0x100) >> 9) & 7],
+            0);
+        func_800A56E0(0x812);
+        U8(work, 0x9B) = U8(work, 0x9B) + 1;
+        S32(part_a, 0x14) = 0;
+        S32(part_a, 0x10) = 0;
+        S32(part_a, 0x0C) = 0;
         return;
+    case 1:
+        if (!(U16(part_b, 0x14) & 0xE000)) {
+            return;
+        }
+        func_800AD594(actor, 0xC00);
+        PTR(work, 0x8C) = &D_80170E68;
+        dungeonStatus.unk_0C = 0;
+        func_800A4ACC(actor);
+        if (S8(actor, 0x6D) == 0) {
+            U16(actor, 0x46) &= 0x7FFF;
+        } else {
+            D_800E3DE8 = (u8 *)actor - 0x20;
+        }
+        object = PTR(actor, 0x60);
+        if (object != 0) {
+            func_800C8A3C(object, 0x10, 0x10);
+        }
+        break;
     }
-    func_800AD594(actor, 0xC00);
-    PTR(work, 0x8C) = &D_80170E68;
-    dungeonStatus.unk_0C = 0;
-    func_800A4ACC(actor);
-    if (S8(actor, 0x6D) == 0) {
-        U16(actor, 0x46) &= 0x7FFF;
-    } else {
-        D_800E3DE8 = (u8 *)actor - 0x20;
-    }
-    object = PTR(actor, 0x60);
-    if (object != 0) {
-        func_800C8A3C(object, 0x10, 0x10);
-    }
-
-    return;
 }
 
 /* MECHANISM: True-space func_80173614 turns 0x80173780/0x80173798 into local CFG joins

@@ -39,38 +39,35 @@ void func_800C7B38(void *entity_data) {
     GameView *blend = &gameWork.view;
     s32 state = entity->unk18;
 
-    if (state == 0) goto blend_state;
-    if (state == 1) goto dispatch_state;
-    return;
-
-blend_state:
-    if (entity->unk24 > 0) {
-        s16 half_ticks;
-        entity->unk10 -= entity->unk10 >> 2;
-        blend->unk_098 = entity->unk26 + (u16)entity->unk10;
-        blend->unk_0AC = (u16)blend->unk_0AC + (D_800DD264[D_800120A2] - blend->unk_0AC) / entity->unk24;
-        blend->viewAngle = (u16)blend->viewAngle + (0 - blend->viewAngle) / entity->unk24;
-        blend->unk_0A4 = (u16)blend->unk_0A4 + (((Sub *)entity->unkC)->f2 - blend->unk_0A4) / entity->unk24;
-        blend->unk_0A6 = (u16)blend->unk_0A6 + (((Sub *)entity->unkC)->f6 - blend->unk_0A6) / entity->unk24;
-        half_ticks = (s16)(u16)entity->unk24 / 2;
-        if (half_ticks != 0) {
-            blend->unk_0A8 = (u16)blend->unk_0A8 + (((Sub *)entity->unkC)->fA - blend->unk_0A8) / half_ticks;
-        }
-        {
-            s16 ticks_left = (u16)entity->unk24 - 1;
-            entity->unk24 = ticks_left;
-            if (ticks_left > 0) {
-                return;
+    switch (state) {
+    case 0:
+        if (entity->unk24 > 0) {
+            s16 half_ticks;
+            entity->unk10 -= entity->unk10 >> 2;
+            blend->unk_098 = entity->unk26 + (u16)entity->unk10;
+            blend->unk_0AC = (u16)blend->unk_0AC + (D_800DD264[D_800120A2] - blend->unk_0AC) / entity->unk24;
+            blend->viewAngle = (u16)blend->viewAngle + (0 - blend->viewAngle) / entity->unk24;
+            blend->unk_0A4 = (u16)blend->unk_0A4 + (((Sub *)entity->unkC)->f2 - blend->unk_0A4) / entity->unk24;
+            blend->unk_0A6 = (u16)blend->unk_0A6 + (((Sub *)entity->unkC)->f6 - blend->unk_0A6) / entity->unk24;
+            half_ticks = (s16)(u16)entity->unk24 / 2;
+            if (half_ticks != 0) {
+                blend->unk_0A8 = (u16)blend->unk_0A8 + (((Sub *)entity->unkC)->fA - blend->unk_0A8) / half_ticks;
+            }
+            {
+                s16 ticks_left = (u16)entity->unk24 - 1;
+                entity->unk24 = ticks_left;
+                if (ticks_left > 0) {
+                    return;
+                }
             }
         }
+        blend->unk_0AC = (u16)D_800DD264[D_800120A2];
+        blend->viewAngle = 0;
+        blend->unk_098 = entity->unk26;
+        entity->unk18 += 1;
+        return;
+    case 1:
+        func_800C77D0((void *)(((s32)D_800E3D7C) - 0x20), ((u8 *)(&D_80083780)), 8, D_800DCE66[0]);
+        dungeonStatus.unk_0A = dungeonStatus.unk_0A - 1;
     }
-    blend->unk_0AC = (u16)D_800DD264[D_800120A2];
-    blend->viewAngle = 0;
-    blend->unk_098 = entity->unk26;
-    entity->unk18 += 1;
-    return;
-
-dispatch_state:
-    func_800C77D0((void *)(((s32)D_800E3D7C) - 0x20), ((u8 *)(&D_80083780)), 8, D_800DCE66[0]);
-    dungeonStatus.unk_0A = dungeonStatus.unk_0A - 1;
 }

@@ -78,97 +78,81 @@ void func_8009255C(void *controller, s32 action_id, Rec_D_80082E80 *actor, Entit
     u8 *animation_table;
 
     state = ((Rec_func_8008ACDC_arg0 *)controller)->unk_9B.as_u8;
-    if (state == 1) {
-        goto state_1;
-    }
-    if (state < 2) {
-        if (state == 0) {
-            goto state_0;
+    switch (state) {
+    case 0:
+        if ((((gameWork.view.viewAngle +
+                 transform->facing + 0x100) >> 9) & 7) == 2) {
+            animation_actor = actor;
+            animation_table = D_800DD100;
+            animation_actor->unk_2C = animation_table;
+            animation_entry = (u8 *)((s32)(((gameWork.view.viewAngle +
+                                    transform->facing + 0x100) >> 9) &
+                                  7) +
+                           (s32)animation_table);
+            func_80048A44(
+                animation_actor,
+                *animation_entry,
+                0,
+                1);
+            ((Rec_func_8008ACDC_arg0 *)controller)->unk_9B.as_u8++;
+            break;
         }
-        return;
-    }
-    if (state == 2) {
-        goto state_2;
-    }
-    return;
+        transform->facing =
+            (u16)transform->facing + 0x200;
+        break;
+    case 1:
+        if (func_8004CAE8(actor->unk_08, 0) == 0) {
+            return;
+        }
+        if (((Rec_func_8008ACDC_arg0 *)controller)->unk_110 == (s32)&D_80081484) {
+            ((Rec_func_8008ACDC_arg0 *)controller)->unk_124 = 0;
+            ((Rec_func_8008ACDC_arg0 *)controller)->unk_1C &= 0xFFEFFFFF;
+        }
+        spawned = func_800A8608(
+            controller - 0x20, ((Rec_func_8008ACDC_arg0 *)controller)->unk_110, 0, 0, 0);
+        if (spawned != NULL) {
+            ((S_8009255C_5 *)spawned)->unk_10 = (s32)&D_8008D470;
+            position = ((S_8009255C_5 *)spawned)->unk_08;
+            position->unk_02 =
+                (actor->unk_24 << 6) + 0x20;
+            position->unk_06 =
+                (actor->unk_25 << 6) + 0x20;
+            position->unk_0A =
+                ((u16)transform->unk_88) - 0x30;
+            spawned_state = spawned + 0x20;
+            spawned_state->unk_A8 = 0x1E;
+            spawned_state->unk_AA = 2;
+            spawned_state->unk_90 = actor;
+            spawned_state->unk_8C = action_id;
+            spawned_state->unk_9C = controller + 0x108;
+            text_cursor = func_800990FC();
+            text_start = text_cursor;
+            text_cursor = func_8009929C(8, text_cursor);
+            text_cursor = func_80099734(transform, text_cursor);
+            text_cursor = func_80099194(D_800E06E3, text_cursor);
+            text_cursor = func_80099368(
+                ((Rec_func_8008ACDC_arg0 *)controller)->unk_110, text_cursor);
+            text_cursor = func_80099194(D_800E06EB, text_cursor);
+            text_cursor = func_8009965C(
+                ((Rec_func_8008ACDC_arg0 *)controller)->unk_110, text_cursor);
+            func_80099290(text_cursor);
+            func_800A5720(text_start);
+            func_800A56E0(0x509);
+        }
 
-state_0:
-    if ((((gameWork.view.viewAngle +
-             transform->facing + 0x100) >> 9) & 7) == 2) {
-        animation_actor = actor;
-        animation_table = D_800DD100;
-        animation_actor->unk_2C = animation_table;
-        animation_entry = (u8 *)((s32)(((gameWork.view.viewAngle +
-                                transform->facing + 0x100) >> 9) &
-                              7) +
-                       (s32)animation_table);
-        func_80048A44(
-            animation_actor,
-            *animation_entry,
-            0,
-            1);
         ((Rec_func_8008ACDC_arg0 *)controller)->unk_9B.as_u8++;
-        return;
+        break;
+    case 2:
+        if ((actor->unk_14.at00_u16.v & 0xE000) == 0) {
+            return;
+        }
+        if (((Rec_func_8008ACDC_arg0 *)controller)->unk_110 != 0) {
+            func_80091934(controller, action_id, actor, transform);
+            return;
+        }
+        ((Rec_func_8008ACDC_arg0 *)controller)->unk_8C.as_s32 = (s32)&D_8008ACDC;
+        break;
     }
-    transform->facing =
-        (u16)transform->facing + 0x200;
-    return;
-
-state_1:
-    if (func_8004CAE8(actor->unk_08, 0) == 0) {
-        return;
-    }
-    if (((Rec_func_8008ACDC_arg0 *)controller)->unk_110 == (s32)&D_80081484) {
-        ((Rec_func_8008ACDC_arg0 *)controller)->unk_124 = 0;
-        ((Rec_func_8008ACDC_arg0 *)controller)->unk_1C &= 0xFFEFFFFF;
-    }
-    spawned = func_800A8608(
-        controller - 0x20, ((Rec_func_8008ACDC_arg0 *)controller)->unk_110, 0, 0, 0);
-    if (spawned != NULL) {
-        ((S_8009255C_5 *)spawned)->unk_10 = (s32)&D_8008D470;
-        position = ((S_8009255C_5 *)spawned)->unk_08;
-        position->unk_02 =
-            (actor->unk_24 << 6) + 0x20;
-        position->unk_06 =
-            (actor->unk_25 << 6) + 0x20;
-        position->unk_0A =
-            ((u16)transform->unk_88) - 0x30;
-        spawned_state = spawned + 0x20;
-        spawned_state->unk_A8 = 0x1E;
-        spawned_state->unk_AA = 2;
-        spawned_state->unk_90 = actor;
-        spawned_state->unk_8C = action_id;
-        spawned_state->unk_9C = controller + 0x108;
-        text_cursor = func_800990FC();
-        text_start = text_cursor;
-        text_cursor = func_8009929C(8, text_cursor);
-        text_cursor = func_80099734(transform, text_cursor);
-        text_cursor = func_80099194(D_800E06E3, text_cursor);
-        text_cursor = func_80099368(
-            ((Rec_func_8008ACDC_arg0 *)controller)->unk_110, text_cursor);
-        text_cursor = func_80099194(D_800E06EB, text_cursor);
-        text_cursor = func_8009965C(
-            ((Rec_func_8008ACDC_arg0 *)controller)->unk_110, text_cursor);
-        func_80099290(text_cursor);
-        func_800A5720(text_start);
-        func_800A56E0(0x509);
-    }
-
-increment:
-    ((Rec_func_8008ACDC_arg0 *)controller)->unk_9B.as_u8++;
-    return;
-
-state_2:
-    if ((actor->unk_14.at00_u16.v & 0xE000) == 0) {
-        return;
-    }
-    if (((Rec_func_8008ACDC_arg0 *)controller)->unk_110 != 0) {
-        func_80091934(controller, action_id, actor, transform);
-        return;
-    }
-    ((Rec_func_8008ACDC_arg0 *)controller)->unk_8C.as_s32 = (s32)&D_8008ACDC;
-
-    return;
 }
 
 /* MECHANISM: True-space local joins restore retail block order and the increment path.

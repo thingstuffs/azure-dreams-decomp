@@ -145,24 +145,17 @@ void func_800930F0(EntityRec *state, s32 unused, S_800930F0_1 *tile, S_800930F0_
     func_800945E8(state);
     func_800948BC();
     {
-        register UnalignedCopy3 *copy_src ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+        UnalignedCopy3 *copy_src;
         UnalignedCopy3 *copy_dst;
-        s32 copy_word;
-        s32 middle_word;
 
         copy_src = (UnalignedCopy3 *)0x80013710;
         copy_dst = (UnalignedCopy3 *)0x80012080;
-        ASM_KEEP(copy_dst);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-        copy_word = copy_src->unk0;
-        middle_word = copy_src->unk4;
-        copy_dst->unk0 = copy_word;
-        copy_dst->unk4 = middle_word;
-        copy_dst->unk8 = copy_src->unk8;
+        *copy_dst = *copy_src;
         ((S_800930F0_4 *)saved_state_base)->unk_3714.u = 0;
         ((S_800930F0_4 *)saved_state_base)->unk_3716 = 0;
         ((S_800930F0_4 *)saved_state_base)->unk_3718 = 0;
         ((S_800930F0_4 *)saved_state_base)->unk_371A = 0;
-        func_800A6780(copy_dst, copy_src);
+        func_800A6780();
     }
     if (((S_800930F0_4 *)saved_state_base)->unk_2090 == 0) {
         goto block_12;

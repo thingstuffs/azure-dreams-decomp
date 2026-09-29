@@ -100,55 +100,52 @@ s32 func_800A9E70(Rec_func_800A9E70_arg0 *anim, s32 action_arg, S_800A9E70_2 *sp
                     if ((func_800A2BDC(entity) << 0x10) != 0) {
                         return 0;
                     }
-                    goto update_anim;
-                }
-                active_entity = dungeonStatus.unk_0C;
-                if (active_entity != entity) {
-                    if ((((s32)dungeonStatus.unk_10) == 0) && (active_entity == 0) &&
-                        (dungeonStatus.unk_08 == 0) &&
-                        !(dungeonStatus.flags & 0x2008) &&
-                        (entity->unk_43 == 0xFD)) {
-                        dungeonStatus.unk_0C = entity;
-                        goto check_active_entity;
-                    }
                 } else {
-                check_active_entity:
-                    if (entity->unk_43 == 0xFD) {
-                    update_anim:
-                        if (entity->flags1C & 0x400000) {
-                            anim->unk_8C = 0;
-                            entity_flags = entity->flags14;
-                            entity->flags1C &= 0xFFBFFFFF;
-                            if (entity_flags & 0x20000000) {
-                                entity->flags14 = entity_flags | 0x400000;
-                                func_800ACB98(anim, action_arg, sprite, entity);
-                                return 0;
-                            }
-                            entity->flags14 = entity_flags & 0xFFBFFFFF;
-                            {
-                                u32 next_anim = entity_flags & 0x4000;
-                                if (next_anim) {
-                                    next_anim = 1;
-                                } else {
-                                    next_anim = 2;
-                                }
-                                anim->unk_9A.as_u8 = next_anim;
-                            }
-                            goto reset_anim_step;
-                        }
-                        if (entity->flags1C & 0x02000000) {
-                            anim->unk_8C = 0;
-                            entity->unk_71 = 0;
-                            entity->flags1C &= 0xFDFFFFFF;
-                            if (entity->flags14 & 0x20000000) {
-                                func_800ACD74(anim, action_arg, sprite, entity);
-                                return 0;
-                            }
-                            anim->unk_9A.as_u8 = 0;
-                        reset_anim_step:
-                            anim->unk_9B.as_u8 = 0;
+                    active_entity = dungeonStatus.unk_0C;
+                    if (active_entity != entity) {
+                        if ((((s32)dungeonStatus.unk_10) == 0) && (active_entity == 0) &&
+                            (dungeonStatus.unk_08 == 0) &&
+                            !(dungeonStatus.flags & 0x2008) &&
+                            (entity->unk_43 == 0xFD)) {
+                            dungeonStatus.unk_0C = entity;
+                        } else {
+                            return 0;
                         }
                     }
+                    if (entity->unk_43 != 0xFD) {
+                        return 0;
+                    }
+                }
+                if (entity->flags1C & 0x400000) {
+                    anim->unk_8C = 0;
+                    entity_flags = entity->flags14;
+                    entity->flags1C &= 0xFFBFFFFF;
+                    if (entity_flags & 0x20000000) {
+                        entity->flags14 = entity_flags | 0x400000;
+                        func_800ACB98(anim, action_arg, sprite, entity);
+                        return 0;
+                    }
+                    entity->flags14 = entity_flags & 0xFFBFFFFF;
+                    {
+                        u32 next_anim = entity_flags & 0x4000;
+                        if (next_anim) {
+                            next_anim = 1;
+                        } else {
+                            next_anim = 2;
+                        }
+                        anim->unk_9A.as_u8 = next_anim;
+                    }
+                    anim->unk_9B.as_u8 = 0;
+                } else if (entity->flags1C & 0x02000000) {
+                    anim->unk_8C = 0;
+                    entity->unk_71 = 0;
+                    entity->flags1C &= 0xFDFFFFFF;
+                    if (entity->flags14 & 0x20000000) {
+                        func_800ACD74(anim, action_arg, sprite, entity);
+                        return 0;
+                    }
+                    anim->unk_9A.as_u8 = 0;
+                    anim->unk_9B.as_u8 = 0;
                 }
             }
         }

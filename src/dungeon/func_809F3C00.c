@@ -161,7 +161,8 @@ void func_80171400(void *actor, void *context, void *sprite_in, void *entity)
             return;
         }
         if (((S_80171400_2 *)sprite_in)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
-            goto generic;
+            func_80171B28(actor, context, sprite_in, entity);
+            return;
         }
         if (!(((S_80171400_1 *)entity)->unk_46 & 0x8000)) {
             if (dungeonStatus.flags & 0x2000) {
@@ -176,24 +177,27 @@ void func_80171400(void *actor, void *context, void *sprite_in, void *entity)
             action_state = ((S_80171400_1 *)entity)->unk_46 | 0x4000;
             ((S_80171400_1 *)entity)->unk_46 = action_state;
             if (!(action_state & 0x8000)) {
-                goto generic;
+                func_80171B28(actor, context, sprite_in, entity);
+                return;
             }
         }
 
         switch ((((S_80171400_1 *)entity)->unk_46 & 0x3FFF) - 1) {
         case 7:
         case 8:
-sw_case89:
         if ((func_80172270(actor, context, sprite_in, entity) << 16) != 0) {
             return;
         }
         func_80172434(actor, context, sprite_in, entity);
         return;
 
+        case 11:
+        func_800A9A0C(entity);
+        return;
+
         case 4:
         case 5:
         case 6:
-sw_case567:
         {
             EntityRec *player;
             s16 direction;
@@ -203,21 +207,15 @@ sw_case567:
                 D_80082E80.tileX, D_80082E80.tileY, &direction_aux);
             player = D_800814A8;
             ((S_80171400_1 *)entity)->unk_2A = direction;
-            if (player->unk_9A == 0x11) {
-                goto case_123;
+            if (player->unk_9A != 0x11) {
+                func_800A9A0C(entity);
+                return;
             }
         }
-        /* fallthrough */
-
-        case 11:
-case_12:
-        func_800A9A0C(entity);
-        return;
 
         case 0:
         case 1:
         case 2:
-case_123:
         {
             void *anim_table;
 
@@ -231,7 +229,6 @@ case_123:
         }
 
         default:
-generic:
         func_80171B28(actor, context, sprite_in, entity);
         return;
         }

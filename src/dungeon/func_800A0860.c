@@ -69,17 +69,13 @@ s32 func_800A5FC0(S_800A5FC0_2 *state) {
     ((S_800A5FC0_3 *)quad)->unk_16 = 0xE0;
     frames_left = state->unk_08 - 1;
     state->unk_08 = frames_left;
-    if ((s16) frames_left <= 0)
-        goto zero_case;
-    {
+    if ((s16) frames_left > 0) {
         s32 x_delta = 0x140 - state->unk_0A.s;
         state->unk_0A.s = state->unk_0A.u + x_delta / (s16) frames_left;
+    } else {
+        state->unk_08 = 0U;
+        state->unk_0A.s = 0x140;
     }
-    goto common_case;
-zero_case:
-    state->unk_08 = 0U;
-    state->unk_0A.s = 0x140;
-common_case:
     right_x = (u16) state->unk_0A.s;
     ((S_800A5FC0_3 *)quad)->unk_14 = right_x;
     ((S_800A5FC0_3 *)quad)->unk_0C = right_x;

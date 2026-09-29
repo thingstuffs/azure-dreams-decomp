@@ -39,7 +39,7 @@ void func_800C7AC4(Rec_func_80094268_arg0 *entity, void *bounds_arg, s32 context
             bound_test = bound_test < upper_edge;
             if (bound_test != 0) {
                 entity->unk_72.as_s16 = 0x400;
-                goto done;
+                break;
             }
         } else if (direction == 1) {
             s32 upper_edge;
@@ -53,7 +53,7 @@ void func_800C7AC4(Rec_func_80094268_arg0 *entity, void *bounds_arg, s32 context
             bound_test = bound_test < upper_edge;
             if (bound_test != 0) {
                 entity->unk_72.as_s16 = 0;
-                goto done;
+                break;
             }
         } else if (direction == 2) {
             s32 lower_edge;
@@ -67,7 +67,7 @@ void func_800C7AC4(Rec_func_80094268_arg0 *entity, void *bounds_arg, s32 context
             lower_edge = lower_edge < bound_coord;
             if (lower_edge != 0) {
                 entity->unk_72.as_s16 = 0xC00;
-                goto done;
+                break;
             }
         } else {
             s32 lower_edge;
@@ -81,14 +81,13 @@ void func_800C7AC4(Rec_func_80094268_arg0 *entity, void *bounds_arg, s32 context
             lower_edge = lower_edge < bound_coord;
             if (lower_edge != 0) {
                 entity->unk_72.as_s16 = 0x800;
-                goto done;
+                break;
             }
         }
 
         attempts++;
     } while (attempts < 0x10);
 
-done:
     func_800C2E84(entity, context, &D_800D5FE8);
     entity->unk_50.as_pv = &D_800C7674;
 }

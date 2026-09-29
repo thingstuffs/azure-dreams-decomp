@@ -132,20 +132,14 @@ void *BODY_NAME(s16 arg0, s16 arg1, s16 arg2, s16 arg3) {
                     call_a1 = temp_s4;
                     temp_v1 = func_800A6D30();
                     call_a0 = temp_v0;
-                    if (!(temp_v1 & 1)) {
-                        goto call_a1_setup;
+                    if (temp_v1 & 1) {
+                        var_s0->unk_1C = (s32) (var_s0->unk_1C | 0x200);
+                        func_800A48F0(var_s0, 1, (func_800A6D30() & 0x3F) | 0x20);
+                        temp_s2->unk_2C = &D_80162000;
                     }
-                    var_s0->unk_1C = (s32) (var_s0->unk_1C | 0x200);
-                    func_800A48F0(var_s0, 1, (func_800A6D30() & 0x3F) | 0x20);
-                    temp_s2->unk_2C = &D_80162000;
-                    goto post_a6d30;
                 }
             }
-            goto call_a1_setup;
         }
-post_a6d30:
-        call_a0 = temp_v0;
-call_a1_setup:
         func_800A9C18(temp_v0, temp_s4, temp_s2, arg0);
         temp_s5->unk_9A = 0xFF;
         temp_s5->unk_9C = -1;

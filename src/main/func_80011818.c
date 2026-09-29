@@ -48,51 +48,45 @@ void func_80024818(void *context)
     selection = ((S_80024818_0 *)context)->unk_80;
     mode_one = selection == 1;
     state = func_80022138();
-    if (mode_one != 0) {
-        if (func_80022160() == 0) {
-            func_8004DA74(context + 0x84, D_800283EC[0], 1);
-            text_buffer = context + 0x204;
-            text = (s32)D_800283EC[1];
-            goto write_second;
-        }
-        below_three = state < 3;
+    if (mode_one != 0 && func_80022160() == 0) {
+        func_8004DA74(context + 0x84, D_800283EC[0], 1);
+        text_buffer = context + 0x204;
+        text = (s32)D_800283EC[1];
+        func_8004DA74(text_buffer, (void *)text, 1);
+        node_count = 2;
     } else {
         below_three = state < 3;
+        first_buffer = context + 0x84;
+        if (below_three != 0) {
+            void **table;
+            void *text_buffer;
+            s32 selection;
+
+            func_8004DA74(first_buffer, D_800283C4, 1);
+            text_buffer = context + 0x204;
+            table = D_800283B8;
+            selection = mode_one << 2;
+            func_8004DA74(text_buffer, *(void **)((u8 *)table + selection), 1);
+            func_8004DA74(context + 0x384, table[2], 1);
+            node_count = 3;
+        } else {
+            {
+                void **table;
+                s32 selection;
+
+                table = D_800283F4;
+                selection = mode_one << 2;
+                func_8004DA74(first_buffer, *(void **)((u8 *)table + selection), 1);
+            }
+            func_8003AD08(state / 3, number_buf);
+            strcpy(text_buf, number_buf);
+            strcat(text_buf, D_800283FC);
+            text_buffer = context + 0x204;
+            text = (s32)text_buf;
+            func_8004DA74(text_buffer, (void *)text, 1);
+            node_count = 2;
+        }
     }
-
-    first_buffer = context + 0x84;
-    if (below_three != 0) {
-        void **table;
-        void *text_buffer;
-        s32 selection;
-
-        func_8004DA74(first_buffer, D_800283C4, 1);
-        text_buffer = context + 0x204;
-        table = D_800283B8;
-        selection = mode_one << 2;
-        func_8004DA74(text_buffer, *(void **)((u8 *)table + selection), 1);
-        func_8004DA74(context + 0x384, table[2], 1);
-        node_count = 3;
-        goto update_nodes;
-    }
-
-    {
-        void **table;
-        s32 selection;
-
-        table = D_800283F4;
-        selection = mode_one << 2;
-        func_8004DA74(first_buffer, *(void **)((u8 *)table + selection), 1);
-    }
-    func_8003AD08(state / 3, number_buf);
-    strcpy(text_buf, number_buf);
-    strcat(text_buf, D_800283FC);
-    text_buffer = context + 0x204;
-    text = (s32)text_buf;
-write_second:
-    func_8004DA74(text_buffer, (void *)text, 1);
-    node_count = 2;
-update_nodes:
     {
         register s32 buffer_offset;
         register s16 node_value;
@@ -105,7 +99,7 @@ update_nodes:
             node_value = 0x110;
             buffer_offset = 0x84;
             cursor = context;
-            loop_0: {
+            do {
                 Node *node;
 
                 node = ((S_80024818_1 *)cursor)->unk_B4C;
@@ -116,7 +110,7 @@ update_nodes:
                 cursor += 4;
                 text += 1;
                 node_value += 0x10;
-            } if (text < node_count) goto loop_0;
+            } while (text < node_count);
         }
     }
 }

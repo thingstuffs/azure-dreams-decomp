@@ -72,29 +72,22 @@ void func_800A5FDC(u8 *state, EntityRec *table, void *action_context)
         }
         random_choice = func_800374F4(1);
         func_80097844(table, (u16)random_choice);
-        goto after_updates;
-    }
-
-    if (input_flags & 0x10) {
+    } else {
+        if (input_flags & 0x10) {
+            func_80095094(table);
+        }
         func_80095094(table);
     }
-    func_80095094(table);
 
-after_updates:
     ground_height = func_80095978(table, D_800FE488);
     if (table->z.w.i >= ground_height) {
         func_80095A94(table, ground_height, D_800FE488);
-        goto coordinates_ready;
-    }
-
-    if (D_800CFCEE[1] != 0) {
+    } else if (D_800CFCEE[1] != 0) {
         table->flags14 = 0;
         func_800954F4(table);
-        goto coordinates_ready;
+    } else {
+        func_80095388(table);
     }
-
-    func_80095388(table);
-coordinates_ready:
     tile_id = func_8008C180(D_80083780.x.w.i,
                           D_80083780.y.w.i);
     if (func_800C1D44((u16)tile_id) != 0) {

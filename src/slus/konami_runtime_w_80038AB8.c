@@ -37,12 +37,12 @@ s32 func_80038AB8(RuntimeContext *context, u8 *owner, s32 update_arg2, s32 updat
     if (*context->cursor <= 0) {
         if (context->active != 0) {
             func_80038CB8(context, (s32)owner, update_arg2, update_arg3);
-            if ((context->state != 2) ||
-                (func_80038C40(*context->cursor) == 0)) {
-                context->state = 0;
-                goto return_zero;
+            if ((context->state == 2) &&
+                (func_80038C40(*context->cursor) != 0)) {
+                return 1;
             }
-            return 1;
+            context->state = 0;
+            goto return_zero;
         }
         goto fallback;
     }
@@ -50,16 +50,12 @@ s32 func_80038AB8(RuntimeContext *context, u8 *owner, s32 update_arg2, s32 updat
     opcode_handlers = D_8006AA90;
     dispatch_action = func_80038A10;
 
-dispatch:
-    cursor = context->cursor;
-    opcode = (u8)*cursor;
-    context->cursor = cursor + 1;
-    opcode_handlers[opcode](context);
-    if (*context->cursor > 0) {
-        if (context->action == dispatch_action) {
-            goto dispatch;
-        }
-    }
+    do {
+        cursor = context->cursor;
+        opcode = (u8)*cursor;
+        context->cursor = cursor + 1;
+        opcode_handlers[opcode](context);
+    } while (*context->cursor > 0 && context->action == dispatch_action);
 
     if (context->action == func_80039AE8) {
         context->action = 0;
@@ -75,10 +71,8 @@ fallback:
         }
         context->cursor = context->cursor + 1;
         context->action = func_800381D0(context);
-        goto check_state;
     }
 
-check_state:
     if (context->state == 2) {
         return 1;
     }

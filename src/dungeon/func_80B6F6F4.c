@@ -61,7 +61,11 @@ void func_80172EF4(void *action, EntityRec *motion, void *sprite, EntityRec *act
         ((S_80172EF4_1 *)action)->unk_9B++;
 
         if (actor->unk_28 == 0) {
-            goto start_action;
+            motion->flags14 = 0;
+            motion->unk_10 = 0;
+            motion->unk_0C = 0;
+            func_800AAA54(action, motion, sprite, &D_80173D24);
+            return;
         }
         if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
             ((S_80172EF4_1 *)action)->unk_96.s = 0;
@@ -105,18 +109,13 @@ void func_80172EF4(void *action, EntityRec *motion, void *sprite, EntityRec *act
         if (((S_80172EF4_1 *)action)->unk_96.s != 0) {
             return;
         }
-        if (actor->unk_28 != 0) {
-            goto increment_state;
+        if (actor->unk_28 == 0) {
+            motion->flags14 = 0;
+            motion->unk_10 = 0;
+            motion->unk_0C = 0;
+            func_800AAA54(action, motion, sprite, &D_80173D24);
+            return;
         }
-
-start_action:
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
-        func_800AAA54(action, motion, sprite, &D_80173D24);
-        return;
-
-increment_state:
         ((S_80172EF4_1 *)action)->unk_96.s = 4;
         ((S_80172EF4_1 *)action)->unk_9B++;
         return;

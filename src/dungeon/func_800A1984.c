@@ -57,12 +57,10 @@ do {
         if (height_delta < 0) {
             height_delta = 0 - height_delta;
         }
-        if (height_delta >= 0x40) {
-            goto next_entry;
+        if (height_delta < 0x40) {
+            goto success;
         }
-        goto success;
     }
-next_entry:
     position++;
     entry_index += 1;
     active_entry++;

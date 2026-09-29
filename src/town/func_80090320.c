@@ -115,7 +115,7 @@ s16 func_8008DA80(s32 query_x, s32 query_y, s32 query_z)
     } else {
         scratch->x_step = -0x40;
     }
-    if ((s16)*(volatile u16 *)((u8 *)scratch + 0x1E) >= 0x20) {
+    if ((s16)scratch->origin_y >= 0x20) {
         s32 y_step_pos = 0x40;
         scratch->y_step = y_step_pos;
     } else {
@@ -132,9 +132,9 @@ s16 func_8008DA80(s32 query_x, s32 query_y, s32 query_z)
         y = row_y;
         if (scratch->y_step >= 0) {
             if ((s16)row_y >= D_800FE484)
-                goto outer_done;
+                break;
         } else if ((s16)row_y < 0) {
-            goto outer_done;
+            break;
         }
         scratch->inner_count = 0;
         scratch->inner_offset = 0;
@@ -144,9 +144,9 @@ s16 func_8008DA80(s32 query_x, s32 query_y, s32 query_z)
             x = column_x;
             if (scratch->x_step >= 0) {
                 if ((s16)column_x >= D_800FE480)
-                    goto inner_done;
+                    break;
             } else if ((s16)column_x < 0) {
-                goto inner_done;
+                break;
             }
 
             scratch->tile = grid->x_mask &
@@ -177,10 +177,10 @@ s16 func_8008DA80(s32 query_x, s32 query_y, s32 query_z)
                             plane_x =
                                 (((S_8008DA80_2 *)plane)->unk_02 *
                                      (((S_8008DA80_3 *)vertex)->unk_02 -
-                                      (s16)*(volatile u16 *)((u8 *)scratch + 0x1E)) +
+                                      (s16)scratch->origin_y) +
                                  ((S_8008DA80_2 *)plane)->unk_04 *
                                      (((S_8008DA80_3 *)vertex)->unk_04 -
-                                      (s16)*(volatile u16 *)((u8 *)scratch + 0x20)) +
+                                      (s16)scratch->origin_z) +
                                  ((S_8008DA80_2 *)plane)->unk_00 * ((S_8008DA80_3 *)vertex)->unk_00) /
                                 ((S_8008DA80_2 *)plane)->unk_00;
                             scratch->result = plane_x;
@@ -199,11 +199,9 @@ s16 func_8008DA80(s32 query_x, s32 query_y, s32 query_z)
             scratch->inner_count++;
             scratch->inner_offset += scratch->x_step;
         }
-inner_done:
         scratch->outer_count++;
         scratch->outer_offset += scratch->y_step;
     }
-outer_done:
     if (scratch->best == 0x7FFF)
         return 0x7FFF;
     return (s16)((u16)scratch->block_base + (u16)scratch->best);

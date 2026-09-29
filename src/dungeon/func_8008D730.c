@@ -31,7 +31,7 @@ typedef struct S_80092E90_1 {
 
 typedef struct S_80092E90_3 {
     u8 pad_00[0x4];
-    union { s16 n; volatile u16 v; u16 n2; } unk_04;   /* accessed as both */
+    union { s16 n; u16 v; u16 n2; } unk_04;   /* accessed as both */
 } S_80092E90_3;   /* countBase in func_80092E90 */
 
 typedef struct S_80092E90_4 {
@@ -100,62 +100,58 @@ void func_80092E90(void *controller, EntityRec *motion, void *actor, void *entry
     }
 
     state = ((S_80092E90_4 *)controller)->unk_9B;
-    if (state == 0) {
-        goto start_effect;
-    }
-    if (state == 1) {
-        goto finish_effect;
-    }
-    return;
-
-start_effect:
-    if (!(((S_80092E90_1 *)actor)->unk_14 & 0xE000)) {
-        return;
-    }
-    func_800419EC(0x10, 8);
-    (*(void * *)((u8 *)actor + (0x2C))) = D_800DCFF8;
-    func_80048A44(
-        actor,
-        D_800DCFF8[((gameWork.view.viewAngle + ((S_80092E90_5 *)entry)->unk_2A + 0x100) >> 9) & 7],
-        0,
-        1);
-    ((S_80092E90_4 *)controller)->unk_9B++;
-    return;
-
-finish_effect:
-    if (!(((S_80092E90_1 *)actor)->unk_14 & 0xE000)) {
-        return;
-    }
-
-    found_match = 0;
-    if (!((*(u16 *)0x80013714) & 8)) {
-        node = (u8 *)((S_80092E90_5 *)entry)->unk_5C + 0x20;
-        do {
-            if ((D_80082E80.unk_026 ==
-                 ((S_80092E90_9 *)(((S_80092E90_7_pre *)node)[-1].unk_00))->unk_26) &&
-                ((func_80042900(node, 1) << 16) != 0)) {
-                func_80042B68(node, 1);
-                found_match = 1;
-            }
-            node = (u8 *)((S_80092E90_7 *)node)->unk_5C + 0x20;
-        } while (node != entry);
-
-        match_result = found_match;
-        {
-            void *message;
-            if (match_result != 0) {
-                message = &D_800E0597;
-            } else {
-                message = &D_800E05C3;
-            }
-            func_800997FC(message);
+    switch (state) {
+    case 0:
+        if (!(((S_80092E90_1 *)actor)->unk_14 & 0xE000)) {
+            return;
         }
-    }
+        func_800419EC(0x10, 8);
+        (*(void * *)((u8 *)actor + (0x2C))) = D_800DCFF8;
+        func_80048A44(
+            actor,
+            D_800DCFF8[((gameWork.view.viewAngle + ((S_80092E90_5 *)entry)->unk_2A + 0x100) >> 9) & 7],
+            0,
+            1);
+        ((S_80092E90_4 *)controller)->unk_9B++;
+        return;
 
-    motion->flags14 = 0;
-    motion->unk_10 = 0;
-    motion->unk_0C = 0;
-    func_800A2B04(motion, ((S_80092E90_1 *)actor)->unk_24, ((S_80092E90_1 *)actor)->unk_25);
-    ((S_80092E90_4 *)controller)->unk_8C = &D_8008ACDC;
-    dungeonStatus.unk_0A--;
+    case 1:
+        if (!(((S_80092E90_1 *)actor)->unk_14 & 0xE000)) {
+            return;
+        }
+
+        found_match = 0;
+        if (!((*(u16 *)0x80013714) & 8)) {
+            node = (u8 *)((S_80092E90_5 *)entry)->unk_5C + 0x20;
+            do {
+                if ((D_80082E80.unk_026 ==
+                     ((S_80092E90_9 *)(((S_80092E90_7_pre *)node)[-1].unk_00))->unk_26) &&
+                    ((func_80042900(node, 1) << 16) != 0)) {
+                    func_80042B68(node, 1);
+                    found_match = 1;
+                }
+                node = (u8 *)((S_80092E90_7 *)node)->unk_5C + 0x20;
+            } while (node != entry);
+
+            match_result = found_match;
+            {
+                void *message;
+                if (match_result != 0) {
+                    message = &D_800E0597;
+                } else {
+                    message = &D_800E05C3;
+                }
+                func_800997FC(message);
+            }
+        }
+
+        motion->flags14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
+        func_800A2B04(motion, ((S_80092E90_1 *)actor)->unk_24, ((S_80092E90_1 *)actor)->unk_25);
+        ((S_80092E90_4 *)controller)->unk_8C = &D_8008ACDC;
+        dungeonStatus.unk_0A--;
+    default:
+        return;
+    }
 }

@@ -27,39 +27,30 @@ s32 func_80039470(s32 entry_value, s32 first_value, s32 second_value, s32 packed
     u8 entry_index = packed_index;
     Func80039470Entry *entry = entries + entry_index;
     Func80039470Block *block;
-    volatile Func80039470Block *header;
+    Func80039470Block *header;
     void *type;
 
-    if (entry->field_1 != 0) {
-        goto failure;
+    if (entry->field_1 == 0) {
+        if (entry_index != 0) {
+            block = ms_mot_accpt_ow(entry_index);
+            if (block != 0) {
+                header = block - 1;
+                entry->field_0 = packed_index >> 8;
+                entry->field_1 = 1;
+                entry->field_2 = entry_value;
+
+                if (entry_index == 1 &&
+                    (type = header->type) != (void *)D_800C3174 &&
+                    type != (void *)D_800C321C) {
+                    *(s16 *)((u8 *)block + 0x36) = first_value;
+                    *(s16 *)((u8 *)block + 0x38) = second_value;
+                } else {
+                    *(s16 *)((u8 *)block + 0x88) = first_value;
+                    *(s16 *)((u8 *)block + 0x8A) = second_value;
+                }
+            }
+        }
+        return 1;
     }
-    if (entry_index == 0) {
-        goto success;
-    }
-
-    block = ms_mot_accpt_ow(entry_index);
-    if (block == 0) {
-        goto success;
-    }
-
-    header = block - 1;
-    entry->field_0 = packed_index >> 8;
-    entry->field_1 = 1;
-    entry->field_2 = entry_value;
-
-    if (entry_index == 1 &&
-        (type = header->type) != (void *)D_800C3174 &&
-        type != (void *)D_800C321C) {
-        *(s16 *)((u8 *)block + 0x36) = first_value;
-        *(s16 *)((u8 *)block + 0x38) = second_value;
-        goto success;
-    }
-
-    *(s16 *)((u8 *)block + 0x88) = first_value;
-    *(s16 *)((u8 *)block + 0x8A) = second_value;
-
-success:
-    return 1;
-failure:
     return 0;
 }

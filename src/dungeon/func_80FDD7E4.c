@@ -46,7 +46,11 @@ void func_80172FE4(S_80172FE4_0 *action, EntityRec *motion, Rec_D_80082E80 *enti
         action->unk_9B++;
 
         if (source->unk_28 == 0) {
-            goto start_action;
+            motion->flags14 = 0;
+            motion->unk_10 = 0;
+            motion->unk_0C = 0;
+            func_800AAA54(action, motion, entity, &D_80174068);
+            return;
         }
         if (entity->unk_14.at00_u16.v & 0x8000) {
             action->unk_96.s = 0;
@@ -84,19 +88,13 @@ void func_80172FE4(S_80172FE4_0 *action, EntityRec *motion, Rec_D_80082E80 *enti
         if (action->unk_96.s != 0) {
             return;
         }
-        if (source->unk_28 != 0) {
-            goto increment_state;
+        if (source->unk_28 == 0) {
+            motion->flags14 = 0;
+            motion->unk_10 = 0;
+            motion->unk_0C = 0;
+            func_800AAA54(action, motion, entity, &D_80174068);
+            return;
         }
-        goto start_action;
-
-start_action:
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
-        func_800AAA54(action, motion, entity, &D_80174068);
-        return;
-
-increment_state:
         action->unk_96.s = 8;
         action->unk_9B++;
         return;

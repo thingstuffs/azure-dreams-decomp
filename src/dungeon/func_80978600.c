@@ -33,22 +33,17 @@ void func_80173E00(s32 controller, s32 update_arg, void *sprite, EntityRec *acto
                     ((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
         }
-        goto update_actor;
+    } else if (direction_table == D_801740E8) {
+        if (((Rec_func_800AA258_arg2 *)sprite)->unk_04 == 0x103) {
+            (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801740E0;
+            func_80047784(
+                sprite,
+                D_801740E0[
+                    ((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                0);
+        }
     }
-    if (direction_table != D_801740E8) {
-        goto update_actor;
-    }
-    if (((Rec_func_800AA258_arg2 *)sprite)->unk_04 != 0x103) {
-        goto update_actor;
-    }
-    (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801740E0;
-    func_80047784(
-        sprite,
-        D_801740E0[
-            ((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
-        0);
 
-update_actor:
     if (func_800AC82C(controller, update_arg, sprite, actor) != 0) {
         if ((func_800AD9B4(sprite, actor) << 16) > 0) {
             ((Rec_func_8017360C_arg0 *)controller)->unk_8C.as_pu8 = &D_801714D4;

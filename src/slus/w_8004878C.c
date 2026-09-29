@@ -23,7 +23,7 @@ extern void DrawSync(s32 a0);
 /* RLE-style byte decoder; only the argument setup (src/dst pointers) needs
  * to match, so declare it minimally. */
 extern void *func_8004068C(void *a0, void *a1);
-extern void func_80048734(void *a0);
+extern void func_80048734(u8 *source, u8 *output);
 extern int LoadImage(void *rect, void *p);
 
 /* Decodes and uploads an image, wrapping the decode buffer when needed. */
@@ -39,10 +39,7 @@ void func_8004878C(void *src, S_8004878C_hdr *rect)
         DrawSync(0);
     }
     func_8004068C(src, (void *)(D_80081480 + image_bytes));
-    {
-        register s32 write_ptr ASM_REG("$5") = D_80081480;   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-        func_80048734((void *)(write_ptr + image_bytes));
-    }
+    func_80048734((u8 *)(D_80081480 + image_bytes), (u8 *)D_80081480);
     LoadImage(rect, (void *)D_80081480);
     D_80081480 = D_80081480 + image_bytes;
 }

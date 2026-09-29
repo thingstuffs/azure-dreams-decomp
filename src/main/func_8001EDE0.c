@@ -32,34 +32,29 @@ void func_80405DE0(void *arg0) {
     void *var_a0;
     void *var_s0;
 
-    if (func_80402154(((S_8001EDE0_0 *)arg0)->unk_2C, 0x80010000) == 0) {
-        var_a0 = (u8 *)arg0 - 0x20;
-        goto tail;
+    if (func_80402154(((S_8001EDE0_0 *)arg0)->unk_2C, 0x80010000) != 0) {
+        *(s32 *)0x80010208 = 0;
+        if (func_80402084((*(s32 *)((u8 *)arg0 + 0x28)), 0x80010000) != 0) {
+            func_80405C44(0x80010000);
+            var_s1 = 0;
+            func_80402214();
+            var_s0 = arg0;
+            do {
+                temp_a0 = ((S_8001EDE0_1 *)var_s0)->unk_04;
+                var_s0 = (u8 *)var_s0 + 4;
+                var_s1 += 1;
+                func_80404688(temp_a0);
+            } while (var_s1 < 5);
+            func_80405AB4(arg0);
+            func_80400908();
+            ((S_8001EDE0_0 *)arg0)->unk_40 = 0;
+            return;
+        }
     }
-    *(s32 *)0x80010208 = 0;
-    if (func_80402084((*(s32 *)((u8 *)arg0 + 0x28)), 0x80010000) == 0) {
-        var_a0 = (u8 *)arg0 - 0x20;
-        goto tail;
-    }
-    func_80405C44(0x80010000);
-    var_s1 = 0;
-    func_80402214();
-    var_s0 = arg0;
-    do {
-        temp_a0 = ((S_8001EDE0_1 *)var_s0)->unk_04;
-        var_s0 = (u8 *)var_s0 + 4;
-        var_s1 += 1;
-        func_80404688(temp_a0);
-    } while (var_s1 < 5);
-    func_80405AB4(arg0);
-    goto done;
-
-tail:
+    var_a0 = (u8 *)arg0 - 0x20;
     *(void (**)(void))((u8 *)arg0 + 0x34) = func_80406368;
     func_8040334C(var_a0);
-    *(void * volatile *)((u8 *)arg0 - 0x10) = (void *)func_80405A3C;
-
-done:
+    *(void **)((u8 *)arg0 - 0x10) = (void *)func_80405A3C;
     func_80400908();
     ((S_8001EDE0_0 *)arg0)->unk_40 = 0;
 }

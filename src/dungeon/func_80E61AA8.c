@@ -153,45 +153,36 @@ void func_801712A8(void *entity, S_801712A8_2 *motion, void *monster)
 
     (*(s32 *)((u8 *)entity + 0x90)) += motion->unk_14;
 
-    if (!((*(u16 *)((u8 *)entity + 0x98)) & 4)) {
-        floor_height = func_800BCB04(motion->unk_00.at02.v,
+    if (!((*(u16 *)((u8 *)entity + 0x98)) & 4) && (floor_height = func_800BCB04(motion->unk_00.at02.v,
                               motion->unk_04.at02.v,
-                              (s16)(((S_801712A8_0 *)actor)->unk_88.u - 0x20));
-        if (floor_height < 0x200) {
-            actor_height = ((S_801712A8_0 *)actor)->unk_88.s;
-            if ((*(s16 *)((u8 *)entity + 0x92)) + actor_height < floor_height) {
-                ((S_801712A8_0 *)actor)->unk_1C.u &= 0xF7FFFFFF;
-                goto check_adjustment;
-            }
-
-            if (floor_height >= actor_height) {
-                (*(s32 *)((u8 *)entity + 0x90)) = 0;
-            } else {
-                (*(s16 *)((u8 *)entity + 0x92)) = floor_height - ((S_801712A8_0 *)actor)->unk_88.u;
-            }
-
+                              (s16)(((S_801712A8_0 *)actor)->unk_88.u - 0x20))) < 0x200) {
+        actor_height = ((S_801712A8_0 *)actor)->unk_88.s;
+        if ((*(s16 *)((u8 *)entity + 0x92)) + actor_height < floor_height) {
+            ((S_801712A8_0 *)actor)->unk_1C.u &= 0xF7FFFFFF;
+        } else if (floor_height >= actor_height) {
+            (*(s32 *)((u8 *)entity + 0x90)) = 0;
             motion->unk_14 = 0;
             ((S_801712A8_0 *)actor)->unk_1C.u |= 0x08000000;
             (*(u8 *)((u8 *)entity + 0x9D)) = 0;
-
-check_adjustment:
-            if (((S_801712A8_0 *)actor)->unk_1C.u & 0x40000000) {
-                ((S_801712A8_0 *)actor)->unk_1C.u &= 0xBFFFFFFF;
-                floor_height = func_800BCB04(
-                    (((S_801712A8_1 *)monster)->unk_24 << 6) | 0x20,
-                    (((S_801712A8_1 *)monster)->unk_25 << 6) | 0x20,
-                    (s16)(((S_801712A8_0 *)actor)->unk_88.u - 0x20));
-                (*(s16 *)((u8 *)entity + 0x92)) +=
-                    ((S_801712A8_0 *)actor)->unk_88.u - floor_height;
-                ((S_801712A8_0 *)actor)->unk_88.u = floor_height;
-            }
-            goto finish;
+        } else {
+            (*(s16 *)((u8 *)entity + 0x92)) = floor_height - ((S_801712A8_0 *)actor)->unk_88.u;
+            motion->unk_14 = 0;
+            ((S_801712A8_0 *)actor)->unk_1C.u |= 0x08000000;
+            (*(u8 *)((u8 *)entity + 0x9D)) = 0;
         }
+        if (((S_801712A8_0 *)actor)->unk_1C.u & 0x40000000) {
+            ((S_801712A8_0 *)actor)->unk_1C.u &= 0xBFFFFFFF;
+            floor_height = func_800BCB04(
+                (((S_801712A8_1 *)monster)->unk_24 << 6) | 0x20,
+                (((S_801712A8_1 *)monster)->unk_25 << 6) | 0x20,
+                (s16)(((S_801712A8_0 *)actor)->unk_88.u - 0x20));
+            (*(s16 *)((u8 *)entity + 0x92)) +=
+                ((S_801712A8_0 *)actor)->unk_88.u - floor_height;
+            ((S_801712A8_0 *)actor)->unk_88.u = floor_height;
+        }
+    } else {
+        ((S_801712A8_0 *)actor)->unk_1C.u &= 0xF7FFFFFF;
     }
-
-    ((S_801712A8_0 *)actor)->unk_1C.u &= 0xF7FFFFFF;
-
-finish:
     motion->unk_0A =
         ((S_801712A8_0 *)actor)->unk_88.u + (*(u16 *)((u8 *)entity + 0x92));
     ((S_801712A8_1 *)monster)->unk_14 |= 0x40;
