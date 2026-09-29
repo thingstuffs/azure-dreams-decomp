@@ -134,6 +134,10 @@ case tree or to avoid a jump table (`case 0x101:`, `case 0 ... 0xF:`) is steerin
   the same pins and FEWER `goto` statements - the lander counts computed gotos, so replacing `goto *table[i]` with a
   real `switch` lands on a pin-free row) AND it adds none of the forms above. Also remove the plain gotos the switch
   makes unnecessary (`goto done;` -> `break;`). No cell changes (2.8.x rows included).
+- **Text-prefix tables are out of reach (round 80: swp1 818DA800, swp6 81838800, swp7 8195E81C/8199A800):** when the
+  row's table symbol lives in the dungeon text prefix (`D_800240xx` / `jtbl_800240xx`, i.e. retail stores the table
+  in `.text` just before the function), the switch's own `.rdata` table links elsewhere and the row cannot score exact.
+  Try it once; if the only residue is the table address or unresolved relocations, report it and stage nothing.
 - **`slus/w_*` rows are out of scope (round 80, sw23):** all five came back `exact` through the text-identical
   fallback, yet the SLUS SHA-1 gate failed - the switch's own `.rdata` table shifts the linked data layout. Builders
   skip them; if one is in your pack anyway, report it and stage nothing.
