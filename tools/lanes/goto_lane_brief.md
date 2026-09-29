@@ -88,8 +88,10 @@ than 60 variants on one row without `--more`. At most 4 compiles in parallel.
 
 * Byte-exact by `lab.py --score` / `verify.py`, nothing else counts.
 * No new `ASM_*`, `__asm__`, `volatile`, fences, one-trip blocks (`do {} while (0)`, `while (0)`, `for (;0;)`),
-  fake dependencies or dead stores; no duplicated code in both arms of a new branch just to fix block order; no
-  new gotos elsewhere to pay for removed ones (net goto count must fall).
+  fake dependencies or dead stores; no new gotos elsewhere to pay for removed ones (net goto count must fall).
+* Duplication (owner ruling): copying a SHORT shared statement or tail (1-3 lines, e.g. `x++; break;`) into each arm
+  is fine - it is likely how the original was written. Copy a longer block only when the alternative is a goto
+  that jumps INTO another block; otherwise keep the goto and say what the copy would have cost.
 * Keep the function's behaviour identical (same semantics on every path) - this is a refactor, not a new
   decompilation. Keep every `#include`, the signature, and existing names/comments unless a comment describes
   a label you removed (update it then). Do not rename variables in this lane.
