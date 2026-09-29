@@ -1,7 +1,5 @@
 #include "common.h"
 
-extern void *D_800162E0[43];
-
 extern char D_8001B14C[];
 extern char D_8001B9E8[];
 extern char D_8001C6D0[];
@@ -14,29 +12,21 @@ char *func_80017580(s32 unused, s32 passthru_1, s32 selector_id, s32 passthru_3)
 {
     s32 arg2_val;
     u32 case_index;
-    static void *const case_labels[] = {
-        &&L_case19, &&L_case18, &&L_case52, &&L_case12, &&L_default
-    };
 
     case_index = selector_id - 12;
     arg2_val = selector_id;
-    if (case_index >= 43) {
-        goto L_default;
+    switch (case_index) {
+    case 7:
+        return D_8001B9E8;
+    case 6:
+        return D_80021386;
+    case 40:
+    case 41:
+    case 42:
+        return func_80016E48(selector_id, passthru_1, arg2_val, passthru_3);
+    case 0:
+        return D_8001C6D0;
+    default:
+        return D_8001B14C;
     }
-    goto *D_800162E0[case_index];
-
-L_case19:
-    return D_8001B9E8;
-
-L_case18:
-    return D_80021386;
-
-L_case52:
-    return func_80016E48(selector_id, passthru_1, arg2_val, passthru_3);
-
-L_case12:
-    return D_8001C6D0;
-
-L_default:
-    return D_8001B14C;
 }
